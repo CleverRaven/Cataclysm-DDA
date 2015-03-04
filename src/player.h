@@ -623,6 +623,7 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         /** Removes the first item in the container's contents and wields it, taking moves based on skill and volume of item being wielded. */
         void wield_contents(item *container, bool force_invlet, std::string skill_used, int volume_factor);
         /** Stores an item inside another item, taking moves based on skill and volume of item being stored. */
+        void pack(item *container, item *put, std::string skill_used, int volume_factor);
         void store(item *container, item *put, std::string skill_used, int volume_factor);
         /** Removes an item from an item's storage, using moves based on volume of item **/
         item unpack(item *container, size_t index, std::string skill_used, int volume_factor);

@@ -2593,7 +2593,7 @@ void map::shoot(const int x, const int y, int &dam,
         }
 
         if (destroyed) {
-            spawn_items( x, y, target_item->contents.get() );
+            spawn_items( x, y, target_item->contents.as_vector() );
             target_item = target_items.erase( target_item );
         } else {
             ++target_item;

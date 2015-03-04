@@ -788,18 +788,18 @@ int game::display_slice(indexed_invslice const &slice, const std::string &title,
             int bag_pos = inv_for_filter(_("Move:"), [](const item &elem) {
                 return elem.is_storage();});
             if(bag_pos != INT_MIN) { 
-                item *thing = &u.i_at(inv_s.get_selected_item_position());
-                item *bag   = &u.i_at(bag_pos);
-                if(bag == thing) {
+                item *it  = &u.i_at(inv_s.get_selected_item_position());
+                item *bag = &u.i_at(bag_pos);
+                if(bag == it) {
                     popup(_("You can't store an item in itself!"));
                     continue;
                 }
                 // remove the item from storage if that's what we selected
-                if(thing->is_storage()) {
-                    int item_pos = inv_for_contents(_("Remove:"), [](const item &elem) {
-                        }, *thing);
+                if(it->is_storage()) {
+                    int item_pos = inv_for_contents(_("Remove:"), *bag);
+                    u.unpack(bag, item_pos, "survival", it->volume());  //FIXME: skill?
                 } else {
-                    u.store(bag, thing, "survival", thing->volume());   //FIXME: skill?
+                    u.store(bag, it, "survival", it->volume());         //FIXME: skill?
                 }
             }
             return INT_MIN;
@@ -957,11 +957,11 @@ int game::inv_for_filter(std::string const &title, const item_filter filter)
     return display_slice(reduced_inv, title);
 }
 
-int game::inv_for_contents(const std::string &title, const item &thing)
+int game::inv_for_contents(const std::string &title, const item &bag)
 {
     u.inv.restack(&u);
     u.inv.sort();
-    indexed_invslice reduced_inv = thing.slice();
+    indexed_invslice reduced_inv = const_cast<item &>(bag).contents.slice();
     return display_slice(reduced_inv, title);
 }
 

@@ -457,7 +457,8 @@ void inventory::restack(const player *p)
     std::list<item> to_restack;
     int idx = 0;
     for (invstack::iterator iter = items.begin(); iter != items.end(); ++iter, ++idx) {
-        const int ipos = p->invlet_to_position(iter->front().invlet);
+        char i = iter->front().invlet;
+        const int ipos = (p ? p->invlet_to_position(i) : invlet_to_position(i));
         if (!iter->front().invlet_is_okay() || ( ipos != INT_MIN && ipos != idx ) ) {
             assign_empty_invlet(iter->front());
             for( std::list<item>::iterator stack_iter = iter->begin();

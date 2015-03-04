@@ -1260,12 +1260,14 @@ void storage::save_contents(JsonOut &json) const
 {
     json.member("contents");
     json.start_array();
-    for( auto &elem : items ) {
-        if( !( elem.contents.empty() ) && elem.contents[0].is_gunmod() ) {
-            elem.serialize( json, true ); // save gun mods of holstered pistol
-        // FIXME: NEED TO SERIALIZE CONTAINERS, NOT JUST SWEET ASS BERETTAS KTHX
-        } else {
-            elem.serialize( json, false ); // no matryoshka dolls
+    for(auto &list : items) {
+        for(auto &elem : list) {
+            if( !( elem.contents.empty() ) && elem.contents[0].is_gunmod() ) {
+                elem.serialize( json, true ); // save gun mods of holstered pistol
+            // FIXME: NEED TO SERIALIZE CONTAINERS, NOT JUST SWEET ASS BERETTAS KTHX
+            } else {
+                elem.serialize( json, false ); // no matryoshka dolls
+            }
         }
     }
     json.end_array();

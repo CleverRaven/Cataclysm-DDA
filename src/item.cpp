@@ -54,12 +54,18 @@ std::string const& rad_badge_color(int const rad)
 
 light_emission nolight = {0, 0, 0};
 
+template <typename T>
+static T *null()
+{
+    static T null_m;
+    return  &null_m;
+}
+
 // Returns the default item type, used for the null item (default constructed),
 // the returned pointer is always valid, it's never cleared by the @ref Item_factory.
 static itype *nullitem()
 {
-    static itype nullitem_m;
-    return &nullitem_m;
+    return null<itype>();
 }
 
 item::item()
@@ -184,7 +190,7 @@ void item::init() {
     covered_bodyparts.reset();
     poison = 0;
     item_counter = 0;
-    type = nullitem();
+    type = null<itype>();
     curammo = NULL;
     corpse = NULL;
     active = false;
@@ -980,8 +986,8 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump, bool debug) c
             }
             flags_in_storage += (contents.has_active_items() ? color_wrap(c_yellow, "(active items)") : "");
             flags_in_storage += (contents.has_active_items() ? color_wrap(c_yellow, "(active items)") : "");
-            dump->push_back(iteminfo("ARMOR", _("Storage: "), "", storage_used(), true,
-                string_format(_("/%d %s"), get_storage()), false));
+            dump->push_back(iteminfo("ARMOR", _("Storage: "),
+                        string_format(_("%d/%d"), storage_used(), get_storage())));
         }
     }
     if( is_book() ) {
@@ -5123,38 +5129,41 @@ typedef std::list<std::list<item>>                      invstack;
 typedef std::vector<std::list<item>*>                   invslice;
 typedef std::vector<std::pair<std::list<item>*, int>>   indexed_invslice;
 
-storage::storage()
-{
-    init();
-}
 
 storage::storage(item_iterator start, item_iterator stop)
 {
-    init(true);
     add(start, stop);
 }
 
 storage::storage(const std::list<item> &item_list)
 {
-    init(true);
     add(item_list);
 }
 
-void storage::init(bool init_buffer)
+void storage::build_cache()
 {
-    items = (init_buffer ? new inventory : nullptr);
-}
-
-void storage::update_cache()
-{
-    if(cache_turn < mod_turn) {
+    if(cache_turn < modified_turn) {
         cache.clear();
         int cache_turn = calendar::turn;
-        for(auto &list : *items) {
-            item &elem = list->front();
-            cache.push_back(elem);
+        for(auto &list : items) {
+            for(auto &elem : list) {
+                cache.push_back(elem);
+            }
         }
+        cache_turn = calendar::turn;
     }
+}
+
+void storage::cache_add(item &thing)
+{
+    cache.push_back(thing);
+}
+
+void storage::cache_rem(item &thing)
+{
+    cache.remove_if([&](const item &elem) {
+            return (&elem == &thing);
+        });
 }
 
 /*-----------------------------------------------------------------------------
@@ -5203,68 +5212,102 @@ item_const_iterator storage::end() const
     return cache.cend();
 }
 
-item_pointer_iterator storage::get()
+std::list<item> &storage::get()
 {
+    return cache;
 }
 
-item_const_pointer_iterator storage::get() const
+std::vector<item> storage::as_vector()
 {
-}
-
-item_iterator storage::find(item *thing)
-{
-    auto elem = items->begin();
-    for(size_t i = 0; i < items->size(); ++i) {
-//        if(item_matches(
+    std::vector<item> things;
+    for(auto &elem : get()) {
+        things.push_back(elem);
     }
+    return things;
 }
 
-item_const_iterator storage::find(item *thing) const
+item_iterator storage::find(const item *thing)
 {
+    return find(thing);
+}
+
+item_const_iterator storage::find(const item *thing) const
+{
+    auto elem = items.begin();
+    for(size_t i = 0; i < items.size(); ++i) {
+        if(item_matches(thing)) {
+        }
+    }
+    return null<std::list<item>>()->cbegin();
 }
 
 size_t storage::size() const
 {
-    return items->size();
+    return items.size();
 }
 
 bool storage::empty() const
 {
-    return items->num_items() == 0;
+    return size() == 0;
 }
 
 void storage::clear()
 {
-    return items->clear();
+    return items.clear();
 }
 
-//bool storage::item_matches(item *thing, itype_id id, size_t index) const
-//{
-//    // match item based on the pointer in `elem'
-//    for(const auto &elem : *items) {
-//        for(const auto &elem_elem : elem) {
-//            // match based on pointer address
-//            if(thing && thing == &elem_elem) {
-//                return true;
-//            // match item based on itype_id
-//            } else if(!id.empty()) {
-//                for(const auto &elem
-//            // match item based on index in `items'
-//            } else if(index < items->size()) {
-//            }
-//        }
-//    }
-//    return false;
-//}
+bool storage::item_matches(const item *thing, itype_id id, size_t index) const
+{
+    // match item based on the pointer in `elem'
+    for(const auto &list : items) {
+        for(const auto &elem : list) {
+            // match based on pointer address
+            if(thing && thing == &elem) {
+                return true;
+            // match item based on itype_id
+            } else if(!id.empty() && thing->typeId() == id) {
+                return true;
+            // match item based on index in `items'
+            } else if(index < items.size()) {
+                return true;
+            }
+        }
+    }
+    return false;
+}
+
+item *storage::add_to_invstack(const item &thing)
+{
+    cache.push_back(thing);
+    for(auto &list : items) {
+        // if it matches, store it
+        if(list.front().typeId() == thing.typeId()) {
+            list.push_back(thing);
+            return &list.front();
+        }
+    }
+    // didn't find it? add as new list
+    std::list<item> new_list = {thing};
+    items.push_back(new_list);
+    // return pointer to newest element added in list (our item)
+    return &items.back().front();
+}
 
 /*-----------------------------------------------------------------------------
  *  addition/removal functions
  *-----------------------------------------------------------------------------*/
 item *storage::add(const item &thing)
 {
-    std::list<item> things;
-    things.push_back(thing);
-    return add(things)[0];
+    return add_to_invstack(thing);
+}
+
+std::vector<item *> storage::add(std::list<item> item_list)
+{
+    std::vector<item *> pointers;
+    for(auto &elem : item_list) {
+        pointers.push_back(add(elem));
+    }
+    return pointers;
 }
 
 std::vector<item *> storage::add(item_iterator start, item_iterator stop)
@@ -5274,53 +5317,90 @@ std::vector<item *> storage::add(item_iterator start, item_iterator stop)
     return add(things);
 }
 
-std::vector<item *> storage::add(std::list<item> things)
+std::vector<item *> storage::add(item_vec_iterator start, item_vec_iterator stop)
 {
+    std::list<item> things;
+    for(auto iter = start; iter != stop; ++iter) {
+        things.push_back(*iter);
+    }
+    return add(things);
 }
 
 item storage::rem(size_t index)
 {
+    auto pos = items.begin();
+    std::advance(pos, index);
+    item it = (*pos).front();
+    // FIXME: UPDATE CACHE!!!
+    // FIXME: ACTUALLY REMOVE ITEM
+    return it;
 }
 
 item storage::rem(item *thing)
 {
+    return rem(index_of(thing));
 }
 
 item_iterator storage::rem(item_iterator iter)
 {
+    auto pos = iter;
+    std::next(pos);
+    rem(&(*iter));
+    return pos;
 }
 
 item_pointer_iterator storage::rem(item_pointer_iterator iter)
 {
+    auto pos = iter;
+    std::next(pos);
+    rem(*iter);
+    return pos;
 }
 
 std::list<item> storage::rem(item_iterator start, item_iterator stop)
 {
+    std::list<item> item_list;
+    for(auto iter = start; iter != stop; ++iter) {
+        item_list.push_back(rem(&(*iter)));
+    }
+    return item_list;
 }
 
-//size_t storage::index_of(const item *thing) const
-//{
-//    size_t i = 0;
-//    for(; i < items.size(); ++i) {
-//        if(thing == &items[i]) {
-//            return i;
-//        }
-//    }
-//    // make improper retval checking obvious
-//    return items.size();
-//}
-//
-//template <typename T>
-//size_t storage::index_of_filter(T filter) const
-//{
-//    size_t i = 0;
-//    for(; i < items.size(); ++i) {
-//        if(filter(items[i])) {
-//            return i;
-//        }
-//    }
-//    return items.size();
-//}
+size_t storage::index_of(const item *thing) const
+{
+    size_t i = 0;
+    for(auto &list : items) {
+        for(auto &elem : list) {
+            if(thing == &elem) {
+                return i;
+            }
+        }
+        ++i;
+    }
+    // make improper retval checking obvious
+    return items.size();
+}
+
+size_t storage::index_of(item_iterator iter) const
+{
+    return index_of(&(*iter));
+}
+
+template <typename T>
+size_t storage::index_of_filter(T filter) const
+{
+    size_t i = 0;
+    for(auto &list : items) {
+        for(auto &elem : list) {
+            if(filter(elem)) {
+                return i;
+            }
+        }
+        ++i;
+    }
+    // make improper retval checking obvious
+    return items.size();
+}
 
 void storage::push_back(const item &thing)
 {
@@ -5364,8 +5444,8 @@ bool item::has_space_for(const item &thing) const
  *-----------------------------------------------------------------------------*/
 template <typename T> bool storage::filter_by(T filter) const
 {
-    for(const auto &iter : *items) {
-        for(const auto &elem : *iter) {
+    for(const auto &iter : items) {
+        for(const auto &elem : iter) {
             if(filter(elem)) {
                 return true;
             }
@@ -5377,8 +5457,8 @@ template <typename T> bool storage::filter_by(T filter) const
 template <typename T> std::list<item> storage::filter_by(T filter)
 {
     std::list<item> things;
-    for(const auto &iter : *items) {
-        for(const auto &elem : *iter) {
+    for(const auto &iter : items) {
+        for(const auto &elem : iter) {
             if(filter(elem)) {
                 things.push_back(*(&elem));
             }
@@ -5390,20 +5470,22 @@ template <typename T> std::list<item> storage::filter_by(T filter)
 indexed_invslice storage::slice()
 {
     return slice_filter_by([](const item &) {
-        return true;});
+                return true;
+            });
 }
 
 template <typename T> indexed_invslice storage::slice_filter_by(T filter)
 {
     int i = 0;
     indexed_invslice stacks;
-    for(const auto &iter : *items) {
-        for(const auto &elem : *iter) {
+    for(auto &list : items) {
+        for(auto &elem : list) {
             if(filter(elem)) {
-//                stacks.push_back(std::list<std::make_pair(&elem, i)>);
+                stacks.push_back(std::make_pair(&list, i));
+                break;
             }
-            ++i;
         }
+        ++i;
     }
     return stacks;
 }
@@ -5411,8 +5493,8 @@ template <typename T> indexed_invslice storage::slice_filter_by(T filter)
 template <typename T> invslice storage::filter_recursive_by(T filter)
 {
     invslice slice;
-    for(const auto &iter : *items) {
-        for(const auto &elem : *iter) {
+    for(const auto &iter : items) {
+        for(const auto &elem : iter) {
             if(filter(elem)) {
 //                slice.push_back(&elem);
             }

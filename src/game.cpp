@@ -11174,7 +11174,7 @@ void game::unload(item &it)
         // the gunmods / the container contents.
         // Maybe the gunmods should go into their own member?
         u.moves -= 40 * it.contents.size();
-        std::vector<item> old_contents = it.contents.get();
+        std::vector<item> old_contents = it.contents.as_vector();
         it.contents.clear();
         for( auto &thing : old_contents ) {
             if( !add_or_drop_with_msg( u, thing ) ) {

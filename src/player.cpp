@@ -10663,7 +10663,7 @@ activate your weapon."), gun->tname().c_str(), _(mod->location.c_str()));
         read(inventory_position);
         return;
     } else if (used->is_gun()) {
-        std::vector<item> &mods = used->contents.get();
+        std::list<item> &mods = used->contents.get();
         // Get weapon mod names.
         if (mods.empty()) {
             add_msg(m_info, _("Your %s doesn't appear to be modded."), used->tname().c_str());
@@ -10680,8 +10680,10 @@ activate your weapon."), gun->tname().c_str(), _(mod->location.c_str()));
         uimenu kmenu;
         kmenu.selected = 0;
         kmenu.text = _("Remove which modification?");
-        for (size_t i = 0; i < mods.size(); i++) {
-            kmenu.addentry( i, true, -1, mods[i].tname() );
+        size_t i = 0;
+        for(auto &elem : mods) {
+            kmenu.addentry(i, true, -1, elem.tname());
+            ++i;
         }
         kmenu.addentry( mods.size(), true, 'r', _("Remove all") );
         kmenu.addentry( mods.size() + 1, true, 'q', _("Cancel") );
@@ -10791,7 +10793,9 @@ void player::remove_gunmod(item *weapon, unsigned id)
         weapon->next_mode();
     }
     i_add_or_drop(*gunmod);
-    weapon->contents.rem(weapon->contents.begin()+id);
+    auto pos = weapon->contents.begin();
+    std::advance(pos, id);
+    weapon->contents.rem(pos);
 }
 
 hint_rating player::rate_action_read(item *it)
@@ -12555,6 +12559,11 @@ void player::wield_contents(item *container, bool force_invlet,
     } else {
         debugmsg("Tried to wield contents of empty container (player::wield_contents)");
     }
+}
+
+void player::pack(item* container, item* put, std::string skill_used, int volume_factor)
+{
+    store(container, put, skill_used, volume_factor);
 }
 
 void player::store(item* container, item* put, std::string skill_used, int volume_factor)

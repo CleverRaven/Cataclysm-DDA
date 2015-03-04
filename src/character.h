@@ -4,6 +4,7 @@
 #include "creature.h"
 #include "action.h"
 #include "inventory.h"
+#include "faction.h"
 
 #include <map>
 
@@ -37,10 +38,18 @@ class Character : public Creature
          */
         void recalc_sight_limits();
 
-        // --------------- Thriving Stuff ---------------
-        int hunger, thirst, fatigue;
+        // --------------- Ported  Stuff ---------------
+        faction *my_fac;
 
+        int hunger, thirst, fatigue;
+        bool has_amount(const itype_id &it, int quantity) const;
+        int amount_of(const itype_id &it) const;
+        bool fac_has_value(faction_value value) const;
+        bool fac_has_job(faction_job job) const;
+        /** Item's "value" is returned **/
+        virtual int value(const item &it) const;
         
+
         // --------------- Weapon   Stuff ---------------
         /**
          * Check whether the player has a gun that uses the given type of ammo.
@@ -90,8 +99,6 @@ class Character : public Creature
         
         // --------------- Generic Item Stuff ---------------
 
-        /** Item's 'value' is returned **/
-        virtual int value(const item &it) const;
         struct has_mission_item_filter {
             int mission_id;
             bool operator()(const item &it) {

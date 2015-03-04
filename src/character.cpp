@@ -343,7 +343,7 @@ item Character::i_rem(const item *it)
 void Character::i_rem_keep_contents( const int pos )
 {
     for( auto &content : i_rem( pos ).contents ) {
-        i_add_or_drop( *content );
+        i_add_or_drop( content );
     }
 }
 
@@ -775,5 +775,45 @@ bool Character::has_gun_for_ammo( const ammotype &at ) const
         // item::ammo_type considers the active gunmod.
         return it.is_gun() && it.ammo_type() == at;
     } );
+}
+
+bool Character::has_amount(const itype_id &it, int quantity) const
+{
+    if (it == "toolset")
+    {
+        return has_bionic("bio_tools");
+    }
+    return (amount_of(it) >= quantity);
+}
+
+int Character::amount_of(const itype_id &it) const
+{
+    if(it == "toolset" && has_bionic("bio_tools")) {
+        return 1;
+    }
+    if(it == "apparatus") {
+        if(has_amount("crackpipe", 1)
+                || has_amount("can_drink", 1)
+                || has_amount("pipe_glass", 1)
+                || has_amount("pipe_tobacco", 1)) {
+            return 1;
+        }
+    }
+    int quantity = weapon.amount_of(it, true);
+    for(const auto &elem : worn) {
+        quantity += elem.amount_of(it, true);
+    }
+    quantity += inv.amount_of(it);
+    return quantity;
+}
+
+bool Character::fac_has_value(faction_value value) const
+{
+    return (my_fac ? my_fac->has_value(value) : false);
+}
+
+bool Character::fac_has_job(faction_job job) const
+{
+    return (my_fac ? my_fac->has_job(job) : false);
 }
 

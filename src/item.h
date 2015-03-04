@@ -98,6 +98,8 @@ class storage
         // save on the clickity clacks
         typedef std::list<item>::iterator                       item_iterator;
         typedef std::list<item>::const_iterator                 item_const_iterator;
+        typedef std::vector<item>::iterator                     item_vec_iterator;
+        typedef std::vector<item>::const_iterator               item_const_vec_iterator;
         typedef std::list<item *>::iterator                     item_pointer_iterator;
         typedef std::list<item *>::const_iterator               item_const_pointer_iterator;
         // setup is like inventory in a way
@@ -106,30 +108,29 @@ class storage
         typedef std::vector<std::pair<std::list<item>*, int>>   indexed_invslice;
 
     private:
-        // *** TODO: should this just inherit inventory like characteristics? ***
-        // invstack, so items that can be stacked are (and can respond to splice requests)
-        inventory *items;
+        invstack items;
 
         // references to all items in storage, but 1-D and only references top of each stack
         std::list<item> cache;
         // last turn cache was updated / modifications occurred
-        int cache_turn, mod_turn;
+        int cache_turn, modified_turn;
 
-        // update the cache listing
-        void update_cache();
+        // updates the cache listing
+        //[davek] TODO: INTEGRATE CACHE ADDITION/REMOVAL INTO ADD/REM
+        void build_cache();
+        void cache_add(item &thing);
+        void cache_rem(item &thing);
 
-        bool item_matches(item *thing=nullptr, itype_id id="", size_t index=0) const;
-        bool valid_storage() const
-        {
-            return items != nullptr;
-        }
+        item *add_to_invstack(const item &thing);
+        item rem_from_invstack(const item &thing);
+
+        bool item_matches(const item *thing=nullptr, itype_id id="", size_t index=0) const;
 
     public:
-        storage();
+        storage() = default;
         storage(const std::list<item> &item_list);
         storage(item_iterator start, item_iterator stop);
 
-        void init(bool init_buffer=false);
         /*-----------------------------------------------------------------------------
          *                                  OVERLOADS
          *-----------------------------------------------------------------------------*/
@@ -150,17 +151,19 @@ class storage
         /*-----------------------------------------------------------------------------
          *                                  ACCESS
          *-----------------------------------------------------------------------------*/
-        // get a splice of iterable items in a single list
-        item_pointer_iterator get();
-        item_const_pointer_iterator get() const;
+        // returns an indexed_invslice of all items in storage
+        indexed_invslice slice();
+        // get a reference to the cached list
+        std::list<item> &get();
+        // return a vector with references to every item
+        std::vector<item> as_vector();
         // find the item in items invstack
-        item_iterator find(item *thing);
-        item_const_iterator find(item *thing) const;
+        item_iterator find(const item *thing);
+        item_const_iterator find(const item *thing) const;
         // returns the index of the given item, based on pointer comparison
         // ** returns items.size() if unable to find **
         size_t index_of(const item *thing) const;
-        // returns an indexed_invslice of all items in storage
-        indexed_invslice slice();
+        size_t index_of(item_iterator iter) const;
         // returns the index of a filter function match
         // ** returns items.size() if unable to find **
         template <typename T> 
@@ -183,16 +186,17 @@ class storage
         // return a pointer to where the item is now stored
         // (use the new pointer to operate on object)
         item *add(const item &thing);
-        // insert a set of items
+        // insert a list of items
         std::vector<item *> add(std::list<item> items);
         // insert a range of items
         std::vector<item *> add(item_iterator start, item_iterator stop);
+        std::vector<item *> add(item_vec_iterator start, item_vec_iterator stop);
         // removes the item from storage, returning the item itself
         item rem(size_t index);                                             // index
         item rem(item *thing);                                              // pointer
         item_iterator rem(item_iterator iter);                              // iterator (&)
         item_pointer_iterator rem(item_pointer_iterator iter);              // iterator (*)
-        std::list<item> rem(item_iterator start, item_iterator stop);     // range
+        std::list<item> rem(item_iterator start, item_iterator stop);       // range
         /*-----------------------------------------------------------------------------
          *                                STORAGE
          *-----------------------------------------------------------------------------*/

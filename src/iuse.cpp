@@ -7359,7 +7359,9 @@ int iuse::boots(player *p, item *it, bool, point)
         if (!p->is_armed() || p->wield(NULL)) {
             p->inv.assign_empty_invlet(knife, true);  // force getting an invlet.
             p->wield(&(p->i_add(knife)));
-            it->contents.rem(it->contents.begin() + choice - 1);
+            auto pos = it->contents.begin();
+            std::advance(pos, choice - 1);
+            it->contents.rem(pos);
         }
     } else if ((it->contents.empty() && choice == 1) || // Put 1st
                (it->contents.size() == 1 && choice == 2)) { // Put 2st

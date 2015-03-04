@@ -564,7 +564,6 @@ public:
 // Use and assessment of items
  int  minimum_item_value(); // The minimum value to want to pick up an item
  void update_worst_item_value(); // Find the worst value in our inventory
- int  value(const item &it);
  bool wear_if_wanted(item it);
  virtual bool wield(item* it, bool);
  virtual bool wield(item* it);
