@@ -118,8 +118,8 @@ class storage
         // updates the cache listing
         //[davek] TODO: INTEGRATE CACHE ADDITION/REMOVAL INTO ADD/REM
         void build_cache();
-        void cache_add(item &thing);
-        void cache_rem(item &thing);
+        void cache_add(const item &thing);
+        void cache_rem(const item &thing);
 
         item *add_to_invstack(const item &thing);
         item rem_from_invstack(const item &thing);

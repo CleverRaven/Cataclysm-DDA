@@ -5144,7 +5144,6 @@ void storage::build_cache()
 {
     if(cache_turn < modified_turn) {
         cache.clear();
-        int cache_turn = calendar::turn;
         for(auto &list : items) {
             for(auto &elem : list) {
                 cache.push_back(elem);
@@ -5154,16 +5153,34 @@ void storage::build_cache()
     }
 }
 
-void storage::cache_add(item &thing)
+void storage::cache_add(const item &thing)
 {
     cache.push_back(thing);
+    cache_turn = calendar::turn;
 }
 
-void storage::cache_rem(item &thing)
+void storage::cache_rem(const item &thing)
 {
     cache.remove_if([&](const item &elem) {
             return (&elem == &thing);
         });
+}
+
+item *storage::add_to_invstack(const item &thing)
+{
+    cache_add(thing);
+    for(auto &list : items) {
+        // if it matches, store it
+        if(list.front().typeId() == thing.typeId()) {
+            list.push_back(thing);
+            return &list.front();
+        }
+    }
+    // didn't find it? add as new list
+    std::list<item> new_list = {thing};
+    items.push_back(new_list);
+    // return pointer to newest element added in list (our item)
+    return &items.back().front();
 }
 
 /*-----------------------------------------------------------------------------
@@ -5274,23 +5291,6 @@ bool storage::item_matches(const item *thing, itype_id id, size_t index) const
         }
     }
     return false;
-}
-
-item *storage::add_to_invstack(const item &thing)
-{
-    cache.push_back(thing);
-    for(auto &list : items) {
-        // if it matches, store it
-        if(list.front().typeId() == thing.typeId()) {
-            list.push_back(thing);
-            return &list.front();
-        }
-    }
-    // didn't find it? add as new list
-    std::list<item> new_list = {thing};
-    items.push_back(new_list);
-    // return pointer to newest element added in list (our item)
-    return &items.back().front();
 }
 
 /*-----------------------------------------------------------------------------
