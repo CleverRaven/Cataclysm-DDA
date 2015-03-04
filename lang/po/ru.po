@@ -38,9 +38,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Cataclysm-DDA\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-02-23 15:09+0300\n"
-"PO-Revision-Date: 2015-02-25 18:23+0000\n"
-"Last-Translator: Anton <22.valiant@gmail.com>\n"
+"POT-Creation-Date: 2015-03-02 10:32+0300\n"
+"PO-Revision-Date: 2015-03-03 14:32+0000\n"
+"Last-Translator: Ivan <rt.dimw@yandex.ru>\n"
 "Language-Team: Russian (http://www.transifex.com/projects/p/cataclysm-dda/"
 "language/ru/)\n"
 "Language: ru\n"
@@ -4207,10 +4207,10 @@ msgstr[2] "металлических гарпунов"
 
 #: lang/json/AMMO_from_json.py
 msgid "metal fragments"
-msgid_plural "metal fragmentss"
-msgstr[0] "металлический осколок"
-msgstr[1] "металлических осколка"
-msgstr[2] "металлических осколков"
+msgid_plural "metal fragments"
+msgstr[0] "металлические фрагменты"
+msgstr[1] "металлических фрагментов"
+msgstr[2] "металлических фрагментов"
 
 #: lang/json/AMMO_from_json.py lang/json/ammunition_type_from_json.py
 msgid "modified mininuke"
@@ -5268,7 +5268,7 @@ msgstr ""
 
 #: lang/json/ARMOR_from_json.py
 msgid "A brimless, short and rounded cap."
-msgstr ""
+msgstr "Короткая круглая шапочка без полей."
 
 #: lang/json/ARMOR_from_json.py
 msgid "A broad, black obi belt."
@@ -7648,6 +7648,8 @@ msgid ""
 "A traditional, ankle-length Shinto robe with several layers and very wide "
 "sleeves."
 msgstr ""
+"Традиционный для синтоистов многослойный халат с очень широкими рукавами, "
+"длиной до лодыжек."
 
 #: lang/json/ARMOR_from_json.py
 msgid ""
@@ -9824,9 +9826,9 @@ msgstr[2] "каратэги"
 #: lang/json/ARMOR_from_json.py
 msgid "kariginu"
 msgid_plural "kariginus"
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
+msgstr[0] "каригину"
+msgstr[1] "каригину"
+msgstr[2] "каригину"
 
 #: lang/json/ARMOR_from_json.py
 msgid "keffiyeh"
@@ -9894,9 +9896,9 @@ msgstr[2] "вязаных шапок"
 #: lang/json/ARMOR_from_json.py
 msgid "kufi cap"
 msgid_plural "kufi caps"
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
+msgstr[0] "куфи"
+msgstr[1] "куфи"
+msgstr[2] "куфи"
 
 #: lang/json/ARMOR_from_json.py
 msgid "lab coat"
@@ -26270,6 +26272,9 @@ msgid ""
 "driving an unmanned vehicle.  Its AI is not functional, but it should still "
 "have some sort of maintenance mode."
 msgstr ""
+"Набор сервомеханизмов, микроконтроллеров и других устройств, способный "
+"управлять автомобилем без участия человека. Его ИИ не функционирует, но в "
+"нем по-прежнему работает своего рода режим техобслуживания."
 
 #: lang/json/GENERIC_from_json.py
 msgid "A set of small monitors.  Required to view cameras' output."
@@ -29820,9 +29825,9 @@ msgstr[2] "дорожных карт"
 #: lang/json/GENERIC_from_json.py
 msgid "robot driving unit"
 msgid_plural "robot driving units"
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
+msgstr[0] "система роботизированного вождения"
+msgstr[1] "системы роботизированного вождения"
+msgstr[2] "систем роботизированного вождения"
 
 #: lang/json/GENERIC_from_json.py
 msgid "rock in a sock"
@@ -32950,10 +32955,10 @@ msgstr[2] ""
 
 #: lang/json/GUN_from_json.py
 msgid "Dual Nail Turret"
-msgid_plural "Nail Turrets"
-msgstr[0] "Сдвоенная гвоздеметная турель"
-msgstr[1] "Сдвоенные гвоздеметные турели"
-msgstr[2] "Сдвоенных гвоздеметных турелей"
+msgid_plural "Dual Nail Turrets"
+msgstr[0] ""
+msgstr[1] ""
+msgstr[2] ""
 
 #: lang/json/GUN_from_json.py
 msgid "Dual SMG Turret"
@@ -33478,9 +33483,9 @@ msgstr[2] "MAC-10"
 #: lang/json/GUN_from_json.py
 msgid "Machine Gun Turret"
 msgid_plural "Machine Gun Turrets"
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
+msgstr[0] "Станковая пулеметная турель"
+msgstr[1] "Станковые пулеметные турели"
+msgstr[2] "Станковых пулеметных турелей"
 
 #: lang/json/GUN_from_json.py
 msgid ""
@@ -36218,6 +36223,7 @@ msgid ""
 "A marionette able to move itself around.  There are no strings on him "
 "however."
 msgstr ""
+"Марионетка, способная двигаться сама по себе. Над ней не видно никаких ниток."
 
 #: lang/json/MONSTER_from_json.py
 msgid "A mass of spores the size of a balled fist, wafting around in the air."
@@ -38692,9 +38698,9 @@ msgstr[2] "мэнхаков"
 #: lang/json/MONSTER_from_json.py
 msgid "marionette"
 msgid_plural "marionettes"
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
+msgstr[0] "марионетка"
+msgstr[1] "марионетки"
+msgstr[2] "марионеток"
 
 #: lang/json/MONSTER_from_json.py
 msgid "mi-go"
@@ -38804,9 +38810,9 @@ msgstr[2] ""
 #: lang/json/MONSTER_from_json.py
 msgid "old animatronic fox"
 msgid_plural "old animatronic foxs"
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
+msgstr[0] "старая аниматорная лиса"
+msgstr[1] "старых аниматорных лисы"
+msgstr[2] "старых аниматорных лис"
 
 #: lang/json/MONSTER_from_json.py
 msgid "opossum"
@@ -49551,6 +49557,56 @@ msgid "You've inhaled a lungful of thick smoke."
 msgstr "Вы вдохнули полные лёгкие густого дыма."
 
 #: lang/json/effects_from_json.py
+#, no-python-format
+msgid "Your %s feels warm."
+msgstr ""
+
+#: lang/json/effects_from_json.py
+#, no-python-format
+msgid "Your %s is blistering from the intense heat."
+msgstr ""
+
+#: lang/json/effects_from_json.py
+#, no-python-format
+msgid "Your %s is dangerously cold!"
+msgstr ""
+
+#: lang/json/effects_from_json.py
+#, no-python-format
+msgid "Your %s is exposed to the cold."
+msgstr ""
+
+#: lang/json/effects_from_json.py
+#, no-python-format
+msgid "Your %s is frostbitten! Its tissues are frozen from the cold!"
+msgstr ""
+
+#: lang/json/effects_from_json.py
+#, no-python-format
+msgid "Your %s is frostnipped and has gone numb."
+msgstr ""
+
+#: lang/json/effects_from_json.py
+#, no-python-format
+msgid "Your %s is starting to feel the damage cold has wrought."
+msgstr ""
+
+#: lang/json/effects_from_json.py
+#, no-python-format
+msgid "Your %s is sweating from the heat."
+msgstr ""
+
+#: lang/json/effects_from_json.py
+#, no-python-format
+msgid "Your %s is sweating profusely!"
+msgstr ""
+
+#: lang/json/effects_from_json.py
+#, no-python-format
+msgid "Your %s is very exposed to the cold."
+msgstr ""
+
+#: lang/json/effects_from_json.py
 msgid "Your adrenaline rush wears off.  You feel AWFUL!"
 msgstr "Выброс адреналина прекратился. Вы УЖАСНО себя чувствуете!"
 
@@ -49617,46 +49673,6 @@ msgstr "У вас перед глазами сверкнула вспышка, �
 #: lang/json/effects_from_json.py
 msgid "Your vision starts to blur."
 msgstr "Ваше зрение расплывается."
-
-#: lang/json/effects_from_json.py
-msgid "feels warm."
-msgstr "чувствует тепло."
-
-#: lang/json/effects_from_json.py
-msgid "is blistering from the intense heat."
-msgstr ""
-
-#: lang/json/effects_from_json.py
-msgid "is dangerously cold!"
-msgstr "это угрожающе холодно."
-
-#: lang/json/effects_from_json.py
-msgid "is exposed to the cold."
-msgstr "это холодно."
-
-#: lang/json/effects_from_json.py
-msgid "is frostbitten! Its tissues are frozen from the cold!"
-msgstr ""
-
-#: lang/json/effects_from_json.py
-msgid "is frostnipped and has gone numb."
-msgstr ""
-
-#: lang/json/effects_from_json.py
-msgid "is starting to feel the damage cold has wrought."
-msgstr ""
-
-#: lang/json/effects_from_json.py
-msgid "is sweating from the heat."
-msgstr "потеют от высокой температуры."
-
-#: lang/json/effects_from_json.py
-msgid "is sweating profusely!"
-msgstr "сильно потеете!"
-
-#: lang/json/effects_from_json.py
-msgid "is very exposed to the cold."
-msgstr "это очень холодно."
 
 #: lang/json/faction_from_json.py
 msgid ""
@@ -63838,10 +63854,6 @@ msgid ""
 msgstr ""
 
 #: lang/json/snippet_from_json.py
-msgid "\"The copbots... the turrets... they just fucking ignore them.\""
-msgstr "«Роботы-полицейские… турели… они просто, блять, не замечают их.»"
-
-#: lang/json/snippet_from_json.py
 msgid "\"The gas the gas the green gas spreads forever\""
 msgstr "«Газ газ газ зелёный газ будет распространяться вечно»"
 
@@ -75348,12 +75360,6 @@ msgstr ""
 msgid ""
 "You suddenly realize that all matter is merely energy condensed to a slow "
 "vibration, and we are all one consciousness experiencing itself subjectively."
-msgstr ""
-
-#. ~ Used for effect descriptions, "Your (body_part_name) (effect description)"
-#: src/effect.cpp
-#, c-format
-msgid "Your %s "
 msgstr ""
 
 #: src/effect.cpp
@@ -90497,10 +90503,11 @@ msgstr "запада и сверху"
 msgid "west and below"
 msgstr "запада и снизу"
 
+#. ~ item name [quantity]
 #: src/live_view.cpp
 #, c-format
-msgid " [%d]"
-msgstr " [%d]"
+msgid "%s [%d]"
+msgstr ""
 
 #: src/live_view.cpp
 msgid "More items here..."
