@@ -4015,6 +4015,9 @@ void player::add_bionic( bionic_id b )
         }
     }
     my_bionics.push_back( bionic( b, newinv ) );
+    if ( b == "bio_tools") {
+        activate_bionic(my_bionics.size() -1);
+    }
     recalc_sight_limits();
 }
 
