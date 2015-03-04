@@ -1699,7 +1699,7 @@ void game::update_weather()
 
 int game::get_temperature()
 {
-    return temperature + m.temperature(u.posx(), u.posy());
+    return temperature + m.temperature( u.pos3() );
 }
 
 int game::assign_mission_id()
@@ -6548,12 +6548,12 @@ void game::use_computer(int x, int y)
         return;
     }
 
-    computer *used = m.computer_at(x, y);
+    computer *used = m.computer_at( tripoint( x, y, levz ) );
 
     if (used == NULL) {
         dbg(D_ERROR) << "game:use_computer: Tried to use computer at (" <<
             x << ", " << y << ") - none there";
-        debugmsg("Tried to use computer at (%d, %d) - none there", x, y);
+        debugmsg("Tried to use computer at (%d, %d, %d) - none there", x, y, levz);
         return;
     }
 
@@ -13455,7 +13455,7 @@ void game::nuke(int x, int y)
             if (one_in(3)) {
                 tmpmap.add_field(i, j, fd_nuke_gas, 3);
             }
-            tmpmap.adjust_radiation(i, j, rng(20, 80));
+            tmpmap.adjust_radiation( tripoint( i, j, 0 ), rng(20, 80));
         }
     }
     tmpmap.save();

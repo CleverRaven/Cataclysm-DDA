@@ -2738,59 +2738,69 @@ void map::delete_signage(const int x, const int y) const
     current_submap->delete_signage(lx, ly);
 }
 
-int map::get_radiation(const int x, const int y) const
+int map::get_radiation( const tripoint &p ) const
 {
-    if (!INBOUNDS(x, y)) {
-        return 0;
+    if( !inbounds( p ) ) {
+        return;
     }
 
     int lx, ly;
-    submap * const current_submap = get_submap_at(x, y, lx, ly);
+    submap *const current_submap = get_submap_at(x, y, lx, ly);
 
     return current_submap->get_radiation(lx, ly);
 }
 
-void map::set_radiation(const int x, const int y, const int value)
+void map::set_radiation( const int x, const int y, const int value )
 {
-    if (!INBOUNDS(x, y)) {
+    set_radiation( tripoint( x, y, sub_abs.z ), value );
+}
+
+void map::set_radiation( const tripoint &p, const int value)
+{
+    if( !inbounds( p ) ) {
         return;
     }
 
     int lx, ly;
-    submap * const current_submap = get_submap_at(x, y, lx, ly);
+    submap *const current_submap = get_submap_at( p, lx, ly );
 
     current_submap->set_radiation(lx, ly, value);
 }
 
-void map::adjust_radiation(const int x, const int y, const int delta)
+void map::adjust_radiation( const int x, const int y, const int delta )
 {
-    if (!INBOUNDS(x, y)) {
+    adjust_radiation( tripoint( x, y, sub_abs.z ), delta );
+}
+
+void map::adjust_radiation( const tripoint &p, const int delta )
+{
+    if( !inbounds( p ) ) {
         return;
     }
 
     int lx, ly;
-    submap * const current_submap = get_submap_at(x, y, lx, ly);
+    submap *const current_submap = get_submap_at( p, lx, ly );
 
     int current_radiation = current_submap->get_radiation(lx, ly);
     current_submap->set_radiation(lx, ly, current_radiation + delta);
 }
 
-int& map::temperature(const int x, const int y)
+int& map::temperature( const tripoint &p )
 {
- if (!INBOUNDS(x, y)) {
-  null_temperature = 0;
-  return null_temperature;
- }
+    if( !inbounds( p ) ) {
+        null_temperature = 0;
+        return null_temperature;
+    }
 
- return get_submap_at(x, y)->temperature;
+    return get_submap_at( p )->temperature;
 }
 
-void map::set_temperature(const int x, const int y, int new_temperature)
+void map::set_temperature( const tripoint &p, int new_temperature )
 {
-    temperature(x, y) = new_temperature;
-    temperature(x + SEEX, y) = new_temperature;
-    temperature(x, y + SEEY) = new_temperature;
-    temperature(x + SEEX, y + SEEY) = new_temperature;
+    temperature( p ) = new_temperature;
+    temperature( tripoint( p.x + SEEX, p.y, p.z ) ) = new_temperature;
+    temperature( tripoint( p.x, p.y + SEEY, p.z ) ) = new_temperature;
+    temperature( tripoint( p.x + SEEX, p.y + SEEY, p.z ) ) = new_temperature;
 }
 
 map_stack map::i_at( const int x, const int y )

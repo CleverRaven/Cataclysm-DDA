@@ -503,18 +503,22 @@ void add_corpse(int x, int y);
  void set_signage(const int x, const int y, std::string message) const;
  void delete_signage(const int x, const int y) const;
 
- // Radiation
- int get_radiation(const int x, const int y) const; // Amount of radiation at (x, y);
- void set_radiation(const int x, const int y, const int value);
+// Radiation
+    int get_radiation( const tripoint &p ) const; // Amount of radiation at (x, y);
+    void set_radiation( const tripoint &p, const int value );
+    // Overload for mapgen
+    void set_radiation( const int x, const int y, const int value );
 
- /** Increment the radiation in the given tile by the given delta
-  *  (decrement it if delta is negative)
-  */
- void adjust_radiation(const int x, const int y, const int delta);
+    /** Increment the radiation in the given tile by the given delta
+    *  (decrement it if delta is negative)
+    */
+    void adjust_radiation( const tripoint &p, const int delta );
+    // Overload for mapgen
+    void adjust_radiation( const int x, const int y, const int delta );
 
 // Temperature
- int& temperature(const int x, const int y);    // Temperature for submap
- void set_temperature(const int x, const int y, const int temperature); // Set temperature for all four submap quadrants
+    int& temperature( const tripoint &p );    // Temperature for submap
+    void set_temperature( const tripoint &p, const int temperature ); // Set temperature for all four submap quadrants
 
 // Items
  // Accessor that returns a wrapped reference to an item stack for safe modification.
@@ -666,12 +670,12 @@ void add_corpse(int x, int y);
 // End of 3D field function block
 
 // Computers
- computer* computer_at( const tripoint &p );
+    computer* computer_at( const tripoint &p );
 
  // Camps
- bool allow_camp( const tripoint &p, const int radius = CAMPCHECK);
- basecamp* camp_at( const tripoint &p, const int radius = CAMPSIZE);
- void add_camp( const tripoint &p, const std::string& name );
+    bool allow_camp( const tripoint &p, const int radius = CAMPCHECK);
+    basecamp* camp_at( const tripoint &p, const int radius = CAMPSIZE);
+    void add_camp( const tripoint &p, const std::string& name );
 
 // Graffiti
     bool has_graffiti_at( const tripoint &p ) const;
