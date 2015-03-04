@@ -345,34 +345,61 @@ class map
 // move water under wheels. true if moved
  bool displace_water (const int x, const int y);
 
-// Furniture
- void set(const int x, const int y, const ter_id new_terrain, const furn_id new_furniture);
- void set(const int x, const int y, const std::string new_terrain, const std::string new_furniture);
+// Furniture: 2D overloads
+    void set(const int x, const int y, const ter_id new_terrain, const furn_id new_furniture);
+    void set(const int x, const int y, const std::string new_terrain, const std::string new_furniture);
 
- std::string name(const int x, const int y);
- bool has_furn(const int x, const int y) const;
+    std::string name(const int x, const int y);
+    bool has_furn(const int x, const int y) const;
 
- furn_id furn(const int x, const int y) const; // Furniture at coord (x, y); {x|y}=(0, SEE{X|Y}*3]
- std::string get_furn(const int x, const int y) const;
- furn_t & furn_at(const int x, const int y) const;
+    furn_id furn(const int x, const int y) const; // Furniture at coord (x, y); {x|y}=(0, SEE{X|Y}*3]
+    std::string get_furn(const int x, const int y) const;
+    furn_t & furn_at(const int x, const int y) const;
 
- void furn_set(const int x, const int y, const furn_id new_furniture);
- void furn_set(const int x, const int y, const std::string new_furniture);
+    void furn_set(const int x, const int y, const furn_id new_furniture);
+    void furn_set(const int x, const int y, const std::string new_furniture);
 
- std::string furnname(const int x, const int y);
- bool can_move_furniture( const int x, const int y, player * p = NULL);
-// Terrain
- ter_id ter(const int x, const int y) const; // Terrain integer id at coord (x, y); {x|y}=(0, SEE{X|Y}*3]
- std::string get_ter(const int x, const int y) const; // Terrain string id at coord (x, y); {x|y}=(0, SEE{X|Y}*3]
- std::string get_ter_harvestable(const int x, const int y) const; // harvestable of the terrain
- ter_id get_ter_transforms_into(const int x, const int y) const; // get the terrain id to transform to
- int get_ter_harvest_season(const int x, const int y) const; // get season to harvest the terrain
- ter_t & ter_at(const int x, const int y) const; // Terrain at coord (x, y); {x|y}=(0, SEE{X|Y}*3]
+    std::string furnname(const int x, const int y);
+// Furniture: 3D
+    void set( const tripoint &p, const ter_id new_terrain, const furn_id new_furniture );
+    void set( const tripoint &p, const std::string new_terrain, const std::string new_furniture );
 
- void ter_set(const int x, const int y, const ter_id new_terrain);
- void ter_set(const int x, const int y, const std::string new_terrain);
+    std::string name( const tripoint &p );
+    bool has_furn( const tripoint &p ) const;
 
- std::string tername(const int x, const int y) const; // Name of terrain at (x, y)
+    furn_id furn( const tripoint &p ) const;
+    std::string get_furn( const tripoint &p ) const;
+    furn_t & furn_at( const tripoint &p ) const;
+
+    void furn_set( const tripoint &p, const furn_id new_furniture );
+    void furn_set( const tripoint &p, const std::string new_furniture );
+
+    std::string furnname( const tripoint &p);
+    bool can_move_furniture( const tripoint &pos, player * p = nullptr );
+// Terrain: 2D overloads
+    ter_id ter(const int x, const int y) const; // Terrain integer id at coord (x, y); {x|y}=(0, SEE{X|Y}*3]
+    std::string get_ter(const int x, const int y) const; // Terrain string id at coord (x, y); {x|y}=(0, SEE{X|Y}*3]
+    std::string get_ter_harvestable(const int x, const int y) const; // harvestable of the terrain
+    ter_id get_ter_transforms_into(const int x, const int y) const; // get the terrain id to transform to
+    int get_ter_harvest_season(const int x, const int y) const; // get season to harvest the terrain
+    ter_t & ter_at(const int x, const int y) const; // Terrain at coord (x, y); {x|y}=(0, SEE{X|Y}*3]
+
+    void ter_set(const int x, const int y, const ter_id new_terrain);
+    void ter_set(const int x, const int y, const std::string new_terrain);
+
+    std::string tername(const int x, const int y) const; // Name of terrain at (x, y)
+// Terrain: 3D
+    ter_id ter( const tripoint &p ) const;
+    std::string get_ter( const tripoint &p ) const;
+    std::string get_ter_harvestable( const tripoint &p ) const;
+    ter_id get_ter_transforms_into( const tripoint &p ) const;
+    int get_ter_harvest_season( const tripoint &p ) const;
+    ter_t & ter_at( const tripoint &p ) const;
+
+    void ter_set( const tripoint &p, const ter_id new_terrain);
+    void ter_set( const tripoint &p, const std::string new_terrain);
+
+    std::string tername( const tripoint &p ) const;
 
  // Check for terrain/furniture/field that provide a
  // "fire" item to be used for example when crafting or when

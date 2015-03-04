@@ -1045,6 +1045,8 @@ bool map::displace_water (const int x, const int y)
     return false;
 }
 
+// 2D overloads for furniture
+// To be removed once not needed
 void map::set(const int x, const int y, const ter_id new_terrain, const furn_id new_furniture)
 {
     furn_set(x, y, new_furniture);
@@ -1097,8 +1099,6 @@ void map::furn_set(const int x, const int y, const furn_id new_furniture)
  int lx, ly;
  submap * const current_submap = get_submap_at(x, y, lx, ly);
 
- // set the dirty flags
- // TODO: consider checking if the transparency value actually changes
  set_transparency_cache_dirty();
  current_submap->set_furn(lx, ly, new_furniture);
 }
@@ -1110,30 +1110,100 @@ void map::furn_set(const int x, const int y, const std::string new_furniture) {
     furn_set(x, y, (furn_id)furnmap[ new_furniture ].loadid );
 }
 
-bool map::can_move_furniture( const int x, const int y, player * p ) {
-    furn_t furniture_type = furn_at(x, y);
+std::string map::furnname(const int x, const int y) {
+ return furn_at(x, y).name;
+}
+// End of 2D overloads for furniture
+
+void map::set( const tripoint &p, const ter_id new_terrain, const furn_id new_furniture)
+{
+    furn_set( p, new_furniture );
+    ter_set( p, new_terrain );
+}
+
+void map::set( const tripoint &p, const std::string new_terrain, const std::string new_furniture) {
+    furn_set( p, new_furniture );
+    ter_set( p, new_terrain );
+}
+
+std::string map::name( const tripoint &p )
+{
+ return has_furn( p ) ? furn_at( p ).name : ter_at( p ).name;
+}
+
+bool map::has_furn( const tripoint &p ) const
+{
+  return furn( p ) != f_null;
+}
+
+std::string map::get_furn( const tripoint &p ) const
+{
+    return furn_at( p ).id;
+}
+
+furn_t & map::furn_at( const tripoint &p ) const
+{
+    return furnlist[ furn( p ) ];
+}
+
+furn_id map::furn( const tripoint &p ) const
+{
+    if( !inbounds( p ) ) {
+        return f_null;
+    }
+
+    int lx, ly;
+    submap *const current_submap = get_submap_at( p, lx, ly );
+
+    return current_submap->get_furn( lx, ly );
+}
+
+void map::furn_set( const tripoint &p, const furn_id new_furniture)
+{
+    if (!inbounds( p )) {
+        return;
+    }
+
+    int lx, ly;
+    submap *const current_submap = get_submap_at( p, lx, ly );
+
+    // set the dirty flags
+    // TODO: consider checking if the transparency value actually changes
+    set_transparency_cache_dirty();
+    current_submap->set_furn( lx, ly, new_furniture );
+}
+
+void map::furn_set( const tripoint &p, const std::string new_furniture) {
+    if( furnmap.find(new_furniture) == furnmap.end() ) {
+        return;
+    }
+
+    furn_set( p, (furn_id)furnmap[ new_furniture ].loadid );
+}
+
+bool map::can_move_furniture( const tripoint &pos, player *p ) {
+    furn_t furniture_type = furn_at( pos );
     int required_str = furniture_type.move_str_req;
 
     // Object can not be moved (or nothing there)
-    if (required_str < 0) { return false; }
+    if( required_str < 0 ) { 
+        return false;
+    }
 
-    if( p != NULL && p->str_cur < required_str ) { return false; }
+    if( p != nullptr && p->str_cur < required_str ) {
+        return false;
+    }
 
     return true;
 }
 
-std::string map::furnname(const int x, const int y) {
- return furn_at(x, y).name;
+std::string map::furnname( const tripoint &p ) {
+    return furn_at( p ).name;
 }
-/*
- * Get the terrain integer id. This is -not- a number guaranteed to remain
- * the same across revisions; it is a load order, and can change when mods
- * are loaded or removed. The old t_floor style constants will still work but
- * are -not- guaranteed; if a mod removes t_lava, t_lava will equal t_null;
- * New terrains added to the core game generally do not need this, it's
- * retained for high performance comparisons, save/load, and gradual transition
- * to string terrain.id
- */
+
+// 2D overloads for terrain
+// To be removed once not needed
+
 ter_id map::ter(const int x, const int y) const
 {
     if( !INBOUNDS(x, y) ) {
@@ -1142,51 +1212,30 @@ ter_id map::ter(const int x, const int y) const
 
     int lx, ly;
     submap * const current_submap = get_submap_at(x, y, lx, ly);
-
     return current_submap->get_ter( lx, ly );
 }
 
-/*
- * Get the terrain string id. This will remain the same across revisions,
- * unless a mod eliminates or changes it. Generally this is less efficient
- * than ter_id, but only an issue if thousands of comparisons are made.
- */
 std::string map::get_ter(const int x, const int y) const {
     return ter_at(x, y).id;
 }
 
-/*
- * Get the terrain harvestable string (what will get harvested from the terrain)
- */
 std::string map::get_ter_harvestable(const int x, const int y) const {
     return ter_at(x, y).harvestable;
 }
 
-/*
- * Get the terrain transforms_into id (what will the terrain transforms into)
- */
 ter_id map::get_ter_transforms_into(const int x, const int y) const {
     return (ter_id)termap[ ter_at(x, y).transforms_into ].loadid;
 }
 
-/*
- * Get the harvest season from the terrain
- */
 int map::get_ter_harvest_season(const int x, const int y) const {
     return ter_at(x, y).harvest_season;
 }
 
-/*
- * Get a reference to the actual terrain struct.
- */
 ter_t & map::ter_at(const int x, const int y) const
 {
     return terlist[ ter(x,y) ];
 }
 
-/*
- * set terrain via string; this works for -any- terrain id
- */
 void map::ter_set(const int x, const int y, const std::string new_terrain) {
     if ( termap.find(new_terrain) == termap.end() ) {
         return;
@@ -1194,17 +1243,11 @@ void map::ter_set(const int x, const int y, const std::string new_terrain) {
     ter_set(x, y, (ter_id)termap[ new_terrain ].loadid );
 }
 
-/*
- * set terrain via builtin t_keyword; only if defined, and will not work
- * for mods
- */
 void map::ter_set(const int x, const int y, const ter_id new_terrain) {
     if (!INBOUNDS(x, y)) {
         return;
     }
 
-    // set the dirty flags
-    // TODO: consider checking if the transparency value actually changes
     set_transparency_cache_dirty();
     set_outside_cache_dirty();
 
@@ -1216,6 +1259,101 @@ void map::ter_set(const int x, const int y, const ter_id new_terrain) {
 std::string map::tername(const int x, const int y) const
 {
  return ter_at(x, y).name;
+}
+// End of 2D overloads for terrain
+
+/*
+ * Get the terrain integer id. This is -not- a number guaranteed to remain
+ * the same across revisions; it is a load order, and can change when mods
+ * are loaded or removed. The old t_floor style constants will still work but
+ * are -not- guaranteed; if a mod removes t_lava, t_lava will equal t_null;
+ * New terrains added to the core game generally do not need this, it's
+ * retained for high performance comparisons, save/load, and gradual transition
+ * to string terrain.id
+ */
+ter_id map::ter( const tripoint &p ) const
+{
+    if( !inbounds( p ) ) {
+        return t_null;
+    }
+
+    int lx, ly;
+    submap *const current_submap = get_submap_at( p, lx, ly );
+
+    return current_submap->get_ter( lx, ly );
+}
+
+/*
+ * Get the terrain string id. This will remain the same across revisions,
+ * unless a mod eliminates or changes it. Generally this is less efficient
+ * than ter_id, but only an issue if thousands of comparisons are made.
+ */
+std::string map::get_ter( const tripoint &p ) const {
+    return ter_at( p ).id;
+}
+
+/*
+ * Get the terrain harvestable string (what will get harvested from the terrain)
+ */
+std::string map::get_ter_harvestable( const tripoint &p ) const {
+    return ter_at( p ).harvestable;
+}
+
+/*
+ * Get the terrain transforms_into id (what will the terrain transforms into)
+ */
+ter_id map::get_ter_transforms_into( const tripoint &p ) const {
+    return (ter_id)termap[ ter_at( p ).transforms_into ].loadid;
+}
+
+/*
+ * Get the harvest season from the terrain
+ */
+int map::get_ter_harvest_season( const tripoint &p ) const {
+    return ter_at( p ).harvest_season;
+}
+
+/*
+ * Get a reference to the actual terrain struct.
+ */
+ter_t & map::ter_at( const tripoint &p ) const
+{
+    return terlist[ ter( p ) ];
+}
+
+/*
+ * set terrain via string; this works for -any- terrain id
+ */
+void map::ter_set( const tripoint &p, const std::string new_terrain) {
+    if(  termap.find(new_terrain) == termap.end() ) {
+        return;
+    }
+
+    ter_set( p, (ter_id)termap[ new_terrain ].loadid );
+}
+
+/*
+ * set terrain via builtin t_keyword; only if defined, and will not work
+ * for mods
+ */
+void map::ter_set( const tripoint &p, const ter_id new_terrain) {
+    if( !inbounds( p ) ) {
+        return;
+    }
+
+    // set the dirty flags
+    // TODO: consider checking if the transparency value actually changes
+    set_transparency_cache_dirty();
+    set_outside_cache_dirty();
+
+    int lx, ly;
+    submap *const current_submap = get_submap_at( p, lx, ly );
+    current_submap->set_ter( lx, ly, new_terrain );
+}
+
+std::string map::tername( const tripoint &p ) const
+{
+ return ter_at( p ).name;
 }
 
 std::string map::features(const int x, const int y)
@@ -2741,18 +2879,18 @@ void map::delete_signage(const int x, const int y) const
 int map::get_radiation( const tripoint &p ) const
 {
     if( !inbounds( p ) ) {
-        return;
+        return 0;
     }
 
     int lx, ly;
-    submap *const current_submap = get_submap_at(x, y, lx, ly);
+    submap *const current_submap = get_submap_at( p, lx, ly );
 
-    return current_submap->get_radiation(lx, ly);
+    return current_submap->get_radiation( lx, ly );
 }
 
 void map::set_radiation( const int x, const int y, const int value )
 {
-    set_radiation( tripoint( x, y, sub_abs.z ), value );
+    set_radiation( tripoint( x, y, abs_sub.z ), value );
 }
 
 void map::set_radiation( const tripoint &p, const int value)
@@ -2764,12 +2902,12 @@ void map::set_radiation( const tripoint &p, const int value)
     int lx, ly;
     submap *const current_submap = get_submap_at( p, lx, ly );
 
-    current_submap->set_radiation(lx, ly, value);
+    current_submap->set_radiation( lx, ly, value );
 }
 
 void map::adjust_radiation( const int x, const int y, const int delta )
 {
-    adjust_radiation( tripoint( x, y, sub_abs.z ), delta );
+    adjust_radiation( tripoint( x, y, abs_sub.z ), delta );
 }
 
 void map::adjust_radiation( const tripoint &p, const int delta )
@@ -2781,8 +2919,8 @@ void map::adjust_radiation( const tripoint &p, const int delta )
     int lx, ly;
     submap *const current_submap = get_submap_at( p, lx, ly );
 
-    int current_radiation = current_submap->get_radiation(lx, ly);
-    current_submap->set_radiation(lx, ly, current_radiation + delta);
+    int current_radiation = current_submap->get_radiation( lx, ly );
+    current_submap->set_radiation( lx, ly, current_radiation + delta );
 }
 
 int& map::temperature( const tripoint &p )
