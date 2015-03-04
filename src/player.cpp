@@ -3024,8 +3024,8 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4"));
             } else if (line == 2) { //Head
                 s += string_format(_("Perception %+d when checking traps or firing ranged weapons;\n"
                                      "Perception %+.1f when throwing items."),
-                                   -encumb(bp_eyes),
-                                   double(double(-encumb(bp_eyes)) / 2));
+                                   -(encumb(bp_eyes) / 10),
+                                   double(double(-(encumb(bp_eyes) / 10)) / 2));
             } else if (line == 3) { //Eyes
                 s += run_cost_text( (encumb( bp_mouth ) / 10) * 5 );
             } else if (line == 4) { //Left Arm
@@ -3034,10 +3034,10 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4"));
                 s += _("Arm encumbrance affects your accuracy with ranged weapons.");
             } else if (line == 6) { //Left Hand
                 s += reload_cost_text( (encumb( bp_hand_l ) / 10) * 15 );
-                s += string_format( _("Dexterity %+d when throwing items."), -encumb( bp_hand_l ) );
+                s += string_format( _("Dexterity %+d when throwing items."), -(encumb( bp_hand_l )/10) );
             } else if (line == 7) { //Right Hand
                 s += reload_cost_text( (encumb( bp_hand_r ) / 10) * 15 );
-                s += string_format( _("Dexterity %+d when throwing items."), -encumb( bp_hand_r ) );
+                s += string_format( _("Dexterity %+d when throwing items."), -(encumb( bp_hand_r )/10) );
             } else if (line == 8) { //Left Leg
                 s += run_cost_text( (encumb( bp_leg_l ) / 10) * 1.5 );
                 s += swim_cost_text( (encumb( bp_leg_l ) / 10) * ( 50 - skillLevel( "swimming" ) * 2 ) / 2 );

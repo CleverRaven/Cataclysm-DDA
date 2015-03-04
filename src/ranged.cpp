@@ -589,7 +589,7 @@ void game::throw_item(player &p, int tarx, int tary, item &thrown,
         deviation -= p.per_cur - 8;
     }
 
-    deviation += rng(0, (p.encumb(bp_hand_l) + p.encumb(bp_hand_r)) + p.encumb(bp_eyes) + 1);
+    deviation += rng(0, ((p.encumb(bp_hand_l) + p.encumb(bp_hand_r)) + p.encumb(bp_eyes) + 1) / 10);
     if (thrown.volume() > 5) {
         deviation += rng(0, 1 + (thrown.volume() - 5) / 4);
     }
@@ -1415,8 +1415,8 @@ double player::get_weapon_dispersion(item *weapon, bool random) const
     dispersion += rand_or_max( random, ranged_dex_mod() );
     dispersion += rand_or_max( random, ranged_per_mod() );
 
-    dispersion += rand_or_max( random, 3 * ((encumb(bp_arm_l) + encumb(bp_arm_r)) / 10 ));
-    dispersion += rand_or_max( random, 6 * (encumb(bp_eyes) / 10));
+    dispersion += rand_or_max( random, 3 * (encumb(bp_arm_l) + encumb(bp_arm_r)));
+    dispersion += rand_or_max( random, 6 * encumb(bp_eyes));
 
     if( weapon->has_curammo() ) {
         dispersion += rand_or_max( random, weapon->get_curammo()->ammo->dispersion);
