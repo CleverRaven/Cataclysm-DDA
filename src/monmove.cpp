@@ -1129,8 +1129,6 @@ bool monster::will_reach(int x, int y)
 
 int monster::turns_to_reach(int x, int y)
 {
-    // Note: values in this function aren't turns, but "pairs of turns"
-    // This is because move_cost returns 2 for flat ground, 8 for rubble etc.
     // This function is a(n old) temporary hack that should soon be removed
     std::vector<point> path = g->m.route( posx(), posy(), x, y, 0 );
     if( path.empty() ) {
@@ -1150,5 +1148,5 @@ int monster::turns_to_reach(int x, int y)
         }
     }
 
-    return int(turns / 2 + .9); // Halve (to get turns) and round up
+    return int(turns + .9); // Halve (to get turns) and round up
 }
