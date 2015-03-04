@@ -674,10 +674,10 @@ void add_corpse(int x, int y);
  void add_camp( const tripoint &p, const std::string& name );
 
 // Graffiti
-    bool has_graffiti_at(int x, int y) const;
-    const std::string &graffiti_at(int x, int y) const;
-    void set_graffiti(int x, int y, const std::string &contents);
-    void delete_graffiti(int x, int y);
+    bool has_graffiti_at( const tripoint &p ) const;
+    const std::string &graffiti_at( const tripoint &p ) const;
+    void set_graffiti( const tripoint &p, const std::string &contents);
+    void delete_graffiti( const tripoint &p );
 
 // mapgen.cpp functions
  void generate(const int x, const int y, const int z, const int turn);

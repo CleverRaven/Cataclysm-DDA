@@ -4150,6 +4150,7 @@ void map::drawsq(WINDOW* w, player &u, const int x, const int y, const bool inve
         return;
     }
 
+    const tripoint p( x, y, abs_sub.z );
     bool invert = invert_arg;
     bool show_items = show_items_arg;
     int cx = view_center_x_arg;
@@ -4262,7 +4263,7 @@ void map::drawsq(WINDOW* w, player &u, const int x, const int y, const bool inve
         tercol = veh->part_color(veh_part);
     }
     // If there's graffiti here, change background color
-    if( has_graffiti_at( x, y ) ) {
+    if( has_graffiti_at( p ) ) {
         graf = true;
     }
 
@@ -5356,44 +5357,44 @@ bool map::inbounds( const tripoint &p ) const
          p.z >= -OVERMAP_DEPTH && p.z <= OVERMAP_HEIGHT);
 }
 
-void map::set_graffiti( int x, int y, const std::string &contents )
+void map::set_graffiti( const tripoint &p, const std::string &contents )
 {
-    if( !inbounds( x, y ) ) {
+    if( !inbounds( p ) ) {
         return;
     }
     int lx, ly;
-    submap *const current_submap = get_submap_at( x, y, lx, ly );
+    submap *const current_submap = get_submap_at( p, lx, ly );
     current_submap->set_graffiti( lx, ly, contents );
 }
 
-void map::delete_graffiti( int x, int y )
+void map::delete_graffiti( const tripoint &p )
 {
-    if( !inbounds( x, y ) ) {
+    if( !inbounds( p ) ) {
         return;
     }
     int lx, ly;
-    submap *const current_submap = get_submap_at( x, y, lx, ly );
+    submap *const current_submap = get_submap_at( p, lx, ly );
     current_submap->delete_graffiti( lx, ly );
 }
 
-const std::string &map::graffiti_at( int x, int y ) const
+const std::string &map::graffiti_at( const tripoint &p ) const
 {
-    if( !inbounds( x, y ) ) {
+    if( !inbounds( p ) ) {
         static const std::string empty_string;
         return empty_string;
     }
     int lx, ly;
-    submap *const current_submap = get_submap_at( x, y, lx, ly );
+    submap *const current_submap = get_submap_at( p, lx, ly );
     return current_submap->get_graffiti( lx, ly );
 }
 
-bool map::has_graffiti_at( int x, int y ) const
+bool map::has_graffiti_at( const tripoint &p ) const
 {
-    if( !inbounds( x, y ) ) {
+    if( !inbounds( p ) ) {
         return false;
     }
     int lx, ly;
-    submap *const current_submap = get_submap_at( x, y, lx, ly );
+    submap *const current_submap = get_submap_at( p, lx, ly );
     return current_submap->has_graffiti( lx, ly );
 }
 

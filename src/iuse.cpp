@@ -7758,7 +7758,7 @@ int iuse::spray_can(player *p, item *it, bool, point)
     if (message.empty()) {
         return 0;
     } else {
-        g->m.set_graffiti( p->posx(), p->posy(), message );
+        g->m.set_graffiti( p->pos3(), message );
             add_msg(
                 ismarker ?
                 _("You write a message on the ground.") :

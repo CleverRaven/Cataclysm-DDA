@@ -8646,7 +8646,8 @@ point game::look_around(WINDOW *w_info, const point pairCoordsFirst)
     const int offset_x = (u.posx() + u.view_offset_x) - getmaxx(w_terrain) / 2;
     const int offset_y = (u.posy() + u.view_offset_y) - getmaxy(w_terrain) / 2;
 
-    int lx = u.posx() + u.view_offset_x, ly = u.posy() + u.view_offset_y;
+    int lx = u.posx() + u.view_offset_x, ly = u.posy() + u.view_offset_y, lz = u.posz() + 0;
+    tripoint lp( lx, ly, lz );
 
     if (bSelectZone && bHasFirstPoint) {
         lx = pairCoordsFirst.x;
@@ -8788,8 +8789,8 @@ point game::look_around(WINDOW *w_info, const point pairCoordsFirst)
                 mvwprintz(w_info, 1, lookWidth - 1, c_ltgreen, _("F"));
             }
 
-            if( m.has_graffiti_at( lx, ly ) ) {
-                mvwprintw(w_info, ++off + 1, 1, _("Graffiti: %s"), m.graffiti_at( lx, ly ).c_str() );
+            if( m.has_graffiti_at( lp ) ) {
+                mvwprintw(w_info, ++off + 1, 1, _("Graffiti: %s"), m.graffiti_at( lp ).c_str() );
             }
 
             auto this_sound = sounds::sound_at( {lx, ly} );
@@ -8866,6 +8867,8 @@ point game::look_around(WINDOW *w_info, const point pairCoordsFirst)
                 } else if (ly > MAPSIZE * SEEY) {
                     ly = MAPSIZE * SEEY;
                 }
+
+                lp = tripoint( lx, ly, lz );
 
                 draw_ter(lx, ly, true);
                 draw_footsteps( w_terrain, {POSX - lx, POSY - ly} );
@@ -12029,8 +12032,8 @@ bool game::plmove(int dx, int dy)
         if (signage.size()) {
             add_msg(m_info, _("The sign says: %s"), signage.c_str());
         }
-        if( m.has_graffiti_at( x, y ) ) {
-            add_msg(_("Written here: %s"), utf8_truncate(m.graffiti_at( x, y ), 40).c_str());
+        if( m.has_graffiti_at( dest_loc ) ) {
+            add_msg(_("Written here: %s"), utf8_truncate(m.graffiti_at( dest_loc ), 40).c_str());
         }
         if (m.has_flag("ROUGH", x, y) && (!u.in_vehicle)) {
             bool ter_or_furn = m.has_flag_ter( "ROUGH", x, y );
