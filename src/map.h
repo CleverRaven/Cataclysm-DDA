@@ -666,12 +666,12 @@ void add_corpse(int x, int y);
 // End of 3D field function block
 
 // Computers
- computer* computer_at(const int x, const int y);
+ computer* computer_at( const tripoint &p );
 
  // Camps
- bool allow_camp(const int x, const int y, const int radius = CAMPCHECK);
- basecamp* camp_at(const int x, const int y, const int radius = CAMPSIZE);
- void add_camp(const std::string& name, const int x, const int y);
+ bool allow_camp( const tripoint &p, const int radius = CAMPCHECK);
+ basecamp* camp_at( const tripoint &p, const int radius = CAMPSIZE);
+ void add_camp( const tripoint &p, const std::string& name );
 
 // Graffiti
     bool has_graffiti_at(int x, int y) const;

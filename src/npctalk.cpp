@@ -2421,7 +2421,7 @@ std::vector<talk_response> gen_responses(talk_topic topic, npc *p)
             RESPONSE(_("Let's trade items."));
                 SUCCESS(TALK_NONE);
                 SUCCESS_ACTION(&talk_function::start_trade);
-            if (p->is_following() && g->m.camp_at(g->u.posx(), g->u.posy())) {
+            if (p->is_following() && g->m.camp_at( g->u.pos3() )) {
                 RESPONSE(_("Wait at this base."));
                     SUCCESS(TALK_DONE);
                         SUCCESS_ACTION(&talk_function::assign_base);
