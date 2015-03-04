@@ -407,6 +407,8 @@ bool player::activate_bionic(int b, bool eff_only)
         if (pkill > pain) {
             pkill = pain;
         }
+    } else if (bio.id == "bio_tools") {
+        invalidate_crafting_inventory();
     } else if (bio.id == "bio_cqb") {
         pick_style();
     } else if (bio.id == "bio_nanobots") {
