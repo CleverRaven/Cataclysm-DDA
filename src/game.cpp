@@ -41,6 +41,16 @@
 #include "debug.h"
 #include "catalua.h"
 #include "sounds.h"
+#include "mutation.h"
+#include "mtype.h"
+#include "overmap.h"
+#include "omdata.h"
+#include "crafting.h"
+#include "posix_time.h"
+#include "construction.h"
+#include "lightmap.h"
+#include "npc.h"
+#include "scenario.h"
 
 #include <map>
 #include <set>
