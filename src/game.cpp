@@ -10580,8 +10580,8 @@ std::vector<point> game::pl_target_ui(int &x, int &y, int range, item *relevant,
 
 void game::plfire(bool burst, int default_target_x, int default_target_y)
 {
-    if (u.has_effect("relax_gas")) {
-        if (one_in(5)) {
+    if( u.has_effect("relax_gas") ) {
+        if( one_in(5) ) {
             add_msg(m_good, _("Your eyes steel, and you raise your weapon!"));
         } else {
             u.moves -= rng(2, 5) * 10;
@@ -10590,31 +10590,29 @@ void game::plfire(bool burst, int default_target_x, int default_target_y)
         }
     }
     // draw pistol from a holster if unarmed
-    if (!u.is_armed()) {
+    if( !u.is_armed() ) {
         // get a list of holsters from worn items
         std::vector<item *> holsters;
         for( auto &worn : u.worn ) {
-            if (((worn.type->can_use("HOLSTER_GUN") && !(worn.has_flag("NO_QUICKDRAW"))) || worn.type->can_use("HOLSTER_ANKLE")) &&
-                (!worn.contents.empty() && worn.contents[0].is_gun())) {
+            if( ((worn.type->can_use("HOLSTER_GUN") && !worn.has_flag("NO_QUICKDRAW")) ||
+                 worn.type->can_use("HOLSTER_ANKLE")) &&
+                (!worn.contents.empty() && worn.contents[0].is_gun()) ) {
                 holsters.push_back(&worn);
             }
         }
-        if (!holsters.empty()) {
+        if( !holsters.empty() ) {
             int choice = -1;
             // only one holster found, choose it
-            if (holsters.size() == 1) {
+            if( holsters.size() == 1 ) {
                 choice = 0;
                 // ask player which holster to draw from
             } else {
                 std::vector<std::string> choices;
                 for( auto i : holsters ) {
-
-                    std::ostringstream ss;
-                    ss << string_format(_("%s from %s (%d)"),
-                                        i->contents[0].tname().c_str(),
-                                        i->type_name(1).c_str(),
-                                        i->contents[0].charges);
-                    choices.push_back(ss.str());
+                    choices.push_back(string_format(_("%s from %s (%d)"),
+                                                    i->contents[0].tname().c_str(),
+                                                    i->type_name(1).c_str(),
+                                                    i->contents[0].charges));
                 }
                 choice = (uimenu(false, _("Draw what?"), choices)) - 1;
             }
