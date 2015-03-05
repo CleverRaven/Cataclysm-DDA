@@ -414,7 +414,6 @@ class musical_instrument_actor : public iuse_actor
         int fun_bonus;
         /**
          * List of sound descriptions
-         * First '%s' (if any) in each description will be substituted by item's disp_name
          */
         std::vector< std::string > descriptions;
         /**

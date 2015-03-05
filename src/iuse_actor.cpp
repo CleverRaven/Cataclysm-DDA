@@ -986,16 +986,18 @@ long musical_instrument_actor::use( player *p, item *it, bool t, point ) const
     }
 
     p->moves -= moves_cost;
+    std::string desc = "";
     const int morale_effect = fun + fun_bonus * p->per_cur;
     if( morale_effect >= 0 && int(calendar::turn) % description_frequency == 0 ) {
         const size_t desc_index = rng( 0, descriptions.size() - 1 );
-        const auto &desc = _(descriptions[ desc_index ].c_str());
-        sounds::ambient_sound( p->posx(), p->posy(), volume, desc );
+        desc = _(descriptions[ desc_index ].c_str());
     } else if( morale_effect < 0 && int(calendar::turn) % 10 ) {
-        // No musical skills = morale penalty
-        const auto desc = _("You produce an annoying sound");
+        // No musical skills = possible morale penalty
+        desc = _("You produce an annoying sound");
         sounds::ambient_sound( p->posx(), p->posy(), volume, desc );
     }
+
+    sounds::ambient_sound( p->posx(), p->posy(), volume, desc );
 
     if( !p->has_effect( "music" ) && !p->can_hear( p->pos(), volume ) ) {
         p->add_effect( "music", 1 );
