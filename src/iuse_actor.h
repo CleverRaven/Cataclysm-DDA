@@ -390,4 +390,44 @@ class extended_firestarter_actor : public firestarter_actor
         virtual iuse_actor *clone() const;
 };
 
+/**
+ * Plays music
+ */
+class musical_instrument_actor : public iuse_actor
+{
+    public:
+        /**
+         * Move cost to play (per turn)
+         */
+        int moves_cost;
+        /**
+         * Volume of the music played
+         */
+        int volume;
+        /**
+         * Base morale bonus/penalty
+         */
+        int fun;
+        /**
+         * Morale bonus scaling (off current perception)
+         */
+        int fun_bonus;
+        /**
+         * List of sound descriptions
+         * First '%s' (if any) in each description will be substituted by item's disp_name
+         */
+        std::vector< std::string > descriptions;
+        /**
+         * Display description once per this many turns
+         */
+        int description_frequency;
+
+        musical_instrument_actor() : iuse_actor(), moves_cost( 25 ) { }
+        virtual ~musical_instrument_actor() = default;
+        virtual void load( JsonObject &jo );
+        virtual long use( player*, item*, bool, point ) const;
+        virtual bool can_use( const player*, const item*, bool, const point& ) const;
+        virtual iuse_actor *clone() const;
+};
+
 #endif

@@ -1353,6 +1353,8 @@ use_function Item_factory::use_from_object(JsonObject obj)
         return load_actor<firestarter_actor>( obj );
     } else if( type == "extended_firestarter" ) {
         return load_actor<extended_firestarter_actor>( obj );
+    } else if( type == "musical_instrument" ) {
+        return load_actor<musical_instrument_actor>( obj );
     } else {
         obj.throw_error( "unknown use_action", "type" );
         return use_function(); // line above throws, but the compiler does not know \-:

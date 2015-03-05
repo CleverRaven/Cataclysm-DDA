@@ -917,3 +917,101 @@ bool extended_firestarter_actor::can_use( const player* p, const item* it, bool 
 
     return true;
 }
+
+iuse_actor *musical_instrument_actor::clone() const
+{
+    return new musical_instrument_actor(*this);
+}
+
+void musical_instrument_actor::load( JsonObject &obj )
+{
+    moves_cost = obj.get_int( "moves_cost", 25 );
+    volume = obj.get_int( "volume", 99 ); // Make it huge to alert the modder
+    fun = obj.get_int( "fun", -100 ); // Likewise
+    fun_bonus = obj.get_int( "fun_bonus", 0 );
+    description_frequency = obj.get_int( "description_frequency", 1 );
+
+    if( obj.has_array( "descriptions" ) ) {
+        JsonArray jarr = obj.get_array( "descriptions" );
+        while( jarr.has_more() ) {
+            const auto desc = jarr.next_string();
+            descriptions.push_back( desc );
+        }
+    } else {
+        descriptions.push_back( "You produce buggy chirping on your %s" );
+    }
+}
+
+long musical_instrument_actor::use( player *p, item *it, bool t, point ) const
+{
+    if( p->is_underwater() ) {
+        p->add_msg_if_player( m_bad, _("You can't play music underwater") );
+        it->active = false;
+        return 0;
+    }
+
+    if( !t ) {
+        // TODO: Make the player stop playing music when paralyzed/choking
+        if( it->active || p->has_effect("sleep") ) {
+            p->add_msg_if_player( _("You stop playing your %s"), it->display_name().c_str() );
+            it->active = false;
+            return 0;
+        }
+    }
+
+    // Check for worn or wielded - no "floating"/bionic instruments for now
+    // TODO: Distinguish instruments played with hands and with mouth, consider encumbrance
+    const int inv_pos = p->get_item_position( it );
+    if( inv_pos > 0 || inv_pos == INT_MIN ) {
+        p->add_msg_if_player( m_bad, _("You need to hold or wear %s to play it"), it->display_name().c_str() );
+        it->active = false;
+        return 0;
+    }
+
+    // To prevent players from getting into a soft-lock and starving to death
+    // How often does the player get to act
+    const double actions_per_turn = 100.0 / p->get_speed();
+    // How much does it cost (per player action) to play this instrument continuously 
+    const double moves_per_action = moves_cost * actions_per_turn;
+    if( p->get_speed() / 2.0 < moves_per_action ) {
+        p->add_msg_if_player( m_bad, _("You feel too weak to play your %s"), it->display_name().c_str() );
+        it->active = false;
+        return 0;
+    }
+
+    // We can play the music now
+    if( !it->active ) {
+        p->add_msg_if_player( m_good, _("You start playing your %s"), it->display_name().c_str() );
+        it->active = true;
+    }
+
+    p->moves -= moves_cost;
+    const int morale_effect = fun + fun_bonus * p->per_cur;
+    if( morale_effect >= 0 && int(calendar::turn) % description_frequency == 0 ) {
+        const size_t desc_index = rng( 0, descriptions.size() - 1 );
+        const auto &desc = _(descriptions[ desc_index ].c_str());
+        sounds::ambient_sound( p->posx(), p->posy(), volume, desc );
+    } else if( morale_effect < 0 && int(calendar::turn) % 10 ) {
+        // No musical skills = morale penalty
+        const auto desc = _("You produce an annoying sound");
+        sounds::ambient_sound( p->posx(), p->posy(), volume, desc );
+    }
+
+    if( !p->has_effect( "music" ) && !p->can_hear( p->pos(), volume ) ) {
+        p->add_effect( "music", 1 );
+        const int sign = morale_effect > 0 ? 1 : -1;
+        p->add_morale( MORALE_MUSIC, sign, morale_effect, 5, 2 );
+    }
+
+    return 0;
+}
+
+bool musical_instrument_actor::can_use( const player *p, const item*, bool, const point& ) const
+{
+    // TODO (maybe): Mouth encumbrance? Smoke? Lack of arms? Hand encumbrance?
+    if( p->is_underwater() ) {
+        return false;
+    }
+
+    return true;
+}
