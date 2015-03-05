@@ -979,6 +979,7 @@ long musical_instrument_actor::use( player *p, item *it, bool t, point ) const
     const double actions_per_turn = 100.0 / p->get_speed();
     // How much does it cost (per player action) to play this instrument continuously 
     const double moves_per_action = moves_cost * actions_per_turn;
+    // If it would consume half of all moves per turn, bail out
     if( p->get_speed() / 2.0 < moves_per_action ) {
         p->add_msg_if_player( m_bad, _("You feel too weak to play your %s"), it->display_name().c_str() );
         it->active = false;
@@ -1000,7 +1001,6 @@ long musical_instrument_actor::use( player *p, item *it, bool t, point ) const
     } else if( morale_effect < 0 && int(calendar::turn) % 10 ) {
         // No musical skills = possible morale penalty
         desc = _("You produce an annoying sound");
-        sounds::ambient_sound( p->posx(), p->posy(), volume, desc );
     }
 
     sounds::ambient_sound( p->posx(), p->posy(), volume, desc );
