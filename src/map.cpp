@@ -2941,6 +2941,11 @@ void map::set_temperature( const tripoint &p, int new_temperature )
     temperature( tripoint( p.x + SEEX, p.y + SEEY, p.z ) ) = new_temperature;
 }
 
+void map::set_temperature( const int x, const int y, int new_temperature )
+{
+    set_temperature( tripoint( x, y, abs_sub.z ), new_temperature );
+}
+
 map_stack map::i_at( const int x, const int y )
 {
     if( !INBOUNDS(x, y) ) {

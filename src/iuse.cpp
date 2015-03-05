@@ -5399,7 +5399,7 @@ int iuse::set_trap(player *p, item *it, bool, point)
 
 int iuse::geiger(player *p, item *it, bool t, point pos)
 {
-    const tripoint pos3 = p != nullptr ? tripoint( p.pos3() ) : tripoint( pos, g->levz );
+    const tripoint pos3 = p != nullptr ? tripoint( p->pos3() ) : tripoint( pos, g->levz );
     if (t) { // Every-turn use when it's on
         const int rads = g->m.get_radiation( pos3 );
         if (rads == 0) {

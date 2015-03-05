@@ -546,6 +546,8 @@ void add_corpse(int x, int y);
 // Temperature
     int& temperature( const tripoint &p );    // Temperature for submap
     void set_temperature( const tripoint &p, const int temperature ); // Set temperature for all four submap quadrants
+    // 2D overload for mapgen
+    void set_temperature( const int x, const int y, const int temperature );
 
 // Items
  // Accessor that returns a wrapped reference to an item stack for safe modification.

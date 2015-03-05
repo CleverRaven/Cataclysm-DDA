@@ -9955,24 +9955,25 @@ void game::grab()
         return;
     }
     if (choose_adjacent(_("Grab where?"), grabx, graby)) {
+        const tripoint grabp( grabx, graby, u.posz() );
         vehicle *veh = m.veh_at(grabx, graby);
         if (veh != NULL) { // If there's a vehicle, grab that.
             u.grab_point.x = grabx - u.posx();
             u.grab_point.y = graby - u.posy();
             u.grab_type = OBJECT_VEHICLE;
             add_msg(_("You grab the %s."), veh->name.c_str());
-        } else if (m.has_furn(grabx, graby)) { // If not, grab furniture if present
-            if (m.furn_at(grabx, graby).move_str_req < 0) {
-                add_msg(_("You can not grab the %s"), m.furnname(grabx, graby).c_str());
+        } else if (m.has_furn( grabp )) { // If not, grab furniture if present
+            if (m.furn_at( grabp ).move_str_req < 0) {
+                add_msg(_("You can not grab the %s"), m.furnname( grabp ).c_str());
                 return;
             }
             u.grab_point.x = grabx - u.posx();
             u.grab_point.y = graby - u.posy();
             u.grab_type = OBJECT_FURNITURE;
-            if (!m.can_move_furniture(grabx, graby, &u)) {
-                add_msg(_("You grab the %s. It feels really heavy."), m.furnname(grabx, graby).c_str());
+            if (!m.can_move_furniture( grabp, &u )) {
+                add_msg(_("You grab the %s. It feels really heavy."), m.furnname( grabp ).c_str());
             } else {
-                add_msg(_("You grab the %s."), m.furnname(grabx, graby).c_str());
+                add_msg(_("You grab the %s."), m.furnname( grabp ).c_str());
             }
         } else { // todo: grab mob? Captured squirrel = pet (or meat that stays fresh longer).
             add_msg(m_info, _("There's nothing to grab there!"));
