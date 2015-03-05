@@ -397,9 +397,9 @@ class musical_instrument_actor : public iuse_actor
 {
     public:
         /**
-         * Move cost to play (per turn)
+         * Speed penalty when playing the instrument
          */
-        int moves_cost;
+        int speed_penalty;
         /**
          * Volume of the music played
          */
@@ -421,7 +421,7 @@ class musical_instrument_actor : public iuse_actor
          */
         int description_frequency;
 
-        musical_instrument_actor() : iuse_actor(), moves_cost( 25 ) { }
+        musical_instrument_actor() = default;
         virtual ~musical_instrument_actor() = default;
         virtual void load( JsonObject &jo );
         virtual long use( player*, item*, bool, point ) const;

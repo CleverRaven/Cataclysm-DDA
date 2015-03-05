@@ -925,17 +925,12 @@ iuse_actor *musical_instrument_actor::clone() const
 
 void musical_instrument_actor::load( JsonObject &obj )
 {
-    moves_cost = obj.get_int( "moves_cost", 25 );
+    speed_penalty = obj.get_int( "speed_penalty", 10 );
     volume = obj.get_int( "volume" );
     fun = obj.get_int( "fun" );
     fun_bonus = obj.get_int( "fun_bonus", 0 );
     description_frequency = obj.get_int( "description_frequency" );
-
-    JsonArray jarr = obj.get_array( "descriptions" );
-    while( jarr.has_more() ) {
-        const auto desc = jarr.next_string();
-        descriptions.push_back( desc );
-    }
+    descriptions = obj.get_string_array( "descriptions" );
 }
 
 long musical_instrument_actor::use( player *p, item *it, bool t, point ) const
@@ -970,13 +965,8 @@ long musical_instrument_actor::use( player *p, item *it, bool t, point ) const
         return 0;
     }
 
-    // To prevent players from getting into a soft-lock and starving to death
-    // How often does the player get to act
-    const double actions_per_turn = 100.0 / p->get_speed();
-    // How much does it cost (per player action) to play this instrument continuously 
-    const double moves_per_action = moves_cost * actions_per_turn;
-    // If it would consume half of all moves per turn, bail out
-    if( p->get_speed() / 2.0 < moves_per_action ) {
+    // At speed this low you can't coordinate your actions well enough to play the instrument
+    if( p->get_speed() <= 25 + speed_penalty ) {
         p->add_msg_if_player( m_bad, _("You feel too weak to play your %s"), it->display_name().c_str() );
         it->active = false;
         return 0;
@@ -988,7 +978,11 @@ long musical_instrument_actor::use( player *p, item *it, bool t, point ) const
         it->active = true;
     }
 
-    p->moves -= moves_cost;
+    if( p->get_effect_int( "playing_instrument" ) <= speed_penalty ) {
+        // Only re-apply the effect if it wouldn't lower the intensity
+        p->add_effect( "playing_instrument", 2, num_bp, false, speed_penalty );
+    }
+
     std::string desc = "";
     const int morale_effect = fun + fun_bonus * p->per_cur;
     if( morale_effect >= 0 && int(calendar::turn) % description_frequency == 0 ) {

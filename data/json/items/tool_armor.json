@@ -2119,7 +2119,7 @@
         "flags" : ["VARSIZE", "SKINTIGHT"],
         "coverage" : 60,
         "material_thickness" : 3
-     },
+    },
     {
         "type" : "TOOL_ARMOR",
         "id" : "harmonica_holder",
@@ -2137,7 +2137,7 @@
         "ammo": "NULL",
         "use_action": {
             "type": "musical_instrument",
-            "moves_cost": 10,
+            "speed_penalty": 10,
             "volume": 10,
             "fun": -5,
             "fun_bonus": 2,
@@ -2163,5 +2163,5 @@
         "flags" : ["STRAPPED"],
         "coverage" : 0,
         "material_thickness" : 1
-     }
+    }
 ]
