@@ -31,6 +31,8 @@
 # Compile localization files for specified languages
 #  make LANGUAGES="<lang_id_1>[ lang_id_2][ ...]"
 #  (for example: make LANGUAGES="zh_CN zh_TW" for Chinese)
+# Enable experimental z-levels
+#  make ZLEVELS=1
 # Install to system directories.
 #  make install
 # Enable lua debug support
@@ -137,6 +139,10 @@ ifdef CLANG
     LD  = $(CROSS)clang++
   endif
   WARNINGS = -Wall -Wextra -Wno-switch -Wno-sign-compare -Wno-missing-braces -Wno-type-limits -Wno-narrowing
+endif
+
+ifdef ZLEVELS
+  DEFINES += -DZLEVELS
 endif
 
 OTHERS += --std=c++11

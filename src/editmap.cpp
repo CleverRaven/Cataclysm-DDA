@@ -1651,6 +1651,8 @@ int editmap::mapgen_preview( real_coords &tc, uimenu &gmenu )
                             // functions that would alter the results
                             submap *destsm = g->m.get_submap_at_grid(target_sub.x + x, target_sub.y + y);
                             submap *srcsm = tmpmap.get_submap_at_grid(x, y);
+                            destsm->is_uniform = false;
+                            srcsm->is_uniform = false;
 
                             for( auto & v : destsm->vehicles ) {
                                 g->m.vehicle_list.erase( v );

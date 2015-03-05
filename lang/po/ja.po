@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: cdda-ja\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-02-16 10:34+0300\n"
-"PO-Revision-Date: 2015-02-18 01:54+0000\n"
+"POT-Creation-Date: 2015-03-02 10:32+0300\n"
+"PO-Revision-Date: 2015-03-03 22:44+0000\n"
 "Last-Translator: TEATIME <teatime@r7.dion.ne.jp>\n"
 "Language-Team: Japanese <ja@li.org>\n"
 "Language: ja\n"
@@ -16,8 +16,8 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Launchpad-Export-Date: 2015-02-18 06:41+0000\n"
-"X-Generator: Launchpad (build 17341)\n"
+"X-Launchpad-Export-Date: 2015-03-04 05:58+0000\n"
+"X-Generator: Launchpad (build 17361)\n"
 
 #: lang/json/AMMO_from_json.py
 msgid ".20 DREAD Pellet"
@@ -2086,9 +2086,9 @@ msgid ""
 "energy based weapons.  The result was the standard fusion pack, capable of "
 "delivering bolts of superheated gas at near light speed with no recoil."
 msgstr ""
-"21世紀半ばには、軍部はエネルギーを基準とした武器に目を向けるようになりまし"
-"た。反動が無く、光速に近い過熱ガスの矢を生み出す事が出来る、標準的な核融合"
-"パックが結果として生まれました。"
+"21世紀半ばには、軍部はエネルギーを基準とした武器に目を向ける様になりました。"
+"反動が無く、光速に近い過熱ガスの矢を生み出す事が出来る、標準的な核融合パック"
+"が結果として生まれました。"
 
 #: lang/json/AMMO_from_json.py
 msgid ""
@@ -3313,7 +3313,7 @@ msgstr[0] "銛(金属)"
 
 #: lang/json/AMMO_from_json.py
 msgid "metal fragments"
-msgid_plural "metal fragmentss"
+msgid_plural "metal fragments"
 msgstr[0] "破片(金属)"
 
 #: lang/json/AMMO_from_json.py lang/json/ammunition_type_from_json.py
@@ -4836,11 +4836,9 @@ msgstr ""
 
 #: lang/json/ARMOR_from_json.py
 msgid ""
-"A leather quiver worn on the back that can hold 20 arrows.  Its small size "
-"won't encumber you.  Activate to store arrows."
-msgstr ""
-"20本の矢を収納できる革製の肩掛け矢筒です。小型なので邪魔になりません。矢を収"
-"納できます。"
+"A leather quiver worn on the back that can hold 20 arrows.  Activate to "
+"store arrows."
+msgstr "20本の矢を収納できる革製の肩掛け矢筒です。矢を収納できます。"
 
 #: lang/json/ARMOR_from_json.py
 msgid ""
@@ -6016,6 +6014,18 @@ msgstr ""
 
 #: lang/json/ARMOR_from_json.py
 msgid ""
+"A sturdy protective cowl extending down to the neck, fitted with a "
+"respirator and eye protection.  For dangerous scavenging ventures."
+msgstr ""
+
+#: lang/json/ARMOR_from_json.py
+msgid ""
+"A sturdy scavenger's outfit made from refitted pre-cataclysm protective "
+"gear.  It has a lot of storage space."
+msgstr ""
+
+#: lang/json/ARMOR_from_json.py
+msgid ""
 "A suit of DoubleTech Power Armor, Mk.  II-H.  This model offers several "
 "improvements over the Mk.  I, most notably the improved environmental "
 "protection.  Like all DoubleTech power armor, the control and climate-"
@@ -6631,8 +6641,8 @@ msgstr[0] "外套(FB51光学)"
 msgid ""
 "Fake golden teeth, worn over the teeth.  Fits horribly, but looks very shiny"
 msgstr ""
-"歯に被せて使う金製のアクセサリーです。素晴らしいフィット性ですが、派手すぎる"
-"ように思えます。"
+"歯に被せて使う金製のアクセサリーです。素晴らしいフィット性ですが、派手過ぎる"
+"様に思えます。"
 
 #: lang/json/ARMOR_from_json.py
 msgid ""
@@ -6640,7 +6650,7 @@ msgid ""
 "looks very shiny.  For that high class gangsta rap look."
 msgstr ""
 "歯に被せて使うダイヤモンド象嵌のアクセサリーです。素晴らしいフィット性です"
-"が、派手すぎるように思えます。一つ上のギャングスタ・ラップを貴方に。"
+"が、派手過ぎる様に思えます。一つ上のギャングスタ・ラップを貴方に。"
 
 #: lang/json/ARMOR_from_json.py
 msgid "Fancy patent leather shoes.  Not designed for running in."
@@ -9213,6 +9223,16 @@ msgid_plural "scabbards"
 msgstr[0] "鞘(大型)"
 
 #: lang/json/ARMOR_from_json.py
+msgid "scavenger cowl"
+msgid_plural "scavenger cowls"
+msgstr[0] "スカベンジャー頭巾"
+
+#: lang/json/ARMOR_from_json.py
+msgid "scavenger gear"
+msgid_plural "scavenger gears"
+msgstr[0] "スカベンジャー服"
+
+#: lang/json/ARMOR_from_json.py
 msgid "scrap suit"
 msgid_plural "scrap suits"
 msgstr[0] "スクラップスーツ"
@@ -10134,8 +10154,8 @@ msgid ""
 "comparable to a flashbang grenade, blinding nearby enemies.  Speakers "
 "integrated into your body mimic the loud sound, deafening those nearby."
 msgstr ""
-"身体中にLEDとスピーカーを組み込みます。起動すると閃光手榴弾を使ったように強烈"
-"な光で周囲の敵を盲目にし、轟音で聴覚を奪います。"
+"身体中にLEDとスピーカーを組み込みます。起動すると閃光手榴弾を使った様に強烈な"
+"光で周囲の敵を盲目にし、轟音で聴覚を奪います。"
 
 #: lang/json/BIONIC_ITEM_from_json.py lang/json/bionic_from_json.py
 msgid ""
@@ -11562,8 +11582,8 @@ msgid ""
 "variety."
 msgstr ""
 "17世紀を舞台に奴隷に落とされたアイルランド人医師と鎖で繋がれた戦友達が逃げ出"
-"して海賊となり、やがてはロビンフッドのように英雄的に活躍するまでを描いた物語"
-"です。"
+"して海賊となり、やがてはロビンフッドの様に英雄的に活躍するまでを描いた物語で"
+"す。"
 
 #: lang/json/BOOK_from_json.py
 msgid "An extensive volume that details numerous methods of trapping game."
@@ -12392,6 +12412,12 @@ msgstr ""
 
 #: lang/json/BOOK_from_json.py
 msgid ""
+"The oldest extant chronicle of Japan's myths and history, the stories "
+"contained in the Kojiki are part of the inspiration behind Shinto practices."
+msgstr ""
+
+#: lang/json/BOOK_from_json.py
+msgid ""
 "The sacred text of the Latter Day Saint movement of Christianity, originally "
 "published in 1830 by Joseph Smith."
 msgstr ""
@@ -12410,12 +12436,6 @@ msgid ""
 "The story of two young lovers whose feuding families threaten to keep them "
 "apart."
 msgstr "愛し合う2人の若い恋人が、反目し合っている親に引き離される物語です。"
-
-#: lang/json/BOOK_from_json.py
-msgid ""
-"The the oldest extant chronicle of Japan's myths and history, the stories "
-"contained in the Kojiki are part of the inspiration behind Shinto practices."
-msgstr ""
 
 #: lang/json/BOOK_from_json.py
 msgid "The world's leading resource about aquatic sports."
@@ -14066,16 +14086,16 @@ msgid ""
 "A super-concentrated mutagen strongly resembling blood.  You need a syringe "
 "to inject it...  if you really want to?"
 msgstr ""
-"濃縮された変異原物質です。血のようにも見える液体です。使用するつもりなら注射"
-"器が必要ですが…。"
+"濃縮された変異原物質です。血の様にも見える液体です。使用するつもりなら注射器"
+"が必要ですが…。"
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid ""
 "A super-concentrated mutagen strongly resembling tree sap.  You need a "
 "syringe to inject it...  if you really want to?"
 msgstr ""
-"濃縮された変異原物質です。樹液のようにも見える液体です。使用するつもりなら注"
-"射器が必要ですが…。"
+"濃縮された変異原物質です。樹液の様にも見える液体です。使用するつもりなら注射"
+"器が必要ですが…。"
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid ""
@@ -19964,7 +19984,7 @@ msgstr[0] "ビニール袋"
 #: lang/json/GENERIC_from_json.py
 msgid ""
 "10 plastic bags, folded smooth and wrapped tightly together with a string."
-msgstr "10袋のビニール袋。嵩張らないようにして紐で纏めてある。"
+msgstr "10袋のビニール袋。嵩張らない様にして紐で纏めてあります。"
 
 #: lang/json/GENERIC_from_json.py
 msgid "2-by-sword"
@@ -20126,6 +20146,10 @@ msgstr ""
 "はないですよ)。"
 
 #: lang/json/GENERIC_from_json.py
+msgid "A broken animatronic bear.  Limp and lifeless."
+msgstr "壊れた熊型ロボットです。ぐったりと倒れています。"
+
+#: lang/json/GENERIC_from_json.py
 msgid ""
 "A broken animatronic beaver.  For some reason, it is oozing with blood - "
 "it's not your blood."
@@ -20142,6 +20166,10 @@ msgstr ""
 "はないですよ)。"
 
 #: lang/json/GENERIC_from_json.py
+msgid "A broken animatronic bunny.  Limp and lifeless."
+msgstr "壊れた兎型ロボットです。ぐったりと倒れています。"
+
+#: lang/json/GENERIC_from_json.py
 msgid ""
 "A broken animatronic cat.  For some reason, it is oozing with blood - it's "
 "not your blood."
@@ -20156,6 +20184,18 @@ msgid ""
 msgstr ""
 "壊れた鶏型ロボットです。理由は不明ですが、ボディに血が滲んでいます(貴方の血で"
 "はないですよ)。"
+
+#: lang/json/GENERIC_from_json.py
+msgid "A broken animatronic chicken.  It doesn't look as attractive now."
+msgstr "壊れた鶏型ロボットです。どこから見ても可愛くはないですね。"
+
+#: lang/json/GENERIC_from_json.py
+msgid ""
+"A broken animatronic child.  For some reason, it is oozing with blood - it's "
+"not your blood."
+msgstr ""
+"壊れた子供型ロボットです。理由は不明ですが、ボディに血が滲んでいます(貴方の血"
+"ではないですよ)。"
 
 #: lang/json/GENERIC_from_json.py
 msgid ""
@@ -20191,11 +20231,20 @@ msgstr ""
 
 #: lang/json/GENERIC_from_json.py
 msgid ""
-"A broken animatronic fox.  For some reason, it is oozing with blood - it's "
-"not your blood."
+"A broken animatronic fox.  If it was in bad shape before, it's a wreck now.  "
+"For some reason, it is oozing with blood - it's not your blood."
 msgstr ""
-"壊れた狐型ロボットです。理由は不明ですが、ボディに血が滲んでいます(貴方の血で"
-"はないですよ)。"
+"壊れた狐型ロボットです。今は完全に壊れていますが...壊れる前から不細工な形状を"
+"していた様です。理由は不明ですが、ボディに血が滲んでいます(貴方の血ではないで"
+"すよ)。"
+
+#: lang/json/GENERIC_from_json.py
+msgid ""
+"A broken animatronic fox.  It seems like it's still looking at you, enraged "
+"in what you've done to her."
+msgstr ""
+"壊れた狐型ロボットです。壊された事に対する憤怒の眼差しを向けられている気がし"
+"ます。"
 
 #: lang/json/GENERIC_from_json.py
 msgid ""
@@ -20260,6 +20309,10 @@ msgid ""
 msgstr ""
 
 #: lang/json/GENERIC_from_json.py
+msgid "A broken marionette.  How creepy."
+msgstr "壊れたマリオネットです。気味が悪いですね。"
+
+#: lang/json/GENERIC_from_json.py
 msgid ""
 "A broken miner bot.  Much less threatening now that it's no longer capable "
 "of drilling anything.  Could be gutted for parts."
@@ -20303,6 +20356,14 @@ msgid ""
 "A broken tribot.  Now that its legs lie broken and immobile, the world seems "
 "a little less threatening.  Could be gutted for parts."
 msgstr ""
+
+#: lang/json/GENERIC_from_json.py
+msgid ""
+"A broken, wrecked animatronic fox.  You have no idea if it's actually dead, "
+"as it doesn't look that different from the condition you found it in."
+msgstr ""
+"滅茶苦茶に壊れた狐型ロボットです。一体どの様な方法を使ったらこんな壊れ方をす"
+"るのか、見当も付きませんね。"
 
 #: lang/json/GENERIC_from_json.py
 msgid "A bundle holding many 20 dollar bills, pretty useless now though."
@@ -21167,7 +21228,7 @@ msgstr "頑丈な超合金の薄板。驚異的な硬度と可鍛性を誇る。
 msgid ""
 "A short and sharp double edged dagger made to be gripped in the palm, with "
 "the blade protruding between the fingers."
-msgstr "短い両刃のダガー。指の間から刃が突き出るようにして握る。"
+msgstr "両刃の短いダガーです。指の間から刃が突き出る様にして握ります。"
 
 #: lang/json/GENERIC_from_json.py
 msgid "A short dart from a fungal fighter.  Makes an average melee weapon."
@@ -21195,8 +21256,8 @@ msgstr "先端を尖らせてある木の棒。"
 
 #: lang/json/GENERIC_from_json.py
 msgid ""
-"A single sheet of newspaper broadsheet. It is possibly one of the last "
-"issues printed before New England was overwhelmed. Most of the information "
+"A single sheet of newspaper broadsheet.  It is possibly one of the last "
+"issues printed before New England was overwhelmed.  Most of the information "
 "on there is terribly trivial, or out of date, but one thing catches your eye "
 "briefly."
 msgstr ""
@@ -21206,8 +21267,8 @@ msgstr ""
 
 #: lang/json/GENERIC_from_json.py
 msgid ""
-"A single sheet of newspaper broadsheet. It seems to date from a few years "
-"ago--amazing it has lasted this long. Most of the information on there is "
+"A single sheet of newspaper broadsheet.  It seems to date from a few years "
+"ago--amazing it has lasted this long.  Most of the information on there is "
 "terribly trivial, or out of date, but one thing catches your eye briefly."
 msgstr ""
 "1枚刷の新聞紙です。数年前の記事の様で、この話題について長文で書かれています。"
@@ -21216,8 +21277,8 @@ msgstr ""
 
 #: lang/json/GENERIC_from_json.py
 msgid ""
-"A single sheet of newspaper broadsheet. It seems to date from several years "
-"ago, and you've NO idea how it lasted this long. Most of the information on "
+"A single sheet of newspaper broadsheet.  It seems to date from several years "
+"ago, and you've NO idea how it lasted this long.  Most of the information on "
 "there is terribly trivial, or out of date, but one thing catches your eye "
 "briefly."
 msgstr ""
@@ -21227,9 +21288,9 @@ msgstr ""
 
 #: lang/json/GENERIC_from_json.py
 msgid ""
-"A single sheet of newspaper broadsheet. It was printed in the months leading "
-"up to the Cataclysm. Most of the information on there is terribly trivial, "
-"or out of date, but one thing catches your eye briefly."
+"A single sheet of newspaper broadsheet.  It was printed in the months "
+"leading up to the Cataclysm.  Most of the information on there is terribly "
+"trivial, or out of date, but one thing catches your eye briefly."
 msgstr ""
 "1枚刷の新聞紙です。日付を見ると大変動の数ヶ月前に印刷された物の様です。記事の"
 "大部分は取るに足らない上に、古い情報ばかりです。しかし、ある記事の1文が貴方の"
@@ -21237,8 +21298,8 @@ msgstr ""
 
 #: lang/json/GENERIC_from_json.py
 msgid ""
-"A single sheet of newspaper broadsheet. It was printed in the weeks leading "
-"up to the Cataclysm. Most of the information on there is terribly trivial, "
+"A single sheet of newspaper broadsheet.  It was printed in the weeks leading "
+"up to the Cataclysm.  Most of the information on there is terribly trivial, "
 "or out of date, but one thing catches your eye briefly."
 msgstr ""
 "1枚刷の新聞紙です。日付を見ると大変動の数週間前に印刷された物の様です。記事の"
@@ -21247,9 +21308,9 @@ msgstr ""
 
 #: lang/json/GENERIC_from_json.py
 msgid ""
-"A single sheet of newspaper broadsheet. It was printed more than a year ago. "
-"Most of the information on there is terribly trivial, or out of date, but "
-"one thing catches your eye briefly."
+"A single sheet of newspaper broadsheet.  It was printed more than a year "
+"ago.  Most of the information on there is terribly trivial, or out of date, "
+"but one thing catches your eye briefly."
 msgstr ""
 "1枚刷の新聞紙です。日付を見ると1年以上前に印刷された物の様です。記事の大部分"
 "は取るに足らない上に、古い情報ばかりです。しかし、ある記事の1文が貴方の目を引"
@@ -21663,6 +21724,14 @@ msgid ""
 "to, it's always good to get an early start to your day.  Can also be "
 "disassembled into some useful parts."
 msgstr "ねじ巻き式の目覚まし時計です。解体する事が可能です。"
+
+#: lang/json/GENERIC_from_json.py
+msgid ""
+"A wooden spear with a decent grip and a three-pronged trident-like tip.  "
+"Heavy, but good for catching weapons."
+msgstr ""
+"先端が三又状になった木製の重い槍です。柄は握り易くなっています。武器を絡め取"
+"るのに適しています。"
 
 #: lang/json/GENERIC_from_json.py
 msgid ""
@@ -22153,7 +22222,7 @@ msgstr ""
 
 #: lang/json/GENERIC_from_json.py
 msgid "Short and sharp claws made from a high-tech metal."
-msgstr "先端技術で生成した金属から作った短くて鋭い鉤爪。"
+msgstr "短くて鋭い鉤爪です。先端技術で生成した金属から作られています。"
 
 #: lang/json/GENERIC_from_json.py
 msgid ""
@@ -22805,19 +22874,9 @@ msgid_plural "broken animatronic bats"
 msgstr[0] "壊れた蝙蝠型ロボット"
 
 #: lang/json/GENERIC_from_json.py
-msgid "broken animatronic bear"
-msgid_plural "broken animatronic bears"
-msgstr[0] "壊れた熊型ロボット"
-
-#: lang/json/GENERIC_from_json.py
 msgid "broken animatronic beaver"
 msgid_plural "broken animatronic beavers"
 msgstr[0] "壊れたビーバー型ロボット"
-
-#: lang/json/GENERIC_from_json.py
-msgid "broken animatronic bunny"
-msgid_plural "broken animatronic bunnies"
-msgstr[0] "壊れた兎型ロボット"
 
 #: lang/json/GENERIC_from_json.py
 msgid "broken animatronic cat"
@@ -22825,9 +22884,9 @@ msgid_plural "broken animatronic cats"
 msgstr[0] "壊れた猫型ロボット"
 
 #: lang/json/GENERIC_from_json.py
-msgid "broken animatronic chicken"
-msgid_plural "broken animatronic chickens"
-msgstr[0] "壊れた鶏型ロボット"
+msgid "broken animatronic child"
+msgid_plural "broken animatronic children"
+msgstr[0] "壊れた子供型ロボット"
 
 #: lang/json/GENERIC_from_json.py
 msgid "broken animatronic chipmunk"
@@ -22848,11 +22907,6 @@ msgstr[0] "壊れたコヨーテ型ロボット"
 msgid "broken animatronic deer"
 msgid_plural "broken animatronic deer"
 msgstr[0] "壊れた鹿型ロボット"
-
-#: lang/json/GENERIC_from_json.py
-msgid "broken animatronic fox"
-msgid_plural "broken animatronic foxes"
-msgstr[0] "壊れた狐型ロボット"
 
 #: lang/json/GENERIC_from_json.py
 msgid "broken animatronic horse"
@@ -22880,6 +22934,11 @@ msgid_plural "broken animatronic wolves"
 msgstr[0] "壊れた狼型ロボット"
 
 #: lang/json/GENERIC_from_json.py
+msgid "broken animatronic wreck"
+msgid_plural "broken animatronic wrecks"
+msgstr[0] "壊れた狐型ロボット(破損)"
+
+#: lang/json/GENERIC_from_json.py
 msgid "broken eyebot"
 msgid_plural "broken eyebots"
 msgstr[0] "壊れた監視ロボット"
@@ -22890,9 +22949,29 @@ msgid_plural "broken manhacks"
 msgstr[0] "壊れたマンハック"
 
 #: lang/json/GENERIC_from_json.py
+msgid "broken marionette"
+msgid_plural "broken marionettes"
+msgstr[0] "壊れたマリオネット"
+
+#: lang/json/GENERIC_from_json.py
 msgid "broken miner bot"
 msgid_plural "broken miner bots"
 msgstr[0] "壊れた採掘ロボット"
+
+#: lang/json/GENERIC_from_json.py
+msgid "broken new animatronic bear"
+msgid_plural "broken new animatronic bears"
+msgstr[0] "壊れた熊型ロボット(新品)"
+
+#: lang/json/GENERIC_from_json.py
+msgid "broken new animatronic bunny"
+msgid_plural "broken new animatronic bunnies"
+msgstr[0] "壊れた兎型ロボット(新品)"
+
+#: lang/json/GENERIC_from_json.py
+msgid "broken new animatronic fox"
+msgid_plural "broken new animatronic foxes"
+msgstr[0] "壊れた狐型ロボット"
 
 #: lang/json/GENERIC_from_json.py
 msgid "broken police bot"
@@ -23275,6 +23354,11 @@ msgid_plural "forks"
 msgstr[0] "フォーク"
 
 #: lang/json/GENERIC_from_json.py
+msgid "forked spear"
+msgid_plural "forked spears"
+msgstr[0] "フォークスピア"
+
+#: lang/json/GENERIC_from_json.py
 msgid "frying pan"
 msgid_plural "frying pans"
 msgstr[0] "フライパン"
@@ -23613,6 +23697,26 @@ msgstr[0] "メモ"
 msgid "oars"
 msgid_plural "oars"
 msgstr[0] "櫂"
+
+#: lang/json/GENERIC_from_json.py
+msgid "old broken animatronic bear"
+msgid_plural "old broken animatronic bears"
+msgstr[0] "壊れた熊型ロボット(中古)"
+
+#: lang/json/GENERIC_from_json.py
+msgid "old broken animatronic bunny"
+msgid_plural "old broken animatronic bunnies"
+msgstr[0] "壊れた兎型ロボット(中古)"
+
+#: lang/json/GENERIC_from_json.py
+msgid "old broken animatronic chicken"
+msgid_plural "old broken animatronic chickens"
+msgstr[0] "壊れた鶏型ロボット(中古)"
+
+#: lang/json/GENERIC_from_json.py
+msgid "old broken animatronic fox"
+msgid_plural "old broken animatronic foxes"
+msgstr[0] "壊れた狐型ロボット(中古)"
 
 #: lang/json/GENERIC_from_json.py lang/json/vehicle_part_from_json.py
 msgid "onboard chemistry lab"
@@ -24564,6 +24668,7 @@ msgid ""
 "A set of finely tuned internal components which increase the precision and "
 "reliably of a firearm."
 msgstr ""
+"銃火器用の微調整された内部部品セットです。銃火器の精度と信頼性が増加します。"
 
 #: lang/json/GUNMOD_from_json.py
 msgid ""
@@ -24664,7 +24769,7 @@ msgstr ""
 msgid ""
 "An add on stock for handguns, improves recoil and accuracy.  Aside from "
 "increased weight, there are no drawbacks."
-msgstr "拳銃用の銃床です。反動を抑え、命中精度が増します。"
+msgstr "拳銃用の銃床です。反動を抑え、命中精度が増加します。"
 
 #: lang/json/GUNMOD_from_json.py
 msgid ""
@@ -24877,8 +24982,7 @@ msgstr[0] "銃床(可変式)"
 #: lang/json/GUNMOD_from_json.py
 msgid "arrow rest"
 msgid_plural "arrow rests"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "アローレスト"
 
 #: lang/json/GUNMOD_from_json.py
 msgid "auto-fire mechanism"
@@ -24973,8 +25077,7 @@ msgstr[0] "ジャイロ安定器"
 #: lang/json/GUNMOD_from_json.py
 msgid "handmade auto-fire mechanism"
 msgid_plural "handmade auto-fire mechanisms"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "手製自動発射機構"
 
 #: lang/json/GUNMOD_from_json.py
 msgid "holographic sight"
@@ -25004,8 +25107,7 @@ msgstr[0] "マッチトリガー"
 #: lang/json/GUNMOD_from_json.py
 msgid "muzzle brake"
 msgid_plural "muzzle brakes"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "銃口制退器"
 
 #: lang/json/GUNMOD_from_json.py
 msgid "pistol bayonet"
@@ -25101,8 +25203,7 @@ msgstr[0] "銃剣(剣)"
 #: lang/json/GUNMOD_from_json.py
 msgid "tuned mechanism"
 msgid_plural "tuned mechanisms"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "銃器調整機構"
 
 #: lang/json/GUNMOD_from_json.py
 msgid "underbarrel laser sight"
@@ -25122,8 +25223,7 @@ msgstr[0] "ライフル(50口径/騎兵銃)"
 #: lang/json/GUN_from_json.py
 msgid "12 gauge pistol"
 msgid_plural "12 gauge pistols"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "ハンドガン(12ゲージハンドガン)"
 
 #: lang/json/GUN_from_json.py
 msgid "2 Shot Special"
@@ -25267,8 +25367,7 @@ msgid ""
 "A favorite of hooligans around the world, this lighter duct-taped to a spray "
 "can is probably as dangerous to the user as anyone else.  The nozzle has "
 "been crudely modified to disperse gasoline, and a small pump attached to the "
-"side allows for repressurization, though this process takes takes a few "
-"minutes."
+"side allows for repressurization, though this process takes a few minutes."
 msgstr ""
 
 #: lang/json/GUN_from_json.py
@@ -25710,7 +25809,7 @@ msgstr ""
 msgid ""
 "A stainless steel, six-shot, double-action revolver with a matte black "
 "plastic handle manufactured by Smith & Wesson.  Though hardly the most "
-"powwerful handgun in the world any more, it could still blow a zombie's head "
+"powerful handgun in the world any more, it could still blow a zombie's head "
 "clean off."
 msgstr ""
 
@@ -25907,7 +26006,7 @@ msgstr ""
 
 #: lang/json/GUN_from_json.py
 msgid "Automated Machine Gun Turret"
-msgid_plural "Machine Gun Turrets"
+msgid_plural "Automated Machine Gun Turrets"
 msgstr[0] "タレット(マシンガン/自動)"
 
 #: lang/json/GUN_from_json.py
@@ -26019,7 +26118,7 @@ msgstr[0] "チェインライトニング"
 
 #: lang/json/GUN_from_json.py
 msgid ""
-"Civilian version of the SVS-24. It has a modified reciever and a new crudely "
+"Civilian version of the SVS-24. It has a modified receiver and a new crudely "
 "crafted full-auto bolt carrier. Don't expect the original reliability."
 msgstr ""
 
@@ -26141,9 +26240,9 @@ msgid "Dragon Turret"
 msgid_plural "Dragon Turrets"
 msgstr[0] "タレット(火炎放射器(RM451))"
 
-#: lang/json/GUN_from_json.py lang/json/vehicle_part_from_json.py
+#: lang/json/GUN_from_json.py
 msgid "Dual Nail Turret"
-msgid_plural "Nail Turrets"
+msgid_plural "Dual Nail Turrets"
 msgstr[0] "タレット(2連装釘打)"
 
 #: lang/json/GUN_from_json.py
@@ -26228,7 +26327,7 @@ msgstr[0] "装着式グレネードランチャー"
 
 #: lang/json/GUN_from_json.py
 msgid "H&K 416A5"
-msgid_plural "H&K"
+msgid_plural "H&K 416A5s"
 msgstr[0] ""
 msgstr[1] ""
 
@@ -26685,7 +26784,7 @@ msgid "Pulse Laser"
 msgid_plural "Pulse Lasers"
 msgstr[0] "タレット(パルスレーザー)"
 
-#: lang/json/GUN_from_json.py lang/json/vehicle_part_from_json.py
+#: lang/json/GUN_from_json.py
 msgid "Quad Nail Turret"
 msgid_plural "Quad Nail Turrets"
 msgstr[0] "タレット(4連装釘打)"
@@ -26891,7 +26990,7 @@ msgstr ""
 "ロングボウより短く威力はない。この弓は容易に引け、平均的な射手ならば効果的に"
 "使用する事が出来ます。放たれた矢は消滅しなければ再利用が可能です。"
 
-#: lang/json/GUN_from_json.py lang/json/vehicle_part_from_json.py
+#: lang/json/GUN_from_json.py
 msgid "Slingshot Cannon"
 msgid_plural "Slingshot Cannons"
 msgstr[0] "大砲(スリングショット)"
@@ -27439,7 +27538,7 @@ msgstr[0] "ハンドガン(32口径/ワルサーPPK)"
 #: lang/json/GUN_from_json.py
 msgid "Weatherby Mark V"
 msgid_plural "Weatherby Mark V"
-msgstr[0] "ライフル(30口径/ウィンチェスターマークV)"
+msgstr[0] "ライフル(30口径/ウェザビーマークV)"
 
 #: lang/json/GUN_from_json.py
 msgid "Winchester Model 70"
@@ -27479,7 +27578,7 @@ msgstr[0] "ラッパ銃"
 
 #: lang/json/GUN_from_json.py
 msgid "bore"
-msgstr ""
+msgstr "口径"
 
 #: lang/json/GUN_from_json.py
 msgid "brace slingshot"
@@ -27597,8 +27696,7 @@ msgstr[0] "ガンズリュストゥング"
 #: lang/json/GUN_from_json.py
 msgid "heavy rail rifle"
 msgid_plural "heavy rail rifles"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "ライフル(レール/重レールライフル)"
 
 #: lang/json/GUN_from_json.py
 msgid "homemade hand cannon"
@@ -27831,10 +27929,12 @@ msgid "VEHICLE PARTS"
 msgstr "車両部品"
 
 #: lang/json/MOD_INFO_from_json.py
-msgid "Adds a chain of pizzerias that have a chance to spawn animatronics."
+msgid ""
+"Adds a chain of bankrupt pizzerias, with still functioning animatronics "
+"inside."
 msgstr ""
-"動物型ロボットを起動する機会を伺っているピザ屋を追加します。訳者注:元ネタは"
-"Five Nights at Freddy's"
+"経営破綻したピザ屋を追加します。店内には徘徊する動物型ロボットが放置されてい"
+"ます。訳者注:元ネタはFive Nights at Freddy's"
 
 #: lang/json/MOD_INFO_from_json.py
 msgid ""
@@ -28051,10 +28151,16 @@ msgstr ""
 #: lang/json/MONSTER_from_json.py
 msgid ""
 "A bipedal animatronic bear, nearly twice your size.  It's holding a "
-"microphone.  Though it is a robot, it stinks like death."
+"microphone, and wearing a top hat.  Its outer layer is made of reinforced "
+"plastic.  It looks to be high tech, and in good shape."
 msgstr ""
-"人間の2倍程の大きさの熊型二足歩行ロボットです。マイクを握り締めています。この"
-"ロボットからは何故か死臭が漂っています。"
+
+#: lang/json/MONSTER_from_json.py
+msgid ""
+"A bipedal animatronic bear, nearly twice your size.  It's holding a "
+"microphone, and wearing a top hat.  Though it is a robot, it stinks like "
+"death.  It looks heavily worn and degraded."
+msgstr ""
 
 #: lang/json/MONSTER_from_json.py
 msgid ""
@@ -28067,12 +28173,17 @@ msgstr ""
 
 #: lang/json/MONSTER_from_json.py
 msgid ""
-"A bipedal animatronic bunny, nearly twice your size.  Its eyes are lit, but "
-"they still look deep and soulless.  Though it is a robot, it stinks like "
-"death."
+"A bipedal animatronic bunny, nearly twice your size.  Its actually quite "
+"cute, even though it's trying to kill you.  Its outer layer is made of "
+"reinforced plastic.  It looks to be high tech, and in good shape."
 msgstr ""
-"人間の2倍程の大きさの兎型二足歩行ロボットです。目が光っていますが、魂は宿って"
-"いない様です。このロボットからは何故か死臭が漂っています。"
+
+#: lang/json/MONSTER_from_json.py
+msgid ""
+"A bipedal animatronic bunny, nearly twice your size.  Its face has been torn "
+"clear off, though the sockets for it's eyes still exist.  It looks heavily "
+"worn and degraded."
+msgstr ""
 
 #: lang/json/MONSTER_from_json.py
 msgid ""
@@ -28089,6 +28200,14 @@ msgid ""
 msgstr ""
 "人間の2倍程の大きさの鶏型二足歩行ロボットです。「さぁ、食べよう！」という前掛"
 "けを付けています。このロボットからは何故か死臭が漂っています。"
+
+#: lang/json/MONSTER_from_json.py
+msgid ""
+"A bipedal animatronic chicken, nearly twice your size.  It's wearing a bib "
+"that reads 'Let's Party!'.  She oddly has a curvaceous figure.  Its outer "
+"layer is made of reinforced plastic.  It looks to be high tech, and in good "
+"shape."
+msgstr ""
 
 #: lang/json/MONSTER_from_json.py
 msgid ""
@@ -28120,10 +28239,16 @@ msgstr ""
 #: lang/json/MONSTER_from_json.py
 msgid ""
 "A bipedal animatronic fox, nearly twice your size.  Its teeth and claws look "
-"quite sharp.  Though it is a robot, it stinks like death."
+"quite sharp.  Its outer layer is made of reinforced plastic.  It looks to be "
+"high tech, and in good shape."
 msgstr ""
-"人間の2倍程の大きさの狐型二足歩行ロボットです。歯と爪が鋭く光って見えます。こ"
-"のロボットからは何故か死臭が漂っています。"
+
+#: lang/json/MONSTER_from_json.py
+msgid ""
+"A bipedal animatronic fox, nearly twice your size.  Its teeth and claws look "
+"quite sharp.  Its right hand is replaced with a hook.  It looks heavily worn "
+"and degraded."
+msgstr ""
 
 #: lang/json/MONSTER_from_json.py
 msgid ""
@@ -28610,6 +28735,13 @@ msgstr ""
 "が、その姿形は刻々と変化し続けています。"
 
 #: lang/json/MONSTER_from_json.py
+msgid ""
+"A marionette able to move itself around.  There are no strings on him "
+"however."
+msgstr ""
+"自力で動く事の出来るマリオネットです。マリオネットの上に操り糸はありません。"
+
+#: lang/json/MONSTER_from_json.py
 msgid "A mass of spores the size of a balled fist, wafting around in the air."
 msgstr ""
 
@@ -29033,6 +29165,13 @@ msgstr ""
 
 #: lang/json/MONSTER_from_json.py
 msgid ""
+"A wrecked animatronic fox, laying in a pile on the ground.  Its teeth and "
+"claws still look quite sharp.  It's able to crawl around and climb on the "
+"ceiling."
+msgstr ""
+
+#: lang/json/MONSTER_from_json.py
+msgid ""
 "A zombified omnivore descended from the wild boar.  Now it's got black goo "
 "all over it, instead of mud."
 msgstr ""
@@ -29094,6 +29233,12 @@ msgid ""
 "An animated mass of roots and vines, creeping along the ground with alarming "
 "speed.  The tangle is thick enough that the center from which they grow is "
 "concealed."
+msgstr ""
+
+#: lang/json/MONSTER_from_json.py
+msgid ""
+"An animatronic child.  It looks like it's annoying as hell.  Though it is a "
+"robot, it stinks like death."
 msgstr ""
 
 #: lang/json/MONSTER_from_json.py
@@ -29864,19 +30009,9 @@ msgid_plural "animatronic bats"
 msgstr[0] "蝙蝠型ロボット"
 
 #: lang/json/MONSTER_from_json.py
-msgid "animatronic bear"
-msgid_plural "animatronic bears"
-msgstr[0] "熊型ロボット"
-
-#: lang/json/MONSTER_from_json.py
 msgid "animatronic beaver"
 msgid_plural "animatronic beavers"
 msgstr[0] "ビーバー型ロボット"
-
-#: lang/json/MONSTER_from_json.py
-msgid "animatronic bunny"
-msgid_plural "animatronic bunnies"
-msgstr[0] "兎型ロボット"
 
 #: lang/json/MONSTER_from_json.py
 msgid "animatronic cat"
@@ -29884,9 +30019,9 @@ msgid_plural "animatronic cats"
 msgstr[0] "猫型ロボット"
 
 #: lang/json/MONSTER_from_json.py
-msgid "animatronic chicken"
-msgid_plural "animatronic chickens"
-msgstr[0] "鶏型ロボット"
+msgid "animatronic child"
+msgid_plural "animatronic childs"
+msgstr[0] "子供型ロボット"
 
 #: lang/json/MONSTER_from_json.py
 msgid "animatronic chipmunk"
@@ -29905,13 +30040,8 @@ msgstr[0] "コヨーテ型ロボット"
 
 #: lang/json/MONSTER_from_json.py
 msgid "animatronic deer"
-msgid_plural "animatronic deer"
+msgid_plural "animatronic deers"
 msgstr[0] "鹿型ロボット"
-
-#: lang/json/MONSTER_from_json.py
-msgid "animatronic fox"
-msgid_plural "animatronic foxes"
-msgstr[0] "狐型ロボット"
 
 #: lang/json/MONSTER_from_json.py
 msgid "animatronic horse"
@@ -29935,7 +30065,7 @@ msgstr[0] "リス型ロボット"
 
 #: lang/json/MONSTER_from_json.py
 msgid "animatronic wolf"
-msgid_plural "animatronic wolves"
+msgid_plural "animatronic wolfs"
 msgstr[0] "狼型ロボット"
 
 #: lang/json/MONSTER_from_json.py
@@ -30534,6 +30664,11 @@ msgid_plural "manhacks"
 msgstr[0] "マンハック"
 
 #: lang/json/MONSTER_from_json.py
+msgid "marionette"
+msgid_plural "marionettes"
+msgstr[0] "マリオネット"
+
+#: lang/json/MONSTER_from_json.py
 msgid "mi-go"
 msgid_plural "mi-gos"
 msgstr[0] "ミ＝ゴ"
@@ -30574,6 +30709,46 @@ msgid_plural "muskrats"
 msgstr[0] "マスクラット"
 
 #: lang/json/MONSTER_from_json.py
+msgid "new animatronic bear"
+msgid_plural "new animatronic bears"
+msgstr[0] "熊型ロボット(新品)"
+
+#: lang/json/MONSTER_from_json.py
+msgid "new animatronic bunny"
+msgid_plural "new animatronic bunnys"
+msgstr[0] "兎型ロボット(新品)"
+
+#: lang/json/MONSTER_from_json.py
+msgid "new animatronic chicken"
+msgid_plural "new animatronic chickens"
+msgstr[0] "鶏型ロボット(新品)"
+
+#: lang/json/MONSTER_from_json.py
+msgid "new animatronic fox"
+msgid_plural "new animatronic foxs"
+msgstr[0] "狐型ロボット(新品)"
+
+#: lang/json/MONSTER_from_json.py
+msgid "old animatronic bear"
+msgid_plural "old animatronic bears"
+msgstr[0] "熊型ロボット(中古)"
+
+#: lang/json/MONSTER_from_json.py
+msgid "old animatronic bunny"
+msgid_plural "old animatronic bunnys"
+msgstr[0] "兎型ロボット(中古)"
+
+#: lang/json/MONSTER_from_json.py
+msgid "old animatronic chicken"
+msgid_plural "old animatronic chickens"
+msgstr[0] "鶏型ロボット(中古)"
+
+#: lang/json/MONSTER_from_json.py
+msgid "old animatronic fox"
+msgid_plural "old animatronic foxs"
+msgstr[0] "狐型ロボット(中古)"
+
+#: lang/json/MONSTER_from_json.py
 msgid "opossum"
 msgid_plural "opossums"
 msgstr[0] "オポッサム"
@@ -30590,7 +30765,7 @@ msgstr[0] "パーチ"
 
 #: lang/json/MONSTER_from_json.py
 msgid "pickerel"
-msgid_plural "whitefish"
+msgid_plural "pickerel"
 msgstr[0] "ピカーレル"
 
 #: lang/json/MONSTER_from_json.py
@@ -30902,6 +31077,11 @@ msgstr[0] "毒蜘蛛"
 msgid "wraith"
 msgid_plural "wraiths"
 msgstr[0] "レイス"
+
+#: lang/json/MONSTER_from_json.py
+msgid "wrecked animatronic fox"
+msgid_plural "wrecked animatronic foxs"
+msgstr[0] "狐型ロボット(破損)"
 
 #: lang/json/MONSTER_from_json.py
 msgid "your mother"
@@ -32092,6 +32272,12 @@ msgstr ""
 
 #: lang/json/TOOL_from_json.py
 msgid ""
+"An electric polisher used to polish metal surfaces capable of making them "
+"reflect light as a mirror would"
+msgstr ""
+
+#: lang/json/TOOL_from_json.py
+msgid ""
 "An iconic pocket knife imported from Europe.  Its red plastic handle "
 "conceals many small tools."
 msgstr ""
@@ -32405,7 +32591,7 @@ msgstr "ランプは空です。"
 
 #: lang/json/TOOL_from_json.py
 msgid "The lantern has no batteries."
-msgstr ""
+msgstr "ランタンの電池が切れています。"
 
 #: lang/json/TOOL_from_json.py
 msgid "The lantern is extinguished."
@@ -32607,7 +32793,7 @@ msgid ""
 "the end of a stick."
 msgstr ""
 "戦闘用に改造された農具です。刃の角度や持ち手のグリップ性など様々な調整によっ"
-"て草だけでなくゾンビも刈り倒せるようになりました。"
+"て草だけでなくゾンビも刈り倒せる様になりました。"
 
 #: lang/json/TOOL_from_json.py
 msgid ""
@@ -32796,7 +32982,7 @@ msgstr ""
 msgid ""
 "This is a combination of two Dark Age conflict-resolution classics, the "
 "broadsword and the torch.  The blade is glowing with heat.  Excalibur can "
-"eat it's heart out.  Use to shut it off."
+"eat its heart out.  Use to shut it off."
 msgstr "ブロードソードと松明を組み合わせた暗黒時代を切り開く逸品です。"
 
 #: lang/json/TOOL_from_json.py
@@ -33106,10 +33292,10 @@ msgstr ""
 
 #: lang/json/TOOL_from_json.py
 msgid ""
-"This is a katana with a nozzle just behind the the cutting edge of the "
-"blade.  People love fire, and people love katanas, so why not put them "
-"together? The gas burners attached to this blade can really turn up the heat "
-"on your foes.  Use to ignite."
+"This is a katana with a nozzle just behind the cutting edge of the blade.  "
+"People love fire, and people love katanas, so why not put them together? The "
+"gas burners attached to this blade can really turn up the heat on your "
+"foes.  Use to ignite."
 msgstr ""
 
 #: lang/json/TOOL_from_json.py
@@ -34145,8 +34331,8 @@ msgid ""
 "be a giant blade on the end of a stick, it is incredibly awkward to use for "
 "anything but its intended purpose."
 msgstr ""
-"伸びた草や芝を刈り取るための農具です。長い棒に巨大な刃が付いている形状は一見"
-"強力な武器のように見えますが、実際のところ尋常ではない使いづらさです。"
+"伸びた草や芝を刈り取る為の農具です。長い棒に巨大な刃が付いている形状は一見強"
+"力な武器の様に見えますが、実際は尋常ではない使い辛さです。"
 
 #: lang/json/TOOL_from_json.py
 msgid ""
@@ -34154,8 +34340,8 @@ msgid ""
 "be a massive curved blade on a handle, it is incredibly awkward to use for "
 "anything but its intended purpose."
 msgstr ""
-"伸びた草や芝を刈り取るための農具です。持ち手に湾曲した刃が付いている形状は一"
-"見強力な武器のように見えますが、実際のところ尋常ではない使いづらさです。"
+"伸びた草や芝を刈り取る為の農具です。持ち手に湾曲した刃が付いている形状は一見"
+"強力な武器の様に見えますが、実際は尋常ではない使い辛さです。"
 
 #: lang/json/TOOL_from_json.py
 msgid ""
@@ -34831,7 +35017,7 @@ msgstr[0] "カメラ"
 #: lang/json/TOOL_from_json.py
 msgid "camera pro"
 msgid_plural "camera pros"
-msgstr[0] "プロ用カメラ"
+msgstr[0] "高性能カメラ"
 
 #: lang/json/TOOL_from_json.py
 msgid "camp fire drill"
@@ -34936,7 +35122,7 @@ msgstr[0] "コンバットナイフ"
 #: lang/json/TOOL_from_json.py
 msgid "compressed air horn"
 msgid_plural "compressed air horns"
-msgstr[0] "クラクション(圧縮空気式)"
+msgstr[0] "空気笛(圧縮空気式)"
 
 #: lang/json/TOOL_from_json.py
 msgid "concrete mixer"
@@ -35129,8 +35315,13 @@ msgid_plural "electric lanterns (on)"
 msgstr[0] "電動式ランタン(オン)"
 
 #: lang/json/TOOL_from_json.py
+msgid "electric polisher"
+msgid_plural "electric polishers"
+msgstr[0] "電動ポリッシャー"
+
+#: lang/json/TOOL_from_json.py
 msgid "electronic handcuffs"
-msgid_plural "electronic handcuffss"
+msgid_plural "electronic handcuffs"
 msgstr[0] "電子手錠"
 
 #: lang/json/TOOL_from_json.py
@@ -36792,7 +36983,7 @@ msgstr "鼻呼吸困難"
 
 #: lang/json/bionic_from_json.py
 msgid "Bionic Short Circuit"
-msgstr ""
+msgstr "短絡"
 
 #: lang/json/bionic_from_json.py
 msgid "Bionic Visual Impairment"
@@ -38792,11 +38983,11 @@ msgstr ""
 
 #: lang/json/effects_from_json.py
 msgid "Mycus Respite"
-msgstr ""
+msgstr "ミカズ(小康)"
 
 #: lang/json/effects_from_json.py
 msgid "Mycus Wrath"
-msgstr ""
+msgstr "ミカズ(憤怒)"
 
 #: lang/json/effects_from_json.py src/bionics.cpp
 msgid "Nicotine"
@@ -38949,7 +39140,7 @@ msgstr "胞子まみれ(小)"
 
 #: lang/json/effects_from_json.py
 msgid "Stem cell treatment"
-msgstr ""
+msgstr "幹細胞治療"
 
 #: lang/json/effects_from_json.py
 msgid ""
@@ -39011,7 +39202,7 @@ msgstr "アドレナリンの爆発が収まりました。酷い気分だ！"
 
 #: lang/json/effects_from_json.py
 msgid "The sap's too sticky for you to fight effectively."
-msgstr ""
+msgstr "樹液の粘着力が強過ぎて、効率的な戦いが出来ない状態です。"
 
 #: lang/json/effects_from_json.py
 msgid "The slackness leaves your muscles."
@@ -39271,6 +39462,8 @@ msgstr ""
 msgid ""
 "You stop to scratch yourself frequently; high INT helps you resist the urge."
 msgstr ""
+"頻繁に自身を掻き毟る為に動きを止めています; 知力が高いと衝動を抑え易くなりま"
+"す。"
 
 #: lang/json/effects_from_json.py
 msgid "You tremble"
@@ -39337,7 +39530,7 @@ msgstr "気絶しました！"
 
 #: lang/json/effects_from_json.py
 msgid "You're too stuffed up to fight effectively."
-msgstr ""
+msgstr "鼻が詰まって、効率的な戦いが出来ない状態です。"
 
 #: lang/json/effects_from_json.py
 msgid "You're winded."
@@ -39352,6 +39545,56 @@ msgid "You've inhaled a lungful of thick smoke."
 msgstr "濃い煙を肺一杯に吸い込みました。"
 
 #: lang/json/effects_from_json.py
+#, no-python-format
+msgid "Your %s feels warm."
+msgstr "%sが熱気を帯びています。"
+
+#: lang/json/effects_from_json.py
+#, no-python-format
+msgid "Your %s is blistering from the intense heat."
+msgstr "%sが高熱で水疱を形成し出しました。"
+
+#: lang/json/effects_from_json.py
+#, no-python-format
+msgid "Your %s is dangerously cold!"
+msgstr "%sが強烈な冷気に晒されています！"
+
+#: lang/json/effects_from_json.py
+#, no-python-format
+msgid "Your %s is exposed to the cold."
+msgstr "%sが冷気に晒されています。"
+
+#: lang/json/effects_from_json.py
+#, no-python-format
+msgid "Your %s is frostbitten! Its tissues are frozen from the cold!"
+msgstr "%sが凍傷になりました！細胞組織が凍り出しています！"
+
+#: lang/json/effects_from_json.py
+#, no-python-format
+msgid "Your %s is frostnipped and has gone numb."
+msgstr "%sが霜焼けになり、痺れてきました。"
+
+#: lang/json/effects_from_json.py
+#, no-python-format
+msgid "Your %s is starting to feel the damage cold has wrought."
+msgstr "%sが寒さによって、ダメージを受け始めています。"
+
+#: lang/json/effects_from_json.py
+#, no-python-format
+msgid "Your %s is sweating from the heat."
+msgstr "%sが強い熱気を帯びて、発汗しています。"
+
+#: lang/json/effects_from_json.py
+#, no-python-format
+msgid "Your %s is sweating profusely!"
+msgstr "%sが強烈な熱気を帯びて、発汗しています！"
+
+#: lang/json/effects_from_json.py
+#, no-python-format
+msgid "Your %s is very exposed to the cold."
+msgstr "%sが強い冷気に晒されています。"
+
+#: lang/json/effects_from_json.py
 msgid "Your adrenaline rush wears off.  You feel AWFUL!"
 msgstr "アドレナリンの爆発が収まりました。酷い気分だ！"
 
@@ -39361,7 +39604,7 @@ msgstr "咬傷から感染したような気がしました。"
 
 #: lang/json/effects_from_json.py
 msgid "Your blisters distract you"
-msgstr ""
+msgstr "水疱の所為で気が散っています。"
 
 #: lang/json/effects_from_json.py
 msgid "Your comedown throws you off."
@@ -39416,46 +39659,6 @@ msgstr ""
 #: lang/json/effects_from_json.py
 msgid "Your vision starts to blur."
 msgstr "視界がぼやけ始めました。"
-
-#: lang/json/effects_from_json.py
-msgid "feels warm."
-msgstr "熱気を帯びています。"
-
-#: lang/json/effects_from_json.py
-msgid "is blistering from the intense heat."
-msgstr "高熱で腫れ上がっています。"
-
-#: lang/json/effects_from_json.py
-msgid "is dangerously cold!"
-msgstr "強烈な冷気に晒されています！"
-
-#: lang/json/effects_from_json.py
-msgid "is exposed to the cold."
-msgstr "冷気に晒されています。"
-
-#: lang/json/effects_from_json.py
-msgid "is frostbitten! Its tissues are frozen from the cold!"
-msgstr "凍傷になりました！細胞組織が凍り出しています！"
-
-#: lang/json/effects_from_json.py
-msgid "is frostnipped and has gone numb."
-msgstr "霜焼けになり、痺れてきました。"
-
-#: lang/json/effects_from_json.py
-msgid "is starting to feel the damage cold has wrought."
-msgstr ""
-
-#: lang/json/effects_from_json.py
-msgid "is sweating from the heat."
-msgstr "強い熱気を帯びて、発汗しています。"
-
-#: lang/json/effects_from_json.py
-msgid "is sweating profusely!"
-msgstr "強烈な熱気を帯びて、発汗しています！"
-
-#: lang/json/effects_from_json.py
-msgid "is very exposed to the cold."
-msgstr "強い冷気に晒されています。"
 
 #: lang/json/faction_from_json.py
 msgid ""
@@ -41253,6 +41456,14 @@ msgid "Save template"
 msgstr "保存/テンプレート"
 
 #: lang/json/keybinding_from_json.py
+msgid "Scroll to next stage"
+msgstr ""
+
+#: lang/json/keybinding_from_json.py
+msgid "Scroll to previous stage"
+msgstr ""
+
+#: lang/json/keybinding_from_json.py
 msgid "Search"
 msgstr "検索"
 
@@ -41598,9 +41809,9 @@ msgid ""
 "half mile from the laboratory.  It is unclear how it escaped; it is quite "
 "possible that it is in the ground water now."
 msgstr ""
-"ただならぬ事態だ。研究所の地下、約1kmあたりにXE037がコロニーを形成している。"
-"どのように流出したかは定かではないが、地下水にまで及んでいることは十分に考え"
-"られる。"
+"ただならぬ事態だ。研究所の地下、約1km辺りにXE037がコロニーを形成している。ど"
+"の様に流出したかは定かではないが、地下水にまで及んでいる事は十分に考えられ"
+"る。"
 
 #: lang/json/lab_note_from_json.py
 msgid ""
@@ -45493,7 +45704,7 @@ msgstr ""
 
 #: lang/json/mutation_from_json.py
 msgid "You don't sleep often.  But when you do, you need very little of it."
-msgstr "ほぼ眠る必要がない。睡眠を取る時も非常に短い時間だけで問題ありません。"
+msgstr "ほぼ眠る必要がない。眠る時も非常に短い時間だけで問題ありません。"
 
 #: lang/json/mutation_from_json.py
 msgid ""
@@ -45547,8 +45758,8 @@ msgid ""
 "You find yourself needing to sleep quite often.  You'll spend about half "
 "your time in or around bed."
 msgstr ""
-"かなり頻繁に睡眠を取る必要があります。半日はベッドとその周辺で過ごす事になる"
-"でしょう。"
+"かなり頻繁に眠る必要があります。半日はベッドとその周辺で過ごす事になるでしょ"
+"う。"
 
 #: lang/json/mutation_from_json.py
 msgid "You frequently let out a piercing howl."
@@ -45819,7 +46030,7 @@ msgstr "有益な変異が発生する可能性が上昇します。"
 msgid ""
 "You have always been able to fall asleep easily, even when sleeping in less "
 "than ideal circumstances."
-msgstr "周辺が理想的な睡眠環境ではなくとも、直に睡眠を取る事が出来ます。"
+msgstr "周辺が理想的な睡眠環境ではなくとも、直に眠りにつけます。"
 
 #: lang/json/mutation_from_json.py
 msgid ""
@@ -50407,8 +50618,8 @@ msgid ""
 "decent living off of your catches, and trapping tutorials.  Hopefully, your "
 "skills will come in useful against less conventional game."
 msgstr ""
-"父親と共に罠猟師をしていました。罠によって生計を立てられるように訓練を受けて"
-"きたのです。その技能を上手く使えばこの災厄を乗り切る事も可能でしょう。"
+"父親と共に罠猟師をしていました。罠によって生計を立てられる様に訓練を受けてき"
+"たのです。その技能を上手く使えばこの災厄を乗り切る事も可能でしょう。"
 
 #. ~ Profession (male Trapper) description
 #: lang/json/professions_from_json.py
@@ -50418,8 +50629,8 @@ msgid ""
 "decent living off of your catches, and trapping tutorials.  Hopefully, your "
 "skills will come in useful against less conventional game."
 msgstr ""
-"父親と共に罠猟師をしていました。罠によって生計を立てられるように訓練を受けて"
-"きたのです。その技能を上手く使えばこの災厄を乗り切る事も可能でしょう。"
+"父親と共に罠猟師をしていました。罠によって生計を立てられる様に訓練を受けてき"
+"たのです。その技能を上手く使えばこの災厄を乗り切る事も可能でしょう。"
 
 #. ~ Profession (Mourchida) description
 #: lang/json/professions_from_json.py
@@ -51682,8 +51893,8 @@ msgid ""
 "complexity of structures that can be built, and the time required to build "
 "them."
 msgstr ""
-"建物を構築する為の技能。高レベルになると複雑な建物を構築出来るようになり、建"
-"設時間が短縮されます。"
+"建物を構築する為の技能。高レベルになると複雑な建物を構築出来る様になり、建設"
+"時間が短縮されます。"
 
 #: lang/json/skill_from_json.py
 msgid ""
@@ -51777,7 +51988,7 @@ msgid ""
 "Your skill in fighting with weaponry designed to cut, hack and slash an "
 "opponent. Lower levels of skill increase accuracy and damage, while higher "
 "levels will help to bypass heavy armor and thick hides."
-msgstr "斬撃武器に影響する技能。高レベルになると厚い装甲を貫けるようになる。"
+msgstr "斬撃武器に影響する技能。高レベルになると厚い装甲を貫ける様になる。"
 
 #: lang/json/skill_from_json.py
 msgid ""
@@ -51793,7 +52004,7 @@ msgid ""
 "Your skill in operating and steering a vehicle in motion. A higher level "
 "allows greater control over vehicles at higher speeds, and reduces the "
 "penalty of shooting while driving."
-msgstr "車両運転技能。運転しながら正確に射撃できるようになる。"
+msgstr "車両運転技能。運転しながら正確に射撃できる様になる。"
 
 #: lang/json/skill_from_json.py
 msgid ""
@@ -52179,8 +52390,8 @@ msgid ""
 "\"I used to be human.  But... my arms... they are like tentacles.  I slither "
 "along akin to a snail and I shed my feathers every day.\""
 msgstr ""
-"「私は人間だった。しかし今や私の腕は触手であり、私はカタツムリのようにぬるぬ"
-"ると這い、私は毎日羽を生え変わらせている」"
+"「私は人間だった。しかし今や私の腕は触手であり、私はカタツムリの様にぬるぬる"
+"と這い、私は毎日羽を生え変わらせている」"
 
 #: lang/json/snippet_from_json.py
 msgid "\"I... I just put a muffler onto a... nail gun.\""
@@ -52217,7 +52428,7 @@ msgstr "「製薬会社は治療薬を開発できるんでしょうか？」"
 #: lang/json/snippet_from_json.py
 msgid "\"It doesn't matter how you die.  You're gonna turn into one of them.\""
 msgstr ""
-"「どいつがどのように死ぬかなんてどうでもいい。どうせ死体の一つになるだけだ」"
+"「どいつがどの様に死ぬかなんてどうでもいい。どうせ死体の一つになるだけだ」"
 
 #: lang/json/snippet_from_json.py
 msgid "\"Libraries are useless after the apocalypse.\""
@@ -52374,10 +52585,6 @@ msgid ""
 msgstr ""
 "「バスルームのレンガが顔に見える。ハハ… それが僕に見える全て。ドアが壊れる前"
 "に便を出しきれるといいな。頼むよ…」"
-
-#: lang/json/snippet_from_json.py
-msgid "\"The copbots... the turrets... they just fucking ignore them.\""
-msgstr "「警官ロボットもタレットも、忌々しいゾンビ共を無視する役立たずだ」"
 
 #: lang/json/snippet_from_json.py
 msgid "\"The gas the gas the green gas spreads forever\""
@@ -52708,7 +52915,7 @@ msgid ""
 msgstr ""
 "広告:グラモポリタン！　最新の情報を掲載！食べたり着たり議論したりしたい意識の"
 "高い貴方！グラモポリタンは貴方のための雑誌です！今日の見出しをピックアップ！"
-"「星のように弾けろ！」"
+"「星の様に弾けろ！」"
 
 #: lang/json/snippet_from_json.py
 msgid ""
@@ -52718,7 +52925,7 @@ msgid ""
 msgstr ""
 "広告:グラモポリタン！　最新の情報を掲載！食べたり着たり議論したりしたい意識の"
 "高い貴方！グラモポリタンは貴方のための雑誌です！今日の見出しをピックアップ！"
-"「星のように弾けろ！」"
+"「星の様に弾けろ！」"
 
 #: lang/json/snippet_from_json.py
 msgid ""
@@ -52887,7 +53094,7 @@ msgid ""
 "amounts of benign tumorous tissue, A pound or more,\" said a doctor"
 msgstr ""
 "見出し:新型の風邪　新種の風邪ウイルスがニューイングランドを襲っています。医師"
-"は語ります。「合併症があるようには見えない。でも患者の多くは大きめの良性腫瘍"
+"は語ります。「合併症がある様には見えない。でも患者の多くは大きめの良性腫瘍"
 "が、それも複数個できている。奇妙だ」"
 
 #: lang/json/snippet_from_json.py
@@ -53012,8 +53219,8 @@ msgid ""
 "evacuation centres, within a short distance of most towns."
 msgstr ""
 "見出し:最悪の事態に備えて　政府は中国の脅威に向けての対応策を推し進めていま"
-"す。攻撃の際に素早く避難が行えるように、多くの街の近くに避難所を設置する計画"
-"を発表しました。"
+"す。攻撃の際に素早く避難が行える様に、多くの街の近くに避難所を設置する計画を"
+"発表しました。"
 
 #: lang/json/snippet_from_json.py
 msgid ""
@@ -53241,7 +53448,7 @@ msgid ""
 "IS JUST!  YOU WILL BE DIVIDED FATHER AGAINST SON AND MOTHER AGAINST CHILD "
 "UNTO THE VERY LAST SINNER!"
 msgstr ""
-"匿名でばら撒かれた紙片です。写真のように正確な手書きによって転写された文章で"
+"匿名でばら撒かれた紙片です。写真の様に正確な手書きによって転写された文章で"
 "す。概ね狂人の戯言や福音書のパクリが綴られています。罪人達よ、大いなるバビロ"
 "ンに宣告されし裁きの時は近い！お前達は滅びを見届ける事しか出来ないのだ！父は"
 "息子と母は子供と対立するであろう最後の罪人が残るまで！"
@@ -53260,7 +53467,7 @@ msgstr ""
 "類の文章が繰り返されています。米国政府は「Green Fever」の感染拡大防止策を講じ"
 "ており、現在救援部隊が罹災地へと向かっている。治安の悪化による混乱が懸念され"
 "るため、住宅等で孤立している者はFEMAキャンプの委任を受けた軍が迎えに行くまで"
-"待機を続けるように。皆様のご協力に感謝いたします。"
+"待機を続ける様に。皆様のご協力に感謝いたします。"
 
 #: lang/json/snippet_from_json.py
 msgid ""
@@ -53416,9 +53623,9 @@ msgid ""
 "LLC.\""
 msgstr ""
 "Leadworks LLCの新天地開拓用スターターパックの広告です。若い夫婦がライフルとリ"
-"ボルバーを持ち、玄関に立って辺りを見回しています。他の家でも同じように武装し"
-"て玄関に立っています。一方で子供達は遊び、老人達は菜園の世話をしています。そ"
-"してこう書かれています。「武装した地域は安全な地域です。Leadworks LLC」"
+"ボルバーを持ち、玄関に立って辺りを見回しています。他の家でも同じ様に武装して"
+"玄関に立っています。一方で子供達は遊び、老人達は菜園の世話をしています。そし"
+"てこう書かれています。「武装した地域は安全な地域です。Leadworks LLC」"
 
 #: lang/json/snippet_from_json.py
 msgid ""
@@ -53769,6 +53976,10 @@ msgid "\"Affirmative.\""
 msgstr "「その通りだな。」"
 
 #: lang/json/speech_from_json.py
+msgid "\"Ahoy there!\""
+msgstr ""
+
+#: lang/json/speech_from_json.py
 msgid "\"And that's supposed to comfort me?\""
 msgstr ""
 
@@ -53817,6 +54028,10 @@ msgid "\"Are you hungry?\""
 msgstr "「お腹が空いたのか？」"
 
 #: lang/json/speech_from_json.py
+msgid "\"Are you ready?\""
+msgstr ""
+
+#: lang/json/speech_from_json.py
 msgid "\"Are you seeing anyone?\""
 msgstr ""
 
@@ -53825,7 +54040,16 @@ msgid "\"Are you sure?\""
 msgstr "「本当ですか？」"
 
 #: lang/json/speech_from_json.py
+msgid ""
+"\"Arr, ahoy there maties! And welcom- welcom- welcome to tha pirate's cove.\""
+msgstr ""
+
+#: lang/json/speech_from_json.py
 msgid "\"At least we know they can die.\""
+msgstr ""
+
+#: lang/json/speech_from_json.py
+msgid "\"BZZZZZTKKKKKSSSSVVVVVSSTT\""
 msgstr ""
 
 #: lang/json/speech_from_json.py
@@ -53869,8 +54093,16 @@ msgid "\"Can you swim?\""
 msgstr "「君は泳げるかい？」"
 
 #: lang/json/speech_from_json.py
+msgid "\"Come closer.\""
+msgstr ""
+
+#: lang/json/speech_from_json.py
 msgid "\"Come here!\""
 msgstr "「来てくれ！」"
+
+#: lang/json/speech_from_json.py
+msgid "\"Come play with me!\""
+msgstr ""
 
 #: lang/json/speech_from_json.py
 msgid "\"Damn it!\""
@@ -53905,6 +54137,10 @@ msgid "\"Don't do that.\""
 msgstr "「そんな事はやめてくれ。」"
 
 #: lang/json/speech_from_json.py
+msgid "\"Don't make me have ye walk the plank.\""
+msgstr ""
+
+#: lang/json/speech_from_json.py
 msgid "\"Don't worry about it.\""
 msgstr "「それについては心配要りませんよ。」"
 
@@ -53915,6 +54151,10 @@ msgstr ""
 #: lang/json/speech_from_json.py
 msgid "\"Don't worry.\""
 msgstr "「心配は要りませんよ。」"
+
+#: lang/json/speech_from_json.py
+msgid "\"Dum de dum dum dum.\""
+msgstr ""
 
 #: lang/json/speech_from_json.py
 msgid "\"EMERGENCY, EMERGENCY!\""
@@ -54010,6 +54250,14 @@ msgid "\"Great.\""
 msgstr "「素晴らしい。」"
 
 #: lang/json/speech_from_json.py
+msgid "\"Ha huhuhu huh huh.\""
+msgstr ""
+
+#: lang/json/speech_from_json.py
+msgid "\"Hai!\""
+msgstr ""
+
+#: lang/json/speech_from_json.py
 msgid "\"Happy Birthday!\""
 msgstr "「ハッピーバースデー！」"
 
@@ -54042,6 +54290,10 @@ msgid "\"Have you seen my children?\""
 msgstr ""
 
 #: lang/json/speech_from_json.py
+msgid "\"Hello!\""
+msgstr ""
+
+#: lang/json/speech_from_json.py
 msgid "\"Hello.\""
 msgstr "「こんにちは。」"
 
@@ -54059,6 +54311,10 @@ msgstr "「ここにあるよ。」"
 
 #: lang/json/speech_from_json.py
 msgid "\"Hey, we got other specimens that could withstand a grenade.\""
+msgstr ""
+
+#: lang/json/speech_from_json.py
+msgid "\"Hi!\""
 msgstr ""
 
 #: lang/json/speech_from_json.py
@@ -54302,6 +54558,10 @@ msgid "\"It's looking right at us.\""
 msgstr ""
 
 #: lang/json/speech_from_json.py
+msgid "\"It's me.\""
+msgstr ""
+
+#: lang/json/speech_from_json.py
 msgid "\"It's parroting us, but we're uncertain as to how or why.\""
 msgstr ""
 
@@ -54327,6 +54587,22 @@ msgstr ""
 
 #: lang/json/speech_from_json.py
 msgid "\"Let me have a look at it.\""
+msgstr ""
+
+#: lang/json/speech_from_json.py
+msgid "\"Let's Party!\""
+msgstr ""
+
+#: lang/json/speech_from_json.py
+msgid "\"Let's eat!\""
+msgstr ""
+
+#: lang/json/speech_from_json.py
+msgid "\"Let's play!\""
+msgstr ""
+
+#: lang/json/speech_from_json.py
+msgid "\"Let's rock!\""
 msgstr ""
 
 #: lang/json/speech_from_json.py
@@ -54364,6 +54640,10 @@ msgstr "「お母さーん、助けてぇ！」"
 #: lang/json/speech_from_json.py
 msgid "\"Negative.\""
 msgstr "「違うな。」"
+
+#: lang/json/speech_from_json.py
+msgid "\"No running.\""
+msgstr ""
 
 #: lang/json/speech_from_json.py
 msgid "\"No!\""
@@ -54436,8 +54716,20 @@ msgid "\"Problem solving, memory retention, that sort of thing.\""
 msgstr ""
 
 #: lang/json/speech_from_json.py
+msgid "\"RAAAAGGGGRRRHHH!\""
+msgstr ""
+
+#: lang/json/speech_from_json.py
 msgid "\"Run!\""
 msgstr "「走れ！」"
+
+#: lang/json/speech_from_json.py
+msgid "\"Running is against the rules.\""
+msgstr ""
+
+#: lang/json/speech_from_json.py
+msgid "\"SKREEEEEEEEEEEEEE!\""
+msgstr ""
 
 #: lang/json/speech_from_json.py
 msgid "\"See you later.\""
@@ -54530,6 +54822,10 @@ msgid "\"There you are.\""
 msgstr ""
 
 #: lang/json/speech_from_json.py
+msgid "\"They will know the joy of creation.\""
+msgstr ""
+
+#: lang/json/speech_from_json.py
 msgid "\"This is the way the fuckin' world ends.\""
 msgstr ""
 
@@ -54556,6 +54852,10 @@ msgstr ""
 
 #: lang/json/speech_from_json.py
 msgid "\"Until such time as more permanent arrangements are made.\""
+msgstr ""
+
+#: lang/json/speech_from_json.py
+msgid "\"WHIIIRRRCRRIIIIZZZZZZVVVT\""
 msgstr ""
 
 #: lang/json/speech_from_json.py
@@ -54603,6 +54903,10 @@ msgid "\"We're still trying to figure out what makes it tick.\""
 msgstr ""
 
 #: lang/json/speech_from_json.py
+msgid "\"Welcome to the pirate's cove matey!\""
+msgstr ""
+
+#: lang/json/speech_from_json.py
 msgid "\"What are you afraid will happen?\""
 msgstr ""
 
@@ -54620,6 +54924,10 @@ msgstr ""
 
 #: lang/json/speech_from_json.py
 msgid "\"What'll happen if the power goes out?\""
+msgstr ""
+
+#: lang/json/speech_from_json.py
+msgid "\"What's your name little child?\""
 msgstr ""
 
 #: lang/json/speech_from_json.py
@@ -57091,7 +57399,7 @@ msgstr "掘削"
 
 #: lang/json/tool_quality_from_json.py
 msgid "drilling"
-msgstr "掘削"
+msgstr "穿孔"
 
 #: lang/json/tool_quality_from_json.py
 msgid "fine bolt turning"
@@ -57579,9 +57887,9 @@ msgid ""
 "item you put on also encumbered your torso.  This will make combat a little "
 "more difficult.  To check encumbrance, press @."
 msgstr ""
-"十分な収納箇所がある衣料品を身に付けました。物を多く持てるようになりますが、"
-"重さという筋力依存の限界もあります。いま身に付けたアイテムは胴体の動作が制限"
-"され、戦いづらくなります。動作の制限は'@'を押して確認できます。"
+"十分な収納箇所がある衣料品を身に付けました。物を多く持てる様になりますが、重"
+"さという筋力依存の限界もあります。いま身に付けたアイテムは胴体の動作が制限さ"
+"れ、戦いづらくなります。動作の制限は'@'を押して確認できます。"
 
 #: lang/json/tutorial_messages_from_json.py
 msgid ""
@@ -57828,116 +58136,8 @@ msgid "5-point harness"
 msgstr "5点式シートベルト"
 
 #: lang/json/vehicle_part_from_json.py
-msgid "Gatling Cannon"
+msgid "Gatling cannon"
 msgstr "タレット(ガトリング砲)"
-
-#: lang/json/vehicle_part_from_json.py
-msgid "Mounted .22 Dual Turret"
-msgstr ""
-
-#: lang/json/vehicle_part_from_json.py
-msgid "Mounted .22 Quad Cannon"
-msgstr ""
-
-#: lang/json/vehicle_part_from_json.py
-msgid "Mounted .45 Dual Turret"
-msgstr ""
-
-#: lang/json/vehicle_part_from_json.py
-msgid "Mounted .45 Quad Cannon"
-msgstr ""
-
-#: lang/json/vehicle_part_from_json.py
-msgid "Mounted 9mm Dual Turret"
-msgstr ""
-
-#: lang/json/vehicle_part_from_json.py
-msgid "Mounted 9mm Quad Cannon"
-msgstr ""
-
-#: lang/json/vehicle_part_from_json.py
-msgid "Mounted Avalanche Turret"
-msgstr "車載/タレット(ライフル(空気圧式))"
-
-#: lang/json/vehicle_part_from_json.py
-msgid "Mounted Dragon Turret"
-msgstr "車載/タレット(RM451火炎放射器)"
-
-#: lang/json/vehicle_part_from_json.py
-msgid "Mounted Energy Turret"
-msgstr ""
-
-#: lang/json/vehicle_part_from_json.py
-msgid "Mounted Flamecaster"
-msgstr "車載/タレット(火炎放射器)"
-
-#: lang/json/vehicle_part_from_json.py
-msgid "Mounted Flamethrower"
-msgstr "車載/タレット(自作火炎放射器)"
-
-#: lang/json/vehicle_part_from_json.py
-msgid "Mounted Grenade Launcher"
-msgstr "車載/装着式グレネードランチャー"
-
-#: lang/json/vehicle_part_from_json.py
-msgid "Mounted Laser"
-msgstr "車載/タレット(レーザー)"
-
-#: lang/json/vehicle_part_from_json.py
-msgid "Mounted Laser Cannon"
-msgstr "車載/大砲(レーザー)"
-
-#: lang/json/vehicle_part_from_json.py
-msgid "Mounted MG"
-msgstr "車載/タレット(マシンガン/手動)"
-
-#: lang/json/vehicle_part_from_json.py
-msgid "Mounted MG Turret"
-msgstr "車載/タレット(マシンガン/自動)"
-
-#: lang/json/vehicle_part_from_json.py
-msgid "Mounted Pulse Laser"
-msgstr "車載/タレット(パルスレーザー)"
-
-#: lang/json/vehicle_part_from_json.py
-msgid "Mounted Pulse Turret"
-msgstr ""
-
-#: lang/json/vehicle_part_from_json.py
-msgid "Mounted Ripper"
-msgstr "車載/リッパー"
-
-#: lang/json/vehicle_part_from_json.py
-msgid "Mounted Rotary Speargun"
-msgstr "車載/タレット(水中銃/自動)"
-
-#: lang/json/vehicle_part_from_json.py
-msgid "Mounted Scorpion"
-msgstr "車載/タレット(クロスボウ)"
-
-#: lang/json/vehicle_part_from_json.py
-msgid "Mounted Shredder"
-msgstr "車載/シュレッダー"
-
-#: lang/json/vehicle_part_from_json.py
-msgid "Mounted Spear Launcher"
-msgstr "車載/タレット(水中銃/手動)"
-
-#: lang/json/vehicle_part_from_json.py
-msgid "Mounted Splintergun"
-msgstr "車載/タレット(スプリンターガン)"
-
-#: lang/json/vehicle_part_from_json.py
-msgid "Mounted Storm Bolter"
-msgstr "車載/タレット(ストームボルター)"
-
-#: lang/json/vehicle_part_from_json.py
-msgid "Mounted Tesla Turret"
-msgstr ""
-
-#: lang/json/vehicle_part_from_json.py
-msgid "Mounted Turbolaser Cannon"
-msgstr "車載/大砲(ターボレーザー)"
 
 #: lang/json/vehicle_part_from_json.py
 msgid "Roller drum"
@@ -58022,6 +58222,10 @@ msgstr "ドア"
 #: lang/json/vehicle_part_from_json.py
 msgid "door motor"
 msgstr "ドアモーター"
+
+#: lang/json/vehicle_part_from_json.py
+msgid "dual nail turret"
+msgstr "タレット(2連装釘打)"
 
 #: lang/json/vehicle_part_from_json.py
 msgid "externally mounted diesel tank"
@@ -58136,12 +58340,44 @@ msgid "military composite ram"
 msgstr ""
 
 #: lang/json/vehicle_part_from_json.py
+msgid "mounted .22 dual turret"
+msgstr ""
+
+#: lang/json/vehicle_part_from_json.py
+msgid "mounted .22 quad cannon"
+msgstr ""
+
+#: lang/json/vehicle_part_from_json.py
+msgid "mounted .45 dual turret"
+msgstr ""
+
+#: lang/json/vehicle_part_from_json.py
+msgid "mounted .45 quad cannon"
+msgstr ""
+
+#: lang/json/vehicle_part_from_json.py
+msgid "mounted 9mm dual turret"
+msgstr ""
+
+#: lang/json/vehicle_part_from_json.py
+msgid "mounted 9mm quad cannon"
+msgstr ""
+
+#: lang/json/vehicle_part_from_json.py
 msgid "mounted M2 Browning"
 msgstr "車載/ブローニングM2重機関銃"
 
 #: lang/json/vehicle_part_from_json.py
 msgid "mounted M249"
 msgstr "車載/M249"
+
+#: lang/json/vehicle_part_from_json.py
+msgid "mounted MG"
+msgstr "車載/タレット(マシンガン/手動)"
+
+#: lang/json/vehicle_part_from_json.py
+msgid "mounted MG turret"
+msgstr "車載/タレット(マシンガン/自動)"
 
 #: lang/json/vehicle_part_from_json.py
 msgid "mounted Mark 19 grenade launcher"
@@ -58160,8 +58396,28 @@ msgid "mounted RM614 LMG"
 msgstr "車載/RM614 LMG"
 
 #: lang/json/vehicle_part_from_json.py
+msgid "mounted Tesla turret"
+msgstr "車載/テスラコイル"
+
+#: lang/json/vehicle_part_from_json.py
+msgid "mounted avalanche turret"
+msgstr "車載/タレット(ライフル(空気圧式))"
+
+#: lang/json/vehicle_part_from_json.py
+msgid "mounted dragon turret"
+msgstr "車載/タレット(RM451火炎放射器)"
+
+#: lang/json/vehicle_part_from_json.py
 msgid "mounted electric forge"
 msgstr "車載/電動炉"
+
+#: lang/json/vehicle_part_from_json.py
+msgid "mounted energy turret"
+msgstr "車載/タレット(エネルギー/NX-17)"
+
+#: lang/json/vehicle_part_from_json.py
+msgid "mounted flamecaster"
+msgstr "車載/タレット(火炎放射器)"
 
 #: lang/json/vehicle_part_from_json.py
 msgid "mounted flamethrower"
@@ -58172,8 +58428,60 @@ msgid "mounted fusion gun"
 msgstr "車載/フュージョンガン"
 
 #: lang/json/vehicle_part_from_json.py
+msgid "mounted grenade launcher"
+msgstr "車載/装着式グレネードランチャー"
+
+#: lang/json/vehicle_part_from_json.py
+msgid "mounted laser"
+msgstr "車載/タレット(レーザー)"
+
+#: lang/json/vehicle_part_from_json.py
+msgid "mounted laser cannon"
+msgstr "車載/大砲(レーザー)"
+
+#: lang/json/vehicle_part_from_json.py
 msgid "mounted plasma gun"
 msgstr "車載/プラズマガン"
+
+#: lang/json/vehicle_part_from_json.py
+msgid "mounted pulse laser"
+msgstr "車載/タレット(パルスレーザー)"
+
+#: lang/json/vehicle_part_from_json.py
+msgid "mounted pulse turret"
+msgstr "車載/タレット(パルス/NX-17)"
+
+#: lang/json/vehicle_part_from_json.py
+msgid "mounted ripper"
+msgstr "車載/リッパー"
+
+#: lang/json/vehicle_part_from_json.py
+msgid "mounted rotary speargun"
+msgstr "車載/タレット(水中銃/自動)"
+
+#: lang/json/vehicle_part_from_json.py
+msgid "mounted scorpion"
+msgstr "車載/タレット(クロスボウ)"
+
+#: lang/json/vehicle_part_from_json.py
+msgid "mounted shredder"
+msgstr "車載/シュレッダー"
+
+#: lang/json/vehicle_part_from_json.py
+msgid "mounted spear launcher"
+msgstr "車載/タレット(水中銃/手動)"
+
+#: lang/json/vehicle_part_from_json.py
+msgid "mounted splintergun"
+msgstr "車載/タレット(スプリンターガン)"
+
+#: lang/json/vehicle_part_from_json.py
+msgid "mounted storm bolter"
+msgstr "車載/タレット(ストームボルター)"
+
+#: lang/json/vehicle_part_from_json.py
+msgid "mounted turbolaser cannon"
+msgstr "車載/大砲(ターボレーザー)"
 
 #: lang/json/vehicle_part_from_json.py
 msgid "null part"
@@ -58182,6 +58490,10 @@ msgstr "部品なし"
 #: lang/json/vehicle_part_from_json.py
 msgid "opaque door"
 msgstr "不透明なドア"
+
+#: lang/json/vehicle_part_from_json.py
+msgid "quad nail turret"
+msgstr "タレット(4連装釘打)"
 
 #: lang/json/vehicle_part_from_json.py
 msgid "quarterpanel"
@@ -58226,6 +58538,10 @@ msgstr "シャッター"
 #: lang/json/vehicle_part_from_json.py
 msgid "sliding door"
 msgstr "スライドドア"
+
+#: lang/json/vehicle_part_from_json.py
+msgid "slingshot cannon"
+msgstr "大砲(スリングショット)"
 
 #: lang/json/vehicle_part_from_json.py
 msgid "spiked ram"
@@ -58362,7 +58678,7 @@ msgstr "行動"
 
 #: src/action.cpp
 msgid "Back"
-msgstr ""
+msgstr "戻る"
 
 #: src/action.cpp src/editmap.cpp src/game.cpp src/iexamine.cpp
 #: src/inventory_ui.cpp src/item_action.cpp src/iuse.cpp src/player.cpp
@@ -58608,12 +58924,12 @@ msgstr ""
 #: src/activity_handlers.cpp
 #, c-format
 msgid "You insert a bolt into your %s."
-msgstr ""
+msgstr "%sにボルトを挿入しました。"
 
 #: src/activity_handlers.cpp
 #, c-format
 msgid "You insert a cartridge into your %s."
-msgstr ""
+msgstr "%sにカートリッジを挿入しました。"
 
 #: src/activity_handlers.cpp
 #, c-format
@@ -58642,7 +58958,7 @@ msgstr ""
 
 #: src/activity_handlers.cpp
 msgid "You're too tired to continue."
-msgstr ""
+msgstr "続行するには疲れ過ぎています。"
 
 #: src/activity_handlers.cpp
 msgid "Your clumsy butchering destroys the meat!"
@@ -58727,22 +59043,28 @@ msgid ""
 "Perception - 1;   Intelligence - 1;\n"
 "Anxiety, nausea, hallucinations, and general malaise."
 msgstr ""
+"感覚 -1 / 知性 -1\n"
+"不安 / 吐き気 / 幻覚症状 / 全身の倦怠感"
 
 #: src/addiction.cpp
 msgid ""
 "Perception - 1;   Intelligence - 1;   Occasional Cravings;\n"
 "Risk of delirium tremens"
 msgstr ""
-"感覚 -1 / 知性 -1 / 低い依存性\n"
-"精神錯乱のリスク"
+"感覚 -1 / 知性 -1\n"
+"低い依存性 / 精神錯乱のリスク"
 
 #: src/addiction.cpp
 msgid "Perception - 1;   Intelligence - 1;  Frequent cravings."
-msgstr "感覚 -1 / 知性 -1 / 強い依存性"
+msgstr ""
+"感覚 -1 / 知性 -1\n"
+"強い依存性"
 
 #: src/addiction.cpp
 msgid "Perception - 2;   Intelligence - 2;  Frequent cravings."
-msgstr "感覚 -2 / 知性 -2 / 強い依存性"
+msgstr ""
+"感覚 -2 / 知性 -2\n"
+"強い依存性"
 
 #: src/addiction.cpp
 msgid "Sleeping Pill Dependence"
@@ -58755,7 +59077,7 @@ msgid ""
 "Depression and physical pain to some degree.  Frequent cravings.  Vomiting."
 msgstr ""
 "筋力 -%d / 感覚 -1 / 器用 -1\n"
-"気分の落ち込み / 痛みの軽減 / 強い依存性 / 嘔吐を誘発"
+"意気消沈 / 痛みの軽減 / 強い依存性 / 嘔吐を誘発"
 
 #: src/addiction.cpp
 #, c-format
@@ -58763,6 +59085,8 @@ msgid ""
 "Strength - %d;   Perception - 1;   Dexterity - 1;\n"
 "Depression.  Frequent cravings.  Vomiting."
 msgstr ""
+"筋力 -%d / 感覚 -1 / 器用 -1\n"
+"意気消沈 / 強い依存性 / 嘔吐を誘発"
 
 #: src/addiction.cpp
 msgid ""
@@ -58771,11 +59095,13 @@ msgid ""
 "cravings."
 msgstr ""
 "筋力 -1 / 知性 -1\n"
-"移動速度低下 / 免疫力の低下 / 強い依存性"
+"移動速度低下 / 意気消沈 / 免疫力の低下 / 強い依存性"
 
 #: src/addiction.cpp
 msgid "Strength - 1;   Slight sluggishness;   Occasional cravings"
-msgstr "筋力 -1 / わずかな脱力感 / 低い依存性"
+msgstr ""
+"筋力 -1\n"
+"僅かな脱力感 / 低い依存性"
 
 #: src/addiction.cpp
 msgid "Throwing up."
@@ -59536,7 +59862,7 @@ msgstr "Cyclopean"
 
 #: src/artifact.cpp
 msgid "Dagger"
-msgstr "Dagger"
+msgstr "短剣"
 
 #: src/artifact.cpp
 msgid "Edged"
@@ -59577,7 +59903,7 @@ msgstr "グローブ"
 
 #: src/artifact.cpp
 msgid "Harp"
-msgstr "Harp"
+msgstr "竪琴"
 
 #: src/artifact.cpp
 msgid "Heavy"
@@ -59633,11 +59959,11 @@ msgstr "Spiked"
 
 #: src/artifact.cpp
 msgid "Staff"
-msgstr "Staff"
+msgstr "杖"
 
 #: src/artifact.cpp
 msgid "Sword"
-msgstr "Sword"
+msgstr "剣"
 
 #: src/artifact.cpp
 msgid "The architect's cube."
@@ -59812,7 +60138,7 @@ msgstr "knot"
 
 #: src/artifact.cpp
 msgid "lamp"
-msgstr "lamp"
+msgstr "ランプ"
 
 #: src/artifact.cpp
 msgid "leather-padded."
@@ -59928,11 +60254,11 @@ msgstr "tapered rod"
 
 #: src/artifact.cpp
 msgid "teardrop"
-msgstr "teardrop"
+msgstr "涙"
 
 #: src/artifact.cpp
 msgid "teardrop-shaped stone"
-msgstr "teardrop-shaped stone"
+msgstr "涙滴型の石"
 
 #: src/artifact.cpp
 #, c-format
@@ -60574,7 +60900,7 @@ msgstr ""
 
 #: src/bionics.cpp
 msgid "You retract your blade."
-msgstr ""
+msgstr "刃を引っ込めました。"
 
 #: src/bionics.cpp
 msgid "You screw up the installation."
@@ -60639,7 +60965,7 @@ msgstr "放射能レベル: %d"
 
 #: src/bionics.cpp
 msgid "Your speed suddenly increases!"
-msgstr "急に素早く動けるようになりました！"
+msgstr "急に素早く動ける様になりました！"
 
 #. ~"Complications" is USian medical-speak for "unintended damage from a medical procedure".
 #: src/bionics.cpp
@@ -61929,7 +62255,7 @@ msgstr ""
 
 #: src/construction.cpp
 msgid "Construct where?"
-msgstr ""
+msgstr "どこに建設しますか？"
 
 #: src/construction.cpp
 msgid "Constructions"
@@ -61937,11 +62263,11 @@ msgstr "建設"
 
 #: src/construction.cpp
 msgid "Decorative"
-msgstr ""
+msgstr "装飾"
 
 #: src/construction.cpp
 msgid "Digging and Mining"
-msgstr ""
+msgstr "掘削と採掘"
 
 #: src/construction.cpp
 msgctxt "memorial_female"
@@ -61959,11 +62285,11 @@ msgstr "車両の新しい名前を入力して下さい:"
 
 #: src/construction.cpp
 msgid "Farming and Woodcutting"
-msgstr ""
+msgstr "農耕と伐採"
 
 #: src/construction.cpp
 msgid "Furniture"
-msgstr ""
+msgstr "家具"
 
 #: src/construction.cpp
 msgid "Lashing your lumber together, you make a stable platform."
@@ -62001,7 +62327,7 @@ msgstr ""
 
 #: src/construction.cpp
 msgid "Others"
-msgstr ""
+msgstr "他"
 
 #: src/construction.cpp
 #, c-format
@@ -62019,11 +62345,11 @@ msgstr "木を倒す方向を選んで下さい:"
 
 #: src/construction.cpp
 msgid "Reinforcing"
-msgstr ""
+msgstr "補強"
 
 #: src/construction.cpp
 msgid "Repairing"
-msgstr ""
+msgstr "修理"
 
 #: src/construction.cpp
 #, c-format
@@ -62039,6 +62365,10 @@ msgstr "結果: %s"
 #, c-format
 msgid "Skill Req: %d (%s)"
 msgstr "必要な技能: %d (%s)"
+
+#: src/construction.cpp
+msgid "Stage #"
+msgstr ""
 
 #: src/construction.cpp
 #, c-format
@@ -62205,6 +62535,14 @@ msgstr ""
 
 #: src/construction.cpp
 msgid "Your web holds firm!"
+msgstr ""
+
+#: src/construction.cpp
+msgid "^ [P]revious stage(s)"
+msgstr ""
+
+#: src/construction.cpp
+msgid "v [N]ext stage(s)"
 msgstr ""
 
 #: src/crafting.cpp src/veh_interact.cpp
@@ -62394,7 +62732,7 @@ msgstr "N/A"
 
 #: src/crafting.cpp
 msgid "Nothing selected!"
-msgstr ""
+msgstr "何も選択していない！"
 
 #: src/crafting.cpp src/item_factory.cpp
 msgid "OTHER"
@@ -62546,7 +62884,7 @@ msgstr "本を参考に%sを作製しました。"
 #: src/crafting.cpp
 #, c-format
 msgid "You disassemble the %s into its components."
-msgstr "%sをばらばらの部品に分解しました。"
+msgstr "%sを個別の部品に分解しました。"
 
 #: src/crafting.cpp
 #, c-format
@@ -62588,7 +62926,7 @@ msgstr "%sのレシピを覚えました！"
 
 #: src/crafting.cpp
 msgid "You might be able to learn a recipe if you disassemble another."
-msgstr "分解すれば作り方がわかるかもしれない。"
+msgstr "分解すれば作り方が分かるかもしれない。"
 
 #: src/crafting.cpp
 #, c-format
@@ -62669,6 +63007,10 @@ msgstr "暗い"
 #: src/crafting.cpp
 msgid "shady"
 msgstr "薄暗い"
+
+#: src/crafting.cpp
+msgid "v (more)"
+msgstr ""
 
 #: src/crafting.cpp
 msgid "very dark"
@@ -62995,7 +63337,7 @@ msgstr "%sの復讐だ！"
 #: src/defense.cpp
 #, c-format
 msgid "Rise of the %s!"
-msgstr ""
+msgstr "%sの復活だ！"
 
 #: src/defense.cpp
 msgid "Robots"
@@ -63240,12 +63582,12 @@ msgstr "フィールド効果"
 #: src/editmap.cpp
 msgctxt "shape"
 msgid "Filled Circle"
-msgstr ""
+msgstr "塗り潰された円形"
 
 #: src/editmap.cpp
 msgctxt "shape"
 msgid "Filled Rectangle"
-msgstr ""
+msgstr "塗り潰された長方形"
 
 #: src/editmap.cpp src/game.cpp
 #, c-format
@@ -63255,7 +63597,7 @@ msgstr "落書き: %s"
 #: src/editmap.cpp
 msgctxt "shape"
 msgid "Line"
-msgstr ""
+msgstr "線"
 
 #: src/editmap.cpp
 msgctxt "map editor state"
@@ -63279,12 +63621,12 @@ msgstr ""
 #: src/editmap.cpp
 msgctxt "shape"
 msgid "Point"
-msgstr ""
+msgstr "点"
 
 #: src/editmap.cpp
 msgctxt "shape"
 msgid "Rectangle"
-msgstr ""
+msgstr "長方形"
 
 #: src/editmap.cpp
 msgctxt "map generator"
@@ -63403,7 +63745,7 @@ msgstr "[s/tab]形状選択、[m]移動、[v]全表示"
 
 #: src/editmap.cpp
 msgid "[s] resize, [y] swap"
-msgstr ""
+msgstr "[s]サイズ変更、[y]交換"
 
 #: src/editmap.cpp
 msgctxt "map editor"
@@ -63451,12 +63793,12 @@ msgstr ""
 #: src/editmap.cpp
 msgctxt "item manipulation debug menu entry"
 msgid "edit"
-msgstr ""
+msgstr "編集"
 
 #: src/editmap.cpp
 msgctxt "item manipulation debug menu entry"
 msgid "exit"
-msgstr ""
+msgstr "終了"
 
 #: src/editmap.cpp
 #, c-format
@@ -63700,12 +64042,6 @@ msgstr ""
 msgid ""
 "You suddenly realize that all matter is merely energy condensed to a slow "
 "vibration, and we are all one consciousness experiencing itself subjectively."
-msgstr ""
-
-#. ~ Used for effect descriptions, "Your (body_part_name) (effect description)"
-#: src/effect.cpp
-#, c-format
-msgid "Your %s "
 msgstr ""
 
 #: src/effect.cpp
@@ -64752,7 +65088,7 @@ msgstr "%2$sの%1$s"
 
 #: src/faction.cpp
 msgid "The army"
-msgstr ""
+msgstr "軍隊"
 
 #: src/faction.cpp
 msgid "Thugs"
@@ -64836,7 +65172,7 @@ msgstr ""
 
 #: src/faction.cpp
 msgid "assassinations"
-msgstr ""
+msgstr "暗殺"
 
 #: src/faction.cpp
 msgid "basic survival"
@@ -64844,15 +65180,15 @@ msgstr ""
 
 #: src/faction.cpp
 msgid "bringing the apocalypse"
-msgstr ""
+msgstr "黙示録を齎す"
 
 #: src/faction.cpp
 msgid "collecting rare artifacts"
-msgstr ""
+msgstr "希少なアーティファクトの収集"
 
 #: src/faction.cpp
 msgid "contact with unseen powers"
-msgstr ""
+msgstr "目に見えない力との接触"
 
 #: src/faction.cpp
 msgid "dominance of the region"
@@ -64860,19 +65196,19 @@ msgstr ""
 
 #: src/faction.cpp
 msgid "drug dealing"
-msgstr ""
+msgstr "麻薬の取引"
 
 #: src/faction.cpp
 msgid "exploring extensively"
-msgstr ""
+msgstr "広域探索"
 
 #: src/faction.cpp
 msgid "farming & selling food"
-msgstr ""
+msgstr "農耕 & 食料売買"
 
 #: src/faction.cpp
 msgid "financial wealth"
-msgstr ""
+msgstr "金融資産"
 
 #: src/faction.cpp
 msgid "gambling parlors"
@@ -64880,19 +65216,19 @@ msgstr ""
 
 #: src/faction.cpp
 msgid "general chaos and anarchy"
-msgstr ""
+msgstr "混沌と無法"
 
 #: src/faction.cpp
 msgid "harmony with nature"
-msgstr ""
+msgstr "自然との調和"
 
 #: src/faction.cpp
 msgid "medical aid"
-msgstr ""
+msgstr "医療扶助"
 
 #: src/faction.cpp
 msgid "mercenary work"
-msgstr ""
+msgstr "傭兵の仕事"
 
 #: src/faction.cpp
 msgid "protection rackets"
@@ -64900,11 +65236,11 @@ msgstr ""
 
 #: src/faction.cpp
 msgid "raiding settlements"
-msgstr ""
+msgstr "居留地を襲撃"
 
 #: src/faction.cpp
 msgid "rebuilding civilization"
-msgstr ""
+msgstr "文明を再興"
 
 #: src/faction.cpp
 msgid "scavenging supplies"
@@ -64912,35 +65248,35 @@ msgstr ""
 
 #: src/faction.cpp
 msgid "selling manufactured goods"
-msgstr ""
+msgstr "生産商品の売買"
 
 #: src/faction.cpp
 msgid "spreading the fungus"
-msgstr ""
+msgstr "真菌の拡散"
 
 #: src/faction.cpp
 msgid "the avoidance of drugs"
-msgstr ""
+msgstr "薬品への忌避"
 
 #: src/faction.cpp
 msgid "the cultivation of knowledge"
-msgstr ""
+msgstr "知識を育む"
 
 #: src/faction.cpp
 msgid "the extermination of monsters"
-msgstr ""
+msgstr "モンスターの退治"
 
 #: src/faction.cpp
 msgid "the sale of information"
-msgstr ""
+msgstr "情報の売買"
 
 #: src/faction.cpp
 msgid "the theft of property"
-msgstr ""
+msgstr "財産を略奪"
 
 #: src/faction.cpp
 msgid "their adherance to the law"
-msgstr ""
+msgstr "法律の遵守"
 
 #: src/faction.cpp
 msgid "their bustling trade centers"
@@ -64952,15 +65288,15 @@ msgstr ""
 
 #: src/faction.cpp
 msgid "their cruelty"
-msgstr ""
+msgstr "残虐"
 
 #: src/faction.cpp
 msgid "their elite training"
-msgstr ""
+msgstr "上級鍛錬"
 
 #: src/faction.cpp
 msgid "their isolationism"
-msgstr ""
+msgstr "孤立主義"
 
 #: src/faction.cpp
 msgid "their knowledge of bionics"
@@ -64968,11 +65304,11 @@ msgstr "義体化の知識"
 
 #: src/faction.cpp
 msgid "their libraries"
-msgstr ""
+msgstr "蔵書"
 
 #: src/faction.cpp
 msgid "their robotics factories"
-msgstr ""
+msgstr "ロボット工場"
 
 #: src/faction.cpp
 msgid "trade caravans"
@@ -64980,35 +65316,35 @@ msgstr "隊商と取引"
 
 #: src/faction.cpp
 msgid "treachery"
-msgstr ""
+msgstr "裏切り"
 
 #: src/field.cpp
 msgid "<npcname> burns their legs and feet!"
-msgstr ""
+msgstr "<npcname>は自身の脚と足を燃やしました！"
 
 #: src/field.cpp
 msgid "<npcname> is burning up!"
-msgstr ""
+msgstr "<npcname>が燃え尽きました！"
 
 #: src/field.cpp
 msgid "<npcname> is electrocuted!"
-msgstr ""
+msgstr "<npcname>が感電しました！"
 
 #: src/field.cpp
 msgid "<npcname> is paralyzed!"
-msgstr ""
+msgstr "<npcname>が麻痺しました！"
 
 #: src/field.cpp
 msgid "<npcname> is set ablaze!"
-msgstr ""
+msgstr "<npcname>が燃え上がりました！"
 
 #: src/field.cpp
 msgid "<npcname> is torched by flames!"
-msgstr ""
+msgstr "炎が<npcname>に燃え移りました！"
 
 #: src/field.cpp
 msgid "<npcname>s whole body is burning!"
-msgstr ""
+msgstr "<npcname>の全身が燃えています！"
 
 #: src/field.cpp
 #, c-format
@@ -65049,7 +65385,7 @@ msgstr "%1$sは%2$sと重なる様に瞬間移動しました！どちらも死�
 
 #: src/field.cpp
 msgid "The acid burns <npcname>s legs and feet!"
-msgstr ""
+msgstr "酸が<npcname>の脚と足を焼きました！"
 
 #: src/field.cpp
 msgid "The acid burns your legs and feet!"
@@ -65089,7 +65425,7 @@ msgstr ""
 
 #: src/field.cpp
 msgid "The sap sticks to <npcname>!"
-msgstr ""
+msgstr "樹液が<npcname>にかかりました！"
 
 #: src/field.cpp
 msgid "The sap sticks to you!"
@@ -65101,7 +65437,7 @@ msgstr ""
 
 #: src/field.cpp
 msgid "These flames do not burn you."
-msgstr "その炎は身体に燃え移らなかった。"
+msgstr "この炎は身体に燃え移らなかった。"
 
 #: src/field.cpp
 msgid "This radioactive gas burns!"
@@ -65109,7 +65445,7 @@ msgstr "この放射性ガスは引火します！"
 
 #: src/field.cpp
 msgid "Those flames do not burn <npcname>."
-msgstr ""
+msgstr "その炎は<npcname>に燃え移らなかった。"
 
 #: src/field.cpp
 msgid "Ugh, that smells rancid!"
@@ -65154,7 +65490,7 @@ msgstr "荒々しく瞬間移動しました！"
 
 #: src/field.cpp
 msgid "Your whole body is burning!"
-msgstr ""
+msgstr "全身が燃えています！"
 
 #: src/field.cpp
 msgid "acid splatter"
@@ -65530,7 +65866,7 @@ msgstr " (Y)はい、(N)いいえ、(I)無視して続行。"
 #, c-format
 msgid "%1$d %2$s"
 msgid_plural "%1$d %2$s"
-msgstr[0] "%2$s(%1$d)"
+msgstr[0] "%2$s(%1$d個)"
 
 #: src/game.cpp
 #, c-format
@@ -65734,7 +66070,7 @@ msgstr "(自分: %d:%d)"
 
 #: src/game.cpp
 msgid "*yawn* You should really get some sleep."
-msgstr "「ふぁぁ。」 早急に睡眠を取る必要があります。"
+msgstr "「ふぁぁ。」 早急に眠る必要があります。"
 
 #: src/game.cpp
 msgid "... but it's empty!"
@@ -66309,7 +66645,7 @@ msgstr "敵を無視します！"
 
 #: src/game.cpp
 msgid "In memory of:"
-msgstr ""
+msgstr "思い出と共に眠る:"
 
 #: src/game.cpp
 msgid "Increase all skills"
@@ -66706,7 +67042,7 @@ msgstr "車両に補充しますか？"
 
 #: src/game.cpp
 msgid "Remove all monsters"
-msgstr ""
+msgstr "全てのモンスターを削除"
 
 #: src/game.cpp
 msgid "Rename"
@@ -66907,7 +67243,7 @@ msgstr "生存者は眠りました。"
 
 #: src/game.cpp
 msgid "Swap positions"
-msgstr ""
+msgstr "位置を入れ替える"
 
 #: src/game.cpp
 msgid "Take off item:"
@@ -68282,8 +68618,7 @@ msgstr "ここには%sと複数のアイテムがあります。"
 #, c-format
 msgid "You see here %s, %s and %d more item."
 msgid_plural "You see here %s, %s and %d more items."
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "ここには%sと%s、他に%d個のアイテムがあります。"
 
 #: src/game.cpp
 #, c-format
@@ -68729,8 +69064,8 @@ msgid ""
 msgstr ""
 ")       容器\n"
 "これらのアイテムは他のアイテムを入れておくことができます。中身と共に\"水が"
-"入ったペットボトル\"のように表示されます。食べものが入っている場合は%sで食べ"
-"られ、容器は空になります。"
+"入ったペットボトル\"の様に表示されます。食べものが入っている場合は%sで食べら"
+"れ、容器は空になります。"
 
 #: src/help.cpp
 #, c-format
@@ -69035,7 +69370,7 @@ msgstr ""
 "Cataclysmは従来のローグライクと幾つかの異なる点があります。階層ごとに限りのあ"
 "るダンジョンに潜り、探索するのではなく、東西南北に無限に広がる世界を探索しま"
 "す。サバイバルローグライクなので、食料を確保せねばならず、水分補給にも注意"
-"し、定期的に睡眠を取る必要があります。"
+"し、定期的に眠る必要があります。"
 
 #: src/help.cpp
 msgid ""
@@ -69043,7 +69378,7 @@ msgid ""
 "have survived the original onslaught, but the future looks pretty grim."
 msgstr ""
 "Cataclysmはモンスターアポカリプスを舞台にしたサバイバルローグライクゲームで"
-"す。最初の大災害を生き延びたが、先の見通しが立たないような状態です。"
+"す。最初の大災害は何とか生き延びましたが、先の見通しが立たない状態です。"
 
 #: src/help.cpp
 msgid ""
@@ -69162,8 +69497,7 @@ msgid ""
 msgstr ""
 "車両を操作するには\"車両制御装置\"のあるタイルで %s を押します。操縦席に着い"
 "たら %s で加速し, %s で減速または後退, %s と %s で左折または右折します。標準"
-"設定で速度自動制御がオンになっているので,スピードは保たれるようになっていま"
-"す。"
+"設定で速度自動制御がオンになっているので,スピードは保たれる様になっています。"
 
 #: src/help.cpp
 #, c-format
@@ -69174,9 +69508,9 @@ msgid ""
 "bring up the \"Vehicle Controls\" menu, which has options for things you'd "
 "do from the driver's seat."
 msgstr ""
-"停車するときは安全のため \"s\" でハンドブレーキをかけるといいかもしれません。"
-"降りる,明かりを点ける,速度自動制御の切り替え,エンジンのオンオフなどは %s を押"
-"して\"車両制御\"メニューを表示させ実行します。"
+"停車する時は安全の為 \"s\"でハンドブレーキをかけるといいかもしれません。降り"
+"る、明かりを点ける、速度自動制御の切り替え、エンジンのオンオフなどは%sを押し"
+"て\"車両制御\"メニューを表示させて実行します。"
 
 #: src/help.cpp
 msgid ""
@@ -69647,6 +69981,10 @@ msgid ""
 "medications, and a wide variety of tools are all available to help you "
 "survive."
 msgstr ""
+"Cataclysmは他のローグライクよりも多くの作業を必要とします。しかし、このゲーム"
+"は近未来の設定なので、幾つかの作業自体は容易に行えます。銃器や薬物治療、多種"
+"多様な道具などが全て利用可能なのです。これらは全て、世紀末を生き残るのに役立"
+"ちます。"
 
 #: src/help.cpp
 msgid ""
@@ -69685,6 +70023,10 @@ msgid ""
 "survivors you must stay alert, since someone may be plotting behind your "
 "back to take your hard-earned loot."
 msgstr ""
+"次第に減少する備蓄、敵対的な生物、有害な天候など、多くの困難に立ち向かう為に"
+"準備が必要です。苦労して集めた戦利品を、誰かに奪われない様に、常に警戒する必"
+"要があるでしょう。もしかすると仲間になった生存者達もその戦利品を狙っているか"
+"もしれませんよ？"
 
 #: src/help.cpp
 msgid ""
@@ -69911,7 +70253,7 @@ msgstr ""
 
 #: src/iexamine.cpp
 msgid "Attempt to crack the safe?"
-msgstr ""
+msgstr "金庫破りを試みますか？"
 
 #: src/iexamine.cpp
 msgctxt "memorial_female"
@@ -70028,6 +70370,11 @@ msgid "Flip the %s?"
 msgstr ""
 
 #: src/iexamine.cpp
+#, c-format
+msgid "Forage through %s?"
+msgstr ""
+
+#: src/iexamine.cpp
 msgid "Glug Glug Glug"
 msgstr "ゴボゴボゴボ"
 
@@ -70136,7 +70483,7 @@ msgstr ""
 
 #: src/iexamine.cpp
 msgid "JACKPOT!  You win $3000!"
-msgstr "ジャックポットだ！5000ドルを手に入れた！"
+msgstr "ジャックポットだ！5000ドルを手に入れました！"
 
 #: src/iexamine.cpp
 msgid "Ka-klunk!"
@@ -70145,7 +70492,7 @@ msgstr ""
 #: src/iexamine.cpp
 #, c-format
 msgid "Looks like you need a %s."
-msgstr ""
+msgstr "%sが必要な様です。"
 
 #: src/iexamine.cpp
 #, c-format
@@ -70199,7 +70546,7 @@ msgstr ""
 
 #: src/iexamine.cpp
 msgid "Pick the gun safe?"
-msgstr ""
+msgstr "銃保管庫をピッキングしますか？"
 
 #: src/iexamine.cpp
 msgid "Place a plank over the pit?"
@@ -70417,7 +70764,7 @@ msgstr ""
 
 #: src/iexamine.cpp
 msgid "The safe resists your attempt at cracking it."
-msgstr ""
+msgstr "金庫破りに失敗しました。"
 
 #: src/iexamine.cpp
 msgid "The seed blooms forth!  We have brought true beauty to this world."
@@ -70478,7 +70825,7 @@ msgstr "既に%sは収穫されています。来年、再度収穫する事が�
 
 #: src/iexamine.cpp
 msgid "This flower has a heady aroma."
-msgstr ""
+msgstr "この花は強烈な芳香を放っています。"
 
 #: src/iexamine.cpp
 msgid "This flower is dead. You can't get it."
@@ -70486,11 +70833,11 @@ msgstr ""
 
 #: src/iexamine.cpp
 msgid "This flower is still alive, despite the harsh conditions..."
-msgstr ""
+msgstr "この花は過酷な条件にも関わらず、まだ生きています。"
 
 #: src/iexamine.cpp
 msgid "This flower tastes very wrong..."
-msgstr ""
+msgstr "この花はとても可笑しな味がします..."
 
 #: src/iexamine.cpp
 msgid "This kiln already contains charcoal."
@@ -70526,7 +70873,7 @@ msgstr "この作物は既に施肥されています。"
 
 #: src/iexamine.cpp
 msgid "This plant is dead. You can't get it."
-msgstr ""
+msgstr "この植物は枯れています。"
 
 #: src/iexamine.cpp
 msgid "This station is out of fuel.  We apologize for the inconvenience."
@@ -70551,7 +70898,7 @@ msgstr "自動的に銀行口座から1.00ドルが差し引かれます。続�
 
 #: src/iexamine.cpp
 msgid "Three bells... you win $50!"
-msgstr "ベルが3つ...50ドルを手に入れた！"
+msgstr "ベルが3つ...50ドルを手に入れました！"
 
 #: src/iexamine.cpp
 msgid "Three cherries... you get your money back!"
@@ -70559,7 +70906,7 @@ msgstr "チェリーが3つ...やったね、お金が戻ってきたよ！"
 
 #: src/iexamine.cpp
 msgid "Three stars... you win $200!"
-msgstr "スターが3つ...200ドルを手に入れた！"
+msgstr "スターが3つ...200ドルを手に入れました！"
 
 #: src/iexamine.cpp
 msgid "Transfer All Money"
@@ -70585,7 +70932,7 @@ msgstr "銃保管庫にハッキング装置を使いますか？"
 
 #: src/iexamine.cpp
 msgid "Use electrohack on the reader?"
-msgstr ""
+msgstr "リーダーにハッキング装置を使いますか？"
 
 #: src/iexamine.cpp
 msgid "Use fingerhack on the gun safe?"
@@ -70593,7 +70940,7 @@ msgstr "銃保管庫に指内蔵式ハッキングツールを使いますか？
 
 #: src/iexamine.cpp
 msgid "Use fingerhack on the reader?"
-msgstr ""
+msgstr "リーダーに指内蔵式ハッキングツールを使いますか？"
 
 #: src/iexamine.cpp
 #, c-format
@@ -70688,7 +71035,7 @@ msgstr "振替が出来るのは、自分専用のキャッシュカード(充�
 
 #: src/iexamine.cpp
 msgid "You can't crack a safe while deaf!"
-msgstr ""
+msgstr "耳が聞こえないと金庫破りは出来ない！"
 
 #: src/iexamine.cpp
 msgid "You can't hack this gun safe without an electrohack."
@@ -70708,7 +71055,7 @@ msgstr "カーテンを少し開いて、慎重に覗きました。"
 
 #: src/iexamine.cpp
 msgid "You cause a short circuit!"
-msgstr ""
+msgstr "短絡を引き起こしました！"
 
 #: src/iexamine.cpp
 #, c-format
@@ -70920,7 +71267,7 @@ msgstr ""
 
 #: src/iexamine.cpp
 msgid "You successfully crack the safe!"
-msgstr ""
+msgstr "金庫破りに成功しました！"
 
 #: src/iexamine.cpp
 msgid "You successfully hack the gun safe."
@@ -70972,11 +71319,11 @@ msgstr "割引: "
 
 #: src/iexamine.cpp
 msgid "Your electrohack is ruined!"
-msgstr ""
+msgstr "ハッキング装置が壊れました！"
 
 #: src/iexamine.cpp
 msgid "Your legs are covered in the poppy's roots!"
-msgstr ""
+msgstr "脚がケシの根で覆われています！"
 
 #: src/iexamine.cpp
 msgid "Your power is drained!"
@@ -71156,10 +71503,6 @@ msgstr ""
 
 #: src/item.cpp
 msgid " (L)"
-msgstr ""
-
-#: src/item.cpp
-msgid " (P)"
 msgstr ""
 
 #: src/item.cpp
@@ -71998,12 +72341,6 @@ msgid "This piece of clothing has pockets to warm your hands."
 msgstr "この衣類はポケットが付いており、手を温めてくれます。"
 
 #: src/item.cpp
-msgid ""
-"This piece of clothing has some pockets and straps sewn on to give you some "
-"more places to carry things."
-msgstr ""
-
-#: src/item.cpp
 msgid "This piece of clothing is designed to keep you dry in the rain."
 msgstr "この衣類は雨の中でも身体が濡れない様に設計されています。"
 
@@ -72554,10 +72891,6 @@ msgstr ""
 #: src/iuse.cpp
 msgctxt "memorial_male"
 msgid "Adapted to underground living."
-msgstr ""
-
-#: src/iuse.cpp
-msgid "Add extra straps and pockets"
 msgstr ""
 
 #. ~"Uh-uh" is a sound used for "nope", "no", etc.
@@ -74176,7 +74509,7 @@ msgstr ""
 #: src/iuse.cpp
 #, c-format
 msgid "The %s short circuits as you attempt to reprogram it!"
-msgstr "再プログラミングの実行中に%sの回路がショートしてしまいました！"
+msgstr "再プログラミングの実行中に%sの回路が短絡してしまいました！"
 
 #: src/iuse.cpp
 #, c-format
@@ -75082,6 +75415,10 @@ msgid "You can only purify water."
 msgstr "浄化できるのは水だけです。"
 
 #: src/iuse.cpp
+msgid "You can only tailor your clothes!"
+msgstr "仕立てられるのは衣服だけです！"
+
+#: src/iuse.cpp
 #, c-format
 msgid "You can't %1$s %2$s because of the material it is made of."
 msgstr ""
@@ -75089,12 +75426,6 @@ msgstr ""
 #: src/iuse.cpp
 #, c-format
 msgid "You can't %s an item that's not solid!"
-msgstr ""
-
-#: src/iuse.cpp
-msgid ""
-"You can't bring yourself to cover your beautiful regalia with hideous "
-"pockets!"
 msgstr ""
 
 #: src/iuse.cpp
@@ -75172,7 +75503,7 @@ msgstr "%sを収める事は出来ません！"
 
 #: src/iuse.cpp
 msgid "You can't use a tailor's kit on a firearm!"
-msgstr ""
+msgstr "銃火器に仕立て屋キットは使えない！"
 
 #: src/iuse.cpp
 msgid "You cannot disassemble that."
@@ -75267,18 +75598,13 @@ msgstr ""
 
 #: src/iuse.cpp
 #, c-format
-msgid "You damage your %s further trying to sew on pockets!"
-msgstr ""
-
-#: src/iuse.cpp
-#, c-format
 msgid "You damage your %s further!"
-msgstr "%sを更に傷つけました！"
+msgstr "%sが更に傷付きました！"
 
 #: src/iuse.cpp
 #, c-format
 msgid "You damage your %s!"
-msgstr "%sを傷付けました！"
+msgstr "%sが傷付きました！"
 
 #: src/iuse.cpp
 msgid "You decide not to flash yourself."
@@ -75425,10 +75751,6 @@ msgstr ""
 
 #: src/iuse.cpp
 msgid "You fail to sew in a fur lining, and you waste a lot of thread and fur."
-msgstr ""
-
-#: src/iuse.cpp
-msgid "You fail to sew on pockets, and you waste a lot of thread and rags."
 msgstr ""
 
 #: src/iuse.cpp
@@ -76096,22 +76418,12 @@ msgstr ""
 
 #: src/iuse.cpp
 #, c-format
-msgid "You sew extra pockets on your %s!"
-msgstr ""
-
-#: src/iuse.cpp
-#, c-format
 msgid "You sew in a fur lining on your %s!"
 msgstr ""
 
 #: src/iuse.cpp
 #, c-format
 msgid "You sew in a fur lining on your %s, but waste a lot of thread."
-msgstr ""
-
-#: src/iuse.cpp
-#, c-format
-msgid "You sew pockets on your %s, but waste a lot of thread."
 msgstr ""
 
 #: src/iuse.cpp
@@ -76517,10 +76829,6 @@ msgstr ""
 
 #: src/iuse.cpp
 msgid "You've already released the handle, try throwing it instead."
-msgstr ""
-
-#: src/iuse.cpp
-msgid "You've already sewed on extra pockets."
 msgstr ""
 
 #: src/iuse.cpp
@@ -78254,10 +78562,11 @@ msgstr "かなり西"
 msgid "west and below"
 msgstr "少し西"
 
+#. ~ item name [quantity]
 #: src/live_view.cpp
 #, c-format
-msgid " [%d]"
-msgstr " [%d]"
+msgid "%s [%d]"
+msgstr "%s[%d]"
 
 #: src/live_view.cpp
 msgid "More items here..."
@@ -78549,7 +78858,7 @@ msgstr ""
 
 #: src/mapgen.cpp
 msgid "Analyze blood"
-msgstr ""
+msgstr "血液を分析する"
 
 #: src/mapgen.cpp
 msgid "Barracks Entrance"
@@ -78577,7 +78886,7 @@ msgstr "指令: SRCF封鎖[4423]"
 
 #: src/mapgen.cpp
 msgid "Centrifuge"
-msgstr ""
+msgstr "遠心分離を行う"
 
 #: src/mapgen.cpp
 msgid "Containment Control"
@@ -78717,7 +79026,7 @@ msgstr "保安上の注意[1057]"
 
 #: src/mapgen.cpp
 msgid "Stem Cell Treatment"
-msgstr ""
+msgstr "幹細胞を治療する"
 
 #: src/mapgen.cpp
 msgid "Sub-prime contact console"
@@ -78789,7 +79098,7 @@ msgstr "ロッカー(証拠品)を開く"
 
 #: src/mapgen_functions.cpp
 msgid "Open Supply Room"
-msgstr ""
+msgstr "備品室を開く"
 
 #: src/mapgen_functions.cpp
 msgid "Open Vault"
@@ -78946,7 +79255,7 @@ msgstr ""
 #: src/melee.cpp
 #, c-format
 msgid "%s misses."
-msgstr ""
+msgstr "%sの攻撃が外れました。"
 
 #: src/melee.cpp
 #, c-format
@@ -79021,7 +79330,7 @@ msgstr ""
 #: src/melee.cpp
 #, c-format
 msgid "%s swings wildly and misses."
-msgstr ""
+msgstr "%sの乱暴な振り回し攻撃は外れました。"
 
 #: src/melee.cpp
 #, c-format
@@ -79051,7 +79360,7 @@ msgstr "<npcname>の乱打が%sに命中しました。"
 #: src/melee.cpp
 #, c-format
 msgid "<npcname> blocks %s of the damage with their %s!"
-msgstr ""
+msgstr "<npcname>の%2$sが%1$sのダメージを防ぎました！"
 
 #: src/melee.cpp
 #, c-format
@@ -79238,7 +79547,7 @@ msgstr ""
 #: src/melee.cpp
 #, c-format
 msgid "You block %s of the damage with your %s!"
-msgstr ""
+msgstr "%2$sが%1$sのダメージを防ぎました！"
 
 #: src/melee.cpp
 #, c-format
@@ -79529,32 +79838,32 @@ msgstr ""
 #. ~ Adjective in "You block <adjective> of the damage with your <weapon>.
 #: src/melee.cpp
 msgid "a little"
-msgstr ""
+msgstr "少し"
 
 #. ~ Adjective in "You block <adjective> of the damage with your <weapon>.
 #: src/melee.cpp
 msgid "a lot"
-msgstr ""
+msgstr "多く"
 
 #. ~ Adjective in "You block <adjective> of the damage with your <weapon>.
 #: src/melee.cpp
 msgid "all"
-msgstr ""
+msgstr "全て"
 
 #. ~ Adjective in "You block <adjective> of the damage with your <weapon>.
 #: src/melee.cpp
 msgid "most"
-msgstr ""
+msgstr "かなり"
 
 #. ~ Adjective in "You block <adjective> of the damage with your <weapon>.
 #: src/melee.cpp
 msgid "nearly all"
-msgstr ""
+msgstr "殆ど全て"
 
 #. ~ Adjective in "You block <adjective> of the damage with your <weapon>.
 #: src/melee.cpp
 msgid "some"
-msgstr ""
+msgstr "多少"
 
 #: src/melee.cpp src/monster.cpp
 #, c-format
@@ -79748,7 +80057,7 @@ msgstr "抗生物質は見つかったかい？"
 
 #: src/mission.cpp
 msgid "Found a gunslinger?"
-msgstr ""
+msgstr "ガンスリンガーを見つけてくれたかい？"
 
 #: src/mission.cpp
 msgid ""
@@ -79792,6 +80101,7 @@ msgid ""
 "Great, just let me know when you are ready to wade knee-deep in an ocean of "
 "blood."
 msgstr ""
+"最高だな。膝まで没する血の海を掻き分けながら歩く準備が出来たら教えてくれよ。"
 
 #: src/mission.cpp
 msgid ""
@@ -79805,11 +80115,11 @@ msgstr ""
 
 #: src/mission.cpp
 msgid "Have you completed your mission?"
-msgstr ""
+msgstr "ミッションは片付いた？"
 
 #: src/mission.cpp
 msgid "Have you dealt with them?"
-msgstr ""
+msgstr "対処してくれたかい？"
 
 #: src/mission.cpp
 msgid "Have you found my dog yet?"
@@ -80512,7 +80822,7 @@ msgstr ""
 
 #: src/mission.cpp
 msgid "This isn't what we need."
-msgstr "これは私達には必要な物じゃないな。"
+msgstr "これは別に必要ないね。"
 
 #: src/mission.cpp
 msgid "This shouldn't be hard unless we run into a horde."
@@ -80662,7 +80972,7 @@ msgstr ""
 
 #: src/mission.cpp
 msgid "Will they be bothering us any longer?"
-msgstr ""
+msgstr "悩みを解決してくれたかい？"
 
 #: src/mission.cpp
 msgid "With the black box in hand, we need to find a lab."
@@ -80682,7 +80992,7 @@ msgstr ""
 
 #: src/mission.cpp
 msgid "You deal with the rat?"
-msgstr ""
+msgstr "鼠を処理できるか？"
 
 #: src/mission.cpp
 msgid ""
@@ -80859,7 +81169,7 @@ msgstr "ジャバウォックを殺す"
 
 #: src/missiondef.cpp
 msgid "Kill Raider Leader"
-msgstr ""
+msgstr "レイダーのボスを殺す"
 
 #: src/missiondef.cpp
 msgid "Kill Zombie Mom"
@@ -80891,7 +81201,7 @@ msgstr "神父の日記を取り戻す"
 
 #: src/missiondef.cpp
 msgid "Recruit Tracker"
-msgstr ""
+msgstr "追跡者を募集する"
 
 #: src/missiondef.cpp
 msgid "Retrieve Black Box Transcript"
@@ -80911,7 +81221,7 @@ msgstr "ソフトウェアを手に入れる"
 
 #: src/missiondef.cpp
 msgid "Tracker"
-msgstr ""
+msgstr "追跡者"
 
 #: src/mod_manager.cpp
 #, c-format
@@ -80954,36 +81264,34 @@ msgstr "、 "
 #, c-format
 msgid "Author: %s\n"
 msgid_plural "Authors: %s\n"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "著者: %s\n"
 
 #: src/mod_manager_ui.cpp
 msgid "Authors: [UNKNOWN]\n"
-msgstr ""
+msgstr "著者: [UNKNOWN]\n"
 
 #: src/mod_manager_ui.cpp
 msgid "Dependencies: [NONE]\n"
-msgstr ""
+msgstr "従属: [NONE]\n"
 
 #: src/mod_manager_ui.cpp
 #, c-format
 msgid "Dependency: %s\n"
 msgid_plural "Dependencies: %s\n"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "従属: %s\n"
 
 #: src/mod_manager_ui.cpp
 #, c-format
 msgid "Description: %s\n"
-msgstr ""
+msgstr "概要: %s\n"
 
 #: src/mod_manager_ui.cpp
 msgid "Description: [NONE]\n"
-msgstr ""
+msgstr "概要: [NONE]\n"
 
 #: src/monattack.cpp
 msgid "\"Do not fear\""
-msgstr ""
+msgstr "「怖がらなくても大丈夫です。」"
 
 #: src/monattack.cpp
 msgid "\"FOUL INTERLOPER...\""
@@ -80995,15 +81303,15 @@ msgstr "「今すぐこの場から消えて下さい...」"
 
 #: src/monattack.cpp
 msgid "\"Let us help you\""
-msgstr ""
+msgstr "「貴方の力になります。」"
 
 #: src/monattack.cpp
 msgid "\"Please dont\""
-msgstr ""
+msgstr "「お願いです、止めて下さい。」"
 
 #: src/monattack.cpp
 msgid "\"Stop it please\""
-msgstr ""
+msgstr "「止めて下さい。」"
 
 #: src/monattack.cpp
 msgid "\"VERMIN... YOU ARE VERMIN...\""
@@ -81015,15 +81323,15 @@ msgstr "「ああ...美味しそうですね...貴方は...」"
 
 #: src/monattack.cpp
 msgid "\"We are friendly\""
-msgstr ""
+msgstr "「私達は友好的です。」"
 
 #: src/monattack.cpp
 msgid "\"We can help you\""
-msgstr ""
+msgstr "「私達は貴方の助けになります。」"
 
 #: src/monattack.cpp
 msgid "\"We wish you no harm\""
-msgstr ""
+msgstr "「私達は貴方に危害は加えない事を約束します。」"
 
 #: src/monattack.cpp
 msgid "\"YOU... ARE FILTH...\""
@@ -81035,11 +81343,11 @@ msgstr ""
 
 #: src/monattack.cpp
 msgid "\"i'm here for you!\""
-msgstr ""
+msgstr "「私は貴方の為にここにいるのです！」"
 
 #: src/monattack.cpp
 msgid "\"let me help!\""
-msgstr ""
+msgstr "「何か手伝わせて下さい！」"
 
 #: src/monattack.cpp
 msgid "\"we'll get through this!\""
@@ -81505,17 +81813,17 @@ msgstr ""
 #: src/monattack.cpp
 #, c-format
 msgid "The %s lunges at %s, but misses!"
-msgstr ""
+msgstr "%sが%sに突進を仕掛けました！しかし、命中しなかった。"
 
 #: src/monattack.cpp
 #, c-format
 msgid "The %s lunges at <npcname>, but they dodge!"
-msgstr ""
+msgstr "%sが<npcname>に突進して来ました！しかし、<npcname>は回避しました。"
 
 #: src/monattack.cpp
 #, c-format
 msgid "The %s lunges at you, but you dodge!"
-msgstr ""
+msgstr "%sが突進して来ました！しかし、回避しました。"
 
 #: src/monattack.cpp
 #, c-format
@@ -87063,7 +87371,7 @@ msgstr[1] ""
 
 #: src/options.cpp
 msgid "(WIP feature) Determines terrain, shops, plants, and more."
-msgstr ""
+msgstr "(WIP機能)地形や店、植物などを設定します。"
 
 #. ~ 12h time, e.g. 11:59pm
 #: src/options.cpp
@@ -87076,7 +87384,7 @@ msgid ""
 "24h, eg: 7:31"
 msgstr ""
 "時間表示の設定。\n"
-"12h: AM/PM, 例: [7:31 AM] - Military: 24h Military, 例: [0731]\n"
+"12h: AM/PM, 例: [7:31 AM] - 軍隊式: 24h Military, 例: [0731]\n"
 "24h: Normal 24h, 例: [7:31]"
 
 #. ~ 24h time, e.g. 23:59
@@ -87100,29 +87408,29 @@ msgstr "モンスター出現の倍率を設定します。"
 
 #: src/options.cpp
 msgid "Adjust the volume of the music being played in the background."
-msgstr ""
+msgstr "バックグラウンドで流れる音楽の音量を設定します。"
 
 #: src/options.cpp
 msgid "Always"
-msgstr ""
+msgstr "有効"
 
 #: src/options.cpp
 msgid ""
 "Always: Always start deathcam. Ask: Query upon death. Never: Never show "
 "deathcam."
 msgstr ""
+"有効: キルカメラを有効化する 質問: 死亡時に尋ねる 無効: キルカメラを無効化す"
+"る"
 
 #: src/options.cpp
 msgid ""
 "Always: Cursor is always shown. Hidden: Cursor is hidden. HiddenKB: Cursor "
 "is hidden on keyboard input and unhidden on mouse movement."
-msgstr ""
-"マウスカーソルの表示\n"
-"Always:常に表示。 - Hidden:非表示。 - HiddenKB:キー操作時は非表示。"
+msgstr "マウスカーソルの表示/非表示の設定。"
 
 #: src/options.cpp
 msgid "Animation delay"
-msgstr "アニメーション: 遅延"
+msgstr "アニメーション/遅延"
 
 #: src/options.cpp
 msgid "Animations"
@@ -87130,11 +87438,11 @@ msgstr "アニメーション"
 
 #: src/options.cpp
 msgid "Ask"
-msgstr ""
+msgstr "質問"
 
 #: src/options.cpp
 msgid "Ask to save before sleeping"
-msgstr "睡眠時のセーブを確認"
+msgstr "確認/睡眠時のセーブ"
 
 #: src/options.cpp
 msgid "Auto inventory letters"
@@ -87146,15 +87454,15 @@ msgstr "メモの自動化"
 
 #: src/options.cpp
 msgid "Auto pickup 0 vol light items"
-msgstr ""
+msgstr "自動取得/50グラム未満のアイテム"
 
 #: src/options.cpp
 msgid "Auto pickup adjacent"
-msgstr ""
+msgstr "自動取得/隣接タイル"
 
 #: src/options.cpp
 msgid "Auto pickup enabled"
-msgstr "自動取得の有効化"
+msgstr "自動取得/有効化"
 
 #: src/options.cpp
 msgid ""
@@ -87162,7 +87470,7 @@ msgid ""
 "affected by Safemode proximity distance."
 msgstr ""
 "敵が近くにいる場合は自動取得を無効化する。\n"
-"safemodeproximity distanceの設定が適用される。"
+"セーフモード/近接距離設定が適用されます。"
 
 #: src/options.cpp
 msgid ""
@@ -87172,11 +87480,11 @@ msgstr "volが0か [option] * 50グラム未満のアイテムを自動的に拾
 
 #: src/options.cpp
 msgid "Auto pickup safemode"
-msgstr ""
+msgstr "自動取得/セーフモード"
 
 #: src/options.cpp
 msgid "Auto-safemode on by default"
-msgstr ""
+msgstr "初期設定/オートセーフモード"
 
 #: src/options.cpp
 msgid "Auto-shift the view while driving"
@@ -87228,7 +87536,7 @@ msgstr "クラシックモード"
 
 #: src/options.cpp
 msgid "Close advanced inventory on move all"
-msgstr ""
+msgstr "全アイテムの移動後に拡張インベントリを閉じる"
 
 #: src/options.cpp
 #, c-format
@@ -87241,11 +87549,11 @@ msgstr "現在の世界"
 
 #: src/options.cpp
 msgid "Dangerous pickups"
-msgstr ""
+msgstr "危険な取得"
 
 #: src/options.cpp
 msgid "DeathCam"
-msgstr ""
+msgstr "キルカメラ"
 
 #: src/options.cpp
 msgid "Debug"
@@ -87253,7 +87561,7 @@ msgstr "デバッグ"
 
 #: src/options.cpp
 msgid "Default region type"
-msgstr ""
+msgstr "初期設定/地域"
 
 #: src/options.cpp
 #, c-format
@@ -87268,7 +87576,7 @@ msgstr "初期設定: %d - 最小: %d, 最大: %d"
 #: src/options.cpp
 #, c-format
 msgid "Default: %s - Values: %s"
-msgstr "初期設定: %s - 価値: %s"
+msgstr "初期設定: %s - 値: %s"
 
 #: src/options.cpp
 msgid "Default: False"
@@ -87339,7 +87647,7 @@ msgstr ""
 
 #: src/options.cpp
 msgid "Force Y/N in prompts"
-msgstr ""
+msgstr "大小文字識別(Y/N)"
 
 #: src/options.cpp
 msgid "Fullscreen"
@@ -87347,7 +87655,7 @@ msgstr "フルスクリーン"
 
 #: src/options.cpp
 msgid "Game turns between autosaves"
-msgstr "ターン経過で自動保存"
+msgstr "自動保存/ターン経過"
 
 #: src/options.cpp
 msgid "General"
@@ -87360,7 +87668,7 @@ msgstr "表示"
 #. ~ hide mouse cursor
 #: src/options.cpp
 msgid "Hide"
-msgstr ""
+msgstr "非表示"
 
 #: src/options.cpp
 msgid "Hide mouse cursor"
@@ -87369,7 +87677,7 @@ msgstr "マウスカーソルを隠す"
 #. ~ hide mouse cursor when keyboard is used
 #: src/options.cpp
 msgid "HideKB"
-msgstr ""
+msgstr "非表示(キー操作時)"
 
 #: src/options.cpp
 msgid "Hoder's"
@@ -87377,11 +87685,11 @@ msgstr "Hoder's"
 
 #: src/options.cpp
 msgid "Horizontal"
-msgstr ""
+msgstr "水平"
 
 #: src/options.cpp
 msgid "Hybrid"
-msgstr ""
+msgstr "複合"
 
 #: src/options.cpp
 msgid ""
@@ -87425,7 +87733,7 @@ msgstr "Trueにするとリスタート時にオートセーフモードがオ�
 
 #: src/options.cpp
 msgid "If true, automatically follow the crosshair when firing/throwing."
-msgstr "Trueにすると射撃/投擲時に自動的に目標を選択する。"
+msgstr "Trueにすると射撃/投擲時に自動的に目標を選択します。"
 
 #: src/options.cpp
 msgid ""
@@ -87434,7 +87742,7 @@ msgstr ""
 
 #: src/options.cpp
 msgid "If true, game will ask to save the map before sleeping."
-msgstr "Trueにすると睡眠時にセーブするか確認。"
+msgstr "Trueにすると睡眠時にセーブするか確認します。"
 
 #: src/options.cpp
 msgid ""
@@ -87452,7 +87760,7 @@ msgstr ""
 
 #: src/options.cpp
 msgid "If true, radiation causes the player to mutate."
-msgstr "Trueにすると放射線の影響で突然変異を引き起こす。"
+msgstr "Trueにすると放射線の影響で突然変異を引き起こします。"
 
 #: src/options.cpp
 msgid "If true, replaces some TTF rendered text with tiles."
@@ -87489,7 +87797,7 @@ msgstr ""
 
 #: src/options.cpp
 msgid "If true, the game will randomly spawn NPC during gameplay."
-msgstr "TrueにするとランダムにNPCを生成。"
+msgstr "TrueにするとランダムにNPCを生成します。"
 
 #: src/options.cpp
 msgid ""
@@ -87501,24 +87809,24 @@ msgstr ""
 
 #: src/options.cpp
 msgid "If true, vehicle parts will change color if they are armor plated"
-msgstr "trueにすると車両部品の色が装甲によって変化する。"
+msgstr "trueにすると車両部品の色が装甲によって変化します。"
 
 #: src/options.cpp
 msgid "If true, view will automatically shift towards the driving direction"
-msgstr "trueにすると運転中は自動で前方に視点が移動する。"
+msgstr "trueにすると運転中は自動で前方に視点が移動します。"
 
 #: src/options.cpp
 msgid ""
 "If true, when controlling a vehicle, a white 'X' at distance 10 from the "
 "center will display its current facing."
-msgstr "trueにすると運転中は前方に白い'X'が表示される。"
+msgstr "trueにすると運転中は前方に白い'X'が表示されます。"
 
 #: src/options.cpp
 msgid ""
 "If true, will close the advanced inventory when the move all items command "
 "is used."
 msgstr ""
-"trueにするとアイテムをすべて移動コマンド実行後advanced inventoryを閉じる。"
+"trueにするとアイテムをすべて移動コマンド実行後に拡張インベントリを閉じます。"
 
 #: src/options.cpp
 msgid "If true, will display enabled animations."
@@ -87534,11 +87842,11 @@ msgstr "trueにするとアニメーションで天候を表示します。"
 
 #: src/options.cpp
 msgid "If true, will query before disassembling items."
-msgstr "Trueにするとアイテムを分解する前に確認するようにする。"
+msgstr "Trueにするとアイテムを分解する前に確認します。"
 
 #: src/options.cpp
 msgid "If true, will query before removing a keybinding from a hotkey."
-msgstr "trueにするとキー割り当てを削除する時に確認する。"
+msgstr "trueにするとキー割り当てを削除する時に確認します。"
 
 #: src/options.cpp
 msgid "Initial points"
@@ -87546,7 +87854,7 @@ msgstr "初期ポイント"
 
 #: src/options.cpp
 msgid "Initial points available on character generation."
-msgstr "キャラクター作成時のポイント。"
+msgstr "キャラクター作成時の初期ポイントを設定します。"
 
 #: src/options.cpp
 msgid "Initial season"
@@ -87576,7 +87884,7 @@ msgstr "インターフェイス"
 
 #: src/options.cpp
 msgid "Invalid input: not a number"
-msgstr ""
+msgstr "入力値が無効です: 数字を入れて下さい"
 
 #: src/options.cpp
 msgid "Item spawn scaling factor"
@@ -87589,7 +87897,7 @@ msgstr "言語"
 #: src/options.cpp
 #, c-format
 msgid "Loading the tileset failed: %s"
-msgstr ""
+msgstr "タイルセットの読込に失敗しました: %s"
 
 #: src/options.cpp
 msgid "Mass units"
@@ -87601,7 +87909,7 @@ msgstr "特性ポイント最大値"
 
 #: src/options.cpp
 msgid "Maximum trait points available for character generation."
-msgstr "キャラクター作成時に取得できるtraitの最大数。"
+msgstr "キャラクター作成時に取得できる特性の最大値を設定します。"
 
 #. ~ Military time, e.g. 2359
 #: src/options.cpp
@@ -87610,7 +87918,7 @@ msgstr "軍隊式"
 
 #: src/options.cpp
 msgid "Move view by how many squares per keypress."
-msgstr "キーを押すたびに設定された値の数だけ視点を移動する。"
+msgstr "キーを押すたびに設定された値の数だけ視点を移動します。"
 
 #: src/options.cpp
 msgid "Move view offset"
@@ -87626,11 +87934,11 @@ msgstr "放射能で変異"
 
 #: src/options.cpp
 msgid "Narrow"
-msgstr ""
+msgstr "縮小"
 
 #: src/options.cpp
 msgid "Never"
-msgstr ""
+msgstr "無効"
 
 #: src/options.cpp
 msgid "No"
@@ -87653,8 +87961,8 @@ msgid ""
 "Number of turns after safemode is reenabled if no hostiles are in "
 "safemodeproximity distance."
 msgstr ""
-"safemodeproximity distanceの距離内に敵がいなければ設定したターン後にセーフ"
-"モードを有効にする。"
+"セーフモード/近接距離設定の距離内に敵がいなければ設定したターン後にセーフモー"
+"ドを有効にする。"
 
 #: src/options.cpp
 msgid "Off"
@@ -87670,23 +87978,23 @@ msgstr ""
 
 #: src/options.cpp
 msgid "Periodically autosave"
-msgstr "定期的に自動保存"
+msgstr "自動保存/定期"
 
 #: src/options.cpp
 msgid "Query"
-msgstr ""
+msgstr "質問"
 
 #: src/options.cpp
 msgid "Query on disassembly"
-msgstr "アイテム分解時の確認"
+msgstr "確認/アイテム分解"
 
 #: src/options.cpp
 msgid "Query on keybinding removal"
-msgstr "キー割り当て削除時の確認"
+msgstr "確認/キー割り当ての削除"
 
 #: src/options.cpp
 msgid "Rain animation"
-msgstr "アニメーション: 雨"
+msgstr "アニメーション/雨"
 
 #: src/options.cpp
 msgid "Random npcs"
@@ -87694,23 +88002,23 @@ msgstr "ランダムNPC"
 
 #: src/options.cpp
 msgid "Real minutes between autosaves"
-msgstr "現実時間(分)で自動保存"
+msgstr "自動保存/現実時間(分)"
 
 #: src/options.cpp
 msgid "SCT animation"
-msgstr "アニメーション: SCT"
+msgstr "アニメーション/SCT"
 
 #: src/options.cpp
 msgid "Safemode on by default"
-msgstr ""
+msgstr "初期設定/セーフモード"
 
 #: src/options.cpp
 msgid "Safemode proximity distance"
-msgstr ""
+msgstr "セーフモード/近接距離設定"
 
 #: src/options.cpp
 msgid "Safemode when driving"
-msgstr ""
+msgstr "セーフモード/車両運転"
 
 #: src/options.cpp
 msgid "Season length"
@@ -87764,7 +88072,7 @@ msgstr ""
 #. ~ show mouse cursor
 #: src/options.cpp
 msgid "Show"
-msgstr ""
+msgstr "表示"
 
 #: src/options.cpp
 msgid "Show item health bars"
@@ -87772,7 +88080,7 @@ msgstr "アイテムHPバーを表示"
 
 #: src/options.cpp
 msgid "Sidebar style"
-msgstr ""
+msgstr "サイドバー形式"
 
 #: src/options.cpp
 msgid "Size of cities"
@@ -87780,11 +88088,11 @@ msgstr "街の大きさ"
 
 #: src/options.cpp
 msgid "Skill rust"
-msgstr ""
+msgstr "技能劣化"
 
 #: src/options.cpp
 msgid "Snap to target"
-msgstr ""
+msgstr "自動選択/目標"
 
 #: src/options.cpp
 msgid "Software rendering"
@@ -87846,7 +88154,7 @@ msgstr "温度(摂氏・華氏)の表示を設定。"
 
 #: src/options.cpp
 msgid "Switch between a narrower or wider sidebar. Requires restart."
-msgstr "サイドバー表示を狭めるか広めるかの切り替え。再起動が必要。"
+msgstr "サイドバー表示を狭めるか広めるかを切り替えます。再起動が必要です。"
 
 #: src/options.cpp
 msgid "Switch between kg and lbs."
@@ -87860,7 +88168,7 @@ msgstr "速度(Km/h・mph)の表示を設定。"
 msgid ""
 "Switch between two different styles of vehicle interaction menu or "
 "combination of them."
-msgstr "車両作成画面の表示切り替え。"
+msgstr "車両作成画面の表示を切り替えます。"
 
 #: src/options.cpp
 msgid "System language"
@@ -87892,11 +88200,12 @@ msgstr ""
 
 #: src/options.cpp
 msgid "Turns to reenable safemode"
-msgstr ""
+msgstr "セーフモード/再設定(ターン)"
 
 #: src/options.cpp
 msgid "Use software renderer instead of graphics card acceleration."
 msgstr ""
+"グラフィックスアクセラレータではなく、ソフトウェアレンダリングを使います。"
 
 #: src/options.cpp
 msgid "Use tiles"
@@ -87918,7 +88227,7 @@ msgstr ""
 #. ~ style of vehicle interaction menu; vertical is old one.
 #: src/options.cpp
 msgid "Vertical"
-msgstr ""
+msgstr "垂直"
 
 #: src/options.cpp
 msgid "Wander spawns"
@@ -87938,7 +88247,7 @@ msgstr "trueにすると運転中にセーフモードを有効化します。"
 #. ~ sidebar style
 #: src/options.cpp
 msgid "Wider"
-msgstr ""
+msgstr "拡大"
 
 #: src/options.cpp
 msgid "Winter"
@@ -88006,15 +88315,15 @@ msgstr " - 検索"
 
 #: src/overmap.cpp
 msgid " - Toggle Blinking"
-msgstr ""
+msgstr " - 切替/点滅"
 
 #: src/overmap.cpp
 msgid " - Toggle Explored"
-msgstr ""
+msgstr " - 切替/探索"
 
 #: src/overmap.cpp
 msgid " - Toggle Overlays"
-msgstr ""
+msgstr " - 切替/上書"
 
 #: src/overmap.cpp
 msgid "# Unexplored"
@@ -88022,7 +88331,7 @@ msgstr "# 未探索"
 
 #: src/overmap.cpp
 msgid "'<' '>' Cycle targets."
-msgstr ""
+msgstr "'<' '>' 目標を循環させます。"
 
 #: src/overmap.cpp
 msgid "< Prev notes"
@@ -88030,7 +88339,7 @@ msgstr "< 前のメモ"
 
 #: src/overmap.cpp
 msgid "Color codes: "
-msgstr ""
+msgstr "色コード: "
 
 #: src/overmap.cpp
 #, c-format
@@ -88039,7 +88348,7 @@ msgstr "目標までの距離: %d"
 
 #: src/overmap.cpp
 msgid "Enter/Spacebar to select."
-msgstr ""
+msgstr "エンター/スペースキーで選択します。"
 
 #: src/overmap.cpp
 msgid "Find place:"
@@ -88047,7 +88356,7 @@ msgstr "場所発見:"
 
 #: src/overmap.cpp
 msgid "Head West.  All survivors, head West.  Help is waiting."
-msgstr ""
+msgstr "西に向かえ。全ての生存者は西に向かうのだ。助けが待っているぞ。"
 
 #: src/overmap.cpp
 #, c-format
@@ -88151,7 +88460,7 @@ msgstr ""
 
 #: src/pickup.cpp
 msgid "PICK UP"
-msgstr ""
+msgstr "取得"
 
 #: src/pickup.cpp
 #, c-format
@@ -88222,16 +88531,16 @@ msgstr "液体は拾えない！"
 #: src/pickup.cpp
 #, c-format
 msgid "You pick up: %d %s"
-msgstr ""
+msgstr "取得: %2$s(%1$d個)"
 
 #: src/pickup.cpp
 #, c-format
 msgid "You pick up: %d %s [%c]"
-msgstr ""
+msgstr "取得: %2$s(%1$d個)[%3$c]"
 
 #: src/pickup.cpp
 msgid "You struggle to carry such a large volume!"
-msgstr ""
+msgstr "荷物(容積)が多過ぎて運ぶのに苦労しています！"
 
 #: src/pickup.cpp
 msgid "You're overburdened!"
@@ -88299,7 +88608,7 @@ msgstr " 頭部: %d/%d"
 #, c-format
 msgctxt "epitaph"
 msgid "\"%s\""
-msgstr ""
+msgstr "\"%s\""
 
 #: src/player.cpp
 msgid "%1$s gets a load of %2$s's %s stuck in!"
@@ -88449,7 +88758,7 @@ msgstr "<npcname>は若干の血液を失いました。"
 
 #: src/player.cpp
 msgid "<npcname> vomits a thick, gray goop."
-msgstr ""
+msgstr "<npcname>が嘔吐しました、おえっ。"
 
 #: src/player.cpp
 msgid "<npcname> vomits thousands of live spores!"
@@ -88985,10 +89294,12 @@ msgstr "日光"
 #, c-format
 msgid "In memory of: %s"
 msgstr ""
+"思い出と共に眠る: \n"
+"%s"
 
 #: src/player.cpp
 msgid "Insects begin to emerge from <npcname>'s skin!"
-msgstr ""
+msgstr "虫が<npcname>の皮膚を食い破って出て来ました！"
 
 #: src/player.cpp
 #, c-format
@@ -89027,18 +89338,18 @@ msgstr "横になって眠るには良い時間です。"
 #: src/player.cpp
 #, c-format
 msgid "It's a little hard to get to sleep on this %s."
-msgstr "%sの上で睡眠を取るのは少し困難です。"
+msgstr "%sの上で眠るのは少し困難です。"
 
 #: src/player.cpp
 msgid ""
 "It's difficult to see fine details right now. Reading will take longer than "
 "usual."
-msgstr "この本の詳細を直に理解するのは困難です。読解には時間が掛かります。"
+msgstr "現在、文字の視認が困難状態です。読解には時間が掛かります。"
 
 #: src/player.cpp
 #, c-format
 msgid "It's hard to get to sleep on this %s."
-msgstr "%sの上で睡眠を取るのは困難です。"
+msgstr "%sの上で眠るのは困難です。"
 
 #: src/player.cpp
 msgid "It's impossible to sleep in this wheeled pot!"
@@ -89099,7 +89410,7 @@ msgstr "左脚: %d/%d"
 #: src/player.cpp
 #, c-format
 msgid "Learned a recipe for %s from the %s."
-msgstr "%sのレシピを%sから学んだ。"
+msgstr "%sのレシピを%sから学びました。"
 
 #: src/player.cpp
 msgid "Lifetime Stats"
@@ -89605,37 +89916,37 @@ msgstr[0] "技術:"
 #: src/player.cpp
 #, c-format
 msgid "That %s cannot be attached to a bow."
-msgstr "%sは弓に取り付ける事は出来ません。"
+msgstr "%sは弓には取り付けられない。"
 
 #: src/player.cpp
 #, c-format
 msgid "That %s cannot be attached to a crossbow."
-msgstr "%sはクロスボウに取り付ける事は出来ません。"
+msgstr "%sはクロスボウには取り付けられない。"
 
 #: src/player.cpp
 #, c-format
 msgid "That %s cannot be attached to a handgun."
-msgstr "%sはハンドガンに取り付ける事は出来ません。"
+msgstr "%sはハンドガンには取り付けられない。"
 
 #: src/player.cpp
 #, c-format
 msgid "That %s cannot be attached to a launcher."
-msgstr "%sはランチャーに取り付ける事は出来ません。"
+msgstr "%sはランチャーには取り付けられない。"
 
 #: src/player.cpp
 #, c-format
 msgid "That %s cannot be attached to a rifle."
-msgstr "%sはライフルに取り付ける事は出来ません。"
+msgstr "%sはライフルには取り付けられない。"
 
 #: src/player.cpp
 #, c-format
 msgid "That %s cannot be attached to a shotgun."
-msgstr "%sはショットガンに取り付ける事は出来ません。"
+msgstr "%sはショットガンには取り付けられない。"
 
 #: src/player.cpp
 #, c-format
 msgid "That %s cannot be attached to a submachine gun."
-msgstr "%sはサブマシンガンに取り付ける事は出来ません。"
+msgstr "%sはサブマシンガンには取り付けられない。"
 
 #: src/player.cpp
 #, c-format
@@ -89759,7 +90070,7 @@ msgstr "それを食べると考えただけでも気分が悪くなります。
 #: src/player.cpp
 #, c-format
 msgid "The wind is making your %s feel quite cold."
-msgstr ""
+msgstr "%sに風が当たってかなり寒い。"
 
 #: src/player.cpp
 #, c-format
@@ -89767,10 +90078,17 @@ msgid ""
 "The wind is very strong, you should find some more wind-resistant clothing "
 "for your %s."
 msgstr ""
+"強風が吹いています。%sを寒さから守る為に、風を防げる衣類を見つける必要があり"
+"ます。"
 
 #: src/player.cpp
 msgid "The world takes on a dreamlike quality."
 msgstr "世界が素晴らしく幻想的に見えています。"
+
+#: src/player.cpp
+#, c-format
+msgid "There is not enough %s left to siphon it."
+msgstr ""
 
 #: src/player.cpp
 msgid "There's some kind of big machine in the sky."
@@ -89828,7 +90146,7 @@ msgstr[0] "この本を読むには%d分掛かります。"
 
 #: src/player.cpp
 msgid "This is a comfortable place to sleep."
-msgstr "ここは睡眠を取るには最適な場所です。"
+msgstr "ここは眠るには最適な場所です。"
 
 #: src/player.cpp
 msgid ""
@@ -90152,7 +90470,7 @@ msgstr ""
 
 #: src/player.cpp
 msgid "You cannot fit that over your shell."
-msgstr ""
+msgstr "殻の上には装備できない。"
 
 #: src/player.cpp
 #, c-format
@@ -90297,7 +90615,7 @@ msgstr ""
 
 #: src/player.cpp
 msgid "You feel nauseous!"
-msgstr "吐き気を感じました！"
+msgstr "吐き気を催しました！"
 
 #: src/player.cpp
 msgid "You feel nauseous, but your stomach is empty."
@@ -90455,7 +90773,7 @@ msgstr "大きな膿瘍に気が付き、膿を摘み出しました。"
 
 #: src/player.cpp
 msgid "You pass out!"
-msgstr ""
+msgstr "気絶しました！"
 
 #: src/player.cpp
 msgid "You pass out."
@@ -90472,7 +90790,7 @@ msgstr "寒さで小刻みに震えています。"
 
 #: src/player.cpp
 msgid "You relax as your roots embrace the soil."
-msgstr ""
+msgstr "根が土壌を受け入れました。ゆったりと寛いでいます。"
 
 #: src/player.cpp
 msgid "You relax into your web."
@@ -90735,12 +91053,12 @@ msgstr "%2$sに%1$sを発見しました！"
 #: src/player.cpp
 #, c-format
 msgid "Your %s HURTS!"
-msgstr ""
+msgstr "%sに怪我をしました！"
 
 #: src/player.cpp
 #, c-format
 msgid "Your %s aches."
-msgstr ""
+msgstr "%sが鈍く傷みます。"
 
 #: src/player.cpp
 #, c-format
@@ -90790,12 +91108,12 @@ msgstr "%sの修復を始めました！"
 #: src/player.cpp
 #, c-format
 msgid "Your %s hurts!"
-msgstr ""
+msgstr "%sに怪我をしました！"
 
 #: src/player.cpp
 #, c-format
 msgid "Your %s is %s further!"
-msgstr ""
+msgstr "%2$s%1$sが更に傷付きました！"
 
 #: src/player.cpp
 #, c-format
@@ -90825,17 +91143,17 @@ msgstr ""
 #: src/player.cpp
 #, c-format
 msgid "Your %s is wracked with excruciating pain!"
-msgstr ""
+msgstr "%sに走る猛烈な激痛に苦しみました！"
 
 #: src/player.cpp
 #, c-format
 msgid "Your %s is wracked with pain!"
-msgstr ""
+msgstr "%sに走る痛みに苦しみました！"
 
 #: src/player.cpp
 #, c-format
 msgid "Your %s is wracked with terrible pain!"
-msgstr ""
+msgstr "%sに走る激痛に苦しみました！"
 
 #: src/player.cpp
 #, c-format
@@ -90852,7 +91170,7 @@ msgstr[1] ""
 #: src/player.cpp
 #, c-format
 msgid "Your %s pains you!"
-msgstr ""
+msgstr "%sが傷みます！"
 
 #: src/player.cpp
 #, c-format
@@ -90867,17 +91185,17 @@ msgstr "%s技能は上昇しません。それでも読みますか？"
 #: src/player.cpp
 #, c-format
 msgid "Your %s will be frostbitten any minute now!!"
-msgstr ""
+msgstr "このままだと数分後に%sが凍傷になります！"
 
 #: src/player.cpp
 #, c-format
 msgid "Your %s will be frostbitten within the hour!"
-msgstr ""
+msgstr "このままだと1時間以内に%sが凍傷になります！"
 
 #: src/player.cpp
 #, c-format
 msgid "Your %s will be frostnipped in the next few hours."
-msgstr ""
+msgstr "このままだと数時間後に%sが霜焼けになります。"
 
 #. ~ %s is bodypart name.
 #: src/player.cpp
@@ -90911,15 +91229,15 @@ msgstr "身体が鈍く痛みます。"
 
 #: src/player.cpp
 msgid "Your body is wracked with excruciating pain!"
-msgstr ""
+msgstr "身体に走る猛烈な激痛に苦しみました！"
 
 #: src/player.cpp
 msgid "Your body is wracked with pain!"
-msgstr ""
+msgstr "身体に走る痛みに苦しみました！"
 
 #: src/player.cpp
 msgid "Your body is wracked with terrible pain!"
-msgstr ""
+msgstr "身体に走る激痛に苦しみました！"
 
 #: src/player.cpp
 msgid "Your body pains you!"
@@ -90957,7 +91275,7 @@ msgstr ""
 #, c-format
 msgid ""
 "Your clothing is not providing enough protection from the wind for your %s!"
-msgstr ""
+msgstr "装備中の衣類では%sに当たる風を十分に防げていない！"
 
 #: src/player.cpp
 msgid "Your clothing restricts your insect arms."
@@ -90977,19 +91295,19 @@ msgstr "顔が寒さで硬直しています。"
 
 #: src/player.cpp
 msgid "Your flesh crawls; insects tear through the flesh and begin to emerge!"
-msgstr ""
+msgstr "何か皮膚がむずむずと...虫が皮膚を食い破って出て来ました！"
 
 #: src/player.cpp
 msgid "Your foot has gone numb."
-msgstr ""
+msgstr "足が悴んでいます。"
 
 #: src/player.cpp
 msgid "Your freezing left foot messes up your balance."
-msgstr "左足は凍り付く程の寒さで上手くバランスを保てなくなっています。"
+msgstr "左足が凍り付く程の寒さで上手くバランスを保てなくなっています。"
 
 #: src/player.cpp
 msgid "Your freezing right foot messes up your balance."
-msgstr "右足は凍り付く程の寒さで上手くバランスを保てなくなっています。"
+msgstr "右足が凍り付く程の寒さで上手くバランスを保てなくなっています。"
 
 #: src/player.cpp
 #, c-format
@@ -91030,15 +91348,15 @@ msgstr "左腕が寒さで震えています。"
 
 #: src/player.cpp
 msgid "Your left foot feels frigid."
-msgstr "左足は厳しい寒さを感じています。"
+msgstr "左足が厳しい寒さを感じています。"
 
 #: src/player.cpp
 msgid "Your left foot is as nimble as a block of ice."
-msgstr "左足は氷塊になった様で軽快に動きます。"
+msgstr "左足が氷塊になった様で軽快に動きます。"
 
 #: src/player.cpp
 msgid "Your left foot is swelling in the heat."
-msgstr "左足は暑さで膨張しています。"
+msgstr "左足が暑さで膨張しています。"
 
 #: src/player.cpp
 msgid "Your left hand feels like ice."
@@ -91050,7 +91368,7 @@ msgstr "左手が寒さで小刻みに震えています。"
 
 #: src/player.cpp
 msgid "Your left hand's too sweaty to grip well."
-msgstr "左手は汗をかき過ぎており、物を掴むのが困難になっています。"
+msgstr "左手が汗をかき過ぎており、物を掴むのが困難になっています。"
 
 #: src/player.cpp
 msgid "Your left leg is cramping up."
@@ -91058,7 +91376,7 @@ msgstr "左脚が痙攣を起こしています。"
 
 #: src/player.cpp
 msgid "Your left leg trembles against the relentless cold."
-msgstr "左脚は厳しい寒さで意思に反して震えています。"
+msgstr "左脚が厳しい寒さで意思に反して震えています。"
 
 #: src/player.cpp
 msgid "Your legs uncontrollably shake from the cold."
@@ -91066,7 +91384,7 @@ msgstr "脚が寒さで抑え切れずに震えています。"
 
 #: src/player.cpp
 msgid "Your legs unsteadily shiver against the cold."
-msgstr "脚は寒さで意思に反して不規則に震えています。"
+msgstr "脚が寒さで意思に反して不規則に震えています。"
 
 #: src/player.cpp
 msgid "Your malfunctioning bionic causes you to spasm and fall to the floor!"
@@ -91112,7 +91430,7 @@ msgstr ""
 
 #: src/player.cpp
 msgid "Your pain distracts you!"
-msgstr ""
+msgstr "痛みで気が散っています！"
 
 #: src/player.cpp
 msgid "Your power armor disengages."
@@ -91138,15 +91456,15 @@ msgstr "右腕が寒さで震えています。"
 
 #: src/player.cpp
 msgid "Your right foot feels frigid."
-msgstr "右足は厳しい寒さを感じています。"
+msgstr "右足が厳しい寒さを感じています。"
 
 #: src/player.cpp
 msgid "Your right foot is as nimble as a block of ice."
-msgstr "右足は氷塊になった様で軽快に動きます。"
+msgstr "右足が氷塊になった様で軽快に動きます。"
 
 #: src/player.cpp
 msgid "Your right foot is swelling in the heat."
-msgstr "右足は暑さで膨張しています。"
+msgstr "右足が暑さで膨張しています。"
 
 #: src/player.cpp
 msgid "Your right hand feels like ice."
@@ -91158,7 +91476,7 @@ msgstr "右手が寒さで小刻みに震えています。"
 
 #: src/player.cpp
 msgid "Your right hand's too sweaty to grip well."
-msgstr "右手は汗をかき過ぎており、物を掴むのが困難になっています。"
+msgstr "右手が汗をかき過ぎており、物を掴むのが困難になっています。"
 
 #: src/player.cpp
 msgid "Your right leg is cramping up."
@@ -91166,7 +91484,7 @@ msgstr "右脚が痙攣を起こしています。"
 
 #: src/player.cpp
 msgid "Your right leg trembles against the relentless cold."
-msgstr "右脚は厳しい寒さで意思に反して震えています。"
+msgstr "右脚が厳しい寒さで意思に反して震えています。"
 
 #: src/player.cpp
 msgid "Your roots scrabble ineffectively at the unyielding surface."
@@ -91223,7 +91541,7 @@ msgstr "思考が朦朧としています。"
 
 #: src/player.cpp
 msgid "Your torso is freezing cold. You should put on a few more layers."
-msgstr ""
+msgstr "胴体が凍える様な寒さで震えています。更に重ね着する必要があります。"
 
 #: src/player.cpp
 msgid "Your veins itch."
@@ -91306,11 +91624,11 @@ msgstr "羽軸"
 
 #: src/player.cpp
 msgid "spines"
-msgstr ""
+msgstr "突起"
 
 #: src/player.cpp
 msgid "thorns"
-msgstr ""
+msgstr "棘"
 
 #: src/player.cpp
 msgid "your"
@@ -91915,7 +92233,7 @@ msgstr "ボルトが発射され、%sに命中しました！"
 #: src/trapfunc.cpp
 #, c-format
 msgid "A bolt shoots out, but misses the %s."
-msgstr "ボルトが発射されましたが、%sは回避しました。"
+msgstr "ボルトが発射されましたが、%sには命中しなかった。"
 
 #: src/trapfunc.cpp
 msgid "A shadowy snake forms nearby."
@@ -92334,7 +92652,7 @@ msgstr "岩が動くような摩擦音が聞こえました。"
 
 #: src/trapfunc.cpp
 msgid "You hurt yourself!"
-msgstr "自分自身を傷つけました！"
+msgstr "自分自身を傷付けました！"
 
 #: src/trapfunc.cpp
 msgid "You land nimbly."

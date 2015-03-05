@@ -1976,8 +1976,8 @@
 },{
   "type" : "recipe",
   "result": "lead_ball",
-  "category": "CC_ELECTRONIC",
-  "subcategory": "CSC_ELECTRONIC_COMPONENTS",
+  "category": "CC_AMMO",
+  "subcategory": "CSC_AMMO_OTHER",
   "skill_used": "fabrication",
   "difficulty": 2,
   "time": 6500,

@@ -373,7 +373,7 @@ void game::init_ui()
     int locX, locY, locW, locH;
     int statX, statY, statW, statH;
     int stat2X, stat2Y, stat2W, stat2H;
-    int mouseview_y, mouseview_h;
+    int mouseview_y, mouseview_h, mouseview_w;
 
     if (use_narrow_sidebar()) {
         // First, figure out how large each element will be.
@@ -404,6 +404,7 @@ void game::init_ui()
 
         mouseview_y = messY + 7;
         mouseview_h = TERMY - mouseview_y - 5;
+        mouseview_w = sidebarWidth;
     } else {
         // standard sidebar style
         minimapX = 0;
@@ -435,6 +436,7 @@ void game::init_ui()
 
         mouseview_y = stat2Y + stat2H;
         mouseview_h = TERMY - mouseview_y;
+        mouseview_w = sidebarWidth - MINIMAP_WIDTH;
     }
 
     int _y = VIEW_OFFSET_Y;
@@ -455,20 +457,19 @@ void game::init_ui()
     w_status = newwin(statH, statW, _y + statY, _x + statX);
     werase(w_status);
 
-    int mouse_view_x = _x + minimapX;
-    int mouse_view_width = sidebarWidth;
+    int mouseview_x = _x + minimapX;
     if (mouseview_h < lookHeight) {
         // Not enough room below the status bar, just use the regular lookaround area
-        get_lookaround_dimensions(mouse_view_width, mouseview_y, mouse_view_x);
+        get_lookaround_dimensions(mouseview_w, mouseview_y, mouseview_x);
         mouseview_h = lookHeight;
-        liveview.compact_view = true;
+        liveview.set_compact(true);
         if (!use_narrow_sidebar()) {
             // Second status window must now take care of clearing the area to the
             // bottom of the screen.
             stat2H = std::max( 1, TERMY - stat2Y );
         }
     }
-    liveview.init(mouse_view_x, mouseview_y, sidebarWidth, mouseview_h);
+    liveview.init(mouseview_x, mouseview_y, mouseview_w, mouseview_h);
 
     w_status2 = newwin(stat2H, stat2W, _y + stat2Y, _x + stat2X);
     werase(w_status2);
@@ -609,7 +610,7 @@ void game::start_game(std::string worldname)
     u.setID( assign_npc_id() ); // should be as soon as possible, but *after* load_master
 
     const start_location &start_loc = *start_location::find( u.start_location );
-    start_loc.setup( cur_om, levx, levy, levz );
+    tripoint omtstart = start_loc.setup( cur_om, levx, levy, levz );
 
     // Start the overmap with out immediate neighborhood visible
     overmap_buffer.reveal(point(om_global_location().x, om_global_location().y), OPTIONS["DISTANCE_INITIAL_VISIBILITY"], 0);
@@ -627,6 +628,14 @@ void game::start_game(std::string worldname)
     u.next_climate_control_check = 0;  // Force recheck at startup
     u.last_climate_control_ret = false;
 
+    // A quick hack because the proper rework didn't get into 0.C
+    // Remove it as soon as the rework is in
+    if( u.has_trait( "NIGHTVISION" ) ) {
+        traits["NIGHTVISION"].powered = true;
+    } else if( u.has_trait( "URSINE_EYE" ) ) {
+        traits["URSINE_EYE"].powered = true;
+    }
+
     //Reset character pickup rules
     vAutoPickupRules[2].clear();
     //Put some NPCs in there!
@@ -640,10 +649,8 @@ void game::start_game(std::string worldname)
     u.set_highest_cat_level();
     //Calc mutation drench protection stats
     u.drench_mut_calc();
-    if (scen->has_flag("FIRE_START")){
-            m.add_field(u.pos().x + 5, u.pos().y + 3, field_from_ident("fd_fire"), 3 );
-            m.add_field(u.pos().x + 7, u.pos().y + 6, field_from_ident("fd_fire"), 3 );
-            m.add_field(u.pos().x + 3, u.pos().y + 4, field_from_ident("fd_fire"), 3 );
+    if ( scen->has_flag("FIRE_START") ){
+        start_loc.burn( cur_om, omtstart, 3, 3 );
     }
     if (scen->has_flag("INFECTED")){
         u.add_effect("infected", 1, random_body_part(), true);
@@ -3334,6 +3341,9 @@ bool game::handle_action()
                     add_msg(m_info, _("Safe mode OFF!"));
                 }
             }
+            if( u.has_effect("laserlocked") ) {
+                u.remove_effect("laserlocked");
+            }
             break;
 
         case ACTION_TOGGLE_AUTOSAFE:
@@ -3354,6 +3364,9 @@ bool game::handle_action()
                     critter.ignoring = rl_dist( u.pos(), critter.pos() );
                 }
                 safe_mode = SAFE_MODE_ON;
+            } else if( u.has_effect("laserlocked") ) {
+                add_msg(m_info, _("Ignoring enemy!"));
+                u.remove_effect("laserlocked");
             }
             break;
 
@@ -4903,7 +4916,7 @@ void game::draw_sidebar()
     if( sideStyle ) {
         werase(w_status2);
     }
-    if (!liveview.compact_view) {
+    if (!liveview.is_compact()) {
         liveview.hide(true, false);
     }
     u.disp_status(w_status, w_status2);
@@ -8657,6 +8670,10 @@ point game::look_around(WINDOW *w_info, const point pairCoordsFirst)
     ctxt.register_action("QUIT");
     ctxt.register_action("TOGGLE_FAST_SCROLL");
     ctxt.register_action("LIST_ITEMS");
+    ctxt.register_action( "LEVEL_UP" );
+    ctxt.register_action( "LEVEL_DOWN" );
+
+    const int old_levz = levz;
 
     do {
         if (bNewWindow) {
@@ -8790,7 +8807,26 @@ point game::look_around(WINDOW *w_info, const point pairCoordsFirst)
 
             } else if (action == "TOGGLE_FAST_SCROLL") {
                 fast_scroll = !fast_scroll;
+            } else if( action == "LEVEL_UP" || action == "LEVEL_DOWN" ) {
+#ifdef ZLEVELS
+                if( !debug_mode ) {
+                    continue; // TODO: Make this work in z-level FOV update
+                }
 
+                levz += action == "LEVEL_UP" ? 1 : -1;
+                if( levz > OVERMAP_HEIGHT ) {
+                    levz = OVERMAP_HEIGHT;
+                } else if( levz < -OVERMAP_DEPTH ) {
+                    levz = -OVERMAP_DEPTH;
+                }
+
+                add_msg("levx: %d, levy: %d, levz :%d", levx, levy, levz);
+                m.vertical_shift( levz );
+                refresh_all();
+                draw_ter(lx, ly, true);
+#else
+                (void)old_levz;
+#endif
             } else if (!ctxt.get_coordinates(w_terrain, lx, ly)) {
                 int dx, dy;
                 ctxt.get_direction(dx, dy, action);
@@ -8826,6 +8862,14 @@ point game::look_around(WINDOW *w_info, const point pairCoordsFirst)
             }
         }
     } while (action != "QUIT" && action != "CONFIRM");
+
+#ifdef ZLEVELS
+    if( levz != old_levz ) {
+        m.vertical_shift( old_levz );
+        levz = old_levz;
+    }
+#endif
+
     inp_mngr.set_timeout(-1);
 
     if (bNewWindow) {
@@ -10536,8 +10580,8 @@ std::vector<point> game::pl_target_ui(int &x, int &y, int range, item *relevant,
 
 void game::plfire(bool burst, int default_target_x, int default_target_y)
 {
-    if (u.has_effect("relax_gas")) {
-        if (one_in(5)) {
+    if( u.has_effect("relax_gas") ) {
+        if( one_in(5) ) {
             add_msg(m_good, _("Your eyes steel, and you raise your weapon!"));
         } else {
             u.moves -= rng(2, 5) * 10;
@@ -10546,31 +10590,29 @@ void game::plfire(bool burst, int default_target_x, int default_target_y)
         }
     }
     // draw pistol from a holster if unarmed
-    if (!u.is_armed()) {
+    if( !u.is_armed() ) {
         // get a list of holsters from worn items
         std::vector<item *> holsters;
         for( auto &worn : u.worn ) {
-            if (((worn.type->can_use("HOLSTER_GUN") && !(worn.has_flag("NO_QUICKDRAW"))) || worn.type->can_use("HOLSTER_ANKLE")) &&
-                (!worn.contents.empty() && worn.contents[0].is_gun())) {
+            if( ((worn.type->can_use("HOLSTER_GUN") && !worn.has_flag("NO_QUICKDRAW")) ||
+                 worn.type->can_use("HOLSTER_ANKLE")) &&
+                (!worn.contents.empty() && worn.contents[0].is_gun()) ) {
                 holsters.push_back(&worn);
             }
         }
-        if (!holsters.empty()) {
+        if( !holsters.empty() ) {
             int choice = -1;
             // only one holster found, choose it
-            if (holsters.size() == 1) {
+            if( holsters.size() == 1 ) {
                 choice = 0;
                 // ask player which holster to draw from
             } else {
                 std::vector<std::string> choices;
                 for( auto i : holsters ) {
-
-                    std::ostringstream ss;
-                    ss << string_format(_("%s from %s (%d)"),
-                                        i->contents[0].tname().c_str(),
-                                        i->type_name(1).c_str(),
-                                        i->contents[0].charges);
-                    choices.push_back(ss.str());
+                    choices.push_back(string_format(_("%s from %s (%d)"),
+                                                    i->contents[0].tname().c_str(),
+                                                    i->type_name(1).c_str(),
+                                                    i->contents[0].charges));
                 }
                 choice = (uimenu(false, _("Draw what?"), choices)) - 1;
             }
@@ -11390,14 +11432,15 @@ void game::pldrive(int x, int y)
 
 bool game::check_save_mode_allowed()
 {
+    std::string msg_ignore = press_x(ACTION_IGNORE_ENEMY);
+    if (!msg_ignore.empty()) {
+        msg_ignore[0] = tolower(msg_ignore[0]); // TODO this probably isn't localization friendly
+    }
+
     if (u.has_effect("laserlocked")) {
         // Automatic and mandatory safemode.  Make BLOODY sure the player notices!
-        safe_mode = SAFE_MODE_STOP;
-        add_msg( m_warning,
-             _( "You are being laser-targeted--safe mode is on! (%s to turn it off.)" ),
-             press_x( ACTION_TOGGLE_SAFEMODE ).c_str() );
-        // Effect is only here to hook into safemode, so remove it.
-        u.remove_effect("laserlocked");
+        add_msg(m_warning, _("You are being laser-targeted--safe mode is on! (%s to turn it off.)"),
+                msg_ignore.c_str());
         return false;
     }
     if( safe_mode != SAFE_MODE_STOP ) {
@@ -11417,11 +11460,6 @@ bool game::check_save_mode_allowed()
     }
 
     std::string const msg_safe_mode = press_x(ACTION_TOGGLE_SAFEMODE);
-    std::string msg_ignore = press_x(ACTION_IGNORE_ENEMY);
-    if (!msg_ignore.empty()) {
-        msg_ignore[0] = tolower(msg_ignore[0]); // TODO this probably isn't localization friendly
-    }
-
     add_msg( m_warning,
              _( "Spotted %s--safe mode is on! (%s to turn it off or %s to ignore monster.)" ),
              spotted_creature_name.c_str(), msg_safe_mode.c_str(), msg_ignore.c_str() );
@@ -12557,8 +12595,15 @@ void game::vertical_move(int movez, bool force)
         return;
     }
 
-    map tmpmap;
-    tmpmap.load(levx, levy, levz + movez, false, cur_om);
+    // Shift the map up or down
+#ifdef ZLEVELS
+    map &maybetmp = m;
+    maybetmp.vertical_shift( levz + movez );
+#else
+    map maybetmp;
+    maybetmp.load(levx, levy, levz + movez, false, cur_om);
+#endif
+
     // Find the corresponding staircase
     int stairx = -1, stairy = -1;
     bool rope_ladder = false;
@@ -12570,6 +12615,12 @@ void game::vertical_move(int movez, bool force)
         m.getlocal(rc.begin_om_pos())
     );
 
+    if( levz + movez < -OVERMAP_DEPTH || levz + movez > OVERMAP_HEIGHT ) {
+        debugmsg( "Tried to move outside allowed range of z-levels" );
+        return;
+    }
+
+    bool actually_moved = true;
     if (force) {
         stairx = u.posx();
         stairy = u.posy();
@@ -12579,29 +12630,29 @@ void game::vertical_move(int movez, bool force)
         for (int i = omtile_align_start.x; i <= omtile_align_start.x + omtilesz; i++) {
             for (int j = omtile_align_start.y; j <= omtile_align_start.y + omtilesz; j++) {
                 if (rl_dist(u.posx(), u.posy(), i, j) <= best &&
-                    ((movez == -1 && tmpmap.has_flag("GOES_UP", i, j)) ||
-                     (movez == 1 && (tmpmap.has_flag("GOES_DOWN", i, j) ||
-                                     tmpmap.ter(i, j) == t_manhole_cover)) ||
-                     ((movez == 2 || movez == -2) && tmpmap.ter(i, j) == t_elevator))) {
+                    ((movez == -1 && maybetmp.has_flag("GOES_UP", i, j)) ||
+                     (movez == 1 && (maybetmp.has_flag("GOES_DOWN", i, j) ||
+                                     maybetmp.ter(i, j) == t_manhole_cover)) ||
+                     ((movez == 2 || movez == -2) && maybetmp.ter(i, j) == t_elevator))) {
                     stairx = i;
                     stairy = j;
                     best = rl_dist(u.posx(), u.posy(), i, j);
                 }
                 // Magic number used as double-shifting "best" added a bit of lag
-                if (rl_dist(u.posx(), u.posy(), i, j) <= 3 && (tmpmap.ter(i, j) == t_lava)) {
+                if (rl_dist(u.posx(), u.posy(), i, j) <= 3 && (maybetmp.ter(i, j) == t_lava)) {
                     danger_lava = true;
                 }
             }
         }
 
         if (danger_lava && !query_yn(_("There is a LOT of heat coming out of there.  Descend anyway?")) ) {
-            return;
+            actually_moved = false;
         }
         if (stairx == -1 || stairy == -1) { // No stairs found!
             if (movez < 0) {
-                if (tmpmap.move_cost(u.posx(), u.posy()) == 0) {
+                if (maybetmp.move_cost(u.posx(), u.posy()) == 0) {
                     popup(_("Halfway down, the way down becomes blocked off."));
-                    return;
+                    actually_moved = false;
                 } else if (u.has_trait("WEB_RAPPEL")) {
                     if (query_yn(_("There is a sheer drop halfway down. Web-descend?"))) {
                         rope_ladder = true;
@@ -12611,7 +12662,7 @@ void game::vertical_move(int movez, bool force)
                             add_msg(_("You securely web up and work your way down, lowering yourself safely."));
                         }
                     } else {
-                        return;
+                        actually_moved = false;
                     }
                 } else if (u.has_trait("VINES2") || u.has_trait("VINES3")) {
                     if (query_yn(_("There is a sheer drop halfway down.  Use your vines to descend?"))) {
@@ -12633,36 +12684,44 @@ void game::vertical_move(int movez, bool force)
                             u.thirst += 10;
                         }
                     } else {
-                        return;
+                        actually_moved = false;
                     }
                 } else if (u.has_amount("grapnel", 1)) {
                     if (query_yn(_("There is a sheer drop halfway down. Climb your grappling hook down?"))) {
                         rope_ladder = true;
                         u.use_amount("grapnel", 1);
                     } else {
-                        return;
+                        actually_moved = false;
                     }
                 } else if (u.has_amount("rope_30", 1)) {
                     if (query_yn(_("There is a sheer drop halfway down. Climb your rope down?"))) {
                         rope_ladder = true;
                         u.use_amount("rope_30", 1);
                     } else {
-                        return;
+                        actually_moved = false;
                     }
 
                 } else if (u.has_amount("bullwhip", 1)) {
                     if (query_yn(_("There is a sheer drop halfway down. Use your whip to lower yourself?"))) {}
                     else {
-                        return;
+                        actually_moved = false;
                     }
                 } else if (!query_yn(_("There is a sheer drop halfway down.  Jump?"))) {
-                    return;
+                    actually_moved = false;
                 }
             }
             stairx = u.posx();
             stairy = u.posy();
         }
     }
+
+    if( !actually_moved ) {
+#ifdef ZLEVELS
+        // Have to undo the map shift
+        m.vertical_shift( levz );
+#endif
+        return;
+    } 
 
     if (!force) {
         monstairx = levx;
@@ -12728,7 +12787,12 @@ void game::vertical_move(int movez, bool force)
     u.moves -= 100;
     m.clear_vehicle_cache();
     m.vehicle_list.clear();
+    m.set_transparency_cache_dirty();
+    m.set_outside_cache_dirty();
+#ifndef ZLEVELS
+    (void)actually_moved;
     m.load( levx, levy, levz, true, cur_om );
+#endif
     u.setx( stairx );
     u.sety( stairy );
     if (rope_ladder) {
@@ -12799,7 +12863,7 @@ void game::update_map(int &x, int &y)
         shifty++;
     }
 
-    m.shift(shiftx, shifty);
+    m.shift( shiftx, shifty );
     levx += shiftx;
     levy += shifty;
 

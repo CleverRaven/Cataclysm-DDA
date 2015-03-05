@@ -674,7 +674,7 @@ public:
     void damage_all (int dmg1, int dmg2, int type, const point &impact);
 
     //Shifts the coordinates of all parts and moves the vehicle in the opposite direction.
-    void shift_parts(const int dx, const int dy);
+    void shift_parts( point delta );
     bool shift_if_needed();
 
     void leak_fuel (int p);
