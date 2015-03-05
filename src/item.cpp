@@ -2495,20 +2495,19 @@ int item::bash_resist() const
     // previous versions. Adjust to make you happier/sadder.
     float adjustment = 1.5;
 
+    static constexpr float max_value = 4.0f;
+    static constexpr float stepness = -0.8f;
+    static constexpr float center_of_S = 2.5f;
+
     if (is_null()) {
         return resist;
     }
     if (item::item_tags.count("leather_padded") > 0){
-        l_padding = volume() * (float(get_coverage()) / 100) / 2.5;
-        if (l_padding > 5 ){
-            l_padding = l_padding / 2.5;   //Hard cap so coats don't become solid steel
-        }
+
+        l_padding = max_value / ( 1 + exp( stepness * ( get_thickness() - center_of_S )));
     }
     if (item::item_tags.count("kevlar_padded") > 0){
-        k_padding = volume() * (float(get_coverage()) / 100) / 2.5;
-        if (k_padding > 5 ){
-            k_padding = k_padding / 2.5;
-        }
+        k_padding = max_value / ( 1 + exp( stepness * ( get_thickness() - center_of_S )));
     }
     std::vector<material_type*> mat_types = made_of_types();
     // Armor gets an additional multiplier.
@@ -2541,16 +2540,16 @@ int item::cut_resist() const
         return resist;
     }
     if (item::item_tags.count("leather_padded") > 0){
-        l_padding = volume() * (float(get_coverage()) / 100) / 2.5;
-        if (l_padding > 5 ){
-            l_padding = l_padding / 2.5;
-        }
+        static constexpr float max_value = 4.0f;
+        static constexpr float stepness = -0.8f;
+        static constexpr float center_of_S = 2.5f;
+        l_padding = max_value / ( 1 + exp( stepness * ( get_thickness() - center_of_S )));
     }
     if (item::item_tags.count("kevlar_padded") > 0){
-        k_padding = volume() * (float(get_coverage()) / 100) / 2;
-        if (k_padding > 5 ){
-            k_padding = k_padding / 2;
-        }
+        static constexpr float max_value = 8.0f;
+        static constexpr float stepness = -0.8f;
+        static constexpr float center_of_S = 2.5f;
+        k_padding = max_value / ( 1 + exp( stepness * ( get_thickness() - center_of_S )));
     }
     std::vector<material_type*> mat_types = made_of_types();
     // Armor gets an additional multiplier.
