@@ -162,6 +162,8 @@ VehicleList map::get_vehicles(const int sx, const int sy, const int ex, const in
  return vehs;
 }
 
+// 2D veh_at functions
+
 vehicle* map::veh_at(const int x, const int y, int &part_num)
 {
     if( !veh_in_active_range || !INBOUNDS(x, y) ) {
@@ -198,18 +200,6 @@ const vehicle* map::veh_at_internal( const int x, const int y, int &part_num) co
     return nullptr;
 }
 
-point map::veh_part_coordinates(const int x, const int y)
-{
-    int part_num;
-    vehicle* veh = veh_at(x, y, part_num);
-
-    if(veh == nullptr) {
-        return point(0,0);
-    }
-
-    return veh->parts[part_num].mount;
-}
-
 vehicle* map::veh_at(const int x, const int y)
 {
     int part = 0;
@@ -220,6 +210,70 @@ const vehicle* map::veh_at(const int x, const int y) const
 {
     int part = 0;
     return veh_at(x, y, part);
+}
+
+// 3D veh_at functions
+
+vehicle* map::veh_at( const tripoint &p, int &part_num )
+{
+    if( !veh_in_active_range || !inbounds( p ) ) {
+        return nullptr; // Out-of-bounds - null vehicle
+    }
+
+    // Apparently this is a proper coding practice and not an ugly hack
+    return const_cast<vehicle *>( veh_at_internal( p, part_num ) );
+}
+
+const vehicle* map::veh_at( const tripoint &p, int &part_num ) const
+{
+    if( !veh_in_active_range || !inbounds( p ) ) {
+        return nullptr; // Out-of-bounds - null vehicle
+    }
+
+    return veh_at_internal( p, part_num );
+}
+
+const vehicle* map::veh_at_internal( const tripoint &p, int &part_num ) const
+{
+    // This function is called A LOT. Move as much out of here as possible.
+    if( !veh_in_active_range || !veh_exists_at[p.x][p.y] ) {
+        return nullptr; // Clear cache indicates no vehicle. This should optimize a great deal.
+    }
+
+    const auto it = veh_cached_parts.find( point( p.x, p.y ) );
+    if( it != veh_cached_parts.end() ) {
+        part_num = it->second.second;
+        return it->second.first;
+    }
+
+    debugmsg( "vehicle part cache cache indicated vehicle not found: %d %d %d", p.x, p.y, p.z );
+    return nullptr;
+}
+
+vehicle* map::veh_at( const tripoint &p )
+{
+    int part = 0;
+    return veh_at( p, part );
+}
+
+const vehicle* map::veh_at( const tripoint &p ) const
+{
+    int part = 0;
+    return veh_at( p, part );
+}
+
+// End of 3D veh_at
+
+point map::veh_part_coordinates(const int x, const int y)
+{
+    int part_num;
+    vehicle* veh = veh_at(x, y, part_num);
+
+    if(veh == nullptr) {
+        return point(0,0);
+    }
+
+    return veh->parts[part_num].mount;
 }
 
 void map::reset_vehicle_cache()
@@ -1466,6 +1520,8 @@ bool map::trans(const int x, const int y) const
     return light_transparency(x, y) > LIGHT_TRANSPARENCY_SOLID;
 }
 
+// 2D flags
+
 bool map::has_flag(const std::string &flag, const int x, const int y) const
 {
     static const std::string flag_str_REDUCE_SCENT("REDUCE_SCENT"); // construct once per runtime, slash delay 90%
@@ -1558,10 +1614,114 @@ bool map::has_flag_ter_and_furn(const ter_bitflags flag, const int x, const int 
     }
 
     int lx, ly;
-    submap * const current_submap = get_submap_at(x, y, lx, ly);
+    submap * const current_submap = get_submap_at( x, y, lx, ly );
 
     return terlist[ current_submap->get_ter( lx, ly ) ].has_flag(flag) && furnlist[ current_submap->get_furn(lx, ly) ].has_flag(flag);
 }
+
+// End of 2D flags
+
+bool map::has_flag( const std::string &flag, const tripoint &p ) const
+{
+    static const std::string flag_str_REDUCE_SCENT( "REDUCE_SCENT" ); // construct once per runtime, slash delay 90%
+    if( !inbounds( p ) ) {
+        return false;
+    }
+
+    int vpart;
+    const vehicle *veh = veh_at( p, vpart );
+    if( veh != nullptr && flag_str_REDUCE_SCENT == flag && veh->obstacle_at_part( vpart ) >= 0 ) {
+        return true;
+    }
+
+    return has_flag_ter_or_furn( flag, p );
+}
+
+bool map::can_put_items( const tripoint &p )
+{
+    return !has_flag( "NOITEM", p ) && !has_flag( "SEALED", p );
+}
+
+bool map::has_flag_ter( const std::string & flag, const tripoint &p ) const
+{
+    return ter_at( p ).has_flag( flag );
+}
+
+bool map::has_flag_furn( const std::string & flag, const tripoint &p ) const
+{
+    return furn_at( p ).has_flag( flag );
+}
+
+bool map::has_flag_ter_or_furn( const std::string & flag, const tripoint &p ) const
+{
+    if( !inbounds( p ) ) {
+        return false;
+    }
+
+    int lx, ly;
+    submap *const current_submap = get_submap_at( p, lx, ly );
+
+    return terlist[ current_submap->get_ter( lx, ly ) ].has_flag( flag ) ||
+           furnlist[ current_submap->get_furn( lx, ly ) ].has_flag( flag );
+}
+
+bool map::has_flag_ter_and_furn( const std::string & flag, const tripoint &p ) const
+{
+    return ter_at( p ).has_flag( flag ) && furn_at( p ).has_flag( flag );
+}
+
+bool map::has_flag( const ter_bitflags flag, const tripoint &p ) const
+{
+    if( !inbounds( p ) ) {
+        return false;
+    }
+
+    int vpart;
+    const vehicle *veh = veh_at( p, vpart );
+    if( veh != nullptr && flag == TFLAG_REDUCE_SCENT && veh->obstacle_at_part( vpart ) >= 0 ) {
+        return true;
+    }
+
+    return has_flag_ter_or_furn( flag, p );
+}
+
+bool map::has_flag_ter( const ter_bitflags flag, const tripoint &p ) const
+{
+    return ter_at( p ).has_flag( flag );
+}
+
+bool map::has_flag_furn( const ter_bitflags flag, const tripoint &p ) const
+{
+    return furn_at( p ).has_flag( flag );
+}
+
+bool map::has_flag_ter_or_furn( const ter_bitflags flag, const tripoint &p ) const
+{
+    if( !inbounds( p ) ) {
+        return false;
+    }
+
+    int lx, ly;
+    submap *const current_submap = get_submap_at( p, lx, ly );
+
+    return terlist[ current_submap->get_ter( lx, ly ) ].has_flag( flag ) ||
+           furnlist[ current_submap->get_furn( lx, ly ) ].has_flag( flag );
+}
+
+bool map::has_flag_ter_and_furn( const ter_bitflags flag, const tripoint &p ) const
+{
+    if( !inbounds( p ) ) {
+        return false;
+    }
+
+    int lx, ly;
+    submap *const current_submap = get_submap_at( p, lx, ly );
+
+    return terlist[ current_submap->get_ter( lx, ly ) ].has_flag( flag ) &&
+           furnlist[ current_submap->get_furn( lx, ly ) ].has_flag( flag );
+}
+
+// End of 3D flags
 
 /////
 bool map::is_bashable(const int x, const int y) const

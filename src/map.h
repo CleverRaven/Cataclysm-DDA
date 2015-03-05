@@ -303,21 +303,27 @@ class map
  VehicleList get_vehicles();
  VehicleList get_vehicles(const int sx, const int sy, const int ex, const int ey);
 
- /**
-  * Checks if tile is occupied by vehicle and by which part.
-  *
-  * @param part_num The part number of the part at this tile will be returned in this parameter.
-  * @return A pointer to the vehicle in this tile.
-  */
- vehicle* veh_at(const int x, const int y, int &part_num);
- const vehicle* veh_at(const int x, const int y, int &part_num) const;
- const vehicle* veh_at_internal(const int x, const int y, int &part_num) const;
-
- /**
-  * Same as `veh_at(const int, const int, int)`, but doesn't return part number.
-  */
- vehicle* veh_at(const int x, const int y);// checks if tile is occupied by vehicle
- const vehicle* veh_at(const int x, const int y) const;
+// 2D overloads for vehicles
+    vehicle* veh_at(const int x, const int y, int &part_num);
+    const vehicle* veh_at(const int x, const int y, int &part_num) const;
+    const vehicle* veh_at_internal(const int x, const int y, int &part_num) const;
+    vehicle* veh_at(const int x, const int y);
+    const vehicle* veh_at(const int x, const int y) const;
+// 3D vehicles
+    /**
+    * Checks if tile is occupied by vehicle and by which part.
+    *
+    * @param part_num The part number of the part at this tile will be returned in this parameter.
+    * @return A pointer to the vehicle in this tile.
+    */
+    vehicle* veh_at( const tripoint &p, int &part_num );
+    const vehicle* veh_at( const tripoint &p, int &part_num ) const;
+    const vehicle* veh_at_internal( const tripoint &p, int &part_num ) const;
+    /**
+    * Same as `veh_at(const int, const int, int)`, but doesn't return part number.
+    */
+    vehicle* veh_at( const tripoint &p );// checks if tile is occupied by vehicle
+    const vehicle* veh_at( const tripoint &p ) const;
 
  /**
   * Vehicle-relative coordinates from reality bubble coordinates, if a vehicle
@@ -421,20 +427,34 @@ class map
   */
  bool could_see_items(int x, int y, const player &u) const;
 
-
- std::string features(const int x, const int y); // Words relevant to terrain (sharp, etc)
- bool has_flag(const std::string & flag, const int x, const int y) const;  // checks terrain, furniture and vehicles
- bool can_put_items(const int x, const int y); // True if items can be placed in this tile
- bool has_flag_ter(const std::string & flag, const int x, const int y) const;  // checks terrain
- bool has_flag_furn(const std::string & flag, const int x, const int y) const;  // checks furniture
- bool has_flag_ter_or_furn(const std::string & flag, const int x, const int y) const; // checks terrain or furniture
- bool has_flag_ter_and_furn(const std::string & flag, const int x, const int y) const; // checks terrain and furniture
- // fast "oh hai it's update_scent/lightmap/draw/monmove/self/etc again, what about this one" flag checking
- bool has_flag(const ter_bitflags flag, const int x, const int y) const;  // checks terrain, furniture and vehicles
- bool has_flag_ter(const ter_bitflags flag, const int x, const int y) const;  // checks terrain
- bool has_flag_furn(const ter_bitflags flag, const int x, const int y) const;  // checks furniture
- bool has_flag_ter_or_furn(const ter_bitflags flag, const int x, const int y) const; // checks terrain or furniture
- bool has_flag_ter_and_furn(const ter_bitflags flag, const int x, const int y) const; // checks terrain and furniture
+// Flags: 2D overloads
+    std::string features(const int x, const int y); // Words relevant to terrain (sharp, etc)
+    bool has_flag(const std::string & flag, const int x, const int y) const;  // checks terrain, furniture and vehicles
+    bool can_put_items(const int x, const int y); // True if items can be placed in this tile
+    bool has_flag_ter(const std::string & flag, const int x, const int y) const;  // checks terrain
+    bool has_flag_furn(const std::string & flag, const int x, const int y) const;  // checks furniture
+    bool has_flag_ter_or_furn(const std::string & flag, const int x, const int y) const; // checks terrain or furniture
+    bool has_flag_ter_and_furn(const std::string & flag, const int x, const int y) const; // checks terrain and furniture
+    // fast "oh hai it's update_scent/lightmap/draw/monmove/self/etc again, what about this one" flag checking
+    bool has_flag(const ter_bitflags flag, const int x, const int y) const;  // checks terrain, furniture and vehicles
+    bool has_flag_ter(const ter_bitflags flag, const int x, const int y) const;  // checks terrain
+    bool has_flag_furn(const ter_bitflags flag, const int x, const int y) const;  // checks furniture
+    bool has_flag_ter_or_furn(const ter_bitflags flag, const int x, const int y) const; // checks terrain or furniture
+    bool has_flag_ter_and_furn(const ter_bitflags flag, const int x, const int y) const; // checks terrain and furniture
+// Flags: 3D
+    std::string features( const tripoint &p ); // Words relevant to terrain (sharp, etc)
+    bool has_flag( const std::string &flag, const tripoint &p ) const;  // checks terrain, furniture and vehicles
+    bool can_put_items( const tripoint &p ); // True if items can be placed in this tile
+    bool has_flag_ter( const std::string &flag, const tripoint &p ) const;  // checks terrain
+    bool has_flag_furn( const std::string &flag, const tripoint &p ) const;  // checks furniture
+    bool has_flag_ter_or_furn( const std::string &flag, const tripoint &p ) const; // checks terrain or furniture
+    bool has_flag_ter_and_furn( const std::string &flag, const tripoint &p ) const; // checks terrain and furniture
+    // fast "oh hai it's update_scent/lightmap/draw/monmove/self/etc again, what about this one" flag checking
+    bool has_flag( const ter_bitflags flag, const tripoint &p ) const;  // checks terrain, furniture and vehicles
+    bool has_flag_ter( const ter_bitflags flag, const tripoint &p ) const;  // checks terrain
+    bool has_flag_furn( const ter_bitflags flag, const tripoint &p ) const;  // checks furniture
+    bool has_flag_ter_or_furn( const ter_bitflags flag, const tripoint &p ) const; // checks terrain or furniture
+    bool has_flag_ter_and_furn( const ter_bitflags flag, const tripoint &p ) const; // checks terrain and furniture
 
  /** Returns true if there is a bashable vehicle part or the furn/terrain is bashable at x,y */
  bool is_bashable(const int x, const int y) const;
