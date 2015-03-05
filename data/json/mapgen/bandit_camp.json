@@ -79,7 +79,7 @@
                 "S": "t_dirtfloor",
                 "T": "t_dirtfloor",
                 "W": "t_dirt",
-                "w": "t_dirtfloor",
+                "w": "t_dirt",
                 "z": "t_dirt"
             },
             "furniture": {
@@ -95,8 +95,8 @@
                 "r": "f_rack",
                 "S": "f_sink",
                 "T": "f_toilet",
-                "W": "f_canvas_wall",
-                "w": "f_groundsheet",
+                "W": "f_large_canvas_wall",
+                "w": "f_large_groundsheet",
                 "z": "f_crate_c"
             }
         }
@@ -176,7 +176,7 @@
                 "S": "t_dirtfloor",
                 "T": "t_dirtfloor",
                 "W": "t_dirt",
-                "w": "t_dirtfloor",
+                "w": "t_dirt",
                 "z": "t_dirt"
             },
             "furniture": {
@@ -192,8 +192,8 @@
                 "r": "f_rack",
                 "S": "f_sink",
                 "T": "f_toilet",
-                "W": "f_canvas_wall",
-                "w": "f_groundsheet",
+                "W": "f_large_canvas_wall",
+                "w": "f_large_groundsheet",
                 "z": "f_crate_c"
             }
         }
@@ -272,7 +272,7 @@
                 "S": "t_dirtfloor",
                 "T": "t_dirtfloor",
                 "W": "t_dirt",
-                "w": "t_dirtfloor",
+                "w": "t_dirt",
                 "z": "t_dirt"
             },
             "furniture": {
@@ -288,8 +288,8 @@
                 "r": "f_rack",
                 "S": "f_sink",
                 "T": "f_toilet",
-                "W": "f_canvas_wall",
-                "w": "f_groundsheet",
+                "W": "f_large_canvas_wall",
+                "w": "f_large_groundsheet",
                 "z": "f_crate_c"
             }
         }
@@ -371,7 +371,7 @@
                 "S": "t_dirtfloor",
                 "T": "t_dirtfloor",
                 "W": "t_dirt",
-                "w": "t_dirtfloor",
+                "w": "t_dirt",
                 "z": "t_dirt"
             },
             "furniture": {
@@ -387,8 +387,8 @@
                 "r": "f_rack",
                 "S": "f_sink",
                 "T": "f_toilet",
-                "W": "f_canvas_wall",
-                "w": "f_groundsheet",
+                "W": "f_large_canvas_wall",
+                "w": "f_large_groundsheet",
                 "z": "f_crate_c"
             }
         }
