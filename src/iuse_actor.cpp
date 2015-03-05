@@ -926,19 +926,15 @@ iuse_actor *musical_instrument_actor::clone() const
 void musical_instrument_actor::load( JsonObject &obj )
 {
     moves_cost = obj.get_int( "moves_cost", 25 );
-    volume = obj.get_int( "volume", 99 ); // Make it huge to alert the modder
-    fun = obj.get_int( "fun", -100 ); // Likewise
+    volume = obj.get_int( "volume" );
+    fun = obj.get_int( "fun" );
     fun_bonus = obj.get_int( "fun_bonus", 0 );
-    description_frequency = obj.get_int( "description_frequency", 1 );
+    description_frequency = obj.get_int( "description_frequency" );
 
-    if( obj.has_array( "descriptions" ) ) {
-        JsonArray jarr = obj.get_array( "descriptions" );
-        while( jarr.has_more() ) {
-            const auto desc = jarr.next_string();
-            descriptions.push_back( desc );
-        }
-    } else {
-        descriptions.push_back( "You produce buggy chirping on your %s" );
+    JsonArray jarr = obj.get_array( "descriptions" );
+    while( jarr.has_more() ) {
+        const auto desc = jarr.next_string();
+        descriptions.push_back( desc );
     }
 }
 
