@@ -968,7 +968,7 @@ long musical_instrument_actor::use( player *p, item *it, bool t, point ) const
     // Check for worn or wielded - no "floating"/bionic instruments for now
     // TODO: Distinguish instruments played with hands and with mouth, consider encumbrance
     const int inv_pos = p->get_item_position( it );
-    if( inv_pos > 0 || inv_pos == INT_MIN ) {
+    if( inv_pos >= 0 || inv_pos == INT_MIN ) {
         p->add_msg_if_player( m_bad, _("You need to hold or wear %s to play it"), it->display_name().c_str() );
         it->active = false;
         return 0;
