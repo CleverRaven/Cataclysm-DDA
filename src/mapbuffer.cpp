@@ -142,10 +142,12 @@ void mapbuffer::save( bool delete_after_save )
         // delete_on_save deletes everything, otherwise delete submaps
         // outside the current map.
 #ifndef ZLEVELS
-        delete_after_save |= om_addr.z != g->levz;
+        const bool zlev_del = om_addr.z != g->levz;
+#else
+        const bool zlev_del = false;
 #endif
         save_quad( dirname.str(), quad_path.str(), om_addr, submaps_to_delete,
-                   delete_after_save ||
+                   delete_after_save || zlev_del ||
                    om_addr.x < map_origin.x || om_addr.y < map_origin.y ||
                    om_addr.x > map_origin.x + (MAPSIZE / 2) ||
                    om_addr.y > map_origin.y + (MAPSIZE / 2) );

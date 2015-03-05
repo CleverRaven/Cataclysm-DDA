@@ -408,7 +408,7 @@ void Pickup::do_pickup( point pickup_target, bool from_vehicle,
     if (got_water) {
         add_msg(m_info, _("You can't pick up a liquid!"));
     }
-    if (weight_is_okay && g->u.weight_carried() >= g->u.weight_capacity()) {
+    if (weight_is_okay && g->u.weight_carried() > g->u.weight_capacity()) {
         add_msg(m_bad, _("You're overburdened!"));
     }
     if (volume_is_okay && g->u.volume_carried() > g->u.volume_capacity() - 2) {
@@ -780,8 +780,8 @@ void Pickup::pick_up(int posx, int posy, int min)
                     mvwaddch(w_pickup, 0, i, ' ');
                 }
                 mvwprintz(w_pickup, 0,  9,
-                          (new_weight >= g->u.weight_capacity() ? c_red : c_white),
-                          _("Wgt %.1f"), g->u.convert_weight(new_weight));
+                          (new_weight > g->u.weight_capacity() ? c_red : c_white),
+                          _("Wgt %.1f"), g->u.convert_weight(new_weight) + 0.05); // +0.05 to round up
                 wprintz(w_pickup, c_white, "/%.1f", g->u.convert_weight(g->u.weight_capacity()));
                 mvwprintz(w_pickup, 0, 24,
                           (new_volume > g->u.volume_capacity() - 2 ? c_red : c_white),

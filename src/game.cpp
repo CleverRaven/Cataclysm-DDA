@@ -3339,6 +3339,9 @@ bool game::handle_action()
                     add_msg(m_info, _("Safe mode OFF!"));
                 }
             }
+            if( u.has_effect("laserlocked") ) {
+                u.remove_effect("laserlocked");
+            }
             break;
 
         case ACTION_TOGGLE_AUTOSAFE:
@@ -3359,6 +3362,9 @@ bool game::handle_action()
                     critter.ignoring = rl_dist( u.pos(), critter.pos() );
                 }
                 safe_mode = SAFE_MODE_ON;
+            } else if( u.has_effect("laserlocked") ) {
+                add_msg(m_info, _("Ignoring enemy!"));
+                u.remove_effect("laserlocked");
             }
             break;
 
@@ -10594,8 +10600,8 @@ std::vector<point> game::pl_target_ui(int &x, int &y, int range, item *relevant,
 
 void game::plfire(bool burst, int default_target_x, int default_target_y)
 {
-    if (u.has_effect("relax_gas")) {
-        if (one_in(5)) {
+    if( u.has_effect("relax_gas") ) {
+        if( one_in(5) ) {
             add_msg(m_good, _("Your eyes steel, and you raise your weapon!"));
         } else {
             u.moves -= rng(2, 5) * 10;
@@ -10604,31 +10610,29 @@ void game::plfire(bool burst, int default_target_x, int default_target_y)
         }
     }
     // draw pistol from a holster if unarmed
-    if (!u.is_armed()) {
+    if( !u.is_armed() ) {
         // get a list of holsters from worn items
         std::vector<item *> holsters;
         for( auto &worn : u.worn ) {
-            if (((worn.type->can_use("HOLSTER_GUN") && !(worn.has_flag("NO_QUICKDRAW"))) || worn.type->can_use("HOLSTER_ANKLE")) &&
-                (!worn.contents.empty() && worn.contents[0].is_gun())) {
+            if( ((worn.type->can_use("HOLSTER_GUN") && !worn.has_flag("NO_QUICKDRAW")) ||
+                 worn.type->can_use("HOLSTER_ANKLE")) &&
+                (!worn.contents.empty() && worn.contents[0].is_gun()) ) {
                 holsters.push_back(&worn);
             }
         }
-        if (!holsters.empty()) {
+        if( !holsters.empty() ) {
             int choice = -1;
             // only one holster found, choose it
-            if (holsters.size() == 1) {
+            if( holsters.size() == 1 ) {
                 choice = 0;
                 // ask player which holster to draw from
             } else {
                 std::vector<std::string> choices;
                 for( auto i : holsters ) {
-
-                    std::ostringstream ss;
-                    ss << string_format(_("%s from %s (%d)"),
-                                        i->contents[0].tname().c_str(),
-                                        i->type_name(1).c_str(),
-                                        i->contents[0].charges);
-                    choices.push_back(ss.str());
+                    choices.push_back(string_format(_("%s from %s (%d)"),
+                                                    i->contents[0].tname().c_str(),
+                                                    i->type_name(1).c_str(),
+                                                    i->contents[0].charges));
                 }
                 choice = (uimenu(false, _("Draw what?"), choices)) - 1;
             }
@@ -11448,14 +11452,15 @@ void game::pldrive(int x, int y)
 
 bool game::check_save_mode_allowed()
 {
+    std::string msg_ignore = press_x(ACTION_IGNORE_ENEMY);
+    if (!msg_ignore.empty()) {
+        msg_ignore[0] = tolower(msg_ignore[0]); // TODO this probably isn't localization friendly
+    }
+
     if (u.has_effect("laserlocked")) {
         // Automatic and mandatory safemode.  Make BLOODY sure the player notices!
-        safe_mode = SAFE_MODE_STOP;
-        add_msg( m_warning,
-             _( "You are being laser-targeted--safe mode is on! (%s to turn it off.)" ),
-             press_x( ACTION_TOGGLE_SAFEMODE ).c_str() );
-        // Effect is only here to hook into safemode, so remove it.
-        u.remove_effect("laserlocked");
+        add_msg(m_warning, _("You are being laser-targeted--safe mode is on! (%s to turn it off.)"),
+                msg_ignore.c_str());
         return false;
     }
     if( safe_mode != SAFE_MODE_STOP ) {
@@ -11475,11 +11480,6 @@ bool game::check_save_mode_allowed()
     }
 
     std::string const msg_safe_mode = press_x(ACTION_TOGGLE_SAFEMODE);
-    std::string msg_ignore = press_x(ACTION_IGNORE_ENEMY);
-    if (!msg_ignore.empty()) {
-        msg_ignore[0] = tolower(msg_ignore[0]); // TODO this probably isn't localization friendly
-    }
-
     add_msg( m_warning,
              _( "Spotted %s--safe mode is on! (%s to turn it off or %s to ignore monster.)" ),
              spotted_creature_name.c_str(), msg_safe_mode.c_str(), msg_ignore.c_str() );

@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Cataclysm-DDA\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-02-23 15:09+0300\n"
-"PO-Revision-Date: 2015-02-26 06:47+0000\n"
+"POT-Creation-Date: 2015-03-02 10:32+0300\n"
+"PO-Revision-Date: 2015-03-04 05:52+0000\n"
 "Last-Translator: Noctivagante <noctivagante@yahoo.com>\n"
 "Language-Team: Spanish (Argentina) (http://www.transifex.com/projects/p/"
 "cataclysm-dda/language/es_AR/)\n"
@@ -3948,8 +3948,8 @@ msgstr[1] "lanzas de metal para pescar"
 
 #: lang/json/AMMO_from_json.py
 msgid "metal fragments"
-msgid_plural "metal fragmentss"
-msgstr[0] "fragmento de metal"
+msgid_plural "metal fragments"
+msgstr[0] "fragmentos de metal"
 msgstr[1] "fragmentos de metal"
 
 #: lang/json/AMMO_from_json.py lang/json/ammunition_type_from_json.py
@@ -22412,14 +22412,14 @@ msgstr[1] "whisky puro de malta"
 #: lang/json/COMESTIBLE_from_json.py
 msgid "slime mutagen"
 msgid_plural "slime mutagens"
-msgstr[0] "mutágeno de babosa"
-msgstr[1] "mutágenos de babosa"
+msgstr[0] "mutágeno de slime"
+msgstr[1] "mutágenos de slime"
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "slime serum"
 msgid_plural "slime serums"
-msgstr[0] "suero de babosa"
-msgstr[1] "sueros de babosa"
+msgstr[0] "suero de slime"
+msgstr[1] "sueros de slime"
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "slob sandwich"
@@ -31140,9 +31140,9 @@ msgstr[1] "Torretas Dragón"
 
 #: lang/json/GUN_from_json.py
 msgid "Dual Nail Turret"
-msgid_plural "Nail Turrets"
-msgstr[0] "Torreta de Clavos"
-msgstr[1] "Torretas de Clavos"
+msgid_plural "Dual Nail Turrets"
+msgstr[0] "Torreta Doble de Clavos"
+msgstr[1] "Torretas Dobles de Clavos"
 
 #: lang/json/GUN_from_json.py
 msgid "Dual SMG Turret"
@@ -31846,8 +31846,8 @@ msgstr[1] "Lásers de Pulso"
 #: lang/json/GUN_from_json.py
 msgid "Quad Nail Turret"
 msgid_plural "Quad Nail Turrets"
-msgstr[0] "Torreta de Clavos Cuádruple"
-msgstr[1] "Torretas de Clavos Cuádruple"
+msgstr[0] "Torreta Cuádruple de Clavos"
+msgstr[1] "Torretas Cuádruples de Clavos"
 
 #: lang/json/GUN_from_json.py
 msgid "Quad SMG Turret"
@@ -36946,8 +36946,8 @@ msgstr[1] "arañabots"
 #: lang/json/MONSTER_from_json.py
 msgid "slimespring"
 msgid_plural "slimesprings"
-msgstr[0] "babosa elástica"
-msgstr[1] "babosas elásticas"
+msgstr[0] "slime elástico"
+msgstr[1] "slimes elásticos"
 
 #: lang/json/MONSTER_from_json.py
 msgid "sludge crawler"
@@ -42107,8 +42107,8 @@ msgstr[1] "equipos básicos de reparación"
 #: lang/json/TOOL_from_json.py lang/json/trap_from_json.py
 msgid "bear trap"
 msgid_plural "bear traps"
-msgstr[0] "trampa de oso"
-msgstr[1] "trampas de oso"
+msgstr[0] "trampa para oso"
+msgstr[1] "trampas para oso"
 
 #: lang/json/TOOL_from_json.py lang/json/vehicle_part_from_json.py
 msgid "bicycle horn"
@@ -45394,439 +45394,520 @@ msgstr "Arar Suelo"
 #: lang/json/dream_from_json.py
 msgid "A fond memory of throating some prey animal bubbles up."
 msgstr ""
+"Un recuerdo agradable de tragar algún animal que cazaste se te asoma por la "
+"garganta."
 
 #: lang/json/dream_from_json.py
 msgid ""
 "A rather attractive triffid offers you a bouquet of ape heads.  How "
 "thoughtful!"
 msgstr ""
+"Un trífido bastante atractivo te ofrece un ramo de cabezas de mono. ¡Qué "
+"considerado!"
 
 #: lang/json/dream_from_json.py
 msgid "A terrifyingly real dream has you killing game with your bare teeth."
 msgstr ""
+"Tenés un sueño terriblemente real en el que cazás animales solamente con tus "
+"dientes."
 
 #: lang/json/dream_from_json.py
 msgid ""
 "A warm, sunny spot high up where you can watch your prey.  What a great "
 "dream!"
 msgstr ""
+"Un lugar alto, soleado y templado, desde donde podés lanzarte a cazar tu "
+"presa. ¡Qué buen sueño!"
 
 #: lang/json/dream_from_json.py
 msgid ""
 "After an exciting and tasty hunt, you retire to your nest.  Mmm, yes, nest."
 msgstr ""
+"Después de una caza sabrosa y excitante, te volvés a tu madriguera. Mmm, sí, "
+"madriguera."
 
 #: lang/json/dream_from_json.py
 msgid ""
 "Ah, the painting-the-planet dream again.  Maybe if you assimilated more..."
 msgstr ""
+"Oh, otra vez el sueño de pintar el planeta. Tal vez si hubieras asimilado "
+"más..."
 
 #: lang/json/dream_from_json.py
 msgid "Ah, the wolf-slaying dream again.  That's a good one..."
-msgstr ""
+msgstr "Oh, otra vez el sueño acerca de matar al lobo. Ese está bueno..."
 
 #: lang/json/dream_from_json.py
 msgid "As you dream, your reflection looks rather catlike."
-msgstr ""
+msgstr "En tu sueño, tu reflejo tiene una apariencia felina."
 
 #: lang/json/dream_from_json.py
 msgid "Boing! and you've pounced another yummy critter."
-msgstr ""
+msgstr "¡Boing! y te avalanzás sobre otro delicioso bicho."
 
 #: lang/json/dream_from_json.py
 msgid "FIGHT.  FEED.  FORWARD."
-msgstr ""
+msgstr "LUCHAR. COMER. AVANZAR."
 
 #: lang/json/dream_from_json.py
 msgid ""
 "For some reason you dream of your shoes.  They don't fit, and nothing seems "
 "to help..."
 msgstr ""
+"Por alguna razón, soñás con tus zapatos. No te quedan bien, y nada parece "
+"ayudar..."
 
 #: lang/json/dream_from_json.py
 msgid "Hoof.  Talon. Tooth.  Fight.  Feed.  Forward."
-msgstr ""
+msgstr "Pezuña. Garra. Diente. Lucha. Comer. Avanzar."
 
 #: lang/json/dream_from_json.py
 msgid ""
 "In a dream you catch a glimpse of a strangely cattle-like image of yourself."
 msgstr ""
+"En un sueño, ves un destello de tu propia imagen con una apariencia que "
+"recuerda al ganado."
 
 #: lang/json/dream_from_json.py
 msgid "In a dream, you see a curiously birdlike reflection of yourself."
 msgstr ""
+"En un sueño, ves un reflejo de vos mismo con una curiosa apariencia de "
+"pájaro."
 
 #: lang/json/dream_from_json.py
 msgid "In your dream you see a group of rats that look almost like yourself."
-msgstr ""
+msgstr "En tu sueño ves un grupo de ratas que son muy similares a vos mismo."
 
 #: lang/json/dream_from_json.py
 msgid "In your dream you see a very spiderlike version of yourself."
-msgstr ""
+msgstr "En tu sueño ves una versión de vos mismo muy similar a una araña."
 
 #: lang/json/dream_from_json.py
 msgid "In your dream you see an odd, slimy reflection of yourself."
-msgstr ""
+msgstr "En tu sueño ves un raro reflejo viscos de vos mismo."
 
 #: lang/json/dream_from_json.py
 msgid "In your dream, you see a strangely fishlike image of yourself."
-msgstr ""
+msgstr "En tu sueño, ves una imagen tuya con una extraña apariencia de pez."
 
 #: lang/json/dream_from_json.py
 msgid ""
 "In your dream, you stalk and kill a young wolf, using only your teeth and "
 "claws."
 msgstr ""
+"En tu sueño, acechás y matás a un lobo cachorro, usando solo tus dientes y "
+"garras."
 
 #: lang/json/dream_from_json.py
 msgid "Mmm.  The shellfish dream again.  Yum!"
-msgstr ""
+msgstr "Mmm. Otra vez el sueño de los moluscos. ¡Rico!"
 
 #: lang/json/dream_from_json.py
 msgid "NO! You will not allow this corruption to prevail!"
-msgstr ""
+msgstr "¡NO! ¡No vas a permitir que esta corrupción de la tierra prevalezca!"
 
 #: lang/json/dream_from_json.py
 msgid ""
 "Non-Mycus sometimes reject the Marloss.  Our colonial efforts flourish with "
 "broad-minded guidance."
 msgstr ""
+"Los no Mycus a veces rechazan el marloss. Nuestros esfuerzos coloniales "
+"florecen guiando a los demás con mente abierta."
 
 #: lang/json/dream_from_json.py
 msgid "Oh, you should really patrol your territory again, maybe expand."
-msgstr ""
+msgstr "Ah, deberías patrullar tu territorio otra vez, y tal vez expandirlo."
 
 #: lang/json/dream_from_json.py
 msgid "Oh.  No, that 'rex' thing was only a myth."
-msgstr ""
+msgstr "Ah. No, ese coso 'rex' era solo un mito."
 
 #: lang/json/dream_from_json.py
 msgid ""
 "Our colonists are limitless.  We shall adapt to this world, as we adapt to "
 "all."
 msgstr ""
+"Nuestros colonizadores no tienen límites. Nos adaptaremos a este mundo, así "
+"como nos adaptamos a todo."
 
 #: lang/json/dream_from_json.py
 msgid "Red, blue, and yellow add together, don't they?"
-msgstr ""
+msgstr "Rojo, azul y amarillo se añaden entre ellos, ¿no cierto?"
 
 #: lang/json/dream_from_json.py
 msgid "Red, blue, and yellow cancel each other out, don't they?"
-msgstr ""
+msgstr "Rojo, azul y amarillo se cancelan entre ellos, ¿no cierto?"
 
 #: lang/json/dream_from_json.py
 msgid "The Fury is so big! it's GONNA GET YOAAAAAH! *pant* only a dream."
 msgstr ""
+"¡La Furia es enorme! ¡Esto se VA A PONER YOAAAAAH! *suspiro* solo un sueño."
 
 #: lang/json/dream_from_json.py
 msgid "The herd moves along and you with them, finding greener pastures."
-msgstr ""
+msgstr "La manada se traslada y vos entre ellos, buscando pasturas más verdes."
 
 #: lang/json/dream_from_json.py
 msgid ""
 "The seething masses attempt to wall non-Mycus away from the Marloss.  We "
 "will adapt and defeat them."
 msgstr ""
+"Las furiosas masas intenta levantar un muro para alejar a los no Mycus del "
+"marloss. Nos adaptaremos y los derrotaremos."
 
 #: lang/json/dream_from_json.py
 msgid ""
 "The thought of being out of water, forced to crawl unsupported, terrifies "
 "you."
 msgstr ""
+"El pensamiento de estar fuera del agua, forzado a arrastrarte sin soporte, "
+"te aterra."
 
 #: lang/json/dream_from_json.py
 msgid ""
 "The transition from your lifelike dreams of living as a plant to reality "
 "shocks you."
 msgstr ""
+"La transición desde tus sueños vívidos acerca de vivir como una planta, a la "
+"vida real te conmociona."
 
 #: lang/json/dream_from_json.py
 msgid ""
 "The walking plants seek to harness us as a food source.  We will not allow "
 "that."
 msgstr ""
+"Las plantas caminantes quieren utilizarnos como su fuente de alimentación. "
+"No vamos a permitir eso."
 
 #: lang/json/dream_from_json.py
 msgid ""
 "The years seem to fly past as you dream of carving great underground "
 "fastnesses."
 msgstr ""
+"Los años parecen pasar volando mientras soñás acerca de cavar una gran "
+"fortaleza subterránea."
 
 #: lang/json/dream_from_json.py
 msgid "There are underground Faults in the world.  Faults you should remedy."
 msgstr ""
+"Hay Fallas subterráneas en el mundo. Fallas que vos deberías solucionar."
 
 #: lang/json/dream_from_json.py
 msgid "We have been waiting a long time for a place such as this."
-msgstr ""
+msgstr "Hemos esperado mucho tiempo encontrar un lugar como este."
 
 #: lang/json/dream_from_json.py
 msgid "We will raise bountiful orchards and beautiful gardens."
-msgstr ""
+msgstr "Crearemos abundantes huertos de árboles frutales y hermosos jardines."
 
 #: lang/json/dream_from_json.py
 msgid "When you wake up you panic about drowning from being out of water."
 msgstr ""
+"Cuando te despertás, sentís pánico por el miedo de ahogarte al estar fuera "
+"del agua."
 
 #: lang/json/dream_from_json.py
 msgid ""
 "While dreaming you look into a mirror and see a frighteningly insectoid "
 "reflection."
-msgstr ""
+msgstr "Mientras soñás, mirás el espejo y ves un aterrador reflejo insectoide."
 
 #: lang/json/dream_from_json.py
 msgid ""
 "While dreaming, a reflection of yourself appears almost like an octopus."
-msgstr ""
+msgstr "Mientras soñás, un reflejo de vos mismo parece casi un pulpo."
 
 #: lang/json/dream_from_json.py
 msgid ""
 "While dreaming, you see a distinctively lizard-like reflection of yourself."
 msgstr ""
+"Mientras soñás, ves un reflejo de vos mismo pero con apariencia de lagarto."
 
 #: lang/json/dream_from_json.py
 msgid ""
 "While dreaming, you see yourself dressed in a hospital gown, receiving "
 "treatment."
 msgstr ""
+"Mientras soñás, te ves a vos mismo vestido con una bata de hospital, "
+"recibiendo tratamiento."
 
 #: lang/json/dream_from_json.py
 msgid "Whilst dreaming, you see a disturbingly bestial version of yourself."
-msgstr ""
+msgstr "Mientras soñás, ves un versión perturbadoramente bestial de vos mismo."
 
 #: lang/json/dream_from_json.py
 msgid "You are confused by a plantlike image of yourself in a dream."
 msgstr ""
+"Estás confundido con la imagen similar a una planta que tuviste de vos mismo "
+"en un sueño."
 
 #: lang/json/dream_from_json.py
 msgid ""
 "You are disturbed when your birdlike dreams are more lifelike than reality."
 msgstr ""
+"Estás perturbado porque tus sueños de pájaro se sienten más reales que la "
+"realidad."
 
 #: lang/json/dream_from_json.py
 msgid "You are frightened of the outside after your vivid dream of cave life."
 msgstr ""
+"Estás aterrado de salir al exterior después de tu sueño vívido acerca de "
+"vivir en una cueva."
 
 #: lang/json/dream_from_json.py
 msgid "You are many animals, and yet one."
-msgstr ""
+msgstr "Sos muchos animales, y aun así, ninguno."
 
 #: lang/json/dream_from_json.py
 msgid "You are terrified by a dream of becoming a lizard hybrid."
 msgstr ""
+"Estás aterrado por un sueño en el que te convertías en un híbrido de lagarto."
 
 #: lang/json/dream_from_json.py
 msgid "You are terrified by a dream of becoming an ape hybrid."
 msgstr ""
+"Estás aterrado por un sueño acerca de convertirte en un híbrido de simio."
 
 #: lang/json/dream_from_json.py
 msgid "You are terrified by a dream of serving the hive queen mindlessly."
 msgstr ""
+"Estás aterrorizado por un sueño acerca de fecundar a la reina del panal una "
+"y otra vez."
 
 #: lang/json/dream_from_json.py
 msgid "You blissfully recall days spent lounging in the sun."
-msgstr ""
+msgstr "Recordás felizmente aquellos días que pasabas recostado al sol."
 
 #: lang/json/dream_from_json.py
 msgid ""
 "You can't quite work out what the dream is about...it just keeps changing."
 msgstr ""
+"No llegás a darte cuenta qué es lo que estás soñando... porque cambia "
+"constantemente."
 
 #: lang/json/dream_from_json.py
 msgid "You dream about the zoo, for some reason."
-msgstr ""
+msgstr "Soñás con el zoológico, por alguna razón."
 
 #: lang/json/dream_from_json.py
 msgid "You dream of a home in the forests."
-msgstr ""
+msgstr "Soñás con un hogar en los bosques."
 
 #: lang/json/dream_from_json.py
 msgid "You dream of a strange quest for a bush that grows grey apples."
 msgstr ""
+"Soñás con una misión extraña en búsqueda de un arbusto del que crecen "
+"manzanas grises."
 
 #: lang/json/dream_from_json.py
 msgid ""
 "You dream of a weirdly shaped plant, whose nectar surpassed your every "
 "wish..."
 msgstr ""
+"Soñás con una planta de forma extraña, cuyo néctar supera cualquier de tus "
+"deseos..."
 
 #: lang/json/dream_from_json.py
 msgid "You dream of bees fighting over your sweet nectar.  Mmm."
-msgstr ""
+msgstr "Soñás con abejas luchando por tu dulce néctar. Mmm."
 
 #: lang/json/dream_from_json.py
 msgid "You dream of being a primitive cave dweller."
-msgstr ""
+msgstr "Soñás con ser un primitivo habitante de una cueva."
 
 #: lang/json/dream_from_json.py
 msgid "You dream of finally finding the perfect place to make your den."
 msgstr ""
+"Soñás acerca de encontrar finalmente el lugar perfecto para construir tu "
+"madriguera."
 
 #: lang/json/dream_from_json.py
 msgid "You dream of foraging in the woods...mouth-first?"
-msgstr ""
+msgstr "Tenés un sueño en el que buscás comida en el bosque... ¿con la boca?"
 
 #: lang/json/dream_from_json.py
 msgid "You dream of grazing in an open field."
-msgstr ""
+msgstr "Soñás con estar pastoreando en el campo."
 
 #: lang/json/dream_from_json.py
 msgid ""
 "You dream of having that success you knew you deserved, back before all this."
 msgstr ""
+"Soñás con tener el éxito que sabés que te merecés, antes de que pase todo "
+"esto."
 
 #: lang/json/dream_from_json.py
 msgid "You dream of jumping the gate and leading your herd to freedom."
-msgstr ""
+msgstr "Soñás con saltar la cerca y liderar a tu manada hacia la libertad."
 
 #: lang/json/dream_from_json.py
 msgid "You dream of living as a terrifying octopus mutant."
-msgstr ""
+msgstr "Soñás con vivir como un aterrador pulpo mutante."
 
 #: lang/json/dream_from_json.py
 msgid "You dream of living deep inside a dark cave."
-msgstr ""
+msgstr "Soñás con estar viviendo en lo profundo de una oscura cueva."
 
 #: lang/json/dream_from_json.py
 msgid "You dream of living on the ocean floor."
-msgstr ""
+msgstr "Soñás con vivir en el fondo del océano."
 
 #: lang/json/dream_from_json.py
 msgid "You dream of pursuing and killing a rat, for some reason."
-msgstr ""
+msgstr "Soñás con perseguir y matar una rata, por alguna razón."
 
 #: lang/json/dream_from_json.py
 msgid "You dream of recruiting a cult of fishfolk to serve your needs."
 msgstr ""
+"Soñás con reclutar un culto de hombres-peces para que atiendan tus "
+"necesidades."
 
 #: lang/json/dream_from_json.py
 msgid ""
 "You dream of stalking some sort of lizard...no, that can't be right, can it?"
 msgstr ""
+"Soñás que estás acechando a alguna clase de lagarto... no, no creo que sea "
+"eso, ¿o sí?"
 
 #: lang/json/dream_from_json.py
 msgid "You dream of swimming in the open ocean"
-msgstr ""
+msgstr "Tenés un sueño acerca de nadar en mar abierto."
 
 #: lang/json/dream_from_json.py
 msgid "You dream of tearing into a fresh kill."
-msgstr ""
+msgstr "Soñás con lograr ferozmente una nueva caza."
 
 #: lang/json/dream_from_json.py
 msgid "You dream of the hunt, the feed, and your pack."
-msgstr ""
+msgstr "Soñás con la caza, el alimento y tu manada."
 
 #: lang/json/dream_from_json.py
 msgid ""
 "You dream of the peaceful world you'll give humankind.  Because no one else "
 "can."
 msgstr ""
+"Soñás acerca del mundo pacífico que le darás a la humanidad. Porque ningún "
+"otro podría hacerlo."
 
 #: lang/json/dream_from_json.py
 msgid "You dream of the tropics."
-msgstr ""
+msgstr "Soñas con el trópico."
 
 #: lang/json/dream_from_json.py
 msgid ""
 "You dream of your legions of undead admirers, their attentions, and the "
 "wonderful pain."
 msgstr ""
+"Soñás con tus legiones de admiradores de muertos vivientes, sus atenciones, "
+"y el maravilloso dolor."
 
 #: lang/json/dream_from_json.py
 msgid "You easily bound from the street to a roof..oh, only a dream."
 msgstr ""
+"Y fácilmente saltás desde la calle hasta el techo... ah, estás soñando."
 
 #: lang/json/dream_from_json.py
 msgid "You excitedly web up an interloper and prepare to feast...nope, dream."
 msgstr ""
+"Con mucha excitación, enredás con tu telaraña al intruso y te preparás para "
+"el festín... ah, no, era un sueño."
 
 #: lang/json/dream_from_json.py
 msgid "You feel a yearning..."
-msgstr ""
+msgstr "Sentís un anhelo..."
 
 #: lang/json/dream_from_json.py
 msgid "You feel beautiful, and yet riven with worry..."
-msgstr ""
+msgstr "Te sentís hermoso, pero también desgarrado por la preocupación..."
 
 #: lang/json/dream_from_json.py
 msgid "You feel like you're cracking a combination lock."
-msgstr ""
+msgstr "Te sentís como si estuvieras abriendo una cerradura con combinación."
 
 #: lang/json/dream_from_json.py
 msgid "You feel smug, knowing that the Queen is dependent on you."
-msgstr ""
+msgstr "Te sentís engreído, sabiendo que la Reina depende de vos."
 
 #: lang/json/dream_from_json.py
 msgid "You feel warm."
-msgstr ""
+msgstr "Te sentís abrigado."
 
 #: lang/json/dream_from_json.py
 msgid "You feel...OK."
-msgstr ""
+msgstr "Te sentís... bien."
 
 #: lang/json/dream_from_json.py
 msgid ""
 "You find it hard to control your limbs after dreaming of amorphous blob life."
 msgstr ""
+"Te cuesta controlar tus miembros después de haber soñado con una vida como "
+"un blob amorfo."
 
 #: lang/json/dream_from_json.py
 msgid "You find it hard to wake from a vivid dream of grazing on a farm."
 msgstr ""
+"Te cuesta despertarte de un sueño vívido acerca de pastorear en una granja."
 
 #: lang/json/dream_from_json.py
 msgid "You find your paws twitching.  There's a cave.  You should go."
-msgstr ""
+msgstr "Sentís que se te retuercen las garras. Hay una cueva. Deberías ir."
 
 #: lang/json/dream_from_json.py
 msgid "You have a comforting dream of swimming with a school of fish."
-msgstr ""
+msgstr "Tenés un sueño confortable acerca de nadar con un banco de peces."
 
 #: lang/json/dream_from_json.py
 msgid "You have a confusing and scary dream of becoming a plant."
-msgstr ""
+msgstr "Tenés un confuso y aterrador sueño acerca de convertirte en planta."
 
 #: lang/json/dream_from_json.py
 msgid "You have a confusing dream of growing in a garden."
-msgstr ""
+msgstr "Tenés un confuso sueño acerca de crecer en un jardín."
 
 #: lang/json/dream_from_json.py
 msgid "You have a disturbing dream of bathing in the sun on a rock."
-msgstr ""
+msgstr "Tenés un sueño perturbador acerca de tomar sol acostado en una piedra."
 
 #: lang/json/dream_from_json.py
 msgid "You have a disturbing dream of someone invading your territory."
-msgstr ""
+msgstr "Tenés un sueño perturbador acerca de alguien que invade tu territorio."
 
 #: lang/json/dream_from_json.py
 msgid "You have a disturbing dream of swimming with a school of fish."
-msgstr ""
+msgstr "Tenés un sueño perturbador acerca de nadar con un banco de peces."
 
 #: lang/json/dream_from_json.py
 msgid "You have a disturbing dream of undergoing strange medical procedures."
 msgstr ""
+"Tenés un sueño perturbador de ser sometido a extraños procedimientos médicos."
 
 #: lang/json/dream_from_json.py
 msgid "You have a disturbingly lifelike dream of living as a lizard."
-msgstr ""
+msgstr "Tenés un perturbador sueño vívido acerca de vivir como un lagarto."
 
 #: lang/json/dream_from_json.py
 msgid ""
 "You have a dream of doctors and nurses doing unnatural things to your body, "
 "which brings you perverse pleasure."
 msgstr ""
+"Soñás con doctores y enfermeras haciendo cosas antinaturales en tu cuerpo, "
+"lo que te causa un placer perverso."
 
 #: lang/json/dream_from_json.py
 msgid "You have a dream of working in a hive."
-msgstr ""
+msgstr "Tenés un sueño acerca de trabajar en un panal."
 
 #: lang/json/dream_from_json.py
 msgid "You have a horrible nightmare of being caught out in the sunlight."
 msgstr ""
+"Tenés una pesadilla horrible acerca de ser capturado por la luz del sol."
 
 #: lang/json/dream_from_json.py
 msgid ""
 "You have a realistic dream of flying south with your flock for the winter."
 msgstr ""
+"Tenés un sueño muy real acerca de volar al sur con tu bandada durante el "
+"invierno."
 
 #: lang/json/dream_from_json.py
 msgid "You have a strange dream about animals."
@@ -45834,7 +45915,7 @@ msgstr "Tenés un extraño sueño con animales."
 
 #: lang/json/dream_from_json.py
 msgid "You have a strange dream about bears."
-msgstr ""
+msgstr "Tenés un extraño sueño con osos."
 
 #: lang/json/dream_from_json.py
 msgid ""
@@ -45848,11 +45929,11 @@ msgstr "Tenés un extraño sueño con pájaros."
 
 #: lang/json/dream_from_json.py
 msgid "You have a strange dream about cats."
-msgstr ""
+msgstr "Tenés un extraño sueño con gatos."
 
 #: lang/json/dream_from_json.py
 msgid "You have a strange dream about cattle."
-msgstr ""
+msgstr "Tenés un extraño sueño con ganado."
 
 #: lang/json/dream_from_json.py
 msgid "You have a strange dream about fish."
@@ -45860,11 +45941,11 @@ msgstr "Tenés un extraño sueño con peces."
 
 #: lang/json/dream_from_json.py
 msgid "You have a strange dream about insects."
-msgstr ""
+msgstr "Tenés un extraño sueño con insectos."
 
 #: lang/json/dream_from_json.py
 msgid "You have a strange dream about living in a cave."
-msgstr ""
+msgstr "Tenés un extraño sueño acerca de vivir en una cueva."
 
 #: lang/json/dream_from_json.py
 msgid "You have a strange dream about lizards."
@@ -45872,172 +45953,192 @@ msgstr "Tenés un extraño sueño con lagartos."
 
 #: lang/json/dream_from_json.py
 msgid "You have a strange dream about plants."
-msgstr ""
+msgstr "Tenés un extraño sueño con plantas."
 
 #: lang/json/dream_from_json.py
 msgid "You have a strange dream about rats."
-msgstr ""
+msgstr "Tenés un extraño sueño con ratas."
 
 #: lang/json/dream_from_json.py
 msgid "You have a strange dream about sea creatures."
-msgstr ""
+msgstr "Tenés un extraño sueño con criaturas marinas."
 
 #: lang/json/dream_from_json.py
 msgid "You have a strange dream about slime."
-msgstr ""
+msgstr "Tenés un extraño sueño con slimes."
 
 #: lang/json/dream_from_json.py
 msgid "You have a strange dream about spiders."
-msgstr ""
+msgstr "Tenés un extraño sueño con arañas."
 
 #: lang/json/dream_from_json.py
 msgid "You have a strange dream about wolves."
-msgstr ""
+msgstr "Tenés un extraño sueño con lobos."
 
 #: lang/json/dream_from_json.py
 msgid "You have a strange dream of living in sludge."
-msgstr ""
+msgstr "Tenés un extraño sueño acerca de vivir en el fango."
 
 #: lang/json/dream_from_json.py
 msgid "You have a strange dream of spinning webs"
-msgstr ""
+msgstr "Tenés un extraño sueño acerca de tejer telarañas."
 
 #: lang/json/dream_from_json.py
 msgid "You have a strange dream."
-msgstr ""
+msgstr "Tenés un extraño sueño."
 
 #: lang/json/dream_from_json.py
 msgid ""
 "You have a vivid dream of being a medical anomaly, as your heartbeat syncs "
 "with the steady drip of an IV line."
 msgstr ""
+"Tenés un sueño vívido acerca de ser una anomalía médica, mientras los "
+"latidos de tu corazón se sincronizan con el goteo constante de la vía "
+"intravenosa."
 
 #: lang/json/dream_from_json.py
 msgid "You have a vivid dream of hunting in the woods."
-msgstr ""
+msgstr "Tenés un sueño vívido de estar cazando en el bosque."
 
 #: lang/json/dream_from_json.py
 msgid "You have strange dreams of soaring through the sky."
-msgstr ""
+msgstr "Tenés extraños sueños acerca de planear por el cielo."
 
 #: lang/json/dream_from_json.py
 msgid "You pant, terrified at the thought of that FUNGUS destroying your home!"
 msgstr ""
+"Jadeás, aterrado por el pensamiento de ¡ese HONGO destrozando tu hogar!"
 
 #: lang/json/dream_from_json.py
 msgid "You scream in fear while you dream of being chased by a cat"
-msgstr ""
+msgstr "Gritás de miedo mientras soñás con ser perseguido por un gato."
 
 #: lang/json/dream_from_json.py
 msgid "You see yourself reflected in the beauty of the forest."
-msgstr ""
+msgstr "Te ves a vos mismo reflejado en la belleza del bosque."
 
 #: lang/json/dream_from_json.py
 msgid ""
 "You see yourself, five years from now, as the leader of a successful city."
 msgstr ""
+"Te ves a vos mismo, dentro de cinco años, como líder de una ciudad exitosa."
 
 #: lang/json/dream_from_json.py
 msgid "You stir, saddened that your beautiful hatchlings were only a dream."
 msgstr ""
+"Te despertás, entristecida porque tus hermosos retoños eran solo parte de un "
+"sueño."
 
 #: lang/json/dream_from_json.py
 msgid "You terrifyingly dream of being led to a slaughterhouse by a farmer."
 msgstr ""
+"Tenés un sueño aterrador acerca de ser llevado al matadero por un granjero."
 
 #: lang/json/dream_from_json.py
 msgid "You vividly dream of living in a web and consuming insects."
 msgstr ""
+"Soñás vívidamente acerca de vivir en una telaraña, consumiendo insectos."
 
 #: lang/json/dream_from_json.py
 msgid "You vividly dream of living in the sewers."
-msgstr ""
+msgstr "Soñás vívidamente acerca de vivir en las cloacas."
 
 #: lang/json/dream_from_json.py
 msgid "You vividly dream of running with your pack, hunting a wild animal."
 msgstr ""
+"Soñás vívidamente acerca de correr con tu manada, cazando algún animal "
+"salvaje."
 
 #: lang/json/dream_from_json.py
 msgid "You vividly dream of sharing a kill with your pack."
-msgstr ""
+msgstr "Soñás vívidamente acerca de compartir una presa con tu manada."
 
 #: lang/json/dream_from_json.py
 msgid "You wish others could understand, and join your struggle..."
-msgstr ""
+msgstr "Te gustaría que otros pudieran entender, y unirse a tu lucha..."
 
 #: lang/json/dream_from_json.py
 msgid ""
 "You wonder if you could find one of those 'salmon runs', or if they were "
 "just a legend..."
 msgstr ""
+"Te preguntás si podrás encontrar una de esas 'migraciones de salmones', o si "
+"solo son una leyenda..."
 
 #: lang/json/dream_from_json.py
 msgid "You wonder if your nest will be good enough."
-msgstr ""
+msgstr "Te preguntás si tu madriguera será suficientemente buena."
 
 #: lang/json/dream_from_json.py
 msgid "You've never felt so lithe and powerful."
-msgstr ""
+msgstr "Nunca te habías sentido tan ágil y poderoso."
 
 #: lang/json/dream_from_json.py
 msgid "Your body flows slightly faster than you expected... oh, just a dream."
 msgstr ""
+"Tu cuerpo fluye un poco más rápido de lo que esperabas... ah, era solo un "
+"sueño."
 
 #: lang/json/dream_from_json.py
 msgid "Your disturbingly lifelike dream has you pollinating plants."
-msgstr ""
+msgstr "Tenés un perturbador sueño vívido acerca de polinizar plantas."
 
 #: lang/json/dream_from_json.py
 msgid "Your dream is filled with creatures, and yet all seem like you."
-msgstr ""
+msgstr "Tu sueño está repleto de criaturas, y todas se parecen a vos."
 
 #: lang/json/dream_from_json.py
 msgid "Your dream of living in the dark for years is almost real."
 msgstr ""
+"Tu sueño acerca de vivir en la oscuridad por años, casi se siente real."
 
 #: lang/json/dream_from_json.py
 msgid ""
 "Your dream of raiding a giant beehive has you licking your...muzzle in "
 "anticipation."
 msgstr ""
+"El sueño que tuviste acerca de asaltar una colmena gigante, te hace "
+"relamerte el... hocico de ansiedad."
 
 #: lang/json/dream_from_json.py
 msgid ""
 "Your dream of soaring over the landscape becomes a nightmare when you find "
 "yourself with arms and a glider!"
 msgstr ""
+"Tu sueño acerca de estar planeando sobre el paisaje se convierte en una "
+"pesadilla cuando ¡te descubrís con brazos y un ala delta!"
 
 #: lang/json/dream_from_json.py
 msgid "Your dream-reflection is rather bearish."
-msgstr ""
+msgstr "En tu sueño, tu reflejo es más bien el de un oso."
 
 #: lang/json/dream_from_json.py
 msgid "Your dream-self looks competent and in control."
-msgstr ""
+msgstr "La versión de tu persona en el sueño parece competente y en control."
 
 #: lang/json/dream_from_json.py
 msgid "Your dream-self's muzzle looks...wait, muzzle?"
-msgstr ""
+msgstr "En tu sueño, tu hocico parece que se... momento, ¿hocico?"
 
 #: lang/json/dream_from_json.py
 msgid "Your dreams give a strange reclusive feeling."
-msgstr ""
+msgstr "Tus sueños te hacen sentir una extraña sensación solitaria."
 
 #: lang/json/dream_from_json.py
 msgid "Your dreams give you a rough furry feeling."
-msgstr ""
+msgstr "Tus sueños te hacen sentir una sensación peluda y áspera."
 
 #: lang/json/dream_from_json.py
 msgid "Your dreams give you a sleek furry feeling."
-msgstr ""
+msgstr "Tus sueños te hacen sentir una sensación peluda y lisa."
 
 #: lang/json/dream_from_json.py
 msgid "Your dreams give you a strange chitinous feeling."
-msgstr ""
+msgstr "Tus sueños te hacen sentir una extraña sensación quitinosa."
 
 #: lang/json/dream_from_json.py
 msgid "Your dreams give you a strange content, furry feeling."
-msgstr ""
+msgstr "Tus sueños te hacen sentir una extraña sensación peluda y contenta."
 
 #: lang/json/dream_from_json.py
 msgid "Your dreams give you a strange feathered feeling."
@@ -46045,15 +46146,15 @@ msgstr "Tus sueños te hacen sentir una extraña sensación emplumada."
 
 #: lang/json/dream_from_json.py
 msgid "Your dreams give you a strange furry feeling."
-msgstr ""
+msgstr "Tus sueños te hacen sentir una extraña sensación peluda."
 
 #: lang/json/dream_from_json.py
 msgid "Your dreams give you a strange fuzzy feeling."
-msgstr ""
+msgstr "Tus sueños te hacen sentir una extraña sensación peluda y rizada."
 
 #: lang/json/dream_from_json.py
 msgid "Your dreams give you a strange plantlike feeling."
-msgstr ""
+msgstr "Tus sueños te hacen sentir una extraña sensación vegetal."
 
 #: lang/json/dream_from_json.py
 msgid "Your dreams give you a strange scaly feeling."
@@ -46061,15 +46162,15 @@ msgstr "Tus sueños te hacen sentir una extraña sensación escamosa."
 
 #: lang/json/dream_from_json.py
 msgid "Your dreams give you a strange slimy feeling."
-msgstr ""
+msgstr "Tus sueños te hacen sentir una extraña sensación de slime."
 
 #: lang/json/dream_from_json.py
 msgid "Your dreams give you a strange webbed feeling."
-msgstr ""
+msgstr "Tus sueños te hacen sentir una extraña sensación telarañosa."
 
 #: lang/json/dream_from_json.py
 msgid "Your dreams give you a strange wet feeling."
-msgstr ""
+msgstr "Tus sueños te hacen sentir una extraña sensación húmeda."
 
 #: lang/json/dream_from_json.py
 msgid "Your dreams give you a strange wet, scaly feeling."
@@ -46077,7 +46178,7 @@ msgstr "Tus sueños te hacen sentir una extraña sensación húmeda y escamosa."
 
 #: lang/json/dream_from_json.py
 msgid "Your dreams give you a thick furry feeling."
-msgstr ""
+msgstr "Tus sueños te hacen sentir una sensación peluda y gruesa."
 
 #: lang/json/dream_from_json.py
 msgid "Your dreams give you an oddly medicated feeling."
@@ -46086,122 +46187,159 @@ msgstr "Tus sueños te dan una sensación rara sobre medicación."
 #: lang/json/dream_from_json.py
 msgid "Your dreams of fully turning into a spider frighten you."
 msgstr ""
+"Tus sueños acerca de convertirte completamente en una araña te aterran."
 
 #: lang/json/dream_from_json.py
 msgid "Your dreams of having to live without a web frighten you."
-msgstr ""
+msgstr "Tus sueños acerca de tener que vivir sin telaraña te aterran,"
 
 #: lang/json/dream_from_json.py
 msgid ""
 "Your dreams of living on the ocean floor seem more lifelike than reality."
 msgstr ""
+"Tus sueños acerca de vivir en el fondo del océano parecen más reales que la "
+"misma realidad."
 
 #: lang/json/dream_from_json.py
 msgid "Your dreams...are complex and multifaceted."
-msgstr ""
+msgstr "Tus sueños son... complejos y multifacéticos."
 
 #: lang/json/dream_from_json.py
 msgid "Your lifelike dreams have you scavenging food with a pack of rats."
-msgstr ""
+msgstr "Tus sueños vívidos son acerca de buscar comida con un grupo de ratas."
 
 #: lang/json/dream_from_json.py
 msgid ""
 "Your nightmare of sentient rats turns successful, as you grab their King and "
 "shake it apart!"
 msgstr ""
+"Tu pesadilla acerca de ratas sentientes ha sido un éxito, ¡ahora que agarrás "
+"a su Rey y lo hacés pedazos!"
 
 #: lang/json/dream_from_json.py
 msgid "Your success in restoring civilization was only a dream.  For now."
-msgstr ""
+msgstr "Tu éxito en recuperar la civilización era solo un sueño. Por ahora."
 
 #: lang/json/dream_from_json.py
 msgid "Your vivid dream of living as a slime blob frightens you."
-msgstr ""
+msgstr "Tu sueño vívido acerca de vivir como un blob viscoso te aterra."
 
 #: lang/json/dream_from_json.py
 msgid ""
 "Your vivid dream of your pseudopods calcifying into rigid structures "
 "terrifies you."
 msgstr ""
+"Tu sueño vívido acerca de tus pseudópodos calcificándose en estructuras "
+"rígidas, te aterra."
 
 #: lang/json/effects_from_json.py
 msgid "A laser sight is targeting you!"
-msgstr ""
+msgstr "¡Te está apuntando una mira láser!"
 
 #: lang/json/effects_from_json.py
 msgid "AI tag for asking NPCs for items. This is a bug if you have it."
 msgstr ""
+"Etiqueta de IA para preguntar por un objeto a un PNJ. Si te aparece, esto es "
+"un bug."
 
 #: lang/json/effects_from_json.py
 msgid ""
 "AI tag for asking to NPCs for personal information. This is a bug if you "
 "have it."
 msgstr ""
+"Etiqueta de IA para preguntarle información personal a un PNJ. Si te "
+"aparece, esto es un bug."
 
 #: lang/json/effects_from_json.py
 msgid "AI tag for asking to NPCs to follow you. This is a bug if you have it."
 msgstr ""
+"Etiqueta de IA para preguntar si queremos que un PNJ nos siga. Si te "
+"aparece, esto es un bug."
 
 #: lang/json/effects_from_json.py
 msgid "AI tag for asking to NPCs to train you. This is a bug if you have it."
 msgstr ""
+"Etiqueta de IA para preguntar si queremos que un PNJ nos entrene. Si te "
+"aparece, esto es un bug."
 
 #: lang/json/effects_from_json.py
 msgid "AI tag for asking to lead NPCs. This is a bug if you have it."
 msgstr ""
+"Etiqueta de IA para preguntar si queremos guiar un PNJ. Si te aparece, esto "
+"es un bug."
 
 #: lang/json/effects_from_json.py
 msgid "AI tag for telling NPCs to catch up. This is a bug if you have it."
 msgstr ""
+"Etiqueta de IA para decirle a un PNJ que nos alcance. Si te aparece, esto es "
+"un bug."
 
 #: lang/json/effects_from_json.py
 msgid ""
 "AI tag for when hit-and-run monsters run away. This is a bug if you have it."
 msgstr ""
+"Etiqueta de IA para cuando los monstruos fugitivos salen corriendo. Si te "
+"aparece, esto es un bug."
 
 #: lang/json/effects_from_json.py
 msgid ""
 "AI tag for when monsters are being controlled by another. This is a bug if "
 "you have it."
 msgstr ""
+"Etiqueta de IA para cuando los monstruos son controlados por otro. Si te "
+"aparece, esto es un bug."
 
 #: lang/json/effects_from_json.py
 msgid ""
 "AI tag for when monsters are hit by player. This is a bug if you have it."
 msgstr ""
+"Etiqueta de IA para cuando los monstruos son golpeados por el jugador. Si te "
+"aparece, esto es un bug."
 
 #: lang/json/effects_from_json.py
 msgid "AI tag for when monsters are tamed. This is a bug if you have it."
 msgstr ""
+"Etiqueta de IA para cuando los monstruos son domesticados. Si te aparece, "
+"esto es un bug."
 
 #: lang/json/effects_from_json.py
 msgid "AI tag used for bouncing ammo targeting. This is a bug if you have it."
 msgstr ""
+"Etiqueta de IA usada para la munición que rebota en el objetivo. Si te "
+"aparece, esto es un bug."
 
 #: lang/json/effects_from_json.py
 msgid ""
 "AI tag used for critters holding your bags. This is a bug if you have it."
 msgstr ""
+"Etiqueta de IA para criaturas que llevan tus cosas. Si te aparece, esto es "
+"un bug."
 
 #: lang/json/effects_from_json.py
 msgid "AI tag used for pacified critters. This is a bug if you have it."
-msgstr ""
+msgstr "Etiqueta de IA para criaturas calmadas. Si te aparece, esto es un bug."
 
 #: lang/json/effects_from_json.py
 msgid "AI tag used for pet critters. This is a bug if you have it."
 msgstr ""
+"Etiqueta de IA usada para las criaturas mascotas. Si te aparece, esto es un "
+"bug."
 
 #: lang/json/effects_from_json.py
 msgid "AI tag used for the infected NPC quest. This is a bug if you have it."
 msgstr ""
+"Etiqueta de IA para la misión del PNJ infectado. Si te aparece, esto es un "
+"bug."
 
 #: lang/json/effects_from_json.py
 msgid "AI tag used for tied up critters. This is a bug if you have it."
-msgstr ""
+msgstr "Etiqueta de IA para criaturas atadas. Si te aparece, esto es un bug."
 
 #: lang/json/effects_from_json.py
 msgid "AI tag used for turret targeting sounds. This is a bug if you have it."
 msgstr ""
+"Etiqueta de IA usada para sonidos de selección de objetivos de las torretas. "
+"Si te aparece, esto es un bug."
 
 #: lang/json/effects_from_json.py
 msgid "Adrenaline Comedown"
@@ -46213,23 +46351,23 @@ msgstr ""
 
 #: lang/json/effects_from_json.py
 msgid "Asked Info"
-msgstr ""
+msgstr "Pedir Información"
 
 #: lang/json/effects_from_json.py
 msgid "Asked for Item"
-msgstr ""
+msgstr "Preguntar por Objeto"
 
 #: lang/json/effects_from_json.py
 msgid "Asked to Follow"
-msgstr ""
+msgstr "Preguntar para Seguir"
 
 #: lang/json/effects_from_json.py
 msgid "Asked to Lead"
-msgstr ""
+msgstr "Preguntar para Guiar"
 
 #: lang/json/effects_from_json.py
 msgid "Asked to Train"
-msgstr ""
+msgstr "Preguntar para Entrenar"
 
 #: lang/json/effects_from_json.py
 msgid "Asthma"
@@ -46237,27 +46375,27 @@ msgstr ""
 
 #: lang/json/effects_from_json.py
 msgid "Bad Bleeding"
-msgstr ""
+msgstr "Sangrando Bastante"
 
 #: lang/json/effects_from_json.py
 msgid "Badly Infected"
-msgstr ""
+msgstr "Muy Infectado"
 
 #: lang/json/effects_from_json.py
 msgid "Badly Poisoned"
-msgstr ""
+msgstr "Muy Envenenado"
 
 #: lang/json/effects_from_json.py
 msgid "Bite"
-msgstr ""
+msgstr "Mordido"
 
 #: lang/json/effects_from_json.py
 msgid "Bleeding"
-msgstr ""
+msgstr "Sangrando"
 
 #: lang/json/effects_from_json.py
 msgid "Blind"
-msgstr ""
+msgstr "Ciego"
 
 #: lang/json/effects_from_json.py
 msgid "Blisters"
@@ -46265,11 +46403,11 @@ msgstr ""
 
 #: lang/json/effects_from_json.py
 msgid "Boomered"
-msgstr ""
+msgstr "Boomered"
 
 #: lang/json/effects_from_json.py
 msgid "Bounced"
-msgstr ""
+msgstr "Rebotado"
 
 #: lang/json/effects_from_json.py
 msgid "Bugs in skin"
@@ -46281,7 +46419,7 @@ msgstr ""
 
 #: lang/json/effects_from_json.py
 msgid "Catch Up"
-msgstr ""
+msgstr "Alcanzar"
 
 #: lang/json/effects_from_json.py
 msgctxt "memorial_female"
@@ -46296,12 +46434,12 @@ msgstr ""
 #: lang/json/effects_from_json.py
 msgctxt "memorial_female"
 msgid "Caught on fire."
-msgstr ""
+msgstr "Prendida fuego."
 
 #: lang/json/effects_from_json.py
 msgctxt "memorial_male"
 msgid "Caught on fire."
-msgstr ""
+msgstr "Prendido fuego."
 
 #: lang/json/effects_from_json.py
 msgctxt "memorial_female"
@@ -46323,11 +46461,11 @@ msgstr ""
 
 #: lang/json/effects_from_json.py
 msgid "Chilly"
-msgstr ""
+msgstr "Fresco"
 
 #: lang/json/effects_from_json.py src/player.cpp
 msgid "Cold"
-msgstr ""
+msgstr "Frío"
 
 #: lang/json/effects_from_json.py
 msgid "Common Cold"
@@ -46340,52 +46478,52 @@ msgstr ""
 #: lang/json/effects_from_json.py
 msgctxt "memorial_female"
 msgid "Contracted a fungal infection."
-msgstr ""
+msgstr "Contrajiste una infección fúngica."
 
 #: lang/json/effects_from_json.py
 msgctxt "memorial_male"
 msgid "Contracted a fungal infection."
-msgstr ""
+msgstr "Contrajiste una infección fúngica."
 
 #: lang/json/effects_from_json.py
 msgctxt "memorial_female"
 msgid "Contracted an infection."
-msgstr ""
+msgstr "Contrajiste una infección."
 
 #: lang/json/effects_from_json.py
 msgctxt "memorial_male"
 msgid "Contracted an infection."
-msgstr ""
+msgstr "Contrajiste una infección."
 
 #: lang/json/effects_from_json.py
 msgid "Controlled Monster"
-msgstr ""
+msgstr "Monstruo Controlado"
 
 #: lang/json/effects_from_json.py
 msgctxt "memorial_female"
 msgid "Cured the fungal infection."
-msgstr ""
+msgstr "Curada de la infección fúngica."
 
 #: lang/json/effects_from_json.py
 msgctxt "memorial_male"
 msgid "Cured the fungal infection."
-msgstr ""
+msgstr "Curado de la infección fúngica."
 
 #: lang/json/effects_from_json.py
 msgid "Deaf"
-msgstr ""
+msgstr "Sordo"
 
 #: lang/json/effects_from_json.py
 msgid "Defrosting"
-msgstr ""
+msgstr "Descongelando"
 
 #: lang/json/effects_from_json.py
 msgid "Docile Monster"
-msgstr ""
+msgstr "Monstruo Dócil"
 
 #: lang/json/effects_from_json.py
 msgid "Downed"
-msgstr ""
+msgstr "Caído"
 
 #: lang/json/effects_from_json.py
 msgid "Drunk"
@@ -46397,23 +46535,23 @@ msgstr ""
 
 #: lang/json/effects_from_json.py
 msgid "Food Poisoning"
-msgstr ""
+msgstr "Intoxicación por Comida"
 
 #: lang/json/effects_from_json.py
 msgid "Freezing"
-msgstr ""
+msgstr "Helando"
 
 #: lang/json/effects_from_json.py
 msgid "Frostbite"
-msgstr ""
+msgstr "Congelación"
 
 #: lang/json/effects_from_json.py
 msgid "Frostnip"
-msgstr ""
+msgstr "Quemadura por frío"
 
 #: lang/json/effects_from_json.py
 msgid "Glare"
-msgstr ""
+msgstr "Resplandor"
 
 #: lang/json/effects_from_json.py
 msgctxt "memorial_female"
@@ -46445,11 +46583,11 @@ msgstr ""
 
 #: lang/json/effects_from_json.py
 msgid "Hallucinating"
-msgstr ""
+msgstr "Alucinando"
 
 #: lang/json/effects_from_json.py
 msgid "Has Bag"
-msgstr ""
+msgstr "Tiene Bolsa"
 
 #: lang/json/effects_from_json.py
 msgid "Heavy Asthma"
@@ -46457,7 +46595,7 @@ msgstr ""
 
 #: lang/json/effects_from_json.py
 msgid "Heavy Bleeding"
-msgstr ""
+msgstr "Sangrando Mucho"
 
 #: lang/json/effects_from_json.py
 msgid "High"
@@ -46469,23 +46607,23 @@ msgstr ""
 
 #: lang/json/effects_from_json.py
 msgid "Hit By Player"
-msgstr ""
+msgstr "Golpeado Por Jugador"
 
 #: lang/json/effects_from_json.py
 msgid "Hit-and-run Running"
-msgstr ""
+msgstr "Corredores Fugitivos"
 
 #: lang/json/effects_from_json.py src/player.cpp
 msgid "Hot"
-msgstr ""
+msgstr "Caliente"
 
 #: lang/json/effects_from_json.py lang/json/scenario_from_json.py
 msgid "Infected"
-msgstr ""
+msgstr "Infectado"
 
 #: lang/json/effects_from_json.py
 msgid "Infection"
-msgstr ""
+msgstr "Infección"
 
 #: lang/json/effects_from_json.py
 msgid "Influenza"
@@ -46501,13 +46639,15 @@ msgstr ""
 
 #: lang/json/effects_from_json.py
 msgid "Laser-targeted"
-msgstr ""
+msgstr "Apuntado con láser"
 
 #: lang/json/effects_from_json.py
 msgid ""
 "Loss of health - Entire Body\n"
 "Your clothing and other equipment may be consumed by the flames."
 msgstr ""
+"Pérdida de vida - Cuerpo Entero\n"
+"Tu ropa y otro equipamiento puede ser consumido por las llamas."
 
 #: lang/json/effects_from_json.py
 msgid "Meth comedown"
@@ -46531,7 +46671,7 @@ msgstr ""
 
 #: lang/json/effects_from_json.py
 msgid "On Fire"
-msgstr ""
+msgstr "En LLamas"
 
 #: lang/json/effects_from_json.py
 msgid "Our enemies are near, and violent action is imminent.  We are turgid."
@@ -46544,37 +46684,37 @@ msgstr ""
 
 #: lang/json/effects_from_json.py
 msgid "Pacified"
-msgstr ""
+msgstr "Calmado"
 
 #: lang/json/effects_from_json.py
 msgid "Painful Bite"
-msgstr ""
+msgstr "Mordida Dolorosa"
 
 #: lang/json/effects_from_json.py
 msgid "Partially Paralyzed"
-msgstr ""
+msgstr "Parcialmente Paralizado"
 
 #: lang/json/effects_from_json.py
 msgid "Pet"
-msgstr ""
+msgstr "Mascota"
 
 #: lang/json/effects_from_json.py
 msgid "Poisoned"
-msgstr ""
+msgstr "Envenenado"
 
 #: lang/json/effects_from_json.py
 msgid "Pus Filled"
-msgstr ""
+msgstr "LLeno de Pus"
 
 #: lang/json/effects_from_json.py
 msgctxt "memorial_female"
 msgid "Put out the fire."
-msgstr ""
+msgstr "Apagar el fuego."
 
 #: lang/json/effects_from_json.py
 msgctxt "memorial_male"
 msgid "Put out the fire."
-msgstr ""
+msgstr "Apagar el fuego."
 
 #: lang/json/effects_from_json.py
 msgid "RELEASE THE GRACKEN!!!!"
@@ -46582,49 +46722,49 @@ msgstr ""
 
 #: lang/json/effects_from_json.py
 msgid "Range of Sight: 0"
-msgstr ""
+msgstr "Rango de visión: 0"
 
 #: lang/json/effects_from_json.py
 msgid "Range of Sight: 1;  You are covered in magenta bile!"
-msgstr ""
+msgstr "Rango de visión: 1; ¡Estás cubierto por una bilis magenta!"
 
 #: lang/json/effects_from_json.py
 msgid "Ratting"
-msgstr ""
+msgstr "Enratado"
 
 #: lang/json/effects_from_json.py
 msgctxt "memorial_female"
 msgid "Received a deep bite wound."
-msgstr ""
+msgstr "Recibiste una herida de mordida profunda."
 
 #: lang/json/effects_from_json.py
 msgctxt "memorial_male"
 msgid "Received a deep bite wound."
-msgstr ""
+msgstr "Recibiste una herida de mordida profunda."
 
 #: lang/json/effects_from_json.py
 msgctxt "memorial_female"
 msgid "Recovered from a bite wound."
-msgstr ""
+msgstr "Recuperada de la herida de mordida."
 
 #: lang/json/effects_from_json.py
 msgctxt "memorial_male"
 msgid "Recovered from a bite wound."
-msgstr ""
+msgstr "Recuperado de la herida de mordida."
 
 #: lang/json/effects_from_json.py
 msgctxt "memorial_female"
 msgid "Recovered from an infection... this time."
-msgstr ""
+msgstr "Recuperada de la infección... por esta vez."
 
 #: lang/json/effects_from_json.py
 msgctxt "memorial_male"
 msgid "Recovered from an infection... this time."
-msgstr ""
+msgstr "Recuperado de la infección... por esta vez."
 
 #: lang/json/effects_from_json.py
 msgid "Recovering From Infection"
-msgstr ""
+msgstr "Recuperándote de una Infección"
 
 #: lang/json/effects_from_json.py
 msgid "Relaxation gas"
@@ -46636,43 +46776,43 @@ msgstr ""
 
 #: lang/json/effects_from_json.py
 msgid "Scorching"
-msgstr ""
+msgstr "Ardiendo"
 
 #: lang/json/effects_from_json.py
 msgid "Shakes"
-msgstr ""
+msgstr "Temblores"
 
 #: lang/json/effects_from_json.py
 msgid "Slimed"
-msgstr ""
+msgstr "Cubierto de Slime"
 
 #: lang/json/effects_from_json.py
 msgid "Slowed"
-msgstr ""
+msgstr "Lentificado"
 
 #: lang/json/effects_from_json.py
 msgid "Sluggish"
-msgstr ""
+msgstr "Muy lento"
 
 #: lang/json/effects_from_json.py src/faction.cpp
 msgid "Smoke"
-msgstr ""
+msgstr "Humo"
 
 #: lang/json/effects_from_json.py
 msgid "Sounds will not be reported.  You cannot talk with NPCs."
-msgstr ""
+msgstr "Los sonidos no serán registrados. No podés hablar con los PNJ."
 
 #: lang/json/effects_from_json.py
 msgid "Spore coated"
-msgstr ""
+msgstr "Tapado por esporas"
 
 #: lang/json/effects_from_json.py
 msgid "Spore covered"
-msgstr ""
+msgstr "Cubierto por esporas"
 
 #: lang/json/effects_from_json.py
 msgid "Spore dusted"
-msgstr ""
+msgstr "Salpicado de esporas"
 
 #: lang/json/effects_from_json.py
 msgid "Stem cell treatment"
@@ -46687,27 +46827,27 @@ msgstr ""
 
 #: lang/json/effects_from_json.py
 msgid "Stuck in Pit"
-msgstr ""
+msgstr "Atrapado en Pozo"
 
 #: lang/json/effects_from_json.py
 msgid "Stuck in a heavy snare"
-msgstr ""
+msgstr "Muy atrapado en una trampa de lazo"
 
 #: lang/json/effects_from_json.py
 msgid "Stuck in a light snare"
-msgstr ""
+msgstr "Atrapado en una trampa de lazo"
 
 #: lang/json/effects_from_json.py
 msgid "Stuck in beartrap"
-msgstr ""
+msgstr "Atrapado en una trampa para oso"
 
 #: lang/json/effects_from_json.py src/bionics.cpp
 msgid "Stung"
-msgstr ""
+msgstr "Picado"
 
 #: lang/json/effects_from_json.py src/monster.cpp
 msgid "Stunned"
-msgstr ""
+msgstr "Aturdido"
 
 #: lang/json/effects_from_json.py
 msgid "Symptoms alleviated by medication (cough syrup)."
@@ -46715,7 +46855,7 @@ msgstr ""
 
 #: lang/json/effects_from_json.py
 msgid "Tear gas"
-msgstr ""
+msgstr "Gas lacrimógeno"
 
 #: lang/json/effects_from_json.py
 msgid "That critter's jumping around like a jitterbug! It needs to mellow out."
@@ -46723,7 +46863,7 @@ msgstr ""
 
 #: lang/json/effects_from_json.py
 msgid "The bite wound feels really deep..."
-msgstr ""
+msgstr "La herida de mordida se siente muy profunda..."
 
 #: lang/json/effects_from_json.py
 msgid "The ceiling collapses on you!"
@@ -46743,27 +46883,27 @@ msgstr ""
 
 #: lang/json/effects_from_json.py
 msgid "The sun is in your eyes."
-msgstr ""
+msgstr "Te molesta el sol en los ojos."
 
 #: lang/json/effects_from_json.py
 msgid "The sunlight's glare makes it hard to see."
-msgstr ""
+msgstr "El resplandor del sol te dificulta la visión."
 
 #: lang/json/effects_from_json.py
 msgid "The webs constrict your movement."
-msgstr ""
+msgstr "Las telarañas te dificultan el movimiento."
 
 #: lang/json/effects_from_json.py
 msgid "The world flickers back to normality."
-msgstr ""
+msgstr "El mundo parpadea y vuelve a la normalidad."
 
 #: lang/json/effects_from_json.py
 msgid "This goo makes you slip"
-msgstr ""
+msgstr "Esta viscosidad te hace patinar."
 
 #: lang/json/effects_from_json.py
 msgid "Tied Up"
-msgstr ""
+msgstr "Atado"
 
 #: lang/json/effects_from_json.py
 msgid "Tipsy"
@@ -46771,7 +46911,7 @@ msgstr ""
 
 #: lang/json/effects_from_json.py
 msgid "Totally Paralyzed"
-msgstr ""
+msgstr "Totalmente Paralizado"
 
 #: lang/json/effects_from_json.py
 msgid "Trashed"
@@ -46779,7 +46919,7 @@ msgstr ""
 
 #: lang/json/effects_from_json.py
 msgid "Turret is Targeted"
-msgstr ""
+msgstr "Torreta está Apuntando"
 
 #: lang/json/effects_from_json.py
 msgid "Unleashed the Gracken."
@@ -46787,11 +46927,11 @@ msgstr ""
 
 #: lang/json/effects_from_json.py
 msgid "Unstable footing"
-msgstr ""
+msgstr "Punto de apoyo inestable"
 
 #: lang/json/effects_from_json.py
 msgid "Warm"
-msgstr ""
+msgstr "Templado"
 
 #: lang/json/effects_from_json.py
 msgid "Wasted"
@@ -46803,7 +46943,7 @@ msgstr ""
 
 #: lang/json/effects_from_json.py
 msgid "Webbed"
-msgstr ""
+msgstr "En Telarañas"
 
 #: lang/json/effects_from_json.py
 msgid "Writhing skin"
@@ -46811,35 +46951,35 @@ msgstr ""
 
 #: lang/json/effects_from_json.py
 msgid "You are being slowed by a paralyzing poison!"
-msgstr ""
+msgstr "¡Estás lentificado por un veneno paralizante!"
 
 #: lang/json/effects_from_json.py
 msgid "You are caught!"
-msgstr ""
+msgstr "¡Estás atrapado!"
 
 #: lang/json/effects_from_json.py
 msgid "You are covered in webs!"
-msgstr ""
+msgstr "¡Estás cubierto por telarañas!"
 
 #: lang/json/effects_from_json.py
 msgid "You are losing blood."
-msgstr ""
+msgstr "Estás perdiendo sangre."
 
 #: lang/json/effects_from_json.py
 msgid "You are rapidly losing blood."
-msgstr ""
+msgstr "Estás perdiendo sangre rápidamente."
 
 #: lang/json/effects_from_json.py
 msgid "You are recovering from an infection."
-msgstr ""
+msgstr "Te estás recuperando de una infección."
 
 #: lang/json/effects_from_json.py
 msgid "You are slowly losing blood."
-msgstr ""
+msgstr "Estás perdiendo sangre lentamente."
 
 #: lang/json/effects_from_json.py
 msgid "You are snared!"
-msgstr ""
+msgstr "¡Caíste en una trampa de lazo!"
 
 #: lang/json/effects_from_json.py
 msgid "You are too tired to function well."
@@ -46852,10 +46992,11 @@ msgstr ""
 #: lang/json/effects_from_json.py
 msgid "You can feel the tiny spores sinking directly into your flesh."
 msgstr ""
+"Podés sentir las pequeñas esporas hundiéndose directamente en tu carne."
 
 #: lang/json/effects_from_json.py
 msgid "You can hear again!"
-msgstr ""
+msgstr "¡Podés escuchar otra vez!"
 
 #: lang/json/effects_from_json.py
 msgid "You can see more clearly."
@@ -46871,11 +47012,11 @@ msgstr ""
 
 #: lang/json/effects_from_json.py
 msgid "You can't move until you get free!"
-msgstr ""
+msgstr "¡No te podés mover hasta que te liberes!"
 
 #: lang/json/effects_from_json.py
 msgid "You can't trust everything that you see."
-msgstr ""
+msgstr "No podés confiar en todo lo que estás viendo."
 
 #: lang/json/effects_from_json.py
 msgid "You don't have energy to fight."
@@ -46899,7 +47040,7 @@ msgstr ""
 
 #: lang/json/effects_from_json.py
 msgid "You feel bad inside."
-msgstr ""
+msgstr "Te sentís mal por adentro."
 
 #: lang/json/effects_from_json.py
 msgid "You feel completely drained."
@@ -46911,15 +47052,15 @@ msgstr ""
 
 #: lang/json/effects_from_json.py
 msgid "You feel nauseated and rat-like."
-msgstr ""
+msgstr "Te sentís como una rata, y con náuseas."
 
 #: lang/json/effects_from_json.py
 msgid "You feel sick inside."
-msgstr ""
+msgstr "Te sentís enfermo."
 
 #: lang/json/effects_from_json.py
 msgid "You feel stiff."
-msgstr ""
+msgstr "Te sentís todo duro."
 
 #: lang/json/effects_from_json.py
 msgid "You feel the rush of adrenaline in your body!"
@@ -46935,15 +47076,15 @@ msgstr ""
 
 #: lang/json/effects_from_json.py
 msgid "You have a nasty bite wound."
-msgstr ""
+msgstr "Tenés una herida muy fea de mordida."
 
 #: lang/json/effects_from_json.py
 msgid "You have an infected wound."
-msgstr ""
+msgstr "Tenés una herida infectada."
 
 #: lang/json/effects_from_json.py
 msgid "You have been badly poisoned!"
-msgstr ""
+msgstr "¡Estás muy envenenado!"
 
 #: lang/json/effects_from_json.py
 msgid ""
@@ -46957,11 +47098,11 @@ msgstr ""
 
 #: lang/json/effects_from_json.py
 msgid "You have been poisoned!"
-msgstr ""
+msgstr "¡Te envenenaron!"
 
 #: lang/json/effects_from_json.py
 msgid "You have been stung!"
-msgstr ""
+msgstr "¡Te picaron!"
 
 #: lang/json/effects_from_json.py
 msgid "You haven't slept in a while, and it shows."
@@ -46969,11 +47110,11 @@ msgstr ""
 
 #: lang/json/effects_from_json.py
 msgid "You inhale a lungful of tear gas."
-msgstr ""
+msgstr "Inhalás mucha cantidad de gas lacrimógeno."
 
 #: lang/json/effects_from_json.py
 msgid "You inhale a lungful of thick smoke."
-msgstr ""
+msgstr "Inhalás mucha cantidad de humo espeso."
 
 #: lang/json/effects_from_json.py
 msgid "You inhale sweetish gas."
@@ -46998,11 +47139,11 @@ msgstr ""
 
 #: lang/json/effects_from_json.py
 msgid "You tremble"
-msgstr ""
+msgstr "Temblás."
 
 #: lang/json/effects_from_json.py
 msgid "You try to keep your balance."
-msgstr ""
+msgstr "Intentás mantener tu equilibrio."
 
 #: lang/json/effects_from_json.py
 msgid "You wake up."
@@ -47010,11 +47151,11 @@ msgstr ""
 
 #: lang/json/effects_from_json.py
 msgid "You're bleeding!"
-msgstr ""
+msgstr "¡Estás sangrando!"
 
 #: lang/json/effects_from_json.py
 msgid "You're blinded!"
-msgstr ""
+msgstr "¡Estás ciego!"
 
 #: lang/json/effects_from_json.py
 msgid "You're coated in sap!"
@@ -47022,40 +47163,43 @@ msgstr ""
 
 #: lang/json/effects_from_json.py
 msgid "You're covered in bile!"
-msgstr ""
+msgstr "¡Estás cubierto por bilis!"
 
 #: lang/json/effects_from_json.py
 msgid "You're covered in thick goo!"
-msgstr ""
+msgstr "¡Estás cubierto por una viscosidad espesa!"
 
 #: lang/json/effects_from_json.py
 msgid "You're covered in webs!"
-msgstr ""
+msgstr "¡Estás recubierto de telarañas!"
 
 #: lang/json/effects_from_json.py src/player.cpp
 msgid "You're deafened!"
-msgstr ""
+msgstr "¡Estás sordo!"
 
 #: lang/json/effects_from_json.py
 msgid "You're knocked to the floor!"
-msgstr ""
+msgstr "¡Te tiraron al suelo!"
 
 #: lang/json/effects_from_json.py
 msgid "You're knocked to the ground.  You have to get up before you can move."
 msgstr ""
+"Te tiraron al suelo. Te vas a tener que levantar antes de poder moverte."
 
 #: lang/json/effects_from_json.py
 msgid "You're on fire!"
-msgstr ""
+msgstr "¡Estás prendido fuego!"
 
 #: lang/json/effects_from_json.py
 msgid ""
 "You're stuck in a pit.  Sight distance is limited and you have to climb out."
 msgstr ""
+"Estás atrapado en un pozo. La distancia de visión está limitada y vas a "
+"tener que trepar para salir."
 
 #: lang/json/effects_from_json.py
 msgid "You're stunned!"
-msgstr ""
+msgstr "¡Estás aturdido!"
 
 #: lang/json/effects_from_json.py
 msgid "You're too stuffed up to fight effectively."
@@ -47067,11 +47211,61 @@ msgstr ""
 
 #: lang/json/effects_from_json.py
 msgid "You've been exposed to tear gas!"
-msgstr ""
+msgstr "¡Has recibido gas lacrimógeno!"
 
 #: lang/json/effects_from_json.py
 msgid "You've inhaled a lungful of thick smoke."
+msgstr "Inhalaste mucha cantidad de humo espeso."
+
+#: lang/json/effects_from_json.py
+#, no-python-format
+msgid "Your %s feels warm."
+msgstr "Sentís tu %s abrigado/a."
+
+#: lang/json/effects_from_json.py
+#, no-python-format
+msgid "Your %s is blistering from the intense heat."
 msgstr ""
+
+#: lang/json/effects_from_json.py
+#, no-python-format
+msgid "Your %s is dangerously cold!"
+msgstr "¡Tu %s está peligrosamente frío!"
+
+#: lang/json/effects_from_json.py
+#, no-python-format
+msgid "Your %s is exposed to the cold."
+msgstr "Tu %s está expuesto al frío."
+
+#: lang/json/effects_from_json.py
+#, no-python-format
+msgid "Your %s is frostbitten! Its tissues are frozen from the cold!"
+msgstr "¡Se te congeló el/a %s! ¡El tejido está helado por el frío!"
+
+#: lang/json/effects_from_json.py
+#, no-python-format
+msgid "Your %s is frostnipped and has gone numb."
+msgstr "Sentís tu %s quemado por el frío y adormecido."
+
+#: lang/json/effects_from_json.py
+#, no-python-format
+msgid "Your %s is starting to feel the damage cold has wrought."
+msgstr "Tu %s está empezando a sentir el daño que causó el frío."
+
+#: lang/json/effects_from_json.py
+#, no-python-format
+msgid "Your %s is sweating from the heat."
+msgstr "Te traspira el/a %s por el calor."
+
+#: lang/json/effects_from_json.py
+#, no-python-format
+msgid "Your %s is sweating profusely!"
+msgstr "¡Tu %s te está transpirando mucho!"
+
+#: lang/json/effects_from_json.py
+#, no-python-format
+msgid "Your %s is very exposed to the cold."
+msgstr "Tu %s está muy expuesto al frío."
 
 #: lang/json/effects_from_json.py
 msgid "Your adrenaline rush wears off.  You feel AWFUL!"
@@ -47079,7 +47273,7 @@ msgstr ""
 
 #: lang/json/effects_from_json.py
 msgid "Your bite wound feels infected"
-msgstr ""
+msgstr "Sentís infectada tu herida de mordida."
 
 #: lang/json/effects_from_json.py
 msgid "Your blisters distract you"
@@ -47091,16 +47285,18 @@ msgstr ""
 
 #: lang/json/effects_from_json.py
 msgid "Your eyes burn from the tear gas."
-msgstr ""
+msgstr "Te arden los ojos por el gas lacrimógeno."
 
 #: lang/json/effects_from_json.py
 msgid ""
 "Your footing is unstable.  It's more difficult to fight while standing here."
 msgstr ""
+"Tu punto de apoyo no es estable. Es más difícil luchar mientras estás parado "
+"acá."
 
 #: lang/json/effects_from_json.py
 msgid "Your hands just won't stop shaking."
-msgstr ""
+msgstr "Tus manos no paran de temblar."
 
 #: lang/json/effects_from_json.py
 msgid ""
@@ -47109,15 +47305,15 @@ msgstr ""
 
 #: lang/json/effects_from_json.py
 msgid "Your lungs burn from the smoke."
-msgstr ""
+msgstr "Te arden los pulmones por el humo."
 
 #: lang/json/effects_from_json.py
 msgid "Your movement is randomized."
-msgstr ""
+msgstr "Tu movimiento es aleatorio."
 
 #: lang/json/effects_from_json.py
 msgid "Your sight returns!"
-msgstr ""
+msgstr "¡Podés ver otra vez!"
 
 #: lang/json/effects_from_json.py
 msgid "Your skin feels extremely itchy!"
@@ -47125,58 +47321,18 @@ msgstr ""
 
 #: lang/json/effects_from_json.py
 msgid "Your stomach bothers you."
-msgstr ""
+msgstr "Te molesta el estómago."
 
 #: lang/json/effects_from_json.py
 msgid "Your stomach is extremely upset, and you are quite nauseous."
-msgstr ""
+msgstr "Tu estómago se siente mal, y tenés bastantes náuseas."
 
 #: lang/json/effects_from_json.py
 msgid "Your vision flickers and goes gray!"
-msgstr ""
+msgstr "¡Tu visión va y viene y ves todo gris!"
 
 #: lang/json/effects_from_json.py
 msgid "Your vision starts to blur."
-msgstr ""
-
-#: lang/json/effects_from_json.py
-msgid "feels warm."
-msgstr ""
-
-#: lang/json/effects_from_json.py
-msgid "is blistering from the intense heat."
-msgstr ""
-
-#: lang/json/effects_from_json.py
-msgid "is dangerously cold!"
-msgstr ""
-
-#: lang/json/effects_from_json.py
-msgid "is exposed to the cold."
-msgstr ""
-
-#: lang/json/effects_from_json.py
-msgid "is frostbitten! Its tissues are frozen from the cold!"
-msgstr ""
-
-#: lang/json/effects_from_json.py
-msgid "is frostnipped and has gone numb."
-msgstr ""
-
-#: lang/json/effects_from_json.py
-msgid "is starting to feel the damage cold has wrought."
-msgstr ""
-
-#: lang/json/effects_from_json.py
-msgid "is sweating from the heat."
-msgstr ""
-
-#: lang/json/effects_from_json.py
-msgid "is sweating profusely!"
-msgstr ""
-
-#: lang/json/effects_from_json.py
-msgid "is very exposed to the cold."
 msgstr ""
 
 #: lang/json/faction_from_json.py
@@ -55349,7 +55505,7 @@ msgstr "¿cloacas?"
 
 #: lang/json/overmap_terrain_from_json.py
 msgid "slime pit"
-msgstr "pozo de baba"
+msgstr "pozo de slime"
 
 #: lang/json/overmap_terrain_from_json.py
 msgid "small power substation"
@@ -60281,10 +60437,6 @@ msgid ""
 msgstr ""
 
 #: lang/json/snippet_from_json.py
-msgid "\"The copbots... the turrets... they just fucking ignore them.\""
-msgstr ""
-
-#: lang/json/snippet_from_json.py
 msgid "\"The gas the gas the green gas spreads forever\""
 msgstr ""
 
@@ -64530,7 +64682,7 @@ msgstr "tobogán"
 
 #: lang/json/terrain_from_json.py
 msgid "slime"
-msgstr "baba"
+msgstr "slime"
 
 #: lang/json/terrain_from_json.py
 msgid "slot machine"
@@ -71568,12 +71720,6 @@ msgstr ""
 "De repente, te das cuenta que toda la materia no es más que energía "
 "condensada en una vibración lenta, y que todos somos una consciencia que se "
 "experimenta a sí misma de manera subjetiva."
-
-#. ~ Used for effect descriptions, "Your (body_part_name) (effect description)"
-#: src/effect.cpp
-#, c-format
-msgid "Your %s "
-msgstr ""
 
 #: src/effect.cpp
 msgid "blackouts"
@@ -86608,9 +86754,10 @@ msgstr ""
 msgid "west and below"
 msgstr ""
 
+#. ~ item name [quantity]
 #: src/live_view.cpp
 #, c-format
-msgid " [%d]"
+msgid "%s [%d]"
 msgstr ""
 
 #: src/live_view.cpp

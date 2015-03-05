@@ -5282,7 +5282,7 @@
     "diff":52,
     "aggression":100,
     "morale":100,
-    "speed":100,
+    "speed":75,
     "melee_skill":5,
     "melee_dice":5,
     "melee_dice_sides":5,
