@@ -944,6 +944,12 @@ void musical_instrument_actor::load( JsonObject &obj )
 
 long musical_instrument_actor::use( player *p, item *it, bool t, point ) const
 {
+    if( p == nullptr ) {
+        // No haunted pianos here!
+        it->active = false;
+        return 0;
+    }
+
     if( p->is_underwater() ) {
         p->add_msg_if_player( m_bad, _("You can't play music underwater") );
         it->active = false;
