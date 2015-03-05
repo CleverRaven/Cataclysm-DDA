@@ -3427,32 +3427,8 @@ void mattack::upgrade(monster *z, int index)
 
     monster *target = &( g->zombie( targets[ rng(0, targets.size() - 1) ] ) );
 
-    std::string newtype = "mon_zombie";
-
-    switch( rng(1, 10) ) {
-    case  1:
-        newtype = "mon_zombie_shrieker";
-        break;
-    case  2:
-    case  3:
-        newtype = "mon_zombie_spitter";
-        break;
-    case  4:
-    case  5:
-        newtype = "mon_zombie_electric";
-        break;
-    case  6:
-    case  7:
-    case  8:
-        newtype = "mon_zombie_hunter";
-        break;
-    case  9:
-        newtype = "mon_zombie_brute";
-        break;
-    case 10:
-        newtype = "mon_boomer";
-        break;
-    }
+    const auto monsters = MonsterGroupManager::GetMonstersFromGroup("GROUP_ZOMBIE");
+    const std::string newtype = monsters[rng(0, monsters.size() - 1)];
 
     const auto could_see = g->u.sees( *target );
     target->poly(GetMType(newtype));
