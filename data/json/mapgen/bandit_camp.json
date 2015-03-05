@@ -80,6 +80,7 @@
                 "T": "t_dirtfloor",
                 "W": "t_dirt",
                 "w": "t_dirt",
+                "C": "t_dirt",
                 "z": "t_dirt"
             },
             "furniture": {
@@ -97,6 +98,7 @@
                 "T": "f_toilet",
                 "W": "f_large_canvas_wall",
                 "w": "f_large_groundsheet",
+                "C": "f_center_groundsheet",
                 "z": "f_crate_c"
             }
         }
@@ -121,12 +123,12 @@
                 ".dd##//////////P//,//,,$",
                 "####/////WWWWW/P///,/,,,",
                 "...#/////WwwwW/P////,,/,",
-                "...+//////wwwW/P////,$,/",
+                "...+//////wCwW/P////,$,/",
                 "...#/////WwwwW/P/////,,%",
                 "..##/////WWWWW/P///$/,,,",
                 "...##//////////P//,/,,,,",
                 "n..h#/////WWWW/P//,/,,/,",
-                "..nh#/////WwwW/P,//,$,,,",
+                "..nh#/////WCwW/P,//,$,,,",
                 "#hhh#/////WwwW/P/,//,/,,",
                 "#####/////W/WW/##///,%,,",
                 "///////////////##/////,$",
@@ -177,6 +179,7 @@
                 "T": "t_dirtfloor",
                 "W": "t_dirt",
                 "w": "t_dirt",
+                "C": "t_dirt",
                 "z": "t_dirt"
             },
             "furniture": {
@@ -194,6 +197,7 @@
                 "T": "f_toilet",
                 "W": "f_large_canvas_wall",
                 "w": "f_large_groundsheet",
+                "C": "f_center_groundsheet",
                 "z": "f_crate_c"
             }
         }
@@ -205,8 +209,8 @@
         "object": {
             "fill_ter": "t_dirt",
             "rows": [
-                ",,$/,///,P//Wwww/////Www",
-                "%,/,,///,P//WwwwW/////ww",
+                ",,$/,///,P//WwCw/////Www",
+                "%,/,,///,P//WwwwW/////wC",
                 ",,,,,/,//P//WWWWW////Www",
                 ",//,///,##///////////WWW",
                 ",,/,////##//////////////",
@@ -214,12 +218,12 @@
                 ",/%,/,/,,///////////////",
                 ",,/,///////////W/WW//WW/",
                 ",,,$////##/////WwwW//Www",
-                ",,,/,,//##/////WwwW//Www",
+                ",,,/,,//##/////WCwW//WwC",
                 ",$/,//%//P/////WWWW//Www",
                 ",,,,$/,//P///////////WWW",
                 ",,/,//,//P///WWWW///////",
                 ",%,,/,///P///WwwW///zz//",
-                ",,$,//,//P///Www////zz//",
+                ",,$,//,//P///WCw////zz//",
                 ",%,///,//P///WWWW///////",
                 ",,,,,/,/###/////////////",
                 "$,/,//,/###PPPPPPPPPPP##",
@@ -273,6 +277,7 @@
                 "T": "t_dirtfloor",
                 "W": "t_dirt",
                 "w": "t_dirt",
+                "C": "t_dirt",
                 "z": "t_dirt"
             },
             "furniture": {
@@ -290,6 +295,7 @@
                 "T": "f_toilet",
                 "W": "f_large_canvas_wall",
                 "w": "f_large_groundsheet",
+                "C": "f_center_groundsheet",
                 "z": "f_crate_c"
             }
         }
@@ -372,6 +378,7 @@
                 "T": "t_dirtfloor",
                 "W": "t_dirt",
                 "w": "t_dirt",
+                "C": "t_dirt",
                 "z": "t_dirt"
             },
             "furniture": {
@@ -389,6 +396,7 @@
                 "T": "f_toilet",
                 "W": "f_large_canvas_wall",
                 "w": "f_large_groundsheet",
+                "C": "f_center_groundsheet",
                 "z": "f_crate_c"
             }
         }
