@@ -10,6 +10,20 @@
 
 class monster;
 
+struct radio_tower_reference {
+    /** Overmap the radio tower is on. */
+    overmap *om;
+    /** The radio tower itself, points into @ref overmap::radios */
+    radio_tower *tower;
+    /** The global absolute position of the tower (in submap coordinates) */
+    point abs_sm_pos;
+    /** Perceived signal strength (tower output strength minus distance) */
+    int signal_strength;
+    operator bool() const {
+        return tower != nullptr;
+    }
+};
+
 /**
  * Coordinate systems used here are:
  * overmap (om): the position of an overmap. Each overmap stores
@@ -247,6 +261,13 @@ public:
      * (monster::pos()) is interpreted as relative to the main map.
      */
     void despawn_monster(const monster &critter);
+    /**
+     * Find radio station with given frequency, search an unspecified area around
+     * the current player location.
+     * If no matching tower has been found, it returns an object with the tower pointer set
+     * to null.
+     */
+    radio_tower_reference find_radio_station( int frequency );
 
     // overmap terrain to overmap
     static point omt_to_om_copy(int x, int y);

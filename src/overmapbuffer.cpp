@@ -577,6 +577,28 @@ std::vector<npc*> overmapbuffer::get_npcs_near_omt(int x, int y, int z, int radi
     return result;
 }
 
+radio_tower_reference create_radio_tower_reference( overmap &om, radio_tower &t, const tripoint &center )
+{
+    // global submap coordinates, same as center is
+    const point pos = point( t.x, t.y ) + overmapbuffer::om_to_sm_copy( om.pos() );
+    const int strength = t.strength - rl_dist( pos, center );
+    return radio_tower_reference{ &om, &t, pos, strength };
+}
+
+radio_tower_reference overmapbuffer::find_radio_station( const int frequency )
+{
+    const point center( g->get_abs_levx(), g->get_abs_levy() );
+    for( auto &om : get_overmaps_near( center, RADIO_MAX_STRENGTH ) ) {
+        for( auto &tower : om->radios ) {
+            const auto rref = create_radio_tower_reference( *om, tower, center );
+            if( rref.signal_strength > 0 && tower.frequency == frequency ) {
+                return rref;
+            }
+        }
+    }
+    return radio_tower_reference{ nullptr, nullptr, point( 0, 0 ), 0 };
+}
+
 void overmapbuffer::spawn_monster(const int x, const int y, const int z)
 {
     // Create a copy, so we can reuse x and y later

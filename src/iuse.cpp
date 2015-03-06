@@ -3900,19 +3900,6 @@ int iuse::radio_off(player *p, item *it, bool, point)
     return it->type->charges_to_use();
 }
 
-static radio_tower *find_radio_station(int frequency)
-{
-    radio_tower *tower = NULL;
-    for (size_t k = 0; k < g->cur_om->radios.size(); k++) {
-        tower = &g->cur_om->radios[k];
-        if (0 < tower->strength - rl_dist(tower->x, tower->y, g->levx, g->levy) &&
-            tower->frequency == frequency) {
-            return tower;
-        }
-    }
-    return NULL;
-}
-
 int iuse::directional_antenna(player *p, item *it, bool, point)
 {
     // Find out if we have an active radio
@@ -3925,13 +3912,14 @@ int iuse::directional_antenna(player *p, item *it, bool, point)
     }
     const item radio = *radios.front();
     // Find the radio station its tuned to (if any)
-    radio_tower *tower = find_radio_station(radio.frequency);
-    if (tower == NULL) {
+    const auto tref = overmap_buffer.find_radio_station( radio.frequency );
+    if( !tref ) {
         add_msg(m_info, _("You can't find the direction if your radio isn't tuned."));
         return 0;
     }
     // Report direction.
-    direction angle = direction_from(g->levx, g->levy, tower->x, tower->y);
+    direction angle = direction_from( g->get_abs_levx() + int(MAPSIZE / 2), g->get_abs_levy() + int(MAPSIZE / 2),
+                                      tref.abs_sm_pos.x, tref.abs_sm_pos.y );
     add_msg(_("The signal seems strongest to the %s."), direction_name(angle).c_str());
     return it->type->charges_to_use();
 }
@@ -3941,19 +3929,16 @@ int iuse::radio_on(player *p, item *it, bool t, point pos)
     if (t) {
         // Normal use
         std::string message = _("Radio: Kssssssssssssh.");
-        radio_tower *selected_tower = find_radio_station(it->frequency);
-        if (selected_tower != NULL) {
+        const auto tref = overmap_buffer.find_radio_station( it->frequency );
+        if( tref ) {
+            const auto selected_tower = tref.tower;
             if (selected_tower->type == MESSAGE_BROADCAST) {
                 message = selected_tower->message;
             } else if (selected_tower->type == WEATHER_RADIO) {
                 message = weather_forecast(*selected_tower);
             }
-
-            int signal_strength = selected_tower->strength -
-                                  rl_dist(selected_tower->x, selected_tower->y, g->levx, g->levy);
-
             for( auto &elem : message ) {
-                if (dice(10, 100) > dice(10, signal_strength * 3)) {
+                if (dice(10, 100) > dice(10, tref.signal_strength * 3)) {
                     if (!one_in(10)) {
                         elem = '#';
                     } else {

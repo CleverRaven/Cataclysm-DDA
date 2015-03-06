@@ -215,6 +215,7 @@ enum radio_type {
 #define RADIO_MAX_STRENGTH 200
 
 struct radio_tower {
+ // local (to the containing overmap) submap coordinates
  int x;
  int y;
  int strength;
