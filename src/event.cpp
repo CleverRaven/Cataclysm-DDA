@@ -10,20 +10,12 @@
 #include "sounds.h"
 #include <climits>
 
-event::event()
-{
-    type = EVENT_NULL;
-    turn = 0;
-    faction_id = -1;
-    map_point = tripoint( INT_MIN, INT_MIN, INT_MIN );
-}
-
 event::event( event_type e_t, int t, int f_id, tripoint p )
+: type( e_t )
+, turn( t )
+, faction_id( f_id )
+, map_point( p )
 {
-    type = e_t;
-    turn = t;
-    faction_id = f_id;
-    map_point = p;
 }
 
 void event::actualize()
