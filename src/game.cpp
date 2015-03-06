@@ -14233,7 +14233,6 @@ int game::get_levz() const
 
 overmap &game::get_cur_om() const
 {
-    const auto pos_sm = point( get_levx(), get_levy() );
-    const auto pos_om = overmapbuffer::sm_to_om_copy( pos_sm );
+    const tripoint pos_om = overmapbuffer::sm_to_om_copy( m.get_abs_sub() );
     return overmap_buffer.get( pos_om.x, pos_om.y );
 }
