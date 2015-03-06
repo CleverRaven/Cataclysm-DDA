@@ -46,7 +46,7 @@ class start_location
          * @param rad safe radius area to prevent player spawn next to burning wall.
          * @param count number of fire on the map.
          */
-        void burn( overmap *&cur_om, tripoint &omtstart,
+        void burn( const tripoint &omtstart,
                    const size_t count, const int rad ) const;
 
     private:

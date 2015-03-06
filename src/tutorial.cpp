@@ -60,7 +60,7 @@ bool tutorial_game::init()
  g->u.inv.add_item(lighter);
  g->u.skillLevel("gun").level(5);
  g->u.skillLevel("melee").level(5);
- g->m.load(g->levx, g->levy, 0, true, g->cur_om);
+ g->m.load_abs( g->get_abs_levx(), g->get_abs_levy(), 0, true );
  g->levz = 0;
  g->u.setx( 2 );
  g->u.sety( 4 );

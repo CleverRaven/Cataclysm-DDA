@@ -208,7 +208,7 @@ void game::unserialize(std::ifstream & fin)
         nextspawn = tmpspawn;
 
         cur_om = &overmap_buffer.get(comx, comy);
-        m.load(levx, levy, levz, true, cur_om);
+        m.load_abs( levx + comx * OMAPX * 2, levy + comy * OMAPY * 2, levz, true );
 
         safe_mode = static_cast<safe_mode_type>( tmprun );
         if (OPTIONS["SAFEMODE"] && safe_mode == SAFE_MODE_OFF) {

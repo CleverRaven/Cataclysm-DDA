@@ -619,7 +619,7 @@ void game::start_game(std::string worldname)
     // Start the overmap with out immediate neighborhood visible
     overmap_buffer.reveal(point(om_global_location().x, om_global_location().y), OPTIONS["DISTANCE_INITIAL_VISIBILITY"], 0);
     // Init the starting map at this location.
-    m.load( levx, levy, levz, true, cur_om );
+    m.load_abs( get_abs_levx(), get_abs_levy(), get_abs_levz(), true );
     m.build_map_cache();
     // Do this after the map cache has been build!
     start_loc.place_player( u );
@@ -646,7 +646,7 @@ void game::start_game(std::string worldname)
     //Calc mutation drench protection stats
     u.drench_mut_calc();
     if ( scen->has_flag("FIRE_START") ){
-        start_loc.burn( cur_om, omtstart, 3, 3 );
+        start_loc.burn( omtstart, 3, 3 );
     }
     if (scen->has_flag("INFECTED")){
         u.add_effect("infected", 1, random_body_part(), true);
@@ -4198,7 +4198,7 @@ void game::debug()
             levx = nlevx - cur_om->pos().x * OMAPX * 2;
             levy = nlevy - cur_om->pos().y * OMAPY * 2;
             levz = tmp.z;
-            m.load(levx, levy, levz, true, cur_om);
+            m.load_abs( get_abs_levx(), get_abs_levy(), get_abs_levz(), true );
             load_npcs();
             m.spawn_monsters( true ); // Static monsters
             update_overmap_seen();
@@ -12648,7 +12648,7 @@ void game::vertical_move(int movez, bool force)
     maybetmp.vertical_shift( levz + movez );
 #else
     map maybetmp;
-    maybetmp.load(levx, levy, levz + movez, false, cur_om);
+    maybetmp.load_abs(get_abs_levx(), get_abs_levy(), get_abs_levz() + movez, false);
 #endif
 
     // Find the corresponding staircase
@@ -12836,7 +12836,7 @@ void game::vertical_move(int movez, bool force)
     m.set_outside_cache_dirty();
 #ifndef ZLEVELS
     (void)actually_moved;
-    m.load( levx, levy, levz, true, cur_om );
+    m.load_abs( get_abs_levx(), get_abs_levy(), get_abs_levz(), true );
 #endif
     u.setx( stairx );
     u.sety( stairy );

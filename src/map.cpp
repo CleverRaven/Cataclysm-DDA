@@ -4737,13 +4737,6 @@ void map::load_abs(const int wx, const int wy, const int wz, const bool update_v
     }
 }
 
-void map::load(const int wx, const int wy, const int wz, const bool update_vehicle, overmap *om)
-{
-    const int awx = om->pos().x * OMAPX * 2 + wx;
-    const int awy = om->pos().y * OMAPY * 2 + wy;
-    load_abs(awx, awy, wz, update_vehicle);
-}
-
 void map::forget_traps(int gridx, int gridy)
 {
     const auto smap = get_submap_at_grid( gridx, gridy );
