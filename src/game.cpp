@@ -5911,15 +5911,14 @@ void game::monmove()
     cleanup_dead();
 
     // Make sure these don't match the first time around.
-    int cached_levx = get_levx() + 1;
-    int cached_levy = get_levy() + 1;
+    tripoint cached_lev = m.get_abs_sub() + tripoint( 1, 0, 0 );
 
     mfactions monster_factions;
 
     for (size_t i = 0; i < num_zombies(); i++) {
         // The first time through, and any time the map has been shifted,
         // recalculate monster factions.
-        if( cached_levx != get_levx() || cached_levy != get_levy() ) {
+        if( cached_lev != m.get_abs_sub() ) {
             // monster::plan() needs to know about all monsters on the same team as the monster.
             monster_factions.clear();
             auto playerfaction = GetMFact( "player" );
@@ -5932,8 +5931,7 @@ void game::monmove()
                     monster_factions[ playerfaction ].insert( i );
                 }
             }
-            cached_levx = get_levx();
-            cached_levy = get_levy();
+            cached_lev = m.get_abs_sub();
         }
 
         monster &critter = critter_tracker.find(i);
