@@ -123,7 +123,10 @@ void sounds::process_sounds()
         // Alert all hordes
         if( vol > 20 && g->get_levz() == 0 ) {
             int sig_power = ((vol > 140) ? 140 : vol) - 20;
-            overmap_buffer.signal_hordes( g->global_sm_location(), sig_power );
+            const point abs_ms = g->m.getabs( source.x, source.y );
+            const point abs_sm = overmapbuffer::ms_to_sm_copy( abs_ms );
+            const tripoint target( abs_sm.x, abs_sm.y, g->get_levz() );
+            overmap_buffer.signal_hordes( target, sig_power );
         }
         // Alert all monsters (that can hear) to the sound.
         for (int i = 0, numz = g->num_zombies(); i < numz; i++) {
