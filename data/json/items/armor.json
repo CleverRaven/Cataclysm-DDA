@@ -11874,7 +11874,7 @@
     {
         "type" : "ARMOR",
         "id" : "gloves_bag",
-        "name" : "bag gloves",
+        "name" : "pair of bag gloves",
         "name_plural" : "pairs of bag gloves",
         "weight" : 6,
         "color" : "light_blue",
@@ -11899,7 +11899,7 @@
     {
         "type" : "ARMOR",
         "id" : "socks_bag",
-        "name" : "bag socks",
+        "name" : "pair of bag socks",
         "name_plural" : "pairs of bag socks",
         "weight" : 6,
         "color" : "light_blue",
@@ -11924,7 +11924,7 @@
     {
         "type" : "ARMOR",
         "id" : "armguard_paper",
-        "name" : "paper arm guards",
+        "name" : "pair of paper arm guards",
         "name_plural" : "pairs of paper arm guards",
         "weight" : 360,
         "color" : "blue",
@@ -11948,7 +11948,7 @@
     {
         "type" : "ARMOR",
         "id" : "legguard_paper",
-        "name" : "paper leg guards",
+        "name" : "pair of paper leg guards",
         "name_plural" : "pairs of paper leg guards",
         "weight" : 370,
         "color" : "blue",
@@ -12187,7 +12187,8 @@
     {
         "type" : "ARMOR",
         "id" : "chainmail_arms",
-        "name" : "chainmail arms",
+        "name" : "pair of chainmail sleeves",
+        "name_plural" : "pairs of chainmail sleeves"
         "weight" : 2812,
         "color" : "light_red",
         "covers" : ["ARMS"],
@@ -12212,6 +12213,7 @@
         "type" : "ARMOR",
         "id" : "chainmail_legs",
         "name" : "chainmail leggings",
+        "name_plural" : "chainmail leggings",
         "weight" : 4212,
         "color" : "light_red",
         "covers" : ["LEGS"],
@@ -12428,7 +12430,7 @@
         "type" : "ARMOR",
         "id" : "motorbike_pants",
         "name" : "motorcycle pants",
-        "name_plural" : "pairs of motorcycle pants",
+        "name_plural" : "motorcycle pants",
         "weight" : 1340,
         "color" : "dark_gray",
         "covers" : ["LEGS"],
@@ -12452,7 +12454,7 @@
     {
         "type" : "ARMOR",
         "id" : "motorbike_boots",
-        "name" : "motorcycle boots",
+        "name" : "pair of motorcycle boots",
         "name_plural" : "pairs of motorcycle boots",
         "weight" : 2125,
         "color" : "dark_gray",
