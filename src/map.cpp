@@ -4726,7 +4726,7 @@ void map::save()
     }
 }
 
-void map::load_abs(const int wx, const int wy, const int wz, const bool update_vehicle)
+void map::load(const int wx, const int wy, const int wz, const bool update_vehicle)
 {
     traplocs.clear();
     set_abs_sub( wx, wy, wz );

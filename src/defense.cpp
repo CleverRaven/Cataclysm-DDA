@@ -288,7 +288,7 @@ void defense_game::init_map()
         }
     }
 
-    g->m.load_abs( g->get_abs_levx(), g->get_abs_levy(), g->get_abs_levz(), true );
+    g->m.load( g->get_abs_levx(), g->get_abs_levy(), g->get_abs_levz(), true );
 
     int x = g->u.posx();
     int y = g->u.posy();

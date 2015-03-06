@@ -174,7 +174,7 @@ class map
      * @param wz see wx, this is the z-level
      * @param update_vehicles If true, add vehicles to the vehicle cache.
      */
-    void load_abs(const int wx, const int wy, const int wz, const bool update_vehicles);
+    void load(const int wx, const int wy, const int wz, const bool update_vehicles);
     /**
      * Shift the map along the vector (sx,sy).
      * This is like loading the map with coordinates derived from the current

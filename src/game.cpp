@@ -619,7 +619,7 @@ void game::start_game(std::string worldname)
     // Start the overmap with out immediate neighborhood visible
     overmap_buffer.reveal(point(om_global_location().x, om_global_location().y), OPTIONS["DISTANCE_INITIAL_VISIBILITY"], 0);
     // Init the starting map at this location.
-    m.load_abs( get_abs_levx(), get_abs_levy(), get_abs_levz(), true );
+    m.load( get_abs_levx(), get_abs_levy(), get_abs_levz(), true );
     m.build_map_cache();
     // Do this after the map cache has been build!
     start_loc.place_player( u );
@@ -4198,7 +4198,7 @@ void game::debug()
             levx = nlevx - cur_om->pos().x * OMAPX * 2;
             levy = nlevy - cur_om->pos().y * OMAPY * 2;
             levz = tmp.z;
-            m.load_abs( get_abs_levx(), get_abs_levy(), get_abs_levz(), true );
+            m.load( get_abs_levx(), get_abs_levy(), get_abs_levz(), true );
             load_npcs();
             m.spawn_monsters( true ); // Static monsters
             update_overmap_seen();
@@ -12648,7 +12648,7 @@ void game::vertical_move(int movez, bool force)
     maybetmp.vertical_shift( levz + movez );
 #else
     map maybetmp;
-    maybetmp.load_abs(get_abs_levx(), get_abs_levy(), get_abs_levz() + movez, false);
+    maybetmp.load(get_abs_levx(), get_abs_levy(), get_abs_levz() + movez, false);
 #endif
 
     // Find the corresponding staircase
@@ -12836,7 +12836,7 @@ void game::vertical_move(int movez, bool force)
     m.set_outside_cache_dirty();
 #ifndef ZLEVELS
     (void)actually_moved;
-    m.load_abs( get_abs_levx(), get_abs_levy(), get_abs_levz(), true );
+    m.load( get_abs_levx(), get_abs_levy(), get_abs_levz(), true );
 #endif
     u.setx( stairx );
     u.sety( stairy );
@@ -13474,7 +13474,7 @@ void game::nuke(int x, int y)
 {
     // TODO: nukes hit above surface, not critter = 0
     tinymap tmpmap;
-    tmpmap.load_abs(x * 2, y * 2, 0, false);
+    tmpmap.load(x * 2, y * 2, 0, false);
     for (int i = 0; i < SEEX * 2; i++) {
         for (int j = 0; j < SEEY * 2; j++) {
             if (!one_in(10)) {

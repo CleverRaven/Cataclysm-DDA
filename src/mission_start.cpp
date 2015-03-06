@@ -92,7 +92,7 @@ void mission_start::place_dog(mission *miss)
  overmap_buffer.reveal(house, 6, g->levz);
 
  tinymap doghouse;
- doghouse.load_abs(house.x * 2, house.y * 2, g->levz, false);
+ doghouse.load(house.x * 2, house.y * 2, g->levz, false);
  doghouse.add_spawn("mon_dog", 1, SEEX, SEEY, true, -1, miss->uid);
  doghouse.save();
 }
@@ -109,7 +109,7 @@ void mission_start::place_zombie_mom(mission *miss)
  overmap_buffer.reveal(house, 6, g->levz);
 
  tinymap zomhouse;
- zomhouse.load_abs(house.x * 2, house.y * 2, g->levz, false);
+ zomhouse.load(house.x * 2, house.y * 2, g->levz, false);
  zomhouse.add_spawn("mon_zombie", 1, SEEX, SEEY, false, -1, miss->uid, Name::get(nameIsFemaleName | nameIsGivenName));
  zomhouse.save();
 }
@@ -118,7 +118,7 @@ void mission_start::place_zombie_bay(mission *miss)
 {
  point site = target_om_ter_random("evac_center_9", 1, miss, false);
  tinymap bay;
- bay.load_abs(site.x * 2, site.y * 2, g->levz, false);
+ bay.load(site.x * 2, site.y * 2, g->levz, false);
  bay.add_spawn("mon_zombie_electric", 1, SEEX, SEEY, false, -1, miss->uid, "Sean McLaughlin");
  bay.save();
 }
@@ -127,7 +127,7 @@ void mission_start::place_caravan_ambush(mission *miss)
 {
  point site = target_om_ter_random("field", 1, miss, false);
  tinymap bay;
- bay.load_abs(site.x * 2, site.y * 2, g->levz, false);
+ bay.load(site.x * 2, site.y * 2, g->levz, false);
  bay.add_vehicle("cube_van", SEEX, SEEY, 0);
  bay.add_vehicle("quad_bike", SEEX+6, SEEY-5, 270, 500, -1, true);
  bay.add_vehicle("motorcycle", SEEX-2, SEEY-9, 315, 500, -1, true);
@@ -178,7 +178,7 @@ void mission_start::place_bandit_cabin(mission *miss)
 {
  point site = target_om_ter_random("bandit_cabin", 1, miss, false);
  tinymap cabin;
- cabin.load_abs(site.x * 2, site.y * 2, g->levz, false);
+ cabin.load(site.x * 2, site.y * 2, g->levz, false);
  cabin.trap_set(SEEX-5, SEEY-6, tr_landmine_buried);
  cabin.trap_set(SEEX-7, SEEY-7, tr_landmine_buried);
  cabin.trap_set(SEEX-4, SEEY-7, tr_landmine_buried);
@@ -191,13 +191,13 @@ void mission_start::place_informant(mission *miss)
 {
  point site = target_om_ter_random("evac_center_19", 1, miss, false);
  tinymap bay;
- bay.load_abs(site.x * 2, site.y * 2, g->levz, false);
+ bay.load(site.x * 2, site.y * 2, g->levz, false);
  miss->target_npc_id = bay.place_npc(SEEX, SEEY, "evac_guard3");
  bay.save();
 
  site = target_om_ter_random("evac_center_7", 1, miss, false);
  tinymap bay2;
- bay2.load_abs(site.x * 2, site.y * 2, g->levz, false);
+ bay2.load(site.x * 2, site.y * 2, g->levz, false);
  bay2.place_npc(SEEX+rng(-3,3), SEEY+rng(-3,3), "scavenger_hunter");
  bay2.save();
  site = target_om_ter_random("evac_center_17", 1, miss, false);
@@ -207,7 +207,7 @@ void mission_start::place_grabber(mission *miss)
 {
  point site = target_om_ter_random("field", 5, miss, false);
  tinymap there;
- there.load_abs(site.x * 2, site.y * 2, g->levz, false);
+ there.load(site.x * 2, site.y * 2, g->levz, false);
  there.add_spawn("mon_graboid", 1, SEEX+rng(-3,3), SEEY+rng(-3,3));
  there.add_spawn("mon_graboid", 1, SEEX, SEEY, false, -1, miss->uid, "Little Guy");
  there.save();
@@ -228,7 +228,7 @@ void mission_start::place_bandit_camp(mission *miss)
 
  point site = target_om_ter_random("bandit_camp_1", 1, miss, false);
  tinymap bay1;
- bay1.load_abs(site.x * 2, site.y * 2, g->levz, false);
+ bay1.load(site.x * 2, site.y * 2, g->levz, false);
  miss->target_npc_id = bay1.place_npc(SEEX+5, SEEY-3, "bandit");
  bay1.save();
 }
@@ -237,7 +237,7 @@ void mission_start::place_jabberwock(mission *miss)
 {
     point site = target_om_ter("forest_thick", 6, miss, false);
  tinymap grove;
- grove.load_abs(site.x * 2, site.y * 2, g->levz, false);
+ grove.load(site.x * 2, site.y * 2, g->levz, false);
  grove.add_spawn("mon_jabberwock", 1, SEEX, SEEY, false, -1, miss->uid, "NONE");
  grove.save();
 }
@@ -277,7 +277,7 @@ void mission_start::kill_horde_master(mission *miss)
  miss->target = site;
  overmap_buffer.reveal(site, 6, g->levz);
  tinymap tile;
- tile.load_abs(site.x * 2, site.y * 2, g->levz, false);
+ tile.load(site.x * 2, site.y * 2, g->levz, false);
  tile.add_spawn("mon_zombie_master", 1, SEEX, SEEY, false, -1, miss->uid, "Demonic Soul");
  tile.add_spawn("mon_zombie_brute",3,SEEX,SEEY);
  tile.add_spawn("mon_zombie_dog",3,SEEX,SEEY);
@@ -336,7 +336,7 @@ void mission_start::place_npc_software(mission *miss)
     overmap_buffer.reveal(place, 6, g->levz);
 
  tinymap compmap;
- compmap.load_abs(place.x * 2, place.y * 2, g->levz, false);
+ compmap.load(place.x * 2, place.y * 2, g->levz, false);
  point comppoint;
 
     oter_id oter = overmap_buffer.ter(place.x, place.y, 0);
@@ -394,7 +394,7 @@ void mission_start::place_priest_diary(mission *miss)
  miss->target = place;
  overmap_buffer.reveal(place, 2, g->levz);
  tinymap compmap;
- compmap.load_abs(place.x * 2, place.y * 2, g->levz, false);
+ compmap.load(place.x * 2, place.y * 2, g->levz, false);
  point comppoint;
 
   std::vector<point> valid;
@@ -426,7 +426,7 @@ void mission_start::place_deposit_box(mission *miss)
     overmap_buffer.reveal(site, 2, g->levz);
 
  tinymap compmap;
- compmap.load_abs(site.x * 2, site.y * 2, g->levz, false);
+ compmap.load(site.x * 2, site.y * 2, g->levz, false);
  point comppoint;
   std::vector<point> valid;
   for (int x = 0; x < SEEX * 2; x++) {

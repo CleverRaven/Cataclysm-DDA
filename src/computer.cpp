@@ -509,7 +509,7 @@ void computer::activate_function(computer_action action, char ch)
         // For each level between here and the surface, remove the missile
         for (int level = g->get_abs_levz(); level <= 0; level++) {
             map tmpmap;
-            tmpmap.load_abs(g->get_abs_levx(), g->get_abs_levy(), level, false);
+            tmpmap.load(g->get_abs_levx(), g->get_abs_levy(), level, false);
 
             if(level < 0) {
                 tmpmap.translate(t_missile, t_hole);

@@ -207,7 +207,7 @@ tripoint start_location::setup( overmap *&cur_om, int &levx, int &levy, int &lev
     // Now prepare the initial map (change terrain etc.)
     const point player_location = overmapbuffer::omt_to_sm_copy( omtstart.x, omtstart.y );
     tinymap player_start;
-    player_start.load_abs( player_location.x, player_location.y, omtstart.z, false );
+    player_start.load( player_location.x, player_location.y, omtstart.z, false );
     prepare_map( player_start );
     player_start.save();
 
@@ -245,7 +245,7 @@ void start_location::burn( const tripoint &omtstart,
                            const size_t count, const int rad ) const {
     const tripoint player_location = overmapbuffer::omt_to_sm_copy( omtstart );
     tinymap m;
-    m.load_abs( player_location.x, player_location.y, player_location.z, false );
+    m.load( player_location.x, player_location.y, player_location.z, false );
     m.build_outside_cache();
     const int ux = g->u.posx() % (SEEX * int( MAPSIZE / 2 ));
     const int uy = g->u.posy() % (SEEY * int( MAPSIZE / 2 ));
