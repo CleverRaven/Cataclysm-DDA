@@ -12188,7 +12188,7 @@
         "type" : "ARMOR",
         "id" : "chainmail_arms",
         "name" : "pair of chainmail sleeves",
-        "name_plural" : "pairs of chainmail sleeves"
+        "name_plural" : "pairs of chainmail sleeves",
         "weight" : 2812,
         "color" : "light_red",
         "covers" : ["ARMS"],
