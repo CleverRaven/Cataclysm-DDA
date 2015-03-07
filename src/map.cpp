@@ -1703,6 +1703,84 @@ bool map::moppable_items_at(const int x, const int y)
     return false;
 }
 
+void map::decay_fields_and_scent( const int amount )
+{
+    const int amount_liquid = amount / 3; // Decay washable fields (blood, guts etc.) by this
+    const int amount_gas = amount / 5; // Decay gas type fields by this
+    // Decay fields separately from scent - constantly re-getting the submap is expensive
+    // Coord code copied from lightmap calculations
+    for( int smx = 0; smx < my_MAPSIZE; ++smx ) {
+        for( int smy = 0; smy < my_MAPSIZE; ++smy ) {
+            auto const cur_submap = get_submap_at_grid( smx, smy );
+
+            for( int sx = 0; sx < SEEX; ++sx ) {
+                for( int sy = 0; sy < SEEY; ++sy ) {
+                    const int x = sx + smx * SEEX;
+                    const int y = sy + smy * SEEY;
+
+                    if( !outside_cache[x][y] ) {
+                        continue;
+                    }
+
+                    if( g->scent( x, y ) > 0 ) {
+                        g->scent( x, y )--;
+                    }
+
+                    field &fields = cur_submap->fld[sx][sy];
+                    for( auto &fp : fields ) {
+                        field_entry &cur = fp.second;
+                        const field_id type = cur.getFieldType();
+                        switch( type ) {
+                            case fd_fire:
+                            {
+                                const int cur_age = cur.getFieldAge();
+                                cur.setFieldAge( cur_age + amount );
+                            }
+                                break;
+                            case fd_blood:
+                            case fd_bile:
+                            case fd_gibs_flesh:
+                            case fd_gibs_veggy:
+                            case fd_slime:
+                            case fd_blood_veggy:
+                            case fd_blood_insect:
+                            case fd_blood_invertebrate:
+                            case fd_gibs_insect:
+                            case fd_gibs_invertebrate:
+                            {
+                                const int cur_age = cur.getFieldAge();
+                                cur.setFieldAge( cur_age + amount_liquid );
+                            }
+                                break;
+                            case fd_smoke:
+                            case fd_toxic_gas:
+                            case fd_tear_gas:
+                            case fd_nuke_gas:
+                            case fd_cigsmoke:
+                            case fd_weedsmoke:
+                            case fd_cracksmoke:
+                            case fd_methsmoke:
+                            case fd_relax_gas:
+                            case fd_fungal_haze:
+                            case fd_hot_air1:
+                            case fd_hot_air2:
+                            case fd_hot_air3:
+                            case fd_hot_air4:
+                            {
+                                const int cur_age = cur.getFieldAge();
+                                cur.setFieldAge( cur_age + amount_gas );
+                            }
+                                break;
+                            default:
+                                break;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
 point map::random_outdoor_tile()
 {
  std::vector<point> options;

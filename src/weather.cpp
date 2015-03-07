@@ -266,23 +266,6 @@ void fill_water_collectors(int mmPerHour, bool acid)
 }
 
 /**
- * Weather-based degradation of fires and scentmap.
- */
-void decay_fire_and_scent(int fire_amount)
-{
-    for (int x = g->u.posx() - SEEX * 2; x <= g->u.posx() + SEEX * 2; x++) {
-        for (int y = g->u.posy() - SEEY * 2; y <= g->u.posy() + SEEY * 2; y++) {
-            if (g->m.is_outside(x, y)) {
-                g->m.adjust_field_age(point(x, y), fd_fire, fire_amount);
-                if (g->scent(x, y) > 0) {
-                    g->scent(x, y)--;
-                }
-            }
-        }
-    }
-}
-
-/**
  * Main routine for wet effects caused by weather.
  * Drenching the player is applied after checks against worn and held items.
  *
@@ -290,7 +273,7 @@ void decay_fire_and_scent(int fire_amount)
  *
  * Note that this is not the only place where drenching can happen. For example, moving or swimming into water tiles will also cause drenching.
  * @see fill_water_collectors
- * @see decay_fire_and_scent
+ * @see map::decay_fields_and_scent
  * @see player::drench
  */
 void generic_wet(bool acid)
@@ -310,15 +293,15 @@ void generic_wet(bool acid)
         }
     }
 
-    fill_water_collectors(4, acid); // fixme; consolidate drench, this, and decay_fire_and_scent.
-    decay_fire_and_scent(15);
+    fill_water_collectors(4, acid); // fixme; consolidate drench and this.
+    g->m.decay_fields_and_scent( 15 );
 }
 
 /**
  * Main routine for very wet effects caused by weather.
  * Similar to generic_wet() but with more aggressive numbers.
  * @see fill_water_collectors
- * @see decay_fire_and_scent
+ * @see map::decay_fields_and_scent
  * @see player::drench
  */
 void generic_very_wet(bool acid)
@@ -338,7 +321,7 @@ void generic_very_wet(bool acid)
     }
 
     fill_water_collectors(8, acid);
-    decay_fire_and_scent(45);
+    g->m.decay_fields_and_scent( 45 );
 }
 
 /**
