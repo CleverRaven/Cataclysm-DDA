@@ -1824,9 +1824,9 @@ void veh_interact::display_details( const vpart_info *part )
     // line 4 [vertical/hybrid]: (column 1) fuel_type (if applicable)    (column 2) power (if applicable)
     // line 5 [horizontal]: power (if applicable)
     if ( part->fuel_type != "NULL" ) {
-        fold_and_print(w_details, line+4, col_1, ( vertical_menu ? column_width : details_w ), c_white,
-                       _("Charge: <color_ltgray>%s</color>"),
-                       part->fuel_type.c_str());
+        fold_and_print( w_details, line+4, col_1, ( vertical_menu ? column_width : details_w ),
+                        c_white, _("Charge: <color_ltgray>%s</color>"),
+                        ammo_name( part->fuel_type ).c_str() );
     }
     if ( part->power != 0 ) {
         fold_and_print(w_details, ( vertical_menu ? line+4 : line+5 ), ( vertical_menu ? col_2 : col_1 ),
