@@ -1705,15 +1705,33 @@ bool map::moppable_items_at(const int x, const int y)
 
 void map::decay_fields_and_scent( const int amount )
 {
+    // Decay scent separately, so that later we can use field count to skip empty submaps
+    for( int x = 0; x < my_MAPSIZE * SEEX; x++ ) {
+        for( int y = 0; y < my_MAPSIZE * SEEY; y++ ) {
+            if( g->scent( x, y ) > 0 ) {
+                g->scent( x, y )--;
+            }
+        }
+    }
+
     const int amount_liquid = amount / 3; // Decay washable fields (blood, guts etc.) by this
     const int amount_gas = amount / 5; // Decay gas type fields by this
-    // Decay fields separately from scent - constantly re-getting the submap is expensive
     // Coord code copied from lightmap calculations
     for( int smx = 0; smx < my_MAPSIZE; ++smx ) {
         for( int smy = 0; smy < my_MAPSIZE; ++smy ) {
             auto const cur_submap = get_submap_at_grid( smx, smy );
+            int to_proc = cur_submap->field_count;
+            if( to_proc < 1 ) {
+                // This submap has no fields
+                continue;
+            }
 
             for( int sx = 0; sx < SEEX; ++sx ) {
+                if( to_proc < 0 ) {
+                    // This submap had some fields, but all got proc'd already
+                    break;
+                }
+
                 for( int sy = 0; sy < SEEY; ++sy ) {
                     const int x = sx + smx * SEEX;
                     const int y = sy + smy * SEEY;
@@ -1722,20 +1740,14 @@ void map::decay_fields_and_scent( const int amount )
                         continue;
                     }
 
-                    if( g->scent( x, y ) > 0 ) {
-                        g->scent( x, y )--;
-                    }
-
                     field &fields = cur_submap->fld[sx][sy];
                     for( auto &fp : fields ) {
+                        to_proc--;
                         field_entry &cur = fp.second;
                         const field_id type = cur.getFieldType();
                         switch( type ) {
                             case fd_fire:
-                            {
-                                const int cur_age = cur.getFieldAge();
-                                cur.setFieldAge( cur_age + amount );
-                            }
+                                cur.setFieldAge( cur.getFieldAge() + amount );
                                 break;
                             case fd_blood:
                             case fd_bile:
@@ -1747,10 +1759,7 @@ void map::decay_fields_and_scent( const int amount )
                             case fd_blood_invertebrate:
                             case fd_gibs_insect:
                             case fd_gibs_invertebrate:
-                            {
-                                const int cur_age = cur.getFieldAge();
-                                cur.setFieldAge( cur_age + amount_liquid );
-                            }
+                                cur.setFieldAge( cur.getFieldAge() + amount_liquid );
                                 break;
                             case fd_smoke:
                             case fd_toxic_gas:
@@ -1766,16 +1775,19 @@ void map::decay_fields_and_scent( const int amount )
                             case fd_hot_air2:
                             case fd_hot_air3:
                             case fd_hot_air4:
-                            {
-                                const int cur_age = cur.getFieldAge();
-                                cur.setFieldAge( cur_age + amount_gas );
-                            }
+                                cur.setFieldAge( cur.getFieldAge() + amount_gas );
                                 break;
                             default:
                                 break;
                         }
                     }
                 }
+            }
+
+            if( to_proc > 0 ) {
+                debugmsg( "Submap at %d,%d,%d has %d fields, but %d field_count",
+                          smx, smy, abs_sub.z, cur_submap->field_count - to_proc,
+                          cur_submap->field_count );
             }
         }
     }
