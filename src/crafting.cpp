@@ -47,7 +47,7 @@ recipe::~recipe()
 
 recipe::recipe() :
     id(0), result("null"), contained(false),skill_used(NULL), reversible(false),
-    autolearn(false), learn_by_disassembly(-1), result_mult(1),
+    autolearn(false), hidden_if_uncraftable(false), learn_by_disassembly(-1), result_mult(1),
     paired(false)
 {
 }
@@ -55,13 +55,14 @@ recipe::recipe() :
 recipe::recipe(std::string pident, int pid, itype_id pres, std::string pcat,
                bool pcontained,std::string psubcat, std::string &to_use,
                std::map<std::string, int> &to_require,
-               bool preversible, bool pautolearn, int plearn_dis,
+               bool preversible, bool pautolearn, bool phidden_if_uncraftable, int plearn_dis,
                int pmult, bool ppaired, std::vector<byproduct> &bps,
                int ptime, int pdiff, double pb_rscale,
                int pb_rsize) :
     ident(pident), id(pid), result(pres), time(ptime), difficulty(pdiff),
     byproducts(bps), cat(pcat),
-    contained(pcontained),subcat(psubcat), reversible(preversible), autolearn(pautolearn),
+    contained(pcontained),subcat(psubcat), reversible(preversible), autolearn(pautolearn), 
+    hidden_if_uncraftable(phidden_if_uncraftable),
     learn_by_disassembly(plearn_dis), batch_rscale(pb_rscale),
     batch_rsize(pb_rsize), result_mult(pmult), paired(ppaired)
 {
@@ -177,6 +178,7 @@ void load_recipe(JsonObject &jsobj)
     std::string skill_used = jsobj.get_string("skill_used", "");
     std::string id_suffix = jsobj.get_string("id_suffix", "");
     int learn_by_disassembly = jsobj.get_int("decomp_learn", -1);
+    bool hidden_if_uncraftable = jsobj.get_bool("hidden_if_uncraftable", false);
     double batch_rscale = 0.0;
     int batch_rsize = 0;
     if (jsobj.has_array( "batch_time_factors" )) {
@@ -226,7 +228,7 @@ void load_recipe(JsonObject &jsobj)
     int id = check_recipe_ident(rec_name, jsobj); // may delete recipes
 
     recipe *rec = new recipe(rec_name, id, result, category,contained, subcategory, skill_used,
-                             requires_skills, reversible, autolearn,
+                             requires_skills, reversible, autolearn, hidden_if_uncraftable,
                              learn_by_disassembly, result_mult, paired, bps,
                              time, difficulty, batch_rscale, batch_rsize);
 
@@ -1338,7 +1340,7 @@ void pick_recipes(const inventory &crafting_inv,
                     current.insert(current.begin(), rec);
                     available.insert(available.begin(), true);
                     truecount++;
-                } else if (!hide_uncraftable) {
+                } else if (!hide_uncraftable && !rec->hidden_if_uncraftable) {
                     current.push_back(rec);
                     available.push_back(false);
                 }

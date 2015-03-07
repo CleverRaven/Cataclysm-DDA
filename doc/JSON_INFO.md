@@ -199,6 +199,7 @@ The syntax listed here is still valid.
 "time": 5000,                // Time to perform recipe (where 1000 ~= 10 turns ~= 1 minute game time)
 "reversible": false,         // Can be disassembled.
 "autolearn": true,           // Automatically learned upon gaining required skills
+"hidden_if_uncraftable": true,  // Optional flag that hides the recipe from the crafting inventory if you do not have all the necessary tools and components.
 "batch_time_factors": [25, 15], // Optional factors for batch crafting time reduction. First number specifies maximum crafting time reduction as percentage, and the second number the minimal batch size to reach that number. In this example given batch size of 20 the last 6 crafts will take only 3750 time units.
 "tools": [                   // Tools needed to craft
 [                            // Equivalent tools are surrounded by a single set of brackets []
