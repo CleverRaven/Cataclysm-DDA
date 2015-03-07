@@ -125,7 +125,7 @@ const recipe *select_crafting_recipe(int &batch_size);
 void pick_recipes(const inventory &crafting_inv,
                   std::vector<const recipe *> &current,
                   std::vector<bool> &available, std::string tab,
-                  std::string subtab, std::string filter);
+                  std::string subtab, std::string filter, bool hide_uncraftable);
 void batch_recipes(const inventory &crafting_inv,
                    std::vector<const recipe *> &current,
                    std::vector<bool> &available, const recipe* r);
