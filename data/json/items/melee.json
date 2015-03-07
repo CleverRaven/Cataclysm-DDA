@@ -2403,7 +2403,7 @@
         "cutting" : 16,
         "flags" : ["SPEAR"],
         "price" : 4900,
-        "qualities": [["COOK", 2]]
+        "qualities": [["COOK", 1]]
     },
     {
         "type":"GENERIC",
