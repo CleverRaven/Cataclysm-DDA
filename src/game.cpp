@@ -11749,18 +11749,66 @@ bool game::plmove(int dx, int dy)
                         add_msg(m_info, _("You can't move %s while standing on it!"), grabbed_vehicle->name.c_str());
                         return false;
                     }
-                    drag_multiplier += (float)(grabbed_vehicle->total_mass() * 1000) /
-                        (float)(u.weight_capacity() * 5);
-                    if (drag_multiplier > 2.0) {
-                        add_msg(m_info, _("The %s is too heavy for you to budge!"), grabbed_vehicle->name.c_str());
-                        return false;
-                    }
-                    tileray mdir;
 
-                    int dxVeh = u.grab_point.x * (-1);
-                    int dyVeh = u.grab_point.y * (-1);
-                    int prev_grab_x = u.grab_point.x;
-                    int prev_grab_y = u.grab_point.y;
+                        int dxVeh = u.grab_point.x * (-1);
+                        int dyVeh = u.grab_point.y * (-1);
+
+
+                        //vehicle movement strength check
+                        int mc = 0;
+                        int str_req = 1;
+                        //if vehicle is rollable we ignore mass and calculate strength check threshold
+                        if (grabbed_vehicle->valid_wheel_config() ){
+
+                            //determine movecost for terrain touching wheels
+                           // grabbed_vehicle->precalc_mounts(0,grabbed_vehicle->face.dir());
+                            std::vector<int> wheel_indices = grabbed_vehicle->all_parts_with_feature(VPFLAG_WHEEL);
+                            for(auto p : wheel_indices){
+                                    mc += m.move_cost(grabbed_vehicle->global_x() + grabbed_vehicle->parts[p].precalc[0].x,
+                                    grabbed_vehicle->global_y() + grabbed_vehicle->parts[p].precalc[0].y, grabbed_vehicle);
+                                    add_msg( m_debug,"pos: %d , %d", grabbed_vehicle->global_x() + grabbed_vehicle->parts[p].precalc[0].x , grabbed_vehicle->global_y() + grabbed_vehicle->parts[p].precalc[0].y);
+                                }
+                                //calculate strength check threshold as average movecost per wheel.
+                            str_req = (mc * 2) / wheel_indices.size();
+                            add_msg( m_debug,"str_req: %d", str_req);
+                            add_msg( m_debug,"tot_mass: %d", grabbed_vehicle->total_mass());
+                        }else {
+                                //if vehicle has no wheels str_req is against total mass of vehicle.
+                            str_req = (grabbed_vehicle->total_mass() / 10) + 1;
+                            if (str_req <= u.get_str() ) {
+                                sounds::sound(x, y, str_req * 2, _("a scraping noise."));
+                            }
+                            add_msg( m_debug,"str_req: %d", str_req);
+                            add_msg( m_debug,"tot_mass: %d", grabbed_vehicle->total_mass());
+                        }
+
+                        //final strenght check and outcomes
+                        if (str_req <= u.get_str() ) {
+
+                            //calculate exertion factor and movement penalty
+                            drag_multiplier += str_req / u.get_str();
+                            int ex = dice(1,3) - 1 + str_req;
+                            if (ex > u.get_str() ) {
+                                add_msg(m_bad, _("You strain yourself to move the %s!"),
+                                grabbed_vehicle->name.c_str() );
+                                u.moves -= 200;
+                                u.mod_pain(1); // Hurt ourself.
+                            }else if (ex == u.get_str() ){
+                                u.moves -= 200;
+                                add_msg( _("It takes some time to move the %s."),
+                                        grabbed_vehicle->name.c_str());
+                            }
+                        }else {
+                            u.moves -= 100;
+                            add_msg( m_bad, _("You lack the strength to move the %s"),
+                                         grabbed_vehicle->name.c_str() );
+                            return false;
+                        }
+
+                        tileray mdir;
+
+                        int prev_grab_x = u.grab_point.x;
+                        int prev_grab_y = u.grab_point.y;
 
                     if( abs(dx + dxVeh) == 2 || abs(dy + dyVeh) == 2 ||
                         ((dxVeh + dx) == 0 && (dyVeh + dy) == 0) ) {
@@ -12721,7 +12769,7 @@ void game::vertical_move(int movez, bool force)
         m.vertical_shift( levz );
 #endif
         return;
-    } 
+    }
 
     if (!force) {
         monstairx = levx;
