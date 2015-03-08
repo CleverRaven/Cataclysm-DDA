@@ -1764,7 +1764,7 @@ int set_description(WINDOW *w, player *u, character_type type, int &points)
 
         werase(w_scenario);
         mvwprintz(w_scenario, 0, 0, COL_HEADER, _("Scenario: "));
-        wprintz(w_scenario, c_ltgray, g->scen->gender_appropriate_name(u->male).c_str());
+        wprintz(w_scenario, c_ltgray, _(g->scen->gender_appropriate_name(u->male).c_str()));
         wrefresh(w_scenario);
 
         werase(w_profession);
