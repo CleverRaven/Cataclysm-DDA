@@ -11760,10 +11760,6 @@ bool game::plmove(int dx, int dy)
                         for(auto p : wheel_indices) {
                             mc += 2 * m.move_cost(grabbed_vehicle->global_x() + grabbed_vehicle->parts[p].precalc[0].x,
                                                   grabbed_vehicle->global_y() + grabbed_vehicle->parts[p].precalc[0].y, grabbed_vehicle);
-                            add_msg( m_debug, "pos: %d : %d",
-                                     grabbed_vehicle->global_x() + grabbed_vehicle->parts[p].precalc[0].x ,
-                                     grabbed_vehicle->global_y() + grabbed_vehicle->parts[p].precalc[0].y);
-                            add_msg( m_debug, "player: %d : %d", u.posx(), u.posy() );
                         }
                         //calculate strength check threshold as average movecost per wheel.
                         str_req = mc / wheel_indices.size();
