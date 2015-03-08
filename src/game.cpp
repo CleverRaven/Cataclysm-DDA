@@ -3668,7 +3668,7 @@ bool game::is_game_over()
         if(OPTIONS["DEATHCAM"] == "always") {
             uquit = QUIT_WATCH;
         } else if(OPTIONS["DEATHCAM"] == "ask") {
-            uquit = query_yn("Watch the last moments of your life...?") ? QUIT_WATCH : QUIT_DIED;
+            uquit = query_yn(_("Watch the last moments of your life...?")) ? QUIT_WATCH : QUIT_DIED;
         } else if(OPTIONS["DEATHCAM"] == "never") {
             uquit = QUIT_DIED;
         } else {

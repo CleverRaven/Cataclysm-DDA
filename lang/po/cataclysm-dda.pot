@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: cataclysm-dda 0.B\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-03-02 10:32+0300\n"
+"POT-Creation-Date: 2015-03-07 18:54-0600\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -58487,6 +58487,10 @@ msgid "mounted dragon turret"
 msgstr ""
 
 #: lang/json/vehicle_part_from_json.py
+msgid "external cargo carrier"
+msgstr ""
+
+#: lang/json/vehicle_part_from_json.py
 msgid "military composite ram"
 msgstr ""
 
@@ -61194,7 +61198,7 @@ msgstr ""
 msgid "lt blue"
 msgstr ""
 
-#: src/color.cpp src/item.cpp src/npctalk.cpp
+#: src/color.cpp src/item.cpp
 msgid "blue"
 msgstr ""
 
@@ -66175,6 +66179,10 @@ msgid "Debug mode OFF!"
 msgstr ""
 
 #: src/game.cpp
+msgid "Watch the last moments of your life...?"
+msgstr ""
+
+#: src/game.cpp
 msgid "Please wait while the world data loads"
 msgstr ""
 
@@ -70735,6 +70743,11 @@ msgstr ""
 #: src/iexamine.cpp
 #, c-format
 msgid "Forage through %s?"
+msgstr ""
+
+#: src/iexamine.cpp
+#, c-format
+msgid "You forage through the %s."
 msgstr ""
 
 #: src/iexamine.cpp
@@ -84323,10 +84336,6 @@ msgid "bummed"
 msgstr ""
 
 #: src/npctalk.cpp
-msgid "dejected"
-msgstr ""
-
-#: src/npctalk.cpp
 msgid "depressed"
 msgstr ""
 
@@ -84343,7 +84352,17 @@ msgid "unhappy"
 msgstr ""
 
 #: src/npctalk.cpp
+msgid "dejected"
+msgstr ""
+
+#: src/npctalk.cpp
 msgid "down"
+msgstr ""
+
+#. ~ The word blue here means "depressed", not the color blue.
+#: src/npctalk.cpp
+msgctxt "npc_depressed"
+msgid "blue"
 msgstr ""
 
 #: src/npctalk.cpp
