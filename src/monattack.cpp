@@ -3427,7 +3427,7 @@ void mattack::upgrade(monster *z, int index)
 
     monster *target = &( g->zombie( targets[ rng(0, targets.size() - 1) ] ) );
 
-    const auto monsters = MonsterGroupManager::GetMonstersFromGroup("GROUP_ZOMBIE");
+    const auto monsters = MonsterGroupManager::GetMonstersFromGroup("GROUP_ZOMBIE_UPGRADE");
     const std::string newtype = monsters[rng(0, monsters.size() - 1)];
 
     const auto could_see = g->u.sees( *target );
