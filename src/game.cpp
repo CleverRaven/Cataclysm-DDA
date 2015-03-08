@@ -11760,7 +11760,7 @@ bool game::plmove(int dx, int dy)
 		    //determine movecost for terrain touching wheels
 		    std::vector<int> wheel_indices = grabbed_vehicle->all_parts_with_feature(VPFLAG_WHEEL);
 		    for(auto p : wheel_indices) {
-			mc += str_req * m.move_cost(grabbed_vehicle->global_x() + grabbed_vehicle->parts[p].precalc[0].x,
+			mc += (str_req / wheel_indices.size()) * m.move_cost(grabbed_vehicle->global_x() + grabbed_vehicle->parts[p].precalc[0].x,
 						    grabbed_vehicle->global_y() + grabbed_vehicle->parts[p].precalc[0].y, grabbed_vehicle);
 		    }
 		    //set strength check threshold
