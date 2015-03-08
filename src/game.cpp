@@ -11749,52 +11749,59 @@ bool game::plmove(int dx, int dy)
                         add_msg(m_info, _("You can't move %s while standing on it!"), grabbed_vehicle->name.c_str());
                         return false;
                     }
-                        //vehicle movement: strength check
-                        int mc = 0;
-                        int str_req = 1;
-                        //if vehicle is rollable we ignore mass and calculate strength check threshold
-                        if (grabbed_vehicle->valid_wheel_config() ){
+//vehicle movement: strength check
+int mc = 0;
+int str_req = 1;
+//if vehicle is rollable we ignore mass and calculate strength check threshold
+if (grabbed_vehicle->valid_wheel_config() )
+{
 
-                            //determine movecost for terrain touching wheels
-                            std::vector<int> wheel_indices = grabbed_vehicle->all_parts_with_feature(VPFLAG_WHEEL);
-                            for(auto p : wheel_indices){
-                                    mc += 2 * m.move_cost(grabbed_vehicle->global_x() + grabbed_vehicle->parts[p].precalc[0].x,
-                                    grabbed_vehicle->global_y() + grabbed_vehicle->parts[p].precalc[0].y, grabbed_vehicle);
-                                    add_msg( m_debug,"pos: %d : %d", grabbed_vehicle->global_x() + grabbed_vehicle->parts[p].precalc[0].x , grabbed_vehicle->global_y() + grabbed_vehicle->parts[p].precalc[0].y);
-                                    add_msg( m_debug,"player: %d : %d", u.posx(), u.posy() );
-                                }
-                                //calculate strength check threshold as average movecost per wheel.
-                            str_req = mc / wheel_indices.size();
-                        }else {
-                                //if vehicle has no wheels str_req is against total mass of vehicle.
-                            str_req = (grabbed_vehicle->total_mass() / 10) + 1;
-                            if (str_req <= u.get_str() ) {
-                                sounds::sound( grabbed_vehicle->global_x(), grabbed_vehicle->global_y(), str_req * 2, _("a scraping noise."));
-                            }
-                        }
+    //determine movecost for terrain touching wheels
+    std::vector<int> wheel_indices = grabbed_vehicle->all_parts_with_feature(VPFLAG_WHEEL);
+    for(auto p : wheel_indices) {
+        mc += 2 * m.move_cost(grabbed_vehicle->global_x() + grabbed_vehicle->parts[p].precalc[0].x,
+                              grabbed_vehicle->global_y() + grabbed_vehicle->parts[p].precalc[0].y, grabbed_vehicle);
+        add_msg( m_debug, "pos: %d : %d",
+                 grabbed_vehicle->global_x() + grabbed_vehicle->parts[p].precalc[0].x ,
+                 grabbed_vehicle->global_y() + grabbed_vehicle->parts[p].precalc[0].y);
+        add_msg( m_debug, "player: %d : %d", u.posx(), u.posy() );
+    }
+    //calculate strength check threshold as average movecost per wheel.
+    str_req = mc / wheel_indices.size();
+} else
+{
+    //if vehicle has no wheels str_req is against total mass of vehicle.
+    str_req = (grabbed_vehicle->total_mass() / 10) + 1;
+    if (str_req <= u.get_str() ) {
+        sounds::sound( grabbed_vehicle->global_x(), grabbed_vehicle->global_y(), str_req * 2,
+                       _("a scraping noise."));
+    }
+}
 
-                        //final strenght check and outcomes
-                        if (str_req <= u.get_str() ) {
+//final strenght check and outcomes
+if (str_req <= u.get_str() )
+{
 
-                            //calculate exertion factor and movement penalty
-                            drag_multiplier += str_req / u.get_str();
-                            int ex = dice(1,3) - 1 + str_req;
-                            if (ex > u.get_str() ) {
-                                add_msg(m_bad, _("You strain yourself to move the %s!"),
-                                grabbed_vehicle->name.c_str() );
-                                u.moves -= 200;
-                                u.mod_pain(1); // Hurt ourself.
-                            }else if (ex == u.get_str() ){
-                                u.moves -= 200;
-                                add_msg( _("It takes some time to move the %s."),
-                                        grabbed_vehicle->name.c_str());
-                            }
-                        }else {
-                            u.moves -= 100;
-                            add_msg( m_bad, _("You lack the strength to move the %s"),
-                                         grabbed_vehicle->name.c_str() );
-                            return false;
-                        }
+    //calculate exertion factor and movement penalty
+    drag_multiplier += str_req / u.get_str();
+    int ex = dice(1, 3) - 1 + str_req;
+    if (ex > u.get_str() ) {
+        add_msg(m_bad, _("You strain yourself to move the %s!"),
+                grabbed_vehicle->name.c_str() );
+        u.moves -= 200;
+        u.mod_pain(1); // Hurt ourself.
+    } else if (ex == u.get_str() ) {
+        u.moves -= 200;
+        add_msg( _("It takes some time to move the %s."),
+                 grabbed_vehicle->name.c_str());
+    }
+} else
+{
+    u.moves -= 100;
+    add_msg( m_bad, _("You lack the strength to move the %s"),
+             grabbed_vehicle->name.c_str() );
+    return false;
+}
 
                         tileray mdir;
 
