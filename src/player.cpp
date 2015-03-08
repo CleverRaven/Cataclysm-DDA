@@ -12019,7 +12019,7 @@ void player::absorb_hit(body_part bp, damage_instance &dam) {
                 //~ %s is armor name
                 add_memorial_log(pgettext("memorial_male", "Worn %s was completely destroyed."),
                                  pgettext("memorial_female", "Worn %s was completely destroyed."),
-                                 worn[index].tname().c_str());
+                                 worn[index].tname( 1, false ).c_str());
                 add_msg_player_or_npc( m_bad, _("Your %s is completely destroyed!"),
                                               _("<npcname>'s %s is completely destroyed!"),
                                               worn[index].tname( 1, false ).c_str() );
