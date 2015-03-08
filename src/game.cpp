@@ -11749,34 +11749,28 @@ bool game::plmove(int dx, int dy)
                         add_msg(m_info, _("You can't move %s while standing on it!"), grabbed_vehicle->name.c_str());
                         return false;
                     }
-                        //vehicle movement strength check
+                        //vehicle movement: strength check
                         int mc = 0;
                         int str_req = 1;
                         //if vehicle is rollable we ignore mass and calculate strength check threshold
                         if (grabbed_vehicle->valid_wheel_config() ){
 
                             //determine movecost for terrain touching wheels
-                           // grabbed_vehicle->precalc_mounts(0,grabbed_vehicle->face.dir());
                             std::vector<int> wheel_indices = grabbed_vehicle->all_parts_with_feature(VPFLAG_WHEEL);
                             for(auto p : wheel_indices){
-                                    mc += m.move_cost(grabbed_vehicle->global_x() + grabbed_vehicle->parts[p].precalc[0].x,
+                                    mc += 2 * m.move_cost(grabbed_vehicle->global_x() + grabbed_vehicle->parts[p].precalc[0].x,
                                     grabbed_vehicle->global_y() + grabbed_vehicle->parts[p].precalc[0].y, grabbed_vehicle);
                                     add_msg( m_debug,"pos: %d : %d", grabbed_vehicle->global_x() + grabbed_vehicle->parts[p].precalc[0].x , grabbed_vehicle->global_y() + grabbed_vehicle->parts[p].precalc[0].y);
                                     add_msg( m_debug,"player: %d : %d", u.posx(), u.posy() );
                                 }
                                 //calculate strength check threshold as average movecost per wheel.
-                            str_req = (mc * 2) / wheel_indices.size();
-                            add_msg( m_debug,"str_req: %d", str_req);
-                            add_msg( m_debug,"tot_mass: %d", grabbed_vehicle->total_mass());
+                            str_req = mc / wheel_indices.size();
                         }else {
                                 //if vehicle has no wheels str_req is against total mass of vehicle.
-
                             str_req = (grabbed_vehicle->total_mass() / 10) + 1;
                             if (str_req <= u.get_str() ) {
-                                sounds::sound(x, y, str_req * 2, _("a scraping noise."));
+                                sounds::sound( grabbed_vehicle->global_x(), grabbed_vehicle->global_y(), str_req * 2, _("a scraping noise."));
                             }
-                            add_msg( m_debug,"str_req: %d", str_req);
-                            add_msg( m_debug,"tot_mass: %d", grabbed_vehicle->total_mass());
                         }
 
                         //final strenght check and outcomes
@@ -11803,6 +11797,7 @@ bool game::plmove(int dx, int dy)
                         }
 
                         tileray mdir;
+
                         int dxVeh = u.grab_point.x * (-1);
                         int dyVeh = u.grab_point.y * (-1);
 
