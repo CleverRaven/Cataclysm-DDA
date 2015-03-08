@@ -11772,7 +11772,7 @@ bool game::plmove(int dx, int dy)
                         }
                     }
 
-                    //final strenght check and outcomes
+                    //final strength check and outcomes
                     if (str_req <= u.get_str() ) {
 
                         //calculate exertion factor and movement penalty
