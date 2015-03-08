@@ -11749,11 +11749,6 @@ bool game::plmove(int dx, int dy)
                         add_msg(m_info, _("You can't move %s while standing on it!"), grabbed_vehicle->name.c_str());
                         return false;
                     }
-
-                        int dxVeh = u.grab_point.x * (-1);
-                        int dyVeh = u.grab_point.y * (-1);
-
-
                         //vehicle movement strength check
                         int mc = 0;
                         int str_req = 1;
@@ -11766,7 +11761,8 @@ bool game::plmove(int dx, int dy)
                             for(auto p : wheel_indices){
                                     mc += m.move_cost(grabbed_vehicle->global_x() + grabbed_vehicle->parts[p].precalc[0].x,
                                     grabbed_vehicle->global_y() + grabbed_vehicle->parts[p].precalc[0].y, grabbed_vehicle);
-                                    add_msg( m_debug,"pos: %d , %d", grabbed_vehicle->global_x() + grabbed_vehicle->parts[p].precalc[0].x , grabbed_vehicle->global_y() + grabbed_vehicle->parts[p].precalc[0].y);
+                                    add_msg( m_debug,"pos: %d : %d", grabbed_vehicle->global_x() + grabbed_vehicle->parts[p].precalc[0].x , grabbed_vehicle->global_y() + grabbed_vehicle->parts[p].precalc[0].y);
+                                    add_msg( m_debug,"player: %d : %d", u.posx(), u.posy() );
                                 }
                                 //calculate strength check threshold as average movecost per wheel.
                             str_req = (mc * 2) / wheel_indices.size();
@@ -11774,6 +11770,7 @@ bool game::plmove(int dx, int dy)
                             add_msg( m_debug,"tot_mass: %d", grabbed_vehicle->total_mass());
                         }else {
                                 //if vehicle has no wheels str_req is against total mass of vehicle.
+
                             str_req = (grabbed_vehicle->total_mass() / 10) + 1;
                             if (str_req <= u.get_str() ) {
                                 sounds::sound(x, y, str_req * 2, _("a scraping noise."));
@@ -11806,6 +11803,8 @@ bool game::plmove(int dx, int dy)
                         }
 
                         tileray mdir;
+                        int dxVeh = u.grab_point.x * (-1);
+                        int dyVeh = u.grab_point.y * (-1);
 
                         int prev_grab_x = u.grab_point.x;
                         int prev_grab_y = u.grab_point.y;
