@@ -11782,7 +11782,7 @@ bool game::plmove(int dx, int dy)
                             add_msg(m_bad, _("You strain yourself to move the %s!"),
                                     grabbed_vehicle->name.c_str() );
                             u.moves -= 200;
-                            u.mod_pain(1); // Hurt ourself.
+                            u.mod_pain(1);
                         } else if (ex == u.get_str() ) {
                             u.moves -= 200;
                             add_msg( _("It takes some time to move the %s."),
