@@ -23,8 +23,9 @@ int Pickup::interact_with_vehicle( vehicle *veh, int posx, int posy, int veh_roo
     int ctrl_part = 0;
     std::vector<std::string> menu_items;
     std::vector<uimenu_entry> options_message;
+    const bool has_items_on_ground = g->m.sees_some_items( posx, posy, g->u );
+    const bool items_are_sealed = g->m.has_flag( "SEALED", posx, posy );
 
-    auto here_ground = g->m.i_at(posx, posy);
     if( veh ) {
         k_part = veh->part_with_feature(veh_root_part, "KITCHEN");
         wtr_part = veh->part_with_feature(veh_root_part, "FAUCET");
@@ -47,7 +48,7 @@ int Pickup::interact_with_vehicle( vehicle *veh, int posx, int posy, int veh_roo
             options_message.push_back(uimenu_entry(_("Get items"), 'g'));
         }
 
-        if(!here_ground.empty()) {
+        if( has_items_on_ground && !items_are_sealed ) {
             menu_items.push_back(_("Get items on the ground"));
             options_message.push_back(uimenu_entry(_("Get items on the ground"), 'i'));
         }
