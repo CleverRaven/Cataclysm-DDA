@@ -11545,8 +11545,7 @@ bool game::plmove(int dx, int dy)
         y = u.posy() + dy;
     }
 
-    dbg(D_PEDANTIC_INFO) << "game:plmove: From (" << u.posx() << "," << u.posy() << ") to (" << x << ","
-                         <<
+    dbg(D_PEDANTIC_INFO) << "game:plmove: From (" << u.posx() << "," << u.posy() << ") to (" << x << "," <<
                          y << ")";
 
     if( disable_robot( point( x, y ) ) ) {
@@ -11569,7 +11568,8 @@ bool game::plmove(int dx, int dy)
             if (u.has_effect("relax_gas")) {
                 if (one_in(8)) {
                     add_msg(m_good, _("Your willpower asserts itself, and so do you!"));
-                } else {
+                }
+                else {
                     u.moves -= rng(2, 8) * 10;
                     add_msg(m_bad, _("You're too pacified to strike anything..."));
                     return false;
@@ -11700,7 +11700,7 @@ bool game::plmove(int dx, int dy)
 
         //Ask for EACH bad field, maybe not? Maybe say "theres X bad shit in there don't do it."
         const field &tmpfld = m.field_at(x, y);
-        for( auto & fld : tmpfld ) {
+        for( auto &fld : tmpfld ) {
             const field_entry &cur = fld.second;
             field_id curType = cur.getFieldType();
             bool dangerous = false;
@@ -11717,8 +11717,8 @@ bool game::plmove(int dx, int dy)
                 break;
             case fd_fungal_haze:
                 dangerous = (!((u.get_env_resist(bp_mouth) >= 15) &&
-                               (u.get_env_resist(bp_eyes) >= 15) ) &&
-                             !u.has_trait("M_IMMUNE"));
+                                (u.get_env_resist(bp_eyes) >= 15) ) &&
+                                !u.has_trait("M_IMMUNE"));
                 break;
             default:
                 dangerous = cur.is_dangerous();
@@ -11799,7 +11799,6 @@ bool game::plmove(int dx, int dy)
 
                     int dxVeh = u.grab_point.x * (-1);
                     int dyVeh = u.grab_point.y * (-1);
-
                     int prev_grab_x = u.grab_point.x;
                     int prev_grab_y = u.grab_point.y;
 
@@ -11892,14 +11891,14 @@ bool game::plmove(int dx, int dy)
                     // Unfortunately, game::is_empty fails for tiles we're standing on,
                     // which will forbid pulling, so:
                     bool canmove = (
-                                       ( m.move_cost(fdest.x, fdest.y) > 0) &&
-                                       npc_at(fdest.x, fdest.y) == -1 &&
-                                       mon_at(fdest.x, fdest.y) == -1 &&
-                                       m.has_flag("FLAT", fdest.x, fdest.y) &&
-                                       !m.has_furn(fdest.x, fdest.y) &&
-                                       m.veh_at(fdest.x, fdest.y) == NULL &&
-                                       m.tr_at(fdest.x, fdest.y) == tr_null
-                                   );
+                       ( m.move_cost(fdest.x, fdest.y) > 0) &&
+                       npc_at(fdest.x, fdest.y) == -1 &&
+                       mon_at(fdest.x, fdest.y) == -1 &&
+                       m.has_flag("FLAT", fdest.x, fdest.y) &&
+                       !m.has_furn(fdest.x, fdest.y) &&
+                       m.veh_at(fdest.x, fdest.y) == NULL &&
+                       m.tr_at(fdest.x, fdest.y) == tr_null
+                        );
 
                     const furn_t furntype = m.furn_at(fpos.x, fpos.y);
                     int furncost = furntype.movecost;
@@ -12078,10 +12077,10 @@ bool game::plmove(int dx, int dy)
                         body_part_name_accusative(bp).c_str(),
                         ter_or_furn ? m.tername(x, y).c_str() : m.furnname(x, y).c_str() );
                 if ((u.has_trait("INFRESIST")) && (one_in(1024))) {
-                    u.add_effect("tetanus", 1, num_bp, true);
+                u.add_effect("tetanus", 1, num_bp, true);
                 } else if ((!u.has_trait("INFIMMUNE") || !u.has_trait("INFRESIST")) && (one_in(256))) {
-                    u.add_effect("tetanus", 1, num_bp, true);
-                }
+                  u.add_effect("tetanus", 1, num_bp, true);
+                 }
             }
         }
         if (m.has_flag("UNSTABLE", x, y)) {
@@ -12090,7 +12089,7 @@ bool game::plmove(int dx, int dy)
             u.remove_effect("bouldering");
         }
         if (u.has_trait("LEG_TENT_BRACE") && (!u.footwear_factor() ||
-                                              (u.footwear_factor() == .5 && one_in(2)))) {
+                                                 (u.footwear_factor() == .5 && one_in(2)))) {
             // DX and IN are long suits for Cephalopods,
             // so this shouldn't cause too much hardship
             // Presumed that if it's swimmable, they're
@@ -12185,7 +12184,7 @@ bool game::plmove(int dx, int dy)
                 std::vector<std::string> names;
                 std::vector<size_t> counts;
                 std::vector<item> items;
-                for( auto & tmpitem : m.i_at( x, y ) ) {
+                for( auto &tmpitem : m.i_at( x, y ) ) {
 
                     std::string next_tname = tmpitem.tname();
                     std::string next_dname = tmpitem.display_name();
@@ -12273,8 +12272,7 @@ bool game::plmove(int dx, int dy)
                 tunneldist > 0)) {
             //add 1 to tunnel distance for each impassable tile in the line
             tunneldist += 1;
-            if (tunneldist * 250 >
-                u.power_level) { //oops, not enough energy! Tunneling costs 250 bionic power per impassable tile
+            if (tunneldist * 250 > u.power_level) { //oops, not enough energy! Tunneling costs 250 bionic power per impassable tile
                 add_msg(_("You try to quantum tunnel through the barrier but are reflected! Try again with more energy!"));
                 tunneldist = 0; //we didn't tunnel anywhere
                 break;
@@ -12320,8 +12318,7 @@ bool game::plmove(int dx, int dy)
             u.moves -= 100;
         } else if (m.furn(x, y) != f_safe_c && m.open_door(x, y, !m.is_outside(u.posx(), u.posy()))) {
             u.moves -= 100;
-        } else if (m.ter(x, y) == t_door_locked || m.ter(x, y) == t_door_locked_peep ||
-                   m.ter(x, y) == t_door_locked_alarm ||
+        } else if (m.ter(x, y) == t_door_locked || m.ter(x, y) == t_door_locked_peep || m.ter(x, y) == t_door_locked_alarm ||
                    m.ter(x, y) == t_door_locked_interior) {
             u.moves -= 100;
             add_msg(_("That door is locked!"));
