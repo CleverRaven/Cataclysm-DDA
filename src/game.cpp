@@ -11765,7 +11765,6 @@ bool game::plmove(int dx, int dy)
 		    }
 		    //set strength check threshold
 		    str_req = mc / wheel_indices.size() + 1;
-		    add_msg( m_debug,"str_req: %d", str_req);
 		} else
 		{
 		    //if vehicle has no wheels str_req make a noise.
