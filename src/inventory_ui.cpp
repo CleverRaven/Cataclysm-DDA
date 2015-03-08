@@ -499,7 +499,8 @@ inventory_selector::inventory_selector(bool m, bool c, const std::string &t)
     ctxt.register_action("CATEGORY_SELECTION");
     ctxt.register_action("NEXT_TAB", _("Page down"));
     ctxt.register_action("PREV_TAB", _("Page up"));
-    ctxt.register_action("MOVE_ITEM", _("Move selected item"));
+    ctxt.register_action("STORE_ITEM", _("Store selected item"));
+    ctxt.register_action("UNPACK_ITEM", _("Unpack selected item"));
     ctxt.register_action("HELP_KEYBINDINGS");
     // For invlets
     ctxt.register_action("ANY_INPUT");
@@ -784,22 +785,49 @@ int game::display_slice(indexed_invslice const &slice, const std::string &title,
             return item_pos;
         } else if (inv_s.handle_movement(action)) {
             continue;
-        } else if (action == "MOVE_ITEM") {
-            int bag_pos = inv_for_filter(_("Move:"), [](const item &elem) {
-                return elem.is_storage();});
+        } else if (action == "STORE_ITEM") {
+            item *it  = &u.i_at(inv_s.get_selected_item_position());
+            int bag_pos = inv_for_filter(
+                    string_format(_("Storing:\n(%s)"), it->nname(it->typeId()).c_str()),
+                    [](const item &elem) {
+                        return elem.is_storage();
+                    });
             if(bag_pos != INT_MIN) { 
-                item *it  = &u.i_at(inv_s.get_selected_item_position());
                 item *bag = &u.i_at(bag_pos);
-                if(bag == it) {
-                    popup(_("You can't store an item in itself!"));
+                if(bag && bag->is_storage()) {
+                    if(bag == it) {
+                        popup(_("You can't store an item in itself!"));
+                        continue;
+                    }
+                    if(it) {
+                        u.store(bag, it, "survival", it->volume());         //FIXME: skill?
+                    } else {
+                        debugmsg("Storing an item resulted in it catching on fire and exploding!");
+                        continue;
+                    }
+                } else {
+                    popup(_("That item is not a container!"));
                     continue;
                 }
-                // remove the item from storage if that's what we selected
-                if(it->is_storage()) {
-                    int item_pos = inv_for_contents(_("Remove:"), *bag);
-                    u.unpack(bag, item_pos, "survival", it->volume());  //FIXME: skill?
+            }
+            return INT_MIN;
+        } else if (action == "UNPACK_ITEM") {
+            item *bag = &u.i_at(inv_s.get_selected_item_position());
+            int unpack_pos = inv_for_contents(
+                    string_format(_("Unpack from:\n(%s)"), bag->nname(bag->typeId()).c_str()),
+                    *bag);
+            if(unpack_pos != INT_MIN) {
+                if(bag->is_storage()) {
+                    item *it = &bag->contents[unpack_pos];
+                    if(it) {
+                        u.unpack(bag, it, "survival", it->volume());  //FIXME: skill?
+                    } else {
+                        debugmsg("Something exploded with unpacking an item!");
+                        continue;
+                    }
                 } else {
-                    u.store(bag, it, "survival", it->volume());         //FIXME: skill?
+                    popup(_("That item is not a container!"));
+                    continue;
                 }
             }
             return INT_MIN;
@@ -961,8 +989,20 @@ int game::inv_for_contents(const std::string &title, const item &bag)
 {
     u.inv.restack(&u);
     u.inv.sort();
-    indexed_invslice reduced_inv = const_cast<item &>(bag).contents.slice();
-    return display_slice(reduced_inv, title);
+    // time to fake an invstack!
+    invstack faux_stack;
+    for(auto type : bag.contents.itypes_stored()) {
+        faux_stack.push_back(bag.contents.filter_by(
+                [&type](const item &elem) {
+                    return type == elem.typeId();
+                }));
+    }
+    int i = 0;
+    indexed_invslice faux_slice;
+    for(auto stack = faux_stack.begin(); stack != faux_stack.end(); ++stack, ++i) {
+        faux_slice.push_back(std::make_pair(&(*stack), i));
+    }
+    return display_slice(faux_slice, title);
 }
 
 int inventory::num_items_at_position( int const position )

@@ -1277,10 +1277,17 @@
     },
     {
         "type" : "keybinding",
-        "id": "MOVE_ITEM",
+        "id": "STORE_ITEM",
         "category": "INVENTORY",
-        "name": "Move item around inventory",
-        "bindings":[ { "input_method":"keyboard", "key":"s" } ]
+        "name": "Store item in a container",
+        "bindings":[ { "input_method":"keyboard", "key":"+" } ]
+    },
+    {
+        "type" : "keybinding",
+        "id": "UNPACK_ITEM",
+        "category": "INVENTORY",
+        "name": "Remove item from a container",
+        "bindings":[ { "input_method":"keyboard", "key":"-" } ]
     },
     {
         "type" : "keybinding",

@@ -248,22 +248,6 @@ indexed_invslice inventory::slice_filter_by_salvageability(const salvage_actor &
     return stacks;
 }
 
-indexed_invslice inventory::slice_filter_by_contents()
-{
-    int i = 0;
-    indexed_invslice stacks;
-    for(auto &elem : items) {
-        for(auto &thing : elem) {
-            if(thing.has_items_stored()) {
-                stacks.push_back(std::make_pair(&elem, i));
-                break;
-            }
-        }
-        ++i;
-    }
-    return stacks;
-}
-
 void inventory::unsort()
 {
     sorted = false;

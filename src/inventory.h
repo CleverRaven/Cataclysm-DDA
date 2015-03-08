@@ -61,7 +61,6 @@ class inventory
         indexed_invslice slice_filter_by_capacity_for_liquid(const item &liquid);
         indexed_invslice slice_filter_by_flag(const std::string flag);
         indexed_invslice slice_filter_by_salvageability();
-        indexed_invslice slice_filter_by_contents();
 
         void unsort(); // flags the inventory as unsorted
         void sort();

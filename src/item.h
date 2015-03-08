@@ -95,41 +95,22 @@ class item_category
  *-----------------------------------------------------------------------------*/
 class storage
 {
-        // save on the clickity clacks
-        typedef std::list<item>::iterator                       item_iterator;
-        typedef std::list<item>::const_iterator                 item_const_iterator;
-        typedef std::vector<item>::iterator                     item_vec_iterator;
-        typedef std::vector<item>::const_iterator               item_const_vec_iterator;
-        typedef std::list<item *>::iterator                     item_pointer_iterator;
-        typedef std::list<item *>::const_iterator               item_const_pointer_iterator;
-        // setup is like inventory in a way
         typedef std::list<std::list<item>>                      invstack;
         typedef std::vector<std::list<item>*>                   invslice;
         typedef std::vector<std::pair<std::list<item>*, int>>   indexed_invslice;
 
     private:
-        invstack items;
+        std::list<item> items;
+        invstack        stack;
 
-        // references to all items in storage, but 1-D and only references top of each stack
-        std::list<item> cache;
-        // last turn cache was updated / modifications occurred
-        int cache_turn, modified_turn;
-
-        // updates the cache listing
-        //[davek] TODO: INTEGRATE CACHE ADDITION/REMOVAL INTO ADD/REM
-        void build_cache();
-        void cache_add(const item &thing);
-        void cache_rem(const item &thing);
-
-        item *add_to_invstack(const item &thing);
-        item rem_from_invstack(const item &thing);
-
-        bool item_matches(const item *thing=nullptr, itype_id id="", size_t index=0) const;
+        item *find_item(const item *thing, itype_id id);
+        bool item_matches(const item *thing=nullptr, itype_id id="") const;
 
     public:
         storage() = default;
         storage(const std::list<item> &item_list);
-        storage(item_iterator start, item_iterator stop);
+        storage(std::list<item>::iterator   start, std::list<item>::iterator   stop);
+        storage(std::vector<item>::iterator start, std::vector<item>::iterator stop);
 
         /*-----------------------------------------------------------------------------
          *                                  OVERLOADS
@@ -137,49 +118,77 @@ class storage
         size_t size() const;
         bool empty() const;
         void clear();
-        item_iterator       begin();
-        item_const_iterator begin() const;
-        item_iterator       end();
-        item_const_iterator end() const;
+        std::list<item>::iterator begin();
+        std::list<item>::const_iterator begin() const;
+        std::list<item>::iterator end();
+        std::list<item>::const_iterator end() const;
         item &at(size_t index);
         const item &at(size_t index) const;
         void push_back(const item &thing);
-        void erase(item_iterator pos);
-        void erase(item_iterator start, item_iterator stop);
+        void erase(std::list<item>::iterator pos);
+        void erase(std::list<item>::iterator start, std::list<item>::iterator stop);
         item &operator[](size_t index);
         const item &operator[](size_t index) const;
         /*-----------------------------------------------------------------------------
          *                                  ACCESS
          *-----------------------------------------------------------------------------*/
-        // returns an indexed_invslice of all items in storage
-        indexed_invslice slice();
-        // get a reference to the cached list
-        std::list<item> &get();
+        // returns the `items' list
+        std::list<item>         &get();
+        const std::list<item>   &get() const;
+        // itype_id's of items contained
+        const std::unordered_set<itype_id> itypes_stored() const;
+        // returns an `invslice' of all items in storage (this slice is created on call)
+        invslice slice();
         // return a vector with references to every item
         std::vector<item> as_vector();
         // find the item in items invstack
-        item_iterator find(const item *thing);
-        item_const_iterator find(const item *thing) const;
+        item *find(itype_id id);
+        item *find(const item *thing);
         // returns the index of the given item, based on pointer comparison
         // ** returns items.size() if unable to find **
         size_t index_of(const item *thing) const;
-        size_t index_of(item_iterator iter) const;
+        size_t index_of(std::list<item>::iterator iter) const;
         // returns the index of a filter function match
         // ** returns items.size() if unable to find **
-        template <typename T> 
-        size_t index_of_filter(T filter) const;
-        // returns a filtered indexed_invslice
-        template <typename T>
-        indexed_invslice slice_filter_by(T filter);
+        /*-----------------------------------------------------------------------------
+         *                                  FILTERS
+         *-----------------------------------------------------------------------------*/
         // return a boolean about content properties
         template <typename T>
-        bool filter_by(T filter) const;
+        bool has_item_with(T filter) const
+        {
+            for(const auto &elem : items) {
+                if(filter(elem)) {
+                    return true;
+                }
+            }
+            return false;
+        }
         // return an item list based on filter
         template <typename T>
-        std::list<item> filter_by(T filter);
-        // return an item 
+        std::list<item> filter_by(T filter) const
+        {
+            std::list<item> things;
+            for(const auto &elem : items) {
+                if(filter(elem)) {
+                    things.push_back(elem);
+                }
+            }
+            return things;
+        }
+        // return a list of indices with the positions of items fitting the bill
         template <typename T>
-        invslice filter_recursive_by(T filter);
+        std::list<size_t> indices_of_filter(T filter) const
+        {
+            size_t i = 0;
+            std::list<size_t> indices;
+            for(auto elem = items.begin(); elem != items.end(); ++elem, ++i) {
+                if(filter(*elem)) {
+                    indices.push_back(i);
+                }
+            }
+            return indices;
+        }
         /*-----------------------------------------------------------------------------
          *                                MANIPULATION
          *-----------------------------------------------------------------------------*/
@@ -189,14 +198,13 @@ class storage
         // insert a list of items
         std::vector<item *> add(std::list<item> items);
         // insert a range of items
-        std::vector<item *> add(item_iterator start, item_iterator stop);
-        std::vector<item *> add(item_vec_iterator start, item_vec_iterator stop);
+        std::vector<item *> add(std::list<item>::iterator   start, std::list<item>::iterator   stop);
+        std::vector<item *> add(std::vector<item>::iterator start, std::vector<item>::iterator stop);
         // removes the item from storage, returning the item itself
-        item rem(size_t index);                                             // index
-        item rem(item *thing);                                              // pointer
-        item_iterator rem(item_iterator iter);                              // iterator (&)
-        item_pointer_iterator rem(item_pointer_iterator iter);              // iterator (*)
-        std::list<item> rem(item_iterator start, item_iterator stop);       // range
+        item rem(item *thing);                                                                      // pointer
+        item rem(size_t index);                                                                     // index
+        std::list<item>::iterator rem(std::list<item>::iterator iter);                              // iterator (&)
+        std::list<item> rem(std::list<item>::iterator start, std::list<item>::iterator stop);       // range
         /*-----------------------------------------------------------------------------
          *                                STORAGE
          *-----------------------------------------------------------------------------*/
@@ -355,6 +363,7 @@ public:
         bool merge_charges( const item &rhs );
 
  void put_in(const item &payload);
+ item take_out(item *thing);
  item take_out(size_t index);
 
  void add_rain_to_container(bool acid, int charges = 1);
