@@ -11751,7 +11751,7 @@ bool game::plmove(int dx, int dy)
                     }
 		//vehicle movement: strength check
 		int mc = 0;
-		int str_req = (grabbed_vehicle->total_mass() / 10) + 1; //strengh reqired to move vehicle.
+		int str_req = (grabbed_vehicle->total_mass() / 40) + 1; //strengh reqired to move vehicle.
 
 		//if vehicle is rollable we modify str_req based on a function of movecost per wheel.
 		if (grabbed_vehicle->valid_wheel_config() )
@@ -11764,7 +11764,8 @@ bool game::plmove(int dx, int dy)
 						    grabbed_vehicle->global_y() + grabbed_vehicle->parts[p].precalc[0].y, grabbed_vehicle);
 		    }
 		    //set strength check threshold
-		    str_req = mc / wheel_indices.size();
+		    str_req = mc / wheel_indices.size() + 1;
+		    add_msg( m_debug,"str_req: %d", str_req);
 		} else
 		{
 		    //if vehicle has no wheels str_req make a noise.
