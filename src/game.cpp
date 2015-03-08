@@ -11717,8 +11717,8 @@ bool game::plmove(int dx, int dy)
                 break;
             case fd_fungal_haze:
                 dangerous = (!((u.get_env_resist(bp_mouth) >= 15) &&
-                                (u.get_env_resist(bp_eyes) >= 15) ) &&
-                                !u.has_trait("M_IMMUNE"));
+                              (u.get_env_resist(bp_eyes) >= 15) ) &&
+                              !u.has_trait("M_IMMUNE"));
                 break;
             default:
                 dangerous = cur.is_dangerous();
@@ -11891,13 +11891,13 @@ bool game::plmove(int dx, int dy)
                     // Unfortunately, game::is_empty fails for tiles we're standing on,
                     // which will forbid pulling, so:
                     bool canmove = (
-                       ( m.move_cost(fdest.x, fdest.y) > 0) &&
-                       npc_at(fdest.x, fdest.y) == -1 &&
-                       mon_at(fdest.x, fdest.y) == -1 &&
-                       m.has_flag("FLAT", fdest.x, fdest.y) &&
-                       !m.has_furn(fdest.x, fdest.y) &&
-                       m.veh_at(fdest.x, fdest.y) == NULL &&
-                       m.tr_at(fdest.x, fdest.y) == tr_null
+                        ( m.move_cost(fdest.x, fdest.y) > 0) &&
+                        npc_at(fdest.x, fdest.y) == -1 &&
+                        mon_at(fdest.x, fdest.y) == -1 &&
+                        m.has_flag("FLAT", fdest.x, fdest.y) &&
+                        !m.has_furn(fdest.x, fdest.y) &&
+                        m.veh_at(fdest.x, fdest.y) == NULL &&
+                        m.tr_at(fdest.x, fdest.y) == tr_null
                         );
 
                     const furn_t furntype = m.furn_at(fpos.x, fpos.y);
@@ -12025,7 +12025,7 @@ bool game::plmove(int dx, int dy)
         // Calculate cost of moving
         bool diag = trigdist && u.posx() != x && u.posy() != y;
         u.moves -= int(u.run_cost(m.combined_movecost(u.posx(), u.posy(), x, y, grabbed_vehicle,
-                                  movecost_modifier), diag) * drag_multiplier);
+                                  		      movecost_modifier), diag) * drag_multiplier);
 
         // Adjust recoil down
         u.recoil -= int(u.str_cur / 2) + u.skillLevel("gun");
@@ -12761,7 +12761,7 @@ void game::vertical_move(int movez, bool force)
         m.vertical_shift( levz );
 #endif
         return;
-    }
+    } 
 
     if (!force) {
         monstairx = levx;
