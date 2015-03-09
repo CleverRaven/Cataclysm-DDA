@@ -2049,20 +2049,19 @@ void player::memorial( std::ofstream &memorial_file, std::string epitaph )
 
     //Equipment
     memorial_file << _("Weapon:") << "\n";
-    memorial_file << indent << weapon.invlet << " - " << weapon.tname() << "\n";
+    memorial_file << indent << weapon.invlet << " - " << weapon.tname(1, false) << "\n";
     memorial_file << "\n";
 
     memorial_file << _("Equipment:") << "\n";
     for( auto &elem : worn ) {
         item next_item = elem;
-      memorial_file << indent << next_item.invlet << " - " << next_item.tname();
-      if(next_item.charges > 0) {
-        memorial_file << " (" << next_item.charges << ")";
-      } else if (next_item.contents.size() == 1
-              && next_item.contents[0].charges > 0) {
-        memorial_file << " (" << next_item.contents[0].charges << ")";
-      }
-      memorial_file << "\n";
+        memorial_file << indent << next_item.invlet << " - " << next_item.tname(1, false);
+        if( next_item.charges > 0 ) {
+            memorial_file << " (" << next_item.charges << ")";
+        } else if( next_item.contents.size() == 1 && next_item.contents[0].charges > 0 ) {
+            memorial_file << " (" << next_item.contents[0].charges << ")";
+        }
+        memorial_file << "\n";
     }
     memorial_file << "\n";
 
@@ -2073,17 +2072,17 @@ void player::memorial( std::ofstream &memorial_file, std::string epitaph )
     invslice slice = inv.slice();
     for( auto &elem : slice ) {
         item &next_item = elem->front();
-      memorial_file << indent << next_item.invlet << " - " << next_item.tname();
-      if( elem->size() > 1 ) {
-          memorial_file << " [" << elem->size() << "]";
-      }
-      if(next_item.charges > 0) {
-        memorial_file << " (" << next_item.charges << ")";
-      } else if (next_item.contents.size() == 1
-              && next_item.contents[0].charges > 0) {
-        memorial_file << " (" << next_item.contents[0].charges << ")";
-      }
-      memorial_file << "\n";
+        memorial_file << indent << next_item.invlet << " - " <<
+            next_item.tname(elem->size(), false);
+        if( elem->size() > 1 ) {
+            memorial_file << " [" << elem->size() << "]";
+        }
+        if( next_item.charges > 0 ) {
+            memorial_file << " (" << next_item.charges << ")";
+        } else if( next_item.contents.size() == 1 && next_item.contents[0].charges > 0 ) {
+            memorial_file << " (" << next_item.contents[0].charges << ")";
+        }
+        memorial_file << "\n";
     }
     memorial_file << "\n";
 
@@ -12026,7 +12025,7 @@ void player::absorb_hit(body_part bp, damage_instance &dam) {
                 //~ %s is armor name
                 add_memorial_log(pgettext("memorial_male", "Worn %s was completely destroyed."),
                                  pgettext("memorial_female", "Worn %s was completely destroyed."),
-                                 worn[index].tname().c_str());
+                                 worn[index].tname( 1, false ).c_str());
                 add_msg_player_or_npc( m_bad, _("Your %s is completely destroyed!"),
                                               _("<npcname>'s %s is completely destroyed!"),
                                               worn[index].tname( 1, false ).c_str() );

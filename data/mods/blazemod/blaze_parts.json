@@ -920,7 +920,7 @@
     {
         "type" : "vehicle_part",
         "id" : "cargo_space_external",
-        "name" : "cargo space",
+        "name" : "external cargo carrier",
         "symbol" : "=",
         "color" : "light_gray",
         "broken_symbol" : "#",

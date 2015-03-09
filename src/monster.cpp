@@ -1334,6 +1334,17 @@ void monster::die(Creature* nkiller) {
         item rope_6("rope_6", 0);
         add_item(rope_6);
     }
+    if( has_effect( "lightsnare" ) ) {
+        add_item( item( "string_36", 0 ) );
+        add_item( item( "snare_trigger", 0 ) );
+    }
+    if( has_effect( "heavysnare" ) ) {
+        add_item( item( "rope_6", 0 ) );
+        add_item( item( "snare_trigger", 0 ) );
+    }
+    if( has_effect( "beartrap" ) ) {
+        add_item( item( "beartrap", 0 ) );
+    }
 
     if( !is_hallucination() ) {
         for( const auto &it : inv ) {
