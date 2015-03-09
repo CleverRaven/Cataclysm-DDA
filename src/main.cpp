@@ -453,13 +453,17 @@ void printHelpMessage(const arg_handler *first_pass_arguments,
     std::multimap<std::string, const arg_handler *> help_map;
     for (size_t i = 0; i < num_first_pass_arguments; ++i) {
         std::string help_group;
-        if (first_pass_arguments[i].help_group) help_group = first_pass_arguments[i].help_group;
-        help_map.emplace(help_group, &first_pass_arguments[i]);
+        if( first_pass_arguments[i].help_group ) {
+            help_group = first_pass_arguments[i].help_group;
+        }
+        help_map.insert( std::make_pair(help_group, &first_pass_arguments[i]) );
     }
     for (size_t i = 0; i < num_second_pass_arguments; ++i) {
         std::string help_group;
-        if (second_pass_arguments[i].help_group) help_group = second_pass_arguments[i].help_group;
-        help_map.emplace(help_group, &second_pass_arguments[i]);
+        if( second_pass_arguments[i].help_group ) {
+            help_group = second_pass_arguments[i].help_group;
+        }
+        help_map.insert( std::make_pair(help_group, &second_pass_arguments[i]) );
     }
 
     printf("Command line paramters:\n");
