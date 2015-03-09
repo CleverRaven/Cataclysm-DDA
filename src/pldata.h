@@ -169,10 +169,10 @@ public:
     }
 };
 
-struct mutation_catagory_trait {
+struct mutation_category_trait {
     std::string name;
     std::string id;
-    std::string catagory; // Mutation catagory i.e "BIRD", "CHIMERA"
+    std::string category; // Mutation catagory i.e "BIRD", "CHIMERA"
     std::string mutagen_message; // message when you consume mutagen
     int mutagen_hunger  = 0;
     int mutagen_thirst  = 0;
@@ -197,7 +197,7 @@ struct mutation_catagory_trait {
     int iv_sleep_dur = 0;
     std::string memorial_message; //memorial message when you cross a threshold
 
-    mutation_catagory_trait(std::string pid = "NULL_TRAIT") : name(pid), id(std::move(pid)) {}
+    mutation_category_trait(std::string pid = "NULL_TRAIT") : name(pid), id(std::move(pid)) {}
 };
 
 struct trait {
@@ -223,7 +223,7 @@ struct trait {
 };
 
 extern std::map<std::string, trait> traits;
-extern std::map<std::string, mutation_catagory_trait> mutation_catagory_traits;
+extern std::map<std::string, mutation_category_trait> mutation_category_traits;
 
 inline bool trait_display_sort(const std::string &a, const std::string &b) noexcept
 {
