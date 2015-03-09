@@ -627,14 +627,6 @@ void game::start_game(std::string worldname)
     u.next_climate_control_check = 0;  // Force recheck at startup
     u.last_climate_control_ret = false;
 
-    // A quick hack because the proper rework didn't get into 0.C
-    // Remove it as soon as the rework is in
-    if( u.has_trait( "NIGHTVISION" ) ) {
-        traits["NIGHTVISION"].powered = true;
-    } else if( u.has_trait( "URSINE_EYE" ) ) {
-        traits["URSINE_EYE"].powered = true;
-    }
-
     //Reset character pickup rules
     vAutoPickupRules[2].clear();
     //Put some NPCs in there!
@@ -3265,8 +3257,9 @@ bool game::handle_action()
                     }
                 }
                 for ( auto &mut : g->u.get_mutations() ) {
-                    if ( traits[mut].powered && traits[mut].cost > 0 ) {
-                        active.push_back( traits[mut].name );
+                    const auto &mdata = mutation_branch::get( mut );
+                    if( mdata.cost > 0 && u.has_active_mutation( mut ) ) {
+                        active.push_back( mdata.name );
                     }
                 }
                 std::stringstream data;

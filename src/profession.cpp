@@ -194,7 +194,7 @@ void profession::check_definition() const
     }
     
     for( auto &t : _starting_traits ) {
-        if( ::traits.count( t ) == 0 ) {
+        if( !mutation_branch::has( t ) ) {
             debugmsg( "trait %s for profession %s does not exist", t.c_str(), _ident.c_str() );
         }
     }
