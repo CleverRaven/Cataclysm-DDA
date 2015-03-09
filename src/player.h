@@ -630,6 +630,16 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         void use(int pos);
         /** Uses the current wielded weapon */
         void use_wielded();
+        /** 
+         * Asks how to use the item (if it has more than one use_method) and uses it.
+         * Returns true if it destroys the item. Consumes charges from the item.
+         * Multi-use items are ONLY supported when all use_methods are iuse_actor!
+         */
+        bool invoke_item( item* );
+        /** As above, but with a pre-selected method. Debugmsg if this item doesn't have this method. */
+        bool invoke_item( item*, const std::string& );
+        /** Consumes charges from a tool or does nothing with a non-tool. Returns true if it destroys the item. */
+        bool consume_charges(item *used, long charges_used);
         /** Removes selected gunmod from the entered weapon */
         void remove_gunmod(item *weapon, unsigned id);
         /** Attempts to install bionics, returns false if the player cancels prior to installation */
