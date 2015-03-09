@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Cataclysm-DDA\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-03-02 10:32+0300\n"
-"PO-Revision-Date: 2015-03-03 13:24+0000\n"
+"POT-Creation-Date: 2015-03-07 18:54-0600\n"
+"PO-Revision-Date: 2015-03-08 12:49+0000\n"
 "Last-Translator: Wuzzy <almikes@aol.com>\n"
 "Language-Team: German (http://www.transifex.com/projects/p/cataclysm-dda/"
 "language/de/)\n"
@@ -23847,6 +23847,11 @@ msgid ""
 "actions.  With gunsmithing tools, some skill, and a few hours, you could "
 "take a 'tacti-cool' rifle and convert it to the classic Russian design."
 msgstr ""
+"Ein wunderschöner hölzerner Schaft mit Ausstattung, so gebaut, um "
+"gewöhnliche Misin-Nagant-Gewehre zusammenzuhalten. Mit "
+"Waffenschmiedewerkzeugen, etwas Erfahrung und einigen wenigen Stunden "
+"könntest du ein cooles taktisches Gewehr nehmen und es zum klassisch "
+"russischem Entwurfsmuster umbauen."
 
 #: lang/json/GENERIC_from_json.py
 msgid ""
@@ -25573,6 +25578,10 @@ msgid ""
 "actions.  With gunsmithing tools, some skill, and a few hours, you could "
 "give the classic Russian design modern furniture and customization capacity."
 msgstr ""
+"Ein synthetischer Schaft mit einer Ausstattung, so entworfen, um gewöhnliche "
+"Mosin-Nagant-Gewehre zu stützen. Mit Waffenschmiedewerkzeugen, etwas "
+"Erfahrung und einigen wenigen Stunden könntest du dem klassisch russischem "
+"Muster eine moderne Ausstattung und etwas Anpassfähigkeit verleihen."
 
 #: lang/json/GENERIC_from_json.py
 msgid "A tall glass, just begging for a frosty one!"
@@ -26881,6 +26890,9 @@ msgid ""
 "section, protects that section from impacts. The springs can absorb a "
 "surprising amount of damage."
 msgstr ""
+"Diese Behelfskombination aus Federn und Schrott wird, wenn sie an ein "
+"Fahrzeugteil angebracht ist, dieses Fahrzeugteil vor Einschlägen schützen. "
+"Die Federn können überraschend viel Schaden absorbieren."
 
 #: lang/json/GENERIC_from_json.py
 msgid ""
@@ -29250,6 +29262,9 @@ msgid ""
 "A counterweight placed forward of the bow's grip allows for greater "
 "accuracy.  Aside from increased weight and size, there are no drawbacks."
 msgstr ""
+"Ein Gegengewicht, welches am Bogengriff platziert wird, sorgt für eine "
+"bessere Treffergenauigkeit. Außer einem erhöhtem Gewicht und einer erhöhten "
+"Größe gibt es keine Nachteile."
 
 #: lang/json/GUNMOD_from_json.py
 msgid ""
@@ -29371,6 +29386,8 @@ msgid ""
 "A set of tritium aiming pins for a bow.  Improves ease of aiming and target "
 "acquisition with no drawbacks."
 msgstr ""
+"Eine Reihe an Tritiumvisiervorbauten für einen Bogen. Vereinfacht das Zielen "
+"und die Zielerfassung ohne Nachteile."
 
 #: lang/json/GUNMOD_from_json.py
 msgid ""
@@ -30206,6 +30223,10 @@ msgid ""
 "the name is less about the double barrels and more about the number of shots "
 "you'll get before it breaks down on you."
 msgstr ""
+"Eine grob gemachte zweiläufige Pistole, die die Munition .38 Special feuert. "
+"Leider hat der Name weniger mit den zwei Läufen zu tun, sondern mehr über "
+"die Anzahl der Schüsse, die du abgeben kannst, bevor dir die Pistole "
+"auseinanderfällt."
 
 #: lang/json/GUN_from_json.py
 msgid ""
@@ -30419,6 +30440,9 @@ msgid ""
 "improvements have been made, such as a tube feeding system for rounds, and "
 "chambering the more powerful .308 rounds."
 msgstr ""
+"Ein selbstgebautes Gewehr. Wobei es immer noch ein primitives Rohr mit "
+"Kantholz ist, wurden ein paar geringfügige Verbesserungen vorgenommen, wie "
+"zum Beispiel, dass die starke .308-Patrone benuzt wird."
 
 #: lang/json/GUN_from_json.py
 msgid ""
@@ -30669,6 +30693,11 @@ msgid ""
 "speeds extremely quickly. The resulting barrage is highly inaccurate, but "
 "can turn unarmored targets into pulp."
 msgstr ""
+"Ein drehbarer Rahmen, der mit Ziel- und Bewegungssystemen voll ausgestattet "
+"wurde. Auf ihm wurde ein stark angepasstes Gaußgewehr angebracht; es feuert "
+"winzige Metallfragmente auf hoher Geschwindigkeit in einer extrem hohen "
+"Feuerrate. Das sich ergebende Trommelfeuer ist sehr ungenau, aber kann "
+"ungepanzerte Ziele zu Mus verwandeln."
 
 #: lang/json/GUN_from_json.py
 msgid ""
@@ -30696,6 +30725,10 @@ msgid ""
 "an automated loading system allows for repeated volleys to be fired without "
 "an operator."
 msgstr ""
+"Ein drehbarer Rahmen, der voll ausgestattet mit Ziel- und Bewegungssystemen "
+"wurde. Diese montierte pneumatische Harpune hat einen rotierenden Lauf "
+"hinter ihrem Werfer. Ein automatisches Ladesystem ermöglicht das Abfeuern "
+"wiederholter Salven ohne einen Bediener."
 
 #: lang/json/GUN_from_json.py
 msgid ""
@@ -30776,6 +30809,9 @@ msgid ""
 "A single-shot grenade launcher on a rotating frame, having a stable firing "
 "platform greatly increases accuracy and reduces recoil."
 msgstr ""
+"Ein einschüssiger Granatenwerfer auf einem drehbaren Rahmen. Aufgrund einer "
+"stabilen Platform zum Feuern wird die Treffgenauigkeit stark erhöht und der "
+"Rückstoß reduziert."
 
 #: lang/json/GUN_from_json.py
 msgid ""
@@ -30880,6 +30916,10 @@ msgid ""
 "powerful handgun in the world any more, it could still blow a zombie's head "
 "clean off."
 msgstr ""
+"Ein sechsschüssiger Edelstahlrevoler mit Hahn- und Abzugsspannung und einem "
+"mattschwarzen Plastikgriff, hergestellt von Smitch & Wesson. Obwohl sie wohl "
+"kaum noch die stärkste Handfeuerwaffe der Welt ist, könnte sie immer noch "
+"einen Zombiekopf sauber wegpusten."
 
 #: lang/json/GUN_from_json.py
 msgid ""
@@ -30888,12 +30928,20 @@ msgid ""
 "flying about corporate skulduggery.  Though the cataclysm put that on the "
 "ash heap of history, this weapon can still do the same to your foes."
 msgstr ""
+"Ein Lasergewehr auf dem neusten Stand der Technik, entwickelt von der "
+"unabhängigen Forschungs-und-Entwicklungs-Gruppe »Aerial Labs«. Die "
+"ursprüngliche Leistung konkurrierte mit Rivtechs besten Waffen, und es "
+"gingen Gerüchte über unternehmerische Hinterlist um. Obwohl die Katastrophe "
+"diese Waffe auf dem Aschehaufen der Geschichte geworfen hat, kann diese "
+"Waffe immer noch deine Feinde zu selbigem verwandeln."
 
 #: lang/json/GUN_from_json.py
 msgid ""
 "A tension-operated speargun mounted on a rotating frame. A hand-crank lets "
 "one draw the strings quickly."
 msgstr ""
+"Eine tensionsgetriebene Harpue, die auf einen rotierbaren Rahmen montiert "
+"wurde. Mit einer Handkurbel können die Fäden schnell gezogen werden."
 
 #: lang/json/GUN_from_json.py
 msgid ""
@@ -30956,6 +31004,8 @@ msgid ""
 "A well designed homemade carbine. With a 10 round magazine and shortened "
 "barrel, this is one of the better homemade weapons."
 msgstr ""
+"Ein gut gemachter selbstgebauter Karabiner. Mit einem Magazin mit 10 Schuss "
+"und einem gekürzten Lauf ist dies eine der besseren selbstgebauten Waffen."
 
 #: lang/json/GUN_from_json.py
 msgid ""
@@ -31068,6 +31118,9 @@ msgid ""
 "An M249 mounted on a powered rotary platform. Sports an automated reload and "
 "target acquisition system to be able to function with little input."
 msgstr ""
+"Eine M249, welche auf einer drehbaren Plattform montiert wurde. Hat ein "
+"automatisches Nachlade- und Zielerfassungssystem, damit sie mit nur wenig "
+"manueller Bedienung auskommt."
 
 #: lang/json/GUN_from_json.py
 msgid ""
@@ -31075,6 +31128,9 @@ msgid ""
 "greatly reduces recoil; thus increasing accuracy. Can hold 40 rounds at the "
 "ready."
 msgstr ""
+"Eine M249, welche auf einer drehbaren Plattform montiert wurde. Mit einer "
+"stabilen Halterung wird der Rückstoß stark reduziert, was die "
+"Treffgenauigkeit erhöht. Kann 40 Patronen bereithalten."
 
 #: lang/json/GUN_from_json.py
 msgid ""
@@ -31100,6 +31156,11 @@ msgid ""
 "a thick-walled steel pipe, equipped with a pilot light, several batteries "
 "and a simple circuit board. Effective only at medium range, barely."
 msgstr ""
+"Ein improvisierter Diektzündungswerfer für selbstgemachte Raketen. "
+"Hauptsächlich handelt es sich dabei um ein dickwändiges Stahlrohr, das mit "
+"einer Zündlampe, einigen Batterien und einer einfachen Leiterplatte "
+"ausgestattet wurde. Er ist nur bei mittlerer Entfernung effektiv, so gerade "
+"noch."
 
 #: lang/json/GUN_from_json.py
 msgid ""
@@ -31417,6 +31478,11 @@ msgid ""
 "recoil as a result. It has a weighted barrel to make recoil more manageable "
 "and a 5-chamber cylinder."
 msgstr ""
+"Von Leadworks als Begleit-Seitenwaffe für das modulare System L523 "
+"entwickelt, feuert dieser gewaltige Autorevoler die starke .223-Patrone, "
+"aber er leidet folglich unter einem hohen Rückstoß. Er hat einen gewichteten "
+"Lauf, um den Rückstoß besser kontrollieren zu können, und eine Trommel mit 5 "
+"Patronenlagern."
 
 #: lang/json/GUN_from_json.py
 msgid ""
@@ -31460,6 +31526,11 @@ msgid ""
 "powerful and surprisingly accurate, but far too large to be used without "
 "some sort of stable platform."
 msgstr ""
+"Hauptsächlich einige lange Kordeln, welche von zwei langen verstärkten "
+"Schienen und einem Mechanismus, der an einer Kurbel angebracht wurde, um es "
+"zu ziehen und abzufeuern, gehalten werden. Die Waffe ist unglaublich stark "
+"und überaschend treffsicher, aber viel zu groß, um ohne eine stabile "
+"Halterung benutzt zu werden."
 
 #: lang/json/GUN_from_json.py
 msgid "FN FAL"
@@ -31967,6 +32038,10 @@ msgid ""
 "belt fed mechanism has been modified into a much smaller single round "
 "chamber."
 msgstr ""
+"Von der gewaltigen M2 Browning modifiziert ist dieses abgespecktes Gewehr so "
+"verändert, dass sie ohne Halterung abgefeuert werden kann. Der Feuerstoß "
+"wurde deaktiviert und ihr Gurtzuführungsmechanismus wurde zu einem viel "
+"kleinerem Patronenlager, welches 1 Schuss hält, modifiziert."
 
 #: lang/json/GUN_from_json.py
 msgid "Mosin-Nagant 1891/30"
@@ -32010,6 +32085,10 @@ msgid ""
 "cyclic configuration. A specialized magazine loads the otherwise troublesome "
 "rounds; allowing it to be fired in quick succession."
 msgstr ""
+"Diese furchteinflößende Waffe wurde auf einen drehbaren Rahmen montiert und "
+"hat 8 Läufe in einer zyklischen Anordnung. Ein spezialisiertes Magazin lädt "
+"die ansonsten mühsam  zu handhabenden Patronen; wodurch sie in schneller "
+"Abfolge abgefeuert werden kann."
 
 #: lang/json/GUN_from_json.py
 msgid "NX-17 Energy Turret"
@@ -32876,6 +32955,10 @@ msgid ""
 "synthetic model, carefully balanced to the same weight and handling yet "
 "offering support for modern accessories."
 msgstr ""
+"Bei diesem Mosin-Nagant-Exemplar wurde der klassiche hölzerne Schaft durch "
+"ein modernes künstliches Modell ausgetauscht. Es wurde sorgfältig für das "
+"gleiche Gewicht und die gleiche Handhabung ausbalanciert, und trotzdem "
+"bietet es noch Unterstützung für modernes Zubehör."
 
 #: lang/json/GUN_from_json.py
 msgid ""
@@ -32883,6 +32966,9 @@ msgid ""
 "that arc to nearby enemies. It must be attached to a large power source, but "
 "it allows for much more powerful bolts."
 msgstr ""
+"Diese Anpassung des Kettenstoßspannungsbionik feuert künstliche Lichtbltze, "
+"welche sich hin zu nahestehenden Gegnern kurven. Es muss an einer großen "
+"Stromquelle angebracht werden, aber das ermöglicht viel stärkere Blitze."
 
 #: lang/json/GUN_from_json.py
 msgid ""
@@ -32909,6 +32995,11 @@ msgid ""
 "loaded with another disc that, when launched, shreds through enemies with "
 "devastating effect."
 msgstr ""
+"Diese gefährlich aussehende Waffe hält eine große mit Klingen versehende "
+"Scheibe. Wenn sie mit einem Motor verbunden wird, wird die Scheibe sehr "
+"schnell rotieren. Die Waffe verfügt über eine zusätzliche Halterung, welche "
+"mit einer anderen Scheibe geladen werden kann. Wenn sie abgefeuert wird, "
+"fetzt sie sich duch Gegner mit verheerender Wirkung."
 
 #: lang/json/GUN_from_json.py
 msgid ""
@@ -32934,6 +33025,9 @@ msgid ""
 "been modified to acquire targets on its own, but requires an external fuel "
 "source. Flame on!"
 msgstr ""
+"Dieser große Flammenwerfer wurde auf einem bestromten drehbaren Rahmen "
+"angebracht. Er wurde programmiert, um Ziele eigenständig zu erfassen, aber "
+"benötigt eine externe Kraftstoffquelle. Feuer frei!"
 
 #: lang/json/GUN_from_json.py
 msgid ""
@@ -32966,6 +33060,8 @@ msgid ""
 "This massive crossbow is mounted on a rotating frame. The hand-crank allows "
 "one to draw it without the need for heavy labor."
 msgstr ""
+"Diese gewaltige Armbrust wurde auf einen drehbaren Rahmen montiert. Mit der "
+"Handkurbel kann man sie ohne viel Anstrengung ziehen."
 
 #: lang/json/GUN_from_json.py
 msgid ""
@@ -32974,6 +33070,10 @@ msgid ""
 "fuel efficiency, but still requires an external fuel source. Unleash the "
 "dragon!"
 msgstr ""
+"Dieser Flammenwerfer der Militärklasse wurde auf einem bestromten drehbaren "
+"Rahmen angebracht. Mit seinen vorher existierenden Verbesserungen ist es ihm "
+"möglich, bei maximaler Kraftstoffeffizienz zu arbeiten, aber er benötigt "
+"immer noch eine externe Kraftstoffquelle. Entfessle den Drachen!"
 
 #: lang/json/GUN_from_json.py
 msgid ""
@@ -32985,6 +33085,13 @@ msgid ""
 "cumbersome to wield; not to mention that it consumes UPS charges at a "
 "tremendous rate, making it impractical for use in prolonged engagements."
 msgstr ""
+"Diese überstarke und übertechnische Variante des ferromagnetischen "
+"Schienengewehrs wurde so gestaltet, dass sie elektromagnetisch-getriebene "
+"Vernichtung direkt durch beliebige Hindernisse jagt, egal, ob Gebäude, "
+"Fahrzeuge oder Horden der lebendigen Toten. Allerdings macht es ihre "
+"mächtige Größe und ihr Gewicht ziemlich anstrengend, sie zu tragen, "
+"geschweige denn, dass sie Esz.-Ladungen rasant schnell verbraucht, was sie "
+"unbrauchbar für längere Kämpfe macht."
 
 #: lang/json/GUN_from_json.py
 msgid ""
@@ -32992,6 +33099,10 @@ msgid ""
 "faster and with higher velocity. It is capable of acquiring targets and "
 "maintaining itself with little further input."
 msgstr ""
+"Dieses pneumatische Sturmgewehr wurde stark verbessert. Es kann Projektile "
+"schneller und mit einer höheren Geschwindigkeit abfeuern. Es kann Ziele "
+"erfassen und sich selbst warten, mit nur wenig zusätzlicher manueller "
+"Bedienung."
 
 #: lang/json/GUN_from_json.py
 msgid ""
@@ -32999,6 +33110,10 @@ msgid ""
 "bolts to be launched accurately and in quick succession. It is capable of "
 "acquiring targets and maintaining itself with little further input."
 msgstr ""
+"Dieser pneumatische Bolzenwerfer wurde stark verbessert, was es ermöglicht, "
+"mehrere Bolzen treffsicher und in schneller Abholge abzufeuern. Er ist in "
+"der Lage, selbst Ziele zu erfassen und sich selbst zu warten, mit nur wenige "
+"weiteren manuellen Eingaben."
 
 #: lang/json/GUN_from_json.py
 msgid ""
@@ -33017,6 +33132,10 @@ msgid ""
 "frame. It's been programmed to acquire targets on its own, but requires an "
 "external fuel source. Its fuel efficiency leaves a bit to be desired."
 msgstr ""
+"Dieser einfache selbstgebaute Flammenwerfer wurde auf einem bestromten "
+"drehbaren Rahmen angebracht. Er wurde programmiert, um Ziele eigenständig zu "
+"erfassen, aber benötigt eine externe Kraftstoffquelle. Seine "
+"Kraftstoffeffizienz lässt etwas zu wünschen übrig."
 
 #: lang/json/GUN_from_json.py
 msgid ""
@@ -33152,6 +33271,10 @@ msgid ""
 "capable of superheating most materials to the point of exploding. Though one "
 "must be wary of the prodigious power needs of such a weapon."
 msgstr ""
+"Mit einem verbesserten Emitter und Kondensator ist dieser "
+"geschützturmmontierte Laser fähig, die meisten Materialien bis zum Punkt der "
+"Explosion zu überhitzen. Jedoch muss man sich dabei des außergewöhnlichen "
+"Strombedarfs einer solchen Waffe bewusst sein."
 
 #: lang/json/GUN_from_json.py
 msgid "Wrist DREAD"
@@ -37104,8 +37227,8 @@ msgstr[1] "Flussbarsch"
 #: lang/json/MONSTER_from_json.py
 msgid "pickerel"
 msgid_plural "pickerel"
-msgstr[0] "Hecht"
-msgstr[1] "Hecht"
+msgstr[0] "Am. Hecht"
+msgstr[1] "Am. Hechte"
 
 #: lang/json/MONSTER_from_json.py
 msgid "pig"
@@ -38579,6 +38702,9 @@ msgid ""
 "vintage monochrome monitor displays a plethora of meteorological data.  No "
 "sign of the FLDSMDFR, however."
 msgstr ""
+"Ein Koffer mit eingebautem Laptop, der aussieht, als wäre er von den 80ern. "
+"Sein altmodischer Monochrombildschirm zeigt eine Fülle an meterologischen "
+"Daten. Allerdings gibt es keine Anzeichen des FLDSMDFR."
 
 #: lang/json/TOOL_from_json.py
 msgid ""
@@ -38662,6 +38788,10 @@ msgid ""
 "apocalyptic cuisine. Powered by a lamp oil burner, it is composed of simple "
 "yet durable tools and materials."
 msgstr ""
+"Ein selbstgemachtes Campinggeschirr. Es enthält alles, was du eventuell für "
+"die nachapokalyptische Küche brauchst. Es wird von einem Lampenölbrenner "
+"angetrieben und besteht aus einfachen, aber haltbaren Werkzeugen und "
+"Materialien."
 
 #: lang/json/TOOL_from_json.py
 msgid ""
@@ -38814,6 +38944,11 @@ msgid ""
 "smokescreen – if you lit the narrow end, you should be able to throw it "
 "before the flame reaches the broad end."
 msgstr ""
+"Ein birnenförmiges Stück Rocket-Candy, welches durch die Erhitzung von "
+"Salpeter mit Zucker und dem Aufgießen der so entstehenden Flüssigkeit "
+"erhalten wurde. Kann als Raketentreibstoff, aber auch als Nebelwand benutzt "
+"werden. Wenn du das enge Ende anzündest, solltest du in der Lage sein, es zu "
+"werfen, bevor die Flamme das breite Ende erreicht."
 
 #: lang/json/TOOL_from_json.py
 msgid "A plastic barometer that can read the atmospheric pressure."
@@ -38936,6 +39071,10 @@ msgid ""
 "organisms with electric stimulation, reviving them and forcing them to obey "
 "your commands. This version only works on blobs."
 msgstr ""
+"Ein kleines Gerät, nicht größer als die Faust eines Mannes. Sie gibt "
+"primitiven Organismen eine elektische Stimulation, was sie wiederbelebt und "
+"zwingt, deinen Befehlen zu gehorchen. Diese Variante funktioniert nur mit "
+"Blobs."
 
 #: lang/json/TOOL_from_json.py
 msgid ""
@@ -39047,6 +39186,8 @@ msgid ""
 "An electric polisher used to polish metal surfaces capable of making them "
 "reflect light as a mirror would"
 msgstr ""
+"Ein elektrischer Polierer, den man benutzen kann, um Metalloberflächen zu "
+"polieren, wodurch sie Licht wie ein Spiegel reflektieren."
 
 #: lang/json/TOOL_from_json.py
 msgid ""
@@ -39317,6 +39458,10 @@ msgid ""
 "together. A light shock from the UPS started the chip, bringing the blob "
 "back to life. Use this item to wake up the blob."
 msgstr ""
+"Einige Stücke von Blobfetzen, zu einer großen Masse verklumpt und mit einem "
+"Steuerungs-Chip zusammengenäht. Ein leichter Schock von einer Esz. startete "
+"den Chip, was den Blob wieder zum Leben erweckte. Benutze diesen Gegenstand, "
+"um den Blob aufzuwecken."
 
 #: lang/json/TOOL_from_json.py lang/json/vehicle_part_from_json.py
 msgid "Shiny Cable"
@@ -39952,6 +40097,8 @@ msgid ""
 "This is a chunk of rocket candy that has been lit on fire and burns with a "
 "loud hiss, spewing forth large amounts of smoke."
 msgstr ""
+"Dies ist ein Stück Rocket-Candy, welches angezündet wurde und es brennt mit "
+"einem lauten Zischen, was große Rauchwolken ausspuckt."
 
 #: lang/json/TOOL_from_json.py
 msgid ""
@@ -40205,6 +40352,10 @@ msgid ""
 "shovel-like tip on one end.  It can be used as a shovel, or you could chop "
 "some zombies with it instead."
 msgstr ""
+"Dies ist ein selbstgeschmiedetes einklappbares Werkzeug, welches zwei "
+"Axtköpfe und eine scharfe schaufelähnliche Spitze an einem Ende hat. Es kann "
+"als eine Schaufel benutzt werden, oder du könntest stattdessen ein paar "
+"Zombies damit abhacken."
 
 #: lang/json/TOOL_from_json.py
 msgid ""
@@ -40265,6 +40416,11 @@ msgid ""
 "melting and joining plastic. Use a tailor's kit to customize your clothing "
 "and armor.  This uses your tailoring skill."
 msgstr ""
+"Dies ist eine hochqualitative Plastikausrüstung mit einer Vielzahl an "
+"Nadeln, ein paar Plastiksspulen für Fäden, ein paar kleinen Scheren, sogar "
+"einem kleinen Heizelement, um Plastik zu schmelzen und wieder zu verbinden. "
+"Benutze eine Schneiderausrüstung, um deine Kleidung und Panzerung "
+"anzupassen. Sie verwendet deine Schneidererfahrung."
 
 #: lang/json/TOOL_from_json.py
 msgid ""
@@ -40296,6 +40452,10 @@ msgid ""
 "filled with black gunpowder and scrap metal, equipped with a long fuse.  Use "
 "this item to light the fuse.  Should explode in no more than five turns..."
 msgstr ""
+"Dies ist eine selbstgemachte Explosivvorrichtung, die aus einem großen "
+"Platikkrug mit Schwarzpulver und Metallschrott besteht und mit einer langen "
+"Zundschnur versehen wurde. Benutze diesen Gegenstand, um die Zündschnur "
+"anzuzünden. Sie sollte in nicht mehr als 5 Zügen explodieren."
 
 #: lang/json/TOOL_from_json.py
 msgid ""
@@ -40303,6 +40463,10 @@ msgid ""
 "filled with black gunpowder and scrap metal, whose fuse has been lit, its "
 "final countdown starting."
 msgstr ""
+"Dies ist eine selbstgemachte Explosivvorrichtung, die aus einem großen "
+"Platikkrug mit Schwarzpulver und Metallschrott besteht und mit einer langen "
+"Zundschnur versehen wurde. Die Zündschnur wurde angezündet und der Countdown "
+"läuft."
 
 #: lang/json/TOOL_from_json.py
 msgid ""
@@ -40785,6 +40949,8 @@ msgid ""
 "This is a portable charcoal-fired kiln.  You could use it to fire your own "
 "bricks, for use in construction projects."
 msgstr ""
+"Dies ist ein tragbarer holzkohlebetriebener Brennofen. Du könntest ihn "
+"benutzen, um deine eigenen Ziegel für deine Bauprojekte zu brennen."
 
 #: lang/json/TOOL_from_json.py
 msgid ""
@@ -41576,6 +41742,10 @@ msgid ""
 "detonates completely and delivers its entire destructive power to everything "
 "in sight."
 msgstr ""
+"Dies ist ein Aluminiumfass, das mit 50 Litern Hexogen und Metallschrott "
+"gefüllt wurde. Enthält einen Kern aus Zündstoff, um sicherzustellen, dass "
+"die Sprengladung vollständig explodiert und die volle zerstörerische Energie "
+"auf alles in Sichtweite entfacht."
 
 #: lang/json/TOOL_from_json.py
 msgid ""
@@ -41583,6 +41753,10 @@ msgid ""
 "metal.  The fuse has been lit and once it ignites the primary explosive, the "
 "charge will detonate and rain fire and steel on everything in sight."
 msgstr ""
+"Dies ist ein Aluminiumfass, das mit 50 Litern Hexogen und Metallschrott "
+"gefüllt wurde. Die Zündschnur wurde angezündet, und sobald sie den Zündstoff "
+"anzündet, wird die Sprengladung explodieren und Feuer und Stahl auf alles in "
+"Sichtweite regnen lassen."
 
 #: lang/json/TOOL_from_json.py
 msgid ""
@@ -41944,6 +42118,8 @@ msgid ""
 "This nodachi's massive blade has been coated in diamond-like carbon, making "
 "it far more deadly."
 msgstr ""
+"Die Klinge dieser gewaltigen Nodachi wurde mit diamantenähnlichem "
+"Kohlenstoff beschichtet, wodurch sie deutlich tödlicher wird."
 
 #: lang/json/TOOL_from_json.py
 msgid ""
@@ -49259,7 +49435,7 @@ msgstr "Vitamine einnehmen"
 
 #: lang/json/item_action_from_json.py
 msgid "Upturn earth"
-msgstr "Erde umdrehen"
+msgstr "Erde umgraben"
 
 #: lang/json/item_action_from_json.py
 msgid "Use as knife"
@@ -49571,7 +49747,7 @@ msgstr "Gegenstände um den Spieler auflisten"
 
 #: lang/json/keybinding_from_json.py
 msgid "List items and monsters"
-msgstr "Gegenstände und Monster auflisten"
+msgstr "Gegenstände u. Monster auflisten"
 
 #: lang/json/keybinding_from_json.py
 msgid "Look Around"
@@ -53502,6 +53678,10 @@ msgid ""
 "attack you, your assailant is quite likely to get fine, bristly chitin in an "
 "irritating spot; it doesn't carry your venom but it will be distracting."
 msgstr ""
+"Große Mengen an Haaren haben sich gelöst. Falls eine Kreatur versucht, dich "
+"anzugreifen, wir dein Angreifer wahrscheinlich dünnen borstigen Chitin an "
+"einer lästigen Stelle abbekommen; sie tragen nicht dein Gift, aber sie "
+"können ablenken."
 
 #: lang/json/mutation_from_json.py
 msgid "Skater"
@@ -55379,6 +55559,9 @@ msgid ""
 "You were competitive at national levels, and had considered teaching your "
 "art.  Defending against the entire town may still be a challenge, though."
 msgstr ""
+"Du warst auf nationaler Ebene wettbewerbsfähig und hast in Betracht gezogen, "
+"deine Kampfkunst zu lehren. Sich gegen eine gesamte Stadt zu verteidigen, "
+"könnte aber immer noch eine Herausforderung sein."
 
 #: lang/json/mutation_from_json.py
 msgid ""
@@ -55395,6 +55578,9 @@ msgid ""
 "You were shaping up to be a pretty decent student of the martial arts before "
 "the Cataclysm struck.  Time to see just how good you really were."
 msgstr ""
+"Du warst im Begriff, gerade ein ziemlich guter Schüler der Kampfkünste zu "
+"werden, bevor die Katastrophe zuschlug. Nun ist es Zeit, zu sehen, wie gut "
+"du wirklich warst."
 
 #: lang/json/mutation_from_json.py
 msgid ""
@@ -55541,10 +55727,9 @@ msgid ""
 "driven by religious beliefs or philosophical interest, you find great "
 "inspiration in studying holy texts and experiencing mystical things."
 msgstr ""
-"Du hast schon immer gefühlt, dass es mehr in der Welt gibt, als wir sehen "
-"können. Ob durch religiösen Glauben oder philosophischen Interesse geleitet, "
-"du findest große Inspiration, wenn du heilige Texte liest und mystische "
-"Dinge erlebst."
+"Du hast schon immer gefühlt, dass es mehr zwischen Himmel und Erde gibt. Du "
+"findest große Inspiration, wenn du heilige Texte liest und mystische Dinge "
+"erlebst."
 
 #: lang/json/mutation_from_json.py
 msgid ""
@@ -56060,6 +56245,9 @@ msgid ""
 "Your exoskeleton has hardened considerably--restricting movement, granted--"
 "and boasts a fine coat of hairs that put feline whiskers to shame."
 msgstr ""
+"Dein Außenskelett hat sich beachtlich verhärtet – was die Bewegung "
+"einschränkt – und prahlt mit einer dünnen Schicht aus Haaren, die "
+"Katzenschnurrhaare alt aussehen lassen."
 
 #: lang/json/mutation_from_json.py
 msgid ""
@@ -56367,6 +56555,9 @@ msgid ""
 "or ensure your venom goes home, as desired.  Activate to extend or retract "
 "your fangs."
 msgstr ""
+"Deinen Mundwerkzeugen sind ausfahrbare Fangzähne gewachsen, wodurch du "
+"schnell zubeißen kannst oder, um sicherstellen, wohin dein Gift geht, wie du "
+"möchtest. Aktiviere dies, um deine Fangzähne ein- oder auszufahren."
 
 #: lang/json/mutation_from_json.py
 msgid ""
@@ -57464,6 +57655,9 @@ msgid ""
 "After a career of teaching kids the art of sports they mostly hate, the "
 "zombies around you refuse to do laps, even at the blow of your whistle."
 msgstr ""
+"Nach einer Karriere in Kindern die Sportarten beizubringen, die sie am "
+"Meisten hassten, weigern sich die Zombies um dir herum, Runden zu drehen, "
+"sogar beim Trillern deiner Pfeife."
 
 #. ~ Profession (male Gym Teacher) description
 #: lang/json/professions_from_json.py
@@ -57472,6 +57666,9 @@ msgid ""
 "After a career of teaching kids the art of sports they mostly hate, the "
 "zombies around you refuse to do laps, even at the blow of your whistle."
 msgstr ""
+"Nach einer Karriere in Kindern die Sportarten beizubringen, die sie am "
+"Meisten hassten, weigern sich die Zombies um dir herum, Runden zu drehen, "
+"sogar beim Trillern deiner Pfeife."
 
 #: lang/json/professions_from_json.py
 msgctxt "profession_female"
@@ -57576,6 +57773,10 @@ msgid ""
 "apocalypse.  Unfortunately, the breakdown of society has brought you to your "
 "current state of affairs; you now fight to simply stay alive."
 msgstr ""
+"Als ein Mitglied der elitärsten Abteilung der Polizei wurdest du mehr als "
+"ausreichend trainiert und ausgerüstet, um den brutalen Ansturm der "
+"Apokalypse zu überleben. Leider bedeutet der Zerfall der Gesellschaft für "
+"dich, dass du nur noch kämpfst, um zu überleben."
 
 #. ~ Profession (male SWAT Officer) description
 #: lang/json/professions_from_json.py
@@ -57586,6 +57787,10 @@ msgid ""
 "apocalypse.  Unfortunately, the breakdown of society has brought you to your "
 "current state of affairs; you now fight to simply stay alive."
 msgstr ""
+"Als ein Mitglied der elitärsten Abteilung der Polizei wurdest du mehr als "
+"ausreichend trainiert und ausgerüstet, um den brutalen Ansturm der "
+"Apokalypse zu überleben. Leider bedeutet der Zerfall der Gesellschaft für "
+"dich, dass du nur noch kämpfst, um zu überleben."
 
 #. ~ Profession (female Bionic Firefighter) description
 #: lang/json/professions_from_json.py
@@ -59659,6 +59864,10 @@ msgid ""
 "are all dead, you should probably find something more tangible to protect "
 "you."
 msgstr ""
+"Als die Apokalypse zuschlug, hast du alles, was in deiner Macht steht, "
+"getan, um deine gläubige Gemeinde zu schützen, aber es scheint, dass Gebete "
+"nicht ausreichten. Nun sind sie alle tot, du solltest vielleicht etwas "
+"Handfesteres haben, um dich zu schützen."
 
 #. ~ Profession (male Priest) description
 #: lang/json/professions_from_json.py
@@ -59669,6 +59878,10 @@ msgid ""
 "are all dead, you should probably find something more tangible to protect "
 "you."
 msgstr ""
+"Als die Apokalypse zuschlug, hast du alles, was in deiner Macht steht, "
+"getan, um deine gläubige Gemeinde zu schützen, aber es scheint, dass Gebete "
+"nicht ausreichten. Nun sind sie alle tot, du solltest vielleicht etwas "
+"Handfesteres haben, um dich zu schützen."
 
 #. ~ Profession (female Bionic Patient) description
 #: lang/json/professions_from_json.py
@@ -59809,6 +60022,11 @@ msgid ""
 "your ratty old backpack finally fell apart at the worst time. At least no "
 "one's mocking you now."
 msgstr ""
+"Du kommst von einer Unterschichtenfamilie und wurdest für deine alten "
+"heruntergekommenen Kleider gehänselt, und dafür, dass du kostenlose "
+"Schulmahlzeiten in der Cafeteria bekommen hast. Schlimmer noch, dein "
+"schäbiger alter Rucksack ist endgültig in der schlimmsten Zeit "
+"auseinandergefallen. Wenigstens macht sich nun keiner mehr über dich lustig."
 
 #. ~ Profession (male Poor Student) description
 #: lang/json/professions_from_json.py
@@ -59819,6 +60037,11 @@ msgid ""
 "your ratty old backpack finally fell apart at the worst time. At least no "
 "one's mocking you now."
 msgstr ""
+"Du kommst von einer Unterschichtenfamilie und wurdest für deine alten "
+"heruntergekommenen Kleider gehänselt, und dafür, dass du kostenlose "
+"Schulmahlzeiten in der Cafeteria bekommen hast. Schlimmer noch, dein "
+"schäbiger alter Rucksack ist endgültig in der schlimmsten Zeit "
+"auseinandergefallen. Wenigstens macht sich nun keiner mehr über dich lustig."
 
 #. ~ Profession (female Preacher) description
 #: lang/json/professions_from_json.py
@@ -59829,6 +60052,10 @@ msgid ""
 "host your daily podcast and the undead listening to your sermons don't seem "
 "particularly moved."
 msgstr ""
+"Du hast dein Leben der Verbreitung des guten Wortes gewidmet, warst immer "
+"auf Achse, reistest von Stadt zu Stadt. Jetzt ist überall die Hölle "
+"ausgebrochen, du kannst deine tägliche Radiosendung nicht moderieren und die "
+"Untoten, die deine Predigten hören, scheinen nicht besonders berührt zu sein."
 
 #. ~ Profession (male Preacher) description
 #: lang/json/professions_from_json.py
@@ -59839,6 +60066,10 @@ msgid ""
 "host your daily podcast and the undead listening to your sermons don't seem "
 "particularly moved."
 msgstr ""
+"Du hast dein Leben der Verbreitung des guten Wortes gewidmet, warst immer "
+"auf Achse, reistest von Stadt zu Stadt. Jetzt ist überall die Hölle "
+"ausgebrochen, du kannst deine tägliche Radiosendung nicht moderieren und die "
+"Untoten, die deine Predigten hören, scheinen nicht besonders berührt zu sein."
 
 #. ~ Profession (female Janitor) description
 #: lang/json/professions_from_json.py
@@ -59848,6 +60079,9 @@ msgid ""
 "gum from under tables. Now the only thing you'll be sweeping are the brains "
 "of the dead."
 msgstr ""
+"Du hast dir deinen Lebensunterhalt damit verdient, Schokoladenverpackungen "
+"aufzufegen und Kaugummis unter Tischen aufzusammeln. Jetzt wird das Einzige, "
+"was du noch auffegen wirst, die Hirne der Toten sein."
 
 #. ~ Profession (male Janitor) description
 #: lang/json/professions_from_json.py
@@ -59857,6 +60091,9 @@ msgid ""
 "gum from under tables. Now the only thing you'll be sweeping are the brains "
 "of the dead."
 msgstr ""
+"Du hast dir deinen Lebensunterhalt damit verdient, Schokoladenverpackungen "
+"aufzufegen und Kaugummis unter Tischen aufzusammeln. Jetzt wird das Einzige, "
+"was du noch auffegen wirst, die Hirne der Toten sein."
 
 #. ~ Profession (female Drone Operator) description
 #: lang/json/professions_from_json.py
@@ -60031,6 +60268,10 @@ msgid ""
 "needing grown-ups to tell you what to do is the only reason you're alive. "
 "Man, you really should've played hooky today."
 msgstr ""
+"Du hast dich nie darum geschert, was die die Erwachsenen sagten, und so hast "
+"du die meisten Tage im Büro des Schuldirektors verbracht. Dass du nicht von "
+"Erwachsen herumkommandieren musst, ist der einzige Grund, warum du lebst. "
+"Mann, du solltest heute wirklich die Schule geschwänzt haben."
 
 #. ~ Profession (male Juvenile Delinquent) description
 #: lang/json/professions_from_json.py
@@ -60041,6 +60282,10 @@ msgid ""
 "needing grown-ups to tell you what to do is the only reason you're alive. "
 "Man, you really should've played hooky today."
 msgstr ""
+"Du hast dich nie darum geschert, was die die Erwachsenen sagten, und so hast "
+"du die meisten Tage im Büro des Schuldirektors verbracht. Dass du nicht von "
+"Erwachsen herumkommandieren musst, ist der einzige Grund, warum du lebst. "
+"Mann, du solltest heute wirklich die Schule geschwänzt haben."
 
 #. ~ Profession (female Guru) description
 #: lang/json/professions_from_json.py
@@ -60050,6 +60295,9 @@ msgid ""
 "Normally, you can answer any question, but even you are not quite sure what "
 "to do about the ravenous undead."
 msgstr ""
+"Du hast viele Jahre damit verbracht, um die Welt zu reisen und wurdest weise "
+"und gelehrt. Normalerweise kannst du jede Frage beantworten, aber sogar du "
+"bist dir nicht ganz sicher, was mit den gefräßigen Untoten zu tun ist."
 
 #. ~ Profession (male Guru) description
 #: lang/json/professions_from_json.py
@@ -60059,6 +60307,9 @@ msgid ""
 "Normally, you can answer any question, but even you are not quite sure what "
 "to do about the ravenous undead."
 msgstr ""
+"Du hast viele Jahre damit verbracht, um die Welt zu reisen und wurdest weise "
+"und gelehrt. Normalerweise kannst du jede Frage beantworten, aber sogar du "
+"bist dir nicht ganz sicher, was mit den gefräßigen Untoten zu tun ist."
 
 #. ~ Profession (female Fisher) description
 #: lang/json/professions_from_json.py
@@ -60145,6 +60396,10 @@ msgid ""
 "in prayer. Back then they came from far and wide to listen to you, now they "
 "come to eat your brains."
 msgstr ""
+"Vor der Apokalypse hast du einen Großteil deiner Zeit in der örtlichen "
+"Moschee verbracht und die Wörter des Propheten und den Koran studiert, und "
+"deine Gemeinde in Gebeten geleitet. Damals kamen sie von weit und fern, um "
+"dir zuzuhören, nun kommen sie, um dein Gehirn zu fressen."
 
 #. ~ Profession (Imam) description
 #: lang/json/professions_from_json.py
@@ -60155,6 +60410,10 @@ msgid ""
 "in prayer. Back then they came from far and wide to listen to you, now they "
 "come to eat your brains."
 msgstr ""
+"Vor der Apokalypse hast du einen Großteil deiner Zeit in der örtlichen "
+"Moschee verbracht und die Wörter des Propheten und den Koran studiert, und "
+"deine Gemeinde in Gebeten geleitet. Damals kamen sie von weit und fern, um "
+"dir zuzuhören, nun kommen sie, um dein Gehirn zu fressen."
 
 #. ~ Profession (female Ballroom Dancer) description
 #: lang/json/professions_from_json.py
@@ -60360,6 +60619,10 @@ msgid ""
 "can use your technical skills to help stay alive. You just haven't figured "
 "out how to make an awesome death ray yet."
 msgstr ""
+"Du warst ein Mitglied der Technik-AG in der Schule. Du bist dir sicher, dass "
+"es irgendeine Möglichkeit gibt, deine technischen Fähigkeiten zu benutzen, "
+"um dir beim Überleben zu helfen. Du hast nur noch nicht herausgefunden, wie "
+"du einen geilen Todesstrahler baust."
 
 #. ~ Profession (male A/V Club Member) description
 #: lang/json/professions_from_json.py
@@ -60369,6 +60632,10 @@ msgid ""
 "can use your technical skills to help stay alive. You just haven't figured "
 "out how to make an awesome death ray yet."
 msgstr ""
+"Du warst ein Mitglied der Technik-AG in der Schule. Du bist dir sicher, dass "
+"es irgendeine Möglichkeit gibt, deine technischen Fähigkeiten zu benutzen, "
+"um dir beim Überleben zu helfen. Du hast nur noch nicht herausgefunden, wie "
+"du einen geilen Todesstrahler baust."
 
 #. ~ Profession (female Science Club Member) description
 #: lang/json/professions_from_json.py
@@ -60379,6 +60646,10 @@ msgid ""
 "fun chemicals that make things go boom. At least now no one's around to tell "
 "you that you can't."
 msgstr ""
+"Du warst ein Mitglied der Wissenschafts-AG in der Schule und gerade jetzt "
+"bist du verärgert wie noch nie, dass die Schule dich nie an die wirklich "
+"lustigen Chemikalien, welche »Peng!« und »Krach!« machen, heranließ. "
+"Wenigstens gibt es jetzt niemanden mehr, der dir das verbieten kann."
 
 #. ~ Profession (male Science Club Member) description
 #: lang/json/professions_from_json.py
@@ -60389,6 +60660,10 @@ msgid ""
 "fun chemicals that make things go boom. At least now no one's around to tell "
 "you that you can't."
 msgstr ""
+"Du warst ein Mitglied der Wissenschafts-AG in der Schule und gerade jetzt "
+"bist du verärgert wie noch nie, dass die Schule dich nie an die wirklich "
+"lustigen Chemikalien, welche »Peng!« und »Krach!« machen, heranließ. "
+"Wenigstens gibt es jetzt niemanden mehr, der dir das verbieten kann."
 
 #. ~ Profession (female Hockey Player) description
 #: lang/json/professions_from_json.py
@@ -60500,6 +60775,10 @@ msgid ""
 "Cataclysm struck.  The undead hordes don't seem to value the latest news, "
 "but at least your trusty bicycle is still in working order."
 msgstr ""
+"Du hast die Morgenzeitung auf der üblichen Strecke ausgeliefert, als die "
+"Katastrophe zuschlug. Die untoten Horden scheinen sich nicht für die "
+"Nachrichten zu interessieren, aber wenigstens funktioniert dein gutes altes "
+"Fahrrad noch."
 
 #. ~ Profession (Paperboy) description
 #: lang/json/professions_from_json.py
@@ -60509,6 +60788,10 @@ msgid ""
 "Cataclysm struck.  The undead hordes don't seem to value the latest news, "
 "but at least your trusty bicycle is still in working order."
 msgstr ""
+"Du hast die Morgenzeitung auf der üblichen Strecke ausgeliefert, als die "
+"Katastrophe zuschlug. Die untoten Horden scheinen sich nicht für die "
+"Nachrichten zu interessieren, aber wenigstens funktioniert dein gutes altes "
+"Fahrrad noch."
 
 #. ~ Profession (female Blacksmith) description
 #: lang/json/professions_from_json.py
@@ -60712,6 +60995,9 @@ msgid ""
 "sacred tasks. You preferred it when only the spirits of the dead inhabited "
 "your shrine, and not their rotting corpses."
 msgstr ""
+"Du warst einer der Erhalter eines Shinto-Schreins und hieltest Rituale und "
+"heilige Tätigkeiten ab. Du hast es vorgezogen, dass nur die Geister der "
+"Toten deinen Schrein bewohnten, und nicht ihre vergammelnden Leichen."
 
 #. ~ Profession (male Kannushi) description
 #: lang/json/professions_from_json.py
@@ -60721,6 +61007,9 @@ msgid ""
 "sacred tasks. You preferred it when only the spirits of the dead inhabited "
 "your shrine, and not their rotting corpses."
 msgstr ""
+"Du warst einer der Erhalter eines Shinto-Schreins und hieltest Rituale und "
+"heilige Tätigkeiten ab. Du hast es vorgezogen, dass nur die Geister der "
+"Toten deinen Schrein bewohnten, und nicht ihre vergammelnden Leichen."
 
 #. ~ Profession (female Special Operator) description
 #: lang/json/professions_from_json.py
@@ -60826,6 +61115,9 @@ msgid ""
 "your bad dreams. The grown-ups you relied on are all dead--or undead--now. "
 "What are you going to do?"
 msgstr ""
+"Du bist nur ein Kind, und nun ist die Welt zu etwas aus einem deiner "
+"Albträume geworden. Die Erwachsenen, auf die du dich verlassen hast, sind "
+"jetzt alle tot – oder untot. Was wirst du jetzt tun?"
 
 #. ~ Profession (male Elementary Student) description
 #: lang/json/professions_from_json.py
@@ -60835,6 +61127,9 @@ msgid ""
 "your bad dreams. The grown-ups you relied on are all dead--or undead--now. "
 "What are you going to do?"
 msgstr ""
+"Du bist nur ein Kind, und nun ist die Welt zu etwas aus einem deiner "
+"Albträume geworden. Die Erwachsenen, auf die du dich verlassen hast, sind "
+"jetzt alle tot – oder untot. Was wirst du jetzt tun?"
 
 #. ~ Profession (female Tweaker) description
 #: lang/json/professions_from_json.py
@@ -60896,6 +61191,9 @@ msgid ""
 "listened to your teachings. However, the dead won't write out lines for "
 "eating you alive."
 msgstr ""
+"Dein ganzes Leben lang hast du Kinder unterrichtet, und meistens sind sie "
+"deinem Unterricht gefolgt. Allerdings werden die Toten keine Strafarbeiten "
+"schreiben, wenn sie dich bei lebendigem Leibe fressen."
 
 #. ~ Profession (male Teacher) description
 #: lang/json/professions_from_json.py
@@ -60905,6 +61203,9 @@ msgid ""
 "listened to your teachings. However, the dead won't write out lines for "
 "eating you alive."
 msgstr ""
+"Dein ganzes Leben lang hast du Kinder unterrichtet, und meistens sind sie "
+"deinem Unterricht gefolgt. Allerdings werden die Toten keine Strafarbeiten "
+"schreiben, wenn sie dich bei lebendigem Leibe fressen."
 
 #. ~ Profession (female Backpacker) description
 #: lang/json/professions_from_json.py
@@ -61115,6 +61416,11 @@ msgid ""
 "they'd ever let you experience childhood, or ever shown you their love. "
 "You're certainly not getting either one now."
 msgstr ""
+"Deine Eltern waren beschäftigte wichtige Leute, welche für dich jeden Vorzug "
+"wollten, und sie hatten dich dazu gedrängt, »erfolgreich« zu werden, was "
+"auch immer das bedeutete. Wenn sie dich nur deine Kindheit hätten erleben "
+"lassen, oder jemals ihre Liebe gezeigt hätten! Nun bekommst du weder das "
+"eine, noch das andere."
 
 #. ~ Profession (male Preppy Student) description
 #: lang/json/professions_from_json.py
@@ -61125,6 +61431,11 @@ msgid ""
 "they'd ever let you experience childhood, or ever shown you their love. "
 "You're certainly not getting either one now."
 msgstr ""
+"Deine Eltern waren beschäftigte wichtige Leute, welche für dich jeden Vorzug "
+"wollten, und sie hatten dich dazu gedrängt, »erfolgreich« zu werden, was "
+"auch immer das bedeutete. Wenn sie dich nur deine Kindheit hätten erleben "
+"lassen, oder jemals ihre Liebe gezeigt hätten! Nun bekommst du weder das "
+"eine, noch das andere."
 
 #. ~ Profession (female Survivalist Jr.) description
 #: lang/json/professions_from_json.py
@@ -61135,6 +61446,12 @@ msgid ""
 "get a chance to thank them. The only thing you can do for them now is what "
 "they always hoped you would do in the dark days ahead: survive."
 msgstr ""
+"Deine Eltern waren verrückte Überlebensfanatiker, die dachten, dass so eine "
+"»Katastrophe« kommen würde, und sie bestanden darauf, auf sie vorbereitet zu "
+"sein. Offensichtlich hatten sie Recht. Du hattest keine Gelegenheit, ihnen "
+"zu danken. Das Einzige, was du für sie noch tun kannst, ist das, worauf sie "
+"immer gehofft hatten, wenn die finsteren bevorstehenden Tage kommen: "
+"überleben."
 
 #. ~ Profession (male Survivalist Jr.) description
 #: lang/json/professions_from_json.py
@@ -61145,6 +61462,12 @@ msgid ""
 "get a chance to thank them. The only thing you can do for them now is what "
 "they always hoped you would do in the dark days ahead: survive."
 msgstr ""
+"Deine Eltern waren verrückte Überlebensfanatiker, die dachten, dass so eine "
+"»Katastrophe« kommen würde, und sie bestanden darauf, auf sie vorbereitet zu "
+"sein. Offensichtlich hatten sie Recht. Du hattest keine Gelegenheit, ihnen "
+"zu danken. Das Einzige, was du für sie noch tun kannst, ist das, worauf sie "
+"immer gehofft hatten, wenn die finsteren bevorstehenden Tage kommen: "
+"überleben."
 
 #. ~ Profession (female Bionic Student) description
 #: lang/json/professions_from_json.py
@@ -61155,6 +61478,10 @@ msgid ""
 "anything. And now, you are facing the most dire test yet, and once again you "
 "had better succeed, or else."
 msgstr ""
+"Deine Eltern waren so besessen davon, sicherzustellen, dass du jeden Test "
+"mit Bestnote bestehst, dass sie dich mit Bioniken ausgestattet haben, um "
+"dich klüger zu machen und, damit du niemals etwas vergisst. Und nun stehst "
+"du der schwersten Prüfung bevor, und wehe, wenn du die nicht bestehst!"
 
 #. ~ Profession (male Bionic Student) description
 #: lang/json/professions_from_json.py
@@ -61165,6 +61492,10 @@ msgid ""
 "anything. And now, you are facing the most dire test yet, and once again you "
 "had better succeed, or else."
 msgstr ""
+"Deine Eltern waren so besessen davon, sicherzustellen, dass du jeden Test "
+"mit Bestnote bestehst, dass sie dich mit Bioniken ausgestattet haben, um "
+"dich klüger zu machen und, damit du niemals etwas vergisst. Und nun stehst "
+"du der schwersten Prüfung bevor, und wehe, wenn du die nicht bestehst!"
 
 #. ~ Profession (Rude Girl) description
 #: lang/json/professions_from_json.py
@@ -68213,6 +68544,10 @@ msgid "dual nail turret"
 msgstr "Doppelnagelgeschützturm"
 
 #: lang/json/vehicle_part_from_json.py
+msgid "external cargo carrier"
+msgstr "externer Frachtlader"
+
+#: lang/json/vehicle_part_from_json.py
 msgid "externally mounted diesel tank"
 msgstr "außerhalb montierter Dieseltank"
 
@@ -71392,9 +71727,9 @@ msgstr "Zonentyp wählen:"
 msgid "Zone name:"
 msgstr "Zonenname:"
 
-#: src/color.cpp src/item.cpp src/npctalk.cpp
+#: src/color.cpp src/item.cpp
 msgid "blue"
-msgstr "traurig"
+msgstr "blau"
 
 #: src/color.cpp
 msgid "brown"
@@ -78088,6 +78423,10 @@ msgid "Wait till weather changes"
 msgstr "bis sich das Wetter ändert"
 
 #: src/game.cpp
+msgid "Watch the last moments of your life...?"
+msgstr "Willst du die letzten Augenblicke deines Lebens sehen?"
+
+#: src/game.cpp
 #, c-format
 msgid "We have detected a %s."
 msgstr "Wir haben 1 %s erfasst."
@@ -79312,7 +79651,7 @@ msgstr "das Geräusch einer Kollision mit einem Hindernis."
 
 #: src/game.cpp
 msgid "to list items and monsters"
-msgstr "Gegenstände und Monster aufzulisten."
+msgstr ", um Ggnst. u. Monster aufzulisten."
 
 #: src/game.cpp
 msgid "to look around"
@@ -82025,6 +82364,11 @@ msgid "You fire the charcoal kiln."
 msgstr "Du befeuerst den Holzkohleofen."
 
 #: src/iexamine.cpp
+#, c-format
+msgid "You forage through the %s."
+msgstr "Du durchsuchst das %s."
+
+#: src/iexamine.cpp
 msgid "You graffiti a message onto the sign."
 msgstr "Du malst eine Nachricht auf das Schild."
 
@@ -83195,12 +83539,16 @@ msgid ""
 "This gear has certain parts padded with leather to increase protection "
 "without increasing encumbrance."
 msgstr ""
+"Bei diesem Kleidungsstück wurden bestimmte Teile mit Leder gefüttert, um den "
+"Schutz zu erhöhen, ohne die Belastung zu erhöhen."
 
 #: src/item.cpp
 msgid ""
 "This gear has kevlar inserted into strategic locations to increase "
 "protection without increasing encumbrance."
 msgstr ""
+"Bei diesem Kleidungsstück wurde Kevlar in strategische Stellen eingesetzt, "
+"um den Schutz zu erhöhen, ohne die Belastung zu erhöhen."
 
 #: src/item.cpp
 msgid "This gear is a part of power armor."
@@ -98910,6 +99258,12 @@ msgstr "asked_to_lead"
 msgid "asshole"
 msgstr "Arschloch"
 
+#. ~ The word blue here means "depressed", not the color blue.
+#: src/npctalk.cpp
+msgctxt "npc_depressed"
+msgid "blue"
+msgstr "traurig"
+
 #: src/npctalk.cpp
 msgid "buddy"
 msgstr "Kumpel"
@@ -105038,7 +105392,7 @@ msgstr "FaltVol"
 
 #: src/veh_interact.cpp
 msgid "Folded Volume"
-msgstr "Gefaltetes Volumen"
+msgstr "Faltvolumen"
 
 #: src/veh_interact.cpp
 msgid "Fuel usage:     "
