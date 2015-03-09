@@ -60,6 +60,7 @@ void mut_draw_exam_window(WINDOW *win, int border_line, bool examination);
 void reset_mutations();
 
 void init_mutation_parts();
+void load_mutation_catagory(JsonObject &jsobj);
 void load_mutation(JsonObject &jsobj);
 void load_dream(JsonObject &jsobj);
 
