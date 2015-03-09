@@ -77,7 +77,7 @@ endif
 #DEFINES += -DDEBUG_ENABLE_MAP_GEN
 #DEFINES += -DDEBUG_ENABLE_GAME
 
-VERSION = 0.B
+VERSION = 0.C
 
 TARGET = cataclysm
 TILESTARGET = cataclysm-tiles
