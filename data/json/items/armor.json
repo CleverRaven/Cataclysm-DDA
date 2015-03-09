@@ -2006,7 +2006,7 @@
         "to_hit" : 1,
         "storage" : 0,
         "symbol" : "[",
-        "description" : "A pair of very flexible neoprene-silicon rubber gloves, suitable for underwater use.",
+        "description" : "A pair of very flexible neoprene-silicone rubber gloves, suitable for underwater use.",
         "price" : 3000,
         "material" : ["plastic", "null"],
         "volume" : 1,
