@@ -713,10 +713,12 @@ bool overmap::has_note(int const x, int const y, int const z) const
         return false;
     }
 
-    auto const &notes = layer[z + OVERMAP_DEPTH].notes;
-    return std::any_of(begin(notes), end(notes), [&](om_note const& n) {
-        return n.x == x && n.y == y;
-    });
+    for( auto &i : layer[z + OVERMAP_DEPTH].notes ) {
+        if( i.x == x && i.y == y ) {
+            return true;
+        }
+    }
+    return false;
 }
 
 std::string const& overmap::note(int const x, int const y, int const z) const
