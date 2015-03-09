@@ -991,7 +991,7 @@ bool overmap::unserialize_legacy(std::ifstream & fin, std::string const & plrfil
                         }
                     } else if (datatype == 'N') { // Load notes
                         om_note tmp;
-                        sfin >> tmp.x >> tmp.y >> tmp.num;
+                        sfin >> tmp.x >> tmp.y;
                         getline(sfin, tmp.text); // Chomp endl
                         getline(sfin, tmp.text);
                         if (z >= 0 && z < OVERMAP_LAYERS) {

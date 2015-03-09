@@ -5,6 +5,7 @@
 #include "debug.h"
 #include "json.h"
 #include "mapsharing.h"
+#include "rng.h"
 
 #include <sstream>
 #include <fstream>
@@ -238,7 +239,7 @@ std::string artifact_name(std::string type);
 it_artifact_tool::it_artifact_tool() : it_tool()
 {
     id = item_controller->create_artifact_id();
-    ammo = "NULL";
+    ammo_id = "NULL";
     price = 0;
     def_charges = 0;
     charges_per_use = 1;
@@ -1136,7 +1137,7 @@ void it_artifact_tool::deserialize(JsonObject &jo)
     // a materials array in our serialized objects at the same time.
     if (jo.has_array("materials")) {
         JsonArray jarr = jo.get_array("materials");
-        for (int i = 0; i < jarr.size(); ++i) {
+        for( size_t i = 0; i < jarr.size(); ++i) {
             materials.push_back(jarr.get_string(i));
         }
     }
@@ -1152,7 +1153,7 @@ void it_artifact_tool::deserialize(JsonObject &jo)
 
     charges_per_use = jo.get_int("charges_per_use");
     turns_per_charge = jo.get_int("turns_per_charge");
-    ammo = jo.get_string("ammo");
+    ammo_id = jo.get_string("ammo");
     revert_to = jo.get_string("revert_to");
 
     charge_type = (art_charge)jo.get_int("charge_type");
@@ -1202,7 +1203,7 @@ void it_artifact_armor::deserialize(JsonObject &jo)
     // a materials array in our serialized objects at the same time.
     if (jo.has_array("materials")) {
         JsonArray jarr = jo.get_array("materials");
-        for (int i = 0; i < jarr.size(); ++i) {
+        for( size_t i = 0; i < jarr.size(); ++i) {
             materials.push_back(jarr.get_string(i));
         }
     }
@@ -1297,7 +1298,7 @@ void it_artifact_tool::serialize(JsonOut &json) const
     json.member("techniques", techniques);
 
     // tool data
-    json.member("ammo", ammo);
+    json.member("ammo", ammo_id);
     json.member("max_charges", max_charges);
     json.member("def_charges", def_charges);
     json.member("charges_per_use", charges_per_use);

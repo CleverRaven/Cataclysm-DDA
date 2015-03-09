@@ -135,8 +135,6 @@ void game::load_static_data()
     init_savedata_translation_tables();
     init_npctalk();
     init_artifacts();
-    init_weather();
-    init_weather_anim();
     init_faction_data();
 
     // --- move/delete everything below
@@ -1499,8 +1497,7 @@ bool game::do_turn()
     u.process_active_items();
 
     if (levz >= 0 && !u.is_underwater()) {
-        weather_effect weffect;
-        (weffect.*(weather_data[weather].effect))();
+        weather_data(weather).effect();
     }
 
     if (u.has_effect("sleep") && int(calendar::turn) % 300 == 0) {
@@ -1687,10 +1684,10 @@ void game::update_weather()
         temperature = w.temperature;
         lightning_active = false;
         nextweather += 50; // Check weather each 50 turns.
-        if (weather != old_weather && weather_data[weather].dangerous &&
+        if (weather != old_weather && weather_data(weather).dangerous &&
             levz >= 0 && m.is_outside(u.posx(), u.posy())
             && !u.has_activity(ACT_WAIT_WEATHER)) {
-            cancel_activity_query(_("The weather changed to %s!"), weather_data[weather].name.c_str());
+            cancel_activity_query(_("The weather changed to %s!"), weather_data(weather).name.c_str());
         }
 
         if (weather != old_weather && u.has_activity(ACT_WAIT_WEATHER)) {
@@ -2429,15 +2426,17 @@ input_context game::get_player_input(std::string &action)
         }
 
         //x% of the Viewport, only shown on visible areas
-        const int dropCount = int(iEndX * iEndY * mapWeatherAnim[weather].fFactor);
+        auto const weather_info = get_weather_animation(weather);
+
+        const int dropCount = int(iEndX * iEndY * weather_info.factor);
         const int offset_x = (u.posx() + u.view_offset_x) - getmaxx(w_terrain) / 2;
         const int offset_y = (u.posy() + u.view_offset_y) - getmaxy(w_terrain) / 2;
 
-        const bool bWeatherEffect = (mapWeatherAnim[weather].cGlyph != '?');
+        const bool bWeatherEffect = (weather_info.glyph != '?');
 
         weather_printable wPrint;
-        wPrint.colGlyph = mapWeatherAnim[weather].colGlyph;
-        wPrint.cGlyph = mapWeatherAnim[weather].cGlyph;
+        wPrint.colGlyph = weather_info.color;
+        wPrint.cGlyph = weather_info.glyph;
         wPrint.wtype = weather;
         wPrint.vdrops.clear();
         wPrint.startx = iStartX;
@@ -4433,7 +4432,7 @@ void game::debug()
         weather_menu.text = _("Select new weather pattern:");
         weather_menu.return_invalid = true;
         for (int weather_id = 1; weather_id < NUM_WEATHER_TYPES; weather_id++) {
-            weather_menu.addentry(weather_id + weather_offset, true, -1, weather_data[weather_id].name);
+            weather_menu.addentry(weather_id + weather_offset, true, -1, weather_data(static_cast<weather_type>(weather_id)).name);
         }
         weather_menu.addentry(-10, true, 'v', _("View weather log"));
         weather_menu.addentry(-11, true, 'd', _("View last 800 hours of decay"));
@@ -4467,7 +4466,7 @@ void game::debug()
                 weather_log_menu.addentry(-1, true, -1, "%dd%dh %6d %15s[%d] %2d",
                                           it->second.deadline.days(), it->second.deadline.hours(),
                                           it->first,
-                                          weather_data[int(it->second.weather)].name.c_str(),
+                                          weather_data(it->second.weather).name.c_str(),
                                           it->second.weather,
                                           (int)it->second.temperature
                                          );
@@ -4977,7 +4976,7 @@ void game::draw_sidebar()
     if (levz < 0) {
         mvwprintz(w_location, 0, 18, c_ltgray, _("Underground"));
     } else {
-        mvwprintz(w_location, 0, 18, weather_data[weather].color, "%s", weather_data[weather].name.c_str());
+        mvwprintz(w_location, 0, 18, weather_data(weather).color, "%s", weather_data(weather).name.c_str());
     }
 
     if (u.worn_with_flag("THERMOMETER")) {
@@ -4989,7 +4988,7 @@ void game::draw_sidebar()
     //Safemode coloring
     WINDOW *day_window = sideStyle ? w_status2 : w_status;
     mvwprintz(day_window, 0, sideStyle ? 0 : 41, c_white, _("%s, day %d"),
-              season_name_uc[calendar::turn.get_season()].c_str(), calendar::turn.days() + 1);
+              season_name_upper(calendar::turn.get_season()).c_str(), calendar::turn.days() + 1);
     if (safe_mode != SAFE_MODE_OFF || autosafemode != 0) {
         int iPercent = int((turnssincelastmon * 100) / OPTIONS["AUTOSAFEMODETURNS"]);
         wmove(w_status, sideStyle ? 4 : 1, getmaxx(w_status) - 4);
@@ -5485,7 +5484,7 @@ void game::hallucinate(const int x, const int y)
 float game::ground_natural_light_level() const
 {
     float ret = (float)calendar::turn.sunlight();
-    ret += weather_data[weather].light_modifier;
+    ret += weather_data(weather).light_modifier;
 
     return std::max(0.0f, ret);
 }
@@ -5496,7 +5495,7 @@ float game::natural_light_level() const
 
     if (levz >= 0) {
         ret = (float)calendar::turn.sunlight();
-        ret += weather_data[weather].light_modifier;
+        ret += weather_data(weather).light_modifier;
     }
 
     return std::max(0.0f, ret);
@@ -5514,7 +5513,7 @@ unsigned char game::light_level()
         ret = 1;
     } else {
         ret = calendar::turn.sunlight();
-        ret -= weather_data[weather].sight_penalty;
+        ret -= weather_data(weather).sight_penalty;
     }
     for( auto &e : events ) {
         // The EVENT_DIM event slowly dims the sky, then relights it
@@ -6745,7 +6744,7 @@ void game::emp_blast(int x, int y)
     }
     // Drain any items of their battery charge
     for( auto it = m.i_at( x, y ).begin(); it != m.i_at( x, y ).end(); ++it ) {
-        if( it->is_tool() && ( dynamic_cast<it_tool *>( it->type ) )->ammo == "battery" ) {
+        if( it->is_tool() && ( dynamic_cast<it_tool *>( it->type ) )->ammo_id == "battery" ) {
             it->charges = 0;
         }
     }
@@ -10071,7 +10070,7 @@ bool game::handle_liquid(item &liquid, bool from_ground, bool infinite, item *so
 
         if (cont->is_tool()) {
             it_tool *tool = dynamic_cast<it_tool *>(cont->type);
-            ammo = tool->ammo;
+            ammo = tool->ammo_id;
             max = tool->max_charges;
         } else {
             ammo = cont->type->gun->ammo;
@@ -10156,7 +10155,7 @@ int game::move_liquid(item &liquid)
 
             if (cont->is_tool()) {
                 it_tool *tool = dynamic_cast<it_tool *>(cont->type);
-                ammo = tool->ammo;
+                ammo = tool->ammo_id;
                 max = tool->max_charges;
             } else {
                 ammo = cont->type->gun->ammo;
@@ -11079,7 +11078,7 @@ void game::reload(int pos)
         it_tool *tool = dynamic_cast<it_tool *>(it->type);
 
         // see if its actually reloadable.
-        if (tool->ammo == "NULL") {
+        if (tool->ammo_id == "NULL") {
             add_msg(m_info, _("You can't reload a %s!"), it->tname().c_str());
             return;
         } else if (it->has_flag("NO_RELOAD")) {
@@ -11092,7 +11091,7 @@ void game::reload(int pos)
 
         if (am_pos == INT_MIN) {
             // no ammo, fail reload
-            add_msg(m_info, _("Out of %s!"), ammo_name(tool->ammo).c_str());
+            add_msg(m_info, _("Out of %s!"), ammo_name(tool->ammo_id).c_str());
             return;
         }
 
