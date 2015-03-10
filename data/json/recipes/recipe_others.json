@@ -1316,7 +1316,7 @@
   ]
 },{
   "type" : "recipe",
-  "result": "v_table",
+  "result": "w_table",
   "category": "CC_OTHER",
   "subcategory": "CSC_OTHER_PARTS",
   "skill_used": "carpentry",
