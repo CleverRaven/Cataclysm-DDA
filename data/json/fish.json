@@ -490,7 +490,7 @@
     "type"            : "MONSTER",
     "id"              : "mon_fish_pickerel",
     "name"            : "pickerel",
-    "name_plural"     : "whitefish",
+    "name_plural"     : "pickerel",
     "species"         : "FISH",
     "default_faction" : "fish",
     "symbol"          : "f",

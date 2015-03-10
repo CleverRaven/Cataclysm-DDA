@@ -205,9 +205,9 @@ class advanced_inventory_pane
          */
         bool is_filtered(const advanced_inv_listitem &it) const;
         /**
-         * Same as the other, but only checks an item name.
+         * Same as the other, but checks the real item.
          */
-        bool is_filtered(const std::string &name) const;
+        bool is_filtered(const item *it) const;
         /**
          * Scroll @ref index, by given offset, set redraw to true,
          * @param offset Must not be 0.

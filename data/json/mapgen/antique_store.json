@@ -105,7 +105,7 @@
             "h": "f_null",
             "v": "f_null"
             },
-            "place_groups": [
+            "place_items": [
                 { "item": "antique", "chance": 70, "x": [ 4,9 ], "y": [ 10,10 ] },
                 { "item": "antique", "chance": 70, "x": [ 14,19 ], "y": [ 10,10 ] },
                 { "item": "antique", "chance": 70, "x": [ 4,9 ], "y": [ 13,13] },

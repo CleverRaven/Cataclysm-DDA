@@ -120,8 +120,7 @@ bool mod_manager::has_mod(const std::string &ident) const
 
 void mod_manager::load_mods_from(std::string path)
 {
-    auto const mod_files = get_files_from_path(MOD_SEARCH_FILE, path, true);
-    for( auto &mod_file : mod_files ) {
+    for( auto &mod_file : get_files_from_path(MOD_SEARCH_FILE, path, true) ) {
         load_mod_info( mod_file );
     }
     if (file_exist(FILENAMES["mods-dev-default"])) {

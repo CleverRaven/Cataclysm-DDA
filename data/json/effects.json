@@ -8,68 +8,68 @@
         "type": "effect_type",
         "id": "hit_by_player",
         "name": ["Hit By Player"],
-        "desc": ["AI tag for when monsters are hit by player. This is a bug if you have it."]
+        "desc": ["AI tag for when monsters are hit by player.  This is a bug if you have it."]
     },
     {
         "type": "effect_type",
         "id": "docile",
         "name": ["Docile Monster"],
-        "desc": ["AI tag for when monsters are tamed. This is a bug if you have it."]
+        "desc": ["AI tag for when monsters are tamed.  This is a bug if you have it."]
     },
     {
         "type": "effect_type",
         "id": "controlled",
         "name": ["Controlled Monster"],
-        "desc": ["AI tag for when monsters are being controlled by another. This is a bug if you have it."]
+        "desc": ["AI tag for when monsters are being controlled by another.  This is a bug if you have it."]
     },
     {
         "type": "effect_type",
         "id": "run",
         "name": ["Hit-and-run Running"],
-        "desc": ["AI tag for when hit-and-run monsters run away. This is a bug if you have it."]
+        "desc": ["AI tag for when hit-and-run monsters run away.  This is a bug if you have it."]
     },
     {
         "type": "effect_type",
         "id": "asked_to_lead",
         "name": ["Asked to Lead"],
-        "desc": ["AI tag for asking to lead NPCs. This is a bug if you have it."]
+        "desc": ["AI tag for asking to lead NPCs.  This is a bug if you have it."]
     },
     {
         "type": "effect_type",
         "id": "asked_to_follow",
         "name": ["Asked to Follow"],
-        "desc": ["AI tag for asking to NPCs to follow you. This is a bug if you have it."]
+        "desc": ["AI tag for asking to NPCs to follow you.  This is a bug if you have it."]
     },
     {
         "type": "effect_type",
         "id": "asked_to_train",
         "name": ["Asked to Train"],
-        "desc": ["AI tag for asking to NPCs to train you. This is a bug if you have it."]
+        "desc": ["AI tag for asking to NPCs to train you.  This is a bug if you have it."]
     },
     {
         "type": "effect_type",
         "id": "asked_personal_info",
         "name": ["Asked Info"],
-        "desc": ["AI tag for asking to NPCs for personal information. This is a bug if you have it."]
+        "desc": ["AI tag for asking to NPCs for personal information.  This is a bug if you have it."]
     },
     {
         "type": "effect_type",
         "id": "asked_for_item",
         "name": ["Asked for Item"],
-        "desc": ["AI tag for asking NPCs for items. This is a bug if you have it."]
+        "desc": ["AI tag for asking NPCs for items.  This is a bug if you have it."]
     },
     {
         "type": "effect_type",
         "id": "catch_up",
         "name": ["Catch Up"],
-        "desc": ["AI tag for telling NPCs to catch up. This is a bug if you have it."],
+        "desc": ["AI tag for telling NPCs to catch up.  This is a bug if you have it."],
         "max_intensity": 15
     },
     {
         "type": "effect_type",
         "id": "infection",
         "name": ["Infection"],
-        "desc": ["AI tag used for the infected NPC quest. This is a bug if you have it."],
+        "desc": ["AI tag used for the infected NPC quest.  This is a bug if you have it."],
         "base_mods": {
             "speed_mod": [-80]
         }
@@ -78,37 +78,37 @@
         "type": "effect_type",
         "id": "pet",
         "name": ["Pet"],
-        "desc": ["AI tag used for pet critters. This is a bug if you have it."]
+        "desc": ["AI tag used for pet critters.  This is a bug if you have it."]
     },
     {
         "type": "effect_type",
         "id": "pacified",
         "name": ["Pacified"],
-        "desc": ["AI tag used for pacified critters. This is a bug if you have it."]
+        "desc": ["AI tag used for pacified critters.  This is a bug if you have it."]
     },
     {
         "type": "effect_type",
         "id": "has_bag",
         "name": ["Has Bag"],
-        "desc": ["AI tag used for critters holding your bags. This is a bug if you have it."]
+        "desc": ["AI tag used for critters holding your bags.  This is a bug if you have it."]
     },
     {
         "type": "effect_type",
         "id": "tied",
         "name": ["Tied Up"],
-        "desc": ["AI tag used for tied up critters. This is a bug if you have it."]
+        "desc": ["AI tag used for tied up critters.  This is a bug if you have it."]
     },
     {
         "type": "effect_type",
         "id": "targeted",
         "name": ["Turret is Targeted"],
-        "desc": ["AI tag used for turret targeting sounds. This is a bug if you have it."]
+        "desc": ["AI tag used for turret targeting sounds.  This is a bug if you have it."]
     },
     {
         "type": "effect_type",
         "id": "bounced",
         "name": ["Bounced"],
-        "desc": ["AI tag used for bouncing ammo targeting. This is a bug if you have it."]
+        "desc": ["AI tag used for bouncing ammo targeting.  This is a bug if you have it."]
     },
     {
         "//": "ACTUAL PLAYER EFFECTS START HERE",
@@ -559,7 +559,7 @@
         "type": "effect_type",
         "id": "rat",
         "name": ["Ratting"],
-        "desc": ["You feel nauseated and rat-like."],
+        "desc": ["You feel nauseous and rat-like."],
         "max_intensity": 100,
         "base_mods": {
             "int_mod": [-0.5],
@@ -642,9 +642,9 @@
             "Freezing"
         ],
         "desc": [
-            "is exposed to the cold.",
-            "is very exposed to the cold.",
-            "is dangerously cold!"
+            "Your %s is exposed to the cold.",
+            "Your %s is very exposed to the cold.",
+            "Your %s is dangerously cold!"
         ],
         "speed_name": "Cold",
         "max_intensity": 3,
@@ -665,9 +665,9 @@
             "Scorching"
         ],
         "desc": [
-            "feels warm.",
-            "is sweating from the heat.",
-            "is sweating profusely!"
+            "Your %s feels warm.",
+            "Your %s is sweating from the heat.",
+            "Your %s is sweating profusely!"
         ],
         "speed_name": "Hot",
         "max_intensity": 3,
@@ -695,8 +695,8 @@
             "Frostbite"
         ],
         "desc": [
-            "is frostnipped and has gone numb.",
-            "is frostbitten! Its tissues are frozen from the cold!"
+            "Your %s is frostnipped and has gone numb.",
+            "Your %s is frostbitten!  Its tissues are frozen from the cold!"
         ],
         "part_descs": true,
         "speed_name": "Frostbite",
@@ -709,7 +709,7 @@
         "type": "effect_type",
         "id": "frostbite_recovery",
         "name": ["Defrosting"],
-        "desc": ["is starting to feel the damage cold has wrought."],
+        "desc": ["Your %s is starting to feel the damage cold has wrought."],
         "part_descs": true,
         "base_mods": {
             "pain_max_val": [40],
@@ -721,7 +721,7 @@
         "type": "effect_type",
         "id": "blisters",
         "name": ["Blisters"],
-        "desc": ["is blistering from the intense heat."],
+        "desc": ["Your %s is blistering from the intense heat."],
         "main_parts_only": true,
         "part_descs": true,
         "miss_messages": [["Your blisters distract you", 1]],

@@ -568,7 +568,7 @@ void editmap::update_view(bool update_info)
         }
 
         if (!g->m.has_flag("CONTAINER", target.x, target.y) && g->m.i_at(target.x, target.y).size() > 0) {
-            mvwprintw(w_info, off, 1, _("There is a %s there."),
+            trim_and_print(w_info, off, 1, getmaxx( w_info ), c_ltgray, _("There is a %s there."),
                       g->m.i_at(target.x, target.y).front().tname().c_str());
             off++;
             if (g->m.i_at(target.x, target.y).size() > 1) {
@@ -1262,7 +1262,7 @@ int editmap::edit_itm()
                             } else if (!it->is_emissive() && retval) {
                                 g->m.get_submap_at(target.x, target.y, x, y)->update_lum_add(*it, x, y);
                             }
-                            
+
                             it->light.luminance = (unsigned short)retval;
                             imenu.entries[imenu_luminance].txt = string_format("lum: %f", (float)it->light.luminance);
                         } else if (imenu.ret == imenu_direction ) {
@@ -1651,6 +1651,8 @@ int editmap::mapgen_preview( real_coords &tc, uimenu &gmenu )
                             // functions that would alter the results
                             submap *destsm = g->m.get_submap_at_grid(target_sub.x + x, target_sub.y + y);
                             submap *srcsm = tmpmap.get_submap_at_grid(x, y);
+                            destsm->is_uniform = false;
+                            srcsm->is_uniform = false;
 
                             for( auto & v : destsm->vehicles ) {
                                 g->m.vehicle_list.erase( v );

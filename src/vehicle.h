@@ -23,10 +23,19 @@ float get_collision_factor(float delta_v);
 //How far to scatter parts from a vehicle when the part is destroyed (+/-)
 #define SCATTER_DISTANCE 3
 
-#define num_fuel_types 7
-extern const ammotype fuel_types[num_fuel_types];
-extern const nc_color fuel_colors[num_fuel_types];
-extern const int fuel_coeff[num_fuel_types];
+struct fuel_type {
+    /** Id of the fuel type, which is also a valid ammo type id */
+    ammotype id;
+    /** Color when displaying information about. */
+    nc_color color;
+    /** See @ref vehicle::consume_fuel */
+    int coeff;
+    /** Factor is used when transforming from item charges to fuel amount. */
+    int charges_to_amount_factor;
+};
+extern const std::array<fuel_type, 7> fuel_types;
+extern int fuel_charges_to_amount_factor( const ammotype &ftype );
+
 #define k_mvel 200 //adjust this to balance collision damage
 
 // 0 - nothing, 1 - monster/player/npc, 2 - vehicle,
@@ -404,11 +413,11 @@ public:
     void break_part_into_pieces (int p, int x, int y, bool scatter = false);
 
 // returns the list of indeces of parts at certain position (not accounting frame direction)
-    const std::vector<int> parts_at_relative (const int dx, const int dy, bool use_cache = true);
+    const std::vector<int> parts_at_relative (const int dx, const int dy, bool use_cache = true) const;
 
 // returns index of part, inner to given, with certain flag, or -1
-    int part_with_feature (int p, const std::string &f, bool unbroken = true);
-    int part_with_feature (int p, const vpart_bitflags &f, bool unbroken = true);
+    int part_with_feature (int p, const std::string &f, bool unbroken = true) const;
+    int part_with_feature (int p, const vpart_bitflags &f, bool unbroken = true) const;
 
     /**
      *  Return the index of the next part to open at `p`'s location
@@ -442,6 +451,11 @@ public:
 // returns true if given flag is present for given part index
     bool part_flag (int p, const std::string &f) const;
     bool part_flag (int p, const vpart_bitflags &f) const;
+
+// Returns the obstacle that shares location with this part (useful in some map code)
+// Open doors don't count as obstacles, but closed do
+// Broken parts are also never obstacles
+    int obstacle_at_part( int p ) const;
 
 // Translate seat-relative mount coords into tile coords
     void coord_translate (int reldx, int reldy, int &dx, int &dy);
@@ -660,7 +674,7 @@ public:
     void damage_all (int dmg1, int dmg2, int type, const point &impact);
 
     //Shifts the coordinates of all parts and moves the vehicle in the opposite direction.
-    void shift_parts(const int dx, const int dy);
+    void shift_parts( point delta );
     bool shift_if_needed();
 
     void leak_fuel (int p);

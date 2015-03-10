@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: cataclysm-dda 0.B\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-02-11 09:37+0300\n"
+"POT-Creation-Date: 2015-03-07 18:54-0600\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -2519,14 +2519,14 @@ msgid ""
 msgstr ""
 
 #: lang/json/AMMO_from_json.py
-msgid "aluminium powder"
-msgid_plural "aluminium powder"
+msgid "aluminum powder"
+msgid_plural "aluminum powder"
 msgstr[0] ""
 msgstr[1] ""
 
 #: lang/json/AMMO_from_json.py
 msgid ""
-"A handful of finely ground aluminium powder.  This strong reducing agent was "
+"A handful of finely ground aluminum powder.  This strong reducing agent was "
 "used in combination with various oxidants for chemical welding and "
 "explosives alike.  Just before the Cataclysm, however, it was the basis of "
 "virtually all commercial metallic-hued paints and anti-corrosive coatings."
@@ -2611,7 +2611,7 @@ msgstr[1] ""
 msgid ""
 "A handful of chromium oxide pellets.  This substance, typically known as the "
 "only stable green pigment for paints, is also a mild oxidiser, which can be "
-"mixed with aluminium powder to make thermite for welding.  If one had access "
+"mixed with aluminum powder to make thermite for welding.  If one had access "
 "to a CVD machine and a laboratory worth of reagents, they might be able to "
 "produce very durable ceramic layers."
 msgstr ""
@@ -2688,19 +2688,19 @@ msgid ""
 msgstr ""
 
 #: lang/json/AMMO_from_json.py
-msgid "aluminium sulphate"
-msgid_plural "aluminium sulphate"
+msgid "aluminum sulphate"
+msgid_plural "aluminum sulphate"
 msgstr[0] ""
 msgstr[1] ""
 
 #: lang/json/AMMO_from_json.py
 msgid ""
-"Several crystals of aluminium sulphate.  Historically, an agent for "
-"purifying water and as molluscicide, due to the fact that it degenerates "
-"their slime.  Just before the Cataclysm, its main uses were for adjusting "
-"the acidity of the soil and as an additive to baking powder.  If mixed with "
-"a strong acid, it could be used to saturate the soil with aluminium, causing "
-"all but the most resistant of plants to wither and die."
+"Several crystals of aluminum sulphate.  Historically, an agent for purifying "
+"water and as molluscicide, due to the fact that it degenerates their slime.  "
+"Just before the Cataclysm, its main uses were for adjusting the acidity of "
+"the soil and as an additive to baking powder.  If mixed with a strong acid, "
+"it could be used to saturate the soil with aluminum, causing all but the "
+"most resistant of plants to wither and die."
 msgstr ""
 
 #: lang/json/AMMO_from_json.py
@@ -2725,7 +2725,7 @@ msgstr[1] ""
 
 #: lang/json/AMMO_from_json.py
 msgid ""
-"A handful of silvery-greenish powder, produced by mixing aluminium and "
+"A handful of silvery-greenish powder, produced by mixing aluminum and "
 "chromium oxide.  This mixture, burning at a constant pace and at extremely "
 "high temperature, was once used for on-the-spot welding.  Can be used as an "
 "incendiary material in a pinch."
@@ -3865,7 +3865,7 @@ msgstr ""
 
 #: lang/json/AMMO_from_json.py
 msgid "metal fragments"
-msgid_plural "metal fragmentss"
+msgid_plural "metal fragments"
 msgstr[0] ""
 msgstr[1] ""
 
@@ -7242,8 +7242,8 @@ msgstr[1] ""
 
 #: lang/json/ARMOR_from_json.py
 msgid ""
-"A leather quiver worn on the back that can hold 20 arrows.  Its small size "
-"won't encumber you.  Activate to store arrows."
+"A leather quiver worn on the back that can hold 20 arrows.  Activate to "
+"store arrows."
 msgstr ""
 
 #: lang/json/ARMOR_from_json.py
@@ -9526,6 +9526,19 @@ msgid ""
 msgstr ""
 
 #: lang/json/ARMOR_from_json.py
+msgid "faraday shark suit"
+msgid_plural "faraday shark suits"
+msgstr[0] ""
+msgstr[1] ""
+
+#: lang/json/ARMOR_from_json.py
+msgid ""
+"A one piece chainmail suit used by scuba divers for protection against shark "
+"bites.  It has been conductively interconnected, protecting against "
+"electricity."
+msgstr ""
+
+#: lang/json/ARMOR_from_json.py
 msgid "chainmail armor"
 msgid_plural "chainmail armors"
 msgstr[0] ""
@@ -9608,6 +9621,30 @@ msgstr[1] ""
 msgid ""
 "A makeshift outfit made from pre-cataclysm clothing designed for long "
 "travels.  It has a lot of storage space."
+msgstr ""
+
+#: lang/json/ARMOR_from_json.py
+msgid "scavenger cowl"
+msgid_plural "scavenger cowls"
+msgstr[0] ""
+msgstr[1] ""
+
+#: lang/json/ARMOR_from_json.py
+msgid ""
+"A sturdy protective cowl extending down to the neck, fitted with a "
+"respirator and eye protection.  For dangerous scavenging ventures."
+msgstr ""
+
+#: lang/json/ARMOR_from_json.py
+msgid "scavenger gear"
+msgid_plural "scavenger gears"
+msgstr[0] ""
+msgstr[1] ""
+
+#: lang/json/ARMOR_from_json.py
+msgid ""
+"A sturdy scavenger's outfit made from refitted pre-cataclysm protective "
+"gear.  It has a lot of storage space."
 msgstr ""
 
 #: lang/json/ARMOR_from_json.py
@@ -12969,7 +13006,7 @@ msgstr[1] ""
 
 #: lang/json/BOOK_from_json.py
 msgid ""
-"The the oldest extant chronicle of Japan's myths and history, the stories "
+"The oldest extant chronicle of Japan's myths and history, the stories "
 "contained in the Kojiki are part of the inspiration behind Shinto practices."
 msgstr ""
 
@@ -22231,6 +22268,18 @@ msgid "A stout pole with an improvised grip and a fire-hardened point."
 msgstr ""
 
 #: lang/json/GENERIC_from_json.py
+msgid "forked spear"
+msgid_plural "forked spears"
+msgstr[0] ""
+msgstr[1] ""
+
+#: lang/json/GENERIC_from_json.py
+msgid ""
+"A wooden spear with a decent grip and a three-pronged trident-like tip.  "
+"Heavy, but good for catching weapons."
+msgstr ""
+
+#: lang/json/GENERIC_from_json.py
 msgid "steel spear"
 msgid_plural "steel spears"
 msgstr[0] ""
@@ -23504,45 +23553,45 @@ msgstr[1] ""
 
 #: lang/json/GENERIC_from_json.py
 msgid ""
-"A single sheet of newspaper broadsheet. It is possibly one of the last "
-"issues printed before New England was overwhelmed. Most of the information "
+"A single sheet of newspaper broadsheet.  It is possibly one of the last "
+"issues printed before New England was overwhelmed.  Most of the information "
 "on there is terribly trivial, or out of date, but one thing catches your eye "
 "briefly."
 msgstr ""
 
 #: lang/json/GENERIC_from_json.py
 msgid ""
-"A single sheet of newspaper broadsheet. It seems to date from several years "
-"ago, and you've NO idea how it lasted this long. Most of the information on "
+"A single sheet of newspaper broadsheet.  It seems to date from several years "
+"ago, and you've NO idea how it lasted this long.  Most of the information on "
 "there is terribly trivial, or out of date, but one thing catches your eye "
 "briefly."
 msgstr ""
 
 #: lang/json/GENERIC_from_json.py
 msgid ""
-"A single sheet of newspaper broadsheet. It seems to date from a few years "
-"ago--amazing it has lasted this long. Most of the information on there is "
+"A single sheet of newspaper broadsheet.  It seems to date from a few years "
+"ago--amazing it has lasted this long.  Most of the information on there is "
 "terribly trivial, or out of date, but one thing catches your eye briefly."
 msgstr ""
 
 #: lang/json/GENERIC_from_json.py
 msgid ""
-"A single sheet of newspaper broadsheet. It was printed more than a year ago. "
-"Most of the information on there is terribly trivial, or out of date, but "
-"one thing catches your eye briefly."
+"A single sheet of newspaper broadsheet.  It was printed more than a year "
+"ago.  Most of the information on there is terribly trivial, or out of date, "
+"but one thing catches your eye briefly."
 msgstr ""
 
 #: lang/json/GENERIC_from_json.py
 msgid ""
-"A single sheet of newspaper broadsheet. It was printed in the months leading "
-"up to the Cataclysm. Most of the information on there is terribly trivial, "
-"or out of date, but one thing catches your eye briefly."
+"A single sheet of newspaper broadsheet.  It was printed in the months "
+"leading up to the Cataclysm.  Most of the information on there is terribly "
+"trivial, or out of date, but one thing catches your eye briefly."
 msgstr ""
 
 #: lang/json/GENERIC_from_json.py
 msgid ""
-"A single sheet of newspaper broadsheet. It was printed in the weeks leading "
-"up to the Cataclysm. Most of the information on there is terribly trivial, "
+"A single sheet of newspaper broadsheet.  It was printed in the weeks leading "
+"up to the Cataclysm.  Most of the information on there is terribly trivial, "
 "or out of date, but one thing catches your eye briefly."
 msgstr ""
 
@@ -24696,20 +24745,20 @@ msgid ""
 msgstr ""
 
 #: lang/json/GENERIC_from_json.py
-msgid "broken animatronic fox"
-msgid_plural "broken animatronic foxes"
+msgid "old broken animatronic fox"
+msgid_plural "old broken animatronic foxes"
 msgstr[0] ""
 msgstr[1] ""
 
 #: lang/json/GENERIC_from_json.py
 msgid ""
-"A broken animatronic fox.  For some reason, it is oozing with blood - it's "
-"not your blood."
+"A broken animatronic fox.  If it was in bad shape before, it's a wreck now.  "
+"For some reason, it is oozing with blood - it's not your blood."
 msgstr ""
 
 #: lang/json/GENERIC_from_json.py
-msgid "broken animatronic bunny"
-msgid_plural "broken animatronic bunnies"
+msgid "old broken animatronic bunny"
+msgid_plural "old broken animatronic bunnies"
 msgstr[0] ""
 msgstr[1] ""
 
@@ -24720,10 +24769,14 @@ msgid ""
 msgstr ""
 
 #: lang/json/GENERIC_from_json.py
-msgid "broken animatronic chicken"
-msgid_plural "broken animatronic chickens"
+msgid "old broken animatronic chicken"
+msgid_plural "old broken animatronic chickens"
 msgstr[0] ""
 msgstr[1] ""
+
+#: lang/json/GENERIC_from_json.py
+msgid "A broken animatronic chicken.  It doesn't look as attractive now."
+msgstr ""
 
 #: lang/json/GENERIC_from_json.py
 msgid ""
@@ -24732,8 +24785,8 @@ msgid ""
 msgstr ""
 
 #: lang/json/GENERIC_from_json.py
-msgid "broken animatronic bear"
-msgid_plural "broken animatronic bears"
+msgid "old broken animatronic bear"
+msgid_plural "old broken animatronic bears"
 msgstr[0] ""
 msgstr[1] ""
 
@@ -24741,6 +24794,16 @@ msgstr[1] ""
 msgid ""
 "A broken animatronic bear.  For some reason, it is oozing with blood - it's "
 "not your blood."
+msgstr ""
+
+#: lang/json/GENERIC_from_json.py
+msgid "broken new animatronic bear"
+msgid_plural "broken new animatronic bears"
+msgstr[0] ""
+msgstr[1] ""
+
+#: lang/json/GENERIC_from_json.py
+msgid "A broken animatronic bear.  Limp and lifeless."
 msgstr ""
 
 #: lang/json/GENERIC_from_json.py
@@ -24876,6 +24939,42 @@ msgid ""
 msgstr ""
 
 #: lang/json/GENERIC_from_json.py
+msgid "broken animatronic child"
+msgid_plural "broken animatronic children"
+msgstr[0] ""
+msgstr[1] ""
+
+#: lang/json/GENERIC_from_json.py
+msgid ""
+"A broken animatronic child.  For some reason, it is oozing with blood - it's "
+"not your blood."
+msgstr ""
+
+#: lang/json/GENERIC_from_json.py
+msgid "broken new animatronic fox"
+msgid_plural "broken new animatronic foxes"
+msgstr[0] ""
+msgstr[1] ""
+
+#: lang/json/GENERIC_from_json.py
+msgid ""
+"A broken animatronic fox.  It seems like it's still looking at you, enraged "
+"in what you've done to her."
+msgstr ""
+
+#: lang/json/GENERIC_from_json.py
+msgid "broken animatronic wreck"
+msgid_plural "broken animatronic wrecks"
+msgstr[0] ""
+msgstr[1] ""
+
+#: lang/json/GENERIC_from_json.py
+msgid ""
+"A broken, wrecked animatronic fox.  You have no idea if it's actually dead, "
+"as it doesn't look that different from the condition you found it in."
+msgstr ""
+
+#: lang/json/GENERIC_from_json.py
 msgid "broken animatronic wolf"
 msgid_plural "broken animatronic wolves"
 msgstr[0] ""
@@ -24885,6 +24984,26 @@ msgstr[1] ""
 msgid ""
 "A broken animatronic wolf.  For some reason, it is oozing with blood - it's "
 "not your blood."
+msgstr ""
+
+#: lang/json/GENERIC_from_json.py
+msgid "broken marionette"
+msgid_plural "broken marionettes"
+msgstr[0] ""
+msgstr[1] ""
+
+#: lang/json/GENERIC_from_json.py
+msgid "A broken marionette.  How creepy."
+msgstr ""
+
+#: lang/json/GENERIC_from_json.py
+msgid "broken new animatronic bunny"
+msgid_plural "broken new animatronic bunnies"
+msgstr[0] ""
+msgstr[1] ""
+
+#: lang/json/GENERIC_from_json.py
+msgid "A broken animatronic bunny.  Limp and lifeless."
 msgstr ""
 
 #: lang/json/GENERIC_from_json.py
@@ -26253,7 +26372,7 @@ msgstr[1] ""
 msgid ""
 "A stainless steel, six-shot, double-action revolver with a matte black "
 "plastic handle manufactured by Smith & Wesson.  Though hardly the most "
-"powwerful handgun in the world any more, it could still blow a zombie's head "
+"powerful handgun in the world any more, it could still blow a zombie's head "
 "clean off."
 msgstr ""
 
@@ -26991,7 +27110,7 @@ msgstr ""
 
 #: lang/json/GUN_from_json.py
 msgid "H&K 416A5"
-msgid_plural "H&K"
+msgid_plural "H&K 416A5s"
 msgstr[0] ""
 msgstr[1] ""
 
@@ -27560,8 +27679,7 @@ msgid ""
 "A favorite of hooligans around the world, this lighter duct-taped to a spray "
 "can is probably as dangerous to the user as anyone else.  The nozzle has "
 "been crudely modified to disperse gasoline, and a small pump attached to the "
-"side allows for repressurization, though this process takes takes a few "
-"minutes."
+"side allows for repressurization, though this process takes a few minutes."
 msgstr ""
 
 #: lang/json/GUN_from_json.py
@@ -28203,7 +28321,7 @@ msgstr[1] ""
 
 #: lang/json/GUN_from_json.py
 msgid ""
-"Civilian version of the SVS-24. It has a modified reciever and a new crudely "
+"Civilian version of the SVS-24. It has a modified receiver and a new crudely "
 "crafted full-auto bolt carrier. Don't expect the original reliability."
 msgstr ""
 
@@ -28327,7 +28445,7 @@ msgid ""
 "lacking, but is capable of piercing armor."
 msgstr ""
 
-#: lang/json/GUN_from_json.py lang/json/vehicle_part_from_json.py
+#: lang/json/GUN_from_json.py
 msgid "Quad Nail Turret"
 msgid_plural "Quad Nail Turrets"
 msgstr[0] ""
@@ -28340,9 +28458,9 @@ msgid ""
 "moments."
 msgstr ""
 
-#: lang/json/GUN_from_json.py lang/json/vehicle_part_from_json.py
+#: lang/json/GUN_from_json.py
 msgid "Dual Nail Turret"
-msgid_plural "Nail Turrets"
+msgid_plural "Dual Nail Turrets"
 msgstr[0] ""
 msgstr[1] ""
 
@@ -28418,7 +28536,7 @@ msgid ""
 "one draw the strings quickly."
 msgstr ""
 
-#: lang/json/GUN_from_json.py lang/json/vehicle_part_from_json.py
+#: lang/json/GUN_from_json.py
 msgid "Slingshot Cannon"
 msgid_plural "Slingshot Cannons"
 msgstr[0] ""
@@ -28473,7 +28591,7 @@ msgstr ""
 
 #: lang/json/GUN_from_json.py
 msgid "Automated Machine Gun Turret"
-msgid_plural "Machine Gun Turrets"
+msgid_plural "Automated Machine Gun Turrets"
 msgstr[0] ""
 msgstr[1] ""
 
@@ -28577,19 +28695,20 @@ msgid ""
 msgstr ""
 
 #: lang/json/ITEM_CATEGORY_from_json.py
-msgid "chemical stuff"
+msgid "CHEMICAL STUFF"
 msgstr ""
 
-#: lang/json/ITEM_CATEGORY_from_json.py src/player.cpp
-msgid "armor"
-msgstr ""
-
-#: lang/json/ITEM_CATEGORY_from_json.py
-msgid "spare parts"
+#: lang/json/ITEM_CATEGORY_from_json.py src/crafting.cpp
+#: src/crafting.cpp
+msgid "ARMOR"
 msgstr ""
 
 #: lang/json/ITEM_CATEGORY_from_json.py
-msgid "vehicle parts"
+msgid "SPARE PARTS"
+msgstr ""
+
+#: lang/json/ITEM_CATEGORY_from_json.py
+msgid "VEHICLE PARTS"
 msgstr ""
 
 #: lang/json/MOD_INFO_from_json.py
@@ -28605,7 +28724,9 @@ msgid "Animatronic Monsters"
 msgstr ""
 
 #: lang/json/MOD_INFO_from_json.py
-msgid "Adds a chain of pizzerias that have a chance to spawn animatronics."
+msgid ""
+"Adds a chain of bankrupt pizzerias, with still functioning animatronics "
+"inside."
 msgstr ""
 
 #: lang/json/MOD_INFO_from_json.py
@@ -28949,7 +29070,7 @@ msgstr ""
 
 #: lang/json/MONSTER_from_json.py
 msgid "pickerel"
-msgid_plural "whitefish"
+msgid_plural "pickerel"
 msgstr[0] ""
 msgstr[1] ""
 
@@ -31442,33 +31563,73 @@ msgid ""
 msgstr ""
 
 #: lang/json/MONSTER_from_json.py
-msgid "animatronic fox"
-msgid_plural "animatronic foxes"
+msgid "old animatronic fox"
+msgid_plural "old animatronic foxs"
 msgstr[0] ""
 msgstr[1] ""
 
 #: lang/json/MONSTER_from_json.py
 msgid ""
 "A bipedal animatronic fox, nearly twice your size.  Its teeth and claws look "
-"quite sharp.  Though it is a robot, it stinks like death."
+"quite sharp.  Its right hand is replaced with a hook.  It looks heavily worn "
+"and degraded."
 msgstr ""
 
 #: lang/json/MONSTER_from_json.py
-msgid "animatronic bunny"
-msgid_plural "animatronic bunnies"
+msgid "new animatronic fox"
+msgid_plural "new animatronic foxs"
 msgstr[0] ""
 msgstr[1] ""
 
 #: lang/json/MONSTER_from_json.py
 msgid ""
-"A bipedal animatronic bunny, nearly twice your size.  Its eyes are lit, but "
-"they still look deep and soulless.  Though it is a robot, it stinks like "
-"death."
+"A bipedal animatronic fox, nearly twice your size.  Its teeth and claws look "
+"quite sharp.  Its outer layer is made of reinforced plastic.  It looks to be "
+"high tech, and in good shape."
 msgstr ""
 
 #: lang/json/MONSTER_from_json.py
-msgid "animatronic chicken"
-msgid_plural "animatronic chickens"
+msgid "wrecked animatronic fox"
+msgid_plural "wrecked animatronic foxs"
+msgstr[0] ""
+msgstr[1] ""
+
+#: lang/json/MONSTER_from_json.py
+msgid ""
+"A wrecked animatronic fox, laying in a pile on the ground.  Its teeth and "
+"claws still look quite sharp.  It's able to crawl around and climb on the "
+"ceiling."
+msgstr ""
+
+#: lang/json/MONSTER_from_json.py
+msgid "new animatronic bunny"
+msgid_plural "new animatronic bunnys"
+msgstr[0] ""
+msgstr[1] ""
+
+#: lang/json/MONSTER_from_json.py
+msgid ""
+"A bipedal animatronic bunny, nearly twice your size.  Its actually quite "
+"cute, even though it's trying to kill you.  Its outer layer is made of "
+"reinforced plastic.  It looks to be high tech, and in good shape."
+msgstr ""
+
+#: lang/json/MONSTER_from_json.py
+msgid "old animatronic bunny"
+msgid_plural "old animatronic bunnys"
+msgstr[0] ""
+msgstr[1] ""
+
+#: lang/json/MONSTER_from_json.py
+msgid ""
+"A bipedal animatronic bunny, nearly twice your size.  Its face has been torn "
+"clear off, though the sockets for it's eyes still exist.  It looks heavily "
+"worn and degraded."
+msgstr ""
+
+#: lang/json/MONSTER_from_json.py
+msgid "old animatronic chicken"
+msgid_plural "old animatronic chickens"
 msgstr[0] ""
 msgstr[1] ""
 
@@ -31479,15 +31640,43 @@ msgid ""
 msgstr ""
 
 #: lang/json/MONSTER_from_json.py
-msgid "animatronic bear"
-msgid_plural "animatronic bears"
+msgid "new animatronic chicken"
+msgid_plural "new animatronic chickens"
+msgstr[0] ""
+msgstr[1] ""
+
+#: lang/json/MONSTER_from_json.py
+msgid ""
+"A bipedal animatronic chicken, nearly twice your size.  It's wearing a bib "
+"that reads 'Let's Party!'.  She oddly has a curvaceous figure.  Its outer "
+"layer is made of reinforced plastic.  It looks to be high tech, and in good "
+"shape."
+msgstr ""
+
+#: lang/json/MONSTER_from_json.py
+msgid "old animatronic bear"
+msgid_plural "old animatronic bears"
 msgstr[0] ""
 msgstr[1] ""
 
 #: lang/json/MONSTER_from_json.py
 msgid ""
 "A bipedal animatronic bear, nearly twice your size.  It's holding a "
-"microphone.  Though it is a robot, it stinks like death."
+"microphone, and wearing a top hat.  Though it is a robot, it stinks like "
+"death.  It looks heavily worn and degraded."
+msgstr ""
+
+#: lang/json/MONSTER_from_json.py
+msgid "new animatronic bear"
+msgid_plural "new animatronic bears"
+msgstr[0] ""
+msgstr[1] ""
+
+#: lang/json/MONSTER_from_json.py
+msgid ""
+"A bipedal animatronic bear, nearly twice your size.  It's holding a "
+"microphone, and wearing a top hat.  Its outer layer is made of reinforced "
+"plastic.  It looks to be high tech, and in good shape."
 msgstr ""
 
 #: lang/json/MONSTER_from_json.py
@@ -31569,7 +31758,7 @@ msgstr ""
 
 #: lang/json/MONSTER_from_json.py
 msgid "animatronic deer"
-msgid_plural "animatronic deer"
+msgid_plural "animatronic deers"
 msgstr[0] ""
 msgstr[1] ""
 
@@ -31629,8 +31818,32 @@ msgid ""
 msgstr ""
 
 #: lang/json/MONSTER_from_json.py
+msgid "animatronic child"
+msgid_plural "animatronic childs"
+msgstr[0] ""
+msgstr[1] ""
+
+#: lang/json/MONSTER_from_json.py
+msgid ""
+"An animatronic child.  It looks like it's annoying as hell.  Though it is a "
+"robot, it stinks like death."
+msgstr ""
+
+#: lang/json/MONSTER_from_json.py
+msgid "marionette"
+msgid_plural "marionettes"
+msgstr[0] ""
+msgstr[1] ""
+
+#: lang/json/MONSTER_from_json.py
+msgid ""
+"A marionette able to move itself around.  There are no strings on him "
+"however."
+msgstr ""
+
+#: lang/json/MONSTER_from_json.py
 msgid "animatronic wolf"
-msgid_plural "animatronic wolves"
+msgid_plural "animatronic wolfs"
 msgstr[0] ""
 msgstr[1] ""
 
@@ -32796,6 +33009,20 @@ msgid ""
 "thread, and a few other useful textile tools.  Use a sewing kit on an "
 "article of clothing to attempt to repair or reinforce that clothing.  This "
 "uses your tailoring skill."
+msgstr ""
+
+#: lang/json/TOOL_from_json.py
+msgid "tailor's kit"
+msgid_plural "tailor's kits"
+msgstr[0] ""
+msgstr[1] ""
+
+#: lang/json/TOOL_from_json.py
+msgid ""
+"This is a high quality, plastic kit with a variety of needles, some plastic "
+"spools for thread, some small scissors, even a small heating element for "
+"melting and joining plastic. Use a tailor's kit to customize your clothing "
+"and armor.  This uses your tailoring skill."
 msgstr ""
 
 #: lang/json/TOOL_from_json.py
@@ -34856,10 +35083,10 @@ msgstr[1] ""
 
 #: lang/json/TOOL_from_json.py
 msgid ""
-"This is a katana with a nozzle just behind the the cutting edge of the "
-"blade.  People love fire, and people love katanas, so why not put them "
-"together? The gas burners attached to this blade can really turn up the heat "
-"on your foes.  Use to ignite."
+"This is a katana with a nozzle just behind the cutting edge of the blade.  "
+"People love fire, and people love katanas, so why not put them together? The "
+"gas burners attached to this blade can really turn up the heat on your "
+"foes.  Use to ignite."
 msgstr ""
 
 #: lang/json/TOOL_from_json.py
@@ -34958,7 +35185,7 @@ msgstr[1] ""
 msgid ""
 "This is a combination of two Dark Age conflict-resolution classics, the "
 "broadsword and the torch.  The blade is glowing with heat.  Excalibur can "
-"eat it's heart out.  Use to shut it off."
+"eat its heart out.  Use to shut it off."
 msgstr ""
 
 #: lang/json/TOOL_from_json.py
@@ -35880,6 +36107,18 @@ msgid ""
 msgstr ""
 
 #: lang/json/TOOL_from_json.py
+msgid "electric polisher"
+msgid_plural "electric polishers"
+msgstr[0] ""
+msgstr[1] ""
+
+#: lang/json/TOOL_from_json.py
+msgid ""
+"An electric polisher used to polish metal surfaces capable of making them "
+"reflect light as a mirror would"
+msgstr ""
+
+#: lang/json/TOOL_from_json.py
 msgid "crucible"
 msgid_plural "crucibles"
 msgstr[0] ""
@@ -36609,7 +36848,7 @@ msgstr ""
 
 #: lang/json/TOOL_from_json.py
 msgid "electronic handcuffs"
-msgid_plural "electronic handcuffss"
+msgid_plural "electronic handcuffs"
 msgstr[0] ""
 msgstr[1] ""
 
@@ -40109,15 +40348,18 @@ msgid "Freezing"
 msgstr ""
 
 #: lang/json/effects_from_json.py
-msgid "is exposed to the cold."
+#, no-python-format
+msgid "Your %s is exposed to the cold."
 msgstr ""
 
 #: lang/json/effects_from_json.py
-msgid "is very exposed to the cold."
+#, no-python-format
+msgid "Your %s is very exposed to the cold."
 msgstr ""
 
 #: lang/json/effects_from_json.py
-msgid "is dangerously cold!"
+#, no-python-format
+msgid "Your %s is dangerously cold!"
 msgstr ""
 
 #: lang/json/effects_from_json.py
@@ -40133,15 +40375,18 @@ msgid "Scorching"
 msgstr ""
 
 #: lang/json/effects_from_json.py
-msgid "feels warm."
+#, no-python-format
+msgid "Your %s feels warm."
 msgstr ""
 
 #: lang/json/effects_from_json.py
-msgid "is sweating from the heat."
+#, no-python-format
+msgid "Your %s is sweating from the heat."
 msgstr ""
 
 #: lang/json/effects_from_json.py
-msgid "is sweating profusely!"
+#, no-python-format
+msgid "Your %s is sweating profusely!"
 msgstr ""
 
 #: lang/json/effects_from_json.py
@@ -40153,11 +40398,13 @@ msgid "Frostbite"
 msgstr ""
 
 #: lang/json/effects_from_json.py
-msgid "is frostnipped and has gone numb."
+#, no-python-format
+msgid "Your %s is frostnipped and has gone numb."
 msgstr ""
 
 #: lang/json/effects_from_json.py
-msgid "is frostbitten! Its tissues are frozen from the cold!"
+#, no-python-format
+msgid "Your %s is frostbitten! Its tissues are frozen from the cold!"
 msgstr ""
 
 #: lang/json/effects_from_json.py
@@ -40165,7 +40412,8 @@ msgid "Defrosting"
 msgstr ""
 
 #: lang/json/effects_from_json.py
-msgid "is starting to feel the damage cold has wrought."
+#, no-python-format
+msgid "Your %s is starting to feel the damage cold has wrought."
 msgstr ""
 
 #: lang/json/effects_from_json.py
@@ -40173,7 +40421,8 @@ msgid "Blisters"
 msgstr ""
 
 #: lang/json/effects_from_json.py
-msgid "is blistering from the intense heat."
+#, no-python-format
+msgid "Your %s is blistering from the intense heat."
 msgstr ""
 
 #: lang/json/effects_from_json.py
@@ -41694,6 +41943,10 @@ msgid "Sew"
 msgstr ""
 
 #: lang/json/item_action_from_json.py
+msgid "Modify Clothing"
+msgstr ""
+
+#: lang/json/item_action_from_json.py
 msgid "Use as knife"
 msgstr ""
 
@@ -42085,6 +42338,14 @@ msgstr ""
 
 #: lang/json/keybinding_from_json.py
 msgid "Toggle unavailable constructions"
+msgstr ""
+
+#: lang/json/keybinding_from_json.py
+msgid "Scroll to previous stage"
+msgstr ""
+
+#: lang/json/keybinding_from_json.py
+msgid "Scroll to next stage"
 msgstr ""
 
 #: lang/json/keybinding_from_json.py
@@ -42495,6 +42756,10 @@ msgstr ""
 
 #: lang/json/keybinding_from_json.py
 msgid "Change sort order"
+msgstr ""
+
+#: lang/json/keybinding_from_json.py
+msgid "List items and monsters"
 msgstr ""
 
 #: lang/json/keybinding_from_json.py
@@ -43164,8 +43429,7 @@ msgid ""
 "gets the job done."
 msgstr ""
 
-#: lang/json/martial_art_from_json.py src/newcharacter.cpp
-#: src/newcharacter.cpp
+#: lang/json/martial_art_from_json.py
 msgid "Karate"
 msgstr ""
 
@@ -43185,7 +43449,6 @@ msgid "+1 Dodges, +2 Blocks"
 msgstr ""
 
 #: lang/json/martial_art_from_json.py
-#: src/newcharacter.cpp
 msgid "Aikido"
 msgstr ""
 
@@ -43215,7 +43478,6 @@ msgid "Dex/Per increases unarmed power, Str reduces block damage."
 msgstr ""
 
 #: lang/json/martial_art_from_json.py
-#: src/newcharacter.cpp
 msgid "Judo"
 msgstr ""
 
@@ -43231,7 +43493,6 @@ msgid "Immune to throws and knockdowns"
 msgstr ""
 
 #: lang/json/martial_art_from_json.py
-#: src/newcharacter.cpp
 msgid "Tai Chi"
 msgstr ""
 
@@ -43247,7 +43508,7 @@ msgstr ""
 msgid "Perception decreases damage when blocking"
 msgstr ""
 
-#: lang/json/martial_art_from_json.py src/newcharacter.cpp
+#: lang/json/martial_art_from_json.py
 msgid "Capoeira"
 msgstr ""
 
@@ -43267,7 +43528,7 @@ msgstr ""
 msgid "+1 dodge and +1 blocks per stack"
 msgstr ""
 
-#: lang/json/martial_art_from_json.py src/newcharacter.cpp
+#: lang/json/martial_art_from_json.py
 msgid "Krav Maga"
 msgstr ""
 
@@ -43295,7 +43556,6 @@ msgid "Increased cutting damage"
 msgstr ""
 
 #: lang/json/martial_art_from_json.py
-#: src/newcharacter.cpp
 msgid "Muay Thai"
 msgstr ""
 
@@ -43312,7 +43572,6 @@ msgid "Attacks scale better with strength"
 msgstr ""
 
 #: lang/json/martial_art_from_json.py
-#: src/newcharacter.cpp
 msgid "Ninjutsu"
 msgstr ""
 
@@ -43328,7 +43587,6 @@ msgid "Silent melee attacks"
 msgstr ""
 
 #: lang/json/martial_art_from_json.py
-#: src/newcharacter.cpp
 msgid "Taekwondo"
 msgstr ""
 
@@ -43363,7 +43621,6 @@ msgid "+1 Blocks"
 msgstr ""
 
 #: lang/json/martial_art_from_json.py
-#: src/newcharacter.cpp
 msgid "Zui Quan"
 msgstr ""
 
@@ -43399,7 +43656,7 @@ msgstr ""
 msgid "+1 dodge"
 msgstr ""
 
-#: lang/json/martial_art_from_json.py src/newcharacter.cpp
+#: lang/json/martial_art_from_json.py
 msgid "Fencing"
 msgstr ""
 
@@ -43435,7 +43692,7 @@ msgstr ""
 msgid "Perception increases dodging and damage."
 msgstr ""
 
-#: lang/json/martial_art_from_json.py src/newcharacter.cpp
+#: lang/json/martial_art_from_json.py
 msgid "Eskrima"
 msgstr ""
 
@@ -43975,7 +44232,7 @@ msgstr ""
 
 #: lang/json/mutation_from_json.py
 msgid ""
-"You are accustomed to being exposed to the elements. This decreases morale "
+"You are accustomed to being exposed to the elements.  This decreases morale "
 "penalties for being wet."
 msgstr ""
 
@@ -43995,7 +44252,7 @@ msgstr ""
 
 #: lang/json/mutation_from_json.py
 #, no-python-format
-msgid "You're just generally quick! You get a 10% bonus to action points."
+msgid "You're just generally quick!  You get a 10% bonus to action points."
 msgstr ""
 
 #: lang/json/mutation_from_json.py src/player.cpp
@@ -44004,8 +44261,8 @@ msgstr ""
 
 #: lang/json/mutation_from_json.py
 msgid ""
-"Nothing gets you down! You savor the joys of life, ignore its hardships, and "
-"are generally happier than most people."
+"Nothing gets you down!  You savor the joys of life, ignore its hardships, "
+"and are generally happier than most people."
 msgstr ""
 
 #: lang/json/mutation_from_json.py
@@ -44078,8 +44335,8 @@ msgstr ""
 
 #: lang/json/mutation_from_json.py
 msgid ""
-"The bottoms of your feet are tough and you are accustomed to going barefoot. "
-"You receive no movement penalty for not wearing shoes."
+"The bottoms of your feet are tough and you are accustomed to going "
+"barefoot.  You receive no movement penalty for not wearing shoes."
 msgstr ""
 
 #: lang/json/mutation_from_json.py
@@ -44089,7 +44346,7 @@ msgstr ""
 #: lang/json/mutation_from_json.py
 #, no-python-format
 msgid ""
-"It takes a lot to bring you down! You get a 20% bonus to all hit points."
+"It takes a lot to bring you down!  You get a 20% bonus to all hit points."
 msgstr ""
 
 #: lang/json/mutation_from_json.py
@@ -44099,7 +44356,7 @@ msgstr ""
 #: lang/json/mutation_from_json.py
 #, no-python-format
 msgid ""
-"You can shrug off almost anything! You get a 30% bonus to all hit points."
+"You can shrug off almost anything!  You get a 30% bonus to all hit points."
 msgstr ""
 
 #: lang/json/mutation_from_json.py
@@ -44108,7 +44365,7 @@ msgstr ""
 
 #: lang/json/mutation_from_json.py
 #, no-python-format
-msgid "Nothing can break you! You get a 40% bonus to all hit points."
+msgid "Nothing can break you!  You get a 40% bonus to all hit points."
 msgstr ""
 
 #: lang/json/mutation_from_json.py
@@ -44117,7 +44374,7 @@ msgstr ""
 
 #: lang/json/mutation_from_json.py
 msgid ""
-"Your skin is tough. Cutting damage is slightly reduced for you. Slightly "
+"Your skin is tough.  Cutting damage is slightly reduced for you.  Slightly "
 "decreases wet penalties."
 msgstr ""
 
@@ -44128,7 +44385,7 @@ msgstr ""
 #: lang/json/mutation_from_json.py
 #, no-python-format
 msgid ""
-"You can manage to find space for anything! You can carry 40% more volume."
+"You can manage to find space for anything!  You can carry 40% more volume."
 msgstr ""
 
 #: lang/json/mutation_from_json.py
@@ -44139,7 +44396,7 @@ msgstr ""
 #, no-python-format
 msgid ""
 "You are capable of carrying far more than someone with similar strength "
-"could. Your maximum weight carried is increased by 35%."
+"could.  Your maximum weight carried is increased by 35%."
 msgstr ""
 
 #: lang/json/mutation_from_json.py
@@ -44149,7 +44406,7 @@ msgstr ""
 #: lang/json/mutation_from_json.py
 msgid ""
 "You have a flexible mind, allowing you to learn skills much faster than "
-"others. Note that this only applies to real-world experience, not to skill "
+"others.  Note that this only applies to real-world experience, not to skill "
 "gain from other sources like books."
 msgstr ""
 
@@ -44167,7 +44424,7 @@ msgstr ""
 
 #: lang/json/mutation_from_json.py
 msgid ""
-"You have a an exceptional memory, and find it easy to remember things. Your "
+"You have a an exceptional memory, and find it easy to remember things.  Your "
 "skills will erode slightly slower than usual."
 msgstr ""
 
@@ -44187,7 +44444,7 @@ msgstr ""
 
 #: lang/json/mutation_from_json.py
 msgid ""
-"The ancient arts of drunken brawling come naturally to you! While under the "
+"The ancient arts of drunken brawling come naturally to you!  While under the "
 "influence of alcohol, your melee skill will rise considerably, especially "
 "unarmed combat."
 msgstr ""
@@ -44219,9 +44476,9 @@ msgstr ""
 
 #: lang/json/mutation_from_json.py
 msgid ""
-"You eat faster, and can eat and drink more, than anyone else! You also enjoy "
-"food more; delicious food is better for your morale, and you don't mind "
-"unsavory meals as much."
+"You eat faster, and can eat and drink more, than anyone else!  You also "
+"enjoy food more; delicious food is better for your morale, and you don't "
+"mind unsavory meals as much."
 msgstr ""
 
 #: lang/json/mutation_from_json.py
@@ -44242,8 +44499,8 @@ msgstr ""
 #: lang/json/mutation_from_json.py
 msgid ""
 "Peaceful animals will not run away from you, and even aggressive animals are "
-"less likely to attack. This only applies to natural animals such as woodland "
-"creatures."
+"less likely to attack.  This only applies to natural animals such as "
+"woodland creatures."
 msgstr ""
 
 #: lang/json/mutation_from_json.py
@@ -44320,7 +44577,7 @@ msgstr ""
 
 #: lang/json/mutation_from_json.py
 msgid ""
-"Practicality is far less important than style. Your morale is improved by "
+"Practicality is far less important than style.  Your morale is improved by "
 "wearing fashionable and attractive clothing."
 msgstr ""
 
@@ -44330,7 +44587,7 @@ msgstr ""
 
 #: lang/json/mutation_from_json.py
 msgid ""
-"You make less noise while walking. You're also less likely to set off traps."
+"You make less noise while walking.  You're also less likely to set off traps."
 msgstr ""
 
 #: lang/json/mutation_from_json.py
@@ -44339,7 +44596,7 @@ msgstr ""
 
 #: lang/json/mutation_from_json.py
 msgid ""
-"You have a very strong genetic base. If you mutate, the odds that the "
+"You have a very strong genetic base.  If you mutate, the odds that the "
 "mutation will be beneficial are greatly increased."
 msgstr ""
 
@@ -44350,7 +44607,7 @@ msgstr ""
 #: lang/json/mutation_from_json.py
 msgid ""
 "You're an excellent navigator and your ability to spot distant landmarks is "
-"unmatched. Your sight radius on the overmap extends beyond the normal range."
+"unmatched.  Your sight radius on the overmap extends beyond the normal range."
 msgstr ""
 
 #: lang/json/mutation_from_json.py
@@ -44360,7 +44617,7 @@ msgstr ""
 #: lang/json/mutation_from_json.py
 msgid ""
 "For your whole life you've been forbidden from indulging in your peculiar "
-"tastes. Now the world's ended, and you'll be damned if anyone is going to "
+"tastes.  Now the world's ended, and you'll be damned if anyone is going to "
 "tell you that you can't eat people."
 msgstr ""
 
@@ -44370,7 +44627,7 @@ msgstr ""
 
 #: lang/json/mutation_from_json.py
 msgid ""
-"You don't experience guilt like others do. Even when you know your actions "
+"You don't experience guilt like others do.  Even when you know your actions "
 "are wrong, you just don't care."
 msgstr ""
 
@@ -44380,8 +44637,8 @@ msgstr ""
 
 #: lang/json/mutation_from_json.py
 msgid ""
-"You have received some martial arts training at a local dojo. You start with "
-"your choice of Karate, Judo, Aikido, Tai Chi, or Taekwondo."
+"You have received some martial arts training at a local dojo.  You start "
+"with your choice of Karate, Judo, Aikido, Tai Chi, or Taekwondo."
 msgstr ""
 
 #: lang/json/mutation_from_json.py
@@ -44390,7 +44647,7 @@ msgstr ""
 
 #: lang/json/mutation_from_json.py
 msgid ""
-"You have taken some self-defense classes at a nearby gym. You start with "
+"You have taken some self-defense classes at a nearby gym.  You start with "
 "your choice of Capoeira, Krav Maga, Muay Thai, Ninjutsu, or Zui Quan."
 msgstr ""
 
@@ -44400,7 +44657,7 @@ msgstr ""
 
 #: lang/json/mutation_from_json.py
 msgid ""
-"You have studied the arts of the Shaolin monks. You start with one of the "
+"You have studied the arts of the Shaolin monks.  You start with one of the "
 "five animal fighting styles: Tiger, Crane, Leopard, Snake, or Dragon."
 msgstr ""
 
@@ -44410,7 +44667,7 @@ msgstr ""
 
 #: lang/json/mutation_from_json.py
 msgid ""
-"You are a pupil of the Venom Clan. You start with one of the five deadly "
+"You are a pupil of the Venom Clan.  You start with one of the five deadly "
 "venoms: Centipede, Viper, Scorpion, Lizard, or Toad."
 msgstr ""
 
@@ -44420,7 +44677,7 @@ msgstr ""
 
 #: lang/json/mutation_from_json.py
 msgid ""
-"You have practiced fighting with weapons. You start with your choice of "
+"You have practiced fighting with weapons.  You start with your choice of "
 "Eskrima, Fencing, or Pentjak Silat."
 msgstr ""
 
@@ -44430,8 +44687,8 @@ msgstr ""
 
 #: lang/json/mutation_from_json.py
 msgid ""
-"Your scent is quite weak. Animals that track your scent will do so with more "
-"difficulty."
+"Your scent is quite weak.  Animals that track your scent will do so with "
+"more difficulty."
 msgstr ""
 
 #: lang/json/mutation_from_json.py
@@ -44440,7 +44697,7 @@ msgstr ""
 
 #: lang/json/mutation_from_json.py
 msgid ""
-"You have no qualms about bending the truth, and have practically no tells. "
+"You have no qualms about bending the truth, and have practically no tells.  "
 "Telling lies and otherwise bluffing will be much easier for you."
 msgstr ""
 
@@ -44450,7 +44707,7 @@ msgstr ""
 
 #: lang/json/mutation_from_json.py
 msgid ""
-"You are a sight to behold. NPCs who care about such thing will react more "
+"You are a sight to behold.  NPCs who care about such thing will react more "
 "kindly to you."
 msgstr ""
 
@@ -44461,7 +44718,7 @@ msgstr ""
 #: lang/json/mutation_from_json.py
 msgid ""
 "Whether due to injury or age, your knees aren't particularly strong or "
-"flexible. Moving over rough terrain will slow you down more than normal."
+"flexible.  Moving over rough terrain will slow you down more than normal."
 msgstr ""
 
 #: lang/json/mutation_from_json.py
@@ -44470,9 +44727,9 @@ msgstr ""
 
 #: lang/json/mutation_from_json.py
 msgid ""
-"Without your glasses, your seeing radius is severely reduced! However, while "
-"wearing glasses this trait has no effect, and you are guaranteed to start "
-"with a pair."
+"Without your glasses, your seeing radius is severely reduced!  However, "
+"while wearing glasses this trait has no effect, and you are guaranteed to "
+"start with a pair."
 msgstr ""
 
 #: lang/json/mutation_from_json.py
@@ -44490,7 +44747,7 @@ msgstr ""
 #: lang/json/mutation_from_json.py
 msgid ""
 "Without reading glasses, you are unable to read anything, and take penalties "
-"on melee accuracy and electronics/tailoring crafting. However, you are "
+"on melee accuracy and electronics/tailoring crafting.  However, you are "
 "guaranteed to start with a pair of reading glasses."
 msgstr ""
 
@@ -44499,7 +44756,7 @@ msgid "Heavy Sleeper"
 msgstr ""
 
 #: lang/json/mutation_from_json.py
-msgid "You're quite the heavy sleeper. Noises are unlikely to wake you up."
+msgid "You're quite the heavy sleeper.  Noises are unlikely to wake you up."
 msgstr ""
 
 #: lang/json/mutation_from_json.py
@@ -44517,7 +44774,7 @@ msgstr ""
 #: lang/json/mutation_from_json.py
 msgid ""
 "You will occasionally need to use an inhaler, or else suffer severe physical "
-"limitations. However, you are guaranteed to start with an inhaler."
+"limitations.  However, you are guaranteed to start with an inhaler."
 msgstr ""
 
 #: lang/json/mutation_from_json.py
@@ -44527,7 +44784,7 @@ msgstr ""
 #: lang/json/mutation_from_json.py
 #, no-python-format
 msgid ""
-"You simply can not carry as much as people with a similar strength could. "
+"You simply can not carry as much as people with a similar strength could.  "
 "Your maximum weight carried is reduced by 35%."
 msgstr ""
 
@@ -44537,8 +44794,8 @@ msgstr ""
 
 #: lang/json/mutation_from_json.py
 msgid ""
-"Things just keep getting you down. You tend to be unhappy, and it takes some "
-"doing to cheer you up."
+"Things just keep getting you down.  You tend to be unhappy, and it takes "
+"some doing to cheer you up."
 msgstr ""
 
 #: lang/json/mutation_from_json.py
@@ -44548,7 +44805,7 @@ msgstr ""
 #: lang/json/mutation_from_json.py
 #, no-python-format
 msgid ""
-"You are terrible at organizing and storing your possessions. You can carry "
+"You are terrible at organizing and storing your possessions.  You can carry "
 "40% less volume."
 msgstr ""
 
@@ -44557,7 +44814,7 @@ msgid "Illiterate"
 msgstr ""
 
 #: lang/json/mutation_from_json.py
-msgid "You never learned to read! Books and computers are off-limits to you."
+msgid "You never learned to read!  Books and computers are off-limits to you."
 msgstr ""
 
 #: lang/json/mutation_from_json.py
@@ -44575,7 +44832,7 @@ msgstr ""
 #: lang/json/mutation_from_json.py
 msgid ""
 "You are slow to grasp new ideas and thus learn things more slowly than "
-"others. Note that this only applies to real-world experience, not to skill "
+"others.  Note that this only applies to real-world experience, not to skill "
 "gain from other sources like books."
 msgstr ""
 
@@ -44593,8 +44850,8 @@ msgstr ""
 
 #: lang/json/mutation_from_json.py
 msgid ""
-"You have problems with eating meat. It's possible for you to eat it, but you "
-"will suffer morale penalties due to nausea."
+"You have problems with eating meat.  It's possible for you to eat it, but "
+"you will suffer morale penalties due to nausea."
 msgstr ""
 
 #: lang/json/mutation_from_json.py
@@ -44602,7 +44859,7 @@ msgid "Thin-Skinned"
 msgstr ""
 
 #: lang/json/mutation_from_json.py
-msgid "Your skin is fragile. Cutting damage is slightly increased for you."
+msgid "Your skin is fragile.  Cutting damage is slightly increased for you."
 msgstr ""
 
 #: lang/json/mutation_from_json.py
@@ -44612,7 +44869,7 @@ msgstr ""
 #: lang/json/mutation_from_json.py
 msgid ""
 "You, like many children, hated eating your vegetables; however, you didn't "
-"outgrow it. It's possible for you to eat them, but you will suffer morale "
+"outgrow it.  It's possible for you to eat them, but you will suffer morale "
 "penalties due to nausea."
 msgstr ""
 
@@ -44622,7 +44879,7 @@ msgstr ""
 
 #: lang/json/mutation_from_json.py
 msgid ""
-"You despise eating fruits. It's possible for you to eat them, but you will "
+"You despise eating fruits.  It's possible for you to eat them, but you will "
 "suffer morale penalties due to nausea."
 msgstr ""
 
@@ -44633,7 +44890,7 @@ msgstr ""
 #: lang/json/mutation_from_json.py
 msgid ""
 "You like 75 percent of the world, cannot tolerate milk or milk based "
-"products. It's possible for you to eat them, but you will suffer morale "
+"products.  It's possible for you to eat them, but you will suffer morale "
 "penalties due to nausea."
 msgstr ""
 
@@ -44643,7 +44900,7 @@ msgstr ""
 
 #: lang/json/mutation_from_json.py
 msgid ""
-"Something in those heavily processed foods doesn't agree with you. It's "
+"Something in those heavily processed foods doesn't agree with you.  It's "
 "possible for you to eat them, but you will suffer morale penalties due to "
 "nausea."
 msgstr ""
@@ -44654,7 +44911,7 @@ msgstr ""
 
 #: lang/json/mutation_from_json.py
 msgid ""
-"You have a rare allergy that prevents you from eating wheat. It's possible "
+"You have a rare allergy that prevents you from eating wheat.  It's possible "
 "for you to eat them, but you will suffer morale penalties due to nausea."
 msgstr ""
 
@@ -44665,7 +44922,7 @@ msgstr ""
 #: lang/json/mutation_from_json.py
 #, no-python-format
 msgid ""
-"Your head can't take much abuse. Its maximum HP is 20% lower than usual."
+"Your head can't take much abuse.  Its maximum HP is 20% lower than usual."
 msgstr ""
 
 #: lang/json/mutation_from_json.py
@@ -44674,7 +44931,7 @@ msgstr ""
 
 #: lang/json/mutation_from_json.py
 msgid ""
-"You have a hard time remembering things. Your skills will erode slightly "
+"You have a hard time remembering things.  Your skills will erode slightly "
 "faster than usual."
 msgstr ""
 
@@ -44684,7 +44941,7 @@ msgstr ""
 
 #: lang/json/mutation_from_json.py
 msgid ""
-"Alcohol and drugs go straight to your head. You suffer the negative effects "
+"Alcohol and drugs go straight to your head.  You suffer the negative effects "
 "of these for longer."
 msgstr ""
 
@@ -44705,7 +44962,7 @@ msgstr ""
 #: lang/json/mutation_from_json.py
 msgid ""
 "On rare occasion, you will go full-auto when you intended to fire a single "
-"shot. This has no effect when firing handguns or other semi-automatic "
+"shot.  This has no effect when firing handguns or other semi-automatic "
 "firearms."
 msgstr ""
 
@@ -44715,8 +44972,8 @@ msgstr ""
 
 #: lang/json/mutation_from_json.py
 msgid ""
-"Your scent is particularly strong. It's not offensive to humans, but animals "
-"that track your scent will do so more easily."
+"Your scent is particularly strong.  It's not offensive to humans, but "
+"animals that track your scent will do so more easily."
 msgstr ""
 
 #: lang/json/mutation_from_json.py
@@ -44725,7 +44982,7 @@ msgstr ""
 
 #: lang/json/mutation_from_json.py
 msgid ""
-"You suffer from a minor chemical imbalance, whether mental or physical. "
+"You suffer from a minor chemical imbalance, whether mental or physical.  "
 "Minor changes to your internal chemistry will manifest themselves on "
 "occasion, such as hunger, sleepiness, narcotic effects, etc."
 msgstr ""
@@ -44737,7 +44994,7 @@ msgstr ""
 #: lang/json/mutation_from_json.py
 msgid ""
 "Most animals don't like you, and aggressive animals are more likely to "
-"attack you. This only applies to natural animals such as woodland creatures."
+"attack you.  This only applies to natural animals such as woodland creatures."
 msgstr ""
 
 #: lang/json/mutation_from_json.py
@@ -44756,7 +45013,7 @@ msgstr ""
 #: lang/json/mutation_from_json.py
 msgid ""
 "You will periodically suffer from delusions, ranging from minor effects to "
-"full visual hallucinations. Some of these effects may be controlled through "
+"full visual hallucinations.  Some of these effects may be controlled through "
 "the use of Thorazine."
 msgstr ""
 
@@ -44766,7 +45023,7 @@ msgstr ""
 
 #: lang/json/mutation_from_json.py
 msgid ""
-"You make more noise while walking. You're also more likely to set off traps."
+"You make more noise while walking.  You're also more likely to set off traps."
 msgstr ""
 
 #: lang/json/mutation_from_json.py
@@ -44785,8 +45042,8 @@ msgstr ""
 
 #: lang/json/mutation_from_json.py
 msgid ""
-"You don't feel right unless you're carrying as much as you can. You suffer "
-"morale penalties for carrying less than maximum volume (weight is ignored). "
+"You don't feel right unless you're carrying as much as you can.  You suffer "
+"morale penalties for carrying less than maximum volume (weight is ignored).  "
 "Xanax can help control this anxiety."
 msgstr ""
 
@@ -44796,8 +45053,8 @@ msgstr ""
 
 #: lang/json/mutation_from_json.py
 msgid ""
-"You tend to specialize in one skill and be poor at all others. You advance "
-"at half speed in all skills except your best one. Note that combining this "
+"You tend to specialize in one skill and be poor at all others.  You advance "
+"at half speed in all skills except your best one.  Note that combining this "
 "with Fast Learner will come out to a slower rate of learning for all skills."
 msgstr ""
 
@@ -44807,7 +45064,7 @@ msgstr ""
 
 #: lang/json/mutation_from_json.py
 msgid ""
-"You don't like thinking about violence. Your combat skills advance much "
+"You don't like thinking about violence.  Your combat skills advance much "
 "slower than usual, and you feel more guilt about killing."
 msgstr ""
 
@@ -44854,7 +45111,7 @@ msgstr ""
 
 #: lang/json/mutation_from_json.py
 msgid ""
-"When you try to tell a lie, you blush, stammer, and get all shifty-eyed. "
+"When you try to tell a lie, you blush, stammer, and get all shifty-eyed.  "
 "Telling lies and otherwise bluffing will be much more difficult for you."
 msgstr ""
 
@@ -44864,7 +45121,7 @@ msgstr ""
 
 #: lang/json/mutation_from_json.py
 msgid ""
-"You're not much to look at. NPCs who care about such things will react "
+"You're not much to look at.  NPCs who care about such things will react "
 "poorly to you."
 msgstr ""
 
@@ -44885,8 +45142,8 @@ msgstr ""
 #: lang/json/mutation_from_json.py
 #, no-python-format
 msgid ""
-"Your body can't take much abuse. Its maximum HP is 25% lower than usual and "
-"you heal slightly slower. Stacks with Glass Jaw."
+"Your body can't take much abuse.  Its maximum HP is 25% lower than usual and "
+"you heal slightly slower.  Stacks with Glass Jaw."
 msgstr ""
 
 #: lang/json/mutation_from_json.py
@@ -44896,8 +45153,8 @@ msgstr ""
 #: lang/json/mutation_from_json.py
 #, no-python-format
 msgid ""
-"Your body breaks very easily. Its maximum HP is 50% lower than usual and you "
-"heal slower. Stacks with Glass Jaw."
+"Your body breaks very easily.  Its maximum HP is 50% lower than usual and "
+"you heal slower.  Stacks with Glass Jaw."
 msgstr ""
 
 #: lang/json/mutation_from_json.py
@@ -44907,8 +45164,8 @@ msgstr ""
 #: lang/json/mutation_from_json.py
 #, no-python-format
 msgid ""
-"Your body is extremely fragile. Its maximum HP is 75% lower than usual and "
-"you heal much slower. Stacks with Glass Jaw."
+"Your body is extremely fragile.  Its maximum HP is 75% lower than usual and "
+"you heal much slower.  Stacks with Glass Jaw."
 msgstr ""
 
 #: lang/json/mutation_from_json.py
@@ -44916,7 +45173,7 @@ msgid "Rough Skin"
 msgstr ""
 
 #: lang/json/mutation_from_json.py
-msgid "Your skin is slightly rough. This has no gameplay effect."
+msgid "Your skin is slightly rough.  This has no gameplay effect."
 msgstr ""
 
 #: lang/json/mutation_from_json.py
@@ -45123,7 +45380,7 @@ msgstr ""
 #: lang/json/mutation_from_json.py
 msgid ""
 "You have a second set of clear eyelids which lower while underwater, "
-"allowing you to see as though you were wearing goggles. Slightly decreases "
+"allowing you to see as though you were wearing goggles.  Slightly decreases "
 "wet penalties."
 msgstr ""
 
@@ -45134,7 +45391,7 @@ msgstr ""
 #: lang/json/mutation_from_json.py
 msgid ""
 "You've grown a set of gills in your neck, allowing you to breathe "
-"underwater. Slightly increases wet benefits."
+"underwater.  Slightly increases wet benefits."
 msgstr ""
 
 #: lang/json/mutation_from_json.py
@@ -45153,7 +45410,7 @@ msgstr ""
 
 #: lang/json/mutation_from_json.py
 msgid ""
-"We have adapted local physical structure to Mycus physiology. Greatly "
+"We have adapted local physical structure to Mycus physiology.  Greatly "
 "reduces wet effects."
 msgstr ""
 
@@ -45163,7 +45420,7 @@ msgstr ""
 
 #: lang/json/mutation_from_json.py
 msgid ""
-"We have incorporated the dense amphibole fibers used in Mycus core towers. "
+"We have incorporated the dense amphibole fibers used in Mycus core towers.  "
 "Greatly reduces speed, but also damage, flammability, and wet effects."
 msgstr ""
 
@@ -45174,7 +45431,7 @@ msgstr ""
 #: lang/json/mutation_from_json.py
 msgid ""
 "A set of flexible green scales has grown to cover your body, acting as "
-"natural armor. Somewhat reduces wet effects."
+"natural armor.  Somewhat reduces wet effects."
 msgstr ""
 
 #: lang/json/mutation_from_json.py
@@ -45184,8 +45441,8 @@ msgstr ""
 #: lang/json/mutation_from_json.py
 msgid ""
 "A set of heavy green scales has grown to cover your body, acting as natural "
-"armor. While difficult to penetrate, it also limits your flexibility, "
-"resulting in a -2 penalty to Dexterity. Greatly reduces wet effects."
+"armor.  While difficult to penetrate, it also limits your flexibility, "
+"resulting in a -2 penalty to Dexterity.  Greatly reduces wet effects."
 msgstr ""
 
 #: lang/json/mutation_from_json.py
@@ -45194,9 +45451,9 @@ msgstr ""
 
 #: lang/json/mutation_from_json.py
 msgid ""
-"A set of very flexible and slick scales has grown to cover your body. These "
+"A set of very flexible and slick scales has grown to cover your body.  These "
 "act as weak natural armor, improve your ability to swim, and make you "
-"difficult to grab. Mostly reduces wet effects."
+"difficult to grab.  Mostly reduces wet effects."
 msgstr ""
 
 #: lang/json/mutation_from_json.py
@@ -45206,7 +45463,7 @@ msgstr ""
 #: lang/json/mutation_from_json.py
 #, no-python-format
 msgid ""
-"Your bones are very light. This enables you to run and attack 10% faster, "
+"Your bones are very light.  This enables you to run and attack 10% faster, "
 "but also reduces your carrying weight by 20% and makes bashing attacks hurt "
 "a little more."
 msgstr ""
@@ -45218,7 +45475,7 @@ msgstr ""
 #: lang/json/mutation_from_json.py
 msgid ""
 "Iridescent feathers have grown to cover your entire body, providing a "
-"marginal protection against attacks and minor protection from cold. They "
+"marginal protection against attacks and minor protection from cold.  They "
 "also provide a natural waterproofing."
 msgstr ""
 
@@ -45228,7 +45485,7 @@ msgstr ""
 
 #: lang/json/mutation_from_json.py
 msgid ""
-"You shan't need to migrate south with your layer of down. It's even better "
+"You shan't need to migrate south with your layer of down.  It's even better "
 "with no apes around to kill you for it!"
 msgstr ""
 
@@ -45286,7 +45543,7 @@ msgstr ""
 
 #: lang/json/mutation_from_json.py
 msgid ""
-"Your fur's grown out significantly around your cheeks and neck. It provides "
+"Your fur's grown out significantly around your cheeks and neck.  It provides "
 "minor protection against attacks."
 msgstr ""
 
@@ -45296,8 +45553,8 @@ msgstr ""
 
 #: lang/json/mutation_from_json.py
 msgid ""
-"Your epidermis has turned into a thin, flexible layer of chitin. It provides "
-"minor protection from cutting wounds. Slightly reduces wet effects."
+"Your epidermis has turned into a thin, flexible layer of chitin.  It "
+"provides minor protection from cutting wounds.  Slightly reduces wet effects."
 msgstr ""
 
 #: lang/json/mutation_from_json.py
@@ -45306,8 +45563,8 @@ msgstr ""
 
 #: lang/json/mutation_from_json.py
 msgid ""
-"You've grown a chitin exoskeleton, much like that of an insect. It provides "
-"considerable physical protection, but reduces your dexterity by 1. Somewhat "
+"You've grown a chitin exoskeleton, much like that of an insect.  It provides "
+"considerable physical protection, but reduces your dexterity by 1.  Somewhat "
 "reduces wet effects."
 msgstr ""
 
@@ -45317,9 +45574,9 @@ msgstr ""
 
 #: lang/json/mutation_from_json.py
 msgid ""
-"You've grown a chitin exoskeleton made of thick, stiff plates. It provides "
+"You've grown a chitin exoskeleton made of thick, stiff plates.  It provides "
 "excellent physical protection, but reduces your dexterity by 1 and encumbers "
-"all body parts but your eyes and mouth. Greatly reduces wet effects."
+"all body parts but your eyes and mouth.  Greatly reduces wet effects."
 msgstr ""
 
 #: lang/json/mutation_from_json.py
@@ -45369,7 +45626,7 @@ msgstr ""
 
 #: lang/json/mutation_from_json.py
 msgid ""
-"Your skin is covered with fine spines. Whenever an unarmed opponent strikes "
+"Your skin is covered with fine spines.  Whenever an unarmed opponent strikes "
 "a part of your body that is not covered by clothing, they will receive "
 "moderate damage."
 msgstr ""
@@ -45380,9 +45637,9 @@ msgstr ""
 
 #: lang/json/mutation_from_json.py
 msgid ""
-"Your body is covered with large quills. Whenever an unarmed opponent strikes "
-"a part of your body that is not covered by clothing, they will receive "
-"significant damage."
+"Your body is covered with large quills.  Whenever an unarmed opponent "
+"strikes a part of your body that is not covered by clothing, they will "
+"receive significant damage."
 msgstr ""
 
 #: lang/json/mutation_from_json.py
@@ -45391,9 +45648,9 @@ msgstr ""
 
 #: lang/json/mutation_from_json.py
 msgid ""
-"Your skin is light green and has a slightly woody quality to it. This "
+"Your skin is light green and has a slightly woody quality to it.  This "
 "provides a weak armor, and helps you retain moisture, resulting in less "
-"thirst. Greatly decreases wet penalties."
+"thirst.  Greatly decreases wet penalties."
 msgstr ""
 
 #: lang/json/mutation_from_json.py
@@ -45402,8 +45659,8 @@ msgstr ""
 
 #: lang/json/mutation_from_json.py
 msgid ""
-"Your skin is coated in a light bark, like that of a tree. This provides "
-"resistance to bashing and cutting damage and minor protection from fire. "
+"Your skin is coated in a light bark, like that of a tree.  This provides "
+"resistance to bashing and cutting damage and minor protection from fire.  "
 "Greatly reduces wet effects."
 msgstr ""
 
@@ -45413,9 +45670,9 @@ msgstr ""
 
 #: lang/json/mutation_from_json.py
 msgid ""
-"Your skin is covered in small, woody thorns. Whenever an unarmed opponent "
+"Your skin is covered in small, woody thorns.  Whenever an unarmed opponent "
 "strikes a part of your body that is not covered by clothing, they will "
-"receive minor damage. Your punches may also deal extra damage."
+"receive minor damage.  Your punches may also deal extra damage."
 msgstr ""
 
 #: lang/json/mutation_from_json.py
@@ -45424,9 +45681,9 @@ msgstr ""
 
 #: lang/json/mutation_from_json.py
 msgid ""
-"All the hair on your body has turned to long, grass-like leaves. Apart from "
+"All the hair on your body has turned to long, grass-like leaves.  Apart from "
 "being physically striking, these provide you with a minor amount of "
-"nutrition while in sunlight. Slightly reduces wet effects."
+"nutrition while in sunlight.  Slightly reduces wet effects."
 msgstr ""
 
 #: lang/json/mutation_from_json.py
@@ -45435,7 +45692,7 @@ msgstr ""
 
 #: lang/json/mutation_from_json.py
 msgid ""
-"You've started blooming where your scalp used to be. Your blossoms have a "
+"You've started blooming where your scalp used to be.  Your blossoms have a "
 "pleasant aroma, are visually striking, and are quite sensitive."
 msgstr ""
 
@@ -45454,8 +45711,8 @@ msgstr ""
 #: lang/json/mutation_from_json.py
 msgid ""
 "Local organisms seem to regard open spore-dispersal as a danger, and attack "
-"the Mycus. Accordingly our local spore sacs remain quiescent, until local "
-"guidance determines that it is safe to germinate. Rapid development taxes "
+"the Mycus.  Accordingly our local spore sacs remain quiescent, until local "
+"guidance determines that it is safe to germinate.  Rapid development taxes "
 "local nutrient reserves but ensures rapid and effective growth."
 msgstr ""
 
@@ -45474,8 +45731,8 @@ msgstr ""
 #: lang/json/mutation_from_json.py
 msgid ""
 "Local organisms seem to regard open spore-dispersal as a danger, and attack "
-"the Mycus. Accordingly our local blossoms remain quiescent, until local "
-"guidance determines that it is safe to germinate. Rapid development taxes "
+"the Mycus.  Accordingly our local blossoms remain quiescent, until local "
+"guidance determines that it is safe to germinate.  Rapid development taxes "
 "local nutrient reserves but ensures rapid and effective growth."
 msgstr ""
 
@@ -45485,7 +45742,7 @@ msgstr ""
 
 #: lang/json/mutation_from_json.py
 msgid ""
-"Your fingernails are long and sharp. If you aren't wearing gloves, your "
+"Your fingernails are long and sharp.  If you aren't wearing gloves, your "
 "unarmed attacks deal a minor amount of cutting damage."
 msgstr ""
 
@@ -45495,7 +45752,7 @@ msgstr ""
 
 #: lang/json/mutation_from_json.py
 msgid ""
-"You have claws on the ends of your fingers. If you aren't wearing gloves, "
+"You have claws on the ends of your fingers.  If you aren't wearing gloves, "
 "your unarmed attacks deal a minor amount of cutting damage."
 msgstr ""
 
@@ -45543,9 +45800,9 @@ msgstr ""
 
 #: lang/json/mutation_from_json.py
 msgid ""
-"Your index fingers have grown into huge talons. After a bit of practice, you "
-"find that this does not affect your dexterity, but allows for a deadly "
-"unarmed attack. They also prevent you from wearing gloves."
+"Your index fingers have grown into huge talons.  After a bit of practice, "
+"you find that this does not affect your dexterity, but allows for a deadly "
+"unarmed attack.  They also prevent you from wearing gloves."
 msgstr ""
 
 #: lang/json/mutation_from_json.py
@@ -45554,7 +45811,7 @@ msgstr ""
 
 #: lang/json/mutation_from_json.py
 msgid ""
-"Your system has adapted to radiation. While irradiated, you will actually "
+"Your system has adapted to radiation.  While irradiated, you will actually "
 "heal slowly, converting the radiation into hit points."
 msgstr ""
 
@@ -45615,7 +45872,7 @@ msgstr ""
 #: lang/json/mutation_from_json.py
 msgid ""
 "Your body produces low-level pheromones, identifying you as a friend to many "
-"species of insects. Insects will attack you much less."
+"species of insects.  Insects will attack you much less."
 msgstr ""
 
 #: lang/json/mutation_from_json.py
@@ -45624,7 +45881,7 @@ msgstr ""
 
 #: lang/json/mutation_from_json.py
 msgid ""
-"Your body produces low-level pheromones which puts mammals at ease. They "
+"Your body produces low-level pheromones which puts mammals at ease.  They "
 "will be less likely to attack or flee from you."
 msgstr ""
 
@@ -45634,7 +45891,7 @@ msgstr ""
 
 #: lang/json/mutation_from_json.py
 msgid ""
-"Your body is simply immune to diseases. You will never catch an ambient "
+"Your body is simply immune to diseases.  You will never catch an ambient "
 "disease."
 msgstr ""
 
@@ -45652,8 +45909,8 @@ msgstr ""
 
 #: lang/json/mutation_from_json.py
 msgid ""
-"Your bloodstream has developed antibiotic properties. Your wounds will never "
-"become infected."
+"Your bloodstream has developed antibiotic properties.  Your wounds will "
+"never become infected."
 msgstr ""
 
 #: lang/json/mutation_from_json.py
@@ -45673,7 +45930,7 @@ msgstr ""
 
 #: lang/json/mutation_from_json.py
 msgid ""
-"Your body is unusually inhospitable to parasitic lifeforms. You will never "
+"Your body is unusually inhospitable to parasitic lifeforms.  You will never "
 "become infested with internal parasites."
 msgstr ""
 
@@ -45704,7 +45961,7 @@ msgstr ""
 #: lang/json/mutation_from_json.py
 msgid ""
 "The skin on your hands is a mucous membrane and produces a thick, acrid "
-"slime. Attacks using your hand will cause minor acid damage. Slightly "
+"slime.  Attacks using your hand will cause minor acid damage.  Slightly "
 "increases wet benefits."
 msgstr ""
 
@@ -45741,7 +45998,7 @@ msgstr ""
 
 #: lang/json/mutation_from_json.py
 msgid ""
-"Your eyes are compound, like those of an insect. This increases your "
+"Your eyes are compound, like those of an insect.  This increases your "
 "perception by 2 so long as you aren't wearing eyewear."
 msgstr ""
 
@@ -45752,9 +46009,9 @@ msgstr ""
 #: lang/json/mutation_from_json.py
 #, no-python-format
 msgid ""
-"The bottoms of your feet are strongly padded. You receive no movement "
+"The bottoms of your feet are strongly padded.  You receive no movement "
 "penalty for not wearing shoes, and even receive a 10% bonus when running "
-"barefoot. Slightly decreases wet penalties."
+"barefoot.  Slightly decreases wet penalties."
 msgstr ""
 
 #: lang/json/mutation_from_json.py
@@ -45764,7 +46021,7 @@ msgstr ""
 #: lang/json/mutation_from_json.py
 msgid ""
 "You have grown large, curved, and wickedly sharp talons in place of your big "
-"toes. Fortunately, they don't get in the way of your walking.  "
+"toes.  Fortunately, they don't get in the way of your walking.  "
 "Unfortunately, they do prevent you from wearing footgear, which does cause "
 "some problems."
 msgstr ""
@@ -45775,9 +46032,9 @@ msgstr ""
 
 #: lang/json/mutation_from_json.py
 msgid ""
-"Your feet have fused into hooves. This allows kicking attacks to do much "
+"Your feet have fused into hooves.  This allows kicking attacks to do much "
 "more damage, provides natural armor, and removes the need to wear shoes; "
-"however, you can not wear shoes of any kind. Somewhat reduces wet effects."
+"however, you can not wear shoes of any kind.  Somewhat reduces wet effects."
 msgstr ""
 
 #: lang/json/mutation_from_json.py
@@ -45816,7 +46073,7 @@ msgstr ""
 #: lang/json/mutation_from_json.py
 msgid ""
 "Your digestive system is specialized to allow you to consume decaying "
-"material. You can eat rotten food, albeit for less nutrition than usual."
+"material.  You can eat rotten food, albeit for less nutrition than usual."
 msgstr ""
 
 #: lang/json/mutation_from_json.py
@@ -45826,7 +46083,7 @@ msgstr ""
 #: lang/json/mutation_from_json.py
 msgid ""
 "You prefer to sustain yourself using your roots and direct nutrient "
-"extraction/synthesis. You can still consume 'food', though, if you have to: "
+"extraction/synthesis.  You can still consume 'food', though, if you have to: "
 "you merely prefer it aged a little."
 msgstr ""
 
@@ -45857,7 +46114,7 @@ msgstr ""
 #: lang/json/mutation_from_json.py
 msgid ""
 "Your digestive system is capable of digesting cellulose and other rough "
-"plant material. You can eat underbrush by activating this, standing over "
+"plant material.  You can eat underbrush by activating this, standing over "
 "your target, and pressing E."
 msgstr ""
 
@@ -45906,7 +46163,7 @@ msgstr ""
 #: lang/json/mutation_from_json.py
 msgid ""
 "Your fangs have grown extremely large and incredibly sharp.  They make it "
-"impossible to wear mouthgear and difficult to eat... but leave nasty wounds "
+"impossible to wear mouthgear and difficult to eat...  but leave nasty wounds "
 "when you bite."
 msgstr ""
 
@@ -45927,7 +46184,7 @@ msgstr ""
 
 #: lang/json/mutation_from_json.py
 msgid ""
-"You have a pair of small horns on your head. They allow you to make a weak "
+"You have a pair of small horns on your head.  They allow you to make a weak "
 "piercing headbutt attack."
 msgstr ""
 
@@ -45937,7 +46194,7 @@ msgstr ""
 
 #: lang/json/mutation_from_json.py
 msgid ""
-"You have a pair of large curled horns, like those of a ram. They allow you "
+"You have a pair of large curled horns, like those of a ram.  They allow you "
 "to make a strong bashing headbutt attack, but prevent you from wearing any "
 "headwear."
 msgstr ""
@@ -45948,7 +46205,7 @@ msgstr ""
 
 #: lang/json/mutation_from_json.py
 msgid ""
-"You have a pair of long, pointed horns, like those of an antelope. They "
+"You have a pair of long, pointed horns, like those of an antelope.  They "
 "allow you to make a strong piercing headbutt attack, but prevent you from "
 "wearing any headwear the is not made of fabric."
 msgstr ""
@@ -45959,7 +46216,7 @@ msgstr ""
 
 #: lang/json/mutation_from_json.py
 msgid ""
-"You have a huge rack of antlers, like those of a moose. They prevent you "
+"You have a huge rack of antlers, like those of a moose.  They prevent you "
 "from hearing headwear that is not made of fabric, but provide a weak "
 "headbutt attack."
 msgstr ""
@@ -45970,7 +46227,7 @@ msgstr ""
 
 #: lang/json/mutation_from_json.py
 msgid ""
-"You have a pair of antennae. They allow you to detect the presence of "
+"You have a pair of antennae.  They allow you to detect the presence of "
 "monsters up to a few tiles away, even if you can't see or hear them, but "
 "prevent you from wearing headwear that is not made of fabric."
 msgstr ""
@@ -45982,7 +46239,7 @@ msgstr ""
 #: lang/json/mutation_from_json.py
 #, no-python-format
 msgid ""
-"Your legs are extremely limber and fast-moving. You run 30% faster on flat "
+"Your legs are extremely limber and fast-moving.  You run 30% faster on flat "
 "surfaces."
 msgstr ""
 
@@ -45991,7 +46248,7 @@ msgid "Stubby Tail"
 msgstr ""
 
 #: lang/json/mutation_from_json.py
-msgid "You have a short, stubby tail, like a rabbit's. It serves no purpose."
+msgid "You have a short, stubby tail, like a rabbit's.  It serves no purpose."
 msgstr ""
 
 #: lang/json/mutation_from_json.py
@@ -46000,7 +46257,7 @@ msgstr ""
 
 #: lang/json/mutation_from_json.py
 msgid ""
-"You have a fin-like tail. It allows you to swim more quickly. Slightly "
+"You have a fin-like tail.  It allows you to swim more quickly.  Slightly "
 "increases wet benefits."
 msgstr ""
 
@@ -46010,7 +46267,7 @@ msgstr ""
 
 #: lang/json/mutation_from_json.py
 msgid ""
-"You have a long, graceful tail, like that of a big cat. It improves your "
+"You have a long, graceful tail, like that of a big cat.  It improves your "
 "balance, making your ability to dodge higher."
 msgstr ""
 
@@ -46020,9 +46277,9 @@ msgstr ""
 
 #: lang/json/mutation_from_json.py
 msgid ""
-"You have a long tail with a tuft on the end. You find yourself instinctively "
-"swatting away flies with it, though it's not as effective at balancing you "
-"as you'd like."
+"You have a long tail with a tuft on the end.  You find yourself "
+"instinctively swatting away flies with it, though it's not as effective at "
+"balancing you as you'd like."
 msgstr ""
 
 #: lang/json/mutation_from_json.py
@@ -46041,8 +46298,8 @@ msgstr ""
 
 #: lang/json/mutation_from_json.py
 msgid ""
-"You have a long, thick, lizardlike tail. It helps you balance a bit but also "
-"makes a serviceable whip."
+"You have a long, thick, lizardlike tail.  It helps you balance a bit but "
+"also makes a serviceable whip."
 msgstr ""
 
 #: lang/json/mutation_from_json.py
@@ -46051,7 +46308,7 @@ msgstr ""
 
 #: lang/json/mutation_from_json.py
 msgid ""
-"You have a long and semi-stiff lizardlike tail. You can't effectively lash "
+"You have a long and semi-stiff lizardlike tail.  You can't effectively lash "
 "it in combat, but it significantly improves your balance."
 msgstr ""
 
@@ -46061,7 +46318,7 @@ msgstr ""
 
 #: lang/json/mutation_from_json.py
 msgid ""
-"You have a long, fluffy-furred tail. It greatly improves your balance, "
+"You have a long, fluffy-furred tail.  It greatly improves your balance, "
 "making your ability to dodge much higher.  However, you find yourself "
 "wagging when happy..."
 msgstr ""
@@ -46073,8 +46330,8 @@ msgstr ""
 #: lang/json/mutation_from_json.py
 msgid ""
 "You have a long tail that ends in a vicious stinger, like that of a "
-"scorpion. It does not improve your balance at all, but allows for a powerful "
-"piercing attack."
+"scorpion.  It does not improve your balance at all, but allows for a "
+"powerful piercing attack."
 msgstr ""
 
 #: lang/json/mutation_from_json.py
@@ -46083,7 +46340,7 @@ msgstr ""
 
 #: lang/json/mutation_from_json.py
 msgid ""
-"You have a long tail that ends in a heavy, bony club. It does not improve "
+"You have a long tail that ends in a heavy, bony club.  It does not improve "
 "your balance at all, but allows for a powerful bashing attack."
 msgstr ""
 
@@ -46105,7 +46362,7 @@ msgstr ""
 #, no-python-format
 msgid ""
 "You can survive injuries that would incapacitate humans: you get a 20% bonus "
-"to all hit points. Stacks with Tough, etc."
+"to all hit points.  Stacks with Tough, etc."
 msgstr ""
 
 #: lang/json/mutation_from_json.py
@@ -46115,7 +46372,7 @@ msgstr ""
 #: lang/json/mutation_from_json.py
 #, no-python-format
 msgid ""
-"Not much scares you. You get a 30% bonus to all hit points. Stacks with "
+"Not much scares you.  You get a 30% bonus to all hit points.  Stacks with "
 "Tough, etc."
 msgstr ""
 
@@ -46126,8 +46383,8 @@ msgstr ""
 #: lang/json/mutation_from_json.py
 #, no-python-format
 msgid ""
-"You can simply take the punishment from lesser beings and keep going. You "
-"get a 40% bonus to all hit points. Stacks with Tough, etc."
+"You can simply take the punishment from lesser beings and keep going.  You "
+"get a 40% bonus to all hit points.  Stacks with Tough, etc."
 msgstr ""
 
 #: lang/json/mutation_from_json.py
@@ -46177,7 +46434,7 @@ msgstr ""
 
 #: lang/json/mutation_from_json.py
 msgid ""
-"Nothing hurts any more. Those bites tickle and the wounds itch a bit, but "
+"Nothing hurts any more.  Those bites tickle and the wounds itch a bit, but "
 "that's it."
 msgstr ""
 
@@ -46241,9 +46498,9 @@ msgstr ""
 
 #: lang/json/mutation_from_json.py
 msgid ""
-"You have a pair of large, feathered wings. Your body is too heavy to be able "
-"to fly, but you can use them to slow your descent during a fall, and will "
-"not take falling damage under any circumstances."
+"You have a pair of large, feathered wings.  Your body is too heavy to be "
+"able to fly, but you can use them to slow your descent during a fall, and "
+"will not take falling damage under any circumstances."
 msgstr ""
 
 #: lang/json/mutation_from_json.py
@@ -46263,8 +46520,8 @@ msgstr ""
 
 #: lang/json/mutation_from_json.py
 msgid ""
-"A set of tentacles surrounds your mouth. They allow you to eat twice as "
-"fast. Slightly decreases wet penalties."
+"A set of tentacles surrounds your mouth.  They allow you to eat twice as "
+"fast.  Slightly decreases wet penalties."
 msgstr ""
 
 #: lang/json/mutation_from_json.py
@@ -46273,9 +46530,9 @@ msgstr ""
 
 #: lang/json/mutation_from_json.py
 msgid ""
-"A set of insect-like mandibles have grown around your mouth. They allow you "
+"A set of insect-like mandibles have grown around your mouth.  They allow you "
 "to eat faster and provide a slicing unarmed attack, but prevent you from "
-"wearing mouthwear. Slightly reduces wet effects."
+"wearing mouthwear.  Slightly reduces wet effects."
 msgstr ""
 
 #: lang/json/mutation_from_json.py
@@ -46295,7 +46552,7 @@ msgstr ""
 
 #: lang/json/mutation_from_json.py
 msgid ""
-"Your ears have extended into long, pointed ones, like those of a canine. "
+"Your ears have extended into long, pointed ones, like those of a canine.  "
 "They enhance your hearing, allowing you to hear at greater distances."
 msgstr ""
 
@@ -46305,8 +46562,8 @@ msgstr ""
 
 #: lang/json/mutation_from_json.py
 msgid ""
-"Your hearing has evolved further and is now on par with wolves. You can hear "
-"things significantly farther away."
+"Your hearing has evolved further and is now on par with wolves.  You can "
+"hear things significantly farther away."
 msgstr ""
 
 #: lang/json/mutation_from_json.py
@@ -46316,7 +46573,7 @@ msgstr ""
 #: lang/json/mutation_from_json.py
 msgid ""
 "Your ears have extended into long, pointed, velvety ones, like those of a "
-"feline. You find it easier to tune in on sounds from afar."
+"feline.  You find it easier to tune in on sounds from afar."
 msgstr ""
 
 #: lang/json/mutation_from_json.py
@@ -46325,7 +46582,7 @@ msgstr ""
 
 #: lang/json/mutation_from_json.py
 msgid ""
-"Your ears have grown longer and rounder, much like those of a bear. You can "
+"Your ears have grown longer and rounder, much like those of a bear.  You can "
 "hear things a little farther away."
 msgstr ""
 
@@ -46347,7 +46604,7 @@ msgstr ""
 #: lang/json/mutation_from_json.py
 msgid ""
 "Your body excretes very fine amounts of a chemical which prevents you from "
-"sticking to webs. Walking through webs does not affect you at all."
+"sticking to webs.  Walking through webs does not affect you at all."
 msgstr ""
 
 #: lang/json/mutation_from_json.py
@@ -46376,7 +46633,7 @@ msgstr ""
 
 #: lang/json/mutation_from_json.py
 msgid ""
-"Your webbing is easily strong enough to support your weight. You'll use it "
+"Your webbing is easily strong enough to support your weight.  You'll use it "
 "to descend down any sheer drops you may encounter."
 msgstr ""
 
@@ -46386,7 +46643,7 @@ msgstr ""
 
 #: lang/json/mutation_from_json.py
 msgid ""
-"With spinnerets like THESE, who needs rope?! Your natural abilities can "
+"With spinnerets like THESE, who needs rope?!  Your natural abilities can "
 "handle that part of most construction projects."
 msgstr ""
 
@@ -46396,9 +46653,9 @@ msgstr ""
 
 #: lang/json/mutation_from_json.py
 msgid ""
-"You have a handsome set of feline whiskers around your mouth. These make you "
-"more aware of vibrations in the air, and improve your ability to dodge very "
-"slightly."
+"You have a handsome set of feline whiskers around your mouth.  These make "
+"you more aware of vibrations in the air, and improve your ability to dodge "
+"very slightly."
 msgstr ""
 
 #: lang/json/mutation_from_json.py
@@ -46407,7 +46664,7 @@ msgstr ""
 
 #: lang/json/mutation_from_json.py
 msgid ""
-"You have a set of prominent rodent-like whiskers around your mouth. These "
+"You have a set of prominent rodent-like whiskers around your mouth.  These "
 "make you more aware of vibrations in the air, and improve your ability to "
 "dodge slightly."
 msgstr ""
@@ -46428,7 +46685,7 @@ msgstr ""
 
 #: lang/json/mutation_from_json.py
 msgid ""
-"You have grown noticeably taller and broader. Much of it is useful muscle "
+"You have grown noticeably taller and broader.  Much of it is useful muscle "
 "mass (Strength +2), but you find it throws off your balance and you get in "
 "your own way (+1 Torso and Arm Encumbrance)."
 msgstr ""
@@ -46438,7 +46695,7 @@ msgid "Large"
 msgstr ""
 
 #: lang/json/mutation_from_json.py
-msgid "You carry your rugged body with the dignity you deserve. Strength +2."
+msgid "You carry your rugged body with the dignity you deserve.  Strength +2."
 msgstr ""
 
 #: lang/json/mutation_from_json.py
@@ -46448,7 +46705,7 @@ msgstr ""
 #: lang/json/mutation_from_json.py
 msgid ""
 "You have grown even more massive, to the point where you cannot usefully fit "
-"into human-sized clothing or vehicles. Much of it is powerful muscle mass "
+"into human-sized clothing or vehicles.  Much of it is powerful muscle mass "
 "(Strength +4), but it's a real pain to haul around."
 msgstr ""
 
@@ -46467,7 +46724,7 @@ msgid "Strong"
 msgstr ""
 
 #: lang/json/mutation_from_json.py
-msgid "Your muscles are a little stronger. Strength + 1"
+msgid "Your muscles are a little stronger.  Strength + 1"
 msgstr ""
 
 #: lang/json/mutation_from_json.py
@@ -46475,7 +46732,7 @@ msgid "Very Strong"
 msgstr ""
 
 #: lang/json/mutation_from_json.py
-msgid "Your muscles are stronger. Strength + 2"
+msgid "Your muscles are stronger.  Strength + 2"
 msgstr ""
 
 #: lang/json/mutation_from_json.py
@@ -46483,7 +46740,7 @@ msgid "Extremely Strong"
 msgstr ""
 
 #: lang/json/mutation_from_json.py
-msgid "Your muscles are much stronger. Strength + 4"
+msgid "Your muscles are much stronger.  Strength + 4"
 msgstr ""
 
 #: lang/json/mutation_from_json.py
@@ -46491,7 +46748,7 @@ msgid "Insanely Strong"
 msgstr ""
 
 #: lang/json/mutation_from_json.py
-msgid "Your muscles are noticeably bulging. Strength + 7"
+msgid "Your muscles are noticeably bulging.  Strength + 7"
 msgstr ""
 
 #: lang/json/mutation_from_json.py
@@ -46507,7 +46764,7 @@ msgid "Dextrous"
 msgstr ""
 
 #: lang/json/mutation_from_json.py
-msgid "You are a little nimbler. Dexterity + 1"
+msgid "You are a little nimbler.  Dexterity + 1"
 msgstr ""
 
 #: lang/json/mutation_from_json.py
@@ -46515,7 +46772,7 @@ msgid "Very Dextrous"
 msgstr ""
 
 #: lang/json/mutation_from_json.py
-msgid "You are nimbler. Dexterity + 2"
+msgid "You are nimbler.  Dexterity + 2"
 msgstr ""
 
 #: lang/json/mutation_from_json.py
@@ -46523,7 +46780,7 @@ msgid "Extremely Dextrous"
 msgstr ""
 
 #: lang/json/mutation_from_json.py
-msgid "You are nimble and quick. Dexterity + 4"
+msgid "You are nimble and quick.  Dexterity + 4"
 msgstr ""
 
 #: lang/json/mutation_from_json.py
@@ -46531,7 +46788,7 @@ msgid "Insanely Dextrous"
 msgstr ""
 
 #: lang/json/mutation_from_json.py
-msgid "You are much nimbler than before. Dexterity + 7"
+msgid "You are much nimbler than before.  Dexterity + 7"
 msgstr ""
 
 #: lang/json/mutation_from_json.py
@@ -46547,7 +46804,7 @@ msgid "Smart"
 msgstr ""
 
 #: lang/json/mutation_from_json.py
-msgid "You are a little smarter. Intelligence + 1"
+msgid "You are a little smarter.  Intelligence + 1"
 msgstr ""
 
 #: lang/json/mutation_from_json.py
@@ -46555,7 +46812,7 @@ msgid "Very Smart"
 msgstr ""
 
 #: lang/json/mutation_from_json.py
-msgid "You are smarter. Intelligence + 2"
+msgid "You are smarter.  Intelligence + 2"
 msgstr ""
 
 #: lang/json/mutation_from_json.py
@@ -46563,7 +46820,7 @@ msgid "Extremely Smart"
 msgstr ""
 
 #: lang/json/mutation_from_json.py
-msgid "You are much smarter, and your skull bulges slightly. Intelligence + 4"
+msgid "You are much smarter, and your skull bulges slightly.  Intelligence + 4"
 msgstr ""
 
 #: lang/json/mutation_from_json.py
@@ -46572,7 +46829,7 @@ msgstr ""
 
 #: lang/json/mutation_from_json.py
 msgid ""
-"Your skull bulges noticeably with your impressive brain. Intelligence + 7"
+"Your skull bulges noticeably with your impressive brain.  Intelligence + 7"
 msgstr ""
 
 #: lang/json/mutation_from_json.py
@@ -46599,7 +46856,7 @@ msgid "Perceptive"
 msgstr ""
 
 #: lang/json/mutation_from_json.py
-msgid "Your senses are a little keener. Perception + 1"
+msgid "Your senses are a little keener.  Perception + 1"
 msgstr ""
 
 #: lang/json/mutation_from_json.py
@@ -46607,7 +46864,7 @@ msgid "Very Perceptive"
 msgstr ""
 
 #: lang/json/mutation_from_json.py
-msgid "Your senses are keener. Perception + 2"
+msgid "Your senses are keener.  Perception + 2"
 msgstr ""
 
 #: lang/json/mutation_from_json.py
@@ -46615,7 +46872,7 @@ msgid "Extremely Perceptive"
 msgstr ""
 
 #: lang/json/mutation_from_json.py
-msgid "Your senses are much keener. Perception + 4"
+msgid "Your senses are much keener.  Perception + 4"
 msgstr ""
 
 #: lang/json/mutation_from_json.py
@@ -46623,7 +46880,7 @@ msgid "Insanely Perceptive"
 msgstr ""
 
 #: lang/json/mutation_from_json.py
-msgid "You can sense things you never imagined. Perception + 7"
+msgid "You can sense things you never imagined.  Perception + 7"
 msgstr ""
 
 #: lang/json/mutation_from_json.py
@@ -46642,7 +46899,7 @@ msgstr ""
 msgid ""
 "Your sense organs are all over the place: eyes extending and retracting, "
 "'ears' of various shapes migrating about, and taste & smell are "
-"uncontrollable. The world is a horrible mixup.  Ugh!"
+"uncontrollable.  The world is a horrible mixup.  Ugh!"
 msgstr ""
 
 #: lang/json/mutation_from_json.py
@@ -46661,8 +46918,9 @@ msgstr ""
 
 #: lang/json/mutation_from_json.py
 msgid ""
-"Just thinking of mutagen (such a lovely word! 'Mutagen'. Perfect!) makes you "
-"thirsty. And you so love your new parts.  You simply must have more mutagen!"
+"Just thinking of mutagen (such a lovely word!  'Mutagen'.  Perfect!) makes "
+"you thirsty.  And you so love your new parts.  You simply must have more "
+"mutagen!"
 msgstr ""
 
 #: lang/json/mutation_from_json.py
@@ -46680,8 +46938,8 @@ msgstr ""
 #: lang/json/mutation_from_json.py
 msgid ""
 "You have a flattened nose and thin slits for nostrils, giving you a lizard-"
-"like appearance. This makes breathing slightly difficult and increases mouth "
-"encumbrance by 1."
+"like appearance.  This makes breathing slightly difficult and increases "
+"mouth encumbrance by 1."
 msgstr ""
 
 #: lang/json/mutation_from_json.py
@@ -46689,7 +46947,7 @@ msgid "Forked Tongue"
 msgstr ""
 
 #: lang/json/mutation_from_json.py
-msgid "Your tongue is forked, like that of a reptile. This has no effect."
+msgid "Your tongue is forked, like that of a reptile.  This has no effect."
 msgstr ""
 
 #: lang/json/mutation_from_json.py
@@ -46698,7 +46956,7 @@ msgstr ""
 
 #: lang/json/mutation_from_json.py
 msgid ""
-"Your eyes bulge out several inches from your skull. This does not affect "
+"Your eyes bulge out several inches from your skull.  This does not affect "
 "your vision in any way."
 msgstr ""
 
@@ -46708,7 +46966,7 @@ msgstr ""
 
 #: lang/json/mutation_from_json.py
 msgid ""
-"Skin tabs and odd flaps of skin surround your mouth. They don't affect your "
+"Skin tabs and odd flaps of skin surround your mouth.  They don't affect your "
 "eating, but are unpleasant to look at."
 msgstr ""
 
@@ -46718,7 +46976,7 @@ msgstr ""
 
 #: lang/json/mutation_from_json.py
 msgid ""
-"You have a pair of stubby little wings projecting from your shoulderblades. "
+"You have a pair of stubby little wings projecting from your shoulderblades.  "
 "They can be wiggled at will, but are useless."
 msgstr ""
 
@@ -46728,7 +46986,7 @@ msgstr ""
 
 #: lang/json/mutation_from_json.py
 msgid ""
-"You have a pair of large, leathery wings. You can move them a little, but "
+"You have a pair of large, leathery wings.  You can move them a little, but "
 "they are useless, and in fact put you off balance, reducing your ability to "
 "dodge slightly."
 msgstr ""
@@ -46739,7 +46997,7 @@ msgstr ""
 
 #: lang/json/mutation_from_json.py
 msgid ""
-"You have a very large and very beautiful pair of brightly-colored wings. "
+"You have a very large and very beautiful pair of brightly-colored wings.  "
 "They can't lift you, and they make balancing tricky, but they certainly "
 "catch air and attention!"
 msgstr ""
@@ -46766,7 +47024,7 @@ msgstr ""
 
 #: lang/json/mutation_from_json.py
 msgid ""
-"You smell awful. Monsters that track scent will find you very easily, and "
+"You smell awful.  Monsters that track scent will find you very easily, and "
 "humans will react poorly."
 msgstr ""
 
@@ -46776,7 +47034,7 @@ msgstr ""
 
 #: lang/json/mutation_from_json.py
 msgid ""
-"You're minorly deformed. Some people will react badly to your appearance."
+"You're minorly deformed.  Some people will react badly to your appearance."
 msgstr ""
 
 #: lang/json/mutation_from_json.py
@@ -46785,7 +47043,7 @@ msgstr ""
 
 #: lang/json/mutation_from_json.py
 msgid ""
-"You're hideously deformed. Some people will have a strong negative reaction "
+"You're hideously deformed.  Some people will have a strong negative reaction "
 "to your appearance."
 msgstr ""
 
@@ -46795,7 +47053,7 @@ msgstr ""
 
 #: lang/json/mutation_from_json.py
 msgid ""
-"Your visage is disgusting and liable to induce vomiting. People will not "
+"Your visage is disgusting and liable to induce vomiting.  People will not "
 "want to interact with you unless they have a very good reason to."
 msgstr ""
 
@@ -46805,7 +47063,7 @@ msgstr ""
 
 #: lang/json/mutation_from_json.py
 msgid ""
-"You're a real head-turner. Some people will react well to your appearance, "
+"You're a real head-turner.  Some people will react well to your appearance, "
 "and most people have an easier time trusting you."
 msgstr ""
 
@@ -46815,7 +47073,7 @@ msgstr ""
 
 #: lang/json/mutation_from_json.py
 msgid ""
-"You are a vision of beauty. Some people will react very well to your looks, "
+"You are a vision of beauty.  Some people will react very well to your looks, "
 "and most people will trust you immediately."
 msgstr ""
 
@@ -46825,8 +47083,8 @@ msgstr ""
 
 #: lang/json/mutation_from_json.py
 msgid ""
-"You are incredibly beautiful. People cannot help themselves for your charms, "
-"and will do whatever they can to please you."
+"You are incredibly beautiful.  People cannot help themselves for your "
+"charms, and will do whatever they can to please you."
 msgstr ""
 
 #: lang/json/mutation_from_json.py
@@ -46835,7 +47093,7 @@ msgstr ""
 
 #: lang/json/mutation_from_json.py
 msgid ""
-"Your face and jaw have begun...changing. Masks and such fit OK, but you're "
+"Your face and jaw have begun...changing.  Masks and such fit OK, but you're "
 "noticeably mutated."
 msgstr ""
 
@@ -46908,7 +47166,7 @@ msgstr ""
 #: lang/json/mutation_from_json.py
 #, no-python-format
 msgid ""
-"You have Avian Bone Syndrome--your bones are nearly hollow. Your body is "
+"You have Avian Bone Syndrome--your bones are nearly hollow.  Your body is "
 "very light as a result, enabling you to run and attack 20% faster, but also "
 "frail; you can carry 40% less, and bashing attacks injure you more."
 msgstr ""
@@ -46985,7 +47243,7 @@ msgstr ""
 
 #: lang/json/mutation_from_json.py
 msgid ""
-"Ugh, out of water already? You need about twice the fluids of an average "
+"Ugh, out of water already?  You need about twice the fluids of an average "
 "human."
 msgstr ""
 
@@ -47059,7 +47317,7 @@ msgstr ""
 
 #: lang/json/mutation_from_json.py
 msgid ""
-"Your body is covered in painful sores. The pain is worse when they are "
+"Your body is covered in painful sores.  The pain is worse when they are "
 "covered in clothing."
 msgstr ""
 
@@ -47069,7 +47327,7 @@ msgstr ""
 
 #: lang/json/mutation_from_json.py
 msgid ""
-"Sunlight makes you uncomfortable. If you are outdoors and the weather is "
+"Sunlight makes you uncomfortable.  If you are outdoors and the weather is "
 "Sunny, you suffer -1 to all stats."
 msgstr ""
 
@@ -47079,7 +47337,7 @@ msgstr ""
 
 #: lang/json/mutation_from_json.py
 msgid ""
-"Sunlight makes you very uncomfortable. If you are outdoors during the day, "
+"Sunlight makes you very uncomfortable.  If you are outdoors during the day, "
 "you suffer -1 to all stats; -2 if the weather is Sunny."
 msgstr ""
 
@@ -47100,7 +47358,7 @@ msgstr ""
 #: lang/json/mutation_from_json.py
 msgid ""
 "Your hands and feet are heavily webbed, reducing your dexterity by 1 and "
-"preventing you from wearing gloves. However, you can swim much faster. "
+"preventing you from wearing gloves.  However, you can swim much faster.  "
 "Slightly decreases wet penalties."
 msgstr ""
 
@@ -47110,9 +47368,9 @@ msgstr ""
 
 #: lang/json/mutation_from_json.py
 msgid ""
-"Your hands have fused into quasi-paws. Fine manipulation is a challenge: "
+"Your hands have fused into quasi-paws.  Fine manipulation is a challenge: "
 "permanent hand encumbrance of 1, difficulty with delicate craftwork, and "
-"your gloves don't fit. But they handle water better."
+"your gloves don't fit.  But they handle water better."
 msgstr ""
 
 #: lang/json/mutation_from_json.py
@@ -47121,9 +47379,9 @@ msgstr ""
 
 #: lang/json/mutation_from_json.py
 msgid ""
-"Your paws are much larger now. Manual dexterity is is difficult: permanent "
-"hand encumbrance of 2, serious problems crafting, and no gloves. But you can "
-"swim more effectively."
+"Your paws are much larger now.  Manual dexterity is is difficult: permanent "
+"hand encumbrance of 2, serious problems crafting, and no gloves.  But you "
+"can swim more effectively."
 msgstr ""
 
 #: lang/json/mutation_from_json.py
@@ -47132,8 +47390,8 @@ msgstr ""
 
 #: lang/json/mutation_from_json.py
 msgid ""
-"You have a beak for a mouth. You can occasionally use it to peck at your "
-"enemies, but it is impossible for you to wear mouthgear. Slightly reduces "
+"You have a beak for a mouth.  You can occasionally use it to peck at your "
+"enemies, but it is impossible for you to wear mouth gear.  Slightly reduces "
 "wet effects."
 msgstr ""
 
@@ -47143,7 +47401,7 @@ msgstr ""
 
 #: lang/json/mutation_from_json.py
 msgid ""
-"Pecking at prey is part of your daily routine now. Slightly reduces wet "
+"Pecking at prey is part of your daily routine now.  Slightly reduces wet "
 "effects."
 msgstr ""
 
@@ -47154,7 +47412,7 @@ msgstr ""
 #: lang/json/mutation_from_json.py
 msgid ""
 "Though your beak's not suitable for pecking, those flowers out there are a "
-"good source of energy. Examine them to feed."
+"good source of energy.  Examine them to feed."
 msgstr ""
 
 #: lang/json/mutation_from_json.py
@@ -47183,7 +47441,7 @@ msgstr ""
 
 #: lang/json/mutation_from_json.py
 msgid ""
-"Your body has become radioactive! You continuously emit low levels of "
+"Your body has become radioactive!  You continuously emit low levels of "
 "radiation, which results in a chronic case of radiation poisoning."
 msgstr ""
 
@@ -47193,7 +47451,7 @@ msgstr ""
 
 #: lang/json/mutation_from_json.py
 msgid ""
-"Your body has become radioactive! You continuously emit moderate levels of "
+"Your body has become radioactive!  You continuously emit moderate levels of "
 "radiation, some of which will be absorbed by you, and some of which will "
 "contaminate the world around you."
 msgstr ""
@@ -47204,7 +47462,7 @@ msgstr ""
 
 #: lang/json/mutation_from_json.py
 msgid ""
-"Your body has become radioactive! You continuously emit heavy levels of "
+"Your body has become radioactive!  You continuously emit heavy levels of "
 "radiation, some of which will be absorbed by you, and some of which will "
 "contaminate the world around you."
 msgstr ""
@@ -47216,7 +47474,7 @@ msgstr ""
 #: lang/json/mutation_from_json.py
 msgid ""
 "Your body is coated with a fine slime, which oozes off of you, leaving a "
-"trail. Greatly increases wet benefits."
+"trail.  Greatly increases wet benefits."
 msgstr ""
 
 #: lang/json/mutation_from_json.py
@@ -47225,7 +47483,7 @@ msgstr ""
 
 #: lang/json/mutation_from_json.py
 msgid ""
-"Your body's slime output has become sticky and gel-like. Greatly increases "
+"Your body's slime output has become sticky and gel-like.  Greatly increases "
 "wet benefits."
 msgstr ""
 
@@ -47235,8 +47493,8 @@ msgstr ""
 
 #: lang/json/mutation_from_json.py
 msgid ""
-"Your flesh is a pleasing gel-like consistency. Your bodily functions seem to "
-"be moving around, and your leg-equivalents flow comfortably."
+"Your flesh is a pleasing gel-like consistency.  Your bodily functions seem "
+"to be moving around, and your leg-equivalents flow comfortably."
 msgstr ""
 
 #: lang/json/mutation_from_json.py
@@ -47255,7 +47513,7 @@ msgstr ""
 
 #: lang/json/mutation_from_json.py
 msgid ""
-"Your body's ability to digest meat is severely hampered. Eating meat has a "
+"Your body's ability to digest meat is severely hampered.  Eating meat has a "
 "good chance of making you vomit it back up; even if you manage to keep it "
 "down, its nutritional value is greatly reduced."
 msgstr ""
@@ -47267,7 +47525,7 @@ msgstr ""
 #: lang/json/mutation_from_json.py
 msgid ""
 "Your body's ability to digest fruits, vegetables and grains is severely "
-"hampered. You cannot eat anything besides meat."
+"hampered.  You cannot eat anything besides meat."
 msgstr ""
 
 #: lang/json/mutation_from_json.py
@@ -47276,7 +47534,7 @@ msgstr ""
 
 #: lang/json/mutation_from_json.py
 #, no-python-format
-msgid "Your muscles are generally slow to move. You run 10% slower."
+msgid "Your muscles are generally slow to move.  You run 10% slower."
 msgstr ""
 
 #: lang/json/mutation_from_json.py
@@ -47285,7 +47543,7 @@ msgstr ""
 
 #: lang/json/mutation_from_json.py
 #, no-python-format
-msgid "Your muscles are quite slow to move. You run 20% slower."
+msgid "Your muscles are quite slow to move.  You run 20% slower."
 msgstr ""
 
 #: lang/json/mutation_from_json.py
@@ -47294,7 +47552,7 @@ msgstr ""
 
 #: lang/json/mutation_from_json.py
 #, no-python-format
-msgid "Your muscles are very slow to move. You run 30% slower."
+msgid "Your muscles are very slow to move.  You run 30% slower."
 msgstr ""
 
 #: lang/json/mutation_from_json.py
@@ -47304,7 +47562,7 @@ msgstr ""
 #: lang/json/mutation_from_json.py
 #, no-python-format
 msgid ""
-"You feel very sluggish when not in direct sunlight. You suffer a 5% drop in "
+"You feel very sluggish when not in direct sunlight.  You suffer a 5% drop in "
 "speed when in shade, and a 10% drop in speed when in the dark."
 msgstr ""
 
@@ -47345,7 +47603,7 @@ msgstr ""
 #: lang/json/mutation_from_json.py
 msgid ""
 "Your toes have grown wriggly, and you can't imagine why you wear that stuff "
-"on your feet. Take it off. It's in the way."
+"on your feet.  Take it off.  It's in the way."
 msgstr ""
 
 #: lang/json/mutation_from_json.py
@@ -47354,7 +47612,7 @@ msgstr ""
 
 #: lang/json/mutation_from_json.py
 msgid ""
-"It's about time you started developing a root system. When reading, fishing "
+"It's about time you started developing a root system.  When reading, fishing "
 "from, waiting, or otherwise being stationary for a while on diggable "
 "terrain, you'll extract nutrients and water from the soil."
 msgstr ""
@@ -47365,8 +47623,8 @@ msgstr ""
 
 #: lang/json/mutation_from_json.py
 msgid ""
-"You find it difficult not to sink roots when able. You extract nutrients and "
-"water whenever on diggable terrain, but move more slowly."
+"You find it difficult not to sink roots when able.  You extract nutrients "
+"and water whenever on diggable terrain, but move more slowly."
 msgstr ""
 
 #: lang/json/mutation_from_json.py
@@ -47376,8 +47634,8 @@ msgstr ""
 #: lang/json/mutation_from_json.py
 msgid ""
 "Every inch of your skin is packed with chlorophyll and you have strong "
-"roots. Sleeping on diggable soil will satisfy any hunger or thirst you might "
-"have."
+"roots.  Sleeping on diggable soil will satisfy any hunger or thirst you "
+"might have."
 msgstr ""
 
 #: lang/json/mutation_from_json.py
@@ -47387,7 +47645,7 @@ msgstr ""
 #: lang/json/mutation_from_json.py
 #, no-python-format
 msgid ""
-"Your muscle response is dependent on ambient temperatures. You lose 1% of "
+"Your muscle response is dependent on ambient temperatures.  You lose 1% of "
 "your speed for every 5 (2.8) degrees below 65 F (18.3 C)."
 msgstr ""
 
@@ -47398,7 +47656,7 @@ msgstr ""
 #: lang/json/mutation_from_json.py
 #, no-python-format
 msgid ""
-"Your muscle response is highly dependent on ambient temperatures. You lose "
+"Your muscle response is highly dependent on ambient temperatures.  You lose "
 "1% of your speed for every 3 (1.7) degrees below 65 F (18.3 C)."
 msgstr ""
 
@@ -47409,7 +47667,7 @@ msgstr ""
 #: lang/json/mutation_from_json.py
 #, no-python-format
 msgid ""
-"You are cold-blooded and rely on heat to keep moving. Your lose 1% of your "
+"You are cold-blooded and rely on heat to keep moving.  Your lose 1% of your "
 "speed for every 2 (1.1) degrees below 65 F (18.3 C)."
 msgstr ""
 
@@ -47419,8 +47677,8 @@ msgstr ""
 
 #: lang/json/mutation_from_json.py
 msgid ""
-"Your body has become permanently cold-blooded. Your speed lowers--or raises--"
-"for every 2 (1.1) degrees below or above 65 F (18.3 C)."
+"Your body has become permanently cold-blooded.  Your speed lowers--or "
+"raises--for every 2 (1.1) degrees below or above 65 F (18.3 C)."
 msgstr ""
 
 #: lang/json/mutation_from_json.py
@@ -47429,7 +47687,7 @@ msgstr ""
 
 #: lang/json/mutation_from_json.py
 msgid ""
-"You have a growling, rough voice. Persuading NPCs will be more difficult, "
+"You have a growling, rough voice.  Persuading NPCs will be more difficult, "
 "but threatening them will be easier."
 msgstr ""
 
@@ -47439,7 +47697,7 @@ msgstr ""
 
 #: lang/json/mutation_from_json.py
 msgid ""
-"You have a threatening snarl in your voice. Persuading NPCs will be near "
+"You have a threatening snarl in your voice.  Persuading NPCs will be near "
 "impossible, but threatening them will be much easier."
 msgstr ""
 
@@ -47449,7 +47707,7 @@ msgstr ""
 
 #: lang/json/mutation_from_json.py
 msgid ""
-"You hiss when speaking. Persuading NPCs will be more difficult, but "
+"You hiss when speaking.  Persuading NPCs will be more difficult, but "
 "threatening them will be easier."
 msgstr ""
 
@@ -47494,7 +47752,7 @@ msgstr ""
 
 #: lang/json/mutation_from_json.py
 msgid ""
-"You've *finally* sprouted a pair of arms from your midsection. They flail "
+"You've *finally* sprouted a pair of arms from your midsection.  They flail "
 "more-or-less uncontrollably,  making you feel rather larval."
 msgstr ""
 
@@ -47514,8 +47772,8 @@ msgstr ""
 
 #: lang/json/mutation_from_json.py
 msgid ""
-"There's the last two limbs you were expecting. Unfortunately you still can't "
-"coordinate them, so you're getting in your own way.  A lot."
+"There's the last two limbs you were expecting.  Unfortunately you still "
+"can't coordinate them, so you're getting in your own way.  A lot."
 msgstr ""
 
 #: lang/json/mutation_from_json.py
@@ -47525,7 +47783,7 @@ msgstr ""
 #: lang/json/mutation_from_json.py
 msgid ""
 "You have four handsome limbs, and then those mutant 'hand' and 'foot' "
-"things. They probably aren't worth concealing."
+"things.  They probably aren't worth concealing."
 msgstr ""
 
 #: lang/json/mutation_from_json.py
@@ -47535,7 +47793,7 @@ msgstr ""
 #: lang/json/mutation_from_json.py
 msgid ""
 "Your arms have transformed into tentacles, resulting in a bonus of 1 to "
-"dexterity, permanent hand encumbrance of 3, and inability to wear gloves. "
+"dexterity, permanent hand encumbrance of 3, and inability to wear gloves.  "
 "Somewhat decreases wet penalties."
 msgstr ""
 
@@ -47546,8 +47804,8 @@ msgstr ""
 #: lang/json/mutation_from_json.py
 msgid ""
 "Your arms have transformed into four tentacles, resulting in a bonus of 1 to "
-"dexterity, permanent hand encumbrance of 3, and inability to wear gloves. "
-"You can make up to 3 extra attacks with them. Somewhat decreases wet "
+"dexterity, permanent hand encumbrance of 3, and inability to wear gloves.  "
+"You can make up to 3 extra attacks with them.  Somewhat decreases wet "
 "penalties."
 msgstr ""
 
@@ -47558,9 +47816,9 @@ msgstr ""
 #: lang/json/mutation_from_json.py
 msgid ""
 "Your arms have transformed into eight tentacles, resulting in a bonus of 1 "
-"to dexterity, permanent hand encumbrance of 3, and inability to wear gloves. "
-"You can make up to 7 extra attacks with them. Somewhat decreases wet "
-"penalties."
+"to dexterity, permanent hand encumbrance of 3, and inability to wear "
+"gloves.  You can make up to 7 extra attacks with them.  Somewhat decreases "
+"wet penalties."
 msgstr ""
 
 #: lang/json/mutation_from_json.py
@@ -47569,9 +47827,9 @@ msgstr ""
 
 #: lang/json/mutation_from_json.py
 msgid ""
-"You have grown a thick shell over your torso, providing excellent armor. You "
-"find you can use the empty space as 16 storage space, but cannot wear "
-"anything on your torso. Somewhat reduces wet effects."
+"You have grown a thick shell over your torso, providing excellent armor.  "
+"You find you can use the empty space as 16 storage space, but cannot wear "
+"anything on your torso.  Somewhat reduces wet effects."
 msgstr ""
 
 #: lang/json/mutation_from_json.py
@@ -47592,7 +47850,7 @@ msgstr ""
 #: lang/json/mutation_from_json.py
 #, no-python-format
 msgid ""
-"Your legs have transformed into six tentacles. This decreases your speed on "
+"Your legs have transformed into six tentacles.  This decreases your speed on "
 "land by 20%, makes your movement silent, increases your swimming speed, and "
 "reduces wet penalties."
 msgstr ""
@@ -47607,13 +47865,13 @@ msgid ""
 "marginally more tiring, but do a good job of keeping you set in place."
 msgstr ""
 
-#: lang/json/mutation_from_json.py src/newcharacter.cpp
+#: lang/json/mutation_from_json.py
 msgid "Lizard"
 msgstr ""
 
 #: lang/json/mutation_from_json.py
 msgid ""
-"You sometimes look back on your days before your tail came in. But you're "
+"You sometimes look back on your days before your tail came in.  But you're "
 "better now."
 msgstr ""
 
@@ -47623,7 +47881,7 @@ msgstr ""
 
 #: lang/json/mutation_from_json.py
 msgid ""
-"You're sure you'll fly someday. In the meantime, there's still nests to "
+"You're sure you'll fly someday.  In the meantime, there's still nests to "
 "build."
 msgstr ""
 
@@ -47633,8 +47891,8 @@ msgstr ""
 
 #: lang/json/mutation_from_json.py
 msgid ""
-"Ninety percent of the planet, and it's yours to explore. And colonize. And "
-"enjoy. What was that about a surface?"
+"Ninety percent of the planet, and it's yours to explore.  And colonize.  And "
+"enjoy.  What was that about a surface?"
 msgstr ""
 
 #: lang/json/mutation_from_json.py
@@ -47643,7 +47901,7 @@ msgstr ""
 
 #: lang/json/mutation_from_json.py
 msgid ""
-"It's about time you grew out. Now that you've matured, it is time to make "
+"It's about time you grew out.  Now that you've matured, it is time to make "
 "something of yourself."
 msgstr ""
 
@@ -47653,7 +47911,7 @@ msgstr ""
 
 #: lang/json/mutation_from_json.py
 msgid ""
-"Stalking prey, eating well, and lying in the sun. Mmm, all you could ever "
+"Stalking prey, eating well, and lying in the sun.  Mmm, all you could ever "
 "desire."
 msgstr ""
 
@@ -47679,7 +47937,7 @@ msgstr ""
 
 #: lang/json/mutation_from_json.py
 msgid ""
-"Civilization collapsed? Great! You and your kin will never have to worry "
+"Civilization collapsed? Great!  You and your kin will never have to worry "
 "about a slaughterhouse again."
 msgstr ""
 
@@ -47700,7 +47958,7 @@ msgstr ""
 #: lang/json/mutation_from_json.py
 msgid ""
 "Well, you still have those other walking flowers-and the mushrooms too-to "
-"deal with. But you'll manage."
+"deal with.  But you'll manage."
 msgstr ""
 
 #: lang/json/mutation_from_json.py
@@ -47719,7 +47977,7 @@ msgstr ""
 
 #: lang/json/mutation_from_json.py
 msgid ""
-"Not much point to rebuilding up in that horribly bright roofless wasteland. "
+"Not much point to rebuilding up in that horribly bright roofless wasteland.  "
 "Now that you've become accustomed to your new digs, there's the beginnings "
 "of a great empire right here, underground."
 msgstr ""
@@ -47748,7 +48006,7 @@ msgstr ""
 
 #: lang/json/mutation_from_json.py
 msgid ""
-"Hey. Civilization fell. You're still around. 'Rat' just isn't respectful."
+"Hey.  Civilization fell.  You're still around.  'Rat' just isn't respectful."
 msgstr ""
 
 #: lang/json/mutation_from_json.py
@@ -47782,8 +48040,8 @@ msgstr ""
 
 #: lang/json/mutation_from_json.py
 msgid ""
-"You can't tell what you are anymore. Everything and yet nothing, like you "
-"weren't meant to exist. But you do, and you're a force, no matter what "
+"You can't tell what you are anymore.  Everything and yet nothing, like you "
+"weren't meant to exist.  But you do, and you're a force, no matter what "
 "happens."
 msgstr ""
 
@@ -47793,7 +48051,7 @@ msgstr ""
 
 #: lang/json/mutation_from_json.py
 msgid ""
-"The chance to undo not one but TWO extinction events. You're confident "
+"The chance to undo not one but TWO extinction events.  You're confident "
 "you'll do fine."
 msgstr ""
 
@@ -48439,14 +48697,6 @@ msgstr ""
 
 #: lang/json/overmap_terrain_from_json.py
 msgid "refugee center"
-msgstr ""
-
-#: lang/json/overmap_terrain_from_json.py
-msgid "bandit cabin"
-msgstr ""
-
-#: lang/json/overmap_terrain_from_json.py
-msgid "bandit camp"
 msgstr ""
 
 #: lang/json/overmap_terrain_from_json.py
@@ -52866,10 +53116,6 @@ msgid "\"WHY DO ALL THE DEAD CHILDREN GO TO SCHOOL\""
 msgstr ""
 
 #: lang/json/snippet_from_json.py
-msgid "\"The copbots... the turrets... they just fucking ignore them.\""
-msgstr ""
-
-#: lang/json/snippet_from_json.py
 msgid "\"Don't keep your goddamn casings!  They'll just weigh you down.\""
 msgstr ""
 
@@ -54799,6 +55045,107 @@ msgstr ""
 
 #: lang/json/speech_from_json.py
 msgid "\"Not that way! Go left!\""
+msgstr ""
+
+#: lang/json/speech_from_json.py
+msgid "\"Don't make me have ye walk the plank.\""
+msgstr ""
+
+#: lang/json/speech_from_json.py
+msgid "\"Welcome to the pirate's cove matey!\""
+msgstr ""
+
+#: lang/json/speech_from_json.py
+msgid ""
+"\"Arr, ahoy there maties! And welcom- welcom- welcome to tha pirate's cove.\""
+msgstr ""
+
+#: lang/json/speech_from_json.py
+msgid "\"It's me.\""
+msgstr ""
+
+#: lang/json/speech_from_json.py
+msgid "\"SKREEEEEEEEEEEEEE!\""
+msgstr ""
+
+#: lang/json/speech_from_json.py
+msgid "\"Dum de dum dum dum.\""
+msgstr ""
+
+#: lang/json/speech_from_json.py
+msgid "\"Ahoy there!\""
+msgstr ""
+
+#: lang/json/speech_from_json.py
+msgid "\"They will know the joy of creation.\""
+msgstr ""
+
+#: lang/json/speech_from_json.py
+msgid "\"Ha huhuhu huh huh.\""
+msgstr ""
+
+#: lang/json/speech_from_json.py
+msgid "\"Let's eat!\""
+msgstr ""
+
+#: lang/json/speech_from_json.py
+msgid "\"Hello!\""
+msgstr ""
+
+#: lang/json/speech_from_json.py
+msgid "\"Hai!\""
+msgstr ""
+
+#: lang/json/speech_from_json.py
+msgid "\"Hi!\""
+msgstr ""
+
+#: lang/json/speech_from_json.py
+msgid "\"Let's play!\""
+msgstr ""
+
+#: lang/json/speech_from_json.py
+msgid "\"What's your name little child?\""
+msgstr ""
+
+#: lang/json/speech_from_json.py
+msgid "\"Come closer.\""
+msgstr ""
+
+#: lang/json/speech_from_json.py
+msgid "\"Come play with me!\""
+msgstr ""
+
+#: lang/json/speech_from_json.py
+msgid "\"No running.\""
+msgstr ""
+
+#: lang/json/speech_from_json.py
+msgid "\"Running is against the rules.\""
+msgstr ""
+
+#: lang/json/speech_from_json.py
+msgid "\"RAAAAGGGGRRRHHH!\""
+msgstr ""
+
+#: lang/json/speech_from_json.py
+msgid "\"BZZZZZTKKKKKSSSSVVVVVSSTT\""
+msgstr ""
+
+#: lang/json/speech_from_json.py
+msgid "\"WHIIIRRRCRRIIIIZZZZZZVVVT\""
+msgstr ""
+
+#: lang/json/speech_from_json.py
+msgid "\"Let's rock!\""
+msgstr ""
+
+#: lang/json/speech_from_json.py
+msgid "\"Let's Party!\""
+msgstr ""
+
+#: lang/json/speech_from_json.py
+msgid "\"Are you ready?\""
 msgstr ""
 
 #: lang/json/start_location_from_json.py
@@ -58016,87 +58363,99 @@ msgid "hand paddles"
 msgstr ""
 
 #: lang/json/vehicle_part_from_json.py
-msgid "Mounted Pulse Turret"
+msgid "mounted pulse turret"
 msgstr ""
 
 #: lang/json/vehicle_part_from_json.py
-msgid "Mounted Tesla Turret"
+msgid "mounted Tesla turret"
 msgstr ""
 
 #: lang/json/vehicle_part_from_json.py
-msgid "Mounted Energy Turret"
+msgid "mounted energy turret"
 msgstr ""
 
 #: lang/json/vehicle_part_from_json.py
-msgid "Mounted 9mm Dual Turret"
+msgid "dual nail turret"
 msgstr ""
 
 #: lang/json/vehicle_part_from_json.py
-msgid "Mounted 9mm Quad Cannon"
+msgid "quad nail turret"
 msgstr ""
 
 #: lang/json/vehicle_part_from_json.py
-msgid "Mounted .45 Dual Turret"
+msgid "mounted 9mm dual turret"
 msgstr ""
 
 #: lang/json/vehicle_part_from_json.py
-msgid "Mounted .45 Quad Cannon"
+msgid "mounted 9mm quad cannon"
 msgstr ""
 
 #: lang/json/vehicle_part_from_json.py
-msgid "Mounted .22 Dual Turret"
+msgid "mounted .45 dual turret"
 msgstr ""
 
 #: lang/json/vehicle_part_from_json.py
-msgid "Mounted .22 Quad Cannon"
+msgid "mounted .45 quad cannon"
 msgstr ""
 
 #: lang/json/vehicle_part_from_json.py
-msgid "Mounted Scorpion"
+msgid "mounted .22 dual turret"
 msgstr ""
 
 #: lang/json/vehicle_part_from_json.py
-msgid "Mounted Spear Launcher"
+msgid "mounted .22 quad cannon"
 msgstr ""
 
 #: lang/json/vehicle_part_from_json.py
-msgid "Mounted Avalanche Turret"
+msgid "mounted scorpion"
 msgstr ""
 
 #: lang/json/vehicle_part_from_json.py
-msgid "Mounted Grenade Launcher"
+msgid "mounted spear launcher"
 msgstr ""
 
 #: lang/json/vehicle_part_from_json.py
-msgid "Mounted MG"
+msgid "slingshot cannon"
 msgstr ""
 
 #: lang/json/vehicle_part_from_json.py
-msgid "Mounted MG Turret"
+msgid "mounted avalanche turret"
 msgstr ""
 
 #: lang/json/vehicle_part_from_json.py
-msgid "Mounted Rotary Speargun"
+msgid "mounted grenade launcher"
 msgstr ""
 
 #: lang/json/vehicle_part_from_json.py
-msgid "Mounted Storm Bolter"
+msgid "mounted MG"
 msgstr ""
 
 #: lang/json/vehicle_part_from_json.py
-msgid "Mounted Laser Cannon"
+msgid "mounted MG turret"
 msgstr ""
 
 #: lang/json/vehicle_part_from_json.py
-msgid "Mounted Laser"
+msgid "mounted rotary speargun"
 msgstr ""
 
 #: lang/json/vehicle_part_from_json.py
-msgid "Mounted Pulse Laser"
+msgid "mounted storm bolter"
 msgstr ""
 
 #: lang/json/vehicle_part_from_json.py
-msgid "Mounted Turbolaser Cannon"
+msgid "mounted laser cannon"
+msgstr ""
+
+#: lang/json/vehicle_part_from_json.py
+msgid "mounted laser"
+msgstr ""
+
+#: lang/json/vehicle_part_from_json.py
+msgid "mounted pulse laser"
+msgstr ""
+
+#: lang/json/vehicle_part_from_json.py
+msgid "mounted turbolaser cannon"
 msgstr ""
 
 #: lang/json/vehicle_part_from_json.py
@@ -58104,11 +58463,11 @@ msgid "wiring"
 msgstr ""
 
 #: lang/json/vehicle_part_from_json.py
-msgid "Gatling Cannon"
+msgid "Gatling cannon"
 msgstr ""
 
 #: lang/json/vehicle_part_from_json.py
-msgid "Mounted Splintergun"
+msgid "mounted splintergun"
 msgstr ""
 
 #: lang/json/vehicle_part_from_json.py
@@ -58120,15 +58479,15 @@ msgid "water tank (little)"
 msgstr ""
 
 #: lang/json/vehicle_part_from_json.py
-msgid "Mounted Flamethrower"
+msgid "mounted flamecaster"
 msgstr ""
 
 #: lang/json/vehicle_part_from_json.py
-msgid "Mounted Flamecaster"
+msgid "mounted dragon turret"
 msgstr ""
 
 #: lang/json/vehicle_part_from_json.py
-msgid "Mounted Dragon Turret"
+msgid "external cargo carrier"
 msgstr ""
 
 #: lang/json/vehicle_part_from_json.py
@@ -58160,11 +58519,11 @@ msgid "body ram"
 msgstr ""
 
 #: lang/json/vehicle_part_from_json.py
-msgid "Mounted Ripper"
+msgid "mounted ripper"
 msgstr ""
 
 #: lang/json/vehicle_part_from_json.py
-msgid "Mounted Shredder"
+msgid "mounted shredder"
 msgstr ""
 
 #: lang/json/vehicle_part_from_json.py
@@ -58189,8 +58548,7 @@ msgstr ""
 #: src/iexamine.cpp
 #: src/iexamine.cpp src/inventory_ui.cpp src/item_action.cpp
 #: src/iuse.cpp
-#: src/iuse.cpp src/player.cpp
-#: src/player.cpp src/veh_interact.cpp src/vehicle.cpp
+#: src/player.cpp src/veh_interact.cpp
 #: src/vehicle.cpp
 msgid "Cancel"
 msgstr ""
@@ -59926,7 +60284,7 @@ msgstr[0] ""
 msgstr[1] ""
 
 #: src/auto_pickup.cpp
-msgid "Won't display damaged, fits and can/bottle items"
+msgid "Won't display bottled and suffixes=(fits)"
 msgstr ""
 
 #: src/auto_pickup.cpp
@@ -60840,7 +61198,7 @@ msgstr ""
 msgid "lt blue"
 msgstr ""
 
-#: src/color.cpp src/item.cpp src/npctalk.cpp
+#: src/color.cpp src/item.cpp
 msgid "blue"
 msgstr ""
 
@@ -61658,6 +62016,10 @@ msgid "Press %s to view and edit key-bindings."
 msgstr ""
 
 #: src/construction.cpp
+msgid "Stage #"
+msgstr ""
+
+#: src/construction.cpp
 #, c-format
 msgid "Result: %s"
 msgstr ""
@@ -61670,6 +62032,14 @@ msgstr ""
 #: src/construction.cpp
 #, c-format
 msgid "Requires: %s"
+msgstr ""
+
+#: src/construction.cpp
+msgid "^ [P]revious stage(s)"
+msgstr ""
+
+#: src/construction.cpp
+msgid "v [N]ext stage(s)"
 msgstr ""
 
 #: src/construction.cpp
@@ -61950,6 +62320,10 @@ msgid "%2dx %s"
 msgstr ""
 
 #: src/crafting.cpp
+msgid "Recipe not memorized yet"
+msgstr ""
+
+#: src/crafting.cpp
 #, c-format
 msgid "Skills used: %s"
 msgstr ""
@@ -61978,7 +62352,7 @@ msgid "Your skill level: %d"
 msgstr ""
 
 #: src/crafting.cpp
-msgid "Recipe not memorized yet"
+msgid "v (more)"
 msgstr ""
 
 #: src/crafting.cpp
@@ -62046,10 +62420,6 @@ msgstr ""
 
 #: src/crafting.cpp
 msgid "ELECTRICAL"
-msgstr ""
-
-#: src/crafting.cpp
-msgid "ARMOR"
 msgstr ""
 
 #: src/crafting.cpp
@@ -63431,12 +63801,6 @@ msgstr ""
 
 #: src/effect.cpp
 msgid "Rare: "
-msgstr ""
-
-#. ~ Used for effect descriptions, "Your (body_part_name) (effect description)"
-#: src/effect.cpp
-#, c-format
-msgid "Your %s "
 msgstr ""
 
 #: src/event.cpp
@@ -65667,10 +66031,6 @@ msgstr ""
 msgid "You can't peek around corners while you're in your shell."
 msgstr ""
 
-#: src/game.cpp
-msgid "You don't see any items or monsters around you!"
-msgstr ""
-
 #: src/game.cpp src/player.cpp
 msgid "Inventory:"
 msgstr ""
@@ -65819,6 +66179,10 @@ msgid "Debug mode OFF!"
 msgstr ""
 
 #: src/game.cpp
+msgid "Watch the last moments of your life...?"
+msgstr ""
+
+#: src/game.cpp
 msgid "Please wait while the world data loads"
 msgstr ""
 
@@ -65943,13 +66307,6 @@ msgstr ""
 #: src/game.cpp
 msgid "Lua Command"
 msgstr ""
-
-#: src/game.cpp
-#, c-format
-msgid "%d radio tower"
-msgid_plural "%d radio towers"
-msgstr[0] ""
-msgstr[1] ""
 
 #: src/game.cpp
 msgid "Current overmap revealed."
@@ -66722,6 +67079,10 @@ msgid "Push %s"
 msgstr ""
 
 #: src/game.cpp
+msgid "Rename"
+msgstr ""
+
+#: src/game.cpp
 msgid "Place items into bag"
 msgstr ""
 
@@ -66767,6 +67128,10 @@ msgstr ""
 #: src/game.cpp
 #, c-format
 msgid "You pushed the %s, but it resisted."
+msgstr ""
+
+#: src/game.cpp
+msgid "Enter new pet name:"
 msgstr ""
 
 #: src/game.cpp
@@ -66901,6 +67266,14 @@ msgid "No Zones defined."
 msgstr ""
 
 #: src/game.cpp
+msgid "Press"
+msgstr ""
+
+#: src/game.cpp
+msgid "to list items and monsters"
+msgstr ""
+
+#: src/game.cpp
 msgid "Bright light."
 msgstr ""
 
@@ -66918,11 +67291,11 @@ msgid "You heard %s from here."
 msgstr ""
 
 #: src/game.cpp
-msgid "Type part of an item's name to see"
+msgid "Type part of an item's name to"
 msgstr ""
 
 #: src/game.cpp
-msgid "nearby matching items."
+msgid "filter it."
 msgstr ""
 
 #: src/game.cpp
@@ -66938,7 +67311,7 @@ msgid "To exclude items, place - in front"
 msgstr ""
 
 #: src/game.cpp
-msgid "Example: -pipe,chunk,steel"
+msgid "Example: -pipe,-chunk,-steel"
 msgstr ""
 
 #: src/game.cpp
@@ -66947,14 +67320,6 @@ msgstr ""
 
 #: src/game.cpp
 msgid "Example: {c:food},{m:iron}"
-msgstr ""
-
-#: src/game.cpp
-msgid "Filter:"
-msgstr ""
-
-#: src/game.cpp
-msgid "UP: history, CTRL-U clear line, ESC: abort, ENTER: save"
 msgstr ""
 
 #: src/game.cpp
@@ -66967,6 +67332,10 @@ msgstr ""
 
 #: src/game.cpp
 msgid "High Priority:"
+msgstr ""
+
+#: src/game.cpp
+msgid "UP: history, CTRL-U clear line, ESC: abort, ENTER: save"
 msgstr ""
 
 #: src/game.cpp
@@ -67009,12 +67378,20 @@ msgstr ""
 msgid "<+/->Priority"
 msgstr ""
 
+#: src/game.cpp
+msgid "You don't see any items or monsters around you!"
+msgstr ""
+
 #: src/game.cpp src/inventory_ui.cpp
 msgid "Previous item"
 msgstr ""
 
 #: src/game.cpp src/inventory_ui.cpp
 msgid "Next item"
+msgstr ""
+
+#: src/game.cpp
+msgid "Filter:"
 msgstr ""
 
 #: src/game.cpp
@@ -69536,7 +69913,10 @@ msgid "Out of order."
 msgstr ""
 
 #: src/iexamine.cpp
-msgid "Welcome to the C.C.B.o.t.T. ATM. What would you like to do?"
+#, c-format
+msgid ""
+"Welcome to the C.C.B.o.t.T. ATM. What would you like to do?\n"
+"Your current balance is: $%ld.%02ld"
 msgstr ""
 
 #: src/iexamine.cpp
@@ -69584,17 +69964,26 @@ msgid "One of your cash cards must be charged before you can move money!"
 msgstr ""
 
 #: src/iexamine.cpp
-msgid "Insert card for deposit."
-msgstr ""
+#, c-format
+msgid "Your account now holds %d cent."
+msgid_plural "Your account now holds %d cents."
+msgstr[0] ""
+msgstr[1] ""
 
 #: src/iexamine.cpp
-#: src/iexamine.cpp src/iuse.cpp
-#: src/iuse.cpp
-msgid "You do not have that item!"
+msgid "Nevermind."
 msgstr ""
 
 #: src/iexamine.cpp
 msgid "Please insert cash cards only!"
+msgstr ""
+
+#: src/iexamine.cpp
+msgid "This will automatically deduct $1.00 from your bank account. Continue?"
+msgstr ""
+
+#: src/iexamine.cpp
+msgid "Insert card for deposit."
 msgstr ""
 
 #: src/iexamine.cpp
@@ -69603,15 +69992,8 @@ msgstr ""
 
 #: src/iexamine.cpp
 #, c-format
-msgid "Deposit how much? Max:%d cent. (0 to cancel) "
-msgid_plural "Deposit how much? Max:%d cents. (0 to cancel) "
-msgstr[0] ""
-msgstr[1] ""
-
-#: src/iexamine.cpp
-#, c-format
-msgid "Your account now holds %d cent."
-msgid_plural "Your account now holds %d cents."
+msgid "Deposit how much? Max: %d cent. (0 to cancel) "
+msgid_plural "Deposit how much? Max: %d cents. (0 to cancel) "
 msgstr[0] ""
 msgstr[1] ""
 
@@ -69621,8 +70003,8 @@ msgstr ""
 
 #: src/iexamine.cpp
 #, c-format
-msgid "Withdraw how much? Max:%d cent. (0 to cancel) "
-msgid_plural "Withdraw how much? Max:%d cents. (0 to cancel) "
+msgid "Withdraw how much? Max: %d cent. (0 to cancel) "
+msgid_plural "Withdraw how much? Max: %d cents. (0 to cancel) "
 msgstr[0] ""
 msgstr[1] ""
 
@@ -69636,14 +70018,10 @@ msgstr ""
 
 #: src/iexamine.cpp
 #, c-format
-msgid "Transfer how much? Max:%d cent. (0 to cancel) "
-msgid_plural "Transfer how much? Max:%d cents. (0 to cancel) "
+msgid "Transfer how much? Max: %d cent. (0 to cancel) "
+msgid_plural "Transfer how much? Max: %d cents. (0 to cancel) "
 msgstr[0] ""
 msgstr[1] ""
-
-#: src/iexamine.cpp
-msgid "This will automatically deduct $1.00 from your bank account. Continue?"
-msgstr ""
 
 #: src/iexamine.cpp
 msgid "Insert card for bulk deposit."
@@ -69667,7 +70045,7 @@ msgstr ""
 
 #: src/iexamine.cpp
 #, c-format
-msgid "Money left:%d Press 'q' or ESC to stop."
+msgid "Money left: %d"
 msgstr ""
 
 #: src/iexamine.cpp
@@ -70364,6 +70742,16 @@ msgstr ""
 
 #: src/iexamine.cpp
 #, c-format
+msgid "Forage through %s?"
+msgstr ""
+
+#: src/iexamine.cpp
+#, c-format
+msgid "You forage through the %s."
+msgstr ""
+
+#: src/iexamine.cpp
+#, c-format
 msgid "about %d %s"
 msgstr ""
 
@@ -70591,6 +70979,11 @@ msgstr ""
 
 #: src/iexamine.cpp
 msgid "Insert card."
+msgstr ""
+
+#: src/iexamine.cpp src/iuse.cpp
+#: src/iuse.cpp
+msgid "You do not have that item!"
 msgstr ""
 
 #: src/iexamine.cpp
@@ -71374,6 +71767,24 @@ msgstr ""
 
 #: src/item.cpp
 msgid ""
+"This piece of clothing has a fur lining sewn into it to increase its overall "
+"warmth."
+msgstr ""
+
+#: src/item.cpp
+msgid ""
+"This gear has certain parts padded with leather to increase protection "
+"without increasing encumbrance."
+msgstr ""
+
+#: src/item.cpp
+msgid ""
+"This gear has kevlar inserted into strategic locations to increase "
+"protection without increasing encumbrance."
+msgstr ""
+
+#: src/item.cpp
+msgid ""
 "This piece of clothing prevents you from going underwater (including "
 "voluntary diving)."
 msgstr ""
@@ -71653,6 +72064,18 @@ msgid " (UPS)"
 msgstr ""
 
 #: src/item.cpp
+msgid " (F)"
+msgstr ""
+
+#: src/item.cpp
+msgid " (L)"
+msgstr ""
+
+#: src/item.cpp
+msgid " (K)"
+msgstr ""
+
+#: src/item.cpp
 msgid "atomic "
 msgstr ""
 
@@ -71680,7 +72103,7 @@ msgstr ""
 msgid " (active)"
 msgstr ""
 
-#. ~ This is a string to construct the item name as it is displayed. This format string has been added for maximum flexibility. The strings are: %1$s: Damage text (eg. “bruised”). %2$s: burn adjectives (eg. “burnt”). %3$s: sided adjectives (eg. "left"). %4$s: tool modifier text (eg. “atomic”). %5$s: vehicle part text (eg. “3.8-Liter”). $6$s: main item text (eg. “apple”). %7$s: tags (eg. “ (wet) (fits)”).
+#. ~ This is a string to construct the item name as it is displayed. This format string has been added for maximum flexibility. The strings are: %1$s: Damage text (eg. "bruised"). %2$s: burn adjectives (eg. "burnt"). %3$s: sided adjectives (eg. "left"). %4$s: tool modifier text (eg. "atomic"). %5$s: vehicle part text (eg. "3.8-Liter"). $6$s: main item text (eg. "apple"). %7$s: tags (eg. "(wet) (fits)").
 #: src/item.cpp
 #, c-format
 msgid "%1$s%2$s%3$s%4$s%5$s%6$s%7$s"
@@ -73228,14 +73651,6 @@ msgid "You spill the cat food all over the ground."
 msgstr ""
 
 #: src/iuse.cpp
-msgid "You can't see to sew!"
-msgstr ""
-
-#: src/iuse.cpp
-msgid "Repair what?"
-msgstr ""
-
-#: src/iuse.cpp
 msgid "<plural>rags"
 msgstr ""
 
@@ -73319,7 +73734,159 @@ msgstr ""
 
 #: src/iuse.cpp
 #, c-format
-msgid "Your %s is already enhanced."
+msgid "Your %s already reinforced."
+msgstr ""
+
+#: src/iuse.cpp
+msgid "You can't see to sew!"
+msgstr ""
+
+#: src/iuse.cpp
+msgid "Repair what?"
+msgstr ""
+
+#: src/iuse.cpp
+msgid "You don't have enough thread."
+msgstr ""
+
+#: src/iuse.cpp
+msgid "Enhance what?"
+msgstr ""
+
+#: src/iuse.cpp
+msgid "You can only tailor your clothes!"
+msgstr ""
+
+#: src/iuse.cpp
+msgid "You can't use a tailor's kit on a firearm!"
+msgstr ""
+
+#: src/iuse.cpp
+msgid "You can't modify your power armor!"
+msgstr ""
+
+#: src/iuse.cpp
+msgid "<plural>plastic"
+msgstr ""
+
+#: src/iuse.cpp
+msgid "<plural>kevlar"
+msgstr ""
+
+#: src/iuse.cpp
+#, c-format
+msgid "Your %s is not made of fabric, leather, fur, kevlar, wool or plastic."
+msgstr ""
+
+#: src/iuse.cpp
+msgid "This can be used to repair or modify other items, not itself."
+msgstr ""
+
+#: src/iuse.cpp
+msgid "How do you want to modify it?"
+msgstr ""
+
+#: src/iuse.cpp
+msgid "Line it with fur"
+msgstr ""
+
+#: src/iuse.cpp
+msgid "Line with kevlar"
+msgstr ""
+
+#: src/iuse.cpp
+msgid "Pad with leather"
+msgstr ""
+
+#: src/iuse.cpp
+msgid "Repair clothing"
+msgstr ""
+
+#: src/iuse.cpp
+msgid "You can't modify this more than twice."
+msgstr ""
+
+#: src/iuse.cpp
+msgid "You already sewed in a fur lining."
+msgstr ""
+
+#: src/iuse.cpp
+msgid "<plural>furs"
+msgstr ""
+
+#: src/iuse.cpp
+#, c-format
+msgid "You damage your %s further trying to sew in a fur lining!"
+msgstr ""
+
+#: src/iuse.cpp
+msgid "You fail to sew in a fur lining, and you waste a lot of thread and fur."
+msgstr ""
+
+#: src/iuse.cpp
+#, c-format
+msgid "You sew in a fur lining on your %s, but waste a lot of thread."
+msgstr ""
+
+#: src/iuse.cpp
+#, c-format
+msgid "You sew in a fur lining on your %s!"
+msgstr ""
+
+#: src/iuse.cpp
+msgid "You've already padded this with leather."
+msgstr ""
+
+#: src/iuse.cpp
+#, c-format
+msgid "You damage your %s further trying to pad it with leather!"
+msgstr ""
+
+#: src/iuse.cpp
+#, c-format
+msgid ""
+"You fail to pad your %s with leather, and you waste a lot of thread and "
+"leather."
+msgstr ""
+
+#: src/iuse.cpp
+#, c-format
+msgid "You pad your %s with leather, but waste a lot of thread."
+msgstr ""
+
+#: src/iuse.cpp
+#, c-format
+msgid "You pad your %s with leather!"
+msgstr ""
+
+#: src/iuse.cpp
+msgid "You've already lined this with kevlar."
+msgstr ""
+
+#: src/iuse.cpp
+msgid "<plural>kevlar plates"
+msgstr ""
+
+#: src/iuse.cpp
+#, c-format
+msgid "You damage your %s further trying to line it with kevlar!"
+msgstr ""
+
+#: src/iuse.cpp
+#, c-format
+msgid ""
+"You fail to line your %s with kevlar, and you waste a lot of thread and "
+"kevlar."
+msgstr ""
+
+#: src/iuse.cpp
+#, c-format
+msgid "You line your %s with kevlar, but waste a lot of thread."
+msgstr ""
+
+#: src/iuse.cpp
+#, c-format
+msgid "You line your %s with kevlar!"
 msgstr ""
 
 #: src/iuse.cpp
@@ -73582,6 +74149,11 @@ msgstr ""
 
 #: src/iuse.cpp
 msgid "You practice your soldering."
+msgstr ""
+
+#: src/iuse.cpp
+#, c-format
+msgid "Your %s is already enhanced."
 msgstr ""
 
 #: src/iuse.cpp
@@ -77672,16 +78244,17 @@ msgid "CE"
 msgstr ""
 
 #: src/live_view.cpp
-msgid "Mouse View"
+msgid "More items here..."
 msgstr ""
 
+#. ~ item name [quantity]
 #: src/live_view.cpp
 #, c-format
-msgid " [%d]"
+msgid "%s [%d]"
 msgstr ""
 
 #: src/live_view.cpp
-msgid "More items here..."
+msgid "Mouse View"
 msgstr ""
 
 #: src/main.cpp
@@ -82144,46 +82717,6 @@ msgid "Use this style?"
 msgstr ""
 
 #: src/newcharacter.cpp
-msgid "Crane"
-msgstr ""
-
-#: src/newcharacter.cpp
-msgid "Leopard"
-msgstr ""
-
-#: src/newcharacter.cpp
-msgid "Tiger"
-msgstr ""
-
-#: src/newcharacter.cpp
-msgid "Dragon"
-msgstr ""
-
-#: src/newcharacter.cpp
-msgid "Snake"
-msgstr ""
-
-#: src/newcharacter.cpp
-msgid "Centipede"
-msgstr ""
-
-#: src/newcharacter.cpp
-msgid "Viper"
-msgstr ""
-
-#: src/newcharacter.cpp
-msgid "Scorpion"
-msgstr ""
-
-#: src/newcharacter.cpp
-msgid "Toad"
-msgstr ""
-
-#: src/newcharacter.cpp
-msgid "Pentjak Silat"
-msgstr ""
-
-#: src/newcharacter.cpp
 msgid "SCENARIO"
 msgstr ""
 
@@ -83803,10 +84336,6 @@ msgid "bummed"
 msgstr ""
 
 #: src/npctalk.cpp
-msgid "dejected"
-msgstr ""
-
-#: src/npctalk.cpp
 msgid "depressed"
 msgstr ""
 
@@ -83823,7 +84352,17 @@ msgid "unhappy"
 msgstr ""
 
 #: src/npctalk.cpp
+msgid "dejected"
+msgstr ""
+
+#: src/npctalk.cpp
 msgid "down"
+msgstr ""
+
+#. ~ The word blue here means "depressed", not the color blue.
+#: src/npctalk.cpp
+msgctxt "npc_depressed"
+msgid "blue"
 msgstr ""
 
 #: src/npctalk.cpp
@@ -86952,6 +87491,15 @@ msgid ""
 msgstr ""
 
 #: src/options.cpp
+msgid "Show item health bars"
+msgstr ""
+
+#: src/options.cpp
+msgid ""
+"If true, show item health bars instead of reinforced, scratched etc. text."
+msgstr ""
+
+#: src/options.cpp
 msgid "Enable Joystick"
 msgstr ""
 
@@ -87843,6 +88391,10 @@ msgid "%s's"
 msgstr ""
 
 #: src/player.cpp
+msgid "armor"
+msgstr ""
+
+#: src/player.cpp
 msgid "Your thick scales get in the way."
 msgstr ""
 
@@ -88380,22 +88932,18 @@ msgid "                          "
 msgstr ""
 
 #: src/player.cpp
-#, range: 1..21
 msgid "Base HP:"
 msgstr ""
 
 #: src/player.cpp
-#, range: 1..19
 msgid "Carry weight(kg):"
 msgstr ""
 
 #: src/player.cpp
-#, range: 1..19
 msgid "Carry weight(lbs):"
 msgstr ""
 
 #: src/player.cpp
-#, range: 1..21
 msgid "Melee damage:"
 msgstr ""
 
@@ -88876,6 +89424,11 @@ msgstr ""
 #, c-format
 msgctxt "memorial_female"
 msgid "Overcame addiction to %s."
+msgstr ""
+
+#: src/player.cpp
+#, c-format
+msgid "There is not enough %s left to siphon it."
 msgstr ""
 
 #: src/player.cpp
@@ -90649,11 +91202,6 @@ msgstr ""
 
 #: src/player.cpp
 #, c-format
-msgid "Your %s is damaged!"
-msgstr ""
-
-#: src/player.cpp
-#, c-format
 msgid "This task is too simple to train your %s beyond %d."
 msgstr ""
 
@@ -90813,6 +91361,10 @@ msgstr ""
 
 #: src/player_activity.cpp
 msgid " Stop aiming?"
+msgstr ""
+
+#: src/player_activity.cpp
+msgid " Stop using the ATM?"
 msgstr ""
 
 #: src/player_activity.cpp

@@ -45,7 +45,7 @@ const std::string &player_activity::get_stop_phrase() const
         _(" Stop interacting with inventory?"),
         _(" Stop lighting the fire?"), _(" Stop filling the container?"),
         _(" Stop hotwiring the vehicle?"),
-        _(" Stop aiming?")
+        _(" Stop aiming?"), _(" Stop using the ATM?")
     };
     return stop_phrase[type];
 }
@@ -99,6 +99,7 @@ bool player_activity::is_suspendable() const
         case ACT_MOVE_ITEMS:
         case ACT_ADV_INVENTORY:
         case ACT_AIM:
+        case ACT_ATM:
             return false;
         default:
             return true;
@@ -140,6 +141,12 @@ void player_activity::do_turn( player *p )
             break;
         case ACT_AIM:
             if( index == 0 ) {
+                if( !p->weapon.is_gun() ) {
+                    // We lost our gun somehow, bail out.
+                    type = ACT_NULL;
+                    break;
+                }
+                g->m.build_map_cache();
                 g->plfire(false);
             }
             break;
@@ -193,6 +200,17 @@ void player_activity::do_turn( player *p )
         case ACT_FILL_LIQUID:
             activity_handlers::fill_liquid_do_turn( this, p );
             break;
+        case ACT_ATM:
+            // Based on speed, not time
+            if (p->moves <= moves_left) {
+                moves_left -= p->moves;
+                p->moves = 0;
+            } else {
+                p->moves -= moves_left;
+                moves_left = 0;
+            }
+            iexamine::atm(p, nullptr, 0, 0);
+            break;
         default:
             // Based on speed, not time
             if( p->moves <= moves_left ) {
@@ -235,11 +253,10 @@ void player_activity::finish( player *p )
             {
                 int batch_size = values.front();
                 p->complete_craft();
+		type = ACT_NULL;
                 // Workaround for a bug where longcraft can be unset in complete_craft().
-                if( type == ACT_LONGCRAFT &&
-                    p->making_would_work( p->lastrecipe, batch_size ) ) {
-                    type = ACT_NULL;
-                    p->make_all_craft(p->lastrecipe, batch_size);
+                if( p->making_would_work( p->lastrecipe, batch_size ) ) {
+                    p->make_all_craft( p->lastrecipe, batch_size );
                 }
             }
             break;
@@ -304,6 +321,12 @@ void player_activity::finish( player *p )
         case ACT_AIM:
             // Aim bails itself by resetting itself every turn,
             // you only re-enter if it gets set again.
+            break;
+        case ACT_ATM:
+            // ATM sets index to 0 to indicate it's finished.
+            if (!index) {
+                type = ACT_NULL;
+            }
             break;
         default:
             type = ACT_NULL;

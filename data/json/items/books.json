@@ -4099,7 +4099,7 @@
         "name" : "The Kojiki",
         "name_plural" : "copies of The Kojiki",
         "max_level" : 0,
-        "description" : "The the oldest extant chronicle of Japan's myths and history, the stories contained in the Kojiki are part of the inspiration behind Shinto practices.",
+        "description" : "The oldest extant chronicle of Japan's myths and history, the stories contained in the Kojiki are part of the inspiration behind Shinto practices.",
         "weight" : 368,
         "to_hit" : 0,
         "color" : "dark_gray",

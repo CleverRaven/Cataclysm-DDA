@@ -208,6 +208,7 @@
       "id" : "shards",
       "price" : 0,
       "name" : "metal fragments",
+      "name_plural" : "metal fragments",
       "symbol" : "=",
       "color" : "blue",
       "description" : "Small slivers of metal. Can't see much use for them.",

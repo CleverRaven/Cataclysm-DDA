@@ -31,6 +31,8 @@
 # Compile localization files for specified languages
 #  make LANGUAGES="<lang_id_1>[ lang_id_2][ ...]"
 #  (for example: make LANGUAGES="zh_CN zh_TW" for Chinese)
+# Enable experimental z-levels
+#  make ZLEVELS=1
 # Install to system directories.
 #  make install
 # Enable lua debug support
@@ -75,7 +77,7 @@ endif
 #DEFINES += -DDEBUG_ENABLE_MAP_GEN
 #DEFINES += -DDEBUG_ENABLE_GAME
 
-VERSION = 0.B
+VERSION = 0.C
 
 TARGET = cataclysm
 TILESTARGET = cataclysm-tiles
@@ -137,6 +139,10 @@ ifdef CLANG
     LD  = $(CROSS)clang++
   endif
   WARNINGS = -Wall -Wextra -Wno-switch -Wno-sign-compare -Wno-missing-braces -Wno-type-limits -Wno-narrowing
+endif
+
+ifdef ZLEVELS
+  DEFINES += -DZLEVELS
 endif
 
 OTHERS += --std=c++11
@@ -594,7 +600,7 @@ ctags: $(SOURCES) $(HEADERS)
 
 etags: $(SOURCES) $(HEADERS)
 	etags $(SOURCES) $(HEADERS)
-	find data/json -name "*.json" -print0 | xargs -0 -L 50 etags --append
+	find data -name "*.json" -print0 | xargs -0 -L 50 etags --append
 
 tests: $(ODIR) $(DDIR) $(OBJS)
 	$(MAKE) -C tests

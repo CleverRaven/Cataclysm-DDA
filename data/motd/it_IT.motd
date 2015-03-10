@@ -1,19 +1,19 @@
 # Questo messaggio può avere massimo 21 righe, anche se meno sarebbero meglio.
 # Una riga può avere fino a 72 caratteri, riferirsi alla riga successiva
 ########################################################################
-Contenuti principali in v0.B Brin:
-* NPC statici con varie quest.
-* Tre nuove strutture MOLTO grandi.
-* Potenziamenti bionici attivabili e mutazioni.
-* Distruzione dei veicoli dettagliata.
-* I cavi a ponticello permettono la connessione di sistemi elettrici.
-* Oggetti radio comandati.
-* Scenari di inizio e tantissime zone iniziali tra cui scegliere.
-La raccolta e l'abbandono di oggetti sono  interrompibili.
-* Retrocompatibilità con i salvataggi della versione 0.9 e 0.A.
+Major features in v0.C Cooper:
+* Monster infighting.
+* Aiming system overhaul.
+* Enhanced turret controls.
+* Clothing modifications.
+* Lots of craftable pottery, explosives, metal goods, clothes and food.
+* New action menu for triggering items.
+* Improved layering and encumbrance system.
+* Huge performance improvements when dealing with many nearby items.
+* Backward compatability with 0.A and 0.B saves.
 
 Per le ultime discussioni e notizie su DDA, si prega di visitare:
 Pagina principale: http://www.cataclysmdda.com/
 Wiki: http://wiki.cataclysmdda.com/
 
-Puoi accedere alle opzioni (nel gioco) tramite il menù di aiuto (?2).
+Mentre giochi puoi modificare le opzioni tramite il menù di aiuto (?2)

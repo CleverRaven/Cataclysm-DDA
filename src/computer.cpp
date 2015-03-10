@@ -8,6 +8,7 @@
 #include "overmapbuffer.h"
 #include "messages.h"
 #include "sounds.h"
+#include "rng.h"
 
 #include <fstream>
 #include <string>
@@ -749,7 +750,7 @@ of pureed bone & LSD."));
                         print_error(_("ERROR: Please only use blood samples."));
                     } else { // Success!
                         const item &blood = g->m.i_at(x, y).front().contents[0];
-                        auto const mt = blood.get_mtype();
+                        const mtype *mt = blood.get_mtype();
                         if( mt == nullptr || mt->id == "mon_null" ) {
                             print_line(_("Result:  Human blood, no pathogens found."));
                         } else if( mt->in_species( "ZOMBIE" ) ) {

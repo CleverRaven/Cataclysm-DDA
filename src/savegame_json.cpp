@@ -102,6 +102,23 @@ void SkillLevel::deserialize(JsonIn &jsin)
     }
 }
 
+void Character::trait_data::serialize( JsonOut &json ) const
+{
+    json.start_object();
+    json.member( "key", key );
+    json.member( "charge", charge );
+    json.member( "powered", powered );
+    json.end_object();
+}
+
+void Character::trait_data::deserialize( JsonIn &jsin )
+{
+    JsonObject data = jsin.get_object();
+    data.read( "key", key );
+    data.read( "charge", charge );
+    data.read( "powered", powered );
+}
+
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 ///// Character.h, player + npc
 /*
@@ -112,14 +129,49 @@ void Character::load(JsonObject &data)
     Creature::load( data );
 
     JsonArray parray;
-    
-    data.read("underwater", underwater);
-    
-    data.read("traits", my_traits);
 
-    data.read( "mutations", my_mutations );
-    data.read( "mutation_keys", trait_keys );
-    
+    data.read("underwater", underwater);
+
+    data.read("traits", my_traits);
+    for( auto it = my_traits.begin(); it != my_traits.end(); ) {
+        const auto &tid = *it;
+        if( mutation_branch::has( tid ) ) {
+            ++it;
+        } else {
+            debugmsg( "character %s has invalid trait %s, it will be ignored", name.c_str(), tid.c_str() );
+            my_traits.erase( it++ );
+        }
+    }
+
+    if( savegame_loading_version <= 23 ) {
+        std::unordered_set<std::string> old_my_mutations;
+        data.read( "mutations", old_my_mutations );
+        for( const auto & mut : old_my_mutations ) {
+            my_mutations[mut]; // Creates a new entry with default values
+        }
+        std::map<std::string, char> trait_keys;
+        data.read( "mutation_keys", trait_keys );
+        for( const auto & k : trait_keys ) {
+            my_mutations[k.first].key = k.second;
+        }
+        std::set<std::string> active_muts;
+        data.read( "active_mutations_hacky", active_muts );
+        for( const auto & mut : active_muts ) {
+            my_mutations[mut].powered = true;
+        }
+    } else {
+        data.read( "mutations", my_mutations );
+    }
+    for( auto it = my_mutations.begin(); it != my_mutations.end(); ) {
+        const auto &mid = it->first;
+        if( mutation_branch::has( mid ) ) {
+            ++it;
+        } else {
+            debugmsg( "character %s has invalid mutation %s, it will be ignored", name.c_str(), mid.c_str() );
+            my_mutations.erase( it++ );
+        }
+    }
+
     data.read( "my_bionics", my_bionics );
 
     worn.clear();
@@ -141,7 +193,7 @@ void Character::load(JsonObject &data)
 
     weapon = item( "null", 0 );
     data.read( "weapon", weapon );
-    
+
     if (data.has_object("skills")) {
         JsonObject pmap = data.get_object("skills");
         for( auto &skill : Skill::skills ) {
@@ -159,20 +211,17 @@ void Character::load(JsonObject &data)
 void Character::store(JsonOut &json) const
 {
     Creature::store( json );
-    
+
     // breathing
     json.member( "underwater", underwater );
 
     // traits: permanent 'mutations' more or less
     json.member( "traits", my_traits );
-
-    // mutations; just like traits but can be removed.
     json.member( "mutations", my_mutations );
-    json.member( "mutation_keys", trait_keys );
 
     // "Fracking Toasters" - Saul Tigh, toaster
     json.member( "my_bionics", my_bionics );
-    
+
     // skills
     json.member( "skills" );
     json.start_object();
@@ -247,7 +296,7 @@ void player::load(JsonObject &data)
  * Variables common to player (and npc's, should eventually just be players)
  */
 void player::store(JsonOut &json) const
-{
+{   
     Character::store( json );
 
     // assumes already in player object
@@ -887,6 +936,7 @@ void monster::load(JsonObject &data)
     }
     type = GetMType(sidtmp);
 
+    data.read( "unique_name", unique_name );
     data.read("posx", position.x);
     data.read("posy", position.y);
     data.read("wandx", wandx);
@@ -953,6 +1003,7 @@ void monster::store(JsonOut &json) const
 {
     Creature::store( json );
     json.member( "typeid", type->id );
+    json.member( "unique_name", unique_name );
     json.member("posx", position.x);
     json.member("posy", position.y);
     json.member("wandx", wandx);

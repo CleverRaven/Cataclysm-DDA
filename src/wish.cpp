@@ -59,11 +59,12 @@ class wish_mutate_callback: public uimenu_callback
             if ( ! started ) {
                 started = true;
                 padding = std::string(menu->pad_right - 1, ' ');
-                for( auto &traits_iter : traits ) {
+                for( auto &traits_iter : mutation_branch::get_all() ) {
                     vTraits.push_back( traits_iter.first );
                     pTraits[traits_iter.first] = ( p->has_trait( traits_iter.first ) );
                 }
             }
+            auto &mdata = mutation_branch::get( vTraits[entnum] );
 
             int startx = menu->w_width - menu->pad_right;
             for ( int i = 1; i < lastlen; i++ ) {
@@ -71,67 +72,67 @@ class wish_mutate_callback: public uimenu_callback
             }
 
             mvwprintw(menu->window, 1, startx,
-                      mutation_data[vTraits[ entnum ]].valid ? _("Valid") : _("Nonvalid"));
+                      mdata.valid ? _("Valid") : _("Nonvalid"));
             int line2 = 2;
 
-            if ( !mutation_data[vTraits[entnum]].prereqs.empty() ) {
+            if ( !mdata.prereqs.empty() ) {
                 line2++;
                 mvwprintz(menu->window, line2, startx, c_ltgray, _("Prereqs:"));
-                for (auto &j : mutation_data[vTraits[ entnum ]].prereqs) {
-                    mvwprintz(menu->window, line2, startx + 11, mcolor(j), "%s", traits[j].name.c_str());
+                for (auto &j : mdata.prereqs) {
+                    mvwprintz(menu->window, line2, startx + 11, mcolor(j), "%s", mutation_branch::get_name( j ).c_str());
                     line2++;
                 }
             }
 
-            if ( !mutation_data[vTraits[entnum]].prereqs2.empty() ) {
+            if ( !mdata.prereqs2.empty() ) {
                 line2++;
                 mvwprintz(menu->window, line2, startx, c_ltgray, _("Prereqs, 2d:"));
-                for (auto &j : mutation_data[vTraits[ entnum ]].prereqs2) {
-                    mvwprintz(menu->window, line2, startx + 15, mcolor(j), "%s", traits[j].name.c_str());
+                for (auto &j : mdata.prereqs2) {
+                    mvwprintz(menu->window, line2, startx + 15, mcolor(j), "%s", mutation_branch::get_name( j ).c_str());
                     line2++;
                 }
             }
 
-            if ( !mutation_data[vTraits[entnum]].threshreq.empty() ) {
+            if ( !mdata.threshreq.empty() ) {
                 line2++;
                 mvwprintz(menu->window, line2, startx, c_ltgray, _("Thresholds required:"));
-                for (auto &j : mutation_data[vTraits[ entnum ]].threshreq) {
-                    mvwprintz(menu->window, line2, startx + 21, mcolor(j), "%s", traits[j].name.c_str());
+                for (auto &j : mdata.threshreq) {
+                    mvwprintz(menu->window, line2, startx + 21, mcolor(j), "%s", mutation_branch::get_name( j ).c_str());
                     line2++;
                 }
             }
 
-            if ( !mutation_data[vTraits[entnum]].cancels.empty() ) {
+            if ( !mdata.cancels.empty() ) {
                 line2++;
                 mvwprintz(menu->window, line2, startx, c_ltgray, _("Cancels:"));
-                for (auto &j : mutation_data[vTraits[ entnum ]].cancels) {
-                    mvwprintz(menu->window, line2, startx + 11, mcolor(j), "%s", traits[j].name.c_str());
+                for (auto &j : mdata.cancels) {
+                    mvwprintz(menu->window, line2, startx + 11, mcolor(j), "%s", mutation_branch::get_name( j ).c_str());
                     line2++;
                 }
             }
 
-            if ( !mutation_data[vTraits[entnum]].replacements.empty() ) {
+            if ( !mdata.replacements.empty() ) {
                 line2++;
                 mvwprintz(menu->window, line2, startx, c_ltgray, _("Becomes:"));
-                for (auto &j : mutation_data[vTraits[ entnum ]].replacements) {
-                    mvwprintz(menu->window, line2, startx + 11, mcolor(j), "%s", traits[j].name.c_str());
+                for (auto &j : mdata.replacements) {
+                    mvwprintz(menu->window, line2, startx + 11, mcolor(j), "%s", mutation_branch::get_name( j ).c_str());
                     line2++;
                 }
             }
 
-            if ( !mutation_data[vTraits[entnum]].additions.empty() ) {
+            if ( !mdata.additions.empty() ) {
                 line2++;
                 mvwprintz(menu->window, line2, startx, c_ltgray, _("Add-ons:"));
-                for (auto &j : mutation_data[vTraits[ entnum ]].additions) {
-                    mvwprintz(menu->window, line2, startx + 11, mcolor(j), "%s", traits[j].name.c_str());
+                for (auto &j : mdata.additions) {
+                    mvwprintz(menu->window, line2, startx + 11, mcolor(j), "%s", mutation_branch::get_name( j ).c_str());
                     line2++;
                 }
             }
 
-            if ( !mutation_data[vTraits[entnum]].category.empty() ) {
+            if ( !mdata.category.empty() ) {
                 line2++;
                 mvwprintz(menu->window, line2, startx, c_ltgray,  _("Category:"));
-                for (auto &j : mutation_data[vTraits[ entnum ]].category) {
+                for (auto &j : mdata.category) {
                     mvwprintw(menu->window, line2, startx + 11, "%s", j.c_str());
                     line2++;
                 }
@@ -139,13 +140,13 @@ class wish_mutate_callback: public uimenu_callback
             line2 += 2;
 
             mvwprintz(menu->window, line2, startx, c_ltgray, "pts: %d vis: %d ugly: %d",
-                      traits[vTraits[entnum]].points,
-                      traits[vTraits[entnum]].visibility,
-                      traits[vTraits[entnum]].ugliness
+                      mdata.points,
+                      mdata.visibility,
+                      mdata.ugliness
                      );
             line2 += 2;
 
-            std::vector<std::string> desc = foldstring( traits[vTraits[ entnum ]].description,
+            std::vector<std::string> desc = foldstring( mdata.description,
                                             menu->pad_right - 1 );
             for( auto &elem : desc ) {
                 mvwprintz( menu->window, line2, startx, c_ltgray, "%s", elem.c_str() );
@@ -168,7 +169,7 @@ void game::wishmutate( player *p )
     uimenu wmenu;
     int c = 0;
 
-    for( auto &traits_iter : traits ) {
+    for( auto &traits_iter : mutation_branch::get_all() ) {
         wmenu.addentry( -1, true, -2, "%s", traits_iter.second.name.c_str() );
         wmenu.entries[ c ].extratxt.left = 1;
         wmenu.entries[ c ].extratxt.txt = "";
@@ -195,8 +196,9 @@ void game::wishmutate( player *p )
         if ( wmenu.ret > 0 ) {
             int rc = 0;
             std::string mstr = cb->vTraits[ wmenu.ret ];
-            bool threshold = mutation_data[mstr].threshold;
-            bool profession = mutation_data[mstr].profession;
+            const auto &mdata = mutation_branch::get( mstr );
+            bool threshold = mdata.threshold;
+            bool profession = mdata.profession;
             //Manual override for the threshold-gaining
             if (threshold || profession) {
                 if ( p->has_trait( mstr ) ) {
@@ -443,7 +445,7 @@ void game::wishitem( player *p, int x, int y)
         return;
     }
     const std::vector<std::string> standard_itype_ids = item_controller->get_all_itype_ids();
-    int amount = 1;
+    int prev_amount, amount = 1;
     uimenu wmenu;
     wmenu.w_x = 0;
     wmenu.w_width = TERMX;
@@ -455,7 +457,7 @@ void game::wishitem( player *p, int x, int y)
 
     for (size_t i = 0; i < standard_itype_ids.size(); i++) {
         item ity( standard_itype_ids[i], 0 );
-        wmenu.addentry( i, true, 0, string_format(_("%s"), ity.tname(1).c_str()) );
+        wmenu.addentry( i, true, 0, string_format(_("%s"), ity.tname(1, false).c_str()) );
         wmenu.entries[i].extratxt.txt = string_format("%c", ity.symbol());
         wmenu.entries[i].extratxt.color = ity.color();
         wmenu.entries[i].extratxt.left = 1;
@@ -464,6 +466,7 @@ void game::wishitem( player *p, int x, int y)
         wmenu.query();
         if ( wmenu.ret >= 0 ) {
             item granted(standard_itype_ids[wmenu.ret], calendar::turn);
+            prev_amount = amount;
             if (p != NULL) {
                 amount = std::atoi(
                              string_input_popup(_("How many?"), 20, to_string( amount ),
@@ -481,9 +484,14 @@ void game::wishitem( player *p, int x, int y)
                 m.add_item_or_charges(x, y, granted);
                 wmenu.keypress = 'q';
             }
-            dynamic_cast<wish_item_callback *>(wmenu.callback)->msg =
-                _("Wish granted. Wish for more or hit 'q' to quit.");
+            if ( amount > 0 ) {
+                dynamic_cast<wish_item_callback *>(wmenu.callback)->msg =
+                    _("Wish granted. Wish for more or hit 'q' to quit.");
+            }
             uistate.wishitem_selected = wmenu.ret;
+            if ( !amount ) {
+                amount = prev_amount;
+            }
         }
     } while ( wmenu.keypress != 'q' && wmenu.keypress != KEY_ESCAPE && wmenu.keypress != ' ' );
     delete wmenu.callback;

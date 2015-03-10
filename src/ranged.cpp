@@ -400,7 +400,7 @@ void player::fire_gun(int tarx, int tary, bool burst)
         // Burst-fire weapons allow us to pick a new target after killing the first
         const auto critter = g->critter_at( tarx, tary );
         if ( curshot > 0 && ( critter == nullptr || critter->is_dead_state() ) ) {
-            auto const near_range = std::min( 2 + skillLevel( "gun" ), weaponrange );
+            const int near_range = std::min( 2 + skillLevel( "gun" ), weaponrange );
             auto new_targets = get_visible_creatures( weaponrange );
             for( auto it = new_targets.begin(); it != new_targets.end(); ) {
                 auto &z = **it;
@@ -808,14 +808,6 @@ void game::throw_item(player &p, int tarx, int tary, item &thrown,
     }
 }
 
-template<typename C>
-static char front_or( C container, char default_char  ) {
-    if( container.empty() ) {
-        return default_char;
-    }
-    return container.front();
-}
-
 // Draws the static portions of the targeting menu,
 // returns the number of lines used to draw instructions.
 static int draw_targeting_window( WINDOW *w_target, item *relevant, player &p, target_mode mode,
@@ -840,7 +832,7 @@ static int draw_targeting_window( WINDOW *w_target, item *relevant, player &p, t
                 p.print_recoil( w_target );
             }
         } else if( mode == TARGET_MODE_THROW ) {
-            wprintz(w_target, c_red, _("Throwing %s"), relevant->tname().c_str());
+            trim_and_print(w_target, 0, 4, getmaxx(w_target) - 7, c_red, _("Throwing %s"), relevant->tname().c_str());
         } else {
             wprintz(w_target, c_red, _("Setting target for %s"), relevant->tname().c_str());
         }
@@ -863,26 +855,30 @@ static int draw_targeting_window( WINDOW *w_target, item *relevant, player &p, t
             text_y -= 2;
         }
     }
+
     // The -1 is the -2 from above, but adjustted since this is a total, not an index.
     int lines_used = getmaxy(w_target) - 1 - text_y;
     mvwprintz(w_target, text_y++, 1, c_white, _("Move cursor to target with directional keys"));
     if( relevant ) {
+        auto const front_or = [&](std::string const &s, char const fallback) {
+            auto const keys = ctxt.keys_bound_to(s);
+            return keys.empty() ? fallback : keys.front();
+        };
+
         mvwprintz( w_target, text_y++, 1, c_white, _("%c %c Cycle targets; %c to fire."),
-                   front_or( ctxt.keys_bound_to("PREV_TARGET"), ' ' ),
-                   front_or( ctxt.keys_bound_to("NEXT_TARGET"), ' ' ),
-                   front_or( ctxt.keys_bound_to("FIRE"), ' ' ) );
+                   front_or("PREV_TARGET", ' '), front_or("NEXT_TARGET", ' '),
+                   front_or("FIRE", ' ') );
         mvwprintz( w_target, text_y++, 1, c_white, _("%c target self; %c toggle snap-to-target"),
-                   front_or( ctxt.keys_bound_to("CENTER"), ' ' ),
-                   front_or( ctxt.keys_bound_to("TOGGLE_SNAP_TO_TARGET"), ' ' ) );
+                   front_or("CENTER", ' ' ), front_or("TOGGLE_SNAP_TO_TARGET", ' ') );
         if( mode == TARGET_MODE_FIRE ) {
             mvwprintz( w_target, text_y++, 1, c_white, _("%c to steady your aim."),
-                       front_or( ctxt.keys_bound_to("AIM"), ' ' ) );
+                       front_or("AIM", ' ') );
             mvwprintz( w_target, text_y++, 1, c_white, _("%c to aim and fire."),
-                       front_or( ctxt.keys_bound_to("AIMED_SHOT"), ' ' ) );
+                       front_or("AIMED_SHOT", ' ') );
             mvwprintz( w_target, text_y++, 1, c_white, _("%c to take careful aim and fire."),
-                       front_or( ctxt.keys_bound_to("CAREFUL_SHOT"), ' ' ) );
+                       front_or("CAREFUL_SHOT", ' ') );
             mvwprintz( w_target, text_y++, 1, c_white, _("%c to take precise aim and fire."),
-                       front_or( ctxt.keys_bound_to("PRECISE_SHOT"), ' ' ) );
+                       front_or("PRECISE_SHOT", ' ') );
         }
     }
 

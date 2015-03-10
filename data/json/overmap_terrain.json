@@ -480,6 +480,66 @@
         "sidewalk" : true
     },{
         "type" : "overmap_terrain",
+        "id" : "office_tower_2_a1",
+        "name" : "office tower",
+        "sym" : 84,
+        "color" : "i_ltgray",
+        "rotate" : true,
+        "see_cost" : 5,
+        "mondensity" : 2,
+        "sidewalk" : true
+    },{
+        "type" : "overmap_terrain",
+        "id" : "office_tower_2_a2",
+        "name" : "office tower",
+        "sym" : 84,
+        "color" : "i_ltgray",
+        "rotate" : true,
+        "see_cost" : 5,
+        "mondensity" : 2,
+        "sidewalk" : true
+    },{       
+        "type" : "overmap_terrain",
+        "id" : "office_tower_2_a3",
+        "name" : "office tower",
+        "sym" : 84,
+        "color" : "i_ltgray",
+        "see_cost" : 5,
+        "rotate" : true,
+        "mondensity" : 2,
+        "sidewalk" : true
+    },{ 
+        "type" : "overmap_terrain",
+        "id" : "office_tower_2_b1",
+        "name" : "office tower",
+        "sym" : 84,
+        "color" : "i_ltgray",
+        "rotate" : true,
+        "see_cost" : 5,
+        "mondensity" : 2,
+        "sidewalk" : true
+    },{
+        "type" : "overmap_terrain",
+        "id" : "office_tower_2_b2",
+        "name" : "office tower",
+        "rotate" : true,
+        "sym" : 84,
+        "color" : "i_ltgray",
+        "see_cost" : 5,
+        "mondensity" : 2,
+        "sidewalk" : true
+    },{ 
+        "type" : "overmap_terrain",
+        "id" : "office_tower_2_b3",
+        "name" : "office tower",
+        "sym" : 84,
+        "rotate" : true,
+        "color" : "i_ltgray",
+        "see_cost" : 5,
+        "mondensity" : 2,
+        "sidewalk" : true
+    },{
+        "type" : "overmap_terrain",
         "id" : "church",
         "name" : "church",
         "rotate" : true,
@@ -1242,6 +1302,17 @@
         "rotate" : true,
         "color" : "green",
         "see_cost" : 4
+    },{
+        "type" : "overmap_terrain",
+        "id" : "s_gas_rural",
+        "name" : "gas station",
+        "rotate" : true,
+        "sym" : [94, 62, 118, 60],
+        "color" : "light_blue",
+        "see_cost" : 0,
+        "extras" : "build",
+        "mondensity" : 2,
+        "sidewalk" : true
     },{
         "type" : "overmap_terrain",
         "id" : "mansion_entrance",
@@ -4402,7 +4473,7 @@
     },{
         "type" : "overmap_terrain",
         "id" : "bandit_cabin",
-        "name" : "bandit cabin",
+        "name" : "forest",
         "sym" : 70,
         "color" : "green",
         "see_cost" : 5,
@@ -4410,7 +4481,7 @@
     },{
         "type" : "overmap_terrain",
         "id" : "bandit_camp_1",
-        "name" : "bandit camp",
+        "name" : "forest",
         "sym" : 70,
         "color" : "green",
         "see_cost" : 5,
@@ -4418,7 +4489,7 @@
     },{
         "type" : "overmap_terrain",
         "id" : "bandit_camp_2",
-        "name" : "bandit camp",
+        "name" : "forest",
         "sym" : 70,
         "color" : "green",
         "see_cost" : 5,
@@ -4426,7 +4497,7 @@
     },{
         "type" : "overmap_terrain",
         "id" : "bandit_camp_3",
-        "name" : "bandit camp",
+        "name" : "forest",
         "sym" : 70,
         "color" : "green",
         "see_cost" : 5,
@@ -4434,7 +4505,7 @@
     },{
         "type" : "overmap_terrain",
         "id" : "bandit_camp_4",
-        "name" : "bandit camp",
+        "name" : "forest",
         "sym" : 70,
         "color" : "green",
         "see_cost" : 5,

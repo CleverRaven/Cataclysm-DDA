@@ -389,19 +389,19 @@ public:
   * one item of the passed in set matches any material).
   * @param mat_idents Set of material ids.
   */
- bool made_of_any(std::vector<std::string> &mat_idents) const;
+ bool made_of_any( const std::vector<std::string> &mat_idents ) const;
  /**
   * Check we are made of only the materials (e.g. false if we have
   * one material not in the set).
   * @param mat_idents Set of material ids.
   */
- bool only_made_of(std::vector<std::string> &mat_idents) const;
+ bool only_made_of( const std::vector<std::string> &mat_idents ) const;
  /**
   * Check we are made of this material (e.g. matches at least one
   * in our set.)
   * @param mat_idents Set of material ids.
   */
- bool made_of(std::string mat_ident) const;
+ bool made_of( const std::string &mat_ident ) const;
  /**
   * Are we solid, liquid, gas, plasma?
   * @param phase
@@ -938,9 +938,11 @@ public:
  typedef std::vector<item> t_item_vector;
  t_item_vector components;
 
- int add_ammo_to_quiver(player *u, bool isAutoPickup);
+ int quiver_store_arrow(item &arrow);
  int max_charges_from_flag(std::string flagName);
 };
+
+bool item_compare_by_charges( const item *left, const item *right);
 
 std::ostream &operator<<(std::ostream &, const item &);
 std::ostream &operator<<(std::ostream &, const item *);
@@ -973,19 +975,18 @@ class map_item_stack
                 ~item_group() {};
         };
     public:
-        item example; //an example item for showing stats, etc.
+        item *example; //an example item for showing stats, etc.
         std::vector<item_group> vIG;
         int totalcount;
 
         //only expected to be used for things like lists and vectors
         map_item_stack()
         {
-            example = item();
             vIG.push_back(item_group());
             totalcount = 0;
         }
 
-        map_item_stack(const item it, const int arg_x, const int arg_y)
+        map_item_stack(item *it, const int arg_x, const int arg_y)
         {
             example = it;
             vIG.push_back(item_group(arg_x, arg_y, 1));
@@ -1011,7 +1012,7 @@ class map_item_stack
 
         static bool map_item_stack_sort(const map_item_stack &lhs, const map_item_stack &rhs)
         {
-            return lhs.example.get_category().sort_rank < rhs.example.get_category().sort_rank;
+            return lhs.example->get_category().sort_rank < rhs.example->get_category().sort_rank;
         }
 };
 

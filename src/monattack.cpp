@@ -180,6 +180,10 @@ void mattack::rattle(monster *z, int index)
 
 void mattack::acid(monster *z, int index)
 {
+    if( !z->can_act() ) {
+        return;
+    }
+
     Creature *target = z->attack_target();
     if( target == nullptr ) {
         return;
@@ -218,6 +222,10 @@ void mattack::acid(monster *z, int index)
 
 void mattack::shockstorm(monster *z, int index)
 {
+    if( !z->can_act() ) {
+        return;
+    }
+
     Creature *target = z->attack_target();
     if( target == nullptr ) {
         return;
@@ -281,14 +289,7 @@ void mattack::pull_metal_weapon(monster *z, int index)
     player *foe = dynamic_cast< player* >( target );
     if( foe != nullptr ) {
         if ( foe->weapon.made_of("iron") || foe->weapon.made_of("steel") ) {
-            int wp_skill = 0;
-            if ( foe->weapon.is_gun() ) {
-                wp_skill = foe->skillLevel("gun");
-            } else if ( foe->weapon.is_cutting_weapon() ) {
-                wp_skill = foe->skillLevel("cutting");
-            } else if ( foe->weapon.is_bashing_weapon() ) {
-                wp_skill = foe->skillLevel("bashing");
-            }
+            int wp_skill = foe->skillLevel("melee");
             z->moves -= att_cost_pull;   // It takes a while
             z->reset_special(index); // Reset timer
             int success = 100;
@@ -345,6 +346,10 @@ void mattack::smokecloud(monster *z, int index)
 
 void mattack::boomer(monster *z, int index)
 {
+    if( !z->can_act() ) {
+        return;
+    }
+
     int t;
     Creature *target = z->attack_target();
     if( target == nullptr || 
@@ -450,6 +455,10 @@ void mattack::resurrect(monster *z, int index)
 
 void mattack::smash(monster *z, int index)
 {
+    if( !z->can_act() ) {
+        return;
+    }
+
     Creature *target = z->attack_target();
     if( target == nullptr || rl_dist( z->pos(), target->pos() ) > 1 ) {
         return;
@@ -502,10 +511,10 @@ std::pair<std::array<point, (2*N + 1)*(2*N + 1)>, size_t>
 find_empty_neighbors(point const origin) {
     constexpr auto r = static_cast<int>(N);
 
-    auto const x_min = origin.x - r;
-    auto const x_max = origin.x + r;
-    auto const y_min = origin.y - r;
-    auto const y_max = origin.y + r;
+    const int x_min = origin.x - r;
+    const int x_max = origin.x + r;
+    const int y_min = origin.y - r;
+    const int y_max = origin.y + r;
 
     std::pair<std::array<point, (2*N + 1)*(2*N + 1)>, size_t> result;
 
@@ -591,6 +600,10 @@ void mattack::science(monster *const z, int const index) // I said SCIENCE again
         _("The %s's skin crackles with electricity."), //special case; leave this last
     }};
 
+    if( !z->can_act() ) {
+        return;
+    }
+
     ////////////////////////////////////////////////////////////////////////////////////////////////
     // Look for a valid target...
     Creature *const target = z->attack_target();
@@ -599,7 +612,7 @@ void mattack::science(monster *const z, int const index) // I said SCIENCE again
     }
 
     // too far
-    auto const dist = rl_dist(z->pos(), target->pos());
+    const int dist = rl_dist(z->pos(), target->pos());
     if (dist > max_distance) {
         return;
     }
@@ -640,7 +653,7 @@ void mattack::science(monster *const z, int const index) // I said SCIENCE again
 
     ////////////////////////////////////////////////////////////////////////////////////////////////
     // choose and do a valid attack
-    auto const attack_index = get_random_index(valid_attack_count);
+    const int attack_index = get_random_index(valid_attack_count);
     switch (valid_attacks[attack_index]) {
     default :
         DebugLog(D_WARNING, D_GAME) << "Bad enum value in science.";
@@ -693,7 +706,7 @@ void mattack::science(monster *const z, int const index) // I said SCIENCE again
                 z->name().c_str());
         }
         
-        auto const where = empty_neighbors.first[get_random_index(empty_neighbor_count)];
+        const point where = empty_neighbors.first[get_random_index(empty_neighbor_count)];
 
         monster manhack {GetMType("mon_manhack")};
         manhack.spawn(where.x, where.y);
@@ -711,13 +724,13 @@ void mattack::science(monster *const z, int const index) // I said SCIENCE again
         
         // fill empty tiles with acid
         for (size_t i = 0; i < empty_neighbor_count; ++i) {
-            auto const& p = empty_neighbors.first[i];
+            const point &p = empty_neighbors.first[i];
             g->m.add_field(p.x, p.y, fd_acid, att_acid_density);
         }
 
         break;
     case att_flavor : {
-        auto const i = get_random_index(m_flavor);
+        const size_t i = get_random_index(m_flavor);
 
         // the special case; see above
         if (i == m_flavor.size() - 1) {
@@ -997,6 +1010,10 @@ void mattack::vine(monster *z, int index)
 
 void mattack::spit_sap(monster *z, int index)
 {
+    if( !z->can_act() ) {
+        return;
+    }
+
     int t;
     int dist;
     Creature *target = z->attack_target();
@@ -1081,7 +1098,7 @@ void mattack::triffid_heartbeat(monster *z, int index)
         // TODO: when friendly: open a way to the stairs, don't spawn monsters
     }
     if (rl_dist( z->posx(), g->u.pos() ) > 5 &&
-        !g->m.route(g->u.posx(), g->u.posy(), z->posx(), z->posy()).empty()) {
+        !g->m.route( g->u.posx(), g->u.posy(), z->posx(), z->posy(), 10 ).empty()) {
         add_msg(m_warning, _("The root walls creak around you."));
         for (int x = g->u.posx(); x <= z->posx() - 3; x++) {
             for (int y = g->u.posy(); y <= z->posy() - 3; y++) {
@@ -1094,7 +1111,7 @@ void mattack::triffid_heartbeat(monster *z, int index)
         }
         // Open blank tiles as long as there's no possible route
         int tries = 0;
-        while (g->m.route(g->u.posx(), g->u.posy(), z->posx(), z->posy()).empty() &&
+        while (g->m.route( g->u.posx(), g->u.posy(), z->posx(), z->posy(), 10 ).empty() &&
                tries < 20) {
             int x = rng(g->u.posx(), z->posx() - 3), y = rng(g->u.posy(), z->posy() - 3);
             tries++;
@@ -1563,6 +1580,10 @@ void mattack::fungus_fortify(monster *z, int index)
 
 void mattack::leap(monster *z, int index)
 {
+    if( !z->can_act() ) {
+        return;
+    }
+
     int linet = 0;
     std::vector<point> options;
     point target = z->move_target();
@@ -1625,6 +1646,10 @@ void mattack::leap(monster *z, int index)
 
 void mattack::dermatik(monster *z, int index)
 {
+    if( !z->can_act() ) {
+        return;
+    }
+
     Creature *target = z->attack_target();
     if( target == nullptr || 
         rl_dist( z->pos(), target->pos() ) > 1 || 
@@ -2695,7 +2720,7 @@ void mattack::frag( monster *z, Creature *target ) // This is for the bots, not 
             add_msg(m_warning, _("Those laser dots don't seem very friendly...") );
             g->u.add_effect("laserlocked", 3); // Effect removed in game.cpp, duration doesn't much matter
             sounds::sound(z->posx(), z->posy(), 10, _("Targeting."));
-            z->add_effect("targeted", 4);
+            z->add_effect("targeted", 5);
             z->moves -= 150;
             // Should give some ability to get behind cover,
             // even though it's patently unrealistic.
@@ -2827,7 +2852,7 @@ void mattack::tankgun( monster *z, Creature *target )
         //~ Sound of a tank turret swiveling into place
         sounds::sound(z->posx(), z->posy(), 10, _("whirrrrrclick."));
         z->add_effect("targeted", 5);
-        target->add_effect( "laserlocked", 3 );
+        target->add_effect( "laserlocked", 5 );
         z->moves -= 200;
         // Should give some ability to get behind cover,
         // even though it's patently unrealistic.
@@ -3402,32 +3427,8 @@ void mattack::upgrade(monster *z, int index)
 
     monster *target = &( g->zombie( targets[ rng(0, targets.size() - 1) ] ) );
 
-    std::string newtype = "mon_zombie";
-
-    switch( rng(1, 10) ) {
-    case  1:
-        newtype = "mon_zombie_shrieker";
-        break;
-    case  2:
-    case  3:
-        newtype = "mon_zombie_spitter";
-        break;
-    case  4:
-    case  5:
-        newtype = "mon_zombie_electric";
-        break;
-    case  6:
-    case  7:
-    case  8:
-        newtype = "mon_zombie_hunter";
-        break;
-    case  9:
-        newtype = "mon_zombie_brute";
-        break;
-    case 10:
-        newtype = "mon_boomer";
-        break;
-    }
+    const auto monsters = MonsterGroupManager::GetMonstersFromGroup("GROUP_ZOMBIE_UPGRADE");
+    const std::string newtype = monsters[rng(0, monsters.size() - 1)];
 
     const auto could_see = g->u.sees( *target );
     target->poly(GetMType(newtype));
@@ -3485,6 +3486,10 @@ void mattack::breathe(monster *z, int index)
 
 void mattack::bite(monster *z, int index)
 {
+    if( !z->can_act() ) {
+        return;
+    }
+
     // Let it be used on non-player creatures
     Creature *target = z->attack_target();
     if( target == nullptr || rl_dist( z->pos(), target->pos() ) > 1 ) {
@@ -3570,6 +3575,10 @@ void mattack::brandish(monster *z, int index)
 
 void mattack::flesh_golem(monster *z, int index)
 {
+    if( !z->can_act() ) {
+        return;
+    }
+
     int dist;
     Creature *target = z->attack_target();
     if( target == nullptr || 
@@ -3627,6 +3636,10 @@ void mattack::flesh_golem(monster *z, int index)
 
 void mattack::lunge(monster *z, int index)
 {
+    if( !z->can_act() ) {
+        return;
+    }
+
     int dist;
     Creature *target = z->attack_target();
     if( target == nullptr || 
@@ -4111,6 +4124,10 @@ void mattack::riotbot(monster *z, int index)
 
 void mattack::bio_op_takedown(monster *z, int index)
 {
+    if( !z->can_act() ) {
+        return;
+    }
+
     Creature *target = z->attack_target();
     if( target == nullptr ||
         rl_dist( z->pos(), target->pos() ) > 1 ||

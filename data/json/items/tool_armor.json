@@ -2,7 +2,7 @@
     {
         "type" : "ITEM_CATEGORY",
         "id" : "armor",
-        "name" : "armor",
+        "name" : "ARMOR",
         "sort_rank" : 20
     },
     {
@@ -917,7 +917,7 @@
         "encumbrance" : 2,
         "coverage" : 100,
         "material_thickness" : 2
-    },    
+    },
     {
         "id": "wearable_rx12",
         "type": "TOOL_ARMOR",
@@ -947,7 +947,7 @@
         "encumbrance" : 0,
         "coverage" : 0,
         "material_thickness" : 3
-    },    
+    },
     {
         "id": "mask_h20survivor",
         "type": "TOOL_ARMOR",
@@ -985,7 +985,7 @@
         "encumbrance" : 3,
         "coverage" : 75,
         "material_thickness" : 2
-    },    
+    },
     {
         "id": "mask_h20survivor_on",
         "type": "TOOL_ARMOR",
@@ -1182,7 +1182,7 @@
         "encumbrance" : 0,
         "coverage" : 0,
         "material_thickness" : 0
-    },    
+    },
     {
         "id": "emer_blanket_on",
         "type": "TOOL_ARMOR",

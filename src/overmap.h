@@ -137,58 +137,49 @@ todo: add relevent vars to regional_settings struct
  * supports occasional boost to a single ter/furn type (clustered blueberry bushes for example)
  * json: double percentages (region statistics)and str ids, runtime int % * 1mil and int ids
  */
-struct groundcover_extra { // todo; make into something more generic for other stuff (maybe)
-   int mpercent_coverage; // % coverage where this is applied (*10000)
-   std::string default_ter_str;
-   int default_ter;
-   std::map<std::string, double> percent_str;
-   std::map<std::string, double> boosted_percent_str;
-   std::map<int, ter_furn_id> weightlist;
-   std::map<int, ter_furn_id> boosted_weightlist;
-   int boost_chance;
-   int boosted_mpercent_coverage;
-   int boosted_other_mpercent;
-   ter_furn_id pick( bool boosted = false ) const;
-   void setup();
-   groundcover_extra() : mpercent_coverage(0), default_ter_str(""), default_ter(0), boost_chance(0), boosted_mpercent_coverage(0), boosted_other_mpercent(1.0) {};
+struct groundcover_extra {
+    // TODO: make into something more generic for other stuff (maybe)
+    std::string                   default_ter_str;
+    std::map<std::string, double> percent_str;
+    std::map<std::string, double> boosted_percent_str;
+    std::map<int, ter_furn_id>    weightlist;
+    std::map<int, ter_furn_id>    boosted_weightlist;
+    int default_ter               = 0;
+    int mpercent_coverage         = 0; // % coverage where this is applied (*10000)
+    int boost_chance              = 0;
+    int boosted_mpercent_coverage = 0;
+    int boosted_other_mpercent    = 1;
+
+    ter_furn_id pick( bool boosted = false ) const;
+    void setup();
+    groundcover_extra() = default;
 };
 
 /*
  * Spationally relevent overmap and mapgen variables grouped into a set of suggested defaults;
  * eventually region mapping will modify as required and allow for transitions of biomes / demographics in a smoooth fashion
  */
-class regional_settings {
-  public:
-   std::string id;            //
-   std::string default_oter;  // 'field'
-   id_or_id default_groundcover; // ie, 'grass_or_dirt'
-   sid_or_sid * default_groundcover_str;
-   int num_forests;           // amount of forest groupings per overmap
-   int forest_size_min;       // size range of a forest group
-   int forest_size_max;       // size range of a forest group
-   int house_basement_chance; // (one in) Varies by region due to watertable
-   int swamp_maxsize;         // SWAMPINESS: Affects the size of a swamp
-   int swamp_river_influence; // voodoo number limiting spread of river through swamp
-   int swamp_spread_chance;   // SWAMPCHANCE: (one in, every forest*forest size) chance of swamp extending past forest
-   city_settings city_spec;   // put what where in a city of what kind
-   groundcover_extra field_coverage;
-   groundcover_extra forest_coverage;
-   regional_settings() :
-       id("null"),
-       default_oter("field"),
-       default_groundcover(0,0,0),
-       default_groundcover_str(NULL),
-       num_forests(250),
-       forest_size_min(15),
-       forest_size_max(40),
-       house_basement_chance(2),
-       swamp_maxsize(4),          // SWAMPINESS // Affects the size of a swamp
-       swamp_river_influence(5),  //
-       swamp_spread_chance(8500)  // SWAMPCHANCE // Chance that a swamp will spawn instead of forest
-   {
-       //default_groundcover_str = new sid_or_sid("t_grass", 4, "t_dirt");
-   };
-   void setup();
+struct regional_settings {
+    std::string id;           //
+    std::string default_oter; // 'field'
+
+    id_or_id    default_groundcover; // ie, 'grass_or_dirt'
+    sid_or_sid *default_groundcover_str = nullptr;
+   
+    int num_forests           = 250;  // amount of forest groupings per overmap
+    int forest_size_min       = 15;   // size range of a forest group
+    int forest_size_max       = 40;   // size range of a forest group
+    int house_basement_chance = 2;    // (one in) Varies by region due to watertable
+    int swamp_maxsize         = 4;    // SWAMPINESS: Affects the size of a swamp
+    int swamp_river_influence = 5;    // voodoo number limiting spread of river through swamp
+    int swamp_spread_chance   = 8500; // SWAMPCHANCE: (one in, every forest*forest size) chance of swamp extending past forest
+   
+    city_settings     city_spec;      // put what where in a city of what kind
+    groundcover_extra field_coverage;
+    groundcover_extra forest_coverage;
+   
+    regional_settings() : id("null"), default_oter("field"), default_groundcover(0, 0, 0) { }
+    void setup();
 };
 
 
@@ -204,12 +195,9 @@ struct city {
 };
 
 struct om_note {
- int x;
- int y;
- int num;
- std::string text;
- om_note(int X = -1, int Y = -1, int N = -1, std::string T = "") :
-         x (X), y (Y), num (N), text (T) {}
+    std::string text;
+    int         x;
+    int         y;
 };
 
 struct om_vehicle {
@@ -300,10 +288,10 @@ class overmap
     bool is_road_or_highway(int x, int y, int z);
     bool is_explored(int const x, int const y, int const z) const;
 
-    bool has_note(int const x, int const y, int const z) const;
-    std::string const& note(int const x, int const y, int const z) const;
-    void add_note(int const x, int const y, int const z, std::string const& message);
-    void delete_note(int const x, int const y, int const z) { add_note(x, y, z, ""); }
+    bool has_note(int x, int y, int z) const;
+    std::string const& note(int x, int y, int z) const;
+    void add_note(int x, int y, int z, std::string message);
+    void delete_note(int x, int y, int z);
 
     /**
      * Display a list of all notes on this z-level. Let the user choose
@@ -384,7 +372,6 @@ public:
 
   oter_id nullret;
   bool nullbool;
-  std::string nullstr;
 
     /**
      * When monsters despawn during map-shifting they will be added here.

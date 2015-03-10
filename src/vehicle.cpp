@@ -32,14 +32,25 @@ static const std::string fuel_type_water("water");
 static const std::string fuel_type_muscle("muscle");
 static const std::string part_location_structure("structure");
 
-const ammotype fuel_types[num_fuel_types] = {
-	fuel_type_gasoline, fuel_type_diesel, fuel_type_battery,
-    fuel_type_plutonium, fuel_type_plasma, fuel_type_water,
-    fuel_type_muscle };
-const nc_color fuel_colors[num_fuel_types] = {
-	c_ltred, c_brown, c_yellow, c_ltgreen, c_ltblue, c_ltcyan, c_white};
-const int fuel_coeff[num_fuel_types] = {
-    100, 100, 1, 1, 100, 1, 0};
+const std::array<fuel_type, 7> fuel_types = { {
+    fuel_type { fuel_type_gasoline, c_ltred, 100, 1 },
+    fuel_type { fuel_type_diesel, c_brown, 100, 1 },
+    fuel_type { fuel_type_battery, c_yellow, 1, 1 },
+    fuel_type { fuel_type_plutonium, c_ltgreen, 1, 1000 },
+    fuel_type { fuel_type_plasma, c_ltblue, 100, 100 },
+    fuel_type { fuel_type_water, c_ltcyan, 1, 1 },
+    fuel_type { fuel_type_muscle, c_white, 0, 1 }
+} };
+
+int fuel_charges_to_amount_factor( const ammotype &ftype )
+{
+    for( auto & ft : fuel_types ) {
+        if( ft.id == ftype ) {
+            return ft.charges_to_amount_factor;
+        }
+    }
+    return 1;
+}
 
 enum vehicle_controls {
  toggle_cruise_control,
@@ -1312,7 +1323,7 @@ void vehicle::start_engine()
     // TODO: Make chance of success based on engine condition.
     // electric and plasma engines don't require anything special
     for( size_t e = 0; e < engines.size(); ++e ) {
-        if(parts[engines[e]].hp > 0) {
+        if( is_engine_on( e ) ) {
             if( is_engine_type_on(e, fuel_type_gasoline)  ||
                 is_engine_type_on(e, fuel_type_diesel) ) {
                 // Big engines can't be pull-started
@@ -1326,6 +1337,8 @@ void vehicle::start_engine()
             } else if (is_engine_type_on(e, fuel_type_muscle)) {
                 muscle_powered = true;
             }
+        } else if( is_part_on( engines[e] ) ) {
+            failed_start = true;
         }
     }
 
@@ -1895,7 +1908,10 @@ bool vehicle::remove_part (int p)
             g->m.add_item_or_charges(global_x() + x, global_y() + y, it, 2);
             remove_part(seatbelt);
         }
-        // Also unboard entity if seat gets removed
+    }
+
+    // Unboard any entities standing on removed boardable parts
+    if(part_flag(p, "BOARDABLE")) {
         std::vector<int> bp = boarded_parts();
         for( auto &elem : bp ) {
             if( elem == p ) {
@@ -1987,16 +2003,22 @@ void vehicle::break_part_into_pieces(int p, int x, int y, bool scatter) {
     std::vector<break_entry> break_info = part_info(p).breaks_into;
     for( auto &elem : break_info ) {
         int quantity = rng( elem.min, elem.max );
+        item piece( elem.item_id, calendar::turn );
+        if( piece.count_by_charges() ) {
+            piece.charges = 1;
+        }
+        // TODO: balance audit, ensure that less pieces are generated than one would need
+        // to build the component (smash a veh box that took 10 lumps of steel,
+        // find 12 steel lumps scattered after atom-smashing it with a tree trunk)
         for(int num = 0; num < quantity; num++) {
             const int actual_x = scatter ? x + rng(-SCATTER_DISTANCE, SCATTER_DISTANCE) : x;
             const int actual_y = scatter ? y + rng(-SCATTER_DISTANCE, SCATTER_DISTANCE) : y;
-            item piece( elem.item_id, calendar::turn );
             g->m.add_item_or_charges(actual_x, actual_y, piece);
         }
     }
 }
 
-const std::vector<int> vehicle::parts_at_relative (const int dx, const int dy, bool use_cache)
+const std::vector<int> vehicle::parts_at_relative (const int dx, const int dy, bool use_cache) const
 {
     if ( use_cache == false ) {
         std::vector<int> res;
@@ -2007,8 +2029,9 @@ const std::vector<int> vehicle::parts_at_relative (const int dx, const int dy, b
         }
         return res;
     } else {
-        if ( relative_parts.find( point(dx, dy) ) != relative_parts.end() ) {
-            return relative_parts[ point(dx, dy) ];
+        const auto &iter = relative_parts.find( point( dx, dy ) );
+        if ( iter != relative_parts.end() ) {
+            return iter->second;
         } else {
             std::vector<int> res;
             return res;
@@ -2016,7 +2039,8 @@ const std::vector<int> vehicle::parts_at_relative (const int dx, const int dy, b
     }
 }
 
-int vehicle::part_with_feature (int part, const vpart_bitflags &flag, bool unbroken) {
+int vehicle::part_with_feature (int part, const vpart_bitflags &flag, bool unbroken) const
+{
     if (part_flag(part, flag)) {
         return part;
     }
@@ -2032,7 +2056,7 @@ int vehicle::part_with_feature (int part, const vpart_bitflags &flag, bool unbro
     return -1;
 }
 
-int vehicle::part_with_feature (int part, const std::string &flag, bool unbroken)
+int vehicle::part_with_feature (int part, const std::string &flag, bool unbroken) const
 {
     std::vector<int> parts_here = parts_at_relative(parts[part].mount.x, parts[part].mount.y);
     for( auto &elem : parts_here ) {
@@ -2436,7 +2460,10 @@ void vehicle::print_fuel_indicator (void *w, int y, int x, bool fullsize, bool v
     int yofs = 0;
     int max_gauge = (isHorizontal) ? 12 : 5;
     int cur_gauge = 0;
-    std::vector< ammotype > fuels( &fuel_types[0], &fuel_types[num_fuel_types] );
+    std::vector< ammotype > fuels;
+    for( auto &ft : fuel_types ) {
+        fuels.push_back( ft.id );
+    }
     // Find non-hardcoded fuel types, add them after the hardcoded
     for( int p : fuel ) {
         const ammotype ft = part_info( p ).fuel_type;
@@ -2450,8 +2477,8 @@ void vehicle::print_fuel_indicator (void *w, int y, int x, bool fullsize, bool v
         int cap = fuel_capacity( f );
         int f_left = fuel_left( f );
         nc_color f_color;
-        if( i < num_fuel_types ) {
-            f_color = fuel_colors[i];
+        if( i < static_cast<int>( fuel_types.size() ) ) {
+            f_color = fuel_types[i].color;
         } else {
             // Get color of the default item of this type
             f_color = item::find_type( default_ammo( f ) )->color;
@@ -3160,13 +3187,13 @@ bool vehicle::valid_wheel_config ()
 void vehicle::consume_fuel( double load = 1.0 )
 {
     float st = strain();
-    for( int ft = 0; ft < num_fuel_types; ft++ ) {
+    for( auto &ft : fuel_types ) {
         // if no engines use this fuel, skip
-        int amnt_fuel_use = basic_consumption(fuel_types[ft]);
+        int amnt_fuel_use = basic_consumption( ft.id );
         if (amnt_fuel_use == 0) continue;
 
         //get exact amount of fuel needed
-        double amnt_precise = double(amnt_fuel_use) / fuel_coeff[ft];
+        double amnt_precise = double(amnt_fuel_use) / ft.coeff;
 
         amnt_precise *= load * (1.0 + st * st * 100);
         int amnt = int(amnt_precise);
@@ -3175,7 +3202,7 @@ void vehicle::consume_fuel( double load = 1.0 )
             amnt += 1;
         }
         for( auto &elem : fuel ) {
-            if( part_info( elem ).fuel_type == fuel_types[ft] ) {
+            if( part_info( elem ).fuel_type == ft.id ) {
                 if( parts[elem].amount >= amnt ) {
                     // enough fuel located in this part
                     parts[elem].amount -= amnt;
@@ -4725,11 +4752,10 @@ void vehicle::damage_all (int dmg1, int dmg2, int type, const point &impact)
  * @param dx How much to shift on the x-axis.
  * @param dy How much to shift on the y-axis.
  */
-void vehicle::shift_parts(const int dx, const int dy)
+void vehicle::shift_parts( const point delta )
 {
     for( auto &elem : parts ) {
-        elem.mount.x -= dx;
-        elem.mount.y -= dy;
+        elem.mount -= delta;
     }
 
     //Don't use the cache as it hasn't been updated yet
@@ -4751,18 +4777,27 @@ void vehicle::shift_parts(const int dx, const int dy)
  * @return bool true if the shift was needed.
  */
 bool vehicle::shift_if_needed() {
-    if (parts_at_relative(0, 0).empty()) {
-        //Find a frame, any frame, to shift to
-        for ( size_t next_part = 0; next_part < parts.size(); ++next_part ) {
-            if ( part_info(next_part).location == "structure"
-                    && !part_info(next_part).has_flag("PROTRUSION")
-                    && !parts[next_part].removed) {
-                shift_parts(parts[next_part].mount.x, parts[next_part].mount.y);
-                break;
-            }
+    if( !parts_at_relative(0, 0).empty() ) {
+        // Shifting is not needed.
+        return false;
+    }
+    //Find a frame, any frame, to shift to
+    for ( size_t next_part = 0; next_part < parts.size(); ++next_part ) {
+        if ( part_info(next_part).location == "structure"
+                && !part_info(next_part).has_flag("PROTRUSION")
+                && !parts[next_part].removed) {
+            shift_parts( parts[next_part].mount );
+            refresh();
+            return true;
         }
-        refresh();
-        return true;
+    }
+    // There are only parts with PROTRUSION left, choose one of them.
+    for ( size_t next_part = 0; next_part < parts.size(); ++next_part ) {
+        if ( !parts[next_part].removed ) {
+            shift_parts( parts[next_part].mount );
+            refresh();
+            return true;
+        }
     }
     return false;
 }
@@ -5385,13 +5420,13 @@ void vehicle::open_or_close(int const part_index, bool const opening)
         }
 
         //Look for parts 1 square off in any cardinal direction
-        auto const dx = parts[next_index].mount.x - parts[part_index].mount.x;
-        auto const dy = parts[next_index].mount.y - parts[part_index].mount.y;
-        auto const delta = dx * dx + dy * dy;
+        const int dx = parts[next_index].mount.x - parts[part_index].mount.x;
+        const int dy = parts[next_index].mount.y - parts[part_index].mount.y;
+        const int delta = dx * dx + dy * dy;
 
-        auto const is_near = (delta == 1);
-        auto const is_id   = part_info(next_index).id == part_info(part_index).id;
-        auto const do_next = parts[next_index].open ^ opening;
+        const bool is_near = (delta == 1);
+        const bool is_id = part_info(next_index).id == part_info(part_index).id;
+        const bool do_next = parts[next_index].open ^ opening;
 
         if (is_near && is_id && do_next) {
             open_or_close(next_index, opening);
@@ -5497,6 +5532,24 @@ bool vehicle::restore(const std::string &data)
     return true;
 }
 
+int vehicle::obstacle_at_part( int p ) const
+{
+    if( part_flag( p, VPFLAG_OBSTACLE ) && parts[p].hp > 0 ) {
+        return p;
+    }
+
+    int part = part_with_feature( p, VPFLAG_OBSTACLE, true );
+    if( part < 0 ) {
+        return -1; // No obstacle here
+    }
+
+    if( part_flag( part, VPFLAG_OPENABLE ) && parts[part].open ) {
+        return -1; // Open door here
+    }
+
+    return part;
+}
+
 /*-----------------------------------------------------------------------------
  *                              VEHICLE_PART
  *-----------------------------------------------------------------------------*/
@@ -5515,12 +5568,13 @@ void vehicle_part::properties_from_item( const item &used_item )
     hp = std::max( 1, health );
     // Transfer fuel from item to tank
     const ammotype &desired_liquid = vpinfo.fuel_type;
+    const int fuel_per_charge = fuel_charges_to_amount_factor( desired_liquid );
     if( used_item.charges > 0 && desired_liquid == fuel_type_battery ) {
-        amount = std::min<int>( used_item.charges, vpinfo.size );
+        amount = std::min<int>( used_item.charges * fuel_per_charge, vpinfo.size );
     } else if( !used_item.contents.empty() ) {
         const item &liquid = used_item.contents[0];
         if( liquid.type->id == default_ammo( desired_liquid ) ) {
-            amount = std::min<int>( liquid.charges, vpinfo.size );
+            amount = std::min<int>( liquid.charges * fuel_per_charge, vpinfo.size );
         }
     }
 }
@@ -5559,12 +5613,15 @@ item vehicle_part::properties_to_item() const
     // Transfer fuel back to tank, but not to gun or it'll crash
     if( !tmp.is_gun() && !vpinfo.fuel_type.empty() && vpinfo.fuel_type != "NULL" && amount > 0 ) {
         const ammotype &desired_liquid = vpinfo.fuel_type;
+        const int fuel_per_charge = fuel_charges_to_amount_factor( desired_liquid );
         if( desired_liquid == fuel_type_battery ) {
-            tmp.charges = amount;
+            tmp.charges = amount / fuel_per_charge;
         } else {
             item liquid( default_ammo( desired_liquid ), calendar::turn );
-            liquid.charges = amount;
-            tmp.put_in( liquid );
+            liquid.charges = amount / fuel_per_charge;
+            if( liquid.charges > 0 ) {
+                tmp.put_in( liquid );
+            }
         }
     }
     return tmp;

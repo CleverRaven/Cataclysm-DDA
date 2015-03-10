@@ -216,8 +216,7 @@ void monster::plan(const mfactions &factions)
     }
     swarms = swarms && target == nullptr; // Only swarm if we have no target
     if( group_morale || swarms ) {
-        auto const &myfaction = myfaction_iter->second;
-        for( int i : myfaction ) {
+        for( const int i : myfaction_iter->second ) {
             monster &mon = g->zombie( i );
             float rating = rate_target( mon, bresenham_slope, dist, electronic );
             if( group_morale && rating <= 10 ) {
@@ -1092,51 +1091,62 @@ void monster::knock_back_from(int x, int y)
  */
 bool monster::will_reach(int x, int y)
 {
- monster_attitude att = attitude(&(g->u));
- if (att != MATT_FOLLOW && att != MATT_ATTACK && att != MATT_FRIEND && att != MATT_ZLAVE)
-  return false;
+    monster_attitude att = attitude( &(g->u) );
+    if( att != MATT_FOLLOW && att != MATT_ATTACK && att != MATT_FRIEND && att != MATT_ZLAVE ) {
+        return false;
+    }
 
- if (has_flag(MF_DIGS))
-  return false;
+    if( has_flag(MF_DIGS) || has_flag(MF_AQUATIC) ) {
+        return false;
+    }
 
- if (has_flag(MF_IMMOBILE) && (posx() != x || posy() != y))
-  return false;
+    if( has_flag(MF_IMMOBILE) && ( posx() != x || posy() != y ) ) {
+        return false;
+    }
 
- std::vector<point> path = g->m.route(posx(), posy(), x, y, false);
- if (path.empty())
-   return false;
+    std::vector<point> path = g->m.route( posx(), posy(), x, y, 0 );
+    if( path.empty() ) {
+        return false;
+    }
 
- if (has_flag(MF_SMELLS) && g->scent(posx(), posy()) > 0 &&
-     g->scent(x, y) > g->scent(posx(), posy()))
-  return true;
+    if( has_flag(MF_SMELLS) && g->scent( posx(), posy() ) > 0 &&
+        g->scent(x, y) > g->scent( posx(), posy() ) ) {
+        return true;
+    }
 
- if (can_hear() && wandf > 0 && rl_dist(wandx, wandy, x, y) <= 2 &&
-     rl_dist(posx(), posy(), wandx, wandy) <= wandf)
-  return true;
+    if( can_hear() && wandf > 0 && rl_dist( wandx, wandy, x, y ) <= 2 &&
+        rl_dist( posx(), posy(), wandx, wandy ) <= wandf ) {
+        return true;
+    }
 
- int t;
- if (can_see() && g->m.sees(posx(), posy(), x, y, g->light_level(), t))
-  return true;
+    int t;
+    if( can_see() && g->m.sees( posx(), posy(), x, y, g->light_level(), t ) ) {
+        return true;
+    }
 
- return false;
+    return false;
 }
 
 int monster::turns_to_reach(int x, int y)
 {
-    std::vector<point> path = g->m.route(posx(), posy(), x, y, false);
-    if (path.empty())
+    // This function is a(n old) temporary hack that should soon be removed
+    std::vector<point> path = g->m.route( posx(), posy(), x, y, 0 );
+    if( path.empty() ) {
         return 999;
+    }
 
     double turns = 0.;
-    for (size_t i = 0; i < path.size(); i++) {
-        if (g->m.move_cost(path[i].x, path[i].y) == 0) {
-            // We have to bash through
-            turns += 5;
+    for( size_t i = 0; i < path.size(); i++ ) {
+        if( g->m.move_cost(path[i].x, path[i].y) == 0 ) {
+            // No bashing through, it looks stupid when you go back and find
+            // the doors intact.
+            return 999;
         } else if (i == 0) {
             turns += double(calc_movecost(posx(), posy(), path[i].x, path[i].y)) / get_speed();
         } else {
             turns += double(calc_movecost(path[i-1].x, path[i-1].y, path[i].x, path[i].y)) / get_speed();
         }
     }
-    return int(turns + .9); // Round up
+
+    return int(turns + .9); // Halve (to get turns) and round up
 }

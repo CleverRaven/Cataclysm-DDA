@@ -19,6 +19,8 @@ typedef std::vector< const std::list<item>* > const_invslice;
 typedef std::vector< std::pair<std::list<item>*, int> > indexed_invslice;
 typedef bool (*item_filter)( const item & );
 
+class salvage_actor;
+
 class inventory
 {
     public:
@@ -52,7 +54,7 @@ class inventory
         indexed_invslice slice_filter_by_category(item_cat cat, const player &u);
         indexed_invslice slice_filter_by_capacity_for_liquid(const item &liquid);
         indexed_invslice slice_filter_by_flag(const std::string flag);
-        indexed_invslice slice_filter_by_salvageability();
+        indexed_invslice slice_filter_by_salvageability(const salvage_actor &actor);
 
         void unsort(); // flags the inventory as unsorted
         void sort();

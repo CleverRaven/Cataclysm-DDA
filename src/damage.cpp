@@ -2,6 +2,7 @@
 #include "monster.h"
 #include "game.h"
 #include "damage.h"
+#include "rng.h"
 
 damage_instance::damage_instance() { }
 damage_instance damage_instance::physical(float bash, float cut, float stab, int arpen)

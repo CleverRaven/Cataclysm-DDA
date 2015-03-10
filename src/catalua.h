@@ -1,9 +1,10 @@
 #ifndef CATALUA_H
 #define CATALUA_H
 
-#include "monster.h"
 #include "mapgen_functions.h"
 #ifdef LUA
+
+class monster;
 
 extern "C" {
 #include "lua.h"

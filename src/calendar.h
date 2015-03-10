@@ -144,7 +144,7 @@ class calendar
         /** Returns the current time in a string according to the options set */
         std::string print_time(bool just_hour = false) const;
         /** Returns the period a calendar has been running in word form; i.e. "1 second", "2 days". */
-        std::string textify_period();
+        std::string textify_period() const;
         /** Returns the name of the current day of the week */
         std::string day_of_week() const;
 

@@ -65,6 +65,32 @@ void Character::pick_name()
     name = Name::generate(male);
 }
 
+matype_id choose_ma_style( const character_type type, const std::vector<matype_id> &styles )
+{
+    if( type == PLTYPE_NOW ) {
+        return styles[rng( 0, styles.size() - 1 )];
+    }
+    if( styles.size() == 1 ) {
+        return styles.front();
+    }
+    uimenu menu;
+    menu.text = _( "Pick your style:" );
+    for( auto & s : styles ) {
+        auto &style = martialarts[s];
+        menu.addentry( style.name );
+    }
+    menu.selected = 0;
+    while( true ) {
+        menu.query();
+        auto &selected = styles[menu.ret];
+        auto &style = martialarts[selected];
+        popup( style.description, PF_NONE );
+        if( query_yn( _( "Use this style?" ) ) ) {
+            return selected;
+        }
+    }
+}
+
 int player::create(character_type type, std::string tempname)
 {
     weapon = item("null", 0);
@@ -147,13 +173,13 @@ int player::create(character_type type, std::string tempname)
                     do {
                         rn = random_bad_trait();
                         tries++;
-                    } while ((has_trait(rn) || num_btraits - traits[rn].points > max_trait_points) &&
+                    } while ((has_trait(rn) || num_btraits - mutation_branch::get( rn ).points > max_trait_points) &&
                              tries < 5);
 
                     if (tries < 5 && !has_conflicting_trait(rn)) {
                         toggle_trait(rn);
-                        points -= traits[rn].points;
-                        num_btraits -= traits[rn].points;
+                        points -= mutation_branch::get( rn ).points;
+                        num_btraits -= mutation_branch::get( rn ).points;
                     }
                 } else {
                     switch (rng(1, 4)) {
@@ -194,12 +220,15 @@ int player::create(character_type type, std::string tempname)
                 case 3:
                 case 4:
                     rn = random_good_trait();
-                    if (!has_trait(rn) && points >= traits[rn].points &&
-                        num_gtraits + traits[rn].points <= max_trait_points &&
+                    {
+                        auto &mdata = mutation_branch::get( rn );
+                    if (!has_trait(rn) && points >= mdata.points &&
+                        num_gtraits + mdata.points <= max_trait_points &&
                         !has_conflicting_trait(rn)) {
                         toggle_trait(rn);
-                        points -= traits[rn].points;
-                        num_gtraits += traits[rn].points;
+                        points -= mdata.points;
+                        num_gtraits += mdata.points;
+                    }
                     }
                     break;
                 case 5:
@@ -330,123 +359,6 @@ int player::create(character_type type, std::string tempname)
         scent = 300;
     }
 
-    if (has_trait("MARTIAL_ARTS")) {
-        matype_id ma_type;
-        do {
-            int choice = (PLTYPE_NOW == type) ? rng(1, 5) :
-                         menu(false, _("Pick your style:"), _("Karate"), _("Judo"), _("Aikido"),
-                              _("Tai Chi"), _("Taekwondo"), NULL);
-            if (choice == 1) {
-                ma_type = "style_karate";
-            } else if (choice == 2) {
-                ma_type = "style_judo";
-            } else if (choice == 3) {
-                ma_type = "style_aikido";
-            } else if (choice == 4) {
-                ma_type = "style_tai_chi";
-            } else { // choice == 5
-                ma_type = "style_taekwondo";
-            }
-            if (PLTYPE_NOW != type) {
-                popup(martialarts[ma_type].description, PF_NONE);
-            }
-        } while (PLTYPE_NOW != type && !query_yn(_("Use this style?")));
-        ma_styles.push_back(ma_type);
-        style_selected = ma_type;
-    }
-    if (has_trait("MARTIAL_ARTS2")) {
-        matype_id ma_type;
-        do {
-            int choice = (PLTYPE_NOW == type) ? rng(1, 5) :
-                         menu(false, _("Pick your style:"), _("Krav Maga"), _("Muay Thai"),
-                              _("Ninjutsu"), _("Capoeira"), _("Zui Quan"), NULL);
-            if (choice == 1) {
-                ma_type = "style_krav_maga";
-            } else if (choice == 2) {
-                ma_type = "style_muay_thai";
-            } else if (choice == 3) {
-                ma_type = "style_ninjutsu";
-            } else if (choice == 4) {
-                ma_type = "style_capoeira";
-            } else { // choice == 5
-                ma_type = "style_zui_quan";
-            }
-            if (PLTYPE_NOW != type) {
-                popup(martialarts[ma_type].description, PF_NONE);
-            }
-        } while (PLTYPE_NOW != type && !query_yn(_("Use this style?")));
-        ma_styles.push_back(ma_type);
-        style_selected = ma_type;
-    }
-    if (has_trait("MARTIAL_ARTS3")) {
-        matype_id ma_type;
-        do {
-            int choice = (PLTYPE_NOW == type) ? rng(1, 5) :
-                         menu(false, _("Pick your style:"), _("Tiger"), _("Crane"), _("Leopard"),
-                              _("Snake"), _("Dragon"), NULL);
-            if (choice == 1) {
-                ma_type = "style_tiger";
-            } else if (choice == 2) {
-                ma_type = "style_crane";
-            } else if (choice == 3) {
-                ma_type = "style_leopard";
-            } else if (choice == 4) {
-                ma_type = "style_snake";
-            } else { // choice == 5
-                ma_type = "style_dragon";
-            }
-            if (PLTYPE_NOW != type) {
-                popup(martialarts[ma_type].description, PF_NONE);
-            }
-        } while (PLTYPE_NOW != type && !query_yn(_("Use this style?")));
-        ma_styles.push_back(ma_type);
-        style_selected = ma_type;
-    }
-    if (has_trait("MARTIAL_ARTS4")) {
-        matype_id ma_type;
-        do {
-            int choice = (PLTYPE_NOW == type) ? rng(1, 5) :
-                         menu(false, _("Pick your style:"), _("Centipede"), _("Viper"),
-                              _("Scorpion"), _("Lizard"), _("Toad"), NULL);
-            if (choice == 1) {
-                ma_type = "style_centipede";
-            } else if (choice == 2) {
-                ma_type = "style_venom_snake";
-            } else if (choice == 3) {
-                ma_type = "style_scorpion";
-            } else if (choice == 4) {
-                ma_type = "style_lizard";
-            } else { // choice == 5
-                ma_type = "style_toad";
-            }
-            if (PLTYPE_NOW != type) {
-                popup(martialarts[ma_type].description, PF_NONE);
-            }
-        } while (PLTYPE_NOW != type && !query_yn(_("Use this style?")));
-        ma_styles.push_back(ma_type);
-        style_selected = ma_type;
-    }
-    if (has_trait("MARTIAL_ARTS5")) {
-        matype_id ma_type;
-        do {
-            int choice = (PLTYPE_NOW == type) ? rng(1, 3) :
-                         menu(false, _("Pick your style:"), _("Eskrima"), _("Fencing"), _("Pentjak Silat"), NULL);
-            if (choice == 1) {
-                ma_type = "style_eskrima";
-            } else if (choice == 2) {
-                ma_type = "style_fencing";
-            } else if (choice == 3) {
-                ma_type = "style_silat";
-            } 
-            if (PLTYPE_NOW != type) {
-                popup(martialarts[ma_type].description, PF_NONE);
-            }
-        } while (PLTYPE_NOW != type && !query_yn(_("Use this style?")));
-        ma_styles.push_back(ma_type);
-        style_selected = ma_type;
-    }
-
-
     ret_null = item("null", 0);
     weapon = ret_null;
 
@@ -541,58 +453,26 @@ int player::create(character_type type, std::string tempname)
          iter != prof_traits.end(); ++iter) {
          g->u.toggle_trait(*iter);
     }
-    // These go here so it actually checks for your trait before asking you to pick
-    if (has_trait("PROF_MA_ORANGE")) {
-        matype_id ma_type;
-        do {
-            int choice = (PLTYPE_NOW == type) ? rng(1, 5) :
-                         menu(false, _("Pick your style:"), _("Karate"), _("Judo"), _("Muay Thai"),
-                              _("Tai Chi"), _("Taekwondo"), NULL);
-            if (choice == 1) {
-                ma_type = "style_karate";
-            } else if (choice == 2) {
-                ma_type = "style_judo";
-            } else if (choice == 3) {
-                ma_type = "style_muay_thai";
-            } else if (choice == 4) {
-                ma_type = "style_tai_chi";
-            } else { // choice == 5
-                ma_type = "style_taekwondo";
+    for( auto &t : get_base_traits() ) {
+        std::vector<std::string> styles;
+        for( auto &s : mutation_branch::get( t ).initial_ma_styles ) {
+            if( !has_martialart( s ) ) {
+                styles.push_back( s );
             }
-            if (PLTYPE_NOW != type) {
-                popup(martialarts[ma_type].description, PF_NONE);
-            }
-        } while (PLTYPE_NOW != type && !query_yn(_("Use this style?")));
-        ma_styles.push_back(ma_type);
-        style_selected = ma_type;
+        }
+        if( !styles.empty() ) {
+            const auto ma_type = choose_ma_style( type, styles );
+            ma_styles.push_back( ma_type );
+            style_selected = ma_type;
+        }
     }
-    if (has_trait("PROF_MA_BLACK")) {
-        matype_id ma_type;
-        do {
-            int choice = (PLTYPE_NOW == type) ? rng(1, 5) :
-                         menu(false, _("Pick your style:"), _("Karate"), _("Judo"), _("Aikido"),
-                              _("Tai Chi"), _("Taekwondo"), _("Zui Quan"), _("Muay Thai"), NULL);
-            if (choice == 1) {
-                ma_type = "style_karate";
-            } else if (choice == 2) {
-                ma_type = "style_judo";
-            } else if (choice == 3) {
-                ma_type = "style_aikido";
-            } else if (choice == 4) {
-                ma_type = "style_tai_chi";
-            } else if (choice == 5) {
-                ma_type = "style_taekwondo";
-            } else if (choice == 6) {
-                ma_type = "style_zui_quan";
-            } else if (choice == 7) {
-                ma_type = "style_muay_thai";
-            }
-            if (PLTYPE_NOW != type) {
-                popup(martialarts[ma_type].description, PF_NONE);
-            }
-        } while (PLTYPE_NOW != type && !query_yn(_("Use this style?")));
-        ma_styles.push_back(ma_type);
-        style_selected = ma_type;
+    // For compatibility with old versions and for better user experience:
+    // activate some mutations right from the start.
+    // TODO: (maybe) move this to json?
+    if( has_trait( "NIGHTVISION" ) ) {
+        my_mutations["NIGHTVISION"].powered = true;
+    } else if( has_trait( "URSINE_EYE" ) ) {
+        my_mutations["URSINE_EYE"].powered = true;
     }
     
     // Likewise, the asthmatic start with their medication.
@@ -893,7 +773,7 @@ int set_traits(WINDOW *w, player *u, int &points, int max_trait_points)
 
     std::vector<std::string> vStartingTraits[2];
 
-    for( auto &traits_iter : traits ) {
+    for( auto &traits_iter : mutation_branch::get_all() ) {
         if( traits_iter.second.startingtrait || g->scen->traitquery( traits_iter.first ) == true ) {
             if( traits_iter.second.points >= 0 ) {
                 vStartingTraits[0].push_back( traits_iter.first );
@@ -974,21 +854,22 @@ int set_traits(WINDOW *w, player *u, int &points, int max_trait_points)
                 if (i >= iStartPos[iCurrentPage] && i < iStartPos[iCurrentPage] +
                     (int)((iContentHeight > traits_size[iCurrentPage]) ?
                           traits_size[iCurrentPage] : iContentHeight)) {
+                    auto &mdata = mutation_branch::get( vStartingTraits[iCurrentPage][i] );
                     if (iCurrentLine[iCurrentPage] == i && iCurrentPage == iCurWorkingPage) {
                         mvwprintz(w,  3, 41, c_ltgray,
                                   "                                      ");
-                        int points = traits[vStartingTraits[iCurrentPage][i]].points;
+                        int points = mdata.points;
                         bool negativeTrait = points < 0;
                         if (negativeTrait) {
                             points *= -1;
                         }
                         mvwprintz(w,  3, 41, col_tr, ngettext("%s %s %d point", "%s %s %d points", points),
-                                  traits[vStartingTraits[iCurrentPage][i]].name.c_str(),
+                                  mdata.name.c_str(),
                                   negativeTrait ? _("earns") : _("costs"),
                                   points);
                         fold_and_print(w_description, 0, 0,
                                        FULL_SCREEN_WIDTH - 2, col_tr,
-                                       traits[vStartingTraits[iCurrentPage][i]].description);
+                                       mdata.description);
                     }
 
                     nc_color cLine = col_off_pas;
@@ -1020,7 +901,7 @@ int set_traits(WINDOW *w, player *u, int &points, int max_trait_points)
                               (iCurrentPage == 0) ? 2 : 40, c_ltgray, "\
                                   "); // Clear the line
                     mvwprintz(w, 5 + i - iStartPos[iCurrentPage], (iCurrentPage == 0) ? 2 : 40, cLine,
-                              traits[vStartingTraits[iCurrentPage][i]].name.c_str());
+                              mdata.name.c_str());
                 }
             }
 
@@ -1058,6 +939,7 @@ int set_traits(WINDOW *w, player *u, int &points, int max_trait_points)
         } else if (action == "CONFIRM") {
             int inc_type = 0;
             std::string cur_trait = vStartingTraits[iCurWorkingPage][iCurrentLine[iCurWorkingPage]];
+            const auto &mdata = mutation_branch::get( cur_trait );
             if (u->has_trait(cur_trait)) {
 
                 inc_type = -1;
@@ -1076,13 +958,13 @@ int set_traits(WINDOW *w, player *u, int &points, int max_trait_points)
                 popup(_("You already picked a conflicting trait!"));
             } else if(g->scen->forbidden_traits(cur_trait)) {
                 popup(_("The scenario you picked prevents you from taking this trait!"));
-            } else if (iCurWorkingPage == 0 && num_good + traits[cur_trait].points >
+            } else if (iCurWorkingPage == 0 && num_good + mdata.points >
                        max_trait_points) {
                 popup(ngettext("Sorry, but you can only take %d point of advantages.",
                                "Sorry, but you can only take %d points of advantages.", max_trait_points),
                       max_trait_points);
 
-            } else if (iCurWorkingPage != 0 && num_bad + traits[cur_trait].points <
+            } else if (iCurWorkingPage != 0 && num_bad + mdata.points <
                        -max_trait_points) {
                 popup(ngettext("Sorry, but you can only take %d point of disadvantages.",
                                "Sorry, but you can only take %d points of disadvantages.", max_trait_points),
@@ -1104,11 +986,11 @@ int set_traits(WINDOW *w, player *u, int &points, int max_trait_points)
             //inc_type is either -1 or 1, so we can just multiply by it to invert
             if(inc_type != 0) {
                 u->toggle_trait(cur_trait);
-                points -= traits[cur_trait].points * inc_type;
+                points -= mdata.points * inc_type;
                 if (iCurWorkingPage == 0) {
-                    num_good += traits[cur_trait].points * inc_type;
+                    num_good += mdata.points * inc_type;
                 } else {
-                    num_bad += traits[cur_trait].points * inc_type;
+                    num_bad += mdata.points * inc_type;
                 }
             }
         } else if (action == "PREV_TAB") {
@@ -1259,7 +1141,7 @@ int set_profession(WINDOW *w, player *u, int &points)
             buffer << pgettext( "set_profession_trait", "None" ) << "\n";
         } else {
             for( const auto &t : sorted_profs[cur_id]->traits() ) {
-                buffer << traits[ t ].name << "\n";
+                buffer << mutation_branch::get_name( t ) << "\n";
             }
         }
 
@@ -1790,14 +1672,14 @@ int set_description(WINDOW *w, player *u, character_type type, int &points)
             wrefresh(w_stats);
 
             mvwprintz(w_traits, 0, 0, COL_HEADER, _("Traits: "));
-            std::vector<std::string> current_traits = u->get_traits();
+            std::vector<std::string> current_traits = u->get_base_traits();
             if (current_traits.empty()) {
                 wprintz(w_traits, c_ltred, _("None!"));
             } else {
                 for( auto &current_trait : current_traits ) {
                     wprintz(w_traits, c_ltgray, "\n");
-                    wprintz( w_traits, ( traits[current_trait].points > 0 ) ? c_ltgreen : c_ltred,
-                             traits[current_trait].name.c_str() );
+                    wprintz( w_traits, ( mutation_branch::get( current_trait ).points > 0 ) ? c_ltgreen : c_ltred,
+                             mutation_branch::get_name( current_trait ).c_str() );
                 }
             }
             wrefresh(w_traits);
@@ -1895,7 +1777,7 @@ int set_description(WINDOW *w, player *u, character_type type, int &points)
 
         werase(w_scenario);
         mvwprintz(w_scenario, 0, 0, COL_HEADER, _("Scenario: "));
-        wprintz(w_scenario, c_ltgray, g->scen->gender_appropriate_name(u->male).c_str());
+        wprintz(w_scenario, c_ltgray, _(g->scen->gender_appropriate_name(u->male).c_str()));
         wrefresh(w_scenario);
 
         werase(w_profession);
@@ -1991,23 +1873,24 @@ int set_description(WINDOW *w, player *u, character_type type, int &points)
     } while (true);
 }
 
-std::vector<std::string> Character::get_traits() const
+std::vector<std::string> Character::get_base_traits() const
 {
     return std::vector<std::string>( my_traits.begin(), my_traits.end() );
 }
 
 std::vector<std::string> Character::get_mutations() const
 {
-    return std::vector<std::string>( my_mutations.begin(), my_mutations.end() );
+    std::vector<std::string> result;
+    for( auto &t : my_mutations ) {
+        result.push_back( t.first );
+    }
+    return result;
 }
 
 void Character::empty_traits()
 {
-    for( auto &traits_iter : traits ) {
-        if( has_trait( traits_iter.first ) ) {
-            toggle_trait( traits_iter.first );
-        }
-    }
+    my_traits.clear();
+    my_mutations.clear();
 }
 void Character::empty_skills()
 {
@@ -2018,7 +1901,7 @@ void Character::empty_skills()
 }
 void Character::add_traits()
 {
-    for( auto &traits_iter : traits ) {
+    for( auto &traits_iter : mutation_branch::get_all() ) {
         if( g->scen->locked_traits( traits_iter.first ) ) {
             toggle_trait( traits_iter.first );
         }
@@ -2028,7 +1911,7 @@ std::string Character::random_good_trait()
 {
     std::vector<std::string> vTraitsGood;
 
-    for( auto &traits_iter : traits ) {
+    for( auto &traits_iter : mutation_branch::get_all() ) {
         if( traits_iter.second.startingtrait && traits_iter.second.points >= 0 ) {
             vTraitsGood.push_back( traits_iter.first );
         }
@@ -2041,7 +1924,7 @@ std::string Character::random_bad_trait()
 {
     std::vector<std::string> vTraitsBad;
 
-    for( auto &traits_iter : traits ) {
+    for( auto &traits_iter : mutation_branch::get_all() ) {
         if( traits_iter.second.startingtrait && traits_iter.second.points < 0 ) {
             vTraitsBad.push_back( traits_iter.first );
         }

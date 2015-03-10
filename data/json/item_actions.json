@@ -5,8 +5,8 @@
         "name" : "Sew"
     },{
         "type" : "item_action",
-        "id" : "KNIFE",
-        "name" : "Use as knife"
+        "id" : "SEW_ADVANCED",
+        "name" : "Modify Clothing"
     },{
         "type" : "item_action",
         "id" : "firestarter",
@@ -73,11 +73,35 @@
         "name" : "Smoke/snort meth"
     },{
         "type" : "item_action",
+        "id" : "TAZER",
+        "name" : "Taze something"
+    },{
+        "type" : "item_action",
         "id" : "ANTICONVULSANT",
         "name" : "Take anticonvulsant"
     },{
         "type" : "item_action",
-        "id" : "extended_firestarter",
-        "name" : "Start a fire slowly"
+        "id" : "salvage",
+        "name" : "Cut up an item"
+    },{
+        "type" : "item_action",
+        "id" : "inscribe",
+        "name" : "Write on an item"
+    },{
+        "type" : "item_action",
+        "id" : "cauterize",
+        "name" : "Cauterize a wound"
+    },{
+        "type" : "item_action",
+        "id" : "enzlave",
+        "name" : "Create a zombie slave"
+    },{
+        "type" : "item_action",
+        "id" : "fireweapon_off",
+        "name" : "Turn on"
+    },{
+        "type" : "item_action",
+        "id" : "fireweapon_on",
+        "name" : "Turn off"
     }
 ]

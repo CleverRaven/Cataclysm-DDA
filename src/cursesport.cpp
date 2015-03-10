@@ -437,7 +437,7 @@ inline int printstring(WINDOW *win, char *fmt)
             addedchar( win );
             // Have just written a wide-character into the last cell, it would not
             // display correctly if it was the last *cell* of a line
-            if( win->cursorx == 0 ) {
+            if( win->cursorx == 1 ) {
                 // So make that last cell a space, move the width
                 // character in the first cell of the line
                 seccell->ch = curcell->ch;

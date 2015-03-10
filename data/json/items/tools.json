@@ -49,7 +49,7 @@
   {
     "type" : "ITEM_CATEGORY",
     "id" : "spare_parts",
-    "name" : "spare parts",
+    "name" : "SPARE PARTS",
     "sort_rank" : 8
   },
 
@@ -256,6 +256,30 @@
   },
 
   {
+    "id": "tailors_kit",
+    "type": "TOOL",
+    "symbol": ";",
+    "color": "red",
+    "name": "tailor's kit",
+    "description": "This is a high quality, plastic kit with a variety of needles, some plastic spools for thread, some small scissors, even a small heating element for melting and joining plastic. Use a tailor's kit to customize your clothing and armor.  This uses your tailoring skill.",
+    "price": 1000,
+    "material": ["plastic", "steel"],
+    "weight": 100,
+    "volume": 2,
+    "bashing": -1,
+    "cutting": 0,
+    "to_hit": -2,
+    "max_charges": 400,
+    "initial_charges": 50,
+    "charges_per_use": 1,
+    "turns_per_charge": 0,
+    "ammo": "thread",
+    "revert_to": "null",
+    "use_action": "SEW_ADVANCED",
+	"qualities": [["CUT", 1]]
+  },
+
+  {
     "id": "scissors",
     "type": "TOOL",
     "symbol": ",",
@@ -277,7 +301,7 @@
     "turns_per_charge": 0,
     "ammo": "NULL",
     "revert_to": "null",
-    "use_action": "KNIFE",
+    "use_action": { "type": "knife" },
     "qualities": [["CUT", 1]]
   },
 
@@ -710,6 +734,7 @@
     "charges_per_use": 0,
     "turns_per_charge": 0,
     "ammo": "NULL",
+    "category": "other",
     "revert_to": "null"
   },
 
@@ -832,6 +857,7 @@
   {
     "id": "glowstick_dead",
     "type": "TOOL",
+    "category": "other",
     "symbol": ";",
     "color": "light_gray",
     "name": "dead glowstick",
@@ -1018,7 +1044,7 @@
     "bashing": 2,
     "max_charges": 200,
     "initial_charges": 0,
-    "charges_per_use": 0,
+    "charges_per_use": 1,
     "turns_per_charge": 0,
     "ammo": "battery",
     "revert_to": "null",
@@ -1090,8 +1116,8 @@
     "ammo": "NULL",
     "revert_to": "null",
     "qualities": [["SMOOTH", 1]]
-  },    
-  {    
+  },
+  {
     "id": "soldering_iron",
     "type": "TOOL",
     "symbol": ",",
@@ -4040,7 +4066,7 @@
     "turns_per_charge": 0,
     "ammo": "NULL",
     "revert_to": "null",
-    "use_action": "KNIFE",
+    "use_action": { "type": "knife" },
     "qualities": [["CUT", 1]]
   },
 
@@ -4066,7 +4092,7 @@
     "turns_per_charge": 0,
     "ammo": "NULL",
     "revert_to": "null",
-    "use_action": "KNIFE",
+    "use_action": { "type": "knife" },
     "qualities": [["CUT", 1]]
   },
 
@@ -4093,7 +4119,7 @@
     "ammo": "NULL",
     "revert_to": "null",
     "category": "weapons",
-    "use_action": "KNIFE",
+    "use_action": { "type": "knife" },
     "qualities": [["CUT", 1], ["BUTCHER", 15]]
   },
 
@@ -4121,7 +4147,21 @@
     "ammo": "gasoline",
     "revert_to": "null",
     "category": "weapons",
-    "use_action": "FIREMACHETE_OFF"
+    "use_action": [
+        {
+            "type": "fireweapon_off",
+            "target_id": "firemachete_on",
+            "success_message": "Your No. 9 glows!",
+            "lacks_fuel_message": "Click.",
+            "failure_message": "Click.",
+            "noise": 0,
+            "moves": 10,
+            "success_chance": 2
+        },
+        {
+            "type": "knife"
+        }
+    ]
   },
 
   {
@@ -4148,7 +4188,27 @@
     "ammo": "gasoline",
     "revert_to": "firemachete_off",
     "category": "weapons",
-    "use_action": "FIREMACHETE_ON"
+    "use_action": [
+        {
+            "type": "fireweapon_on",
+            "target_id": "firemachete_off",
+            "noise_message": "Your No. 9 hisses.",
+            "voluntary_extinguish_message": "Your No. 9 goes dark.",
+            "charges_extinguish_message": "Out of ammo!",
+            "water_extinguish_message": "Your No. 9 hisses in the water and goes out.",
+            "auto_extinguish_message": "Your No. 9 cuts out!",
+            "noise": 5,
+            "noise_chance": 25,
+            "auto_extinguish_chance": 100
+        },
+        {
+            "type": "firestarter",
+            "moves": 15
+        },
+        {
+            "type": "knife"
+        }
+    ]
   },
   {
     "id": "diamond_knife",
@@ -4174,7 +4234,7 @@
     "ammo": "NULL",
     "revert_to": "null",
     "category": "weapons",
-    "use_action": "KNIFE",
+    "use_action": { "type": "knife" },
     "qualities": [["CUT", 1], ["BUTCHER", 24]]
   },
   {
@@ -4200,7 +4260,7 @@
     "ammo": "NULL",
     "revert_to": "null",
     "category": "weapons",
-    "use_action": "KNIFE",
+    "use_action": { "type": "knife" },
     "qualities": [["CUT", 1], ["BUTCHER", 20]]
   },
   {
@@ -4225,7 +4285,7 @@
     "turns_per_charge": 0,
     "ammo": "NULL",
     "revert_to": "null",
-    "use_action": "KNIFE",
+    "use_action": { "type": "knife" },
     "category" : "weapons",
     "qualities": [["CUT", 1], ["BUTCHER", 16]]
   },
@@ -4252,7 +4312,7 @@
     "ammo": "NULL",
     "revert_to": "null",
     "category": "weapons",
-    "use_action": "KNIFE",
+    "use_action": { "type": "knife" },
     "qualities": [["CUT", 1], ["BUTCHER", 18]]
   },
   {
@@ -4279,7 +4339,7 @@
     "ammo": "NULL",
     "revert_to": "null",
     "category": "weapons",
-    "use_action": "KNIFE",
+    "use_action": { "type": "knife" },
     "qualities": [["CUT", 1], ["BUTCHER", 12]]
   },
   {
@@ -4305,7 +4365,7 @@
     "turns_per_charge": 0,
     "ammo": "NULL",
     "revert_to": "null",
-    "use_action": "KNIFE",
+    "use_action": { "type": "knife" },
     "category" : "weapons",
     "qualities": [["CUT", 1], ["BUTCHER", 13]]
   },
@@ -4331,7 +4391,7 @@
     "turns_per_charge": 0,
     "ammo": "NULL",
     "revert_to": "null",
-    "use_action": "KNIFE",
+    "use_action": { "type": "knife" },
     "category" : "weapons",
     "qualities": [["CUT", 1], ["BUTCHER", 9]]
   },
@@ -4342,7 +4402,7 @@
     "color": "light_gray",
     "name": "Rising Sun (off)",
     "name_plural": "Rising Suns (off)",
-    "description": "This is a katana with a nozzle just behind the the cutting edge of the blade.  People love fire, and people love katanas, so why not put them together? The gas burners attached to this blade can really turn up the heat on your foes.  Use to ignite.",
+    "description": "This is a katana with a nozzle just behind the cutting edge of the blade.  People love fire, and people love katanas, so why not put them together? The gas burners attached to this blade can really turn up the heat on your foes.  Use to ignite.",
     "price": 98000,
     "material": "steel",
     "flags": ["FIRE", "SLICE", "DURABLE_MELEE", "SHEATH_SWORD", "IAIJUTSU"],
@@ -4359,7 +4419,19 @@
     "ammo": "gasoline",
     "revert_to": "null",
     "category": "weapons",
-    "use_action": "FIREKATANA_OFF"
+    "use_action": [
+        {
+            "type": "fireweapon_off",
+            "target_id": "firekatana_on",
+            "success_message": "The Sun rises.",
+            "lacks_fuel_message": "Time stands still.",
+            "noise": 10,
+            "moves": 10
+        },
+        {
+            "type": "knife"
+        }
+    ]
   },
 
   {
@@ -4386,7 +4458,24 @@
     "ammo": "gasoline",
     "revert_to": "firekatana_off",
     "category": "weapons",
-    "use_action": "FIREKATANA_ON"
+    "use_action": [
+        {
+            "type": "fireweapon_on",
+            "target_id": "firemachete_off",
+            "noise_message": "The Sun shines brightly.",
+            "voluntary_extinguish_message": "The Sun sets.",
+            "charges_extinguish_message": "The Light Fades.",
+            "water_extinguish_message": "Your sword hisses in the water and goes out.",
+            "noise_chance": 35
+        },
+        {
+            "type": "firestarter",
+            "moves": 15
+        },
+        {
+            "type": "knife"
+        }
+    ]
   },
 
   {
@@ -4412,7 +4501,7 @@
     "ammo": "NULL",
     "revert_to": "null",
     "category": "weapons",
-    "use_action": "KNIFE",
+    "use_action": { "type": "knife" },
     "qualities": [["CUT", 1], ["COOK", 1]]
   },
 
@@ -4438,7 +4527,7 @@
     "turns_per_charge": 0,
     "ammo": "NULL",
     "revert_to": "null",
-    "use_action": "KNIFE",
+    "use_action": { "type": "knife" },
     "category" : "weapons",
     "qualities": [["CUT", 1], ["BUTCHER", 9]]
   },
@@ -4466,7 +4555,7 @@
     "ammo": "NULL",
     "revert_to": "null",
     "category": "weapons",
-    "use_action": "KNIFE"
+    "use_action": { "type": "knife" }
   },
 
   {
@@ -4491,7 +4580,7 @@
     "turns_per_charge": 0,
     "ammo": "NULL",
     "revert_to": "null",
-    "use_action": "KNIFE",
+    "use_action": { "type": "knife" },
     "category" : "weapons",
     "qualities": [["CUT", 1], ["BUTCHER", 9]]
   },
@@ -4520,7 +4609,7 @@
     "ammo": "NULL",
     "revert_to": "null",
     "category" : "weapons",
-    "use_action": "KNIFE"
+    "use_action": { "type": "knife" }
   },
 
   {
@@ -4548,7 +4637,19 @@
     "ammo": "gasoline",
     "revert_to": "null",
     "category" : "weapons",
-    "use_action": "ZWEIFIRE_OFF"
+    "use_action": [
+        {
+            "type": "fireweapon_off",
+            "target_id": "zweifire_on",
+            "success_message": "Die Klinge deines Schwertes brennt!",
+            "lacks_fuel_message": "Dein Flammenschwert hat keinen Brennstoff mehr.",
+            "noise": 10,
+            "moves": 10
+        },
+        {
+            "type": "knife"
+        }
+    ]
   },
 
   {
@@ -4576,7 +4677,23 @@
     "ammo": "gasoline",
     "revert_to": "zweifire_off",
     "category" : "weapons",
-    "use_action": "ZWEIFIRE_ON"
+    "use_action": [
+        {
+            "type": "fireweapon_on",
+            "noise_message": "Das Feuer um deine Schwertklinge leuchtet hell!",
+            "voluntary_extinguish_message": "Die Flamme deines Schwertes erlischt.",
+            "charges_extinguish_message": "Deinem Flammenschwert ist der Brennstoff ausgegangen!",
+            "water_extinguish_message": "Dein Schwert zischt und erlischt.",
+            "noise_chance": 35
+        },
+        {
+            "type": "firestarter",
+            "moves": 15
+        },
+        {
+            "type": "knife"
+        }
+    ]
   },
 
   {
@@ -4603,7 +4720,19 @@
     "ammo": "gasoline",
     "revert_to": "null",
     "category" : "weapons",
-    "use_action": "BROADFIRE_OFF"
+    "use_action": [
+        {
+            "type": "fireweapon_off",
+            "target_id": "broadfire_on",
+            "success_message": "Charge!!",
+            "lacks_fuel_message": "No strength to fight!",
+            "noise": 10,
+            "moves": 10
+        },
+        {
+            "type": "knife"
+        }
+    ]
   },
 
   {
@@ -4613,7 +4742,7 @@
     "color": "red",
     "name": "firebrand (on)",
     "name_plural": "firebrands (on)",
-    "description": "This is a combination of two Dark Age conflict-resolution classics, the broadsword and the torch.  The blade is glowing with heat.  Excalibur can eat it's heart out.  Use to shut it off.",
+    "description": "This is a combination of two Dark Age conflict-resolution classics, the broadsword and the torch.  The blade is glowing with heat.  Excalibur can eat its heart out.  Use to shut it off.",
     "price": 120000,
     "material": "steel",
     "flags": ["FIRE", "CHOP", "LIGHT_50", "CHARGEDIM", "FLAMING", "DURABLE_MELEE"],
@@ -4630,7 +4759,23 @@
     "ammo": "gasoline",
     "revert_to": "broadfire_off",
     "category" : "weapons",
-    "use_action": "BROADFIRE_ON"
+    "use_action": [
+        {
+            "type": "fireweapon_on",
+            "noise_message": "Your blade burns for combat!",
+            "voluntary_extinguish_message": "Run away!",
+            "charges_extinguish_message": "Thy strength fades!",
+            "water_extinguish_message": "Your sword hisses in the water and goes out.",
+            "noise_chance": 35
+        },
+        {
+            "type": "firestarter",
+            "moves": 15
+        },
+        {
+            "type": "knife"
+        }
+    ]
   },
 
   {
@@ -4655,7 +4800,7 @@
     "ammo": "NULL",
     "revert_to": "null",
     "category": "weapons",
-    "use_action": "KNIFE",
+    "use_action": { "type": "knife" },
     "qualities": [["CUT", 1], ["BUTCHER", -27]]
   },
 
@@ -4682,7 +4827,21 @@
     "ammo": "gasoline",
     "revert_to": "null",
     "category" : "weapons",
-    "use_action": "SHISHKEBAB_OFF"
+    "use_action": [
+        {
+            "type": "fireweapon_off",
+            "target_id": "shishkebab_on",
+            "success_message": "Let's dance, Zeds!",
+            "lacks_fuel_message": "This thing needs some fuel!",
+            "failure_message": "Aw, dangit. It fails to start!",
+            "noise": 10,
+            "moves": 10,
+            "success_chance": 5
+        },
+        {
+            "type": "knife"
+        }
+    ]
   },
 
   {
@@ -4708,7 +4867,26 @@
     "ammo": "gasoline",
     "revert_to": "shishkebab_off",
     "category" : "weapons",
-    "use_action": "SHISHKEBAB_ON"
+    "use_action": [
+        {
+            "type": "fireweapon_on",
+            "noise_message": "Your shishkebab crackles!",
+            "voluntary_extinguish_message": "Peace out. Your shishkebab's flame dies.",
+            "charges_extinguish_message": "Uncool, outta gas! Your shishkebab's flame goes out.",
+            "water_extinguish_message": "Your shishkebab hisses in the water and goes out.",
+            "auto_extinguish_message": "Bummer, man! Your shishkebab's flame flickers and dies out.",
+            "noise": 10,
+            "noise_chance": 25,
+            "auto_extinguish_chance": 75
+        },
+        {
+            "type": "firestarter",
+            "moves": 15
+        },
+        {
+            "type": "knife"
+        }
+    ]
   },
 
   {
@@ -4735,7 +4913,7 @@
     "ammo": "NULL",
     "revert_to": "null",
     "category" : "weapons",
-    "use_action": "KNIFE"
+    "use_action": { "type": "knife" }
   },
 
   {
@@ -4759,7 +4937,7 @@
     "turns_per_charge": 0,
     "ammo": "NULL",
     "revert_to": "null",
-    "use_action": "KNIFE",
+    "use_action": { "type": "knife" },
     "qualities": [["CUT", 1], ["BUTCHER", 20]],
     "flags": ["STAB", "SHEATH_KNIFE"]
   },
@@ -4785,7 +4963,7 @@
     "turns_per_charge": 0,
     "ammo": "NULL",
     "revert_to": "null",
-    "use_action": "KNIFE",
+    "use_action": { "type": "knife" },
     "qualities": [["CUT", 1], ["BUTCHER", 25]],
     "flags": ["CHOP", "SHEATH_KNIFE"]
   },
@@ -4813,7 +4991,7 @@
     "ammo": "NULL",
     "revert_to": "null",
     "category": "weapons",
-    "use_action": "KNIFE",
+    "use_action": { "type": "knife" },
     "qualities": [["CUT", 1], ["BUTCHER", 19]]
   },
 
@@ -5760,7 +5938,7 @@
     "turns_per_charge": 0,
     "ammo": "NULL",
     "revert_to": "null",
-    "use_action": "KNIFE",
+    "use_action": { "type": "knife" },
     "qualities": [["CUT", 1], ["BUTCHER", 12]]
   },
 
@@ -5785,7 +5963,7 @@
     "turns_per_charge": 0,
     "ammo": "NULL",
     "revert_to": "null",
-    "use_action": "KNIFE",
+    "use_action": { "type": "knife" },
     "qualities": [["CUT", 1], ["BUTCHER", 11]],
     "flags": ["STAB", "SHEATH_KNIFE"]
    },
@@ -5932,7 +6110,7 @@
     "turns_per_charge": 0,
     "ammo": "NULL",
     "revert_to": "null",
-    "use_action": "KNIFE",
+    "use_action": { "type": "knife" },
     "qualities": [["CUT", 1], ["BUTCHER", 11]],
     "flags": ["STAB", "SHEATH_KNIFE"]
   },
@@ -6161,8 +6339,8 @@
     "rarity": 0,
     "price": 800,
     "material": ["glass", "water"],
-    "weight": 3,
-    "volume": 2,
+    "weight": 617,
+    "volume": 12,
     "bashing": 8,
     "cutting": 1,
     "to_hit": 0,
@@ -6365,7 +6543,7 @@
         "container": "jar_glass"
     }
   },
-  
+
   {
     "id": "jar_soup_woods",
     "type": "GENERIC",
@@ -6390,7 +6568,7 @@
         "container": "jar_glass"
     }
   },
-  
+
   {
     "id": "jar_soup_meat",
     "type": "GENERIC",
@@ -6415,7 +6593,7 @@
         "container": "jar_glass"
     }
   },
-  
+
   {
     "id": "jar_soup_fish",
     "type": "GENERIC",
@@ -6465,7 +6643,7 @@
         "container": "jar_glass"
     }
   },
-  
+
   {
     "id": "jar_soup_human",
     "type": "GENERIC",
@@ -6490,7 +6668,7 @@
         "container": "jar_glass"
     }
   },
-  
+
   {
     "id": "jar_broth",
     "type": "GENERIC",
@@ -6515,7 +6693,7 @@
         "container": "jar_glass"
     }
   },
-  
+
   {
     "id": "jar_broth_bone",
     "type": "GENERIC",
@@ -6965,7 +7143,7 @@
     "bashing": -8,
     "max_charges": 200,
     "initial_charges": 0,
-    "charges_per_use": 0,
+    "charges_per_use": 1,
     "turns_per_charge": 0,
     "ammo": "battery",
     "revert_to": "null",
@@ -7065,7 +7243,27 @@
     "ammo": "battery",
     "revert_to": "null"
   },
-
+{
+    "id": "polisher",
+    "type": "TOOL",
+    "symbol": ";",
+    "color": "light_gray",
+    "name": "electric polisher",
+    "description": "An electric polisher used to polish metal surfaces capable of making them reflect light as a mirror would",
+    "price": 35000,
+    "material": ["steel", "plastic"],
+    "weight": 1000,
+    "volume": 14,
+    "bashing": 6,
+    "cutting": 2,
+    "to_hit": -2,
+    "max_charges": 100,
+    "initial_charges": 0,
+    "charges_per_use": 0,
+    "turns_per_charge": 0,
+    "ammo": "battery",
+    "revert_to": "null"
+  },
   {
     "id": "crucible",
     "type": "TOOL",
@@ -7204,7 +7402,7 @@
     "ammo": "NULL",
     "revert_to": "null",
     "category" : "weapons",
-    "use_action": "KNIFE"
+    "use_action": { "type": "knife" }
   },
 
   {
@@ -7291,14 +7489,20 @@
     "turns_per_charge": 0,
     "ammo": "gasoline",
     "revert_to": "null",
-    "use_action": {
-        "type": "transform",
-        "msg": "You flick the lighter.",
-        "target": "ref_lighter_on",
-        "active": true,
-        "need_charges": 1,
-        "need_charges_msg": "Nothing happens."
-    }
+    "use_action": [
+        {
+            "type": "transform",
+            "msg": "You flick the lighter.",
+            "target": "ref_lighter_on",
+            "active": true,
+            "need_charges": 1,
+            "need_charges_msg": "Nothing happens."
+        },
+        {
+            "type": "firestarter",
+            "moves": 25
+        }
+    ]
   },
 
 {
@@ -7323,10 +7527,19 @@
     "turns_per_charge": 10,
     "ammo": "gasoline",
     "revert_to": "ref_lighter",
-    "use_action": {
+    "use_action": [
+        {
             "type": "firestarter",
             "moves_cost": 15
-    }
+        },
+        {
+            "type": "auto_transform",
+            "msg": "You extinguish the lighter.",
+            "when_underwater": "The lighter is extinguished.",
+            "target": "ref_lighter_off",
+            "active": false
+        }
+    ]
   },
 
   {
@@ -7617,7 +7830,7 @@
     "ammo": "NULL",
     "revert_to": "null",
     "category" : "weapons",
-    "use_action": "KNIFE",
+    "use_action": { "type": "knife" },
     "qualities": [["CUT", 1], ["BUTCHER", 19]]
   },
 
@@ -7665,7 +7878,7 @@
     "turns_per_charge": 0,
     "ammo": "NULL",
     "revert_to": "null",
-    "use_action": "KNIFE",
+    "use_action": { "type": "knife" },
     "qualities": [["CUT", 1], ["BUTCHER", 14]]
   },
 
@@ -7692,10 +7905,10 @@
     "ammo": "NULL",
     "revert_to": "null",
     "category": "weapons",
-    "use_action": "KNIFE",
+    "use_action": { "type": "knife" },
     "qualities": [["CUT", 1], ["BUTCHER", 18]]
   },
-  
+
   {
     "id": "diamond_kukri",
     "type": "TOOL",
@@ -7719,7 +7932,7 @@
     "ammo": "NULL",
     "revert_to": "null",
     "category": "weapons",
-    "use_action": "KNIFE",
+    "use_action": { "type": "knife" },
     "qualities": [["CUT", 1], ["BUTCHER", 20]]
   },
 
@@ -7747,7 +7960,7 @@
     "ammo": "NULL",
     "revert_to": "null",
     "category": "weapons",
-    "use_action": "KNIFE",
+    "use_action": { "type": "knife" },
     "qualities": [["CUT", 1], ["BUTCHER", 30]]
   },
 
@@ -7776,7 +7989,7 @@
     "ammo": "NULL",
     "revert_to": "null",
     "category" : "weapons",
-    "use_action": "KNIFE",
+    "use_action": { "type": "knife" },
     "qualities": [["CUT", 1], ["SAW_W", 1], ["SAW_M", 1], ["BUTCHER", 7]]
   },
 
@@ -7803,7 +8016,7 @@
     "turns_per_charge": 0,
     "ammo": "NULL",
     "revert_to": "null",
-    "use_action": "KNIFE",
+    "use_action": { "type": "knife" },
     "qualities": [["CUT", 1], ["SAW_W", 1], ["SAW_M", 1], ["SCREW", 1], ["BUTCHER", 8]]
   },
 
@@ -7829,7 +8042,7 @@
     "turns_per_charge": 0,
     "ammo": "NULL",
     "revert_to": "null",
-    "use_action": "KNIFE",
+    "use_action": { "type": "knife" },
     "qualities": [["CUT", 1], ["SAW_W", 1], ["SAW_M", 1], ["WRENCH", 1], ["SCREW", 1], ["SCREW_FINE", 1], ["BUTCHER", 7]]
   },
   {
@@ -7856,7 +8069,7 @@
     "ammo": "NULL",
     "revert_to": "null",
     "category": "weapons",
-    "use_action": "KNIFE",
+    "use_action": { "type": "knife" },
     "qualities": [["CUT", 1], ["BUTCHER", 19]]
   },
 
@@ -8050,7 +8263,7 @@
     "turns_per_charge": 0,
     "ammo": "NULL",
     "revert_to": "null",
-    "use_action": "KNIFE",
+    "use_action": { "type": "knife" },
     "qualities": [["CUT", 1], ["BUTCHER", 15]],
     "flags": ["CHOP", "SHEATH_KNIFE"]
   },
@@ -8512,6 +8725,7 @@
     "symbol": ";",
     "color": "white",
     "name": "electronic handcuffs",
+    "name_plural": "electronic handcuffs",
     "description": "A pair of electronic handcuffs, used by police and riot bots to detain captives.  Their continuous siren clearly identifies the wearer as an arrested criminal and alerts human police.  Wait for their arrival, don't try to escape or to remove the cuffs - they will administer an electric shock.\nHowever, since the only police likely to respond are undead, you may have a long wait ahead, unless you get creative...",
     "flags": ["ALWAYS_TWOHAND"],
     "price": 0,
@@ -9095,7 +9309,7 @@
     "ammo": "NULL",
     "revert_to": "null",
     "category": "weapons",
-    "use_action": "KNIFE",
+    "use_action": { "type": "knife" },
     "qualities": [["CUT", 1], ["BUTCHER", 10]]
   },
 
@@ -9121,7 +9335,7 @@
     "turns_per_charge": 0,
     "ammo": "NULL",
     "revert_to": "null",
-    "use_action": "KNIFE",
+    "use_action": { "type": "knife" },
     "category" : "weapons",
     "qualities": [["CUT", 1], ["BUTCHER", 16]]
   },
@@ -9148,7 +9362,7 @@
     "turns_per_charge": 0,
     "ammo": "NULL",
     "revert_to": "null",
-    "use_action": "KNIFE",
+    "use_action": { "type": "knife" },
     "category" : "weapons",
     "qualities": [["CUT", 1], ["BUTCHER", 16]]
   },
@@ -9176,7 +9390,7 @@
     "ammo": "NULL",
     "revert_to": "null",
     "category" : "weapons",
-    "use_action": "KNIFE"
+    "use_action": { "type": "knife" }
   },
 
   {
@@ -9202,7 +9416,7 @@
     "turns_per_charge": 0,
     "ammo": "NULL",
     "revert_to": "null",
-    "use_action": "KNIFE",
+    "use_action": { "type": "knife" },
     "category" : "weapons",
     "qualities": [["CUT", 1], ["BUTCHER", 23]]
   },
@@ -9231,7 +9445,7 @@
     "ammo": "NULL",
     "revert_to": "null",
     "category" : "weapons",
-    "use_action": "KNIFE"
+    "use_action": { "type": "knife" }
   },{
     "id": "remotevehcontrol",
     "type": "TOOL",

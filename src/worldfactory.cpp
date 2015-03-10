@@ -201,8 +201,7 @@ WORLDPTR worldfactory::convert_to_world(std::string origin_path)
     // save world as conversion world
     if (save_world(newworld, true)) {
         // move files from origin_path into new world path
-        auto const origin_files = get_files_from_path(".", origin_path, false);
-        for( auto &origin_file : origin_files ) {
+        for( auto &origin_file : get_files_from_path(".", origin_path, false) ) {
             std::string filename = origin_file.substr( origin_file.find_last_of( "/\\" ) );
 
             rename( origin_file.c_str(), std::string( newworld->world_path + filename ).c_str() );
@@ -287,10 +286,9 @@ std::map<std::string, WORLDPTR> worldfactory::get_all_worlds()
         all_worldnames.clear();
     }
     // get the master files. These determine the validity of a world
-    auto const world_dirs = get_directories_with(qualifiers, FILENAMES["savedir"], true);
     // worlds exist by having an option file
     // create worlds
-    for( auto &world_dir : world_dirs ) {
+    for( const auto &world_dir : get_directories_with(qualifiers, FILENAMES["savedir"], true) ) {
         // get the option file again
         // we can assume that there is only one master.gsav, so just collect the first path
         bool no_options = true;

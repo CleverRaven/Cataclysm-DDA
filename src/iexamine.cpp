@@ -56,270 +56,320 @@ void iexamine::gaspump(player *p, map *m, int examx, int examy)
     add_msg(m_info, _("Out of order."));
 }
 
-void iexamine::atm(player *p, map *m, int examx, int examy)
-{
-    (void)m; //unused
-    (void)examx; //unused
-    (void)examy; //unused
-    int choice = -1;
-    const int purchase_cash_card = 1;
-    const int deposit_money = 2;
-    const int withdraw_money = 3;
-    const int transfer_money = 4;
-    const int transfer_all_money = 5;
-    const int cancel = 0;
-    long amount = 0;
-    long max = 0;
-    std::string popupmsg;
-    int pos;
-    int pos2;
-    item *dep;
-    item *with;
+namespace {
+//--------------------------------------------------------------------------------------------------
+//! Implements iexamine::atm(...)
+//--------------------------------------------------------------------------------------------------
+class atm_menu {
+public:
+    // menu choices
+    enum : int {
+        cancel, purchase_card, deposit_money, withdraw_money, transfer_money, transfer_all_money
+    };
 
-    uimenu amenu;
-    amenu.selected = uistate.iexamine_atm_selected;
-    amenu.text = _("Welcome to the C.C.B.o.t.T. ATM. What would you like to do?");
-    if (p->cash >= 100) {
-        amenu.addentry( purchase_cash_card, true, -1, _("Purchase cash card?") );
-    } else {
-        amenu.addentry( purchase_cash_card, false, -1,
-                        _("You need $1.00 in your account to purchase a card.") );
+    atm_menu()                           = delete;
+    atm_menu(atm_menu const&)            = delete;
+    atm_menu(atm_menu&&)                 = delete;
+    atm_menu& operator=(atm_menu const&) = delete;
+    atm_menu& operator=(atm_menu&&)      = delete;
+
+    explicit atm_menu(player &p) : u(p) {
+        reset(false);
     }
 
-    if (p->has_amount("cash_card", 1) && p->cash > 0) {
-        amenu.addentry( withdraw_money, true, -1, _("Withdraw Money") );
-    } else if (p->cash > 0) {
-        amenu.addentry( withdraw_money, false, -1,
-                        _("You need a cash card before you can withdraw money!") );
-    } else {
-        amenu.addentry( withdraw_money, false, -1,
-                        _("You need money in your account before you can withdraw money!") );
-    }
+    void start() {
+        for (bool result = false; !result; ) {
+            amenu.query();
 
-    if (p->has_charges("cash_card", 1)) {
-        amenu.addentry( deposit_money, true, -1, _("Deposit Money") );
-    } else {
-        amenu.addentry( deposit_money, false, -1,
-                        _("You need a charged cash card before you can deposit money!") );
-    }
+            switch (uistate.iexamine_atm_selected = amenu.ret) {
+            case purchase_card:      result = do_purchase_card();      break;
+            case deposit_money:      result = do_deposit_money();      break;
+            case withdraw_money:     result = do_withdraw_money();     break;
+            case transfer_money:     result = do_transfer_money();     break;
+            case transfer_all_money: result = do_transfer_all_money(); break;
+            default:
+                if (amenu.keypress != KEY_ESCAPE) {
+                    continue; // only interested in escape.
+                }
+                //fallthrough
+            case cancel:
+                if (u.activity.type == ACT_ATM) {
+                    u.activity.index = 0; // stop activity
+                }
+                return;
+            };
 
-    if (p->has_amount("cash_card", 2) && p->has_charges("cash_card", 1)) {
-        amenu.addentry( transfer_money, true, -1, _("Transfer Money") );
-        amenu.addentry( transfer_all_money, true, -1, _("Transfer All Money") );
-    } else if (p->has_charges("cash_card", 1)) {
-        amenu.addentry( transfer_money, false, -1,
-                        _("You need two cash cards before you can move money!") );
-    } else {
-        amenu.addentry( transfer_money, false, -1,
-                        _("One of your cash cards must be charged before you can move money!") );
-    }
-
-    amenu.addentry( cancel, true, 'q', _("Cancel") );
-    amenu.query();
-    choice = amenu.ret;
-    uistate.iexamine_atm_selected = choice;
-
-    if (choice == deposit_money) {
-        pos = g->inv(_("Insert card for deposit."));
-        dep = &(p->i_at(pos));
-
-        if (dep->is_null()) {
-            popup(_("You do not have that item!"));
-            return;
+            amenu.redraw();
+            g->draw();
         }
-        if (dep->type->id != "cash_card") {
+
+        if (u.activity.type != ACT_ATM) {
+            u.assign_activity(ACT_ATM, 0);
+        }
+    }
+private:
+    void add_choice(int const i, char const *const title) { amenu.addentry(i, true, -1, title); }
+    void add_info(int const i, char const *const title) { amenu.addentry(i, false, -1, title); }
+
+    //! Reset and repopulate the menu; with a fair bit of work this could be more efficient.
+    void reset(bool const clear = true) {
+        const int card_count   = u.amount_of("cash_card");
+        const int charge_count = card_count ? u.charges_of("cash_card") : 0;
+
+        if (clear) {
+            amenu.reset();
+        }
+
+        amenu.selected = uistate.iexamine_atm_selected;
+        amenu.return_invalid = true;
+        amenu.text = string_format(_("Welcome to the C.C.B.o.t.T. ATM. What would you like to do?\n"
+                                     "Your current balance is: $%ld.%02ld"),
+                                     u.cash / 100, u.cash % 100);
+
+        if (u.cash >= 100) {
+            add_choice(purchase_card, _("Purchase cash card?"));
+        } else {
+            add_info(purchase_card, _("You need $1.00 in your account to purchase a card."));
+        }
+
+        if (card_count && u.cash > 0) {
+            add_choice(withdraw_money, _("Withdraw Money") );
+        } else if (u.cash > 0) {
+            add_info(withdraw_money, _("You need a cash card before you can withdraw money!"));
+        } else {
+            add_info(withdraw_money,
+                _("You need money in your account before you can withdraw money!"));
+        }
+
+        if (charge_count) {
+            add_choice(deposit_money, _("Deposit Money"));
+        } else {
+            add_info(deposit_money,
+                _("You need a charged cash card before you can deposit money!"));
+        }
+
+        if (card_count >= 2 && charge_count) {
+            add_choice(transfer_money, _("Transfer Money"));
+            add_choice(transfer_all_money, _("Transfer All Money"));
+        } else if (charge_count) {
+            add_info(transfer_money, _("You need two cash cards before you can move money!"));
+        } else {
+            add_info(transfer_money,
+                _("One of your cash cards must be charged before you can move money!"));
+        }
+
+        amenu.addentry(cancel, true, 'q', _("Cancel"));
+    }
+
+    //! print a bank statement for @p print = true;
+    void finish_interaction(bool const print = true) {
+        if (print) {
+            add_msg(m_info, ngettext("Your account now holds %d cent.",
+                                     "Your account now holds %d cents.", u.cash), u.cash);
+        }
+
+        u.moves -= 100;
+    }
+
+    //! Prompt for a card to use (includes worn items).
+    item* choose_card(char const *const msg) {
+        const int index = g->inv_for_filter(msg, [](item const& itm) {
+            return itm.type->id == "cash_card";
+        });
+
+        if (index == INT_MIN) {
+            add_msg(m_info, _("Nevermind."));
+            return nullptr; // player canceled
+        }
+
+        auto &itm = u.i_at(index);
+        if (itm.type->id != "cash_card") {
             popup(_("Please insert cash cards only!"));
-            return;
+            return nullptr; // must have selected an equipped item
         }
-        if (dep->charges == 0) {
+
+        return &itm;
+    };
+
+    //! Prompt for an integral value clamped to [0, max].
+    static long prompt_for_amount(char const *const msg, long const max) {
+        const std::string formatted = string_format(msg, max);
+        const int amount = std::atol(string_input_popup(
+            formatted, 20, to_string(max), "", "", -1, true).c_str());
+
+        return (amount > max) ? max : (amount <= 0) ? 0 : amount;
+    };
+
+    bool do_purchase_card() {
+        const char *prompt = _("This will automatically deduct $1.00 from your bank account. Continue?");
+
+        if (!query_yn(prompt)) {
+            return false;
+        }
+
+        item card("cash_card", calendar::turn);
+        card.charges = 0;
+        u.i_add(card);
+        u.cash -= 100;
+        finish_interaction();
+
+        return true;
+    }
+
+    bool do_deposit_money() {
+        item *src = choose_card(_("Insert card for deposit."));
+        if (!src) {
+            return false;
+        }
+
+        if (!src->charges) {
             popup(_("You can only deposit money from charged cash cards!"));
-            return;
+            return false;
         }
 
-        max = dep->charges;
-        popupmsg = string_format(ngettext("Deposit how much? Max:%d cent. (0 to cancel) ",
-                                          "Deposit how much? Max:%d cents. (0 to cancel) ",
-                                          max),
-                                 max);
-        amount = std::atoi( string_input_popup( popupmsg, 20,
-                                 to_string(max), "", "", -1, true).c_str()
-                               );
-        if (amount <= 0) {
-            return;
-        }
-        if (amount > max) {
-            amount = max;
-        }
-        p->cash += amount;
-        dep->charges -= amount;
-        add_msg(m_info, ngettext("Your account now holds %d cent.", "Your account now holds %d cents.",
-                                 p->cash),
-                p->cash);
-        p->moves -= 100;
-        return;
+        const int amount = prompt_for_amount(ngettext(
+            "Deposit how much? Max: %d cent. (0 to cancel) ",
+            "Deposit how much? Max: %d cents. (0 to cancel) ", src->charges), src->charges);
 
-    } else if (choice == withdraw_money) {
-        pos = g->inv(_("Insert card for withdrawal."));
-        with = &(p->i_at(pos));
-
-        if (with->is_null()) {
-            popup(_("You do not have that item!"));
-            return;
-        }
-        if (with->type->id != "cash_card") {
-            popup(_("Please insert cash cards only!"));
-            return;
+        if (!amount) {
+            return false;
         }
 
-        max = p->cash;
-        std::string popupmsg = string_format(ngettext("Withdraw how much? Max:%d cent. (0 to cancel) ",
-                                             "Withdraw how much? Max:%d cents. (0 to cancel) ",
-                                             max),
-                                             max);
-        amount = std::atoi( string_input_popup( popupmsg, 20,
-                                 to_string(max), "", "", -1, true).c_str()
-                               );
-        if (amount <= 0) {
-            return;
-        }
-        if (amount > max) {
-            amount = max;
-        }
-        p->cash -= amount;
-        with->charges += amount;
-        add_msg(m_info, ngettext("Your account now holds %d cent.",
-                                 "Your account now holds %d cents.",
-                                 p->cash),
-                p->cash);
-        p->moves -= 100;
-        return;
+        src->charges -= amount;
+        u.cash += amount;
+        finish_interaction();
 
-    } else if (choice == transfer_money) {
-        pos = g->inv(_("Insert card for deposit."));
-        dep = &(p->i_at(pos));
-        if (dep->is_null()) {
-            popup(_("You do not have that item!"));
-            return;
-        }
-        if (dep->type->id != "cash_card") {
-            popup(_("Please insert cash cards only!"));
-            return;
-        }
-
-        pos2 = g->inv(_("Insert card for withdrawal."));
-        with = &(p->i_at(pos2));
-        if (with->is_null()) {
-            popup(_("You do not have that item!"));
-            return;
-        }
-        if (with->type->id != "cash_card") {
-            popup(_("Please insert cash cards only!"));
-            return;
-        }
-        if (with == dep) {
-            popup(_("You must select a different card to move from!"));
-            return;
-        }
-        if (with->charges == 0) {
-            popup(_("You can only move money from charged cash cards!"));
-            return;
-        }
-
-        max = with->charges;
-        std::string popupmsg = string_format(ngettext("Transfer how much? Max:%d cent. (0 to cancel) ",
-                                             "Transfer how much? Max:%d cents. (0 to cancel) ",
-                                             max),
-                                             max);
-        amount = std::atoi( string_input_popup( popupmsg, 20,
-                                 to_string(max), "", "", -1, true).c_str()
-                               );
-        if (amount <= 0) {
-            return;
-        }
-        if (amount > max) {
-            amount = max;
-        }
-        with->charges -= amount;
-        dep->charges += amount;
-        p->moves -= 100;
-        return;
-
-    } else if (choice == purchase_cash_card) {
-        if(query_yn(_("This will automatically deduct $1.00 from your bank account. Continue?"))) {
-            item card("cash_card", calendar::turn);
-            card.charges = 0;
-            p->i_add(card);
-            p->cash -= 100;
-            p->moves -= 100;
-        }
-    } else if (choice == transfer_all_money) {
-        pos = g->inv(_("Insert card for bulk deposit."));
-        dep = &(p->i_at(pos));
-        if (dep->is_null()) {
-            popup(_("You do not have that item!"));
-            return;
-        }
-        if (dep->type->id != "cash_card") {
-            popup(_("Please insert cash cards only!"));
-            return;
-        }
-
-        //for all cash cards in inventory
-        for (auto &elem : g->u.inv.all_items_by_type("cash_card")) {
-            if (elem.first == dep) continue;
-            dep->charges += elem.first->charges;
-            elem.first->charges = 0;
-            // Assuming a bulk interface for cards. Don't want to get people killed doing this.
-            p->moves -= 10;
-        }
-    } else {
-        return;
+        return true;
     }
+
+    bool do_withdraw_money() {
+        item *dst = choose_card(_("Insert card for withdrawal."));
+        if (!dst) {
+            return false;
+        }
+
+        const int amount = prompt_for_amount(ngettext(
+            "Withdraw how much? Max: %d cent. (0 to cancel) ",
+            "Withdraw how much? Max: %d cents. (0 to cancel) ", u.cash), u.cash);
+
+        if (!amount) {
+            return false;
+        }
+
+        dst->charges += amount;
+        u.cash -= amount;
+        finish_interaction();
+
+        return true;
+    }
+
+    bool do_transfer_money() {
+        item *dst = choose_card(_("Insert card for deposit."));
+        if (!dst) {
+            return false;
+        }
+
+        item *src = choose_card(_("Insert card for withdrawal."));
+        if (!src) {
+            return false;
+        } else if (dst == src) {
+            popup(_("You must select a different card to move from!"));
+            return false;
+        } else if (!src->charges) {
+            popup(_("You can only move money from charged cash cards!"));
+            return false;
+        }
+
+        const int amount = prompt_for_amount(ngettext(
+            "Transfer how much? Max: %d cent. (0 to cancel) ",
+            "Transfer how much? Max: %d cents. (0 to cancel) ", src->charges), src->charges);
+
+        if (!amount) {
+            return false;
+        }
+
+        src->charges -= amount;
+        dst->charges += amount;
+        finish_interaction();
+
+        return true;
+    }
+
+    bool do_transfer_all_money() {
+        item *dst = choose_card(_("Insert card for bulk deposit."));
+        if (!dst) {
+            return false;
+        }
+
+        // Sum all cash cards in inventory.
+        // Assuming a bulk interface for cards. Don't want to get people killed doing this.
+        long sum = 0;
+        for (auto &i : u.inv_dump()) {
+            if (i->type->id != "cash_card") {
+                continue;
+            }
+
+            sum        += i->charges;
+            i->charges =  0;
+            u.moves    -= 10;
+        }
+
+        dst->charges = sum;
+
+        return true;
+    }
+
+    player &u;
+    uimenu amenu;
+};
+} //namespace
+
+void iexamine::atm(player *const p, map *, int , int )
+{
+    atm_menu {*p}.start();
 }
 
-void iexamine::vending(player *p, map *m, int examx, int examy)
+void iexamine::vending(player * const p, map * const m, int const examx, int const examy)
 {
-    auto vend_items = m->i_at(examx, examy);
-    int num_items = vend_items.size();
+    constexpr int moves_cost = 250;
 
-    if (num_items == 0) {
+    auto vend_items = m->i_at(examx, examy);   
+    if (vend_items.empty()) {
         add_msg(m_info, _("The vending machine is empty!"));
         return;
-    }
-
-    item *card;
-    if (!p->has_charges("cash_card", 1)) {
+    } else if (!p->has_charges("cash_card", 1)) {
         popup(_("You need a charged cash card to purchase things!"));
         return;
     }
-    int pos = g->inv(_("Insert card for purchases."));
-    card = &(p->i_at(pos));
+
+    item *card = &p->i_at(g->inv_for_filter(_("Insert card for purchases."),
+        [](item const &i) { return i.type->id == "cash_card"; }));
 
     if (card->is_null()) {
-        popup(_("You do not have that item!"));
-        return;
-    }
-    if (card->type->id != "cash_card") {
+        return; // player cancelled selection
+    } else if (card->type->id != "cash_card") {
         popup(_("Please insert cash cards only!"));
         return;
-    }
-    if (card->charges == 0) {
+    } else if (card->charges == 0) {
         popup(_("You must insert a charged cash card!"));
         return;
     }
 
-    const int iContentHeight = FULL_SCREEN_HEIGHT - 4;
-    const int iHalf = iContentHeight / 2;
-    const bool odd = iContentHeight % 2;
+    int const padding_x  = std::max(0, TERMX - FULL_SCREEN_WIDTH ) / 2;
+    int const padding_y  = std::max(0, TERMY - FULL_SCREEN_HEIGHT) / 2;
+    int const window_h   = FULL_SCREEN_HEIGHT;
+    int const w_items_w  = FULL_SCREEN_WIDTH / 2 - 1; // minus 1 for a gap
+    int const w_info_w   = FULL_SCREEN_WIDTH / 2;
+    int const list_lines = window_h - 4; // minus for header and footer
 
-    const int w_width = FULL_SCREEN_WIDTH / 2 - 1;
-    WINDOW *w = newwin(FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH / 2 - 1,
-                       (TERMY > FULL_SCREEN_HEIGHT) ? (TERMY - FULL_SCREEN_HEIGHT) / 2 : 0,
-                       (TERMX > FULL_SCREEN_WIDTH) ? (TERMX - FULL_SCREEN_WIDTH) / 2 : 0);
-    WINDOW *w_item_info = newwin(FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH / 2,
-                                 (TERMY > FULL_SCREEN_HEIGHT) ? (TERMY - FULL_SCREEN_HEIGHT) / 2 : 0,
-                                 (TERMX > FULL_SCREEN_WIDTH) ? (TERMX - FULL_SCREEN_WIDTH) / 2 + FULL_SCREEN_WIDTH / 2 :
-                                 FULL_SCREEN_WIDTH / 2);
+    constexpr int first_item_offset = 3; // header size
+
+    WINDOW_PTR const w_ptr {newwin(window_h, w_items_w, padding_y, padding_x)};
+    WINDOW_PTR const w_item_info_ptr {
+        newwin(window_h, w_info_w,  padding_y, padding_x + w_items_w + 1)};
+
+    WINDOW *w           = w_ptr.get();
+    WINDOW *w_item_info = w_item_info_ptr.get();
 
     bool used_machine = false;
     input_context ctxt("VENDING_MACHINE");
@@ -328,99 +378,123 @@ void iexamine::vending(player *p, map *m, int examx, int examy)
     ctxt.register_action("QUIT");
     ctxt.register_action("HELP_KEYBINDINGS");
 
+    // Collate identical items.
+    // First, build a map {item::tname} => {item_it, item_it, item_it...}
+    using iterator_t = decltype(std::begin(vend_items)); // map_stack::iterator doesn't exist.
+
+    std::map<std::string, std::vector<iterator_t>> item_map;
+    for (auto it = std::begin(vend_items); it != std::end(vend_items); ++it) {
+        // |# {name}|
+        // 123      4
+        item_map[utf8_truncate(it->tname(), static_cast<size_t>(w_items_w - 4))].push_back(it);
+    }
+
+    // Next, put pointers to the pairs in the map in a vector to allow indexing.
+    std::vector<std::map<std::string, std::vector<iterator_t>>::value_type*> item_list;
+    item_list.reserve(item_map.size());
+    for (auto &pair : item_map) {
+        item_list.emplace_back(&pair);
+    }
+
+    int const lines_above = list_lines / 2;                  // lines above the selector
+    int const lines_below = list_lines / 2 + list_lines % 2; // lines below the selector
+
     int cur_pos = 0;
-    auto cur_item = vend_items.begin();
-    while(true) {
+    for (;;) {
+        // | {title}|
+        // 12       3
+        const std::string title = utf8_truncate(string_format(
+            _("Money left: %d"), card->charges), static_cast<size_t>(w_items_w - 3));
+
+        int const num_items = item_list.size();
+        int const page_size = std::min(num_items, list_lines);
+
         werase(w);
         wborder(w, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX,
                 LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX );
-        for (int i = 1; i < FULL_SCREEN_WIDTH / 2 - 2; i++) {
-            mvwaddch(w, 2, i, LINE_OXOX);
-        }
+        mvwhline(w, first_item_offset - 1, 1, LINE_OXOX, w_items_w - 2);
+        mvwaddch(w, first_item_offset - 1, 0, LINE_XXXO); // |-
+        mvwaddch(w, first_item_offset - 1, w_items_w - 1, LINE_XOXX); // -|
+        
+        mvwprintz(w, 1, 2, c_ltgray, title.c_str());
 
-        mvwaddch(w, 2, 0, LINE_XXXO); // |-
-        mvwaddch(w, 2, w_width - 1, LINE_XOXX); // -|
-
-        num_items = vend_items.size();
-
-        mvwprintz(w, 1, 2, c_ltgray, _("Money left:%d Press 'q' or ESC to stop."), card->charges);
-
-        int first_i, end_i;
-        if (cur_pos < iHalf || num_items <= iContentHeight) {
-            first_i = 0;
-            end_i = std::min(iContentHeight, num_items);
-        } else if (cur_pos >= num_items - iHalf) {
-            first_i = num_items - iContentHeight;
-            end_i = num_items;
+        // Keep the item selector centered in the page.
+        int page_beg = 0;
+        int page_end = page_size;
+        if (cur_pos < num_items - cur_pos) {
+            page_beg = std::max(0, cur_pos - lines_above);
+            page_end = std::min(num_items, page_beg + list_lines);
         } else {
-            first_i = cur_pos - iHalf;
-            if (odd) {
-                end_i = cur_pos + iHalf + 1;
-            } else {
-                end_i = cur_pos + iHalf;
-            }
+            page_end = std::min(num_items, cur_pos + lines_below);
+            page_beg = std::max(0, page_end - list_lines);
         }
-        int base_y = 3 - first_i;
-        for (int i = first_i; i < end_i; ++i) {
-            mvwprintz(w, base_y + i, 2,
-                      (i == cur_pos ? h_ltgray : c_ltgray), vend_items[i].tname().c_str());
+
+        for( int line = 0; line < page_size; ++line ) {
+            const int i = page_beg + line;
+            auto const color = (i == cur_pos) ? h_ltgray : c_ltgray;
+            auto const &elem = item_list[i];
+            const int count = elem->second.size();
+            const char c = (count < 10) ? ('0' + count) : '*';
+            mvwprintz(w, first_item_offset + line, 1, color, "%c %s", c, elem->first.c_str());
         }
 
         //Draw Scrollbar
-        draw_scrollbar(w, cur_pos, iContentHeight, num_items, 3);
+        draw_scrollbar(w, cur_pos, list_lines, num_items, first_item_offset);
         wrefresh(w);
 
         // Item info
+        auto &cur_items = item_list[static_cast<size_t>(cur_pos)]->second;
+        auto &cur_item  = cur_items.back();
+
         werase(w_item_info);
-        fold_and_print(w_item_info, 1, 2, 48 - 3, c_ltgray, cur_item->info(true));
+        // | {line}|
+        // 12      3
+        fold_and_print(w_item_info, 1, 2, w_info_w - 3, c_ltgray, cur_item->info(true));
         wborder(w_item_info, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX,
                 LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX );
-        mvwprintw(w_item_info, 0, 2, "< %s >", cur_item->display_name().c_str() );
+
+        //+<{name}>+
+        //12      34
+        const std::string name = utf8_truncate(cur_item->display_name(), static_cast<size_t>(w_info_w - 4));
+        mvwprintw(w_item_info, 0, 1, "<%s>", name.c_str());
         wrefresh(w_item_info);
-        const std::string action = ctxt.handle_input();
+        
+        const std::string &action = ctxt.handle_input();
         if (action == "DOWN") {
-            cur_pos++;
-            if (cur_pos >= num_items) {
-                cur_pos = 0;
-                cur_item = vend_items.begin();
-            } else {
-                cur_item++;
-            }
+            cur_pos = (cur_pos + 1) % num_items;
         } else if (action == "UP") {
-            cur_pos--;
-            if (cur_pos < 0) {
-                cur_pos = num_items - 1;
-                cur_item = vend_items.end();
-            }
-            cur_item--;
+            cur_pos = (cur_pos + num_items - 1) % num_items;
         } else if (action == "CONFIRM") {
-            if( cur_item->price() > card->charges ) {
+            if ( cur_item->price() > card->charges ) {
                 popup(_("That item is too expensive!"));
                 continue;
             }
+            
+            if (!used_machine) {
+                used_machine = true;
+                p->moves -= moves_cost;
+            }
+
             card->charges -= cur_item->price();
             p->i_add_or_drop( *cur_item );
-            cur_item = vend_items.erase( cur_item );
-            if (cur_pos == (int)vend_items.size()) {
-                cur_item = vend_items.end();
-                cur_item--;
-                cur_pos--;
-            }
-            used_machine = true;
 
-            if (num_items == 1) {
+            vend_items.erase( cur_item );
+            cur_items.pop_back();
+            if (!cur_items.empty()) {
+                continue;
+            }
+            
+            item_list.erase(std::begin(item_list) + cur_pos);
+            if (item_list.empty()) {
                 add_msg(_("With a beep, the empty vending machine shuts down"));
-                break;
+                return;
+            } else if (cur_pos == num_items - 1) {
+                cur_pos--;
             }
         } else if (action == "QUIT") {
             break;
         }
     }
-    if (used_machine) {
-        p->moves -= 250;
-    }
-    delwin(w_item_info);
-    delwin(w);
 }
 
 void iexamine::toilet(player *p, map *m, int examx, int examy)
@@ -1803,15 +1877,15 @@ struct filter_is_drink {
 };
 
 //probably should move this functionality into the furniture JSON entries if we want to have more than a few "kegs"
-static int get_keg_cap(std::string furn_name) {
-    if("standing tank" == furn_name)    { return 1200; } //the furniture was a "standing tank", so can hold 1200
+static int get_keg_cap( const furn_t &furn ) {
+    if( furn.id == "f_standing_tank" )  { return 1200; } //the furniture was a "standing tank", so can hold 1200
     else                                { return 600; } //default to old default value
     //add additional cases above
 }
 
 void iexamine::keg(player *p, map *m, int examx, int examy)
 {
-    int keg_cap = get_keg_cap( m->name(examx, examy) );
+    int keg_cap = get_keg_cap( m->furn_at(examx, examy) );
     bool liquid_present = false;
     for (int i = 0; i < (int)m->i_at(examx, examy).size(); i++) {
         if (!(m->i_at(examx, examy)[i].is_drink()) || liquid_present) {
@@ -2018,7 +2092,7 @@ void iexamine::harvest_tree_shrub(player *p, map *m, int examx, int examy)
     if (calendar::turn.get_season() != m->get_ter_harvest_season(examx, examy)) {
         std::string fruit = item::nname(m->get_ter_harvestable(examx, examy), 10);
         fruit[0] = toupper(fruit[0]);
-        add_msg(m_info, _("%s ripen in %s."), fruit.c_str(), season_name[m->get_ter_harvest_season(examx, examy)].c_str());
+        add_msg(m_info, _("%s ripen in %s."), fruit.c_str(), season_name(m->get_ter_harvest_season(examx, examy)).c_str());
         return;
     }
     //if the fruit has been recently harvested
@@ -2090,7 +2164,17 @@ void iexamine::tree_marloss(player *p, map *m, int examx, int examy)
 
 void iexamine::shrub_wildveggies(player *p, map *m, int examx, int examy)
 {
-    add_msg("You forage through the %s.", m->tername(examx, examy).c_str());
+    // Ask if there's something possibly more interesting than this shrub here
+    if( ( !m->i_at( examx, examy ).empty() ||
+          m->veh_at( examx, examy ) != nullptr ||
+          m->tr_at( examx, examy ) != tr_null ||
+          g->critter_at( examx, examy ) != nullptr ) &&
+          !query_yn(_("Forage through %s?"), m->tername(examx, examy).c_str() ) ) {
+        none(p, m, examx, examy);
+        return;
+    }
+
+    add_msg(_("You forage through the %s."), m->tername(examx, examy).c_str());
     p->assign_activity(ACT_FORAGE, 500 / (p->skillLevel("survival") + 1), 0);
     p->activity.placement = point(examx, examy);
     return;
@@ -2336,8 +2420,8 @@ itype *furn_t::crafting_pseudo_item_type() const
 itype *furn_t::crafting_ammo_item_type() const
 {
     const it_tool *toolt = dynamic_cast<const it_tool *>(crafting_pseudo_item_type());
-    if (toolt != NULL && toolt->ammo != "NULL") {
-        const std::string ammoid = default_ammo(toolt->ammo);
+    if (toolt != NULL && toolt->ammo_id != "NULL") {
+        const std::string ammoid = default_ammo(toolt->ammo_id);
         return item::find_type( ammoid );
     }
     return NULL;
@@ -2362,18 +2446,23 @@ void iexamine::reload_furniture(player *p, map *m, const int examx, const int ex
         add_msg(m_info, _("This %s can not be reloaded!"), f.name.c_str());
         return;
     }
-    const int pos = p->inv.position_by_type(ammo->id);
-    if (pos == INT_MIN) {
-        const int amount = count_charges_in_list(ammo, m->i_at(examx, examy));
-        if (amount > 0) {
-            //~ The <piece of furniture> contains <number> <items>.
-            add_msg(_("The %s contains %d %s."), f.name.c_str(), amount, ammo->nname(amount).c_str());
-        }
+    const int amount_in_furn = count_charges_in_list( ammo, m->i_at( examx, examy ) );
+    if( amount_in_furn > 0 ) {
+        //~ The <piece of furniture> contains <number> <items>.
+        add_msg(_("The %s contains %d %s."), f.name.c_str(), amount_in_furn, ammo->nname(amount_in_furn).c_str());
+    }
+    const int max_amount_in_furn = f.max_volume * ammo->stack_size / ammo->volume;
+    const int max_reload_amount = max_amount_in_furn - amount_in_furn;
+    if( max_reload_amount <= 0 ) {
+        return;
+    }
+    const int amount_in_inv = p->charges_of( ammo->id );
+    if( amount_in_inv == 0 ) {
         //~ Reloading or restocking a piece of furniture, for example a forge.
         add_msg(m_info, _("You need some %s to reload this %s."), ammo->nname(2).c_str(), f.name.c_str());
         return;
     }
-    const long max_amount = p->inv.find_item(pos).charges;
+    const long max_amount = std::min( amount_in_inv, max_reload_amount );
     //~ Loading fuel or other items into a piece of furniture.
     const std::string popupmsg = string_format(_("Put how many of the %s into the %s?"),
                                  ammo->nname(max_amount).c_str(), f.name.c_str());
@@ -2383,11 +2472,11 @@ void iexamine::reload_furniture(player *p, map *m, const int examx, const int ex
     if (amount <= 0 || amount > max_amount) {
         return;
     }
-    p->reduce_charges(pos, amount);
+    p->use_charges( ammo->id, amount );
     auto items = m->i_at(examx, examy);
-    for( auto an_item = items.begin(); an_item != items.end(); ++an_item ) {
-        if( an_item->type == ammo ) {
-            an_item->charges = amount;
+    for( auto & itm : items ) {
+        if( itm.type == ammo ) {
+            itm.charges += amount;
             amount = 0;
             break;
         }
