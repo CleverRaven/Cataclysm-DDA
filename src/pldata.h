@@ -189,12 +189,14 @@ struct mutation_category_trait {
     int iv_pain     = 2;
     int iv_fatigue  = 5;
     int iv_morale   = 0;
+    int iv_morale_max = 0;
     bool iv_sound = false;  //determines if you make a sound when you inject mutagen
     std::string iv_sound_message = "NULL";
-    bool iv_noise = 0;    //the amount of noise produced by the sound
+    int iv_noise = 0;    //the amount of noise produced by the sound
     bool iv_sleep = false;  //whether the iv has a chance of putting you to sleep
     std::string iv_sleep_message = "NULL";
     int iv_sleep_dur = 0;
+    std::string junkie_message;
     std::string memorial_message; //memorial message when you cross a threshold
 
     mutation_category_trait(std::string pid = "NULL_TRAIT") : name(pid), id(std::move(pid)) {}

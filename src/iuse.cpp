@@ -1677,7 +1677,7 @@ int iuse::mutagen(player *p, item *it, bool, point)
             mutation_category_trait m_category = iter.second;
             if (it->has_flag("MUTAGEN_" + m_category.category)) {
                 mutation_category = "MUTCAT_" + m_category.category;
-                p->add_msg_if_player(_(m_category.mutagen_message.c_str()));
+                p->add_msg_if_player(m_category.mutagen_message.c_str());
                 p->mutate_category(mutation_category);
                 p->mod_pain(m_category.mutagen_pain * rng(1, 5));
                 p->hunger += m_category.mutagen_hunger;
@@ -1771,55 +1771,46 @@ int iuse::mut_iv(player *p, item *it, bool, point)
             //Should be about 40 min, less 30 sec/IN point.
             p->fall_asleep((400 - p->int_cur * 5));
         }
-    } else if (it->has_flag("MUTAGEN_ALPHA")) {
-        //5-15 pain, 66% for each of the followups, so slightly better odds (designed for injection).
-        mutation_category = "MUTCAT_ALPHA";
-        p->add_msg_if_player(_("You took that shot like a champ!"));
-        p->mutate_category("MUTCAT_ALPHA");
-        p->mod_pain(3 * rng(1, 5));
-        // Alpha doesn't make a lot of massive morphological changes, so less nutrients needed.
-        p->hunger += 3;
-        p->fatigue += 5;
-        p->thirst += 3;
-        if (!one_in(3)) {
-            p->mutate_category("MUTCAT_ALPHA");
-            p->hunger += 3;
-            p->fatigue += 5;
-            p->thirst += 3;
+    } else {
+        for (auto& iter : mutation_category_traits){
+            mutation_category_trait m_category = iter.second;
+            if (it->has_flag("MUTAGEN_" + m_category.category)) {
+                mutation_category = "MUTCAT_" + m_category.category;
+                if (p->has_trait("MUT_JUNKIE")) {
+                    p->add_msg_if_player(m_category.junkie_message.c_str());
+                } else if (!(p->has_trait("MUT_JUNKIE"))) {
+                    //there is only the one case, so no json, unless there is demand for it.
+                    p->add_msg_if_player(m_category.iv_message.c_str());
+                }
+                if (!(p->has_trait("NOPAIN")) && m_category.iv_sound) {
+                    p->mod_pain(m_category.iv_pain);
+                    sounds::sound(p->posx(), p->posy(), m_category.iv_noise * p->str_cur, m_category.iv_sound_message);
+                    p->add_morale(MORALE_MUTAGEN_MUTATION, m_category.iv_morale, m_category.iv_morale_max);
+                }
+                for (int i=0; i < m_category.iv_min_mutations; i++){
+                    p->mutate_category(mutation_category);
+                    p->mod_pain(m_category.iv_pain * rng(1, 5));
+                    p->hunger += m_category.iv_hunger;
+                    p->fatigue += m_category.iv_fatigue;
+                    p->thirst += m_category.iv_thirst;
+                }
+                for (int i=0; i < m_category.iv_additional_mutations; i++){
+                    if (!one_in(m_category.iv_additional_mutations_chance)) {
+                        p->mutate_category(mutation_category);
+                        p->mod_pain(m_category.iv_pain * rng(1, 5));
+                        p->hunger += m_category.iv_hunger;
+                        p->fatigue += m_category.iv_fatigue;
+                        p->thirst += m_category.iv_thirst;
+                    }
+                }
+                if (m_category.iv_sleep && !one_in(3)){
+                    p->add_msg_if_player(m_bad, m_category.iv_sleep_message.c_str());
+                    p->fall_asleep(m_category.iv_sleep_dur - p->int_cur * 5);
+                }
+            }
         }
-        if (!one_in(3)) {
-            p->mutate_category("MUTCAT_ALPHA");
-            p->hunger += 3;
-            p->fatigue += 5;
-            p->thirst += 3;
-        }
-    } else if (it->has_flag("MUTAGEN_MEDICAL")) {
-        // 2-6 pain, same as Alpha--since specifically intended for medical applications.
-        mutation_category = "MUTCAT_MEDICAL";
-        if (p->has_trait("MUT_JUNKIE")) {
-            p->add_msg_if_player(_("Ahh, there it is. You can feel the mutagen again."));
-        } else if (!(p->has_trait("MUT_JUNKIE"))) {
-            p->add_msg_if_player(
-                _("You can feel the blood in your medication stream. It's a strange feeling."));
-        }
-        p->mutate_category("MUTCAT_MEDICAL");
-        p->mod_pain(2 * rng(1, 3));
-        //Medical's are pretty much all physiology, IIRC
-        p->hunger += 3;
-        p->fatigue += 5;
-        p->thirst += 3;
-        if (!one_in(3)) {
-            p->mutate_category("MUTCAT_MEDICAL");
-            p->hunger += 3;
-            p->fatigue += 5;
-            p->thirst += 3;
-        }
-        if (!one_in(3)) {
-            p->mutate_category("MUTCAT_MEDICAL");
-            p->hunger += 3;
-            p->fatigue += 5;
-            p->thirst += 3;
-        }
+    }
+    /*
     } else if (it->has_flag("MUTAGEN_CHIMERA")) {
         // 24-36 pain, Scream,, -40 Morale,
         // but two guaranteed mutations and 75% each for third and fourth.
@@ -2101,7 +2092,7 @@ int iuse::mut_iv(player *p, item *it, bool, point)
                 }
             }
         }
-    }
+    }*/
     return it->type->charges_to_use();
 }
 

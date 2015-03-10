@@ -95,8 +95,7 @@ void game::init_morale()
     _("Killed Friend"),
     _("Guilty about Killing"),
     _("Guilty about Mutilating Corpse"),
-    _("Chimerical Mutation"),
-    _("Fey Mutation"),
+    _("Mutation"),
 
     _("Moodswing"),
     _("Read %i"),
@@ -7148,7 +7147,7 @@ void player::suffer()
                     traits[mut].cooldown = traits[mut].cost;
                 }
             }
-            
+
             if (traits[mut].powered == false) {
                 apply_mods(mut, false);
             }
