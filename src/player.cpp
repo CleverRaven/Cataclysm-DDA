@@ -9393,7 +9393,6 @@ int player::nutrition_for(const it_comest *comest)
 
 void player::consume_effects(item *eaten, it_comest *comest, bool rotten)
 {
-    debugmsg( "At %d hunger, item nutrition %d", hunger, nutrition_for(comest));
     if (has_trait("THRESH_PLANT") && comest->can_use( "PLANTBLECH" )) {
         return;
     }
