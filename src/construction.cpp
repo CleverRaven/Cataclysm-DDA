@@ -11,6 +11,7 @@
 #include "translations.h"
 #include "veh_interact.h"
 #include "messages.h"
+#include "rng.h"
 
 #include <algorithm>
 #include <sstream>
@@ -288,6 +289,8 @@ void construction_menu()
                         if( hide_unconstructable && !can_construct(current_con) ) {
                             continue;
                         }
+                        // Update the cached availability of components and tools in the requirement object
+                        current_con->requirements.can_make_with_inventory( total_inv );
 
                         std::vector<std::string> current_buffer;
                         std::ostringstream current_line;
@@ -596,7 +599,7 @@ static void place_construction(const std::string &desc)
 
     for( auto &elem : valid ) {
         int x = elem.first.x, y = elem.first.y;
-        g->m.drawsq(g->w_terrain, g->u, x, y, true, false);
+        g->m.drawsq(g->w_terrain, g->u, x, y, true, false, g->u.posx() + g->u.view_offset_x, g->u.posy() + g->u.view_offset_y);
     }
     wrefresh(g->w_terrain);
 

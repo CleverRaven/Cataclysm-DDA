@@ -41,6 +41,7 @@
 #include "debug.h"
 #include "catalua.h"
 #include "sounds.h"
+#include "iuse_actor.h"
 
 #include <map>
 #include <set>
@@ -135,8 +136,6 @@ void game::load_static_data()
     init_savedata_translation_tables();
     init_npctalk();
     init_artifacts();
-    init_weather();
-    init_weather_anim();
     init_faction_data();
 
     // --- move/delete everything below
@@ -627,14 +626,6 @@ void game::start_game(std::string worldname)
     update_weather(); // Springtime-appropriate, definitely.
     u.next_climate_control_check = 0;  // Force recheck at startup
     u.last_climate_control_ret = false;
-
-    // A quick hack because the proper rework didn't get into 0.C
-    // Remove it as soon as the rework is in
-    if( u.has_trait( "NIGHTVISION" ) ) {
-        traits["NIGHTVISION"].powered = true;
-    } else if( u.has_trait( "URSINE_EYE" ) ) {
-        traits["URSINE_EYE"].powered = true;
-    }
 
     //Reset character pickup rules
     vAutoPickupRules[2].clear();
@@ -1499,8 +1490,7 @@ bool game::do_turn()
     u.process_active_items();
 
     if (levz >= 0 && !u.is_underwater()) {
-        weather_effect weffect;
-        (weffect.*(weather_data[weather].effect))();
+        weather_data(weather).effect();
     }
 
     if (u.has_effect("sleep") && int(calendar::turn) % 300 == 0) {
@@ -1687,10 +1677,10 @@ void game::update_weather()
         temperature = w.temperature;
         lightning_active = false;
         nextweather += 50; // Check weather each 50 turns.
-        if (weather != old_weather && weather_data[weather].dangerous &&
+        if (weather != old_weather && weather_data(weather).dangerous &&
             levz >= 0 && m.is_outside(u.posx(), u.posy())
             && !u.has_activity(ACT_WAIT_WEATHER)) {
-            cancel_activity_query(_("The weather changed to %s!"), weather_data[weather].name.c_str());
+            cancel_activity_query(_("The weather changed to %s!"), weather_data(weather).name.c_str());
         }
 
         if (weather != old_weather && u.has_activity(ACT_WAIT_WEATHER)) {
@@ -2429,15 +2419,17 @@ input_context game::get_player_input(std::string &action)
         }
 
         //x% of the Viewport, only shown on visible areas
-        const int dropCount = int(iEndX * iEndY * mapWeatherAnim[weather].fFactor);
+        auto const weather_info = get_weather_animation(weather);
+
+        const int dropCount = int(iEndX * iEndY * weather_info.factor);
         const int offset_x = (u.posx() + u.view_offset_x) - getmaxx(w_terrain) / 2;
         const int offset_y = (u.posy() + u.view_offset_y) - getmaxy(w_terrain) / 2;
 
-        const bool bWeatherEffect = (mapWeatherAnim[weather].cGlyph != '?');
+        const bool bWeatherEffect = (weather_info.glyph != '?');
 
         weather_printable wPrint;
-        wPrint.colGlyph = mapWeatherAnim[weather].colGlyph;
-        wPrint.cGlyph = mapWeatherAnim[weather].cGlyph;
+        wPrint.colGlyph = weather_info.color;
+        wPrint.cGlyph = weather_info.glyph;
         wPrint.wtype = weather;
         wPrint.vdrops.clear();
         wPrint.startx = iStartX;
@@ -2650,7 +2642,6 @@ void game::setremoteveh(vehicle *veh)
     u.set_value( "remote_controlling_vehicle", remote_veh_string.str() );
 }
 
-void use_item_menu(player &p);
 bool game::handle_action()
 {
     std::string action;
@@ -3266,8 +3257,9 @@ bool game::handle_action()
                     }
                 }
                 for ( auto &mut : g->u.get_mutations() ) {
-                    if ( traits[mut].powered && traits[mut].cost > 0 ) {
-                        active.push_back( traits[mut].name );
+                    const auto &mdata = mutation_branch::get( mut );
+                    if( mdata.cost > 0 && u.has_active_mutation( mut ) ) {
+                        active.push_back( mdata.name );
                     }
                 }
                 std::stringstream data;
@@ -3341,6 +3333,9 @@ bool game::handle_action()
                     add_msg(m_info, _("Safe mode OFF!"));
                 }
             }
+            if( u.has_effect("laserlocked") ) {
+                u.remove_effect("laserlocked");
+            }
             break;
 
         case ACTION_TOGGLE_AUTOSAFE:
@@ -3361,6 +3356,9 @@ bool game::handle_action()
                     critter.ignoring = rl_dist( u.pos(), critter.pos() );
                 }
                 safe_mode = SAFE_MODE_ON;
+            } else if( u.has_effect("laserlocked") ) {
+                add_msg(m_info, _("Ignoring laser targeting!"));
+                u.remove_effect("laserlocked");
             }
             break;
 
@@ -3662,7 +3660,7 @@ bool game::is_game_over()
         if(OPTIONS["DEATHCAM"] == "always") {
             uquit = QUIT_WATCH;
         } else if(OPTIONS["DEATHCAM"] == "ask") {
-            uquit = query_yn("Watch the last moments of your life...?") ? QUIT_WATCH : QUIT_DIED;
+            uquit = query_yn(_("Watch the last moments of your life...?")) ? QUIT_WATCH : QUIT_DIED;
         } else if(OPTIONS["DEATHCAM"] == "never") {
             uquit = QUIT_DIED;
         } else {
@@ -4427,7 +4425,7 @@ void game::debug()
         weather_menu.text = _("Select new weather pattern:");
         weather_menu.return_invalid = true;
         for (int weather_id = 1; weather_id < NUM_WEATHER_TYPES; weather_id++) {
-            weather_menu.addentry(weather_id + weather_offset, true, -1, weather_data[weather_id].name);
+            weather_menu.addentry(weather_id + weather_offset, true, -1, weather_data(static_cast<weather_type>(weather_id)).name);
         }
         weather_menu.addentry(-10, true, 'v', _("View weather log"));
         weather_menu.addentry(-11, true, 'd', _("View last 800 hours of decay"));
@@ -4461,7 +4459,7 @@ void game::debug()
                 weather_log_menu.addentry(-1, true, -1, "%dd%dh %6d %15s[%d] %2d",
                                           it->second.deadline.days(), it->second.deadline.hours(),
                                           it->first,
-                                          weather_data[int(it->second.weather)].name.c_str(),
+                                          weather_data(it->second.weather).name.c_str(),
                                           it->second.weather,
                                           (int)it->second.temperature
                                          );
@@ -4971,7 +4969,7 @@ void game::draw_sidebar()
     if (levz < 0) {
         mvwprintz(w_location, 0, 18, c_ltgray, _("Underground"));
     } else {
-        mvwprintz(w_location, 0, 18, weather_data[weather].color, "%s", weather_data[weather].name.c_str());
+        mvwprintz(w_location, 0, 18, weather_data(weather).color, "%s", weather_data(weather).name.c_str());
     }
 
     if (u.worn_with_flag("THERMOMETER")) {
@@ -4983,7 +4981,7 @@ void game::draw_sidebar()
     //Safemode coloring
     WINDOW *day_window = sideStyle ? w_status2 : w_status;
     mvwprintz(day_window, 0, sideStyle ? 0 : 41, c_white, _("%s, day %d"),
-              season_name_uc[calendar::turn.get_season()].c_str(), calendar::turn.days() + 1);
+              season_name_upper(calendar::turn.get_season()).c_str(), calendar::turn.days() + 1);
     if (safe_mode != SAFE_MODE_OFF || autosafemode != 0) {
         int iPercent = int((turnssincelastmon * 100) / OPTIONS["AUTOSAFEMODETURNS"]);
         wmove(w_status, sideStyle ? 4 : 1, getmaxx(w_status) - 4);
@@ -5479,7 +5477,7 @@ void game::hallucinate(const int x, const int y)
 float game::ground_natural_light_level() const
 {
     float ret = (float)calendar::turn.sunlight();
-    ret += weather_data[weather].light_modifier;
+    ret += weather_data(weather).light_modifier;
 
     return std::max(0.0f, ret);
 }
@@ -5490,7 +5488,7 @@ float game::natural_light_level() const
 
     if (levz >= 0) {
         ret = (float)calendar::turn.sunlight();
-        ret += weather_data[weather].light_modifier;
+        ret += weather_data(weather).light_modifier;
     }
 
     return std::max(0.0f, ret);
@@ -5508,7 +5506,7 @@ unsigned char game::light_level()
         ret = 1;
     } else {
         ret = calendar::turn.sunlight();
-        ret -= weather_data[weather].sight_penalty;
+        ret -= weather_data(weather).sight_penalty;
     }
     for( auto &e : events ) {
         // The EVENT_DIM event slowly dims the sky, then relights it
@@ -6739,7 +6737,7 @@ void game::emp_blast(int x, int y)
     }
     // Drain any items of their battery charge
     for( auto it = m.i_at( x, y ).begin(); it != m.i_at( x, y ).end(); ++it ) {
-        if( it->is_tool() && ( dynamic_cast<it_tool *>( it->type ) )->ammo == "battery" ) {
+        if( it->is_tool() && ( dynamic_cast<it_tool *>( it->type ) )->ammo_id == "battery" ) {
             it->charges = 0;
         }
     }
@@ -8664,6 +8662,10 @@ point game::look_around(WINDOW *w_info, const point pairCoordsFirst)
     ctxt.register_action("QUIT");
     ctxt.register_action("TOGGLE_FAST_SCROLL");
     ctxt.register_action("LIST_ITEMS");
+    ctxt.register_action( "LEVEL_UP" );
+    ctxt.register_action( "LEVEL_DOWN" );
+
+    const int old_levz = levz;
 
     do {
         if (bNewWindow) {
@@ -8797,7 +8799,26 @@ point game::look_around(WINDOW *w_info, const point pairCoordsFirst)
 
             } else if (action == "TOGGLE_FAST_SCROLL") {
                 fast_scroll = !fast_scroll;
+            } else if( action == "LEVEL_UP" || action == "LEVEL_DOWN" ) {
+#ifdef ZLEVELS
+                if( !debug_mode ) {
+                    continue; // TODO: Make this work in z-level FOV update
+                }
 
+                levz += action == "LEVEL_UP" ? 1 : -1;
+                if( levz > OVERMAP_HEIGHT ) {
+                    levz = OVERMAP_HEIGHT;
+                } else if( levz < -OVERMAP_DEPTH ) {
+                    levz = -OVERMAP_DEPTH;
+                }
+
+                add_msg("levx: %d, levy: %d, levz :%d", levx, levy, levz);
+                m.vertical_shift( levz );
+                refresh_all();
+                draw_ter(lx, ly, true);
+#else
+                (void)old_levz;
+#endif
             } else if (!ctxt.get_coordinates(w_terrain, lx, ly)) {
                 int dx, dy;
                 ctxt.get_direction(dx, dy, action);
@@ -8833,6 +8854,14 @@ point game::look_around(WINDOW *w_info, const point pairCoordsFirst)
             }
         }
     } while (action != "QUIT" && action != "CONFIRM");
+
+#ifdef ZLEVELS
+    if( levz != old_levz ) {
+        m.vertical_shift( old_levz );
+        levz = old_levz;
+    }
+#endif
+
     inp_mngr.set_timeout(-1);
 
     if (bNewWindow) {
@@ -10034,7 +10063,7 @@ bool game::handle_liquid(item &liquid, bool from_ground, bool infinite, item *so
 
         if (cont->is_tool()) {
             it_tool *tool = dynamic_cast<it_tool *>(cont->type);
-            ammo = tool->ammo;
+            ammo = tool->ammo_id;
             max = tool->max_charges;
         } else {
             ammo = cont->type->gun->ammo;
@@ -10119,7 +10148,7 @@ int game::move_liquid(item &liquid)
 
             if (cont->is_tool()) {
                 it_tool *tool = dynamic_cast<it_tool *>(cont->type);
-                ammo = tool->ammo;
+                ammo = tool->ammo_id;
                 max = tool->max_charges;
             } else {
                 ammo = cont->type->gun->ammo;
@@ -10543,8 +10572,8 @@ std::vector<point> game::pl_target_ui(int &x, int &y, int range, item *relevant,
 
 void game::plfire(bool burst, int default_target_x, int default_target_y)
 {
-    if (u.has_effect("relax_gas")) {
-        if (one_in(5)) {
+    if( u.has_effect("relax_gas") ) {
+        if( one_in(5) ) {
             add_msg(m_good, _("Your eyes steel, and you raise your weapon!"));
         } else {
             u.moves -= rng(2, 5) * 10;
@@ -10553,31 +10582,29 @@ void game::plfire(bool burst, int default_target_x, int default_target_y)
         }
     }
     // draw pistol from a holster if unarmed
-    if (!u.is_armed()) {
+    if( !u.is_armed() ) {
         // get a list of holsters from worn items
         std::vector<item *> holsters;
         for( auto &worn : u.worn ) {
-            if (((worn.type->can_use("HOLSTER_GUN") && !(worn.has_flag("NO_QUICKDRAW"))) || worn.type->can_use("HOLSTER_ANKLE")) &&
-                (!worn.contents.empty() && worn.contents[0].is_gun())) {
+            if( ((worn.type->can_use("HOLSTER_GUN") && !worn.has_flag("NO_QUICKDRAW")) ||
+                 worn.type->can_use("HOLSTER_ANKLE")) &&
+                (!worn.contents.empty() && worn.contents[0].is_gun()) ) {
                 holsters.push_back(&worn);
             }
         }
-        if (!holsters.empty()) {
+        if( !holsters.empty() ) {
             int choice = -1;
             // only one holster found, choose it
-            if (holsters.size() == 1) {
+            if( holsters.size() == 1 ) {
                 choice = 0;
                 // ask player which holster to draw from
             } else {
                 std::vector<std::string> choices;
                 for( auto i : holsters ) {
-
-                    std::ostringstream ss;
-                    ss << string_format(_("%s from %s (%d)"),
-                                        i->contents[0].tname().c_str(),
-                                        i->type_name(1).c_str(),
-                                        i->contents[0].charges);
-                    choices.push_back(ss.str());
+                    choices.push_back(string_format(_("%s from %s (%d)"),
+                                                    i->contents[0].tname().c_str(),
+                                                    i->type_name(1).c_str(),
+                                                    i->contents[0].charges));
                 }
                 choice = (uimenu(false, _("Draw what?"), choices)) - 1;
             }
@@ -10781,7 +10808,28 @@ void game::butcher()
     std::vector<int> corpses;
     auto items = m.i_at(u.posx(), u.posy());
     const inventory &crafting_inv = u.crafting_inventory();
-    bool has_salvage_tool = u.has_items_with_quality( "CUT", 1, 1 );
+
+    // TODO: Properly handle different material whitelists
+    // TODO: Improve quality of this section
+    std::vector<item*> dumpvec;
+    u.inv.dump( dumpvec );
+    int salvage_tool_index = INT_MIN;
+    item *salvage_tool = nullptr;
+    salvage_actor *salvage_iuse = nullptr;
+    for( auto &it : dumpvec ) {
+        if( it == nullptr ) {
+            continue;
+        }
+
+        const auto fun = it->type->get_use( "salvage" );
+        if( fun != nullptr ) {
+            salvage_tool_index = u.inv.position_by_item( it );
+            salvage_iuse = dynamic_cast<salvage_actor*>( fun->get_actor_ptr() );
+            salvage_tool = it;
+            break;
+        }
+    }
+
 
     // check if we have a butchering tool
     if( factor > INT_MIN ) {
@@ -10805,10 +10853,10 @@ void game::butcher()
     }
     // Now salvageable items
     size_t salvage_index = corpses.size();
-    if( has_salvage_tool ) {
+    if( salvage_tool_index != INT_MIN ) {
         for( size_t i = 0; i < items.size(); i++ ) {
             if( !items[i].is_corpse() ) {
-                if( iuse::valid_to_cut_up( &items[i] ) ) {
+                if( salvage_iuse->valid_to_cut_up( &items[i] ) ) {
                     corpses.push_back(i);
                     has_item = true;
                 }
@@ -10877,7 +10925,7 @@ void game::butcher()
     }
 
     if( multisalvage == true && butcher_corpse_index == (int)corpses.size() ) {
-        u.assign_activity( ACT_LONGSALVAGE, 0 );
+        u.assign_activity( ACT_LONGSALVAGE, 0, salvage_tool_index );
         return;
     }
     const item &dis_item = items[corpses[butcher_corpse_index]];
@@ -10892,8 +10940,7 @@ void game::butcher()
         u.activity.values.push_back(1);
         return;
     } else if( !dis_item.is_corpse() ) {
-        item salvage_tool( "toolset", calendar::turn ); //TODO: Get the actual tool
-        iuse::cut_up( &u, &salvage_tool, &items[corpses[butcher_corpse_index]], false );
+        salvage_iuse->cut_up( &u, salvage_tool, &items[corpses[butcher_corpse_index]] );
         return;
     }
     mtype *corpse = dis_item.get_mtype();
@@ -11044,7 +11091,7 @@ void game::reload(int pos)
         it_tool *tool = dynamic_cast<it_tool *>(it->type);
 
         // see if its actually reloadable.
-        if (tool->ammo == "NULL") {
+        if (tool->ammo_id == "NULL") {
             add_msg(m_info, _("You can't reload a %s!"), it->tname().c_str());
             return;
         } else if (it->has_flag("NO_RELOAD")) {
@@ -11057,7 +11104,7 @@ void game::reload(int pos)
 
         if (am_pos == INT_MIN) {
             // no ammo, fail reload
-            add_msg(m_info, _("Out of %s!"), ammo_name(tool->ammo).c_str());
+            add_msg(m_info, _("Out of %s!"), ammo_name(tool->ammo_id).c_str());
             return;
         }
 
@@ -11242,8 +11289,8 @@ void game::unload(item &it)
         weapon->unset_curammo();
         // Tools need to be turned off, especially when thy consume charges only every few turns,
         // otherwise they stay active until they would consume the next charge.
-        if( weapon->active && weapon->is_tool() && weapon->type->has_use() ) {
-            weapon->type->invoke( &u, weapon, false, u.pos() );
+        if( weapon->active && weapon->is_tool() ) {
+            weapon->type->tick( &u, weapon, u.pos() );
         }
     }
 }
@@ -11397,14 +11444,15 @@ void game::pldrive(int x, int y)
 
 bool game::check_save_mode_allowed()
 {
+    std::string msg_ignore = press_x(ACTION_IGNORE_ENEMY);
+    if (!msg_ignore.empty()) {
+        msg_ignore[0] = tolower(msg_ignore[0]); // TODO this probably isn't localization friendly
+    }
+
     if (u.has_effect("laserlocked")) {
         // Automatic and mandatory safemode.  Make BLOODY sure the player notices!
-        safe_mode = SAFE_MODE_STOP;
-        add_msg( m_warning,
-             _( "You are being laser-targeted--safe mode is on! (%s to turn it off.)" ),
-             press_x( ACTION_TOGGLE_SAFEMODE ).c_str() );
-        // Effect is only here to hook into safemode, so remove it.
-        u.remove_effect("laserlocked");
+        add_msg(m_warning, _("You are being laser-targeted, %s to ignore."),
+                msg_ignore.c_str());
         return false;
     }
     if( safe_mode != SAFE_MODE_STOP ) {
@@ -11424,11 +11472,6 @@ bool game::check_save_mode_allowed()
     }
 
     std::string const msg_safe_mode = press_x(ACTION_TOGGLE_SAFEMODE);
-    std::string msg_ignore = press_x(ACTION_IGNORE_ENEMY);
-    if (!msg_ignore.empty()) {
-        msg_ignore[0] = tolower(msg_ignore[0]); // TODO this probably isn't localization friendly
-    }
-
     add_msg( m_warning,
              _( "Spotted %s--safe mode is on! (%s to turn it off or %s to ignore monster.)" ),
              spotted_creature_name.c_str(), msg_safe_mode.c_str(), msg_ignore.c_str() );
@@ -12564,8 +12607,15 @@ void game::vertical_move(int movez, bool force)
         return;
     }
 
-    map tmpmap;
-    tmpmap.load(levx, levy, levz + movez, false, cur_om);
+    // Shift the map up or down
+#ifdef ZLEVELS
+    map &maybetmp = m;
+    maybetmp.vertical_shift( levz + movez );
+#else
+    map maybetmp;
+    maybetmp.load(levx, levy, levz + movez, false, cur_om);
+#endif
+
     // Find the corresponding staircase
     int stairx = -1, stairy = -1;
     bool rope_ladder = false;
@@ -12577,6 +12627,12 @@ void game::vertical_move(int movez, bool force)
         m.getlocal(rc.begin_om_pos())
     );
 
+    if( levz + movez < -OVERMAP_DEPTH || levz + movez > OVERMAP_HEIGHT ) {
+        debugmsg( "Tried to move outside allowed range of z-levels" );
+        return;
+    }
+
+    bool actually_moved = true;
     if (force) {
         stairx = u.posx();
         stairy = u.posy();
@@ -12586,29 +12642,29 @@ void game::vertical_move(int movez, bool force)
         for (int i = omtile_align_start.x; i <= omtile_align_start.x + omtilesz; i++) {
             for (int j = omtile_align_start.y; j <= omtile_align_start.y + omtilesz; j++) {
                 if (rl_dist(u.posx(), u.posy(), i, j) <= best &&
-                    ((movez == -1 && tmpmap.has_flag("GOES_UP", i, j)) ||
-                     (movez == 1 && (tmpmap.has_flag("GOES_DOWN", i, j) ||
-                                     tmpmap.ter(i, j) == t_manhole_cover)) ||
-                     ((movez == 2 || movez == -2) && tmpmap.ter(i, j) == t_elevator))) {
+                    ((movez == -1 && maybetmp.has_flag("GOES_UP", i, j)) ||
+                     (movez == 1 && (maybetmp.has_flag("GOES_DOWN", i, j) ||
+                                     maybetmp.ter(i, j) == t_manhole_cover)) ||
+                     ((movez == 2 || movez == -2) && maybetmp.ter(i, j) == t_elevator))) {
                     stairx = i;
                     stairy = j;
                     best = rl_dist(u.posx(), u.posy(), i, j);
                 }
                 // Magic number used as double-shifting "best" added a bit of lag
-                if (rl_dist(u.posx(), u.posy(), i, j) <= 3 && (tmpmap.ter(i, j) == t_lava)) {
+                if (rl_dist(u.posx(), u.posy(), i, j) <= 3 && (maybetmp.ter(i, j) == t_lava)) {
                     danger_lava = true;
                 }
             }
         }
 
         if (danger_lava && !query_yn(_("There is a LOT of heat coming out of there.  Descend anyway?")) ) {
-            return;
+            actually_moved = false;
         }
         if (stairx == -1 || stairy == -1) { // No stairs found!
             if (movez < 0) {
-                if (tmpmap.move_cost(u.posx(), u.posy()) == 0) {
+                if (maybetmp.move_cost(u.posx(), u.posy()) == 0) {
                     popup(_("Halfway down, the way down becomes blocked off."));
-                    return;
+                    actually_moved = false;
                 } else if (u.has_trait("WEB_RAPPEL")) {
                     if (query_yn(_("There is a sheer drop halfway down. Web-descend?"))) {
                         rope_ladder = true;
@@ -12618,7 +12674,7 @@ void game::vertical_move(int movez, bool force)
                             add_msg(_("You securely web up and work your way down, lowering yourself safely."));
                         }
                     } else {
-                        return;
+                        actually_moved = false;
                     }
                 } else if (u.has_trait("VINES2") || u.has_trait("VINES3")) {
                     if (query_yn(_("There is a sheer drop halfway down.  Use your vines to descend?"))) {
@@ -12640,36 +12696,44 @@ void game::vertical_move(int movez, bool force)
                             u.thirst += 10;
                         }
                     } else {
-                        return;
+                        actually_moved = false;
                     }
                 } else if (u.has_amount("grapnel", 1)) {
                     if (query_yn(_("There is a sheer drop halfway down. Climb your grappling hook down?"))) {
                         rope_ladder = true;
                         u.use_amount("grapnel", 1);
                     } else {
-                        return;
+                        actually_moved = false;
                     }
                 } else if (u.has_amount("rope_30", 1)) {
                     if (query_yn(_("There is a sheer drop halfway down. Climb your rope down?"))) {
                         rope_ladder = true;
                         u.use_amount("rope_30", 1);
                     } else {
-                        return;
+                        actually_moved = false;
                     }
 
                 } else if (u.has_amount("bullwhip", 1)) {
                     if (query_yn(_("There is a sheer drop halfway down. Use your whip to lower yourself?"))) {}
                     else {
-                        return;
+                        actually_moved = false;
                     }
                 } else if (!query_yn(_("There is a sheer drop halfway down.  Jump?"))) {
-                    return;
+                    actually_moved = false;
                 }
             }
             stairx = u.posx();
             stairy = u.posy();
         }
     }
+
+    if( !actually_moved ) {
+#ifdef ZLEVELS
+        // Have to undo the map shift
+        m.vertical_shift( levz );
+#endif
+        return;
+    } 
 
     if (!force) {
         monstairx = levx;
@@ -12735,7 +12799,12 @@ void game::vertical_move(int movez, bool force)
     u.moves -= 100;
     m.clear_vehicle_cache();
     m.vehicle_list.clear();
+    m.set_transparency_cache_dirty();
+    m.set_outside_cache_dirty();
+#ifndef ZLEVELS
+    (void)actually_moved;
     m.load( levx, levy, levz, true, cur_om );
+#endif
     u.setx( stairx );
     u.sety( stairy );
     if (rope_ladder) {
@@ -12806,7 +12875,7 @@ void game::update_map(int &x, int &y)
         shifty++;
     }
 
-    m.shift(shiftx, shifty);
+    m.shift( shiftx, shifty );
     levx += shiftx;
     levy += shifty;
 

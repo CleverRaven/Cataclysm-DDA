@@ -187,7 +187,14 @@ class map
      * position of the map (@ref abs_sub) plus the shift vector.
      * Note: the map must have been loaded before this can be called.
      */
-    void shift(const int sx, const int sy);
+    void shift( const int sx, const int sy );
+    /**
+     * Moves the map vertically to (not by!) newz.
+     * Does not actually shift anything, only forces cache updates.
+     * In the future, it will either actually shift the map or it will get removed
+     *  after 3D migration is complete.
+     */
+    void vertical_shift( const int newz );
     /**
      * Spawn monsters from submap spawn points and from the overmap.
      * @param ignore_sight If true, monsters may spawn in the view of the player
@@ -490,6 +497,11 @@ void add_corpse(int x, int y);
  bool marlossify(const int x, const int y);
  bool has_adjacent_furniture(const int x, const int y);
  void mop_spills(const int x, const int y);
+ /** 
+  * Moved here from weather.cpp for speed. Decays fire, washable fields and scent.
+  * Washable fields are decayed only by 1/3 of the amount fire is.
+  */
+ void decay_fields_and_scent( const int amount );
 
  // Signs
  const std::string get_signage(const int x, const int y) const;
@@ -565,7 +577,7 @@ void add_corpse(int x, int y);
  void add_trap(const int x, const int y, const trap_id t);
  void disarm_trap( const int x, const int y);
  void remove_trap(const int x, const int y);
- const std::set<point> &trap_locations(trap_id t) const;
+ const std::set<point> trap_locations(trap_id t) const;
 
 // Fields
         /**
@@ -727,6 +739,7 @@ void add_corpse(int x, int y);
     point getlocal(const point p) const { return getlocal(p.x, p.y); }
  bool inboundsabs(const int x, const int y);
  bool inbounds(const int x, const int y) const;
+ bool inbounds(const int x, const int y, const int z) const;
 
  int getmapsize() { return my_MAPSIZE; };
 
@@ -736,13 +749,14 @@ void add_corpse(int x, int y);
  void add_road_vehicles(bool city, int facing);
 
 protected:
-        void saven( int gridx, int gridy );
+        void saven( int gridx, int gridy, int gridz );
         void loadn( int gridx, int gridy, bool update_vehicles );
+        void loadn( int gridx, int gridy, int gridz, bool update_vehicles );
         /**
          * Fast forward a submap that has just been loading into this map.
          * This is used to rot and remove rotten items, grow plants, fill funnels etc.
          */
-        void actualize( const int gridx, const int gridy );
+        void actualize( const int gridx, const int gridy, const int gridz );
         /**
          * Whether the item has to be removed as it has rotten away completely.
          * @param pnt The point on this map where the items are, used for rot calculation.
@@ -832,6 +846,7 @@ private:
          * (x,y) must be a valid coordinate, check with @ref inbounds.
          */
         submap *get_submap_at( int x, int y ) const;
+        submap *get_submap_at( int x, int y, int z ) const;
         /**
          * Get the submap pointer containing the specified position within the reality bubble.
          * The same as other get_submap_at, (x,y) must be valid (@ref inbounds).
@@ -843,11 +858,14 @@ private:
          * be valid: 0 <= x < my_MAPSIZE, same for y.
          */
         submap *get_submap_at_grid( int gridx, int gridy ) const;
+        submap *get_submap_at_grid( int gridx, int gridy, int gridz ) const;
         /**
          * Get the index of a submap pointer in the grid given by grid coordinates. The grid
          * coordinates must be valid: 0 <= x < my_MAPSIZE, same for y.
+         * Version with z-levels checks for z between -OVERMAP_DEPTH and OVERMAP_HEIGHT
          */
         size_t get_nonant( int gridx, int gridy ) const;
+        size_t get_nonant( const int gridx, const int gridy, const int gridz ) const;
         /**
          * Set the submap pointer in @ref grid at the give index. This is the inverse of
          * @ref getsubmap, any existing pointer is overwritten. The index must be valid.
@@ -921,3 +939,4 @@ public:
 };
 
 #endif
+

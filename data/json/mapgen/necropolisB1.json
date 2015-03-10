@@ -529,7 +529,7 @@
                 "5........  .....      ..",
                 "5........     !         "
             ],
-            "place_groups": [
+            "place_monsters": [
                 { "monster": "GROUP_NECROPOLIS_SEWERS", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.10 }
             ],
             "terrain": {
@@ -644,7 +644,7 @@
                 "333....  2Aax  .........",
                 " 33333)XXXxxx  !........"
             ],
-            "place_groups": [
+            "place_monsters": [
                 { "monster": "GROUP_NECROPOLIS_SEWERS", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.10 }
             ],
             "terrain": {
@@ -759,7 +759,7 @@
                 "........................",
                 "........................"
             ],
-            "place_groups": [
+            "place_monsters": [
                 { "monster": "GROUP_NECROPOLIS_SEWERS", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.10 }
             ],
             "terrain": {
@@ -874,9 +874,11 @@
                 ".......33333............",
                 "........!!!............."
             ],
-            "place_groups": [
+            "place_items": [
                 { "item": "sewage_plant", "chance": 60, "x": [ 12,13 ], "y": [ 13,13 ]},
-                { "item": "sewage_plant", "chance": 60, "x": [ 12,13 ], "y": [ 13,13 ]},
+                { "item": "sewage_plant", "chance": 60, "x": [ 12,13 ], "y": [ 13,13 ]}
+            ],
+            "place_monsters": [
                 { "monster": "GROUP_NECROPOLIS_SEWERS", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.10 }
             ],
             "terrain": {
@@ -1215,7 +1217,7 @@
                 "..........33x........   ",
                 "..........33x........   "
             ],
-            "place_groups": [
+            "place_monsters": [
                 { "monster": "GROUP_NECROPOLIS_SEWERS", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.10 }
             ],
             "terrain": {
@@ -1330,7 +1332,7 @@
                 "...5    .....           ",
                 "          X!XX3333333333"
             ],
-            "place_groups": [
+            "place_monsters": [
                 { "monster": "GROUP_NECROPOLIS_SEWERS", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.10 }
             ],
             "terrain": {
@@ -1445,7 +1447,7 @@
                 "       3      {{   { {{{",
                 "333333X3X3333333333333{."
             ],
-            "place_groups": [
+            "place_monsters": [
                 { "monster": "GROUP_NECROPOLIS_SEWERS", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.10 }
             ],
             "terrain": {
@@ -1560,7 +1562,7 @@
                 "{{......................",
                 "{.....................{{"
             ],
-            "place_groups": [
+            "place_monsters": [
                 { "monster": "GROUP_NECROPOLIS_SEWERS", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.10 }
             ],
             "terrain": {
@@ -1675,7 +1677,7 @@
                 ".......  233x  .....3 ..",
                 "333{{3!XX233x  !      .."
             ],
-            "place_groups": [
+            "place_monsters": [
                 { "monster": "GROUP_NECROPOLIS_SEWERS", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.10 }
             ],
             "terrain": {
@@ -1790,7 +1792,7 @@
                 ".....................2x3",
                 ".....................2x3"
             ],
-            "place_groups": [
+            "place_monsters": [
                 { "monster": "GROUP_NECROPOLIS_SEWERS", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.10 }
             ],
             "terrain": {
@@ -1905,8 +1907,10 @@
                 "33......................",
                 "3......................."
             ],
-            "place_groups": [
-                { "item": "cop_evidence", "chance": 60, "x": [ 2,3 ], "y": [ 16,16 ]},
+            "place_items": [
+                { "item": "cop_evidence", "chance": 60, "x": [ 2,3 ], "y": [ 16,16 ]}
+            ],
+            "place_monsters": [
                 { "monster": "GROUP_NECROPOLIS_SEWERS", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.10 }
             ],
             "terrain": {
@@ -2133,9 +2137,11 @@
                 "....................gr;;",
                 ".........   ........gr;;"
             ],
-            "place_groups": [
+            "place_items": [
                 { "item": "vault_survival", "chance": 85, "x": [ 21,21], "y": [ 20,23 ]},
-                { "item": "vault_survival", "chance": 85, "x": [ 22,23], "y": [ 20,20 ]},
+                { "item": "vault_survival", "chance": 85, "x": [ 22,23], "y": [ 20,20 ]}
+            ],
+            "place_monsters": [
                 { "monster": "GROUP_NECROPOLIS_SEWERS", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.10 }
             ],
             "terrain": {
@@ -2250,10 +2256,14 @@
                 "g;;;;cc;;;;;;;;;EEEEEE;;",
                 "V;;;;ccb;;;;a;;;EEEEEEb;"
             ],
-            "place_groups": [
-                { "vehicle": "humvee", "x": 18, "y": 22, "rotation": 270, "chance": 100},
+            "place_vehicles": [
+                { "vehicle": "humvee", "x": 18, "y": 22, "rotation": 270, "chance": 100}
+            ],
+            "place_items": [
                 { "item": "survivorweapons", "chance": 30, "x": [ 18,20], "y": [ 20,23 ]},
-                { "item": "survivorweapons", "chance": 50, "x": [ 5,6], "y": [ 22,23 ]},
+                { "item": "survivorweapons", "chance": 50, "x": [ 5,6], "y": [ 22,23 ]}
+            ],
+            "place_monsters": [
                 { "monster": "GROUP_NECROPOLIS_SEWERS", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.10 }
             ],
             "terrain": {
@@ -2369,7 +2379,7 @@
                 "gGGGG..33...44  a3333333",
                 "=;;rg..333..44AAa3333333"
             ],
-            "place_groups": [
+            "place_monsters": [
                 { "monster": "GROUP_NECROPOLIS_SEWERS", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.10 }
             ],
             "terrain": {
@@ -2484,7 +2494,7 @@
                 "3.........233x..........",
                 "333.....  233x.........."
             ],
-            "place_groups": [
+            "place_monsters": [
                 { "monster": "GROUP_NECROPOLIS_SEWERS", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.10 }
             ],
             "terrain": {
@@ -2599,7 +2609,7 @@
                 "..................      ",
                 "........................"
             ],
-            "place_groups": [
+            "place_monsters": [
                 { "monster": "GROUP_NECROPOLIS_SEWERS", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.10 }
             ],
             "terrain": {
@@ -2714,7 +2724,7 @@
                 "   3333 ....  ..........",
                 "............  .........5"
             ],
-            "place_groups": [
+            "place_monsters": [
                 { "monster": "GROUP_NECROPOLIS_SEWERS", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.10 }
             ],
             "terrain": {
@@ -2829,7 +2839,7 @@
                 "..  ....................",
                 "       ................ "
             ],
-            "place_groups": [
+            "place_monsters": [
                 { "monster": "GROUP_NECROPOLIS_SEWERS", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.10 }
             ],
             "terrain": {
@@ -2944,7 +2954,7 @@
                 "...........x33..........",
                 "         ! x33.........."
             ],
-            "place_groups": [
+            "place_monsters": [
                 { "monster": "GROUP_NECROPOLIS_SEWERS", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.10 }
             ],
             "terrain": {
@@ -3171,10 +3181,12 @@
                 ".....          zz  .....",
                 ".....                  ."
             ],
-            "place_groups": [
+            "place_items": [
                 { "item": "vault_survival", "chance": 85, "x": [ 21,21], "y": [ 0,3 ]},
                 { "item": "vault_survival", "chance": 85, "x": [ 22,23], "y": [ 3,3 ]},
-                { "item": "cannedfood", "chance": 90, "x": [ 15,16], "y": [ 21,22 ]},
+                { "item": "cannedfood", "chance": 90, "x": [ 15,16], "y": [ 21,22 ]}
+            ],
+            "place_monsters": [
                 { "monster": "GROUP_NECROPOLIS_SEWERS", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.10 }
             ],
             "terrain": {
@@ -3290,8 +3302,10 @@
                 ".......                 ",
                 ".... 8                 {"
             ],
-            "place_groups": [
-                { "item": "cannedfood", "chance": 90, "x": [ 7,8], "y": [ 15,16 ]},
+            "place_items": [
+                { "item": "cannedfood", "chance": 90, "x": [ 7,8], "y": [ 15,16 ]}
+            ],
+            "place_monsters": [
                 { "monster": "GROUP_NECROPOLIS_VAULT", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.20 }
             ],
             "terrain": {
@@ -3407,8 +3421,10 @@
                 " {){....................",
                 "{{.....2............33  "
             ],
-            "place_groups": [
-                { "item": "consumer_electronics", "chance": 70, "x": [ 3,3], "y": [ 4,5 ]},
+            "place_items": [
+                { "item": "consumer_electronics", "chance": 70, "x": [ 3,3], "y": [ 4,5 ]}
+            ],
+            "place_monsters": [
                 { "monster": "GROUP_NECROPOLIS_SEWERS", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.10 }
             ],
             "terrain": {
@@ -3524,7 +3540,7 @@
                 "...  .....233x........  ",
                 "33   .....233x......... "
             ],
-            "place_groups": [
+            "place_monsters": [
                 { "monster": "GROUP_NECROPOLIS_SEWERS", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.10 }
             ],
             "terrain": {
@@ -3639,7 +3655,7 @@
                 "   .......... XX        ",
                 "    ........  3333X33333"
             ],
-            "place_groups": [
+            "place_monsters": [
                 { "monster": "GROUP_NECROPOLIS_SEWERS", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.10 }
             ],
             "terrain": {
@@ -3754,8 +3770,10 @@
                 "             3 ...|-|...",
                 "33333333333333 ........."
             ],
-            "place_groups": [
-                { "item": "homebooks", "chance": 90, "x": [ 18,19], "y": [ 15,15 ]},
+            "place_items": [
+                { "item": "homebooks", "chance": 90, "x": [ 18,19], "y": [ 15,15 ]}
+            ],
+            "place_monsters": [
                 { "monster": "GROUP_NECROPOLIS_SEWERS", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.10 }
             ],
             "terrain": {
@@ -3870,11 +3888,13 @@
                 "................{{......",
                 "................{......."
             ],
-            "place_groups": [
+            "place_items": [
                 { "item": "pawn", "chance": 70, "x": [ 12,12], "y": [ 4,6 ]},
                 { "item": "pawn", "chance": 70, "x": [ 15,16], "y": [ 4,6 ]},
                 { "item": "pawn", "chance": 70, "x": [ 19,20], "y": [ 4,6 ]},
-                { "item": "pawn", "chance": 70, "x": [ 23,23], "y": [ 4,8 ]},
+                { "item": "pawn", "chance": 70, "x": [ 23,23], "y": [ 4,8 ]}
+            ],
+            "place_monsters": [
                 { "monster": "GROUP_NECROPOLIS_SEWERS", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.10 }
             ],
             "terrain": {
@@ -3989,7 +4009,7 @@
                 "...........{............",
                 "........................"
             ],
-            "place_groups": [
+            "place_monsters": [
                 { "monster": "GROUP_NECROPOLIS_SEWERS", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.10 }
             ],
             "terrain": {
@@ -4216,10 +4236,14 @@
                 "....... X ..............",
                 "....... 3 .............."
             ],
-            "place_groups": [
-                { "vehicle": "humvee", "x": 13, "y": 16, "rotation": 270, "chance": 100},
+            "place_vehicles": [
+                { "vehicle": "humvee", "x": 13, "y": 16, "rotation": 270, "chance": 100}
+            ],
+            "place_items": [
                 { "item": "cannedfood", "chance": 90, "x": [ 6,7], "y": [ 15,16 ]},
-                { "item": "cannedfood", "chance": 90, "x": [ 7,8], "y": [ 18,19 ]},
+                { "item": "cannedfood", "chance": 90, "x": [ 7,8], "y": [ 18,19 ]}
+            ],
+            "place_monsters": [
                 { "monster": "GROUP_NECROPOLIS_VAULT", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.10 }
             ],
             "terrain": {
@@ -4334,7 +4358,7 @@
                 "..........33{...........",
                 "..........33x..........."
             ],
-            "place_groups": [
+            "place_monsters": [
                 { "monster": "GROUP_NECROPOLIS_SEWERS", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.10 }
             ],
             "terrain": {
@@ -4449,7 +4473,7 @@
                 "...................33...",
                 "...................33..."
             ],
-            "place_groups": [
+            "place_monsters": [
                 { "monster": "GROUP_NECROPOLIS_SEWERS", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.10 }
             ],
             "terrain": {
@@ -4564,7 +4588,7 @@
                 ".............33.........",
                 ".............33........."
             ],
-            "place_groups": [
+            "place_monsters": [
                 { "monster": "GROUP_NECROPOLIS_SEWERS", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.10 }
             ],
             "terrain": {
@@ -4679,7 +4703,7 @@
                 "...........333..........",
                 "...........333.........."
             ],
-            "place_groups": [
+            "place_monsters": [
                 { "monster": "GROUP_NECROPOLIS_SEWERS", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.10 }
             ],
             "terrain": {
@@ -4794,7 +4818,7 @@
                 "..3.....................",
                 "..!....................."
             ],
-            "place_groups": [
+            "place_monsters": [
                 { "monster": "GROUP_NECROPOLIS_SEWERS", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.10 }
             ],
             "terrain": {
@@ -4909,7 +4933,7 @@
                 "33................  ....",
                 "33...... 33   ..      .."
             ],
-            "place_groups": [
+            "place_monsters": [
                 { "monster": "GROUP_NECROPOLIS_SEWERS", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.10 }
             ],
             "terrain": {
@@ -5024,7 +5048,7 @@
                 "........................",
                 "........................"
             ],
-            "place_groups": [
+            "place_monsters": [
                 { "monster": "GROUP_NECROPOLIS_SEWERS", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.10 }
             ],
             "terrain": {
@@ -5251,7 +5275,7 @@
                 "................333.....",
                 "...............33......."
             ],
-            "place_groups": [
+            "place_monsters": [
                 { "monster": "GROUP_NECROPOLIS_SEWERS", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.10 }
             ],
             "terrain": {
@@ -5366,7 +5390,7 @@
                 "  ......  33x...........",
                 "  ........33x..........."
             ],
-            "place_groups": [
+            "place_monsters": [
                 { "monster": "GROUP_NECROPOLIS_SEWERS", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.10 }
             ],
             "terrain": {
@@ -5481,7 +5505,7 @@
                 "......333333333333333333",
                 "...................33..."
             ],
-            "place_groups": [
+            "place_monsters": [
                 { "monster": "GROUP_NECROPOLIS_SEWERS", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.10 }
             ],
             "terrain": {
@@ -5596,7 +5620,7 @@
                 "33......22222332222.....",
                 ".............33........."
             ],
-            "place_groups": [
+            "place_monsters": [
                 { "monster": "GROUP_NECROPOLIS_SWIMMING", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.10 }
             ],
             "terrain": {
@@ -5711,7 +5735,7 @@
                 "..3 .......3333.........",
                 "..3 .......333.........."
             ],
-            "place_groups": [
+            "place_monsters": [
                 { "monster": "GROUP_NECROPOLIS_SWIMMING", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.15 }
             ],
             "terrain": {
@@ -5826,7 +5850,7 @@
                 "........................",
                 "........................"
             ],
-            "place_groups": [
+            "place_monsters": [
                 { "monster": "GROUP_NECROPOLIS_SWIMMING", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.15 }
             ],
             "terrain": {
@@ -5941,7 +5965,7 @@
                 ".............33333......",
                 "..............333......."
             ],
-            "place_groups": [
+            "place_monsters": [
                 { "monster": "GROUP_NECROPOLIS_SEWERS", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.10 }
             ],
             "terrain": {
@@ -6056,7 +6080,7 @@
                 "..........axa3..........",
                 "...........xa3.........."
             ],
-            "place_groups": [
+            "place_monsters": [
                 { "monster": "GROUP_NECROPOLIS_SEWERS", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.10 }
             ],
             "terrain": {
@@ -6171,8 +6195,10 @@
                 "........................",
                 "........................"
             ],
-            "place_groups": [
-                { "item": "alcohol", "chance": 90, "x": [ 2,2], "y": [ 14,14 ]},
+            "place_items": [
+                { "item": "alcohol", "chance": 90, "x": [ 2,2], "y": [ 14,14 ]}
+            ],
+            "place_monsters": [
                 { "monster": "GROUP_NECROPOLIS_SEWERS", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.10 }
             ],
             "terrain": {
@@ -6287,7 +6313,7 @@
                 ".....................   ",
                 ".....................   "
             ],
-            "place_groups": [
+            "place_monsters": [
                 { "monster": "GROUP_NECROPOLIS_SEWERS", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.10 }
             ],
             "terrain": {
@@ -6402,9 +6428,11 @@
                 "  3.......33x...........",
                 "  3.......33x..........."
             ],
-            "place_groups": [
+            "place_items": [
                 { "item": "sewage_plant", "chance": 70, "x": [ 14,16], "y": [ 10,10 ]},
-                { "item": "sewage_plant", "chance": 70, "x": [ 14,16], "y": [ 12,12 ]},
+                { "item": "sewage_plant", "chance": 70, "x": [ 14,16], "y": [ 12,12 ]}
+            ],
+            "place_monsters": [
                 { "monster": "GROUP_NECROPOLIS_SEWERS", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.10 }
             ],
             "terrain": {
@@ -6519,7 +6547,7 @@
                 "........................",
                 "........................"
             ],
-            "place_groups": [
+            "place_monsters": [
                 { "monster": "GROUP_NECROPOLIS_SEWERS", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.10 }
             ],
             "terrain": {
@@ -6634,7 +6662,7 @@
                 "...  33  ..............3",
                 ".... 333 ..............3"
             ],
-            "place_groups": [
+            "place_monsters": [
                 { "monster": "GROUP_NECROPOLIS_SEWERS", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.10 }
             ],
             "terrain": {
@@ -6749,7 +6777,7 @@
                 "333333...  xxx !        ",
                 "33333333!XXAax .  33  .."
             ],
-            "place_groups": [
+            "place_monsters": [
                 { "monster": "GROUP_NECROPOLIS_SEWERS", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.10 }
             ],
             "terrain": {
@@ -6864,7 +6892,7 @@
                 "  ...........           ",
                 "  ..........            "
             ],
-            "place_groups": [
+            "place_monsters": [
                 { "monster": "GROUP_NECROPOLIS_SWIMMING", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.10 }
             ],
             "terrain": {
@@ -6979,7 +7007,7 @@
                 "   33.............      ",
                 "    3.............      "
             ],
-            "place_groups": [
+            "place_monsters": [
                 { "monster": "GROUP_NECROPOLIS_SWIMMING", "x": [ 13, 18 ], "y": [ 2, 10 ], "density": 0.50 }
             ],
             "terrain": {
@@ -7094,7 +7122,7 @@
                 " 3      *XXx33..........",
                 "        !XXx33.........."
             ],
-            "place_groups": [
+            "place_monsters": [
                 { "monster": "GROUP_NECROPOLIS_SEWERS", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.10 }
             ],
             "terrain": {
@@ -7433,7 +7461,7 @@
                 "........3...............",
                 "........3..............."
             ],
-            "place_groups": [
+            "place_monsters": [
                 { "monster": "GROUP_NECROPOLIS_SEWERS", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.10 }
             ],
             "terrain": {
@@ -7548,7 +7576,7 @@
                 "...............33.......",
                 "...............33......."
             ],
-            "place_groups": [
+            "place_monsters": [
                 { "monster": "GROUP_NECROPOLIS_SEWERS", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.10 }
             ],
             "terrain": {
@@ -7663,7 +7691,7 @@
                 "........................",
                 "........................"
             ],
-            "place_groups": [
+            "place_monsters": [
                 { "monster": "GROUP_NECROPOLIS_SEWERS", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.10 }
             ],
             "terrain": {
@@ -7778,7 +7806,7 @@
                 "...........33x..........",
                 "...........33x.........."
             ],
-            "place_groups": [
+            "place_monsters": [
                 { "monster": "GROUP_NECROPOLIS_SEWERS", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.10 }
             ],
             "terrain": {
@@ -7893,7 +7921,7 @@
                 "...............   533353",
                 "..............   3355333"
             ],
-            "place_groups": [
+            "place_monsters": [
                 { "monster": "GROUP_NECROPOLIS_SEWERS", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.10 }
             ],
             "terrain": {
@@ -8008,7 +8036,7 @@
                 "3533  ...  .............",
                 "53353  .   ............."
             ],
-            "place_groups": [
+            "place_monsters": [
                 { "monster": "GROUP_NECROPOLIS_SEWERS", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.10 }
             ],
             "terrain": {
@@ -8123,7 +8151,7 @@
                 "......3.................",
                 "......3................."
             ],
-            "place_groups": [
+            "place_monsters": [
                 { "monster": "GROUP_NECROPOLIS_SEWERS", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.10 }
             ],
             "terrain": {
@@ -8798,7 +8826,7 @@
                 "............3...........",
                 "........................"
             ],
-            "place_groups": [
+            "place_monsters": [
                 { "monster": "GROUP_NECROPOLIS_SEWERS", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.10 }
             ],
             "terrain": {
@@ -8913,7 +8941,7 @@
                 "........................",
                 "........................"
             ],
-            "place_groups": [
+            "place_monsters": [
                 { "monster": "GROUP_NECROPOLIS_SWIMMING", "x": [ 18, 23 ], "y": [ 0, 5 ], "density": 0.30 }
             ],
             "terrain": {

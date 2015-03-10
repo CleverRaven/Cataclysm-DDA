@@ -2003,10 +2003,16 @@ void vehicle::break_part_into_pieces(int p, int x, int y, bool scatter) {
     std::vector<break_entry> break_info = part_info(p).breaks_into;
     for( auto &elem : break_info ) {
         int quantity = rng( elem.min, elem.max );
+        item piece( elem.item_id, calendar::turn );
+        if( piece.count_by_charges() ) {
+            piece.charges = 1;
+        }
+        // TODO: balance audit, ensure that less pieces are generated than one would need
+        // to build the component (smash a veh box that took 10 lumps of steel,
+        // find 12 steel lumps scattered after atom-smashing it with a tree trunk)
         for(int num = 0; num < quantity; num++) {
             const int actual_x = scatter ? x + rng(-SCATTER_DISTANCE, SCATTER_DISTANCE) : x;
             const int actual_y = scatter ? y + rng(-SCATTER_DISTANCE, SCATTER_DISTANCE) : y;
-            item piece( elem.item_id, calendar::turn );
             g->m.add_item_or_charges(actual_x, actual_y, piece);
         }
     }
@@ -4746,11 +4752,10 @@ void vehicle::damage_all (int dmg1, int dmg2, int type, const point &impact)
  * @param dx How much to shift on the x-axis.
  * @param dy How much to shift on the y-axis.
  */
-void vehicle::shift_parts(const int dx, const int dy)
+void vehicle::shift_parts( const point delta )
 {
     for( auto &elem : parts ) {
-        elem.mount.x -= dx;
-        elem.mount.y -= dy;
+        elem.mount -= delta;
     }
 
     //Don't use the cache as it hasn't been updated yet
@@ -4772,18 +4777,27 @@ void vehicle::shift_parts(const int dx, const int dy)
  * @return bool true if the shift was needed.
  */
 bool vehicle::shift_if_needed() {
-    if (parts_at_relative(0, 0).empty()) {
-        //Find a frame, any frame, to shift to
-        for ( size_t next_part = 0; next_part < parts.size(); ++next_part ) {
-            if ( part_info(next_part).location == "structure"
-                    && !part_info(next_part).has_flag("PROTRUSION")
-                    && !parts[next_part].removed) {
-                shift_parts(parts[next_part].mount.x, parts[next_part].mount.y);
-                break;
-            }
+    if( !parts_at_relative(0, 0).empty() ) {
+        // Shifting is not needed.
+        return false;
+    }
+    //Find a frame, any frame, to shift to
+    for ( size_t next_part = 0; next_part < parts.size(); ++next_part ) {
+        if ( part_info(next_part).location == "structure"
+                && !part_info(next_part).has_flag("PROTRUSION")
+                && !parts[next_part].removed) {
+            shift_parts( parts[next_part].mount );
+            refresh();
+            return true;
         }
-        refresh();
-        return true;
+    }
+    // There are only parts with PROTRUSION left, choose one of them.
+    for ( size_t next_part = 0; next_part < parts.size(); ++next_part ) {
+        if ( !parts[next_part].removed ) {
+            shift_parts( parts[next_part].mount );
+            refresh();
+            return true;
+        }
     }
     return false;
 }
@@ -5524,8 +5538,8 @@ int vehicle::obstacle_at_part( int p ) const
         return p;
     }
 
-    int part = part_with_feature( p, VPFLAG_OBSTACLE );
-    if( part < 0 || parts[p].hp <= 0 ) {
+    int part = part_with_feature( p, VPFLAG_OBSTACLE, true );
+    if( part < 0 ) {
         return -1; // No obstacle here
     }
 

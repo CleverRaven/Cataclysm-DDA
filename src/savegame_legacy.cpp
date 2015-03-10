@@ -991,7 +991,7 @@ bool overmap::unserialize_legacy(std::ifstream & fin, std::string const & plrfil
                         }
                     } else if (datatype == 'N') { // Load notes
                         om_note tmp;
-                        sfin >> tmp.x >> tmp.y >> tmp.num;
+                        sfin >> tmp.x >> tmp.y;
                         getline(sfin, tmp.text); // Chomp endl
                         getline(sfin, tmp.text);
                         if (z >= 0 && z < OVERMAP_LAYERS) {
@@ -1557,21 +1557,26 @@ void player::load_legacy(std::stringstream & dump)
  style_selected = styletmp;
 
  std::string sTemp = "";
- for( size_t i = 0; i < traits.size(); i++ ) {
+    const auto mut_count = mutation_branch::get_all().size();
+ for( size_t i = 0; i < mut_count; i++ ) {
     dump >> sTemp;
     if (sTemp == "TRAITS_END") {
         break;
+    } else if( !mutation_branch::has( sTemp ) ) {
+        debugmsg( "character %s has invalid trait %s, it will be ignored", name.c_str(), sTemp.c_str() );
     } else {
         my_traits.insert(sTemp);
     }
  }
 
- for( size_t i = 0; i < traits.size(); i++ ) {
+ for( size_t i = 0; i < mut_count; i++ ) {
     dump >> sTemp;
     if (sTemp == "MUTATIONS_END") {
         break;
+    } else if( !mutation_branch::has( sTemp ) ) {
+        debugmsg( "character %s has invalid mutation %s, it will be ignored", name.c_str(), sTemp.c_str() );
     } else {
-        my_mutations.insert(sTemp);
+        my_mutations[sTemp]; // Creates a new entry with default values
     }
  }
 
@@ -1734,10 +1739,13 @@ void npc::load_legacy(std::stringstream & dump) {
  myclass = npc_class(classtmp);
 
  std::string sTemp = "";
- for( size_t i = 0; i < traits.size(); i++ ) {
+    const auto mut_count = mutation_branch::get_all().size();
+ for( size_t i = 0; i < mut_count; i++ ) {
     dump >> sTemp;
     if (sTemp == "TRAITS_END") {
         break;
+    } else if( !mutation_branch::has( sTemp ) ) {
+        debugmsg( "character %s has invalid trait %s, it will be ignored", name.c_str(), sTemp.c_str() );
     } else {
         my_traits.insert(sTemp);
     }

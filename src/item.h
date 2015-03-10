@@ -389,19 +389,19 @@ public:
   * one item of the passed in set matches any material).
   * @param mat_idents Set of material ids.
   */
- bool made_of_any(std::vector<std::string> &mat_idents) const;
+ bool made_of_any( const std::vector<std::string> &mat_idents ) const;
  /**
   * Check we are made of only the materials (e.g. false if we have
   * one material not in the set).
   * @param mat_idents Set of material ids.
   */
- bool only_made_of(std::vector<std::string> &mat_idents) const;
+ bool only_made_of( const std::vector<std::string> &mat_idents ) const;
  /**
   * Check we are made of this material (e.g. matches at least one
   * in our set.)
   * @param mat_idents Set of material ids.
   */
- bool made_of(std::string mat_ident) const;
+ bool made_of( const std::string &mat_ident ) const;
  /**
   * Are we solid, liquid, gas, plasma?
   * @param phase
@@ -938,9 +938,11 @@ public:
  typedef std::vector<item> t_item_vector;
  t_item_vector components;
 
- int add_ammo_to_quiver(player *u, bool isAutoPickup);
+ int quiver_store_arrow(item &arrow);
  int max_charges_from_flag(std::string flagName);
 };
+
+bool item_compare_by_charges( const item *left, const item *right);
 
 std::ostream &operator<<(std::ostream &, const item &);
 std::ostream &operator<<(std::ostream &, const item *);

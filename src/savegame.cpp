@@ -36,7 +36,7 @@
  * Changes that break backwards compatibility should bump this number, so the game can
  * load a legacy format loader.
  */
-const int savegame_version = 23;
+const int savegame_version = 24;
 const int savegame_minver_game = 11;
 
 /*
@@ -553,7 +553,7 @@ void overmap::unserialize(std::ifstream & fin, std::string const & plrfilename,
                 }
             } else if (datatype == 'N') { // Load notes
                 om_note tmp;
-                sfin >> tmp.x >> tmp.y >> tmp.num;
+                sfin >> tmp.x >> tmp.y;
                 getline(sfin, tmp.text); // Chomp endl
                 getline(sfin, tmp.text);
                 if (z >= 0 && z < OVERMAP_LAYERS) {
@@ -624,7 +624,7 @@ void overmap::save() const
         fout << std::endl;
 
         for (auto &i : layer[z].notes) {
-            fout << "N " << i.x << " " << i.y << " " << i.num << std::endl << i.text << std::endl;
+            fout << "N " << i.x << " " << i.y << " " << std::endl << i.text << std::endl;
         }
     }
     fout.close();

@@ -419,11 +419,18 @@ void monster::debug(player &u)
 
 void monster::shift(int sx, int sy)
 {
-    position.x -= sx * SEEX;
-    position.y -= sy * SEEY;
+    const int xshift = sx * SEEX;
+    const int yshift = sy * SEEY;
+    position.x -= xshift;
+    position.y -= yshift;
     for (auto &i : plans) {
-        i.x -= sx * SEEX;
-        i.y -= sy * SEEY;
+        i.x -= xshift;
+        i.y -= yshift;
+    }
+
+    if( wandf > 0 ) {
+        wandx -= xshift;
+        wandy -= yshift;
     }
 }
 
@@ -1303,6 +1310,17 @@ void monster::die(Creature* nkiller) {
     if ( has_effect("tied") ) {
         item rope_6("rope_6", 0);
         add_item(rope_6);
+    }
+    if( has_effect( "lightsnare" ) ) {
+        add_item( item( "string_36", 0 ) );
+        add_item( item( "snare_trigger", 0 ) );
+    }
+    if( has_effect( "heavysnare" ) ) {
+        add_item( item( "rope_6", 0 ) );
+        add_item( item( "snare_trigger", 0 ) );
+    }
+    if( has_effect( "beartrap" ) ) {
+        add_item( item( "beartrap", 0 ) );
     }
 
     if( !is_hallucination() ) {
