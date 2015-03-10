@@ -96,9 +96,6 @@ void activity_handlers::butcher_finish( player_activity *act, player *p )
     g->m.i_rem(p->posx(), p->posy(), act->index);
     int factor = p->butcher_factor();
     int pieces = 0, skins = 0, bones = 0, fats = 0, sinews = 0, feathers = 0;
-    double skill_shift = 0.;
-
-    int sSkillLevel = p->skillLevel("survival");
 
     switch (corpse->size) {
     case MS_TINY:
@@ -143,29 +140,37 @@ void activity_handlers::butcher_finish( player_activity *act, player *p )
         break;
     }
 
-    skill_shift += rng(0, sSkillLevel - 3);
-    skill_shift += rng(0, p->dex_cur - 8) / 4;
-    if( p->str_cur < 4 ) {
-        skill_shift -= rng(0, 5 * (4 - p->str_cur)) / 4;
-    }
-    if( factor < 0 ) {
-        skill_shift -= rng( 0, -factor / 5 );
-    }
+    int sSkillLevel = p->skillLevel("survival");
 
+    auto roll_butchery = [&] () {
+        double skill_shift = 0.;
+        skill_shift += rng( 0, sSkillLevel - 3 );
+        skill_shift += rng( 0, p->dex_cur - 8 ) / 4;
+        if( p->str_cur < 4 ) {
+            skill_shift -= rng( 0, 5 * ( 4 - p->str_cur ) ) / 4;
+        }
+
+        if( factor < 0 ) {
+            skill_shift -= rng( 0, -factor / 5 );
+        }
+
+        return static_cast<int>( skill_shift );
+    };
+
+    pieces += roll_butchery();
     int practice = 4 + pieces;
     if( practice > 20 ) {
         practice = 20;
     }
+
     p->practice("survival", practice);
 
-    pieces += int(skill_shift);
-    if( skill_shift < 5)  { // Lose some skins and bones
-        skins += ((int)skill_shift - 4);
-        bones += ((int)skill_shift - 2);
-        fats += ((int)skill_shift - 4);
-        sinews += ((int)skill_shift - 8);
-        feathers += ((int)skill_shift - 1);
-    }
+    // Lose some skins and bones if the rolls are low
+    skins +=    std::min( 0, roll_butchery() - 4 );
+    bones +=    std::min( 0, roll_butchery() - 2 );
+    fats +=     std::min( 0, roll_butchery() - 4 );
+    sinews +=   std::min( 0, roll_butchery() - 8 );
+    feathers += std::min( 0, roll_butchery() - 1 );
 
     if( bones > 0 ) {
         if( corpse->mat == "veggy" ) {
@@ -250,39 +255,73 @@ void activity_handlers::butcher_finish( player_activity *act, player *p )
     //As long as the factor is above -4 (the sinew cutoff), you will be able to extract cbms
     bool any_cbm = false;
     bool cbm = false;
-    if( corpse->has_flag(MF_CBM_CIV) && skill_shift >= 0 ) {
-        any_cbm = true;
-        cbm = cbm || butcher_cbm_item( "bio_power_storage", p->pos(), age );
-        cbm = cbm || butcher_cbm_group( "bionics_common", p->pos(), age );
+    if( corpse->has_flag(MF_CBM_CIV) ) {
+        if( roll_butchery() >= 0 ) {
+            any_cbm = true;
+            cbm = butcher_cbm_item( "bio_power_storage", p->pos(), age ) || cbm;
+        }
+
+        if( roll_butchery() >= 0 ) {
+            any_cbm = true;
+            cbm = butcher_cbm_group( "bionics_common", p->pos(), age ) || cbm;
+        }
     }
 
     // Zombie scientist bionics
-    if( corpse->has_flag(MF_CBM_SCI) && skill_shift >= 0 ) {
-        any_cbm = true;
-        cbm = cbm || butcher_cbm_item( "bio_power_storage", p->pos(), age );
-        cbm = cbm || butcher_cbm_group( "bionics_sci", p->pos(), age );
+    if( corpse->has_flag(MF_CBM_SCI) ) {
+        if( roll_butchery() >= 0 ) {
+            any_cbm = true;
+            cbm = butcher_cbm_item( "bio_power_storage", p->pos(), age ) || cbm;
+        }
+
+        if( roll_butchery() >= 0 ) {
+            any_cbm = true;
+            cbm = butcher_cbm_group( "bionics_sci", p->pos(), age ) || cbm;
+        }
     }
 
     // Zombie technician bionics
-    if( corpse->has_flag(MF_CBM_TECH) && skill_shift >= 0 ) {
-        any_cbm = true;
-        cbm = cbm || butcher_cbm_item( "bio_power_storage", p->pos(), age );
-        cbm = cbm || butcher_cbm_group( "bionics_tech", p->pos(), age );
+    if( corpse->has_flag(MF_CBM_TECH) ) {
+        if( roll_butchery() >= 0 ) {
+            any_cbm = true;
+            cbm = butcher_cbm_item( "bio_power_storage", p->pos(), age ) || cbm;
+        }
+
+        if( roll_butchery() >= 0 ) {
+            any_cbm = true;
+            cbm = butcher_cbm_group( "bionics_tech", p->pos(), age ) || cbm;
+        }
     }
 
     // Substation mini-boss bionics
-    if( corpse->has_flag(MF_CBM_SUBS) && skill_shift >= 0 ) {
-        any_cbm = true;
-        cbm = cbm || butcher_cbm_item( "bio_power_storage", p->pos(), age );
-        cbm = cbm || butcher_cbm_group( "bionics_subs", p->pos(), age );
-        cbm = cbm || butcher_cbm_group( "bionics_subs", p->pos(), age );
+    if( corpse->has_flag(MF_CBM_SUBS) ) {
+        if( roll_butchery() >= 0 ) {
+            any_cbm = true;
+            cbm = butcher_cbm_item( "bio_power_storage", p->pos(), age ) || cbm;
+        }
+
+        if( roll_butchery() >= 0 ) {
+            any_cbm = true;
+            cbm = butcher_cbm_group( "bionics_subs", p->pos(), age ) || cbm;
+        }
+
+        if( roll_butchery() >= 0 ) {
+            any_cbm = true;
+            cbm = butcher_cbm_group( "bionics_subs", p->pos(), age ) || cbm;
+        }
     }
 
     // Payoff for butchering the zombie bio-op
-    if( corpse->has_flag(MF_CBM_OP) && skill_shift >= 0 ) {
-        any_cbm = true;
-        cbm = cbm || butcher_cbm_item( "bio_power_storage_mkII", p->pos(), age );
-        cbm = cbm || butcher_cbm_group( "bionics_op", p->pos(), age );
+    if( corpse->has_flag(MF_CBM_OP) ) {
+        if( roll_butchery() >= 0 ) {
+            any_cbm = true;
+            cbm = butcher_cbm_item( "bio_power_storage_mkII", p->pos(), age ) || cbm;
+        }
+
+        if( roll_butchery() >= 0 ) {
+            any_cbm = true;
+            cbm = butcher_cbm_group( "bionics_op", p->pos(), age ) || cbm;
+        }
     }
 
     if( cbm ) {
@@ -295,7 +334,7 @@ void activity_handlers::butcher_finish( player_activity *act, player *p )
     //Add a chance of CBM power storage recovery.
     if( corpse->has_flag(MF_CBM_POWER) ) {
         //As long as the factor is above -4 (the sinew cutoff), you will be able to extract cbms
-        if( skill_shift >= 0 ) {
+        if( roll_butchery() >= 0 ) {
             //To see if it spawns a battery
             if( one_in(3) ) { //The battery works 33% of the time.
                 add_msg(m_good, _("You discover a power storage in the %s!"), corpse->nname().c_str());
@@ -311,7 +350,7 @@ void activity_handlers::butcher_finish( player_activity *act, player *p )
 
     // Recover hidden items
     for( auto &content : contents  ) {
-        if( (skill_shift + 10) * 5 > rng(0, 100) ) {
+        if( ( roll_butchery() + 10 ) * 5 > rng( 0, 100 ) ) {
             add_msg( m_good, _( "You discover a %s in the %s!" ), content.tname().c_str(),
                      corpse->nname().c_str() );
             g->m.add_item_or_charges( p->posx(), p->posy(), content );
