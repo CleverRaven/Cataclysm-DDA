@@ -525,10 +525,10 @@ std::vector<overmap*> overmapbuffer::get_overmaps_near( point const location, in
     std::vector<overmap*> result;
     result.reserve(omx * omy);
 
-    point const top_left = sm_to_om_copy(location.x - radius, location.y - radius);
+    point const p = sm_to_om_copy(location.x - radius, location.y - radius);
     for (int x = 0; x < omx; ++x) {
-        for (int y = 0; x < omy; ++y) {
-            if (auto const existing_om = get_existing(top_left.x + x, top_left.y + y)) {
+        for (int y = 0; y < omy; ++y) {
+            if (auto const existing_om = get_existing(p.x + x, p.y + y)) {
                 result.emplace_back(existing_om);
             }
         }
