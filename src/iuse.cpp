@@ -1499,7 +1499,7 @@ int iuse::plantblech(player *p, item *it, bool, point pos)
         }
         it_comest *food = dynamic_cast<it_comest*>(it->type);
         //reverses the harmful values of drinking fertilizer
-        p->hunger += food->nutr * multiplier;
+        p->hunger += p->nutrition_for(food) * multiplier;
         p->thirst -= food->quench * multiplier;
         p->mod_healthy_mod(food->healthy * multiplier);
         p->add_morale(MORALE_FOOD_GOOD, -10 * multiplier, 60, 60, 30, false, food);
