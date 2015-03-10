@@ -1575,7 +1575,7 @@ void overmap::draw(WINDOW *w, WINDOW *wbar, const tripoint &center,
     }
 
     for( auto &v : overmap_buffer.get_vehicle(cursx, cursy, z) ) {
-        corner_text.emplace_back( std::move(v.name) );
+        corner_text.emplace_back( v.name );
     }
 
     if( !corner_text.empty() ) {
