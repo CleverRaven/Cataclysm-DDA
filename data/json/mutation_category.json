@@ -1,0 +1,31 @@
+[
+	{
+		"type" : "mutation_category",
+		"id" : "mutation_plant",
+		"name" : "Plant",
+		"category" : "PLANT",
+		"mutagen_message" : "You feel much closer to nature.",
+		"mutagen_hunger" : 10, "//" : "These are the defaults for most targeted mutations",
+		"mutagen_thirst" : 10,
+		"mutagen_pain" : 2,
+		"mutagen_fatigue" : 5,
+		"mutagen_morale" : 0,
+		"iv_message" : "",
+		"iv_message_bad" : false,
+		"iv_min_mutations" : 1,
+		"iv_additonal_mutations" : 2,
+		"iv_additional_mutations_chance" : 3,
+		"iv_hunger" : 10,
+		"iv_thirst" : 10,
+		"iv_pain" : 2,
+		"iv_fatigue" : 5,
+		"iv_morale" : 0,
+		"iv_sound" : false,
+		"iv_sound_message" : "NULL",
+		"iv_noise" : 0,
+		"iv_sleep" : false,
+		"iv_sleep_message" : "NULL",
+		"iv_sleep_dur" : 0,
+		"memorial_message" : "NULL"		
+	}
+]
