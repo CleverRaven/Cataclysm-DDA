@@ -1785,9 +1785,11 @@ void map::decay_fields_and_scent( const int amount )
             }
 
             if( to_proc > 0 ) {
-                debugmsg( "Submap at %d,%d,%d has %d fields, but %d field_count",
-                          smx, smy, abs_sub.z, cur_submap->field_count - to_proc,
-                          cur_submap->field_count );
+                cur_submap->field_count = cur_submap->field_count - to_proc;
+                dbg( D_ERROR ) << "map::decay_fields_and_scent: submap at "
+                               << abs_sub.x + smx << "," << abs_sub.y + smy << "," << abs_sub.z
+                               << "has " << cur_submap->field_count - to_proc << "fields, but "
+                               << cur_submap->field_count << " field_count";
             }
         }
     }
