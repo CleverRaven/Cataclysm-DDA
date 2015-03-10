@@ -456,21 +456,30 @@ class map
     bool has_flag_ter_or_furn( const ter_bitflags flag, const tripoint &p ) const; // checks terrain or furniture
     bool has_flag_ter_and_furn( const ter_bitflags flag, const tripoint &p ) const; // checks terrain and furniture
 
- /** Returns true if there is a bashable vehicle part or the furn/terrain is bashable at x,y */
- bool is_bashable(const int x, const int y) const;
- /** Returns true if the terrain at x,y is bashable */
- bool is_bashable_ter(const int x, const int y) const;
- /** Returns true if the furniture at x,y is bashable */
- bool is_bashable_furn(const int x, const int y) const;
- /** Returns true if the furniture or terrain at x,y is bashable */
- bool is_bashable_ter_furn(const int x, const int y) const;
- /** Returns max_str of the furniture or terrain at x,y */
- int bash_strength(const int x, const int y) const;
- /** Returns min_str of the furniture or terrain at x,y */
- int bash_resistance(const int x, const int y) const;
- /** Returns a success rating from -1 to 10 for a given tile based on a set strength, used for AI movement planning
-  *  Values roughly correspond to 10% increment chances of success on a given bash, rounded down. -1 means the square is not bashable */
- int bash_rating(const int str, const int x, const int y) const;
+// Bashable: 2D
+    bool is_bashable(const int x, const int y) const;
+    bool is_bashable_ter(const int x, const int y) const;
+    bool is_bashable_furn(const int x, const int y) const;
+    bool is_bashable_ter_furn(const int x, const int y) const;
+    int bash_strength(const int x, const int y) const;
+    int bash_resistance(const int x, const int y) const;
+    int bash_rating(const int str, const int x, const int y) const;
+// Bashable: 3D
+    /** Returns true if there is a bashable vehicle part or the furn/terrain is bashable at p */
+    bool is_bashable( const tripoint &p ) const;
+    /** Returns true if the terrain at p is bashable */
+    bool is_bashable_ter( const tripoint &p ) const;
+    /** Returns true if the furniture at p is bashable */
+    bool is_bashable_furn( const tripoint &p ) const;
+    /** Returns true if the furniture or terrain at p is bashable */
+    bool is_bashable_ter_furn( const tripoint &p ) const;
+    /** Returns max_str of the furniture or terrain at p */
+    int bash_strength( const tripoint &p ) const;
+    /** Returns min_str of the furniture or terrain at p */
+    int bash_resistance( const tripoint &p ) const;
+    /** Returns a success rating from -1 to 10 for a given tile based on a set strength, used for AI movement planning
+    *  Values roughly correspond to 10% increment chances of success on a given bash, rounded down. -1 means the square is not bashable */
+    int bash_rating( const int str, const tripoint &p ) const;
 
  /** Generates rubble at the given location, if overwrite is true it just writes on top of what currently exists
   *  floor_type is only used if there is a non-bashable wall at the location or with overwrite = true */

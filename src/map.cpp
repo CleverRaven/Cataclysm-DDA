@@ -1723,7 +1723,49 @@ bool map::has_flag_ter_and_furn( const ter_bitflags flag, const tripoint &p ) co
 
 // End of 3D flags
 
-/////
+// Bashable - common function
+
+int map::bash_rating_internal( const int str, const furn_t &furniture, 
+                               const ter_t &terrain, const vehicle *veh, const int part ) const
+{
+    bool furn_smash = false;
+    bool ter_smash = false;
+    if( furniture.loadid != f_null && furniture.bash.str_max != -1 ) {
+        furn_smash = true;
+    } else if( terrain.bash.str_max != -1 ) {
+        ter_smash = true;
+    }
+
+    if( veh != nullptr && veh->obstacle_at_part( part ) >= 0 ) {
+        // Monsters only care about rating > 0, NPCs should want to path around cars instead
+        return 2; // Should probably be a function of part hp (+armor on tile)
+    }
+
+    int bash_min = 0;
+    int bash_max = 0;
+    if( furn_smash ) {
+        bash_min = furniture.bash.str_min;
+        bash_max = furniture.bash.str_max;
+    } else if( ter_smash ) {
+        bash_min = terrain.bash.str_min;
+        bash_max = terrain.bash.str_max;
+    } else {
+        return -1;
+    }
+
+    if (str < bash_min) {
+        return 0;
+    } else if (str >= bash_max) {
+        return 10;
+    }
+
+    int ret = (10 * (str - bash_min)) / (bash_max - bash_min);
+    // Round up to 1, so that desperate NPCs can try to bash down walls
+    return std::max( ret, 1 );
+}
+
+// 2D bashable
+
 bool map::is_bashable(const int x, const int y) const
 {
     if( !inbounds(x, y) ) {
@@ -1803,44 +1845,88 @@ int map::bash_rating(const int str, const int x, const int y) const
     return bash_rating_internal( str, furniture, terrain, veh, part );
 }
 
-int map::bash_rating_internal( const int str, const furn_t &furniture, 
-                               const ter_t &terrain, const vehicle *veh, const int part ) const
+// 3D bashable
+
+bool map::is_bashable( const tripoint &p ) const
 {
-    bool furn_smash = false;
-    bool ter_smash = false;
-    if( furniture.loadid != f_null && furniture.bash.str_max != -1 ) {
-        furn_smash = true;
-    } else if( terrain.bash.str_max != -1 ) {
-        ter_smash = true;
+    if( !inbounds( p ) ) {
+        DebugLog( D_WARNING, D_MAP ) << "Looking for out-of-bounds is_bashable at "
+                                     << p.x << ", " << p.y << ", " << p.z;
+        return false;
     }
 
-    if( veh != nullptr && veh->obstacle_at_part( part ) >= 0 ) {
-        // Monsters only care about rating > 0, NPCs should want to path around cars instead
-        return 2; // Should probably be a function of part hp (+armor on tile)
+    int vpart = -1;
+    const vehicle *veh = veh_at( p , vpart );
+    if( veh != nullptr && veh->obstacle_at_part( vpart ) >= 0 ) {
+        return true;
     }
 
-    int bash_min = 0;
-    int bash_max = 0;
-    if( furn_smash ) {
-        bash_min = furniture.bash.str_min;
-        bash_max = furniture.bash.str_max;
-    } else if( ter_smash ) {
-        bash_min = terrain.bash.str_min;
-        bash_max = terrain.bash.str_max;
-    } else {
+    if( has_furn( p ) && furn_at( p ).bash.str_max != -1 ) {
+        return true;
+    } else if( ter_at( p ).bash.str_max != -1 ) {
+        return true;
+    }
+
+    return false;
+}
+
+bool map::is_bashable_ter( const tripoint &p ) const
+{
+    if ( ter_at( p ).bash.str_max != -1 ) {
+        return true;
+    }
+    return false;
+}
+
+bool map::is_bashable_furn( const tripoint &p ) const
+{
+    if ( has_furn( p ) && furn_at( p ).bash.str_max != -1 ) {
+        return true;
+    }
+    return false;
+}
+
+bool map::is_bashable_ter_furn( const tripoint &p ) const
+{
+    return is_bashable_furn( p ) || is_bashable_ter( p );
+}
+
+int map::bash_strength( const tripoint &p ) const
+{
+    if ( has_furn( p ) && furn_at( p ).bash.str_max != -1 ) {
+        return furn_at( p ).bash.str_max;
+    } else if ( ter_at( p ).bash.str_max != -1 ) {
+        return ter_at( p ).bash.str_max;
+    }
+    return -1;
+}
+
+int map::bash_resistance( const tripoint &p ) const
+{
+    if ( has_furn( p ) && furn_at( p ).bash.str_min != -1 ) {
+        return furn_at( p ).bash.str_min;
+    } else if ( ter_at( p ).bash.str_min != -1 ) {
+        return ter_at( p ).bash.str_min;
+    }
+    return -1;
+}
+
+int map::bash_rating( const int str, const tripoint &p ) const
+{
+    if( !inbounds( p ) ) {
+        DebugLog( D_WARNING, D_MAP ) << "Looking for out-of-bounds is_bashable at "
+                                     << p.x << ", " << p.y << ", " << p.z;
         return -1;
     }
 
-    if (str < bash_min) {
-        return 0;
-    } else if (str >= bash_max) {
-        return 10;
-    }
-
-    int ret = (10 * (str - bash_min)) / (bash_max - bash_min);
-    // Round up to 1, so that desperate NPCs can try to bash down walls
-    return std::max( ret, 1 );
+    int part = -1;
+    const furn_t &furniture = furn_at( p );
+    const ter_t &terrain = ter_at( p );
+    const vehicle *veh = veh_at( p, part );
+    return bash_rating_internal( str, furniture, terrain, veh, part );
 }
+
+// End of 3D bashable
 
 void map::make_rubble(const int x, const int y, furn_id rubble_type, bool items, ter_id floor_type, bool overwrite)
 {
