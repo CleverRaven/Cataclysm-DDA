@@ -114,7 +114,7 @@
 	},{
 		"type" : "mutation_category",
 		"id" : "mutation_alpha",
-		"name" : "Alpha",
+		"name" : "Alpha","//" : "5-15 pain, 66% for each of the follow-ups, so slightly better odds (designed for injection).",
 		"category" : "ALPHA",
 		"mutagen_message" : "You feel...better. Somehow.",
 		"iv_message" : "",		
@@ -122,7 +122,7 @@
 	},{
 		"type" : "mutation_category",
 		"id" : "mutation_medical",
-		"name" : "Medical",
+		"name" : "Medical", 
 		"category" : "MEDICAL",
 		"mutagen_message" : "You can feel the blood rushing through your veins and a strange, medicated feeling washes over your senses.",
 		"iv_message" : "",		
