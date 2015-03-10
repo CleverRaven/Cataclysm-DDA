@@ -1,11 +1,8 @@
-# General Linux Guide #
+# General Linux Guide
 
-To build Cataclysm from source you will need at least a C++ compiler, some
-basic developer tools, and necessary build dependencies. The exact package names
-vary greatly from distro to distro, so this part of the guide is intended to give
-you higher-level understanding of the process.
+To build Cataclysm from source you will need at least a C++ compiler, some basic developer tools, and necessary build dependencies. The exact package names vary greatly from distro to distro, so this part of the guide is intended to give you higher-level understanding of the process.
 
-## Compiler ##
+## Compiler
 
 You have three major choices here: GCC, Clang and MXE.
 
@@ -13,46 +10,33 @@ You have three major choices here: GCC, Clang and MXE.
   * Clang is usually faster than GCC, so it's worth installing if you plan to keep up with the latest experimentals
   * MXE is a cross-compiler, so of any importance only if you plan to compile for Windows on your Linux machine (not covered here)
 
-(Note that your distro may have separate packages e.g. `gcc` only includes the C compiler,
-and for C++ you'll need to install `g++`.)
+(Note that your distro may have separate packages e.g. `gcc` only includes the C compiler and for C++ you'll need to install `g++`.)
 
-Cataclysm is targeting C++11 standard and that means you'll need a compiler that supports it.
-You can easily check if your version of `g++` supports C++11 by running:
+Cataclysm is targeting C++11 standard and that means you'll need a compiler that supports it. You can easily check if your version of `g++` supports C++11 by running:
 
-```
-$ g++ --std=c++11
-g++: fatal error: no input files
-compilation terminated.
-```
+    $ g++ --std=c++11
+    g++: fatal error: no input files
+    compilation terminated.
 
 If you get a line like:
 
-```
-g++: error: unrecognized command line option ‘--std=c++11’
-```
+    g++: error: unrecognized command line option ‘--std=c++11’
 
 This means you'll need a newer version of GCC (`g++`).
 
 The general rule is the newer the compiler the better.
 
-## Tools ##
+## Tools
 
-Most distros seem to package essential build tools as either a single package (Debian and
-derivatives have `build-essential`) or a package group (Arch has `base-devel`). You should
-use the above if available. Otherwise you'll at least need `make` and figure out the missing
-dependencies as you go.
+Most distros seem to package essential build tools as either a single package (Debian and derivatives have `build-essential`) or a package group (Arch has `base-devel`). You should use the above if available. Otherwise you'll at least need `make` and figure out the missing dependencies as you go.
 
 You should also install `git` and `gettext` (optional if you don't care about localizations).
 
-If you plan on keeping up with experimentals you should also install `ccache`, which  will
-considerably speed-up partial builds.
+If you plan on keeping up with experimentals you should also install `ccache`, which  will considerably speed-up partial builds.
 
-## Dependencies ##
+## Dependencies
 
-There are some general dependencies, optional dependencies and then specific dependencies
-for either curses or tiles builds. The exact package names again depend on the distro
-you're using, and whether your distro packages libraries and their development files
-separately (e.g. Debian and derivatives).
+There are some general dependencies, optional dependencies and then specific dependencies for either curses or tiles builds. The exact package names again depend on the distro you're using, and whether your distro packages libraries and their development files separately (e.g. Debian and derivatives).
 
 Rough list based on building on Arch:
 
@@ -63,7 +47,7 @@ Rough list based on building on Arch:
 
 E.g. for curses build on Debian and derivatives you'll also need `libncurses5-dev`.
 
-## Make flags ##
+## Make flags
 
 Given you're building from source you have a number of choices to make:
 
@@ -78,110 +62,99 @@ Given you're building from source you have a number of choices to make:
 
 There is a couple of other possible options - feel free to read the `Makefile`.
 
-If you have a multi-core computer you'd probably want to add `-jX` to the options,
-where `X` should roughly be twice the number of cores you have available.
+If you have a multi-core computer you'd probably want to add `-jX` to the options, where `X` should roughly be twice the number of cores you have available.
 
 Example: `make -j4 CLANG=1 CCACHE=1 NATIVE=linux64 RELEASE=1 TILES=1`
 
-The above will build a tiles release for 64 bit Linux, using Clang and ccache and
-4 parallel processes.
+The above will build a tiles release for 64 bit Linux, using Clang and ccache and 4 parallel processes.
 
-*Note on debug*:
-You should probably always build with `RELEASE=1` unless you experience segfaults and
-are willing to provide stack traces.
+**Note on debug**:
+You should probably always build with `RELEASE=1` unless you experience segfaults and are willing to provide stack traces.
 
-# Debian #
+# Debian
 
-Instructions for compiling on a Debian-based system. The package names here are
-valid for Ubuntu 12.10 and may or may not work on your system.
+Instructions for compiling on a Debian-based system. The package names here are valid for Ubuntu 12.10 and may or may not work on your system.
 
-Building instructions, below, always assume you are running them from the
-Cataclysm:DDA source directory.
+Building instructions, below, always assume you are running them from the Cataclysm:DDA source directory.
 
-## Linux (native) ncurses builds ##
+## Linux (native) ncurses builds
+
 Dependencies:
+
   * ncurses
   * build essentials
 
-```
-sudo apt-get install libncurses5-dev build-essential
-```
+    sudo apt-get install libncurses5-dev build-essential
 
-### Building ###
-```
-make
-```
+### Building
 
-## Cross-compiling to linux 32-bit from linux 64-bit ##
+    make
+
+## Cross-compiling to linux 32-bit from linux 64-bit
+
 Dependencies:
+
   * 32-bit toolchain
   * 32-bit ncurses
 
-```
-sudo apt-get install libc6-dev-i386 lib32stdc++-dev g++-multilib lib32ncurses5-dev
-```
+    sudo apt-get install libc6-dev-i386 lib32stdc++-dev g++-multilib lib32ncurses5-dev
 
-### Building ###
-```
-make NATIVE=linux32
-```
+### Building
 
-## Cross-compile to Windows from Linux ##
+    make NATIVE=linux32
+
+## Cross-compile to Windows from Linux
+
 Dependencies:
+
   * [mxe](http://mxe.cc)
 
-```
-sudo apt-get install autoconf bison flex cmake git automake intltool libtool scons yasm
-mkdir -p ~/src/mxe
-git clone -b stable https://github.com/mxe/mxe.git ~/src/mxe
-cd ~/src/mxe
-make gcc glib
-```
+    sudo apt-get install autoconf bison flex cmake git automake intltool libtool scons yasm
+    mkdir -p ~/src/mxe
+    git clone -b stable https://github.com/mxe/mxe.git ~/src/mxe
+    cd ~/src/mxe
+    make gcc glib
 
-### Building ###
-```
-PATH="${PATH}:~/src/mxe/usr/bin"
-make CROSS=i686-pc-mingw32-
-```
+### Building
 
-## Linux (native) SDL builds ##
+    PATH="${PATH}:~/src/mxe/usr/bin"
+    make CROSS=i686-pc-mingw32-
+
+## Linux (native) SDL builds
+
 Dependencies:
+
   * SDL
   * SDL_ttf
   * freetype
   * build essentials
 
-```
-sudo apt-get install libsdl1.2-dev libsdl-ttf2.0-dev libfreetype6-dev build-essential
-```
+    sudo apt-get install libsdl1.2-dev libsdl-ttf2.0-dev libfreetype6-dev build-essential
 
-### Building ###
-```
-make TILES=1
-```
+### Building
 
-## Cross-compile to Windows SDL from Linux ##
+    make TILES=1
+
+## Cross-compile to Windows SDL from Linux
+
 Dependencies:
+
   * [mxe](http://mxe.cc)
 
-```
-sudo apt-get install autoconf bison flex cmake git automake intltool libtool scons yasm
-mkdir -p ~/src/mxe
-git clone -b stable https://github.com/mxe/mxe.git ~/src/mxe
-cd ~/src/mxe
-make sdl sdl_ttf
-```
+    sudo apt-get install autoconf bison flex cmake git automake intltool libtool scons yasm
+    mkdir -p ~/src/mxe
+    git clone -b stable https://github.com/mxe/mxe.git ~/src/mxe
+    cd ~/src/mxe
+    make sdl sdl_ttf
 
-### Building ###
-```
-PATH="${PATH}:~/src/mxe/usr/bin"
-make TILES=1 CROSS=i686-pc-mingw32-
-```
-# Building Cataclysm-DDA on Mac OS X
+### Building
+
+    PATH="${PATH}:~/src/mxe/usr/bin"
+    make TILES=1 CROSS=i686-pc-mingw32-
+
+# Mac OS X
 
 To build Cataclysm on Mac you'll have to get XCode with command line tools (or just download them separately from https://developer.apple.com/downloads/) and Homebrew package manager.
-
-
 
 ## Step 1: Install SDL2
 
@@ -215,12 +188,11 @@ For Macports:
 
     sudo port install libsdl2 libsdl2_image libsdl2_ttf
 
-
-
 ## Step 2: Install ncurses and gettext
 
 ncurses and gettext are needed for localization.
 Install with a package manager, or build from source and install.
+
 **NOTE: ncurses needs wide character support enabled.**
 
 For Homebrew:
@@ -235,14 +207,12 @@ For Homebrew:
 
 Reason: if you build other software, these versions might conflict with what the other software expects.
 
-
 For Macports:
 
     # gettext depends on ncurses, so you don't need to specify ncurses explicitly
     # gettext also includes libintl
     sudo port install gettext ncurses
     hash -r
-
 
 ## Step 3: Compile
 
@@ -287,7 +257,6 @@ Description of the options used above. Tweak until things work. More notes are i
 * `TILES=1` build the SDL version with graphical tiles (and graphical ASCII); omit to build with `ncurses`.
 * `MACPORTS` build against dependencies installed via Macports, currently only `gettext` and `ncurses`.
 
-
 ## Step 4: Run
 
     $ ./cataclysm
@@ -295,8 +264,6 @@ Description of the options used above. Tweak until things work. More notes are i
 or
 
     $ ./cataclysm-tiles
-
-
 
 ## Step 5 (optional): Application packaging
 
@@ -312,30 +279,27 @@ To bundle SDL libs copy `SDL2.framework`, `SDL2_image.framework`, and `SDL2_ttf.
 
 Create folder `/Cataclysm.app/Contents/MacOS` and file ./Cataclysm within it with this content:
 
-```bash
-#!/bin/sh
-PWD=`dirname "${0}"`
-OSREV=`uname -r | cut -d. -f1`
-if [ "$OSREV" -ge 11 ] ; then
-   export DYLD_LIBRARY_PATH=${PWD}/../Resources/libs
-   export DYLD_FRAMEWORK_PATH=${PWD}/../Resources/libs
-else
-   export DYLD_FALLBACK_LIBRARY_PATH=${PWD}/../Resources/libs
-   export DYLD_FALLBACK_FRAMEWORK_PATH=${PWD}/../Resources/libs
-fi
-cd "${PWD}/../Resources/"; ./cataclysm-tiles
-```
+    #!/bin/sh
+    PWD=`dirname "${0}"`
+    OSREV=`uname -r | cut -d. -f1`
+    if [ "$OSREV" -ge 11 ] ; then
+       export DYLD_LIBRARY_PATH=${PWD}/../Resources/libs
+       export DYLD_FRAMEWORK_PATH=${PWD}/../Resources/libs
+    else
+       export DYLD_FALLBACK_LIBRARY_PATH=${PWD}/../Resources/libs
+       export DYLD_FALLBACK_FRAMEWORK_PATH=${PWD}/../Resources/libs
+    fi
+    cd "${PWD}/../Resources/"; ./cataclysm-tiles
 
 ### Creating a DMG
 
-* Create an new folder named Cataclysm
-* Move your Cataclysm.app into it
-* Start Disk Utility
-* File / New -> Disk Image From Folder
-* Select the Cataclysm folder you created above.
+  * Create an new folder named Cataclysm
+  * Move your Cataclysm.app into it
+  * Start Disk Utility
+  * File / New -> Disk Image From Folder
+  * Select the Cataclysm folder you created above.
 
 Done!
-
 
 ## Troubleshooting
 
@@ -349,7 +313,7 @@ See below (quoted form https://wiki.gnome.org/GTK+/OSX/Building)
 
 Workaround: install XCode 3 like that article describes, or disable localization support in Cataclysm so gettext/libint are not dependencies. Or else simply don't support OS X versions below 10.7.
 
-### ISSUE: Colours don't show up correctly.
+### ISSUE: Colours don't show up correctly
 
 Open Terminal's preferences, turn on "Use bright colors for bold text" in "Preferences -> Settings -> Text"
 
