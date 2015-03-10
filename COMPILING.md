@@ -8,7 +8,7 @@ You have three major choices here: GCC, Clang and MXE.
 
   * GCC is almost always the default on Linux systems so it's likely you already have it
   * Clang is usually faster than GCC, so it's worth installing if you plan to keep up with the latest experimentals
-  * MXE is a cross-compiler, so of any importance only if you plan to compile for Windows on your Linux machine (not covered here)
+  * MXE is a cross-compiler, so of any importance only if you plan to compile for Windows on your Linux machine
 
 (Note that your distro may have separate packages e.g. `gcc` only includes the C compiler and for C++ you'll need to install `g++`.)
 
@@ -28,9 +28,9 @@ The general rule is the newer the compiler the better.
 
 ## Tools
 
-Most distros seem to package essential build tools as either a single package (Debian and derivatives have `build-essential`) or a package group (Arch has `base-devel`). You should use the above if available. Otherwise you'll at least need `make` and figure out the missing dependencies as you go.
+Most distros seem to package essential build tools as either a single package (Debian and derivatives have `build-essential`) or a package group (Arch has `base-devel`). You should use the above if available. Otherwise you'll at least need `make` and figure out the missing dependencies as you go (if any).
 
-You should also install `git` and `gettext` (optional if you don't care about localizations).
+Besides the essentials you will need `git`.
 
 If you plan on keeping up with experimentals you should also install `ccache`, which  will considerably speed-up partial builds.
 
@@ -41,19 +41,26 @@ There are some general dependencies, optional dependencies and then specific dep
 Rough list based on building on Arch:
 
   * General: `gcc-libs`, `glibc`, `zlib`, `bzip2`
-  * Optional: `lua51`
+  * Optional: `lua51`, `gettext`
   * Curses: `ncurses`
   * Tiles: `sdl2`, `sdl2_image`, `sdl2_ttf`, `sdl2_mixer`, `freetype2`
 
 E.g. for curses build on Debian and derivatives you'll also need `libncurses5-dev`.
 
+Note on optional dependencies:
+
+  * `gettext` - for localization support; if you plan to only use English you can skip it
+  * `lua` - for full-fledged mods; you'll probably prefer to have it
+
+You should be able to figure out what you are missing by reading the compilation errors and/or the output of `ldd` for compiled binaries.
+
 ## Make flags
 
 Given you're building from source you have a number of choices to make:
 
-  * `NATIVE=` - you should use `linux64` if you're on a 64 bit system, `linux32` for 32 bit systems, and leave it out if you're building on Cygwin
+  * `NATIVE=` - you should only care about this if you're cross-compiling
   * `RELEASE=1` - without this you'll get a debug build (see note below)
-  * `TILES=1` - if you want the tiles version; note that with this the ncurses version won't be build
+  * `TILES=1` - with this you'll get the tiles version, without it the curses version
   * `SOUND=1` - if you want sound; this requires `TILES=1`
   * `LOCALIZE=0` - this disables localizations so `gettext` is not needed
   * `LUA=1` - this enables Lua *debug* support, may be useful if you plan writing mods
@@ -66,7 +73,11 @@ If you have a multi-core computer you'd probably want to add `-jX` to the option
 
 Example: `make -j4 CLANG=1 CCACHE=1 NATIVE=linux64 RELEASE=1 TILES=1`
 
-The above will build a tiles release for 64 bit Linux, using Clang and ccache and 4 parallel processes.
+The above will build a tiles release explicitly for 64 bit Linux, using Clang and ccache and 4 parallel processes.
+
+Example: `make -j2 LOCALIZE=0`
+
+The above will build a debug-enabled curses version for the architecture you are using, using GCC and 2 parallel processes.
 
 **Note on debug**:
 You should probably always build with `RELEASE=1` unless you experience segfaults and are willing to provide stack traces.
@@ -84,9 +95,13 @@ Dependencies:
   * ncurses
   * build essentials
 
+Install:
+
     sudo apt-get install libncurses5-dev build-essential
 
 ### Building
+
+Run:
 
     make
 
@@ -97,9 +112,13 @@ Dependencies:
   * 32-bit toolchain
   * 32-bit ncurses
 
+Install:
+
     sudo apt-get install libc6-dev-i386 lib32stdc++-dev g++-multilib lib32ncurses5-dev
 
 ### Building
+
+Run:
 
     make NATIVE=linux32
 
@@ -109,6 +128,8 @@ Dependencies:
 
   * [mxe](http://mxe.cc)
 
+Install:
+
     sudo apt-get install autoconf bison flex cmake git automake intltool libtool scons yasm
     mkdir -p ~/src/mxe
     git clone -b stable https://github.com/mxe/mxe.git ~/src/mxe
@@ -116,6 +137,8 @@ Dependencies:
     make gcc glib
 
 ### Building
+
+Run:
 
     PATH="${PATH}:~/src/mxe/usr/bin"
     make CROSS=i686-pc-mingw32-
@@ -129,9 +152,13 @@ Dependencies:
   * freetype
   * build essentials
 
+Install:
+
     sudo apt-get install libsdl1.2-dev libsdl-ttf2.0-dev libfreetype6-dev build-essential
 
 ### Building
+
+Run:
 
     make TILES=1
 
@@ -141,6 +168,8 @@ Dependencies:
 
   * [mxe](http://mxe.cc)
 
+Install:
+
     sudo apt-get install autoconf bison flex cmake git automake intltool libtool scons yasm
     mkdir -p ~/src/mxe
     git clone -b stable https://github.com/mxe/mxe.git ~/src/mxe
@@ -148,6 +177,8 @@ Dependencies:
     make sdl sdl_ttf
 
 ### Building
+
+Run:
 
     PATH="${PATH}:~/src/mxe/usr/bin"
     make TILES=1 CROSS=i686-pc-mingw32-
