@@ -497,6 +497,11 @@ void add_corpse(int x, int y);
  bool marlossify(const int x, const int y);
  bool has_adjacent_furniture(const int x, const int y);
  void mop_spills(const int x, const int y);
+ /** 
+  * Moved here from weather.cpp for speed. Decays fire, washable fields and scent.
+  * Washable fields are decayed only by 1/3 of the amount fire is.
+  */
+ void decay_fields_and_scent( const int amount );
 
  // Signs
  const std::string get_signage(const int x, const int y) const;
