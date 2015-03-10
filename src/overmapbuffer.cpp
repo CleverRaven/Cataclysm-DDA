@@ -519,32 +519,22 @@ std::vector<overmap*> overmapbuffer::get_overmaps_near( point const location, in
 {
     // Grab the corners of a square around the target location at distance radius.
     // Convert to overmap coordinates and iterate from the minimum to the maximum.
-    const point upper_left = sm_to_om_copy( point( location.x - radius, location.y - radius ) );
-    const point lower_right = sm_to_om_copy( point( location.x + radius, location.y + radius ) );
+    int const omx = std::ceil(radius / OMAPX);
+    int const omy = std::ceil(radius / OMAPY);
 
-    int const dx = std::max(1, lower_right.x - upper_left.x);
-    int const dy = std::max(1, lower_right.y - upper_left.y);
+    std::vector<overmap*> result;
+    result.reserve(omx * omy);
 
-    // Grab references to the overmaps at those coordinates, but only if they exist.
-    // Might use this to drive creation of these overmaps at some point if we want to
-    // more agressively expand the created overmaps.
-    std::vector<overmap*> nearby_overmaps;
-    nearby_overmaps.reserve(dx*dy);
-
-    for (int x = upper_left.x; x <= lower_right.x; ++x) {
-        for (int y = upper_left.y; y <= lower_right.y; ++y) {
-            overmap *const nearby_overmap = get_existing(x, y);
-            if (nearby_overmap) {
-                nearby_overmaps.emplace_back(nearby_overmap);
+    point const top_left = sm_to_om_copy(location.x - radius, location.y - radius);
+    for (int x = 0; x < omx; ++x) {
+        for (int y = 0; x < omy; ++y) {
+            if (auto const existing_om = get_existing(top_left.x + x, top_left.y + y)) {
+                result.emplace_back(existing_om);
             }
         }
     }
 
-    std::sort(begin(nearby_overmaps), end(nearby_overmaps));
-    nearby_overmaps.erase(unique(begin(nearby_overmaps), end(nearby_overmaps)),
-        end(nearby_overmaps));
-
-    return nearby_overmaps;
+    return result;
 }
 
 std::vector<npc*> overmapbuffer::get_npcs_near(int x, int y, int z, int radius)
