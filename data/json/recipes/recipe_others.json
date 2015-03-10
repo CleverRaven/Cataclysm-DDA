@@ -409,7 +409,9 @@
     [
       [ "bottle_glass", 1 ],
       [ "flask_glass", 1],
-      [ "jar_glass", 1 ],
+      [ "jar_glass", 1 ]
+    ],
+    [
       [ "clay_teapot", 1 ],
       [ "jug_clay", 1 ],
       [ "can_food", 1 ],
@@ -439,7 +441,9 @@
     [
       [ "bottle_glass", 1 ],
       [ "flask_glass", 1],
-      [ "jar_glass", 1 ],
+      [ "jar_glass", 1 ]
+    ],
+    [
       [ "clay_teapot", 1 ],
       [ "jug_clay", 1 ],
       [ "can_food", 1 ],
