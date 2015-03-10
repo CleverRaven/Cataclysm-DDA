@@ -12,7 +12,9 @@ class JsonObject;
 class MonsterGenerator;
 
 // iuse methods returning a bool indicating whether to consume a charge of the item being used.
-namespace iuse {
+class iuse
+{
+public:
 // FOOD AND DRUGS (ADMINISTRATION)
     int raw_meat            (player*, item*, bool, point);
     int raw_fat             (player*, item*, bool, point);
@@ -72,6 +74,7 @@ namespace iuse {
     int mycus               (player*, item*, bool, point);
     int dogfood             (player*, item*, bool, point);
     int catfood             (player*, item*, bool, point);
+
 // TOOLS
     int sew                 (player *, item *, bool, point);
     int sew_advanced        (player *, item *, bool, point);
@@ -156,7 +159,10 @@ namespace iuse {
     int vortex              (player *, item *, bool, point);
     int dog_whistle         (player *, item *, bool, point);
     int vacutainer          (player *, item *, bool, point);
+    static bool valid_to_cut_up(const item *it);
+    static int cut_up(player *p, item *it, item *cut, bool);
     int knife               (player *, item *, bool, point);
+    static int cut_log_into_planks(player *p, item *it);
     int lumber              (player *, item *, bool, point);
     int oxytorch            (player *, item *, bool, point);
     int hacksaw             (player *, item *, bool, point);
@@ -209,38 +215,45 @@ namespace iuse {
     int cable_attach        (player *, item *, bool, point);
     int weather_tool        (player *, item *, bool, point);
     int survivor_belt       (player *, item *, bool, point);
+
 // MACGUFFINS
     int mcg_note            (player *, item *, bool, point);
-    int radiocar            (player *, item *, bool, point);
-    int radiocaron          (player *, item *, bool, point);
-    int radiocontrol        (player *, item *, bool, point);
-    int multicooker         (player *, item *, bool, point);
-    int remoteveh           (player *, item *, bool, point);
+
+    int radiocar(player *, item *, bool, point);
+    int radiocaron(player *, item *, bool, point);
+    int radiocontrol(player *, item *, bool, point);
+
+    int multicooker(player *, item *, bool, point);
+
+    int remoteveh(player *, item *, bool, point);
+
 // ARTIFACTS
     /* This function is used when an artifact is activated.
        It examines the item's artifact-specific properties.
        See artifact.h for a list.                        */
     int artifact            (player *, item *, bool, point);
 
-    bool valid_to_cut_up(const item *it);
-    int cut_up              (player *p, item *it, item *cut, bool);
-    int cut_log_into_planks (player *p, item *it);
-
     // Helper for listening to music, might deserve a better home, but not sure where.
-    void play_music( player *p, point source, int volume );
+    static void play_music( player *p, point source, int volume );
 
-    void reset_bullet_pulling();
-    void load_bullet_pulling(JsonObject &jo);
+    static void reset_bullet_pulling();
+    static void load_bullet_pulling(JsonObject &jo);
+protected:
+    typedef std::pair<std::string, int> result_t;
+    typedef std::vector<result_t> result_list_t;
+    typedef std::map<std::string, result_list_t> bullet_pulling_t;
+    static bullet_pulling_t bullet_pulling_recipes;
 };
 
-using use_function_pointer = int (*)(player*, item*, bool, point);
+
+typedef int (iuse::*use_function_pointer)(player*,item*,bool, point);
 
 class iuse_actor {
 protected:
-    iuse_actor() = default;
+    iuse_actor() { }
 public:
     std::string type;
-    virtual ~iuse_actor() = default;
+    virtual ~iuse_actor() { }
     virtual long use(player*, item*, bool, point) const = 0;
     virtual bool can_use( const player*, const item*, bool, const point& ) const { return true; }
     virtual iuse_actor *clone() const = 0;

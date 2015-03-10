@@ -724,7 +724,7 @@
       [ "mutagen", 1 ]
     ],
     [
-      [ "veggy_tainted", 3 ],
+      [ "veggy", 3 ],
       [ "biollante_bud", 1 ],
       [ "datura_seed", 16 ]
     ],
@@ -2307,7 +2307,8 @@
     [
       [ "needle_bone", 1 ],
       [ "needle_wood", 1 ],
-      [ "sewing_kit", 1 ]
+      [ "sewing_kit", 1 ],
+      [ "tailors_kit", 1 ]
     ]
   ],
   "components": [

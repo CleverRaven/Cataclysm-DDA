@@ -792,7 +792,7 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         bool has_mission_item(int mission_id) const; // Has item with mission_id
         std::vector<item *> has_ammo(ammotype at); // Returns a list of the ammo
         // same as has_ammo, but all items with typeId() != id are removed,
-        // returned items all the the same type: id.
+        // returned items all the same type: id.
         std::vector<item *> has_exact_ammo( const ammotype &at, const itype_id &id );
         /**
          * Check whether the player has a gun that uses the given type of ammo.

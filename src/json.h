@@ -201,7 +201,7 @@ class JsonIn
         template<size_t N>
         bool read(std::bitset<N> &b);
         bool read(JsonDeserializer &j);
-        
+
         // array ~> vector, deque, list
         template <typename T, typename std::enable_if<
             !std::is_same<void, typename T::value_type>::value>::type* = nullptr
@@ -224,7 +224,7 @@ class JsonIn
             } catch (std::string const&) {
                 return false;
             }
-            
+
             return true;
         }
 
@@ -265,7 +265,7 @@ class JsonIn
                 while (!end_array()) {
                     typename T::value_type element;
                     if (read(element)) {
-                        v.emplace(std::move(element));
+                        v.insert(std::move(element));
                     } else {
                         skip_value();
                     }
@@ -273,7 +273,7 @@ class JsonIn
             } catch (std::string const&) {
                 return false;
             }
-            
+
             return true;
         }
 
@@ -387,7 +387,7 @@ class JsonOut
             write(std::string(cstr));
         }
         void write(const JsonSerializer &thing);
-        
+
         // enum ~> underlying type
         template <typename T, typename std::enable_if<std::is_enum<T>::value>::type* = nullptr>
         void write(T const &value) {

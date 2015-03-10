@@ -37,6 +37,7 @@ int APIENTRY WinMain (HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdL
 int main(int argc, char *argv[])
 {
 #endif
+    int seed = time(NULL);
     bool verifyexit = false;
     bool check_all_mods = false;
 
@@ -67,7 +68,7 @@ int main(int argc, char *argv[])
             argc--;
             argv++;
             if(argc) {
-                seed_random_number_generator(argv[0]);
+                seed = djb2_hash((unsigned char *)argv[0]);
                 argc--;
                 argv++;
             }
@@ -235,6 +236,8 @@ int main(int argc, char *argv[])
     // curs_set(0); // Invisible cursor
     set_escdelay(10); // Make escape actually responsive
 
+    std::srand(seed);
+
     g = new game;
     // First load and initialize everything that does not
     // depend on the mods.
@@ -305,7 +308,7 @@ void exit_handler(int s)
 {
     if (s != 2 || query_yn(_("Really Quit? All unsaved changes will be lost."))) {
         erase(); // Clear screen
-        endwin(); // End ncurses
+
         int ret;
 #if (defined _WIN32 || defined WINDOWS)
         ret = system("cls"); // Tell the terminal to clear itself
@@ -318,15 +321,16 @@ void exit_handler(int s)
         }
         deinitDebug();
 
-        if(g != NULL) {
-            if(g->game_error()) {
-                delete g;
-                exit(1);
-            } else {
-                delete g;
-                exit(0);
+        int exit_status = 0;
+        if( g != NULL ) {
+            if( g->game_error() ) {
+                exit_status = 1;
             }
+            delete g;
         }
-        exit(0);
+
+        endwin();
+
+        exit( exit_status );
     }
 }

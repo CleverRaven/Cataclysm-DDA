@@ -248,26 +248,22 @@ void Character::recalc_sight_limits()
         // Yes, I'm breaking the cap. I doubt the reality bubble shrinks at night.
         // BIRD_EYE represents excellent fine-detail vision so I think it works.
         if (has_trait("BIRD_EYE")) {
-            sight_boost = 13;
+            sight_boost_cap = 13;
         }
-        else {
         sight_boost = sight_boost_cap;
-        }
     } else if (has_active_mutation("ELFA_NV")) {
         sight_boost = 6; // Elf-a and Bird eyes shouldn't coexist
     } else if (has_active_mutation("NIGHTVISION2") || has_active_mutation("FEL_NV") ||
         has_active_mutation("URSINE_EYE")) {
         if (has_trait("BIRD_EYE")) {
             sight_boost = 5;
-        }
-         else {
+        } else {
             sight_boost = 4;
          }
     } else if (has_active_mutation("NIGHTVISION")) {
         if (has_trait("BIRD_EYE")) {
             sight_boost = 2;
-        }
-        else {
+        } else {
             sight_boost = 1;
         }
     }
@@ -593,6 +589,17 @@ void Character::die(Creature* nkiller)
 {
     set_killer( nkiller );
     set_turn_died(int(calendar::turn));
+    if( has_effect( "lightsnare" ) ) {
+        inv.add_item( item( "string_36", 0 ) );
+        inv.add_item( item( "snare_trigger", 0 ) );
+    }
+    if( has_effect( "heavysnare" ) ) {
+        inv.add_item( item( "rope_6", 0 ) );
+        inv.add_item( item( "snare_trigger", 0 ) );
+    }
+    if( has_effect( "beartrap" ) ) {
+        inv.add_item( item( "beartrap", 0 ) );
+    }
 }
 
 void Character::reset_stats()

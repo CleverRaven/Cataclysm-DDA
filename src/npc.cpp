@@ -2052,7 +2052,7 @@ void npc::die(Creature* nkiller) {
         return;
     }
     dead = true;
-    set_killer( nkiller );
+    Character::die( nkiller );
     if (in_vehicle) {
         g->m.unboard_vehicle(posx(), posy());
     }

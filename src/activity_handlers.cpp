@@ -360,7 +360,8 @@ void activity_handlers::fill_liquid_do_turn( player_activity *act, player *p )
 void activity_handlers::firstaid_finish( player_activity *act, player *p )
 {
     item &it = p->i_at(act->position);
-    iuse::completefirstaid(p, &it, false, p->pos());
+    iuse tmp;
+    tmp.completefirstaid(p, &it, false, p->pos());
     p->reduce_charges(act->position, 1);
     // Erase activity and values.
     act->type = ACT_NULL;
@@ -704,7 +705,7 @@ void activity_handlers::pulp_do_turn( player_activity *act, player *p )
         cut_power /= 2;
     }
     double pulp_power = sqrt((double)(p->str_cur + p->weapon.type->melee_dam)) *
-                        sqrt((double)(cut_power + 1));
+        std::min(1.0, sqrt((double)(cut_power + 1)));
     pulp_power = std::min(pulp_power, (double)p->str_cur);
     pulp_power *= 20; // constant multiplier to get the chance right
     int moves = 0;

@@ -141,6 +141,12 @@ void player_activity::do_turn( player *p )
             break;
         case ACT_AIM:
             if( index == 0 ) {
+                if( !p->weapon.is_gun() ) {
+                    // We lost our gun somehow, bail out.
+                    type = ACT_NULL;
+                    break;
+                }
+                g->m.build_map_cache();
                 g->plfire(false);
             }
             break;

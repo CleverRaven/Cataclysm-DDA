@@ -144,13 +144,17 @@
         "name" : "GROUP_PIZZAPARLOR_ROBOT",
         "default" : "mon_null",
         "monsters" : [
-            { "monster" : "mon_animatronic_fox", "freq" : 100, "cost_multiplier": 2}
-	,{ "monster" : "mon_animatronic_bunny", "freq" : 100, "cost_multiplier": 2}
+    { "monster" : "mon_animatronic_fox_old", "freq" : 100, "cost_multiplier": 2}
+	,{ "monster" : "mon_animatronic_fox_new", "freq" : 100, "cost_multiplier": 2}
+	,{ "monster" : "mon_animatronic_fox_wreck", "freq" : 100, "cost_multiplier": 2}
+	,{ "monster" : "mon_animatronic_bunny_old", "freq" : 100, "cost_multiplier": 2}
+	,{ "monster" : "mon_animatronic_bunny_new", "freq" : 100, "cost_multiplier": 2}
 	,{ "monster" : "mon_animatronic_bat", "freq" : 100, "cost_multiplier": 2}
 	,{ "monster" : "mon_animatronic_beaver", "freq" : 100, "cost_multiplier": 2}
 	,{ "monster" : "mon_animatronic_cat", "freq" : 100, "cost_multiplier": 2}
 	,{ "monster" : "mon_animatronic_chipmunk", "freq" : 100, "cost_multiplier": 2}
-	,{ "monster" : "mon_animatronic_chicken", "freq" : 100, "cost_multiplier": 2}
+	,{ "monster" : "mon_animatronic_chicken_new", "freq" : 100, "cost_multiplier": 2}
+	,{ "monster" : "mon_animatronic_chicken_old", "freq" : 100, "cost_multiplier": 2}
 	,{ "monster" : "mon_animatronic_cow", "freq" : 100, "cost_multiplier": 2}
 	,{ "monster" : "mon_animatronic_coyote", "freq" : 100, "cost_multiplier": 2}
 	,{ "monster" : "mon_animatronic_deer", "freq" : 100, "cost_multiplier": 2}
@@ -158,8 +162,10 @@
 	,{ "monster" : "mon_animatronic_pig", "freq" : 100, "cost_multiplier": 2}
 	,{ "monster" : "mon_animatronic_sheep", "freq" : 100, "cost_multiplier": 2}
 	,{ "monster" : "mon_animatronic_squirrel", "freq" : 100, "cost_multiplier": 2}
+	,{ "monster" : "mon_animatronic_child", "freq" : 100, "cost_multiplier": 2}
 	,{ "monster" : "mon_animatronic_wolf", "freq" : 100, "cost_multiplier": 2}
-	,{ "monster" : "mon_animatronic_bear", "freq" : 100, "cost_multiplier": 2}        ]
+	,{ "monster" : "mon_animatronic_bear_old", "freq" : 100, "cost_multiplier": 2}
+	,{ "monster" : "mon_animatronic_bear_new", "freq" : 100, "cost_multiplier": 2}        ]
     },
     {
         "type": "overmap_terrain",
@@ -178,7 +184,7 @@
             "weight": 10000,
             "object": {
                 "rows": [
-                "----------------gggGGgg-",
+                "-------------------++---",
                 "|www|wwwwwwwwww|wwwwwww|",
                 "|www|wwwwwwwwww|wwwwwww|",
                 "|---|wwwwwwwwwwwwwwwwww|",
@@ -211,8 +217,6 @@
                     "1": "t_window",
                     "|": "t_wall_v",
                     "+": "t_door_c",
-					"g": "t_wall_glass_h",
-					"G": "t_door_glass_c",
 					"2": "t_chainfence_h",
                     "3": "t_chainfence_v",
                     "4": "t_chaingate_l",

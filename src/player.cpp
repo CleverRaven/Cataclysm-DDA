@@ -2048,20 +2048,19 @@ void player::memorial( std::ofstream &memorial_file, std::string epitaph )
 
     //Equipment
     memorial_file << _("Weapon:") << "\n";
-    memorial_file << indent << weapon.invlet << " - " << weapon.tname() << "\n";
+    memorial_file << indent << weapon.invlet << " - " << weapon.tname(1, false) << "\n";
     memorial_file << "\n";
 
     memorial_file << _("Equipment:") << "\n";
     for( auto &elem : worn ) {
         item next_item = elem;
-      memorial_file << indent << next_item.invlet << " - " << next_item.tname();
-      if(next_item.charges > 0) {
-        memorial_file << " (" << next_item.charges << ")";
-      } else if (next_item.contents.size() == 1
-              && next_item.contents[0].charges > 0) {
-        memorial_file << " (" << next_item.contents[0].charges << ")";
-      }
-      memorial_file << "\n";
+        memorial_file << indent << next_item.invlet << " - " << next_item.tname(1, false);
+        if( next_item.charges > 0 ) {
+            memorial_file << " (" << next_item.charges << ")";
+        } else if( next_item.contents.size() == 1 && next_item.contents[0].charges > 0 ) {
+            memorial_file << " (" << next_item.contents[0].charges << ")";
+        }
+        memorial_file << "\n";
     }
     memorial_file << "\n";
 
@@ -2072,17 +2071,17 @@ void player::memorial( std::ofstream &memorial_file, std::string epitaph )
     invslice slice = inv.slice();
     for( auto &elem : slice ) {
         item &next_item = elem->front();
-      memorial_file << indent << next_item.invlet << " - " << next_item.tname();
-      if( elem->size() > 1 ) {
-          memorial_file << " [" << elem->size() << "]";
-      }
-      if(next_item.charges > 0) {
-        memorial_file << " (" << next_item.charges << ")";
-      } else if (next_item.contents.size() == 1
-              && next_item.contents[0].charges > 0) {
-        memorial_file << " (" << next_item.contents[0].charges << ")";
-      }
-      memorial_file << "\n";
+        memorial_file << indent << next_item.invlet << " - " <<
+            next_item.tname(elem->size(), false);
+        if( elem->size() > 1 ) {
+            memorial_file << " [" << elem->size() << "]";
+        }
+        if( next_item.charges > 0 ) {
+            memorial_file << " (" << next_item.charges << ")";
+        } else if( next_item.contents.size() == 1 && next_item.contents[0].charges > 0 ) {
+            memorial_file << " (" << next_item.contents[0].charges << ")";
+        }
+        memorial_file << "\n";
     }
     memorial_file << "\n";
 
@@ -3661,7 +3660,8 @@ void player::disp_status(WINDOW *w, WINDOW *w2)
     const char *morale_str;
     if      (morale_cur >= 200) morale_str = "8D";
     else if (morale_cur >= 100) morale_str = ":D";
-    else if (morale_cur >= 10)  morale_str = ":)";
+    else if (has_trait("THRESH_FELINE") && morale_cur >= 10)  morale_str = ":3";
+    else if (!has_trait("THRESH_FELINE") && morale_cur >= 10)  morale_str = ":)";
     else if (morale_cur > -10)  morale_str = ":|";
     else if (morale_cur > -100) morale_str = "):";
     else if (morale_cur > -200) morale_str = "D:";
@@ -5354,11 +5354,17 @@ bool player::siphon(vehicle *veh, ammotype desired_liquid)
 {
     int liquid_amount = veh->drain( desired_liquid, veh->fuel_capacity(desired_liquid) );
     item used_item( default_ammo(desired_liquid), calendar::turn );
-    used_item.charges = liquid_amount;
+    const int fuel_per_charge = fuel_charges_to_amount_factor( desired_liquid );
+    used_item.charges = liquid_amount / fuel_per_charge;
+    if( used_item.charges <= 0 ) {
+        add_msg( _( "There is not enough %s left to siphon it." ), used_item.type_name().c_str() );
+        veh->refill( desired_liquid, liquid_amount );
+        return false;
+    }
     int extra = g->move_liquid( used_item );
     if( extra == -1 ) {
         // Failed somehow, put the liquid back and bail out.
-        veh->refill( desired_liquid, used_item.charges );
+        veh->refill( desired_liquid, used_item.charges * fuel_per_charge );
         return false;
     }
     int siphoned = liquid_amount - extra;
@@ -10962,7 +10968,7 @@ void player::read(int inventory_position)
     if ((has_trait("CANNIBAL") || has_trait("PSYCHOPATH") || has_trait("SAPIOVORE")) &&
         it->typeId() == "cookbook_human") {
         add_morale(MORALE_BOOK, 0, 75, minutes + 30, minutes, false, it->type);
-    } if (has_trait("SPIRITUAL") && it->has_flag("INSPIRATIONAL")) {
+    } else if ( has_trait("SPIRITUAL") && it->has_flag("INSPIRATIONAL") ) {
         add_morale(MORALE_BOOK, 15, 90, minutes + 60, minutes, false, it->type);
     } else {
         add_morale(MORALE_BOOK, 0, tmp->fun * 15, minutes + 30, minutes, false, it->type);
@@ -11038,11 +11044,11 @@ void player::do_read( item *book )
             book->typeId() == "cookbook_human" ) {
             fun_bonus = 25;
             add_morale(MORALE_BOOK, fun_bonus, fun_bonus * 3, 60, 30, true, book->type);
-        } if (has_trait("SPIRITUAL") && book->has_flag("INSPIRATIONAL")) {
-              fun_bonus = 15;
+        } else if ( has_trait("SPIRITUAL") && book->has_flag("INSPIRATIONAL") ) {
+            fun_bonus = 15;
             add_morale(MORALE_BOOK, fun_bonus, fun_bonus * 5, 90, 90, true, book->type);
         } else {
-              add_morale(MORALE_BOOK, fun_bonus, reading->fun * 15, 60, 30, true, book->type);
+            add_morale(MORALE_BOOK, fun_bonus, reading->fun * 15, 60, 30, true, book->type);
         }
     }
 
@@ -11999,7 +12005,7 @@ void player::absorb_hit(body_part bp, damage_instance &dam) {
                 //~ %s is armor name
                 add_memorial_log(pgettext("memorial_male", "Worn %s was completely destroyed."),
                                  pgettext("memorial_female", "Worn %s was completely destroyed."),
-                                 worn[index].tname().c_str());
+                                 worn[index].tname( 1, false ).c_str());
                 add_msg_player_or_npc( m_bad, _("Your %s is completely destroyed!"),
                                               _("<npcname>'s %s is completely destroyed!"),
                                               worn[index].tname( 1, false ).c_str() );

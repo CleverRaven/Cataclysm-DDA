@@ -355,12 +355,12 @@ void iexamine::vending(player * const p, map * const m, int const examx, int con
         return;
     }
 
-    int const padding_x    = std::max(0, TERMX - FULL_SCREEN_WIDTH ) / 2;
-    int const padding_y    = std::max(0, TERMY - FULL_SCREEN_HEIGHT) / 2;
-    int const window_h     = FULL_SCREEN_HEIGHT;
-    int const w_items_w    = FULL_SCREEN_WIDTH / 2 - 1; // minus 1 for a gap
-    int const w_info_w     = FULL_SCREEN_WIDTH / 2;
-    int const list_lines   = window_h - 4; // minus for header and footer
+    int const padding_x  = std::max(0, TERMX - FULL_SCREEN_WIDTH ) / 2;
+    int const padding_y  = std::max(0, TERMY - FULL_SCREEN_HEIGHT) / 2;
+    int const window_h   = FULL_SCREEN_HEIGHT;
+    int const w_items_w  = FULL_SCREEN_WIDTH / 2 - 1; // minus 1 for a gap
+    int const w_info_w   = FULL_SCREEN_WIDTH / 2;
+    int const list_lines = window_h - 4; // minus for header and footer
 
     constexpr int first_item_offset = 3; // header size
 
@@ -396,16 +396,16 @@ void iexamine::vending(player * const p, map * const m, int const examx, int con
         item_list.emplace_back(&pair);
     }
 
-    // | {title}|
-    // 12       3
-    const std::string title = utf8_truncate(string_format(
-        _("Money left: %d"), card->charges), static_cast<size_t>(w_items_w - 3));
-
     int const lines_above = list_lines / 2;                  // lines above the selector
     int const lines_below = list_lines / 2 + list_lines % 2; // lines below the selector
 
     int cur_pos = 0;
     for (;;) {
+        // | {title}|
+        // 12       3
+        const std::string title = utf8_truncate(string_format(
+            _("Money left: %d"), card->charges), static_cast<size_t>(w_items_w - 3));
+
         int const num_items = item_list.size();
         int const page_size = std::min(num_items, list_lines);
 
@@ -1877,15 +1877,15 @@ struct filter_is_drink {
 };
 
 //probably should move this functionality into the furniture JSON entries if we want to have more than a few "kegs"
-static int get_keg_cap(std::string furn_name) {
-    if("standing tank" == furn_name)    { return 1200; } //the furniture was a "standing tank", so can hold 1200
+static int get_keg_cap( const furn_t &furn ) {
+    if( furn.id == "f_standing_tank" )  { return 1200; } //the furniture was a "standing tank", so can hold 1200
     else                                { return 600; } //default to old default value
     //add additional cases above
 }
 
 void iexamine::keg(player *p, map *m, int examx, int examy)
 {
-    int keg_cap = get_keg_cap( m->name(examx, examy) );
+    int keg_cap = get_keg_cap( m->furn_at(examx, examy) );
     bool liquid_present = false;
     for (int i = 0; i < (int)m->i_at(examx, examy).size(); i++) {
         if (!(m->i_at(examx, examy)[i].is_drink()) || liquid_present) {
@@ -2164,7 +2164,17 @@ void iexamine::tree_marloss(player *p, map *m, int examx, int examy)
 
 void iexamine::shrub_wildveggies(player *p, map *m, int examx, int examy)
 {
-    add_msg("You forage through the %s.", m->tername(examx, examy).c_str());
+    // Ask if there's something possibly more interesting than this shrub here
+    if( ( !m->i_at( examx, examy ).empty() ||
+          m->veh_at( examx, examy ) != nullptr ||
+          m->tr_at( examx, examy ) != tr_null ||
+          g->critter_at( examx, examy ) != nullptr ) &&
+          !query_yn(_("Forage through %s?"), m->tername(examx, examy).c_str() ) ) {
+        none(p, m, examx, examy);
+        return;
+    }
+
+    add_msg(_("You forage through the %s."), m->tername(examx, examy).c_str());
     p->assign_activity(ACT_FORAGE, 500 / (p->skillLevel("survival") + 1), 0);
     p->activity.placement = point(examx, examy);
     return;
@@ -2436,18 +2446,23 @@ void iexamine::reload_furniture(player *p, map *m, const int examx, const int ex
         add_msg(m_info, _("This %s can not be reloaded!"), f.name.c_str());
         return;
     }
-    const int pos = p->inv.position_by_type(ammo->id);
-    if (pos == INT_MIN) {
-        const int amount = count_charges_in_list(ammo, m->i_at(examx, examy));
-        if (amount > 0) {
-            //~ The <piece of furniture> contains <number> <items>.
-            add_msg(_("The %s contains %d %s."), f.name.c_str(), amount, ammo->nname(amount).c_str());
-        }
+    const int amount_in_furn = count_charges_in_list( ammo, m->i_at( examx, examy ) );
+    if( amount_in_furn > 0 ) {
+        //~ The <piece of furniture> contains <number> <items>.
+        add_msg(_("The %s contains %d %s."), f.name.c_str(), amount_in_furn, ammo->nname(amount_in_furn).c_str());
+    }
+    const int max_amount_in_furn = f.max_volume * ammo->stack_size / ammo->volume;
+    const int max_reload_amount = max_amount_in_furn - amount_in_furn;
+    if( max_reload_amount <= 0 ) {
+        return;
+    }
+    const int amount_in_inv = p->charges_of( ammo->id );
+    if( amount_in_inv == 0 ) {
         //~ Reloading or restocking a piece of furniture, for example a forge.
         add_msg(m_info, _("You need some %s to reload this %s."), ammo->nname(2).c_str(), f.name.c_str());
         return;
     }
-    const long max_amount = p->inv.find_item(pos).charges;
+    const long max_amount = std::min( amount_in_inv, max_reload_amount );
     //~ Loading fuel or other items into a piece of furniture.
     const std::string popupmsg = string_format(_("Put how many of the %s into the %s?"),
                                  ammo->nname(max_amount).c_str(), f.name.c_str());
@@ -2457,11 +2472,11 @@ void iexamine::reload_furniture(player *p, map *m, const int examx, const int ex
     if (amount <= 0 || amount > max_amount) {
         return;
     }
-    p->reduce_charges(pos, amount);
+    p->use_charges( ammo->id, amount );
     auto items = m->i_at(examx, examy);
-    for( auto an_item = items.begin(); an_item != items.end(); ++an_item ) {
-        if( an_item->type == ammo ) {
-            an_item->charges = amount;
+    for( auto & itm : items ) {
+        if( itm.type == ammo ) {
+            itm.charges += amount;
             amount = 0;
             break;
         }

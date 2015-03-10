@@ -357,7 +357,13 @@ bool item::stacks_with( const item &rhs ) const
         if( bday != rhs.bday ) {
             return false;
         }
-        if( rot != rhs.rot ) {
+        // Because spoiling items are only processed every processing_speed()-th turn
+        // the rotting value becomes slightly different for items that have
+        // been created at the same time and place and with the same initial rot.
+        if( std::abs( rot - rhs.rot ) > processing_speed() ) {
+            return false;
+        } else if( rotten() != rhs.rotten() ) {
+            // just to be save that rotten and unrotten food is *never* stacked.
             return false;
         }
     }
@@ -1238,11 +1244,6 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump, bool debug) c
             dump->push_back(iteminfo("DESCRIPTION",
                 _("This piece of clothing allows you to see much further under water.")));
         }
-        if (is_armor() && item_tags.count("pocketed")) {
-            dump->push_back(iteminfo("DESCRIPTION", "--"));
-            dump->push_back(iteminfo("DESCRIPTION",
-                _("This piece of clothing has some pockets and straps sewn on to give you some more places to carry things.")));
-        }
         if (is_armor() && item_tags.count("furred")) {
             dump->push_back(iteminfo("DESCRIPTION", "--"));
             dump->push_back(iteminfo("DESCRIPTION",
@@ -1781,9 +1782,6 @@ std::string item::tname( unsigned int quantity, bool with_prefix ) const
     if (is_tool() && has_flag("USE_UPS")){
         ret << _(" (UPS)");
     }
-    if (item_tags.count("pocketed") > 0 ){
-        ret << _(" (P)");
-    }
     if (item_tags.count("furred") > 0 ){
         ret << _(" (F)");
     }
@@ -2276,28 +2274,14 @@ bool item::is_auxiliary_gunmod() const
 
 int item::get_storage() const
 {
-    float pockets = 1;
     auto t = find_armor_data();
     if( t == nullptr )
         return 0;
 
     // it_armor::storage is unsigned char
-    int result = (static_cast<int> (static_cast<unsigned int>( t->storage ) ) );
-
-    if (item::item_tags.count("pocketed") > 0){
-        // Cache this so we don't have to keep recalculating it.
-        float vol = volume();
-        pockets = vol * (float(get_coverage()) / 100) / 1.333;
-        if (result > .3 * vol) {
-            // Scales from 1 to 3 as result goes from .3 * vol to .7 * vol
-            float mod = 1 + (result - .3 * vol) / (.7 * vol - .3 * vol) * 2;
-            pockets = pockets / mod;
-        }
-        return result + pockets;
-    } else {
-        return result;
-    }
+    return static_cast<int> (static_cast<unsigned int>( t->storage ) );
 }
+
 int item::get_env_resist() const
 {
     const auto t = find_armor_data();
@@ -2511,20 +2495,19 @@ int item::bash_resist() const
     // previous versions. Adjust to make you happier/sadder.
     float adjustment = 1.5;
 
+    static constexpr float max_value = 4.0f;
+    static constexpr float stepness = -0.8f;
+    static constexpr float center_of_S = 2.5f;
+
     if (is_null()) {
         return resist;
     }
     if (item::item_tags.count("leather_padded") > 0){
-        l_padding = volume() * (float(get_coverage()) / 100) / 2.5;
-        if (l_padding > 5 ){
-            l_padding = l_padding / 2.5;   //Hard cap so coats don't become solid steel
-        }
+
+        l_padding = max_value / ( 1 + exp( stepness * ( get_thickness() - center_of_S )));
     }
     if (item::item_tags.count("kevlar_padded") > 0){
-        k_padding = volume() * (float(get_coverage()) / 100) / 2.5;
-        if (k_padding > 5 ){
-            k_padding = k_padding / 2.5;
-        }
+        k_padding = max_value / ( 1 + exp( stepness * ( get_thickness() - center_of_S )));
     }
     std::vector<material_type*> mat_types = made_of_types();
     // Armor gets an additional multiplier.
@@ -2557,16 +2540,16 @@ int item::cut_resist() const
         return resist;
     }
     if (item::item_tags.count("leather_padded") > 0){
-        l_padding = volume() * (float(get_coverage()) / 100) / 2.5;
-        if (l_padding > 5 ){
-            l_padding = l_padding / 2.5;
-        }
+        static constexpr float max_value = 4.0f;
+        static constexpr float stepness = -0.8f;
+        static constexpr float center_of_S = 2.5f;
+        l_padding = max_value / ( 1 + exp( stepness * ( get_thickness() - center_of_S )));
     }
     if (item::item_tags.count("kevlar_padded") > 0){
-        k_padding = volume() * (float(get_coverage()) / 100) / 2;
-        if (k_padding > 5 ){
-            k_padding = k_padding / 2;
-        }
+        static constexpr float max_value = 8.0f;
+        static constexpr float stepness = -0.8f;
+        static constexpr float center_of_S = 2.5f;
+        k_padding = max_value / ( 1 + exp( stepness * ( get_thickness() - center_of_S )));
     }
     std::vector<material_type*> mat_types = made_of_types();
     // Armor gets an additional multiplier.
@@ -3222,13 +3205,12 @@ int item::gun_dispersion( bool with_ammo ) const
             dispersion_sum += elem.type->gunmod->dispersion;
         }
     }
+    dispersion_sum = std::max(dispersion_sum, 0);
     if( with_ammo && has_curammo() ) {
         dispersion_sum += get_curammo()->ammo->dispersion;
     }
     dispersion_sum += damage * 60;
-    if( dispersion_sum < 0 ) {
-        dispersion_sum = 0;
-    }
+    dispersion_sum = std::max(dispersion_sum, 0);
     return dispersion_sum;
 }
 
@@ -3384,7 +3366,7 @@ int item::gun_recoil( bool with_ammo ) const
             ret += elem.type->gunmod->recoil;
         }
     }
-    ret += damage;
+    ret += 15 * damage;
     return ret;
 }
 

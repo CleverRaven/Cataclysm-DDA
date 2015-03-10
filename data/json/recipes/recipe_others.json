@@ -48,28 +48,28 @@
   "reversible": false,
   "autolearn": true,
   "tools": [
-	[
-	["con_mix", 50]
-	]
-	],
+    [
+    ["con_mix", 50]
+    ]
+    ],
   "components":
-	[
-	 [
-	 [ "material_cement", 50]
-	 ],
-	 [
-	 [ "material_sand", 25]
-	 ],
-	 [
-	 [ "rock", 20]
-	 ],
-	 [
-	 [ "water", 5]
-	 ],
-	 [
-	 [ "bag_canvas", 1]
-	 ]
-	]
+    [
+     [
+     [ "material_cement", 50]
+     ],
+     [
+     [ "material_sand", 25]
+     ],
+     [
+     [ "rock", 20]
+     ],
+     [
+     [ "water", 5]
+     ],
+     [
+     [ "bag_canvas", 1]
+     ]
+    ]
 },{
   "type" : "recipe",
   "result": "wood_smoother",
@@ -82,16 +82,16 @@
   "reversible": false,
   "autolearn": true,
   "qualities": [
-	{"id":"HAMMER","level":2,"amount":1}
+    {"id":"HAMMER","level":2,"amount":1}
   ], "components":
-	[
-	 [
-	 [ "nail", 8 ]
-	 ],
-	 [
-	 [ "2x4", 3 ]
-	 ]
-	]
+    [
+     [
+     [ "nail", 8 ]
+     ],
+     [
+     [ "2x4", 3 ]
+     ]
+    ]
 },{
   "type" : "recipe",
   "result": "down_pillow",
@@ -106,7 +106,8 @@
     [
       [ "needle_bone", 12 ],
       [ "needle_wood", 12 ],
-      [ "sewing_kit", 12 ]
+      [ "sewing_kit", 12 ],
+      [ "tailors_kit", 12 ]
     ]
   ],
   "components": [
@@ -131,7 +132,8 @@
     [
       [ "needle_bone", 12 ],
       [ "needle_wood", 12 ],
-      [ "sewing_kit", 12 ]
+      [ "sewing_kit", 12 ],
+      [ "tailors_kit", 12 ]
     ]
   ],
   "components": [
@@ -340,6 +342,7 @@
       ["soldering_iron", 5]
      ]
     ],
+  "//" : "The tailoring kit is an expanded sewing kit, so a bone/wood needle is inappropriate.",
   "components": [
     [
       [ "sewing_kit", 1 ]
@@ -602,7 +605,8 @@
     [
       [ "needle_bone", 7 ],
       [ "needle_wood", 7 ],
-      [ "sewing_kit", 7 ]
+      [ "sewing_kit", 7 ],
+      [ "tailors_kit", 7 ]
     ]
   ],
   "components": [
@@ -652,7 +656,7 @@
   ],
   "components": [
     [
-      [ "bone", 1 ]
+      [ "bone", 1 ], ["bone_human", 1]
     ]
   ]
 },{
@@ -934,7 +938,8 @@
     [
       [ "needle_bone", 60 ],
       [ "needle_wood", 60 ],
-      [ "sewing_kit", 60 ]
+      [ "sewing_kit", 60 ],
+      [ "tailors_kit", 60 ]
     ]
   ],
   "components": [
@@ -966,7 +971,8 @@
     [
       [ "needle_bone", 90 ],
       [ "needle_wood", 90 ],
-      [ "sewing_kit", 90 ]
+      [ "sewing_kit", 90 ],
+      [ "tailors_kit", 90 ]
     ]
   ],
   "components": [
@@ -998,7 +1004,8 @@
     [
       [ "needle_bone", 120 ],
       [ "needle_wood", 120 ],
-      [ "sewing_kit", 120 ]
+      [ "sewing_kit", 120 ],
+      [ "tailors_kit", 120 ]
     ]
   ],
   "components": [
@@ -1050,7 +1057,8 @@
     [
       [ "needle_bone", 200 ],
       [ "needle_wood", 200 ],
-      [ "sewing_kit", 200 ]
+      [ "sewing_kit", 200 ],
+      [ "tailors_kit", 200 ]
     ]
   ],
   "components": [
@@ -1085,7 +1093,8 @@
     [
       [ "needle_bone", 50 ],
       [ "needle_wood", 50 ],
-      [ "sewing_kit", 50 ]
+      [ "sewing_kit", 50 ],
+      [ "tailors_kit", 50 ]
     ]
   ],
   "components": [
@@ -1405,7 +1414,8 @@
     [
       [ "needle_bone", 50 ],
       [ "needle_wood", 50 ],
-      [ "sewing_kit", 50 ]
+      [ "sewing_kit", 50 ],
+      [ "tailors_kit", 50 ]
     ]
   ],
   "components": [
@@ -1494,7 +1504,8 @@
   "autolearn": true,
   "tools": [
     [
-      [ "knitting_needles", -1 ]
+      [ "knitting_needles", -1 ],
+      [ "tailors_kit", -1 ]
     ]
   ],
   "components": [
@@ -1543,7 +1554,8 @@
     [
       [ "needle_bone", 50 ],
       [ "needle_wood", 50 ],
-      [ "sewing_kit", 50 ]
+      [ "sewing_kit", 50 ],
+      [ "tailors_kit", 50 ]
     ]
   ],
   "components": [
@@ -5050,7 +5062,43 @@
       [ "silver_small", 50 ]
      ]
     ]
-},{
+},
+{
+  "type" : "recipe",
+  "result": "mirror",
+  "id_suffix" : "from_steel",
+  "category": "CC_OTHER",
+  "subcategory": "CSC_OTHER_TOOLS",
+  "skill_used": "fabrication",
+  "difficulty": 2,
+  "time": 10000,
+  "reversible": false,
+  "autolearn": false,
+  "qualities":[
+    {"id":"HAMMER","level":2,"amount":1}
+    ],
+  "tools": [
+     [
+      ["tongs", -1]
+     ],
+     [
+      ["polisher", 20]
+     ],
+     [
+      ["crucible", -1]
+     ],
+     [
+      ["forge", 50], ["char_forge", 10]
+     ]
+    ],
+  "components":
+    [
+     [
+      ["steel_chunk", 3]
+     ]
+    ]
+},
+{
   "type" : "recipe",
   "result": "pipe_glass",
   "category": "CC_OTHER",
@@ -5287,7 +5335,8 @@
     [
       [ "needle_bone", 20 ],
       [ "needle_wood", 20 ],
-      [ "sewing_kit", 20 ]
+      [ "sewing_kit", 20 ],
+      [ "tailors_kit", 20 ]
     ]
   ],
   "components": [
@@ -5316,7 +5365,8 @@
     [
       [ "needle_bone", 80 ],
       [ "needle_wood", 80 ],
-      [ "sewing_kit", 80 ]
+      [ "sewing_kit", 80 ],
+      [ "tailors_kit", 80 ]
     ]
   ],
   "components": [
@@ -5779,7 +5829,8 @@
     [
       [ "needle_bone", 60 ],
       [ "needle_wood", 60 ],
-      [ "sewing_kit", 60 ]
+      [ "sewing_kit", 60 ],
+      [ "tailors_kit", 60 ]
     ]
   ],
   "components": [
@@ -6459,14 +6510,14 @@
   "reversible": false,
   "autolearn": true,
   "components":
-	[
-	 [
-	 [ "clay_lump", 1]
-	 ],
-	 [
-	 [ "water", 1]
-	 ]
-	]
+    [
+     [
+     [ "clay_lump", 1]
+     ],
+     [
+     [ "water", 1]
+     ]
+    ]
 },{
   "type" : "recipe",
   "result": "brick",
@@ -6479,16 +6530,16 @@
   "reversible": false,
   "autolearn": true,
   "tools": [
-	[
-	["brick_kiln", 20]
-	]
-	],
+    [
+    ["brick_kiln", 20]
+    ]
+    ],
   "components":
-	[
-	 [
-	 [ "crude_brick", 1]
-	 ]
-	]
+    [
+     [
+     [ "crude_brick", 1]
+     ]
+    ]
 },{
   "type" : "recipe",
   "result": "mortar_build",
@@ -6502,21 +6553,21 @@
   "autolearn": true,
   "tools": [
 [
-	["con_mix", 50]
-	]
-	],
+    ["con_mix", 50]
+    ]
+    ],
   "components":
-	[
-	 [
+    [
+     [
     [ "material_cement", 50]
-	 ],
-	 [
+     ],
+     [
     [ "pebble", 20]
-	 ],
-	 [
+     ],
+     [
     [ "bag_canvas", 1]
-	 ]
-	]
+     ]
+    ]
 },{
   "type" : "recipe",
   "result": "survivor_mess_kit",
@@ -6573,6 +6624,78 @@
 [ "material_sand", 25]
 ]
 ]
+},{
+  "type" : "recipe",
+  "result": "canteen",
+  "category": "CC_OTHER",
+  "subcategory": "CSC_OTHER_CONTAINERS",
+  "skill_used": "fabrication",
+  "difficulty": 4,
+  "time": 35000,
+  "reversible": false,
+  "autolearn": true,
+  "tools": [
+    [
+      ["mold_plastic", -1]
+    ],
+    [
+      ["hotplate", 10],
+      ["toolset", 10],
+      ["fire", -1]
+    ],
+    [
+      ["sewing_kit", 4],
+      ["needle_bone", 4],
+      ["needle_wood", 4],
+      ["tailors_kit", 4]
+    ]
+  ],
+  "components": [
+    [
+      ["plastic_chunk", 6]
+    ],
+    [
+      ["rag", 3],
+      ["leather", 3],
+      ["fur", 3]
+    ]
+  ]
+},{
+  "type" : "recipe",
+  "result": "2lcanteen",
+  "category": "CC_OTHER",
+  "subcategory": "CSC_OTHER_CONTAINERS",
+  "skill_used": "fabrication",
+  "difficulty": 4,
+  "time": 40000,
+  "reversible": false,
+  "autolearn": true,
+  "tools": [
+    [
+      ["mold_plastic", -1]
+    ],
+    [
+      ["hotplate", 15],
+      ["toolset", 15],
+      ["fire", -1]
+    ],
+    [
+      ["sewing_kit", 4],
+      ["needle_bone", 4],
+      ["needle_wood", 4],
+      ["tailors_kit", 4]
+    ]
+  ],
+  "components": [
+    [
+      ["plastic_chunk", 10]
+    ],
+    [
+      ["rag", 3],
+      ["leather", 3],
+      ["fur", 3]
+    ]
+  ]
 }
 
 ]

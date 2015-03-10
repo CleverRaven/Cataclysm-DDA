@@ -289,14 +289,7 @@ void mattack::pull_metal_weapon(monster *z, int index)
     player *foe = dynamic_cast< player* >( target );
     if( foe != nullptr ) {
         if ( foe->weapon.made_of("iron") || foe->weapon.made_of("steel") ) {
-            int wp_skill = 0;
-            if ( foe->weapon.is_gun() ) {
-                wp_skill = foe->skillLevel("gun");
-            } else if ( foe->weapon.is_cutting_weapon() ) {
-                wp_skill = foe->skillLevel("cutting");
-            } else if ( foe->weapon.is_bashing_weapon() ) {
-                wp_skill = foe->skillLevel("bashing");
-            }
+            int wp_skill = foe->skillLevel("melee");
             z->moves -= att_cost_pull;   // It takes a while
             z->reset_special(index); // Reset timer
             int success = 100;
@@ -737,7 +730,7 @@ void mattack::science(monster *const z, int const index) // I said SCIENCE again
 
         break;
     case att_flavor : {
-        const int i = get_random_index(m_flavor);
+        const size_t i = get_random_index(m_flavor);
 
         // the special case; see above
         if (i == m_flavor.size() - 1) {
@@ -2727,7 +2720,7 @@ void mattack::frag( monster *z, Creature *target ) // This is for the bots, not 
             add_msg(m_warning, _("Those laser dots don't seem very friendly...") );
             g->u.add_effect("laserlocked", 3); // Effect removed in game.cpp, duration doesn't much matter
             sounds::sound(z->posx(), z->posy(), 10, _("Targeting."));
-            z->add_effect("targeted", 4);
+            z->add_effect("targeted", 5);
             z->moves -= 150;
             // Should give some ability to get behind cover,
             // even though it's patently unrealistic.
@@ -2859,7 +2852,7 @@ void mattack::tankgun( monster *z, Creature *target )
         //~ Sound of a tank turret swiveling into place
         sounds::sound(z->posx(), z->posy(), 10, _("whirrrrrclick."));
         z->add_effect("targeted", 5);
-        target->add_effect( "laserlocked", 3 );
+        target->add_effect( "laserlocked", 5 );
         z->moves -= 200;
         // Should give some ability to get behind cover,
         // even though it's patently unrealistic.
@@ -3434,32 +3427,8 @@ void mattack::upgrade(monster *z, int index)
 
     monster *target = &( g->zombie( targets[ rng(0, targets.size() - 1) ] ) );
 
-    std::string newtype = "mon_zombie";
-
-    switch( rng(1, 10) ) {
-    case  1:
-        newtype = "mon_zombie_shrieker";
-        break;
-    case  2:
-    case  3:
-        newtype = "mon_zombie_spitter";
-        break;
-    case  4:
-    case  5:
-        newtype = "mon_zombie_electric";
-        break;
-    case  6:
-    case  7:
-    case  8:
-        newtype = "mon_zombie_hunter";
-        break;
-    case  9:
-        newtype = "mon_zombie_brute";
-        break;
-    case 10:
-        newtype = "mon_boomer";
-        break;
-    }
+    const auto monsters = MonsterGroupManager::GetMonstersFromGroup("GROUP_ZOMBIE_UPGRADE");
+    const std::string newtype = monsters[rng(0, monsters.size() - 1)];
 
     const auto could_see = g->u.sees( *target );
     target->poly(GetMType(newtype));

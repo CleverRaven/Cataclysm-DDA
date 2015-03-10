@@ -360,9 +360,9 @@ bool monster::digging() const
 
 bool monster::can_act() const
 {
-    return moves > 0 && !has_flag(MF_IMMOBILE) && 
-             ( effects.empty() ||
-               ( !has_effect("stunned") && !has_effect("downed") && !has_effect("webbed") ) );
+    return moves > 0 && !has_flag(MF_IMMOBILE) &&
+        ( effects.empty() ||
+          ( !has_effect("stunned") && !has_effect("downed") && !has_effect("webbed") ) );
 }
 
 int monster::sight_range( const int light_level ) const
@@ -372,7 +372,7 @@ int monster::sight_range( const int light_level ) const
         return 1;
     }
 
-    int range = ( light_level * type->vision_day ) + 
+    int range = ( light_level * type->vision_day ) +
                 ( ( DAYLIGHT_LEVEL - light_level ) * type->vision_night );
     range /= DAYLIGHT_LEVEL;
 
@@ -419,11 +419,18 @@ void monster::debug(player &u)
 
 void monster::shift(int sx, int sy)
 {
-    position.x -= sx * SEEX;
-    position.y -= sy * SEEY;
+    const int xshift = sx * SEEX;
+    const int yshift = sy * SEEY;
+    position.x -= xshift;
+    position.y -= yshift;
     for (auto &i : plans) {
-        i.x -= sx * SEEX;
-        i.y -= sy * SEEY;
+        i.x -= xshift;
+        i.y -= yshift;
+    }
+
+    if( wandf > 0 ) {
+        wandx -= xshift;
+        wandy -= yshift;
     }
 }
 
@@ -444,8 +451,8 @@ Creature *monster::attack_target()
 
     point target_point = move_target();
     Creature *target = g->critter_at( target_point.x, target_point.y );
-
-    if( target == nullptr || attitude_to( *target ) == Creature::A_FRIENDLY ) {
+    if( target == nullptr || attitude_to( *target ) == Creature::A_FRIENDLY ||
+        !sees(*target) ) {
         return nullptr;
     }
     return target;
@@ -1303,6 +1310,17 @@ void monster::die(Creature* nkiller) {
     if ( has_effect("tied") ) {
         item rope_6("rope_6", 0);
         add_item(rope_6);
+    }
+    if( has_effect( "lightsnare" ) ) {
+        add_item( item( "string_36", 0 ) );
+        add_item( item( "snare_trigger", 0 ) );
+    }
+    if( has_effect( "heavysnare" ) ) {
+        add_item( item( "rope_6", 0 ) );
+        add_item( item( "snare_trigger", 0 ) );
+    }
+    if( has_effect( "beartrap" ) ) {
+        add_item( item( "beartrap", 0 ) );
     }
 
     if( !is_hallucination() ) {

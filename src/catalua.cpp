@@ -600,7 +600,8 @@ int use_function::call(player *player_instance, item *item_instance, bool active
         }
     } else if (function_type == USE_FUNCTION_CPP) {
         // If it's a C++ function, simply call it with the given arguments.
-        return cpp_function(player_instance, item_instance, active, pos);
+        iuse tmp;
+        return (tmp.*cpp_function)(player_instance, item_instance, active, pos);
     } else if (function_type == USE_FUNCTION_ACTOR_PTR) {
         return actor_ptr->use(player_instance, item_instance, active, pos);
     } else {
