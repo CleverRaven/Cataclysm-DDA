@@ -63,7 +63,7 @@ Given you're building from source you have a number of choices to make:
   * `TILES=1` - with this you'll get the tiles version, without it the curses version
   * `SOUND=1` - if you want sound; this requires `TILES=1`
   * `LOCALIZE=0` - this disables localizations so `gettext` is not needed
-  * `LUA=1` - this enables Lua *debug* support, may be useful if you plan writing mods
+  * `LUA=1` - this enables Lua support; needed only for full-fledged mods
   * `CLANG=1` - use Clang instead of GCC
   * `CACHE=1` - use ccache
 
