@@ -7,7 +7,7 @@
         "weight" : 5443,
         "to_hit" : 0,
         "color" : "light_gray",
-        "symbol" : "/",ro
+        "symbol" : "/",
         "material" : ["wood", "steel"],
         "techniques" : ["BRUTAL", "WIDE"],
         "volume" : 10,
