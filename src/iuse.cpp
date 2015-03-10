@@ -1673,6 +1673,13 @@ int iuse::mutagen(player *p, item *it, bool, point)
         }
     } else {
         // Categorized/targeted mutagens go here.
+        for (auto& iter : mutation_category_traits){
+            mutation_category_trait m_category = iter.second;
+            if (it->has_flag("MUTAGEN_" + m_category.category)) {
+                mutation_category = "MUTCAT_" + m_category.category;
+                p->add_msg_if_player(_(m_category.mutagen_message.c_str()));
+            }
+        }
         if (it->has_flag("MUTAGEN_PLANT")) {
             p->add_msg_if_player(_("You feel much closer to nature."));
             mutation_category = "MUTCAT_PLANT";

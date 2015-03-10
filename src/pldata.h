@@ -174,26 +174,26 @@ struct mutation_category_trait {
     std::string id;
     std::string category; // Mutation catagory i.e "BIRD", "CHIMERA"
     std::string mutagen_message; // message when you consume mutagen
-    int mutagen_hunger  = 0;
-    int mutagen_thirst  = 0;
-    int mutagen_pain    = 0;
-    int mutagen_fatigue = 0;
+    int mutagen_hunger  = 10;//these are defaults
+    int mutagen_thirst  = 10;
+    int mutagen_pain    = 2;
+    int mutagen_fatigue = 5;
     int mutagen_morale  = 0;
     std::string iv_message; //message when you inject an iv;
     bool iv_message_bad = false; //whether or not the injection message is bad
-    int iv_min_mutations    = 0; //the minimum mutations an injection provides
-    int iv_additional_mutations = 0;
-    int iv_additional_mutations_chance = 0; //chance of additional mutations
-    int iv_hunger   = 0;
-    int iv_thirst   = 0;
-    int iv_pain     = 0;
-    int iv_fatigue  = 0;
+    int iv_min_mutations    = 1; //the minimum mutations an injection provides
+    int iv_additional_mutations = 2;
+    int iv_additional_mutations_chance = 3; //chance of additional mutations
+    int iv_hunger   = 10;
+    int iv_thirst   = 10;
+    int iv_pain     = 2;
+    int iv_fatigue  = 5;
     int iv_morale   = 0;
     bool iv_sound = false;  //determines if you make a sound when you inject mutagen
-    std::string iv_sound_message;
+    std::string iv_sound_message = "NULL";
     bool iv_noise = 0;    //the amount of noise produced by the sound
     bool iv_sleep = false;  //whether the iv has a chance of putting you to sleep
-    std::string iv_sleep_message;
+    std::string iv_sleep_message = "NULL";
     int iv_sleep_dur = 0;
     std::string memorial_message; //memorial message when you cross a threshold
 
