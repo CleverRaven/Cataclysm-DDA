@@ -1722,22 +1722,11 @@ void map::decay_fields_and_scent( const int amount )
             auto const cur_submap = get_submap_at_grid( smx, smy );
             int to_proc = cur_submap->field_count;
             if( to_proc < 1 ) {
-                if( to_proc < 0 ) {
-                    cur_submap->field_count = 0;
-                    dbg( D_ERROR ) << "map::decay_fields_and_scent: submap at "
-                                   << abs_sub.x + smx << "," << abs_sub.y + smy << "," << abs_sub.z
-                                   << "has " << to_proc << " field_count";
-                }
                 // This submap has no fields
                 continue;
             }
 
             for( int sx = 0; sx < SEEX; ++sx ) {
-                if( to_proc < 1 ) {
-                    // This submap had some fields, but all got proc'd already
-                    break;
-                }
-
                 for( int sy = 0; sy < SEEY; ++sy ) {
                     const int x = sx + smx * SEEX;
                     const int y = sy + smy * SEEY;
@@ -1788,14 +1777,6 @@ void map::decay_fields_and_scent( const int amount )
                         }
                     }
                 }
-            }
-
-            if( to_proc > 0 ) {
-                cur_submap->field_count = cur_submap->field_count - to_proc;
-                dbg( D_ERROR ) << "map::decay_fields_and_scent: submap at "
-                               << abs_sub.x + smx << "," << abs_sub.y + smy << "," << abs_sub.z
-                               << "has " << cur_submap->field_count - to_proc << "fields, but "
-                               << cur_submap->field_count << " field_count";
             }
         }
     }
