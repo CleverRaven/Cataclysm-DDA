@@ -1579,9 +1579,10 @@ void overmap::draw(WINDOW *w, WINDOW *wbar, const tripoint &center,
     }
 
     if( !corner_text.empty() ) {
-        int const maxlen = std::accumulate(begin(corner_text), end(corner_text), int {0},
-            [](int const cur_max, std::string const &line) {
-                return std::max(cur_max, utf8_width(line.c_str())); });
+        int maxlen = 0;
+        for (auto const &line : corner_text) {
+            maxlen = std::max(maxlen, utf8_width(line.c_str()));
+        }
 
         const std::string spacer(maxlen, ' ');
         for( size_t i = 0; i < corner_text.size(); i++ ) {
