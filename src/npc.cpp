@@ -942,27 +942,37 @@ void npc::place_on_map()
 
 const Skill* npc::best_skill() const
 {
-    using pair_t = std::pair<Skill const*, int>;
-    std::vector<pair_t> skills;
-    
-    int highest = 0;
-    for (auto const &s : Skill::skills) {
-        if (!s.is_combat_skill()) {
+    int highest = std::numeric_limits<int>::min();
+    int count   = 0;
+
+    for (auto const &p : _skills) {
+        if (!p.first->is_combat_skill()) {
             continue; // just combat skills.
         }
 
-        int const level = get_skill_level(s);
+        int const level = p.second;
         if (level < highest) {
             continue; // no good.
+        } else if (level > highest) {
+            highest = level;
+            count   = 0;
         }
-
-        highest = level;
-        skills.emplace_back(&s, highest);
+        
+        ++count;
     }
 
-    auto const range = std::equal_range(begin(skills), end(skills), pair_t {nullptr, highest},
-        [&](pair_t const &lhs, pair_t const &rhs) { return lhs.second < rhs.second; });
-    return (range.first + rng(0, std::distance(range.first, range.second)))->first;
+    if (!count) {
+        return nullptr; // no skills
+    }
+
+    auto n = rng(0, count);
+    for (auto const &p : _skills) {
+        if (p.second == highest && --n < 0) {
+            return p.first;
+        }
+    }
+
+    return nullptr;
 }
 
 void npc::starting_weapon(npc_class type)
