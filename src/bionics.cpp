@@ -866,6 +866,8 @@ bool player::deactivate_bionic(int b, bool eff_only)
         } else if( get_value( "remote_controlling" ) != "" && !has_active_item( "radiocontrol" ) ) {
             set_value( "remote_controlling", "" );
         }
+    } else if( bio.id == "bio_tools" ) {
+        invalidate_crafting_inventory();
     }
 
     return true;
