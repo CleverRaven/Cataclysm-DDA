@@ -4224,7 +4224,7 @@
         "to_hit" : 0,
         "storage" : 7,
         "symbol" : "[",
-        "description" : "A plastic coat with a hood and two very large pockets.  Provides protection from rain.",
+        "description" : "A plastic coat with a hood and two very large pockets. Provides protection from rain.",
         "price" : 7900,
         "material" : ["plastic", "cotton"],
         "volume" : 7,
