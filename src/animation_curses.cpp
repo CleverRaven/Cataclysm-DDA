@@ -7,15 +7,7 @@ bool is_valid_in_w_terrain(int x, int y);
 
 /* Line drawing code, not really an animation but should be separated anyway */
 
-void game::draw_weather(weather_printable wPrint)
-{
-    for (std::vector<std::pair<int, int> >::iterator weather_iterator = wPrint.vdrops.begin();
-         weather_iterator != wPrint.vdrops.end();
-         ++weather_iterator) {
-        mvwputch(w_terrain, weather_iterator->second, weather_iterator->first, wPrint.colGlyph,
-                 wPrint.cGlyph);
-    }
-}
+
 
 void game::draw_sct()
 {

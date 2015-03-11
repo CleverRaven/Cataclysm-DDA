@@ -1233,7 +1233,7 @@ void cata_tiles::init_draw_hit(int x, int y, std::string name)
     do_draw_hit = true;
     hit_pos_x = x;
     hit_pos_y = y;
-    hit_entity_id = name;
+    hit_entity_id = std::move(name);
 }
 void cata_tiles::init_draw_line(int x, int y, std::vector<point> trajectory, std::string name, bool target_line)
 {
@@ -1241,14 +1241,14 @@ void cata_tiles::init_draw_line(int x, int y, std::vector<point> trajectory, std
     is_target_line = target_line;
     line_pos_x = x;
     line_pos_y = y;
-    line_endpoint_id = name;
-    line_trajectory = trajectory;
+    line_endpoint_id = std::move(name);
+    line_trajectory = std::move(trajectory);
 }
 void cata_tiles::init_draw_weather(weather_printable weather, std::string name)
 {
     do_draw_weather = true;
-    weather_name = name;
-    anim_weather = weather;
+    weather_name = std::move(name);
+    anim_weather = std::move(weather);
 }
 void cata_tiles::init_draw_sct()
 {

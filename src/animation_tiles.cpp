@@ -301,49 +301,62 @@ void game::draw_line(const int x, const int y, std::vector<point> const &vPoint)
 }
 #endif
 
-#if (defined SDLTILES)
-
-void game::draw_weather(weather_printable wPrint)
+namespace {
+void draw_weather_curses(WINDOW *const win, weather_printable const &w)
 {
-    if (use_tiles) {
-        std::string weather_name;
-
-        switch(wPrint.wtype) {
-        // Acid weathers, uses acid droplet tile, fallthrough intended
-        case WEATHER_ACID_DRIZZLE:
-        case WEATHER_ACID_RAIN:
-            weather_name = "weather_acid_drop";
-            break;
-
-        // Normal rainy weathers, uses normal raindrop tile, fallthrough intended
-        case WEATHER_DRIZZLE:
-        case WEATHER_RAINY:
-        case WEATHER_THUNDER:
-        case WEATHER_LIGHTNING:
-            weather_name = "weather_rain_drop";
-            break;
-
-        // Snowy weathers, uses snowflake tile, fallthrough intended
-        case WEATHER_FLURRIES:
-        case WEATHER_SNOW:
-        case WEATHER_SNOWSTORM:
-            weather_name = "weather_snowflake";
-            break;
-
-        default:
-            break;
-        }
-
-        tilecontext->init_draw_weather(wPrint, weather_name);
-    } else {
-        for (std::vector<std::pair<int, int> >::iterator weather_iterator = wPrint.vdrops.begin();
-             weather_iterator != wPrint.vdrops.end();
-             ++weather_iterator) {
-            mvwputch(w_terrain, weather_iterator->second, weather_iterator->first, wPrint.colGlyph,
-                     wPrint.cGlyph);
-        }
+    for (auto const &drop : w.vdrops) {
+        mvwputch(win, drop.second, drop.first, w.colGlyph, w.cGlyph);
     }
 }
+
+} //namespace
+
+#if !defined(SDLTILES)
+void game::draw_weather(weather_printable const &w)
+{
+    draw_weather_curses(w_terrain, w);
+}
+#else
+void game::draw_weather(weather_printable const &w)
+{
+    if (!use_tiles) {
+        draw_weather_curses(w_terrain, w);
+        return;
+    }
+
+    static std::string const weather_acid_drop {"weather_acid_drop"};
+    static std::string const weather_rain_drop {"weather_rain_drop"};
+    static std::string const weather_snowflake {"weather_snowflake"};
+
+    std::string weather_name;
+    switch (w.wtype) {
+    // Acid weathers; uses acid droplet tile, fallthrough intended
+    case WEATHER_ACID_DRIZZLE:
+    case WEATHER_ACID_RAIN:
+        weather_name = weather_acid_drop;
+        break;
+    // Normal rainy weathers; uses normal raindrop tile, fallthrough intended
+    case WEATHER_DRIZZLE:
+    case WEATHER_RAINY:
+    case WEATHER_THUNDER:
+    case WEATHER_LIGHTNING:
+        weather_name = weather_rain_drop;
+        break;
+    // Snowy weathers; uses snowflake tile, fallthrough intended
+    case WEATHER_FLURRIES:
+    case WEATHER_SNOW:
+    case WEATHER_SNOWSTORM:
+        weather_name = weather_snowflake;
+        break;
+    default:
+        break;
+    }
+
+    tilecontext->init_draw_weather(w, std::move(weather_name));
+}
+#endif
+
+#if (defined SDLTILES)
 
 void game::draw_sct()
 {

@@ -464,7 +464,7 @@ class game
         void draw_hit_player(player const &p, int dam);
         void draw_line(int x, int y, point center_point, std::vector<point> const &ret);
         void draw_line(int x, int y, std::vector<point> const &ret);
-        void draw_weather(weather_printable wPrint);
+        void draw_weather(weather_printable const &wPrint);
         void draw_sct();
         void draw_zones(const point &p_pointStart, const point &p_pointEnd, const point &p_pointOffset);
         // Draw critter (if visible!) on its current position into w_terrain.
