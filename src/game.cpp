@@ -1169,11 +1169,11 @@ bool game::do_turn()
             u.add_memorial_log(pgettext("memorial_male", HUNGER_MALE_MEMORIAL_MSG),
                                pgettext("memorial_female", HUNGER_FEMALE_MEMORIAL_MSG));
             u.hp_cur[hp_torso] = 0;
-        } else if (u.hunger >= HUNGER_CRITICAL && calendar::turn % 20 == 0) {
+        } else if (u.hunger >= HUNGER_CRITICAL && calendar::turn % HUNGER_FREQUENCY == 0) {
             add_msg(m_warning, _(HUNGER_CRITICAL_MSG));
-        } else if (u.hunger >= HUNGER_MAJOR && calendar::turn % 20 == 0) {
+        } else if (u.hunger >= HUNGER_MAJOR && calendar::turn % HUNGER_FREQUENCY == 0) {
             add_msg(m_warning, _(HUNGER_MAJOR_MSG));
-        } else if (calendar::turn % 20 == 0) {
+        } else if (calendar::turn % HUNGER_FREQUENCY == 0) {
             add_msg(m_warning, _(HUNGER_MINOR_MSG));
         }
     }
@@ -1185,36 +1185,30 @@ bool game::do_turn()
             u.add_memorial_log(pgettext("memorial_male", THIRST_MALE_MEMORIAL_MSG),
                                pgettext("memorial_female", THIRST_FEMALE_MEMORIAL_MSG));
             u.hp_cur[hp_torso] = 0;
-        } else if (u.thirst >= THIRST_CRITICAL && calendar::turn % 20 == 0) {
+        } else if (u.thirst >= THIRST_CRITICAL && calendar::turn % THIRST_FREQUENCY == 0) {
             add_msg(m_warning, _(THIRST_CRITICAL_MSG));
-        } else if (u.thirst >= THIRST_MAJOR && calendar::turn % 20 == 0) {
+        } else if (u.thirst >= THIRST_MAJOR && calendar::turn % THIRST_FREQUENCY == 0) {
             add_msg(m_warning, _(THIRST_MAJOR_MSG));
-        } else if (calendar::turn % 20 == 0) {
+        } else if (calendar::turn % THIRST_FREQUENCY == 0) {
             add_msg(m_warning, _(THIRST_MINOR_MSG));
         }
     }
 
     // Check if we're falling asleep, unless we're sleeping
-    if (u.fatigue >= FATIGUE_CRITICAL && !u.in_sleep_state()) {
+    if (u.fatigue >= FATIGUE_TRIVIAL && !u.in_sleep_state()) {
         if (u.fatigue >= FATIGUE_SLEEP) {
-            add_msg(m_bad, _());
+            add_msg(m_bad, _(FATIGUE_SLEEP_MSG));
             u.add_memorial_log(pgettext("memorial_male", FATIGUE_MALE_MEMORIAL_MSG),
-                               pgettext("memorial_female", FATIGUE_FEMALE_MEMOIRAL_MSG));
+                               pgettext("memorial_female", FATIGUE_FEMALE_MEMORIAL_MSG));
             u.fatigue -= 10;
             u.try_to_sleep();
         } else if (u.fatigue >= FATIGUE_DIRE && calendar::turn % 10 == 0) {
             add_msg(m_warning, _(FATIGUE_DIRE_MSG));
-        } else if (calendar::turn % 50 == 0) {
+        } else if (calendar::turn % FATIGUE_FREQUENCY == 0) {
             add_msg(m_warning, _(FATIGUE_CRITICAL_MSG));
-        }
-    }
-
-    // Even if we're not Exhausted, we really should be feeling lack/sleep earlier
-    // Penalties start at Dead Tired and go from there
-    if (u.fatigue >= FATIGUE_TRIVIAL && !u.in_sleep_state()) {
-        if (u.fatigue >= FATIGUE_MAJOR) {
-            if (calendar::turn % 50 == 0) {
-                add_msg(m_warning, _());
+        } else if (u.fatigue >= FATIGUE_MAJOR) {
+            if (calendar::turn % FATIGUE_FREQUENCY == 0) {
+                add_msg(m_warning, _(FATIGUE_MAJOR_MSG));
                 u.add_effect("lack_sleep", 50);
             }
             if (one_in(50 + u.int_cur)) {
@@ -1222,14 +1216,14 @@ bool game::do_turn()
                 u.fall_asleep(5);
             }
         } else if (u.fatigue >= FATIGUE_MINOR) {
-            if (calendar::turn % 50 == 0) {
+            if (calendar::turn % FATIGUE_FREQUENCY == 0) {
                 add_msg(m_warning, _(FATIGUE_MINOR_MSG));
                 u.add_effect("lack_sleep", 50);
             }
             if (one_in(100 + u.int_cur)) {
                 u.fall_asleep(5);
             }
-        } else if (u.fatigue >= FATIGUE_TRIVIAL && calendar::turn % 50 == 0) {
+        } else if (u.fatigue >= FATIGUE_TRIVIAL && calendar::turn % FATIGUE_FREQUENCY == 0) {
             add_msg(m_warning, _(FATIGUE_TRIVIAL_MSG));
             u.add_effect("lack_sleep", 50);
         }
