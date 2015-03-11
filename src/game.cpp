@@ -13232,7 +13232,18 @@ void game::shift_monsters( const int shiftx, const int shifty, const int shiftz 
 void game::spawn_mon(int /*shiftx*/, int /*shifty*/)
 {
     // Create a new NPC?
-    if (ACTIVE_WORLD_OPTIONS["RANDOM_NPC"] && one_in(100 + 15 * cur_om->npcs.size())) {
+    if( !ACTIVE_WORLD_OPTIONS["RANDOM_NPC"] ) {
+        return;
+    }
+
+    float density = ACTIVE_WORLD_OPTIONS["NPC_DENSITY"];
+    const int npc_num = cur_om->npcs.size();
+    if( npc_num > 0 ) {
+        // 100%, 80%, 64%, 52%, 41%, 33%...
+        density *= powf( 0.8f, npc_num );
+    }
+
+    if( x_in_y( density, 100 ) ) {
         npc *tmp = new npc();
         tmp->normalize();
         tmp->randomize();
