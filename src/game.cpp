@@ -11763,10 +11763,11 @@ bool game::plmove(int dx, int dy)
                     }
 		//vehicle movement: strength check
 		int mc = 0;
-		int str_req = (grabbed_vehicle->total_mass() / 40) + 1; //strengh reqired to move vehicle.
+		int str_req = (grabbed_vehicle->total_mass() / 25); //strengh reqired to move vehicle.
 
 		//if vehicle is rollable we modify str_req based on a function of movecost per wheel.
-		if (grabbed_vehicle->valid_wheel_config() )
+		//if vehicle weighs too much, wheels dont provide a bonus. 
+		if (grabbed_vehicle->valid_wheel_config() && str_req <= 40)
 		{
 
 		    //determine movecost for terrain touching wheels
@@ -11776,9 +11777,15 @@ bool game::plmove(int dx, int dy)
 						    grabbed_vehicle->global_y() + grabbed_vehicle->parts[p].precalc[0].y, grabbed_vehicle);
 		    }
 		    //set strength check threshold
-		    str_req = mc / wheel_indices.size() + 1;
+		    //if vehicle has many or only one wheel (shopping cart), it is as if it had four. 
+		    if(wheel_indices.size() > 4 || wheel_indices.size() == 1){
+		    	str_req = mc / 4 + 1;
+		    }else{
+		    	str_req = mc / wheel_indices.size() + 1;
+		    }
 		} else
-		{
+		{		
+		    str_req++;		    
 		    //if vehicle has no wheels str_req make a noise.
 		    if (str_req <= u.get_str() ) {
 			sounds::sound( grabbed_vehicle->global_x(), grabbed_vehicle->global_y(), str_req * 2,
