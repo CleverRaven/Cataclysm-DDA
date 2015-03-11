@@ -523,6 +523,9 @@ public:
     jmapgen_npc( JsonObject &jsi ) : jmapgen_piece()
     , npc_class( jsi.get_string( "class" ) )
     {
+        if( npc::_all_npc.count( npc_class ) == 0 ) {
+            jsi.throw_error( "unknown npc class", "class" );
+        }
     }
     void apply( map &m, const size_t x, const size_t y, const float /*mon_density*/ ) const override
     {
