@@ -265,24 +265,43 @@ void game::draw_line(int const x, int const y, point const center, std::vector<p
 }
 #endif
 
-#if (defined SDLTILES)
+namespace {
+void draw_line_curses(game &g, std::vector<point> const &points)
+{
+    int crx = POSX;
+    int cry = POSY;
 
+    if (!points.empty()) {
+        auto const& last = points.back();
+        crx += (last.x - (g.u.posx() + g.u.view_offset_x));
+        cry += (last.y - (g.u.posy() + g.u.view_offset_y));
+    }
+
+    for (point const& p : points) {
+        g.m.drawsq(g.w_terrain, g.u, p.x, p.y, true, true);
+    }
+
+    mvwputch(g.w_terrain, cry, crx, c_white, 'X');
+}
+} //namespace
+
+#if !defined(SDLTILES)
 void game::draw_line(const int x, const int y, std::vector<point> const &vPoint)
 {
-    int crx = POSX, cry = POSY;
+    (void)x; //unused
+    (void)y; //unused
 
-    if(!vPoint.empty()) {
-        crx += (vPoint[vPoint.size() - 1].x - (u.posx() + u.view_offset_x));
-        cry += (vPoint[vPoint.size() - 1].y - (u.posy() + u.view_offset_y));
-    }
-    for (point const& p : vPoint) {
-        m.drawsq(w_terrain, u, p.x, p.y, true, true);
-    }
-
-    mvwputch(w_terrain, cry, crx, c_white, 'X');
-
+    draw_line_curses(*this, vPoint);
+}
+#else
+void game::draw_line(const int x, const int y, std::vector<point> const &vPoint)
+{
+    draw_line_curses(*this, vPoint);
     tilecontext->init_draw_line(x, y, vPoint, "line_trail", false);
 }
+#endif
+
+#if (defined SDLTILES)
 
 void game::draw_weather(weather_printable wPrint)
 {

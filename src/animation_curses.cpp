@@ -7,24 +7,6 @@ bool is_valid_in_w_terrain(int x, int y);
 
 /* Line drawing code, not really an animation but should be separated anyway */
 
-void game::draw_line(const int x, const int y, std::vector<point> vPoint)
-{
-    (void)x; //unused
-    (void)y; //unused
-    int crx = POSX, cry = POSY;
-
-    if(!vPoint.empty()) {
-        crx += (vPoint[vPoint.size() - 1].x - (u.posx() + u.view_offset_x));
-        cry += (vPoint[vPoint.size() - 1].y - (u.posy() + u.view_offset_y));
-    }
-    for (std::vector<point>::iterator it = vPoint.begin();
-         it != vPoint.end() - 1; it++) {
-        m.drawsq(w_terrain, u, it->x, it->y, true, true);
-    }
-
-    mvwputch(w_terrain, cry, crx, c_white, 'X');
-}
-
 void game::draw_weather(weather_printable wPrint)
 {
     for (std::vector<std::pair<int, int> >::iterator weather_iterator = wPrint.vdrops.begin();
