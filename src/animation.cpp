@@ -1,12 +1,9 @@
 #include "game.h"
-#include "debug.h"
 #include "cata_tiles.h" // all animation functions will be pushed out to a cata_tiles function in some manner
 
 extern cata_tiles *tilecontext; // obtained from sdltiles.cpp
 extern void try_update();
-
-// see game.cpp
-bool is_valid_in_w_terrain(int x, int y);
+bool is_valid_in_w_terrain(int x, int y); // see game.cpp
 
 namespace {
 void draw_animation_delay(long const scale = 1)
@@ -197,7 +194,6 @@ void game::draw_hit_player(player const &p, const int dam)
     draw_hit_player_curses(*this, p, dam);
 }
 #else
-/* Player hit animation */
 void game::draw_hit_player(player const &p, const int dam)
 {
     if (!use_tiles) {
@@ -221,11 +217,13 @@ void game::draw_hit_player(player const &p, const int dam)
 #endif
 
 /* Line drawing code, not really an animation but should be separated anyway */
-
 namespace {
 void draw_line_curses(game &g, int const x, int const y, point const center,
     std::vector<point> const &ret)
 {
+    (void)x; // unused
+    (void)y; // unused
+
     for (point const &p : ret) {
         auto const critter = g.critter_at(p.x, p.y);
 
