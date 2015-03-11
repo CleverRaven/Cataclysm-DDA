@@ -1,16 +1,12 @@
 #include "game.h"
-
-#if (defined SDLTILES)
-#   include "debug.h"
-#   include "cata_tiles.h" // all animation functions will be pushed out to a cata_tiles function in some manner
+#include "debug.h"
+#include "cata_tiles.h" // all animation functions will be pushed out to a cata_tiles function in some manner
 
 extern cata_tiles *tilecontext; // obtained from sdltiles.cpp
 extern void try_update();
 
 // see game.cpp
 bool is_valid_in_w_terrain(int x, int y);
-
-#endif
 
 namespace {
 void draw_animation_delay(long const scale = 1)
@@ -399,19 +395,35 @@ void game::draw_sct()
 }
 #endif
 
-#if (defined SDLTILES)
+namespace {
+void draw_zones_curses(WINDOW *const w, point const &beg, point const &end, point const &off)
+{
+    if (end.x < beg.x || end.y < beg.y) {
+        return;
+    }
 
-void game::draw_zones(const point &p_pointStart, const point &p_pointEnd,
-                      const point &p_pointOffset)
+    nc_color    const col = invert_color(c_ltgreen);
+    std::string const line(end.x - beg.x + 1, '~');
+    int         const x = beg.x - off.x;
+
+    for (int y = beg.y; y <= end.y; ++y) {
+        mvwprintz(w, y - off.y, x, col, line.c_str());
+    }
+}
+} //namespace
+
+#if !defined(SDLTILES)
+void game::draw_zones(point const &beg, point const &end, point const &off)
+{
+    draw_zones_curses(w_terrain, beg, end, off);
+}
+#else
+void game::draw_zones(point const &beg, point const &end, point const &off)
 {
     if (use_tiles) {
-        tilecontext->init_draw_zones(p_pointStart, p_pointEnd, p_pointOffset);
+        tilecontext->init_draw_zones(beg, end, off);
     } else {
-        for (int iY = p_pointStart.y; iY <= p_pointEnd.y; ++iY) {
-            for (int iX = p_pointStart.x; iX <= p_pointEnd.x; ++iX) {
-                mvwputch_inv(w_terrain, iY + p_pointOffset.y, iX + p_pointOffset.x, c_ltgreen, '~');
-            }
-        }
+        draw_zones_curses(w_terrain, beg, end, off);
     }
 }
 #endif
