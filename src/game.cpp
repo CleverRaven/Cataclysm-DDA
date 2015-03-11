@@ -1163,74 +1163,74 @@ bool game::do_turn()
         u.hp_cur[hp_torso] = 0;
     }
     // Check if we're starving or have starved
-    if (u.hunger >= 3000) {
-        if (u.hunger >= 6000) {
-            add_msg(m_bad, _("You have starved to death."));
-            u.add_memorial_log(pgettext("memorial_male", "Died of starvation."),
-                               pgettext("memorial_female", "Died of starvation."));
+    if (u.hunger >= HUNGER_MINOR) {
+        if (u.hunger >= HUNGER_DEATH) {
+            add_msg(m_bad, _(HUNGER_DEATH_MSG));
+            u.add_memorial_log(pgettext("memorial_male", HUNGER_MALE_MEMORIAL_MSG),
+                               pgettext("memorial_female", HUNGER_FEMALE_MEMORIAL_MSG));
             u.hp_cur[hp_torso] = 0;
-        } else if (u.hunger >= 5000 && calendar::turn % 20 == 0) {
-            add_msg(m_warning, _("Food..."));
-        } else if (u.hunger >= 4000 && calendar::turn % 20 == 0) {
-            add_msg(m_warning, _("You are STARVING!"));
+        } else if (u.hunger >= HUNGER_CRITICAL && calendar::turn % 20 == 0) {
+            add_msg(m_warning, _(HUNGER_CRITICAL_MSG));
+        } else if (u.hunger >= HUNGER_MAJOR && calendar::turn % 20 == 0) {
+            add_msg(m_warning, _(HUNGER_MAJOR_MSG));
         } else if (calendar::turn % 20 == 0) {
-            add_msg(m_warning, _("Your stomach feels so empty..."));
+            add_msg(m_warning, _(HUNGER_MINOR_MSG));
         }
     }
 
     // Check if we're dying of thirst
-    if (u.thirst >= 600) {
-        if (u.thirst >= 1200) {
-            add_msg(m_bad, _("You have died of dehydration."));
-            u.add_memorial_log(pgettext("memorial_male", "Died of thirst."),
-                               pgettext("memorial_female", "Died of thirst."));
+    if (u.thirst >= THIRST_MINOR) {
+        if (u.thirst >= THIRST_DEATH) {
+            add_msg(m_bad, _(THIRST_DEATH_MSG));
+            u.add_memorial_log(pgettext("memorial_male", THIRST_MALE_MEMORIAL_MSG),
+                               pgettext("memorial_female", THIRST_FEMALE_MEMORIAL_MSG));
             u.hp_cur[hp_torso] = 0;
-        } else if (u.thirst >= 1000 && calendar::turn % 20 == 0) {
-            add_msg(m_warning, _("Even your eyes feel dry..."));
-        } else if (u.thirst >= 800 && calendar::turn % 20 == 0) {
-            add_msg(m_warning, _("You are THIRSTY!"));
+        } else if (u.thirst >= THIRST_CRITICAL && calendar::turn % 20 == 0) {
+            add_msg(m_warning, _(THIRST_CRITICAL_MSG));
+        } else if (u.thirst >= THIRST_MAJOR && calendar::turn % 20 == 0) {
+            add_msg(m_warning, _(THIRST_MAJOR_MSG));
         } else if (calendar::turn % 20 == 0) {
-            add_msg(m_warning, _("Your mouth feels so dry..."));
+            add_msg(m_warning, _(THIRST_MINOR_MSG));
         }
     }
 
     // Check if we're falling asleep, unless we're sleeping
-    if (u.fatigue >= 600 && !u.in_sleep_state()) {
-        if (u.fatigue >= 1000) {
-            add_msg(m_bad, _("Survivor sleep now."));
-            u.add_memorial_log(pgettext("memorial_male", "Succumbed to lack of sleep."),
-                               pgettext("memorial_female", "Succumbed to lack of sleep."));
+    if (u.fatigue >= FATIGUE_CRITICAL && !u.in_sleep_state()) {
+        if (u.fatigue >= FATIGUE_SLEEP) {
+            add_msg(m_bad, _());
+            u.add_memorial_log(pgettext("memorial_male", FATIGUE_MALE_MEMORIAL_MSG),
+                               pgettext("memorial_female", FATIGUE_FEMALE_MEMOIRAL_MSG));
             u.fatigue -= 10;
             u.try_to_sleep();
-        } else if (u.fatigue >= 800 && calendar::turn % 10 == 0) {
-            add_msg(m_warning, _("Anywhere would be a good place to sleep..."));
+        } else if (u.fatigue >= FATIGUE_DIRE && calendar::turn % 10 == 0) {
+            add_msg(m_warning, _(FATIGUE_DIRE_MSG));
         } else if (calendar::turn % 50 == 0) {
-            add_msg(m_warning, _("You feel like you haven't slept in days."));
+            add_msg(m_warning, _(FATIGUE_CRITICAL_MSG));
         }
     }
 
     // Even if we're not Exhausted, we really should be feeling lack/sleep earlier
     // Penalties start at Dead Tired and go from there
-    if (u.fatigue >= 383 && !u.in_sleep_state()) {
-        if (u.fatigue >= 700) {
+    if (u.fatigue >= FATIGUE_TRIVIAL && !u.in_sleep_state()) {
+        if (u.fatigue >= FATIGUE_MAJOR) {
             if (calendar::turn % 50 == 0) {
-                add_msg(m_warning, _("You're too tired to stop yawning."));
+                add_msg(m_warning, _());
                 u.add_effect("lack_sleep", 50);
             }
             if (one_in(50 + u.int_cur)) {
                 // Rivet's idea: look out for microsleeps!
                 u.fall_asleep(5);
             }
-        } else if (u.fatigue >= 575) {
+        } else if (u.fatigue >= FATIGUE_MINOR) {
             if (calendar::turn % 50 == 0) {
-                add_msg(m_warning, _("How much longer until bedtime?"));
+                add_msg(m_warning, _(FATIGUE_MINOR_MSG));
                 u.add_effect("lack_sleep", 50);
             }
             if (one_in(100 + u.int_cur)) {
                 u.fall_asleep(5);
             }
-        } else if (u.fatigue >= 383 && calendar::turn % 50 == 0) {
-            add_msg(m_warning, _("*yawn* You should really get some sleep."));
+        } else if (u.fatigue >= FATIGUE_TRIVIAL && calendar::turn % 50 == 0) {
+            add_msg(m_warning, _(FATIGUE_TRIVIAL_MSG));
             u.add_effect("lack_sleep", 50);
         }
     }
