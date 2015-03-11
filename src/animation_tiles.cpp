@@ -1,50 +1,88 @@
-#if (defined SDLTILES)
-
 #include "game.h"
-#include "debug.h"
-#include "cata_tiles.h" // all animation functions will be pushed out to a cata_tiles function in some manner
+
+#if (defined SDLTILES)
+#   include "debug.h"
+#   include "cata_tiles.h" // all animation functions will be pushed out to a cata_tiles function in some manner
 
 extern cata_tiles *tilecontext; // obtained from sdltiles.cpp
 extern void try_update();
 
-/* Tiles version of Explosion Animation */
-void game::draw_explosion(int x, int y, int radius, nc_color col)
+#endif
+
+namespace {
+void draw_animation_delay(long const scale)
 {
-    timespec ts;    // Timespec for the animation of the explosion
-    ts.tv_sec = 0;
-    ts.tv_nsec = OPTIONS["ANIMATION_DELAY"] * EXPLOSION_MULTIPLIER;
+    auto const delay = static_cast<long>(OPTIONS["ANIMATION_DELAY"]) * scale * 1000000l;
+
+    timespec const ts = {0, delay};
+    if (ts.tv_nsec > 0) {
+        nanosleep(&ts, nullptr);
+    }
+}
+
+void draw_explosion_curses(WINDOW *const w, int const x, int const y,
+    int const r, nc_color const col)
+{
+    if (r == 0) { // TODO why not always print '*'?
+        mvwputch(w, x, y, col, '*');
+    }
+
+    for (int i = 1; i <= r; ++i) {
+        mvwputch(w, y - i, x - i, col, '/');  // corner: top left
+        mvwputch(w, y - i, x + i, col, '\\'); // corner: top right
+        mvwputch(w, y + i, x - i, col, '\\'); // corner: bottom left
+        mvwputch(w, y + i, x + i, col, '/');  // corner: bottom right
+        for (int j = 1 - i; j < 0 + i; j++) {
+            mvwputch(w, y - i, x + j, col, '-'); // edge: top
+            mvwputch(w, y + i, x + j, col, '-'); // edge: bottom
+            mvwputch(w, y + j, x - i, col, '|'); // edge: left
+            mvwputch(w, y + j, x + i, col, '|'); // edge: right
+        }
+    }
+    
+    wrefresh(w);
+    draw_animation_delay(EXPLOSION_MULTIPLIER);
+}
+} // namespace
+
+#if !defined(SDLTILES)
+void game::draw_explosion(int const x, int const y, int const r, nc_color const col)
+{
+    const int ypos = POSY + (y - (u.posy() + u.view_offset_y));
+    const int xpos = POSX + (x - (u.posx() + u.view_offset_x));
+    draw_explosion_curses(w_terrain, xpos, ypos, r, col);
+}
+#else
+void game::draw_explosion(int const x, int const y, int const r, nc_color const col)
+{
     // added offset values to keep from calculating the same value over and over again.
     const int ypos = POSY + (y - (u.posy() + u.view_offset_y));
     const int xpos = POSX + (x - (u.posx() + u.view_offset_x));
 
-    for (int i = 1; i <= radius; i++) {
-        if (use_tiles) {
-            tilecontext->init_explosion(x, y, i);
-        } else {
-            mvwputch(w_terrain, ypos - i, xpos - i, col, '/');
-            mvwputch(w_terrain, ypos - i, xpos + i, col, '\\');
-            mvwputch(w_terrain, ypos + i, xpos - i, col, '\\');
-            mvwputch(w_terrain, ypos + i, xpos + i, col, '/');
-            for (int j = 1 - i; j < 0 + i; j++) {
-                mvwputch(w_terrain, ypos - i, xpos + j, col, '-');
-                mvwputch(w_terrain, ypos + i, xpos + j, col, '-');
-                mvwputch(w_terrain, ypos + j, xpos - i, col, '|');
-                mvwputch(w_terrain, ypos + j, xpos + i, col, '|');
-            }
-        }
+    if (!use_tiles) {
+        draw_explosion_curses(w_terrain, xpos, ypos, r, col);
+        return;
+    }
 
+    for (int i = 1; i <= r; i++) {
+        tilecontext->init_explosion(x, y, i); // TODO not xpos ypos?
         wrefresh(w_terrain);
         try_update();
-        if( ts.tv_nsec != 0 ) {
-            nanosleep(&ts, NULL);
-        }
+        draw_animation_delay(EXPLOSION_MULTIPLIER);
     }
-    tilecontext->void_explosion();
+
+    if (r > 0) {
+        tilecontext->void_explosion();
+    }
 }
+#endif
+
+#if (defined SDLTILES)
+
 /* Bullet Animation -- Maybe change this to animate the ammo itself flying through the air?*/
 // need to have a version where there is no player defined, possibly. That way shrapnel works as intended
-void game::draw_bullet(Creature &p, int tx, int ty, int i,
-                       std::vector<point> trajectory, char bullet_char, timespec &ts)
+void game::draw_bullet(Creature const &p, int tx, int ty, int i,
+                       std::vector<point> const &trajectory, char bullet_char, timespec const &ts)
 {
     (void)i; //unused
     (void)trajectory; //unused

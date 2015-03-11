@@ -457,8 +457,8 @@ class game
 
         // Animation related functions
         void draw_explosion(int x, int y, int radius, nc_color col);
-        void draw_bullet(Creature &p, int tx, int ty, int i, std::vector<point> trajectory, char bullet,
-                         timespec &ts);
+        void draw_bullet(Creature const &p, int tx, int ty, int i,
+                         std::vector<point> const &trajectory, char bullet, timespec const &ts);
         void draw_hit_mon(int x, int y, const monster &critter, bool dead = false);
         void draw_hit_player(player *p, const int iDam, bool dead = false);
         void draw_line(const int x, const int y, const point center_point, std::vector<point> ret);

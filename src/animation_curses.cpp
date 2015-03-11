@@ -4,43 +4,10 @@
 bool is_valid_in_w_terrain(int x, int y);
 
 #include "game.h"
-/* Explosion Animation */
-void game::draw_explosion(int x, int y, int radius, nc_color col)
-{
-    timespec ts;    // Timespec for the animation of the explosion
-    ts.tv_sec = 0;
-    ts.tv_nsec = OPTIONS["ANIMATION_DELAY"] * EXPLOSION_MULTIPLIER * 1000000;
-    const int ypos = POSY + (y - (u.posy() + u.view_offset_y));
-    const int xpos = POSX + (x - (u.posx() + u.view_offset_x));
-    if (radius == 0) {
-        mvwputch(w_terrain, ypos, xpos, col, '*');
-        wrefresh(w_terrain);
-        if( ts.tv_nsec != 0 ) {
-            nanosleep(&ts, NULL);
-        }
-    } else {
-        for (int i = 1; i <= radius; i++) {
-            mvwputch(w_terrain, ypos - i, xpos - i, col, '/');
-            mvwputch(w_terrain, ypos - i, xpos + i, col, '\\');
-            mvwputch(w_terrain, ypos + i, xpos - i, col, '\\');
-            mvwputch(w_terrain, ypos + i, xpos + i, col, '/');
-            for (int j = 1 - i; j < 0 + i; j++) {
-                mvwputch(w_terrain, ypos - i, xpos + j, col, '-');
-                mvwputch(w_terrain, ypos + i, xpos + j, col, '-');
-                mvwputch(w_terrain, ypos + j, xpos - i, col, '|');
-                mvwputch(w_terrain, ypos + j, xpos + i, col, '|');
-            }
-            wrefresh(w_terrain);
 
-            if( ts.tv_nsec != 0 ) {
-                nanosleep(&ts, NULL);
-            }
-        }
-    }
-}
 /* Bullet Animation */
-void game::draw_bullet(Creature &p, int tx, int ty, int i, std::vector<point> trajectory,
-                       char bullet, timespec &ts)
+void game::draw_bullet(Creature const &p, int tx, int ty, int i, std::vector<point> const &trajectory,
+                       char bullet, timespec const &ts)
 {
     if (u.sees(tx, ty)) {
         if (i > 0) {
