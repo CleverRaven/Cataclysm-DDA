@@ -151,33 +151,38 @@ void game::draw_bullet(Creature const &p, int const tx, int const ty, int const 
 }
 #endif
 
+namespace {
+void draw_hit_mon_curses(int const x, int const y, const monster &m, player const& u, bool const dead)
+{
+    hit_animation(POSX + (x - (u.posx() + u.view_offset_x)),
+                  POSY + (y - (u.posy() + u.view_offset_y)),
+                  red_background(m.type->color), dead ? "%" : m.symbol());
+}
+
+} // namespace
+
+#if !defined(SDLTILES)
+void game::draw_hit_mon(int const x, int const y, const monster &m, bool const dead)
+{
+    draw_hit_mon_curses(x, y, m, u, dead);
+}
+#else
+void game::draw_hit_mon(int const x, int const y, const monster &m, bool const dead)
+{
+    if (!use_tiles) {
+        draw_hit_mon_curses(x, y, m, u, dead);
+        return;
+    }
+
+    tilecontext->init_draw_hit(x, y, m.type->id);
+    wrefresh(w_terrain);
+    try_update();
+    draw_animation_delay();
+}
+#endif
+
 #if (defined SDLTILES)
 
-/* Monster hit animation */
-void game::draw_hit_mon(int x, int y, const monster &m, bool dead)
-{
-    if (use_tiles) {
-        //int iTimeout = 0;
-        tilecontext->init_draw_hit(x, y, m.type->id);
-        wrefresh(w_terrain);
-        try_update();
-
-        timespec tspec;
-        tspec.tv_sec = 0;
-        tspec.tv_nsec = 1000000 * OPTIONS["ANIMATION_DELAY"];
-
-        if( tspec.tv_nsec != 0 ) {
-            nanosleep(&tspec, NULL);
-        }
-    } else {
-        nc_color cMonColor = m.type->color;
-        const std::string &sMonSym = m.symbol();
-
-        hit_animation(POSX + (x - (u.posx() + u.view_offset_x)),
-                      POSY + (y - (u.posy() + u.view_offset_y)),
-                      red_background(cMonColor), dead ? "%" : sMonSym);
-    }
-}
 /* Player hit animation */
 void game::draw_hit_player(player *p, const int iDam, bool dead)
 {

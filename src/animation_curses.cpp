@@ -5,16 +5,6 @@ bool is_valid_in_w_terrain(int x, int y);
 
 #include "game.h"
 
-/* Monster hit animation */
-void game::draw_hit_mon(int x, int y, const monster &m, bool dead)
-{
-    nc_color cMonColor = m.type->color;
-    const std::string &sMonSym = m.symbol();
-
-    hit_animation(POSX + (x - (u.posx() + u.view_offset_x)),
-                  POSY + (y - (u.posy() + u.view_offset_y)),
-                  red_background(cMonColor), dead ? "%" : sMonSym);
-}
 /* Player hit animation */
 void game::draw_hit_player(player *p, const int iDam, bool dead)
 {
