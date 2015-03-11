@@ -37,18 +37,13 @@ void draw_explosion_curses(game &g, int x, int y, int const r, nc_color const co
             mvwputch(g.w_terrain, y + j, x + i, col, '|'); // edge: right
         }
     }
-    
+
     wrefresh(g.w_terrain);
     draw_animation_delay(EXPLOSION_MULTIPLIER);
 }
 } // namespace
 
-#if !defined(SDLTILES)
-void game::draw_explosion(int const x, int const y, int const r, nc_color const col)
-{
-    draw_explosion_curses(*this, x, y, r, col);
-}
-#else
+#if defined(SDLTILES)
 void game::draw_explosion(int const x, int const y, int const r, nc_color const col)
 {
     if (!use_tiles) {
@@ -66,6 +61,11 @@ void game::draw_explosion(int const x, int const y, int const r, nc_color const 
     if (r > 0) {
         tilecontext->void_explosion();
     }
+}
+#else
+void game::draw_explosion(int const x, int const y, int const r, nc_color const col)
+{
+    draw_explosion_curses(*this, x, y, r, col);
 }
 #endif
 
@@ -90,18 +90,7 @@ void draw_bullet_curses(WINDOW *const w, player &u, map &m, int const tx, int co
 
 } ///namespace
 
-#if !defined(SDLTILES)
-void game::draw_bullet(Creature const &p, int const tx, int const ty, int const i,
-    std::vector<point> const &trajectory, char const bullet)
-{
-    if (!u.sees(tx, ty)) {
-        return;
-    }
-
-    draw_bullet_curses(w_terrain, u, m, tx, ty, bullet,
-        (i > 0) ? &trajectory[i - 1] : nullptr, p.is_player());
-}
-#else
+#if defined(SDLTILES)
 /* Bullet Animation -- Maybe change this to animate the ammo itself flying through the air?*/
 // need to have a version where there is no player defined, possibly. That way shrapnel works as intended
 void game::draw_bullet(Creature const &p, int const tx, int const ty, int const i,
@@ -125,7 +114,7 @@ void game::draw_bullet(Creature const &p, int const tx, int const ty, int const 
     static std::string const bullet_flame    {"animation_bullet_flame"};
     static std::string const bullet_shrapnel {"animation_bullet_shrapnel"};
 
-    std::string const &bullet_type = 
+    std::string const &bullet_type =
         (bullet == '*') ? bullet_normal
       : (bullet == '#') ? bullet_flame
       : (bullet == '`') ? bullet_shrapnel
@@ -141,6 +130,17 @@ void game::draw_bullet(Creature const &p, int const tx, int const ty, int const 
 
     tilecontext->void_bullet();
 }
+#else
+void game::draw_bullet(Creature const &p, int const tx, int const ty, int const i,
+    std::vector<point> const &trajectory, char const bullet)
+{
+    if (!u.sees(tx, ty)) {
+        return;
+    }
+
+    draw_bullet_curses(w_terrain, u, m, tx, ty, bullet,
+        (i > 0) ? &trajectory[i - 1] : nullptr, p.is_player());
+}
 #endif
 
 namespace {
@@ -153,12 +153,7 @@ void draw_hit_mon_curses(int const x, int const y, const monster &m, player cons
 
 } // namespace
 
-#if !defined(SDLTILES)
-void game::draw_hit_mon(int const x, int const y, const monster &m, bool const dead)
-{
-    draw_hit_mon_curses(x, y, m, u, dead);
-}
-#else
+#if defined(SDLTILES)
 void game::draw_hit_mon(int const x, int const y, const monster &m, bool const dead)
 {
     if (!use_tiles) {
@@ -170,6 +165,11 @@ void game::draw_hit_mon(int const x, int const y, const monster &m, bool const d
     wrefresh(w_terrain);
     try_update();
     draw_animation_delay();
+}
+#else
+void game::draw_hit_mon(int const x, int const y, const monster &m, bool const dead)
+{
+    draw_hit_mon_curses(x, y, m, u, dead);
 }
 #endif
 
@@ -184,12 +184,7 @@ void draw_hit_player_curses(game const& g, player const &p, const int dam)
 }
 } //namespace
 
-#if !defined(SDLTILES)
-void game::draw_hit_player(player const &p, const int dam)
-{
-    draw_hit_player_curses(*this, p, dam);
-}
-#else
+#if defined(SDLTILES)
 void game::draw_hit_player(player const &p, const int dam)
 {
     if (!use_tiles) {
@@ -209,6 +204,11 @@ void game::draw_hit_player(player const &p, const int dam)
     wrefresh(w_terrain);
     try_update();
     draw_animation_delay();
+}
+#else
+void game::draw_hit_player(player const &p, const int dam)
+{
+    draw_hit_player_curses(*this, p, dam);
 }
 #endif
 
@@ -233,16 +233,7 @@ void draw_line_curses(game &g, int const x, int const y, point const center,
 }
 } //namespace
 
-#if !defined (SDLTILES)
-void game::draw_line(int const x, int const y, point const center, std::vector<point> const &ret)
-{
-    if (!u.sees(x, y)) {
-        return;
-    }
-
-    draw_line_curses(*this, x, y, center, ret);
-}
-#else
+#if defined(SDLTILES)
 void game::draw_line(int const x, int const y, point const center, std::vector<point> const &ret)
 {
     if (!u.sees(x, y)) {
@@ -255,6 +246,15 @@ void game::draw_line(int const x, int const y, point const center, std::vector<p
     }
 
     tilecontext->init_draw_line(x, y, ret, "line_target", true);
+}
+#else
+void game::draw_line(int const x, int const y, point const center, std::vector<point> const &ret)
+{
+    if (!u.sees(x, y)) {
+        return;
+    }
+
+    draw_line_curses(*this, x, y, center, ret);
 }
 #endif
 
@@ -278,19 +278,19 @@ void draw_line_curses(game &g, std::vector<point> const &points)
 }
 } //namespace
 
-#if !defined(SDLTILES)
+#if defined(SDLTILES)
+void game::draw_line(const int x, const int y, std::vector<point> const &vPoint)
+{
+    draw_line_curses(*this, vPoint);
+    tilecontext->init_draw_line(x, y, vPoint, "line_trail", false);
+}
+#else
 void game::draw_line(const int x, const int y, std::vector<point> const &vPoint)
 {
     (void)x; //unused
     (void)y; //unused
 
     draw_line_curses(*this, vPoint);
-}
-#else
-void game::draw_line(const int x, const int y, std::vector<point> const &vPoint)
-{
-    draw_line_curses(*this, vPoint);
-    tilecontext->init_draw_line(x, y, vPoint, "line_trail", false);
 }
 #endif
 
@@ -301,15 +301,9 @@ void draw_weather_curses(WINDOW *const win, weather_printable const &w)
         mvwputch(win, drop.second, drop.first, w.colGlyph, w.cGlyph);
     }
 }
-
 } //namespace
 
-#if !defined(SDLTILES)
-void game::draw_weather(weather_printable const &w)
-{
-    draw_weather_curses(w_terrain, w);
-}
-#else
+#if defined(SDLTILES)
 void game::draw_weather(weather_printable const &w)
 {
     if (!use_tiles) {
@@ -347,6 +341,11 @@ void game::draw_weather(weather_printable const &w)
 
     tilecontext->init_draw_weather(w, std::move(weather_name));
 }
+#else
+void game::draw_weather(weather_printable const &w)
+{
+    draw_weather_curses(w_terrain, w);
+}
 #endif
 
 namespace {
@@ -355,7 +354,7 @@ void draw_sct_curses(game &g)
     for (auto const& text : SCT.vSCT) {
         const int dy = POSY + (text.getPosY() - (g.u.posy() + g.u.view_offset_y));
         const int dx = POSX + (text.getPosX() - (g.u.posx() + g.u.view_offset_x));
-        
+
         if(!is_valid_in_w_terrain(dx, dy)) {
             continue;
         }
@@ -371,14 +370,9 @@ void draw_sct_curses(game &g)
         wprintz(g.w_terrain, col2, "%s", text.getText("second").c_str());
     }
 }
-} //namespace 
+} //namespace
 
-#if !defined (SDLTILES)
-void game::draw_sct()
-{
-    draw_sct_curses(*this);
-}
-#else
+#if defined(SDLTILES)
 void game::draw_sct()
 {
     if (use_tiles) {
@@ -386,6 +380,11 @@ void game::draw_sct()
     } else {
         draw_sct_curses(*this);
     }
+}
+#else
+void game::draw_sct()
+{
+    draw_sct_curses(*this);
 }
 #endif
 
@@ -406,12 +405,7 @@ void draw_zones_curses(WINDOW *const w, point const &beg, point const &end, poin
 }
 } //namespace
 
-#if !defined(SDLTILES)
-void game::draw_zones(point const &beg, point const &end, point const &off)
-{
-    draw_zones_curses(w_terrain, beg, end, off);
-}
-#else
+#if defined(SDLTILES)
 void game::draw_zones(point const &beg, point const &end, point const &off)
 {
     if (use_tiles) {
@@ -419,5 +413,10 @@ void game::draw_zones(point const &beg, point const &end, point const &off)
     } else {
         draw_zones_curses(w_terrain, beg, end, off);
     }
+}
+#else
+void game::draw_zones(point const &beg, point const &end, point const &off)
+{
+    draw_zones_curses(w_terrain, beg, end, off);
 }
 #endif
