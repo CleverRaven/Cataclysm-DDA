@@ -6,6 +6,18 @@ extern void try_update();
 bool is_valid_in_w_terrain(int x, int y); // see game.cpp
 
 namespace {
+//! Get (x, y) relative to u's current position and view
+point relative_view_pos(player const &u, int const x, int const y) noexcept
+{
+    return point { POSX + x - u.posx() - u.view_offset_x,
+                   POSY + y - u.posy() - u.view_offset_y };
+}
+
+point relative_view_pos(player const &u, point const &p) noexcept
+{
+    return relative_view_pos(u, p.x, p.y);
+}
+
 void draw_animation_delay(long const scale = 1)
 {
     auto const delay = static_cast<long>(OPTIONS["ANIMATION_DELAY"]) * scale * 1000000l;
@@ -16,25 +28,24 @@ void draw_animation_delay(long const scale = 1)
     }
 }
 
-void draw_explosion_curses(game &g, int x, int y, int const r, nc_color const col)
+void draw_explosion_curses(game &g, int const x, int const y, int const r, nc_color const col)
 {
-    y = POSY + (y - (g.u.posy() + g.u.view_offset_y));
-    x = POSX + (x - (g.u.posx() + g.u.view_offset_x));
+    point const p = relative_view_pos(g.u, x, y);
 
     if (r == 0) { // TODO why not always print '*'?
-        mvwputch(g.w_terrain, x, y, col, '*');
+        mvwputch(g.w_terrain, p.x, p.y, col, '*');
     }
 
     for (int i = 1; i <= r; ++i) {
-        mvwputch(g.w_terrain, y - i, x - i, col, '/');  // corner: top left
-        mvwputch(g.w_terrain, y - i, x + i, col, '\\'); // corner: top right
-        mvwputch(g.w_terrain, y + i, x - i, col, '\\'); // corner: bottom left
-        mvwputch(g.w_terrain, y + i, x + i, col, '/');  // corner: bottom right
+        mvwputch(g.w_terrain, p.y - i, p.x - i, col, '/');  // corner: top left
+        mvwputch(g.w_terrain, p.y - i, p.x + i, col, '\\'); // corner: top right
+        mvwputch(g.w_terrain, p.y + i, p.x - i, col, '\\'); // corner: bottom left
+        mvwputch(g.w_terrain, p.y + i, p.x + i, col, '/');  // corner: bottom right
         for (int j = 1 - i; j < 0 + i; j++) {
-            mvwputch(g.w_terrain, y - i, x + j, col, '-'); // edge: top
-            mvwputch(g.w_terrain, y + i, x + j, col, '-'); // edge: bottom
-            mvwputch(g.w_terrain, y + j, x - i, col, '|'); // edge: left
-            mvwputch(g.w_terrain, y + j, x + i, col, '|'); // edge: right
+            mvwputch(g.w_terrain, p.y - i, p.x + j, col, '-'); // edge: top
+            mvwputch(g.w_terrain, p.y + i, p.x + j, col, '-'); // edge: bottom
+            mvwputch(g.w_terrain, p.y + j, p.x - i, col, '|'); // edge: left
+            mvwputch(g.w_terrain, p.y + j, p.x + i, col, '|'); // edge: right
         }
 
         wrefresh(g.w_terrain);
@@ -73,14 +84,14 @@ namespace {
 void draw_bullet_curses(WINDOW *const w, player &u, map &m, int const tx, int const ty,
     char const bullet, point const *const p, bool const wait)
 {
-    int const posx = u.posx() + u.view_offset_x;
-    int const posy = u.posy() + u.view_offset_y;
+    int const vx = u.posx() + u.view_offset_x;
+    int const vy = u.posy() + u.view_offset_y;
 
     if (p) {
-        m.drawsq(w, u, p->x, p->y, false, true, posx, posy);
+        m.drawsq(w, u, p->x, p->y, false, true, vx, vy);
     }
 
-    mvwputch(w, POSY + (ty - posy), POSX + (tx - posx), c_red, bullet);
+    mvwputch(w, POSY + (ty - vy), POSX + (tx - vx), c_red, bullet);
     wrefresh(w);
 
     if (wait) {
@@ -147,9 +158,8 @@ void game::draw_bullet(Creature const &p, int const tx, int const ty, int const 
 namespace {
 void draw_hit_mon_curses(int const x, int const y, const monster &m, player const& u, bool const dead)
 {
-    hit_animation(POSX + (x - (u.posx() + u.view_offset_x)),
-                  POSY + (y - (u.posy() + u.view_offset_y)),
-                  red_background(m.type->color), dead ? "%" : m.symbol());
+    point const p = relative_view_pos(u, x, y);
+    hit_animation(p.x, p.y, red_background(m.type->color), dead ? "%" : m.symbol());
 }
 
 } // namespace
@@ -180,8 +190,8 @@ void draw_hit_player_curses(game const& g, player const &p, const int dam)
     nc_color const col = (!dam) ? yellow_background(p.symbol_color())
                                 : red_background(p.symbol_color());
 
-    hit_animation(POSX + (p.posx() - (g.u.posx() + g.u.view_offset_x)),
-                  POSY + (p.posy() - (g.u.posy() + g.u.view_offset_y)), col, p.symbol());
+    point const q = relative_view_pos(g.u, p.pos());
+    hit_animation(q.x, q.y, col, p.symbol());
 }
 } //namespace
 
@@ -262,20 +272,16 @@ void game::draw_line(int const x, int const y, point const center, std::vector<p
 namespace {
 void draw_line_curses(game &g, std::vector<point> const &points)
 {
-    int crx = POSX;
-    int cry = POSY;
-
-    if (!points.empty()) {
-        auto const& last = points.back();
-        crx += (last.x - (g.u.posx() + g.u.view_offset_x));
-        cry += (last.y - (g.u.posy() + g.u.view_offset_y));
+    if (points.empty()) {
+        return;
     }
 
     for (point const& p : points) {
         g.m.drawsq(g.w_terrain, g.u, p.x, p.y, true, true);
     }
 
-    mvwputch(g.w_terrain, cry, crx, c_white, 'X');
+    point const p = relative_view_pos(g.u, points.back());
+    mvwputch(g.w_terrain, p.y, p.x, c_white, 'X');
 }
 } //namespace
 
@@ -352,12 +358,11 @@ void game::draw_weather(weather_printable const &w)
 namespace {
 void draw_sct_curses(game &g)
 {
-    int const x_off = POSX - (g.u.posx() + g.u.view_offset_x);
-    int const y_off = POSY - (g.u.posy() + g.u.view_offset_y);
+    point const off = relative_view_pos(g.u, 0, 0);
 
     for (auto const& text : SCT.vSCT) {
-        const int dy = y_off + text.getPosY();
-        const int dx = x_off + text.getPosX();
+        const int dy = off.y + text.getPosY();
+        const int dx = off.x + text.getPosX();
 
         if(!is_valid_in_w_terrain(dx, dy)) {
             continue;
