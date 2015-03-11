@@ -1,4 +1,5 @@
 #include "game.h"
+#include "const_game.h"
 #include "rng.h"
 #include "input.h"
 #include "output.h"
@@ -231,10 +232,6 @@ game::~game()
     delete world_generator;
 }
 
-// Fixed window sizes
-#define MINIMAP_HEIGHT 7
-#define MINIMAP_WIDTH 7
-
 #if (defined TILES)
 // defined in sdltiles.cpp
 void to_map_font_dimension(int &w, int &h);
@@ -260,8 +257,8 @@ void game::init_ui()
         clear();
 
         // set minimum FULL_SCREEN sizes
-        FULL_SCREEN_WIDTH = 80;
-        FULL_SCREEN_HEIGHT = 24;
+        FULL_SCREEN_WIDTH = MIN_FULL_SCREEN_WIDTH;
+        FULL_SCREEN_HEIGHT = MIN_FULL_SCREEN_HEIGHT;
         // print an intro screen, making sure the terminal is the correct size
         intro();
 
@@ -1165,50 +1162,50 @@ bool game::do_turn()
     // Check if we're starving or have starved
     if (u.hunger >= HUNGER_MINOR) {
         if (u.hunger >= HUNGER_DEATH) {
-            add_msg(m_bad, _(HUNGER_DEATH_MSG));
-            u.add_memorial_log(pgettext("memorial_male", HUNGER_MALE_MEMORIAL_MSG),
-                               pgettext("memorial_female", HUNGER_FEMALE_MEMORIAL_MSG));
+            add_msg(m_bad, HUNGER_DEATH_MSG);
+            u.add_memorial_log(HUNGER_MALE_MEMORIAL_MSG,
+                               HUNGER_FEMALE_MEMORIAL_MSG);
             u.hp_cur[hp_torso] = 0;
         } else if (u.hunger >= HUNGER_CRITICAL && calendar::turn % HUNGER_FREQUENCY == 0) {
-            add_msg(m_warning, _(HUNGER_CRITICAL_MSG));
+            add_msg(m_warning, HUNGER_CRITICAL_MSG);
         } else if (u.hunger >= HUNGER_MAJOR && calendar::turn % HUNGER_FREQUENCY == 0) {
-            add_msg(m_warning, _(HUNGER_MAJOR_MSG));
+            add_msg(m_warning, HUNGER_MAJOR_MSG);
         } else if (calendar::turn % HUNGER_FREQUENCY == 0) {
-            add_msg(m_warning, _(HUNGER_MINOR_MSG));
+            add_msg(m_warning, HUNGER_MINOR_MSG);
         }
     }
 
     // Check if we're dying of thirst
     if (u.thirst >= THIRST_MINOR) {
         if (u.thirst >= THIRST_DEATH) {
-            add_msg(m_bad, _(THIRST_DEATH_MSG));
-            u.add_memorial_log(pgettext("memorial_male", THIRST_MALE_MEMORIAL_MSG),
-                               pgettext("memorial_female", THIRST_FEMALE_MEMORIAL_MSG));
+            add_msg(m_bad, THIRST_DEATH_MSG);
+            u.add_memorial_log(THIRST_MALE_MEMORIAL_MSG,
+                               THIRST_FEMALE_MEMORIAL_MSG);
             u.hp_cur[hp_torso] = 0;
         } else if (u.thirst >= THIRST_CRITICAL && calendar::turn % THIRST_FREQUENCY == 0) {
-            add_msg(m_warning, _(THIRST_CRITICAL_MSG));
+            add_msg(m_warning, THIRST_CRITICAL_MSG);
         } else if (u.thirst >= THIRST_MAJOR && calendar::turn % THIRST_FREQUENCY == 0) {
-            add_msg(m_warning, _(THIRST_MAJOR_MSG));
+            add_msg(m_warning, THIRST_MAJOR_MSG);
         } else if (calendar::turn % THIRST_FREQUENCY == 0) {
-            add_msg(m_warning, _(THIRST_MINOR_MSG));
+            add_msg(m_warning, THIRST_MINOR_MSG);
         }
     }
 
     // Check if we're falling asleep, unless we're sleeping
     if (u.fatigue >= FATIGUE_TRIVIAL && !u.in_sleep_state()) {
         if (u.fatigue >= FATIGUE_SLEEP) {
-            add_msg(m_bad, _(FATIGUE_SLEEP_MSG));
-            u.add_memorial_log(pgettext("memorial_male", FATIGUE_MALE_MEMORIAL_MSG),
-                               pgettext("memorial_female", FATIGUE_FEMALE_MEMORIAL_MSG));
+            add_msg(m_bad, FATIGUE_SLEEP_MSG);
+            u.add_memorial_log(FATIGUE_MALE_MEMORIAL_MSG,
+                               FATIGUE_FEMALE_MEMORIAL_MSG);
             u.fatigue -= 10;
             u.try_to_sleep();
         } else if (u.fatigue >= FATIGUE_DIRE && calendar::turn % 10 == 0) {
-            add_msg(m_warning, _(FATIGUE_DIRE_MSG));
+            add_msg(m_warning, FATIGUE_DIRE_MSG);
         } else if (calendar::turn % FATIGUE_FREQUENCY == 0) {
-            add_msg(m_warning, _(FATIGUE_CRITICAL_MSG));
+            add_msg(m_warning, FATIGUE_CRITICAL_MSG);
         } else if (u.fatigue >= FATIGUE_MAJOR) {
             if (calendar::turn % FATIGUE_FREQUENCY == 0) {
-                add_msg(m_warning, _(FATIGUE_MAJOR_MSG));
+                add_msg(m_warning, FATIGUE_MAJOR_MSG);
                 u.add_effect("lack_sleep", 50);
             }
             if (one_in(50 + u.int_cur)) {
@@ -1217,14 +1214,14 @@ bool game::do_turn()
             }
         } else if (u.fatigue >= FATIGUE_MINOR) {
             if (calendar::turn % FATIGUE_FREQUENCY == 0) {
-                add_msg(m_warning, _(FATIGUE_MINOR_MSG));
+                add_msg(m_warning, FATIGUE_MINOR_MSG);
                 u.add_effect("lack_sleep", 50);
             }
             if (one_in(100 + u.int_cur)) {
                 u.fall_asleep(5);
             }
         } else if (u.fatigue >= FATIGUE_TRIVIAL && calendar::turn % FATIGUE_FREQUENCY == 0) {
-            add_msg(m_warning, _(FATIGUE_TRIVIAL_MSG));
+            add_msg(m_warning, FATIGUE_TRIVIAL_MSG);
             u.add_effect("lack_sleep", 50);
         }
     }
