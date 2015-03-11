@@ -460,9 +460,9 @@ class game
         void draw_bullet(Creature const &p, int tx, int ty, int i,
                          std::vector<point> const &trajectory, char bullet);
         void draw_hit_mon(int x, int y, const monster &critter, bool dead = false);
-        void draw_hit_player(player *p, const int iDam, bool dead = false);
-        void draw_line(const int x, const int y, const point center_point, std::vector<point> ret);
-        void draw_line(const int x, const int y, std::vector<point> ret);
+        void draw_hit_player(player const &p, int dam);
+        void draw_line(int x, int y, point center_point, std::vector<point> ret);
+        void draw_line(int x, int y, std::vector<point> ret);
         void draw_weather(weather_printable wPrint);
         void draw_sct();
         void draw_zones(const point &p_pointStart, const point &p_pointEnd, const point &p_pointOffset);

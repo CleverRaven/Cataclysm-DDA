@@ -5,15 +5,6 @@ bool is_valid_in_w_terrain(int x, int y);
 
 #include "game.h"
 
-/* Player hit animation */
-void game::draw_hit_player(player *p, const int iDam, bool dead)
-{
-    (void)dead; //unused
-    const std::string &sMonSym = p->symbol();
-    hit_animation(POSX + (p->posx() - (u.posx() + u.view_offset_x)),
-                  POSY + (p->posy() - (u.posy() + u.view_offset_y)),
-                  (iDam == 0) ? yellow_background(p->symbol_color()) : red_background(p->symbol_color()), sMonSym);
-}
 /* Line drawing code, not really an animation but should be separated anyway */
 
 void game::draw_line(const int x, const int y, const point center_point, std::vector<point> ret)

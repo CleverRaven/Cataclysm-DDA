@@ -181,35 +181,47 @@ void game::draw_hit_mon(int const x, int const y, const monster &m, bool const d
 }
 #endif
 
-#if (defined SDLTILES)
-
-/* Player hit animation */
-void game::draw_hit_player(player *p, const int iDam, bool dead)
+namespace {
+void draw_hit_player_curses(game const& g, player const &p, const int dam)
 {
-    (void)dead; //unused
-    if (use_tiles) {
-        // get base name of player id
-        std::string pname = (p->is_npc() ? "npc_" : "player_");
-        // get sex of player
-        pname += (p->male ? "male" : "female");
+    nc_color const col = (!dam) ? yellow_background(p.symbol_color())
+                                : red_background(p.symbol_color());
 
-        tilecontext->init_draw_hit(p->posx(), p->posy(), pname);
-        wrefresh(w_terrain);
-        try_update();
-
-        timespec tspec;
-        tspec.tv_sec = 0;
-        tspec.tv_nsec = 1000000 * OPTIONS["ANIMATION_DELAY"];
-
-        if( tspec.tv_nsec != 0 ) {
-            nanosleep(&tspec, NULL);
-        }
-    } else {
-        hit_animation(POSX + (p->posx() - (u.posx() + u.view_offset_x)),
-                      POSY + (p->posy() - (u.posy() + u.view_offset_y)),
-                      (iDam == 0) ? yellow_background(p->symbol_color()) : red_background(p->symbol_color()), "@");
-    }
+    hit_animation(POSX + (p.posx() - (g.u.posx() + g.u.view_offset_x)),
+                  POSY + (p.posy() - (g.u.posy() + g.u.view_offset_y)), col, p.symbol());
 }
+} //namespace
+
+#if !defined(SDLTILES)
+void game::draw_hit_player(player const &p, const int dam)
+{
+    draw_hit_player_curses(*this, p, dam);
+}
+#else
+/* Player hit animation */
+void game::draw_hit_player(player const &p, const int dam)
+{
+    if (!use_tiles) {
+        draw_hit_player_curses(*this, p, dam);
+        return;
+    }
+
+    static std::string const player_male   {"player_male"};
+    static std::string const player_female {"player_female"};
+    static std::string const npc_male      {"npc_male"};
+    static std::string const npc_female    {"npc_female"};
+
+    std::string const& type = p.is_player() ? (p.male ? player_male : player_female)
+                                            : (p.male ? npc_male    : npc_female);
+
+    tilecontext->init_draw_hit(p.posx(), p.posy(), type);
+    wrefresh(w_terrain);
+    try_update();
+    draw_animation_delay();
+}
+#endif
+
+#if (defined SDLTILES)
 
 /* Line drawing code, not really an animation but should be separated anyway */
 
