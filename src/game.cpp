@@ -3802,6 +3802,7 @@ void game::load(std::string worldname, std::string name)
         gamemode = new special_game();
     }
 
+    init_autosave();
     load_auto_pickup(true); // Load character auto pickup rules
     u.load_zones(); // Load character world zones
     load_uistate(worldname);
