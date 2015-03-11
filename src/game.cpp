@@ -3802,6 +3802,7 @@ void game::load(std::string worldname, std::string name)
         gamemode = new special_game();
     }
 
+    init_autosave();
     load_auto_pickup(true); // Load character auto pickup rules
     u.load_zones(); // Load character world zones
     load_uistate(worldname);
@@ -11287,10 +11288,10 @@ void game::unload(item &it)
     // null the curammo, but only if we did empty the item
     if (weapon->charges == 0) {
         weapon->unset_curammo();
-        // Tools need to be turned off, especially when thy consume charges only every few turns,
+        // Tools need to be turned off, especially when they consume charges only every few turns,
         // otherwise they stay active until they would consume the next charge.
         if( weapon->active && weapon->is_tool() ) {
-            weapon->type->tick( &u, weapon, u.pos() );
+            weapon->type->invoke( &u, weapon, u.pos() );
         }
     }
 }
