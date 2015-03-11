@@ -577,6 +577,17 @@ void Character::die(Creature* nkiller)
 {
     set_killer( nkiller );
     set_turn_died(int(calendar::turn));
+    if( has_effect( "lightsnare" ) ) {
+        inv.add_item( item( "string_36", 0 ) );
+        inv.add_item( item( "snare_trigger", 0 ) );
+    }
+    if( has_effect( "heavysnare" ) ) {
+        inv.add_item( item( "rope_6", 0 ) );
+        inv.add_item( item( "snare_trigger", 0 ) );
+    }
+    if( has_effect( "beartrap" ) ) {
+        inv.add_item( item( "beartrap", 0 ) );
+    }
 }
 
 void Character::reset_stats()

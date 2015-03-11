@@ -42,6 +42,7 @@ Student professions.
 Generic spiritualist content.
 Craftable canned food and recipes.
 More farming content and recipes to make use of them.
+Even more houses!
 
 Interface:
 Butchering can now be used to cut up items, too. Also, you can now salvage _all_ the things (in a tile) in one keypress.
@@ -73,6 +74,8 @@ Tuned skilling progression for making archery items to allow bootstrapping.
 Unfletched arrows no longer count as ammunition so they don't clutter your firing menu.
 Some monsters have a small amount of nightvision, Now you will learn why you fear the night.
 Enabled trading with starting NPC at game start.
+Slowed tankbots down so you have a chance of running away from them.
+Zombie master special now picks from every zombie, not just a small list.
 
 Bugfixes:
 Doors and windows no longer hold up the roof! Hopefully preventing collapses from zombies breaking into your shop.
@@ -84,11 +87,16 @@ Make effects that damage all player bodyparts use the same armor code as other a
 Scale damage to armor based on its coverage so e.g. power armor isn't ridiculously vulnerable to acid.
 Fatigue can no longer go so negative that you don't need to sleep for days.
 Unify vehicle fuel handling.
+Game remembers which mutations you had activated.
+Fixed turrets shooting through doors.
+Fixed bug that was making gun recoil be too low.
+Fixed bashing corpses with blunt objects.
 
 Performance:
 MASSIVE improvement in performance when there are large numbers (thousands) of items nearby.
 Added a clustering algorithm for monster hearing that improves performance when there are many (thousands) of monsters on-map and making noises.
 Iterate across map structures in cache-friendly way.
+Avoid saving/loading sections of map that aren't interesting (like solid rock).
 
 Infrastructure:
 Diseases are configurable from JSON and applied as relatively generic status effects.
@@ -99,7 +107,7 @@ Simplification of gun and gunmod handling.
 Restored building under MSVC.
 Build performance improvements via removing unecessary includes.
 Simplify handling of vehicle coordinates.
-Visibility clecking API cleanup.
+Visibility checking API cleanup.
 Unified filesystem API.
 Extracted activity handlers from game.cpp
 Sound processing moved to a dedicated module. (in-game hearing, not the game making sound)

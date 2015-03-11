@@ -38,9 +38,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Cataclysm-DDA\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-03-02 10:32+0300\n"
-"PO-Revision-Date: 2015-03-03 14:32+0000\n"
-"Last-Translator: Ivan <rt.dimw@yandex.ru>\n"
+"POT-Creation-Date: 2015-03-07 18:54-0600\n"
+"PO-Revision-Date: 2015-03-08 10:26+0000\n"
+"Last-Translator: Vlasov Vitaly <vnigtha@gmail.com>\n"
 "Language-Team: Russian (http://www.transifex.com/projects/p/cataclysm-dda/"
 "language/ru/)\n"
 "Language: ru\n"
@@ -69361,6 +69361,10 @@ msgid "dual nail turret"
 msgstr "сдвоенная гвоздеметная турель"
 
 #: lang/json/vehicle_part_from_json.py
+msgid "external cargo carrier"
+msgstr ""
+
+#: lang/json/vehicle_part_from_json.py
 msgid "externally mounted diesel tank"
 msgstr "дизельный бак наружного монтажа"
 
@@ -72508,7 +72512,7 @@ msgstr "Выберите тип зоны:"
 msgid "Zone name:"
 msgstr "Название зоны:"
 
-#: src/color.cpp src/item.cpp src/npctalk.cpp
+#: src/color.cpp src/item.cpp
 msgid "blue"
 msgstr "синий"
 
@@ -79140,6 +79144,10 @@ msgid "Wait till weather changes"
 msgstr "Ждать до смены погоды"
 
 #: src/game.cpp
+msgid "Watch the last moments of your life...?"
+msgstr ""
+
+#: src/game.cpp
 #, c-format
 msgid "We have detected a %s."
 msgstr "Вы обнаружили %s."
@@ -82910,6 +82918,11 @@ msgstr "Вы нашли цветок и выпили немного нектар
 #: src/iexamine.cpp
 msgid "You fire the charcoal kiln."
 msgstr "Вы зажигаете углевыжигательную печь."
+
+#: src/iexamine.cpp
+#, c-format
+msgid "You forage through the %s."
+msgstr ""
 
 #: src/iexamine.cpp
 msgid "You graffiti a message onto the sign."
@@ -99177,6 +99190,12 @@ msgstr "asked_to_lead"
 #: src/npctalk.cpp
 msgid "asshole"
 msgstr "засранец"
+
+#. ~ The word blue here means "depressed", not the color blue.
+#: src/npctalk.cpp
+msgctxt "npc_depressed"
+msgid "blue"
+msgstr ""
 
 #: src/npctalk.cpp
 msgid "buddy"
