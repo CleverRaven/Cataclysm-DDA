@@ -46,14 +46,13 @@ void load_mutation_category(JsonObject &jsobj)
     new_category.id=id;
     new_category.name =_(jsobj.get_string("name").c_str());
     new_category.category =jsobj.get_string("category").c_str();
-    new_category.mutagen_message = _(jsobj.get_string("mutagen_message").c_str());
+    new_category.mutagen_message = _(jsobj.get_string("mutagen_message", "You drink your mutagen").c_str());
     new_category.mutagen_hunger  = jsobj.get_int("mutagen_hunger", 10);
     new_category.mutagen_thirst  = jsobj.get_int("mutagen_thirst", 10);
     new_category.mutagen_pain    = jsobj.get_int("mutagen_pain", 2);
     new_category.mutagen_fatigue = jsobj.get_int("mutagen_fatigue", 5);
     new_category.mutagen_morale  = jsobj.get_int("mutagen_morale", 0);
-    new_category.iv_message = _(jsobj.get_string("iv_message").c_str());
-    new_category.iv_message_bad = jsobj.get_bool("iv_message_bad", false);
+    new_category.iv_message = _(jsobj.get_string("iv_message", "You inject yourself").c_str());
     new_category.iv_min_mutations    = jsobj.get_int("iv_min_mutations", 1);
     new_category.iv_additional_mutations = jsobj.get_int("iv_additional_mutations", 2);
     new_category.iv_additional_mutations_chance = jsobj.get_int("iv_additional_mutations_chance", 3);
@@ -64,12 +63,12 @@ void load_mutation_category(JsonObject &jsobj)
     new_category.iv_morale   = jsobj.get_int("iv_morale", 0);
     new_category.iv_morale_max   = jsobj.get_int("iv_morale_max", 0);
     new_category.iv_sound = jsobj.get_bool("iv_sound", false);
-    new_category.iv_sound_message = jsobj.get_string(("iv_sound_message"), "NULL");
+    new_category.iv_sound_message = _(jsobj.get_string("iv_sound_message", "You inject yoursel-arRGH!").c_str());
     new_category.iv_noise = jsobj.get_int("iv_noise", 0);
     new_category.iv_sleep = jsobj.get_bool("iv_sleep", false);
-    new_category.iv_sleep_message =_(jsobj.get_string("iv_sleep_message", "NULL").c_str());
+    new_category.iv_sleep_message =_(jsobj.get_string("iv_sleep_message", "Fell asleep").c_str());
     new_category.iv_sleep_dur = jsobj.get_int("iv_sleep_dur", 0);
-    new_category.memorial_message = _(jsobj.get_string("memorial_message").c_str());
+    new_category.memorial_message = _(jsobj.get_string("memorial_message", "Crossed a threshold").c_str());
     new_category.junkie_message = _(jsobj.get_string("junkie_message", "Oh, yeah! That's the stuff!").c_str());
 
     mutation_category_traits[id] = new_category;

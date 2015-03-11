@@ -180,7 +180,6 @@ struct mutation_category_trait {
     int mutagen_fatigue = 5;
     int mutagen_morale  = 0;
     std::string iv_message; //message when you inject an iv;
-    bool iv_message_bad = false; //whether or not the injection message is bad
     int iv_min_mutations    = 1; //the minimum mutations an injection provides
     int iv_additional_mutations = 2;
     int iv_additional_mutations_chance = 3; //chance of additional mutations
