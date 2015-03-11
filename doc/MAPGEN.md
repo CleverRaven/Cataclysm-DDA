@@ -15,7 +15,7 @@
 	* 2.0 "fill_ter":
         * 2.1 "rows":
 	* 2.1.0 "terrain":
-	* 2.1.1 "furntiture":
+	* 2.1.1 "furniture":
         * 2.3 "set": [ ...
 	        * 2.3.0 "point" { ...
 		        * 2.3.0.0 "id": "..."
@@ -46,7 +46,16 @@
                         * 2.5.0.2 "chance"
                         * 2.5.0.3 "repeat"
         * 2.6 "lua":
-        * 2.7 "place_specials":
+        * 2.7 specials:
+                * 2.7.0 "fields"
+                * 2.7.1 "npcs"
+                * 2.7.2 "signs"
+                * 2.7.3 "vendingmachines"
+                * 2.7.4 "toilets"
+                * 2.7.5 "gaspumps"
+                * 2.7.6 "items"
+                * 2.7.7 "monsters"
+                * 2.7.8 "vehicles"
 
 * 3 Method: lua
 	* 3.0 Tested functions
@@ -172,7 +181,7 @@ The following variables also come into play
 * "mondensity" - determines the default 'density' value for *"place_groups": [ { "monster": ...* (json) or *map:place_monster(..)* (lua)
 
 ## 1.4 Limitations / TODO
-* JSON: adding vehicles, gas pumps, field effects, and specific monster spawns are still WIP.
+* JSON: adding specific monster spawns are still WIP.
 * lua: Just about *everything* is WIP; there are issues passing class pointers back and forth with the game that will be corrected eventually
 * The old mapgen.cpp system involved *The Biggest "if / else if / else if / .." Statement Known to Man*(tm), and is only halfway converted to the "builtin" mapgen class. This means that while custom mapgen functions are allowed, the game will cheerfully forget the default if one is added.
 * TODO: Add to this list.
@@ -190,6 +199,8 @@ Example: "fill_ter": "t_grass"
 # 2.1 "rows":
 *required if "fill_ter" is unset*
 > Value: ([array]): 24 rows of 24 character lines. Each character is defined by "terrain" and optionally "furniture" below
+
+Other parts can be linked with this map, for example one can place things like a gaspump (with gasoline) or a toilet (with water) or items from an item group or fields at the square given by a character.
 
 Example:
 
@@ -425,35 +436,96 @@ Example: [ 1, 3 ] - apply 1-3 times
 
 Example: "lua": "if game.one_in(5000) then\n map:square_ter(\"t_lava\", 3, 3, 20, 20)\n game.add_msg(\"Oh noes micro volcano ;.;\")\n end"
 
-#### 2.7 "place_specials"
-**optional** adds special map terrain or furniture objects
-> Value: [ array of {objects} ]: [ { "type": ... }, { "type": ... }, ... ]
+# 2.7 specials
+**optional** Special map features that do more than just placing furniture / terrain.
 
-Example: { "type": "toilet", "x": 14, "y": 15, "amount": [ 10, 20 ]}
+Specials can be defined either via a mapping like the terrain / furniture mapping using the "rows" entry above or through their exact location by its coordinates.
 
-##### 2.7.1 "type"
-**required** A valid type of special.  Current types are "toilet", "gaspump", "vendingmachine", with
-corresponding enums.
+The mapping is defined with a json object like this:
+```
+"<type-of-special>" : {
+    "A" : { <data-of-special> },
+    "B" : { <data-of-special> },
+    "C" : { <data-of-special> },
+    ...
+}
+```
+"<type-of-special>" is one of the types listed below. <data-of-special> is a json object with content specific to the special type. Some types require no data at all or all their data is optional, an empty object is enough for those specials. You can define as many mapping as you want.
 
-These are defined in src\mapgen.cpp mapgen_function_json::setup_place_special
-The corresponding enums are defined in src\mapgen.h jmapgen_place_special_op
+Defining specials through their specific location:
+```
+"place_<type-of-special>" : {
+    { "x": <x>, "y": <y>, <data-of-special> },
+    ...
+}
+```
+<x> and <y> define where the special is placed (x is horizontal, y vertical). Valid value are in the range 0...23, min-max values are also supported: `"x": [ 0, 23 ], "y": [ 0, 23 ]` places the special anyway on the map.
 
-Actual code that generates the map special from json is
-src\mapgen.cpp jmapgen_place_special::apply
+Example with mapping (the characters 'O' and ';' should appear in the rows array where the specials should appear):
+```
+"gaspumps": {
+    "O": { "amount": 1000 }
+},
+"toilets": {
+    ";": { }
+}
+```
+The amount of water to be placed in toilets is optional, an empty entry is therefor completely valid.
 
-##### 2.7.2 "x" & "y"
-**required** x and y map coordinates of the map special_attack
-> Value: *number*
+Example with coordinates:
+```
+"place_gaspumps": [
+    { "x": 14, "y": 15, "amount": [ 1000, 2000 ] }
+],
+"place_toilets": [
+    { "x": 19, "y": 22 }
+]
+```
 
-##### 2.7.3 "amount"
-**optional** generic value range used in the jmapgen_place_special::apply function.  Typically used to
-specify charges of items for a given type of map terrain/furniture generation.
-> Value: [ *number*, *number* ]
+### 2.7.0 "fields"
+Places a field (see fields.h). Values:
+- "field": (required, string) the field type (e.g. "fd_blood")
+- "density": (optional, integer) field density. Defaults to 1. Possible values are 1, 2, or 3.
+- "age": (optional, integer) field age. Defaults to 0.
 
-Adding more types to place_specials is done in the following way:
-Add the string identifier and enums in src\mapgen.cpp mapgen_function_json::setup_place_special and src\mapgen.h jmapgen_place_special_op.
-Add the relevant code in src\mapgen.cpp jmapgen_place_special::apply.
-Recompile.
+### 2.7.1 "npcs"
+Places a new NPC. Values:
+- "class": (required, string) the npc class id, see data/json/npcs/npc.json or define your own npc class.
+
+### 2.7.2 "signs"
+Places a sign (furniture f_sign) with a message written on it. Values:
+- "signage": (required, string) the message that should appear on the sign.
+
+### 2.7.3 "vendingmachines"
+Places a vending machine (furniture) and fills it with items. The machine can sometimes spawn as broken one. Values:
+- "item_group": (optional, string) the item group that is used to create items inside the machine. It defaults to either "vending_food" or "vending_drink" (randomly chosen).
+
+### 2.7.4 "toilets"
+Places a toilet (furniture) and adds water to it. Values:
+- "amount": (optional, integer or min/max array) the amount of water to be placed in the toilet.
+
+### 2.7.5 "gaspumps"
+Places a gas pump with gasoline (or sometimes diesel) in it. Values:
+- "amount": (optional, integer or min/max array) the amount of fuel to be placed in the pump.
+
+### 2.7.6 "items"
+Places items from an item group. Values:
+- "item": (required, string) the item group to use.
+- "chance": (optional, integer) the chance to spawn multiple items (see `map::place_items`).
+
+### 2.7.7 "monsters"
+Places a monster spawn point, the actual monsters are spawned when the map is loaded. Values:
+- "monster": (required, string) a monster group id, when the map is loaded, a random monsters from that group are spawned.
+- "density": (optional, float) if defined, it overrides the default monster density at the location (monster density is bigger towards the city centers) (see `map::place_spawns`).
+- "chance": (optional, integer) chance of monster (see `map::place_spawns`).
+
+### 2.7.8 "vehicles"
+Places a vehicle. Values:
+- "vehicle": (required, string) type of the vehicle.
+- "chance": (optional, integer) chance of the vehicle spawning at all (in percent, 100 = always). The default is 1 (which means 1% probability that the vehicle spawns, you probably want something larger).
+- "rotation": (optional, integer) the direction the vehicle faces.
+- "fuel": (optional, integer) the fuel status. Default is -1 which makes the tanks 1-7% full. Positive values are interpreted as percentage of the vehicles tanks to fill (e.g. 100 means completely full). 
+    - "status": (optional, integer) default is -1 (no damage at all), a value of 1 means some damage.
 
 ## 3 Method: lua
 Lua is very WIP but supports the following map class functions:
