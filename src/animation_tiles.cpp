@@ -7,6 +7,9 @@
 extern cata_tiles *tilecontext; // obtained from sdltiles.cpp
 extern void try_update();
 
+// see game.cpp
+bool is_valid_in_w_terrain(int x, int y);
+
 #endif
 
 namespace {
@@ -356,25 +359,47 @@ void game::draw_weather(weather_printable const &w)
 }
 #endif
 
-#if (defined SDLTILES)
+namespace {
+void draw_sct_curses(game &g)
+{
+    for (auto const& text : SCT.vSCT) {
+        const int dy = POSY + (text.getPosY() - (g.u.posy() + g.u.view_offset_y));
+        const int dx = POSX + (text.getPosX() - (g.u.posx() + g.u.view_offset_x));
+        
+        if(!is_valid_in_w_terrain(dx, dy)) {
+            continue;
+        }
 
+        if (text.getStep() < SCT.iMaxSteps / 2) {
+            continue;
+        }
+
+        nc_color const col1 = msgtype_to_color(text.getMsgType("first"));
+        nc_color const col2 = msgtype_to_color(text.getMsgType("second"));
+
+        mvwprintz(g.w_terrain, dy, dx, col1, "%s", text.getText("first").c_str());
+        wprintz(g.w_terrain, col2, "%s", text.getText("second").c_str());
+    }
+}
+} //namespace 
+
+#if !defined (SDLTILES)
+void game::draw_sct()
+{
+    draw_sct_curses(*this);
+}
+#else
 void game::draw_sct()
 {
     if (use_tiles) {
         tilecontext->init_draw_sct();
     } else {
-        for (std::vector<scrollingcombattext::cSCT>::iterator iter = SCT.vSCT.begin();
-             iter != SCT.vSCT.end(); ++iter) {
-            const int iDY = POSY + (iter->getPosY() - (u.posy() + u.view_offset_y));
-            const int iDX = POSX + (iter->getPosX() - (u.posx() + u.view_offset_x));
-
-            mvwprintz(w_terrain, iDY, iDX, msgtype_to_color(iter->getMsgType("first"),
-                      (iter->getStep() >= SCT.iMaxSteps / 2)), "%s", iter->getText("first").c_str());
-            wprintz(w_terrain, msgtype_to_color(iter->getMsgType("second"),
-                                                (iter->getStep() >= SCT.iMaxSteps / 2)), iter->getText("second").c_str());
-        }
+        draw_sct_curses(*this);
     }
 }
+#endif
+
+#if (defined SDLTILES)
 
 void game::draw_zones(const point &p_pointStart, const point &p_pointEnd,
                       const point &p_pointOffset)
