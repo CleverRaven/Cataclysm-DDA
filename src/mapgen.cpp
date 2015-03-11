@@ -559,15 +559,18 @@ public:
  */
 class jmapgen_vending_machine : public jmapgen_piece {
 public:
-    std::string item_group;
+    std::string item_group_id;
     jmapgen_vending_machine( JsonObject &jsi ) : jmapgen_piece()
-    , item_group( jsi.get_string( "item_group", one_in( 2 ) ? "vending_food" : "vending_drink" ) )
+    , item_group_id( jsi.get_string( "item_group", one_in( 2 ) ? "vending_food" : "vending_drink" ) )
     {
+        if( !item_group::group_is_defined( item_group_id ) ) {
+            jsi.throw_error( "no such item group", "item_group" );
+        }
     }
     void apply( map &m, const size_t x, const size_t y, const float /*mon_density*/ ) const override
     {
         m.furn_set( x, y, f_null );
-        m.place_vending( x, y, item_group );
+        m.place_vending( x, y, item_group_id );
     }
 };
 /**
