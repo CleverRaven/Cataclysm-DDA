@@ -16,27 +16,29 @@ void draw_animation_delay(long const scale = 1)
     }
 }
 
-void draw_explosion_curses(WINDOW *const w, int const x, int const y,
-    int const r, nc_color const col)
+void draw_explosion_curses(game &g, int x, int y, int const r, nc_color const col)
 {
+    y = POSY + (y - (g.u.posy() + g.u.view_offset_y));
+    x = POSX + (x - (g.u.posx() + g.u.view_offset_x));
+
     if (r == 0) { // TODO why not always print '*'?
-        mvwputch(w, x, y, col, '*');
+        mvwputch(g.w_terrain, x, y, col, '*');
     }
 
     for (int i = 1; i <= r; ++i) {
-        mvwputch(w, y - i, x - i, col, '/');  // corner: top left
-        mvwputch(w, y - i, x + i, col, '\\'); // corner: top right
-        mvwputch(w, y + i, x - i, col, '\\'); // corner: bottom left
-        mvwputch(w, y + i, x + i, col, '/');  // corner: bottom right
+        mvwputch(g.w_terrain, y - i, x - i, col, '/');  // corner: top left
+        mvwputch(g.w_terrain, y - i, x + i, col, '\\'); // corner: top right
+        mvwputch(g.w_terrain, y + i, x - i, col, '\\'); // corner: bottom left
+        mvwputch(g.w_terrain, y + i, x + i, col, '/');  // corner: bottom right
         for (int j = 1 - i; j < 0 + i; j++) {
-            mvwputch(w, y - i, x + j, col, '-'); // edge: top
-            mvwputch(w, y + i, x + j, col, '-'); // edge: bottom
-            mvwputch(w, y + j, x - i, col, '|'); // edge: left
-            mvwputch(w, y + j, x + i, col, '|'); // edge: right
+            mvwputch(g.w_terrain, y - i, x + j, col, '-'); // edge: top
+            mvwputch(g.w_terrain, y + i, x + j, col, '-'); // edge: bottom
+            mvwputch(g.w_terrain, y + j, x - i, col, '|'); // edge: left
+            mvwputch(g.w_terrain, y + j, x + i, col, '|'); // edge: right
         }
     }
     
-    wrefresh(w);
+    wrefresh(g.w_terrain);
     draw_animation_delay(EXPLOSION_MULTIPLIER);
 }
 } // namespace
@@ -44,19 +46,13 @@ void draw_explosion_curses(WINDOW *const w, int const x, int const y,
 #if !defined(SDLTILES)
 void game::draw_explosion(int const x, int const y, int const r, nc_color const col)
 {
-    const int ypos = POSY + (y - (u.posy() + u.view_offset_y));
-    const int xpos = POSX + (x - (u.posx() + u.view_offset_x));
-    draw_explosion_curses(w_terrain, xpos, ypos, r, col);
+    draw_explosion_curses(*this, x, y, r, col);
 }
 #else
 void game::draw_explosion(int const x, int const y, int const r, nc_color const col)
 {
-    // added offset values to keep from calculating the same value over and over again.
-    const int ypos = POSY + (y - (u.posy() + u.view_offset_y));
-    const int xpos = POSX + (x - (u.posx() + u.view_offset_x));
-
     if (!use_tiles) {
-        draw_explosion_curses(w_terrain, xpos, ypos, r, col);
+        draw_explosion_curses(*this, x, y, r, col);
         return;
     }
 
