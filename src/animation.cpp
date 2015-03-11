@@ -36,10 +36,10 @@ void draw_explosion_curses(game &g, int x, int y, int const r, nc_color const co
             mvwputch(g.w_terrain, y + j, x - i, col, '|'); // edge: left
             mvwputch(g.w_terrain, y + j, x + i, col, '|'); // edge: right
         }
-    }
 
-    wrefresh(g.w_terrain);
-    draw_animation_delay(EXPLOSION_MULTIPLIER);
+        wrefresh(g.w_terrain);
+        draw_animation_delay(EXPLOSION_MULTIPLIER);
+    }
 }
 } // namespace
 
