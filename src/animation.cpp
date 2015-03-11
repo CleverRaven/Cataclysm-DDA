@@ -107,6 +107,7 @@ void game::draw_bullet(Creature const &p, int const tx, int const ty, int const 
 
     if (!use_tiles) {
         draw_bullet_curses(w_terrain, u, m, tx, ty, bullet, nullptr, p.is_player());
+        return;
     }
 
     static std::string const bullet_unknown  {};
