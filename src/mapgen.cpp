@@ -690,6 +690,34 @@ public:
         m.add_vehicle( type, x, y, rotation, fuel, status );
     }
 };
+/**
+ * Place a specific item.
+ * "item": id of item type to spawn.
+ * "chance": chance of spawning it (1 = always, otherwise one_in(chance)).
+ * "amount": amount of items to spawn.
+ */
+class jmapgen_spawn_item : public jmapgen_piece {
+public:
+    itype_id type;
+    jmapgen_int amount;
+    jmapgen_int chance;
+    jmapgen_spawn_item( JsonObject &jsi ) : jmapgen_piece()
+    , type( jsi.get_string( "item" ) )
+    , amount( jsi, "amount", 1, 1 )
+    , chance( jsi, "chance", 1, 1 )
+    {
+        if( !item::type_is_defined( type ) ) {
+            jsi.throw_error( "no such item type", "item" );
+        }
+    }
+    void apply( map &m, const size_t x, const size_t y, const float /*mon_density*/ ) const override
+    {
+        const int c = chance.get();
+        if ( c == 1 || one_in( c ) ) {
+            m.spawn_item( x, y, type, amount.get() );
+        }
+    }
+};
 
 template<typename PieceType>
 void mapgen_function_json::load_objects( JsonArray parray )
@@ -835,6 +863,9 @@ bool mapgen_function_json::setup() {
             load_place_mapings<jmapgen_item_group>( jo, "items", format_placings );
             load_place_mapings<jmapgen_monster_group>( jo, "monsters", format_placings );
             load_place_mapings<jmapgen_vehicle>( jo, "vehicles", format_placings );
+            // json member name is not optimal, it should be plural like all the others above, but that conflicts
+            // with the items entry with refers to item groups.
+            load_place_mapings<jmapgen_spawn_item>( jo, "item", format_placings );
             // manditory: 24 rows of 24 character lines, each of which must have a matching key in "terrain",
             // unless fill_ter is set
             // "rows:" [ "aaaajustlikeinmapgen.cpp", "this.must!be!exactly.24!", "and_must_match_terrain_", .... ]
@@ -876,30 +907,6 @@ bool mapgen_function_json::setup() {
            // todo: write TFM.
        }
 
-       if ( jo.has_array("add") ) {
-           parray = jo.get_array( "add");
-
-           while ( parray.has_more() ) {
-               JsonObject jsi = parray.next_object();
-               if ( jsi.has_string("item") ) {
-                   tmpval = jsi.get_string("item");
-                   if( !item::type_is_defined( tmpval ) ) {
-                       jsi.throw_error(("  add item: no such item ") + tmpval );
-                   }
-               } else {
-                   parray.throw_error("adding other things is not supported yet"); return false;
-               }
-               const jmapgen_int tmp_x( jsi, "x" );
-               const jmapgen_int tmp_y( jsi, "y" );
-               const jmapgen_int tmp_amt( jsi, "amount", 1, 1 );
-               const jmapgen_int tmp_repeat( jsi, "repeat", 1, 1 );
-               int tmp_chance = 1;
-               jsi.read("chance", tmp_chance );
-               jmapgen_spawn_item new_spawn( tmp_x, tmp_y, tmpval, tmp_amt, tmp_chance, tmp_repeat );
-               tmpval = "";
-               spawnitems.push_back( new_spawn );
-           }
-       }
        if ( jo.has_array("set") ) {
             parray = jo.get_array("set");
             try {
@@ -908,6 +915,8 @@ bool mapgen_function_json::setup() {
                 throw string_format("Bad JSON mapgen set array, discarding:\n    %s\n", smerr.c_str() );
             }
        }
+        // this is for backwards compatibility, it should better be named place_items
+        load_objects<jmapgen_spawn_item>( jo, "add" );
         load_objects<jmapgen_field>( jo, "place_fields" );
         load_objects<jmapgen_npc>( jo, "place_npcs" );
         load_objects<jmapgen_sign>( jo, "place_signs" );
@@ -945,18 +954,6 @@ bool mapgen_function_json::setup() {
 /////////////////////////////////////////////////////////////////////////////////
 ///// 3 - mapgen (gameplay)
 ///// stuff below is the actual in-game mapgeneration (ill)logic
-
-/*
- * place -specific- items
- */
-void jmapgen_spawn_item::apply( map * m ) {
-    if ( chance == 1 || one_in( chance ) ) {
-        const int trepeat = repeat.get();
-        for (int i = 0; i < trepeat; i++) {
-            m->spawn_item( x.get(), y.get(), itype, amount.get() );
-        }
-    }
-}
 
 /*
  * (set|line|square)_(ter|furn|trap|radiation); simple (x, y, int) or (x1,y1,x2,y2, int) functions
@@ -1051,9 +1048,6 @@ void mapgen_function_json::generate( map *m, oter_id terrain_type, mapgendata md
     }
     if ( do_format ) {
         formatted_set_incredibly_simple(m, format.get(), mapgensize, mapgensize, 0, 0, fill_ter );
-    }
-    for( auto &elem : spawnitems ) {
-        elem.apply( m );
     }
     for( auto &elem : setmap_points ) {
         elem.apply( m );

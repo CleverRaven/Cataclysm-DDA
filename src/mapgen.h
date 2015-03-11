@@ -105,20 +105,6 @@ struct jmapgen_setmap {
     bool apply( map * m );
 };
 
-struct jmapgen_spawn_item {
-    jmapgen_int x;
-    jmapgen_int y;
-    std::string itype;
-    jmapgen_int amount;
-    int chance;
-    jmapgen_int repeat;
-    jmapgen_spawn_item( const jmapgen_int ix, jmapgen_int iy, std::string iitype, jmapgen_int iamount, int ichance = 1,
-        jmapgen_int irepeat = jmapgen_int(1,1) ) :
-      x(ix), y(iy), itype(iitype), amount(iamount), chance(ichance), repeat(irepeat) {}
-    void apply( map * m );
-
-};
-
 /**
  * Basic mapgen object. It is supposed to place or do something on a specific square on the map.
  * Inherit from this class and implement the @ref apply function.
@@ -186,7 +172,6 @@ class mapgen_function_json : public virtual mapgen_function {
     int fill_ter;
     std::unique_ptr<ter_furn_id[]> format;
     std::vector<jmapgen_setmap> setmap_points;
-    std::vector<jmapgen_spawn_item> spawnitems;
     /**
      * Combination of where to place something and what to place.
      */

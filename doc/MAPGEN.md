@@ -56,6 +56,7 @@
                 * 2.7.6 "items"
                 * 2.7.7 "monsters"
                 * 2.7.8 "vehicles"
+                * 2.7.9 "item"
 
 * 3 Method: lua
 	* 3.0 Tested functions
@@ -526,6 +527,22 @@ Places a vehicle. Values:
 - "rotation": (optional, integer) the direction the vehicle faces.
 - "fuel": (optional, integer) the fuel status. Default is -1 which makes the tanks 1-7% full. Positive values are interpreted as percentage of the vehicles tanks to fill (e.g. 100 means completely full). 
     - "status": (optional, integer) default is -1 (no damage at all), a value of 1 means some damage.
+
+### 2.7.9 "item"
+Places a specific item. Values:
+- "item": (required, string) the item type id of the new item.
+- "chance": (optional, integer or min/max array) the chance to spawn multiple items (see `map::place_items`). This is a one_in(chance) check, 1 (the default) means it will always spawn.
+- "amount": (optional, integer or min/max array) the number of items to spawn, default is 1.
+
+To use this type with explicit coordinates use the name "add" (this if for backwards compatibility) like this:
+```
+"item": {
+    "x": { "item": "rock" }
+},
+"add": [
+    { "x": 10, "y": 1, "item": "rock" }
+]
+```
 
 ## 3 Method: lua
 Lua is very WIP but supports the following map class functions:
