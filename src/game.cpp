@@ -13795,7 +13795,8 @@ void intro()
     }
     werase(tmp);
 
-    // check locale
+#if !(defined _WIN32 || defined WINDOWS)
+    // Check if locale is has UTF-8 encoding
     char *locale = setlocale(LC_ALL, NULL);
     if (locale != NULL) {
         if (strstr(locale, "UTF-8") == NULL) {
@@ -13807,6 +13808,7 @@ void intro()
             werase(tmp);
         }
     }
+#endif
 
     wrefresh(tmp);
     delwin(tmp);
