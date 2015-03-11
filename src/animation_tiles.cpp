@@ -10,7 +10,7 @@ extern void try_update();
 #endif
 
 namespace {
-void draw_animation_delay(long const scale)
+void draw_animation_delay(long const scale = 1)
 {
     auto const delay = static_cast<long>(OPTIONS["ANIMATION_DELAY"]) * scale * 1000000l;
 
@@ -77,45 +77,82 @@ void game::draw_explosion(int const x, int const y, int const r, nc_color const 
 }
 #endif
 
-#if (defined SDLTILES)
-
-/* Bullet Animation -- Maybe change this to animate the ammo itself flying through the air?*/
-// need to have a version where there is no player defined, possibly. That way shrapnel works as intended
-void game::draw_bullet(Creature const &p, int tx, int ty, int i,
-                       std::vector<point> const &trajectory, char bullet_char, timespec const &ts)
+namespace {
+void draw_bullet_curses(WINDOW *const w, player &u, map &m, int const tx, int const ty,
+    char const bullet, point const *const p, bool const wait)
 {
-    (void)i; //unused
-    (void)trajectory; //unused
-    if (u.sees(tx, ty)) {
-        std::string bullet;// = "animation_bullet_normal";
-        switch(bullet_char) {
-        case '*':
-            bullet = "animation_bullet_normal";
-            break;
-        case '#':
-            bullet = "animation_bullet_flame";
-            break;
-        case '`':
-            bullet = "animation_bullet_shrapnel";
-            break;
-        }
+    int const posx = u.posx() + u.view_offset_x;
+    int const posy = u.posy() + u.view_offset_y;
 
-        if (use_tiles) {
-            tilecontext->init_draw_bullet(tx, ty, bullet);
-        } else {
-            mvwputch(w_terrain, POSY + (ty - (u.posy() + u.view_offset_y)),
-                     POSX + (tx - (u.posx() + u.view_offset_x)), c_red, bullet_char);
-        }
-        wrefresh(w_terrain);
-        if (p.is_player()) {
-            try_update();
-            if( ts.tv_nsec != 0 ) {
-                nanosleep(&ts, NULL);
-            }
-        }
-        tilecontext->void_bullet();
+    if (p) {
+        m.drawsq(w, u, p->x, p->y, false, true, posx, posy);
+    }
+
+    mvwputch(w, POSY + (ty - posy), POSX + (tx - posx), c_red, bullet);
+    wrefresh(w);
+
+    if (wait) {
+        draw_animation_delay();
     }
 }
+
+} ///namespace
+
+#if !defined(SDLTILES)
+void game::draw_bullet(Creature const &p, int const tx, int const ty, int const i,
+    std::vector<point> const &trajectory, char const bullet)
+{
+    if (!u.sees(tx, ty)) {
+        return;
+    }
+
+    draw_bullet_curses(w_terrain, u, m, tx, ty, bullet,
+        (i > 0) ? &trajectory[i - 1] : nullptr, p.is_player());
+}
+#else
+/* Bullet Animation -- Maybe change this to animate the ammo itself flying through the air?*/
+// need to have a version where there is no player defined, possibly. That way shrapnel works as intended
+void game::draw_bullet(Creature const &p, int const tx, int const ty, int const i,
+    std::vector<point> const &trajectory, char const bullet)
+{
+    //TODO signature and impl could be changed to eliminate these params
+
+    (void)i;          //unused
+    (void)trajectory; //unused
+
+    if (!u.sees(tx, ty)) {
+        return;
+    }
+
+    if (!use_tiles) {
+        draw_bullet_curses(w_terrain, u, m, tx, ty, bullet, nullptr, p.is_player());
+    }
+
+    static std::string const bullet_unknown  {};
+    static std::string const bullet_normal   {"animation_bullet_normal"};
+    static std::string const bullet_flame    {"animation_bullet_flame"};
+    static std::string const bullet_shrapnel {"animation_bullet_shrapnel"};
+
+    std::string const &bullet_type = 
+        (bullet == '*') ? bullet_normal
+      : (bullet == '#') ? bullet_flame
+      : (bullet == '`') ? bullet_shrapnel
+      : bullet_unknown;
+
+    tilecontext->init_draw_bullet(tx, ty, bullet_type);
+    wrefresh(w_terrain);
+
+    if (p.is_player()) {
+        try_update();
+        draw_animation_delay();
+    }
+
+    tilecontext->void_bullet();
+}
+#endif
+
+#if (defined SDLTILES)
+
 /* Monster hit animation */
 void game::draw_hit_mon(int x, int y, const monster &m, bool dead)
 {

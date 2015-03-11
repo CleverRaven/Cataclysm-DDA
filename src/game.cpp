@@ -6090,9 +6090,6 @@ void game::explosion(int x, int y, int power, int shrapnel, bool fire, bool blas
     }
     int sx, sy, t, tx, ty;
     std::vector<point> traj;
-    timespec ts;
-    ts.tv_sec = 0;
-    ts.tv_nsec = 1000000 * OPTIONS["ANIMATION_DELAY"];
     for (int i = 0; i < shrapnel; i++) {
         sx = rng(x - 2 * radius, x + 2 * radius);
         sy = rng(y - 2 * radius, y + 2 * radius);
@@ -6108,7 +6105,7 @@ void game::explosion(int x, int y, int power, int shrapnel, bool fire, bool blas
         }
         for (size_t j = 0; j < traj.size(); j++) {
             dam = rng(power / 2, power * 2);
-            draw_bullet(u, traj[j].x, traj[j].y, (int)j, traj, '`', ts);
+            draw_bullet(u, traj[j].x, traj[j].y, (int)j, traj, '`');
             tx = traj[j].x;
             ty = traj[j].y;
             const int zid = mon_at(tx, ty);

@@ -5,28 +5,6 @@ bool is_valid_in_w_terrain(int x, int y);
 
 #include "game.h"
 
-/* Bullet Animation */
-void game::draw_bullet(Creature const &p, int tx, int ty, int i, std::vector<point> const &trajectory,
-                       char bullet, timespec const &ts)
-{
-    if (u.sees(tx, ty)) {
-        if (i > 0) {
-            m.drawsq(w_terrain, u, trajectory[i - 1].x, trajectory[i - 1].y, false,
-                     true, u.posx() + u.view_offset_x, u.posy() + u.view_offset_y);
-        }
-        /*
-        char bullet = '*';
-        if (is_aflame)
-         bullet = '#';
-        */
-        mvwputch(w_terrain, POSY + (ty - (u.posy() + u.view_offset_y)),
-                 POSX + (tx - (u.posx() + u.view_offset_x)), c_red, bullet);
-        wrefresh(w_terrain);
-        if( p.is_player() && ts.tv_nsec != 0 ) {
-            nanosleep(&ts, NULL);
-        }
-    }
-}
 /* Monster hit animation */
 void game::draw_hit_mon(int x, int y, const monster &m, bool dead)
 {

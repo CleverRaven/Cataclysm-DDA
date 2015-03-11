@@ -1226,7 +1226,7 @@ void cata_tiles::init_draw_bullet(int x, int y, std::string name)
     do_draw_bullet = true;
     bul_pos_x = x;
     bul_pos_y = y;
-    bul_id = name;
+    bul_id = std::move(name);
 }
 void cata_tiles::init_draw_hit(int x, int y, std::string name)
 {
