@@ -221,28 +221,53 @@ void game::draw_hit_player(player const &p, const int dam)
 }
 #endif
 
-#if (defined SDLTILES)
-
 /* Line drawing code, not really an animation but should be separated anyway */
 
-void game::draw_line(const int x, const int y, const point center_point, std::vector<point> ret)
+namespace {
+void draw_line_curses(game &g, int const x, int const y, point const center,
+    std::vector<point> const &ret)
 {
-    if (u.sees( x, y)) {
-        for (std::vector<point>::iterator it = ret.begin();
-             it != ret.end(); it++) {
-            const Creature *critter = critter_at( it->x, it->y );
-            // NPCs and monsters get drawn with inverted colors
-            if( critter != nullptr && u.sees( *critter ) ) {
-                critter->draw( w_terrain, center_point.x, center_point.y, true );
-            } else {
-                m.drawsq(w_terrain, u, it->x, it->y, true, true, center_point.x, center_point.y);
-            }
+    for (point const &p : ret) {
+        auto const critter = g.critter_at(p.x, p.y);
+
+        // NPCs and monsters get drawn with inverted colors
+        if (critter && g.u.sees(*critter)) {
+            critter->draw(g.w_terrain, center.x, center.y, true);
+        } else {
+            g.m.drawsq(g.w_terrain, g.u, p.x, p.y, true, true, center.x, center.y);
         }
     }
+}
+} //namespace
+
+#if !defined (SDLTILES)
+void game::draw_line(int const x, int const y, point const center, std::vector<point> const &ret)
+{
+    if (!u.sees(x, y)) {
+        return;
+    }
+
+    draw_line_curses(*this, x, y, center, ret);
+}
+#else
+void game::draw_line(int const x, int const y, point const center, std::vector<point> const &ret)
+{
+    if (!u.sees(x, y)) {
+        return;
+    }
+
+    if (!use_tiles) {
+        draw_line_curses(*this, x, y, center, ret); // TODO needed for tiles ver too??
+        return;
+    }
+
     tilecontext->init_draw_line(x, y, ret, "line_target", true);
 }
+#endif
 
-void game::draw_line(const int x, const int y, std::vector<point> vPoint)
+#if (defined SDLTILES)
+
+void game::draw_line(const int x, const int y, std::vector<point> const &vPoint)
 {
     int crx = POSX, cry = POSY;
 
@@ -250,8 +275,8 @@ void game::draw_line(const int x, const int y, std::vector<point> vPoint)
         crx += (vPoint[vPoint.size() - 1].x - (u.posx() + u.view_offset_x));
         cry += (vPoint[vPoint.size() - 1].y - (u.posy() + u.view_offset_y));
     }
-    for( std::vector<point>::iterator it = vPoint.begin(); it != vPoint.end() - 1; it++ ) {
-        m.drawsq(w_terrain, u, it->x, it->y, true, true);
+    for (point const& p : vPoint) {
+        m.drawsq(w_terrain, u, p.x, p.y, true, true);
     }
 
     mvwputch(w_terrain, cry, crx, c_white, 'X');

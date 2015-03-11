@@ -6777,6 +6777,11 @@ Creature *game::critter_at(int x, int y)
     return NULL;
 }
 
+Creature const* game::critter_at(int const x, int const y) const
+{
+    return const_cast<game*>(this)->critter_at(x, y);
+}
+
 bool game::add_zombie(monster &critter)
 {
     if( !m.inbounds( critter.posx(), critter.posy() ) ) {
