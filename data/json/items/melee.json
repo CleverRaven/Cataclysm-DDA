@@ -1834,10 +1834,10 @@
     },
     {
         "type":"GENERIC",
-        "id":"rock",
+        "id":"sharp_rock",
         "symbol": "*",
         "color": "light_gray",
-        "name":"rock",
+        "name":"sharp_rock",
         "description":"A rock with sharp edges, that can be used as a butchering tool, if nothing else is available. Makes a passable melee weapon.",
         "price": 0,
         "material": "stone",
