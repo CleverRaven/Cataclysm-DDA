@@ -363,7 +363,7 @@ void draw_sct_curses(game &g)
             continue;
         }
 
-        bool const is_old = text.getStep() < SCT.iMaxSteps / 2;
+        bool const is_old = text.getStep() >= SCT.iMaxSteps / 2;
 
         nc_color const col1 = msgtype_to_color(text.getMsgType("first"),  is_old);
         nc_color const col2 = msgtype_to_color(text.getMsgType("second"), is_old);
