@@ -154,15 +154,12 @@
                 "H": "f_armchair",
                 "G": "f_oven"
             },
-            "place_specials": [
-                { "type": "vendingmachine", "x": 17, "y": 21 },
-                { "type": "vendingmachine", "x": 17, "y": 23 },
-                { "type": "toilet", "x": 8, "y": 12 },
-                { "type": "toilet", "x": 8, "y": 14 },
-                { "type": "toilet", "x": 8, "y": 16 },
-                { "type": "toilet", "x": 23, "y": 12 },
-                { "type": "toilet", "x": 23, "y": 14 },
-                { "type": "toilet", "x": 23, "y": 16 }
+            "toilets": {
+                ";": { }
+            },
+            "place_vendingmachines": [
+                { "x": 17, "y": 21 },
+                { "x": 17, "y": 23 }
             ],
             "place_groups": [
             { "item": "office_mess", "chance": 98, "x": [ 8,23 ], "y": [ 4,10 ]},

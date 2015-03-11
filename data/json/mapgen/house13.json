@@ -76,14 +76,12 @@
                 "D": "f_trashcan",
                 "B": "f_chair",
                 "@": "f_bed",
-                ";": "f_toilet",
                 "a": "f_chair",
                 "=": "f_fireplace"
             },
-            "place_specials": [
-                { "type": "toilet", "x": 8, "y": 17 },
-                { "type": "toilet", "x": 10, "y": 17 }
-            ],
+            "toilets": {
+                ";": { }
+            },
             "set": [
                 { "point": "terrain", "id": "t_dirt", "x": 0, "y": [ 0, 23 ], "repeat": [ 5, 8 ] },
                 { "point": "terrain", "id": "t_dirt", "x": 1, "y": [ 0, 8 ], "repeat": [ 1, 2 ] },

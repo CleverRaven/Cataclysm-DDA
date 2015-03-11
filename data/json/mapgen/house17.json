@@ -79,12 +79,11 @@
                 "B": "f_chair",
                 "4": "f_dryer",
                 "7": "f_bookcase",
-                "@": "f_bed",
-                ";": "f_toilet"
+                "@": "f_bed"
             },
-            "place_specials": [
-                { "type": "toilet", "x": 19, "y": 21 }
-            ],
+            "toilets": {
+                ";": { }
+            },
             "set": [
                 { "point": "terrain", "id": "t_dirt", "x": 0, "y": [ 0, 23 ], "repeat": [ 5, 8 ] },
                 { "point": "terrain", "id": "t_dirt", "x": [ 1, 8 ], "y": [ 0, 5 ], "repeat": [ 8, 14 ] },

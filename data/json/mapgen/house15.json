@@ -88,14 +88,12 @@
                 "4": "f_dryer",
                 "7": "f_bookcase",
                 "@": "f_bed",
-                ";": "f_toilet",
                 "~": "f_shower",
                 "=": "f_fireplace"
             },
-            "place_specials": [
-                { "type": "toilet", "x": 5, "y": 17 },
-                { "type": "toilet", "x": 12, "y": 17 }
-            ],
+            "toilets": {
+                ";": { }
+            },
             "set": [
                 { "point": "terrain", "id": "t_dirt", "x": 0, "y": [ 0, 23 ], "repeat": [ 5, 8 ] },
                 { "point": "terrain", "id": "t_dirt", "x": 1, "y": [ 0, 4 ], "repeat": [ 0, 1 ] },
