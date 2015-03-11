@@ -2,6 +2,7 @@
 #include "inventory.h"
 #include "game.h"
 #include "iuse.h"
+#include "iuse_actor.h"
 
 const std::string inv_chars =
     "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ!\"#&()*+./:;=@[\\]^_{|}";
@@ -234,12 +235,12 @@ indexed_invslice inventory::slice_filter_by_capacity_for_liquid(const item &liqu
     return stacks;
 }
 
-indexed_invslice inventory::slice_filter_by_salvageability()
+indexed_invslice inventory::slice_filter_by_salvageability(const salvage_actor &actor)
 {
     int i = 0;
     indexed_invslice stacks;
     for( auto &elem : items ) {
-        if( iuse::valid_to_cut_up( &elem.front() ) ) {
+        if( actor.valid_to_cut_up( &elem.front() ) ) {
             stacks.push_back( std::make_pair( &elem, i ) );
         }
         ++i;

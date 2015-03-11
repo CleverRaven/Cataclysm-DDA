@@ -1,19 +1,24 @@
 #include "weather_gen.h"
-#include "options.h"
+#include "weather.h"
 #include "enums.h"
-#include "game.h"
+#include "calendar.h"
+#include "simplexnoise.h"
 
 #include <cmath>
-#include <iostream>
-#include <sstream>
 #include <fstream>
 
-const double tau = 2 * std::acos(-1);
+namespace {
+constexpr double tau = 6.28318530717958647693; // aka 2PI aka 2 * std::acos(-1);
+// Data source: Wolfram Alpha
+constexpr double base_t = 6.5; // Average temperature of New England
+constexpr double base_h = 66.0; // Average humidity
+constexpr double base_p = 1015.0; // Average atmospheric pressure
+} //namespace
 
 weather_generator::weather_generator() { }
 weather_generator::weather_generator(unsigned seed) : SEED(seed) { }
 
-w_point weather_generator::get_weather(const point &location, const calendar &t)
+w_point weather_generator::get_weather(const point &location, const calendar &t) const
 {
     const double x(location.x / 2000.0);// Integer x position / widening factor of the Perlin function.
     const double y(location.y / 2000.0);// Integer y position / widening factor of the Perlin function.
@@ -70,10 +75,10 @@ w_point weather_generator::get_weather(const point &location, const calendar &t)
     // Wind power
     W = std::max(0, 1020 - (int)P);
 
-    return w_point(T, H, P, W);
+    return w_point {T, H, P, W, false};
 }
 
-weather_type weather_generator::get_weather_conditions(const point &location, const calendar &t)
+weather_type weather_generator::get_weather_conditions(const point &location, const calendar &t) const
 {
     w_point w(get_weather(location, t));
     weather_type wt = get_weather_conditions(w);
@@ -81,6 +86,7 @@ weather_type weather_generator::get_weather_conditions(const point &location, co
     if (wt == WEATHER_SUNNY && t.is_night()) { return WEATHER_CLEAR; }
     return wt;
 }
+
 weather_type weather_generator::get_weather_conditions(const w_point &w) const
 {
     weather_type r(WEATHER_CLEAR);
@@ -122,7 +128,7 @@ weather_type weather_generator::get_weather_conditions(const w_point &w) const
     return r;
 }
 
-int weather_generator::get_water_temperature()
+int weather_generator::get_water_temperature() const
 {
     /**
     WATER TEMPERATURE
@@ -138,32 +144,28 @@ int weather_generator::get_water_temperature()
     if (season_length == 0) season_length = 1;
 
     // Temperature varies between 33.8F and 75.2F depending on the time of year. Day = 0 corresponds to the start of spring.
-    int annual_mean_water_temperature = 54.5 + 20.7 * sin(2.0 * 3.14 * (day - season_length*0.5) / (season_length*4.0));
+    int annual_mean_water_temperature = 54.5 + 20.7 * sin(tau * (day - season_length*0.5) / (season_length*4.0));
     // Temperature vareis between +2F and -2F depending on the time of day. Hour = 0 corresponds to midnight.
-    int daily_water_temperature_varaition = 2.0 + 2.0 * sin(2.0 * 3.14 * (hour - 6.0) / 24.0);
+    int daily_water_temperature_varaition = 2.0 + 2.0 * sin(tau * (hour - 6.0) / 24.0);
 
     water_temperature = annual_mean_water_temperature + daily_water_temperature_varaition;
 
     return water_temperature;
 }
 
-void weather_generator::test_weather()
+void weather_generator::test_weather() const
 {
     // Outputs a Cata year's worth of weather data to a csv file.
     // Usage:
     // weather_generator WEATHERGEN(0); // Seeds the weather object.
     // WEATHERGEN.test_weather(); // Runs this test.
     std::ofstream testfile;
-    std::ostringstream ss;
     testfile.open("weather.output", std::ofstream::trunc);
     testfile << "turn,temperature(F),humidity(%),pressure(mB)" << std::endl;
 
     for (calendar i(calendar::turn); i.get_turn() < calendar::turn + 14400 * 2 * calendar::turn.year_length(); i+=200) {
-        ss.str("");
         w_point w = get_weather(point(0, 0), i);
-        ss << i.get_turn() << "," << w.temperature << "," << w.humidity << "," << w.pressure;
-        testfile << std::string( ss.str() ) << std::endl;
+        testfile << i.get_turn() << "," << w.temperature << "," << w.humidity << "," << w.pressure << std::endl;
     }
-    testfile.close();
     //debugmsg("Starting season: %s", ACTIVE_WORLD_OPTIONS["INITIAL_SEASON"].getValue().c_str());
 }

@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Cataclysm-DDA\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-03-02 10:32+0300\n"
-"PO-Revision-Date: 2015-03-04 05:52+0000\n"
+"POT-Creation-Date: 2015-03-07 18:54-0600\n"
+"PO-Revision-Date: 2015-03-09 00:51+0000\n"
 "Last-Translator: Noctivagante <noctivagante@yahoo.com>\n"
 "Language-Team: Spanish (Argentina) (http://www.transifex.com/projects/p/"
 "cataclysm-dda/language/es_AR/)\n"
@@ -30847,8 +30847,8 @@ msgstr[1] "Torretas Avalancha"
 #: lang/json/GUN_from_json.py
 msgid "BB gun"
 msgid_plural "BB guns"
-msgstr[0] "pistola de balines"
-msgstr[1] "pistolas de balines"
+msgstr[0] "rifle de balines"
+msgstr[1] "rifles de balines"
 
 #: lang/json/GUN_from_json.py
 msgid ""
@@ -31826,7 +31826,7 @@ msgstr[1] "PPSh-41"
 msgid ""
 "Popular among children.  It's fairly accurate, but BBs deal nearly no damage."
 msgstr ""
-"Son populares entre los pibes. Es bastante precisa pero los balines casi que "
+"Son populares entre los pibes. Es bastante preciso pero los balines casi que "
 "no causan ningún daño."
 
 #: lang/json/GUN_from_json.py
@@ -45057,7 +45057,7 @@ msgstr "Construir Techo de Concreto"
 
 #: lang/json/construction_from_json.py
 msgid "Build Counter"
-msgstr "Construir Mostrador"
+msgstr "Construir Mesada"
 
 #: lang/json/construction_from_json.py
 msgid "Build Crate"
@@ -46343,11 +46343,11 @@ msgstr ""
 
 #: lang/json/effects_from_json.py
 msgid "Adrenaline Comedown"
-msgstr ""
+msgstr "Bajón de Adrenalina"
 
 #: lang/json/effects_from_json.py
 msgid "Adrenaline Rush"
-msgstr ""
+msgstr "Empujón de Adrenalina"
 
 #: lang/json/effects_from_json.py
 msgid "Asked Info"
@@ -46371,11 +46371,11 @@ msgstr "Preguntar para Entrenar"
 
 #: lang/json/effects_from_json.py
 msgid "Asthma"
-msgstr ""
+msgstr "Asma"
 
 #: lang/json/effects_from_json.py
 msgid "Bad Bleeding"
-msgstr "Sangrando Bastante"
+msgstr "Sangrando Mucho"
 
 #: lang/json/effects_from_json.py
 msgid "Badly Infected"
@@ -46399,7 +46399,7 @@ msgstr "Ciego"
 
 #: lang/json/effects_from_json.py
 msgid "Blisters"
-msgstr ""
+msgstr "Llagas"
 
 #: lang/json/effects_from_json.py
 msgid "Boomered"
@@ -46411,11 +46411,11 @@ msgstr "Rebotado"
 
 #: lang/json/effects_from_json.py
 msgid "Bugs in skin"
-msgstr ""
+msgstr "Bichos en la piel"
 
 #: lang/json/effects_from_json.py
 msgid "Buy the ticket, take the ride.  The datura has you now."
-msgstr ""
+msgstr "Comprá el pasaje, hacé el viaje. La datura ahora te posee."
 
 #: lang/json/effects_from_json.py
 msgid "Catch Up"
@@ -46424,12 +46424,12 @@ msgstr "Alcanzar"
 #: lang/json/effects_from_json.py
 msgctxt "memorial_female"
 msgid "Caught a cold."
-msgstr ""
+msgstr "Te refriaste."
 
 #: lang/json/effects_from_json.py
 msgctxt "memorial_male"
 msgid "Caught a cold."
-msgstr ""
+msgstr "Te refriaste."
 
 #: lang/json/effects_from_json.py
 msgctxt "memorial_female"
@@ -46444,20 +46444,20 @@ msgstr "Prendido fuego."
 #: lang/json/effects_from_json.py
 msgctxt "memorial_female"
 msgid "Caught the flu."
-msgstr ""
+msgstr "Te engripaste."
 
 #: lang/json/effects_from_json.py
 msgctxt "memorial_male"
 msgid "Caught the flu."
-msgstr ""
+msgstr "Te engripaste."
 
 #: lang/json/effects_from_json.py
 msgid "Chemical Comedown"
-msgstr ""
+msgstr "Bajón Químico"
 
 #: lang/json/effects_from_json.py
 msgid "Chemical Rush"
-msgstr ""
+msgstr "Empujón Químico"
 
 #: lang/json/effects_from_json.py
 msgid "Chilly"
@@ -46469,11 +46469,11 @@ msgstr "Frío"
 
 #: lang/json/effects_from_json.py
 msgid "Common Cold"
-msgstr ""
+msgstr "Resfrío Común"
 
 #: lang/json/effects_from_json.py
 msgid "Contact Lenses"
-msgstr ""
+msgstr "Lentes de Contacto"
 
 #: lang/json/effects_from_json.py
 msgctxt "memorial_female"
@@ -46527,11 +46527,11 @@ msgstr "Caído"
 
 #: lang/json/effects_from_json.py
 msgid "Drunk"
-msgstr ""
+msgstr "Borracho"
 
 #: lang/json/effects_from_json.py
 msgid "Experiencing Datura"
-msgstr ""
+msgstr "Experimentando Datura"
 
 #: lang/json/effects_from_json.py
 msgid "Food Poisoning"
@@ -46556,30 +46556,30 @@ msgstr "Resplandor"
 #: lang/json/effects_from_json.py
 msgctxt "memorial_female"
 msgid "Got over the cold."
-msgstr ""
+msgstr "Ya se te pasó el resfrío."
 
 #: lang/json/effects_from_json.py
 msgctxt "memorial_male"
 msgid "Got over the cold."
-msgstr ""
+msgstr "Ya se te pasó el resfrío."
 
 #: lang/json/effects_from_json.py
 msgctxt "memorial_female"
 msgid "Got over the flu."
-msgstr ""
+msgstr "Ya se te pasó la gripe."
 
 #: lang/json/effects_from_json.py
 msgctxt "memorial_male"
 msgid "Got over the flu."
-msgstr ""
+msgstr "Ya se te pasó la gripe."
 
 #: lang/json/effects_from_json.py
 msgid "Grabbed"
-msgstr ""
+msgstr "Agarrado"
 
 #: lang/json/effects_from_json.py
 msgid "Grack"
-msgstr ""
+msgstr "Grack"
 
 #: lang/json/effects_from_json.py
 msgid "Hallucinating"
@@ -46591,19 +46591,19 @@ msgstr "Tiene Bolsa"
 
 #: lang/json/effects_from_json.py
 msgid "Heavy Asthma"
-msgstr ""
+msgstr "Asma Grave"
 
 #: lang/json/effects_from_json.py
 msgid "Heavy Bleeding"
-msgstr "Sangrando Mucho"
+msgstr "Sangrado Grave"
 
 #: lang/json/effects_from_json.py
 msgid "High"
-msgstr ""
+msgstr "Drogado"
 
 #: lang/json/effects_from_json.py
 msgid "High on Meth"
-msgstr ""
+msgstr "Drogado con Metanfetaminas"
 
 #: lang/json/effects_from_json.py
 msgid "Hit By Player"
@@ -46627,15 +46627,15 @@ msgstr "Infección"
 
 #: lang/json/effects_from_json.py
 msgid "Influenza"
-msgstr ""
+msgstr "Gripe"
 
 #: lang/json/effects_from_json.py
 msgid "Itchy skin"
-msgstr ""
+msgstr "Picazón"
 
 #: lang/json/effects_from_json.py
 msgid "Lacking Sleep"
-msgstr ""
+msgstr "Falta de Sueño"
 
 #: lang/json/effects_from_json.py
 msgid "Laser-targeted"
@@ -46651,23 +46651,23 @@ msgstr ""
 
 #: lang/json/effects_from_json.py
 msgid "Meth comedown"
-msgstr ""
+msgstr "Bajón de Metanfetaminas"
 
 #: lang/json/effects_from_json.py
 msgid "Mycal wrath fills our fibers, and we grow turgid."
-msgstr ""
+msgstr "La ira de Mycus llena nuestras fibras, y nos hinchamos."
 
 #: lang/json/effects_from_json.py
 msgid "Mycus Respite"
-msgstr ""
+msgstr "Alivio de Mycus"
 
 #: lang/json/effects_from_json.py
 msgid "Mycus Wrath"
-msgstr ""
+msgstr "Ira de Mycus"
 
 #: lang/json/effects_from_json.py src/bionics.cpp
 msgid "Nicotine"
-msgstr ""
+msgstr "Nicotina"
 
 #: lang/json/effects_from_json.py
 msgid "On Fire"
@@ -46676,11 +46676,15 @@ msgstr "En LLamas"
 #: lang/json/effects_from_json.py
 msgid "Our enemies are near, and violent action is imminent.  We are turgid."
 msgstr ""
+"Nuestros enemigos están cerca, y es inminente una acción violenta. Nosostros "
+"estamos hinchados."
 
 #: lang/json/effects_from_json.py
 msgid ""
 "Our fibers are stretched near breaking.  Local power diverted to regenerate."
 msgstr ""
+"Nuestras fibras están estiradas hasta casi romperse. La energía local se "
+"desvía para la regeneración."
 
 #: lang/json/effects_from_json.py
 msgid "Pacified"
@@ -46718,7 +46722,7 @@ msgstr "Apagar el fuego."
 
 #: lang/json/effects_from_json.py
 msgid "RELEASE THE GRACKEN!!!!"
-msgstr ""
+msgstr "¡¡¡¡LIBERAR EL GRACKEN!!!!"
 
 #: lang/json/effects_from_json.py
 msgid "Range of Sight: 0"
@@ -46768,11 +46772,11 @@ msgstr "Recuperándote de una Infección"
 
 #: lang/json/effects_from_json.py
 msgid "Relaxation gas"
-msgstr ""
+msgstr "Gas relajante"
 
 #: lang/json/effects_from_json.py
 msgid "Sap-coated"
-msgstr ""
+msgstr "Cubierto de savia"
 
 #: lang/json/effects_from_json.py
 msgid "Scorching"
@@ -46816,7 +46820,7 @@ msgstr "Salpicado de esporas"
 
 #: lang/json/effects_from_json.py
 msgid "Stem cell treatment"
-msgstr ""
+msgstr "Tratamiento de células madre"
 
 #: lang/json/effects_from_json.py
 msgid ""
@@ -46824,6 +46828,9 @@ msgid ""
 "You are thoroughly relaxed and don't feel like moving.  Fighting? Too much "
 "effort."
 msgstr ""
+"Fuerza - 3; Destreza - 3; Inteligencia - 2; Percepción - 4\n"
+"Estás completamente relajado y no tenés ganas de moverte. ¿Pelear? Demasiado "
+"esfuerzo."
 
 #: lang/json/effects_from_json.py
 msgid "Stuck in Pit"
@@ -46851,7 +46858,7 @@ msgstr "Aturdido"
 
 #: lang/json/effects_from_json.py
 msgid "Symptoms alleviated by medication (cough syrup)."
-msgstr ""
+msgstr "Aliviaste los síntomas con medicación (jarabe para la tos)."
 
 #: lang/json/effects_from_json.py
 msgid "Tear gas"
@@ -46860,6 +46867,8 @@ msgstr "Gas lacrimógeno"
 #: lang/json/effects_from_json.py
 msgid "That critter's jumping around like a jitterbug! It needs to mellow out."
 msgstr ""
+"¡Ese bicho está saltando como si estuviera bailando jitterbug! Necesita "
+"calmarse."
 
 #: lang/json/effects_from_json.py
 msgid "The bite wound feels really deep..."
@@ -46867,19 +46876,21 @@ msgstr "La herida de mordida se siente muy profunda..."
 
 #: lang/json/effects_from_json.py
 msgid "The ceiling collapses on you!"
-msgstr ""
+msgstr "¡El techo se te cae encima!"
 
 #: lang/json/effects_from_json.py
 msgid "The jet injector's chemicals wear off.  You feel AWFUL!"
 msgstr ""
+"Los efectos de los químicos del inyector de presión se te pasaron. ¡Te "
+"sentís TERRIBLE!"
 
 #: lang/json/effects_from_json.py
 msgid "The sap's too sticky for you to fight effectively."
-msgstr ""
+msgstr "La savia es muy pegajosa y no te deja pelear de manera eficaz."
 
 #: lang/json/effects_from_json.py
 msgid "The slackness leaves your muscles."
-msgstr ""
+msgstr "Ya recuperaste el vigor de tus músculos."
 
 #: lang/json/effects_from_json.py
 msgid "The sun is in your eyes."
@@ -46907,7 +46918,7 @@ msgstr "Atado"
 
 #: lang/json/effects_from_json.py
 msgid "Tipsy"
-msgstr ""
+msgstr "Entonado"
 
 #: lang/json/effects_from_json.py
 msgid "Totally Paralyzed"
@@ -46915,7 +46926,7 @@ msgstr "Totalmente Paralizado"
 
 #: lang/json/effects_from_json.py
 msgid "Trashed"
-msgstr ""
+msgstr "En pedo"
 
 #: lang/json/effects_from_json.py
 msgid "Turret is Targeted"
@@ -46923,7 +46934,7 @@ msgstr "Torreta está Apuntando"
 
 #: lang/json/effects_from_json.py
 msgid "Unleashed the Gracken."
-msgstr ""
+msgstr "Soltar el Gracken."
 
 #: lang/json/effects_from_json.py
 msgid "Unstable footing"
@@ -46935,11 +46946,11 @@ msgstr "Templado"
 
 #: lang/json/effects_from_json.py
 msgid "Wasted"
-msgstr ""
+msgstr "Mamado"
 
 #: lang/json/effects_from_json.py
 msgid "We require repose; our fibers are nearly spent..."
-msgstr ""
+msgstr "Nosotros necesitamos descansar; nuestras fibras están casi gastadas..."
 
 #: lang/json/effects_from_json.py
 msgid "Webbed"
@@ -46947,7 +46958,7 @@ msgstr "En Telarañas"
 
 #: lang/json/effects_from_json.py
 msgid "Writhing skin"
-msgstr ""
+msgstr "Comezón"
 
 #: lang/json/effects_from_json.py
 msgid "You are being slowed by a paralyzing poison!"
@@ -46983,11 +46994,11 @@ msgstr "¡Caíste en una trampa de lazo!"
 
 #: lang/json/effects_from_json.py
 msgid "You are too tired to function well."
-msgstr ""
+msgstr "Estás demasiado cansado/a para funcionar bien."
 
 #: lang/json/effects_from_json.py
 msgid "You are wearing contact lenses."
-msgstr ""
+msgstr "Estás usando lentes de contacto."
 
 #: lang/json/effects_from_json.py
 msgid "You can feel the tiny spores sinking directly into your flesh."
@@ -47000,15 +47011,15 @@ msgstr "¡Podés escuchar otra vez!"
 
 #: lang/json/effects_from_json.py
 msgid "You can see more clearly."
-msgstr ""
+msgstr "Ahora podés ver mejor."
 
 #: lang/json/effects_from_json.py
 msgid "You can't breathe... asthma attack!"
-msgstr ""
+msgstr "No podés respirar... ¡un ataque de asma!"
 
 #: lang/json/effects_from_json.py
 msgid "You can't look away from the faultline..."
-msgstr ""
+msgstr "No podés dejar de mirar la enorme grieta en el suelo..."
 
 #: lang/json/effects_from_json.py
 msgid "You can't move until you get free!"
@@ -47020,23 +47031,23 @@ msgstr "No podés confiar en todo lo que estás viendo."
 
 #: lang/json/effects_from_json.py
 msgid "You don't have energy to fight."
-msgstr ""
+msgstr "No tenés energía para pelear."
 
 #: lang/json/effects_from_json.py
 msgid "You feel a cold coming on..."
-msgstr ""
+msgstr "Sentís que te estás por resfriar..."
 
 #: lang/json/effects_from_json.py
 msgid "You feel a flu coming on..."
-msgstr ""
+msgstr "Sentís que te estás por engripar..."
 
 #: lang/json/effects_from_json.py
 msgid "You feel a rush as the chemicals flow through your body!"
-msgstr ""
+msgstr "¡Sentís un empujón por lo químicos que fluyen a través de tu cuerpo!"
 
 #: lang/json/effects_from_json.py
 msgid "You feel a surge of adrenaline!"
-msgstr ""
+msgstr "¡Sentís una explosión de adrenalina!"
 
 #: lang/json/effects_from_json.py
 msgid "You feel bad inside."
@@ -47044,11 +47055,11 @@ msgstr "Te sentís mal por adentro."
 
 #: lang/json/effects_from_json.py
 msgid "You feel completely drained."
-msgstr ""
+msgstr "Te sentís totalmente agotado."
 
 #: lang/json/effects_from_json.py
 msgid "You feel lightheaded."
-msgstr ""
+msgstr "Estás un poco mareado."
 
 #: lang/json/effects_from_json.py
 msgid "You feel nauseated and rat-like."
@@ -47064,15 +47075,15 @@ msgstr "Te sentís todo duro."
 
 #: lang/json/effects_from_json.py
 msgid "You feel the rush of adrenaline in your body!"
-msgstr ""
+msgstr "¡Sentís la ráfaga de adrenalina en tu cuerpo!"
 
 #: lang/json/effects_from_json.py
 msgid "You feel the rush of stimulants in your body!"
-msgstr ""
+msgstr "¡Sentís la ráfaga de estimulantes en tu cuerpo!"
 
 #: lang/json/effects_from_json.py src/player.cpp
 msgid "You feel woozy."
-msgstr ""
+msgstr "Te sentís atontado."
 
 #: lang/json/effects_from_json.py
 msgid "You have a nasty bite wound."
@@ -47091,10 +47102,12 @@ msgid ""
 "You have been grabbed by an attack.\n"
 "You cannot dodge and blocking is very difficult."
 msgstr ""
+"Fuiste agarrado en la pelea.\n"
+"Ahora no podés esquivar y bloquear ataques es muy difícil."
 
 #: lang/json/effects_from_json.py
 msgid "You have been grabbed."
-msgstr ""
+msgstr "Has sido agarrado."
 
 #: lang/json/effects_from_json.py
 msgid "You have been poisoned!"
@@ -47106,7 +47119,7 @@ msgstr "¡Te picaron!"
 
 #: lang/json/effects_from_json.py
 msgid "You haven't slept in a while, and it shows."
-msgstr ""
+msgstr "Hace mucho que no dormís, y se te nota."
 
 #: lang/json/effects_from_json.py
 msgid "You inhale a lungful of tear gas."
@@ -47118,24 +47131,26 @@ msgstr "Inhalás mucha cantidad de humo espeso."
 
 #: lang/json/effects_from_json.py
 msgid "You inhale sweetish gas."
-msgstr ""
+msgstr "Inhalás un gas dulce."
 
 #: lang/json/effects_from_json.py
 msgid "You lie down to go to sleep..."
-msgstr ""
+msgstr "Te acostás para dormirte..."
 
 #: lang/json/effects_from_json.py
 msgid "You receive a pureed bone & enamel injection into your eyeball."
-msgstr ""
+msgstr "Recibiste una inyección de puré de hueso y esmalte en tu globo ocular."
 
 #: lang/json/effects_from_json.py
 msgid "You smoked too much"
-msgstr ""
+msgstr "Fumaste demasiado."
 
 #: lang/json/effects_from_json.py
 msgid ""
 "You stop to scratch yourself frequently; high INT helps you resist the urge."
 msgstr ""
+"Cada tanto, parás para rascarte. La INT alta te ayuda a resistir esta "
+"urgencia."
 
 #: lang/json/effects_from_json.py
 msgid "You tremble"
@@ -47147,7 +47162,7 @@ msgstr "Intentás mantener tu equilibrio."
 
 #: lang/json/effects_from_json.py
 msgid "You wake up."
-msgstr ""
+msgstr "Te despertás."
 
 #: lang/json/effects_from_json.py
 msgid "You're bleeding!"
@@ -47159,7 +47174,7 @@ msgstr "¡Estás ciego!"
 
 #: lang/json/effects_from_json.py
 msgid "You're coated in sap!"
-msgstr ""
+msgstr "¡Estás cubierto con savia!"
 
 #: lang/json/effects_from_json.py
 msgid "You're covered in bile!"
@@ -47203,11 +47218,11 @@ msgstr "¡Estás aturdido!"
 
 #: lang/json/effects_from_json.py
 msgid "You're too stuffed up to fight effectively."
-msgstr ""
+msgstr "Estás muy congestionado para pelear de manera eficaz."
 
 #: lang/json/effects_from_json.py
 msgid "You're winded."
-msgstr ""
+msgstr "Te falta el aire."
 
 #: lang/json/effects_from_json.py
 msgid "You've been exposed to tear gas!"
@@ -47225,7 +47240,7 @@ msgstr "Sentís tu %s abrigado/a."
 #: lang/json/effects_from_json.py
 #, no-python-format
 msgid "Your %s is blistering from the intense heat."
-msgstr ""
+msgstr "Te están apareciendo llagas en el/a %s por el calor intenso."
 
 #: lang/json/effects_from_json.py
 #, no-python-format
@@ -47269,7 +47284,7 @@ msgstr "Tu %s está muy expuesto al frío."
 
 #: lang/json/effects_from_json.py
 msgid "Your adrenaline rush wears off.  You feel AWFUL!"
-msgstr ""
+msgstr "El empujón de adrenalina ya se te pasó. ¡Te sentís TERRIBLE!"
 
 #: lang/json/effects_from_json.py
 msgid "Your bite wound feels infected"
@@ -47277,11 +47292,11 @@ msgstr "Sentís infectada tu herida de mordida."
 
 #: lang/json/effects_from_json.py
 msgid "Your blisters distract you"
-msgstr ""
+msgstr "Tus llagas te distraen."
 
 #: lang/json/effects_from_json.py
 msgid "Your comedown throws you off."
-msgstr ""
+msgstr "El bajón te deja confundido."
 
 #: lang/json/effects_from_json.py
 msgid "Your eyes burn from the tear gas."
@@ -47302,6 +47317,8 @@ msgstr "Tus manos no paran de temblar."
 msgid ""
 "Your insides are shifting in strange ways as the treatment takes effect."
 msgstr ""
+"Tus tripas se están moviendo de maneras extrañas a medida que el tratamiento "
+"va haciendo efecto."
 
 #: lang/json/effects_from_json.py
 msgid "Your lungs burn from the smoke."
@@ -47317,7 +47334,7 @@ msgstr "¡Podés ver otra vez!"
 
 #: lang/json/effects_from_json.py
 msgid "Your skin feels extremely itchy!"
-msgstr ""
+msgstr "¡Sentís que te pica muchísimo la piel!"
 
 #: lang/json/effects_from_json.py
 msgid "Your stomach bothers you."
@@ -47333,31 +47350,35 @@ msgstr "¡Tu visión va y viene y ves todo gris!"
 
 #: lang/json/effects_from_json.py
 msgid "Your vision starts to blur."
-msgstr ""
+msgstr "Tu visión se empieza a hacer borrosa."
 
 #: lang/json/faction_from_json.py
 msgid ""
 "A conglomeration of entrepreneurs and businessmen that stand together to "
 "hammer-out an existence through trade and industry."
 msgstr ""
+"Una conglomeración de empresarios y emprendedores que se mantienen juntos "
+"para poder continuar su existencia a través del comercio y la industria."
 
 #: lang/json/faction_from_json.py
 msgid ""
 "Autonomous bands or individuals who make their living raiding the ruins of "
 "the old-world for gear and provisions. "
 msgstr ""
+"Bandas autónomas o individuos que se dedican a saquear las ruinas del  mundo "
+"antiguo para conseguir equipo y provisiones."
 
 #: lang/json/faction_from_json.py
 msgid "Hell's Raiders"
-msgstr ""
+msgstr "Piratas del Infierno"
 
 #: lang/json/faction_from_json.py
 msgid "The Free Merchants"
-msgstr ""
+msgstr "Los Mercaderes Libres"
 
 #: lang/json/faction_from_json.py
 msgid "The Old Guard"
-msgstr ""
+msgstr "La Vieja Guardia"
 
 #: lang/json/faction_from_json.py
 msgid "The Wasteland Scavengers"
@@ -47368,537 +47389,544 @@ msgid ""
 "The largest gang of hooligans and bandits that preys upon other survivors.  "
 "Even if you have no gear, there is always a need for slaves and fresh meat. "
 msgstr ""
+"La banda más grande de patoteros y ladrones que abusan de los "
+"sobrevivientes. Y aunque no tengas equipo, siempre serás útil como eslavo o "
+"carne fresca."
 
 #: lang/json/faction_from_json.py
 msgid ""
 "The remains of the federal government.  The extent of their strength is "
 "unknown but squads of patrolling soldiers have been seen under their banner."
 msgstr ""
+"Lo que queda del gobierno federal. El alcance de su fuerza es desconocido, "
+"pero escuadrones de soldados patrullando han sido vistos con su bandera."
 
 #: lang/json/faction_from_json.py
 msgid ""
 "The survivors who have entrusted you with their well-being.  If morale "
 "drops, poor performance and mutiny may become issues."
 msgstr ""
+"Los sobrevivientes que han confiado en vos para mantener su bienestar. Si la "
+"moral cae mucho, puede afectar el desempeño y haber algún motín."
 
 #: lang/json/faction_from_json.py
 msgid "Your Followers"
-msgstr ""
+msgstr "Tus Seguidores"
 
 #: lang/json/faketypes.py
 msgid "MediSoft"
-msgstr ""
+msgstr "MediSoft"
 
 #: lang/json/faketypes.py
 msgid "a smoking device and a source of flame"
-msgstr ""
+msgstr "algo para fumar y algo para encender fuego"
 
 #: lang/json/faketypes.py
 msgid "corpse"
 msgid_plural "corpses"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "cadáver"
+msgstr[1] "cadáveres"
 
 #: lang/json/faketypes.py lang/json/terrain_from_json.py
 msgid "cvd machine"
-msgstr ""
+msgstr "máquina CVD"
 
 #: lang/json/faketypes.py
 msgid "hackPRO"
-msgstr ""
+msgstr "hackPRO"
 
 #: lang/json/faketypes.py
 msgid "human"
 msgid_plural "humans"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "humano"
+msgstr[1] "humanos"
 
 #: lang/json/faketypes.py
 msgid "infection data"
-msgstr ""
+msgstr "información de infección"
 
 #: lang/json/faketypes.py
 msgid "misc software"
-msgstr ""
+msgstr "software variado"
 
 #: lang/json/faketypes.py
 msgid "nearby fire"
-msgstr ""
+msgstr "fuego cercano"
 
 #: lang/json/furniture_from_json.py
 msgid "animalskin flap"
-msgstr ""
+msgstr "solapa de piel de animal"
 
 #: lang/json/furniture_from_json.py
 msgid "animalskin floor"
-msgstr ""
+msgstr "piso de piel de animal"
 
 #: lang/json/furniture_from_json.py
 msgid "animalskin wall"
-msgstr ""
+msgstr "pared de piel de animal"
 
 #: lang/json/furniture_from_json.py
 msgid "arcade machine"
-msgstr ""
+msgstr "máquina de juego"
 
 #: lang/json/furniture_from_json.py
 msgid "arm chair"
-msgstr ""
+msgstr "sillón"
 
 #: lang/json/furniture_from_json.py
 msgid "automated gas console"
-msgstr ""
+msgstr "consola automática de gases"
 
 #: lang/json/furniture_from_json.py
 msgid "ball machine"
-msgstr ""
+msgstr "máquina lanzapelotas"
 
 #: lang/json/furniture_from_json.py
 msgid "bathtub"
-msgstr ""
+msgstr "bañera"
 
 #: lang/json/furniture_from_json.py lang/json/vehicle_part_from_json.py
 msgid "bed"
-msgstr ""
+msgstr "cama"
 
 #: lang/json/furniture_from_json.py
 msgid "bench"
-msgstr ""
+msgstr "banco"
 
 #: lang/json/furniture_from_json.py
 msgid "book case"
-msgstr ""
+msgstr "biblioteca"
 
 #: lang/json/furniture_from_json.py
 msgid "broken automated gas console"
-msgstr ""
+msgstr "consola automática de gases rota"
 
 #: lang/json/furniture_from_json.py
 msgid "broken display case"
-msgstr ""
+msgstr "vitrina rota"
 
 #: lang/json/furniture_from_json.py
 msgid "broken vending machine"
-msgstr ""
+msgstr "máquina expendedora rota"
 
 #: lang/json/furniture_from_json.py
 msgid "bulletin board"
-msgstr ""
+msgstr "tablón de anuncios"
 
 #: lang/json/furniture_from_json.py
 msgid "canvas flap"
-msgstr ""
+msgstr "solapa de tela"
 
 #: lang/json/furniture_from_json.py
 msgid "canvas floor"
-msgstr ""
+msgstr "piso de tela"
 
 #: lang/json/furniture_from_json.py
 msgid "canvas wall"
-msgstr ""
+msgstr "pared de tela"
 
 #: lang/json/furniture_from_json.py
 msgid "chair"
-msgstr ""
+msgstr "silla"
 
 #: lang/json/furniture_from_json.py lang/json/terrain_from_json.py
 msgid "clang!"
-msgstr ""
+msgstr "¡clang!"
 
 #: lang/json/furniture_from_json.py
 msgid "counter"
-msgstr ""
+msgstr "mesada"
 
 #: lang/json/furniture_from_json.py lang/json/terrain_from_json.py src/map.cpp
 msgid "crash!"
-msgstr ""
+msgstr "¡crash!"
 
 #: lang/json/furniture_from_json.py
 msgid "crate"
-msgstr ""
+msgstr "caja"
 
 #: lang/json/furniture_from_json.py lang/json/terrain_from_json.py
 #: src/iuse.cpp
 msgid "crunch!"
-msgstr ""
+msgstr "¡crunch!"
 
 #: lang/json/furniture_from_json.py lang/json/terrain_from_json.py
 msgid "crunch."
-msgstr ""
+msgstr "crunch."
 
 #: lang/json/furniture_from_json.py
 msgid "cupboard"
-msgstr ""
+msgstr "alacena"
 
 #: lang/json/furniture_from_json.py
 msgid "dandelion"
-msgstr ""
+msgstr "diente de león"
 
 #: lang/json/furniture_from_json.py
 msgid "datura"
-msgstr ""
+msgstr "datura"
 
 #: lang/json/furniture_from_json.py
 msgid "desk"
-msgstr ""
+msgstr "escritorio"
 
 #: lang/json/furniture_from_json.py
 msgid "display case"
-msgstr ""
+msgstr "vitrina"
 
 #: lang/json/furniture_from_json.py
 msgid "display rack"
-msgstr ""
+msgstr "góndola"
 
 #: lang/json/furniture_from_json.py
 msgid "diving block"
-msgstr ""
+msgstr "podio de salida de natación"
 
 #: lang/json/furniture_from_json.py
 msgid "dresser"
-msgstr ""
+msgstr "cómoda"
 
 #: lang/json/furniture_from_json.py
 msgid "dryer"
-msgstr ""
+msgstr "secarropas"
 
 #: lang/json/furniture_from_json.py
 msgid "dumpster"
-msgstr ""
+msgstr "contenedor"
 
 #: lang/json/furniture_from_json.py
 msgid "electronic gun safe"
-msgstr ""
+msgstr "caja fuerte electrónica de armas"
 
 #: lang/json/furniture_from_json.py
 msgid "empty fermenting vat"
-msgstr ""
+msgstr "tanque de fermentación vacío"
 
 #: lang/json/furniture_from_json.py
 msgid "ergometer"
-msgstr ""
+msgstr "ergómetro"
 
 #: lang/json/furniture_from_json.py
 msgid "exercise machine"
-msgstr ""
+msgstr "máquina de ejercicio"
 
 #: lang/json/furniture_from_json.py
 msgid "filled metal charcoal kiln"
-msgstr ""
+msgstr "fosa de metal de carbonización llena"
 
 #: lang/json/furniture_from_json.py
 msgid "fireplace"
-msgstr ""
+msgstr "chimenea"
 
 #: lang/json/furniture_from_json.py
 msgid "forge"
-msgstr ""
+msgstr "forja"
 
 #: lang/json/furniture_from_json.py
 msgid "full fermenting vat"
-msgstr ""
+msgstr "tanque de fermentación lleno"
 
 #: lang/json/furniture_from_json.py
 msgid "fungal clump"
-msgstr ""
+msgstr "grumo fúngico"
 
 #: lang/json/furniture_from_json.py
 msgid "fungal flower"
-msgstr ""
+msgstr "flor fúngica"
 
 #: lang/json/furniture_from_json.py
 msgid "fungal mass"
-msgstr ""
+msgstr "masa fúngica"
 
 #: lang/json/furniture_from_json.py
 msgid "glass breaking"
-msgstr ""
+msgstr "vidrio rompiéndose"
 
 #: lang/json/furniture_from_json.py lang/json/terrain_from_json.py
 #: src/iuse.cpp src/map.cpp src/monattack.cpp src/ranged.cpp
 msgid "glass breaking!"
-msgstr ""
+msgstr "¡vidrio rompiéndose!"
 
 #: lang/json/furniture_from_json.py
 msgid "glass door fridge"
-msgstr ""
+msgstr "heladera con puerta de vidrio"
 
 #: lang/json/furniture_from_json.py
 msgid "groundsheet"
-msgstr ""
+msgstr "lona impermeable"
 
 #: lang/json/furniture_from_json.py
 msgid "gun safe"
-msgstr ""
+msgstr "caja fuerte de armas"
 
 #: lang/json/furniture_from_json.py
 msgid "harvestable plant"
-msgstr ""
+msgstr "planta cosechable"
 
 #: lang/json/furniture_from_json.py
 msgid "hay"
-msgstr ""
+msgstr "paja"
 
 #: lang/json/furniture_from_json.py
 msgid "heavy punching bag"
-msgstr ""
+msgstr "bolsa de boxeo grande"
 
 #: lang/json/furniture_from_json.py
 msgid "indoor plant"
-msgstr ""
+msgstr "planta de interior"
 
 #: lang/json/furniture_from_json.py
 msgid "jammed gun safe"
-msgstr ""
+msgstr "caja fuerte trabada de armas"
 
 #: lang/json/furniture_from_json.py
 msgid "lane guard"
-msgstr ""
+msgstr "guardarraíl"
 
 #: lang/json/furniture_from_json.py
 msgid "locker"
-msgstr ""
+msgstr "casillero"
 
 #: lang/json/furniture_from_json.py
 msgid "makeshift bed"
-msgstr ""
+msgstr "cama improvisada"
 
 #: lang/json/furniture_from_json.py
 msgid "marloss flower"
-msgstr ""
+msgstr "flor de marloss"
 
 #: lang/json/furniture_from_json.py
 msgid "mature plant"
-msgstr ""
+msgstr "planta madura"
 
 #: lang/json/furniture_from_json.py
 msgid "metal charcoal kiln"
-msgstr ""
+msgstr "fosa de metal de carbonización"
 
 #: lang/json/furniture_from_json.py lang/json/terrain_from_json.py
 msgid "metal screeching!"
-msgstr ""
+msgstr "¡chillido de metal!"
 
 #: lang/json/furniture_from_json.py
 msgid "metal wreckage"
-msgstr ""
+msgstr "restos de metal"
 
 #: lang/json/furniture_from_json.py
 msgid "mutated cactus"
-msgstr ""
+msgstr "cactus mutado"
 
 #: lang/json/furniture_from_json.py
 msgid "mutated poppy flower"
-msgstr ""
+msgstr "flor de amapola mutada"
 
 #: lang/json/furniture_from_json.py
 msgid "open animalskin flap"
-msgstr ""
+msgstr "solapa abierta de piel de animal"
 
 #: lang/json/furniture_from_json.py
 msgid "open canvas flap"
-msgstr ""
+msgstr "solapa abierta de tela"
 
 #: lang/json/furniture_from_json.py
 msgid "open crate"
-msgstr ""
+msgstr "caja abierta"
 
 #: lang/json/furniture_from_json.py
 msgid "open safe"
-msgstr ""
+msgstr "caja fuerte abierta"
 
 #: lang/json/furniture_from_json.py
 msgid "oven"
-msgstr ""
+msgstr "horno"
 
 #: lang/json/furniture_from_json.py
 msgid "pile of ash"
-msgstr ""
+msgstr "pila de ceniza"
 
 #: lang/json/furniture_from_json.py
 msgid "pile of rocky rubble"
-msgstr ""
+msgstr "pila de escombros de piedra"
 
 #: lang/json/furniture_from_json.py
 msgid "pile of rubble"
-msgstr ""
+msgstr "pila de escombros"
 
 #: lang/json/furniture_from_json.py
 msgid "pinball machine"
-msgstr ""
+msgstr "flipper"
 
 #: lang/json/furniture_from_json.py
 msgid "poof."
-msgstr ""
+msgstr "puf."
 
 #: lang/json/furniture_from_json.py
 msgid "pool table"
-msgstr ""
+msgstr "mesa de pool"
 
 #: lang/json/furniture_from_json.py
 msgid "porcelain breaking!"
-msgstr ""
+msgstr "¡porcelana rompiéndose!"
 
 #: lang/json/furniture_from_json.py
 msgid "refrigerator"
-msgstr ""
+msgstr "heladera"
 
 #: lang/json/furniture_from_json.py
 msgid "reinforced vending machine"
-msgstr ""
+msgstr "máquina expendedora reforzada"
 
 #: lang/json/furniture_from_json.py
 msgid "road barricade"
-msgstr ""
+msgstr "barricada de camino"
 
 #: lang/json/furniture_from_json.py
 msgid "rrrip!"
-msgstr ""
+msgstr "¡rrrip!"
 
 #: lang/json/furniture_from_json.py
 msgid "ruptured egg sack"
-msgstr ""
+msgstr "capullo roto de huevo"
 
 #: lang/json/furniture_from_json.py
 msgid "safe"
-msgstr ""
+msgstr "caja fuerte"
 
 #: lang/json/furniture_from_json.py
 msgid "sandbag barricade"
-msgstr ""
+msgstr "barricada de bolsas de arena"
 
 #: lang/json/furniture_from_json.py
 msgid "sandbag wall"
-msgstr ""
+msgstr "pared de bolsas de arena"
 
 #: lang/json/furniture_from_json.py
 msgid "screeching metal!"
-msgstr ""
+msgstr "¡chillido de metal!"
 
 #: lang/json/furniture_from_json.py
 msgid "seed"
-msgstr ""
+msgstr "semilla"
 
 #: lang/json/furniture_from_json.py
 msgid "seedling"
-msgstr ""
+msgstr "brote"
 
 #: lang/json/furniture_from_json.py
 msgid "shower"
-msgstr ""
+msgstr "ducha"
 
 #: lang/json/furniture_from_json.py
 msgid "sign"
-msgstr ""
+msgstr "cartel"
 
 #: lang/json/furniture_from_json.py
 msgid "sink"
-msgstr ""
+msgstr "lavabo"
 
 #: lang/json/furniture_from_json.py lang/json/terrain_from_json.py src/map.cpp
 #: src/mapdata.cpp
 msgid "smash!"
-msgstr ""
+msgstr "¡smash!"
 
 #: lang/json/furniture_from_json.py
 msgid "sofa"
-msgstr ""
+msgstr "sofá"
 
 #: lang/json/furniture_from_json.py
 msgid "spider egg sack"
-msgstr ""
+msgstr "capullo de huevo de araña"
 
 #: lang/json/furniture_from_json.py
 msgid "splat!"
-msgstr ""
+msgstr "¡splat!"
 
 #: lang/json/furniture_from_json.py
 msgid "standing tank"
-msgstr ""
+msgstr "Tanque vertical"
 
 #: lang/json/furniture_from_json.py
 msgid "statue"
-msgstr ""
+msgstr "estatua"
 
 #: lang/json/furniture_from_json.py
 msgid "straw bed"
-msgstr ""
+msgstr "cama de paja"
 
 #: lang/json/furniture_from_json.py
 msgid "tatami mat"
-msgstr ""
+msgstr "tatami"
 
 #: lang/json/furniture_from_json.py src/map.cpp src/mapdata.cpp
 msgid "thump!"
-msgstr ""
+msgstr "¡thump!"
 
 #: lang/json/furniture_from_json.py
 msgid "thump."
-msgstr ""
+msgstr "thump."
 
 #: lang/json/furniture_from_json.py
 msgid "toilet"
-msgstr ""
+msgstr "inodoro"
 
 #: lang/json/furniture_from_json.py
 msgid "trash can"
-msgstr ""
+msgstr "tacho de basura"
 
 #: lang/json/furniture_from_json.py
 msgid "treadmill"
-msgstr ""
+msgstr "cinta para correr"
 
 #: lang/json/furniture_from_json.py
 msgid "vending machine"
-msgstr ""
+msgstr "máquina expendedora"
 
 #: lang/json/furniture_from_json.py
 msgid "washing machine"
-msgstr ""
+msgstr "lavarropas"
 
 #: lang/json/furniture_from_json.py lang/json/terrain_from_json.py
 msgid "whack!"
-msgstr ""
+msgstr "¡whack!"
 
 #: lang/json/furniture_from_json.py lang/json/terrain_from_json.py
 msgid "wham!"
-msgstr ""
+msgstr "¡zas!"
 
 #: lang/json/furniture_from_json.py
 msgid "whish!"
-msgstr ""
+msgstr "¡frufrú!"
 
 #: lang/json/furniture_from_json.py
 msgid "whish."
-msgstr ""
+msgstr "frufrú"
 
 #: lang/json/furniture_from_json.py
 msgid "whud."
-msgstr ""
+msgstr "whud."
 
 #: lang/json/furniture_from_json.py lang/json/terrain_from_json.py
 msgid "whump!"
-msgstr ""
+msgstr "¡whump!"
 
 #: lang/json/furniture_from_json.py lang/json/terrain_from_json.py
 msgid "whump."
-msgstr ""
+msgstr "whump."
 
 #: lang/json/furniture_from_json.py
 msgid "whunk!"
-msgstr ""
+msgstr "¡whunk!"
 
 #: lang/json/furniture_from_json.py
 msgid "wood stove"
-msgstr ""
+msgstr "cocina de madera"
 
 #: lang/json/furniture_from_json.py
 msgid "wooden keg"
-msgstr ""
+msgstr "barril de madera"
 
 #: lang/json/furniture_from_json.py
 msgid "yellow indoor plant"
-msgstr ""
+msgstr "planta amarilla de interior"
 
 #: lang/json/hint_from_json.py
 msgid ""
@@ -47917,6 +47945,8 @@ msgid ""
 "BB guns may seem like a joke, but they've got their uses.  They're good for "
 "hunting small game, or getting to know the basics of rifles."
 msgstr ""
+"Los rifles de balines parecen una joda, pero pueden ser útiles. Sirven para "
+"cazar animales pequeños, o para aprender el uso básico de los rifles."
 
 #: lang/json/hint_from_json.py
 msgid ""
@@ -47961,6 +47991,9 @@ msgid ""
 "retrieve the bolt after shooting it, so running out of ammo is less of a "
 "concern."
 msgstr ""
+"Las ballestas son muy buenas armas para usos prolongados. La mayoría del "
+"tiempo, podés recuperar los pernos que disparaste, así que quedarse sin "
+"munición no es una preocupación primordial."
 
 #: lang/json/hint_from_json.py
 msgid ""
@@ -47971,6 +48004,8 @@ msgstr ""
 #: lang/json/hint_from_json.py
 msgid "Don't fire your gun if you can help it--the noise attracts monsters!"
 msgstr ""
+"Si podés evitarlo, no uses armas de fuego, ¡porque el ruido atrae a los "
+"monstruos!"
 
 #: lang/json/hint_from_json.py
 msgid ""
@@ -47983,12 +48018,17 @@ msgid ""
 "Don't relax after killing a giant worm.  Little bits of them can break off "
 "and still attack!"
 msgstr ""
+"No te quedes piola después de matar a un gusano gigante. ¡Pedazos del gusano "
+"pueden desprenderse y continuar atacándote!"
 
 #: lang/json/hint_from_json.py
 msgid ""
 "Don't try to take on a skeleton with a bladed weapon... you'll just leave "
 "scratch marks.  You've got to shatter those bones with a hammer or something."
 msgstr ""
+"No intentes pelearte con un esqueleto empuñando un arma de filo... lo único "
+"que le vas a hacer son unas marcas de rasguños. Necesitás destrozar esos "
+"huesos con un martillo o algo por el estilo."
 
 #: lang/json/hint_from_json.py
 msgid ""
@@ -48005,12 +48045,16 @@ msgid ""
 "Ever go toe-to-toe with a manhack?  Tiny little helicopters covered in "
 "knives.  Best be packing a shotgun!"
 msgstr ""
+"¿Alguna vez estuviste cara a cara con un manhack? Son como pequeños "
+"helicópteros recubiertos con cuchillos. ¡Te recomiendo tener una escopeta!"
 
 #: lang/json/hint_from_json.py
 msgid ""
 "Ever run into those big worm things?  If you see trails of churned-up dirt, "
 "you can be sure they're around."
 msgstr ""
+"¿Alguna vez te cruzaste con esos gusanos gigantes? Si ves rastros de tierra "
+"revuelta, podés estar seguro de que andan cerca."
 
 #: lang/json/hint_from_json.py
 msgid ""
@@ -48018,12 +48062,17 @@ msgid ""
 "down a zombie brute with one!  Of course, if you can find a katana, that "
 "might be even better..."
 msgstr ""
+"El machete es una de las mejores armas de cuerpo a cuerpo. ¡He visto a un "
+"tipo matar a un zombi bruto con un machete! Pero claro, si podés encontrar "
+"una katana puede ser mejor..."
 
 #: lang/json/hint_from_json.py
 msgid ""
 "Have you heard about those queen triffids?  You gotta keep your distance "
 "from them, unless you like having a tree grow right through your chest."
 msgstr ""
+"¿Alguna vez escuchaste hablar de las trífidas reinas? Ni te acerques a "
+"ellas, salvo que quieras que te crezca un árbol justo en el medio del pecho."
 
 #: lang/json/hint_from_json.py
 msgid ""
@@ -48031,6 +48080,9 @@ msgid ""
 "faction's controlling them--maybe the military.  All I know is, I don't want "
 "them taking my picture..."
 msgstr ""
+"¿Viste a los ojobots dando vueltas por ahí? No lo puedo asegurar, pero "
+"alguna banda los está controlando, tal vez los militares. Lo que sé, es que "
+"no quiero que me saquen una foto..."
 
 #: lang/json/hint_from_json.py
 msgid ""
@@ -48045,6 +48097,10 @@ msgid ""
 "alcohol on fire.  Then duck out the back door, and watch the zombies run "
 "into a burning building!"
 msgstr ""
+"Te dejo un truco para ocuparte de grandes grupos de zombis que te persiguen: "
+"entrá en una vinoteca, disparale a todas las botellas que puedas, y encendé "
+"fuego el alcohol. Después, escapate por la puerta de atrás y mirá cómo los "
+"zombis se meten en el medio del fuego."
 
 #: lang/json/hint_from_json.py
 msgid ""
@@ -48063,6 +48119,8 @@ msgid ""
 "I figured out how to take care of those triffids!  Let me just say this: "
 "they're made of wood, and wood and fire don't mix."
 msgstr ""
+"¡Ya descubrí cómo encargarse de esos trífidos! Dejame decir esto: están "
+"hechos de madera, y la madera y el fuego no se llevan bien."
 
 #: lang/json/hint_from_json.py
 msgid ""
@@ -48070,6 +48128,10 @@ msgid ""
 "suddenly woke up to trees and vines growing right up through the floor and "
 "walls!  He said it was some kind of huge triffid making it happen..."
 msgstr ""
+"Un amigo mío estaba durmiendo en una cabaña en el medio del bosque, ¡cuando "
+"de repente se despertó y había árboles y enredaderas creciendo por el piso y "
+"las paredes! Me dijo que era como un trífido enorme que estaba haciendo "
+"eso..."
 
 #: lang/json/hint_from_json.py
 msgid ""
@@ -48089,6 +48151,9 @@ msgid ""
 "possible, but don't except as a last resort.  It's inaccurate and wastes "
 "ammo."
 msgstr ""
+"Sé que es tentador usar armas automáticas y vaciarles todo el cargador "
+"encima, pero no lo hagas salvo que sea el último recurso. Es poco preciso y "
+"gastás munición."
 
 #: lang/json/hint_from_json.py
 msgid ""
@@ -48136,12 +48201,17 @@ msgid ""
 "your gun.  Be sure to aim at the zombie furthest away; you'll hit more of "
 "them that way."
 msgstr ""
+"Si hay un grupo de zombis parados en fila, intentá dispararles en ráfaga. "
+"Apuntale al zombi que esté más lejos, porque así le vas a pegar a más zombis."
 
 #: lang/json/hint_from_json.py
 msgid ""
 "If there's a pool of acid blocking your way, trying tossing a junk item into "
 "it.  Eating up items will help neutralize the acid faster."
 msgstr ""
+"Si hay un charco de ácido bloqueándote el camino, probá tirandole arriba un "
+"objeto que no te sirva. Los objetos que consuma el ácido ayudan a que se "
+"neutralice más rápido."
 
 #: lang/json/hint_from_json.py
 msgid ""
@@ -48174,18 +48244,26 @@ msgid ""
 "fast as hell, but pretty dumb; they'll try to smash through obstacles rather "
 "than going around, and that slows them down a lot."
 msgstr ""
+"Si te encontrás con un zombi gigantón, la mejor idea es que salgas "
+"corriendo. Son muy rápidos pero bastante tontos. Van a intentar romper todos "
+"los obstáculos que se atraviesen en lugar de esquivarlos, lo que te da la "
+"ventaja para huir."
 
 #: lang/json/hint_from_json.py
 msgid ""
 "If you see a big mob of zombies coming, RUN!  Trying to fight them all is "
 "suicide unless you have a big tactical advantage."
 msgstr ""
+"Si ves una multitud de zombis acercándose, ¡CORRÉ! Querer pelearlos a todos "
+"es un suicidio, salvo que tengas una gran ventaja táctica."
 
 #: lang/json/hint_from_json.py
 msgid ""
 "If you shoot a zombie, but don't quite kill it, try to finish it off with a "
 "punch or something instead of wasting a bullet."
 msgstr ""
+"Si le disparás a un zombi pero no lo matás, tratá de rematarlo a piñas o con "
+"otra cosas para no gastar una bala más."
 
 #: lang/json/hint_from_json.py
 msgid ""
@@ -48205,6 +48283,9 @@ msgid ""
 "you down it, try to wound the guy in front badly.  He'll start moving slow "
 "and cause a serious traffic jam!"
 msgstr ""
+"Si estás en un pasillo o algo similar, y hay un montón de zombis "
+"persiguiéndote, intentá herir al que esté adelante. ¡Se va a empezar a mover "
+"más lento y causará un embotellamiento!"
 
 #: lang/json/hint_from_json.py
 msgid ""
@@ -48212,6 +48293,9 @@ msgid ""
 "reason too--watch out for those fish.  Those suckers are fast, and vicious "
 "too!"
 msgstr ""
+"Si estás pensando en dar un paseo por las cloacas -como si tuvieras alguna "
+"razón para hacerlo- tené cuidado con esos peces. ¡Esos bichos son rápidos y "
+"furiosos!"
 
 #: lang/json/hint_from_json.py
 msgid ""
@@ -48244,6 +48328,8 @@ msgid ""
 "plan on eating them.  I've seen these weird zombies bring their friends back "
 "from the dead!"
 msgstr ""
+"Es una buena idea carnear los cadáveres si tenés tiempo, incluso aunque no "
+"pienses comerte la carne. ¡He visto a unos zombis resucitar a sus amigos!"
 
 #: lang/json/hint_from_json.py
 msgid ""
@@ -48262,6 +48348,9 @@ msgid ""
 "It's good to keep a pistol handy, in case your main gun runs out of ammo or "
 "something.  They're also better than most guns at short range."
 msgstr ""
+"Es bueno tener una pistola a mano, por si tus armas principales se quedan "
+"sin munición o les pasa algo. Las pistolas son mejores que las otras armas a "
+"corto alcance."
 
 #: lang/json/hint_from_json.py
 msgid ""
@@ -48292,6 +48381,8 @@ msgid ""
 "Oh man, have you gone down into the old subway systems?  I'd be careful... "
 "there's these things down there that are like zombies, but tougher."
 msgstr ""
+"Uh, loco, ¿alguna vez bajaste al sistema viejo de subtes? Tené cuidado... "
+"ahí abajo están esas cosas que son como los zombis, pero más fuertes."
 
 #: lang/json/hint_from_json.py
 msgid ""
@@ -48305,6 +48396,8 @@ msgid ""
 "Skeletons are a tough target.  They're so skinny and full of holes that "
 "bullets fired at them will usually just fly right past."
 msgstr ""
+"Los esqueletos son un enemigo difícil. Son tan flacos y llenos de agujeros "
+"que las balas que les disparés le van a pasar como si nada."
 
 #: lang/json/hint_from_json.py
 msgid ""
@@ -48312,6 +48405,9 @@ msgid ""
 "can't smell you, unlike zombies, so if you turn your light off at night you "
 "can sneak right past."
 msgstr ""
+"Los esqueletos son demasiado delicados como para destrozar puertas o "
+"ventanas. Y, a diferencia de los zombis, no te pueden oler así que si estás "
+"de noche y apagás las luces podés pasar desapercibido."
 
 #: lang/json/hint_from_json.py
 msgid ""
@@ -48324,6 +48420,8 @@ msgid ""
 "Sledge hammers may seem like a great weapon, but swinging them is really "
 "slow, and you won't do much damage unless you're really strong."
 msgstr ""
+"Las almádenas pueden parecer como un buen arma, pero son muy lentas de usar, "
+"y no vas a causar mucho daño si no tenés mucha fuerza."
 
 #: lang/json/hint_from_json.py
 msgid ""
@@ -48336,12 +48434,17 @@ msgid ""
 "Squirrels are pretty yummy, but if you shoot them with a high-powered gun "
 "you'll probably be left with no meat!  Use a BB gun or maybe a .22 rifle."
 msgstr ""
+"Las ardillas son bastante sabrosas, pero si les disparás con un arma de alta "
+"potencia, ¡probablemente no le dejes nada de carne! Usá una pistola de "
+"balines o tal vez un rifle calibre .22."
 
 #: lang/json/hint_from_json.py
 msgid ""
 "Standing behind a window is a good tactic.  It takes zombies a long time to "
 "crawl through, giving you lots of opportunities to hit them."
 msgstr ""
+"Una buena táctica es pararte atrás de una ventana. A los zombis les lleva "
+"mucho tiempo entrar por ahí, lo que te da muchas oportunidades de golpearlos."
 
 #: lang/json/hint_from_json.py
 msgid ""
@@ -48354,6 +48457,8 @@ msgid ""
 "There's snakes down in most of the old sewer systems.  They're slow on land, "
 "but boy, those suckers can swim fast!"
 msgstr ""
+"En la mayoría de los sistemas viejos de cloacas hay serpientes. Son lentas "
+"en el suelo, ¡pero pueden nadar muy rápido!"
 
 #: lang/json/hint_from_json.py
 msgid ""
@@ -48361,6 +48466,9 @@ msgid ""
 "from walls and stuff when they do... the electricity can travel along solid "
 "surfaces."
 msgstr ""
+"¡Existe una clase de zombi que puede disparar rayos de electricidad! "
+"Mantenete alejado de las paredes y de las cosas cuando estos disparan... la "
+"electricidad puede conducirse a través de superficies sólidas."
 
 #: lang/json/hint_from_json.py
 msgid ""
@@ -48368,6 +48476,9 @@ msgid ""
 "then pop up to stab ya.  Still, you're safe from them if you stay on "
 "pavement..."
 msgstr ""
+"Son raros, pero los topobots son unos bichos complicados. Perforan el suelo "
+"y avanzan por abajo, hasta que salen y te apuñalan. Igual, vas a estar a "
+"salvo si te mantenés en el pavimento..."
 
 #: lang/json/hint_from_json.py
 msgid ""
@@ -48380,24 +48491,32 @@ msgid ""
 "Those acid-spitting zombies are pretty nasty, but if you're smart, you can "
 "get other zombies to wade through the acid."
 msgstr ""
+"Esos zombis que escupen ácido son bastante peligrosos, pero si sos "
+"inteligente, podés hacer que los otros zombis tengan que pasar por el ácido."
 
 #: lang/json/hint_from_json.py
 msgid ""
 "Triffids are tough.  They've got natural armor, and it takes a lot to bring "
 "them down.  I don't recommend getting into a fight with them."
 msgstr ""
+"Los trífidos son complicados. Tienen armadura natural, y cuesta mucho "
+"derrotarlos. No te recomiendo pelearte con ellos."
 
 #: lang/json/hint_from_json.py
 msgid ""
 "Triffids can't see!  They figure out where you are by your smell, but if you "
 "mask it with smoke or something, you're as good as invisible."
 msgstr ""
+"¡Los trífidos son ciegos! Te encuentran por el olor, pero si lo podés cubrir "
+"con humo u otra cosa, sos invisible para ellos."
 
 #: lang/json/hint_from_json.py
 msgid ""
 "Try not to kill a boomer if it's standing right next to you.  They tend to "
 "explode when they die, and that pink goop will get all over you."
 msgstr ""
+"Tratá de no matar a un boomer si estás parado al lado de él. Suelen explotar "
+"cuando se mueren, y vas a quedar cubierto con esa viscosidad rosa."
 
 #: lang/json/hint_from_json.py
 msgid ""
@@ -48409,12 +48528,16 @@ msgstr ""
 msgid ""
 "Try to stay on the roads as much as you can.  Giant worms can't cross them!"
 msgstr ""
+"Intentá andar por las calles todo lo que puedas. ¡Los gusanos gigantes no "
+"pueden cruzarlas!"
 
 #: lang/json/hint_from_json.py
 msgid ""
 "Watch out for those zombies that shriek; they'll let other zombies know "
 "where you are, and will attract them from all over."
 msgstr ""
+"Cuidado con los zombis que aúllan; les avisan a los demás zombis dónde "
+"estás, y los atraen hacia vos."
 
 #: lang/json/hint_from_json.py
 msgid ""
@@ -48440,6 +48563,8 @@ msgid ""
 "You know what makes a nice weapon?  Take a two by four, or a baseball bat or "
 "something, and stick a bunch of nails through the end!"
 msgstr ""
+"¿Sabés qué es una buena arma? Agarrá una tabla de madera, o un bate de "
+"béisbol o algo parecido, ¡y ponele unos clavos en la punta!"
 
 #: lang/json/hint_from_json.py
 msgid ""
@@ -48447,6 +48572,9 @@ msgid ""
 "over someone's head, the shattering glass will hurt them extra.  Of course, "
 "it might hurt your hands, too..."
 msgstr ""
+"Mirá, una botella de vidrio puede servir como arma en una emergencia. Si se "
+"la rompés en la cabeza a alguien, los pedazos rotos de vidrio harán un daño "
+"extra. Pero claro, te puede lastimar las manos también..."
 
 #: lang/json/hint_from_json.py
 msgid ""
@@ -48459,18 +48587,26 @@ msgid ""
 "Zombie brutes and hulks have really tough hide.  Don't bother shooting at "
 "them with lower-caliber guns, the bullet will bounce right off!"
 msgstr ""
+"Los zombis brutos y los gigantones tienen la piel muy dura. Ni te preocupes "
+"en dispararles con armas de bajo calibre, ¡porque la bala va a rebotar!"
 
 #: lang/json/hint_from_json.py
 msgid ""
 "Zombie hulks are NASTY, but they're easy to outsmart.  If there's other "
 "monsters between you and them, they'll kill the monster for you!"
 msgstr ""
+"Los zombis gigantones son MUY peligrosos, pero son bastante estúpidos. Si "
+"hay otros monstruos entre ellos y vos, ¡van a matar al monstruo que se le "
+"atraviese!"
 
 #: lang/json/hint_from_json.py
 msgid ""
 "Zombies are pretty dumb... heck, most monsters are!  If you can get a fire "
 "going between you and them, they'll just run straight through it."
 msgstr ""
+"Los zombis son bastante tontos... la verdad es que la mayoría de los "
+"monstruos son tontos. Si podés prender un fuego entre los zombis y vos, van "
+"a pasar por arriba."
 
 #: lang/json/item_action_from_json.py
 msgid "Cut bolts or wires"
@@ -54004,8 +54140,8 @@ msgid ""
 "You're skilled at clearing obstacles; terrain like railings or counters are "
 "as easy for you to move on as solid ground."
 msgstr ""
-"Tenés habilidad para franquear obstáculos. Cosas como pasamanos o "
-"mostradores son fáciles de transitar para vos como el suelo mismo."
+"Tenés habilidad para franquear obstáculos. Cosas como pasamanos o mesadas "
+"son fáciles de transitar para vos como el suelo mismo."
 
 #: lang/json/mutation_from_json.py
 msgid ""
@@ -64154,7 +64290,7 @@ msgstr "transformador de corriente"
 
 #: lang/json/terrain_from_json.py
 msgid "cvd control panel"
-msgstr "panel de control de cvd"
+msgstr "panel de control de CVD"
 
 #: lang/json/terrain_from_json.py
 msgid "cyan switch"
@@ -65764,6 +65900,10 @@ msgid "dual nail turret"
 msgstr ""
 
 #: lang/json/vehicle_part_from_json.py
+msgid "external cargo carrier"
+msgstr ""
+
+#: lang/json/vehicle_part_from_json.py
 msgid "externally mounted diesel tank"
 msgstr ""
 
@@ -66846,7 +66986,7 @@ msgstr "VU"
 
 #: src/advanced_inv.cpp
 msgid "Grabbed Vehicle"
-msgstr "Vehículo utilizado"
+msgstr "Vehículo Agarrado"
 
 #: src/advanced_inv.cpp
 msgid "How many do you want to move? (0 to cancel)"
@@ -68836,7 +68976,7 @@ msgstr "Elegí el tipo de zona:"
 msgid "Zone name:"
 msgstr "Nombre de la zona:"
 
-#: src/color.cpp src/item.cpp src/npctalk.cpp
+#: src/color.cpp src/item.cpp
 msgid "blue"
 msgstr "azul"
 
@@ -75485,6 +75625,10 @@ msgid "Wait till weather changes"
 msgstr "Esperar hasta que mejore el clima"
 
 #: src/game.cpp
+msgid "Watch the last moments of your life...?"
+msgstr ""
+
+#: src/game.cpp
 #, c-format
 msgid "We have detected a %s."
 msgstr ""
@@ -79311,6 +79455,11 @@ msgstr ""
 
 #: src/iexamine.cpp
 msgid "You fire the charcoal kiln."
+msgstr ""
+
+#: src/iexamine.cpp
+#, c-format
+msgid "You forage through the %s."
 msgstr ""
 
 #: src/iexamine.cpp
@@ -95160,6 +95309,12 @@ msgstr ""
 
 #: src/npctalk.cpp
 msgid "asshole"
+msgstr ""
+
+#. ~ The word blue here means "depressed", not the color blue.
+#: src/npctalk.cpp
+msgctxt "npc_depressed"
+msgid "blue"
 msgstr ""
 
 #: src/npctalk.cpp
