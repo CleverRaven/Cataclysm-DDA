@@ -88,6 +88,7 @@ struct mutation_branch {
     static void check_consistency();
 };
 
+void load_mutation_category(JsonObject &jsobj);
 void load_dream(JsonObject &jsobj);
 
 #endif

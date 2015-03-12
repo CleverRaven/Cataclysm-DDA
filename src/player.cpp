@@ -94,8 +94,9 @@ void game::init_morale()
     _("Killed Friend"),
     _("Guilty about Killing"),
     _("Guilty about Mutilating Corpse"),
-    _("Chimerical Mutation"),
     _("Fey Mutation"),
+    _("Chimerical Mutation"),
+    _("Mutation"),
 
     _("Moodswing"),
     _("Read %i"),
@@ -7080,7 +7081,7 @@ void player::suffer()
                     tdata.powered = false;
                 }
             }
-            
+
             if (tdata.powered == false) {
                 apply_mods(mut.first, false);
             }
@@ -10725,7 +10726,7 @@ bool player::invoke_item( item* used )
     if( !has_enough_charges( *used, true ) ) {
         return false;
     }
-        
+
     if( used->type->use_methods.size() < 2 ) {
         const long charges_used = used->type->invoke( this, used, pos() );
         return consume_charges( used, charges_used );
