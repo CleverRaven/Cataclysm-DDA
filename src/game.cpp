@@ -1120,7 +1120,7 @@ bool game::do_turn()
 #endif
     }
 
-    if (calendar::is_time_for(50)) { //move hordes every 5 min
+    if (calendar::is_time_for(MINUTES(5)) { //move hordes every 5 min
         cur_om->move_hordes();
         // Hordes that reached the reality bubble need to spawn,
         // make them spawn in invisible areas only.
@@ -1199,7 +1199,7 @@ bool game::do_turn()
                                FATIGUE_FEMALE_MEMORIAL_MSG);
             u.fatigue -= 10;
             u.try_to_sleep();
-        } else if (u.fatigue >= FATIGUE_DIRE && calendar::is_time_for(10)) {
+        } else if (u.fatigue >= FATIGUE_DIRE && calendar::is_time_for(MINUTES(1))) {
             add_msg(m_warning, FATIGUE_DIRE_MSG);
         } else if (calendar::is_time_for(FATIGUE_FREQUENCY)) {
             add_msg(m_warning, FATIGUE_CRITICAL_MSG);
@@ -1226,9 +1226,9 @@ bool game::do_turn()
         }
     }
 
-    if (calendar::is_time_for(50)) { // Hunger, thirst, & fatigue up every 5 minutes
+    if (calendar::is_time_for(MINUTES(5))) { // Hunger, thirst, & fatigue up every 5 minutes
         if ((!u.has_trait("LIGHTEATER") || !one_in(3)) &&
-            (!u.has_bionic("bio_recycler") || calendar::is_time_for(300)) &&
+            (!u.has_bionic("bio_recycler") || calendar::is_time_for(MINUTES(30))) &&
             !(u.has_trait("DEBUG_LS"))) {
             u.hunger++;
             if (u.has_trait("HUNGER")) {
@@ -1248,7 +1248,7 @@ bool game::do_turn()
                 u.hunger += 2;
             }
         }
-        if ((!u.has_bionic("bio_recycler") || calendar::is_time_for(100)) &&
+        if ((!u.has_bionic("bio_recycler") || calendar::is_time_for(MINUTES(10))) &&
             (!u.has_trait("PLANTSKIN") || !one_in(5)) &&
             (!u.has_trait("DEBUG_LS")) ) {
             u.thirst++;
@@ -1343,7 +1343,7 @@ bool game::do_turn()
         u.stomach_water = u.stomach_water < 0 ? 0 : u.stomach_water;
     }
 
-    if (calendar::is_time_for(300)) { // Pain up/down every 30 minutes
+    if (calendar::is_time_for(MINUTES(30))) { // Pain up/down every 30 minutes
         if (u.pain > 0) {
             u.pain -= 1 + int(u.pain / 10);
         } else if (u.pain < 0) {
@@ -1383,7 +1383,7 @@ bool game::do_turn()
         }
     }
 
-    if (calendar::is_time_for(3600))
+    if (calendar::is_time_for(HOURS(6)))
     {
         u.update_health();
     }
@@ -1502,7 +1502,7 @@ bool game::do_turn()
     u.update_bodytemp();
     u.update_body_wetness();
     rustCheck();
-    if (calendar::is_time_for(10)) {
+    if (calendar::is_time_for(MINUTES(1))) {
         u.update_morale();
     }
 
