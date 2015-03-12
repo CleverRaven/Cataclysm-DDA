@@ -269,19 +269,19 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         float active_light();
 
         /** Returns true if the player doesn't have the mutation or a conflicting one and it complies with the force typing */
-        bool mutation_ok(std::string mutation, bool force_good, bool force_bad);
+        bool mutation_ok( const std::string &mutation, bool force_good, bool force_bad ) const;
         /** Picks a random valid mutation and gives it to the player, possibly removing/changing others along the way */
         void mutate();
         /** Picks a random valid mutation in a category and mutate_towards() it */
-        void mutate_category(std::string);
+        void mutate_category( const std::string &mut_cat );
         /** Mutates toward the entered mutation, upgrading or removing conflicts if necessary */
-        void mutate_towards(std::string mut);
+        void mutate_towards( const std::string &mut );
         /** Removes a mutation, downgrading to the previous level if possible */
-        void remove_mutation(std::string mut);
+        void remove_mutation( const std::string &mut );
         /** Returns true if the player has the entered mutation child flag */
-        bool has_child_flag(std::string mut);
+        bool has_child_flag( const std::string &mut ) const;
         /** Removes the mutation's child flag from the player's list */
-        void remove_child_flag(std::string mut);
+        void remove_child_flag( const std::string &mut );
 
         const point &pos() const;
         /** Returns the player's sight range */
@@ -630,6 +630,16 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         void use(int pos);
         /** Uses the current wielded weapon */
         void use_wielded();
+        /** 
+         * Asks how to use the item (if it has more than one use_method) and uses it.
+         * Returns true if it destroys the item. Consumes charges from the item.
+         * Multi-use items are ONLY supported when all use_methods are iuse_actor!
+         */
+        bool invoke_item( item* );
+        /** As above, but with a pre-selected method. Debugmsg if this item doesn't have this method. */
+        bool invoke_item( item*, const std::string& );
+        /** Consumes charges from a tool or does nothing with a non-tool. Returns true if it destroys the item. */
+        bool consume_charges(item *used, long charges_used);
         /** Removes selected gunmod from the entered weapon */
         void remove_gunmod(item *weapon, unsigned id);
         /** Attempts to install bionics, returns false if the player cancels prior to installation */
@@ -875,6 +885,14 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         {
             position.y = y;
         }
+        inline int posz() const
+        {
+            return zpos;
+        }
+        inline void setz( int z )
+        {
+            zpos = z;
+        }
         int view_offset_x, view_offset_y;
         bool in_vehicle;       // Means player sit inside vehicle on the tile he is now
         bool controlling_vehicle;  // Is currently in control of a vehicle
@@ -1013,10 +1031,14 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         void spores();
         void blossoms();
 
+        int add_ammo_to_worn_quiver(item &ammo);
+
     protected:
         std::list<disease> illness;
         // The player's position on the local map.
         point position;
+        // Temporary z-level coord - should later be merged with the above
+        int zpos;
 
         trap_map known_traps;
 
@@ -1038,8 +1060,8 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         bool is_visible_in_range( const Creature &critter, int range ) const;
 
         // Trigger and disable mutations that can be so toggled.
-        void activate_mutation( std::string mutation );
-        void deactivate_mutation( std::string mut );
+        void activate_mutation( const std::string &mutation );
+        void deactivate_mutation( const std::string &mut );
         bool has_fire(const int quantity) const;
         void use_fire(const int quantity);
         /**

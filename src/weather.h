@@ -25,17 +25,21 @@
  */
 #define MAX_FUTURE_WEATHER 168
 
-#include "color.h"
-#include <string>
 #include "calendar.h"
-#include "overmap.h"
 
-class game;
+#include <string>
+#include <vector>
+#include <utility>
+
+class item;
+struct point;
+struct radio_tower;
+enum nc_color : int;
 
 /**
  * Weather type enum.
  */
-enum weather_type {
+enum weather_type : int {
     WEATHER_NULL,         //!< For data and stuff
     WEATHER_CLEAR,        //!< No effects
     WEATHER_SUNNY,        //!< Glare if no eye protection
@@ -55,33 +59,16 @@ enum weather_type {
 /**
  * Weather animation class.
  */
-class clWeatherAnim
-{
-    public:
-        char cGlyph;
-        nc_color colGlyph;
-        float fFactor;
-
-        clWeatherAnim()
-        {
-            cGlyph = '?';
-            colGlyph = c_white;
-            fFactor = 0.0f;
-        };
-        ~clWeatherAnim() {};
-
-        clWeatherAnim(const char p_cGlyph, const nc_color p_colGlyph, const float p_fFactor)
-        {
-            cGlyph = p_cGlyph;
-            colGlyph = p_colGlyph;
-            fFactor = p_fFactor;
-        };
+struct weather_animation_t {
+    float    factor;
+    nc_color color;
+    char     glyph;
 };
 
 /**
- * Weather animation settings container.
+ * Weather animation settings for the given type.
  */
-extern std::map<weather_type, clWeatherAnim> mapWeatherAnim;
+weather_animation_t get_weather_animation(weather_type type);
 
 /**
  * Weather drawing tracking.
@@ -100,19 +87,19 @@ struct weather_printable {
  * Environmental effects and ramifications of weather.
  * Visibility range changes are done elsewhere.
  */
-struct weather_effect {
-    void none       () {}; //!< Fallback weather.
-    void glare      ();
-    void wet        ();
-    void very_wet   ();
-    void thunder    ();
-    void lightning  ();
-    void light_acid ();
-    void acid       ();
-    void flurry     () {}; //!< Currently flurries have no additional effects.
-    void snow       () {}; //!< Currently snow has no additional effects.
-    void snowstorm  () {}; //!< Currently snowstorms have no additional effects.
-};
+namespace weather_effect {
+void none       (); //!< Fallback weather.
+void glare      ();
+void wet        ();
+void very_wet   ();
+void thunder    ();
+void lightning  ();
+void light_acid ();
+void acid       ();
+void flurry     (); //!< Currently flurries have no additional effects.
+void snow       (); //!< Currently snow has no additional effects.
+void snowstorm  (); //!< Currently snowstorms have no additional effects.
+} //namespace weather_effect
 
 // All the weather conditions at some time
 struct weather_segment {
@@ -128,18 +115,17 @@ struct weather_datum {
     int ranged_penalty;     //!< Penalty to ranged attacks.
     int sight_penalty;      //!< Penalty to max sight range.
     int light_modifier;     //!< Modification to ambient light.
-    int mintime,
-        maxtime;   //!< min/max time it lasts, in minutes. Note that this is a *recalculation* deadline.
+    int mintime;            //!< min/max time it lasts, in minutes.
+    int maxtime;            //!  Note that this is a *recalculation* deadline.
     bool dangerous;         //!< If true, our activity gets interrupted.
-    void (weather_effect::*effect)(); //!< Function pointer for weather effects.
+    void (*effect)();       //!< Function pointer for weather effects.
 };
 
-extern std::string season_name[4];
-extern std::string season_name_uc[4];
-extern weather_datum weather_data[NUM_WEATHER_TYPES];
-extern int weather_shift[4][NUM_WEATHER_TYPES][NUM_WEATHER_TYPES];
+std::string const& season_name(int season);
+std::string const& season_name_upper(int season);
+weather_datum const& weather_data(weather_type type);
 
-std::string weather_forecast(radio_tower tower);
+std::string weather_forecast(radio_tower const &tower);
 
 // Returns input value (in fahrenheit) converted to whatever temperature scale set in options.
 //
@@ -154,14 +140,12 @@ std::string print_pressure(float pressure, int decimals = 0);
 
 int get_local_windchill(double temperature, double humidity, double windpower);
 int get_local_humidity(double humidity, weather_type weather, bool sheltered = false);
-int get_local_windpower(double windpower, std::string omtername = "no name",
+int get_local_windpower(double windpower, std::string const &omtername = "no name",
                         bool sheltered = false);
 
-void retroactively_fill_from_funnel( item *it, const trap_id t, const calendar &, const point &);
+void retroactively_fill_from_funnel( item *it, const int trap_id, const calendar &, const point &);
 
-extern const std::vector<int> rot_chart;
-int get_hourly_rotpoints_at_temp (const int &temp);
-//int get_rot_since( const int since, const int endturn );
-int get_rot_since( const int since, const int endturn, const point &);
+int get_hourly_rotpoints_at_temp (int temp);
+int get_rot_since( int since, int endturn, const point &);
 
 #endif

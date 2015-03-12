@@ -148,7 +148,7 @@ void tutorial_game::post_action(action_id act)
  switch (act) {
  case ACTION_RELOAD:
   if (g->u.weapon.is_gun() && !tutorials_seen[LESSON_GUN_FIRE]) {
-   monster tmp(GetMType("mon_zombie"), g->u.posx(), g->u.posy() - 6);
+   monster tmp(GetMType("mon_zombie"), tripoint( g->u.posx(), g->u.posy() - 6, g->u.posz() ) );
    g->add_zombie(tmp);
    tmp.spawn(g->u.posx() + 2, g->u.posy() - 5);
    g->add_zombie(tmp);

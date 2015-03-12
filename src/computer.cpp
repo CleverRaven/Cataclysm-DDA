@@ -8,6 +8,7 @@
 #include "overmapbuffer.h"
 #include "messages.h"
 #include "sounds.h"
+#include "rng.h"
 
 #include <fstream>
 #include <string>
