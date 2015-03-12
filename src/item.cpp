@@ -669,7 +669,7 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump, bool debug) c
         dump->push_back(iteminfo("AMMO", space + _("Dispersion: "), "",
                                  ammo->dispersion, true, "", true, true));
         dump->push_back(iteminfo("AMMO", _("Recoil: "), "", ammo->recoil, true, "", true, true));
-        dump->push_back(iteminfo("AMMO", _("Default stack size: "), "", ammo->def_charges, true, "", false, false));
+        dump->push_back(iteminfo("AMMO", _("Default stack size: "), "", ammo->def_charges, true, "", true, false));
     }
 
     if( is_gun() ) {
