@@ -4699,7 +4699,7 @@ bool item::process_tool( player *carrier, point pos )
         }
         // TODO: iuse functions should expect a nullptr as player, but many of them
         // don't and therefor will fail.
-        tmp->tick( carrier != nullptr ? carrier : &g->u, this, pos );
+        tmp->invoke( carrier != nullptr ? carrier : &g->u, this, pos );
         if( tmp->revert_to == "null" ) {
             return true; // reverts to nothing -> destroy the item
         }
