@@ -1158,7 +1158,7 @@ std::vector<point> game::target(int &x, int &y, int lowx, int lowy, int hix,
             }
         } else if ((action == "PREV_TARGET") && (target != -1)) {
             int newtarget = find_target( t, x, y ) - 1;
-            if( newtarget == -1 ) {
+            if( newtarget < 0 ) {
                 newtarget = t.size() - 1;
             }
             x = t[newtarget]->posx();
