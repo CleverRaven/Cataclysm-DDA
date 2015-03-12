@@ -47,7 +47,6 @@
 #include "overmap.h"
 #include "omdata.h"
 #include "crafting.h"
-#include "posix_time.h"
 #include "construction.h"
 #include "lightmap.h"
 #include "npc.h"

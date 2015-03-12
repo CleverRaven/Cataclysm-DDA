@@ -8,6 +8,7 @@
 #include "event.h"
 #include "mission.h"
 #include "calendar.h"
+#include "posix_time.h"
 #include "worldfactory.h"
 #include "creature_tracker.h"
 #include "weather.h"
