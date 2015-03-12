@@ -5530,7 +5530,7 @@ void iuse::play_music( player * const p, const tripoint &source, int const volum
     bool const do_effects = !p->has_effect( "music" ) && p->can_hear( source, volume );
     int morale_bonus = 0;
     std::string sound;
-    if( calendar::is_time_for(50) ) {
+    if( calendar::is_time_for(MINUTES(5)) ) {
         // Every 5 minutes, describe the music
         auto const music = get_music_description( *p );
         if ( !music.sound.empty() ) {
@@ -7879,8 +7879,7 @@ int iuse::einktabletpc(player *p, item *it, bool t, const tripoint &pos)
 {
     if (t) {
         if( it->get_var( "EIPC_MUSIC_ON" ) != "" ) {
-
-          if (calendar::is_time_for(50)) {
+            if( calendar::is_time_for(MINUTES(5)) ) {
                 it->charges--;
             }
 
@@ -8525,7 +8524,7 @@ int iuse::ehandcuffs(player *p, item *it, bool t, const tripoint &pos)
             }
         }
 
-        if( calendar::is_time_for(10) ) {
+        if( calendar::is_time_for(MINUTES(1)) ) {
             sounds::sound(pos, 10, _("a police siren, whoop WHOOP."));
         }
 

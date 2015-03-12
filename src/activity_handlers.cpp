@@ -570,7 +570,7 @@ void activity_handlers::game_do_turn( player_activity *act, player *p )
     item &game_item = p->i_at(act->position);
 
     //Deduct 1 battery charge for every minute spent playing
-    if( calendar::is_time_for(10) ) {
+    if( calendar::is_time_for(MINUTES(1)) ) {
         game_item.charges--;
         p->add_morale(MORALE_GAME, 1, 100); //1 points/min, almost 2 hours to fill
     }
@@ -1044,7 +1044,7 @@ void activity_handlers::vibe_do_turn( player_activity *act, player *p )
     }
 
     //Deduct 1 battery charge for every minute using the vibrator
-    if( calendar::is_time_for(10) ) {
+    if( calendar::is_time_for(MINUTES(1)) ) {
         vibrator_item.charges--;
         p->add_morale(MORALE_FEELING_GOOD, 4, 320); //4 points/min, one hour to fill
         // 1:1 fatigue:morale ratio, so maxing the morale is possible but will take

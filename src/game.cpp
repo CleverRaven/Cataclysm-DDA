@@ -1192,7 +1192,7 @@ bool game::do_turn()
 #endif
     }
 
-    if (calendar::is_time_for(50)) { //move hordes every 5 min
+    if (calendar::is_time_for(MINUTES(5)) { //move hordes every 5 min
         overmap_buffer.move_hordes();
         // Hordes that reached the reality bubble need to spawn,
         // make them spawn in invisible areas only.
@@ -1309,7 +1309,7 @@ bool game::do_turn()
         weather_data(weather).effect();
     }
 
-    if (u.has_effect("sleep") && calendar::is_time_for(300)) {
+    if( u.has_effect("sleep") && calendar::is_time_for(MINUTES(30)) ) {
         draw();
         refresh();
     }
@@ -1317,7 +1317,7 @@ bool game::do_turn()
     u.update_bodytemp();
     u.update_body_wetness();
     rustCheck();
-    if (calendar::is_time_for(10)) {
+    if (calendar::is_time_for(MINUTES(1))) {
         u.update_morale();
     }
 
@@ -1397,7 +1397,7 @@ void game::process_activity()
         return;
     }
 
-    if( calendar::is_time_for(50) ) {
+    if( calendar::is_time_for(MINUTES(5)) ) {
         draw();
     }
 

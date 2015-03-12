@@ -406,5 +406,5 @@ void calendar::sync()
 }
 
 bool calendar::is_time_for(int event_frequency) {
-  return ((calendar::turn % event_frequency) == 0);
+    return (calendar::turn % event_frequency) == 0;
 }
