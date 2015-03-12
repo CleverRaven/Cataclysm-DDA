@@ -1807,7 +1807,14 @@ int iuse::mut_iv(player *p, item *it, bool, point)
                         p->thirst += m_category.iv_thirst;
                     }
                 }
-                p->add_morale(MORALE_MUTAGEN_MUTATION, m_category.iv_morale, m_category.iv_morale_max);
+                if (m_category.category == "CHIMERA"){
+                     p->add_morale(MORALE_MUTAGEN_CHIMERA, m_category.iv_morale, m_category.iv_morale_max);
+                } else if (m_category.category == "ELFA"){
+                     p->add_morale(MORALE_MUTAGEN_ELF, m_category.iv_morale, m_category.iv_morale_max);
+                } else if(m_category.iv_morale > 0){
+                    p->add_morale(MORALE_MUTAGEN_MUTATION, m_category.iv_morale, m_category.iv_morale_max);
+                }
+
                 if (m_category.iv_sleep && !one_in(3)){
                     p->add_msg_if_player(m_bad, m_category.iv_sleep_message.c_str());
                     p->fall_asleep(m_category.iv_sleep_dur - p->int_cur * 5);
