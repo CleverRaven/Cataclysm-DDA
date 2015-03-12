@@ -641,7 +641,7 @@ void iexamine::rubble(player *p, map *m, int examx, int examy)
     if( ( m->veh_at( examx, examy ) != nullptr ||
           m->tr_at( examx, examy ) != tr_null ||
           g->critter_at( examx, examy ) != nullptr ) &&
-          !query_yn(_("Clear up that %s?"), m->tername(examx, examy).c_str() ) ) {
+          !query_yn(_("Clear up that %s?"), xname.c_str() ) ) {
         none(p, m, examx, examy);
         return;
     }
