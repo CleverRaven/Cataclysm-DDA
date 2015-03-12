@@ -1192,7 +1192,7 @@ bool game::do_turn()
 #endif
     }
 
-    if (calendar::is_time_for(MINUTES(5)) { //move hordes every 5 min
+    if( calendar::is_time_for(MINUTES(5)) ) { //move hordes every 5 min
         overmap_buffer.move_hordes();
         // Hordes that reached the reality bubble need to spawn,
         // make them spawn in invisible areas only.
@@ -1202,7 +1202,6 @@ bool game::do_turn()
     u.update_needs();
     u.regen();
     u.update_stamina();
-
 
     // Auto-save if autosave is enabled
     if (OPTIONS["AUTOSAVE"] &&
