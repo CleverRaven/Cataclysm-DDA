@@ -192,7 +192,7 @@ struct mutation_category_trait {
     bool iv_sound = false;  //determines if you make a sound when you inject mutagen
     std::string iv_sound_message = "NULL";
     int iv_noise = 0;    //the amount of noise produced by the sound
-    bool iv_sleep = false;  //whether the iv has a chance of putting you to sleep
+    bool iv_sleep = false;  //whether the iv has a chance of knocking you out.
     std::string iv_sleep_message = "NULL";
     int iv_sleep_dur = 0;
     std::string junkie_message;
