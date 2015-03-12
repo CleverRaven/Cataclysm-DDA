@@ -272,15 +272,12 @@ void game::draw_line(int const x, int const y, point const center, std::vector<p
 namespace {
 void draw_line_curses(game &g, std::vector<point> const &points)
 {
-    if (points.empty()) {
-        return;
-    }
-
     for (point const& p : points) {
         g.m.drawsq(g.w_terrain, g.u, p.x, p.y, true, true);
     }
 
-    point const p = relative_view_pos(g.u, points.back());
+    point const p = points.empty() ? point {POSX, POSY} :
+        relative_view_pos(g.u, points.back());
     mvwputch(g.w_terrain, p.y, p.x, c_white, 'X');
 }
 } //namespace
