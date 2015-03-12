@@ -407,6 +407,8 @@ bool player::activate_bionic(int b, bool eff_only)
         if (pkill > pain) {
             pkill = pain;
         }
+    } else if (bio.id == "bio_tools") {
+        invalidate_crafting_inventory();
     } else if (bio.id == "bio_cqb") {
         pick_style();
     } else if (bio.id == "bio_nanobots") {
@@ -864,6 +866,8 @@ bool player::deactivate_bionic(int b, bool eff_only)
         } else if( get_value( "remote_controlling" ) != "" && !has_active_item( "radiocontrol" ) ) {
             set_value( "remote_controlling", "" );
         }
+    } else if( bio.id == "bio_tools" ) {
+        invalidate_crafting_inventory();
     }
 
     return true;
