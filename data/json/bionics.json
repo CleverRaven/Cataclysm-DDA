@@ -58,6 +58,7 @@
         "type": "bionic",
         "id": "bio_ears",
         "name": "Enhanced Hearing",
+        "toggled": true,
         "description": "When this bionic is active, your hearing will be drastically improved, allowing you to hear ten times better than the average person.  Additionally, high-intensity sounds will be automatically dampened before they can damage your hearing."
     },{
         "type": "bionic",
