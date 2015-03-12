@@ -34,6 +34,7 @@ void elevator (player *p, map *m, int examx, int examy);
 void controls_gate(player *p, map *m, int examx, int examy);
 void cardreader (player *p, map *m, int examx, int examy);
 void rubble (player *p, map *m, int examx, int examy);
+void crate (player *p, map *m, int examx, int examy);
 void chainfence (player *p, map *m, int examx, int examy);
 void bars(player *p, map *m, int examx, int examy);
 void portable_structure(player *p, map *m, int examx, int examy);

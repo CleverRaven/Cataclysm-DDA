@@ -630,21 +630,63 @@ void iexamine::cardreader(player *p, map *m, int examx, int examy)
 void iexamine::rubble(player *p, map *m, int examx, int examy)
 {
     bool has_digging_tool = p->has_items_with_quality( "DIG", 2, 1 );
-  // Perhaps check for vehicle covering the rubble and bail out if so (string freeze ATM)?
-    if (!has_digging_tool) {
+    if( !has_digging_tool ) {
         add_msg(m_info, _("If only you had a shovel..."));
         return;
     }
-    std::string xname = m->furnname(examx, examy);
-    if (query_yn(_("Clear up that %s?"), xname.c_str())) {
-        // "Remove"
-        p->moves -= 200;
-        m->furn_set(examx, examy, f_null);
 
-        // "Remind"
-        add_msg(_("You clear up that %s."), xname.c_str());
+    // Ask if there's something possibly more interesting than this rubble here
+    std::string xname = m->furnname(examx, examy);
+    if( ( m->veh_at( examx, examy ) != nullptr ||
+          m->tr_at( examx, examy ) != tr_null ||
+          g->critter_at( examx, examy ) != nullptr ) &&
+          !query_yn(_("Clear up that %s?"), xname.c_str() ) ) {
+        none(p, m, examx, examy);
+        return;
     }
+
+    // "Remove"
+    p->moves -= 200;
+    m->furn_set(examx, examy, f_null);
+
+    // "Remind"
+    add_msg(_("You clear up that %s."), xname.c_str());
 }
+
+void iexamine::crate(player *p, map *m, int examx, int examy)
+{
+    // Check for a crowbar in the inventory
+    const auto has_prying = []( const item it ) {
+        const auto fun = it.type->get_use( "CROWBAR" );
+        return fun != nullptr;
+    };
+
+    bool has_tools = p->has_item_with( has_prying );
+    if( !has_tools ) {
+        add_msg( m_info, _("If only you had a crowbar...") );
+        return;
+    }
+
+    // Ask if there's something possibly more interesting than this crate here
+    // Shouldn't happen (what kind of creature lives in a crate?), but better safe than getting complaints
+    std::string xname = m->furnname(examx, examy);
+    if( ( m->veh_at( examx, examy ) != nullptr ||
+          m->tr_at( examx, examy ) != tr_null ||
+          g->critter_at( examx, examy ) != nullptr ) &&
+          !query_yn(_("Pry that %s?"), xname.c_str() ) ) {
+        none(p, m, examx, examy);
+        return;
+    }
+
+    // HACK ALERT: player::items_with returns const item* vector and so can't be used
+    // so we'll be making a fake crowbar here
+    // Not a problem for now, but if crowbar iuse-s ever get different, this will need a fix
+    item fakecrow( "crowbar", 0 );
+    
+    iuse dummy;
+    dummy.crowbar( p, &fakecrow, false, point( examx, examy ) );
+}
+
 
 void iexamine::chainfence( player *p, map *m, int examx, int examy )
 {
@@ -3070,6 +3112,9 @@ iexamine_function iexamine_function_from_string(std::string const &function_name
     }
     if ("rubble" == function_name) {
         return &iexamine::rubble;
+    }
+    if( "crate" == function_name ) {
+        return &iexamine::crate;
     }
     if ("chainfence" == function_name) {
         return &iexamine::chainfence;

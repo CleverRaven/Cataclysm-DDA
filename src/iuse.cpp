@@ -4142,14 +4142,19 @@ int iuse::hammer(player *p, item *it, bool, point)
     return 0;
 }
 
-int iuse::crowbar(player *p, item *it, bool, point)
+int iuse::crowbar(player *p, item *it, bool, point pos)
 {
     int dirx, diry;
-    if (!choose_adjacent(_("Pry where?"), dirx, diry)) {
-        return 0;
+    if( pos == p->pos() ) {
+        if( !choose_adjacent(_("Pry where?"), dirx, diry) ) {
+            return 0;
+        }
+    } else {
+        dirx = pos.x;
+        diry = pos.y;
     }
 
-    if (dirx == p->posx() && diry == p->posy()) {
+    if( dirx == p->posx() && diry == p->posy() ) {
         p->add_msg_if_player(m_info, _("You attempt to pry open your wallet"));
         p->add_msg_if_player(m_info, _("but alas. You are just too miserly."));
         return 0;
@@ -4205,7 +4210,7 @@ int iuse::crowbar(player *p, item *it, bool, point)
     }
 
     p->practice("mechanics", 1);
-    p->moves -= (difficulty * 25) - ((p->str_cur + p->skillLevel("mechanics")) * 5);
+    p->moves -= std::max( 25, ( difficulty * 25 ) - ( ( p->str_cur + p->skillLevel( "mechanics" ) ) * 5 ) );
     if (dice(4, difficulty) < dice(2, p->skillLevel("mechanics")) + dice(2, p->str_cur)) {
         p->practice("mechanics", 1);
         p->add_msg_if_player(m_good, succ_action);
