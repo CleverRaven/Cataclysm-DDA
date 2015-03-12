@@ -1210,7 +1210,7 @@ void player::process_bionic(int b)
 
     // Bionic effects on every turn they are active go here.
     if (bio.id == "bio_night") {
-        if (calendar::turn % 5) {
+        if (calendar::is_time_for(5)) {
             add_msg(m_neutral, _("Artificial night generator active!"));
         }
     } else if( bio.id == "bio_remote" ) {

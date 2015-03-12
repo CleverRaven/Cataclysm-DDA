@@ -113,6 +113,8 @@ class calendar
         }
 
 
+        static bool is_time_for(int event_frequency);
+
         // Season and year length stuff
         static int year_turns()
         {
