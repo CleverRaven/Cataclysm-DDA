@@ -10,7 +10,7 @@
 class Character : public Creature
 {
     public:
-        virtual ~Character() override = default;
+        virtual ~Character() override { };
 
         field_id bloodType() const;
         field_id gibType() const;
