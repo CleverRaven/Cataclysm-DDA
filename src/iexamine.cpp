@@ -630,8 +630,7 @@ void iexamine::cardreader(player *p, map *m, int examx, int examy)
 void iexamine::rubble(player *p, map *m, int examx, int examy)
 {
     bool has_digging_tool = p->has_items_with_quality( "DIG", 2, 1 );
-    // Perhaps check for vehicle covering the rubble and bail out if so (string freeze ATM)?
-    if (!has_digging_tool) {
+    if( !has_digging_tool ) {
         add_msg(m_info, _("If only you had a shovel..."));
         return;
     }
@@ -674,7 +673,7 @@ void iexamine::crate(player *p, map *m, int examx, int examy)
     if( ( m->veh_at( examx, examy ) != nullptr ||
           m->tr_at( examx, examy ) != tr_null ||
           g->critter_at( examx, examy ) != nullptr ) &&
-          !query_yn(_("Pry that %s?"), m->tername(examx, examy).c_str() ) ) {
+          !query_yn(_("Pry that %s?"), xname.c_str() ) ) {
         none(p, m, examx, examy);
         return;
     }
