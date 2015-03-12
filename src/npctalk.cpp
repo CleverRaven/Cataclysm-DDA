@@ -207,8 +207,11 @@ void game::init_npctalk()
     for(int j=0; j<10; j++) {talk_happy[j] = tmp_talk_happy[j];}
 
     std::string tmp_talk_sad[10] = {
-    _("sad"), _("bummed"), _("depressed"), _("pissed"), _("unhappy"), _("<very> <sad>"), _("dejected"),
-    _("down"), _("blue"), _("glum")};
+    _("sad"), _("bummed"), _("depressed"), _("pissed"), _("unhappy"), _("<very> <sad>"),
+    _("dejected"), _("down"),
+    //~ The word blue here means "depressed", not the color blue.
+    pgettext("npc_depressed", "blue"),
+    _("glum")};
     for(int j=0; j<10; j++) {talk_sad[j] = tmp_talk_sad[j];}
 
     std::string tmp_talk_greeting_gen[10] = {

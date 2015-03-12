@@ -407,6 +407,8 @@ bool player::activate_bionic(int b, bool eff_only)
         if (pkill > pain) {
             pkill = pain;
         }
+    } else if (bio.id == "bio_tools") {
+        invalidate_crafting_inventory();
     } else if (bio.id == "bio_cqb") {
         pick_style();
     } else if (bio.id == "bio_nanobots") {
@@ -721,7 +723,7 @@ bool player::activate_bionic(int b, bool eff_only)
         moves -= 100;
     } else if(bio.id == "bio_lockpick") {
         item tmp_item( "pseuso_bio_picklock", 0 );
-        if( tmp_item.type->invoke( this, &tmp_item, false, pos() ) == 0 ) {
+        if( invoke_item( &tmp_item ) == 0 ) {
             power_level += bionics["bio_lockpick"]->power_activate;
             return false;
         }
@@ -797,7 +799,7 @@ bool player::activate_bionic(int b, bool eff_only)
                 ctr = item( "radiocontrol", 0 );
             }
             ctr.charges = power_level;
-            int power_use = ctr.type->invoke( &g->u, &ctr, false, pos() );
+            int power_use = invoke_item( &ctr );
             power_level -= power_use;
             bio.powered = ctr.active;
         } else {
@@ -864,6 +866,8 @@ bool player::deactivate_bionic(int b, bool eff_only)
         } else if( get_value( "remote_controlling" ) != "" && !has_active_item( "radiocontrol" ) ) {
             set_value( "remote_controlling", "" );
         }
+    } else if( bio.id == "bio_tools" ) {
+        invalidate_crafting_inventory();
     }
 
     return true;

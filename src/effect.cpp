@@ -1019,12 +1019,12 @@ double effect::get_addict_mod(std::string arg, int addict_level) const
     // TODO: convert this to JSON id's and values once we have JSON'ed addictions
     if (arg == "PKILL") {
         if (eff_type->pkill_addict_reduces) {
-            return 1 / std::max(addict_level * 2, 1);
+            return 1.0 / std::max((double)addict_level * 2.0, 1.0);
         } else {
-            return 1;
+            return 1.0;
         }
     } else {
-        return 1;
+        return 1.0;
     }
 }
 

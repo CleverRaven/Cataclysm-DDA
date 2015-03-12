@@ -91,7 +91,7 @@
                 "G": "f_desk",
                 "f": "f_glass_fridge"
             },
-            "place_groups": [
+            "place_items": [
                 { "item": "harddrugs", "chance": 55, "x": [ 10,22 ], "y": [ 19,19 ] },
                 { "item": "softdrugs", "chance": 75, "x": [ 10,22 ], "y": [ 19,19 ] },
                 { "item": "behindcounter", "chance": 50, "x": [ 1,3 ], "y": [ 7,12 ] },
