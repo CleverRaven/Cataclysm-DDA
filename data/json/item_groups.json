@@ -49,6 +49,7 @@
     "id" : "field",
     "items":[
       ["rock", 40],
+      ["sharp_rock", 5],
       ["months_old_newspaper", 1],
       ["weeks_old_newspaper", 2],
       ["newest_newspaper", 3]
