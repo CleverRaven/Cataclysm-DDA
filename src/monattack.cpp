@@ -2945,7 +2945,7 @@ void mattack::searchlight(monster *z, int index)
     }
 
     //battery charge from the generator is enough for some time of work
-    if (calendar::turn % 100 == 0) {
+    if (calendar::is_time_for(100)) {
 
         bool generator_ok = false;
 
@@ -3939,7 +3939,7 @@ void mattack::riotbot(monster *z, int index)
     const int monx = z->posx();
     const int mony = z->posy();
 
-    if (calendar::turn % 10 == 0) {
+    if (calendar::is_time_for(10)) {
 
         int junk = 0;
         for (int i = -4; i <= 4; i++) {
@@ -3957,7 +3957,7 @@ void mattack::riotbot(monster *z, int index)
     if (g->u.weapon.type->id == "e_handcuffs" || !g->u.has_two_arms()) {
         z->anger = 0;
 
-        if (calendar::turn % 25 == 0) {
+        if (calendar::is_time_for(25)) {
             sounds::sound(monx, mony, 10,
                      _("Halt and submit to arrest, citizen! The police will be here any moment."));
         }
@@ -4089,7 +4089,7 @@ void mattack::riotbot(monster *z, int index)
         return;
     }
 
-    if (calendar::turn % 5 == 0) {
+    if (calendar::is_time_for(5)) {
         sounds::sound(monx, mony, 25, _("Empty your hands and hold your position, citizen!"));
     }
 

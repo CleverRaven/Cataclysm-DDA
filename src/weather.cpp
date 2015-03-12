@@ -511,7 +511,7 @@ std::string weather_forecast(radio_tower tower)
     double high = -100.0;
     double low = 100.0;
     // TODO wind direction and speed
-    int last_hour = calendar::turn - (calendar::turn % HOURS(1));
+    int last_hour = calendar::turn - (calendar::is_time_for(HOURS(1)));
     for(int d = 0; d < 6; d++) {
         weather_type forecast = WEATHER_NULL;
         for(calendar i(last_hour + 7200 * d); i < last_hour + 7200 * (d + 1); i += 600) {

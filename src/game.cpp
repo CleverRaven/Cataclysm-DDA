@@ -1120,7 +1120,7 @@ bool game::do_turn()
 #endif
     }
 
-    if (calendar::turn % 50 == 0) { //move hordes every 5 min
+    if (calendar::is_time_for(50)) { //move hordes every 5 min
         cur_om->move_hordes();
         // Hordes that reached the reality bubble need to spawn,
         // make them spawn in invisible areas only.
@@ -1166,11 +1166,11 @@ bool game::do_turn()
             u.add_memorial_log(HUNGER_MALE_MEMORIAL_MSG,
                                HUNGER_FEMALE_MEMORIAL_MSG);
             u.hp_cur[hp_torso] = 0;
-        } else if (u.hunger >= HUNGER_CRITICAL && calendar::turn % HUNGER_FREQUENCY == 0) {
+        } else if (u.hunger >= HUNGER_CRITICAL && calendar::is_time_for(HUNGER_FREQUENCY)) {
             add_msg(m_warning, HUNGER_CRITICAL_MSG);
-        } else if (u.hunger >= HUNGER_MAJOR && calendar::turn % HUNGER_FREQUENCY == 0) {
+        } else if (u.hunger >= HUNGER_MAJOR && calendar::is_time_for(HUNGER_FREQUENCY)) {
             add_msg(m_warning, HUNGER_MAJOR_MSG);
-        } else if (calendar::turn % HUNGER_FREQUENCY == 0) {
+        } else if (calendar::is_time_for(HUNGER_FREQUENCY)) {
             add_msg(m_warning, HUNGER_MINOR_MSG);
         }
     }
@@ -1182,11 +1182,11 @@ bool game::do_turn()
             u.add_memorial_log(THIRST_MALE_MEMORIAL_MSG,
                                THIRST_FEMALE_MEMORIAL_MSG);
             u.hp_cur[hp_torso] = 0;
-        } else if (u.thirst >= THIRST_CRITICAL && calendar::turn % THIRST_FREQUENCY == 0) {
+        } else if (u.thirst >= THIRST_CRITICAL && calendar::is_time_for(THIRST_FREQUENCY)) {
             add_msg(m_warning, THIRST_CRITICAL_MSG);
-        } else if (u.thirst >= THIRST_MAJOR && calendar::turn % THIRST_FREQUENCY == 0) {
+        } else if (u.thirst >= THIRST_MAJOR && calendar::is_time_for(THIRST_FREQUENCY)) {
             add_msg(m_warning, THIRST_MAJOR_MSG);
-        } else if (calendar::turn % THIRST_FREQUENCY == 0) {
+        } else if (calendar::is_time_for(THIRST_FREQUENCY)) {
             add_msg(m_warning, THIRST_MINOR_MSG);
         }
     }
@@ -1199,12 +1199,12 @@ bool game::do_turn()
                                FATIGUE_FEMALE_MEMORIAL_MSG);
             u.fatigue -= 10;
             u.try_to_sleep();
-        } else if (u.fatigue >= FATIGUE_DIRE && calendar::turn % 10 == 0) {
+        } else if (u.fatigue >= FATIGUE_DIRE && calendar::is_time_for(10)) {
             add_msg(m_warning, FATIGUE_DIRE_MSG);
-        } else if (calendar::turn % FATIGUE_FREQUENCY == 0) {
+        } else if (calendar::is_time_for(FATIGUE_FREQUENCY)) {
             add_msg(m_warning, FATIGUE_CRITICAL_MSG);
         } else if (u.fatigue >= FATIGUE_MAJOR) {
-            if (calendar::turn % FATIGUE_FREQUENCY == 0) {
+          if (calendar::is_time_for(FATIGUE_FREQUENCY)) {
                 add_msg(m_warning, FATIGUE_MAJOR_MSG);
                 u.add_effect("lack_sleep", 50);
             }
@@ -1213,22 +1213,22 @@ bool game::do_turn()
                 u.fall_asleep(5);
             }
         } else if (u.fatigue >= FATIGUE_MINOR) {
-            if (calendar::turn % FATIGUE_FREQUENCY == 0) {
+          if (calendar::is_time_for(FATIGUE_FREQUENCY)) {
                 add_msg(m_warning, FATIGUE_MINOR_MSG);
                 u.add_effect("lack_sleep", 50);
             }
             if (one_in(100 + u.int_cur)) {
                 u.fall_asleep(5);
             }
-        } else if (u.fatigue >= FATIGUE_TRIVIAL && calendar::turn % FATIGUE_FREQUENCY == 0) {
+        } else if (u.fatigue >= FATIGUE_TRIVIAL && calendar::is_time_for(FATIGUE_FREQUENCY)) {
             add_msg(m_warning, FATIGUE_TRIVIAL_MSG);
             u.add_effect("lack_sleep", 50);
         }
     }
 
-    if (calendar::turn % 50 == 0) { // Hunger, thirst, & fatigue up every 5 minutes
+    if (calendar::is_time_for(50)) { // Hunger, thirst, & fatigue up every 5 minutes
         if ((!u.has_trait("LIGHTEATER") || !one_in(3)) &&
-            (!u.has_bionic("bio_recycler") || calendar::turn % 300 == 0) &&
+            (!u.has_bionic("bio_recycler") || calendar::is_time_for(300)) &&
             !(u.has_trait("DEBUG_LS"))) {
             u.hunger++;
             if (u.has_trait("HUNGER")) {
@@ -1248,7 +1248,7 @@ bool game::do_turn()
                 u.hunger += 2;
             }
         }
-        if ((!u.has_bionic("bio_recycler") || calendar::turn % 100 == 0) &&
+        if ((!u.has_bionic("bio_recycler") || calendar::is_time_for(100)) &&
             (!u.has_trait("PLANTSKIN") || !one_in(5)) &&
             (!u.has_trait("DEBUG_LS")) ) {
             u.thirst++;
@@ -1343,7 +1343,7 @@ bool game::do_turn()
         u.stomach_water = u.stomach_water < 0 ? 0 : u.stomach_water;
     }
 
-    if (calendar::turn % 300 == 0) { // Pain up/down every 30 minutes
+    if (calendar::is_time_for(300)) { // Pain up/down every 30 minutes
         if (u.pain > 0) {
             u.pain -= 1 + int(u.pain / 10);
         } else if (u.pain < 0) {
@@ -1383,14 +1383,14 @@ bool game::do_turn()
         }
     }
 
-    if (calendar::turn % 3600 == 0)
+    if (calendar::is_time_for(3600))
     {
         u.update_health();
     }
 
     // Auto-save if autosave is enabled
     if (OPTIONS["AUTOSAVE"] &&
-        calendar::turn % ((int)OPTIONS["AUTOSAVE_TURNS"]) == 0 &&
+        calendar::is_time_for(((int)OPTIONS["AUTOSAVE_TURNS"])) &&
         !u.is_dead_state()) {
         autosave();
     }
@@ -1502,7 +1502,7 @@ bool game::do_turn()
     u.update_bodytemp();
     u.update_body_wetness();
     rustCheck();
-    if (calendar::turn % 10 == 0) {
+    if (calendar::is_time_for(10)) {
         u.update_morale();
     }
 
