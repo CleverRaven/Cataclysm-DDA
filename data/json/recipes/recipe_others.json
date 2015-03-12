@@ -5783,7 +5783,8 @@
     ],
   "tools": [
     [
-      [ "soldering_iron", 25 ]
+      [ "soldering_iron", 25 ],
+      [ "toolset", 25 ]
     ]
   ],
   "components": [
