@@ -3689,8 +3689,16 @@ int iuse::extinguisher(player *p, item *it, bool, point)
     int mondex = g->mon_at(x, y);
     if (mondex != -1) {
         g->zombie(mondex).moves -= 150;
+        bool blind = false;
+        if (one_in(2) && g->zombie(mondex).has_flag(MF_SEES)) {
+            blind = true;
+            g->zombie(mondex).add_effect("blind", rng(10, 20));
+        }
         if (g->u.sees(g->zombie(mondex))) {
             p->add_msg_if_player(_("The %s is sprayed!"), g->zombie(mondex).name().c_str());
+            if(blind) {
+                p->add_msg_if_player(_("The %s looks blinded."), g->zombie(mondex).name().c_str());
+            }
         }
         if (g->zombie(mondex).made_of(LIQUID)) {
             if (g->u.sees(g->zombie(mondex))) {
