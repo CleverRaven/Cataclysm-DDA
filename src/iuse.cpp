@@ -8752,6 +8752,9 @@ int iuse::camera(player *p, item *it, bool, point)
                 if (photo_quality < 0) {
                     photo_quality = 0;
                 }
+                if (p->has_effect("blind")) {
+                    photo_quality /= 2;
+                }
 
                 const std::string quality_name = photo_quality_names[photo_quality];
 
@@ -8767,6 +8770,7 @@ int iuse::camera(player *p, item *it, bool, point)
                         continue;
                     }
 
+                    // can't shoot long range while blind, don't need to check for blindness here
                     if (zid != sel_zid) {
                         p->add_msg_if_player(m_warning, _("There's a %s in the way!"), z.name().c_str());
                         return it->type->charges_to_use();
@@ -8781,8 +8785,12 @@ int iuse::camera(player *p, item *it, bool, point)
                         //quest processing...
                     }
 
-                    p->add_msg_if_player(_("You took a %s photo of %s."), quality_name.c_str(),
+                    if (p->has_effect("blind")) {
+                        p->add_msg_if_player(_("You took a photo of %s."), z.name().c_str());
+                    } else {
+                        p->add_msg_if_player(_("You took a %s photo of %s."), quality_name.c_str(),
                                          z.name().c_str());
+                    }
 
                     const std::string mtype = z.type->id;
 
@@ -8802,14 +8810,15 @@ int iuse::camera(player *p, item *it, bool, point)
                             char *chq = &monster_photos[strqpos];
                             const int old_quality = atoi(chq);
 
-                            if (photo_quality > old_quality) {
-                                chq = &string_format("%d", photo_quality)[0];
-                                monster_photos[strqpos] = *chq;
+                            if (!p->has_effect("blind")) {
+                                if (photo_quality > old_quality) {
+                                    chq = &string_format("%d", photo_quality)[0];
+                                    monster_photos[strqpos] = *chq;
 
-                                p->add_msg_if_player(_("This photo is better than the previous one."));
+                                    p->add_msg_if_player(_("This photo is better than the previous one."));
 
+                                }
                             }
-
                         }
                     }
                     it->set_var( "CAMERA_MONSTER_PHOTOS", monster_photos );
@@ -8830,8 +8839,12 @@ int iuse::camera(player *p, item *it, bool, point)
                     }
 
                     //just photo, no save. Maybe in the future we will need to create CAMERA_NPC_PHOTOS
-                    p->add_msg_if_player(_("You took a %s photo of %s."), photo_quality_names[photo_quality].c_str(),
+                    if (p->has_effect("blind")) {
+                        p->add_msg_if_player(_("You took a photo of %s."), guy->name.c_str());
+                    } else {
+                        p->add_msg_if_player(_("You took a %s photo of %s."), quality_name.c_str(),
                                          guy->name.c_str());
+                    }
 
                     return it->type->charges_to_use();
                 }
@@ -8845,6 +8858,11 @@ int iuse::camera(player *p, item *it, bool, point)
     }
 
     if (c_photos == choice) {
+
+        if (p->has_effect("blind")) {
+            p->add_msg_if_player(_("You can't see the camera screen, you're blind."));
+            return 0;
+        }
 
         uimenu pmenu;
 
@@ -8897,6 +8915,11 @@ int iuse::camera(player *p, item *it, bool, point)
     }
 
     if (c_upload == choice) {
+
+        if (p->has_effect("blind")) {
+            p->add_msg_if_player(_("You can't see the camera screen, you're blind."));
+            return 0;
+        }
 
         p->moves -= 200;
 
