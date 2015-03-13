@@ -1,5 +1,3 @@
-#include <vector>
-#include <sstream>
 #include "options.h"
 #include "game.h"
 #include "weather.h"
@@ -7,6 +5,9 @@
 #include "overmap.h"
 #include "overmapbuffer.h"
 #include "math.h"
+
+#include <vector>
+#include <sstream>
 
 /**
  * \defgroup Weather "Weather and its implications."
@@ -16,11 +17,6 @@
 #define PLAYER_OUTSIDE (g->m.is_outside(g->u.posx(), g->u.posy()) && g->levz >= 0)
 #define THUNDER_CHANCE 50
 #define LIGHTNING_CHANCE 600
-
-/**
- * Weather animation settings container.
- */
-std::map<weather_type, clWeatherAnim> mapWeatherAnim;
 
 /**
  * Glare.
@@ -264,23 +260,6 @@ void fill_water_collectors(int mmPerHour, bool acid)
 }
 
 /**
- * Weather-based degradation of fires and scentmap.
- */
-void decay_fire_and_scent(int fire_amount)
-{
-    for (int x = g->u.posx() - SEEX * 2; x <= g->u.posx() + SEEX * 2; x++) {
-        for (int y = g->u.posy() - SEEY * 2; y <= g->u.posy() + SEEY * 2; y++) {
-            if (g->m.is_outside(x, y)) {
-                g->m.adjust_field_age(point(x, y), fd_fire, fire_amount);
-                if (g->scent(x, y) > 0) {
-                    g->scent(x, y)--;
-                }
-            }
-        }
-    }
-}
-
-/**
  * Main routine for wet effects caused by weather.
  * Drenching the player is applied after checks against worn and held items.
  *
@@ -288,7 +267,7 @@ void decay_fire_and_scent(int fire_amount)
  *
  * Note that this is not the only place where drenching can happen. For example, moving or swimming into water tiles will also cause drenching.
  * @see fill_water_collectors
- * @see decay_fire_and_scent
+ * @see map::decay_fields_and_scent
  * @see player::drench
  */
 void generic_wet(bool acid)
@@ -308,15 +287,15 @@ void generic_wet(bool acid)
         }
     }
 
-    fill_water_collectors(4, acid); // fixme; consolidate drench, this, and decay_fire_and_scent.
-    decay_fire_and_scent(15);
+    fill_water_collectors(4, acid); // fixme; consolidate drench and this.
+    g->m.decay_fields_and_scent( 15 );
 }
 
 /**
  * Main routine for very wet effects caused by weather.
  * Similar to generic_wet() but with more aggressive numbers.
  * @see fill_water_collectors
- * @see decay_fire_and_scent
+ * @see map::decay_fields_and_scent
  * @see player::drench
  */
 void generic_very_wet(bool acid)
@@ -336,8 +315,13 @@ void generic_very_wet(bool acid)
     }
 
     fill_water_collectors(8, acid);
-    decay_fire_and_scent(45);
+    g->m.decay_fields_and_scent( 45 );
 }
+
+void weather_effect::none()      {};
+void weather_effect::flurry()    {};
+void weather_effect::snow()      {};
+void weather_effect::snowstorm() {};
 
 /**
  * Wet.
@@ -479,9 +463,9 @@ void weather_effect::acid()
 /**
  * Generate textual weather forecast for the specified radio tower.
  */
-std::string weather_forecast(radio_tower tower)
+std::string weather_forecast(radio_tower const &tower)
 {
-    std::stringstream weather_report;
+    std::ostringstream weather_report;
     // Local conditions
     city *closest_city = &g->cur_om->cities[g->cur_om->closest_city(point(tower.x, tower.y))];
     // Current time
@@ -489,7 +473,7 @@ std::string weather_forecast(radio_tower tower)
                        _("The current time is %s Eastern Standard Time.  At %s in %s, it was %s. The temperature was %s. "),
                        calendar::turn.print_time().c_str(), calendar::turn.print_time(true).c_str(),
                        closest_city->name.c_str(),
-                       weather_data[g->weather].name.c_str(), print_temperature(g->temperature).c_str()
+                       weather_data(g->weather).name.c_str(), print_temperature(g->temperature).c_str()
                    );
 
     //weather_report << ", the dewpoint ???, and the relative humidity ???.  ";
@@ -535,7 +519,7 @@ std::string weather_forecast(radio_tower tower)
         }
         weather_report << string_format(
                            _("%s... %s. Highs of %s. Lows of %s. "),
-                           day.c_str(), weather_data[forecast].name.c_str(),
+                           day.c_str(), weather_data(forecast).name.c_str(),
                            print_temperature(high).c_str(), print_temperature(low).c_str()
                        );
     }
@@ -547,7 +531,7 @@ std::string weather_forecast(radio_tower tower)
  */
 std::string print_temperature(float fahrenheit, int decimals)
 {
-    std::stringstream ret;
+    std::ostringstream ret;
     ret.precision(decimals);
     ret << std::fixed;
 
@@ -566,7 +550,7 @@ std::string print_temperature(float fahrenheit, int decimals)
  */
 std::string print_windspeed(float windspeed, int decimals)
 {
-    std::stringstream ret;
+    std::ostringstream ret;
     ret.precision(decimals);
     ret << std::fixed;
 
@@ -584,7 +568,7 @@ std::string print_windspeed(float windspeed, int decimals)
  */
 std::string print_humidity(float humidity, int decimals)
 {
-    std::stringstream ret;
+    std::ostringstream ret;
     ret.precision(decimals);
     ret << std::fixed;
 
@@ -597,7 +581,7 @@ std::string print_humidity(float humidity, int decimals)
  */
 std::string print_pressure(float pressure, int decimals)
 {
-    std::stringstream ret;
+    std::ostringstream ret;
     ret.precision(decimals);
     ret << std::fixed;
 
@@ -652,7 +636,7 @@ int get_local_humidity(double humidity, weather_type weather, bool sheltered)
     return tmphumidity;
 }
 
-int get_local_windpower(double windpower, std::string omtername, bool sheltered)
+int get_local_windpower(double windpower, std::string const &omtername, bool sheltered)
 {
     /**
     *  A player is sheltered if he is underground, in a car, or indoors.

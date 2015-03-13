@@ -592,7 +592,7 @@ void use_function::operator=(const use_function &other)
 }
 
 // If we're not using lua, need to define Use_function in a way to always call the C++ function
-int use_function::call(player *player_instance, item *item_instance, bool active, point pos) const
+long use_function::call(player *player_instance, item *item_instance, bool active, point pos) const
 {
     if (function_type == USE_FUNCTION_NONE) {
         if (player_instance != NULL && player_instance->is_player()) {

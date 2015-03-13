@@ -353,8 +353,8 @@ void player::fire_gun(int tarx, int tary, bool burst)
     int bio_power_drain = 0;
     if( used_weapon->type->gun->ups_charges > 0 ) {
         ups_drain = used_weapon->type->gun->ups_charges;
-        adv_ups_drain = std::min( 1, ups_drain * 3 / 5 );
-        bio_power_drain = std::min( 1, ups_drain / 5 );
+        adv_ups_drain = std::max( 1, ups_drain * 3 / 5 );
+        bio_power_drain = std::max( 1, ups_drain / 5 );
     }
 
     // cap our maximum burst size by the amount of UPS power left
@@ -808,14 +808,6 @@ void game::throw_item(player &p, int tarx, int tary, item &thrown,
     }
 }
 
-template<typename C>
-static char front_or( C container, char default_char  ) {
-    if( container.empty() ) {
-        return default_char;
-    }
-    return container.front();
-}
-
 // Draws the static portions of the targeting menu,
 // returns the number of lines used to draw instructions.
 static int draw_targeting_window( WINDOW *w_target, item *relevant, player &p, target_mode mode,
@@ -863,26 +855,30 @@ static int draw_targeting_window( WINDOW *w_target, item *relevant, player &p, t
             text_y -= 2;
         }
     }
+
     // The -1 is the -2 from above, but adjustted since this is a total, not an index.
     int lines_used = getmaxy(w_target) - 1 - text_y;
     mvwprintz(w_target, text_y++, 1, c_white, _("Move cursor to target with directional keys"));
     if( relevant ) {
+        auto const front_or = [&](std::string const &s, char const fallback) {
+            auto const keys = ctxt.keys_bound_to(s);
+            return keys.empty() ? fallback : keys.front();
+        };
+
         mvwprintz( w_target, text_y++, 1, c_white, _("%c %c Cycle targets; %c to fire."),
-                   front_or( ctxt.keys_bound_to("PREV_TARGET"), ' ' ),
-                   front_or( ctxt.keys_bound_to("NEXT_TARGET"), ' ' ),
-                   front_or( ctxt.keys_bound_to("FIRE"), ' ' ) );
+                   front_or("PREV_TARGET", ' '), front_or("NEXT_TARGET", ' '),
+                   front_or("FIRE", ' ') );
         mvwprintz( w_target, text_y++, 1, c_white, _("%c target self; %c toggle snap-to-target"),
-                   front_or( ctxt.keys_bound_to("CENTER"), ' ' ),
-                   front_or( ctxt.keys_bound_to("TOGGLE_SNAP_TO_TARGET"), ' ' ) );
+                   front_or("CENTER", ' ' ), front_or("TOGGLE_SNAP_TO_TARGET", ' ') );
         if( mode == TARGET_MODE_FIRE ) {
             mvwprintz( w_target, text_y++, 1, c_white, _("%c to steady your aim."),
-                       front_or( ctxt.keys_bound_to("AIM"), ' ' ) );
+                       front_or("AIM", ' ') );
             mvwprintz( w_target, text_y++, 1, c_white, _("%c to aim and fire."),
-                       front_or( ctxt.keys_bound_to("AIMED_SHOT"), ' ' ) );
+                       front_or("AIMED_SHOT", ' ') );
             mvwprintz( w_target, text_y++, 1, c_white, _("%c to take careful aim and fire."),
-                       front_or( ctxt.keys_bound_to("CAREFUL_SHOT"), ' ' ) );
+                       front_or("CAREFUL_SHOT", ' ') );
             mvwprintz( w_target, text_y++, 1, c_white, _("%c to take precise aim and fire."),
-                       front_or( ctxt.keys_bound_to("PRECISE_SHOT"), ' ' ) );
+                       front_or("PRECISE_SHOT", ' ') );
         }
     }
 
@@ -1162,7 +1158,7 @@ std::vector<point> game::target(int &x, int &y, int lowx, int lowy, int hix,
             }
         } else if ((action == "PREV_TARGET") && (target != -1)) {
             int newtarget = find_target( t, x, y ) - 1;
-            if( newtarget == -1 ) {
+            if( newtarget < 0 ) {
                 newtarget = t.size() - 1;
             }
             x = t[newtarget]->posx();

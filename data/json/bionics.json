@@ -151,6 +151,7 @@
         "type": "bionic",
         "id": "bio_tools",
         "name": "Integrated Toolset",
+        "toggled": true,
         "description": "Implanted in your hands and fingers is a complete tool set - screwdriver, hammer, wrench, and heating elements.  You can use this in place of many tools when crafting."
     },{
         "type": "bionic",

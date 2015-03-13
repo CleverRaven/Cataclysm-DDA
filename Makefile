@@ -35,7 +35,7 @@
 #  make ZLEVELS=1
 # Install to system directories.
 #  make install
-# Enable lua debug support
+# Enable lua support. Required only for full-fledged mods.
 #  make LUA=1
 # Use user's home directory for save files.
 #  make USE_HOME_DIR=1

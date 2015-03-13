@@ -7,6 +7,8 @@
 #include "monstergenerator.h"
 #include "construction.h"
 #include "messages.h"
+#include "rng.h"
+
 #include <string>
 #include <vector>
 #include <ostream>

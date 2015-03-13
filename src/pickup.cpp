@@ -97,7 +97,7 @@ int Pickup::interact_with_vehicle( vehicle *veh, int posx, int posy, int veh_roo
             if( tmp_hotplate.is_tool() ) {
                 it_tool *tmptool = dynamic_cast<it_tool *>((&tmp_hotplate)->type);
                 if ( tmp_hotplate.charges >= tmptool->charges_per_use ) {
-                    tmptool->invoke(&g->u, &tmp_hotplate, false, point(posx, posy));
+                    g->u.invoke_item( &tmp_hotplate );
                     tmp_hotplate.charges -= tmptool->charges_per_use;
                     veh->refill( "battery", tmp_hotplate.charges );
                 }
@@ -134,7 +134,7 @@ int Pickup::interact_with_vehicle( vehicle *veh, int posx, int posy, int veh_roo
             if( tmp_welder.is_tool() ) {
                 it_tool *tmptool = dynamic_cast<it_tool *>((&tmp_welder)->type);
                 if ( tmp_welder.charges >= tmptool->charges_per_use ) {
-                    tmptool->invoke( &g->u, &tmp_welder, false, point(posx, posy)  );
+                    g->u.invoke_item( &tmp_welder );
                     tmp_welder.charges -= tmptool->charges_per_use;
                     veh->refill( "battery", tmp_welder.charges );
                 }
@@ -150,7 +150,7 @@ int Pickup::interact_with_vehicle( vehicle *veh, int posx, int posy, int veh_roo
             if( tmp_purifier.is_tool() ) {
                 it_tool *tmptool = dynamic_cast<it_tool *>((&tmp_purifier)->type);
                 if ( tmp_purifier.charges >= tmptool->charges_per_use ) {
-                    tmptool->invoke( &g->u, &tmp_purifier, false, point(posx, posy) );
+                    g->u.invoke_item( &tmp_purifier );
                     tmp_purifier.charges -= tmptool->charges_per_use;
                     veh->refill( "battery", tmp_purifier.charges );
                 }
@@ -835,7 +835,7 @@ void Pickup::pick_up(int posx, int posy, int min)
 int Pickup::handle_quiver_insertion(item &here, int &moves_to_decrement, bool &picked_up)
 {
     //add ammo to quiver
-    int quivered = here.add_ammo_to_quiver(&g->u, true);
+    int quivered = g->u.add_ammo_to_worn_quiver( here);
     if(quivered > 0) {
         moves_to_decrement = 0; //moves already decremented in item::add_ammo_to_quiver()
         picked_up = true;
