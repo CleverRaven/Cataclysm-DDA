@@ -511,18 +511,18 @@ Places a gas pump with gasoline (or sometimes diesel) in it. Values:
 ### 2.7.6 "items"
 Places items from an item group. Values:
 - "item": (required, string) the item group to use.
-- "chance": (optional, integer) the chance to spawn multiple items (see `map::place_items`).
+- "chance": (optional, integer or min/max array) the chance to spawn multiple items (see `map::place_items`).
 
 ### 2.7.7 "monsters"
 Places a monster spawn point, the actual monsters are spawned when the map is loaded. Values:
 - "monster": (required, string) a monster group id, when the map is loaded, a random monsters from that group are spawned.
 - "density": (optional, float) if defined, it overrides the default monster density at the location (monster density is bigger towards the city centers) (see `map::place_spawns`).
-- "chance": (optional, integer) chance of monster (see `map::place_spawns`).
+- "chance": (optional, integer or min/max array) chance of monster (see `map::place_spawns`).
 
 ### 2.7.8 "vehicles"
 Places a vehicle. Values:
 - "vehicle": (required, string) type of the vehicle.
-- "chance": (optional, integer) chance of the vehicle spawning at all (in percent, 100 = always). The default is 1 (which means 1% probability that the vehicle spawns, you probably want something larger).
+- "chance": (optional, integer or min/max array) chance of the vehicle spawning at all (in percent, 100 = always). The default is 1 (which means 1% probability that the vehicle spawns, you probably want something larger).
 - "rotation": (optional, integer) the direction the vehicle faces.
 - "fuel": (optional, integer) the fuel status. Default is -1 which makes the tanks 1-7% full. Positive values are interpreted as percentage of the vehicles tanks to fill (e.g. 100 means completely full). 
     - "status": (optional, integer) default is -1 (no damage at all), a value of 1 means some damage.

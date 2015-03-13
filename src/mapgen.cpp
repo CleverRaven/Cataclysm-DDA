@@ -617,10 +617,10 @@ public:
 class jmapgen_item_group : public jmapgen_piece {
 public:
     std::string group_id;
-    int chance;
+    jmapgen_int chance;
     jmapgen_item_group( JsonObject &jsi ) : jmapgen_piece()
     , group_id( jsi.get_string( "item" ) )
-    , chance( jsi.get_int( "chance", 1 ) )
+    , chance( jsi, "chance", 1, 1 )
     {
         if( !item_group::group_is_defined( group_id ) ) {
             jsi.throw_error( "no such item group", "item" );
@@ -628,7 +628,7 @@ public:
     }
     void apply( map &m, const size_t x, const size_t y, const float /*mon_density*/ ) const override
     {
-        m.place_items( group_id, chance, x, y, x, y, true, 0 );
+        m.place_items( group_id, chance.get(), x, y, x, y, true, 0 );
     }
 };
 /**
@@ -641,11 +641,11 @@ class jmapgen_monster_group : public jmapgen_piece {
 public:
     std::string mongroup_id;
     float density;
-    int chance;
+    jmapgen_int chance;
     jmapgen_monster_group( JsonObject &jsi ) : jmapgen_piece()
     , mongroup_id( jsi.get_string( "monster" ) )
     , density( jsi.get_float( "density", -1.0f ) )
-    , chance( jsi.get_int( "chance", 1 ) )
+    , chance( jsi, "chance", 1, 1 )
     {
         if( !MonsterGroupManager::isValidMonsterGroup( mongroup_id ) ) {
             jsi.throw_error( "no such monster group", "monster" );
@@ -653,7 +653,7 @@ public:
     }
     void apply( map &m, const size_t x, const size_t y, const float mdensity ) const override
     {
-        m.place_spawns( mongroup_id, chance, x, y, x, y, density == -1.0f ? mdensity : density );
+        m.place_spawns( mongroup_id, chance.get(), x, y, x, y, density == -1.0f ? mdensity : density );
     }
 };
 /**
@@ -667,13 +667,13 @@ public:
 class jmapgen_vehicle : public jmapgen_piece {
 public:
     std::string type;
-    int chance;
+    jmapgen_int chance;
     int rotation;
     int fuel;
     int status;
     jmapgen_vehicle( JsonObject &jsi ) : jmapgen_piece()
     , type( jsi.get_string( "vehicle" ) )
-    , chance( jsi.get_int( "chance", 1 ) )
+    , chance( jsi, "chance", 1, 1 )
     , rotation( jsi.get_int( "rotation", 0 ) )
     , fuel( jsi.get_int( "fuel", -1 ) )
     , status( jsi.get_int( "status", -1 ) )
@@ -684,7 +684,7 @@ public:
     }
     void apply( map &m, const size_t x, const size_t y, const float /*mon_density*/ ) const override
     {
-        if( !x_in_y( chance, 100 ) ) {
+        if( !x_in_y( chance.get(), 100 ) ) {
             return;
         }
         m.add_vehicle( type, x, y, rotation, fuel, status );
