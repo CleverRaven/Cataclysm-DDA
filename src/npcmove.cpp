@@ -1780,10 +1780,10 @@ void npc::activate_item(int item_index)
     item *it = &i_at(item_index);
     if (it->is_tool()) {
         it_tool *tool = dynamic_cast<it_tool *>(it->type);
-        tool->invoke(this, it, false, pos());
+        tool->invoke( this, it, pos() );
     } else if (it->is_food()) {
         it_comest *comest = dynamic_cast<it_comest *>(it->type);
-        comest->invoke(this, it, false, pos());
+        comest->invoke( this, it, pos() );
     }
 }
 

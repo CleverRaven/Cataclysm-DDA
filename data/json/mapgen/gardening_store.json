@@ -103,7 +103,7 @@
             "h": "f_null",
             "v": "f_null"
             },
-            "place_groups": [
+            "place_items": [
                 { "item": "farming_tools", "chance": 80, "x": [ 9,14 ], "y": [ 9,10 ] },
                 { "item": "farming_tools", "chance": 80, "x": [ 9,14 ], "y": [ 13,14 ] },
                 { "item": "farming_seeds", "chance": 80, "x": [ 17,18 ], "y": [ 9,10 ] },

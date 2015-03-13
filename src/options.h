@@ -7,16 +7,16 @@
 #include <vector>
 #include <algorithm> //atoi
 
-typedef enum { COPT_NO_HIDE,
-               COPT_SDL_HIDE,
-               COPT_CURSES_HIDE,
-               COPT_POSIX_CURSES_HIDE
-             } copt_hide_t;
+enum copt_hide_t {
+    COPT_NO_HIDE,
+    COPT_SDL_HIDE,
+    COPT_CURSES_HIDE,
+    COPT_POSIX_CURSES_HIDE
+};
 
-class regional_settings;
 class options_data
 {
-        friend class regional_settings;
+        friend struct regional_settings;
     public:
         void add_retry(const std::string &var, const std::string &val);
         void add_value(const std::string &myoption, const std::string &myval, std::string myvaltxt = "" );

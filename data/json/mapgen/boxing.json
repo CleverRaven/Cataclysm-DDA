@@ -138,15 +138,15 @@
                     "5": "f_canvas_floor",
                     "^": "f_indoor_plant"
                 },
-                "place_groups": [
+                "place_items": [
                     { "item": "boxing_clothes", "x": [3, 11], "y": [18, 18], "chance": 80, "repeat": [3, 5] },
                     { "item": "boxing_clothes", "x": [3, 11], "y": [18, 18], "chance": 40, "repeat": [1, 2] },
                     { "item": "boxing_books", "x": [17, 19], "y": [18, 18], "chance": 80, "repeat": [1, 3] },
                     { "item": "boxing_misc", "x": [16, 20], "y": [22, 22], "chance": 60, "repeat": [1, 4] },
                     { "item": "vending_drink", "chance": 70, "x": [10, 11], "y": [16, 16] }
                 ],
-                "place_specials": [
-                    { "type": "toilet", "x": 11, "y": 22 }
+                "place_toilets": [
+                    { "x": 11, "y": 22 }
                 ]
                 }
             }

@@ -891,6 +891,11 @@ void initOptions()
                                      0.01, 10.0, 1.0, 0.01
                                     );
 
+    OPTIONS["NPC_DENSITY"] = cOpt("world_default", _("NPC spawn rate scaling factor"),
+                                    _("A scaling factor that determines density of dynamic NPC spawns."),
+                                    0.0, 100.0, 1.0, 0.01
+                                   );
+
     mOptionsSort["world_default"]++;
 
     std::string region_ids("default");
