@@ -46,14 +46,18 @@
                 "T          B           S",
                 "                        ",
                 "                        ",
-                "                        ",
-                "     ; -                ",
-                " V O . , u fFg          "
+                "   ;;;;----gggg         ",
+                "   ;;;;----gggg         ",
+                " V O . , u fF           "
             ],
+            "//": [ "This should result in random terrain (either door or pit) on ';'",
+                    "(selected individually for each place) and shrubs at '.'" ],
             "terrain": {
                 ";": [ "t_door_o", { "ter": "t_pit_spiked" } ],
                 ".": "t_shrub"
             },
+            "//": [ "This should result in random furniture (either chair or bed) on '-'",
+                    "(selected individually for each place) and a table at ','" ],
             "furniture": {
                 "-": [ "f_chair", { "furn": "f_bed" } ],
                 ",": "f_table"
@@ -105,7 +109,7 @@
                 "t": { "item": "television", "chance": 4 }
             },
             "//": "This tests both ways to specifiy a trap: a single string or a json object",
-            "//": "It also test support for the array syntax, like for items above",
+            "//": "It also test support for the array syntax, the result should be randomly chosen traps (different for each place)",
             "traps": {
                 "F": "tr_cot",
                 "g": [ "tr_funnel", { "trap": "tr_brazier" } ],

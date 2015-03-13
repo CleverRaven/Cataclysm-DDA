@@ -481,6 +481,28 @@ jmapgen_place::jmapgen_place( JsonObject &jsi )
 }
 
 /**
+ * This is a generic mapgen piece, the template parameter PieceType should be another specific
+ * type of jmapgen_piece. This class contains a vector of those objects and will chose one of
+ * it at random.
+ */
+template<typename PieceType>
+class jmapgen_alternativly : public jmapgen_piece {
+public:
+    // Note: this bypasses virtual function system, all items in this vector are of type
+    // PieceType, they *can not* be of any other type.
+    std::vector<PieceType> alternatives;
+    jmapgen_alternativly() = default;
+    void apply( map &m, const size_t x, const size_t y, const float mon_density ) const override
+    {
+        if( alternatives.empty() ) {
+            return;
+        }
+        auto &chosen = alternatives[rng( 0, alternatives.size() - 1 )];
+        chosen.apply( m, x, y, mon_density );
+    }
+};
+
+/**
  * Places fields on the map.
  * "field": field type ident.
  * "density": initial field density.
@@ -888,23 +910,52 @@ void load_place_mapings_string( JsonObject &pjo, const std::string &key, mapgen_
         }
     }
 }
+/*
+This function is like load_place_mapings_string, except if the input is an array it will create an
+instance of jmapgen_alternativly which will chose the mapgen piece to apply to the map randomly.
+Use this with terrain or traps or other things that can not be applied twice to the same place.
+*/
+template<typename PieceType>
+void load_place_mapings_alternatively( JsonObject &pjo, const std::string &key, mapgen_function_json::placing_map::mapped_type &vect )
+{
+    if( !pjo.has_array( key ) ) {
+        load_place_mapings_string<PieceType>( pjo, key, vect );
+    } else {
+        auto alter = std::make_shared< jmapgen_alternativly<PieceType> >();
+        JsonArray jarr = pjo.get_array( key );
+        while( jarr.has_more() ) {
+            if( jarr.test_string() ) {
+                try {
+                    alter->alternatives.emplace_back( jarr.next_string() );
+                } catch( const std::string &err ) {
+                    // Using the json object here adds nice formatting and context information
+                    jarr.throw_error( err );
+                }
+            } else {
+                JsonObject jsi = jarr.next_object();
+                alter->alternatives.emplace_back( jsi );
+            }
+        }
+        vect.push_back( alter );
+    }
+}
 
 template<>
 void load_place_mapings<jmapgen_trap>( JsonObject &pjo, const std::string &key, mapgen_function_json::placing_map::mapped_type &vect )
 {
-    load_place_mapings_string<jmapgen_trap>( pjo, key, vect );
+    load_place_mapings_alternatively<jmapgen_trap>( pjo, key, vect );
 }
 
 template<>
 void load_place_mapings<jmapgen_furniture>( JsonObject &pjo, const std::string &key, mapgen_function_json::placing_map::mapped_type &vect )
 {
-    load_place_mapings_string<jmapgen_furniture>( pjo, key, vect );
+    load_place_mapings_alternatively<jmapgen_furniture>( pjo, key, vect );
 }
 
 template<>
 void load_place_mapings<jmapgen_terrain>( JsonObject &pjo, const std::string &key, mapgen_function_json::placing_map::mapped_type &vect )
 {
-    load_place_mapings_string<jmapgen_terrain>( pjo, key, vect );
+    load_place_mapings_alternatively<jmapgen_terrain>( pjo, key, vect );
 }
 
 template<typename PieceType>
