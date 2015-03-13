@@ -208,35 +208,44 @@ class map
 
 // Movement and LOS
 
- /**
-  * Calculate the cost to move past the tile at (x, y).
-  *
-  * The move cost is determined by various obstacles, such
-  * as terrain, vehicles and furniture.
-  *
-  * @note Movement costs for players and zombies both use this function.
-  *
-  * @return The return value is interpreted as follows:
-  * Move Cost | Meaning
-  * --------- | -------
-  * 0         | Impassable
-  * n > 0     | x*n turns to move past this
-  */
- int move_cost(const int x, const int y, const vehicle *ignored_vehicle = nullptr) const;
+// Move cost: 2D overloads
+    int move_cost(const int x, const int y, const vehicle *ignored_vehicle = nullptr) const;
+    int move_cost_ter_furn(const int x, const int y) const;
+    int combined_movecost(const int x1, const int y1, const int x2, const int y2,
+                          const vehicle *ignored_vehicle = nullptr, const int modifier = 0) const;
+
+// Move cost: 3D
+
+    /**
+    * Calculate the cost to move past the tile at p.
+    *
+    * The move cost is determined by various obstacles, such
+    * as terrain, vehicles and furniture.
+    *
+    * @note Movement costs for players and zombies both use this function.
+    *
+    * @return The return value is interpreted as follows:
+    * Move Cost | Meaning
+    * --------- | -------
+    * 0         | Impassable
+    * n > 0     | x*n turns to move past this
+    */
+    int move_cost( const tripoint &p, const vehicle *ignored_vehicle = nullptr ) const;
 
 
- /**
-  * Similar behavior to `move_cost()`, but ignores vehicles.
-  */
- int move_cost_ter_furn(const int x, const int y) const;
+    /**
+    * Similar behavior to `move_cost()`, but ignores vehicles.
+    */
+    int move_cost_ter_furn( const tripoint &p ) const;
 
- /**
-  * Cost to move out of one tile and into the next.
-  *
-  * @return The cost in turns to move out of `(x1, y1)` and into `(x2, y2)`
-  */
- int combined_movecost(const int x1, const int y1, const int x2, const int y2,
-                       const vehicle *ignored_vehicle = nullptr, const int modifier = 0) const;
+    /**
+    * Cost to move out of one tile and into the next.
+    *
+    * @return The cost in turns to move out of tripoint `from` and into `to`
+    */
+    int combined_movecost( const tripoint &from, const tripoint &to,
+                           const vehicle *ignored_vehicle = nullptr, const int modifier = 0) const;
+
 
  /**
   * Returns whether the tile at `(x, y)` is transparent(you can look past it).

@@ -1438,23 +1438,6 @@ std::string map::features(const int x, const int y)
     return ret;
 }
 
-int map::move_cost(const int x, const int y, const vehicle *ignored_vehicle) const
-{
-    if( !INBOUNDS( x, y ) ) {
-        return 0;
-    }
-
-    int part;
-    const furn_t &furniture = furn_at( x, y );
-    const ter_t &terrain = ter_at( x, y );
-    const vehicle *veh = veh_at( x, y, part );
-    if( veh == ignored_vehicle ) {
-        veh = nullptr;
-    }
-
-    return move_cost_internal( furniture, terrain, veh, part );
-}
-
 int map::move_cost_internal(const furn_t &furniture, const ter_t &terrain, const vehicle *veh, const int vpart) const
 {
     if( terrain.movecost == 0 || ( furniture.loadid != f_null && furniture.movecost < 0 ) ) {
@@ -1479,6 +1462,25 @@ int map::move_cost_internal(const furn_t &furniture, const ter_t &terrain, const
     }
 
     return std::max( terrain.movecost, 0 );
+}
+
+// Move cost: 2D overloads
+
+int map::move_cost(const int x, const int y, const vehicle *ignored_vehicle) const
+{
+    if( !INBOUNDS( x, y ) ) {
+        return 0;
+    }
+
+    int part;
+    const furn_t &furniture = furn_at( x, y );
+    const ter_t &terrain = ter_at( x, y );
+    const vehicle *veh = veh_at( x, y, part );
+    if( veh == ignored_vehicle ) {
+        veh = nullptr;
+    }
+
+    return move_cost_internal( furniture, terrain, veh, part );
 }
 
 int map::move_cost_ter_furn(const int x, const int y) const
@@ -1514,6 +1516,62 @@ int map::combined_movecost(const int x1, const int y1,
     int mult = (trigdist && x1 != x2 && y1 != y2 ? 71 : 50);
     return (cost1 + cost2 + modifier) * mult / 2;
 }
+
+// Move cost: 3D
+
+int map::move_cost( const tripoint &p, const vehicle *ignored_vehicle ) const
+{
+    if( !inbounds( p ) ) {
+        return 0;
+    }
+
+    int part;
+    const furn_t &furniture = furn_at( x, y );
+    const ter_t &terrain = ter_at( x, y );
+    const vehicle *veh = veh_at( x, y, part );
+    if( veh == ignored_vehicle ) {
+        veh = nullptr;
+    }
+
+    return move_cost_internal( furniture, terrain, veh, part );
+}
+
+int map::move_cost_ter_furn( const tripoint &p ) const
+{
+    if( !inbounds( p ) ) {
+        return 0;
+    }
+
+    int lx, ly;
+    submap * const current_submap = get_submap_at( p, lx, ly );
+
+    const int tercost = terlist[ current_submap->get_ter( lx, ly ) ].movecost;
+    if ( tercost == 0 ) {
+        return 0;
+    }
+
+    const int furncost = furnlist[ current_submap->get_furn(lx, ly) ].movecost;
+    if ( furncost < 0 ) {
+        return 0;
+    }
+
+    const int cost = tercost + furncost;
+    return cost > 0 ? cost : 0;
+}
+
+int map::combined_movecost( const tripoint &from, const tripoint &to,
+                            const vehicle *ignored_vehicle, const int modifier ) const
+{
+    const auto mults = { 0, 50, 71, 100 };
+    int cost1 = move_cost( from, ignored_vehicle );
+    int cost2 = move_cost( to, ignored_vehicle );
+    // Multiply cost depending on the number of differing axes
+    // 0 if all axes are equal, 100% if only 1 differs, 141% for 2, 200% for 3
+    size_t match = ( from.x != to.x ) + ( from.y != to.y ) + ( from.z != to.z );
+    return (cost1 + cost2 + modifier) * mults[match] / 2;
+}
+
+// End of move cost
 
 bool map::trans(const int x, const int y) const
 {
