@@ -1,0 +1,130 @@
+[
+    {
+        "//": "This is a test mapgen definition.",
+        "//": "Its contents make no sense, it is supposed to use all the available mapgen possibilities.",
+        "type" : "overmap_terrain",
+        "id" : "mapgen-test",
+        "name" : "",
+        "rotate" : false,
+        "line_drawing" : false,
+        "sym" : 37,
+        "color" : "white",
+        "see_cost" : 0,
+        "extras" : "none",
+        "known_down" : false,
+        "known_up" : false,
+        "mondensity" : 1,
+        "sidewalk" : false,
+        "allow_road" : false
+    },{
+        "type": "mapgen",
+        "om_terrain": [ "mapgen-test" ],
+        "method": "json",
+        "object": {
+            "fill_ter": "t_grass",
+            "//": "Big empty space, the letters in it are used to test the placing of specials through",
+            "//": "the mapping (as opposed to specific coordinates).",
+            "rows": [
+                "                        ",
+                "                        ",
+                "                        ",
+                "                        ",
+                "                        ",
+                "                        ",
+                "                        ",
+                "                        ",
+                "                        ",
+                "                        ",
+                "                        ",
+                "                        ",
+                "tttttttt                ",
+                "tttttttt       ss oo    ",
+                "               ss oo    ",
+                "                        ",
+                "                        ",
+                "                        ",
+                "T          B           S",
+                "                        ",
+                "                        ",
+                "                        ",
+                "                        ",
+                " V O . , u              "
+            ],
+            "terrain": {
+                ".": "t_shrub"
+            },
+            "furniture": {
+                ",": "f_table"
+            },
+            "//": "special (unusual) values to see whether they are actually respected by the game",
+            "gaspumps": {
+                "O": { "amount": [ 110, 112 ] }
+            },
+            "vendingmachines": {
+                "V": { "item_group": "farming_seeds" }
+            },
+            "fields": {
+                "B": { "field": "fd_blood", "age": 10, "density": 1 }
+            },
+            "signs": {
+                "S": { "signage": "it works." }
+            },
+            "//": "A monster directly on the blood (-;",
+            "//": "Other monsters on the sign",
+            "monsters": {
+                "B": { "monster": "GROUP_BEE", "density": 1, "chance": 4 },
+                "S": { "monster": "GROUP_ANT", "density": 0.1, "chance": 1 }
+            },
+            "//": "The NPC sits on the toilet (-:",
+            "toilets": {
+                "T": { "amount": [ 44, 46 ] }
+            },
+            "npcs": {
+                "T": { "class": "guard" }
+            },
+            "//": "a stash and another (different) stash with different chance",
+            "items": {
+                "s": { "item": "bionics_tech", "chance": 70 },
+                "o": { "item": "technician_pants", "chance": 20 }
+            },
+            "//": "single-tile vehicles to avoid conflicts with outer parts of the map, chance=100 to spawn always",
+            "vehicles": {
+                "s": { "vehicle": "wheelchair", "chance": 100, "status": 1 },
+                "o": { "vehicle": "welding_cart", "chance": 100, "fuel": 40, "status": 1 }
+            },
+
+            "//": [ "And now the same (nearly) but with explicit coordinates.",
+                    "These spawn in the northern part of the map and they have slightly",
+                    "different values so they are be distinguished." ],
+            "place_gaspumps": [
+                { "x": 1, "y": 1, "amount": [ 200, 222 ] }
+            ],
+            "place_vendingmachines": [
+                { "x": 3, "y": 1, "item_group": "jewelry_front" }
+            ],
+            "place_fields": [
+                { "x": 5, "y": 1, "field": "fd_bile", "age": 20, "density": 2 }
+            ],
+            "place_signs": [
+                { "x": 7, "y": 1, "signage": "it works again." }
+            ],
+            "place_monsters": [
+                { "x": 5, "y": 1, "monster": "GROUP_BEE", "density": 1, "chance": 4 },
+                { "x": 7, "y": 1, "monster": "GROUP_ANT", "density": 0.1, "chance": 1 }
+            ],
+            "place_toilets": [
+                { "x": 9, "y": 1, "amount": [ 88, 111 ] }
+            ],
+            "place_npcs": [
+                { "x": 9, "y": 1, "class": "arsonist" }
+            ],
+            "place_items": [
+                { "x": 1, "y": 3, "item": "bionics_tech", "chance": 70 },
+                { "x": 2, "y": 3, "item": "technician_pants", "chance": 20 }
+            ],
+            "place_vehicles": [
+                { "x": 5, "y": 3, "vehicle": "unicycle", "chance": 100, "status": 1 }
+            ],
+        }
+    }
+]
