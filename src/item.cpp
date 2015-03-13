@@ -5439,3 +5439,18 @@ bool storage::has_ammo() const
         return elem.is_ammo();});
 }
 
+/*-----------------------------------------------------------------------------
+ *  item_filter manipulation/helpers
+ *-----------------------------------------------------------------------------*/
+bag_filter_cache_t storage::build_cache_for(itype_id id, const std::string &filter)
+{
+    bag_filter_cache_t cache;
+    return cache;
+}
+
+void storage::set_filter_for(itype_id id, const std::string &filter)
+{
+    item_filter[id]         = filter;
+    item_filter_cache[id]   = build_cache_for(id, filter);
+}
+

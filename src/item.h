@@ -7,6 +7,7 @@
 #include <list>
 #include <bitset>
 #include <unordered_set>
+#include <unordered_map>
 #include <set>
 #include <iterator>
 
@@ -91,8 +92,32 @@ class item_category
 };
 
 /*-----------------------------------------------------------------------------
- *  Storage for items in items (this is var slim to reduce size to item mem usage)
+ *  Storage for items in items (and all the fun it entails)
  *-----------------------------------------------------------------------------*/
+struct bag_filter_cache_t {
+    bool    can_store;                  // are we allowed to store this item?
+    int     amount;                     // +N for amount  >=, -N for amount  <
+    int     charges;                    // +N for charges >=, -N for charges <
+    bool    only_fresh;                 // fresh food or !rotten food?
+};
+/*      **Storage Filtering for Items**
+ *  A storage `bag' can be filtered to only accept certain types, quantities, charges,
+ *  freshness, etc. of items. The string used to store this information is as such:
+ *
+ *          ":id:[+-]N:[+-]N:(true|false):"
+ *           |_| |___| |___| |__________|
+ *            ^    ^     ^         ^
+ *            |    |     |         |
+ *            |    |     |         | 
+ *            |    |     |         :    
+ *            |    |     :         [whether to store only fresh food, or anything !rotten]
+ *            |    :     [what amount of charges to filter for, same +- as below]
+ *            :    [amount of an item to store, 0 if any amount, '+' is >= & '-' is <]
+ *            [the item id, `ANY' if it is to store anything not filtered]
+ */
+typedef std::unordered_map<itype_id, std::string>           bag_filter_map;
+typedef std::unordered_map<itype_id, bag_filter_cache_t>    bag_filter_cache_map;
+
 class storage
 {
         typedef std::list<std::list<item>>                      invstack;
@@ -100,18 +125,20 @@ class storage
         typedef std::vector<std::pair<std::list<item>*, int>>   indexed_invslice;
 
     private:
-        std::list<item> items;
-        invstack        stack;
+        std::list<item>         items;
+        bag_filter_map          item_filter;
+        bag_filter_cache_map    item_filter_cache;
 
         item *find_item(const item *thing, itype_id id);
         bool item_matches(const item *thing=nullptr, itype_id id="") const;
+        bag_filter_cache_t build_cache_for(itype_id id, const std::string &filter);
+        bag_filter_cache_t parse_filter_for(itype_id id);
 
     public:
         storage() = default;
         storage(const std::list<item> &item_list);
         storage(std::list<item>::iterator   start, std::list<item>::iterator   stop);
         storage(std::vector<item>::iterator start, std::vector<item>::iterator stop);
-
         /*-----------------------------------------------------------------------------
          *                                  OVERLOADS
          *-----------------------------------------------------------------------------*/
@@ -222,6 +249,19 @@ class storage
         bool has_active_items() const;
         // return true if there is ammo in storage
         bool has_ammo() const;
+        /*-----------------------------------------------------------------------------
+         *                              STORAGE FILTERS
+         *-----------------------------------------------------------------------------*/
+        // string to help filter pickups to their apropos bags
+        void set_filter_for(itype_id id, const std::string &filter);
+        const bag_filter_cache_map &get_filter()
+        {
+            return item_filter_cache;
+        }
+        const bag_filter_cache_t get_filter_for(itype_id id)
+        {
+            return item_filter_cache[id];
+        }
         /*-----------------------------------------------------------------------------
          *                                  JSON
          *-----------------------------------------------------------------------------*/
