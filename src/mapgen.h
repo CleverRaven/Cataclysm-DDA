@@ -46,6 +46,15 @@ struct jmapgen_int {
   jmapgen_int(int v) : val(v), valmax(v) {}
   jmapgen_int(int v, int v2) : val(v), valmax(v2) {}
   jmapgen_int( point p ) : val(p.x), valmax(p.y) {}
+    /**
+     * Throws as usually if the json is invalid or missing.
+     */
+    jmapgen_int( JsonObject &jso, const std::string &key );
+    /**
+     * Throws is the json is malformed (e.g. a string not an integer, but does not throw
+     * if the member is just missing (the default values are used instead).
+     */
+    jmapgen_int( JsonObject &jso, const std::string &key, short def_val, short def_valmax );
 
   int get() const {
       return ( val == valmax ? val : rng(val, valmax) );
@@ -155,7 +164,7 @@ public:
 
 class mapgen_function_json : public virtual mapgen_function {
     public:
-    bool check_inbounds( jmapgen_int & var );
+    bool check_inbounds( const jmapgen_int & var ) const;
     void setup_setmap(JsonArray &parray);
     virtual bool setup();
     virtual void generate(map*, oter_id, mapgendata, int, float);

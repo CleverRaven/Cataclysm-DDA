@@ -324,7 +324,7 @@ size_t mapgen_function_json::calc_index( const size_t x, const size_t y) const
     return y * mapgensize + x;
 }
 
-bool mapgen_function_json::check_inbounds( jmapgen_int & var ) {
+bool mapgen_function_json::check_inbounds( const jmapgen_int & var ) const {
     const int min = 0;
     const int max = mapgensize - 1;
     if ( var.val < min || var.val > max || var.valmax < min || var.valmax > max ) {
@@ -333,36 +333,41 @@ bool mapgen_function_json::check_inbounds( jmapgen_int & var ) {
     return true;
 }
 #define inboundchk(v,j) if (! check_inbounds(v) ) { j.throw_error(string_format("Value must be between 0 and %d",mapgensize)); }
-/*
- * Take json array or int and set a numeric pair
- */
-bool load_jmapgen_int( JsonObject &jo, const std::string & tag, short & val1, short & val2 ) {
-    int tmp1; int tmp2;
-    if ( jo.has_array( tag ) ) {
+
+jmapgen_int::jmapgen_int( JsonObject &jo, const std::string &tag )
+{
+    if( jo.has_array( tag ) ) {
         JsonArray sparray = jo.get_array( tag );
-        if ( sparray.read(0,tmp1) && sparray.read(1,tmp2) ) {
-           val1 = tmp1;
-           val2 = tmp2;
-           return true;
+        if( sparray.size() < 1 || sparray.size() > 2 ) {
+            jo.throw_error( "invalid data: must be an array of 1 or 2 values", tag );
         }
-    } else if ( jo.read(tag, tmp1) ) {
-        val1 = tmp1;
-        val2 = tmp1;
-        return true;
-    }
-    return false;
-}
-
-void load_jmapgen_int_throw( JsonObject &jo, const std::string &tag, jmapgen_int &val )
-{
-    if( !load_jmapgen_int( jo, tag, val.val, val.valmax ) ) {
-        jo.throw_error( string_format( "missing/invalid entry %s", tag.c_str() ) );
+        val = sparray.get_int( 0 );
+        if( sparray.size() == 2 ) {
+            valmax = sparray.get_int( 1 );
+        }
+    } else {
+        val = valmax = jo.get_int( tag );
     }
 }
 
-void load_jmapgen_int_optional( JsonObject &jo, const std::string &tag, jmapgen_int &val )
+jmapgen_int::jmapgen_int( JsonObject &jo, const std::string &tag, const short def_val, const short def_valmax )
+: val( def_val )
+, valmax( def_valmax )
 {
-    load_jmapgen_int( jo, tag, val.val, val.valmax );
+    if( jo.has_array( tag ) ) {
+        JsonArray sparray = jo.get_array( tag );
+        if( sparray.size() > 2 ) {
+            jo.throw_error( "invalid data: must be an array of 1 or 2 values", tag );
+        }
+        if( sparray.size() >= 1 ) {
+            val = sparray.get_int( 0 );
+        }
+        if( sparray.size() >= 2 ) {
+            valmax = sparray.get_int( 1 );
+        }
+    } else if( jo.has_member( tag ) ) {
+        val = valmax = jo.get_int( tag );
+    }
 }
 
 /*
@@ -402,39 +407,26 @@ void mapgen_function_json::setup_setmap( JsonArray &parray ) {
         }
 
         tmpop = sm_it->second;
-        jmapgen_int tmp_x(0,0);
-        jmapgen_int tmp_y(0,0);
         jmapgen_int tmp_x2(0,0);
         jmapgen_int tmp_y2(0,0);
         jmapgen_int tmp_i(0,0);
-        jmapgen_int tmp_repeat(1,1);
         int tmp_chance = 1;
         int tmp_rotation = 0;
         int tmp_fuel = -1;
         int tmp_status = -1;
 
-        if ( ! load_jmapgen_int(pjo, "x", tmp_x.val, tmp_x.valmax) ) {
-            err = string_format("set %s: bad/missing value for 'x'",tmpval.c_str() ); throw err;
-        }
+        const jmapgen_int tmp_x( pjo, "x" );
         inboundchk(tmp_x,pjo);
-        if ( ! load_jmapgen_int(pjo, "y", tmp_y.val, tmp_y.valmax) ) {
-            err = string_format("set %s: bad/missing value for 'y'",tmpval.c_str() ); throw err;
-        }
+        const jmapgen_int tmp_y( pjo, "y" );
         inboundchk(tmp_x,pjo);
         if ( setmap_optype != JMAPGEN_SETMAP_OPTYPE_POINT ) {
-            if ( ! load_jmapgen_int(pjo, "x2", tmp_x2.val, tmp_x2.valmax) ) {
-                err = string_format("set %s: bad/missing value for 'x2'",tmpval.c_str() ); throw err;
-                inboundchk(tmp_x2,pjo);
-            }
-            if ( ! load_jmapgen_int(pjo, "y2", tmp_y2.val, tmp_y2.valmax) ) {
-                err = string_format("set %s: bad/missing value for 'y2'",tmpval.c_str() ); throw err;
-                inboundchk(tmp_y2,pjo);
-            }
+            tmp_x2 = jmapgen_int( pjo, "x2" );
+            inboundchk(tmp_x2,pjo);
+            tmp_y2 = jmapgen_int( pjo, "y2" );
+            inboundchk(tmp_y2,pjo);
         }
         if ( tmpop == JMAPGEN_SETMAP_RADIATION ) {
-            if ( ! load_jmapgen_int(pjo, "amount", tmp_i.val, tmp_i.valmax) ) {
-                err = string_format("set %s: bad/missing value for 'amount'",tmpval.c_str() ); throw err;
-            }
+            tmp_i = jmapgen_int( pjo, "amount" );
         } else if (tmpop == JMAPGEN_SETMAP_BASH){
             //suppress warning
         } else {
@@ -468,7 +460,7 @@ void mapgen_function_json::setup_setmap( JsonArray &parray ) {
             }
             tmp_i.valmax = tmp_i.val; // todo... support for random furniture? or not.
         }
-        load_jmapgen_int(pjo, "repeat", tmp_repeat.val, tmp_repeat.valmax);  // todo, sanity check?
+        const jmapgen_int tmp_repeat = jmapgen_int( pjo, "repeat", 1, 1 );  // todo, sanity check?
         pjo.read("chance", tmp_chance );
         pjo.read("rotation", tmp_rotation );
         pjo.read("fuel", tmp_fuel );
@@ -481,11 +473,11 @@ void mapgen_function_json::setup_setmap( JsonArray &parray ) {
 
 }
 
-jmapgen_place::jmapgen_place( JsonObject &jsi ) : x( 0, 0 ), y( 0, 0 ), repeat( 1, 1 )
+jmapgen_place::jmapgen_place( JsonObject &jsi )
+: x( jsi, "x" )
+, y( jsi, "y" )
+, repeat( jsi, "repeat", 1, 1 )
 {
-    load_jmapgen_int_throw( jsi, "x", x );
-    load_jmapgen_int_throw( jsi, "y", y );
-    load_jmapgen_int_optional( jsi, "repeat", repeat );
 }
 
 /**
@@ -581,9 +573,8 @@ class jmapgen_toilet : public jmapgen_piece {
 public:
     jmapgen_int amount;
     jmapgen_toilet( JsonObject &jsi ) : jmapgen_piece()
-    , amount( 0, 0 )
+    , amount( jsi, "amount", 0, 0 )
     {
-        load_jmapgen_int( jsi, "amount", amount.val, amount.valmax );
     }
     void apply( map &m, const size_t x, const size_t y, const float /*mon_density*/ ) const override
     {
@@ -604,9 +595,8 @@ class jmapgen_gaspump : public jmapgen_piece {
 public:
     jmapgen_int amount;
     jmapgen_gaspump( JsonObject &jsi ) : jmapgen_piece()
-    , amount( 0, 0 )
+    , amount( jsi, "amount", 0, 0 )
     {
-        load_jmapgen_int( jsi, "amount", amount.val, amount.valmax );
     }
     void apply( map &m, const size_t x, const size_t y, const float /*mon_density*/ ) const override
     {
@@ -900,9 +890,6 @@ bool mapgen_function_json::setup() {
            parray = jo.get_array( "add");
 
            while ( parray.has_more() ) {
-               jmapgen_int tmp_x(0,0);
-               jmapgen_int tmp_y(0,0);
-               jmapgen_int tmp_amt(1,1);
                JsonObject jsi = parray.next_object();
                if ( jsi.has_string("item") ) {
                    tmpval = jsi.get_string("item");
@@ -912,19 +899,11 @@ bool mapgen_function_json::setup() {
                } else {
                    parray.throw_error("adding other things is not supported yet"); return false;
                }
-               if ( ! jsi.has_member("x") || ! jsi.has_member("y") ) {
-                   parray.throw_error("  spawn_items: syntax error. Must be at least: { \"id\": \"(itype)\", \"x\": int, \"y\": int }");
-               }
-               if ( ! load_jmapgen_int(jsi, "x", tmp_x.val, tmp_x.valmax) ) {
-                   jsi.throw_error("  spawn_items: invalid value for 'x'");
-               }
-               if ( ! load_jmapgen_int(jsi, "y", tmp_y.val, tmp_y.valmax) ) {
-                   jsi.throw_error("  spawn_items: invalid value for 'x'");
-               }
-               load_jmapgen_int(jsi, "amount", tmp_amt.val, tmp_amt.valmax);
-               jmapgen_int tmp_repeat(1,1);
+               const jmapgen_int tmp_x( jsi, "x" );
+               const jmapgen_int tmp_y( jsi, "y" );
+               const jmapgen_int tmp_amt( jsi, "amount", 1, 1 );
+               const jmapgen_int tmp_repeat( jsi, "repeat", 1, 1 );
                int tmp_chance = 1;
-               load_jmapgen_int(jsi, "repeat", tmp_repeat.val, tmp_repeat.valmax);  // todo, sanity check?
                jsi.read("chance", tmp_chance );
                jmapgen_spawn_item new_spawn( tmp_x, tmp_y, tmpval, tmp_amt, tmp_chance, tmp_repeat );
                tmpval = "";
