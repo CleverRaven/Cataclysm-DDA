@@ -732,7 +732,8 @@
     ],
     [
       [ "rock", 1 ],
-      [ "ceramic_shard", 1 ]
+      [ "ceramic_shard", 1 ],
+      [ "sharp_rock", 1 ]
     ],
     [
       [ "string_6", 1 ],
@@ -805,7 +806,8 @@
     ],
     [
       [ "rock", 1 ],
-      [ "ceramic_shard", 1 ]
+      [ "ceramic_shard", 1 ],
+      [ "sharp_rock", 1 ]
     ],
     [
       [ "string_6", 2 ],
@@ -835,7 +837,8 @@
     ],
     [
       [ "rock", 1 ],
-      [ "ceramic_shard", 1 ]
+      [ "ceramic_shard", 1 ],
+      [ "sharp_rock", 1 ]
     ],
     [
       [ "string_6", 2 ],
