@@ -10847,14 +10847,13 @@ void game::butcher()
     item *salvage_tool = nullptr;
     const salvage_actor *salvage_iuse = nullptr;
     if( !salvage_tools.empty() ) {
-        item* it = const_cast<item *>( salvage_tools.front() );
-        salvage_tool_index = u.get_item_position( it );
-        item *usable = it->get_usable_item( salvage_string );
-        salvage_iuse = dynamic_cast<const salvage_actor*>( 
-            usable->get_use( salvage_string )->get_actor_ptr() );
         // Casting away constness allowed here
         // Though probably should be handled by making an items_with overload
-        salvage_tool = const_cast<item *>( it );
+        salvage_tool = const_cast<item *>( salvage_tools.front() );
+        salvage_tool_index = u.get_item_position( salvage_tool );
+        item *usable = salvage_tool->get_usable_item( salvage_string );
+        salvage_iuse = dynamic_cast<const salvage_actor*>( 
+            usable->get_use( salvage_string )->get_actor_ptr() );
     }
 
 
