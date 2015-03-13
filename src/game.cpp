@@ -8542,12 +8542,12 @@ void game::zones_manager()
                                            pointPlayer.x,
                                            pointPlayer.y
                                           ),
-                              direction_name_short(direction_from(pCenter.x,
-                                                   pCenter.y,
-                                                   pointPlayer.x,
-                                                   pointPlayer.y
-                                                                 )
-                                                  ).c_str()
+                              direction_name(direction_from(pCenter.x,
+                                             pCenter.y,
+                                             pointPlayer.x,
+                                             pointPlayer.y
+                                                           ), true
+                                            ).c_str()
                              );
                 }
                 iNum++;
@@ -9634,7 +9634,7 @@ int game::list_items(const int iLastState)
                             mvwprintz(w_items, iNum - iStartPos, width - (6 + numw),
                                       ((iNum == iActive) ? c_ltgreen : c_ltgray), "%*d %s",
                                       numw, trig_dist(0, 0, iter->vIG[iThisPage].x, iter->vIG[iThisPage].y),
-                                      direction_name_short(direction_from(0, 0, iter->vIG[iThisPage].x, iter->vIG[iThisPage].y)).c_str()
+                                      direction_name(direction_from(0, 0, iter->vIG[iThisPage].x, iter->vIG[iThisPage].y), true).c_str()
                                      );
                         }
                     }
@@ -9877,9 +9877,9 @@ int game::list_monsters(const int iLastState)
                                   (selected ? c_ltgreen : c_ltgray), "%*d %s",
                                   numw, trig_dist(0, 0, critter->posx() - u.posx(),
                                                   critter->posy() - u.posy()),
-                                  direction_name_short(
+                                  direction_name(
                                       direction_from( 0, 0, critter->posx() - u.posx(),
-                                                      critter->posy() - u.posy())).c_str() );
+                                                      critter->posy() - u.posy()), true).c_str() );
                 }
 
                 mvwprintz(w_monsters_border, 0, (width - 9) / 2 + ((iMonsterNum > 9) ? 0 : 1),
