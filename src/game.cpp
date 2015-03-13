@@ -5146,26 +5146,27 @@ void game::refresh_all()
 void game::draw_HP()
 {
     werase(w_HP);
-    nc_color color;
-    std::string health_bar = "";
 
     // The HP window can be in "tall" mode (7x14) or "wide" mode (14x7).
     bool wide = (getmaxy(w_HP) == 7);
     int hpx = wide ? 7 : 0;
     int hpy = wide ? 0 : 1;
     int dy = wide ? 1 : 2;
+    
+    bool const is_self_aware = u.has_trait("SELFAWARE");
+
     for (int i = 0; i < num_hp_parts; i++) {
-        get_HP_Bar(u.hp_cur[i], u.hp_max[i], color, health_bar);
+        auto const &hp = get_hp_bar(u.hp_cur[i], u.hp_max[i]);
 
         wmove(w_HP, i * dy + hpy, hpx);
-        if (u.has_trait("SELFAWARE")) {
-            wprintz(w_HP, color, "%3d  ", u.hp_cur[i]);
+        if (is_self_aware) {
+            wprintz(w_HP, hp.second, "%3d  ", u.hp_cur[i]);
         } else {
-            wprintz(w_HP, color, "%s", health_bar.c_str());
+            wprintz(w_HP, hp.second, "%s", hp.first.c_str());
 
             //Add the trailing symbols for a not-quite-full health bar
             int bar_remainder = 5;
-            while (bar_remainder > (int)health_bar.size()) {
+            while (bar_remainder > (int)hp.first.size()) {
                 --bar_remainder;
                 wprintz(w_HP, c_white, ".");
             }
@@ -5203,14 +5204,13 @@ void game::draw_HP()
             wprintz(w_HP, c_ltgray, " --   ");
         }
     } else {
+        nc_color color = c_red;
         if (u.power_level == u.max_power_level) {
             color = c_blue;
         } else if (u.power_level >= u.max_power_level * .5) {
             color = c_ltblue;
         } else if (u.power_level > 0) {
             color = c_yellow;
-        } else {
-            color = c_red;
         }
         mvwprintz(w_HP, powy, powx, color, "%-3d", u.power_level);
     }
@@ -9855,12 +9855,13 @@ int game::list_monsters(const int iLastState)
                             mvwprintz(w_monsters, y, 1, selected ? c_ltgreen : c_white, "%s", critter->disp_name().c_str());
                         }
                         nc_color color = c_white;
-                        std::string sText = "";
+                        std::string sText;
 
                         if( m != nullptr ) {
                             m->get_HP_Bar(color, sText);
                         } else {
-                            ::get_HP_Bar( critter->get_hp(), critter->get_hp_max(), color, sText, false );
+                            std::tie(sText, color) = 
+                                ::get_hp_bar( critter->get_hp(), critter->get_hp_max(), false );
                         }
                         mvwprintz(w_monsters, y, 22, color, "%s", sText.c_str());
 

@@ -730,24 +730,19 @@ void game::throw_item(player &p, int tarx, int tary, item &thrown,
 
             // Combat text and message
             if (u.sees(tx, ty)) {
-                nc_color color;
-                std::string health_bar = "";
+
                 if (zid != -1) {
-                    get_HP_Bar(dam, z->get_hp_max(), color, health_bar, true);
-                    SCT.add(z->posx(),
-                            z->posy(),
+                    SCT.add(z->posx(), z->posy(),
                             direction_from(0, 0, z->posx() - p.posx(), z->posy() - p.posy()),
-                            health_bar.c_str(), m_good,
+                            get_hp_bar(dam, z->get_hp_max(), true).first, m_good,
                             message, gmtSCTcolor);
                     p.add_msg_player_or_npc(m_good, _("%s You hit the %s for %d damage."),
                                             _("%s <npcname> hits the %s for %d damage."),
                                             message.c_str(), z->name().c_str(), dam);
                 } else if (npcID != -1) {
-                    get_HP_Bar(dam, guy->get_hp_max(player::bp_to_hp(bp)), color, health_bar, true);
-                    SCT.add(guy->posx(),
-                            guy->posy(),
+                    SCT.add(guy->posx(), guy->posy(),
                             direction_from(0, 0, guy->posx() - p.posx(), guy->posy() - p.posy()),
-                            health_bar.c_str(), m_good,
+                            get_hp_bar(dam, guy->get_hp_max(player::bp_to_hp(bp)), true).first, m_good,
                             message, gmtSCTcolor);
                     p.add_msg_player_or_npc(m_good, _("%s You hit %s for %d damage."),
                                             _("%s <npcname> hits %s for %d damage."),

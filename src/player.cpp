@@ -4561,14 +4561,9 @@ dealt_damage_instance player::deal_damage(Creature* source, body_part bp, const 
 
         if (dam > 0 && is_player() && source) {
             //monster hits player melee
-            nc_color color;
-            std::string health_bar = "";
-            get_HP_Bar(dam, this->get_hp_max(player::bp_to_hp(bp)), color, health_bar);
-
-            SCT.add(this->posx(),
-                    this->posy(),
-                    direction_from(0, 0, this->posx() - source->posx(), this->posy() - source->posy()),
-                    health_bar.c_str(), m_bad,
+            SCT.add(posx(), posy(),
+                    direction_from(0, 0, posx() - source->posx(), posy() - source->posy()),
+                    get_hp_bar(dam, get_hp_max(player::bp_to_hp(bp))).first, m_bad,
                     body_part_name(bp), m_neutral);
         }
     }

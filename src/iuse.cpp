@@ -347,13 +347,13 @@ static hp_part body_window(player *p, item *, std::string item_name,
         }
     }
     mvwprintz(hp_window, 8, 1, c_ltgray, _("7: Exit"));
-    std::string health_bar = "";
+    std::string health_bar;
     for (int i = 0; i < num_hp_parts; i++) {
         if (allowed_result[i]) {
             // have printed the name of the body part, can select it
             int current_hp = p->hp_cur[i];
             if (current_hp != 0) {
-                get_HP_Bar(current_hp, p->hp_max[i], color, health_bar, false);
+                std::tie(health_bar, color) = get_hp_bar(current_hp, p->hp_max[i], false);
                 if (p->has_trait("SELFAWARE")) {
                     mvwprintz(hp_window, i + 2, 15, color, "%5d", current_hp);
                 } else {
@@ -381,7 +381,7 @@ static hp_part body_window(player *p, item *, std::string item_name,
                 } else if (current_hp < 0) {
                     current_hp = 0;
                 }
-                get_HP_Bar(current_hp, p->hp_max[i], color, health_bar, false);
+                std::tie(health_bar, color) = get_hp_bar(current_hp, p->hp_max[i], false);
                 if (p->has_trait("SELFAWARE")) {
                     mvwprintz(hp_window, i + 2, 24, color, "%5d", current_hp);
                 } else {

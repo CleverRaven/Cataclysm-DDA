@@ -220,7 +220,7 @@ std::string monster::skin_name() const {
 
 void monster::get_HP_Bar(nc_color &color, std::string &text) const
 {
-    ::get_HP_Bar(hp, type->hp, color, text, true);
+    std::tie(text, color) = ::get_hp_bar(hp, type->hp, true);
 }
 
 void monster::get_Attitude(nc_color &color, std::string &text) const

@@ -574,26 +574,17 @@ int Creature::deal_projectile_attack(Creature *source, double missed_by,
         } else if (source != NULL) {
             if (source->is_player()) {
                 //player hits monster ranged
-                nc_color color;
-                std::string health_bar = "";
-                get_HP_Bar(dealt_dam.total_damage(), this->get_hp_max(), color, health_bar, true);
+                SCT.add(posx(), posy(),
+                        direction_from(0, 0, posx() - source->posx(), posy() - source->posy()),
+                        get_hp_bar(dealt_dam.total_damage(), get_hp_max(), true).first,
+                        m_good, message, gmtSCTcolor);
 
-                SCT.add(this->posx(),
-                        this->posy(),
-                        direction_from(0, 0, this->posx() - source->posx(), this->posy() - source->posy()),
-                        health_bar, m_good,
-                        message, gmtSCTcolor);
-
-                if (this->get_hp() > 0) {
-                    get_HP_Bar(this->get_hp(), this->get_hp_max(), color, health_bar, true);
-
-                    SCT.add(this->posx(),
-                            this->posy(),
-                            direction_from(0, 0, this->posx() - source->posx(), this->posy() - source->posy()),
-                            health_bar, m_good,
+                if (get_hp() > 0) {
+                    SCT.add(posx(), posy(),
+                            direction_from(0, 0, posx() - source->posx(), posy() - source->posy()),
+                            get_hp_bar(get_hp(), get_hp_max(), true).first, m_good,
                             //~ “hit points”, used in scrolling combat text
-                            _("hp"), m_neutral,
-                            "hp");
+                            _("hp"), m_neutral, "hp");
                 } else {
                     SCT.removeCreatureHP();
                 }
