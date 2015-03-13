@@ -779,29 +779,25 @@ bool mapgen_function_json::setup() {
         if ( jo.has_array("rows") ) {
             std::map<int,int> format_terrain;
             std::map<int,int> format_furniture;
-            int tmpkey = -1;
-            int c=0;
             // manditory: every character in rows must have matching entry, unless fill_ter is set
             // "terrain": { "a": "t_grass", "b": "t_lava" }
             if ( jo.has_object("terrain") ) {
                 pjo = jo.get_object("terrain");
-                std::set<std::string> keys = pjo.get_member_names();
-                for( const auto &key : keys ) {
-                    if( ( key ).size() != 1 ) {
-                        pjo.throw_error( string_format( "format map key '%s' must be 1 character",
-                                                        ( key ).c_str() ) );
+                for( const auto &key : pjo.get_member_names() ) {
+                    if( key.size() != 1 ) {
+                        pjo.throw_error( "format map key must be 1 character", key );
                     }
                     if( pjo.has_string( key ) ) {
                         const auto tmpval = pjo.get_string( key );
-                        if ( termap.find( tmpval ) == termap.end() ) {
-                            jo.throw_error( string_format("Invalid terrain '%s'", tmpval.c_str() ) );
+                        const auto iter = termap.find( tmpval );
+                        if( iter == termap.end() ) {
+                            jo.throw_error( "Invalid terrain", key );
                         }
-                        format_terrain[(int)( key )[0]] = termap[tmpval].loadid;
+                        format_terrain[key[0]] = iter->second.loadid;
                     } else if( pjo.has_array( key ) ) {
                         pjo.throw_error("rng terrain is todo");
                     } else {
-                        pjo.throw_error(
-                            string_format( "unknown data for key '%s'", ( key ).c_str() ) );
+                        pjo.throw_error( "unknown data for key", key );
                     }
                 }
             } else {
@@ -811,23 +807,21 @@ bool mapgen_function_json::setup() {
             // "furniture": { "a": "f_chair", "b": "f_chair_electric" }
             if ( jo.has_object("furniture") ) {
                 pjo = jo.get_object("furniture");
-                std::set<std::string> keys = pjo.get_member_names();
-                for( const auto &key : keys ) {
-                    if( ( key ).size() != 1 ) {
-                        pjo.throw_error( string_format( "format map key '%s' must be 1 character",
-                                                        ( key ).c_str() ) );
+                for( const auto &key : pjo.get_member_names() ) {
+                    if( key.size() != 1 ) {
+                        pjo.throw_error( "format map key must be 1 character", key );
                     }
                     if( pjo.has_string( key ) ) {
                         const auto tmpval = pjo.get_string( key );
-                        if ( furnmap.find( tmpval ) == furnmap.end() ) {
-                            jo.throw_error( string_format("Invalid furniture '%s'", tmpval.c_str() ) );
+                        const auto iter = furnmap.find( tmpval );
+                        if( iter == furnmap.end() ) {
+                            jo.throw_error( "Invalid furniture", key );
                         }
-                        format_furniture[(int)( key )[0]] = furnmap[tmpval].loadid;
+                        format_furniture[key[0]] = iter->second.loadid;
                     } else if( pjo.has_array( key ) ) {
                         pjo.throw_error("rng furniture is todo");
                     } else {
-                        pjo.throw_error(
-                            string_format( "unknown data for key '%s'", ( key ).c_str() ) );
+                        pjo.throw_error( "unknown data for key", key );
                     }
                 }
             }
@@ -848,16 +842,13 @@ bool mapgen_function_json::setup() {
             if ( parray.size() != mapgensize ) {
                 parray.throw_error( string_format("  format: rows: must have %d rows, not %d",mapgensize,parray.size() ));
             }
-
-
-            c=0;
-            while ( parray.has_more() ) { // hrm
+            for( size_t c = 0; c < mapgensize; c++ ) {
                 const auto tmpval = parray.next_string();
                 if ( tmpval.size() != mapgensize ) {
                     parray.throw_error(string_format("  format: row %d must have %d columns, not %d", c, mapgensize, tmpval.size()));
                 }
                 for ( size_t i = 0; i < tmpval.size(); i++ ) {
-                    tmpkey=(int)tmpval[i];
+                    const int tmpkey = tmpval[i];
                     if ( format_terrain.find( tmpkey ) != format_terrain.end() ) {
                         format[ calc_index( i, c ) ].ter = format_terrain[ tmpkey ];
                     } else if ( ! qualifies ) { // fill_ter should make this kosher
@@ -874,7 +865,6 @@ bool mapgen_function_json::setup() {
                         }
                     }
                 }
-                c++;
             }
             qualifies = true;
             do_format = true;
@@ -882,7 +872,7 @@ bool mapgen_function_json::setup() {
 
        // No fill_ter? No format? GTFO.
        if ( ! qualifies ) {
-           throw string_format("  Need either 'fill_terrain' or 'rows' + 'terrain' (RTFM)\n%s\n",jo.str().substr(0,796).c_str());
+           jo.throw_error("  Need either 'fill_terrain' or 'rows' + 'terrain' (RTFM)");
            // todo: write TFM.
        }
 
