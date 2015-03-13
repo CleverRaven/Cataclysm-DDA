@@ -3464,6 +3464,38 @@ ammotype item::ammo_type() const
     return "NULL";
 }
 
+const use_function *item::get_use( const std::string &use_name ) const
+{
+    if( type != nullptr && type->get_use( use_name ) != nullptr ) {
+        return type->get_use( use_name );
+    }
+
+    for( const auto &elem : contents ) {
+        const auto fun = elem.get_use( use_name );
+        if( fun != nullptr ) {
+            return fun;
+        }
+    }
+
+    return nullptr;
+}
+
+item *item::get_usable_item( const std::string &use_name )
+{
+    if( type != nullptr && type->get_use( use_name ) != nullptr ) {
+        return this;
+    }
+
+    for( auto &elem : contents ) {
+        const auto fun = elem.get_use( use_name );
+        if( fun != nullptr ) {
+            return &elem;
+        }
+    }
+
+    return nullptr;
+}
+
 bool item::is_of_type_or_contains_it(const std::string &type_id) const
 {
     if (type != NULL && type->id == type_id) {

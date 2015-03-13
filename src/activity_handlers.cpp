@@ -576,17 +576,18 @@ void activity_handlers::hotwire_finish( player_activity *act, player *)
 
 void activity_handlers::longsalvage_finish( player_activity *act, player *p )
 {
-    item &salvage_tool = p->i_at( act->index );
+    const static std::string salvage_string = "salvage";
+    item &main_tool = p->i_at( act->index );
     auto items = g->m.i_at(p->posx(), p->posy());
-    const auto use_fun = salvage_tool.type->get_use( "salvage" );
-
-    if( use_fun == nullptr ) {
+    item *salvage_tool = main_tool.get_usable_item( salvage_string );
+    if( salvage_tool == nullptr ) {
         debugmsg( "Lost tool used for long salvage" );
         act->type = ACT_NULL;
         return;
     }
 
-    auto actor = dynamic_cast<salvage_actor*>( use_fun->get_actor_ptr() );
+    const auto use_fun = salvage_tool->get_use( salvage_string );
+    const auto actor = dynamic_cast<const salvage_actor *>( use_fun->get_actor_ptr() );
     if( actor == nullptr ) {
         debugmsg( "iuse_actor type descriptor and actual type mismatch" );
         act->type = ACT_NULL;
@@ -595,8 +596,7 @@ void activity_handlers::longsalvage_finish( player_activity *act, player *p )
 
     for( auto it = items.begin(); it != items.end(); ++it ) {
         if( actor->valid_to_cut_up( &*it ) ) {
-            actor->cut_up( p, &salvage_tool, &*it );
-            //p->assign_activity( ACT_LONGSALVAGE, 0, act->index );
+            actor->cut_up( p, salvage_tool, &*it );
             return;
         }
     }

@@ -10821,6 +10821,7 @@ void game::plfire(bool burst, int default_target_x, int default_target_y)
 
 void game::butcher()
 {
+    const static std::string salvage_string = "salvage";
     if (u.controlling_vehicle) {
         add_msg(m_info, _("You can't butcher while driving!"));
         return;
@@ -10836,20 +10837,21 @@ void game::butcher()
 
     // TODO: Properly handle different material whitelists
     // TODO: Improve quality of this section
-    auto salvage_filter = []( const item it ) {
-        const auto fun = it.type->get_use( "salvage" );
-        return fun != nullptr;
+    auto salvage_filter = []( item it ) {
+        const auto usable = it.get_usable_item( salvage_string );
+        return usable != nullptr;
     };
 
     const auto salvage_tools = u.items_with( salvage_filter );
     int salvage_tool_index = INT_MIN;
     item *salvage_tool = nullptr;
-    salvage_actor *salvage_iuse = nullptr;
+    const salvage_actor *salvage_iuse = nullptr;
     if( !salvage_tools.empty() ) {
-        const item* it = salvage_tools.front();
+        item* it = const_cast<item *>( salvage_tools.front() );
         salvage_tool_index = u.get_item_position( it );
-        const auto fun = it->type->get_use( "salvage" );
-        salvage_iuse = dynamic_cast<salvage_actor*>( fun->get_actor_ptr() );
+        item *usable = it->get_usable_item( salvage_string );
+        salvage_iuse = dynamic_cast<const salvage_actor*>( 
+            usable->get_use( salvage_string )->get_actor_ptr() );
         // Casting away constness allowed here
         // Though probably should be handled by making an items_with overload
         salvage_tool = const_cast<item *>( it );
