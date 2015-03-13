@@ -311,7 +311,8 @@ point direction_XY(direction const dir)
     return point(0, 0);
 }
 
-std::string const& direction_name(direction const dir, bool const short_name)
+namespace {
+std::string const& direction_name_impl(direction const dir, bool const short_name)
 {
     enum : int { size = 3*3*3 };
     static auto const names = [] {
@@ -343,9 +344,9 @@ std::string const& direction_name(direction const dir, bool const short_name)
         result[BELOWSOUTHWEST] = pair_t {_("DN_SW"), _("southwest and below")};
         result[BELOWWEST]      = pair_t {_("DN_W "), _("west and below")};
         result[BELOWNORTHWEST] = pair_t {_("DN_NW"), _("northwest and below")};
-        result[ABOVECENTER]    = pair_t {_("UP_CE"), _("center and below")};
+        result[ABOVECENTER]    = pair_t {_("UP_CE"), _("center and above")};
         result[CENTER]         = pair_t {_("CE   "), _("center")};
-        result[BELOWCENTER]    = pair_t {_("DN_CE"), _("center and above")};
+        result[BELOWCENTER]    = pair_t {_("DN_CE"), _("center and below")};
 
         result[size] = pair_t {"BUG. (line.cpp:direction_name)", "BUG. (line.cpp:direction_name)"};
         return result;
@@ -357,6 +358,17 @@ std::string const& direction_name(direction const dir, bool const short_name)
     }
 
     return short_name ? names[i].first : names[i].second;
+}
+} //namespace
+
+std::string const& direction_name(direction const dir)
+{
+    return direction_name_impl(dir, false);
+}
+
+std::string const& direction_name_short(direction const dir)
+{
+    return direction_name_impl(dir, true);
 }
 
 // Returns a vector of the adjacent square in the direction of the target,

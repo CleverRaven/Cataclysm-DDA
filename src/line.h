@@ -50,7 +50,8 @@ direction direction_from(int x1, int y1, int x2, int y2) noexcept;
 direction direction_from(tripoint const &p, tripoint const &q);
 
 point direction_XY(direction dir);
-std::string const& direction_name(direction dir, bool short_name = false);
+std::string const& direction_name(direction dir);
+std::string const& direction_name_short(direction dir);
 
 // The "t" value decides WHICH Bresenham line is used.
 std::vector<point> line_to(int x1, int y1, int x2, int y2, int t);
