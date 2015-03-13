@@ -1526,9 +1526,9 @@ int map::move_cost( const tripoint &p, const vehicle *ignored_vehicle ) const
     }
 
     int part;
-    const furn_t &furniture = furn_at( x, y );
-    const ter_t &terrain = ter_at( x, y );
-    const vehicle *veh = veh_at( x, y, part );
+    const furn_t &furniture = furn_at( p );
+    const ter_t &terrain = ter_at( p );
+    const vehicle *veh = veh_at( p, part );
     if( veh == ignored_vehicle ) {
         veh = nullptr;
     }
@@ -1550,7 +1550,7 @@ int map::move_cost_ter_furn( const tripoint &p ) const
         return 0;
     }
 
-    const int furncost = furnlist[ current_submap->get_furn(lx, ly) ].movecost;
+    const int furncost = furnlist[ current_submap->get_furn( lx, ly ) ].movecost;
     if ( furncost < 0 ) {
         return 0;
     }
@@ -1562,7 +1562,7 @@ int map::move_cost_ter_furn( const tripoint &p ) const
 int map::combined_movecost( const tripoint &from, const tripoint &to,
                             const vehicle *ignored_vehicle, const int modifier ) const
 {
-    const auto mults = { 0, 50, 71, 100 };
+    const int mults[4] = { 0, 50, 71, 100 };
     int cost1 = move_cost( from, ignored_vehicle );
     int cost2 = move_cost( to, ignored_vehicle );
     // Multiply cost depending on the number of differing axes
