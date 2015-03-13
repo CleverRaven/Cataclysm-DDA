@@ -54,6 +54,7 @@ struct recipe {
     std::map<const Skill*, int> required_skills;
     bool reversible; // can the item be disassembled?
     bool autolearn; // do we learn it just by leveling skills?
+    bool hidden_if_uncraftable; // is the recipe always hidden in the recipe screen if uncraftable?
     int learn_by_disassembly; // what level (if any) do we learn it by disassembly?
 
     // maximum achievable time reduction, as percentage of the original time.
@@ -76,8 +77,8 @@ struct recipe {
     recipe(std::string pident, int pid, itype_id pres, std::string pcat,
            bool pcontained,std::string psubcat, std::string &to_use,
            std::map<std::string, int> &to_require,
-           bool preversible, bool pautolearn, int plearn_dis,
-           int pmult, bool ppaired, std::vector<byproduct> &bps,
+           bool preversible, bool pautolearn, bool phidden_if_uncraftable,
+           int plearn_dis, int pmult, bool ppaired, std::vector<byproduct> &bps,
            int time, int difficulty, double batch_rscale,
            int batch_rsize);
 
@@ -125,7 +126,7 @@ const recipe *select_crafting_recipe(int &batch_size);
 void pick_recipes(const inventory &crafting_inv,
                   std::vector<const recipe *> &current,
                   std::vector<bool> &available, std::string tab,
-                  std::string subtab, std::string filter);
+                  std::string subtab, std::string filter, bool hide_uncraftable);
 void batch_recipes(const inventory &crafting_inv,
                    std::vector<const recipe *> &current,
                    std::vector<bool> &available, const recipe* r);

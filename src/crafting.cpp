@@ -49,7 +49,7 @@ recipe::~recipe()
 
 recipe::recipe() :
     id(0), result("null"), contained(false),skill_used(NULL), reversible(false),
-    autolearn(false), learn_by_disassembly(-1), result_mult(1),
+    autolearn(false), hidden_if_uncraftable(false), learn_by_disassembly(-1), result_mult(1),
     paired(false)
 {
 }
@@ -57,13 +57,14 @@ recipe::recipe() :
 recipe::recipe(std::string pident, int pid, itype_id pres, std::string pcat,
                bool pcontained,std::string psubcat, std::string &to_use,
                std::map<std::string, int> &to_require,
-               bool preversible, bool pautolearn, int plearn_dis,
+               bool preversible, bool pautolearn, bool phidden_if_uncraftable, int plearn_dis,
                int pmult, bool ppaired, std::vector<byproduct> &bps,
                int ptime, int pdiff, double pb_rscale,
                int pb_rsize) :
     ident(pident), id(pid), result(pres), time(ptime), difficulty(pdiff),
     byproducts(bps), cat(pcat),
-    contained(pcontained),subcat(psubcat), reversible(preversible), autolearn(pautolearn),
+    contained(pcontained),subcat(psubcat), reversible(preversible), autolearn(pautolearn), 
+    hidden_if_uncraftable(phidden_if_uncraftable),
     learn_by_disassembly(plearn_dis), batch_rscale(pb_rscale),
     batch_rsize(pb_rsize), result_mult(pmult), paired(ppaired)
 {
@@ -179,6 +180,7 @@ void load_recipe(JsonObject &jsobj)
     std::string skill_used = jsobj.get_string("skill_used", "");
     std::string id_suffix = jsobj.get_string("id_suffix", "");
     int learn_by_disassembly = jsobj.get_int("decomp_learn", -1);
+    bool hidden_if_uncraftable = jsobj.get_bool("hidden_if_uncraftable", false);
     double batch_rscale = 0.0;
     int batch_rsize = 0;
     if (jsobj.has_array( "batch_time_factors" )) {
@@ -228,7 +230,7 @@ void load_recipe(JsonObject &jsobj)
     int id = check_recipe_ident(rec_name, jsobj); // may delete recipes
 
     recipe *rec = new recipe(rec_name, id, result, category,contained, subcategory, skill_used,
-                             requires_skills, reversible, autolearn,
+                             requires_skills, reversible, autolearn, hidden_if_uncraftable,
                              learn_by_disassembly, result_mult, paired, bps,
                              time, difficulty, batch_rscale, batch_rsize);
 
@@ -579,6 +581,7 @@ const recipe *select_crafting_recipe( int &batch_size )
     bool keepline = false;
     bool done = false;
     bool batch = false;
+    bool hide_recipes = false;
     int batch_line = 0;
     int display_mode = 0;
     const recipe *chosen = NULL;
@@ -594,6 +597,7 @@ const recipe *select_crafting_recipe( int &batch_size )
     ctxt.register_action("HELP_RECIPE");
     ctxt.register_action("HELP_KEYBINDINGS");
     ctxt.register_action("CYCLE_BATCH");
+    ctxt.register_action("CYCLE_HIDE_RECIPES");
 
     const inventory &crafting_inv = g->u.crafting_inventory();
     std::string filterstring = "";
@@ -620,7 +624,7 @@ const recipe *select_crafting_recipe( int &batch_size )
                 batch_recipes(crafting_inv, current, available, chosen);
             } else {
                 // Set current to all recipes in the current tab; available are possible to make
-                pick_recipes(crafting_inv, current, available, tab, subtab, filterstring);
+                pick_recipes(crafting_inv, current, available, tab, subtab, filterstring, hide_recipes);
             }
         }
 
@@ -632,17 +636,17 @@ const recipe *select_crafting_recipe( int &batch_size )
                       _("Press <ENTER> to attempt to craft object."));
             wprintz(w_data, c_white, "  ");
             if (filterstring != "") {
-                wprintz(w_data, c_white, _("[E]: Describe, [F]ind, [R]eset, [m]ode, %s [?] keybindings"), (batch) ? _("cancel [b]atch") : _("[b]atch"));
+                wprintz(w_data, c_white, _("[E]: Describe, [F]ind, [R]eset, [m]ode, %s, %s, [?] keybindings"), (batch) ? _("cancel [b]atch") : _("[b]atch"), (hide_recipes) ? _("[v]: show non-craftable") : _("[v]: hide non-craftable"));
             } else {
-                wprintz(w_data, c_white, _("[E]: Describe, [F]ind, [m]ode, %s [?] keybindings"), (batch) ? _("cancel [b]atch") : _("[b]atch"));
+                wprintz(w_data, c_white, _("[E]: Describe, [F]ind, [m]ode, %s, %s, [?] keybindings"), (batch) ? _("cancel [b]atch") : _("[b]atch"), (hide_recipes) ? _("[v]: show non-craftable") : _("[v]: hide non-craftable"));
             }
         } else {
             if (filterstring != "") {
                 mvwprintz(w_data, dataLines + 1, 5, c_white,
-                          _("[E]: Describe, [F]ind, [R]eset, [m]ode, [b]atch [?] keybindings"));
+                          _("[E]: Describe, [F]ind, [R]eset, [m]ode, [b]atch, [v]: toggle craftable, [?] keybindings"));
             } else {
                 mvwprintz(w_data, dataLines + 1, 5, c_white,
-                          _("[E]: Describe, [F]ind, [m]ode, [b]atch [?] keybindings"));
+                          _("[E]: Describe, [F]ind, [m]ode, [b]atch, [v]: toggle craftable, [?] keybindings"));
             }
             mvwprintz(w_data, dataLines + 2, 5, c_white,
                       _("Press <ENTER> to attempt to craft object."));
@@ -871,6 +875,9 @@ const recipe *select_crafting_recipe( int &batch_size )
             done = true;
         } else if (action == "RESET_FILTER") {
             filterstring = "";
+            redraw = true;
+        } else if (action == "CYCLE_HIDE_RECIPES") {
+            hide_recipes = !hide_recipes;
             redraw = true;
         } else if (action == "CYCLE_BATCH") {
             if (current.empty()) {
@@ -1230,7 +1237,7 @@ int recipe::batch_time(int batch) const
 void pick_recipes(const inventory &crafting_inv,
                   std::vector<const recipe *> &current,
                   std::vector<bool> &available, std::string tab,
-                  std::string subtab, std::string filter)
+                  std::string subtab, std::string filter, bool hide_uncraftable)
 {
     bool search_name = true;
     bool search_tool = false;
@@ -1335,7 +1342,7 @@ void pick_recipes(const inventory &crafting_inv,
                     current.insert(current.begin(), rec);
                     available.insert(available.begin(), true);
                     truecount++;
-                } else {
+                } else if (!hide_uncraftable && !rec->hidden_if_uncraftable) {
                     current.push_back(rec);
                     available.push_back(false);
                 }

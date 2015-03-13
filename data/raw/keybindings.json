@@ -470,6 +470,20 @@
     },
     {
         "type" : "keybinding",
+        "id" : "CYCLE_HIDE_RECIPES",
+        "category" : "CRAFTING",
+        "name": "Hide non-craftable",
+        "bindings" : [
+            {
+                "input_method" : "keyboard",
+                "key" : [
+                    "v"
+                ]
+            }
+        ]
+    },
+    {
+        "type" : "keybinding",
         "id":"CENTER",
         "category":"OVERMAP",
         "name":"Center On Character",
