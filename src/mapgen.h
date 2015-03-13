@@ -137,6 +137,7 @@ protected:
 public:
     /** Place something on the map m at (x,y). mon_density */
     virtual void apply( map &m, size_t x, size_t y, float mon_density ) const = 0;
+    virtual ~jmapgen_piece() { }
 };
 
 /**
