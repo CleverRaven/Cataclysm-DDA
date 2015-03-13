@@ -8496,12 +8496,7 @@ int iuse::camera(player *p, item *it, bool, point)
                         continue;
                     }
 
-                    if (zid != sel_zid) {
-                        p->add_msg_if_player(m_warning, _("There's a %s in the way!"), z.name().c_str());
-                        return it->type->charges_to_use();
-                    }
-
-                    if (z.is_hallucination() || z.type->in_species("HALLUCINATION")) {
+                    if (zid == sel_zid && (z.is_hallucination() || z.type->in_species("HALLUCINATION"))) {
                         p->add_msg_if_player(_("Strange...there's nothing in the picture?"));
                         return it->type->charges_to_use();
                     }
@@ -8510,8 +8505,13 @@ int iuse::camera(player *p, item *it, bool, point)
                         //quest processing...
                     }
 
-                    p->add_msg_if_player(_("You took a %s photo of %s."), quality_name.c_str(),
-                                         z.name().c_str());
+                    if (zid == sel_zid) {
+                        p->add_msg_if_player(_("You took a %s photo of %s."), quality_name.c_str(),
+                                             z.name().c_str());
+                    } else {
+                        p->add_msg_if_player(m_warning, _("A %s got in the way of your photo."), z.name().c_str());
+                        photo_quality = 0;
+                    }
 
                     const std::string mtype = z.type->id;
 
@@ -8553,14 +8553,14 @@ int iuse::camera(player *p, item *it, bool, point)
                         guy->add_effect("blind", rng(5, 10));
                     }
 
-                    if (npcID != sel_npcID) {
-                        p->add_msg_if_player(m_warning, _("There's a %s in the way!"), guy->name.c_str());
-                        return it->type->charges_to_use();
-                    }
-
                     //just photo, no save. Maybe in the future we will need to create CAMERA_NPC_PHOTOS
-                    p->add_msg_if_player(_("You took a %s photo of %s."), photo_quality_names[photo_quality].c_str(),
+                    if (npcID == sel_npcID) {
+                        p->add_msg_if_player(_("You took a %s photo of %s."), quality_name.c_str(),
                                          guy->name.c_str());
+                    } else {
+                        p->add_msg_if_player(m_warning, _("%s got in the way of your photo."), guy->name.c_str());
+                        photo_quality = 0;
+                    }
 
                     return it->type->charges_to_use();
                 }
