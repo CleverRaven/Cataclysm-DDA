@@ -411,12 +411,14 @@ bool player::activate_bionic(int b, bool eff_only)
         for (auto &i : my_bionics) {
             if (i.id == "bio_earplugs") {
                 i.powered = false;
+                add_msg(m_info, _("Your %s automatically turn off."), bionics[i.id]->name.c_str());
             }
         }
     } else if (bio.id == "bio_earplugs" && has_active_bionic("bio_ears")) {
         for (auto &i : my_bionics) {
             if (i.id == "bio_ears") {
                 i.powered = false;
+                add_msg(m_info, _("Your %s automatically turns off."), bionics[i.id]->name.c_str());
             }
         }
     } else if (bio.id == "bio_tools") {
