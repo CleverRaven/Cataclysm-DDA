@@ -408,9 +408,17 @@ bool player::activate_bionic(int b, bool eff_only)
             pkill = pain;
         }
     } else if (bio.id == "bio_ears" && has_active_bionic("bio_earplugs")) {
-        deactivate_bionic("bio_earplugs");
+        for (auto &i : my_bionics) {
+            if (i.id == "bio_earplugs") {
+                i.powered = false;
+            }
+        }
     } else if (bio.id == "bio_earplugs" && has_active_bionic("bio_ears")) {
-        deactivate_bionic("bio_ears");
+        for (auto &i : my_bionics) {
+            if (i.id == "bio_ears") {
+                i.powered = false;
+            }
+        }
     } else if (bio.id == "bio_tools") {
         invalidate_crafting_inventory();
     } else if (bio.id == "bio_cqb") {
