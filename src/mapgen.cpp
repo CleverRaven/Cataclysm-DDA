@@ -718,6 +718,27 @@ public:
         }
     }
 };
+/**
+ * Place a trap.
+ * "trap": id of the trap.
+ */
+class jmapgen_trap : public jmapgen_piece {
+public:
+    trap_id id;
+    jmapgen_trap( JsonObject &jsi ) : jmapgen_piece()
+    , id( 0 )
+    {
+        const auto iter = trapmap.find( jsi.get_string( "trap" ) );
+        if( iter == trapmap.end() ) {
+            jsi.throw_error( "no such trap", "trap" );
+        }
+        id = iter->second;
+    }
+    void apply( map &m, const size_t x, const size_t y, const float /*mdensity*/ ) const override
+    {
+        m.add_trap( x, y, id );
+    }
+};
 
 template<typename PieceType>
 void mapgen_function_json::load_objects( JsonArray parray )
@@ -866,6 +887,7 @@ bool mapgen_function_json::setup() {
             // json member name is not optimal, it should be plural like all the others above, but that conflicts
             // with the items entry with refers to item groups.
             load_place_mapings<jmapgen_spawn_item>( jo, "item", format_placings );
+            load_place_mapings<jmapgen_trap>( jo, "traps", format_placings );
             // manditory: 24 rows of 24 character lines, each of which must have a matching key in "terrain",
             // unless fill_ter is set
             // "rows:" [ "aaaajustlikeinmapgen.cpp", "this.must!be!exactly.24!", "and_must_match_terrain_", .... ]
@@ -926,6 +948,7 @@ bool mapgen_function_json::setup() {
         load_objects<jmapgen_item_group>( jo, "place_items" );
         load_objects<jmapgen_monster_group>( jo, "place_monsters" );
         load_objects<jmapgen_vehicle>( jo, "place_vehicles" );
+        load_objects<jmapgen_trap>( jo, "place_traps" );
 
 #ifdef LUA
        // silently ignore if unsupported in build

@@ -57,6 +57,7 @@
                 * 2.7.7 "monsters"
                 * 2.7.8 "vehicles"
                 * 2.7.9 "item"
+                * 2.7.10 "traps"
 
 * 3 Method: lua
 	* 3.0 Tested functions
@@ -543,6 +544,10 @@ To use this type with explicit coordinates use the name "add" (this if for backw
     { "x": 10, "y": 1, "item": "rock" }
 ]
 ```
+
+### 2.7.10 "traps"
+Places a trap. Values:
+- "trap": (required, string) type id of the trap (e.g. tr_beartrap).
 
 ## 3 Method: lua
 Lua is very WIP but supports the following map class functions:

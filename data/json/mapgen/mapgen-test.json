@@ -48,7 +48,7 @@
                 "                        ",
                 "                        ",
                 "                        ",
-                " V O . , u              "
+                " V O . , u f            "
             ],
             "terrain": {
                 ".": "t_shrub"
@@ -102,6 +102,9 @@
                 ],
                 "t": { "item": "television", "chance": 4 }
             },
+            "traps": {
+                "f": { "trap": "tr_funnel" }
+            },
 
             "//": [ "And now the same (nearly) but with explicit coordinates.",
                     "These spawn in the northern part of the map and they have slightly",
@@ -134,6 +137,9 @@
             ],
             "place_vehicles": [
                 { "x": 5, "y": 3, "vehicle": "unicycle", "chance": 100, "status": 1 }
+            ],
+            "place_traps": [
+                { "x": 7, "y": 3, "trap": "tr_funnel" }
             ],
             "//": "Some of the squares should have a frame, but not all.",
             "add": [
