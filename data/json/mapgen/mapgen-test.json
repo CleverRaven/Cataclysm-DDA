@@ -47,10 +47,11 @@
                 "                        ",
                 "                        ",
                 "                        ",
-                "       -                ",
+                "     ; -                ",
                 " V O . , u fFg          "
             ],
             "terrain": {
+                ";": [ "t_door_o", { "ter": "t_pit_spiked" } ],
                 ".": "t_shrub"
             },
             "furniture": {
@@ -148,6 +149,9 @@
             ],
             "place_furniture": [
                 { "x": 9, "y": 3, "furn": "f_rack" }
+            ],
+            "place_terrain": [
+                { "x": 11, "y": 3, "ter": "t_rock" }
             ],
             "//": "Some of the squares should have a frame, but not all.",
             "add": [

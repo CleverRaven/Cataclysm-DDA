@@ -59,6 +59,7 @@
                 * 2.7.9 "item"
                 * 2.7.10 "traps"
                 * 2.7.11 "furniture"
+                * 2.7.12 "terrain"
 
 * 3 Method: lua
 	* 3.0 Tested functions
@@ -566,6 +567,10 @@ Places a trap. Values:
 ### 2.7.11 "furniture"
 Places furniture. Values:
 - "furn": (required, string) type id of the furniture (e.g. f_chair).
+
+### 2.7.12 "terrain"
+Places terrain. Values:
+- "ter": (required, string) type id of the terrain (e.g. t_floor).
 
 ## 3 Method: lua
 Lua is very WIP but supports the following map class functions:

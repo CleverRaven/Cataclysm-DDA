@@ -778,6 +778,36 @@ public:
         m.furn_set( x, y, id );
     }
 };
+/**
+ * Place terrain.
+ * "ter": id of the terrain.
+ */
+class jmapgen_terrain : public jmapgen_piece {
+public:
+    ter_id id;
+    jmapgen_terrain( JsonObject &jsi ) : jmapgen_piece()
+    , id( 0 )
+    {
+        const auto iter = termap.find( jsi.get_string( "ter" ) );
+        if( iter == termap.end() ) {
+            jsi.throw_error( "unknown terrain type", "ter" );
+        }
+        id = iter->second.loadid;
+    }
+    jmapgen_terrain( const std::string &tid ) : jmapgen_piece()
+    , id( 0 )
+    {
+        const auto iter = termap.find( tid );
+        if( iter == termap.end() ) {
+            throw std::string( "unknown terrain type" );
+        }
+        id = iter->second.loadid;
+    }
+    void apply( map &m, const size_t x, const size_t y, const float /*mdensity*/ ) const override
+    {
+        m.ter_set( x, y, id );
+    }
+};
 
 template<typename PieceType>
 void mapgen_function_json::load_objects( JsonArray parray )
@@ -871,6 +901,12 @@ void load_place_mapings<jmapgen_furniture>( JsonObject &pjo, const std::string &
     load_place_mapings_string<jmapgen_furniture>( pjo, key, vect );
 }
 
+template<>
+void load_place_mapings<jmapgen_terrain>( JsonObject &pjo, const std::string &key, mapgen_function_json::placing_map::mapped_type &vect )
+{
+    load_place_mapings_string<jmapgen_terrain>( pjo, key, vect );
+}
+
 template<typename PieceType>
 void mapgen_function_json::load_place_mapings( JsonObject &jo, const std::string &member_name, placing_map &format_placings )
 {
@@ -944,10 +980,15 @@ bool mapgen_function_json::setup() {
                             jo.throw_error( "Invalid terrain", key );
                         }
                         format_terrain[key[0]] = iter->second.loadid;
-                    } else if( pjo.has_array( key ) ) {
-                        pjo.throw_error("rng terrain is todo");
                     } else {
-                        pjo.throw_error( "unknown data for key", key );
+                        auto &vect = format_placings[ key[0] ];
+                        ::load_place_mapings<jmapgen_terrain>( pjo, key, vect );
+                        if( !vect.empty() ) {
+                            // Dummy entry to signal that this terrain is actually defined, because
+                            // the code below checks that each square on the map has a valid terrain
+                            // defined somehow.
+                            format_terrain[key[0]] = t_null;
+                        }
                     }
                 }
             } else {
@@ -1047,6 +1088,7 @@ bool mapgen_function_json::setup() {
         load_objects<jmapgen_vehicle>( jo, "place_vehicles" );
         load_objects<jmapgen_trap>( jo, "place_traps" );
         load_objects<jmapgen_furniture>( jo, "place_furniture" );
+        load_objects<jmapgen_terrain>( jo, "place_terrain" );
 
 #ifdef LUA
        // silently ignore if unsupported in build
