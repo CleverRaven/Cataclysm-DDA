@@ -748,6 +748,36 @@ public:
         m.add_trap( x, y, id );
     }
 };
+/**
+ * Place a furniture.
+ * "furn": id of the furniture.
+ */
+class jmapgen_furniture : public jmapgen_piece {
+public:
+    furn_id id;
+    jmapgen_furniture( JsonObject &jsi ) : jmapgen_piece()
+    , id( 0 )
+    {
+        const auto iter = furnmap.find( jsi.get_string( "furn" ) );
+        if( iter == furnmap.end() ) {
+            jsi.throw_error( "unknown furniture type", "furn" );
+        }
+        id = iter->second.loadid;
+    }
+    jmapgen_furniture( const std::string &tid ) : jmapgen_piece()
+    , id( 0 )
+    {
+        const auto iter = furnmap.find( tid );
+        if( iter == furnmap.end() ) {
+            throw std::string( "unknown furniture type" );
+        }
+        id = iter->second.loadid;
+    }
+    void apply( map &m, const size_t x, const size_t y, const float /*mdensity*/ ) const override
+    {
+        m.furn_set( x, y, id );
+    }
+};
 
 template<typename PieceType>
 void mapgen_function_json::load_objects( JsonArray parray )
@@ -835,6 +865,12 @@ void load_place_mapings<jmapgen_trap>( JsonObject &pjo, const std::string &key, 
     load_place_mapings_string<jmapgen_trap>( pjo, key, vect );
 }
 
+template<>
+void load_place_mapings<jmapgen_furniture>( JsonObject &pjo, const std::string &key, mapgen_function_json::placing_map::mapped_type &vect )
+{
+    load_place_mapings_string<jmapgen_furniture>( pjo, key, vect );
+}
+
 template<typename PieceType>
 void mapgen_function_json::load_place_mapings( JsonObject &jo, const std::string &member_name, placing_map &format_placings )
 {
@@ -890,6 +926,7 @@ bool mapgen_function_json::setup() {
         format.reset(new ter_furn_id[ mapgensize * mapgensize ]);
         // just like mapf::basic_bind("stuff",blargle("foo", etc) ), only json input and faster when applying
         if ( jo.has_array("rows") ) {
+            placing_map format_placings;
             std::map<int,int> format_terrain;
             std::map<int,int> format_furniture;
             // manditory: every character in rows must have matching entry, unless fill_ter is set
@@ -916,8 +953,6 @@ bool mapgen_function_json::setup() {
             } else {
                 throw string_format("  format: no terrain map\n%s\n",jo.str().substr(0,796).c_str());
             }
-            // optional.
-            // "furniture": { "a": "f_chair", "b": "f_chair_electric" }
             if ( jo.has_object("furniture") ) {
                 pjo = jo.get_object("furniture");
                 for( const auto &key : pjo.get_member_names() ) {
@@ -931,14 +966,12 @@ bool mapgen_function_json::setup() {
                             jo.throw_error( "Invalid furniture", key );
                         }
                         format_furniture[key[0]] = iter->second.loadid;
-                    } else if( pjo.has_array( key ) ) {
-                        pjo.throw_error("rng furniture is todo");
                     } else {
-                        pjo.throw_error( "unknown data for key", key );
+                        auto &vect = format_placings[ key[0] ];
+                        ::load_place_mapings<jmapgen_furniture>( pjo, key, vect );
                     }
                 }
             }
-            placing_map format_placings;
             load_place_mapings<jmapgen_field>( jo, "fields", format_placings );
             load_place_mapings<jmapgen_npc>( jo, "npcs", format_placings );
             load_place_mapings<jmapgen_sign>( jo, "signs", format_placings );
@@ -1013,6 +1046,7 @@ bool mapgen_function_json::setup() {
         load_objects<jmapgen_monster_group>( jo, "place_monsters" );
         load_objects<jmapgen_vehicle>( jo, "place_vehicles" );
         load_objects<jmapgen_trap>( jo, "place_traps" );
+        load_objects<jmapgen_furniture>( jo, "place_furniture" );
 
 #ifdef LUA
        // silently ignore if unsupported in build

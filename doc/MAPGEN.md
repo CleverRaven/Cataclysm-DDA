@@ -58,6 +58,7 @@
                 * 2.7.8 "vehicles"
                 * 2.7.9 "item"
                 * 2.7.10 "traps"
+                * 2.7.11 "furniture"
 
 * 3 Method: lua
 	* 3.0 Tested functions
@@ -561,6 +562,10 @@ To use this type with explicit coordinates use the name "add" (this if for backw
 ### 2.7.10 "traps"
 Places a trap. Values:
 - "trap": (required, string) type id of the trap (e.g. tr_beartrap).
+
+### 2.7.11 "furniture"
+Places furniture. Values:
+- "furn": (required, string) type id of the furniture (e.g. f_chair).
 
 ## 3 Method: lua
 Lua is very WIP but supports the following map class functions:

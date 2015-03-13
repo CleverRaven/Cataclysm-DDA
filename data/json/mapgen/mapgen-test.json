@@ -47,13 +47,14 @@
                 "                        ",
                 "                        ",
                 "                        ",
-                "                        ",
+                "       -                ",
                 " V O . , u fFg          "
             ],
             "terrain": {
                 ".": "t_shrub"
             },
             "furniture": {
+                "-": [ "f_chair", { "furn": "f_bed" } ],
                 ",": "f_table"
             },
             "//": "special (unusual) values to see whether they are actually respected by the game",
@@ -144,6 +145,9 @@
             ],
             "place_traps": [
                 { "x": 7, "y": 3, "trap": "tr_funnel" }
+            ],
+            "place_furniture": [
+                { "x": 9, "y": 3, "furn": "f_rack" }
             ],
             "//": "Some of the squares should have a frame, but not all.",
             "add": [
