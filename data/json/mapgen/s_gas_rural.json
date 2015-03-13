@@ -107,7 +107,7 @@
                 { "point": "terrain", "id": "t_dirt", "x": [ 0, 23], "y": [ 0,4 ], "repeat": [ 8, 2] }
                 ],
         "comment": "randomly picked from a group ---v",
-        "place_groups": [
+        "place_items": [
             { "item": "bed", "chance": 80, "x": [ 2,3 ],    "y": [ 19, 20 ]},
             { "item": "dresser", "chance": 80, "x": 2,    "y": 21},
             { "item": "fridgesnacks", "chance": 80, "x": [ 2,9 ],    "y": 17},
