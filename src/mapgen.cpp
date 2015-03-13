@@ -761,6 +761,25 @@ void mapgen_function_json::load_objects( JsonObject &jsi, const std::string &mem
 }
 
 template<typename PieceType>
+void load_place_mapings( JsonObject jobj, mapgen_function_json::placing_map::mapped_type &vect )
+{
+    vect.emplace_back( new PieceType( jobj ) );
+}
+
+template<typename PieceType>
+void load_place_mapings( JsonObject &pjo, const std::string &key, mapgen_function_json::placing_map::mapped_type &vect )
+{
+    if( pjo.has_object( key ) ) {
+        load_place_mapings<PieceType>( pjo.get_object( key ), vect );
+    } else {
+        JsonArray jarr = pjo.get_array( key );
+        while( jarr.has_more() ) {
+            load_place_mapings<PieceType>( jarr.next_object(), vect );
+        }
+    }
+}
+
+template<typename PieceType>
 void mapgen_function_json::load_place_mapings( JsonObject &jo, const std::string &member_name, placing_map &format_placings )
 {
     if( !jo.has_object( member_name ) ) {
@@ -772,18 +791,7 @@ void mapgen_function_json::load_place_mapings( JsonObject &jo, const std::string
             pjo.throw_error( "format map key must be 1 character", key );
         }
         auto &vect = format_placings[ key[0] ];
-        if( pjo.has_object( key ) ) {
-            JsonObject jsi = pjo.get_object( key );
-            std::shared_ptr<PieceType> what( new PieceType( jsi ) );
-            vect.push_back( what );
-        } else {
-            JsonArray jarr = pjo.get_array( key );
-            while( jarr.has_more() ) {
-                JsonObject jsi = jarr.next_object();
-                std::shared_ptr<PieceType> what( new PieceType( jsi ) );
-                vect.push_back( what );
-            }
-        }
+        ::load_place_mapings<PieceType>( pjo, key, vect );
     }
 }
 
