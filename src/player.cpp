@@ -13086,7 +13086,8 @@ void player::add_known_trap(int x, int y, const std::string &t)
 
 bool player::is_deaf() const
 {
-    return has_effect("deaf") || worn_with_flag("DEAF") || (has_active_bionic("bio_earplugs") && !has_active_bionic("bio_ears"));
+    return has_effect("deaf") || worn_with_flag("DEAF") ||
+           (has_active_bionic("bio_earplugs") && !has_active_bionic("bio_ears"));
 }
 
 bool player::can_hear( const point source, const int volume ) const
