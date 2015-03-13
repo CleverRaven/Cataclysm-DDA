@@ -248,11 +248,6 @@ class map
 
 
  /**
-  * Returns whether the tile at `(x, y)` is transparent(you can look past it).
-  */
- bool trans(const int x, const int y) const; // Transparent?
-
- /**
   * Returns whether `(Fx, Fy)` sees `(Tx, Ty)` with a view range of `range`.
   *
   * @param bresenham_slope Indicates the Bresenham line used to connect the two points, and may
@@ -743,6 +738,7 @@ void add_corpse(int x, int y);
 
 // Computers
     computer* computer_at( const tripoint &p );
+    computer* add_computer(const int x, const int y, std::string name, const int security);
 
  // Camps
     bool allow_camp( const tripoint &p, const int radius = CAMPCHECK);
@@ -796,11 +792,22 @@ void add_corpse(int x, int y);
  vehicle *add_vehicle(std::string type, const int x, const int y, const int dir,
                       const int init_veh_fuel = -1, const int init_veh_status = -1,
                       const bool merge_wrecks = true);
- computer* add_computer(const int x, const int y, std::string name, const int security);
- float light_transparency(const int x, const int y) const;
  void build_map_cache();
- lit_level light_at(int dx, int dy); // Assumes 0,0 is light map center
- float ambient_light_at(int dx, int dy); // Raw values for tilesets
+ 
+// Light/transparency: 2D
+    float light_transparency(const int x, const int y) const;
+    lit_level light_at(int dx, int dy); // Assumes 0,0 is light map center
+    float ambient_light_at(int dx, int dy); // Raw values for tilesets
+    bool trans(const int x, const int y) const; // Transparent?
+// Light/transparency: 3D
+    float light_transparency( const tripoint &p ) const;
+    lit_level light_at( const tripoint &p ); // Assumes 0,0 is light map center
+    float ambient_light_at( const tripoint &p ); // Raw values for tilesets
+    /**
+     * Returns whether the tile at `p` is transparent(you can look past it).
+     */
+    bool trans( const tripoint &p ) const; // Transparent?
+// End of light/transparency
         /**
          * Whether the player character (g->u) can see the given square (local map coordinates).
          * This only checks the transparency of the path to the target, the light level is not

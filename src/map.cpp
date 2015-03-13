@@ -1578,6 +1578,11 @@ bool map::trans(const int x, const int y) const
     return light_transparency(x, y) > LIGHT_TRANSPARENCY_SOLID;
 }
 
+float map::light_transparency(const int x, const int y) const
+{
+  return transparency_cache[x][y];
+}
+
 // 2D flags
 
 bool map::has_flag(const std::string &flag, const int x, const int y) const
@@ -6008,11 +6013,6 @@ long map::determine_wall_corner(const int x, const int y, const long orig_sym) c
         sym = LINE_XXXX; // ┼ crossway
 
     return sym;
-}
-
-float map::light_transparency(const int x, const int y) const
-{
-  return transparency_cache[x][y];
 }
 
 void map::build_outside_cache()
