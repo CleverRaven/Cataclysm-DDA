@@ -10836,23 +10836,23 @@ void game::butcher()
 
     // TODO: Properly handle different material whitelists
     // TODO: Improve quality of this section
-    std::vector<item*> dumpvec;
-    u.inv.dump( dumpvec );
+    auto salvage_filter = []( const item it ) {
+        const auto fun = it.type->get_use( "salvage" );
+        return fun != nullptr;
+    };
+
+    const auto salvage_tools = u.items_with( salvage_filter );
     int salvage_tool_index = INT_MIN;
     item *salvage_tool = nullptr;
     salvage_actor *salvage_iuse = nullptr;
-    for( auto &it : dumpvec ) {
-        if( it == nullptr ) {
-            continue;
-        }
-
+    if( !salvage_tools.empty() ) {
+        const item* it = salvage_tools.front();
+        salvage_tool_index = u.get_item_position( it );
         const auto fun = it->type->get_use( "salvage" );
-        if( fun != nullptr ) {
-            salvage_tool_index = u.inv.position_by_item( it );
-            salvage_iuse = dynamic_cast<salvage_actor*>( fun->get_actor_ptr() );
-            salvage_tool = it;
-            break;
-        }
+        salvage_iuse = dynamic_cast<salvage_actor*>( fun->get_actor_ptr() );
+        // Casting away constness allowed here
+        // Though probably should be handled by making an items_with overload
+        salvage_tool = const_cast<item *>( it );
     }
 
 

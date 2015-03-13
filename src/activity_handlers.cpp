@@ -596,7 +596,7 @@ void activity_handlers::longsalvage_finish( player_activity *act, player *p )
     for( auto it = items.begin(); it != items.end(); ++it ) {
         if( actor->valid_to_cut_up( &*it ) ) {
             actor->cut_up( p, &salvage_tool, &*it );
-            p->assign_activity( ACT_LONGSALVAGE, 0, act->index );
+            //p->assign_activity( ACT_LONGSALVAGE, 0, act->index );
             return;
         }
     }
