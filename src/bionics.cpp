@@ -407,6 +407,20 @@ bool player::activate_bionic(int b, bool eff_only)
         if (pkill > pain) {
             pkill = pain;
         }
+    } else if (bio.id == "bio_ears" && has_active_bionic("bio_earplugs")) {
+        for (auto &i : my_bionics) {
+            if (i.id == "bio_earplugs") {
+                i.powered = false;
+                add_msg(m_info, _("Your %s automatically turn off."), bionics[i.id]->name.c_str());
+            }
+        }
+    } else if (bio.id == "bio_earplugs" && has_active_bionic("bio_ears")) {
+        for (auto &i : my_bionics) {
+            if (i.id == "bio_ears") {
+                i.powered = false;
+                add_msg(m_info, _("Your %s automatically turns off."), bionics[i.id]->name.c_str());
+            }
+        }
     } else if (bio.id == "bio_tools") {
         invalidate_crafting_inventory();
     } else if (bio.id == "bio_cqb") {
@@ -1005,6 +1019,11 @@ bool player::uninstall_bionic(bionic_id b_id)
         popup(_("Removing your Fusion Blaster Arm would leave you with a useless stump."));
         return false;
     }
+    
+    if ( b_id == "bio_earplugs") {
+        popup(_("You must remove the Enhanced Hearing bionic to remove the Sound Dampeners."));
+        return false;
+    }
 
     // removal of bionics adds +2 difficulty over installation
     int chance_of_success = bionic_manip_cos(int_cur,
@@ -1034,6 +1053,9 @@ bool player::uninstall_bionic(bionic_id b_id)
         add_msg(m_neutral, _("You jiggle your parts back into their familiar places."));
         add_msg(m_good, _("Successfully removed %s."), bionics[b_id]->name.c_str());
         remove_bionic(b_id);
+        if (b_id == "bio_ears") {
+            remove_bionic("bio_earplugs"); // the earplugs are of the same bionic
+        }
         g->m.spawn_item(posx(), posy(), "burnt_out_bionic", 1);
     } else {
         add_memorial_log(pgettext("memorial_male", "Removed bionic: %s."),
@@ -1095,6 +1117,11 @@ bool player::install_bionics(const itype &type)
         } else {
             add_msg(m_good, _("Successfully installed %s."), bionics[bioid]->name.c_str());
             add_bionic(bioid);
+
+            if (bioid == "bio_ears") {
+                add_bionic("bio_earplugs"); // automatically add the earplugs, they're part of the same bionic
+            }
+
         }
     } else {
         add_memorial_log(pgettext("memorial_male", "Installed bionic: %s."),

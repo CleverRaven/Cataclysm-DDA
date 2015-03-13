@@ -3946,7 +3946,7 @@ void player::add_bionic( bionic_id b )
         }
     }
     my_bionics.push_back( bionic( b, newinv ) );
-    if ( b == "bio_tools") {
+    if ( b == "bio_tools" || b == "bio_ears" ) {
         activate_bionic(my_bionics.size() -1);
     }
     recalc_sight_limits();
@@ -13087,7 +13087,8 @@ void player::add_known_trap(int x, int y, const std::string &t)
 
 bool player::is_deaf() const
 {
-    return has_effect("deaf") || worn_with_flag("DEAF");
+    return has_effect("deaf") || worn_with_flag("DEAF") ||
+           (has_active_bionic("bio_earplugs") && !has_active_bionic("bio_ears"));
 }
 
 bool player::can_hear( const point source, const int volume ) const
@@ -13106,7 +13107,7 @@ float player::hearing_ability() const
     float volume_multiplier = 1.0;
 
     // Mutation/Bionic volume modifiers
-    if( has_bionic("bio_ears") ) {
+    if( has_active_bionic("bio_ears") && !has_active_bionic("bio_earplugs") ) {
         volume_multiplier *= 3.5;
     }
     if( has_trait("PER_SLIME") ) {
