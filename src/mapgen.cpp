@@ -734,6 +734,15 @@ public:
         }
         id = iter->second;
     }
+    jmapgen_trap( const std::string &tid ) : jmapgen_piece()
+    , id( 0 )
+    {
+        const auto iter = trapmap.find( tid );
+        if( iter == trapmap.end() ) {
+            throw std::string( "unknown trap type" );
+        }
+        id = iter->second;
+    }
     void apply( map &m, const size_t x, const size_t y, const float /*mdensity*/ ) const override
     {
         m.add_trap( x, y, id );
@@ -766,6 +775,14 @@ void load_place_mapings( JsonObject jobj, mapgen_function_json::placing_map::map
     vect.emplace_back( new PieceType( jobj ) );
 }
 
+/*
+This is the default load function for mapgen pieces that only support loading from a json object,
+not from a simple string.
+Most non-trivial mapgen pieces (like item spawn which contains at least the item group and chance)
+are like this. Other pieces (trap, furniture ...) can be loaded from a single string and have
+an overload below.
+The mapgen piece is loaded from the member of the json object named key.
+*/
 template<typename PieceType>
 void load_place_mapings( JsonObject &pjo, const std::string &key, mapgen_function_json::placing_map::mapped_type &vect )
 {
@@ -777,6 +794,45 @@ void load_place_mapings( JsonObject &pjo, const std::string &key, mapgen_functio
             load_place_mapings<PieceType>( jarr.next_object(), vect );
         }
     }
+}
+
+/*
+This function allows loading the mapgen pieces from a single string, *or* a json object.
+The mapgen piece is loaded from the member of the json object named key.
+*/
+template<typename PieceType>
+void load_place_mapings_string( JsonObject &pjo, const std::string &key, mapgen_function_json::placing_map::mapped_type &vect )
+{
+    if( pjo.has_string( key ) ) {
+        try {
+            vect.emplace_back( new PieceType( pjo.get_string( key ) ) );
+        } catch( const std::string &err ) {
+            // Using the json object here adds nice formatting and context information
+            pjo.throw_error( err, key );
+        }
+    } else if( pjo.has_object( key ) ) {
+        load_place_mapings<PieceType>( pjo.get_object( key ), vect );
+    } else {
+        JsonArray jarr = pjo.get_array( key );
+        while( jarr.has_more() ) {
+            if( jarr.test_string() ) {
+                try {
+                    vect.emplace_back( new PieceType( jarr.next_string() ) );
+                } catch( const std::string &err ) {
+                    // Using the json object here adds nice formatting and context information
+                    jarr.throw_error( err );
+                }
+            } else {
+                load_place_mapings<PieceType>( jarr.next_object(), vect );
+            }
+        }
+    }
+}
+
+template<>
+void load_place_mapings<jmapgen_trap>( JsonObject &pjo, const std::string &key, mapgen_function_json::placing_map::mapped_type &vect )
+{
+    load_place_mapings_string<jmapgen_trap>( pjo, key, vect );
 }
 
 template<typename PieceType>

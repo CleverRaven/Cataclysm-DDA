@@ -484,6 +484,19 @@ Example with coordinates:
 ]
 ```
 
+Terrain, furniture and traps can specified as a single string, not a json object:
+```
+"traps" : {
+    ".": "tr_beartrap"
+}
+```
+Same as
+```
+"traps" : {
+    ".": { "trap": "tr_beartrap" }
+}
+```
+
 ### 2.7.0 "fields"
 Places a field (see fields.h). Values:
 - "field": (required, string) the field type (e.g. "fd_blood")

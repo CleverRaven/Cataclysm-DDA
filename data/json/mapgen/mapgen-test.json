@@ -48,7 +48,7 @@
                 "                        ",
                 "                        ",
                 "                        ",
-                " V O . , u f            "
+                " V O . , u fFg          "
             ],
             "terrain": {
                 ".": "t_shrub"
@@ -102,7 +102,11 @@
                 ],
                 "t": { "item": "television", "chance": 4 }
             },
+            "//": "This tests both ways to specifiy a trap: a single string or a json object",
+            "//": "It also test support for the array syntax, like for items above",
             "traps": {
+                "F": "tr_cot",
+                "g": [ "tr_funnel", { "trap": "tr_brazier" } ],
                 "f": { "trap": "tr_funnel" }
             },
 
