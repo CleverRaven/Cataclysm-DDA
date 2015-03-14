@@ -363,7 +363,7 @@ class firestarter_actor : public iuse_actor
         static void resolve_firestarter_use( const player *p, const item *, const point &pos );
 
         firestarter_actor() : iuse_actor(), moves_cost( 0 ) { }
-        virtual ~firestarter_actor() = default;
+        virtual ~firestarter_actor() { }
         virtual void load( JsonObject &jo );
         virtual long use( player*, item*, bool, point ) const;
         virtual bool can_use( const player*, const item*, bool, const point& ) const;
@@ -384,7 +384,7 @@ class extended_firestarter_actor : public firestarter_actor
         int calculate_time_for_lens_fire( const player *, float light_level ) const;
 
         extended_firestarter_actor() : firestarter_actor(), need_sunlight( false ) { }
-        virtual ~extended_firestarter_actor() = default;
+        virtual ~extended_firestarter_actor() { }
         virtual void load( JsonObject &jo );
         virtual long use( player*, item*, bool, point ) const;
         virtual bool can_use( const player*, const item*, bool, const point& ) const;
@@ -411,7 +411,7 @@ class salvage_actor : public iuse_actor
         bool valid_to_cut_up( const item *it ) const;
 
         salvage_actor() : iuse_actor(), moves_per_part( 25 ) { }
-        virtual ~salvage_actor() = default;
+        virtual ~salvage_actor() { }
         virtual void load( JsonObject &jo );
         virtual long use( player*, item*, bool, point ) const;
         virtual iuse_actor *clone() const;
@@ -440,7 +440,7 @@ class inscribe_actor : public iuse_actor
         bool item_inscription( item *cut, std::string verb, std::string gerund ) const;
 
         inscribe_actor() : iuse_actor(), on_items( true ), on_terrain( false ), material_restricted( true ) { }
-        virtual ~inscribe_actor() = default;
+        virtual ~inscribe_actor() { }
         virtual void load( JsonObject &jo );
         virtual long use( player*, item*, bool, point ) const;
         virtual iuse_actor *clone() const;
@@ -458,7 +458,7 @@ class cauterize_actor : public iuse_actor
         bool cauterize_effect( player *p, item *it, bool force ) const;
 
         cauterize_actor() : iuse_actor(), flame( true ) { }
-        virtual ~cauterize_actor() = default;
+        virtual ~cauterize_actor() { }
         virtual void load( JsonObject &jo );
         virtual long use( player*, item*, bool, point ) const;
         virtual iuse_actor *clone() const;
@@ -471,7 +471,7 @@ class enzlave_actor : public iuse_actor
 {
     public:
         enzlave_actor() : iuse_actor() { }
-        virtual ~enzlave_actor() = default;
+        virtual ~enzlave_actor() { }
         virtual void load( JsonObject &jo );
         virtual long use( player*, item*, bool, point ) const;
         virtual bool can_use( const player*, const item*, bool, const point& ) const;
@@ -494,7 +494,7 @@ class fireweapon_off_actor : public iuse_actor
         int success_chance; // Lower is better: rng(0, 10) - item.damage > this variable
 
         fireweapon_off_actor() : iuse_actor(), noise(0), moves(0), success_chance(INT_MIN) { }
-        virtual ~fireweapon_off_actor() = default;
+        virtual ~fireweapon_off_actor() { }
         virtual void load( JsonObject &jo );
         virtual long use( player*, item*, bool, point ) const;
         virtual bool can_use( const player*, const item*, bool, const point& ) const;
@@ -517,7 +517,7 @@ class fireweapon_on_actor : public iuse_actor
         int auto_extinguish_chance; // one_in(this) per turn to fail
 
         fireweapon_on_actor() : iuse_actor(), noise(0), noise_chance(1) { }
-        virtual ~fireweapon_on_actor() = default;
+        virtual ~fireweapon_on_actor() { }
         virtual void load( JsonObject &jo );
         virtual long use( player*, item*, bool, point ) const;
         virtual iuse_actor *clone() const;

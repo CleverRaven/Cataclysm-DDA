@@ -7,6 +7,7 @@
 #include "overmap.h"
 #include "options.h"
 #include "game.h"
+#include "scenario.h"
 #include <array>
 
 mapgendata::mapgendata(oter_id north, oter_id east, oter_id south, oter_id west, oter_id northeast,

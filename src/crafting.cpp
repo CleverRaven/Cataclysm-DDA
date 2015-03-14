@@ -1139,7 +1139,7 @@ const inventory& player::crafting_inventory()
     cached_crafting_inventory += inv;
     cached_crafting_inventory += weapon;
     cached_crafting_inventory += worn;
-    if (has_bionic("bio_tools")) {
+    if (has_active_bionic("bio_tools")) {
         item tools("toolset", calendar::turn);
         tools.charges = power_level;
         cached_crafting_inventory += tools;

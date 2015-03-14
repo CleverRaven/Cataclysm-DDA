@@ -11,6 +11,7 @@
 
 std::vector<dream> dreams;
 std::map<std::string, std::vector<std::string> > mutations_category;
+std::map<std::string, mutation_category_trait> mutation_category_traits;
 std::unordered_map<std::string, mutation_branch> mutation_data;
 
 static void extract_mod(JsonObject &j, std::unordered_map<std::pair<bool, std::string>, int> &data,
@@ -35,7 +36,42 @@ static void load_mutation_mods(JsonObject &jsobj, std::string member, std::unord
         extract_mod(j, mods, "dex_mod",     active, "DEX");
         extract_mod(j, mods, "per_mod",     active, "PER");
         extract_mod(j, mods, "int_mod",     active, "INT");
-    }   
+    }
+}
+
+void load_mutation_category(JsonObject &jsobj)
+{
+    mutation_category_trait new_category;
+    std::string id = jsobj.get_string("id");
+    new_category.id=id;
+    new_category.name =_(jsobj.get_string("name").c_str());
+    new_category.category =jsobj.get_string("category").c_str();
+    new_category.mutagen_message = _(jsobj.get_string("mutagen_message", "You drink your mutagen").c_str());
+    new_category.mutagen_hunger  = jsobj.get_int("mutagen_hunger", 10);
+    new_category.mutagen_thirst  = jsobj.get_int("mutagen_thirst", 10);
+    new_category.mutagen_pain    = jsobj.get_int("mutagen_pain", 2);
+    new_category.mutagen_fatigue = jsobj.get_int("mutagen_fatigue", 5);
+    new_category.mutagen_morale  = jsobj.get_int("mutagen_morale", 0);
+    new_category.iv_message = _(jsobj.get_string("iv_message", "You inject yourself").c_str());
+    new_category.iv_min_mutations    = jsobj.get_int("iv_min_mutations", 1);
+    new_category.iv_additional_mutations = jsobj.get_int("iv_additional_mutations", 2);
+    new_category.iv_additional_mutations_chance = jsobj.get_int("iv_additional_mutations_chance", 3);
+    new_category.iv_hunger   = jsobj.get_int("iv_hunger", 10);
+    new_category.iv_thirst   = jsobj.get_int("iv_thirst", 10);
+    new_category.iv_pain     = jsobj.get_int("iv_pain", 2);
+    new_category.iv_fatigue  = jsobj.get_int("iv_fatigue", 5);
+    new_category.iv_morale   = jsobj.get_int("iv_morale", 0);
+    new_category.iv_morale_max   = jsobj.get_int("iv_morale_max", 0);
+    new_category.iv_sound = jsobj.get_bool("iv_sound", false);
+    new_category.iv_sound_message = _(jsobj.get_string("iv_sound_message", "You inject yoursel-arRGH!").c_str());
+    new_category.iv_noise = jsobj.get_int("iv_noise", 0);
+    new_category.iv_sleep = jsobj.get_bool("iv_sleep", false);
+    new_category.iv_sleep_message =_(jsobj.get_string("iv_sleep_message", "Fell asleep").c_str());
+    new_category.iv_sleep_dur = jsobj.get_int("iv_sleep_dur", 0);
+    new_category.memorial_message = _(jsobj.get_string("memorial_message", "Crossed a threshold").c_str());
+    new_category.junkie_message = _(jsobj.get_string("junkie_message", "Oh, yeah! That's the stuff!").c_str());
+
+    mutation_category_traits[id] = new_category;
 }
 
 void mutation_branch::load( JsonObject &jsobj )
@@ -62,7 +98,7 @@ void mutation_branch::load( JsonObject &jsobj )
     new_mut.initial_ma_styles = jsobj.get_string_array( "initial_ma_styles" );
     new_mut.threshold = jsobj.get_bool("threshold", false);
     new_mut.profession = jsobj.get_bool("profession", false);
-    
+
     load_mutation_mods(jsobj, "passive_mods", new_mut.mods);
     /* Not currently supported due to inability to save active mutation state
     load_mutation_mods(jsobj, "active_mods", new_mut.mods); */
