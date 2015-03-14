@@ -9296,7 +9296,6 @@
 "id" : "forage_winter",
 "subtype": "distribution",
 "entries" : [
-    { "item": "withered", "prob": 100, "count-min": 1, "count-max": 2 }
     ]
   },{
 "type" : "item_group",
