@@ -967,7 +967,7 @@ std::string dynamic_line(talk_topic topic, npc *p)
                 case 2: return _("At least we've got shelter.");
             }
 
-        case TALK_SHELTER_PLANS
+        case TALK_SHELTER_PLANS:
             switch (rng(1, 5)) {
                 case 1: return _("I don't know, look for supplies and other survivors I guess.");
                 case 2: return _("Maybe we should start boarding up this place.");
