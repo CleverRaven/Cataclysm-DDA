@@ -1257,12 +1257,12 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump, bool debug) c
         if (is_armor() && item_tags.count("leather_padded")) {
             dump->push_back(iteminfo("DESCRIPTION", "--"));
             dump->push_back(iteminfo("DESCRIPTION",
-                _("This gear has certain parts padded with leather to increase protection without increasing encumbrance.")));
+                _("This gear has certain parts padded with leather to increase protection with minimal increase to encumbrance.")));
         }
         if (is_armor() && item_tags.count("kevlar_padded")) {
             dump->push_back(iteminfo("DESCRIPTION", "--"));
             dump->push_back(iteminfo("DESCRIPTION",
-                _("This gear has kevlar inserted into strategic locations to increase protection without increasing encumbrance.")));
+                _("This gear has kevlar inserted into strategic locations to increase protection with minimal increase to encumbrance.")));
         }
         if (is_armor() && has_flag("FLOATATION")) {
             dump->push_back(iteminfo("DESCRIPTION", "--"));
