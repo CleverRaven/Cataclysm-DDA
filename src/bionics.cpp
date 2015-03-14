@@ -325,7 +325,7 @@ void player::power_bionics()
                         mvwputch(wBio, list_start_y + i - scroll_position, 3, type, ' ');
 
                         std::string power_desc = build_bionic_powerdesc_string(active[i]);
-                        std::string tmp = utf8_truncate(power_desc, wBio->width - 3);
+                        std::string tmp = utf8_truncate(power_desc, WIDTH - 3);
                         mvwprintz(wBio, list_start_y + i - scroll_position, 2 + 2, type, tmp.c_str());
                     }
                 }
@@ -370,12 +370,12 @@ void player::power_bionics()
                 poweronly_string = build_bionic_poweronly_string(passive[cursor]);
             }
             int ypos = 0;
-            ypos += fold_and_print(w_description, ypos, 0, w_description->width, c_white, bionic_name);
+            ypos += fold_and_print(w_description, ypos, 0, DESCRIPTION_WIDTH, c_white, bionic_name);
             if(poweronly_string.length() > 0){
                 power_only_desc << _("Power usage: ") << poweronly_string;
-                ypos += fold_and_print(w_description, ypos, 0, w_description->width, c_ltgray, power_only_desc.str());
+                ypos += fold_and_print(w_description, ypos, 0, DESCRIPTION_WIDTH, c_ltgray, power_only_desc.str());
             }
-            ypos += fold_and_print(w_description, ypos, 0, w_description->width, c_ltblue, bionics[(*current_bionic_list)[cursor]->id]->description);
+            ypos += fold_and_print(w_description, ypos, 0, DESCRIPTION_WIDTH, c_ltblue, bionics[(*current_bionic_list)[cursor]->id]->description);
             wrefresh(w_description);
         }
 
