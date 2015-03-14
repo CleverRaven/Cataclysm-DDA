@@ -291,7 +291,7 @@
         "material": "flesh",
         "contains": 6,
         "watertight": true,
-        "sealed": true 
+        "seals": true 
     },
     {
         "id": "large_stomach_sealed",
@@ -310,7 +310,7 @@
         "material": "flesh",
         "contains": 12,
         "watertight": true,
-        "sealed": true
+        "seals": true
     },
     {
         "id": "waterskin",
