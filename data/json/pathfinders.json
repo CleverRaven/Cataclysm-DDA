@@ -1,0 +1,9 @@
+[
+    {
+        "type" : "pathfinder",
+        "id" : "zombie",
+        "max_dist" : 9999,
+        "bash_force" : 20,
+        "open_doors" : false
+    }
+]

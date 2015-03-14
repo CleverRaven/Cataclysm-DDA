@@ -131,6 +131,7 @@ enum m_flag {
     MF_GROUP_BASH,          // Monsters that can pile up against obstacles and add their strength together to break them.
     MF_SWARMS,              // Monsters that like to group together and form loose packs
     MF_GROUP_MORALE,        // Monsters that are more courageous when near friends
+    MF_PATHFINDS,           // Monsters that pathfind instead of just charging forward
     MF_MAX                  // Sets the length of the flags - obviously must be LAST
 };
 

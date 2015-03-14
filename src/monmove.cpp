@@ -11,6 +11,7 @@
 #include "sounds.h"
 #include "monattack.h"
 #include "monstergenerator.h"
+#include "pathfinding.h"
 
 #include <stdlib.h>
 //Used for e^(x) functions
@@ -71,12 +72,20 @@ bool monster::can_move_to(int x, int y) const
 // Resets plans (list of squares to visit) and builds it as a straight line
 // to the destination (x,y). t is used to choose which eligible line to use.
 // Currently, this assumes we can see (x,y), so shouldn't be used in any other
-// circumstance (or else the monster will "phase" through solid terrain!)
+// circumstance (or else the monster will try to bash through solid terrain)
+// Pathfinding monsters will instead register own target in path_manager
 void monster::set_dest(int x, int y, int &t)
 {
- plans.clear();
-// TODO: This causes a segfault, once in a blue moon!  Whyyyyy.
- plans = line_to(position, point(x, y), t);
+    plans.clear();
+    if( !has_flag( MF_PATHFINDS ) ) {
+        plans = line_to(position, point(x, y), t);
+    } else {
+        // Don't set plans! Just request a path
+        // TODO: Make it use separate pathfinders for different pathing methods
+        GETPATHFINDER("zombie").request_path( pos(), point( x, y ) );
+        // TODO: Make this less hacky?
+        plans.push_back( point( x, y ) );
+    }
 }
 
 // Move towards (x,y) for f more turns--generally if we hear a sound there
@@ -271,9 +280,23 @@ void monster::plan(const mfactions &factions)
     // If we're not adjacent to the start of our plan path, don't act on it.
     // This is to catch when we had pre-existing invalid plans and
     // made it through the function without changing them.
-    if( !plans.empty() && square_dist(pos().x, pos().y,
-                                      plans.front().x, plans.front().y ) > 1 ) {
+    // Unless we're a pathfinding monster - then it's OK
+    if( !has_flag(MF_PATHFINDS) && !plans.empty() && 
+            square_dist(pos().x, pos().y, plans.front().x, plans.front().y ) > 1 ) {
         plans.clear();
+    }
+}
+
+void monster::get_path()
+{
+    if( has_flag( MF_PATHFINDS ) ) {
+        if( plans.size() == 1 && rl_dist( pos(), plans.back() ) > 1 ) {
+            point to( plans.back().x, plans.back().y );
+            plans = GETPATHFINDER("zombie").get_path( g->m, pos(), move_target() );
+        }
+    } else {
+        debugmsg( "Monster %s tried to get a path, but it is not a pathfinding monster",
+                  disp_name().c_str() );
     }
 }
 

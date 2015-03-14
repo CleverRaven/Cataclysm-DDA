@@ -38,6 +38,7 @@
 #include "faction.h"
 #include "npc.h"
 #include "item_action.h"
+#include "pathfinding.h"
 
 #include <string>
 #include <vector>
@@ -171,6 +172,9 @@ void DynamicDataLoader::initialize()
     (&MonsterGenerator::generator(), &MonsterGenerator::load_species);
     type_function_map["MONSTER_FACTION"] = new ClassFunctionAccessor<MonsterGenerator>
     (&MonsterGenerator::generator(), &MonsterGenerator::load_monster_faction);
+
+    type_function_map["pathfinder"] = new ClassFunctionAccessor<path_manager>
+    (&path_manager::get_manager(), &path_manager::load_pathfinder);
 
     type_function_map["recipe_category"] = new StaticFunctionAccessor(&load_recipe_category);
     type_function_map["recipe"] = new StaticFunctionAccessor(&load_recipe);

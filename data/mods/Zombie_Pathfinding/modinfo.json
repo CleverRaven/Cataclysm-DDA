@@ -1,0 +1,8 @@
+    {
+        "type": "MOD_INFO",
+        "mod-type": "SUPPLEMENTAL",
+        "ident": "Zombie_Pathfinding",
+        "name": "Zombie Pathfinding",
+        "description": "Gives all zombies the ability to find paths rather than just charge forward.",
+        "path": ""
+    }
