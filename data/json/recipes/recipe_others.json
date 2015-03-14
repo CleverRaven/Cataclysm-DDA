@@ -962,11 +962,10 @@
   ]
 },{
   "type" : "recipe",
-  "result": "sealedstomach",
+  "result": "stomach_sealed",
   "category": "CC_OTHER",
   "subcategory": "CSC_OTHER_CONTAINERS",
   "skill_used": "survival",
-  "skills_required": [ "survival", 1 ],
   "difficulty": 1,
   "time": 30000,
   "reversible": false,
@@ -999,6 +998,46 @@
       [ "plant_fibre", 50],
       [ "yarn", 25],
       [ "string_6", 1]
+    ]
+  ]
+},{
+  "type" : "recipe",
+  "result": "large_stomach_sealed",
+  "category": "CC_OTHER",
+  "subcategory": "CSC_OTHER_CONTAINERS",
+  "skill_used": "survival",
+  "difficulty": 1,
+  "time": 45000,
+  "reversible": false,
+  "autolearn": true,
+  "qualities": [
+    {"id":"CUT","level":1,"amount":1},
+    {"id":"BOIL","level":1,"amount":1}
+  ],
+  "tools": [
+    [
+      [ "hotplate", 4 ],
+      [ "toolset", 4 ],
+      [ "coffeemaker", 4],
+      [ "atomic_coffeepot", -1 ],
+      [ "fire", -1 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "water", 8 ],
+      [ "water_clean", 8 ]
+      
+    ],
+    [
+      [ "stomach_large", 1]
+    ],
+    [
+      [ "sinew", 150 ],
+      [ "thread", 150 ],
+      [ "plant_fibre", 150],
+      [ "yarn", 75],
+      [ "string_6", 3]
     ]
   ]
 },{

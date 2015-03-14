@@ -232,21 +232,6 @@
     },
     {
         "type":"GENERIC",
-        "id": "stomach",
-        "symbol": ",",
-        "color": "red",
-        "name": "stomach",
-        "description": "The stomach of a woodland creature. It is surprisingly durable.",
-        "price": 5000,
-        "material": "flesh",
-        "weight": 72,
-        "volume": 1,
-        "bashing": 1,
-        "cutting": 0,
-        "to_hit": -1
-    },
-    {
-        "type":"GENERIC",
         "id": "grapnel",
         "symbol": ";",
         "color": "light_gray",
