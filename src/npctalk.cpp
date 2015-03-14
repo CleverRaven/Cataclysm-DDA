@@ -2118,7 +2118,7 @@ std::vector<talk_response> gen_responses(talk_topic topic, npc *p)
 
         case TALK_SHELTER_PLANS:
             // TODO: Add _("follow me")
-            RESPONSE(_("Hmm, okay.  Bye."));
+            RESPONSE(_("Hmm, okay."));
                 SUCCESS(TALK_NONE);
             break;
 
