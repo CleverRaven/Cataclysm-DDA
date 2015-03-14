@@ -1834,6 +1834,22 @@
     },
     {
         "type":"GENERIC",
+        "id":"sharp_rock",
+        "symbol": "*",
+        "color": "light_gray",
+        "name":"sharp rock",
+        "description":"A rock with sharp edges, that can be used as a butchering tool, if nothing else is available. Makes a passable melee weapon.",
+        "price": 0,
+        "material": "stone",
+        "weight": 500,
+        "volume": 1,
+        "bashing": 5,
+        "cutting": 3,
+        "to_hit": -2,
+        "qualities": [["BUTCHER", -50]]
+    },
+    {
+        "type":"GENERIC",
         "id":"ceramic_shard",
         "symbol": "*",
         "color": "white",

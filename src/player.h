@@ -885,6 +885,14 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         {
             position.y = y;
         }
+        inline int posz() const
+        {
+            return zpos;
+        }
+        inline void setz( int z )
+        {
+            zpos = z;
+        }
         int view_offset_x, view_offset_y;
         bool in_vehicle;       // Means player sit inside vehicle on the tile he is now
         bool controlling_vehicle;  // Is currently in control of a vehicle
@@ -1029,6 +1037,8 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         std::list<disease> illness;
         // The player's position on the local map.
         point position;
+        // Temporary z-level coord - should later be merged with the above
+        int zpos;
 
         trap_map known_traps;
 

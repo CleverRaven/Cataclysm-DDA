@@ -193,7 +193,7 @@ void game::wishmutate( player *p )
     wmenu.callback = cb;
     do {
         wmenu.query();
-        if ( wmenu.ret > 0 ) {
+        if ( wmenu.ret >= 0 ) {
             int rc = 0;
             std::string mstr = cb->vTraits[ wmenu.ret ];
             const auto &mdata = mutation_branch::get( mstr );

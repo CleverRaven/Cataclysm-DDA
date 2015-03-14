@@ -519,7 +519,7 @@ public:
           weight(pweight), melee_dam(pmelee_dam), melee_cut(pmelee_cut), m_to_hit(pm_to_hit),
           color(pcolor), sym(psym) { }
 
-    virtual ~itype() = default;
+    virtual ~itype() { };
 };
 
 // Includes food drink and drugs

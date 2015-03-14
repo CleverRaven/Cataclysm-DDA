@@ -353,8 +353,8 @@ void player::fire_gun(int tarx, int tary, bool burst)
     int bio_power_drain = 0;
     if( used_weapon->type->gun->ups_charges > 0 ) {
         ups_drain = used_weapon->type->gun->ups_charges;
-        adv_ups_drain = std::min( 1, ups_drain * 3 / 5 );
-        bio_power_drain = std::min( 1, ups_drain / 5 );
+        adv_ups_drain = std::max( 1, ups_drain * 3 / 5 );
+        bio_power_drain = std::max( 1, ups_drain / 5 );
     }
 
     // cap our maximum burst size by the amount of UPS power left
@@ -1158,7 +1158,7 @@ std::vector<point> game::target(int &x, int &y, int lowx, int lowy, int hix,
             }
         } else if ((action == "PREV_TARGET") && (target != -1)) {
             int newtarget = find_target( t, x, y ) - 1;
-            if( newtarget == -1 ) {
+            if( newtarget < 0 ) {
                 newtarget = t.size() - 1;
             }
             x = t[newtarget]->posx();

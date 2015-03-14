@@ -24,6 +24,7 @@ monster::monster()
 {
  position.x = 20;
  position.y = 10;
+ zpos = 0;
  wandx = -1;
  wandy = -1;
  wandf = 0;
@@ -72,10 +73,11 @@ monster::monster(mtype *t)
  ammo = t->starting_ammo;
 }
 
-monster::monster(mtype *t, int x, int y)
+monster::monster(mtype *t, const tripoint &p )
 {
- position.x = x;
- position.y = y;
+ position.x = p.x;
+ position.y = p.y;
+ zpos = p.z;
  wandx = -1;
  wandy = -1;
  wandf = 0;
@@ -105,21 +107,36 @@ monster::~monster()
 {
 }
 
-bool monster::setpos(const int x, const int y, const bool level_change)
+bool monster::setpos(const int x, const int y)
 {
-    if (!level_change && x == posx() && y == posy()) {
-        return true;
-    }
-    bool ret = level_change ? true : g->update_zombie_pos(*this, x, y);
+    bool ret = g->update_zombie_pos( *this, tripoint( x, y, g->levz ) );
     position.x = x;
     position.y = y;
-
+    zpos = g->levz;
     return ret;
 }
 
-bool monster::setpos(const point &p, const bool level_change)
+bool monster::setpos(const int x, const int y, const int z, const bool level_change)
 {
-    return setpos(p.x, p.y, level_change);
+    return setpos( tripoint( x, y, z ), level_change );
+}
+
+bool monster::setpos( const point &p, const bool level_change )
+{
+    return setpos( tripoint( p, zpos ), level_change );
+}
+
+bool monster::setpos( const tripoint &p, const bool level_change )
+{
+    if( p == pos3() ) {
+        return true;
+    }
+    bool ret = level_change ? true : g->update_zombie_pos( *this, p );
+    position.x = p.x;
+    position.y = p.y;
+    zpos = p.z;
+
+    return ret;
 }
 
 const point &monster::pos() const
@@ -146,8 +163,14 @@ void monster::poly(mtype *t)
 
 void monster::spawn(int x, int y)
 {
+    spawn( x, y, g->levz );
+}
+
+void monster::spawn(const int x, const int y, const int z)
+{
     position.x = x;
     position.y = y;
+    zpos = z;
 }
 
 std::string monster::name(unsigned int quantity) const
