@@ -7249,7 +7249,7 @@
     "symbol": ";",
     "color": "light_gray",
     "name": "electric polisher",
-    "description": "An electric polisher used to polish metal surfaces capable of making them reflect light as a mirror would",
+    "description": "An electric polisher which can be used to buff metal surfaces until they are reflective like a mirror.",
     "price": 35000,
     "material": ["steel", "plastic"],
     "weight": 1000,
