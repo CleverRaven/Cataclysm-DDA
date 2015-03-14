@@ -2370,7 +2370,7 @@ int item::get_warmth() const
     int result = static_cast<int>( t->warmth );
 
     if (item::item_tags.count("furred") > 0){
-        fur_lined = 25 * (float(get_coverage()) / 100);
+        fur_lined = 35 * (float(get_coverage()) / 100);
     }
     if (item::item_tags.count("wooled") > 0){
         wool_lined = 20 * (float(get_coverage()) / 100);
@@ -2525,9 +2525,9 @@ int item::bash_resist() const
     // previous versions. Adjust to make you happier/sadder.
     float adjustment = 1.5;
 
-    static constexpr float max_value = 4.0f;
+    static constexpr float max_value = 10.0f;
     static constexpr float stepness = -0.8f;
-    static constexpr float center_of_S = 2.5f;
+    static constexpr float center_of_S = 2.0f;
 
     if (is_null()) {
         return resist;
@@ -2570,15 +2570,15 @@ int item::cut_resist() const
         return resist;
     }
     if (item::item_tags.count("leather_padded") > 0){
-        static constexpr float max_value = 4.0f;
+        static constexpr float max_value = 10.0f;
         static constexpr float stepness = -0.8f;
-        static constexpr float center_of_S = 2.5f;
+        static constexpr float center_of_S = 2.0f;
         l_padding = max_value / ( 1 + exp( stepness * ( get_thickness() - center_of_S )));
     }
     if (item::item_tags.count("kevlar_padded") > 0){
-        static constexpr float max_value = 8.0f;
-        static constexpr float stepness = -0.8f;
-        static constexpr float center_of_S = 2.5f;
+        static constexpr float max_value = 15.0f;
+        static constexpr float stepness = -0.5f;
+        static constexpr float center_of_S = 2.0f;
         k_padding = max_value / ( 1 + exp( stepness * ( get_thickness() - center_of_S )));
     }
     std::vector<material_type*> mat_types = made_of_types();
