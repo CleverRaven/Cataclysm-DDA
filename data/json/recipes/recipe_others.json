@@ -998,6 +998,9 @@
       [ "plant_fibre", 50],
       [ "yarn", 25],
       [ "string_6", 1]
+    ],
+    [
+      [ "pine_bough", 2 ]
     ]
   ]
 },{
@@ -1038,6 +1041,9 @@
       [ "plant_fibre", 150],
       [ "yarn", 75],
       [ "string_6", 3]
+    ],
+    [
+      [ "pine_bough", 4 ]
     ]
   ]
 },{
