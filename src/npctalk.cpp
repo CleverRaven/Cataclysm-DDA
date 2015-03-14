@@ -967,9 +967,14 @@ std::string dynamic_line(talk_topic topic, npc *p)
                 case 2: return _("At least we've got shelter.");
             }
 
-        case TALK_SHELTER_PLANS:
-            return _("I don't know, look for supplies and other survivors I guess.");
-
+        case TALK_SHELTER_PLANS
+            switch (rng(1, 5)) {
+                case 1: return _("I don't know, look for supplies and other survivors I guess.");
+                case 2: return _("Maybe we should start boarding up this place.");
+                case 3: return _("I saw a helicopter wreck on my way here, maybe we can find some useful stuff outside.")
+                case 4: return _("We could look for one of those farms out here. They can provide plenty of food and aren't close to the cities.")
+                case 5: return _("We should probably stay away from those cities, even if there's plenty of useful stuff there.")
+            }    
         case TALK_SHARE_EQUIPMENT:
             if (p->has_effect(_("asked_for_item"))) {
                 return _("You just asked me for stuff; ask later.");
@@ -2114,7 +2119,7 @@ std::vector<talk_response> gen_responses(talk_topic topic, npc *p)
         case TALK_SHELTER_PLANS:
             // TODO: Add _("follow me")
             RESPONSE(_("Hmm, okay.  Bye."));
-                SUCCESS(TALK_DONE);
+                SUCCESS(TALK_NONE);
             break;
 
         case TALK_SHARE_EQUIPMENT:
