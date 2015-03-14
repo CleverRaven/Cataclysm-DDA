@@ -62,6 +62,12 @@ struct MonsterGroup {
     std::string defaultMonster;
     FreqDef  monsters;
     bool IsMonsterInGroup(const std::string &mtypeid) const;
+    // replaces this group after a period of
+    // time when exploring an unexplored portion of the map
+    bool replace_monster_group;
+    std::string new_monster_group;
+    int monster_group_time;  //time in days
+
 };
 
 struct mongroup {

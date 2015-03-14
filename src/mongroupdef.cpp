@@ -24,6 +24,11 @@ MonsterGroupResult MonsterGroupManager::GetResultFromGroup(
 {
     int spawn_chance = rng(1, 1000);
     MonsterGroup group = GetMonsterGroup( group_name );
+    while (group.replace_monster_group){
+        group_name = group.new_monster_group;
+        group = GetMonsterGroup( group_name );
+    }
+
 
     //Our spawn details specify, by default, a single instance of the default monster
     MonsterGroupResult spawn_details = MonsterGroupResult(group.defaultMonster, 1);
@@ -305,6 +310,11 @@ void MonsterGroupManager::LoadMonsterGroup(JsonObject &jo)
                     new_mon_group.conditions.push_back(conditions_arr.next_string());
                 }
             }
+
+            g.replace_monster_group = mon.get_bool("replace_monster_group", false);
+            g.new_monster_group = mon.get_string("new_monster_group_id", "NULL");
+            g.monster_group_time = mon.get_int("replacement_time", 0);
+
             g.monsters.push_back(new_mon_group);
         }
     }
