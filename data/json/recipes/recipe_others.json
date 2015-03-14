@@ -962,6 +962,47 @@
   ]
 },{
   "type" : "recipe",
+  "result": "sealedstomach",
+  "category": "CC_OTHER",
+  "subcategory": "CSC_OTHER_CONTAINERS",
+  "skill_used": "survival",
+  "skills_required": [ "survival", 1 ],
+  "difficulty": 1,
+  "time": 30000,
+  "reversible": false,
+  "autolearn": true,
+  "qualities": [
+    {"id":"CUT","level":1,"amount":1},
+    {"id":"BOIL","level":1,"amount":1}
+  ],
+  "tools": [
+    [
+      [ "hotplate", 3 ],
+      [ "toolset", 3 ],
+      [ "coffeemaker", 3],
+      [ "atomic_coffeepot", -1 ],
+      [ "fire", -1 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "water", 5 ],
+      [ "water_clean", 5 ]
+      
+    ],
+    [
+      [ "stomach", 1]
+    ],
+    [
+      [ "sinew", 50 ],
+      [ "thread", 50 ],
+      [ "plant_fibre", 50],
+      [ "yarn", 25],
+      [ "string_6", 1]
+    ]
+  ]
+},{
+  "type" : "recipe",
   "result": "waterskin",
   "category": "CC_OTHER",
   "subcategory": "CSC_OTHER_CONTAINERS",
