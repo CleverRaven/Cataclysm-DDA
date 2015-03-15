@@ -96,7 +96,7 @@
                 { "item": "stash_wood", "chance": 90, "x": [6,6], "y": [16,16] },
                 { "item": "stash_wood", "chance": 60, "x": [21,21], "y": [18,18] },
                 { "item": "novels", "chance": 70, "x": [17,17], "y": [18,19] },
-                { "item": "bed", "chance": 70, "x": [10,12], "y": [14,16] }
+                { "item": "bed", "chance": 70, "x": [19,20], "y": [18,19] }
             ],
             "comment": "end of mapgen json definition ---v"
         },
