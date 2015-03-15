@@ -9844,11 +9844,26 @@
 "fields_min_density": 2,
 "fields_max_density": 3
 }
+},{
+    "id": "primitive_adze",
+    "type": "TOOL",
+    "symbol": ";",
+    "color": "brown",
+    "name": "stone adze",
+    "description": "This is a stone adze, somewhat useful for cutting through wood objects.",
+    "price": 1000,
+    "material": ["stone", "wood"],
+    "weight": 1300,
+    "volume": 4,
+    "bashing": 8,
+    "cutting": 7,
+    "to_hit": 0,
+    "max_charges": 0,
+    "initial_charges": 0,
+    "charges_per_use": 0,
+    "turns_per_charge": 0,
+    "ammo": "NULL",
+    "revert_to": "null",
+    "qualities":[ ["SAW_W", 1] ]
 }
-
-
-
-
-
-
 ]
