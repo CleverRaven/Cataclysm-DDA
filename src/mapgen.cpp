@@ -679,6 +679,31 @@ public:
     }
 };
 /**
+ * Place spawn points for a specific monster (not a group).
+ * "monster": id of the monster.
+ * "friendly": whether the new monster is friendly to the player character.
+ * "name": the name of the monster (if it has one).
+ */
+class jmapgen_monster : public jmapgen_piece {
+public:
+    std::string id;
+    bool friendly;
+    std::string name;
+    jmapgen_monster( JsonObject &jsi ) : jmapgen_piece()
+    , id( jsi.get_string( "monster" ) )
+    , friendly( jsi.get_bool( "friendly", false ) )
+    , name( jsi.get_string( "name", "NONE" ) )
+    {
+        if( !MonsterGenerator::generator().has_mtype( id ) ) {
+            jsi.throw_error( "no such monster", "monster" );
+        }
+    }
+    void apply( map &m, const size_t x, const size_t y, const float /*mdensity*/ ) const override
+    {
+        m.add_spawn( id, 1, x, y, friendly, -1, -1, name );
+    }
+};
+/**
  * Place a vehicle.
  * "vehicle": id of the vehicle.
  * "chance": chance of spawning the vehicle: 0...100
@@ -1077,6 +1102,7 @@ bool mapgen_function_json::setup() {
             // with the items entry with refers to item groups.
             load_place_mapings<jmapgen_spawn_item>( jo, "item", format_placings );
             load_place_mapings<jmapgen_trap>( jo, "traps", format_placings );
+            load_place_mapings<jmapgen_monster>( jo, "monster", format_placings );
             // manditory: 24 rows of 24 character lines, each of which must have a matching key in "terrain",
             // unless fill_ter is set
             // "rows:" [ "aaaajustlikeinmapgen.cpp", "this.must!be!exactly.24!", "and_must_match_terrain_", .... ]
@@ -1140,6 +1166,7 @@ bool mapgen_function_json::setup() {
         load_objects<jmapgen_trap>( jo, "place_traps" );
         load_objects<jmapgen_furniture>( jo, "place_furniture" );
         load_objects<jmapgen_terrain>( jo, "place_terrain" );
+        load_objects<jmapgen_monster>( jo, "place_monster" );
 
 #ifdef LUA
        // silently ignore if unsupported in build

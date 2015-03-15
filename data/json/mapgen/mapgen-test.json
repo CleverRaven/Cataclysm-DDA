@@ -48,7 +48,7 @@
                 "                        ",
                 "   ;;;;----gggg         ",
                 "   ;;;;----gggg         ",
-                " V O . , u fF           "
+                " V O . , u fF       Y   "
             ],
             "//": [ "This should result in random terrain (either door or pit) on ';'",
                     "(selected individually for each place) and shrubs at '.'" ],
@@ -115,6 +115,9 @@
                 "g": [ "tr_funnel", { "trap": "tr_brazier" } ],
                 "f": { "trap": "tr_funnel" }
             },
+            "monster": {
+                "Y": { "monster": "mon_deer", "friendly": true, "name": "THE DEER" }
+            },
 
             "//": [ "And now the same (nearly) but with explicit coordinates.",
                     "These spawn in the northern part of the map and they have slightly",
@@ -156,6 +159,9 @@
             ],
             "place_terrain": [
                 { "x": 11, "y": 3, "ter": "t_rock" }
+            ],
+            "place_monster": [
+                { "x": 13, "y": 3, "monster": "mon_deer", "friendly": true, "name": "THE OTHER DEER" }
             ],
             "//": "Some of the squares should have a frame, but not all.",
             "add": [

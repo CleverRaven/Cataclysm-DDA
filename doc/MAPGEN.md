@@ -60,6 +60,7 @@
                 * 2.7.10 "traps"
                 * 2.7.11 "furniture"
                 * 2.7.12 "terrain"
+                * 2.7.12 "monster"
 
 * 3 Method: lua
 	* 3.0 Tested functions
@@ -585,6 +586,12 @@ Places furniture. Values:
 ### 2.7.12 "terrain"
 Places terrain. Values:
 - "ter": (required, string) type id of the terrain (e.g. t_floor).
+
+### 2.7.13 "monster"
+Places a specific monster. Values:
+- "monster": (required, string) type id of the monster (e.g. mon_zombie).
+- "friendly": (optional, bool) whether the monster is friendly, default is false.
+- "name": (optional, string) a name for that monster, optional, default is to create an unnamed monster.
 
 ## 3 Method: lua
 Lua is very WIP but supports the following map class functions:
