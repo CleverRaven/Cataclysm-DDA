@@ -986,6 +986,20 @@ void load_place_mapings<jmapgen_terrain>( JsonObject &pjo, const std::string &ke
 template<typename PieceType>
 void mapgen_function_json::load_place_mapings( JsonObject &jo, const std::string &member_name, placing_map &format_placings )
 {
+    if( jo.has_object( "mapping" ) ) {
+        JsonObject pjo = jo.get_object( "mapping" );
+        for( auto & key : pjo.get_member_names() ) {
+            if( key.size() != 1 ) {
+                pjo.throw_error( "format map key must be 1 character", key );
+            }
+            JsonObject sub = pjo.get_object( key );
+            if( !sub.has_member( member_name ) ) {
+                continue;
+            }
+            auto &vect = format_placings[ key[0] ];
+            ::load_place_mapings<PieceType>( sub, member_name, vect );
+        }
+    }
     if( !jo.has_object( member_name ) ) {
         return;
     }

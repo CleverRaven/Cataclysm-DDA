@@ -41,7 +41,7 @@
                 "tttttttt       ss oo    ",
                 "               ss oo    ",
                 "                        ",
-                "                        ",
+                "      X                 ",
                 "                        ",
                 "T          B           S",
                 "                        ",
@@ -117,6 +117,17 @@
             },
             "monster": {
                 "Y": { "monster": "mon_deer", "friendly": true, "name": "THE DEER" }
+            },
+
+            "//": [ "And now an all-purpose mapping" ],
+            "mapping": {
+                "X": {
+                    "traps": "tr_pit",
+                    "item": { "item": "2x4" },
+                    "items": { "item": "survivorzed_boots", "chance": 30 },
+                    "fields": { "field": "fd_fire" },
+                    "terrain": "t_dirt"
+                }
             },
 
             "//": [ "And now the same (nearly) but with explicit coordinates.",

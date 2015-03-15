@@ -471,6 +471,19 @@ Example (places a blood and a bile field on each '.' square):
 }
 ```
 
+Or define the mappings for one character at once:
+```
+"mapping" : {
+    ".": {
+        "traps": "tr_beartrap",
+        "field": { "field": "fd_blood" },
+        "item": { "item": "corpse" },
+        "terrain": { "t_dirt" },
+    }
+}
+```
+This might be more useful if you want to put many different type of things on one place.
+
 Defining specials through their specific location:
 ```
 "place_<type-of-special>" : {
