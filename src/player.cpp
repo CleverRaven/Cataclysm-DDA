@@ -13287,7 +13287,7 @@ int player::add_ammo_to_worn_quiver( item &ammo )
     }
 
     // sort quivers by contents, such that empty quivers go last
-    std::sort( quivers.begin(), quivers.end(), item_compare_by_charges);
+    std::sort( quivers.begin(), quivers.end(), item_ptr_compare_by_charges);
 
     int quivered_sum = 0;
     int move_cost_per_arrow = 10;
