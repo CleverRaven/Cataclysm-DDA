@@ -385,8 +385,8 @@ bool recipe::check_eligible_containers_for_crafting(int batch) const
 
         // we go trough half-filled containers first, then go through empty containers if we need
         std::sort( conts.begin(), conts.end(), item_compare_by_charges);
-        
-		long charges_to_store = prod.charges;
+
+        long charges_to_store = prod.charges;
         for( const item & cont : conts) {
             if( charges_to_store <= 0) {
                 break;
