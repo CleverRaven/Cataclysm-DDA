@@ -11710,38 +11710,38 @@ bool game::plmove(int dx, int dy)
         // move_cost() of 0 = impassible (e.g. a wall)
         u.set_underwater(false);
 
-        if (!u.has_effect("blind")) {
-            //Ask for EACH bad field, maybe not? Maybe say "theres X bad shit in there don't do it."
-            const field &tmpfld = m.field_at(x, y);
-            for( auto &fld : tmpfld ) {
-                const field_entry &cur = fld.second;
-                field_id curType = cur.getFieldType();
-                bool dangerous = false;
+        //Ask for EACH bad field, maybe not? Maybe say "theres X bad shit in there don't do it."
+        const field &tmpfld = m.field_at(x, y);
+        for( auto &fld : tmpfld ) {
+            const field_entry &cur = fld.second;
+            field_id curType = cur.getFieldType();
+            bool dangerous = false;
 
-                switch (curType) {
-                case fd_smoke:
-                    dangerous = !(u.get_env_resist(bp_mouth) >= 7);
-                    break;
-                case fd_tear_gas:
-                case fd_toxic_gas:
-                case fd_gas_vent:
-                case fd_relax_gas:
-                    dangerous = !(u.get_env_resist(bp_mouth) >= 15);
-                    break;
-                case fd_fungal_haze:
-                    dangerous = (!((u.get_env_resist(bp_mouth) >= 15) &&
-                                  (u.get_env_resist(bp_eyes) >= 15) ) &&
-                                  !u.has_trait("M_IMMUNE"));
-                    break;
-                default:
-                    dangerous = cur.is_dangerous();
-                    break;
-                }
-                if ((dangerous) && !query_yn(_("Really step into that %s?"), cur.name().c_str())) {
-                    return false;
-                }
+            switch (curType) {
+            case fd_smoke:
+                dangerous = !(u.get_env_resist(bp_mouth) >= 7);
+                break;
+            case fd_tear_gas:
+            case fd_toxic_gas:
+            case fd_gas_vent:
+            case fd_relax_gas:
+                dangerous = !(u.get_env_resist(bp_mouth) >= 15);
+                break;
+            case fd_fungal_haze:
+                dangerous = (!((u.get_env_resist(bp_mouth) >= 15) &&
+                              (u.get_env_resist(bp_eyes) >= 15) ) &&
+                              !u.has_trait("M_IMMUNE"));
+                break;
+            default:
+                dangerous = cur.is_dangerous();
+                break;
             }
+            if ((dangerous) && !query_yn(_("Really step into that %s?"), cur.name().c_str())) {
+                return false;
+            }
+        }
 
+        if (!u.has_effect("blind")) {
             const trap_id tid = m.tr_at(x, y);
             if (tid != tr_null) {
                 const struct trap &t = *traplist[tid];
