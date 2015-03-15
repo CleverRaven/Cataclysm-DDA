@@ -4031,6 +4031,8 @@
       [ "honeycomb", 1 ],
       [ "honey_bottled", 1],
       [ "honey_glassed", 1],
+      [ "jam_strawberries", 1 ],
+      [ "jam_blueberries", 1 ], 
       [ "jam_fruit", 1 ],
       [ "strawberries", 1 ],
       [ "blueberries", 1 ],
@@ -4187,6 +4189,8 @@
       [ "dry_fruit", 1 ],
       [ "juice_pulp", 2 ],
       [ "jam_fruit", 1 ],
+      [ "jam_strawberries", 1 ],
+      [ "jam_blueberries", 1 ], 
       [ "chocolate", 1 ],
       [ "candy", 3 ],
       [ "candy2", 3 ],
@@ -4430,6 +4434,8 @@
       ["irradiated_strawberries", 1],
       ["irradiated_watermelon", 1],
       ["jam_fruit", 1],
+      ["jam_strawberries", 1],
+      ["jam_blueberries", 1], 
       ["juice_pulp", 2],
       ["kiwi", 1],
       ["mango", 1],
@@ -4626,6 +4632,8 @@
       ["irradiated_strawberries", 1],
       ["irradiated_watermelon", 1],
       ["jam_fruit", 1],
+      ["jam_strawberries", 1],
+      ["jam_blueberries", 1], 
       ["juice_pulp", 2],
       ["kiwi", 1],
       ["mango", 1],
@@ -4855,6 +4863,8 @@
       ["irradiated_strawberries", 1],
       ["irradiated_watermelon", 1],
       ["jam_fruit", 1],
+      ["jam_strawberries", 1],
+      ["jam_blueberries", 1], 
       ["juice_pulp", 2],
       ["lemon", 1],
       ["mango", 1],
@@ -8000,6 +8010,8 @@
     ],
     [
       [ "jam_fruit", 1 ]
+      [ "jam_strawberries", 1 ],
+      [ "jam_blueberries", 1 ], 
     ],
     [
       [ "peanutbutter", 1 ]
@@ -8860,6 +8872,8 @@
     ],
     [
       [ "jam_fruit", 1 ]
+      [ "jam_strawberries", 1 ],
+      [ "jam_blueberries", 1 ], 
     ]
   ]
 },
