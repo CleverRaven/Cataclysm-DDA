@@ -25,6 +25,7 @@
 #include <set>
 #include <array>
 #include <tuple>
+#include <exception>
 
 static const std::string GUN_MODE_VAR_NAME( "item::mode" );
 static const std::string CHARGER_GUN_FLAG_NAME( "CHARGE" );
@@ -5442,15 +5443,36 @@ bool storage::has_ammo() const
 /*-----------------------------------------------------------------------------
  *  item_filter manipulation/helpers
  *-----------------------------------------------------------------------------*/
-bag_filter_cache_t storage::build_cache_for(itype_id id, const std::string &filter)
+//              ':[+-]amt:[+-]chg:(true|false):'
+item_filter_t storage::parse_filter(itype_id id, const std::string &filter)
 {
-    bag_filter_cache_t cache;
-    return cache;
-}
-
-void storage::set_filter_for(itype_id id, const std::string &filter)
-{
-    item_filter[id]         = filter;
-    item_filter_cache[id]   = build_cache_for(id, filter);
+    item_filter_t fil;
+    size_t pos = 0;
+    std::vector<int> vec;
+    while(pos != std::string::npos) {
+        pos = filter.find(":", pos); ++pos;
+        size_t epos     = filter.find(":", pos);
+        std::string val = filter.substr(pos, epos - pos);
+        // don't overcheck bounds, but check past possible [+-]
+        size_t idx = (val.length() > 1 ? 1 : 0);
+        if(isdigit(val[idx])) {                   // int value
+            vec.push_back(atoi(val.c_str()));
+        } else if(isalpha(val[idx])) {            // bool/string value
+            if(val == "true") {
+                vec.push_back(static_cast<int>(true));
+            } else if(val == "false") {
+                vec.push_back(static_cast<int>(false));
+            } // need to do else in case of strings?
+        }
+    }
+    // amount?
+    fil.amount      = vec[0];
+    // charges?
+    fil.charges     = vec[1];
+    // only_fresh food?
+    fil.only_fresh  = static_cast<bool>(vec[2]);
+    // store the decoded filter in cache
+    item_filter_cache[id] = fil;
+    return fil;
 }
 

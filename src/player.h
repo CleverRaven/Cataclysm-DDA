@@ -911,7 +911,7 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         std::vector<int> completed_missions;
         std::vector<int> failed_missions;
         int active_mission;
-        int volume;
+        int volume;     /**** FIXME: OBSOLETE ****/
 
         profession *prof;
 

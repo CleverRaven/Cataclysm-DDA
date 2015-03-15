@@ -94,8 +94,7 @@ class item_category
 /*-----------------------------------------------------------------------------
  *  Storage for items in items (and all the fun it entails)
  *-----------------------------------------------------------------------------*/
-struct bag_filter_cache_t {
-    bool    can_store;                  // are we allowed to store this item?
+struct item_filter_t {
     int     amount;                     // +N for amount  >=, -N for amount  <
     int     charges;                    // +N for charges >=, -N for charges <
     bool    only_fresh;                 // fresh food or !rotten food?
@@ -104,19 +103,18 @@ struct bag_filter_cache_t {
  *  A storage `bag' can be filtered to only accept certain types, quantities, charges,
  *  freshness, etc. of items. The string used to store this information is as such:
  *
- *          ":id:[+-]N:[+-]N:(true|false):"
- *           |_| |___| |___| |__________|
- *            ^    ^     ^         ^
- *            |    |     |         |
- *            |    |     |         | 
- *            |    |     |         :    
- *            |    |     :         [whether to store only fresh food, or anything !rotten]
- *            |    :     [what amount of charges to filter for, same +- as below]
- *            :    [amount of an item to store, 0 if any amount, '+' is >= & '-' is <]
- *            [the item id, `ANY' if it is to store anything not filtered]
+ *          ":[+-]N:[+-]N:(true|false):"
+ *            |___| |___| |__________|
+ *              ^     ^         ^
+ *              |     |         |
+ *              |     |         | 
+ *              |     |         :    
+ *              |     :         [whether to store only fresh food, or anything !rotten]
+ *              :     [what amount of charges to filter for, same +- as below]
+ *              [amount of an item to store, 0 if any amount, '+' is >= & '-' is <]
  */
-typedef std::unordered_map<itype_id, std::string>           bag_filter_map;
-typedef std::unordered_map<itype_id, bag_filter_cache_t>    bag_filter_cache_map;
+typedef std::unordered_map<itype_id, std::string>   bag_filter_map;
+typedef std::unordered_map<itype_id, item_filter_t> bag_filter_cache_map;
 
 class storage
 {
@@ -131,8 +129,6 @@ class storage
 
         item *find_item(const item *thing, itype_id id);
         bool item_matches(const item *thing=nullptr, itype_id id="") const;
-        bag_filter_cache_t build_cache_for(itype_id id, const std::string &filter);
-        bag_filter_cache_t parse_filter_for(itype_id id);
 
     public:
         storage() = default;
@@ -252,13 +248,21 @@ class storage
         /*-----------------------------------------------------------------------------
          *                              STORAGE FILTERS
          *-----------------------------------------------------------------------------*/
+    private:
+        // parses a string filter, and returns the filter struct it represents
+        item_filter_t parse_filter(itype_id id, const std::string &filter);
+
+    public:
         // string to help filter pickups to their apropos bags
-        void set_filter_for(itype_id id, const std::string &filter);
+        void set_filter_for(itype_id id, const std::string &filter)
+        {
+            item_filter[id] = filter;
+        }
         const bag_filter_cache_map &get_filter()
         {
             return item_filter_cache;
         }
-        const bag_filter_cache_t get_filter_for(itype_id id)
+        const item_filter_t get_filter_for(itype_id id)
         {
             return item_filter_cache[id];
         }
