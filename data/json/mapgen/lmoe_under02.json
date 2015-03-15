@@ -12,7 +12,7 @@
             "rows": [
                 "########################",
                 "########################",
-                "##<<..].........^^^^^^##",
+                "##<<..].........^^^^####",
                 "##....*............^^^##",
                 "##....]..............^##",
                 "##===###.........#######",
@@ -85,18 +85,18 @@
                 { "item": "cannedfood", "chance": 90, "x": [11,16], "y": [7,7] },
                 { "item": "survival_tools", "chance": 80, "x": [21,21], "y": [11,14] },
                 { "item": "bags", "chance": 50, "x": [21,21], "y": [11,14] },
-                { "item": "tools", "chance": 90, "x": [21,21], "y": [11,14] },
                 { "item": "shelter", "chance": 70, "x": [21,21], "y": [11,14] },
+                { "item": "tools", "chance": 90, "x": [17,19], "y": [13,13] },
                 { "item": "hardware", "chance": 70, "x": [16,20], "y": [11,11] },
                 { "item": "softdrugs", "chance": 50, "x": [21,21], "y": [16,16] },
                 { "item": "office", "chance": 50, "x": [21,21], "y": [16,16] },
                 { "item": "manuals", "chance": 60, "x": [14,14], "y": [13,14] },
                 { "item": "textbooks", "chance": 60, "x": [14,14], "y": [13,14] },
-                { "item": "stash_wood", "chance": 70, "x": [10,12], "y": [14,16] },
-                { "item": "stash_wood", "chance": 90, "x": [6,6], "y": [16,16] },
                 { "item": "stash_wood", "chance": 90, "x": [10,12], "y": [14,16] },
+                { "item": "stash_wood", "chance": 90, "x": [6,6], "y": [16,16] },
+                { "item": "stash_wood", "chance": 60, "x": [21,21], "y": [18,18] },
                 { "item": "novels", "chance": 70, "x": [17,17], "y": [18,19] },
-                { "item": "bed", "chance": 60, "x": [21,21], "y": [18,18] }
+                { "item": "bed", "chance": 70, "x": [10,12], "y": [14,16] }
             ],
             "comment": "end of mapgen json definition ---v"
         },
