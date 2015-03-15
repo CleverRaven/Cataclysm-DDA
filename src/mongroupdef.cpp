@@ -24,7 +24,8 @@ MonsterGroupResult MonsterGroupManager::GetResultFromGroup(
 {
     int spawn_chance = rng(1, 1000);
     MonsterGroup group = GetMonsterGroup( group_name );
-    while (group.replace_monster_group && calendar::turn.get_turn() > DAYS(group.monster_group_time)){
+    int replace_time = DAYS(group.monster_group_time * ACTIVE_WORLD_OPTIONS["MONSTER_GROUP_DIFFICULTY"]) * (calendar::turn.season_length() / 14);
+    while (group.replace_monster_group && calendar::turn.get_turn() > replace_time){
         std::string new_monster_name = group.new_monster_group;
         group = GetMonsterGroup( new_monster_name );
     }

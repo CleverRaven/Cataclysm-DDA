@@ -895,6 +895,10 @@ void initOptions()
                                     _("A scaling factor that determines density of dynamic NPC spawns."),
                                     0.0, 100.0, 1.0, 0.01
                                    );
+    OPTIONS["MONSTER_GROUP_DIFFICULTY"] = cOpt("world_default", _("Monster difficulty"),
+                                    _("A number determining how fast monstergroups advance. 14 days * (Season_Length / 14) is the default"),
+                                    0, 100, 14
+                                   );
 
     mOptionsSort["world_default"]++;
 
