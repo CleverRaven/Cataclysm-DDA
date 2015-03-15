@@ -10646,7 +10646,6 @@ void game::plfire(bool burst, int default_target_x, int default_target_y)
         }
     }
 
-    int reload_pos = INT_MIN;
     if (!u.weapon.is_gun()) {
         return;
     }
@@ -10684,62 +10683,14 @@ void game::plfire(bool burst, int default_target_x, int default_target_y)
     }
 
     if (u.weapon.has_flag("RELOAD_AND_SHOOT") && u.weapon.charges == 0) {
-            // find worn quivers
-            std::vector<item *> quivers;
-            for( auto &worn : u.worn ) {
-
-                if (worn.type->can_use("QUIVER") && !worn.contents.empty()
-                    && worn.contents[0].is_ammo() && worn.contents[0].charges > 0
-                    && worn.contents[0].ammo_type() == u.weapon.ammo_type() ) {
-                    quivers.push_back(&worn);
-                }
-            }
-            // ask which quiver to draw from
-            if (!quivers.empty()) {
-                int choice = -1;
-                //only one quiver found, choose it
-                if (quivers.size() == 1) {
-                    choice = 0;
-                } else {
-                    std::vector<std::string> choices;
-                    for( auto i : quivers ) {
-
-                        std::ostringstream ss;
-                        ss << string_format(_("%s from %s (%d)"),
-                                            i->contents[0].tname().c_str(),
-                                            i->type_name(1).c_str(),
-                                            i->contents[0].charges);
-                        choices.push_back(ss.str());
-                    }
-                    choice = (uimenu(false, _("Draw from which quiver?"), choices)) - 1;
-                }
-
-                // draw arrow from quiver
-                if (choice > -1) {
-                    item *worn = quivers[choice];
-                    item &arrows = worn->contents[0];
-                    // chance to fail pulling an arrow at lower levels
-                    int archery = u.skillLevel("archery");
-                    if (archery <= 2 && one_in(10)) {
-                        u.moves -= 30;
-                        u.add_msg_if_player(_("You try to pull a %s from your %s, but fail!"),
-                                            arrows.tname().c_str(), worn->type_name(1).c_str());
-                        return;
-                    }
-                    u.add_msg_if_player(_("You pull a %s from your %s and nock it."),
-                                        arrows.tname().c_str(), worn->type_name(1).c_str());
-                    reload_pos = u.get_item_position(worn);
-                }
-            }
-        if (reload_pos == INT_MIN) {
-            reload_pos = u.weapon.pick_reload_ammo(u, true);
-        }
+        const int reload_pos = u.weapon.pick_reload_ammo( u, true );
         if (reload_pos == INT_MIN) {
             add_msg(m_info, _("Out of ammo!"));
             return;
         }
-
-        u.weapon.reload(u, reload_pos);
+        if( !u.weapon.reload( u, reload_pos ) ) {
+            return;
+        }
         u.moves -= u.weapon.reload_time(u);
         refresh_all();
     }

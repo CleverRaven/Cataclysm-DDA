@@ -3657,6 +3657,20 @@ bool item::reload(player &u, int pos)
         ammo_to_use = &ammo_to_use->contents[0];
     }
 
+    bool const is_from_quiver = pos < -1 && ammo_container != nullptr && ammo_container->type->can_use( "QUIVER" );
+    if( is_from_quiver ) {
+        // chance to fail pulling an arrow at lower levels
+        int archery = u.skillLevel( "archery" );
+        if( archery <= 2 && one_in( 10 ) ) {
+            u.moves -= 30;
+            u.add_msg_if_player( _( "You try to pull a %s from your %s, but fail!" ),
+                                ammo_to_use->tname().c_str(), ammo_container->type_name().c_str() );
+            return false;
+        }
+        u.add_msg_if_player( _( "You pull a %s from your %s and nock it." ),
+                             ammo_to_use->tname().c_str(), ammo_container->type_name().c_str() );
+    }
+
     if (is_gun()) {
         // Reload using a spare magazine
         int spare_mag = has_gunmod("spare_mag");
