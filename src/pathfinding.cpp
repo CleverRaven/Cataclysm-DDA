@@ -47,17 +47,6 @@ void pathfinder::generate_path( const map &m, const std::set< point > &from, con
     std::uninitialized_fill_n( &score    [0][0], block_size, INT_MAX );
     std::uninitialized_fill_n( &pd.parent[0][0], block_size, point( -1, -1 ) );
 
-    // Mark map edges as closed, so that the algorithm can't go out of bounds
-    // TODO: Use fill and make it not need to drop the edges
-    for( int y = 0; y < SEEY * MAPSIZE; y++ ) {
-        state[0][y] = PF_CLOSED;
-        state[SEEX * MAPSIZE - 1][y] = PF_CLOSED;
-    }
-    for( int x = 0; x < SEEX * MAPSIZE; x++ ) {
-        state[x][0] = PF_CLOSED;
-        state[x][SEEY * MAPSIZE - 1] = PF_CLOSED;
-    }
-
     open.push( std::make_pair( 0, to ) );
     score[to.x][to.y] = 0;
     pd.parent[to.x][to.y] = to;
@@ -92,6 +81,23 @@ void pathfinder::generate_path( const map &m, const std::set< point > &from, con
 
     to_remove.clear(); // Reuse the set later when removing reached points
 
+    for( const point &p : unreached ) {
+        // Set point in `from` to PF_AVOID
+        // Results in nice surrounding behavior
+        state[p.x][p.y] = PF_AVOID;
+    }
+
+    // Mark map edges as closed, so that the algorithm can't go out of bounds
+    // TODO: Use fill and make it not need to drop the edges
+    for( int y = 0; y < SEEY * MAPSIZE; y++ ) {
+        state[0][y] = PF_CLOSED;
+        state[SEEX * MAPSIZE - 1][y] = PF_CLOSED;
+    }
+    for( int x = 0; x < SEEX * MAPSIZE; x++ ) {
+        state[x][0] = PF_CLOSED;
+        state[x][SEEY * MAPSIZE - 1] = PF_CLOSED;
+    }
+
     // We don't need to check every iteration if all points in `from` have been reached.
     // This check can be delayed by at least `unreached.size()` iterations,
     // because every iteration adds exactly 1 point to closed set.
@@ -106,7 +112,7 @@ void pathfinder::generate_path( const map &m, const std::set< point > &from, con
         }
 
         const point &cur = pr.second;
-        if( state[cur.x][cur.y] >= PF_CLOSED ) {
+        if( state[cur.x][cur.y] == PF_CLOSED ) {
             continue;
         }
 
@@ -165,8 +171,12 @@ void pathfinder::generate_path( const map &m, const std::set< point > &from, con
                 continue;
             }
 
-            // Penalize diagonals a bit - pathfinder loves them for some reason
-            int newg = score[cur.x][cur.y] + cost + ( (circle_x[i] != 0 && circle_y[i] != 0) ? 1 : 0 );
+            // Penalize diagonals a bit (even if we're doing square distance)
+            // pathfinder loves them for some reason
+            // Heavily penalize paths going through ally tiles, but don't forbid them totally
+            int newg = score[cur.x][cur.y] + cost + 
+                        ( (circle_x[i] != 0 && circle_y[i] != 0) ? 1 : 0 ) +
+                        ( state[x][y] == PF_AVOID ? 100 : 0 );
             if( cost == 0 ) {
                 // Handle all kinds of doors
                 // Only try to open INSIDE doors from the inside
