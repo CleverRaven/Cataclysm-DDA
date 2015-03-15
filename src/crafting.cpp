@@ -378,30 +378,32 @@ bool recipe::check_eligible_containers_for_crafting(int batch) const
     all.insert(all.end(), res.begin(), res.end());
     all.insert(all.end(), bps.begin(), bps.end());
 
-    for(item & prod : all) {
-        if (prod.made_of(LIQUID)) {
-            // we go trough half-filled containers first, then go through empty containers if we need
-            std::sort( conts.begin(), conts.end(), item_compare_by_charges);
+    for(const item & prod : all) {
+        if( !prod.made_of(LIQUID)) {
+            continue;
+        }
 
-            long charges_to_store = prod.charges;
-            for( item & cont : conts) {
-                if( charges_to_store <= 0) {
-                    break;
-                }
-
-                if( !cont.is_container_empty()) {
-                    if( cont.contents[0].type->id == prod.type->id) {
-                        charges_to_store -= cont.get_remaining_capacity_for_liquid( cont.contents[0]);
-                    }
-                } else {
-                    charges_to_store -= cont.get_remaining_capacity_for_liquid( prod);
-                }
+        // we go trough half-filled containers first, then go through empty containers if we need
+        std::sort( conts.begin(), conts.end(), item_compare_by_charges);
+        
+		long charges_to_store = prod.charges;
+        for( const item & cont : conts) {
+            if( charges_to_store <= 0) {
+                break;
             }
 
-            if (charges_to_store > 0) {
-                popup(_("You don't have anything to store %s in!"), prod.tname().c_str());
-                return false;
+            if( !cont.is_container_empty()) {
+                if( cont.contents[0].type->id == prod.type->id) {
+                    charges_to_store -= cont.get_remaining_capacity_for_liquid( cont.contents[0]);
+                }
+            } else {
+                charges_to_store -= cont.get_remaining_capacity_for_liquid( prod);
             }
+        }
+
+        if (charges_to_store > 0) {
+            popup(_("You don't have anything to store %s in!"), prod.tname().c_str());
+            return false;
         }
     }
 

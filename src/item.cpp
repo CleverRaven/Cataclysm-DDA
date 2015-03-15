@@ -4239,7 +4239,7 @@ bool item_ptr_compare_by_charges( const item *left, const item *right)
     }
 }
 
-bool item_compare_by_charges( const item left, const item right)
+bool item_compare_by_charges( const item& left, const item& right)
 {
     return item_ptr_compare_by_charges( &left, &right);
 }

@@ -941,7 +941,7 @@ public:
  int max_charges_from_flag(std::string flagName);
 };
 
-bool item_compare_by_charges( const item left, const item right);
+bool item_compare_by_charges( const item& left, const item& right);
 bool item_ptr_compare_by_charges( const item *left, const item *right);
 
 std::ostream &operator<<(std::ostream &, const item &);
