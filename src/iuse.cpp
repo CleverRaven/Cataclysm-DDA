@@ -6470,7 +6470,6 @@ int iuse::LAW(player *p, item *it, bool, point)
 {
     p->add_msg_if_player(_("You pull the activating lever, readying the LAW to fire."));
     it->make("LAW");
-    it->charges++;
     // When converting a tool to a gun, you need to set the current ammo type, this is usually done when a gun is reloaded.
     it->set_curammo( "66mm_HEAT" );
     return it->type->charges_to_use();
