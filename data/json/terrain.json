@@ -5234,7 +5234,7 @@
         "move_cost": 6,
         "flags": ["TRANSPARENT", "BASHABLE", "PLACE_ITEM"],
         "deconstruct": {
-            "ter_set": "t_floor",
+            "ter_set": "t_rock_floor",
             "items": [
                 { "item": "wire", "amount": 1 },
                 { "item": "pipe", "amount": 4, "minamount": 1 },
@@ -5247,7 +5247,7 @@
             "str_min": 12, "str_max": 80,
             "sound": "clang!",
             "sound_fail": "ting.",
-            "ter_set": "t_floor",
+            "ter_set": "t_rock_floor",
             "items": [
                 { "item": "pipe", "amount": 3, "minamount": 1 },
                 { "item": "chain", "amount": 1, "chance": 10},
@@ -5263,7 +5263,7 @@
         "move_cost": 10,
         "flags": ["TRANSPARENT", "BASHABLE", "CONTAINER", "FLAMMABLE", "PLACE_ITEM"],
         "deconstruct": {
-            "ter_set": "t_floor",
+            "ter_set": "t_rock_floor",
             "items": [
                 { "item": "wire", "amount": 3, "minamount": 1 },
                 { "item": "pipe", "amount": 2, "minamount": 1 },
@@ -5281,7 +5281,7 @@
             "str_min": 16, "str_max": 80,
             "sound": "clang!",
             "sound_fail": "ting.",
-            "ter_set": "t_floor",
+            "ter_set": "t_rock_floor",
             "items": [
                 { "item": "wire", "amount": 1},
                 { "item": "pipe", "amount": 2, "chance": 40},
@@ -5303,7 +5303,7 @@
         "move_cost": 0,
         "flags": ["BASHABLE", "CONTAINER", "SEALED", "PLACE_ITEM"],
         "deconstruct": {
-            "ter_set": "t_floor",
+            "ter_set": "t_rock_floor",
             "items": [
                 { "item": "wire", "amount": 3, "minamount": 1 },
                 { "item": "pipe", "amount": 2, "minamount": 1 },
@@ -5324,7 +5324,7 @@
             "str_min": 18, "str_max": 80,
             "sound": "clang!",
             "sound_fail": "ting.",
-            "ter_set": "t_floor",
+            "ter_set": "t_rock_floor",
             "items": [
                 { "item": "wire", "amount": 1},
                 { "item": "pipe", "amount": 1},
@@ -5349,7 +5349,7 @@
         "move_cost": 4,
         "flags": ["TRANSPARENT", "BASHABLE", "CONTAINER", "FLAMMABLE", "PLACE_ITEM"],
         "deconstruct": {
-            "ter_set": "t_floor",
+            "ter_set": "t_rock_floor",
             "items": [
                 { "item": "wire", "amount": 1},
                 { "item": "pipe", "amount": 2, "minamount": 1 },
@@ -5370,7 +5370,7 @@
             "str_min": 10, "str_max": 80,
             "sound": "clang!",
             "sound_fail": "ting.",
-            "ter_set": "t_floor",
+            "ter_set": "t_rock_floor",
             "items": [
                 { "item": "wire", "amount": 1},
                 { "item": "pipe", "amount": 2, "minamount": 1 },
@@ -5393,7 +5393,7 @@
         "move_cost": 8,
         "flags": ["TRANSPARENT", "BASHABLE", "CONTAINER", "SEALED", "FLAMMABLE", "PLACE_ITEM"],
         "deconstruct": {
-            "ter_set": "t_floor",
+            "ter_set": "t_rock_floor",
             "items": [
                 { "item": "wire", "amount": 3, "minamount": 1 },
                 { "item": "pipe", "amount": 2, "minamount": 1 },
@@ -5416,7 +5416,7 @@
             "str_min": 10, "str_max": 80,
             "sound": "clang!",
             "sound_fail": "ting.",
-            "ter_set": "t_floor",
+            "ter_set": "t_rock_floor",
             "items": [
                 { "item": "wire", "amount": 1, "chance": 40},
                 { "item": "pipe", "amount": 1, "chance": 40},
