@@ -546,6 +546,11 @@ SkillLevel& Character::skillLevel(const Skill* _skill)
     return _skills[_skill];
 }
 
+SkillLevel const& Character::skillLevel(const Skill* _skill) const
+{
+    return const_cast<Character*>(this)->skillLevel(_skill);
+}
+
 SkillLevel Character::get_skill_level(const Skill* _skill) const
 {
     for( const auto &elem : _skills ) {

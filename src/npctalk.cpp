@@ -1,7 +1,6 @@
 #include "npc.h"
 #include "output.h"
 #include "game.h"
-#include "dialogue.h"
 #include "rng.h"
 #include "line.h"
 #include "debug.h"
@@ -12,6 +11,119 @@
 #include <string>
 #include <sstream>
 #include <fstream>
+
+enum talk_trial {
+    TALK_TRIAL_NONE,       // No challenge here!
+    TALK_TRIAL_LIE,        // Straight up lying
+    TALK_TRIAL_PERSUADE,   // Convince them
+    TALK_TRIAL_INTIMIDATE, // Physical intimidation
+    NUM_TALK_TRIALS
+};
+
+struct dialogue {
+    std::vector<std::string> history;
+    std::vector<talk_topic>  topic_stack;
+
+    player *alpha = nullptr;
+    npc    *beta  = nullptr;
+    WINDOW *win   = nullptr;
+    bool    done  = false;
+
+    dialogue() = default;
+
+    talk_topic opt(talk_topic topic);
+};
+
+/* There is a array of tag_data, "tags", at the bottom of this file.
+ * It maps tags to the array of string replacements;
+ * e.g. "<name_g>" => talk_good_names
+ * Other tags, like "<yrwp>", are mapped to dynamic things
+ *  (like the player's weapon), and are defined in parse_tags() (npctalk.cpp)
+ */
+struct tag_data {
+    std::string tag;
+    std::string (*replacement)[10];
+};
+
+using talk_function_ptr = void (*)(npc*);
+
+struct talk_function {
+    static void nothing              (npc *) {};
+    static void assign_mission       (npc *);
+    static void mission_success      (npc *);
+    static void mission_failure      (npc *);
+    static void clear_mission        (npc *);
+    static void mission_reward       (npc *);
+    static void mission_reward_cash  (npc *);
+    static void mission_favor        (npc *);
+    static void give_equipment       (npc *);
+    static void start_trade          (npc *);
+    std::string bulk_trade_inquire   (npc *, itype_id);
+    static void bulk_trade_accept    (npc *, itype_id);
+    static void assign_base          (npc *);
+    static void assign_guard         (npc *);
+    static void stop_guard           (npc *);
+    static void end_conversation     (npc *);
+    static void insult_combat        (npc *);
+    static void reveal_stats         (npc *);
+    static void follow               (npc *); // p follows u
+    static void deny_follow          (npc *); // p gets "asked_to_follow"
+    static void deny_lead            (npc *); // p gets "asked_to_lead"
+    static void deny_equipment       (npc *); // p gets "asked_for_item"
+    static void deny_train           (npc *); // p gets "asked_to_train"
+    static void deny_personal_info   (npc *); // p gets "asked_personal_info"
+    static void enslave              (npc *) {}; // p becomes slave of u
+    static void hostile              (npc *); // p turns hostile to u
+    static void flee                 (npc *);
+    static void leave                (npc *); // p becomes indifferant
+    static void stranger_neutral     (npc *); // p is now neutral towards you
+
+    static void start_mugging        (npc *);
+    static void player_leaving       (npc *);
+
+    static void drop_weapon          (npc *);
+    static void player_weapon_away   (npc *);
+    static void player_weapon_drop   (npc *);
+
+    static void lead_to_safety       (npc *);
+    static void start_training       (npc *);
+
+    static void toggle_use_guns      (npc *);
+    static void toggle_use_silent    (npc *);
+    static void toggle_use_grenades  (npc *);
+    static void set_engagement_none  (npc *);
+    static void set_engagement_close (npc *);
+    static void set_engagement_weak  (npc *);
+    static void set_engagement_hit   (npc *);
+    static void set_engagement_all   (npc *);
+
+    static std::string dynamic_line(talk_topic topic, npc *p);
+};
+
+struct talk_response {
+    std::string text;
+    talk_trial trial = TALK_TRIAL_NONE;
+    int difficulty = 0;
+    int mission_index = -1;
+    mission_id miss = MISSION_NULL; // If it generates a new mission
+    int tempvalue = -1; // Used for various stuff
+    Skill const* skill = nullptr;
+    std::string style;
+    npc_opinion opinion_success;
+    npc_opinion opinion_failure;
+    talk_function_ptr effect_success = &talk_function::nothing;
+    talk_function_ptr effect_failure = &talk_function::nothing;
+    talk_topic success = TALK_NONE;
+    talk_topic failure = TALK_NONE;
+
+    talk_response() = default;
+};
+
+struct talk_response_list {
+    std::vector<talk_response> none(npc *);
+    std::vector<talk_response> shelter(npc *);
+    std::vector<talk_response> shopkeep(npc *);
+};
 
 std::string talk_needs[num_needs][5];
 std::string talk_okay[10];
@@ -113,7 +225,6 @@ tag_data talk_tags[NUM_STATIC_TAGS] = {
 
 #define dbg(x) DebugLog((DebugLevel)(x),D_GAME) << __FILE__ << ":" << __LINE__ << ": "
 
-std::string dynamic_line(talk_topic topic, npc *p);
 std::vector<talk_response> gen_responses(talk_topic topic, npc *p);
 int topic_category(talk_topic topic);
 
@@ -439,7 +550,7 @@ void npc::talk_to_u()
     }
 
     if (d.topic_stack.back() == TALK_NONE) {
-        d.topic_stack.back() = pick_talk_topic(&(g->u));
+        d.topic_stack.back() = pick_talk_topic(g->u);
     }
 
     moves -= 100;
@@ -484,7 +595,7 @@ void npc::talk_to_u()
     g->refresh_all();
 }
 
-std::string dynamic_line(talk_topic topic, npc *p)
+std::string talk_function::dynamic_line(talk_topic topic, npc *p)
 {
     talk_function effect;
     // First, a sanity test for mission stuff
@@ -991,8 +1102,8 @@ std::string dynamic_line(talk_topic topic, npc *p)
                 if( !g->u.backlog.empty() && g->u.backlog.front().type == ACT_TRAIN ) {
                 return _("Shall we resume?");
             }
-            std::vector<const Skill*> trainable = p->skills_offered_to(&(g->u));
-            std::vector<matype_id> styles = p->styles_offered_to(&(g->u));
+            std::vector<const Skill*> trainable = p->skills_offered_to(g->u);
+            std::vector<matype_id> styles = p->styles_offered_to(g->u);
             if (trainable.empty() && styles.empty()) {
                 return _("Sorry, but it doesn't seem I have anything to teach you.");
             } else {
@@ -1080,14 +1191,15 @@ std::string dynamic_line(talk_topic topic, npc *p)
 
         case TALK_COMBAT_COMMANDS:
             {
-            std::stringstream status;
+            std::ostringstream status;
             // Prepending * makes this an action, not a phrase
+            using ncr = npc_combat_rules;
             switch (p->combat_rules.engagement) {
-                case ENGAGE_NONE:  status << _("*is not engaging enemies.");         break;
-                case ENGAGE_CLOSE: status << _("*is engaging nearby enemies.");      break;
-                case ENGAGE_WEAK:  status << _("*is engaging weak enemies.");        break;
-                case ENGAGE_HIT:   status << _("*is engaging enemies you attack.");  break;
-                case ENGAGE_ALL:   status << _("*is engaging all enemies.");         break;
+            case ncr::ENGAGE_NONE:  status << _("*is not engaging enemies.");         break;
+            case ncr::ENGAGE_CLOSE: status << _("*is engaging nearby enemies.");      break;
+            case ncr::ENGAGE_WEAK:  status << _("*is engaging weak enemies.");        break;
+            case ncr::ENGAGE_HIT:   status << _("*is engaging enemies you attack.");  break;
+            case ncr::ENGAGE_ALL:   status << _("*is engaging all enemies.");         break;
             }
             std::string npcstr = rm_prefix(p->male ? _("<npc>He") : _("<npc>She"));
             if (p->combat_rules.use_guns) {
@@ -1442,7 +1554,7 @@ std::vector<talk_response> gen_responses(talk_topic topic, npc *p)
             RESPONSE(_("How about some items as payment?"));
                 SUCCESS(TALK_MISSION_REWARD);
                     SUCCESS_ACTION(&talk_function::mission_reward);
-            if((!p->skills_offered_to(&(g->u)).empty() || !p->styles_offered_to(&(g->u)).empty())
+            if((!p->skills_offered_to(g->u).empty() || !p->styles_offered_to(g->u).empty())
                   && p->myclass != NC_EVAC_SHOPKEEP) {
                 SELECT_TEMP(_("Maybe you can teach me something as payment."), 0);
                     SUCCESS(TALK_TRAIN);
@@ -2204,8 +2316,8 @@ std::vector<talk_response> gen_responses(talk_topic topic, npc *p)
                 }
                 SUCCESS(TALK_TRAIN_START);
             }
-            std::vector<matype_id> styles = p->styles_offered_to( &(g->u) );
-            std::vector<const Skill*> trainable = p->skills_offered_to( &(g->u) );
+            std::vector<matype_id> styles = p->styles_offered_to(g->u);
+            std::vector<const Skill*> trainable = p->skills_offered_to(g->u);
             if (trainable.empty() && styles.empty()) {
                 RESPONSE(_("Oh, okay.")); // Nothing to learn here
                     SUCCESS(TALK_NONE);
@@ -2510,27 +2622,27 @@ std::vector<talk_response> gen_responses(talk_topic topic, npc *p)
             break;
 
         case TALK_COMBAT_ENGAGEMENT: {
-            if (p->combat_rules.engagement != ENGAGE_NONE) {
+            if (p->combat_rules.engagement != npc_combat_rules::ENGAGE_NONE) {
                 RESPONSE(_("Don't fight unless your life depends on it."));
                     SUCCESS(TALK_NONE);
                         SUCCESS_ACTION(&talk_function::set_engagement_none);
             }
-            if (p->combat_rules.engagement != ENGAGE_CLOSE) {
+            if (p->combat_rules.engagement != npc_combat_rules::ENGAGE_CLOSE) {
                 RESPONSE(_("Attack enemies that get too close."));
                     SUCCESS(TALK_NONE);
                         SUCCESS_ACTION(&talk_function::set_engagement_close);
             }
-            if (p->combat_rules.engagement != ENGAGE_WEAK) {
+            if (p->combat_rules.engagement != npc_combat_rules::ENGAGE_WEAK) {
                 RESPONSE(_("Attack enemies that you can kill easily."));
                     SUCCESS(TALK_NONE);
                         SUCCESS_ACTION(&talk_function::set_engagement_weak);
             }
-            if (p->combat_rules.engagement != ENGAGE_HIT) {
+            if (p->combat_rules.engagement != npc_combat_rules::ENGAGE_HIT) {
                 RESPONSE(_("Attack only enemies that I attack first."));
                     SUCCESS(TALK_NONE);
                         SUCCESS_ACTION(&talk_function::set_engagement_hit);
             }
-            if (p->combat_rules.engagement != ENGAGE_ALL) {
+            if (p->combat_rules.engagement != npc_combat_rules::ENGAGE_ALL) {
                 RESPONSE(_("Attack anything you want."));
                     SUCCESS(TALK_NONE);
                         SUCCESS_ACTION(&talk_function::set_engagement_all);
@@ -3177,27 +3289,27 @@ void talk_function::toggle_use_grenades(npc *p)
 
 void talk_function::set_engagement_none(npc *p)
 {
- p->combat_rules.engagement = ENGAGE_NONE;
+ p->combat_rules.engagement = npc_combat_rules::ENGAGE_NONE;
 }
 
 void talk_function::set_engagement_close(npc *p)
 {
- p->combat_rules.engagement = ENGAGE_CLOSE;
+ p->combat_rules.engagement = npc_combat_rules::ENGAGE_CLOSE;
 }
 
 void talk_function::set_engagement_weak(npc *p)
 {
- p->combat_rules.engagement = ENGAGE_WEAK;
+ p->combat_rules.engagement = npc_combat_rules::ENGAGE_WEAK;
 }
 
 void talk_function::set_engagement_hit(npc *p)
 {
- p->combat_rules.engagement = ENGAGE_HIT;
+ p->combat_rules.engagement = npc_combat_rules::ENGAGE_HIT;
 }
 
 void talk_function::set_engagement_all(npc *p)
 {
- p->combat_rules.engagement = ENGAGE_ALL;
+ p->combat_rules.engagement = npc_combat_rules::ENGAGE_ALL;
 }
 
 //TODO currently this does not handle martial art styles correctly
@@ -3287,7 +3399,7 @@ talk_topic dialogue::opt(talk_topic topic)
  const char* talk_trial_text[NUM_TALK_TRIALS] = {
   "", _("LIE"), _("PERSUADE"), _("INTIMIDATE")
  };
- std::string challenge = dynamic_line(topic, beta);
+ std::string challenge = talk_function::dynamic_line(topic, beta);
  std::vector<talk_response> responses = gen_responses(topic, beta);
 // Put quotes around challenge (unless it's an action)
  if (challenge[0] != '*' && challenge[0] != '&') {
@@ -3322,7 +3434,7 @@ talk_topic dialogue::opt(talk_topic topic)
      if (responses[i].trial > 0) {  // dialogue w/ a % chance to work
          options.push_back(
              rmp_format(
-                 _("<talk option>%1$c: [%2$s %3$d%%] %4$s"),
+                 _("<talk option>%1$c: [%2$s %3$d%%%%] %4$s"),
                  char('a' + i),                           // option letter
                  talk_trial_text[responses[i].trial],     // trial type
                  trial_chance(responses[i], alpha, beta), // trial % chance
@@ -3424,12 +3536,11 @@ talk_topic dialogue::opt(talk_topic topic)
  if (!chosen.style.empty())
   beta->chatbin.style = chosen.style;
 
- talk_function effect;
  if (chosen.trial == TALK_TRIAL_NONE ||
      rng(0, 99) < trial_chance(chosen, alpha, beta)) {
   if (chosen.trial != TALK_TRIAL_NONE)
     alpha->practice( "speech", (100 - trial_chance(chosen, alpha, beta)) / 10 );
-  (effect.*chosen.effect_success)(beta);
+  chosen.effect_success(beta);
   beta->op_of_u += chosen.opinion_success;
   if (beta->turned_hostile()) {
    beta->make_angry();
@@ -3438,7 +3549,7 @@ talk_topic dialogue::opt(talk_topic topic)
   return chosen.success;
  } else {
    alpha->practice( "speech", (100 - trial_chance(chosen, alpha, beta)) / 7 );
-  (effect.*chosen.effect_failure)(beta);
+  chosen.effect_failure(beta);
   beta->op_of_u += chosen.opinion_failure;
   if (beta->turned_hostile()) {
    beta->make_angry();

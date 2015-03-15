@@ -226,6 +226,7 @@ class Character : public Creature
         
         // --------------- Skill Stuff ---------------
         SkillLevel &skillLevel(const Skill* _skill);
+        SkillLevel const& skillLevel(const Skill* _skill) const;
         SkillLevel &skillLevel(std::string ident);
 
         /** for serialization */

@@ -115,7 +115,7 @@ void npc::move()
     }
 
     if (is_enemy()) {
-        int pl_danger = player_danger( &(g->u) );
+        int pl_danger = player_danger(g->u);
         if ((pl_danger > danger || rl_dist(pos(), g->u.pos()) <= 1) || target == -1) {
             target = TARGET_PLAYER;
             danger = pl_danger;
@@ -485,19 +485,19 @@ void npc::choose_monster_target(int &enemy, int &danger,
             bool okay_by_rules = true;
             if (is_following()) {
                 switch (combat_rules.engagement) {
-                case ENGAGE_NONE:
+                case npc_combat_rules::ENGAGE_NONE:
                     okay_by_rules = false;
                     break;
-                case ENGAGE_CLOSE:
+                case npc_combat_rules::ENGAGE_CLOSE:
                     okay_by_rules = (distance <= 6);
                     break;
-                case ENGAGE_WEAK:
+                case npc_combat_rules::ENGAGE_WEAK:
                     okay_by_rules = (mon->get_hp() <= average_damage_dealt());
                     break;
-                case ENGAGE_HIT:
+                case npc_combat_rules::ENGAGE_HIT:
                     okay_by_rules = (mon->has_effect("hit_by_player"));
                     break;
-                case ENGAGE_ALL:
+                case npc_combat_rules::ENGAGE_ALL:
                     okay_by_rules = true;
                     break;
                 }
@@ -721,7 +721,7 @@ npc_action npc::address_player()
         if (patience <= 0) {
             patience = 0;
             attitude = NPCATT_KILL;
-            return method_of_attack(TARGET_PLAYER, player_danger( &(g->u) ));
+            return method_of_attack(TARGET_PLAYER, player_danger(g->u));
         }
         return npc_undecided;
     }
@@ -2141,6 +2141,11 @@ bool npc::saw_player_recently() const
 bool npc::has_destination() const
 {
     return goal != no_goal_point;
+}
+
+tripoint npc::get_destination() const
+{
+    return goal;
 }
 
 void npc::reach_destination()

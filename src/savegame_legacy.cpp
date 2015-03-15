@@ -1795,6 +1795,7 @@ void npc::load_legacy(std::stringstream & dump) {
 // Special NPC stuff
  int misstmp, flagstmp, tmpatt, agg, bra, col, alt;
  int omx, omy;
+ std::string fac_id;
  dump >> agg >> bra >> col >> alt >> wandx >> wandy >> wandf >> omx >> omy >>
          mapz >> mapx >> mapy >> plx >> ply >> goal.x >> goal.y >> goal.z >> misstmp >>
          flagstmp >> fac_id >> tmpatt;
@@ -1805,15 +1806,15 @@ void npc::load_legacy(std::stringstream & dump) {
  personality.collector = col;
  personality.altruism = alt;
  mission = npc_mission(misstmp);
- flags = flagstmp;
  attitude = npc_attitude(tmpatt);
 
  op_of_u.load_legacy(dump);
  chatbin.load_legacy(dump);
  combat_rules.load_legacy(dump);
+ set_faction(fac_id);
 }
 
- void npc_opinion::load_legacy(std::stringstream &info)
+ void npc_opinion::load_legacy(std::istream &info)
  {
   int tmpsize;
   info >> trust >> fear >> value >> anger >> owed >> tmpsize;
@@ -1822,7 +1823,7 @@ void npc::load_legacy(std::stringstream & dump) {
    std::string tmpitem;
    npc_favor tmpfavor;
    info >> tmptype >> tmpfavor.value >> tmpitem >> tmpskill;
-   tmpfavor.type = npc_favor_type(tmptype);
+   tmpfavor.type = npc_favor::favor_type(tmptype);
    tmpfavor.item_id = tmpitem;
    tmpfavor.skill = Skill::skill(tmpskill);
    favors.push_back(tmpfavor);
@@ -1836,7 +1837,7 @@ void npc::load_legacy(std::stringstream & dump) {
   engagement = combat_engagement(tmpen);
  }
 
- void npc_chatbin::load_legacy(std::stringstream &info)
+ void npc_chatbin::load_legacy(std::istream &info)
  {
   int tmpsize_miss, tmpsize_assigned, tmptopic;
   std::string skill_ident;
