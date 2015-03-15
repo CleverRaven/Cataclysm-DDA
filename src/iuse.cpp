@@ -8445,14 +8445,8 @@ int iuse::camera(player *p, item *it, bool, point)
         }
 
         if (aim_point.x == p->posx() && aim_point.y == p->posy()) {
-            if (query_yn(_("Are you sure you want to flash yourself?"))) {
-                p->add_msg_if_player(_("Great selfie. The flash blinds you."));
-                p->add_effect("blind", rng(5, 10));
-                return it->type->charges_to_use();
-            } else {
-                p->add_msg_if_player(_("You decide not to flash yourself."));
-                return 0;
-            }
+            p->add_msg_if_player(_("You decide not to flash yourself."));
+            return 0;
         }
 
         const int sel_zid = g->mon_at(aim_point.x, aim_point.y);
