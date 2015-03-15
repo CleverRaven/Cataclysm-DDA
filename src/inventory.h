@@ -108,7 +108,6 @@ class inventory
         int invlet_to_position(char invlet) const;
 
         std::vector<std::pair<item *, int> > all_items_by_type(itype_id type);
-        std::vector<item *> all_ammo(const ammotype &type);
 
         // Below, "amount" refers to quantity
         //        "charges" refers to charges

@@ -835,19 +835,6 @@ std::vector<std::pair<item *, int> > inventory::all_items_by_type(itype_id type)
     return ret;
 }
 
-std::vector<item *> inventory::all_ammo(const ammotype &type)
-{
-    std::vector<item *> ret;
-    for( auto &elem : items ) {
-        for( auto &elem_stack_iter : elem ) {
-            if( elem_stack_iter.is_of_ammo_type_or_contains_it( type ) ) {
-                ret.push_back( &elem_stack_iter );
-            }
-        }
-    }
-    return ret;
-}
-
 int inventory::amount_of(itype_id it) const
 {
     return amount_of(it, true);

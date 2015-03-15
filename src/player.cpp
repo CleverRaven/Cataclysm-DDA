@@ -12505,31 +12505,11 @@ void player::cancel_activity()
     activity = player_activity();
 }
 
-std::vector<item*> player::has_ammo(ammotype at)
+std::vector<const item *> player::get_ammo( const ammotype &at ) const
 {
-    std::vector<item*> result = inv.all_ammo(at);
-    if (weapon.is_of_ammo_type_or_contains_it(at)) {
-        result.push_back(&weapon);
-    }
-    for( auto &elem : worn ) {
-        if( elem.is_of_ammo_type_or_contains_it( at ) ) {
-            result.push_back( &elem );
-        }
-    }
-    return result;
-}
-
-std::vector<item *> player::has_exact_ammo( const ammotype &at, const itype_id &id )
-{
-    auto result = has_ammo( at );
-    for( auto it = result.begin(); it != result.end(); ) {
-        if( ( *it )->is_of_type_or_contains_it( id ) ) {
-            ++it;
-        } else {
-            it = result.erase( it );
-        }
-    }
-    return result;
+    return items_with( [at]( const item & it ) {
+        return it.is_ammo() && it.ammo_type() == at;
+    } );
 }
 
 bool player::has_gun_for_ammo( const ammotype &at ) const
