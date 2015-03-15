@@ -516,7 +516,7 @@
     ],
 	"replace_monster_group" : true,
 	"new_monster_group_id" : "GROUP_ZOMBIE_MID",
-	"replacement_time" : 14
+	"replacement_time" : 1, "//" : "(replacement_time * difficulty)DAYS *(SEASON_LENGTH / 14)"
   },{
     "type":"monstergroup",
     "name" : "GROUP_TRIFFID",
