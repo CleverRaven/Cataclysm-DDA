@@ -82,12 +82,16 @@ std::string build_bionic_poweronly_string(bionic *pBio){
     std::stringstream power_desc;
     bool hasPreviousText = false;
     if (bionics[pBio->id]->power_over_time > 0 && bionics[pBio->id]->charge_time > 0) {
-        power_desc << string_format(_("%d PU / %d turns"),
-                        bionics[pBio->id]->power_over_time,
-                        bionics[pBio->id]->charge_time);
-                        hasPreviousText = true;
+        power_desc << (
+            bionics[pBio->id]->charge_time == 1
+          ? string_format(_("%d PU / turn"),
+                bionics[pBio->id]->power_over_time)
+          : string_format(_("%d PU / %d turns"),
+                bionics[pBio->id]->power_over_time,
+                bionics[pBio->id]->charge_time));
+        hasPreviousText = true;
     }
-    if (bionics[pBio->id]->power_activate > 0) {
+    if (bionics[pBio->id]->power_activate > 0 && !bionics[pBio->id]->charge_time) {
         if(hasPreviousText){
             hasPreviousText = false;
             power_desc << ", ";
@@ -96,7 +100,7 @@ std::string build_bionic_poweronly_string(bionic *pBio){
                         bionics[pBio->id]->power_activate);
         hasPreviousText = true;
     }
-    if (bionics[pBio->id]->power_deactivate > 0) {
+    if (bionics[pBio->id]->power_deactivate > 0 && !bionics[pBio->id]->charge_time) {
         if(hasPreviousText){
             hasPreviousText = false;
             power_desc << ", ";
@@ -105,12 +109,12 @@ std::string build_bionic_poweronly_string(bionic *pBio){
                         bionics[pBio->id]->power_deactivate);
         hasPreviousText = true;
     }
-    if (pBio->powered) {
+    if (bionics[pBio->id]->toggled) {
         if(hasPreviousText){
             hasPreviousText = false;
             power_desc << ", ";
         }
-        power_desc << _("ON");
+        power_desc << (pBio->powered ? _("ON") : _("OFF"));
     }
 
     return power_desc.str();
