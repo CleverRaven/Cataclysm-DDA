@@ -166,6 +166,7 @@ class uimenu: public ui_container
 
         uimenu(bool cancancel, const char *message, ...);  // legacy menu()
         uimenu(bool cancelable, const char *mes, std::vector<std::string> options); // legacy menu_vec
+        uimenu(bool cancelable, const char *mes, std::vector<std::string> options, std::string hotkeys);
         uimenu(bool cancelable, int startx, int width, int starty, std::string title,
                std::vector<uimenu_entry> ents);
         uimenu(int startx, int width, int starty, std::string title, std::vector<uimenu_entry> ents);
@@ -198,6 +199,7 @@ class uimenu: public ui_container
         bool started;
         int last_fsize;
         int last_vshift;
+        std::string hotkeys;
 };
 
 // Callback for uimenu that pairs menu entries with points

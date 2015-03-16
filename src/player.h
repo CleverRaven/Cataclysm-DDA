@@ -18,6 +18,9 @@
 #include <bitset>
 #include <array>
 
+#define HOTKEYS_DEFAULT "1234567890abcdefghijklmnopqrstuvwxyz"
+static const std::string hotkeys_default(HOTKEYS_DEFAULT);
+
 class monster;
 class game;
 struct trap;
@@ -119,7 +122,7 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         /** Calls Character::normalize()
          *  normalizes HP and bodytemperature
          */
-        
+
         void normalize();
 
         /** Returns either "you" or the player's name */
@@ -630,7 +633,7 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         void use(int pos);
         /** Uses the current wielded weapon */
         void use_wielded();
-        /** 
+        /**
          * Asks how to use the item (if it has more than one use_method) and uses it.
          * Returns true if it destroys the item. Consumes charges from the item.
          * Multi-use items are ONLY supported when all use_methods are iuse_actor!
@@ -854,7 +857,7 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         void invalidate_crafting_inventory();
         std::vector<item> get_eligible_containers_for_crafting();
         std::list<item> consume_items(const std::vector<item_comp> &components, int batch = 1);
-        void consume_tools(const std::vector<tool_comp> &tools, int batch = 1);
+        void consume_tools(const std::vector<tool_comp> &tools, int batch = 1, std::string hotkeys = hotkeys_default);
 
         // Auto move methods
         void set_destination(const std::vector<point> &route);

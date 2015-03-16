@@ -72,6 +72,27 @@ uimenu::uimenu(bool cancelable, const char *mes,
     }
 }
 
+uimenu::uimenu(bool cancelable, const char *mes,
+               std::vector<std::string> options,
+               std::string hotkeys_override)
+{
+    init();
+    hotkeys = hotkeys_override;
+    if (options.empty()) {
+        debugmsg("0-length menu (\"%s\")", mes);
+        ret = -1;
+    } else {
+        text = mes;
+        shift_retval = 1;
+        return_invalid = cancelable;
+
+        for (size_t i = 0; i < options.size(); i++) {
+            entries.push_back(uimenu_entry(i, true, MENU_AUTOASSIGN, options[i] ));
+        }
+        query();
+    }
+}
+
 uimenu::uimenu(int startx, int width, int starty, std::string title,
                std::vector<uimenu_entry> ents)
 {
@@ -328,7 +349,6 @@ void uimenu::setup()
         }
         fentries.push_back( i );
     }
-    static const std::string hotkeys("1234567890abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ");
     size_t next_free_hotkey = 0;
     for( auto it = autoassign.begin(); it != autoassign.end() &&
          next_free_hotkey < hotkeys.size(); ++it ) {
