@@ -202,7 +202,8 @@ void activity_handlers::butcher_finish( player_activity *act, player *p )
     }
 
     if( stomach ) {
-        if (corpse->mat != "veggy" && !corpse->has_flag(MF_POISON)) {
+        if (corpse->mat != "veggy" && !corpse->has_flag(MF_POISON) && 
+            !corpse->has_flag(MF_HUMAN) && corpse->has_flag(MF_BONES)) {
             if (corpse->size == MS_SMALL || corpse->size == MS_MEDIUM) {
                 g->m.spawn_item(p->posx(), p->posy(), "stomach", 1, 0, age);
                 add_msg(m_good, _("You harvest the stomach!"));
