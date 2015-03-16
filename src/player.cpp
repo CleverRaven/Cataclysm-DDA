@@ -8364,16 +8364,20 @@ int player::invlet_to_position( char invlet ) const
     return inv.invlet_to_position( invlet );
 }
 
-int player::get_item_position(const item* it) {
-    if (&weapon == it) {
+int player::get_item_position( const item *it ) const
+{
+    const auto filter = [it]( const item & i ) {
+        return &i == it;
+    };
+    if( inventory::has_item_with_recursive( weapon, filter ) ) {
         return -1;
     }
-    for (size_t i = 0; i < worn.size(); i++) {
-        if (&worn[i] == it) {
-            return worn_position_to_index(i);
+    for( size_t i = 0; i < worn.size(); i++ ) {
+        if( inventory::has_item_with_recursive( worn[i], filter ) ) {
+            return worn_position_to_index( i );
         }
     }
-    return inv.position_by_item(it);
+    return inv.position_by_item( it );
 }
 
 
@@ -12501,31 +12505,11 @@ void player::cancel_activity()
     activity = player_activity();
 }
 
-std::vector<item*> player::has_ammo(ammotype at)
+std::vector<const item *> player::get_ammo( const ammotype &at ) const
 {
-    std::vector<item*> result = inv.all_ammo(at);
-    if (weapon.is_of_ammo_type_or_contains_it(at)) {
-        result.push_back(&weapon);
-    }
-    for( auto &elem : worn ) {
-        if( elem.is_of_ammo_type_or_contains_it( at ) ) {
-            result.push_back( &elem );
-        }
-    }
-    return result;
-}
-
-std::vector<item *> player::has_exact_ammo( const ammotype &at, const itype_id &id )
-{
-    auto result = has_ammo( at );
-    for( auto it = result.begin(); it != result.end(); ) {
-        if( ( *it )->is_of_type_or_contains_it( id ) ) {
-            ++it;
-        } else {
-            it = result.erase( it );
-        }
-    }
-    return result;
+    return items_with( [at]( const item & it ) {
+        return it.is_ammo() && it.ammo_type() == at;
+    } );
 }
 
 bool player::has_gun_for_ammo( const ammotype &at ) const
