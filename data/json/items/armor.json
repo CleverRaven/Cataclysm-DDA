@@ -10247,7 +10247,7 @@
         "//" : "A folded bandana still takes up some space on the head.",
         "bashing" : -4,
         "coverage" : 95,
-        "material_thickness" : 1
+        "material_thickness" : 1,
         "flags" : ["BLIND"]
     },
     {

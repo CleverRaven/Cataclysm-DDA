@@ -423,20 +423,23 @@ These branches are also the valid entries for the categories of `dreams` in `dre
 ## Ammo
 
 ### Ammo type
-The chambering of weapons that this ammo can be loaded into.
+These are handled through ammo_types.json.  You can tag a weapon with these to have it chamber existing ammo,
+or make your own ammo there.  The first column in this list is the tag's "id", the internal identifier DDA uses
+to track the tag, and the second is a brief description of the ammo tagged.  Use the id to search for ammo
+listings, as ids are constant throughout DDA's code.  Happy chambering!  :-)
 
-- ```22``` .22LR
-- ```223``` .223 Remington
+- ```22``` .22LR (and relatives)
+- ```223``` .223 Remington (and 5.56 NATO)
 - ```300``` .300 WinMag
 - ```3006``` 30.06
-- ```308``` .308 Winchester
+- ```308``` .308 Winchester (and relatives)
 - ```32``` .32 ACP
 - ```36paper``` .36 cap & ball
 - ```38``` .38 Special
 - ```40``` 10mm
 - ```44``` .44 Magnum
 - ```44paper``` .44 cap & ball
-- ```45``` .45 ACP
+- ```45``` .45 ACP (and relatives)
 - ```454``` .454 Casull
 - ```46``` 46mm
 - ```5x50``` 5x50 Dart
@@ -448,9 +451,9 @@ The chambering of weapons that this ammo can be loaded into.
 - ```762``` 7.62x39mm
 - ```762R``` 7.62x54mm
 - ```8x40mm``` 8mm Caseless
-- ```9mm``` 9mm Luger
+- ```9mm``` 9mm Luger (and relatives)
 - ```12mm``` 12mm
-- ```20x66mm``` 20x66mm Shot
+- ```20x66mm``` 20x66mm Shot (and relatives)
 - ```40mm``` 40mm Grenade
 - ```66mm``` 66mm HEAT
 - ```84x246mm``` 84x246mm HE
@@ -490,7 +493,7 @@ The chambering of weapons that this ammo can be loaded into.
 - ```thread``` Thread
 - ```thrown``` Thrown
 - ```unfinished_char``` Semi-charred fuel
-- ```UPS``` UPS
+- ```UPS``` UPS charges
 - ```water``` Water
 
 ### Effects

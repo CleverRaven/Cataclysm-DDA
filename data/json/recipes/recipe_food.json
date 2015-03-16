@@ -8040,9 +8040,9 @@
       [ "hardtack", 4 ]
     ],
     [
-      [ "jam_fruit", 1 ]
+      [ "jam_fruit", 1 ],
       [ "jam_strawberries", 1 ],
-      [ "jam_blueberries", 1 ], 
+      [ "jam_blueberries", 1 ]
     ],
     [
       [ "peanutbutter", 1 ]
@@ -8902,9 +8902,9 @@
       [ "wastebread", 2 ]
     ],
     [
-      [ "jam_fruit", 1 ]
+      [ "jam_fruit", 1 ],
       [ "jam_strawberries", 1 ],
-      [ "jam_blueberries", 1 ], 
+      [ "jam_blueberries", 1 ]
     ]
   ]
 },
