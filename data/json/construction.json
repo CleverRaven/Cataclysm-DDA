@@ -2022,7 +2022,10 @@
             [ [ "jackhammer", 30 ], [ "jacqueshammer", 30 ], [ "elec_jackhammer", 30 ] ],
             [ "crowbar", "halligan"],
             [ "miner_hat", "hat_hard", "firehelmet", "helmet_ball",
-            "helmet_army", "helmet_lobster", "helmet_riot"]
+            "helmet_army", "helmet_lobster", "helmet_riot", "depowered_helmet", "helmet_bone",
+            "helmet_chitin", "helmet_hsurvivor", "helmet_survivor", "helmet_xlsurvivor", "miner_hat_on",
+            "power_armor_helmet_basic", "power_armor_helmet_heavy", "power_armor_helmet_light", "tac_fullhelmet",
+            "helmet_barbute", "helmet_plate", "helmet_kabuto"]
         ],
         "note" : "Helmets are essential because you're digging up and things may fall on you.",
         "components" : [
