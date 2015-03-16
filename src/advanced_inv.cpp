@@ -559,7 +559,7 @@ void advanced_inv_area::init()
         field_id curType = cur.getFieldType();
         switch (curType) {
             case fd_fire:
-                flags.append(_(" <color_red>FIRE</color>"));
+                flags.append(_(" <color_white_red>FIRE</color>"));
                 break;
             default:
                 if (cur.is_dangerous()) {
