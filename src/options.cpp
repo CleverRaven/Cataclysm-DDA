@@ -896,7 +896,7 @@ void initOptions()
                                     0.0, 100.0, 1.0, 0.01
                                    );
     OPTIONS["MONSTER_GROUP_DIFFICULTY"] = cOpt("world_default", _("Monster difficulty"),
-                                    _("A number determining how fast monstergroups advance. 14 days * (Season_Length / 14) is the default"),
+                                    _("A number determining how fast monstergroups advance. Monster difficulty * replacement_time * (Season_Length / 14)."),
                                     0, 100, 14
                                    );
 
