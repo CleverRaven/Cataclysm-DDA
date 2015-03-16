@@ -333,7 +333,7 @@ void iexamine::vending(player * const p, map * const m, int const examx, int con
 {
     constexpr int moves_cost = 250;
 
-    auto vend_items = m->i_at(examx, examy);   
+    auto vend_items = m->i_at(examx, examy);
     if (vend_items.empty()) {
         add_msg(m_info, _("The vending machine is empty!"));
         return;
@@ -415,7 +415,7 @@ void iexamine::vending(player * const p, map * const m, int const examx, int con
         mvwhline(w, first_item_offset - 1, 1, LINE_OXOX, w_items_w - 2);
         mvwaddch(w, first_item_offset - 1, 0, LINE_XXXO); // |-
         mvwaddch(w, first_item_offset - 1, w_items_w - 1, LINE_XOXX); // -|
-        
+
         mvwprintz(w, 1, 2, c_ltgray, title.c_str());
 
         // Keep the item selector centered in the page.
@@ -458,7 +458,7 @@ void iexamine::vending(player * const p, map * const m, int const examx, int con
         const std::string name = utf8_truncate(cur_item->display_name(), static_cast<size_t>(w_info_w - 4));
         mvwprintw(w_item_info, 0, 1, "<%s>", name.c_str());
         wrefresh(w_item_info);
-        
+
         const std::string &action = ctxt.handle_input();
         if (action == "DOWN") {
             cur_pos = (cur_pos + 1) % num_items;
@@ -469,7 +469,7 @@ void iexamine::vending(player * const p, map * const m, int const examx, int con
                 popup(_("That item is too expensive!"));
                 continue;
             }
-            
+
             if (!used_machine) {
                 used_machine = true;
                 p->moves -= moves_cost;
@@ -483,7 +483,7 @@ void iexamine::vending(player * const p, map * const m, int const examx, int con
             if (!cur_items.empty()) {
                 continue;
             }
-            
+
             item_list.erase(std::begin(item_list) + cur_pos);
             if (item_list.empty()) {
                 add_msg(_("With a beep, the empty vending machine shuts down"));
@@ -734,9 +734,9 @@ void iexamine::bars(player *p, map *m, int examx, int examy)
         none(p, m, examx, examy);
         return;
     }
-    if ( ((p->encumb(bp_torso)) >= 1) && ((p->encumb(bp_head)) >= 1) &&
-         (p->encumb(bp_foot_l) >= 1 ||
-          p->encumb(bp_foot_r) >= 1) ) { // Most likely places for rigid gear that would catch on the bars.
+    if ( ((p->encumb(bp_torso)) >= 10) && ((p->encumb(bp_head)) >= 10) &&
+         (p->encumb(bp_foot_l) >= 10 ||
+          p->encumb(bp_foot_r) >= 10) ) { // Most likely places for rigid gear that would catch on the bars.
         add_msg(m_info, _("Your amorphous body could slip though the %s, but your cumbersome gear can't."),
                 m->tername(examx, examy).c_str());
         return;

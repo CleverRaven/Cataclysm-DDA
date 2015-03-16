@@ -217,7 +217,7 @@ void Character::recalc_sight_limits()
     sight_boost_cap = 0;
 
     // Set sight_max.
-    if (has_effect("blind")) {
+    if (has_effect("blind") || worn_with_flag("BLIND")) {
         sight_max = 0;
     } else if (has_effect("in_pit") ||
             (has_effect("boomered") && (!(has_trait("PER_SLIME_OK")))) ||

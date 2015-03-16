@@ -837,7 +837,7 @@ int Pickup::handle_quiver_insertion(item &here, int &moves_to_decrement, bool &p
     //add ammo to quiver
     int quivered = g->u.add_ammo_to_worn_quiver( here);
     if(quivered > 0) {
-        moves_to_decrement = 0; //moves already decremented in item::add_ammo_to_quiver()
+        moves_to_decrement = 0; //moves already decremented in player::add_ammo_to_worn_quiver()
         picked_up = true;
         return quivered;
     }

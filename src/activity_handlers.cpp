@@ -97,6 +97,7 @@ void activity_handlers::butcher_finish( player_activity *act, player *p )
     g->m.i_rem(p->posx(), p->posy(), act->index);
     int factor = p->butcher_factor();
     int pieces = 0, skins = 0, bones = 0, fats = 0, sinews = 0, feathers = 0;
+    bool stomach = false;
 
     switch (corpse->size) {
     case MS_TINY:
@@ -172,6 +173,7 @@ void activity_handlers::butcher_finish( player_activity *act, player *p )
     fats +=     std::min( 0, roll_butchery() - 4 );
     sinews +=   std::min( 0, roll_butchery() - 8 );
     feathers += std::min( 0, roll_butchery() - 1 );
+    stomach = (roll_butchery() >= 0);
 
     if( bones > 0 ) {
         if( corpse->mat == "veggy" ) {
@@ -196,6 +198,18 @@ void activity_handlers::butcher_finish( player_activity *act, player *p )
         } else if( corpse->mat == "veggy" ) {
             g->m.spawn_item(p->posx(), p->posy(), "plant_fibre", sinews, 0, age);
             add_msg(m_good, _("You harvest some plant fibers!"));
+        }
+    }
+
+    if( stomach ) {
+        if (corpse->mat != "veggy" && !corpse->has_flag(MF_POISON)) {
+            if (corpse->size == MS_SMALL || corpse->size == MS_MEDIUM) {
+                g->m.spawn_item(p->posx(), p->posy(), "stomach", 1, 0, age);
+                add_msg(m_good, _("You harvest the stomach!"));
+            } else if (corpse->size == MS_LARGE || corpse->size == MS_HUGE) {
+                g->m.spawn_item(p->posx(), p->posy(), "stomach_large", 1, 0, age);
+                add_msg(m_good, _("You harvest the stomach!"));
+            }
         }
     }
 
