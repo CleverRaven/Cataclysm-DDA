@@ -551,7 +551,8 @@ void advanced_inv_area::init()
     }
 
     // assemble a list of interesting traits of the target square
-    // fields?
+
+    // fields? with a special case for fire
     bool danger_field = false;
     const field &tmpfld = g->m.field_at(x, y);
     for( auto &fld : tmpfld ) {
@@ -571,6 +572,7 @@ void advanced_inv_area::init()
     if (danger_field) {
         flags.append(_(" <color_pink>DANGER</color>"));
     }
+    
     // trap?
     const trap_id tid = g->m.tr_at(x, y);
     if (tid != tr_null) {
@@ -579,9 +581,19 @@ void advanced_inv_area::init()
             flags.append(_(" <color_ltgray>TRAP</color>"));
         }
     }
+
+    // water?
+    const ter_id ter = g->m.ter(x, y);
+    if ( (ter == t_water_dp || ter == t_water_pool || ter == t_swater_dp) ||
+         (ter == t_water_sh || ter == t_swater_sh || ter == t_sewage) ) {
+        flags.append(_(" <color_blue>WATER</color>"));
+    }
+
+    // remove leading space
     if(flags.length()) {
         flags.erase(0,1);
     }
+
 }
 
 std::string center_text( const char *str, int width )
