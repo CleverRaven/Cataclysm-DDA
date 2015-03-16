@@ -11717,12 +11717,14 @@ bool game::plmove(int dx, int dy)
             }
         }
 
-        const trap_id tid = m.tr_at(x, y);
-        if (tid != tr_null) {
-            const struct trap &t = *traplist[tid];
-            if ((t.can_see(u, x, y)) && !t.is_benign() &&
-                !query_yn(_("Really step onto that %s?"), t.name.c_str())) {
-                return false;
+        if (!u.has_effect("blind")) {
+            const trap_id tid = m.tr_at(x, y);
+            if (tid != tr_null) {
+                const struct trap &t = *traplist[tid];
+                if ((t.can_see(u, x, y)) && !t.is_benign() &&
+                    !query_yn(_("Really step onto that %s?"), t.name.c_str())) {
+                    return false;
+                }
             }
         }
 

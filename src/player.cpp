@@ -6926,27 +6926,29 @@ void player::hardcoded_effects(effect &it)
 
         bool woke_up = false;
         int tirednessVal = rng(5, 200) + rng(0, abs(fatigue * 2 * 5));
-        if (has_trait("HEAVYSLEEPER2") && !has_trait("HIBERNATE")) {
-            // So you can too sleep through noon
-            if ((tirednessVal * 1.25) < g->light_level() && (fatigue < 10 || one_in(fatigue / 2))) {
-                add_msg_if_player(_("It's too bright to sleep."));
+        if (!has_effect("blind")) {
+            if (has_trait("HEAVYSLEEPER2") && !has_trait("HIBERNATE")) {
+                // So you can too sleep through noon
+                if ((tirednessVal * 1.25) < g->light_level() && (fatigue < 10 || one_in(fatigue / 2))) {
+                    add_msg_if_player(_("It's too bright to sleep."));
+                    // Set ourselves up for removal
+                    it.set_duration(0);
+                    woke_up = true;
+                }
+             // Ursine hibernators would likely do so indoors.  Plants, though, might be in the sun.
+            } else if (has_trait("HIBERNATE")) {
+                if ((tirednessVal * 5) < g->light_level() && (fatigue < 10 || one_in(fatigue / 2))) {
+                    add_msg_if_player(_("It's too bright to sleep."));
+                    // Set ourselves up for removal
+                    it.set_duration(0);
+                    woke_up = true;
+                }
+            } else if (tirednessVal < g->light_level() && (fatigue < 10 || one_in(fatigue / 2))) {
+                add_msg(_("It's too bright to sleep."));
                 // Set ourselves up for removal
                 it.set_duration(0);
                 woke_up = true;
             }
-         // Ursine hibernators would likely do so indoors.  Plants, though, might be in the sun.
-        } else if (has_trait("HIBERNATE")) {
-            if ((tirednessVal * 5) < g->light_level() && (fatigue < 10 || one_in(fatigue / 2))) {
-                add_msg_if_player(_("It's too bright to sleep."));
-                // Set ourselves up for removal
-                it.set_duration(0);
-                woke_up = true;
-            }
-        } else if (tirednessVal < g->light_level() && (fatigue < 10 || one_in(fatigue / 2))) {
-            add_msg(_("It's too bright to sleep."));
-            // Set ourselves up for removal
-            it.set_duration(0);
-            woke_up = true;
         }
 
         // Have we already woken up?
