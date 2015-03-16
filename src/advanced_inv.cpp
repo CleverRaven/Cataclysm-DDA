@@ -559,7 +559,7 @@ void advanced_inv_area::init()
         field_id curType = cur.getFieldType();
         switch (curType) {
             case fd_fire:
-                flags.append(_(" FIRE"));
+                flags.append(_(" <color_red>FIRE</color>"));
                 break;
             default:
                 if (cur.is_dangerous()) {
@@ -569,14 +569,14 @@ void advanced_inv_area::init()
         }
     }
     if (danger_field) {
-        flags.append(_(" DANGER"));
+        flags.append(_(" <color_pink>DANGER</color>"));
     }
     // trap?
     const trap_id tid = g->m.tr_at(x, y);
     if (tid != tr_null) {
         const struct trap &t = *traplist[tid];
         if ((t.can_see(g->u, x, y)) && !t.is_benign()) {
-            flags.append(_(" TRAP"));
+            flags.append(_(" <color_ltgray>TRAP</color>"));
         }
     }
     if(flags.length()) {
@@ -921,7 +921,7 @@ void advanced_inventory::redraw_pane( side p )
     width -= 2 + 1; // starts at offset 2, plus space between the header and the text
     mvwprintz( w, 1, 2, active ? c_cyan : c_ltgray, "%s", utf8_truncate( square.name, width ).c_str() );
     mvwprintz( w, 2, 2, active ? c_green : c_dkgray , "%s", utf8_truncate( square.desc, width ).c_str() );
-    mvwprintz( w, 3, 2, active ? c_green : c_dkgray , "%s", utf8_truncate( square.flags, width ).c_str() );
+    trim_and_print(w, 3, 2, width, active ? c_green : c_dkgray, square.flags.c_str() );
 
     const int max_page = ( pane.items.size() + itemsPerPage - 1 ) / itemsPerPage;
     if( active && max_page > 1 ) {
