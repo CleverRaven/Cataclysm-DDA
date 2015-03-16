@@ -1016,14 +1016,20 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump, bool debug) c
             if (!(book->recipes.empty())) {
                 std::string recipes = "";
                 size_t index = 1;
+                bool can_study = false;
                 for( auto iter = book->recipes.begin();
                      iter != book->recipes.end(); ++iter, ++index ) {
                     if(g->u.knows_recipe(iter->first)) {
                         recipes += "<color_ltgray>";
+                    } else if (iter->first->skill_used == NULL ||
+                               g->u.skillLevel(iter->first->skill_used) >= iter->second) {
+                        recipes += "<color_ltblue>";
+                        can_study = true;
                     }
                     recipes += nname( iter->first->result, 1 );
-                    if(g->u.knows_recipe(iter->first)) {
+                    if(g->u.knows_recipe(iter->first) || can_study) {
                         recipes += "</color>";
+                        can_study = false;
                     }
                     if(index == book->recipes.size() - 1) {
                         recipes += _(" and "); // Who gives a fuck about an oxford comma?
