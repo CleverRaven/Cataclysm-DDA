@@ -372,7 +372,7 @@ void player::reset_stats()
     }
 
     // Dodge-related effects
-    mod_dodge_bonus( mabuff_dodge_bonus() - (encumb(bp_leg_l) + encumb(bp_leg_r))/2 - encumb(bp_torso) );
+    mod_dodge_bonus( mabuff_dodge_bonus() - ((encumb(bp_leg_l) / 10) + encumb(bp_leg_r))/20 - (encumb(bp_torso) / 10) );
     // Whiskers don't work so well if they're covered
     if (has_trait("WHISKERS") && !wearing_something_on(bp_mouth)) {
         mod_dodge_bonus(1);
@@ -395,7 +395,7 @@ void player::reset_stats()
     }
 
     // Hit-related effects
-    mod_hit_bonus( mabuff_tohit_bonus() + weapon.type->m_to_hit - encumb(bp_torso) );
+    mod_hit_bonus( mabuff_tohit_bonus() + weapon.type->m_to_hit - (encumb(bp_torso) / 10) );
 
     // Apply static martial arts buffs
     ma_static_effects();
@@ -1677,7 +1677,7 @@ int player::run_cost(int base_cost, bool diag)
         }
     }
 
-    movecost += encumb(bp_mouth) * 5 + (encumb(bp_foot_l) + encumb(bp_foot_r)) * 2.5 + (encumb(bp_leg_l) + encumb(bp_leg_r)) * 1.5;
+    movecost += (encumb(bp_mouth) / 10) * 5 + ((encumb(bp_foot_l) / 10) + (encumb(bp_foot_r) / 10)) * 2.5 + ((encumb(bp_leg_l) / 10) + (encumb(bp_leg_r) / 10)) * 1.5;
 
     // ROOTS3 does slow you down as your roots are probing around for nutrients,
     // whether you want them to or not.  ROOTS1 is just too squiggly without shoes
@@ -1730,8 +1730,8 @@ int player::swim_speed()
     if (has_trait("FAT")) {
         ret -= 30;
     }
-    ret += (50 - skillLevel("swimming") * 2) * (encumb(bp_leg_l) + encumb(bp_leg_r));
-    ret += (80 - skillLevel("swimming") * 3) * encumb(bp_torso);
+    ret += (50 - skillLevel("swimming") * 2) * ((encumb(bp_leg_l) + encumb(bp_leg_r)) / 10);
+    ret += (80 - skillLevel("swimming") * 3) * (encumb(bp_torso) / 10);
     if (skillLevel("swimming") < 10) {
         for (auto &i : worn) {
             ret += (i.volume() * (10 - skillLevel("swimming"))) / 2;
@@ -2987,41 +2987,41 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4"));
             werase(w_info);
             std::string s;
             if (line == 0) {
-                s += string_format( _("Melee skill %+d; "), -encumb( bp_torso ) );
-                s += dodge_skill_text( -encumb( bp_torso ) );
-                s += swim_cost_text( encumb( bp_torso ) * ( 80 - skillLevel( "swimming" ) * 3 ) );
-                s += melee_cost_text( encumb( bp_torso ) * 20 );
+                s += string_format( _("Melee skill %+d; "), - (encumb( bp_torso ) / 10));
+                s += dodge_skill_text( - (encumb( bp_torso ) / 10));
+                s += swim_cost_text( (encumb( bp_torso ) / 10) * ( 80 - skillLevel( "swimming" ) * 3 ) );
+                s += melee_cost_text( (encumb( bp_torso ) / 10) * 20 );
             } else if (line == 1) { //Torso
                 s += _("Head encumbrance has no effect; it simply limits how much you can put on.");
             } else if (line == 2) { //Head
                 s += string_format(_("Perception %+d when checking traps or firing ranged weapons;\n"
                                      "Perception %+.1f when throwing items."),
-                                   -encumb(bp_eyes),
-                                   double(double(-encumb(bp_eyes)) / 2));
+                                   -(encumb(bp_eyes) / 10),
+                                   double(double(-(encumb(bp_eyes) / 10)) / 2));
             } else if (line == 3) { //Eyes
-                s += run_cost_text( encumb( bp_mouth ) * 5 );
+                s += run_cost_text( (encumb( bp_mouth ) / 10) * 5 );
             } else if (line == 4) { //Left Arm
                 s += _("Arm encumbrance affects your accuracy with ranged weapons.");
             } else if (line == 5) { //Right Arm
                 s += _("Arm encumbrance affects your accuracy with ranged weapons.");
             } else if (line == 6) { //Left Hand
-                s += reload_cost_text( encumb( bp_hand_l ) * 15 );
-                s += string_format( _("Dexterity %+d when throwing items."), -encumb( bp_hand_l ) );
+                s += reload_cost_text( (encumb( bp_hand_l ) / 10) * 15 );
+                s += string_format( _("Dexterity %+d when throwing items."), -(encumb( bp_hand_l )/10) );
             } else if (line == 7) { //Right Hand
-                s += reload_cost_text( encumb( bp_hand_r ) * 15 );
-                s += string_format( _("Dexterity %+d when throwing items."), -encumb( bp_hand_r ) );
+                s += reload_cost_text( (encumb( bp_hand_r ) / 10) * 15 );
+                s += string_format( _("Dexterity %+d when throwing items."), -(encumb( bp_hand_r )/10) );
             } else if (line == 8) { //Left Leg
-                s += run_cost_text( encumb( bp_leg_l ) * 1.5 );
-                s += swim_cost_text( encumb( bp_leg_l ) * ( 50 - skillLevel( "swimming" ) * 2 ) / 2 );
-                s += dodge_skill_text( -encumb( bp_leg_l ) / 4.0 );
+                s += run_cost_text( (encumb( bp_leg_l ) / 10) * 1.5 );
+                s += swim_cost_text( (encumb( bp_leg_l ) / 10) * ( 50 - skillLevel( "swimming" ) * 2 ) / 2 );
+                s += dodge_skill_text( -(encumb( bp_leg_l ) / 10) / 4.0 );
             } else if (line == 9) { //Right Leg
-                s += run_cost_text( encumb( bp_leg_r ) * 1.5 );
-                s += swim_cost_text( encumb( bp_leg_r ) * ( 50 - skillLevel( "swimming" ) * 2 ) / 2 );
-                s += dodge_skill_text( -encumb( bp_leg_r ) / 4.0 );
+                s += run_cost_text( (encumb( bp_leg_r ) / 10) * 1.5 );
+                s += swim_cost_text( (encumb( bp_leg_r ) / 10) * ( 50 - skillLevel( "swimming" ) * 2 ) / 2 );
+                s += dodge_skill_text( -(encumb( bp_leg_r ) / 10) / 4.0 );
             } else if (line == 10) { //Left Foot
-                s += run_cost_text( encumb( bp_foot_l ) * 2.5 );
+                s += run_cost_text( (encumb( bp_foot_l ) / 10) * 2.5 );
             } else if (line == 11) { //Right Foot
-                s += run_cost_text( encumb( bp_foot_r ) * 2.5 );
+                s += run_cost_text( (encumb( bp_foot_r ) / 10) * 2.5 );
             }
             fold_and_print( w_info, 0, 1, FULL_SCREEN_WIDTH - 2, c_magenta, s );
             wrefresh(w_info);
@@ -10226,7 +10226,7 @@ bool player::wear_item(item *to_wear, bool interactive)
 
         for (body_part i = bp_head; i < num_bp; i = body_part(i + 1))
         {
-            if (to_wear->covers(i) && encumb(i) >= 4)
+            if (to_wear->covers(i) && encumb(i) >= 40)
             {
                 add_msg(m_warning,
                     i == bp_eyes ?
@@ -11618,12 +11618,12 @@ int player::bonus_warmth(body_part bp) const
     }
 
     // If the player's head is not encumbered, check if hood can be put up
-    if( bp == bp_head && encumb( bp_head ) < 1 ) {
+    if( bp == bp_head && encumb( bp_head ) < 10 ) {
         ret += bestwarmth( worn, "HOOD" );
     }
 
     // If the player's mouth is not encumbered, check if collar can be put up
-    if( bp == bp_mouth && encumb( bp_mouth ) < 1 ) {
+    if( bp == bp_mouth && encumb( bp_mouth ) < 10 ) {
         ret += bestwarmth( worn, "COLLAR" );
     }
 
@@ -11690,7 +11690,10 @@ int player::encumb(body_part bp, double &layers, int &armorenc) const
                 // Fitted clothes will reduce either encumbrance or layering.
                 if( worn[i].has_flag( "FIT" ) ) {
                     if( worn[i].get_encumber() > 0 && armorenc > 0 ) {
-                        armorenc--;
+                        armorenc = armorenc - 10;
+                        if (armorenc < 0 ){
+                            armorenc = 0;
+                        }
                     } else if (layer[level] > 0) {
                         layer[level] -= .5;
                     }
@@ -11708,68 +11711,68 @@ int player::encumb(body_part bp, double &layers, int &armorenc) const
     }
 
     if (layers > 0.0) {
-        ret += layers;
+        ret += (layers * 10);
     }
 
     if (volume_carried() > volume_capacity() - 2 && bp != bp_head) {
-        ret += 3;
+        ret += 30;
     }
 
     // Bionics and mutation
     if ( has_bionic("bio_stiff") && bp != bp_head && bp != bp_mouth && bp != bp_eyes ) {
-        ret += 1;
+        ret += 10;
     }
     if ( (has_trait("CHITIN3") || has_trait("CHITIN_FUR3") ) &&
       bp != bp_eyes && bp != bp_mouth ) {
-        ret += 1;
+        ret += 10;
     }
     if ( has_trait("SLIT_NOSTRILS") && bp == bp_mouth ) {
-        ret += 1;
+        ret += 10;
     }
     if ( has_trait("ARM_FEATHERS") && (bp == bp_arm_l || bp == bp_arm_r) ) {
-        ret += 2;
+        ret += 20;
     }
     if ( has_trait("INSECT_ARMS") && (bp == bp_arm_l || bp == bp_arm_r) ) {
-        ret += 3;
+        ret += 30;
     }
     if ( has_trait("ARACHNID_ARMS") && (bp == bp_arm_l || bp == bp_arm_r) ) {
-        ret += 4;
+        ret += 40;
     }
     if ( has_trait("PAWS") && (bp == bp_hand_l || bp == bp_hand_r) ) {
-        ret += 1;
+        ret += 10;
     }
     if ( has_trait("PAWS_LARGE") && (bp == bp_hand_l || bp == bp_hand_r) ) {
-        ret += 2;
+        ret += 20;
     }
     if ( has_trait("LARGE") && (bp == bp_arm_l || bp == bp_arm_r || bp == bp_torso )) {
-        ret += 1;
+        ret += 10;
     }
     if ( has_trait("WINGS_BUTTERFLY") && (bp == bp_torso )) {
-        ret += 1;
+        ret += 10;
     }
     if ( has_trait("SHELL2") && (bp == bp_torso )) {
-        ret += 1;
+        ret += 10;
     }
     if ((bp == bp_hand_l || bp == bp_hand_r) &&
         (has_trait("ARM_TENTACLES") || has_trait("ARM_TENTACLES_4") ||
          has_trait("ARM_TENTACLES_8")) ) {
-        ret += 3;
+        ret += 30;
     }
     if ((bp == bp_hand_l || bp == bp_hand_r) &&
         (has_trait("CLAWS_TENTACLE") )) {
-        ret += 2;
+        ret += 20;
     }
     if (bp == bp_mouth &&
         ( has_bionic("bio_nostril") ) ) {
-        ret += 1;
+        ret += 10;
     }
     if ((bp == bp_hand_l || bp == bp_hand_r) &&
         ( has_bionic("bio_thumbs") ) ) {
-        ret += 2;
+        ret += 20;
     }
     if (bp == bp_eyes &&
         ( has_bionic("bio_pokedeye") ) ) {
-        ret += 1;
+        ret += 10;
     }
     if ( ret < 0 ) {
         ret = 0;
@@ -12579,11 +12582,11 @@ nc_color encumb_color(int level)
 {
  if (level < 0)
   return c_green;
- if (level == 0)
+ if (level < 10)
   return c_ltgray;
- if (level < 4)
+ if (level < 40)
   return c_yellow;
- if (level < 7)
+ if (level < 70)
   return c_ltred;
  return c_red;
 }

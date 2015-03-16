@@ -10496,7 +10496,7 @@ void game::plthrow(int pos)
     int dexbonus = (int)(std::pow(std::max(u.dex_cur - 8, 0), 0.8) * 3.0);
 
     move_cost += skill_cost;
-    move_cost += 20 * u.encumb(bp_torso);
+    move_cost += 2 * u.encumb(bp_torso);
     move_cost -= dexbonus;
 
     if (u.has_trait("LIGHT_BONES")) {

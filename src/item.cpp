@@ -957,7 +957,7 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump, bool debug) c
         dump->push_back(iteminfo("ARMOR", _("Warmth: "), "", get_warmth()));
         if (has_flag("FIT")) {
             dump->push_back(iteminfo("ARMOR", _("Encumberment: "), _("<num> (fits)"),
-                                     std::max(0, get_encumber() - 1), true, "", true, true));
+                                     std::max(0, get_encumber() - 10), true, "", true, true));
         } else {
             dump->push_back(iteminfo("ARMOR", _("Encumberment: "), "",
                                      get_encumber(), true, "", true, true));
@@ -1258,12 +1258,12 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump, bool debug) c
         if (is_armor() && item_tags.count("leather_padded")) {
             dump->push_back(iteminfo("DESCRIPTION", "--"));
             dump->push_back(iteminfo("DESCRIPTION",
-                _("This gear has certain parts padded with leather to increase protection without increasing encumbrance.")));
+                _("This gear has certain parts padded with leather to increase protection with minimal increase to encumbrance.")));
         }
         if (is_armor() && item_tags.count("kevlar_padded")) {
             dump->push_back(iteminfo("DESCRIPTION", "--"));
             dump->push_back(iteminfo("DESCRIPTION",
-                _("This gear has kevlar inserted into strategic locations to increase protection without increasing encumbrance.")));
+                _("This gear has kevlar inserted into strategic locations to increase protection with minimal increase to encumbrance.")));
         }
         if (is_armor() && has_flag("FLOATATION")) {
             dump->push_back(iteminfo("DESCRIPTION", "--"));
@@ -2322,7 +2322,21 @@ int item::get_encumber() const
         return 0;
     }
     // it_armor::encumber is signed char
-    return static_cast<int>( t->encumber );
+    int encumber = static_cast<int>( t->encumber );
+
+    if (item::item_tags.count("wooled")){
+        encumber += 2;
+        }
+    if (item::item_tags.count("furred")){
+        encumber += 5;
+        }
+    if (item::item_tags.count("leather_padded")){
+        encumber += 4;
+        }
+    if (item::item_tags.count("kevlar_padded")){
+        encumber += 6;
+        }
+    return encumber;
 }
 
 int item::get_coverage() const
@@ -2357,7 +2371,7 @@ int item::get_warmth() const
     int result = static_cast<int>( t->warmth );
 
     if (item::item_tags.count("furred") > 0){
-        fur_lined = 25 * (float(get_coverage()) / 100);
+        fur_lined = 35 * (float(get_coverage()) / 100);
     }
     if (item::item_tags.count("wooled") > 0){
         wool_lined = 20 * (float(get_coverage()) / 100);
@@ -2512,9 +2526,9 @@ int item::bash_resist() const
     // previous versions. Adjust to make you happier/sadder.
     float adjustment = 1.5;
 
-    static constexpr float max_value = 4.0f;
+    static constexpr float max_value = 10.0f;
     static constexpr float stepness = -0.8f;
-    static constexpr float center_of_S = 2.5f;
+    static constexpr float center_of_S = 2.0f;
 
     if (is_null()) {
         return resist;
@@ -2557,15 +2571,15 @@ int item::cut_resist() const
         return resist;
     }
     if (item::item_tags.count("leather_padded") > 0){
-        static constexpr float max_value = 4.0f;
+        static constexpr float max_value = 10.0f;
         static constexpr float stepness = -0.8f;
-        static constexpr float center_of_S = 2.5f;
+        static constexpr float center_of_S = 2.0f;
         l_padding = max_value / ( 1 + exp( stepness * ( get_thickness() - center_of_S )));
     }
     if (item::item_tags.count("kevlar_padded") > 0){
-        static constexpr float max_value = 8.0f;
-        static constexpr float stepness = -0.8f;
-        static constexpr float center_of_S = 2.5f;
+        static constexpr float max_value = 15.0f;
+        static constexpr float stepness = -0.5f;
+        static constexpr float center_of_S = 2.0f;
         k_padding = max_value / ( 1 + exp( stepness * ( get_thickness() - center_of_S )));
     }
     std::vector<material_type*> mat_types = made_of_types();
@@ -3082,8 +3096,8 @@ int item::reload_time(player &u) const
     if (ret < 25) {
         ret = 25;
     }
-    ret += u.encumb(bp_hand_l) * 15;
-    ret += u.encumb(bp_hand_r) * 15;
+    ret += u.encumb(bp_hand_l) * 1.5;
+    ret += u.encumb(bp_hand_r) * 1.5;
     return ret;
 }
 
