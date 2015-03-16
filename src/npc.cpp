@@ -1418,7 +1418,7 @@ void npc::decide_needs()
     for( auto &elem : needrank )
         elem = 20;
     if (weapon.is_gun()) {
-        needrank[need_ammo] = 5 * has_ammo(weapon.type->gun->ammo).size();
+        needrank[need_ammo] = 5 * get_ammo(weapon.type->gun->ammo).size();
     }
     if (weapon.type->id == "null" && skillLevel("unarmed") < 4) {
         needrank[need_weapon] = 1;
