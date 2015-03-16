@@ -2257,112 +2257,6 @@
   ]
 },{
   "type" : "recipe",
-  "result": "strawberries_cooked",
-  "category": "CC_FOOD",
-  "subcategory": "CSC_FOOD_VEGGI",
-  "skill_used": "cooking",
-  "difficulty": 0,
-  "time": 5000,
-  "reversible": false,
-  "autolearn": true,
-  "qualities":[
-    {"id":"COOK","level":2,"amount":1}
-  ], "tools": [
-    [
-      ["hotplate", 2],
-      [ "char_smoker", 1 ],
-      ["toolset", 2],
-      ["fire", -1]
-    ]
-  ],
-  "components": [
-    [
-      ["strawberries", 1]
-    ]
-  ]
-},{
-  "type" : "recipe",
-  "result": "blueberries_cooked",
-  "category": "CC_FOOD",
-  "subcategory": "CSC_FOOD_VEGGI",
-  "skill_used": "cooking",
-  "difficulty": 0,
-  "time": 5000,
-  "reversible": false,
-  "autolearn": true,
-  "qualities":[
-    {"id":"COOK","level":2,"amount":1}
-  ], "tools": [
-    [
-      ["hotplate", 2],
-      [ "char_smoker", 1 ],
-      ["toolset", 2],
-      ["fire", -1]
-    ]
-  ],
-  "components": [
-    [
-       ["blueberries", 1]
-    ]
-  ]
-},{
-  "type" : "recipe",
-  "result": "jam_strawberries",
-  "category": "CC_FOOD",
-  "subcategory": "CSC_FOOD_VEGGI",
-  "skill_used": "cooking",
-  "difficulty": 2,
-  "time": 30000,
-  "reversible": false,
-  "autolearn": true,
-  "qualities":[
-    {"id":"COOK","level":2,"amount":1}
-  ], "tools": [
-    [
-      ["hotplate", 2],
-      [ "char_smoker", 1 ],
-      ["toolset", 2],
-      ["fire", -1]
-    ]
-  ],
-  "components": [
-    [
-      ["strawberries", 1]
-    ],
-    [
-      ["sugar", 1]
-    ]
-  ]
-},{
-  "type" : "recipe",
-  "result": "jam_blueberries",
-  "category": "CC_FOOD",
-  "subcategory": "CSC_FOOD_VEGGI",
-  "skill_used": "cooking",
-  "difficulty": 2,
-  "time": 30000,
-  "reversible": false,
-  "autolearn": true,
-  "qualities":[
-    {"id":"COOK","level":2,"amount":1}
-  ], "tools": [
-    [
-      ["hotplate", 2],
-      [ "char_smoker", 1 ],
-      ["toolset", 2],
-      ["fire", -1]
-    ]
-  ],
-  "components": [
-    [
-      ["blueberries", 1]
-    ],
-    [
-      ["sugar", 1]
-    ]
-  ]
-},{
-  "type" : "recipe",
   "result": "coffee_raw",
   "category": "CC_FOOD",
   "subcategory": "CSC_FOOD_OTHER",
@@ -4169,7 +4063,7 @@
       [ "honey_bottled", 1],
       [ "honey_glassed", 1],
       [ "jam_strawberries", 1 ],
-      [ "jam_blueberries", 1 ],
+      [ "jam_blueberries", 1 ], 
       [ "jam_fruit", 1 ],
       [ "strawberries", 1 ],
       [ "blueberries", 1 ],
@@ -4325,9 +4219,9 @@
       ["irradiated_watermelon", 1],
       [ "dry_fruit", 1 ],
       [ "juice_pulp", 2 ],
-      [ "jam_strawberries", 1 ],
-      [ "jam_blueberries", 1 ],
       [ "jam_fruit", 1 ],
+      [ "jam_strawberries", 1 ],
+      [ "jam_blueberries", 1 ], 
       [ "chocolate", 1 ],
       [ "candy", 3 ],
       [ "candy2", 3 ],
@@ -4570,9 +4464,9 @@
       ["irradiated_raspberries", 1],
       ["irradiated_strawberries", 1],
       ["irradiated_watermelon", 1],
-      ["jam_blueberries", 1],
       ["jam_fruit", 1],
       ["jam_strawberries", 1],
+      ["jam_blueberries", 1], 
       ["juice_pulp", 2],
       ["kiwi", 1],
       ["mango", 1],
@@ -4768,9 +4662,9 @@
       ["irradiated_raspberries", 1],
       ["irradiated_strawberries", 1],
       ["irradiated_watermelon", 1],
-      ["jam_blueberries", 1],
       ["jam_fruit", 1],
       ["jam_strawberries", 1],
+      ["jam_blueberries", 1], 
       ["juice_pulp", 2],
       ["kiwi", 1],
       ["mango", 1],
@@ -4999,9 +4893,9 @@
       ["irradiated_raspberries", 1],
       ["irradiated_strawberries", 1],
       ["irradiated_watermelon", 1],
-      ["jam_blueberries", 1],
       ["jam_fruit", 1],
       ["jam_strawberries", 1],
+      ["jam_blueberries", 1], 
       ["juice_pulp", 2],
       ["lemon", 1],
       ["mango", 1],
@@ -8146,9 +8040,9 @@
       [ "hardtack", 4 ]
     ],
     [
-      [ "jam_blueberries", 1 ],
-      [ "jam_strawberries", 1 ],
       [ "jam_fruit", 1 ]
+      [ "jam_strawberries", 1 ],
+      [ "jam_blueberries", 1 ], 
     ],
     [
       [ "peanutbutter", 1 ]
@@ -8507,6 +8401,8 @@
        [ "melon", 2 ],
        [ "raspberries", 1 ],
        [ "blackberries", 1 ],
+       [ "strawberries", 1 ],
+       [ "blueberries", 1 ],
        [ "pomegranate", 1 ],
        [ "mango", 1 ],
        [ "rhubarb", 2 ],
@@ -9006,9 +8902,9 @@
       [ "wastebread", 2 ]
     ],
     [
-      [ "jam_strawberries", 1 ],
-      [ "jam_blueberries", 1 ],
       [ "jam_fruit", 1 ]
+      [ "jam_strawberries", 1 ],
+      [ "jam_blueberries", 1 ], 
     ]
   ]
 },
