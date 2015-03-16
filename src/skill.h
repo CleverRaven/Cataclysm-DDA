@@ -179,7 +179,7 @@ class SkillLevel : public JsonSerializer, public JsonDeserializer
             return !(*this <  b);
         }
 
-        SkillLevel &operator= (const SkillLevel &rhs) = default;
+        SkillLevel &operator= (const SkillLevel &) = default;
 
         using JsonSerializer::serialize;
         void serialize(JsonOut &jsout) const;
