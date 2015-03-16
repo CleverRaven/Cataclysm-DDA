@@ -6444,7 +6444,7 @@ int iuse::mop(player *p, item *it, bool, point)
         p->add_msg_if_player(_("The universe implodes and reforms around you."));
         return 0;
     }
-    if (p->has_effect("blind")) {
+    if (p->has_effect("blind") || p->worn_with_flag("BLIND")) {
         add_msg(_("You move the mop around, unsure whether it's doing any good."));
         p->moves -= 15;
         if (one_in(3) && g->m.moppable_items_at(dirx, diry)) {
@@ -8496,7 +8496,7 @@ int iuse::camera(player *p, item *it, bool, point)
                 if (photo_quality < 0) {
                     photo_quality = 0;
                 }
-                if (p->has_effect("blind")) {
+                if (p->has_effect("blind") || p->worn_with_flag("BLIND")) {
                     photo_quality /= 2;
                 }
 
@@ -8529,7 +8529,7 @@ int iuse::camera(player *p, item *it, bool, point)
                         //quest processing...
                     }
 
-                    if (p->has_effect("blind")) {
+                    if (p->has_effect("blind") || p->worn_with_flag("BLIND")) {
                         p->add_msg_if_player(_("You took a photo of %s."), z.name().c_str());
                     } else {
                         p->add_msg_if_player(_("You took a %s photo of %s."), quality_name.c_str(),
@@ -8554,7 +8554,7 @@ int iuse::camera(player *p, item *it, bool, point)
                             char *chq = &monster_photos[strqpos];
                             const int old_quality = atoi(chq);
 
-                            if (!p->has_effect("blind")) {
+                            if (!p->has_effect("blind") && !p->worn_with_flag("BLIND")) {
                                 if (photo_quality > old_quality) {
                                     chq = &string_format("%d", photo_quality)[0];
                                     monster_photos[strqpos] = *chq;
@@ -8583,7 +8583,7 @@ int iuse::camera(player *p, item *it, bool, point)
                     }
 
                     //just photo, no save. Maybe in the future we will need to create CAMERA_NPC_PHOTOS
-                    if (p->has_effect("blind")) {
+                    if (p->has_effect("blind") || p->worn_with_flag("BLIND")) {
                         p->add_msg_if_player(_("You took a photo of %s."), guy->name.c_str());
                     } else {
                         p->add_msg_if_player(_("You took a %s photo of %s."), quality_name.c_str(),
@@ -8603,7 +8603,7 @@ int iuse::camera(player *p, item *it, bool, point)
 
     if (c_photos == choice) {
 
-        if (p->has_effect("blind")) {
+        if (p->has_effect("blind") || p->worn_with_flag("BLIND")) {
             p->add_msg_if_player(_("You can't see the camera screen, you're blind."));
             return 0;
         }
@@ -8660,7 +8660,7 @@ int iuse::camera(player *p, item *it, bool, point)
 
     if (c_upload == choice) {
 
-        if (p->has_effect("blind")) {
+        if (p->has_effect("blind") || p->worn_with_flag("BLIND")) {
             p->add_msg_if_player(_("You can't see the camera screen, you're blind."));
             return 0;
         }

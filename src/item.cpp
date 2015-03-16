@@ -1240,6 +1240,11 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump, bool debug) c
             dump->push_back(iteminfo("DESCRIPTION",
                 _("This gear prevents you from hearing any sounds.")));
         }
+        if (is_armor() && has_flag("BLIND")) {
+            dump->push_back(iteminfo("DESCRIPTION", "--"));
+            dump->push_back(iteminfo("DESCRIPTION",
+                _("This gear prevents you from seeing anything.")));
+        }
         if (is_armor() && has_flag("SWIM_GOGGLES")) {
             dump->push_back(iteminfo("DESCRIPTION", "--"));
             dump->push_back(iteminfo("DESCRIPTION",

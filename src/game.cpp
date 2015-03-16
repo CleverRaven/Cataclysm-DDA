@@ -8968,7 +8968,7 @@ std::vector<map_item_stack> game::find_nearby_items(int iRadius)
     std::vector<map_item_stack> ret;
     std::vector<std::string> vOrder;
 
-    if (u.has_effect("blind")) {
+    if (u.has_effect("blind") || u.worn_with_flag("BLIND")) {
         return ret;
     }
 
