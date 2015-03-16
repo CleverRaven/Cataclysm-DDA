@@ -61,8 +61,10 @@ struct advanced_inv_area {
     // vehicle pointer and cargo part index
     vehicle *veh;
     int vstor;
-    // description, e.g. vehicle name
+    // description, e.g. vehicle name or storage label
     std::string desc;
+    // flags, e.g. FIRE, TRAP, WATER
+    std::string flags;
     // total volume and weight of items currently there
     int volume, weight;
     // maximal count / volume of items there.
