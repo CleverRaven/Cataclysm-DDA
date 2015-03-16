@@ -542,6 +542,14 @@ void advanced_inv_area::init()
             }
             break;
     }
+    if( veh != nullptr && vstor >= 0 ) {
+        const auto &part = veh->parts[vstor];
+        const auto label = veh->get_label( part.mount.x, part.mount.y );
+        if( !label.empty() ) {
+            desc = label;
+        }
+    }
+
 }
 
 std::string center_text( const char *str, int width )
@@ -881,13 +889,6 @@ void advanced_inventory::redraw_pane( side p )
     width -= 2 + 1; // starts at offset 2, plus space between the header and the text
     mvwprintz( w, 1, 2, active ? c_cyan : c_ltgray, "%s", utf8_truncate( square.name, width ).c_str() );
     mvwprintz( w, 2, 2, active ? c_green : c_dkgray , "%s", utf8_truncate( square.desc, width ).c_str() );
-    if( square.veh != nullptr ) {
-        const auto &part = square.veh->parts[square.vstor];
-        const auto label = square.veh->get_label( part.mount.x, part.mount.y );
-        if( !label.empty() ) {
-            mvwprintz( w, 3, 2, active ? c_green : c_dkgray , "%s", utf8_truncate( label, width ).c_str() );
-        }
-    }
 
     const int max_page = ( pane.items.size() + itemsPerPage - 1 ) / itemsPerPage;
     if( active && max_page > 1 ) {
