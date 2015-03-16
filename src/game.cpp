@@ -6173,6 +6173,8 @@ void game::flashbang(int x, int y, bool player_immune)
                 flash_mod = 8; // Just retract those and extrude fresh eyes
             } else if (u.has_bionic("bio_sunglasses") || u.is_wearing("rm13_armor_on")) {
                 flash_mod = 6;
+            } else if (u.worn_with_flag("BLIND") || u.is_wearing("goggles_welding")) {
+                flash_mod = 3; // Not really proper flash protection, but better than nothing
             }
             u.add_env_effect("blind", bp_eyes, (12 - flash_mod - dist) / 2, 10 - dist);
         }
@@ -11717,7 +11719,7 @@ bool game::plmove(int dx, int dy)
             }
         }
 
-        if (!u.has_effect("blind")) {
+        if (!(u.has_effect("blind") || u.worn_with_flag("BLIND"))) {
             const trap_id tid = m.tr_at(x, y);
             if (tid != tr_null) {
                 const struct trap &t = *traplist[tid];
@@ -12184,7 +12186,7 @@ bool game::plmove(int dx, int dy)
 
         // List items here
         if (!m.has_flag("SEALED", x, y)) {
-            if (u.has_effect("blind") && !m.i_at(x, y).empty()) {
+            if ((u.has_effect("blind") || u.worn_with_flag("BLIND")) && !m.i_at(x, y).empty()) {
                 add_msg(_("There's something here, but you can't see what it is."));
             } else if (!m.i_at(x, y).empty()) {
                 std::vector<std::string> names;
@@ -12318,7 +12320,7 @@ bool game::plmove(int dx, int dy)
         }
         u.moves -= 100;
     } else { // Invalid move
-        if (u.has_effect("blind") || u.has_effect("stunned")) {
+        if (u.has_effect("blind") || u.worn_with_flag("BLIND") || u.has_effect("stunned")) {
             // Only lose movement if we're blind
             add_msg(_("You bump into a %s!"), m.name(x, y).c_str());
             u.moves -= 100;
