@@ -16,15 +16,17 @@
 
 #include <algorithm>
 #include <string>
-#include <fstream>
 #include <sstream>
+#include <vector>
+#include <map>
+#include <list>
 
 std::vector<item> starting_clothes(npc_class type, bool male);
 std::list<item> starting_inv(npc *me, npc_class type);
 
 namespace {
 std::map<std::string, npc> all_npc;
-} //namespce
+} //namespace
 
 npc::npc()
 {
@@ -1902,7 +1904,7 @@ std::string npc::short_description() const
 
 std::string npc::opinion_text() const
 {
- std::stringstream ret;
+ std::ostringstream ret;
  if (op_of_u.trust <= -10)
   ret << _("Completely untrusting");
  else if (op_of_u.trust <= -6)

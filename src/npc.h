@@ -8,9 +8,9 @@
 
 #include <vector>
 #include <string>
-#include <map>
 
 class item;
+class npc;
 class overmap;
 class field_entry;
 
@@ -30,23 +30,25 @@ constexpr int NPC_DANGER_VERY_LOW = 5;
  */
 
 // Attitude is how we feel about the player, what we do around them
-enum npc_attitude {
-    NPCATT_NULL, // Don't care/ignoring player The places this is assigned is on shelter NPC generation, and when you order a NPC to stay in a location, and after talking to a NPC that wanted to talk to you.
-    NPCATT_TALK,  // Move to and talk to player
-    NPCATT_TRADE,  // Move to and trade with player
-    NPCATT_FOLLOW,  // Follow the player
-    NPCATT_FOLLOW_RUN, // Follow the player, don't shoot monsters
-    NPCATT_LEAD,  // Lead the player, wait for them if they're behind
-    NPCATT_WAIT,  // Waiting for the player
-    NPCATT_DEFEND,  // Kill monsters that threaten the player
-    NPCATT_MUG,  // Mug the player
+enum npc_attitude : int {
+    NPCATT_NULL,           // Don't care/ignoring player The places this is assigned is on shelter
+                           // NPC generation, and when you order a NPC to stay in a location, and
+                           // after talking to a NPC that wanted to talk to you.
+    NPCATT_TALK,           // Move to and talk to player
+    NPCATT_TRADE,          // Move to and trade with player
+    NPCATT_FOLLOW,         // Follow the player
+    NPCATT_FOLLOW_RUN,     // Follow the player, don't shoot monsters
+    NPCATT_LEAD,           // Lead the player, wait for them if they're behind
+    NPCATT_WAIT,           // Waiting for the player
+    NPCATT_DEFEND,         // Kill monsters that threaten the player
+    NPCATT_MUG,            // Mug the player
     NPCATT_WAIT_FOR_LEAVE, // Attack the player if our patience runs out
-    NPCATT_KILL,  // Kill the player
-    NPCATT_FLEE,  // Get away from the player
-    NPCATT_SLAVE,  // Following the player under duress
-    NPCATT_HEAL,  // Get to the player and heal them
-    NPCATT_MISSING, // Special; missing NPC as part of mission
-    NPCATT_KIDNAPPED, // Special; kidnapped NPC as part of mission
+    NPCATT_KILL,           // Kill the player
+    NPCATT_FLEE,           // Get away from the player
+    NPCATT_SLAVE,          // Following the player under duress
+    NPCATT_HEAL,           // Get to the player and heal them
+    NPCATT_MISSING,        // Special; missing NPC as part of mission
+    NPCATT_KIDNAPPED,      // Special; kidnapped NPC as part of mission
     NPCATT_MAX
 };
 
@@ -55,46 +57,44 @@ std::string npc_attitude_name(npc_attitude);
 
 void parse_tags(std::string &phrase, const player *u, const npc *me);
 
-enum npc_mission {
- NPC_MISSION_NULL = 0, // Nothing in particular
- NPC_MISSION_RESCUE_U, // Find the player and aid them
- NPC_MISSION_SHELTER, // Stay in shelter, introduce player to game
- NPC_MISSION_SHOPKEEP, // Stay still unless combat or something and sell stuff
-
- NPC_MISSION_MISSING, // Special; following player to finish mission
- NPC_MISSION_KIDNAPPED, // Special; was kidnapped, to be rescued by player
-
- NPC_MISSION_BASE, // Base Mission: unassigned (Might be used for assigning a npc to stay in a location).
- NPC_MISSION_GUARD, // Similar to Base Mission, for use outside of camps
-
- NUM_NPC_MISSIONS
+enum npc_mission : int {
+    NPC_MISSION_NULL,      // Nothing in particular
+    NPC_MISSION_RESCUE_U,  // Find the player and aid them
+    NPC_MISSION_SHELTER,   // Stay in shelter, introduce player to game
+    NPC_MISSION_SHOPKEEP,  // Stay still unless combat or something and sell stuff
+    NPC_MISSION_MISSING,   // Special; following player to finish mission
+    NPC_MISSION_KIDNAPPED, // Special; was kidnapped, to be rescued by player
+    NPC_MISSION_BASE,      // Base Mission: unassigned (Might be used for assigning a npc
+                           // to stay in a location).
+    NPC_MISSION_GUARD,     // Similar to Base Mission, for use outside of camps
+    NUM_NPC_MISSIONS
 };
 
 //std::string npc_mission_name(npc_mission);
 
-enum npc_class {
- NC_NONE,
- NC_EVAC_SHOPKEEP,  // Found in the Evacuation Center, unique, has more goods than he should be able to carry
- NC_SHOPKEEP,       // Found in towns.  Stays in his shop mostly.
- NC_HACKER,         // Weak in combat but has hacking skills and equipment
- NC_DOCTOR,         // Found in towns, or roaming.  Stays in the clinic.
- NC_TRADER,         // Roaming trader, journeying between towns.
- NC_NINJA,          // Specializes in unarmed combat, carries few items
- NC_COWBOY,         // Gunslinger and survivalist
- NC_SCIENTIST,      // Uses intelligence-based skills and high-tech items
- NC_BOUNTY_HUNTER,  // Resourceful and well-armored
- NC_THUG,           // Moderate melee skills and poor equipment
- NC_SCAVENGER,      // Good with pistols light weapons
- NC_ARSONIST,       // Evacuation Center, restocks moltovs and anarcist type stuff
- NC_HUNTER,         // Survivor type good with bow or rifle
- NC_MAX
+enum npc_class : int {
+    NC_NONE,
+    NC_EVAC_SHOPKEEP, // Found in the Evacuation Center, unique, has more goods than he should be able to carry
+    NC_SHOPKEEP,      // Found in towns.  Stays in his shop mostly.
+    NC_HACKER,        // Weak in combat but has hacking skills and equipment
+    NC_DOCTOR,        // Found in towns, or roaming.  Stays in the clinic.
+    NC_TRADER,        // Roaming trader, journeying between towns.
+    NC_NINJA,         // Specializes in unarmed combat, carries few items
+    NC_COWBOY,        // Gunslinger and survivalist
+    NC_SCIENTIST,     // Uses intelligence-based skills and high-tech items
+    NC_BOUNTY_HUNTER, // Resourceful and well-armored
+    NC_THUG,          // Moderate melee skills and poor equipment
+    NC_SCAVENGER,     // Good with pistols light weapons
+    NC_ARSONIST,      // Evacuation Center, restocks moltovs and anarchist type stuff
+    NC_HUNTER,        // Survivor type good with bow or rifle
+    NC_MAX
 };
 
 //TODO these could return a const ref
 std::string npc_class_name(npc_class);
 std::string npc_class_name_str(npc_class);
 
-enum npc_action {
+enum npc_action : int {
  npc_undecided = 0,
  npc_pause, //1
  npc_reload, npc_sleep, // 2, 3
@@ -109,7 +109,7 @@ enum npc_action {
  num_npc_actions
 };
 
-enum npc_need {
+enum npc_need : int {
  need_none,
  need_ammo, need_weapon, need_gun,
  need_food, need_drink,
@@ -135,9 +135,9 @@ struct npc_favor : public JsonSerializer, public JsonDeserializer
     npc_favor() = default;
 
     using JsonSerializer::serialize;
-    void serialize(JsonOut &jsout) const;
+    void serialize(JsonOut &jsout) const override;
     using JsonDeserializer::deserialize;
-    void deserialize(JsonIn &jsin);
+    void deserialize(JsonIn &jsin) override;
 };
 
 struct npc_personality : public JsonSerializer, public JsonDeserializer
@@ -150,9 +150,9 @@ struct npc_personality : public JsonSerializer, public JsonDeserializer
     npc_personality() = default;
 
     using JsonSerializer::serialize;
-    void serialize(JsonOut &jsout) const;
+    void serialize(JsonOut &jsout) const override;
     using JsonDeserializer::deserialize;
-    void deserialize(JsonIn &jsin);
+    void deserialize(JsonIn &jsin) override;
 };
 
 struct npc_opinion : public JsonSerializer, public JsonDeserializer
@@ -191,9 +191,9 @@ struct npc_opinion : public JsonSerializer, public JsonDeserializer
     };
 
     using JsonSerializer::serialize;
-    void serialize(JsonOut &jsout) const;
+    void serialize(JsonOut &jsout) const override;
     using JsonDeserializer::deserialize;
-    void deserialize(JsonIn &jsin);
+    void deserialize(JsonIn &jsin) override;
 
     void load_legacy(std::istream &info);
 };
@@ -399,9 +399,9 @@ struct npc_chatbin : public JsonSerializer, public JsonDeserializer
     npc_chatbin() = default;
 
     using JsonSerializer::serialize;
-    void serialize(JsonOut &jsout) const;
+    void serialize(JsonOut &jsout) const override;
     using JsonDeserializer::deserialize;
-    void deserialize(JsonIn &jsin);
+    void deserialize(JsonIn &jsin) override;
 
     void load_legacy(std::istream &info);
 };

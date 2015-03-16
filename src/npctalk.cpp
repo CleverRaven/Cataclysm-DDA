@@ -10,7 +10,6 @@
 #include <vector>
 #include <string>
 #include <sstream>
-#include <fstream>
 
 enum talk_trial {
     TALK_TRIAL_NONE,       // No challenge here!
@@ -1155,7 +1154,7 @@ std::string talk_function::dynamic_line(talk_topic topic, npc *p)
             // TODO: this ignores the z-component
             const tripoint player_pos = g->om_global_location();
             int dist = rl_dist(player_pos, p->goal);
-            std::stringstream response;
+            std::ostringstream response;
             dist *= 100;
             if (dist >= 1300) {
             int miles = dist / 25; // *100, e.g. quarter mile is "25"
@@ -1321,7 +1320,7 @@ std::string talk_function::dynamic_line(talk_topic topic, npc *p)
                 ability = 100;
             }
 
-            std::stringstream info;
+            std::ostringstream info;
             info << "&";
             int str_range = int(100 / ability);
             int str_min = int(p->str_max / str_range) * str_range;
@@ -1351,7 +1350,7 @@ std::string talk_function::dynamic_line(talk_topic topic, npc *p)
 
         case TALK_LOOK_AT:
             {
-            std::stringstream look;
+            std::ostringstream look;
             look << "&" << p->short_description();
             return look.str();
             }
@@ -1359,7 +1358,7 @@ std::string talk_function::dynamic_line(talk_topic topic, npc *p)
 
         case TALK_OPINION:
             {
-            std::stringstream opinion;
+            std::ostringstream opinion;
             opinion << "&" << p->opinion_text();
             return opinion.str();
             }
@@ -2304,7 +2303,7 @@ std::vector<talk_response> gen_responses(talk_topic topic, npc *p)
         case TALK_TRAIN: {
             if( !g->u.backlog.empty() && g->u.backlog.front().type == ACT_TRAIN ) {
                 player_activity &backlog = g->u.backlog.front();
-                std::stringstream resume;
+                std::ostringstream resume;
                 resume << _("Yes, let's resume training ");
                 const Skill* skillt = Skill::skill(backlog.name);
                 if(skillt == NULL) {
@@ -3063,7 +3062,7 @@ std::string talk_function::bulk_trade_inquire(npc *p, itype_id it)
  tmp.charges = you_have;
  int total_cost = tmp.price();
  p->add_msg_if_player(m_good, _("Let's see what you've got..."));
- std::stringstream response;
+ std::ostringstream response;
  response << string_format(ngettext("I'm willing to pay $%.2f per serving. You have "
                                     "%d serving for a total of $%.2f. No questions asked, here is your cash.",
                                     "I'm willing to pay $%.2f per serving. You have "
