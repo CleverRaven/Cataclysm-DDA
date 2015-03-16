@@ -2164,5 +2164,55 @@
                 { "item": "pipe", "amount": 4, "minamount": 0}
             ]
         }
+    },{
+    "type" : "furniture",
+    "id" : "f_smoking_rack",
+    "name": "smoking rack",
+    "symbol": "=",
+    "bgcolor": "brown",
+    "move_cost_mod": 2,
+    "required_str": -1,
+    "flags": ["TRANSPARENT", "SEALED", "CONTAINER", "NOITEM"],
+    "crafting_pseudo_item": "char_smoker",
+    "examine_action": "reload_furniture",
+    "deconstruct": {
+      "items": [
+        { "item": "rock", "amount": 8 },
+        { "item": "stick", "amount": 16, "minamount": 16 }
+      ]
+    },
+    "bash": {
+        "str_min": 18, "str_max": 50,
+        "sound": "crunch!",
+        "sound_fail": "whump!",
+        "items": [
+            { "item": "rock", "amount": 8 },
+            { "item": "stick", "amount": 12, "minamount": 8 }
+        ]
     }
+},{
+   "type" : "furniture",
+   "id" : "f_forge_rock",
+   "name": "rock forge",
+   "symbol": "^",
+   "color": "ltred",
+   "move_cost_mod": -1,
+   "required_str": -1,
+   "crafting_pseudo_item": "char_forge",
+   "flags": ["SEALED", "CONTAINER", "NOITEM"],
+   "deconstruct": {
+     "items": [
+       { "item": "rock", "amount": 40 }
+     ]
+   },
+   "examine_action": "reload_furniture",
+   "bash": {
+     "str_min": 18, "str_max": 50,
+     "sound": "crash!",
+     "sound_fail": "whump.",
+     "items": [
+       { "item": "rock", "amount": 30, "minamount": 20 }
+     ]
+   }
+}
 ]

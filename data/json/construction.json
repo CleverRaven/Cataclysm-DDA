@@ -2156,5 +2156,38 @@
         ],
         "pre_special" : "check_empty",
         "post_terrain" : "f_kiln_metal_empty"
-    }
+    },{
+    "type" : "construction",
+    "description" : "Build Smoking Rack",
+    "category" : "FURN",
+    "difficulty" : 3,
+    "time" : 30,
+    "qualities": [
+      [ { "id": "DIG", "level": 1 } ],
+      [ { "id": "HAMMER", "level": 2 } ],
+      [ { "id": "CUT", "level": 1 } ],
+      [ { "id": "SAW_W", "level": 1 } ]
+    ],
+    "components" : [
+        [ [ "stick", 16 ], [ "2x4", 16 ] ],
+        [ [ "rock", 8 ] ]
+    ],
+    "pre_special" : "check_empty",
+    "post_terrain" : "f_smoking_rack"
+},{
+   "type" : "construction",
+   "description" : "Build Rock Forge",
+   "category" : "FURN",
+   "difficulty" : 5,
+   "time" : 60,
+   "qualities": [
+     [ { "id": "DIG", "level": 2 } ],
+     [ { "id": "HAMMER", "level": 2 } ]
+   ],
+   "components" : [
+      [ [ "rock", 40 ] ]
+   ],
+   "pre_special" : "check_empty",
+   "post_terrain" : "f_forge_rock"
+}
 ]
