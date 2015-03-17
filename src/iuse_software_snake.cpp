@@ -9,6 +9,7 @@
 #include <map>
 #include <vector>
 
+#include "rng.h"
 #include "input.h"
 #include "output.h"
 #include "catacharset.h"

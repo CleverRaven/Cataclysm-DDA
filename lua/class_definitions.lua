@@ -589,7 +589,7 @@ classes = {
     it_tool = {
         parent = "itype",
         attributes = {
-            ammo = {
+            ammo_id = {
                 type = "string",
                 writable = true
             },

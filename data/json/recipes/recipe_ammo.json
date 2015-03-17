@@ -167,7 +167,8 @@
     {"id":"HAMMER","level":1,"amount":1}
   ], "components": [
     [
-      [ "rock", 1 ]
+      [ "rock", 1 ],
+      [ "sharp_rock", 1 ]
     ]
   ]
 },{
@@ -447,7 +448,8 @@
       [ "rock", 1 ],
       [ "ceramic_shard", 1 ],
       [ "scrap", 2 ],
-      [ "nail", 10 ]
+      [ "nail", 10 ],
+      [ "sharp_rock", 1 ]
     ]
   ]
 },{
@@ -483,7 +485,8 @@
       [ "rock", 1 ],
       [ "ceramic_shard", 1 ],
       [ "scrap", 2 ],
-      [ "nail", 10 ]
+      [ "nail", 10 ],
+      [ "sharp_rock", 1 ]
     ]
   ]
 },{
@@ -784,7 +787,8 @@
       [ "rock", 1],
       [ "ceramic_shard", 1 ],
       [ "scrap", 2 ],
-      [ "nail", 10 ]
+      [ "nail", 10 ],
+      [ "sharp_rock", 1 ]
     ]
   ]
 },{
@@ -982,7 +986,7 @@
     ]
   ]
 },{
-   "type" : "recipe",
+  "type" : "recipe",
   "result": "bolt_metal",
   "category": "CC_AMMO",
   "subcategory": "CSC_AMMO_ARROWS",
@@ -1003,7 +1007,40 @@
       ]
   ]
 },{
-   "type" : "recipe",
+  "type" : "recipe",
+  "result": "bolt_steel",
+  "category": "CC_AMMO",
+  "subcategory": "CSC_AMMO_ARROWS",
+  "skill_used": "fabrication",
+  "skills_required": ["archery", 5],
+  "difficulty": 5,
+  "time": 10000,
+  "reversible": false,
+  "autolearn": true,
+  "book_learn" : [[ "recipe_arrows", 2 ]],
+  "qualities":[
+    {"id":"HAMMER","level":1,"amount":1}
+  ],
+     "tools": [
+    [
+      ["toolset", 7],
+      ["fire", -1],
+      ["forge", 7],
+      ["char_forge", 2],
+      ["oxy_torch", 2]
+      ]
+    ],
+     "//" : "Extra steel is for stablizers, mass, etc. These are mostly better thanks to the maker's skill, though.",
+     "components": [
+    [
+      ["steel_chunk", 2]
+    ],
+    [
+      ["scrap", 6]
+    ]
+  ]
+},{
+  "type" : "recipe",
   "result": "bolt_explosive",
   "category": "CC_AMMO",
   "subcategory": "CSC_AMMO_ARROWS",

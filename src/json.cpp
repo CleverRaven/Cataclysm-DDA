@@ -463,7 +463,7 @@ bool JsonArray::has_more()
 {
     return (index >= 0 && size_t(index) < positions.size());
 }
-int JsonArray::size()
+size_t JsonArray::size() const
 {
     return positions.size();
 }

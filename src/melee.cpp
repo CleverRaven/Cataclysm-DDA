@@ -185,7 +185,7 @@ int player::hit_roll() const
     // apply martial arts bonuses
     int numdice = get_hit();
 
-    int sides = 10 - encumb(bp_torso);
+    int sides = 10 - (encumb(bp_torso) / 10);
     int best_bonus = 0;
     if (sides < 2) {
         sides = 2;
@@ -210,7 +210,7 @@ int player::hit_roll() const
 
     if (numdice < 1) {
         numdice = 1;
-        sides = 8 - encumb(bp_torso);
+        sides = 8 - (encumb(bp_torso) / 10);
     }
 
     return dice(numdice, sides);
@@ -556,7 +556,6 @@ int player::get_dodge() const
     if (activity.type != ACT_NULL) {return 0;}
 
     int ret = Creature::get_dodge();
-    
     // Chop in half if we are unable to move
     if (has_effect("beartrap") || has_effect("lightsnare") || has_effect("heavysnare")) {
         ret /= 2;
@@ -809,11 +808,9 @@ int player::roll_stab_damage(bool crit)
     if (has_active_bionic("bio_cqb")) {
         stabbing_skill = 5;
     }
-    
     if (weapon.has_flag("SPEAR") || weapon.has_flag("STAB")) {
         ret = weapon.damage_cut();
     }
-    
     if (unarmed_attack()) {
         if (!wearing_something_on(bp_hand_l)) {
             if (has_trait("CLAWS") || has_active_mutation("CLAWS_RETRACT")) {
@@ -1310,7 +1307,6 @@ bool player::block_hit(Creature *source, body_part &bp_hit, damage_instance &dam
     if (blocks_left < 1 || in_sleep_state()) {
         return false;
     }
-    
     blocks_left--;
 
     ma_ongethit_effects(); // fire martial arts on-getting-hit-triggered effects
@@ -1813,7 +1809,6 @@ std::vector<special_attack> player::mutation_attacks(Creature &t)
         }
         ret.push_back(tmp);
     }
-    
     if (has_active_mutation("FANGS_SPIDER") && one_in(24 - dex_cur - get_skill_level("unarmed")) &&
         (!wearing_something_on(bp_mouth)) ) {
         special_attack tmp;
@@ -2308,7 +2303,7 @@ int attack_speed(player &u)
  int dexbonus = (int)( std::pow(std::max(u.dex_cur - 8, 0), 0.8) * 3 );
 
  move_cost += skill_cost;
- move_cost += 20 * u.encumb(bp_torso);
+ move_cost += 2 * u.encumb(bp_torso);
  move_cost -= dexbonus;
 
  if (u.has_trait("LIGHT_BONES"))

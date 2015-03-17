@@ -169,7 +169,15 @@ public:
  int noise() const;
  int burst_size() const;
  ammotype ammo_type() const;
- int pick_reload_ammo(player &u, bool interactive);
+    /**
+     * @param u The player whose inventory is used to search for suitable ammo.
+     * @param interactive Whether to show a dialog to select the ammo, if false it will select
+     * the first suitable ammo.
+     * @retval INT_MIN+1 to indicate reload from spare magazine
+     * @retval INT_MIN to indicate no suitable ammo found or user canceled the menu.
+     * @retval other the item position (@ref player::i_at) in the players inventory.
+     */
+    int pick_reload_ammo( const player &u, bool interactive );
  bool reload(player &u, int pos);
  std::string skill() const;
 
@@ -199,18 +207,6 @@ public:
      * If the item can not be used for butchering it returns INT_MIN.
      */
     int butcher_factor() const;
-
-    /**
-     * Returns true if this item is of the specific type, or
-     * if this functions returns true for any of its contents.
-     */
-    bool is_of_type_or_contains_it(const std::string &type_id) const;
-    /**
-     * Returns true if this item is ammo and has the specific ammo type,
-     * or if this functions returns true for any of its contents.
-     * This does not check type->id, but islot_ammo::type.
-     */
-    bool is_of_ammo_type_or_contains_it(const ammotype &ammo_type_id) const;
 
  bool invlet_is_okay();
         bool stacks_with( const item &rhs ) const;
@@ -389,19 +385,19 @@ public:
   * one item of the passed in set matches any material).
   * @param mat_idents Set of material ids.
   */
- bool made_of_any(std::vector<std::string> &mat_idents) const;
+ bool made_of_any( const std::vector<std::string> &mat_idents ) const;
  /**
   * Check we are made of only the materials (e.g. false if we have
   * one material not in the set).
   * @param mat_idents Set of material ids.
   */
- bool only_made_of(std::vector<std::string> &mat_idents) const;
+ bool only_made_of( const std::vector<std::string> &mat_idents ) const;
  /**
   * Check we are made of this material (e.g. matches at least one
   * in our set.)
   * @param mat_idents Set of material ids.
   */
- bool made_of(std::string mat_ident) const;
+ bool made_of( const std::string &mat_ident ) const;
  /**
   * Are we solid, liquid, gas, plasma?
   * @param phase
@@ -861,6 +857,19 @@ public:
         /*@}*/
 
         /**
+         * Returns the pointer to use_function with name use_name assigned to the type of
+         * this item or any of its contents. Checks contents recursively.
+         * Returns nullptr if not found.
+         */
+        const use_function *get_use( const std::string &use_name ) const;
+        /**
+         * Checks this item and its contents (recursively) for types that have
+         * use_function with type use_name. Returns the first item that does have
+         * such type or nullptr if none found.
+         */
+        item *get_usable_item( const std::string &use_name );
+
+        /**
          * Recursively check the contents of this item and remove those items
          * that match the filter. Note that this function does *not* match
          * the filter against *this* item, only against the contents.
@@ -938,9 +947,11 @@ public:
  typedef std::vector<item> t_item_vector;
  t_item_vector components;
 
- int add_ammo_to_quiver(player *u, bool isAutoPickup);
+ int quiver_store_arrow(item &arrow);
  int max_charges_from_flag(std::string flagName);
 };
+
+bool item_compare_by_charges( const item *left, const item *right);
 
 std::ostream &operator<<(std::ostream &, const item &);
 std::ostream &operator<<(std::ostream &, const item *);

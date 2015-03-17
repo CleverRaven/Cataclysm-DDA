@@ -2,6 +2,7 @@
 #include "inventory.h"
 #include "game.h"
 #include "iuse.h"
+#include "iuse_actor.h"
 
 const std::string inv_chars =
     "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ!\"#&()*+./:;=@[\\]^_{|}";
@@ -234,12 +235,12 @@ indexed_invslice inventory::slice_filter_by_capacity_for_liquid(const item &liqu
     return stacks;
 }
 
-indexed_invslice inventory::slice_filter_by_salvageability()
+indexed_invslice inventory::slice_filter_by_salvageability(const salvage_actor &actor)
 {
     int i = 0;
     indexed_invslice stacks;
     for( auto &elem : items ) {
-        if( iuse::valid_to_cut_up( &elem.front() ) ) {
+        if( actor.valid_to_cut_up( &elem.front() ) ) {
             stacks.push_back( std::make_pair( &elem, i ) );
         }
         ++i;
@@ -764,12 +765,15 @@ int inventory::invlet_to_position( char invlet ) const
     return INT_MIN;
 }
 
-int inventory::position_by_item(const item *it)
+int inventory::position_by_item( const item *it ) const
 {
+    const auto filter = [it]( const item & i ) {
+        return &i == it;
+    };
     int i = 0;
     for( auto &elem : items ) {
         for( auto &elem_stack_iter : elem ) {
-            if( it == &elem_stack_iter ) {
+            if( has_item_with_recursive( elem_stack_iter, filter ) ) {
                 return i;
             }
         }
@@ -827,19 +831,6 @@ std::vector<std::pair<item *, int> > inventory::all_items_by_type(itype_id type)
             }
         }
         ++i;
-    }
-    return ret;
-}
-
-std::vector<item *> inventory::all_ammo(const ammotype &type)
-{
-    std::vector<item *> ret;
-    for( auto &elem : items ) {
-        for( auto &elem_stack_iter : elem ) {
-            if( elem_stack_iter.is_of_ammo_type_or_contains_it( type ) ) {
-                ret.push_back( &elem_stack_iter );
-            }
-        }
     }
     return ret;
 }

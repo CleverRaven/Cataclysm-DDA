@@ -2259,6 +2259,26 @@
         ]
     },{
         "type" : "vehicle_part",
+        "id" : "wheel_barrow",
+        "name" : "wheelbarrow wheel",
+        "symbol" : "o",
+        "color" : "dark_gray",
+        "broken_symbol" : "x",
+        "broken_color" : "light_gray",
+        "damage_modifier" : 50,
+        "durability" : 70,
+        "wheel_width" : 3,
+        "item" : "wheel_barrow",
+        "difficulty" : 2,
+        "location" : "under",
+        "flags" : ["WHEEL", "VARIABLE_SIZE", "STABLE", "TOOL_WRENCH"],
+        "breaks_into" : [
+            {"item": "steel_lump", "min": 1, "max": 1},
+            {"item": "steel_chunk", "min": 1, "max": 3},
+            {"item": "scrap", "min": 1, "max": 3}
+        ]
+    },{
+        "type" : "vehicle_part",
         "id" : "wheel_caster",
         "name" : "casters",
         "symbol" : "o",

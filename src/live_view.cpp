@@ -84,7 +84,7 @@ void live_view::show(const int x, const int y)
     g->print_all_tile_info(x, y, *this, START_COLUMN, line, true);
 
     if (m.can_put_items(x, y) && m.sees_some_items(x, y, g->u)) {
-        if(g->u.has_effect("blind")) {
+        if(g->u.has_effect("blind") || g->u.worn_with_flag("BLIND")) {
             mvwprintz(*this, line++, START_COLUMN, c_yellow,
                       _("There's something here, but you can't see what it is."));
         } else {

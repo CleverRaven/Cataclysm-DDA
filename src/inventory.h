@@ -19,6 +19,8 @@ typedef std::vector< const std::list<item>* > const_invslice;
 typedef std::vector< std::pair<std::list<item>*, int> > indexed_invslice;
 typedef bool (*item_filter)( const item & );
 
+class salvage_actor;
+
 class inventory
 {
     public:
@@ -52,7 +54,7 @@ class inventory
         indexed_invslice slice_filter_by_category(item_cat cat, const player &u);
         indexed_invslice slice_filter_by_capacity_for_liquid(const item &liquid);
         indexed_invslice slice_filter_by_flag(const std::string flag);
-        indexed_invslice slice_filter_by_salvageability();
+        indexed_invslice slice_filter_by_salvageability(const salvage_actor &actor);
 
         void unsort(); // flags the inventory as unsorted
         void sort();
@@ -92,14 +94,20 @@ class inventory
         item &item_by_type(itype_id type);
         item &item_or_container(itype_id type); // returns an item, or a container of it
 
-        int position_by_item(const item *it);  // looks up an item (via pointer comparison)
+        /**
+         * Returns the item position of the stack that contains the given item (compared by
+         * pointers). Returns INT_MIN if the item is not found.
+         * Note that this may lose some information, for example the returned position is the
+         * same when the given item points to the container and when it points to the item inside
+         * the container. All items that are part of the same stack have the same item position.
+         */
+        int position_by_item( const item *it ) const;
         int position_by_type(itype_id type);
         /** Return the item position of the item with given invlet, return INT_MIN if
          * the inventory does not have such an item with that invlet. Don't use this on npcs inventory. */
         int invlet_to_position(char invlet) const;
 
         std::vector<std::pair<item *, int> > all_items_by_type(itype_id type);
-        std::vector<item *> all_ammo(const ammotype &type);
 
         // Below, "amount" refers to quantity
         //        "charges" refers to charges
@@ -187,6 +195,18 @@ class inventory
                 items_with_recursive( vec, c, filter );
             }
         }
+        // Non-const variant of the above
+        template<typename T>
+        static void items_with_recursive( std::vector<item *> &vec, item &it, T filter )
+        {
+            if( filter( it ) ) {
+                vec.push_back( &it );
+            }
+            for( auto &c : it.contents ) {
+                items_with_recursive( vec, c, filter );
+            }
+        }
+
         template<typename T>
         static bool has_item_with_recursive( const item &it, T filter )
         {
@@ -223,6 +243,19 @@ class inventory
             }
             return result;
         }
+        // Non-const variant of the above
+        template<typename T>
+        std::vector<item *> items_with(T filter)
+        {
+            std::vector<item *> result;
+            for( auto &stack : items ) {
+                for( auto &it : stack ) {
+                    items_with_recursive( result, it, filter );
+                }
+            }
+            return result;
+        }
+        
         template<typename T>
         std::list<item> remove_items_with( T filter )
         {

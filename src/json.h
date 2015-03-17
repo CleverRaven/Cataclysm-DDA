@@ -692,7 +692,7 @@ class JsonArray
         void finish(); // move the stream position to the end of the array
 
         bool has_more(); // true iff more elements may be retrieved with next_*
-        int size();
+        size_t size() const;
         bool empty();
         std::string str(); // copy array json as string
         void throw_error(std::string err);

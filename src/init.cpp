@@ -108,7 +108,8 @@ void DynamicDataLoader::initialize()
     type_function_map["profession"] = new StaticFunctionAccessor(&profession::load_profession);
     type_function_map["skill"] = new StaticFunctionAccessor(&Skill::load_skill);
     type_function_map["dream"] = new StaticFunctionAccessor(&load_dream);
-    type_function_map["mutation"] = new StaticFunctionAccessor(&load_mutation);
+    type_function_map["mutation_category"] = new StaticFunctionAccessor(&load_mutation_category);
+    type_function_map["mutation"] = new StaticFunctionAccessor(&mutation_branch::load);
     type_function_map["lab_note"] = new StaticFunctionAccessor(&computer::load_lab_note);
     type_function_map["hint"] = new StaticFunctionAccessor(&load_hint);
     type_function_map["furniture"] = new StaticFunctionAccessor(&load_furniture);
@@ -124,7 +125,6 @@ void DynamicDataLoader::initialize()
         &ammunition_type::load_ammunition_type);
     type_function_map["scenario"] = new StaticFunctionAccessor(&scenario::load_scenario);
     type_function_map["start_location"] = new StaticFunctionAccessor(&start_location::load_location);
-    type_function_map["item_action"] = new StaticFunctionAccessor(&item_action::load_item_action);
 
     // json/colors.json would be listed here, but it's loaded before the others (see curses_start_color())
     // Non Static Function Access
@@ -132,6 +132,8 @@ void DynamicDataLoader::initialize()
             &snippet_library::load_snippet);
     type_function_map["item_group"] = new ClassFunctionAccessor<Item_factory>(item_controller,
             &Item_factory::load_item_group);
+    type_function_map["item_action"] = new ClassFunctionAccessor<item_action_generator>
+    ( &item_action_generator::generator(), &item_action_generator::load_item_action );
 
     type_function_map["vehicle_part"] = new ClassFunctionAccessor<game>(g, &game::load_vehiclepart);
     type_function_map["vehicle"] = new ClassFunctionAccessor<game>(g, &game::load_vehicle);
@@ -324,8 +326,8 @@ void DynamicDataLoader::unload_data()
     g->mission_types.clear();
     item_controller->reset();
     mutations_category.clear();
-    mutation_data.clear();
-    traits.clear();
+    mutation_category_traits.clear();
+    mutation_branch::reset_all();
     reset_bionics();
     clear_tutorial_messages();
     furnlist.clear();
@@ -362,11 +364,11 @@ void DynamicDataLoader::finalize_loaded_data()
     g->init_missions(); // Needs overmap terrain.
     init_data_mappings();
     finalize_overmap_terrain();
+    g->finalize_vehicles();
     calculate_mapgen_weights();
     MonsterGenerator::generator().finalize_mtypes();
     MonsterGenerator::generator().finalize_monfactions();
     MonsterGroupManager::FinalizeMonsterGroups();
-    g->finalize_vehicles();
     item_controller->finialize_item_blacklist();
     finalize_recipes();
     check_consistency();

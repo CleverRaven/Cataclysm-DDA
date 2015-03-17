@@ -13,6 +13,8 @@
 #include "field.h"
 #include "translations.h"
 #include "item_stack.h"
+#include "rng.h"
+
 #include <iosfwd>
 #include <unordered_set>
 #include <vector>
@@ -595,12 +597,15 @@ extern ter_id t_null,
     t_missile, t_missile_exploded,
     t_radio_tower, t_radio_controls,
     t_console_broken, t_console, t_gates_mech_control, t_gates_control_concrete, t_barndoor, t_palisade_pulley,
+    t_gates_control_metal,
     t_sewage_pipe, t_sewage_pump,
     t_centrifuge,
     t_column,
     t_vat,
     t_cvdbody, t_cvdmachine,
-    t_water_pump, t_improvised_shelter,
+    t_water_pump,
+    t_conveyor, t_machinery_light, t_machinery_heavy, t_machinery_old, t_machinery_electronic,
+    t_improvised_shelter,
     // Staircases etc.
     t_stairs_down, t_stairs_up, t_manhole, t_ladder_up, t_ladder_down, t_slope_down,
      t_slope_up, t_rope_up,
@@ -648,7 +653,8 @@ extern furn_id f_null,
     f_wood_keg, f_egg_sackbw, f_egg_sackws, f_egg_sacke,
     f_flower_marloss,
     f_tatami,
-    f_kiln_empty, f_kiln_full, f_kiln_metal_empty, f_kiln_metal_full;
+    f_kiln_empty, f_kiln_full, f_kiln_metal_empty, f_kiln_metal_full,
+    f_robotic_arm;
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //// These are on their way OUT and only used in certain switch statements until they are rewritten.

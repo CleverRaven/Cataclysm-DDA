@@ -1277,13 +1277,25 @@
     },
     {
         "type" : "keybinding",
-        "id":"TOOGLE_EXAMINE",
+        "id":"TOGGLE_EXAMINE",
         "category":"BIONICS",
         "name":"Toggle activate/examine",
         "bindings":[
             {
                 "input_method":"keyboard",
                 "key":"!"
+            }
+        ]
+    },
+    {
+        "type" : "keybinding",
+        "id":"SWAP_BIONIC_TABS",
+        "category":"BIONICS",
+        "name":"Swap current bionic tab view",
+        "bindings":[
+            {
+                "input_method":"keyboard",
+                "key":"TAB"
             }
         ]
     },
@@ -1492,7 +1504,7 @@
         "type" : "keybinding",
         "id":"UP",
         "category":"BIONICS",
-        "name":"Pan up",
+        "name":"Move cursor up",
         "bindings":[
             {
                 "input_method":"keyboard",
@@ -1512,7 +1524,7 @@
         "type" : "keybinding",
         "id":"DOWN",
         "category":"BIONICS",
-        "name":"Pan down",
+        "name":"Move cursor down",
         "bindings":[
             {
                 "input_method":"keyboard",
