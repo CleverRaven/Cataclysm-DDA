@@ -546,6 +546,23 @@
     {
         "type": "BIONIC_ITEM",
         "category": "bionics",
+        "id": "bio_reactor_upgrade",
+        "symbol": ":",
+        "color": "yellow",
+        "name": "Microreactor Upgrade CBM",
+        "description": "A kit for upgrading a pre-installed microreactor with enhanced maximum yield and automatic radiation scrubbing.",
+        "price": 250000,
+        "material": ["steel", "plastic"],
+        "weight": 2041,
+        "volume": 10,
+        "bashing": 8,
+        "cutting": 0,
+        "to_hit": 0,
+        "difficulty": 11
+    },
+    {
+        "type": "BIONIC_ITEM",
+        "category": "bionics",
         "id": "bio_plut_filter",
         "symbol": ":",
         "color": "yellow",

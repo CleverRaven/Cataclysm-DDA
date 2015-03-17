@@ -1285,13 +1285,19 @@ bool player::install_bionics(const itype &type)
     }
     if (bioid == "bio_reactor" || bioid == "bio_advreactor") {
 		if (has_bionic("bio_furnace") || has_bionic("bio_storage") || has_bionic("bio_reactor") || has_bionic("bio_advreactor")) {
-			popup(_("You lack the required space in your torso!."));
+			popup(_("You lack the required space in your torso!"));
 			return false;
 		}
     }
     if ((bioid == "bio_furnace" ) || (bioid == "bio_storage")) {
 		if (has_bionic("bio_reactor") || has_bionic("bio_advreactor")) {
-			popup(_("Your reactor leaves no room!."));
+			popup(_("Your reactor leaves no room!"));
+			return false;
+		}
+    }
+    if (bioid == "bio_reactor_upgrade" ){
+		if (!has_bionic("bio_reactor")) {
+			popup(_("There is nothing to upgrade!"));
 			return false;
 		}
     }
@@ -1337,6 +1343,11 @@ bool player::install_bionics(const itype &type)
 
             if (bioid == "bio_ears") {
                 add_bionic("bio_earplugs"); // automatically add the earplugs, they're part of the same bionic
+            }
+            if (bioid == "bio_reactor_upgrade") {
+				remove_bionic("bio_reactor");
+				remove_bionic("bio_reactor_upgrade");
+                add_bionic("bio_advreactor");
             }
 
         }

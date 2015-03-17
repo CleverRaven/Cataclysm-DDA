@@ -1194,7 +1194,7 @@
   ]
 },{
   "type" : "recipe",
-  "result": "bio_advreactor",
+  "result": "bio_reactor_upgrade",
   "category": "CC_ELECTRONIC",
   "subcategory": "CSC_ELECTRONIC_CBMS",
   "skill_used": "electronics",
@@ -1216,7 +1216,6 @@
     ]
   ],
   "components": [
-    [ [ "bio_reactor", 1 ] ],
     [ [ "bio_radscrubber", 1 ] ],
     [ [ "bio_geiger", 1 ] ],
     [
@@ -1224,6 +1223,29 @@
       [ "RAM", 1 ],
       [ "mobile_memory_card", 1 ]
     ]
+  ]
+},{
+  "type" : "recipe",
+  "result": "bio_advreactor",
+  "category": "CC_ELECTRONIC",
+  "subcategory": "CSC_ELECTRONIC_CBMS",
+  "skill_used": "electronics",
+  "skills_required": [ "computer", 10 ],
+  "difficulty": 10,
+  "time": 5000,
+  "reversible": false,
+  "autolearn": false,
+  "book_learn": [[ "recipe_lab_elec", 10 ]],
+  "qualities" : [ {"id":"SCREW","level":1,"amount":1} ],
+  "tools": [
+    [
+      [ "soldering_iron", 10 ],
+      [ "toolset", 10 ]
+    ]
+  ],
+  "components": [
+    [ [ "bio_reactor", 1 ] ],
+    [ [ "bio_reactor_upgrade", 1 ] ]
   ]
 },{
   "type" : "recipe",

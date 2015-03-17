@@ -7668,32 +7668,30 @@ void player::suffer()
             //begin power generation
             if (reactor_plut > 0) {
                 if (has_bionic("bio_advreactor")){
-                    if ((reactor_plut * 0.2) > 1000){
-                        power_gen = 1000;
-                        reactor_plut -= 1000;
+                    if ((reactor_plut * 0.2) > 500){
+                        power_gen = 500;
                     } else {
                         power_gen = reactor_plut * 0.05;
-                        reactor_plut -= power_gen;
                     }
                     slow_rad += (power_gen / 2); //upgraded reactor is less leaky
                     while (slow_rad >= 100) {
                         if (power_gen >= 1) {
                             slow_rad -= 100;
                             power_gen -= 1;
+                            reactor_plut -= 1;
                         } else {
                         break;
                         }
                     }
                 } else if (has_bionic("bio_reactor")) {
-                    if ((reactor_plut * 0.1) > 200){
-                        power_gen = 200;
-                        reactor_plut -= 200;
+                    if ((reactor_plut * 0.1) > 50){
+                        power_gen = 50;
                     } else {
                         power_gen = reactor_plut * 0.025;
-                        reactor_plut -= power_gen;
                     }
                     slow_rad += (power_gen * 2); //lack of radiation shielding means that you get bonus radiation
                 }
+                reactor_plut -= power_gen;
                 if (power_gen > (max_power_level - power_level)) {
                     power_gen -= (max_power_level - power_level);
                     power_level = max_power_level;
@@ -8998,9 +8996,9 @@ bool player::consume(int target_position)
             to_eat->charges++; //there's a flat subtraction later
 		} else if (to_eat->is_ammo() &&  ( has_active_bionic("bio_reactor") || has_active_bionic("bio_advreactor") ) && to_eat->ammo_type() == "reactor_slurry") {
 		    if (to_eat->type->id == "plut_slurry_dense") {
-                tank_plut += 1000;
-		    } else if (to_eat->type->id == "plut_slurry") {
                 tank_plut += 500;
+		    } else if (to_eat->type->id == "plut_slurry") {
+                tank_plut += 250;
             }
             add_msg_player_or_npc( _("You pour your %s into your reactor's tank."), _("<npcname> pours %s into their reactor's tank."),
             to_eat->tname().c_str());
