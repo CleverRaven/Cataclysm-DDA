@@ -1,0 +1,11 @@
+[
+    {
+        "type": "MOD_INFO",
+        "mod-type": "SUPPLEMENTAL",
+        "ident": "LMOE_Start",
+        "name": "LMOE Start",
+        "description": "Adds an LMOE starting scenario.",
+		"author": "Hazerithious",
+		"path": ""
+    }
+]	
