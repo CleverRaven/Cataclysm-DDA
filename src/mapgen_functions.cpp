@@ -3256,8 +3256,8 @@ void mapgen_s_hardware(map *m, oter_id terrain_type, mapgendata dat, int, float 
                     starty = 18;
                 }
                 bool hori = (starty == 18 ? false : true);
-                for (int i = startx; i <= startx + (hori ? 3 : 2); i++) {
-                    for (int j = starty; j <= starty + (hori ? 2 : 3); j++) {
+                for (int i = startx; i < startx + (hori ? 3 : 2); i++) {
+                    for (int j = starty; j < starty + (hori ? 2 : 3); j++) {
                         m->furn_set(i, j, f_dumpster);
                     }
                 }
