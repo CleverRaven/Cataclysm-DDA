@@ -582,7 +582,7 @@ bool player::activate_bionic(int b, bool eff_only)
         }
 
         //We can actually activate now, do activation-y things
-        charge_power(0- bionics[bio.id]->power_activate);
+        charge_power(-bionics[bio.id]->power_activate);
         if (bionics[bio.id]->toggled || bionics[bio.id]->charge_time > 0) {
             bio.powered = true;
         }
@@ -1013,7 +1013,7 @@ bool player::activate_bionic(int b, bool eff_only)
             }
             ctr.charges = power_level;
             int power_use = invoke_item( &ctr );
-            charge_power(0 - power_use);
+            charge_power(-power_use);
             bio.powered = ctr.active;
         } else {
             bio.powered = g->remoteveh() != nullptr || get_value( "remote_controlling" ) != "";
@@ -1044,7 +1044,7 @@ bool player::deactivate_bionic(int b, bool eff_only)
         }
 
         //We can actually deactivate now, do deactivation-y things
-        charge_power(0 - bionics[bio.id]->power_deactivate);
+        charge_power(-bionics[bio.id]->power_deactivate);
         bio.powered = false;
         add_msg(m_neutral, _("You deactivate your %s."), bionics[bio.id]->name.c_str());
     }

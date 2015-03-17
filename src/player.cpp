@@ -8556,7 +8556,7 @@ std::list<item> player::use_charges(itype_id it, long quantity)
     std::list<item> ret;
     // the first two cases *probably* don't need to be tracked for now...
     if (it == "toolset") {
-        charge_power(0 - quantity);
+        charge_power(-quantity);
         return ret;
     }
     if (it == "fire") {
@@ -8621,7 +8621,7 @@ std::list<item> player::use_charges(itype_id it, long quantity)
         // and make sure power_level does not get negative
         long ch = std::max(1l, quantity / 10);
         ch = std::min<long>(power_level, ch);
-        charge_power(0 - ch);
+        charge_power(-ch);
         quantity -= ch * 10;
         // TODO: add some(pseudo?) item to resulting list?
     }

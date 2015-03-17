@@ -6738,7 +6738,7 @@ void game::emp_blast(int x, int y)
         if (u.power_level > 0) {
             add_msg(m_bad, _("The EMP blast drains your power."));
             int max_drain = (u.power_level > 1000 ? 1000 : u.power_level);
-            u.charge_power(0 - rng(1 + max_drain / 3, max_drain));
+            u.charge_power(-rng(1 + max_drain / 3, max_drain));
         }
         // TODO: More effects?
         //e-handcuffs effects
@@ -12307,7 +12307,7 @@ bool game::plmove(int dx, int dy)
             if (u.in_vehicle) {
                 m.unboard_vehicle(u.posx(), u.posy());
             }
-            u.charge_power(0 - (tunneldist * 250)); //tunneling costs 10 bionic power per impassable tile
+            u.charge_power(-(tunneldist * 250)); //tunneling costs 250 bionic power per impassable tile
             u.moves -= 100; //tunneling costs 100 moves
             //move us the number of tiles we tunneled in the x direction, plus 1 for the last tile.
             u.setx( u.posx() + (tunneldist + 1) * (x - u.posx()) );
