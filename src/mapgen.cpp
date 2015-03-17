@@ -11162,7 +11162,7 @@ void map::place_spawns(std::string group, const int chance,
 
 void map::place_gas_pump(int x, int y, int charges)
 {
-    if (one_in(6)) {
+    if (one_in(4)) {
         item diesel("diesel", 0);
         diesel.charges = charges;
         add_item(x, y, diesel);

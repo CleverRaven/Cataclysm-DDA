@@ -410,12 +410,15 @@ ter_id t_null,
     t_missile, t_missile_exploded,
     t_radio_tower, t_radio_controls,
     t_console_broken, t_console, t_gates_mech_control, t_gates_control_concrete, t_barndoor, t_palisade_pulley,
+    t_gates_control_metal,
     t_sewage_pipe, t_sewage_pump,
     t_centrifuge,
     t_column,
     t_vat,
     t_cvdbody, t_cvdmachine,
-    t_water_pump, t_improvised_shelter,
+    t_water_pump,
+    t_conveyor, t_machinery_light, t_machinery_heavy, t_machinery_old, t_machinery_electronic,
+    t_improvised_shelter,
     // Staircases etc.
     t_stairs_down, t_stairs_up, t_manhole, t_ladder_up, t_ladder_down, t_slope_down,
      t_slope_up, t_rope_up,
@@ -635,6 +638,7 @@ void set_ter_ids() {
     t_gates_control_concrete=terfind("t_gates_control_concrete");
     t_barndoor=terfind("t_barndoor");
     t_palisade_pulley=terfind("t_palisade_pulley");
+    t_gates_control_metal=terfind("t_gates_control_metal");
     t_sewage_pipe=terfind("t_sewage_pipe");
     t_sewage_pump=terfind("t_sewage_pump");
     t_centrifuge=terfind("t_centrifuge");
@@ -672,6 +676,11 @@ void set_ter_ids() {
     t_switch_even=terfind("t_switch_even");
     t_covered_well=terfind("t_covered_well");
     t_water_pump=terfind("t_water_pump");
+    t_conveyor=terfind("t_conveyor");
+    t_machinery_light=terfind("t_machinery_light");
+    t_machinery_heavy=terfind("t_machinery_heavy");
+    t_machinery_old=terfind("t_machinery_old");
+    t_machinery_electronic=terfind("t_machinery_electronic");
     t_open_air=terfind("t_open_air");
     t_plut_generator = terfind("t_plut_generator");
     t_pavement_bg_dp = terfind("t_pavement_bg_dp");
@@ -715,7 +724,8 @@ furn_id f_null,
     f_flower_marloss,
     f_floor_canvas,
     f_tatami,
-    f_kiln_empty, f_kiln_full, f_kiln_metal_empty, f_kiln_metal_full;
+    f_kiln_empty, f_kiln_full, f_kiln_metal_empty, f_kiln_metal_full,
+    f_robotic_arm;
 
 void set_furn_ids() {
     f_null=furnfind("f_null");
@@ -808,6 +818,7 @@ void set_furn_ids() {
     f_kiln_full=furnfind("f_kiln_full");
     f_kiln_metal_empty=furnfind("f_kiln_metal_empty");
     f_kiln_metal_full=furnfind("f_kiln_metal_full");
+    f_robotic_arm=furnfind("f_robotic_arm");
 }
 
 /*

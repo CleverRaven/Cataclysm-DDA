@@ -3413,8 +3413,16 @@ int iuse::extinguisher(player *p, item *it, bool, point)
     int mondex = g->mon_at(x, y);
     if (mondex != -1) {
         g->zombie(mondex).moves -= 150;
+        bool blind = false;
+        if (one_in(2) && g->zombie(mondex).has_flag(MF_SEES)) {
+            blind = true;
+            g->zombie(mondex).add_effect("blind", rng(10, 20));
+        }
         if (g->u.sees(g->zombie(mondex))) {
             p->add_msg_if_player(_("The %s is sprayed!"), g->zombie(mondex).name().c_str());
+            if(blind) {
+                p->add_msg_if_player(_("The %s looks blinded."), g->zombie(mondex).name().c_str());
+            }
         }
         if (g->zombie(mondex).made_of(LIQUID)) {
             if (g->u.sees(g->zombie(mondex))) {
@@ -6436,13 +6444,21 @@ int iuse::mop(player *p, item *it, bool, point)
         p->add_msg_if_player(_("The universe implodes and reforms around you."));
         return 0;
     }
-    if (g->m.moppable_items_at(dirx, diry)) {
-        g->m.mop_spills(dirx, diry);
-        add_msg(_("You mop up the spill."));
+    if (p->has_effect("blind") || p->worn_with_flag("BLIND")) {
+        add_msg(_("You move the mop around, unsure whether it's doing any good."));
         p->moves -= 15;
+        if (one_in(3) && g->m.moppable_items_at(dirx, diry)) {
+            g->m.mop_spills(dirx, diry);
+        }
     } else {
-        p->add_msg_if_player(m_info, _("There's nothing to mop there."));
-        return 0;
+        if (g->m.moppable_items_at(dirx, diry)) {
+            g->m.mop_spills(dirx, diry);
+            add_msg(_("You mop up the spill."));
+            p->moves -= 15;
+        } else {
+            p->add_msg_if_player(m_info, _("There's nothing to mop there."));
+            return 0;
+        }
     }
     return it->type->charges_to_use();
 }
@@ -6470,7 +6486,6 @@ int iuse::LAW(player *p, item *it, bool, point)
 {
     p->add_msg_if_player(_("You pull the activating lever, readying the LAW to fire."));
     it->make("LAW");
-    it->charges++;
     // When converting a tool to a gun, you need to set the current ammo type, this is usually done when a gun is reloaded.
     it->set_curammo( "66mm_HEAT" );
     return it->type->charges_to_use();
@@ -8068,7 +8083,13 @@ bool einkpc_download_memory_card(player *p, item *eink, item *mc)
 
 }
 
-const std::string photo_quality_names[] = { _("awful"), _("bad"), _("not bad"), _("good"), _("fine"), _("exceptional") };
+static const std::string &photo_quality_name( const int index )
+{
+    static std::array<std::string, 6> const names { {
+        { _("awful") }, { _("bad") }, { _("not bad") }, { _("good") }, { _("fine") }, { _("exceptional") } } };
+    return names[index];
+}
+
 
 int iuse::einktabletpc(player *p, item *it, bool t, point pos)
 {
@@ -8314,7 +8335,7 @@ int iuse::einktabletpc(player *p, item *it, bool t, point pos)
                 getline(f, s, ',');
                 char *chq = &s[0];
                 const int quality = atoi(chq);
-                menu_str += " [" + photo_quality_names[quality] + "]";
+                menu_str += " [" + photo_quality_name( quality ) + "]";
                 pmenu.addentry(k++, true, -1, menu_str.c_str());
             }
 
@@ -8481,8 +8502,11 @@ int iuse::camera(player *p, item *it, bool, point)
                 if (photo_quality < 0) {
                     photo_quality = 0;
                 }
+                if (p->has_effect("blind") || p->worn_with_flag("BLIND")) {
+                    photo_quality /= 2;
+                }
 
-                const std::string quality_name = photo_quality_names[photo_quality];
+                const std::string quality_name = photo_quality_name( photo_quality );
 
                 if (zid != -1) {
                     monster &z = g->zombie(zid);
@@ -8492,16 +8516,13 @@ int iuse::camera(player *p, item *it, bool, point)
                         z.add_effect("blind", rng(5, 10));
                     }
 
+                    // shoot past small monsters and hallucinations
                     if (zid != sel_zid && (z.type->size <= MS_SMALL || z.is_hallucination() || z.type->in_species("HALLUCINATION"))) {
                         continue;
                     }
 
-                    if (zid != sel_zid) {
-                        p->add_msg_if_player(m_warning, _("There's a %s in the way!"), z.name().c_str());
-                        return it->type->charges_to_use();
-                    }
-
-                    if (z.is_hallucination() || z.type->in_species("HALLUCINATION")) {
+                    // get an empty photo if the target is a hallucination
+                    if (zid == sel_zid && (z.is_hallucination() || z.type->in_species("HALLUCINATION"))) {
                         p->add_msg_if_player(_("Strange...there's nothing in the picture?"));
                         return it->type->charges_to_use();
                     }
@@ -8510,8 +8531,19 @@ int iuse::camera(player *p, item *it, bool, point)
                         //quest processing...
                     }
 
-                    p->add_msg_if_player(_("You took a %s photo of %s."), quality_name.c_str(),
-                                         z.name().c_str());
+                    if (zid == sel_zid) {
+                        // if the loop makes it to the target, take its photo
+                        if (p->has_effect("blind") || p->worn_with_flag("BLIND")) {
+                            p->add_msg_if_player(_("You took a photo of %s."), z.name().c_str());
+                        } else {
+                            p->add_msg_if_player(_("You took a %s photo of %s."), quality_name.c_str(),
+                                             z.name().c_str());
+                        }
+                    } else {
+                        // or take a photo of the monster that's in the way
+                        p->add_msg_if_player(m_warning, _("A %s got in the way of your photo."), z.name().c_str());
+                        photo_quality = 0;
+                    }
 
                     const std::string mtype = z.type->id;
 
@@ -8531,14 +8563,15 @@ int iuse::camera(player *p, item *it, bool, point)
                             char *chq = &monster_photos[strqpos];
                             const int old_quality = atoi(chq);
 
-                            if (photo_quality > old_quality) {
-                                chq = &string_format("%d", photo_quality)[0];
-                                monster_photos[strqpos] = *chq;
+                            if (!p->has_effect("blind") && !p->worn_with_flag("BLIND")) {
+                                if (photo_quality > old_quality) {
+                                    chq = &string_format("%d", photo_quality)[0];
+                                    monster_photos[strqpos] = *chq;
 
-                                p->add_msg_if_player(_("This photo is better than the previous one."));
+                                    p->add_msg_if_player(_("This photo is better than the previous one."));
 
+                                }
                             }
-
                         }
                     }
                     it->set_var( "CAMERA_MONSTER_PHOTOS", monster_photos );
@@ -8553,14 +8586,18 @@ int iuse::camera(player *p, item *it, bool, point)
                         guy->add_effect("blind", rng(5, 10));
                     }
 
-                    if (npcID != sel_npcID) {
-                        p->add_msg_if_player(m_warning, _("There's a %s in the way!"), guy->name.c_str());
-                        return it->type->charges_to_use();
-                    }
-
                     //just photo, no save. Maybe in the future we will need to create CAMERA_NPC_PHOTOS
-                    p->add_msg_if_player(_("You took a %s photo of %s."), photo_quality_names[photo_quality].c_str(),
-                                         guy->name.c_str());
+                    if (npcID == sel_npcID) {
+                        if (p->has_effect("blind") || p->worn_with_flag("BLIND")) {
+                            p->add_msg_if_player(_("You took a photo of %s."), guy->name.c_str());
+                        } else {
+                            p->add_msg_if_player(_("You took a %s photo of %s."), quality_name.c_str(),
+                                             guy->name.c_str());
+                        }
+                    } else {
+                        p->add_msg_if_player(m_warning, _("%s got in the way of your photo."), guy->name.c_str());
+                        photo_quality = 0;
+                    }
 
                     return it->type->charges_to_use();
                 }
@@ -8574,6 +8611,11 @@ int iuse::camera(player *p, item *it, bool, point)
     }
 
     if (c_photos == choice) {
+
+        if (p->has_effect("blind") || p->worn_with_flag("BLIND")) {
+            p->add_msg_if_player(_("You can't see the camera screen, you're blind."));
+            return 0;
+        }
 
         uimenu pmenu;
 
@@ -8603,7 +8645,7 @@ int iuse::camera(player *p, item *it, bool, point)
             char *chq = &s[0];
             const int quality = atoi(chq);
 
-            menu_str += " [" + photo_quality_names[quality] + "]";
+            menu_str += " [" + photo_quality_name( quality ) + "]";
 
             pmenu.addentry(k++, true, -1, menu_str.c_str());
         }
@@ -8626,6 +8668,11 @@ int iuse::camera(player *p, item *it, bool, point)
     }
 
     if (c_upload == choice) {
+
+        if (p->has_effect("blind") || p->worn_with_flag("BLIND")) {
+            p->add_msg_if_player(_("You can't see the camera screen, you're blind."));
+            return 0;
+        }
 
         p->moves -= 200;
 

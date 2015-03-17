@@ -497,7 +497,7 @@ public:
      * a spiral search for an empty square around it is performed.
      */
     void place_on_map();
- const Skill* best_skill();
+ const Skill* best_skill() const;
  void starting_weapon(npc_class type);
 
 // Save & load
