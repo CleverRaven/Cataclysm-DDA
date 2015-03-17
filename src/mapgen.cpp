@@ -5676,7 +5676,7 @@ ff.......|....|WWWWWWWW|\n\
             ter_set(cw, bw + 5, t_window);
             ter_set(cw + 1, bw + 5, t_window);
             ter_set(rng(rw + 2, rw + 8), bw + 5, t_door_c);
-            ter_set(rng(rw + 2, rw + 8), bw + 1, t_radio_controls);
+            set(rng(rw + 2, rw + 8), bw + 1, t_radio_controls, f_null);
             place_items("radio", 60, rw + 1, bw + 2, rw + 10, bw + 4, true, 0);
         } else { // No control room... simple controls near the tower
             ter_set(rng(lw, lw + 3), tw + 4, t_radio_controls);
