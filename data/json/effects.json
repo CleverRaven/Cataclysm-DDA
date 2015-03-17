@@ -1239,5 +1239,10 @@
     {
         "type": "effect_type",
         "id": "alarm_clock"
+    },
+    {
+        "//": "On roof of a vehicle, aiming a turret",
+        "type": "effect_type",
+        "id": "on_roof"
     }
 ]

@@ -100,8 +100,9 @@ double Creature::projectile_attack(const projectile &proj, int sourcex, int sour
     int px = sourcex;
     int py = sourcey;
 
-    // if this is a vehicle mounted turret, which vehicle is it mounted on?
-    const vehicle *in_veh = is_fake() ? g->m.veh_at(posx(), posy()) : NULL;
+    // If this is a vehicle mounted turret, which vehicle is it mounted on?
+    const vehicle *in_veh = ( is_fake() || has_effect( "on_roof" ) ) ? 
+        g->m.veh_at(posx(), posy()) : nullptr;
 
     //Start this now in case we hit something early
     std::vector<point> blood_traj = std::vector<point>();
@@ -357,8 +358,18 @@ void player::fire_gun(int tarx, int tary, bool burst)
         bio_power_drain = std::max( 1, ups_drain / 5 );
     }
 
+    // Fake UPS - used for (player-fired) vehicle mounted turrets
+    int fake_ups_drain = 0;
+    if( ups_drain > 0 && !worn.empty() && worn[0].type->id == "fake_UPS" ) {
+        num_shots = std::min( num_shots, worn[0].charges / ups_drain );
+        fake_ups_drain = ups_drain;
+        ups_drain = 0;
+        adv_ups_drain = 0;
+        bio_power_drain = 0;
+    }
+
     // cap our maximum burst size by the amount of UPS power left
-    if (ups_drain > 0 || adv_ups_drain > 0 || bio_power_drain > 0)
+    if( ups_drain > 0 || adv_ups_drain > 0 || bio_power_drain > 0 )
         while (!(has_charges("UPS_off", ups_drain * num_shots) ||
                  has_charges("adv_UPS_off", adv_ups_drain * num_shots) ||
                  (has_bionic("bio_ups") && power_level >= (bio_power_drain * num_shots)))) {
@@ -485,7 +496,9 @@ void player::fire_gun(int tarx, int tary, bool burst)
         }
 
         // Drain UPS power
-        if (has_charges("adv_UPS_off", adv_ups_drain)) {
+        if( fake_ups_drain > 0 ) {
+            use_charges( "fake_UPS", fake_ups_drain );
+        } else if (has_charges("adv_UPS_off", adv_ups_drain)) {
             use_charges("adv_UPS_off", adv_ups_drain);
         } else if (has_charges("UPS_off", ups_drain)) {
             use_charges("UPS_off", ups_drain);

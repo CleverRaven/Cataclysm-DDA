@@ -4467,7 +4467,7 @@ void vehicle::gain_moves()
             if( !part_flag( p, "TURRET" ) ) {
                 continue;
             }
-            bool success = fire_turret( p );
+            bool success = fire_turret( p, false );
             // Negative mode means we aimed manually a turret set not to aim automatically
             if( parts[p].mode < 0 ) {
                 parts[p].mode = 0;
@@ -5158,23 +5158,28 @@ void vehicle::cycle_turret_mode()
     add_msg( m_warning, _("Turret system is on, but all turrets are configured not to shoot.") );
 }
 
-bool vehicle::fire_turret (int p, bool /* burst */ )
+bool vehicle::fire_turret( int p, bool manual )
 {
-    if (!part_flag (p, "TURRET"))
+    if( !part_flag ( p, "TURRET" ) ) {
         return false;
+    }
+
     const item gun( part_info( p ).item, 0 );
     if( !gun.is_gun() ) {
         return false;
     }
+
     std::pair< point, point > &target = parts[p].target;
     // Manually aimed turrets will shoot even when disabled
-    if( parts[p].mode <= 0 && target.first == target.second ) {
+    if( parts[p].mode <= 0 && target.first == target.second && !manual ) {
         return false;
     }
+
     // Don't let manual-only turrets aim
-    if( target.first == target.second && part_flag( p, "MANUAL" ) ) {
+    if( !manual && target.first == target.second && part_flag( p, "MANUAL" ) ) {
         return false;
     }
+
     // Check for available power for turrets that use it.
     const auto &gun_data = *gun.type->gun;
     const int power = fuel_left(fuel_type_battery);
@@ -5182,15 +5187,14 @@ bool vehicle::fire_turret (int p, bool /* burst */ )
         return false;
     }
     long charges = gun.burst_size();
-    std::string whoosh = "";
     if( charges <= 0 ) {
         charges = 1;
     }
     ammotype amt = part_info( p ).fuel_type;
     int charge_mult = 1;
     int liquid_fuel = fuel_left( part_info( p ).fuel_type ); // Items for which a fuel tank exists
-    if( liquid_fuel > 1 )
-    {
+    bool success = false;
+    if( liquid_fuel > 1 ) {
         if ( gun.is_charger_gun() ) {
             if (one_in(100)) {
                 charges = rng(5,8); // kaboom
@@ -5198,13 +5202,10 @@ bool vehicle::fire_turret (int p, bool /* burst */ )
                 charges = rng(1,4);
             }
             // mode is INT_MIN when aimed manually, do not use abs(INT_MIN) for charges!
-            if( charges > abs( parts[p].mode ) && target.first == target.second ) {
+            if( !manual && charges > abs( parts[p].mode ) && target.first == target.second ) {
                 charges = abs( parts[p].mode ); // Currently only limiting, not increasing
             }
-            if( charges > 4 ) {
-                //~ the sound of a charge-rifle firing a massive ball of plasma
-                whoosh = _("whoosh!");
-            }
+
             charge_mult *= 5 * charges;
         }
         if( amt == fuel_type_plasma ) {
@@ -5223,7 +5224,11 @@ bool vehicle::fire_turret (int p, bool /* burst */ )
             return false;
         }
         long charges_left = charges;
-        if( fire_turret_internal(p, *gun.type, *am_type, charges_left, whoosh) ) {
+        // TODO sometime: change that g->u to a parameter, so that NPCs can shoot too
+        success = manual ? 
+            manual_fire_turret( p, g->u, *gun.type, *am_type, charges_left ) :
+            automatic_fire_turret( p, *gun.type, *am_type, charges_left );
+        if( success ) {
             long charges_consumed = charges - charges_left;
             // consume fuel
             charges_consumed *= charge_mult;
@@ -5242,7 +5247,10 @@ bool vehicle::fire_turret (int p, bool /* burst */ )
             charges = items.front().charges;
         }
         long charges_left = charges;
-        if( fire_turret_internal(p, *gun.type, *am_type, charges_left ) ) {
+        success = manual ? 
+            manual_fire_turret( p, g->u, *gun.type, *am_type, charges_left ) :
+            automatic_fire_turret( p, *gun.type, *am_type, charges_left );
+        if( success ) {
             // consume ammo
             long charges_consumed = charges - charges_left;
             charges_consumed *= charge_mult;
@@ -5253,7 +5261,9 @@ bool vehicle::fire_turret (int p, bool /* burst */ )
             }
         }
     }
-    return true;
+
+    // If manual, we need to know if the shot was actually executed
+    return !manual || success;
 }
 
 // Ammo/weapon tags to area of effect
@@ -5277,7 +5287,7 @@ int aoe_size( std::set< std::string > tags )
     return 0;
 }
 
-bool vehicle::fire_turret_internal (int p, const itype &gun, const itype &ammo, long &charges, const std::string &extra_sound)
+bool vehicle::automatic_fire_turret( int p, const itype &gun, const itype &ammo, long &charges )
 {
     int x = global_x() + parts[p].precalc[0].x;
     int y = global_y() + parts[p].precalc[0].y;
@@ -5337,9 +5347,9 @@ bool vehicle::fire_turret_internal (int p, const itype &gun, const itype &ammo, 
         target.first.y = y;
     }
 
-    // make a noise, if extra noise is to be made
-    if (extra_sound != "") {
-        sounds::sound(x, y, 20, extra_sound);
+    // Move the charger gun "whoosh" here - no need to pass it from above
+    if( tmp.weapon.is_charger_gun() && charges > 20 ) {
+        sounds::sound( x, y, 20, _("whoosh!") );
     }
     // notify player if player can see the shot
     if( g->u.sees(x, y) ) {
@@ -5356,6 +5366,68 @@ bool vehicle::fire_turret_internal (int p, const itype &gun, const itype &ammo, 
     charges = tmp.weapon.charges; // Return real ammo, in case of burst ending early
     
     return true;
+}
+
+bool vehicle::manual_fire_turret( int p, player &shooter, const itype &guntype, 
+                                  const itype &ammotype, long &charges )
+{
+    int x = global_x() + parts[p].precalc[0].x;
+    int y = global_y() + parts[p].precalc[0].y;
+
+    // Place the shooter at the turret
+    const point &oldpos = shooter.pos();
+    shooter.setx( x );
+    shooter.sety( y );
+
+    // Deactivate automatic aiming
+    // TODO: Remove this part and make it work without hacks
+    parts[p].mode = 0;
+
+    // Create a fake gun
+    // TODO: Damage the gun based on part hp
+    item gun( guntype.id, 0 );
+    gun.set_curammo( ammotype.id );
+    gun.charges = charges;
+
+    // Give shooter fake weapon
+    item old_weapon = shooter.weapon;
+    shooter.weapon = gun;
+
+    // Spawn a fake UPS to power any turreted weapons that need electricity.
+    item tmp_ups( "fake_UPS", 0 );
+    // Drain a ton of power
+    tmp_ups.charges = drain( fuel_type_battery, 1000 );
+    shooter.worn.insert( shooter.worn.begin(), tmp_ups ); // UGLY!
+
+    const int range = shooter.weapon.gun_range( &shooter );
+    auto mons = g->u.get_visible_creatures( range ); // No NPCs using turrets
+    constexpr target_mode tmode = TARGET_MODE_TURRET; // No aiming yet!
+    int tx = shooter.posx();
+    int ty = shooter.posy();
+    auto trajectory = g->pl_target_ui( tx, ty, range, &shooter.weapon, tmode );
+    const bool burst = true; // TODO: Fix
+    if( !trajectory.empty() ) {
+        const point &targ = trajectory.back();
+        // Put our shooter on the roof of the vehicle
+        shooter.add_effect( "on_roof", 1 );
+        // TODO (maybe): Less recoil? We're using a mounted, stabilized turret
+        shooter.fire_gun( targ.x, targ.y, burst );
+        // And now back - we don't want to get any weird behavior
+        shooter.remove_effect( "on_roof" );
+    }
+
+    // Done shooting, clean up
+    refill( fuel_type_battery, shooter.worn[0].charges );
+    shooter.worn.erase( shooter.worn.begin() ); // Also ugly
+    charges = shooter.weapon.charges;
+
+    // Place the shooter back where we took them from
+    shooter.setx( oldpos.x );
+    shooter.sety( oldpos.y );
+    // Give back old weapon
+    shooter.weapon = old_weapon;
+
+    return !trajectory.empty();
 }
 
 /**

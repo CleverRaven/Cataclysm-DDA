@@ -220,6 +220,13 @@ class game
                                   int hiy, std::vector <Creature *> t, int &target,
                                   item *relevent, target_mode mode,
                                   point from = point(-1, -1));
+        /** 
+         * Interface to target(), collects a list of targets & selects default target
+         * finally calls target() and returns its result.
+         * Used by vehicle::manual_fire_turret()
+         */
+        std::vector<point> pl_target_ui(int &x, int &y, int range, item *relevent, target_mode mode,
+                                        int default_target_x = -1, int default_target_y = -1);
         /** Redirects to player::cancel_activity(). */
         void cancel_activity();
         /** Asks if the player wants to cancel their activity, and if so cancels it. */
@@ -628,11 +635,6 @@ class game
         void get_lookaround_dimensions(int &lookWidth, int &begin_y, int &begin_x) const;
 
         input_context get_player_input(std::string &action);
-
-        // interface to target(), collects a list of targets & selects default target
-        // finally calls target() and returns its result.
-        std::vector<point> pl_target_ui(int &x, int &y, int range, item *relevent, target_mode mode,
-                                        int default_target_x = -1, int default_target_y = -1);
 
         // Map updating and monster spawning
         void replace_stair_monsters();

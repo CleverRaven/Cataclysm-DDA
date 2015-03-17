@@ -680,7 +680,8 @@ public:
     void leak_fuel (int p);
     void shed_loose_parts();
 
-    // Manual turret aiming
+    // Manual turret aiming menu (select turrets etc.) when shooting from controls
+    // TODO: Make it apply some sort of penalty for indirect aiming
     void aim_turrets();
 
     // Per-turret mode selection
@@ -689,12 +690,17 @@ public:
     // Cycle through available turret modes
     void cycle_turret_mode();
 
-    // fire the turret which is part p
-    bool fire_turret( int p, bool burst = true );
+    // Set up the turret to fire
+    bool fire_turret( int p, bool manual );
 
-    // internal procedure of turret firing
-    bool fire_turret_internal (int p, const itype &gun, const itype &ammo, long &charges,
-                               const std::string &firing_sound = "");
+    // Fire turret at some automatically acquired target
+    bool automatic_fire_turret( int p, const itype &gun, const itype &ammo, long &charges );
+
+    // Manual turret fire - gives the `shooter` a temporary weapon, makes them use it,
+    // then gives back the weapon held before (if any).
+    // TODO: Make it work correctly with UPS-powered turrets when player has a UPS already
+    bool manual_fire_turret( int p, player &shooter, const itype &guntype, 
+                             const itype &ammotype, long &charges );
 
     // opens/closes doors or multipart doors
     void open(int part_index);

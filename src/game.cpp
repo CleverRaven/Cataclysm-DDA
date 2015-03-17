@@ -10607,8 +10607,17 @@ void game::plfire(bool burst, int default_target_x, int default_target_y)
             return;
         }
     }
-    // draw pistol from a holster if unarmed
+    // Use vehicle turret or draw a pistol from a holster if unarmed
     if( !u.is_armed() ) {
+        // Vehicle turret first, if on our tile
+        int part = -1;
+        vehicle *veh = m.veh_at( u.posx(), u.posy(), part );
+        if( veh != nullptr ) {
+            int vpturret = veh->part_with_feature( part, "TURRET", true );
+            if( vpturret >= 0 && veh->fire_turret( vpturret, true ) ) {
+                return;
+            }
+        }
         // get a list of holsters from worn items
         std::vector<item *> holsters;
         for( auto &worn : u.worn ) {
@@ -10618,6 +10627,7 @@ void game::plfire(bool burst, int default_target_x, int default_target_y)
                 holsters.push_back(&worn);
             }
         }
+        // TODO: Turret vs. holster choice
         if( !holsters.empty() ) {
             int choice = -1;
             // only one holster found, choose it
