@@ -83,7 +83,7 @@
             "furniture": {
             "c": "f_counter"
             },
-            "place_groups": [
+            "place_items": [
                 { "item": "pwr_clothing",   "x": 10, "y": 17, "chance": 18 },
                 { "item": "pwr_parts",      "x": 10, "y": 17, "chance": 12 },
                 
@@ -154,7 +154,7 @@
             "furniture": {
             "c": "f_counter"
             },
-            "place_groups": [
+            "place_items": [
                 { "item": "pwr_clothing",   "x": 17, "y": 17, "chance": 24 },
                 { "item": "pwr_parts",      "x": 17, "y": 17, "chance": 12 },
                 

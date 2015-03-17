@@ -281,7 +281,7 @@ void npc::execute_action(npc_action action, int target)
         for (size_t i = 0; i < slice.size(); i++) {
             item &it = slice[i]->front();
             bool am = (it.is_gun() &&
-                       has_ammo( it.type->gun->ammo ).size() > 0);
+                       get_ammo( it.type->gun->ammo ).size() > 0);
             if (it.is_gun() && (!ammo_found || am)) {
                 index = i;
                 ammo_found = (ammo_found || am);
@@ -950,7 +950,7 @@ bool npc::can_reload()
     if (!weapon.is_gun()) {
         return false;
     }
-    return (weapon.charges < weapon.type->gun->clip && has_ammo(weapon.ammo_type()).size() > 0);
+    return (weapon.charges < weapon.type->gun->clip && get_ammo(weapon.ammo_type()).size() > 0);
 }
 
 bool npc::need_to_reload()
@@ -1780,10 +1780,10 @@ void npc::activate_item(int item_index)
     item *it = &i_at(item_index);
     if (it->is_tool()) {
         it_tool *tool = dynamic_cast<it_tool *>(it->type);
-        tool->invoke(this, it, false, pos());
+        tool->invoke( this, it, pos() );
     } else if (it->is_food()) {
         it_comest *comest = dynamic_cast<it_comest *>(it->type);
-        comest->invoke(this, it, false, pos());
+        comest->invoke( this, it, pos() );
     }
 }
 

@@ -58,7 +58,14 @@
         "type": "bionic",
         "id": "bio_ears",
         "name": "Enhanced Hearing",
-        "description": "Your hearing has been drastically improved, allowing you to hear ten times better than the average person.  Additionally, high-intensity sounds will be automatically dampened before they can damage your hearing."
+        "toggled": true,
+        "description": "When this bionic is active, your hearing will be drastically improved, allowing you to hear ten times better than the average person.  Additionally, high-intensity sounds will be automatically dampened before they can damage your hearing."
+    },{
+        "type": "bionic",
+        "id": "bio_earplugs",
+        "name": "Sound Dampeners",
+        "toggled": true,
+        "description": "When this bionic is active, you can block hearing completely (with Enhanced Hearing deactivated) or dampen sound slightly (with Enhanced Hearing activated)."
     },{
         "type": "bionic",
         "id": "bio_eye_enhancer",
@@ -151,6 +158,7 @@
         "type": "bionic",
         "id": "bio_tools",
         "name": "Integrated Toolset",
+        "toggled": true,
         "description": "Implanted in your hands and fingers is a complete tool set - screwdriver, hammer, wrench, and heating elements.  You can use this in place of many tools when crafting."
     },{
         "type": "bionic",

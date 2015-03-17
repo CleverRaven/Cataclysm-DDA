@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: cataclysm-dda 0.B\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-02-23 15:09+0300\n"
+"POT-Creation-Date: 2015-03-07 18:54-0600\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -3865,7 +3865,7 @@ msgstr ""
 
 #: lang/json/AMMO_from_json.py
 msgid "metal fragments"
-msgid_plural "metal fragmentss"
+msgid_plural "metal fragments"
 msgstr[0] ""
 msgstr[1] ""
 
@@ -28460,7 +28460,7 @@ msgstr ""
 
 #: lang/json/GUN_from_json.py
 msgid "Dual Nail Turret"
-msgid_plural "Nail Turrets"
+msgid_plural "Dual Nail Turrets"
 msgstr[0] ""
 msgstr[1] ""
 
@@ -40348,15 +40348,18 @@ msgid "Freezing"
 msgstr ""
 
 #: lang/json/effects_from_json.py
-msgid "is exposed to the cold."
+#, no-python-format
+msgid "Your %s is exposed to the cold."
 msgstr ""
 
 #: lang/json/effects_from_json.py
-msgid "is very exposed to the cold."
+#, no-python-format
+msgid "Your %s is very exposed to the cold."
 msgstr ""
 
 #: lang/json/effects_from_json.py
-msgid "is dangerously cold!"
+#, no-python-format
+msgid "Your %s is dangerously cold!"
 msgstr ""
 
 #: lang/json/effects_from_json.py
@@ -40372,15 +40375,18 @@ msgid "Scorching"
 msgstr ""
 
 #: lang/json/effects_from_json.py
-msgid "feels warm."
+#, no-python-format
+msgid "Your %s feels warm."
 msgstr ""
 
 #: lang/json/effects_from_json.py
-msgid "is sweating from the heat."
+#, no-python-format
+msgid "Your %s is sweating from the heat."
 msgstr ""
 
 #: lang/json/effects_from_json.py
-msgid "is sweating profusely!"
+#, no-python-format
+msgid "Your %s is sweating profusely!"
 msgstr ""
 
 #: lang/json/effects_from_json.py
@@ -40392,11 +40398,13 @@ msgid "Frostbite"
 msgstr ""
 
 #: lang/json/effects_from_json.py
-msgid "is frostnipped and has gone numb."
+#, no-python-format
+msgid "Your %s is frostnipped and has gone numb."
 msgstr ""
 
 #: lang/json/effects_from_json.py
-msgid "is frostbitten! Its tissues are frozen from the cold!"
+#, no-python-format
+msgid "Your %s is frostbitten! Its tissues are frozen from the cold!"
 msgstr ""
 
 #: lang/json/effects_from_json.py
@@ -40404,7 +40412,8 @@ msgid "Defrosting"
 msgstr ""
 
 #: lang/json/effects_from_json.py
-msgid "is starting to feel the damage cold has wrought."
+#, no-python-format
+msgid "Your %s is starting to feel the damage cold has wrought."
 msgstr ""
 
 #: lang/json/effects_from_json.py
@@ -40412,7 +40421,8 @@ msgid "Blisters"
 msgstr ""
 
 #: lang/json/effects_from_json.py
-msgid "is blistering from the intense heat."
+#, no-python-format
+msgid "Your %s is blistering from the intense heat."
 msgstr ""
 
 #: lang/json/effects_from_json.py
@@ -53106,10 +53116,6 @@ msgid "\"WHY DO ALL THE DEAD CHILDREN GO TO SCHOOL\""
 msgstr ""
 
 #: lang/json/snippet_from_json.py
-msgid "\"The copbots... the turrets... they just fucking ignore them.\""
-msgstr ""
-
-#: lang/json/snippet_from_json.py
 msgid "\"Don't keep your goddamn casings!  They'll just weigh you down.\""
 msgstr ""
 
@@ -58481,6 +58487,10 @@ msgid "mounted dragon turret"
 msgstr ""
 
 #: lang/json/vehicle_part_from_json.py
+msgid "external cargo carrier"
+msgstr ""
+
+#: lang/json/vehicle_part_from_json.py
 msgid "military composite ram"
 msgstr ""
 
@@ -61188,7 +61198,7 @@ msgstr ""
 msgid "lt blue"
 msgstr ""
 
-#: src/color.cpp src/item.cpp src/npctalk.cpp
+#: src/color.cpp src/item.cpp
 msgid "blue"
 msgstr ""
 
@@ -63793,12 +63803,6 @@ msgstr ""
 msgid "Rare: "
 msgstr ""
 
-#. ~ Used for effect descriptions, "Your (body_part_name) (effect description)"
-#: src/effect.cpp
-#, c-format
-msgid "Your %s "
-msgstr ""
-
 #: src/event.cpp
 msgctxt "memorial_male"
 msgid "Became wanted by the police!"
@@ -66172,6 +66176,10 @@ msgstr ""
 
 #: src/game.cpp
 msgid "Debug mode OFF!"
+msgstr ""
+
+#: src/game.cpp
+msgid "Watch the last moments of your life...?"
 msgstr ""
 
 #: src/game.cpp
@@ -70735,6 +70743,11 @@ msgstr ""
 #: src/iexamine.cpp
 #, c-format
 msgid "Forage through %s?"
+msgstr ""
+
+#: src/iexamine.cpp
+#, c-format
+msgid "You forage through the %s."
 msgstr ""
 
 #: src/iexamine.cpp
@@ -78231,16 +78244,17 @@ msgid "CE"
 msgstr ""
 
 #: src/live_view.cpp
-msgid "Mouse View"
+msgid "More items here..."
 msgstr ""
 
+#. ~ item name [quantity]
 #: src/live_view.cpp
 #, c-format
-msgid " [%d]"
+msgid "%s [%d]"
 msgstr ""
 
 #: src/live_view.cpp
-msgid "More items here..."
+msgid "Mouse View"
 msgstr ""
 
 #: src/main.cpp
@@ -84322,10 +84336,6 @@ msgid "bummed"
 msgstr ""
 
 #: src/npctalk.cpp
-msgid "dejected"
-msgstr ""
-
-#: src/npctalk.cpp
 msgid "depressed"
 msgstr ""
 
@@ -84342,7 +84352,17 @@ msgid "unhappy"
 msgstr ""
 
 #: src/npctalk.cpp
+msgid "dejected"
+msgstr ""
+
+#: src/npctalk.cpp
 msgid "down"
+msgstr ""
+
+#. ~ The word blue here means "depressed", not the color blue.
+#: src/npctalk.cpp
+msgctxt "npc_depressed"
+msgid "blue"
 msgstr ""
 
 #: src/npctalk.cpp

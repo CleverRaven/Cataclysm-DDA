@@ -48,28 +48,28 @@
   "reversible": false,
   "autolearn": true,
   "tools": [
-	[
-	["con_mix", 50]
-	]
-	],
+    [
+    ["con_mix", 50]
+    ]
+    ],
   "components":
-	[
-	 [
-	 [ "material_cement", 50]
-	 ],
-	 [
-	 [ "material_sand", 25]
-	 ],
-	 [
-	 [ "rock", 20]
-	 ],
-	 [
-	 [ "water", 5]
-	 ],
-	 [
-	 [ "bag_canvas", 1]
-	 ]
-	]
+    [
+     [
+     [ "material_cement", 50]
+     ],
+     [
+     [ "material_sand", 25]
+     ],
+     [
+     [ "rock", 20]
+     ],
+     [
+     [ "water", 5]
+     ],
+     [
+     [ "bag_canvas", 1]
+     ]
+    ]
 },{
   "type" : "recipe",
   "result": "wood_smoother",
@@ -82,16 +82,16 @@
   "reversible": false,
   "autolearn": true,
   "qualities": [
-	{"id":"HAMMER","level":2,"amount":1}
+    {"id":"HAMMER","level":2,"amount":1}
   ], "components":
-	[
-	 [
-	 [ "nail", 8 ]
-	 ],
-	 [
-	 [ "2x4", 3 ]
-	 ]
-	]
+    [
+     [
+     [ "nail", 8 ]
+     ],
+     [
+     [ "2x4", 3 ]
+     ]
+    ]
 },{
   "type" : "recipe",
   "result": "down_pillow",
@@ -409,7 +409,41 @@
     [
       [ "bottle_glass", 1 ],
       [ "flask_glass", 1],
-      [ "jar_glass", 1 ],
+      [ "jar_glass", 1 ]
+    ],
+    [
+      [ "clay_teapot", 1 ],
+      [ "jug_clay", 1 ],
+      [ "can_food", 1 ],
+      [ "can_drink", 1 ],
+      [ "canister_empty", 1 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
+  "result": "gasoline_lantern",
+  "category": "CC_OTHER",
+  "subcategory": "CSC_OTHER_TOOLS",
+  "skill_used": "fabrication",
+  "difficulty": 5,
+  "time": 60000,
+  "reversible": false,
+  "autolearn": true,
+  "qualities":[
+    {"id":"HAMMER","level":1,"amount":1}
+  ], "components": [
+    [
+      [ "scrap", 1 ]
+    ],
+    [
+      [ "rag", 1 ]
+    ],
+    [
+      [ "bottle_glass", 1 ],
+      [ "flask_glass", 1],
+      [ "jar_glass", 1 ]
+    ],
+    [
       [ "clay_teapot", 1 ],
       [ "jug_clay", 1 ],
       [ "can_food", 1 ],
@@ -698,7 +732,8 @@
     ],
     [
       [ "rock", 1 ],
-      [ "ceramic_shard", 1 ]
+      [ "ceramic_shard", 1 ],
+      [ "sharp_rock", 1 ]
     ],
     [
       [ "string_6", 1 ],
@@ -771,7 +806,8 @@
     ],
     [
       [ "rock", 1 ],
-      [ "ceramic_shard", 1 ]
+      [ "ceramic_shard", 1 ],
+      [ "sharp_rock", 1 ]
     ],
     [
       [ "string_6", 2 ],
@@ -801,7 +837,8 @@
     ],
     [
       [ "rock", 1 ],
-      [ "ceramic_shard", 1 ]
+      [ "ceramic_shard", 1 ],
+      [ "sharp_rock", 1 ]
     ],
     [
       [ "string_6", 2 ],
@@ -810,6 +847,38 @@
       [ "plant_fibre", 40 ]
     ]
   ]
+},{
+    "type" : "recipe",
+    "result": "primitive_adze",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_TOOLS",
+    "skill_used": "fabrication",
+    "skills_required": [ "survival", 2 ],
+    "difficulty": 2,
+    "time": 60000,
+    "reversible": false,
+    "autolearn": true,
+    "qualities":[
+      {"id":"HAMMER","level":2,"amount":1},
+      {"id":"CUT","level":1,"amount":1}
+    ],
+    "components": [
+      [
+        [ "stick", 1 ], 
+        [ "2x4", 1 ]
+      ],
+      [
+        [ "rock", 1 ],
+        [ "ceramic_shard", 1 ],
+        [ "sharp_rock", 1 ]
+      ],
+      [
+        [ "string_6", 2 ],
+        [ "sinew", 40 ],
+        [ "thread", 40 ],
+        [ "plant_fibre", 40 ]
+      ]
+    ]
 },{
   "type" : "recipe",
   "result": "fire_drill",
@@ -921,6 +990,92 @@
     ],
     [
       [ "skewer", 20 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
+  "result": "stomach_sealed",
+  "category": "CC_OTHER",
+  "subcategory": "CSC_OTHER_CONTAINERS",
+  "skill_used": "survival",
+  "difficulty": 1,
+  "time": 30000,
+  "reversible": false,
+  "autolearn": true,
+  "qualities": [
+    {"id":"CUT","level":1,"amount":1},
+    {"id":"BOIL","level":1,"amount":1}
+  ],
+  "tools": [
+    [
+      [ "hotplate", 3 ],
+      [ "toolset", 3 ],
+      [ "coffeemaker", 3],
+      [ "atomic_coffeepot", -1 ],
+      [ "fire", -1 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "water", 5 ],
+      [ "water_clean", 5 ]
+      
+    ],
+    [
+      [ "stomach", 1]
+    ],
+    [
+      [ "sinew", 50 ],
+      [ "thread", 50 ],
+      [ "plant_fibre", 50],
+      [ "yarn", 25],
+      [ "string_6", 1]
+    ],
+    [
+      [ "pine_bough", 2 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
+  "result": "large_stomach_sealed",
+  "category": "CC_OTHER",
+  "subcategory": "CSC_OTHER_CONTAINERS",
+  "skill_used": "survival",
+  "difficulty": 1,
+  "time": 45000,
+  "reversible": false,
+  "autolearn": true,
+  "qualities": [
+    {"id":"CUT","level":1,"amount":1},
+    {"id":"BOIL","level":1,"amount":1}
+  ],
+  "tools": [
+    [
+      [ "hotplate", 4 ],
+      [ "toolset", 4 ],
+      [ "coffeemaker", 4],
+      [ "atomic_coffeepot", -1 ],
+      [ "fire", -1 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "water", 8 ],
+      [ "water_clean", 8 ]
+      
+    ],
+    [
+      [ "stomach_large", 1]
+    ],
+    [
+      [ "sinew", 150 ],
+      [ "thread", 150 ],
+      [ "plant_fibre", 150],
+      [ "yarn", 75],
+      [ "string_6", 3]
+    ],
+    [
+      [ "pine_bough", 4 ]
     ]
   ]
 },{
@@ -1986,7 +2141,7 @@
   "type" : "recipe",
   "result": "basket",
   "category": "CC_OTHER",
-  "subcategory": "CSC_OTHER_MATERIALS",
+  "subcategory": "CSC_OTHER_PARTS",
   "skill_used": "fabrication",
   "difficulty": 1,
   "time": 8000,
@@ -2012,7 +2167,7 @@
   "type" : "recipe",
   "result": "folding_basket",
   "category": "CC_OTHER",
-  "subcategory": "CSC_OTHER_MATERIALS",
+  "subcategory": "CSC_OTHER_PARTS",
   "skill_used": "fabrication",
   "difficulty": 1,
   "time": 8000,
@@ -2042,7 +2197,7 @@
   "type" : "recipe",
   "result": "xlframe",
   "category": "CC_OTHER",
-  "subcategory": "CSC_OTHER_MATERIALS",
+  "subcategory": "CSC_OTHER_PARTS",
   "skill_used": "fabrication",
   "difficulty": 1,
   "time": 8000,
@@ -2068,7 +2223,7 @@
   "type" : "recipe",
   "result": "foldframe",
   "category": "CC_OTHER",
-  "subcategory": "CSC_OTHER_MATERIALS",
+  "subcategory": "CSC_OTHER_PARTS",
   "skill_used": "fabrication",
   "difficulty": 1,
   "time": 8000,
@@ -2094,7 +2249,7 @@
   "type" : "recipe",
   "result": "wheel_wheelchair",
   "category": "CC_OTHER",
-  "subcategory": "CSC_OTHER_MATERIALS",
+  "subcategory": "CSC_OTHER_PARTS",
   "skill_used": "fabrication",
   "difficulty": 2,
   "time": 5000,
@@ -2125,7 +2280,7 @@
   "type" : "recipe",
   "result": "hand_rims",
   "category": "CC_OTHER",
-  "subcategory": "CSC_OTHER_MATERIALS",
+  "subcategory": "CSC_OTHER_PARTS",
   "skill_used": "fabrication",
   "difficulty": 1,
   "time": 4000,
@@ -2154,7 +2309,7 @@
   "type" : "recipe",
   "result": "frame",
   "category": "CC_OTHER",
-  "subcategory": "CSC_OTHER_MATERIALS",
+  "subcategory": "CSC_OTHER_PARTS",
   "skill_used": "fabrication",
   "difficulty": 1,
   "time": 8000,
@@ -2185,7 +2340,7 @@
   "type" : "recipe",
   "result": "hdframe",
   "category": "CC_OTHER",
-  "subcategory": "CSC_OTHER_MATERIALS",
+  "subcategory": "CSC_OTHER_PARTS",
   "skill_used": "fabrication",
   "difficulty": 1,
   "time": 8000,
@@ -2216,7 +2371,7 @@
   "type" : "recipe",
   "result": "frame_wood",
   "category": "CC_OTHER",
-  "subcategory": "CSC_OTHER_MATERIALS",
+  "subcategory": "CSC_OTHER_PARTS",
   "skill_used": "fabrication",
   "difficulty": 1,
   "time": 6000,
@@ -2236,7 +2391,7 @@
   "type" : "recipe",
   "result": "frame_wood_light",
   "category": "CC_OTHER",
-  "subcategory": "CSC_OTHER_MATERIALS",
+  "subcategory": "CSC_OTHER_PARTS",
   "skill_used": "fabrication",
   "difficulty": 0,
   "time": 4000,
@@ -2255,7 +2410,7 @@
   "type" : "recipe",
   "result": "wheel_wood",
   "category": "CC_OTHER",
-  "subcategory": "CSC_OTHER_MATERIALS",
+  "subcategory": "CSC_OTHER_PARTS",
   "skill_used": "fabrication",
   "difficulty": 3,
   "time": 6000,
@@ -2276,7 +2431,7 @@
   "type" : "recipe",
   "result": "wheel_wood_b",
   "category": "CC_OTHER",
-  "subcategory": "CSC_OTHER_MATERIALS",
+  "subcategory": "CSC_OTHER_PARTS",
   "skill_used": "fabrication",
   "difficulty": 4,
   "time": 12000,
@@ -2326,7 +2481,7 @@
   "type" : "recipe",
   "result": "wood_plate",
   "category": "CC_OTHER",
-  "subcategory": "CSC_OTHER_MATERIALS",
+  "subcategory": "CSC_OTHER_PARTS",
   "skill_used": "fabrication",
   "difficulty": 2,
   "time": 6000,
@@ -2344,7 +2499,7 @@
   "type" : "recipe",
   "result": "steel_plate",
   "category": "CC_OTHER",
-  "subcategory": "CSC_OTHER_MATERIALS",
+  "subcategory": "CSC_OTHER_PARTS",
   "skill_used": "fabrication",
   "difficulty": 4,
   "time": 12000,
@@ -2373,7 +2528,7 @@
   "type" : "recipe",
   "result": "spiked_plate",
   "category": "CC_OTHER",
-  "subcategory": "CSC_OTHER_MATERIALS",
+  "subcategory": "CSC_OTHER_PARTS",
   "skill_used": "fabrication",
    "difficulty": 4,
   "time": 12000,
@@ -2408,7 +2563,7 @@
   "type" : "recipe",
   "result": "hard_plate",
   "category": "CC_OTHER",
-  "subcategory": "CSC_OTHER_MATERIALS",
+  "subcategory": "CSC_OTHER_PARTS",
   "skill_used": "fabrication",
    "difficulty": 6,
    "note": "hardened metal tools require high fabrication, so +1 diff here",
@@ -5749,7 +5904,8 @@
     ],
   "tools": [
     [
-      [ "soldering_iron", 25 ]
+      [ "soldering_iron", 25 ],
+      [ "toolset", 25 ]
     ]
   ],
   "components": [
@@ -6510,14 +6666,14 @@
   "reversible": false,
   "autolearn": true,
   "components":
-	[
-	 [
-	 [ "clay_lump", 1]
-	 ],
-	 [
-	 [ "water", 1]
-	 ]
-	]
+    [
+     [
+     [ "clay_lump", 1]
+     ],
+     [
+     [ "water", 1]
+     ]
+    ]
 },{
   "type" : "recipe",
   "result": "brick",
@@ -6530,16 +6686,16 @@
   "reversible": false,
   "autolearn": true,
   "tools": [
-	[
-	["brick_kiln", 20]
-	]
-	],
+    [
+    ["brick_kiln", 20]
+    ]
+    ],
   "components":
-	[
-	 [
-	 [ "crude_brick", 1]
-	 ]
-	]
+    [
+     [
+     [ "crude_brick", 1]
+     ]
+    ]
 },{
   "type" : "recipe",
   "result": "mortar_build",
@@ -6553,21 +6709,21 @@
   "autolearn": true,
   "tools": [
 [
-	["con_mix", 50]
-	]
-	],
+    ["con_mix", 50]
+    ]
+    ],
   "components":
-	[
-	 [
+    [
+     [
     [ "material_cement", 50]
-	 ],
-	 [
+     ],
+     [
     [ "pebble", 20]
-	 ],
-	 [
+     ],
+     [
     [ "bag_canvas", 1]
-	 ]
-	]
+     ]
+    ]
 },{
   "type" : "recipe",
   "result": "survivor_mess_kit",
@@ -6624,6 +6780,77 @@
 [ "material_sand", 25]
 ]
 ]
+},{
+  "type" : "recipe",
+  "result": "canteen",
+  "category": "CC_OTHER",
+  "subcategory": "CSC_OTHER_CONTAINERS",
+  "skill_used": "fabrication",
+  "difficulty": 4,
+  "time": 35000,
+  "reversible": false,
+  "autolearn": true,
+  "tools": [
+    [
+      ["mold_plastic", -1]
+    ],
+    [
+      ["hotplate", 10],
+      ["toolset", 10],
+      ["fire", -1]
+    ],
+    [
+      ["sewing_kit", 4],
+      ["needle_bone", 4],
+      ["needle_wood", 4],
+      ["tailors_kit", 4]
+    ]
+  ],
+  "components": [
+    [
+      ["plastic_chunk", 6]
+    ],
+    [
+      ["rag", 3],
+      ["leather", 3],
+      ["fur", 3]
+    ]
+  ]
+},{
+  "type" : "recipe",
+  "result": "2lcanteen",
+  "category": "CC_OTHER",
+  "subcategory": "CSC_OTHER_CONTAINERS",
+  "skill_used": "fabrication",
+  "difficulty": 4,
+  "time": 40000,
+  "reversible": false,
+  "autolearn": true,
+  "tools": [
+    [
+      ["mold_plastic", -1]
+    ],
+    [
+      ["hotplate", 15],
+      ["toolset", 15],
+      ["fire", -1]
+    ],
+    [
+      ["sewing_kit", 4],
+      ["needle_bone", 4],
+      ["needle_wood", 4],
+      ["tailors_kit", 4]
+    ]
+  ],
+  "components": [
+    [
+      ["plastic_chunk", 10]
+    ],
+    [
+      ["rag", 3],
+      ["leather", 3],
+      ["fur", 3]
+    ]
+  ]
 }
-
 ]

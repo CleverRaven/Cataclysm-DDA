@@ -59,11 +59,12 @@ class wish_mutate_callback: public uimenu_callback
             if ( ! started ) {
                 started = true;
                 padding = std::string(menu->pad_right - 1, ' ');
-                for( auto &traits_iter : traits ) {
+                for( auto &traits_iter : mutation_branch::get_all() ) {
                     vTraits.push_back( traits_iter.first );
                     pTraits[traits_iter.first] = ( p->has_trait( traits_iter.first ) );
                 }
             }
+            auto &mdata = mutation_branch::get( vTraits[entnum] );
 
             int startx = menu->w_width - menu->pad_right;
             for ( int i = 1; i < lastlen; i++ ) {
@@ -71,67 +72,67 @@ class wish_mutate_callback: public uimenu_callback
             }
 
             mvwprintw(menu->window, 1, startx,
-                      mutation_data[vTraits[ entnum ]].valid ? _("Valid") : _("Nonvalid"));
+                      mdata.valid ? _("Valid") : _("Nonvalid"));
             int line2 = 2;
 
-            if ( !mutation_data[vTraits[entnum]].prereqs.empty() ) {
+            if ( !mdata.prereqs.empty() ) {
                 line2++;
                 mvwprintz(menu->window, line2, startx, c_ltgray, _("Prereqs:"));
-                for (auto &j : mutation_data[vTraits[ entnum ]].prereqs) {
-                    mvwprintz(menu->window, line2, startx + 11, mcolor(j), "%s", traits[j].name.c_str());
+                for (auto &j : mdata.prereqs) {
+                    mvwprintz(menu->window, line2, startx + 11, mcolor(j), "%s", mutation_branch::get_name( j ).c_str());
                     line2++;
                 }
             }
 
-            if ( !mutation_data[vTraits[entnum]].prereqs2.empty() ) {
+            if ( !mdata.prereqs2.empty() ) {
                 line2++;
                 mvwprintz(menu->window, line2, startx, c_ltgray, _("Prereqs, 2d:"));
-                for (auto &j : mutation_data[vTraits[ entnum ]].prereqs2) {
-                    mvwprintz(menu->window, line2, startx + 15, mcolor(j), "%s", traits[j].name.c_str());
+                for (auto &j : mdata.prereqs2) {
+                    mvwprintz(menu->window, line2, startx + 15, mcolor(j), "%s", mutation_branch::get_name( j ).c_str());
                     line2++;
                 }
             }
 
-            if ( !mutation_data[vTraits[entnum]].threshreq.empty() ) {
+            if ( !mdata.threshreq.empty() ) {
                 line2++;
                 mvwprintz(menu->window, line2, startx, c_ltgray, _("Thresholds required:"));
-                for (auto &j : mutation_data[vTraits[ entnum ]].threshreq) {
-                    mvwprintz(menu->window, line2, startx + 21, mcolor(j), "%s", traits[j].name.c_str());
+                for (auto &j : mdata.threshreq) {
+                    mvwprintz(menu->window, line2, startx + 21, mcolor(j), "%s", mutation_branch::get_name( j ).c_str());
                     line2++;
                 }
             }
 
-            if ( !mutation_data[vTraits[entnum]].cancels.empty() ) {
+            if ( !mdata.cancels.empty() ) {
                 line2++;
                 mvwprintz(menu->window, line2, startx, c_ltgray, _("Cancels:"));
-                for (auto &j : mutation_data[vTraits[ entnum ]].cancels) {
-                    mvwprintz(menu->window, line2, startx + 11, mcolor(j), "%s", traits[j].name.c_str());
+                for (auto &j : mdata.cancels) {
+                    mvwprintz(menu->window, line2, startx + 11, mcolor(j), "%s", mutation_branch::get_name( j ).c_str());
                     line2++;
                 }
             }
 
-            if ( !mutation_data[vTraits[entnum]].replacements.empty() ) {
+            if ( !mdata.replacements.empty() ) {
                 line2++;
                 mvwprintz(menu->window, line2, startx, c_ltgray, _("Becomes:"));
-                for (auto &j : mutation_data[vTraits[ entnum ]].replacements) {
-                    mvwprintz(menu->window, line2, startx + 11, mcolor(j), "%s", traits[j].name.c_str());
+                for (auto &j : mdata.replacements) {
+                    mvwprintz(menu->window, line2, startx + 11, mcolor(j), "%s", mutation_branch::get_name( j ).c_str());
                     line2++;
                 }
             }
 
-            if ( !mutation_data[vTraits[entnum]].additions.empty() ) {
+            if ( !mdata.additions.empty() ) {
                 line2++;
                 mvwprintz(menu->window, line2, startx, c_ltgray, _("Add-ons:"));
-                for (auto &j : mutation_data[vTraits[ entnum ]].additions) {
-                    mvwprintz(menu->window, line2, startx + 11, mcolor(j), "%s", traits[j].name.c_str());
+                for (auto &j : mdata.additions) {
+                    mvwprintz(menu->window, line2, startx + 11, mcolor(j), "%s", mutation_branch::get_name( j ).c_str());
                     line2++;
                 }
             }
 
-            if ( !mutation_data[vTraits[entnum]].category.empty() ) {
+            if ( !mdata.category.empty() ) {
                 line2++;
                 mvwprintz(menu->window, line2, startx, c_ltgray,  _("Category:"));
-                for (auto &j : mutation_data[vTraits[ entnum ]].category) {
+                for (auto &j : mdata.category) {
                     mvwprintw(menu->window, line2, startx + 11, "%s", j.c_str());
                     line2++;
                 }
@@ -139,13 +140,13 @@ class wish_mutate_callback: public uimenu_callback
             line2 += 2;
 
             mvwprintz(menu->window, line2, startx, c_ltgray, "pts: %d vis: %d ugly: %d",
-                      traits[vTraits[entnum]].points,
-                      traits[vTraits[entnum]].visibility,
-                      traits[vTraits[entnum]].ugliness
+                      mdata.points,
+                      mdata.visibility,
+                      mdata.ugliness
                      );
             line2 += 2;
 
-            std::vector<std::string> desc = foldstring( traits[vTraits[ entnum ]].description,
+            std::vector<std::string> desc = foldstring( mdata.description,
                                             menu->pad_right - 1 );
             for( auto &elem : desc ) {
                 mvwprintz( menu->window, line2, startx, c_ltgray, "%s", elem.c_str() );
@@ -168,7 +169,7 @@ void game::wishmutate( player *p )
     uimenu wmenu;
     int c = 0;
 
-    for( auto &traits_iter : traits ) {
+    for( auto &traits_iter : mutation_branch::get_all() ) {
         wmenu.addentry( -1, true, -2, "%s", traits_iter.second.name.c_str() );
         wmenu.entries[ c ].extratxt.left = 1;
         wmenu.entries[ c ].extratxt.txt = "";
@@ -192,11 +193,12 @@ void game::wishmutate( player *p )
     wmenu.callback = cb;
     do {
         wmenu.query();
-        if ( wmenu.ret > 0 ) {
+        if ( wmenu.ret >= 0 ) {
             int rc = 0;
             std::string mstr = cb->vTraits[ wmenu.ret ];
-            bool threshold = mutation_data[mstr].threshold;
-            bool profession = mutation_data[mstr].profession;
+            const auto &mdata = mutation_branch::get( mstr );
+            bool threshold = mdata.threshold;
+            bool profession = mdata.profession;
             //Manual override for the threshold-gaining
             if (threshold || profession) {
                 if ( p->has_trait( mstr ) ) {
@@ -502,20 +504,22 @@ void game::wishitem( player *p, int x, int y)
  */
 void game::wishskill(player *p)
 {
-
     const int skoffset = 1;
     uimenu skmenu;
     skmenu.text = _("Select a skill to modify");
     skmenu.return_invalid = true;
     skmenu.addentry(0, true, '1', _("Set all skills to..."));
-    int *origskills = new int[Skill::skills.size()] ;
+ 
+    std::vector<int> origskills;
+    origskills.reserve(Skill::skills.size());
 
-    for( auto &skill : Skill::skills ) {
-        int skill_id = ( skill )->id();
-        skmenu.addentry( skill_id + skoffset, true, -2, _( "@ %d: %s  " ),
-                         (int)p->skillLevel( skill ), ( skill )->name().c_str() );
-        origskills[skill_id] = (int)p->skillLevel( skill );
+    for (auto const &s : Skill::skills) {
+        auto const id    = static_cast<int>(s.id());
+        auto const level = static_cast<int>(p->skillLevel(s));
+        skmenu.addentry( id + skoffset, true, -2, _( "@ %d: %s  " ), level, s.name().c_str() );
+        origskills.push_back(level);
     }
+
     do {
         skmenu.query();
         int skill_id = -1;
@@ -524,7 +528,7 @@ void game::wishskill(player *p)
         if ( skmenu.ret == -1 && ( skmenu.keypress == KEY_LEFT || skmenu.keypress == KEY_RIGHT ) ) {
             if ( sksel >= 0 && sksel < (int)Skill::skills.size() ) {
                 skill_id = sksel;
-                skset = (int)p->skillLevel( Skill::skills[skill_id]) +
+                skset = (int)p->skillLevel( Skill::skills[skill_id] ) +
                         ( skmenu.keypress == KEY_LEFT ? -1 : 1 );
             }
             skmenu.ret = -2;
@@ -535,7 +539,7 @@ void game::wishskill(player *p)
             sksetmenu.w_y = skmenu.w_y + 2;
             sksetmenu.w_height = skmenu.w_height - 4;
             sksetmenu.return_invalid = true;
-            sksetmenu.settext( _("Set '%s' to.."), Skill::skills[skill_id]->ident().c_str() );
+            sksetmenu.settext( _("Set '%s' to.."), Skill::skills[skill_id].ident().c_str() );
             int skcur = (int)p->skillLevel(Skill::skills[skill_id]);
             sksetmenu.selected = skcur;
             for ( int i = 0; i < 21; i++ ) {
@@ -548,10 +552,10 @@ void game::wishskill(player *p)
         if ( skset != UIMENU_INVALID && skset != -1 && skill_id != -1 ) {
             p->skillLevel( Skill::skills[skill_id] ).level(skset);
             skmenu.textformatted[0] = string_format(_("%s set to %d             "),
-                                                    Skill::skills[skill_id]->ident().c_str(),
+                                                    Skill::skills[skill_id].ident().c_str(),
                                                     (int)p->skillLevel(Skill::skills[skill_id])).substr(0, skmenu.w_width - 4);
             skmenu.entries[skill_id + skoffset].txt = string_format(_("@ %d: %s  "),
-                    (int)p->skillLevel( Skill::skills[skill_id]), Skill::skills[skill_id]->ident().c_str() );
+                    (int)p->skillLevel( Skill::skills[skill_id]), Skill::skills[skill_id].ident().c_str() );
             skmenu.entries[skill_id + skoffset].text_color =
                 ( (int)p->skillLevel(Skill::skills[skill_id]) == origskills[skill_id] ?
                   skmenu.text_color : c_yellow );
@@ -573,7 +577,7 @@ void game::wishskill(player *p)
                     p->skillLevel( Skill::skills[skill_id] ).level( changeto );
                     skmenu.entries[skill_id + skoffset].txt = string_format(_("@ %d: %s  "),
                             (int)p->skillLevel(Skill::skills[skill_id]),
-                            Skill::skills[skill_id]->ident().c_str() );
+                            Skill::skills[skill_id].ident().c_str() );
                     skmenu.entries[skill_id + skoffset].text_color =
                         ( (int)p->skillLevel(Skill::skills[skill_id]) == origskills[skill_id] ?
                           skmenu.text_color : c_yellow );
@@ -582,5 +586,4 @@ void game::wishskill(player *p)
         }
     } while ( skmenu.ret != -1 && ( skmenu.keypress != 'q' && skmenu.keypress != ' ' &&
                                     skmenu.keypress != KEY_ESCAPE ) );
-    delete[] origskills;
 }

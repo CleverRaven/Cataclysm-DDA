@@ -333,7 +333,7 @@ void iexamine::vending(player * const p, map * const m, int const examx, int con
 {
     constexpr int moves_cost = 250;
 
-    auto vend_items = m->i_at(examx, examy);   
+    auto vend_items = m->i_at(examx, examy);
     if (vend_items.empty()) {
         add_msg(m_info, _("The vending machine is empty!"));
         return;
@@ -415,7 +415,7 @@ void iexamine::vending(player * const p, map * const m, int const examx, int con
         mvwhline(w, first_item_offset - 1, 1, LINE_OXOX, w_items_w - 2);
         mvwaddch(w, first_item_offset - 1, 0, LINE_XXXO); // |-
         mvwaddch(w, first_item_offset - 1, w_items_w - 1, LINE_XOXX); // -|
-        
+
         mvwprintz(w, 1, 2, c_ltgray, title.c_str());
 
         // Keep the item selector centered in the page.
@@ -458,7 +458,7 @@ void iexamine::vending(player * const p, map * const m, int const examx, int con
         const std::string name = utf8_truncate(cur_item->display_name(), static_cast<size_t>(w_info_w - 4));
         mvwprintw(w_item_info, 0, 1, "<%s>", name.c_str());
         wrefresh(w_item_info);
-        
+
         const std::string &action = ctxt.handle_input();
         if (action == "DOWN") {
             cur_pos = (cur_pos + 1) % num_items;
@@ -469,7 +469,7 @@ void iexamine::vending(player * const p, map * const m, int const examx, int con
                 popup(_("That item is too expensive!"));
                 continue;
             }
-            
+
             if (!used_machine) {
                 used_machine = true;
                 p->moves -= moves_cost;
@@ -483,7 +483,7 @@ void iexamine::vending(player * const p, map * const m, int const examx, int con
             if (!cur_items.empty()) {
                 continue;
             }
-            
+
             item_list.erase(std::begin(item_list) + cur_pos);
             if (item_list.empty()) {
                 add_msg(_("With a beep, the empty vending machine shuts down"));
@@ -630,21 +630,63 @@ void iexamine::cardreader(player *p, map *m, int examx, int examy)
 void iexamine::rubble(player *p, map *m, int examx, int examy)
 {
     bool has_digging_tool = p->has_items_with_quality( "DIG", 2, 1 );
-  // Perhaps check for vehicle covering the rubble and bail out if so (string freeze ATM)?
-    if (!has_digging_tool) {
+    if( !has_digging_tool ) {
         add_msg(m_info, _("If only you had a shovel..."));
         return;
     }
-    std::string xname = m->furnname(examx, examy);
-    if (query_yn(_("Clear up that %s?"), xname.c_str())) {
-        // "Remove"
-        p->moves -= 200;
-        m->furn_set(examx, examy, f_null);
 
-        // "Remind"
-        add_msg(_("You clear up that %s."), xname.c_str());
+    // Ask if there's something possibly more interesting than this rubble here
+    std::string xname = m->furnname(examx, examy);
+    if( ( m->veh_at( examx, examy ) != nullptr ||
+          m->tr_at( examx, examy ) != tr_null ||
+          g->critter_at( examx, examy ) != nullptr ) &&
+          !query_yn(_("Clear up that %s?"), xname.c_str() ) ) {
+        none(p, m, examx, examy);
+        return;
     }
+
+    // "Remove"
+    p->moves -= 200;
+    m->furn_set(examx, examy, f_null);
+
+    // "Remind"
+    add_msg(_("You clear up that %s."), xname.c_str());
 }
+
+void iexamine::crate(player *p, map *m, int examx, int examy)
+{
+    // Check for a crowbar in the inventory
+    const auto has_prying = []( const item it ) {
+        const auto fun = it.type->get_use( "CROWBAR" );
+        return fun != nullptr;
+    };
+
+    bool has_tools = p->has_item_with( has_prying );
+    if( !has_tools ) {
+        add_msg( m_info, _("If only you had a crowbar...") );
+        return;
+    }
+
+    // Ask if there's something possibly more interesting than this crate here
+    // Shouldn't happen (what kind of creature lives in a crate?), but better safe than getting complaints
+    std::string xname = m->furnname(examx, examy);
+    if( ( m->veh_at( examx, examy ) != nullptr ||
+          m->tr_at( examx, examy ) != tr_null ||
+          g->critter_at( examx, examy ) != nullptr ) &&
+          !query_yn(_("Pry that %s?"), xname.c_str() ) ) {
+        none(p, m, examx, examy);
+        return;
+    }
+
+    // HACK ALERT: player::items_with returns const item* vector and so can't be used
+    // so we'll be making a fake crowbar here
+    // Not a problem for now, but if crowbar iuse-s ever get different, this will need a fix
+    item fakecrow( "crowbar", 0 );
+    
+    iuse dummy;
+    dummy.crowbar( p, &fakecrow, false, point( examx, examy ) );
+}
+
 
 void iexamine::chainfence( player *p, map *m, int examx, int examy )
 {
@@ -692,9 +734,9 @@ void iexamine::bars(player *p, map *m, int examx, int examy)
         none(p, m, examx, examy);
         return;
     }
-    if ( ((p->encumb(bp_torso)) >= 1) && ((p->encumb(bp_head)) >= 1) &&
-         (p->encumb(bp_foot_l) >= 1 ||
-          p->encumb(bp_foot_r) >= 1) ) { // Most likely places for rigid gear that would catch on the bars.
+    if ( ((p->encumb(bp_torso)) >= 10) && ((p->encumb(bp_head)) >= 10) &&
+         (p->encumb(bp_foot_l) >= 10 ||
+          p->encumb(bp_foot_r) >= 10) ) { // Most likely places for rigid gear that would catch on the bars.
         add_msg(m_info, _("Your amorphous body could slip though the %s, but your cumbersome gear can't."),
                 m->tername(examx, examy).c_str());
         return;
@@ -1877,15 +1919,15 @@ struct filter_is_drink {
 };
 
 //probably should move this functionality into the furniture JSON entries if we want to have more than a few "kegs"
-static int get_keg_cap(std::string furn_name) {
-    if("standing tank" == furn_name)    { return 1200; } //the furniture was a "standing tank", so can hold 1200
+static int get_keg_cap( const furn_t &furn ) {
+    if( furn.id == "f_standing_tank" )  { return 1200; } //the furniture was a "standing tank", so can hold 1200
     else                                { return 600; } //default to old default value
     //add additional cases above
 }
 
 void iexamine::keg(player *p, map *m, int examx, int examy)
 {
-    int keg_cap = get_keg_cap( m->name(examx, examy) );
+    int keg_cap = get_keg_cap( m->furn_at(examx, examy) );
     bool liquid_present = false;
     for (int i = 0; i < (int)m->i_at(examx, examy).size(); i++) {
         if (!(m->i_at(examx, examy)[i].is_drink()) || liquid_present) {
@@ -2092,7 +2134,7 @@ void iexamine::harvest_tree_shrub(player *p, map *m, int examx, int examy)
     if (calendar::turn.get_season() != m->get_ter_harvest_season(examx, examy)) {
         std::string fruit = item::nname(m->get_ter_harvestable(examx, examy), 10);
         fruit[0] = toupper(fruit[0]);
-        add_msg(m_info, _("%s ripen in %s."), fruit.c_str(), season_name[m->get_ter_harvest_season(examx, examy)].c_str());
+        add_msg(m_info, _("%s ripen in %s."), fruit.c_str(), season_name(m->get_ter_harvest_season(examx, examy)).c_str());
         return;
     }
     //if the fruit has been recently harvested
@@ -2174,7 +2216,7 @@ void iexamine::shrub_wildveggies(player *p, map *m, int examx, int examy)
         return;
     }
 
-    add_msg("You forage through the %s.", m->tername(examx, examy).c_str());
+    add_msg(_("You forage through the %s."), m->tername(examx, examy).c_str());
     p->assign_activity(ACT_FORAGE, 500 / (p->skillLevel("survival") + 1), 0);
     p->activity.placement = point(examx, examy);
     return;
@@ -2419,8 +2461,8 @@ itype *furn_t::crafting_pseudo_item_type() const
 itype *furn_t::crafting_ammo_item_type() const
 {
     const it_tool *toolt = dynamic_cast<const it_tool *>(crafting_pseudo_item_type());
-    if (toolt != NULL && toolt->ammo != "NULL") {
-        const std::string ammoid = default_ammo(toolt->ammo);
+    if (toolt != NULL && toolt->ammo_id != "NULL") {
+        const std::string ammoid = default_ammo(toolt->ammo_id);
         return item::find_type( ammoid );
     }
     return NULL;
@@ -2445,18 +2487,23 @@ void iexamine::reload_furniture(player *p, map *m, const int examx, const int ex
         add_msg(m_info, _("This %s can not be reloaded!"), f.name.c_str());
         return;
     }
-    const int pos = p->inv.position_by_type(ammo->id);
-    if (pos == INT_MIN) {
-        const int amount = count_charges_in_list(ammo, m->i_at(examx, examy));
-        if (amount > 0) {
-            //~ The <piece of furniture> contains <number> <items>.
-            add_msg(_("The %s contains %d %s."), f.name.c_str(), amount, ammo->nname(amount).c_str());
-        }
+    const int amount_in_furn = count_charges_in_list( ammo, m->i_at( examx, examy ) );
+    if( amount_in_furn > 0 ) {
+        //~ The <piece of furniture> contains <number> <items>.
+        add_msg(_("The %s contains %d %s."), f.name.c_str(), amount_in_furn, ammo->nname(amount_in_furn).c_str());
+    }
+    const int max_amount_in_furn = f.max_volume * ammo->stack_size / ammo->volume;
+    const int max_reload_amount = max_amount_in_furn - amount_in_furn;
+    if( max_reload_amount <= 0 ) {
+        return;
+    }
+    const int amount_in_inv = p->charges_of( ammo->id );
+    if( amount_in_inv == 0 ) {
         //~ Reloading or restocking a piece of furniture, for example a forge.
         add_msg(m_info, _("You need some %s to reload this %s."), ammo->nname(2).c_str(), f.name.c_str());
         return;
     }
-    const long max_amount = p->inv.find_item(pos).charges;
+    const long max_amount = std::min( amount_in_inv, max_reload_amount );
     //~ Loading fuel or other items into a piece of furniture.
     const std::string popupmsg = string_format(_("Put how many of the %s into the %s?"),
                                  ammo->nname(max_amount).c_str(), f.name.c_str());
@@ -2466,11 +2513,11 @@ void iexamine::reload_furniture(player *p, map *m, const int examx, const int ex
     if (amount <= 0 || amount > max_amount) {
         return;
     }
-    p->reduce_charges(pos, amount);
+    p->use_charges( ammo->id, amount );
     auto items = m->i_at(examx, examy);
-    for( auto an_item = items.begin(); an_item != items.end(); ++an_item ) {
-        if( an_item->type == ammo ) {
-            an_item->charges = amount;
+    for( auto & itm : items ) {
+        if( itm.type == ammo ) {
+            itm.charges += amount;
             amount = 0;
             break;
         }
@@ -3064,6 +3111,9 @@ iexamine_function iexamine_function_from_string(std::string const &function_name
     }
     if ("rubble" == function_name) {
         return &iexamine::rubble;
+    }
+    if( "crate" == function_name ) {
+        return &iexamine::crate;
     }
     if ("chainfence" == function_name) {
         return &iexamine::chainfence;

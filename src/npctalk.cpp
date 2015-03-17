@@ -207,8 +207,11 @@ void game::init_npctalk()
     for(int j=0; j<10; j++) {talk_happy[j] = tmp_talk_happy[j];}
 
     std::string tmp_talk_sad[10] = {
-    _("sad"), _("bummed"), _("depressed"), _("pissed"), _("unhappy"), _("<very> <sad>"), _("dejected"),
-    _("down"), _("blue"), _("glum")};
+    _("sad"), _("bummed"), _("depressed"), _("pissed"), _("unhappy"), _("<very> <sad>"),
+    _("dejected"), _("down"),
+    //~ The word blue here means "depressed", not the color blue.
+    pgettext("npc_depressed", "blue"),
+    _("glum")};
     for(int j=0; j<10; j++) {talk_sad[j] = tmp_talk_sad[j];}
 
     std::string tmp_talk_greeting_gen[10] = {
@@ -965,8 +968,13 @@ std::string dynamic_line(talk_topic topic, npc *p)
             }
 
         case TALK_SHELTER_PLANS:
-            return _("I don't know, look for supplies and other survivors I guess.");
-
+            switch (rng(1, 5)) {
+                case 1: return _("I don't know, look for supplies and other survivors I guess.");
+                case 2: return _("Maybe we should start boarding up this place.");
+                case 3: return _("I suppose getting a car up and running should really be useful if we have to disappear quickly from here.");
+                case 4: return _("We could look for one of those farms out here. They can provide plenty of food and aren't close to the cities.");
+                case 5: return _("We should probably stay away from those cities, even if there's plenty of useful stuff there.");
+            }    
         case TALK_SHARE_EQUIPMENT:
             if (p->has_effect(_("asked_for_item"))) {
                 return _("You just asked me for stuff; ask later.");
@@ -2110,8 +2118,8 @@ std::vector<talk_response> gen_responses(talk_topic topic, npc *p)
 
         case TALK_SHELTER_PLANS:
             // TODO: Add _("follow me")
-            RESPONSE(_("Hmm, okay.  Bye."));
-                SUCCESS(TALK_DONE);
+            RESPONSE(_("Hmm, okay."));
+                SUCCESS(TALK_NONE);
             break;
 
         case TALK_SHARE_EQUIPMENT:

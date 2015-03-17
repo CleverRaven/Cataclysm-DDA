@@ -32,8 +32,10 @@
 				"~~~|________|.R<|EEE|...",
 				"~~~|________|.R.|EEED..."
 			],
-			"place_groups": [
-                { "monster": "GROUP_ZOMBIE", "x": [ 5, 19 ], "y": [ 5, 19 ], "density": 0.15 },
+			"place_monsters": [
+                { "monster": "GROUP_ZOMBIE", "x": [ 5, 19 ], "y": [ 5, 19 ], "density": 0.15 }
+            ],
+            "place_vehicles": [
                 { "vehicle": "pickup", "x": 8, "y": 6, "rotation": 90, "chance": 25  },
                 { "vehicle": "car", "x": 14, "y": 6, "rotation": 90, "chance": 25  },
                 { "vehicle": "motorcycle", "x": 19, "y": 6, "rotation": 90, "chance": 25  }
@@ -135,8 +137,10 @@
 				"...|xEE|.R<|________|~~~",
 				"...DEEE|.R.|___,,___|~~~"
 			],
-			"place_groups": [
-                { "monster": "GROUP_ZOMBIE", "x": [ 5, 19 ], "y": [ 5, 19 ], "density": 0.15 },
+			"place_monsters": [
+                { "monster": "GROUP_ZOMBIE", "x": [ 5, 19 ], "y": [ 5, 19 ], "density": 0.15 }
+            ],
+            "place_vehicles": [
                 { "vehicle": "cube_van_cheap", "x": 11, "y": 7, "rotation": 90, "chance": 25  },
                 { "vehicle": "pickup", "x": 17, "y": 6, "rotation": 90, "chance": 25  },
                 { "vehicle": "car", "x": 4, "y": 6, "rotation": 90, "chance": 25  }
@@ -238,7 +242,7 @@
 				"~~~~~~~~~~~~~~~~~~~~~~~~",
 				"~~~~~~~~~~~~~~~~~~~~~~~~"
 			],
-			"place_groups": [
+			"place_monsters": [
                 { "monster": "GROUP_ZOMBIE", "x": [ 5, 19 ], "y": [ 3, 8 ], "density": 0.10 }
 			],
 			"terrain": {
@@ -338,8 +342,10 @@
 				"~~~~~~~~~~~~~~~~~~~~~~~~",
 				"~~~~~~~~~~~~~~~~~~~~~~~~"
 			],
-			"place_groups": [
-                { "monster": "GROUP_ZOMBIE", "x": [ 5, 19 ], "y": [ 5, 19 ], "density": 0.15 },
+			"place_monsters": [
+                { "monster": "GROUP_ZOMBIE", "x": [ 5, 19 ], "y": [ 5, 19 ], "density": 0.15 }
+            ],
+            "place_vehicles": [
                 { "vehicle": "car", "x": 9, "y": 15, "rotation": 270, "chance": 25  },
                 { "vehicle": "pickup", "x": 16, "y": 16, "rotation": 90, "chance": 25  },
                 { "vehicle": "beetle", "x": 4, "y": 16, "rotation": 270, "chance": 25  }
@@ -441,11 +447,15 @@
 				"ss%|----|...|<R>|EEE|...",
 				"ss%|rrrr|...|.R.|EEED..."
 			],
-			"place_groups": [
-                { "monster": "GROUP_ZOMBIE", "x": [ 0, 23 ], "y": [ 0, 23 ], "density": 0.5 },
+			"place_monsters": [
+                { "monster": "GROUP_ZOMBIE", "x": [ 0, 23 ], "y": [ 0, 23 ], "density": 0.5 }
+            ],
+            "place_vehicles": [
                 { "vehicle": "swivel_chair", "x": 5, "y": 20, "rotation": 0, "chance": 90  },
                 { "vehicle": "swivel_chair", "x": 11, "y": 11, "rotation": 0, "chance": 90  },
-                { "vehicle": "swivel_chair", "x": 16, "y": 6, "rotation": 0, "chance": 90  },
+                { "vehicle": "swivel_chair", "x": 16, "y": 6, "rotation": 0, "chance": 90  }
+            ],
+            "place_items": [
 				{ "item": "office", "chance": 75, "x": [ 4,7 ], "y": [ 23,23 ]},
 				{ "item": "office", "chance": 75, "x": [ 4,7 ], "y": [ 19,19 ]},
 				{ "item": "office", "chance": 75, "x": [ 4,7 ], "y": [ 14,14 ]},
@@ -556,11 +566,15 @@
 				"...|xEE|<R>|.......dV%ss",
 				"...DEEE|.R.|..|.....V%ss"
 			],
-			"place_groups": [
-                { "monster": "GROUP_ZOMBIE", "x": [ 0, 23 ], "y": [ 0, 23 ], "density": 0.5 },
+			"place_monsters": [
+                { "monster": "GROUP_ZOMBIE", "x": [ 0, 23 ], "y": [ 0, 23 ], "density": 0.5 }
+            ],
+            "place_vehicles": [
                 { "vehicle": "swivel_chair", "x": 18, "y": 22, "rotation": 0, "chance": 90  },
                 { "vehicle": "swivel_chair", "x": 18, "y": 18, "rotation": 0, "chance": 90  },
-                { "vehicle": "swivel_chair", "x": 17, "y": 13, "rotation": 0, "chance": 90  },
+                { "vehicle": "swivel_chair", "x": 17, "y": 13, "rotation": 0, "chance": 90  }
+            ],
+            "place_items": [
 				{ "item": "cleaning", "chance": 75, "x": [ 3,5 ], "y": [ 5,5 ]},
 				{ "item": "office", "chance": 75, "x": [ 10,16 ], "y": [ 7,8 ]},
 				{ "item": "cubical_office", "chance": 75, "x": [ 15,19 ], "y": [ 15,15 ]},
@@ -667,11 +681,15 @@
 				"ssssss__,,__ss__,,__ssss",
 				"ssssss______ss______ssss"
 			],
-			"place_groups": [
-                { "monster": "GROUP_ZOMBIE", "x": [ 0, 23 ], "y": [ 0, 23 ], "density": 0.5 },
+			"place_monsters": [
+                { "monster": "GROUP_ZOMBIE", "x": [ 0, 23 ], "y": [ 0, 23 ], "density": 0.5 }
+            ],
+            "place_vehicles": [
                 { "vehicle": "swivel_chair", "x": 5, "y": 3, "rotation": 0, "chance": 90  },
                 { "vehicle": "swivel_chair", "x": 16, "y": 6, "rotation": 0, "chance": 90  },
-                { "vehicle": "swivel_chair", "x": 13, "y": 7, "rotation": 0, "chance": 90  },
+                { "vehicle": "swivel_chair", "x": 13, "y": 7, "rotation": 0, "chance": 90  }
+            ],
+            "place_items": [
 				{ "item": "office", "chance": 75, "x": [ 4,6 ], "y": [ 2,2 ]},
 				{ "item": "office", "chance": 75, "x": [ 19,19 ], "y": [ 6,6 ]},
 				{ "item": "office", "chance": 75, "x": [ 12,14 ], "y": [ 8,8 ]}
@@ -776,9 +794,13 @@
 				"ssssssssssssssssssssssss",
 				"ssssssssssssssssssssssss"
 			],
-			"place_groups": [
-                { "monster": "GROUP_ZOMBIE", "x": [ 0, 23 ], "y": [ 0, 23 ], "density": 0.5 },
-                { "vehicle": "swivel_chair", "x": 10, "y": 10, "rotation": 0, "chance": 90  },
+			"place_monsters": [
+                { "monster": "GROUP_ZOMBIE", "x": [ 0, 23 ], "y": [ 0, 23 ], "density": 0.5 }
+            ],
+            "place_vehicles": [
+                { "vehicle": "swivel_chair", "x": 10, "y": 10, "rotation": 0, "chance": 90  }
+            ],
+            "place_items": [
 				{ "item": "office", "chance": 75, "x": [ 19,19 ], "y": [ 1,3 ]},
 				{ "item": "office", "chance": 75, "x": [ 17,18 ], "y": [ 3,3 ]},
 				{ "item": "office", "chance": 90, "x": [ 8,9 ], "y": [ 7,7 ]},
@@ -882,10 +904,14 @@
 				"///|rr..|...|>R<|EEE|...",
 				"///|----|...|.R.|EEED..."
 			],
-			"place_groups": [
-                { "monster": "GROUP_ZOMBIE", "x": [ 4, 23 ], "y": [ 5, 23 ], "density": 0.3 },
+			"place_monsters": [
+                { "monster": "GROUP_ZOMBIE", "x": [ 4, 23 ], "y": [ 5, 23 ], "density": 0.3 }
+            ],
+            "place_vehicles": [
                 { "vehicle": "swivel_chair", "x": 21, "y": 6, "rotation": 0, "chance": 90  },
-                { "vehicle": "swivel_chair", "x": 23, "y": 13, "rotation": 0, "chance": 90  },
+                { "vehicle": "swivel_chair", "x": 23, "y": 13, "rotation": 0, "chance": 90  }
+            ],
+            "place_items": [
                 { "item": "jackets", "chance": 75, "x": [ 15,16 ], "y": [ 5,5 ]},
 				{ "item": "office", "chance": 75, "x": [ 7,7 ], "y": [ 7,8 ]},
 				{ "item": "office", "chance": 75, "x": [ 10,10 ], "y": [ 7,8 ]},
@@ -999,9 +1025,13 @@
 				"...|xEE|>R.|...|rrrr|///",
 				"...DEEE|.R.|...|----|///"
 			],
-			"place_groups": [
-                { "monster": "GROUP_ZOMBIE", "x": [ 0, 19 ], "y": [ 5, 23 ], "density": 0.3 },
-                { "vehicle": "swivel_chair", "x": 1, "y": 6, "rotation": 0, "chance": 90  },
+			"place_monsters": [
+                { "monster": "GROUP_ZOMBIE", "x": [ 0, 19 ], "y": [ 5, 23 ], "density": 0.3 }
+            ],
+            "place_vehicles": [
+                { "vehicle": "swivel_chair", "x": 1, "y": 6, "rotation": 0, "chance": 90  }
+            ],
+            "place_items": [
 				{ "item": "office", "chance": 75, "x": [ 6,7 ], "y": [ 5,5 ]},
 				{ "item": "office", "chance": 75, "x": [ 10,11 ], "y": [ 7,7 ]},
 				{ "item": "office", "chance": 75, "x": [ 15,16 ], "y": [ 7,7 ]},
@@ -1110,10 +1140,14 @@
 				"////////////////////////",
 				"////////////////////////"
 			],
-			"place_groups": [
-                { "monster": "GROUP_ZOMBIE", "x": [ 4, 23 ], "y": [ 0, 18 ], "density": 0.3 },
+			"place_monsters": [
+                { "monster": "GROUP_ZOMBIE", "x": [ 4, 23 ], "y": [ 0, 18 ], "density": 0.3 }
+            ],
+            "place_vehicles": [
                 { "vehicle": "swivel_chair", "x": 6, "y": 5, "rotation": 0, "chance": 90  },
-                { "vehicle": "swivel_chair", "x": 14, "y": 4, "rotation": 0, "chance": 90  },
+                { "vehicle": "swivel_chair", "x": 14, "y": 4, "rotation": 0, "chance": 90  }
+            ],
+            "place_items": [
 				{ "item": "office", "chance": 75, "x": [ 4,6 ], "y": [ 3,3 ]},
 				{ "item": "office", "chance": 75, "x": [ 13,13 ], "y": [ 3,4 ]},
 				{ "item": "office", "chance": 75, "x": [ 17,17 ], "y": [ 3,4 ]},
@@ -1224,11 +1258,15 @@
 				"////////////////////////",
 				"////////////////////////"
 			],
-			"place_groups": [
-                { "monster": "GROUP_ZOMBIE", "x": [ 0, 19 ], "y": [ 0, 18 ], "density": 0.3 },
+			"place_monsters": [
+                { "monster": "GROUP_ZOMBIE", "x": [ 0, 19 ], "y": [ 0, 18 ], "density": 0.3 }
+            ],
+            "place_vehicles": [
                 { "vehicle": "swivel_chair", "x": 18, "y": 14, "rotation": 0, "chance": 90  },
                 { "vehicle": "swivel_chair", "x": 16, "y": 5, "rotation": 0, "chance": 90  },
-                { "vehicle": "swivel_chair", "x": 7, "y": 4, "rotation": 0, "chance": 90  },
+                { "vehicle": "swivel_chair", "x": 7, "y": 4, "rotation": 0, "chance": 90  }
+            ],
+            "place_items": [
 				{ "item": "textbooks", "chance": 75, "x": [ 9,10 ], "y": [ 3,3 ]},
 				{ "item": "office", "chance": 75, "x": [ 6,8 ], "y": [ 5,5 ]},
 				{ "item": "office", "chance": 75, "x": [ 18,19 ], "y": [ 3,3 ]},

@@ -462,9 +462,9 @@ static hp_part body_window(player *p, item *, std::string item_name,
 }
 
 // returns true if we want to use the special action
-static hp_part use_healing_item(player *p, item *it, int normal_power, int head_power,
-                                int torso_power, int bleed,
-                                int bite, int infect, bool force)
+hp_part use_healing_item(player *p, item *it, int normal_power, int head_power,
+                         int torso_power, int bleed,
+                         int bite, int infect, bool force)
 {
     hp_part healed = num_hp_parts;
     int bonus = p->skillLevel("firstaid");
@@ -1673,74 +1673,20 @@ int iuse::mutagen(player *p, item *it, bool, point)
         }
     } else {
         // Categorized/targeted mutagens go here.
-        if (it->has_flag("MUTAGEN_PLANT")) {
-            p->add_msg_if_player(_("You feel much closer to nature."));
-            mutation_category = "MUTCAT_PLANT";
-        } else if (it->has_flag("MUTAGEN_INSECT")) {
-            p->add_msg_if_player(_("You hear buzzing, and feel your body harden."));
-            mutation_category = "MUTCAT_INSECT";
-        } else if (it->has_flag("MUTAGEN_SPIDER")) {
-            p->add_msg_if_player(_("You feel insidious."));
-            mutation_category = "MUTCAT_SPIDER";
-        } else if (it->has_flag("MUTAGEN_SLIME")) {
-            p->add_msg_if_player(_("Your body loses all rigidity for a moment."));
-            mutation_category = "MUTCAT_SLIME";
-        } else if (it->has_flag("MUTAGEN_FISH")) {
-            p->add_msg_if_player(_("You are overcome by an overwhelming longing for the ocean."));
-            mutation_category = "MUTCAT_FISH";
-        } else if (it->has_flag("MUTAGEN_RAT")) {
-            p->add_msg_if_player(_("You feel a momentary nausea."));
-            mutation_category = "MUTCAT_RAT";
-        } else if (it->has_flag("MUTAGEN_BEAST")) {
-            p->add_msg_if_player(_("Your heart races and you see blood for a moment."));
-            mutation_category = "MUTCAT_BEAST";
-        } else if (it->has_flag("MUTAGEN_URSINE")) {
-            p->add_msg_if_player(_("You feel an urge to...patrol? the forests?"));
-            mutation_category = "MUTCAT_URSINE";
-        } else if (it->has_flag("MUTAGEN_FELINE")) {
-            p->add_msg_if_player(_("As you lap up the last of the mutagen, you wonder why..."));
-            mutation_category = "MUTCAT_FELINE";
-        } else if (it->has_flag("MUTAGEN_LUPINE")) {
-            p->add_msg_if_player(_("You feel an urge to mark your territory. But then it passes."));
-            mutation_category = "MUTCAT_LUPINE";
-        } else if (it->has_flag("MUTAGEN_CATTLE")) {
-            p->add_msg_if_player(_("Your mind and body slow down. You feel peaceful."));
-            mutation_category = "MUTCAT_CATTLE";
-        } else if (it->has_flag("MUTAGEN_CEPHALOPOD")) {
-            p->add_msg_if_player(
-                _("Your mind is overcome by images of eldritch horrors...and then they pass."));
-            mutation_category = "MUTCAT_CEPHALOPOD";
-        } else if (it->has_flag("MUTAGEN_BIRD")) {
-            p->add_msg_if_player(_("Your body lightens and you long for the sky."));
-            mutation_category = "MUTCAT_BIRD";
-        } else if (it->has_flag("MUTAGEN_LIZARD")) {
-            p->add_msg_if_player(_("For a heartbeat, your body cools down."));
-            mutation_category = "MUTCAT_LIZARD";
-        } else if (it->has_flag("MUTAGEN_TROGLOBITE")) {
-            p->add_msg_if_player(_("You yearn for a cool, dark place to hide."));
-            mutation_category = "MUTCAT_TROGLOBITE";
-        } else if (it->has_flag("MUTAGEN_ALPHA")) {
-            p->add_msg_if_player(_("You feel...better. Somehow."));
-            mutation_category = "MUTCAT_ALPHA";
-        } else if (it->has_flag("MUTAGEN_MEDICAL")) {
-            p->add_msg_if_player(
-                _("You can feel the blood rushing through your veins and a strange, medicated feeling washes over your senses."));
-            mutation_category = "MUTCAT_MEDICAL";
-        } else if (it->has_flag("MUTAGEN_CHIMERA")) {
-            p->add_msg_if_player(_("You need to roar, bask, bite, and flap.  NOW."));
-            mutation_category = "MUTCAT_CHIMERA";
-        } else if (it->has_flag("MUTAGEN_ELFA")) {
-            p->add_msg_if_player(_("Nature is becoming one with you..."));
-            mutation_category = "MUTCAT_ELFA";
-        } else if (it->has_flag("MUTAGEN_RAPTOR")) {
-            p->add_msg_if_player(_("Mmm...sweet, bloody flavor...tastes like victory."));
-            mutation_category = "MUTCAT_RAPTOR";
-        }  // Yep, orals take a bit out of you too
-        p->mutate_category(mutation_category);
-        p->mod_pain(2 * rng(1, 5));
-        p->hunger += 10;
-        p->fatigue += 5;
-        p->thirst += 10;
+        for (auto& iter : mutation_category_traits){
+            mutation_category_trait m_category = iter.second;
+            if (it->has_flag("MUTAGEN_" + m_category.category)) {
+                mutation_category = "MUTCAT_" + m_category.category;
+                p->add_msg_if_player(m_category.mutagen_message.c_str());
+                p->mutate_category(mutation_category);
+                p->mod_pain(m_category.mutagen_pain * rng(1, 5));
+                p->hunger += m_category.mutagen_hunger;
+                p->fatigue += m_category.mutagen_fatigue;
+                p->thirst += m_category.mutagen_thirst;
+                break;
+            }
+        }
+        // Yep, orals take a bit out of you too
         if (one_in(4)) {
             p->add_msg_if_player(m_bad, _("You suddenly feel dizzy, and collapse to the ground."));
             p->add_effect("downed", 1);
@@ -1825,308 +1771,86 @@ int iuse::mut_iv(player *p, item *it, bool, point)
             //Should be about 40 min, less 30 sec/IN point.
             p->fall_asleep((400 - p->int_cur * 5));
         }
-    } else if (it->has_flag("MUTAGEN_ALPHA")) {
-        //5-15 pain, 66% for each of the followups, so slightly better odds (designed for injection).
-        mutation_category = "MUTCAT_ALPHA";
-        p->add_msg_if_player(_("You took that shot like a champ!"));
-        p->mutate_category("MUTCAT_ALPHA");
-        p->mod_pain(3 * rng(1, 5));
-        // Alpha doesn't make a lot of massive morphological changes, so less nutrients needed.
-        p->hunger += 3;
-        p->fatigue += 5;
-        p->thirst += 3;
-        if (!one_in(3)) {
-            p->mutate_category("MUTCAT_ALPHA");
-            p->hunger += 3;
-            p->fatigue += 5;
-            p->thirst += 3;
-        }
-        if (!one_in(3)) {
-            p->mutate_category("MUTCAT_ALPHA");
-            p->hunger += 3;
-            p->fatigue += 5;
-            p->thirst += 3;
-        }
-    } else if (it->has_flag("MUTAGEN_MEDICAL")) {
-        // 2-6 pain, same as Alpha--since specifically intended for medical applications.
-        mutation_category = "MUTCAT_MEDICAL";
-        if (p->has_trait("MUT_JUNKIE")) {
-            p->add_msg_if_player(_("Ahh, there it is. You can feel the mutagen again."));
-        } else if (!(p->has_trait("MUT_JUNKIE"))) {
-            p->add_msg_if_player(
-                _("You can feel the blood in your medication stream. It's a strange feeling."));
-        }
-        p->mutate_category("MUTCAT_MEDICAL");
-        p->mod_pain(2 * rng(1, 3));
-        //Medical's are pretty much all physiology, IIRC
-        p->hunger += 3;
-        p->fatigue += 5;
-        p->thirst += 3;
-        if (!one_in(3)) {
-            p->mutate_category("MUTCAT_MEDICAL");
-            p->hunger += 3;
-            p->fatigue += 5;
-            p->thirst += 3;
-        }
-        if (!one_in(3)) {
-            p->mutate_category("MUTCAT_MEDICAL");
-            p->hunger += 3;
-            p->fatigue += 5;
-            p->thirst += 3;
-        }
-    } else if (it->has_flag("MUTAGEN_CHIMERA")) {
-        // 24-36 pain, Scream,, -40 Morale,
-        // but two guaranteed mutations and 75% each for third and fourth.
-        mutation_category = "MUTCAT_CHIMERA";
-        p->add_msg_if_player(m_bad, _("everyanimalthateverlived..bursting.from.YOU!"));
-        p->mutate_category("MUTCAT_CHIMERA");
-        p->mod_pain(4 * rng(1, 4));
-        //Chimera's all about the massive morphological changes Done Quick, so lotsa nutrition needed.
-        p->hunger += 20;
-        p->fatigue += 20;
-        p->thirst += 20;
-        p->mutate_category("MUTCAT_CHIMERA");
-        if (!(p->has_trait("NOPAIN"))) {
-            p->mod_pain(20);
-            sounds::sound(p->posx(), p->posy(), 25 + 3 * p->str_cur, _("You roar in agony!!"));
-            p->add_morale(MORALE_MUTAGEN_CHIMERA, -40, -200);
-        }
-        p->hunger += 20;
-        p->fatigue += 20;
-        p->thirst += 20;
-        if (!one_in(4)) {
-            p->mutate_category("MUTCAT_CHIMERA");
-            p->hunger += 20;
-            p->fatigue += 10;
-            p->thirst += 20;
-        }
-        if (!one_in(4)) {
-            p->mutate_category("MUTCAT_CHIMERA");
-            p->hunger += 20;
-            p->thirst += 10;
-            p->mod_pain(5);
-            // Out for a while--long enough to receive another two injections
-            // and wake up in hostile territory.
-            p->add_msg_if_player(m_bad, _("With a final *pop*, you go out like a light."));
-            p->fall_asleep(800 - p->int_cur * 5);
-        }
     } else {
-        // These categories for the most part share their effects,
-        // so print their messages and any special effects,
-        // then handle the mutation at the end in combined code.
-        if (it->has_flag("MUTAGEN_PLANT")) {
-            p->add_msg_if_player(_("You inject some nutrients into your phloem."));
-            mutation_category = "MUTCAT_PLANT";
-        } else if (it->has_flag("MUTAGEN_INSECT")) {
-            p->add_msg_if_player(_("You sting yourself...for the Queen."));
-            mutation_category = "MUTCAT_INSECT";
-        } else if (it->has_flag("MUTAGEN_SPIDER")) {
-            p->add_msg_if_player(_("Mmm...the *special* venom."));
-            mutation_category = "MUTCAT_SPIDER";
-        } else if (it->has_flag("MUTAGEN_SLIME")) {
-            if (p->has_trait("MUT_JUNKIE")) {
-                p->add_msg_if_player(_("Maybe if you drank enough, you'd become mutagen..."));
-            } else if (!(p->has_trait("MUT_JUNKIE"))) {
-                p->add_msg_if_player(_("This stuff takes you back. Downright primordial!"));
-            }
-            mutation_category = "MUTCAT_SLIME";
-        } else if (it->has_flag("MUTAGEN_FISH")) {
-            p->add_msg_if_player(_("Your pulse pounds as the waves."));
-            mutation_category = "MUTCAT_FISH";
-        } else if (it->has_flag("MUTAGEN_URSINE")) {
-            p->add_msg_if_player(_("You feel yourself quite equipped for wilderness survival."));
-            mutation_category = "MUTCAT_URSINE";
-        } else if (it->has_flag("MUTAGEN_LUPINE")) {
-            p->add_msg_if_player(_("As the mutagen hits you, your ears twitch and you stifle a yipe."));
-            mutation_category = "MUTCAT_LUPINE";
-        } else if (it->has_flag("MUTAGEN_FELINE")) {
-            p->add_msg_if_player(_("Your back arches as the mutagen takes hold."));
-            mutation_category = "MUTCAT_FELINE";
-        } else if (it->has_flag("MUTAGEN_RAT")) {
-            p->add_msg_if_player(_("You squeak as the shot hits you."));
-            //~Sound of ratlike squeaking
-            sounds::sound(p->posx(), p->posy(), 10, _("Eep!"));
-            mutation_category = "MUTCAT_RAT";
-        } else if (it->has_flag("MUTAGEN_BEAST")) {
-            p->add_msg_if_player(_("Your heart races wildly as the injection takes hold."));
-            mutation_category = "MUTCAT_BEAST";
-        } else if (it->has_flag("MUTAGEN_CATTLE")) {
-            //~rBGH is a bovine growth hormone, unpopular with consumers
-            p->add_msg_if_player(_("You wonder if this is what rBGH feels like..."));
-            mutation_category = "MUTCAT_CATTLE";
-        } else if (it->has_flag("MUTAGEN_CEPHALOPOD")) {
-            //~Zork reference, but it's talking about your blood vessels
-            p->add_msg_if_player(_("You watch the mutagen flow through a maze of little twisty passages.\n\
-            All the same."));
-            mutation_category = "MUTCAT_CEPHALOPOD";
-        } else if (it->has_flag("MUTAGEN_BIRD")) {
-            p->add_msg_if_player(_("Your arms spasm in an oddly wavelike motion."));
-            mutation_category = "MUTCAT_BIRD";
-        } else if (it->has_flag("MUTAGEN_LIZARD")) {
-            p->add_msg_if_player(_("Your blood cools down. The feeling is..different."));
-            mutation_category = "MUTCAT_LIZARD";
-        } else if (it->has_flag("MUTAGEN_TROGLOBITE")) {
-            p->add_msg_if_player(_("As you press the plunger, it all goes so bright..."));
-            mutation_category = "MUTCAT_TROGLOBITE";
-        } else if (it->has_flag("MUTAGEN_ELFA")) {
-            // 3-15 pain, morale boost, but no more mutagenic than cat-9s
-            p->add_msg_if_player(_("Everything goes green for a second.\n\
-            It's painfully beautiful..."));
-            p->fall_asleep(20); //Should be out for two minutes.  Ecstasy Of Green
-            // Extra helping of pain.
-            p->mod_pain(rng(1, 5));
-            p->add_morale(MORALE_MUTAGEN_ELFA, 25, 100);
-            mutation_category = "MUTCAT_ELFA";
-        } else if (it->has_flag("MUTAGEN_RAPTOR")) {
-            //Little more painful than average, but nowhere near as harsh & effective as Chimera.
-            p->add_msg_if_player(_("You distinctly smell the mutagen mixing with your blood\n\
-            ...and then it passes."));
-            mutation_category = "MUTCAT_RAPTOR";
-        }
-        p->mutate_category(mutation_category);
-        p->mod_pain(2 * rng(1, 5));
-        p->hunger += 10;
-        // EkarusRyndren had the idea to add Fatigue and knockout,
-        // though that's a bit much for every case
-        p->fatigue += 5;
-        p->thirst += 10;
-        if (!one_in(3)) {
-            p->mutate_category(mutation_category);
-            p->hunger += 10;
-            p->fatigue += 5;
-            p->thirst += 10;
-        }
-        if (one_in(2)) {
-            p->mutate_category(mutation_category);
-            p->hunger += 10;
-            p->fatigue += 5;
-            p->thirst += 10;
-        }
-    }
-    // Threshold-check.  You only get to cross once!
-    if (p->crossed_threshold() == false) {
-        // Threshold-breaching
-        std::string primary = p->get_highest_category();
-        int total = ((p->mutation_category_level["MUTCAT_LIZARD"]) +
-                     (p->mutation_category_level["MUTCAT_BIRD"]) +
-                     (p->mutation_category_level["MUTCAT_FISH"]) +
-                     (p->mutation_category_level["MUTCAT_BEAST"]) +
-                     (p->mutation_category_level["MUTCAT_FELINE"]) +
-                     (p->mutation_category_level["MUTCAT_LUPINE"]) +
-                     (p->mutation_category_level["MUTCAT_URSINE"]) +
-                     (p->mutation_category_level["MUTCAT_CATTLE"]) +
-                     (p->mutation_category_level["MUTCAT_INSECT"]) +
-                     (p->mutation_category_level["MUTCAT_PLANT"]) +
-                     (p->mutation_category_level["MUTCAT_SLIME"]) +
-                     (p->mutation_category_level["MUTCAT_TROGLOBITE"]) +
-                     (p->mutation_category_level["MUTCAT_CEPHALOPOD"]) +
-                     (p->mutation_category_level["MUTCAT_SPIDER"]) +
-                     (p->mutation_category_level["MUTCAT_RAT"]) +
-                     (p->mutation_category_level["MUTCAT_MEDICAL"]) +
-                     (p->mutation_category_level["MUTCAT_ALPHA"]) +
-                     (p->mutation_category_level["MUTCAT_ELFA"]) +
-                     (p->mutation_category_level["MUTCAT_CHIMERA"]) +
-                     (p->mutation_category_level["MUTCAT_RAPTOR"]));
-        // Only if you were pushing for more in your primary category.
-        // You wanted to be more like it and less human.
-        // That said, you're required to have hit third-stage dreams first.
-        if ((mutation_category == primary) && (p->mutation_category_level[primary] > 50)) {
-            // Little help for the categories that have a lot of crossover.
-            // Starting with Ursine as that's... a bear to get.  8-)
-            // Will add others if there's serious/demonstrable need.
-            int booster = 0;
-            if (mutation_category == "MUTCAT_URSINE") {
-                booster = 50;
-            }
-            int breacher = (p->mutation_category_level[primary]) + booster;
-            if (x_in_y(breacher, total)) {
-                p->add_msg_if_player(m_good,
-                                     _("Something strains mightily for a moment...and then..you're...FREE!"));
-                if (mutation_category == "MUTCAT_LIZARD") {
-                    p->toggle_mutation("THRESH_LIZARD");
-                    p->add_memorial_log(pgettext("memorial_male", "Shed the ugly human skin."),
-                                        pgettext("memorial_female", "Shed the ugly human skin."));
-                } else if (mutation_category == "MUTCAT_BIRD") {
-                    p->toggle_mutation("THRESH_BIRD");
-                    p->add_memorial_log(pgettext("memorial_male", "Broke free of humanity."),
-                                        pgettext("memorial_female", "Broke free of humanity."));
-                } else if (mutation_category == "MUTCAT_FISH") {
-                    p->toggle_mutation("THRESH_FISH");
-                    p->add_memorial_log(pgettext("memorial_male", "Went deep."),
-                                        pgettext("memorial_female", "Went deep."));
-                } else if (mutation_category == "MUTCAT_BEAST") {
-                    p->toggle_mutation("THRESH_BEAST");
-                    p->add_memorial_log(pgettext("memorial_male", "Embraced his bestial nature."),
-                                        pgettext("memorial_female", "Embraced her bestial nature."));
-                } else if (mutation_category == "MUTCAT_FELINE") {
-                    p->toggle_mutation("THRESH_FELINE");
-                    p->add_memorial_log(pgettext("memorial_male", "Realized the dream."),
-                                        pgettext("memorial_female", "Realized the dream."));
-                } else if (mutation_category == "MUTCAT_LUPINE") {
-                    p->toggle_mutation("THRESH_LUPINE");
-                    p->add_memorial_log(pgettext("memorial_male", "Wolfed out."),
-                                        pgettext("memorial_female", "Wolfed out."));
-                } else if (mutation_category == "MUTCAT_URSINE") {
-                    p->toggle_mutation("THRESH_URSINE");
-                    // Manually removing Carnivore, since it tends to creep in
-                    if (p->has_trait("CARNIVORE")) {
-                        p->toggle_mutation("CARNIVORE");
-                        p->add_msg_if_player(_("Your appetite for blood fades."));
+        int total = 0;
+        mutation_category_trait m_category;
+        std::string mutation_thresh;
+        for (auto& iter : mutation_category_traits){
+            total += p->mutation_category_level["MUTCAT_" + iter.second.category];
+            if (it->has_flag("MUTAGEN_" + iter.second.category)) {
+                m_category = iter.second;
+                mutation_category = "MUTCAT_" + m_category.category;
+                mutation_thresh = "THRESH_" + m_category.category;
+                if (p->has_trait("MUT_JUNKIE")) {
+                    p->add_msg_if_player(m_category.junkie_message.c_str());
+                } else if (!(p->has_trait("MUT_JUNKIE"))) {
+                    //there is only the one case, so no json, unless there is demand for it.
+                    p->add_msg_if_player(m_category.iv_message.c_str());
+                }
+                if (!(p->has_trait("NOPAIN")) && m_category.iv_sound) {
+                    p->mod_pain(m_category.iv_pain);
+                    sounds::sound(p->posx(), p->posy(), m_category.iv_noise + p->str_cur, m_category.iv_sound_message);
+                }
+                for (int i=0; i < m_category.iv_min_mutations; i++){
+                    p->mutate_category(mutation_category);
+                    p->mod_pain(m_category.iv_pain * rng(1, 5));
+                    p->hunger += m_category.iv_hunger;
+                    p->fatigue += m_category.iv_fatigue;
+                    p->thirst += m_category.iv_thirst;
+                }
+                for (int i=0; i < m_category.iv_additional_mutations; i++){
+                    if (!one_in(m_category.iv_additional_mutations_chance)) {
+                        p->mutate_category(mutation_category);
+                        p->mod_pain(m_category.iv_pain * rng(1, 5));
+                        p->hunger += m_category.iv_hunger;
+                        p->fatigue += m_category.iv_fatigue;
+                        p->thirst += m_category.iv_thirst;
                     }
-                    p->add_memorial_log(pgettext("memorial_male", "Became one with the bears."),
-                                        pgettext("memorial_female", "Became one with the bears."));
-                } else if (mutation_category == "MUTCAT_CATTLE") {
-                    p->toggle_mutation("THRESH_CATTLE");
-                    p->add_memorial_log(pgettext("memorial_male", "Stopped worrying and learned to love the cowbell."),
-                                        pgettext("memorial_female", "Stopped worrying and learned to love the cowbell."));
-                } else if (mutation_category == "MUTCAT_INSECT") {
-                    p->toggle_mutation("THRESH_INSECT");
-                    p->add_memorial_log(pgettext("memorial_male", "Metamorphosed."),
-                                        pgettext("memorial_female", "Metamorphosed."));
-                } else if (mutation_category == "MUTCAT_PLANT") {
-                    p->toggle_mutation("THRESH_PLANT");
-                    p->add_memorial_log(pgettext("memorial_male", "Bloomed forth."),
-                                        pgettext("memorial_female", "Bloomed forth."));
-                } else if (mutation_category == "MUTCAT_SLIME") {
-                    p->toggle_mutation("THRESH_SLIME");
-                    p->add_memorial_log(pgettext("memorial_male", "Gave up on rigid human norms."),
-                                        pgettext("memorial_female", "Gave up on rigid human norms."));
-                } else if (mutation_category == "MUTCAT_TROGLOBITE") {
-                    p->toggle_mutation("THRESH_TROGLOBITE");
-                    p->add_memorial_log(pgettext("memorial_male", "Adapted to underground living."),
-                                        pgettext("memorial_female", "Adapted to underground living."));
-                } else if (mutation_category == "MUTCAT_CEPHALOPOD") {
-                    p->toggle_mutation("THRESH_CEPHALOPOD");
-                    p->add_memorial_log(pgettext("memorial_male", "Began living the dreams."),
-                                        pgettext("memorial_female", "Began living the dreams."));
-                } else if (mutation_category == "MUTCAT_SPIDER") {
-                    p->toggle_mutation("THRESH_SPIDER");
-                    p->add_memorial_log(pgettext("memorial_male", "Found a place in the web of life."),
-                                        pgettext("memorial_female", "Found a place in the web of life."));
-                } else if (mutation_category == "MUTCAT_RAT") {
-                    p->toggle_mutation("THRESH_RAT");
-                    p->add_memorial_log(pgettext("memorial_male", "Found that survival *is* everything."),
-                                        pgettext("memorial_female", "Found that survival *is* everything."));
-                } else if (mutation_category == "MUTCAT_MEDICAL") {
-                    p->toggle_mutation("THRESH_MEDICAL");
-                    p->add_memorial_log(pgettext("memorial_male", "Resumed clinical trials."),
-                                        pgettext("memorial_female", "Resumed clinical trials."));
-                } else if (mutation_category == "MUTCAT_ALPHA") {
-                    p->toggle_mutation("THRESH_ALPHA");
-                    p->add_memorial_log(pgettext("memorial_male", "Started representing."),
-                                        pgettext("memorial_female", "Started representing."));
-                } else if (mutation_category == "MUTCAT_ELFA") {
-                    p->toggle_mutation("THRESH_ELFA");
-                    p->add_memorial_log(pgettext("memorial_male", "Accepted a more natural way of life."),
-                                        pgettext("memorial_female", "Accepted a more natural way of life."));
-                } else if (mutation_category == "MUTCAT_CHIMERA") {
-                    p->toggle_mutation("THRESH_CHIMERA");
-                    p->add_memorial_log(pgettext("memorial_male", "United disunity."),
-                                        pgettext("memorial_female", "United disunity."));
-                } else if (mutation_category == "MUTCAT_RAPTOR") {
-                    p->toggle_mutation("THRESH_RAPTOR");
-                    p->add_memorial_log(pgettext("memorial_male", "Hatched."),
-                                        pgettext("memorial_female", "Hatched."));
+                }
+                if (m_category.category == "CHIMERA"){
+                     p->add_morale(MORALE_MUTAGEN_CHIMERA, m_category.iv_morale, m_category.iv_morale_max);
+                } else if (m_category.category == "ELFA"){
+                     p->add_morale(MORALE_MUTAGEN_ELF, m_category.iv_morale, m_category.iv_morale_max);
+                } else if(m_category.iv_morale > 0){
+                    p->add_morale(MORALE_MUTAGEN_MUTATION, m_category.iv_morale, m_category.iv_morale_max);
+                }
+
+                if (m_category.iv_sleep && !one_in(3)){
+                    p->add_msg_if_player(m_bad, m_category.iv_sleep_message.c_str());
+                    p->fall_asleep(m_category.iv_sleep_dur - p->int_cur * 5);
+                }
+            }
+        }
+
+            // Threshold-check.  You only get to cross once!
+        if (!p->crossed_threshold()) {
+            // Threshold-breaching
+            std::string primary = p->get_highest_category();
+            // Only if you were pushing for more in your primary category.
+            // You wanted to be more like it and less human.
+            // That said, you're required to have hit third-stage dreams first.
+            if ((mutation_category == primary) && (p->mutation_category_level[primary] > 50)) {
+                // Little help for the categories that have a lot of crossover.
+                // Starting with Ursine as that's... a bear to get.  8-)
+                // Will add others if there's serious/demonstrable need.
+                int booster = 0;
+                if (mutation_category == "MUTCAT_URSINE") {
+                    booster = 50;
+                }
+                int breacher = (p->mutation_category_level[primary]) + booster;
+                if (x_in_y(breacher, total)) {
+                    p->add_msg_if_player(m_good,
+                                     _("Something strains mightily for a moment...and then..you're...FREE!"));
+                    p->toggle_mutation(mutation_thresh);
+                    p->add_memorial_log(pgettext("memorial_male", m_category.memorial_message.c_str()),
+                                        pgettext("memorial_female", m_category.memorial_message.c_str()));
+                    if (mutation_category == "MUTCAT_URSINE") {
+                        // Manually removing Carnivore, since it tends to creep in
+                        if (p->has_trait("CARNIVORE")) {
+                            p->toggle_mutation("CARNIVORE");
+                            p->add_msg_if_player(_("Your appetite for blood fades."));
+                        }
+                    }
                 }
             } else if (p->mutation_category_level[primary] > 100) {
                 //~NOPAIN is a post-Threshold trait, so you shouldn't
@@ -2145,7 +1869,7 @@ int iuse::mut_iv(player *p, item *it, bool, point)
                     p->add_msg_if_player(m_bad, _("Your head throbs with memories of your life, before all this..."));
                     p->pain += 6;
                     p->add_effect("stunned", rng(2, 4));
-                }
+            }
             } else if (p->mutation_category_level[primary] > 60) {
                 if (p->has_trait("NOPAIN")) {
                     p->add_msg_if_player(m_bad, _("You feel Bugged."));
@@ -2177,7 +1901,7 @@ int iuse::purifier(player *p, item *it, bool, point)
     }
 
     std::vector<std::string> valid; // Which flags the player has
-    for( auto &traits_iter : traits ) {
+    for( auto &traits_iter : mutation_branch::get_all() ) {
         if( p->has_trait( traits_iter.first ) && !p->has_base_trait( traits_iter.first ) ) {
             //Looks for active mutation
             valid.push_back( traits_iter.first );
@@ -2221,7 +1945,7 @@ int iuse::purify_iv(player *p, item *it, bool, point)
     }
 
     std::vector<std::string> valid; // Which flags the player has
-    for( auto &traits_iter : traits ) {
+    for( auto &traits_iter : mutation_branch::get_all() ) {
         if( p->has_trait( traits_iter.first ) && !p->has_base_trait( traits_iter.first ) ) {
             //Looks for active mutation
             valid.push_back( traits_iter.first );
@@ -2995,20 +2719,95 @@ int iuse::sew_advanced(player *p, item *it, bool, point)
         p->add_msg_if_player(m_info, _("This can be used to repair or modify other items, not itself."));
         return 0;
     }
-    int choice = menu(true, _("How do you want to modify it?"), _("Line it with fur"),
+    int choice = menu(true, _("How do you want to modify it?"), _("Line it with wool"),_("Line it with fur"),
                       _("Pad with leather"), _("Line with kevlar"), _("Repair clothing"),
                       _("Cancel"), NULL);
 
-    if( (choice == 1 || choice == 2 || choice == 3) && mod->item_tags.count("furred") +
-        mod->item_tags.count("leather_padded") + mod->item_tags.count("kevlar_padded") >= 2 ){
+    if( (choice == 1 || choice == 2 || choice == 3 || choice == 4) && mod->item_tags.count("wooled") +
+       mod->item_tags.count("furred") + mod->item_tags.count("leather_padded") + mod->item_tags.count("kevlar_padded") >= 2 ){
         p->add_msg_if_player(m_info,_("You can't modify this more than twice."));
         return 0;
     }
 
     switch (choice) {
     case 1: {
+        if(mod->item_tags.count("wooled")) {
+            p->add_msg_if_player(m_info,_("There's already a wool lining sewn in."));
+            return 0;
+        }
+        itype_id repair_item = "none";
+        std::vector<std::string> plurals;
+        std::vector<itype_id> repair_items;
+        std::string plural = "";
+
+        repair_items.push_back("felt_patch");
+        plurals.push_back(rm_prefix(_("<plural>wool")));
+
+
+        int items_needed = (((mod->volume()) / 3) + 1 );
+
+        // this will cause issues if/when NPCs start being able to sew.
+        // but, then again, it'll cause issues when they start crafting, too.
+        const inventory &crafting_inv = p->crafting_inventory();
+        bool bFound = false;
+        //go through all discovered repair items and see if we have any of them available
+        for( auto &repair_items_i : repair_items ) {
+            if( crafting_inv.has_amount( repair_items_i, items_needed ) ) {
+                //we've found enough of a material, use this one
+                repair_item = repair_items_i;
+                bFound = true;
+            }
+        }
+        if (!bFound) {
+            for (unsigned int i = 0; i < repair_items.size(); i++) {
+                p->add_msg_if_player(m_info, _("You don't have enough %s to do that."), plurals[i].c_str());
+            }
+            return 0;
+        }
+        std::vector<item_comp> comps;
+        comps.push_back(item_comp(repair_item, items_needed));
+        p->moves -= 500 * p->fine_detail_vision_mod();
+        p->practice("tailor", 9);
+        int rn = dice(4, 2 + p->skillLevel("tailor"));
+        if (p->dex_cur < 8 && one_in(p->dex_cur)) {
+            rn -= rng(2, 6);
+        }
+        if (p->dex_cur >= 16 || (p->dex_cur > 8 && one_in(16 - p->dex_cur))) {
+            rn += rng(2, 6);
+        }
+        if (p->dex_cur > 16) {
+            rn += rng(0, p->dex_cur - 16);
+        }
+
+        if (rn <= 8) {
+            p->add_msg_if_player(m_bad, _("You damage your %s further trying to sew in a wool lining!"),
+                                 mod->tname().c_str());
+            mod->damage++;
+            if (mod->damage >= 5) {
+                p->add_msg_if_player(m_bad, _("You destroy it!"));
+                p->i_rem_keep_contents( pos );
+            }
+        } else if (rn <= 10) {
+            p->add_msg_if_player(m_bad,
+                                 _("You fail to sew in a wool lining, and you waste a lot of thread and wool."));
+            thread_used = rng(5, 14);
+            p->consume_items(comps);
+        } else if (rn <= 14) {
+            p->add_msg_if_player(m_mixed, _("You sew in a wool lining on your %s, but waste a lot of thread."),
+                                 mod->tname().c_str());
+            p->consume_items(comps);
+            mod->item_tags.insert("wooled");
+            thread_used = rng(5, 14);
+        } else {
+            p->add_msg_if_player(m_good, _("You sew in a wool lining on your %s!"), mod->tname().c_str());
+            mod->item_tags.insert("wooled");
+            p->consume_items(comps);
+        }
+        return thread_used;
+    }
+    case 2: {
         if(mod->item_tags.count("furred")) {
-            p->add_msg_if_player(m_info,_("You already sewed in a fur lining."));
+            p->add_msg_if_player(m_info,_("There's already a fur lining sewn in."));
             return 0;
         }
         itype_id repair_item = "none";
@@ -3081,9 +2880,9 @@ int iuse::sew_advanced(player *p, item *it, bool, point)
         }
         return thread_used;
     }
-    case 2: {
+    case 3: {
         if(mod->item_tags.count("leather_padded")) {
-            p->add_msg_if_player(m_info,_("You've already padded this with leather."));
+            p->add_msg_if_player(m_info,_("This is already padded with leather."));
             return 0;
         }
         itype_id repair_item = "none";
@@ -3156,9 +2955,9 @@ int iuse::sew_advanced(player *p, item *it, bool, point)
         }
         return thread_used;
     }
-    case 3: {
+    case 4: {
         if(mod->item_tags.count("kevlar_padded")) {
-            p->add_msg_if_player(m_info,_("You've already lined this with kevlar."));
+            p->add_msg_if_player(m_info,_("This is already lined with kevlar."));
             return 0;
         }
         itype_id repair_item = "none";
@@ -3231,7 +3030,7 @@ int iuse::sew_advanced(player *p, item *it, bool, point)
         }
         return thread_used;
     }
-    case 4:
+    case 5:
         return repair_clothing( p, it, mod, pos );
     default:
         return 0;
@@ -3242,7 +3041,7 @@ int iuse::extra_battery(player *p, item *, bool, point)
 {
     int inventory_index = g->inv_for_filter( _("Modify what?"), []( const item & itm ) {
         it_tool *tl = dynamic_cast<it_tool *>(itm.type);
-        return tl != nullptr && tl->ammo == "battery";
+        return tl != nullptr && tl->ammo_id == "battery";
     } );
     item *modded = &( p->i_at( inventory_index ) );
 
@@ -3256,7 +3055,7 @@ int iuse::extra_battery(player *p, item *, bool, point)
     }
 
     it_tool *tool = dynamic_cast<it_tool *>(modded->type);
-    if (tool->ammo != "battery") {
+    if (tool->ammo_id != "battery") {
         p->add_msg_if_player(m_info, _("That item does not use batteries!"));
         return 0;
     }
@@ -3279,7 +3078,7 @@ int iuse::rechargeable_battery(player *p, item *it, bool, point)
 {
     int inventory_index = g->inv_for_filter( _("Modify what?"), []( const item & itm ) {
         it_tool *tl = dynamic_cast<it_tool *>(itm.type);
-        return tl != nullptr && tl->ammo == "battery";
+        return tl != nullptr && tl->ammo_id == "battery";
     } );
     item *modded = &( p->i_at( inventory_index ) );
 
@@ -3293,7 +3092,7 @@ int iuse::rechargeable_battery(player *p, item *it, bool, point)
     }
 
     it_tool *tool = dynamic_cast<it_tool *>(modded->type);
-    if (tool->ammo != "battery") {
+    if (tool->ammo_id != "battery") {
         p->add_msg_if_player(m_info, _("That item does not use batteries!"));
         return 0;
     }
@@ -3320,7 +3119,7 @@ int iuse::atomic_battery(player *p, item *it, bool, point)
 {
     int inventory_index = g->inv_for_filter( _("Modify what?"), []( const item & itm ) {
         it_tool *tl = dynamic_cast<it_tool *>(itm.type);
-        return tl != nullptr && tl->ammo == "battery";
+        return tl != nullptr && tl->ammo_id == "battery";
     } );
     item *modded = &( p->i_at( inventory_index ) );
 
@@ -3334,7 +3133,7 @@ int iuse::atomic_battery(player *p, item *it, bool, point)
     }
 
     it_tool *tool = dynamic_cast<it_tool *>(modded->type);
-    if (tool->ammo != "battery") {
+    if (tool->ammo_id != "battery") {
         p->add_msg_if_player(m_info, _("That item does not use batteries!"));
         return 0;
     }
@@ -3362,7 +3161,7 @@ int iuse::ups_battery(player *p, item *, bool, point)
 {
     int inventory_index = g->inv_for_filter( _("Modify what?"), []( const item & itm ) {
         it_tool *tl = dynamic_cast<it_tool *>(itm.type);
-        return tl != nullptr && tl->ammo == "battery";
+        return tl != nullptr && tl->ammo_id == "battery";
     } );
     item *modded = &( p->i_at( inventory_index ) );
 
@@ -3376,7 +3175,7 @@ int iuse::ups_battery(player *p, item *, bool, point)
     }
 
     it_tool *tool = dynamic_cast<it_tool *>(modded->type);
-    if (tool->ammo != "battery") {
+    if (tool->ammo_id != "battery") {
         p->add_msg_if_player(_("That item does not use batteries!"));
         return 0;
     }
@@ -3423,7 +3222,7 @@ int iuse::remove_all_mods(player *p, item *, bool, point)
     }
 
     it_tool *tool = dynamic_cast<it_tool *>(modded->type);
-    if (tool->ammo != "battery") {
+    if (tool->ammo_id != "battery") {
         p->add_msg_if_player( m_info, _( "That item does not use batteries!" ) );
         return 0;
     }
@@ -3614,8 +3413,16 @@ int iuse::extinguisher(player *p, item *it, bool, point)
     int mondex = g->mon_at(x, y);
     if (mondex != -1) {
         g->zombie(mondex).moves -= 150;
+        bool blind = false;
+        if (one_in(2) && g->zombie(mondex).has_flag(MF_SEES)) {
+            blind = true;
+            g->zombie(mondex).add_effect("blind", rng(10, 20));
+        }
         if (g->u.sees(g->zombie(mondex))) {
             p->add_msg_if_player(_("The %s is sprayed!"), g->zombie(mondex).name().c_str());
+            if(blind) {
+                p->add_msg_if_player(_("The %s looks blinded."), g->zombie(mondex).name().c_str());
+            }
         }
         if (g->zombie(mondex).made_of(LIQUID)) {
             if (g->u.sees(g->zombie(mondex))) {
@@ -4343,14 +4150,19 @@ int iuse::hammer(player *p, item *it, bool, point)
     return 0;
 }
 
-int iuse::crowbar(player *p, item *it, bool, point)
+int iuse::crowbar(player *p, item *it, bool, point pos)
 {
     int dirx, diry;
-    if (!choose_adjacent(_("Pry where?"), dirx, diry)) {
-        return 0;
+    if( pos == p->pos() ) {
+        if( !choose_adjacent(_("Pry where?"), dirx, diry) ) {
+            return 0;
+        }
+    } else {
+        dirx = pos.x;
+        diry = pos.y;
     }
 
-    if (dirx == p->posx() && diry == p->posy()) {
+    if( dirx == p->posx() && diry == p->posy() ) {
         p->add_msg_if_player(m_info, _("You attempt to pry open your wallet"));
         p->add_msg_if_player(m_info, _("but alas. You are just too miserly."));
         return 0;
@@ -4406,7 +4218,7 @@ int iuse::crowbar(player *p, item *it, bool, point)
     }
 
     p->practice("mechanics", 1);
-    p->moves -= (difficulty * 25) - ((p->str_cur + p->skillLevel("mechanics")) * 5);
+    p->moves -= std::max( 25, ( difficulty * 25 ) - ( ( p->str_cur + p->skillLevel( "mechanics" ) ) * 5 ) );
     if (dice(4, difficulty) < dice(2, p->skillLevel("mechanics")) + dice(2, p->str_cur)) {
         p->practice("mechanics", 1);
         p->add_msg_if_player(m_good, succ_action);
@@ -4732,334 +4544,6 @@ int iuse::circsaw_on(player *p, item *it, bool t, point)
         it->active = false;
     }
     return 0;
-}
-
-int iuse::shishkebab_off(player *p, item *it, bool, point pos)
-{
-    int choice = menu(true, _("What's the plan?"), _("Bring the heat!"),
-                      _("Cut 'em up!"), _("I'm good."), NULL);
-    switch (choice) {
-        case 1: {
-            p->moves -= 10;
-            if (it->charges <= 0) {
-                p->add_msg_if_player(m_info, _("This thing needs some fuel!"));
-            } else if (rng(0, 10) - it->damage > 5 && !p->is_underwater()) {
-                sounds::sound(p->posx(), p->posy(), 10, _("Let's dance, Zeds!"));
-                it->make("shishkebab_on");
-                it->active = true;
-            } else {
-                p->add_msg_if_player(_("Aw, dangit. It fails to start!"));
-            }
-            return it->type->charges_to_use();
-        }
-        break;
-        case 2: {
-            return iuse::knife(p, it, false, pos);
-        }
-        default:
-            return 0;
-    }
-}
-
-int iuse::shishkebab_on(player *p, item *it, bool t, point pos)
-{
-    if (p->is_underwater()) {
-        p->add_msg_if_player(_("Your shishkebab hisses in the water and goes out."));
-        it->make("shishkebab_off");
-        it->active = false;
-    } else if (t) {
-        // Effects while simply on
-        if (one_in(25)) {
-            sounds::ambient_sound(p->posx(), p->posy(), 10, _("Your shishkebab crackles!"));
-        }
-
-        if (one_in(75)) {
-            p->add_msg_if_player(m_bad, _("Bummer, man! Your shishkebab's flame flickers and dies out."));
-            it->make("shishkebab_off");
-            it->active = false;
-        }
-    } else if (it->charges < it->type->charges_to_use()) {
-        p->add_msg_if_player(m_bad, _("Uncool, outta gas! Your shishkebab's flame goes out."));
-        it->make("shishkebab_off");
-        it->active = false;
-    } else {
-        int choice = menu(true, _("What's the plan?"), _("Chill out"),
-                          _("Torch something!"), _("Keep groovin'"), NULL);
-        switch (choice) {
-            case 1: {
-                p->add_msg_if_player(_("Peace out. Your shishkebab's flame dies."));
-                it->make("shishkebab_off");
-                it->active = false;
-            }
-            break;
-            case 2: {
-                if( firestarter_actor::prep_firestarter_use(p, it, pos) ) {
-                    p->moves -= 5;
-                    firestarter_actor::resolve_firestarter_use(p, it, pos);
-                }
-            }
-            default:
-                return 0;
-        }
-    }
-    return it->type->charges_to_use();
-}
-
-int iuse::firemachete_off(player *p, item *it, bool, point pos)
-{
-    int choice = menu(true,
-                      _("No. 9"), _("Turn on"), _("Use as a knife"), _("Cancel"), NULL);
-    switch (choice) {
-        case 1: {
-            p->moves -= 10;
-            if (rng(0, 10) - it->damage > 2 && it->charges > 0 && !p->is_underwater()) {
-                sounds::sound(p->posx(), p->posy(), 10, _("Your No. 9 glows!"));
-                it->make("firemachete_on");
-                it->active = true;
-            } else {
-                p->add_msg_if_player(_("Click."));
-            }
-        }
-        break;
-        case 2: {
-            iuse::knife(p, it, false, pos);
-        }
-        default:
-            return 0;
-    }
-    return it->type->charges_to_use();
-}
-
-int iuse::firemachete_on(player *p, item *it, bool t, point pos)
-{
-    if (t) {  // Effects while simply on
-        if (p->is_underwater()) {
-            p->add_msg_if_player(_("Your No. 9 hisses in the water and goes out."));
-            it->make("firemachete_off");
-            it->active = false;
-        } else if (one_in(25)) {
-            sounds::ambient_sound(p->posx(), p->posy(), 5, _("Your No. 9 hisses."));
-        }
-        if (one_in(100)) {
-            p->add_msg_if_player(m_bad, _("Your No. 9 cuts out!"));
-            it->make("firemachete_off");
-            it->active = false;
-        }
-    } else if (it->charges < it->type->charges_to_use()) {
-        p->add_msg_if_player(m_info, _("Out of ammo!"));
-        it->make("firemachete_off");
-        it->active = false;
-    } else {
-        int choice = menu(true, _("No. 9"), _("Turn off"), _("Light something"), _("Cancel"), NULL);
-        switch (choice) {
-            case 1: {
-                p->add_msg_if_player(_("Your No. 9 goes dark."));
-                it->make("firemachete_off");
-                it->active = false;
-            }
-            break;
-            case 2: {
-                if( firestarter_actor::prep_firestarter_use(p, it, pos) ) {
-                    p->moves -= 5;
-                    firestarter_actor::resolve_firestarter_use(p, it, pos);
-                }
-            }
-            default:
-                return 0;
-        }
-    }
-    return it->type->charges_to_use();
-}
-
-int iuse::broadfire_off(player *p, item *it, bool t, point pos)
-{
-    int choice = menu(true, _("What will thou do?"), _("Ready for battle!"),
-                      _("Perform peasant work?"), _("Reconsider thy strategy"), NULL);
-    switch (choice) {
-        case 1: {
-            p->moves -= 10;
-            if (it->charges > 0 && !p->is_underwater()) {
-                sounds::sound(p->posx(), p->posy(), 10, _("Charge!!"));
-                it->make("broadfire_on");
-                it->active = true;
-            } else {
-                p->add_msg_if_player(m_info, _("No strength to fight!"));
-            }
-        }
-        break;
-        case 2: {
-            return iuse::knife(p, it, t, pos);
-        }
-    }
-    return it->type->charges_to_use();
-}
-
-int iuse::broadfire_on(player *p, item *it, bool t, point pos)
-{
-    if (t) {  // Effects while simply on
-        if (p->is_underwater()) {
-            p->add_msg_if_player(_("Your sword hisses in the water and goes out."));
-            it->make("broadfire_off");
-            it->active = false;
-        } else if (one_in(35)) {
-            p->add_msg_if_player(_("Your blade burns for combat!"));
-        }
-    } else if (it->charges < it->type->charges_to_use()) {
-        p->add_msg_if_player(m_bad, _("Thy strength fades!"));
-        it->make("broadfire_off");
-        it->active = false;
-    } else {
-        int choice = menu(true, _("What will thou do?"), _("Retreat!"),
-                          _("Burn and Pillage!"), _("Keep Fighting!"), NULL);
-        switch (choice) {
-            case 1: {
-                p->add_msg_if_player(_("Run away!"));
-                it->make("broadfire_off");
-                it->active = false;
-            }
-            break;
-            case 2: {
-                if( firestarter_actor::prep_firestarter_use(p, it, pos) ) {
-                    p->moves -= 5;
-                    firestarter_actor::resolve_firestarter_use(p, it, pos);
-                }
-            }
-        }
-    }
-    return it->type->charges_to_use();
-}
-
-int iuse::firekatana_off(player *p, item *it, bool t, point pos)
-{
-    int choice = menu(true, _("The Dark of Night."), _("Daybreak"),
-                      _("The Moonlight's Edge"), _("Eternal Night"), NULL);
-    switch (choice) {
-        case 1: {
-            p->moves -= 10;
-            if (it->charges > 0 && !p->is_underwater()) {
-                sounds::sound(p->posx(), p->posy(), 10, _("The Sun rises."));
-                it->make("firekatana_on");
-                it->active = true;
-            } else {
-                p->add_msg_if_player(_("Time stands still."));
-            }
-        }
-        break;
-        case 2: {
-            return iuse::knife(p, it, t, pos);
-        }
-    }
-    return it->type->charges_to_use();
-}
-
-int iuse::firekatana_on(player *p, item *it, bool t, point pos)
-{
-    if (t) {  // Effects while simply on
-        if (p->is_underwater()) {
-            p->add_msg_if_player(_("Your sword hisses in the water and goes out."));
-            it->make("firekatana_off");
-            it->active = false;
-        } else if (one_in(35)) {
-            p->add_msg_if_player(_("The Sun shines brightly."));
-        }
-    } else if (it->charges < it->type->charges_to_use()) {
-        p->add_msg_if_player(m_bad, _("The Light Fades."));
-        it->make("firekatana_off");
-        it->active = false;
-    } else {
-        int choice = menu(true, _("The Light of Day."), _("Nightfall"),
-                          _("Blazing Heat"), _("Endless Day"), NULL);
-        switch (choice) {
-            case 1: {
-                p->add_msg_if_player(_("The Sun sets."));
-                it->make("firekatana_off");
-                it->active = false;
-            }
-            break;
-            case 2: {
-                if( firestarter_actor::prep_firestarter_use(p, it, pos) ) {
-                    p->moves -= 5;
-                    firestarter_actor::resolve_firestarter_use(p, it, pos);
-                    return it->type->charges_to_use();
-                }
-            }
-        }
-    }
-    return it->type->charges_to_use();
-}
-
-int iuse::zweifire_off(player *p, item *it, bool t, point pos)
-{
-    int choice = menu(true, _("Was willst du tun?"), _("Die Flamme entfachen."),
-                      _("Als Messer verwenden."), _("Nichts tun."), NULL);
-    switch (choice) {
-        case 1: {
-            p->moves -= 10;
-            if (it->charges > 0 && !p->is_underwater()) {
-                sounds::sound(p->posx(), p->posy(), 10,
-                              _("Die Klinge deines Schwertes brennt!"));
-                it->make("zweifire_on");
-                it->active = true;
-            } else {
-                p->add_msg_if_player(m_bad, _("Dein Flammenschwert hat keinen Brennstoff mehr."));
-            }
-        }
-        break;
-        case 2: {
-            return iuse::knife(p, it, t, pos);
-        }
-        default:
-            return 0;
-    }
-    return it->type->charges_to_use();
-}
-
-int iuse::zweifire_on(player *p, item *it, bool t, point pos)
-{
-    if (t) {  // Effects while simply on
-        if (p->is_underwater()) {
-            p->add_msg_if_player(_("Dein Schwert zischt und erlischt."));
-            it->make("zweifire_off");
-            it->active = false;
-        } else if (one_in(35)) {
-            //~ (Flammenschwert) "The fire on your blade burns brightly!"
-            p->add_msg_if_player(_("Das Feuer um deine Schwertklinge leuchtet hell!"));
-        }
-    } else if (it->charges < it->type->charges_to_use()) {
-        //~ (Flammenschwert) "Your Flammenscwhert (firesword) is out of fuel!"
-        p->add_msg_if_player(m_bad, _("Deinem Flammenschwert ist der Brennstoff ausgegangen!"));
-        it->make("zweifire_off");
-        it->active = false;
-    } else {
-        int choice = menu(true,
-                          //~ (Flammenschwert) "What will you do?"
-                          _("Was willst du tun?"),
-                          //~ (Flammenschwert) "Extinguish the flame."
-                          _("Die Flamme erloschen."),
-                          //~ (Flammenschwert) "Start a fire."
-                          _("Ein Feuer entfachen."),
-                          //~ (Flammenschwert) "Do nothing."
-                          _("Nichts tun."), NULL);
-        switch (choice) {
-            case 1: {
-                //~ (Flammenschwert) "The flames on your sword die out."
-                p->add_msg_if_player(_("Die Flamme deines Schwertes erlischt."));
-                it->make("zweifire_off");
-                it->active = false;
-            }
-            break;
-            case 2: {
-                if( firestarter_actor::prep_firestarter_use(p, it, pos) ) {
-                    p->moves -= 5;
-                    firestarter_actor::resolve_firestarter_use(p, it, pos);
-                    return it->type->charges_to_use();
-                }
-            }
-            default:
-                return 0;
-        }
-    }
-    return it->type->charges_to_use();
 }
 
 int iuse::jackhammer(player *p, item *it, bool, point)
@@ -6533,386 +6017,6 @@ int iuse::vacutainer(player *p, item *it, bool, point)
     return it->type->charges_to_use();
 }
 
-void make_zlave(player *p)
-{
-    auto items = g->m.i_at(p->posx(), p->posy());
-    std::vector<const item *> corpses;
-
-    const int cancel = 0;
-
-    for( auto &it : items ) {
-        const auto mt = it.get_mtype();
-        if( it.is_corpse() && mt->in_species("ZOMBIE") && mt->mat == "flesh" &&
-            mt->sym == "Z" && it.active && !it.has_var( "zlave" ) ) {
-            corpses.push_back( &it );
-        }
-    }
-
-    if (corpses.empty()) {
-        p->add_msg_if_player(_("No suitable corpses"));
-        return;
-    }
-
-    int tolerance_level = 9;
-    if( p->has_trait("PSYCHOPATH") || p->has_trait("SAPIOVORE") ) {
-        tolerance_level = 0;
-    } else if( p->has_trait("PRED4") ) {
-        tolerance_level = 5;
-    } else if( p->has_trait("PRED3") ) {
-        tolerance_level = 7;
-    }
-
-    // Survival skill increases your willingness to get things done,
-    // but it doesn't make you feel any less bad about it.
-    if( p->morale_level() <= (15 * (tolerance_level - p->skillLevel("survival") )) - 150 ) {
-        add_msg(m_neutral, _("The prospect of cutting up the copse and letting it rise again as a slave is too much for you to deal with right now."));
-        return;
-    }
-
-    uimenu amenu;
-
-    amenu.selected = 0;
-    amenu.text = _("Selectively butcher the downed zombie into a zombie slave?");
-    amenu.addentry(cancel, true, 'q', _("Cancel"));
-    for (size_t i = 0; i < corpses.size(); i++) {
-        amenu.addentry(i + 1, true, -1, corpses[i]->display_name().c_str());
-    }
-
-    amenu.query();
-
-    if (cancel == amenu.ret) {
-        p->add_msg_if_player(_("Make love, not zlave."));
-        return;
-    }
-
-    if( tolerance_level == 0 ) {
-        // You just don't care, no message.
-    } else if( tolerance_level <= 5 ) {
-        add_msg(m_neutral, _("Well, it's more constructive than just chopping 'em into gooey meat..."));
-    } else {
-        add_msg(m_bad, _("You feel horrible for mutilating and enslaving someone's corpse."));
-
-        int moraleMalus = -50 * (5.0 / (float) p->skillLevel("survival"));
-        int maxMalus = -250 * (5.0 / (float)p->skillLevel("survival"));
-        int duration = 300 * (5.0 / (float)p->skillLevel("survival"));
-        int decayDelay = 30 * (5.0 / (float)p->skillLevel("survival"));
-
-        if (p->has_trait("PACIFIST")) {
-            moraleMalus *= 5;
-            maxMalus *= 3;
-        } else if (p->has_trait("PRED1")) {
-            moraleMalus /= 4;
-        } else if (p->has_trait("PRED2")) {
-            moraleMalus /= 5;
-        }
-
-        p->add_morale(MORALE_MUTILATE_CORPSE, moraleMalus, maxMalus, duration, decayDelay);
-    }
-
-    const int selected_corpse = amenu.ret - 1;
-
-    const item *body = corpses[selected_corpse];
-    const mtype *mt = body->get_mtype();
-
-    // HP range for zombies is roughly 36 to 120, with the really big ones having 180 and 480 hp.
-    // Speed range is 20 - 120 (for humanoids, dogs get way faster)
-    // This gives us a difficulty ranging rougly from 10 - 40, with up to +25 for corpse damage.
-    // An average zombie with an undamaged corpse is 0 + 8 + 14 = 22.
-    int difficulty = (body->damage * 5) + (mt->hp / 10) + (mt->speed / 5);
-    // 0 - 30
-    int skills = p->skillLevel("survival") + p->skillLevel("firstaid") + (p->dex_cur / 2);
-    skills *= 2;
-
-    int success = rng(0, skills) - rng(0, difficulty);
-
-    const int moves = difficulty * 1200 / p->skillLevel("firstaid");
-
-    p->assign_activity(ACT_MAKE_ZLAVE, moves);
-    p->activity.values.push_back(success);
-    p->activity.str_values.push_back(corpses[selected_corpse]->display_name());
-}
-
-// *it here is the item that is a candidate for being chopped up.
-// This is the former valid_to_cut_up with all the messages and queries
-bool static try_to_cut_up(player *p, item *it)
-{
-    int pos = p->get_item_position(it);
-    // If a material is made of different items than what is in this set, we
-    // do not cut it up.
-    std::vector<std::string> material_id_white_list;
-    material_id_white_list.push_back("cotton");
-    material_id_white_list.push_back("leather");
-    material_id_white_list.push_back("fur");
-    material_id_white_list.push_back("nomex");
-    material_id_white_list.push_back("kevlar");
-    material_id_white_list.push_back("plastic");
-    material_id_white_list.push_back("wood");
-    material_id_white_list.push_back("wool");
-
-    if (it->is_null()) {
-        add_msg(m_info, _("You do not have that item."));
-        return false;
-    }
-    // There must be some historical significance to these items.
-    if (!it->is_salvageable()) {
-        add_msg(m_info, _("Can't salvage anything from %s."), it->tname().c_str());
-        if (it->is_disassemblable()) {
-            add_msg(m_info, _("Try disassembling the %s instead."), it->tname().c_str());
-        }
-        return false;
-    }
-    if( !it->only_made_of(material_id_white_list) ) {
-        add_msg(m_info, _("The %s is made of material that cannot be cut up."), it->tname().c_str());
-        return false;
-    }
-    if( !it->contents.empty() ) {
-        add_msg(m_info, _("Please empty the %s before cutting it up."), it->tname().c_str());
-        return false;
-    }
-    if (it->volume() == 0) {
-        add_msg(m_info, _("The %s is too small to salvage material from."), it->tname().c_str());
-        return false;
-    }
-    // Softer warnings at the end so we don't ask permission and then tell them no.
-    if (it == &p->weapon) {
-        if(!query_yn(_("You are wielding that, are you sure?"))) {
-            return false;
-        }
-    } else if( pos == INT_MIN ) {
-        // Not in inventory
-        return true;
-    } else if( pos < -1 ) {
-        if(!query_yn(_("You're wearing that, are you sure?"))) {
-            return false;
-        }
-    }
-
-    return true;
-}
-
-// This is new silent valid_to_cut_up
-bool iuse::valid_to_cut_up(const item *it)
-{
-    // If a material is made of different items than what is in this set, we
-    // do not cut it up.
-    std::vector<std::string> material_id_white_list;
-    material_id_white_list.push_back("cotton");
-    material_id_white_list.push_back("leather");
-    material_id_white_list.push_back("fur");
-    material_id_white_list.push_back("nomex");
-    material_id_white_list.push_back("kevlar");
-    material_id_white_list.push_back("plastic");
-    material_id_white_list.push_back("wood");
-    material_id_white_list.push_back("wool");
-
-    if (it->is_null()) {
-        return false;
-    }
-    // There must be some historical significance to these items.
-    if (!it->is_salvageable()) {
-        return false;
-    }
-    if( !it->only_made_of(material_id_white_list) ) {
-        return false;
-    }
-    if (it->is_container() && !it->contents.empty()) {
-        return false;
-    }
-    if (it->volume() == 0) {
-        return false;
-    }
-
-    return true;
-}
-
-// function returns charges from *it during the cutting process of the *cut.
-// *it cuts
-// *cut gets cut
-int iuse::cut_up(player *p, item *it, item *cut, bool)
-{
-    int pos = p->get_item_position(cut);
-    // total number of raw components == total volume of item.
-    // This can go awry if there is a volume / recipe mismatch.
-    int count = cut->volume();
-    // Chance of us losing a material component to entropy.
-    int entropy_threshold = std::max(5, 10 - p->skillLevel("fabrication"));
-    // What material components can we get back?
-    std::vector<std::string> cut_material_components = cut->made_of();
-    // What materials do we salvage (ids and counts).
-    std::map<std::string, int> materials_salvaged;
-
-    // Final just in case check (that perhaps was not done elsewhere);
-    if (cut == it) {
-        add_msg(m_info, _("You can not cut the %s with itself."), it->tname().c_str());
-        return 0;
-    }
-    if( !cut->contents.empty() ) {
-        // Should have been ensured by try_to_cut_up
-        debugmsg( "tried to cut a non-empty item %s", cut->tname().c_str() );
-        return 0;
-    }
-
-    // Time based on number of components.
-    p->moves -= 25 * count;
-    // Not much practice, and you won't get very far ripping things up.
-    const Skill* isFab = Skill::skill("fabrication");
-    p->practice(isFab, rng(0, 5), 1);
-
-    // Higher fabrication, less chance of entropy, but still a chance.
-    if (rng(1, 10) <= entropy_threshold) {
-        count -= 1;
-    }
-    // Fail dex roll, potentially lose more parts.
-    if (dice(3, 4) > p->dex_cur) {
-        count -= rng(0, 2);
-    }
-    // If more than 1 material component can still be be salvaged,
-    // chance of losing more components if the item is damaged.
-    // If the item being cut is not damaged, no additional losses will be incurred.
-    if (count > 0 && cut->damage > 0) {
-        float component_success_chance = std::min(std::pow(0.8, cut->damage), 1.0);
-        for(int i = count; i > 0; i--) {
-            if(component_success_chance < rng_float(0,1)) {
-                count--;
-            }
-        }
-    }
-
-    // Decided to split components evenly. Since salvage will likely change
-    // soon after I write this, I'll go with the one that is cleaner.
-    for (auto material : cut_material_components) {
-        material_type * mt = material_type::find_material(material);
-        std::string salvaged_id = mt->salvage_id();
-        float salvage_multiplier = mt->salvage_multiplier();
-        materials_salvaged[salvaged_id] = count * salvage_multiplier / cut_material_components.size();
-    }
-
-    add_msg(m_info, _("You try to salvage materials from the %s."), cut->tname().c_str());
-
-    // Clean up before removing the item.
-    remove_ammo(cut, *p);
-    // Original item has been consumed.
-    if( pos != INT_MIN ) {
-        p->i_rem(pos);
-    } else {
-        g->m.i_rem( p->posx(), p->posy(), cut );
-    }
-
-    for (auto salvaged : materials_salvaged) {
-        std::string mat_name = salvaged.first;
-        int amount = salvaged.second;
-        item result(mat_name, int(calendar::turn));
-        if (amount > 0) {
-            add_msg(m_good, ngettext("Salvaged %1$i %2$s.", "Salvaged %1$i %2$ss.", amount),
-                    amount, result.display_name().c_str());
-            if( pos != INT_MIN ) {
-                p->i_add_or_drop(result, amount);
-            } else {
-                for( int i = 0; i < amount; i++ ) {
-                    g->m.spawn_an_item( p->posx(), p->posy(), result, amount, 0 );
-                }
-            }
-        } else {
-            add_msg(m_bad, _("Could not salvage a %s."), result.display_name().c_str());
-        }
-    }
-    // No matter what, cutting has been done by the time we get here.
-    return it->type->charges_to_use();
-}
-
-// item is what is doing the carving, item to be carved is chosen here.
-// Queries player for the item into which we will carve.
-// Return value is charges used (if any) for carving based on *it passed in.
-// Return value can be passed back from an iuse function.
-static int carve_writing(player *p, item *it)
-{
-    int pos = g->inv(_("Carve writing into what?"));
-    item *cut = &(p->i_at(pos));
-
-    if (cut->is_null()) {
-        add_msg(m_info, _("You do not have that item."));
-        return 0;
-    }
-    if (cut == it) {
-        add_msg(m_info, _("You can not cut the %s with itself."), it->tname().c_str());
-        return 0;
-    }
-
-    // Adding this check in as a formality, but I'm pretty sure whatever
-    // in reality items used to carve will not burn charges for writing.
-    if (item_inscription(p, cut, _("Carve"), _("Carved"), true)) {
-        return it->type->charges_to_use();
-    } else {
-        return 0;
-    }
-}
-
-static int cauterize_flame(player *p, item *it)
-{
-    bool has_disease = p->has_effect("bite") || p->has_effect("bleed");
-    bool did_cauterize = false;
-    if (!p->has_charges("fire", 4)) {
-        p->add_msg_if_player(m_info, _("You need a source of flame (4 charges worth) before you can cauterize yourself."));
-    } else if (has_disease && !p->is_underwater()) {
-        did_cauterize = cauterize_effect(p, it, !has_disease);
-    } else if (!has_disease && !p->is_underwater()) {
-        if ((p->has_trait("MASOCHIST") || p->has_trait("MASOCHIST_MED") || p->has_trait("CENOBITE")) &&
-            query_yn(_("Cauterize yourself for fun?"))) {
-            did_cauterize = cauterize_effect(p, it, true);
-        } else {
-            p->add_msg_if_player(m_info, _("You are not bleeding or bitten, there is no need to cauterize yourself."));
-        }
-    }
-    if (did_cauterize) {
-        p->use_charges("fire", 4);
-    }
-    return 0;
-}
-
-int iuse::knife(player *p, item *it, bool t, point)
-{
-    int choice = -1;
-    const int menu_cut_up_item = 0;
-    const int menu_carve_writing = 1;
-    const int menu_cauterize = 2;
-    const int menu_make_zlave = 3;
-    const int menu_cancel = 4;
-    item *cut;
-
-    uimenu kmenu;
-    kmenu.text = _("Using cutting instrument:");
-    kmenu.addentry(menu_cut_up_item, true, -1, _("Cut up fabric/plastic/kevlar/wood/nomex/wool"));
-    kmenu.addentry(menu_carve_writing, true, -1, _("Carve writing into item"));
-    kmenu.addentry(menu_cauterize, true, -1, _("Cauterize"));
-    if( p->skillLevel( "survival" ) > 1 && p->skillLevel( "firstaid" ) > 1 ) {
-        kmenu.addentry(menu_make_zlave, true, -1, _("Make zombie slave"));
-    }
-
-    kmenu.addentry(menu_cancel, true, 'q', _("Cancel"));
-    kmenu.query();
-    choice = kmenu.ret;
-
-    if (choice == menu_cauterize) {
-        cauterize_flame(p, it);
-        return it->type->charges_to_use();
-    } else if (choice == menu_cut_up_item) {
-        int inventory_index = g->inv_for_salvage(_("Cut up what?"));
-        cut = &(p->i_at(inventory_index));
-        if (!try_to_cut_up(p, cut)) {
-            // Messages should have already been displayed.
-            return 0;
-        }
-        return cut_up(p, it, cut, t);
-    } else if (choice == menu_carve_writing) {
-        return carve_writing(p, it);
-    } else if( choice == menu_make_zlave ) {
-        make_zlave( p );
-        return 0;
-    } else {
-        return 0;
-    }
-}
-
 int iuse::cut_log_into_planks(player *p, item *it)
 {
     p->moves -= 300;
@@ -7341,13 +6445,21 @@ int iuse::mop(player *p, item *it, bool, point)
         p->add_msg_if_player(_("The universe implodes and reforms around you."));
         return 0;
     }
-    if (g->m.moppable_items_at(dirx, diry)) {
-        g->m.mop_spills(dirx, diry);
-        add_msg(_("You mop up the spill."));
+    if (p->has_effect("blind") || p->worn_with_flag("BLIND")) {
+        add_msg(_("You move the mop around, unsure whether it's doing any good."));
         p->moves -= 15;
+        if (one_in(3) && g->m.moppable_items_at(dirx, diry)) {
+            g->m.mop_spills(dirx, diry);
+        }
     } else {
-        p->add_msg_if_player(m_info, _("There's nothing to mop there."));
-        return 0;
+        if (g->m.moppable_items_at(dirx, diry)) {
+            g->m.mop_spills(dirx, diry);
+            add_msg(_("You mop up the spill."));
+            p->moves -= 15;
+        } else {
+            p->add_msg_if_player(m_info, _("There's nothing to mop there."));
+            return 0;
+        }
     }
     return it->type->charges_to_use();
 }
@@ -7375,7 +6487,6 @@ int iuse::LAW(player *p, item *it, bool, point)
 {
     p->add_msg_if_player(_("You pull the activating lever, readying the LAW to fire."));
     it->make("LAW");
-    it->charges++;
     // When converting a tool to a gun, you need to set the current ammo type, this is usually done when a gun is reloaded.
     it->set_curammo( "66mm_HEAT" );
     return it->type->charges_to_use();
@@ -9386,6 +8497,9 @@ int iuse::camera(player *p, item *it, bool, point)
                 if (photo_quality < 0) {
                     photo_quality = 0;
                 }
+                if (p->has_effect("blind") || p->worn_with_flag("BLIND")) {
+                    photo_quality /= 2;
+                }
 
                 const std::string quality_name = photo_quality_names[photo_quality];
 
@@ -9401,6 +8515,7 @@ int iuse::camera(player *p, item *it, bool, point)
                         continue;
                     }
 
+                    // can't shoot long range while blind, don't need to check for blindness here
                     if (zid != sel_zid) {
                         p->add_msg_if_player(m_warning, _("There's a %s in the way!"), z.name().c_str());
                         return it->type->charges_to_use();
@@ -9415,8 +8530,12 @@ int iuse::camera(player *p, item *it, bool, point)
                         //quest processing...
                     }
 
-                    p->add_msg_if_player(_("You took a %s photo of %s."), quality_name.c_str(),
+                    if (p->has_effect("blind") || p->worn_with_flag("BLIND")) {
+                        p->add_msg_if_player(_("You took a photo of %s."), z.name().c_str());
+                    } else {
+                        p->add_msg_if_player(_("You took a %s photo of %s."), quality_name.c_str(),
                                          z.name().c_str());
+                    }
 
                     const std::string mtype = z.type->id;
 
@@ -9436,14 +8555,15 @@ int iuse::camera(player *p, item *it, bool, point)
                             char *chq = &monster_photos[strqpos];
                             const int old_quality = atoi(chq);
 
-                            if (photo_quality > old_quality) {
-                                chq = &string_format("%d", photo_quality)[0];
-                                monster_photos[strqpos] = *chq;
+                            if (!p->has_effect("blind") && !p->worn_with_flag("BLIND")) {
+                                if (photo_quality > old_quality) {
+                                    chq = &string_format("%d", photo_quality)[0];
+                                    monster_photos[strqpos] = *chq;
 
-                                p->add_msg_if_player(_("This photo is better than the previous one."));
+                                    p->add_msg_if_player(_("This photo is better than the previous one."));
 
+                                }
                             }
-
                         }
                     }
                     it->set_var( "CAMERA_MONSTER_PHOTOS", monster_photos );
@@ -9464,8 +8584,12 @@ int iuse::camera(player *p, item *it, bool, point)
                     }
 
                     //just photo, no save. Maybe in the future we will need to create CAMERA_NPC_PHOTOS
-                    p->add_msg_if_player(_("You took a %s photo of %s."), photo_quality_names[photo_quality].c_str(),
+                    if (p->has_effect("blind") || p->worn_with_flag("BLIND")) {
+                        p->add_msg_if_player(_("You took a photo of %s."), guy->name.c_str());
+                    } else {
+                        p->add_msg_if_player(_("You took a %s photo of %s."), quality_name.c_str(),
                                          guy->name.c_str());
+                    }
 
                     return it->type->charges_to_use();
                 }
@@ -9479,6 +8603,11 @@ int iuse::camera(player *p, item *it, bool, point)
     }
 
     if (c_photos == choice) {
+
+        if (p->has_effect("blind") || p->worn_with_flag("BLIND")) {
+            p->add_msg_if_player(_("You can't see the camera screen, you're blind."));
+            return 0;
+        }
 
         uimenu pmenu;
 
@@ -9531,6 +8660,11 @@ int iuse::camera(player *p, item *it, bool, point)
     }
 
     if (c_upload == choice) {
+
+        if (p->has_effect("blind") || p->worn_with_flag("BLIND")) {
+            p->add_msg_if_player(_("You can't see the camera screen, you're blind."));
+            return 0;
+        }
 
         p->moves -= 200;
 
@@ -9789,7 +8923,7 @@ void sendRadioSignal(player *p, std::string signal)
             sounds::sound(p->posx(), p->posy(), 6, "beep.");
 
             it_tool *tmp = dynamic_cast<it_tool *>(it.type);
-            tmp->invoke(p, &it, false, p->pos());
+            tmp->invoke(p, &it, p->pos());
         }
     }
 

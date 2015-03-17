@@ -105,7 +105,7 @@
             "8": "f_null",
             "D": "f_displaycase"
             },
-            "place_groups": [
+            "place_items": [
                 { "item": "museum_armor", "chance": 45, "x": [ 2,2 ], "y": [ 1,1 ] },
                 { "item": "museum_armor", "chance": 45, "x": [ 2,2 ], "y": [ 3,3 ] },
                 { "item": "museum_armor", "chance": 45, "x": [ 2,2 ], "y": [ 5,5 ] },

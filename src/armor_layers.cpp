@@ -206,7 +206,7 @@ void player::sort_armor()
                                    elem.type_name( 1 ).c_str() );
                         mvwprintz( w_sort_right, pos, right_w - 2, c_ltgray, "%d",
                                    ( elem.has_flag( "FIT" ) ) ?
-                                       std::max( 0, elem.get_encumber() - 1 ) :
+                                       std::max( 0, (elem.get_encumber() - 10) ) :
                                        elem.get_encumber() );
                         pos++;
                     }
@@ -396,7 +396,7 @@ std::vector<std::string> clothing_properties(item *worn_item, int width)
     props.push_back(name_and_value(_("Coverage:"),
                                    string_format("%3d", worn_item->get_coverage()), width));
     props.push_back(name_and_value(_("Encumbrance:"), string_format("%3d",
-                                   (worn_item->has_flag("FIT")) ? std::max(0, worn_item->get_encumber() - 1) :
+                                   (worn_item->has_flag("FIT")) ? std::max(0, (worn_item->get_encumber() - 10)) :
                                    worn_item->get_encumber()), width));
     props.push_back(name_and_value(_("Bash Protection:"),
                                    string_format("%3d", int(worn_item->bash_resist())), width));

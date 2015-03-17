@@ -41,6 +41,16 @@
 #include "debug.h"
 #include "catalua.h"
 #include "sounds.h"
+#include "iuse_actor.h"
+#include "mutation.h"
+#include "mtype.h"
+#include "overmap.h"
+#include "omdata.h"
+#include "crafting.h"
+#include "construction.h"
+#include "lightmap.h"
+#include "npc.h"
+#include "scenario.h"
 
 #include <map>
 #include <set>
@@ -135,8 +145,6 @@ void game::load_static_data()
     init_savedata_translation_tables();
     init_npctalk();
     init_artifacts();
-    init_weather();
-    init_weather_anim();
     init_faction_data();
 
     // --- move/delete everything below
@@ -625,14 +633,6 @@ void game::start_game(std::string worldname)
     update_weather(); // Springtime-appropriate, definitely.
     u.next_climate_control_check = 0;  // Force recheck at startup
     u.last_climate_control_ret = false;
-
-    // A quick hack because the proper rework didn't get into 0.C
-    // Remove it as soon as the rework is in
-    if( u.has_trait( "NIGHTVISION" ) ) {
-        traits["NIGHTVISION"].powered = true;
-    } else if( u.has_trait( "URSINE_EYE" ) ) {
-        traits["URSINE_EYE"].powered = true;
-    }
 
     //Reset character pickup rules
     vAutoPickupRules[2].clear();
@@ -1497,8 +1497,7 @@ bool game::do_turn()
     u.process_active_items();
 
     if (levz >= 0 && !u.is_underwater()) {
-        weather_effect weffect;
-        (weffect.*(weather_data[weather].effect))();
+        weather_data(weather).effect();
     }
 
     if (u.has_effect("sleep") && int(calendar::turn) % 300 == 0) {
@@ -1530,13 +1529,12 @@ void game::set_driving_view_offset(const point &p)
 
 void game::rustCheck()
 {
-    for (std::vector<const Skill*>::iterator aSkill = ++Skill::skills.begin();
-         aSkill != Skill::skills.end(); ++aSkill) {
+    for (auto const &aSkill : Skill::skills) {
         if (u.rust_rate() <= rng(0, 1000)) {
             continue;
         }
 
-        if ((*aSkill)->is_combat_skill() &&
+        if (aSkill.is_combat_skill() &&
             ((u.has_trait("PRED2") && one_in(4)) ||
              (u.has_trait("PRED3") && one_in(2)) ||
              (u.has_trait("PRED4") && x_in_y(2, 3)))) {
@@ -1558,15 +1556,15 @@ void game::rustCheck()
         }
 
         bool charged_bio_mem = u.has_active_bionic("bio_memory") && u.power_level > 25;
-        int oldSkillLevel = u.skillLevel(*aSkill);
+        int oldSkillLevel = u.skillLevel(aSkill);
 
-        if (u.skillLevel(*aSkill).rust(charged_bio_mem)) {
+        if (u.skillLevel(aSkill).rust(charged_bio_mem)) {
             u.power_level -= 25;
         }
-        int newSkill = u.skillLevel(*aSkill);
+        int newSkill = u.skillLevel(aSkill);
         if (newSkill < oldSkillLevel) {
             add_msg(m_bad, _("Your skill in %s has reduced to %d!"),
-                    (*aSkill)->name().c_str(), newSkill);
+                    aSkill.name().c_str(), newSkill);
         }
     }
 }
@@ -1685,10 +1683,10 @@ void game::update_weather()
         temperature = w.temperature;
         lightning_active = false;
         nextweather += 50; // Check weather each 50 turns.
-        if (weather != old_weather && weather_data[weather].dangerous &&
+        if (weather != old_weather && weather_data(weather).dangerous &&
             levz >= 0 && m.is_outside(u.posx(), u.posy())
             && !u.has_activity(ACT_WAIT_WEATHER)) {
-            cancel_activity_query(_("The weather changed to %s!"), weather_data[weather].name.c_str());
+            cancel_activity_query(_("The weather changed to %s!"), weather_data(weather).name.c_str());
         }
 
         if (weather != old_weather && u.has_activity(ACT_WAIT_WEATHER)) {
@@ -2427,15 +2425,17 @@ input_context game::get_player_input(std::string &action)
         }
 
         //x% of the Viewport, only shown on visible areas
-        const int dropCount = int(iEndX * iEndY * mapWeatherAnim[weather].fFactor);
+        auto const weather_info = get_weather_animation(weather);
+
+        const int dropCount = int(iEndX * iEndY * weather_info.factor);
         const int offset_x = (u.posx() + u.view_offset_x) - getmaxx(w_terrain) / 2;
         const int offset_y = (u.posy() + u.view_offset_y) - getmaxy(w_terrain) / 2;
 
-        const bool bWeatherEffect = (mapWeatherAnim[weather].cGlyph != '?');
+        const bool bWeatherEffect = (weather_info.glyph != '?');
 
         weather_printable wPrint;
-        wPrint.colGlyph = mapWeatherAnim[weather].colGlyph;
-        wPrint.cGlyph = mapWeatherAnim[weather].cGlyph;
+        wPrint.colGlyph = weather_info.color;
+        wPrint.cGlyph = weather_info.glyph;
         wPrint.wtype = weather;
         wPrint.vdrops.clear();
         wPrint.startx = iStartX;
@@ -2648,7 +2648,6 @@ void game::setremoteveh(vehicle *veh)
     u.set_value( "remote_controlling_vehicle", remote_veh_string.str() );
 }
 
-void use_item_menu(player &p);
 bool game::handle_action()
 {
     std::string action;
@@ -3264,8 +3263,9 @@ bool game::handle_action()
                     }
                 }
                 for ( auto &mut : g->u.get_mutations() ) {
-                    if ( traits[mut].powered && traits[mut].cost > 0 ) {
-                        active.push_back( traits[mut].name );
+                    const auto &mdata = mutation_branch::get( mut );
+                    if( mdata.cost > 0 && u.has_active_mutation( mut ) ) {
+                        active.push_back( mdata.name );
                     }
                 }
                 std::stringstream data;
@@ -3339,6 +3339,9 @@ bool game::handle_action()
                     add_msg(m_info, _("Safe mode OFF!"));
                 }
             }
+            if( u.has_effect("laserlocked") ) {
+                u.remove_effect("laserlocked");
+            }
             break;
 
         case ACTION_TOGGLE_AUTOSAFE:
@@ -3359,6 +3362,9 @@ bool game::handle_action()
                     critter.ignoring = rl_dist( u.pos(), critter.pos() );
                 }
                 safe_mode = SAFE_MODE_ON;
+            } else if( u.has_effect("laserlocked") ) {
+                add_msg(m_info, _("Ignoring laser targeting!"));
+                u.remove_effect("laserlocked");
             }
             break;
 
@@ -3660,7 +3666,7 @@ bool game::is_game_over()
         if(OPTIONS["DEATHCAM"] == "always") {
             uquit = QUIT_WATCH;
         } else if(OPTIONS["DEATHCAM"] == "ask") {
-            uquit = query_yn("Watch the last moments of your life...?") ? QUIT_WATCH : QUIT_DIED;
+            uquit = query_yn(_("Watch the last moments of your life...?")) ? QUIT_WATCH : QUIT_DIED;
         } else if(OPTIONS["DEATHCAM"] == "never") {
             uquit = QUIT_DIED;
         } else {
@@ -3800,6 +3806,7 @@ void game::load(std::string worldname, std::string name)
         gamemode = new special_game();
     }
 
+    init_autosave();
     load_auto_pickup(true); // Load character auto pickup rules
     u.load_zones(); // Load character world zones
     load_uistate(worldname);
@@ -4424,7 +4431,7 @@ void game::debug()
         weather_menu.text = _("Select new weather pattern:");
         weather_menu.return_invalid = true;
         for (int weather_id = 1; weather_id < NUM_WEATHER_TYPES; weather_id++) {
-            weather_menu.addentry(weather_id + weather_offset, true, -1, weather_data[weather_id].name);
+            weather_menu.addentry(weather_id + weather_offset, true, -1, weather_data(static_cast<weather_type>(weather_id)).name);
         }
         weather_menu.addentry(-10, true, 'v', _("View weather log"));
         weather_menu.addentry(-11, true, 'd', _("View last 800 hours of decay"));
@@ -4458,7 +4465,7 @@ void game::debug()
                 weather_log_menu.addentry(-1, true, -1, "%dd%dh %6d %15s[%d] %2d",
                                           it->second.deadline.days(), it->second.deadline.hours(),
                                           it->first,
-                                          weather_data[int(it->second.weather)].name.c_str(),
+                                          weather_data(it->second.weather).name.c_str(),
                                           it->second.weather,
                                           (int)it->second.temperature
                                          );
@@ -4968,7 +4975,7 @@ void game::draw_sidebar()
     if (levz < 0) {
         mvwprintz(w_location, 0, 18, c_ltgray, _("Underground"));
     } else {
-        mvwprintz(w_location, 0, 18, weather_data[weather].color, "%s", weather_data[weather].name.c_str());
+        mvwprintz(w_location, 0, 18, weather_data(weather).color, "%s", weather_data(weather).name.c_str());
     }
 
     if (u.worn_with_flag("THERMOMETER")) {
@@ -4980,7 +4987,7 @@ void game::draw_sidebar()
     //Safemode coloring
     WINDOW *day_window = sideStyle ? w_status2 : w_status;
     mvwprintz(day_window, 0, sideStyle ? 0 : 41, c_white, _("%s, day %d"),
-              season_name_uc[calendar::turn.get_season()].c_str(), calendar::turn.days() + 1);
+              season_name_upper(calendar::turn.get_season()).c_str(), calendar::turn.days() + 1);
     if (safe_mode != SAFE_MODE_OFF || autosafemode != 0) {
         int iPercent = int((turnssincelastmon * 100) / OPTIONS["AUTOSAFEMODETURNS"]);
         wmove(w_status, sideStyle ? 4 : 1, getmaxx(w_status) - 4);
@@ -5476,7 +5483,7 @@ void game::hallucinate(const int x, const int y)
 float game::ground_natural_light_level() const
 {
     float ret = (float)calendar::turn.sunlight();
-    ret += weather_data[weather].light_modifier;
+    ret += weather_data(weather).light_modifier;
 
     return std::max(0.0f, ret);
 }
@@ -5487,7 +5494,7 @@ float game::natural_light_level() const
 
     if (levz >= 0) {
         ret = (float)calendar::turn.sunlight();
-        ret += weather_data[weather].light_modifier;
+        ret += weather_data(weather).light_modifier;
     }
 
     return std::max(0.0f, ret);
@@ -5505,7 +5512,7 @@ unsigned char game::light_level()
         ret = 1;
     } else {
         ret = calendar::turn.sunlight();
-        ret -= weather_data[weather].sight_penalty;
+        ret -= weather_data(weather).sight_penalty;
     }
     for( auto &e : events ) {
         // The EVENT_DIM event slowly dims the sky, then relights it
@@ -6166,6 +6173,8 @@ void game::flashbang(int x, int y, bool player_immune)
                 flash_mod = 8; // Just retract those and extrude fresh eyes
             } else if (u.has_bionic("bio_sunglasses") || u.is_wearing("rm13_armor_on")) {
                 flash_mod = 6;
+            } else if (u.worn_with_flag("BLIND") || u.is_wearing("goggles_welding")) {
+                flash_mod = 3; // Not really proper flash protection, but better than nothing
             }
             u.add_env_effect("blind", bp_eyes, (12 - flash_mod - dist) / 2, 10 - dist);
         }
@@ -6743,7 +6752,7 @@ void game::emp_blast(int x, int y)
     }
     // Drain any items of their battery charge
     for( auto it = m.i_at( x, y ).begin(); it != m.i_at( x, y ).end(); ++it ) {
-        if( it->is_tool() && ( dynamic_cast<it_tool *>( it->type ) )->ammo == "battery" ) {
+        if( it->is_tool() && ( dynamic_cast<it_tool *>( it->type ) )->ammo_id == "battery" ) {
             it->charges = 0;
         }
     }
@@ -8961,7 +8970,7 @@ std::vector<map_item_stack> game::find_nearby_items(int iRadius)
     std::vector<map_item_stack> ret;
     std::vector<std::string> vOrder;
 
-    if (u.has_effect("blind")) {
+    if (u.has_effect("blind") || u.worn_with_flag("BLIND")) {
         return ret;
     }
 
@@ -10081,7 +10090,7 @@ bool game::handle_liquid(item &liquid, bool from_ground, bool infinite, item *so
 
         if (cont->is_tool()) {
             it_tool *tool = dynamic_cast<it_tool *>(cont->type);
-            ammo = tool->ammo;
+            ammo = tool->ammo_id;
             max = tool->max_charges;
         } else {
             ammo = cont->type->gun->ammo;
@@ -10166,7 +10175,7 @@ int game::move_liquid(item &liquid)
 
             if (cont->is_tool()) {
                 it_tool *tool = dynamic_cast<it_tool *>(cont->type);
-                ammo = tool->ammo;
+                ammo = tool->ammo_id;
                 max = tool->max_charges;
             } else {
                 ammo = cont->type->gun->ammo;
@@ -10489,7 +10498,7 @@ void game::plthrow(int pos)
     int dexbonus = (int)(std::pow(std::max(u.dex_cur - 8, 0), 0.8) * 3.0);
 
     move_cost += skill_cost;
-    move_cost += 20 * u.encumb(bp_torso);
+    move_cost += 2 * u.encumb(bp_torso);
     move_cost -= dexbonus;
 
     if (u.has_trait("LIGHT_BONES")) {
@@ -10590,8 +10599,8 @@ std::vector<point> game::pl_target_ui(int &x, int &y, int range, item *relevant,
 
 void game::plfire(bool burst, int default_target_x, int default_target_y)
 {
-    if (u.has_effect("relax_gas")) {
-        if (one_in(5)) {
+    if( u.has_effect("relax_gas") ) {
+        if( one_in(5) ) {
             add_msg(m_good, _("Your eyes steel, and you raise your weapon!"));
         } else {
             u.moves -= rng(2, 5) * 10;
@@ -10600,31 +10609,29 @@ void game::plfire(bool burst, int default_target_x, int default_target_y)
         }
     }
     // draw pistol from a holster if unarmed
-    if (!u.is_armed()) {
+    if( !u.is_armed() ) {
         // get a list of holsters from worn items
         std::vector<item *> holsters;
         for( auto &worn : u.worn ) {
-            if (((worn.type->can_use("HOLSTER_GUN") && !(worn.has_flag("NO_QUICKDRAW"))) || worn.type->can_use("HOLSTER_ANKLE")) &&
-                (!worn.contents.empty() && worn.contents[0].is_gun())) {
+            if( ((worn.type->can_use("HOLSTER_GUN") && !worn.has_flag("NO_QUICKDRAW")) ||
+                 worn.type->can_use("HOLSTER_ANKLE")) &&
+                (!worn.contents.empty() && worn.contents[0].is_gun()) ) {
                 holsters.push_back(&worn);
             }
         }
-        if (!holsters.empty()) {
+        if( !holsters.empty() ) {
             int choice = -1;
             // only one holster found, choose it
-            if (holsters.size() == 1) {
+            if( holsters.size() == 1 ) {
                 choice = 0;
                 // ask player which holster to draw from
             } else {
                 std::vector<std::string> choices;
                 for( auto i : holsters ) {
-
-                    std::ostringstream ss;
-                    ss << string_format(_("%s from %s (%d)"),
-                                        i->contents[0].tname().c_str(),
-                                        i->type_name(1).c_str(),
-                                        i->contents[0].charges);
-                    choices.push_back(ss.str());
+                    choices.push_back(string_format(_("%s from %s (%d)"),
+                                                    i->contents[0].tname().c_str(),
+                                                    i->type_name(1).c_str(),
+                                                    i->contents[0].charges));
                 }
                 choice = (uimenu(false, _("Draw what?"), choices)) - 1;
             }
@@ -10641,7 +10648,6 @@ void game::plfire(bool burst, int default_target_x, int default_target_y)
         }
     }
 
-    int reload_pos = INT_MIN;
     if (!u.weapon.is_gun()) {
         return;
     }
@@ -10679,62 +10685,14 @@ void game::plfire(bool burst, int default_target_x, int default_target_y)
     }
 
     if (u.weapon.has_flag("RELOAD_AND_SHOOT") && u.weapon.charges == 0) {
-            // find worn quivers
-            std::vector<item *> quivers;
-            for( auto &worn : u.worn ) {
-
-                if (worn.type->can_use("QUIVER") && !worn.contents.empty()
-                    && worn.contents[0].is_ammo() && worn.contents[0].charges > 0
-                    && worn.contents[0].ammo_type() == u.weapon.ammo_type() ) {
-                    quivers.push_back(&worn);
-                }
-            }
-            // ask which quiver to draw from
-            if (!quivers.empty()) {
-                int choice = -1;
-                //only one quiver found, choose it
-                if (quivers.size() == 1) {
-                    choice = 0;
-                } else {
-                    std::vector<std::string> choices;
-                    for( auto i : quivers ) {
-
-                        std::ostringstream ss;
-                        ss << string_format(_("%s from %s (%d)"),
-                                            i->contents[0].tname().c_str(),
-                                            i->type_name(1).c_str(),
-                                            i->contents[0].charges);
-                        choices.push_back(ss.str());
-                    }
-                    choice = (uimenu(false, _("Draw from which quiver?"), choices)) - 1;
-                }
-
-                // draw arrow from quiver
-                if (choice > -1) {
-                    item *worn = quivers[choice];
-                    item &arrows = worn->contents[0];
-                    // chance to fail pulling an arrow at lower levels
-                    int archery = u.skillLevel("archery");
-                    if (archery <= 2 && one_in(10)) {
-                        u.moves -= 30;
-                        u.add_msg_if_player(_("You try to pull a %s from your %s, but fail!"),
-                                            arrows.tname().c_str(), worn->type_name(1).c_str());
-                        return;
-                    }
-                    u.add_msg_if_player(_("You pull a %s from your %s and nock it."),
-                                        arrows.tname().c_str(), worn->type_name(1).c_str());
-                    reload_pos = u.get_item_position(worn);
-                }
-            }
-        if (reload_pos == INT_MIN) {
-            reload_pos = u.weapon.pick_reload_ammo(u, true);
-        }
+        const int reload_pos = u.weapon.pick_reload_ammo( u, true );
         if (reload_pos == INT_MIN) {
             add_msg(m_info, _("Out of ammo!"));
             return;
         }
-
-        u.weapon.reload(u, reload_pos);
+        if( !u.weapon.reload( u, reload_pos ) ) {
+            return;
+        }
         u.moves -= u.weapon.reload_time(u);
         refresh_all();
     }
@@ -10828,7 +10786,28 @@ void game::butcher()
     std::vector<int> corpses;
     auto items = m.i_at(u.posx(), u.posy());
     const inventory &crafting_inv = u.crafting_inventory();
-    bool has_salvage_tool = u.has_items_with_quality( "CUT", 1, 1 );
+
+    // TODO: Properly handle different material whitelists
+    // TODO: Improve quality of this section
+    std::vector<item*> dumpvec;
+    u.inv.dump( dumpvec );
+    int salvage_tool_index = INT_MIN;
+    item *salvage_tool = nullptr;
+    salvage_actor *salvage_iuse = nullptr;
+    for( auto &it : dumpvec ) {
+        if( it == nullptr ) {
+            continue;
+        }
+
+        const auto fun = it->type->get_use( "salvage" );
+        if( fun != nullptr ) {
+            salvage_tool_index = u.inv.position_by_item( it );
+            salvage_iuse = dynamic_cast<salvage_actor*>( fun->get_actor_ptr() );
+            salvage_tool = it;
+            break;
+        }
+    }
+
 
     // check if we have a butchering tool
     if( factor > INT_MIN ) {
@@ -10852,10 +10831,10 @@ void game::butcher()
     }
     // Now salvageable items
     size_t salvage_index = corpses.size();
-    if( has_salvage_tool ) {
+    if( salvage_tool_index != INT_MIN ) {
         for( size_t i = 0; i < items.size(); i++ ) {
             if( !items[i].is_corpse() ) {
-                if( iuse::valid_to_cut_up( &items[i] ) ) {
+                if( salvage_iuse->valid_to_cut_up( &items[i] ) ) {
                     corpses.push_back(i);
                     has_item = true;
                 }
@@ -10924,7 +10903,7 @@ void game::butcher()
     }
 
     if( multisalvage == true && butcher_corpse_index == (int)corpses.size() ) {
-        u.assign_activity( ACT_LONGSALVAGE, 0 );
+        u.assign_activity( ACT_LONGSALVAGE, 0, salvage_tool_index );
         return;
     }
     const item &dis_item = items[corpses[butcher_corpse_index]];
@@ -10939,8 +10918,7 @@ void game::butcher()
         u.activity.values.push_back(1);
         return;
     } else if( !dis_item.is_corpse() ) {
-        item salvage_tool( "toolset", calendar::turn ); //TODO: Get the actual tool
-        iuse::cut_up( &u, &salvage_tool, &items[corpses[butcher_corpse_index]], false );
+        salvage_iuse->cut_up( &u, salvage_tool, &items[corpses[butcher_corpse_index]] );
         return;
     }
     mtype *corpse = dis_item.get_mtype();
@@ -11091,7 +11069,7 @@ void game::reload(int pos)
         it_tool *tool = dynamic_cast<it_tool *>(it->type);
 
         // see if its actually reloadable.
-        if (tool->ammo == "NULL") {
+        if (tool->ammo_id == "NULL") {
             add_msg(m_info, _("You can't reload a %s!"), it->tname().c_str());
             return;
         } else if (it->has_flag("NO_RELOAD")) {
@@ -11104,7 +11082,7 @@ void game::reload(int pos)
 
         if (am_pos == INT_MIN) {
             // no ammo, fail reload
-            add_msg(m_info, _("Out of %s!"), ammo_name(tool->ammo).c_str());
+            add_msg(m_info, _("Out of %s!"), ammo_name(tool->ammo_id).c_str());
             return;
         }
 
@@ -11287,10 +11265,10 @@ void game::unload(item &it)
     // null the curammo, but only if we did empty the item
     if (weapon->charges == 0) {
         weapon->unset_curammo();
-        // Tools need to be turned off, especially when thy consume charges only every few turns,
+        // Tools need to be turned off, especially when they consume charges only every few turns,
         // otherwise they stay active until they would consume the next charge.
-        if( weapon->active && weapon->is_tool() && weapon->type->has_use() ) {
-            weapon->type->invoke( &u, weapon, false, u.pos() );
+        if( weapon->active && weapon->is_tool() ) {
+            weapon->type->invoke( &u, weapon, u.pos() );
         }
     }
 }
@@ -11444,14 +11422,15 @@ void game::pldrive(int x, int y)
 
 bool game::check_save_mode_allowed()
 {
+    std::string msg_ignore = press_x(ACTION_IGNORE_ENEMY);
+    if (!msg_ignore.empty()) {
+        msg_ignore[0] = tolower(msg_ignore[0]); // TODO this probably isn't localization friendly
+    }
+
     if (u.has_effect("laserlocked")) {
         // Automatic and mandatory safemode.  Make BLOODY sure the player notices!
-        safe_mode = SAFE_MODE_STOP;
-        add_msg( m_warning,
-             _( "You are being laser-targeted--safe mode is on! (%s to turn it off.)" ),
-             press_x( ACTION_TOGGLE_SAFEMODE ).c_str() );
-        // Effect is only here to hook into safemode, so remove it.
-        u.remove_effect("laserlocked");
+        add_msg(m_warning, _("You are being laser-targeted, %s to ignore."),
+                msg_ignore.c_str());
         return false;
     }
     if( safe_mode != SAFE_MODE_STOP ) {
@@ -11471,11 +11450,6 @@ bool game::check_save_mode_allowed()
     }
 
     std::string const msg_safe_mode = press_x(ACTION_TOGGLE_SAFEMODE);
-    std::string msg_ignore = press_x(ACTION_IGNORE_ENEMY);
-    if (!msg_ignore.empty()) {
-        msg_ignore[0] = tolower(msg_ignore[0]); // TODO this probably isn't localization friendly
-    }
-
     add_msg( m_warning,
              _( "Spotted %s--safe mode is on! (%s to turn it off or %s to ignore monster.)" ),
              spotted_creature_name.c_str(), msg_safe_mode.c_str(), msg_ignore.c_str() );
@@ -11748,7 +11722,7 @@ bool game::plmove(int dx, int dy)
         }
 
         const trap_id tid = m.tr_at( dest_loc );
-        if (tid != tr_null) {
+        if( tid != tr_null && ( !u.has_effect("blind") && !u.worn_with_flag("BLIND") ) ) {
             const struct trap &t = *traplist[tid];
             if ((t.can_see( dest_loc, u )) && !t.is_benign() &&
                 !query_yn(_("Really step onto that %s?"), t.name.c_str())) {
@@ -11767,12 +11741,68 @@ bool game::plmove(int dx, int dy)
                         add_msg(m_info, _("You can't move %s while standing on it!"), grabbed_vehicle->name.c_str());
                         return false;
                     }
-                    drag_multiplier += (float)(grabbed_vehicle->total_mass() * 1000) /
-                        (float)(u.weight_capacity() * 5);
-                    if (drag_multiplier > 2.0) {
-                        add_msg(m_info, _("The %s is too heavy for you to budge!"), grabbed_vehicle->name.c_str());
-                        return false;
-                    }
+		//vehicle movement: strength check
+		int mc = 0;
+		int str_req = (grabbed_vehicle->total_mass() / 25); //strengh reqired to move vehicle.
+
+		//if vehicle is rollable we modify str_req based on a function of movecost per wheel.
+    // Veh just too big to grab & move; 41-45 lets folks have a bit of a window
+    // (Roughly 1.1K kg = danger zone; cube vans are about the max)
+    if (str_req > 45) {
+        add_msg(m_info, _("The %s is too bulky for you to move by hand."),
+          grabbed_vehicle->name.c_str() );
+        u.moves -= 100;
+        return false; // No shoving around an RV.
+    }
+    
+		//if vehicle weighs too much, wheels don't provide a bonus.
+		if (grabbed_vehicle->valid_wheel_config() && str_req <= 40)	{
+
+		    //determine movecost for terrain touching wheels
+		    std::vector<int> wheel_indices = grabbed_vehicle->all_parts_with_feature(VPFLAG_WHEEL);
+		    for(auto p : wheel_indices) {
+          mc += (str_req / wheel_indices.size()) * m.move_cost(grabbed_vehicle->global_x() +
+            grabbed_vehicle->parts[p].precalc[0].x, grabbed_vehicle->global_y() +
+            grabbed_vehicle->parts[p].precalc[0].y, grabbed_vehicle);
+		    }
+		    //set strength check threshold
+		    //if vehicle has many or only one wheel (shopping cart), it is as if it had four. 
+		    if(wheel_indices.size() > 4 || wheel_indices.size() == 1) {
+		    	str_req = mc / 4 + 1;
+		    } else {
+		    	str_req = mc / wheel_indices.size() + 1;
+		    }
+		} else {		
+		    str_req++;		    
+		    //if vehicle has no wheels str_req make a noise.
+		    if (str_req <= u.get_str() ) {
+            sounds::sound( grabbed_vehicle->global_x(), grabbed_vehicle->global_y(), str_req * 2,
+				       _("a scraping noise."));
+		    }
+		}
+
+		//final strength check and outcomes
+		if (str_req <= u.get_str() ) {
+		    //calculate exertion factor and movement penalty
+		    drag_multiplier += str_req / u.get_str();
+		    int ex = dice(1, 3) - 1 + str_req;
+		    if (ex > u.get_str() ) {
+            add_msg(m_bad, _("You strain yourself to move the %s!"),
+              grabbed_vehicle->name.c_str() );
+            u.moves -= 200;
+            u.mod_pain(1);
+		    } else if (ex == u.get_str() ) {
+            u.moves -= 200;
+            add_msg( _("It takes some time to move the %s."),
+              grabbed_vehicle->name.c_str());
+		    }
+		} else {
+		    u.moves -= 100;
+		    add_msg( m_bad, _("You lack the strength to move the %s"),
+			     grabbed_vehicle->name.c_str() );
+		    return false;
+		}
+
                     tileray mdir;
 
                     int dxVeh = u.grab_point.x * (-1);
@@ -12003,7 +12033,7 @@ bool game::plmove(int dx, int dy)
         // Calculate cost of moving
         bool diag = trigdist && u.posx() != x && u.posy() != y;
         u.moves -= int(u.run_cost(m.combined_movecost(u.posx(), u.posy(), x, y, grabbed_vehicle,
-                                                      movecost_modifier), diag) * drag_multiplier);
+                                  		     movecost_modifier), diag) * drag_multiplier);
 
         // Adjust recoil down
         u.recoil -= int(u.str_cur / 2) + u.skillLevel("gun");
@@ -12159,7 +12189,7 @@ bool game::plmove(int dx, int dy)
 
         // List items here
         if (!m.has_flag("SEALED", x, y)) {
-            if (u.has_effect("blind") && !m.i_at(x, y).empty()) {
+            if ((u.has_effect("blind") || u.worn_with_flag("BLIND")) && !m.i_at(x, y).empty()) {
                 add_msg(_("There's something here, but you can't see what it is."));
             } else if (!m.i_at(x, y).empty()) {
                 std::vector<std::string> names;
@@ -12293,7 +12323,7 @@ bool game::plmove(int dx, int dy)
         }
         u.moves -= 100;
     } else { // Invalid move
-        if (u.has_effect("blind") || u.has_effect("stunned")) {
+        if (u.has_effect("blind") || u.worn_with_flag("BLIND") || u.has_effect("stunned")) {
             // Only lose movement if we're blind
             add_msg(_("You bump into a %s!"), m.name(x, y).c_str());
             u.moves -= 100;
@@ -13246,7 +13276,18 @@ void game::shift_monsters( const int shiftx, const int shifty, const int shiftz 
 void game::spawn_mon(int /*shiftx*/, int /*shifty*/)
 {
     // Create a new NPC?
-    if (ACTIVE_WORLD_OPTIONS["RANDOM_NPC"] && one_in(100 + 15 * cur_om->npcs.size())) {
+    if( !ACTIVE_WORLD_OPTIONS["RANDOM_NPC"] ) {
+        return;
+    }
+
+    float density = ACTIVE_WORLD_OPTIONS["NPC_DENSITY"];
+    const int npc_num = cur_om->npcs.size();
+    if( npc_num > 0 ) {
+        // 100%, 80%, 64%, 52%, 41%, 33%...
+        density *= powf( 0.8f, npc_num );
+    }
+
+    if( x_in_y( density, 100 ) ) {
         npc *tmp = new npc();
         tmp->normalize();
         tmp->randomize();

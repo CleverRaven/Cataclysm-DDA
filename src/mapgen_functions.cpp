@@ -7,6 +7,7 @@
 #include "overmap.h"
 #include "options.h"
 #include "game.h"
+#include "scenario.h"
 #include <array>
 
 mapgendata::mapgendata(oter_id north, oter_id east, oter_id south, oter_id west, oter_id northeast,
@@ -90,7 +91,6 @@ void init_mapgen_builtin_functions() {
     mapgen_cfunction_map["shelter"] = &mapgen_shelter;
     mapgen_cfunction_map["shelter_under"] = &mapgen_shelter_under;
     mapgen_cfunction_map["lmoe"] = &mapgen_lmoe;
-    mapgen_cfunction_map["lmoe_under"] = &mapgen_lmoe_under;
     mapgen_cfunction_map["basement_generic_layout"] = &mapgen_basement_generic_layout; // empty, not bound
     mapgen_cfunction_map["basement_junk"] = &mapgen_basement_junk;
     mapgen_cfunction_map["basement_guns"] = &mapgen_basement_guns;
@@ -3806,69 +3806,6 @@ void mapgen_lmoe(map *m, oter_id, mapgendata dat, int, float) {
         m->ter_set(13, 14, t_tree_young);
 }
 
-void mapgen_lmoe_under(map *m, oter_id, mapgendata dat, int, float) {
-//    } else if (terrain_type == "lmoe_under") {
-
-(void)dat;
-        fill_background(m, t_rock);
-        square(m, t_rock_floor, 3, 3, 20, 20);
-        line(m, t_stairs_up, 11, 20, 12, 20);
-        line(m, t_wall_metal_h, 3, 12, 20, 12);
-        line(m, t_wall_metal_v, 10, 12, 10, 20);
-        line(m, t_wall_metal_v, 13, 12, 13, 20);
-        line(m, t_chainfence_v, 7, 3, 7, 6);
-        line(m, t_chainfence_h, 3, 6, 6, 6);
-        line(m, t_wall_metal_v, 15, 3, 15, 10);
-        line(m, t_wall_metal_h, 15, 9, 20, 9);
-        line(m, t_wall_metal_v, 17, 10, 17, 11);
-        m->ter_set(10, 16, t_door_metal_c);
-        m->ter_set(13, 16, t_door_metal_c);
-        m->ter_set(5, 6, t_chaingate_c);
-        line(m, t_door_metal_c, 11, 12, 12, 12);
-        m->ter_set(17, 11, t_door_metal_c);
-        m->ter_set(15, 6, t_door_metal_c);
-        square_furn(m, f_rubble, 18, 18, 20, 20);
-        line_furn(m, f_rubble, 16, 20, 20, 16);
-        line_furn(m, f_rubble, 17, 20, 20, 17);
-        line(m, t_water_sh, 15, 20, 20, 15);
-        m->furn_set(17, 16, f_woodstove);
-        m->furn_set(14, 13, f_chair);
-        m->furn_set(14, 18, f_chair);
-        square_furn(m, f_crate_c, 18, 13, 20, 14);
-        line_furn(m, f_crate_c, 17, 13, 19, 15);
-        line_furn(m, f_counter, 3, 13, 3, 20);
-        line_furn(m, f_counter, 3, 20, 9, 20);
-        line_furn(m, f_bookcase, 5, 13, 8, 13);
-        square_furn(m, f_table, 5, 15, 6, 17);
-        m->furn_set(7, 16, f_chair);
-        line_furn(m, f_rack, 3, 11, 7, 11);
-        line_furn(m, f_rack, 3, 9, 7, 9);
-        line_furn(m, f_rack, 3, 3, 6, 3);
-        m->ter_set(10, 7, t_column);
-        m->ter_set(13, 7, t_column);
-        line_furn(m, f_bookcase, 16, 3, 16, 5);
-        square_furn(m, f_bed, 19, 3, 20, 4);
-        m->furn_set(19, 7, f_chair);
-        m->furn_set(20, 7, f_desk);
-        line_furn(m, f_rubble, 15, 10, 16, 10);
-        m->furn_set(19, 10, f_sink);
-        m->place_toilet(20, 11);
-        m->place_items("lmoe_guns", 80, 3, 3, 6, 3, false, 0);
-        m->place_items("ammo", 80, 3, 3, 6, 3, false, 0);
-        m->place_items("cannedfood", 90, 3, 9, 7, 9, false, 0);
-        m->place_items("survival_tools", 80, 3, 11, 7, 11, false, 0);
-        m->place_items("bags", 50, 3, 11, 7, 11, false, 0);
-        m->place_items("softdrugs", 50, 3, 11, 7, 11, false, 0);
-        m->place_items("manuals", 60, 5, 13, 8, 13, false, 0);
-        m->place_items("textbooks", 60, 5, 13, 8, 13, false, 0);
-        m->place_items("tools", 90, 5, 15, 6, 17, false, 0);
-        m->place_items("hardware", 70, 3, 13, 3, 20, false, 0);
-        m->place_items("stash_wood", 70, 3, 20, 9, 20, false, 0);
-        m->place_items("shelter", 70, 18, 13, 20, 14, false, 0);
-        m->place_items("novels", 70, 16, 3, 16, 5, false, 0);
-        m->place_items("office", 50, 20, 7, 20, 7, false, 0);
-        m->place_items("bed", 60, 19, 3, 20, 4, false, 0);
-}
 
 
 ///////////////////////////////////////////////////////////

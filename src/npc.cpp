@@ -681,9 +681,9 @@ void npc::randomize_from_faction(faction *fac)
   dex_max += rng(0, 3);
   per_max += rng(0, 2);
   int_max += rng(0, 2);
-  for( auto &skill : Skill::skills ) {
+  for( auto const &skill : Skill::skills ) {
    if (one_in(3))
-       boost_skill_level( skill, rng( 2, 4 ) );
+       boost_skill_level( &skill, rng( 2, 4 ) );
   }
  }
  if (fac->has_value(FACVAL_ROBOTS)) {
@@ -940,24 +940,39 @@ void npc::place_on_map()
     position.y += y;
 }
 
-const Skill* npc::best_skill()
+const Skill* npc::best_skill() const
 {
- std::vector<const Skill*> best_skills;
- int highest = 0;
- for( auto &skill : Skill::skills ) {
-  //Should check to see if the skill has a "combat_skill" tag
-     if( ( skill )->is_combat_skill() ) {
-         if( skillLevel( skill ) > highest ) {
-             highest = skillLevel( skill );
-    best_skills.clear();
-    best_skills.push_back( skill );
-         } else if( skillLevel( skill ) == highest ) {
-             best_skills.push_back( skill );
-   }
-  }
- }
- int index = rng(0, best_skills.size() - 1);
- return best_skills[index];
+    int highest = std::numeric_limits<int>::min();
+    int count   = 0;
+
+    for (auto const &p : _skills) {
+        if (!p.first->is_combat_skill()) {
+            continue; // just combat skills.
+        }
+
+        int const level = p.second;
+        if (level < highest) {
+            continue; // no good.
+        } else if (level > highest) {
+            highest = level;
+            count   = 0;
+        }
+        
+        ++count;
+    }
+
+    if (!count) {
+        return nullptr; // no skills
+    }
+
+    auto n = rng(0, count);
+    for (auto const &p : _skills) {
+        if (p.second == highest && --n < 0) {
+            return p.first;
+        }
+    }
+
+    return nullptr;
 }
 
 void npc::starting_weapon(npc_class type)
@@ -1352,15 +1367,18 @@ int npc::assigned_missions_value()
 
 std::vector<const Skill*> npc::skills_offered_to(player *p)
 {
- std::vector<const Skill*> ret;
- if (p == NULL)
-  return ret;
- for( auto &skill : Skill::skills ) {
-     if( p->skillLevel( skill ) < skillLevel( skill ) ) {
-         ret.push_back( skill );
-  }
- }
- return ret;
+    if (!p) {
+        return {};
+    }
+
+    std::vector<const Skill*> ret;
+    for (auto const &skill : Skill::skills) {
+        if (p->skillLevel(skill) < skillLevel(skill)) {
+            ret.push_back(&skill);
+        }
+    }
+
+    return ret;
 }
 
 std::vector<itype_id> npc::styles_offered_to(player *p)
@@ -1418,7 +1436,7 @@ void npc::decide_needs()
     for( auto &elem : needrank )
         elem = 20;
     if (weapon.is_gun()) {
-        needrank[need_ammo] = 5 * has_ammo(weapon.type->gun->ammo).size();
+        needrank[need_ammo] = 5 * get_ammo(weapon.type->gun->ammo).size();
     }
     if (weapon.type->id == "null" && skillLevel("unarmed") < 4) {
         needrank[need_weapon] = 1;
@@ -2044,7 +2062,7 @@ void npc::die(Creature* nkiller) {
         return;
     }
     dead = true;
-    set_killer( nkiller );
+    Character::die( nkiller );
     if (in_vehicle) {
         g->m.unboard_vehicle(posx(), posy());
     }

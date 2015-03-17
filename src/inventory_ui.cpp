@@ -245,11 +245,13 @@ void inventory_selector::print_inv_weight_vol(int weight_carried, int vol_carrie
     // Print weight
     mvwprintw(w_inv, 0, 32, _("Weight (%s): "),
               OPTIONS["USE_METRIC_WEIGHTS"].getValue() == "lbs" ? "lbs" : "kg");
-    if (weight_carried >= g->u.weight_capacity()) {
-        wprintz(w_inv, c_red, "%6.1f", g->u.convert_weight(weight_carried));
+    nc_color weight_color;
+    if (weight_carried > g->u.weight_capacity()) {
+        weight_color = c_red;
     } else {
-        wprintz(w_inv, c_ltgray, "%6.1f", g->u.convert_weight(weight_carried));
+        weight_color = c_ltgray;
     }
+    wprintz(w_inv, weight_color, "%6.1f", g->u.convert_weight(weight_carried) + 0.05 ); // +0.05 to round up;
     wprintz(w_inv, c_ltgray, "/%-6.1f", g->u.convert_weight(g->u.weight_capacity()));
 
     // Print volume
@@ -817,11 +819,11 @@ int game::inv_for_liquid(const item &liquid, const std::string &title, bool cons
     return display_slice(reduced_inv, title);
 }
 
-int game::inv_for_salvage(const std::string &title)
+int game::inv_for_salvage(const std::string &title, const salvage_actor& actor )
 {
     u.inv.restack(&u);
     u.inv.sort();
-    indexed_invslice reduced_inv = u.inv.slice_filter_by_salvageability();
+    indexed_invslice reduced_inv = u.inv.slice_filter_by_salvageability( actor );
     return display_slice(reduced_inv, title);
 }
 

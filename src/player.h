@@ -269,19 +269,19 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         float active_light();
 
         /** Returns true if the player doesn't have the mutation or a conflicting one and it complies with the force typing */
-        bool mutation_ok(std::string mutation, bool force_good, bool force_bad);
+        bool mutation_ok( const std::string &mutation, bool force_good, bool force_bad ) const;
         /** Picks a random valid mutation and gives it to the player, possibly removing/changing others along the way */
         void mutate();
         /** Picks a random valid mutation in a category and mutate_towards() it */
-        void mutate_category(std::string);
+        void mutate_category( const std::string &mut_cat );
         /** Mutates toward the entered mutation, upgrading or removing conflicts if necessary */
-        void mutate_towards(std::string mut);
+        void mutate_towards( const std::string &mut );
         /** Removes a mutation, downgrading to the previous level if possible */
-        void remove_mutation(std::string mut);
+        void remove_mutation( const std::string &mut );
         /** Returns true if the player has the entered mutation child flag */
-        bool has_child_flag(std::string mut);
+        bool has_child_flag( const std::string &mut ) const;
         /** Removes the mutation's child flag from the player's list */
-        void remove_child_flag(std::string mut);
+        void remove_child_flag( const std::string &mut );
 
         const point &pos() const;
         /** Returns the player's sight range */
@@ -630,6 +630,16 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         void use(int pos);
         /** Uses the current wielded weapon */
         void use_wielded();
+        /** 
+         * Asks how to use the item (if it has more than one use_method) and uses it.
+         * Returns true if it destroys the item. Consumes charges from the item.
+         * Multi-use items are ONLY supported when all use_methods are iuse_actor!
+         */
+        bool invoke_item( item* );
+        /** As above, but with a pre-selected method. Debugmsg if this item doesn't have this method. */
+        bool invoke_item( item*, const std::string& );
+        /** Consumes charges from a tool or does nothing with a non-tool. Returns true if it destroys the item. */
+        bool consume_charges(item *used, long charges_used);
         /** Removes selected gunmod from the entered weapon */
         void remove_gunmod(item *weapon, unsigned id);
         /** Attempts to install bionics, returns false if the player cancels prior to installation */
@@ -747,12 +757,13 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         int invlet_to_position(char invlet) const;
         /**
          * Returns the item position (suitable for @ref i_at or similar) of a
-         * specific item.
-         * NOTE: this only works for items outside of containers, in the main inventory,
-         * the weapon or worn items, If the item is a pointer to an item inside a
-         * container, it wont work.
+         * specific item. Returns INT_MIN if the item is not found.
+         * Note that this may lose some information, for example the returned position is the
+         * same when the given item points to the container and when it points to the item inside
+         * the container. All items that are part of the same stack have the same item position.
          */
-        int get_item_position(const item *it);
+        int get_item_position( const item *it ) const;
+
         const martialart &get_combat_style() const; // Returns the combat style object
         std::vector<item *> inv_dump(); // Inventory + weapon + worn (for death, etc)
         void place_corpse(); // put corpse+inventory on map at the place where this is.
@@ -790,10 +801,10 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
          */
         bool has_item(const item *it) const;
         bool has_mission_item(int mission_id) const; // Has item with mission_id
-        std::vector<item *> has_ammo(ammotype at); // Returns a list of the ammo
-        // same as has_ammo, but all items with typeId() != id are removed,
-        // returned items all the same type: id.
-        std::vector<item *> has_exact_ammo( const ammotype &at, const itype_id &id );
+        /**
+         * Returns the items that are ammo and have the matching ammo type.
+         */
+        std::vector<const item *> get_ammo( const ammotype &at ) const;
         /**
          * Check whether the player has a gun that uses the given type of ammo.
          */
@@ -931,6 +942,7 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         int focus_pool;
 
         void set_skill_level(const Skill* _skill, int level);
+        void set_skill_level(Skill const &_skill, int level);
         void set_skill_level(std::string ident, int level);
 
         void boost_skill_level(const Skill* _skill, int level);
@@ -1021,6 +1033,8 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         void spores();
         void blossoms();
 
+        int add_ammo_to_worn_quiver(item &ammo);
+
     protected:
         std::list<disease> illness;
         // The player's position on the local map.
@@ -1048,8 +1062,8 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         bool is_visible_in_range( const Creature &critter, int range ) const;
 
         // Trigger and disable mutations that can be so toggled.
-        void activate_mutation( std::string mutation );
-        void deactivate_mutation( std::string mut );
+        void activate_mutation( const std::string &mutation );
+        void deactivate_mutation( const std::string &mut );
         bool has_fire(const int quantity) const;
         void use_fire(const int quantity);
         /**

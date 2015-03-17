@@ -24,6 +24,7 @@
 #include "crafting.h"
 #include "get_version.h"
 #include "monstergenerator.h"
+#include "scenario.h"
 
 #include "savegame.h"
 #include "tile_id_data.h" // for monster::json_save
@@ -102,6 +103,23 @@ void SkillLevel::deserialize(JsonIn &jsin)
     }
 }
 
+void Character::trait_data::serialize( JsonOut &json ) const
+{
+    json.start_object();
+    json.member( "key", key );
+    json.member( "charge", charge );
+    json.member( "powered", powered );
+    json.end_object();
+}
+
+void Character::trait_data::deserialize( JsonIn &jsin )
+{
+    JsonObject data = jsin.get_object();
+    data.read( "key", key );
+    data.read( "charge", charge );
+    data.read( "powered", powered );
+}
+
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 ///// Character.h, player + npc
 /*
@@ -116,9 +134,44 @@ void Character::load(JsonObject &data)
     data.read("underwater", underwater);
 
     data.read("traits", my_traits);
+    for( auto it = my_traits.begin(); it != my_traits.end(); ) {
+        const auto &tid = *it;
+        if( mutation_branch::has( tid ) ) {
+            ++it;
+        } else {
+            debugmsg( "character %s has invalid trait %s, it will be ignored", name.c_str(), tid.c_str() );
+            my_traits.erase( it++ );
+        }
+    }
 
-    data.read( "mutations", my_mutations );
-    data.read( "mutation_keys", trait_keys );
+    if( savegame_loading_version <= 23 ) {
+        std::unordered_set<std::string> old_my_mutations;
+        data.read( "mutations", old_my_mutations );
+        for( const auto & mut : old_my_mutations ) {
+            my_mutations[mut]; // Creates a new entry with default values
+        }
+        std::map<std::string, char> trait_keys;
+        data.read( "mutation_keys", trait_keys );
+        for( const auto & k : trait_keys ) {
+            my_mutations[k.first].key = k.second;
+        }
+        std::set<std::string> active_muts;
+        data.read( "active_mutations_hacky", active_muts );
+        for( const auto & mut : active_muts ) {
+            my_mutations[mut].powered = true;
+        }
+    } else {
+        data.read( "mutations", my_mutations );
+    }
+    for( auto it = my_mutations.begin(); it != my_mutations.end(); ) {
+        const auto &mid = it->first;
+        if( mutation_branch::has( mid ) ) {
+            ++it;
+        } else {
+            debugmsg( "character %s has invalid mutation %s, it will be ignored", name.c_str(), mid.c_str() );
+            my_mutations.erase( it++ );
+        }
+    }
 
     data.read( "my_bionics", my_bionics );
 
@@ -145,10 +198,10 @@ void Character::load(JsonObject &data)
     if (data.has_object("skills")) {
         JsonObject pmap = data.get_object("skills");
         for( auto &skill : Skill::skills ) {
-            if( pmap.has_object( ( skill )->ident() ) ) {
-                pmap.read( ( skill )->ident(), skillLevel( skill ) );
+            if( pmap.has_object( skill.ident() ) ) {
+                pmap.read( skill.ident(), skillLevel( &skill ) );
             } else {
-                debugmsg( "Load (%s) Missing skill %s", "", ( skill )->ident().c_str() );
+                debugmsg( "Load (%s) Missing skill %s", "", skill.ident().c_str() );
             }
         }
     } else {
@@ -165,10 +218,7 @@ void Character::store(JsonOut &json) const
 
     // traits: permanent 'mutations' more or less
     json.member( "traits", my_traits );
-
-    // mutations; just like traits but can be removed.
     json.member( "mutations", my_mutations );
-    json.member( "mutation_keys", trait_keys );
 
     // "Fracking Toasters" - Saul Tigh, toaster
     json.member( "my_bionics", my_bionics );
@@ -176,9 +226,8 @@ void Character::store(JsonOut &json) const
     // skills
     json.member( "skills" );
     json.start_object();
-    for( auto &skill : Skill::skills ) {
-        SkillLevel sk = get_skill_level( skill );
-        json.member( ( skill )->ident(), sk );
+    for( auto const &skill : Skill::skills ) {
+        json.member( skill.ident(), get_skill_level(skill) );
     }
     json.end_object();
 }
@@ -349,18 +398,6 @@ void player::serialize(JsonOut &json) const
     }
     if ( g->scen != NULL ) {
         json.member( "scenario", g->scen->ident() );
-    }
-    // A hack for 0.C active mutations
-    // Remove it as soon as the proper rework is in
-    if( is_player() ) {
-        json.member( "active_mutations_hacky" );
-        json.start_array();
-        for( const auto &mut_id : my_mutations ) {
-            if( traits[mut_id].powered ) {
-                json.write( mut_id );
-            }
-        }
-        json.end_array();
     }
     // someday, npcs may drive
     json.member( "driving_recoil", int(driving_recoil) );
@@ -548,17 +585,6 @@ void player::deserialize(JsonIn &jsin)
     if ( data.has_member("invcache") ) {
         JsonIn *jip = data.get_raw("invcache");
         inv.json_load_invcache( *jip );
-    }
-
-    // A hack for 0.C active mutations
-    // Remove it as soon as the proper rework is in
-    if( is_player() ) {
-        std::set<std::string> active_muts;
-        if( data.read( "active_mutations_hacky", active_muts ) ) {
-            for( const std::string &mut : active_muts ) {
-                traits[mut].powered = true;
-            }
-        }
     }
 }
 

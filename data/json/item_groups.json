@@ -49,6 +49,7 @@
     "id" : "field",
     "items":[
       ["rock", 40],
+      ["sharp_rock", 5],
       ["months_old_newspaper", 1],
       ["weeks_old_newspaper", 2],
       ["newest_newspaper", 3]
@@ -9161,6 +9162,7 @@
       ["primitive_axe", 50],
       ["primitive_shovel", 50],
       ["primitive_hammer", 50],
+      ["primitive_adze", 50 ],
       ["needle_bone", 50],
       ["needle_wood", 50],
       ["arrowhead", 50],
