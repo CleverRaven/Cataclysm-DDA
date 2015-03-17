@@ -284,6 +284,27 @@ void npc::randomize(npc_class type)
   this->restock = 14400*3;  //Every three days
   break;
 
+ case NC_SOLDIER:
+     for( auto &skill : Skill::skills ) {
+   int level = dice(3, 2) - 3;
+   if (level > 0 && one_in(5))
+   {
+    level--;
+   }
+   set_skill_level( skill, level );
+  }
+  int_max -= rng(0, 2);
+  str_max += rng(0, 2);
+  dex_max += rng(0, 1);
+  boost_skill_level("dodge", rng(1, 2));
+  boost_skill_level("melee", rng(1, 2));
+  boost_skill_level("unarmed", rng(1, 2));
+  boost_skill_level("rifle", rng(3, 5));
+  boost_skill_level("gun", rng(2, 4));
+  personality.aggression += rng(1, 3);
+  personality.bravery += rng(0, 5);
+  break;
+
  case NC_HACKER:
      for( auto &skill : Skill::skills ) {
    int level = 0;
@@ -434,8 +455,8 @@ void npc::randomize(npc_class type)
    }
    set_skill_level( skill, level );
   }
-  str_max -= rng(2, 4);
-  dex_max -= rng(0, 2);
+  str_max += rng(2, 4);
+  dex_max += rng(0, 2);
   boost_skill_level("dodge", rng(1, 3));
   boost_skill_level("melee", rng(2, 4));
   boost_skill_level("unarmed", rng(1, 3));
@@ -2209,6 +2230,8 @@ std::string npc_class_name_str(npc_class classtype)
         return "NC_SCAVENGER";
     case NC_HUNTER: // Good with bows and rifles
         return "NC_HUNTER";
+    case NC_SOLDIER: // Well equiped and trained combatant, good with rifles and melee
+        return "NC_SOLDIER";
     default:
         //Suppress warnings
         break;
@@ -2247,6 +2270,8 @@ std::string npc_class_name(npc_class classtype)
         return _("Scavenger");
     case NC_HUNTER: // Good with bows and rifles
         return _("Hunter");
+    case NC_SOLDIER: // Well equiped and trained combatant, good with rifles and melee
+        return _("Soldier");
     default:
         //Suppress warnings
         break;
