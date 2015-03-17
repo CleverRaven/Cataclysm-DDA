@@ -401,6 +401,7 @@ void MonsterGenerator::init_flags()
     flag_map["CBM_SUBS"] = MF_CBM_SUBS;
     flag_map["SWARMS"] = MF_SWARMS;
     flag_map["GROUP_MORALE"] = MF_GROUP_MORALE;
+    flag_map["PATHFINDS"] = MF_PATHFINDS;
 }
 
 void MonsterGenerator::init_hardcoded_factions()

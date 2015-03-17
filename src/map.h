@@ -30,6 +30,7 @@
 class player;
 class monster;
 class item;
+class pathfinder;
 struct itype;
 struct mapgendata;
 // TODO: This should be const& but almost no functions are const
@@ -94,6 +95,7 @@ public:
 class map
 {
  friend class editmap;
+    friend class pathfinder;
  public:
 // Constructors & Initialization
  map(int mapsize = MAPSIZE);

@@ -150,6 +150,7 @@ class monster : public Creature, public JsonSerializer, public JsonDeserializer
         // Pass all factions to mon, so that hordes of same-faction mons
         // do not iterate over each other
         void plan(const mfactions &factions);
+        void get_path(); // Retrieves path from pathfinder
         void move(); // Actual movement
         void footsteps(int x, int y); // noise made by movement
         void friendly_move();

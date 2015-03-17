@@ -51,6 +51,7 @@
 #include "lightmap.h"
 #include "npc.h"
 #include "scenario.h"
+#include "pathfinding.h"
 
 #include <map>
 #include <set>
@@ -5907,6 +5908,9 @@ void game::monmove()
 
     mfactions monster_factions;
 
+    std::queue< size_t > deferred; // Mons that have to wait for pathfinding
+    path_manager::get_manager().clear_paths();
+
     for (size_t i = 0; i < num_zombies(); i++) {
         // The first time through, and any time the map has been shifted,
         // recalculate monster factions.
@@ -5967,9 +5971,16 @@ void game::monmove()
                 // Formulate a path to follow
                 critter.plan( monster_factions );
             }
-            critter.move(); // Move one square, possibly hit u
-            critter.process_triggers();
-            m.creature_in_field( critter );
+
+            if( !critter.has_flag( MF_PATHFINDS ) ) {
+                // Pathfinders have to move after all their pathfinding group finishes planning
+                critter.move(); // Move one square, possibly hit u
+                critter.process_triggers();
+                m.creature_in_field( critter );
+            } else {
+                deferred.push( i );
+                break;
+            }
         }
 
         if (!critter.is_dead()) {
@@ -5981,6 +5992,26 @@ void game::monmove()
                 if (u.in_sleep_state()) {
                     u.wake_up();
                 }
+            }
+        }
+    }
+
+    // TODO: Add a check for changed levx/levy and shift pathfinder.seekers
+    // TODO: Add recalcing factions here too.
+    // TODO: Make alarm trigger when pathfinding mons move
+    // Or maybe just integrate with the above loop somehow.
+    path_manager::get_manager().generate_paths( m );
+    while( !deferred.empty() ) {
+        const size_t i = deferred.front();
+        deferred.pop();
+        monster &critter = critter_tracker.find( i );
+        // TODO: Let mon recalculate path more than once in a turn
+        if( !critter.is_dead() ) {
+            critter.get_path();
+            while( critter.moves > 0 && !critter.is_dead() ) {
+                critter.move();
+                critter.process_triggers();
+                m.creature_in_field( critter );
             }
         }
     }
