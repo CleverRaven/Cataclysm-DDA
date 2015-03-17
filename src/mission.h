@@ -10,7 +10,7 @@
 
 class mission;
 class game;
-enum talk_topic;
+enum talk_topic : int;
 
 enum mission_id {
     MISSION_NULL,
