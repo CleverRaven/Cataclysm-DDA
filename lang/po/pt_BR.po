@@ -46418,7 +46418,7 @@ msgid "Reading this book affects your morale by <num>"
 msgstr ""
 
 #: src/item.cpp
-msgid "This book takes <num> minutes to read."
+msgid "A chapter of this book takes <num> minutes to read."
 msgstr ""
 
 #: src/item.cpp

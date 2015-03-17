@@ -68279,8 +68279,8 @@ msgid_plural "This book contains %1$d crafting recipes: %2$s"
 msgstr[0] "这本书包括 %1$d 制造配方: %2$s"
 
 #: src/item.cpp
-msgid "This book takes <num> minute to read."
-msgid_plural "This book takes <num> minutes to read."
+msgid "A chapter of this book takes <num> minute to read."
+msgid_plural "A chapter of this book takes <num> minutes to read."
 msgstr[0] "这本书需要 <num> 分钟来阅读."
 
 #: src/item.cpp
@@ -85614,8 +85614,8 @@ msgstr "这本书对你来说有些难以理解，你读的很慢。"
 
 #: src/player.cpp
 #, c-format
-msgid "This book takes %d minute to read."
-msgid_plural "This book takes %d minutes to read."
+msgid "A chapter of this book takes %d minute to read."
+msgid_plural "A chapter of this book takes %d minutes to read."
 msgstr[0] "这本书需要 %d 分钟来阅读."
 
 #: src/player.cpp

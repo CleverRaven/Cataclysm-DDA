@@ -70959,8 +70959,8 @@ msgstr[0] ""
 msgstr[1] ""
 
 #: src/item.cpp
-msgid "This book takes <num> minute to read."
-msgid_plural "This book takes <num> minutes to read."
+msgid "A chapter of this book takes <num> minute to read."
+msgid_plural "A chapter of this book takes <num> minutes to read."
 msgstr[0] "這本書需要 <num> 分鐘才能讀完。"
 
 #: src/item.cpp
@@ -88865,8 +88865,8 @@ msgstr "這本書對你來說太難以理解了。你需要更長時間來閱讀
 
 #: src/player.cpp
 #, c-format
-msgid "This book takes %d minute to read."
-msgid_plural "This book takes %d minutes to read."
+msgid "A chapter of this book takes %d minute to read."
+msgid_plural "A chapter of this book takes %d minutes to read."
 msgstr[0] "這本書需要 %d 分鐘才能讀完。"
 
 #: src/player.cpp

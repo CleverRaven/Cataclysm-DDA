@@ -84048,8 +84048,8 @@ msgstr[1] "Эта книга содержит <num> непрочитанных �
 msgstr[2] "Эта книга содержит <num> непрочитанных глав."
 
 #: src/item.cpp
-msgid "This book takes <num> minute to read."
-msgid_plural "This book takes <num> minutes to read."
+msgid "A chapter of this book takes <num> minute to read."
+msgid_plural "A chapter of this book takes <num> minutes to read."
 msgstr[0] "На чтение уйдёт <num> минута."
 msgstr[1] "На чтение уйдёт <num> минуты."
 msgstr[2] "На чтение уйдёт <num> минут."
@@ -102421,8 +102421,8 @@ msgstr ""
 
 #: src/player.cpp
 #, c-format
-msgid "This book takes %d minute to read."
-msgid_plural "This book takes %d minutes to read."
+msgid "A chapter of this book takes %d minute to read."
+msgid_plural "A chapter of this book takes %d minutes to read."
 msgstr[0] "На чтение уйдёт %d минута."
 msgstr[1] "На чтение уйдёт %d минуты."
 msgstr[2] "На чтение уйдёт %d минут."
