@@ -12652,13 +12652,23 @@ void game::vertical_move(int movez, bool force)
         return;
     }
 
+    // Becase get_levz takes z-value from the map, it will change when vertical_shift (ZLEVELS)
+    // is called or when the map is loaded on new z-level (not ZLEVELS).
+    // This caches the z-level we start the movement on (current) and the level we're want to end.
+    const int z_before = get_levz();
+    const int z_after = get_levz() + movez;
+    if( z_after < -OVERMAP_DEPTH || z_after > OVERMAP_HEIGHT ) {
+        debugmsg( "Tried to move outside allowed range of z-levels" );
+        return;
+    }
+
     // Shift the map up or down
 #ifdef ZLEVELS
     map &maybetmp = m;
-    maybetmp.vertical_shift( get_levz() + movez );
+    maybetmp.vertical_shift( z_after );
 #else
     map maybetmp;
-    maybetmp.load(get_levx(), get_levy(), get_levz() + movez, false);
+    maybetmp.load(get_levx(), get_levy(), z_after, false);
 #endif
 
     // Find the corresponding staircase
@@ -12667,15 +12677,9 @@ void game::vertical_move(int movez, bool force)
 
     const int omtilesz=SEEX * 2;
     real_coords rc( m.getabs(u.posx(), u.posy()) );
-
     point omtile_align_start(
         m.getlocal(rc.begin_om_pos())
     );
-
-    if( get_levz() + movez < -OVERMAP_DEPTH || get_levz() + movez > OVERMAP_HEIGHT ) {
-        debugmsg( "Tried to move outside allowed range of z-levels" );
-        return;
-    }
 
     bool actually_moved = true;
     if (force) {
@@ -12775,13 +12779,13 @@ void game::vertical_move(int movez, bool force)
     if( !actually_moved ) {
 #ifdef ZLEVELS
         // Have to undo the map shift
-        m.vertical_shift( get_levz() );
+        m.vertical_shift( z_before );
 #endif
         return;
     }
 
     if( !force ) {
-        monstairz = get_levz();
+        monstairz = z_before;
     }
     // Save all monsters that can reach the stairs, remove them from the tracker,
     // then despawn the remaining monsters. Because it's a vertical shift, all
@@ -12811,28 +12815,27 @@ void game::vertical_move(int movez, bool force)
     // Fill in all the tiles we know about (e.g. subway stations)
     static const int REVEAL_RADIUS = 40;
     const tripoint gpos = global_omt_location();
-    int z_coord = get_levz() + movez;
     for (int x = -REVEAL_RADIUS; x <= REVEAL_RADIUS; x++) {
         for (int y = -REVEAL_RADIUS; y <= REVEAL_RADIUS; y++) {
             const int cursx = gpos.x + x;
             const int cursy = gpos.y + y;
-            if (!overmap_buffer.seen(cursx, cursy, get_levz())) {
+            if (!overmap_buffer.seen(cursx, cursy, z_before)) {
                 continue;
             }
-            if (overmap_buffer.has_note(cursx, cursy, z_coord)) {
+            if (overmap_buffer.has_note(cursx, cursy, z_after)) {
                 // Already has a note -> never add an AUTO-note
                 continue;
             }
-            const oter_id &ter = overmap_buffer.ter(cursx, cursy, get_levz());
-            const oter_id &ter2 = overmap_buffer.ter(cursx, cursy, z_coord);
+            const oter_id &ter = overmap_buffer.ter(cursx, cursy, z_before);
+            const oter_id &ter2 = overmap_buffer.ter(cursx, cursy, z_after);
             if (!!OPTIONS["AUTO_NOTES"]) {
                 if (movez == +1 && otermap[ter].known_up && !otermap[ter2].known_down) {
-                    overmap_buffer.set_seen(cursx, cursy, z_coord, true);
-                    overmap_buffer.add_note(cursx, cursy, z_coord, _(">:W;AUTO: goes down"));
+                    overmap_buffer.set_seen(cursx, cursy, z_after, true);
+                    overmap_buffer.add_note(cursx, cursy, z_after, _(">:W;AUTO: goes down"));
                 }
                 if (movez == -1 && otermap[ter].known_down && !otermap[ter2].known_up) {
-                    overmap_buffer.set_seen(cursx, cursy, z_coord, true);
-                    overmap_buffer.add_note(cursx, cursy, z_coord, _("<:W;AUTO: goes up"));
+                    overmap_buffer.set_seen(cursx, cursy, z_after, true);
+                    overmap_buffer.add_note(cursx, cursy, z_after, _("<:W;AUTO: goes up"));
                 }
             }
         }
@@ -12845,7 +12848,7 @@ void game::vertical_move(int movez, bool force)
     m.set_outside_cache_dirty();
 #ifndef ZLEVELS
     (void)actually_moved;
-    m.load( get_levx(), get_levy(), get_levz(), true );
+    m.load( get_levx(), get_levy(), z_after, true );
 #endif
     u.setx( stairx );
     u.sety( stairy );
