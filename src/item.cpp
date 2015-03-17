@@ -3489,6 +3489,38 @@ ammotype item::ammo_type() const
     return "NULL";
 }
 
+const use_function *item::get_use( const std::string &use_name ) const
+{
+    if( type != nullptr && type->get_use( use_name ) != nullptr ) {
+        return type->get_use( use_name );
+    }
+
+    for( const auto &elem : contents ) {
+        const auto fun = elem.get_use( use_name );
+        if( fun != nullptr ) {
+            return fun;
+        }
+    }
+
+    return nullptr;
+}
+
+item *item::get_usable_item( const std::string &use_name )
+{
+    if( type != nullptr && type->get_use( use_name ) != nullptr ) {
+        return this;
+    }
+
+    for( auto &elem : contents ) {
+        const auto fun = elem.get_use( use_name );
+        if( fun != nullptr ) {
+            return &elem;
+        }
+    }
+
+    return nullptr;
+}
+
 int item::pick_reload_ammo( const player &u, bool interactive )
 {
     if( is_null() ) {

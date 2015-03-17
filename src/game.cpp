@@ -10773,6 +10773,7 @@ void game::plfire(bool burst, int default_target_x, int default_target_y)
 
 void game::butcher()
 {
+    const static std::string salvage_string = "salvage";
     if (u.controlling_vehicle) {
         add_msg(m_info, _("You can't butcher while driving!"));
         return;
@@ -10788,23 +10789,21 @@ void game::butcher()
 
     // TODO: Properly handle different material whitelists
     // TODO: Improve quality of this section
-    std::vector<item*> dumpvec;
-    u.inv.dump( dumpvec );
+    auto salvage_filter = []( item it ) {
+        const auto usable = it.get_usable_item( salvage_string );
+        return usable != nullptr;
+    };
+
+    std::vector< item * > salvage_tools = u.items_with( salvage_filter );
     int salvage_tool_index = INT_MIN;
     item *salvage_tool = nullptr;
-    salvage_actor *salvage_iuse = nullptr;
-    for( auto &it : dumpvec ) {
-        if( it == nullptr ) {
-            continue;
-        }
-
-        const auto fun = it->type->get_use( "salvage" );
-        if( fun != nullptr ) {
-            salvage_tool_index = u.inv.position_by_item( it );
-            salvage_iuse = dynamic_cast<salvage_actor*>( fun->get_actor_ptr() );
-            salvage_tool = it;
-            break;
-        }
+    const salvage_actor *salvage_iuse = nullptr;
+    if( !salvage_tools.empty() ) {
+        salvage_tool = salvage_tools.front();
+        salvage_tool_index = u.get_item_position( salvage_tool );
+        item *usable = salvage_tool->get_usable_item( salvage_string );
+        salvage_iuse = dynamic_cast<const salvage_actor*>( 
+            usable->get_use( salvage_string )->get_actor_ptr() );
     }
 
 

@@ -195,6 +195,18 @@ class inventory
                 items_with_recursive( vec, c, filter );
             }
         }
+        // Non-const variant of the above
+        template<typename T>
+        static void items_with_recursive( std::vector<item *> &vec, item &it, T filter )
+        {
+            if( filter( it ) ) {
+                vec.push_back( &it );
+            }
+            for( auto &c : it.contents ) {
+                items_with_recursive( vec, c, filter );
+            }
+        }
+
         template<typename T>
         static bool has_item_with_recursive( const item &it, T filter )
         {
@@ -231,6 +243,19 @@ class inventory
             }
             return result;
         }
+        // Non-const variant of the above
+        template<typename T>
+        std::vector<item *> items_with(T filter)
+        {
+            std::vector<item *> result;
+            for( auto &stack : items ) {
+                for( auto &it : stack ) {
+                    items_with_recursive( result, it, filter );
+                }
+            }
+            return result;
+        }
+        
         template<typename T>
         std::list<item> remove_items_with( T filter )
         {

@@ -146,6 +146,19 @@ class Character : public Creature
             }
             return result;
         }
+
+        template<typename T>
+        std::vector<item *> items_with(T filter)
+        {
+            auto result = inv.items_with( filter );
+            if( !weapon.is_null() ) {
+                inventory::items_with_recursive( result, weapon, filter );
+            }
+            for( auto &w : worn ) {
+                inventory::items_with_recursive( result, w, filter );
+            }
+            return result;
+        }
         /**
          * Removes the items that match the given filter.
          * The returned items are a copy of the removed item.

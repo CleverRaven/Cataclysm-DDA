@@ -10750,12 +10750,17 @@ bool player::invoke_item( item* used )
 bool player::invoke_item( item* used, const std::string &method )
 {
     if( !has_enough_charges( *used, true ) ) {
-        debugmsg( "Invoked %s on %s, which doesn't have enough charges", method.c_str(), used->tname().c_str() );
         return false;
     }
 
-    long charges_used = used->type->invoke( this, used, pos(), method );
-    return consume_charges( used, charges_used );
+    item *actually_used = used->get_usable_item( method );
+    if( actually_used == nullptr ) {
+        debugmsg( "Tried to invoke a method %s on item %s, which doesn't have this method",
+                  method.c_str(), used->tname().c_str() );
+    }
+
+    long charges_used = actually_used->type->invoke( this, actually_used, pos(), method );
+    return consume_charges( actually_used, charges_used );
 }
 
 void player::remove_gunmod(item *weapon, unsigned id)
