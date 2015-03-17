@@ -734,7 +734,7 @@ void npc::load(JsonObject &data)
     // this should call load on the parent class of npc (probably Character).
     player::load( data );
 
-    int misstmp, classtmp, flagstmp, atttmp;
+    int misstmp, classtmp, atttmp;
     std::string facID;
 
     data.read("name", name);
