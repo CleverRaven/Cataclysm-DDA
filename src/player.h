@@ -18,8 +18,7 @@
 #include <bitset>
 #include <array>
 
-#define HOTKEYS_DEFAULT "1234567890abcdefghijklmnopqrstuvwxyz"
-static const std::string hotkeys_default(HOTKEYS_DEFAULT);
+static const std::string hotkeys_default("1234567890abcdefghijklmnopqrstuvwxyz");
 
 class monster;
 class game;
@@ -857,7 +856,7 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         void invalidate_crafting_inventory();
         std::vector<item> get_eligible_containers_for_crafting();
         std::list<item> consume_items(const std::vector<item_comp> &components, int batch = 1);
-        void consume_tools(const std::vector<tool_comp> &tools, int batch = 1, std::string hotkeys = hotkeys_default);
+        void consume_tools(const std::vector<tool_comp> &tools, int batch = 1, const std::string hotkeys = hotkeys_default);
 
         // Auto move methods
         void set_destination(const std::vector<point> &route);

@@ -54,7 +54,7 @@ uimenu::uimenu(bool, const char * const mes, ...)
 }
 
 uimenu::uimenu(bool cancelable, const char *mes,
-               std::vector<std::string> options)   // exact usage as menu_vec
+               const std::vector<std::string> options)   // exact usage as menu_vec
 {
     init();
     if (options.empty()) {
@@ -73,8 +73,8 @@ uimenu::uimenu(bool cancelable, const char *mes,
 }
 
 uimenu::uimenu(bool cancelable, const char *mes,
-               std::vector<std::string> options,
-               std::string hotkeys_override)
+               const std::vector<std::string> options,
+               const std::string hotkeys_override)
 {
     init();
     hotkeys = hotkeys_override;

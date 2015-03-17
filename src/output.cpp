@@ -926,14 +926,14 @@ long popup_getkey(const char *mes, ...)
 
 // compatibility stub for uimenu(cancelable, mes, options)
 int menu_vec(bool cancelable, const char *mes,
-             std::vector<std::string> options)
+             const std::vector<std::string> options)
 {
     return (int)uimenu(cancelable, mes, options);
 }
 
 int menu_vec(bool cancelable, const char *mes,
-             std::vector<std::string> options,
-             std::string hotkeys_override)
+             const std::vector<std::string> options,
+             const std::string hotkeys_override)
 {
     return (int)uimenu(cancelable, mes, options, hotkeys_override);
 }

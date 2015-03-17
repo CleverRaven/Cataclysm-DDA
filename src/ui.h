@@ -165,8 +165,8 @@ class uimenu: public ui_container
         uimenu(); // bare init
 
         uimenu(bool cancancel, const char *message, ...);  // legacy menu()
-        uimenu(bool cancelable, const char *mes, std::vector<std::string> options); // legacy menu_vec
-        uimenu(bool cancelable, const char *mes, std::vector<std::string> options, std::string hotkeys);
+        uimenu(bool cancelable, const char *mes, const std::vector<std::string> options); // legacy menu_vec
+        uimenu(bool cancelable, const char *mes, const std::vector<std::string> options, const std::string hotkeys);
         uimenu(bool cancelable, int startx, int width, int starty, std::string title,
                std::vector<uimenu_entry> ents);
         uimenu(int startx, int width, int starty, std::string title, std::vector<uimenu_entry> ents);
