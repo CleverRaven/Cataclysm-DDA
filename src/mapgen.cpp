@@ -10091,7 +10091,7 @@ FFFFFFFFFFFFFFFFFFFFFFFF\n\
                 line(this, t_wall_h, 13, 13, 23, 13);
                 line(this, t_door_c, 18, 13, 19, 13);
                 // Next, the contents of each operating room
-                line_furn(this, f_counter, 1, 0, 1, 9);
+                line_furn(this, f_counter, 1, 1, 1, 9);
                 place_items("surgery", 70, 1, 1, 1, 9, false, 0);
                 place_items("bionics_common", 5, 1, 1, 1, 9, false, 0);
                 square_furn(this, f_bed, 5, 4, 6, 5);
@@ -10140,12 +10140,12 @@ FFFFFFFFFFFFFFFFFFFFFFFF\n\
                 // Hard drug storage
                 line(this, t_wall_v, 13, 0, 13, 19);
                 ter_set(13, 6, t_door_locked);
-                line_furn(this, f_rack, 14, 0, 14, 4);
+                line_furn(this, f_rack, 14, 1, 14, 4);
                 place_items("harddrugs", 78, 14, 1, 14, 4, false, 0);
-                line_furn(this, f_rack, 17, 0, 17, 7);
-                place_items("harddrugs", 85, 17, 0, 17, 7, false, 0);
-                line_furn(this, f_rack, 20, 0, 20, 7);
-                place_items("harddrugs", 85, 20, 0, 20, 7, false, 0);
+                line_furn(this, f_rack, 17, 1, 17, 7);
+                place_items("harddrugs", 85, 17, 1, 17, 7, false, 0);
+                line_furn(this, f_rack, 20, 1, 20, 7);
+                place_items("harddrugs", 85, 20, 1, 20, 7, false, 0);
                 line(this, t_wall_h, 20, 10, 23, 10);
                 line_furn(this, f_rack, 16, 10, 19, 10);
                 place_items("harddrugs", 78, 16, 10, 19, 10, false, 0);
