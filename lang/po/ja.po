@@ -72204,8 +72204,8 @@ msgid_plural "This book has <num> unread chapters."
 msgstr[0] "この本には<num>章の読まれていない項目があります。"
 
 #: src/item.cpp
-msgid "A chapter of this book takes <num> minute to read."
-msgid_plural "A chapter of this book takes <num> minutes to read."
+msgid "This book takes <num> minute to read."
+msgid_plural "This book takes <num> minutes to read."
 msgstr[0] "この本を読むには<num>分掛かります。"
 
 #: src/item.cpp
@@ -90140,8 +90140,8 @@ msgstr "この本に書かれている内容は難解で複雑です。読解に
 
 #: src/player.cpp
 #, c-format
-msgid "A chapter of this book takes %d minute to read."
-msgid_plural "A chapter of this book takes %d minutes to read."
+msgid "This book takes %d minute to read."
+msgid_plural "This book takes %d minutes to read."
 msgstr[0] "この本を読むには%d分掛かります。"
 
 #: src/player.cpp
