@@ -115,7 +115,8 @@
     {"id":"HAMMER","level":1,"amount":1}
   ], "components": [
     [
-      [ "rock", 1 ]
+      [ "rock", 1 ],
+      [ "sharp_rock", 1 ]
     ]
   ]
 },{
@@ -395,7 +396,8 @@
       [ "rock", 1 ],
       [ "ceramic_shard", 1 ],
       [ "scrap", 2 ],
-      [ "nail", 10 ]
+      [ "nail", 10 ],
+      [ "sharp_rock", 1 ]
     ]
   ]
 },{
@@ -431,7 +433,8 @@
       [ "rock", 1 ],
       [ "ceramic_shard", 1 ],
       [ "scrap", 2 ],
-      [ "nail", 10 ]
+      [ "nail", 10 ],
+      [ "sharp_rock", 1 ]
     ]
   ]
 },{
@@ -732,7 +735,8 @@
       [ "rock", 1],
       [ "ceramic_shard", 1 ],
       [ "scrap", 2 ],
-      [ "nail", 10 ]
+      [ "nail", 10 ],
+      [ "sharp_rock", 1 ]
     ]
   ]
 },{
