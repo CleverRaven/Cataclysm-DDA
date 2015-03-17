@@ -1795,10 +1795,9 @@ tripoint overmap::draw_overmap(const tripoint &orig, bool debug_mongroup, const 
     ictxt.register_action("TOGGLE_EXPLORED");
     ictxt.register_action("QUIT");
     std::string action;
+    bool show_explored = true;
     do {
         timeout( BLINK_SPEED );
-        bool show_explored = (uistate.overmap_blinking || uistate.overmap_show_overlays) ||
-                             (!uistate.overmap_blinking && uistate.overmap_show_overlays);
         draw(g->w_overmap, g->w_omlegend, curs, orig, uistate.overmap_show_overlays, show_explored, &ictxt, debug_mongroup, iZoneIndex);
         action = ictxt.handle_input();
         timeout(-1);
@@ -1847,6 +1846,7 @@ tripoint overmap::draw_overmap(const tripoint &orig, bool debug_mongroup, const 
             // if we turn off overmap blinking, show overlays and explored status
             if (!uistate.overmap_blinking) {
                 uistate.overmap_show_overlays = true;
+            } else {
                 show_explored = true;
             }
         } else if (action == "TOGGLE_OVERLAYS") {
@@ -1854,8 +1854,10 @@ tripoint overmap::draw_overmap(const tripoint &orig, bool debug_mongroup, const 
             if (uistate.overmap_blinking) {
                 uistate.overmap_blinking = false;
                 uistate.overmap_show_overlays = false;
+                show_explored = false;
             } else {
                 uistate.overmap_show_overlays = !uistate.overmap_show_overlays;
+                show_explored = !show_explored;
             }
         } else if (action == "TOGGLE_EXPLORED") {
             overmap_buffer.toggle_explored(curs.x, curs.y, curs.z);
