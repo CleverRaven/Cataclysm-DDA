@@ -6948,7 +6948,20 @@ int iuse::quiver(player *p, item *it, bool, point)
 
         // empty quiver
         if (choice == 2) {
-            item &arrows = it->contents[0];
+            uimenu amenu;
+            amenu.return_invalid = true;
+            amenu.w_y = 0;
+            amenu.w_x = 0;
+            amenu.w_width = TERMX;
+            amenu.text = std::string( _( "Choose arrow to take out :"));
+            amenu.text.insert( 0, "  ");
+            for( size_t i = 0; i < it->contents.size(); i++) {
+                std::string row = it->contents[i].tname() + string_format( " (%d)", it->contents[i].charges);
+                amenu.addentry( i, true, i + 'a', row);
+            }
+            amenu.query();
+
+            item &arrows = it->contents[amenu.ret];
             int arrowsRemoved = arrows.charges;
             p->add_msg_if_player(ngettext("You remove the %s from the %s.", "You remove the %s from the %s.",
                                           arrowsRemoved),

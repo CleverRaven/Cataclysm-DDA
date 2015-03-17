@@ -13282,7 +13282,7 @@ int player::add_ammo_to_worn_quiver( item &ammo )
         int stored = quiver->quiver_store_arrow( ammo);
         if( stored > 0) {
             add_msg_if_player( ngettext( "You store %d %s in your %s.", "You store %d %s in your %s.", stored),
-                               stored, quiver->contents[0].type_name(stored).c_str(), quiver->type_name().c_str());
+                               stored, ammo.type_name(stored).c_str(), quiver->type_name().c_str());
         }
         moves -= std::min( 100, stored * move_cost_per_arrow);
         quivered_sum += stored;

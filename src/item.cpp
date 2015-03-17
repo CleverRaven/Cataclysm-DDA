@@ -1657,7 +1657,7 @@ std::string item::tname( unsigned int quantity, bool with_prefix ) const
 {
     std::stringstream ret;
 
-// MATERIALS-TODO: put this in json
+    // MATERIALS-TODO: put this in json
     std::string damtext = "";
     if ((damage != 0 || ( OPTIONS["ITEM_HEALTH_BAR"] && is_armor() )) && !is_null() && with_prefix) {
         if( damage < 0 )  {
@@ -1673,10 +1673,18 @@ std::string item::tname( unsigned int quantity, bool with_prefix ) const
             }
         } else {
             if (type->id == "corpse") {
-                if (damage == 1) damtext = rm_prefix(_("<dam_adj>bruised "));
-                if (damage == 2) damtext = rm_prefix(_("<dam_adj>damaged "));
-                if (damage == 3) damtext = rm_prefix(_("<dam_adj>mangled "));
-                if (damage == 4) damtext = rm_prefix(_("<dam_adj>pulped "));
+                if (damage == 1) {
+                    damtext = rm_prefix(_("<dam_adj>bruised "));
+                }
+                if (damage == 2) {
+                    damtext = rm_prefix(_("<dam_adj>damaged "));
+                }
+                if (damage == 3) {
+                    damtext = rm_prefix(_("<dam_adj>mangled "));
+                }
+                if (damage == 4) {
+                    damtext = rm_prefix(_("<dam_adj>pulped "));
+                }
 
             } else if ( OPTIONS["ITEM_HEALTH_BAR"] ) {
                 auto nc_text = get_item_HP_Bar(damage);
@@ -1691,14 +1699,14 @@ std::string item::tname( unsigned int quantity, bool with_prefix ) const
     std::string vehtext = "";
     if( is_var_veh_part() ) {
         switch( type->variable_bigness->bigness_aspect ) {
-            case BIGNESS_ENGINE_DISPLACEMENT:
-                //~ liters, e.g. 3.21-Liter V8 engine
-                vehtext = rmp_format( _( "<veh_adj>%4.2f-Liter " ), bigness / 100.0f );
-                break;
-            case BIGNESS_WHEEL_DIAMETER:
-                //~ inches, e.g. 20" wheel
-                vehtext = rmp_format( _( "<veh_adj>%d\" " ), bigness );
-                break;
+        case BIGNESS_ENGINE_DISPLACEMENT:
+            //~ liters, e.g. 3.21-Liter V8 engine
+            vehtext = rmp_format( _( "<veh_adj>%4.2f-Liter " ), bigness / 100.0f );
+            break;
+        case BIGNESS_WHEEL_DIAMETER:
+            //~ inches, e.g. 20" wheel
+            vehtext = rmp_format( _( "<veh_adj>%d\" " ), bigness );
+            break;
         }
     }
 
@@ -1732,11 +1740,9 @@ std::string item::tname( unsigned int quantity, bool with_prefix ) const
             maintext = rmp_format(ngettext("<item_name>%s blood",
                                            "<item_name>%s blood",
                                            quantity), corpse->nname().c_str());
-    }
-    else if (iname != item_vars.end()) {
+    } else if (iname != item_vars.end()) {
         maintext = iname->second;
-    }
-    else if (is_gun() && !contents.empty() ) {
+    } else if (is_gun() && !contents.empty() ) {
         ret.str("");
         ret << type_name(quantity);
         for( size_t i = 0; i < contents.size(); ++i ) {
@@ -1745,33 +1751,42 @@ std::string item::tname( unsigned int quantity, bool with_prefix ) const
         maintext = ret.str();
     } else if (contents.size() == 1) {
         if(contents[0].made_of(LIQUID)) {
-            maintext = rmp_format(_("<item_name>%s of %s"), type_name(quantity).c_str(), contents[0].tname( quantity, with_prefix ).c_str());
+            maintext = rmp_format(_("<item_name>%s of %s"), type_name(quantity).c_str(),
+                                  contents[0].tname( quantity, with_prefix ).c_str());
         } else if (contents[0].is_food()) {
-            maintext = contents[0].charges > 1 ? rmp_format(_("<item_name>%s of %s"), type_name(quantity).c_str(),
-                                                            contents[0].tname(contents[0].charges, with_prefix).c_str()) :
-                                                 rmp_format(_("<item_name>%s of %s"), type_name(quantity).c_str(),
-                                                            contents[0].tname( quantity, with_prefix ).c_str());
+            maintext = contents[0].charges > 1 ? rmp_format(_("<item_name>%s of %s"),
+                       type_name(quantity).c_str(),
+                       contents[0].tname(contents[0].charges, with_prefix).c_str()) :
+                       rmp_format(_("<item_name>%s of %s"), type_name(quantity).c_str(),
+                                  contents[0].tname( quantity, with_prefix ).c_str());
         } else {
-            maintext = rmp_format(_("<item_name>%s with %s"), type_name(quantity).c_str(), contents[0].tname( quantity, with_prefix ).c_str());
+            maintext = rmp_format(_("<item_name>%s with %s"), type_name(quantity).c_str(),
+                                  contents[0].tname( quantity, with_prefix ).c_str());
         }
-    }
-    else if (!contents.empty()) {
-        maintext = rmp_format(_("<item_name>%s, full"), type_name(quantity).c_str());
+    } else if (!contents.empty()) {
+        if( type->can_use( "QUIVER")) {
+            long quiver_charges = 0;
+            for( auto & arrow : contents) {
+                quiver_charges += arrow.charges;
+            }
+            maintext = rmp_format(_("<item_name>%s with various kinds of arrows (%d)"),
+                                  type_name(quantity).c_str(), quiver_charges);
+        } else {
+            maintext = rmp_format(_("<item_name>%s, full"), type_name(quantity).c_str());
+        }
     } else {
         maintext = type_name(quantity);
     }
 
-    const it_comest* food_type = NULL;
+    const it_comest *food_type = NULL;
     std::string tagtext = "";
     std::string toolmodtext = "";
     std::string sidedtext = "";
     ret.str("");
-    if (is_food())
-    {
-        food_type = dynamic_cast<it_comest*>(type);
+    if (is_food()) {
+        food_type = dynamic_cast<it_comest *>(type);
 
-        if (food_type->spoils != 0)
-        {
+        if (food_type->spoils != 0) {
             if(rotten()) {
                 ret << _(" (rotten)");
             } else if ( is_going_bad()) {
@@ -1782,10 +1797,10 @@ std::string item::tname( unsigned int quantity, bool with_prefix ) const
         }
         if (has_flag("HOT")) {
             ret << _(" (hot)");
-            }
+        }
         if (has_flag("COLD")) {
             ret << _(" (cold)");
-            }
+        }
     }
 
     if (has_flag("FIT")) {
@@ -1795,19 +1810,19 @@ std::string item::tname( unsigned int quantity, bool with_prefix ) const
     if (has_flag("RECHARGE")) {
         ret << _(" (rechargeable)");
     }
-    if (is_tool() && has_flag("USE_UPS")){
+    if (is_tool() && has_flag("USE_UPS")) {
         ret << _(" (UPS)");
     }
-    if (item_tags.count("wooled") > 0 ){
+    if (item_tags.count("wooled") > 0 ) {
         ret << _(" (W)");
     }
-    if (item_tags.count("furred") > 0 ){
+    if (item_tags.count("furred") > 0 ) {
         ret << _(" (F)");
     }
-    if (item_tags.count("leather_padded") > 0 ){
+    if (item_tags.count("leather_padded") > 0 ) {
         ret << _(" (L)");
     }
-    if (item_tags.count("kevlar_padded") > 0 ){
+    if (item_tags.count("kevlar_padded") > 0 ) {
         ret << _(" (K)");
     }
     if (has_flag("ATOMIC_AMMO")) {
@@ -1820,17 +1835,20 @@ std::string item::tname( unsigned int quantity, bool with_prefix ) const
         sidedtext = _("right ");
     }
 
-    if(has_flag("WET"))
-       ret << _(" (wet)");
+    if(has_flag("WET")) {
+        ret << _(" (wet)");
+    }
 
-    if(has_flag("LITCIG"))
+    if(has_flag("LITCIG")) {
         ret << _(" (lit)");
+    }
 
     if( already_used_by_player( g->u ) ) {
         ret << _( " (used)" );
     }
 
-    if( active && !is_food() && !is_corpse() && ( type->id.length() < 3 || type->id.compare( type->id.length() - 3, 3, "_on" ) != 0 ) ) {
+    if( active && !is_food() && !is_corpse() && ( type->id.length() < 3 ||
+            type->id.compare( type->id.length() - 3, 3, "_on" ) != 0 ) ) {
         // Usually the items whose ids end in "_on" have the "active" or "on" string already contained
         // in their name, also food is active while it rots.
         ret << _( " (active)" );
@@ -1842,8 +1860,8 @@ std::string item::tname( unsigned int quantity, bool with_prefix ) const
 
     //~ This is a string to construct the item name as it is displayed. This format string has been added for maximum flexibility. The strings are: %1$s: Damage text (eg. "bruised"). %2$s: burn adjectives (eg. "burnt"). %3$s: sided adjectives (eg. "left"). %4$s: tool modifier text (eg. "atomic"). %5$s: vehicle part text (eg. "3.8-Liter"). $6$s: main item text (eg. "apple"). %7$s: tags (eg. "(wet) (fits)").
     ret << string_format(_("%1$s%2$s%3$s%4$s%5$s%6$s%7$s"), damtext.c_str(), burntext.c_str(),
-                        sidedtext.c_str(), toolmodtext.c_str(),
-                        vehtext.c_str(), maintext.c_str(), tagtext.c_str());
+                         sidedtext.c_str(), toolmodtext.c_str(),
+                         vehtext.c_str(), maintext.c_str(), tagtext.c_str());
 
     static const std::string const_str_item_note("item_note");
     if( item_vars.find(const_str_item_note) != item_vars.end() ) {
@@ -4318,19 +4336,20 @@ int item::quiver_store_arrow( item &arrow)
 
     //item is valid quiver to store items in if it satisfies these conditions:
     // a) is a quiver
-    // b) has some arrow already, but same type is ok
-    // c) quiver isn't full
+    // b) quiver isn't full
 
     if( !type->can_use( "QUIVER")) {
         return 0;
     }
 
-    if( !contents.empty() && contents[0].type->id != arrow.type->id) {
-        return 0;
+    long max_arrows = (long)max_charges_from_flag( "QUIVER");
+
+    long quiver_charges = 0;
+    for( auto & exist_arrow : contents) {
+        quiver_charges += exist_arrow.charges;
     }
 
-    long max_arrows = (long)max_charges_from_flag( "QUIVER");
-    if( !contents.empty() && contents[0].charges >= max_arrows) {
+    if( quiver_charges >= max_arrows) {
         return 0;
     }
 
@@ -4342,10 +4361,24 @@ int item::quiver_store_arrow( item &arrow)
         arrow.charges -= quivered_arrow.charges;
         return quivered_arrow.charges;
     } else {
-        int quivered = std::min( max_arrows - contents[0].charges, arrow.charges);
-        contents[0].charges += quivered;
-        arrow.charges -= quivered;
-        return quivered;
+        int quivered_num = std::min( max_arrows - quiver_charges, arrow.charges);
+        bool is_newtype = true;
+        for( auto & exist_arrow : contents) {
+            if( exist_arrow.type->id == arrow.type->id) {
+                is_newtype = false;
+                exist_arrow.charges += quivered_num;
+                break;
+            }
+        }
+
+        if( is_newtype) {
+            item quivered = arrow;
+            quivered.charges = quivered_num;
+            put_in( quivered);
+        }
+
+        arrow.charges -= quivered_num;
+        return quivered_num;
     }
 }
 
