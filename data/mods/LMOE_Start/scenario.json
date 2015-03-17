@@ -1,0 +1,10 @@
+{
+    "type": "scenario",
+    "ident": "lmoe",
+    "name": "LMOE",
+    "points" : 3,
+    "description": "On your way to the Evac shelter, you stumbled upon a LMOE shelter, the door was open, so you decided to stay there. Why not? It's packed with supplies!",
+    "start_name": "LMOE",
+    "professions" : ["unemployed", "survivalist", "bow_hunter", "naturalist", "winter_survivor", "national_guard", "sheltered_survivor", "bionic_prepper", "anarchist", "backpacker", "winter_scavenger", "national_guard"],
+    "allowed_locs" : ["lmoe"]
+    },
