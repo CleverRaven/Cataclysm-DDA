@@ -5,7 +5,7 @@
       "symbol" : "(",
       "color" : "yellow",
       "name" : "Ichaival",
-      "description" : "This is a replica of the bow possessed by Odin, Ichaival, which is rumored to fire 10 arrows with every pull of the string. It has gold and silver ornaments on it.",
+      "description" : "This is a replica of the bow possessed by Odin, Ichaival, which is rumored to fire 10 arrows with every pull of the string.  It has gold and silver ornaments on it.",
       "price" : 160000,
       "material" : ["wood", "gold"],
       "flags" : ["ALWAYS_TWOHAND", "STR12_DRAW", "RELOAD_AND_SHOOT"],
