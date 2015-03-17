@@ -570,7 +570,7 @@ void advanced_inv_area::init()
         }
     }
     if (danger_field) {
-        flags.append(_(" <color_pink>DANGER</color>"));
+        flags.append(_(" FIELD"));
     }
     
     // trap?
@@ -578,7 +578,7 @@ void advanced_inv_area::init()
     if (tid != tr_null) {
         const struct trap &t = *traplist[tid];
         if ((t.can_see(g->u, x, y)) && !t.is_benign()) {
-            flags.append(_(" <color_ltgray>TRAP</color>"));
+            flags.append(_(" TRAP"));
         }
     }
 
@@ -586,7 +586,7 @@ void advanced_inv_area::init()
     const ter_id ter = g->m.ter(x, y);
     if ( (ter == t_water_dp || ter == t_water_pool || ter == t_swater_dp) ||
          (ter == t_water_sh || ter == t_swater_sh || ter == t_sewage) ) {
-        flags.append(_(" <color_blue>WATER</color>"));
+        flags.append(_(" WATER"));
     }
 
     // remove leading space
@@ -933,7 +933,7 @@ void advanced_inventory::redraw_pane( side p )
     width -= 2 + 1; // starts at offset 2, plus space between the header and the text
     mvwprintz( w, 1, 2, active ? c_cyan : c_ltgray, "%s", utf8_truncate( square.name, width ).c_str() );
     mvwprintz( w, 2, 2, active ? c_green : c_dkgray , "%s", utf8_truncate( square.desc, width ).c_str() );
-    trim_and_print(w, 3, 2, width, active ? c_green : c_dkgray, square.flags.c_str() );
+    trim_and_print(w, 3, 2, width, active ? c_cyan : c_dkgray, square.flags.c_str() );
 
     const int max_page = ( pane.items.size() + itemsPerPage - 1 ) / itemsPerPage;
     if( active && max_page > 1 ) {
