@@ -570,7 +570,7 @@ void advanced_inv_area::init()
         }
     }
     if (danger_field) {
-        flags.append(_(" FIELD"));
+        flags.append(_(" DANGER"));
     }
     
     // trap?
