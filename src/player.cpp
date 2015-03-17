@@ -7648,6 +7648,7 @@ void player::suffer()
         if (has_bionic("bio_reactor") || has_bionic("bio_advreactor")) {
             //first do the filtering of plutonium from storage to reactor
             int plut_trans;
+            plut_trans = 0;
             if (tank_plut > 0) {
                 if (has_active_bionic("bio_plut_filter")) {
                     plut_trans = (tank_plut * 0.025);
@@ -7665,6 +7666,7 @@ void player::suffer()
             //leaking radiation, reactor is unshielded, but still better than a simple tank
             slow_rad += ((tank_plut * 0.1) + (reactor_plut * 0.01));
             int power_gen;
+            power_gen = 0;
             //begin power generation
             if (reactor_plut > 0) {
                 if (has_bionic("bio_advreactor")){
