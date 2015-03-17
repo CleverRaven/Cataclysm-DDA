@@ -6032,7 +6032,11 @@ int iuse::cut_log_into_planks(player *p, item *it)
     }
     p->i_add_or_drop(plank, planks);
     p->i_add_or_drop(scrap, scraps);
-    return it->type->charges_to_use();
+
+    if (!it == nullptr) // Should only be nullptr if access through construction menu
+        return it->type->charges_to_use();
+    else
+        return 0;
 }
 
 int iuse::lumber(player *p, item *it, bool, point)
@@ -6050,7 +6054,7 @@ int iuse::lumber(player *p, item *it, bool, point)
         return cut_log_into_planks( p, it );
     } else {
         add_msg(m_info, _("You can't cut that up!"));
-        return it->type->charges_to_use();
+        return 0;
     }
 }
 
