@@ -168,7 +168,7 @@ bool SkillLevel::rust( bool charged_bio_mem )
         }
     }
 
-    return true;
+    return false;
 }
 
 void SkillLevel::practice()
