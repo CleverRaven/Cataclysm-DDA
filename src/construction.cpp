@@ -266,10 +266,9 @@ void construction_menu()
             // print construction name with limited length.
             // limit(28) = 30(column len) - 2(letter + ' ').
             // If we run out of hotkeys, just stop assigning them.
-            std::string cur_name = constructs[current].c_str();
             mvwprintz(w_con, 3 + i, 1, col, "%c %s",
                       (current < (int)hotkeys.size()) ? hotkeys[current] : ' ',
-                      utf8_truncate(cur_name, 27).c_str());
+                      utf8_truncate(con_name.c_str(), 27).c_str());
         }
 
         if (update_info) {
