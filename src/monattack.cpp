@@ -4022,7 +4022,7 @@ void mattack::riotbot(monster *z, int index)
             if (is_uncanny || is_dex) {
 
                 if (is_uncanny) {
-                    g->u.power_level -= 75;
+                    g->u.charge_power(-75);
                 }
 
                 add_msg(m_good,

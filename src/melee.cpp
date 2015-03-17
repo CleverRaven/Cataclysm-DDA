@@ -1519,7 +1519,7 @@ std::string player::melee_special_effects(Creature &t, damage_instance &d, ma_te
 
 
     if (shock_them) { // bionics only
-        power_level -= 2;
+        charge_power(-2);
         int shock = rng(2, 5);
         d.add_damage(DT_ELECTRIC, shock * rng(1, 3));
 

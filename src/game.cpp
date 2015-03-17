@@ -1559,7 +1559,7 @@ void game::rustCheck()
         int oldSkillLevel = u.skillLevel(aSkill);
 
         if (u.skillLevel(aSkill).rust(charged_bio_mem)) {
-            u.power_level -= 25;
+            u.charge_power(-25);
         }
         int newSkill = u.skillLevel(aSkill);
         if (newSkill < oldSkillLevel) {
@@ -5975,7 +5975,7 @@ void game::monmove()
         if (!critter.is_dead()) {
             if (u.has_active_bionic("bio_alarm") && u.power_level >= 25 &&
                 rl_dist( u.pos(), critter.pos() ) <= 5) {
-                u.power_level -= 25;
+                u.charge_power(-25);
                 add_msg(m_warning, _("Your motion alarm goes off!"));
                 cancel_activity_query(_("Your motion alarm goes off!"));
                 if (u.in_sleep_state()) {
@@ -12307,7 +12307,7 @@ bool game::plmove(int dx, int dy)
             if (u.in_vehicle) {
                 m.unboard_vehicle(u.posx(), u.posy());
             }
-            u.power_level -= (tunneldist * 250); //tunneling costs 10 bionic power per impassable tile
+            u.charge_power(0 - (tunneldist * 250)); //tunneling costs 10 bionic power per impassable tile
             u.moves -= 100; //tunneling costs 100 moves
             //move us the number of tiles we tunneled in the x direction, plus 1 for the last tile.
             u.setx( u.posx() + (tunneldist + 1) * (x - u.posx()) );
@@ -12318,7 +12318,7 @@ bool game::plmove(int dx, int dy)
                 m.board_vehicle(u.posx(), u.posy(), &u);
             }
         } else { //or you couldn't tunnel due to lack of energy
-            u.power_level -= 250; //failure is expensive!
+            u.charge_power(-250); //failure is expensive!
             return false;
         }
 
