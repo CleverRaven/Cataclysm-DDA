@@ -175,8 +175,12 @@ void player::sort_armor()
             } else {
                 mvwprintz(w_sort_middle, cont_h - 12 + i, 2, c_ltgray, "%s:", armor_cat[i].c_str());
             }
-            mvwprintz(w_sort_middle, cont_h - 12 + i, middle_w - 16, c_ltgray, "%d+%d = ", armorenc,
-                      enc - armorenc);
+            char my_spaces[]    = "  ";    // lol
+            auto spaces         = &my_spaces;
+            if(enc > 9)         ++spaces;
+            if(armorenc > 9)    ++spaces;
+            mvwprintz(w_sort_middle, cont_h - 12 + i, middle_w - 16, c_ltgray, "%d+%d%s= ", armorenc,
+                      enc - armorenc, spaces);
             wprintz(w_sort_middle, encumb_color(enc), "%d" , enc);
             int bodyTempInt = (temp_conv[i] / 100.0) * 2 - 100; // Scale of -100 to +100
             mvwprintz(w_sort_middle, cont_h - 12 + i, middle_w - 6,
