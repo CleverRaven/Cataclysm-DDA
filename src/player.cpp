@@ -372,7 +372,7 @@ void player::reset_stats()
     }
 
     // Dodge-related effects
-    mod_dodge_bonus( mabuff_dodge_bonus() - (encumb(bp_leg_l) + encumb(bp_leg_r))/2 - encumb(bp_torso) );
+    mod_dodge_bonus( mabuff_dodge_bonus() - ((encumb(bp_leg_l) / 10) + encumb(bp_leg_r))/20 - (encumb(bp_torso) / 10) );
     // Whiskers don't work so well if they're covered
     if (has_trait("WHISKERS") && !wearing_something_on(bp_mouth)) {
         mod_dodge_bonus(1);
@@ -395,7 +395,7 @@ void player::reset_stats()
     }
 
     // Hit-related effects
-    mod_hit_bonus( mabuff_tohit_bonus() + weapon.type->m_to_hit - encumb(bp_torso) );
+    mod_hit_bonus( mabuff_tohit_bonus() + weapon.type->m_to_hit - (encumb(bp_torso) / 10) );
 
     // Apply static martial arts buffs
     ma_static_effects();
@@ -1677,7 +1677,7 @@ int player::run_cost(int base_cost, bool diag)
         }
     }
 
-    movecost += encumb(bp_mouth) * 5 + (encumb(bp_foot_l) + encumb(bp_foot_r)) * 2.5 + (encumb(bp_leg_l) + encumb(bp_leg_r)) * 1.5;
+    movecost += (encumb(bp_mouth) / 10) * 5 + ((encumb(bp_foot_l) / 10) + (encumb(bp_foot_r) / 10)) * 2.5 + ((encumb(bp_leg_l) / 10) + (encumb(bp_leg_r) / 10)) * 1.5;
 
     // ROOTS3 does slow you down as your roots are probing around for nutrients,
     // whether you want them to or not.  ROOTS1 is just too squiggly without shoes
@@ -1730,8 +1730,8 @@ int player::swim_speed()
     if (has_trait("FAT")) {
         ret -= 30;
     }
-    ret += (50 - skillLevel("swimming") * 2) * (encumb(bp_leg_l) + encumb(bp_leg_r));
-    ret += (80 - skillLevel("swimming") * 3) * encumb(bp_torso);
+    ret += (50 - skillLevel("swimming") * 2) * ((encumb(bp_leg_l) + encumb(bp_leg_r)) / 10);
+    ret += (80 - skillLevel("swimming") * 3) * (encumb(bp_torso) / 10);
     if (skillLevel("swimming") < 10) {
         for (auto &i : worn) {
             ret += (i.volume() * (10 - skillLevel("swimming"))) / 2;
@@ -1970,7 +1970,7 @@ void player::memorial( std::ofstream &memorial_file, std::string epitaph )
     memorial_file << _("Skills:") << "\n";
     for( auto &skill : Skill::skills ) {
         SkillLevel next_skill_level = skillLevel( skill );
-        memorial_file << indent << ( skill )->name() << ": " << next_skill_level.level() << " ("
+        memorial_file << indent << skill.name() << ": " << next_skill_level.level() << " ("
                       << next_skill_level.exercise() << "%)\n";
     }
     memorial_file << "\n";
@@ -2206,13 +2206,6 @@ void player::mod_stat( std::string stat, int modifier )
         // Fall through to the creature method.
         Creature::mod_stat( stat, modifier );
     }
-}
-
-inline bool skill_display_sort(const std::pair<const Skill*, int> &a, const std::pair<const Skill*, int> &b)
-{
-    int levelA = a.second;
-    int levelB = b.second;
-    return levelA > levelB || (levelA == levelB && a.first->name() < b.first->name());
 }
 
 std::string swim_cost_text(int moves)
@@ -2643,21 +2636,15 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4"));
 
     // Next, draw skills.
     line = 1;
-    std::vector<const Skill*> skillslist;
+
     const char *title_SKILLS = _("SKILLS");
     mvwprintz(w_skills, 0, 13 - utf8_width(title_SKILLS)/2, c_ltgray, title_SKILLS);
 
-    std::vector<std::pair<const Skill*, int> > sorted;
-    int num_skills = Skill::skills.size();
-    for (int i = 0; i < num_skills; i++) {
-        const Skill* s = Skill::skills[i];
-        SkillLevel &sl = skillLevel(s);
-        sorted.push_back(std::pair<const Skill*, int>(s, sl.level() * 100 + sl.exercise()));
-    }
-    std::sort(sorted.begin(), sorted.end(), skill_display_sort);
-    for( auto &elem : sorted ) {
-        skillslist.push_back( ( elem ).first );
-    }
+    auto skillslist = Skill::get_skills_sorted_by([&](Skill const& a, Skill const& b) {
+        int const level_a = skillLevel(a).exercised_level();
+        int const level_b = skillLevel(b).exercised_level();
+        return level_a > level_b || (level_a == level_b && a.name() < b.name());
+    });
 
     for( auto &elem : skillslist ) {
         SkillLevel level = skillLevel( elem );
@@ -2987,41 +2974,41 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4"));
             werase(w_info);
             std::string s;
             if (line == 0) {
-                s += string_format( _("Melee skill %+d; "), -encumb( bp_torso ) );
-                s += dodge_skill_text( -encumb( bp_torso ) );
-                s += swim_cost_text( encumb( bp_torso ) * ( 80 - skillLevel( "swimming" ) * 3 ) );
-                s += melee_cost_text( encumb( bp_torso ) * 20 );
+                s += string_format( _("Melee skill %+d; "), - (encumb( bp_torso ) / 10));
+                s += dodge_skill_text( - (encumb( bp_torso ) / 10));
+                s += swim_cost_text( (encumb( bp_torso ) / 10) * ( 80 - skillLevel( "swimming" ) * 3 ) );
+                s += melee_cost_text( (encumb( bp_torso ) / 10) * 20 );
             } else if (line == 1) { //Torso
                 s += _("Head encumbrance has no effect; it simply limits how much you can put on.");
             } else if (line == 2) { //Head
                 s += string_format(_("Perception %+d when checking traps or firing ranged weapons;\n"
                                      "Perception %+.1f when throwing items."),
-                                   -encumb(bp_eyes),
-                                   double(double(-encumb(bp_eyes)) / 2));
+                                   -(encumb(bp_eyes) / 10),
+                                   double(double(-(encumb(bp_eyes) / 10)) / 2));
             } else if (line == 3) { //Eyes
-                s += run_cost_text( encumb( bp_mouth ) * 5 );
+                s += run_cost_text( (encumb( bp_mouth ) / 10) * 5 );
             } else if (line == 4) { //Left Arm
                 s += _("Arm encumbrance affects your accuracy with ranged weapons.");
             } else if (line == 5) { //Right Arm
                 s += _("Arm encumbrance affects your accuracy with ranged weapons.");
             } else if (line == 6) { //Left Hand
-                s += reload_cost_text( encumb( bp_hand_l ) * 15 );
-                s += string_format( _("Dexterity %+d when throwing items."), -encumb( bp_hand_l ) );
+                s += reload_cost_text( (encumb( bp_hand_l ) / 10) * 15 );
+                s += string_format( _("Dexterity %+d when throwing items."), -(encumb( bp_hand_l )/10) );
             } else if (line == 7) { //Right Hand
-                s += reload_cost_text( encumb( bp_hand_r ) * 15 );
-                s += string_format( _("Dexterity %+d when throwing items."), -encumb( bp_hand_r ) );
+                s += reload_cost_text( (encumb( bp_hand_r ) / 10) * 15 );
+                s += string_format( _("Dexterity %+d when throwing items."), -(encumb( bp_hand_r )/10) );
             } else if (line == 8) { //Left Leg
-                s += run_cost_text( encumb( bp_leg_l ) * 1.5 );
-                s += swim_cost_text( encumb( bp_leg_l ) * ( 50 - skillLevel( "swimming" ) * 2 ) / 2 );
-                s += dodge_skill_text( -encumb( bp_leg_l ) / 4.0 );
+                s += run_cost_text( (encumb( bp_leg_l ) / 10) * 1.5 );
+                s += swim_cost_text( (encumb( bp_leg_l ) / 10) * ( 50 - skillLevel( "swimming" ) * 2 ) / 2 );
+                s += dodge_skill_text( -(encumb( bp_leg_l ) / 10) / 4.0 );
             } else if (line == 9) { //Right Leg
-                s += run_cost_text( encumb( bp_leg_r ) * 1.5 );
-                s += swim_cost_text( encumb( bp_leg_r ) * ( 50 - skillLevel( "swimming" ) * 2 ) / 2 );
-                s += dodge_skill_text( -encumb( bp_leg_r ) / 4.0 );
+                s += run_cost_text( (encumb( bp_leg_r ) / 10) * 1.5 );
+                s += swim_cost_text( (encumb( bp_leg_r ) / 10) * ( 50 - skillLevel( "swimming" ) * 2 ) / 2 );
+                s += dodge_skill_text( -(encumb( bp_leg_r ) / 10) / 4.0 );
             } else if (line == 10) { //Left Foot
-                s += run_cost_text( encumb( bp_foot_l ) * 2.5 );
+                s += run_cost_text( (encumb( bp_foot_l ) / 10) * 2.5 );
             } else if (line == 11) { //Right Foot
-                s += run_cost_text( encumb( bp_foot_r ) * 2.5 );
+                s += run_cost_text( (encumb( bp_foot_r ) / 10) * 2.5 );
             }
             fold_and_print( w_info, 0, 1, FULL_SCREEN_WIDTH - 2, c_magenta, s );
             wrefresh(w_info);
@@ -3946,7 +3933,7 @@ void player::add_bionic( bionic_id b )
         }
     }
     my_bionics.push_back( bionic( b, newinv ) );
-    if ( b == "bio_tools") {
+    if ( b == "bio_tools" || b == "bio_ears" ) {
         activate_bionic(my_bionics.size() -1);
     }
     recalc_sight_limits();
@@ -4083,7 +4070,7 @@ int player::unimpaired_range()
  if (has_effect("in_pit")) {
     ret = 1;
   }
- if (has_effect("blind")) {
+ if (has_effect("blind") || worn_with_flag("BLIND")) {
     ret = 0;
   }
  return ret;
@@ -6926,27 +6913,29 @@ void player::hardcoded_effects(effect &it)
 
         bool woke_up = false;
         int tirednessVal = rng(5, 200) + rng(0, abs(fatigue * 2 * 5));
-        if (has_trait("HEAVYSLEEPER2") && !has_trait("HIBERNATE")) {
-            // So you can too sleep through noon
-            if ((tirednessVal * 1.25) < g->light_level() && (fatigue < 10 || one_in(fatigue / 2))) {
-                add_msg_if_player(_("It's too bright to sleep."));
+        if (!has_effect("blind") && !worn_with_flag("BLIND")) {
+            if (has_trait("HEAVYSLEEPER2") && !has_trait("HIBERNATE")) {
+                // So you can too sleep through noon
+                if ((tirednessVal * 1.25) < g->light_level() && (fatigue < 10 || one_in(fatigue / 2))) {
+                    add_msg_if_player(_("It's too bright to sleep."));
+                    // Set ourselves up for removal
+                    it.set_duration(0);
+                    woke_up = true;
+                }
+             // Ursine hibernators would likely do so indoors.  Plants, though, might be in the sun.
+            } else if (has_trait("HIBERNATE")) {
+                if ((tirednessVal * 5) < g->light_level() && (fatigue < 10 || one_in(fatigue / 2))) {
+                    add_msg_if_player(_("It's too bright to sleep."));
+                    // Set ourselves up for removal
+                    it.set_duration(0);
+                    woke_up = true;
+                }
+            } else if (tirednessVal < g->light_level() && (fatigue < 10 || one_in(fatigue / 2))) {
+                add_msg(_("It's too bright to sleep."));
                 // Set ourselves up for removal
                 it.set_duration(0);
                 woke_up = true;
             }
-         // Ursine hibernators would likely do so indoors.  Plants, though, might be in the sun.
-        } else if (has_trait("HIBERNATE")) {
-            if ((tirednessVal * 5) < g->light_level() && (fatigue < 10 || one_in(fatigue / 2))) {
-                add_msg_if_player(_("It's too bright to sleep."));
-                // Set ourselves up for removal
-                it.set_duration(0);
-                woke_up = true;
-            }
-        } else if (tirednessVal < g->light_level() && (fatigue < 10 || one_in(fatigue / 2))) {
-            add_msg(_("It's too bright to sleep."));
-            // Set ourselves up for removal
-            it.set_duration(0);
-            woke_up = true;
         }
 
         // Have we already woken up?
@@ -8364,16 +8353,20 @@ int player::invlet_to_position( char invlet ) const
     return inv.invlet_to_position( invlet );
 }
 
-int player::get_item_position(const item* it) {
-    if (&weapon == it) {
+int player::get_item_position( const item *it ) const
+{
+    const auto filter = [it]( const item & i ) {
+        return &i == it;
+    };
+    if( inventory::has_item_with_recursive( weapon, filter ) ) {
         return -1;
     }
-    for (size_t i = 0; i < worn.size(); i++) {
-        if (&worn[i] == it) {
-            return worn_position_to_index(i);
+    for( size_t i = 0; i < worn.size(); i++ ) {
+        if( inventory::has_item_with_recursive( worn[i], filter ) ) {
+            return worn_position_to_index( i );
         }
     }
-    return inv.position_by_item(it);
+    return inv.position_by_item( it );
 }
 
 
@@ -10222,7 +10215,7 @@ bool player::wear_item(item *to_wear, bool interactive)
 
         for (body_part i = bp_head; i < num_bp; i = body_part(i + 1))
         {
-            if (to_wear->covers(i) && encumb(i) >= 4)
+            if (to_wear->covers(i) && encumb(i) >= 40)
             {
                 add_msg(m_warning,
                     i == bp_eyes ?
@@ -11489,7 +11482,7 @@ float player::fine_detail_vision_mod()
     // PER_SLIME_OK implies you can get enough eyes around the bile
     // that you can generaly see.  There'll still be the haze, but
     // it's annoying rather than limiting.
-    if (has_effect("blind") || ((has_effect("boomered")) &&
+    if ((has_effect("blind") || worn_with_flag("BLIND")) || ((has_effect("boomered")) &&
     !(has_trait("PER_SLIME_OK"))))
     {
         return 5;
@@ -11614,12 +11607,12 @@ int player::bonus_warmth(body_part bp) const
     }
 
     // If the player's head is not encumbered, check if hood can be put up
-    if( bp == bp_head && encumb( bp_head ) < 1 ) {
+    if( bp == bp_head && encumb( bp_head ) < 10 ) {
         ret += bestwarmth( worn, "HOOD" );
     }
 
     // If the player's mouth is not encumbered, check if collar can be put up
-    if( bp == bp_mouth && encumb( bp_mouth ) < 1 ) {
+    if( bp == bp_mouth && encumb( bp_mouth ) < 10 ) {
         ret += bestwarmth( worn, "COLLAR" );
     }
 
@@ -11686,7 +11679,10 @@ int player::encumb(body_part bp, double &layers, int &armorenc) const
                 // Fitted clothes will reduce either encumbrance or layering.
                 if( worn[i].has_flag( "FIT" ) ) {
                     if( worn[i].get_encumber() > 0 && armorenc > 0 ) {
-                        armorenc--;
+                        armorenc = armorenc - 10;
+                        if (armorenc < 0 ){
+                            armorenc = 0;
+                        }
                     } else if (layer[level] > 0) {
                         layer[level] -= .5;
                     }
@@ -11704,68 +11700,68 @@ int player::encumb(body_part bp, double &layers, int &armorenc) const
     }
 
     if (layers > 0.0) {
-        ret += layers;
+        ret += (layers * 10);
     }
 
     if (volume_carried() > volume_capacity() - 2 && bp != bp_head) {
-        ret += 3;
+        ret += 30;
     }
 
     // Bionics and mutation
     if ( has_bionic("bio_stiff") && bp != bp_head && bp != bp_mouth && bp != bp_eyes ) {
-        ret += 1;
+        ret += 10;
     }
     if ( (has_trait("CHITIN3") || has_trait("CHITIN_FUR3") ) &&
       bp != bp_eyes && bp != bp_mouth ) {
-        ret += 1;
+        ret += 10;
     }
     if ( has_trait("SLIT_NOSTRILS") && bp == bp_mouth ) {
-        ret += 1;
+        ret += 10;
     }
     if ( has_trait("ARM_FEATHERS") && (bp == bp_arm_l || bp == bp_arm_r) ) {
-        ret += 2;
+        ret += 20;
     }
     if ( has_trait("INSECT_ARMS") && (bp == bp_arm_l || bp == bp_arm_r) ) {
-        ret += 3;
+        ret += 30;
     }
     if ( has_trait("ARACHNID_ARMS") && (bp == bp_arm_l || bp == bp_arm_r) ) {
-        ret += 4;
+        ret += 40;
     }
     if ( has_trait("PAWS") && (bp == bp_hand_l || bp == bp_hand_r) ) {
-        ret += 1;
+        ret += 10;
     }
     if ( has_trait("PAWS_LARGE") && (bp == bp_hand_l || bp == bp_hand_r) ) {
-        ret += 2;
+        ret += 20;
     }
     if ( has_trait("LARGE") && (bp == bp_arm_l || bp == bp_arm_r || bp == bp_torso )) {
-        ret += 1;
+        ret += 10;
     }
     if ( has_trait("WINGS_BUTTERFLY") && (bp == bp_torso )) {
-        ret += 1;
+        ret += 10;
     }
     if ( has_trait("SHELL2") && (bp == bp_torso )) {
-        ret += 1;
+        ret += 10;
     }
     if ((bp == bp_hand_l || bp == bp_hand_r) &&
         (has_trait("ARM_TENTACLES") || has_trait("ARM_TENTACLES_4") ||
          has_trait("ARM_TENTACLES_8")) ) {
-        ret += 3;
+        ret += 30;
     }
     if ((bp == bp_hand_l || bp == bp_hand_r) &&
         (has_trait("CLAWS_TENTACLE") )) {
-        ret += 2;
+        ret += 20;
     }
     if (bp == bp_mouth &&
         ( has_bionic("bio_nostril") ) ) {
-        ret += 1;
+        ret += 10;
     }
     if ((bp == bp_hand_l || bp == bp_hand_r) &&
         ( has_bionic("bio_thumbs") ) ) {
-        ret += 2;
+        ret += 20;
     }
     if (bp == bp_eyes &&
         ( has_bionic("bio_pokedeye") ) ) {
-        ret += 1;
+        ret += 10;
     }
     if ( ret < 0 ) {
         ret = 0;
@@ -12313,9 +12309,9 @@ void player::practice( const Skill* s, int amount, int cap )
     SkillLevel savantSkillLevel = SkillLevel();
 
     if (isSavant) {
-        for( auto &skill : Skill::skills ) {
+        for( auto const &skill : Skill::skills ) {
             if( skillLevel( skill ) > savantSkillLevel ) {
-                savantSkill = skill;
+                savantSkill = &skill;
                 savantSkillLevel = skillLevel( skill );
             }
         }
@@ -12501,31 +12497,11 @@ void player::cancel_activity()
     activity = player_activity();
 }
 
-std::vector<item*> player::has_ammo(ammotype at)
+std::vector<const item *> player::get_ammo( const ammotype &at ) const
 {
-    std::vector<item*> result = inv.all_ammo(at);
-    if (weapon.is_of_ammo_type_or_contains_it(at)) {
-        result.push_back(&weapon);
-    }
-    for( auto &elem : worn ) {
-        if( elem.is_of_ammo_type_or_contains_it( at ) ) {
-            result.push_back( &elem );
-        }
-    }
-    return result;
-}
-
-std::vector<item *> player::has_exact_ammo( const ammotype &at, const itype_id &id )
-{
-    auto result = has_ammo( at );
-    for( auto it = result.begin(); it != result.end(); ) {
-        if( ( *it )->is_of_type_or_contains_it( id ) ) {
-            ++it;
-        } else {
-            it = result.erase( it );
-        }
-    }
-    return result;
+    return items_with( [at]( const item & it ) {
+        return it.is_ammo() && it.ammo_type() == at;
+    } );
 }
 
 bool player::has_gun_for_ammo( const ammotype &at ) const
@@ -12595,11 +12571,11 @@ nc_color encumb_color(int level)
 {
  if (level < 0)
   return c_green;
- if (level == 0)
+ if (level < 10)
   return c_ltgray;
- if (level < 4)
+ if (level < 40)
   return c_yellow;
- if (level < 7)
+ if (level < 70)
   return c_ltred;
  return c_red;
 }
@@ -12612,6 +12588,11 @@ void player::copy_skill_levels(const player *rhs)
 void player::set_skill_level(const Skill* _skill, int level)
 {
     skillLevel(_skill).level(level);
+}
+
+void player::set_skill_level(Skill const &_skill, int level)
+{
+    set_skill_level(&_skill, level);
 }
 
 void player::set_skill_level(std::string ident, int level)
@@ -13087,7 +13068,8 @@ void player::add_known_trap(int x, int y, const std::string &t)
 
 bool player::is_deaf() const
 {
-    return has_effect("deaf") || worn_with_flag("DEAF");
+    return has_effect("deaf") || worn_with_flag("DEAF") ||
+           (has_active_bionic("bio_earplugs") && !has_active_bionic("bio_ears"));
 }
 
 bool player::can_hear( const point source, const int volume ) const
@@ -13106,7 +13088,7 @@ float player::hearing_ability() const
     float volume_multiplier = 1.0;
 
     // Mutation/Bionic volume modifiers
-    if( has_bionic("bio_ears") ) {
+    if( has_active_bionic("bio_ears") && !has_active_bionic("bio_earplugs") ) {
         volume_multiplier *= 3.5;
     }
     if( has_trait("PER_SLIME") ) {

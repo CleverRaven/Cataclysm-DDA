@@ -87,14 +87,11 @@ void Item_factory::finialize_item_blacklist()
                 }
             }
         }
-        for (size_t i = 0; i < constructions.size(); i++) {
-            construction *c = constructions[i];
-            if( c->requirements.remove_item( itm ) ) {
-                delete c;
-                constructions.erase(constructions.begin() + i);
-                i--;
-            }
-        }
+
+        remove_construction_if([&](construction &c) {
+            return c.requirements.remove_item(itm);
+        });
+
         for( auto &elem : terlist ) {
             remove_item( itm, elem.bash.items );
         }
@@ -912,7 +909,7 @@ void Item_factory::load_basic_info(JsonObject &jo, itype *new_item_template)
 
     /*
     List of current flags
-    FIT - Reduces encumbrance by one
+    FIT - Reduces encumbrance by ten
     SKINTIGHT - Reduces layer penalty
     VARSIZE - Can be made to fit via tailoring
     OVERSIZE - Can always be worn no matter encumbrance/mutations/bionics/etc
