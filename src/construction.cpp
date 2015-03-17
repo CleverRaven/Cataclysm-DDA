@@ -243,22 +243,27 @@ void construction_menu()
         for (size_t i = 0; (int)i < iMaxY - 4 && (i + offset) < constructs.size(); i++) {
             int current = i + offset;
             std::string con_name = constructs[current];
-            nc_color col;
+            nc_color col = c_dkgray;
             if (can_construct( con_name )) {
-                construction *con_first_option = constructions_by_desc( con_name ).front();
-                int pskill = g->u.skillLevel( con_first_option->skill );
-                int diff = con_first_option->difficulty;
-                if (pskill < diff) {
-                    // in red only if we have all the components and tools
-                    col = con_first_option->requirements.can_make_with_inventory(total_inv) \
-                          ? c_red : c_dkgray;
-                } else if (pskill == diff) {
-                    col = c_ltblue;
-                } else {
-                    col = c_white;
+                construction *con_first = NULL;
+                std::vector<construction *> cons = constructions_by_desc( con_name );
+                for (auto &con : cons) {
+                    if (con->requirements.can_make_with_inventory( total_inv )) {
+                        con_first = con;
+                        break;
+                    }
                 }
-            } else {
-                col = c_dkgray;
+                if (con_first != NULL) {
+                    int pskill = g->u.skillLevel( con_first->skill );
+                    int diff = con_first->difficulty;
+                    if (pskill < diff) {
+                        col = c_red;
+                    } else if (pskill == diff) {
+                        col = c_ltblue;
+                    } else {
+                        col = c_white;
+                    }
+                }
             }
             if (current == select) {
                 col = hilite(col);
