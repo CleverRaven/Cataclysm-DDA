@@ -242,8 +242,24 @@ void construction_menu()
         // Print the constructions between offset and max (or how many will fit)
         for (size_t i = 0; (int)i < iMaxY - 4 && (i + offset) < constructs.size(); i++) {
             int current = i + offset;
-            nc_color col = ( player_can_build(g->u, total_inv, constructs[current]) &&
-                             can_construct( constructs[current] ) ) ? c_white : c_dkgray;
+            std::string con_name = constructs[current];
+            nc_color col;
+            if (can_construct( con_name )) {
+                construction *con_first_option = constructions_by_desc( con_name ).front();
+                int pskill = g->u.skillLevel( con_first_option->skill );
+                int diff = con_first_option->difficulty;
+                if (pskill < diff) {
+                    // in red only if we have all the components and tools
+                    col = con_first_option->requirements.can_make_with_inventory(total_inv) \
+                          ? c_red : c_dkgray;
+                } else if (pskill == diff) {
+                    col = c_ltblue;
+                } else {
+                    col = c_white;
+                }
+            } else {
+                col = c_dkgray;
+            }
             if (current == select) {
                 col = hilite(col);
             }
