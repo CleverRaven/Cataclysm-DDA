@@ -979,7 +979,9 @@ void npc::starting_weapon(npc_class type)
 {
     const Skill* best = best_skill();
     item sel_weapon;
-    if (best->ident() == "bashing"){
+    if( best == nullptr ) {
+        // Fall through to random weapon
+    } else if (best->ident() == "bashing"){
         sel_weapon = random_item_from( type, "bashing" );
     } else if (best->ident() == "cutting"){
         sel_weapon = random_item_from( type, "cutting" );
@@ -1594,7 +1596,7 @@ int npc::value(const item &it)
 {
  int ret = it.price() / 50;
  const Skill* best = best_skill();
- if (best->ident() != "unarmed") {
+    if( best != nullptr && best->ident() != "unarmed" ) {
   int weapon_val = it.weapon_value(this) - weapon.weapon_value(this);
   if (weapon_val > 0)
    ret += weapon_val;
