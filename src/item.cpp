@@ -1014,35 +1014,97 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump, bool debug) c
             }
 
             if (!(book->recipes.empty())) {
-                std::string recipes = "";
+                std::string s_recipe_can_learn = "<color_ltblue>";
+                std::string s_recipe_known = "<color_ltgray>";
+                std::string s_recipe_noskill = "";
+
+                // split up the book in three maps
+                std::map<const recipe *, int> recipe_can_learn;
+                std::map<const recipe *, int> recipe_noskill;
+                std::map<const recipe *, int> recipe_known;
+
                 size_t index = 1;
-                bool can_study = false;
+                // we're splitting up the recipes here by putting them in the three ists
                 for( auto iter = book->recipes.begin();
                      iter != book->recipes.end(); ++iter, ++index ) {
-                    if(g->u.knows_recipe(iter->first)) {
-                        recipes += "<color_ltgray>";
-                    } else if (iter->first->skill_used == NULL ||
-                               g->u.skillLevel(iter->first->skill_used) >= iter->second) {
-                        recipes += "<color_ltblue>";
-                        can_study = true;
-                    }
-                    recipes += nname( iter->first->result, 1 );
-                    if(g->u.knows_recipe(iter->first) || can_study) {
-                        recipes += "</color>";
-                        can_study = false;
-                    }
-                    if(index == book->recipes.size() - 1) {
-                        recipes += _(" and "); // Who gives a fuck about an oxford comma?
-                    } else if(index != book->recipes.size()) {
-                        recipes += _(", ");
+
+                    if (g->u.knows_recipe(iter->first)) {
+                        recipe_known[iter->first] = iter->second;
+                    } else if ( iter->first->skill_used == NULL ||
+                                g->u.skillLevel(iter->first->skill_used) >= iter->second) {
+                        recipe_can_learn[iter->first] = iter->second;
+                    } else {
+                        recipe_noskill[iter->first] = iter->second;
                     }
                 }
-                std::string recipe_line = string_format(
-                    ngettext("This book contains %1$d crafting recipe: %2$s",
-                             "This book contains %1$d crafting recipes: %2$s", book->recipes.size()),
-                    book->recipes.size(), recipes.c_str());
+
+                // now check if we can learn any recipes
+                if (recipe_can_learn.size() > 0) {
+                    index = 1;
+                    for ( auto iter = recipe_can_learn.begin();
+                          iter != recipe_can_learn.end(); ++iter, ++index) {
+                          s_recipe_can_learn += nname( iter->first->result, 1);
+
+                          if (index == recipe_can_learn.size() - 1) {
+                            s_recipe_can_learn += _(" and ");
+                          } else if(index != recipe_can_learn.size()) {
+                            s_recipe_can_learn += _(", ");
+                          }
+                    }
+                    s_recipe_can_learn += "</color>";
+                }
+
+                // now list the ones we can't quite yet learn
+                if (recipe_noskill.size() > 0) {
+                    index = 1;
+                    for ( auto iter = recipe_noskill.begin();
+                          iter != recipe_noskill.end(); ++iter, ++index) {
+                          s_recipe_noskill += nname( iter->first->result, 1);
+
+                          if (index == recipe_noskill.size() - 1) {
+                            s_recipe_noskill += _(" and ");
+                          } else if(index != recipe_noskill.size()) {
+                            s_recipe_noskill += _(", ");
+                          }
+                    }
+                }
+
+                // now list the ones we know
+                if (recipe_known.size() > 0) {
+                    index = 1;
+                    for ( auto iter = recipe_known.begin();
+                          iter != recipe_known.end(); ++iter, ++index) {
+                          s_recipe_known += nname( iter->first->result, 1);
+
+                          if (index == recipe_noskill.size() - 1) {
+                            s_recipe_known += _(" and ");
+                          } else if(index != recipe_noskill.size()) {
+                            s_recipe_known += _(", ");
+                          }
+                    }
+                    s_recipe_known += "</color>";
+                }
+                std::string recipe_total_recipes_line = string_format(
+                    ngettext("This book contains %1$d crafting recipe.",
+                             "This book contains %1$d crafting recipes.", book->recipes.size()),
+                             book->recipes.size());
+
                 dump->push_back(iteminfo("DESCRIPTION", "--"));
-                dump->push_back(iteminfo("DESCRIPTION", recipe_line));
+                dump->push_back(iteminfo("DESCRIPTION", recipe_total_recipes_line));
+
+                if (recipe_can_learn.size() > 0) {
+                    dump->push_back(iteminfo("DESCRIPTION", _("You understand the following recipe(s):")));
+                    dump->push_back(iteminfo("DESCRIPTION", s_recipe_can_learn.c_str()));
+                }
+                if (recipe_noskill.size() > 0) {
+                    dump->push_back(iteminfo("DESCRIPTION", _("The jargon flies over your head for:")));
+                    dump->push_back(iteminfo("DESCRIPTION", s_recipe_noskill.c_str()));
+                }
+                if (recipe_known.size() > 0) {
+                    dump->push_back(iteminfo("DESCRIPTION", _("You already know:")));
+                    dump->push_back(iteminfo("DESCRIPTION", s_recipe_known.c_str()));
+                }
+
             }
         } else {
             dump->push_back(iteminfo("BOOK", _("You need to read this book to see its contents.")));
