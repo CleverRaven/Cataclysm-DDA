@@ -8516,17 +8516,13 @@ int iuse::camera(player *p, item *it, bool, point)
                         z.add_effect("blind", rng(5, 10));
                     }
 
+                    // shoot past small monsters and hallucinations
                     if (zid != sel_zid && (z.type->size <= MS_SMALL || z.is_hallucination() || z.type->in_species("HALLUCINATION"))) {
                         continue;
                     }
 
-                    // can't shoot long range while blind, don't need to check for blindness here
-                    if (zid != sel_zid) {
-                        p->add_msg_if_player(m_warning, _("There's a %s in the way!"), z.name().c_str());
-                        return it->type->charges_to_use();
-                    }
-
-                    if (z.is_hallucination() || z.type->in_species("HALLUCINATION")) {
+                    // get an empty photo if the target is a hallucination
+                    if (zid == sel_zid && (z.is_hallucination() || z.type->in_species("HALLUCINATION"))) {
                         p->add_msg_if_player(_("Strange...there's nothing in the picture?"));
                         return it->type->charges_to_use();
                     }
@@ -8535,11 +8531,18 @@ int iuse::camera(player *p, item *it, bool, point)
                         //quest processing...
                     }
 
-                    if (p->has_effect("blind") || p->worn_with_flag("BLIND")) {
-                        p->add_msg_if_player(_("You took a photo of %s."), z.name().c_str());
+                    if (zid == sel_zid) {
+                        // if the loop makes it to the target, take its photo
+                        if (p->has_effect("blind") || p->worn_with_flag("BLIND")) {
+                            p->add_msg_if_player(_("You took a photo of %s."), z.name().c_str());
+                        } else {
+                            p->add_msg_if_player(_("You took a %s photo of %s."), quality_name.c_str(),
+                                             z.name().c_str());
+                        }
                     } else {
-                        p->add_msg_if_player(_("You took a %s photo of %s."), quality_name.c_str(),
-                                         z.name().c_str());
+                        // or take a photo of the monster that's in the way
+                        p->add_msg_if_player(m_warning, _("A %s got in the way of your photo."), z.name().c_str());
+                        photo_quality = 0;
                     }
 
                     const std::string mtype = z.type->id;
@@ -8583,17 +8586,17 @@ int iuse::camera(player *p, item *it, bool, point)
                         guy->add_effect("blind", rng(5, 10));
                     }
 
-                    if (npcID != sel_npcID) {
-                        p->add_msg_if_player(m_warning, _("There's a %s in the way!"), guy->name.c_str());
-                        return it->type->charges_to_use();
-                    }
-
                     //just photo, no save. Maybe in the future we will need to create CAMERA_NPC_PHOTOS
-                    if (p->has_effect("blind") || p->worn_with_flag("BLIND")) {
-                        p->add_msg_if_player(_("You took a photo of %s."), guy->name.c_str());
+                    if (npcID == sel_npcID) {
+                        if (p->has_effect("blind") || p->worn_with_flag("BLIND")) {
+                            p->add_msg_if_player(_("You took a photo of %s."), guy->name.c_str());
+                        } else {
+                            p->add_msg_if_player(_("You took a %s photo of %s."), quality_name.c_str(),
+                                             guy->name.c_str());
+                        }
                     } else {
-                        p->add_msg_if_player(_("You took a %s photo of %s."), quality_name.c_str(),
-                                         guy->name.c_str());
+                        p->add_msg_if_player(m_warning, _("%s got in the way of your photo."), guy->name.c_str());
+                        photo_quality = 0;
                     }
 
                     return it->type->charges_to_use();
