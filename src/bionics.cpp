@@ -1002,6 +1002,12 @@ bool player::uninstall_bionic(bionic_id b_id)
         return false;
     }
 
+    if (( b_id == "bio_reactor" ) || ( b_id == "bio_advreactor" )) {
+        if (!query_yn(_("WARNING: Removing a reactor may leave radioactive material! Remove anyway?"))) {
+            return false;
+        }
+    }
+
     // removal of bionics adds +2 difficulty over installation
     int chance_of_success = bionic_manip_cos(int_cur,
                             skillLevel("electronics"),
@@ -1051,6 +1057,18 @@ bool player::install_bionics(const itype &type)
     if( bionics.count( bioid ) == 0 ) {
         popup("invalid / unknown bionic id %s", bioid.c_str());
         return false;
+    }
+    if (bioid == "bio_reactor" || bioid == "bio_advreactor") {
+		if (has_bionic("bio_furnace") || has_bionic("bio_storage") || has_bionic("bio_reactor") || has_bionic("bio_advreactor")) {
+			popup(_("You lack the required space in your torso!."));
+			return false;
+		}
+    }
+    if ((bioid == "bio_furnace" ) || (bioid == "bio_storage")) {
+		if (has_bionic("bio_reactor") || has_bionic("bio_advreactor")) {
+			popup(_("Your reactor leaves no room!."));
+			return false;
+		}
     }
     if( has_bionic( bioid ) ) {
         if( !( bioid == "bio_power_storage" || bioid == "bio_power_storage_mkII" ) ) {
