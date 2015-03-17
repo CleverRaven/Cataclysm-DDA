@@ -8083,7 +8083,13 @@ bool einkpc_download_memory_card(player *p, item *eink, item *mc)
 
 }
 
-const std::string photo_quality_names[] = { _("awful"), _("bad"), _("not bad"), _("good"), _("fine"), _("exceptional") };
+static const std::string &photo_quality_name( const int index )
+{
+    static std::array<std::string, 6> const names { {
+        { _("awful") }, { _("bad") }, { _("not bad") }, { _("good") }, { _("fine") }, { _("exceptional") } } };
+    return names[index];
+}
+
 
 int iuse::einktabletpc(player *p, item *it, bool t, point pos)
 {
@@ -8329,7 +8335,7 @@ int iuse::einktabletpc(player *p, item *it, bool t, point pos)
                 getline(f, s, ',');
                 char *chq = &s[0];
                 const int quality = atoi(chq);
-                menu_str += " [" + photo_quality_names[quality] + "]";
+                menu_str += " [" + photo_quality_name( quality ) + "]";
                 pmenu.addentry(k++, true, -1, menu_str.c_str());
             }
 
@@ -8500,7 +8506,7 @@ int iuse::camera(player *p, item *it, bool, point)
                     photo_quality /= 2;
                 }
 
-                const std::string quality_name = photo_quality_names[photo_quality];
+                const std::string quality_name = photo_quality_name( photo_quality );
 
                 if (zid != -1) {
                     monster &z = g->zombie(zid);
@@ -8636,7 +8642,7 @@ int iuse::camera(player *p, item *it, bool, point)
             char *chq = &s[0];
             const int quality = atoi(chq);
 
-            menu_str += " [" + photo_quality_names[quality] + "]";
+            menu_str += " [" + photo_quality_name( quality ) + "]";
 
             pmenu.addentry(k++, true, -1, menu_str.c_str());
         }
