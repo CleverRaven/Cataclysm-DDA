@@ -6960,6 +6960,10 @@ int iuse::quiver(player *p, item *it, bool, point)
                 amenu.addentry( i, true, i + 'a', row);
             }
             amenu.query();
+            if( amenu.ret < 0 || amenu.ret >= ( int )it->contents.size()) {
+                p->add_msg_if_player(_("Never mind."));
+                return 0;
+            }
 
             item &arrows = it->contents[amenu.ret];
             int arrowsRemoved = arrows.charges;
