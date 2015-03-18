@@ -268,6 +268,25 @@ MISSION(_("Find Flag"), MGOAL_FIND_ITEM, 2, 100000, false,
          &mission_end::standard, &mission_fail::standard);
   ORIGINS(ORIGIN_SECONDARY);
   ITEM("radio_repeater_mod");
+  FOLLOWUP(MISSION_OLD_GUARD_NEC_COMMO_2);
+
+ MISSION(_("Disable External Power"), MGOAL_COMPUTER_TOGGLE, 2, 150000, false,
+         &mission_place::always, &mission_start::standard,
+         &mission_end::standard, &mission_fail::standard);
+  ORIGINS(ORIGIN_SECONDARY);
+  FOLLOWUP(MISSION_OLD_GUARD_NEC_COMMO_3);
+
+ MISSION(_("Install Repeater Mod"), MGOAL_COMPUTER_TOGGLE, 2, 300000, false,
+         &mission_place::always, &mission_start::standard,
+         &mission_end::standard, &mission_fail::standard);
+  ORIGINS(ORIGIN_SECONDARY);
+  FOLLOWUP(MISSION_OLD_GUARD_NEC_COMMO_4);
+
+ MISSION(_("Install Repeater Mod"), MGOAL_COMPUTER_TOGGLE, 2, 350000, false,
+         &mission_place::always, &mission_start::standard,
+         &mission_end::standard, &mission_fail::standard);
+  ORIGINS(ORIGIN_SECONDARY);
+  FOLLOWUP(MISSION_OLD_GUARD_NEC_COMMO_4);
 
  MISSION(_("Find a Book"), MGOAL_FIND_ANY_ITEM, 2, 800, false,
          &mission_place::always, &mission_start::place_book,
