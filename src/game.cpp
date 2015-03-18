@@ -11070,7 +11070,7 @@ void game::reload(int pos)
                 if((con.is_gunmod() &&
                         (con.typeId() == "spare_mag" &&
                          con.charges < it->spare_mag_size())) ||
-                    (con.is_auxiliary_gunmod() && con.is_gun() && 
+                    (con.is_auxiliary_gunmod() &&
                         (con.charges < con.clip_size()))) {
                     magazine_isfull = false;
                     break;
@@ -11212,7 +11212,7 @@ void game::unload(item &it)
         }
         // Try to unload all the other gunmods.
         for( auto &gunmod : it.contents ) {
-            if( gunmod.is_auxiliary_gunmod() && gunmod.is_gun() && gunmod.charges > 0 ) {
+            if( gunmod.is_auxiliary_gunmod() && gunmod.charges > 0 ) {
                 unload( gunmod );
                 return;
             } else if( gunmod.typeId() == "spare_mag" && gunmod.charges > 0 ) {

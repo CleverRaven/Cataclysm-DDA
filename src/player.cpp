@@ -3402,7 +3402,7 @@ void player::print_gun_mode( WINDOW *w, nc_color c )
     if (gunmod != NULL) {
         attachment << gunmod->type_name().c_str();
         for( auto &mod : weapon.contents ) {
-            if( mod.is_auxiliary_gunmod() && mod.is_gun() ) {
+            if( mod.is_auxiliary_gunmod() ) {
                 attachment << " (" << mod.charges << ")";
             }
         }
