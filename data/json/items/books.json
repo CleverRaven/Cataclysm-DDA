@@ -3127,7 +3127,7 @@
         "type" : "BOOK",
         "id" : "necropolis_freq",
         "name" : "frequency list",
-        "name_plural" : "Frequency Lists",
+        "name_plural" : "frequency lists",
         "max_level" : 0,
         "description" : "A notepad with a number of frequencies scribbled on it.",
         "weight" : 1,
