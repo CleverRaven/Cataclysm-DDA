@@ -6041,10 +6041,32 @@ int iuse::cut_log_into_planks(player *p, item *it)
 
 int iuse::lumber(player *p, item *it, bool, point)
 {
-    int pos = g->inv_for_filter( _("Cut up what?"), []( const item & itm ) {
-        return itm.type->id == "log";
-    } );
-    item *cut = &( p->i_at( pos ) );
+    item* cut = nullptr;
+
+    // Check if player is standing on any lumber
+    for (auto &i : g->m.i_at(p->posx(), p->posy())) {
+        if (i.type->id == "log")
+        {
+            if (query_yn("Use log on ground?"))
+            {
+                cut = &i;
+
+                g->m.i_rem(p->posx(), p->posy(), cut);
+                return cut_log_into_planks( p, it );
+            }
+            else
+                break;
+        }
+    }
+
+    // If the player is not standing on a log, check inventory
+    if (cut == nullptr)    {
+        int pos = g->inv_for_filter( _("Cut up what?"), []( const item & itm ) {
+            return itm.type->id == "log";
+        } );
+        cut = &( p->i_at( pos ) );
+    }
+
     if (cut->type->id == "null") {
         add_msg(m_info, _("You do not have that item!"));
         return 0;
