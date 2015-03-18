@@ -7067,7 +7067,12 @@ void game::close(int closex, int closey)
     } else if (closex == u.posx() && closey == u.posy()) {
         add_msg(m_info, _("There's some buffoon in the way!"));
     } else if (m.has_furn(closex, closey) && m.furn_at(closex, closey).close.empty()) {
-        add_msg(m_info, _("There's a %s in the way!"), m.furnname(closex, closey).c_str());
+        // check for open crate
+        if (m.furn_at(closex, closey).id == "f_crate_o") {
+            add_msg(m_info, _("You'll need to seal the crate to close it!"));
+        } else {
+            add_msg(m_info, _("There's a %s in the way!"), m.furnname(closex, closey).c_str());
+        }
     } else if (!m.close_door(closex, closey, inside, true)) {
         // ^^ That checks if the PC could close something there, it
         // does not actually do anything.
