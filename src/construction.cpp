@@ -639,9 +639,10 @@ void complete_construction()
     for (const auto &it : built.requirements.components) {
         // Tried issuing rope for WEB_ROPE here.  Didn't arrive in time for the
         // gear check.  Ultimately just coded a bypass in crafting.cpp.
-        if (!it.empty()) {
-            u.consume_items(it);
-        }
+        u.consume_items(it);
+    }
+    for( const auto &it : built.requirements.tools ) {
+        u.consume_tools( it );
     }
 
     // Make the terrain change
