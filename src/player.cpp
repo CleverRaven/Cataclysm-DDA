@@ -11005,7 +11005,8 @@ void player::do_read( item *book )
 
         std::vector<std::string> recipe_list;
         for( auto const & elem : reading->recipes ) {
-            if( elem.is_hidden() ) {
+            // If the player knows it, they recognize it even if it's not clearly stated.
+            if( elem.is_hidden() && !knows_recipe( elem.recipe ) ) {
                 continue;
             }
             recipe_list.push_back( elem.name );

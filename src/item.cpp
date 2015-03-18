@@ -1015,11 +1015,16 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump, bool debug) c
 
             std::vector<std::string> recipe_list;
             for( auto const & elem : book->recipes ) {
-                if( elem.is_hidden() ) {
+                const bool knows_it = g->u.knows_recipe( elem.recipe );
+                // If the player knows it, they recognize it even if it's not clearly stated.
+                if( elem.is_hidden() && !knows_it ) {
                     continue;
                 }
-                if( g->u.knows_recipe( elem.recipe ) ) {
-                    recipe_list.push_back( string_format( "<color_ltgray>%s</color>", elem.name.c_str() ) );
+                if( knows_it ) {
+                    // In case the recipe is known, but has a different name in the book, use the
+                    // real name to avoid confusing the player.
+                    const std::string name = item::nname( elem.recipe->result );
+                    recipe_list.push_back( string_format( "<color_ltgray>%s</color>", name.c_str() ) );
                 } else {
                     recipe_list.push_back( elem.name );
                 }
