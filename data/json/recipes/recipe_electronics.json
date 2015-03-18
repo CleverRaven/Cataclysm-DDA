@@ -1150,7 +1150,7 @@
   ],
   "components": [
     [ [ "minireactor", 1 ] ],
-    [ [ "metal_tank", 1 ] ],
+    [ [ "metal_tank_little", 1 ] ],
     [
       [ "burnt_out_bionic", 1 ],
       [ "processor", 2 ]
@@ -1181,7 +1181,7 @@
   ],
   "components": [
     [ [ "bio_blood_filter", 1 ] ],
-    [ [ "metal_tank", 1 ] ],
+    [ [ "metal_tank_little", 1 ] ],
     [
       [ "burnt_out_bionic", 1 ],
       [ "processor", 2 ]

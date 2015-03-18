@@ -7652,8 +7652,6 @@ void player::suffer()
             if (tank_plut > 0) {
                 if (has_active_bionic("bio_plut_filter")) {
                     plut_trans = (tank_plut * 0.025);
-                } else if (has_bionic("bio_plut_filter")) {
-                    plut_trans = (tank_plut * 0.01);
                 } else {
                     plut_trans = (tank_plut * 0.005);
                 }
@@ -7675,10 +7673,10 @@ void player::suffer()
                     } else {
                         power_gen = reactor_plut * 0.05;
                     }
-                    slow_rad += (power_gen / 2); //upgraded reactor is less leaky
-                    while (slow_rad >= 100) {
+                    slow_rad += (power_gen * 5);
+                    while (slow_rad >= 50) {
                         if (power_gen >= 1) {
-                            slow_rad -= 100;
+                            slow_rad -= 50;
                             power_gen -= 1;
                             reactor_plut -= 1;
                         } else {
@@ -7691,7 +7689,7 @@ void player::suffer()
                     } else {
                         power_gen = reactor_plut * 0.025;
                     }
-                    slow_rad += (power_gen * 2); //lack of radiation shielding means that you get bonus radiation
+                    slow_rad += (power_gen * 5);
                 }
                 reactor_plut -= power_gen;
                 if (power_gen > (max_power_level - power_level)) {

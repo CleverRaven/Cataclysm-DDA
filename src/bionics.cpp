@@ -1284,14 +1284,20 @@ bool player::install_bionics(const itype &type)
         return false;
     }
     if (bioid == "bio_reactor" || bioid == "bio_advreactor") {
-		if (has_bionic("bio_furnace") || has_bionic("bio_storage") || has_bionic("bio_reactor") || has_bionic("bio_advreactor")) {
-			popup(_("You lack the required space in your torso!"));
+		if (has_bionic("bio_furnace") && has_bionic("bio_storage")) {
+			popup(_("Your internal storage and furnace take up too much room!"));
+			return false;
+		} else if (has_bionic("bio_furnace")) {
+			popup(_("Your internal furnace takes up too much room!"));
+			return false;
+		} else if (has_bionic("bio_storage")) {
+			popup(_("Your internal storage takes up too much room!"));
 			return false;
 		}
     }
-    if ((bioid == "bio_furnace" ) || (bioid == "bio_storage")) {
+    if ((bioid == "bio_furnace" ) || (bioid == "bio_storage") || (bioid == "bio_reactor") || (bioid == "bio_advreactor")) {
 		if (has_bionic("bio_reactor") || has_bionic("bio_advreactor")) {
-			popup(_("Your reactor leaves no room!"));
+			popup(_("Your installed reactor leaves no room!"));
 			return false;
 		}
     }
