@@ -451,7 +451,7 @@ void player::reach_attack( const int x, const int y )
     }
 
     Creature *critter = g->critter_at( x, y );
-    // Original target size, used when there are targets along the way
+    // Original target size, used when there are monsters in front of our target
     int target_size = critter != nullptr ? critter->get_size() : 2;
 
     int move_cost = attack_speed( *this );
@@ -460,10 +460,12 @@ void player::reach_attack( const int x, const int y )
     std::vector<point> path = line_to( posx(), posy(), x, y, t );
     path.pop_back(); // Last point is our critter
     for( const point &p : path ) {
-        // Hit mons along the way
+        // Possibly hit some unintended target instead
         Creature *inter = g->critter_at( p.x, p.y );
         if( inter != nullptr && 
-              !x_in_y( skill + target_size * 10, 10 + inter->get_size() * 10 ) ) {
+              !x_in_y( ( target_size * target_size + 1 ) * skill, 
+                       ( inter->get_size() * inter->get_size() + 1 ) * 10 ) ) {
+            // Even if we miss here, low roll means weapon is pushed away or something like that
             critter = inter;
             break;
         } else if( g->m.move_cost( p.x, p.y ) == 0 &&
