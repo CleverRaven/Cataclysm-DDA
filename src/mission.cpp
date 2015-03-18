@@ -1080,7 +1080,106 @@ Before we get into a major fight just make sure we have the gear we need, boss."
         case TALK_MISSION_INQUIRE:
             return _("Has the leadership been dealt with?");
         case TALK_MISSION_SUCCESS:
-            return _("Marshal, you continue to impress us.");
+            popup("Marshal, you continue to impress us.");
+            popup("If you are interested, I recently received a message that a unit was deploying into our AO.");
+            popup("I don't have the exact coordinates but they said they were securing an underground facility and may require assistance.");
+            popup("The bird dropped them off next to a pump station.  Can't tell you much more.");
+            popup("If you cound locate the captain in charge, I'm sure he could use your skills. ");
+            popup("Don't forget to wear your badge when meeting with them.");
+            return _("Thank you once again marshal.");
+        case TALK_MISSION_SUCCESS_LIE:
+            return _("What good does this do us?");
+        case TALK_MISSION_FAILURE:
+            return _("It was a lost cause anyways...");
+        default: // It's a bug.
+            return "";
+        }
+        break;
+
+    case MISSION_OLD_GUARD_NEC_1:
+        switch (state) {
+        case TALK_MISSION_DESCRIBE:
+            return _("We need help...");
+        case TALK_MISSION_OFFER:
+            return _("My communications team went to secure the radio control room after we "
+                     "breached the facility.  I haven't heard from them since, I need you to "
+                     "locate them.  Their first objective was to record all active channels that "
+                     "were transmitting information on other survivors or facilities.  Find them "
+                     "and return the frequency list to me.  I'm sure they could probably use your "
+                     "help also.");
+        case TALK_MISSION_ACCEPTED:
+            return _("Good luck, the communications room shouldn't be far from here.");
+        case TALK_MISSION_REJECTED:
+            return _("I don't know why you would bother wasting your time down here if you can't "
+                     "handle a few small tasks...");
+        case TALK_MISSION_ADVICE:
+            return _("We were briefed that the communications array was on this level.");
+        case TALK_MISSION_INQUIRE:
+            return _("How is the search going?");
+        case TALK_MISSION_SUCCESS:
+            return _("Thanks, let me know when you need another tasking.");
+        case TALK_MISSION_SUCCESS_LIE:
+            return _("What good does this do us?");
+        case TALK_MISSION_FAILURE:
+            return _("It was a lost cause anyways...");
+        default: // It's a bug.
+            return "";
+        }
+        break;
+
+    case MISSION_OLD_GUARD_NEC_2:
+        switch (state) {
+        case TALK_MISSION_DESCRIBE:
+            return _("We need help...");
+        case TALK_MISSION_OFFER:
+            return _("Your assistance is greatly appreciated, we need to clear out the more "
+                     "ruthless monsters that are wandering up from the lower levels.  If you "
+                     "could cull twenty or so of what we refer to as 'nightmares' my men "
+                     "would be much safer.  If you've cleared out most of this floor then the "
+                     "lower levels should be your next target. ");
+        case TALK_MISSION_ACCEPTED:
+            return _("Good luck, finding a clear passage to the second level may be tricky.");
+        case TALK_MISSION_REJECTED:
+            return _("I don't know why you would bother wasting your time down here if you can't "
+                     "handle a few small tasks...");
+        case TALK_MISSION_ADVICE:
+            return _("These creatures can swing their appendages surprisingly far.");
+        case TALK_MISSION_INQUIRE:
+            return _("How is the hunt going?");
+        case TALK_MISSION_SUCCESS:
+            return _("Thanks, let me know when you need another tasking.");
+        case TALK_MISSION_SUCCESS_LIE:
+            return _("What good does this do us?");
+        case TALK_MISSION_FAILURE:
+            return _("It was a lost cause anyways...");
+        default: // It's a bug.
+            return "";
+        }
+        break;
+
+    case MISSION_OLD_GUARD_NEC_COMMO_1:
+        switch (state) {
+        case TALK_MISSION_DESCRIBE:
+            return _("We need help...");
+        case TALK_MISSION_OFFER:
+            return _("My chief responsibility is to monitor radio traffic and locate potential targets to "
+                     "secure or rescue.  The majority of radio repeaters are down and those that are working "
+                     "have only emergency power.  If you have a basic understanding of electronics you should "
+                     "be able to fabricate  the 'radio repeater mod' found in these plans.  When this mod is "
+                     "attached to a radio station's main terminal, all short range radio traffic on emergency "
+                     "channels is boosted so we can pick it up at much longer ranges.  I really need you make "
+                     "me one.");
+        case TALK_MISSION_ACCEPTED:
+            return _("Thanks, I know the labs on the other side of the complex have electronic parts sitting around.");
+        case TALK_MISSION_REJECTED:
+            return _("I don't know why you would bother wasting your time down here if you can't "
+                     "handle a few small tasks...");
+        case TALK_MISSION_ADVICE:
+            return _("I'm sure the motorpool has a truck battery you could salvage.");
+        case TALK_MISSION_INQUIRE:
+            return _("Have you had any luck fabricating it?");
+        case TALK_MISSION_SUCCESS:
+            return _("Thanks!  It will be some time but I'll need someone to install these around the region.");
         case TALK_MISSION_SUCCESS_LIE:
             return _("What good does this do us?");
         case TALK_MISSION_FAILURE:
