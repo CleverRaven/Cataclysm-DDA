@@ -550,6 +550,7 @@ void mission_start::recruit_tracker(mission *miss)
 
 void mission_start::radio_repeater(mission *miss)
 {
+ target_om_ter("necropolis_c_23", 3, miss, false);
  g->u.i_add( item("repeater_mod_guide", 0, false) );
 }
 
