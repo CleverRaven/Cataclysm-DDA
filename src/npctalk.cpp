@@ -1503,6 +1503,11 @@ std::vector<talk_response> gen_responses(talk_topic topic, npc *p)
                             SUCCESS(TALK_MISSION_SUCCESS);
                                 SUCCESS_ACTION(&talk_function::mission_success);
                         break;
+                    case MGOAL_COMPUTER_TOGGLE:
+                        RESPONSE(_("I've taken care of it..."));
+                            SUCCESS(TALK_MISSION_SUCCESS);
+                                SUCCESS_ACTION(&talk_function::mission_success);
+                        break;
                     default:
                         RESPONSE(_("Mission success!  I don't know what else to say."));
                         SUCCESS(TALK_MISSION_SUCCESS);
