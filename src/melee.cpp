@@ -421,8 +421,12 @@ void player::melee_attack(Creature &t, bool allow_special, matec_id force_techni
             healall( rng(dam / 10, dam / 5) );
         }
 
-        message = melee_message(technique.id, *this, bash_dam, cut_dam, stab_dam);
-        player_hit_message(this, message, t, dam, critical_hit);
+        if( g->u.sees( t ) ) {
+            message = melee_message(technique.id, *this, bash_dam, cut_dam, stab_dam);
+            player_hit_message(this, message, t, dam, critical_hit);
+        } else {
+            add_msg_player_or_npc( m_good, _("You hit something."), _("<npcname> hits something.") );
+        }
 
         if (!specialmsg.empty()) {
             add_msg_if_player(specialmsg.c_str());
@@ -437,6 +441,54 @@ void player::melee_attack(Creature &t, bool allow_special, matec_id force_techni
     // some things (shattering weapons) can harm the attacking creature.
     check_dead_state();
     return;
+}
+
+void player::reach_attack( const int x, const int y )
+{
+    matec_id force_technique = "";
+    if( weapon.has_flag( "WHIP" ) && ( skillLevel( "melee" ) > 5) && one_in( 3 ) ) {
+        force_technique = "WHIP_DISARM";
+    }
+
+    Creature *critter = g->critter_at( x, y );
+    // Original target size, used when there are targets along the way
+    int target_size = critter != nullptr ? critter->get_size() : 2;
+
+    int move_cost = attack_speed( *this );
+    int skill = std::min( 10, (int)get_skill_level("stabbing") );
+    int t = 0;
+    std::vector<point> path = line_to( posx(), posy(), x, y, t );
+    path.pop_back(); // Last point is our critter
+    for( const point &p : path ) {
+        // Hit mons along the way
+        Creature *inter = g->critter_at( p.x, p.y );
+        if( inter != nullptr && 
+              !x_in_y( skill + target_size * 10, 10 + inter->get_size() * 10 ) ) {
+            critter = inter;
+            break;
+        } else if( g->m.move_cost( p.x, p.y ) == 0 &&
+                   // Fences etc. Spears can stab through those
+                     !( weapon.has_flag( "SPEAR" ) && 
+                        g->m.has_flag( "THIN_OBSTACLE", p.x, p.y ) && 
+                        x_in_y( skill, 10 ) ) ) {
+            g->m.bash( p.x, p.y, str_cur + weapon.type->melee_dam );
+            handle_melee_wear();
+            mod_moves( -move_cost );
+            return;
+        }
+    }
+
+    if( critter == nullptr ) {
+        add_msg_if_player( _("You attack the air.") );
+        if( has_miss_recovery_tec() ) {
+            move_cost /= 3; // "Probing" is faster than a regular miss
+        }
+
+        mod_moves( -move_cost );
+        return;
+    }
+
+    melee_attack( *critter, false, force_technique );
 }
 
 int stumble(player &u)

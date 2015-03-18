@@ -414,6 +414,8 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         bool handle_gun_damage( const itype &firing, const std::set<std::string> &curammo_effects );
         /** Handles gun firing effects and functions */
         void fire_gun(int targetx, int targety, bool burst);
+        /** Handles reach melee attacks */
+        void reach_attack( int targetx, int targety );
 
         /** Activates any on-dodge effects and checks for dodge counter techniques */
         void dodge_hit(Creature *source, int hit_spread);

@@ -10661,7 +10661,7 @@ void game::plfire(bool burst, int default_target_x, int default_target_y)
         }
     }
 
-    if (!u.weapon.is_gun()) {
+    if( !u.weapon.is_gun() && !u.weapon.has_flag( "REACH_ATTACK" ) ) {
         return;
     }
     if( u.weapon.is_gunmod() ) {
@@ -10685,7 +10685,7 @@ void game::plfire(bool burst, int default_target_x, int default_target_y)
         }
     }
 
-    if (u.weapon.has_flag("NO_AMMO")) {
+    if( u.weapon.has_flag("NO_AMMO") ) {
         u.weapon.charges = 1;
         u.weapon.set_curammo( "generic_no_ammo" );
     }
@@ -10710,8 +10710,8 @@ void game::plfire(bool burst, int default_target_x, int default_target_y)
         refresh_all();
     }
 
-    if (u.weapon.num_charges() == 0 && !u.weapon.has_flag("RELOAD_AND_SHOOT") &&
-        !u.weapon.has_flag("NO_AMMO")) {
+    if( u.weapon.num_charges() == 0 && !u.weapon.has_flag("RELOAD_AND_SHOOT") &&
+        !u.weapon.has_flag("NO_AMMO") && !u.weapon.has_flag("REACH_ATTACK") ) {
         add_msg(m_info, _("You need to reload!"));
         return;
     }
@@ -10761,8 +10761,10 @@ void game::plfire(bool burst, int default_target_x, int default_target_y)
     int x = u.posx();
     int y = u.posy();
 
-    std::vector<point> trajectory = pl_target_ui(x, y, range, &u.weapon, TARGET_MODE_FIRE,
-                                                 default_target_x, default_target_y);
+    target_mode tmode = u.weapon.is_gun() ? TARGET_MODE_FIRE : TARGET_MODE_REACH;
+
+    std::vector<point> trajectory = pl_target_ui( x, y, range, &u.weapon, tmode,
+                                                  default_target_x, default_target_y );
 
     if (trajectory.empty()) {
         if( u.weapon.has_flag("RELOAD_AND_SHOOT") && u.activity.type != ACT_AIM ) {
@@ -10780,7 +10782,12 @@ void game::plfire(bool burst, int default_target_x, int default_target_y)
         burst = true;
     }
 
-    u.fire_gun(x, y, burst);
+    if( u.weapon.is_gun() ) {
+        u.fire_gun(x, y, burst);
+    } else {
+        u.reach_attack( x, y );
+    }
+
     reenter_fullscreen();
     //fire(u, x, y, trajectory, burst);
 }

@@ -3408,6 +3408,10 @@ int item::gun_recoil( bool with_ammo ) const
 
 int item::gun_range( bool with_ammo ) const
 {
+    if( has_flag( "REACH_ATTACK" ) ) {
+        return has_flag( "REACH3" ) ? 3 : 2;
+    }
+
     if( !is_gun() ) {
         return 0;
     }
