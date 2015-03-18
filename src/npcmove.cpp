@@ -1341,9 +1341,9 @@ void npc::find_item()
                     }
                     int itval = value( elem );
                     int wgt = elem.weight(), vol = elem.volume();
-                    if (itval > best_value &&
+                    if( itval > best_value &&
                         //(itval > worst_item_value ||
-                        (can_pickWeight(wgt) && can_pickVolume(vol))) {
+                        ( can_pickWeight( wgt, true ) && can_pickVolume( vol, true ) ) ) {
                         itx = x;
                         ity = y;
                         wanted = &( elem );
@@ -1385,8 +1385,8 @@ void npc::pick_up_item()
         int vol = item.volume();
         int wgt = item.weight();
         if ( itval >= minimum_item_value() && // (itval >= worst_item_value ||
-             ( can_pickVolume( total_volume + vol ) &&
-               can_pickWeight( total_weight + wgt ) ) &&
+             ( can_pickVolume( total_volume + vol, true ) &&
+               can_pickWeight( total_weight + wgt, true ) ) &&
              !item.made_of( LIQUID ) ) {
             pickup.push_back( i );
             total_volume += vol;
@@ -2047,9 +2047,9 @@ void npc::mug_player(player &mark)
             int item_index = INT_MIN;
             invslice slice = mark.inv.slice();
             for (size_t i = 0; i < slice.size(); i++) {
-                if (value(slice[i]->front()) >= best_value &&
-                    can_pickVolume(slice[i]->front().volume()) &&
-                    can_pickWeight(slice[i]->front().weight())) {
+                if( value(slice[i]->front()) >= best_value &&
+                    can_pickVolume( slice[i]->front().volume(), true ) &&
+                    can_pickWeight( slice[i]->front().weight(), true ) ) {
                     best_value = value(slice[i]->front());
                     item_index = i;
                 }

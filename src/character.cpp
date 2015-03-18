@@ -474,11 +474,15 @@ int Character::volume_capacity() const
     return ret;
 }
 
-bool Character::can_pickVolume(int volume) const
+bool Character::can_pickVolume( int volume, bool safe ) const
 {
-    return (volume_carried() + volume <= volume_capacity());
+    if( !safe ) {
+        return volume_carried() + volume <= volume_capacity();
+    } else {
+        return volume_carried() + volume <= volume_capacity() - 2;
+    }
 }
-bool Character::can_pickWeight(int weight, bool safe) const
+bool Character::can_pickWeight( int weight, bool safe ) const
 {
     if (!safe)
     {
