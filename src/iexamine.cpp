@@ -603,7 +603,7 @@ void iexamine::cardreader(player *p, map *m, int examx, int examy)
                         p->use_amount("electrohack", 1);
                     } else {
                         add_msg(m_bad, _("Your power is drained!"));
-                        p->charge_power(0 - rng(0, p->power_level));
+                        p->charge_power(-rng(0, p->power_level));
                     }
                 }
                 m->ter_set(examx, examy, t_card_reader_broken);
@@ -1042,7 +1042,7 @@ void iexamine::gunsafe_el(player *p, map *m, int examx, int examy)
                     p->use_amount("electrohack", 1);
                 } else {
                     add_msg(m_bad, _("Your power is drained!"));
-                    p->charge_power(0 - rng(0, p->power_level));
+                    p->charge_power(-rng(0, p->power_level));
                 }
             }
             p->add_memorial_log(pgettext("memorial_male", "Set off an alarm."),
@@ -3019,7 +3019,7 @@ void iexamine::pay_gas(player *p, map *m, const int examx, const int examy)
                         p->use_amount("electrohack", 1);
                     } else {
                         add_msg(m_bad, _("Your power is drained!"));
-                        p->charge_power(0 - rng(0, p->power_level));
+                        p->charge_power(-rng(0, p->power_level));
                     }
                 }
                 p->add_memorial_log(pgettext("memorial_male", "Set off an alarm."),
