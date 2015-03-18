@@ -37,6 +37,7 @@ namespace construct {
     void done_dig_stair(point);
     void done_mine_downstair(point);
     void done_mine_upstair(point);
+    void done_window_curtains(point);
 };
 
 // Helper functions, nobody but us needs to call these.
@@ -1480,6 +1481,16 @@ void construct::done_mine_upstair(point p)
    }
 }
 
+void construct::done_window_curtains(point)
+{
+    // copied from iexamine::curtains
+    g->m.spawn_item( g->u.posx(), g->u.posy(), "nail", 1, 4 );
+    g->m.spawn_item( g->u.posx(), g->u.posy(), "sheet", 2 );
+    g->m.spawn_item( g->u.posx(), g->u.posy(), "stick" );
+    g->m.spawn_item( g->u.posx(), g->u.posy(), "string_36" );
+    g->u.add_msg_if_player( _("After boarding up the window the curtains and curtain rod are left.") );
+}
+
 void load_construction(JsonObject &jo)
 {
     construction con;
@@ -1548,6 +1559,8 @@ void load_construction(JsonObject &jo)
         con.post_special = &construct::done_mine_downstair;
     } else if (postfunc == "done_mine_upstair") {
         con.post_special = &construct::done_mine_upstair;
+    } else if (postfunc == "done_window_curtains") {
+        con.post_special = &construct::done_window_curtains;
     } else {
         if (postfunc != "") {
             debugmsg("Unknown post_special function: %s", postfunc.c_str());
