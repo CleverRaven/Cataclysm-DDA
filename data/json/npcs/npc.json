@@ -39,7 +39,8 @@
     "attitude" : 0,
     "mission" : 7,
     "chat" : 99,
-    "faction" : "old_guard"
+    "faction" : "old_guard",
+    "mission_offered" : 34
   },{
       "type" : "npc",
     "id" : "old_guard_necropolis_commo",
@@ -49,7 +50,8 @@
     "attitude" : 0,
     "mission" : 7,
     "chat" : 102,
-    "faction" : "old_guard"
+    "faction" : "old_guard",
+    "mission_offered" : 36
   },{
     "type" : "npc",
     "id" : "evac_merchant",
