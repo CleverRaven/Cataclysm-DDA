@@ -490,7 +490,7 @@ void player::reach_attack( const int x, const int y )
         return;
     }
 
-    melee_attack( *critter, false, force_technique );
+    melee_attack( *critter, !force_technique.empty(), force_technique );
 }
 
 int stumble(player &u)
