@@ -161,17 +161,20 @@ struct islot_book {
          */
         int skill_level;
         /**
-         * The name for the recipe as it appears in the book. If empty, the recipe is
-         * hidden and not listed in the item data.
+         * The name for the recipe as it appears in the book.
          */
         std::string name;
+        /**
+         * Hidden means it does not show up in the description of the book.
+         */
+        bool hidden;
         bool operator<( const recipe_with_description_t &rhs ) const
         {
             return recipe < rhs.recipe;
         }
         bool is_hidden() const
         {
-            return name.empty();
+            return hidden;
         }
     };
     typedef std::set<recipe_with_description_t> recipe_list_t;

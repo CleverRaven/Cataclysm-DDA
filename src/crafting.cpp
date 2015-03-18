@@ -29,11 +29,6 @@ std::map<std::string, std::vector<std::string> > craft_subcat_list;
 std::map<std::string, std::vector<recipe *>> recipes;
 std::map<itype_id, std::vector<recipe *>> recipes_by_component;
 
-// This is a dummy string, used to mark recipe descriptions for books
-// during loading of the recipes to indicate that the book should
-// clearly state the name of recipes result.
-static const std::string DEFAULT_RECIPE_NAME_DESCRIPTION( "<RESULT_NAME>" );
-
 static void draw_recipe_tabs(WINDOW *w, std::string tab, TAB_MODE mode = NORMAL);
 static void draw_recipe_subtabs(WINDOW *w, std::string tab, std::string subtab,
                                 TAB_MODE mode = NORMAL);
@@ -242,9 +237,10 @@ void load_recipe(JsonObject &jsobj)
     jsarr = jsobj.get_array("book_learn");
     while (jsarr.has_more()) {
         JsonArray ja = jsarr.next_array();
-        recipe::bookdata_t bd{ ja.get_string( 0 ), ja.get_int( 1 ), DEFAULT_RECIPE_NAME_DESCRIPTION };
+        recipe::bookdata_t bd{ ja.get_string( 0 ), ja.get_int( 1 ), "", false };
         if( ja.size() >= 3 ) {
             bd.recipe_name = ja.get_string( 2 );
+            bd.hidden = bd.recipe_name.empty();
         }
         rec->booksets.push_back( bd );
     }
@@ -271,7 +267,6 @@ void finalize_recipes()
         for( auto r : recipes_it.second ) {
             for( auto j = r->booksets.begin(); j != r->booksets.end(); ++j ) {
                 const std::string &book_id = j->book_id;
-                const int skill_level = j->skill_level;
                 if( !item::type_is_defined( book_id ) ) {
                     debugmsg("book %s for recipe %s does not exist", book_id.c_str(), r->ident.c_str());
                     continue;
@@ -282,11 +277,8 @@ void finalize_recipes()
                     debugmsg("book %s for recipe %s is not a book", book_id.c_str(), r->ident.c_str());
                     continue;
                 }
-                std::string recipe_name;
-                islot_book::recipe_with_description_t rwd{ r, skill_level, "" };
+                islot_book::recipe_with_description_t rwd{ r, j->skill_level, "", j->hidden };
                 if( j->recipe_name.empty() ) {
-                    // keep rwd.name empty, it indicates the recipe is hidden.
-                } else if( j->recipe_name == DEFAULT_RECIPE_NAME_DESCRIPTION ) {
                     rwd.name = item::nname( r->result );
                 } else {
                     rwd.name = _( j->recipe_name.c_str() );
