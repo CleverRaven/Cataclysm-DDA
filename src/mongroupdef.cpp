@@ -297,10 +297,10 @@ void MonsterGroupManager::LoadMonsterGroup(JsonObject &jo)
             int starts = 0;
             int ends = 0;
             if(mon.has_member("starts")) {
-                starts = mon.get_int("starts");
+                starts = mon.get_int("starts") * ACTIVE_WORLD_OPTIONS["MONSTER_GROUP_DIFFICULTY"];
             }
             if(mon.has_member("ends")) {
-                ends = mon.get_int("ends");
+                ends = mon.get_int("ends") * ACTIVE_WORLD_OPTIONS["MONSTER_GROUP_DIFFICULTY"];
             }
             MonsterGroupEntry new_mon_group = MonsterGroupEntry(name, freq, cost, pack_min, pack_max, starts,
                                               ends);
