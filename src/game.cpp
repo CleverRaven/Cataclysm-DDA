@@ -7303,7 +7303,7 @@ bool game::refill_vehicle_part(vehicle &veh, vehicle_part *part, bool test)
     p_itm->charges -= used_charges;
     if (rem_itm) {
         if (in_container) {
-            it->contents.erase(it->contents.begin());
+            it->contents.rem(it->contents.begin());
         } else if (&u.weapon == it) {
             u.remove_weapon();
         } else {
@@ -11174,11 +11174,11 @@ void game::unload(item &it)
         // the gunmods / the container contents.
         // Maybe the gunmods should go into their own member?
         u.moves -= 40 * it.contents.size();
-        std::vector<item> old_contents = it.contents;
+        std::vector<item> old_contents = it.contents.as_vector();
         it.contents.clear();
-        for( auto &content : old_contents ) {
-            if( !add_or_drop_with_msg( u, content ) ) {
-                it.contents.push_back( content );
+        for( auto &thing : old_contents ) {
+            if( !add_or_drop_with_msg( u, thing ) ) {
+                it.contents.add( thing );
             }
         }
         return;

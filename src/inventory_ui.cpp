@@ -10,6 +10,14 @@
 #include <sstream>
 #include <algorithm>
 
+enum column_e {
+    COLUMN_NONE   = -1,
+    COLUMN_LEFT   =  1,
+    COLUMN_MIDDLE =  2,
+    COLUMN_RIGHT  =  4,
+    COLUMN_ALL    =  8
+};
+
 std::string trim_to(const std::string &text, size_t length)
 {
     const size_t width = utf8_width(text.c_str());
@@ -103,7 +111,7 @@ class inventory_selector
         void display() const;
         /** Returns the item positions of the currently selected entry, or ITEM_MIN
          * if no entry is selected. */
-        int get_selected_item_position() const;
+        int get_selected_item_position(const item *thing=nullptr) const;
         /** Set/toggle dropping count items of currently selected item stack, see @ref set_drop_count */
         void set_selected_to_drop(int count);
         /** Select the item at position and set the correct in_inventory and current_page_offset value */
@@ -158,6 +166,13 @@ class inventory_selector
         void print_left_column() const;
         void print_middle_column() const;
         void print_right_column() const;
+
+        bool in_contents        = false;
+
+        bool show_left_column   = true;
+        bool show_middle_column = true;
+        bool show_right_column  = true;
+
     public:
         /** Toggle item dropping for item position it_pos:
          * If count is > 0: set dropping to count
@@ -177,6 +192,7 @@ class inventory_selector
         void print_column(const itemstack_vector &items, size_t y, size_t w, size_t selected,
                           size_t current_page_offset) const;
         void prepare_paging(itemstack_vector &items);
+        void show_column(int col, bool enable);
 };
 
 void inventory_selector::make_item_list(const indexed_invslice &slice, const item_category *def_cat)
@@ -284,12 +300,16 @@ std::string inventory_selector::get_drop_icon(drop_map::const_iterator dit) cons
 
 void inventory_selector::print_middle_column() const
 {
-    print_column(worn, middle_column_offset, middle_column_width, selected_w, current_page_offset_w);
+    if(show_middle_column && middle_column_width != 0) {
+        print_column(worn, middle_column_offset, middle_column_width, selected_w, current_page_offset_w);
+    }
 }
 
 void inventory_selector::print_left_column() const
 {
-    print_column(items, left_column_offset, left_column_width, selected_i, current_page_offset_i);
+    if(show_left_column && left_column_width != 0) {
+        print_column(items, left_column_offset, left_column_width, selected_i, current_page_offset_i);
+    }
 }
 
 void inventory_selector::print_column(const itemstack_vector &items, size_t y, size_t w,
@@ -300,7 +320,7 @@ void inventory_selector::print_column(const itemstack_vector &items, size_t y, s
         selected_line_color = inCategoryMode ? c_ltgray_red : h_ltgray;
     }
     int cur_line = 2;
-    for (size_t a = 0; a + current_page_offset < items.size() && a < items_per_page; a++, cur_line++) {
+    for (size_t a = 0; (a + current_page_offset < items.size()) && (a < items_per_page); a++, cur_line++) {
         const itemstack_or_category &cur_entry = items[a + current_page_offset];
         if (cur_entry.category == NULL) {
             continue;
@@ -323,7 +343,7 @@ void inventory_selector::print_column(const itemstack_vector &items, size_t y, s
         if (g->u.assigned_invlet.count(it.invlet)) {
             invlet_color = c_yellow;
         }
-        if (a + current_page_offset == selected) {
+        if ((a + current_page_offset) == selected) {
             name_color = selected_line_color;
             invlet_color = selected_line_color;
         }
@@ -332,12 +352,24 @@ void inventory_selector::print_column(const itemstack_vector &items, size_t y, s
             mvwputch(w_inv, cur_line, y, invlet_color, it.invlet);
         }
         trim_and_print(w_inv, cur_line, y + 2, w - 2, name_color, "%s", item_name.c_str());
+        // don't list contents for: non-storage, empty, food, liquid
+        if(it.is_storage()
+                && !it.is_storage_empty() 
+                && !it.contents.has_food() 
+                && !it.contents.has_liquid()) {
+            for(size_t i = 0; i < it.contents.size(); ++i) {
+                cur_line++;
+                auto content_color  = it.contents[i].color_in_inventory();
+                auto content_name   = trim_to(it.contents[i].display_name(), w - 4);
+                trim_and_print(w_inv, cur_line, y + 5, w - 2, content_color, "|- %s", content_name.c_str());
+            }
+        }
     }
 }
 
 void inventory_selector::print_right_column() const
 {
-    if (right_column_width == 0) {
+    if (!show_right_column || right_column_width == 0) {
         return;
     }
     player &u = g->u;
@@ -386,6 +418,15 @@ void inventory_selector::print_right_column() const
         trim_and_print(w_inv, drp_line, right_column_offset, right_column_width - 2, col, "%c %s", invlet, item_name.c_str());
         drp_line++;
     }
+}
+
+void inventory_selector::show_column(int col, bool enable)
+{
+    const int all_columns = (COLUMN_LEFT | COLUMN_MIDDLE | COLUMN_RIGHT);
+    col = (col == COLUMN_ALL ? all_columns : (col == COLUMN_NONE ? 0 : col));
+    show_left_column   = ((show_left_column   != enable) && (col & COLUMN_LEFT)   ? enable : !enable);
+    show_middle_column = ((show_middle_column != enable) && (col & COLUMN_MIDDLE) ? enable : !enable);
+    show_right_column  = ((show_right_column  != enable) && (col & COLUMN_RIGHT)  ? enable : !enable);
 }
 
 void inventory_selector::display() const
@@ -464,6 +505,7 @@ inventory_selector::inventory_selector(bool m, bool c, const std::string &t)
     , worn_cat("ITEMS WORN", _("ITEMS WORN:"), 0)
 {
     w_inv = newwin(TERMY, TERMX, VIEW_OFFSET_Y, VIEW_OFFSET_X);
+    //[davek] TODO: add ability to see item 'info' in right column in normal mode
     if (compare || multidrop) {
         left_column_width = 40;
         left_column_offset = 0;
@@ -486,6 +528,8 @@ inventory_selector::inventory_selector(bool m, bool c, const std::string &t)
     ctxt.register_action("CATEGORY_SELECTION");
     ctxt.register_action("NEXT_TAB", _("Page down"));
     ctxt.register_action("PREV_TAB", _("Page up"));
+    ctxt.register_action("STORE_ITEM", _("Store selected item"));
+    ctxt.register_action("UNPACK_ITEM", _("Unpack selected item"));
     ctxt.register_action("HELP_KEYBINDINGS");
     // For invlets
     ctxt.register_action("ANY_INPUT");
@@ -620,12 +664,15 @@ void inventory_selector::select_item_by_position(const int &position)
     }
 }
 
-int inventory_selector::get_selected_item_position() const
+int inventory_selector::get_selected_item_position(const item *thing) const
 {
-    const itemstack_vector &items = in_inventory ? this->items : this->worn;
-    const size_t &selected = in_inventory ? selected_i : selected_w;
-    if (selected < items.size() && items[selected].it != NULL) {
-        return items[selected].item_pos;
+    if(!thing) {        // if not item's contents
+        const itemstack_vector &items = in_inventory ? this->items : this->worn;
+        const size_t &selected = in_inventory ? selected_i : selected_w;
+        if(selected < items.size() && items[selected].it != NULL) {
+            return items[selected].item_pos;
+        }
+    } else {            // if in item's contents
     }
     return INT_MIN;
 }
@@ -754,12 +801,14 @@ void inventory_selector::remove_dropping_items( player &u ) const
     }
 }
 
-int game::display_slice(indexed_invslice const &slice, const std::string &title, const int position)
+int game::display_slice(indexed_invslice const &slice, const std::string &title, const int position, int hide, const item *thing)
 {
     inventory_selector inv_s(false, false, title);
     inv_s.make_item_list(slice);
     inv_s.prepare_paging();
     inv_s.select_item_by_position(position);
+
+    inv_s.show_column(hide, false);
 
     while(true) {
         inv_s.display();
@@ -770,14 +819,61 @@ int game::display_slice(indexed_invslice const &slice, const std::string &title,
             return item_pos;
         } else if (inv_s.handle_movement(action)) {
             continue;
+        } else if (action == "STORE_ITEM") {
+            item *it  = &u.i_at(inv_s.get_selected_item_position());
+            int bag_pos = inv_for_filter(
+                    string_format(_("Storing:\n(%s)"),
+                        it->nname(it->typeId()).c_str()),
+                    [](const item &elem) {
+                        return elem.is_storage();
+                    });
+            if(bag_pos != INT_MIN) { 
+                item *bag = &u.i_at(bag_pos);
+                if(bag && bag->is_storage()) {
+                    if(bag == it) {
+                        popup(_("You can't store an item in itself!"));
+                        continue;
+                    }
+                    if(!it) {
+                        debugmsg("Storing an item resulted in it catching on fire and exploding!");
+                        continue;
+                    }
+                    u.store(bag, it, "survival", it->volume());         //FIXME: skill?
+                } else {
+                    popup(_("That item is not a container!"));
+                    continue;
+                }
+            }
+            return INT_MIN;
+        } else if (action == "UNPACK_ITEM") {
+            item *bag = &u.i_at(inv_s.get_selected_item_position());
+            int unpack_pos = inv_for_contents(
+                    string_format(_("Unpack from:\n(%s)"),
+                        bag->nname(bag->typeId()).c_str()),
+                    *bag);
+            if(unpack_pos != INT_MIN) {
+                if(bag && bag->is_storage()) {
+                    item *it = &bag->contents[unpack_pos];
+                    if(!it) {
+                        debugmsg("Something exploded with unpacking an item!");
+                        continue;
+                    }
+                    u.unpack(bag, it, "survival", it->volume());  //FIXME: skill?
+                } else {
+                    popup(_("That item is not a container!"));
+                    continue;
+                }
+            }
+            return INT_MIN;
         } else if (action == "CONFIRM" || action == "RIGHT") {
-            return inv_s.get_selected_item_position();
+            return inv_s.get_selected_item_position(thing);
         } else if (action == "QUIT") {
             return INT_MIN;
         } else {
             return INT_MIN;
         }
     }
+    inv_s.show_column(hide, true);
 }
 
 // Display current inventory.
@@ -890,9 +986,7 @@ item *game::inv_map_for_liquid(const item &liquid, const std::string &title)
         } else if (action == "QUIT") {
             return NULL;
         } else if (action == "RIGHT" || action == "CONFIRM") {
-
             inv_s.set_selected_to_drop(0);
-
             for( size_t i = 0; i < grounditems_slice.size(); i++) {
                 if( &grounditems_slice[i].first->front() == inv_s.first_item ) {
                     return ground_containers[i];
@@ -924,6 +1018,26 @@ int game::inv_for_filter(std::string const &title, const item_filter filter)
     u.inv.sort();
     indexed_invslice reduced_inv = u.inv.slice_filter_by( filter );
     return display_slice(reduced_inv, title);
+}
+
+int game::inv_for_contents(const std::string &title, const item &bag)
+{
+    u.inv.restack(&u);
+    u.inv.sort();
+    // time to fake an invstack!
+    invstack faux_stack;
+    for(auto type : bag.contents.itypes_stored()) {
+        faux_stack.push_back(bag.contents.filter_by(
+                [&type](const item &elem) {
+                    return type == elem.typeId();
+                }));
+    }
+    int i = 0;
+    indexed_invslice faux_slice;
+    for(auto stack = faux_stack.begin(); stack != faux_stack.end(); ++stack, ++i) {
+        faux_slice.push_back(std::make_pair(&(*stack), i));
+    }
+    return display_slice(faux_slice, title, INT_MIN, COLUMN_MIDDLE | COLUMN_RIGHT, &bag);
 }
 
 int inventory::num_items_at_position( int const position )

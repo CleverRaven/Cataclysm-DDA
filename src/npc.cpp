@@ -974,7 +974,6 @@ const Skill* npc::best_skill() const
 
     return nullptr;
 }
-
 void npc::starting_weapon(npc_class type)
 {
     const Skill* best = best_skill();
@@ -1590,69 +1589,6 @@ void npc::update_worst_item_value()
     }
 }
 
-int npc::value(const item &it)
-{
- int ret = it.price() / 50;
- const Skill* best = best_skill();
- if (best->ident() != "unarmed") {
-  int weapon_val = it.weapon_value(this) - weapon.weapon_value(this);
-  if (weapon_val > 0)
-   ret += weapon_val;
- }
-
- if (it.is_food()) {
-  it_comest* comest = dynamic_cast<it_comest*>(it.type);
-  if (comest->nutr > 0 || comest->quench > 0)
-   ret++;
-  if (hunger > 40)
-   ret += (comest->nutr + hunger - 40) / 6;
-  if (thirst > 40)
-   ret += (comest->quench + thirst - 40) / 4;
- }
-
- if (it.is_ammo()) {
-  if (weapon.is_gun()) {
-   if( it.ammo_type() == weapon.ammo_type() )
-    ret += 14;
-  }
-  if (has_gun_for_ammo( it.ammo_type() )) {
-   // TODO consider making this cumulative (once was)
-   ret += 14;
-  }
- }
-
- if (it.is_book()) {
-        auto &book = *it.type->book;
-        if( book.intel <= int_cur ) {
-            ret += book.fun;
-            if( book.skill != nullptr && skillLevel( book.skill ) < book.level &&
-                skillLevel( book.skill ) >= book.req ) {
-                ret += book.level * 3;
-            }
-        }
- }
-
-// TODO: Sometimes we want more than one tool?  Also we don't want EVERY tool.
- if (it.is_tool() && !has_amount(itype_id(it.type->id), 1)) {
-  ret += 8;
- }
-
-// TODO: Artifact hunting from relevant factions
-// ALSO TODO: Bionics hunting from relevant factions
- if (fac_has_job(FACJOB_DRUGS) && it.is_food() &&
-     (dynamic_cast<it_comest*>(it.type))->addict >= 5)
-  ret += 10;
- if (fac_has_job(FACJOB_DOCTORS) && it.type->id >= "bandages" &&
-     it.type->id <= "prozac")
-  ret += 10;
- if (fac_has_value(FACVAL_BOOKS) && it.is_book())
-  ret += 14;
- if (fac_has_job(FACJOB_SCAVENGE)) { // Computed last for _reasons_.
-  ret += 6;
-  ret *= 1.3;
- }
- return ret;
-}
 
 bool npc::has_healing_item()
 {

@@ -45,6 +45,12 @@ class inventory
         inventory  operator+  (const item &rhs);
         inventory  operator+  (const std::list<item> &rhs);
 
+        // overloads for iterating inventory items
+        invslice::iterator              begin();
+        invslice::iterator              end();
+        const_invslice::const_iterator  begin() const;
+        const_invslice::const_iterator  end()   const;
+
         static bool has_activation(const item &it, const player &u);
         static bool has_category(const item &it, item_cat cat, const player &u);
         static bool has_capacity_for_liquid(const item &it, const item &liquid);
@@ -54,7 +60,7 @@ class inventory
         indexed_invslice slice_filter_by_category(item_cat cat, const player &u);
         indexed_invslice slice_filter_by_capacity_for_liquid(const item &liquid);
         indexed_invslice slice_filter_by_flag(const std::string flag);
-        indexed_invslice slice_filter_by_salvageability(const salvage_actor &actor);
+        indexed_invslice slice_filter_by_salvageability();
 
         void unsort(); // flags the inventory as unsorted
         void sort();
@@ -71,14 +77,14 @@ class inventory
          * game pointer is not necessary, but if supplied, will ensure no overlap with
          * the player's worn items / weapon
          */
-        void restack(player *p = NULL);
+        void restack(const player *p=nullptr);
 
         void form_from_map(point origin, int distance, bool assign_invlet = true);
 
         /**
          * Remove a specific item from the inventory. The item is compared
          * by pointer. Contents of the item are removed as well.
-         * @param it A pointer to the item to be removed. The item *must* exists
+         * @param it A pointer to the item to be removed. The item *must* exist
          * in this inventory.
          * @return A copy of the removed item.
          */
@@ -138,7 +144,7 @@ class inventory
         int butcher_factor() const;
 
         // NPC/AI functions
-        int worst_item_value(npc *p) const;
+        int worst_item_value(const player *p) const;
         bool has_enough_painkiller(int pain) const;
         item *most_appropriate_painkiller(int pain);
         item *best_for_melee(player *p);

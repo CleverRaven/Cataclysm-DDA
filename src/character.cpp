@@ -686,3 +686,134 @@ bool Character::has_nv()
 
     return nv;
 }
+
+const Skill* Character::best_skill() const
+{
+    std::vector<const Skill*> best_skills;
+    int highest = 0;
+    for( const auto &skill : Skill::skills ) {
+        //Should check to see if the skill has a "combat_skill" tag
+        if((skill)->is_combat_skill()) {
+            if(get_skill_level(skill) > highest) {
+                highest = get_skill_level(skill);
+                best_skills.clear();
+                best_skills.push_back(skill);
+            } else if(get_skill_level(skill) == highest) {
+                best_skills.push_back(skill);
+            }
+        }
+    }
+    int index = rng(0, best_skills.size() - 1);
+    return best_skills[index];
+}
+
+int Character::value(const item &it) const
+{
+    int ret = it.price() / 50;
+    const Skill* best = best_skill();
+    if (best->ident() != "unarmed") {
+        int weapon_val = it.weapon_value(this) - weapon.weapon_value(this);
+        if (weapon_val > 0)
+            ret += weapon_val;
+    }
+
+    if (it.is_food()) {
+        it_comest* comest = dynamic_cast<it_comest*>(it.type);
+        if (comest->nutr > 0 || comest->quench > 0)
+            ret++;
+        if (hunger > 40)
+            ret += (comest->nutr + hunger - 40) / 6;
+        if (thirst > 40)
+            ret += (comest->quench + thirst - 40) / 4;
+    }
+
+    if (it.is_ammo()) {
+        if (weapon.is_gun()) {
+            if( it.ammo_type() == weapon.ammo_type() )
+                ret += 14;
+        }
+        if (has_gun_for_ammo( it.ammo_type() )) {
+            // TODO consider making this cumulative (once was)
+            ret += 14;
+        }
+    }
+
+    if (it.is_book()) {
+       auto &book = *it.type->book;
+       if( book.intel <= int_cur ) {
+           ret += book.fun;
+           if( book.skill != nullptr && get_skill_level( book.skill ) < book.level &&
+               get_skill_level( book.skill ) >= book.req ) {
+               ret += book.level * 3;
+           }
+       }
+    }
+
+    // TODO: Sometimes we want more than one tool?  Also we don't want EVERY tool.
+    if (it.is_tool() && !has_amount(itype_id(it.type->id), 1)) {
+        ret += 8;
+    }
+
+    // TODO: Artifact hunting from relevant factions
+    // ALSO TODO: Bionics hunting from relevant factions
+    if (fac_has_job(FACJOB_DRUGS) && it.is_food() && (dynamic_cast<it_comest*>(it.type))->addict >= 5)
+        ret += 10;
+    if (fac_has_job(FACJOB_DOCTORS) && it.type->id >= "bandages" && it.type->id <= "prozac")
+        ret += 10;
+    if (fac_has_value(FACVAL_BOOKS) && it.is_book())
+        ret += 14;
+    if (fac_has_job(FACJOB_SCAVENGE)) { // Computed last for _reasons_.
+        ret += 6;
+        ret *= 1.3;
+    }
+    return ret;
+}
+
+bool Character::has_gun_for_ammo( const ammotype &at ) const
+{
+    return has_item_with( [at]( const item & it ) {
+        // item::ammo_type considers the active gunmod.
+        return it.is_gun() && it.ammo_type() == at;
+    } );
+}
+
+bool Character::has_amount(const itype_id &it, int quantity) const
+{
+    if (it == "toolset")
+    {
+        return has_bionic("bio_tools");
+    }
+    return (amount_of(it) >= quantity);
+}
+
+int Character::amount_of(const itype_id &it) const
+{
+    if(it == "toolset" && has_bionic("bio_tools")) {
+        return 1;
+    }
+    if(it == "apparatus") {
+        if(has_amount("crackpipe", 1)
+                || has_amount("can_drink", 1)
+                || has_amount("pipe_glass", 1)
+                || has_amount("pipe_tobacco", 1)) {
+            return 1;
+        }
+    }
+    int quantity = weapon.amount_of(it, true);
+    for(const auto &elem : worn) {
+        quantity += elem.amount_of(it, true);
+    }
+    quantity += inv.amount_of(it);
+    return quantity;
+}
+
+bool Character::fac_has_value(faction_value value) const
+{
+    return (my_fac ? my_fac->has_value(value) : false);
+}
+
+bool Character::fac_has_job(faction_job job) const
+{
+    return (my_fac ? my_fac->has_job(job) : false);
+}
+

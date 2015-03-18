@@ -1277,6 +1277,20 @@
     },
     {
         "type" : "keybinding",
+        "id": "STORE_ITEM",
+        "category": "INVENTORY",
+        "name": "Store item in a container",
+        "bindings":[ { "input_method":"keyboard", "key":"+" } ]
+    },
+    {
+        "type" : "keybinding",
+        "id": "UNPACK_ITEM",
+        "category": "INVENTORY",
+        "name": "Remove item from a container",
+        "bindings":[ { "input_method":"keyboard", "key":"-" } ]
+    },
+    {
+        "type" : "keybinding",
         "id":"TOGGLE_EXAMINE",
         "category":"BIONICS",
         "name":"Toggle activate/examine",

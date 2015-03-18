@@ -35,6 +35,7 @@ void iuse_transform::load( JsonObject &obj )
 
 long iuse_transform::use(player *p, item *it, bool t, point /*pos*/) const
 {
+    bool using_fire = false;
     if( t ) {
         // Invoked from active item processing, do nothing.
         return 0;
@@ -49,11 +50,15 @@ long iuse_transform::use(player *p, item *it, bool t, point /*pos*/) const
         }
         return 0;
     }
-    if (p != NULL && need_fire > 0 && !p->use_charges_if_avail("fire", need_fire)) {
-        if (!need_fire_msg.empty()) {
-            p->add_msg_if_player(m_info, _( need_fire_msg.c_str() ), it->tname().c_str());
+    if (p != NULL && need_fire > 0) {
+        if(!p->use_charges_if_avail("fire", need_fire)) {
+            if (!need_fire_msg.empty()) {
+                p->add_msg_if_player(m_info, _( need_fire_msg.c_str() ), it->tname().c_str());
+            }
+            return 0;
+        } else {
+            using_fire = true;
         }
-        return 0;
     }
     // load this from the original item, not the transformed one.
     const long charges_to_use = it->type->charges_to_use();
@@ -69,8 +74,10 @@ long iuse_transform::use(player *p, item *it, bool t, point /*pos*/) const
         // Transform into something in a container, assume the content is
         // "created" right now and give the content the current time as birthday
         it->make(container_id);
-        it->contents.push_back(item(target_id, calendar::turn));
-        target = &it->contents.back();
+        // only renew birthday if cooking food
+        target = (using_fire && it->contents.has_food()) ?
+            it->contents.add(item(target_id, calendar::turn)) :
+            it->contents.add(item(target_id, it->bday));
     }
     target->active = active;
     if (target_charges > -2) {

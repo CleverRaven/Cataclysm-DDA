@@ -260,15 +260,15 @@ bool game::unserialize_legacy(std::ifstream & fin) {
                         if (item_place == 'I') {
                             tmpinv.push_back(tmpitem);
                         } else if (item_place == 'C') {
-                            tmpinv.back().contents.push_back(tmpitem);
+                            tmpinv.back().contents.add(tmpitem);
                         } else if (item_place == 'W') {
                             u.worn.push_back(tmpitem);
                         } else if (item_place == 'S') {
-                            u.worn.back().contents.push_back(tmpitem);
+                            u.worn.back().contents.add(tmpitem);
                         } else if (item_place == 'w') {
                             u.weapon = tmpitem;
                         } else if (item_place == 'c') {
-                            u.weapon.contents.push_back(tmpitem);
+                            u.weapon.contents.add(tmpitem);
                         }
                     }
                 }
@@ -372,15 +372,15 @@ bool game::unserialize_legacy(std::ifstream & fin) {
                         if (item_place == 'I') {
                             tmpinv.push_back(tmpitem);
                         } else if (item_place == 'C') {
-                            tmpinv.back().contents.push_back(tmpitem);
+                            tmpinv.back().contents.add(tmpitem);
                         } else if (item_place == 'W') {
                             u.worn.push_back(tmpitem);
                         } else if (item_place == 'S') {
-                            u.worn.back().contents.push_back(tmpitem);
+                            u.worn.back().contents.add(tmpitem);
                         } else if (item_place == 'w') {
                             u.weapon = tmpitem;
                         } else if (item_place == 'c') {
-                            u.weapon.contents.push_back(tmpitem);
+                            u.weapon.contents.add(tmpitem);
                         }
                     }
                 }
@@ -477,15 +477,15 @@ original 'structure', which globs game/weather/location & killcount/player data 
                if (item_place == 'I') {
                    tmpinv.push_back(tmpitem);
                } else if (item_place == 'C') {
-                   tmpinv.back().contents.push_back(tmpitem);
+                   tmpinv.back().contents.add(tmpitem);
                } else if (item_place == 'W') {
                    u.worn.push_back(tmpitem);
                } else if (item_place == 'S') {
-                   u.worn.back().contents.push_back(tmpitem);
+                   u.worn.back().contents.add(tmpitem);
                } else if (item_place == 'w') {
                    u.weapon = tmpitem;
                } else if (item_place == 'c') {
-                   u.weapon.contents.push_back(tmpitem);
+                   u.weapon.contents.add(tmpitem);
                }
            }
           }
@@ -939,7 +939,7 @@ bool overmap::unserialize_legacy(std::ifstream & fin, std::string const & plrfil
                             npc_inventory.push_back(tmp);
                             break;
                         case 'C':
-                            npc_inventory.back().contents.push_back(tmp);
+                            npc_inventory.back().contents.add(tmp);
                             break;
                         case 'W':
                             last->worn.push_back(tmp);
@@ -948,7 +948,7 @@ bool overmap::unserialize_legacy(std::ifstream & fin, std::string const & plrfil
                             last->weapon = tmp;
                             break;
                         case 'c':
-                            last->weapon.contents.push_back(tmp);
+                            last->weapon.contents.add(tmp);
                             break;
                         }
                     }

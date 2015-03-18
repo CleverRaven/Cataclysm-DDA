@@ -427,8 +427,7 @@ void inventory::push_back(item newit)
     add_item(newit);
 }
 
-
-void inventory::restack(player *p)
+void inventory::restack(const player *p)
 {
     // tasks that the old restack seemed to do:
     // 1. reassign inventory letters
@@ -442,7 +441,8 @@ void inventory::restack(player *p)
     std::list<item> to_restack;
     int idx = 0;
     for (invstack::iterator iter = items.begin(); iter != items.end(); ++iter, ++idx) {
-        const int ipos = p->invlet_to_position(iter->front().invlet);
+        char i = iter->front().invlet;
+        const int ipos = (p ? p->invlet_to_position(i) : invlet_to_position(i));
         if (!iter->front().invlet_is_okay() || ( ipos != INT_MIN && ipos != idx ) ) {
             assign_empty_invlet(iter->front());
             for( std::list<item>::iterator stack_iter = iter->begin();
@@ -993,7 +993,7 @@ int inventory::butcher_factor() const
     return result;
 }
 
-int inventory::worst_item_value(npc *p) const
+int inventory::worst_item_value(const player *p) const
 {
     int worst = 99999;
     for( const auto &elem : items ) {
@@ -1179,3 +1179,24 @@ std::set<char> inventory::allocated_invlets() const
     }
     return invlets;
 }
+
+invslice::iterator inventory::begin()
+{
+    return slice().begin();
+}
+
+invslice::iterator  inventory::end()
+{
+    return slice().end();
+}
+
+const_invslice::const_iterator inventory::begin() const
+{
+    return const_slice().cbegin();
+}
+
+const_invslice::const_iterator inventory::end()   const
+{
+    return const_slice().cend();
+}
+

@@ -1158,7 +1158,7 @@ void item::deserialize(JsonObject &data)
         light.direction = (short)tmpdir;
     }
 
-    data.read("contents", contents);
+    contents.load_contents(data);
     data.read("components", components);
 }
 
@@ -1243,16 +1243,7 @@ void item::serialize(JsonOut &json, bool save_contents) const
     }
 
     if ( save_contents && !contents.empty() ) {
-        json.member("contents");
-        json.start_array();
-        for( auto &elem : contents ) {
-            if( !( elem.contents.empty() ) && elem.contents[0].is_gunmod() ) {
-                elem.serialize( json, true ); // save gun mods of holstered pistol
-            } else {
-                elem.serialize( json, false ); // no matryoshka dolls
-            }
-        }
-        json.end_array();
+        contents.save_contents(json);
     }
 
     json.member( "components", components );
@@ -1260,6 +1251,25 @@ void item::serialize(JsonOut &json, bool save_contents) const
     json.end_object();
 }
 
+void storage::load_contents(JsonObject &data)
+{
+    data.read("contents", items);
+}
+
+void storage::save_contents(JsonOut &json) const
+{
+    json.member("contents");
+    json.start_array();
+    for(auto &elem : items) {
+        if( !( elem.contents.empty() ) && elem.contents[0].is_gunmod() ) {
+            elem.serialize( json, true ); // save gun mods of holstered pistol
+        // FIXME: NEED TO SERIALIZE CONTAINERS, NOT JUST SWEET ASS BERETTAS KTHX
+        } else {
+            elem.serialize( json, false ); // no matryoshka dolls
+        }
+    }
+    json.end_array();
+}
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 ///// vehicle.h
 

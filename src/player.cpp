@@ -10648,7 +10648,7 @@ activate your weapon."), gun->tname().c_str(), _(mod->location.c_str()));
         }
         add_msg(_("You attach the %s to your %s."), used->tname().c_str(),
                    gun->tname().c_str());
-        gun->contents.push_back(i_rem(used));
+        gun->contents.add(i_rem(used));
         return;
 
     } else if (used->is_bionic()) {
@@ -10663,7 +10663,7 @@ activate your weapon."), gun->tname().c_str(), _(mod->location.c_str()));
         read(inventory_position);
         return;
     } else if (used->is_gun()) {
-        std::vector<item> &mods = used->contents;
+        std::list<item> &mods = used->contents.get();
         // Get weapon mod names.
         if (mods.empty()) {
             add_msg(m_info, _("Your %s doesn't appear to be modded."), used->tname().c_str());
@@ -10680,8 +10680,10 @@ activate your weapon."), gun->tname().c_str(), _(mod->location.c_str()));
         uimenu kmenu;
         kmenu.selected = 0;
         kmenu.text = _("Remove which modification?");
-        for (size_t i = 0; i < mods.size(); i++) {
-            kmenu.addentry( i, true, -1, mods[i].tname() );
+        size_t i = 0;
+        for(auto &elem : mods) {
+            kmenu.addentry(i, true, -1, elem.tname());
+            ++i;
         }
         kmenu.addentry( mods.size(), true, 'r', _("Remove all") );
         kmenu.addentry( mods.size() + 1, true, 'q', _("Cancel") );
@@ -10791,7 +10793,9 @@ void player::remove_gunmod(item *weapon, unsigned id)
         weapon->next_mode();
     }
     i_add_or_drop(*gunmod);
-    weapon->contents.erase(weapon->contents.begin()+id);
+    auto pos = weapon->contents.begin();
+    std::advance(pos, id);
+    weapon->contents.rem(pos);
 }
 
 hint_rating player::rate_action_read(item *it)
@@ -12509,14 +12513,6 @@ std::vector<const item *> player::get_ammo( const ammotype &at ) const
     } );
 }
 
-bool player::has_gun_for_ammo( const ammotype &at ) const
-{
-    return has_item_with( [at]( const item & it ) {
-        // item::ammo_type considers the active gunmod.
-        return it.is_gun() && it.ammo_type() == at;
-    } );
-}
-
 std::string player::weapname(bool charges)
 {
     if (!(weapon.is_tool() && dynamic_cast<it_tool*>(weapon.type)->max_charges <= 0) &&
@@ -12559,17 +12555,39 @@ void player::wield_contents(item *container, bool force_invlet,
         item& weap = container->contents[0];
         inv.assign_empty_invlet(weap, force_invlet);
         wield(&(i_add(weap)));
-        container->contents.erase(container->contents.begin());
+        container->contents.rem(container->contents.begin());
     } else {
         debugmsg("Tried to wield contents of empty container (player::wield_contents)");
     }
 }
 
+void player::pack(item* container, item* put, std::string skill_used, int volume_factor)
+{
+    store(container, put, skill_used, volume_factor);
+}
+
 void player::store(item* container, item* put, std::string skill_used, int volume_factor)
 {
-    int lvl = skillLevel(skill_used);
-    moves -= (lvl == 0) ? ((volume_factor + 1) * put->volume()) : (volume_factor * put->volume()) / lvl;
+    // do not store item in itself
+    if(container ==  put) {
+        return;
+    }
+    int lvl = (!skill_used.empty() ? (int)skillLevel(skill_used) : 1);
+    moves  -= (lvl == 0) ? ((volume_factor + 1) * put->volume()) : (volume_factor * put->volume()) / lvl;
     container->put_in(i_rem(put));
+}
+
+item player::unpack(item* container, item *get, std::string skill_used, int volume_factor)
+{
+    return unpack(container, container->contents.index_of(get), skill_used, volume_factor);
+}
+
+item player::unpack(item* container, size_t index, std::string skill_used, int volume_factor)
+{
+    int lvl = (!skill_used.empty() ? (int)skillLevel(skill_used) : 1);
+    item &p = container->contents[index];
+    moves  -= (lvl == 0) ? ((volume_factor + 1) * p.volume()) : (volume_factor * p.volume()) / lvl;
+    return i_add(container->take_out(index));
 }
 
 nc_color encumb_color(int level)
@@ -13168,10 +13186,10 @@ void player::place_corpse()
     while( pow >= 100 ) {
         if( pow >= 250 ) {
             pow -= 250;
-            body.contents.push_back( item( "bio_power_storage_mkII", calendar::turn ) );
+            body.contents.add( item( "bio_power_storage_mkII", calendar::turn ) );
         } else {
             pow -= 100;
-            body.contents.push_back( item( "bio_power_storage", calendar::turn ) );
+            body.contents.add( item( "bio_power_storage", calendar::turn ) );
         }
     }
     g->m.add_item_or_charges( posx(), posy(), body );

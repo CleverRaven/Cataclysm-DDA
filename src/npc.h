@@ -497,8 +497,8 @@ public:
      * a spiral search for an empty square around it is performed.
      */
     void place_on_map();
- const Skill* best_skill() const;
- void starting_weapon(npc_class type);
+    const Skill* best_skill() const;
+    void starting_weapon(npc_class type);
 
 // Save & load
  virtual void load_legacy(std::stringstream & dump);// Overloaded from player
@@ -564,7 +564,6 @@ public:
 // Use and assessment of items
  int  minimum_item_value(); // The minimum value to want to pick up an item
  void update_worst_item_value(); // Find the worst value in our inventory
- int  value(const item &it);
  bool wear_if_wanted(item it);
  virtual bool wield(item* it, bool);
  virtual bool wield(item* it);

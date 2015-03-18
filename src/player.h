@@ -623,7 +623,11 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         /** Removes the first item in the container's contents and wields it, taking moves based on skill and volume of item being wielded. */
         void wield_contents(item *container, bool force_invlet, std::string skill_used, int volume_factor);
         /** Stores an item inside another item, taking moves based on skill and volume of item being stored. */
+        void pack(item *container, item *put, std::string skill_used, int volume_factor);
         void store(item *container, item *put, std::string skill_used, int volume_factor);
+        /** Removes an item from an item's storage, using moves based on volume of item **/
+        item unpack(item *container, size_t index, std::string skill_used, int volume_factor);
+        item unpack(item *container, item *get, std::string skill_used, int volume_factor);
         /** Draws the UI and handles player input for the armor re-ordering window */
         void sort_armor();
         /** Uses a tool */
@@ -907,7 +911,7 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         std::vector<int> completed_missions;
         std::vector<int> failed_missions;
         int active_mission;
-        int volume;
+        int volume;     /**** FIXME: OBSOLETE ****/
 
         profession *prof;
 
@@ -918,7 +922,6 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         int next_climate_control_check;
         bool last_climate_control_ret;
         int power_level, max_power_level;
-        int hunger, thirst, fatigue;
         int stomach_food, stomach_water;
         int oxygen;
         int recoil;

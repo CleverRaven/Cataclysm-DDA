@@ -2593,7 +2593,7 @@ void map::shoot(const int x, const int y, int &dam,
         }
 
         if (destroyed) {
-            spawn_items( x, y, target_item->contents );
+            spawn_items( x, y, target_item->contents.as_vector() );
             target_item = target_items.erase( target_item );
         } else {
             ++target_item;
@@ -5028,7 +5028,7 @@ bool map::has_rotten_away( item &itm, const point &pnt ) const
         // Check and remove rotten contents, but always keep the container.
         for( auto it = itm.contents.begin(); it != itm.contents.end(); ) {
             if( has_rotten_away( *it, pnt ) ) {
-                it = itm.contents.erase( it );
+                it = itm.contents.rem( it );
             } else {
                 ++it;
             }

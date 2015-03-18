@@ -25,6 +25,7 @@
 #include <set>
 #include <array>
 #include <tuple>
+#include <exception>
 
 static const std::string GUN_MODE_VAR_NAME( "item::mode" );
 static const std::string CHARGER_GUN_FLAG_NAME( "CHARGE" );
@@ -54,12 +55,18 @@ std::string const& rad_badge_color(int const rad)
 
 light_emission nolight = {0, 0, 0};
 
+template <typename T>
+static T *null()
+{
+    static T null_m;
+    return  &null_m;
+}
+
 // Returns the default item type, used for the null item (default constructed),
 // the returned pointer is always valid, it's never cleared by the @ref Item_factory.
 static itype *nullitem()
 {
-    static itype nullitem_m;
-    return &nullitem_m;
+    return null<itype>();
 }
 
 item::item()
@@ -184,7 +191,7 @@ void item::init() {
     covered_bodyparts.reset();
     poison = 0;
     item_counter = 0;
-    type = nullitem();
+    type = null<itype>();
     curammo = NULL;
     corpse = NULL;
     active = false;
@@ -251,7 +258,8 @@ void item::make_handed( const handedness handed )
 
 void item::clear()
 {
-    // should we be clearing contents, as well?
+    // should we be clearing contents, as well? [I'd say yes]
+    contents.clear();
     // Seems risky to - there aren't any reported content-clearing bugs
     // init(); // this should not go here either, or make() should not use it...
     item_tags.clear();
@@ -293,7 +301,7 @@ item item::in_its_container()
             // container being suitable (seals, watertight etc.)
             charges = liquid_charges( ret.type->container->contains );
         }
-        ret.contents.push_back(*this);
+        ret.contents.add(*this);
         ret.invlet = invlet;
         return ret;
     } else {
@@ -406,10 +414,21 @@ bool item::merge_charges( const item &rhs )
     return true;
 }
 
-void item::put_in(item payload)
+void item::put_in(const item &payload)
 {
-    contents.push_back(payload);
+    contents.add(payload);
 }
+
+item item::take_out(item *thing)
+{
+    return contents.rem(thing);
+}
+
+item item::take_out(size_t index)
+{
+    return contents.rem(index);
+}
+
 const char ivaresc=001;
 
 void item::set_var( const std::string &name, const int value )
@@ -638,7 +657,7 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump, bool debug) c
     if( is_food() ) {
         food_item = this;
     } else if( is_food_container() ) {
-        food_item = &contents.front();
+        food_item = &contents[0];
     }
     if( food_item != nullptr ) {
         const auto food = dynamic_cast<const it_comest*>( food_item->type );
@@ -663,12 +682,9 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump, bool debug) c
             dump->push_back(iteminfo("AMMO", _("Type: "), ammo_name(ammo->type)));
         }
         dump->push_back(iteminfo("AMMO", _("Damage: "), "", ammo->damage, true, "", false, false));
-        dump->push_back(iteminfo("AMMO", space + _("Armor-pierce: "), "",
-                                 ammo->pierce, true, "", true, false));
-        dump->push_back(iteminfo("AMMO", _("Range: "), "",
-                                 ammo->range, true, "", false, false));
-        dump->push_back(iteminfo("AMMO", space + _("Dispersion: "), "",
-                                 ammo->dispersion, true, "", true, true));
+        dump->push_back(iteminfo("AMMO", space + _("Armor-pierce: "), "", ammo->pierce, true, "", true, false));
+        dump->push_back(iteminfo("AMMO", _("Range: "), "", ammo->range, true, "", false, false));
+        dump->push_back(iteminfo("AMMO", space + _("Dispersion: "), "", ammo->dispersion, true, "", true, true));
         dump->push_back(iteminfo("AMMO", _("Recoil: "), "", ammo->recoil, true, "", true, true));
         dump->push_back(iteminfo("AMMO", _("Default stack size: "), "", ammo->def_charges, true, "", true, false));
     }
@@ -790,7 +806,7 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump, bool debug) c
                 const int free_slots = ( elem ).second - get_free_mod_locations( ( elem ).first );
                 temp1 << free_slots << "/" << ( elem ).second << " " << _( ( elem ).first.c_str() );
                 bool first_mods = true;
-                for( auto &_mn : contents ) {
+                for( auto &_mn : contents) {
                     const auto mod = _mn.type->gunmod.get();
                     if( mod->location == ( elem ).first ) { // if mod for this location
                         if (first_mods) {
@@ -952,7 +968,6 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump, bool debug) c
 		}
 
 		dump->push_back(iteminfo("ARMOR", temp1.str()));
-
         dump->push_back(iteminfo("ARMOR", _("Coverage: "), "<num>% ", get_coverage(), true, "", false));
         dump->push_back(iteminfo("ARMOR", _("Warmth: "), "", get_warmth()));
         if (has_flag("FIT")) {
@@ -963,11 +978,21 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump, bool debug) c
                                      get_encumber(), true, "", true, true));
         }
         dump->push_back(iteminfo("ARMOR", _("Protection: Bash: "), "", bash_resist(), true, "", false));
-        dump->push_back(iteminfo("ARMOR", space + _("Cut: "), "", cut_resist(), true, "", true));
-        dump->push_back(iteminfo("ARMOR", _("Environmental protection: "), "",
-                                 get_env_resist(), true, "", false));
-        dump->push_back(iteminfo("ARMOR", space + _("Storage: "), "", get_storage()));
-
+        dump->push_back(iteminfo("ARMOR", space + _("Cut: "), "", cut_resist(), true, "", false));
+        dump->push_back(iteminfo("ARMOR", space + _("Env: "), "", get_env_resist(), true, "", true));
+        if(is_storage()) {
+            std::string flags_in_storage = "[";
+            flags_in_storage += (contents.has_active_items()    ? color_wrap(c_yellow,  _("A")) : "");
+            flags_in_storage += (contents.has_food()            ? color_wrap(c_cyan,    _("F")) : "");
+            flags_in_storage += (contents.has_active_items()    ? color_wrap(c_yellow,  _("M")) : "");
+            if(contents.has_active_items()) {
+                flags_in_storage += color_wrap(c_yellow, _("A"));
+            }
+            flags_in_storage += (contents.has_active_items() ? color_wrap(c_yellow, "(active items)") : "");
+            flags_in_storage += (contents.has_active_items() ? color_wrap(c_yellow, "(active items)") : "");
+            dump->push_back(iteminfo("ARMOR", _("Storage: "),
+                        string_format(_("%d/%d"), storage_used(), get_storage())));
+        }
     }
     if( is_book() ) {
 
@@ -1009,8 +1034,7 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump, bool debug) c
                 const int unread = get_remaining_chapters( g->u );
                 dump->push_back( iteminfo( "BOOK", "", ngettext( "This book has <num> unread chapter.",
                                                                  "This book has <num> unread chapters.",
-                                                                 unread ),
-                                           unread ) );
+                                                                 unread ), unread ) );
             }
 
             if (!(book->recipes.empty())) {
@@ -1057,7 +1081,11 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump, bool debug) c
         if( c.preserves ) {
             dump->push_back( iteminfo( "CONTAINER", _( "This container preserves its contents from spoiling." ) ) );
         }
-        dump->push_back( iteminfo( "CONTAINER", string_format( _( "This container can store %.2f liters." ), c.contains / 4.0 ) ) );
+        if( c.stores ) {
+            dump->push_back( iteminfo( "CONTAINER", _( "This container can store other items inside of it." ) ) );
+        } else {
+            dump->push_back( iteminfo( "CONTAINER", string_format( _( "This container can store %.2f liters." ), c.contains / 4.0 ) ) );
+        }
     }
     if( is_tool() ) {
         it_tool* tool = dynamic_cast<it_tool*>(type);
@@ -1435,15 +1463,18 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump, bool debug) c
 
         // describe contents
         if (!contents.empty()) {
+            // add a bit of a seperator to the info field
+            dump->push_back(iteminfo("DESCRIPTION", "\n"));
             if (is_gun()) {//Mods description
                 for( auto &elem : contents ) {
                     const auto mod = elem.type->gunmod.get();
                     temp1.str("");
                     temp1 << " " << elem.tname() << " (" << _( mod->location.c_str() ) << ")";
                     dump->push_back(iteminfo("DESCRIPTION", temp1.str()));
-                    dump->push_back( iteminfo( "DESCRIPTION", elem.type->description ) );
+                    dump->push_back(iteminfo("DESCRIPTION", elem.type->description));
                 }
-            } else {
+            // don't describe storage contents
+            } else if(!is_storage()) {
                 dump->push_back(iteminfo("DESCRIPTION", contents[0].type->description));
             }
         }
@@ -1586,10 +1617,8 @@ nc_color item::color(player *u) const
         ammotype amtype = ammo_type();
         if (u->weapon.is_gun() && u->weapon.ammo_type() == amtype) {
             ret = c_green;
-        } else {
-            if (u->has_gun_for_ammo(amtype)) {
+        } else if (u->has_gun_for_ammo(amtype)) {
                 ret = c_green;
-            }
         }
     } else if (is_book()) {
         if(u->has_identified( type->id )) {
@@ -1743,20 +1772,23 @@ std::string item::tname( unsigned int quantity, bool with_prefix ) const
             ret << "+";
         }
         maintext = ret.str();
-    } else if (contents.size() == 1) {
-        if(contents[0].made_of(LIQUID)) {
+    } else if(!is_storage_empty()) {
+        if(contents.has_liquid()) {
             maintext = rmp_format(_("<item_name>%s of %s"), type_name(quantity).c_str(), contents[0].tname( quantity, with_prefix ).c_str());
-        } else if (contents[0].is_food()) {
+        } else if(contents.has_food()) {
             maintext = contents[0].charges > 1 ? rmp_format(_("<item_name>%s of %s"), type_name(quantity).c_str(),
                                                             contents[0].tname(contents[0].charges, with_prefix).c_str()) :
                                                  rmp_format(_("<item_name>%s of %s"), type_name(quantity).c_str(),
                                                             contents[0].tname( quantity, with_prefix ).c_str());
+        } else if(is_storage()) {
+                maintext = rmp_format(_("<item_name>%s [%d/%d]"), type_name(quantity).c_str(), storage_used(), get_storage());
         } else {
-            maintext = rmp_format(_("<item_name>%s with %s"), type_name(quantity).c_str(), contents[0].tname( quantity, with_prefix ).c_str());
+            if(contents.size() == 1) {
+                maintext = rmp_format(_("<item_name>%s with %s"), type_name(quantity).c_str(), contents[0].tname( quantity, with_prefix ).c_str());
+            } else if(contents.size() > 1) {
+                maintext = rmp_format(_("<item_name>%s, full"), type_name(quantity).c_str());
+            }
         }
-    }
-    else if (!contents.empty()) {
-        maintext = rmp_format(_("<item_name>%s, full"), type_name(quantity).c_str());
     } else {
         maintext = type_name(quantity);
     }
@@ -1840,7 +1872,17 @@ std::string item::tname( unsigned int quantity, bool with_prefix ) const
 
     ret.str("");
 
-    //~ This is a string to construct the item name as it is displayed. This format string has been added for maximum flexibility. The strings are: %1$s: Damage text (eg. "bruised"). %2$s: burn adjectives (eg. "burnt"). %3$s: sided adjectives (eg. "left"). %4$s: tool modifier text (eg. "atomic"). %5$s: vehicle part text (eg. "3.8-Liter"). $6$s: main item text (eg. "apple"). %7$s: tags (eg. "(wet) (fits)").
+    /* This is a string to construct the item name as it is displayed. 
+     * This format string has been added for maximum flexibility.
+     * The strings are:
+     *      %1$s: Damage text (eg. "bruised").
+     *      %2$s: burn adjectives (eg. "burnt").
+     *      %3$s: sided adjectives (eg. "left").
+     *      %4$s: tool modifier text (eg. "atomic").
+     *      %5$s: vehicle part text (eg. "3.8-Liter").
+     *      %6$s: main item text (eg. "apple").
+     *      %7$s: tags (eg. "(wet) (fits)").
+     */
     ret << string_format(_("%1$s%2$s%3$s%4$s%5$s%6$s%7$s"), damtext.c_str(), burntext.c_str(),
                         sidedtext.c_str(), toolmodtext.c_str(),
                         vehtext.c_str(), maintext.c_str(), tagtext.c_str());
@@ -2472,7 +2514,7 @@ long item::num_charges()
     return 0;
 }
 
-int item::weapon_value(player *p) const
+int item::weapon_value(const Character *p) const
 {
     if( is_null() ) {
         return 0;
@@ -2486,18 +2528,18 @@ int item::weapon_value(player *p) const
         gun_value += int(gun->burst / 2);
         gun_value += int(gun->clip / 3);
         gun_value -= int(gun->dispersion / 75);
-        gun_value *= (.5 + (.3 * p->skillLevel("gun")));
-        gun_value *= (.3 + (.7 * p->skillLevel(gun->skill_used)));
+        gun_value *= (.5 + (.3 * p->get_skill_level("gun")));
+        gun_value *= (.3 + (.7 * p->get_skill_level(gun->skill_used)));
         my_value += gun_value;
     }
 
-    my_value += int(type->melee_dam * (1   + .3 * p->skillLevel("bashing") +
-                                       .1 * p->skillLevel("melee")    ));
+    my_value += int(type->melee_dam * (1   + .3 * p->get_skill_level("bashing") +
+                                       .1 * p->get_skill_level("melee")    ));
 
-    my_value += int(type->melee_cut * (1   + .4 * p->skillLevel("cutting") +
-                                       .1 * p->skillLevel("melee")    ));
+    my_value += int(type->melee_cut * (1   + .4 * p->get_skill_level("cutting") +
+                                       .1 * p->get_skill_level("melee")    ));
 
-    my_value += int(type->m_to_hit  * (1.2 + .3 * p->skillLevel("melee")));
+    my_value += int(type->m_to_hit  * (1.2 + .3 * p->get_skill_level("melee")));
 
     return my_value;
 }
@@ -2787,43 +2829,28 @@ bool item::is_ammo() const
     return type->ammo.get() != nullptr;
 }
 
-bool item::is_food(player const*u) const
+bool item::is_food(const player *u) const
 {
-    if (!u)
-        return is_food();
-
     if( is_null() )
         return false;
 
     if (type->is_food())
         return true;
 
-    if( u->has_active_bionic( "bio_batteries" ) && is_ammo() && ammo_type() == "battery" ) {
-        return true;
+    if(u) {
+        if( u->has_active_bionic( "bio_batteries" ) && is_ammo() && ammo_type() == "battery" ) {
+            return true;
+        }
+        if (u->has_active_bionic("bio_furnace") && flammable() && typeId() != "corpse") {
+            return true;
+        }
     }
-    if (u->has_active_bionic("bio_furnace") && flammable() && typeId() != "corpse")
-        return true;
     return false;
 }
 
-bool item::is_food_container(player const*u) const
+bool item::is_food_container(const player *u) const
 {
     return (contents.size() >= 1 && contents[0].is_food(u));
-}
-
-bool item::is_food() const
-{
-    if( is_null() )
-        return false;
-
-    if (type->is_food())
-        return true;
-    return false;
-}
-
-bool item::is_food_container() const
-{
-    return (contents.size() >= 1 && contents[0].is_food());
 }
 
 bool item::is_corpse() const
@@ -2917,6 +2944,14 @@ bool item::is_book() const
 bool item::is_container() const
 {
     return type->container.get() != nullptr;
+}
+
+//[davek]TODO: make sure this actually uses the `stores' var instead of cargo space.
+bool item::is_storage() const
+{
+    bool can_store   = (type->container  ? type->container->stores       : false);
+    bool has_storage = (type->armor      ? (type->armor->storage > 0)    : false);
+    return (can_store || has_storage);
 }
 
 bool item::is_watertight_container() const
@@ -3837,7 +3872,7 @@ bool item::reload(player &u, int pos)
         }
         if (ammo_to_use->charges == 0) {
             if (ammo_container != NULL) {
-                ammo_container->contents.erase(ammo_container->contents.begin());
+                ammo_container->contents.rem(ammo_container->contents.begin());
                 // We just emptied a container, which might be part of stack,
                 // but empty and non-empty containers should not stack, force
                 // a re-stacking.
@@ -4075,7 +4110,7 @@ LIQUID_FILL_ERROR item::has_valid_capacity_for_liquid(const item &liquid) const
     return L_ERR_NONE;
 }
 
-// Remaining capacity for currently stored liquid in container - do not call for empty container
+// Remaining capacity for currently stored thing[s] in container - do not call for empty container
 int item::get_remaining_capacity() const
 {
     const auto total_capacity = contents[0].liquid_charges( type->container->contains );
@@ -4111,7 +4146,7 @@ bool item::use_amount(const itype_id &it, int &quantity, bool use_container, std
     bool used_item_contents = false;
     for( auto a = contents.begin(); a != contents.end() && quantity > 0; ) {
         if (a->use_amount(it, quantity, use_container, used)) {
-            a = contents.erase(a);
+            contents.rem(a++);
             used_item_contents = true;
         } else {
             ++a;
@@ -4194,7 +4229,7 @@ bool item::use_charges(const itype_id &it, long &quantity, std::list<item> &used
     // First, check contents
     for( auto a = contents.begin(); a != contents.end() && quantity > 0; ) {
         if (a->use_charges(it, quantity, used)) {
-            a = contents.erase(a);
+            contents.rem(a++);
         } else {
             ++a;
         }
@@ -4895,7 +4930,7 @@ bool item::process( player *carrier, point pos, bool activate )
             it->last_rot_check = calendar::turn;
         }
         if( it->process( carrier, pos, activate ) ) {
-            it = contents.erase( it );
+            contents.rem(it++);
         } else {
             ++it;
         }
@@ -5083,3 +5118,361 @@ bool item_category::operator!=( const item_category &rhs ) const
 {
     return !( *this == rhs );
 }
+
+/*-----------------------------------------------------------------------------
+ *                             *******************
+ *                            ****** STORAGE ******
+ *                             *******************
+ *-----------------------------------------------------------------------------*/
+storage::storage(std::list<item>::iterator start, std::list<item>::iterator stop)
+{
+    add(start, stop);
+}
+
+storage::storage(const std::list<item> &item_list)
+{
+    add(item_list);
+}
+
+storage::storage(std::vector<item>::iterator start, std::vector<item>::iterator stop)
+{
+    std::list<item> things;
+    for(auto elem = start; elem != stop; ++elem) {
+        things.push_back(*elem);
+    }
+    add(things);
+}
+
+std::list<item> &storage::get()
+{
+    return items;
+}
+
+const std::list<item> &storage::get() const
+{
+    return items;
+}
+
+const std::unordered_set<itype_id> storage::itypes_stored() const
+{
+    std::unordered_set<itype_id> id_set;
+    for(auto &elem : items) {
+        id_set.insert(elem.typeId());
+    }
+    return id_set;
+}
+
+bool storage::item_matches(const item *thing, itype_id id) const
+{
+    // match item based on the pointer in `elem'
+    for(const auto &elem : items) {
+        // match based on pointer address
+        if(thing && thing == &elem) {
+            return true;
+        // match item based on itype_id
+        } else if(!id.empty() && thing->typeId() == id) {
+            return true;
+        }
+    }
+    return false;
+}
+
+item *storage::find(const item *thing)
+{
+    return find_item(thing, "");
+}
+
+item *storage::find(itype_id id)
+{
+    return find_item(nullptr, id);
+}
+
+item *storage::find_item(const item *thing, itype_id id)
+{
+    for(auto elem = items.begin(); elem != items.end(); ++elem) {
+        if(thing && &(*elem) == thing) {
+            return &(*elem);
+        } else if(!id.empty() && elem->typeId() == id) {
+            return &(*elem);
+        }
+    }
+    return null<item>();
+}
+
+/*-----------------------------------------------------------------------------
+ *                                  OVERLOADS
+ *-----------------------------------------------------------------------------*/
+item &storage::at(size_t index)
+{
+    if(index >= size()) {
+        return *(null<item>());
+    }
+    auto pos = items.begin();
+    std::advance(pos, index);
+    return *pos;
+}
+
+const item &storage::at(size_t index) const
+{
+    if(index >= size()) {
+        return *(null<item>());
+    }
+    auto pos = items.cbegin();
+    std::advance(pos, index);
+    return *pos;
+}
+
+item &storage::operator[](size_t index)
+{
+    return at(index);
+}
+
+const item &storage::operator[](size_t index) const
+{
+    return at(index);
+}
+
+std::list<item>::iterator storage::begin()
+{
+    return items.begin();
+}
+
+std::list<item>::const_iterator storage::begin() const
+{
+    return items.cbegin();
+}
+
+std::list<item>::iterator storage::end()
+{
+    return items.end();
+}
+
+std::list<item>::const_iterator storage::end() const
+{
+    return items.cend();
+}
+
+std::vector<item> storage::as_vector()
+{
+    std::vector<item> things;
+    for(auto &elem : items) {
+        things.push_back(elem);
+    }
+    return things;
+}
+
+size_t storage::size() const
+{
+    return items.size();
+}
+
+bool storage::empty() const
+{
+    return size() == 0;
+}
+
+void storage::clear()
+{
+    return items.clear();
+}
+
+/*-----------------------------------------------------------------------------
+ *  addition/removal functions
+ *-----------------------------------------------------------------------------*/
+item *storage::add(const item &thing)
+{
+    items.push_back(thing);
+    // return pointer to newest element added in list (our item)
+    return &at(size()-1);
+}
+
+std::vector<item *> storage::add(std::list<item> item_list)
+{
+    std::vector<item *> pointers;
+    for(auto &elem : item_list) {
+        pointers.push_back(add(elem));
+    }
+    return pointers;
+}
+
+std::vector<item *> storage::add(std::list<item>::iterator start, std::list<item>::iterator stop)
+{
+    std::list<item> things;
+    std::copy(start, stop, things.begin());
+    return add(things);
+}
+
+std::vector<item *> storage::add(std::vector<item>::iterator start, std::vector<item>::iterator stop)
+{
+    std::list<item> things;
+    for(auto iter = start; iter != stop; ++iter) {
+        things.push_back(*iter);
+    }
+    return add(things);
+}
+
+item storage::rem(item *thing)
+{
+    auto pos = items.begin();
+    std::advance(pos, index_of(thing));
+    item it = *pos;
+    items.erase(pos);
+    return it;
+}
+
+item storage::rem(size_t index)
+{
+    return rem(&at(index));
+}
+
+std::list<item>::iterator storage::rem(std::list<item>::iterator iter)
+{
+    auto pos = iter;
+    std::next(pos);
+    rem(&(*iter));
+    return pos;
+}
+
+std::list<item> storage::rem(std::list<item>::iterator start, std::list<item>::iterator stop)
+{
+    std::list<item> item_list;
+    for(auto iter = start; iter != stop; ++iter) {
+        item_list.push_back(rem(&(*iter)));
+    }
+    return item_list;
+}
+
+size_t storage::index_of(const item *thing) const
+{
+    std::list<size_t> idx = indices_of_filter(
+            [&thing](const item &elem) {
+                return &elem == thing;
+            });
+    // should only be one, I'd hope
+    return idx.front();
+}
+
+size_t storage::index_of(std::list<item>::iterator iter) const
+{
+    return index_of(&(*iter));
+}
+
+void storage::push_back(const item &thing)
+{
+    add(thing);
+}
+
+void storage::erase(std::list<item>::iterator pos)
+{
+    rem(pos);
+}
+
+void storage::erase(std::list<item>::iterator start, std::list<item>::iterator stop)
+{
+    rem(start, stop);
+}
+
+/*-----------------------------------------------------------------------------
+ *  storage/volume calculation
+ *-----------------------------------------------------------------------------*/
+int item::storage_used() const
+{
+    int storage_used = 0;
+    for(auto &elem : contents) {
+        storage_used += elem.volume();
+    }
+    return storage_used;
+}
+
+int item::storage_free() const
+{
+    return (get_storage() - storage_used());
+}
+
+bool item::has_space_for(const item &thing) const
+{
+    return (thing.volume() <= storage_free());
+}
+
+/*-----------------------------------------------------------------------------
+ *  flag/traits checking
+ *-----------------------------------------------------------------------------*/
+bool storage::has_flag(const std::string &f) const
+{
+    return has_item_with([&](const item &elem) {
+        return elem.has_flag(f);});
+}
+
+bool storage::made_of(const std::string &f) const
+{
+    return has_item_with([&](const item &elem) {
+        return elem.has_flag(f);});
+}
+
+/*-----------------------------------------------------------------------------
+ *  boolean stuffs
+ *-----------------------------------------------------------------------------*/
+bool storage::has_brew() const
+{
+    return has_flag("BREW");
+}
+
+bool storage::has_liquid() const
+{
+    return made_of("LIQUID");
+}
+
+bool storage::has_food() const
+{
+    return has_item_with([&](const item &elem) {
+        return elem.is_food();});
+}
+
+bool storage::has_active_items() const
+{
+    return has_item_with([&](const item &elem) {
+        return elem.active;});
+}
+
+bool storage::has_ammo() const
+{
+    return has_item_with([&](const item &elem) {
+        return elem.is_ammo();});
+}
+
+/*-----------------------------------------------------------------------------
+ *  item_filter manipulation/helpers
+ *-----------------------------------------------------------------------------*/
+//              ':[+-]amt:[+-]chg:(true|false):'
+item_filter_t storage::parse_filter(itype_id id, const std::string &filter)
+{
+    item_filter_t fil;
+    size_t pos = 0;
+    std::vector<int> vec;
+    while(pos != std::string::npos) {
+        pos = filter.find(":", pos); ++pos;
+        size_t epos     = filter.find(":", pos);
+        std::string val = filter.substr(pos, epos - pos);
+        // don't overcheck bounds, but check past possible [+-]
+        size_t idx = (val.length() > 1 ? 1 : 0);
+        if(isdigit(val[idx])) {                   // int value
+            vec.push_back(atoi(val.c_str()));
+        } else if(isalpha(val[idx])) {            // bool/string value
+            if(val == "true") {
+                vec.push_back(static_cast<int>(true));
+            } else if(val == "false") {
+                vec.push_back(static_cast<int>(false));
+            } // need to do else in case of strings?
+        }
+    }
+    // amount?
+    fil.amount      = vec[0];
+    // charges?
+    fil.charges     = vec[1];
+    // only_fresh food?
+    fil.only_fresh  = static_cast<bool>(vec[2]);
+    // store the decoded filter in cache
+    item_filter_cache[id] = fil;
+    return fil;
+}
+

@@ -7,7 +7,10 @@
 #include <list>
 #include <bitset>
 #include <unordered_set>
+#include <unordered_map>
 #include <set>
+#include <iterator>
+
 #include "artifact.h"
 #include "itype.h"
 #include "mtype.h"
@@ -21,6 +24,9 @@ struct itype;
 struct islot_armor;
 class material_type;
 class item_category;
+class item;
+class inventory;
+
 
 std::string const& rad_badge_color(int rad);
 
@@ -83,6 +89,188 @@ class item_category
         bool operator<(const item_category &rhs) const;
         bool operator==(const item_category &rhs) const;
         bool operator!=(const item_category &rhs) const;
+};
+
+/*-----------------------------------------------------------------------------
+ *  Storage for items in items (and all the fun it entails)
+ *-----------------------------------------------------------------------------*/
+struct item_filter_t {
+    int     amount;                     // +N for amount  >=, -N for amount  <
+    int     charges;                    // +N for charges >=, -N for charges <
+    bool    only_fresh;                 // fresh food or !rotten food?
+};
+/*      **Storage Filtering for Items**
+ *  A storage `bag' can be filtered to only accept certain types, quantities, charges,
+ *  freshness, etc. of items. The string used to store this information is as such:
+ *
+ *          ":[+-]N:[+-]N:(true|false):"
+ *            |___| |___| |__________|
+ *              ^     ^         ^
+ *              |     |         |
+ *              |     |         | 
+ *              |     |         :    
+ *              |     :         [whether to store only fresh food, or anything !rotten]
+ *              :     [what amount of charges to filter for, same +- as below]
+ *              [amount of an item to store, 0 if any amount, '+' is >= & '-' is <]
+ */
+typedef std::unordered_map<itype_id, std::string>   bag_filter_map;
+typedef std::unordered_map<itype_id, item_filter_t> bag_filter_cache_map;
+
+class storage
+{
+        typedef std::list<std::list<item>>                      invstack;
+        typedef std::vector<std::list<item>*>                   invslice;
+        typedef std::vector<std::pair<std::list<item>*, int>>   indexed_invslice;
+
+    private:
+        std::list<item>         items;
+        bag_filter_map          item_filter;
+        bag_filter_cache_map    item_filter_cache;
+
+        item *find_item(const item *thing, itype_id id);
+        bool item_matches(const item *thing=nullptr, itype_id id="") const;
+
+    public:
+        storage() = default;
+        storage(const std::list<item> &item_list);
+        storage(std::list<item>::iterator   start, std::list<item>::iterator   stop);
+        storage(std::vector<item>::iterator start, std::vector<item>::iterator stop);
+        /*-----------------------------------------------------------------------------
+         *                                  OVERLOADS
+         *-----------------------------------------------------------------------------*/
+        size_t size() const;
+        bool empty() const;
+        void clear();
+        std::list<item>::iterator begin();
+        std::list<item>::const_iterator begin() const;
+        std::list<item>::iterator end();
+        std::list<item>::const_iterator end() const;
+        item &at(size_t index);
+        const item &at(size_t index) const;
+        void push_back(const item &thing);
+        void erase(std::list<item>::iterator pos);
+        void erase(std::list<item>::iterator start, std::list<item>::iterator stop);
+        item &operator[](size_t index);
+        const item &operator[](size_t index) const;
+        /*-----------------------------------------------------------------------------
+         *                                  ACCESS
+         *-----------------------------------------------------------------------------*/
+        // returns the `items' list
+        std::list<item>         &get();
+        const std::list<item>   &get() const;
+        // itype_id's of items contained
+        const std::unordered_set<itype_id> itypes_stored() const;
+        // returns an `invslice' of all items in storage (this slice is created on call)
+        invslice slice();
+        // return a vector with references to every item
+        std::vector<item> as_vector();
+        // find the item in items invstack
+        item *find(itype_id id);
+        item *find(const item *thing);
+        // returns the index of the given item, based on pointer comparison
+        // ** returns items.size() if unable to find **
+        size_t index_of(const item *thing) const;
+        size_t index_of(std::list<item>::iterator iter) const;
+        // returns the index of a filter function match
+        // ** returns items.size() if unable to find **
+        /*-----------------------------------------------------------------------------
+         *                                  FILTERS
+         *-----------------------------------------------------------------------------*/
+        // return a boolean about content properties
+        template <typename T>
+        bool has_item_with(T filter) const
+        {
+            for(const auto &elem : items) {
+                if(filter(elem)) {
+                    return true;
+                }
+            }
+            return false;
+        }
+        // return an item list based on filter
+        template <typename T>
+        std::list<item> filter_by(T filter) const
+        {
+            std::list<item> things;
+            for(const auto &elem : items) {
+                if(filter(elem)) {
+                    things.push_back(elem);
+                }
+            }
+            return things;
+        }
+        // return a list of indices with the positions of items fitting the bill
+        template <typename T>
+        std::list<size_t> indices_of_filter(T filter) const
+        {
+            size_t i = 0;
+            std::list<size_t> indices;
+            for(auto elem = items.begin(); elem != items.end(); ++elem, ++i) {
+                if(filter(*elem)) {
+                    indices.push_back(i);
+                }
+            }
+            return indices;
+        }
+        /*-----------------------------------------------------------------------------
+         *                                MANIPULATION
+         *-----------------------------------------------------------------------------*/
+        // return a pointer to where the item is now stored
+        // (use the new pointer to operate on object)
+        item *add(const item &thing);
+        // insert a list of items
+        std::vector<item *> add(std::list<item> items);
+        // insert a range of items
+        std::vector<item *> add(std::list<item>::iterator   start, std::list<item>::iterator   stop);
+        std::vector<item *> add(std::vector<item>::iterator start, std::vector<item>::iterator stop);
+        // removes the item from storage, returning the item itself
+        item rem(item *thing);                                                                      // pointer
+        item rem(size_t index);                                                                     // index
+        std::list<item>::iterator rem(std::list<item>::iterator iter);                              // iterator (&)
+        std::list<item> rem(std::list<item>::iterator start, std::list<item>::iterator stop);       // range
+        /*-----------------------------------------------------------------------------
+         *                                STORAGE
+         *-----------------------------------------------------------------------------*/
+        // wrapper for contents[0].has_flag()
+        bool has_flag(const std::string &f) const;
+        // wrapper for contents[0].made_of()
+        bool made_of(const std::string &f) const;
+        // returns true if this is storing a liquid
+        bool has_liquid() const;
+        // returns true if storing food
+        bool has_food() const;
+        // returns true if this is storing heavenly nectar to imbibe
+        bool has_brew() const;
+        // returns true if there are active items in storage
+        bool has_active_items() const;
+        // return true if there is ammo in storage
+        bool has_ammo() const;
+        /*-----------------------------------------------------------------------------
+         *                              STORAGE FILTERS
+         *-----------------------------------------------------------------------------*/
+    private:
+        // parses a string filter, and returns the filter struct it represents
+        item_filter_t parse_filter(itype_id id, const std::string &filter);
+
+    public:
+        // string to help filter pickups to their apropos bags
+        void set_filter_for(itype_id id, const std::string &filter)
+        {
+            item_filter[id] = filter;
+        }
+        const bag_filter_cache_map &get_filter()
+        {
+            return item_filter_cache;
+        }
+        const item_filter_t get_filter_for(itype_id id)
+        {
+            return item_filter_cache[id];
+        }
+        /*-----------------------------------------------------------------------------
+         *                                  JSON
+         *-----------------------------------------------------------------------------*/
+        void save_contents(JsonOut &data) const;
+        void load_contents(JsonObject &json);
 };
 
 class item : public JsonSerializer, public JsonDeserializer
@@ -217,7 +405,11 @@ public:
          * items that stack together (@ref stacks_with).
          */
         bool merge_charges( const item &rhs );
- void put_in(item payload);
+
+ void put_in(const item &payload);
+ item take_out(item *thing);
+ item take_out(size_t index);
+
  void add_rain_to_container(bool acid, int charges = 1);
 
  int weight() const;
@@ -362,7 +554,7 @@ public:
 // for quick iterative loops
  int getlight_emit(bool calculate_dimming = true) const;
 // Our value as a weapon, given particular skills
- int  weapon_value(player *p) const;
+ int  weapon_value(const Character *p) const;
 // As above, but discounts its use as a ranged weapon
  int  melee_value (player *p);
 // how resistant item is to bashing and cutting damage
@@ -465,11 +657,9 @@ public:
 
  bool destroyed_at_zero_charges() const;
 // Most of the is_whatever() functions call the same function in our itype
- bool is_null() const; // True if type is NULL, or points to the null item (id == 0)
- bool is_food(player const*u) const;// Some non-food items are food to certain players
- bool is_food_container(player const*u) const;  // Ditto
- bool is_food() const;                // Ignoring the ability to eat batteries, etc.
- bool is_food_container() const;      // Ignoring the ability to eat batteries, etc.
+ bool is_null() const;                                  // True if type is NULL, or points to the null item (id == 0)
+ bool is_food(const player *u=nullptr) const;           // Some non-food items are food to certain players
+ bool is_food_container(const player *u=nullptr) const; // Ditto
  bool is_ammo_container() const;
  bool is_drink() const;
  bool is_weap() const;
@@ -483,6 +673,7 @@ public:
  bool is_armor() const;
  bool is_book() const;
  bool is_container() const;
+ bool is_storage() const;
  bool is_watertight_container() const;
  bool is_salvageable() const;
  bool is_disassemblable() const;
@@ -525,9 +716,30 @@ public:
      * no components */
     std::string components_to_string() const;
 
- itype_id typeId() const;
- itype* type;
- std::vector<item> contents;
+        itype_id   typeId() const;
+        itype      *type;
+
+        storage    contents;
+
+        // amount of storage being used
+        int storage_used() const;
+        // amount of storage free
+        int storage_free() const;
+        // does this item have space for `thing' to be stored
+        bool has_space_for(const item &thing) const;
+        // returns true if items are being stored
+        bool has_items_stored() const
+        {
+            return !is_storage_empty();
+        }
+        bool is_storage_full() const
+        {
+            return ((contents.empty()) ? false : storage_free() == 0);
+        }
+        bool is_storage_empty() const
+        {
+            return contents.empty();
+        }
 
         /**
          * Returns @ref curammo, the ammo that is currently load in this item.
@@ -879,12 +1091,12 @@ public:
         std::list<item> remove_items_with( T filter )
         {
             std::list<item> result;
-            for( auto it = contents.begin(); it != contents.end(); ) {
-                if( filter( *it ) ) {
-                    result.push_back( std::move( *it ) );
-                    it = contents.erase( it );
+            for(auto it = contents.begin(); it != contents.end();) {
+                if(filter(*it)) {
+                    result.push_back(contents.rem(&(*it)));
+                    ++it;
                 } else {
-                    result.splice( result.begin(), it->remove_items_with( filter ) );
+                    result.splice(result.begin(), it->remove_items_with(filter));
                     ++it;
                 }
             }

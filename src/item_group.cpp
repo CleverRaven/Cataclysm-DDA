@@ -238,7 +238,7 @@ void Item_modifier::modify(item &new_item) const
     }
     if (contents.get() != NULL) {
         Item_spawn_data::ItemList contentitems = contents->create(new_item.bday);
-        new_item.contents.insert(new_item.contents.end(), contentitems.begin(), contentitems.end());
+        new_item.contents.add(contentitems.begin(), contentitems.end());
     }
 }
 

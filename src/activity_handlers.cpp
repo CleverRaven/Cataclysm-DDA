@@ -92,7 +92,7 @@ void activity_handlers::butcher_finish( player_activity *act, player *p )
         return;
     }
     mtype *corpse = g->m.i_at(p->posx(), p->posy())[act->index].get_mtype();
-    std::vector<item> contents = g->m.i_at(p->posx(), p->posy())[act->index].contents;
+    std::list<item> contents = g->m.i_at(p->posx(), p->posy())[act->index].contents.get();
     int age = g->m.i_at(p->posx(), p->posy())[act->index].bday;
     g->m.i_rem(p->posx(), p->posy(), act->index);
     int factor = p->butcher_factor();
