@@ -7663,17 +7663,20 @@ void player::suffer()
             }
             //leaking radiation, reactor is unshielded, but still better than a simple tank
             slow_rad += ((tank_plut * 0.1) + (reactor_plut * 0.01));
-            int power_gen;
-            power_gen = 0;
             //begin power generation
             if (reactor_plut > 0) {
+                int power_gen;
+                power_gen = 0;
                 if (has_bionic("bio_advreactor")){
-                    if ((reactor_plut * 0.2) > 500){
-                        power_gen = 500;
+                    if ((reactor_plut * 0.2) > 2000){
+                        power_gen = 2000;
                     } else {
                         power_gen = reactor_plut * 0.05;
+                        if (power_gen < 1) {
+                            power_gen = 1;
+                        }
                     }
-                    slow_rad += (power_gen * 5);
+                    slow_rad += (power_gen * 3);
                     while (slow_rad >= 50) {
                         if (power_gen >= 1) {
                             slow_rad -= 50;
@@ -7684,37 +7687,28 @@ void player::suffer()
                         }
                     }
                 } else if (has_bionic("bio_reactor")) {
-                    if ((reactor_plut * 0.1) > 50){
-                        power_gen = 50;
+                    if ((reactor_plut * 0.1) > 500){
+                        power_gen = 500;
                     } else {
                         power_gen = reactor_plut * 0.025;
+                        if (power_gen < 1) {
+                            power_gen = 1;
+                        }
                     }
-                    slow_rad += (power_gen * 5);
+                    slow_rad += (power_gen * 3);
                 }
                 reactor_plut -= power_gen;
-                if (power_gen > (max_power_level - power_level)) {
-                    power_gen -= (max_power_level - power_level);
-                    power_level = max_power_level;
-                    if (power_gen >= 50) { //more power than you can store is painful and harmful
-                        add_msg(m_bad, _("Your chest burns as your batteries overload!"));
-                        while (power_gen >= 50) {
-                            apply_damage( nullptr, bp_torso, 1);
-                            mod_pain(5);
-                            power_gen -= 50;
-                        }
-                    } else if (power_gen >= 10) {
-                        add_msg(m_bad, _("Your chest stings as your batteries overload!"));
-                    }
-                    while (power_gen >= 10) {
-                        mod_pain(1);
-                        power_gen -= 10;
-                    }
-                } else {
-                power_level += power_gen;
+                while (power_gen >= 250) {
+                    apply_damage( nullptr, bp_torso, 1);
+                    mod_pain(1);
+                    add_msg(m_bad, _("Your chest burns as your power systems overload!"));
+                    charge_power(50);
+                    power_gen -= 60; // ten units of power lost due to short-circuiting into you
                 }
+                charge_power(power_gen);
             }
         } else {
-            slow_rad += (((reactor_plut * 0.4) + (tank_plut * 0.4)) * 200);
+            slow_rad += (((reactor_plut * 0.4) + (tank_plut * 0.4)) * 100);
             //plutonium in body without any kind of container.  Not good at all.
             reactor_plut *= 0.6;
             tank_plut *= 0.6;
@@ -8994,13 +8988,15 @@ bool player::consume(int target_position)
             charge_power(to_eat->charges / factor);
             to_eat->charges -= max_change * factor; //negative charges seem to be okay
             to_eat->charges++; //there's a flat subtraction later
-		} else if (to_eat->is_ammo() &&  ( has_active_bionic("bio_reactor") || has_active_bionic("bio_advreactor") ) && to_eat->ammo_type() == "reactor_slurry") {
-		    if (to_eat->type->id == "plut_slurry_dense") {
+		} else if (to_eat->is_ammo() &&  ( has_active_bionic("bio_reactor") || has_active_bionic("bio_advreactor") ) && ( to_eat->ammo_type() == "reactor_slurry" || to_eat->ammo_type() == "plutonium")) {
+		    if (to_eat->type->id == "plut_cell" && query_yn(_("Thats a LOT of plutonium.  Are you sure you want that much?"))) {
+                tank_plut += 5000;
+		    } else if (to_eat->type->id == "plut_slurry_dense") {
                 tank_plut += 500;
 		    } else if (to_eat->type->id == "plut_slurry") {
                 tank_plut += 250;
             }
-            add_msg_player_or_npc( _("You pour your %s into your reactor's tank."), _("<npcname> pours %s into their reactor's tank."),
+            add_msg_player_or_npc( _("You add your %s to your reactor's tank."), _("<npcname> pours %s into their reactor's tank."),
             to_eat->tname().c_str());
         } else if (!to_eat->is_food() && !to_eat->is_food_container(this)) {
             if (to_eat->is_book()) {

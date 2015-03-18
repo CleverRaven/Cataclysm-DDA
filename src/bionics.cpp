@@ -1018,6 +1018,12 @@ bool player::activate_bionic(int b, bool eff_only)
         } else {
             bio.powered = g->remoteveh() != nullptr || get_value( "remote_controlling" ) != "";
         }
+    } else if (bio.id == "bio_plutdump") {
+        if (query_yn(_("WARNING: Purging all fuel is likely to result in radiation!  Purge anyway?"))) {
+            slow_rad += (tank_plut + reactor_plut);
+            tank_plut = 0;
+            reactor_plut = 0;
+            }
     }
 
     return true;
@@ -1223,6 +1229,8 @@ bool player::uninstall_bionic(bionic_id b_id)
         if (!query_yn(_("WARNING: Removing a reactor may leave radioactive material! Remove anyway?"))) {
             return false;
         }
+    } else if (b_id == "bio_plutdump") {
+        popup(_("You must remove your reactor to remove the Plutonium Purger."));
     }
 
     if ( b_id == "bio_earplugs") {
@@ -1260,6 +1268,8 @@ bool player::uninstall_bionic(bionic_id b_id)
         remove_bionic(b_id);
         if (b_id == "bio_ears") {
             remove_bionic("bio_earplugs"); // the earplugs are of the same bionic
+        } else if (b_id == "bio_reactor" || b_id == "bio_advreactor") {
+            remove_bionic("bio_plutdump");
         }
         g->m.spawn_item(posx(), posy(), "burnt_out_bionic", 1);
     } else {
@@ -1349,11 +1359,12 @@ bool player::install_bionics(const itype &type)
 
             if (bioid == "bio_ears") {
                 add_bionic("bio_earplugs"); // automatically add the earplugs, they're part of the same bionic
-            }
-            if (bioid == "bio_reactor_upgrade") {
+            } else if (bioid == "bio_reactor_upgrade") {
 				remove_bionic("bio_reactor");
 				remove_bionic("bio_reactor_upgrade");
                 add_bionic("bio_advreactor");
+            } else if (bioid == "bio_reactor" || bioid == "bio_advreactor") {
+                add_bionic("bio_plutdump");
             }
 
         }

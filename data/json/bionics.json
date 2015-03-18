@@ -27,6 +27,12 @@
         "description": "This set of tanks and filters allows you to more rapidly extract usable plutonium from slurry for a microreactor."
     },{
         "type": "bionic",
+        "id": "bio_plutdump",
+        "name": "Plutonium Purger",
+        "act_cost": 1,
+        "description": "Emergency reactor fuel purge ejects all fuel from your reactor."
+    },{
+        "type": "bionic",
         "id": "bio_reactor_upgrade",
         "name": "Reactor Upgrade",
         "description": "You shouldn't see this."
