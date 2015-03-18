@@ -1795,7 +1795,7 @@ std::list<item> player::consume_items(const std::vector<item_comp> &components, 
     return ret;
 }
 
-void player::consume_tools(const std::vector<tool_comp> &tools, int batch, const std::string hotkeys)
+void player::consume_tools(const std::vector<tool_comp> &tools, int batch, const std::string &hotkeys)
 {
     bool found_nocharge = false;
     inventory map_inv;
