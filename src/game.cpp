@@ -7069,7 +7069,7 @@ void game::close(int closex, int closey)
     } else if (m.has_furn(closex, closey) && m.furn_at(closex, closey).close.empty()) {
         // check for open crate
         if (m.furn_at(closex, closey).id == "f_crate_o") {
-            add_msg(m_info, _("You'll need to seal the crate to close it!"));
+            add_msg(m_info, _("You'll need to construct a seal to close the crate!"));
         } else {
             add_msg(m_info, _("There's a %s in the way!"), m.furnname(closex, closey).c_str());
         }
