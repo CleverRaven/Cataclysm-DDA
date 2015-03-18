@@ -934,7 +934,7 @@ bool mapgen_function_json::setup() {
             }
        }
         load_objects<jmapgen_field>( jo, "place_fields" );
-        load_objects<jmapgen_npc>( jo, "place_npc" );
+        load_objects<jmapgen_npc>( jo, "place_npcs" );
         load_objects<jmapgen_sign>( jo, "place_signs" );
         load_objects<jmapgen_vending_machine>( jo, "place_vendingmachines" );
         load_objects<jmapgen_toilet>( jo, "place_toilets" );
@@ -5725,6 +5725,8 @@ ff.......|....|WWWWWWWW|\n\
                                            f_null,         f_null,         f_null,     f_null,        f_null,        f_null));
         tmpcomp = add_computer(17, 13, _("Broadcasting Control"), 0);
         tmpcomp->add_option(_("ERROR:  SIGNAL DISCONNECT"), COMPACT_TOWER_UNRESPONSIVE, 0);
+        tmpcomp->add_option(_("Disable External Power"), COMPACT_COMPLETE_MISSION, 0);
+        tmpcomp->add_option(_("Install Repeater Mod"), COMPACT_REPEATER_MOD, 0);
         spawn_item(18, 13, "record_weather");
         place_items("novels", 70,  5,  12, 6,  12, false, 0);
         place_items("novels", 70,  2,  21, 2,  19, false, 0);
