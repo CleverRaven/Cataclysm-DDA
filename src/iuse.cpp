@@ -6047,15 +6047,10 @@ int iuse::lumber(player *p, item *it, bool, point)
     for (auto &i : g->m.i_at(p->posx(), p->posy())) {
         if (i.type->id == "log")
         {
-            if (query_yn("Use log on ground?"))
-            {
-                cut = &i;
+            cut = &i;
 
-                g->m.i_rem(p->posx(), p->posy(), cut);
-                return cut_log_into_planks( p, it );
-            }
-            else
-                break;
+            g->m.i_rem(p->posx(), p->posy(), cut);
+            return cut_log_into_planks( p, it );
         }
     }
 
