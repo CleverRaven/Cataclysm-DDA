@@ -2015,28 +2015,33 @@ void mapgen_gas_station(map *m, oter_id terrain_type, mapgendata dat, int, float
         type2 = "vending_drink";
         type = "vending_food";
     }
-    int vset = rng(1,5);
+    int vset = rng(1,5), vset2 = rng(1,5);
     if(rng(0,1)) {
         vset += left_w;
     } else {
         vset = right_w - vset;
     }
-    m->place_vending(vset,top_w-1, type);
+    m->place_vending(vset, top_w-1, type);
     if(rng(0,1))
     {
-        int vset2 = rng(1,9);
-        if(vset2 >= vset) vset2++;
-        if(vset2 > 5) vset2 = right_w - (vset2 - 5);
-        else vset2 += left_w;
-        m->place_vending(vset2,top_w-1, type2);
+        if(rng(0,1)) {
+            vset2 += left_w;
+        } else {
+            vset2 = right_w - vset2;
+        }
+        if (vset2 != vset) {
+            m->place_vending(vset2, top_w-1, type);
+        }
     }
-    if(rng(0,1)) {
-        //ATM
-        m->ter_set(vset - 1, top_w-1, t_atm);
-    } else {
-        //charging rack
-        m->furn_set(vset - 1, top_w-1, f_rack);
-        m->place_items("gas_charging_rack", 100, vset - 1, top_w-1, vset - 1, top_w-1, false, 0);
+    if (vset2 != vset-1) {
+        if(rng(0,1)) {
+            //ATM
+            m->ter_set(vset - 1, top_w-1, t_atm);
+        } else {
+            //charging rack
+            m->furn_set(vset - 1, top_w-1, f_rack);
+            m->place_items("gas_charging_rack", 100, vset - 1, top_w-1, vset - 1, top_w-1, false, 0);
+        }
     }
     //
     m->ter_set(center_w, rng(middle_w + 1, bottom_w - 1), t_door_c);
@@ -3251,8 +3256,8 @@ void mapgen_s_hardware(map *m, oter_id terrain_type, mapgendata dat, int, float 
                     starty = 18;
                 }
                 bool hori = (starty == 18 ? false : true);
-                for (int i = startx; i <= startx + (hori ? 3 : 2); i++) {
-                    for (int j = starty; j <= starty + (hori ? 2 : 3); j++) {
+                for (int i = startx; i < startx + (hori ? 3 : 2); i++) {
+                    for (int j = starty; j < starty + (hori ? 2 : 3); j++) {
                         m->furn_set(i, j, f_dumpster);
                     }
                 }
