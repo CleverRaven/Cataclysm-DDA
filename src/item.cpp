@@ -1001,8 +1001,8 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump, bool debug) c
                                          _("Reading this book affects your morale by <num>"),
                                          book->fun, true, (book->fun > 0 ? "+" : "")));
             }
-            dump->push_back(iteminfo("BOOK", "", ngettext("This book takes <num> minute to read.",
-                                                          "This book takes <num> minutes to read.",
+            dump->push_back(iteminfo("BOOK", "", ngettext("A chapter of this book takes <num> minute to read.",
+                                                          "A chapter of this book takes <num> minutes to read.",
                                                           book->time),
                                      book->time, true, "", true, true));
             if( book->chapters > 0 ) {

@@ -10999,8 +10999,8 @@ void player::do_read( item *book )
         if (reading->fun != 0) {
             add_msg(m_info, _("Reading this book affects your morale by %d"), reading->fun);
         }
-        add_msg(m_info, ngettext("This book takes %d minute to read.",
-                         "This book takes %d minutes to read.", reading->time),
+        add_msg(m_info, ngettext("A chapter of this book takes %d minute to read.",
+                         "A chapter of this book takes %d minutes to read.", reading->time),
                 reading->time );
 
         if (!(reading->recipes.empty())) {
