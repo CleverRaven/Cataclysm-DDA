@@ -7535,7 +7535,7 @@
             "type": "auto_transform",
             "msg": "You extinguish the lighter.",
             "when_underwater": "The lighter is extinguished.",
-            "target": "ref_lighter_off",
+            "target": "ref_lighter",
             "active": false
         }
     ]
