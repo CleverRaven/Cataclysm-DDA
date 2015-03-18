@@ -199,7 +199,7 @@ class uimenu: public ui_container
         bool started;
         int last_fsize;
         int last_vshift;
-        std::string &hotkeys;
+        const std::string &hotkeys;
 };
 
 // Callback for uimenu that pairs menu entries with points

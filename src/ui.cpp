@@ -34,13 +34,13 @@ int getfoldedwidth (std::vector<std::string> foldedstring)
 }
 
 ////////////////////////////////////
-uimenu::uimenu()
+uimenu::uimenu() : hotkeys( DEFAULT_HOTKEYS )
 {
     init();
 }
 
 // here we emulate the old int ret=menu(bool, "header", "option1", "option2", ...);
-uimenu::uimenu(bool, const char * const mes, ...)
+uimenu::uimenu(bool, const char * const mes, ...) : hotkeys( DEFAULT_HOTKEYS )
 {
     init();
     va_list ap;
@@ -53,8 +53,9 @@ uimenu::uimenu(bool, const char * const mes, ...)
     query();
 }
 
+// exact usage as menu_vec
 uimenu::uimenu(bool cancelable, const char *mes,
-               const std::vector<std::string> options)   // exact usage as menu_vec
+               const std::vector<std::string> options) : hotkeys( DEFAULT_HOTKEYS )
 {
     init();
     if (options.empty()) {
@@ -74,10 +75,9 @@ uimenu::uimenu(bool cancelable, const char *mes,
 
 uimenu::uimenu(bool cancelable, const char *mes,
                const std::vector<std::string> &options,
-               const std::string &hotkeys_override)
+               const std::string &hotkeys_override) : hotkeys( hotkeys_override )
 {
     init();
-    hotkeys = hotkeys_override;
     if (options.empty()) {
         debugmsg("0-length menu (\"%s\")", mes);
         ret = -1;
@@ -94,7 +94,7 @@ uimenu::uimenu(bool cancelable, const char *mes,
 }
 
 uimenu::uimenu(int startx, int width, int starty, std::string title,
-               std::vector<uimenu_entry> ents)
+               std::vector<uimenu_entry> ents) : hotkeys( DEFAULT_HOTKEYS )
 {
     // another quick convenience coonstructor
     init();
@@ -108,7 +108,7 @@ uimenu::uimenu(int startx, int width, int starty, std::string title,
 }
 
 uimenu::uimenu(bool cancelable, int startx, int width, int starty, std::string title,
-               std::vector<uimenu_entry> ents)
+               std::vector<uimenu_entry> ents) : hotkeys( DEFAULT_HOTKEYS )
 {
     // another quick convenience coonstructor
     init();
