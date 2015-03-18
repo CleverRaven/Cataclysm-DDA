@@ -5725,7 +5725,6 @@ ff.......|....|WWWWWWWW|\n\
                                            f_null,         f_null,         f_null,     f_null,        f_null,        f_null));
         tmpcomp = add_computer(17, 13, _("Broadcasting Control"), 0);
         tmpcomp->add_option(_("ERROR:  SIGNAL DISCONNECT"), COMPACT_TOWER_UNRESPONSIVE, 0);
-        tmpcomp->add_option(_("Disable External Power"), COMPACT_COMPLETE_MISSION, 0);
         tmpcomp->add_option(_("Install Repeater Mod"), COMPACT_REPEATER_MOD, 0);
         spawn_item(18, 13, "record_weather");
         place_items("novels", 70,  5,  12, 6,  12, false, 0);
