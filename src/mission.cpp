@@ -1194,17 +1194,17 @@ Before we get into a major fight just make sure we have the gear we need, boss."
         case TALK_MISSION_DESCRIBE:
             return _("We need help...");
         case TALK_MISSION_OFFER:
-            return _("I guess I could use your skills once again.  Somewhere on this floor or in the sewers above us "
-                     "there is a terminal that controls this facilities connection to the external power grid.  The "
-                     "constant draw from equipment outside is preventing me from pulling more communications gear online.  "
-                     "Find this terminal and disable the connection.");
+            return _("I guess I could use your skills once again.  There are small transmitters located in the nearby evacuation "
+                    "shelters; if we don't don't separate them from the power grid their power systems will rapidly deteriorate "
+                    "over the next few weeks.  The task is rather simple but the shelters offer us a place to redirect refugees "
+                    "until this vault can be secured. ");
         case TALK_MISSION_ACCEPTED:
             return _("Thanks, I should be ready for you to install the radio repeater mods by the time you get back.");
         case TALK_MISSION_REJECTED:
             return _("I don't know why you would bother wasting your time down here if you can't "
                      "handle a few small tasks...");
         case TALK_MISSION_ADVICE:
-            return _("Try looking around here before heading back up to the sewers.");
+            return _("Try searching on the outskirts of towns.");
         case TALK_MISSION_INQUIRE:
             return _("Have you had any luck severing the connection?");
         case TALK_MISSION_SUCCESS:
