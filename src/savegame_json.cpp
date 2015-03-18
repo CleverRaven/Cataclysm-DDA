@@ -290,6 +290,12 @@ void player::load(JsonObject &data)
         const std::string t = pmap.get_string("trap");
         known_traps.insert(trap_map::value_type(p, t));
     }
+    
+    // Add the earplugs.
+    if (has_bionic("bio_ears") && !has_bionic("bio_earplugs")) {
+        add_bionic("bio_earplugs");
+    }
+    
 }
 
 /*

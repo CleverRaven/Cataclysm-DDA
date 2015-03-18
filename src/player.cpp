@@ -3942,9 +3942,18 @@ void player::add_bionic( bionic_id b )
 void player::remove_bionic(bionic_id b) {
     std::vector<bionic> new_my_bionics;
     for(auto &i : my_bionics) {
-        if (!(i.id == b)) {
-            new_my_bionics.push_back(bionic(i.id, i.invlet));
+        if (b == i.id) {
+            continue;
         }
+ 
+        // Ears and earplugs go together like peanut butter and jelly.
+        // Therefore, removing one, should remove the other.
+        if ((b == "bio_ears" && i.id == "bio_earplugs") ||
+            (b == "bio_earplugs" && i.id == "bio_ears")) {
+            continue;
+        }
+
+        new_my_bionics.push_back(bionic(i.id, i.invlet));
     }
     my_bionics = new_my_bionics;
     recalc_sight_limits();
@@ -3974,7 +3983,8 @@ bool player::remove_random_bionic() {
     const int numb = num_bionics();
     if (numb) {
         int rem = rng(0, num_bionics() - 1);
-        my_bionics.erase(my_bionics.begin() + rem);
+        const auto bionic = my_bionics[rem];
+        remove_bionic(bionic.id);
         recalc_sight_limits();
     }
     return numb;
