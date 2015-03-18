@@ -1189,6 +1189,91 @@ Before we get into a major fight just make sure we have the gear we need, boss."
         }
         break;
 
+    case MISSION_OLD_GUARD_NEC_COMMO_2:
+        switch (state) {
+        case TALK_MISSION_DESCRIBE:
+            return _("We need help...");
+        case TALK_MISSION_OFFER:
+            return _("I guess I could use your skills once again.  Somewhere on this floor or in the sewers above us "
+                     "there is a terminal that controls this facilities connection to the external power grid.  The "
+                     "constant draw from equipment outside is preventing me from pulling more communications gear online.  "
+                     "Find this terminal and disable the connection.");
+        case TALK_MISSION_ACCEPTED:
+            return _("Thanks, I should be ready for you to install the radio repeater mods by the time you get back.");
+        case TALK_MISSION_REJECTED:
+            return _("I don't know why you would bother wasting your time down here if you can't "
+                     "handle a few small tasks...");
+        case TALK_MISSION_ADVICE:
+            return _("Try looking around here before heading back up to the sewers.");
+        case TALK_MISSION_INQUIRE:
+            return _("Have you had any luck severing the connection?");
+        case TALK_MISSION_SUCCESS:
+            return _("We are good to go!  The last of the gear is powering up now.");
+        case TALK_MISSION_SUCCESS_LIE:
+            return _("What good does this do us?");
+        case TALK_MISSION_FAILURE:
+            return _("It was a lost cause anyways...");
+        default: // It's a bug.
+            return "";
+        }
+        break;
+
+    case MISSION_OLD_GUARD_NEC_COMMO_3:
+        switch (state) {
+        case TALK_MISSION_DESCRIBE:
+            return _("We need help...");
+        case TALK_MISSION_OFFER:
+            return _("Most of my essential gear has been brought back online so it is time for you to install your "
+                     "first radio repeater mod.  Head topside and locate the nearest radio station.  Install the "
+                     "mod on the backup terminal and return to me so that I can verify that everything was successful.");
+        case TALK_MISSION_ACCEPTED:
+            return _("I'll be standing by down here once you are done.");
+        case TALK_MISSION_REJECTED:
+            return _("I don't know why you would bother wasting your time down here if you can't "
+                     "handle a few small tasks...");
+        case TALK_MISSION_ADVICE:
+            return _("If you could make some sort of directional antenna, it might help locating the radio stations.");
+        case TALK_MISSION_INQUIRE:
+            return _("Have you had any luck finding a radio tower?");
+        case TALK_MISSION_SUCCESS:
+            return _("That's one down.");
+        case TALK_MISSION_SUCCESS_LIE:
+            return _("What good does this do us?");
+        case TALK_MISSION_FAILURE:
+            return _("It was a lost cause anyways...");
+        default: // It's a bug.
+            return "";
+        }
+        break;
+
+    case MISSION_OLD_GUARD_NEC_COMMO_4:
+        switch (state) {
+        case TALK_MISSION_DESCRIBE:
+            return _("We need help...");
+        case TALK_MISSION_OFFER:
+            return _("I could always use you to put another repeater mod up.  I don't have to remind you but every "
+                     "one that goes up extends our response area just a little bit more.  With enough of them we'll "
+                     "be able to maintain communication with anyone in the region.");
+        case TALK_MISSION_ACCEPTED:
+            return _("I'll be standing by.");
+        case TALK_MISSION_REJECTED:
+            return _("I don't know why you would bother wasting your time down here if you can't "
+                     "handle a few small tasks...");
+        case TALK_MISSION_ADVICE:
+            return _("Getting a working vehicle is going to become important as the distance you have to travel increases.");
+        case TALK_MISSION_INQUIRE:
+            return _("Have you had any luck finding a radio tower?");
+        case TALK_MISSION_SUCCESS:
+            return _("I'll try and update the captain with any signals that I need investigated.");
+        case TALK_MISSION_SUCCESS_LIE:
+            return _("What good does this do us?");
+        case TALK_MISSION_FAILURE:
+            return _("It was a lost cause anyways...");
+        default: // It's a bug.
+            return "";
+        }
+        break;
+
     default:
         return "Someone forgot to code this message!";
         break;
