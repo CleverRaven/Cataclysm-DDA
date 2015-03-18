@@ -64,8 +64,13 @@ struct recipe {
     bool paired;
 
     // only used during loading json data: books and the skill needed
-    // to learn this recipe from.
-    std::vector<std::pair<std::string, int> > booksets;
+    // to learn this recipe from and (if not empty) the name of the recipe in the book.
+    struct bookdata_t {
+        std::string book_id;
+        int skill_level;
+        std::string recipe_name;
+    };
+    std::vector<bookdata_t> booksets;
 
     //Create a string list to describe the skill requirements fir this recipe
     // Format: skill_name(amount), skill_name(amount)

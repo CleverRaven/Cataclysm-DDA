@@ -1013,19 +1013,23 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump, bool debug) c
                                            unread ) );
             }
 
-            auto const &recipe_list = book->recipes;
+            std::vector<std::string> recipe_list;
+            for( auto const & elem : book->recipes ) {
+                if( elem.is_hidden() ) {
+                    continue;
+                }
+                if( g->u.knows_recipe( elem.recipe ) ) {
+                    recipe_list.push_back( string_format( "<color_ltgray>%s</color>", elem.name.c_str() ) );
+                } else {
+                    recipe_list.push_back( elem.name );
+                }
+            }
             if( !recipe_list.empty() ) {
                 std::string recipes = "";
                 size_t index = 1;
                 for( auto iter = recipe_list.begin();
                      iter != recipe_list.end(); ++iter, ++index ) {
-                    if(g->u.knows_recipe(iter->first)) {
-                        recipes += "<color_ltgray>";
-                    }
-                    recipes += nname( iter->first->result, 1 );
-                    if(g->u.knows_recipe(iter->first)) {
-                        recipes += "</color>";
-                    }
+                    recipes += *iter;
                     if(index == recipe_list.size() - 1) {
                         recipes += _(" and "); // Who gives a fuck about an oxford comma?
                     } else if(index != recipe_list.size()) {
@@ -1038,6 +1042,9 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump, bool debug) c
                     recipe_list.size(), recipes.c_str());
                 dump->push_back(iteminfo("DESCRIPTION", "--"));
                 dump->push_back(iteminfo("DESCRIPTION", recipe_line));
+            }
+            if( recipe_list.size() != book->recipes.size() ) {
+                dump->push_back( iteminfo( "DESCRIPTION", _( "It might help you figuring out some more recipes." ) ) );
             }
         } else {
             dump->push_back(iteminfo("BOOK", _("You need to read this book to see its contents.")));

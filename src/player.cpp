@@ -11003,13 +11003,19 @@ void player::do_read( item *book )
                          "A chapter of this book takes %d minutes to read.", reading->time),
                 reading->time );
 
-        auto const &recipe_list = reading->recipes;
+        std::vector<std::string> recipe_list;
+        for( auto const & elem : reading->recipes ) {
+            if( elem.is_hidden() ) {
+                continue;
+            }
+            recipe_list.push_back( elem.name );
+        }
         if( !recipe_list.empty() ) {
             std::string recipes = "";
             size_t index = 1;
             for( auto iter = recipe_list.begin();
                  iter != recipe_list.end(); ++iter, ++index ) {
-                recipes += item::nname( iter->first->result );
+                recipes += *iter;
                 if(index == recipe_list.size() - 1) {
                     recipes += _(" and "); // Who gives a fuck about an oxford comma?
                 } else if(index != recipe_list.size()) {
@@ -11021,6 +11027,9 @@ void player::do_read( item *book )
                          "This book contains %1$d crafting recipes: %2$s", recipe_list.size()),
                 recipe_list.size(), recipes.c_str());
             add_msg(m_info, "%s", recipe_line.c_str());
+        }
+        if( recipe_list.size() != reading->recipes.size() ) {
+            add_msg( m_info, _( "It might help you figuring out some more recipes." ) );
         }
         activity.type = ACT_NULL;
         return;
@@ -11188,10 +11197,10 @@ bool player::can_study_recipe(const itype &book)
         return false;
     }
     for( auto const &elem : book.book->recipes ) {
-        auto const r = elem.first;
+        auto const r = elem.recipe;
         if( !knows_recipe( r ) &&
             ( r->skill_used == nullptr ||
-              skillLevel( r->skill_used ) >= elem.second ) ) {
+              skillLevel( r->skill_used ) >= elem.skill_level ) ) {
             return true;
         }
     }
@@ -11204,7 +11213,7 @@ bool player::studied_all_recipes(const itype &book) const
         return true;
     }
     for( auto &elem : book.book->recipes ) {
-        if( !knows_recipe( elem.first ) ) {
+        if( !knows_recipe( elem.recipe ) ) {
             return false;
         }
     }
@@ -11217,13 +11226,13 @@ bool player::try_study_recipe( const itype &book )
         return false;
     }
     for( auto const & elem : book.book->recipes ) {
-        auto const r = elem.first;
+        auto const r = elem.recipe;
         if( knows_recipe( r ) ) {
             continue;
         }
-        if( r->skill_used == nullptr || skillLevel( r->skill_used ) >= elem.second ) {
+        if( r->skill_used == nullptr || skillLevel( r->skill_used ) >= elem.skill_level ) {
             if (r->skill_used == NULL ||
-                rng(0, 4) <= (skillLevel(r->skill_used) - elem.second) / 2) {
+                rng(0, 4) <= (skillLevel(r->skill_used) - elem.skill_level) / 2) {
                 learn_recipe( r );
                 add_msg(m_good, _("Learned a recipe for %s from the %s."),
                                 item::nname( r->result ).c_str(), book.nname(1).c_str());
@@ -12439,13 +12448,13 @@ int player::has_recipe( const recipe *r, const inventory &crafting_inv ) const
         if( candidate.is_book() && items_identified.count(candidate.type->id) ) {
             for( auto const & elem : candidate.type->book->recipes ) {
                 // Does it have the recipe, and do we meet it's requirements?
-                if( elem.first != r ) {
+                if( elem.recipe != r ) {
                     continue;
                 }
                 if( ( r->skill_used == NULL ||
-                      get_skill_level(r->skill_used) >= elem.second ) &&
-                    ( difficulty == -1 || elem.second < difficulty ) ) {
-                    difficulty = elem.second;
+                      get_skill_level(r->skill_used) >= elem.skill_level ) &&
+                    ( difficulty == -1 || elem.skill_level < difficulty ) ) {
+                    difficulty = elem.skill_level;
                 }
             }
         } else {
