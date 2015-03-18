@@ -3173,7 +3173,11 @@ void item::next_mode()
                 return;
             }
         }
-        set_gun_mode( "NULL" );
+        if( has_flag( "REACH_ATTACK" ) ) {
+            set_gun_mode( "MODE_REACH" );
+        } else {
+            set_gun_mode( "NULL" );
+        }
     } else if( is_in_auxiliary_mode() ) {
         size_t i = 0;
         // Advance to next aux mode, or if there isn't one, normal mode
@@ -3190,8 +3194,14 @@ void item::next_mode()
             }
         }
         if( i == contents.size() ) {
-            set_gun_mode( "NULL" );
+            if( has_flag( "REACH_ATTACK" ) ) {
+                set_gun_mode( "MODE_REACH" );
+            } else {
+                set_gun_mode( "NULL" );
+            }
         }
+    } else if( mode == "MODE_REACH" ) {
+        set_gun_mode( "NULL" );
     }
 }
 
@@ -3408,10 +3418,6 @@ int item::gun_recoil( bool with_ammo ) const
 
 int item::gun_range( bool with_ammo ) const
 {
-    if( has_flag( "REACH_ATTACK" ) ) {
-        return has_flag( "REACH3" ) ? 3 : 2;
-    }
-
     if( !is_gun() ) {
         return 0;
     }

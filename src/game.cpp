@@ -10668,92 +10668,105 @@ void game::plfire(bool burst, int default_target_x, int default_target_y)
         add_msg( m_info, _( "The %s must be attached to a gun, it can not be fired separately." ), u.weapon.tname().c_str() );
         return;
     }
-    //below prevents fire burst key from fireing in burst mode in semiautos that have been modded
-    //should be fine to place this here, plfire(true,*) only once in code
-    if (burst && !u.weapon.has_flag("MODE_BURST")) {
-        return;
-    }
+    // Execute reach attack (instead of shooting) if our weapon can reach and 
+    // either we're not using a gun or using a gun set to use a non-gun gunmod
+    bool reach_attack = u.weapon.has_flag( "REACH_ATTACK" ) && 
+                        ( !u.weapon.is_gun() || u.weapon.get_gun_mode() == "MODE_REACH" );
 
     vehicle *veh = m.veh_at(u.posx(), u.posy());
     if (veh && veh->player_in_control(&u) && u.weapon.is_two_handed(&u)) {
         add_msg(m_info, _("You need a free arm to drive!"));
         return;
     }
-    if( !u.weapon.active && !u.weapon.is_in_auxiliary_mode() ) {
-        if( u.weapon.activate_charger_gun( u ) ) {
+
+    if( !reach_attack ) {
+        //below prevents fire burst key from fireing in burst mode in semiautos that have been modded
+        //should be fine to place this here, plfire(true,*) only once in code
+        if (burst && !u.weapon.has_flag("MODE_BURST")) {
             return;
+        }
+
+        if( !u.weapon.active && !u.weapon.is_in_auxiliary_mode() ) {
+            if( u.weapon.activate_charger_gun( u ) ) {
+                return;
+            }
+        }
+
+        if( u.weapon.has_flag("NO_AMMO") ) {
+            u.weapon.charges = 1;
+            u.weapon.set_curammo( "generic_no_ammo" );
+        }
+
+        if ((u.weapon.has_flag("STR8_DRAW") && u.str_cur < 4) ||
+            (u.weapon.has_flag("STR10_DRAW") && u.str_cur < 5) ||
+            (u.weapon.has_flag("STR12_DRAW") && u.str_cur < 6)) {
+            add_msg(m_info, _("You're not strong enough to draw the bow!"));
+            return;
+        }
+
+        if (u.weapon.has_flag("RELOAD_AND_SHOOT") && u.weapon.charges == 0) {
+            const int reload_pos = u.weapon.pick_reload_ammo( u, true );
+            if (reload_pos == INT_MIN) {
+                add_msg(m_info, _("Out of ammo!"));
+                return;
+            }
+            if( !u.weapon.reload( u, reload_pos ) ) {
+                return;
+            }
+            u.moves -= u.weapon.reload_time(u);
+            refresh_all();
+        }
+
+        if( u.weapon.num_charges() == 0 && !u.weapon.has_flag("RELOAD_AND_SHOOT") &&
+            !u.weapon.has_flag("NO_AMMO") ) {
+            add_msg(m_info, _("You need to reload!"));
+            return;
+        }
+        if (u.weapon.has_flag("FIRE_100") && u.weapon.num_charges() < 100) {
+            add_msg(m_info, _("Your %s needs 100 charges to fire!"), u.weapon.tname().c_str());
+            return;
+        }
+        if (u.weapon.has_flag("FIRE_50") && u.weapon.num_charges() < 50) {
+            add_msg(m_info, _("Your %s needs 50 charges to fire!"), u.weapon.tname().c_str());
+            return;
+        }
+        if (u.weapon.has_flag("FIRE_20") && u.weapon.num_charges() < 20) {
+            add_msg(m_info, _("Your %s needs 20 charges to fire!"), u.weapon.tname().c_str());
+            return;
+        }
+        const auto gun = u.weapon.type->gun.get();
+        if( gun != nullptr && gun->ups_charges > 0 ) {
+            const int ups_drain = gun->ups_charges;
+            const int adv_ups_drain = std::min( 1, gun->ups_charges * 3 / 5 );
+            const int bio_power_drain = std::min( 1, gun->ups_charges / 5 );
+            if( !( u.has_charges( "UPS_off", ups_drain ) ||
+                   u.has_charges( "adv_UPS_off", adv_ups_drain ) ||
+                   (u.has_bionic( "bio_ups" ) && u.power_level >= bio_power_drain ) ) ) {
+                add_msg( m_info,
+                         _("You need a UPS with at least %d charges or an advanced UPS with at least %d charges to fire that!"),
+                         ups_drain, adv_ups_drain );
+                return;
+            }
+        }
+
+        if (u.weapon.has_flag("MOUNTED_GUN")) {
+            int vpart = -1;
+            vehicle *veh = m.veh_at(u.posx(), u.posy(), vpart);
+            if (!m.has_flag_ter_or_furn("MOUNTABLE", u.posx(), u.posy()) &&
+                (veh == NULL || veh->part_with_feature(vpart, "MOUNTABLE") < 0)) {
+                add_msg(m_info,
+                        _("You need to be standing near acceptable terrain or furniture to use this weapon. A table, a mound of dirt, a broken window, etc."));
+                return;
+            }
         }
     }
 
-    if( u.weapon.has_flag("NO_AMMO") ) {
-        u.weapon.charges = 1;
-        u.weapon.set_curammo( "generic_no_ammo" );
+    int range;
+    if( reach_attack ) {
+        range = u.weapon.has_flag( "REACH3" ) ? 3 : 2;
+    } else {
+        range = u.weapon.gun_range( &u );
     }
-
-    if ((u.weapon.has_flag("STR8_DRAW") && u.str_cur < 4) ||
-        (u.weapon.has_flag("STR10_DRAW") && u.str_cur < 5) ||
-        (u.weapon.has_flag("STR12_DRAW") && u.str_cur < 6)) {
-        add_msg(m_info, _("You're not strong enough to draw the bow!"));
-        return;
-    }
-
-    if (u.weapon.has_flag("RELOAD_AND_SHOOT") && u.weapon.charges == 0) {
-        const int reload_pos = u.weapon.pick_reload_ammo( u, true );
-        if (reload_pos == INT_MIN) {
-            add_msg(m_info, _("Out of ammo!"));
-            return;
-        }
-        if( !u.weapon.reload( u, reload_pos ) ) {
-            return;
-        }
-        u.moves -= u.weapon.reload_time(u);
-        refresh_all();
-    }
-
-    if( u.weapon.num_charges() == 0 && !u.weapon.has_flag("RELOAD_AND_SHOOT") &&
-        !u.weapon.has_flag("NO_AMMO") && !u.weapon.has_flag("REACH_ATTACK") ) {
-        add_msg(m_info, _("You need to reload!"));
-        return;
-    }
-    if (u.weapon.has_flag("FIRE_100") && u.weapon.num_charges() < 100) {
-        add_msg(m_info, _("Your %s needs 100 charges to fire!"), u.weapon.tname().c_str());
-        return;
-    }
-    if (u.weapon.has_flag("FIRE_50") && u.weapon.num_charges() < 50) {
-        add_msg(m_info, _("Your %s needs 50 charges to fire!"), u.weapon.tname().c_str());
-        return;
-    }
-    if (u.weapon.has_flag("FIRE_20") && u.weapon.num_charges() < 20) {
-        add_msg(m_info, _("Your %s needs 20 charges to fire!"), u.weapon.tname().c_str());
-        return;
-    }
-    const auto gun = u.weapon.type->gun.get();
-    if( gun != nullptr && gun->ups_charges > 0 ) {
-        const int ups_drain = gun->ups_charges;
-        const int adv_ups_drain = std::min( 1, gun->ups_charges * 3 / 5 );
-        const int bio_power_drain = std::min( 1, gun->ups_charges / 5 );
-        if( !( u.has_charges( "UPS_off", ups_drain ) ||
-               u.has_charges( "adv_UPS_off", adv_ups_drain ) ||
-               (u.has_bionic( "bio_ups" ) && u.power_level >= bio_power_drain ) ) ) {
-            add_msg( m_info,
-                     _("You need a UPS with at least %d charges or an advanced UPS with at least %d charges to fire that!"),
-                     ups_drain, adv_ups_drain );
-            return;
-        }
-    }
-
-    if (u.weapon.has_flag("MOUNTED_GUN")) {
-        int vpart = -1;
-        vehicle *veh = m.veh_at(u.posx(), u.posy(), vpart);
-        if (!m.has_flag_ter_or_furn("MOUNTABLE", u.posx(), u.posy()) &&
-            (veh == NULL || veh->part_with_feature(vpart, "MOUNTABLE") < 0)) {
-            add_msg(m_info,
-                    _("You need to be standing near acceptable terrain or furniture to use this weapon. A table, a mound of dirt, a broken window, etc."));
-            return;
-        }
-    }
-
-    int range = u.weapon.gun_range(&u);
 
     temp_exit_fullscreen();
     m.draw(w_terrain, point(u.posx(), u.posy()));
@@ -10761,7 +10774,7 @@ void game::plfire(bool burst, int default_target_x, int default_target_y)
     int x = u.posx();
     int y = u.posy();
 
-    target_mode tmode = u.weapon.is_gun() ? TARGET_MODE_FIRE : TARGET_MODE_REACH;
+    target_mode tmode = reach_attack ? TARGET_MODE_REACH : TARGET_MODE_FIRE;
 
     std::vector<point> trajectory = pl_target_ui( x, y, range, &u.weapon, tmode,
                                                   default_target_x, default_target_y );
@@ -10782,14 +10795,13 @@ void game::plfire(bool burst, int default_target_x, int default_target_y)
         burst = true;
     }
 
-    if( u.weapon.is_gun() ) {
-        u.fire_gun(x, y, burst);
-    } else {
+    if( reach_attack ) {
         u.reach_attack( x, y );
+    } else {
+        u.fire_gun( x, y, burst );
     }
 
     reenter_fullscreen();
-    //fire(u, x, y, trajectory, burst);
 }
 
 void game::butcher()
@@ -11058,7 +11070,7 @@ void game::reload(int pos)
                 if((con.is_gunmod() &&
                         (con.typeId() == "spare_mag" &&
                          con.charges < it->spare_mag_size())) ||
-                    (con.is_auxiliary_gunmod() &&
+                    (con.is_auxiliary_gunmod() && con.is_gun() && 
                         (con.charges < con.clip_size()))) {
                     magazine_isfull = false;
                     break;
@@ -11200,7 +11212,7 @@ void game::unload(item &it)
         }
         // Try to unload all the other gunmods.
         for( auto &gunmod : it.contents ) {
-            if( gunmod.is_auxiliary_gunmod() && gunmod.charges > 0 ) {
+            if( gunmod.is_auxiliary_gunmod() && gunmod.is_gun() && gunmod.charges > 0 ) {
                 unload( gunmod );
                 return;
             } else if( gunmod.typeId() == "spare_mag" && gunmod.charges > 0 ) {

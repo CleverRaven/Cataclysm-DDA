@@ -3402,7 +3402,7 @@ void player::print_gun_mode( WINDOW *w, nc_color c )
     if (gunmod != NULL) {
         attachment << gunmod->type_name().c_str();
         for( auto &mod : weapon.contents ) {
-            if( mod.is_auxiliary_gunmod() ) {
+            if( mod.is_auxiliary_gunmod() && mod.is_gun() ) {
                 attachment << " (" << mod.charges << ")";
             }
         }
@@ -3410,6 +3410,8 @@ void player::print_gun_mode( WINDOW *w, nc_color c )
     } else {
         if (weapon.get_gun_mode() == "MODE_BURST") {
             trim_and_print(w, getcury(w), getcurx(w), getmaxx(w) - 2, c, _("%s (Burst)"), weapname().c_str());
+        } else if( weapon.get_gun_mode() == "MODE_REACH" ) {
+            trim_and_print(w, getcury(w), getcurx(w), getmaxx(w) - 2, c, _("%s (Bayonet)"), weapname().c_str());
         } else {
             trim_and_print(w, getcury(w), getcurx(w), getmaxx(w) - 2, c, _("%s"), weapname().c_str());
         }
