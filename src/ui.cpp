@@ -34,13 +34,13 @@ int getfoldedwidth (std::vector<std::string> foldedstring)
 }
 
 ////////////////////////////////////
-uimenu::uimenu() : hotkeys( DEFAULT_HOTKEYS )
+uimenu::uimenu()
 {
     init();
 }
 
 // here we emulate the old int ret=menu(bool, "header", "option1", "option2", ...);
-uimenu::uimenu(bool, const char * const mes, ...) : hotkeys( DEFAULT_HOTKEYS )
+uimenu::uimenu(bool, const char * const mes, ...)
 {
     init();
     va_list ap;
@@ -55,7 +55,7 @@ uimenu::uimenu(bool, const char * const mes, ...) : hotkeys( DEFAULT_HOTKEYS )
 
 // exact usage as menu_vec
 uimenu::uimenu(bool cancelable, const char *mes,
-               const std::vector<std::string> options) : hotkeys( DEFAULT_HOTKEYS )
+               const std::vector<std::string> options)
 {
     init();
     if (options.empty()) {
@@ -75,9 +75,10 @@ uimenu::uimenu(bool cancelable, const char *mes,
 
 uimenu::uimenu(bool cancelable, const char *mes,
                const std::vector<std::string> &options,
-               const std::string &hotkeys_override) : hotkeys( hotkeys_override )
+               const std::string &hotkeys_override)
 {
     init();
+    hotkeys = hotkeys_override;
     if (options.empty()) {
         debugmsg("0-length menu (\"%s\")", mes);
         ret = -1;
@@ -94,7 +95,7 @@ uimenu::uimenu(bool cancelable, const char *mes,
 }
 
 uimenu::uimenu(int startx, int width, int starty, std::string title,
-               std::vector<uimenu_entry> ents) : hotkeys( DEFAULT_HOTKEYS )
+               std::vector<uimenu_entry> ents)
 {
     // another quick convenience coonstructor
     init();
@@ -108,7 +109,7 @@ uimenu::uimenu(int startx, int width, int starty, std::string title,
 }
 
 uimenu::uimenu(bool cancelable, int startx, int width, int starty, std::string title,
-               std::vector<uimenu_entry> ents) : hotkeys( DEFAULT_HOTKEYS )
+               std::vector<uimenu_entry> ents)
 {
     // another quick convenience coonstructor
     init();
@@ -186,6 +187,7 @@ void uimenu::init()
 
     last_fsize = -1;
     last_vshift = -1;
+    hotkeys = DEFAULT_HOTKEYS;
 }
 
 /*
