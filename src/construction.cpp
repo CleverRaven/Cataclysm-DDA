@@ -632,11 +632,11 @@ void place_construction(const std::string &desc)
 void complete_construction()
 {
     player &u = g->u;
-    construction *built = &constructions[u.activity.index];
+    const construction &built = constructions[u.activity.index];
 
-    u.practice( built->skill, std::max(built->difficulty, 1) * 10,
-                   (int)(built->difficulty * 1.25) );
-    for (const auto &it : built->requirements.components) {
+    u.practice( built.skill, std::max(built.difficulty, 1) * 10,
+                   (int)(built.difficulty * 1.25) );
+    for (const auto &it : built.requirements.components) {
         // Tried issuing rope for WEB_ROPE here.  Didn't arrive in time for the
         // gear check.  Ultimately just coded a bypass in crafting.cpp.
         if (!it.empty()) {
@@ -646,11 +646,11 @@ void complete_construction()
 
     // Make the terrain change
     int terx = u.activity.placement.x, tery = u.activity.placement.y;
-    if (built->post_terrain != "") {
-        if (built->post_is_furniture) {
-            g->m.furn_set(terx, tery, built->post_terrain);
+    if (built.post_terrain != "") {
+        if (built.post_is_furniture) {
+            g->m.furn_set(terx, tery, built.post_terrain);
         } else {
-            g->m.ter_set(terx, tery, built->post_terrain);
+            g->m.ter_set(terx, tery, built.post_terrain);
         }
     }
 
@@ -659,7 +659,7 @@ void complete_construction()
 
     // This comes after clearing the activity, in case the function interrupts
     // activities
-    built->post_special(point(terx, tery));
+    built.post_special(point(terx, tery));
 }
 
 bool construct::check_empty(point p)
