@@ -23,6 +23,7 @@ CataclysmWin.layout
 WinDepend/
 *.7z
 *.zip
+build/
 
 data/font/
 config/
