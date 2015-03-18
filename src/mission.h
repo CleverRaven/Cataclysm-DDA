@@ -50,6 +50,9 @@ enum mission_id {
     MISSION_OLD_GUARD_NEC_1,               //Locate Commo team for Necropolis Commander
     MISSION_OLD_GUARD_NEC_2,               //Cull Nightmares
     MISSION_OLD_GUARD_NEC_COMMO_1,         //Build a radio repeater mod
+    MISSION_OLD_GUARD_NEC_COMMO_2,         //Disable external power connection
+    MISSION_OLD_GUARD_NEC_COMMO_3,         //Install repeater mod in local radio station
+    MISSION_OLD_GUARD_NEC_COMMO_4,         //Cyclical mission to install repeater mods
     NUM_MISSION_IDS
 };
 
@@ -77,7 +80,7 @@ enum mission_goal {
     MGOAL_KILL_MONSTER_TYPE, // Kill a number of a given monster type
     MGOAL_RECRUIT_NPC,       // Recruit a given NPC
     MGOAL_RECRUIT_NPC_CLASS, // Recruit an NPC class
-
+    MGOAL_COMPUTER_TOGGLE,   // Activating the correct terminal will complete the mission
     NUM_MGOAL
 };
 
