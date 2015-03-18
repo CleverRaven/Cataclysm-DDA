@@ -1831,7 +1831,7 @@
         "move_cost": 0,
         "flags": [
             "TRANSPARENT", "FLAMMABLE", "NOITEM", "OPENCLOSE_INSIDE",
-            "BARRICADABLE_WINDOW", "REDUCE_SCENT"
+            "BARRICADABLE_WINDOW_CURTAINS", "REDUCE_SCENT"
         ],
         "close": "t_curtains",
         "open": "t_window_open",
@@ -1915,7 +1915,8 @@
         "color": "dkgray",
         "move_cost": 0,
         "flags": [
-            "FLAMMABLE", "NOITEM", "OPENCLOSE_INSIDE", "REDUCE_SCENT" ],
+            "FLAMMABLE", "NOITEM", "OPENCLOSE_INSIDE", "REDUCE_SCENT", 
+            "BARRICADABLE_WINDOW_CURTAINS" ],
         "open": "t_window_domestic",
         "examine_action" : "curtains",
         "deconstruct": {

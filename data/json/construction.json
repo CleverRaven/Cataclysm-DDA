@@ -505,6 +505,22 @@
         "post_terrain" : "t_window_boarded"
     },{
         "type" : "construction",
+        "description" : "Board Up Window", "//": "Board up window with curtains",
+        "category" : "REINFORCE",
+        "difficulty" : 0,
+        "time" : 5,
+        "qualities": [ [
+            { "id": "HAMMER", "level": 2 }
+        ] ],
+        "components" : [
+            [ [ "2x4", 4 ] ],
+            [ [ "nail", 8 ] ]
+        ],
+        "pre_flags" : "BARRICADABLE_WINDOW_CURTAINS",
+        "post_terrain" : "t_window_boarded",
+        "post_special" : "done_window_curtains"
+    },{
+        "type" : "construction",
         "description" : "Board Up Window", "//": "Board up empty window",
         "category" : "REINFORCE",
         "difficulty" : 0,
