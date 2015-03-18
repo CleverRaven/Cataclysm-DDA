@@ -1559,7 +1559,7 @@ void game::rustCheck()
         int oldSkillLevel = u.skillLevel(aSkill);
 
         if (u.skillLevel(aSkill).rust(charged_bio_mem)) {
-            u.power_level -= 25;
+            u.charge_power(-25);
         }
         int newSkill = u.skillLevel(aSkill);
         if (newSkill < oldSkillLevel) {
@@ -5677,7 +5677,7 @@ int game::mon_info(WINDOW *w)
                             new_seen_mon.push_back( news );
                         } else {
                             debugmsg( "%s at (%d,%d,%d) was not found in the tracker",
-                                      critter.disp_name().c_str(), 
+                                      critter.disp_name().c_str(),
                                       critter.posx(), critter.posy(), critter.posz() );
                         }
                     }
@@ -5975,7 +5975,7 @@ void game::monmove()
         if (!critter.is_dead()) {
             if (u.has_active_bionic("bio_alarm") && u.power_level >= 25 &&
                 rl_dist( u.pos(), critter.pos() ) <= 5) {
-                u.power_level -= 25;
+                u.charge_power(-25);
                 add_msg(m_warning, _("Your motion alarm goes off!"));
                 cancel_activity_query(_("Your motion alarm goes off!"));
                 if (u.in_sleep_state()) {
@@ -6738,7 +6738,7 @@ void game::emp_blast(int x, int y)
         if (u.power_level > 0) {
             add_msg(m_bad, _("The EMP blast drains your power."));
             int max_drain = (u.power_level > 1000 ? 1000 : u.power_level);
-            u.charge_power(0 - rng(1 + max_drain / 3, max_drain));
+            u.charge_power(-rng(1 + max_drain / 3, max_drain));
         }
         // TODO: More effects?
         //e-handcuffs effects
@@ -6797,8 +6797,8 @@ Creature *game::critter_at(int x, int y)
 bool game::add_zombie(monster &critter)
 {
     if( !m.inbounds( critter.posx(), critter.posy(), critter.posz() ) ) {
-        dbg( D_ERROR ) << "added a critter with out-of-bounds position: " 
-                       << critter.posx() << "," << critter.posy() << ","  << critter.posz() 
+        dbg( D_ERROR ) << "added a critter with out-of-bounds position: "
+                       << critter.posx() << "," << critter.posy() << ","  << critter.posz()
                        << " - " << critter.disp_name();
     }
     return critter_tracker.add(critter);
@@ -10816,7 +10816,7 @@ void game::butcher()
         salvage_tool = salvage_tools.front();
         salvage_tool_index = u.get_item_position( salvage_tool );
         item *usable = salvage_tool->get_usable_item( salvage_string );
-        salvage_iuse = dynamic_cast<const salvage_actor*>( 
+        salvage_iuse = dynamic_cast<const salvage_actor*>(
             usable->get_use( salvage_string )->get_actor_ptr() );
     }
 
@@ -11753,67 +11753,66 @@ bool game::plmove(int dx, int dy)
                         add_msg(m_info, _("You can't move %s while standing on it!"), grabbed_vehicle->name.c_str());
                         return false;
                     }
-		//vehicle movement: strength check
-		int mc = 0;
-		int str_req = (grabbed_vehicle->total_mass() / 25); //strengh reqired to move vehicle.
 
-		//if vehicle is rollable we modify str_req based on a function of movecost per wheel.
-    // Veh just too big to grab & move; 41-45 lets folks have a bit of a window
-    // (Roughly 1.1K kg = danger zone; cube vans are about the max)
-    if (str_req > 45) {
-        add_msg(m_info, _("The %s is too bulky for you to move by hand."),
-          grabbed_vehicle->name.c_str() );
-        u.moves -= 100;
-        return false; // No shoving around an RV.
-    }
-    
-		//if vehicle weighs too much, wheels don't provide a bonus.
-		if (grabbed_vehicle->valid_wheel_config() && str_req <= 40)	{
+                    //vehicle movement: strength check
+                    int mc = 0;
+                    int str_req = (grabbed_vehicle->total_mass() / 25); //strengh reqired to move vehicle.
 
-		    //determine movecost for terrain touching wheels
-		    std::vector<int> wheel_indices = grabbed_vehicle->all_parts_with_feature(VPFLAG_WHEEL);
-		    for(auto p : wheel_indices) {
-          mc += (str_req / wheel_indices.size()) * m.move_cost(grabbed_vehicle->global_x() +
-            grabbed_vehicle->parts[p].precalc[0].x, grabbed_vehicle->global_y() +
-            grabbed_vehicle->parts[p].precalc[0].y, grabbed_vehicle);
-		    }
-		    //set strength check threshold
-		    //if vehicle has many or only one wheel (shopping cart), it is as if it had four. 
-		    if(wheel_indices.size() > 4 || wheel_indices.size() == 1) {
-		    	str_req = mc / 4 + 1;
-		    } else {
-		    	str_req = mc / wheel_indices.size() + 1;
-		    }
-		} else {		
-		    str_req++;		    
-		    //if vehicle has no wheels str_req make a noise.
-		    if (str_req <= u.get_str() ) {
-            sounds::sound( grabbed_vehicle->global_x(), grabbed_vehicle->global_y(), str_req * 2,
-				       _("a scraping noise."));
-		    }
-		}
+                    //if vehicle is rollable we modify str_req based on a function of movecost per wheel.
 
-		//final strength check and outcomes
-		if (str_req <= u.get_str() ) {
-		    //calculate exertion factor and movement penalty
-		    drag_multiplier += str_req / u.get_str();
-		    int ex = dice(1, 3) - 1 + str_req;
-		    if (ex > u.get_str() ) {
-            add_msg(m_bad, _("You strain yourself to move the %s!"),
-              grabbed_vehicle->name.c_str() );
-            u.moves -= 200;
-            u.mod_pain(1);
-		    } else if (ex == u.get_str() ) {
-            u.moves -= 200;
-            add_msg( _("It takes some time to move the %s."),
-              grabbed_vehicle->name.c_str());
-		    }
-		} else {
-		    u.moves -= 100;
-		    add_msg( m_bad, _("You lack the strength to move the %s"),
-			     grabbed_vehicle->name.c_str() );
-		    return false;
-		}
+                    // Veh just too big to grab & move; 41-45 lets folks have a bit of a window
+                    // (Roughly 1.1K kg = danger zone; cube vans are about the max)
+                    if (str_req > 45) {
+                        add_msg(m_info, _("The %s is too bulky for you to move by hand."),
+                                grabbed_vehicle->name.c_str() );
+                        u.moves -= 100;
+                        return false; // No shoving around an RV.
+                    }
+
+                    //if vehicle weighs too much, wheels don't provide a bonus.
+                    if (grabbed_vehicle->valid_wheel_config() && str_req <= 40) {
+                        //determine movecost for terrain touching wheels
+                        std::vector<int> wheel_indices = grabbed_vehicle->all_parts_with_feature(VPFLAG_WHEEL);
+                        for(auto p : wheel_indices) {
+                            mc += (str_req / wheel_indices.size()) *
+                                m.move_cost(grabbed_vehicle->global_x() + grabbed_vehicle->parts[p].precalc[0].x,
+                                        grabbed_vehicle->global_y() + grabbed_vehicle->parts[p].precalc[0].y,
+                                        grabbed_vehicle);
+                        }
+                        //set strength check threshold
+                        //if vehicle has many or only one wheel (shopping cart), it is as if it had four.
+                        if(wheel_indices.size() > 4 || wheel_indices.size() == 1) {
+                            str_req = mc / 4 + 1;
+                        } else {
+                            str_req = mc / wheel_indices.size() + 1;
+                        }
+                    } else {
+                        str_req++;
+                        //if vehicle has no wheels str_req make a noise.
+                        if (str_req <= u.get_str() ) {
+                            sounds::sound( grabbed_vehicle->global_x(), grabbed_vehicle->global_y(), str_req * 2,
+                                _("a scraping noise."));
+                        }
+                    }
+
+                    //final strength check and outcomes
+                    if (str_req <= u.get_str() ) {
+                        //calculate exertion factor and movement penalty
+                        drag_multiplier += str_req / u.get_str();
+                        int ex = dice(1, 3) - 1 + str_req;
+                        if (ex > u.get_str() ) {
+                            add_msg(m_bad, _("You strain yourself to move the %s!"), grabbed_vehicle->name.c_str() );
+                            u.moves -= 200;
+                            u.mod_pain(1);
+                        } else if (ex == u.get_str() ) {
+                            u.moves -= 200;
+                            add_msg( _("It takes some time to move the %s."), grabbed_vehicle->name.c_str());
+                        }
+                    } else {
+                        u.moves -= 100;
+                        add_msg( m_bad, _("You lack the strength to move the %s"), grabbed_vehicle->name.c_str() );
+                        return false;
+                    }
 
                     tileray mdir;
 
@@ -12045,7 +12044,7 @@ bool game::plmove(int dx, int dy)
         // Calculate cost of moving
         bool diag = trigdist && u.posx() != x && u.posy() != y;
         u.moves -= int(u.run_cost(m.combined_movecost(u.posx(), u.posy(), x, y, grabbed_vehicle,
-                                  		     movecost_modifier), diag) * drag_multiplier);
+                                               movecost_modifier), diag) * drag_multiplier);
 
         // Adjust recoil down
         u.recoil -= int(u.str_cur / 2) + u.skillLevel("gun");
@@ -12307,7 +12306,7 @@ bool game::plmove(int dx, int dy)
             if (u.in_vehicle) {
                 m.unboard_vehicle(u.posx(), u.posy());
             }
-            u.power_level -= (tunneldist * 250); //tunneling costs 10 bionic power per impassable tile
+            u.charge_power(-(tunneldist * 250)); //tunneling costs 250 bionic power per impassable tile
             u.moves -= 100; //tunneling costs 100 moves
             //move us the number of tiles we tunneled in the x direction, plus 1 for the last tile.
             u.setx( u.posx() + (tunneldist + 1) * (x - u.posx()) );
@@ -12318,7 +12317,7 @@ bool game::plmove(int dx, int dy)
                 m.board_vehicle(u.posx(), u.posy(), &u);
             }
         } else { //or you couldn't tunnel due to lack of energy
-            u.power_level -= 250; //failure is expensive!
+            u.charge_power(-250); //failure is expensive!
             return false;
         }
 
@@ -12781,7 +12780,7 @@ void game::vertical_move(int movez, bool force)
         m.vertical_shift( levz );
 #endif
         return;
-    } 
+    }
 
     if( !force ) {
         monstairz = levz;

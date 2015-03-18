@@ -1639,6 +1639,9 @@ void player::load_legacy(std::stringstream & dump)
   biotmp.id = biotype;
   my_bionics.push_back(biotmp);
  }
+ if (has_bionic("bio_ears") && !has_bionic("bio_earplugs")) {
+    add_bionic("bio_earplugs");
+ }
 
  int nummor;
  morale_point mortmp;
