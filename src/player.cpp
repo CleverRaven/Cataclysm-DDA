@@ -11678,7 +11678,7 @@ int player::encumb(body_part bp, double &layers, int &armorenc) const
 
             layer[level]++;
             if( worn[i].is_power_armor() && is_wearing_active_power_armor ) {
-                armorenc += std::max( 0, worn[i].get_encumber() - 4);
+                armorenc += std::max( 0, worn[i].get_encumber() - 40);
             } else {
                 armorenc += worn[i].get_encumber();
                 // Fitted clothes will reduce either encumbrance or layering.
