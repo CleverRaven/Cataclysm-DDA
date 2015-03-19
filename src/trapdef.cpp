@@ -110,6 +110,11 @@ bool trap::triggered_by_item( const item &itm ) const
     return !is_null() && itm.weight() >= trigger_weight;
 }
 
+bool trap::is_funnel() const
+{
+    return !is_null() && funnel_radius_mm > 0;
+}
+
 //////////////////////////
 // convenient int-lookup names for hard-coded functions
 trap_id

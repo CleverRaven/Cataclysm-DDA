@@ -92,7 +92,7 @@ void retroactively_fill_from_funnel( item *it, const trap &tr, const calendar &e
                                      const point &location )
 {
     const calendar startturn = calendar( it->bday > 0 ? it->bday - 1 : 0 );
-    if ( startturn > endturn || tr.funnel_radius_mm < 1 ) {
+    if ( startturn > endturn || !tr.is_funnel() ) {
         return;
     }
     it->bday = int(endturn.get_turn()); // bday == last fill check

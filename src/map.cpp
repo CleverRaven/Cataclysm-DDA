@@ -5080,8 +5080,7 @@ void map::remove_rotten_items( Container &items, const point &pnt )
 void map::fill_funnels( const point pnt )
 {
     const auto &tr = tr_at( pnt.x, pnt.y );
-    if( tr.is_null() || tr.funnel_radius_mm <= 0 ) {
-        // not a funnel at all
+    if( !tr.is_funnel() ) {
         return;
     }
     // Note: the inside/outside cache might not be correct at this time

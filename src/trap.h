@@ -70,6 +70,7 @@ struct trap {
          * If an item with this weight or more is thrown onto the trap, it triggers.
          */
         int trigger_weight;
+        int funnel_radius_mm;
     public:
         std::vector<itype_id> components; // For disassembly?
 
@@ -90,8 +91,6 @@ struct trap {
         {
             return benign;
         }
-        // non-generic numbers for special cases
-        int funnel_radius_mm;
         bool is_funnel() const;
         /** Player has not yet seen the trap and returns the variable chance, at this moment,
          of whether the trap is seen or not. */
