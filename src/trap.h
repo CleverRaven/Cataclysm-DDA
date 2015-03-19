@@ -61,7 +61,6 @@ typedef void (trapfunc::*trap_function)( Creature *, int x, int y );
 struct trap {
         std::string id;
         int loadid;
-        std::string ident_string;
         long sym;
         nc_color color;
         std::string name;
