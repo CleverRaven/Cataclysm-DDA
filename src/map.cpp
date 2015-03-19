@@ -3837,13 +3837,10 @@ void map::disarm_trap( const tripoint &p )
     // Some traps are not actual traps. Skip the rolls, different message and give the option to grab it right away.
     if( tr->get_avoidance() ==  0 && tr->get_difficulty() == 0 ) {
         add_msg(_("You take down the %s."), tr->name.c_str());
-        std::vector<itype_id> comp = tr->components;
-        for (auto &i : comp) {
-            if (i != "null") {
-                spawn_item( p.x, p.y, i, 1, 1 );
-                remove_trap( p );
-            }
+        for (auto &i : tr->components) {
+            spawn_item( p.x, p.y, i, 1, 1 );
         }
+        remove_trap( p );
         return;
     }
 
@@ -3852,11 +3849,8 @@ void map::disarm_trap( const tripoint &p )
     }
     if (roll >= diff) {
         add_msg(_("You disarm the trap!"));
-        std::vector<itype_id> comp = tr->components;
-        for (auto &i : comp) {
-            if (i != "null") {
-                spawn_item( p.x, p.y, i, 1, 1);
-            }
+        for (auto &i : tr->components) {
+            spawn_item( p.x, p.y, i, 1, 1);
         }
         if( tr_at( p ) == tr_engine ) {
             for (int i = -1; i <= 1; i++) {
