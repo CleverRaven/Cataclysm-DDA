@@ -996,8 +996,8 @@ std::string dynamic_line(talk_topic topic, npc *p)
                 if( !g->u.backlog.empty() && g->u.backlog.front().type == ACT_TRAIN ) {
                 return _("Shall we resume?");
             }
-            std::vector<const Skill*> trainable = p->skills_offered_to(&(g->u));
-            std::vector<matype_id> styles = p->styles_offered_to(&(g->u));
+            std::vector<const Skill*> trainable = p->skills_offered_to(g->u);
+            std::vector<matype_id> styles = p->styles_offered_to(g->u);
             if (trainable.empty() && styles.empty()) {
                 return _("Sorry, but it doesn't seem I have anything to teach you.");
             } else {
@@ -1447,7 +1447,7 @@ std::vector<talk_response> gen_responses(talk_topic topic, npc *p)
             RESPONSE(_("How about some items as payment?"));
                 SUCCESS(TALK_MISSION_REWARD);
                     SUCCESS_ACTION(&talk_function::mission_reward);
-            if((!p->skills_offered_to(&(g->u)).empty() || !p->styles_offered_to(&(g->u)).empty())
+            if((!p->skills_offered_to(g->u).empty() || !p->styles_offered_to(g->u).empty())
                   && p->myclass != NC_EVAC_SHOPKEEP) {
                 SELECT_TEMP(_("Maybe you can teach me something as payment."), 0);
                     SUCCESS(TALK_TRAIN);
@@ -2209,8 +2209,8 @@ std::vector<talk_response> gen_responses(talk_topic topic, npc *p)
                 }
                 SUCCESS(TALK_TRAIN_START);
             }
-            std::vector<matype_id> styles = p->styles_offered_to( &(g->u) );
-            std::vector<const Skill*> trainable = p->skills_offered_to( &(g->u) );
+            std::vector<matype_id> styles = p->styles_offered_to(g->u);
+            std::vector<const Skill*> trainable = p->skills_offered_to(g->u);
             if (trainable.empty() && styles.empty()) {
                 RESPONSE(_("Oh, okay.")); // Nothing to learn here
                     SUCCESS(TALK_NONE);
