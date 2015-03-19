@@ -12353,11 +12353,10 @@ void player::practice( const Skill* s, int amount, int cap )
         amount /= 2;
     }
 
-    if (skillLevel(s) > cap) { //blunt grinding cap implementation for crafting
-        amount = 0;
+    if (skillLevel(s) > cap+1) { //warning player about exp curve
         int curLevel = skillLevel(s);
-        if(is_player() && one_in(5)) {//remind the player intermittently that no skill gain takes place
-            add_msg(m_info, _("This task is too simple to train your %s beyond %d."),
+        if(is_player() && one_in(10)) {//remind the player intermittently that not much skill gain takes place
+            add_msg(m_info, _("This task is too simple to quickly train your %s beyond %d."),
                     s->name().c_str(), curLevel);
         }
     }
@@ -12369,8 +12368,8 @@ void player::practice( const Skill* s, int amount, int cap )
         if (is_player() && newLevel > oldLevel) {
             add_msg(m_good, _("Your skill in %s has increased to %d!"), s->name().c_str(), newLevel);
         }
-        if(is_player() && newLevel > cap) {
-            //inform player immediately that the current recipe can't be used to train further
+        if(is_player() && newLevel > cap+1) {
+            //inform player immediately that the current recipe can't be used to easily train further
             add_msg(m_info, _("You feel that %s tasks of this level are becoming trivial."),
                     s->name().c_str());
         }

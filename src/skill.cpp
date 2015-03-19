@@ -120,7 +120,7 @@ void SkillLevel::train(int amount)
 {
     _exercise += amount;
 
-    if (_exercise >= 100 * (_level + 1)) {
+    if (_exercise >= 100 * (_level + 1) * (_level + 1)) {
         _exercise = 0;
         ++_level;
     }
@@ -161,7 +161,7 @@ bool SkillLevel::rust( bool charged_bio_mem )
     auto const &rust_type = OPTIONS["SKILL_RUST"];
     if (_exercise < 0) {
         if (rust_type == "vanilla" || rust_type == "int") {
-            _exercise = (100 * _level) - 1;
+            _exercise = (100 * _level * _level) - 1;
             --_level;
         } else {
             _exercise = 0;
@@ -179,7 +179,7 @@ void SkillLevel::practice()
 void SkillLevel::readBook(int minimumGain, int maximumGain, int maximumLevel)
 {
     if (_level < maximumLevel || maximumLevel < 0) {
-        train(rng(minimumGain, maximumGain));
+        train(_level * rng(minimumGain, maximumGain));
     }
 
     practice();
