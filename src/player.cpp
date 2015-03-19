@@ -4194,14 +4194,14 @@ bool player::has_two_arms() const
  return true;
 }
 
-bool player::avoid_trap( const tripoint &pos, trap* tr )
+bool player::avoid_trap( const tripoint &pos, const trap &tr )
 {
     int myroll = dice( 3, int(dex_cur + skillLevel( "dodge" ) * 1.5) );
     int traproll;
-    if( tr->can_see( pos, *this ) ) {
-        traproll = dice( 3, tr->get_avoidance() );
+    if( tr.can_see( pos, *this ) ) {
+        traproll = dice( 3, tr.get_avoidance() );
     } else {
-        traproll = dice( 6, tr->get_avoidance() );
+        traproll = dice( 6, tr.get_avoidance() );
     }
 
     if( has_trait( "LIGHTSTEP" ) ) {

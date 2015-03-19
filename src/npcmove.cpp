@@ -1105,7 +1105,7 @@ void npc::move_to(int x, int y)
             moves -= run_cost(g->m.combined_movecost(posx(), posy(), x, y), diag);
             if (g->m.tr_at(x, y) != tr_null) { // NPC stepped on a trap!
                 trap *tr = traplist[g->m.tr_at(x, y)];
-                if (!this->avoid_trap( pos3(), tr )) {
+                if (!avoid_trap( pos3(), *tr )) {
                     tr->trigger( pos3(), this );
                 }
             }

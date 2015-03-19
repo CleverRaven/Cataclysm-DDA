@@ -307,7 +307,7 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         /** True if unarmed or wielding a weapon with the UNARMED_WEAPON flag */
         bool unarmed_attack() const;
         /** Called when a player triggers a trap, returns true if they don't set it off */
-        bool avoid_trap( const tripoint &pos, trap *tr );
+        bool avoid_trap( const tripoint &pos, const trap &tr ) override;
 
         /** Returns true if the player has a pda */
         bool has_pda();

@@ -11923,7 +11923,7 @@ bool game::plmove(int dx, int dy)
         // Can't use dest_loc here - we may have shifted the map
         if( m.tr_at( u.pos3() ) != tr_null ) {
             trap *tr = traplist[m.tr_at( u.pos3() )];
-            if( !u.avoid_trap( u.pos3(), tr ) ) {
+            if( !u.avoid_trap( u.pos3(), *tr ) ) {
                 tr->trigger( u.pos3(), &u );
             }
         }
@@ -12625,7 +12625,7 @@ void game::vertical_move(int movez, bool force)
 
     if( m.tr_at( u.pos3() ) != tr_null ) { // We stepped on a trap!
         trap *tr = traplist[m.tr_at( u.pos3() )];
-        if( force || !u.avoid_trap( u.pos3(), tr ) ) {
+        if( force || !u.avoid_trap( u.pos3(), *tr ) ) {
             tr->trigger( u.pos3(), &u );
         }
     }

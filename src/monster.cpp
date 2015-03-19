@@ -350,6 +350,17 @@ nc_color monster::color_with_effects() const
     return ret;
 }
 
+bool monster::avoid_trap( const tripoint & /* pos */, const trap &tr )
+{
+    // The trap position is not used, monsters are to stupid to remember traps. Actually, they do
+    // not even see them.
+    // Traps are on the ground, digging monsters go below, fliers go above.
+    if( digging() || has_flag( MF_FLIES ) ) {
+        return true;
+    }
+    return dice( 3, type->sk_dodge + 1 ) < dice( 3, tr.get_avoidance() );
+}
+
 bool monster::has_flag(const m_flag f) const
 {
  return type->has_flag(f);

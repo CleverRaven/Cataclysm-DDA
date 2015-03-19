@@ -870,12 +870,10 @@ int monster::move_to(int x, int y, bool force)
     } else if (has_effect("bouldering")) {
         remove_effect("bouldering");
     }
-    if (!digging() && !has_flag(MF_FLIES) &&
-          g->m.tr_at(posx(), posy()) != tr_null) { // Monster stepped on a trap!
-        trap* tr = traplist[g->m.tr_at(posx(), posy())];
-        if (dice(3, type->sk_dodge + 1) < dice(3, tr->get_avoidance())) {
-            tr->trigger( pos3(), this );
-        }
+    const auto tr_id = g->m.tr_at( pos3() );
+    if( tr_id != tr_null && !avoid_trap( pos3(), *traplist[tr_id] ) ) {
+        trap* tr = traplist[tr_id];
+        tr->trigger(pos3(), this);
     }
     if( !will_be_water && ( has_flag(MF_DIGS) || has_flag(MF_CAN_DIG) ) ) {
         underwater = g->m.has_flag("DIGGABLE", posx(), posy() );
