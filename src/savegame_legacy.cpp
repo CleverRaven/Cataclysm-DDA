@@ -1538,7 +1538,7 @@ void player::load_legacy(std::stringstream & dump)
 
          // Bionic power scale has been changed.
          max_power_level *= 25;
-         power_level *= 25
+         power_level *= 25;
 
  if (power_level < 0) {
      power_level = 0;
