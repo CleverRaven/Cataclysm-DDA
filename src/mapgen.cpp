@@ -934,7 +934,7 @@ bool mapgen_function_json::setup() {
             }
        }
         load_objects<jmapgen_field>( jo, "place_fields" );
-        load_objects<jmapgen_npc>( jo, "place_npc" );
+        load_objects<jmapgen_npc>( jo, "place_npcs" );
         load_objects<jmapgen_sign>( jo, "place_signs" );
         load_objects<jmapgen_vending_machine>( jo, "place_vendingmachines" );
         load_objects<jmapgen_toilet>( jo, "place_toilets" );
