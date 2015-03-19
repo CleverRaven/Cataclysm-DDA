@@ -6948,7 +6948,24 @@ int iuse::quiver(player *p, item *it, bool, point)
 
         // empty quiver
         if (choice == 2) {
-            item &arrows = it->contents[0];
+            uimenu amenu;
+            amenu.return_invalid = true;
+            amenu.w_y = 0;
+            amenu.w_x = 0;
+            amenu.w_width = TERMX;
+            amenu.text = std::string( _( "Choose arrow to take out :"));
+            amenu.text.insert( 0, "  ");
+            for( size_t i = 0; i < it->contents.size(); i++) {
+                std::string row = it->contents[i].tname() + string_format( " (%d)", it->contents[i].charges);
+                amenu.addentry( i, true, i + 'a', row);
+            }
+            amenu.query();
+            if( amenu.ret < 0 || amenu.ret >= ( int )it->contents.size()) {
+                p->add_msg_if_player(_("Never mind."));
+                return 0;
+            }
+
+            item &arrows = it->contents[amenu.ret];
             int arrowsRemoved = arrows.charges;
             p->add_msg_if_player(ngettext("You remove the %s from the %s.", "You remove the %s from the %s.",
                                           arrowsRemoved),
@@ -6965,13 +6982,13 @@ int iuse::quiver(player *p, item *it, bool, point)
         int inventory_index = g->inv_for_filter( _("Store which arrows?"), []( const item & itm ) {
             return itm.is_ammo() && (itm.ammo_type() == "arrow" || itm.ammo_type() == "bolt");
         } );
-        item *put = &( p->i_at(inventory_index ) );
-        if (put == NULL || put->is_null()) {
+        item &put = p->i_at(inventory_index );
+        if (put.is_null()) {
             p->add_msg_if_player(_("Never mind."));
             return 0;
         }
 
-        if (!(put->is_ammo() && (put->ammo_type() == "arrow" || put->ammo_type() == "bolt"))) {
+        if (!(put.is_ammo() && (put.ammo_type() == "arrow" || put.ammo_type() == "bolt"))) {
             p->add_msg_if_player(m_info, _("Those aren't arrows!"));
             return 0;
         }
@@ -6982,41 +6999,26 @@ int iuse::quiver(player *p, item *it, bool, point)
             return 0;
         }
 
-        int arrowsStored = 0;
-
-        // not empty so adding more arrows
-        if (!(it->contents.empty()) && it->contents[0].charges > 0) {
-            if (it->contents[0].type->id != put->type->id) {
-                p->add_msg_if_player(m_info, _("Those aren't the same arrows!"));
-                return 0;
-            }
-            if (it->contents[0].charges >= maxArrows) {
-                p->add_msg_if_player(m_info, _("That %s is already full!"), it->tname().c_str());
-                return 0;
-            }
-            arrowsStored = it->contents[0].charges;
-            it->contents[0].charges += put->charges;
-            p->i_rem(put);
-
-            // empty, putting in new arrows
-        } else {
-            it->put_in(p->i_rem(put));
+        long quiver_charges = 0;
+        for( const auto & exist_arrow : it->contents) {
+            quiver_charges += exist_arrow.charges;
+        }
+        if( quiver_charges >= maxArrows) {
+            p->add_msg_if_player(m_info, _("Quiver is full!"));
+            return 0;
         }
 
-        // handle overflow
-        if (it->contents[0].charges > maxArrows) {
-            int toomany = it->contents[0].charges - maxArrows;
-            it->contents[0].charges -= toomany;
-            item clone = it->contents[0];
-            clone.charges = toomany;
-            p->i_add(clone);
+        // partial redundancy code of player::add_ammo_to_worn_quiver
+        int move_cost_per_arrow = 10;
+        int arrowsStored = it->quiver_store_arrow( put);
+        if( arrowsStored > 0) {
+            if( put.charges <= 0) {
+                p->i_rem( &put);
+            }
+            p->add_msg_if_player(ngettext("You store %d %s in your %s.", "You store %d %s in your %s.",
+                                          arrowsStored), arrowsStored, put.type_name( arrowsStored).c_str(), it->type_name().c_str());
+            p->moves -= std::min( 100, arrowsStored * move_cost_per_arrow);
         }
-
-        arrowsStored = it->contents[0].charges - arrowsStored;
-        p->add_msg_if_player(ngettext("You store %d %s in your %s.", "You store %d %s in your %s.",
-                                      arrowsStored),
-                             arrowsStored, it->contents[0].type_name( arrowsStored ).c_str(), it->tname().c_str());
-        p->moves -= 10 * arrowsStored;
     } else {
         p->add_msg_if_player(_("Never mind."));
         return 0;
