@@ -4164,10 +4164,6 @@ void vehicle::handle_trap (int x, int y, int part)
         return;
     }
     trap_id t = g->m.tr_at(x, y);
-    if (t == tr_null || t == tr_goo || t == tr_portal || t == tr_telepad || t == tr_temple_flood ||
-        t == tr_temple_toggle ) {
-        return;
-    }
     int noise = 0;
     int chance = 100;
     int expl = 0;
@@ -4229,6 +4225,8 @@ void vehicle::handle_trap (int x, int y, int part)
         part_damage = 500;
     } else if ( t == tr_sinkhole || t == tr_pit || t == tr_spike_pit || t == tr_ledge || t == tr_glass_pit ) {
         part_damage = 500;
+    } else {
+        return;
     }
     if( g->u.sees(x, y) ) {
         if( g->u.knows_trap( tripoint( x, y, g->get_levz() ) ) ) {
