@@ -177,7 +177,7 @@ void player::sort_armor()
             }
             true_enc = enc - armorenc;
             char my_spaces[]    = "   ";    // lol
-            auto spaces         = &my_spaces;
+            char *spaces        = (char*)&my_spaces;
             if(true_enc > 9)    ++spaces;
             if(armorenc > 9)    ++spaces;
             mvwprintz(w_sort_middle, cont_h - 12 + i, middle_w - 16, c_ltgray, "%d+%d%s= ", armorenc, true_enc, spaces);
