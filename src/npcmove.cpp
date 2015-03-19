@@ -1103,17 +1103,12 @@ void npc::move_to(int x, int y)
             position.y = y;
             bool diag = trigdist && posx() != x && posy() != y;
             moves -= run_cost(g->m.combined_movecost(posx(), posy(), x, y), diag);
-            if (g->m.tr_at(x, y) != tr_null) { // NPC stepped on a trap!
-                trap *tr = traplist[g->m.tr_at(x, y)];
-                if (!avoid_trap( pos3(), *tr )) {
-                    tr->trigger( pos3(), this );
-                }
-            }
             int part;
             vehicle *veh = g->m.veh_at( posx(), posy(), part );
             if( veh != nullptr && veh->part_with_feature( part, VPFLAG_BOARDABLE ) >= 0 ) {
                 g->m.board_vehicle( posx(), posy(), this );
             }
+            g->m.creature_on_trap( *this );
             g->m.creature_in_field( *this );
         } else if (g->m.open_door(x, y, !g->m.is_outside( posx(), posy() ) ) ) {
             moves -= 100;

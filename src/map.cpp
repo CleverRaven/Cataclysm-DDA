@@ -6169,3 +6169,16 @@ field &map::get_field( const int x, const int y )
 {
     return field_at( tripoint( x, y, abs_sub.z ) );
 }
+
+void map::creature_on_trap( Creature &c, bool const may_avoid )
+{
+    auto const tr_id = tr_at( c.pos3() );
+    if( tr_id == tr_null ) {
+        return;
+    }
+    trap const &tr = *traplist[ tr_id ];
+    if( may_avoid && c.avoid_trap( c.pos3(), tr ) ) {
+        return;
+    }
+    tr.trigger( c.pos3(), &c );
+}

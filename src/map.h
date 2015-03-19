@@ -599,6 +599,15 @@ void add_corpse(int x, int y);
          * Apply field effects to the creature when it's on a square with fields.
          */
         void creature_in_field( Creature &critter );
+        /**
+         * Apply trap effects to the creature, similar to @ref creature_in_field.
+         * If there is no trap at the creatures location, nothing is done.
+         * If the creature can avoid the trap, nothing is done as well.
+         * Otherwise the trap is triggered.
+         * @param may_avoid If true, the creature tries to avoid the trap
+         * (@ref Creature::avoid_trap). If false, the trap is always triggered.
+         */
+        void creature_on_trap( Creature &critter, bool may_avoid = true );
 // 3D field functions. Eventually all the 2D ones should be replaced with those
         /**
          * Get the fields that are here. This is for querying and looking at it only,

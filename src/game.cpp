@@ -11919,14 +11919,7 @@ bool game::plmove(int dx, int dy)
         // Traps!
         // Try to detect.
         u.search_surroundings();
-        // We stepped on a trap!
-        // Can't use dest_loc here - we may have shifted the map
-        if( m.tr_at( u.pos3() ) != tr_null ) {
-            trap *tr = traplist[m.tr_at( u.pos3() )];
-            if( !u.avoid_trap( u.pos3(), *tr ) ) {
-                tr->trigger( u.pos3(), &u );
-            }
-        }
+        m.creature_on_trap( u );
 
         // apply martial art move bonuses
         u.ma_onmove_effects();
@@ -12623,12 +12616,8 @@ void game::vertical_move(int movez, bool force)
         }
     }
 
-    if( m.tr_at( u.pos3() ) != tr_null ) { // We stepped on a trap!
-        trap *tr = traplist[m.tr_at( u.pos3() )];
-        if( force || !u.avoid_trap( u.pos3(), *tr ) ) {
-            tr->trigger( u.pos3(), &u );
-        }
-    }
+    // Upon force movement, traps can not be avoided.
+    m.creature_on_trap( u, !force );
 
     // Clear currently active npcs and reload them
     active_npc.clear();
