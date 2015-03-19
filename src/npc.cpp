@@ -420,7 +420,7 @@ void npc::randomize(npc_class type)
    set_skill_level( skill, level );
   }
   boost_skill_level("gun", rng(2, 4));
-  boost_skill_level(Skill::random_skill_with_tag("gun"), rng(3, 5));
+  boost_skill_level(Skill::random_skill_with_tag("gun_type"), rng(3, 5));
   personality.aggression += rng(1, 6);
   personality.bravery += rng(0, 5);
   break;
