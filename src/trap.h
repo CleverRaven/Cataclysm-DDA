@@ -14,8 +14,6 @@ extern std::map<std::string, int> trapmap;
 void set_trap_ids();
 /** release all trap types, reset <B>traps</B> and <B>trapmap</B> */
 void release_traps();
-/** load a trap definition from json */
-void load_trap(JsonObject &jo);
 
 struct trap;
 
@@ -65,11 +63,10 @@ struct trap {
         nc_color color;
         std::string name;
     private:
-        friend void load_trap(JsonObject &jo);
         int visibility; // 1 to ??, affects detection
         int avoidance;  // 0 to ??, affects avoidance
         int difficulty; // 0 to ??, difficulty of assembly & disassembly
-        bool benign;
+        bool benign = false;
         trap_function act;
     public:
         std::vector<itype_id> components; // For disassembly?
@@ -109,30 +106,11 @@ struct trap {
         std::string id;
         */
 
-        trap(std::string string_id, int load_id, std::string pname, nc_color pcolor,
-             char psym, int pvisibility, int pavoidance, int pdifficulty,
-             trap_function pact,
-             std::vector<std::string> keys)
-        {
-            //string_id is ignored at the moment, will later replace the id
-            id = string_id;
-            loadid = load_id;
-            sym = psym;
-            color = pcolor;
-            name = pname;
-            visibility = pvisibility;
-            avoidance = pavoidance;
-            difficulty = pdifficulty;
-            act = pact;
-
-            components.insert(components.end(), keys.begin(), keys.end());
-
-            // It's a traaaap! So default;
-            benign = false;
-            // Traps are not typically funnels
-            funnel_radius_mm = 0;
-            trigger_weight = -1;
-        };
+        /**
+         * Loads the trap and adds it to the @ref trapmap, and the @ref traplist.
+         * @throw std::string if the json is invalid as usual.
+         */
+        static void load( JsonObject &jo );
 };
 
 /** list of all trap types */

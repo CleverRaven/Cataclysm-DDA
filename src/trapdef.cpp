@@ -1,38 +1,37 @@
 #include <vector>
+#include <memory>
 #include "game.h"
 
-void load_trap( JsonObject &jo )
+void trap::load( JsonObject &jo )
 {
-    std::vector<std::string> drops;
+    std::unique_ptr<trap> trap_ptr( new trap() );
+    trap &t = *trap_ptr;
+
     if( jo.has_member( "drops" ) ) {
         JsonArray drops_list = jo.get_array( "drops" );
         while( drops_list.has_more() ) {
-            drops.push_back( drops_list.next_string() );
+            t.components.push_back( drops_list.next_string() );
         }
     }
-
-    std::string name = jo.get_string( "name" );
-    if( !name.empty() ) {
-        name = _( name.c_str() );
+    t.name = jo.get_string( "name" );
+    if( !t.name.empty() ) {
+        t.name = _( t.name.c_str() );
     }
-    trap *new_trap = new trap(
-        jo.get_string( "id" ), // "tr_beartrap"
-        traplist.size(),     // tr_beartrap
-        name, // "bear trap"
-        color_from_string( jo.get_string( "color" ) ),
-        jo.get_string( "symbol" ).at( 0 ),
-        jo.get_int( "visibility" ),
-        jo.get_int( "avoidance" ),
-        jo.get_int( "difficulty" ),
-        trap_function_from_string( jo.get_string( "action" ) ),
-        drops
-    );
+    t.id = jo.get_string( "id" );
+    t.loadid = traplist.size();
+    t.color = color_from_string( jo.get_string( "color" ) );
+    t.sym = jo.get_string( "symbol" ).at( 0 );
+    t.visibility = jo.get_int( "visibility" );
+    t.avoidance = jo.get_int( "avoidance" );
+    t.difficulty = jo.get_int( "difficulty" );
+    t.act = trap_function_from_string( jo.get_string( "action" ) );
+    t.benign = jo.get_bool( "benign", false );
+    t.funnel_radius_mm = jo.get_int( "funnel_radius", 0 );
+    t.trigger_weight = jo.get_int( "trigger_weight", -1 );
 
-    new_trap->benign = jo.get_bool( "benign", false );
-    new_trap->funnel_radius_mm = jo.get_int( "funnel_radius", 0 );
-    new_trap->trigger_weight = jo.get_int( "trigger_weight", -1 );
-    trapmap[new_trap->id] = new_trap->loadid;
-    traplist.push_back( new_trap );
+    trapmap[t.id] = t.loadid;
+    traplist.push_back( &t );
+    trap_ptr.release();
 }
 
 void release_traps()
