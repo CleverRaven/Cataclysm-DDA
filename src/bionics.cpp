@@ -459,9 +459,17 @@ void player::power_bionics()
         if(confirmCheck){
             if(action == "CONFIRM"){
                 if(tab_mode == "TAB_ACTIVE"){
-                    tmp = active[cursor];
+                    if (active.size()) {
+                        tmp = active[cursor];
+                    } else {
+                        break;
+                    }
                 }else{
-                    tmp = passive[cursor];
+                    if (passive.size()) {
+                        tmp = passive[cursor];
+                    } else {
+                        break;
+                    }
                 }
             }else{
                 tmp = bionic_by_invlet(ch);
