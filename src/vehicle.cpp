@@ -2513,10 +2513,7 @@ void vehicle::print_fuel_indicator (void *w, int y, int x, bool fullsize, bool v
 
 void vehicle::coord_translate (int reldx, int reldy, int &dx, int &dy)
 {
-    tileray tdir (face.dir());
-    tdir.advance (reldx);
-    dx = tdir.dx() + tdir.ortho_dx(reldy);
-    dy = tdir.dy() + tdir.ortho_dy(reldy);
+    coord_translate(face.dir(), reldx, reldy, dx, dy);
 }
 
 void vehicle::coord_translate (int dir, int reldx, int reldy, int &dx, int &dy)
