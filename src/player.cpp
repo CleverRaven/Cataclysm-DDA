@@ -3945,7 +3945,7 @@ void player::remove_bionic(bionic_id b) {
         if (b == i.id) {
             continue;
         }
- 
+
         // Ears and earplugs go together like peanut butter and jelly.
         // Therefore, removing one, should remove the other.
         if ((b == "bio_ears" && i.id == "bio_earplugs") ||
@@ -11648,7 +11648,7 @@ int player::encumb( body_part bp ) const
  * Clothes on seperate layers don't interact, so if you wear e.g. a light jacket over a shirt,
  * they're intended to be worn that way, and don't impose a penalty.
  * The default is to assume that clothes do not fit, clothes that are "fitted" either
- * reduce the encumbrance penalty by one, or if that is already 0, they reduce the layering effect.
+ * reduce the encumbrance penalty by ten, or if that is already 0, they reduce the layering effect.
  *
  * Use cases:
  * What would typically be considered normal "street clothes" should not be considered encumbering.
@@ -11683,7 +11683,7 @@ int player::encumb(body_part bp, double &layers, int &armorenc) const
                 level = REGULAR_LAYER;
             }
 
-            layer[level]++;
+            layer[level] += 10;
             if( worn[i].is_power_armor() && is_wearing_active_power_armor ) {
                 armorenc += std::max( 0, worn[i].get_encumber() - 40);
             } else {
@@ -11696,7 +11696,7 @@ int player::encumb(body_part bp, double &layers, int &armorenc) const
                             armorenc = 0;
                         }
                     } else if (layer[level] > 0) {
-                        layer[level] -= .5;
+                        layer[level] -= 5;
                     }
                 }
             }
@@ -11708,11 +11708,11 @@ int player::encumb(body_part bp, double &layers, int &armorenc) const
     ret += armorenc;
 
     for( auto &elem : layer ) {
-        layers += std::max( 0.0, elem - 1.0 );
+        layers += std::max( 0.0, elem - 10.0 );
     }
 
-    if (layers > 0.0) {
-        ret += (layers * 10);
+    if (layers > 5.0) {
+        ret += (layers);
     }
 
     if (volume_carried() > volume_capacity() - 2 && bp != bp_head) {
