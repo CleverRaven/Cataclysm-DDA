@@ -2014,13 +2014,12 @@
                        [ { "id": "DIG", "level": 3 } ]
                        ],
         "tools" : [
-            [ "jackhammer", "jacqueshammer" ],
+            [ [ "jackhammer", 30 ], [ "jacqueshammer", 30 ], [ "elec_jackhammer", 30 ] ],
             [ "crowbar", "halligan"]
         ],
         "components" : [
             [ [ "2x4", 12 ] , [ "log", 12 ] ],
-            [ [ "rope_30", 1 ], [ "vine_30", 1 ] ],
-            [ [ "gasoline", 30 ]]
+            [ [ "rope_30", 1 ], [ "vine_30", 1 ] ]
         ],
         "pre_special" : "check_down_OK",
         "pre_terrain" : "t_rock_floor",
@@ -2036,16 +2035,16 @@
                        [ { "id": "DIG", "level": 3 } ]
                        ],
         "tools" : [
-            [ "jackhammer", "jacqueshammer" ],
+            [ [ "jackhammer", 30 ], [ "jacqueshammer", 30 ], [ "elec_jackhammer", 30 ] ],
             [ "crowbar", "halligan"],
             [ "miner_hat", "hat_hard", "firehelmet", "helmet_ball",
-            "helmet_army", "helmet_lobster", "helmet_riot"]
+            "helmet_army", "helmet_lobster", "helmet_riot", "tac_helmet",
+            "helmet_hsurvivor", "helmet_survivor", "helmet_xlsurvivor", "miner_hat_on"]
         ],
         "note" : "Helmets are essential because you're digging up and things may fall on you.",
         "components" : [
             [ [ "2x4", 12 ] , [ "log", 12 ] ],
-            [ [ "rope_30", 1 ], [ "vine_30", 1 ] ],
-            [ [ "gasoline", 30 ]]
+            [ [ "rope_30", 1 ], [ "vine_30", 1 ] ]
         ],
         "pre_special" : "check_up_OK",
         "pre_terrain" : "t_rock",
