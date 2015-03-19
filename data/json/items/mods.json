@@ -662,7 +662,7 @@
         "material" : ["steel", "null"],
         "volume" : 3,
         "cutting" : 18,
-        "flags" : ["NON_STUCK", "CHOP"],
+        "flags" : ["NON_STUCK", "CHOP", "REACH_ATTACK"],
         "recoil_modifier" : 105,
         "mod_targets" : ["shotgun", "rifle", "crossbow", "launcher"],
         "bashing" : 0

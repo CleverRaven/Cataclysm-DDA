@@ -4899,7 +4899,7 @@
     "description": "This is large blade attached to a long stick.  It could do a considerable amount of damage.",
     "price": 5000,
     "material": "steel",
-    "flags": "CHOP",
+    "flags": ["CHOP", "REACH_ATTACK"],
     "techniques": "WBLOCK_1",
     "weight": 2000,
     "volume": 15,
