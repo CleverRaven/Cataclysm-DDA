@@ -542,6 +542,58 @@ void advanced_inv_area::init()
             }
             break;
     }
+    if( veh != nullptr && vstor >= 0 ) {
+        const auto &part = veh->parts[vstor];
+        const auto label = veh->get_label( part.mount.x, part.mount.y );
+        if( !label.empty() ) {
+            desc = label;
+        }
+    }
+
+    // assemble a list of interesting traits of the target square
+
+    // fields? with a special case for fire
+    bool danger_field = false;
+    const field &tmpfld = g->m.field_at(x, y);
+    for( auto &fld : tmpfld ) {
+        const field_entry &cur = fld.second;
+        field_id curType = cur.getFieldType();
+        switch (curType) {
+            case fd_fire:
+                flags.append(_(" <color_white_red>FIRE</color>"));
+                break;
+            default:
+                if (cur.is_dangerous()) {
+                    danger_field = true;
+                }
+                break;
+        }
+    }
+    if (danger_field) {
+        flags.append(_(" DANGER"));
+    }
+    
+    // trap?
+    const trap_id tid = g->m.tr_at(x, y);
+    if (tid != tr_null) {
+        const struct trap &t = *traplist[tid];
+        if ((t.can_see(g->u, x, y)) && !t.is_benign()) {
+            flags.append(_(" TRAP"));
+        }
+    }
+
+    // water?
+    const ter_id ter = g->m.ter(x, y);
+    if ( (ter == t_water_dp || ter == t_water_pool || ter == t_swater_dp) ||
+         (ter == t_water_sh || ter == t_swater_sh || ter == t_sewage) ) {
+        flags.append(_(" WATER"));
+    }
+
+    // remove leading space
+    if(flags.length()) {
+        flags.erase(0,1);
+    }
+
 }
 
 std::string center_text( const char *str, int width )
@@ -881,13 +933,7 @@ void advanced_inventory::redraw_pane( side p )
     width -= 2 + 1; // starts at offset 2, plus space between the header and the text
     mvwprintz( w, 1, 2, active ? c_cyan : c_ltgray, "%s", utf8_truncate( square.name, width ).c_str() );
     mvwprintz( w, 2, 2, active ? c_green : c_dkgray , "%s", utf8_truncate( square.desc, width ).c_str() );
-    if( square.veh != nullptr ) {
-        const auto &part = square.veh->parts[square.vstor];
-        const auto label = square.veh->get_label( part.mount.x, part.mount.y );
-        if( !label.empty() ) {
-            mvwprintz( w, 3, 2, active ? c_green : c_dkgray , "%s", utf8_truncate( label, width ).c_str() );
-        }
-    }
+    trim_and_print(w, 3, 2, width, active ? c_cyan : c_dkgray, square.flags.c_str() );
 
     const int max_page = ( pane.items.size() + itemsPerPage - 1 ) / itemsPerPage;
     if( active && max_page > 1 ) {
