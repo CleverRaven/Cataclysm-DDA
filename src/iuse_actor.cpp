@@ -31,6 +31,7 @@ void iuse_transform::load( JsonObject &obj )
     obj.read( "need_charges", need_charges );
     obj.read( "need_charges_msg", need_charges_msg );
     obj.read( "moves", moves );
+    obj.read( "menu_option_text", menu_option_text );
 }
 
 long iuse_transform::use(player *p, item *it, bool t, point /*pos*/) const
