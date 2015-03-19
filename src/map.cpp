@@ -6176,6 +6176,12 @@ void map::creature_on_trap( Creature &c, bool const may_avoid )
     if( tr_id == tr_null ) {
         return;
     }
+    // boarded in a vehicle means the player is above the trap, like a flying monster and can
+    // never trigger the trap.
+    const player * const p = dynamic_cast<const player *>( &c );
+    if( p != nullptr && p->in_vehicle ) {
+        return;
+    }
     trap const &tr = *traplist[ tr_id ];
     if( may_avoid && c.avoid_trap( c.pos3(), tr ) ) {
         return;
