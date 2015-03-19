@@ -20,16 +20,14 @@ std::map<std::string, MonsterGroup> MonsterGroupManager::monsterGroupMap;
 
 //Quantity is adjusted directly as a side effect of this function
 MonsterGroupResult MonsterGroupManager::GetResultFromGroup(
-    std::string group_name, int *quantity, int turn )
-{
+    std::string group_name, int *quantity, int turn ){
     int spawn_chance = rng(1, 1000);
-    MonsterGroup group = GetMonsterGroup( group_name );
-    int replace_time = DAYS(group.monster_group_time * ACTIVE_WORLD_OPTIONS["MONSTER_GROUP_DIFFICULTY"]) * (calendar::turn.season_length() / 14);
-    while (group.replace_monster_group && calendar::turn.get_turn() > replace_time){
-        std::string new_monster_name = group.new_monster_group;
-        group = GetMonsterGroup( new_monster_name );
+    auto *groupptr = &GetMonsterGroup( group_name );
+    int replace_time = DAYS(groupptr->monster_group_time * ACTIVE_WORLD_OPTIONS["MONSTER_GROUP_DIFFICULTY"]) * (calendar::turn.season_length() / 14);
+    while (groupptr->replace_monster_group && calendar::turn.get_turn() > replace_time){
+        groupptr = &GetMonsterGroup(groupptr->new_monster_group);
     }
-
+    auto &group = *groupptr;
     //Our spawn details specify, by default, a single instance of the default monster
     MonsterGroupResult spawn_details = MonsterGroupResult(group.defaultMonster, 1);
     //If the default monster is too difficult, replace this with "mon_null"
@@ -185,7 +183,7 @@ bool MonsterGroupManager::isValidMonsterGroup(std::string group)
     return ( monsterGroupMap.find(group) != monsterGroupMap.end() );
 }
 
-MonsterGroup MonsterGroupManager::GetMonsterGroup(std::string group)
+MonsterGroup& MonsterGroupManager::GetMonsterGroup(std::string group)
 {
     std::map<std::string, MonsterGroup>::iterator it = monsterGroupMap.find(group);
     if(it == monsterGroupMap.end()) {
