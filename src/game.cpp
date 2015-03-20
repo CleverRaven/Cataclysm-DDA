@@ -1881,6 +1881,9 @@ bool game::mission_complete(int id, int npc_id)
             return true;
         }
         return false;
+        
+    case MGOAL_COMPUTER_TOGGLE:
+        return (miss->step >= 1);
 
     default:
         return false;

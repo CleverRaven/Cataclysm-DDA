@@ -134,5 +134,22 @@
         "bashing": 0,
         "cutting": 0,
         "to_hit": 0
+    },
+        {
+        "type":"GENERIC",
+        "id": "necropolis_leaflet",
+        "symbol": ",",
+        "color": "white",
+        "name": "vault leaflet",
+        "plural-name": "vault leaflets",
+        "snippet_category": "necropolis_intro",
+        "description": "A folded glossy handout that appears to be an introduction to living in a massive underground complex.",
+        "price": 0,
+        "material": "paper",
+        "weight": 1,
+        "volume": 0,
+        "bashing": 0,
+        "cutting": 0,
+        "to_hit": 0
     }
     ]

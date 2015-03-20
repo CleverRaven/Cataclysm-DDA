@@ -17,7 +17,7 @@ mission_type(id, name, goal, diff, val, urgent, place, start, end, fail) )
 // Omitting DEADLINE means the mission never times out
  #define DEADLINE(low, high) mission_types[id].deadline_low  = low  * 600;\
                              mission_types[id].deadline_high = high * 600
- 
+
 
 // The order of missions should match enum mission_id in mission.h
  int id = -1;
@@ -250,6 +250,43 @@ MISSION(_("Find Flag"), MGOAL_FIND_ITEM, 2, 100000, false,
          &mission_place::always, &mission_start::place_bandit_camp,
          &mission_end::standard, &mission_fail::standard);
   ORIGINS(ORIGIN_SECONDARY);
+
+ MISSION(_("Locate Commo Team"), MGOAL_FIND_ITEM, 2, 250000, false,
+         &mission_place::always, &mission_start::standard,
+         &mission_end::standard, &mission_fail::standard);
+  ORIGINS(ORIGIN_SECONDARY);
+  ITEM("necropolis_freq");
+  FOLLOWUP(MISSION_OLD_GUARD_NEC_2);
+
+ MISSION(_("Cull Nightmares"), MGOAL_KILL_MONSTER_TYPE, 5, 250000, false,
+         &mission_place::always, &mission_start::kill_20_nightmares,
+         &mission_end::leave, &mission_fail::standard);
+  ORIGINS(ORIGIN_SECONDARY);
+
+ MISSION(_("Fabricate Repeater Mod"), MGOAL_FIND_ITEM, 2, 250000, false,
+         &mission_place::always, &mission_start::radio_repeater,
+         &mission_end::standard, &mission_fail::standard);
+  ORIGINS(ORIGIN_SECONDARY);
+  ITEM("radio_repeater_mod");
+  FOLLOWUP(MISSION_OLD_GUARD_NEC_COMMO_2);
+
+ MISSION(_("Disable External Power"), MGOAL_COMPUTER_TOGGLE, 2, 150000, false,
+         &mission_place::always, &mission_start::standard,
+         &mission_end::standard, &mission_fail::standard);
+  ORIGINS(ORIGIN_SECONDARY);
+  FOLLOWUP(MISSION_OLD_GUARD_NEC_COMMO_3);
+
+ MISSION(_("Install Repeater Mod"), MGOAL_COMPUTER_TOGGLE, 2, 300000, false,
+         &mission_place::always, &mission_start::standard,
+         &mission_end::standard, &mission_fail::standard);
+  ORIGINS(ORIGIN_SECONDARY);
+  FOLLOWUP(MISSION_OLD_GUARD_NEC_COMMO_4);
+
+ MISSION(_("Install Repeater Mod"), MGOAL_COMPUTER_TOGGLE, 2, 350000, false,
+         &mission_place::always, &mission_start::standard,
+         &mission_end::standard, &mission_fail::standard);
+  ORIGINS(ORIGIN_SECONDARY);
+  FOLLOWUP(MISSION_OLD_GUARD_NEC_COMMO_4);
 
  MISSION(_("Find a Book"), MGOAL_FIND_ANY_ITEM, 2, 800, false,
          &mission_place::always, &mission_start::place_book,

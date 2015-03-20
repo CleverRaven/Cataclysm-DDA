@@ -169,11 +169,11 @@ void computer::use()
                     } else {
                         // Successfully hacked function
                         options[ch].security = 0;
-                        activate_function(current.action);
+                        activate_function(current.action, ch);
                     }
                 }
             } else { // No need to hack, just activate
-                activate_function(current.action);
+                activate_function(current.action, ch);
             }
             reset_terminal();
         } // Done processing a selected option.
@@ -275,7 +275,7 @@ void computer::load_data(std::string data)
     }
 }
 
-void computer::activate_function(computer_action action)
+void computer::activate_function(computer_action action, char ch)
 {
     // Token move cost for any action, if an action takes longer decrement moves further.
     g->u.moves -= 30;
@@ -711,6 +711,42 @@ INITIATING STANDARD TREMOR TEST..."));
 of pureed bone & LSD."));
         query_any(_("Press any key..."));
         g->u.mod_pain( rng(40, 90) );
+        break;
+
+    case COMPACT_COMPLETE_MISSION:
+        for (size_t i = 0; i <  g->u.active_missions.size(); i++) {
+            if (g->find_mission(g->u.active_missions[i])->name() == options[ch].name){
+                print_error(_("--ACCESS GRANTED--"));
+                print_error(_("Mission Complete!"));
+                g->mission_step_complete( g->find_mission(g->u.active_missions[i])->uid, 1);
+                getch();
+                return;
+                //break;
+            }
+        }
+        print_error(_("ACCESS DENIED"));
+        getch();
+        break;
+
+    case COMPACT_REPEATER_MOD:
+        if (g->u.has_amount("radio_repeater_mod", 1)) {
+            for (size_t i = 0; i <  g->u.active_missions.size(); i++) {
+                if (g->find_mission(g->u.active_missions[i])->name() == "Install Repeater Mod"){
+                    g->mission_step_complete( g->find_mission(g->u.active_missions[i])->uid, 1);
+                    print_error(_("Repeater mod installed..."));
+                    print_error(_("Mission Complete!"));
+                    g->u.use_amount("radio_repeater_mod", 1);
+                    getch();
+                    options.clear();
+                    activate_failure(COMPFAIL_SHUTDOWN);
+                    break;
+                }
+            }
+        }else{
+            print_error(_("You do not have a repeater mod to install..."));
+            getch();
+            break;
+        }
         break;
 
     case COMPACT_DOWNLOAD_SOFTWARE:

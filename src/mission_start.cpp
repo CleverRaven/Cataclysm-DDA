@@ -252,6 +252,16 @@ void mission_start::kill_100_z(mission *miss)
  miss->monster_kill_goal = 100+killed;//your kill score must increase by 100
 }
 
+void mission_start::kill_20_nightmares(mission *miss)
+{
+ npc *p = g->find_npc(miss->npc_id);
+ p->attitude = NPCATT_FOLLOW;//npc joins you
+ miss->monster_type = "mon_charred_nightmare";
+ int killed = 0;
+ killed += g->kill_count("mon_charred_nightmare");
+ miss->monster_kill_goal = 20+killed;//your kill score must increase by 100
+}
+
 void mission_start::kill_horde_master(mission *miss)
 {
  npc *p = g->find_npc(miss->npc_id);
@@ -536,6 +546,12 @@ void mission_start::recruit_tracker(mission *miss)
  temp->op_of_u.owed = 10; int mission_index = g->reserve_mission(MISSION_JOIN_TRACKER, temp->getID());
  if (mission_index != -1)
     temp->chatbin.missions.push_back(mission_index);
+}
+
+void mission_start::radio_repeater(mission *miss)
+{
+ target_om_ter("necropolis_c_23", 3, miss, false);
+ g->u.i_add( item("repeater_mod_guide", 0, false) );
 }
 
 void mission_start::place_book( mission *)

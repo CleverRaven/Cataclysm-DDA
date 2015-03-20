@@ -88,6 +88,7 @@ enum npc_class {
  NC_SCAVENGER,      // Good with pistols light weapons
  NC_ARSONIST,       // Evacuation Center, restocks moltovs and anarcist type stuff
  NC_HUNTER,         // Survivor type good with bow or rifle
+ NC_SOLDIER,        // Well equiped and trained combatant, good with rifles and melee
  NC_MAX
 };
 
@@ -375,6 +376,17 @@ enum talk_topic {
  TALK_SCAVENGER_MERC_TIPS,
  TALK_SCAVENGER_MERC_HIRE,
  TALK_SCAVENGER_MERC_HIRE_SUCCESS,
+
+ TALK_OLD_GUARD_SOLDIER,//98, Generic Old Guard
+
+ TALK_OLD_GUARD_NEC_CPT,//99, Main mission source in Necropolis
+ TALK_OLD_GUARD_NEC_CPT_GOAL,
+ TALK_OLD_GUARD_NEC_CPT_VAULT,
+
+ TALK_OLD_GUARD_NEC_COMMO,//102, Mission source/destination in Necropolis
+ TALK_OLD_GUARD_NEC_COMMO_GOAL,
+ TALK_OLD_GUARD_NEC_COMMO_FREQ,
+
 
  TALK_SHELTER,
  TALK_SHELTER_PLANS,

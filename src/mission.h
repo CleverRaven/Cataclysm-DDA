@@ -47,6 +47,12 @@ enum mission_id {
     MISSION_OLD_GUARD_REP_2,               //Raider Informant
     MISSION_OLD_GUARD_REP_3,               //Missing without a trace
     MISSION_OLD_GUARD_REP_4,               //Raider Camp
+    MISSION_OLD_GUARD_NEC_1,               //Locate Commo team for Necropolis Commander
+    MISSION_OLD_GUARD_NEC_2,               //Cull Nightmares
+    MISSION_OLD_GUARD_NEC_COMMO_1,         //Build a radio repeater mod
+    MISSION_OLD_GUARD_NEC_COMMO_2,         //Disable external power connection
+    MISSION_OLD_GUARD_NEC_COMMO_3,         //Install repeater mod in local radio station
+    MISSION_OLD_GUARD_NEC_COMMO_4,         //Cyclical mission to install repeater mods
     NUM_MISSION_IDS
 };
 
@@ -74,7 +80,7 @@ enum mission_goal {
     MGOAL_KILL_MONSTER_TYPE, // Kill a number of a given monster type
     MGOAL_RECRUIT_NPC,       // Recruit a given NPC
     MGOAL_RECRUIT_NPC_CLASS, // Recruit an NPC class
-
+    MGOAL_COMPUTER_TOGGLE,   // Activating the correct terminal will complete the mission
     NUM_MGOAL
 };
 
@@ -110,6 +116,7 @@ struct mission_start {
     void place_bandit_camp  ( mission *); // For Old Guard mission
     void place_jabberwock   ( mission *); // Put a jabberwok in the woods nearby
     void kill_100_z         ( mission *); // Kill 100 more regular zombies
+    void kill_20_nightmares ( mission *); // Kill 20 more regular nightmares
     void kill_horde_master  ( mission *); // Kill the master zombie at the center of the horde
     void place_npc_software ( mission *); // Put NPC-type-dependent software
     void place_priest_diary ( mission *); // Hides the priest's diary in a local house
@@ -121,6 +128,7 @@ struct mission_start {
     void point_prison       ( mission *); // Point to prison entrance
     void point_cabin_strange ( mission *); // Point to strange cabin location
     void recruit_tracker    ( mission *); // Recruit a tracker to help you
+    void radio_repeater     ( mission *); // Gives you the plans for the radio repeater mod
     void place_book         ( mission *); // Place a book to retrieve
 };
 

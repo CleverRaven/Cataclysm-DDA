@@ -849,6 +849,80 @@ std::string dynamic_line(talk_topic topic, npc *p)
                       "if there is any work available.  Completing missions as a contractor is a great way to make a name for yourself among "
                       "the most powerful men left in the world.");
 
+         case TALK_OLD_GUARD_SOLDIER:
+	        if (g->u.is_wearing("badge_marshal"))
+	            switch (rng(1,4)){
+	                case 1:
+                        return _("Hello marshal.");
+                    case 2:
+                        return _("Marshal, I'm afraid I can't talk now.");
+                    case 3:
+                        return _("I'm not in charge here marshal.");
+                    case 4:
+                        return _("I'm supposed to direct all questions to my leadership, marshal.");
+	            }
+            switch (rng(1,5)){
+            case 1:
+                return _("Hey, citizen... I'm not sure you belong here.");
+            case 2:
+                return _("You should mind your own business, nothing to see here.");
+            case 3:
+                return _("If you need something you'll need to talk to someone else.");
+            case 4:
+                if (g->u.male)
+                    return _("Sir.");
+                else
+                    return _("Ma'am");
+            case 5:
+                if (g->u.male)
+                    return _("Dude, if you can hold your own you should look into enlisting.");
+                else
+                    return _("Hey miss, don't you think it would be safer if you stuck with me?");
+            }
+
+        case TALK_OLD_GUARD_NEC_CPT:
+            if (g->u.has_trait("PROF_FED")) {
+                return _("Marshal, I hope you're here to assist us.");
+            }
+            if (g->u.male)
+                    return _("Sir, I don't know how the hell you got down here but if you have any sense you'll get out while you can.");
+            return _("Ma'am, I don't know how the hell you got down here but if you have any sense you'll get out while you can.");
+
+        case TALK_OLD_GUARD_NEC_CPT_GOAL:
+            return _("I'm leading what remains of my company on a mission to re-secure this facility.  We entered the complex with two "
+                     "dozen men and immediately went about securing this control room.  From here I dispatched my men to secure vital "
+                     "systems located on this floor and the floors below this one.  If  we are successful, this facility can be cleared "
+                     "and used as a permanent base of operations in the region.  Most importantly it will allow us to redirect refugee "
+                     "traffic away from overcrowded outposts and free up more of our forces to conduct recovery operations.");
+
+        case TALK_OLD_GUARD_NEC_CPT_VAULT:
+            return _("This facility was constructed to provide a safe haven in the event of a global conflict.  The vault can support "
+                     "several thousand people for a few years if all systems are operational and sufficient notification is given.  "
+                     "Unfortunately, the power system was damaged or sabotaged at some point and released a single extremely lethal "
+                     "burst of radiation.  The catastrophic event lasted for several minutes and resulted in the deaths of most people "
+                     "located on the 2nd and lower floors.  Those working on this floor were able to seal the access ways to the "
+                     "lower floors before succumbing to radiation sickness.  The only other thing the logs tell us is that all water "
+                     "pressure was diverted to the lower levels.");
+
+        case TALK_OLD_GUARD_NEC_COMMO:
+            if (g->u.has_trait("PROF_FED")) {
+                return _("Marshal, I'm rather surprised to see you here.");
+            }
+            if (g->u.male)
+                    return _("Sir you are not authorized to be here... you should leave.");
+            return _("Ma'am you are not authorized to be here... you should leave.");
+
+        case TALK_OLD_GUARD_NEC_COMMO_GOAL:
+            return _("We are securing the external communications array for this facility.  I'm rather restricted in what I can release"
+                     "... you should find my commander and ask him any questions you have.");
+
+        case TALK_OLD_GUARD_NEC_COMMO_FREQ:
+            return _("I was expecting him to send a runner.  Here is the list he needs.  What we can identify from here are simply the "
+                     "frequencies that have traffic on them.  Many of the transmissions are indecipherable without repairing or "
+                     "replacing the equipment here.  When the facility was being overrun, standard procedure was to destroy encryption "
+                     "hardware to protect federal secrets and maintain the integrity of the comms network.  We are hoping a few plain "
+                     "text messages can get picked up though.");
+
         case TALK_ARSONIST:
             if (g->u.is_wearing("badge_marshal"))
                 return _("That sure is a shiny badge you got there!");
@@ -974,7 +1048,8 @@ std::string dynamic_line(talk_topic topic, npc *p)
                 case 3: return _("I suppose getting a car up and running should really be useful if we have to disappear quickly from here.");
                 case 4: return _("We could look for one of those farms out here. They can provide plenty of food and aren't close to the cities.");
                 case 5: return _("We should probably stay away from those cities, even if there's plenty of useful stuff there.");
-            }    
+            }
+            
         case TALK_SHARE_EQUIPMENT:
             if (p->has_effect(_("asked_for_item"))) {
                 return _("You just asked me for stuff; ask later.");
@@ -1425,6 +1500,11 @@ std::vector<talk_response> gen_responses(talk_topic topic, npc *p)
                     case MGOAL_RECRUIT_NPC:
                     case MGOAL_RECRUIT_NPC_CLASS:
                         RESPONSE(_("I brought'em."));
+                            SUCCESS(TALK_MISSION_SUCCESS);
+                                SUCCESS_ACTION(&talk_function::mission_success);
+                        break;
+                    case MGOAL_COMPUTER_TOGGLE:
+                        RESPONSE(_("I've taken care of it..."));
                             SUCCESS(TALK_MISSION_SUCCESS);
                                 SUCCESS_ACTION(&talk_function::mission_success);
                         break;
@@ -1879,6 +1959,78 @@ std::vector<talk_response> gen_responses(talk_topic topic, npc *p)
         case TALK_OLD_GUARD_REP_ASK_JOIN:
             RESPONSE(_("Hmmm..."));
                 SUCCESS(TALK_OLD_GUARD_REP);
+            break;
+
+        case TALK_OLD_GUARD_SOLDIER:
+            RESPONSE(_("Don't mind me..."));
+                SUCCESS(TALK_DONE);
+            break;
+
+        case TALK_OLD_GUARD_NEC_CPT:
+            if (g->u.has_trait("PROF_FED")){
+                RESPONSE(_("What are you doing down here?"));
+                    SUCCESS(TALK_OLD_GUARD_NEC_CPT_GOAL);
+                RESPONSE(_("Can you tell me about this facility?"));
+                    SUCCESS(TALK_OLD_GUARD_NEC_CPT_VAULT);
+                RESPONSE(_("What do you need done?"));
+                    SUCCESS(TALK_MISSION_LIST);
+                if (p->chatbin.missions_assigned.size() == 1) {
+                    RESPONSE(_("About the mission..."));
+                        SUCCESS(TALK_MISSION_INQUIRE);
+                } else if (p->chatbin.missions_assigned.size() >= 2) {
+                    RESPONSE(_("About one of those missions..."));
+                        SUCCESS(TALK_MISSION_LIST_ASSIGNED);
+                }
+            }
+            RESPONSE(_("I've got to go..."));
+                SUCCESS(TALK_DONE);
+            break;
+
+        case TALK_OLD_GUARD_NEC_CPT_GOAL:
+            RESPONSE(_("Seems like a decent plan..."));
+                SUCCESS(TALK_OLD_GUARD_NEC_CPT);
+            break;
+
+        case TALK_OLD_GUARD_NEC_CPT_VAULT:
+            RESPONSE(_("Whatever they did it must have worked since we are still alive..."));
+                SUCCESS(TALK_OLD_GUARD_NEC_CPT);
+            break;
+
+        case TALK_OLD_GUARD_NEC_COMMO:
+            if (g->u.has_trait("PROF_FED")){
+
+                for (size_t i = 0; i <  g->u.active_missions.size(); i++) {
+                    if (g->find_mission(g->u.active_missions[i])->name() == "Locate Commo Team"){
+                        RESPONSE(_("[MISSION] The captain sent me to get a frequency list from you."));
+                            SUCCESS(TALK_OLD_GUARD_NEC_COMMO_FREQ);
+                    }
+                }
+                RESPONSE(_("What are you doing here?"));
+                    SUCCESS(TALK_OLD_GUARD_NEC_COMMO_GOAL);
+                RESPONSE(_("Do you need any help?"));
+                    SUCCESS(TALK_MISSION_LIST);
+                if (p->chatbin.missions_assigned.size() == 1) {
+                    RESPONSE(_("About the mission..."));
+                        SUCCESS(TALK_MISSION_INQUIRE);
+                } else if (p->chatbin.missions_assigned.size() >= 2) {
+                    RESPONSE(_("About one of those missions..."));
+                        SUCCESS(TALK_MISSION_LIST_ASSIGNED);
+                }
+            }
+            RESPONSE(_("I should be going..."));
+                SUCCESS(TALK_DONE);
+            break;
+
+        case TALK_OLD_GUARD_NEC_COMMO_GOAL:
+            RESPONSE(_("I'll try and find your commander then..."));
+                SUCCESS(TALK_OLD_GUARD_NEC_COMMO);
+            break;
+
+        case TALK_OLD_GUARD_NEC_COMMO_FREQ:
+            popup(_("%s gives you a %s"), p->name.c_str(), item("necropolis_freq", 0).tname().c_str());
+            g->u.i_add( item("necropolis_freq", 0) );
+            RESPONSE(_("Thanks."));
+                SUCCESS(TALK_OLD_GUARD_NEC_COMMO);
             break;
 
         case TALK_ARSONIST:
