@@ -278,10 +278,16 @@ set(SRCS
 add_executable(cataclysm ${SRCS})
 
 # Generate version information
-add_custom_target(gen_version
-	COMMAND for /F \"tokens=*\" %%i in \('git describe --tags --always --dirty --match \"[0-9]*.[0-9]*\"'\) do set VERSION=%%i
-	COMMAND echo \#define VERSION \"%VERSION%\" > ${CMAKE_SOURCE_DIR}/src/version.h
-)
+if (WIN32)
+	add_custom_target(gen_version
+		COMMAND for /F \"tokens=*\" %%i in \('git describe --tags --always --dirty --match \"[0-9]*.[0-9]*\"'\) do set VERSION=%%i
+		COMMAND echo \#define VERSION \"%VERSION%\" > ${CMAKE_SOURCE_DIR}/src/version.h
+	)
+else()
+	add_custom_target(gen_version
+		COMMAND echo \\#define VERSION \$\(git describe --tags --always --dirty --match \"[0-9]*.[0-9]*\"\) > ${CMAKE_SOURCE_DIR}/src/version.h
+	)
+endif()
 add_dependencies(cataclysm gen_version)
 
 # Required library linkage
