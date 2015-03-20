@@ -18,6 +18,7 @@
 #include <sstream>
 #include <stdlib.h>
 #include <set>
+#include <math.h>
 
 /*
  * Speed up all those if ( blarg == "structure" ) statements that are used everywhere;
@@ -2516,12 +2517,33 @@ void vehicle::coord_translate (int reldx, int reldy, int &dx, int &dy)
     coord_translate(face.dir(), reldx, reldy, dx, dy);
 }
 
+// rotates coordinates using two shear operations
+// adjusts angles to work in the range -44.9999 to +44.9999 degrees
+// first shears in the dy direction proportional tan(dir)/2
+// then shears in the dx direction proportional to tan(dir)
+// there is certainly a more mathematically accurate way to do this
+// perhaps something like...
+// https://www.ocf.berkeley.edu/~fricke/projects/israel/paeth/rotation_by_shearing.html
 void vehicle::coord_translate (int dir, int reldx, int reldy, int &dx, int &dy)
 {
-    tileray tdir (dir);
-    tdir.advance (reldx);
-    dx = tdir.dx() + tdir.ortho_dx(reldy);
-    dy = tdir.dy() + tdir.ortho_dy(reldy);
+    int quad = 0;
+    while (dir > 45) {
+        dir = dir - 90;
+        quad++;
+    }
+
+    dir = dir * 0.9999999999; // floating point discontinuity at 45 degrees otherwise
+    // rotation by shearing
+    double dy_rate = 2.0 / tan(dir * M_PI / 180.0);
+    double dx_rate = -1.0 / tan(dir * M_PI / 180.0);
+    dy = floor(reldy + reldx / dy_rate + 0.5);
+    dx = floor(reldx + dy / dx_rate + 0.5);
+
+    while (quad--) {
+        int t = dy;
+        dy = dx;
+        dx = -t;
+    }
 }
 
 void vehicle::precalc_mounts (int idir, int dir)
