@@ -1,6 +1,7 @@
 #include "catalua.h"
 
 #include <sys/stat.h>
+#include <memory>
 
 #include "game.h"
 #include "item_factory.h"
@@ -177,11 +178,11 @@ int lua_mapgen(map *m, std::string terrain_type, mapgendata, int t, float, const
 
 // Custom functions that are to be wrapped from lua.
 // -------------------------------------------------
-static uimenu uimenu_instance;
+static std::unique_ptr<uimenu> uimenu_instance;
 uimenu *create_uimenu()
 {
-    uimenu_instance = uimenu();
-    return &uimenu_instance;
+    uimenu_instance = std::unique_ptr<uimenu>(new uimenu());
+    return uimenu_instance.get();
 }
 
 ter_t *get_terrain_type(int id)
