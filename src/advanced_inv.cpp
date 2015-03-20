@@ -1143,7 +1143,6 @@ void advanced_inventory::display()
         if( g->u.moves < 0 ) {
             g->u.assign_activity( ACT_ADV_INVENTORY, 0 );
             g->u.activity.auto_resume = true;
-//            update_minimap();
             return;
         }
         dest = ( src == left ? right : left );
