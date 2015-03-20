@@ -847,6 +847,17 @@ int digging_perception( int const offset )
     return std::max( 1, prox );
 }
 
+void unroll_digging( int const numer_of_2x4s )
+{
+    // refund components!
+    if( !g->u.has_trait( "WEB_ROPE" ) ) {
+        item rope( "rope_30", 0 );
+        g->m.add_item_or_charges( g->u.posx(), g->u.posy(), rope );
+    }
+    // presuming 2x4 to conserve lumber.
+    g->m.spawn_item( g->u.posx(), g->u.posy(), "2x4", numer_of_2x4s );
+}
+
 void construct::done_dig_stair(point p)
 {
  tinymap tmpmap;
@@ -878,25 +889,13 @@ void construct::done_dig_stair(point p)
       g->m.ter_set(p.x, p.y, t_pit); // You dug down a bit before detecting the problem
       if (danger_lava) {
           if (!(query_yn(_("The rock feels much warmer than normal. Proceed?"))) ) {
-              // refund components!
-              if (!(g->u.has_trait("WEB_ROPE"))) {
-                  item rope("rope_30", 0);
-                  g->m.add_item_or_charges(g->u.posx(), g->u.posy(), rope);
-              }
-              // presuming 2x4 to conserve lumber.
-              g->m.spawn_item(g->u.posx(), g->u.posy(),"2x4", 8);
+              unroll_digging( 8 );
               return;
           }
       }
       if (danger_open) {
           if (!(query_yn(_("As you dig, the rock starts sounding hollow. Proceed?"))) ) {
-              // refund components!
-              if (!(g->u.has_trait("WEB_ROPE"))) {
-                  item rope("rope_30", 0);
-                  g->m.add_item_or_charges(g->u.posx(), g->u.posy(), rope);
-              }
-              // presuming 2x4 to conserve lumber.
-              g->m.spawn_item(g->u.posx(), g->u.posy(),"2x4", 8);
+              unroll_digging( 8 );
               return;
           }
       }
@@ -1145,25 +1144,13 @@ void construct::done_mine_downstair(point p)
       g->m.ter_set(p.x, p.y, t_pit); // You dug down a bit before detecting the problem
       if (danger_lava) {
           if (!(query_yn(_("The rock feels much warmer than normal. Proceed?"))) ) {
-              // refund components!
-              if (!(g->u.has_trait("WEB_ROPE"))) {
-                  item rope("rope_30", 0);
-                  g->m.add_item_or_charges(g->u.posx(), g->u.posy(), rope);
-              }
-              // presuming 2x4 to conserve lumber.
-              g->m.spawn_item(g->u.posx(), g->u.posy(),"2x4", 12);
+              unroll_digging( 12 );
               return;
           }
       }
       if (danger_open) {
           if (!(query_yn(_("As you dig, the rock starts sounding hollow. Proceed?"))) ) {
-              // refund components!
-              if (!(g->u.has_trait("WEB_ROPE"))) {
-                  item rope("rope_30", 0);
-                  g->m.add_item_or_charges(g->u.posx(), g->u.posy(), rope);
-              }
-              // presuming 2x4 to conserve lumber.
-              g->m.spawn_item(g->u.posx(), g->u.posy(),"2x4", 12);
+              unroll_digging( 12 );
               return;
           }
       }
@@ -1419,36 +1406,18 @@ void construct::done_mine_upstair(point p)
       g->m.ter_set(p.x, p.y, t_rock_floor); // You dug a bit before discovering the problem
       if (danger_lava) {
           add_msg(m_warning, _("The rock overhead feels hot.  You decide *not* to mine magma."));
-          // refund components!
-          if (!(g->u.has_trait("WEB_ROPE"))) {
-              item rope("rope_30", 0);
-              g->m.add_item_or_charges(g->u.posx(), g->u.posy(), rope);
-          }
-          // presuming 2x4 to conserve lumber.
-          g->m.spawn_item(g->u.posx(), g->u.posy(),"2x4", 12);
+        unroll_digging( 12 );
           return;
       }
       if (danger_open) {
           if (!(query_yn(_("As you dig, the rock starts sounding hollow. Proceed?"))) ) {
-              // refund components!
-              if (!(g->u.has_trait("WEB_ROPE"))) {
-                  item rope("rope_30", 0);
-                  g->m.add_item_or_charges(g->u.posx(), g->u.posy(), rope);
-              }
-              // presuming 2x4 to conserve lumber.
-              g->m.spawn_item(g->u.posx(), g->u.posy(),"2x4", 12);
+            unroll_digging( 12 );
               return;
           }
       }
       if (danger_liquid) {
           add_msg(m_warning, _("The rock above is rather damp.  You decide *not* to mine water."));
-          // refund components!
-          if (!(g->u.has_trait("WEB_ROPE"))) {
-              item rope("rope_30", 0);
-              g->m.add_item_or_charges(g->u.posx(), g->u.posy(), rope);
-          }
-          // presuming 2x4 to conserve lumber.
-          g->m.spawn_item(g->u.posx(), g->u.posy(),"2x4", 12);
+        unroll_digging( 12 );
           return;
       }
   }
