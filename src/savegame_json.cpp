@@ -707,7 +707,7 @@ void npc_opinion::serialize(JsonOut &json) const
 void npc_favor::deserialize(JsonIn &jsin)
 {
     JsonObject jo = jsin.get_object();
-    type = npc_favor_type(jo.get_int("type"));
+    type = npc_favor::favor_type(jo.get_int("type"));
     jo.read("value", value);
     jo.read("itype_id", item_id);
     skill = NULL;
@@ -745,7 +745,7 @@ void npc::load(JsonObject &data)
     // this should call load on the parent class of npc (probably Character).
     player::load( data );
 
-    int misstmp, classtmp, flagstmp, atttmp;
+    int misstmp, classtmp, atttmp;
     std::string facID;
 
     data.read("name", name);
@@ -785,12 +785,8 @@ void npc::load(JsonObject &data)
         mission = npc_mission( misstmp );
     }
 
-    if ( data.read( "flags", flagstmp) ) {
-        flags = flagstmp;
-    }
-
     if ( data.read( "my_fac", facID) ) {
-        fac_id = facID;
+        set_faction(facID);
     }
 
     if ( data.read( "attitude", atttmp) ) {
@@ -841,9 +837,8 @@ void npc::store(JsonOut &json) const
     json.member( "goalz", goal.z );
 
     json.member( "mission", mission ); // todo: stringid
-    json.member( "flags", flags );
-    if ( fac_id != "" ) { // set in constructor
-        json.member( "my_fac", my_fac->id.c_str() );
+    if ( my_fac && !my_fac->id.empty() ) { // set in constructor
+        json.member( "my_fac", my_fac->id );
     }
     json.member( "attitude", (int)attitude );
     json.member("op_of_u", op_of_u);

@@ -479,7 +479,7 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
          * @param weight The weight used when choosing what reason to pick when the
          * player misses.
          */
-        void add_miss_reason(const char *reason, unsigned int weight);
+        virtual void add_miss_reason(const char *reason, unsigned int weight);
         /** Clears the list of reasons for why the player would miss a melee attack. */
         void clear_miss_reasons();
         /**

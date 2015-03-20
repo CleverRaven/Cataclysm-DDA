@@ -1,6 +1,3 @@
-#include <fstream>
-#include <sstream>
-
 #include "npc.h"
 #include "rng.h"
 #include "map.h"
@@ -19,60 +16,40 @@
 
 #include <algorithm>
 #include <string>
+#include <sstream>
+#include <vector>
+#include <map>
+#include <list>
 
 std::vector<item> starting_clothes(npc_class type, bool male);
 std::list<item> starting_inv(npc *me, npc_class type);
 
+namespace {
+std::map<std::string, npc> all_npc;
+} //namespace
+
 npc::npc()
 {
- mapx = 0;
- mapy = 0;
- mapz = 0;
  position.x = -1;
  position.y = -1;
- wandx = 0;
- wandy = 0;
- wandf = 0;
- plx = 999;
- ply = 999;
- plt = 999;
- itx = -1;
- ity = -1;
- guardx = -1;
- guardy = -1;
  goal = no_goal_point;
  fatigue = 0;
  hunger = 0;
  thirst = 0;
- fetching_item = false;
- has_new_items = false;
- worst_item_value = 0;
  str_max = 0;
  dex_max = 0;
  int_max = 0;
  per_max = 0;
- my_fac = NULL;
- fac_id = "";
- miss_id = 0;
- marked_for_death = false;
- dead = false;
- hit_by_player = false;
- moves = 100;
- mission = NPC_MISSION_NULL;
- myclass = NC_NONE;
- patience = 0;
- restock = -1;
+  moves = 100;
  for( auto &skill : Skill::skills ) {
      set_skill_level( skill, 0 );
  }
 }
 
-npc_map npc::_all_npc;
-
 void npc::load_npc(JsonObject &jsobj)
 {
     npc guy;
-    guy.idz = jsobj.get_string("id");
+    std::string idz = jsobj.get_string("id");
     if (jsobj.has_string("name+"))
         guy.name = jsobj.get_string("name+");
     if (jsobj.has_string("gender")){
@@ -83,7 +60,7 @@ void npc::load_npc(JsonObject &jsobj)
         }
     }
     if (jsobj.has_string("faction"))
-        guy.fac_id = jsobj.get_string("faction");
+    std::string fac_id = jsobj.get_string("faction");
     guy.myclass = npc_class(jsobj.get_int("class"));
     guy.attitude = npc_attitude(jsobj.get_int("attitude"));
     guy.mission = npc_mission(jsobj.get_int("mission"));
@@ -93,50 +70,54 @@ void npc::load_npc(JsonObject &jsobj)
     } else {
         guy.miss_id = 0;
     }
-    _all_npc[guy.idz] = guy;
+    all_npc[std::move(idz)] = guy;
 }
 
-npc* npc::find_npc(std::string ident)
+npc* npc::find_npc(std::string const &ident)
 {
-    npc_map::iterator found = _all_npc.find(ident);
-    if (found != _all_npc.end()){
-        return &(found->second);
-    } else {
-        debugmsg("Tried to get invalid npc template: %s", ident.c_str());
-        static npc null_npc;
-    return &null_npc;
+    auto const it = all_npc.find(ident);
+    if (it != all_npc.end()){
+        return &it->second;
     }
+
+    debugmsg("Tried to get invalid npc template: %s", ident.c_str());
+
+    static npc null_npc;
+    return &null_npc;
 }
 
-void npc::load_npc_template(std::string ident)
+void npc::load_npc_template(std::string const &ident)
 {
-    npc_map::iterator found = _all_npc.find(ident);
-    if (found != _all_npc.end()){
-        idz = found->second.idz;
-        myclass = found->second.myclass;
-        randomize(myclass);
-        std::string tmpname = found->second.name.c_str();
-        if (tmpname[0] == ','){
-            name = name + found->second.name;
-        } else {
-            name = found->second.name;
-            //Assume if the name is unique, the gender might also be.
-            male = found->second.male;
-        }
-        fac_id = found->second.fac_id;
-        set_fac(fac_id);
-        attitude = found->second.attitude;
-        mission = found->second.mission;
-        chatbin.first_topic = found->second.chatbin.first_topic;
-        if (mission_id(found->second.miss_id) != MISSION_NULL){
-            int mission_index = g->reserve_mission(mission_id(found->second.miss_id), getID());
-            if (mission_index != -1)
-                chatbin.missions.push_back(mission_index);
-        }
-        return;
-    } else {
+    auto const it = all_npc.find(ident);
+    if (it == all_npc.end()) {
         debugmsg("Tried to get invalid npc: %s", ident.c_str());
         return;
+    }
+
+    auto const &npc_template = it->second;
+
+    myclass = npc_template.myclass;
+    randomize(myclass);
+    std::string tmpname = npc_template.name.c_str();
+    if (tmpname[0] == ','){
+        name = name + npc_template.name;
+    } else {
+        name = npc_template.name;
+        //Assume if the name is unique, the gender might also be.
+        male = npc_template.male;
+    }
+
+    if (npc_template.my_fac) {
+        set_faction(npc_template.my_fac->id);
+    }
+    
+    attitude = npc_template.attitude;
+    mission = npc_template.mission;
+    chatbin.first_topic = npc_template.chatbin.first_topic;
+    if (mission_id(npc_template.miss_id) != MISSION_NULL){
+        int mission_index = g->reserve_mission(mission_id(npc_template.miss_id), getID());
+        if (mission_index != -1)
+            chatbin.missions.push_back(mission_index);
     }
 }
 
@@ -164,8 +145,8 @@ void npc::load_info(std::string data)
         } catch (std::string jsonerr) {
             debugmsg("Bad npc json\n%s", jsonerr.c_str() );
         }
-        if (fac_id != ""){
-            set_fac(fac_id);
+        if (my_fac && !my_fac->id.empty()) {
+            set_faction(my_fac->id);
         }
         return;
     } else {
@@ -317,8 +298,6 @@ void npc::randomize(npc_class type)
   int_max += rng(0, 2);
   per_max += rng(0, 1) * rng(0, 1);
   personality.aggression -= rng(0, 4);
-  if (one_in(4))
-   flags |= mfb(NF_DRUGGIE);
   cash += 10000 * rng(0, 3) * rng(0, 3);
   break;
 
@@ -398,10 +377,6 @@ void npc::randomize(npc_class type)
    case 2: boost_skill_level("electronics", rng(2, 6)); break;
    case 3: boost_skill_level("firstaid", rng(2, 6)); break;
   }
-  if (one_in(4))
-   flags |= mfb(NF_TECHNOPHILE);
-  if (one_in(3))
-   flags |= mfb(NF_BOOKWORM);
   str_max -= rng(1, 3);
   dex_max -= rng(0, 1);
   int_max += rng(2, 5);
@@ -484,14 +459,13 @@ void npc::randomize(npc_class type)
  update_worst_item_value();
 }
 
-void npc::randomize_from_faction(faction *fac)
+void npc::randomize_from_faction(faction &fac)
 {
 // Personality = aggression, bravery, altruism, collector
- my_fac = fac;
- fac_id = fac->id;
+ my_fac = &fac;
  randomize();
 
- switch (fac->goal) {
+ switch (fac.goal) {
   case FACGOAL_DOMINANCE:
    personality.aggression += rng(0, 3);
    personality.bravery += rng(1, 4);
@@ -549,27 +523,27 @@ void npc::randomize_from_faction(faction *fac)
     break;
  }
 // Jobs
- if (fac->has_job(FACJOB_EXTORTION)) {
+ if (fac.has_job(FACJOB_EXTORTION)) {
   personality.aggression += rng(0, 3);
   personality.bravery -= rng(0, 2);
   personality.altruism -= rng(2, 6);
  }
- if (fac->has_job(FACJOB_INFORMATION)) {
+ if (fac.has_job(FACJOB_INFORMATION)) {
   int_max += rng(0, 4);
   per_max += rng(0, 4);
   personality.aggression -= rng(0, 4);
   personality.collector += rng(1, 3);
  }
- if (fac->has_job(FACJOB_TRADE) || fac->has_job(FACJOB_CARAVANS)) {
+ if (fac.has_job(FACJOB_TRADE) || fac.has_job(FACJOB_CARAVANS)) {
   if (!one_in(3))
    randomize(NC_TRADER);
   personality.aggression -= rng(1, 5);
   personality.collector += rng(1, 4);
   personality.altruism -= rng(0, 3);
  }
- if (fac->has_job(FACJOB_SCAVENGE))
+ if (fac.has_job(FACJOB_SCAVENGE))
   personality.collector += rng(4, 8);
- if (fac->has_job(FACJOB_MERCENARIES)) {
+ if (fac.has_job(FACJOB_MERCENARIES)) {
   if (!one_in(3)) {
    switch (rng(1, 3)) {
     case 1: randomize(NC_NINJA);  break;
@@ -584,13 +558,13 @@ void npc::randomize_from_faction(faction *fac)
   per_max += rng(0, 2);
   dex_max += rng(0, 2);
  }
- if (fac->has_job(FACJOB_ASSASSINS)) {
+ if (fac.has_job(FACJOB_ASSASSINS)) {
   personality.bravery -= rng(0, 2);
   personality.altruism -= rng(1, 3);
   per_max += rng(1, 3);
   dex_max += rng(0, 2);
  }
- if (fac->has_job(FACJOB_RAIDERS)) {
+ if (fac.has_job(FACJOB_RAIDERS)) {
   if (one_in(3))
    randomize(NC_COWBOY);
   personality.aggression += rng(3, 5);
@@ -599,7 +573,7 @@ void npc::randomize_from_faction(faction *fac)
   str_max += rng(0, 3);
   int_max -= rng(0, 2);
  }
- if (fac->has_job(FACJOB_THIEVES)) {
+ if (fac.has_job(FACJOB_THIEVES)) {
   if (one_in(3))
    randomize(NC_NINJA);
   personality.aggression -= rng(2, 5);
@@ -609,7 +583,7 @@ void npc::randomize_from_faction(faction *fac)
   per_max += rng(1, 4);
   dex_max += rng(1, 3);
  }
- if (fac->has_job(FACJOB_DOCTORS)) {
+ if (fac.has_job(FACJOB_DOCTORS)) {
   if (!one_in(4))
    randomize(NC_DOCTOR);
   personality.aggression -= rng(3, 6);
@@ -619,17 +593,17 @@ void npc::randomize_from_faction(faction *fac)
   per_max += rng(0, 2);
   boost_skill_level("firstaid", rng(1, 5));
  }
- if (fac->has_job(FACJOB_FARMERS)) {
+ if (fac.has_job(FACJOB_FARMERS)) {
   personality.aggression -= rng(2, 4);
   personality.altruism += rng(0, 3);
   str_max += rng(1, 3);
  }
- if (fac->has_job(FACJOB_DRUGS)) {
+ if (fac.has_job(FACJOB_DRUGS)) {
   personality.aggression -= rng(0, 2);
   personality.bravery -= rng(0, 3);
   personality.altruism -= rng(1, 4);
  }
- if (fac->has_job(FACJOB_MANUFACTURE)) {
+ if (fac.has_job(FACJOB_MANUFACTURE)) {
   personality.aggression -= rng(0, 2);
   personality.bravery -= rng(0, 2);
   switch (rng(1, 4)) {
@@ -640,24 +614,24 @@ void npc::randomize_from_faction(faction *fac)
   }
  }
 
- if (fac->has_value(FACVAL_CHARITABLE)) {
+ if (fac.has_value(FACVAL_CHARITABLE)) {
   personality.aggression -= rng(2, 5);
   personality.bravery += rng(0, 4);
   personality.altruism += rng(2, 5);
  }
- if (fac->has_value(FACVAL_LONERS)) {
+ if (fac.has_value(FACVAL_LONERS)) {
   personality.aggression -= rng(1, 3);
   personality.altruism -= rng(1, 4);
  }
- if (fac->has_value(FACVAL_EXPLORATION)) {
+ if (fac.has_value(FACVAL_EXPLORATION)) {
   per_max += rng(0, 4);
   personality.aggression -= rng(0, 2);
  }
- if (fac->has_value(FACVAL_ARTIFACTS)) {
+ if (fac.has_value(FACVAL_ARTIFACTS)) {
   personality.collector += rng(2, 5);
   personality.altruism -= rng(0, 2);
  }
- if (fac->has_value(FACVAL_BIONICS)) {
+ if (fac.has_value(FACVAL_BIONICS)) {
   str_max += rng(0, 2);
   dex_max += rng(0, 2);
   per_max += rng(0, 2);
@@ -668,7 +642,7 @@ void npc::randomize_from_faction(faction *fac)
    boost_skill_level("firstaid", dice(2, 3));
   }
  }
- if (fac->has_value(FACVAL_BOOKS)) {
+ if (fac.has_value(FACVAL_BOOKS)) {
   str_max -= rng(0, 2);
   per_max -= rng(0, 3);
   int_max += rng(0, 4);
@@ -676,7 +650,7 @@ void npc::randomize_from_faction(faction *fac)
   personality.bravery -= rng(0, 3);
   personality.collector += rng(0, 3);
  }
- if (fac->has_value(FACVAL_TRAINING)) {
+ if (fac.has_value(FACVAL_TRAINING)) {
   str_max += rng(0, 3);
   dex_max += rng(0, 3);
   per_max += rng(0, 2);
@@ -686,37 +660,36 @@ void npc::randomize_from_faction(faction *fac)
        boost_skill_level( &skill, rng( 2, 4 ) );
   }
  }
- if (fac->has_value(FACVAL_ROBOTS)) {
+ if (fac.has_value(FACVAL_ROBOTS)) {
   int_max += rng(0, 3);
   personality.aggression -= rng(0, 3);
   personality.collector += rng(0, 3);
  }
- if (fac->has_value(FACVAL_TREACHERY)) {
+ if (fac.has_value(FACVAL_TREACHERY)) {
   personality.aggression += rng(0, 3);
   personality.altruism -= rng(2, 5);
  }
- if (fac->has_value(FACVAL_STRAIGHTEDGE)) {
+ if (fac.has_value(FACVAL_STRAIGHTEDGE)) {
   personality.collector -= rng(0, 2);
   str_max += rng(0, 1);
   per_max += rng(0, 2);
   int_max += rng(0, 3);
  }
- if (fac->has_value(FACVAL_LAWFUL)) {
+ if (fac.has_value(FACVAL_LAWFUL)) {
   personality.aggression -= rng(3, 7);
   personality.altruism += rng(1, 5);
   int_max += rng(0, 2);
  }
- if (fac->has_value(FACVAL_CRUELTY)) {
+ if (fac.has_value(FACVAL_CRUELTY)) {
   personality.aggression += rng(3, 6);
   personality.bravery -= rng(1, 4);
   personality.altruism -= rng(2, 5);
  }
 }
 
-void npc::set_fac(std::string fac_name)
+void npc::set_faction(std::string const &fac_name)
 {
     my_fac = g->faction_by_ident(fac_name);
-    fac_id = my_fac->id;
 }
 
 // item id from group "<class-name>_<what>" or from fallback group
@@ -869,20 +842,20 @@ void npc::spawn_at(int x, int y, int z)
     om.npcs.push_back(this);
 }
 
-void npc::spawn_at_random_city(overmap *o)
+void npc::spawn_at_random_city(overmap const &o)
 {
     int x, y;
-    if(o->cities.empty()) {
+    if(o.cities.empty()) {
         x = rng(0, OMAPX * 2 - 1);
         y = rng(0, OMAPY * 2 - 1);
     } else {
-        int city_index = rng(0, o->cities.size() - 1);
-        int s = o->cities[city_index].s;
-        x = o->cities[city_index].x + rng(-s, +s);
-        y = o->cities[city_index].y + rng(-s, +s);
+        int city_index = rng(0, o.cities.size() - 1);
+        int s = o.cities[city_index].s;
+        x = o.cities[city_index].x + rng(-s, +s);
+        y = o.cities[city_index].y + rng(-s, +s);
     }
-    x += o->pos().x * OMAPX * 2;
-    y += o->pos().y * OMAPY * 2;
+    x += o.pos().x * OMAPX * 2;
+    y += o.pos().y * OMAPY * 2;
     spawn_at(x, y, 0);
 }
 
@@ -1056,13 +1029,8 @@ bool npc::wear_if_wanted(item it)
     }
     return false;
 }
-//to placate clang++
-bool npc::wield(item* it, bool)
-{
-    return this->wield(it);
-}
 
-bool npc::wield(item* it)
+bool npc::wield(item* it, bool)
 {
     if ( !weapon.is_null() ) {
         if ( volume_carried() + weapon.volume() <= volume_capacity() ) {
@@ -1106,30 +1074,30 @@ void npc::perform_mission()
  }
 }
 
-void npc::form_opinion(player *u)
+void npc::form_opinion(player const &u)
 {
 // FEAR
- if (u->weapon.is_gun()) {
+ if (u.weapon.is_gun()) {
   if (weapon.is_gun())
    op_of_u.fear += 2;
   else
    op_of_u.fear += 6;
- } else if (u->weapon.type->melee_dam >= 12 || u->weapon.type->melee_cut >= 12)
+ } else if (u.weapon.type->melee_dam >= 12 || u.weapon.type->melee_cut >= 12)
   op_of_u.fear += 2;
- else if (u->unarmed_attack()) // Unarmed
+ else if (u.unarmed_attack()) // Unarmed
   op_of_u.fear -= 3;
 
- if (u->str_max >= 16)
+ if (u.str_max >= 16)
   op_of_u.fear += 2;
- else if (u->str_max >= 12)
+ else if (u.str_max >= 12)
   op_of_u.fear += 1;
- else if (u->str_max <= 5)
+ else if (u.str_max <= 5)
   op_of_u.fear -= 1;
- else if (u->str_max <= 3)
+ else if (u.str_max <= 3)
   op_of_u.fear -= 3;
 
  for (int i = 0; i < num_hp_parts; i++) {
-  if (u->hp_cur[i] <= u->hp_max[i] / 2)
+  if (u.hp_cur[i] <= u.hp_max[i] / 2)
    op_of_u.fear--;
   if (hp_cur[i] <= hp_max[i] / 2)
    op_of_u.fear++;
@@ -1138,29 +1106,29 @@ void npc::form_opinion(player *u)
  if (has_trait("SAPIOVORE")) {
     op_of_u.fear += 10; // Sapiovores = Scary
  }
- if (u->has_trait("PRETTY"))
+ if (u.has_trait("PRETTY"))
   op_of_u.fear += 1;
- else if (u->has_trait("BEAUTIFUL"))
+ else if (u.has_trait("BEAUTIFUL"))
   op_of_u.fear += 2;
- else if (u->has_trait("BEAUTIFUL2"))
+ else if (u.has_trait("BEAUTIFUL2"))
   op_of_u.fear += 3;
- else if (u->has_trait("BEAUTIFUL3"))
+ else if (u.has_trait("BEAUTIFUL3"))
   op_of_u.fear += 4;
- else if (u->has_trait("UGLY"))
+ else if (u.has_trait("UGLY"))
   op_of_u.fear -= 1;
- else if (u->has_trait("DEFORMED"))
+ else if (u.has_trait("DEFORMED"))
   op_of_u.fear += 3;
- else if (u->has_trait("DEFORMED2"))
+ else if (u.has_trait("DEFORMED2"))
   op_of_u.fear += 6;
- else if (u->has_trait("DEFORMED3"))
+ else if (u.has_trait("DEFORMED3"))
   op_of_u.fear += 9;
- if (u->has_trait("TERRIFYING"))
+ if (u.has_trait("TERRIFYING"))
   op_of_u.fear += 6;
 
- if (u->stim > 20)
+ if (u.stim > 20)
   op_of_u.fear++;
 
- if (u->has_effect("drunk"))
+ if (u.has_effect("drunk"))
   op_of_u.fear -= 2;
 
 // TRUST
@@ -1169,35 +1137,35 @@ void npc::form_opinion(player *u)
  else
   op_of_u.trust += 1;
 
- if (u->weapon.is_gun())
+ if (u.weapon.is_gun())
   op_of_u.trust -= 2;
- else if (u->unarmed_attack())
+ else if (u.unarmed_attack())
   op_of_u.trust += 2;
 
- if (u->has_effect("high"))
+ if (u.has_effect("high"))
   op_of_u.trust -= 1;
- if (u->has_effect("drunk"))
+ if (u.has_effect("drunk"))
   op_of_u.trust -= 2;
- if (u->stim > 20 || u->stim < -20)
+ if (u.stim > 20 || u.stim < -20)
   op_of_u.trust -= 1;
- if (u->pkill > 30)
+ if (u.pkill > 30)
   op_of_u.trust -= 1;
 
- if (u->has_trait("PRETTY"))
+ if (u.has_trait("PRETTY"))
   op_of_u.trust += 1;
- else if (u->has_trait("BEAUTIFUL"))
+ else if (u.has_trait("BEAUTIFUL"))
   op_of_u.trust += 3;
- else if (u->has_trait("BEAUTIFUL2"))
+ else if (u.has_trait("BEAUTIFUL2"))
   op_of_u.trust += 5;
- else if (u->has_trait("BEAUTIFUL3"))
+ else if (u.has_trait("BEAUTIFUL3"))
   op_of_u.trust += 7;
- else if (u->has_trait("UGLY"))
+ else if (u.has_trait("UGLY"))
   op_of_u.trust -= 1;
- else if (u->has_trait("DEFORMED"))
+ else if (u.has_trait("DEFORMED"))
   op_of_u.trust -= 3;
- else if (u->has_trait("DEFORMED2"))
+ else if (u.has_trait("DEFORMED2"))
   op_of_u.trust -= 6;
- else if (u->has_trait("DEFORMED3"))
+ else if (u.has_trait("DEFORMED3"))
   op_of_u.trust -= 9;
 
     // VALUE
@@ -1225,7 +1193,7 @@ void npc::form_opinion(player *u)
   attitude = NPCATT_FLEE;
 }
 
-talk_topic npc::pick_talk_topic(player *u)
+talk_topic npc::pick_talk_topic(player const &u)
 {
  //form_opinion(u);
  (void)u;
@@ -1246,44 +1214,44 @@ talk_topic npc::pick_talk_topic(player *u)
  return TALK_STRANGER_NEUTRAL;
 }
 
-int npc::player_danger(player *u) const
+int npc::player_danger(player const &u) const
 {
  int ret = 0;
- if (u->weapon.is_gun()) {
+ if (u.weapon.is_gun()) {
   if (weapon.is_gun())
    ret += 4;
   else
    ret += 8;
- } else if (u->weapon.type->melee_dam >= 12 || u->weapon.type->melee_cut >= 12)
+ } else if (u.weapon.type->melee_dam >= 12 || u.weapon.type->melee_cut >= 12)
   ret++;
- else if (u->weapon.type->id == "null") // Unarmed
+ else if (u.weapon.type->id == "null") // Unarmed
   ret -= 3;
 
- if (u->str_cur > 20) // Superhuman strength!
+ if (u.str_cur > 20) // Superhuman strength!
   ret += 4;
- if (u->str_max >= 16)
+ if (u.str_max >= 16)
   ret += 2;
- else if (u->str_max >= 12)
+ else if (u.str_max >= 12)
   ret += 1;
- else if (u->str_max <= 5)
+ else if (u.str_max <= 5)
   ret -= 2;
- else if (u->str_max <= 3)
+ else if (u.str_max <= 3)
   ret -= 4;
 
  for (int i = 0; i < num_hp_parts; i++) {
-  if (u->hp_cur[i] <= u->hp_max[i] / 2)
+  if (u.hp_cur[i] <= u.hp_max[i] / 2)
    ret--;
   if (hp_cur[i] <= hp_max[i] / 2)
    ret++;
  }
 
- if (u->has_trait("TERRIFYING"))
+ if (u.has_trait("TERRIFYING"))
   ret += 2;
 
- if (u->stim > 20)
+ if (u.stim > 20)
   ret++;
 
- if (u->has_effect("drunk"))
+ if (u.has_effect("drunk"))
   ret -= 2;
 
  return ret;
@@ -1352,7 +1320,7 @@ void npc::make_angry()
 }
 
 // STUB
-bool npc::wants_to_travel_with(player *p) const
+bool npc::wants_to_travel_with(player const &p) const
 {
     (void)p; // TODO: implement
     return true;
@@ -1367,15 +1335,11 @@ int npc::assigned_missions_value()
     return ret;
 }
 
-std::vector<const Skill*> npc::skills_offered_to(player *p)
+std::vector<const Skill*> npc::skills_offered_to(player const &p) const
 {
-    if (!p) {
-        return {};
-    }
-
     std::vector<const Skill*> ret;
     for (auto const &skill : Skill::skills) {
-        if (p->skillLevel(skill) < skillLevel(skill)) {
+        if (p.get_skill_level(skill) < get_skill_level(skill)) {
             ret.push_back(&skill);
         }
     }
@@ -1383,15 +1347,12 @@ std::vector<const Skill*> npc::skills_offered_to(player *p)
     return ret;
 }
 
-std::vector<itype_id> npc::styles_offered_to(player *p)
+std::vector<std::string> npc::styles_offered_to(player const &p) const
 {
-    std::vector<itype_id> ret;
-    if (p == NULL) {
-        return ret;
-    }
+    std::vector<std::string> ret;
     for (auto &i : ma_styles) {
         bool found = false;
-        for (auto &j : p->ma_styles) {
+        for (auto &j : p.ma_styles) {
             if (j == i) {
                 found = true;
                 break;
@@ -1538,7 +1499,16 @@ void npc::init_buying(inventory& you, std::vector<item*> &items, std::vector<int
     }
 }
 
-void npc::shop_restock(){
+void npc::shop_restock(int const turn)
+{
+    // Merchants will restock their inventories every three days; 14400 is the length of one day.
+    constexpr int merchant_restock = 14400 * 3;
+    if (restock < 0 || calendar::turn <= restock + merchant_restock) {
+        return;
+    }
+    
+    restock = turn;
+
     items_location from = "NULL";
     int total_space = volume_capacity() - 2;
     std::list<item> ret;
@@ -1952,7 +1922,7 @@ std::string npc::short_description() const
 
 std::string npc::opinion_text() const
 {
- std::stringstream ret;
+ std::ostringstream ret;
  if (op_of_u.trust <= -10)
   ret << _("Completely untrusting");
  else if (op_of_u.trust <= -6)
@@ -2313,5 +2283,31 @@ void npc::add_msg_player_or_npc(game_message_type type, const char *, const char
     va_end(ap);
 }
 
+std::string npc::debug_info() const
+{
+    std::ostringstream result;
+
+    result << name << " " << (male ? _("Male") : _("Female")) << "\n";
+    result << npc_class_name(myclass) << "; " << npc_attitude_name(attitude) << "\n";
+    
+    if (has_destination()) {
+        result << string_format(_("Destination: %d:%d (%s)"), goal.x, goal.y,
+            otermap[overmap_buffer.ter(goal)].name.c_str()) << "\n";
+    } else {
+        result << _("No destination.") << "\n";
+    }
+
+    result << string_format(_("Trust: %d"), op_of_u.trust) << " "
+           << string_format(_("Fear: %d"),  op_of_u.fear)  << " "
+           << string_format(_("Value: %d"), op_of_u.value) << " "
+           << string_format(_("Anger: %d"), op_of_u.anger) << " "
+           << string_format(_("Owed: %d"),  op_of_u.owed)  << "\n";
+    result << string_format(_("Aggression: %d"), int(personality.aggression)) << " "
+           << string_format(_("Bravery: %d"),    int(personality.bravery))    << " "
+           << string_format(_("Collector: %d"),  int(personality.collector))  << " "
+           << string_format(_("Altruism: %d"),   int(personality.altruism))   << std::endl;
+
+    return result.str();
+}
 
 const tripoint npc::no_goal_point(INT_MIN, INT_MIN, INT_MIN);

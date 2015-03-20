@@ -480,17 +480,17 @@ void faction::make_army()
     id = "army";
 }
 
-bool faction::has_job(faction_job j)
+bool faction::has_job(faction_job j) const
 {
     return (job1 == j || job2 == j);
 }
 
-bool faction::has_value(faction_value v)
+bool faction::has_value(faction_value v) const
 {
     return values & mfb(v);
 }
 
-bool faction::matches_us(faction_value v)
+bool faction::matches_us(faction_value v) const
 {
     int numvals = 2;
     if (job2 != FACJOB_NULL) {

@@ -50,7 +50,7 @@ void mission::load_info(std::ifstream &data)
          uid >> target.x >> target.y >> itemid >> item_num >> deadline >> npc_id >>
          good_fac_id >> bad_fac_id >> step >> tmpfollow >> target_npc_id;
     follow_up = mission_id(tmpfollow);
-    reward.type = npc_favor_type(reward_id);
+    reward.type = npc_favor::favor_type(reward_id);
     reward.item_id = itype_id( rew_item );
     reward.skill = Skill::skill( rew_skill );
     item_id = itype_id(itemid);

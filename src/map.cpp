@@ -5163,14 +5163,9 @@ void map::actualize( const int gridx, const int gridy, const int gridz )
         }
     }
 
-    //Merchants will restock their inventories every three days
-    const int merchantRestock = 14400 * 3; //14400 is the length of one day
     //Check for Merchants to restock
-    for( auto & i : g->active_npc ) {
-        if( i->restock != -1 && calendar::turn > ( i->restock + merchantRestock ) ) {
-            i->shop_restock();
-            i->restock = int( calendar::turn );
-        }
+    for (auto &i : g->active_npc) {
+        i->shop_restock(calendar::turn);
     }
 
     // the last time we touched the submap, is right now.

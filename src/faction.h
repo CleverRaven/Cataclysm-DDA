@@ -119,9 +119,9 @@ class faction : public JsonSerializer, public JsonDeserializer
 
         void randomize();
         void make_army();
-        bool has_job(faction_job j);
-        bool has_value(faction_value v);
-        bool matches_us(faction_value v);
+        bool has_job(faction_job j) const;
+        bool has_value(faction_value v) const;
+        bool matches_us(faction_value v) const;
         std::string describe();
 
         int response_time(); // Time it takes for them to get to u

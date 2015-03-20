@@ -721,7 +721,7 @@ void game::create_starting_npcs()
     tmp->spawn_at( get_abs_levx(), get_abs_levy(), levz );
     tmp->setx( SEEX * int(MAPSIZE / 2) + SEEX );
     tmp->sety( SEEY * int(MAPSIZE / 2) + 6 );
-    tmp->form_opinion(&u);
+    tmp->form_opinion(u);
     tmp->attitude = NPCATT_NULL;
     //This sets the npc mission. This NPC remains in the shelter.
     tmp->mission = NPC_MISSION_SHELTER;
@@ -4228,7 +4228,7 @@ void game::debug()
         temp->spawn_at( get_abs_levx(), get_abs_levy(), levz );
         temp->setx( u.posx() - 4 );
         temp->sety( u.posy() - 4 );
-        temp->form_opinion(&u);
+        temp->form_opinion(u);
         temp->mission = NPC_MISSION_NULL;
         int mission_index = reserve_random_mission(ORIGIN_ANY_NPC,
                             om_location(), temp->getID());
@@ -4346,33 +4346,10 @@ void game::debug()
         if (npcdex == -1) {
             popup(_("No NPC there."));
         } else {
-            std::stringstream data;
             npc *p = active_npc[npcdex];
             uimenu nmenu;
             nmenu.return_invalid = true;
-            data << p->name << " " << (p->male ? _("Male") : _("Female")) << std::endl;
-
-            data << npc_class_name(p->myclass) << "; " <<
-                 npc_attitude_name(p->attitude) << std::endl;
-            if (p->has_destination()) {
-                data << string_format(_("Destination: %d:%d (%s)"),
-                        p->goal.x, p->goal.y,
-                        otermap[overmap_buffer.ter(p->goal)].name.c_str()) << std::endl;
-            } else {
-                data << _("No destination.") << std::endl;
-            }
-            data << string_format(_("Trust: %d"), p->op_of_u.trust) << " "
-                 << string_format(_("Fear: %d"), p->op_of_u.fear) << " "
-                 << string_format(_("Value: %d"), p->op_of_u.value) << " "
-                 << string_format(_("Anger: %d"), p->op_of_u.anger) << " "
-                 << string_format(_("Owed: %d"), p->op_of_u.owed) << std::endl;
-
-            data << string_format(_("Aggression: %d"), int(p->personality.aggression)) << " "
-                 << string_format(_("Bravery: %d"), int(p->personality.bravery)) << " "
-                 << string_format(_("Collector: %d"), int(p->personality.collector)) << " "
-                 << string_format(_("Altruism: %d"), int(p->personality.altruism)) << std::endl;
-
-            nmenu.text = data.str();
+            nmenu.text = p->debug_info();
             nmenu.addentry(0, true, 's', "%s", _("Edit [s]kills"));
             nmenu.addentry(1, true, 'i', "%s", _("Grant [i]tems"));
             nmenu.addentry(2, true, 'h', "%s", _("Cause [h]urt (to torso)"));
@@ -13329,7 +13306,7 @@ void game::spawn_mon(int /*shiftx*/, int /*shifty*/)
         }
         // adds the npc to the correct overmap.
         tmp->spawn_at( msx, msy, levz );
-        tmp->form_opinion(&u);
+        tmp->form_opinion(u);
         tmp->mission = NPC_MISSION_NULL;
         int mission_index = reserve_random_mission(ORIGIN_ANY_NPC, om_location(), tmp->getID());
         if (mission_index != -1) {
