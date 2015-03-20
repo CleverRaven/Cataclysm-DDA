@@ -2667,8 +2667,8 @@ void vehicle::center_of_mass(int &x, int &y)
     }
     xf /= m_total;
     yf /= m_total;
-    x = int(xf + (0.5*((xf>0)*2-1))); //round to nearest
-    y = int(yf + (0.5*((yf>0)*2-1)));
+    x = std::round(xf);
+    y = std::round(yf);
 }
 
 int vehicle::fuel_left (const ammotype & ftype, bool recurse)
