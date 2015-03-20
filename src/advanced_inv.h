@@ -267,7 +267,8 @@ class advanced_inventory
         WINDOW *minimap, *mm_border;
         const int minimap_width  = 3;
         const int minimap_height = 3;
-        void draw_minimap(WINDOW *w);
+        void draw_minimap();
+        void refresh_minimap();
 
         bool inCategoryMode;
 

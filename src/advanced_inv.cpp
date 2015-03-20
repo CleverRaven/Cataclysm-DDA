@@ -1156,16 +1156,13 @@ void advanced_inventory::display()
             werase( mm_border );
             draw_border( head );
             Messages::display_messages( head, 2, 1, w_width - 1, 4 );
-            draw_minimap( minimap );
-            // redraw border around minimap
-            draw_border( mm_border );
+            draw_minimap();
             const std::string msg = _( "< [?] show help >" );
             mvwprintz( head, 0, 
                     w_width - (minimap_width + 2) - utf8_width(msg.c_str()) - 1, 
                     c_white, msg.c_str() );
             wrefresh( head );
-            wrefresh( mm_border );
-            wrefresh( minimap );
+            refresh_minimap();
         }
         redraw = false;
         recalc = false;
@@ -1904,17 +1901,31 @@ void advanced_inv()
     advinv.display();
 }
 
+void advanced_inventory::refresh_minimap()
+{
+    // redraw border around minimap
+    draw_border(mm_border);
+    // minor addition to border for AIM_ALL, sorta hacky
+    if(panes[src].area == AIM_ALL || panes[dest].area == AIM_ALL) {
+        mvwprintz(mm_border, 0, 1, c_ltgray, 
+                utf8_truncate(_("All"), minimap_width).c_str());
+    }
+    // refresh border, then minimap
+    wrefresh(mm_border);
+    wrefresh(minimap);
+}
+
 // minimap is drawn same as squares order
 // sw -> s -> se -> w -> pl -> e -> nw -> n -> ne
-void advanced_inventory::draw_minimap(WINDOW *w)
+void advanced_inventory::draw_minimap()
 {
     // get the center of the window
-    int cx = getmaxx(w) / 2;
-    int cy = getmaxy(w) / 2;
+    int cx = getmaxx(minimap) / 2;
+    int cy = getmaxy(minimap) / 2;
     // should the player be inverse?
     bool player_invert = false;
     // draw the 3x3 tiles centered around player
-    g->m.draw(w, point(g->u.posx(), g->u.posy()));
+    g->m.draw(minimap, point(g->u.posx(), g->u.posy()));
     // get the positions of each pane, and show them
     for(auto &pane : panes) {
         // player offsets
@@ -1923,16 +1934,33 @@ void advanced_inventory::draw_minimap(WINDOW *w)
         // which pane is which?
         bool is_left  = pane.window == left_window;
         bool is_right = pane.window == right_window;
-        // which side is where?
-        const std::string s = (is_left ? _("L") : (is_right ? _("R") : _("?")));
-        nc_color c = static_cast<nc_color>(c_ltcyan | A_BLINK);
-        player_invert = (pane.area == AIM_INVENTORY ? true : player_invert);
-        int x = (cx + ox);
-        int y = (cy + oy);
-        if(x != 0 || y != 0) {
-            mvwputch(w, y, x, c, s);
-        }
+        // print which side it is on, and blinking!
+        mvwputch(minimap, (cy + oy), (cx + ox), 
+                static_cast<nc_color>(c_ltcyan | A_BLINK),
+                is_left ? _("L") : (is_right ? _("R") : _("?")));
     }
-    // draw the player at the center tile
-    g->u.draw(w, g->u.posx(), g->u.posy(), player_invert);
+    auto &s_area = panes[src].area;
+    auto &d_area = panes[dest].area;
+    // if it's our inventory, reverse video on player symbol
+    if(s_area == AIM_INVENTORY || d_area == AIM_INVENTORY) {
+        player_invert = true;
+    }
+    // are we dropping on the ground below?
+    if(d_area == AIM_CENTER) {
+        // is it from inventory?
+        nc_color c = static_cast<nc_color>((s_area == AIM_INVENTORY
+                    ? invert_color(c_ltcyan) : c_ltcyan) | A_BLINK);
+        // show 'v' for [area]->ground
+        mvwputch(minimap, cy, cx, c, "v");
+    // are we picking up from the ground below?
+    } else if(s_area == AIM_CENTER) {
+        // is it to inventory?
+        nc_color c = static_cast<nc_color>((d_area == AIM_INVENTORY
+                    ? invert_color(c_ltcyan) : c_ltcyan) | A_BLINK);
+        // show '^' for ground->[area]
+        mvwputch(minimap, cy, cx, c, "^");
+    } else {
+        // draw the player at the center tile
+        g->u.draw(minimap, g->u.posx(), g->u.posy(), player_invert);
+    }
 }
