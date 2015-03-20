@@ -1392,7 +1392,7 @@ void overmap::draw(WINDOW *w, WINDOW *wbar, const tripoint &center,
     // A small LRU cache: most oter_id's occur in clumps like forests of swamps.
     // This cache helps avoid much more costly lookups in the full hashmap.
     constexpr size_t cache_size = 8; // used below to calculate the next index
-    std::array<std::pair<oter_id, oter_t const*>, cache_size> cache {};
+    std::array<std::pair<oter_id, oter_t const*>, cache_size> cache {{}};
     size_t cache_next = 0;
 
     int const offset_x = cursx - (om_map_width  / 2);
