@@ -938,7 +938,7 @@ bool player::activate_bionic(int b, bool eff_only)
         item tmp_item( "pseuso_bio_picklock", 0 );
         if( invoke_item( &tmp_item ) == 0 ) {
             charge_power(bionics["bio_lockpick"]->power_activate);
-            return false;
+            return true;
         }
         if( tmp_item.damage > 0 ) {
             // TODO: damage the player / their bionics
