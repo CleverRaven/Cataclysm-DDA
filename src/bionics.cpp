@@ -457,7 +457,7 @@ void player::power_bionics()
         }
         //confirmation either occurred by pressing enter where the bionic cursor is, or the hotkey was selected
         if(confirmCheck){
-            if(action == "CONFIRM"){
+            if(action == "CONFIRM" && current_bionic_list->size() > 0){
                 if(tab_mode == "TAB_ACTIVE"){
                     tmp = active[cursor];
                 }else{
