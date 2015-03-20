@@ -955,6 +955,7 @@ bool map::vehproceed()
                 }
             }
             veh->handle_trap( wheel_x, wheel_y, w );
+            if( !has_flag( "SEALED", wheel_x, wheel_y ) ) {
             auto item_vec = i_at( wheel_x, wheel_y );
             for( auto it = item_vec.begin(); it != item_vec.end(); ) {
                 it->damage += rng( 0, 3 );
@@ -963,6 +964,7 @@ bool map::vehproceed()
                 } else {
                     ++it;
                 }
+            }
             }
         }
     }
