@@ -24,6 +24,7 @@ WinDepend/
 *.7z
 *.zip
 build/
+dep/
 
 data/font/
 config/
