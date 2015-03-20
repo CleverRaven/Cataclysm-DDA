@@ -844,7 +844,7 @@ bool game::cleanup_at_end()
             vRip.push_back("|                                   |");
             vRip.push_back("|     %                         .   |");
             vRip.push_back("|  @`                            %% |");
-            vRip.push_back("| %@%@%\                *      %`%@%|");
+            vRip.push_back("| %@%@%\\                *      %`%@%|");
             vRip.push_back("%%@@@.%@%\\%%           `\\ %%.%%@@%@");
             vRip.push_back("@%@@%%%%%@@@@@@%%%%%%%%@@%%@@@%%%@%%@");
         }
