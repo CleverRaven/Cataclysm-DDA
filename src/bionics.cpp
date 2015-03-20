@@ -1110,7 +1110,7 @@ void player::process_bionic(int b)
                     return;
                 } else {
                     // Pay the recharging cost
-                    charge_power(bionics[bio.id]->power_over_time);
+                    charge_power(-bionics[bio.id]->power_over_time);
                     // We just spent our first turn of charge, so -1 here
                     bio.charge = bionics[bio.id]->charge_time - 1;
                 }
