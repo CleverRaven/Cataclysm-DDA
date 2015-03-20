@@ -855,6 +855,22 @@ std::vector<point> find_safe_places( point const &center )
     return safe;
 }
 
+bool catch_with_rope( point const &center )
+{
+    player &u = g->u;
+    std::vector<point> const safe = find_safe_places( center );
+    if( safe.empty() ) {
+        add_msg( m_bad, _( "There's nowhere to pull yourself to, and you fall!" ) );
+        return false;
+    }
+    add_msg( _( "You pull yourself to safety!" ) );
+    int const index = rng( 0, safe.size() - 1 );
+    u.setx( safe[index].x );
+    u.sety( safe[index].y );
+    g->update_map( &u );
+    return true;
+}
+
 int digging_perception( int const offset )
 {
     // Smart and perceptive folks can pick up on Bad Stuff Below farther out
@@ -976,18 +992,10 @@ void construct::done_dig_stair(point p)
               add_msg(_("The grappling hook catches something!"));
               if (rng(g->u.skillLevel("unarmed"),
                       g->u.skillLevel("unarmed") + g->u.str_cur) > 7) {
-              std::vector<point> const safe = find_safe_places( p );
-                  if (safe.empty()) {
-                      add_msg(m_bad, _("There's nowhere to pull yourself to, and you fall!"));
+                  if( !catch_with_rope( p ) ) {
                       g->u.use_amount("grapnel", 1);
                       g->m.spawn_item(g->u.posx() + rng(-1, 1), g->u.posy() + rng(-1, 1), "grapnel");
                       g->vertical_move(-1, true);
-                  } else {
-                      add_msg(_("You pull yourself to safety!"));
-                      int index = rng(0, safe.size() - 1);
-                      g->u.setx( safe[index].x );
-                      g->u.sety( safe[index].y );
-                      g->update_map(&(g->u));
                   }
               } else {
                     add_msg(m_bad, _("You're not strong enough to pull yourself out..."));
@@ -1017,16 +1025,8 @@ void construct::done_dig_stair(point p)
                       add_msg(_("Your web holds firm!"));
                       if (rng(g->u.skillLevel("unarmed"),
                           g->u.skillLevel("unarmed") + g->u.str_cur) > 7) {
-                          std::vector<point> const safe = find_safe_places( p );
-                          if (safe.empty()) {
-                              add_msg(m_bad, _("There's nowhere to pull yourself to, and you fall!"));
+                          if( !catch_with_rope( p ) ) {
                               g->vertical_move(-1, true);
-                          } else {
-                              add_msg(_("You pull yourself to safety!"));
-                              int index = rng(0, safe.size() - 1);
-                              g->u.setx( safe[index].x );
-                              g->u.sety( safe[index].y );
-                              g->update_map(&(g->u));
                           }
                       } else {
                             add_msg(m_bad, _("You're not strong enough to pull yourself out..."));
@@ -1048,18 +1048,11 @@ void construct::done_dig_stair(point p)
               add_msg(_("The rope snags and holds!"));
               if (rng(g->u.skillLevel("unarmed"),
                       g->u.skillLevel("unarmed") + g->u.str_cur) > 7) {
-              std::vector<point> const safe = find_safe_places( p );
-                  if (safe.empty()) {
-                      add_msg(m_bad, _("There's nowhere to pull yourself to, and you fall!"));
+                  if( !catch_with_rope( p ) ) {
                       g->m.spawn_item(g->u.posx() + rng(-1, 1), g->u.posy() + rng(-1, 1), "rope_30");
                       g->vertical_move(-1, true);
                   } else {
-                      add_msg(_("You pull yourself to safety!"));
                       add_msg(_("The rope gives way and plummets, just as you escape."));
-                      int index = rng(0, safe.size() - 1);
-                      g->u.setx( safe[index].x );
-                      g->u.sety( safe[index].y );
-                      g->update_map(&(g->u));
                   }
               } else {
                     add_msg(m_bad, _("You're not strong enough to pull yourself out..."));
@@ -1207,19 +1200,10 @@ void construct::done_mine_downstair(point p)
               add_msg(_("The grappling hook catches something!"));
               if (rng(g->u.skillLevel("unarmed"),
                       g->u.skillLevel("unarmed") + g->u.str_cur) > 7) {
-              // Determine safe places for the character to get pulled to
-              std::vector<point> const safe = find_safe_places( p );
-                  if (safe.empty()) {
-                      add_msg(m_bad, _("There's nowhere to pull yourself to, and you fall!"));
+                  if( !catch_with_rope( p ) ) {
                       g->u.use_amount("grapnel", 1);
                       g->m.spawn_item(g->u.posx() + rng(-1, 1), g->u.posy() + rng(-1, 1), "grapnel");
                       g->vertical_move(-1, true);
-                  } else {
-                      add_msg(_("You pull yourself to safety!"));
-                      int index = rng(0, safe.size() - 1);
-                      g->u.setx( safe[index].x );
-                      g->u.sety( safe[index].y );
-                      g->update_map(&(g->u));
                   }
               } else {
                     add_msg(m_bad, _("You're not strong enough to pull yourself out..."));
@@ -1249,16 +1233,8 @@ void construct::done_mine_downstair(point p)
                       add_msg(_("Your web holds firm!"));
                       if (rng(g->u.skillLevel("unarmed"),
                           g->u.skillLevel("unarmed") + g->u.str_cur) > 7) {
-                          std::vector<point> const safe = find_safe_places( p );
-                          if (safe.empty()) {
-                              add_msg(m_bad, _("There's nowhere to pull yourself to, and you fall!"));
+                          if( !catch_with_rope( p ) ) {
                               g->vertical_move(-1, true);
-                          } else {
-                              add_msg(_("You pull yourself to safety!"));
-                              int index = rng(0, safe.size() - 1);
-                              g->u.setx( safe[index].x );
-                              g->u.sety( safe[index].y );
-                              g->update_map(&(g->u));
                           }
                       } else {
                             add_msg(m_bad, _("You're not strong enough to pull yourself out..."));
@@ -1280,18 +1256,11 @@ void construct::done_mine_downstair(point p)
               add_msg(_("The rope snags and holds!"));
               if (rng(g->u.skillLevel("unarmed"),
                       g->u.skillLevel("unarmed") + g->u.str_cur) > 7) {
-              std::vector<point> const safe = find_safe_places( p );
-                  if (safe.empty()) {
-                      add_msg(m_bad, _("There's nowhere to pull yourself to, and you fall!"));
+                  if( !catch_with_rope( p ) ) {
                       g->m.spawn_item(g->u.posx() + rng(-1, 1), g->u.posy() + rng(-1, 1), "rope_30");
                       g->vertical_move(-1, true);
                   } else {
-                      add_msg(_("You pull yourself to safety!"));
                       add_msg(_("The rope gives way and plummets, just as you escape."));
-                      int index = rng(0, safe.size() - 1);
-                      g->u.setx( safe[index].x );
-                      g->u.sety( safe[index].y );
-                      g->update_map(&(g->u));
                   }
               } else {
                     add_msg(m_bad, _("You're not strong enough to pull yourself out..."));
