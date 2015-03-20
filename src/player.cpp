@@ -9035,7 +9035,7 @@ bool player::eat(item *eaten, it_comest *comest)
        else
        if(!is_npc()) {add_memorial_log(pgettext("memorial_male", "Began preparing for hibernation."),
                                        pgettext("memorial_female", "Began preparing for hibernation."));
-                      add_msg(_("You've begun stockpiling calories and liquid for hibernation. You get the feeling that you should prepare for bed, just in case, but...you're hungry again, and you could eat a whole week's worth of food RIGHT NOW."));
+                      add_msg(_("You've begun stockpiling calories and liquid for hibernation.  You get the feeling that you should prepare for bed, just in case, but...you're hungry again, and you could eat a whole week's worth of food RIGHT NOW."));
       }
     }
     if (has_trait("CARNIVORE") && (eaten->made_of("veggy") || eaten->made_of("fruit") || eaten->made_of("wheat")) &&
@@ -9045,11 +9045,11 @@ bool player::eat(item *eaten, it_comest *comest)
         return false;
     }
     if ((!has_trait("SAPIOVORE") && !has_trait("CANNIBAL") && !has_trait("PSYCHOPATH")) && eaten->made_of("hflesh")&&
-        !is_npc() && !query_yn(_("The thought of eating that makes you feel sick. Really do it?"))) {
+        !is_npc() && !query_yn(_("The thought of eating that makes you feel sick.  Really do it?"))) {
         return false;
     }
     if ((!has_trait("SAPIOVORE") && has_trait("CANNIBAL") && !has_trait("PSYCHOPATH") && !has_trait("SPIRITUAL")) && eaten->made_of("hflesh")&& !is_npc() &&
-        !query_yn(_("The thought of eating that makes you feel both guilty and excited. Really do it?"))) {
+        !query_yn(_("The thought of eating that makes you feel both guilty and excited.  Really do it?"))) {
         return false;
     }
 
@@ -9060,41 +9060,41 @@ bool player::eat(item *eaten, it_comest *comest)
     }
 
     if (has_trait("VEGETARIAN") && eaten->made_of("flesh") && !is_npc() &&
-        !query_yn(_("Really eat that %s? Your stomach won't be happy."), eaten->tname().c_str())) {
+        !query_yn(_("Really eat that %s?  Your stomach won't be happy."), eaten->tname().c_str())) {
         return false;
     }
     if (has_trait("MEATARIAN") && eaten->made_of("veggy") && !is_npc() &&
-        !query_yn(_("Really eat that %s? Your stomach won't be happy."), eaten->tname().c_str())) {
+        !query_yn(_("Really eat that %s?  Your stomach won't be happy."), eaten->tname().c_str())) {
         return false;
     }
     if (has_trait("LACTOSE") && eaten->made_of("milk") && (!has_bionic("bio_digestion")) && !is_npc() &&
-        !query_yn(_("Really eat that %s? Your stomach won't be happy."), eaten->tname().c_str())) {
+        !query_yn(_("Really eat that %s?  Your stomach won't be happy."), eaten->tname().c_str())) {
         return false;
     }
     if (has_trait("ANTIFRUIT") && eaten->made_of("fruit") && !is_npc() &&
-        !query_yn(_("Really eat that %s? Your stomach won't be happy."), eaten->tname().c_str())) {
+        !query_yn(_("Really eat that %s?  Your stomach won't be happy."), eaten->tname().c_str())) {
         return false;
     }
     if (has_trait("ANTIJUNK") && eaten->made_of("junk") && (!has_bionic("bio_digestion")) && !is_npc() &&
-        !query_yn(_("Really eat that %s? Your stomach won't be happy."), eaten->tname().c_str())) {
+        !query_yn(_("Really eat that %s?  Your stomach won't be happy."), eaten->tname().c_str())) {
         return false;
     }
     if (has_trait("ANTIWHEAT") && eaten->made_of("wheat") &&
         (!has_bionic("bio_digestion")) && !is_npc() &&
-        !query_yn(_("Really eat that %s? Your stomach won't be happy."), eaten->tname().c_str())) {
+        !query_yn(_("Really eat that %s?  Your stomach won't be happy."), eaten->tname().c_str())) {
         return false;
     }
     if (has_trait("CARNIVORE") && ((eaten->made_of("junk")) && !(eaten->made_of("flesh") ||
       eaten->made_of("hflesh") || eaten->made_of("iflesh") || eaten->made_of("milk") ||
       eaten->made_of("egg")) ) && (!has_bionic("bio_digestion")) && !is_npc() &&
-        !query_yn(_("Really eat that %s? It smells completely unappealing."), eaten->tname().c_str()) ) {
+        !query_yn(_("Really eat that %s?  It smells completely unappealing."), eaten->tname().c_str()) ) {
         return false;
     }
     // Check for eating/Food is so water and other basic liquids that do not rot don't cause problems.
     // I'm OK with letting plants drink coffee. (Whether it would count as cannibalism is another story.)
     if ((has_trait("SAPROPHAGE") && (!spoiled) && (!has_bionic("bio_digestion")) && !is_npc() &&
       (eaten->has_flag("USE_EAT_VERB") || comest->comesttype == "FOOD") &&
-      !query_yn(_("Really eat that %s? Your stomach won't be happy."), eaten->tname().c_str()))) {
+      !query_yn(_("Really eat that %s?  Your stomach won't be happy."), eaten->tname().c_str()))) {
         //~ No, we don't eat "rotten" food. We eat properly aged food, like a normal person.
         //~ Semantic difference, but greatly facilitates people being proud of their character.
         add_msg_if_player(m_info,  _("It's too fresh, let it age a little first.  "));
@@ -9121,7 +9121,7 @@ bool player::eat(item *eaten, it_comest *comest)
         // ...and EITHER of them crosses under the capacity...
         ( temp_hunger < capacity || temp_thirst < capacity ) ) {
         // Prompt to make sure player wants to gorge for hibernation...
-        if( query_yn(_("Start gorging in preperation for hibernation?")) ) {
+        if( query_yn(_("Start gorging in preparation for hibernation?")) ) {
             // ...and explain what that means.
             add_msg(m_info, _("As you force yourself to eat, you have the feeling that you'll just be able to keep eating and then sleep for a long time."));
         } else {
@@ -9140,7 +9140,7 @@ bool player::eat(item *eaten, it_comest *comest)
         capacity -= 40;
         if ( (temp_hunger < capacity && temp_thirst <= (capacity + 10) ) ||
         (temp_thirst < capacity && temp_hunger <= (capacity + 10) ) ) {
-            add_msg(m_mixed, _("You feel as though you're going to split open! In a good way??"));
+            add_msg(m_mixed, _("You feel as though you're going to split open!  In a good way??"));
             mod_pain(5);
             std::vector<point> valid;
             for (int x = posx() - 1; x <= posx() + 1; x++) {
@@ -9171,14 +9171,14 @@ bool player::eat(item *eaten, it_comest *comest)
     if( ( comest->nutr > 0 && temp_hunger < capacity ) ||
         ( comest->quench > 0 && temp_thirst < capacity ) ) {
         if ((spoiled) && !(has_trait("SAPROPHAGE")) ){//rotten get random nutrification
-            if (!query_yn(_("You can hardly finish it all. Consume it?"))) {
+            if (!query_yn(_("You can hardly finish it all.  Consume it?"))) {
                 return false;
             }
         } else {
             if ( (( comest->nutr > 0 && temp_hunger < capacity ) ||
               ( comest->quench > 0 && temp_thirst < capacity )) &&
               ( (!(has_trait("EATHEALTH"))) || (!(has_trait("SLIMESPAWNER"))) ) ) {
-                if (!query_yn(_("You will not be able to finish it all. Consume it?"))) {
+                if (!query_yn(_("You will not be able to finish it all.  Consume it?"))) {
                 return false;
                 }
             }
@@ -9503,7 +9503,7 @@ void player::consume_effects(item *eaten, it_comest *comest, bool rotten)
             }
         }
         if ((comest->nutr > 0 && hunger < -400) || (comest->quench > 0 && thirst < -400)) {
-            add_msg_if_player(_("Mmm.  You can stil fit some more in...but maybe you should get comfortable and sleep."));
+            add_msg_if_player(_("Mmm.  You can still fit some more in...but maybe you should get comfortable and sleep."));
              if (!(one_in(3))) {
                 (fatigue += (comest->nutr)); //Third check, this one at 66%
             }
