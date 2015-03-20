@@ -228,9 +228,9 @@ bool overmapbuffer::has_horde(int const x, int const y, int const z) {
     return false;
 }
 
-bool overmapbuffer::has_npc(int x, int y, int const z)
+bool overmapbuffer::has_npc(int const x, int const y, int const z)
 {
-    overmap const *const om = get_existing_om_global(x, y);
+    overmap const *const om = get_existing_om_global(point(x, y));
     if (!om) {
         return false;
     }
