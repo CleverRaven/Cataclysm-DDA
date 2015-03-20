@@ -9604,9 +9604,8 @@ void player::rooted()
 {
     double shoe_factor = footwear_factor();
     if( (has_trait("ROOTS2") || has_trait("ROOTS3")) &&
-        g->m.has_flag("DIGGABLE", posx(), posy()) &&
-        !shoe_factor ) {
-        if( one_in(20 / shoe_factor) ) {
+        g->m.has_flag("DIGGABLE", posx(), posy()) && shoe_factor != 1.0 ) {
+        if( one_in(20.0 / (1.0 - shoe_factor)) ) {
             if (hunger > -20) {
                 hunger--;
             }
