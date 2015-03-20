@@ -18,6 +18,8 @@
 #include <bitset>
 #include <array>
 
+static const std::string DEFAULT_HOTKEYS("1234567890abcdefghijklmnopqrstuvwxyz");
+
 class monster;
 class game;
 struct trap;
@@ -854,7 +856,7 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         void invalidate_crafting_inventory();
         std::vector<item> get_eligible_containers_for_crafting();
         std::list<item> consume_items(const std::vector<item_comp> &components, int batch = 1);
-        void consume_tools(const std::vector<tool_comp> &tools, int batch = 1);
+        void consume_tools(const std::vector<tool_comp> &tools, int batch = 1, const std::string &hotkeys = DEFAULT_HOTKEYS);
 
         // Auto move methods
         void set_destination(const std::vector<point> &route);

@@ -1795,7 +1795,7 @@ std::list<item> player::consume_items(const std::vector<item_comp> &components, 
     return ret;
 }
 
-void player::consume_tools(const std::vector<tool_comp> &tools, int batch)
+void player::consume_tools(const std::vector<tool_comp> &tools, int batch, const std::string &hotkeys)
 {
     bool found_nocharge = false;
     inventory map_inv;
@@ -1843,7 +1843,7 @@ void player::consume_tools(const std::vector<tool_comp> &tools, int batch)
         }
 
         // Get selection via a popup menu
-        size_t selection = menu_vec(false, _("Use which tool?"), options) - 1;
+        size_t selection = menu_vec(false, _("Use which tool?"), options, hotkeys) - 1;
         if (selection < map_has.size())
             g->m.use_charges(pos(), PICKUP_RANGE,
                           map_has[selection].type, map_has[selection].count * batch);
