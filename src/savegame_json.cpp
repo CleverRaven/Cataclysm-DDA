@@ -273,6 +273,11 @@ void player::load(JsonObject &data)
         max_power_level *= 25;
     }
 
+    // Bionic power should not be negative!
+    if( power_level < 0) {
+        power_level = 0;
+    }
+
     data.read("ma_styles", ma_styles);
     // Just too many changes here to maintain compatibility, so older characters get a free
     // diseases wipe. Since most long lasting diseases are bad, this shouldn't be too bad for them.
