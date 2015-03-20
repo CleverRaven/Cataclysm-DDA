@@ -592,6 +592,8 @@ public:
     float strain ();
 
 // calculate if it can move using its wheels configuration
+    bool sufficient_wheel_config ();
+    bool balanced_wheel_config ();
     bool valid_wheel_config ();
 
 // idle fuel consumption

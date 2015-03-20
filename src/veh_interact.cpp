@@ -1499,11 +1499,6 @@ void veh_interact::display_stats()
         }
     }
 
-    bool isBoat = !veh->all_parts_with_feature(VPFLAG_FLOATS).empty();
-    bool conf;
-
-    conf = veh->valid_wheel_config();
-
     std::string speed_units = OPTIONS["USE_METRIC_SPEEDS"].getValue();
     float speed_factor = 0.01f;
     if (speed_units == "km/h") {
@@ -1532,21 +1527,31 @@ void veh_interact::display_stats()
     x[4] += utf8_width(_("Status: ")) + 1;
     fold_and_print(w_stats, y[4], x[4], w[4], totalDurabilityColor, totalDurabilityText);
 
+    bool isBoat = !veh->all_parts_with_feature(VPFLAG_FLOATS).empty();
+    bool suf, bal;
+    suf = veh->sufficient_wheel_config();
+    bal = veh->balanced_wheel_config();
     if( !isBoat ) {
-        if( conf ) {
-            fold_and_print(w_stats, y[5], x[5], w[5], c_ltgray,
-                           _("Wheels:    <color_ltgreen>enough</color>"));
-        }   else {
+        if( !suf ) {
             fold_and_print(w_stats, y[5], x[5], w[5], c_ltgray,
                            _("Wheels:      <color_ltred>lack</color>"));
+        } else if (!bal) {
+            fold_and_print(w_stats, y[5], x[5], w[5], c_ltgray,
+                           _("Wheels:  <color_ltred>unbalanced</color>"));
+        } else {
+            fold_and_print(w_stats, y[5], x[5], w[5], c_ltgray,
+                           _("Wheels:    <color_ltgreen>enough</color>"));
         }
     }   else {
-        if (conf) {
-            fold_and_print(w_stats, y[5], x[5], w[5], c_ltgray,
-                           _("Boat:    <color_blue>can swim</color>"));
-        }   else {
+        if( !suf ) {
             fold_and_print(w_stats, y[5], x[5], w[5], c_ltgray,
                            _("Boat:  <color_ltred>can't swim</color>"));
+        } else if (!bal) {
+            fold_and_print(w_stats, y[5], x[5], w[5], c_ltgray,
+                           _("Boat:  <color_ltred>unbalanced</color>"));
+        } else {
+            fold_and_print(w_stats, y[5], x[5], w[5], c_ltgray,
+                           _("Boat:    <color_blue>can swim</color>"));
         }
     }
 

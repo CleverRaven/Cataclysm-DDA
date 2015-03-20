@@ -3113,15 +3113,12 @@ float vehicle::strain ()
         return (float) (abs(velocity) - sv) / (float) (mv - sv);
 }
 
-bool vehicle::valid_wheel_config ()
+bool vehicle::sufficient_wheel_config ()
 {
     std::vector<int> floats = all_parts_with_feature(VPFLAG_FLOATS);
     if( !floats.empty() ) {
         return floats.size() > 2;
     }
-
-    int x1 = 0, y1 = 0, x2 = 0, y2 = 0;
-    int count = 0;
     std::vector<int> wheel_indices = all_parts_with_feature(VPFLAG_WHEEL);
     if(wheel_indices.empty()) {
         // No wheels!
@@ -3132,6 +3129,14 @@ bool vehicle::valid_wheel_config ()
             return false;
         }
     }
+    return true;
+}
+
+bool vehicle::balanced_wheel_config ()
+{
+    int x1 = 0, y1 = 0, x2 = 0, y2 = 0;
+    int count = 0;
+    std::vector<int> wheel_indices = all_parts_with_feature(VPFLAG_WHEEL);
     // find the bounding box of the wheels
     // TODO: find convex hull instead
     for (auto &w : wheel_indices) {
@@ -3161,6 +3166,11 @@ bool vehicle::valid_wheel_config ()
         return false; // center of mass not inside support of wheels (roughly)
     }
     return true;
+}
+
+bool vehicle::valid_wheel_config ()
+{
+    return sufficient_wheel_config() && balanced_wheel_config();
 }
 
 /**
