@@ -840,6 +840,13 @@ void construct::done_deconstruct(point p)
     }
 }
 
+int digging_perception( int const offset )
+{
+    // Smart and perceptive folks can pick up on Bad Stuff Below farther out
+    int prox = ( ( g->u.int_cur + g->u.per_cur ) / 2 ) - offset;
+    return std::max( 1, prox );
+}
+
 void construct::done_dig_stair(point p)
 {
  tinymap tmpmap;
@@ -855,11 +862,7 @@ void construct::done_dig_stair(point p)
     point omtile_align_start(
         g->m.getlocal( rc.begin_om_pos() )
     );
-    // Smart and perceptive folks can pick up on Bad Stuff Below farther out
-    int prox = ( (((g->u.int_cur) + (g->u.per_cur)) / 2) - 8 );
-    if (prox <= 0) {
-        prox = 1;
-    }
+    const int prox = digging_perception( 8 );
   for (int i = omtile_align_start.x; i <= omtile_align_start.x + omtilesz; i++) {
       for (int j = omtile_align_start.y; j <= omtile_align_start.y + omtilesz; j++) {
           if (rl_dist(p.x % SEEX, p.y % SEEY, i, j) <= prox && (tmpmap.ter(i, j) == t_lava)) {
@@ -1125,12 +1128,8 @@ void construct::done_mine_downstair(point p)
     point omtile_align_start(
         g->m.getlocal( rc.begin_om_pos() )
     );
-    // Smart and perceptive folks can pick up on Bad Stuff Below farther out
     // Tougher with the noisy J-Hammer though
-    int prox = ( (((g->u.int_cur) + (g->u.per_cur)) / 2) - 10 );
-    if (prox <= 0) {
-        prox = 1;
-    }
+    int const prox = digging_perception( 10 );
   for (int i = omtile_align_start.x; i <= omtile_align_start.x + omtilesz; i++) {
       for (int j = omtile_align_start.y; j <= omtile_align_start.y + omtilesz; j++) {
           if (rl_dist(p.x % SEEX, p.y % SEEY, i, j) <= prox && (tmpmap.ter(i, j) == t_lava)) {
@@ -1397,12 +1396,8 @@ void construct::done_mine_upstair(point p)
     point omtile_align_start(
         g->m.getlocal( rc.begin_om_pos() )
     );
-    // Smart and perceptive folks can pick up on Bad Stuff Above farther out
     // Tougher with the noisy J-Hammer though
-    int prox = ( (((g->u.int_cur) + (g->u.per_cur)) / 2) - 10 );
-    if (prox <= 0) {
-        prox = 1;
-    }
+    int const prox = digging_perception( 10 );
   for (int i = omtile_align_start.x; i <= omtile_align_start.x + omtilesz; i++) {
       for (int j = omtile_align_start.y; j <= omtile_align_start.y + omtilesz; j++) {
           if (rl_dist(p.x % SEEX, p.y % SEEY, i, j) <= prox && (tmpmap.ter(i, j) == t_lava)) {
