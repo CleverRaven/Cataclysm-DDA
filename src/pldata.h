@@ -57,7 +57,7 @@ public:
 
     // extra stuff for martial arts, kind of a hack for now
     disease(std::string new_buff_id)
-        : type {"ma_buff"}, buff_id {std::move(new_buff_id)}, intensity {1}
+        : type ("ma_buff"), buff_id (std::move(new_buff_id)), intensity (1)
     {
     }
 
@@ -69,7 +69,7 @@ public:
     disease() : type("null") { }
 
     disease(std::string t, int const d, int const i, body_part const part, bool const perm, int const dec)
-        : type {std::move(t)}, intensity {i}, duration {d}, decay {dec}, bp {part}, permanent {perm}
+        : type (std::move(t)), intensity (i), duration (d), decay (dec), bp (part), permanent (perm)
     {
     }
 

@@ -1,5 +1,5 @@
 # TODO:
-# 
+#
 # Add dynamic git based versioning
 # Add Windows library support with pre-compiled deps
 # Move binary after compilation
@@ -34,37 +34,53 @@ if(${CMAKE_SOURCE_DIR} STREQUAL ${CMAKE_BINARY_DIR})
 endif()
 
 if(TILES)
-    # Find SDL, SDL_ttf & SDL_image for graphical install
-    find_package(SDL2)
-    if(NOT SDL2_FOUND)
-        message(FATAL_ERROR
-            "This project requires SDL2 to be installed to be compiled in graphical mode. Please install the SDL2 development libraries, or try compiling without the -DTILES=1 for a text only compilation."
-        )
-    endif()
+    #if (NOT WIN32)
+        # Find SDL, SDL_ttf & SDL_image for graphical install
+        find_package(SDL2)
+        if(NOT SDL2_FOUND)
+            message(FATAL_ERROR
+                "This project requires SDL2 to be installed to be compiled in graphical mode. Please install the SDL2 development libraries, or try compiling without the -DTILES=1 for a text only compilation."
+            )
+        endif()
 
-    find_package(SDL2_ttf)
-    if(NOT SDL2_TTF_FOUND)
-        message(FATAL_ERROR
-            "This project requires SDL2_ttf to be installed to be compiled in graphical mode. Please install the SDL2_ttf development libraries, or try compiling without the -DTILES=1 for a text only compilation."
-        )
-    endif()
+        find_package(SDL2_ttf)
+        if(NOT SDL2_TTF_FOUND)
+            message(FATAL_ERROR
+                "This project requires SDL2_ttf to be installed to be compiled in graphical mode. Please install the SDL2_ttf development libraries, or try compiling without the -DTILES=1 for a text only compilation."
+            )
+        endif()
 
-    find_package(SDL2_image)
-    if(NOT SDL2_IMAGE_FOUND)
-        message(FATAL_ERROR
-            "This project requires SDL2_image to be installed to be compiled in graphical mode. Please install the SDL2_image development libraries, or try compiling without the -DTILES=1 for a text only compilation."
-        )
-    endif()
+        find_package(SDL2_image)
+        if(NOT SDL2_IMAGE_FOUND)
+            message(FATAL_ERROR
+                "This project requires SDL2_image to be installed to be compiled in graphical mode. Please install the SDL2_image development libraries, or try compiling without the -DTILES=1 for a text only compilation."
+            )
+        endif()
+   # else()
+    #    set(SDL2_INCLUDE_DIR "dep/include" CACHE FILEPATH "Directory that contains the ncurses header files")
+     #   set(SDL2_INCLUDE_LIBRARY "dep/lib" CACHE FILEPATH "Directory that contains the ncurses .lib files")
+
+#        set(CURSES_INCLUDE_DIRS "dep/include" CACHE FILEPATH "Directory that contains the ncurses header files")
+ #       set(CURSES_INCLUDE_LIBRARIES "dep/lib" CACHE FILEPATH "Directory that contains the ncurses .lib files")
+#
+ #       set(CURSES_INCLUDE_DIRS "dep/include" CACHE FILEPATH "Directory that contains the ncurses header files")
+  #      set(CURSES_INCLUDE_LIBRARIES "dep/lib" CACHE FILEPATH "Directory that contains the ncurses .lib files")
+   # endif()
 
     add_definitions(-DTILES -DSDLTILES)
 else()
     # Find the ncurses library for a text based compile
-    set(CURSES_NEED_NCURSES TRUE)
-    find_package(Curses)
-    if(NOT CURSES_FOUND)
-        message(FATAL_ERROR
-            "This project requires ncurses to be installed to be compiled in text only mode. Please install the ncurses development libraries, or try compiling with the -DTILES=1 for a graphical compilation."
-        )
+    if (NOT WIN32)
+        set(CURSES_NEED_NCURSES TRUE)
+        find_package(Curses)
+        if(NOT CURSES_FOUND)
+            message(FATAL_ERROR
+                "This project requires ncurses to be installed to be compiled in text only mode. Please install the ncurses development libraries, or try compiling with the -DTILES=1 for a graphical compilation."
+            )
+        endif()
+    else()
+        set(CURSES_INCLUDE_DIRS "dep/include" CACHE FILEPATH "Directory that contains the ncurses header files")
+        set(CURSES_INCLUDE_LIBRARIES "dep/lib" CACHE FILEPATH "Directory that contains the ncurses .lib files")
     endif()
 endif()
 

@@ -291,6 +291,10 @@ if(TILES)
 else()
 	target_include_directories(cataclysm PUBLIC ${CURSES_INCLUDE_DIRS})
 	target_link_libraries(cataclysm ${CURSES_LIBRARIES})
+
+    if(WIN32)
+        target_link_libraries(cataclysm winmm.lib)
+    endif()
 endif()
 
 if(SOUND)

@@ -85,6 +85,7 @@
 find_path(SDL2_INCLUDE_DIR SDL.h
   HINTS
     ENV SDL2DIR
+    ${CMAKE_SOURCE_DIR}/dep/
   PATH_SUFFIXES SDL2
                 # path suffixes to search inside ENV{SDLDIR}
                 include/SDL2 include
@@ -100,6 +101,7 @@ find_library(SDL2_LIBRARY_TEMP
   NAMES SDL2
   HINTS
     ENV SDL2DIR
+    ${CMAKE_SOURCE_DIR}/dep/
   PATH_SUFFIXES lib ${VC_LIB_PATH_SUFFIX}
 )
 
@@ -113,6 +115,7 @@ if(NOT SDL2_BUILDING_LIBRARY)
       NAMES SDL2main
       HINTS
         ENV SDL2DIR
+        ${CMAKE_SOURCE_DIR}/dep/
       PATH_SUFFIXES lib ${VC_LIB_PATH_SUFFIX}
       PATHS
       /sw

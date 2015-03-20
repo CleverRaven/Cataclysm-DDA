@@ -55,6 +55,7 @@ find_path(SDL2_IMAGE_INCLUDE_DIR SDL_image.h
   HINTS
     ENV SDL2IMAGEDIR
     ENV SDL2DIR
+    ${CMAKE_SOURCE_DIR}/dep/
   PATH_SUFFIXES SDL2
                 # path suffixes to search inside ENV{SDL2DIR}
                 include/SDL2 include
@@ -75,6 +76,7 @@ find_library(SDL2_IMAGE_LIBRARY
   HINTS
     ENV SDL2IMAGEDIR
     ENV SDL2DIR
+    ${CMAKE_SOURCE_DIR}/dep/
   PATH_SUFFIXES lib ${VC_LIB_PATH_SUFFIX}
 )
 
