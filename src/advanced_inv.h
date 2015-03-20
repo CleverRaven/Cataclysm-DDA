@@ -1,6 +1,7 @@
 #ifndef ADVANCED_INV_H
 #define ADVANCED_INV_H
 #include "output.h"
+#include "map.h"
 #include <string>
 #include <array>
 
@@ -20,7 +21,7 @@ enum aim_location {
     AIM_NORTH,
     AIM_NORTHEAST,
     AIM_ALL,
-    AIM_DRAGED,
+    AIM_DRAGGED,
     AIM_CONTAINER
 };
 
@@ -261,6 +262,12 @@ class advanced_inventory
         const int min_w_height;
         const int min_w_width;
         const int max_w_width;
+
+        // minimap that displays things around character
+        WINDOW *minimap, *mm_border;
+        const int minimap_width  = 3;
+        const int minimap_height = 3;
+        void draw_minimap(WINDOW *w);
 
         bool inCategoryMode;
 

@@ -9,6 +9,7 @@
 #include "player_activity.h"
 #include "advanced_inv.h"
 #include "compatibility.h"
+#include "enums.h"
 
 #include <map>
 #include <set>
@@ -44,7 +45,7 @@ advanced_inventory::advanced_inventory()
         { AIM_NORTH, 1, 33, 0, -1, _( "North" ), _( "N" ) },
         { AIM_NORTHEAST, 1, 36, 1, -1, _( "North East" ), _( "NE" ) },
         { AIM_ALL, 3, 25, 0, 0, _( "Surrounding area" ), _( "AL" ) },
-        { AIM_DRAGED, 1, 25, 0, 0, _( "Grabbed Vehicle" ), _( "GR" ) },
+        { AIM_DRAGGED, 1, 25, 0, 0, _( "Grabbed Vehicle" ), _( "GR" ) },
         { AIM_CONTAINER, 1, 22, 0, 0, _( "Container" ), _( "CN" ) }
     }
 })
@@ -72,10 +73,14 @@ advanced_inventory::~advanced_inventory()
     // Only refresh if we exited manually, otherwise we're going to be right back
     if( exit ) {
         werase( head );
+        werase( minimap );
+        werase( mm_border );
         werase( left_window );
         werase( right_window );
     }
     delwin( head );
+    delwin( minimap );
+    delwin( mm_border );
     delwin( left_window );
     delwin( right_window );
     if( exit ) {
@@ -129,7 +134,7 @@ bool advanced_inventory::get_square( const std::string action, aim_location &ret
     } else if( action == "ITEMS_AROUND" ) {
         ret = AIM_ALL;
     } else if( action == "ITEMS_DRAGGED_CONTAINER" ) {
-        ret = AIM_DRAGED;
+        ret = AIM_DRAGGED;
     } else if( action == "ITEMS_CONTAINER" ) {
         ret = AIM_CONTAINER;
     } else {
@@ -421,7 +426,7 @@ inline char advanced_inventory::get_location_key( aim_location area )
             return '9';
         case AIM_ALL:
             return 'A';
-        case AIM_DRAGED:
+        case AIM_DRAGGED:
             return 'D';
         case AIM_CONTAINER:
             return 'C';
@@ -476,7 +481,7 @@ void advanced_inv_area::init()
         case AIM_INVENTORY:
             canputitemsloc = true;
             break;
-        case AIM_DRAGED:
+        case AIM_DRAGGED:
             if( g->u.grab_type != OBJECT_VEHICLE ) {
                 canputitemsloc = false;
                 desc = _( "Not dragging any vehicle" );
@@ -642,7 +647,9 @@ void advanced_inventory::init()
     headstart = 0; //(TERMY>w_height)?(TERMY-w_height)/2:0;
     colstart = ( TERMX > w_width ) ? ( TERMX - w_width ) / 2 : 0;
 
-    head = newwin( head_height, w_width, headstart, colstart );
+    head = newwin( head_height, w_width - minimap_width, headstart, colstart );
+    mm_border = newwin(minimap_height + 2, minimap_width + 2, headstart, colstart + (w_width - (minimap_width + 2)));
+    minimap = newwin(minimap_height, minimap_width, headstart + 1, colstart + (w_width - (minimap_width + 1)));
     left_window = newwin( w_height, w_width / 2, headstart + head_height, colstart );
     right_window = newwin( w_height, w_width / 2, headstart + head_height,
                            colstart + w_width / 2 );
@@ -859,7 +866,7 @@ void advanced_inventory::recalc_pane( side p )
         alls.weight = 0;
         for( auto & s : squares ) {
             // All the surrounding squares, nothing else
-            if( s.id == AIM_INVENTORY || s.id == AIM_DRAGED || s.id == AIM_ALL || s.id == AIM_CONTAINER ) {
+            if( s.id == AIM_INVENTORY || s.id == AIM_DRAGGED || s.id == AIM_ALL || s.id == AIM_CONTAINER ) {
                 continue;
             }
             // to allow the user to transfer all items from all surrounding squares to
@@ -1136,6 +1143,7 @@ void advanced_inventory::display()
         if( g->u.moves < 0 ) {
             g->u.assign_activity( ACT_ADV_INVENTORY, 0 );
             g->u.activity.auto_resume = true;
+//            update_minimap();
             return;
         }
         dest = ( src == left ? right : left );
@@ -1145,12 +1153,20 @@ void advanced_inventory::display()
 
         if( redraw ) {
             werase( head );
+            werase( minimap );
+            werase( mm_border );
             draw_border( head );
-
             Messages::display_messages( head, 2, 1, w_width - 1, 4 );
+            draw_minimap( minimap );
+            // redraw border around minimap
+            draw_border( mm_border );
             const std::string msg = _( "< [?] show help >" );
-            mvwprintz( head, 0, w_width - utf8_width( msg.c_str() ) - 1, c_white, msg.c_str() );
+            mvwprintz( head, 0, 
+                    w_width - (minimap_width + 2) - utf8_width(msg.c_str()) - 1, 
+                    c_white, msg.c_str() );
             wrefresh( head );
+            wrefresh( mm_border );
+            wrefresh( minimap );
         }
         redraw = false;
         recalc = false;
@@ -1183,6 +1199,7 @@ void advanced_inventory::display()
                 spane.area = changeSquare;
                 spane.index = 0;
                 spane.recalc = true;
+                redraw = true;
                 if( dpane.area == AIM_ALL ) {
                     dpane.recalc = true; // to exclude the items from changed source pane
                 }
@@ -1837,7 +1854,7 @@ void advanced_inv_area::set_container_position()
 {
     int offx, offy;
     switch ( uistate.adv_inv_container_location ) {
-        case AIM_DRAGED:
+        case AIM_DRAGGED:
             offx = g->u.grab_point.x; offy = g->u.grab_point.y;
             break;
         case AIM_SOUTHWEST:
@@ -1886,4 +1903,37 @@ void advanced_inv()
 {
     advanced_inventory advinv;
     advinv.display();
+}
+
+// minimap is drawn same as squares order
+// sw -> s -> se -> w -> pl -> e -> nw -> n -> ne
+void advanced_inventory::draw_minimap(WINDOW *w)
+{
+    // get the center of the window
+    int cx = getmaxx(w) / 2;
+    int cy = getmaxy(w) / 2;
+    // should the player be inverse?
+    bool player_invert = false;
+    // draw the 3x3 tiles centered around player
+    g->m.draw(w, point(g->u.posx(), g->u.posy()));
+    // get the positions of each pane, and show them
+    for(auto &pane : panes) {
+        // player offsets
+        int ox = squares[pane.area].offx;
+        int oy = squares[pane.area].offy;
+        // which pane is which?
+        bool is_left  = pane.window == left_window;
+        bool is_right = pane.window == right_window;
+        // which side is where?
+        const std::string s = (is_left ? _("L") : (is_right ? _("R") : _("?")));
+        nc_color c = static_cast<nc_color>(c_ltcyan | A_BLINK);
+        player_invert = (pane.area == AIM_INVENTORY ? true : player_invert);
+        int x = (cx + ox);
+        int y = (cy + oy);
+        if(x != 0 || y != 0) {
+            mvwputch(w, y, x, c, s);
+        }
+    }
+    // draw the player at the center tile
+    g->u.draw(w, g->u.posx(), g->u.posy(), player_invert);
 }
