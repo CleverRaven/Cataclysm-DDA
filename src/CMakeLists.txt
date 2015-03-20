@@ -261,7 +261,6 @@ set(SRCS
 	veh_typedef.cpp
 	veh_type.h
 	version.cpp
-	version.h
 	wcwidth.h
 	wdirent.h
 	weather.cpp
@@ -277,6 +276,13 @@ set(SRCS
 
 # Add the actual executable
 add_executable(cataclysm ${SRCS})
+
+# Generate version information
+add_custom_target(gen_version
+	COMMAND for /F \"tokens=*\" %%i in \('git describe --tags --always --dirty --match \"[0-9]*.[0-9]*\"'\) do set VERSION=%%i
+	COMMAND echo \#define VERSION \"%VERSION%\" > ${CMAKE_SOURCE_DIR}/src/version.h
+)
+add_dependencies(cataclysm gen_version)
 
 # Required library linkage
 if(TILES)
