@@ -3124,17 +3124,16 @@ bool vehicle::valid_wheel_config ()
     int count = 0;
     std::vector<int> wheel_indices = all_parts_with_feature(VPFLAG_WHEEL);
     if(wheel_indices.empty()) {
-        //No wheels!
+        // No wheels!
         return false;
     } else if(wheel_indices.size() == 1) {
-        //Has to be a stable wheel
-        if(part_info(wheel_indices[0]).has_flag("STABLE")) {
-            //Valid only if the vehicle is 1 square in size (1 structural part)
-            return (all_parts_at_location(part_location_structure).size() == 1);
-        } else {
+        // Has to be a stable single wheel
+        if(!part_info(wheel_indices[0]).has_flag("STABLE")) {
             return false;
         }
     }
+    // find the bounding box of the wheels
+    // TODO: find convex hull instead
     for (auto &w : wheel_indices) {
         if (!count) {
             x1 = x2 = parts[w].mount.x;
@@ -3154,23 +3153,12 @@ bool vehicle::valid_wheel_config ()
         }
         count++;
     }
-    float xo = 0, yo = 0;
-    float wo = 0, w2;
-    // lets find vehicle's center of masses
-    for (size_t p = 0; p < parts.size(); p++) {
-        if (parts[p].removed) {
-          continue;
-        }
-        w2 = item::find_type( part_info(p).item )->weight;
-        if (w2 < 1)
-            continue;
-        xo = xo * wo / (wo + w2) + parts[p].mount.x * w2 / (wo + w2);
-        yo = yo * wo / (wo + w2) + parts[p].mount.y * w2 / (wo + w2);
-        wo += w2;
-    }
-//    add_msg("cm x=%.3f y=%.3f m=%d  x1=%d y1=%d x2=%d y2=%d", xo, yo, (int) wo, x1, y1, x2, y2);
-    if ((int)xo < x1 || (int)xo > x2 || (int)yo < y1 || (int)yo > y2) {
-        return false; // center of masses not inside support of wheels (roughly)
+    // find the center of mass of the vehicle
+    int xo, yo;
+    center_of_mass(xo, yo);
+//    add_msg("cm x=%d y=%d x1=%d y1=%d x2=%d y2=%d", xo, yo, x1, y1, x2, y2);
+    if (xo < x1 || xo > x2 || yo < y1 || yo > y2) {
+        return false; // center of mass not inside support of wheels (roughly)
     }
     return true;
 }
