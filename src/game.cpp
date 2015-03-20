@@ -4499,7 +4499,7 @@ void game::list_missions()
     ctxt.register_action("HELP_KEYBINDINGS");
     while (true) {
         werase(w_missions);
-        std::vector<int> umissions;
+        std::vector<mission*> umissions;
         switch (tab) {
         case 0:
             umissions = u.get_active_missions();
@@ -4537,7 +4537,7 @@ void game::list_missions()
         mvwputch(w_missions, FULL_SCREEN_HEIGHT - 1, 30, BORDER_COLOR, LINE_XXOX); // _|_
 
         for (size_t i = 0; i < umissions.size(); i++) {
-            mission *miss = mission::find(umissions[i]);
+            const auto miss = umissions[i];
             nc_color col = c_white;
             if( u.get_active_mission() == miss ) {
                 col = c_ltred;
@@ -4550,7 +4550,7 @@ void game::list_missions()
         }
 
         if (selection < umissions.size()) {
-            mission *miss = mission::find(umissions[selection]);
+            const auto miss = umissions[selection];
             mvwprintz(w_missions, 4, 31, c_white, "%s", miss->description.c_str());
             if (miss->deadline != 0)
                 mvwprintz(w_missions, 5, 31, c_white, _("Deadline: %d (%d)"),
@@ -4601,7 +4601,7 @@ void game::list_missions()
                 selection--;
             }
         } else if (action == "CONFIRM") {
-            u.set_active_mission( *mission::find( umissions[selection] ) );
+            u.set_active_mission( *umissions[selection] );
             break;
         } else if (action == "QUIT") {
             break;

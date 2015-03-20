@@ -2000,8 +2000,8 @@ std::vector<talk_response> gen_responses(talk_topic topic, npc *p)
 
         case TALK_OLD_GUARD_NEC_COMMO:
             if (g->u.has_trait("PROF_FED")){
-                for( auto i : g->u.get_active_missions() ) {
-                    if (g->find_mission(i)->name() == "Locate Commo Team"){
+                for( auto miss : g->u.get_active_missions() ) {
+                    if( miss->name() == "Locate Commo Team"){
                         RESPONSE(_("[MISSION] The captain sent me to get a frequency list from you."));
                             SUCCESS(TALK_OLD_GUARD_NEC_COMMO_FREQ);
                     }

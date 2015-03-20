@@ -13391,3 +13391,18 @@ point player::get_active_mission_target() const
     }
     return active_mission->target;
 }
+
+std::vector<mission*> player::get_active_missions() const
+{
+    return mission::to_ptr_vector( active_missions );
+}
+
+std::vector<mission*> player::get_completed_missions() const
+{
+    return mission::to_ptr_vector( completed_missions );
+}
+
+std::vector<mission*> player::get_failed_missions() const
+{
+    return mission::to_ptr_vector( failed_missions );
+}

@@ -1032,9 +1032,9 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
 
         int add_ammo_to_worn_quiver(item &ammo);
 
-        const std::vector<int> &get_active_missions() const { return active_missions; }
-        const std::vector<int> &get_completed_missions() const { return completed_missions; }
-        const std::vector<int> &get_failed_missions() const { return failed_missions; }
+        std::vector<mission*> get_active_missions() const;
+        std::vector<mission*> get_completed_missions() const;
+        std::vector<mission*> get_failed_missions() const;
         /**
          * Returns the mission that is currently active. Returns null if mission is active.
          */

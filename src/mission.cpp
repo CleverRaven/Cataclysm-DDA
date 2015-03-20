@@ -58,6 +58,18 @@ void mission::process_all()
     }
 }
 
+std::vector<mission*> mission::to_ptr_vector( const std::vector<int> &vec )
+{
+    std::vector<mission*> result;
+    for( auto &id : vec ) {
+        const auto miss = find( id );
+        if( miss != nullptr ) {
+            result.push_back( miss );
+        }
+    }
+    return result;
+}
+
 void mission::clear_all()
 {
     active_missions.clear();
