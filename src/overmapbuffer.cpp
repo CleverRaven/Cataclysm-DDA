@@ -519,16 +519,16 @@ std::vector<overmap*> overmapbuffer::get_overmaps_near( point const location, in
 {
     // Grab the corners of a square around the target location at distance radius.
     // Convert to overmap coordinates and iterate from the minimum to the maximum.
-    int const omx = std::ceil(radius / OMAPX);
-    int const omy = std::ceil(radius / OMAPY);
+    point const start = sm_to_om_copy(location.x - radius, location.y - radius);
+    point const end = sm_to_om_copy(location.x + radius, location.y + radius);
+    point const offset = end - start;
 
     std::vector<overmap*> result;
-    result.reserve(omx * omy);
+    result.reserve( ( offset.x + 1 ) * ( offset.y + 1 ) );
 
-    point const p = sm_to_om_copy(location.x - radius, location.y - radius);
-    for (int x = 0; x < omx; ++x) {
-        for (int y = 0; y < omy; ++y) {
-            if (auto const existing_om = get_existing(p.x + x, p.y + y)) {
+    for (int x = start.x; x <= end.x; ++x) {
+        for (int y = start.y; y <= end.y; ++y) {
+            if (auto const existing_om = get_existing(x, y)) {
                 result.emplace_back(existing_om);
             }
         }
