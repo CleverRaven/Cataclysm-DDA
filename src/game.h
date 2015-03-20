@@ -279,11 +279,6 @@ class game
         void update_map(int &x, int &y);
         void update_overmap_seen(); // Update which overmap tiles we can see
         /**
-         * Position of the player in global overmap terrain coordinates. This is specifically
-         * the center of the reality bubble.
-         */
-        tripoint global_omt_location() const;
-        /**
          * Position of the player in global submap coordinates. This is specifically
          * the center of the reality bubble.
          */

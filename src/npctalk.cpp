@@ -1102,7 +1102,9 @@ std::string dialogue::dynamic_line( const talk_topic topic ) const
             break;
 
         case TALK_TRAIN_START:
-            if( overmap_buffer.is_safe( g->global_omt_location() ) ) {
+            // Technically the player could be on another (unsafe) overmap terrain, but the
+            // NPC is only concerned about themselves.
+            if( overmap_buffer.is_safe( p->global_omt_location() ) ) {
                 return _("Alright, let's begin.");
             } else {
                 return _("It's not safe here.  Let's get to safety first.");
@@ -1142,7 +1144,7 @@ std::string dialogue::dynamic_line( const talk_topic topic ) const
         case TALK_HOW_MUCH_FURTHER:
             {
             // TODO: this ignores the z-component
-            const tripoint player_pos = g->global_omt_location();
+            const tripoint player_pos = p->global_omt_location();
             int dist = rl_dist(player_pos, p->goal);
             std::stringstream response;
             dist *= 100;
@@ -2432,7 +2434,7 @@ std::vector<talk_response> dialogue::gen_responses( const talk_topic topic ) con
             break;
 
         case TALK_TRAIN_START:
-            if( overmap_buffer.is_safe( g->global_omt_location() ) ) {
+            if( overmap_buffer.is_safe( p->global_omt_location() ) ) {
                 RESPONSE(_("Sounds good."));
                     SUCCESS(TALK_DONE);
                         SUCCESS_ACTION(&talk_function::start_training);

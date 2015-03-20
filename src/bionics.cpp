@@ -956,7 +956,7 @@ bool player::activate_bionic(int b, bool eff_only)
         if( veh ) {
             vehwindspeed = abs(veh->velocity / 100); // vehicle velocity in mph
         }
-        const oter_id &cur_om_ter = overmap_buffer.ter(g->global_omt_location());
+        const oter_id &cur_om_ter = overmap_buffer.ter( global_omt_location() );
         std::string omtername = otermap[cur_om_ter].name;
         int windpower = get_local_windpower(weatherPoint.windpower + vehwindspeed, omtername, g->is_sheltered(g->u.posx(), g->u.posy()));
 

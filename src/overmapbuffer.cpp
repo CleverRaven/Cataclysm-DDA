@@ -541,7 +541,7 @@ void overmapbuffer::remove_npc(int id)
 
 std::vector<npc*> overmapbuffer::get_npcs_near_player(int radius)
 {
-    tripoint plpos = g->global_omt_location();
+    tripoint plpos = g->u.global_omt_location();
     // get_npcs_near needs submap coordinates
     omt_to_sm(plpos.x, plpos.y);
     return get_npcs_near(plpos.x, plpos.y, plpos.z, radius);
