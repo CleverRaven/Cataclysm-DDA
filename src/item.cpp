@@ -2329,17 +2329,20 @@ int item::get_encumber() const
     // it_armor::encumber is signed char
     int encumber = static_cast<int>( t->encumber );
 
+    /* So I made some fixes here, although overall they are buffed up.
+     * I am more than open to any fixes, however I thought I'd pitch
+     * in having worn these types of clothing in different forms. -Davek */
     if (item::item_tags.count("wooled")){
-        encumber += 2;
+        encumber += 3;
         }
     if (item::item_tags.count("furred")){
         encumber += 5;
         }
     if (item::item_tags.count("leather_padded")){
-        encumber += 4;
+        encumber += 7;
         }
     if (item::item_tags.count("kevlar_padded")){
-        encumber += 6;
+        encumber += 5;
         }
     return encumber;
 }

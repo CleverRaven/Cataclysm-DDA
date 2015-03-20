@@ -166,7 +166,7 @@ void player::sort_armor()
         // Player encumbrance - altered copy of '@' screen
         mvwprintz(w_sort_middle, cont_h - 13, 1, c_white, _("Encumbrance and Warmth"));
         for (int i = 0; i < num_bp; ++i) {
-            int enc, armorenc;
+            int enc, armorenc, true_enc;
             double layers;
             layers = armorenc = 0;
             enc = encumb(body_part(i), layers, armorenc);
@@ -175,12 +175,15 @@ void player::sort_armor()
             } else {
                 mvwprintz(w_sort_middle, cont_h - 12 + i, 2, c_ltgray, "%s:", armor_cat[i].c_str());
             }
-            mvwprintz(w_sort_middle, cont_h - 12 + i, middle_w - 16, c_ltgray, "%d+%d = ", armorenc,
-                      enc - armorenc);
+            true_enc = enc - armorenc;
+            char my_spaces[]    = "   ";    // lol
+            char *spaces        = (char*)&my_spaces;
+            if(true_enc > 9)    ++spaces;
+            if(armorenc > 9)    ++spaces;
+            mvwprintz(w_sort_middle, cont_h - 12 + i, middle_w - 16, c_ltgray, "%d+%d%s= ", armorenc, true_enc, spaces);
             wprintz(w_sort_middle, encumb_color(enc), "%d" , enc);
             int bodyTempInt = (temp_conv[i] / 100.0) * 2 - 100; // Scale of -100 to +100
-            mvwprintz(w_sort_middle, cont_h - 12 + i, middle_w - 6,
-                      bodytemp_color(i), "(%3d)", bodyTempInt);
+            mvwprintz(w_sort_middle, cont_h - 12 + i, middle_w - 6, bodytemp_color(i), "(%3d)", bodyTempInt);
         }
 
         // Right header
