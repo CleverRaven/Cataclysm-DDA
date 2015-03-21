@@ -22,39 +22,26 @@
 class JsonObject;
 
 /** Structures */
-struct tile_type
-{
-    int fg, bg;
-    bool multitile, rotates;
-
+struct tile_type {
     std::vector<std::string> available_subtiles;
 
-    tile_type()
-    {
-        fg = bg = 0;
-        multitile = rotates = false;
-        available_subtiles.clear();
-    }
+    int fg = 0;
+    int bg = 0;
+
+    bool rotates   = false;
+    bool multitile = false;
+
+    tile_type() = default;
+    tile_type(int const fg, int const bg,
+              bool const rotates = false, bool const multitile = false
+    ) noexcept : fg(fg), bg(bg), rotates(rotates), multitile(multitile) {}
 };
 
-struct tile
-{
+struct tile {
     /** Screen coordinates as tile number */
     int sx, sy;
     /** World coordinates */
     int wx, wy;
-
-    tile()
-    {
-        sx = wx = wy = 0;
-    }
-    tile(int x, int y, int x2, int y2)
-    {
-        sx = x;
-        sy = y;
-        wx = x2;
-        wy = y2;
-    }
 };
 
 /* Enums */
@@ -67,6 +54,7 @@ enum LIGHTING
     BOOMER_NORMAL = 3,
     BOOMER_DARK = 4
 };
+
 enum MULTITILE_TYPE
 {
     center,
@@ -79,6 +67,7 @@ enum MULTITILE_TYPE
     broken,
     num_multitile_types
 };
+
 // Make sure to change TILE_CATEGORY_IDS if this changes!
 enum TILE_CATEGORY
 {
@@ -98,7 +87,7 @@ enum TILE_CATEGORY
 
 /** Typedefs */
 typedef std::vector<SDL_Texture *> tile_map;
-typedef std::unordered_map<std::string, tile_type *> tile_id_map;
+typedef std::unordered_map<std::string, tile_type> tile_id_map;
 
 typedef tile_map::iterator tile_iterator;
 typedef tile_id_map::iterator tile_id_iterator;
@@ -155,7 +144,7 @@ class cata_tiles
          * throws std::string on errors. Returns the number of tiles that have
          * been loaded from this tileset image
          */
-        int load_tileset(std::string path, int R, int G, int B);
+        int load_tileset(std::string const &path, int R, int G, int B);
 
         /**
          * Load tileset config file (json format).
@@ -165,7 +154,7 @@ class cata_tiles
          * are loaded from the json entries.
          * throws std::string on errors.
          */
-        void load_tilejson(std::string path, const std::string &imagepath);
+        void load_tilejson(std::string const &path, const std::string &imagepath);
 
         /**
          * throws std::string on errors.
@@ -191,11 +180,11 @@ class cata_tiles
          * If it's in that interval, adds offset to it, if it's not in the
          * interval (and not -1), throw an std::string error.
          */
-        tile_type *load_tile(JsonObject &entry, const std::string &id, int offset, int size);
+        tile_type &load_tile(JsonObject &entry, const std::string &id, int offset, int size);
 
         void load_ascii_tilejson_from_file(JsonObject &config, int offset, int size);
         void load_ascii_set(JsonObject &entry, int offset, int size);
-        void add_ascii_subtile(tile_type *curr_tile, const std::string &t_id, int fg, const std::string &s_id);
+        void add_ascii_subtile(tile_type &curr_tile, const std::string &t_id, int fg, const std::string &s_id);
     public:
         /** Draw to screen */
         void draw(int destx, int desty, int centerx, int centery, int width, int height);
@@ -206,15 +195,12 @@ class cata_tiles
         bool draw_from_id_string(std::string id, int x, int y, int subtile, int rota);
         bool draw_from_id_string(std::string id, TILE_CATEGORY category,
                                  const std::string &subcategory, int x, int y, int subtile, int rota);
-        bool draw_tile_at(tile_type *tile, int x, int y, int rota);
+        void draw_tile_at(tile_type const &tile, int x, int y, int rota);
 
         /**
          * Redraws all the tiles that have changed since the last frame.
          */
         void clear_buffer();
-
-        /** Surface/Sprite rotation specifics */
-        SDL_Surface *create_tile_surface();
 
         /* Tile Picking */
         void get_tile_values(const int t, const int *tn, int &subtile, int &rotation);
