@@ -315,20 +315,19 @@ void player::sort_armor()
                     });
             // only equip if something valid selected!
             if(pos != INT_MIN) {
-                // wear the item, if error, show it
-                if(!wear(pos)) {
-                    debugmsg("Failed trying to equip item @index [%d]", pos);
+                // wear the item
+                if(wear(pos)) {
+                    // reorder `worn` vector to place new item at cursor
+                    auto iter = worn.end();
+                    item new_equip  = *(--iter);
+                    // remove the item
+                    worn.erase(iter);
+                    iter = worn.begin();
+                    // advance the iterator to cursor's position
+                    std::advance(iter, leftListIndex);
+                    // inserts at position before iter (no b0f, phew)
+                    worn.insert(iter, new_equip);
                 }
-                // reorder `worn` vector to place new item at cursor
-                auto iter = worn.end();
-                item new_equip  = *(--iter);
-                // remove the item
-                worn.erase(iter);
-                iter = worn.begin();
-                // advance the iterator to cursor's position
-                std::advance(iter, leftListIndex);
-                // inserts at position before iter (no b0f, phew)
-                worn.insert(iter, new_equip);
             }
             // TODO: fix up along with hack below
             draw_border(w_sort_armor);
