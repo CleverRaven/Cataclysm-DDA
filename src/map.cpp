@@ -1575,16 +1575,6 @@ int map::combined_movecost( const tripoint &from, const tripoint &to,
 
 // End of move cost
 
-bool map::trans(const int x, const int y) const
-{
-    return light_transparency(x, y) > LIGHT_TRANSPARENCY_SOLID;
-}
-
-float map::light_transparency(const int x, const int y) const
-{
-  return transparency_cache[x][y];
-}
-
 // 2D flags
 
 bool map::has_flag(const std::string &flag, const int x, const int y) const
@@ -4736,7 +4726,7 @@ void map::drawsq(WINDOW* w, player &u, const int x, const int y, const bool inve
         show_items = false; // Can only see underwater items if WE are underwater
     }
     // If there's a trap here, and we have sufficient perception, draw that instead
-    if (curr_trap != tr_null && traplist[curr_trap]->can_see( tripoint( x, y, g->levz ), g->u ) ) {
+    if (curr_trap != tr_null && traplist[curr_trap]->can_see( tripoint( x, y, g->get_levz() ), g->u ) ) {
         tercol = traplist[curr_trap]->color;
         if (traplist[curr_trap]->sym == '%') {
             switch(rng(1, 5)) {

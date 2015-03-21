@@ -426,7 +426,7 @@ lit_level map::light_at( const tripoint &p )
 
     // TODO: Fix in FoV update
     const int dx = p.x;
-    const int dy = p.y
+    const int dy = p.y;
     if (sm[dx][dy] >= LIGHT_SOURCE_BRIGHT) {
         return LL_BRIGHT;
     }
@@ -449,7 +449,7 @@ float map::ambient_light_at( const tripoint &p )
     }
 
     // TODO: Fix in FoV update
-    return lm[p.dx][p.dy];
+    return lm[p.x][p.y];
 }
 
 bool map::trans( const tripoint &p ) const

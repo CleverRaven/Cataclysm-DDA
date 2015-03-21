@@ -3626,7 +3626,7 @@ void game::update_scent()
                     ) / (1000 * 10);
 
 
-                const int fslime = m.get_field_strength( tripoint(x, y, levz), fd_slime) * 10;
+                const int fslime = m.get_field_strength( tripoint(x, y, get_levz()), fd_slime) * 10;
                 if (fslime > 0 && grscent[x][y] < fslime) {
                     grscent[x][y] = fslime;
                 }
@@ -6563,12 +6563,12 @@ void game::use_computer(int x, int y)
         return;
     }
 
-    computer *used = m.computer_at( tripoint( x, y, levz ) );
+    computer *used = m.computer_at( tripoint( x, y, get_levz() ) );
 
     if (used == NULL) {
         dbg(D_ERROR) << "game:use_computer: Tried to use computer at (" <<
             x << ", " << y << ") - none there";
-        debugmsg("Tried to use computer at (%d, %d, %d) - none there", x, y, levz);
+        debugmsg("Tried to use computer at (%d, %d, %d) - none there", x, y, get_levz());
         return;
     }
 
@@ -8175,7 +8175,7 @@ void game::print_trap_info(int lx, int ly, WINDOW *w_look, const int column, int
     if (trapid == tr_null) {
         return;
     }
-    if (traplist[trapid]->can_see( tripoint( lx, ly, levz ), u )) {
+    if (traplist[trapid]->can_see( tripoint( lx, ly, get_levz() ), u )) {
         mvwprintz(w_look, line++, column, traplist[trapid]->color, "%s", traplist[trapid]->name.c_str());
     }
 }
@@ -11739,7 +11739,7 @@ bool game::plmove(int dx, int dy)
             const trap_id tid = m.tr_at(x, y);
             if (tid != tr_null) {
                 const struct trap &t = *traplist[tid];
-                if ((t.can_see(u, x, y)) && !t.is_benign() &&
+                if ((t.can_see( tripoint( x, y, g->get_levz() ), g->u )) && !t.is_benign() &&
                     !query_yn(_("Really step onto that %s?"), t.name.c_str())) {
                     return false;
                 }
@@ -12861,7 +12861,7 @@ void game::vertical_move(int movez, bool force)
 #endif
     u.setx( stairx );
     u.sety( stairy );
-    u.setz( levz );
+    u.setz( get_levz() );
     if (rope_ladder) {
         m.ter_set(u.posx(), u.posy(), t_rope_up);
     }
@@ -13638,7 +13638,7 @@ bool game::spread_fungus(int x, int y)
                         }
                     } else if (m.has_flag("YOUNG", i, j)) {
                         if (one_in(5)) {
-                            if (m.get_field_strength( tripoint(x, y, levz), fd_fungal_haze) != 0) {
+                            if (m.get_field_strength( tripoint(x, y, get_levz()), fd_fungal_haze) != 0) {
                                 if (one_in(3)) { // young trees are Vulnerable
                                     m.ter_set(i, j, t_fungus);
                                     m.add_spawn("mon_fungal_blossom", 1, x, y);
@@ -13655,7 +13655,7 @@ bool game::spread_fungus(int x, int y)
                         }
                     } else if (m.has_flag("TREE", i, j)) {
                         if (one_in(10)) {
-                            if (m.get_field_strength( tripoint(x, y, levz), fd_fungal_haze) != 0) {
+                            if (m.get_field_strength( tripoint(x, y, get_levz()), fd_fungal_haze) != 0) {
                                 if (one_in(4)) {
                                     m.ter_set(i, j, t_fungus);
                                     m.add_spawn("mon_fungal_blossom", 1, x, y);

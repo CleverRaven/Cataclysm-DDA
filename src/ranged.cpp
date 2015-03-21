@@ -802,7 +802,7 @@ void game::throw_item(player &p, int tarx, int tary, item &thrown,
         if (trid != tr_null) {
             const struct trap *tr = traplist[trid];
             if (thrown.weight() >= tr->trigger_weight) {
-                tr->trigger( tripoint( tx, ty, g->levz ), nullptr );
+                tr->trigger( tripoint( tx, ty, g->get_levz() ), nullptr );
             }
         }
     }

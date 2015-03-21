@@ -13112,14 +13112,14 @@ void player::add_msg_player_or_npc(game_message_type type, const char* player_st
 
 bool player::knows_trap( const tripoint &pos ) const
 {
-    const point a = g->m.getabs( x, y );
+    const point a = g->m.getabs( pos.x, pos.y );
     const tripoint p( a.x, a.y, g->get_levz() );
     return known_traps.count(p) > 0;
 }
 
 void player::add_known_trap( const tripoint &pos, const std::string &t)
 {
-    const point a = g->m.getabs( x, y );
+    const point a = g->m.getabs( pos.x, pos.y );
     const tripoint p( a.x, a.y, g->get_levz() );
     if (t == "tr_null") {
         known_traps.erase(p);

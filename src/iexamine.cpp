@@ -2380,7 +2380,7 @@ void iexamine::trap(player *p, map *m, int examx, int examy)
     }
     const struct trap &t = *traplist[tid];
     const int possible = t.get_difficulty();
-    bool seen = t.can_see( tripoint( examx, examy, g->levz), *p );
+    bool seen = t.can_see( tripoint( examx, examy, g->get_levz()), *p );
     if( seen && possible == 99 ) {
         add_msg(m_info, _("That %s looks too dangerous to mess with. Best leave it alone."),
             t.name.c_str());
