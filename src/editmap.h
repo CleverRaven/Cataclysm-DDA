@@ -161,7 +161,7 @@ class editmap
             hilights["mapgentgt"].setup();
 
             oter_special.clear();
-            zlevel = g->levz;
+            zlevel = g->get_levz();
             uberdraw = false;
         };
         ~editmap()

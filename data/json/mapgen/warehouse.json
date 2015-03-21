@@ -59,7 +59,6 @@
             "furniture": {
                 "1" : "f_crate_c",
                 "2" : "f_sink",
-                "4" : "f_toilet",
                 "5" : "f_counter",
                 "6" : "f_chair",
                 "7" : "f_desk",
@@ -67,9 +66,9 @@
                 "9" : "f_sofa",
                 "@": "f_trashcan"
             },
-            "place_toilets": [
-                { "x": 2, "y": 17 }
-            ],
+            "toilets" : {
+                "4" : { }
+            },
             "set": [
                 { "point": "terrain", "id": "t_dirt",      "x": 23,        "y": [ 0,23 ], "repeat": [ 5,10 ] },
                 { "point": "terrain", "id": "t_dirt",      "x": [ 0,23 ],  "y": 23,       "repeat": [ 5,8 ] },

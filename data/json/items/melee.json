@@ -447,6 +447,22 @@
     },
     {
         "type":"GENERIC",
+        "id": "radio_repeater_mod",
+        "symbol": ",",
+        "color": "light_gray",
+        "name": "radio repeater mod",
+        "category": "spare_parts",
+        "description": "A system designed to convert a radio station into an autonomous repeater.",
+        "price": 25000,
+        "material": ["aluminum", "plastic"],
+        "weight": 21000,
+        "volume": 8,
+        "bashing": 4,
+        "cutting": 0,
+        "to_hit": 1
+    },
+    {
+        "type":"GENERIC",
         "id": "steel_chunk",
         "symbol": ",",
         "color": "light_gray",

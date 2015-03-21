@@ -955,6 +955,7 @@ bool map::vehproceed()
                 }
             }
             veh->handle_trap( wheel_x, wheel_y, w );
+            if( !has_flag( "SEALED", wheel_x, wheel_y ) ) {
             auto item_vec = i_at( wheel_x, wheel_y );
             for( auto it = item_vec.begin(); it != item_vec.end(); ) {
                 it->damage += rng( 0, 3 );
@@ -963,6 +964,7 @@ bool map::vehproceed()
                 } else {
                     ++it;
                 }
+            }
             }
         }
     }
@@ -2020,8 +2022,8 @@ std::pair<bool, bool> map::bash(const int x, const int y, const int str,
             if( rl_dist( g->u.posx(), g->u.posy(), x, y ) <= 3 ) {
                 g->u.add_memorial_log(pgettext("memorial_male", "Set off an alarm."),
                                       pgettext("memorial_female", "Set off an alarm."));
-                g->add_event(EVENT_WANTED, int(calendar::turn) + 300, 0,
-                             g->get_abs_levx(), g->get_abs_levy());
+                const point abs = overmapbuffer::ms_to_sm_copy( getabs( x, y ) );
+                g->add_event(EVENT_WANTED, int(calendar::turn) + 300, 0, tripoint( abs.x, abs.y, g->get_levz() ) );
             }
         }
 
@@ -2355,7 +2357,8 @@ void map::shoot(const int x, const int y, int &dam,
     if (has_flag("ALARMED", x, y) && !g->event_queued(EVENT_WANTED))
     {
         sounds::sound(x, y, 30, _("An alarm sounds!"));
-        g->add_event(EVENT_WANTED, int(calendar::turn) + 300, 0, g->get_abs_levx(), g->get_abs_levy());
+        const point abs = overmapbuffer::ms_to_sm_copy( getabs( x, y ) );
+        g->add_event(EVENT_WANTED, int(calendar::turn) + 300, 0, tripoint( abs.x, abs.y, g->get_levz() ) );
     }
 
     int vpart;
@@ -3740,80 +3743,115 @@ item *map::item_from( vehicle *veh, int cargo_part, size_t index ) {
     }
 }
 
-std::string map::trap_get(const int x, const int y) const {
-    return traplist[ tr_at(x, y) ]->id;
+std::string map::trap_get(const int x, const int y) const
+{
+    return trap_get( tripoint( x, y, abs_sub.z ) );
 }
 
-void map::trap_set(const int x, const int y, const std::string & sid) {
-    if ( trapmap.find(sid) == trapmap.end() ) {
+std::string map::trap_get( const tripoint &p ) const
+{
+    return traplist[ tr_at( p ) ]->id;
+}
+
+void map::trap_set(const int x, const int y, const std::string & sid)
+{
+    trap_set( tripoint( x, y, abs_sub.z ), sid );
+}
+
+void map::trap_set( const tripoint &p, const std::string & sid)
+{
+    if( trapmap.find( sid ) == trapmap.end() ) {
         return;
     }
-    add_trap(x, y, (trap_id)trapmap[ sid ]);
+
+    add_trap( p, (trap_id)trapmap[sid] );
 }
-void map::trap_set(const int x, const int y, const trap_id id) {
-    add_trap(x, y, id);
-}
-// todo: to be consistent with ???_at(...) this should return ref to the actual trap object
-trap_id map::tr_at(const int x, const int y) const
+
+void map::trap_set(const int x, const int y, const trap_id id)
 {
- if (!INBOUNDS(x, y)) {
-  return tr_null;
- }
-/*
- int nonant;
- cast_to_nonant(x, y, nonant);
-*/
+    trap_set( tripoint( x, y, abs_sub.z ), id );
+}
 
- int lx, ly;
- submap * const current_submap = get_submap_at(x, y, lx, ly);
+void map::trap_set( const tripoint &p, const trap_id id)
+{
+    add_trap( p, id );
+}
 
- if (terlist[ current_submap->get_ter( lx, ly ) ].trap != tr_null) {
-  return terlist[ current_submap->get_ter( lx, ly ) ].trap;
- }
+// todo: to be consistent with ???_at(...) this should return ref to the actual trap object
+trap_id map::tr_at( const int x, const int y ) const
+{
+    return tr_at( tripoint( x, y, abs_sub.z ) );
+}
 
- return current_submap->get_trap(lx, ly);
+trap_id map::tr_at( const tripoint &p ) const
+{
+    if( !inbounds( p.x, p.y, p.z ) ) {
+        return tr_null;
+    }
+
+    int lx, ly;
+    submap * const current_submap = get_submap_at( p.x, p.y, p.z, lx, ly );
+
+    if (terlist[ current_submap->get_ter( lx, ly ) ].trap != tr_null) {
+        return terlist[ current_submap->get_ter( lx, ly ) ].trap;
+    }
+
+    return current_submap->get_trap( lx, ly );
 }
 
 void map::add_trap(const int x, const int y, const trap_id t)
 {
-    if (!INBOUNDS(x, y)) { return; }
-
-    int lx, ly;
-    submap * const current_submap = get_submap_at(x, y, lx, ly);
-
-    // If there was already a trap here, remove it.
-    if (current_submap->get_trap(lx, ly) != tr_null) {
-        remove_trap(x, y);
-    }
-
-    current_submap->set_trap(lx, ly, t);
-    if (t != tr_null) {
-        traplocs[t].insert( point( x, y ) );
-    }
+    add_trap( tripoint( x, y, abs_sub.z ), t );
 }
 
-void map::disarm_trap(const int x, const int y)
+void map::add_trap( const tripoint &p, const trap_id t)
 {
-    int skillLevel = g->u.skillLevel("traps");
-
-    if (tr_at(x, y) == tr_null) {
-        debugmsg("Tried to disarm a trap where there was none (%d %d)", x, y);
+    if( !inbounds( p.x, p.y, p.z ) ) 
+    { 
         return;
     }
 
-    trap* tr = traplist[tr_at(x, y)];
+    int lx, ly;
+    submap * const current_submap = get_submap_at( p.x, p.y, p.z, lx, ly);
+
+    // If there was already a trap here, remove it.
+    if( current_submap->get_trap( lx, ly ) != tr_null ) {
+        remove_trap( p );
+    }
+
+    current_submap->set_trap( lx, ly, t );
+    if( t != tr_null ) {
+        traplocs[t].insert( p );
+    }
+}
+
+void map::disarm_trap( const int x, const int y )
+{
+    disarm_trap( tripoint( x, y, abs_sub.z ) );
+}
+
+void map::disarm_trap( const tripoint &p )
+{
+    int skillLevel = g->u.skillLevel("traps");
+
+    if( tr_at( p ) == tr_null ) {
+        debugmsg( "Tried to disarm a trap where there was none (%d %d %d)", p.x, p.y, p.z );
+        return;
+    }
+
+    trap* tr = traplist[tr_at( p )];
     const int tSkillLevel = g->u.skillLevel("traps");
     const int diff = tr->get_difficulty();
     int roll = rng(tSkillLevel, 4 * tSkillLevel);
 
     // Some traps are not actual traps. Skip the rolls, different message and give the option to grab it right away.
-    if (tr->get_avoidance() ==  0 && tr->get_difficulty() == 0) {
+    if( tr->get_avoidance() ==  0 && tr->get_difficulty() == 0 ) {
         add_msg(_("You take down the %s."), tr->name.c_str());
         std::vector<itype_id> comp = tr->components;
         for (auto &i : comp) {
             if (i != "null") {
-                spawn_item(x, y, i, 1, 1);
-                remove_trap(x, y);
+                spawn_item( p.x, p.y, i, 1, 1 );
+                remove_trap( p );
             }
         }
         return;
@@ -3827,22 +3865,22 @@ void map::disarm_trap(const int x, const int y)
         std::vector<itype_id> comp = tr->components;
         for (auto &i : comp) {
             if (i != "null") {
-                spawn_item(x, y, i, 1, 1);
+                spawn_item( p.x, p.y, i, 1, 1);
             }
         }
-        if (tr_at(x, y) == tr_engine) {
+        if( tr_at( p ) == tr_engine ) {
             for (int i = -1; i <= 1; i++) {
                 for (int j = -1; j <= 1; j++) {
                     if (i != 0 || j != 0) {
-                        remove_trap(x + i, y + j);
+                        remove_trap( tripoint( p.x + i, p.y + j, p.z ) );
                     }
                 }
             }
         }
-        if (tr_at(x, y) == tr_shotgun_1 || tr_at(x,y) == tr_shotgun_2) {
-            spawn_item(x,y,"shot_00",1,2);
+        if (tr_at( p ) == tr_shotgun_1 || tr_at( p ) == tr_shotgun_2) {
+            spawn_item( p.x, p.y, "shot_00", 1, 2 );
         }
-        remove_trap(x, y);
+        remove_trap( p );
         if(diff > 1.25 * skillLevel) { // failure might have set off trap
             g->u.practice( "traps", 1.5*(diff - skillLevel) );
         }
@@ -3853,7 +3891,7 @@ void map::disarm_trap(const int x, const int y)
         }
     } else {
         add_msg(m_bad, _("You fail to disarm the trap, and you set it off!"));
-        tr->trigger(&g->u, x, y);
+        tr->trigger( p, &g->u );
         if(diff - roll <= 6) {
             // Give xp for failing, but not if we failed terribly (in which
             // case the trap may not be disarmable).
@@ -3864,18 +3902,26 @@ void map::disarm_trap(const int x, const int y)
 
 void map::remove_trap(const int x, const int y)
 {
-    if (!INBOUNDS(x, y)) { return; }
+    remove_trap( tripoint( x, y, abs_sub.z ) );
+}
+
+void map::remove_trap( const tripoint &p )
+{
+    if( !inbounds( p.x, p.y, p.z ) ) {
+        return;
+    }
 
     int lx, ly;
-    submap * const current_submap = get_submap_at(x, y, lx, ly);
+    submap * const current_submap = get_submap_at( p.x, p.y, p.z, lx, ly );
 
     trap_id t = current_submap->get_trap(lx, ly);
     if (t != tr_null) {
-        if (g != NULL && this == &g->m) {
-            g->u.add_known_trap(x, y, "tr_null");
+        if( g != nullptr && this == &g->m ) {
+            g->u.add_known_trap( p, "tr_null");
         }
+
         current_submap->set_trap(lx, ly, tr_null);
-        traplocs[t].erase( point( x, y ) );
+        traplocs[t].erase( p );
     }
 }
 /*
@@ -4214,7 +4260,7 @@ void map::drawsq(WINDOW* w, player &u, const int x, const int y, const bool inve
         show_items = false; // Can only see underwater items if WE are underwater
     }
     // If there's a trap here, and we have sufficient perception, draw that instead
-    if (curr_trap != tr_null && traplist[curr_trap]->can_see(g->u, x, y)) {
+    if (curr_trap != tr_null && traplist[curr_trap]->can_see( tripoint( x, y, g->get_levz() ), g->u ) ) {
         tercol = traplist[curr_trap]->color;
         if (traplist[curr_trap]->sym == '%') {
             switch(rng(1, 5)) {
@@ -4724,7 +4770,7 @@ void map::save()
     }
 }
 
-void map::load_abs(const int wx, const int wy, const int wz, const bool update_vehicle)
+void map::load(const int wx, const int wy, const int wz, const bool update_vehicle)
 {
     traplocs.clear();
     set_abs_sub( wx, wy, wz );
@@ -4735,24 +4781,17 @@ void map::load_abs(const int wx, const int wy, const int wz, const bool update_v
     }
 }
 
-void map::load(const int wx, const int wy, const int wz, const bool update_vehicle, overmap *om)
+void map::forget_traps( const int gridx, const int gridy, const int gridz )
 {
-    const int awx = om->pos().x * OMAPX * 2 + wx;
-    const int awy = om->pos().y * OMAPY * 2 + wy;
-    load_abs(awx, awy, wz, update_vehicle);
-}
-
-void map::forget_traps(int gridx, int gridy)
-{
-    const auto smap = get_submap_at_grid( gridx, gridy );
+    const auto smap = get_submap_at_grid( gridx, gridy, gridz );
 
     for (int x = 0; x < SEEX; x++) {
         for (int y = 0; y < SEEY; y++) {
-            trap_id t = smap->get_trap(x, y);
+            trap_id t = smap->get_trap( x, y );
             if (t != tr_null) {
                 const int fx = x + gridx * SEEX;
                 const int fy = y + gridy * SEEY;
-                traplocs[t].erase( point(fx, fy ) );
+                traplocs[t].erase( tripoint( fx, fy, gridz ) );
             }
         }
     }
@@ -4780,13 +4819,13 @@ void map::shift( const int sx, const int sy )
     if (sx != 0) {
         const int gridx = (sx > 0) ? (my_MAPSIZE - 1) : 0;
         for (int gridy = 0; gridy < my_MAPSIZE; gridy++) {
-            forget_traps(gridx, gridy);
+            forget_traps( gridx, gridy, wz );
         }
     }
     if (sy != 0) {
         const int gridy = (sy > 0) ? (my_MAPSIZE - 1) : 0;
         for (int gridx = 0; gridx < my_MAPSIZE; gridx++) {
-            forget_traps(gridx, gridy);
+            forget_traps( gridx, gridy, wz );
         }
     }
 
@@ -4868,7 +4907,7 @@ void map::vertical_shift( const int newz )
 
     for( int gridx = 0; gridx < my_MAPSIZE; gridx++ ) {
         for( int gridy = 0; gridy < my_MAPSIZE; gridy++ ) {
-            forget_traps( gridx, gridy ) ;
+            forget_traps( gridx, gridy, abs_sub.z ) ;
         }
     }
 
@@ -5345,18 +5384,19 @@ void map::clear_traps()
     }
 }
 
-const std::set<point> map::trap_locations(trap_id t) const
+const std::set<tripoint> map::trap_locations(trap_id t) const
 {
-    std::set<point> tmp;
+    std::set<tripoint> tmp;
     const auto it = traplocs.find(t);
     if(it != traplocs.end()) {
         for( const auto &p : it->second ) {
-            tmp.insert( point( p.x, p.y ) );
+            tmp.insert( p );
         }
 
         return tmp;
     }
-    static std::set<point> empty_set;
+
+    static std::set<tripoint> empty_set;
     return empty_set;
 }
 
@@ -5499,7 +5539,7 @@ void map::build_outside_cache()
         return;
     }
 
-    if (g->levz < 0)
+    if (g->get_levz() < 0)
     {
         memset(outside_cache, false, sizeof(outside_cache));
         return;
@@ -5600,6 +5640,11 @@ point map::getabs(const int x, const int y) const
     return point( x + abs_sub.x * SEEX, y + abs_sub.y * SEEY );
 }
 
+tripoint map::getabs( const tripoint &p ) const
+{
+    return tripoint( p.x + abs_sub.x * SEEX, p.y + abs_sub.y * SEEY, p.z );
+}
+
 point map::getlocal(const int x, const int y) const {
     return point( x - abs_sub.x * SEEX, y - abs_sub.y * SEEY );
 }
@@ -5651,9 +5696,14 @@ submap *map::get_submap_at( const int x, const int y ) const
 
 submap *map::get_submap_at( const int x, const int y, int &offset_x, int &offset_y ) const
 {
+    return get_submap_at( x, y, abs_sub.z, offset_x, offset_y );
+}
+
+submap *map::get_submap_at( const int x, const int y, const int z, int &offset_x, int &offset_y ) const
+{
     offset_x = x % SEEX;
     offset_y = y % SEEY;
-    return get_submap_at( x, y );
+    return get_submap_at( x, y, z );
 }
 
 submap *map::get_submap_at_grid( const int gridx, const int gridy ) const

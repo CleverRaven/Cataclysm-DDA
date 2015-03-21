@@ -3728,6 +3728,7 @@ void mapgen_shelter(map *m, oter_id, mapgendata dat, int, float) {
                                    mapf::basic_bind("b c l", f_bench, f_counter, f_locker));
         computer * tmpcomp = m->add_computer(SEEX + 6, 5, _("Evac shelter computer"), 0);
         tmpcomp->add_option(_("Emergency Message"), COMPACT_EMERG_MESS, 0);
+        tmpcomp->add_option(_("Disable External Power"), COMPACT_COMPLETE_MISSION, 0);
         int lx = rng(5 , 8);
         // The shelter does have some useful stuff in case of winter problems!
         m->spawn_item(lx, 5, "jacket_evac");

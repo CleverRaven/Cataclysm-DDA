@@ -81,11 +81,13 @@ void game::serialize(std::ofstream & fout) {
         json.member( "mostseen", mostseen );
         json.member( "nextspawn", (int)nextspawn );
         // current map coordinates
-        json.member( "levx", levx );
-        json.member( "levy", levy );
-        json.member( "levz", levz );
-        json.member( "om_x", cur_om->pos().x );
-        json.member( "om_y", cur_om->pos().y );
+        tripoint pos_sm = m.get_abs_sub();
+        const point pos_om = overmapbuffer::sm_to_om_remain( pos_sm.x, pos_sm.y );
+        json.member( "levx", pos_sm.x );
+        json.member( "levy", pos_sm.y );
+        json.member( "levz", pos_sm.z );
+        json.member( "om_x", pos_om.x );
+        json.member( "om_y", pos_om.y );
 
         // Next, the scent map.
         std::stringstream rle_out;
@@ -186,7 +188,7 @@ void game::unserialize(std::ifstream & fin)
     std::string linebuf;
     std::stringstream linein;
 
-    int tmpturn, tmpcalstart = 0, tmpspawn, tmprun, tmptar, comx, comy;
+    int tmpturn, tmpcalstart = 0, tmpspawn, tmprun, tmptar, levx, levy, levz, comx, comy;
     JsonIn jsin(fin);
     try {
         JsonObject data = jsin.get_object();
@@ -207,8 +209,7 @@ void game::unserialize(std::ifstream & fin)
         calendar::start = tmpcalstart;
         nextspawn = tmpspawn;
 
-        cur_om = &overmap_buffer.get(comx, comy);
-        m.load(levx, levy, levz, true, cur_om);
+        load_map( tripoint( levx + comx * OMAPX * 2, levy + comy * OMAPY * 2, levz ) );
 
         safe_mode = static_cast<safe_mode_type>( tmprun );
         if (OPTIONS["SAFEMODE"] && safe_mode == SAFE_MODE_OFF) {

@@ -57,7 +57,7 @@ trap_id trapfind(const std::string id)
     return traplist[trapmap[id]]->loadid;
 }
 
-bool trap::detect_trap(const player &p, int x, int y) const
+bool trap::detect_trap( const tripoint &pos, const player &p ) const
 {
     // Some decisions are based around:
     // * Starting, and thus average perception, is 8.
@@ -66,7 +66,7 @@ bool trap::detect_trap(const player &p, int x, int y) const
     // * ...and an average character should at least have a minor chance of
     //   noticing a buried landmine if standing right next to it.
     // Effective Perception...
-    return (p.per_cur - p.encumb(bp_eyes)) +
+    return (p.per_cur - (p.encumb(bp_eyes) / 10)) +
            // ...small bonus from stimulants...
            (p.stim > 10 ? rng(1, 2) : 0) +
            // ...bonus from trap skill...
@@ -76,7 +76,7 @@ bool trap::detect_trap(const player &p, int x, int y) const
            // ...malus if we are tired...
            (p.has_effect("lack_sleep") ? rng(1, 5) : 0) -
            // ...malus farther we are from trap...
-           rl_dist(p.pos(), point(x, y)) +
+           rl_dist( p.pos(), point( pos.x, pos.y) ) +
            // Police are trained to notice Something Wrong.
            (p.has_trait("PROF_POLICE") ? 1 : 0) +
            (p.has_trait("PROF_PD_DET") ? 2 : 0) >
@@ -85,16 +85,16 @@ bool trap::detect_trap(const player &p, int x, int y) const
 }
 
 // Whether or not, in the current state, the player can see the trap.
-bool trap::can_see(const player &p, int x, int y) const
+bool trap::can_see( const tripoint &pos, const player &p ) const
 {
-    return visibility < 0 || p.knows_trap(x, y);
+    return visibility < 0 || p.knows_trap( pos );
 }
 
-void trap::trigger(Creature *creature, int x, int y) const
+void trap::trigger( const tripoint &pos, Creature *creature ) const
 {
-    if (act != NULL) {
+    if( act != nullptr ) {
         trapfunc f;
-        (f.*act)(creature, x, y);
+        (f.*act)( creature, pos.x, pos.y );
     }
 }
 

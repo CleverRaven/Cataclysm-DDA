@@ -18,6 +18,8 @@
 #include <bitset>
 #include <array>
 
+static const std::string DEFAULT_HOTKEYS("1234567890abcdefghijklmnopqrstuvwxyz");
+
 class monster;
 class game;
 struct trap;
@@ -305,7 +307,7 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         /** True if unarmed or wielding a weapon with the UNARMED_WEAPON flag */
         bool unarmed_attack() const;
         /** Called when a player triggers a trap, returns true if they don't set it off */
-        bool avoid_trap(trap *tr, int x, int y);
+        bool avoid_trap( const tripoint &pos, trap *tr );
 
         /** Returns true if the player has a pda */
         bool has_pda();
@@ -603,6 +605,8 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         bool consume(int pos);
         /** Used for eating entered comestible, returns true if comestible is successfully eaten */
         bool eat(item *eat, it_comest *comest);
+        /** Handles the nutrition value for a comestible **/
+        int nutrition_for(const it_comest *comest);
         /** Handles the effects of consuming an item */
         void consume_effects(item *eaten, it_comest *comest, bool rotten = false);
         /** Handles rooting effects */
@@ -854,7 +858,7 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         void invalidate_crafting_inventory();
         std::vector<item> get_eligible_containers_for_crafting();
         std::list<item> consume_items(const std::vector<item_comp> &components, int batch = 1);
-        void consume_tools(const std::vector<tool_comp> &tools, int batch = 1);
+        void consume_tools(const std::vector<tool_comp> &tools, int batch = 1, const std::string &hotkeys = DEFAULT_HOTKEYS);
 
         // Auto move methods
         void set_destination(const std::vector<point> &route);
@@ -868,6 +872,20 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         double logistic(double t);
         double logistic_range(int min, int max, int pos);
         void calculate_portions(int &x, int &y, int &z, int maximum);
+
+        /**
+         * Global position, expressed in map square coordinate system
+         * (the most detailed coordinate system), used by the @ref map.
+         */
+        virtual tripoint global_square_location() const;
+        /**
+        * Returns the location of the player in global submap coordinates.
+        */
+        tripoint global_sm_location() const;
+        /**
+        * Returns the location of the player in global overmap terrain coordinates.
+        */
+        tripoint global_omt_location() const;
 
         // ---------------VALUES-----------------
         inline int posx() const
@@ -1009,8 +1027,8 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
                                            const char *npc_str, ...) const;
 
         typedef std::map<tripoint, std::string> trap_map;
-        bool knows_trap(int x, int y) const;
-        void add_known_trap(int x, int y, const std::string &t);
+        bool knows_trap( const tripoint &pos ) const;
+        void add_known_trap( const tripoint &pos, const std::string &t );
         /** Search surrounding squares for traps (and maybe other things in the future). */
         void search_surroundings();
 

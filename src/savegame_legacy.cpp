@@ -79,7 +79,7 @@ bool game::unserialize_legacy(std::ifstream & fin) {
             JsonIn jsin(parseline());
             JsonObject pdata = jsin.get_object();
 
-            int tmpturn, tmpspawn, tmprun, tmptar, comx, comy, tmpinv;
+            int tmpturn, tmpspawn, tmprun, tmptar, levx, levy, levz, comx, comy, tmpinv;
             pdata.read("turn", tmpturn);
             pdata.read("last_target", tmptar);
             pdata.read("run_mode", tmprun);
@@ -102,8 +102,7 @@ bool game::unserialize_legacy(std::ifstream & fin) {
             calendar::turn = tmpturn;
             nextspawn = tmpspawn;
 
-            cur_om = &overmap_buffer.get(comx, comy);
-            m.load(levx, levy, levz, true, cur_om);
+            load_map( tripoint( levx + comx * OMAPX * 2, levy + comy * OMAPY * 2, levz ) );
 
             safe_mode = static_cast<safe_mode_type>( tmprun );
             if( OPTIONS["SAFEMODE"] && safe_mode == SAFE_MODE_OFF ) {
@@ -171,7 +170,7 @@ bool game::unserialize_legacy(std::ifstream & fin) {
             std::string linebuf;
             std::stringstream linein;
 
-            int tmpturn, tmpspawn, tmprun, tmptar, comx, comy, tempinv;
+            int tmpturn, tmpspawn, tmprun, tmptar, levx, levy, levz, comx, comy, tempinv;
 
             // tempinv is a no-longer used field, so is discarded.
             parseline() >> tmpturn >> tmptar >> tmprun >> mostseen >> tempinv >> next_npc_id >>
@@ -185,8 +184,7 @@ bool game::unserialize_legacy(std::ifstream & fin) {
             calendar::turn = tmpturn;
             nextspawn = tmpspawn;
 
-            cur_om = &overmap_buffer.get(comx, comy);
-            m.load(levx, levy, levz, true, cur_om);
+            load_map( tripoint( levx + comx * OMAPX * 2, levy + comy * OMAPY * 2, levz ) );
 
             safe_mode = static_cast<safe_mode_type>( tmprun );
             if( OPTIONS["SAFEMODE"] && safe_mode == SAFE_MODE_OFF ) {
@@ -283,7 +281,7 @@ bool game::unserialize_legacy(std::ifstream & fin) {
             std::string linebuf;
             std::stringstream linein;
 
-            int tmpturn, tmpspawn, tmprun, tmptar, comx, comy, tempinv;
+            int tmpturn, tmpspawn, tmprun, tmptar, levx, levy, levz, comx, comy, tempinv;
 
             // tempenv gets the value of the no-longer-used nextinv variable, so we discard it.
             parseline() >> tmpturn >> tmptar >> tmprun >> mostseen >> tempinv >> next_npc_id >>
@@ -297,8 +295,7 @@ bool game::unserialize_legacy(std::ifstream & fin) {
             calendar::turn = tmpturn;
             nextspawn = tmpspawn;
 
-            cur_om = &overmap_buffer.get(comx, comy);
-            m.load(levx, levy, levz, true, cur_om);
+            load_map( tripoint( levx + comx * OMAPX * 2, levy + comy * OMAPY * 2, levz ) );
 
             safe_mode = static_cast<safe_mode_type>( tmprun );
             if( OPTIONS["SAFEMODE"] && safe_mode == SAFE_MODE_OFF ) {
@@ -396,7 +393,7 @@ bool game::unserialize_legacy(std::ifstream & fin) {
 /*
 original 'structure', which globs game/weather/location & killcount/player data onto the same lines.
 */
-         int tmpturn, tmpspawn, tmprun, tmptar, comx, comy, tempinv;
+         int tmpturn, tmpspawn, tmprun, tmptar, levx, levy, levz, comx, comy, tempinv;
          // tempinv gets the legacy nextinv value and is discarded.
          fin >> tmpturn >> tmptar >> tmprun >> mostseen >> tempinv >> next_npc_id >>
              next_faction_id >> next_mission_id >> tmpspawn;
@@ -408,8 +405,7 @@ original 'structure', which globs game/weather/location & killcount/player data 
          calendar::turn = tmpturn;
          nextspawn = tmpspawn;
 
-         cur_om = &overmap_buffer.get(comx, comy);
-         m.load(levx, levy, levz, true, cur_om);
+         load_map( tripoint( levx + comx * OMAPX * 2, levy + comy * OMAPY * 2, levz ) );
 
          safe_mode = static_cast<safe_mode_type>( tmprun );
          if( OPTIONS["SAFEMODE"] && safe_mode == SAFE_MODE_OFF ) {
@@ -1539,6 +1535,10 @@ void player::load_legacy(std::stringstream & dump)
          // Bionic power scale has been changed.
          max_power_level *= 25;
          power_level *= 25;
+
+ if (power_level < 0) {
+     power_level = 0;
+ }
 
  if (profession::exists(prof_ident)) {
   prof = profession::prof(prof_ident);

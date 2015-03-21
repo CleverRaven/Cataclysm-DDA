@@ -172,16 +172,15 @@
                 "x": "f_pool_table",
                 "&": "f_fridge",
                 "d": "f_dumpster",
-                "t": "f_toilet",
                 "s": "f_sink",
                 "B": "f_bench",
                 "T": "f_trashcan",
                 "{": "f_rack",
                 "C": "f_chair"
             },
-            "place_toilets": [
-                { "x": 1, "y": 22 }
-            ],
+            "toilets": {
+                "t": { }
+            },
             "//": "default fill is floor but dumpster is on pavement",
             "set": [
                 { "point": "terrain", "id": "t_pavement", "x": 10, "y": 21},

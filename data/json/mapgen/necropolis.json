@@ -189,7 +189,6 @@
                 "p": "f_pool_table",
                 "r": "f_rack",
                 "S": "f_sink",
-                "t": "f_toilet",
                 "U": "f_statue",
                 "W": "f_washer",
                 "X": "f_dahlia",
@@ -232,10 +231,9 @@
                 "..............ss........",
                 "..............ss........"
             ],
-           "place_toilets": [
-                { "x": 22, "y": 10 },
-                { "x": 5, "y": 12 }
-            ],
+            "toilets": {
+                "t": { }
+            },
             "place_monsters": [
                 { "monster": "GROUP_NECROPOLIS", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.10 }
             ],
@@ -1176,7 +1174,6 @@
                 "p": "f_pool_table",
                 "r": "f_rack",
                 "S": "f_sink",
-                "t": "f_toilet",
                 "U": "f_statue",
                 "W": "f_washer",
                 "X": "f_dahlia",
@@ -1219,9 +1216,9 @@
                 ".|-----|------------|---",
                 "-|  h  V   kh   kh  |@ t"
             ],
-           "place_toilets": [
-                { "x": 23, "y": 23 }
-            ],
+            "toilets": {
+                "t": { }
+            },
             "add": [
                 { "item": "55gal_drum", "x": 11, "y": 2, "chance": 90 },
                 { "item": "55gal_drum", "x": 10, "y": 2, "chance": 75 },
@@ -1346,7 +1343,6 @@
                 "p": "f_pool_table",
                 "r": "f_rack",
                 "S": "f_sink",
-                "t": "f_toilet",
                 "U": "f_statue",
                 "W": "f_washer",
                 "X": "f_dahlia",
@@ -1389,11 +1385,9 @@
                 "------------|...........",
                 "!@ t!@ t!@ t|........x.."
             ],
-           "place_toilets": [
-                { "x": 3, "y": 23 },
-                { "x": 11, "y": 23 },
-                { "x": 7, "y": 23 }
-            ],
+            "toilets": {
+                "t": { }
+            },
             "place_monsters": [
                 { "monster": "GROUP_NECROPOLIS", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.10 }
             ],
@@ -1511,7 +1505,6 @@
                 "p": "f_pool_table",
                 "r": "f_rack",
                 "S": "f_sink",
-                "t": "f_toilet",
                 "U": "f_statue",
                 "W": "f_washer",
                 "X": "f_dahlia",
@@ -1554,9 +1547,9 @@
                 ".qQQQQQQQQQQQQQQQQQQQQQQ",
                 "........................"
             ],
-           "place_toilets": [
-                { "x": 11, "y": 3 }
-            ],
+            "toilets": {
+                "t": { }
+            },
             "place_vehicles": [
                 { "vehicle": "electric_car", "x": 15, "y": 17, "rotation": 0, "chance": 75}
             ],
@@ -2013,7 +2006,6 @@
                 "p": "f_pool_table",
                 "r": "f_rack",
                 "S": "f_sink",
-                "t": "f_toilet",
                 "U": "f_statue",
                 "W": "f_washer",
                 "X": "f_dahlia",
@@ -2056,10 +2048,9 @@
                 ".|c  {{{{ssssssMss.MMsMM",
                 ".|-{{{-sss-ssssssM.MMMsM"
             ],
-           "place_toilets": [
-                { "x": 12, "y": 4 },
-                { "x": 16, "y": 4 }
-            ],
+            "toilets": {
+                "t": { }
+            },
             "place_monsters": [
                 { "monster": "GROUP_NECROPOLIS", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.10 }
             ],
@@ -2499,7 +2490,6 @@
                 "p": "f_pool_table",
                 "r": "f_rack",
                 "S": "f_sink",
-                "t": "f_toilet",
                 "U": "f_statue",
                 "W": "f_washer",
                 "X": "f_dahlia",
@@ -2542,14 +2532,9 @@
                 "..w h   r r r r| +      ",
                 "..|P           : | hhhhh"
             ],
-           "place_toilets": [
-                { "x": 11, "y": 6 },
-                { "x": 11, "y": 9 },
-                { "x": 13, "y": 3 },
-                { "x": 15, "y": 3 },
-                { "x": 17, "y": 3 },
-                { "x": 20, "y": 3 }
-            ],
+            "toilets": {
+                "t": { }
+            },
            "place_vendingmachines": [
                 { "x": 14, "y": 14, "item_group": "vending_food" },
                 { "x": 14, "y": 15, "item_group": "vending_drink" }
@@ -2676,7 +2661,6 @@
                 "p": "f_pool_table",
                 "r": "f_rack",
                 "S": "f_sink",
-                "t": "f_toilet",
                 "U": "f_statue",
                 "W": "f_washer",
                 "X": "f_dahlia",
@@ -2719,9 +2703,9 @@
                 " |ss________________,___",
                 " |ss________________,___"
             ],
-           "place_toilets": [
-                { "x": 23, "y": 8 }
-            ],
+            "toilets": {
+                "t": { }
+            },
             "place_vehicles": [
                 { "vehicle": "policecar", "x": 23, "y": 14, "rotation": 180, "chance": 50 },
                 { "vehicle": "policecar", "x": 23, "y": 21, "rotation": 180, "chance": 50 }
@@ -2852,7 +2836,6 @@
                 "p": "f_pool_table",
                 "r": "f_rack",
                 "S": "f_sink",
-                "t": "f_toilet",
                 "U": "f_statue",
                 "W": "f_washer",
                 "X": "f_dahlia",
@@ -2895,11 +2878,9 @@
                 "_____,________8.........",
                 "_____,________8........."
             ],
-           "place_toilets": [
-                { "x": 3, "y": 8 },
-                { "x": 7, "y": 8 },
-                { "x": 11, "y": 8 }
-            ],
+            "toilets": {
+                "t": { }
+            },
             "place_vehicles": [
                 { "vehicle": "policecar", "x": 9, "y": 14, "rotation": 180, "chance": 50 },
                 { "vehicle": "policecar", "x": 9, "y": 21, "rotation": 180, "chance": 50 }
@@ -5302,7 +5283,6 @@
                 "p": "f_pool_table",
                 "r": "f_rack",
                 "S": "f_sink",
-                "t": "f_toilet",
                 "U": "f_statue",
                 "W": "f_washer",
                 "X": "f_dahlia",
@@ -5345,9 +5325,9 @@
                 "   +     kkk      |  |..",
                 "---|      h    @@ |--|.."
             ],
-           "place_toilets": [
-                { "x": 15, "y": 16 }
-            ],
+            "toilets": {
+                "t": { }
+            },
             "place_monsters": [
                 { "monster": "GROUP_NECROPOLIS", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.10 }
             ],
@@ -5475,7 +5455,6 @@
                 "p": "f_pool_table",
                 "r": "f_rack",
                 "S": "f_sink",
-                "t": "f_toilet",
                 "U": "f_statue",
                 "W": "f_washer",
                 "X": "f_dahlia",
@@ -5518,9 +5497,9 @@
                 "......|){{{{{sssMssMsssM",
                 "......|-{{{{ssMsMssMssMM"
             ],
-           "place_toilets": [
-                { "x": 20, "y": 11 }
-            ],
+            "toilets": {
+                "t": { }
+            },
             "place_monsters": [
                 { "monster": "GROUP_NECROPOLIS", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.10 }
             ],
@@ -7765,7 +7744,6 @@
                 "p": "f_pool_table",
                 "r": "f_rack",
                 "S": "f_sink",
-                "t": "f_toilet",
                 "U": "f_statue",
                 "W": "f_washer",
                 "X": "f_dahlia",
@@ -7808,12 +7786,9 @@
                 "sss|-+---------|-- --|ss",
                 "sss|   jjjjjj D|l    |ss"
             ],
-            "place_toilets": [
-                { "x": 11, "y": 7 },
-                { "x": 11, "y": 7},
-                { "x": 13, "y": 14 },
-                { "x": 13, "y": 14 }
-            ],
+            "toilets": {
+                "t": { }
+            },
             "place_vendingmachines": [
                 { "x": 16, "y": 23, "item_group": "vending_drink" }
             ],
@@ -7944,7 +7919,6 @@
                 "p": "f_pool_table",
                 "r": "f_rack",
                 "S": "f_sink",
-                "t": "f_toilet",
                 "U": "f_statue",
                 "W": "f_washer",
                 "X": "f_dahlia",
@@ -7987,14 +7961,9 @@
                 "ssssssssssssssssssssssss",
                 "ss______________________"
             ],
-           "place_toilets": [
-                { "x": 12, "y": 0 },
-                { "x": 12, "y": 7 },
-                { "x": 12, "y": 14 },
-                { "x": 14, "y": 0 },
-                { "x": 14, "y": 7 },
-                { "x": 14, "y": 14 }
-            ],
+            "toilets": {
+                "t": { }
+            },
             "place_monsters": [
                 { "monster": "GROUP_NECROPOLIS", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.10 }
             ],
@@ -8278,7 +8247,6 @@
                 "p": "f_pool_table",
                 "r": "f_rack",
                 "S": "f_sink",
-                "t": "f_toilet",
                 "U": "f_statue",
                 "W": "f_washer",
                 "X": "f_dahlia",
@@ -8321,10 +8289,9 @@
                 "___,__,_________________",
                 "___,,,,_________________"
             ],
-            "place_toilets": [
-                { "x": 12, "y": 13 },
-                { "x": 12, "y": 16 }
-            ],
+            "toilets": {
+                "t": { }
+            },
             "place_monsters": [
                 { "monster": "GROUP_NECROPOLIS", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.10 }
             ],
@@ -8771,7 +8738,6 @@
                 "p": "f_pool_table",
                 "r": "f_rack",
                 "S": "f_sink",
-                "t": "f_toilet",
                 "U": "f_statue",
                 "W": "f_washer",
                 "X": "f_dahlia",
@@ -8814,10 +8780,9 @@
                 "........................",
                 "....C..................."
             ],
-           "place_toilets": [
-                { "x": 18, "y": 6 },
-                { "x": 18, "y": 12 }
-            ],
+            "toilets": {
+                "t": { }
+            },
             "place_monsters": [
                 { "monster": "GROUP_NECROPOLIS", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.10 }
             ],
@@ -8956,7 +8921,6 @@
                 "p": "f_pool_table",
                 "r": "f_rack",
                 "S": "f_sink",
-                "t": "f_toilet",
                 "U": "f_statue",
                 "W": "f_washer",
                 "X": "f_dahlia",
@@ -8999,12 +8963,9 @@
                 "........|S |        wss_",
                 "........|-+|        |ss_"
             ],
-           "place_toilets": [
-                { "x": 9, "y": 0 },
-                { "x": 9, "y": 7 },
-                { "x": 9, "y": 14 },
-                { "x": 9, "y": 21 }
-            ],
+            "toilets": {
+                "t": { }
+            },
             "place_monsters": [
                 { "monster": "GROUP_NECROPOLIS", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.10 }
             ],
@@ -9299,7 +9260,6 @@
                 "p": "f_pool_table",
                 "r": "f_rack",
                 "S": "f_sink",
-                "t": "f_toilet",
                 "U": "f_statue",
                 "W": "f_washer",
                 "X": "f_dahlia",
@@ -9342,12 +9302,9 @@
                 "_ssw        |  k     +ss",
                 "_ssw        ; hk     +ss"
             ],
-            "place_toilets": [
-                { "x": 11, "y": 4 },
-                { "x": 11, "y": 11 },
-                { "x": 13, "y": 4 },
-                { "x": 13, "y": 11 }
-            ],
+            "toilets": {
+                "t": { }
+            },
             "place_vendingmachines": [
                 { "x": 16, "y": 0, "item_group": "vending_food" },
                 { "x": 20, "y": 17, "item_group": "vending_drink" }
@@ -10291,7 +10248,6 @@
                 "p": "f_pool_table",
                 "r": "f_rack",
                 "S": "f_sink",
-                "t": "f_toilet",
                 "U": "f_statue",
                 "W": "f_washer",
                 "X": "f_dahlia",
@@ -10334,10 +10290,9 @@
                 "...|---vv-|--|------|.q.",
                 "T.....................q."
             ],
-           "place_toilets": [
-                { "x": 12, "y": 9 },
-                { "x": 12, "y": 17 }
-            ],
+            "toilets": {
+                "t": { }
+            },
             "place_monsters": [
                 { "monster": "GROUP_NECROPOLIS", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.10 }
             ],
@@ -12058,7 +12013,6 @@
                 "p": "f_pool_table",
                 "r": "f_rack",
                 "S": "f_sink",
-                "t": "f_toilet",
                 "U": "f_statue",
                 "W": "f_washer",
                 "X": "f_dahlia",
@@ -12101,9 +12055,9 @@
                 "......................C.",
                 "........................"
             ],
-           "place_toilets": [
-                { "x": 22, "y": 12 }
-            ],
+            "toilets": {
+                "t": { }
+            },
             "place_monsters": [
                 { "monster": "GROUP_NECROPOLIS", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.10 }
             ],
@@ -12228,7 +12182,6 @@
                 "p": "f_pool_table",
                 "r": "f_rack",
                 "S": "f_sink",
-                "t": "f_toilet",
                 "U": "f_statue",
                 "W": "f_washer",
                 "X": "f_dahlia",
@@ -12271,9 +12224,9 @@
                 "........................",
                 "........#..............."
             ],
-           "place_toilets": [
-                { "x": 19, "y": 7 }
-            ],
+            "toilets": {
+                "t": { }
+            },
             "place_monsters": [
                 { "monster": "GROUP_NECROPOLIS", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.10 }
             ],
@@ -13056,7 +13009,6 @@
                 "p": "f_pool_table",
                 "r": "f_rack",
                 "S": "f_sink",
-                "t": "f_toilet",
                 "U": "f_statue",
                 "W": "f_washer",
                 "X": "f_dahlia",
@@ -13099,10 +13051,9 @@
                 "........................",
                 "........................"
             ],
-           "place_toilets": [
-                { "x": 6, "y": 10 },
-                { "x": 6, "y": 12 }
-            ],
+            "toilets": {
+                "t": { }
+            },
             "place_monsters": [
                 { "monster": "GROUP_NECROPOLIS", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.10 }
             ],

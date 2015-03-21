@@ -88,6 +88,7 @@ enum npc_class {
  NC_SCAVENGER,      // Good with pistols light weapons
  NC_ARSONIST,       // Evacuation Center, restocks moltovs and anarcist type stuff
  NC_HUNTER,         // Survivor type good with bow or rifle
+ NC_SOLDIER,        // Well equiped and trained combatant, good with rifles and melee
  NC_MAX
 };
 
@@ -376,6 +377,17 @@ enum talk_topic {
  TALK_SCAVENGER_MERC_HIRE,
  TALK_SCAVENGER_MERC_HIRE_SUCCESS,
 
+ TALK_OLD_GUARD_SOLDIER,//98, Generic Old Guard
+
+ TALK_OLD_GUARD_NEC_CPT,//99, Main mission source in Necropolis
+ TALK_OLD_GUARD_NEC_CPT_GOAL,
+ TALK_OLD_GUARD_NEC_CPT_VAULT,
+
+ TALK_OLD_GUARD_NEC_COMMO,//102, Mission source/destination in Necropolis
+ TALK_OLD_GUARD_NEC_COMMO_GOAL,
+ TALK_OLD_GUARD_NEC_COMMO_FREQ,
+
+
  TALK_SHELTER,
  TALK_SHELTER_PLANS,
  TALK_SHARE_EQUIPMENT,
@@ -533,8 +545,8 @@ public:
  void make_angry(); // Called if the player attacks us
  bool wants_to_travel_with(player *p) const;
  int assigned_missions_value();
- std::vector<const Skill*> skills_offered_to(player *p); // Skills that're higher
- std::vector<itype_id> styles_offered_to(player *p); // Martial Arts
+ std::vector<const Skill*> skills_offered_to(const player &p); // Skills that're higher
+ std::vector<itype_id> styles_offered_to(const player &p); // Martial Arts
 // State checks
  bool is_enemy() const; // We want to kill/mug/etc the player
  bool is_following() const; // Traveling w/ player (whether as a friend or a slave)
@@ -700,15 +712,7 @@ public:
      * posx += SEEX; mapx -= 1;
      * This does not change the global position of the NPC.
      */
-    tripoint global_square_location() const;
-    /**
-     * Returns the location of the NPC in global submap coordinates.
-     */
-    tripoint global_sm_location() const;
-    /**
-     * Returns the location of the NPC in global overmap terrain coordinates.
-     */
-    tripoint global_omt_location() const;
+    tripoint global_square_location() const override;
  int plx, ply, plt;// Where we last saw the player, timeout to forgetting
  int itx, ity; // The square containing an item we want
  int guardx, guardy;  // These are the local coordinates that a guard will return to inside of their goal tripoint

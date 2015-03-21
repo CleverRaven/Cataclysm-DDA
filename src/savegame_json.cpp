@@ -249,6 +249,9 @@ void player::load(JsonObject &data)
         debugmsg("BAD PLAYER/NPC JSON: no 'posx'?");
     }
     data.read("posy", position.y);
+    if( !data.read("posz", zpos) && g != nullptr ) {
+      zpos = g->get_levz();
+    }
     data.read("hunger", hunger);
     data.read("thirst", thirst);
     data.read("fatigue", fatigue);
@@ -271,6 +274,11 @@ void player::load(JsonObject &data)
     if( savegame_loading_version <= 20 ) {
         power_level *= 25;
         max_power_level *= 25;
+    }
+
+    // Bionic power should not be negative!
+    if( power_level < 0) {
+        power_level = 0;
     }
 
     data.read("ma_styles", ma_styles);
@@ -309,6 +317,7 @@ void player::store(JsonOut &json) const
     // positional data
     json.member( "posx", position.x );
     json.member( "posy", position.y );
+    json.member( "posz", zpos );
 
     // om-noms or lack thereof
     json.member( "hunger", hunger );
@@ -946,7 +955,7 @@ void monster::load(JsonObject &data)
     data.read("posx", position.x);
     data.read("posy", position.y);
     if( !data.read("posz", zpos) ) {
-        zpos = g->levz;
+        zpos = g->get_levz();
     }
 
     data.read("wandx", wandx);

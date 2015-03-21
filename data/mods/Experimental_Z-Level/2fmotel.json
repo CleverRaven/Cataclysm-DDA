@@ -200,7 +200,6 @@
                 "8": "f_bathtub",
                 "9": "f_locker",
                 ":": "f_dresser",
-                ";": "f_toilet",
                 "=": "f_fireplace",
                 ">": "f_counter",
                 "?": "f_sofa",
@@ -219,9 +218,9 @@
                 { "x": 18, "y": 7 },
                 { "x": 18, "y": 9 }
             ],
-            "place_toilets": [
-                { "x": 2, "y": 18 }
-            ],
+            "toilets": {
+                ";": { }
+            },
             "set": [
                 { "point": "terrain", "id": "t_dirt", "x": 0, "y": [ 0, 23 ], "repeat": [ 5, 10 ] },
                 { "point": "terrain", "id": "t_dirt", "x": 0, "y": [ 15, 16 ], "repeat": [ 5, 10 ] },
@@ -334,7 +333,6 @@
                 "8": "f_bathtub",
                 "9": "f_rack",
                 ":": "f_dresser",
-                ";": "f_toilet",
                 "=": "f_fireplace",
                 ">": "f_counter",
                 "?": "f_sofa",
@@ -349,13 +347,9 @@
                 "H": "f_sofa",
                 "{": "f_dumpster"
             },
-            "place_toilets": [
-                { "x": 2, "y": 0 },
-                { "x": 2, "y": 6 },
-                { "x": 2, "y": 12 },
-                { "x": 14, "y": 21 },
-                { "x": 20, "y": 21 }
-            ],
+            "toilets": {
+                ";": { }
+            },
             "set": [
                 { "point": "terrain", "id": "t_dirt", "x": [ 0, 23 ], "y": 23, "repeat": [ 5, 8 ] }
             ],
@@ -470,7 +464,6 @@
                 "8": "f_bathtub",
                 "9": "f_rack",
                 ":": "f_dresser",
-                ";": "f_toilet",
                 "=": "f_fireplace",
                 ">": "f_counter",
                 "?": "f_sofa",
@@ -483,12 +476,9 @@
                 "F": "f_fridge",
                 "G": "f_oven"
             },
-            "place_toilets": [
-                { "x": 2, "y": 21 },
-                { "x": 8, "y": 21 },
-                { "x": 14, "y": 21 },
-                { "x": 20, "y": 21 }
-            ],
+            "toilets": {
+                ";": { }
+            },
             "set": [
                 { "point": "terrain", "id": "t_dirt", "x": [ 0,23 ], "y": 23, "repeat": [ 5, 10 ] }
             ],
@@ -698,7 +688,6 @@
                 "8": "f_bathtub",
                 "9": "f_locker",
                 ":": "f_dresser",
-                ";": "f_toilet",
                 "=": "f_fireplace",
                 "?": "f_sofa",
                 "@": "f_bed",
@@ -711,9 +700,9 @@
                 "G": "f_oven",
                 "0": "f_dive_block"
             },
-            "place_toilets": [
-                { "x": 2, "y": 18 }
-            ],
+            "toilets": {
+                ";": { }
+            },
             "set": [
                 { "point": "terrain", "id": "t_open_air", "x": 0, "y": [ 0, 23 ], "repeat": [ 5, 10 ] },
                 { "point": "terrain", "id": "t_open_air", "x": 0, "y": [ 15, 16 ], "repeat": [ 5, 10 ] },
@@ -814,7 +803,6 @@
                 "8": "f_bathtub",
                 "9": "f_rack",
                 ":": "f_dresser",
-                ";": "f_toilet",
                 "=": "f_fireplace",
                 "?": "f_sofa",
                 "@": "f_bed",
@@ -828,13 +816,9 @@
                 "H": "f_sofa",
                 "{": "f_dumpster"
             },
-            "place_toilets": [
-                { "x": 2, "y": 0 },
-                { "x": 2, "y": 6 },
-                { "x": 2, "y": 12 },
-                { "x": 14, "y": 21 },
-                { "x": 20, "y": 21 }
-            ],
+            "toilets": {
+                ";": { }
+            },
             "set": [
                 { "point": "terrain", "id": "t_open_air", "x": [ 0, 23 ], "y": 23, "repeat": [ 5, 8 ] }
             ],
@@ -944,7 +928,6 @@
                 "8": "f_bathtub",
                 "9": "f_rack",
                 ":": "f_dresser",
-                ";": "f_toilet",
                 "=": "f_fireplace",
                 "?": "f_sofa",
                 "@": "f_bed",
@@ -956,12 +939,9 @@
                 "F": "f_fridge",
                 "G": "f_oven"
             },
-            "place_toilets": [
-                { "x": 2, "y": 21 },
-                { "x": 8, "y": 21 },
-                { "x": 14, "y": 21 },
-                { "x": 20, "y": 21 }
-            ],
+            "toilets": {
+                ";": { }
+            },
             "set": [
                 { "point": "terrain", "id": "t_open_air", "x": [ 0,23 ], "y": 23, "repeat": [ 5, 10 ] }
             ],
