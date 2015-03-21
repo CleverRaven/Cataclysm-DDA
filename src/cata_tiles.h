@@ -45,45 +45,11 @@ struct tile {
 };
 
 /* Enums */
-enum LIGHTING
-{
-    HIDDEN = -1,
-    CLEAR = 0,
-    LIGHT_NORMAL = 1,
-    LIGHT_DARK = 2,
-    BOOMER_NORMAL = 3,
-    BOOMER_DARK = 4
-};
+enum class light_type : int;
 
-enum MULTITILE_TYPE
-{
-    center,
-    corner,
-    edge,
-    t_connection,
-    end_piece,
-    unconnected,
-    open_,
-    broken,
-    num_multitile_types
-};
+enum multitile_type : int;
 
-// Make sure to change TILE_CATEGORY_IDS if this changes!
-enum TILE_CATEGORY
-{
-    C_NONE,
-    C_VEHICLE_PART,
-    C_TERRAIN,
-    C_ITEM,
-    C_FURNITURE,
-    C_TRAP,
-    C_FIELD,
-    C_LIGHTING,
-    C_MONSTER,
-    C_BULLET,
-    C_HIT_ENTITY,
-    C_WEATHER,
-};
+enum class tile_category : int;
 
 /** Typedefs */
 typedef std::vector<SDL_Texture *> tile_map;
@@ -92,45 +58,11 @@ typedef std::unordered_map<std::string, tile_type> tile_id_map;
 typedef tile_map::iterator tile_iterator;
 typedef tile_id_map::iterator tile_id_iterator;
 
-// Cache of a single tile, used to avoid redrawing what didn't change.
-struct tile_drawing_cache {
-
-    tile_drawing_cache() { };
-
-    // Sprite indices drawn on this tile.
-    // The same indices in a different order need to be drawn differently!
-    std::vector<tile_type *> sprites;
-    std::vector<int> rotations;
-
-    bool operator==(const tile_drawing_cache &other) const {
-        if(sprites.size() != other.sprites.size()) {
-            return false;
-        } else {
-            for( size_t i = 0; i < sprites.size(); ++i ) {
-                if(sprites[i] != other.sprites[i] || rotations[i] != other.rotations[i]) {
-                    return false;
-                }
-            }
-        }
-
-        return true;
-    }
-
-    bool operator!=(const tile_drawing_cache &other) const {
-        return !(this->operator==(other));
-    }
-
-    void operator=(const tile_drawing_cache &other) {
-        this->sprites = other.sprites;
-        this->rotations = other.rotations;
-    }
-};
-
 class cata_tiles
 {
     public:
         /** Default constructor */
-        cata_tiles(SDL_Renderer *render);
+        explicit cata_tiles(SDL_Renderer *render);
         /** Default destructor */
         ~cata_tiles();
     protected:
@@ -193,7 +125,7 @@ class cata_tiles
         void get_window_tile_counts(const int width, const int height, int &columns, int &rows) const;
 
         bool draw_from_id_string(std::string id, int x, int y, int subtile, int rota);
-        bool draw_from_id_string(std::string id, TILE_CATEGORY category,
+        bool draw_from_id_string(std::string id, tile_category category,
                                  const std::string &subcategory, int x, int y, int subtile, int rota);
         void draw_tile_at(tile_type const &tile, int x, int y, int rota);
 
@@ -210,7 +142,7 @@ class cata_tiles
         void get_rotation_and_subtile(const char val, const int num_connects, int &rota, int &subtype);
 
         /** Drawing Layers */
-        bool draw_lighting(int x, int y, LIGHTING l);
+        bool draw_lighting(int x, int y, light_type l);
         bool draw_terrain(int x, int y);
         bool draw_furniture(int x, int y);
         bool draw_trap(int x, int y);
@@ -264,36 +196,44 @@ class cata_tiles
         void init(std::string load_file_path);
         /* Reinitializes the tile context using the original screen information, throws std::string on errors  */
         void reinit(std::string load_file_path);
-        int get_tile_height() const { return tile_height; }
-        int get_tile_width() const { return tile_width; }
-        float get_tile_ratiox() const { return tile_ratiox; }
-        float get_tile_ratioy() const { return tile_ratioy; }
+
+        int   get_tile_height() const noexcept { return tile_height; }
+        int   get_tile_width()  const noexcept { return tile_width;  }
+        float get_tile_ratiox() const noexcept { return tile_ratiox; }
+        float get_tile_ratioy() const noexcept { return tile_ratioy; }
     protected:
         void get_tile_information(std::string dir_path, std::string &json_path, std::string &tileset_path);
         /** Lighting */
         void init_light();
-        LIGHTING light_at(int x, int y);
+        light_type light_at(int x, int y);
 
         /** Variables */
         SDL_Renderer *renderer;
         tile_map tile_values;
         tile_id_map tile_ids;
 
-        int tile_height, tile_width, default_tile_width, default_tile_height;
+        int tile_height = 0;
+        int tile_width  = 0;
+        
+        int default_tile_width;
+        int default_tile_height;
         // The width and height of the area we can draw in,
         // measured in map coordinates, *not* in pixels.
-        int screentile_width, screentile_height;
-        float tile_ratiox, tile_ratioy;
+        
+        int screentile_width;
+        int screentile_height;
 
-        bool in_animation;
+        float tile_ratiox = 0.0f;
+        float tile_ratioy = 0.0f;
 
-        bool do_draw_explosion;
-        bool do_draw_bullet;
-        bool do_draw_hit;
-        bool do_draw_line;
-        bool do_draw_weather;
-        bool do_draw_sct;
-        bool do_draw_zones;
+        bool in_animation      = false;
+        bool do_draw_explosion = false;
+        bool do_draw_bullet    = false;
+        bool do_draw_hit       = false;
+        bool do_draw_line      = false;
+        bool do_draw_weather   = false;
+        bool do_draw_sct       = false;
+        bool do_draw_zones     = false;
 
         int exp_pos_x, exp_pos_y, exp_rad;
 
@@ -316,27 +256,28 @@ class cata_tiles
         point pZoneOffset;
 
         // offset values, in tile coordinates, not pixels
-        int o_x, o_y;
+        int o_x;
+        int o_y;
         // offset for drawing, in pixels.
-        int op_x, op_y;
-
+        int op_x;
+        int op_y;
     protected:
     private:
         void create_default_item_highlight();
-        int
-            sightrange_natural,
-            sightrange_light,
-            sightrange_lowlight,
-            sightrange_max;
-        int
-            u_clairvoyance,
-            g_lightlevel;
-        bool
-            boomered,
-            sight_impaired,
-            bionight_bionic_active;
-        int last_pos_x, last_pos_y;
 
+        int sightrange_natural;
+        int sightrange_light;
+        int sightrange_lowlight;
+        int sightrange_max;
+        int u_clairvoyance;
+        int g_lightlevel;
+        
+        bool boomered               = false;
+        bool sight_impaired         = false;
+        bool bionight_bionic_active = false;
+
+        int last_pos_x = 0;
+        int last_pos_y = 0;
 };
 
 #endif
