@@ -47,13 +47,13 @@ class cata_tiles
         explicit cata_tiles(SDL_Renderer *render);
         /** Default destructor */
         ~cata_tiles();
-    protected:
+    private:
         void clear();
     public:
         /** Reload tileset, with the given scale. Scale is divided by 16 to allow for scales < 1 without risking
          *  float inaccuracies. */
         void set_draw_scale(int scale);
-    protected:
+    private:
         /** Load tileset, R,G,B, are the color components of the transparent color
          * throws std::string on errors. Returns the number of tiles that have
          * been loaded from this tileset image
@@ -102,7 +102,7 @@ class cata_tiles
     public:
         /** Draw to screen */
         void draw(int destx, int desty, int centerx, int centery, int width, int height);
-    protected:
+    private:
         /** How many rows and columns of tiles fit into given dimensions **/
         void get_window_tile_counts(const int width, const int height, int &columns, int &rows) const;
 
@@ -183,7 +183,7 @@ class cata_tiles
         int   get_tile_width()  const noexcept { return tile_width;  }
         float get_tile_ratiox() const noexcept { return tile_ratiox; }
         float get_tile_ratioy() const noexcept { return tile_ratioy; }
-    protected:
+    private:
         void get_tile_information(std::string dir_path, std::string &json_path, std::string &tileset_path);
         /** Lighting */
         void init_light();
@@ -245,8 +245,7 @@ class cata_tiles
         // offset for drawing, in pixels.
         int op_x;
         int op_y;
-    protected:
-    private:
+
         void create_default_item_highlight();
 
         int sightrange_natural;
