@@ -1767,74 +1767,78 @@ void mapgen_parking_lot(map *m, oter_id, mapgendata dat, int turn, float)
                 m->ter_set(i, j, dat.groundcover());
         }
     }
-    int vx = rng (0, 3) * 4 + 5;
-    int vy = 4;
-    std::string veh_type = "";
-    int roll = rng(1, 100);
-    if (roll <= 5) { //specials
-        int ra = rng(1, 100);
-        if (ra <= 3) {
-            veh_type = "military_cargo_truck";
-        } else if (ra <= 10) {
-            veh_type = "bubble_car";
-        } else if (ra <= 15) {
-            veh_type = "rv";
-        } else if (ra <= 20) {
-            veh_type = "schoolbus";
-        } else if (ra <= 40) {
-            veh_type = "fire_truck";
-        }else if (ra <= 60) {
-            veh_type = "policecar";
-        }else {
-            veh_type = "quad_bike";
-        }
-    } else if (roll <= 15) { //commercial
-        int rb = rng(1, 100);
-        if (rb <= 25) {
-            veh_type = "truck_trailer";
-        } else if (rb <= 35) {
-            veh_type = "semi_truck";
-        } else if (rb <= 50) {
-            veh_type = "cube_van";
-        } else {
-            veh_type = "flatbed_truck";
-        }
-    } else if (roll < 50) { //commons
-        int rc = rng(1, 100);
-        if (rc <= 4) {
-            veh_type = "golf_cart";
-        } else if (rc <= 11) {
-            veh_type = "scooter";
-        } else if (rc <= 21) {
-            int rd = rng(1, 100);
-            if(rd <= 50) {
-                veh_type = "car_mini";
-            } else {
-                veh_type = "beetle";
+    for(int v = 0; v < rng(2,5); v++) {
+        int vy = rng(0, 4) * 4 + rng(2,4);
+        int vx = rng(0, 1) * 15 + rng(4,5);
+        std::string veh_type = "";
+        int roll = rng(1, 100);
+        if (roll <= 5) { //specials
+            int ra = rng(1, 100);
+            if (ra <= 3) {
+                veh_type = "military_cargo_truck";
+            } else if (ra <= 10) {
+                veh_type = "bubble_car";
+            } else if (ra <= 15) {
+                veh_type = "rv";
+            } else if (ra <= 20) {
+                veh_type = "schoolbus";
+            } else if (ra <= 40) {
+                veh_type = "fire_truck";
+            }else if (ra <= 60) {
+                veh_type = "policecar";
+            }else {
+                veh_type = "quad_bike";
             }
-        } else if (rc <= 50) {
-            veh_type = "car";
-        } else if (rc <= 60) {
-            veh_type = "electric_car";
-        } else if (rc <= 65) {
-            veh_type = "hippie_van";
-        } else if (rc <= 73) {
-            veh_type = "bicycle";
-        } else if (rc <= 75) {
-            veh_type = "rara_x"; //The Solar Car Toyota RaRa X
-        } else if (rc <= 77) {
-            veh_type = "unicycle";
-        } else if (rc <= 82) {
-            veh_type = "bicycle_electric";
-        } else if (rc <= 90) {
-            veh_type = "motorcycle";
+        } else if (roll <= 15) { //commercial
+            int rb = rng(1, 100);
+            if (rb <= 25) {
+                veh_type = "truck_trailer";
+            } else if (rb <= 35) {
+                veh_type = "semi_truck";
+            } else if (rb <= 50) {
+                veh_type = "cube_van";
+            } else {
+                veh_type = "flatbed_truck";
+            }
+        } else if (roll < 50) { //commons
+            int rc = rng(1, 100);
+            if (rc <= 4) {
+                veh_type = "golf_cart";
+            } else if (rc <= 11) {
+                veh_type = "scooter";
+            } else if (rc <= 21) {
+                int rd = rng(1, 100);
+                if(rd <= 50) {
+                    veh_type = "car_mini";
+                } else {
+                    veh_type = "beetle";
+                }
+            } else if (rc <= 50) {
+                veh_type = "car";
+            } else if (rc <= 60) {
+                veh_type = "electric_car";
+            } else if (rc <= 65) {
+                veh_type = "hippie_van";
+            } else if (rc <= 73) {
+                veh_type = "bicycle";
+            } else if (rc <= 75) {
+                veh_type = "rara_x"; //The Solar Car Toyota RaRa X
+            } else if (rc <= 77) {
+                veh_type = "unicycle";
+            } else if (rc <= 82) {
+                veh_type = "bicycle_electric";
+            } else if (rc <= 90) {
+                veh_type = "motorcycle";
+            } else {
+                veh_type = "motorcycle_sidecart";
+            }
         } else {
-            veh_type = "motorcycle_sidecart";
+            veh_type = "shopping_cart";
         }
-    } else {
-        veh_type = "shopping_cart";
+        if (!m->veh_at(vx,vy)) {
+            m->add_vehicle (veh_type, vx, vy, (one_in(2)?0:180) + (one_in(10)*rng(0,179)), -1, -1);
+        }
     }
-    m->add_vehicle (veh_type, vx, vy, one_in(2)? 90 : 270, -1, -1);
 
     m->place_items("road", 8, 0, 0, SEEX * 2 - 1, SEEY * 2 - 1, false, turn);
     for (int i = 1; i < 4; i++) {
