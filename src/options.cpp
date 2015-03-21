@@ -7,8 +7,6 @@
 #include "cursesdef.h"
 #include "path_info.h"
 #include "mapsharing.h"
-#include "monstergenerator.h"
-#include "item_factory.h"
 
 #ifdef SDLTILES
 #include "cata_tiles.h"
@@ -1322,20 +1320,7 @@ void show_options(bool ingame)
             g->init_ui();
             if( ingame ) {
                 g->refresh_all();
-
-                DebugLog( D_INFO, DC_ALL ) << "Loaded tileset: " << OPTIONS["TILES"].getValue();
-
-                tilecontext->tile_loading_report(termap, "Terrain", "");
-                tilecontext->tile_loading_report(furnmap, "Furniture", "");
-                //TODO: exclude fake items from Item_factory::init_old()
-                tilecontext->tile_loading_report(item_controller->get_all_itypes(), "Items", "");
-                tilecontext->tile_loading_report(MonsterGenerator::generator().get_all_mtypes(), "Monsters", "");
-                tilecontext->tile_loading_report(vehicle_part_types, "Vehicle Parts", "vp_");
-                tilecontext->tile_loading_report(trapmap, "Traps", "");
-                tilecontext->tile_loading_report(fieldlist, num_fields, "Fields", "");
-
-                // needed until DebugLog ostream::flush bugfix lands
-                DebugLog( D_INFO, DC_ALL );
+                tilecontext->do_tile_loading_report();
             }
         } catch(std::string err) {
             popup(_("Loading the tileset failed: %s"), err.c_str());
