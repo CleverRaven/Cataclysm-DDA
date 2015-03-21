@@ -146,7 +146,7 @@ bool is_river(const oter_id &ter)
     // if the id starts with "river" or "bridge", count as a river, but this
     // is done in data init.
     // return (ter.compare(0,5,"river",5) == 0 || ter.compare(0,6,"bridge",6) == 0);
-    return ter.t().is_river;
+    return ter.t().has_flag(river_tile);
 }
 
 bool is_ot_type(const std::string &otype, const oter_id &oter)
@@ -162,7 +162,7 @@ bool is_ot_type(const std::string &otype, const oter_id &oter)
 
 bool road_allowed(const oter_id &ter)
 {
-    return ter.t().allow_road;
+    return ter.t().has_flag(allow_road);
 }
 
 /*
@@ -182,7 +182,7 @@ oter_id shop(int dir, oter_weight_list &weightlist )
     }
     const int ret = weightlist.pick();
 
-    if ( oterlist[ ret ].rotates == false ) {
+    if ( oterlist[ ret ].has_flag(rotates) == false ) {
         return ret;
     }
     return oterlist[ ret ].directional_peers[dir];
@@ -281,9 +281,9 @@ void load_overmap_terrain(JsonObject &jo)
 
     oter.id = jo.get_string("id");
     oter.name = _(jo.get_string("name").c_str());
-    oter.rotates = jo.get_bool("rotate", false);
-    oter.line_drawing = jo.get_bool("line_drawing", false);
-    if (oter.line_drawing) {
+    oter.set_flag(rotates, jo.get_bool("rotate", false));
+    oter.set_flag(line_drawing, jo.get_bool("line_drawing", false));
+    if (oter.has_flag(line_drawing)) {
         oter.sym = jo.get_int("sym", (int)'%');
     } else if (jo.has_array("sym")) {
         JsonArray ja = jo.get_array("sym");
@@ -291,7 +291,7 @@ void load_overmap_terrain(JsonObject &jo)
             sym = ja.next_int();
         }
         oter.sym = syms[0];
-    } else if (oter.rotates) {
+    } else if (oter.has_flag(rotates)) {
         oter.sym = jo.get_int("sym");
         for( auto &sym : syms ) {
             sym = oter.sym;
@@ -304,11 +304,11 @@ void load_overmap_terrain(JsonObject &jo)
     oter.see_cost = jo.get_int("see_cost");
 
     oter.extras = jo.get_string("extras", "none");
-    oter.known_down = jo.get_bool("known_down", false);
-    oter.known_up = jo.get_bool("known_up", false);
+    oter.set_flag(known_down, jo.get_bool("known_down", false));
+    oter.set_flag(known_up, jo.get_bool("known_up", false));
     oter.mondensity = jo.get_int("mondensity", 0);
-    oter.sidewalk = jo.get_bool("sidewalk", false);
-    oter.allow_road = jo.get_bool("allow_road", false);
+    oter.set_flag(has_sidewalk, jo.get_bool("sidewalk", false));
+    oter.set_flag(allow_road, jo.get_bool("allow_road", false));
 
     std::string id_base = oter.id;
     int start_iid = oterlist.size();
@@ -324,16 +324,16 @@ void load_overmap_terrain(JsonObject &jo)
         oter.static_spawns.chance = spawns.get_int( "chance" );
     }
 
-    oter.is_road = isroad(id_base);
-    oter.is_river = (id_base.compare(0, 5, "river", 5) == 0 ||
+    oter.set_flag(road_tile, isroad(id_base));
+    oter.set_flag(river_tile, id_base.compare(0, 5, "river", 5) == 0 ||
                      id_base.compare(0, 6, "bridge", 6) == 0);
 
     oter.id_mapgen = id_base; // What, another identifier? Whyyy...
-    if ( ! oter.line_drawing ) { // ...oh
+    if ( ! oter.has_flag(line_drawing) ) { // ...oh
         load_overmap_terrain_mapgens(jo, id_base);
     }
 
-    if (oter.line_drawing) {
+    if (oter.has_flag(line_drawing)) {
         // add variants for line drawing
         for( int i = start_iid; i < start_iid + 12; i++ ) {
             oter.directional_peers.push_back(i);
@@ -391,7 +391,7 @@ void load_overmap_terrain(JsonObject &jo)
         oter.sym = LINE_XXXX;
         load_oter(oter);
 
-    } else if (oter.rotates) {
+    } else if (oter.has_flag(rotates)) {
         // add north/east/south/west variants
 
         for( int i = start_iid; i < start_iid + 5; i++ ) {
@@ -2834,7 +2834,7 @@ bool overmap::is_road(int x, int y, int z)
             }
         }
     }
-    return ter(x, y, z).t().is_road;
+    return ter(x, y, z).t().has_flag(road_tile);
     //oter_t(ter(x, y, z)).is_road;
 }
 
@@ -3331,7 +3331,7 @@ void overmap::place_special(overmap_special special, tripoint p, int rotation)
         tripoint rp = rotate_tripoint(terrain.p, rotation);
         tripoint location = tripoint(p.x + rp.x, p.y + rp.y, p.z + rp.z);
 
-        if(!t.rotates) {
+        if(!t.has_flag(rotates)) {
             this->ter(location.x, location.y, location.z) = terrain.terrain;
         } else {
             this->ter(location.x, location.y, location.z) = rotate(terrain.terrain, rotation);
@@ -3390,7 +3390,7 @@ void overmap::place_special(overmap_special special, tripoint p, int rotation)
             default:
                 break;
             }
-            if(ter(conn.x, conn.y, p.z).t().allow_road) {
+            if(ter(conn.x, conn.y, p.z).t().has_flag(allow_road)) {
                 make_hiway(conn.x, conn.y, closest.x, closest.y, p.z, "road");
             } else { // in case the entrance does not come out the top, try wherever possible...
                 conn = connection.second;
@@ -3411,7 +3411,7 @@ void overmap::place_special(overmap_special special, tripoint p, int rotation)
 oter_id overmap::rotate(const oter_id &oter, int dir)
 {
     const oter_t &otert = oter;
-    if (! otert.rotates  && dir != 0) {
+    if (! otert.has_flag(rotates) && dir != 0) {
         debugmsg("%s does not rotate.", oter.c_str());
         return oter;
     }
