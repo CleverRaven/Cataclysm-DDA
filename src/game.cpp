@@ -841,11 +841,11 @@ bool game::cleanup_at_end()
             vRip.push_back("|                                  ( ");
             iInfoLine = vRip.size();
             vRip.push_back("|                                   |");
-            vRip.push_back(" \\_                               _/");
-            vRip.push_back("   \\_%                         ._/  ");
-            vRip.push_back("   @`\\_                       _/%%  ");
-            vRip.push_back("  %@%@%\\_              *    _/%`%@% ");
-            vRip.push_back(" %@@@.%@%\\%%           `\\ %%.%%@@%@");
+            vRip.push_back("|                                   |");
+            vRip.push_back("|     %                         .   |");
+            vRip.push_back("|  @`                            %% |");
+            vRip.push_back("| %@%@%\                *      %`%@%|");
+            vRip.push_back("%%@@@.%@%\\%%           `\\ %%.%%@@%@");
             vRip.push_back("@%@@%%%%%@@@@@@%%%%%%%%@@%%@@@%%%@%%@");
         }
 
