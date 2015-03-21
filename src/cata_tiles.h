@@ -124,8 +124,8 @@ class cata_tiles
         /** How many rows and columns of tiles fit into given dimensions **/
         void get_window_tile_counts(const int width, const int height, int &columns, int &rows) const;
 
-        bool draw_from_id_string(std::string id, int x, int y, int subtile, int rota);
-        bool draw_from_id_string(std::string id, tile_category category,
+        bool draw_from_id_string(std::string const &id, int x, int y, int subtile, int rota);
+        bool draw_from_id_string(std::string const &id, tile_category category,
                                  const std::string &subcategory, int x, int y, int subtile, int rota);
         void draw_tile_at(tile_type const &tile, int x, int y, int rota);
 
@@ -212,6 +212,9 @@ class cata_tiles
         tile_map tile_values;
         tile_id_map tile_ids;
 
+        using seasonal_variation_t = std::array<tile_type const*, 4>;
+        std::unordered_map<std::string, seasonal_variation_t> seasonal_variations_;
+
         int tile_height = 0;
         int tile_width  = 0;
         
@@ -226,7 +229,6 @@ class cata_tiles
         float tile_ratiox = 0.0f;
         float tile_ratioy = 0.0f;
 
-        bool in_animation      = false;
         bool do_draw_explosion = false;
         bool do_draw_bullet    = false;
         bool do_draw_hit       = false;

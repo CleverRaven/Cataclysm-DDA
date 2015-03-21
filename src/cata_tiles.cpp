@@ -40,6 +40,28 @@ enum multitile_type : int {
     num_multitile_types
 };
 
+std::string const& to_string(multitile_type const mt)
+{
+    constexpr int size = static_cast<int>(multitile_type::num_multitile_types);
+    static std::array<std::string, size> const strings {{
+        "center",
+        "corner",
+        "edge",
+        "t_connection",
+        "end_piece",
+        "unconnected",
+        "open",
+        "broken",
+    }};
+
+    auto const i = static_cast<int>(mt);
+    if (i < 0 || i >= size) {
+        dbg(D_ERROR) << "bad multitile_type value";
+    }
+
+    return strings[i];
+}
+
 // Make sure to change TILE_CATEGORY_IDS if this changes!
 enum class tile_category : int {
     none,
@@ -57,7 +79,8 @@ enum class tile_category : int {
     num_tile_categories
 };
 
-std::string const& to_string(tile_category const cat) {
+std::string const& to_string(tile_category const cat)
+{
     constexpr int size = static_cast<int>(tile_category::num_tile_categories);
     static std::array<std::string, size> const strings {{
         "",
@@ -435,6 +458,9 @@ void cata_tiles::load_ascii_set(JsonObject &entry, int const offset, int const s
     // F is replaced by foreground (converted to char)
     // B is replaced by background (converted to char)
     std::string id("ASCII_XFB");
+    id[7] = static_cast<char>(FG);
+    id[8] = static_cast<char>(-1);
+
     // Finally load all 256 ascii chars (actually extended ascii)
     for (int ascii_char = 0; ascii_char < 256; ascii_char++) {
         const int index_in_image = ascii_char + in_image_offset;
@@ -442,10 +468,8 @@ void cata_tiles::load_ascii_set(JsonObject &entry, int const offset, int const s
             // Out of range is ignored for now.
             continue;
         }
+
         id[6] = static_cast<char>(ascii_char);
-        id[7] = static_cast<char>(FG);
-        id[8] = static_cast<char>(-1);
-        
         tile_type& curr_tile = (tile_ids[id] = tile_type(index_in_image + offset, 0));
 
         switch(ascii_char) {
@@ -531,6 +555,15 @@ void cata_tiles::load_tilejson_from_file(JsonObject &config, int const offset, i
     dbg( D_INFO ) << "Tile Width: " << tile_width << " Tile Height: " << tile_height << " Tile Definitions: " << tile_ids.size();
 }
 
+bool ends_with(std::string const &s, std::string const &ending)
+{
+    if (ending.size() > s.size()) {
+        return false;
+    }
+
+    return std::equal(ending.rbegin(), ending.rend(), s.rbegin());
+}
+
 tile_type& cata_tiles::load_tile(JsonObject &entry, const std::string &id,
     int const offset, int const size)
 {
@@ -552,10 +585,26 @@ tile_type& cata_tiles::load_tile(JsonObject &entry, const std::string &id,
         bg += offset;
     }
     
-    return (tile_ids[id] = tile_type(fg, bg));
+    tile_type &result = (tile_ids[id] = tile_type(fg, bg));
+
+    static std::array<std::string, 4> const suffixes {{
+        "_season_spring", "_season_summer", "_season_autumn", "_season_winter"
+    }};
+
+    int i = 0;
+    if (ends_with(id, suffixes[i++]) || ends_with(id, suffixes[i++]) ||
+        ends_with(id, suffixes[i++]) || ends_with(id, suffixes[i++]))
+    {
+        OutputDebugStringA(id.c_str());
+        OutputDebugStringA("\n");
+        seasonal_variations_[id][i - 1] = &result;
+    }
+   
+    return result;
 }
 
-void cata_tiles::draw(int destx, int desty, int centerx, int centery, int width, int height)
+void cata_tiles::draw(int const destx, int const desty, int const centerx, int const centery,
+    int const width, int const height)
 {
     if (!g) {
         return;
@@ -567,90 +616,84 @@ void cata_tiles::draw(int destx, int desty, int centerx, int centery, int width,
         SDL_RenderSetClipRect(renderer, &clipRect);
     }
 
-    int posx = centerx;
-    int posy = centery;
-
-    int sx, sy;
-    get_window_tile_counts(width, height, sx, sy);
-
     init_light();
 
-    int x, y;
-    light_type l;
+    // Rounding up to include incomplete tiles at the bottom/right edges
+    int const sx = (width  + tile_width  - 1) / tile_width;
+    int const sy = (height + tile_height - 1) / tile_height;
 
-    o_x = posx - POSX;
-    o_y = posy - POSY;
+    o_x  = centerx - POSX;
+    o_y  = centery - POSY;
     op_x = destx;
     op_y = desty;
-    // Rounding up to include incomplete tiles at the bottom/right edges
-    screentile_width = (width + tile_width - 1) / tile_width;
-    screentile_height = (height + tile_height - 1) / tile_height;
+    screentile_width  = sx;
+    screentile_height = sy;
 
     for (int my = 0; my < sy; ++my) {
         for (int mx = 0; mx < sx; ++mx) {
-            x = mx + o_x;
-            y = my + o_y;
-            l = light_at(x, y);
-            const auto critter = g->critter_at( x, y );
-            if (l != light_type::clear) {
-                // Draw lighting
-                draw_lighting(x, y, l);
-                if( critter != nullptr && g->u.sees_with_infrared( *critter ) ) {
-                    draw_from_id_string( "infrared_creature", tile_category::none, empty_string, x, y, 0, 0 );
+            int const x = mx + o_x;
+            int const y = my + o_y;
+
+            const auto critter = g->critter_at(x, y);
+            
+            if (draw_lighting(x, y, light_at(x, y))) {
+                if (critter && g->u.sees_with_infrared(*critter)) {
+                    draw_from_id_string("infrared_creature", x, y, 0, 0);
                 }
                 continue;
             }
+
             // light is no longer being considered, for now.
-            // Draw Terrain if possible. If not possible then we need to continue on to the next part of loop
+            // Draw Terrain if possible. If not possible then we need to continue.
             if (!draw_terrain(x, y)) {
                 continue;
             }
+
             draw_furniture(x, y);
             draw_trap(x, y);
             draw_field_or_item(x, y);
             draw_vpart(x, y);
-            if( critter != nullptr ) {
-                draw_entity( *critter, x, y );
+            
+            if (critter) {
+                draw_entity(*critter, x, y);
             }
         }
     }
-    in_animation = do_draw_explosion || do_draw_bullet || do_draw_hit ||
-                   do_draw_line || do_draw_weather || do_draw_sct ||
-                   do_draw_zones;
 
     draw_footsteps_frame();
-    if (in_animation) {
-        if (do_draw_explosion) {
-            draw_explosion_frame();
-        }
-        if (do_draw_bullet) {
-            draw_bullet_frame();
-        }
-        if (do_draw_hit) {
-            draw_hit_frame();
-            void_hit();
-        }
-        if (do_draw_line) {
-            draw_line();
-            void_line();
-        }
-        if (do_draw_weather) {
-            draw_weather_frame();
-            void_weather();
-        }
-        if (do_draw_sct) {
-            draw_sct_frame();
-            void_sct();
-        }
-        if (do_draw_zones) {
-            draw_zones_frame();
-            void_zones();
-        }
+
+    if (do_draw_explosion) {
+        draw_explosion_frame();
     }
+    if (do_draw_bullet) {
+        draw_bullet_frame();
+    }
+    if (do_draw_hit) {
+        draw_hit_frame();
+        void_hit();
+    }
+    if (do_draw_line) {
+        draw_line();
+        void_line();
+    }
+    if (do_draw_weather) {
+        draw_weather_frame();
+        void_weather();
+    }
+    if (do_draw_sct) {
+        draw_sct_frame();
+        void_sct();
+    }
+    if (do_draw_zones) {
+        draw_zones_frame();
+        void_zones();
+    }
+
     // check to see if player is located at ter
-    else if (g->u.posx() + g->u.view_offset_x != g->ter_view_x ||
-             g->u.posy() + g->u.view_offset_y != g->ter_view_y) {
-        draw_from_id_string("cursor", tile_category::none, empty_string, g->ter_view_x, g->ter_view_y, 0, 0);
+    int const tx = g->ter_view_x;
+    int const ty = g->ter_view_y;
+    if (g->u.posx() + g->u.view_offset_x != tx || g->u.posy() + g->u.view_offset_y != ty) {
+        draw_from_id_string("cursor", tx, ty, 0, 0);
     }
 
     SDL_RenderSetClipRect(renderer, nullptr);
@@ -662,101 +705,67 @@ void cata_tiles::clear_buffer()
     SDL_RenderClear(renderer);
 }
 
-void cata_tiles::get_window_tile_counts(const int width, const int height, int &columns, int &rows) const
+bool cata_tiles::draw_from_id_string(std::string const &id, int x, int y, int subtile, int rota)
 {
-    columns = ceil((double) width / tile_width);
-    rows = ceil((double) height / tile_height);
-}
-
-bool cata_tiles::draw_from_id_string(std::string id, int x, int y, int subtile, int rota)
-{
-    return cata_tiles::draw_from_id_string(std::move(id), tile_category::none, empty_string, x, y, subtile, rota);
+    return cata_tiles::draw_from_id_string(id, tile_category::none, empty_string, x, y, subtile, rota);
 }
 
 //--------------------------------------------------------------------------------------------------
-template <typename Container, typename Iterator = typename Container::const_iterator>
-Iterator find_tile_seasonal(Container const &ids, std::string& id, season_type const season)
+template <typename Container>
+tile_type const* file_tile_category(
+    Container const &ids, std::string const &id, tile_category const cat, std::string const &sub_cat)
 {
-    constexpr size_t suffix_len = 15;
-    constexpr char season_suffix[4][suffix_len] = {
-        "_season_spring", "_season_summer", "_season_autumn", "_season_winter"};
-   
-    std::string seasonal_id = id + season_suffix[season];
+    long     sym = -1;
+    nc_color col = c_white;
 
-    auto it = ids.find(seasonal_id);
-    if (it != ids.end()) {
-        id = std::move(seasonal_id);
-        return it;
-    }
-
-    return ids.find(id);
-}
-
-//--------------------------------------------------------------------------------------------------
-long transform_symbol(long const sym) noexcept
-{
-    // Special cases for walls
-    switch (sym) {
-    case LINE_XOXO: return LINE_XOXO_C;
-    case LINE_OXOX: return LINE_OXOX_C;
-    case LINE_XXOO: return LINE_XXOO_C;
-    case LINE_OXXO: return LINE_OXXO_C;
-    case LINE_OOXX: return LINE_OOXX_C;
-    case LINE_XOOX: return LINE_XOOX_C;
-    case LINE_XXXO: return LINE_XXXO_C;
-    case LINE_XXOX: return LINE_XXOX_C;
-    case LINE_XOXX: return LINE_XOXX_C;
-    case LINE_OXXX: return LINE_OXXX_C;
-    case LINE_XXXX: return LINE_XXXX_C;
-    }
-
-    // sym goes unchanged
-    return sym;
-}
-
-std::pair<long, nc_color>
-get_tile_category_info(std::string const &id, tile_category const cat, std::string const &sub_cat)
-{
     switch (cat) {
     case tile_category::none :
         break;
     case tile_category::vehicle_part : {
+        // TODO reset rotation here.
         auto const it = vehicle_part_types.find(id.substr(3));
         if (it != vehicle_part_types.end()) {
-            return {
-                transform_symbol(sub_cat.empty() ? it->second.sym : special_symbol(sub_cat[0])),
-                it->second.color
-            };
+            if (sub_cat.empty()) {
+                sym = it->second.sym;
+            } else {
+                sym = special_symbol(sub_cat[0]);
+            }
+            col = it->second.color;
         }
     } break;
     case tile_category::terrain : {
         auto const it = termap.find(id);
         if (it != termap.end()) {
-            return {transform_symbol(it->second.sym), it->second.color};
+            sym = it->second.sym;
+            col = it->second.color;
         }
     } break;
     case tile_category::item :
         if (auto const it = item_controller->find_template(id)) {
-            return {transform_symbol(it->sym), it->color};
+            sym = it->sym;
+            col = it->color;
         }
         break;
     case tile_category::furniture : {
         auto const it = furnmap.find(id);       
         if (it != furnmap.end()) {
-            return {transform_symbol(it->second.sym), it->second.color};
+            sym = it->second.sym;
+            col = it->second.color;
         }
     } break;
     case tile_category::trap : {
         auto const it = trapmap.find(id);
         if (it != trapmap.end()) {
             auto const& trap = *traplist[it->second];
-            return {transform_symbol(trap.sym), trap.color};
+            sym = trap.sym;
+            col = trap.color;
         }
     } break;
     case tile_category::field : {
         // TODO: field density?    
         auto const &f = fieldlist[field_from_ident(id)];
-        return {transform_symbol(f.sym), f.color[0]};
+        sym = f.sym;
+        col = f.color[0];
     } break;
     case tile_category::lighting :
         break;
@@ -766,7 +775,8 @@ get_tile_category_info(std::string const &id, tile_category const cat, std::stri
             const mtype *m = MonsterGenerator::generator().get_mtype(id);
             int len = m->sym.length();
             const char *s = m->sym.c_str();
-            return {UTF8_getch(&s, &len), m->color};
+            sym = UTF8_getch(&s, &len);
+            col = m->color;
         }
         break;
     case tile_category::bullet :
@@ -779,7 +789,50 @@ get_tile_category_info(std::string const &id, tile_category const cat, std::stri
         break;
     }
 
-    return {-1, c_white};
+    // Special cases for walls
+    switch (sym) {
+    case LINE_XOXO: sym = LINE_XOXO_C; break;
+    case LINE_OXOX: sym = LINE_OXOX_C; break;
+    case LINE_XXOO: sym = LINE_XXOO_C; break;
+    case LINE_OXXO: sym = LINE_OXXO_C; break;
+    case LINE_OOXX: sym = LINE_OOXX_C; break;
+    case LINE_XOOX: sym = LINE_XOOX_C; break;
+    case LINE_XXXO: sym = LINE_XXXO_C; break;
+    case LINE_XXOX: sym = LINE_XXOX_C; break;
+    case LINE_XOXX: sym = LINE_XOXX_C; break;
+    case LINE_OXXX: sym = LINE_OXXX_C; break;
+    case LINE_XXXX: sym = LINE_XXXX_C; break;
+    default: break;
+    }
+
+    if (sym < 0 || sym > 255) {
+        return nullptr;
+    }
+
+    // see cursesport.cpp, function wattron
+    const int FG = colorpairs[(col & A_COLOR) >> 17].FG + (col & A_BOLD ? 8 : 0);
+
+    // static so it does not need to be allocated every time,
+    // see load_ascii_set for the meaning
+    //                              012345678
+    static std::string generic_id {"ASCII_XFG"};
+        
+    generic_id[6] = static_cast<char>(sym);
+    generic_id[7] = static_cast<char>(FG);
+    generic_id[8] = static_cast<char>(-1);
+
+    auto it = ids.find(generic_id);
+    if (it != ids.end()) {
+        return &it->second;
+    }
+    
+    // Try again without color this time (using default color).
+    generic_id[7] = static_cast<char>(-1);
+    if ((it = ids.find(generic_id)) != ids.end()) {
+        return &it->second;
+    }
+
+    return nullptr;
 }
 
 void cata_tiles::draw_tile_at(tile_type const &tile, int const x, int const y, int const rota)
@@ -835,16 +888,8 @@ void cata_tiles::draw_tile_at(tile_type const &tile, int const x, int const y, i
 
 //--------------------------------------------------------------------------------------------------
 template <typename Container, typename Iterator = typename Container::const_iterator>
-Iterator find_tile_fallback(Container const &ids, Iterator it,
-    tile_category const cat, std::string const &sub_cat)
+Iterator find_tile_fallback(Container const &ids, tile_category const cat, std::string const &sub_cat)
 {
-    auto const end = std::end(ids);
-
-    // already have a good tile
-    if (it != end) {
-        return it;
-    }
-    
     static std::string const unknown {"unknown"};
 
     // with no category there is nothing more we can do ~> unknown
@@ -854,21 +899,39 @@ Iterator find_tile_fallback(Container const &ids, Iterator it,
 
     std::string const& cat_string = unknown + '_' + to_string(cat);
 
+    auto const end = std::end(ids);
+
     // try to fallback on category + subcategory first
     if (!sub_cat.empty()) {
-        it = ids.find(cat_string + '_' + sub_cat);
+        auto const it = ids.find(cat_string + '_' + sub_cat);
+        if (it != end) {
+            return it;
+        }
     }
     
     // failing that, try just the subcategory
-    if (it == end) {
-        it = ids.find(cat_string);
-    }
+    auto const it = ids.find(cat_string);
 
     // finally, fall back on unknown
     return (it != end) ? it : ids.find(unknown);
 }
 
-bool cata_tiles::draw_from_id_string(std::string id, tile_category category,
+//--------------------------------------------------------------------------------------------------
+std::string const* find_tile_multitile(tile_type const& tile, int const subtile)
+{
+    if (!tile.multitile || subtile < 0) {
+        return nullptr;
+    }
+
+    std::string const &key = to_string(static_cast<multitile_type>(subtile));
+
+    auto const &sub_tiles = tile.available_subtiles;
+    auto const it = std::find(begin(sub_tiles), end(sub_tiles), key);
+
+    return (it != std::end(sub_tiles)) ? &key : nullptr;
+}
+
+bool cata_tiles::draw_from_id_string(std::string const &id, tile_category category,
     const std::string &subcategory, int const x, int const y, int const subtile, int rota)
 {
     // If the ID string does not produce a drawable tile
@@ -877,86 +940,77 @@ bool cata_tiles::draw_from_id_string(std::string id, tile_category category,
 
     // check to make sure that we are drawing within a valid area
     // [0->width|height / tile_width|height]
-    if( x - o_x < 0 || x - o_x >= screentile_width ||
-        y - o_y < 0 || y - o_y >= screentile_height ) {
+    
+    int const x0 = x - o_x;
+    int const y0 = y - o_y;
+    
+    if (x0 < 0 || x0 >= screentile_width || y0 < 0 || y0 >= screentile_height) {
         return false;
     }
 
-    auto it = find_tile_seasonal(tile_ids, id, calendar::turn.get_season());
+    // translate from player-relative to screen relative tile position
+    const int screen_x = x0 * tile_width  + op_x;
+    const int screen_y = y0 * tile_height + op_y;
 
-    if (it == tile_ids.end()) {
-        long     sym;
-        nc_color col;
-        std::tie(sym, col) = get_tile_category_info(id, category, subcategory);
+    tile_type const* display_tile = nullptr;
 
-        if (sym > 0 && sym < 256) {
-            // see cursesport.cpp, function wattron
-            const int FG = colorpairs[(col & A_COLOR) >> 17].FG + (col & A_BOLD ? 8 : 0);
+    // first, look for a seasonal variation if one exists
+    auto const sit = seasonal_variations_.find(id);
+    if (sit != seasonal_variations_.end()) {
+        display_tile = sit->second[calendar::turn.get_season()];
+    }
 
-            // static so it does not need to be allocated every time,
-            // see load_ascii_set for the meaning
-            //                              012345678
-            static std::string generic_id {"ASCII_XFG"};
-        
-            generic_id[6] = static_cast<char>(sym);
-            generic_id[7] = static_cast<char>(FG);
-            generic_id[8] = static_cast<char>(-1);
-
-            if (tile_ids.count(generic_id) > 0) {
-                return draw_from_id_string(generic_id, x, y, subtile, rota);
-            }
-
-            // Try again without color this time (using default color).
-            generic_id[7] = static_cast<char>(-1);
-            generic_id[8] = static_cast<char>(-1);
-            if (tile_ids.count(generic_id) > 0) {
-                return draw_from_id_string(generic_id, x, y, subtile, rota);
-            }
+    // next, look for just the id
+    if (!display_tile) {
+        auto const it = tile_ids.find(id);
+        if (it != tile_ids.end()) {
+            display_tile = &it->second;
         }
     }
-  
-    it = find_tile_fallback(tile_ids, it, category, subcategory);
-    if (it == tile_ids.end()) {
+
+    // next, search based on category and subcategory
+    if (!display_tile) {
+        display_tile = file_tile_category(tile_ids, id, category, subcategory);
+    }
+
+    // finally, try to find a fallback
+    if (!display_tile) {
+        auto const it = find_tile_fallback(tile_ids, category, subcategory);
+        if (it != tile_ids.end()) {
+            display_tile = &it->second;
+        }
+    }
+
+    // if both bg and fg are -1 then return unknown tile
+    if (display_tile && display_tile->bg == -1 && display_tile->fg == -1) {
+        auto const it = find_tile_fallback(tile_ids, tile_category::none, subcategory);
+        display_tile = (it != tile_ids.end()) ? &it->second : nullptr;
+    }
+
+    if (!display_tile) {
         // this really shouldn't happen, but the tileset creator might have forgotten to
         // define the unknown tile.
         return false;
     }
 
-    tile_type const &display_tile = it->second;
-
-    // if both bg and fg are -1 then return unknown tile
-    if (display_tile.bg == -1 && display_tile.fg == -1) {
-        return draw_from_id_string("unknown", x, y, subtile, rota);
-    }
-
     // check to see if the display_tile is multitile, and if so if it has the key related to subtile
-    if (subtile != -1 && display_tile.multitile) {
-        auto const &display_subtiles = display_tile.available_subtiles;
-        auto const end = std::end(display_subtiles);
-        if (std::find(begin(display_subtiles), end, multitile_keys[subtile]) != end) {
-            // append subtile name to tile and re-find display_tile
-            return draw_from_id_string(
-                std::move(id.append("_", 1).append(multitile_keys[subtile])),x, y, -1, rota);
-        }
+    if (auto const suffix = find_tile_multitile(*display_tile, subtile)) {
+        return draw_from_id_string(id + '_' + *suffix, x, y, -1, rota);
     }
 
     // make sure we aren't going to rotate the tile if it shouldn't be rotated
-    if (!display_tile.rotates) {
-        rota = 0;
-    }
-
-    // translate from player-relative to screen relative tile position
-    const int screen_x = (x - o_x) * tile_width + op_x;
-    const int screen_y = (y - o_y) * tile_height + op_y;
-
-    //draw it!
-    draw_tile_at(display_tile, screen_x, screen_y, rota);
+    // draw it!
+    draw_tile_at(*display_tile, screen_x, screen_y, display_tile->rotates ? rota : 0);
 
     return true;
 }
 
 bool cata_tiles::draw_lighting(int const x, int const y, light_type const l)
 {
+    if (l == light_type::clear) {
+        return false;
+    }
+
     std::string light_name;
     switch (l) {
     case light_type::hidden:
@@ -974,14 +1028,14 @@ bool cata_tiles::draw_lighting(int const x, int const y, light_type const l)
     case light_type::boomer_dark:
         light_name = "lighting_boomered_dark";
         break;
-    case light_type::clear: // Actually handled by the caller.
+    case light_type::clear:
         return false;
     }
 
     // lighting is never rotated, though, could possibly add in random rotation?
     draw_from_id_string(light_name, tile_category::lighting, empty_string, x, y, 0, 0);
 
-    return false;
+    return true;
 }
 
 bool cata_tiles::draw_terrain(int const x, int const y)
@@ -1440,28 +1494,35 @@ void cata_tiles::draw_weather_frame()
 
 void cata_tiles::draw_sct_frame()
 {
-    for( auto iter = SCT.vSCT.begin(); iter != SCT.vSCT.end(); ++iter ) {
-        const int iDX = iter->getPosX();
-        const int iDY = iter->getPosY();
+    static std::string generic_id {"ASCII_XFB"};
+    generic_id[8] = static_cast<char>(-1);
 
-        int iOffsetX = 0;
+    static std::array<std::string, 2> const which {{
+        "first", "second"
+    }};
 
-        for (int j=0; j < 2; ++j) {
-            std::string sText = iter->getText((j == 0) ? "first" : "second");
-            int FG = msgtype_to_tilecolor( iter->getMsgType((j == 0) ? "first" : "second"),
-                                           (iter->getStep() >= SCT.iMaxSteps / 2) );
+    for (auto const &text : SCT.vSCT) {
+        const int dx = text.getPosX();
+        const int dy = text.getPosY();
 
-            for( std::string::iterator it = sText.begin(); it != sText.end(); ++it ) {
-                std::string generic_id("ASCII_XFB");
-                generic_id[6] = static_cast<char>(*it);
-                generic_id[7] = static_cast<char>(FG);
-                generic_id[8] = static_cast<char>(-1);
+        int x_off = 0;
+        bool const is_old = text.getStep() >= SCT.iMaxSteps / 2;
 
-                if (tile_ids.count(generic_id) > 0) {
-                    draw_from_id_string(generic_id, tile_category::none, empty_string, iDX + iOffsetX, iDY, 0, 0);
+        for (int i = 0; i < 2; ++i) {
+            generic_id[7] = static_cast<char>(
+                msgtype_to_tilecolor(text.getMsgType(which[i]), is_old));
+            
+            for (auto const &c : text.getText(which[i])) {
+                generic_id[6] = static_cast<char>(c);
+                auto const it = tile_ids.find(generic_id);
+                if (it != tile_ids.end()) {
+                    const int x = (dx + x_off - o_x) * tile_width  + op_x;
+                    const int y = (dy - o_y) * tile_height + op_y;
+
+                    draw_tile_at(it->second, x, y, 0);
                 }
 
-                iOffsetX++;
+                ++x_off;
             }
         }
     }
@@ -1476,9 +1537,9 @@ void cata_tiles::draw_zones_frame()
         item_highlight_available = true;
     }
 
-    for (int iY=pStartZone.y; iY <= pEndZone.y; ++iY) {
-        for (int iX=pStartZone.x; iX <= pEndZone.x; ++iX) {
-            draw_from_id_string(ITEM_HIGHLIGHT, tile_category::none, empty_string, iX + pZoneOffset.x, iY + pZoneOffset.y, 0, 0);
+    for (int y = pStartZone.y; y <= pEndZone.y; ++y) {
+        for (int x = pStartZone.x; x <= pEndZone.x; ++x) {
+            draw_from_id_string(ITEM_HIGHLIGHT, x + pZoneOffset.x, y + pZoneOffset.y, 0, 0);
         }
     }
 
