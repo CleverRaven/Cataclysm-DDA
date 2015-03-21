@@ -8,8 +8,10 @@
 #include <fstream>
 #include <unordered_map>
 #include <vector>
+#include <array>
 
 struct SDL_Renderer;
+struct SDL_Texture;
 
 class JsonObject;
 class Creature;
