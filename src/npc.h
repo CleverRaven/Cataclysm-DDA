@@ -712,15 +712,7 @@ public:
      * posx += SEEX; mapx -= 1;
      * This does not change the global position of the NPC.
      */
-    tripoint global_square_location() const;
-    /**
-     * Returns the location of the NPC in global submap coordinates.
-     */
-    tripoint global_sm_location() const;
-    /**
-     * Returns the location of the NPC in global overmap terrain coordinates.
-     */
-    tripoint global_omt_location() const;
+    tripoint global_square_location() const override;
  int plx, ply, plt;// Where we last saw the player, timeout to forgetting
  int itx, ity; // The square containing an item we want
  int guardx, guardy;  // These are the local coordinates that a guard will return to inside of their goal tripoint

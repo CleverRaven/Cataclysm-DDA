@@ -681,24 +681,6 @@ bool &overmap::explored(int x, int y, int z)
     return layer[z + OVERMAP_DEPTH].explored[x][y];
 }
 
-// this uses om_pos (overmap tiles, aka levxy / 2)
-bool overmap::is_safe(int x, int y, int z)
-{
-    // use the monsters_at function of the overmapbuffer, which requires *absolute*
-    // coordinates. is_safe should be moved to the overmapbuffer, too.
-    std::vector<mongroup *> mons = overmap_buffer.monsters_at( x + loc.x * OMAPX, y + loc.y * OMAPY, z );
-    if (mons.empty()) {
-        return true;
-    }
-
-    for (auto &n : mons) {
-        if (!n->is_safe()) {
-            return false;
-        }
-    }
-    return true;
-}
-
 bool overmap::is_explored(int const x, int const y, int const z) const
 {
     if (x < 0 || x >= OMAPX || y < 0 || y >= OMAPY || z < -OVERMAP_DEPTH || z > OVERMAP_HEIGHT) {
@@ -1245,48 +1227,6 @@ std::vector<point> overmap::find_terrain(const std::string &term, int zlevel)
     return found;
 }
 
-int overmap::closest_city(point p)
-{
-    int distance = 999;
-    size_t ret = -1;
-    for (size_t i = 0; i < cities.size(); i++) {
-        int dist = rl_dist(p.x, p.y, cities[i].x, cities[i].y);
-        if (dist < distance || (dist == distance && cities[i].s < cities[ret].s)) {
-            ret = i;
-            distance = dist;
-        }
-    }
-
-    return ret;
-}
-
-point overmap::random_house_in_city(int city_id)
-{
-    if (city_id < 0 || size_t(city_id) >= cities.size()) {
-        debugmsg("overmap::random_house_in_city(%d) (max %d)", city_id,
-                 cities.size() - 1);
-        return point(-1, -1);
-    }
-
-    std::vector<point> valid;
-    int startx = cities[city_id].x - cities[city_id].s;
-    int endx   = cities[city_id].x + cities[city_id].s;
-    int starty = cities[city_id].y - cities[city_id].s;
-    int endy   = cities[city_id].y + cities[city_id].s;
-    for (int x = startx; x <= endx; x++) {
-        for (int y = starty; y <= endy; y++) {
-            if (check_ot_type("house", x, y, 0)) {
-                valid.push_back( point(x, y) );
-            }
-        }
-    }
-    if (valid.empty()) {
-        return point(-1, -1);
-    }
-
-    return valid[ rng(0, valid.size() - 1) ];
-}
-
 int overmap::dist_from_city(point p)
 {
     int distance = 999;
@@ -1692,12 +1632,12 @@ void overmap::draw(WINDOW *w, WINDOW *wbar, const tripoint &center,
 
 tripoint overmap::draw_overmap()
 {
-    return draw_overmap(g->om_global_location());
+    return draw_overmap(g->global_omt_location());
 }
 
 tripoint overmap::draw_overmap(int z)
 {
-    tripoint loc = g->om_global_location();
+    tripoint loc = g->global_omt_location();
     loc.z = z;
     return draw_overmap(loc);
 }
@@ -1975,7 +1915,6 @@ void overmap::move_hordes()
 */
 void overmap::signal_hordes( const int x, const int y, const int sig_power)
 {
-    // TODO: Signal adjacent overmaps too. (the 3 nearest ones)
     for( auto &elem : zg ) {
         mongroup &mg = elem.second;
         if( !mg.horde ) {

@@ -663,7 +663,7 @@ long pick_lock_actor::use( player *p, item *it, bool, point ) const
         it->damage < 100 ) {
         sounds::sound( p->posx(), p->posy(), 40, _( "An alarm sounds!" ) );
         if( !g->event_queued( EVENT_WANTED ) ) {
-            g->add_event( EVENT_WANTED, int( calendar::turn ) + 300, 0, g->get_abs_levx(), g->get_abs_levy() );
+            g->add_event( EVENT_WANTED, int( calendar::turn ) + 300, 0, p->global_sm_location() );
         }
     }
     // Special handling, normally the item isn't used up, but it is if broken.
@@ -694,9 +694,9 @@ void reveal_map_actor::load( JsonObject &obj )
 
 void reveal_map_actor::reveal_targets( const std::string &target, int reveal_distance ) const
 {
-    const auto places = overmap_buffer.find_all( g->om_global_location(), target, radius, false );
+    const auto places = overmap_buffer.find_all( g->global_omt_location(), target, radius, false );
     for( auto & place : places ) {
-        overmap_buffer.reveal( place, reveal_distance, g->levz );
+        overmap_buffer.reveal( place, reveal_distance, g->get_levz() );
     }
 }
 
@@ -705,7 +705,7 @@ long reveal_map_actor::use( player *p, item *it, bool, point ) const
     if( it->already_used_by_player( *p ) ) {
         p->add_msg_if_player( _( "There isn't anything new on the %s." ), it->tname().c_str() );
         return 0;
-    } else if( g->levz < 0 ) {
+    } else if( g->get_levz() < 0 ) {
         p->add_msg_if_player( _( "You should read your %s when you get to the surface." ),
                               it->tname().c_str() );
         return 0;

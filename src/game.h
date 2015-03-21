@@ -141,10 +141,11 @@ class game
          * @param type Type of event.
          * @param on_turn On which turn event should be happened.
          * @param faction_id Faction of event.
-         * @param x,y global submap coordinates.
+         * @param where The location of the event, optional, defaults to the center of the
+         * reality bubble. In global submap coordinates.
          */
-        void add_event(event_type type, int on_turn, int faction_id = -1,
-                       int x = INT_MIN, int y = INT_MIN);
+        void add_event(event_type type, int on_turn, int faction_id = -1);
+        void add_event(event_type type, int on_turn, int faction_id, tripoint where);
         bool event_queued(event_type type);
         /** Create explosion at (x, y) of intensity (power) with (shrapnel) chunks of shrapnel. */
         void explosion(int x, int y, int power, int shrapnel, bool fire, bool blast = true);
@@ -201,8 +202,6 @@ class game
         bool is_in_sunlight(int x, int y);
         /** Returns true if (x, y) is indoors, underground, or in a car. */
         bool is_sheltered(int x, int y);
-        /** Returns true if the given point is in an ice lab. */
-        bool is_in_ice_lab(point location);
         /** Revives the corpse with position n in the items at (x, y). Returns true if successful. */
         bool revive_corpse(int x, int y, int n);
         /** Revives the corpse at (x, y) by item pointer. Caller handles item deletion. */
@@ -245,8 +244,7 @@ class game
          *  active_missions.  The function returns the UID of the new mission, which can
          *  then be passed to a MacGuffin or something else that needs to track a mission. */
         int reserve_mission(mission_id type, int npc_id = -1);
-        int reserve_random_mission(mission_origin origin, point p = point(-1, -1),
-                                   int npc_id = -1);
+        int reserve_random_mission(mission_origin origin, tripoint p, int npc_id);
         npc *find_npc(int id);
         /** Makes any nearby NPC's on the overmap active. */
         void load_npcs();
@@ -302,12 +300,16 @@ class game
         void update_map(player *p);
         void update_map(int &x, int &y);
         void update_overmap_seen(); // Update which overmap tiles we can see
-        // Position of the player in overmap terrain coordinates, relative
-        // to the current overmap (@ref cur_om).
-        point om_location() const;
-        // Position of the player in overmap terrain coordinates,
-        // in global overmap terrain coordinates.
-        tripoint om_global_location() const;
+        /**
+         * Position of the player in global overmap terrain coordinates. This is specifically
+         * the center of the reality bubble.
+         */
+        tripoint global_omt_location() const;
+        /**
+         * Position of the player in global submap coordinates. This is specifically
+         * the center of the reality bubble.
+         */
+        tripoint global_sm_location() const;
 
         void process_artifact(item *it, player *p);
         void add_artifact_messages(std::vector<art_effect_passive> effects);
@@ -379,14 +381,24 @@ class game
         bool lightning_active;
 
         std::map<int, weather_segment> weather_log;
-        overmap *cur_om;
         map m;
 
-        int levx, levy, levz; // Placement inside the overmap
-        /** Absolute values of lev[xyz] (includes the offset of cur_om) */
-        int get_abs_levx() const;
-        int get_abs_levy() const;
-        int get_abs_levz() const;
+        /**
+         * The top left corner of the reality bubble (in submaps coordinates). This is the same
+         * as @ref map::abs_sub of the @ref m map.
+         */
+        int get_levx() const;
+        int get_levy() const;
+        int get_levz() const;
+        /**
+         * Load the main map at given location, see @ref map::load, in global, absolute submap
+         * coordinates.
+         */
+        void load_map( tripoint pos_sm );
+        /**
+         * The overmap which is at the top left corner of the reality bubble.
+         */
+        overmap &get_cur_om() const;
         player u;
         scenario *scen;
         std::vector<monster> coming_to_stairs;

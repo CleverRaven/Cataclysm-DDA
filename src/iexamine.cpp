@@ -540,7 +540,7 @@ void iexamine::elevator(player *p, map *m, int examx, int examy)
     if (!query_yn(_("Use the %s?"), m->tername(examx, examy).c_str())) {
         return;
     }
-    int movez = (g->levz < 0 ? 2 : -2);
+    int movez = (g->get_levz() < 0 ? 2 : -2);
     g->vertical_move( movez, false );
 }
 
@@ -1048,8 +1048,8 @@ void iexamine::gunsafe_el(player *p, map *m, int examx, int examy)
             p->add_memorial_log(pgettext("memorial_male", "Set off an alarm."),
                                 pgettext("memorial_female", "Set off an alarm."));
             sounds::sound(p->posx(), p->posy(), 60, _("An alarm sounds!"));
-            if (g->levz > 0 && !g->event_queued(EVENT_WANTED)) {
-                g->add_event(EVENT_WANTED, int(calendar::turn) + 300, 0, g->levx, g->levy);
+            if (g->get_levz() > 0 && !g->event_queued(EVENT_WANTED)) {
+                g->add_event(EVENT_WANTED, int(calendar::turn) + 300, 0, p->global_sm_location());
             }
         } else if (success < 6) {
             add_msg(_("Nothing happens."));
@@ -3025,8 +3025,8 @@ void iexamine::pay_gas(player *p, map *m, const int examx, const int examy)
                 p->add_memorial_log(pgettext("memorial_male", "Set off an alarm."),
                                       pgettext("memorial_female", "Set off an alarm."));
                 sounds::sound(p->posx(), p->posy(), 60, _("An alarm sounds!"));
-                if (g->levz > 0 && !g->event_queued(EVENT_WANTED)) {
-                    g->add_event(EVENT_WANTED, int(calendar::turn) + 300, 0, g->levx, g->levy);
+                if (g->get_levz() > 0 && !g->event_queued(EVENT_WANTED)) {
+                    g->add_event(EVENT_WANTED, int(calendar::turn) + 300, 0, p->global_sm_location());
                 }
             } else if (success < 6) {
                 add_msg(_("Nothing happens."));

@@ -766,7 +766,7 @@ void player::update_bodytemp()
     if( veh ) {
         vehwindspeed = abs(veh->velocity / 100); // vehicle velocity in mph
     }
-    const oter_id &cur_om_ter = overmap_buffer.ter(g->om_global_location());
+    const oter_id &cur_om_ter = overmap_buffer.ter(g->global_omt_location());
     std::string omtername = otermap[cur_om_ter].name;
     bool sheltered = g->is_sheltered(posx(), posy());
     int total_windpower = get_local_windpower(weather.windpower + vehwindspeed, omtername, sheltered);
@@ -1860,21 +1860,21 @@ void player::memorial( std::ofstream &memorial_file, std::string epitaph )
     }
 
     //Figure out the location
-    const oter_id &cur_ter = overmap_buffer.ter(g->om_global_location());
-    point cur_loc = g->om_location();
+    const oter_id &cur_ter = overmap_buffer.ter(g->global_omt_location());
     std::string tername = otermap[cur_ter].name;
 
     //Were they in a town, or out in the wilderness?
-    int city_index = g->cur_om->closest_city(cur_loc);
+    const auto global_sm_pos = g->global_sm_location();
+    const auto closest_city = overmap_buffer.closest_city( point( global_sm_pos.x, global_sm_pos.y ) );
     std::string kill_place;
-    if(city_index < 0) {
+    if( !closest_city ) {
         //~ First parameter is a pronoun (“He”/“She”), second parameter is a terrain name.
         kill_place = string_format(_("%s was killed in a %s in the middle of nowhere."),
                      pronoun.c_str(), tername.c_str());
     } else {
-        city nearest_city = g->cur_om->cities[city_index];
+        const auto &nearest_city = *closest_city.city;
         //Give slightly different messages based on how far we are from the middle
-        int distance_from_city = abs(g->cur_om->dist_from_city(cur_loc));
+        const int distance_from_city = closest_city.distance - nearest_city.s;
         if(distance_from_city > nearest_city.s + 4) {
             //~ First parameter is a pronoun (“He”/“She”), second parameter is a terrain name.
             kill_place = string_format(_("%s was killed in a %s in the wilderness."),
@@ -2130,7 +2130,7 @@ void player::add_memorial_log(const char* male_msg, const char* female_msg, ...)
                                calendar::turn.days() + 1, calendar::turn.print_time().c_str()
                                );
 
-    const oter_id &cur_ter = overmap_buffer.ter(g->om_global_location());
+    const oter_id &cur_ter = overmap_buffer.ter(g->global_omt_location());
     std::string location = otermap[cur_ter].name;
 
     std::stringstream log_message;
@@ -4052,6 +4052,22 @@ float player::active_light()
     return lumination;
 }
 
+tripoint player::global_square_location() const
+{
+    const auto abs_pos = g->m.getabs( position.x, position.y );
+    return tripoint( abs_pos.x, abs_pos.y, g->get_levz() ); // player is always at levz
+}
+
+tripoint player::global_sm_location() const
+{
+    return overmapbuffer::ms_to_sm_copy( global_square_location() );
+}
+
+tripoint player::global_omt_location() const
+{
+    return overmapbuffer::ms_to_omt_copy( global_square_location() );
+}
+
 const point &player::pos() const
 {
     return position;
@@ -4088,7 +4104,7 @@ int player::unimpaired_range()
 
 bool player::overmap_los(int omtx, int omty, int sight_points)
 {
-    const tripoint ompos = g->om_global_location();
+    const tripoint ompos = g->global_omt_location();
     if (omtx < ompos.x - sight_points || omtx > ompos.x + sight_points ||
         omty < ompos.y - sight_points || omty > ompos.y + sight_points) {
         // Outside maximum sight range
@@ -13091,14 +13107,14 @@ void player::add_msg_player_or_npc(game_message_type type, const char* player_st
 bool player::knows_trap(int x, int y) const
 {
     const point a = g->m.getabs( x, y );
-    const tripoint p( a.x, a.y, g->get_abs_levz() );
+    const tripoint p( a.x, a.y, g->get_levz() );
     return known_traps.count(p) > 0;
 }
 
 void player::add_known_trap(int x, int y, const std::string &t)
 {
     const point a = g->m.getabs( x, y );
-    const tripoint p( a.x, a.y, g->get_abs_levz() );
+    const tripoint p( a.x, a.y, g->get_levz() );
     if (t == "tr_null") {
         known_traps.erase(p);
     } else {

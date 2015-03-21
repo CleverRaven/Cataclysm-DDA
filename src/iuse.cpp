@@ -3247,7 +3247,7 @@ int iuse::fishing_rod(player *p, item *it, bool, point)
         return 0;
     }
     point op = overmapbuffer::ms_to_omt_copy( g->m.getabs( dirx, diry ) );
-    if (!otermap[overmap_buffer.ter(op.x, op.y, g->levz)].is_river) {
+    if (!otermap[overmap_buffer.ter(op.x, op.y, g->get_levz())].is_river) {
         p->add_msg_if_player(m_info, _("That water does not contain any fish.  Try a river instead."));
         return 0;
     }
@@ -3299,7 +3299,7 @@ int iuse::fish_trap(player *p, item *it, bool t, point pos)
             return 0;
         }
         point op = overmapbuffer::ms_to_omt_copy(g->m.getabs(dirx, diry));
-        if (!otermap[overmap_buffer.ter(op.x, op.y, g->levz)].is_river) {
+        if (!otermap[overmap_buffer.ter(op.x, op.y, g->get_levz())].is_river) {
             p->add_msg_if_player(m_info, _("That water does not contain any fish, try a river instead."));
             return 0;
         }
@@ -3330,7 +3330,7 @@ int iuse::fish_trap(player *p, item *it, bool t, point pos)
                 return 0;
             }
             point op = overmapbuffer::ms_to_omt_copy( g->m.getabs( pos.x, pos.y ) );
-            if (!otermap[overmap_buffer.ter(op.x, op.y, g->levz)].is_river) {
+            if (!otermap[overmap_buffer.ter(op.x, op.y, g->get_levz())].is_river) {
                 return 0;
             }
             int success = -50;
@@ -3900,19 +3900,6 @@ int iuse::radio_off(player *p, item *it, bool, point)
     return it->type->charges_to_use();
 }
 
-static radio_tower *find_radio_station(int frequency)
-{
-    radio_tower *tower = NULL;
-    for (size_t k = 0; k < g->cur_om->radios.size(); k++) {
-        tower = &g->cur_om->radios[k];
-        if (0 < tower->strength - rl_dist(tower->x, tower->y, g->levx, g->levy) &&
-            tower->frequency == frequency) {
-            return tower;
-        }
-    }
-    return NULL;
-}
-
 int iuse::directional_antenna(player *p, item *it, bool, point)
 {
     // Find out if we have an active radio
@@ -3925,13 +3912,15 @@ int iuse::directional_antenna(player *p, item *it, bool, point)
     }
     const item radio = *radios.front();
     // Find the radio station its tuned to (if any)
-    radio_tower *tower = find_radio_station(radio.frequency);
-    if (tower == NULL) {
+    const auto tref = overmap_buffer.find_radio_station( radio.frequency );
+    if( !tref ) {
         add_msg(m_info, _("You can't find the direction if your radio isn't tuned."));
         return 0;
     }
     // Report direction.
-    direction angle = direction_from(g->levx, g->levy, tower->x, tower->y);
+    const auto player_pos = p->global_sm_location();
+    direction angle = direction_from( player_pos.x, player_pos.y,
+                                      tref.abs_sm_pos.x, tref.abs_sm_pos.y );
     add_msg(_("The signal seems strongest to the %s."), direction_name(angle).c_str());
     return it->type->charges_to_use();
 }
@@ -3941,19 +3930,16 @@ int iuse::radio_on(player *p, item *it, bool t, point pos)
     if (t) {
         // Normal use
         std::string message = _("Radio: Kssssssssssssh.");
-        radio_tower *selected_tower = find_radio_station(it->frequency);
-        if (selected_tower != NULL) {
+        const auto tref = overmap_buffer.find_radio_station( it->frequency );
+        if( tref ) {
+            const auto selected_tower = tref.tower;
             if (selected_tower->type == MESSAGE_BROADCAST) {
                 message = selected_tower->message;
             } else if (selected_tower->type == WEATHER_RADIO) {
-                message = weather_forecast(*selected_tower);
+                message = weather_forecast( tref.abs_sm_pos );
             }
-
-            int signal_strength = selected_tower->strength -
-                                  rl_dist(selected_tower->x, selected_tower->y, g->levx, g->levy);
-
             for( auto &elem : message ) {
-                if (dice(10, 100) > dice(10, signal_strength * 3)) {
+                if (dice(10, 100) > dice(10, tref.signal_strength * 3)) {
                     if (!one_in(10)) {
                         elem = '#';
                     } else {
@@ -3977,29 +3963,24 @@ int iuse::radio_on(player *p, item *it, bool t, point pos)
 
         switch (ch) {
             case 1: {
-                int old_frequency = it->frequency;
-                radio_tower *tower = NULL;
-                radio_tower *lowest_tower = NULL;
-                radio_tower *lowest_larger_tower = NULL;
-
-                for (size_t k = 0; k < g->cur_om->radios.size(); k++) {
-                    tower = &g->cur_om->radios[k];
-
-                    if (tower->strength - rl_dist(tower->x, tower->y, g->levx, g->levy) > 0 &&
-                        tower->frequency != old_frequency) {
-                        if (tower->frequency > old_frequency &&
-                            (lowest_larger_tower == NULL ||
-                             tower->frequency < lowest_larger_tower->frequency)) {
-                            lowest_larger_tower = tower;
-                        } else if (lowest_tower == NULL ||
-                                   tower->frequency < lowest_tower->frequency) {
-                            lowest_tower = tower;
-                        }
+                const int old_frequency = it->frequency;
+                const radio_tower *lowest_tower = nullptr;
+                const radio_tower *lowest_larger_tower = nullptr;
+                for( auto &tref : overmap_buffer.find_all_radio_stations() ) {
+                    const auto new_frequency = tref.tower->frequency;
+                    if( new_frequency == old_frequency ) {
+                        continue;
+                    }
+                    if( new_frequency > old_frequency &&
+                        ( lowest_larger_tower == nullptr || new_frequency < lowest_larger_tower->frequency)) {
+                        lowest_larger_tower = tref.tower;
+                    } else if( lowest_tower == nullptr || new_frequency < lowest_tower->frequency ) {
+                        lowest_tower = tref.tower;
                     }
                 }
-                if (lowest_larger_tower != NULL) {
+                if( lowest_larger_tower != nullptr ) {
                     it->frequency = lowest_larger_tower->frequency;
-                } else if (lowest_tower != NULL) {
+                } else if( lowest_tower != nullptr ) {
                     it->frequency = lowest_tower->frequency;
                 }
             }
@@ -4238,7 +4219,7 @@ int iuse::crowbar(player *p, item *it, bool, point pos)
                                   pgettext("memorial_female", "Set off an alarm."));
             sounds::sound(p->posx(), p->posy(), 40, _("An alarm sounds!"));
             if (!g->event_queued(EVENT_WANTED)) {
-                g->add_event(EVENT_WANTED, int(calendar::turn) + 300, 0, g->get_abs_levx(), g->get_abs_levy());
+                g->add_event(EVENT_WANTED, int(calendar::turn) + 300, 0, p->global_sm_location());
             }
         }
     } else {
@@ -4571,7 +4552,7 @@ int iuse::jackhammer(player *p, item *it, bool, point)
         p->moves -= 500;
         //~ the sound of a jackhammer
         sounds::sound(dirx, diry, 45, _("TATATATATATATAT!"));
-    } else if (g->m.move_cost(dirx, diry) == 2 && g->levz != -1 &&
+    } else if (g->m.move_cost(dirx, diry) == 2 && g->get_levz() != -1 &&
                g->m.ter(dirx, diry) != t_dirt && g->m.ter(dirx, diry) != t_grass) {
         g->m.destroy(dirx, diry, true);
         p->moves -= 500;
@@ -4617,7 +4598,7 @@ int iuse::jacqueshammer(player *p, item *it, bool, point)
         p->moves -= 500;
         //~ the sound of a "jacqueshammer"
         sounds::sound(dirx, diry, 45, _("OHOHOHOHOHOHOHOHO!"));
-    } else if (g->m.move_cost(dirx, diry) == 2 && g->levz != -1 &&
+    } else if (g->m.move_cost(dirx, diry) == 2 && g->get_levz() != -1 &&
                g->m.ter(dirx, diry) != t_dirt && g->m.ter(dirx, diry) != t_grass) {
         g->m.destroy(dirx, diry, true);
         p->moves -= 500;
@@ -4652,7 +4633,7 @@ int iuse::pickaxe(player *p, item *it, bool, point)
         g->m.ter(dirx, diry) != t_tree) {
         // Takes about 100 minutes (not quite two hours) base time.  Construction skill can speed this: 3 min off per level.
         turns = (100000 - 3000 * p->skillLevel("carpentry"));
-    } else if (g->m.move_cost(dirx, diry) == 2 && g->levz == 0 &&
+    } else if (g->m.move_cost(dirx, diry) == 2 && g->get_levz() == 0 &&
                g->m.ter(dirx, diry) != t_dirt && g->m.ter(dirx, diry) != t_grass) {
         turns = 20000;
     } else {
@@ -6577,7 +6558,7 @@ int iuse::artifact(player *p, item *it, bool, point)
                 break;
 
             case AEA_MAP: {
-                const tripoint center = g->om_global_location();
+                const tripoint center = g->global_omt_location();
                 const bool new_map = overmap_buffer.reveal(
                                          point(center.x, center.y), 20, center.z);
                 if (new_map) {
@@ -9550,7 +9531,7 @@ int iuse::cable_attach(player *p, item *it, bool, point)
             it->set_var( "state", "pay_out_cable" );
             it->set_var( "source_x", abspos.x );
             it->set_var( "source_y", abspos.y );
-            it->set_var( "source_z", g->levz );
+            it->set_var( "source_z", g->get_levz() );
             it->process( p, p->pos(), false );
         }
         p->moves -= 15;
@@ -9666,7 +9647,7 @@ int iuse::weather_tool(player *p, item *it, bool, point)
         if( veh ) {
             vehwindspeed = abs(veh->velocity / 100); // For mph
         }
-        const oter_id &cur_om_ter = overmap_buffer.ter(g->om_global_location());
+        const oter_id &cur_om_ter = overmap_buffer.ter(g->global_omt_location());
         std::string omtername = otermap[cur_om_ter].name;
         int windpower = get_local_windpower(weatherPoint.windpower + vehwindspeed, omtername, g->is_sheltered(g->u.posx(), g->u.posy()));
 

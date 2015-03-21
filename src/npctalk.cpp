@@ -8,6 +8,7 @@
 #include "catacharset.h"
 #include "messages.h"
 #include "ammo.h"
+#include "overmapbuffer.h"
 #include <vector>
 #include <string>
 #include <sstream>
@@ -1082,7 +1083,7 @@ std::string dynamic_line(talk_topic topic, npc *p)
             break;
 
         case TALK_TRAIN_START:
-            if (g->cur_om->is_safe(g->om_location().x, g->om_location().y, g->levz)) {
+            if( overmap_buffer.is_safe( g->global_omt_location() ) ) {
                 return _("Alright, let's begin.");
             } else {
                 return _("It's not safe here.  Let's get to safety first.");
@@ -1122,7 +1123,7 @@ std::string dynamic_line(talk_topic topic, npc *p)
         case TALK_HOW_MUCH_FURTHER:
             {
             // TODO: this ignores the z-component
-            const tripoint player_pos = g->om_global_location();
+            const tripoint player_pos = g->global_omt_location();
             int dist = rl_dist(player_pos, p->goal);
             std::stringstream response;
             dist *= 100;
@@ -2408,7 +2409,7 @@ std::vector<talk_response> gen_responses(talk_topic topic, npc *p)
             break;
 
         case TALK_TRAIN_START:
-            if (g->cur_om->is_safe(g->om_location().x, g->om_location().y, g->levz)) {
+            if( overmap_buffer.is_safe( g->global_omt_location() ) ) {
                 RESPONSE(_("Sounds good."));
                     SUCCESS(TALK_DONE);
                         SUCCESS_ACTION(&talk_function::start_training);
@@ -3313,7 +3314,7 @@ void talk_function::lead_to_safety(npc *p)
  // TODO: the target has no z-component
  p->goal.x = target.x;
  p->goal.y = target.y;
- p->goal.z = g->levz;
+ p->goal.z = g->get_levz();
  p->attitude = NPCATT_LEAD;
 }
 

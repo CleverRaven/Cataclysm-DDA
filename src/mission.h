@@ -84,16 +84,17 @@ enum mission_goal {
     NUM_MGOAL
 };
 
-struct mission_place { // Return true if [posx,posy] is valid in overmap
-    bool never     (int, int)
+struct mission_place {
+    // Return true if the place (global overmap terrain coordinate) is valid for starting a mission
+    bool never( tripoint )
     {
         return false;
     }
-    bool always    (int, int)
+    bool always( tripoint )
     {
         return true;
     }
-    bool near_town (int posx, int posy);
+    bool near_town( tripoint );
 };
 
 /* mission_start functions are first run when a mission is accepted; this
@@ -165,14 +166,14 @@ struct mission_type {
     oter_id target_id;
     mission_id follow_up;
 
-    bool (mission_place::*place)(int x, int y);
+    bool (mission_place::*place)(tripoint);
     void (mission_start::*start)(mission *);
     void (mission_end  ::*end  )(mission *);
     void (mission_fail ::*fail )(mission *);
 
     mission_type(int ID, std::string NAME, mission_goal GOAL, int DIF, int VAL,
                  bool URGENT,
-                 bool (mission_place::*PLACE)(int x, int y),
+                 bool (mission_place::*PLACE)(tripoint),
                  void (mission_start::*START)(mission *),
                  void (mission_end  ::*END  )(mission *),
                  void (mission_fail ::*FAIL )(mission *)) :

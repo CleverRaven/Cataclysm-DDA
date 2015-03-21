@@ -2876,7 +2876,7 @@ bool vehicle::do_environmental_effects()
         /* Only lower blood level if:
          * - The part is outside.
          * - The weather is any effect that would cause the player to be wet. */
-        if( parts[p].blood > 0 && g->m.is_outside(part_pos.x, part_pos.y) && g->levz >= 0 ) {
+        if( parts[p].blood > 0 && g->m.is_outside(part_pos.x, part_pos.y) && g->get_levz() >= 0 ) {
             needed = true;
             if( g->weather >= WEATHER_DRIZZLE && g->weather <= WEATHER_ACID_RAIN ) {
                 parts[p].blood--;
@@ -3396,7 +3396,7 @@ vehicle* vehicle::find_vehicle(point &where)
     point veh_in_sm = where;
     point veh_sm = overmapbuffer::ms_to_sm_remain(veh_in_sm);
 
-    auto sm = MAPBUFFER.lookup_submap(veh_sm.x, veh_sm.y, g->levz);
+    auto sm = MAPBUFFER.lookup_submap(veh_sm.x, veh_sm.y, g->get_levz());
     if(sm == nullptr) {
         return nullptr;
     }
@@ -5601,7 +5601,7 @@ item vehicle_part::properties_to_item() const
 
         tmp.set_var( "source_x", target.first.x );
         tmp.set_var( "source_y", target.first.y );
-        tmp.set_var( "source_z", g->levz );
+        tmp.set_var( "source_z", g->get_levz() );
         tmp.set_var( "state", "pay_out_cable" );
         tmp.active = true;
     }
