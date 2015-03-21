@@ -11014,9 +11014,7 @@ void game::takeoff(int pos)
         return;
     }
 
-    if (u.takeoff(pos)) {
-        u.moves -= 250;    // TODO: Make this variable
-    } else {
+    if (!u.takeoff(pos)) {
         add_msg(m_info, _("Invalid selection."));
     }
 }

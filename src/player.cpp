@@ -10361,6 +10361,7 @@ bool player::takeoff(int inventory_position, bool autodrop, std::vector<item> *i
                 taken_off = false;
             }
             if( taken_off ) {
+                moves -= 250;    // TODO: Make this variable
                 add_msg(_("You take off your %s."), w.tname().c_str());
                 worn.erase(worn.begin() + worn_index);
             }

@@ -100,7 +100,14 @@ void player::sort_armor()
     ctxt.register_action("HELP");
     ctxt.register_action("HELP_KEYBINDINGS");
 
-    for (bool sorting = true; sorting; ) {
+    bool exit = false;
+    while( !exit ) {
+        // totally hoisted this from advanced_inv
+        if( g->u.moves < 0 ) {
+            g->u.assign_activity( ACT_ARMOR_LAYERS, 0 );
+            g->u.activity.auto_resume = true;
+            return;
+        }
         werase(w_sort_cat);
         werase(w_sort_left);
         werase(w_sort_middle);
@@ -382,7 +389,7 @@ The sum of these values is the effective encumbrance value your character has fo
             draw_border(w_sort_armor); // hack to mark whole window for redrawing
             wrefresh(w_sort_armor);
         } else if (action == "QUIT") {
-            sorting = false;
+            exit = true;
         }
     }
 
