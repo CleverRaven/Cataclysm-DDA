@@ -82,13 +82,12 @@
                 "P": "f_indoor_plant",
                 "r": "f_rack",
                 "S": "f_sink",
-                "t": "f_toilet",
                 "Z": "f_chair",
                 "z": "f_table"
             },
-            "place_toilets": [
-                { "x": 3, "y": 14 }
-            ],
+            "toilets": {
+                "t": { }
+            },
             "comment": "specific terrain/furniture/radiation. doing this until grass_or_dirt is supported ---v",
             "set": [
             ],

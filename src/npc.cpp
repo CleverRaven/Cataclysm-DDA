@@ -284,6 +284,27 @@ void npc::randomize(npc_class type)
   this->restock = 14400*3;  //Every three days
   break;
 
+ case NC_SOLDIER:
+     for( auto &skill : Skill::skills ) {
+   int level = dice(3, 2) - 3;
+   if (level > 0 && one_in(5))
+   {
+    level--;
+   }
+   set_skill_level( skill, level );
+  }
+  int_max -= rng(0, 2);
+  str_max += rng(0, 2);
+  dex_max += rng(0, 1);
+  boost_skill_level("dodge", rng(1, 2));
+  boost_skill_level("melee", rng(1, 2));
+  boost_skill_level("unarmed", rng(1, 2));
+  boost_skill_level("rifle", rng(3, 5));
+  boost_skill_level("gun", rng(2, 4));
+  personality.aggression += rng(1, 3);
+  personality.bravery += rng(0, 5);
+  break;
+
  case NC_HACKER:
      for( auto &skill : Skill::skills ) {
    int level = 0;
@@ -420,7 +441,7 @@ void npc::randomize(npc_class type)
    set_skill_level( skill, level );
   }
   boost_skill_level("gun", rng(2, 4));
-  boost_skill_level(Skill::random_skill_with_tag("gun"), rng(3, 5));
+  boost_skill_level(Skill::random_skill_with_tag("gun_type"), rng(3, 5));
   personality.aggression += rng(1, 6);
   personality.bravery += rng(0, 5);
   break;
@@ -434,8 +455,8 @@ void npc::randomize(npc_class type)
    }
    set_skill_level( skill, level );
   }
-  str_max -= rng(2, 4);
-  dex_max -= rng(0, 2);
+  str_max += rng(2, 4);
+  dex_max += rng(0, 2);
   boost_skill_level("dodge", rng(1, 3));
   boost_skill_level("melee", rng(2, 4));
   boost_skill_level("unarmed", rng(1, 3));
@@ -681,9 +702,9 @@ void npc::randomize_from_faction(faction *fac)
   dex_max += rng(0, 3);
   per_max += rng(0, 2);
   int_max += rng(0, 2);
-  for( auto &skill : Skill::skills ) {
+  for( auto const &skill : Skill::skills ) {
    if (one_in(3))
-       boost_skill_level( skill, rng( 2, 4 ) );
+       boost_skill_level( &skill, rng( 2, 4 ) );
   }
  }
  if (fac->has_value(FACVAL_ROBOTS)) {
@@ -886,20 +907,6 @@ void npc::spawn_at_random_city(overmap *o)
     spawn_at(x, y, 0);
 }
 
-tripoint npc::global_sm_location() const
-{
-    tripoint t = global_square_location();
-    overmapbuffer::ms_to_sm(t.x, t.y);
-    return t;
-}
-
-tripoint npc::global_omt_location() const
-{
-    tripoint t = global_square_location();
-    overmapbuffer::ms_to_omt(t.x, t.y);
-    return t;
-}
-
 tripoint npc::global_square_location() const
 {
     return tripoint( mapx * SEEX + posx(), mapy * SEEY + posy(), mapz );
@@ -913,9 +920,9 @@ void npc::place_on_map()
     // coordinate system. We have to change pos[xy] to match that assumption,
     // but also have to change map[xy] to keep the global position of the npc
     // unchanged.
-    const int dmx = mapx - g->get_abs_levx();
-    const int dmy = mapy - g->get_abs_levy();
-    mapx -= dmx; // == g->get_abs_levx()
+    const int dmx = mapx - g->get_levx();
+    const int dmy = mapy - g->get_levy();
+    mapx -= dmx; // == g->get_levx()
     mapy -= dmy;
     position.x += dmx * SEEX; // value of "mapx * SEEX + posx()" is unchanged
     position.y += dmy * SEEY;
@@ -940,31 +947,48 @@ void npc::place_on_map()
     position.y += y;
 }
 
-const Skill* npc::best_skill()
+const Skill* npc::best_skill() const
 {
- std::vector<const Skill*> best_skills;
- int highest = 0;
- for( auto &skill : Skill::skills ) {
-  //Should check to see if the skill has a "combat_skill" tag
-     if( ( skill )->is_combat_skill() ) {
-         if( skillLevel( skill ) > highest ) {
-             highest = skillLevel( skill );
-    best_skills.clear();
-    best_skills.push_back( skill );
-         } else if( skillLevel( skill ) == highest ) {
-             best_skills.push_back( skill );
-   }
-  }
- }
- int index = rng(0, best_skills.size() - 1);
- return best_skills[index];
+    int highest = std::numeric_limits<int>::min();
+    int count   = 0;
+
+    for (auto const &p : _skills) {
+        if (!p.first->is_combat_skill()) {
+            continue; // just combat skills.
+        }
+
+        int const level = p.second;
+        if (level < highest) {
+            continue; // no good.
+        } else if (level > highest) {
+            highest = level;
+            count   = 0;
+        }
+        
+        ++count;
+    }
+
+    if (!count) {
+        return nullptr; // no skills
+    }
+
+    auto n = rng(0, count);
+    for (auto const &p : _skills) {
+        if (p.second == highest && --n < 0) {
+            return p.first;
+        }
+    }
+
+    return nullptr;
 }
 
 void npc::starting_weapon(npc_class type)
 {
     const Skill* best = best_skill();
     item sel_weapon;
-    if (best->ident() == "bashing"){
+    if( best == nullptr ) {
+        // Fall through to random weapon
+    } else if (best->ident() == "bashing"){
         sel_weapon = random_item_from( type, "bashing" );
     } else if (best->ident() == "cutting"){
         sel_weapon = random_item_from( type, "cutting" );
@@ -1068,13 +1092,13 @@ void npc::perform_mission()
  switch (mission) {
  case NPC_MISSION_RESCUE_U:
   if (int(calendar::turn) % 24 == 0) {
-   if (mapx > g->get_abs_levx())
+   if (mapx > g->get_levx())
     mapx--;
-   else if (mapx < g->get_abs_levx())
+   else if (mapx < g->get_levx())
     mapx++;
-   if (mapy > g->get_abs_levy())
+   if (mapy > g->get_levy())
     mapy--;
-   else if (mapy < g->get_abs_levy())
+   else if (mapy < g->get_levy())
     mapy++;
    attitude = NPCATT_DEFEND;
   }
@@ -1350,28 +1374,23 @@ int npc::assigned_missions_value()
     return ret;
 }
 
-std::vector<const Skill*> npc::skills_offered_to(player *p)
+std::vector<const Skill*> npc::skills_offered_to(const player &p)
 {
- std::vector<const Skill*> ret;
- if (p == NULL)
-  return ret;
- for( auto &skill : Skill::skills ) {
-     if( p->skillLevel( skill ) < skillLevel( skill ) ) {
-         ret.push_back( skill );
-  }
- }
- return ret;
+    std::vector<const Skill*> ret;
+    for (auto const &skill : Skill::skills) {
+        if (p.get_skill_level(skill) < get_skill_level(skill)) {
+            ret.push_back(&skill);
+        }
+    }
+    return ret;
 }
 
-std::vector<itype_id> npc::styles_offered_to(player *p)
+std::vector<itype_id> npc::styles_offered_to(const player &p)
 {
     std::vector<itype_id> ret;
-    if (p == NULL) {
-        return ret;
-    }
     for (auto &i : ma_styles) {
         bool found = false;
-        for (auto &j : p->ma_styles) {
+        for (auto &j : p.ma_styles) {
             if (j == i) {
                 found = true;
                 break;
@@ -1388,7 +1407,7 @@ std::vector<itype_id> npc::styles_offered_to(player *p)
 int npc::minutes_to_u() const
 {
     // TODO: what about different z-levels?
-    int ret = square_dist( mapx, mapy, g->get_abs_levx(), g->get_abs_levy() );
+    int ret = square_dist( mapx, mapy, g->get_levx(), g->get_levy() );
     // TODO: someone should explain this calculation. Is 24 supposed to be SEEX*2?
  ret *= 24;
  ret /= 10;
@@ -1418,7 +1437,7 @@ void npc::decide_needs()
     for( auto &elem : needrank )
         elem = 20;
     if (weapon.is_gun()) {
-        needrank[need_ammo] = 5 * has_ammo(weapon.type->gun->ammo).size();
+        needrank[need_ammo] = 5 * get_ammo(weapon.type->gun->ammo).size();
     }
     if (weapon.type->id == "null" && skillLevel("unarmed") < 4) {
         needrank[need_weapon] = 1;
@@ -1576,7 +1595,7 @@ int npc::value(const item &it)
 {
  int ret = it.price() / 50;
  const Skill* best = best_skill();
- if (best->ident() != "unarmed") {
+    if( best != nullptr && best->ident() != "unarmed" ) {
   int weapon_val = it.weapon_value(this) - weapon.weapon_value(this);
   if (weapon_val > 0)
    ret += weapon_val;
@@ -2191,6 +2210,8 @@ std::string npc_class_name_str(npc_class classtype)
         return "NC_SCAVENGER";
     case NC_HUNTER: // Good with bows and rifles
         return "NC_HUNTER";
+    case NC_SOLDIER: // Well equiped and trained combatant, good with rifles and melee
+        return "NC_SOLDIER";
     default:
         //Suppress warnings
         break;
@@ -2229,6 +2250,8 @@ std::string npc_class_name(npc_class classtype)
         return _("Scavenger");
     case NC_HUNTER: // Good with bows and rifles
         return _("Hunter");
+    case NC_SOLDIER: // Well equiped and trained combatant, good with rifles and melee
+        return _("Soldier");
     default:
         //Suppress warnings
         break;

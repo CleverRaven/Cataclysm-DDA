@@ -76,7 +76,6 @@
                 "8": "f_bathtub",
                 "9": "f_rack",
                 ":": "f_dresser",
-                ";": "f_toilet",
                 "=": "f_fireplace",
                 ">": "f_counter",
                 "?": "f_sofa",
@@ -89,9 +88,9 @@
                 "F": "f_fridge",
                 "G": "f_oven"
             },
-            "place_toilets": [
-                { "x": 5, "y": 14 }
-            ],
+            "toilets": {
+                ";": { }
+            },
             "set": [
                 { "point": "terrain", "id": "t_dirt", "x": 0, "y": [ 0, 23 ], "repeat": [ 5, 10 ] },
                  { "point": "terrain", "id": "t_door_locked_interior", "x": 6, "y": 21, "repeat": [ 0, 1 ] },

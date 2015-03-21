@@ -1009,6 +1009,7 @@ bool map::vehproceed()
                 }
             }
             veh->handle_trap( wheel_x, wheel_y, w );
+            if( !has_flag( "SEALED", wheel_x, wheel_y ) ) {
             auto item_vec = i_at( wheel_x, wheel_y );
             for( auto it = item_vec.begin(); it != item_vec.end(); ) {
                 it->damage += rng( 0, 3 );
@@ -1017,6 +1018,7 @@ bool map::vehproceed()
                 } else {
                     ++it;
                 }
+            }
             }
         }
     }
@@ -2467,8 +2469,8 @@ std::pair<bool, bool> map::bash(const int x, const int y, const int str,
             if( rl_dist( g->u.posx(), g->u.posy(), x, y ) <= 3 ) {
                 g->u.add_memorial_log(pgettext("memorial_male", "Set off an alarm."),
                                       pgettext("memorial_female", "Set off an alarm."));
-                g->add_event(EVENT_WANTED, int(calendar::turn) + 300, 0,
-                             g->get_abs_levx(), g->get_abs_levy());
+                const point abs = overmapbuffer::ms_to_sm_copy( getabs( x, y ) );
+                g->add_event(EVENT_WANTED, int(calendar::turn) + 300, 0, tripoint( abs.x, abs.y, g->get_levz() ) );
             }
         }
 
@@ -2802,7 +2804,8 @@ void map::shoot(const int x, const int y, int &dam,
     if (has_flag("ALARMED", x, y) && !g->event_queued(EVENT_WANTED))
     {
         sounds::sound(x, y, 30, _("An alarm sounds!"));
-        g->add_event(EVENT_WANTED, int(calendar::turn) + 300, 0, g->get_abs_levx(), g->get_abs_levy());
+        const point abs = overmapbuffer::ms_to_sm_copy( getabs( x, y ) );
+        g->add_event(EVENT_WANTED, int(calendar::turn) + 300, 0, tripoint( abs.x, abs.y, g->get_levz() ) );
     }
 
     int vpart;
@@ -5243,7 +5246,7 @@ void map::save()
     }
 }
 
-void map::load_abs(const int wx, const int wy, const int wz, const bool update_vehicle)
+void map::load(const int wx, const int wy, const int wz, const bool update_vehicle)
 {
     traplocs.clear();
     set_abs_sub( wx, wy, wz );
@@ -5252,13 +5255,6 @@ void map::load_abs(const int wx, const int wy, const int wz, const bool update_v
             loadn( gridx, gridy, update_vehicle );
         }
     }
-}
-
-void map::load(const int wx, const int wy, const int wz, const bool update_vehicle, overmap *om)
-{
-    const int awx = om->pos().x * OMAPX * 2 + wx;
-    const int awy = om->pos().y * OMAPY * 2 + wy;
-    load_abs(awx, awy, wz, update_vehicle);
 }
 
 void map::forget_traps( const int gridx, const int gridy, const int gridz )
@@ -6021,7 +6017,7 @@ void map::build_outside_cache()
         return;
     }
 
-    if (g->levz < 0)
+    if (g->get_levz() < 0)
     {
         memset(outside_cache, false, sizeof(outside_cache));
         return;

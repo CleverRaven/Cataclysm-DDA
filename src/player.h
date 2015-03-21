@@ -18,6 +18,8 @@
 #include <bitset>
 #include <array>
 
+static const std::string DEFAULT_HOTKEYS("1234567890abcdefghijklmnopqrstuvwxyz");
+
 class monster;
 class game;
 struct trap;
@@ -119,7 +121,7 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         /** Calls Character::normalize()
          *  normalizes HP and bodytemperature
          */
-        
+
         void normalize();
 
         /** Returns either "you" or the player's name */
@@ -603,6 +605,8 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         bool consume(int pos);
         /** Used for eating entered comestible, returns true if comestible is successfully eaten */
         bool eat(item *eat, it_comest *comest);
+        /** Handles the nutrition value for a comestible **/
+        int nutrition_for(const it_comest *comest);
         /** Handles the effects of consuming an item */
         void consume_effects(item *eaten, it_comest *comest, bool rotten = false);
         /** Handles rooting effects */
@@ -630,7 +634,7 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         void use(int pos);
         /** Uses the current wielded weapon */
         void use_wielded();
-        /** 
+        /**
          * Asks how to use the item (if it has more than one use_method) and uses it.
          * Returns true if it destroys the item. Consumes charges from the item.
          * Multi-use items are ONLY supported when all use_methods are iuse_actor!
@@ -757,12 +761,13 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         int invlet_to_position(char invlet) const;
         /**
          * Returns the item position (suitable for @ref i_at or similar) of a
-         * specific item.
-         * NOTE: this only works for items outside of containers, in the main inventory,
-         * the weapon or worn items, If the item is a pointer to an item inside a
-         * container, it wont work.
+         * specific item. Returns INT_MIN if the item is not found.
+         * Note that this may lose some information, for example the returned position is the
+         * same when the given item points to the container and when it points to the item inside
+         * the container. All items that are part of the same stack have the same item position.
          */
-        int get_item_position(const item *it);
+        int get_item_position( const item *it ) const;
+
         const martialart &get_combat_style() const; // Returns the combat style object
         std::vector<item *> inv_dump(); // Inventory + weapon + worn (for death, etc)
         void place_corpse(); // put corpse+inventory on map at the place where this is.
@@ -800,10 +805,10 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
          */
         bool has_item(const item *it) const;
         bool has_mission_item(int mission_id) const; // Has item with mission_id
-        std::vector<item *> has_ammo(ammotype at); // Returns a list of the ammo
-        // same as has_ammo, but all items with typeId() != id are removed,
-        // returned items all the same type: id.
-        std::vector<item *> has_exact_ammo( const ammotype &at, const itype_id &id );
+        /**
+         * Returns the items that are ammo and have the matching ammo type.
+         */
+        std::vector<const item *> get_ammo( const ammotype &at ) const;
         /**
          * Check whether the player has a gun that uses the given type of ammo.
          */
@@ -853,7 +858,7 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         void invalidate_crafting_inventory();
         std::vector<item> get_eligible_containers_for_crafting();
         std::list<item> consume_items(const std::vector<item_comp> &components, int batch = 1);
-        void consume_tools(const std::vector<tool_comp> &tools, int batch = 1);
+        void consume_tools(const std::vector<tool_comp> &tools, int batch = 1, const std::string &hotkeys = DEFAULT_HOTKEYS);
 
         // Auto move methods
         void set_destination(const std::vector<point> &route);
@@ -867,6 +872,20 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         double logistic(double t);
         double logistic_range(int min, int max, int pos);
         void calculate_portions(int &x, int &y, int &z, int maximum);
+
+        /**
+         * Global position, expressed in map square coordinate system
+         * (the most detailed coordinate system), used by the @ref map.
+         */
+        virtual tripoint global_square_location() const;
+        /**
+        * Returns the location of the player in global submap coordinates.
+        */
+        tripoint global_sm_location() const;
+        /**
+        * Returns the location of the player in global overmap terrain coordinates.
+        */
+        tripoint global_omt_location() const;
 
         // ---------------VALUES-----------------
         inline int posx() const
@@ -941,6 +960,7 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         int focus_pool;
 
         void set_skill_level(const Skill* _skill, int level);
+        void set_skill_level(Skill const &_skill, int level);
         void set_skill_level(std::string ident, int level);
 
         void boost_skill_level(const Skill* _skill, int level);

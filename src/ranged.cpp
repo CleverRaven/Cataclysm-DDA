@@ -589,7 +589,7 @@ void game::throw_item(player &p, int tarx, int tary, item &thrown,
         deviation -= p.per_cur - 8;
     }
 
-    deviation += rng(0, (p.encumb(bp_hand_l) + p.encumb(bp_hand_r)) + p.encumb(bp_eyes) + 1);
+    deviation += rng(0, ((p.encumb(bp_hand_l) + p.encumb(bp_hand_r)) + p.encumb(bp_eyes) + 1) / 10);
     if (thrown.volume() > 5) {
         deviation += rng(0, 1 + (thrown.volume() - 5) / 4);
     }
@@ -1243,63 +1243,33 @@ std::vector<point> game::target(int &x, int &y, int lowx, int lowy, int hix,
 
 int time_to_fire(player &p, const itype &firingt)
 {
-    const islot_gun *firing = firingt.gun.get();
-    int time = 0;
-    if (firing->skill_used == Skill::skill("pistol")) {
-        if (p.skillLevel("pistol") > 6) {
-            time = 10;
-        } else {
-            time = (80 - 10 * p.skillLevel("pistol"));
-        }
-    } else if (firing->skill_used == Skill::skill("shotgun")) {
-        if (p.skillLevel("shotgun") > 3) {
-            time = 70;
-        } else {
-            time = (150 - 25 * p.skillLevel("shotgun"));
-        }
-    } else if (firing->skill_used == Skill::skill("smg")) {
-        if (p.skillLevel("smg") > 5) {
-            time = 20;
-        } else {
-            time = (80 - 10 * p.skillLevel("smg"));
-        }
-    } else if (firing->skill_used == Skill::skill("rifle")) {
-        if (p.skillLevel("rifle") > 8) {
-            time = 30;
-        } else {
-            time = (150 - 15 * p.skillLevel("rifle"));
-        }
-    } else if (firing->skill_used == Skill::skill("archery")) {
-        if (p.skillLevel("archery") > 8) {
-            time = 20;
-        } else {
-            time = (220 - 25 * p.skillLevel("archery"));
-        }
-    } else if (firing->skill_used == Skill::skill("throw")) {
-        if (p.skillLevel("throw") > 6) {
-            time = 50;
-        } else {
-            time = (220 - 25 * p.skillLevel("throw"));
-        }
-    } else if (firing->skill_used == Skill::skill("launcher")) {
-        if (p.skillLevel("launcher") > 8) {
-            time = 30;
-        } else {
-            time = (200 - 20 * p.skillLevel("launcher"));
-        }
-    } else if(firing->skill_used == Skill::skill("melee")) { // right now, just whips
-        if (p.skillLevel("melee") > 8) {
-            time = 50;
-        } else {
-            time = (200 - (20 * p.skillLevel("melee")));
-        }
-    } else {
-        debugmsg("Why is shooting %s using %s skill?", firingt.nname(1).c_str(),
-                 firing->skill_used->name().c_str());
-        time =  0;
+    struct time_info_t {
+        int min_time;  // absolute floor on the time taken to fire.
+        int base;      // the base or max time taken to fire.
+        int reduction; // the reduction in time given per skill level.
+    };
+
+    static std::map<std::string, time_info_t> const map {
+        {std::string {"pistol"},   {10, 80,  10}},
+        {std::string {"shotgun"},  {70, 150, 25}},
+        {std::string {"smg"},      {20, 80,  10}},
+        {std::string {"rifle"},    {30, 150, 15}},
+        {std::string {"archery"},  {20, 220, 25}},
+        {std::string {"throw"},    {50, 220, 25}},
+        {std::string {"launcher"}, {30, 200, 20}},
+        {std::string {"melee"},    {50, 200, 20}}
+    };
+
+    auto const &skill_used = firingt.gun.get()->skill_used;
+    auto const it = map.find(skill_used->ident());
+    if (it == std::end(map)) {
+        debugmsg("Why is shooting %s using %s skill?",
+            firingt.nname(1).c_str(), skill_used->name().c_str());
+        return 0;
     }
 
-    return time;
+    time_info_t const &info = it->second;
+    return std::max(info.min_time, info.base - info.reduction * p.skillLevel(it->first));
 }
 
 void make_gun_sound_effect(player &p, bool burst, item *weapon)
@@ -1411,8 +1381,8 @@ double player::get_weapon_dispersion(item *weapon, bool random) const
     dispersion += rand_or_max( random, ranged_dex_mod() );
     dispersion += rand_or_max( random, ranged_per_mod() );
 
-    dispersion += rand_or_max( random, 30 * (encumb(bp_arm_l) + encumb(bp_arm_r)) );
-    dispersion += rand_or_max( random, 60 * encumb(bp_eyes) );
+    dispersion += rand_or_max( random, 3 * (encumb(bp_arm_l) + encumb(bp_arm_r)));
+    dispersion += rand_or_max( random, 6 * encumb(bp_eyes));
 
     if( weapon->has_curammo() ) {
         dispersion += rand_or_max( random, weapon->get_curammo()->ammo->dispersion);

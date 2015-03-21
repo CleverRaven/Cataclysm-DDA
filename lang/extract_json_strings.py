@@ -6,14 +6,21 @@ from __future__ import print_function
 import json
 import os
 
-##
-##  DATA
-##
+# Exceptions
+class WrongJSONItem(Exception):
+    def __init__(self, msg, item):
+        self.msg = msg
+        self.item = item
+    def __str__(self):
+        return ("---\nWrong JSON item:\n{0}\n--- JSON Item:\n{1}\n---".format(self.msg, self.item))
 
 # there may be some non-json files in data/raw
 not_json = {
     "sokoban.txt",
-    "main.lua"
+    "main.lua",
+    "preload.lua",
+    "LOADING_ORDER.md"
+
 }
 
 # don't parse this files. Full related path.
@@ -194,6 +201,34 @@ def extract_mapgen(item):
                     if speckey == "signage":
                         writestr(outfile, special[speckey])
 
+def extract_mutation(item):
+    outfile = get_outfile("mutation_category")
+
+    item_name = found = item.get("name")
+    if found is None:
+        raise WrongJSONItem("JSON item don't contain 'name' field", item)
+        return
+    writestr(outfile, found, comment="Mutation class name")
+
+    simple_fields = [ "mutagen_message",
+                      "iv_message",
+                      "iv_sound_message",
+                      "junkie_message"
+                    ]
+
+    for f in simple_fields:
+        found = item.get(f)
+        # Need that check due format string argument
+        if found is not None:
+            writestr(outfile, found, comment="Mutation class: {0} {1}".format(item_name, f))
+
+    found = item.get("memorial_message")
+    writestr(outfile, found, context="memorial_male",
+             comment="Mutation class: {0} Male memorial messsage".format(item_name))
+    writestr(outfile, found, context="memorial_female",
+             comment="Mutation class: {0} Female memorial messsage".format(item_name))
+
+
 # these objects need to have their strings specially extracted
 extract_specials = {
     "effect_type": extract_effect_type,
@@ -201,7 +236,8 @@ extract_specials = {
     "martial_art": extract_martial_art,
     "profession": extract_professions,
     "scenario": extract_scenarios,
-    "mapgen": extract_mapgen
+    "mapgen": extract_mapgen,
+    "mutation_category":extract_mutation
 }
 
 ##
@@ -311,9 +347,7 @@ def extract(item, infilename):
         extract_specials[object_type](item)
         return
     elif object_type not in automatically_convertible:
-        print(item)
-        print("ERROR: Unrecognized object type %r!" % object_type)
-        exit(1)
+        raise WrongJSONItem("ERROR: Unrecognized object type '{0}'!".format(object_type), item)
     wrote = False
     if "name" in item:
         if "name_plural" in item:
@@ -396,11 +430,16 @@ def extract_all_from_file(json_file):
     with open(json_file) as fp:
         jsondata = json.load(fp)
     # it's either an array of objects, or a single object
-    if hasattr(jsondata, "keys"):
-        extract(jsondata, json_file)
-    else:
-        for jsonobject in jsondata:
-            extract(jsonobject, json_file)
+    try:
+        if hasattr(jsondata, "keys"):
+            extract(jsondata, json_file)
+        else:
+            for jsonobject in jsondata:
+                extract(jsonobject, json_file)
+    except WrongJSONItem as E:
+        print("---\nFile: {0}".format(json_file))
+        print(E)
+        exit(1)
 
 def add_fake_types():
     """Add names of fake items and monsters. This is done by hand and must be updated

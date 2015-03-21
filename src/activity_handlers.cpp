@@ -49,7 +49,7 @@ void activity_handlers::burrow_finish(player_activity *act, player *p)
         p->mod_pain(3 * rng(1, 3));
         // Mining is construction work!
         p->practice("carpentry", 5);
-    } else if( g->m.move_cost(dirx, diry) == 2 && g->levz == 0 &&
+    } else if( g->m.move_cost(dirx, diry) == 2 && g->get_levz() == 0 &&
                g->m.ter(dirx, diry) != t_dirt && g->m.ter(dirx, diry) != t_grass ) {
         //Breaking up concrete on the surface? not nearly as bad
         p->hunger += 5;
@@ -97,6 +97,7 @@ void activity_handlers::butcher_finish( player_activity *act, player *p )
     g->m.i_rem(p->posx(), p->posy(), act->index);
     int factor = p->butcher_factor();
     int pieces = 0, skins = 0, bones = 0, fats = 0, sinews = 0, feathers = 0;
+    bool stomach = false;
 
     switch (corpse->size) {
     case MS_TINY:
@@ -172,6 +173,7 @@ void activity_handlers::butcher_finish( player_activity *act, player *p )
     fats +=     std::min( 0, roll_butchery() - 4 );
     sinews +=   std::min( 0, roll_butchery() - 8 );
     feathers += std::min( 0, roll_butchery() - 1 );
+    stomach = (roll_butchery() >= 0);
 
     if( bones > 0 ) {
         if( corpse->mat == "veggy" ) {
@@ -196,6 +198,20 @@ void activity_handlers::butcher_finish( player_activity *act, player *p )
         } else if( corpse->mat == "veggy" ) {
             g->m.spawn_item(p->posx(), p->posy(), "plant_fibre", sinews, 0, age);
             add_msg(m_good, _("You harvest some plant fibers!"));
+        }
+    }
+
+    if( stomach ) {
+        if (corpse->mat != "veggy" && !corpse->has_flag(MF_POISON) && 
+            !corpse->has_flag(MF_HUMAN)) {
+            const itype_id meat = corpse->get_meat_itype();
+            if ((corpse->size == MS_SMALL || corpse->size == MS_MEDIUM) && meat == "meat") {
+                g->m.spawn_item(p->posx(), p->posy(), "stomach", 1, 0, age);
+                add_msg(m_good, _("You harvest the stomach!"));
+            } else if ((corpse->size == MS_LARGE || corpse->size == MS_HUGE) && meat == "meat") {
+                g->m.spawn_item(p->posx(), p->posy(), "stomach_large", 1, 0, age);
+                add_msg(m_good, _("You harvest the stomach!"));
+            }
         }
     }
 
@@ -576,17 +592,18 @@ void activity_handlers::hotwire_finish( player_activity *act, player *)
 
 void activity_handlers::longsalvage_finish( player_activity *act, player *p )
 {
-    item &salvage_tool = p->i_at( act->index );
+    const static std::string salvage_string = "salvage";
+    item &main_tool = p->i_at( act->index );
     auto items = g->m.i_at(p->posx(), p->posy());
-    const auto use_fun = salvage_tool.type->get_use( "salvage" );
-
-    if( use_fun == nullptr ) {
+    item *salvage_tool = main_tool.get_usable_item( salvage_string );
+    if( salvage_tool == nullptr ) {
         debugmsg( "Lost tool used for long salvage" );
         act->type = ACT_NULL;
         return;
     }
 
-    auto actor = dynamic_cast<salvage_actor*>( use_fun->get_actor_ptr() );
+    const auto use_fun = salvage_tool->get_use( salvage_string );
+    const auto actor = dynamic_cast<const salvage_actor *>( use_fun->get_actor_ptr() );
     if( actor == nullptr ) {
         debugmsg( "iuse_actor type descriptor and actual type mismatch" );
         act->type = ACT_NULL;
@@ -595,8 +612,7 @@ void activity_handlers::longsalvage_finish( player_activity *act, player *p )
 
     for( auto it = items.begin(); it != items.end(); ++it ) {
         if( actor->valid_to_cut_up( &*it ) ) {
-            actor->cut_up( p, &salvage_tool, &*it );
-            p->assign_activity( ACT_LONGSALVAGE, 0, act->index );
+            actor->cut_up( p, salvage_tool, &*it );
             return;
         }
     }
@@ -724,7 +740,7 @@ void activity_handlers::pickaxe_finish(player_activity *act, player *p)
         p->mod_pain(2 * rng(1, 3));
         // Mining is construction work!
         p->practice("carpentry", 5);
-    } else if( g->m.move_cost(dirx, diry) == 2 && g->levz == 0 &&
+    } else if( g->m.move_cost(dirx, diry) == 2 && g->get_levz() == 0 &&
                g->m.ter(dirx, diry) != t_dirt && g->m.ter(dirx, diry) != t_grass ) {
         //Breaking up concrete on the surface? not nearly as bad
         p->hunger += 5;

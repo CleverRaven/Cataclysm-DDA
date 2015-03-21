@@ -146,6 +146,19 @@ class Character : public Creature
             }
             return result;
         }
+
+        template<typename T>
+        std::vector<item *> items_with(T filter)
+        {
+            auto result = inv.items_with( filter );
+            if( !weapon.is_null() ) {
+                inventory::items_with_recursive( result, weapon, filter );
+            }
+            for( auto &w : worn ) {
+                inventory::items_with_recursive( result, w, filter );
+            }
+            return result;
+        }
         /**
          * Removes the items that match the given filter.
          * The returned items are a copy of the removed item.
@@ -226,11 +239,13 @@ class Character : public Creature
         
         // --------------- Skill Stuff ---------------
         SkillLevel &skillLevel(const Skill* _skill);
+        SkillLevel &skillLevel(Skill const &_skill);
         SkillLevel &skillLevel(std::string ident);
 
         /** for serialization */
-        SkillLevel get_skill_level(const Skill* _skill) const;
-        SkillLevel get_skill_level(const std::string &ident) const;
+        SkillLevel const& get_skill_level(const Skill* _skill) const;
+        SkillLevel const& get_skill_level(const Skill &_skill) const;
+        SkillLevel const& get_skill_level(const std::string &ident) const;
         
         // --------------- Other Stuff ---------------
         

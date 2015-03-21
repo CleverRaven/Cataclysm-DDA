@@ -14,10 +14,11 @@
 #include "rng.h"
 
 #include <algorithm>
+#include <map>
 #include <sstream>
 
-struct construct // Construction functions.
-{
+// Construction functions.
+namespace construct {
     // Checks for whether terrain mod can proceed
     bool check_nothing(point) { return true; }
     bool check_empty(point); // tile is empty
@@ -36,50 +37,61 @@ struct construct // Construction functions.
     void done_dig_stair(point);
     void done_mine_downstair(point);
     void done_mine_upstair(point);
+    void done_window_curtains(point);
 };
-
-std::vector<construction *> constructions;
 
 // Helper functions, nobody but us needs to call these.
 static bool can_construct( const std::string &desc );
-static bool can_construct( construction *con, int x, int y );
-static bool can_construct( construction *con);
-static bool player_can_build( player &p, const inventory &inv, construction *con );
+static bool can_construct( construction const *con, int x, int y );
+static bool can_construct( construction const *con);
+static bool player_can_build( player &p, const inventory &inv, construction const *con );
 static bool player_can_build( player &p, const inventory &pinv, const std::string &desc );
 static void place_construction(const std::string &desc);
+
+std::vector<construction> constructions;
+
+void standardize_construction_times(int const time)
+{
+    for (auto &c : constructions) {
+        c.time = time;
+    }
+}
+
+void remove_construction_if(std::function<bool(construction&)> pred)
+{
+    constructions.erase(std::remove_if(begin(constructions), end(constructions),
+        [&](construction &c) { return pred(c); }), std::end(constructions));
+}
 
 std::vector<construction *> constructions_by_desc(const std::string &description)
 {
     std::vector<construction *> result;
     for( auto &constructions_a : constructions ) {
-        if( ( constructions_a )->description == description ) {
-            result.push_back( constructions_a );
+        if( constructions_a.description == description ) {
+            result.push_back( &constructions_a );
         }
     }
     return result;
 }
 
-bool will_flood_stop(map *m, bool (&fill)[SEEX *MAPSIZE][SEEY *MAPSIZE],
-                     int x, int y);
-
-static void load_available_constructions( std::vector<std::string> &available,
-                                            std::map<std::string, std::vector<std::string>> &cat_available,
-                                            bool hide_unconstructable )
+void load_available_constructions( std::vector<std::string> &available,
+                                   std::map<std::string, std::vector<std::string>> &cat_available,
+                                   bool hide_unconstructable )
 {
     cat_available.clear();
     available.clear();
     for( auto &it : constructions ) {
-        if( !hide_unconstructable || can_construct(it) ) {
+        if( !hide_unconstructable || can_construct(&it) ) {
             bool already_have_it = false;
             for(auto &avail_it : available ) {
-                if (avail_it == it->description) {
+                if (avail_it == it.description) {
                     already_have_it = true;
                     break;
                 }
             }
             if (!already_have_it) {
-                available.push_back(it->description);
-                cat_available[it->category].push_back(it->description);
+                available.push_back(it.description);
+                cat_available[it.category].push_back(it.description);
             }
         }
     }
@@ -106,8 +118,11 @@ void construction_menu()
         iMaxY = FULL_SCREEN_HEIGHT;
     }
 
-    WINDOW *w_con = newwin( iMaxY, FULL_SCREEN_WIDTH, (TERMY > iMaxY) ? (TERMY - iMaxY) / 2 : 0,
-                            (TERMX > FULL_SCREEN_WIDTH) ? (TERMX - FULL_SCREEN_WIDTH) / 2 : 0 );
+    WINDOW_PTR w_con_ptr {newwin(iMaxY, FULL_SCREEN_WIDTH, (TERMY > iMaxY) ? (TERMY - iMaxY) / 2 : 0,
+                                (TERMX > FULL_SCREEN_WIDTH) ? (TERMX - FULL_SCREEN_WIDTH) / 2 : 0)};
+
+    WINDOW *const w_con = w_con_ptr.get();
+
     draw_border(w_con);
     mvwprintz(w_con, 0, 8, c_ltred, _(" Construction "));
 
@@ -469,7 +484,7 @@ void construction_menu()
                 chosen = select;
             } else {
                 // Get the index corresponding to the key pressed.
-                chosen = hotkeys.find_first_of(raw_input_char);
+                chosen = hotkeys.find_first_of(static_cast<char>(raw_input_char));
                 if( chosen == (int)std::string::npos ) {
                     continue;
                 }
@@ -490,12 +505,11 @@ void construction_menu()
         }
     } while (!exit);
 
-    wrefresh(w_con);
-    delwin(w_con);
+    w_con_ptr.reset();
     g->refresh_all();
 }
 
-static bool player_can_build(player &p, const inventory &pinv, const std::string &desc)
+bool player_can_build(player &p, const inventory &pinv, const std::string &desc)
 {
     // check all with the same desc to see if player can build any
     std::vector<construction *> cons = constructions_by_desc(desc);
@@ -507,7 +521,7 @@ static bool player_can_build(player &p, const inventory &pinv, const std::string
     return false;
 }
 
-static bool player_can_build(player &p, const inventory &pinv, construction *con)
+bool player_can_build(player &p, const inventory &pinv, construction const *con)
 {
     if (p.skillLevel(con->skill) < con->difficulty) {
         return false;
@@ -515,7 +529,7 @@ static bool player_can_build(player &p, const inventory &pinv, construction *con
     return con->requirements.can_make_with_inventory(pinv);
 }
 
-static bool can_construct( const std::string &desc )
+bool can_construct( const std::string &desc )
 {
     // check all with the same desc to see if player can build any
     std::vector<construction *> cons = constructions_by_desc(desc);
@@ -527,13 +541,12 @@ static bool can_construct( const std::string &desc )
     return false;
 }
 
-static bool can_construct(construction *con, int x, int y)
+bool can_construct(construction const *con, int x, int y)
 {
     // see if the special pre-function checks out
-    construct test;
-    bool place_okay = (test.*(con->pre_special))(point(x, y));
+    bool place_okay = con->pre_special(point(x, y));
     // see if the terrain type checks out
-    if (con->pre_terrain != "") {
+    if (!con->pre_terrain.empty()) {
         if (con->pre_is_furniture) {
             furn_id f = furnmap[con->pre_terrain].loadid;
             place_okay &= (g->m.furn(x, y) == f);
@@ -543,14 +556,11 @@ static bool can_construct(construction *con, int x, int y)
         }
     }
     // see if the flags check out
-    if (!con->pre_flags.empty()) {
-        std::set<std::string>::iterator it;
-        for (it = con->pre_flags.begin(); it != con->pre_flags.end(); ++it) {
-            place_okay &= g->m.has_flag(*it, x, y);
-        }
-    }
+    place_okay &= std::all_of(begin(con->pre_flags), end(con->pre_flags),
+        [&](std::string const& flag) { return g->m.has_flag(flag, x, y); });
+
     // make sure the construction would actually do something
-    if (con->post_terrain != "") {
+    if (!con->post_terrain.empty()) {
         if (con->post_is_furniture) {
             furn_id f = furnmap[con->post_terrain].loadid;
             place_okay &= (g->m.furn(x, y) != f);
@@ -562,7 +572,7 @@ static bool can_construct(construction *con, int x, int y)
     return place_okay;
 }
 
-static bool can_construct(construction *con)
+bool can_construct(construction const *con)
 {
     for (int x = g->u.posx() - 1; x <= g->u.posx() + 1; x++) {
         for (int y = g->u.posy() - 1; y <= g->u.posy() + 1; y++) {
@@ -577,7 +587,7 @@ static bool can_construct(construction *con)
     return false;
 }
 
-static void place_construction(const std::string &desc)
+void place_construction(const std::string &desc)
 {
     g->refresh_all();
     const inventory &total_inv = g->u.crafting_inventory();
@@ -621,35 +631,36 @@ static void place_construction(const std::string &desc)
 
 void complete_construction()
 {
-    construction *built = constructions[g->u.activity.index];
+    player &u = g->u;
+    const construction &built = constructions[u.activity.index];
 
-    g->u.practice( built->skill, std::max(built->difficulty, 1) * 10,
-                   (int)(built->difficulty * 1.25) );
-    for (const auto &it : built->requirements.components) {
+    u.practice( built.skill, std::max(built.difficulty, 1) * 10,
+                   (int)(built.difficulty * 1.25) );
+    for (const auto &it : built.requirements.components) {
         // Tried issuing rope for WEB_ROPE here.  Didn't arrive in time for the
         // gear check.  Ultimately just coded a bypass in crafting.cpp.
-        if (!it.empty()) {
-            g->u.consume_items(it);
-        }
+        u.consume_items(it);
+    }
+    for( const auto &it : built.requirements.tools ) {
+        u.consume_tools( it );
     }
 
     // Make the terrain change
-    int terx = g->u.activity.placement.x, tery = g->u.activity.placement.y;
-    if (built->post_terrain != "") {
-        if (built->post_is_furniture) {
-            g->m.furn_set(terx, tery, built->post_terrain);
+    int terx = u.activity.placement.x, tery = u.activity.placement.y;
+    if (built.post_terrain != "") {
+        if (built.post_is_furniture) {
+            g->m.furn_set(terx, tery, built.post_terrain);
         } else {
-            g->m.ter_set(terx, tery, built->post_terrain);
+            g->m.ter_set(terx, tery, built.post_terrain);
         }
     }
 
     // clear the activity
-    g->u.activity.type = ACT_NULL;
+    u.activity.type = ACT_NULL;
 
     // This comes after clearing the activity, in case the function interrupts
     // activities
-    construct effects;
-    (effects.*(built->post_special))(point(terx, tery));
+    built.post_special(point(terx, tery));
 }
 
 bool construct::check_empty(point p)
@@ -693,13 +704,13 @@ bool construct::check_deconstruct(point p)
 bool construct::check_up_OK(point)
 {
     // You're not going above +OVERMAP_HEIGHT.
-    return (g->levz < OVERMAP_HEIGHT);
+    return (g->get_levz() < OVERMAP_HEIGHT);
 }
 
 bool construct::check_down_OK(point)
 {
     // You're not going below -OVERMAP_DEPTH.
-    return (g->levz > -OVERMAP_DEPTH);
+    return (g->get_levz() > -OVERMAP_DEPTH);
 }
 
 void construct::done_tree(point p)
@@ -731,7 +742,6 @@ void construct::done_trunk_plank(point p)
         iuse::cut_log_into_planks( &(g->u), &tmplog);
     }
 }
-
 
 void construct::done_vehicle(point p)
 {
@@ -815,7 +825,8 @@ void construct::done_dig_stair(point p)
  tinymap tmpmap;
  // Upper left corner of the current active map (levx/levy) plus half active map width.
  // The player is always in the center tile of that 11x11 square.
- tmpmap.load(g->levx + (MAPSIZE/2), g->levy + (MAPSIZE / 2), g->levz - 1, false, g->cur_om);
+ const auto pos_sm = g->global_sm_location();
+ tmpmap.load( pos_sm.x, pos_sm.y, pos_sm.z - 1, false );
  bool danger_lava = false;
  bool danger_open = false;
  const int omtilesz=SEEX * 2;  // KA101's 1337 copy & paste skillz
@@ -1084,7 +1095,8 @@ void construct::done_mine_downstair(point p)
  tinymap tmpmap;
  // Upper left corner of the current active map (levx/levy) plus half active map width.
  // The player is always in the center tile of that 11x11 square.
- tmpmap.load(g->levx + (MAPSIZE/2), g->levy + (MAPSIZE / 2), g->levz - 1, false, g->cur_om);
+ const auto pos_sm = g->global_sm_location();
+ tmpmap.load( pos_sm.x, pos_sm.y, pos_sm.z - 1, false );
  bool danger_lava = false;
  bool danger_open = false;
  const int omtilesz=SEEX * 2;  // KA101's 1337 copy & paste skillz
@@ -1354,7 +1366,8 @@ void construct::done_mine_upstair(point p)
  tinymap tmpmap;
  // Upper left corner of the current active map (levx/levy) plus half active map width.
  // The player is always in the center tile of that 11x11 square.
- tmpmap.load(g->levx + (MAPSIZE/2), g->levy + (MAPSIZE / 2), g->levz + 1, false, g->cur_om);
+ const auto pos_sm = g->global_sm_location();
+ tmpmap.load( pos_sm.x, pos_sm.y, pos_sm.z + 1, false );
  bool danger_lava = false;
  bool danger_open = false;
  bool danger_liquid = false;
@@ -1473,98 +1486,106 @@ void construct::done_mine_upstair(point p)
    }
 }
 
+void construct::done_window_curtains(point)
+{
+    // copied from iexamine::curtains
+    g->m.spawn_item( g->u.posx(), g->u.posy(), "nail", 1, 4 );
+    g->m.spawn_item( g->u.posx(), g->u.posy(), "sheet", 2 );
+    g->m.spawn_item( g->u.posx(), g->u.posy(), "stick" );
+    g->m.spawn_item( g->u.posx(), g->u.posy(), "string_36" );
+    g->u.add_msg_if_player( _("After boarding up the window the curtains and curtain rod are left.") );
+}
+
 void load_construction(JsonObject &jo)
 {
-    construction *con = new construction;
+    construction con;
 
-    con->description = _(jo.get_string("description").c_str());
-    con->skill = jo.get_string("skill", "carpentry");
-    con->difficulty = jo.get_int("difficulty");
-    con->category = jo.get_string("category", "OTHER");
-    con->requirements.load(jo);
+    con.description = _(jo.get_string("description").c_str());
+    con.skill = jo.get_string("skill", "carpentry");
+    con.difficulty = jo.get_int("difficulty");
+    con.category = jo.get_string("category", "OTHER");
+    con.requirements.load(jo);
     // constructions use different time units in json, this makes it compatible
     // with recipes/requirements, TODO: should be changed in json
-    con->time = jo.get_int("time") * 1000;
+    con.time = jo.get_int("time") * 1000;
 
-    con->pre_terrain = jo.get_string("pre_terrain", "");
-    if (con->pre_terrain.size() > 1
-        && con->pre_terrain[0] == 'f'
-        && con->pre_terrain[1] == '_') {
-        con->pre_is_furniture = true;
+    con.pre_terrain = jo.get_string("pre_terrain", "");
+    if (con.pre_terrain.size() > 1
+        && con.pre_terrain[0] == 'f'
+        && con.pre_terrain[1] == '_') {
+        con.pre_is_furniture = true;
     } else {
-        con->pre_is_furniture = false;
+        con.pre_is_furniture = false;
     }
 
-    con->post_terrain = jo.get_string("post_terrain", "");
-    if (con->post_terrain.size() > 1
-        && con->post_terrain[0] == 'f'
-        && con->post_terrain[1] == '_') {
-        con->post_is_furniture = true;
+    con.post_terrain = jo.get_string("post_terrain", "");
+    if (con.post_terrain.size() > 1
+        && con.post_terrain[0] == 'f'
+        && con.post_terrain[1] == '_') {
+        con.post_is_furniture = true;
     } else {
-        con->post_is_furniture = false;
+        con.post_is_furniture = false;
     }
 
-    con->pre_flags = jo.get_tags("pre_flags");
+    con.pre_flags = jo.get_tags("pre_flags");
 
     std::string prefunc = jo.get_string("pre_special", "");
     if (prefunc == "check_empty") {
-        con->pre_special = &construct::check_empty;
+        con.pre_special = &construct::check_empty;
     } else if (prefunc == "check_support") {
-        con->pre_special = &construct::check_support;
+        con.pre_special = &construct::check_support;
     } else if (prefunc == "check_deconstruct") {
-        con->pre_special = &construct::check_deconstruct;
+        con.pre_special = &construct::check_deconstruct;
     } else if (prefunc == "check_up_OK") {
-        con->pre_special = &construct::check_up_OK;
+        con.pre_special = &construct::check_up_OK;
     } else if (prefunc == "check_down_OK") {
-        con->pre_special = &construct::check_down_OK;
+        con.pre_special = &construct::check_down_OK;
     } else {
         if (prefunc != "") {
             debugmsg("Unknown pre_special function: %s", prefunc.c_str());
         }
-        con->pre_special = &construct::check_nothing;
+        con.pre_special = &construct::check_nothing;
     }
 
     std::string postfunc = jo.get_string("post_special", "");
     if (postfunc == "done_tree") {
-        con->post_special = &construct::done_tree;
+        con.post_special = &construct::done_tree;
     } else if (postfunc == "done_trunk_log") {
-        con->post_special = &construct::done_trunk_log;
+        con.post_special = &construct::done_trunk_log;
     } else if (postfunc == "done_trunk_plank") {
-        con->post_special = &construct::done_trunk_plank;
+        con.post_special = &construct::done_trunk_plank;
     } else if (postfunc == "done_vehicle") {
-        con->post_special = &construct::done_vehicle;
+        con.post_special = &construct::done_vehicle;
     } else if (postfunc == "done_deconstruct") {
-        con->post_special = &construct::done_deconstruct;
+        con.post_special = &construct::done_deconstruct;
     } else if (postfunc == "done_dig_stair") {
-        con->post_special = &construct::done_dig_stair;
+        con.post_special = &construct::done_dig_stair;
     } else if (postfunc == "done_mine_downstair") {
-        con->post_special = &construct::done_mine_downstair;
+        con.post_special = &construct::done_mine_downstair;
     } else if (postfunc == "done_mine_upstair") {
-        con->post_special = &construct::done_mine_upstair;
+        con.post_special = &construct::done_mine_upstair;
+    } else if (postfunc == "done_window_curtains") {
+        con.post_special = &construct::done_window_curtains;
     } else {
         if (postfunc != "") {
             debugmsg("Unknown post_special function: %s", postfunc.c_str());
         }
-        con->post_special = &construct::done_nothing;
+        con.post_special = &construct::done_nothing;
     }
 
-    con->id = constructions.size();
+    con.id = constructions.size();
     constructions.push_back(con);
 }
 
 void reset_constructions()
 {
-    for( auto &constructions_a : constructions ) {
-        delete constructions_a;
-    }
     constructions.clear();
 }
 
 void check_constructions()
 {
-    for( std::vector<construction *>::const_iterator a = constructions.begin();
-         a != constructions.end(); ++a ) {
-        const construction *c = *a;
+    for( auto const &a : constructions) {
+        const construction *c = &a;
         const std::string display_name = std::string("construction ") + c->description;
         // Note: print the description as the id is just a generated number,
         // the description can be searched for in the json files.

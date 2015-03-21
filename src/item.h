@@ -58,11 +58,11 @@ enum LIQUID_FILL_ERROR {L_ERR_NONE, L_ERR_NO_MIX, L_ERR_NOT_CONTAINER, L_ERR_NOT
 
 enum layer_level {
     UNDERWEAR = 0,
-    REGULAR_LAYER,
-    WAIST_LAYER,
-    OUTER_LAYER,
-    BELTED_LAYER,
-    MAX_CLOTHING_LAYER
+    REGULAR_LAYER = 10,
+    WAIST_LAYER = 20,
+    OUTER_LAYER = 30,
+    BELTED_LAYER = 40,
+    MAX_CLOTHING_LAYER = 50
 };
 
 class item_category
@@ -169,7 +169,15 @@ public:
  int noise() const;
  int burst_size() const;
  ammotype ammo_type() const;
- int pick_reload_ammo(player &u, bool interactive);
+    /**
+     * @param u The player whose inventory is used to search for suitable ammo.
+     * @param interactive Whether to show a dialog to select the ammo, if false it will select
+     * the first suitable ammo.
+     * @retval INT_MIN+1 to indicate reload from spare magazine
+     * @retval INT_MIN to indicate no suitable ammo found or user canceled the menu.
+     * @retval other the item position (@ref player::i_at) in the players inventory.
+     */
+    int pick_reload_ammo( const player &u, bool interactive );
  bool reload(player &u, int pos);
  std::string skill() const;
 
@@ -199,18 +207,6 @@ public:
      * If the item can not be used for butchering it returns INT_MIN.
      */
     int butcher_factor() const;
-
-    /**
-     * Returns true if this item is of the specific type, or
-     * if this functions returns true for any of its contents.
-     */
-    bool is_of_type_or_contains_it(const std::string &type_id) const;
-    /**
-     * Returns true if this item is ammo and has the specific ammo type,
-     * or if this functions returns true for any of its contents.
-     * This does not check type->id, but islot_ammo::type.
-     */
-    bool is_of_ammo_type_or_contains_it(const ammotype &ammo_type_id) const;
 
  bool invlet_is_okay();
         bool stacks_with( const item &rhs ) const;
@@ -859,6 +855,19 @@ public:
          */
         std::string gun_skill() const;
         /*@}*/
+
+        /**
+         * Returns the pointer to use_function with name use_name assigned to the type of
+         * this item or any of its contents. Checks contents recursively.
+         * Returns nullptr if not found.
+         */
+        const use_function *get_use( const std::string &use_name ) const;
+        /**
+         * Checks this item and its contents (recursively) for types that have
+         * use_function with type use_name. Returns the first item that does have
+         * such type or nullptr if none found.
+         */
+        item *get_usable_item( const std::string &use_name );
 
         /**
          * Recursively check the contents of this item and remove those items

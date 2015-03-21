@@ -109,10 +109,10 @@ monster::~monster()
 
 bool monster::setpos(const int x, const int y)
 {
-    bool ret = g->update_zombie_pos( *this, tripoint( x, y, g->levz ) );
+    bool ret = g->update_zombie_pos( *this, tripoint( x, y, g->get_levz() ) );
     position.x = x;
     position.y = y;
-    zpos = g->levz;
+    zpos = g->get_levz();
     return ret;
 }
 
@@ -163,7 +163,7 @@ void monster::poly(mtype *t)
 
 void monster::spawn(int x, int y)
 {
-    spawn( x, y, g->levz );
+    spawn( x, y, g->get_levz() );
 }
 
 void monster::spawn(const int x, const int y, const int z)
@@ -1361,7 +1361,7 @@ void monster::die(Creature* nkiller) {
         for( int z = 1; z >= -1; --z ) {
             for( int x = -MAPSIZE / 2; x <= MAPSIZE / 2; x++ ) {
                 for( int y = -MAPSIZE / 2; y <= MAPSIZE / 2; y++ ) {
-                    std::vector<mongroup*> groups = overmap_buffer.groups_at( abssub.x + x, abssub.y + y, g->levz + z );
+                    std::vector<mongroup*> groups = overmap_buffer.groups_at( abssub.x + x, abssub.y + y, g->get_levz() + z );
                     for( auto &mgp : groups ) {
                         if( MonsterGroupManager::IsMonsterInGroup( mgp->type, type->id ) ) {
                             mgp->dying = true;

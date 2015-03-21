@@ -198,10 +198,10 @@ void Character::load(JsonObject &data)
     if (data.has_object("skills")) {
         JsonObject pmap = data.get_object("skills");
         for( auto &skill : Skill::skills ) {
-            if( pmap.has_object( ( skill )->ident() ) ) {
-                pmap.read( ( skill )->ident(), skillLevel( skill ) );
+            if( pmap.has_object( skill.ident() ) ) {
+                pmap.read( skill.ident(), skillLevel( &skill ) );
             } else {
-                debugmsg( "Load (%s) Missing skill %s", "", ( skill )->ident().c_str() );
+                debugmsg( "Load (%s) Missing skill %s", "", skill.ident().c_str() );
             }
         }
     } else {
@@ -226,9 +226,8 @@ void Character::store(JsonOut &json) const
     // skills
     json.member( "skills" );
     json.start_object();
-    for( auto &skill : Skill::skills ) {
-        SkillLevel sk = get_skill_level( skill );
-        json.member( ( skill )->ident(), sk );
+    for( auto const &skill : Skill::skills ) {
+        json.member( skill.ident(), get_skill_level(skill) );
     }
     json.end_object();
 }
@@ -277,6 +276,11 @@ void player::load(JsonObject &data)
         max_power_level *= 25;
     }
 
+    // Bionic power should not be negative!
+    if( power_level < 0) {
+        power_level = 0;
+    }
+
     data.read("ma_styles", ma_styles);
     // Just too many changes here to maintain compatibility, so older characters get a free
     // diseases wipe. Since most long lasting diseases are bad, this shouldn't be too bad for them.
@@ -294,6 +298,12 @@ void player::load(JsonObject &data)
         const std::string t = pmap.get_string("trap");
         known_traps.insert(trap_map::value_type(p, t));
     }
+    
+    // Add the earplugs.
+    if (has_bionic("bio_ears") && !has_bionic("bio_earplugs")) {
+        add_bionic("bio_earplugs");
+    }
+    
 }
 
 /*
@@ -945,7 +955,7 @@ void monster::load(JsonObject &data)
     data.read("posx", position.x);
     data.read("posy", position.y);
     if( !data.read("posz", zpos) ) {
-        zpos = g->levz;
+        zpos = g->get_levz();
     }
 
     data.read("wandx", wandx);

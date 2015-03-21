@@ -281,7 +281,7 @@ void npc::execute_action(npc_action action, int target)
         for (size_t i = 0; i < slice.size(); i++) {
             item &it = slice[i]->front();
             bool am = (it.is_gun() &&
-                       has_ammo( it.type->gun->ammo ).size() > 0);
+                       get_ammo( it.type->gun->ammo ).size() > 0);
             if (it.is_gun() && (!ammo_found || am)) {
                 index = i;
                 ammo_found = (ammo_found || am);
@@ -950,7 +950,7 @@ bool npc::can_reload()
     if (!weapon.is_gun()) {
         return false;
     }
-    return (weapon.charges < weapon.type->gun->clip && has_ammo(weapon.ammo_type()).size() > 0);
+    return (weapon.charges < weapon.type->gun->clip && get_ammo(weapon.ammo_type()).size() > 0);
 }
 
 bool npc::need_to_reload()
@@ -2181,7 +2181,7 @@ void npc::set_destination()
     if (mission == NPC_MISSION_GUARD || mission == NPC_MISSION_SHOPKEEP) {
         goal.x = global_omt_location().x;
         goal.y = global_omt_location().y;
-        goal.z = g->levz;
+        goal.z = g->get_levz();
         guardx = global_square_location().x;
         guardy = global_square_location().y;
         return;
@@ -2189,7 +2189,7 @@ void npc::set_destination()
 
     // all of the following luxuries are at ground level.
     // so please wallow in hunger & fear if below ground.
-    if(g->levz != 0) {
+    if(g->get_levz() != 0) {
         goal = no_goal_point;
         return;
     }
@@ -2237,7 +2237,7 @@ void npc::set_destination()
     const point p = overmap_buffer.find_closest(global_omt_location(), dest_type, dist, false);
     goal.x = p.x;
     goal.y = p.y;
-    goal.z = g->levz;
+    goal.z = g->get_levz();
 }
 
 void npc::go_to_destination()
