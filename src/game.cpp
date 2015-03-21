@@ -8668,8 +8668,10 @@ point game::look_around(WINDOW *w_info, const point pairCoordsFirst)
     const int offset_x = (u.posx() + u.view_offset_x) - getmaxx(w_terrain) / 2;
     const int offset_y = (u.posy() + u.view_offset_y) - getmaxy(w_terrain) / 2;
 
-    int lx = u.posx() + u.view_offset_x, ly = u.posy() + u.view_offset_y, lz = u.posz() + 0;
-    tripoint lp( lx, ly, lz );
+    tripoint lp( u.posx() + u.view_offset_x, u.posy() + u.view_offset_y, u.posz() + 0 );
+    int &lx = lp.x;
+    int &ly = lp.y;
+    int &lz = lp.z;
 
     if (bSelectZone && bHasFirstPoint) {
         lx = pairCoordsFirst.x;
@@ -8855,10 +8857,12 @@ point game::look_around(WINDOW *w_info, const point pairCoordsFirst)
 
                 add_msg("levx: %d, levy: %d, levz :%d", get_levx(), get_levy(), new_levz);
                 m.vertical_shift( new_levz );
+                lz = get_levz();
                 refresh_all();
                 draw_ter(lx, ly, true);
 #else
                 (void)old_levz;
+                (void)lz;
 #endif
             } else if (!ctxt.get_coordinates(w_terrain, lx, ly)) {
                 int dx, dy;
@@ -8889,8 +8893,6 @@ point game::look_around(WINDOW *w_info, const point pairCoordsFirst)
                 } else if (ly > MAPSIZE * SEEY) {
                     ly = MAPSIZE * SEEY;
                 }
-
-                lp = tripoint( lx, ly, lz );
 
                 draw_ter(lx, ly, true);
                 draw_footsteps( w_terrain, {POSX - lx, POSY - ly} );

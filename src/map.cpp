@@ -196,7 +196,7 @@ const vehicle* map::veh_at_internal( const int x, const int y, int &part_num) co
         return it->second.first;
     }
 
-    debugmsg( "vehicle part cache cache indicated vehicle not found: %d %d", x, y );
+    debugmsg( "vehicle part cache indicated vehicle not found: %d %d", x, y );
     return nullptr;
 }
 
@@ -246,7 +246,7 @@ const vehicle* map::veh_at_internal( const tripoint &p, int &part_num ) const
         return it->second.first;
     }
 
-    debugmsg( "vehicle part cache cache indicated vehicle not found: %d %d %d", p.x, p.y, p.z );
+    debugmsg( "vehicle part cache indicated vehicle not found: %d %d %d", p.x, p.y, p.z );
     return nullptr;
 }
 
