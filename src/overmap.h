@@ -184,6 +184,7 @@ struct regional_settings {
 
 
 struct city {
+ // in overmap terrain coordinates
  int x;
  int y;
  int s;
@@ -215,6 +216,7 @@ enum radio_type {
 #define RADIO_MAX_STRENGTH 200
 
 struct radio_tower {
+ // local (to the containing overmap) submap coordinates
  int x;
  int y;
  int strength;
@@ -264,11 +266,6 @@ class overmap
      * Returns @ref invalid_tripoint if no suitable place has been found.
      */
     tripoint find_random_omt( const std::string &omt_base_type ) const;
-
-    void process_mongroups(); // Makes them die out, maybe more
-    void move_hordes();
-    void signal_hordes( const int x, const int y, const int sig_power);
-
     /**
      * Return a vector containing the absolute coordinates of
      * every matching terrain on the current z level of the current overmap.
@@ -276,15 +273,11 @@ class overmap
      * coordinates), or empty vector if no matching terrain is found.
      */
     std::vector<point> find_terrain(const std::string &term, int zlevel);
-    int closest_city(point p);
-    point random_house_in_city(int city_id);
-    int dist_from_city(point p);
 
     oter_id& ter(const int x, const int y, const int z);
     const oter_id get_ter(const int x, const int y, const int z) const;
     bool&   seen(int x, int y, int z);
     bool&   explored(int x, int y, int z);
-    bool is_safe(int x, int y, int z); // true if monsters_at is empty, or only woodland
     bool is_road_or_highway(int x, int y, int z);
     bool is_explored(int const x, int const y, int const z) const;
 
@@ -393,6 +386,11 @@ public:
 
   void generate(const overmap* north, const overmap* east, const overmap* south, const overmap* west);
   bool generate_sub(int const z);
+
+    int dist_from_city(point p);
+    void signal_hordes( int x, int y, int sig_power );
+    void process_mongroups();
+    void move_hordes();
 
   /**
    * Draws the overmap terrain.

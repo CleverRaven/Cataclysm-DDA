@@ -180,15 +180,13 @@
         "S": "f_sink",
         "e": "f_fridge",
         "O": "f_oven",
-        "P": "f_toilet",
         "H": "f_chair",
         "c": "f_counter",
         "&": "f_trashcan"
       },
-      "place_toilets": [
-        { "x": 7, "y": 22 },
-        { "x": 1, "y": 22 }
-      ],
+      "toilets": {
+        "P": { }
+      },
       "//": "Default fill is floor but some tables are outside",
       "set": [
         { "line": "terrain", "x": 21, "y": 2, "x2": 18, "y2": 2, "id": "t_concrete" },

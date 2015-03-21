@@ -82,12 +82,16 @@ std::string build_bionic_poweronly_string(bionic *pBio){
     std::stringstream power_desc;
     bool hasPreviousText = false;
     if (bionics[pBio->id]->power_over_time > 0 && bionics[pBio->id]->charge_time > 0) {
-        power_desc << string_format(_("%d PU / %d turns"),
-                        bionics[pBio->id]->power_over_time,
-                        bionics[pBio->id]->charge_time);
-                        hasPreviousText = true;
+        power_desc << (
+            bionics[pBio->id]->charge_time == 1
+          ? string_format(_("%d PU / turn"),
+                bionics[pBio->id]->power_over_time)
+          : string_format(_("%d PU / %d turns"),
+                bionics[pBio->id]->power_over_time,
+                bionics[pBio->id]->charge_time));
+        hasPreviousText = true;
     }
-    if (bionics[pBio->id]->power_activate > 0) {
+    if (bionics[pBio->id]->power_activate > 0 && !bionics[pBio->id]->charge_time) {
         if(hasPreviousText){
             hasPreviousText = false;
             power_desc << ", ";
@@ -96,7 +100,7 @@ std::string build_bionic_poweronly_string(bionic *pBio){
                         bionics[pBio->id]->power_activate);
         hasPreviousText = true;
     }
-    if (bionics[pBio->id]->power_deactivate > 0) {
+    if (bionics[pBio->id]->power_deactivate > 0 && !bionics[pBio->id]->charge_time) {
         if(hasPreviousText){
             hasPreviousText = false;
             power_desc << ", ";
@@ -105,12 +109,12 @@ std::string build_bionic_poweronly_string(bionic *pBio){
                         bionics[pBio->id]->power_deactivate);
         hasPreviousText = true;
     }
-    if (pBio->powered) {
+    if (bionics[pBio->id]->toggled) {
         if(hasPreviousText){
             hasPreviousText = false;
             power_desc << ", ";
         }
-        power_desc << _("ON");
+        power_desc << (pBio->powered ? _("ON") : _("OFF"));
     }
 
     return power_desc.str();
@@ -453,7 +457,7 @@ void player::power_bionics()
         }
         //confirmation either occurred by pressing enter where the bionic cursor is, or the hotkey was selected
         if(confirmCheck){
-            if(action == "CONFIRM"){
+            if(action == "CONFIRM" && current_bionic_list->size() > 0){
                 if(tab_mode == "TAB_ACTIVE"){
                     tmp = active[cursor];
                 }else{
@@ -578,7 +582,7 @@ bool player::activate_bionic(int b, bool eff_only)
         }
 
         //We can actually activate now, do activation-y things
-        power_level -= bionics[bio.id]->power_activate;
+        charge_power(-bionics[bio.id]->power_activate);
         if (bionics[bio.id]->toggled || bionics[bio.id]->charge_time > 0) {
             bio.powered = true;
         }
@@ -791,14 +795,14 @@ bool player::activate_bionic(int b, bool eff_only)
         } else {
             water.charges -= drink_from_hands( water );
             if( water.charges == water_charges ) {
-                power_level += bionics["bio_evap"]->power_activate;
+                charge_power(bionics["bio_evap"]->power_activate);
             }
         }
     } else if(bio.id == "bio_lighter") {
         if(!choose_adjacent(_("Start a fire where?"), dirx, diry) ||
            (!g->m.add_field(dirx, diry, fd_fire, 1))) {
             add_msg_if_player(m_info, _("You can't light a fire there."));
-            power_level += bionics["bio_lighter"]->power_activate;
+            charge_power(bionics["bio_lighter"]->power_activate);
         }
     } else if(bio.id == "bio_leukocyte") {
         set_healthy(std::min(100, get_healthy() + 2));
@@ -823,7 +827,7 @@ bool player::activate_bionic(int b, bool eff_only)
         g->refresh_all();
         g->plfire(false);
         if(weapon.charges == 1) { // not fired
-            power_level += bionics[bio.id]->power_activate;
+            charge_power(bionics[bio.id]->power_activate);
         }
         weapon = tmp_item;
     } else if (bio.id == "bio_laser") {
@@ -832,7 +836,7 @@ bool player::activate_bionic(int b, bool eff_only)
         g->refresh_all();
         g->plfire(false);
         if(weapon.charges == 1) { // not fired
-            power_level += bionics[bio.id]->power_activate;
+            charge_power(bionics[bio.id]->power_activate);
         }
         weapon = tmp_item;
     } else if(bio.id == "bio_chain_lightning") {
@@ -841,14 +845,14 @@ bool player::activate_bionic(int b, bool eff_only)
         g->refresh_all();
         g->plfire(false);
         if(weapon.charges == 1) { // not fired
-            power_level += bionics[bio.id]->power_activate;
+            charge_power(bionics[bio.id]->power_activate);
         }
         weapon = tmp_item;
     } else if (bio.id == "bio_emp") {
         if(choose_adjacent(_("Create an EMP where?"), dirx, diry)) {
             g->emp_blast(dirx, diry);
         } else {
-            power_level += bionics["bio_emp"]->power_activate;
+            charge_power(bionics["bio_emp"]->power_activate);
         }
     } else if (bio.id == "bio_hydraulics") {
         add_msg(m_good, _("Your muscles hiss as hydraulic strength fills them!"));
@@ -877,7 +881,7 @@ bool player::activate_bionic(int b, bool eff_only)
             }
         }
         if (!extracted) {
-            power_level += bionics["bio_water_extractor"]->power_activate;
+            charge_power(bionics["bio_water_extractor"]->power_activate);
         }
     } else if(bio.id == "bio_magnet") {
         for (int i = posx() - 10; i <= posx() + 10; i++) {
@@ -933,8 +937,8 @@ bool player::activate_bionic(int b, bool eff_only)
     } else if(bio.id == "bio_lockpick") {
         item tmp_item( "pseuso_bio_picklock", 0 );
         if( invoke_item( &tmp_item ) == 0 ) {
-            power_level += bionics["bio_lockpick"]->power_activate;
-            return false;
+            charge_power(bionics["bio_lockpick"]->power_activate);
+            return true;
         }
         if( tmp_item.damage > 0 ) {
             // TODO: damage the player / their bionics
@@ -952,7 +956,7 @@ bool player::activate_bionic(int b, bool eff_only)
         if( veh ) {
             vehwindspeed = abs(veh->velocity / 100); // vehicle velocity in mph
         }
-        const oter_id &cur_om_ter = overmap_buffer.ter(g->om_global_location());
+        const oter_id &cur_om_ter = overmap_buffer.ter(g->global_omt_location());
         std::string omtername = otermap[cur_om_ter].name;
         int windpower = get_local_windpower(weatherPoint.windpower + vehwindspeed, omtername, g->is_sheltered(g->u.posx(), g->u.posy()));
 
@@ -965,7 +969,7 @@ bool player::activate_bionic(int b, bool eff_only)
         if (weapon.has_flag ("NO_UNWIELD")) {
             add_msg(m_info, _("Deactivate your %s first!"),
                     weapon.tname().c_str());
-            power_level += bionics[bio.id]->power_activate;
+            charge_power(bionics[bio.id]->power_activate);
             bio.powered = false;
             return false;
         } else if(weapon.type->id != "null") {
@@ -983,7 +987,7 @@ bool player::activate_bionic(int b, bool eff_only)
         if (weapon.has_flag ("NO_UNWIELD")) {
             add_msg(m_info, _("Deactivate your %s first!"),
                     weapon.tname().c_str());
-            power_level += bionics[bio.id]->power_activate;
+            charge_power(bionics[bio.id]->power_activate);
             bio.powered = false;
             return false;
         } else if(weapon.type->id != "null") {
@@ -1009,7 +1013,7 @@ bool player::activate_bionic(int b, bool eff_only)
             }
             ctr.charges = power_level;
             int power_use = invoke_item( &ctr );
-            power_level -= power_use;
+            charge_power(-power_use);
             bio.powered = ctr.active;
         } else {
             bio.powered = g->remoteveh() != nullptr || get_value( "remote_controlling" ) != "";
@@ -1040,7 +1044,7 @@ bool player::deactivate_bionic(int b, bool eff_only)
         }
 
         //We can actually deactivate now, do deactivation-y things
-        power_level -= bionics[bio.id]->power_deactivate;
+        charge_power(-bionics[bio.id]->power_deactivate);
         bio.powered = false;
         add_msg(m_neutral, _("You deactivate your %s."), bionics[bio.id]->name.c_str());
     }
@@ -1106,7 +1110,7 @@ void player::process_bionic(int b)
                     return;
                 } else {
                     // Pay the recharging cost
-                    power_level -= bionics[bio.id]->power_over_time;
+                    charge_power(-bionics[bio.id]->power_over_time);
                     // We just spent our first turn of charge, so -1 here
                     bio.charge = bionics[bio.id]->charge_time - 1;
                 }
@@ -1248,9 +1252,6 @@ bool player::uninstall_bionic(bionic_id b_id)
         add_msg(m_neutral, _("You jiggle your parts back into their familiar places."));
         add_msg(m_good, _("Successfully removed %s."), bionics[b_id]->name.c_str());
         remove_bionic(b_id);
-        if (b_id == "bio_ears") {
-            remove_bionic("bio_earplugs"); // the earplugs are of the same bionic
-        }
         g->m.spawn_item(posx(), posy(), "burnt_out_bionic", 1);
     } else {
         add_memorial_log(pgettext("memorial_male", "Removed bionic: %s."),

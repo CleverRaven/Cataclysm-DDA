@@ -1105,8 +1105,8 @@ void npc::move_to(int x, int y)
             moves -= run_cost(g->m.combined_movecost(posx(), posy(), x, y), diag);
             if (g->m.tr_at(x, y) != tr_null) { // NPC stepped on a trap!
                 trap *tr = traplist[g->m.tr_at(x, y)];
-                if (!this->avoid_trap( tripoint( x, y, posz() ), tr )) {
-                    tr->trigger( tripoint( x, y, posz() ), this );
+                if (!this->avoid_trap( pos3(), tr )) {
+                    tr->trigger( pos3(), this );
                 }
             }
             int part;
@@ -2181,7 +2181,7 @@ void npc::set_destination()
     if (mission == NPC_MISSION_GUARD || mission == NPC_MISSION_SHOPKEEP) {
         goal.x = global_omt_location().x;
         goal.y = global_omt_location().y;
-        goal.z = g->levz;
+        goal.z = g->get_levz();
         guardx = global_square_location().x;
         guardy = global_square_location().y;
         return;
@@ -2189,7 +2189,7 @@ void npc::set_destination()
 
     // all of the following luxuries are at ground level.
     // so please wallow in hunger & fear if below ground.
-    if(g->levz != 0) {
+    if(g->get_levz() != 0) {
         goal = no_goal_point;
         return;
     }
@@ -2237,7 +2237,7 @@ void npc::set_destination()
     const point p = overmap_buffer.find_closest(global_omt_location(), dest_type, dist, false);
     goal.x = p.x;
     goal.y = p.y;
-    goal.z = g->levz;
+    goal.z = g->get_levz();
 }
 
 void npc::go_to_destination()

@@ -79,7 +79,6 @@
                 "8": "f_bathtub",
                 "9": "f_rack",
                 ":": "f_dresser",
-                ";": "f_toilet",
                 "=": "f_fireplace",
                 ">": "f_counter",
                 "?": "f_sofa",
@@ -93,10 +92,9 @@
                 "G": "f_oven",
                 "H": "f_armchair"
             },
-            "place_toilets": [
-                { "x": 15, "y": 20 },
-                { "x": 10, "y": 2 }
-            ],
+            "toilets": {
+                ";": { }
+            },
                         "comment": "randomly picked from a group ---v",
             "place_items": [
                 { "item": "livingroom", "chance": 70,  "x": [ 3,8 ], "y": [ 2,10 ] },

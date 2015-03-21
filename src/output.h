@@ -176,7 +176,8 @@ std::string string_input_win (WINDOW *w, std::string input, int max_length, int 
 
 long popup_getkey(const char *mes, ...);
 // for the next two functions, if cancelable is true, esc returns the last option
-int  menu_vec(bool cancelable, const char *mes, std::vector<std::string> options);
+int  menu_vec(bool cancelable, const char *mes, const std::vector<std::string> options);
+int  menu_vec(bool cancelable, const char *mes, const std::vector<std::string> &options, const std::string &hotkeys_override);
 int  menu(bool cancelable, const char *mes, ...);
 void popup_top(const char *mes, ...); // Displayed at the top of the screen
 void popup(const char *mes, ...);

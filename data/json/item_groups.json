@@ -9388,5 +9388,81 @@
       ["boxer_shorts", 30],
       ["briefs", 30]
     ]
+  },{
+    "type" : "item_group",
+    "id" : "army_personal_locker",
+    "items" : [
+      ["jumpsuit", 40],
+      ["pants_army", 70],
+      ["jacket_army", 70],
+      ["socks", 40],
+      ["winter_pants_army", 20],
+      ["winter_jacket_army", 20],
+      ["winter_gloves_army", 20],
+      ["army_top", 70],
+      ["battery", 40],
+      {"item": "radio", "prob": 10, "charges-min": 10, "charges-max": 95 },
+      ["boots_combat", 50],
+      {"item": "bandages", "prob": 10, "charges-min": 1, "charges-max": 3 },
+      {"item": "cig", "prob": 60, "charges-min": 1, "charges-max": 20 },
+      ["knife_combat", 30],
+      ["pockknife", 30],
+      ["glasses_safety", 45],
+      {"item": "eyedrops", "prob": 10, "charges-min": 1, "charges-max": 10 },
+      {"item": "pda", "prob": 20, "charges-min": 10, "charges-max": 95 },
+      ["screwdriver", 5],
+      ["glasses_eye", 30],
+      ["tool_belt", 20],
+      ["bra", 40],
+      ["undershirt", 50],
+      ["boxer_shorts", 50],
+      ["briefs", 50],
+      ["canteen", 40],
+      ["2lcanteen", 20],
+      ["rucksack", 30],
+      ["heatpack", 30],
+      ["sleeping_bag", 20],
+      ["duffelbag", 25],
+      ["mil_mess_kit", 50],
+      ["flashlight", 50],
+      ["mag_comic", 20],
+      ["mag_guns", 20]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "army_bed",
+    "items" : [
+      ["blanket", 70],
+      ["pillow", 70],
+      ["sheet", 70],
+      ["mag_porn", 40],
+      ["mag_comic", 10],
+      ["mag_guns", 10],
+      ["manual_brawl", 5],
+      ["manual_melee", 5],
+      ["manual_knives", 5],
+      ["manual_gun", 5],
+      ["manual_shotgun", 5],
+      ["manual_rifle", 5],
+      ["manual_pistol", 5],
+      ["mag_pistol", 10],
+      ["mag_rifle", 10]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "army_pistols",
+    "items" : [
+      ["m9", 50],
+      ["9mm", 50]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "army_rifles",
+    "items" : [
+      ["m4a1", 50],
+      ["m249", 10],
+      ["556", 50]
+    ]
   }
 ]
+

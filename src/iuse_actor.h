@@ -46,6 +46,7 @@ class iuse_transform : public iuse_actor
         std::string need_charges_msg;
         /** Subtract this from @ref Creature::moves when actually transforming the item. */
         int moves;
+        std::string menu_option_text;
 
         iuse_transform()
             : iuse_actor()

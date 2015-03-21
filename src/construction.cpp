@@ -37,6 +37,7 @@ namespace construct {
     void done_dig_stair(point);
     void done_mine_downstair(point);
     void done_mine_upstair(point);
+    void done_window_curtains(point);
 };
 
 // Helper functions, nobody but us needs to call these.
@@ -630,34 +631,36 @@ void place_construction(const std::string &desc)
 
 void complete_construction()
 {
-    construction *built = &constructions[g->u.activity.index];
+    player &u = g->u;
+    const construction &built = constructions[u.activity.index];
 
-    g->u.practice( built->skill, std::max(built->difficulty, 1) * 10,
-                   (int)(built->difficulty * 1.25) );
-    for (const auto &it : built->requirements.components) {
+    u.practice( built.skill, std::max(built.difficulty, 1) * 10,
+                   (int)(built.difficulty * 1.25) );
+    for (const auto &it : built.requirements.components) {
         // Tried issuing rope for WEB_ROPE here.  Didn't arrive in time for the
         // gear check.  Ultimately just coded a bypass in crafting.cpp.
-        if (!it.empty()) {
-            g->u.consume_items(it);
-        }
+        u.consume_items(it);
+    }
+    for( const auto &it : built.requirements.tools ) {
+        u.consume_tools( it );
     }
 
     // Make the terrain change
-    int terx = g->u.activity.placement.x, tery = g->u.activity.placement.y;
-    if (built->post_terrain != "") {
-        if (built->post_is_furniture) {
-            g->m.furn_set(terx, tery, built->post_terrain);
+    int terx = u.activity.placement.x, tery = u.activity.placement.y;
+    if (built.post_terrain != "") {
+        if (built.post_is_furniture) {
+            g->m.furn_set(terx, tery, built.post_terrain);
         } else {
-            g->m.ter_set(terx, tery, built->post_terrain);
+            g->m.ter_set(terx, tery, built.post_terrain);
         }
     }
 
     // clear the activity
-    g->u.activity.type = ACT_NULL;
+    u.activity.type = ACT_NULL;
 
     // This comes after clearing the activity, in case the function interrupts
     // activities
-    built->post_special(point(terx, tery));
+    built.post_special(point(terx, tery));
 }
 
 bool construct::check_empty(point p)
@@ -701,13 +704,13 @@ bool construct::check_deconstruct(point p)
 bool construct::check_up_OK(point)
 {
     // You're not going above +OVERMAP_HEIGHT.
-    return (g->levz < OVERMAP_HEIGHT);
+    return (g->get_levz() < OVERMAP_HEIGHT);
 }
 
 bool construct::check_down_OK(point)
 {
     // You're not going below -OVERMAP_DEPTH.
-    return (g->levz > -OVERMAP_DEPTH);
+    return (g->get_levz() > -OVERMAP_DEPTH);
 }
 
 void construct::done_tree(point p)
@@ -822,7 +825,8 @@ void construct::done_dig_stair(point p)
  tinymap tmpmap;
  // Upper left corner of the current active map (levx/levy) plus half active map width.
  // The player is always in the center tile of that 11x11 square.
- tmpmap.load(g->levx + (MAPSIZE/2), g->levy + (MAPSIZE / 2), g->levz - 1, false, g->cur_om);
+ const auto pos_sm = g->global_sm_location();
+ tmpmap.load( pos_sm.x, pos_sm.y, pos_sm.z - 1, false );
  bool danger_lava = false;
  bool danger_open = false;
  const int omtilesz=SEEX * 2;  // KA101's 1337 copy & paste skillz
@@ -1091,7 +1095,8 @@ void construct::done_mine_downstair(point p)
  tinymap tmpmap;
  // Upper left corner of the current active map (levx/levy) plus half active map width.
  // The player is always in the center tile of that 11x11 square.
- tmpmap.load(g->levx + (MAPSIZE/2), g->levy + (MAPSIZE / 2), g->levz - 1, false, g->cur_om);
+ const auto pos_sm = g->global_sm_location();
+ tmpmap.load( pos_sm.x, pos_sm.y, pos_sm.z - 1, false );
  bool danger_lava = false;
  bool danger_open = false;
  const int omtilesz=SEEX * 2;  // KA101's 1337 copy & paste skillz
@@ -1361,7 +1366,8 @@ void construct::done_mine_upstair(point p)
  tinymap tmpmap;
  // Upper left corner of the current active map (levx/levy) plus half active map width.
  // The player is always in the center tile of that 11x11 square.
- tmpmap.load(g->levx + (MAPSIZE/2), g->levy + (MAPSIZE / 2), g->levz + 1, false, g->cur_om);
+ const auto pos_sm = g->global_sm_location();
+ tmpmap.load( pos_sm.x, pos_sm.y, pos_sm.z + 1, false );
  bool danger_lava = false;
  bool danger_open = false;
  bool danger_liquid = false;
@@ -1480,6 +1486,16 @@ void construct::done_mine_upstair(point p)
    }
 }
 
+void construct::done_window_curtains(point)
+{
+    // copied from iexamine::curtains
+    g->m.spawn_item( g->u.posx(), g->u.posy(), "nail", 1, 4 );
+    g->m.spawn_item( g->u.posx(), g->u.posy(), "sheet", 2 );
+    g->m.spawn_item( g->u.posx(), g->u.posy(), "stick" );
+    g->m.spawn_item( g->u.posx(), g->u.posy(), "string_36" );
+    g->u.add_msg_if_player( _("After boarding up the window the curtains and curtain rod are left.") );
+}
+
 void load_construction(JsonObject &jo)
 {
     construction con;
@@ -1548,6 +1564,8 @@ void load_construction(JsonObject &jo)
         con.post_special = &construct::done_mine_downstair;
     } else if (postfunc == "done_mine_upstair") {
         con.post_special = &construct::done_mine_upstair;
+    } else if (postfunc == "done_window_curtains") {
+        con.post_special = &construct::done_window_curtains;
     } else {
         if (postfunc != "") {
             debugmsg("Unknown post_special function: %s", postfunc.c_str());

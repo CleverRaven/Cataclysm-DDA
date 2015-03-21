@@ -85,9 +85,11 @@ const Skill* Skill::random_skill_with_tag(const std::string& tag)
             valid.push_back(&s);
         }
     }
-
-    auto const size = static_cast<long>(valid.size());
-    return size ? valid[rng(0, size - 1)] : nullptr;
+    if( valid.empty() ) {
+        debugmsg( "could not find a skill with the %s tag", tag.c_str() );
+        return &skills.front();
+    }
+    return valid[rng( 0, valid.size() - 1 )];
 }
 
 size_t Skill::skill_count()
@@ -168,7 +170,7 @@ bool SkillLevel::rust( bool charged_bio_mem )
         }
     }
 
-    return true;
+    return false;
 }
 
 void SkillLevel::practice()

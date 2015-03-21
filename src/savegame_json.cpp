@@ -250,7 +250,7 @@ void player::load(JsonObject &data)
     }
     data.read("posy", position.y);
     if( !data.read("posz", zpos) && g != nullptr ) {
-        zpos = g->levz;
+      zpos = g->get_levz();
     }
     data.read("hunger", hunger);
     data.read("thirst", thirst);
@@ -276,6 +276,11 @@ void player::load(JsonObject &data)
         max_power_level *= 25;
     }
 
+    // Bionic power should not be negative!
+    if( power_level < 0) {
+        power_level = 0;
+    }
+
     data.read("ma_styles", ma_styles);
     // Just too many changes here to maintain compatibility, so older characters get a free
     // diseases wipe. Since most long lasting diseases are bad, this shouldn't be too bad for them.
@@ -293,6 +298,12 @@ void player::load(JsonObject &data)
         const std::string t = pmap.get_string("trap");
         known_traps.insert(trap_map::value_type(p, t));
     }
+    
+    // Add the earplugs.
+    if (has_bionic("bio_ears") && !has_bionic("bio_earplugs")) {
+        add_bionic("bio_earplugs");
+    }
+    
 }
 
 /*
@@ -944,7 +955,7 @@ void monster::load(JsonObject &data)
     data.read("posx", position.x);
     data.read("posy", position.y);
     if( !data.read("posz", zpos) ) {
-        zpos = g->levz;
+        zpos = g->get_levz();
     }
 
     data.read("wandx", wandx);

@@ -9,6 +9,7 @@
 #include "inventory.h"
 #include "item_factory.h"
 #include "item_action.h"
+#include "iuse_actor.h"
 #include <istream>
 #include <sstream>
 #include <fstream>
@@ -63,6 +64,22 @@ item_action_generator::item_action_generator() = default;
 
 item_action_generator::~item_action_generator() = default;
 
+// Get use methods of this item and its contents
+bool item_has_uses_recursive( const item &it )
+{
+    if( !it.type->use_methods.empty() ) {
+        return true;
+    }
+
+    for( const auto &elem : it.contents ) {
+        if( item_has_uses_recursive( elem ) ) {
+            return true;
+        }
+    }
+
+    return false;
+}
+
 item_action_map item_action_generator::map_actions_to_items( player &p ) const
 {
     std::set< item_action_id > unmapped_actions;
@@ -71,25 +88,30 @@ item_action_map item_action_generator::map_actions_to_items( player &p ) const
     }
 
     item_action_map candidates;
-    inventory inv = p.inv;
-    inv += p.weapon;
-    inv += p.worn;
-    std::vector< item* > items;
-    p.inv.dump( items );
+    std::vector< item* > items = p.inv_dump();
 
     std::unordered_set< item_action_id > to_remove;
     for( item *i : items ) {
-        if( i->type->use_methods.empty() ) {
+        if( !item_has_uses_recursive( *i ) ) {
             continue;
         }
 
         for( const item_action_id &use : unmapped_actions ) {
-            it_tool *tool = dynamic_cast<it_tool*>(i->type);
-            const use_function *ufunc = i->type->get_use( use );
+            // Actually used item can be different from the "outside item"
+            // For example, sheathed knife
+            item *actual_item = i->get_usable_item( use );
+            if( actual_item == nullptr ) {
+                continue;
+            }
+
+            it_tool *tool = dynamic_cast<it_tool*>( actual_item->type );
+            const use_function *ufunc = actual_item->get_use( use );
             // Can't just test for charges_per_use > charges, because charges can be -1
             if( ufunc == nullptr ||
-                ( ufunc->get_actor_ptr() != nullptr && !ufunc->get_actor_ptr()->can_use( &p, i, false, p.pos() ) ) ||
-                ( tool != nullptr && tool->charges_per_use > 0 && tool->charges_per_use > i->charges ) ) {
+                ( ufunc->get_actor_ptr() != nullptr && 
+                    !ufunc->get_actor_ptr()->can_use( &p, actual_item, false, p.pos() ) ) ||
+                ( tool != nullptr && tool->charges_per_use > 0 && 
+                    tool->charges_per_use > actual_item->charges ) ) {
                 continue;
             }
 
@@ -105,7 +127,7 @@ item_action_map item_action_generator::map_actions_to_items( player &p ) const
                     continue; // Other item consumes less charges
                 }
 
-                if( found->second->charges > i->charges ) {
+                if( found->second->charges > actual_item->charges ) {
                     better = true; // Items with less charges preferred
                 }
             }
@@ -142,7 +164,13 @@ std::string item_action_generator::get_action_name( const iuse_actor *actor ) co
         debugmsg( "Tried to get name of a null iuse_actor" );
         return errstring;
     }
-
+    
+    const iuse_transform *trans_actor = nullptr;
+    trans_actor = dynamic_cast<const iuse_transform *>( actor );
+    if ( trans_actor != nullptr && !trans_actor->menu_option_text.empty()) {
+            return _(trans_actor->menu_option_text.c_str());
+    }
+   
     return get_action_name( actor->type );
 }
 
@@ -192,7 +220,7 @@ void game::item_action_menu()
         int would_use_charges = tool == nullptr ? 0 : tool->charges_per_use;
         
         std::stringstream ss;
-        ss << _( gen.get_action_name( p.first ).c_str() ) << " [" << p.second->type_name( 1 );
+        ss << _( gen.get_action_name( p.first ).c_str() ) << " [" << p.second->display_name();
         if( would_use_charges > 0 ) {
             ss << " (" << would_use_charges << '/' << p.second->charges << ')';
         }
@@ -211,7 +239,7 @@ void game::item_action_menu()
             num++;
         }
     }
-    
+
     kmenu.addentry( num, true, key_bound_to( ctxt, "QUIT" ), _("Cancel") );
 
     kmenu.query();
@@ -222,11 +250,6 @@ void game::item_action_menu()
     auto iter = iactions.begin();
     for( int i = 0; i < kmenu.ret; i++) {
         iter++;
-    }
-    int invpos = u.inv.position_by_item( iter->second );
-    if( invpos == INT_MIN  ) {
-        debugmsg( "Selected item outside inventory" );
-        return;
     }
 
     draw_ter();
@@ -255,8 +278,9 @@ std::string use_function::get_name() const
 {
     switch( function_type ) {
     case USE_FUNCTION_CPP:
-    case USE_FUNCTION_ACTOR_PTR:
         return item_action_generator::generator().get_action_name( get_type_name() );
+    case USE_FUNCTION_ACTOR_PTR:
+        return item_action_generator::generator().get_action_name( get_actor_ptr());
     case USE_FUNCTION_LUA:
         return "Lua";
     case USE_FUNCTION_NONE:

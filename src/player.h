@@ -18,6 +18,8 @@
 #include <bitset>
 #include <array>
 
+static const std::string DEFAULT_HOTKEYS("1234567890abcdefghijklmnopqrstuvwxyz");
+
 class monster;
 class game;
 struct trap;
@@ -119,7 +121,7 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         /** Calls Character::normalize()
          *  normalizes HP and bodytemperature
          */
-        
+
         void normalize();
 
         /** Returns either "you" or the player's name */
@@ -603,6 +605,8 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         bool consume(int pos);
         /** Used for eating entered comestible, returns true if comestible is successfully eaten */
         bool eat(item *eat, it_comest *comest);
+        /** Handles the nutrition value for a comestible **/
+        int nutrition_for(const it_comest *comest);
         /** Handles the effects of consuming an item */
         void consume_effects(item *eaten, it_comest *comest, bool rotten = false);
         /** Handles rooting effects */
@@ -630,7 +634,7 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         void use(int pos);
         /** Uses the current wielded weapon */
         void use_wielded();
-        /** 
+        /**
          * Asks how to use the item (if it has more than one use_method) and uses it.
          * Returns true if it destroys the item. Consumes charges from the item.
          * Multi-use items are ONLY supported when all use_methods are iuse_actor!
@@ -854,7 +858,7 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         void invalidate_crafting_inventory();
         std::vector<item> get_eligible_containers_for_crafting();
         std::list<item> consume_items(const std::vector<item_comp> &components, int batch = 1);
-        void consume_tools(const std::vector<tool_comp> &tools, int batch = 1);
+        void consume_tools(const std::vector<tool_comp> &tools, int batch = 1, const std::string &hotkeys = DEFAULT_HOTKEYS);
 
         // Auto move methods
         void set_destination(const std::vector<point> &route);
@@ -868,6 +872,20 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         double logistic(double t);
         double logistic_range(int min, int max, int pos);
         void calculate_portions(int &x, int &y, int &z, int maximum);
+
+        /**
+         * Global position, expressed in map square coordinate system
+         * (the most detailed coordinate system), used by the @ref map.
+         */
+        virtual tripoint global_square_location() const;
+        /**
+        * Returns the location of the player in global submap coordinates.
+        */
+        tripoint global_sm_location() const;
+        /**
+        * Returns the location of the player in global overmap terrain coordinates.
+        */
+        tripoint global_omt_location() const;
 
         // ---------------VALUES-----------------
         inline int posx() const

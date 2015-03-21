@@ -924,10 +924,18 @@ long popup_getkey(const char *mes, ...)
     return popup(text, PF_GET_KEY);
 }
 
+// compatibility stub for uimenu(cancelable, mes, options)
 int menu_vec(bool cancelable, const char *mes,
-             std::vector<std::string> options)   // compatibility stub for uimenu(cancelable, mes, options)
+             const std::vector<std::string> options)
 {
     return (int)uimenu(cancelable, mes, options);
+}
+
+int menu_vec(bool cancelable, const char *mes,
+             const std::vector<std::string> &options,
+             const std::string &hotkeys_override)
+{
+    return (int)uimenu(cancelable, mes, options, hotkeys_override);
 }
 
 // compatibility stub for uimenu(cancelable, mes, ...)

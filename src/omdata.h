@@ -58,7 +58,7 @@ struct oter_id {
     // Hi, I'm an
     operator int() const;
     // pretending to be a
-    operator std::string() const;
+    operator std::string const&() const;
     // in order to map
     operator oter_t() const;
 

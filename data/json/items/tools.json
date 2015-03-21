@@ -7495,7 +7495,8 @@
             "target": "ref_lighter_on",
             "active": true,
             "need_charges": 1,
-            "need_charges_msg": "Nothing happens."
+            "need_charges_msg": "Nothing happens." ,
+            "menu_option_text": "Light up"
         },
         {
             "type": "firestarter",
@@ -7535,8 +7536,9 @@
             "type": "auto_transform",
             "msg": "You extinguish the lighter.",
             "when_underwater": "The lighter is extinguished.",
-            "target": "ref_lighter_off",
-            "active": false
+            "target": "ref_lighter",
+            "active": false,
+            "menu_option_text": "Extinguish"
         }
     ]
   },

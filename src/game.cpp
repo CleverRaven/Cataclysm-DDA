@@ -535,8 +535,6 @@ void game::setup()
     next_npc_id = 1;
     next_faction_id = 1;
     next_mission_id = 1;
-    // Clear monstair value
-    monstairz = 999;
     last_target = -1;  // We haven't targeted any monsters yet
     last_target_was_npc = false;
     new_game = true;
@@ -590,6 +588,11 @@ special_game_id game::gametype() const
     return gamemode != nullptr ? gamemode->id() : SGAME_NULL;
 }
 
+void game::load_map( tripoint pos_sm )
+{
+    m.load( pos_sm.x, pos_sm.y, pos_sm.z, true );
+}
+
 // Set up all default values for a new game
 void game::start_game(std::string worldname)
 {
@@ -616,12 +619,15 @@ void game::start_game(std::string worldname)
     u.setID( assign_npc_id() ); // should be as soon as possible, but *after* load_master
 
     const start_location &start_loc = *start_location::find( u.start_location );
-    tripoint omtstart = start_loc.setup( cur_om, levx, levy, levz );
+    const tripoint omtstart = start_loc.setup();
+    tripoint lev = overmapbuffer::omt_to_sm_copy( omtstart );
+    // The player is centered in the map, but lev[xyz] refers to the top left point of the map
+    lev.x -= MAPSIZE / 2;
+    lev.y -= MAPSIZE / 2;
+    load_map( lev );
 
     // Start the overmap with out immediate neighborhood visible
-    overmap_buffer.reveal(point(om_global_location().x, om_global_location().y), OPTIONS["DISTANCE_INITIAL_VISIBILITY"], 0);
-    // Init the starting map at this location.
-    m.load( levx, levy, levz, true, cur_om );
+    overmap_buffer.reveal(point(global_omt_location().x, global_omt_location().y), OPTIONS["DISTANCE_INITIAL_VISIBILITY"], 0);
     m.build_map_cache();
     // Do this after the map cache has been build!
     start_loc.place_player( u );
@@ -648,7 +654,7 @@ void game::start_game(std::string worldname)
     //Calc mutation drench protection stats
     u.drench_mut_calc();
     if ( scen->has_flag("FIRE_START") ){
-        start_loc.burn( cur_om, omtstart, 3, 3 );
+        start_loc.burn( omtstart, 3, 3 );
     }
     if (scen->has_flag("INFECTED")){
         u.add_effect("infected", 1, random_body_part(), true);
@@ -689,7 +695,7 @@ void game::load_npcs()
         }
             const tripoint p = temp->global_sm_location();
             add_msg( m_debug, "game::load_npcs: Spawning static NPC, %d:%d (%d:%d)",
-                     levx, levy, p.x, p.y);
+                     get_levx(), get_levy(), p.x, p.y);
         temp->place_on_map();
         // In the rare case the npc was marked for death while
         // it was on the overmap. Kill it.
@@ -718,7 +724,7 @@ void game::create_starting_npcs()
     tmp->normalize();
     tmp->randomize((one_in(2) ? NC_DOCTOR : NC_NONE));
     // spawn the npc in the overmap, sets its overmap and submap coordinates
-    tmp->spawn_at( get_abs_levx(), get_abs_levy(), levz );
+    tmp->spawn_at( get_levx(), get_levy(), get_levz() );
     tmp->setx( SEEX * int(MAPSIZE / 2) + SEEX );
     tmp->sety( SEEY * int(MAPSIZE / 2) + 6 );
     tmp->form_opinion(&u);
@@ -728,7 +734,7 @@ void game::create_starting_npcs()
     tmp->chatbin.first_topic = TALK_SHELTER;
     //one random shelter mission.
     tmp->chatbin.missions.push_back(
-        reserve_random_mission(ORIGIN_OPENER_NPC, om_location(), tmp->getID()));
+        reserve_random_mission(ORIGIN_OPENER_NPC, global_omt_location(), tmp->getID()));
 }
 
 bool game::cleanup_at_end()
@@ -835,11 +841,11 @@ bool game::cleanup_at_end()
             vRip.push_back("|                                  ( ");
             iInfoLine = vRip.size();
             vRip.push_back("|                                   |");
-            vRip.push_back(" \\_                               _/");
-            vRip.push_back("   \\_%                         ._/  ");
-            vRip.push_back("   @`\\_                       _/%%  ");
-            vRip.push_back("  %@%@%\\_              *    _/%`%@% ");
-            vRip.push_back(" %@@@.%@%\\%%           `\\ %%.%%@@%@");
+            vRip.push_back("|                                   |");
+            vRip.push_back("|     %                         .   |");
+            vRip.push_back("|  @`                            %% |");
+            vRip.push_back("| %@%@%\\                *      %`%@%|");
+            vRip.push_back("%%@@@.%@%\\%%           `\\ %%.%%@@%@");
             vRip.push_back("@%@@%%%%%@@@@@@%%%%%%%%@@%%@@@%%%@%%@");
         }
 
@@ -1115,14 +1121,14 @@ bool game::do_turn()
     process_missions();
     if (calendar::turn.hours() == 0 && calendar::turn.minutes() == 0 &&
         calendar::turn.seconds() == 0) { // Midnight!
-        cur_om->process_mongroups();
+        overmap_buffer.process_mongroups();
 #ifdef LUA
         lua_callback(lua_state, "on_day_passed");
 #endif
     }
 
     if (calendar::turn % 50 == 0) { //move hordes every 5 min
-        cur_om->move_hordes();
+        overmap_buffer.move_hordes();
         // Hordes that reached the reality bubble need to spawn,
         // make them spawn in invisible areas only.
         m.spawn_monsters( false );
@@ -1479,7 +1485,7 @@ bool game::do_turn()
             auto veh = _i;
 
             veh->power_parts( sm_loc );
-            veh->idle( sm_loc.z == levz && m.inbounds(in_reality.x, in_reality.y) );
+            veh->idle( sm_loc.z == get_levz() && m.inbounds(in_reality.x, in_reality.y) );
         }
     }
     m.process_fields();
@@ -1496,7 +1502,7 @@ bool game::do_turn()
     u.process_turn();
     u.process_active_items();
 
-    if (levz >= 0 && !u.is_underwater()) {
+    if (get_levz() >= 0 && !u.is_underwater()) {
         weather_data(weather).effect();
     }
 
@@ -1559,7 +1565,7 @@ void game::rustCheck()
         int oldSkillLevel = u.skillLevel(aSkill);
 
         if (u.skillLevel(aSkill).rust(charged_bio_mem)) {
-            u.power_level -= 25;
+            u.charge_power(-25);
         }
         int newSkill = u.skillLevel(aSkill);
         if (newSkill < oldSkillLevel) {
@@ -1684,7 +1690,7 @@ void game::update_weather()
         lightning_active = false;
         nextweather += 50; // Check weather each 50 turns.
         if (weather != old_weather && weather_data(weather).dangerous &&
-            levz >= 0 && m.is_outside(u.posx(), u.posy())
+            get_levz() >= 0 && m.is_outside(u.posx(), u.posy())
             && !u.has_activity(ACT_WAIT_WEATHER)) {
             cancel_activity_query(_("The weather changed to %s!"), weather_data(weather).name.c_str());
         }
@@ -1734,14 +1740,14 @@ int game::reserve_mission(mission_id type, int npc_id)
     return tmp.uid;
 }
 
-int game::reserve_random_mission(mission_origin origin, point p, int npc_id)
+int game::reserve_random_mission(mission_origin origin, const tripoint p, int npc_id)
 {
     std::vector<int> valid;
     mission_place place;
     for( auto &elem : mission_types ) {
         for( std::vector<mission_origin>::iterator orig = elem.origins.begin();
              orig != elem.origins.end(); ++orig ) {
-            if( *orig == origin && ( place.*elem.place )( p.x, p.y ) ) {
+            if( *orig == origin && ( place.*elem.place )( p ) ) {
                 valid.push_back( elem.id );
                 break;
             }
@@ -1807,13 +1813,13 @@ bool game::mission_complete(int id, int npc_id)
     switch (type->goal) {
     case MGOAL_GO_TO: {
         // TODO: target does not contain a z-component, targets are assume to be on z=0
-        const tripoint cur_pos = om_global_location();
+        const tripoint cur_pos = global_omt_location();
         return (rl_dist(cur_pos.x, cur_pos.y, miss->target.x, miss->target.y) <= 1);
     }
     break;
 
     case MGOAL_GO_TO_TYPE: {
-        oter_id cur_ter = overmap_buffer.ter(om_global_location());
+        oter_id cur_ter = overmap_buffer.ter(global_omt_location());
         if (cur_ter == miss->type->target_id) {
             return true;
         }
@@ -1881,6 +1887,9 @@ bool game::mission_complete(int id, int npc_id)
             return true;
         }
         return false;
+
+    case MGOAL_COMPUTER_TOGGLE:
+        return (miss->step >= 1);
 
     default:
         return false;
@@ -3777,11 +3786,6 @@ void game::load(std::string worldname, std::string name)
     unserialize(fin);
     fin.close();
 
-    // Stair handling.
-    if (!coming_to_stairs.empty()) {
-        monstairz = 999;
-    }
-
     // weather
     std::string wfile = std::string(worldpath + base64_encode(u.name) + ".weather");
     fin.open(wfile.c_str());
@@ -4109,9 +4113,14 @@ void game::write_memorial_file(std::string sLastWords)
     u.memorial(memorial_file, sLastWords);
 }
 
-void game::add_event(event_type type, int on_turn, int faction_id, int x, int y)
+void game::add_event(event_type type, int on_turn, int faction_id)
 {
-    event tmp(type, on_turn, faction_id, x, y);
+    add_event( type, on_turn, faction_id, global_sm_location() );
+}
+
+void game::add_event(event_type type, int on_turn, int faction_id, const tripoint center )
+{
+    event tmp( type, on_turn, faction_id, center );
     events.push_back(tmp);
 }
 
@@ -4195,15 +4204,12 @@ void game::debug()
             }
             m.clear_vehicle_cache();
             m.vehicle_list.clear();
-
+            // offset because load_map expects the coordinates of the top left corner, but the
+            // player will be centered in the middle of the map.
             const int nlevx = tmp.x * 2 - int(MAPSIZE / 2);
             const int nlevy = tmp.y * 2 - int(MAPSIZE / 2);
-            cur_om = &overmap_buffer.get_om_global(tmp.x, tmp.y);
-            levx = nlevx - cur_om->pos().x * OMAPX * 2;
-            levy = nlevy - cur_om->pos().y * OMAPY * 2;
-            levz = tmp.z;
             u.setz( tmp.z );
-            m.load(levx, levy, levz, true, cur_om);
+            load_map( tripoint( nlevx, nlevy, tmp.z ) );
             load_npcs();
             m.spawn_monsters( true ); // Static monsters
             update_overmap_seen();
@@ -4212,27 +4218,30 @@ void game::debug()
     }
     break;
     case 4:
+        {
+        auto &cur_om = get_cur_om();
         for (int i = 0; i < OMAPX; i++) {
             for (int j = 0; j < OMAPY; j++) {
                 for (int k = -OVERMAP_DEPTH; k <= OVERMAP_HEIGHT; k++) {
-                    cur_om->seen(i, j, k) = true;
+                    cur_om.seen(i, j, k) = true;
                 }
             }
         }
         add_msg(m_good, _("Current overmap revealed."));
+        }
         break;
 
     case 5: {
         npc *temp = new npc();
         temp->normalize();
         temp->randomize();
-        temp->spawn_at( get_abs_levx(), get_abs_levy(), levz );
+        temp->spawn_at( get_levx(), get_levy(), get_levz() );
         temp->setx( u.posx() - 4 );
         temp->sety( u.posy() - 4 );
         temp->form_opinion(&u);
         temp->mission = NPC_MISSION_NULL;
         int mission_index = reserve_random_mission(ORIGIN_ANY_NPC,
-                            om_location(), temp->getID());
+                            global_omt_location(), temp->getID());
         if (mission_index != -1) {
             temp->chatbin.missions.push_back(mission_index);
         }
@@ -4253,8 +4262,8 @@ void game::debug()
         s += ngettext("%d event planned.", "%d events planned", events.size());
         popup_top(
             s.c_str(),
-            u.posx(), u.posy(), get_abs_levx(), get_abs_levy(),
-            otermap[overmap_buffer.ter(om_global_location())].name.c_str(),
+            u.posx(), u.posy(), get_levx(), get_levy(),
+            otermap[overmap_buffer.ter(global_omt_location())].name.c_str(),
             int(calendar::turn), int(nextspawn),
             (ACTIVE_WORLD_OPTIONS["RANDOM_NPC"] == "true" ? _("NPCs are going to spawn.") :
              _("NPCs are NOT going to spawn.")),
@@ -4540,7 +4549,7 @@ void game::debug()
     break;
     case 20: {
         // display hordes on the map
-        overmap::draw_overmap(om_global_location(), true);
+        overmap::draw_overmap(global_omt_location(), true);
     }
     break;
     case 21: {
@@ -4633,7 +4642,7 @@ void game::disp_kills()
 
 inline bool npc_dist_to_player(const npc *a, const npc *b)
 {
-    const tripoint ppos = g->om_global_location();
+    const tripoint ppos = g->global_omt_location();
     const tripoint apos = a->global_omt_location();
     const tripoint bpos = b->global_omt_location();
     return square_dist(ppos.x, ppos.y, apos.x, apos.y) < square_dist(ppos.x, ppos.y, bpos.x, bpos.y);
@@ -4645,7 +4654,7 @@ void game::disp_NPCs()
                        (TERMY > FULL_SCREEN_HEIGHT) ? (TERMY - FULL_SCREEN_HEIGHT) / 2 : 0,
                        (TERMX > FULL_SCREEN_WIDTH) ? (TERMX - FULL_SCREEN_WIDTH) / 2 : 0);
 
-    const tripoint ppos = om_global_location();
+    const tripoint ppos = global_omt_location();
     mvwprintz(w, 0, 0, c_white, _("Your position: %d:%d"), ppos.x, ppos.y);
     std::vector<npc *> npcs = overmap_buffer.get_npcs_near_player(100);
     std::sort(npcs.begin(), npcs.end(), npc_dist_to_player);
@@ -4819,7 +4828,7 @@ void game::list_missions()
                 mvwprintz(w_missions, 5, 31, c_white, _("Deadline: %d (%d)"),
                           miss->deadline, int(calendar::turn));
             if (miss->target != overmap::invalid_point) {
-                const tripoint pos = om_global_location();
+                const tripoint pos = global_omt_location();
                 // TODO: target does not contain a z-component, targets are assumed to be on z=0
                 mvwprintz(w_missions, 6, 31, c_white, _("Target: (%d, %d)   You: (%d, %d)"),
                           miss->target.x, miss->target.y, pos.x, pos.y);
@@ -4966,13 +4975,13 @@ void game::draw_sidebar()
         wprintz(time_window, c_white, "]");
     }
 
-    const oter_id &cur_ter = overmap_buffer.ter(om_global_location());
+    const oter_id &cur_ter = overmap_buffer.ter(global_omt_location());
 
     std::string tername = otermap[cur_ter].name;
     werase(w_location);
     mvwprintz(w_location, 0, 0, otermap[cur_ter].color, "%s", utf8_truncate(tername, 14).c_str());
 
-    if (levz < 0) {
+    if (get_levz() < 0) {
         mvwprintz(w_location, 0, 18, c_ltgray, _("Underground"));
     } else {
         mvwprintz(w_location, 0, 18, weather_data(weather).color, "%s", weather_data(weather).name.c_str());
@@ -5260,7 +5269,7 @@ void game::draw_minimap()
     werase(w_minimap);
     draw_border(w_minimap);
 
-    const tripoint curs = om_global_location();
+    const tripoint curs = global_omt_location();
     const int cursx = curs.x;
     const int cursy = curs.y;
     bool drew_mission = false;
@@ -5280,11 +5289,11 @@ void game::draw_minimap()
             const int omy = cursy + j;
             nc_color ter_color;
             long ter_sym;
-            const bool seen = overmap_buffer.seen(omx, omy, levz);
-            const bool vehicle_here = overmap_buffer.has_vehicle(omx, omy, levz);
-            if (overmap_buffer.has_note(omx, omy, levz)) {
+            const bool seen = overmap_buffer.seen(omx, omy, get_levz());
+            const bool vehicle_here = overmap_buffer.has_vehicle(omx, omy, get_levz());
+            if (overmap_buffer.has_note(omx, omy, get_levz())) {
 
-                const std::string &note_text = overmap_buffer.note(omx, omy, levz);
+                const std::string &note_text = overmap_buffer.note(omx, omy, get_levz());
 
                 ter_color = c_yellow;
                 ter_sym = 'N';
@@ -5398,9 +5407,9 @@ void game::draw_minimap()
                 ter_color = c_cyan;
                 ter_sym = 'c';
             } else {
-                const oter_id &cur_ter = overmap_buffer.ter(omx, omy, levz);
+                const oter_id &cur_ter = overmap_buffer.ter(omx, omy, get_levz());
                 ter_sym = otermap[cur_ter].sym;
-                if (overmap_buffer.is_explored(omx, omy, levz)) {
+                if (overmap_buffer.is_explored(omx, omy, get_levz())) {
                     ter_color = c_dkgray;
                 } else {
                     ter_color = otermap[cur_ter].color;
@@ -5492,7 +5501,7 @@ float game::natural_light_level() const
 {
     float ret = 0;
 
-    if (levz >= 0) {
+    if (get_levz() >= 0) {
         ret = (float)calendar::turn.sunlight();
         ret += weather_data(weather).light_modifier;
     }
@@ -5508,7 +5517,7 @@ unsigned char game::light_level()
     }
 
     int ret;
-    if (levz < 0) { // Underground!
+    if (get_levz() < 0) { // Underground!
         ret = 1;
     } else {
         ret = calendar::turn.sunlight();
@@ -5678,7 +5687,7 @@ int game::mon_info(WINDOW *w)
                             new_seen_mon.push_back( news );
                         } else {
                             debugmsg( "%s at (%d,%d,%d) was not found in the tracker",
-                                      critter.disp_name().c_str(), 
+                                      critter.disp_name().c_str(),
                                       critter.posx(), critter.posy(), critter.posz() );
                         }
                     }
@@ -5903,15 +5912,14 @@ void game::monmove()
     cleanup_dead();
 
     // Make sure these don't match the first time around.
-    int cached_levx = levx + 1;
-    int cached_levy = levy + 1;
+    tripoint cached_lev = m.get_abs_sub() + tripoint( 1, 0, 0 );
 
     mfactions monster_factions;
 
     for (size_t i = 0; i < num_zombies(); i++) {
         // The first time through, and any time the map has been shifted,
         // recalculate monster factions.
-        if( cached_levx != levx || cached_levy != levy ) {
+        if( cached_lev != m.get_abs_sub() ) {
             // monster::plan() needs to know about all monsters on the same team as the monster.
             monster_factions.clear();
             auto playerfaction = GetMFact( "player" );
@@ -5924,8 +5932,7 @@ void game::monmove()
                     monster_factions[ playerfaction ].insert( i );
                 }
             }
-            cached_levx = levx;
-            cached_levy = levy;
+            cached_lev = m.get_abs_sub();
         }
 
         monster &critter = critter_tracker.find(i);
@@ -5976,7 +5983,7 @@ void game::monmove()
         if (!critter.is_dead()) {
             if (u.has_active_bionic("bio_alarm") && u.power_level >= 25 &&
                 rl_dist( u.pos(), critter.pos() ) <= 5) {
-                u.power_level -= 25;
+                u.charge_power(-25);
                 add_msg(m_warning, _("Your motion alarm goes off!"));
                 cancel_activity_query(_("Your motion alarm goes off!"));
                 if (u.in_sleep_state()) {
@@ -6638,7 +6645,7 @@ void game::resonance_cascade(int x, int y)
             case 14:
             case 15:
                 spawn_details = MonsterGroupManager::GetResultFromGroup("GROUP_NETHER");
-                invader = monster( GetMType(spawn_details.name), tripoint( i, j, levz ) );
+                invader = monster( GetMType(spawn_details.name), tripoint( i, j, get_levz() ) );
                 add_zombie(invader);
                 break;
             case 16:
@@ -6739,7 +6746,7 @@ void game::emp_blast(int x, int y)
         if (u.power_level > 0) {
             add_msg(m_bad, _("The EMP blast drains your power."));
             int max_drain = (u.power_level > 1000 ? 1000 : u.power_level);
-            u.charge_power(0 - rng(1 + max_drain / 3, max_drain));
+            u.charge_power(-rng(1 + max_drain / 3, max_drain));
         }
         // TODO: More effects?
         //e-handcuffs effects
@@ -6798,8 +6805,8 @@ Creature *game::critter_at(int x, int y)
 bool game::add_zombie(monster &critter)
 {
     if( !m.inbounds( critter.posx(), critter.posy(), critter.posz() ) ) {
-        dbg( D_ERROR ) << "added a critter with out-of-bounds position: " 
-                       << critter.posx() << "," << critter.posy() << ","  << critter.posz() 
+        dbg( D_ERROR ) << "added a critter with out-of-bounds position: "
+                       << critter.posx() << "," << critter.posy() << ","  << critter.posz()
                        << " - " << critter.disp_name();
     }
     return critter_tracker.add(critter);
@@ -6817,7 +6824,7 @@ monster &game::zombie(const int idx)
 
 bool game::update_zombie_pos(const monster &critter, const int newx, const int newy)
 {
-    return critter_tracker.update_pos( critter, tripoint( newx, newy, levz ) );
+    return critter_tracker.update_pos( critter, tripoint( newx, newy, get_levz() ) );
 }
 
 bool game::update_zombie_pos(const monster &critter, const tripoint &pos )
@@ -6862,12 +6869,12 @@ bool game::spawn_hallucination()
 
 int game::mon_at(const int x, const int y) const
 {
-    return critter_tracker.mon_at( tripoint( x, y, levz ) );
+    return critter_tracker.mon_at( tripoint( x, y, get_levz() ) );
 }
 
 int game::mon_at(point p) const
 {
-    return critter_tracker.mon_at( tripoint( p, levz ) );
+    return critter_tracker.mon_at( tripoint( p, get_levz() ) );
 }
 
 int game::mon_at( const tripoint &p ) const
@@ -6903,7 +6910,7 @@ bool game::is_sheltered(int x, int y)
 
     if (!m.is_outside(x, y))
         is_inside = true;
-    if (levz < 0)
+    if (get_levz() < 0)
         is_underground = true;
     if (veh && veh->is_inside(vpart))
         is_in_vehicle = true;
@@ -6912,19 +6919,6 @@ bool game::is_sheltered(int x, int y)
         return true;
     else
         return false;
-}
-
-bool game::is_in_ice_lab(point location)
-{
-    oter_id cur_ter = cur_om->ter(location.x, location.y, levz);
-    bool is_in_ice_lab = false;
-
-    if (cur_ter == "ice_lab" || cur_ter == "ice_lab_stairs" ||
-        cur_ter == "ice_lab_core" || cur_ter == "ice_lab_finale") {
-        is_in_ice_lab = true;
-    }
-
-    return is_in_ice_lab;
 }
 
 bool game::revive_corpse(int x, int y, int n)
@@ -6951,7 +6945,7 @@ bool game::revive_corpse(int x, int y, item *it)
         // Someone is in the way, try again later
         return false;
     }
-    monster critter(it->get_mtype(), tripoint( x, y, levz ) );
+    monster critter(it->get_mtype(), tripoint( x, y, get_levz() ) );
     critter.init_from_item( *it );
     critter.no_extra_death_drops = true;
 
@@ -7068,7 +7062,12 @@ void game::close(int closex, int closey)
     } else if (closex == u.posx() && closey == u.posy()) {
         add_msg(m_info, _("There's some buffoon in the way!"));
     } else if (m.has_furn(closex, closey) && m.furn_at(closex, closey).close.empty()) {
-        add_msg(m_info, _("There's a %s in the way!"), m.furnname(closex, closey).c_str());
+        // check for open crate
+        if (m.furn_at(closex, closey).id == "f_crate_o") {
+            add_msg(m_info, _("You'll need to construct a seal to close the crate!"));
+        } else {
+            add_msg(m_info, _("There's a %s in the way!"), m.furnname(closex, closey).c_str());
+        }
     } else if (!m.close_door(closex, closey, inside, true)) {
         // ^^ That checks if the PC could close something there, it
         // does not actually do anything.
@@ -7586,12 +7585,26 @@ void game::open_gate(const int examx, const int examy, const ter_id handle_type)
         open_message = _("The palisade gate swings open!");
         close_message = _("The palisade gate swings closed with a crash!");
         bash_dmg = 30;
+    } else if ( handle_type == t_gates_control_metal) {
+        v_wall_type = t_wall_metal_v;
+        h_wall_type = t_wall_metal_h;
+        door_type = t_door_metal_locked;
+        floor_type = t_metal_floor;
+        pull_message = _("You throw the lever...");
+        open_message = _("The door rises!");
+        close_message = _("The door slams shut!");
+        bash_dmg = 60;
     } else {
         return;
     }
 
     add_msg(pull_message);
     u.moves -= 900;
+    if (handle_type == t_gates_control_metal){
+        g->u.moves -= 300;
+    }else{
+        g->u.moves -= 900;
+    }
 
     bool open = false;
     bool close = false;
@@ -7953,7 +7966,7 @@ void game::examine(int examx, int examy)
 {
     int veh_part = 0;
     vehicle *veh = NULL;
-    const int curz = levz;
+    const int curz = get_levz();
 
     if (examx == -1) {
         // if we are driving a vehicle, examine the
@@ -8013,7 +8026,7 @@ void game::examine(int examx, int examy)
         return;
     }
 
-    if (curz != levz) {
+    if (curz != get_levz()) {
         // triggered an elevator
         return;
     }
@@ -8163,7 +8176,7 @@ void game::print_trap_info(int lx, int ly, WINDOW *w_look, const int column, int
     if (trapid == tr_null) {
         return;
     }
-    if (traplist[trapid]->can_see( tripoint( lx, ly, levz ), u )) {
+    if (traplist[trapid]->can_see( tripoint( lx, ly, get_levz() ), u )) {
         mvwprintz(w_look, line++, column, traplist[trapid]->color, "%s", traplist[trapid]->name.c_str());
     }
 }
@@ -8692,7 +8705,7 @@ point game::look_around(WINDOW *w_info, const point pairCoordsFirst)
     ctxt.register_action( "LEVEL_UP" );
     ctxt.register_action( "LEVEL_DOWN" );
 
-    const int old_levz = levz;
+    const int old_levz = get_levz();
 
     do {
         if (bNewWindow) {
@@ -8832,15 +8845,15 @@ point game::look_around(WINDOW *w_info, const point pairCoordsFirst)
                     continue; // TODO: Make this work in z-level FOV update
                 }
 
-                levz += action == "LEVEL_UP" ? 1 : -1;
-                if( levz > OVERMAP_HEIGHT ) {
-                    levz = OVERMAP_HEIGHT;
-                } else if( levz < -OVERMAP_DEPTH ) {
-                    levz = -OVERMAP_DEPTH;
+                int new_levz = get_levz() + ( action == "LEVEL_UP" ? 1 : -1 );
+                if( new_levz > OVERMAP_HEIGHT ) {
+                    new_levz = OVERMAP_HEIGHT;
+                } else if( new_levz < -OVERMAP_DEPTH ) {
+                    new_levz = -OVERMAP_DEPTH;
                 }
 
-                add_msg("levx: %d, levy: %d, levz :%d", levx, levy, levz);
-                m.vertical_shift( levz );
+                add_msg("levx: %d, levy: %d, levz :%d", get_levx(), get_levy(), new_levz);
+                m.vertical_shift( new_levz );
                 refresh_all();
                 draw_ter(lx, ly, true);
 #else
@@ -8883,9 +8896,8 @@ point game::look_around(WINDOW *w_info, const point pairCoordsFirst)
     } while (action != "QUIT" && action != "CONFIRM");
 
 #ifdef ZLEVELS
-    if( levz != old_levz ) {
+    if( get_levz() != old_levz ) {
         m.vertical_shift( old_levz );
-        levz = old_levz;
     }
 #endif
 
@@ -10774,6 +10786,7 @@ void game::plfire(bool burst, int default_target_x, int default_target_y)
 
 void game::butcher()
 {
+    const static std::string salvage_string = "salvage";
     if (u.controlling_vehicle) {
         add_msg(m_info, _("You can't butcher while driving!"));
         return;
@@ -10789,23 +10802,21 @@ void game::butcher()
 
     // TODO: Properly handle different material whitelists
     // TODO: Improve quality of this section
-    std::vector<item*> dumpvec;
-    u.inv.dump( dumpvec );
+    auto salvage_filter = []( item it ) {
+        const auto usable = it.get_usable_item( salvage_string );
+        return usable != nullptr;
+    };
+
+    std::vector< item * > salvage_tools = u.items_with( salvage_filter );
     int salvage_tool_index = INT_MIN;
     item *salvage_tool = nullptr;
-    salvage_actor *salvage_iuse = nullptr;
-    for( auto &it : dumpvec ) {
-        if( it == nullptr ) {
-            continue;
-        }
-
-        const auto fun = it->type->get_use( "salvage" );
-        if( fun != nullptr ) {
-            salvage_tool_index = u.inv.position_by_item( it );
-            salvage_iuse = dynamic_cast<salvage_actor*>( fun->get_actor_ptr() );
-            salvage_tool = it;
-            break;
-        }
+    const salvage_actor *salvage_iuse = nullptr;
+    if( !salvage_tools.empty() ) {
+        salvage_tool = salvage_tools.front();
+        salvage_tool_index = u.get_item_position( salvage_tool );
+        item *usable = salvage_tool->get_usable_item( salvage_string );
+        salvage_iuse = dynamic_cast<const salvage_actor*>(
+            usable->get_use( salvage_string )->get_actor_ptr() );
     }
 
 
@@ -11535,7 +11546,7 @@ bool game::plmove(int dx, int dy)
         y = u.posy() + dy;
     }
 
-    tripoint dest_loc( x, y, u.posz() );
+    const tripoint dest_loc( x, y, u.posz() );
 
     dbg(D_PEDANTIC_INFO) << "game:plmove: From (" << u.posx() << "," << u.posy() << ") to (" << x << "," <<
                          y << ")";
@@ -11721,12 +11732,14 @@ bool game::plmove(int dx, int dy)
             }
         }
 
-        const trap_id tid = m.tr_at( dest_loc );
-        if( tid != tr_null && ( !u.has_effect("blind") && !u.worn_with_flag("BLIND") ) ) {
-            const struct trap &t = *traplist[tid];
-            if ((t.can_see( dest_loc, u )) && !t.is_benign() &&
-                !query_yn(_("Really step onto that %s?"), t.name.c_str())) {
-                return false;
+        if (!(u.has_effect("blind") || u.worn_with_flag("BLIND"))) {
+            const trap_id tid = m.tr_at(dest_loc);
+            if (tid != tr_null) {
+                const struct trap &t = *traplist[tid];
+                if ((t.can_see(dest_loc, u)) && !t.is_benign() &&
+                    !query_yn(_("Really step onto that %s?"), t.name.c_str())) {
+                    return false;
+                }
             }
         }
 
@@ -11741,67 +11754,66 @@ bool game::plmove(int dx, int dy)
                         add_msg(m_info, _("You can't move %s while standing on it!"), grabbed_vehicle->name.c_str());
                         return false;
                     }
-		//vehicle movement: strength check
-		int mc = 0;
-		int str_req = (grabbed_vehicle->total_mass() / 25); //strengh reqired to move vehicle.
 
-		//if vehicle is rollable we modify str_req based on a function of movecost per wheel.
-    // Veh just too big to grab & move; 41-45 lets folks have a bit of a window
-    // (Roughly 1.1K kg = danger zone; cube vans are about the max)
-    if (str_req > 45) {
-        add_msg(m_info, _("The %s is too bulky for you to move by hand."),
-          grabbed_vehicle->name.c_str() );
-        u.moves -= 100;
-        return false; // No shoving around an RV.
-    }
-    
-		//if vehicle weighs too much, wheels don't provide a bonus.
-		if (grabbed_vehicle->valid_wheel_config() && str_req <= 40)	{
+                    //vehicle movement: strength check
+                    int mc = 0;
+                    int str_req = (grabbed_vehicle->total_mass() / 25); //strengh reqired to move vehicle.
 
-		    //determine movecost for terrain touching wheels
-		    std::vector<int> wheel_indices = grabbed_vehicle->all_parts_with_feature(VPFLAG_WHEEL);
-		    for(auto p : wheel_indices) {
-          mc += (str_req / wheel_indices.size()) * m.move_cost(grabbed_vehicle->global_x() +
-            grabbed_vehicle->parts[p].precalc[0].x, grabbed_vehicle->global_y() +
-            grabbed_vehicle->parts[p].precalc[0].y, grabbed_vehicle);
-		    }
-		    //set strength check threshold
-		    //if vehicle has many or only one wheel (shopping cart), it is as if it had four. 
-		    if(wheel_indices.size() > 4 || wheel_indices.size() == 1) {
-		    	str_req = mc / 4 + 1;
-		    } else {
-		    	str_req = mc / wheel_indices.size() + 1;
-		    }
-		} else {		
-		    str_req++;		    
-		    //if vehicle has no wheels str_req make a noise.
-		    if (str_req <= u.get_str() ) {
-            sounds::sound( grabbed_vehicle->global_x(), grabbed_vehicle->global_y(), str_req * 2,
-				       _("a scraping noise."));
-		    }
-		}
+                    //if vehicle is rollable we modify str_req based on a function of movecost per wheel.
 
-		//final strength check and outcomes
-		if (str_req <= u.get_str() ) {
-		    //calculate exertion factor and movement penalty
-		    drag_multiplier += str_req / u.get_str();
-		    int ex = dice(1, 3) - 1 + str_req;
-		    if (ex > u.get_str() ) {
-            add_msg(m_bad, _("You strain yourself to move the %s!"),
-              grabbed_vehicle->name.c_str() );
-            u.moves -= 200;
-            u.mod_pain(1);
-		    } else if (ex == u.get_str() ) {
-            u.moves -= 200;
-            add_msg( _("It takes some time to move the %s."),
-              grabbed_vehicle->name.c_str());
-		    }
-		} else {
-		    u.moves -= 100;
-		    add_msg( m_bad, _("You lack the strength to move the %s"),
-			     grabbed_vehicle->name.c_str() );
-		    return false;
-		}
+                    // Veh just too big to grab & move; 41-45 lets folks have a bit of a window
+                    // (Roughly 1.1K kg = danger zone; cube vans are about the max)
+                    if (str_req > 45) {
+                        add_msg(m_info, _("The %s is too bulky for you to move by hand."),
+                                grabbed_vehicle->name.c_str() );
+                        u.moves -= 100;
+                        return false; // No shoving around an RV.
+                    }
+
+                    //if vehicle weighs too much, wheels don't provide a bonus.
+                    if (grabbed_vehicle->valid_wheel_config() && str_req <= 40) {
+                        //determine movecost for terrain touching wheels
+                        std::vector<int> wheel_indices = grabbed_vehicle->all_parts_with_feature(VPFLAG_WHEEL);
+                        for(auto p : wheel_indices) {
+                            mc += (str_req / wheel_indices.size()) *
+                                m.move_cost(grabbed_vehicle->global_x() + grabbed_vehicle->parts[p].precalc[0].x,
+                                        grabbed_vehicle->global_y() + grabbed_vehicle->parts[p].precalc[0].y,
+                                        grabbed_vehicle);
+                        }
+                        //set strength check threshold
+                        //if vehicle has many or only one wheel (shopping cart), it is as if it had four.
+                        if(wheel_indices.size() > 4 || wheel_indices.size() == 1) {
+                            str_req = mc / 4 + 1;
+                        } else {
+                            str_req = mc / wheel_indices.size() + 1;
+                        }
+                    } else {
+                        str_req++;
+                        //if vehicle has no wheels str_req make a noise.
+                        if (str_req <= u.get_str() ) {
+                            sounds::sound( grabbed_vehicle->global_x(), grabbed_vehicle->global_y(), str_req * 2,
+                                _("a scraping noise."));
+                        }
+                    }
+
+                    //final strength check and outcomes
+                    if (str_req <= u.get_str() ) {
+                        //calculate exertion factor and movement penalty
+                        drag_multiplier += str_req / u.get_str();
+                        int ex = dice(1, 3) - 1 + str_req;
+                        if (ex > u.get_str() ) {
+                            add_msg(m_bad, _("You strain yourself to move the %s!"), grabbed_vehicle->name.c_str() );
+                            u.moves -= 200;
+                            u.mod_pain(1);
+                        } else if (ex == u.get_str() ) {
+                            u.moves -= 200;
+                            add_msg( _("It takes some time to move the %s."), grabbed_vehicle->name.c_str());
+                        }
+                    } else {
+                        u.moves -= 100;
+                        add_msg( m_bad, _("You lack the strength to move the %s"), grabbed_vehicle->name.c_str() );
+                        return false;
+                    }
 
                     tileray mdir;
 
@@ -12033,7 +12045,7 @@ bool game::plmove(int dx, int dy)
         // Calculate cost of moving
         bool diag = trigdist && u.posx() != x && u.posy() != y;
         u.moves -= int(u.run_cost(m.combined_movecost(u.posx(), u.posy(), x, y, grabbed_vehicle,
-                                  		     movecost_modifier), diag) * drag_multiplier);
+                                               movecost_modifier), diag) * drag_multiplier);
 
         // Adjust recoil down
         u.recoil -= int(u.str_cur / 2) + u.skillLevel("gun");
@@ -12154,9 +12166,6 @@ bool game::plmove(int dx, int dy)
             u.lifetime_stats()->squares_walked++;
         }
 
-        // Recalc dest_loc after possible shift
-        dest_loc = tripoint( x, y, u.posz() );
-
         //Autopickup
         if (OPTIONS["AUTO_PICKUP"] && (!OPTIONS["AUTO_PICKUP_SAFEMODE"] || mostseen == 0) &&
             ((m.i_at(u.posx(), u.posy())).size() || OPTIONS["AUTO_PICKUP_ADJACENT"])) {
@@ -12172,10 +12181,11 @@ bool game::plmove(int dx, int dy)
         // Try to detect.
         u.search_surroundings();
         // We stepped on a trap!
-        if( m.tr_at( dest_loc ) != tr_null ) {
-            trap *tr = traplist[m.tr_at( dest_loc )];
-            if( !u.avoid_trap( dest_loc, tr ) ) {
-                tr->trigger( dest_loc, &u );
+        // Can't use dest_loc here - we may have shifted the map
+        if( m.tr_at( u.pos3() ) != tr_null ) {
+            trap *tr = traplist[m.tr_at( u.pos3() )];
+            if( !u.avoid_trap( u.pos3(), tr ) ) {
+                tr->trigger( u.pos3(), &u );
             }
         }
 
@@ -12298,7 +12308,7 @@ bool game::plmove(int dx, int dy)
             if (u.in_vehicle) {
                 m.unboard_vehicle(u.posx(), u.posy());
             }
-            u.power_level -= (tunneldist * 250); //tunneling costs 10 bionic power per impassable tile
+            u.charge_power(-(tunneldist * 250)); //tunneling costs 250 bionic power per impassable tile
             u.moves -= 100; //tunneling costs 100 moves
             //move us the number of tiles we tunneled in the x direction, plus 1 for the last tile.
             u.setx( u.posx() + (tunneldist + 1) * (x - u.posx()) );
@@ -12309,7 +12319,7 @@ bool game::plmove(int dx, int dy)
                 m.board_vehicle(u.posx(), u.posy(), &u);
             }
         } else { //or you couldn't tunnel due to lack of energy
-            u.power_level -= 250; //failure is expensive!
+            u.charge_power(-250); //failure is expensive!
             return false;
         }
 
@@ -12646,13 +12656,23 @@ void game::vertical_move(int movez, bool force)
         return;
     }
 
+    // Becase get_levz takes z-value from the map, it will change when vertical_shift (ZLEVELS)
+    // is called or when the map is loaded on new z-level (not ZLEVELS).
+    // This caches the z-level we start the movement on (current) and the level we're want to end.
+    const int z_before = get_levz();
+    const int z_after = get_levz() + movez;
+    if( z_after < -OVERMAP_DEPTH || z_after > OVERMAP_HEIGHT ) {
+        debugmsg( "Tried to move outside allowed range of z-levels" );
+        return;
+    }
+
     // Shift the map up or down
 #ifdef ZLEVELS
     map &maybetmp = m;
-    maybetmp.vertical_shift( levz + movez );
+    maybetmp.vertical_shift( z_after );
 #else
     map maybetmp;
-    maybetmp.load(levx, levy, levz + movez, false, cur_om);
+    maybetmp.load(get_levx(), get_levy(), z_after, false);
 #endif
 
     // Find the corresponding staircase
@@ -12661,15 +12681,9 @@ void game::vertical_move(int movez, bool force)
 
     const int omtilesz=SEEX * 2;
     real_coords rc( m.getabs(u.posx(), u.posy()) );
-
     point omtile_align_start(
         m.getlocal(rc.begin_om_pos())
     );
-
-    if( levz + movez < -OVERMAP_DEPTH || levz + movez > OVERMAP_HEIGHT ) {
-        debugmsg( "Tried to move outside allowed range of z-levels" );
-        return;
-    }
 
     bool actually_moved = true;
     if (force) {
@@ -12769,13 +12783,13 @@ void game::vertical_move(int movez, bool force)
     if( !actually_moved ) {
 #ifdef ZLEVELS
         // Have to undo the map shift
-        m.vertical_shift( levz );
+        m.vertical_shift( z_before );
 #endif
         return;
     }
 
     if( !force ) {
-        monstairz = levz;
+        monstairz = z_before;
     }
     // Save all monsters that can reach the stairs, remove them from the tracker,
     // then despawn the remaining monsters. Because it's a vertical shift, all
@@ -12804,35 +12818,33 @@ void game::vertical_move(int movez, bool force)
     // Figure out where we know there are up/down connectors
     // Fill in all the tiles we know about (e.g. subway stations)
     static const int REVEAL_RADIUS = 40;
-    const tripoint gpos = om_global_location();
-    int z_coord = levz + movez;
+    const tripoint gpos = global_omt_location();
     for (int x = -REVEAL_RADIUS; x <= REVEAL_RADIUS; x++) {
         for (int y = -REVEAL_RADIUS; y <= REVEAL_RADIUS; y++) {
             const int cursx = gpos.x + x;
             const int cursy = gpos.y + y;
-            if (!overmap_buffer.seen(cursx, cursy, levz)) {
+            if (!overmap_buffer.seen(cursx, cursy, z_before)) {
                 continue;
             }
-            if (overmap_buffer.has_note(cursx, cursy, z_coord)) {
+            if (overmap_buffer.has_note(cursx, cursy, z_after)) {
                 // Already has a note -> never add an AUTO-note
                 continue;
             }
-            const oter_id &ter = overmap_buffer.ter(cursx, cursy, levz);
-            const oter_id &ter2 = overmap_buffer.ter(cursx, cursy, z_coord);
+            const oter_id &ter = overmap_buffer.ter(cursx, cursy, z_before);
+            const oter_id &ter2 = overmap_buffer.ter(cursx, cursy, z_after);
             if (!!OPTIONS["AUTO_NOTES"]) {
                 if (movez == +1 && otermap[ter].known_up && !otermap[ter2].known_down) {
-                    overmap_buffer.set_seen(cursx, cursy, z_coord, true);
-                    overmap_buffer.add_note(cursx, cursy, z_coord, _(">:W;AUTO: goes down"));
+                    overmap_buffer.set_seen(cursx, cursy, z_after, true);
+                    overmap_buffer.add_note(cursx, cursy, z_after, _(">:W;AUTO: goes down"));
                 }
                 if (movez == -1 && otermap[ter].known_down && !otermap[ter2].known_up) {
-                    overmap_buffer.set_seen(cursx, cursy, z_coord, true);
-                    overmap_buffer.add_note(cursx, cursy, z_coord, _("<:W;AUTO: goes up"));
+                    overmap_buffer.set_seen(cursx, cursy, z_after, true);
+                    overmap_buffer.add_note(cursx, cursy, z_after, _("<:W;AUTO: goes up"));
                 }
             }
         }
     }
 
-    levz += movez;
     u.moves -= 100;
     m.clear_vehicle_cache();
     m.vehicle_list.clear();
@@ -12840,11 +12852,11 @@ void game::vertical_move(int movez, bool force)
     m.set_outside_cache_dirty();
 #ifndef ZLEVELS
     (void)actually_moved;
-    m.load( levx, levy, levz, true, cur_om );
+    m.load( get_levx(), get_levy(), z_after, true );
 #endif
     u.setx( stairx );
     u.sety( stairy );
-    u.setz( levz );
+    u.setz( get_levz() );
     if (rope_ladder) {
         m.ter_set(u.posx(), u.posy(), t_rope_up);
     }
@@ -12914,16 +12926,6 @@ void game::update_map(int &x, int &y)
     }
 
     m.shift( shiftx, shifty );
-    levx += shiftx;
-    levy += shifty;
-
-    real_coords rc( m.getabs( 0, 0 ) );
-    if( cur_om->pos() != rc.abs_om ) {
-        // lev[xy] must stay relative to cur_om, if we change cur_om, we have to change lev[xy]
-        levx += ( cur_om->pos().x - rc.abs_om.x ) * OMAPX * 2;
-        levy += ( cur_om->pos().y - rc.abs_om.y ) * OMAPY * 2;
-        cur_om = &overmap_buffer.get( rc.abs_om.x, rc.abs_om.y );
-    }
 
     // Shift monsters if we're actually shifting
     if (shiftx || shifty) {
@@ -12973,17 +12975,24 @@ void game::update_map(int &x, int &y)
     update_overmap_seen();
 }
 
-tripoint game::om_global_location() const
+tripoint game::global_omt_location() const
 {
-    const int cursx = (levx + int(MAPSIZE / 2)) / 2 + cur_om->pos().x * OMAPX;
-    const int cursy = (levy + int(MAPSIZE / 2)) / 2 + cur_om->pos().y * OMAPY;
+    const int cursx = (get_levx() + int(MAPSIZE / 2)) / 2;
+    const int cursy = (get_levy() + int(MAPSIZE / 2)) / 2;
 
-    return tripoint(cursx, cursy, levz);
+    return tripoint(cursx, cursy, get_levz());
+}
+
+tripoint game::global_sm_location() const
+{
+    return tripoint( get_levx() + int( MAPSIZE / 2 ),
+                     get_levy() + int( MAPSIZE / 2 ),
+                     get_levz() );
 }
 
 void game::update_overmap_seen()
 {
-    const tripoint ompos = om_global_location();
+    const tripoint ompos = global_omt_location();
     const int dist = u.overmap_sight_range(light_level());
     // We can always see where we're standing
     overmap_buffer.set_seen(ompos.x, ompos.y, ompos.z, true);
@@ -13004,20 +13013,11 @@ void game::update_overmap_seen()
     }
 }
 
-point game::om_location() const
-{
-    point ret;
-    ret.x = int((levx + int(MAPSIZE / 2)) / 2);
-    ret.y = int((levy + int(MAPSIZE / 2)) / 2);
-
-    return ret;
-}
-
 void game::replace_stair_monsters()
 {
     for( auto &elem : coming_to_stairs ) {
         elem.staircount = 0;
-        elem.spawn( elem.posx(), elem.posy(), levz );
+        elem.spawn( elem.posx(), elem.posy(), get_levz() );
         add_zombie( elem );
     }
 
@@ -13032,10 +13032,9 @@ void game::update_stair_monsters()
     std::vector<int> stairx, stairy;
     std::vector<int> stairdist;
 
-    const bool from_below = monstairz < levz;
+    const bool from_below = monstairz < get_levz();
 
     if( coming_to_stairs.empty() ) {
-        monstairz = 999;
         return;
     }
 
@@ -13119,7 +13118,7 @@ void game::update_stair_monsters()
         }
 
         if( is_empty(mposx, mposy) ) {
-            critter.spawn( mposx, mposy, levz );
+            critter.spawn( mposx, mposy, get_levz() );
             critter.staircount = 0;
             add_zombie(critter);
             if (u.sees(mposx, mposy)) {
@@ -13146,7 +13145,7 @@ void game::update_stair_monsters()
             const int creature_push_attempts = 9;
             const int player_throw_resist_chance = 3;
 
-            critter.setpos( mposx, mposy, levz, true );
+            critter.setpos( mposx, mposy, get_levz(), true );
             while (tries < creature_push_attempts) {
                 tries++;
                 pushx = rng(-1, 1), pushy = rng(-1, 1);
@@ -13194,7 +13193,7 @@ void game::update_stair_monsters()
         } else if( mon_at( mposx, mposy ) != -1) {
             // Monster attempts to displace a monster from the stairs
             monster &other = critter_tracker.find( mon_at(mposx, mposy) );
-            critter.setpos( mposx, mposy, levz, true );
+            critter.setpos( mposx, mposy, get_levz(), true );
 
             // the critter is now right on top of another and will push it
             // if it can find a square to push it into inside of his tries.
@@ -13214,7 +13213,7 @@ void game::update_stair_monsters()
                     continue;
                 }
                 if ((mon_at(iposx, iposy) == -1) && other.can_move_to(iposx, iposy)) {
-                    other.setpos( iposx, iposy, levz );
+                    other.setpos( iposx, iposy, get_levz() );
                     other.moves -= 50;
                     std::string msg = "";
                     if (one_in(creature_throw_resist)) {
@@ -13229,10 +13228,6 @@ void game::update_stair_monsters()
             }
             return;
         }
-    }
-
-    if( coming_to_stairs.empty() ) {
-        monstairz = 999;
     }
 }
 
@@ -13281,7 +13276,7 @@ void game::spawn_mon(int /*shiftx*/, int /*shifty*/)
     }
 
     float density = ACTIVE_WORLD_OPTIONS["NPC_DENSITY"];
-    const int npc_num = cur_om->npcs.size();
+    const int npc_num = get_cur_om().npcs.size();
     if( npc_num > 0 ) {
         // 100%, 80%, 64%, 52%, 41%, 33%...
         density *= powf( 0.8f, npc_num );
@@ -13297,8 +13292,8 @@ void game::spawn_mon(int /*shiftx*/, int /*shifty*/)
         // to prevent NPCs appearing out of thin air.
         // This can be changed to let the NPC spawn further away,
         // so it does not became active immediately.
-        int msx = get_abs_levx();
-        int msy = get_abs_levy();
+        int msx = get_levx();
+        int msy = get_levy();
         switch (rng(0, 4)) { // on which side of the map to spawn
         case 0:
             msy += rng(0, MAPSIZE - 1);
@@ -13316,10 +13311,10 @@ void game::spawn_mon(int /*shiftx*/, int /*shifty*/)
             break;
         }
         // adds the npc to the correct overmap.
-        tmp->spawn_at( msx, msy, levz );
+        tmp->spawn_at( msx, msy, get_levz() );
         tmp->form_opinion(&u);
         tmp->mission = NPC_MISSION_NULL;
-        int mission_index = reserve_random_mission(ORIGIN_ANY_NPC, om_location(), tmp->getID());
+        int mission_index = reserve_random_mission(ORIGIN_ANY_NPC, global_omt_location(), tmp->getID());
         if (mission_index != -1) {
             tmp->chatbin.missions.push_back(mission_index);
         }
@@ -13484,7 +13479,7 @@ void game::nuke(int x, int y)
 {
     // TODO: nukes hit above surface, not critter = 0
     tinymap tmpmap;
-    tmpmap.load_abs(x * 2, y * 2, 0, false);
+    tmpmap.load(x * 2, y * 2, 0, false);
     for (int i = 0; i < SEEX * 2; i++) {
         for (int j = 0; j < SEEY * 2; j++) {
             if (!one_in(10)) {
@@ -14229,17 +14224,23 @@ void game::add_artifact_messages(std::vector<art_effect_passive> effects)
     }
 }
 
-int game::get_abs_levx() const
+int game::get_levx() const
 {
-    return levx + cur_om->pos().x * OMAPX * 2;
+    return m.get_abs_sub().x;
 }
 
-int game::get_abs_levy() const
+int game::get_levy() const
 {
-    return levy + cur_om->pos().y * OMAPY * 2;
+    return m.get_abs_sub().y;
 }
 
-int game::get_abs_levz() const
+int game::get_levz() const
 {
-    return levz;
+    return m.get_abs_sub().z;
+}
+
+overmap &game::get_cur_om() const
+{
+    const tripoint pos_om = overmapbuffer::sm_to_om_copy( m.get_abs_sub() );
+    return overmap_buffer.get( pos_om.x, pos_om.y );
 }

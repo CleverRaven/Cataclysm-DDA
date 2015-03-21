@@ -642,7 +642,7 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump, bool debug) c
     }
     if( food_item != nullptr ) {
         const auto food = dynamic_cast<const it_comest*>( food_item->type );
-        dump->push_back(iteminfo("FOOD", _("Nutrition: "), "", food->nutr, true, "", false, true));
+        dump->push_back(iteminfo("FOOD", _("Nutrition: "), "", g->u.nutrition_for(food), true, "", false, true));
         dump->push_back(iteminfo("FOOD", space + _("Quench: "), "", food->quench));
         dump->push_back(iteminfo("FOOD", _("Enjoyability: "), "", food->fun));
         dump->push_back(iteminfo("FOOD", _("Portions: "), "", abs(int(food_item->charges))));
@@ -1001,8 +1001,8 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump, bool debug) c
                                          _("Reading this book affects your morale by <num>"),
                                          book->fun, true, (book->fun > 0 ? "+" : "")));
             }
-            dump->push_back(iteminfo("BOOK", "", ngettext("This book takes <num> minute to read.",
-                                                          "This book takes <num> minutes to read.",
+            dump->push_back(iteminfo("BOOK", "", ngettext("A chapter of this book takes <num> minute to read.",
+                                                          "A chapter of this book takes <num> minutes to read.",
                                                           book->time),
                                      book->time, true, "", true, true));
             if( book->chapters > 0 ) {
@@ -2329,17 +2329,20 @@ int item::get_encumber() const
     // it_armor::encumber is signed char
     int encumber = static_cast<int>( t->encumber );
 
+    /* So I made some fixes here, although overall they are buffed up.
+     * I am more than open to any fixes, however I thought I'd pitch
+     * in having worn these types of clothing in different forms. -Davek */
     if (item::item_tags.count("wooled")){
-        encumber += 2;
+        encumber += 3;
         }
     if (item::item_tags.count("furred")){
         encumber += 5;
         }
     if (item::item_tags.count("leather_padded")){
-        encumber += 4;
+        encumber += 7;
         }
     if (item::item_tags.count("kevlar_padded")){
-        encumber += 6;
+        encumber += 5;
         }
     return encumber;
 }
@@ -3489,6 +3492,38 @@ ammotype item::ammo_type() const
     return "NULL";
 }
 
+const use_function *item::get_use( const std::string &use_name ) const
+{
+    if( type != nullptr && type->get_use( use_name ) != nullptr ) {
+        return type->get_use( use_name );
+    }
+
+    for( const auto &elem : contents ) {
+        const auto fun = elem.get_use( use_name );
+        if( fun != nullptr ) {
+            return fun;
+        }
+    }
+
+    return nullptr;
+}
+
+item *item::get_usable_item( const std::string &use_name )
+{
+    if( type != nullptr && type->get_use( use_name ) != nullptr ) {
+        return this;
+    }
+
+    for( auto &elem : contents ) {
+        const auto fun = elem.get_use( use_name );
+        if( fun != nullptr ) {
+            return &elem;
+        }
+    }
+
+    return nullptr;
+}
+
 int item::pick_reload_ammo( const player &u, bool interactive )
 {
     if( is_null() ) {
@@ -4632,7 +4667,7 @@ bool item::process_cable( player *p, point pos )
 
     point relpos= g->m.getlocal(source_x, source_y);
     auto veh = g->m.veh_at(relpos.x, relpos.y);
-    if( veh == nullptr || source_z != g->levz ) {
+    if( veh == nullptr || source_z != g->get_levz() ) {
         if( p != nullptr && p->has_item(this) ) {
             p->add_msg_if_player(m_bad, _("You notice the cable has come loose!"));
         }
