@@ -9,7 +9,10 @@
                  { "monster" : "mon_zombie_cop", "freq" :10, "cost_multiplier" : 2 },
                  { "monster" : "mon_zombie_child", "freq" : 20, "cost_multiplier" : 1 },
                  { "monster" : "mon_zombie_crawler", "freq" : 10, "cost_multiplier" : 1 }
-            ]
+            ],
+			"replace_monster_group" : true,
+			"new_monster_group_id" : "GROUP_ZOMBIE_MID",
+			"replacement_time" : 0	
     },{
             "type" : "item_group",
             "id" : "floor_trash",
