@@ -21,7 +21,7 @@
     "ammo": "tinder",
     "revert_to": "null",
     "qualities": [["COOK", 1]],
-    "use_action": "HOTPLATE"
+    "use_action": "hotplate"
   },
   {
     "id": "flint_steel",
@@ -84,10 +84,10 @@
     "color": "light_gray",
     "name": "ember carrier (lit)",
     "name_plural": "ember carriers (lit)",
-    "description": "This is a small container for holding tinder, with holes punched in it to provide a controlled airflow.  An ember is smoldering inside it.",
+    "description": "This is a small container for holding tinder, with holes punched in it to provide a controlled airflow.  An ember is smoldering inside it. For buggy reasons, do not manually extinguish. Unload it instead.",
     "price": 1000,
     "material": "iron",
-    "flags": ["FIRE", "FLAMING"],
+    "flags": ["FIRE", "FLAMING", "REFILLABLE_LIGHTER"],
     "weight": 500,
     "volume": 2,
     "bashing": 0,
@@ -99,7 +99,10 @@
     "turns_per_charge": 600,
     "ammo": "tinder",
     "revert_to": "tinderbox",
-    "use_action": "TINDERBOX_LIT"
+    "use_action": {
+            "type": "firestarter",
+            "moves_cost": 15
+    }
   },
   {
     "id": "bottle_metal",
@@ -129,7 +132,7 @@
         "color" : "green",
         "addiction_type" : "none",
         "spoils_in" : 0,
-        "use_action" : "MISC_REPAIR",
+        "use_action" : "misc_repair",
         "stim" : 0,
         "container" : "null",
         "to_hit" : 0,
@@ -198,7 +201,7 @@
     "turns_per_charge": 0,
     "ammo": "NULL",
     "revert_to": "null",
-    "use_action": "KNIFE",
+    "use_action": "knife",
     "qualities": [["CUT", 1], ["BUTCHER", 6], ["SAW_W", 1], ["AXE", 1], ["HAMMER", 1]],
     "flags": ["CHOP"]
   },
@@ -384,7 +387,7 @@
         "type":"GENERIC",
         "id" : "spear_copper",
         "name" : "copper spear",
-        "description" : "A stout wooden pole with a sharp stone spearhead.",
+        "description" : "A stout wooden pole with a spearhead worked from copper.",
         "weight" : 1400,
         "to_hit" : 1,
         "color" : "light_red",
@@ -435,7 +438,7 @@
     "turns_per_charge": 0,
     "ammo": "NULL",
     "revert_to": "null",
-    "use_action": "KNIFE",
+    "use_action": "knife",
     "qualities": [["CUT", 1], ["BUTCHER", 11]],
     "flags": ["STAB", "SHEATH_KNIFE"]
      },
@@ -461,7 +464,7 @@
     "ammo": "NULL",
     "revert_to": "null",
     "qualities": [["AXE", 3]],
-    "use_action": "LUMBER"
+    "use_action": "lumber"
      },
     {
         "type" : "COMESTIBLE",

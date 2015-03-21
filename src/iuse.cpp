@@ -6302,9 +6302,9 @@ int iuse::tinderbox_lit(player *p, item *it, bool t, point pos)
                           _("light something"), _("cancel"), NULL);
         switch (choice) {
             case 1: {
-                p->add_msg_if_player(_("The ember carrier is extinguished"));
+                p->add_msg_if_player(_("The ember is extinguished"));
                 it->charges -= 1;
-                it->make("tinderbox);
+                it->make("tinderbox");
                 it->active = false;
                 return 0;
             }

@@ -3,7 +3,6 @@
         "type" : "material",
         "ident" : "copper",
         "name" : "Copper",
-        "salvage_id": "cu_pipe",
         "bash_resist" : 2,
         "cut_resist" : 3,
         "bash_dmg_verb" : "dented",

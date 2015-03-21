@@ -8,7 +8,7 @@
         "name_plural" : "tinder",
         "symbol" : "=",
         "color" : "brown",
-        "description" : "Flammible material, finely divided for easy combustion.",
+        "description" : "Flammable material, finely divided for easy combustion.",
         "material" : "wood",
         "volume" : 0,
         "weight" : 10,

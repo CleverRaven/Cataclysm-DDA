@@ -4,18 +4,18 @@
         "ident": "nomad",
         "name": "Nomad",
         "description": "You always prefered the comfort of the open sky, far from the complexities of modern life. Though from the looks of it, things have changed since last time you've been anywhere near civilization.",
-        "points": 4,
+        "points": 5,
         "skills": [
             {
-                "level": 4,
+                "level": 2,
                 "name": "survival"
             },
             {
-                "level": 3,
+                "level": 2,
                 "name": "fabrication"
             },
             {
-                "level": 2,
+                "level": 1,
                 "name": "tailor"
             },
             {
@@ -44,15 +44,11 @@
                 "hat_fur",
                 "scarf_fur",
                 "quiver",
-                "sheath",
                 "shortbow",
                 "arrow_wood",
-                "arrow_wood",
                 "copper_knife",
-                "copper_ax",
-                "pot",
+                "rock_pot",
                 "waterskin",
-                "fur_rollmat",
                 "flint_steel",
                 "tinderbox"
             ]
@@ -65,6 +61,18 @@
         "description": "An out-of-place living relic of prehistory, stranded in an unfamiliar and terrifying world. Life as a hunter-gatherer was hard, but at least you didn't have to fight the living dead, and you had your kin to stand beside you. Here, you're on your own.",
         "points": 2,
         "skills": [
+            {
+                "level": 1,
+                "name": "survival"
+            },
+            {
+                "level": 1,
+                "name": "fabrication"
+            },
+            {
+                "level": 1,
+                "name": "cooking"
+            },
             {
                 "level": 3,
                 "name": "gun"
