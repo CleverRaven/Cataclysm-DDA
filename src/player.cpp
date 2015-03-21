@@ -1,4 +1,4 @@
-#include "player.h"
+﻿#include "player.h"
 #include "profession.h"
 #include "bionics.h"
 #include "mission.h"
@@ -8464,6 +8464,8 @@ bool player::has_fire(const int quantity) const
         return true;
     } else if (has_charges("torch_lit", 1)) {
         return true;
+    } else if (has_charges("tinderbox_lit", 1)) {
+        return true;
     } else if (has_charges("battletorch_lit", quantity)) {
         return true;
     } else if (has_charges("handflare_lit", 1)) {
@@ -8517,6 +8519,8 @@ void player::use_fire(const int quantity)
     if (g->m.has_nearby_fire(posx(), posy())) {
         return;
     } else if (has_charges("torch_lit", 1)) {
+        return;
+    } else if (has_charges("tinderbox_lit", 1)) {
         return;
     } else if (has_charges("battletorch_lit", 1)) {
         return;

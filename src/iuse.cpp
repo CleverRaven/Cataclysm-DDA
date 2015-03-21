@@ -6282,6 +6282,45 @@ int iuse::torch_lit(player *p, item *it, bool t, point pos)
     return it->type->charges_to_use();
 }
 
+int iuse::tinderbox_lit(player *p, item *it, bool t, point pos)
+{
+    if (p->is_underwater()) {
+        p->add_msg_if_player(_("The ember carrier is snuffed out."));
+        it->make("tinderbox");
+        it->active = false;
+        return 0;
+    }
+    if (t) {
+        if (it->charges < it->type->charges_to_use()) {
+            p->add_msg_if_player(_("The ember dies out."));
+            it->make("tinderbox");
+            it->active = false;
+        }
+    } else if (it->charges <= 0) {
+        p->add_msg_if_player(_("The %s dies out"), it->tname().c_str());
+    } else { // Turning it off
+        int choice = menu(true, _("ember carrier (lit)"), _("extinguish"),
+                          _("light something"), _("cancel"), NULL);
+        switch (choice) {
+            case 1: {
+                p->add_msg_if_player(_("The ember is extinguished"));
+                it->charges -= 1;
+                it->make("tinderbox");
+                it->active = false;
+                return 0;
+            }
+            break;
+            case 2: {
+                if( firestarter_actor::prep_firestarter_use(p, it, pos) ) {
+                    p->moves -= 5;
+                    firestarter_actor::resolve_firestarter_use(p, it, pos);
+                    return it->type->charges_to_use();
+                }
+            }
+        }
+    }
+    return it->type->charges_to_use();
+}
 
 int iuse::battletorch_lit(player *p, item *it, bool t, point pos)
 {
