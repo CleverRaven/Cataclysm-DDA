@@ -1778,7 +1778,7 @@ void mapgen_parking_lot(map *m, oter_id, mapgendata dat, int turn, float)
                 m->ter_set(i, j, dat.groundcover());
         }
     }
-    for(int v = 0; v < rng(2,5); v++) {
+    for(int v = 0; v < rng(1,4); v++) {
         int vy = rng(0, 4) * 4 + rng(2,4);
         int vx = rng(0, 1) * 15 + rng(4,5);
         std::string veh_type = "";
