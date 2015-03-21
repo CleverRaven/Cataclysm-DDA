@@ -1268,7 +1268,7 @@ std::string dynamic_line(talk_topic topic, npc *p)
                        	case NC_HUNTER:
                        	    return _("I'm tracking game.");
                        	case NC_MAX:
-                       	    return _("I should be able to exist!");
+                       	    return _("I should not be able to exist!");
                         case NC_NONE:
                             return _("I'm just wandering.");
                         default:
