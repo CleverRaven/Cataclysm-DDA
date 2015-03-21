@@ -1241,6 +1241,8 @@ std::string dynamic_line(talk_topic topic, npc *p)
                     switch (p->myclass) {
                         case NC_SHOPKEEP:
                             return _("I'm a local shopkeeper.");
+                        case NC_EVAC_SHOPKEEP:
+                            return _("I'm a local shopkeeper.");
                         case NC_HACKER:
                             return _("I'm looking for some choice systems to hack.");
                         case NC_DOCTOR:
@@ -1259,6 +1261,12 @@ std::string dynamic_line(talk_topic topic, npc *p)
                             return _("I'm just here for the paycheck.");
                         case NC_SCAVENGER:
                             return _("I'm just trying to survive.");
+                        case NC_ARSONIST:
+                       	    return _("I'm just watching the world burn.");
+                       	case NC_HUNTER:
+                       	    return _("I'm tracking game.")
+                       	case NC_MAX:
+                       	    return _("I should be able to exist!")
                         case NC_NONE:
                             return _("I'm just wandering.");
                         default:
