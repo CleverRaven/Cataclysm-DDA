@@ -656,38 +656,41 @@ void cata_tiles::draw(int const destx, int const desty, int const centerx, int c
 
     draw_footsteps_frame();
 
-    if (do_draw_explosion) {
+    bool did_animation = false;
+    if (did_animation |= do_draw_explosion) {
         draw_explosion_frame();
     }
-    if (do_draw_bullet) {
+    if (did_animation |= do_draw_bullet) {
         draw_bullet_frame();
     }
-    if (do_draw_hit) {
+    if (did_animation |= do_draw_hit) {
         draw_hit_frame();
         void_hit();
     }
-    if (do_draw_line) {
+    if (did_animation |= do_draw_line) {
         draw_line();
         void_line();
     }
-    if (do_draw_weather) {
+    if (did_animation |= do_draw_weather) {
         draw_weather_frame();
         void_weather();
     }
-    if (do_draw_sct) {
+    if (did_animation |= do_draw_sct) {
         draw_sct_frame();
         void_sct();
     }
-    if (do_draw_zones) {
+    if (did_animation |= do_draw_zones) {
         draw_zones_frame();
         void_zones();
     }
 
-    // check to see if player is located at ter
-    int const tx = g->ter_view_x;
-    int const ty = g->ter_view_y;
-    if (g->u.posx() + g->u.view_offset_x != tx || g->u.posy() + g->u.view_offset_y != ty) {
-        draw_from_id_string("cursor", tx, ty, 0, 0);
+    if (!did_animation) {
+        // check to see if player is located at ter
+        int const tx = g->ter_view_x;
+        int const ty = g->ter_view_y;
+        if (g->u.posx() + g->u.view_offset_x != tx || g->u.posy() + g->u.view_offset_y != ty) {
+            draw_from_id_string("cursor", tx, ty, 0, 0);
+        }
     }
 
     SDL_RenderSetClipRect(renderer, nullptr);

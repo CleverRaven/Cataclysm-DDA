@@ -37,13 +37,6 @@ struct tile_type {
     ) noexcept : fg(fg), bg(bg), rotates(rotates), multitile(multitile) {}
 };
 
-struct tile {
-    /** Screen coordinates as tile number */
-    int sx, sy;
-    /** World coordinates */
-    int wx, wy;
-};
-
 /* Enums */
 enum class light_type : int;
 
