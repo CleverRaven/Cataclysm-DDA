@@ -243,18 +243,38 @@ void construction_menu()
         // Print the constructions between offset and max (or how many will fit)
         for (size_t i = 0; (int)i < iMaxY - 4 && (i + offset) < constructs.size(); i++) {
             int current = i + offset;
-            nc_color col = ( player_can_build(g->u, total_inv, constructs[current]) &&
-                             can_construct( constructs[current] ) ) ? c_white : c_dkgray;
+            std::string con_name = constructs[current];
+            nc_color col = c_dkgray;
+            if (can_construct( con_name )) {
+                construction *con_first = NULL;
+                std::vector<construction *> cons = constructions_by_desc( con_name );
+                for (auto &con : cons) {
+                    if (con->requirements.can_make_with_inventory( total_inv )) {
+                        con_first = con;
+                        break;
+                    }
+                }
+                if (con_first != NULL) {
+                    int pskill = g->u.skillLevel( con_first->skill );
+                    int diff = con_first->difficulty;
+                    if (pskill < diff) {
+                        col = c_red;
+                    } else if (pskill == diff) {
+                        col = c_ltblue;
+                    } else {
+                        col = c_white;
+                    }
+                }
+            }
             if (current == select) {
                 col = hilite(col);
             }
             // print construction name with limited length.
             // limit(28) = 30(column len) - 2(letter + ' ').
             // If we run out of hotkeys, just stop assigning them.
-            std::string cur_name = constructs[current].c_str();
             mvwprintz(w_con, 3 + i, 1, col, "%c %s",
                       (current < (int)hotkeys.size()) ? hotkeys[current] : ' ',
-                      utf8_truncate(cur_name, 27).c_str());
+                      utf8_truncate(con_name.c_str(), 27).c_str());
         }
 
         if (update_info) {
