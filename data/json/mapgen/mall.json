@@ -1573,7 +1573,6 @@
                 "P": "f_indoor_plant",
                 "r": "f_rack",
                 "S": "f_sink",
-                "t": "f_toilet",
                 "W": "f_washer",
                 "X": "f_safe_l",
                 "x": "f_pinball_machine",
@@ -1614,9 +1613,9 @@
                 "-|-----------|-HHHHH-|22",
                 " |6d h     6        P|22"
             ],
-            "place_toilets": [
-                { "x": 21, "y": 5 }
-            ],
+            "toilets": {
+                "t": { }
+            },
             "place_items": [
                 { "item": "cubical_office", "chance": 50, "x": [ 13,14 ], "y": [ 3,3 ]},
                 { "item": "cubical_office", "chance": 50, "x": [ 3,3 ], "y": [ 23,23 ]},
@@ -1827,7 +1826,6 @@
                 "P": "f_indoor_plant",
                 "r": "f_rack",
                 "S": "f_sink",
-                "t": "f_toilet",
                 "W": "f_washer",
                 "X": "f_safe_l",
                 "x": "f_pinball_machine",
@@ -1868,12 +1866,9 @@
                 "211222[2112[ssssssssssss",
                 "211222[2112[sssssssssssI"
             ],
-            "place_toilets": [
-                { "x": 11, "y": 0 },
-                { "x": 11, "y": 2 },
-                { "x": 11, "y": 4 },
-                { "x": 11, "y": 6 }
-            ],
+            "toilets": {
+                "t": { }
+            },
             "place_vendingmachines": [
                 { "x": 3, "y": 6, "item_group": "vending_food" },
                 { "x": 4, "y": 6, "item_group": "vending_drink" }
@@ -3754,7 +3749,6 @@
                 "P": "f_indoor_plant",
                 "r": "f_rack",
                 "S": "f_sink",
-                "t": "f_toilet",
                 "W": "f_washer",
                 "X": "f_safe_l",
                 "x": "f_pinball_machine",
@@ -3795,9 +3789,9 @@
                 "____ss...##|  |rV VcV   ",
                 "____ss....#|  |rV VcV   "
             ],
-            "place_toilets": [
-                { "x": 18, "y": 14 }
-            ],
+            "toilets": {
+                "t": { }
+            },
             "place_monsters": [
                 { "monster": "GROUP_MALL", "x": [ 2, 23 ], "y": [ 1, 12 ], "density": 0.3 }
             ],
@@ -4431,7 +4425,6 @@
                 "P": "f_indoor_plant",
                 "r": "f_rack",
                 "S": "f_sink",
-                "t": "f_toilet",
                 "W": "f_washer",
                 "X": "f_safe_l",
                 "x": "f_pinball_machine",
@@ -4472,11 +4465,9 @@
                 "     c6c| n | n |S   + t",
                 "     ch | n | n |c   |--"
             ],
-            "place_toilets": [
-                { "x": 23, "y": 11 },
-                { "x": 23, "y": 13 },
-                { "x": 23, "y": 22 }
-            ],
+            "toilets": {
+                "t": { }
+            },
             "place_monsters": [
                 { "monster": "GROUP_MALL", "x": [ 2, 18 ], "y": [ 3, 7 ], "density": 0.2 },
                 { "monster": "GROUP_MALL", "x": [ 2, 23 ], "y": [ 11, 22 ], "density": 0.2 }
@@ -4571,7 +4562,6 @@
                 "P": "f_indoor_plant",
                 "r": "f_rack",
                 "S": "f_sink",
-                "t": "f_toilet",
                 "W": "f_washer",
                 "X": "f_safe_l",
                 "x": "f_pinball_machine",
@@ -4620,11 +4610,9 @@
             "place_monsters": [
                 { "monster": "GROUP_MALL", "x": [ 11, 23 ], "y": [ 2, 23 ], "density": 0.2 }
             ],
-            "place_toilets": [
-                { "x": 1, "y": 11 },
-                { "x": 1, "y": 13 },
-                { "x": 1, "y": 22 }
-            ],
+            "toilets": {
+                "t": { }
+            },
             "terrain": {
                 "|": "t_wall_v",
                 "-": "t_wall_h",
@@ -5610,7 +5598,6 @@
                 "P": "f_indoor_plant",
                 "r": "f_rack",
                 "S": "f_sink",
-                "t": "f_toilet",
                 "W": "f_washer",
                 "X": "f_safe_l",
                 "x": "f_pinball_machine",
@@ -5651,9 +5638,9 @@
                 "V2111111112|rrrcccScccSc",
                 "V2221111112|            "
             ],
-            "place_toilets": [
-                { "x": 23, "y": 0 }
-            ],
+            "toilets": {
+                "t": { }
+            },
             "place_monsters": [
                 { "monster": "GROUP_MALL", "x": [ 2, 23 ], "y": [ 1, 22 ], "density": 0.3 }
             ],
@@ -5747,7 +5734,6 @@
                 "P": "f_indoor_plant",
                 "r": "f_rack",
                 "S": "f_sink",
-                "t": "f_toilet",
                 "W": "f_washer",
                 "X": "f_safe_l",
                 "x": "f_pinball_machine",
@@ -5788,9 +5774,9 @@
                 "ccScccc| r|##.....ss____",
                 "       + r|##.....ss____"
             ],
-            "place_toilets": [
-                { "x": 1, "y": 0 }
-            ],
+            "toilets": {
+                "t": { }
+            },
             "place_vehicles": [
                 { "vehicle": "car", "x": 23, "y": 6, "rotation": 0, "chance": 35  },
                 { "vehicle": "pickup", "x": 22, "y": 14, "rotation": 180, "chance": 35  },
@@ -7424,7 +7410,6 @@
                 "P": "f_indoor_plant",
                 "r": "f_rack",
                 "S": "f_sink",
-                "t": "f_toilet",
                 "W": "f_washer",
                 "X": "f_safe_l",
                 "x": "f_pinball_machine",
@@ -7465,9 +7450,9 @@
                 "c      ccccc         r|S",
                 "   rr           rrrr r|-"
             ],
-            "place_toilets": [
-                { "x": 23, "y": 16 }
-            ],
+            "toilets": {
+                "t": { }
+            },
             "place_monsters": [
                 { "monster": "GROUP_MALL", "x": [ 2, 23 ], "y": [ 1, 22 ], "density": 0.3 }
             ],
@@ -7573,7 +7558,6 @@
                 "P": "f_indoor_plant",
                 "r": "f_rack",
                 "S": "f_sink",
-                "t": "f_toilet",
                 "W": "f_washer",
                 "X": "f_safe_l",
                 "x": "f_pinball_machine",
@@ -7614,10 +7598,9 @@
                 "cScSc|211P|3333333333333",
                 "-----|211l|c3VHHHHHHHHHV"
             ],
-            "place_toilets": [
-                { "x": 2, "y": 16 },
-                { "x": 4, "y": 16 }
-            ],
+            "toilets": {
+                "t": { }
+            },
             "place_vendingmachines": [
                 { "x": 9, "y": 23, "item_group": "vending_food" }
             ],
@@ -8644,7 +8627,6 @@
                 "P": "f_indoor_plant",
                 "r": "f_rack",
                 "S": "f_sink",
-                "t": "f_toilet",
                 "W": "f_washer",
                 "X": "f_safe_l",
                 "x": "f_pinball_machine",
@@ -8685,9 +8667,9 @@
                 "_____,______s###s______,",
                 "_____,______s#T#s______,"
             ],
-            "place_toilets": [
-                { "x": 23, "y": 6 }
-            ],
+            "toilets": {
+                "t": { }
+            },
             "place_vehicles": [
                 { "vehicle": "car", "x": 2, "y": 23, "rotation": 90, "chance": 35  },
                 { "vehicle": "pickup", "x": 9, "y": 23, "rotation": 90, "chance": 35  },
@@ -8785,7 +8767,6 @@
                 "P": "f_indoor_plant",
                 "r": "f_rack",
                 "S": "f_sink",
-                "t": "f_toilet",
                 "W": "f_washer",
                 "X": "f_safe_l",
                 "x": "f_pinball_machine",
@@ -8826,10 +8807,9 @@
                 "______,______,______s.#.",
                 "______,______,______s.#."
             ],
-            "place_toilets": [
-                { "x": 2, "y": 6 },
-                { "x": 4, "y": 6 }
-            ],
+            "toilets": {
+                "t": { }
+            },
             "place_vendingmachines": [
                 { "x": 9, "y": 0, "item_group": "vending_drink"  }
             ],
@@ -8922,7 +8902,6 @@
                 "P": "f_indoor_plant",
                 "r": "f_rack",
                 "S": "f_sink",
-                "t": "f_toilet",
                 "W": "f_washer",
                 "X": "f_safe_l",
                 "x": "f_pinball_machine",
@@ -8963,9 +8942,9 @@
                 "s______________________s",
                 "s______________________s"
             ],
-            "place_toilets": [
-                { "x": 23, "y": 12 }
-            ],
+            "toilets": {
+                "t": { }
+            },
             "place_monsters": [
                 { "monster": "GROUP_MALL", "x": [ 4, 19 ], "y": [ 0, 23 ], "density": 0.7 }
             ],
@@ -9044,7 +9023,6 @@
                 "P": "f_indoor_plant",
                 "r": "f_rack",
                 "S": "f_sink",
-                "t": "f_toilet",
                 "W": "f_washer",
                 "X": "f_safe_l",
                 "x": "f_pinball_machine",
@@ -9085,9 +9063,9 @@
                 ".#.s______,______,______",
                 ".#.s______,______,______"
             ],
-            "place_toilets": [
-                { "x": 3, "y": 12 }
-            ],
+            "toilets": {
+                "t": { }
+            },
             "place_vehicles": [
                 { "vehicle": "car", "x": 7, "y": 23, "rotation": 90, "chance": 35  },
                 { "vehicle": "pickup", "x": 13, "y": 23, "rotation": 270, "chance": 35  },
@@ -9181,7 +9159,6 @@
                 "P": "f_indoor_plant",
                 "r": "f_rack",
                 "S": "f_sink",
-                "t": "f_toilet",
                 "W": "f_washer",
                 "X": "f_safe_l",
                 "x": "f_pinball_machine",
@@ -9222,10 +9199,9 @@
                 ",______s###s______,_____",
                 ",______s#T#s______,_____"
             ],
-            "place_toilets": [
-                { "x": 6, "y": 3 },
-                { "x": 4, "y": 6 }
-            ],
+            "toilets": {
+                "t": { }
+            },
             "place_vehicles": [
                 { "vehicle": "hippie_van", "x": 4, "y": 23, "rotation": 90, "chance": 35  },
                 { "vehicle": "beetle", "x": 15, "y": 22, "rotation": 90, "chance": 35  },

@@ -105,7 +105,6 @@
             "furniture": {
             "#": "f_counter",
             "t": "f_table",
-            "T": "f_toilet",
             "S": "f_sink",
             "G": "f_oven",
             "f": "f_fridge",
@@ -115,9 +114,9 @@
                 { "item": "diner_food", "chance": 75, "x": [ 4,17 ], "y": [ 14,14 ] },
                 { "item": "diner_back", "chance": 95, "x": [ 4,16 ], "y": [ 16,16 ] }
         ],
-        "place_toilets": [
-                { "x": 20, "y": 18 }
-        ]
+        "toilets": {
+            "T": { }
+        }
         }
     }
 ]

@@ -242,7 +242,6 @@
                 },
                 "furniture": {
                     "A": "f_rack",
-                    "t": "f_toilet",
                 "B": "f_bench",                    "C": "f_counter",
                 "O": "f_woodstove",
                     "D": "f_sink",
@@ -255,9 +254,9 @@
                 "#": "f_trashcan",
                     "I": "f_hay"
                 },
-                "place_toilets": [
-                    { "x": 22, "y": 14 }
-                ],
+                "toilets": {
+                    "t": { }
+                },
                 "comment": "randomly picked from a group ---v",
                 "place_items": [
 { "item": "pizza_display", "x": 11,      "y": 5,  "chance": 60 }

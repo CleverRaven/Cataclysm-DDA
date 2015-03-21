@@ -85,11 +85,13 @@
                 "F": "f_fridge",
                 "@": "f_bed",
                 ":": "f_dresser",
-                "T": "f_toilet",
                 "l": "f_vending_c",
                 "S": "f_null",
                 "G": "f_desk",
                 "f": "f_glass_fridge"
+            },
+            "toilets": {
+                "T": { }
             },
             "place_items": [
                 { "item": "harddrugs", "chance": 75, "x": [ 10,22 ], "y": [ 19,19 ] },
