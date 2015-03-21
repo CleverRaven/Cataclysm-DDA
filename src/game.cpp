@@ -7442,9 +7442,10 @@ void game::control_vehicle()
                && u.in_vehicle) {
         if (veh->interact_vehicle_locked()){
             u.controlling_vehicle = true;
-            add_msg(_("You take control of the %s."), veh->name.c_str());
-            if (!veh->engine_on) {
-                veh->start_engine();
+            add_msg( _("You take control of the %s."), veh->name.c_str() );
+            if( !veh->engine_on && !veh->start_engines() && veh->velocity == 0 ) {
+                u.controlling_vehicle = false;
+                add_msg( _("You let go of the controls.") );
             }
         }
     } else {

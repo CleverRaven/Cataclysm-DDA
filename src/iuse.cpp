@@ -9103,7 +9103,7 @@ int iuse::remoteveh(player *p, item *it, bool t, point pos)
         g->setremoteveh( veh );
         p->add_msg_if_player(m_good, _("You take control of the vehicle."));
         if( !veh->engine_on ) {
-            veh->start_engine();
+            veh->start_engines();
         }
     } else if( choice == 3 ) {
         veh->use_controls();
