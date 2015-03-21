@@ -96,6 +96,44 @@ namespace {
 std::string const empty_string;
 std::string const item_highlight {"highlight_item"};
 
+class ascii_id {
+public:
+    // see cursesport.cpp, function wattron
+
+    enum : int {
+        index_cp = 6,
+        index_fg = 7,
+        index_bg = 8,
+    };
+
+    enum : char { default_value = -1 };
+
+    static void set_fg_color(char const n = default_value) { id_[index_fg] = n; }
+    static void set_fg_color(nc_color const col) {
+        id_[index_fg] = static_cast<char>(
+            colorpairs[(col & A_COLOR) >> 17].FG + (col & A_BOLD ? 8 : 0));
+    }
+
+    static void set_bg_color() { id_[index_bg] = default_value; }
+    static void set_bg_color(nc_color const col) {
+        id_[index_bg] = static_cast<char>(
+            colorpairs[(col & A_COLOR) >> 17].BG + (col & A_BLINK ? 8 : 0));
+    }
+
+    static void set_codepoint(long const sym) {
+        id_[index_cp] = static_cast<char>(sym);
+    }
+
+    static std::string const& id() { return id_; }
+private:
+    static std::string id_;
+};
+
+// X is replaced by ascii code (converted to char)
+// F is replaced by foreground (converted to char)
+// B is replaced by background (converted to char)
+std::string ascii_id::id_ {"ASCII_XFB"};
+
 enum multitile_type : int {
     center,
     corner,
@@ -258,26 +296,18 @@ tile_type const* file_tile_category(
         return nullptr;
     }
 
-    // see cursesport.cpp, function wattron
-    const int FG = colorpairs[(col & A_COLOR) >> 17].FG + (col & A_BOLD ? 8 : 0);
-
-    // static so it does not need to be allocated every time,
-    // see load_ascii_set for the meaning
-    //                              012345678
-    static std::string generic_id {"ASCII_XFG"};
-        
-    generic_id[6] = static_cast<char>(sym);
-    generic_id[7] = static_cast<char>(FG);
-    generic_id[8] = static_cast<char>(-1);
-
-    auto it = ids.find(generic_id);
+    ascii_id::set_codepoint(sym);
+    ascii_id::set_fg_color(col);
+    ascii_id::set_bg_color();
+    
+    auto it = ids.find(ascii_id::id());
     if (it != ids.end()) {
         return &it->second;
     }
     
     // Try again without color this time (using default color).
-    generic_id[7] = static_cast<char>(-1);
-    if ((it = ids.find(generic_id)) != ids.end()) {
+    ascii_id::set_fg_color();
+    if ((it = ids.find(ascii_id::id())) != ids.end()) {
         return &it->second;
     }
 
@@ -613,92 +643,78 @@ void cata_tiles::load_ascii_set(JsonObject &entry, int const offset, int const s
     if (in_image_offset >= size) {
         entry.throw_error("invalid offset (out of range)", "offset");
     }
+
     // color, of the ASCII char. Can be -1 to indicate all/default colors.
-    int FG = -1;
     const std::string scolor = entry.get_string("color", "DEFAULT");
+    
+    // Add an offset for bold colors (ncrses has this bold attribute,
+    // this mimics it). bold does not apply to default color.
+    char const bold = entry.get_bool("bold", false) ? 8 : 0;
+
+    ascii_id::set_bg_color();
+
     if (scolor == "BLACK") {
-        FG = COLOR_BLACK;
+        ascii_id::set_fg_color(COLOR_BLACK + bold);
     } else if (scolor == "RED") {
-        FG = COLOR_RED;
+        ascii_id::set_fg_color(COLOR_RED + bold);
     } else if (scolor == "GREEN") {
-        FG = COLOR_GREEN;
+        ascii_id::set_fg_color(COLOR_GREEN + bold);
     } else if (scolor == "YELLOW") {
-        FG = COLOR_YELLOW;
+        ascii_id::set_fg_color(COLOR_YELLOW + bold);
     } else if (scolor == "BLUE") {
-        FG = COLOR_BLUE;
+        ascii_id::set_fg_color(COLOR_BLUE + bold);
     } else if (scolor == "MAGENTA") {
-        FG = COLOR_MAGENTA;
+        ascii_id::set_fg_color(COLOR_MAGENTA + bold);
     } else if (scolor == "CYAN") {
-        FG = COLOR_CYAN;
+        ascii_id::set_fg_color(COLOR_CYAN + bold);
     } else if (scolor == "WHITE") {
-        FG = COLOR_WHITE;
+        ascii_id::set_fg_color(COLOR_WHITE + bold);
     } else if (scolor == "DEFAULT") {
-        FG = -1;
+        ascii_id::set_fg_color();
     } else {
         entry.throw_error("invalid color for ascii", "color");
     }
-    // Add an offset for bold colors (ncrses has this bold attribute,
-    // this mimics it). bold does not apply to default color.
-    if (FG != -1 && entry.get_bool("bold", false)) {
-        FG += 8;
-    }
+
     const int base_offset = offset + in_image_offset;
-    // template for the id of the ascii chars:
-    // X is replaced by ascii code (converted to char)
-    // F is replaced by foreground (converted to char)
-    // B is replaced by background (converted to char)
-    std::string id("ASCII_XFB");
-    id[7] = static_cast<char>(FG);
-    id[8] = static_cast<char>(-1);
 
     // Finally load all 256 ascii chars (actually extended ascii)
-    for (int ascii_char = 0; ascii_char < 256; ascii_char++) {
-        const int index_in_image = ascii_char + in_image_offset;
+    for (int ch = 0; ch < 256; ++ch) {
+        const int index_in_image = ch + in_image_offset;
         if (index_in_image < 0 || index_in_image >= size) {
             // Out of range is ignored for now.
             continue;
         }
 
-        id[6] = static_cast<char>(ascii_char);
+        ascii_id::set_codepoint(ch);
+        std::string const& id = ascii_id::id();
         tile_type& curr_tile = (tile_ids[id] = tile_type(index_in_image + offset, 0));
 
-        switch(ascii_char) {
+        switch (ch) {
         case LINE_OXOX_C://box bottom/top side (horizontal line)
-            curr_tile.fg = 205 + base_offset;
-            break;
+            curr_tile.fg = 205 + base_offset; break;
         case LINE_XOXO_C://box left/right side (vertical line)
-            curr_tile.fg = 186 + base_offset;
-            break;
+            curr_tile.fg = 186 + base_offset; break;
         case LINE_OXXO_C://box top left
-            curr_tile.fg = 201 + base_offset;
-            break;
+            curr_tile.fg = 201 + base_offset; break;
         case LINE_OOXX_C://box top right
-            curr_tile.fg = 187 + base_offset;
-            break;
+            curr_tile.fg = 187 + base_offset; break;
         case LINE_XOOX_C://box bottom right
-            curr_tile.fg = 188 + base_offset;
-            break;
+            curr_tile.fg = 188 + base_offset; break;
         case LINE_XXOO_C://box bottom left
-            curr_tile.fg = 200 + base_offset;
-            break;
+            curr_tile.fg = 200 + base_offset; break;
         case LINE_XXOX_C://box bottom north T (left, right, up)
-            curr_tile.fg = 202 + base_offset;
-            break;
+            curr_tile.fg = 202 + base_offset; break;
         case LINE_XXXO_C://box bottom east T (up, right, down)
-            curr_tile.fg = 208 + base_offset;
-            break;
+            curr_tile.fg = 208 + base_offset; break;
         case LINE_OXXX_C://box bottom south T (left, right, down)
-            curr_tile.fg = 203 + base_offset;
-            break;
+            curr_tile.fg = 203 + base_offset; break;
         case LINE_XXXX_C://box X (left down up right)
-            curr_tile.fg = 206 + base_offset;
-            break;
+            curr_tile.fg = 206 + base_offset; break;
         case LINE_XOXX_C://box bottom east T (left, down, up)
-            curr_tile.fg = 184 + base_offset;
-            break;
+            curr_tile.fg = 184 + base_offset; break;
         }
 
-        if (ascii_char == LINE_XOXO_C || ascii_char == LINE_OXOX_C) {
+        if (ch == LINE_XOXO_C || ch == LINE_OXOX_C) {
             curr_tile.rotates = false;
             curr_tile.multitile = true;
             add_ascii_subtile(curr_tile, id, 206 + base_offset, "center");
@@ -838,29 +854,36 @@ void cata_tiles::draw(int const destx, int const desty, int const centerx, int c
     draw_footsteps_frame();
 
     bool did_animation = false;
-    if (did_animation |= do_draw_explosion) {
+    if (do_draw_explosion) {
+        did_animation = true;
         draw_explosion_frame();
     }
-    if (did_animation |= do_draw_bullet) {
+    if (do_draw_bullet) {
+        did_animation = true;
         draw_bullet_frame();
     }
-    if (did_animation |= do_draw_hit) {
+    if (do_draw_hit) {
+        did_animation = true;
         draw_hit_frame();
         void_hit();
     }
-    if (did_animation |= do_draw_line) {
+    if (do_draw_line) {
+        did_animation = true;
         draw_line();
         void_line();
     }
-    if (did_animation |= do_draw_weather) {
+    if (do_draw_weather) {
+        did_animation = true;
         draw_weather_frame();
         void_weather();
     }
-    if (did_animation |= do_draw_sct) {
+    if (do_draw_sct) {
+        did_animation = true;
         draw_sct_frame();
         void_sct();
     }
-    if (did_animation |= do_draw_zones) {
+    if (do_draw_zones) {
+        did_animation = true;
         draw_zones_frame();
         void_zones();
     }
@@ -1502,12 +1525,11 @@ void cata_tiles::draw_weather_frame()
 
 void cata_tiles::draw_sct_frame()
 {
-    static std::string generic_id {"ASCII_XFB"};
-    generic_id[8] = static_cast<char>(-1);
-
     static std::array<std::string, 2> const which {{
         "first", "second"
     }};
+
+    ascii_id::set_bg_color();
 
     for (auto const &text : SCT.vSCT) {
         const int dx = text.getPosX();
@@ -1517,12 +1539,12 @@ void cata_tiles::draw_sct_frame()
         bool const is_old = text.getStep() >= SCT.iMaxSteps / 2;
 
         for (int i = 0; i < 2; ++i) {
-            generic_id[7] = static_cast<char>(
-                msgtype_to_tilecolor(text.getMsgType(which[i]), is_old));
+            ascii_id::set_fg_color(static_cast<char>(
+                msgtype_to_tilecolor(text.getMsgType(which[i]), is_old)));
             
             for (auto const &c : text.getText(which[i])) {
-                generic_id[6] = static_cast<char>(c);
-                auto const it = tile_ids.find(generic_id);
+                ascii_id::set_codepoint(c);
+                auto const it = tile_ids.find(ascii_id::id());
                 if (it != tile_ids.end()) {
                     const int x = (dx + x_off - o_x) * tile_width_  + op_x;
                     const int y = (dy         - o_y) * tile_height_ + op_y;
