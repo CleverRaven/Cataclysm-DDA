@@ -606,15 +606,9 @@ tile_type& cata_tiles::load_tile(JsonObject &entry, const std::string &id,
 void cata_tiles::draw(int const destx, int const desty, int const centerx, int const centery,
     int const width, int const height)
 {
-    if (!g) {
-        return;
-    }
-
-    {
-        //set clipping to prevent drawing over stuff we shouldn't
-        SDL_Rect clipRect = {destx, desty, width, height};
-        SDL_RenderSetClipRect(renderer, &clipRect);
-    }
+    //set clipping to prevent drawing over stuff we shouldn't
+    SDL_Rect const clip_rect = {destx, desty, width, height};
+    SDL_RenderSetClipRect(renderer, &clip_rect);
 
     init_light();
 
