@@ -1,0 +1,19 @@
+[
+    {
+        "type" : "construction",
+        "skill" : "survival",
+        "description" : "Build Improvised Shelter",
+        "category" : "CONSTRUCT",
+        "difficulty" : 1,
+        "time" : 90,
+        "qualities": [ [
+            { "id": "CUT", "level": 1 },
+            { "id": "HAMMER", "level": 1 }
+        ] ],
+        "components" : [
+            [ [ "stick", 6 ], [ "2x4", 3 ] ]
+        ],
+        "pre_terrain" : "t_tree_pine",
+        "post_terrain" : "t_leanto"
+    }
+  ]
