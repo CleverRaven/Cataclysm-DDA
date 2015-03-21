@@ -468,10 +468,21 @@ void mapgen_dirtlot(map *m, oter_id, mapgendata, int, float)
             }
         }
     }
-    if (one_in(4)) {
-        m->add_vehicle ("pickup", 12, 12, 90, -1, -1);
-    }
-}
+    int num_v = rng(0,1) * rng(0,2); // (0, 0, 0, 0, 1, 2) vehicles
+    for(int v = 0; v < num_v; v++) {
+        int vy = rng(0, 16) + 4;
+        int vx = rng(0, 16) + 4;
+        int theta = rng(0,3)*180 + one_in(3)*rng(0,89);
+        std::string veh_type = "";
+        if (one_in(4)) {
+            veh_type = "quad_bike";
+        } else {
+            veh_type = "pickup";
+        }
+        if (!m->veh_at(vx,vy)) {
+            m->add_vehicle (veh_type, vx, vy, theta, -1, -1);
+        }
+    }}
 // todo: more region_settings for forest biome
 void mapgen_forest_general(map *m, oter_id terrain_type, mapgendata dat, int turn, float)
 {
