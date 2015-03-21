@@ -83,141 +83,47 @@ int tileray::dir4 () const
     }
 }
 
+int tileray::dir8 () const
+{
+    int oct = 0;
+    int dir = direction;
+    if (dir < 23 || dir > 337) {
+        return 0;
+    }
+    while (dir > 22) {
+        dir -= 45;
+        oct += 1;
+    }
+    return oct;
+}
+
 long tileray::dir_symbol (long sym)
 {
     switch (sym) {
+    // output.cpp special_symbol() converts yubn to corners, hj to lines, c to cross
     case 'j':
-        switch (dir4()) {
-        default:
-        case 0:
-            return 'h';
-        case 1:
-            return 'j';
-        case 2:
-            return 'h';
-        case 3:
-            return 'j';
-        }
+        return (long[]){'h','\\','j','/','h','\\','j','/'}[dir8()];
     case 'h':
-        switch (dir4()) {
-        default:
-        case 0:
-            return 'j';
-        case 1:
-            return 'h';
-        case 2:
-            return 'j';
-        case 3:
-            return 'h';
-        }
+        return (long[]){'j','/','h','\\','j','/','h','\\'}[dir8()];
     case 'y':
-        switch (dir4()) {
-        default:
-        case 0:
-            return 'u';
-        case 1:
-            return 'n';
-        case 2:
-            return 'b';
-        case 3:
-            return 'y';
-        }
+        return (long[]){'u','>','n','v','b','<','y','^'}[dir8()];
     case 'u':
-        switch (dir4()) {
-        default:
-        case 0:
-            return 'n';
-        case 1:
-            return 'b';
-        case 2:
-            return 'y';
-        case 3:
-            return 'u';
-        }
+        return (long[]){'n','v','b','<','y','^','u','>'}[dir8()];
     case 'n':
-        switch (dir4()) {
-        default:
-        case 0:
-            return 'b';
-        case 1:
-            return 'y';
-        case 2:
-            return 'u';
-        case 3:
-            return 'n';
-        }
+        return (long[]){'b','<','y','^','u','>','n','v'}[dir8()];
     case 'b':
-        switch (dir4()) {
-        default:
-        case 0:
-            return 'y';
-        case 1:
-            return 'u';
-        case 2:
-            return 'n';
-        case 3:
-            return 'b';
-        }
+        return (long[]){'y','^','u','>','n','v','b','<'}[dir8()];
     case '^':
-        switch (dir4()) {
-        default:
-        case 0:
-            return '>';
-        case 1:
-            return 'v';
-        case 2:
-            return '<';
-        case 3:
-            return '^';
-        }
+        return (long[]){'>','n','v','b','<','y','^','u'}[dir8()];
+    // [ not rotated to ] because they might represent different items
     case '[':
-        switch (dir4()) {
-        default:
-        case 0:
-            return '-';
-        case 1:
-            return '[';
-        case 2:
-            return '-';
-        case 3:
-            return '[';
-        }
+        return "-\\[/-\\[/"[dir8()];
     case ']':
-        switch (dir4()) {
-        default:
-        case 0:
-            return '-';
-        case 1:
-            return ']';
-        case 2:
-            return '-';
-        case 3:
-            return ']';
-        }
+        return "-\\]/-\\]/"[dir8()];
     case '|':
-        switch (dir4()) {
-        default:
-        case 0:
-            return '-';
-        case 1:
-            return '|';
-        case 2:
-            return '-';
-        case 3:
-            return '|';
-        }
+        return "-\\|/-\\|/"[dir8()];
     case '-':
-        switch (dir4()) {
-        default:
-        case 0:
-            return '|';
-        case 1:
-            return '-';
-        case 2:
-            return '|';
-        case 3:
-            return '-';
-        }
+        return "|/-\\|/-\\"[dir8()];
     case '=':
         switch (dir4()) {
         default:
@@ -243,29 +149,9 @@ long tileray::dir_symbol (long sym)
             return 'H';
         }
     case '\\':
-        switch (dir4()) {
-        default:
-        case 0:
-            return '/';
-        case 1:
-            return '\\';
-        case 2:
-            return '/';
-        case 3:
-            return '\\';
-        }
+        return "/-\\|/-\\|"[dir8()];
     case '/':
-        switch (dir4()) {
-        default:
-        case 0:
-            return '\\';
-        case 1:
-            return '/';
-        case 2:
-            return '\\';
-        case 3:
-            return '/';
-        }
+        return "\\|/-\\|/-"[dir8()];
     default:
         ;
     }
