@@ -250,7 +250,7 @@ void player::load(JsonObject &data)
     }
     data.read("posy", position.y);
     if( !data.read("posz", zpos) && g != nullptr ) {
-        zpos = g->get_levz();
+      zpos = g->get_levz();
     }
     data.read("hunger", hunger);
     data.read("thirst", thirst);

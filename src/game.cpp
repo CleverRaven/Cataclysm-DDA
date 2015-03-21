@@ -841,11 +841,11 @@ bool game::cleanup_at_end()
             vRip.push_back("|                                  ( ");
             iInfoLine = vRip.size();
             vRip.push_back("|                                   |");
-            vRip.push_back(" \\_                               _/");
-            vRip.push_back("   \\_%                         ._/  ");
-            vRip.push_back("   @`\\_                       _/%%  ");
-            vRip.push_back("  %@%@%\\_              *    _/%`%@% ");
-            vRip.push_back(" %@@@.%@%\\%%           `\\ %%.%%@@%@");
+            vRip.push_back("|                                   |");
+            vRip.push_back("|     %                         .   |");
+            vRip.push_back("|  @`                            %% |");
+            vRip.push_back("| %@%@%\\                *      %`%@%|");
+            vRip.push_back("%%@@@.%@%\\%%           `\\ %%.%%@@%@");
             vRip.push_back("@%@@%%%%%@@@@@@%%%%%%%%@@%%@@@%%%@%%@");
         }
 
@@ -1887,7 +1887,7 @@ bool game::mission_complete(int id, int npc_id)
             return true;
         }
         return false;
-        
+
     case MGOAL_COMPUTER_TOGGLE:
         return (miss->step >= 1);
 
@@ -4208,6 +4208,7 @@ void game::debug()
             // player will be centered in the middle of the map.
             const int nlevx = tmp.x * 2 - int(MAPSIZE / 2);
             const int nlevy = tmp.y * 2 - int(MAPSIZE / 2);
+            u.setz( tmp.z );
             load_map( tripoint( nlevx, nlevy, tmp.z ) );
             load_npcs();
             m.spawn_monsters( true ); // Static monsters
@@ -11549,7 +11550,7 @@ bool game::plmove(int dx, int dy)
         y = u.posy() + dy;
     }
 
-    tripoint dest_loc( x, y, u.posz() );
+    const tripoint dest_loc( x, y, u.posz() );
 
     dbg(D_PEDANTIC_INFO) << "game:plmove: From (" << u.posx() << "," << u.posy() << ") to (" << x << "," <<
                          y << ")";
@@ -11736,10 +11737,10 @@ bool game::plmove(int dx, int dy)
         }
 
         if (!(u.has_effect("blind") || u.worn_with_flag("BLIND"))) {
-            const trap_id tid = m.tr_at(x, y);
+            const trap_id tid = m.tr_at(dest_loc);
             if (tid != tr_null) {
                 const struct trap &t = *traplist[tid];
-                if ((t.can_see( tripoint( x, y, g->get_levz() ), g->u )) && !t.is_benign() &&
+                if ((t.can_see(dest_loc, u)) && !t.is_benign() &&
                     !query_yn(_("Really step onto that %s?"), t.name.c_str())) {
                     return false;
                 }
@@ -12169,9 +12170,6 @@ bool game::plmove(int dx, int dy)
             u.lifetime_stats()->squares_walked++;
         }
 
-        // Recalc dest_loc after possible shift
-        dest_loc = tripoint( x, y, u.posz() );
-
         //Autopickup
         if (OPTIONS["AUTO_PICKUP"] && (!OPTIONS["AUTO_PICKUP_SAFEMODE"] || mostseen == 0) &&
             ((m.i_at(u.posx(), u.posy())).size() || OPTIONS["AUTO_PICKUP_ADJACENT"])) {
@@ -12187,10 +12185,11 @@ bool game::plmove(int dx, int dy)
         // Try to detect.
         u.search_surroundings();
         // We stepped on a trap!
-        if( m.tr_at( dest_loc ) != tr_null ) {
-            trap *tr = traplist[m.tr_at( dest_loc )];
-            if( !u.avoid_trap( dest_loc, tr ) ) {
-                tr->trigger( dest_loc, &u );
+        // Can't use dest_loc here - we may have shifted the map
+        if( m.tr_at( u.pos3() ) != tr_null ) {
+            trap *tr = traplist[m.tr_at( u.pos3() )];
+            if( !u.avoid_trap( u.pos3(), tr ) ) {
+                tr->trigger( u.pos3(), &u );
             }
         }
 

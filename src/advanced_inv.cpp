@@ -583,7 +583,7 @@ void advanced_inv_area::init()
     const trap_id tid = g->m.tr_at(x, y);
     if (tid != tr_null) {
         const struct trap &t = *traplist[tid];
-        if( (t.can_see( tripoint( x, y, g->get_levz() ), g->u ) && !t.is_benign()) ) {
+        if( t.can_see( tripoint(x, y, g->get_levz()), g->u) && !t.is_benign() ) {
             flags.append(_(" TRAP"));
         }
     }
