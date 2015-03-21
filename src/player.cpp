@@ -9602,11 +9602,9 @@ void player::rooted()
 // Should average a point every two minutes or so; ground isn't uniformly fertile
 // Overfiling triggered hibernation checks, so capping.
 {
-    double shoe_factor = footwear_factor();
-    if( (has_trait("ROOTS2") || has_trait("ROOTS3")) &&
-        g->m.has_flag("DIGGABLE", posx(), posy()) &&
-        !shoe_factor ) {
-        if( one_in(20 / shoe_factor) ) {
+    double const shoe_factor = footwear_factor();
+    if ((has_trait("ROOTS2") || has_trait("ROOTS3")) && g->m.has_flag("DIGGABLE", posx(), posy())) {
+        if( one_in(20 * (1 + shoe_factor)) ) {
             if (hunger > -20) {
                 hunger--;
             }
