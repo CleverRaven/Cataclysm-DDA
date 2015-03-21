@@ -91,6 +91,17 @@ class Character : public Creature
         {
             return -2 - position;
         }
+
+        // checks to see if an item is worn
+        bool is_worn(const item &thing) const
+        {
+            for(const auto &elem : worn) {
+                if(&thing == &elem) {
+                    return true;
+                }
+            }
+            return false;
+        }
         
         /**
          * Test whether an item in the possession of this player match a

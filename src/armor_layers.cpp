@@ -1,3 +1,4 @@
+#include "game.h"
 #include "player.h"
 #include "armor_layers.h"
 #include "catacharset.h"
@@ -94,6 +95,8 @@ void player::sort_armor()
     ctxt.register_action("NEXT_TAB");
     ctxt.register_action("MOVE_ARMOR");
     ctxt.register_action("ASSIGN_INVLETS");
+    ctxt.register_action("EQUIP_ARMOR");
+    ctxt.register_action("REMOVE_ARMOR");
     ctxt.register_action("HELP");
     ctxt.register_action("HELP_KEYBINDINGS");
 
@@ -305,29 +308,65 @@ void player::sort_armor()
             } else {
                 selected = leftListIndex;
             }
+        } else if (action == "EQUIP_ARMOR") {
+            // filter inventory for all items that are armor/clothing
+            int pos = g->inv_for_unequipped(_("Put on:"), [](const item &it) {
+                        return it.is_armor();
+                    });
+            // only equip if something valid selected!
+            if(pos != INT_MIN) {
+                // wear the item, if error, show it
+                if(!wear(pos)) {
+                    debugmsg("Failed trying to equip item @index [%d]", pos);
+                }
+                // reorder `worn` vector to place new item at cursor
+                auto iter = worn.end();
+                item new_equip  = *(--iter);
+                // remove the item
+                worn.erase(iter);
+                iter = worn.begin();
+                // advance the iterator to cursor's position
+                std::advance(iter, leftListIndex);
+                // inserts at position before iter (no b0f, phew)
+                worn.insert(iter, new_equip);
+            }
+            // TODO: fix up along with hack below
+            draw_border(w_sort_armor);
+            wrefresh(w_sort_armor);
+        } else if (action == "REMOVE_ARMOR") {
+            // query (for now)
+            if(query_yn(_("Remove selected armor?"))) {
+                // remove the item, asking to drop it if necessary
+                takeoff(tmp_worn[leftListIndex]);
+            }
         } else if (action == "ASSIGN_INVLETS") {
-            // Start with last armor (the most unimportant one?)
-            int worn_index = worn.size() - 1;
-            int invlet_index = inv_chars.size() - 1;
-            while (invlet_index >= 0 && worn_index >= 0) {
-                const char invlet = inv_chars[invlet_index];
-                item &w = worn[worn_index];
-                if (invlet == w.invlet) {
-                    worn_index--;
-                } else if (invlet_to_position(invlet) != INT_MIN) {
-                    invlet_index--;
-                } else {
-                    w.invlet = invlet;
-                    worn_index--;
-                    invlet_index--;
+            // prompt first before doing this (yes yes, more popups...)
+            if(query_yn(_("Reassign invlets for armor?"))) {
+                // Start with last armor (the most unimportant one?)
+                int worn_index = worn.size() - 1;
+                int invlet_index = inv_chars.size() - 1;
+                while (invlet_index >= 0 && worn_index >= 0) {
+                    const char invlet = inv_chars[invlet_index];
+                    item &w = worn[worn_index];
+                    if (invlet == w.invlet) {
+                        worn_index--;
+                    } else if (invlet_to_position(invlet) != INT_MIN) {
+                        invlet_index--;
+                    } else {
+                        w.invlet = invlet;
+                        worn_index--;
+                        invlet_index--;
+                    }
                 }
             }
         } else if (action == "HELP") {
             popup_getkey(_("\
 Use the arrow- or keypad keys to navigate the left list.\n\
-Press %s to select highlighted armor for reordering.\n\
-Use %s / %s to scroll the right list.\n\
-Press %s to assign special inventory letters to clothing.\n\
+Press [%s] to select highlighted armor for reordering.\n\
+Use   [%s] / [%s] to scroll the right list.\n\
+Press [%s] to assign special inventory letters to clothing.\n\
+Use   [%s] to equip an armor item from the inventory.\n\
+Press [%s] to remove selected armor from oneself.\n\
  \n\
 [Encumbrance and Warmth] explanation:\n\
 The first number is the summed encumbrance from all clothing on that bodypart.\n\
@@ -336,7 +375,9 @@ The sum of these values is the effective encumbrance value your character has fo
                          ctxt.get_desc("MOVE_ARMOR").c_str(),
                          ctxt.get_desc("PREV_TAB").c_str(),
                          ctxt.get_desc("NEXT_TAB").c_str(),
-                         ctxt.get_desc("ASSIGN_INVLETS").c_str()
+                         ctxt.get_desc("ASSIGN_INVLETS").c_str(),
+                         ctxt.get_desc("EQUIP_ARMOR").c_str(),
+                         ctxt.get_desc("REMOVE_ARMOR").c_str()
                         );
             //TODO: refresh the window properly. Current method erases the intersection symbols
             draw_border(w_sort_armor); // hack to mark whole window for redrawing
@@ -360,7 +401,9 @@ void draw_mid_pane(WINDOW *w_sort_middle, item *worn_item)
     std::vector<std::string> props = clothing_properties(worn_item, middle_w - 3);
     size_t i;
     for (i = 0; i < props.size(); ++i) {
-        mvwprintz(w_sort_middle, i + 1, 2, c_ltgray, props[i].c_str());
+        // headers are green, info is gray
+        nc_color c = (props[i][0] == '[' ? c_green : c_ltgray);
+        mvwprintz(w_sort_middle, i + 1, 2, c, props[i].c_str());
     }
 
     i += 2;
@@ -396,19 +439,24 @@ std::string clothing_layer(item *worn_item)
 std::vector<std::string> clothing_properties(item *worn_item, int width)
 {
     std::vector<std::string> props;
-    props.push_back(name_and_value(_("Coverage:"),
+    const std::string space = "  ";
+    props.push_back(string_format("[%s]", _("Properties")));
+    props.push_back(name_and_value(space + _("Coverage:"),
                                    string_format("%3d", worn_item->get_coverage()), width));
-    props.push_back(name_and_value(_("Encumbrance:"), string_format("%3d",
+    props.push_back(name_and_value(space + _("Encumbrance:"), string_format("%3d",
                                    (worn_item->has_flag("FIT")) ? std::max(0, (worn_item->get_encumber() - 10)) :
                                    worn_item->get_encumber()), width));
-    props.push_back(name_and_value(_("Bash Protection:"),
-                                   string_format("%3d", int(worn_item->bash_resist())), width));
-    props.push_back(name_and_value(_("Cut Protection:"),
-                                   string_format("%3d", int(worn_item->cut_resist())), width));
-    props.push_back(name_and_value(_("Warmth:"),
+    props.push_back(name_and_value(space + _("Warmth:"),
                                    string_format("%3d", worn_item->get_warmth()), width));
-    props.push_back(name_and_value(_("Storage:"),
+    props.push_back(name_and_value(space + _("Storage:"),
                                    string_format("%3d", worn_item->get_storage()), width));
+    props.push_back(string_format("[%s]", _("Protection")));
+    props.push_back(name_and_value(space + _("Bash:"),
+                                   string_format("%3d", int(worn_item->bash_resist())), width));
+    props.push_back(name_and_value(space + _("Cut:"),
+                                   string_format("%3d", int(worn_item->cut_resist())), width));
+    props.push_back(name_and_value(space + _("Environmental:"),
+                                   string_format("%3d", int(worn_item->get_env_resist())), width));
 
     return props;
 }

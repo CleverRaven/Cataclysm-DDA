@@ -352,8 +352,9 @@ class game
         int inv_for_salvage(const std::string &title, const salvage_actor &actor );
         item *inv_map_for_liquid(const item &liquid, const std::string &title);
         int inv_for_flag(const std::string &flag, const std::string &title, bool auto_choose_single);
-        int inv_for_filter(const std::string &title, item_filter filter );
-        int display_slice(indexed_invslice const&, const std::string &, int position = INT_MIN);
+        int inv_for_filter(const std::string &title, item_filter filter);
+        int inv_for_unequipped(std::string const &title, item_filter filter);
+        int display_slice(indexed_invslice const&, const std::string &, bool show_worn = true, int position = INT_MIN);
         int inventory_item_menu(int pos, int startx = 0, int width = 50, int position = 0);
         // Select items to drop.  Returns a list of pairs of position, quantity.
         std::list<std::pair<int, int>> multidrop();
