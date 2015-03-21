@@ -132,8 +132,6 @@ extern int iWorldOptPage;
 
 extern options_data optionsdata;
 void initOptions();
-template <typename maptype>
-void tile_loading_report(maptype tiletypemap, std::string label, std::string prefix = "");
 void load_options();
 void save_options(bool ingame = false);
 void show_options(bool ingame = false);

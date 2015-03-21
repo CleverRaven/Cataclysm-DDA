@@ -1653,4 +1653,35 @@ void cata_tiles::get_tile_values(const int t, const int *tn, int &subtile, int &
     get_rotation_and_subtile(val, num_connects, rotation, subtile);
 }
 
+template <typename maptype>
+void cata_tiles::tile_loading_report(maptype const & tiletypemap, std::string const & label, std::string const & prefix) {
+    int missing=0, present=0;
+    std::string missing_list;
+    for( auto const & i : tiletypemap ) {
+        if (tile_ids.count(prefix+i->first) == 0) {
+            missing++;
+            missing_list.append(i->first+" ");
+        } else {
+            present++;
+        }
+    }
+    DebugLog( D_INFO, DC_ALL ) << "Missing " << label << ": " << missing_list;
+}
+
+template <typename arraytype>
+void cata_tiles::tile_loading_report(arraytype const & array, int array_length, std::string const & label, std::string const & prefix) {
+    // fields are the only tile-able thing not kept in a map?
+    int missing=0, present=0;
+    std::string missing_list;
+    for(int i = 0; i < array_length; ++i) {
+        if (tile_ids.count(prefix+array[i].id) == 0) {
+            missing++;
+            missing_list.append(array[i].id+" ");
+        } else {
+            present++;
+        }
+    }
+    DebugLog( D_INFO, DC_ALL ) << "Missing " << label << ": " << missing_list;
+}
+
 #endif // SDL_TILES
