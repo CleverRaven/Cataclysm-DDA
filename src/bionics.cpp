@@ -1292,28 +1292,28 @@ bool player::install_bionics(const itype &type)
         return false;
     }
     if (bioid == "bio_reactor" || bioid == "bio_advreactor") {
-		if (has_bionic("bio_furnace") && has_bionic("bio_storage")) {
-			popup(_("Your internal storage and furnace take up too much room!"));
-			return false;
-		} else if (has_bionic("bio_furnace")) {
-			popup(_("Your internal furnace takes up too much room!"));
-			return false;
-		} else if (has_bionic("bio_storage")) {
-			popup(_("Your internal storage takes up too much room!"));
-			return false;
-		}
+        if (has_bionic("bio_furnace") && has_bionic("bio_storage")) {
+            popup(_("Your internal storage and furnace take up too much room!"));
+        return false;
+        } else if (has_bionic("bio_furnace")) {
+            popup(_("Your internal furnace takes up too much room!"));
+            return false;
+        } else if (has_bionic("bio_storage")) {
+            popup(_("Your internal storage takes up too much room!"));
+            return false;
+        }
     }
     if ((bioid == "bio_furnace" ) || (bioid == "bio_storage") || (bioid == "bio_reactor") || (bioid == "bio_advreactor")) {
-		if (has_bionic("bio_reactor") || has_bionic("bio_advreactor")) {
-			popup(_("Your installed reactor leaves no room!"));
-			return false;
-		}
+        if (has_bionic("bio_reactor") || has_bionic("bio_advreactor")) {
+            popup(_("Your installed reactor leaves no room!"));
+            return false;
+        }
     }
     if (bioid == "bio_reactor_upgrade" ){
-		if (!has_bionic("bio_reactor")) {
-			popup(_("There is nothing to upgrade!"));
-			return false;
-		}
+        if (!has_bionic("bio_reactor")) {
+            popup(_("There is nothing to upgrade!"));
+            return false;
+        }
     }
     if( has_bionic( bioid ) ) {
         if( !( bioid == "bio_power_storage" || bioid == "bio_power_storage_mkII" ) ) {
@@ -1358,8 +1358,8 @@ bool player::install_bionics(const itype &type)
             if (bioid == "bio_ears") {
                 add_bionic("bio_earplugs"); // automatically add the earplugs, they're part of the same bionic
             } else if (bioid == "bio_reactor_upgrade") {
-				remove_bionic("bio_reactor");
-				remove_bionic("bio_reactor_upgrade");
+                remove_bionic("bio_reactor");
+                remove_bionic("bio_reactor_upgrade");
                 add_bionic("bio_advreactor");
             } else if (bioid == "bio_reactor" || bioid == "bio_advreactor") {
                 add_bionic("bio_plutdump");
