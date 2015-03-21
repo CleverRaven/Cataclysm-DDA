@@ -21,7 +21,10 @@
 
 class JsonObject;
 
-/** Structures */
+enum class light_type : int;
+enum multitile_type : int;
+enum class tile_category : int;
+
 struct tile_type {
     std::vector<std::string> available_subtiles;
 
@@ -36,20 +39,6 @@ struct tile_type {
               bool const rotates = false, bool const multitile = false
     ) noexcept : fg(fg), bg(bg), rotates(rotates), multitile(multitile) {}
 };
-
-/* Enums */
-enum class light_type : int;
-
-enum multitile_type : int;
-
-enum class tile_category : int;
-
-/** Typedefs */
-typedef std::vector<SDL_Texture *> tile_map;
-typedef std::unordered_map<std::string, tile_type> tile_id_map;
-
-typedef tile_map::iterator tile_iterator;
-typedef tile_id_map::iterator tile_id_iterator;
 
 class cata_tiles
 {
@@ -202,8 +191,8 @@ class cata_tiles
 
         /** Variables */
         SDL_Renderer *renderer;
-        tile_map tile_values;
-        tile_id_map tile_ids;
+        std::vector<SDL_Texture*> tile_values;
+        std::unordered_map<std::string, tile_type> tile_ids;
 
         using seasonal_variation_t = std::array<tile_type const*, 4>;
         std::unordered_map<std::string, seasonal_variation_t> seasonal_variations_;

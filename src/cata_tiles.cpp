@@ -158,10 +158,10 @@ cata_tiles::~cata_tiles()
 
 void cata_tiles::clear()
 {
-    // release maps
-    for (tile_iterator it = tile_values.begin(); it != tile_values.end(); ++it) {
-        SDL_DestroyTexture(*it);
+    for (auto &tex : tile_values) {
+        SDL_DestroyTexture(tex);
     }
+
     tile_values.clear();
     tile_ids.clear();
 }
