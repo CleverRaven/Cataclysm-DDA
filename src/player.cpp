@@ -41,6 +41,7 @@
 #include <bitset>
 
 #include <fstream>
+#include <cmath>
 
 extern std::map<std::string, martialart> ma_styles;
 
@@ -12353,8 +12354,10 @@ void player::practice( const Skill* s, int amount, int cap )
         amount /= 2;
     }
 
-    if (skillLevel(s) > cap+1) { //warning player about exp curve
+    if (skillLevel(s) > cap) { //softcap on skill usage
         int curLevel = skillLevel(s);
+        float levelFactor = pow( 2.0, curLevel - cap );
+        amount = (int)(amount/levelFactor);
         if(is_player() && one_in(10)) {//remind the player intermittently that not much skill gain takes place
             add_msg(m_info, _("This task is too simple to quickly train your %s beyond %d."),
                     s->name().c_str(), curLevel);

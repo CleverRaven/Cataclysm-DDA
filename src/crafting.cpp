@@ -1507,8 +1507,8 @@ void player::complete_craft()
     int diff_roll  = dice(diff_dice,  diff_sides);
 
     if (making->skill_used) {
-        //normalize experience gain to a crafting time of 10 minutes.  
-        practice( making->skill_used, (int)( ( making->difficulty * 15 + 10 ) * ( making->batch_time( batch_size ) / 10000.0 ) ),
+        //normalize experience gain to crafting time, giving a bonus for longer crafting
+        practice( making->skill_used, (int)( ( making->difficulty * 15 + 10 ) * ( 1 + making->batch_time( batch_size ) / 30000.0 ) ),
                     (int)making->difficulty * 1.25 );
     }
 
