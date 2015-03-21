@@ -1237,6 +1237,8 @@ std::string dynamic_line(talk_topic topic, npc *p)
                     return _("Well, I was kidnapped, but you saved me...");
                 case NPC_MISSION_BASE:
                     return _("I'm guarding this location.");
+                case NPC_MISSION_GUARD:
+                    return _("I'm guarding this location.");
                 case NPC_MISSION_NULL:
                     switch (p->myclass) {
                         case NC_SHOPKEEP:
@@ -1264,9 +1266,9 @@ std::string dynamic_line(talk_topic topic, npc *p)
                         case NC_ARSONIST:
                        	    return _("I'm just watching the world burn.");
                        	case NC_HUNTER:
-                       	    return _("I'm tracking game.")
+                       	    return _("I'm tracking game.");
                        	case NC_MAX:
-                       	    return _("I should be able to exist!")
+                       	    return _("I should be able to exist!");
                         case NC_NONE:
                             return _("I'm just wandering.");
                         default:
