@@ -1871,7 +1871,7 @@ void player::memorial( std::ofstream &memorial_file, std::string epitaph )
     int city_index = g->cur_om->closest_city(cur_loc);
     std::string kill_place;
     if(city_index < 0) {
-        //~ First parameter is a pronoun (“He”/“She”), second parameter is a terrain name.
+        //~ First parameter is a pronoun (â€œHeâ€/â€œSheâ€), second parameter is a terrain name.
         kill_place = string_format(_("%s was killed in a %s in the middle of nowhere."),
                      pronoun.c_str(), tername.c_str());
     } else {
@@ -1879,16 +1879,16 @@ void player::memorial( std::ofstream &memorial_file, std::string epitaph )
         //Give slightly different messages based on how far we are from the middle
         int distance_from_city = abs(g->cur_om->dist_from_city(cur_loc));
         if(distance_from_city > nearest_city.s + 4) {
-            //~ First parameter is a pronoun (“He”/“She”), second parameter is a terrain name.
+            //~ First parameter is a pronoun (â€œHeâ€/â€œSheâ€), second parameter is a terrain name.
             kill_place = string_format(_("%s was killed in a %s in the wilderness."),
                          pronoun.c_str(), tername.c_str());
 
         } else if(distance_from_city >= nearest_city.s) {
-            //~ First parameter is a pronoun (“He”/“She”), second parameter is a terrain name, third parameter is a city name.
+            //~ First parameter is a pronoun (â€œHeâ€/â€œSheâ€), second parameter is a terrain name, third parameter is a city name.
             kill_place = string_format(_("%s was killed in a %s on the outskirts of %s."),
                          pronoun.c_str(), tername.c_str(), nearest_city.name.c_str());
         } else {
-            //~ First parameter is a pronoun (“He”/“She”), second parameter is a terrain name, third parameter is a city name.
+            //~ First parameter is a pronoun (â€œHeâ€/â€œSheâ€), second parameter is a terrain name, third parameter is a city name.
             kill_place = string_format(_("%s was killed in a %s in %s."),
                          pronoun.c_str(), tername.c_str(), nearest_city.name.c_str());
         }
@@ -1900,7 +1900,7 @@ void player::memorial( std::ofstream &memorial_file, std::string epitaph )
     memorial_file << "\n";
     memorial_file << string_format(_("In memory of: %s"), name.c_str()) << "\n";
     if(epitaph.length() > 0) { //Don't record empty epitaphs
-        //~ The “%s” will be replaced by an epitaph as displyed in the memorial files. Replace the quotation marks as appropriate for your language.
+        //~ The â€œ%sâ€ will be replaced by an epitaph as displyed in the memorial files. Replace the quotation marks as appropriate for your language.
         memorial_file << string_format(pgettext("epitaph","\"%s\""), epitaph.c_str()) << "\n\n";
     }
     //~ First parameter: Pronoun, second parameter: a profession name (with article)

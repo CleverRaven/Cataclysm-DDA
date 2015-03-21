@@ -1294,7 +1294,7 @@ bool player::install_bionics(const itype &type)
     if (bioid == "bio_reactor" || bioid == "bio_advreactor") {
         if (has_bionic("bio_furnace") && has_bionic("bio_storage")) {
             popup(_("Your internal storage and furnace take up too much room!"));
-        return false;
+            return false;
         } else if (has_bionic("bio_furnace")) {
             popup(_("Your internal furnace takes up too much room!"));
             return false;
