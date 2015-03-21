@@ -4335,7 +4335,7 @@ void mapgen_s_garage(map *m, oter_id terrain_type, mapgendata dat, int, float)
 {
 
         dat.fill_groundcover();
-        int yard_wdth = 5;
+        int yard_wdth = rng(4,6);
         square(m, t_floor, 0, yard_wdth, SEEX * 2 - 4, SEEY * 2 - 4);
         line(m, t_wall_v, 0, yard_wdth, 0, SEEY * 2 - 4);
         line(m, t_wall_v, SEEX * 2 - 3, yard_wdth, SEEX * 2 - 3, SEEY * 2 - 4);
@@ -4373,39 +4373,45 @@ void mapgen_s_garage(map *m, oter_id terrain_type, mapgendata dat, int, float)
 
         // rotate garage
 
-        int vy = 0, vx = 0, theta = 0;
+        int vy = 0, vx = 0, theta = 0, tdx = 0, tdy = 0, td = 9;
 
         if (terrain_type == "s_garage_north") {
-            vx = 5, vy = yard_wdth + 6;
+            vx = 8, vy = yard_wdth + 6;
             theta = 90;
+            tdx = td;
         } else if (terrain_type == "s_garage_east") {
             m->rotate(1);
-            vx = yard_wdth + 8, vy = 4;
+            vx = yard_wdth + 8, vy = 7;
             theta = 0;
+            tdy = td;
         } else if (terrain_type == "s_garage_south") {
             m->rotate(2);
-            vx = SEEX * 2 - 6, vy = SEEY * 2 - (yard_wdth + 3);
+            vx = SEEX * 2 - 9, vy = SEEY * 2 - (yard_wdth + 6);
             theta = 270;
+            tdx = -td;
         } else if (terrain_type == "s_garage_west") {
             m->rotate(3);
-            vx = SEEX * 2 - yard_wdth - 9, vy = SEEY * 2 - 5;
+            vx = SEEX * 2 - yard_wdth - 10, vy = SEEY * 2 - 8;
             theta = 180;
+            tdy = -td;
         }
 
-        // place vehicle, if any
-        if (one_in(3)) {
-            std::string vt;
-            int vehicle_type = rng(1, 8);
-            if(vehicle_type <= 3) {
-                vt = one_in(2) ? "car" : "car_chassis";
-            } else if(vehicle_type <= 5) {
-                vt = one_in(2) ? "quad_bike" : "quad_bike_chassis";
-            } else if(vehicle_type <= 7) {
-                vt = one_in(2) ? "motorcycle" : "motorcycle_chassis";
-            } else {
-                vt = "welding_cart";
+        // place vehicles, if any
+        for (int v=0; v<=1; v++) {
+            if (one_in(4)) {
+                std::string vt;
+                int vehicle_type = rng(1, 8);
+                if(vehicle_type <= 3) {
+                    vt = one_in(2) ? "car" : "car_chassis";
+                } else if(vehicle_type <= 5) {
+                    vt = one_in(2) ? "quad_bike" : "quad_bike_chassis";
+                } else if(vehicle_type <= 7) {
+                    vt = one_in(2) ? "motorcycle" : "motorcycle_chassis";
+                } else {
+                    vt = "welding_cart";
+                }
+                m->add_vehicle(vt, vx + v * tdx, vy + v * tdy, theta + one_in(3)*rng(-1,1)*30, -1, -1);
             }
-            m->add_vehicle(vt, vx, vy, theta, -1, -1);
         }
 
 
