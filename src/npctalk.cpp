@@ -1264,11 +1264,11 @@ std::string dynamic_line(talk_topic topic, npc *p)
                         case NC_SCAVENGER:
                             return _("I'm just trying to survive.");
                         case NC_ARSONIST:
-                       	    return _("I'm just watching the world burn.");
-                       	case NC_HUNTER:
+                            return _("I'm just watching the world burn.");
+                        case NC_HUNTER:
                        	    return _("I'm tracking game.");
-                       	case NC_MAX:
-                       	    return _("I should not be able to exist!");
+                        case NC_MAX:
+                            return _("I should not be able to exist!");
                         case NC_NONE:
                             return _("I'm just wandering.");
                         default:
