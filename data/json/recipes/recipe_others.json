@@ -5228,7 +5228,7 @@
   "difficulty": 2,
   "time": 10000,
   "reversible": false,
-  "autolearn": false,
+  "autolearn": true,
   "qualities":[
     {"id":"HAMMER","level":2,"amount":1}
     ],
