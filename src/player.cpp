@@ -8021,7 +8021,7 @@ void player::update_body_wetness()
         delay -= 2;
     }
 
-    if (calendar::turn % delay != 0) {
+    if (!calendar::is_time_for(delay)) {
         return;
     }
 

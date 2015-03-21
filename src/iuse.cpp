@@ -3963,7 +3963,7 @@ int iuse::radio_on(player *p, item *it, bool t, point pos)
             }
 
             std::vector<std::string> segments = foldstring(message, RADIO_PER_TURN);
-            int index = calendar::turn % (segments.size());
+            int index = calendar::is_time_for(segments.size());
             std::stringstream messtream;
             messtream << string_format(_("radio: %s"), segments[index].c_str());
             message = messtream.str();
@@ -8096,7 +8096,7 @@ int iuse::einktabletpc(player *p, item *it, bool t, point pos)
     if (t) {
         if( it->get_var( "EIPC_MUSIC_ON" ) != "" ) {
 
-            if (calendar::turn % 50 == 0) {
+          if (calendar::is_time_for(50)) {
                 it->charges--;
             }
 
@@ -8752,7 +8752,7 @@ int iuse::ehandcuffs(player *p, item *it, bool t, point pos)
             }
         }
 
-        if (calendar::turn % 10 == 0) {
+        if (calendar::is_time_for(10)) {
             sounds::sound(pos.x, pos.y, 10, _("a police siren, whoop WHOOP."));
         }
 

@@ -1,4 +1,5 @@
 #include "game.h"
+#include "const_game.h"
 #include "rng.h"
 #include "input.h"
 #include "output.h"
@@ -239,10 +240,6 @@ game::~game()
     delete world_generator;
 }
 
-// Fixed window sizes
-#define MINIMAP_HEIGHT 7
-#define MINIMAP_WIDTH 7
-
 #if (defined TILES)
 // defined in sdltiles.cpp
 void to_map_font_dimension(int &w, int &h);
@@ -268,8 +265,8 @@ void game::init_ui()
         clear();
 
         // set minimum FULL_SCREEN sizes
-        FULL_SCREEN_WIDTH = 80;
-        FULL_SCREEN_HEIGHT = 24;
+        FULL_SCREEN_WIDTH = MIN_FULL_SCREEN_WIDTH;
+        FULL_SCREEN_HEIGHT = MIN_FULL_SCREEN_HEIGHT;
         // print an intro screen, making sure the terminal is the correct size
         intro();
 
@@ -1121,7 +1118,7 @@ bool game::do_turn()
 #endif
     }
 
-    if (calendar::turn % 50 == 0) { //move hordes every 5 min
+    if (calendar::is_time_for(MINUTES(5)) { //move hordes every 5 min
         cur_om->move_hordes();
         // Hordes that reached the reality bubble need to spawn,
         // make them spawn in invisible areas only.
@@ -1161,81 +1158,75 @@ bool game::do_turn()
         u.hp_cur[hp_torso] = 0;
     }
     // Check if we're starving or have starved
-    if (u.hunger >= 3000) {
-        if (u.hunger >= 6000) {
-            add_msg(m_bad, _("You have starved to death."));
-            u.add_memorial_log(pgettext("memorial_male", "Died of starvation."),
-                               pgettext("memorial_female", "Died of starvation."));
+    if (u.hunger >= HUNGER_MINOR) {
+        if (u.hunger >= HUNGER_DEATH) {
+            add_msg(m_bad, HUNGER_DEATH_MSG);
+            u.add_memorial_log(HUNGER_MALE_MEMORIAL_MSG,
+                               HUNGER_FEMALE_MEMORIAL_MSG);
             u.hp_cur[hp_torso] = 0;
-        } else if (u.hunger >= 5000 && calendar::turn % 20 == 0) {
-            add_msg(m_warning, _("Food..."));
-        } else if (u.hunger >= 4000 && calendar::turn % 20 == 0) {
-            add_msg(m_warning, _("You are STARVING!"));
-        } else if (calendar::turn % 20 == 0) {
-            add_msg(m_warning, _("Your stomach feels so empty..."));
+        } else if (u.hunger >= HUNGER_CRITICAL && calendar::is_time_for(HUNGER_FREQUENCY)) {
+            add_msg(m_warning, HUNGER_CRITICAL_MSG);
+        } else if (u.hunger >= HUNGER_MAJOR && calendar::is_time_for(HUNGER_FREQUENCY)) {
+            add_msg(m_warning, HUNGER_MAJOR_MSG);
+        } else if (calendar::is_time_for(HUNGER_FREQUENCY)) {
+            add_msg(m_warning, HUNGER_MINOR_MSG);
         }
     }
 
     // Check if we're dying of thirst
-    if (u.thirst >= 600) {
-        if (u.thirst >= 1200) {
-            add_msg(m_bad, _("You have died of dehydration."));
-            u.add_memorial_log(pgettext("memorial_male", "Died of thirst."),
-                               pgettext("memorial_female", "Died of thirst."));
+    if (u.thirst >= THIRST_MINOR) {
+        if (u.thirst >= THIRST_DEATH) {
+            add_msg(m_bad, THIRST_DEATH_MSG);
+            u.add_memorial_log(THIRST_MALE_MEMORIAL_MSG,
+                               THIRST_FEMALE_MEMORIAL_MSG);
             u.hp_cur[hp_torso] = 0;
-        } else if (u.thirst >= 1000 && calendar::turn % 20 == 0) {
-            add_msg(m_warning, _("Even your eyes feel dry..."));
-        } else if (u.thirst >= 800 && calendar::turn % 20 == 0) {
-            add_msg(m_warning, _("You are THIRSTY!"));
-        } else if (calendar::turn % 20 == 0) {
-            add_msg(m_warning, _("Your mouth feels so dry..."));
+        } else if (u.thirst >= THIRST_CRITICAL && calendar::is_time_for(THIRST_FREQUENCY)) {
+            add_msg(m_warning, THIRST_CRITICAL_MSG);
+        } else if (u.thirst >= THIRST_MAJOR && calendar::is_time_for(THIRST_FREQUENCY)) {
+            add_msg(m_warning, THIRST_MAJOR_MSG);
+        } else if (calendar::is_time_for(THIRST_FREQUENCY)) {
+            add_msg(m_warning, THIRST_MINOR_MSG);
         }
     }
 
     // Check if we're falling asleep, unless we're sleeping
-    if (u.fatigue >= 600 && !u.in_sleep_state()) {
-        if (u.fatigue >= 1000) {
-            add_msg(m_bad, _("Survivor sleep now."));
-            u.add_memorial_log(pgettext("memorial_male", "Succumbed to lack of sleep."),
-                               pgettext("memorial_female", "Succumbed to lack of sleep."));
+    if (u.fatigue >= FATIGUE_TRIVIAL && !u.in_sleep_state()) {
+        if (u.fatigue >= FATIGUE_SLEEP) {
+            add_msg(m_bad, FATIGUE_SLEEP_MSG);
+            u.add_memorial_log(FATIGUE_MALE_MEMORIAL_MSG,
+                               FATIGUE_FEMALE_MEMORIAL_MSG);
             u.fatigue -= 10;
             u.try_to_sleep();
-        } else if (u.fatigue >= 800 && calendar::turn % 10 == 0) {
-            add_msg(m_warning, _("Anywhere would be a good place to sleep..."));
-        } else if (calendar::turn % 50 == 0) {
-            add_msg(m_warning, _("You feel like you haven't slept in days."));
-        }
-    }
-
-    // Even if we're not Exhausted, we really should be feeling lack/sleep earlier
-    // Penalties start at Dead Tired and go from there
-    if (u.fatigue >= 383 && !u.in_sleep_state()) {
-        if (u.fatigue >= 700) {
-            if (calendar::turn % 50 == 0) {
-                add_msg(m_warning, _("You're too tired to stop yawning."));
+        } else if (u.fatigue >= FATIGUE_DIRE && calendar::is_time_for(MINUTES(1))) {
+            add_msg(m_warning, FATIGUE_DIRE_MSG);
+        } else if (calendar::is_time_for(FATIGUE_FREQUENCY)) {
+            add_msg(m_warning, FATIGUE_CRITICAL_MSG);
+        } else if (u.fatigue >= FATIGUE_MAJOR) {
+          if (calendar::is_time_for(FATIGUE_FREQUENCY)) {
+                add_msg(m_warning, FATIGUE_MAJOR_MSG);
                 u.add_effect("lack_sleep", 50);
             }
             if (one_in(50 + u.int_cur)) {
                 // Rivet's idea: look out for microsleeps!
                 u.fall_asleep(5);
             }
-        } else if (u.fatigue >= 575) {
-            if (calendar::turn % 50 == 0) {
-                add_msg(m_warning, _("How much longer until bedtime?"));
+        } else if (u.fatigue >= FATIGUE_MINOR) {
+          if (calendar::is_time_for(FATIGUE_FREQUENCY)) {
+                add_msg(m_warning, FATIGUE_MINOR_MSG);
                 u.add_effect("lack_sleep", 50);
             }
             if (one_in(100 + u.int_cur)) {
                 u.fall_asleep(5);
             }
-        } else if (u.fatigue >= 383 && calendar::turn % 50 == 0) {
-            add_msg(m_warning, _("*yawn* You should really get some sleep."));
+        } else if (u.fatigue >= FATIGUE_TRIVIAL && calendar::is_time_for(FATIGUE_FREQUENCY)) {
+            add_msg(m_warning, FATIGUE_TRIVIAL_MSG);
             u.add_effect("lack_sleep", 50);
         }
     }
 
-    if (calendar::turn % 50 == 0) { // Hunger, thirst, & fatigue up every 5 minutes
+    if (calendar::is_time_for(MINUTES(5))) { // Hunger, thirst, & fatigue up every 5 minutes
         if ((!u.has_trait("LIGHTEATER") || !one_in(3)) &&
-            (!u.has_bionic("bio_recycler") || calendar::turn % 300 == 0) &&
+            (!u.has_bionic("bio_recycler") || calendar::is_time_for(MINUTES(30))) &&
             !(u.has_trait("DEBUG_LS"))) {
             u.hunger++;
             if (u.has_trait("HUNGER")) {
@@ -1255,7 +1246,7 @@ bool game::do_turn()
                 u.hunger += 2;
             }
         }
-        if ((!u.has_bionic("bio_recycler") || calendar::turn % 100 == 0) &&
+        if ((!u.has_bionic("bio_recycler") || calendar::is_time_for(MINUTES(10))) &&
             (!u.has_trait("PLANTSKIN") || !one_in(5)) &&
             (!u.has_trait("DEBUG_LS")) ) {
             u.thirst++;
@@ -1350,7 +1341,7 @@ bool game::do_turn()
         u.stomach_water = u.stomach_water < 0 ? 0 : u.stomach_water;
     }
 
-    if (calendar::turn % 300 == 0) { // Pain up/down every 30 minutes
+    if (calendar::is_time_for(MINUTES(30))) { // Pain up/down every 30 minutes
         if (u.pain > 0) {
             u.pain -= 1 + int(u.pain / 10);
         } else if (u.pain < 0) {
@@ -1390,14 +1381,14 @@ bool game::do_turn()
         }
     }
 
-    if (calendar::turn % 3600 == 0)
+    if (calendar::is_time_for(HOURS(6)))
     {
         u.update_health();
     }
 
     // Auto-save if autosave is enabled
     if (OPTIONS["AUTOSAVE"] &&
-        calendar::turn % ((int)OPTIONS["AUTOSAVE_TURNS"]) == 0 &&
+        calendar::is_time_for(((int)OPTIONS["AUTOSAVE_TURNS"])) &&
         !u.is_dead_state()) {
         autosave();
     }
@@ -1508,7 +1499,7 @@ bool game::do_turn()
     u.update_bodytemp();
     u.update_body_wetness();
     rustCheck();
-    if (calendar::turn % 10 == 0) {
+    if (calendar::is_time_for(MINUTES(1))) {
         u.update_morale();
     }
 

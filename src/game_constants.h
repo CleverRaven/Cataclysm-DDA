@@ -6,6 +6,8 @@
 #endif
 
 // Fixed window sizes
+#define MIN_FULL_SCREEN_WIDTH 80
+#define MIN_FULL_SCREEN_HEIGHT 24
 #define HP_HEIGHT 14
 #define HP_WIDTH 7
 #define MINIMAP_HEIGHT 7
