@@ -282,6 +282,7 @@ class cata_tiles
         int get_tile_width() const { return tile_width; }
         float get_tile_ratiox() const { return tile_ratiox; }
         float get_tile_ratioy() const { return tile_ratioy; }
+        tile_id_map get_tile_ids() const { return tile_ids; }
     protected:
         void get_tile_information(std::string dir_path, std::string &json_path, std::string &tileset_path);
         /** Lighting */

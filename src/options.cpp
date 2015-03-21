@@ -7,6 +7,8 @@
 #include "cursesdef.h"
 #include "path_info.h"
 #include "mapsharing.h"
+#include "monstergenerator.h"
+#include "item_factory.h"
 
 #ifdef SDLTILES
 #include "cata_tiles.h"
@@ -1320,6 +1322,31 @@ void show_options(bool ingame)
             g->init_ui();
             if( ingame ) {
                 g->refresh_all();
+
+                DebugLog( D_INFO, DC_ALL ) << "Loaded tileset: " << OPTIONS["TILES"].getValue();
+
+                tile_loading_report(termap, "Terrain", "");
+                tile_loading_report(furnmap, "Furniture", "");
+                tile_loading_report(Item_factory::Item_factory().get_all_itypes(), "Items", "");
+                tile_loading_report(MonsterGenerator::generator().get_all_mtypes(), "Monsters", "");
+                tile_loading_report(vehicle_part_types, "Vehicle Parts", "vp_");
+                tile_loading_report(trapmap, "Traps", "");
+
+                // fields are the only tile-able thing not kept in a map!
+                int missing=0, present=0;
+                std::string missing_list;
+                for(int i = 0; i < num_fields; ++i) {
+                    if (tilecontext->get_tile_ids().count(fieldlist[i].id) == 0) {
+                        missing++;
+                        missing_list.append(fieldlist[i].id+" ");
+                    } else {
+                        present++;
+                    }
+                }
+                DebugLog( D_INFO, DC_ALL ) << "Missing Fields: " << missing_list;
+
+                // needed until DebugLog ostream::flush bugfix lands
+                DebugLog( D_INFO, DC_ALL );
             }
         } catch(std::string err) {
             popup(_("Loading the tileset failed: %s"), err.c_str());
@@ -1331,6 +1358,21 @@ void show_options(bool ingame)
     delwin(w_options_border);
     delwin(w_options_header);
     delwin(w_options_tooltip);
+}
+
+template <typename maptype>
+void tile_loading_report(maptype tiletypemap, std::string label, std::string prefix) {
+                int missing=0, present=0;
+                std::string missing_list;
+                for(typename maptype::iterator i = tiletypemap.begin(); i != tiletypemap.end(); ++i) {
+                    if (tilecontext->get_tile_ids().count(prefix+i->first) == 0) {
+                        missing++;
+                        missing_list.append(i->first+" ");
+                    } else {
+                        present++;
+                    }
+                }
+                DebugLog( D_INFO, DC_ALL ) << "Missing " << label << ": " << missing_list;
 }
 
 void load_options()
