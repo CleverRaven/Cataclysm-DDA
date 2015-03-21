@@ -184,7 +184,7 @@ player::player() : Character()
  oxygen = 0;
  next_climate_control_check=0;
  last_climate_control_ret=false;
- active_mission = -1;
+ active_mission = nullptr;
  in_vehicle = false;
  controlling_vehicle = false;
  grab_point.x = 0;
@@ -13388,4 +13388,70 @@ bool player::has_items_with_quality( const std::string &quality_id, int level, i
         }
         return amount <= 0;
     } );
+}
+
+void player::on_mission_assignment( mission &new_mission )
+{
+    active_missions.push_back( &new_mission );
+    set_active_mission( new_mission );
+}
+
+void player::on_mission_finished( mission &mission )
+{
+    if( mission.has_failed() ) {
+        completed_missions.push_back( &mission );
+    } else {
+        failed_missions.push_back( &mission );
+    }
+    const auto iter = std::find( active_missions.begin(), active_missions.end(), &mission );
+    if( iter == active_missions.end() ) {
+        debugmsg( "completed mission %d was not in the active_missions list", mission.get_id() );
+    } else {
+        active_missions.erase( iter );
+    }
+    if( &mission == active_mission ) {
+        if( active_missions.empty() ) {
+            active_mission = nullptr;
+        } else {
+            active_mission = active_missions.front();
+        }
+    }
+}
+
+void player::set_active_mission( mission &mission )
+{
+    const auto iter = std::find( active_missions.begin(), active_missions.end(), &mission );
+    if( iter == active_missions.end() ) {
+        debugmsg( "new active mission %d is not in the active_missions list", mission.get_id() );
+    } else {
+        active_mission = &mission;
+    }
+}
+
+mission *player::get_active_mission() const
+{
+    return active_mission;
+}
+
+point player::get_active_mission_target() const
+{
+    if( active_mission == nullptr ) {
+        return overmap::invalid_point;
+    }
+    return active_mission->get_target();
+}
+
+std::vector<mission*> player::get_active_missions() const
+{
+    return active_missions;
+}
+
+std::vector<mission*> player::get_completed_missions() const
+{
+    return completed_missions;
+}
+
+std::vector<mission*> player::get_failed_missions() const
+{
+    return failed_missions;
 }

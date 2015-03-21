@@ -14,6 +14,7 @@
 #include "monstergenerator.h"
 #include "overmapbuffer.h"
 #include "messages.h"
+#include "mission.h"
 #include "json.h"
 #include "sounds.h"
 
@@ -128,10 +129,8 @@ void npc::load_npc_template(std::string ident)
         attitude = found->second.attitude;
         mission = found->second.mission;
         chatbin.first_topic = found->second.chatbin.first_topic;
-        if (mission_id(found->second.miss_id) != MISSION_NULL){
-            int mission_index = g->reserve_mission(mission_id(found->second.miss_id), getID());
-            if (mission_index != -1)
-                chatbin.missions.push_back(mission_index);
+        if (static_cast<mission_type_id>(found->second.miss_id) != MISSION_NULL){
+            add_new_mission( mission::reserve_new(static_cast<mission_type_id>(found->second.miss_id), getID()) );
         }
         return;
     } else {
@@ -1368,8 +1367,8 @@ bool npc::wants_to_travel_with(player *p) const
 int npc::assigned_missions_value()
 {
     int ret = 0;
-    for (auto &i : chatbin.missions_assigned) {
-        ret += g->find_mission(i)->value;
+    for( auto &m : chatbin.missions_assigned ) {
+        ret += m->get_value();
     }
     return ret;
 }
@@ -2122,19 +2121,6 @@ void npc::die(Creature* nkiller) {
     }
 
     place_corpse();
-
-    mission_type *type;
-    for (auto &i : g->active_missions) {
-        type = i.type;
-        //complete the mission if you needed killing
-        if (type->goal == MGOAL_ASSASSINATE && i.target_npc_id == getID()) {
-                g->mission_step_complete( i.uid, 1);
-        }
-        //fail the mission if the mission giver dies or the recruit target
-        if (i.npc_id == getID() || (i.target_npc_id == getID() && type->goal == MGOAL_RECRUIT_NPC)) {
-            g->fail_mission( i.uid );
-        }
-    }
 }
 
 std::string npc_attitude_name(npc_attitude att)
@@ -2316,5 +2302,17 @@ void npc::add_msg_player_or_npc(game_message_type type, const char *, const char
     va_end(ap);
 }
 
+void npc::add_new_mission( class mission *miss )
+{
+    chatbin.add_new_mission( miss );
+}
+
+void npc_chatbin::add_new_mission( mission *miss )
+{
+    if( miss == nullptr ) {
+        return;
+    }
+    missions.push_back( miss );
+}
 
 const tripoint npc::no_goal_point(INT_MIN, INT_MIN, INT_MIN);
