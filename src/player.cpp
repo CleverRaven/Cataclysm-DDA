@@ -12354,6 +12354,8 @@ void player::practice( const Skill* s, int amount, int cap )
         amount /= 2;
     }
 
+    
+
     if (skillLevel(s) > cap) { //softcap on skill usage
         int curLevel = skillLevel(s);
         float levelFactor = pow( 2.0, curLevel - cap );

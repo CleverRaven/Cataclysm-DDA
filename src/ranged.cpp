@@ -376,7 +376,7 @@ void player::fire_gun(int tarx, int tary, bool burst)
     // High perception allows you to pick out details better, low perception interferes.
     const bool train_skill = weapon_dispersion < player_dispersion + rng(0, get_per());
     if( train_skill ) {
-        practice( skill_used, 4 + (num_shots / 2));
+        practice( skill_used, 8 + 2*num_shots );
     } else if( one_in(30) ) {
         add_msg_if_player(m_info, _("You'll need a more accurate gun to keep improving your aim."));
     }
@@ -535,17 +535,22 @@ void player::fire_gun(int tarx, int tary, bool burst)
         if (missed_by <= .1) { // TODO: check head existence for headshot
             lifetime_stats()->headshots++;
         }
-
+        
+        int rangemult = std::min( range, 3 * ( skillLevel( skill_used ) + 1 ) );
+        debugmsg("Rangemult: %d, missed_by: %f", rangemult, missed_by);
+        
         if (!train_skill) {
             practice( skill_used, 0 ); // practice, but do not train
         } else if (missed_by <= .1) {
-            practice( skill_used, 5 );
+            practice( skill_used, 20 * rangemult );
         } else if (missed_by <= .2) {
-            practice( skill_used, 3 );
+            practice( skill_used, 10 * rangemult );
         } else if (missed_by <= .4) {
-            practice( skill_used, 2 );
+            practice( skill_used, 5 * rangemult );
         } else if (missed_by <= .6) {
-            practice( skill_used, 1 );
+            practice( skill_used, 4 * rangemult );
+        } else if (missed_by <= 1.0) {
+            practice( skill_used, 3 * rangemult );
         }
 
     }
@@ -555,7 +560,7 @@ void player::fire_gun(int tarx, int tary, bool burst)
     }
 
     if( train_skill ) {
-        practice( "gun", 5 );
+        practice( "gun", 15 );
     } else {
         practice( "gun", 0 );
     }
