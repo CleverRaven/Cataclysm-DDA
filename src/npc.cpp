@@ -1388,31 +1388,23 @@ int npc::assigned_missions_value()
     return ret;
 }
 
-std::vector<const Skill*> npc::skills_offered_to(player *p)
+std::vector<const Skill*> npc::skills_offered_to(const player &p)
 {
-    if (!p) {
-        return {};
-    }
-
     std::vector<const Skill*> ret;
     for (auto const &skill : Skill::skills) {
-        if (p->skillLevel(skill) < skillLevel(skill)) {
+        if (p.get_skill_level(skill) < get_skill_level(skill)) {
             ret.push_back(&skill);
         }
     }
-
     return ret;
 }
 
-std::vector<itype_id> npc::styles_offered_to(player *p)
+std::vector<itype_id> npc::styles_offered_to(const player &p)
 {
     std::vector<itype_id> ret;
-    if (p == NULL) {
-        return ret;
-    }
     for (auto &i : ma_styles) {
         bool found = false;
-        for (auto &j : p->ma_styles) {
+        for (auto &j : p.ma_styles) {
             if (j == i) {
                 found = true;
                 break;
