@@ -1783,7 +1783,7 @@ void mapgen_parking_lot(map *m, oter_id, mapgendata dat, int turn, float)
         int vx = rng(0, 1) * 15 + rng(4,5);
         std::string veh_type = "";
         int roll = rng(1, 100);
-        if (roll <= 5) { //specials
+        if (roll <= 10) { //specials
             int ra = rng(1, 100);
             if (ra <= 3) {
                 veh_type = "military_cargo_truck";
@@ -1800,7 +1800,7 @@ void mapgen_parking_lot(map *m, oter_id, mapgendata dat, int turn, float)
             }else {
                 veh_type = "quad_bike";
             }
-        } else if (roll <= 15) { //commercial
+        } else if (roll <= 25) { //commercial
             int rb = rng(1, 100);
             if (rb <= 25) {
                 veh_type = "truck_trailer";
@@ -1811,7 +1811,7 @@ void mapgen_parking_lot(map *m, oter_id, mapgendata dat, int turn, float)
             } else {
                 veh_type = "flatbed_truck";
             }
-        } else if (roll < 50) { //commons
+        } else if (roll < 90) { //commons
             int rc = rng(1, 100);
             if (rc <= 4) {
                 veh_type = "golf_cart";
