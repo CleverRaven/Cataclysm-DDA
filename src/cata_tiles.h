@@ -1,28 +1,21 @@
 #ifndef CATA_TILES_H
 #define CATA_TILES_H
 
-// make sure that SDL systems are included: Until testing is available for other systems, keep Windows specific
-#if !(defined _WIN32 || defined WINDOWS)
-#include <wordexp.h>
-#endif
+#include "enums.h"   // point
+#include "weather.h" // weather_printable
 
-#include "SDL2/SDL.h"
-#include "SDL2/SDL_ttf.h"
-
-#include "game.h"
-#include "options.h"
-#include "mapdata.h"
-#include "tile_id_data.h"
-#include "enums.h"
-
-#include <map>
-#include <vector>
 #include <string>
+#include <fstream>
+#include <unordered_map>
+#include <vector>
+
+struct SDL_Renderer;
 
 class JsonObject;
+class Creature;
+class player;
 
 enum class light_type : int;
-enum multitile_type : int;
 enum class tile_category : int;
 
 struct tile_type {
@@ -42,18 +35,31 @@ struct tile_type {
 
 class cata_tiles
 {
-    public:
-        /** Default constructor */
-        explicit cata_tiles(SDL_Renderer *render);
-        /** Default destructor */
-        ~cata_tiles();
-    private:
+public:
+    explicit cata_tiles(SDL_Renderer *render);
+    ~cata_tiles();
+
+    /* initialize from an outside file, throws std::string on errors. */
+    void init(std::string const &load_file_path);
+
+    /* Reinitializes the tile context using the original screen information,
+       throws std::string on errors  */
+    void reinit(std::string const &load_file_path);
+
+    int tile_height() const noexcept { return tile_height_; }
+    int tile_width()  const noexcept { return tile_width_;  }
+
+    /** Draw to screen */
+    void draw(int destx, int desty, int centerx, int centery, int width, int height);
+
+    /** 
+     * Reload tileset, with the given scale. Scale is divided by 16 to allow for
+     * scales < 1 without risking float inaccuracies.
+     */
+    void set_draw_scale(int scale);
+private:
         void clear();
-    public:
-        /** Reload tileset, with the given scale. Scale is divided by 16 to allow for scales < 1 without risking
-         *  float inaccuracies. */
-        void set_draw_scale(int scale);
-    private:
+
         /** Load tileset, R,G,B, are the color components of the transparent color
          * throws std::string on errors. Returns the number of tiles that have
          * been loaded from this tileset image
@@ -99,10 +105,7 @@ class cata_tiles
         void load_ascii_tilejson_from_file(JsonObject &config, int offset, int size);
         void load_ascii_set(JsonObject &entry, int offset, int size);
         void add_ascii_subtile(tile_type &curr_tile, const std::string &t_id, int fg, const std::string &s_id);
-    public:
-        /** Draw to screen */
-        void draw(int destx, int desty, int centerx, int centery, int width, int height);
-    private:
+
         /** How many rows and columns of tiles fit into given dimensions **/
         void get_window_tile_counts(const int width, const int height, int &columns, int &rows) const;
 
@@ -132,9 +135,7 @@ class cata_tiles
         bool draw_vpart(int x, int y);
         bool draw_entity( const Creature &critter, int x, int y );
         void draw_entity_with_overlays( const player &p, int x, int y );
-
         bool draw_item_highlight(int x, int y);
-
     public:
         // Animation layers
         bool draw_hit(int x, int y);
@@ -172,17 +173,6 @@ class cata_tiles
 
         /** Overmap Layer : Not used for now, do later*/
         bool draw_omap();
-
-    public:
-        /* initialize from an outside file, throws std::string on errors. */
-        void init(std::string load_file_path);
-        /* Reinitializes the tile context using the original screen information, throws std::string on errors  */
-        void reinit(std::string load_file_path);
-
-        int   get_tile_height() const noexcept { return tile_height; }
-        int   get_tile_width()  const noexcept { return tile_width;  }
-        float get_tile_ratiox() const noexcept { return tile_ratiox; }
-        float get_tile_ratioy() const noexcept { return tile_ratioy; }
     private:
         void get_tile_information(std::string dir_path, std::string &json_path, std::string &tileset_path);
         /** Lighting */
@@ -197,8 +187,8 @@ class cata_tiles
         using seasonal_variation_t = std::array<tile_type const*, 4>;
         std::unordered_map<std::string, seasonal_variation_t> seasonal_variations_;
 
-        int tile_height = 0;
-        int tile_width  = 0;
+        int tile_height_ = 0;
+        int tile_width_  = 0;
         
         int default_tile_width;
         int default_tile_height;

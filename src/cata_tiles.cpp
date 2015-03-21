@@ -1,5 +1,8 @@
 #if (defined SDLTILES)
 #include "cata_tiles.h"
+#include "game.h"
+#include "options.h"
+#include "mapdata.h"
 #include "debug.h"
 #include "json.h"
 #include "path_info.h"
@@ -14,11 +17,26 @@
 #include <fstream>
 #include <memory>
 
+#include "SDL2/SDL.h"
+#include "SDL2/SDL_ttf.h"
 #include "SDL2/SDL_image.h"
 
 #define dbg(x) DebugLog((DebugLevel)(x),D_SDL) << __FILE__ << ":" << __LINE__ << ": "
-////////
 
+////////////////////////////////////////////////////////////////////////////////////////////////////
+// template specializations inside std are explicitly allowed by the standard
+////////////////////////////////////////////////////////////////////////////////////////////////////
+namespace std {
+template<> struct default_delete<SDL_Surface> {
+    void operator()(SDL_Surface* const ptr) const noexcept { SDL_FreeSurface(ptr); }
+};
+template<> struct default_delete<SDL_Texture> {
+    void operator()(SDL_Texture* const ptr) const noexcept { SDL_DestroyTexture(ptr); }
+};
+} //namespace std
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////////
 enum class light_type : int {
     clear,
     light_normal,
@@ -28,41 +46,7 @@ enum class light_type : int {
     hidden = -1,
 };
 
-enum multitile_type : int {
-    center,
-    corner,
-    edge,
-    t_connection,
-    end_piece,
-    unconnected,
-    open,
-    broken,
-    num_multitile_types
-};
-
-std::string const& to_string(multitile_type const mt)
-{
-    constexpr int size = static_cast<int>(multitile_type::num_multitile_types);
-    static std::array<std::string, size> const strings {{
-        "center",
-        "corner",
-        "edge",
-        "t_connection",
-        "end_piece",
-        "unconnected",
-        "open",
-        "broken",
-    }};
-
-    auto const i = static_cast<int>(mt);
-    if (i < 0 || i >= size) {
-        dbg(D_ERROR) << "bad multitile_type value";
-    }
-
-    return strings[i];
-}
-
-// Make sure to change TILE_CATEGORY_IDS if this changes!
+// Make sure to change to_string if this changes!
 enum class tile_category : int {
     none,
     vehicle_part,
@@ -105,18 +89,47 @@ std::string const& to_string(tile_category const cat)
     return strings[i];
 }
 
-////////
-
-namespace std {
-template<> struct default_delete<SDL_Surface> {
-    void operator()(SDL_Surface* const ptr) const noexcept { SDL_FreeSurface(ptr); }
-};
-template<> struct default_delete<SDL_Texture> {
-    void operator()(SDL_Texture* const ptr) const noexcept { SDL_DestroyTexture(ptr); }
-};
-} //namespace std
-
+////////////////////////////////////////////////////////////////////////////////////////////////////
+// Local functions and types
+////////////////////////////////////////////////////////////////////////////////////////////////////
 namespace {
+std::string const empty_string;
+std::string const item_highlight {"highlight_item"};
+
+enum multitile_type : int {
+    center,
+    corner,
+    edge,
+    t_connection,
+    end_piece,
+    unconnected,
+    open,
+    broken,
+    num_multitile_types
+};
+
+std::string const& to_string(multitile_type const mt)
+{
+    constexpr int size = static_cast<int>(multitile_type::num_multitile_types);
+    static std::array<std::string, size> const strings {{
+        "center",
+        "corner",
+        "edge",
+        "t_connection",
+        "end_piece",
+        "unconnected",
+        "open",
+        "broken",
+    }};
+
+    auto const i = static_cast<int>(mt);
+    if (i < 0 || i >= size) {
+        dbg(D_ERROR) << "bad multitile_type value";
+    }
+
+    return strings[i];
+}
+
 std::unique_ptr<SDL_Surface> create_tile_surface(int const tile_width, int const tile_height)
 {
     constexpr bool big_e = SDL_BYTEORDER == SDL_BIG_ENDIAN;
@@ -136,15 +149,191 @@ std::unique_ptr<SDL_Surface> create_tile_surface(int const tile_width, int const
 
     return std::unique_ptr<SDL_Surface> {surface};
 }
+
+bool ends_with(std::string const &s, std::string const &ending)
+{
+    if (ending.size() > s.size()) {
+        return false;
+    }
+
+    return std::equal(ending.rbegin(), ending.rend(), s.rbegin());
+}
+
+//--------------------------------------------------------------------------------------------------
+template <typename Container>
+tile_type const* file_tile_category(
+    Container const &ids, std::string const &id, tile_category const cat, std::string const &sub_cat)
+{
+    long     sym = -1;
+    nc_color col = c_white;
+
+    switch (cat) {
+    case tile_category::none :
+        break;
+    case tile_category::vehicle_part : {
+        // TODO reset rotation here.
+        auto const it = vehicle_part_types.find(id.substr(3));
+        if (it != vehicle_part_types.end()) {
+            if (sub_cat.empty()) {
+                sym = it->second.sym;
+            } else {
+                sym = special_symbol(sub_cat[0]);
+            }
+            col = it->second.color;
+        }
+    } break;
+    case tile_category::terrain : {
+        auto const it = termap.find(id);
+        if (it != termap.end()) {
+            sym = it->second.sym;
+            col = it->second.color;
+        }
+    } break;
+    case tile_category::item :
+        if (auto const it = item_controller->find_template(id)) {
+            sym = it->sym;
+            col = it->color;
+        }
+        break;
+    case tile_category::furniture : {
+        auto const it = furnmap.find(id);       
+        if (it != furnmap.end()) {
+            sym = it->second.sym;
+            col = it->second.color;
+        }
+    } break;
+    case tile_category::trap : {
+        auto const it = trapmap.find(id);
+        if (it != trapmap.end()) {
+            auto const& trap = *traplist[it->second];
+            sym = trap.sym;
+            col = trap.color;
+        }
+    } break;
+    case tile_category::field : {
+        // TODO: field density?    
+        auto const &f = fieldlist[field_from_ident(id)];
+        sym = f.sym;
+        col = f.color[0];
+    } break;
+    case tile_category::lighting :
+        break;
+    case tile_category::monster :
+        // TODO clean up has_mtype
+        if (MonsterGenerator::generator().has_mtype(id)) {
+            const mtype *m = MonsterGenerator::generator().get_mtype(id);
+            int len = m->sym.length();
+            const char *s = m->sym.c_str();
+            sym = UTF8_getch(&s, &len);
+            col = m->color;
+        }
+        break;
+    case tile_category::bullet :
+        break;
+    case tile_category::hit_entity :
+        break;
+    case tile_category::weather :
+        break;
+    default:
+        break;
+    }
+
+    // Special cases for walls
+    switch (sym) {
+    case LINE_XOXO: sym = LINE_XOXO_C; break;
+    case LINE_OXOX: sym = LINE_OXOX_C; break;
+    case LINE_XXOO: sym = LINE_XXOO_C; break;
+    case LINE_OXXO: sym = LINE_OXXO_C; break;
+    case LINE_OOXX: sym = LINE_OOXX_C; break;
+    case LINE_XOOX: sym = LINE_XOOX_C; break;
+    case LINE_XXXO: sym = LINE_XXXO_C; break;
+    case LINE_XXOX: sym = LINE_XXOX_C; break;
+    case LINE_XOXX: sym = LINE_XOXX_C; break;
+    case LINE_OXXX: sym = LINE_OXXX_C; break;
+    case LINE_XXXX: sym = LINE_XXXX_C; break;
+    default: break;
+    }
+
+    if (sym < 0 || sym > 255) {
+        return nullptr;
+    }
+
+    // see cursesport.cpp, function wattron
+    const int FG = colorpairs[(col & A_COLOR) >> 17].FG + (col & A_BOLD ? 8 : 0);
+
+    // static so it does not need to be allocated every time,
+    // see load_ascii_set for the meaning
+    //                              012345678
+    static std::string generic_id {"ASCII_XFG"};
+        
+    generic_id[6] = static_cast<char>(sym);
+    generic_id[7] = static_cast<char>(FG);
+    generic_id[8] = static_cast<char>(-1);
+
+    auto it = ids.find(generic_id);
+    if (it != ids.end()) {
+        return &it->second;
+    }
+    
+    // Try again without color this time (using default color).
+    generic_id[7] = static_cast<char>(-1);
+    if ((it = ids.find(generic_id)) != ids.end()) {
+        return &it->second;
+    }
+
+    return nullptr;
+}
+
+//--------------------------------------------------------------------------------------------------
+template <typename Container, typename Iterator = typename Container::const_iterator>
+Iterator find_tile_fallback(Container const &ids, tile_category const cat, std::string const &sub_cat)
+{
+    static std::string const unknown {"unknown"};
+
+    // with no category there is nothing more we can do ~> unknown
+    if (cat == tile_category::none) {
+        return ids.find(unknown);
+    }
+
+    std::string const& cat_string = unknown + '_' + to_string(cat);
+
+    auto const end = std::end(ids);
+
+    // try to fallback on category + subcategory first
+    if (!sub_cat.empty()) {
+        auto const it = ids.find(cat_string + '_' + sub_cat);
+        if (it != end) {
+            return it;
+        }
+    }
+    
+    // failing that, try just the subcategory
+    auto const it = ids.find(cat_string);
+
+    // finally, fall back on unknown
+    return (it != end) ? it : ids.find(unknown);
+}
+
+//--------------------------------------------------------------------------------------------------
+std::string const* find_tile_multitile(tile_type const& tile, int const subtile)
+{
+    if (!tile.multitile || subtile < 0) {
+        return nullptr;
+    }
+
+    std::string const &key = to_string(static_cast<multitile_type>(subtile));
+
+    auto const &sub_tiles = tile.available_subtiles;
+    auto const it = std::find(begin(sub_tiles), end(sub_tiles), key);
+
+    return (it != std::end(sub_tiles)) ? &key : nullptr;
+}
+
 } //namespace
-
-#define ITEM_HIGHLIGHT "highlight_item"
-
+////////////////////////////////////////////////////////////////////////////////////////////////////
 extern game *g;
 extern int WindowHeight, WindowWidth;
 extern int fontwidth, fontheight;
-
-static const std::string empty_string;
 
 cata_tiles::cata_tiles(SDL_Renderer *const render)
   : renderer(render)
@@ -164,9 +353,10 @@ void cata_tiles::clear()
 
     tile_values.clear();
     tile_ids.clear();
+    seasonal_variations_.clear();
 }
 
-void cata_tiles::init(std::string load_file_path)
+void cata_tiles::init(std::string const &load_file_path)
 {
     std::string json_path, tileset_path;
     // get path information from load_file_path
@@ -175,7 +365,7 @@ void cata_tiles::init(std::string load_file_path)
     load_tilejson(json_path, tileset_path);
 }
 
-void cata_tiles::reinit(std::string load_file_path)
+void cata_tiles::reinit(std::string const &load_file_path)
 {
     clear_buffer();
     clear();
@@ -259,12 +449,12 @@ int cata_tiles::load_tileset(std::string const &path, int const R, int const G, 
     }
 
     // sx and sy will take care of any extraneous pixels that do not add up to a full tile
-    int const sx = tile_atlas->w - (tile_atlas->w % tile_width);
-    int const sy = tile_atlas->h - (tile_atlas->h % tile_height);
+    int const sx = tile_atlas->w - (tile_atlas->w % tile_width_);
+    int const sy = tile_atlas->h - (tile_atlas->h % tile_height_);
 
     // Set up initial source and destination information. Destination is going to be unchanging
-    SDL_Rect src_rect = {0, 0, tile_width, tile_height};
-    SDL_Rect dst_rect = {0, 0, tile_width, tile_height};
+    SDL_Rect src_rect = {0, 0, tile_width_, tile_height_};
+    SDL_Rect dst_rect = {0, 0, tile_width_, tile_height_};
 
     auto const key_r = static_cast<Uint8>(R & 0xFF);
     auto const key_g = static_cast<Uint8>(G & 0xFF);
@@ -273,12 +463,12 @@ int cata_tiles::load_tileset(std::string const &path, int const R, int const G, 
 
     /** split the atlas into tiles using SDL_Rect structs instead of slicing the atlas into individual surfaces */
     size_t const initial_count = tile_values.size();
-    for (int y = 0; y < sy; y += tile_height) {
-        for (int x = 0; x < sx; x += tile_width) {
+    for (int y = 0; y < sy; y += tile_height_) {
+        for (int x = 0; x < sx; x += tile_width_) {
             src_rect.x = x;
             src_rect.y = y;
 
-            auto tile_surf = create_tile_surface(tile_width, tile_height);
+            auto tile_surf = create_tile_surface(tile_width_, tile_height_);
             if (!tile_surf) {
                 continue;
             }
@@ -313,11 +503,11 @@ int cata_tiles::load_tileset(std::string const &path, int const R, int const G, 
 
 void cata_tiles::set_draw_scale(int const scale)
 {
-    tile_width  = default_tile_width  * scale / 16;
-    tile_height = default_tile_height * scale / 16;
+    tile_width_  = (default_tile_width  * scale) / 16;
+    tile_height_ = (default_tile_height * scale) / 16;
 
-    tile_ratiox = (float)tile_width  / (float)fontwidth;
-    tile_ratioy = (float)tile_height / (float)fontheight;
+    tile_ratiox = (float)tile_width_  / (float)fontwidth;
+    tile_ratioy = (float)tile_height_ / (float)fontheight;
 }
 
 void cata_tiles::load_tilejson(std::string const &path, const std::string &image_path)
@@ -349,11 +539,11 @@ void cata_tiles::load_tilejson_from_file(std::ifstream &f, const std::string &im
     JsonArray info = config.get_array("tile_info");
     while (info.has_more()) {
         JsonObject curr_info = info.next_object();
-        tile_height = curr_info.get_int("height");
-        tile_width = curr_info.get_int("width");
+        tile_height_ = curr_info.get_int("height");
+        tile_width_  = curr_info.get_int("width");
 
-        default_tile_width = tile_width;
-        default_tile_height = tile_height;
+        default_tile_width  = tile_width_;
+        default_tile_height = tile_height_;
     }
 
     set_draw_scale(16);
@@ -552,16 +742,7 @@ void cata_tiles::load_tilejson_from_file(JsonObject &config, int const offset, i
         curr_tile.multitile = t_multi;
         curr_tile.rotates = t_rota;
     }
-    dbg( D_INFO ) << "Tile Width: " << tile_width << " Tile Height: " << tile_height << " Tile Definitions: " << tile_ids.size();
-}
-
-bool ends_with(std::string const &s, std::string const &ending)
-{
-    if (ending.size() > s.size()) {
-        return false;
-    }
-
-    return std::equal(ending.rbegin(), ending.rend(), s.rbegin());
+    dbg( D_INFO ) << "Tile Width: " << tile_width_ << " Tile Height: " << tile_height_ << " Tile Definitions: " << tile_ids.size();
 }
 
 tile_type& cata_tiles::load_tile(JsonObject &entry, const std::string &id,
@@ -613,8 +794,8 @@ void cata_tiles::draw(int const destx, int const desty, int const centerx, int c
     init_light();
 
     // Rounding up to include incomplete tiles at the bottom/right edges
-    int const sx = (width  + tile_width  - 1) / tile_width;
-    int const sy = (height + tile_height - 1) / tile_height;
+    int const sx = (width  + tile_width_  - 1) / tile_width_;
+    int const sy = (height + tile_height_ - 1) / tile_height_;
 
     o_x  = centerx - POSX;
     o_y  = centery - POSY;
@@ -707,131 +888,6 @@ bool cata_tiles::draw_from_id_string(std::string const &id, int x, int y, int su
     return cata_tiles::draw_from_id_string(id, tile_category::none, empty_string, x, y, subtile, rota);
 }
 
-//--------------------------------------------------------------------------------------------------
-template <typename Container>
-tile_type const* file_tile_category(
-    Container const &ids, std::string const &id, tile_category const cat, std::string const &sub_cat)
-{
-    long     sym = -1;
-    nc_color col = c_white;
-
-    switch (cat) {
-    case tile_category::none :
-        break;
-    case tile_category::vehicle_part : {
-        // TODO reset rotation here.
-        auto const it = vehicle_part_types.find(id.substr(3));
-        if (it != vehicle_part_types.end()) {
-            if (sub_cat.empty()) {
-                sym = it->second.sym;
-            } else {
-                sym = special_symbol(sub_cat[0]);
-            }
-            col = it->second.color;
-        }
-    } break;
-    case tile_category::terrain : {
-        auto const it = termap.find(id);
-        if (it != termap.end()) {
-            sym = it->second.sym;
-            col = it->second.color;
-        }
-    } break;
-    case tile_category::item :
-        if (auto const it = item_controller->find_template(id)) {
-            sym = it->sym;
-            col = it->color;
-        }
-        break;
-    case tile_category::furniture : {
-        auto const it = furnmap.find(id);       
-        if (it != furnmap.end()) {
-            sym = it->second.sym;
-            col = it->second.color;
-        }
-    } break;
-    case tile_category::trap : {
-        auto const it = trapmap.find(id);
-        if (it != trapmap.end()) {
-            auto const& trap = *traplist[it->second];
-            sym = trap.sym;
-            col = trap.color;
-        }
-    } break;
-    case tile_category::field : {
-        // TODO: field density?    
-        auto const &f = fieldlist[field_from_ident(id)];
-        sym = f.sym;
-        col = f.color[0];
-    } break;
-    case tile_category::lighting :
-        break;
-    case tile_category::monster :
-        // TODO clean up has_mtype
-        if (MonsterGenerator::generator().has_mtype(id)) {
-            const mtype *m = MonsterGenerator::generator().get_mtype(id);
-            int len = m->sym.length();
-            const char *s = m->sym.c_str();
-            sym = UTF8_getch(&s, &len);
-            col = m->color;
-        }
-        break;
-    case tile_category::bullet :
-        break;
-    case tile_category::hit_entity :
-        break;
-    case tile_category::weather :
-        break;
-    default:
-        break;
-    }
-
-    // Special cases for walls
-    switch (sym) {
-    case LINE_XOXO: sym = LINE_XOXO_C; break;
-    case LINE_OXOX: sym = LINE_OXOX_C; break;
-    case LINE_XXOO: sym = LINE_XXOO_C; break;
-    case LINE_OXXO: sym = LINE_OXXO_C; break;
-    case LINE_OOXX: sym = LINE_OOXX_C; break;
-    case LINE_XOOX: sym = LINE_XOOX_C; break;
-    case LINE_XXXO: sym = LINE_XXXO_C; break;
-    case LINE_XXOX: sym = LINE_XXOX_C; break;
-    case LINE_XOXX: sym = LINE_XOXX_C; break;
-    case LINE_OXXX: sym = LINE_OXXX_C; break;
-    case LINE_XXXX: sym = LINE_XXXX_C; break;
-    default: break;
-    }
-
-    if (sym < 0 || sym > 255) {
-        return nullptr;
-    }
-
-    // see cursesport.cpp, function wattron
-    const int FG = colorpairs[(col & A_COLOR) >> 17].FG + (col & A_BOLD ? 8 : 0);
-
-    // static so it does not need to be allocated every time,
-    // see load_ascii_set for the meaning
-    //                              012345678
-    static std::string generic_id {"ASCII_XFG"};
-        
-    generic_id[6] = static_cast<char>(sym);
-    generic_id[7] = static_cast<char>(FG);
-    generic_id[8] = static_cast<char>(-1);
-
-    auto it = ids.find(generic_id);
-    if (it != ids.end()) {
-        return &it->second;
-    }
-    
-    // Try again without color this time (using default color).
-    generic_id[7] = static_cast<char>(-1);
-    if ((it = ids.find(generic_id)) != ids.end()) {
-        return &it->second;
-    }
-
-    return nullptr;
-}
-
 void cata_tiles::draw_tile_at(tile_type const &tile, int const x, int const y, int const rota)
 {
 #if (defined _WIN32 || defined WINDOWS)
@@ -840,7 +896,7 @@ void cata_tiles::draw_tile_at(tile_type const &tile, int const x, int const y, i
     constexpr int adjustment = 0;
 #endif
 
-    SDL_Rect dest {x, y, tile_width, tile_height};
+    SDL_Rect dest {x, y, tile_width_, tile_height_};
     int const size = static_cast<int>(tile_values.size());
 
     SDL_Rect  const* const from = nullptr;
@@ -883,51 +939,6 @@ void cata_tiles::draw_tile_at(tile_type const &tile, int const x, int const y, i
     }
 }
 
-//--------------------------------------------------------------------------------------------------
-template <typename Container, typename Iterator = typename Container::const_iterator>
-Iterator find_tile_fallback(Container const &ids, tile_category const cat, std::string const &sub_cat)
-{
-    static std::string const unknown {"unknown"};
-
-    // with no category there is nothing more we can do ~> unknown
-    if (cat == tile_category::none) {
-        return ids.find(unknown);
-    }
-
-    std::string const& cat_string = unknown + '_' + to_string(cat);
-
-    auto const end = std::end(ids);
-
-    // try to fallback on category + subcategory first
-    if (!sub_cat.empty()) {
-        auto const it = ids.find(cat_string + '_' + sub_cat);
-        if (it != end) {
-            return it;
-        }
-    }
-    
-    // failing that, try just the subcategory
-    auto const it = ids.find(cat_string);
-
-    // finally, fall back on unknown
-    return (it != end) ? it : ids.find(unknown);
-}
-
-//--------------------------------------------------------------------------------------------------
-std::string const* find_tile_multitile(tile_type const& tile, int const subtile)
-{
-    if (!tile.multitile || subtile < 0) {
-        return nullptr;
-    }
-
-    std::string const &key = to_string(static_cast<multitile_type>(subtile));
-
-    auto const &sub_tiles = tile.available_subtiles;
-    auto const it = std::find(begin(sub_tiles), end(sub_tiles), key);
-
-    return (it != std::end(sub_tiles)) ? &key : nullptr;
-}
-
 bool cata_tiles::draw_from_id_string(std::string const &id, tile_category category,
     const std::string &subcategory, int const x, int const y, int const subtile, int rota)
 {
@@ -946,8 +957,8 @@ bool cata_tiles::draw_from_id_string(std::string const &id, tile_category catego
     }
 
     // translate from player-relative to screen relative tile position
-    const int screen_x = x0 * tile_width  + op_x;
-    const int screen_y = y0 * tile_height + op_y;
+    const int screen_x = x0 * tile_width_  + op_x;
+    const int screen_y = y0 * tile_height_ + op_y;
 
     tile_type const* display_tile = nullptr;
 
@@ -1284,18 +1295,18 @@ void cata_tiles::draw_entity_with_overlays( const player &p, const int x, const 
 bool cata_tiles::draw_item_highlight(int const x, int const y)
 {
     create_default_item_highlight();
-    return draw_from_id_string(ITEM_HIGHLIGHT, tile_category::none, empty_string, x, y, 0, 0);
+    return draw_from_id_string(item_highlight, tile_category::none, empty_string, x, y, 0, 0);
 }
 
 void cata_tiles::create_default_item_highlight()
 {
     constexpr Uint8 highlight_alpha = 127;
 
-    if (tile_ids.count(ITEM_HIGHLIGHT)) {
+    if (tile_ids.count(item_highlight)) {
         return;
     }
 
-    auto surface = create_tile_surface(tile_width, tile_height);
+    auto surface = create_tile_surface(tile_width_, tile_height_);
     if (!surface) {
         return;
     }
@@ -1308,7 +1319,7 @@ void cata_tiles::create_default_item_highlight()
     }
 
     tile_values.push_back(texture);
-    tile_ids[ITEM_HIGHLIGHT] = tile_type(tile_values.size(), -1);
+    tile_ids[item_highlight] = tile_type(tile_values.size(), -1);
 }
 
 /* Animation Functions */
@@ -1513,8 +1524,8 @@ void cata_tiles::draw_sct_frame()
                 generic_id[6] = static_cast<char>(c);
                 auto const it = tile_ids.find(generic_id);
                 if (it != tile_ids.end()) {
-                    const int x = (dx + x_off - o_x) * tile_width  + op_x;
-                    const int y = (dy - o_y) * tile_height + op_y;
+                    const int x = (dx + x_off - o_x) * tile_width_  + op_x;
+                    const int y = (dy         - o_y) * tile_height_ + op_y;
 
                     draw_tile_at(it->second, x, y, 0);
                 }
@@ -1527,19 +1538,15 @@ void cata_tiles::draw_sct_frame()
 
 void cata_tiles::draw_zones_frame()
 {
-    bool item_highlight_available = tile_ids.find(ITEM_HIGHLIGHT) != tile_ids.end();
-
-    if (!item_highlight_available) {
+    if (!tile_ids.count(item_highlight)) {
         create_default_item_highlight();
-        item_highlight_available = true;
     }
 
     for (int y = pStartZone.y; y <= pEndZone.y; ++y) {
         for (int x = pStartZone.x; x <= pEndZone.x; ++x) {
-            draw_from_id_string(ITEM_HIGHLIGHT, x + pZoneOffset.x, y + pZoneOffset.y, 0, 0);
+            draw_from_id_string(item_highlight, x + pZoneOffset.x, y + pZoneOffset.y, 0, 0);
         }
     }
-
 }
 void cata_tiles::draw_footsteps_frame()
 {

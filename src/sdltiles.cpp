@@ -1,5 +1,6 @@
 #if (defined TILES)
 #include "catacurse.h"
+#include "game.h"
 #include "options.h"
 #include "output.h"
 #include "input.h"
@@ -7,16 +8,17 @@
 #include "catacharset.h"
 #include "cursesdef.h"
 #include "debug.h"
-#include <vector>
-#include <fstream>
-#include <sstream>
-#include <sys/stat.h>
-#include <stdexcept>
 #include "cata_tiles.h"
 #include "get_version.h"
 #include "init.h"
 #include "path_info.h"
 #include "filesystem.h"
+
+#include <vector>
+#include <fstream>
+#include <sstream>
+#include <sys/stat.h>
+#include <stdexcept>
 
 //TODO replace these includes with filesystem.h
 #ifdef _MSC_VER
@@ -723,9 +725,9 @@ bool Font::draw_window( WINDOW *win, int offsetx, int offsety )
             winBuffer = win;
     }
     if( !fontScaleBuffer ) {
-            fontScaleBuffer = tilecontext->get_tile_width();
+            fontScaleBuffer = tilecontext->tile_width();
     }
-    const int fontScale = tilecontext->get_tile_width();
+    const int fontScale = tilecontext->tile_width();
     bool update = false;
     for( int j = 0; j < win->height; j++ ) {
         if( !win->line[j].touched ) {
@@ -812,7 +814,7 @@ bool Font::draw_window( WINDOW *win, int offsetx, int offsety )
     win->draw = false; //We drew the window, mark it as so
     //Keeping track of last drawn window and tilemode zoom level
     winBuffer = win;
-    fontScaleBuffer = tilecontext->get_tile_width();
+    fontScaleBuffer = tilecontext->tile_width();
 
     return update;
 }
@@ -1671,8 +1673,8 @@ bool input_context::get_coordinates(WINDOW* capture_win, int& x, int& y) {
 #ifdef SDLTILES
     // tiles might have different dimensions than standard font
     if (use_tiles && capture_win == g->w_terrain) {
-        fw = tilecontext->get_tile_width();
-        fh = tilecontext->get_tile_height();
+        fw = tilecontext->tile_width();
+        fh = tilecontext->tile_height();
     } else
 #endif
     if (map_font != NULL && capture_win == g->w_terrain) {
@@ -1885,20 +1887,20 @@ void CachedTTFFont::load_font(std::string typeface, int fontsize)
 
 int map_font_width() {
 #ifdef SDLTILES
-    if (use_tiles && tilecontext != NULL) {
-        return tilecontext->get_tile_width();
+    if (use_tiles && tilecontext) {
+        return tilecontext->tile_width();
     }
 #endif
-    return (map_font != NULL ? map_font : font)->fontwidth;
+    return (map_font ? map_font : font)->fontwidth;
 }
 
 int map_font_height() {
 #ifdef SDLTILES
-    if (use_tiles && tilecontext != NULL) {
-        return tilecontext->get_tile_height();
+    if (use_tiles && tilecontext) {
+        return tilecontext->tile_height();
     }
 #endif
-    return (map_font != NULL ? map_font : font)->fontheight;
+    return (map_font ? map_font : font)->fontheight;
 }
 
 int overmap_font_width() {
