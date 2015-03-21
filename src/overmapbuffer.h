@@ -349,6 +349,7 @@ private:
     void fix_mongroups(overmap &new_overmap);
     /**
      * Retrieve overmaps that overlap the bounding box defined by the location and radius.
+     * The location is in absolute submap coordinates, the radius is in the same system.
      */
     std::vector<overmap *> get_overmaps_near( point location, int radius );
 };
