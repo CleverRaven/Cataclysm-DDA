@@ -9010,7 +9010,7 @@ bool player::eat(item *eaten, it_comest *comest)
         return false;
     }
     bool overeating = (!has_trait("GOURMAND") && hunger < 0 &&
-                       comest->nutr >= 5);
+                       nutrition_for(comest) >= 5);
     bool hiberfood = (has_active_mutation("HIBERNATE") && (hunger > -60 && thirst > -60 ));
     eaten->calc_rot(pos()); // check if it's rotten before eating!
     bool spoiled = eaten->rotten();
@@ -9020,13 +9020,13 @@ bool player::eat(item *eaten, it_comest *comest)
     if (overeating && !has_trait("HIBERNATE") && !has_trait("EATHEALTH") && !is_npc() &&
         !has_trait("SLIMESPAWNER") && !query_yn(_("You're full.  Force yourself to eat?"))) {
         return false;
-    } else if (has_trait("GOURMAND") && hunger < 0 && comest->nutr >= 5) {
+    } else if (has_trait("GOURMAND") && hunger < 0 && nutrition_for(comest) >= 5) {
         if (!query_yn(_("You're fed.  Try to pack more in anyway?"))) {
             return false;
         }
     }
 
-    int temp_nutr = comest->nutr;
+    int temp_nutr = nutrition_for(comest);
     int temp_quench = comest->quench;
     if (hiberfood && !is_npc() && (((hunger - temp_nutr) < -60) || ((thirst - temp_quench) < -60)) && has_active_mutation("HIBERNATE")){
        if (!query_yn(_("You're adequately fueled. Prepare for hibernation?"))) {
@@ -9040,7 +9040,7 @@ bool player::eat(item *eaten, it_comest *comest)
     }
     if (has_trait("CARNIVORE") && (eaten->made_of("veggy") || eaten->made_of("fruit") || eaten->made_of("wheat")) &&
       !(eaten->made_of("flesh") ||eaten->made_of("hflesh") || eaten->made_of("iflesh") || eaten->made_of("milk") ||
-      eaten->made_of("egg")) && comest->nutr > 0) {
+      eaten->made_of("egg")) && nutrition_for(comest) > 0) {
         add_msg_if_player(m_info, _("Eww.  Inedible plant stuff!"));
         return false;
     }
@@ -9112,7 +9112,7 @@ bool player::eat(item *eaten, it_comest *comest)
     }
 
     //not working directly in the equation... can't imagine why
-    int temp_hunger = hunger - comest->nutr;
+    int temp_hunger = hunger - nutrition_for(comest);
     int temp_thirst = thirst - comest->quench;
     int capacity = has_trait("GOURMAND") ? -60 : -20;
     if( has_active_mutation("HIBERNATE") && !is_npc() &&
@@ -9168,14 +9168,14 @@ bool player::eat(item *eaten, it_comest *comest)
         }
     }
 
-    if( ( comest->nutr > 0 && temp_hunger < capacity ) ||
+    if( ( nutrition_for(comest) > 0 && temp_hunger < capacity ) ||
         ( comest->quench > 0 && temp_thirst < capacity ) ) {
         if ((spoiled) && !(has_trait("SAPROPHAGE")) ){//rotten get random nutrification
             if (!query_yn(_("You can hardly finish it all.  Consume it?"))) {
                 return false;
             }
         } else {
-            if ( (( comest->nutr > 0 && temp_hunger < capacity ) ||
+            if ( (( nutrition_for(comest) > 0 && temp_hunger < capacity ) ||
               ( comest->quench > 0 && temp_thirst < capacity )) &&
               ( (!(has_trait("EATHEALTH"))) || (!(has_trait("SLIMESPAWNER"))) ) ) {
                 if (!query_yn(_("You will not be able to finish it all.  Consume it?"))) {
@@ -9196,7 +9196,7 @@ bool player::eat(item *eaten, it_comest *comest)
         add_msg(m_bad, _("Ick, this %s doesn't taste so good..."), eaten->tname().c_str());
         if (!has_trait("SAPROVORE") && !has_trait("EATDEAD") &&
        (!has_bionic("bio_digestion") || one_in(3))) {
-            add_effect("foodpoison", rng(60, (comest->nutr + 1) * 60));
+            add_effect("foodpoison", rng(60, (nutrition_for(comest) + 1) * 60));
         }
         consume_effects(eaten, comest, spoiled);
     } else if ((spoiled) && has_trait("SAPROPHAGE")) {
@@ -9250,9 +9250,9 @@ bool player::eat(item *eaten, it_comest *comest)
     }
 
     // Moved this later in the process, so you actually eat it before converting to HP
-    if ( (has_trait("EATHEALTH")) && ( comest->nutr > 0 && temp_hunger < capacity ) ) {
+    if ( (has_trait("EATHEALTH")) && ( nutrition_for(comest) > 0 && temp_hunger < capacity ) ) {
         int room = (capacity - temp_hunger);
-        int excess_food = ((comest->nutr) - room);
+        int excess_food = ((nutrition_for(comest)) - room);
         add_msg_player_or_npc( _("You feel the %s filling you out."),
                                  _("<npcname> looks better after eating the %s."),
                                   eaten->tname().c_str());
@@ -9369,6 +9369,33 @@ bool player::eat(item *eaten, it_comest *comest)
     return true;
 }
 
+int player::nutrition_for(const it_comest *comest) 
+{
+    /* thresholds:
+    **  100 : 1x
+    **  300 : 2x
+    ** 1400 : 4x
+    ** 2800 : 6x
+    ** 6000 : 10x
+    */
+
+    float nutr;
+
+    if (hunger < 100) {
+        nutr = comest->nutr;
+    } else if (hunger <= 300) {
+        nutr = ((float)hunger/300) * 2 * comest->nutr;
+    } else if (hunger <= 1400) {
+        nutr = ((float)hunger/1400) * 4 * comest->nutr;
+    } else if (hunger <= 2800) {
+        nutr = ((float)hunger/2800) * 6 * comest->nutr;
+    } else {
+        nutr = ((float)hunger/6000)* 10 * comest->nutr;
+    }
+
+    return (int)nutr;
+}
+
 void player::consume_effects(item *eaten, it_comest *comest, bool rotten)
 {
     if (has_trait("THRESH_PLANT") && comest->can_use( "PLANTBLECH" )) {
@@ -9380,7 +9407,7 @@ void player::consume_effects(item *eaten, it_comest *comest, bool rotten)
         return;
     }
     if ( !(has_trait("GIZZARD")) && (rotten) && !(has_trait("SAPROPHAGE")) ) {
-        hunger -= rng(0, comest->nutr);
+        hunger -= rng(0, nutrition_for(comest));
         thirst -= comest->quench;
         if (!has_trait("SAPROVORE") && !has_bionic("bio_digestion")) {
             mod_healthy_mod(-30);
@@ -9390,7 +9417,7 @@ void player::consume_effects(item *eaten, it_comest *comest, bool rotten)
         // but best to code defensively.
         // Thanks for the warning, i2amroy.
         if ((rotten) && !(has_trait("SAPROPHAGE")) ) {
-            int nut = (rng(0, comest->nutr) * 0.66 );
+            int nut = (rng(0, nutrition_for(comest)) * 0.66 );
             int que = (comest->quench) * 0.66;
             hunger -= nut;
             thirst -= que;
@@ -9401,7 +9428,7 @@ void player::consume_effects(item *eaten, it_comest *comest, bool rotten)
             }
         } else {
         // Shorter GI tract, so less nutrients captured.
-            int giz_nutr = (comest->nutr) * 0.66;
+            int giz_nutr = (nutrition_for(comest)) * 0.66;
             int giz_quench = (comest->quench) * 0.66;
             int giz_healthy = (comest->healthy) * 0.66;
             hunger -= (giz_nutr);
@@ -9415,7 +9442,7 @@ void player::consume_effects(item *eaten, it_comest *comest, bool rotten)
       eaten->made_of("egg")) ) {
           // Carnivore is stripping the good stuff out of that plant crap it's mixed up with.
           // They WILL eat the Meat Pizza.
-          int carn_nutr = (comest->nutr) * 0.5;
+          int carn_nutr = (nutrition_for(comest)) * 0.5;
           int carn_quench = (comest->quench) * 0.5;
           int carn_healthy = (comest->healthy) * 0.5;
           hunger -= (carn_nutr);
@@ -9431,22 +9458,22 @@ void player::consume_effects(item *eaten, it_comest *comest, bool rotten)
               int carn_healthy = (comest->healthy) + 1;
               mod_healthy_mod(carn_healthy);
           }
-          hunger -= comest->nutr;
+          hunger -= nutrition_for(comest);
           thirst -= comest->quench;
           mod_healthy_mod(comest->healthy);
-          stomach_food += comest->nutr;
+          stomach_food += nutrition_for(comest);
           stomach_water += comest->quench;
     } else {
     // Saprophages get the same boost from rotten food that others get from fresh.
-        hunger -= comest->nutr;
+        hunger -= nutrition_for(comest);
         thirst -= comest->quench;
         mod_healthy_mod(comest->healthy);
-        stomach_food += comest->nutr;
+        stomach_food += nutrition_for(comest);
         stomach_water += comest->quench;
     }
 
     if (has_bionic("bio_digestion")) {
-        hunger -= rng(0, comest->nutr);
+        hunger -= rng(0, nutrition_for(comest));
     }
 
     if (comest->stim != 0) {
@@ -9479,7 +9506,7 @@ void player::consume_effects(item *eaten, it_comest *comest, bool rotten)
             add_morale(MORALE_FOOD_GOOD, fun * 3, fun * 6, 60, 30, false, comest);
         }
         if (has_trait("GOURMAND") && !(has_active_mutation("HIBERNATE"))) {
-        if ((comest->nutr > 0 && hunger < -60) || (comest->quench > 0 && thirst < -60)) {
+        if ((nutrition_for(comest) > 0 && hunger < -60) || (comest->quench > 0 && thirst < -60)) {
             add_msg_if_player(_("You can't finish it all!"));
         }
         if (hunger < -60) {
@@ -9490,29 +9517,30 @@ void player::consume_effects(item *eaten, it_comest *comest, bool rotten)
         }
     }
     } if (has_active_mutation("HIBERNATE")) {
-         if ((comest->nutr > 0 && hunger < -60) || (comest->quench > 0 && thirst < -60)) { //Tell the player what's going on
+         if ((nutrition_for(comest) > 0 && hunger < -60) || (comest->quench > 0 && thirst < -60)) { //Tell the player what's going on
             add_msg_if_player(_("You gorge yourself, preparing to hibernate."));
             if (one_in(2)) {
-                (fatigue += (comest->nutr)); //50% chance of the food tiring you
+                (fatigue += (nutrition_for(comest))); //50% chance of the food tiring you
             }
         }
-        if ((comest->nutr > 0 && hunger < -200) || (comest->quench > 0 && thirst < -200)) { //Hibernation should cut burn to 60/day
+        if ((nutrition_for(comest) > 0 && hunger < -200) || (comest->quench > 0 && thirst < -200)) { //Hibernation should cut burn to 60/day
             add_msg_if_player(_("You feel stocked for a day or two. Got your bed all ready and secured?"));
             if (one_in(2)) {
-                (fatigue += (comest->nutr)); //And another 50%, intended cumulative
+                (fatigue += (nutrition_for(comest))); //And another 50%, intended cumulative
             }
         }
-        if ((comest->nutr > 0 && hunger < -400) || (comest->quench > 0 && thirst < -400)) {
+
+        if ((nutrition_for(comest) > 0 && hunger < -400) || (comest->quench > 0 && thirst < -400)) {
             add_msg_if_player(_("Mmm.  You can still fit some more in...but maybe you should get comfortable and sleep."));
              if (!(one_in(3))) {
-                (fatigue += (comest->nutr)); //Third check, this one at 66%
+                (fatigue += (nutrition_for(comest))); //Third check, this one at 66%
             }
         }
-        if ((comest->nutr > 0 && hunger < -600) || (comest->quench > 0 && thirst < -600)) {
+        if ((nutrition_for(comest) > 0 && hunger < -600) || (comest->quench > 0 && thirst < -600)) {
             add_msg_if_player(_("That filled a hole!  Time for bed..."));
-            fatigue += (comest->nutr); //At this point, you're done.  Schlaf gut.
+            fatigue += (nutrition_for(comest)); //At this point, you're done.  Schlaf gut.
         }
-        if ((comest->nutr > 0 && hunger < -620) || (comest->quench > 0 && thirst < -620)) {
+        if ((nutrition_for(comest) > 0 && hunger < -620) || (comest->quench > 0 && thirst < -620)) {
             add_msg_if_player(_("You can't finish it all!"));
         }
         if (hunger < -620) {
@@ -9527,7 +9555,7 @@ void player::consume_effects(item *eaten, it_comest *comest, bool rotten)
         } else if (fun > 0) {
             add_morale(MORALE_FOOD_GOOD, fun, fun * 4, 60, 30, false, comest);
         }
-        if ((comest->nutr > 0 && hunger < -20) || (comest->quench > 0 && thirst < -20)) {
+        if ((nutrition_for(comest) > 0 && hunger < -20) || (comest->quench > 0 && thirst < -20)) {
             add_msg_if_player(_("You can't finish it all!"));
         }
         if (hunger < -20) {
