@@ -22,7 +22,7 @@
         "range" : 0,
         "dispersion" : 0,
         "recoil" : 0,
-        "count" : 100,
+        "count" : 50,
         "effects" : ["NEVER_MISFIRES"]
     },
     {   "type" : "AMMO",

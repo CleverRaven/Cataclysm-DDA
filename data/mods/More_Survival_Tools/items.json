@@ -21,7 +21,7 @@
     "ammo": "tinder",
     "revert_to": "null",
     "qualities": [["COOK", 1]],
-    "use_action": "hotplate"
+    "use_action": "HOTPLATE"
   },
   {
     "id": "flint_steel",
@@ -99,10 +99,7 @@
     "turns_per_charge": 600,
     "ammo": "tinder",
     "revert_to": "tinderbox",
-    "use_action": {
-            "type": "firestarter",
-            "moves_cost": 15
-    }
+    "use_action": "TINDERBOX_LIT"
   },
   {
     "id": "bottle_metal",
@@ -132,7 +129,7 @@
         "color" : "green",
         "addiction_type" : "none",
         "spoils_in" : 0,
-        "use_action" : "misc_repair",
+        "use_action" : "MISC_REPAIR",
         "stim" : 0,
         "container" : "null",
         "to_hit" : 0,
@@ -201,7 +198,7 @@
     "turns_per_charge": 0,
     "ammo": "NULL",
     "revert_to": "null",
-    "use_action": "knife",
+    "use_action": { "type": "knife" },
     "qualities": [["CUT", 1], ["BUTCHER", 6], ["SAW_W", 1], ["AXE", 1], ["HAMMER", 1]],
     "flags": ["CHOP"]
   },
@@ -438,7 +435,7 @@
     "turns_per_charge": 0,
     "ammo": "NULL",
     "revert_to": "null",
-    "use_action": "knife",
+    "use_action": { "type": "knife" },
     "qualities": [["CUT", 1], ["BUTCHER", 11]],
     "flags": ["STAB", "SHEATH_KNIFE"]
      },
@@ -464,7 +461,7 @@
     "ammo": "NULL",
     "revert_to": "null",
     "qualities": [["AXE", 3]],
-    "use_action": "lumber"
+    "use_action": "LUMBER"
      },
     {
         "type" : "COMESTIBLE",
