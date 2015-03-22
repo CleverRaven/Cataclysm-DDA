@@ -536,21 +536,24 @@ void player::fire_gun(int tarx, int tary, bool burst)
             lifetime_stats()->headshots++;
         }
         
-        int rangemult = std::min( range, 3 * ( skillLevel( skill_used ) + 1 ) );
-        //debugmsg("Rangemult: %d, missed_by: %f", rangemult, missed_by);
+        int range_multiplier = std::min( range, 3 * ( skillLevel( skill_used ) + 1 ) );
+        int damage_factor = adjusted_damage + armor_penetration;
+        //debugmsg("Rangemult: %d, missed_by: %f, total_damage: %f", rangemult, missed_by, proj.impact.total_damage());
+        
+        
         
         if (!train_skill) {
             practice( skill_used, 0 ); // practice, but do not train
         } else if (missed_by <= .1) {
-            practice( skill_used, 20 * rangemult );
+            practice( skill_used, damage_factor * range_multiplier );
         } else if (missed_by <= .2) {
-            practice( skill_used, 10 * rangemult );
+            practice( skill_used, damage_factor * range_multiplier / 2 );
         } else if (missed_by <= .4) {
-            practice( skill_used, 5 * rangemult );
+            practice( skill_used, damage_factor * range_multiplier / 3 );
         } else if (missed_by <= .6) {
-            practice( skill_used, 4 * rangemult );
+            practice( skill_used, damage_factor * range_multiplier / 4 );
         } else if (missed_by <= 1.0) {
-            practice( skill_used, 3 * rangemult );
+            practice( skill_used, damage_factor * range_multiplier / 5 );
         }
 
     }
