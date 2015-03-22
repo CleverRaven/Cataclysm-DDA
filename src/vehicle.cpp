@@ -3141,20 +3141,20 @@ bool vehicle::balanced_wheel_config ()
     // TODO: find convex hull instead
     for (auto &w : wheel_indices) {
         if (!count) {
-            x1 = x2 = parts[w].mount.x;
-            y1 = y2 = parts[w].mount.y;
+            x1 = x2 = parts[w].precalc[0].x;
+            y1 = y2 = parts[w].precalc[0].y;
         }
-        if (parts[w].mount.x < x1) {
-            x1 = parts[w].mount.x;
+        if (parts[w].precalc[0].x < x1) {
+            x1 = parts[w].precalc[0].x;
         }
-        if (parts[w].mount.x > x2) {
-            x2 = parts[w].mount.x;
+        if (parts[w].precalc[0].x > x2) {
+            x2 = parts[w].precalc[0].x;
         }
-        if (parts[w].mount.y < y1) {
-            y1 = parts[w].mount.y;
+        if (parts[w].precalc[0].y < y1) {
+            y1 = parts[w].precalc[0].y;
         }
-        if (parts[w].mount.y > y2) {
-            y2 = parts[w].mount.y;
+        if (parts[w].precalc[0].y > y2) {
+            y2 = parts[w].precalc[0].y;
         }
         count++;
     }
