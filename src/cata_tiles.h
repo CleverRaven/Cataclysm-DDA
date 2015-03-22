@@ -21,18 +21,31 @@ enum class light_type : int;
 enum class tile_category : int;
 
 struct tile_type {
-    std::vector<std::string> available_subtiles;
+    std::string const *id = nullptr;
 
     int fg = 0;
     int bg = 0;
 
-    bool rotates   = false;
-    bool multitile = false;
+    bool rotates      = false;
+    bool multitile    = false;
+    bool has_seasonal = false;
 
     tile_type() = default;
     tile_type(int const fg, int const bg,
               bool const rotates = false, bool const multitile = false
     ) noexcept : fg(fg), bg(bg), rotates(rotates), multitile(multitile) {}
+};
+
+enum multitile_type : int {
+    center,
+    corner,
+    edge,
+    t_connection,
+    end_piece,
+    unconnected,
+    open,
+    broken,
+    num_multitile_types
 };
 
 class cata_tiles
@@ -188,6 +201,9 @@ private:
 
         using seasonal_variation_t = std::array<tile_type const*, 4>;
         std::unordered_map<std::string, seasonal_variation_t> seasonal_variations_;
+
+        using multitile_variation_t = std::array<tile_type const*, num_multitile_types>;
+        std::unordered_map<std::string, multitile_variation_t> multitile_variations_;
 
         int tile_height_ = 0;
         int tile_width_  = 0;

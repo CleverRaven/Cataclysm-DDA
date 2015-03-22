@@ -134,18 +134,6 @@ private:
 // B is replaced by background (converted to char)
 std::string ascii_id::id_ {"ASCII_XFB"};
 
-enum multitile_type : int {
-    center,
-    corner,
-    edge,
-    t_connection,
-    end_piece,
-    unconnected,
-    open,
-    broken,
-    num_multitile_types
-};
-
 std::string const& to_string(multitile_type const mt)
 {
     constexpr int size = static_cast<int>(multitile_type::num_multitile_types);
@@ -166,6 +154,28 @@ std::string const& to_string(multitile_type const mt)
     }
 
     return strings[i];
+}
+
+multitile_type from_string(std::string const& s)
+{
+    static std::map<std::string, multitile_type> const map {
+        {"center",       multitile_type::center},
+        {"corner",       multitile_type::corner},
+        {"edge",         multitile_type::edge},
+        {"t_connection", multitile_type::t_connection},
+        {"end_piece",    multitile_type::end_piece},
+        {"unconnected",  multitile_type::unconnected},
+        {"open",         multitile_type::open},
+        {"broken",       multitile_type::broken},
+    };
+
+    auto const it = map.find(s);
+    if (it == map.end()) {
+        dbg(D_ERROR) << "bad multitile_type string";
+        return static_cast<multitile_type>(0);
+    }
+
+    return it->second;
 }
 
 std::unique_ptr<SDL_Surface> create_tile_surface(int const tile_width, int const tile_height)
@@ -315,48 +325,40 @@ tile_type const* file_tile_category(
 }
 
 //--------------------------------------------------------------------------------------------------
+template <typename Container>
+tile_type const* find_tile_optional(Container const &ids, std::string const &id)
+{
+    auto const it = ids.find(id);
+    return (it != std::end(ids)) ? &it->second : nullptr;
+}
+
+//--------------------------------------------------------------------------------------------------
 template <typename Container, typename Iterator = typename Container::const_iterator>
-Iterator find_tile_fallback(Container const &ids, tile_category const cat, std::string const &sub_cat)
+tile_type const* find_tile_fallback(Container const &ids, tile_category const cat, std::string const &sub_cat)
 {
     static std::string const unknown {"unknown"};
 
-    // with no category there is nothing more we can do ~> unknown
+    // with no category there is nothing more we can do ~> fall back on unknown
     if (cat == tile_category::none) {
-        return ids.find(unknown);
+        return find_tile_optional(ids, unknown);
     }
 
-    std::string const& cat_string = unknown + '_' + to_string(cat);
-
-    auto const end = std::end(ids);
+    std::string cat_string = unknown + '_' + to_string(cat);
 
     // try to fallback on category + subcategory first
     if (!sub_cat.empty()) {
-        auto const it = ids.find(cat_string + '_' + sub_cat);
-        if (it != end) {
-            return it;
+        if (auto const result = find_tile_optional(ids, cat_string + '_' + sub_cat)) {
+            return result;
         }
     }
     
     // failing that, try just the subcategory
-    auto const it = ids.find(cat_string);
-
-    // finally, fall back on unknown
-    return (it != end) ? it : ids.find(unknown);
-}
-
-//--------------------------------------------------------------------------------------------------
-std::string const* find_tile_multitile(tile_type const& tile, int const subtile)
-{
-    if (!tile.multitile || subtile < 0) {
-        return nullptr;
+    if (auto const result = find_tile_optional(ids, cat_string)) {
+        return result;
     }
-
-    std::string const &key = to_string(static_cast<multitile_type>(subtile));
-
-    auto const &sub_tiles = tile.available_subtiles;
-    auto const it = std::find(begin(sub_tiles), end(sub_tiles), key);
-
-    return (it != std::end(sub_tiles)) ? &key : nullptr;
+   
+    // finally, fall back on unknown
+    return find_tile_optional(ids, unknown);
 }
 
 } //namespace
@@ -620,7 +622,8 @@ void cata_tiles::load_tilejson_from_file(std::ifstream &f, const std::string &im
 void cata_tiles::add_ascii_subtile(tile_type &curr_tile, const std::string &t_id,
     int fg, const std::string &s_id)
 {
-    (tile_ids[t_id + "_" + s_id] = tile_type(fg, -1, true)).available_subtiles.push_back(s_id);
+    tile_type const& tile = (tile_ids[t_id + "_" + s_id] = tile_type(fg, -1, true));
+    multitile_variations_[t_id][from_string(s_id)] = &tile;
 }
 
 void cata_tiles::load_ascii_tilejson_from_file(JsonObject &config, int const offset, int const size)
@@ -739,8 +742,9 @@ void cata_tiles::load_tilejson_from_file(JsonObject &config, int const offset, i
 
         std::string t_id = entry.get_string("id");
         tile_type &curr_tile = load_tile(entry, t_id, offset, size);
-        bool t_multi = entry.get_bool("multitile", false);
-        bool t_rota = entry.get_bool("rotates", t_multi);
+
+        bool const t_multi = entry.get_bool("multitile", false);
+        bool const t_rota =  entry.get_bool("rotates", t_multi);
         if (t_multi) {
             // fetch additional tiles
             JsonArray subentries = entry.get_array("additional_tiles");
@@ -748,15 +752,17 @@ void cata_tiles::load_tilejson_from_file(JsonObject &config, int const offset, i
                 JsonObject subentry = subentries.next_object();
                 std::string s_id = subentry.get_string("id");
                 std::string m_id = t_id + "_" + s_id;
+                
                 tile_type &curr_subtile = load_tile(subentry, m_id, offset, size);
                 curr_subtile.rotates = true;
-                curr_tile.available_subtiles.push_back(s_id);
+
+                multitile_variations_[t_id][from_string(s_id)] = &curr_subtile;
             }
         }
 
         // write the information of the base tile to curr_tile
         curr_tile.multitile = t_multi;
-        curr_tile.rotates = t_rota;
+        curr_tile.rotates   = t_rota;
     }
     dbg( D_INFO ) << "Tile Width: " << tile_width_ << " Tile Height: " << tile_height_ << " Tile Definitions: " << tile_ids.size();
 }
@@ -782,7 +788,13 @@ tile_type& cata_tiles::load_tile(JsonObject &entry, const std::string &id,
         bg += offset;
     }
     
-    tile_type &result = (tile_ids[id] = tile_type(fg, bg));
+    auto const &result = tile_ids.insert(std::make_pair(id, tile_type(fg, bg)));
+    tile_type &tile = result.first->second;
+
+    // if an insertion actually happened, get a pointer to the key (id).
+    if (result.second) {
+        tile.id = &result.first->first;
+    }
 
     static std::array<std::string, 4> const suffixes {{
         "_season_spring", "_season_summer", "_season_autumn", "_season_winter"
@@ -792,12 +804,19 @@ tile_type& cata_tiles::load_tile(JsonObject &entry, const std::string &id,
     if (ends_with(id, suffixes[i++]) || ends_with(id, suffixes[i++]) ||
         ends_with(id, suffixes[i++]) || ends_with(id, suffixes[i++]))
     {
-        OutputDebugStringA(id.c_str());
-        OutputDebugStringA("\n");
-        seasonal_variations_[id][i - 1] = &result;
+        // all season suffixes are the same length
+        std::string main_id = id.substr(0, id.size() - 14);
+        seasonal_variations_[main_id][i - 1] = &tile;
+        
+        auto const it = tile_ids.find(main_id);
+        if (it != std::end(tile_ids)) {
+            it->second.has_seasonal = true;
+        } else {
+            dbg(D_ERROR) << "cata_tiles::load_tile no main id for season variation " << id;
+        }
     }
    
-    return result;
+    return tile;
 }
 
 void cata_tiles::draw(int const destx, int const desty, int const centerx, int const centery,
@@ -965,16 +984,14 @@ void cata_tiles::draw_tile_at(tile_type const &tile, int const x, int const y, i
 bool cata_tiles::draw_from_id_string(std::string const &id, tile_category category,
     const std::string &subcategory, int const x, int const y, int const subtile, int rota)
 {
-    // If the ID string does not produce a drawable tile
-    // it will revert to the "unknown" tile.
+    // If the ID string does not produce a drawable tile it will revert to the "unknown" tile.
     // The "unknown" tile is one that is highly visible so you kinda can't miss it :D
-
-    // check to make sure that we are drawing within a valid area
-    // [0->width|height / tile_width|height]
-    
+   
     int const x0 = x - o_x;
     int const y0 = y - o_y;
     
+    // check to make sure that we are drawing within a valid area
+    // [0->width|height / tile_width|height]
     if (x0 < 0 || x0 >= screentile_width || y0 < 0 || y0 >= screentile_height) {
         return false;
     }
@@ -983,54 +1000,51 @@ bool cata_tiles::draw_from_id_string(std::string const &id, tile_category catego
     const int screen_x = x0 * tile_width_  + op_x;
     const int screen_y = y0 * tile_height_ + op_y;
 
-    tile_type const* display_tile = nullptr;
+    // first, look for the base tile
+    auto const it = tile_ids.find(id);
+    tile_type const* display_tile = (it != tile_ids.end()) ? &it->second : nullptr;
 
-    // first, look for a seasonal variation if one exists
-    auto const sit = seasonal_variations_.find(id);
-    if (sit != seasonal_variations_.end()) {
-        display_tile = sit->second[calendar::turn.get_season()];
-    }
+    // if we fail to find a tile, first search based on category and subcategory
+    // finally, try to find a fallback and, while this really shouldn't happen,
+    // the tileset creator might have forgotten to define the unknown tile, so fail.
+    while (!display_tile) {
+        if (display_tile = file_tile_category(tile_ids, id, category, subcategory)) {
+            break;
+        } else if (display_tile = find_tile_fallback(tile_ids, category, subcategory)) {
+            break;
+        }
 
-    // next, look for just the id
-    if (!display_tile) {
-        auto const it = tile_ids.find(id);
-        if (it != tile_ids.end()) {
-            display_tile = &it->second;
+        return false;
+    }   
+
+    // then get a seasonal variation if one exists
+    if (display_tile->has_seasonal) {
+        auto const sit = seasonal_variations_.find(id);
+        if (sit != seasonal_variations_.end()) {
+            if (auto const ptr = sit->second[calendar::turn.get_season()]) {
+                display_tile = ptr;
+            }
         }
     }
 
-    // next, search based on category and subcategory
-    if (!display_tile) {
-        display_tile = file_tile_category(tile_ids, id, category, subcategory);
-    }
-
-    // finally, try to find a fallback
-    if (!display_tile) {
-        auto const it = find_tile_fallback(tile_ids, category, subcategory);
-        if (it != tile_ids.end()) {
-            display_tile = &it->second;
+    // then get the subtile if it's a multitile
+    if (display_tile->multitile && subtile >= 0) {
+        auto const mit = multitile_variations_.find(*display_tile->id);
+        if (mit != multitile_variations_.end()) {
+            if (auto const ptr = mit->second[subtile]) {
+                display_tile = ptr;
+            }
         }
     }
 
     // if both bg and fg are -1 then return unknown tile
-    if (display_tile && display_tile->bg == -1 && display_tile->fg == -1) {
-        auto const it = find_tile_fallback(tile_ids, tile_category::none, subcategory);
-        display_tile = (it != tile_ids.end()) ? &it->second : nullptr;
+    if (display_tile->bg == -1 && display_tile->fg == -1) {
+        if (!(display_tile = find_tile_fallback(tile_ids, tile_category::none, subcategory))) {
+            return false;
+        }
     }
 
-    if (!display_tile) {
-        // this really shouldn't happen, but the tileset creator might have forgotten to
-        // define the unknown tile.
-        return false;
-    }
-
-    // check to see if the display_tile is multitile, and if so if it has the key related to subtile
-    if (auto const suffix = find_tile_multitile(*display_tile, subtile)) {
-        return draw_from_id_string(id + '_' + *suffix, x, y, -1, rota);
-    }
-
-    // make sure we aren't going to rotate the tile if it shouldn't be rotated
-    // draw it!
+    // make sure we aren't going to rotate the tile if it shouldn't be rotated and draw it!
     draw_tile_at(*display_tile, screen_x, screen_y, display_tile->rotates ? rota : 0);
 
     return true;
