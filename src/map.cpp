@@ -4256,7 +4256,7 @@ void map::drawsq(WINDOW* w, player &u, const int x, const int y, const bool inve
         show_items = false; // Can only see underwater items if WE are underwater
     }
     // If there's a trap here, and we have sufficient perception, draw that instead
-    if( !curr_trap.is_null() && curr_trap.can_see( tripoint( x, y, g->get_levz() ), g->u ) ) {
+    if( curr_trap.can_see( tripoint( x, y, g->get_levz() ), g->u ) ) {
         tercol = curr_trap.color;
         if (curr_trap.sym == '%') {
             switch(rng(1, 5)) {

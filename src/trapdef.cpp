@@ -85,6 +85,10 @@ bool trap::detect_trap( const tripoint &pos, const player &p ) const
 // Whether or not, in the current state, the player can see the trap.
 bool trap::can_see( const tripoint &pos, const player &p ) const
 {
+    if( is_null() ) {
+        // There is no trap at all, so logically one can not see it.
+        return false;
+    }
     return visibility < 0 || p.knows_trap( pos );
 }
 

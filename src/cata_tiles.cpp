@@ -954,9 +954,6 @@ bool cata_tiles::draw_furniture(int x, int y)
 bool cata_tiles::draw_trap(int x, int y)
 {
     const trap &tr = g->m.tr_at(x, y);
-    if( tr.is_null() ) {
-        return false;
-    }
     if( !tr.can_see(tripoint(x, y, g->get_levz()), g->u)) {
         return false;
     }

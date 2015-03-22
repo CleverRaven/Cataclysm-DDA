@@ -7913,9 +7913,6 @@ void game::print_fields_info(int lx, int ly, WINDOW *w_look, int column, int &li
 void game::print_trap_info(int lx, int ly, WINDOW *w_look, const int column, int &line)
 {
     const trap &tr = m.tr_at(lx, ly);
-    if( tr.is_null() ) {
-        return;
-    }
     if( tr.can_see( tripoint( lx, ly, get_levz() ), u )) {
         mvwprintz(w_look, line++, column, tr.color, "%s", tr.name.c_str());
     }
@@ -11474,7 +11471,7 @@ bool game::plmove(int dx, int dy)
 
         if (!(u.has_effect("blind") || u.worn_with_flag("BLIND"))) {
             const trap &tr = m.tr_at(dest_loc);
-            if( !tr.is_null() && tr.can_see(dest_loc, u) && !tr.is_benign() &&
+            if( tr.can_see(dest_loc, u) && !tr.is_benign() &&
                 !query_yn(_("Really step onto that %s?"), tr.name.c_str())) {
                 return false;
             }

@@ -469,7 +469,7 @@ bool can_examine_at(int x, int y)
     }
 
     const trap &tr = g->m.tr_at( x, y );
-    if( !tr.is_null() && tr.can_see( tripoint( x, y, g->get_levz() ), g->u ) ) {
+    if( tr.can_see( tripoint( x, y, g->get_levz() ), g->u ) ) {
         return true;
     }
 
