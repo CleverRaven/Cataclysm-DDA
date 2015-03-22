@@ -245,6 +245,7 @@ Creature *Creature::auto_find_hostile_target( int range, int &boo_hoo, int area 
 {
     Creature *target = nullptr;
     player &u = g->u; // Could easily protect something that isn't the player
+    constexpr int hostile_adj = 2; // Priority bonus for hostile targets
     const int iff_dist = ( range + area ) * 3 / 2 + 6; // iff check triggers at this distance
     int iff_hangle = 15 + area; // iff safety margin (degrees). less accuracy, more paranoia
     float best_target_rating = -1.0f; // bigger is better
@@ -296,7 +297,7 @@ Creature *Creature::auto_find_hostile_target( int range, int &boo_hoo, int area 
         // Prioritize big, armed and hostile stuff
         float mon_rating = m->power_rating();
         float target_rating = mon_rating / dist;
-        if( mon_rating <= 0 ) {
+        if( mon_rating + hostile_adj <= 0 ) {
             // We wouldn't attack it even if it was hostile
             continue;
         }
@@ -307,31 +308,32 @@ Creature *Creature::auto_find_hostile_target( int range, int &boo_hoo, int area 
         }
         if( area_iff > 0 && rl_dist( u.posx(), u.posy(), m->posx(), m->posy() ) <= area ) {
             // Player in AoE
-            if( mon_rating > 1 ) {
-                boo_hoo++;
-            }
+            boo_hoo++;
             continue;
         }
+        // Hostility check can be expensive, but we need to inform the player of boo_hoo
+        // only when the target is actually "hostile enough"
+        bool maybe_boo = false;
         if( angle_iff ) {
             int tangle = g->m.coord_to_angle(posx(), posy(), m->posx(), m->posy());
             int diff = abs(u_angle - tangle);
             // Player is in the angle and not too far behind the target
             if( ( diff + iff_hangle > 360 || diff < iff_hangle ) &&
                 ( dist * 3 / 2 + 6 > pldist ) ) {
-                // Don't inform of very weak targets we wouldn't shoot anyway
-                if( mon_rating > 1 ) {
-                    boo_hoo++;
-                }
-                continue;
+                maybe_boo = true;
             }
         }
-        if( ( mon_rating + 2 ) / dist <= best_target_rating ) {
+        if( !maybe_boo && ( ( mon_rating + 2 ) / dist <= best_target_rating ) ) {
             // "Would we skip the target even if it was hostile?"
             // Helps avoid (possibly expensive) attitude calculation
             continue;
         }
         if( m->attitude_to( u ) == A_HOSTILE ) {
-            target_rating = ( mon_rating + 2 ) / dist;
+            target_rating = ( mon_rating + hostile_adj ) / dist;
+            if( maybe_boo ) {
+                boo_hoo++;
+                continue;
+            }
         }
         if( target_rating <= best_target_rating ) {
             continue; // Handle this late so that boo_hoo++ can happen
