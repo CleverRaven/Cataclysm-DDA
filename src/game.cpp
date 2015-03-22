@@ -529,9 +529,9 @@ void game::reenter_fullscreen(void)
  */
 void game::setup()
 {
-    m = map(); // reset the main map
-
     load_world_modfiles(world_generator->active_world);
+
+    m = map(); // reset the main map
 
     next_npc_id = 1;
     next_faction_id = 1;

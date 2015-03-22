@@ -126,6 +126,7 @@ map::map(int mapsize)
     transparency_cache_dirty = true;
     outside_cache_dirty = true;
     memset(veh_exists_at, 0, sizeof(veh_exists_at));
+    traplocs.resize( traplist.size() );
 }
 
 map::~map()
@@ -3811,7 +3812,7 @@ void map::add_trap( const tripoint &p, const trap_id t)
 
     current_submap->set_trap( lx, ly, t );
     if( t != tr_null ) {
-        traplocs[t].insert( p );
+        traplocs[t].push_back( p );
     }
 }
 
@@ -3906,7 +3907,11 @@ void map::remove_trap( const tripoint &p )
         }
 
         current_submap->set_trap(lx, ly, tr_null);
-        traplocs[t].erase( p );
+        auto &traps = traplocs[t];
+        const auto iter = std::find( traps.begin(), traps.end(), p );
+        if( iter != traps.end() ) {
+            traps.erase( iter );
+        }
     }
 }
 /*
@@ -4768,7 +4773,9 @@ void map::save()
 
 void map::load(const int wx, const int wy, const int wz, const bool update_vehicle)
 {
-    traplocs.clear();
+    for( auto & traps : traplocs ) {
+        traps.clear();
+    }
     set_abs_sub( wx, wy, wz );
     for (int gridx = 0; gridx < my_MAPSIZE; gridx++) {
         for (int gridy = 0; gridy < my_MAPSIZE; gridy++) {
@@ -4777,17 +4784,20 @@ void map::load(const int wx, const int wy, const int wz, const bool update_vehic
     }
 }
 
-void map::forget_traps( const int gridx, const int gridy, const int gridz )
+void map::shift_traps( const tripoint &shift )
 {
-    const auto smap = get_submap_at_grid( gridx, gridy, gridz );
-
-    for (int x = 0; x < SEEX; x++) {
-        for (int y = 0; y < SEEY; y++) {
-            trap_id t = smap->get_trap( x, y );
-            if (t != tr_null) {
-                const int fx = x + gridx * SEEX;
-                const int fy = y + gridy * SEEY;
-                traplocs[t].erase( tripoint( fx, fy, gridz ) );
+    const tripoint offset( shift.x * SEEX, shift.y * SEEY, shift.z );
+    for( auto & traps : traplocs ) {
+        for( auto iter = traps.begin(); iter != traps.end(); ) {
+            tripoint &pos = *iter;
+            pos += offset;
+            if( inbounds( pos ) ) {
+                ++iter;
+            } else {
+                // Theoretical enhancement: if this is not the last entry of the vector,
+                // move the last entry into pos and remove the last entry instead of iter.
+                // This would avoid moving all the remaining entries.
+                iter = traps.erase( iter );
             }
         }
     }
@@ -4811,19 +4821,7 @@ void map::shift( const int sx, const int sy )
         g->u.sety( g->u.posy() - sy * SEEY );
     }
 
-    // Forget about traps in submaps that are being unloaded.
-    if (sx != 0) {
-        const int gridx = (sx > 0) ? (my_MAPSIZE - 1) : 0;
-        for (int gridy = 0; gridy < my_MAPSIZE; gridy++) {
-            forget_traps( gridx, gridy, wz );
-        }
-    }
-    if (sy != 0) {
-        const int gridy = (sy > 0) ? (my_MAPSIZE - 1) : 0;
-        for (int gridx = 0; gridx < my_MAPSIZE; gridx++) {
-            forget_traps( gridx, gridy, wz );
-        }
-    }
+    shift_traps( tripoint( sx, sy, 0 ) );
 
     for( vehicle *veh : vehicle_list ) {
         veh->smx += sx;
@@ -4899,12 +4897,6 @@ void map::vertical_shift( const int newz )
         debugmsg( "Tried to get z-level %d outside allowed range of %d-%d", 
                   newz, -OVERMAP_DEPTH, OVERMAP_HEIGHT );
         return;
-    }
-
-    for( int gridx = 0; gridx < my_MAPSIZE; gridx++ ) {
-        for( int gridy = 0; gridy < my_MAPSIZE; gridy++ ) {
-            forget_traps( gridx, gridy, abs_sub.z ) ;
-        }
     }
 
     clear_vehicle_cache();
@@ -5183,7 +5175,7 @@ void map::actualize( const int gridx, const int gridy, const int gridz )
 
             const auto trap_here = tmpsub->get_trap( x, y );
             if( trap_here != tr_null ) {
-                traplocs[trap_here].insert( pnt );
+                traplocs[trap_here].push_back( pnt );
             }
 
             if( do_funnels ) {
@@ -5212,11 +5204,6 @@ void map::actualize( const int gridx, const int gridy, const int gridz )
 
 void map::copy_grid( const point to, const point from )
 {
-    const int oldx = from.x * SEEX;
-    const int oldy = from.y * SEEY;
-    const int newx = to.x * SEEX;
-    const int newy = to.y * SEEY;
-
 #ifdef ZLEVELS
     for( int z = -OVERMAP_DEPTH; z <= OVERMAP_HEIGHT; z++ ) {
 #else
@@ -5228,16 +5215,6 @@ void map::copy_grid( const point to, const point from )
         for( auto &it : smap->vehicles ) {
             it->smx = to.x;
             it->smy = to.y;
-        }
-
-        for (int x = 0; x < SEEX; x++) {
-            for (int y = 0; y < SEEY; y++) {
-                trap_id t = smap->get_trap(x, y);
-                if (t != tr_null) {
-                    traplocs[t].erase( point( oldx + x, oldy + y ) );
-                    traplocs[t].insert( point( newx + x, newy + y ) );
-                }
-            }
         }
     }
 }
@@ -5376,24 +5353,13 @@ void map::clear_traps()
 
     // Forget about all trap locations.
     for( auto &i : traplocs ) {
-        i.second.clear();
+        i.clear();
     }
 }
 
-const std::set<tripoint> map::trap_locations(trap_id t) const
+const std::vector<tripoint> &map::trap_locations(trap_id t) const
 {
-    std::set<tripoint> tmp;
-    const auto it = traplocs.find(t);
-    if(it != traplocs.end()) {
-        for( const auto &p : it->second ) {
-            tmp.insert( p );
-        }
-
-        return tmp;
-    }
-
-    static std::set<tripoint> empty_set;
-    return empty_set;
+    return traplocs[t];
 }
 
 bool map::inbounds(const int x, const int y) const
