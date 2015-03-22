@@ -12266,6 +12266,9 @@ void game::on_move_effects()
         }
     }
     if( u.move_mode == "run" ) {
+        if( u.stamina <= 0 ) {
+            u.toggle_move_mode();
+        }
         if( one_in( u.stamina ) ) {
             u.add_effect("winded", 3);
         }
