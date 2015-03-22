@@ -1062,8 +1062,8 @@ void iexamine::gunsafe_el(player *p, map *m, int examx, int examy)
 
 void iexamine::bulletin_board(player *p, map *m, int examx, int examy)
 {
-    (void)p;
-    basecamp *camp = m->camp_at(examx, examy);
+    const tripoint examp( examx, examy, p->posz() );
+    basecamp *camp = m->camp_at( examp );
     if (camp && camp->board_x() == examx && camp->board_y() == examy) {
         std::vector<std::string> options;
         options.push_back(_("Cancel"));
@@ -1071,7 +1071,7 @@ void iexamine::bulletin_board(player *p, map *m, int examx, int examy)
         // since it's clearly what's intended for future functionality.
         //int choice = menu_vec(true, camp->board_name().c_str(), options) - 1;
     } else {
-        bool create_camp = m->allow_camp(examx, examy);
+        bool create_camp = m->allow_camp( examp );
         std::vector<std::string> options;
         if (create_camp) {
             options.push_back(_("Create camp"));
@@ -1082,7 +1082,7 @@ void iexamine::bulletin_board(player *p, map *m, int examx, int examy)
         if (choice >= 0 && size_t(choice) < options.size()) {
             if (options[choice] == _("Create camp")) {
                 // TODO: Allow text entry for name
-                m->add_camp(_("Home"), examx, examy);
+                m->add_camp( examp, _("Home") );
             }
         }
     }

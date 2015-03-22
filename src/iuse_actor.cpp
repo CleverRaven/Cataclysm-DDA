@@ -1195,7 +1195,7 @@ long inscribe_actor::use( player *p, item *it, bool t, point ) const
         if( message.empty() ) {
             return 0;
         } else {
-            g->m.set_graffiti( p->posx(), p->posy(), message );
+            g->m.set_graffiti( p->pos3(), message );
             add_msg( _("You write a message on the ground.") );
             p->moves -= 2 * message.length();
         }

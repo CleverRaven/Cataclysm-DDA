@@ -4575,7 +4575,7 @@ dealt_damage_instance player::deal_damage(Creature* source, body_part bp, const 
 
     // TODO: Pre or post blit hit tile onto "this"'s location here
     if(g->u.sees( pos() )) {
-        g->draw_hit_player(this, dam);
+        g->draw_hit_player(*this, dam);
 
         if (dam > 0 && is_player() && source) {
             //monster hits player melee
@@ -7562,8 +7562,8 @@ void player::suffer()
         rad_mut = 1;
     }
     if( rad_mut > 0 ) {
-        if( g->m.get_radiation(posx(), posy()) < rad_mut - 1 && one_in( 600 / rad_mut ) ) {
-            g->m.adjust_radiation(posx(), posy(), 1);
+        if( g->m.get_radiation( pos3() ) < rad_mut - 1 && one_in( 600 / rad_mut ) ) {
+            g->m.adjust_radiation( pos3(), 1 );
         } else if( one_in( 300 / rad_mut ) ) {
             radiation++;
         }
@@ -7586,7 +7586,7 @@ void player::suffer()
     int selfRadiation = 0;
     selfRadiation = leak_level("RADIOACTIVE");
 
-    int localRadiation = g->m.get_radiation(posx(), posy());
+    int localRadiation = g->m.get_radiation( pos3() );
 
     if (localRadiation || selfRadiation) {
         bool has_helmet = false;

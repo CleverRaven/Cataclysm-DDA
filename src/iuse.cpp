@@ -4822,8 +4822,9 @@ int iuse::set_trap(player *p, item *it, bool, point)
 
 int iuse::geiger(player *p, item *it, bool t, point pos)
 {
+    const tripoint pos3 = p != nullptr ? tripoint( p->pos3() ) : tripoint( pos, g->get_levz() );
     if (t) { // Every-turn use when it's on
-        const int rads = g->m.get_radiation(pos.x, pos.y);
+        const int rads = g->m.get_radiation( pos3 );
         if (rads == 0) {
             return it->type->charges_to_use();
         }
@@ -4868,7 +4869,7 @@ int iuse::geiger(player *p, item *it, bool t, point pos)
             break;
         case 2:
             p->add_msg_if_player(m_info, _("The ground's radiation level: %d"),
-                                 g->m.get_radiation(p->posx(), p->posy()));
+                                 g->m.get_radiation( p->pos3() ) );
             break;
         case 3:
             p->add_msg_if_player(_("The geiger counter's scan LED turns on."));
@@ -6808,7 +6809,7 @@ int iuse::spray_can(player *p, item *it, bool, point)
     if (message.empty()) {
         return 0;
     } else {
-        g->m.set_graffiti( p->posx(), p->posy(), message );
+        g->m.set_graffiti( p->pos3(), message );
             add_msg(
                 ismarker ?
                 _("You write a message on the ground.") :

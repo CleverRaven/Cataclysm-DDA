@@ -1703,7 +1703,7 @@ void game::update_weather()
 
 int game::get_temperature()
 {
-    return temperature + m.temperature(u.posx(), u.posy());
+    return temperature + m.temperature( u.pos3() );
 }
 
 int game::assign_mission_id()
@@ -5851,9 +5851,6 @@ void game::explosion(int x, int y, int power, int shrapnel, bool fire, bool blas
     }
     int sx, sy, t, tx, ty;
     std::vector<point> traj;
-    timespec ts;
-    ts.tv_sec = 0;
-    ts.tv_nsec = 1000000 * OPTIONS["ANIMATION_DELAY"];
     for (int i = 0; i < shrapnel; i++) {
         sx = rng(x - 2 * radius, x + 2 * radius);
         sy = rng(y - 2 * radius, y + 2 * radius);
@@ -5869,7 +5866,7 @@ void game::explosion(int x, int y, int power, int shrapnel, bool fire, bool blas
         }
         for (size_t j = 0; j < traj.size(); j++) {
             dam = rng(power / 2, power * 2);
-            draw_bullet(u, traj[j].x, traj[j].y, (int)j, traj, '`', ts);
+            draw_bullet(u, traj[j].x, traj[j].y, (int)j, traj, '`');
             tx = traj[j].x;
             ty = traj[j].y;
             const int zid = mon_at(tx, ty);
@@ -6305,12 +6302,12 @@ void game::use_computer(int x, int y)
         return;
     }
 
-    computer *used = m.computer_at(x, y);
+    computer *used = m.computer_at( tripoint( x, y, get_levz() ) );
 
     if (used == NULL) {
         dbg(D_ERROR) << "game:use_computer: Tried to use computer at (" <<
             x << ", " << y << ") - none there";
-        debugmsg("Tried to use computer at (%d, %d) - none there", x, y);
+        debugmsg("Tried to use computer at (%d, %d, %d) - none there", x, y, get_levz());
         return;
     }
 
@@ -6541,6 +6538,11 @@ Creature *game::critter_at(int x, int y)
         return active_npc[nindex];
     }
     return NULL;
+}
+
+Creature const* game::critter_at(int const x, int const y) const
+{
+    return const_cast<game*>(this)->critter_at(x, y);
 }
 
 bool game::add_zombie(monster &critter)
@@ -8408,7 +8410,10 @@ point game::look_around(WINDOW *w_info, const point pairCoordsFirst)
     const int offset_x = (u.posx() + u.view_offset_x) - getmaxx(w_terrain) / 2;
     const int offset_y = (u.posy() + u.view_offset_y) - getmaxy(w_terrain) / 2;
 
-    int lx = u.posx() + u.view_offset_x, ly = u.posy() + u.view_offset_y;
+    tripoint lp( u.posx() + u.view_offset_x, u.posy() + u.view_offset_y, u.posz() + 0 );
+    int &lx = lp.x;
+    int &ly = lp.y;
+    int &lz = lp.z;
 
     if (bSelectZone && bHasFirstPoint) {
         lx = pairCoordsFirst.x;
@@ -8550,8 +8555,8 @@ point game::look_around(WINDOW *w_info, const point pairCoordsFirst)
                 mvwprintz(w_info, 1, lookWidth - 1, c_ltgreen, _("F"));
             }
 
-            if( m.has_graffiti_at( lx, ly ) ) {
-                mvwprintw(w_info, ++off + 1, 1, _("Graffiti: %s"), m.graffiti_at( lx, ly ).c_str() );
+            if( m.has_graffiti_at( lp ) ) {
+                mvwprintw(w_info, ++off + 1, 1, _("Graffiti: %s"), m.graffiti_at( lp ).c_str() );
             }
 
             auto this_sound = sounds::sound_at( {lx, ly} );
@@ -8594,10 +8599,12 @@ point game::look_around(WINDOW *w_info, const point pairCoordsFirst)
 
                 add_msg("levx: %d, levy: %d, levz :%d", get_levx(), get_levy(), new_levz);
                 m.vertical_shift( new_levz );
+                lz = get_levz();
                 refresh_all();
                 draw_ter(lx, ly, true);
 #else
                 (void)old_levz;
+                (void)lz;
 #endif
             } else if (!ctxt.get_coordinates(w_terrain, lx, ly)) {
                 int dx, dy;
@@ -9714,24 +9721,25 @@ void game::grab()
         return;
     }
     if (choose_adjacent(_("Grab where?"), grabx, graby)) {
+        const tripoint grabp( grabx, graby, u.posz() );
         vehicle *veh = m.veh_at(grabx, graby);
         if (veh != NULL) { // If there's a vehicle, grab that.
             u.grab_point.x = grabx - u.posx();
             u.grab_point.y = graby - u.posy();
             u.grab_type = OBJECT_VEHICLE;
             add_msg(_("You grab the %s."), veh->name.c_str());
-        } else if (m.has_furn(grabx, graby)) { // If not, grab furniture if present
-            if (m.furn_at(grabx, graby).move_str_req < 0) {
-                add_msg(_("You can not grab the %s"), m.furnname(grabx, graby).c_str());
+        } else if (m.has_furn( grabp )) { // If not, grab furniture if present
+            if (m.furn_at( grabp ).move_str_req < 0) {
+                add_msg(_("You can not grab the %s"), m.furnname( grabp ).c_str());
                 return;
             }
             u.grab_point.x = grabx - u.posx();
             u.grab_point.y = graby - u.posy();
             u.grab_type = OBJECT_FURNITURE;
-            if (!m.can_move_furniture(grabx, graby, &u)) {
-                add_msg(_("You grab the %s. It feels really heavy."), m.furnname(grabx, graby).c_str());
+            if (!m.can_move_furniture( grabp, &u )) {
+                add_msg(_("You grab the %s. It feels really heavy."), m.furnname( grabp ).c_str());
             } else {
-                add_msg(_("You grab the %s."), m.furnname(grabx, graby).c_str());
+                add_msg(_("You grab the %s."), m.furnname( grabp ).c_str());
             }
         } else { // todo: grab mob? Captured squirrel = pet (or meat that stays fresh longer).
             add_msg(m_info, _("There's nothing to grab there!"));
@@ -11807,8 +11815,8 @@ bool game::plmove(int dx, int dy)
         if (signage.size()) {
             add_msg(m_info, _("The sign says: %s"), signage.c_str());
         }
-        if( m.has_graffiti_at( x, y ) ) {
-            add_msg(_("Written here: %s"), utf8_truncate(m.graffiti_at( x, y ), 40).c_str());
+        if( m.has_graffiti_at( dest_loc ) ) {
+            add_msg(_("Written here: %s"), utf8_truncate(m.graffiti_at( dest_loc ), 40).c_str());
         }
         if (m.has_flag("ROUGH", x, y) && (!u.in_vehicle)) {
             bool ter_or_furn = m.has_flag_ter( "ROUGH", x, y );
@@ -13212,7 +13220,7 @@ void game::nuke(int x, int y)
             if (one_in(3)) {
                 tmpmap.add_field(i, j, fd_nuke_gas, 3);
             }
-            tmpmap.adjust_radiation(i, j, rng(20, 80));
+            tmpmap.adjust_radiation( tripoint( i, j, 0 ), rng(20, 80));
         }
     }
     tmpmap.save();
@@ -13568,6 +13576,22 @@ void intro()
         getmaxyx(stdscr, maxy, maxx);
     }
     werase(tmp);
+
+#if !(defined _WIN32 || defined WINDOWS)
+    // Check if locale is has UTF-8 encoding
+    char *locale = setlocale(LC_ALL, NULL);
+    if (locale != NULL) {
+        if (strstr(locale, "UTF-8") == NULL) {
+            fold_and_print(tmp, 0, 0, maxx, c_white, _("You don't seem to have a Unicode locale. You may see some weird "
+                                                       "characters (e.g. empty boxes or question marks). You have been warned."),
+                           minWidth, minHeight, maxx, maxy);
+            wrefresh(tmp);
+            wgetch(tmp);
+            werase(tmp);
+        }
+    }
+#endif
+
     wrefresh(tmp);
     delwin(tmp);
     erase();
