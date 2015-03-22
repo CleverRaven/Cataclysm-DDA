@@ -354,7 +354,7 @@ void DynamicDataLoader::finalize_loaded_data()
     set_ter_ids();
     set_furn_ids();
     set_oter_ids();
-    set_trap_ids();
+    trap::finalize();
     finalize_overmap_terrain();
     g->finalize_vehicles();
     calculate_mapgen_weights();

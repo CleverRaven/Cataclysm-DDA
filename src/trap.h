@@ -11,7 +11,6 @@ class Creature;
 typedef int trap_id;
 /** map trap ids to index into <B>traps</B> */
 extern std::map<std::string, int> trapmap;
-void set_trap_ids();
 
 struct trap;
 
@@ -113,6 +112,12 @@ struct trap {
          * Releases the loaded trap objects in @ref trapmap and @ref traplist.
          */
         static void reset();
+        /**
+         * Stores the actual @ref loadid of the loaded traps in the global tr_* variables.
+         * It also sets the trap ids of the terrain types that have build-in traps.
+         * Must be called after all traps have been loaded.
+         */
+        static void finalize();
 };
 
 /** list of all trap types */

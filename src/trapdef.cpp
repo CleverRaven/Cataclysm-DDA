@@ -141,7 +141,7 @@ tr_drain,
 tr_snake,
 tr_glass_pit;
 
-void set_trap_ids()
+void trap::finalize()
 {
     tr_null = trapfind("tr_null");
     tr_bubblewrap = trapfind("tr_bubblewrap");
@@ -187,7 +187,9 @@ void set_trap_ids()
 
     // Set ter_t.trap using ter_t.trap_id_str.
     for( auto &elem : terlist ) {
-        if( elem.trap_id_str.length() != 0 ) {
+        if( elem.trap_id_str.empty() ) {
+            elem.trap = tr_null;
+        } else {
             elem.trap = trapfind( elem.trap_id_str );
         }
     }
