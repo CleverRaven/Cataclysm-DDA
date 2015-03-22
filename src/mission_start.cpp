@@ -284,7 +284,6 @@ void mission_start::kill_100_z(mission *miss)
 void mission_start::kill_20_nightmares(mission *miss)
 {
  npc *p = g->find_npc(miss->npc_id);
- p->attitude = NPCATT_FOLLOW;//npc joins you
  miss->monster_type = "mon_charred_nightmare";
  int killed = 0;
  killed += g->kill_count("mon_charred_nightmare");
