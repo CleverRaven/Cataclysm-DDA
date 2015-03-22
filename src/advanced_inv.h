@@ -5,6 +5,7 @@
 #include <array>
 
 class uimenu;
+class vehicle;
 
 typedef std::vector< std::pair<item *, int> > itemslice;
 
@@ -61,6 +62,8 @@ struct advanced_inv_area {
     // vehicle pointer and cargo part index
     vehicle *veh;
     int vstor;
+    // is storing in vehicle?
+    bool is_veh_store;
     // description, e.g. vehicle name or storage label
     std::string desc;
     // flags, e.g. FIRE, TRAP, WATER
