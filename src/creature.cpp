@@ -899,11 +899,11 @@ void Creature::process_effects()
     for( auto &elem : effects ) {
         for( auto &_it : elem.second ) {
             // Add any effects that others remove to the removal list
-            if( _it.second.get_removes_effect() != "" ) {
-                rem_ids.push_back( _it.second.get_removes_effect() );
+            for( const auto removed_effect : _it.second.get_removes_effects() ) {
+                rem_ids.push_back( removed_effect );
                 rem_bps.push_back(num_bp);
             }
-            // Run decay effects
+            // Run decay effects, marking effects for removal as necessary.
             _it.second.decay( rem_ids, rem_bps, calendar::turn, is_player() );
         }
     }

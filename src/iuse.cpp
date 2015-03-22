@@ -229,49 +229,7 @@ int iuse::honeycomb(player *p, item *it, bool, point)
 
 int iuse::royal_jelly(player *p, item *it, bool, point)
 {
-    // TODO: Add other effects here; royal jelly is a cure-all!
-    p->pkill += 5;
-    std::string message;
-    if (p->has_effect("fungus")) {
-        message = _("You feel cleansed inside!");
-        p->remove_effect("fungus");
-    }
-    if (p->has_effect("dermatik") || p->has_effect("bloodworms") ||
-        p->has_effect("paincysts") || p->has_effect("brainworm") ||
-        p->has_effect("tapeworm")) {
-        message = _("You feel cleansed inside!");
-        p->remove_effect("dermatik");
-        p->remove_effect("bloodworms");
-        p->remove_effect("paincysts");
-        p->remove_effect("brainworm");
-        p->remove_effect("tapeworm");
-    }
-    if (p->has_effect("blind")) {
-        message = "";
-        p->remove_effect("blind");
-    }
-    if (p->has_effect("poison") || p->has_effect("foodpoison") ||
-        p->has_effect("badpoison") || p->has_effect("paralyzepoison") ||
-        p->has_effect("tetanus") || p->has_effect("infected") || p->has_effect("stung")) {
-        message = _("You feel much better!");
-        p->remove_effect("poison");
-        p->remove_effect("stung");
-        p->remove_effect("badpoison");
-        p->remove_effect("foodpoison");
-        p->remove_effect("paralyzepoison");
-        p->remove_effect("tetanus");
-        p->remove_effect("infected");
-    }
-    if (p->has_effect("asthma")) {
-        message = _("Your breathing clears up!");
-        p->remove_effect("asthma");
-    }
-    if (p->has_effect("common_cold") || p->has_effect("flu")) {
-        message = _("You feel healthier!");
-        p->remove_effect("common_cold");
-        p->remove_effect("flu");
-    }
-    p->add_msg_if_player(m_good, message.c_str());
+    p->add_effect("cureall", 1);
     return it->type->charges_to_use();
 }
 
@@ -7486,12 +7444,6 @@ int iuse::jet_injector(player *p, item *it, bool, point)
         p->add_effect("jetinjector", 200, num_bp, false, 2);
         p->pkill += 20;
         p->stim += 10;
-        p->remove_effect("infected");
-        p->remove_effect("bite");
-        p->remove_effect("bleed");
-        p->remove_effect("fungus");
-        p->remove_effect("dermatik");
-        p->radiation += 4;
         p->healall(20);
     }
 
