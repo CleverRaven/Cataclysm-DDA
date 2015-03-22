@@ -7,6 +7,8 @@
 #include "faction.h"
 #include "event.h"
 #include "mission.h"
+#include "weather.h"
+#include "construction.h"
 #include "calendar.h"
 #include "posix_time.h"
 #include "worldfactory.h"
@@ -69,7 +71,7 @@ enum target_mode {
 
 struct special_game;
 struct mtype;
-struct mission_type;
+class mission;
 class map;
 class player;
 class npc;
@@ -236,15 +238,6 @@ class game
 
         /** Returns the next available mission id. */
         int assign_mission_id();
-        /** Creates a mission of the matching type and assigns it to the player. */
-        void give_mission(mission_id type);
-        /** Assigns an existing mission to the player. */
-        void assign_mission(int id);
-        /** reserve_mission() creates a new mission of the given type and pushes it to
-         *  active_missions.  The function returns the UID of the new mission, which can
-         *  then be passed to a MacGuffin or something else that needs to track a mission. */
-        int reserve_mission(mission_id type, int npc_id = -1);
-        int reserve_random_mission(mission_origin origin, tripoint p, int npc_id);
         npc *find_npc(int id);
         /** Makes any nearby NPC's on the overmap active. */
         void load_npcs();
@@ -252,22 +245,6 @@ class game
         int kill_count(std::string mon);
         /** Increments the number of kills of the given mtype_id by the player upwards. */
         void increase_kill_count(const std::string &mtype_id);
-        /** Returns the matching mission with UID == id; else returns NULL. */
-        mission *find_mission(int id);
-        /** Returns the mission type of the mission with UID == id; else returns NULL. */
-        mission_type *find_mission_type(int id);
-        /** Checks if the player has completed the matching mission and returns true if they have. */
-        bool mission_complete(int id, int npc_id);
-        /** Checks if the player has failed the matching mission and returns true if they have. */
-        bool mission_failed(int id);
-        /** Handles mission completion tasks (remove given item, etc.). */
-        void wrap_up_mission(int id);
-        /** Handles mission failure tasks (remove mission items, etc.). */
-        void fail_mission(int id);
-        /** Handles partial mission completion (kill complete, now report back!). */
-        void mission_step_complete(int id, int step);
-        /** Handles mission deadline processing. */
-        void process_missions();
 
         /** Performs a random short-distance teleport on the given player, granting teleglow if needed. */
         void teleport(player *p = NULL, bool add_teleglow = true);
@@ -370,8 +347,6 @@ class game
         void zoom_in();
         void zoom_out();
 
-        std::vector <mission_type> mission_types; // The list of mission templates
-
         weather_generator weatherGen; //A weather engine.
         bool has_generator = false;
         unsigned int weatherSeed = 0;
@@ -405,7 +380,6 @@ class game
         int monstairz;
         std::vector<npc *> active_npc;
         std::vector<faction> factions;
-        std::vector<mission> active_missions; // Missions which may be assigned
         // NEW: Dragging a piece of furniture, with a list of items contained
         ter_id dragging;
         std::vector<item> items_dragged;
@@ -552,7 +526,6 @@ class game
         void init_faction_data();
         void init_mongroups();    // Initializes monster groups
         void init_construction(); // Initializes construction "recipes"
-        void init_missions();     // Initializes mission templates
         void init_autosave();     // Initializes autosave parameters
         void init_diseases();     // Initializes disease lookup table.
         void init_savedata_translation_tables();

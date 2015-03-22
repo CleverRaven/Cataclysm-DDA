@@ -920,11 +920,6 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         object_type grab_type;
         player_activity activity;
         std::list<player_activity> backlog;
-        // _missions vectors are of mission IDs
-        std::vector<int> active_missions;
-        std::vector<int> completed_missions;
-        std::vector<int> failed_missions;
-        int active_mission;
         int volume;
 
         profession *prof;
@@ -1053,6 +1048,32 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
 
         int add_ammo_to_worn_quiver(item &ammo);
 
+        std::vector<mission*> get_active_missions() const;
+        std::vector<mission*> get_completed_missions() const;
+        std::vector<mission*> get_failed_missions() const;
+        /**
+         * Returns the mission that is currently active. Returns null if mission is active.
+         */
+        mission *get_active_mission() const;
+        /**
+         * Returns the target of the active mission or @ref overmap::invalid_point if there is
+         * no active mission.
+         */
+        point get_active_mission_target() const;
+        /**
+         * Set which mission is active. The mission must be listed in @ref active_missions.
+         */
+        void set_active_mission( mission &mission );
+        /**
+         * Called when a mission has been assigned to the player.
+         */
+        void on_mission_assignment( mission &new_mission );
+        /**
+         * Called when a mission has been completed or failed. Either way it's finished.
+         * Check @ref mission::failed to see which case it is.
+         */
+        void on_mission_finished( mission &mission );
+
     protected:
         std::list<disease> illness;
         // The player's position on the local map.
@@ -1106,6 +1127,23 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
 
         int id; // A unique ID number, assigned by the game class private so it cannot be overwritten and cause save game corruptions.
         //NPCs also use this ID value. Values should never be reused.
+        /**
+         * Missions that the player has accepted and that are not finished (one
+         * way or the other).
+         */
+        std::vector<mission*> active_missions;
+        /**
+         * Missions that the player has successfully completed.
+         */
+        std::vector<mission*> completed_missions;
+        /**
+         * Missions that have failed while being assigned to the player.
+         */
+        std::vector<mission*> failed_missions;
+        /**
+         * The currently active mission, or null if no mission is currently in progress.
+         */
+        mission *active_mission;
 };
 
 #endif

@@ -5,9 +5,9 @@
 
 void mission_end::heal_infection(mission *miss)
 {
-    npc *p = g->find_npc(miss->npc_id);
+    npc *p = g->find_npc(miss->get_npc_id());
     if (p == NULL) {
-        debugmsg("could not find mission NPC %d", miss->npc_id);
+        debugmsg("could not find mission NPC %d", miss->get_npc_id());
         return;
     }
     p->remove_effect("infection");
@@ -15,9 +15,9 @@ void mission_end::heal_infection(mission *miss)
 
 void mission_end::leave(mission *miss)
 {
-    npc *p = g->find_npc(miss->npc_id);
+    npc *p = g->find_npc(miss->get_npc_id());
     if (p == NULL) {
-        debugmsg("could not find mission NPC %d", miss->npc_id);
+        debugmsg("could not find mission NPC %d", miss->get_npc_id());
         return;
     }
     p->attitude = NPCATT_NULL;
@@ -25,9 +25,9 @@ void mission_end::leave(mission *miss)
 
 void mission_end::thankful(mission *miss)
 {
-    npc *p = g->find_npc(miss->npc_id);
+    npc *p = g->find_npc(miss->get_npc_id());
     if (p == NULL) {
-        debugmsg("could not find mission NPC %d", miss->npc_id);
+        debugmsg("could not find mission NPC %d", miss->get_npc_id());
         return;
     }
     if ( p->attitude == NPCATT_MUG || p->attitude == NPCATT_WAIT_FOR_LEAVE ||
@@ -42,9 +42,9 @@ void mission_end::thankful(mission *miss)
 
 void mission_end::deposit_box(mission *miss)
 {
-    npc *p = g->find_npc(miss->npc_id);
+    npc *p = g->find_npc(miss->get_npc_id());
     if (p == NULL) {
-        debugmsg("could not find mission NPC %d", miss->npc_id);
+        debugmsg("could not find mission NPC %d", miss->get_npc_id());
         return;
     }
     p->attitude = NPCATT_NULL;//npc leaves your party

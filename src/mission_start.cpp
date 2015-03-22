@@ -59,7 +59,7 @@ point target_om_ter(const std::string &omter, int reveal_rad, mission *miss, boo
     if(place != overmap::invalid_point && reveal_rad >= 0) {
         overmap_buffer.reveal(place, reveal_rad, g->get_levz());
     }
-    miss->target = place;
+    miss->set_target( place );
     return place;
 }
 
@@ -82,7 +82,7 @@ point target_om_ter_random(const std::string &omter, int reveal_rad, mission *mi
     if(place != overmap::invalid_point && reveal_rad >= 0) {
         overmap_buffer.reveal(place, reveal_rad, g->get_levz());
     }
-    miss->target = place;
+    miss->set_target( place );
     return place;
 }
 
@@ -563,9 +563,8 @@ void mission_start::recruit_tracker(mission *miss)
  temp->attitude = NPCATT_TALK;
  temp->mission = NPC_MISSION_SHOPKEEP;
  temp->personality.aggression -= 1;
- temp->op_of_u.owed = 10; int mission_index = g->reserve_mission(MISSION_JOIN_TRACKER, temp->getID());
- if (mission_index != -1)
-    temp->chatbin.missions.push_back(mission_index);
+ temp->op_of_u.owed = 10;
+    temp->add_new_mission( mission::reserve_new( MISSION_JOIN_TRACKER, temp->getID() ) );
 }
 
 void mission_start::radio_repeater(mission *miss)

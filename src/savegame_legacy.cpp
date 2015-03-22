@@ -1521,6 +1521,7 @@ void mapbuffer::load( std::string worldname )
 void player::load_legacy(std::stringstream & dump)
 {
  int inveh, vctrl;
+ int tmpactive_mission;
  itype_id styletmp;
  std::string prof_ident;
 
@@ -1529,7 +1530,7 @@ void player::load_legacy(std::stringstream & dump)
          max_power_level >> hunger >> thirst >> fatigue >> stim >>
          pain >> pkill >> radiation >> cash >> recoil >> driving_recoil >>
          inveh >> vctrl >> grab_point.x >> grab_point.y >> scent >> moves >>
-         underwater >> dodges_left >> blocks_left >> oxygen >> active_mission >>
+         underwater >> dodges_left >> blocks_left >> oxygen >> tmpactive_mission >>
          focus_pool >> male >> prof_ident >> healthy >> styletmp;
 
          // Bionic power scale has been changed.
@@ -1539,6 +1540,8 @@ void player::load_legacy(std::stringstream & dump)
  if (power_level < 0) {
      power_level = 0;
  }
+
+    active_mission = tmpactive_mission == -1 ? nullptr : mission::find( tmpactive_mission );
 
  if (profession::exists(prof_ident)) {
   prof = profession::prof(prof_ident);
@@ -1668,17 +1671,26 @@ void player::load_legacy(std::stringstream & dump)
  dump >> nummis;
  for (int i = 0; i < nummis; i++) {
   dump >> mistmp;
-  active_missions.push_back(mistmp);
+        const auto miss = mission::find( mistmp );
+        if( miss != nullptr ) {
+            active_missions.push_back( miss );
+        }
  }
  dump >> nummis;
  for (int i = 0; i < nummis; i++) {
   dump >> mistmp;
-  completed_missions.push_back(mistmp);
+        const auto miss = mission::find( mistmp );
+        if( miss != nullptr ) {
+            completed_missions.push_back( miss );
+        }
  }
  dump >> nummis;
  for (int i = 0; i < nummis; i++) {
   dump >> mistmp;
-  failed_missions.push_back(mistmp);
+        const auto miss = mission::find( mistmp );
+        if( miss != nullptr ) {
+            failed_missions.push_back( miss );
+        }
  }
 
  stats & pstats = *lifetime_stats();
@@ -1841,21 +1853,28 @@ void npc::load_legacy(std::stringstream & dump) {
 
  void npc_chatbin::load_legacy(std::stringstream &info)
  {
-  int tmpsize_miss, tmpsize_assigned, tmptopic;
+  int tmpsize_miss, tmpsize_assigned, tmptopic, tmpmission_selected;
   std::string skill_ident;
-  info >> tmptopic >> mission_selected >> tempvalue >> skill_ident >>
+  info >> tmptopic >> tmpmission_selected >> tempvalue >> skill_ident >>
           tmpsize_miss >> tmpsize_assigned;
+    mission_selected = nullptr; // player can re-select which mision to talk about in the dialog
   first_topic = talk_topic(tmptopic);
   skill = skill_ident == "none" ? NULL : Skill::skill(skill_ident);
   for (int i = 0; i < tmpsize_miss; i++) {
    int tmpmiss;
    info >> tmpmiss;
-   missions.push_back(tmpmiss);
+        const auto miss = mission::find( tmpmiss );
+        if( miss != nullptr ) {
+            missions.push_back( miss );
+        }
   }
   for (int i = 0; i < tmpsize_assigned; i++) {
    int tmpmiss;
    info >> tmpmiss;
-   missions_assigned.push_back(tmpmiss);
+        const auto miss = mission::find( tmpmiss );
+        if( miss != nullptr ) {
+            missions_assigned.push_back( miss );
+        }
   }
  }
 
@@ -2049,22 +2068,29 @@ void vehicle::load_legacy(std::ifstream &stin) {
     getline(stin, databuff); // Clear EoL
 }
 
+void mission::unserialize_legacy( std::istream &fin )
+{
+    int num_missions;
+    fin >> num_missions;
+    if( fin.peek() == '\n' ) {
+        char junk;
+        fin.get( junk );    // Chomp that pesky endline
+    }
+    for( int i = 0; i < num_missions; i++ ) {
+        mission tmpmiss;
+        tmpmiss.load_info( fin );
+        active_missions[tmpmiss.uid] = tmpmiss;
+    }
+}
 
 bool game::unserialize_master_legacy(std::ifstream & fin) {
 // First, get the next ID numbers for each of these
  std::string data;
  char junk;
  fin >> next_mission_id >> next_faction_id >> next_npc_id;
- int num_missions, num_factions;
+ int num_factions;
 
- fin >> num_missions;
- if (fin.peek() == '\n')
-  fin.get(junk); // Chomp that pesky endline
- for (int i = 0; i < num_missions; i++) {
-  mission tmpmiss;
-  tmpmiss.load_info(fin);
-  active_missions.push_back(tmpmiss);
- }
+    mission::unserialize_legacy( fin );
 
  fin >> num_factions;
  if (fin.peek() == '\n')
