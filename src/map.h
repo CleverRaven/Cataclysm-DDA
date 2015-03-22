@@ -168,19 +168,13 @@ class map
      * the @ref mapbuffer can not deliver the requested submap (as it does
      * not exist on disc).
      * This must be called before the map can be used at all!
-     * @param om overmap to which the world coordinates are relative to.
-     * @param wx coordinates (relative to om) of the submap at grid[0]. This
+     * @param wx global coordinates of the submap at grid[0]. This
      * is in submap coordinates.
      * @param wy see wx
      * @param wz see wx, this is the z-level
      * @param update_vehicles If true, add vehicles to the vehicle cache.
      */
-    void load(const int wx, const int wy, const int wz, const bool update_vehicles, overmap *om);
-    /**
-     * Same as @ref load, but uses only global submap coordinates and
-     * has therefor no overmap pointer parameter.
-     */
-    void load_abs(const int wx, const int wy, const int wz, const bool update_vehicles);
+    void load(const int wx, const int wy, const int wz, const bool update_vehicles);
     /**
      * Shift the map along the vector (sx,sy).
      * This is like loading the map with coordinates derived from the current
@@ -568,7 +562,7 @@ void add_corpse(int x, int y);
   */
  item *item_from( vehicle *veh, const int cargo_part, const size_t index );
 
-// Traps
+// Traps: 2D overloads
  std::string trap_get(const int x, const int y) const;
  void trap_set(const int x, const int y, const std::string & sid);
  void trap_set(const int x, const int y, const trap_id id);
@@ -577,43 +571,75 @@ void add_corpse(int x, int y);
  void add_trap(const int x, const int y, const trap_id t);
  void disarm_trap( const int x, const int y);
  void remove_trap(const int x, const int y);
- const std::set<point> trap_locations(trap_id t) const;
+// Traps: 3D
+ std::string trap_get( const tripoint &p ) const;
+ void trap_set( const tripoint &p, const std::string & sid);
+ void trap_set( const tripoint &p, const trap_id id);
 
-// Fields
+ trap_id tr_at( const tripoint &p ) const;
+ void add_trap( const tripoint &p, const trap_id t);
+ void disarm_trap( const tripoint &p );
+ void remove_trap( const tripoint &p );
+ const std::set<tripoint> trap_locations(trap_id t) const;
+
+// Fields: 2D overloads that will later be slowly phased out
+        const field& field_at( const int x, const int y ) const;
+        int get_field_age( const point p, const field_id t ) const;
+        int get_field_strength( const point p, const field_id t ) const;
+        int adjust_field_age( const point p, const field_id t, const int offset );
+        int adjust_field_strength( const point p, const field_id t, const int offset );
+        int set_field_age( const point p, const field_id t, const int age, bool isoffset = false );
+        int set_field_strength( const point p, const field_id t, const int str, bool isoffset = false );
+        field_entry * get_field( const point p, const field_id t );
+        bool add_field(const point p, const field_id t, const int density, const int age);
+        bool add_field(const int x, const int y, const field_id t, const int density);
+        void remove_field( const int x, const int y, const field_id field_to_remove );
+// End of 2D overload block
+ bool process_fields(); // See fields.cpp
+ bool process_fields_in_submap(submap * const current_submap, const int submap_x, const int submap_y); // See fields.cpp
+        /**
+         * Apply field effects to the creature when it's on a square with fields.
+         */
+        void creature_in_field( Creature &critter );
+// 3D field functions. Eventually all the 2D ones should be replaced with those
         /**
          * Get the fields that are here. This is for querying and looking at it only,
          * one can not change the fields.
-         * @param x,y The local map coordinates, if out of bounds, returns an empty field.
+         * @param p The local map coordinates, if out of bounds, returns an empty field.
          */
-        const field& field_at( const int x, const int y ) const;
+        const field &field_at( const tripoint &p ) const;
+        /**
+         * Gets fields that are here. Both for querying and edition.
+         */
+        field &field_at( const tripoint &p );
         /**
          * Get the age of a field entry (@ref field_entry::age), if there is no
          * field of that type, returns -1.
          */
-        int get_field_age( const point p, const field_id t );
+        int get_field_age( const tripoint &p, const field_id t ) const;
         /**
          * Get the density of a field entry (@ref field_entry::density),
          * if there is no field of that type, returns 0.
          */
-        int get_field_strength( const point p, const field_id t );
+        int get_field_strength( const tripoint &p, const field_id t ) const;
         /**
          * Increment/decrement age of field entry at point.
          * @return resulting age or -1 if not present (does *not* create a new field).
          */
-        int adjust_field_age( const point p, const field_id t, const int offset );
+        int adjust_field_age( const tripoint &p, const field_id t, const int offset );
         /**
          * Increment/decrement density of field entry at point, creating if not present,
          * removing if density becomes 0.
          * @return resulting density, or 0 for not present (either removed or not created at all).
          */
-        int adjust_field_strength( const point p, const field_id t, const int offset );
+        int adjust_field_strength( const tripoint &p, const field_id t, const int offset );
         /**
          * Set age of field entry at point.
          * @return resulting age or -1 if not present (does *not* create a new field).
          * @param isoffset If true, the given age value is added to the existing value,
          * if false, the existing age is ignored and overridden.
          */
-        int set_field_age( const point p, const field_id t, const int age, bool isoffset = false );
+        int set_field_age( const tripoint &p, const field_id t, const int age, bool isoffset = false );
         /**
          * Set density of field entry at point, creating if not present,
          * removing if density becomes 0.
@@ -621,32 +647,22 @@ void add_corpse(int x, int y);
          * @param isoffset If true, the given str value is added to the existing value,
          * if false, the existing density is ignored and overridden.
          */
-        int set_field_strength( const point p, const field_id t, const int str, bool isoffset = false );
+        int set_field_strength( const tripoint &p, const field_id t, const int str, bool isoffset = false );
         /**
          * Get field of specific type at point.
          * @return NULL if there is no such field entry at that place.
          */
-        field_entry * get_field( const point p, const field_id t );
+        field_entry *get_field( const tripoint &p, const field_id t );
         /**
          * Add field entry at point, or set density if present
          * @return false if the field could not be created (out of bounds), otherwise true.
          */
-        bool add_field(const point p, const field_id t, const int density, const int age);
-        /**
-         * Add field entry at xy, or set density if present
-         * @return false if the field could not be created (out of bounds), otherwise true.
-         */
-        bool add_field(const int x, const int y, const field_id t, const int density);
+        bool add_field( const tripoint &p, const field_id t, const int density, const int age);
         /**
          * Remove field entry at xy, ignored if the field entry is not present.
          */
-        void remove_field( const int x, const int y, const field_id field_to_remove );
- bool process_fields(); // See fields.cpp
- bool process_fields_in_submap(submap * const current_submap, const int submap_x, const int submap_y); // See fields.cpp
-        /**
-         * Apply field effects to the creature when it's on a square with fields.
-         */
-        void creature_in_field( Creature &critter );
+        void remove_field( const tripoint &p, const field_id field_to_remove );
+// End of 3D field function block
 
 // Computers
  computer* computer_at(const int x, const int y);
@@ -733,6 +749,12 @@ void add_corpse(int x, int y);
     point getabs(const int x, const int y) const;
     point getabs(const point p) const { return getabs(p.x, p.y); }
     /**
+     * Translates tripoint in local coords (near player) to global,
+     * just as the 2D variant of the function.
+     * z-coord remains unchanged (it is always global).
+     */
+    tripoint getabs( const tripoint &p ) const;
+    /**
      * Inverse of @ref getabs
      */
     point getlocal(const int x, const int y ) const;
@@ -740,6 +762,7 @@ void add_corpse(int x, int y);
  bool inboundsabs(const int x, const int y);
  bool inbounds(const int x, const int y) const;
  bool inbounds(const int x, const int y, const int z) const;
+ bool inbounds( const tripoint &p ) const;
 
  int getmapsize() { return my_MAPSIZE; };
 
@@ -847,12 +870,17 @@ private:
          */
         submap *get_submap_at( int x, int y ) const;
         submap *get_submap_at( int x, int y, int z ) const;
+        submap *get_submap_at( const tripoint &p ) const;
         /**
          * Get the submap pointer containing the specified position within the reality bubble.
-         * The same as other get_submap_at, (x,y) must be valid (@ref inbounds).
+         * The same as other get_submap_at, (x,y,z) must be valid (@ref inbounds).
          * Also writes the position within the submap to offset_x, offset_y
+         * offset_z would always be 0, so it is not used here
          */
-        submap *get_submap_at( int x, int y, int& offset_x, int& offset_y ) const;
+        submap *get_submap_at( const int x, const int y, int& offset_x, int& offset_y ) const;
+        submap *get_submap_at( const int x, const int y, const int z, 
+                               int &offset_x, int &offset_y ) const;
+        submap *get_submap_at( const tripoint &p, int &offset_x, int &offset_y ) const;
         /**
          * Get submap pointer in the grid at given grid coordinates. Grid coordinates must
          * be valid: 0 <= x < my_MAPSIZE, same for y.
@@ -897,7 +925,7 @@ private:
  void add_light_from_items( const int x, const int y, std::list<item>::iterator begin,
                             std::list<item>::iterator end );
  void calc_ray_end(int angle, int range, int x, int y, int* outx, int* outy) const;
- void forget_traps(int gridx, int gridy);
+ void forget_traps(const int gridx, const int gridy, const int gridz);
  vehicle *add_vehicle_to_map(vehicle *veh, bool merge_wrecks);
 
  // Iterates over every item on the map, passing each item to the provided function.
@@ -926,7 +954,7 @@ private:
          * Use @ref getsubmap or @ref setsubmap to access it.
          */
         std::vector<submap*> grid;
- std::map<trap_id, std::set<point> > traplocs;
+ std::map<trap_id, std::set<tripoint> > traplocs;
 };
 
 std::vector<point> closest_points_first(int radius, point p);

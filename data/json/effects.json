@@ -1239,5 +1239,20 @@
     {
         "type": "effect_type",
         "id": "alarm_clock"
+    },
+    {
+        "type": "effect_type",
+        "name": ["Playing an instrument"],
+        "desc": ["You're playing an instrument.\nFocusing on playing music distracts you, slowing you down."],
+        "id": "playing_instrument",
+        "rating": "neutral",
+        "max_duration": 2,
+        "max_intensity": 100,
+        "base_mods": {
+            "speed_mod": [-1]
+        },
+        "scaling_mods": {
+            "speed_mod": [-1]
+        }
     }
 ]

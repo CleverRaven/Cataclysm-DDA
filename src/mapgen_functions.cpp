@@ -468,10 +468,21 @@ void mapgen_dirtlot(map *m, oter_id, mapgendata, int, float)
             }
         }
     }
-    if (one_in(4)) {
-        m->add_vehicle ("pickup", 12, 12, 90, -1, -1);
-    }
-}
+    int num_v = rng(0,1) * rng(0,2); // (0, 0, 0, 0, 1, 2) vehicles
+    for(int v = 0; v < num_v; v++) {
+        int vy = rng(0, 16) + 4;
+        int vx = rng(0, 16) + 4;
+        int theta = rng(0,3)*180 + one_in(3)*rng(0,89);
+        std::string veh_type = "";
+        if (one_in(4)) {
+            veh_type = "quad_bike";
+        } else {
+            veh_type = "pickup";
+        }
+        if (!m->veh_at(vx,vy)) {
+            m->add_vehicle (veh_type, vx, vy, theta, -1, -1);
+        }
+    }}
 // todo: more region_settings for forest biome
 void mapgen_forest_general(map *m, oter_id terrain_type, mapgendata dat, int turn, float)
 {
@@ -945,7 +956,7 @@ void mapgen_road_straight(map *m, oter_id terrain_type, mapgendata dat, int turn
 {
     bool sidewalks = false;
     for (int i = 0; i < 8; i++) {
-        if (otermap[dat.t_nesw[i]].sidewalk) {
+        if (otermap[dat.t_nesw[i]].has_flag(has_sidewalk)) {
             sidewalks = true;
         }
     }
@@ -993,7 +1004,7 @@ void mapgen_road_end(map *m, oter_id terrain_type, mapgendata dat, int turn, flo
 {
     bool sidewalks = false;
     for (int i = 0; i < 8; i++) {
-        if (otermap[dat.t_nesw[i]].sidewalk) {
+        if (otermap[dat.t_nesw[i]].has_flag(has_sidewalk)) {
             sidewalks = true;
         }
     }
@@ -1093,7 +1104,7 @@ void mapgen_road_curved(map *m, oter_id terrain_type, mapgendata dat, int turn, 
 {
     bool sidewalks = false;
     for (int i = 0; i < 8; i++) {
-        if (otermap[dat.t_nesw[i]].sidewalk) {
+        if (otermap[dat.t_nesw[i]].has_flag(has_sidewalk)) {
             sidewalks = true;
         }
     }
@@ -1197,7 +1208,7 @@ void mapgen_road_tee(map *m, oter_id terrain_type, mapgendata dat, int turn, flo
 {
     bool sidewalks = false;
     for (int i = 0; i < 8; i++) {
-        if (otermap[dat.t_nesw[i]].sidewalk) {
+        if (otermap[dat.t_nesw[i]].has_flag(has_sidewalk)) {
             sidewalks = true;
         }
     }
@@ -1251,7 +1262,7 @@ void mapgen_road_four_way(map *m, oter_id terrain_type, mapgendata dat, int turn
     }
     bool sidewalks = false;
     for (int i = 0; i < 8; i++) {
-        if (otermap[dat.t_nesw[i]].sidewalk) {
+        if (otermap[dat.t_nesw[i]].has_flag(has_sidewalk)) {
             sidewalks = true;
         }
     }
@@ -1767,74 +1778,78 @@ void mapgen_parking_lot(map *m, oter_id, mapgendata dat, int turn, float)
                 m->ter_set(i, j, dat.groundcover());
         }
     }
-    int vx = rng (0, 3) * 4 + 5;
-    int vy = 4;
-    std::string veh_type = "";
-    int roll = rng(1, 100);
-    if (roll <= 5) { //specials
-        int ra = rng(1, 100);
-        if (ra <= 3) {
-            veh_type = "military_cargo_truck";
-        } else if (ra <= 10) {
-            veh_type = "bubble_car";
-        } else if (ra <= 15) {
-            veh_type = "rv";
-        } else if (ra <= 20) {
-            veh_type = "schoolbus";
-        } else if (ra <= 40) {
-            veh_type = "fire_truck";
-        }else if (ra <= 60) {
-            veh_type = "policecar";
-        }else {
-            veh_type = "quad_bike";
-        }
-    } else if (roll <= 15) { //commercial
-        int rb = rng(1, 100);
-        if (rb <= 25) {
-            veh_type = "truck_trailer";
-        } else if (rb <= 35) {
-            veh_type = "semi_truck";
-        } else if (rb <= 50) {
-            veh_type = "cube_van";
-        } else {
-            veh_type = "flatbed_truck";
-        }
-    } else if (roll < 50) { //commons
-        int rc = rng(1, 100);
-        if (rc <= 4) {
-            veh_type = "golf_cart";
-        } else if (rc <= 11) {
-            veh_type = "scooter";
-        } else if (rc <= 21) {
-            int rd = rng(1, 100);
-            if(rd <= 50) {
-                veh_type = "car_mini";
-            } else {
-                veh_type = "beetle";
+    for(int v = 0; v < rng(1,4); v++) {
+        int vy = rng(0, 4) * 4 + rng(2,4);
+        int vx = rng(0, 1) * 15 + rng(4,5);
+        std::string veh_type = "";
+        int roll = rng(1, 100);
+        if (roll <= 10) { //specials
+            int ra = rng(1, 100);
+            if (ra <= 3) {
+                veh_type = "military_cargo_truck";
+            } else if (ra <= 10) {
+                veh_type = "bubble_car";
+            } else if (ra <= 15) {
+                veh_type = "rv";
+            } else if (ra <= 20) {
+                veh_type = "schoolbus";
+            } else if (ra <= 40) {
+                veh_type = "fire_truck";
+            }else if (ra <= 60) {
+                veh_type = "policecar";
+            }else {
+                veh_type = "quad_bike";
             }
-        } else if (rc <= 50) {
-            veh_type = "car";
-        } else if (rc <= 60) {
-            veh_type = "electric_car";
-        } else if (rc <= 65) {
-            veh_type = "hippie_van";
-        } else if (rc <= 73) {
-            veh_type = "bicycle";
-        } else if (rc <= 75) {
-            veh_type = "rara_x"; //The Solar Car Toyota RaRa X
-        } else if (rc <= 77) {
-            veh_type = "unicycle";
-        } else if (rc <= 82) {
-            veh_type = "bicycle_electric";
-        } else if (rc <= 90) {
-            veh_type = "motorcycle";
+        } else if (roll <= 25) { //commercial
+            int rb = rng(1, 100);
+            if (rb <= 25) {
+                veh_type = "truck_trailer";
+            } else if (rb <= 35) {
+                veh_type = "semi_truck";
+            } else if (rb <= 50) {
+                veh_type = "cube_van";
+            } else {
+                veh_type = "flatbed_truck";
+            }
+        } else if (roll < 90) { //commons
+            int rc = rng(1, 100);
+            if (rc <= 4) {
+                veh_type = "golf_cart";
+            } else if (rc <= 11) {
+                veh_type = "scooter";
+            } else if (rc <= 21) {
+                int rd = rng(1, 100);
+                if(rd <= 50) {
+                    veh_type = "car_mini";
+                } else {
+                    veh_type = "beetle";
+                }
+            } else if (rc <= 50) {
+                veh_type = "car";
+            } else if (rc <= 60) {
+                veh_type = "electric_car";
+            } else if (rc <= 65) {
+                veh_type = "hippie_van";
+            } else if (rc <= 73) {
+                veh_type = "bicycle";
+            } else if (rc <= 75) {
+                veh_type = "rara_x"; //The Solar Car Toyota RaRa X
+            } else if (rc <= 77) {
+                veh_type = "unicycle";
+            } else if (rc <= 82) {
+                veh_type = "bicycle_electric";
+            } else if (rc <= 90) {
+                veh_type = "motorcycle";
+            } else {
+                veh_type = "motorcycle_sidecart";
+            }
         } else {
-            veh_type = "motorcycle_sidecart";
+            veh_type = "shopping_cart";
         }
-    } else {
-        veh_type = "shopping_cart";
+        if (!m->veh_at(vx,vy)) {
+            m->add_vehicle (veh_type, vx, vy, (one_in(2)?0:180) + (one_in(10)*rng(0,179)), -1, -1);
+        }
     }
-    m->add_vehicle (veh_type, vx, vy, one_in(2)? 90 : 270, -1, -1);
 
     m->place_items("road", 8, 0, 0, SEEX * 2 - 1, SEEY * 2 - 1, false, turn);
     for (int i = 1; i < 4; i++) {
@@ -3728,6 +3743,7 @@ void mapgen_shelter(map *m, oter_id, mapgendata dat, int, float) {
                                    mapf::basic_bind("b c l", f_bench, f_counter, f_locker));
         computer * tmpcomp = m->add_computer(SEEX + 6, 5, _("Evac shelter computer"), 0);
         tmpcomp->add_option(_("Emergency Message"), COMPACT_EMERG_MESS, 0);
+        tmpcomp->add_option(_("Disable External Power"), COMPACT_COMPLETE_MISSION, 0);
         int lx = rng(5 , 8);
         // The shelter does have some useful stuff in case of winter problems!
         m->spawn_item(lx, 5, "jacket_evac");
@@ -4331,7 +4347,7 @@ void mapgen_s_garage(map *m, oter_id terrain_type, mapgendata dat, int, float)
 {
 
         dat.fill_groundcover();
-        int yard_wdth = 5;
+        int yard_wdth = rng(4,6);
         square(m, t_floor, 0, yard_wdth, SEEX * 2 - 4, SEEY * 2 - 4);
         line(m, t_wall_v, 0, yard_wdth, 0, SEEY * 2 - 4);
         line(m, t_wall_v, SEEX * 2 - 3, yard_wdth, SEEX * 2 - 3, SEEY * 2 - 4);
@@ -4369,39 +4385,45 @@ void mapgen_s_garage(map *m, oter_id terrain_type, mapgendata dat, int, float)
 
         // rotate garage
 
-        int vy = 0, vx = 0, theta = 0;
+        int vy = 0, vx = 0, theta = 0, tdx = 0, tdy = 0, td = 9;
 
         if (terrain_type == "s_garage_north") {
-            vx = 5, vy = yard_wdth + 6;
+            vx = 8, vy = yard_wdth + 6;
             theta = 90;
+            tdx = td;
         } else if (terrain_type == "s_garage_east") {
             m->rotate(1);
-            vx = yard_wdth + 8, vy = 4;
+            vx = yard_wdth + 8, vy = 7;
             theta = 0;
+            tdy = td;
         } else if (terrain_type == "s_garage_south") {
             m->rotate(2);
-            vx = SEEX * 2 - 6, vy = SEEY * 2 - (yard_wdth + 3);
+            vx = SEEX * 2 - 9, vy = SEEY * 2 - (yard_wdth + 6);
             theta = 270;
+            tdx = -td;
         } else if (terrain_type == "s_garage_west") {
             m->rotate(3);
-            vx = SEEX * 2 - yard_wdth - 9, vy = SEEY * 2 - 5;
+            vx = SEEX * 2 - yard_wdth - 10, vy = SEEY * 2 - 8;
             theta = 180;
+            tdy = -td;
         }
 
-        // place vehicle, if any
-        if (one_in(3)) {
-            std::string vt;
-            int vehicle_type = rng(1, 8);
-            if(vehicle_type <= 3) {
-                vt = one_in(2) ? "car" : "car_chassis";
-            } else if(vehicle_type <= 5) {
-                vt = one_in(2) ? "quad_bike" : "quad_bike_chassis";
-            } else if(vehicle_type <= 7) {
-                vt = one_in(2) ? "motorcycle" : "motorcycle_chassis";
-            } else {
-                vt = "welding_cart";
+        // place vehicles, if any
+        for (int v=0; v<=1; v++) {
+            if (one_in(4)) {
+                std::string vt;
+                int vehicle_type = rng(1, 8);
+                if(vehicle_type <= 3) {
+                    vt = one_in(2) ? "car" : "car_chassis";
+                } else if(vehicle_type <= 5) {
+                    vt = one_in(2) ? "quad_bike" : "quad_bike_chassis";
+                } else if(vehicle_type <= 7) {
+                    vt = one_in(2) ? "motorcycle" : "motorcycle_chassis";
+                } else {
+                    vt = "welding_cart";
+                }
+                m->add_vehicle(vt, vx + v * tdx, vy + v * tdy, theta + one_in(3)*rng(-1,1)*30, -1, -1);
             }
-            m->add_vehicle(vt, vx, vy, theta, -1, -1);
         }
 
 

@@ -14,7 +14,7 @@
  * @{
  */
 
-#define PLAYER_OUTSIDE (g->m.is_outside(g->u.posx(), g->u.posy()) && g->levz >= 0)
+#define PLAYER_OUTSIDE (g->m.is_outside(g->u.posx(), g->u.posy()) && g->get_levz() >= 0)
 #define THUNDER_CHANCE 50
 #define LIGHTNING_CHANCE 600
 
@@ -54,7 +54,7 @@ int get_rot_since( const int since, const int endturn, const point &location )
     // http://github.com/CleverRaven/Cataclysm-DDA/issues/9162
     // Bug with this hack: Rot is prevented even when it's above
     // freezing on the ground floor.
-    oter_id oter = overmap_buffer.ter(g->om_global_location());
+    oter_id oter = overmap_buffer.ter(g->global_omt_location());
     if (is_ot_type("ice_lab", oter)) {
         return 0;
     }
@@ -223,12 +223,10 @@ void fill_funnels(int rain_depth_mm_per_hour, bool acid, trap_id t)
 {
     const double turns_per_charge = traplist[t]->funnel_turns_per_charge(rain_depth_mm_per_hour);
     // Give each funnel on the map a chance to collect the rain.
-    const std::set<point> &funnel_locs = g->m.trap_locations(t);
-    std::set<point>::const_iterator i;
-    for (i = funnel_locs.begin(); i != funnel_locs.end(); ++i) {
+    const std::set<tripoint> &funnel_locs = g->m.trap_locations( t );
+    for( auto loc : funnel_locs ) {
         int maxcontains = 0;
-        point loc = *i;
-        auto items = g->m.i_at(loc.x, loc.y);
+        auto items = g->m.i_at( loc.x, loc.y );
         if (one_in(turns_per_charge)) { // todo; fixme. todo; fixme
             //add_msg("%d mm/h %d tps %.4f: fill",int(calendar::turn),rain_depth_mm_per_hour,turns_per_charge);
             // This funnel has collected some rain! Put the rain in the largest
@@ -351,11 +349,11 @@ void weather_effect::thunder()
 {
     very_wet();
     if (!g->u.is_deaf() && one_in(THUNDER_CHANCE)) {
-        if (g->levz >= 0) {
+        if (g->get_levz() >= 0) {
             add_msg(_("You hear a distant rumble of thunder."));
-        } else if (g->u.has_trait("GOODHEARING") && one_in(1 - 2 * g->levz)) {
+        } else if (g->u.has_trait("GOODHEARING") && one_in(1 - 2 * g->get_levz())) {
             add_msg(_("You hear a rumble of thunder from above."));
-        } else if (!g->u.has_trait("BADHEARING") && one_in(1 - 3 * g->levz)) {
+        } else if (!g->u.has_trait("BADHEARING") && one_in(1 - 3 * g->get_levz())) {
             add_msg(_("You hear a rumble of thunder from above."));
         }
     }
@@ -373,7 +371,7 @@ void weather_effect::lightning()
 {
     thunder();
     if(one_in(LIGHTNING_CHANCE)) {
-        if(g->levz >= 0) {
+        if(g->get_levz() >= 0) {
             add_msg(_("A flash of lightning illuminates your surroundings!"));
             g->lightning_active = true;
         }
@@ -465,16 +463,17 @@ void weather_effect::acid()
 /**
  * Generate textual weather forecast for the specified radio tower.
  */
-std::string weather_forecast(radio_tower const &tower)
+std::string weather_forecast( point const &abs_sm_pos )
 {
     std::ostringstream weather_report;
     // Local conditions
-    city *closest_city = &g->cur_om->cities[g->cur_om->closest_city(point(tower.x, tower.y))];
+    const auto cref = overmap_buffer.closest_city( abs_sm_pos );
+    const std::string city_name = cref ? cref.city->name : std::string( _( "middle of nowhere" ) );
     // Current time
     weather_report << string_format(
                        _("The current time is %s Eastern Standard Time.  At %s in %s, it was %s. The temperature was %s. "),
                        calendar::turn.print_time().c_str(), calendar::turn.print_time(true).c_str(),
-                       closest_city->name.c_str(),
+                       city_name.c_str(),
                        weather_data(g->weather).name.c_str(), print_temperature(g->temperature).c_str()
                    );
 
@@ -499,7 +498,7 @@ std::string weather_forecast(radio_tower const &tower)
     for(int d = 0; d < 6; d++) {
         weather_type forecast = WEATHER_NULL;
         for(calendar i(last_hour + 7200 * d); i < last_hour + 7200 * (d + 1); i += 600) {
-            w_point w = g->weatherGen.get_weather(point(tower.x, tower.y), i);
+            w_point w = g->weatherGen.get_weather(abs_sm_pos, i);
             forecast = std::max(forecast, g->weatherGen.get_weather_conditions(w));
             high = std::max(high, w.temperature);
             low = std::min(low, w.temperature);

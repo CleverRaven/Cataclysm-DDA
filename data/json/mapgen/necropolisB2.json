@@ -13,11 +13,8 @@
     "type" : "item_group",
     "id" : "necropolis_visitors",
     "items" : [
-      ["one_year_old_newspaper", 2],
-      ["months_old_newspaper", 3],
-      ["weeks_old_newspaper", 4],
-      ["newest_newspaper", 5],
-      ["survnote", 1]
+      ["newest_newspaper", 10],
+      ["necropolis_leaflet", 50]
     ]
 },{
 		"type" : "mapgen",
@@ -3246,16 +3243,16 @@
 				"........................",
 				"........................",
 				"........................",
-				".....|-------|....|-----",
-				"|....|///2222|....|r//rr",
-				"|....|//44//2|....|r////",
-				"|....|//44//2|....|r////",
-				"|....|//////2|....|r////",
-				"|....|---|792|----|7777|",
-				"|....|rrr|//2/////8////V",
-				"|....|   v//2//K//8////V",
-				"|....| F =//44/G//9////V",
-				"|....|  5|//44////9////V"
+				"|-|..|-------|....|-----",
+				"|F|..|///2222|....|r//rr",
+				"| |..|//44//2|....|r////",
+				"| |..|//44//2|....|r////",
+				"| |..|//////2|....|r////",
+				"| |..|---|792|----|7777|",
+				"| |..|rrr|//2/////8////V",
+				"| |--|   v//2//K//8////V",
+				"|    +   =//44/G//9////V",
+				"|----|  5|//44////9////V"
             ],
             "place_monsters": [
                 { "monster": "GROUP_NECROPOLIS_VAULT2", "x": [ 1, 22 ], "y": [ 1, 10 ], "density": 0.5}
@@ -3407,8 +3404,8 @@
 				"c   | //////,//,|......."
             ],
             "place_monsters": [
-                { "monster": "GROUP_NECROPOLIS_VAULT2", "x": [ 3, 22 ], "y": [ 1, 20 ], "density": 0.1},
-                { "monster": "GROUP_NECROPOLIS_VAULT2", "x": [ 3, 22 ], "y": [ 1, 20 ], "density": 0.5}
+                { "monster": "GROUP_NECROPOLIS_VAULT2", "x": [ 6, 22 ], "y": [ 1, 20 ], "density": 0.1},
+                { "monster": "GROUP_NECROPOLIS_VAULT2", "x": [ 6, 22 ], "y": [ 1, 20 ], "density": 0.5}
             ],
             "place_vehicles": [
                 { "vehicle": "golf_cart", "x": 13, "y": 22, "rotation": 270, "chance": 50}
@@ -3558,6 +3555,12 @@
 				".|-|=--|HHHHH[H|[-|rr|..",
 				"...|           |     |..",
 				"...|H[H|H[H|H[H|rrrrr|.."
+            ],
+            "place_npcs": [
+                { "class": "old_guard_necropolis_commo", "x": 10, "y": 18 },
+                { "class": "old_guard_soldier", "x": 17, "y": 20 },
+                { "class": "old_guard_soldier", "x": 17, "y": 16 },
+                { "class": "old_guard_soldier", "x": 14, "y": 20 }
             ],
             "place_monsters": [
                 { "monster": "GROUP_NECROPOLIS_VAULT2", "x": [ 1, 22 ], "y": [ 1, 10 ], "density": 0.5},
@@ -4935,8 +4938,8 @@
 				"E|.|/////|..........|---"
             ],
             "place_monsters": [
-                { "monster": "GROUP_NECROPOLIS_VAULT2", "x": [ 1, 22 ], "y": [ 4, 22 ], "density": 0.1},
-                { "monster": "GROUP_NECROPOLIS_VAULT2", "x": [ 1, 22 ], "y": [ 4, 22 ], "density": 0.5}
+                { "monster": "GROUP_NECROPOLIS_VAULT2", "x": [ 1, 22 ], "y": [ 6, 22 ], "density": 0.1},
+                { "monster": "GROUP_NECROPOLIS_VAULT2", "x": [ 1, 22 ], "y": [ 6, 22 ], "density": 0.5}
             ],
             "place_vehicles": [
                 { "vehicle": "golf_cart", "x": 23, "y": 8, "rotation": 270, "chance": 15},
@@ -5237,8 +5240,8 @@
 				"66k6 a   k6k|......|rcSS"
             ],
             "place_monsters": [
-                { "monster": "GROUP_NECROPOLIS_VAULT2", "x": [ 1, 22 ], "y": [ 1, 14 ], "density": 0.1},
-                { "monster": "GROUP_NECROPOLIS_VAULT2", "x": [ 1, 22 ], "y": [ 1, 14 ], "density": 0.5}
+                { "monster": "GROUP_NECROPOLIS_VAULT2", "x": [ 1, 22 ], "y": [ 1, 12 ], "density": 0.1},
+                { "monster": "GROUP_NECROPOLIS_VAULT2", "x": [ 1, 22 ], "y": [ 1, 12 ], "density": 0.5}
             ],
             "place_items": [
                 { "item": "church", "chance": 50, "x": [ 0,2 ], "y": [ 0,0 ]},
@@ -5388,9 +5391,13 @@
 				"c|    I cc I cc I       ",
 				"c|                      "
             ],
+            "place_npcs": [
+                { "class": "old_guard_soldier", "x": 14, "y": 23 },
+                { "class": "old_guard_soldier", "x": 8, "y": 21 }
+            ],
             "place_monsters": [
-                { "monster": "GROUP_NECROPOLIS_VAULT2", "x": [ 1, 22 ], "y": [ 1, 14 ], "density": 0.1},
-                { "monster": "GROUP_NECROPOLIS_VAULT2", "x": [ 1, 22 ], "y": [ 1, 14 ], "density": 0.5}
+                { "monster": "GROUP_NECROPOLIS_VAULT2", "x": [ 1, 22 ], "y": [ 1, 12 ], "density": 0.1},
+                { "monster": "GROUP_NECROPOLIS_VAULT2", "x": [ 1, 22 ], "y": [ 1, 12 ], "density": 0.5}
             ],
             "place_items": [
                 { "item": "museum_misc", "chance": 80, "x": [ 8,9 ], "y": [ 22,22 ]},
@@ -5844,6 +5851,7 @@
                 { "item": "cavern", "chance": 80, "x": [ 20,22 ], "y": [ 23,23 ]}
             ],
 			"terrain": {
+			    "&": "t_gas_pump",
 				" ": "t_metal_floor",
 				"/": "t_rock_floor",
 				">": "t_stairs_down",
@@ -6438,8 +6446,8 @@
 				".......| bnnb   bnnb   b"
             ],
             "place_monsters": [
-                { "monster": "GROUP_NECROPOLIS_VAULT2", "x": [ 1, 22 ], "y": [ 12, 22 ], "density": 0.1},
-                { "monster": "GROUP_NECROPOLIS_VAULT2", "x": [ 1, 22 ], "y": [ 12, 22 ], "density": 0.5}
+                { "monster": "GROUP_NECROPOLIS_VAULT2", "x": [ 1, 22 ], "y": [ 18, 22 ], "density": 0.1},
+                { "monster": "GROUP_NECROPOLIS_VAULT2", "x": [ 1, 22 ], "y": [ 18, 22 ], "density": 0.5}
             ],
             "place_items": [
                 { "item": "office", "chance": 70, "x": [ 18,20 ], "y": [ 8,8 ]},
@@ -6591,8 +6599,8 @@
 				"nnb |          | bnnb   "
             ],
             "place_monsters": [
-                { "monster": "GROUP_NECROPOLIS_VAULT2", "x": [ 1, 22 ], "y": [ 12, 22 ], "density": 0.1},
-                { "monster": "GROUP_NECROPOLIS_VAULT2", "x": [ 1, 22 ], "y": [ 12, 22 ], "density": 0.1}
+                { "monster": "GROUP_NECROPOLIS_VAULT2", "x": [ 1, 22 ], "y": [ 18, 22 ], "density": 0.1},
+                { "monster": "GROUP_NECROPOLIS_VAULT2", "x": [ 1, 22 ], "y": [ 18, 22 ], "density": 0.1}
             ],
             "place_items": [
                 { "item": "cleaning", "chance": 70, "x": [ 16,19 ], "y": [ 9,9 ]},
@@ -6744,9 +6752,14 @@
 				"bnnb   bnnb |...........",
 				"bnnb   bnnb |..........."
             ],
+            "place_npcs": [
+                { "class": "old_guard_necropolis_cpt", "x": 23, "y": 1 },
+                { "class": "old_guard_soldier", "x": 9, "y": 6 },
+                { "class": "old_guard_soldier", "x": 18, "y": 5 }
+            ],
             "place_monsters": [
-                { "monster": "GROUP_NECROPOLIS_VAULT2", "x": [ 1, 6 ], "y": [ 20, 22 ], "density": 0.1},
-                { "monster": "GROUP_NECROPOLIS_VAULT2", "x": [ 1, 8 ], "y": [ 20, 22 ], "density": 0.1}
+                { "monster": "GROUP_NECROPOLIS_VAULT2", "x": [ 1, 4 ], "y": [ 20, 22 ], "density": 0.1},
+                { "monster": "GROUP_NECROPOLIS_VAULT2", "x": [ 1, 6 ], "y": [ 20, 22 ], "density": 0.1}
             ],
             "place_items": [
                 { "item": "museum_armor", "chance": 70, "x": [ 13,14 ], "y": [ 5,5 ]},
@@ -7360,6 +7373,7 @@
                 { "item": "novels", "chance": 70, "x": [ 5,5 ], "y": [ 3,4 ]}
             ],
 			"terrain": {
+			    "&": "t_gas_pump",
 				" ": "t_metal_floor",
 				"/": "t_rock_floor",
 				">": "t_stairs_down",
@@ -8581,6 +8595,7 @@
                 { "monster": "GROUP_NECROPOLIS_VAULT2", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.1}
             ],
 			"terrain": {
+			    "&": "t_gas_pump",
 				" ": "t_metal_floor",
 				"/": "t_rock_floor",
 				">": "t_stairs_down",

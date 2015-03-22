@@ -230,7 +230,6 @@
                         "F": "f_fridge",
                         "@": "f_bed",
                         ":": "f_dresser",
-                        "T": "f_toilet",
                         "l": "f_vending_c",
                         "S": "f_null",
                         "=": "f_ball_mach",
@@ -266,10 +265,9 @@
                         { "item":    "bowling_food",     "chance": 60,    "x": [1,1], "y":[15,16]    },
                         { "item":    "bowling_fridge",   "chance": 70,    "x": [1,1], "y":[19,21]    }
                     ],
-                    "place_toilets": [
-                        { "x": 6, "y": 22 },
-                        { "x": 9, "y": 22 }
-                    ]
+                    "toilets": {
+                        "T": { }
+                    }
                 }
             }
         ]

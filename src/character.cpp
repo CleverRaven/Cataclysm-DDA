@@ -1,5 +1,6 @@
 #include "character.h"
 #include "game.h"
+#include "mission.h"
 
 Character::Character()
 {
@@ -600,6 +601,7 @@ void Character::die(Creature* nkiller)
     if( has_effect( "beartrap" ) ) {
         inv.add_item( item( "beartrap", 0 ) );
     }
+    mission::on_creature_death( *this );
 }
 
 void Character::reset_stats()

@@ -153,7 +153,6 @@
       "furniture":{
         "d": "f_dumpster",
         "T": "f_table",
-        "P": "f_toilet",
         "S": "f_sink",
         "e": "f_fridge",
         "H": "f_chair",
@@ -171,9 +170,9 @@
         
         { "line": "trap", "x": 14, "y": 13, "x2": 16, "y2": 13, "id": "tr_beartrap", "chance": 10 }
       ],
-      "place_toilets": [
-        { "x": 15, "y": 16 }
-      ],
+      "toilets": {
+        "P": { }
+      },
       "place_items": [
         {"item": "fast_table",  "chance": 20, "x": 8,     "y": 3,      "repeat": [1,2]},
         {"item": "fast_table",  "chance": 20, "x": 15,    "y": 3,      "repeat": [1,2]},

@@ -18,6 +18,7 @@
 #include "mapdata.h"
 #include "color.h"
 #include "trap.h"
+#include "mission.h"
 #include "monstergenerator.h"
 #include "inventory.h"
 #include "tutorial.h"
@@ -323,7 +324,7 @@ void DynamicDataLoader::unload_data()
     clear_techniques_and_martial_arts();
     // Mission types are not loaded from json, but they depend on
     // the overmap terrain + items and that gets loaded from json.
-    g->mission_types.clear();
+    mission_type::reset();
     item_controller->reset();
     mutations_category.clear();
     mutation_category_traits.clear();
@@ -361,7 +362,7 @@ extern void calculate_mapgen_weights();
 extern void init_data_mappings();
 void DynamicDataLoader::finalize_loaded_data()
 {
-    g->init_missions(); // Needs overmap terrain.
+    mission_type::initialize(); // Needs overmap terrain.
     init_data_mappings();
     finalize_overmap_terrain();
     g->finalize_vehicles();

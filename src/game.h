@@ -7,6 +7,8 @@
 #include "faction.h"
 #include "event.h"
 #include "mission.h"
+#include "weather.h"
+#include "construction.h"
 #include "calendar.h"
 #include "posix_time.h"
 #include "worldfactory.h"
@@ -69,7 +71,7 @@ enum target_mode {
 
 struct special_game;
 struct mtype;
-struct mission_type;
+class mission;
 class map;
 class player;
 class npc;
@@ -141,10 +143,11 @@ class game
          * @param type Type of event.
          * @param on_turn On which turn event should be happened.
          * @param faction_id Faction of event.
-         * @param x,y global submap coordinates.
+         * @param where The location of the event, optional, defaults to the center of the
+         * reality bubble. In global submap coordinates.
          */
-        void add_event(event_type type, int on_turn, int faction_id = -1,
-                       int x = INT_MIN, int y = INT_MIN);
+        void add_event(event_type type, int on_turn, int faction_id = -1);
+        void add_event(event_type type, int on_turn, int faction_id, tripoint where);
         bool event_queued(event_type type);
         /** Create explosion at (x, y) of intensity (power) with (shrapnel) chunks of shrapnel. */
         void explosion(int x, int y, int power, int shrapnel, bool fire, bool blast = true);
@@ -201,8 +204,6 @@ class game
         bool is_in_sunlight(int x, int y);
         /** Returns true if (x, y) is indoors, underground, or in a car. */
         bool is_sheltered(int x, int y);
-        /** Returns true if the given point is in an ice lab. */
-        bool is_in_ice_lab(point location);
         /** Revives the corpse with position n in the items at (x, y). Returns true if successful. */
         bool revive_corpse(int x, int y, int n);
         /** Revives the corpse at (x, y) by item pointer. Caller handles item deletion. */
@@ -237,16 +238,6 @@ class game
 
         /** Returns the next available mission id. */
         int assign_mission_id();
-        /** Creates a mission of the matching type and assigns it to the player. */
-        void give_mission(mission_id type);
-        /** Assigns an existing mission to the player. */
-        void assign_mission(int id);
-        /** reserve_mission() creates a new mission of the given type and pushes it to
-         *  active_missions.  The function returns the UID of the new mission, which can
-         *  then be passed to a MacGuffin or something else that needs to track a mission. */
-        int reserve_mission(mission_id type, int npc_id = -1);
-        int reserve_random_mission(mission_origin origin, point p = point(-1, -1),
-                                   int npc_id = -1);
         npc *find_npc(int id);
         /** Makes any nearby NPC's on the overmap active. */
         void load_npcs();
@@ -254,22 +245,6 @@ class game
         int kill_count(std::string mon);
         /** Increments the number of kills of the given mtype_id by the player upwards. */
         void increase_kill_count(const std::string &mtype_id);
-        /** Returns the matching mission with UID == id; else returns NULL. */
-        mission *find_mission(int id);
-        /** Returns the mission type of the mission with UID == id; else returns NULL. */
-        mission_type *find_mission_type(int id);
-        /** Checks if the player has completed the matching mission and returns true if they have. */
-        bool mission_complete(int id, int npc_id);
-        /** Checks if the player has failed the matching mission and returns true if they have. */
-        bool mission_failed(int id);
-        /** Handles mission completion tasks (remove given item, etc.). */
-        void wrap_up_mission(int id);
-        /** Handles mission failure tasks (remove mission items, etc.). */
-        void fail_mission(int id);
-        /** Handles partial mission completion (kill complete, now report back!). */
-        void mission_step_complete(int id, int step);
-        /** Handles mission deadline processing. */
-        void process_missions();
 
         /** Performs a random short-distance teleport on the given player, granting teleglow if needed. */
         void teleport(player *p = NULL, bool add_teleglow = true);
@@ -302,12 +277,16 @@ class game
         void update_map(player *p);
         void update_map(int &x, int &y);
         void update_overmap_seen(); // Update which overmap tiles we can see
-        // Position of the player in overmap terrain coordinates, relative
-        // to the current overmap (@ref cur_om).
-        point om_location() const;
-        // Position of the player in overmap terrain coordinates,
-        // in global overmap terrain coordinates.
-        tripoint om_global_location() const;
+        /**
+         * Position of the player in global overmap terrain coordinates. This is specifically
+         * the center of the reality bubble.
+         */
+        tripoint global_omt_location() const;
+        /**
+         * Position of the player in global submap coordinates. This is specifically
+         * the center of the reality bubble.
+         */
+        tripoint global_sm_location() const;
 
         void process_artifact(item *it, player *p);
         void add_artifact_messages(std::vector<art_effect_passive> effects);
@@ -368,8 +347,6 @@ class game
         void zoom_in();
         void zoom_out();
 
-        std::vector <mission_type> mission_types; // The list of mission templates
-
         weather_generator weatherGen; //A weather engine.
         bool has_generator = false;
         unsigned int weatherSeed = 0;
@@ -379,21 +356,30 @@ class game
         bool lightning_active;
 
         std::map<int, weather_segment> weather_log;
-        overmap *cur_om;
         map m;
 
-        int levx, levy, levz; // Placement inside the overmap
-        /** Absolute values of lev[xyz] (includes the offset of cur_om) */
-        int get_abs_levx() const;
-        int get_abs_levy() const;
-        int get_abs_levz() const;
+        /**
+         * The top left corner of the reality bubble (in submaps coordinates). This is the same
+         * as @ref map::abs_sub of the @ref m map.
+         */
+        int get_levx() const;
+        int get_levy() const;
+        int get_levz() const;
+        /**
+         * Load the main map at given location, see @ref map::load, in global, absolute submap
+         * coordinates.
+         */
+        void load_map( tripoint pos_sm );
+        /**
+         * The overmap which is at the top left corner of the reality bubble.
+         */
+        overmap &get_cur_om() const;
         player u;
         scenario *scen;
         std::vector<monster> coming_to_stairs;
         int monstairz;
         std::vector<npc *> active_npc;
         std::vector<faction> factions;
-        std::vector<mission> active_missions; // Missions which may be assigned
         // NEW: Dragging a piece of furniture, with a list of items contained
         ter_id dragging;
         std::vector<item> items_dragged;
@@ -540,7 +526,6 @@ class game
         void init_faction_data();
         void init_mongroups();    // Initializes monster groups
         void init_construction(); // Initializes construction "recipes"
-        void init_missions();     // Initializes mission templates
         void init_autosave();     // Initializes autosave parameters
         void init_diseases();     // Initializes disease lookup table.
         void init_savedata_translation_tables();

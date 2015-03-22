@@ -299,7 +299,7 @@ void monster::move()
 
     //The monster can consume objects it stands on. Check if there are any.
     //If there are. Consume them.
-    if( !is_hallucination() && has_flag( MF_ABSORBS ) ) {
+    if( !is_hallucination() && has_flag( MF_ABSORBS ) && !g->m.has_flag( "SEALED", posx(), posy() ) ) {
         if(!g->m.i_at(posx(), posy()).empty()) {
             add_msg(_("The %s flows around the objects on the floor and they are quickly dissolved!"),
                     name().c_str());
@@ -874,7 +874,7 @@ int monster::move_to(int x, int y, bool force)
           g->m.tr_at(posx(), posy()) != tr_null) { // Monster stepped on a trap!
         trap* tr = traplist[g->m.tr_at(posx(), posy())];
         if (dice(3, type->sk_dodge + 1) < dice(3, tr->get_avoidance())) {
-            tr->trigger(this, posx(), posy());
+            tr->trigger( pos3(), this );
         }
     }
     if( !will_be_water && ( has_flag(MF_DIGS) || has_flag(MF_CAN_DIG) ) ) {

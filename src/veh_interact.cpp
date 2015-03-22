@@ -20,6 +20,8 @@
 #define ISNAN std::isnan
 #endif
 
+static const std::string repair_hotkeys("r1234567890");
+
 /**
  * Creates a blank veh_interact window.
  */
@@ -800,7 +802,7 @@ void veh_interact::do_repair()
     int msg_width = getmaxx(w_msg);
     switch (reason) {
     case LOW_MORALE:
-        mvwprintz(w_msg, 0, 1, c_ltred, _("Your morale is too low to construct..."));
+        mvwprintz(w_msg, 0, 1, c_ltred, _("Your morale is too low to repair..."));
         wrefresh (w_msg);
         return;
     case INVALID_TARGET:
@@ -2243,7 +2245,7 @@ void complete_vehicle ()
         }
         tools.push_back(tool_comp("duct_tape", int(DUCT_TAPE_USED * dmg)));
         tools.push_back(tool_comp("toolbox", int(DUCT_TAPE_USED * dmg)));
-        g->u.consume_tools(tools);
+        g->u.consume_tools(tools, 1, repair_hotkeys);
         veh->parts[vehicle_part].hp = veh->part_info(vehicle_part).durability;
         add_msg (m_good, _("You repair the %s's %s."),
                  veh->name.c_str(), veh->part_info(vehicle_part).name.c_str());

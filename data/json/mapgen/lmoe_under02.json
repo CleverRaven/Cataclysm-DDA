@@ -70,12 +70,11 @@
                 "T": "f_table",
                 "B": "f_bed",
                 "D": "f_desk",
-                "K": "f_sink",
-                "t": "f_toilet"
+                "K": "f_sink"
             },
-            "place_toilets": [
-                { "x": 14, "y": 20 }
-            ],
+            "toilets": {
+                "t": { }
+            },
             "comment": "randomly picked items from a group ---v",
             "place_items": [
                 { "item": "lmoe_guns", "chance": 80, "x": [2,6], "y": [12,12] },

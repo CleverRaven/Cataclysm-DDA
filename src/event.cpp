@@ -10,22 +10,12 @@
 #include "sounds.h"
 #include <climits>
 
-event::event()
+event::event( event_type e_t, int t, int f_id, tripoint p )
+: type( e_t )
+, turn( t )
+, faction_id( f_id )
+, map_point( p )
 {
-    type = EVENT_NULL;
-    turn = 0;
-    faction_id = -1;
-    map_point.x = INT_MIN;
-    map_point.y = INT_MIN;
-}
-
-event::event( event_type e_t, int t, int f_id, int x, int y )
-{
-    type = e_t;
-    turn = t;
-    faction_id = f_id;
-    map_point.x = x;
-    map_point.y = y;
 }
 
 void event::actualize()
@@ -55,7 +45,7 @@ void event::actualize()
                 }
                 temp->attitude = NPCATT_DEFEND;
                 // important: npc::spawn_at must be called to put the npc into the overmap
-                temp->spawn_at( g->get_abs_levx(), g->get_abs_levy(), g->get_abs_levz() );
+                temp->spawn_at( g->get_levx(), g->get_levy(), g->get_levz() );
                 // spawn at the border of the reality bubble, outside of the players view
                 if( one_in( 2 ) ) {
                     temp->setx( rng( 0, SEEX * MAPSIZE - 1 ) );
@@ -65,8 +55,8 @@ void event::actualize()
                     temp->sety( rng( 0, SEEY * MAPSIZE - 1 ) );
                 }
                 // And tell the npc to go to the player.
-                temp->goal.x = g->om_global_location().x;
-                temp->goal.y = g->om_global_location().y;
+                temp->goal.x = g->global_omt_location().x;
+                temp->goal.y = g->global_omt_location().y;
                 // The npcs will be loaded later by game::load_npcs()
             }
         }
@@ -74,7 +64,8 @@ void event::actualize()
         break;
 
   case EVENT_ROBOT_ATTACK: {
-   if (rl_dist(g->get_abs_levx(), g->get_abs_levy(), map_point.x, map_point.y) <= 4) {
+      const auto u_pos = g->u.global_sm_location();
+   if (rl_dist(u_pos, map_point) <= 4) {
     mtype *robot_type;
     if (one_in(2)) {
         robot_type = GetMType("mon_copbot");
@@ -85,15 +76,15 @@ void event::actualize()
     g->u.add_memorial_log( pgettext("memorial_male", "Became wanted by the police!"),
                            pgettext("memorial_female", "Became wanted by the police!"));
     monster robot(robot_type);
-    int robx = (g->get_abs_levx() > map_point.x ? 0 - SEEX * 2 : SEEX * 4),
-        roby = (g->get_abs_levy() > map_point.y ? 0 - SEEY * 2 : SEEY * 4);
+    int robx = (u_pos.x > map_point.x ? 0 - SEEX * 2 : SEEX * 4),
+        roby = (u_pos.y > map_point.y ? 0 - SEEY * 2 : SEEY * 4);
     robot.spawn(robx, roby);
     g->add_zombie(robot);
    }
   } break;
 
   case EVENT_SPAWN_WYRMS: {
-   if (g->levz >= 0)
+   if (g->get_levz() >= 0)
     return;
    g->u.add_memorial_log(pgettext("memorial_male", "Drew the attention of more dark wyrms!"),
                          pgettext("memorial_female", "Drew the attention of more dark wyrms!"));
@@ -290,7 +281,7 @@ void event::per_turn()
  switch (type) {
   case EVENT_WANTED: {
    // About once every 5 minutes. Suppress in classic zombie mode.
-   if (g->levz >= 0 && one_in(50) && !ACTIVE_WORLD_OPTIONS["CLASSIC_ZOMBIES"]) {
+   if (g->get_levz() >= 0 && one_in(50) && !ACTIVE_WORLD_OPTIONS["CLASSIC_ZOMBIES"]) {
     monster eyebot(GetMType("mon_eyebot"));
     point place = g->m.random_outdoor_tile();
     if (place.x == -1 && place.y == -1)
@@ -305,7 +296,7 @@ void event::per_turn()
   } break;
 
   case EVENT_SPAWN_WYRMS:
-   if (g->levz >= 0) {
+   if (g->get_levz() >= 0) {
     turn--;
     return;
    }

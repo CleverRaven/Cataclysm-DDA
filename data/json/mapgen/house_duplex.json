@@ -71,7 +71,6 @@
             },
             "furniture": {
                 ":": "f_dresser",
-                ";": "f_toilet",
                 "=": "f_fireplace",
                 ">": "f_counter",
                 "?": "f_sofa",
@@ -93,11 +92,9 @@
                 "H": "f_armchair",
                 "P": "f_sign"
             },
-            "place_toilets": [
-                { "x": 20, "y": 4 },
-                { "x": 8, "y": 21 },
-                { "x": 10, "y": 21 }
-            ],
+            "toilets": {
+                ";": { }
+            },
             "place_signs": [
                 { "x": 1, "y": 2, "signage": "the address has been defaced" },
                 { "x": 23, "y": 2, "signage": "the address is unreadable" }

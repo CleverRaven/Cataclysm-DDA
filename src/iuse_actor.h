@@ -46,6 +46,7 @@ class iuse_transform : public iuse_actor
         std::string need_charges_msg;
         /** Subtract this from @ref Creature::moves when actually transforming the item. */
         int moves;
+        std::string menu_option_text;
 
         iuse_transform()
             : iuse_actor()
@@ -520,6 +521,45 @@ class fireweapon_on_actor : public iuse_actor
         virtual ~fireweapon_on_actor() { }
         virtual void load( JsonObject &jo );
         virtual long use( player*, item*, bool, point ) const;
+        virtual iuse_actor *clone() const;
+};
+
+/**
+ * Plays music
+ */
+class musical_instrument_actor : public iuse_actor
+{
+    public:
+        /**
+         * Speed penalty when playing the instrument
+         */
+        int speed_penalty;
+        /**
+         * Volume of the music played
+         */
+        int volume;
+        /**
+         * Base morale bonus/penalty
+         */
+        int fun;
+        /**
+         * Morale bonus scaling (off current perception)
+         */
+        int fun_bonus;
+        /**
+         * List of sound descriptions
+         */
+        std::vector< std::string > descriptions;
+        /**
+         * Display description once per this many turns
+         */
+        int description_frequency;
+
+        musical_instrument_actor() = default;
+        virtual ~musical_instrument_actor() = default;
+        virtual void load( JsonObject &jo );
+        virtual long use( player*, item*, bool, point ) const;
+        virtual bool can_use( const player*, const item*, bool, const point& ) const;
         virtual iuse_actor *clone() const;
 };
 
