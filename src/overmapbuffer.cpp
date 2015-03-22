@@ -228,9 +228,9 @@ bool overmapbuffer::has_horde(int const x, int const y, int const z) {
     return false;
 }
 
-bool overmapbuffer::has_npc(int x, int y, int const z)
+bool overmapbuffer::has_npc(int const x, int const y, int const z)
 {
-    overmap const *const om = get_existing_om_global(x, y);
+    overmap const *const om = get_existing_om_global(point(x, y));
     if (!om) {
         return false;
     }
@@ -289,6 +289,38 @@ std::vector<om_vehicle> overmapbuffer::get_vehicle(int x, int y, int z, bool req
         }
     }
     return result;
+}
+
+void overmapbuffer::signal_hordes( const tripoint center, const int sig_power )
+{
+    const auto radius = sig_power;
+    for( auto &om : get_overmaps_near( center, radius ) ) {
+        const point abs_pos_om = om_to_sm_copy( om->pos() );
+        const point rel_pos( center.x - abs_pos_om.x, center.y - abs_pos_om.y );
+        // overmap::signal_hordes expects a coordinate relative to the overmap, this is easier
+        // for processing as the monster group stores is location as relative coordinates, too.
+        om->signal_hordes( rel_pos.x, rel_pos.y, sig_power );
+    }
+}
+
+void overmapbuffer::process_mongroups()
+{
+    // arbitrary radius to include nearby overmaps (aside from the current one)
+    const auto radius = MAPSIZE * 2;
+    const auto center = g->global_sm_location();
+    for( auto &om : get_overmaps_near( center, radius ) ) {
+        om->process_mongroups();
+    }
+}
+
+void overmapbuffer::move_hordes()
+{
+    // arbitrary radius to include nearby overmaps (aside from the current one)
+    const auto radius = MAPSIZE * 2;
+    const auto center = g->global_sm_location();
+    for( auto &om : get_overmaps_near( center, radius ) ) {
+        om->move_hordes();
+    }
 }
 
 std::vector<mongroup*> overmapbuffer::monsters_at(int x, int y, int z)
@@ -509,7 +541,7 @@ void overmapbuffer::remove_npc(int id)
 
 std::vector<npc*> overmapbuffer::get_npcs_near_player(int radius)
 {
-    tripoint plpos = g->om_global_location();
+    tripoint plpos = g->global_omt_location();
     // get_npcs_near needs submap coordinates
     omt_to_sm(plpos.x, plpos.y);
     return get_npcs_near(plpos.x, plpos.y, plpos.z, radius);
@@ -519,22 +551,27 @@ std::vector<overmap*> overmapbuffer::get_overmaps_near( point const location, in
 {
     // Grab the corners of a square around the target location at distance radius.
     // Convert to overmap coordinates and iterate from the minimum to the maximum.
-    int const omx = std::ceil(radius / OMAPX);
-    int const omy = std::ceil(radius / OMAPY);
+    point const start = sm_to_om_copy(location.x - radius, location.y - radius);
+    point const end = sm_to_om_copy(location.x + radius, location.y + radius);
+    point const offset = end - start;
 
     std::vector<overmap*> result;
-    result.reserve(omx * omy);
+    result.reserve( ( offset.x + 1 ) * ( offset.y + 1 ) );
 
-    point const p = sm_to_om_copy(location.x - radius, location.y - radius);
-    for (int x = 0; x < omx; ++x) {
-        for (int y = 0; y < omy; ++y) {
-            if (auto const existing_om = get_existing(p.x + x, p.y + y)) {
+    for (int x = start.x; x <= end.x; ++x) {
+        for (int y = start.y; y <= end.y; ++y) {
+            if (auto const existing_om = get_existing(x, y)) {
                 result.emplace_back(existing_om);
             }
         }
     }
 
     return result;
+}
+
+std::vector<overmap *> overmapbuffer::get_overmaps_near( const tripoint p, const int radius )
+{
+    return get_overmaps_near( point( p.x, p.y ), radius );
 }
 
 std::vector<npc*> overmapbuffer::get_npcs_near(int x, int y, int z, int radius)
@@ -571,6 +608,69 @@ std::vector<npc*> overmapbuffer::get_npcs_near_omt(int x, int y, int z, int radi
             const int npc_offset = square_dist(x, y, pos.x, pos.y);
             if (npc_offset <= radius) {
                 result.push_back(p);
+            }
+        }
+    }
+    return result;
+}
+
+radio_tower_reference create_radio_tower_reference( overmap &om, radio_tower &t, const tripoint &center )
+{
+    // global submap coordinates, same as center is
+    const point pos = point( t.x, t.y ) + overmapbuffer::om_to_sm_copy( om.pos() );
+    const int strength = t.strength - rl_dist( pos, center );
+    return radio_tower_reference{ &om, &t, pos, strength };
+}
+
+radio_tower_reference overmapbuffer::find_radio_station( const int frequency )
+{
+    const auto center = g->global_sm_location();
+    for( auto &om : get_overmaps_near( center, RADIO_MAX_STRENGTH ) ) {
+        for( auto &tower : om->radios ) {
+            const auto rref = create_radio_tower_reference( *om, tower, center );
+            if( rref.signal_strength > 0 && tower.frequency == frequency ) {
+                return rref;
+            }
+        }
+    }
+    return radio_tower_reference{ nullptr, nullptr, point( 0, 0 ), 0 };
+}
+
+std::vector<radio_tower_reference> overmapbuffer::find_all_radio_stations()
+{
+    std::vector<radio_tower_reference> result;
+    const auto center = g->global_sm_location();
+    // perceived signal strength is distance (in submaps) - signal strength, so towers
+    // further than RADIO_MAX_STRENGTH submaps away can never be received at all.
+    const int radius = RADIO_MAX_STRENGTH;
+    for( auto &om : get_overmaps_near( center, radius ) ) {
+        for( auto &tower : om->radios ) {
+            const auto rref = create_radio_tower_reference( *om, tower, center );
+            if( rref.signal_strength > 0 ) {
+                result.push_back( rref );
+            }
+        }
+    }
+    return result;
+}
+
+city_reference overmapbuffer::closest_city( const point center )
+{
+    // a whole overmap (because it's in submap coordinates, OMAPX is overmap terrain coordinates)
+    auto const radius = OMAPX * 2;
+    // Starting with distance = INT_MAX, so the first city is already closer
+    city_reference result{ nullptr, nullptr, point( 0, 0 ), INT_MAX };
+    for( auto &om : get_overmaps_near( center, radius ) ) {
+        const auto abs_pos_om = om_to_sm_copy( om->pos() );
+        for( auto &city : om->cities ) {
+            const auto rel_pos_city = omt_to_sm_copy( point( city.x, city.y ) );
+            const auto abs_pos_city = abs_pos_om + rel_pos_city;
+            const auto distance = rl_dist( abs_pos_city, center );
+            const city_reference cr{ om, &city, abs_pos_city, distance };
+            if( distance < result.distance ) {
+                result = cr;
+            } else if( distance == result.distance && result.city->s < city.s ) {
+                result = cr;
             }
         }
     }
@@ -616,7 +716,7 @@ void overmapbuffer::despawn_monster(const monster &critter)
     overmap &om = get( omp.x, omp.y );
     // Store the monster using coordinates local to the overmap.
     // TODO: with Z-levels this should probably be taken from the critter
-    om.monster_map.insert( std::make_pair( tripoint(sm.x, sm.y, g->levz), critter ) );
+    om.monster_map.insert( std::make_pair( tripoint(sm.x, sm.y, g->get_levz()), critter ) );
 }
 
 extern bool lcmatch(const std::string& text, const std::string& pattern);
@@ -649,8 +749,12 @@ overmapbuffer::t_notes_vector overmapbuffer::get_notes(int z, const std::string*
 
 bool overmapbuffer::is_safe(int x, int y, int z)
 {
-    overmap &om = get_om_global(x, y);
-    return om.is_safe(x, y, z);
+    for( auto & mongrp : monsters_at( x, y, z ) ) {
+        if( !mongrp->is_safe() ) {
+            return false;
+        }
+    }
+    return true;
 }
 
 inline int modulo(int v, int m) {

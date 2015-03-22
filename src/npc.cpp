@@ -14,6 +14,7 @@
 #include "monstergenerator.h"
 #include "overmapbuffer.h"
 #include "messages.h"
+#include "mission.h"
 #include "json.h"
 #include "sounds.h"
 
@@ -128,10 +129,8 @@ void npc::load_npc_template(std::string ident)
         attitude = found->second.attitude;
         mission = found->second.mission;
         chatbin.first_topic = found->second.chatbin.first_topic;
-        if (mission_id(found->second.miss_id) != MISSION_NULL){
-            int mission_index = g->reserve_mission(mission_id(found->second.miss_id), getID());
-            if (mission_index != -1)
-                chatbin.missions.push_back(mission_index);
+        if (static_cast<mission_type_id>(found->second.miss_id) != MISSION_NULL){
+            add_new_mission( mission::reserve_new(static_cast<mission_type_id>(found->second.miss_id), getID()) );
         }
         return;
     } else {
@@ -907,20 +906,6 @@ void npc::spawn_at_random_city(overmap *o)
     spawn_at(x, y, 0);
 }
 
-tripoint npc::global_sm_location() const
-{
-    tripoint t = global_square_location();
-    overmapbuffer::ms_to_sm(t.x, t.y);
-    return t;
-}
-
-tripoint npc::global_omt_location() const
-{
-    tripoint t = global_square_location();
-    overmapbuffer::ms_to_omt(t.x, t.y);
-    return t;
-}
-
 tripoint npc::global_square_location() const
 {
     return tripoint( mapx * SEEX + posx(), mapy * SEEY + posy(), mapz );
@@ -934,9 +919,9 @@ void npc::place_on_map()
     // coordinate system. We have to change pos[xy] to match that assumption,
     // but also have to change map[xy] to keep the global position of the npc
     // unchanged.
-    const int dmx = mapx - g->get_abs_levx();
-    const int dmy = mapy - g->get_abs_levy();
-    mapx -= dmx; // == g->get_abs_levx()
+    const int dmx = mapx - g->get_levx();
+    const int dmy = mapy - g->get_levy();
+    mapx -= dmx; // == g->get_levx()
     mapy -= dmy;
     position.x += dmx * SEEX; // value of "mapx * SEEX + posx()" is unchanged
     position.y += dmy * SEEY;
@@ -1106,13 +1091,13 @@ void npc::perform_mission()
  switch (mission) {
  case NPC_MISSION_RESCUE_U:
   if (int(calendar::turn) % 24 == 0) {
-   if (mapx > g->get_abs_levx())
+   if (mapx > g->get_levx())
     mapx--;
-   else if (mapx < g->get_abs_levx())
+   else if (mapx < g->get_levx())
     mapx++;
-   if (mapy > g->get_abs_levy())
+   if (mapy > g->get_levy())
     mapy--;
-   else if (mapy < g->get_abs_levy())
+   else if (mapy < g->get_levy())
     mapy++;
    attitude = NPCATT_DEFEND;
   }
@@ -1382,37 +1367,29 @@ bool npc::wants_to_travel_with(player *p) const
 int npc::assigned_missions_value()
 {
     int ret = 0;
-    for (auto &i : chatbin.missions_assigned) {
-        ret += g->find_mission(i)->value;
+    for( auto &m : chatbin.missions_assigned ) {
+        ret += m->get_value();
     }
     return ret;
 }
 
-std::vector<const Skill*> npc::skills_offered_to(player *p)
+std::vector<const Skill*> npc::skills_offered_to(const player &p)
 {
-    if (!p) {
-        return {};
-    }
-
     std::vector<const Skill*> ret;
     for (auto const &skill : Skill::skills) {
-        if (p->skillLevel(skill) < skillLevel(skill)) {
+        if (p.get_skill_level(skill) < get_skill_level(skill)) {
             ret.push_back(&skill);
         }
     }
-
     return ret;
 }
 
-std::vector<itype_id> npc::styles_offered_to(player *p)
+std::vector<itype_id> npc::styles_offered_to(const player &p)
 {
     std::vector<itype_id> ret;
-    if (p == NULL) {
-        return ret;
-    }
     for (auto &i : ma_styles) {
         bool found = false;
-        for (auto &j : p->ma_styles) {
+        for (auto &j : p.ma_styles) {
             if (j == i) {
                 found = true;
                 break;
@@ -1429,7 +1406,7 @@ std::vector<itype_id> npc::styles_offered_to(player *p)
 int npc::minutes_to_u() const
 {
     // TODO: what about different z-levels?
-    int ret = square_dist( mapx, mapy, g->get_abs_levx(), g->get_abs_levy() );
+    int ret = square_dist( mapx, mapy, g->get_levx(), g->get_levy() );
     // TODO: someone should explain this calculation. Is 24 supposed to be SEEX*2?
  ret *= 24;
  ret /= 10;
@@ -2144,19 +2121,6 @@ void npc::die(Creature* nkiller) {
     }
 
     place_corpse();
-
-    mission_type *type;
-    for (auto &i : g->active_missions) {
-        type = i.type;
-        //complete the mission if you needed killing
-        if (type->goal == MGOAL_ASSASSINATE && i.target_npc_id == getID()) {
-                g->mission_step_complete( i.uid, 1);
-        }
-        //fail the mission if the mission giver dies or the recruit target
-        if (i.npc_id == getID() || (i.target_npc_id == getID() && type->goal == MGOAL_RECRUIT_NPC)) {
-            g->fail_mission( i.uid );
-        }
-    }
 }
 
 std::string npc_attitude_name(npc_attitude att)
@@ -2338,5 +2302,17 @@ void npc::add_msg_player_or_npc(game_message_type type, const char *, const char
     va_end(ap);
 }
 
+void npc::add_new_mission( class mission *miss )
+{
+    chatbin.add_new_mission( miss );
+}
+
+void npc_chatbin::add_new_mission( mission *miss )
+{
+    if( miss == nullptr ) {
+        return;
+    }
+    missions.push_back( miss );
+}
 
 const tripoint npc::no_goal_point(INT_MIN, INT_MIN, INT_MIN);

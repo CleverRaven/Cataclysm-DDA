@@ -184,7 +184,7 @@ player::player() : Character()
  oxygen = 0;
  next_climate_control_check=0;
  last_climate_control_ret=false;
- active_mission = -1;
+ active_mission = nullptr;
  in_vehicle = false;
  controlling_vehicle = false;
  grab_point.x = 0;
@@ -766,7 +766,7 @@ void player::update_bodytemp()
     if( veh ) {
         vehwindspeed = abs(veh->velocity / 100); // vehicle velocity in mph
     }
-    const oter_id &cur_om_ter = overmap_buffer.ter(g->om_global_location());
+    const oter_id &cur_om_ter = overmap_buffer.ter(g->global_omt_location());
     std::string omtername = otermap[cur_om_ter].name;
     bool sheltered = g->is_sheltered(posx(), posy());
     int total_windpower = get_local_windpower(weather.windpower + vehwindspeed, omtername, sheltered);
@@ -1860,21 +1860,21 @@ void player::memorial( std::ofstream &memorial_file, std::string epitaph )
     }
 
     //Figure out the location
-    const oter_id &cur_ter = overmap_buffer.ter(g->om_global_location());
-    point cur_loc = g->om_location();
+    const oter_id &cur_ter = overmap_buffer.ter(g->global_omt_location());
     std::string tername = otermap[cur_ter].name;
 
     //Were they in a town, or out in the wilderness?
-    int city_index = g->cur_om->closest_city(cur_loc);
+    const auto global_sm_pos = g->global_sm_location();
+    const auto closest_city = overmap_buffer.closest_city( point( global_sm_pos.x, global_sm_pos.y ) );
     std::string kill_place;
-    if(city_index < 0) {
+    if( !closest_city ) {
         //~ First parameter is a pronoun (“He”/“She”), second parameter is a terrain name.
         kill_place = string_format(_("%s was killed in a %s in the middle of nowhere."),
                      pronoun.c_str(), tername.c_str());
     } else {
-        city nearest_city = g->cur_om->cities[city_index];
+        const auto &nearest_city = *closest_city.city;
         //Give slightly different messages based on how far we are from the middle
-        int distance_from_city = abs(g->cur_om->dist_from_city(cur_loc));
+        const int distance_from_city = closest_city.distance - nearest_city.s;
         if(distance_from_city > nearest_city.s + 4) {
             //~ First parameter is a pronoun (“He”/“She”), second parameter is a terrain name.
             kill_place = string_format(_("%s was killed in a %s in the wilderness."),
@@ -2130,7 +2130,7 @@ void player::add_memorial_log(const char* male_msg, const char* female_msg, ...)
                                calendar::turn.days() + 1, calendar::turn.print_time().c_str()
                                );
 
-    const oter_id &cur_ter = overmap_buffer.ter(g->om_global_location());
+    const oter_id &cur_ter = overmap_buffer.ter(g->global_omt_location());
     std::string location = otermap[cur_ter].name;
 
     std::stringstream log_message;
@@ -4052,6 +4052,22 @@ float player::active_light()
     return lumination;
 }
 
+tripoint player::global_square_location() const
+{
+    const auto abs_pos = g->m.getabs( position.x, position.y );
+    return tripoint( abs_pos.x, abs_pos.y, g->get_levz() ); // player is always at levz
+}
+
+tripoint player::global_sm_location() const
+{
+    return overmapbuffer::ms_to_sm_copy( global_square_location() );
+}
+
+tripoint player::global_omt_location() const
+{
+    return overmapbuffer::ms_to_omt_copy( global_square_location() );
+}
+
 const point &player::pos() const
 {
     return position;
@@ -4088,7 +4104,7 @@ int player::unimpaired_range()
 
 bool player::overmap_los(int omtx, int omty, int sight_points)
 {
-    const tripoint ompos = g->om_global_location();
+    const tripoint ompos = g->global_omt_location();
     if (omtx < ompos.x - sight_points || omtx > ompos.x + sight_points ||
         omty < ompos.y - sight_points || omty > ompos.y + sight_points) {
         // Outside maximum sight range
@@ -4178,22 +4194,25 @@ bool player::has_two_arms() const
  return true;
 }
 
-bool player::avoid_trap(trap* tr, int x, int y)
+bool player::avoid_trap( const tripoint &pos, trap* tr )
 {
-  int myroll = dice(3, int(dex_cur + skillLevel("dodge") * 1.5));
- int traproll;
-    if (tr->can_see(*this, x, y)) {
-        traproll = dice(3, tr->get_avoidance());
+    int myroll = dice( 3, int(dex_cur + skillLevel( "dodge" ) * 1.5) );
+    int traproll;
+    if( tr->can_see( pos, *this ) ) {
+        traproll = dice( 3, tr->get_avoidance() );
     } else {
-        traproll = dice(6, tr->get_avoidance());
+        traproll = dice( 6, tr->get_avoidance() );
     }
- if (has_trait("LIGHTSTEP"))
-  myroll += dice(2, 6);
- if (has_trait("CLUMSY"))
-  myroll -= dice(2, 6);
- if (myroll >= traproll)
-  return true;
- return false;
+
+    if( has_trait( "LIGHTSTEP" ) ) {
+        myroll += dice( 2, 6 );
+    }
+
+    if( has_trait( "CLUMSY" ) ) {
+        myroll -= dice( 2, 6 );
+    }
+
+    return myroll >= traproll;
 }
 
 bool player::has_pda()
@@ -4250,31 +4269,34 @@ void player::search_surroundings()
     // Search for traps in a larger area than before because this is the only
     // way we can "find" traps that aren't marked as visible.
     // Detection formula takes care of likelihood of seeing within this range.
-    for (size_t i = 0; i < 121; i++) {
-        const int x = posx() + i / 11 - 5;
-        const int y = posy() + i % 11 - 5;
-        const trap_id trid = g->m.tr_at(x, y);
-        if (trid == tr_null || (x == posx() && y == posy())) {
-            continue;
-        }
-        if( !sees( x, y ) ) {
-            continue;
-        }
-        const trap *tr = traplist[trid];
-        if (tr->name.empty() || tr->can_see(*this, x, y)) {
-            // Already seen, or has no name -> can never be seen
-            continue;
-        }
-        // Chance to detect traps we haven't yet seen.
-        if (tr->detect_trap(*this, x, y)) {
-            if( tr->get_visibility() > 0 ) {
-                // Only bug player about traps that aren't trivial to spot.
-                const std::string direction = direction_name(
-                    direction_from(posx(), posy(), x, y));
-                add_msg_if_player(_("You've spotted a %s to the %s!"),
-                                  tr->name.c_str(), direction.c_str());
+    const int z = posz();
+    for( int xd = -5; xd <= 5; xd++ ) {
+        for( int yd = -5; yd <= 5; yd++ ) {
+            const int x = posx() + xd;
+            const int y = posy() + yd;
+            const trap_id trid = g->m.tr_at( tripoint( x, y, z ) );
+            if( trid == tr_null || (x == posx() && y == posy() ) ) {
+                continue;
             }
-            add_known_trap(x, y, tr->id);
+            if( !sees( x, y ) ) {
+                continue;
+            }
+            const trap *tr = traplist[trid];
+            if( tr->name.empty() || tr->can_see( tripoint( x, y, z ), *this ) ) {
+                // Already seen, or has no name -> can never be seen
+                continue;
+            }
+            // Chance to detect traps we haven't yet seen.
+            if (tr->detect_trap( tripoint( x, y, z ), *this )) {
+                if( tr->get_visibility() > 0 ) {
+                    // Only bug player about traps that aren't trivial to spot.
+                    const std::string direction = direction_name(
+                        direction_from(posx(), posy(), x, y));
+                    add_msg_if_player(_("You've spotted a %s to the %s!"),
+                                      tr->name.c_str(), direction.c_str());
+                }
+                add_known_trap( tripoint( x, y, z ), tr->id);
+            }
         }
     }
 }
@@ -9010,7 +9032,7 @@ bool player::eat(item *eaten, it_comest *comest)
         return false;
     }
     bool overeating = (!has_trait("GOURMAND") && hunger < 0 &&
-                       comest->nutr >= 5);
+                       nutrition_for(comest) >= 5);
     bool hiberfood = (has_active_mutation("HIBERNATE") && (hunger > -60 && thirst > -60 ));
     eaten->calc_rot(pos()); // check if it's rotten before eating!
     bool spoiled = eaten->rotten();
@@ -9020,13 +9042,13 @@ bool player::eat(item *eaten, it_comest *comest)
     if (overeating && !has_trait("HIBERNATE") && !has_trait("EATHEALTH") && !is_npc() &&
         !has_trait("SLIMESPAWNER") && !query_yn(_("You're full.  Force yourself to eat?"))) {
         return false;
-    } else if (has_trait("GOURMAND") && hunger < 0 && comest->nutr >= 5) {
+    } else if (has_trait("GOURMAND") && hunger < 0 && nutrition_for(comest) >= 5) {
         if (!query_yn(_("You're fed.  Try to pack more in anyway?"))) {
             return false;
         }
     }
 
-    int temp_nutr = comest->nutr;
+    int temp_nutr = nutrition_for(comest);
     int temp_quench = comest->quench;
     if (hiberfood && !is_npc() && (((hunger - temp_nutr) < -60) || ((thirst - temp_quench) < -60)) && has_active_mutation("HIBERNATE")){
        if (!query_yn(_("You're adequately fueled. Prepare for hibernation?"))) {
@@ -9040,7 +9062,7 @@ bool player::eat(item *eaten, it_comest *comest)
     }
     if (has_trait("CARNIVORE") && (eaten->made_of("veggy") || eaten->made_of("fruit") || eaten->made_of("wheat")) &&
       !(eaten->made_of("flesh") ||eaten->made_of("hflesh") || eaten->made_of("iflesh") || eaten->made_of("milk") ||
-      eaten->made_of("egg")) && comest->nutr > 0) {
+      eaten->made_of("egg")) && nutrition_for(comest) > 0) {
         add_msg_if_player(m_info, _("Eww.  Inedible plant stuff!"));
         return false;
     }
@@ -9112,7 +9134,7 @@ bool player::eat(item *eaten, it_comest *comest)
     }
 
     //not working directly in the equation... can't imagine why
-    int temp_hunger = hunger - comest->nutr;
+    int temp_hunger = hunger - nutrition_for(comest);
     int temp_thirst = thirst - comest->quench;
     int capacity = has_trait("GOURMAND") ? -60 : -20;
     if( has_active_mutation("HIBERNATE") && !is_npc() &&
@@ -9168,14 +9190,14 @@ bool player::eat(item *eaten, it_comest *comest)
         }
     }
 
-    if( ( comest->nutr > 0 && temp_hunger < capacity ) ||
+    if( ( nutrition_for(comest) > 0 && temp_hunger < capacity ) ||
         ( comest->quench > 0 && temp_thirst < capacity ) ) {
         if ((spoiled) && !(has_trait("SAPROPHAGE")) ){//rotten get random nutrification
             if (!query_yn(_("You can hardly finish it all.  Consume it?"))) {
                 return false;
             }
         } else {
-            if ( (( comest->nutr > 0 && temp_hunger < capacity ) ||
+            if ( (( nutrition_for(comest) > 0 && temp_hunger < capacity ) ||
               ( comest->quench > 0 && temp_thirst < capacity )) &&
               ( (!(has_trait("EATHEALTH"))) || (!(has_trait("SLIMESPAWNER"))) ) ) {
                 if (!query_yn(_("You will not be able to finish it all.  Consume it?"))) {
@@ -9196,7 +9218,7 @@ bool player::eat(item *eaten, it_comest *comest)
         add_msg(m_bad, _("Ick, this %s doesn't taste so good..."), eaten->tname().c_str());
         if (!has_trait("SAPROVORE") && !has_trait("EATDEAD") &&
        (!has_bionic("bio_digestion") || one_in(3))) {
-            add_effect("foodpoison", rng(60, (comest->nutr + 1) * 60));
+            add_effect("foodpoison", rng(60, (nutrition_for(comest) + 1) * 60));
         }
         consume_effects(eaten, comest, spoiled);
     } else if ((spoiled) && has_trait("SAPROPHAGE")) {
@@ -9250,9 +9272,9 @@ bool player::eat(item *eaten, it_comest *comest)
     }
 
     // Moved this later in the process, so you actually eat it before converting to HP
-    if ( (has_trait("EATHEALTH")) && ( comest->nutr > 0 && temp_hunger < capacity ) ) {
+    if ( (has_trait("EATHEALTH")) && ( nutrition_for(comest) > 0 && temp_hunger < capacity ) ) {
         int room = (capacity - temp_hunger);
-        int excess_food = ((comest->nutr) - room);
+        int excess_food = ((nutrition_for(comest)) - room);
         add_msg_player_or_npc( _("You feel the %s filling you out."),
                                  _("<npcname> looks better after eating the %s."),
                                   eaten->tname().c_str());
@@ -9369,6 +9391,33 @@ bool player::eat(item *eaten, it_comest *comest)
     return true;
 }
 
+int player::nutrition_for(const it_comest *comest) 
+{
+    /* thresholds:
+    **  100 : 1x
+    **  300 : 2x
+    ** 1400 : 4x
+    ** 2800 : 6x
+    ** 6000 : 10x
+    */
+
+    float nutr;
+
+    if (hunger < 100) {
+        nutr = comest->nutr;
+    } else if (hunger <= 300) {
+        nutr = ((float)hunger/300) * 2 * comest->nutr;
+    } else if (hunger <= 1400) {
+        nutr = ((float)hunger/1400) * 4 * comest->nutr;
+    } else if (hunger <= 2800) {
+        nutr = ((float)hunger/2800) * 6 * comest->nutr;
+    } else {
+        nutr = ((float)hunger/6000)* 10 * comest->nutr;
+    }
+
+    return (int)nutr;
+}
+
 void player::consume_effects(item *eaten, it_comest *comest, bool rotten)
 {
     if (has_trait("THRESH_PLANT") && comest->can_use( "PLANTBLECH" )) {
@@ -9380,7 +9429,7 @@ void player::consume_effects(item *eaten, it_comest *comest, bool rotten)
         return;
     }
     if ( !(has_trait("GIZZARD")) && (rotten) && !(has_trait("SAPROPHAGE")) ) {
-        hunger -= rng(0, comest->nutr);
+        hunger -= rng(0, nutrition_for(comest));
         thirst -= comest->quench;
         if (!has_trait("SAPROVORE") && !has_bionic("bio_digestion")) {
             mod_healthy_mod(-30);
@@ -9390,7 +9439,7 @@ void player::consume_effects(item *eaten, it_comest *comest, bool rotten)
         // but best to code defensively.
         // Thanks for the warning, i2amroy.
         if ((rotten) && !(has_trait("SAPROPHAGE")) ) {
-            int nut = (rng(0, comest->nutr) * 0.66 );
+            int nut = (rng(0, nutrition_for(comest)) * 0.66 );
             int que = (comest->quench) * 0.66;
             hunger -= nut;
             thirst -= que;
@@ -9401,7 +9450,7 @@ void player::consume_effects(item *eaten, it_comest *comest, bool rotten)
             }
         } else {
         // Shorter GI tract, so less nutrients captured.
-            int giz_nutr = (comest->nutr) * 0.66;
+            int giz_nutr = (nutrition_for(comest)) * 0.66;
             int giz_quench = (comest->quench) * 0.66;
             int giz_healthy = (comest->healthy) * 0.66;
             hunger -= (giz_nutr);
@@ -9415,7 +9464,7 @@ void player::consume_effects(item *eaten, it_comest *comest, bool rotten)
       eaten->made_of("egg")) ) {
           // Carnivore is stripping the good stuff out of that plant crap it's mixed up with.
           // They WILL eat the Meat Pizza.
-          int carn_nutr = (comest->nutr) * 0.5;
+          int carn_nutr = (nutrition_for(comest)) * 0.5;
           int carn_quench = (comest->quench) * 0.5;
           int carn_healthy = (comest->healthy) * 0.5;
           hunger -= (carn_nutr);
@@ -9431,22 +9480,22 @@ void player::consume_effects(item *eaten, it_comest *comest, bool rotten)
               int carn_healthy = (comest->healthy) + 1;
               mod_healthy_mod(carn_healthy);
           }
-          hunger -= comest->nutr;
+          hunger -= nutrition_for(comest);
           thirst -= comest->quench;
           mod_healthy_mod(comest->healthy);
-          stomach_food += comest->nutr;
+          stomach_food += nutrition_for(comest);
           stomach_water += comest->quench;
     } else {
     // Saprophages get the same boost from rotten food that others get from fresh.
-        hunger -= comest->nutr;
+        hunger -= nutrition_for(comest);
         thirst -= comest->quench;
         mod_healthy_mod(comest->healthy);
-        stomach_food += comest->nutr;
+        stomach_food += nutrition_for(comest);
         stomach_water += comest->quench;
     }
 
     if (has_bionic("bio_digestion")) {
-        hunger -= rng(0, comest->nutr);
+        hunger -= rng(0, nutrition_for(comest));
     }
 
     if (comest->stim != 0) {
@@ -9479,7 +9528,7 @@ void player::consume_effects(item *eaten, it_comest *comest, bool rotten)
             add_morale(MORALE_FOOD_GOOD, fun * 3, fun * 6, 60, 30, false, comest);
         }
         if (has_trait("GOURMAND") && !(has_active_mutation("HIBERNATE"))) {
-        if ((comest->nutr > 0 && hunger < -60) || (comest->quench > 0 && thirst < -60)) {
+        if ((nutrition_for(comest) > 0 && hunger < -60) || (comest->quench > 0 && thirst < -60)) {
             add_msg_if_player(_("You can't finish it all!"));
         }
         if (hunger < -60) {
@@ -9490,29 +9539,30 @@ void player::consume_effects(item *eaten, it_comest *comest, bool rotten)
         }
     }
     } if (has_active_mutation("HIBERNATE")) {
-         if ((comest->nutr > 0 && hunger < -60) || (comest->quench > 0 && thirst < -60)) { //Tell the player what's going on
+         if ((nutrition_for(comest) > 0 && hunger < -60) || (comest->quench > 0 && thirst < -60)) { //Tell the player what's going on
             add_msg_if_player(_("You gorge yourself, preparing to hibernate."));
             if (one_in(2)) {
-                (fatigue += (comest->nutr)); //50% chance of the food tiring you
+                (fatigue += (nutrition_for(comest))); //50% chance of the food tiring you
             }
         }
-        if ((comest->nutr > 0 && hunger < -200) || (comest->quench > 0 && thirst < -200)) { //Hibernation should cut burn to 60/day
+        if ((nutrition_for(comest) > 0 && hunger < -200) || (comest->quench > 0 && thirst < -200)) { //Hibernation should cut burn to 60/day
             add_msg_if_player(_("You feel stocked for a day or two. Got your bed all ready and secured?"));
             if (one_in(2)) {
-                (fatigue += (comest->nutr)); //And another 50%, intended cumulative
+                (fatigue += (nutrition_for(comest))); //And another 50%, intended cumulative
             }
         }
-        if ((comest->nutr > 0 && hunger < -400) || (comest->quench > 0 && thirst < -400)) {
+
+        if ((nutrition_for(comest) > 0 && hunger < -400) || (comest->quench > 0 && thirst < -400)) {
             add_msg_if_player(_("Mmm.  You can still fit some more in...but maybe you should get comfortable and sleep."));
              if (!(one_in(3))) {
-                (fatigue += (comest->nutr)); //Third check, this one at 66%
+                (fatigue += (nutrition_for(comest))); //Third check, this one at 66%
             }
         }
-        if ((comest->nutr > 0 && hunger < -600) || (comest->quench > 0 && thirst < -600)) {
+        if ((nutrition_for(comest) > 0 && hunger < -600) || (comest->quench > 0 && thirst < -600)) {
             add_msg_if_player(_("That filled a hole!  Time for bed..."));
-            fatigue += (comest->nutr); //At this point, you're done.  Schlaf gut.
+            fatigue += (nutrition_for(comest)); //At this point, you're done.  Schlaf gut.
         }
-        if ((comest->nutr > 0 && hunger < -620) || (comest->quench > 0 && thirst < -620)) {
+        if ((nutrition_for(comest) > 0 && hunger < -620) || (comest->quench > 0 && thirst < -620)) {
             add_msg_if_player(_("You can't finish it all!"));
         }
         if (hunger < -620) {
@@ -9527,7 +9577,7 @@ void player::consume_effects(item *eaten, it_comest *comest, bool rotten)
         } else if (fun > 0) {
             add_morale(MORALE_FOOD_GOOD, fun, fun * 4, 60, 30, false, comest);
         }
-        if ((comest->nutr > 0 && hunger < -20) || (comest->quench > 0 && thirst < -20)) {
+        if ((nutrition_for(comest) > 0 && hunger < -20) || (comest->quench > 0 && thirst < -20)) {
             add_msg_if_player(_("You can't finish it all!"));
         }
         if (hunger < -20) {
@@ -13060,19 +13110,17 @@ void player::add_msg_player_or_npc(game_message_type type, const char* player_st
     va_end(ap);
 }
 
-bool player::knows_trap(int x, int y) const
+bool player::knows_trap( const tripoint &pos ) const
 {
-    const point a = g->m.getabs( x, y );
-    const tripoint p( a.x, a.y, g->get_abs_levz() );
-    return known_traps.count(p) > 0;
+    const tripoint p = g->m.getabs( pos );
+    return known_traps.count( p ) > 0;
 }
 
-void player::add_known_trap(int x, int y, const std::string &t)
+void player::add_known_trap( const tripoint &pos, const std::string &t)
 {
-    const point a = g->m.getabs( x, y );
-    const tripoint p( a.x, a.y, g->get_abs_levz() );
-    if (t == "tr_null") {
-        known_traps.erase(p);
+    const tripoint p = g->m.getabs( pos );
+    if( t == "tr_null" ) {
+        known_traps.erase( p );
     } else {
         known_traps[p] = t;
     }
@@ -13341,4 +13389,70 @@ bool player::has_items_with_quality( const std::string &quality_id, int level, i
         }
         return amount <= 0;
     } );
+}
+
+void player::on_mission_assignment( mission &new_mission )
+{
+    active_missions.push_back( &new_mission );
+    set_active_mission( new_mission );
+}
+
+void player::on_mission_finished( mission &mission )
+{
+    if( mission.has_failed() ) {
+        completed_missions.push_back( &mission );
+    } else {
+        failed_missions.push_back( &mission );
+    }
+    const auto iter = std::find( active_missions.begin(), active_missions.end(), &mission );
+    if( iter == active_missions.end() ) {
+        debugmsg( "completed mission %d was not in the active_missions list", mission.get_id() );
+    } else {
+        active_missions.erase( iter );
+    }
+    if( &mission == active_mission ) {
+        if( active_missions.empty() ) {
+            active_mission = nullptr;
+        } else {
+            active_mission = active_missions.front();
+        }
+    }
+}
+
+void player::set_active_mission( mission &mission )
+{
+    const auto iter = std::find( active_missions.begin(), active_missions.end(), &mission );
+    if( iter == active_missions.end() ) {
+        debugmsg( "new active mission %d is not in the active_missions list", mission.get_id() );
+    } else {
+        active_mission = &mission;
+    }
+}
+
+mission *player::get_active_mission() const
+{
+    return active_mission;
+}
+
+point player::get_active_mission_target() const
+{
+    if( active_mission == nullptr ) {
+        return overmap::invalid_point;
+    }
+    return active_mission->get_target();
+}
+
+std::vector<mission*> player::get_active_missions() const
+{
+    return active_missions;
+}
+
+std::vector<mission*> player::get_completed_missions() const
+{
+    return completed_missions;
+}
+
+std::vector<mission*> player::get_failed_missions() const
+{
+    return failed_missions;
 }

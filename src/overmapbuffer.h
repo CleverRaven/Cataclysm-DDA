@@ -10,6 +10,34 @@
 
 class monster;
 
+struct radio_tower_reference {
+    /** Overmap the radio tower is on. */
+    overmap *om;
+    /** The radio tower itself, points into @ref overmap::radios */
+    radio_tower *tower;
+    /** The global absolute position of the tower (in submap coordinates) */
+    point abs_sm_pos;
+    /** Perceived signal strength (tower output strength minus distance) */
+    int signal_strength;
+    operator bool() const {
+        return tower != nullptr;
+    }
+};
+
+struct city_reference {
+    /** Overmap the city is on. */
+    overmap *om;
+    /** The city itself, points into @ref overmap::cities */
+    struct city *city;
+    /** The global absolute position of the city (in submap coordinates!) */
+    point abs_sm_pos;
+    /** Distance to center of the search */
+    int distance;
+    operator bool() const {
+        return city != nullptr;
+    }
+};
+
 /**
  * Coordinate systems used here are:
  * overmap (om): the position of an overmap. Each overmap stores
@@ -98,6 +126,11 @@ public:
     bool has_horde(int x, int y, int z);
     std::vector<om_vehicle> get_vehicle(int x, int y, int z, bool require_pda = true);
     const regional_settings& get_settings(int x, int y, int z);
+
+    /**
+     * Check for any dangerous monster groups at the global overmap terrain coordinates.
+     * If there are any, it's not safe.
+     */
     bool is_safe(int x, int y, int z);
     bool is_safe(const tripoint& p) { return is_safe(p.x, p.y, p.z); }
 
@@ -229,6 +262,22 @@ public:
     t_notes_vector find_notes(int z, const std::string& pattern) {
         return get_notes(z, &pattern); // filter with pattern
     }
+    /**
+     * Signal nearby hordes to move to given location.
+     * @param center The origin of the signal, hordes (that recognize the signal) want to go
+     * to there. In global submap coordinates.
+     * @param sig_power The signal strength, higher values means it visible farther away.
+     */
+    void signal_hordes( tripoint center, int sig_power );
+    /**
+     * Process nearby monstergroups (dying mostly).
+     */
+    void process_mongroups();
+    /**
+     * Let hordes move a step. Note that this may move monster groups inside the reality bubble,
+     * therefor you should probably call @ref map::spawn_monsters to spawn them.
+     */
+    void move_hordes();
     // hordes -- this uses overmap terrain coordinates!
     std::vector<mongroup*> monsters_at(int x, int y, int z);
     /**
@@ -247,6 +296,24 @@ public:
      * (monster::pos()) is interpreted as relative to the main map.
      */
     void despawn_monster(const monster &critter);
+    /**
+     * Find radio station with given frequency, search an unspecified area around
+     * the current player location.
+     * If no matching tower has been found, it returns an object with the tower pointer set
+     * to null.
+     */
+    radio_tower_reference find_radio_station( int frequency );
+    /**
+     * Find all radio stations that can be received around the current player location.
+     * All entries in the returned vector are valid (have a valid tower pointer).
+     */
+    std::vector<radio_tower_reference> find_all_radio_stations();
+    /**
+     * Find the closest city. If no city is close, returns an object with city set to nullptr.
+     * @param center The center of the search, the distance for determining the closest city is
+     * calculated as distance to this point. In global submap coordinates!
+     */
+    city_reference closest_city( point center );
 
     // overmap terrain to overmap
     static point omt_to_om_copy(int x, int y);
@@ -336,12 +403,14 @@ private:
      * If the pattern is NULL, every note matches.
      */
     t_notes_vector get_notes(int z, const std::string* pattern);
+public:
     /**
      * See overmap::check_ot_type, this uses global
      * overmap terrain coordinates.
-     * This function may greate a new overmap if needed.
+     * This function may create a new overmap if needed.
      */
     bool check_ot_type(const std::string& otype, int x, int y, int z);
+private:
     /**
      * Go thorough the monster groups of the overmap and move out-of-bounds
      * groups to the correct overmap (if it exists), also removes empty groups.
@@ -349,8 +418,10 @@ private:
     void fix_mongroups(overmap &new_overmap);
     /**
      * Retrieve overmaps that overlap the bounding box defined by the location and radius.
+     * The location is in absolute submap coordinates, the radius is in the same system.
      */
     std::vector<overmap *> get_overmaps_near( point location, int radius );
+    std::vector<overmap *> get_overmaps_near( tripoint location, int radius );
 };
 
 extern overmapbuffer overmap_buffer;
