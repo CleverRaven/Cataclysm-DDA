@@ -3743,16 +3743,6 @@ item *map::item_from( vehicle *veh, int cargo_part, size_t index ) {
     }
 }
 
-std::string map::trap_get(const int x, const int y) const
-{
-    return trap_get( tripoint( x, y, abs_sub.z ) );
-}
-
-std::string map::trap_get( const tripoint &p ) const
-{
-    return traplist[ tr_at( p ) ]->id;
-}
-
 void map::trap_set(const int x, const int y, const std::string & sid)
 {
     trap_set( tripoint( x, y, abs_sub.z ), sid );

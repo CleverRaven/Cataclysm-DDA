@@ -563,7 +563,6 @@ void add_corpse(int x, int y);
  item *item_from( vehicle *veh, const int cargo_part, const size_t index );
 
 // Traps: 2D overloads
- std::string trap_get(const int x, const int y) const;
  void trap_set(const int x, const int y, const std::string & sid);
  void trap_set(const int x, const int y, const trap_id id);
 
@@ -572,7 +571,6 @@ void add_corpse(int x, int y);
  void disarm_trap( const int x, const int y);
  void remove_trap(const int x, const int y);
 // Traps: 3D
- std::string trap_get( const tripoint &p ) const;
  void trap_set( const tripoint &p, const std::string & sid);
  void trap_set( const tripoint &p, const trap_id id);
 
