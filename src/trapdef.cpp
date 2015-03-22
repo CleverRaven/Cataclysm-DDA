@@ -187,6 +187,17 @@ tr_drain,
 tr_snake,
 tr_glass_pit;
 
+void trap::check_consistency()
+{
+    for( auto & tptr : traplist ) {
+        for( auto & i : tptr->components ) {
+            if( !item::type_is_defined( i ) ) {
+                debugmsg( "trap %s has unknown item as component %s", tptr->id.c_str(), i.c_str() );
+            }
+        }
+    }
+}
+
 void trap::finalize()
 {
     tr_null = trapfind("tr_null");

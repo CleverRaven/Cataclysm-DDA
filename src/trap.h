@@ -139,6 +139,10 @@ struct trap {
          * Must be called after all traps have been loaded.
          */
         static void finalize();
+        /**
+         * Checks internal consistency (reference to other things like item ids etc.)
+         */
+        static void check_consistency();
 };
 
 /** list of all trap types */
