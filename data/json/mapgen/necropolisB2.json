@@ -3105,8 +3105,8 @@
 				"v  v       G|   EEEEEE  "
             ],
             "place_monsters": [
-                { "monster": "GROUP_NECROPOLIS_VAULT2", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.1},
-                { "monster": "GROUP_NECROPOLIS_VAULT2", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.5}
+                { "monster": "GROUP_NECROPOLIS_VAULT2", "x": [ 1, 22 ], "y": [ 1, 12 ], "density": 0.1},
+                { "monster": "GROUP_NECROPOLIS_VAULT2", "x": [ 1, 22 ], "y": [ 1, 12 ], "density": 0.5}
             ],
             "place_items": [
                 { "item": "rad_gear", "chance": 85, "x": [ 21,23 ], "y": [ 16,16 ]},
@@ -4488,8 +4488,8 @@
 				"..|//,/////,///,/////,//"
             ],
             "place_monsters": [
-                { "monster": "GROUP_NECROPOLIS_VAULT2", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.1},
-                { "monster": "GROUP_NECROPOLIS_VAULT2", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.5}
+                { "monster": "GROUP_NECROPOLIS_VAULT2", "x": [ 1, 22 ], "y": [ 4, 22 ], "density": 0.1},
+                { "monster": "GROUP_NECROPOLIS_VAULT2", "x": [ 1, 22 ], "y": [ 4, 22 ], "density": 0.5}
             ],
             "place_vehicles": [
                 { "vehicle": "golf_cart", "x": 10, "y": 9, "rotation": 180, "chance": 25}
