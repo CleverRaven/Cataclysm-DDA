@@ -323,7 +323,7 @@ Creature *Creature::auto_find_hostile_target( int range, int &boo_hoo, int area 
                 maybe_boo = true;
             }
         }
-        if( !maybe_boo && ( ( mon_rating + 2 ) / dist <= best_target_rating ) ) {
+        if( !maybe_boo && ( ( mon_rating + hostile_adj ) / dist <= best_target_rating ) ) {
             // "Would we skip the target even if it was hostile?"
             // Helps avoid (possibly expensive) attitude calculation
             continue;
@@ -335,7 +335,7 @@ Creature *Creature::auto_find_hostile_target( int range, int &boo_hoo, int area 
                 continue;
             }
         }
-        if( target_rating <= best_target_rating ) {
+        if( target_rating <= best_target_rating || target_rating <= 0 ) {
             continue; // Handle this late so that boo_hoo++ can happen
         }
 
