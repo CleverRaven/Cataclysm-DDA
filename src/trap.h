@@ -7,6 +7,7 @@
 #include <string>
 
 class Creature;
+class item;
 
 typedef int trap_id;
 /** map trap ids to index into <B>traps</B> */
@@ -65,6 +66,10 @@ struct trap {
         int difficulty; // 0 to ??, difficulty of assembly & disassembly
         bool benign = false;
         trap_function act;
+        /**
+         * If an item with this weight or more is thrown onto the trap, it triggers.
+         */
+        int trigger_weight;
     public:
         std::vector<itype_id> components; // For disassembly?
 
@@ -87,8 +92,7 @@ struct trap {
         }
         // non-generic numbers for special cases
         int funnel_radius_mm;
-        /** If an item with this weight or more is thrown onto the trap, it triggers. */
-        int trigger_weight;
+        bool is_funnel() const;
         /** Player has not yet seen the trap and returns the variable chance, at this moment,
          of whether the trap is seen or not. */
         bool detect_trap( const tripoint &pos, const player &p ) const;
@@ -96,6 +100,10 @@ struct trap {
         bool can_see( const tripoint &pos, const player &p ) const;
         /** Trigger trap effects by creature that stepped onto it. */
         void trigger( const tripoint &pos, Creature *creature ) const;
+        /**
+         * If the given item is throw onto the trap, does it trigger the trap?
+         */
+        bool triggered_by_item( const item &itm ) const;
 
         double funnel_turns_per_charge( double rain_depth_mm_per_hour ) const;
         /* pending jsonize

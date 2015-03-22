@@ -799,7 +799,7 @@ void game::throw_item(player &p, int tarx, int tary, item &thrown,
         }
         m.add_item_or_charges(tx, ty, thrown);
         const trap &tr = m.tr_at(tx, ty);
-        if( !tr.is_null() && thrown.weight() >= tr.trigger_weight ) {
+        if( tr.triggered_by_item( thrown ) ) {
             tr.trigger( tripoint( tx, ty, g->get_levz() ), nullptr );
         }
     }

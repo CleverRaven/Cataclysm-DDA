@@ -105,6 +105,11 @@ bool trap::is_null() const
     return loadid == tr_null;
 }
 
+bool trap::triggered_by_item( const item &itm ) const
+{
+    return !is_null() && itm.weight() >= trigger_weight;
+}
+
 //////////////////////////
 // convenient int-lookup names for hard-coded functions
 trap_id
