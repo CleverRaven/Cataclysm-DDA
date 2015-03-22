@@ -18624,7 +18624,7 @@
         "cutting" : 0,
         "charges" : 1,
         "price" : 0
-},{   
+    },{
         "type" : "COMESTIBLE",
         "id" : "seed_thyme",
         "category": "other",
@@ -18636,6 +18636,7 @@
         "symbol" : ".",
         "color" : "green",
         "description" : "Some thyme seeds.  You could probably plant these.",
+        "comestible_type": "FOOD",
         "material" : "veggy",
         "volume" : 1,
         "weight" : 1,
@@ -18647,7 +18648,7 @@
         "stack_size" : 100,
         "grow" : 91,
         "flags": ["SEED"]
-},{   
+    },{
         "type" : "COMESTIBLE",
         "id" : "thyme_oil",
         "name" : "thyme oil",
@@ -18673,5 +18674,5 @@
         "cutting" : 0,
         "charges" : 1,
         "price" : 0
-}
+    }
 ]
