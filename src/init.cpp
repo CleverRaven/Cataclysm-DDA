@@ -66,17 +66,6 @@ DynamicDataLoader &DynamicDataLoader::get_instance()
     return theDynamicDataLoader;
 }
 
-/*
- * Populate optional ter_id and furn_id variables
- */
-void init_data_mappings()
-{
-    set_ter_ids();
-    set_furn_ids();
-    set_oter_ids();
-    set_trap_ids();
-}
-
 void DynamicDataLoader::load_object(JsonObject &jo)
 {
     std::string type = jo.get_string("type");
@@ -359,11 +348,13 @@ void DynamicDataLoader::unload_data()
 }
 
 extern void calculate_mapgen_weights();
-extern void init_data_mappings();
 void DynamicDataLoader::finalize_loaded_data()
 {
     mission_type::initialize(); // Needs overmap terrain.
-    init_data_mappings();
+    set_ter_ids();
+    set_furn_ids();
+    set_oter_ids();
+    set_trap_ids();
     finalize_overmap_terrain();
     g->finalize_vehicles();
     calculate_mapgen_weights();
