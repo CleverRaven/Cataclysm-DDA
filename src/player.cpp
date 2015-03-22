@@ -11740,10 +11740,7 @@ int player::encumb(body_part bp, double &layers, int &armorenc) const
                 // Fitted clothes will reduce either encumbrance or layering.
                 if( worn[i].has_flag( "FIT" ) ) {
                     if( newenc > 0 ) {
-                        newenc = newenc - 10;
-                        if( newenc < 0 ){
-                            newenc = 0;
-                        }
+                        newenc = std::max( 0, newenc - 10 );
                     } else if (layer[level] > 0) {
                         layer[level] -= 5;
                     }
