@@ -3247,7 +3247,7 @@ int iuse::fishing_rod(player *p, item *it, bool, point)
         return 0;
     }
     point op = overmapbuffer::ms_to_omt_copy( g->m.getabs( dirx, diry ) );
-    if (!otermap[overmap_buffer.ter(op.x, op.y, g->get_levz())].is_river) {
+    if( !otermap[overmap_buffer.ter(op.x, op.y, g->get_levz())].has_flag(river_tile) ) {
         p->add_msg_if_player(m_info, _("That water does not contain any fish.  Try a river instead."));
         return 0;
     }
@@ -3299,7 +3299,7 @@ int iuse::fish_trap(player *p, item *it, bool t, point pos)
             return 0;
         }
         point op = overmapbuffer::ms_to_omt_copy(g->m.getabs(dirx, diry));
-        if (!otermap[overmap_buffer.ter(op.x, op.y, g->get_levz())].is_river) {
+        if( !otermap[overmap_buffer.ter(op.x, op.y, g->get_levz())].has_flag(river_tile) ) {
             p->add_msg_if_player(m_info, _("That water does not contain any fish, try a river instead."));
             return 0;
         }
@@ -3330,7 +3330,7 @@ int iuse::fish_trap(player *p, item *it, bool t, point pos)
                 return 0;
             }
             point op = overmapbuffer::ms_to_omt_copy( g->m.getabs( pos.x, pos.y ) );
-            if (!otermap[overmap_buffer.ter(op.x, op.y, g->get_levz())].is_river) {
+           if( !otermap[overmap_buffer.ter(op.x, op.y, g->get_levz())].has_flag(river_tile) ) {
                 return 0;
             }
             int success = -50;
@@ -4666,20 +4666,21 @@ int iuse::set_trap(player *p, item *it, bool, point)
     }
     int posx = dirx;
     int posy = diry;
+    const tripoint tr_loc( posx, posy, p->posz() );
     if (g->m.move_cost(posx, posy) != 2) {
         p->add_msg_if_player(m_info, _("You can't place a %s there."), it->tname().c_str());
         return 0;
     }
 
-    const trap_id existing_trap = g->m.tr_at(posx, posy);
+    const trap_id existing_trap = g->m.tr_at( tr_loc );
     if (existing_trap != tr_null) {
         const struct trap &t = *traplist[existing_trap];
-        if (t.can_see(*p, posx, posy)) {
+        if( t.can_see( tr_loc, *p )) {
             p->add_msg_if_player(m_info, _("You can't place a %s there.  It contains a trap already."),
                                  it->tname().c_str());
         } else {
             p->add_msg_if_player(m_bad, _("You trigger a %s!"), t.name.c_str());
-            t.trigger(p, posx, posy);
+            t.trigger( tr_loc, p );
         }
         return 0;
     }
@@ -4844,9 +4845,9 @@ int iuse::set_trap(player *p, item *it, bool, point)
     p->add_msg_if_player(message.str().c_str());
     p->practice("traps", practice);
     trap *tr = traplist[type];
-    g->m.add_trap(posx, posy, type);
-    if (!tr->can_see(*p, posx, posy)) {
-        p->add_known_trap(posx, posy, tr->id);
+    g->m.add_trap( tr_loc, type );
+    if( !tr->can_see( tr_loc, *p ) ) {
+        p->add_known_trap( tr_loc, tr->id );
     }
     p->moves -= 100 + practice * 25;
     if (type == tr_engine) {

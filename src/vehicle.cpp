@@ -4231,7 +4231,7 @@ void vehicle::handle_trap (int x, int y, int part)
         part_damage = 500;
     }
     if( g->u.sees(x, y) ) {
-        if( g->u.knows_trap(x, y) ) {
+        if( g->u.knows_trap( tripoint( x, y, g->get_levz() ) ) ) {
             add_msg(m_bad, _("The %s's %s runs over %s."), name.c_str(),
                     part_info(part).name.c_str(), traplist[t]->name.c_str() );
         } else {

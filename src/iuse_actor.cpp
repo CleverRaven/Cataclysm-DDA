@@ -754,7 +754,7 @@ bool firestarter_actor::prep_firestarter_use( const player *p, const item *it, p
     }
     if( g->m.flammable_items_at(pos.x, pos.y) ||
         g->m.has_flag("FLAMMABLE", pos.x, pos.y) || g->m.has_flag("FLAMMABLE_ASH", pos.x, pos.y) ||
-        g->m.get_field_strength( pos, fd_web ) > 0 ) {
+        g->m.get_field_strength( tripoint( pos, p->posz() ), fd_web ) > 0 ) {
         return true;
     } else {
         p->add_msg_if_player(m_info, _("There's nothing to light there."));

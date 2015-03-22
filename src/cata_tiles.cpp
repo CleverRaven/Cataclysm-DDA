@@ -957,7 +957,7 @@ bool cata_tiles::draw_trap(int x, int y)
     if (tr_id == tr_null) {
         return false;
     }
-    if (!traplist[tr_id]->can_see(g->u, x, y)) {
+    if (!traplist[tr_id]->can_see(tripoint(x, y, g->get_levz()), g->u)) {
         return false;
     }
 
