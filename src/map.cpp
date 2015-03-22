@@ -4242,7 +4242,7 @@ trap_id map::tr_at( const tripoint &p ) const
     }
 
     int lx, ly;
-    submap * const current_submap = get_submap_at( p.x, p.y, p.z, lx, ly );
+    submap * const current_submap = get_submap_at( p, lx, ly );
 
     if (terlist[ current_submap->get_ter( lx, ly ) ].trap != tr_null) {
         return terlist[ current_submap->get_ter( lx, ly ) ].trap;
@@ -4264,7 +4264,7 @@ void map::add_trap( const tripoint &p, const trap_id t)
     }
 
     int lx, ly;
-    submap * const current_submap = get_submap_at( p.x, p.y, p.z, lx, ly);
+    submap * const current_submap = get_submap_at( p, lx, ly);
 
     // If there was already a trap here, remove it.
     if( current_submap->get_trap( lx, ly ) != tr_null ) {
@@ -4364,7 +4364,7 @@ void map::remove_trap( const tripoint &p )
     }
 
     int lx, ly;
-    submap * const current_submap = get_submap_at( p.x, p.y, p.z, lx, ly );
+    submap * const current_submap = get_submap_at( p, lx, ly );
 
     trap_id t = current_submap->get_trap(lx, ly);
     if (t != tr_null) {
@@ -4387,7 +4387,7 @@ const field &map::field_at( const tripoint &p ) const
     }
 
     int lx, ly;
-    submap *const current_submap = get_submap_at( p.x, p.y, p.z, lx, ly );
+    submap *const current_submap = get_submap_at( p, lx, ly );
 
     return current_submap->fld[lx][ly];
 }
