@@ -32,6 +32,7 @@ class monster;
 class item;
 struct itype;
 struct mapgendata;
+struct trap;
 // TODO: This should be const& but almost no functions are const
 struct wrapped_vehicle{
  int x;
@@ -563,24 +564,22 @@ void add_corpse(int x, int y);
  item *item_from( vehicle *veh, const int cargo_part, const size_t index );
 
 // Traps: 2D overloads
- std::string trap_get(const int x, const int y) const;
  void trap_set(const int x, const int y, const std::string & sid);
  void trap_set(const int x, const int y, const trap_id id);
 
- trap_id tr_at(const int x, const int y) const;
+    const trap & tr_at( const int x, const int y ) const;
  void add_trap(const int x, const int y, const trap_id t);
  void disarm_trap( const int x, const int y);
  void remove_trap(const int x, const int y);
 // Traps: 3D
- std::string trap_get( const tripoint &p ) const;
  void trap_set( const tripoint &p, const std::string & sid);
  void trap_set( const tripoint &p, const trap_id id);
 
- trap_id tr_at( const tripoint &p ) const;
+    const trap & tr_at( const tripoint &p ) const;
  void add_trap( const tripoint &p, const trap_id t);
  void disarm_trap( const tripoint &p );
  void remove_trap( const tripoint &p );
- const std::set<tripoint> trap_locations(trap_id t) const;
+ const std::vector<tripoint> &trap_locations(trap_id t) const;
 
 // Fields: 2D overloads that will later be slowly phased out
         const field& field_at( const int x, const int y ) const;
@@ -601,6 +600,15 @@ void add_corpse(int x, int y);
          * Apply field effects to the creature when it's on a square with fields.
          */
         void creature_in_field( Creature &critter );
+        /**
+         * Apply trap effects to the creature, similar to @ref creature_in_field.
+         * If there is no trap at the creatures location, nothing is done.
+         * If the creature can avoid the trap, nothing is done as well.
+         * Otherwise the trap is triggered.
+         * @param may_avoid If true, the creature tries to avoid the trap
+         * (@ref Creature::avoid_trap). If false, the trap is always triggered.
+         */
+        void creature_on_trap( Creature &critter, bool may_avoid = true );
 // 3D field functions. Eventually all the 2D ones should be replaced with those
         /**
          * Get the fields that are here. This is for querying and looking at it only,
@@ -810,6 +818,11 @@ protected:
         void restock_fruits( const point pnt, int time_since_last_actualize );
         void player_in_field( player &u );
         void monster_in_field( monster &z );
+        /**
+         * As part of the map shifting, this shifts the trap locations stored in @ref traplocs.
+         * @param shift The amount shifting in submap, the same as go into @ref shift.
+         */
+        void shift_traps( const tripoint &shift );
 
         void copy_grid( point to, point from );
  void draw_map(const oter_id terrain_type, const oter_id t_north, const oter_id t_east,
@@ -925,7 +938,6 @@ private:
  void add_light_from_items( const int x, const int y, std::list<item>::iterator begin,
                             std::list<item>::iterator end );
  void calc_ray_end(int angle, int range, int x, int y, int* outx, int* outy) const;
- void forget_traps(const int gridx, const int gridy, const int gridz);
  vehicle *add_vehicle_to_map(vehicle *veh, bool merge_wrecks);
 
  // Iterates over every item on the map, passing each item to the provided function.
@@ -954,7 +966,13 @@ private:
          * Use @ref getsubmap or @ref setsubmap to access it.
          */
         std::vector<submap*> grid;
- std::map<trap_id, std::set<tripoint> > traplocs;
+        /**
+         * This vector contains an entry for each trap type, it has therefor the same size
+         * as the @ref traplist vector. Each entry contains a list of all point on the map that
+         * contain a trap of that type. The first entry however is always empty as it denotes the
+         * tr_null trap.
+         */
+        std::vector< std::vector<tripoint> > traplocs;
 };
 
 std::vector<point> closest_points_first(int radius, point p);

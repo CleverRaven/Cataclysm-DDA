@@ -221,6 +221,7 @@ void start_location::place_player( player &u ) const
     // Start us off somewhere in the shelter.
     u.setx( SEEX * int( MAPSIZE / 2 ) + 5 );
     u.sety( SEEY * int( MAPSIZE / 2 ) + 6 );
+    u.setz( g->get_levz() );
 
     m.build_map_cache();
     int tries = 0;

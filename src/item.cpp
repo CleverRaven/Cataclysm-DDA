@@ -1666,8 +1666,8 @@ std::string item::tname( unsigned int quantity, bool with_prefix ) const
             } else if (is_gun())  {
                 damtext = rm_prefix(_("<dam_adj>accurized "));
             } else if ( OPTIONS["ITEM_HEALTH_BAR"] ) {
-                auto nc_text = get_item_HP_Bar(damage);
-                damtext = "<color_" + string_from_color(nc_text.first) + ">" + nc_text.second + " </color>";
+                auto const &nc_text = get_item_hp_bar(damage);
+                damtext = "<color_" + string_from_color(nc_text.second) + ">" + nc_text.first + " </color>";
             } else {
                 damtext = rm_prefix(_("<dam_adj>reinforced "));
             }
@@ -1679,8 +1679,8 @@ std::string item::tname( unsigned int quantity, bool with_prefix ) const
                 if (damage == 4) damtext = rm_prefix(_("<dam_adj>pulped "));
 
             } else if ( OPTIONS["ITEM_HEALTH_BAR"] ) {
-                auto nc_text = get_item_HP_Bar(damage);
-                damtext = "<color_" + string_from_color(nc_text.first) + ">" + nc_text.second + " </color>";
+                auto const &nc_text = get_item_hp_bar(damage);
+                damtext = "<color_" + string_from_color(nc_text.second) + ">" + nc_text.first + " </color>";
 
             } else {
                 damtext = rmp_format("%s ", get_base_material().dmg_adj(damage).c_str());
@@ -2937,7 +2937,7 @@ bool item::is_container_full() const
     if( is_container_empty() ) {
         return false;
     }
-    return get_remaining_capacity() == 0;
+    return get_remaining_capacity_for_liquid( contents[0] ) == 0;
 }
 
 bool item::is_salvageable() const
@@ -4078,19 +4078,6 @@ LIQUID_FILL_ERROR item::has_valid_capacity_for_liquid(const item &liquid) const
     return L_ERR_NONE;
 }
 
-// Remaining capacity for currently stored liquid in container - do not call for empty container
-int item::get_remaining_capacity() const
-{
-    const auto total_capacity = contents[0].liquid_charges( type->container->contains );
-
-    int remaining_capacity = total_capacity;
-    if (!contents.empty()) {
-        remaining_capacity -= contents[0].charges;
-    }
-
-    return remaining_capacity;
-}
-
 int item::amount_of(const itype_id &it, bool used_as_tool) const
 {
     int count = 0;
@@ -4301,7 +4288,7 @@ void item::detonate(point p) const
     g->explosion(p.x, p.y, type->explosion_on_fire_data.power, type->explosion_on_fire_data.shrapnel, type->explosion_on_fire_data.fire, type->explosion_on_fire_data.blast);
 }
 
-bool item_compare_by_charges( const item *left, const item *right)
+bool item_ptr_compare_by_charges( const item *left, const item *right)
 {
     if(left->contents.empty()) {
         return false;
@@ -4310,6 +4297,11 @@ bool item_compare_by_charges( const item *left, const item *right)
     } else {
         return right->contents[0].charges < left->contents[0].charges;
     }
+}
+
+bool item_compare_by_charges( const item& left, const item& right)
+{
+    return item_ptr_compare_by_charges( &left, &right);
 }
 
 //return value is number of arrows/bolts quivered

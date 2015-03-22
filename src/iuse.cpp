@@ -347,13 +347,13 @@ static hp_part body_window(player *p, item *, std::string item_name,
         }
     }
     mvwprintz(hp_window, 8, 1, c_ltgray, _("7: Exit"));
-    std::string health_bar = "";
+    std::string health_bar;
     for (int i = 0; i < num_hp_parts; i++) {
         if (allowed_result[i]) {
             // have printed the name of the body part, can select it
             int current_hp = p->hp_cur[i];
             if (current_hp != 0) {
-                get_HP_Bar(current_hp, p->hp_max[i], color, health_bar, false);
+                std::tie(health_bar, color) = get_hp_bar(current_hp, p->hp_max[i], false);
                 if (p->has_trait("SELFAWARE")) {
                     mvwprintz(hp_window, i + 2, 15, color, "%5d", current_hp);
                 } else {
@@ -381,7 +381,7 @@ static hp_part body_window(player *p, item *, std::string item_name,
                 } else if (current_hp < 0) {
                     current_hp = 0;
                 }
-                get_HP_Bar(current_hp, p->hp_max[i], color, health_bar, false);
+                std::tie(health_bar, color) = get_hp_bar(current_hp, p->hp_max[i], false);
                 if (p->has_trait("SELFAWARE")) {
                     mvwprintz(hp_window, i + 2, 24, color, "%5d", current_hp);
                 } else {
@@ -4666,21 +4666,20 @@ int iuse::set_trap(player *p, item *it, bool, point)
     }
     int posx = dirx;
     int posy = diry;
-    const tripoint tr_loc( posx, posy, p->posz() );
+    tripoint tr_loc( posx, posy, p->posz() );
     if (g->m.move_cost(posx, posy) != 2) {
         p->add_msg_if_player(m_info, _("You can't place a %s there."), it->tname().c_str());
         return 0;
     }
 
-    const trap_id existing_trap = g->m.tr_at( tr_loc );
-    if (existing_trap != tr_null) {
-        const struct trap &t = *traplist[existing_trap];
-        if( t.can_see( tr_loc, *p )) {
+    const trap &existing_trap = g->m.tr_at( tr_loc );
+    if( !existing_trap.is_null() ) {
+        if( existing_trap.can_see( tr_loc, *p )) {
             p->add_msg_if_player(m_info, _("You can't place a %s there.  It contains a trap already."),
                                  it->tname().c_str());
         } else {
-            p->add_msg_if_player(m_bad, _("You trigger a %s!"), t.name.c_str());
-            t.trigger( tr_loc, p );
+            p->add_msg_if_player(m_bad, _("You trigger a %s!"), existing_trap.name.c_str());
+            existing_trap.trigger( tr_loc, p );
         }
         return 0;
     }
@@ -4777,6 +4776,7 @@ int iuse::set_trap(player *p, item *it, bool, point)
     } else if (it->type->id == "blade_trap") {
         posx = (dirx - p->posx()) * 2 + p->posx(); //math correction for blade trap
         posy = (diry - p->posy()) * 2 + p->posy();
+        tr_loc = tripoint( posx, posy, p->posz() );
         for (int i = -1; i <= 1; i++) {
             for (int j = -1; j <= 1; j++) {
                 if (g->m.move_cost(posx + i, posy + j) != 2) {
@@ -4973,7 +4973,7 @@ int iuse::can_goo(player *p, item *it, bool, point)
             gooy = p->posy() + rng(-2, 2);
             tries++;
         } while (g->m.move_cost(goox, gooy) == 0 &&
-                 g->m.tr_at(goox, gooy) == tr_null && tries < 10);
+                 g->m.tr_at(goox, gooy).is_null() && tries < 10);
         if (tries < 10) {
             if (g->u.sees(goox, gooy)) {
                 add_msg(m_warning, _("A nearby splatter of goo forms into a goo pit."));
