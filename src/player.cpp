@@ -13127,7 +13127,7 @@ void player::burn_move_stamina( int moves )
     if( move_mode == "run" ) {
         burn_ratio = 20;
     }
-    stamina -= (moves * burn_ratio) / 100;
+    mod_stat( "stamina", -((moves * burn_ratio) / 100) );
 }
 
 field_id player::playerBloodType() const {
