@@ -3973,6 +3973,7 @@ void game::debug()
         temp->spawn_at( get_levx(), get_levy(), get_levz() );
         temp->setx( u.posx() - 4 );
         temp->sety( u.posy() - 4 );
+        temp->setz( u.posz() );
         temp->form_opinion(&u);
         temp->mission = NPC_MISSION_NULL;
         temp->add_new_mission( mission::reserve_random(ORIGIN_ANY_NPC, global_omt_location(),
@@ -4400,13 +4401,14 @@ void game::disp_NPCs()
                        (TERMX > FULL_SCREEN_WIDTH) ? (TERMX - FULL_SCREEN_WIDTH) / 2 : 0);
 
     const tripoint ppos = global_omt_location();
-    mvwprintz(w, 0, 0, c_white, _("Your position: %d:%d"), ppos.x, ppos.y);
+    mvwprintz( w, 0, 0, c_white, _("Your overmap position: %d, %d, %d"), ppos.x, ppos.y, ppos.z );
+    mvwprintz( w, 1, 0, c_white, _("Your local position: %d, %d, %d"), u.posx(), u.posy(), u.posz() );
     std::vector<npc *> npcs = overmap_buffer.get_npcs_near_player(100);
     std::sort(npcs.begin(), npcs.end(), npc_dist_to_player);
     for (size_t i = 0; i < 20 && i < npcs.size(); i++) {
         const tripoint apos = npcs[i]->global_omt_location();
-        mvwprintz(w, i + 2, 0, c_white, "%s: %d:%d", npcs[i]->name.c_str(),
-                  apos.x, apos.y);
+        mvwprintz(w, i + 3, 0, c_white, "%s: %d, %d, %d", npcs[i]->name.c_str(),
+                  apos.x, apos.y, apos.z);
     }
     wrefresh(w);
     getch();
@@ -7532,10 +7534,11 @@ bool pet_menu(monster *z)
                 z->remove_effect("tied");
             }
 
-            int x = z->posx(), y = z->posy();
-            z->move_to(g->u.posx(), g->u.posy(), true);
+            int x = z->posx(), y = z->posy(), zpos = z->posz();
+            z->move_to(g->u.posx(), g->u.posy(), true); // TODO: Use player zpos here
             g->u.setx( x );
             g->u.sety( y );
+            g->u.setz( zpos );
 
             if (t) {
                 z->add_effect("tied", 1, num_bp, true);
