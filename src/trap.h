@@ -73,30 +73,55 @@ struct trap {
         int funnel_radius_mm;
         std::vector<itype_id> components; // For disassembly?
     public:
+        /**
+         * How easy it is to spot the trap. Smaller values means it's easier to spot.
+         */
         int get_visibility() const
         {
             return visibility;
         }
+        /**
+         * Whether triggering the trap can be avoid (if greater than 0) and if so, this is
+         * compared to dodge skill (with some adjustments). Smaller values means it's easier
+         * to dodge.
+         */
         int get_avoidance() const
         {
             return avoidance;
         }
+        /**
+         * This is used when disarming the trap. A value of 0 means disarming will always work
+         * (e.g. for funnels), a values of 99 means it can not be disarmed at all. Smaller values
+         * makes it easier to disarm the trap.
+         */
         int get_difficulty() const
         {
             return difficulty;
         }
-        // Type of trap
+        /**
+         * If true, this is not really a trap and there won't be any safety queries before stepping
+         * onto it (e.g. for funnels).
+         */
         bool is_benign() const
         {
             return benign;
         }
-        bool is_funnel() const;
         /** Player has not yet seen the trap and returns the variable chance, at this moment,
          of whether the trap is seen or not. */
         bool detect_trap( const tripoint &pos, const player &p ) const;
-        /** Can player/npc p see this kind of trap given their memory? */
+        /**
+         * Can player/npc p see this kind of trap, either by their memory (they known there is
+         * the trap) or by the visibility of the trap (the trap is not hidden at all)?
+         */
         bool can_see( const tripoint &pos, const player &p ) const;
-        /** Trigger trap effects by creature that stepped onto it. */
+        /**
+         * Trigger trap effects.
+         * @param creature The creature that triggered the trap, it does not necessarily have to
+         * be on the place of the trap (traps can be triggered from adjacent, e.g. when disarming
+         * them). This can also be a null pointer if the trap has been triggered by some thrown
+         * item (which must have the @ref trigger_weight).
+         * @param pos The location of the trap in the main map.
+         */
         void trigger( const tripoint &pos, Creature *creature ) const;
         /**
          * If the given item is throw onto the trap, does it trigger the trap?
@@ -113,17 +138,31 @@ struct trap {
          * do so.
          */
         bool is_3x3_trap() const;
-
-        double funnel_turns_per_charge( double rain_depth_mm_per_hour ) const;
-        /* pending jsonize
-        std::set<std::string> flags
-        std::string id;
-        */
-
         /**
          * Whether this is the null-traps, aka no trap at all.
          */
         bool is_null() const;
+
+        /*@{*/
+        /**
+         * @name Funnels
+         *
+         * Traps can act as funnels, for this they need a @ref funnel_radius_mm > 0.
+         * Funnels are usual not hidden at all (@ref visibility == 0), are @ref benign and can
+         * be picked up easily (@ref difficulty == 0).
+         * The funnel filling is handled in weather.cpp. is_funnel is used the check whether the
+         * funnel specific code should be run for this trap.
+         */
+        bool is_funnel() const;
+        double funnel_turns_per_charge( double rain_depth_mm_per_hour ) const;
+        /*@}*/
+
+        /*@{*/
+        /**
+         * @name Initialization
+         *
+         * Those functions are used by the @ref DynamicDataLoader, see there.
+         */
         /**
          * Loads the trap and adds it to the @ref trapmap, and the @ref traplist.
          * @throw std::string if the json is invalid as usual.
@@ -143,6 +182,7 @@ struct trap {
          * Checks internal consistency (reference to other things like item ids etc.)
          */
         static void check_consistency();
+        /*@}*/
 };
 
 /** list of all trap types */
