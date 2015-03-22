@@ -603,7 +603,7 @@ void player::deserialize(JsonIn &jsin)
     } );
     std::copy( last, active_missions.end(), std::back_inserter( failed_missions ) );
     active_missions.erase( last, active_missions.end() );
-    if( active_mission->has_failed() ) {
+    if( active_mission && active_mission->has_failed() ) {
         if( active_missions.empty() ) {
             active_mission = nullptr;
         } else {
@@ -692,7 +692,7 @@ void npc_chatbin::deserialize(JsonIn &jsin)
     mission_selected = nullptr;
     if( savegame_loading_version <= 23 ) {
         mission_selected = nullptr; // player can re-select which mision to talk about in the dialog
-    } else if( data.read( "mission_selected", tmpmission_selected ) ) {
+    } else if( data.read( "mission_selected", tmpmission_selected ) && tmpmission_selected != -1 ) {
         mission_selected = mission::find( tmpmission_selected );
     }
 }
