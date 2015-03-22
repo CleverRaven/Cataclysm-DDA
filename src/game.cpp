@@ -7796,7 +7796,7 @@ void game::examine(int examx, int examy)
         }
     } else {
         //examx,examy has no traps, is a container and doesn't have a special examination function
-        if (m.tr_at( tripoint( examx, examy, u.posz() ) ) == tr_null && m.i_at(examx, examy).empty() &&
+        if( m.tr_at( tripoint( examx, examy, u.posz() ) ).is_null() && m.i_at(examx, examy).empty() &&
             m.has_flag("CONTAINER", examx, examy) && none) {
             add_msg(_("It is empty."));
         } else if (!veh) {
@@ -7805,9 +7805,10 @@ void game::examine(int examx, int examy)
     }
 
     //check for disarming traps last to avoid disarming query black box issue.
-    if(m.tr_at( tripoint( examx, examy, u.posz() ) ) != tr_null) {
+    const tripoint trap_pos( examx, examy, u.posz() );
+    if( !m.tr_at( trap_pos ).is_null() ) {
         iexamine::trap(&u, &m, examx, examy);
-        if(m.tr_at( tripoint( examx, examy, u.posz() ) ) == tr_null) {
+        if( m.tr_at( trap_pos ).is_null() ) {
             Pickup::pick_up(examx, examy, 0);    // After disarming a trap, pick it up.
         }
     }
@@ -7911,12 +7912,12 @@ void game::print_fields_info(int lx, int ly, WINDOW *w_look, int column, int &li
 
 void game::print_trap_info(int lx, int ly, WINDOW *w_look, const int column, int &line)
 {
-    trap_id trapid = m.tr_at(lx, ly);
-    if (trapid == tr_null) {
+    const trap &tr = m.tr_at(lx, ly);
+    if( tr.is_null() ) {
         return;
     }
-    if (traplist[trapid]->can_see( tripoint( lx, ly, get_levz() ), u )) {
-        mvwprintz(w_look, line++, column, traplist[trapid]->color, "%s", traplist[trapid]->name.c_str());
+    if( tr.can_see( tripoint( lx, ly, get_levz() ), u )) {
+        mvwprintz(w_look, line++, column, tr.color, "%s", tr.name.c_str());
     }
 }
 
@@ -11472,13 +11473,10 @@ bool game::plmove(int dx, int dy)
         }
 
         if (!(u.has_effect("blind") || u.worn_with_flag("BLIND"))) {
-            const trap_id tid = m.tr_at(dest_loc);
-            if (tid != tr_null) {
-                const struct trap &t = *traplist[tid];
-                if ((t.can_see(dest_loc, u)) && !t.is_benign() &&
-                    !query_yn(_("Really step onto that %s?"), t.name.c_str())) {
-                    return false;
-                }
+            const trap &tr = m.tr_at(dest_loc);
+            if( !tr.is_null() && tr.can_see(dest_loc, u) && !tr.is_benign() &&
+                !query_yn(_("Really step onto that %s?"), tr.name.c_str())) {
+                return false;
             }
         }
 
@@ -11656,7 +11654,7 @@ bool game::plmove(int dx, int dy)
                         m.has_flag("FLAT", fdest.x, fdest.y) &&
                         !m.has_furn(fdest.x, fdest.y) &&
                         m.veh_at(fdest.x, fdest.y) == NULL &&
-                        m.tr_at(fdest.x, fdest.y) == tr_null
+                        m.tr_at(fdest.x, fdest.y).is_null()
                         );
 
                     const furn_t furntype = m.furn_at(fpos.x, fpos.y);

@@ -96,6 +96,11 @@ void trap::trigger( const tripoint &pos, Creature *creature ) const
     }
 }
 
+bool trap::is_null() const
+{
+    return loadid == tr_null;
+}
+
 //////////////////////////
 // convenient int-lookup names for hard-coded functions
 trap_id

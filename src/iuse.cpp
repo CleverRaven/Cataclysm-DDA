@@ -4672,15 +4672,14 @@ int iuse::set_trap(player *p, item *it, bool, point)
         return 0;
     }
 
-    const trap_id existing_trap = g->m.tr_at( tr_loc );
-    if (existing_trap != tr_null) {
-        const struct trap &t = *traplist[existing_trap];
-        if( t.can_see( tr_loc, *p )) {
+    const trap &existing_trap = g->m.tr_at( tr_loc );
+    if( !existing_trap.is_null() ) {
+        if( existing_trap.can_see( tr_loc, *p )) {
             p->add_msg_if_player(m_info, _("You can't place a %s there.  It contains a trap already."),
                                  it->tname().c_str());
         } else {
-            p->add_msg_if_player(m_bad, _("You trigger a %s!"), t.name.c_str());
-            t.trigger( tr_loc, p );
+            p->add_msg_if_player(m_bad, _("You trigger a %s!"), existing_trap.name.c_str());
+            existing_trap.trigger( tr_loc, p );
         }
         return 0;
     }
@@ -4973,7 +4972,7 @@ int iuse::can_goo(player *p, item *it, bool, point)
             gooy = p->posy() + rng(-2, 2);
             tries++;
         } while (g->m.move_cost(goox, gooy) == 0 &&
-                 g->m.tr_at(goox, gooy) == tr_null && tries < 10);
+                 g->m.tr_at(goox, gooy).is_null() && tries < 10);
         if (tries < 10) {
             if (g->u.sees(goox, gooy)) {
                 add_msg(m_warning, _("A nearby splatter of goo forms into a goo pit."));

@@ -798,12 +798,9 @@ void game::throw_item(player &p, int tarx, int tary, item &thrown,
             sounds::sound(tx, ty, 8, _("thud."));
         }
         m.add_item_or_charges(tx, ty, thrown);
-        const trap_id trid = m.tr_at(tx, ty);
-        if (trid != tr_null) {
-            const struct trap *tr = traplist[trid];
-            if (thrown.weight() >= tr->trigger_weight) {
-                tr->trigger( tripoint( tx, ty, g->get_levz() ), nullptr );
-            }
+        const trap &tr = m.tr_at(tx, ty);
+        if( !tr.is_null() && thrown.weight() >= tr.trigger_weight ) {
+            tr.trigger( tripoint( tx, ty, g->get_levz() ), nullptr );
         }
     }
 }

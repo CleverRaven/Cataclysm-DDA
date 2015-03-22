@@ -4163,7 +4163,8 @@ void vehicle::handle_trap (int x, int y, int part)
     if (pwh < 0) {
         return;
     }
-    trap_id t = g->m.tr_at(x, y);
+    const trap &tr = g->m.tr_at(x, y);
+    const trap_id t = tr.loadid;
     int noise = 0;
     int chance = 100;
     int expl = 0;
@@ -4231,7 +4232,7 @@ void vehicle::handle_trap (int x, int y, int part)
     if( g->u.sees(x, y) ) {
         if( g->u.knows_trap( tripoint( x, y, g->get_levz() ) ) ) {
             add_msg(m_bad, _("The %s's %s runs over %s."), name.c_str(),
-                    part_info(part).name.c_str(), traplist[t]->name.c_str() );
+                    part_info(part).name.c_str(), tr.name.c_str() );
         } else {
             add_msg(m_bad, _("The %s's %s runs over something."), name.c_str(),
                     part_info(part).name.c_str() );

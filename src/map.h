@@ -32,6 +32,7 @@ class monster;
 class item;
 struct itype;
 struct mapgendata;
+struct trap;
 // TODO: This should be const& but almost no functions are const
 struct wrapped_vehicle{
  int x;
@@ -566,7 +567,7 @@ void add_corpse(int x, int y);
  void trap_set(const int x, const int y, const std::string & sid);
  void trap_set(const int x, const int y, const trap_id id);
 
- trap_id tr_at(const int x, const int y) const;
+    const trap & tr_at( const int x, const int y ) const;
  void add_trap(const int x, const int y, const trap_id t);
  void disarm_trap( const int x, const int y);
  void remove_trap(const int x, const int y);
@@ -574,7 +575,7 @@ void add_corpse(int x, int y);
  void trap_set( const tripoint &p, const std::string & sid);
  void trap_set( const tripoint &p, const trap_id id);
 
- trap_id tr_at( const tripoint &p ) const;
+    const trap & tr_at( const tripoint &p ) const;
  void add_trap( const tripoint &p, const trap_id t);
  void disarm_trap( const tripoint &p );
  void remove_trap( const tripoint &p );

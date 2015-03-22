@@ -3768,25 +3768,25 @@ void map::trap_set( const tripoint &p, const trap_id id)
 }
 
 // todo: to be consistent with ???_at(...) this should return ref to the actual trap object
-trap_id map::tr_at( const int x, const int y ) const
+const trap &map::tr_at( const int x, const int y ) const
 {
     return tr_at( tripoint( x, y, abs_sub.z ) );
 }
 
-trap_id map::tr_at( const tripoint &p ) const
+const trap &map::tr_at( const tripoint &p ) const
 {
     if( !inbounds( p.x, p.y, p.z ) ) {
-        return tr_null;
+        return *traplist[tr_null];
     }
 
     int lx, ly;
     submap * const current_submap = get_submap_at( p.x, p.y, p.z, lx, ly );
 
     if (terlist[ current_submap->get_ter( lx, ly ) ].trap != tr_null) {
-        return terlist[ current_submap->get_ter( lx, ly ) ].trap;
+        return *traplist[terlist[ current_submap->get_ter( lx, ly ) ].trap];
     }
 
-    return current_submap->get_trap( lx, ly );
+    return *traplist[current_submap->get_trap( lx, ly )];
 }
 
 void map::add_trap(const int x, const int y, const trap_id t)
@@ -3824,20 +3824,20 @@ void map::disarm_trap( const tripoint &p )
 {
     int skillLevel = g->u.skillLevel("traps");
 
-    if( tr_at( p ) == tr_null ) {
+    const trap &tr = tr_at( p );
+    if( tr.is_null() ) {
         debugmsg( "Tried to disarm a trap where there was none (%d %d %d)", p.x, p.y, p.z );
         return;
     }
 
-    trap* tr = traplist[tr_at( p )];
     const int tSkillLevel = g->u.skillLevel("traps");
-    const int diff = tr->get_difficulty();
+    const int diff = tr.get_difficulty();
     int roll = rng(tSkillLevel, 4 * tSkillLevel);
 
     // Some traps are not actual traps. Skip the rolls, different message and give the option to grab it right away.
-    if( tr->get_avoidance() ==  0 && tr->get_difficulty() == 0 ) {
-        add_msg(_("You take down the %s."), tr->name.c_str());
-        for (auto &i : tr->components) {
+    if( tr.get_avoidance() ==  0 && tr.get_difficulty() == 0 ) {
+        add_msg(_("You take down the %s."), tr.name.c_str());
+        for (auto &i : tr.components) {
             spawn_item( p.x, p.y, i, 1, 1 );
         }
         remove_trap( p );
@@ -3849,10 +3849,11 @@ void map::disarm_trap( const tripoint &p )
     }
     if (roll >= diff) {
         add_msg(_("You disarm the trap!"));
-        for (auto &i : tr->components) {
+        for (auto &i : tr.components) {
             spawn_item( p.x, p.y, i, 1, 1);
         }
-        if( tr_at( p ) == tr_engine ) {
+        const trap &tr = tr_at( p );
+        if( tr.id == "tr_engine" ) {
             for (int i = -1; i <= 1; i++) {
                 for (int j = -1; j <= 1; j++) {
                     if (i != 0 || j != 0) {
@@ -3861,7 +3862,7 @@ void map::disarm_trap( const tripoint &p )
                 }
             }
         }
-        if (tr_at( p ) == tr_shotgun_1 || tr_at( p ) == tr_shotgun_2) {
+        if( tr.id == "tr_shotgun_1" || tr.id == "tr_shotgun_2" ) {
             spawn_item( p.x, p.y, "shot_00", 1, 2 );
         }
         remove_trap( p );
@@ -3875,7 +3876,7 @@ void map::disarm_trap( const tripoint &p )
         }
     } else {
         add_msg(m_bad, _("You fail to disarm the trap, and you set it off!"));
-        tr->trigger( p, &g->u );
+        tr.trigger( p, &g->u );
         if(diff - roll <= 6) {
             // Give xp for failing, but not if we failed terribly (in which
             // case the trap may not be disarmable).
@@ -4235,7 +4236,7 @@ void map::drawsq(WINDOW* w, player &u, const int x, const int y, const bool inve
     nc_color tercol;
     const ter_id curr_ter = ter(x,y);
     const furn_id curr_furn = furn(x,y);
-    const trap_id curr_trap = tr_at(x, y);
+    const trap &curr_trap = tr_at(x, y);
     const field &curr_field = field_at(x, y);
     auto curr_items = i_at(x, y);
     long sym;
@@ -4255,9 +4256,9 @@ void map::drawsq(WINDOW* w, player &u, const int x, const int y, const bool inve
         show_items = false; // Can only see underwater items if WE are underwater
     }
     // If there's a trap here, and we have sufficient perception, draw that instead
-    if (curr_trap != tr_null && traplist[curr_trap]->can_see( tripoint( x, y, g->get_levz() ), g->u ) ) {
-        tercol = traplist[curr_trap]->color;
-        if (traplist[curr_trap]->sym == '%') {
+    if( !curr_trap.is_null() && curr_trap.can_see( tripoint( x, y, g->get_levz() ), g->u ) ) {
+        tercol = curr_trap.color;
+        if (curr_trap.sym == '%') {
             switch(rng(1, 5)) {
             case 1: sym = '*'; break;
             case 2: sym = '0'; break;
@@ -4266,7 +4267,7 @@ void map::drawsq(WINDOW* w, player &u, const int x, const int y, const bool inve
             case 5: sym = '+'; break;
             }
         } else {
-            sym = traplist[curr_trap]->sym;
+            sym = curr_trap.sym;
         }
     }
     if (curr_field.fieldCount() > 0) {
@@ -5086,8 +5087,8 @@ void map::remove_rotten_items( Container &items, const point &pnt )
 
 void map::fill_funnels( const point pnt )
 {
-    const auto t = tr_at( pnt.x, pnt.y );
-    if( t == tr_null || traplist[t]->funnel_radius_mm <= 0 ) {
+    const auto &tr = tr_at( pnt.x, pnt.y );
+    if( tr.is_null() || tr.funnel_radius_mm <= 0 ) {
         // not a funnel at all
         return;
     }
@@ -5104,7 +5105,7 @@ void map::fill_funnels( const point pnt )
         }
     }
     if( biggest_container != items.end() ) {
-        retroactively_fill_from_funnel( &*biggest_container, t, calendar::turn, pnt );
+        retroactively_fill_from_funnel( &*biggest_container, tr.loadid, calendar::turn, pnt );
     }
 }
 
@@ -6172,8 +6173,8 @@ field &map::get_field( const int x, const int y )
 
 void map::creature_on_trap( Creature &c, bool const may_avoid )
 {
-    auto const tr_id = tr_at( c.pos3() );
-    if( tr_id == tr_null ) {
+    auto const &tr = tr_at( c.pos3() );
+    if( tr.is_null() ) {
         return;
     }
     // boarded in a vehicle means the player is above the trap, like a flying monster and can
@@ -6182,7 +6183,6 @@ void map::creature_on_trap( Creature &c, bool const may_avoid )
     if( p != nullptr && p->in_vehicle ) {
         return;
     }
-    trap const &tr = *traplist[ tr_id ];
     if( may_avoid && c.avoid_trap( c.pos3(), tr ) ) {
         return;
     }

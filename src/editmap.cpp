@@ -430,7 +430,7 @@ void editmap::update_view(bool update_info)
     furn_t furniture_type = furnlist[target_frn];
 
     cur_field = &g->m.get_field(target.x, target.y);
-    cur_trap = g->m.tr_at(target.x, target.y);
+    cur_trap = g->m.tr_at(target.x, target.y).loadid;
     const Creature *critter = g->critter_at( target.x, target.y );
 
     // update map always

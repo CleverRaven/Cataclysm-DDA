@@ -775,7 +775,7 @@ void player::update_bodytemp()
     int ambient_norm = (has_effect("sleep") ? 3100 : 1900);
     // This gets incremented in the for loop and used in the morale calculation
     int morale_pen = 0;
-    const trap_id trap_at_pos = g->m.tr_at(posx(), posy());
+    const trap &trap_at_pos = g->m.tr_at(posx(), posy());
     const ter_id ter_at_pos = g->m.ter(posx(), posy());
     const furn_id furn_at_pos = g->m.furn(posx(), posy());
     // When the player is sleeping, he will use floor items for warmth
@@ -809,12 +809,12 @@ void player::update_bodytemp()
             floor_bedding_warmth += 500;
         } else if( furn_at_pos == f_straw_bed ) {
             floor_bedding_warmth += 200;
-        } else if( trap_at_pos == tr_cot || ter_at_pos == t_improvised_shelter ||
+        } else if( trap_at_pos.loadid == tr_cot || ter_at_pos == t_improvised_shelter ||
                    furn_at_pos == f_tatami ) {
             floor_bedding_warmth -= 500;
-        } else if( trap_at_pos == tr_rollmat ) {
+        } else if( trap_at_pos.loadid == tr_rollmat ) {
             floor_bedding_warmth -= 1000;
-        } else if( trap_at_pos == tr_fur_rollmat || furn_at_pos == f_hay ) {
+        } else if( trap_at_pos.loadid == tr_fur_rollmat || furn_at_pos == f_hay ) {
             floor_bedding_warmth += 0;
         } else if( veh && veh->part_with_feature (vpart, "SEAT") >= 0 ) {
             floor_bedding_warmth += 200;
@@ -923,7 +923,7 @@ void player::update_bodytemp()
                 int ffire = g->m.get_field_strength( point(posx() + j, posy() + k), fd_fire );
                 if(ffire > 0) {
                     heat_intensity = ffire;
-                } else if (g->m.tr_at(posx() + j, posy() + k) == tr_lava ) {
+                } else if (g->m.tr_at(posx() + j, posy() + k).loadid == tr_lava ) {
                     heat_intensity = 3;
                 }
                 int t;
@@ -951,7 +951,7 @@ void player::update_bodytemp()
         }
         // Same with standing on fire.
         tile_strength = g->m.get_field_strength( pos(), fd_fire);
-        if (tile_strength > 2 || trap_at_pos == tr_lava) {
+        if (tile_strength > 2 || trap_at_pos.loadid == tr_lava) {
             temp_conv[i] += 15000;
         }
         // Standing in the hot air of a fire is nice.
@@ -4274,28 +4274,27 @@ void player::search_surroundings()
         for( int yd = -5; yd <= 5; yd++ ) {
             const int x = posx() + xd;
             const int y = posy() + yd;
-            const trap_id trid = g->m.tr_at( tripoint( x, y, z ) );
-            if( trid == tr_null || (x == posx() && y == posy() ) ) {
+            const trap &tr = g->m.tr_at( tripoint( x, y, z ) );
+            if( tr.is_null() || (x == posx() && y == posy() ) ) {
                 continue;
             }
             if( !sees( x, y ) ) {
                 continue;
             }
-            const trap *tr = traplist[trid];
-            if( tr->name.empty() || tr->can_see( tripoint( x, y, z ), *this ) ) {
+            if( tr.name.empty() || tr.can_see( tripoint( x, y, z ), *this ) ) {
                 // Already seen, or has no name -> can never be seen
                 continue;
             }
             // Chance to detect traps we haven't yet seen.
-            if (tr->detect_trap( tripoint( x, y, z ), *this )) {
-                if( tr->get_visibility() > 0 ) {
+            if (tr.detect_trap( tripoint( x, y, z ), *this )) {
+                if( tr.get_visibility() > 0 ) {
                     // Only bug player about traps that aren't trivial to spot.
                     const std::string direction = direction_name(
                         direction_from(posx(), posy(), x, y));
                     add_msg_if_player(_("You've spotted a %s to the %s!"),
-                                      tr->name.c_str(), direction.c_str());
+                                      tr.name.c_str(), direction.c_str());
                 }
-                add_known_trap( tripoint( x, y, z ), tr->id);
+                add_known_trap( tripoint( x, y, z ), tr.id);
             }
         }
     }
@@ -11286,7 +11285,7 @@ void player::try_to_sleep()
 {
     int vpart = -1;
     vehicle *veh = g->m.veh_at (posx(), posy(), vpart);
-    const trap_id trap_at_pos = g->m.tr_at(posx(), posy());
+    const trap &trap_at_pos = g->m.tr_at(posx(), posy());
     const ter_id ter_at_pos = g->m.ter(posx(), posy());
     const furn_id furn_at_pos = g->m.furn(posx(), posy());
     bool plantsleep = false;
@@ -11345,8 +11344,8 @@ void player::try_to_sleep()
         in_shell = true;
     }
     if(!plantsleep && (furn_at_pos == f_bed || furn_at_pos == f_makeshift_bed ||
-         trap_at_pos == tr_cot || trap_at_pos == tr_rollmat ||
-         trap_at_pos == tr_fur_rollmat || furn_at_pos == f_armchair ||
+         trap_at_pos.loadid == tr_cot || trap_at_pos.loadid == tr_rollmat ||
+         trap_at_pos.loadid == tr_fur_rollmat || furn_at_pos == f_armchair ||
          furn_at_pos == f_sofa || furn_at_pos == f_hay || furn_at_pos == f_straw_bed ||
          ter_at_pos == t_improvised_shelter || (in_shell) || (websleeping) ||
          (veh && veh->part_with_feature (vpart, "SEAT") >= 0) ||
@@ -11393,7 +11392,7 @@ bool player::can_sleep()
     }
     int vpart = -1;
     vehicle *veh = g->m.veh_at(posx(), posy(), vpart);
-    const trap_id trap_at_pos = g->m.tr_at(posx(), posy());
+    const trap &trap_at_pos = g->m.tr_at(posx(), posy());
     const ter_id ter_at_pos = g->m.ter(posx(), posy());
     const furn_id furn_at_pos = g->m.furn(posx(), posy());
     int web = g->m.get_field_strength( pos(), fd_web );
@@ -11416,12 +11415,12 @@ bool player::can_sleep()
         // Not in a vehicle, start checking furniture/terrain/traps at this point in decreasing order
         } else if (furn_at_pos == f_bed) {
             sleepy += 5;
-        } else if (furn_at_pos == f_makeshift_bed || trap_at_pos == tr_cot ||
+        } else if (furn_at_pos == f_makeshift_bed || trap_at_pos.loadid == tr_cot ||
                     furn_at_pos == f_sofa) {
             sleepy += 4;
         } else if (websleep && web >= 3) {
             sleepy += 4;
-        } else if (trap_at_pos == tr_rollmat || trap_at_pos == tr_fur_rollmat ||
+        } else if (trap_at_pos.loadid == tr_rollmat || trap_at_pos.loadid == tr_fur_rollmat ||
               furn_at_pos == f_armchair || ter_at_pos == t_improvised_shelter) {
             sleepy += 3;
         } else if (furn_at_pos == f_straw_bed || furn_at_pos == f_hay || furn_at_pos == f_tatami) {
@@ -12722,7 +12721,6 @@ bool player::uncanny_dodge()
 point player::adjacent_tile()
 {
     std::vector<point> ret;
-    trap_id curtrap;
     int dangerous_fields;
     for( int i = posx() - 1; i <= posx() + 1; i++ ) {
         for( int j = posy() - 1; j <= posy() + 1; j++ ) {
@@ -12730,9 +12728,9 @@ point player::adjacent_tile()
                 // don't consider player position
                 continue;
             }
-            curtrap = g->m.tr_at(i, j);
+            const trap &curtrap = g->m.tr_at(i, j);
             if( g->mon_at(i, j) == -1 && g->npc_at(i, j) == -1 && g->m.move_cost(i, j) > 0 &&
-                (curtrap == tr_null || traplist[curtrap]->is_benign()) ) {
+                (curtrap.is_null() || curtrap.is_benign()) ) {
                 // only consider tile if unoccupied, passable and has no traps
                 dangerous_fields = 0;
                 auto &tmpfld = g->m.field_at(i, j);

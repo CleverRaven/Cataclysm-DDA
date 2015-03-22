@@ -104,6 +104,10 @@ struct trap {
         */
 
         /**
+         * Whether this is the null-traps, aka no trap at all.
+         */
+        bool is_null() const;
+        /**
          * Loads the trap and adds it to the @ref trapmap, and the @ref traplist.
          * @throw std::string if the json is invalid as usual.
          */
