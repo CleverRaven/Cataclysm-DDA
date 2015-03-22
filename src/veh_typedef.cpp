@@ -339,6 +339,7 @@ void init_vpart_bitflag_map()
     vpart_bitflag_map["FLOATS"] = VPFLAG_FLOATS;
     vpart_bitflag_map["DOME_LIGHT"] = VPFLAG_DOME_LIGHT;
     vpart_bitflag_map["AISLE_LIGHT"] = VPFLAG_AISLE_LIGHT;
+    vpart_bitflag_map["ATOMIC_LIGHT"] = VPFLAG_ATOMIC_LIGHT;
     vpart_bitflag_map["ALTERNATOR"] = VPFLAG_ALTERNATOR;
     vpart_bitflag_map["ENGINE"] = VPFLAG_ENGINE;
     vpart_bitflag_map["FRIDGE"] =    VPFLAG_FRIDGE;
