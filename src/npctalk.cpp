@@ -934,10 +934,10 @@ std::string dialogue::dynamic_line( const talk_topic topic ) const
 
         case TALK_OLD_GUARD_NEC_COMMO_GOAL:
             return _("We are securing the external communications array for this facility.  I'm rather restricted in what I can release"
-                     "... you should find my commander and ask him any questions you have.");
+                     "... go find my commander if you have any questions.");
 
         case TALK_OLD_GUARD_NEC_COMMO_FREQ:
-            return _("I was expecting him to send a runner.  Here is the list he needs.  What we can identify from here are simply the "
+            return _("I was expecting the captain to send a runner.  Here is the list you are looking for.  What we can identify from here are simply the "
                      "frequencies that have traffic on them.  Many of the transmissions are indecipherable without repairing or "
                      "replacing the equipment here.  When the facility was being overrun, standard procedure was to destroy encryption "
                      "hardware to protect federal secrets and maintain the integrity of the comms network.  We are hoping a few plain "
