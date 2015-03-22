@@ -13399,9 +13399,9 @@ void player::on_mission_assignment( mission &new_mission )
 void player::on_mission_finished( mission &mission )
 {
     if( mission.has_failed() ) {
-        completed_missions.push_back( &mission );
-    } else {
         failed_missions.push_back( &mission );
+    } else {
+        completed_missions.push_back( &mission );
     }
     const auto iter = std::find( active_missions.begin(), active_missions.end(), &mission );
     if( iter == active_missions.end() ) {
