@@ -4332,9 +4332,11 @@ void player::pause()
 void player::toggle_move_mode()
 {
     if( move_mode == "walk" ) {
-        if( stamina > 0 ) {
+        if( stamina > 0 && !has_effect("winded") ) {
             move_mode = "run";
             add_msg("You start running.");
+        } else {
+            add_msg(m_bad, "You're too tired to run.");
         }
     } else if( move_mode == "run" ) {
         move_mode = "walk";

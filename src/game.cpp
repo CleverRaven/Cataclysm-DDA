@@ -1135,8 +1135,9 @@ bool game::do_turn()
     }
 
     // Recover some stamina every turn.
-    if (u.stamina < u.get_stamina_max()) {
+    if( u.stamina < u.get_stamina_max() && !u.has_effect("winded") ) {
         u.stamina += 10;
+        // TODO: recovering stamina causes hunger/thirst/fatigue.
     }
 
     // Check if we've overdosed... in any deadly way.
@@ -12262,6 +12263,11 @@ void game::on_move_effects()
     if (moveCount % 2 == 0) {
         if (u.has_bionic("bio_torsionratchet")) {
             u.charge_power(1);
+        }
+    }
+    if( u.move_mode == "run" ) {
+        if( one_in( u.stamina ) ) {
+            u.add_effect("winded", 3);
         }
     }
 }
