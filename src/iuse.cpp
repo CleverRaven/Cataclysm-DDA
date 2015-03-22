@@ -4666,7 +4666,7 @@ int iuse::set_trap(player *p, item *it, bool, point)
     }
     int posx = dirx;
     int posy = diry;
-    const tripoint tr_loc( posx, posy, p->posz() );
+    tripoint tr_loc( posx, posy, p->posz() );
     if (g->m.move_cost(posx, posy) != 2) {
         p->add_msg_if_player(m_info, _("You can't place a %s there."), it->tname().c_str());
         return 0;
@@ -4776,6 +4776,7 @@ int iuse::set_trap(player *p, item *it, bool, point)
     } else if (it->type->id == "blade_trap") {
         posx = (dirx - p->posx()) * 2 + p->posx(); //math correction for blade trap
         posy = (diry - p->posy()) * 2 + p->posy();
+        tr_loc = tripoint( posx, posy, p->posz() );
         for (int i = -1; i <= 1; i++) {
             for (int j = -1; j <= 1; j++) {
                 if (g->m.move_cost(posx + i, posy + j) != 2) {
