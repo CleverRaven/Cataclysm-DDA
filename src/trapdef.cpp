@@ -34,11 +34,10 @@ void trap::load( JsonObject &jo )
     trap_ptr.release();
 }
 
-void release_traps()
+void trap::reset()
 {
-    std::vector<trap *>::iterator it;
-    for (it = traplist.begin(); it != traplist.end(); it++) {
-        delete *it;
+    for( auto & tptr : traplist ) {
+        delete tptr;
     }
     traplist.clear();
     trapmap.clear();

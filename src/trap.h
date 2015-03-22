@@ -12,8 +12,6 @@ typedef int trap_id;
 /** map trap ids to index into <B>traps</B> */
 extern std::map<std::string, int> trapmap;
 void set_trap_ids();
-/** release all trap types, reset <B>traps</B> and <B>trapmap</B> */
-void release_traps();
 
 struct trap;
 
@@ -111,6 +109,10 @@ struct trap {
          * @throw std::string if the json is invalid as usual.
          */
         static void load( JsonObject &jo );
+        /**
+         * Releases the loaded trap objects in @ref trapmap and @ref traplist.
+         */
+        static void reset();
 };
 
 /** list of all trap types */

@@ -332,7 +332,7 @@ void DynamicDataLoader::unload_data()
     reset_recipe_categories();
     reset_recipes();
     quality::reset();
-    release_traps();
+    trap::reset();
     reset_constructions();
     reset_overmap_terrain();
     reset_region_settings();
