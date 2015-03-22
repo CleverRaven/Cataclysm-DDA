@@ -2305,5 +2305,17 @@
       [ "power_supply", 1 ]
     ]
   ]
+},{
+    "type" : "recipe",
+    "result": "thyme",
+    "id_suffix": "uncraft",
+    "category": "CC_NONCRAFT",
+    "subcategory": "CSC_NONCRAFT",
+    "difficulty": 0,
+    "time": 1000,
+    "reversible": true,
+    "autolearn": false,
+    "qualities" : [ {"id":"CUT","level":1,"amount":1} ],
+    "components": [ [ [ "wild_herbs", 10 ] ] ]
 }
 ]
