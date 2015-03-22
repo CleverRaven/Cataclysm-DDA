@@ -33,6 +33,7 @@
 
 class item;
 struct point;
+struct trap;
 enum nc_color : int;
 
 /**
@@ -142,7 +143,7 @@ int get_local_humidity(double humidity, weather_type weather, bool sheltered = f
 int get_local_windpower(double windpower, std::string const &omtername = "no name",
                         bool sheltered = false);
 
-void retroactively_fill_from_funnel( item *it, const int trap_id, const calendar &, const point &);
+void retroactively_fill_from_funnel( item *it, const trap &tr, const calendar &, const point &);
 
 int get_hourly_rotpoints_at_temp (int temp);
 int get_rot_since( int since, int endturn, const point &);

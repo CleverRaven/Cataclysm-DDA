@@ -5105,7 +5105,7 @@ void map::fill_funnels( const point pnt )
         }
     }
     if( biggest_container != items.end() ) {
-        retroactively_fill_from_funnel( &*biggest_container, tr.loadid, calendar::turn, pnt );
+        retroactively_fill_from_funnel( &*biggest_container, tr, calendar::turn, pnt );
     }
 }
 
