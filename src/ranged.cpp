@@ -537,7 +537,7 @@ void player::fire_gun(int tarx, int tary, bool burst)
         }
         
         int rangemult = std::min( range, 3 * ( skillLevel( skill_used ) + 1 ) );
-        debugmsg("Rangemult: %d, missed_by: %f", rangemult, missed_by);
+        //debugmsg("Rangemult: %d, missed_by: %f", rangemult, missed_by);
         
         if (!train_skill) {
             practice( skill_used, 0 ); // practice, but do not train
@@ -718,19 +718,20 @@ void game::throw_item(player &p, int tarx, int tary, item &thrown,
                 gmtSCTcolor = m_headshot;
                 bp = bp_head;
                 dam = rng(dam, dam * 3);
-                p.practice( "throw", 5 );
+                p.practice( "throw", 20 * (i+1) );
                 p.lifetime_stats()->headshots++;
             } else if (goodhit < .2) {
                 message = _("Critical!");
                 gmtSCTcolor = m_critical;
                 dam = rng(dam, dam * 2);
-                p.practice( "throw", 2 );
+                p.practice( "throw", 10 * (i+1) );
             } else if (goodhit < .4) {
                 dam = rng(dam / 2, int(dam * 1.5));
             } else if (goodhit < .5) {
                 message = _("Grazing hit.");
                 gmtSCTcolor = m_grazing;
                 dam = rng(0, dam);
+                p.practice( "throw", 5 * (i+1) );
             }
 
             // Combat text and message
