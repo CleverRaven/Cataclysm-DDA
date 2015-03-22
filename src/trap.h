@@ -71,9 +71,8 @@ struct trap {
          */
         int trigger_weight;
         int funnel_radius_mm;
-    public:
         std::vector<itype_id> components; // For disassembly?
-
+    public:
         int get_visibility() const
         {
             return visibility;
@@ -103,6 +102,17 @@ struct trap {
          * If the given item is throw onto the trap, does it trigger the trap?
          */
         bool triggered_by_item( const item &itm ) const;
+        /**
+         * Called when a trap at the given point in the main map has been disarmed.
+         * It should spawn trap items (if any) and remove the trap from the map via
+         * @ref map::remove_trap.
+         */
+        void on_disarmed( const tripoint &pos ) const;
+        /**
+         * Whether this kind of trap actually occupies a 3x3 area. Currently only blade traps
+         * do so.
+         */
+        bool is_3x3_trap() const;
 
         double funnel_turns_per_charge( double rain_depth_mm_per_hour ) const;
         /* pending jsonize

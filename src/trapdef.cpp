@@ -115,6 +115,33 @@ bool trap::is_funnel() const
     return !is_null() && funnel_radius_mm > 0;
 }
 
+bool trap::is_3x3_trap() const
+{
+    // TODO make this a json flag, implement more 3x3 traps.
+    return id == "tr_engine";
+}
+
+void trap::on_disarmed( const tripoint &p ) const
+{
+    map &m = g->m;
+    for( auto & i : components ) {
+        m.spawn_item( p.x, p.y, i, 1, 1 );
+    }
+    // TODO: make this a flag, or include it into the components.
+    if( id == "tr_shotgun_1" || id == "tr_shotgun_2" ) {
+        m.spawn_item( p.x, p.y, "shot_00", 1, 2 );
+    }
+    if( is_3x3_trap() ) {
+        for( int i = -1; i <= 1; i++ ) {
+            for( int j = -1; j <= 1; j++ ) {
+                m.remove_trap( tripoint( p.x + i, p.y + j, p.z ) );
+            }
+        }
+    } else {
+        m.remove_trap( p );
+    }
+}
+
 //////////////////////////
 // convenient int-lookup names for hard-coded functions
 trap_id

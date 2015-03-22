@@ -3838,10 +3838,7 @@ void map::disarm_trap( const tripoint &p )
     // Some traps are not actual traps. Skip the rolls, different message and give the option to grab it right away.
     if( tr.get_avoidance() ==  0 && tr.get_difficulty() == 0 ) {
         add_msg(_("You take down the %s."), tr.name.c_str());
-        for (auto &i : tr.components) {
-            spawn_item( p.x, p.y, i, 1, 1 );
-        }
-        remove_trap( p );
+        tr.on_disarmed( p );
         return;
     }
 
@@ -3850,23 +3847,7 @@ void map::disarm_trap( const tripoint &p )
     }
     if (roll >= diff) {
         add_msg(_("You disarm the trap!"));
-        for (auto &i : tr.components) {
-            spawn_item( p.x, p.y, i, 1, 1);
-        }
-        const trap &tr = tr_at( p );
-        if( tr.id == "tr_engine" ) {
-            for (int i = -1; i <= 1; i++) {
-                for (int j = -1; j <= 1; j++) {
-                    if (i != 0 || j != 0) {
-                        remove_trap( tripoint( p.x + i, p.y + j, p.z ) );
-                    }
-                }
-            }
-        }
-        if( tr.id == "tr_shotgun_1" || tr.id == "tr_shotgun_2" ) {
-            spawn_item( p.x, p.y, "shot_00", 1, 2 );
-        }
-        remove_trap( p );
+        tr.on_disarmed( p );
         if(diff > 1.25 * skillLevel) { // failure might have set off trap
             g->u.practice( "traps", 1.5*(diff - skillLevel) );
         }
