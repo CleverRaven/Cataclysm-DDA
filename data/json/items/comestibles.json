@@ -18631,6 +18631,7 @@
         "price" : 120,
         "name" : "thyme seed",
         "name_plural" : "thyme seeds",
+        "comestible_type" : "FOOD",
         "tool" : "null",
         "addiction_type": "none",
         "symbol" : ".",
