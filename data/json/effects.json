@@ -830,6 +830,7 @@
     {
         "type": "effect_type",
         "id": "cureall",
+        "//": "This is the royal jelly effect, it should cure pretty much everything.",
         "removes_effects": ["fungus", "dermatik", "bloodworms", "paincysts", "brainworm", "tapeworm",
                             "blind", "poison", "stung", "badpoison", "foodpoison", "paralyzepoison",
                             "tetanus", "infected", "asthma", "common_cold", "flu"],
@@ -861,7 +862,7 @@
         "rating": "good",
         "max_intensity": 2,
         "int_dur_factor": 50,
-	"removes_effects": ["infected", "bite", "bleed", "fungus", "dermatic"],
+        "removes_effects": ["infected", "bite", "bleed", "fungus", "dermatik"],
         "base_mods": {
             "str_mod": [-1],
             "dex_mod": [-2],
