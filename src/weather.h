@@ -143,7 +143,13 @@ int get_local_humidity(double humidity, weather_type weather, bool sheltered = f
 int get_local_windpower(double windpower, std::string const &omtername = "no name",
                         bool sheltered = false);
 
-void retroactively_fill_from_funnel( item *it, const trap &tr, const calendar &, const point &);
+/**
+ * @param it The container item which is to be filled.
+ * @param pos The absolute position of the funnel (in the map square system, the one used
+ * by the @ref map, but absolute).
+ * @param tr The funnel (trap which acts as a funnel).
+ */
+void retroactively_fill_from_funnel( item &it, const trap &tr, const calendar &endturn, const point &pos);
 
 int get_hourly_rotpoints_at_temp (int temp);
 int get_rot_since( int since, int endturn, const point &);

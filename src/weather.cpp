@@ -92,14 +92,14 @@ std::pair<int, int> rain_or_acid_level( const int wt )
 /**
  * Determine what a funnel has filled out of game, using funnelcontainer.bday as a starting point.
  */
-void retroactively_fill_from_funnel( item *it, const trap &tr, const calendar &endturn,
+void retroactively_fill_from_funnel( item &it, const trap &tr, const calendar &endturn,
                                      const point &location )
 {
-    const calendar startturn = calendar( it->bday > 0 ? it->bday - 1 : 0 );
+    const calendar startturn = calendar( it.bday > 0 ? it.bday - 1 : 0 );
     if ( startturn > endturn || !tr.is_funnel() ) {
         return;
     }
-    it->bday = int(endturn.get_turn()); // bday == last fill check
+    it.bday = endturn; // bday == last fill check
     int rain_amount = 0;
     int acid_amount = 0;
     int rain_turns = 0;
@@ -130,8 +130,8 @@ void retroactively_fill_from_funnel( item *it, const trap &tr, const calendar &e
     }
     int rain = rain_turns / tr.funnel_turns_per_charge( rain_amount );
     int acid = acid_turns / tr.funnel_turns_per_charge( acid_amount );
-    it->add_rain_to_container( false, rain );
-    it->add_rain_to_container( true, acid );
+    it.add_rain_to_container( false, rain );
+    it.add_rain_to_container( true, acid );
 }
 
 /**
