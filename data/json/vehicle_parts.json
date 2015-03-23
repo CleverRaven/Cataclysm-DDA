@@ -4612,8 +4612,8 @@
         ]
     },{
         "type" : "vehicle_part",
-        "id" : "atomic_aisle_light",
-        "name" : "atomic aisle light",
+        "id" : "atomic_light",
+        "name" : "atomic light",
         "symbol" : "*",
         "color" : "light_blue",
         "broken_symbol" : "*",
@@ -4621,7 +4621,7 @@
         "durability" : 20,
         "epower" : 0,
         "bonus" : 15,
-        "item" : "flashlight",
+        "item" : "atomic_light",
         "difficulty" : 1,
         "location" : "on_ceiling",
         "flags": ["ATOMIC_LIGHT", "LEAK_DAM", "RADIOACTIVE"],
