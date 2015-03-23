@@ -4537,6 +4537,7 @@ void vehicle::refresh()
     aisle_lights_epower = 0;
     alternator_load = 0;
     camera_epower = 0;
+    has_atomic_lights = false;
 
     // Used to sort part list so it displays properly when examining
     struct sort_veh_part_vector {
@@ -4599,6 +4600,9 @@ void vehicle::refresh()
         }
         if( vpi.has_flag( "CAMERA" ) ) {
             camera_epower += vpi.epower;
+        }
+        if( vpi.has_flag( "ATOMIC_LIGHT" ) ) {
+            has_atomic_lights = true;
         }
         // Build map of point -> all parts in that point
         const point pt = parts[p].mount;
