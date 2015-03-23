@@ -7,7 +7,7 @@
   ],
   "tiles-new": [
     {
-      "file": "gfx/MShock24Tileset/tiles.png",
+      "file": "gfx/MShock24TilesetModded/tiles.png",
       "tiles": [
         {
           "id": "10mm",
@@ -19326,11 +19326,11 @@
           "id": "javelin_copper",
           "fg": 2463,
           "rotates": false
-        },
-      ],
+        }
+      ]
     },
     {
-      "file": "gfx/MShock24Tileset/fallback.png",
+      "file": "gfx/MShock24TilesetModded/fallback.png",
       "tiles": [
         {
           "id": "infrared_creature",
