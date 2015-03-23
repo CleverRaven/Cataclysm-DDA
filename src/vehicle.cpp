@@ -2527,15 +2527,16 @@ void vehicle::coord_translate (int reldx, int reldy, int &dx, int &dy)
 void vehicle::coord_translate (int dir, int reldx, int reldy, int &dx, int &dy)
 {
     int quad = 0;
+    dir = (dir < 0 ? 360 - ((-dir) % 360) : dir % 360); // clamp to [0..359]
     while (dir > 45) {
         dir = dir - 90;
-        quad++;
+        quad++; // -44 to -1 will end up in the fifth quadrant
     }
 
-    dir = dir * 0.9999999999; // floating point discontinuity at 45 degrees otherwise
+    double newdir = dir * 0.9999999999; // floating point discontinuity at 45 degrees otherwise
     // rotation by shearing
-    double dy_rate = 2.0 / tan(dir * M_PI / 180.0);
-    double dx_rate = -1.0 / tan(dir * M_PI / 180.0);
+    double dy_rate = 2.0 / tan(newdir * M_PI / 180.0);
+    double dx_rate = -1.0 / tan(newdir * M_PI / 180.0);
     dy = floor(reldy + reldx / dy_rate + 0.5);
     dx = floor(reldx + dy / dx_rate + 0.5);
 
