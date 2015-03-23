@@ -1355,23 +1355,23 @@ bool vehicle::start_engine( const int e )
     // Diesel engines are harder to start in cold weather
     double cold_factor = 0.0;
     if( einfo.fuel_type == fuel_type_diesel ) {
-        cold_factor = 1.0 - (g->get_temperature() / 40.0);
-        if( cold_factor < 0.0 ) { cold_factor = 0.0; }
-        if( cold_factor > 1.0 ) { cold_factor = 1.0; }
+        cold_factor = 1.0 - (std::max( 0, std::min( 40, g->get_temperature() ) ) / 40.0);
     }
 
     // Start attempt takes time and makes noise
     if( einfo.fuel_type != fuel_type_muscle ) {
         int start_time = combustion ? 50 : 0;
-        start_time += engine_power < 1600 ? engine_power / 32 : 50;
+        start_time += engine_power / 32;
         start_time += 50 * dmg;
         start_time += 20 * cold_factor;
         g->u.moves -= start_time;
 
-        const point p = parts[engines[e]].mount;
-        int gx, gy;
-        coord_translate( p.x, p.y, gx, gy );
-        sounds::ambient_sound( global_x() + gx, global_y() + gy, start_time / 10, "" );
+        if( einfo.fuel_type == fuel_type_gasoline && dmg > 0.75 && one_in( 20 ) ) {
+            backfire( e );
+        } else {
+            const point pos = global_pos() + parts[engines[e]].precalc[0];
+            sounds::ambient_sound( pos.x, pos.y, start_time / 10, "" );
+        }
     }
 
     if( combustion ) {
@@ -1382,10 +1382,6 @@ bool vehicle::start_engine( const int e )
                 add_msg( _("The %s makes a rapid clicking sound."), einfo.name.c_str() );
                 return false;
             }
-        }
-
-        if( einfo.fuel_type == fuel_type_gasoline && dmg > 0.75 && one_in( 20 ) ) {
-            backfire( e );
         }
 
         // Damaged engines have a chance of failing to start
@@ -1433,11 +1429,8 @@ bool vehicle::start_engines()
 void vehicle::backfire( const int e )
 {
     const int power = part_power( engines[e], true );
-    const point p = parts[engines[e]].mount;
-    int gx, gy;
-    coord_translate( p.x, p.y, gx, gy );
-
-    sounds::ambient_sound( global_x() + gx, global_y() + gy, 40 + (power / 30), "BANG!" );
+    const point pos = global_pos() + parts[engines[e]].precalc[0];
+    sounds::ambient_sound( pos.x, pos.y, 40 + (power / 30), "BANG!" );
 }
 
 void vehicle::honk_horn()
