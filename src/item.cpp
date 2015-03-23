@@ -2525,7 +2525,7 @@ int item::melee_value(player *p)
 
 int item::bash_resist() const
 {
-    int resist = 0;
+    float resist = 0;
     float l_padding = 0;
     float k_padding = 0;
     int eff_thickness = 1;
@@ -2561,12 +2561,12 @@ int item::bash_resist() const
     // Average based on number of materials.
     resist /= mat_types.size();
 
-    return (int)((resist * eff_thickness * adjustment) + l_padding + k_padding);
+    return std::lround((resist * eff_thickness * adjustment) + l_padding + k_padding);
 }
 
 int item::cut_resist() const
 {
-    int resist = 0;
+    float resist = 0;
     float l_padding = 0;
     float k_padding = 0;
     int eff_thickness = 1;
@@ -2603,7 +2603,7 @@ int item::cut_resist() const
     // Average based on number of materials.
     resist /= mat_types.size();
 
-    return (int)((resist * eff_thickness * adjustment) + l_padding + k_padding);
+    return std::lround((resist * eff_thickness * adjustment) + l_padding + k_padding);
 }
 
 int item::acid_resist() const
