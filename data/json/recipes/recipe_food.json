@@ -9352,5 +9352,51 @@
       [ "thyme", 1 ]
     ]
   ]
+},{
+  "type" : "recipe",
+  "result": "seed_canola",
+  "category": "CC_FOOD",
+  "subcategory": "CSC_FOOD_OTHER",
+  "skill_used": "survival",
+  "difficulty": 2,
+  "time": 5000,
+  "reversible": false,
+  "autolearn": true,
+  "qualities" : [
+    {"id":"CUT","level":1,"amount":1}
+  ],
+  "components": [
+    [
+      [ "canola", 1 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
+  "result": "cooking_oil",
+  "id_suffix": "from_canola",
+  "category": "CC_FOOD",
+  "subcategory": "CSC_FOOD_OTHER",
+  "skill_used": "cooking",
+  "skills_required": [ "survival", 3 ],
+  "difficulty": 4,
+  "time": 30000,
+  "reversible": false,
+  "autolearn": true,
+  "qualities":[
+    {"id":"HAMMER","level":1,"amount":1},
+    {"id":"CUT","level":1,"amount":1},
+    {"id":"BOIL","level":2,"amount":1}
+  ], 
+  "tools": [
+    [
+	  [ "hotplate", 10 ],
+      [ "char_smoker", 1 ],
+      [ "toolset", 10 ],
+      [ "fire", -1 ]
+    ]
+  ],  
+  "components": [
+    [ [ "seed_canola", 4 ] ]
+  ]
 }
 ]
