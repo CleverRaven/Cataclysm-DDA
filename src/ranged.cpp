@@ -537,7 +537,7 @@ void player::fire_gun(int tarx, int tary, bool burst)
         }
         
         int range_multiplier = std::min( range, 3 * ( skillLevel( skill_used ) + 1 ) );
-        int damage_factor = adjusted_damage + armor_penetration;
+        int damage_factor = 21; 
         //debugmsg("Rangemult: %d, missed_by: %f, total_damage: %f", rangemult, missed_by, proj.impact.total_damage());
         
         
