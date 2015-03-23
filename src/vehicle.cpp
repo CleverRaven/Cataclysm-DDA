@@ -3147,8 +3147,9 @@ bool vehicle::sufficient_wheel_config ()
         // No wheels!
         return false;
     } else if(wheel_indices.size() == 1) {
-        // Has to be a stable single wheel
-        if(!part_info(wheel_indices[0]).has_flag("STABLE")) {
+        //Has to be a stable wheel, and one wheel can only support a 1-3 tile vehicle
+        if( !part_info(wheel_indices[0]).has_flag("STABLE") ||
+             all_parts_at_location(part_location_structure).size() > 3) {
             return false;
         }
     }
