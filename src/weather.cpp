@@ -49,6 +49,7 @@ void weather_effect::glare()
  */
 int get_rot_since( const int since, const int endturn, const point &location )
 {
+    point const abs_location = g->m.getabs( location );
     // Hack: Ensure food doesn't rot in ice labs, where the
     // temperature is much less than the weather specifies.
     // http://github.com/CleverRaven/Cataclysm-DDA/issues/9162
@@ -63,7 +64,7 @@ int get_rot_since( const int since, const int endturn, const point &location )
     }
     int ret = 0;
     for (calendar i(since); i.get_turn() < endturn; i += 600) {
-        w_point w = g->weatherGen.get_weather(location, i);
+        w_point w = g->weatherGen.get_weather( abs_location, i );
         ret += std::min(600, endturn - i.get_turn()) * get_hourly_rotpoints_at_temp(w.temperature) / 600;
     }
     return ret;
@@ -500,12 +501,13 @@ std::string weather_forecast( point const &abs_sm_pos )
     // int weather_proportions[NUM_WEATHER_TYPES] = {0};
     double high = -100.0;
     double low = 100.0;
+    point const abs_ms_pos = overmapbuffer::sm_to_ms_copy( abs_sm_pos );
     // TODO wind direction and speed
     int last_hour = calendar::turn - (calendar::turn % HOURS(1));
     for(int d = 0; d < 6; d++) {
         weather_type forecast = WEATHER_NULL;
         for(calendar i(last_hour + 7200 * d); i < last_hour + 7200 * (d + 1); i += 600) {
-            w_point w = g->weatherGen.get_weather(abs_sm_pos, i);
+            w_point w = g->weatherGen.get_weather( abs_ms_pos, i );
             forecast = std::max(forecast, g->weatherGen.get_weather_conditions(w));
             high = std::max(high, w.temperature);
             low = std::min(low, w.temperature);

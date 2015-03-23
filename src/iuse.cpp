@@ -9579,7 +9579,7 @@ int iuse::cable_attach(player *p, item *it, bool, point)
 
 int iuse::weather_tool(player *p, item *it, bool, point)
 {
-    w_point weatherPoint = g->weatherGen.get_weather(p->pos(), calendar::turn);
+    w_point const weatherPoint = g->weatherGen.get_weather( p->global_square_location(), calendar::turn );
 
     if (it->type->id == "weather_reader") {
         p->add_msg_if_player(m_neutral, _("The %s's monitor slowly outputs the data..."), it->tname().c_str());

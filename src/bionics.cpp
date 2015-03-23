@@ -597,7 +597,7 @@ bool player::activate_bionic(int b, bool eff_only)
     std::vector<std::string> bad;
     int dirx, diry;
     item tmp_item;
-    w_point weatherPoint = g->weatherGen.get_weather(pos(), calendar::turn);
+    w_point const weatherPoint = g->weatherGen.get_weather( global_square_location(), calendar::turn );
 
     // On activation effects go here
     if(bio.id == "bio_painkiller") {

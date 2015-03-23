@@ -18,6 +18,11 @@ constexpr double base_p = 1015.0; // Average atmospheric pressure
 weather_generator::weather_generator() { }
 weather_generator::weather_generator(unsigned seed) : SEED(seed) { }
 
+w_point weather_generator::get_weather(const tripoint &location, const calendar &t) const
+{
+    return get_weather( point( location.x, location.y ), t );
+}
+
 w_point weather_generator::get_weather(const point &location, const calendar &t) const
 {
     const double x(location.x / 2000.0);// Integer x position / widening factor of the Perlin function.
