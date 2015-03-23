@@ -12,6 +12,7 @@
 #include "veh_interact.h"
 #include "messages.h"
 #include "rng.h"
+#include "overmapbuffer.h"
 
 #include <algorithm>
 #include <map>
@@ -891,27 +892,22 @@ void unroll_digging( int const numer_of_2x4s )
 
 void construct::done_dig_stair(point p)
 {
- tinymap tmpmap;
- // Upper left corner of the current active map (levx/levy) plus half active map width.
- // The player is always in the center tile of that 11x11 square.
- const auto pos_sm = g->global_sm_location();
- tmpmap.load( pos_sm.x, pos_sm.y, pos_sm.z - 1, false );
+    tripoint const abs_pos = g->m.getabs( tripoint( p.x, p.y, g->get_levz() ) );
+    tripoint const pos_sm = overmapbuffer::ms_to_sm_copy( abs_pos );
+    tinymap tmpmap;
+    tmpmap.load( pos_sm.x, pos_sm.y, pos_sm.z - 1, false );
+    tripoint const local_tmp = tmpmap.getlocal( abs_pos );
  bool danger_lava = false;
  bool danger_open = false;
  const int omtilesz=SEEX * 2;  // KA101's 1337 copy & paste skillz
-    real_coords rc( g->m.getabs(p.x % SEEX, p.y % SEEY) );
-
-    point omtile_align_start(
-        g->m.getlocal( rc.begin_om_pos() )
-    );
-    const int prox = digging_perception( 8 );
-  for (int i = omtile_align_start.x; i <= omtile_align_start.x + omtilesz; i++) {
-      for (int j = omtile_align_start.y; j <= omtile_align_start.y + omtilesz; j++) {
-          if (rl_dist(p.x % SEEX, p.y % SEEY, i, j) <= prox && (tmpmap.ter(i, j) == t_lava)) {
+    int const prox = digging_perception( 10 );
+    for (int i = 0; i < omtilesz; i++) {
+        for (int j = 0; j < omtilesz; j++) {
+          if (rl_dist(local_tmp.x, local_tmp.y, i, j) <= prox && (tmpmap.ter(i, j) == t_lava)) {
               danger_lava = true;
           }
           // This ought to catch anything that's open-space
-          if (rl_dist(p.x % SEEX, p.y % SEEY, i, j) <= prox && (tmpmap.move_cost(i, j) >= 2 )) {
+          if (rl_dist(local_tmp.x, local_tmp.y, i, j) <= prox && (tmpmap.move_cost(i, j) >= 2 )) {
               danger_open = true; // You might not know what's down there!
           }
       }
@@ -931,7 +927,7 @@ void construct::done_dig_stair(point p)
           }
       }
   }
-  if (tmpmap.move_cost(p.x % SEEX, p.y % SEEY) == 0) { // Solid rock or a wall.  Safe enough.
+  if (tmpmap.move_cost( local_tmp.x, local_tmp.y ) == 0) { // Solid rock or a wall.  Safe enough.
       if (g->u.has_trait("PAINRESIST_TROGLO") || g->u.has_trait("STOCKY_TROGLO")) {
           add_msg(_("You strike deeply into the earth."));
           g->u.hunger += 15;
@@ -951,10 +947,10 @@ void construct::done_dig_stair(point p)
       }
       g->m.ter_set(p.x, p.y, t_stairs_down); // There's the top half
       // We need to write to submap-local coordinates.
-      tmpmap.ter_set(p.x % SEEX, p.y % SEEY, t_stairs_up); // and there's the bottom half.
+      tmpmap.ter_set(local_tmp.x, local_tmp.y, t_stairs_up); // and there's the bottom half.
       tmpmap.save();
    }
-   else if (tmpmap.ter(p.x % SEEX, p.y % SEEY) == t_lava) { // Oooooops
+   else if (tmpmap.ter(local_tmp.x, local_tmp.y) == t_lava) { // Oooooops
       if (g->u.has_trait("PAINRESIST_TROGLO") || g->u.has_trait("STOCKY_TROGLO")) {
           add_msg(m_warning, _("You strike deeply--above a magma flow!"));
           g->u.hunger += 15;
@@ -1070,7 +1066,7 @@ void construct::done_dig_stair(point p)
           }
       }
    }
-   else if (tmpmap.move_cost(p.x % SEEX, p.y % SEEY) >= 2) { // Empty non-lava terrain.
+   else if (tmpmap.move_cost(local_tmp.x, local_tmp.y) >= 2) { // Empty non-lava terrain.
       if (g->u.has_trait("PAINRESIST_TROGLO") || g->u.has_trait("STOCKY_TROGLO")) {
           add_msg(_("You strike deeply into the earth, and break into open space."));
           g->u.hunger += 10; // Less heavy work, but making the ladder's still fatiguing
@@ -1090,7 +1086,7 @@ void construct::done_dig_stair(point p)
       }
       g->m.ter_set(p.x, p.y, t_stairs_down); // There's the top half
       // Again, need to use submap-local coordinates.
-      tmpmap.ter_set(p.x % SEEX, p.y % SEEY, t_ladder_up); // and there's the bottom half.
+      tmpmap.ter_set(local_tmp.x, local_tmp.y, t_ladder_up); // and there's the bottom half.
       // And save to the center coordinate of the current active map.
       tmpmap.save();
    }
@@ -1098,28 +1094,23 @@ void construct::done_dig_stair(point p)
 
 void construct::done_mine_downstair(point p)
 {
- tinymap tmpmap;
- // Upper left corner of the current active map (levx/levy) plus half active map width.
- // The player is always in the center tile of that 11x11 square.
- const auto pos_sm = g->global_sm_location();
- tmpmap.load( pos_sm.x, pos_sm.y, pos_sm.z - 1, false );
+    tripoint const abs_pos = g->m.getabs( tripoint( p.x, p.y, g->get_levz() ) );
+    tripoint const pos_sm = overmapbuffer::ms_to_sm_copy( abs_pos );
+    tinymap tmpmap;
+    tmpmap.load( pos_sm.x, pos_sm.y, pos_sm.z - 1, false );
+    tripoint const local_tmp = tmpmap.getlocal( abs_pos );
  bool danger_lava = false;
  bool danger_open = false;
  const int omtilesz=SEEX * 2;  // KA101's 1337 copy & paste skillz
-    real_coords rc( g->m.getabs(p.x % SEEX, p.y % SEEY) );
-
-    point omtile_align_start(
-        g->m.getlocal( rc.begin_om_pos() )
-    );
     // Tougher with the noisy J-Hammer though
     int const prox = digging_perception( 10 );
-  for (int i = omtile_align_start.x; i <= omtile_align_start.x + omtilesz; i++) {
-      for (int j = omtile_align_start.y; j <= omtile_align_start.y + omtilesz; j++) {
-          if (rl_dist(p.x % SEEX, p.y % SEEY, i, j) <= prox && (tmpmap.ter(i, j) == t_lava)) {
+    for (int i = 0; i < omtilesz; i++) {
+        for (int j = 0; j < omtilesz; j++) {
+          if (rl_dist(local_tmp.x, local_tmp.y % SEEY, i, j) <= prox && (tmpmap.ter(i, j) == t_lava)) {
               danger_lava = true;
           }
           // This ought to catch anything that's open-space
-          if (rl_dist(p.x % SEEX, p.y % SEEY, i, j) <= prox && (tmpmap.move_cost(i, j) >= 2 )) {
+          if (rl_dist(local_tmp.x, local_tmp.y, i, j) <= prox && (tmpmap.move_cost(i, j) >= 2 )) {
               danger_open = true; // You might not know what's down there!
           }
       }
@@ -1139,7 +1130,7 @@ void construct::done_mine_downstair(point p)
           }
       }
   }
-  if (tmpmap.move_cost(p.x % SEEX, p.y % SEEY) == 0) { // Solid rock or a wall.  Safe enough.
+  if (tmpmap.move_cost(local_tmp.x, local_tmp.y) == 0) { // Solid rock or a wall.  Safe enough.
       if (g->u.has_trait("PAINRESIST_TROGLO") || g->u.has_trait("STOCKY_TROGLO")) {
           add_msg(_("You delve ever deeper into the earth."));
           g->u.hunger += 25;
@@ -1159,10 +1150,10 @@ void construct::done_mine_downstair(point p)
       }
       g->m.ter_set(p.x, p.y, t_stairs_down); // There's the top half
       // We need to write to submap-local coordinates.
-      tmpmap.ter_set(p.x % SEEX, p.y % SEEY, t_stairs_up); // and there's the bottom half.
+      tmpmap.ter_set(local_tmp.x, local_tmp.y, t_stairs_up); // and there's the bottom half.
       tmpmap.save();
    }
-   else if (tmpmap.ter(p.x % SEEX, p.y % SEEY) == t_lava) { // Oooooops
+   else if (tmpmap.ter(local_tmp.x, local_tmp.y) == t_lava) { // Oooooops
       if (g->u.has_trait("PAINRESIST_TROGLO") || g->u.has_trait("STOCKY_TROGLO")) {
           add_msg(m_warning, _("You delve down directly above a magma flow!"));
           g->u.hunger += 25;
@@ -1278,7 +1269,7 @@ void construct::done_mine_downstair(point p)
           }
       }
    }
-   else if (tmpmap.move_cost(p.x % SEEX, p.y % SEEY) >= 2) { // Empty non-lava terrain.
+   else if (tmpmap.move_cost(local_tmp.x, local_tmp.y) >= 2) { // Empty non-lava terrain.
       if (g->u.has_trait("PAINRESIST_TROGLO") || g->u.has_trait("STOCKY_TROGLO")) {
           add_msg(_("You delve ever deeper into the earth, and break into open space."));
           g->u.hunger += 20; // Less heavy work, but making the ladder's still fatiguing
@@ -1298,7 +1289,7 @@ void construct::done_mine_downstair(point p)
       }
       g->m.ter_set(p.x, p.y, t_stairs_down); // There's the top half
       // Again, need to use submap-local coordinates.
-      tmpmap.ter_set(p.x % SEEX, p.y % SEEY, t_ladder_up); // and there's the bottom half.
+      tmpmap.ter_set(local_tmp.x, local_tmp.y, t_ladder_up); // and there's the bottom half.
       // And save to the center coordinate of the current active map.
       tmpmap.save();
    }
@@ -1306,24 +1297,19 @@ void construct::done_mine_downstair(point p)
 
 void construct::done_mine_upstair(point p)
 {
- tinymap tmpmap;
- // Upper left corner of the current active map (levx/levy) plus half active map width.
- // The player is always in the center tile of that 11x11 square.
- const auto pos_sm = g->global_sm_location();
- tmpmap.load( pos_sm.x, pos_sm.y, pos_sm.z + 1, false );
+    tripoint const abs_pos = g->m.getabs( tripoint( p.x, p.y, g->get_levz() ) );
+    tripoint const pos_sm = overmapbuffer::ms_to_sm_copy( abs_pos );
+    tinymap tmpmap;
+    tmpmap.load( pos_sm.x, pos_sm.y, pos_sm.z + 1, false );
+    tripoint const local_tmp = tmpmap.getlocal( abs_pos );
  bool danger_lava = false;
  bool danger_open = false;
  bool danger_liquid = false;
  const int omtilesz=SEEX * 2;  // KA101's 1337 copy & paste skillz
-    real_coords rc( g->m.getabs(p.x % SEEX, p.y % SEEY) );
-
-    point omtile_align_start(
-        g->m.getlocal( rc.begin_om_pos() )
-    );
     // Tougher with the noisy J-Hammer though
     int const prox = digging_perception( 10 );
-  for (int i = omtile_align_start.x; i <= omtile_align_start.x + omtilesz; i++) {
-      for (int j = omtile_align_start.y; j <= omtile_align_start.y + omtilesz; j++) {
+    for (int i = 0; i < omtilesz; i++) {
+        for (int j = 0; j < omtilesz; j++) {
           if (rl_dist(p.x % SEEX, p.y % SEEY, i, j) <= prox && (tmpmap.ter(i, j) == t_lava)) {
               danger_lava = true;
           }
