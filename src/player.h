@@ -684,8 +684,8 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         int bonus_warmth(body_part bp) const;
         /** Returns ENC provided by armor, etc. */
         int encumb(body_part bp) const;
-        /** Returns warmth provided by armor, etc., factoring in layering */
-        int encumb(body_part bp, double &layers, int &armorenc) const;
+        /** Returns warmth provided by armor, etc. */
+        int encumb(body_part bp, int &armorenc) const;
         /** Returns overall bashing resistance for the body_part */
         int get_armor_bash(body_part bp) const;
         /** Returns overall cutting resistance for the body_part */
