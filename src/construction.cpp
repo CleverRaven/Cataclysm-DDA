@@ -243,18 +243,38 @@ void construction_menu()
         // Print the constructions between offset and max (or how many will fit)
         for (size_t i = 0; (int)i < iMaxY - 4 && (i + offset) < constructs.size(); i++) {
             int current = i + offset;
-            nc_color col = ( player_can_build(g->u, total_inv, constructs[current]) &&
-                             can_construct( constructs[current] ) ) ? c_white : c_dkgray;
+            std::string con_name = constructs[current];
+            nc_color col = c_dkgray;
+            if (can_construct( con_name )) {
+                construction *con_first = NULL;
+                std::vector<construction *> cons = constructions_by_desc( con_name );
+                for (auto &con : cons) {
+                    if (con->requirements.can_make_with_inventory( total_inv )) {
+                        con_first = con;
+                        break;
+                    }
+                }
+                if (con_first != NULL) {
+                    int pskill = g->u.skillLevel( con_first->skill );
+                    int diff = con_first->difficulty;
+                    if (pskill < diff) {
+                        col = c_red;
+                    } else if (pskill == diff) {
+                        col = c_ltblue;
+                    } else {
+                        col = c_white;
+                    }
+                }
+            }
             if (current == select) {
                 col = hilite(col);
             }
             // print construction name with limited length.
             // limit(28) = 30(column len) - 2(letter + ' ').
             // If we run out of hotkeys, just stop assigning them.
-            std::string cur_name = constructs[current].c_str();
             mvwprintz(w_con, 3 + i, 1, col, "%c %s",
                       (current < (int)hotkeys.size()) ? hotkeys[current] : ' ',
-                      utf8_truncate(cur_name, 27).c_str());
+                      utf8_truncate(con_name.c_str(), 27).c_str());
         }
 
         if (update_info) {
@@ -666,7 +686,7 @@ void complete_construction()
 bool construct::check_empty(point p)
 {
     return (g->m.has_flag("FLAT", p.x, p.y) && !g->m.has_furn(p.x, p.y) &&
-            g->is_empty(p.x, p.y) && g->m.tr_at(p.x, p.y) == tr_null &&
+            g->is_empty(p.x, p.y) && g->m.tr_at(p.x, p.y).is_null() &&
             g->m.i_at(p.x, p.y).empty() && g->m.veh_at(p.x, p.y) == NULL);
 }
 
@@ -704,13 +724,13 @@ bool construct::check_deconstruct(point p)
 bool construct::check_up_OK(point)
 {
     // You're not going above +OVERMAP_HEIGHT.
-    return (g->levz < OVERMAP_HEIGHT);
+    return (g->get_levz() < OVERMAP_HEIGHT);
 }
 
 bool construct::check_down_OK(point)
 {
     // You're not going below -OVERMAP_DEPTH.
-    return (g->levz > -OVERMAP_DEPTH);
+    return (g->get_levz() > -OVERMAP_DEPTH);
 }
 
 void construct::done_tree(point p)
@@ -825,7 +845,8 @@ void construct::done_dig_stair(point p)
  tinymap tmpmap;
  // Upper left corner of the current active map (levx/levy) plus half active map width.
  // The player is always in the center tile of that 11x11 square.
- tmpmap.load(g->levx + (MAPSIZE/2), g->levy + (MAPSIZE / 2), g->levz - 1, false, g->cur_om);
+ const auto pos_sm = g->global_sm_location();
+ tmpmap.load( pos_sm.x, pos_sm.y, pos_sm.z - 1, false );
  bool danger_lava = false;
  bool danger_open = false;
  const int omtilesz=SEEX * 2;  // KA101's 1337 copy & paste skillz
@@ -1094,7 +1115,8 @@ void construct::done_mine_downstair(point p)
  tinymap tmpmap;
  // Upper left corner of the current active map (levx/levy) plus half active map width.
  // The player is always in the center tile of that 11x11 square.
- tmpmap.load(g->levx + (MAPSIZE/2), g->levy + (MAPSIZE / 2), g->levz - 1, false, g->cur_om);
+ const auto pos_sm = g->global_sm_location();
+ tmpmap.load( pos_sm.x, pos_sm.y, pos_sm.z - 1, false );
  bool danger_lava = false;
  bool danger_open = false;
  const int omtilesz=SEEX * 2;  // KA101's 1337 copy & paste skillz
@@ -1364,7 +1386,8 @@ void construct::done_mine_upstair(point p)
  tinymap tmpmap;
  // Upper left corner of the current active map (levx/levy) plus half active map width.
  // The player is always in the center tile of that 11x11 square.
- tmpmap.load(g->levx + (MAPSIZE/2), g->levy + (MAPSIZE / 2), g->levz + 1, false, g->cur_om);
+ const auto pos_sm = g->global_sm_location();
+ tmpmap.load( pos_sm.x, pos_sm.y, pos_sm.z + 1, false );
  bool danger_lava = false;
  bool danger_open = false;
  bool danger_liquid = false;

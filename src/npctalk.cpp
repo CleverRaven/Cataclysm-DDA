@@ -7,7 +7,9 @@
 #include "debug.h"
 #include "catacharset.h"
 #include "messages.h"
+#include "mission.h"
 #include "ammo.h"
+#include "overmapbuffer.h"
 #include <vector>
 #include <string>
 #include <sstream>
@@ -81,7 +83,7 @@ tag_data talk_tags[NUM_STATIC_TAGS] = {
 
 #define SELECT_MISS(txt, index)  ret.push_back(talk_response());\
                                  ret.back().text = txt;\
-                                 ret.back().mission_index = index
+                                 ret.back().mission_selected = index
 
 #define SELECT_TEMP(txt, index)  ret.push_back(talk_response());\
                                  ret.back().text = txt;\
@@ -113,8 +115,6 @@ tag_data talk_tags[NUM_STATIC_TAGS] = {
 
 #define dbg(x) DebugLog((DebugLevel)(x),D_GAME) << __FILE__ << ":" << __LINE__ << ": "
 
-std::string dynamic_line(talk_topic topic, npc *p);
-std::vector<talk_response> gen_responses(talk_topic topic, npc *p);
 int topic_category(talk_topic topic);
 
 talk_topic special_talk(char ch);
@@ -408,6 +408,22 @@ void npc::talk_to_u()
     d.alpha = &g->u;
     d.beta = this;
 
+    // Look for missions that were assigned, but have been de-assigned (player character died),
+    // move them back into the available mission vector.
+    // TODO: or simply fail them? Some missions might only need to be reported.
+    auto &ma = chatbin.missions_assigned;
+    auto const last = std::remove_if( ma.begin(), ma.end(), []( class mission const *m ) {
+        return !m->is_assigned();
+    } );
+    std::copy( last, ma.end(), std::back_inserter( chatbin.missions ) );
+    ma.erase( last, ma.end() );
+
+    for( auto &mission : chatbin.missions_assigned ) {
+        if( mission->get_assigned_player_id() == g->u.getID() ) {
+            d.missions_assigned.push_back( mission );
+        }
+    }
+
     d.topic_stack.push_back(chatbin.first_topic);
 
     if (is_leader()) {
@@ -417,24 +433,42 @@ void npc::talk_to_u()
     }
 
     int most_difficult_mission = 0;
-    for (size_t i = 0; i < chatbin.missions.size(); i++) {
-        mission_type *type = g->find_mission_type(chatbin.missions[i]);
-        if (type->urgent && type->difficulty > most_difficult_mission) {
+    for( auto &mission : chatbin.missions ) {
+        const auto &type = mission->get_type();
+        if (type.urgent && type.difficulty > most_difficult_mission) {
             d.topic_stack.push_back(TALK_MISSION_DESCRIBE);
-            chatbin.mission_selected = i;
-            most_difficult_mission = type->difficulty;
+            chatbin.mission_selected = mission;
+            most_difficult_mission = type.difficulty;
         }
     }
     most_difficult_mission = 0;
     bool chosen_urgent = false;
-    for (size_t i = 0; i < chatbin.missions_assigned.size(); i++) {
-        mission_type *type = g->find_mission_type(chatbin.missions_assigned[i]);
-        if ((type->urgent && !chosen_urgent) || (type->difficulty > most_difficult_mission &&
-              (type->urgent || !chosen_urgent))) {
-            chosen_urgent = type->urgent;
+    for( auto &mission : chatbin.missions_assigned ) {
+        if( mission->get_assigned_player_id() != g->u.getID() ) {
+            // Not assigned to the player that is currently talking to the npc
+            continue;
+        }
+        const auto &type = mission->get_type();
+        if ((type.urgent && !chosen_urgent) || (type.difficulty > most_difficult_mission &&
+              (type.urgent || !chosen_urgent))) {
+            chosen_urgent = type.urgent;
             d.topic_stack.push_back(TALK_MISSION_INQUIRE);
-            chatbin.mission_selected = i;
-            most_difficult_mission = type->difficulty;
+            chatbin.mission_selected = mission;
+            most_difficult_mission = type.difficulty;
+        }
+    }
+    if( chatbin.mission_selected != nullptr ) {
+        if( chatbin.mission_selected->get_assigned_player_id() != g->u.getID() ) {
+            // Don't talk about a mission that is assigned to someone else.
+            chatbin.mission_selected = nullptr;
+        }
+    }
+    if( chatbin.mission_selected == nullptr ) {
+        // if possible, select a mission to talk about
+        if( !chatbin.missions.empty() ) {
+            chatbin.mission_selected = chatbin.missions.front();
+        } else if( !d.missions_assigned.empty() ) {
+            chatbin.mission_selected = d.missions_assigned.front();
         }
     }
 
@@ -484,8 +518,9 @@ void npc::talk_to_u()
     g->refresh_all();
 }
 
-std::string dynamic_line(talk_topic topic, npc *p)
+std::string dialogue::dynamic_line( const talk_topic topic ) const
 {
+    const auto p = beta; // for compatibility, later replace it in the code below
     talk_function effect;
     // First, a sanity test for mission stuff
     if (topic >= TALK_MISSION_START && topic <= TALK_MISSION_END) {
@@ -496,36 +531,21 @@ std::string dynamic_line(talk_topic topic, npc *p)
             return "Used TALK_MISSION_END - not meant to be used!";
         }
 
-        if (p->chatbin.mission_selected == -1) {
-            return "mission_selected = -1; BUG! (npctalk.cpp:dynamic_line)";
-        }
-
-        int id = -1;
-        if (topic == TALK_MISSION_INQUIRE || topic == TALK_MISSION_ACCEPTED ||
-            topic == TALK_MISSION_SUCCESS || topic == TALK_MISSION_ADVICE ||
-            topic == TALK_MISSION_FAILURE || topic == TALK_MISSION_SUCCESS_LIE) {
-            if (p->chatbin.mission_selected >= (int)p->chatbin.missions_assigned.size()) {
-                return "mission_selected is too high; BUG! (npctalk.cpp:dynamic_line)";
-            }
-            id = p->chatbin.missions_assigned[p->chatbin.mission_selected];
-        } else {
-            if (p->chatbin.mission_selected >= (int)p->chatbin.missions.size()) {
-                return "mission_selected is too high; BUG! (npctalk.cpp:dynamic_line (2))";
-            }
-            id = p->chatbin.missions[p->chatbin.mission_selected];
+        if( p->chatbin.mission_selected == nullptr ) {
+            return "mission_selected == nullptr; BUG! (npctalk.cpp:dynamic_line)";
         }
 
         // Mission stuff is a special case, so we'll handle it up here
-        mission *miss = g->find_mission(id);
-        mission_type *type = miss->type;
-        std::string ret = mission_dialogue(mission_id(type->id), topic);
+        mission *miss = p->chatbin.mission_selected;
+        const auto &type = miss->get_type();
+        std::string ret = mission_dialogue( type.id, topic);
         if (ret.empty()) {
             debugmsg("Bug in npctalk.cpp:dynamic_line. Wrong mission_id(%d) or topic(%d)",
-                     mission_id(type->id), topic);
+                     type.id, topic);
             return "";
         }
 
-        if (topic == TALK_MISSION_SUCCESS && miss->follow_up != MISSION_NULL) {
+        if (topic == TALK_MISSION_SUCCESS && miss->has_follow_up() ) {
             switch (rng(1,3)){
                 case 1:
                     return ret + _("  And I have more I'd like you to do.");
@@ -569,27 +589,27 @@ std::string dynamic_line(talk_topic topic, npc *p)
 
         case TALK_MISSION_LIST:
             if (p->chatbin.missions.empty()) {
-                if (p->chatbin.missions_assigned.empty()) {
+                if( missions_assigned.empty() ) {
                     return _("I don't have any jobs for you.");
                 } else {
                     return _("I don't have any more jobs for you.");
                 }
             } else if (p->chatbin.missions.size() == 1) {
-                if (p->chatbin.missions_assigned.empty()) {
+                if( missions_assigned.empty() ) {
                     return _("I just have one job for you.  Want to hear about it?");
                 } else {
                     return _("I have another job for you.  Want to hear about it?");
                 }
-            } else if (p->chatbin.missions_assigned.empty()) {
+            } else if( missions_assigned.empty() ) {
                 return _("I have several jobs for you.  Which should I describe?");
             } else {
                 return _("I have several more jobs for you.  Which should I describe?");
             }
 
         case TALK_MISSION_LIST_ASSIGNED:
-            if (p->chatbin.missions_assigned.empty()) {
+            if( missions_assigned.empty() ) {
                 return _("You're not working on anything for me right now.");
-            } else if (p->chatbin.missions_assigned.size() == 1) {
+            } else if( missions_assigned.size() == 1 ) {
                 return _("What about it?");
             } else {
                 return _("Which job?");
@@ -849,6 +869,80 @@ std::string dynamic_line(talk_topic topic, npc *p)
                       "if there is any work available.  Completing missions as a contractor is a great way to make a name for yourself among "
                       "the most powerful men left in the world.");
 
+         case TALK_OLD_GUARD_SOLDIER:
+	        if (g->u.is_wearing("badge_marshal"))
+	            switch (rng(1,4)){
+	                case 1:
+                        return _("Hello marshal.");
+                    case 2:
+                        return _("Marshal, I'm afraid I can't talk now.");
+                    case 3:
+                        return _("I'm not in charge here marshal.");
+                    case 4:
+                        return _("I'm supposed to direct all questions to my leadership, marshal.");
+	            }
+            switch (rng(1,5)){
+            case 1:
+                return _("Hey, citizen... I'm not sure you belong here.");
+            case 2:
+                return _("You should mind your own business, nothing to see here.");
+            case 3:
+                return _("If you need something you'll need to talk to someone else.");
+            case 4:
+                if (g->u.male)
+                    return _("Sir.");
+                else
+                    return _("Ma'am");
+            case 5:
+                if (g->u.male)
+                    return _("Dude, if you can hold your own you should look into enlisting.");
+                else
+                    return _("Hey miss, don't you think it would be safer if you stuck with me?");
+            }
+
+        case TALK_OLD_GUARD_NEC_CPT:
+            if (g->u.has_trait("PROF_FED")) {
+                return _("Marshal, I hope you're here to assist us.");
+            }
+            if (g->u.male)
+                    return _("Sir, I don't know how the hell you got down here but if you have any sense you'll get out while you can.");
+            return _("Ma'am, I don't know how the hell you got down here but if you have any sense you'll get out while you can.");
+
+        case TALK_OLD_GUARD_NEC_CPT_GOAL:
+            return _("I'm leading what remains of my company on a mission to re-secure this facility.  We entered the complex with two "
+                     "dozen men and immediately went about securing this control room.  From here I dispatched my men to secure vital "
+                     "systems located on this floor and the floors below this one.  If  we are successful, this facility can be cleared "
+                     "and used as a permanent base of operations in the region.  Most importantly it will allow us to redirect refugee "
+                     "traffic away from overcrowded outposts and free up more of our forces to conduct recovery operations.");
+
+        case TALK_OLD_GUARD_NEC_CPT_VAULT:
+            return _("This facility was constructed to provide a safe haven in the event of a global conflict.  The vault can support "
+                     "several thousand people for a few years if all systems are operational and sufficient notification is given.  "
+                     "Unfortunately, the power system was damaged or sabotaged at some point and released a single extremely lethal "
+                     "burst of radiation.  The catastrophic event lasted for several minutes and resulted in the deaths of most people "
+                     "located on the 2nd and lower floors.  Those working on this floor were able to seal the access ways to the "
+                     "lower floors before succumbing to radiation sickness.  The only other thing the logs tell us is that all water "
+                     "pressure was diverted to the lower levels.");
+
+        case TALK_OLD_GUARD_NEC_COMMO:
+            if (g->u.has_trait("PROF_FED")) {
+                return _("Marshal, I'm rather surprised to see you here.");
+            }
+            if (g->u.male)
+                    return _("Sir you are not authorized to be here... you should leave.");
+            return _("Ma'am you are not authorized to be here... you should leave.");
+
+        case TALK_OLD_GUARD_NEC_COMMO_GOAL:
+            return _("We are securing the external communications array for this facility.  I'm rather restricted in what I can release"
+                     "... you should find my commander and ask him any questions you have.");
+
+        case TALK_OLD_GUARD_NEC_COMMO_FREQ:
+            return _("I was expecting him to send a runner.  Here is the list he needs.  What we can identify from here are simply the "
+                     "frequencies that have traffic on them.  Many of the transmissions are indecipherable without repairing or "
+                     "replacing the equipment here.  When the facility was being overrun, standard procedure was to destroy encryption "
+                     "hardware to protect federal secrets and maintain the integrity of the comms network.  We are hoping a few plain "
+                     "text messages can get picked up though.");
+
         case TALK_ARSONIST:
             if (g->u.is_wearing("badge_marshal"))
                 return _("That sure is a shiny badge you got there!");
@@ -974,7 +1068,8 @@ std::string dynamic_line(talk_topic topic, npc *p)
                 case 3: return _("I suppose getting a car up and running should really be useful if we have to disappear quickly from here.");
                 case 4: return _("We could look for one of those farms out here. They can provide plenty of food and aren't close to the cities.");
                 case 5: return _("We should probably stay away from those cities, even if there's plenty of useful stuff there.");
-            }    
+            }
+            
         case TALK_SHARE_EQUIPMENT:
             if (p->has_effect(_("asked_for_item"))) {
                 return _("You just asked me for stuff; ask later.");
@@ -996,8 +1091,8 @@ std::string dynamic_line(talk_topic topic, npc *p)
                 if( !g->u.backlog.empty() && g->u.backlog.front().type == ACT_TRAIN ) {
                 return _("Shall we resume?");
             }
-            std::vector<const Skill*> trainable = p->skills_offered_to(&(g->u));
-            std::vector<matype_id> styles = p->styles_offered_to(&(g->u));
+            std::vector<const Skill*> trainable = p->skills_offered_to(g->u);
+            std::vector<matype_id> styles = p->styles_offered_to(g->u);
             if (trainable.empty() && styles.empty()) {
                 return _("Sorry, but it doesn't seem I have anything to teach you.");
             } else {
@@ -1007,7 +1102,7 @@ std::string dynamic_line(talk_topic topic, npc *p)
             break;
 
         case TALK_TRAIN_START:
-            if (g->cur_om->is_safe(g->om_location().x, g->om_location().y, g->levz)) {
+            if( overmap_buffer.is_safe( g->global_omt_location() ) ) {
                 return _("Alright, let's begin.");
             } else {
                 return _("It's not safe here.  Let's get to safety first.");
@@ -1047,7 +1142,7 @@ std::string dynamic_line(talk_topic topic, npc *p)
         case TALK_HOW_MUCH_FURTHER:
             {
             // TODO: this ignores the z-component
-            const tripoint player_pos = g->om_global_location();
+            const tripoint player_pos = g->global_omt_location();
             int dist = rl_dist(player_pos, p->goal);
             std::stringstream response;
             dist *= 100;
@@ -1162,9 +1257,13 @@ std::string dynamic_line(talk_topic topic, npc *p)
                     return _("Well, I was kidnapped, but you saved me...");
                 case NPC_MISSION_BASE:
                     return _("I'm guarding this location.");
+                case NPC_MISSION_GUARD:
+                    return _("I'm guarding this location.");
                 case NPC_MISSION_NULL:
                     switch (p->myclass) {
                         case NC_SHOPKEEP:
+                            return _("I'm a local shopkeeper.");
+                        case NC_EVAC_SHOPKEEP:
                             return _("I'm a local shopkeeper.");
                         case NC_HACKER:
                             return _("I'm looking for some choice systems to hack.");
@@ -1184,6 +1283,12 @@ std::string dynamic_line(talk_topic topic, npc *p)
                             return _("I'm just here for the paycheck.");
                         case NC_SCAVENGER:
                             return _("I'm just trying to survive.");
+                        case NC_ARSONIST:
+                            return _("I'm just watching the world burn.");
+                        case NC_HUNTER:
+                            return _("I'm tracking game.");
+                        case NC_MAX:
+                            return _("I should not be able to exist!");
                         case NC_NONE:
                             return _("I'm just wandering.");
                         default:
@@ -1266,15 +1371,12 @@ std::string dynamic_line(talk_topic topic, npc *p)
     return "I don't know what to say. (BUG (npctalk.cpp:dynamic_line))";
 }
 
-std::vector<talk_response> gen_responses(talk_topic topic, npc *p)
+std::vector<talk_response> dialogue::gen_responses( const talk_topic topic ) const
 {
+    const auto p = beta; // for compatibility, later replace it in the code below
     std::vector<talk_response> ret;
-    int selected = p->chatbin.mission_selected;
-    mission *miss = NULL;
+    mission *miss = p->chatbin.mission_selected;
     talk_function effect;
-    if (selected != -1 && selected < (int)p->chatbin.missions_assigned.size()) {
-        miss = g->find_mission( p->chatbin.missions_assigned[selected] );
-    }
 
     switch (topic) {
         case TALK_GUARD:
@@ -1287,13 +1389,13 @@ std::vector<talk_response> gen_responses(talk_topic topic, npc *p)
                 RESPONSE(_("Oh, okay."));
                     SUCCESS(TALK_NONE);
             } else if (p->chatbin.missions.size() == 1) {
-                SELECT_MISS(_("Tell me about it."), 0);
+                SELECT_MISS(_("Tell me about it."), p->chatbin.missions.front() );
                     SUCCESS(TALK_MISSION_OFFER);
                 RESPONSE(_("Never mind, I'm not interested."));
                     SUCCESS(TALK_NONE);
             } else {
-                for (size_t i = 0; i < p->chatbin.missions.size(); i++) {
-                    SELECT_MISS(g->find_mission_type( p->chatbin.missions[i] )->name, i);
+                for( auto &mission : p->chatbin.missions ) {
+                    SELECT_MISS( mission->get_type().name, mission );
                         SUCCESS(TALK_MISSION_OFFER);
                 }
                 RESPONSE(_("Never mind, I'm not interested."));
@@ -1302,17 +1404,17 @@ std::vector<talk_response> gen_responses(talk_topic topic, npc *p)
             break;
 
         case TALK_MISSION_LIST_ASSIGNED:
-            if (p->chatbin.missions_assigned.empty()) {
+            if( missions_assigned.empty() ) {
                 RESPONSE(_("Never mind then."));
                     SUCCESS(TALK_NONE);
-            } else if (p->chatbin.missions_assigned.size() == 1) {
-                SELECT_MISS(_("I have news."), 0);
+            } else if( missions_assigned.size() == 1 ) {
+                SELECT_MISS(_("I have news."), missions_assigned.front() );
                     SUCCESS(TALK_MISSION_INQUIRE);
                 RESPONSE(_("Never mind."));
                     SUCCESS(TALK_NONE);
             } else {
-                for (size_t i = 0; i < p->chatbin.missions_assigned.size(); i++) {
-                    SELECT_MISS(g->find_mission_type( p->chatbin.missions_assigned[i] )->name, i);
+                for( auto &miss : missions_assigned ) {
+                    SELECT_MISS( miss->get_type().name, miss );
                         SUCCESS(TALK_MISSION_INQUIRE);
                 }
                 RESPONSE(_("Never mind."));
@@ -1361,8 +1463,8 @@ std::vector<talk_response> gen_responses(talk_topic topic, npc *p)
             break;
 
         case TALK_MISSION_INQUIRE: {
-            int id = p->chatbin.missions_assigned[ p->chatbin.mission_selected ];
-            if (g->mission_failed(id)) {
+            const auto mission = p->chatbin.mission_selected;
+            if( mission->has_failed() ) {
                 RESPONSE(_("I'm sorry... I failed."));
                     SUCCESS(TALK_MISSION_FAILURE);
                         SUCCESS_OPINION(-1, 0, -1, 1, 0);
@@ -1371,11 +1473,10 @@ std::vector<talk_response> gen_responses(talk_topic topic, npc *p)
                     SUCCESS(TALK_NONE);
                     FAILURE(TALK_MISSION_FAILURE);
                         FAILURE_OPINION(-3, 0, -1, 2, 0);
-            } else if (!g->mission_complete(id, p->getID())) {
-                mission_type *type = g->find_mission_type(id);
+            } else if( !mission->is_complete( p->getID() ) ) {
                 RESPONSE(_("Not yet."));
                     SUCCESS(TALK_NONE);
-                if (type->goal == MGOAL_KILL_MONSTER) {
+                if( mission->get_type().goal == MGOAL_KILL_MONSTER ) {
                     RESPONSE(_("Yup, I killed it."));
                     TRIAL(TALK_TRIAL_LIE, 10 + p->op_of_u.trust * 5);
                         SUCCESS(TALK_MISSION_SUCCESS);
@@ -1388,8 +1489,7 @@ std::vector<talk_response> gen_responses(talk_topic topic, npc *p)
                     SUCCESS(TALK_DONE);
             } else {
                 // TODO: Lie about mission
-                mission_type *type = g->find_mission_type(id);
-                switch (type->goal) {
+                switch( mission->get_type().goal ) {
                     case MGOAL_FIND_ITEM:
                     case MGOAL_FIND_ANY_ITEM:
                         RESPONSE(_("Yup!  Here it is!"));
@@ -1428,6 +1528,11 @@ std::vector<talk_response> gen_responses(talk_topic topic, npc *p)
                             SUCCESS(TALK_MISSION_SUCCESS);
                                 SUCCESS_ACTION(&talk_function::mission_success);
                         break;
+                    case MGOAL_COMPUTER_TOGGLE:
+                        RESPONSE(_("I've taken care of it..."));
+                            SUCCESS(TALK_MISSION_SUCCESS);
+                                SUCCESS_ACTION(&talk_function::mission_success);
+                        break;
                     default:
                         RESPONSE(_("Mission success!  I don't know what else to say."));
                         SUCCESS(TALK_MISSION_SUCCESS);
@@ -1441,13 +1546,13 @@ std::vector<talk_response> gen_responses(talk_topic topic, npc *p)
         case TALK_MISSION_SUCCESS:
             RESPONSE(_("Glad to help.  I need no payment."));
                 SUCCESS(TALK_NONE);
-                    SUCCESS_OPINION(miss->value / (OWED_VAL * 4), -1,
-                                    miss->value / (OWED_VAL * 2), -1, 0 - miss->value);
+                    SUCCESS_OPINION(miss->get_value() / (OWED_VAL * 4), -1,
+                                    miss->get_value() / (OWED_VAL * 2), -1, 0 - miss->get_value());
                     SUCCESS_ACTION(&talk_function::clear_mission);
             RESPONSE(_("How about some items as payment?"));
                 SUCCESS(TALK_MISSION_REWARD);
                     SUCCESS_ACTION(&talk_function::mission_reward);
-            if((!p->skills_offered_to(&(g->u)).empty() || !p->styles_offered_to(&(g->u)).empty())
+            if((!p->skills_offered_to(g->u).empty() || !p->styles_offered_to(g->u).empty())
                   && p->myclass != NC_EVAC_SHOPKEEP) {
                 SELECT_TEMP(_("Maybe you can teach me something as payment."), 0);
                     SUCCESS(TALK_TRAIN);
@@ -1460,7 +1565,7 @@ std::vector<talk_response> gen_responses(talk_topic topic, npc *p)
                 SUCCESS(TALK_DONE);
                     SUCCESS_ACTION(&talk_function::clear_mission);
                     SUCCESS_OPINION(p->op_of_u.owed / (OWED_VAL * 4), -1,
-                                    p->op_of_u.owed / (OWED_VAL * 2), -1, 0 - miss->value);
+                                    p->op_of_u.owed / (OWED_VAL * 2), -1, 0 - miss->get_value());
             break;
 
         case TALK_MISSION_SUCCESS_LIE:
@@ -1493,10 +1598,10 @@ std::vector<talk_response> gen_responses(talk_topic topic, npc *p)
                 SUCCESS(TALK_EVAC_MERCHANT_ASK_JOIN);
             RESPONSE(_("Can I do anything for the center?"));
                 SUCCESS(TALK_MISSION_LIST);
-            if (p->chatbin.missions_assigned.size() == 1) {
+            if( missions_assigned.size() == 1 ) {
                 RESPONSE(_("About that job..."));
                     SUCCESS(TALK_MISSION_INQUIRE);
-            } else if (p->chatbin.missions_assigned.size() >= 2) {
+            } else if( missions_assigned.size() >= 2 ) {
                 RESPONSE(_("About one of those jobs..."));
                     SUCCESS(TALK_MISSION_LIST_ASSIGNED);
             }
@@ -1659,10 +1764,10 @@ std::vector<talk_response> gen_responses(talk_topic topic, npc *p)
                 SUCCESS(TALK_EVAC_GUARD2_TRADE);
             RESPONSE(_("Is there anything I can do to help?"));
                 SUCCESS(TALK_MISSION_LIST);
-            if (p->chatbin.missions_assigned.size() == 1) {
+            if( missions_assigned.size() == 1) {
                 RESPONSE(_("About that job..."));
                     SUCCESS(TALK_MISSION_INQUIRE);
-            } else if (p->chatbin.missions_assigned.size() >= 2) {
+            } else if( missions_assigned.size() >= 2) {
                 RESPONSE(_("About one of those jobs..."));
                     SUCCESS(TALK_MISSION_LIST_ASSIGNED);
             }
@@ -1828,10 +1933,10 @@ std::vector<talk_response> gen_responses(talk_topic topic, npc *p)
                 SUCCESS( TALK_OLD_GUARD_REP_ASK_JOIN);
             RESPONSE(_("Does the Old Guard need anything?"));
                 SUCCESS(TALK_MISSION_LIST);
-            if (p->chatbin.missions_assigned.size() == 1) {
+            if( missions_assigned.size() == 1 ) {
                 RESPONSE(_("About that job..."));
                     SUCCESS(TALK_MISSION_INQUIRE);
-            } else if (p->chatbin.missions_assigned.size() >= 2) {
+            } else if( missions_assigned.size() >= 2 ) {
                 RESPONSE(_("About one of those jobs..."));
                     SUCCESS(TALK_MISSION_LIST_ASSIGNED);
             }
@@ -1881,6 +1986,77 @@ std::vector<talk_response> gen_responses(talk_topic topic, npc *p)
                 SUCCESS(TALK_OLD_GUARD_REP);
             break;
 
+        case TALK_OLD_GUARD_SOLDIER:
+            RESPONSE(_("Don't mind me..."));
+                SUCCESS(TALK_DONE);
+            break;
+
+        case TALK_OLD_GUARD_NEC_CPT:
+            if (g->u.has_trait("PROF_FED")){
+                RESPONSE(_("What are you doing down here?"));
+                    SUCCESS(TALK_OLD_GUARD_NEC_CPT_GOAL);
+                RESPONSE(_("Can you tell me about this facility?"));
+                    SUCCESS(TALK_OLD_GUARD_NEC_CPT_VAULT);
+                RESPONSE(_("What do you need done?"));
+                    SUCCESS(TALK_MISSION_LIST);
+                if (p->chatbin.missions_assigned.size() == 1) {
+                    RESPONSE(_("About the mission..."));
+                        SUCCESS(TALK_MISSION_INQUIRE);
+                } else if (p->chatbin.missions_assigned.size() >= 2) {
+                    RESPONSE(_("About one of those missions..."));
+                        SUCCESS(TALK_MISSION_LIST_ASSIGNED);
+                }
+            }
+            RESPONSE(_("I've got to go..."));
+                SUCCESS(TALK_DONE);
+            break;
+
+        case TALK_OLD_GUARD_NEC_CPT_GOAL:
+            RESPONSE(_("Seems like a decent plan..."));
+                SUCCESS(TALK_OLD_GUARD_NEC_CPT);
+            break;
+
+        case TALK_OLD_GUARD_NEC_CPT_VAULT:
+            RESPONSE(_("Whatever they did it must have worked since we are still alive..."));
+                SUCCESS(TALK_OLD_GUARD_NEC_CPT);
+            break;
+
+        case TALK_OLD_GUARD_NEC_COMMO:
+            if (g->u.has_trait("PROF_FED")){
+                for( auto miss : g->u.get_active_missions() ) {
+                    if( miss->name() == "Locate Commo Team"){
+                        RESPONSE(_("[MISSION] The captain sent me to get a frequency list from you."));
+                            SUCCESS(TALK_OLD_GUARD_NEC_COMMO_FREQ);
+                    }
+                }
+                RESPONSE(_("What are you doing here?"));
+                    SUCCESS(TALK_OLD_GUARD_NEC_COMMO_GOAL);
+                RESPONSE(_("Do you need any help?"));
+                    SUCCESS(TALK_MISSION_LIST);
+                if (p->chatbin.missions_assigned.size() == 1) {
+                    RESPONSE(_("About the mission..."));
+                        SUCCESS(TALK_MISSION_INQUIRE);
+                } else if (p->chatbin.missions_assigned.size() >= 2) {
+                    RESPONSE(_("About one of those missions..."));
+                        SUCCESS(TALK_MISSION_LIST_ASSIGNED);
+                }
+            }
+            RESPONSE(_("I should be going..."));
+                SUCCESS(TALK_DONE);
+            break;
+
+        case TALK_OLD_GUARD_NEC_COMMO_GOAL:
+            RESPONSE(_("I'll try and find your commander then..."));
+                SUCCESS(TALK_OLD_GUARD_NEC_COMMO);
+            break;
+
+        case TALK_OLD_GUARD_NEC_COMMO_FREQ:
+            popup(_("%s gives you a %s"), p->name.c_str(), item("necropolis_freq", 0).tname().c_str());
+            g->u.i_add( item("necropolis_freq", 0) );
+            RESPONSE(_("Thanks."));
+                SUCCESS(TALK_OLD_GUARD_NEC_COMMO);
+            break;
+
         case TALK_ARSONIST:
             RESPONSE(_("I'm actually new."));
                 SUCCESS(TALK_ARSONIST_NEW);
@@ -1894,10 +2070,10 @@ std::vector<talk_response> gen_responses(talk_topic topic, npc *p)
                 SUCCESS(TALK_ARSONIST_MUTATION);
             RESPONSE(_("Anything I can help with?"));
                 SUCCESS(TALK_MISSION_LIST);
-            if (p->chatbin.missions_assigned.size() == 1) {
+            if( missions_assigned.size() == 1 ) {
                 RESPONSE(_("About that job..."));
                     SUCCESS(TALK_MISSION_INQUIRE);
-            } else if (p->chatbin.missions_assigned.size() >= 2) {
+            } else if( missions_assigned.size() >= 2 ) {
                 RESPONSE(_("About one of those jobs..."));
                     SUCCESS(TALK_MISSION_LIST_ASSIGNED);
             }
@@ -2103,10 +2279,10 @@ std::vector<talk_response> gen_responses(talk_topic topic, npc *p)
             RESPONSE(_("Let's trade items."));
                 SUCCESS(TALK_NONE);
                 SUCCESS_ACTION(&talk_function::start_trade);
-            if (p->chatbin.missions_assigned.size() == 1) {
+            if( missions_assigned.size() == 1 ) {
                 RESPONSE(_("About that job..."));
                     SUCCESS(TALK_MISSION_INQUIRE);
-            } else if (p->chatbin.missions_assigned.size() >= 2) {
+            } else if( missions_assigned.size() >= 2 ) {
                 RESPONSE(_("About one of those jobs..."));
                     SUCCESS(TALK_MISSION_LIST_ASSIGNED);
             }
@@ -2209,8 +2385,8 @@ std::vector<talk_response> gen_responses(talk_topic topic, npc *p)
                 }
                 SUCCESS(TALK_TRAIN_START);
             }
-            std::vector<matype_id> styles = p->styles_offered_to( &(g->u) );
-            std::vector<const Skill*> trainable = p->skills_offered_to( &(g->u) );
+            std::vector<matype_id> styles = p->styles_offered_to(g->u);
+            std::vector<const Skill*> trainable = p->skills_offered_to(g->u);
             if (trainable.empty() && styles.empty()) {
                 RESPONSE(_("Oh, okay.")); // Nothing to learn here
                     SUCCESS(TALK_NONE);
@@ -2256,7 +2432,7 @@ std::vector<talk_response> gen_responses(talk_topic topic, npc *p)
             break;
 
         case TALK_TRAIN_START:
-            if (g->cur_om->is_safe(g->om_location().x, g->om_location().y, g->levz)) {
+            if( overmap_buffer.is_safe( g->global_omt_location() ) ) {
                 RESPONSE(_("Sounds good."));
                     SUCCESS(TALK_DONE);
                         SUCCESS_ACTION(&talk_function::start_training);
@@ -2429,7 +2605,7 @@ std::vector<talk_response> gen_responses(talk_topic topic, npc *p)
             RESPONSE(_("Let's trade items."));
                 SUCCESS(TALK_NONE);
                 SUCCESS_ACTION(&talk_function::start_trade);
-            if (p->is_following() && g->m.camp_at(g->u.posx(), g->u.posy())) {
+            if (p->is_following() && g->m.camp_at( g->u.pos3() )) {
                 RESPONSE(_("Wait at this base."));
                     SUCCESS(TALK_DONE);
                         SUCCESS_ACTION(&talk_function::assign_base);
@@ -2864,66 +3040,56 @@ int topic_category(talk_topic topic)
 
 void talk_function::assign_mission(npc *p)
 {
-    int selected = p->chatbin.mission_selected;
-    if (selected == -1 || selected >= (int)p->chatbin.missions.size()) {
-        debugmsg("mission_selected = %d; missions.size() = %d!",
-                    selected, p->chatbin.missions.size());
+    mission *miss = p->chatbin.mission_selected;
+    if( miss == nullptr ) {
+        debugmsg( "assign_mission: mission_selected == nullptr" );
         return;
     }
-    mission *miss = g->find_mission( p->chatbin.missions[selected] );
-    g->assign_mission(p->chatbin.missions[selected]);
-    miss->npc_id = p->getID();
-    g->u.active_mission = g->u.active_missions.size() - 1;
-    p->chatbin.missions_assigned.push_back( p->chatbin.missions[selected] );
-    p->chatbin.missions.erase(p->chatbin.missions.begin() + selected);
+    miss->assign( g->u );
+    p->chatbin.missions_assigned.push_back( miss );
+    const auto it = std::find( p->chatbin.missions.begin(), p->chatbin.missions.end(), miss );
+    p->chatbin.missions.erase( it );
 }
 
 void talk_function::mission_success(npc *p)
 {
-    int selected = p->chatbin.mission_selected;
-    if (selected == -1 || selected >= (int)p->chatbin.missions_assigned.size()) {
-        debugmsg("mission_selected = %d; missions_assigned.size() = %d!",
-                    selected, p->chatbin.missions_assigned.size());
+    mission *miss = p->chatbin.mission_selected;
+    if( miss == nullptr ) {
+        debugmsg( "mission_success: mission_selected == nullptr" );
         return;
     }
-    int index = p->chatbin.missions_assigned[selected];
-    mission *miss = g->find_mission(index);
-    npc_opinion tmp( 0, 0, 1 + (miss->value / 1000), -1, miss->value);
+    npc_opinion tmp( 0, 0, 1 + (miss->get_value() / 1000), -1, miss->get_value());
     p->op_of_u += tmp;
     if (p->my_fac != NULL){
         p->my_fac->likes_u += 10;
         p->my_fac->respects_u += 10;
     }
-    g->wrap_up_mission(index);
+    miss->wrap_up();
 }
 
 void talk_function::mission_failure(npc *p)
 {
-    int selected = p->chatbin.mission_selected;
-    if (selected == -1 || selected >= (int)p->chatbin.missions_assigned.size()) {
-        debugmsg("mission_selected = %d; missions_assigned.size() = %d!",
-                    selected, p->chatbin.missions_assigned.size());
+    mission *miss = p->chatbin.mission_selected;
+    if( miss == nullptr ) {
+        debugmsg( "mission_failure: mission_selected == nullptr" );
         return;
     }
     npc_opinion tmp( -1, 0, -1, 1, 0);
     p->op_of_u += tmp;
-    g->mission_failed(p->chatbin.missions_assigned[selected]);
+    miss->fail();
 }
 
 void talk_function::clear_mission(npc *p)
 {
-    int selected = p->chatbin.mission_selected;
-    p->chatbin.mission_selected = -1;
-    if (selected == -1 || selected >= (int)p->chatbin.missions_assigned.size()) {
-        debugmsg("mission_selected = %d; missions_assigned.size() = %d!",
-                    selected, p->chatbin.missions_assigned.size());
+    mission *miss = p->chatbin.mission_selected;
+    if( miss == nullptr ) {
+        debugmsg( "clear_mission: mission_selected == nullptr" );
         return;
     }
-    mission *miss = g->find_mission( p->chatbin.missions_assigned[selected] );
-    p->chatbin.missions_assigned.erase( p->chatbin.missions_assigned.begin() +
-                                        selected);
-    if (miss->follow_up != MISSION_NULL) {
-        p->chatbin.missions.push_back( g->reserve_mission(miss->follow_up, p->getID()) );
+    const auto it = std::find( p->chatbin.missions_assigned.begin(), p->chatbin.missions_assigned.end(), miss );
+    p->chatbin.missions_assigned.erase( it );
+    if( miss->has_follow_up() ) {
+        p->add_new_mission( mission::reserve_new( miss->get_follow_up(), p->getID() ) );
     }
 }
 
@@ -3155,13 +3321,13 @@ void talk_function::player_weapon_drop(npc *p)
 
 void talk_function::lead_to_safety(npc *p)
 {
- g->give_mission(MISSION_REACH_SAFETY);
- int missid = g->u.active_missions[g->u.active_mission];
- point target = g->find_mission( missid )->target;
+    const auto mission = mission::reserve_new( MISSION_REACH_SAFETY, -1 );
+    mission->assign( g->u );
+    const point target = mission->get_target();
  // TODO: the target has no z-component
  p->goal.x = target.x;
  p->goal.y = target.y;
- p->goal.z = g->levz;
+ p->goal.z = g->get_levz();
  p->attitude = NPCATT_LEAD;
 }
 
@@ -3292,8 +3458,8 @@ talk_topic dialogue::opt(talk_topic topic)
  const char* talk_trial_text[NUM_TALK_TRIALS] = {
   "", _("LIE"), _("PERSUADE"), _("INTIMIDATE")
  };
- std::string challenge = dynamic_line(topic, beta);
- std::vector<talk_response> responses = gen_responses(topic, beta);
+ std::string challenge = dynamic_line( topic );
+ std::vector<talk_response> responses = gen_responses( topic );
 // Put quotes around challenge (unless it's an action)
  if (challenge[0] != '*' && challenge[0] != '&') {
   std::stringstream tmp;
@@ -3420,8 +3586,8 @@ talk_topic dialogue::opt(talk_topic topic)
  }
 
  talk_response chosen = responses[ch];
- if (chosen.mission_index != -1)
-  beta->chatbin.mission_selected = chosen.mission_index;
+ if (chosen.mission_selected != nullptr)
+  beta->chatbin.mission_selected = chosen.mission_selected;
  if (chosen.tempvalue != -1)
   beta->chatbin.tempvalue = chosen.tempvalue;
  if (chosen.skill != NULL)

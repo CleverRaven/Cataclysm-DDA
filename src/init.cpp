@@ -18,6 +18,7 @@
 #include "mapdata.h"
 #include "color.h"
 #include "trap.h"
+#include "mission.h"
 #include "monstergenerator.h"
 #include "inventory.h"
 #include "tutorial.h"
@@ -63,17 +64,6 @@ DynamicDataLoader &DynamicDataLoader::get_instance()
         theDynamicDataLoader.initialize();
     }
     return theDynamicDataLoader;
-}
-
-/*
- * Populate optional ter_id and furn_id variables
- */
-void init_data_mappings()
-{
-    set_ter_ids();
-    set_furn_ids();
-    set_oter_ids();
-    set_trap_ids();
 }
 
 void DynamicDataLoader::load_object(JsonObject &jo)
@@ -137,7 +127,7 @@ void DynamicDataLoader::initialize()
 
     type_function_map["vehicle_part"] = new ClassFunctionAccessor<game>(g, &game::load_vehiclepart);
     type_function_map["vehicle"] = new ClassFunctionAccessor<game>(g, &game::load_vehicle);
-    type_function_map["trap"] = new StaticFunctionAccessor(&load_trap);
+    type_function_map["trap"] = new StaticFunctionAccessor(&trap::load);
     type_function_map["AMMO"] = new ClassFunctionAccessor<Item_factory>(item_controller,
             &Item_factory::load_ammo);
     type_function_map["GUN"] = new ClassFunctionAccessor<Item_factory>(item_controller,
@@ -323,7 +313,7 @@ void DynamicDataLoader::unload_data()
     clear_techniques_and_martial_arts();
     // Mission types are not loaded from json, but they depend on
     // the overmap terrain + items and that gets loaded from json.
-    g->mission_types.clear();
+    mission_type::reset();
     item_controller->reset();
     mutations_category.clear();
     mutation_category_traits.clear();
@@ -342,7 +332,7 @@ void DynamicDataLoader::unload_data()
     reset_recipe_categories();
     reset_recipes();
     quality::reset();
-    release_traps();
+    trap::reset();
     reset_constructions();
     reset_overmap_terrain();
     reset_region_settings();
@@ -358,11 +348,13 @@ void DynamicDataLoader::unload_data()
 }
 
 extern void calculate_mapgen_weights();
-extern void init_data_mappings();
 void DynamicDataLoader::finalize_loaded_data()
 {
-    g->init_missions(); // Needs overmap terrain.
-    init_data_mappings();
+    mission_type::initialize(); // Needs overmap terrain.
+    set_ter_ids();
+    set_furn_ids();
+    set_oter_ids();
+    trap::finalize();
     finalize_overmap_terrain();
     g->finalize_vehicles();
     calculate_mapgen_weights();
@@ -388,4 +380,5 @@ void DynamicDataLoader::check_consistency()
     check_martialarts();
     mutation_branch::check_consistency();
     ammunition_type::check_consistency();
+    trap::check_consistency();
 }

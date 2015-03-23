@@ -35,9 +35,13 @@ int Pickup::interact_with_vehicle( vehicle *veh, int posx, int posy, int veh_roo
         cargo_part = veh->part_with_feature(veh_root_part, "CARGO", false);
         ctrl_part = veh->part_with_feature(veh_root_part, "CONTROLS");
         from_vehicle = veh && cargo_part >= 0 && !veh->get_items(cargo_part).empty();
+        const bool can_be_folded = veh->is_foldable();
+        const bool is_convertible = (veh->tags.count("convertible") > 0);
+        const bool remotely_controlled = g->remoteveh() == veh;
 
         menu_items.push_back(_("Examine vehicle"));
         options_message.push_back(uimenu_entry(_("Examine vehicle"), 'e'));
+
         if (ctrl_part >= 0) {
             menu_items.push_back(_("Control vehicle"));
             options_message.push_back(uimenu_entry(_("Control vehicle"), 'v'));
@@ -53,10 +57,16 @@ int Pickup::interact_with_vehicle( vehicle *veh, int posx, int posy, int veh_roo
             options_message.push_back(uimenu_entry(_("Get items on the ground"), 'i'));
         }
 
+        if( ( can_be_folded || is_convertible ) && !remotely_controlled ) {
+            menu_items.push_back(_("Fold vehicle"));
+            options_message.push_back(uimenu_entry(_("Fold vehicle"), 'f'));
+        }
+
         if((k_part >= 0 || chempart >= 0) && veh->fuel_left("battery") > 0) {
             menu_items.push_back(_("Use the hotplate"));
             options_message.push_back(uimenu_entry(_("Use the hotplate"), 'h'));
         }
+
         if((k_part >= 0 || wtr_part >= 0) && veh->fuel_left("water") > 0) {
             menu_items.push_back(_("Fill a container with water"));
             options_message.push_back(uimenu_entry(_("Fill a container with water"), 'c'));
@@ -64,10 +74,12 @@ int Pickup::interact_with_vehicle( vehicle *veh, int posx, int posy, int veh_roo
             menu_items.push_back(_("Have a drink"));
             options_message.push_back(uimenu_entry(_("Have a drink"), 'd'));
         }
+
         if(w_part >= 0 && veh->fuel_left("battery") > 0) {
             menu_items.push_back(_("Use the welding rig?"));
             options_message.push_back(uimenu_entry(_("Use the welding rig?"), 'w'));
         }
+
         if(craft_part >= 0 && veh->fuel_left("battery") > 0) {
             menu_items.push_back(_("Use the water purifier?"));
             options_message.push_back(uimenu_entry(_("Use the water purifier?"), 'p'));
@@ -155,6 +167,11 @@ int Pickup::interact_with_vehicle( vehicle *veh, int posx, int posy, int veh_roo
                     veh->refill( "battery", tmp_purifier.charges );
                 }
             }
+            return -2;
+        }
+
+        if(menu_items[choice] == _("Fold vehicle")) {
+            veh->fold_up();
             return -2;
         }
 

@@ -561,7 +561,6 @@
                 "P": "f_indoor_plant",
                 "r": "f_rack",
                 "S": "f_sink",
-                "t": "f_toilet",
                 "U": "f_statue",
                 "z": "f_crate_c"
             }
@@ -617,9 +616,9 @@
                 { "item": "allclothes", "chance": 60, "x": [ 8, 20 ], "y": [ 11, 11 ]},
                 { "item": "allclothes", "chance": 60, "x": [ 8, 17 ], "y": [ 16, 16 ]}
             ],
-            "place_toilets": [
-                { "x": 14, "y": 23 }
-            ],
+            "toilets": {
+                "t": { }
+            },
             "place_npcs": [
                 { "class": "guard", "x": 19, "y": 21 }
             ],
@@ -1093,7 +1092,6 @@
                 "P": "f_indoor_plant",
                 "r": "f_rack",
                 "S": "f_sink",
-                "t": "f_toilet",
                 "U": "f_statue",
                 "z": "f_crate_c"
             }
@@ -1137,11 +1135,9 @@
             "place_vehicles": [
                 { "vehicle": "schoolbus", "x": 4, "y": 8, "rotation": 270, "chance": 90 }
             ],
-            "place_toilets": [
-                { "type": "toilet", "x": 14, "y": 3 },
-                { "type": "toilet", "x": 14, "y": 20 },
-                { "type": "toilet", "x": 14, "y": 22 }
-            ],
+            "toilets": {
+                "t": { }
+            },
             "place_npcs": [
                 { "class": "evac_guard2", "x": 18, "y": 18 }
             ],
@@ -1310,7 +1306,6 @@
                 "P": "f_indoor_plant",
                 "r": "f_rack",
                 "S": "f_sink",
-                "t": "f_toilet",
                 "U": "f_statue",
                 "z": "f_crate_c"
             }
@@ -1355,12 +1350,9 @@
                 { "vehicle": "car", "x": 17, "y": 16, "rotation": 90, "chance": 90 },
                 { "vehicle": "pickup", "x": 18, "y": 8, "rotation": 90, "chance": 90 }
             ],
-            "place_toilets": [
-                { "x": 8, "y": 3 },
-                { "x": 8, "y": 1 },
-                { "x": 8, "y": 20 },
-                { "x": 8, "y": 22 }
-            ],
+            "toilets": {
+                "t": { }
+            },
             "terrain": {
                 " ": "t_floor",
                 "~": "t_floor",
@@ -1609,7 +1601,6 @@
                 "P": "f_indoor_plant",
                 "r": "f_rack",
                 "S": "f_sink",
-                "t": "f_toilet",
                 "U": "f_statue",
                 "z": "f_crate_c"
             }
@@ -1646,9 +1637,9 @@
                 "s.......................",
                 "ss......................"
             ],
-            "place_toilets": [
-                { "x": 14, "y": 0 }
-            ],
+            "toilets": {
+                "t": { }
+            },
             "place_npcs": [
                 { "class": "scavenger_merc", "x": 8, "y": 5 },
                 { "class": "old_guard_rep", "x": 19, "y": 7 }

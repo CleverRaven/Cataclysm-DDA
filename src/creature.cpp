@@ -245,6 +245,7 @@ Creature *Creature::auto_find_hostile_target( int range, int &boo_hoo, int area 
 {
     Creature *target = nullptr;
     player &u = g->u; // Could easily protect something that isn't the player
+    constexpr int hostile_adj = 2; // Priority bonus for hostile targets
     const int iff_dist = ( range + area ) * 3 / 2 + 6; // iff check triggers at this distance
     int iff_hangle = 15 + area; // iff safety margin (degrees). less accuracy, more paranoia
     float best_target_rating = -1.0f; // bigger is better
@@ -296,7 +297,7 @@ Creature *Creature::auto_find_hostile_target( int range, int &boo_hoo, int area 
         // Prioritize big, armed and hostile stuff
         float mon_rating = m->power_rating();
         float target_rating = mon_rating / dist;
-        if( mon_rating <= 0 ) {
+        if( mon_rating + hostile_adj <= 0 ) {
             // We wouldn't attack it even if it was hostile
             continue;
         }
@@ -307,33 +308,34 @@ Creature *Creature::auto_find_hostile_target( int range, int &boo_hoo, int area 
         }
         if( area_iff > 0 && rl_dist( u.posx(), u.posy(), m->posx(), m->posy() ) <= area ) {
             // Player in AoE
-            if( mon_rating > 1 ) {
-                boo_hoo++;
-            }
+            boo_hoo++;
             continue;
         }
+        // Hostility check can be expensive, but we need to inform the player of boo_hoo
+        // only when the target is actually "hostile enough"
+        bool maybe_boo = false;
         if( angle_iff ) {
             int tangle = g->m.coord_to_angle(posx(), posy(), m->posx(), m->posy());
             int diff = abs(u_angle - tangle);
             // Player is in the angle and not too far behind the target
             if( ( diff + iff_hangle > 360 || diff < iff_hangle ) &&
                 ( dist * 3 / 2 + 6 > pldist ) ) {
-                // Don't inform of very weak targets we wouldn't shoot anyway
-                if( mon_rating > 1 ) {
-                    boo_hoo++;
-                }
-                continue;
+                maybe_boo = true;
             }
         }
-        if( ( mon_rating + 2 ) / dist <= best_target_rating ) {
+        if( !maybe_boo && ( ( mon_rating + hostile_adj ) / dist <= best_target_rating ) ) {
             // "Would we skip the target even if it was hostile?"
             // Helps avoid (possibly expensive) attitude calculation
             continue;
         }
         if( m->attitude_to( u ) == A_HOSTILE ) {
-            target_rating = ( mon_rating + 2 ) / dist;
+            target_rating = ( mon_rating + hostile_adj ) / dist;
+            if( maybe_boo ) {
+                boo_hoo++;
+                continue;
+            }
         }
-        if( target_rating <= best_target_rating ) {
+        if( target_rating <= best_target_rating || target_rating <= 0 ) {
             continue; // Handle this late so that boo_hoo++ can happen
         }
 
@@ -574,26 +576,17 @@ int Creature::deal_projectile_attack(Creature *source, double missed_by,
         } else if (source != NULL) {
             if (source->is_player()) {
                 //player hits monster ranged
-                nc_color color;
-                std::string health_bar = "";
-                get_HP_Bar(dealt_dam.total_damage(), this->get_hp_max(), color, health_bar, true);
+                SCT.add(posx(), posy(),
+                        direction_from(0, 0, posx() - source->posx(), posy() - source->posy()),
+                        get_hp_bar(dealt_dam.total_damage(), get_hp_max(), true).first,
+                        m_good, message, gmtSCTcolor);
 
-                SCT.add(this->posx(),
-                        this->posy(),
-                        direction_from(0, 0, this->posx() - source->posx(), this->posy() - source->posy()),
-                        health_bar, m_good,
-                        message, gmtSCTcolor);
-
-                if (this->get_hp() > 0) {
-                    get_HP_Bar(this->get_hp(), this->get_hp_max(), color, health_bar, true);
-
-                    SCT.add(this->posx(),
-                            this->posy(),
-                            direction_from(0, 0, this->posx() - source->posx(), this->posy() - source->posy()),
-                            health_bar, m_good,
+                if (get_hp() > 0) {
+                    SCT.add(posx(), posy(),
+                            direction_from(0, 0, posx() - source->posx(), posy() - source->posy()),
+                            get_hp_bar(get_hp(), get_hp_max(), true).first, m_good,
                             //~ “hit points”, used in scrolling combat text
-                            _("hp"), m_neutral,
-                            "hp");
+                            _("hp"), m_neutral, "hp");
                 } else {
                     SCT.removeCreatureHP();
                 }
@@ -906,11 +899,11 @@ void Creature::process_effects()
     for( auto &elem : effects ) {
         for( auto &_it : elem.second ) {
             // Add any effects that others remove to the removal list
-            if( _it.second.get_removes_effect() != "" ) {
-                rem_ids.push_back( _it.second.get_removes_effect() );
+            for( const auto removed_effect : _it.second.get_removes_effects() ) {
+                rem_ids.push_back( removed_effect );
                 rem_bps.push_back(num_bp);
             }
-            // Run decay effects
+            // Run decay effects, marking effects for removal as necessary.
             _it.second.decay( rem_ids, rem_bps, calendar::turn, is_player() );
         }
     }

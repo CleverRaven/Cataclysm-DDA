@@ -58,11 +58,11 @@ enum LIQUID_FILL_ERROR {L_ERR_NONE, L_ERR_NO_MIX, L_ERR_NOT_CONTAINER, L_ERR_NOT
 
 enum layer_level {
     UNDERWEAR = 0,
-    REGULAR_LAYER,
-    WAIST_LAYER,
-    OUTER_LAYER,
-    BELTED_LAYER,
-    MAX_CLOTHING_LAYER
+    REGULAR_LAYER = 10,
+    WAIST_LAYER = 20,
+    OUTER_LAYER = 30,
+    BELTED_LAYER = 40,
+    MAX_CLOTHING_LAYER = 50
 };
 
 class item_category
@@ -518,7 +518,6 @@ public:
 
  LIQUID_FILL_ERROR has_valid_capacity_for_liquid(const item &liquid) const;
  int get_remaining_capacity_for_liquid(const item &liquid) const;
- int get_remaining_capacity() const;
 
  bool operator<(const item& other) const;
     /** List of all @ref components in printable form, empty if this item has
@@ -951,7 +950,8 @@ public:
  int max_charges_from_flag(std::string flagName);
 };
 
-bool item_compare_by_charges( const item *left, const item *right);
+bool item_compare_by_charges( const item& left, const item& right);
+bool item_ptr_compare_by_charges( const item *left, const item *right);
 
 std::ostream &operator<<(std::ostream &, const item &);
 std::ostream &operator<<(std::ostream &, const item *);

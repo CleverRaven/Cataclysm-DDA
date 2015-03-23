@@ -77,7 +77,7 @@ public:
      * Draw character t at (x,y) on the screen,
      * using (curses) color.
      */
-    virtual void OutputChar(const std::string &ch, int x, int y, unsigned char color) = 0;
+    virtual void OutputChar(std::string ch, int x, int y, unsigned char color) = 0;
     virtual void draw_ascii_lines(unsigned char line_id, int drawx, int drawy, int FG) const;
     bool draw_window(WINDOW *win);
     bool draw_window(WINDOW *win, int offsetx, int offsety);
@@ -100,13 +100,28 @@ public:
 
     void clear();
     void load_font(std::string typeface, int fontsize);
-    virtual void OutputChar(const std::string &ch, int x, int y, unsigned char color);
+    virtual void OutputChar(std::string ch, int x, int y, unsigned char color);
 protected:
     SDL_Texture *create_glyph(const std::string &ch, int color);
 
     TTF_Font* font;
     // Maps (character code, color) to SDL_Texture*
-    typedef std::map<std::pair<std::string, unsigned char>, SDL_Texture *> t_glyph_map;
+
+    struct key_t {
+        std::string   codepoints;
+        unsigned char color;
+
+        bool operator<(key_t const &rhs) const noexcept {
+            return (color == rhs.color) ? codepoints < rhs.codepoints : color < rhs.color;
+        }
+    };
+    
+    struct cached_t {
+        SDL_Texture* texture;
+        int          width;
+    };
+
+    typedef std::map<key_t, cached_t> t_glyph_map;
     t_glyph_map glyph_cache_map;
 };
 
@@ -121,7 +136,7 @@ public:
 
     void clear();
     void load_font(const std::string &path);
-    virtual void OutputChar(const std::string &ch, int x, int y, unsigned char color);
+    virtual void OutputChar(std::string ch, int x, int y, unsigned char color);
     void OutputChar(long t, int x, int y, unsigned char color);
     virtual void draw_ascii_lines(unsigned char line_id, int drawx, int drawy, int FG) const;
 protected:
@@ -486,32 +501,31 @@ SDL_Texture *CachedTTFFont::create_glyph(const std::string &ch, int color)
     return glyph;
 }
 
-void CachedTTFFont::OutputChar(const std::string &ch, int x, int y, unsigned char color)
-{
-    color &= 0xf;
-    const t_glyph_map::key_type key( ch, color );
-    auto it = glyph_cache_map.find( key );
-    SDL_Texture *glyph;
-    if( it == glyph_cache_map.end() ) {
-        glyph = glyph_cache_map[key] = create_glyph( ch, color );
+void CachedTTFFont::OutputChar(std::string ch, int const x, int const y, unsigned char const color)
+{   
+    key_t    key {std::move(ch), static_cast<unsigned char>(color & 0xf)};
+    cached_t value;
+
+    auto const it = glyph_cache_map.lower_bound(key);
+    if (it != std::end(glyph_cache_map) && !glyph_cache_map.key_comp()(key, it->first)) {
+        value = it->second;
     } else {
-        glyph = it->second;
+        value.texture = create_glyph(key.codepoints, key.color);
+        value.width = fontwidth * utf8_wrapper(key.codepoints).display_width();
+        glyph_cache_map.insert(it, std::make_pair(std::move(key), value));
     }
-    if (glyph == NULL) {
+
+    if (!value.texture) {
         // Nothing we can do here )-:
         return;
     }
-    SDL_Rect rect;
-    rect.x = x;
-    rect.y = y;
-    rect.w = fontwidth * utf8_wrapper( ch ).display_width();
-    rect.h = fontheight;
-    if( SDL_RenderCopy( renderer, glyph, NULL, &rect ) != 0 ) {
+    SDL_Rect rect {x, y, value.width, fontheight};
+    if (SDL_RenderCopy( renderer, value.texture, nullptr, &rect)) {
         dbg(D_ERROR) << "SDL_RenderCopy failed: " << SDL_GetError();
     }
 }
 
-void BitmapFont::OutputChar(const std::string &ch, int x, int y, unsigned char color)
+void BitmapFont::OutputChar(std::string ch, int x, int y, unsigned char color)
 {
     int len = ch.length();
     const char *s = ch.c_str();
@@ -1825,8 +1839,8 @@ void CachedTTFFont::clear()
         font = NULL;
     }
     for (t_glyph_map::iterator a = glyph_cache_map.begin(); a != glyph_cache_map.end(); ++a) {
-        if (a->second != NULL) {
-            SDL_DestroyTexture(a->second);
+        if (a->second.texture) {
+            SDL_DestroyTexture(a->second.texture);
         }
     }
     glyph_cache_map.clear();

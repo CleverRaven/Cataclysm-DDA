@@ -49,7 +49,7 @@ void activity_handlers::burrow_finish(player_activity *act, player *p)
         p->mod_pain(3 * rng(1, 3));
         // Mining is construction work!
         p->practice("carpentry", 5);
-    } else if( g->m.move_cost(dirx, diry) == 2 && g->levz == 0 &&
+    } else if( g->m.move_cost(dirx, diry) == 2 && g->get_levz() == 0 &&
                g->m.ter(dirx, diry) != t_dirt && g->m.ter(dirx, diry) != t_grass ) {
         //Breaking up concrete on the surface? not nearly as bad
         p->hunger += 5;
@@ -740,7 +740,7 @@ void activity_handlers::pickaxe_finish(player_activity *act, player *p)
         p->mod_pain(2 * rng(1, 3));
         // Mining is construction work!
         p->practice("carpentry", 5);
-    } else if( g->m.move_cost(dirx, diry) == 2 && g->levz == 0 &&
+    } else if( g->m.move_cost(dirx, diry) == 2 && g->get_levz() == 0 &&
                g->m.ter(dirx, diry) != t_dirt && g->m.ter(dirx, diry) != t_grass ) {
         //Breaking up concrete on the surface? not nearly as bad
         p->hunger += 5;

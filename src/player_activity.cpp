@@ -44,6 +44,7 @@ const std::string &player_activity::get_stop_phrase() const
         _(" Stop stashing?"), _(" Stop picking up?"),
         _(" Stop moving items?"),
         _(" Stop interacting with inventory?"),
+        _(" Stop fiddling with your clothes?"),
         _(" Stop lighting the fire?"), _(" Stop filling the container?"),
         _(" Stop hotwiring the vehicle?"),
         _(" Stop aiming?"), _(" Stop using the ATM?")
@@ -72,6 +73,7 @@ bool player_activity::is_abortable() const
         case ACT_HOTWIRE_CAR:
         case ACT_MOVE_ITEMS:
         case ACT_ADV_INVENTORY:
+        case ACT_ARMOR_LAYERS:
         case ACT_START_FIRE:
         case ACT_FILL_LIQUID:
             return true;
@@ -99,6 +101,7 @@ bool player_activity::is_suspendable() const
         case ACT_PICKUP:
         case ACT_MOVE_ITEMS:
         case ACT_ADV_INVENTORY:
+        case ACT_ARMOR_LAYERS:
         case ACT_AIM:
         case ACT_ATM:
             return false;
@@ -189,6 +192,10 @@ void player_activity::do_turn( player *p )
         case ACT_ADV_INVENTORY:
             p->cancel_activity();
             advanced_inv();
+            break;
+        case ACT_ARMOR_LAYERS:
+            p->cancel_activity();
+            p->sort_armor();
             break;
         case ACT_START_FIRE:
             moves_left -= 100; // based on time

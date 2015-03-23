@@ -457,7 +457,7 @@ void player::power_bionics()
         }
         //confirmation either occurred by pressing enter where the bionic cursor is, or the hotkey was selected
         if(confirmCheck){
-            if(action == "CONFIRM"){
+            if(action == "CONFIRM" && current_bionic_list->size() > 0){
                 if(tab_mode == "TAB_ACTIVE"){
                     tmp = active[cursor];
                 }else{
@@ -938,7 +938,7 @@ bool player::activate_bionic(int b, bool eff_only)
         item tmp_item( "pseuso_bio_picklock", 0 );
         if( invoke_item( &tmp_item ) == 0 ) {
             charge_power(bionics["bio_lockpick"]->power_activate);
-            return false;
+            return true;
         }
         if( tmp_item.damage > 0 ) {
             // TODO: damage the player / their bionics
@@ -956,7 +956,7 @@ bool player::activate_bionic(int b, bool eff_only)
         if( veh ) {
             vehwindspeed = abs(veh->velocity / 100); // vehicle velocity in mph
         }
-        const oter_id &cur_om_ter = overmap_buffer.ter(g->om_global_location());
+        const oter_id &cur_om_ter = overmap_buffer.ter(g->global_omt_location());
         std::string omtername = otermap[cur_om_ter].name;
         int windpower = get_local_windpower(weatherPoint.windpower + vehwindspeed, omtername, g->is_sheltered(g->u.posx(), g->u.posy()));
 
@@ -1110,7 +1110,7 @@ void player::process_bionic(int b)
                     return;
                 } else {
                     // Pay the recharging cost
-                    charge_power(bionics[bio.id]->power_over_time);
+                    charge_power(-bionics[bio.id]->power_over_time);
                     // We just spent our first turn of charge, so -1 here
                     bio.charge = bionics[bio.id]->charge_time - 1;
                 }

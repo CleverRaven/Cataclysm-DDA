@@ -72,7 +72,6 @@
                 "8": "f_bathtub",
                 "9": "f_rack",
                 ":": "f_dresser",
-                ";": "f_toilet",
                 "=": "f_fireplace",
                 ">": "f_counter",
                 "?": "f_sofa",
@@ -86,9 +85,9 @@
                 "H": "f_armchair",
                 "G": "f_oven"
             },
-            "place_toilets": [
-                { "x": 15, "y": 13 }
-            ],
+            "toilets": {
+                ";": { }
+            },
             "comment": "specific terrain/furniture/radiation. doing this until grass_or_dirt is supported ---v",
             "set": [
                 { "point": "terrain", "id": "t_dirt", "x": 23, "y": [ 0, 23 ], "repeat": [ 5, 10 ] },

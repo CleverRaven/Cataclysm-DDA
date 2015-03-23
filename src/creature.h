@@ -19,6 +19,7 @@
 class game;
 class JsonObject;
 class JsonOut;
+struct trap;
 
 class Creature
 {
@@ -79,6 +80,13 @@ class Creature
          * Attitude (of this creature) towards another creature. This might not be symmetric.
          */
         virtual Attitude attitude_to( const Creature &other ) const = 0;
+
+        /**
+         * Called when a creature triggers a trap, returns true if they don't set it off.
+         * @param tr is the trap that was triggered.
+         * @param pos is the location of the trap (not necessarily of the creature) in the main map.
+         */
+        virtual bool avoid_trap( const tripoint &pos, const trap &tr ) = 0;
 
         /**
          * The functions check whether this creature can see the target.

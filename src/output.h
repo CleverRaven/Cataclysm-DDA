@@ -176,7 +176,8 @@ std::string string_input_win (WINDOW *w, std::string input, int max_length, int 
 
 long popup_getkey(const char *mes, ...);
 // for the next two functions, if cancelable is true, esc returns the last option
-int  menu_vec(bool cancelable, const char *mes, std::vector<std::string> options);
+int  menu_vec(bool cancelable, const char *mes, const std::vector<std::string> options);
+int  menu_vec(bool cancelable, const char *mes, const std::vector<std::string> &options, const std::string &hotkeys_override);
 int  menu(bool cancelable, const char *mes, ...);
 void popup_top(const char *mes, ...); // Displayed at the top of the screen
 void popup(const char *mes, ...);
@@ -221,9 +222,10 @@ size_t shortcut_print(WINDOW *w, nc_color color, nc_color colork, const std::str
 // short visual animation (player, monster, ...) (hit, dodge, ...)
 // cTile is a UTF-8 strings, and must be a single cell wide!
 void hit_animation(int iX, int iY, nc_color cColor, const std::string &cTile);
-void get_HP_Bar(const int current_hp, const int max_hp, nc_color &color,
-                std::string &health_bar, const bool bMonster = false);
-std::pair<nc_color, std::string> get_item_HP_Bar(const int iDamage);
+
+std::pair<std::string, nc_color> const& get_hp_bar(int cur_hp, int max_hp, bool is_mon = false);
+std::pair<std::string, nc_color> const& get_item_hp_bar(int dmg);
+
 void draw_tab(WINDOW *w, int iOffsetX, std::string sText, bool bSelected);
 void draw_subtab(WINDOW *w, int iOffsetX, std::string sText, bool bSelected, bool bDecorate = true);
 void draw_scrollbar(WINDOW *window, const int iCurrentLine, const int iContentHeight,
