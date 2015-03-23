@@ -7351,7 +7351,7 @@ int iuse::boots(player *p, item *it, bool, point)
             p->add_msg_if_player(m_info, _("You do not have that item!"));
             return 0;
         }
-        if (!put->type->can_use("KNIFE")) {
+        if (!put->has_flag("SHEATH_KNIFE")) {
             p->add_msg_if_player(m_info, _("That isn't a knife!"));
             return 0;
         }
