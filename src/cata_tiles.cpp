@@ -84,6 +84,7 @@ std::string const& to_string(tile_category const cat)
     auto const i = static_cast<int>(cat);
     if (i < 0 || i >= size) {
         dbg(D_ERROR) << "bad tile_category value";
+        strings[0];
     }
 
     return strings[i];
@@ -282,8 +283,6 @@ tile_type const* file_tile_category(
         break;
     case tile_category::weather :
         break;
-    default:
-        break;
     }
 
     // Special cases for walls
@@ -363,7 +362,6 @@ tile_type const* find_tile_fallback(Container const &ids, tile_category const ca
 
 } //namespace
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-extern game *g;
 extern int WindowHeight, WindowWidth;
 extern int fontwidth, fontheight;
 
@@ -756,7 +754,13 @@ void cata_tiles::load_tilejson_from_file(JsonObject &config, int const offset, i
                 tile_type &curr_subtile = load_tile(subentry, m_id, offset, size);
                 curr_subtile.rotates = true;
 
-                multitile_variations_[t_id][from_string(s_id)] = &curr_subtile;
+                auto mit = multitile_variations_.find(t_id);
+                if (mit == multitile_variations_.end()) {
+                    mit = multitile_variations_.insert(
+                        std::make_pair(t_id, multitile_variation_t {})).first;
+                }
+
+                mit->second[from_string(s_id)] = &curr_subtile;
             }
         }
 
@@ -778,13 +782,13 @@ tile_type& cata_tiles::load_tile(JsonObject &entry, const std::string &id,
     int bg = entry.get_int(key_bg, -1);
     if (fg != -1 && fg < 0 || fg >= size) {
         entry.throw_error("invalid value for fg (out of range)", "fg");
-    } else {
+    } else if (fg != -1) {
         fg += offset;
     }
 
     if (bg != -1 && bg < 0 || bg >= size) {
         entry.throw_error("invalid value for bg (out of range)", "bg");
-    } else {
+    } else if (bg != -1) {
         bg += offset;
     }
     
@@ -806,7 +810,14 @@ tile_type& cata_tiles::load_tile(JsonObject &entry, const std::string &id,
     {
         // all season suffixes are the same length
         std::string main_id = id.substr(0, id.size() - 14);
-        seasonal_variations_[main_id][i - 1] = &tile;
+        
+        auto sit = seasonal_variations_.find(main_id);
+        if (sit == seasonal_variations_.end()) {
+            sit = seasonal_variations_.insert(
+                std::make_pair(main_id, seasonal_variation_t {})).first;
+        }
+        
+        sit->second[i - 1] = &tile;
         
         auto const it = tile_ids.find(main_id);
         if (it != std::end(tile_ids)) {
