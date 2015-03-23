@@ -1643,6 +1643,25 @@ bool vehicle::can_mount (int dx, int dy, std::string id)
         }
     }
 
+    //Mirrors cannot be mounted on OPAQUE parts
+    if( vehicle_part_types[id].has_flag( "VISION" ) &&
+        !vehicle_part_types[id].has_flag( "CAMERA" ) ) {
+        for( const auto &elem : parts_in_square ) {
+            if( part_info( elem ).has_flag( "OPAQUE" ) ) {
+                return false;
+            }
+        }
+    }
+    //and vice versa
+    if( vehicle_part_types[id].has_flag( "OPAQUE" ) ) {
+        for( const auto &elem : parts_in_square ) {
+            if( part_info( elem ).has_flag( "VISION" ) &&
+                !part_info( elem ).has_flag( "CAMERA" ) ) {
+                return false;
+            }
+        }
+    }
+
     //Anything not explicitly denied is permitted
     return true;
 }
