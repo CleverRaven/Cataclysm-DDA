@@ -41,7 +41,6 @@
 #include <bitset>
 
 #include <fstream>
-#include <cmath>
 
 extern std::map<std::string, martialart> ma_styles;
 
