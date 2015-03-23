@@ -755,6 +755,14 @@ public:
     rl_vec2d face_vec();
     rl_vec2d move_vec();
 
+    /**
+     * Update the submap coordinates smx, smy, and update the tracker info in the overmap
+     * (if enabled).
+     * This should be called only when the vehicle has actually been moved, not when
+     * the map is just shifted (in the later case simply set smx/smy directly).
+     */
+    void set_submap_moved(int x, int y);
+
     // config values
     std::string name;   // vehicle name
     std::string type;           // vehicle type
@@ -789,18 +797,11 @@ public:
      * not change therefor no call to set_submap_moved is required.
      */
     int smx, smy;
-    /**
-     * Update the submap coordinates smx, smy, and update the tracker info in the overmap
-     * (if enabled).
-     * This should be called only when the vehicle has actually been moved, not when
-     * the map is just shifted (in the later case simply set smx/smy directly).
-     */
-    void set_submap_moved(int x, int y);
-    bool insides_dirty; // if true, then parts' "inside" flags are outdated and need refreshing
+
     int init_veh_fuel;
     int init_veh_status;
     float alternator_load;
-    int last_repair_turn; // Turn it was last repaired, used to make consecutive repairs faster.
+    int last_repair_turn = -1; // Turn it was last repaired, used to make consecutive repairs faster.
 
     // save values
     /**
@@ -809,44 +810,50 @@ public:
      * Note that vehicles are "moved" by map::displace_vehicle. You should not
      * set them directly, except when initializing the vehicle or during mapgen.
      */
-    int posx, posy;
+    int posx = 0;
+    int posy = 0;
     tileray face;       // frame direction
     tileray move;       // direction we are moving
-    int velocity;       // vehicle current velocity, mph * 100
-    int cruise_velocity; // velocity vehicle's cruise control trying to acheive
+    int velocity = 0;       // vehicle current velocity, mph * 100
+    int cruise_velocity = 0; // velocity vehicle's cruise control trying to acheive
     std::string music_id;    // what music storage device is in the stereo
-    bool cruise_on;     // cruise control on/off
-    bool reactor_on;    // reactor on/off
-    bool engine_on;     // at least one engine is on, of any type
-    bool lights_on;     // lights on/off
-    bool stereo_on;
-    bool tracking_on;        // vehicle tracking on/off
-    bool is_locked; //vehicle has no key
-    bool is_alarm_on;  //vehicle has alarm on
-    bool camera_on;
     int om_id;          // id of the om_vehicle struct corresponding to this vehicle
-    bool overhead_lights_on; //circle lights on/off
-    bool dome_lights_on; // dome lights (rear view mirror lights) on
-    bool aisle_lights_on; // aisle lights on
-    bool fridge_on;     //fridge on/off
-    bool recharger_on;  //recharger on/off
     int turn_dir;       // direction, to wich vehicle is turning (player control). will rotate frame on next move
-    bool skidding;      // skidding mode
-    int last_turn;      // amount of last turning (for calculate skidding due to handbrake)
+
+    int last_turn = 0;      // amount of last turning (for calculate skidding due to handbrake)
     //int moves;
     float of_turn;      // goes from ~1 to ~0 while proceeding every turn
     float of_turn_carry;// leftover from prev. turn
-    int turret_mode;    // turret firing mode: 0 = off, 1 = burst fire
-    int lights_epower;   // total power of components with LIGHT or CONE_LIGHT flag
-    int overhead_epower;   // total power of components with CIRCLE_LIGHT flag
-    int tracking_epower; // total power consumed by tracking devices (why would you use more than one?)
-    int fridge_epower; // total power consumed by fridges
-    int alarm_epower;
-    int dome_lights_epower;
-    int aisle_lights_epower;
-    int recharger_epower; // total power consumed by rechargers
-    int camera_epower; // power consumed by camera system
-    bool check_environmental_effects; // True if it has bloody or smoking parts
+    int turret_mode = 0;    // turret firing mode: 0 = off, 1 = burst fire
+
+    int lights_epower       = 0; // total power of components with LIGHT or CONE_LIGHT flag
+    int overhead_epower     = 0; // total power of components with CIRCLE_LIGHT flag
+    int tracking_epower     = 0; // total power consumed by tracking devices (why would you use more than one?)
+    int fridge_epower       = 0; // total power consumed by fridges
+    int alarm_epower        = 0;
+    int dome_lights_epower  = 0;
+    int aisle_lights_epower = 0;
+    int recharger_epower    = 0; // total power consumed by rechargers
+    int camera_epower       = 0; // power consumed by camera system
+
+    // TODO: change these to a bitset + enum?
+    bool cruise_on                  = true;  // cruise control on/off
+    bool reactor_on                 = false; // reactor on/off
+    bool engine_on                  = false; // at least one engine is on, of any type
+    bool lights_on                  = false; // lights on/off
+    bool stereo_on                  = false;
+    bool tracking_on                = false; // vehicle tracking on/off
+    bool is_locked                  = false; // vehicle has no key
+    bool is_alarm_on                = false; // vehicle has alarm on
+    bool camera_on                  = false;
+    bool overhead_lights_on         = false; // circle lights on/off
+    bool dome_lights_on             = false; // dome lights (rear view mirror lights) on
+    bool aisle_lights_on            = false; // aisle lights on
+    bool fridge_on                  = false; // fridge on/off
+    bool recharger_on               = false; // recharger on/off
+    bool skidding                   = false; // skidding mode
+    bool check_environmental_effects= false; // has bloody or smoking parts
+    bool insides_dirty              = true;  // "inside" flags are outdated and need refreshing
 };
 
 #endif
