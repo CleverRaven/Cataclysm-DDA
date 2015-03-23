@@ -4,7 +4,7 @@
         "skill" : "survival",
         "description" : "Build Improvised Shelter",
         "category" : "CONSTRUCT",
-        "difficulty" : 1,
+        "difficulty" : 2,
         "time" : 90,
         "qualities": [ [
             { "id": "CUT", "level": 1 },
