@@ -626,6 +626,9 @@ void vehicle::control_engines() {
             dirty = true;
         }
     }
+
+    if( !dirty ) { return; }
+
     // if current velocity greater than new configuration safe speed
     // drop down cruise velocity.
     int safe_vel = safe_velocity();
@@ -633,21 +636,17 @@ void vehicle::control_engines() {
         cruise_velocity = safe_vel;
     }
 
-    // Restart engines with new configuration
-    if( dirty ) {
-        if( engine_on ) {
-            add_msg( _("You turn off the %s's engines to change their configurations."), name.c_str() );
-        }
-        if( engine_on || g->u.controlling_vehicle ) {
-            if( !start_engines() ) {
-                if( g->u.controlling_vehicle && velocity == 0 ) {
-                    g->u.controlling_vehicle = false;
-                    add_msg( _("You let go of the controls.") );
-                }
-            }
-        } else {
-            add_msg( _("You change the %s's engine configuration."), name.c_str() );
-        }
+    if( engine_on ) {
+        add_msg( _("You turn off the %s's engines to change their configurations."), name.c_str() );
+        engine_on = false;
+    } else if( !g->u.controlling_vehicle ) {
+        add_msg( _("You change the %s's engine configuration."), name.c_str() );
+        return;
+    }
+
+    if( !start_engines() && g->u.controlling_vehicle && !velocity ) {
+        g->u.controlling_vehicle = false;
+        add_msg( _("You let go of the controls.") );
     }
 }
 
@@ -1340,21 +1339,25 @@ bool vehicle::start_engine( const int e )
     const vpart_info &einfo = part_info( engines[e] );
 
     if( !fuel_left( einfo.fuel_type ) ) {
-        add_msg( _("The %s is out of %s."), einfo.name.c_str(), ammo_name( einfo.fuel_type ).c_str() );
+        if( einfo.fuel_type == fuel_type_muscle ) {
+            add_msg( _("The %s's mechanism is out of reach!"), name.c_str() );
+        } else {
+            add_msg( _("The %s is out of %s."), einfo.name.c_str(), ammo_name( einfo.fuel_type ).c_str() );
+        }
         return false;
     }
 
     const bool combustion = einfo.fuel_type == fuel_type_gasoline ||
         einfo.fuel_type == fuel_type_diesel;
-    const double dmg = 1 - (parts[engines[e]].hp / einfo.durability);
+    const double dmg = 1.0 - ((double)parts[engines[e]].hp / einfo.durability);
     const int engine_power = part_power( engines[e], true );
 
     // Diesel engines are harder to start in cold weather
-    double cold_factor = 0;
+    double cold_factor = 0.0;
     if( einfo.fuel_type == fuel_type_diesel ) {
-        cold_factor = 1 - g->get_temperature() / 40;
-        if( cold_factor < 0 ) { cold_factor = 0; }
-        if( cold_factor > 1 ) { cold_factor = 1; }
+        cold_factor = 1.0 - (g->get_temperature() / 40.0);
+        if( cold_factor < 0.0 ) { cold_factor = 0.0; }
+        if( cold_factor > 1.0 ) { cold_factor = 1.0; }
     }
 
     // Start attempt takes time and makes noise
@@ -1374,7 +1377,7 @@ bool vehicle::start_engine( const int e )
     if( combustion ) {
         // Small engines can be started without a battery (pull start or kick start)
         if( engine_power >= 50 ) {
-            const int penalty = ((engine_power / 2) * dmg) + ((engine_power / 5) * cold_factor);
+            const int penalty = ((engine_power * dmg) / 2) + ((engine_power * cold_factor) / 5);
             if( discharge_battery( (engine_power + penalty) / 10, true ) != 0 ) {
                 add_msg( _("The %s makes a rapid clicking sound."), einfo.name.c_str() );
                 return false;
@@ -1414,12 +1417,12 @@ bool vehicle::start_engines()
     }
 
     if( attempted == 0 ) {
-        add_msg( _("The %s has no engine."), name.c_str() );
+        add_msg( _("The %s doesn't have an engine!"), name.c_str() );
     } else if( not_muscle > 0 ) {
         if( started == attempted ) {
             add_msg( ngettext("The %s's engine starts up.", "The %s's engines start up.", not_muscle), name.c_str() );
         } else {
-            add_msg( ngettext("The %s's engine fails to start.", "The %s's engines fail to start.", not_muscle), name.c_str() );
+            add_msg( m_info, ngettext("The %s's engine fails to start.", "The %s's engines fail to start.", not_muscle), name.c_str() );
         }
     }
 
@@ -1520,7 +1523,7 @@ int vehicle::part_power( int index, bool at_full_hp ) {
     // Damaged engines give less power, but gas/diesel handle it better
     if( part_info(index).fuel_type == fuel_type_gasoline ||
         part_info(index).fuel_type == fuel_type_diesel ) {
-        return pwr * (0.25 + 0.75 * parts[index].hp / part_info(index).durability);
+        return pwr * (0.25 + (0.75 * ((double)parts[index].hp / part_info(index).durability)));
     } else {
         return pwr * parts[index].hp / part_info(index).durability;
     }
@@ -3072,7 +3075,7 @@ void vehicle::noise_and_smoke( double load, double time )
             double cur_pwr = load * max_pwr;
 
             if( is_engine_type(e, fuel_type_gasoline) || is_engine_type(e, fuel_type_diesel)) {
-                const double dmg = 1 - (parts[p].hp / part_info( p ).durability);
+                const double dmg = 1.0 - ((double)parts[p].hp / part_info( p ).durability);
                 if( is_engine_type( e, fuel_type_gasoline ) && dmg > 0.75 &&
                         one_in( 200 - (150 * dmg) ) ) {
                     backfire( e );
