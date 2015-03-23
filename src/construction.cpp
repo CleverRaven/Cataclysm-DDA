@@ -840,6 +840,21 @@ void construct::done_deconstruct(point p)
     }
 }
 
+std::vector<point> find_safe_places( point const &center )
+{
+    map &m = g->m;
+    // Determine safe places for the character to get pulled to
+    std::vector<point> safe;
+    for( int i = center.x - 1; i <= center.x + 1; i++ ) {
+        for( int j = center.y - 1; j <= center.y + 1; j++ ) {
+            if( m.move_cost( i, j ) > 0 ) {
+                safe.push_back( point( i, j ) );
+            }
+        }
+    }
+    return safe;
+}
+
 int digging_perception( int const offset )
 {
     // Smart and perceptive folks can pick up on Bad Stuff Below farther out
@@ -961,15 +976,7 @@ void construct::done_dig_stair(point p)
               add_msg(_("The grappling hook catches something!"));
               if (rng(g->u.skillLevel("unarmed"),
                       g->u.skillLevel("unarmed") + g->u.str_cur) > 7) {
-              // Determine safe places for the character to get pulled to
-              std::vector<point> safe;
-                  for (int i = p.x - 1; i <= p.x + 1; i++) {
-                    for (int j = p.y - 1; j <= p.y + 1; j++) {
-                      if (g->m.move_cost(i, j) > 0) {
-                          safe.push_back(point(i, j));
-                      }
-                    }
-                  }
+              std::vector<point> const safe = find_safe_places( p );
                   if (safe.empty()) {
                       add_msg(m_bad, _("There's nowhere to pull yourself to, and you fall!"));
                       g->u.use_amount("grapnel", 1);
@@ -1010,15 +1017,7 @@ void construct::done_dig_stair(point p)
                       add_msg(_("Your web holds firm!"));
                       if (rng(g->u.skillLevel("unarmed"),
                           g->u.skillLevel("unarmed") + g->u.str_cur) > 7) {
-                          // Determine safe places for the character to get pulled to
-                          std::vector<point> safe;
-                          for (int i = p.x - 1; i <= p.x + 1; i++) {
-                            for (int j = p.y - 1; j <= p.y + 1; j++) {
-                              if (g->m.move_cost(i, j) > 0) {
-                                  safe.push_back(point(i, j));
-                              }
-                            }
-                          }
+                          std::vector<point> const safe = find_safe_places( p );
                           if (safe.empty()) {
                               add_msg(m_bad, _("There's nowhere to pull yourself to, and you fall!"));
                               g->vertical_move(-1, true);
@@ -1049,15 +1048,7 @@ void construct::done_dig_stair(point p)
               add_msg(_("The rope snags and holds!"));
               if (rng(g->u.skillLevel("unarmed"),
                       g->u.skillLevel("unarmed") + g->u.str_cur) > 7) {
-              // Determine safe places for the character to get pulled to
-              std::vector<point> safe;
-                  for (int i = p.x - 1; i <= p.x + 1; i++) {
-                    for (int j = p.y - 1; j <= p.y + 1; j++) {
-                      if (g->m.move_cost(i, j) > 0) {
-                          safe.push_back(point(i, j));
-                      }
-                    }
-                  }
+              std::vector<point> const safe = find_safe_places( p );
                   if (safe.empty()) {
                       add_msg(m_bad, _("There's nowhere to pull yourself to, and you fall!"));
                       g->m.spawn_item(g->u.posx() + rng(-1, 1), g->u.posy() + rng(-1, 1), "rope_30");
@@ -1217,14 +1208,7 @@ void construct::done_mine_downstair(point p)
               if (rng(g->u.skillLevel("unarmed"),
                       g->u.skillLevel("unarmed") + g->u.str_cur) > 7) {
               // Determine safe places for the character to get pulled to
-              std::vector<point> safe;
-                  for (int i = p.x - 1; i <= p.x + 1; i++) {
-                    for (int j = p.y - 1; j <= p.y + 1; j++) {
-                      if (g->m.move_cost(i, j) > 0) {
-                          safe.push_back(point(i, j));
-                      }
-                    }
-                  }
+              std::vector<point> const safe = find_safe_places( p );
                   if (safe.empty()) {
                       add_msg(m_bad, _("There's nowhere to pull yourself to, and you fall!"));
                       g->u.use_amount("grapnel", 1);
@@ -1265,15 +1249,7 @@ void construct::done_mine_downstair(point p)
                       add_msg(_("Your web holds firm!"));
                       if (rng(g->u.skillLevel("unarmed"),
                           g->u.skillLevel("unarmed") + g->u.str_cur) > 7) {
-                          // Determine safe places for the character to get pulled to
-                          std::vector<point> safe;
-                          for (int i = p.x - 1; i <= p.x + 1; i++) {
-                            for (int j = p.y - 1; j <= p.y + 1; j++) {
-                              if (g->m.move_cost(i, j) > 0) {
-                                  safe.push_back(point(i, j));
-                              }
-                            }
-                          }
+                          std::vector<point> const safe = find_safe_places( p );
                           if (safe.empty()) {
                               add_msg(m_bad, _("There's nowhere to pull yourself to, and you fall!"));
                               g->vertical_move(-1, true);
@@ -1304,15 +1280,7 @@ void construct::done_mine_downstair(point p)
               add_msg(_("The rope snags and holds!"));
               if (rng(g->u.skillLevel("unarmed"),
                       g->u.skillLevel("unarmed") + g->u.str_cur) > 7) {
-              // Determine safe places for the character to get pulled to
-              std::vector<point> safe;
-                  for (int i = p.x - 1; i <= p.x + 1; i++) {
-                    for (int j = p.y - 1; j <= p.y + 1; j++) {
-                      if (g->m.move_cost(i, j) > 0) {
-                          safe.push_back(point(i, j));
-                      }
-                    }
-                  }
+              std::vector<point> const safe = find_safe_places( p );
                   if (safe.empty()) {
                       add_msg(m_bad, _("There's nowhere to pull yourself to, and you fall!"));
                       g->m.spawn_item(g->u.posx() + rng(-1, 1), g->u.posy() + rng(-1, 1), "rope_30");
