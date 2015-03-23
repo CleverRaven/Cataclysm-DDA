@@ -298,17 +298,31 @@ class map
  std::vector<point> route(const int Fx, const int Fy, const int Tx, const int Ty, const int bash) const;
 
  int coord_to_angle (const int x, const int y, const int tgtx, const int tgty) const;
-// vehicles
- VehicleList get_vehicles();
- VehicleList get_vehicles(const int sx, const int sy, const int ex, const int ey);
+// Vehicles: Common to 2D and 3D
+    VehicleList get_vehicles();
+    void update_vehicle_cache(vehicle *, const bool brand_new = false);
+    void reset_vehicle_cache();
+    void clear_vehicle_cache();
+    void update_vehicle_list(submap * const to);
+
+    void destroy_vehicle (vehicle *veh);
+    void vehmove();          // Vehicle movement
+    bool vehproceed();
 
 // 2D overloads for vehicles
+    VehicleList get_vehicles(const int sx, const int sy, const int ex, const int ey);
     vehicle* veh_at(const int x, const int y, int &part_num);
     const vehicle* veh_at(const int x, const int y, int &part_num) const;
     const vehicle* veh_at_internal(const int x, const int y, int &part_num) const;
     vehicle* veh_at(const int x, const int y);
     const vehicle* veh_at(const int x, const int y) const;
+    point veh_part_coordinates(const int x, const int y);
+    void board_vehicle(int x, int y, player *p);
+    void unboard_vehicle(const int x, const int y);
+    bool displace_vehicle (int &x, int &y, const int dx, const int dy, bool test = false);
+    bool displace_water (const int x, const int y);
 // 3D vehicles
+    VehicleList get_vehicles( const tripoint &start, const tripoint &end );
     /**
     * Checks if tile is occupied by vehicle and by which part.
     *
@@ -323,32 +337,22 @@ class map
     */
     vehicle* veh_at( const tripoint &p );// checks if tile is occupied by vehicle
     const vehicle* veh_at( const tripoint &p ) const;
-
- /**
-  * Vehicle-relative coordinates from reality bubble coordinates, if a vehicle
-  * actually exists here.
-  * Returns 0,0 if no vehicle exists there (use veh_at to check if it exists first)
-  */
- point veh_part_coordinates(const int x, const int y);
-
- // put player on vehicle at x,y
- void board_vehicle(int x, int y, player *p);
- void unboard_vehicle(const int x, const int y);//remove player from vehicle at x,y
- void update_vehicle_cache(vehicle *, const bool brand_new = false);
- void reset_vehicle_cache();
- void clear_vehicle_cache();
- void update_vehicle_list(submap * const to);
-
- void destroy_vehicle (vehicle *veh);
-// Change vehicle coords and move vehicle's driver along.
-// Returns true, if there was a submap change.
-// If test is true, function only checks for submap change, no displacement
-// WARNING: not checking collisions!
- bool displace_vehicle (int &x, int &y, const int dx, const int dy, bool test = false);
- void vehmove();          // Vehicle movement
- bool vehproceed();
-// move water under wheels. true if moved
- bool displace_water (const int x, const int y);
+    /**
+    * Vehicle-relative coordinates from reality bubble coordinates, if a vehicle
+    * actually exists here.
+    * Returns 0,0 if no vehicle exists there (use veh_at to check if it exists first)
+    */
+    point veh_part_coordinates( const tripoint &p );
+    // put player on vehicle at x,y
+    void board_vehicle( const tripoint &p, player *pl );
+    void unboard_vehicle( const tripoint &p );//remove player from vehicle at x,y
+    // Change vehicle coords and move vehicle's driver along.
+    // Returns true, if there was a submap change.
+    // If test is true, function only checks for submap change, no displacement
+    // WARNING: not checking collisions!
+    bool displace_vehicle( tripoint &p, const tripoint &dp, bool test = false );
+    // move water under wheels. true if moved
+    bool displace_water( const tripoint &dp );
 
 // Furniture: 2D overloads
     void set(const int x, const int y, const ter_id new_terrain, const furn_id new_furniture);
