@@ -358,10 +358,10 @@ void player::fire_gun(int tarx, int tary, bool burst)
         bio_power_drain = std::max( 1, ups_drain / 5 );
     }
 
-    // Fake UPS - used for (player-fired) vehicle mounted turrets
+    // Fake UPS - used for vehicle mounted turrets
     int fake_ups_drain = 0;
-    if( ups_drain > 0 && !worn.empty() && worn[0].type->id == "fake_UPS" ) {
-        num_shots = std::min( num_shots, worn[0].charges / ups_drain );
+    if( ups_drain > 0 && !worn.empty() && worn.back().type->id == "fake_UPS" ) {
+        num_shots = std::min( num_shots, worn.back().charges / ups_drain );
         fake_ups_drain = ups_drain;
         ups_drain = 0;
         adv_ups_drain = 0;

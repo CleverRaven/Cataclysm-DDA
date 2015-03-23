@@ -167,7 +167,7 @@ vehicle::vehicle(std::string type_id, int init_veh_fuel, int init_veh_status): t
     last_turn = 0;
     last_repair_turn = -1;
     of_turn_carry = 0;
-    turret_mode = 0;
+    turret_mode = turret_mode_off;
     lights_epower = 0;
     overhead_epower = 0;
     fridge_epower = 0;
@@ -962,8 +962,8 @@ void vehicle::use_controls()
     // Turrets: off or burst mode
     if (has_turrets) {
         options_choice.push_back(toggle_turrets);
-        options_message.push_back(uimenu_entry((0 == turret_mode) ? _("Enable turrets") :
-                                               _("Disable turrets"), 't'));
+        options_message.push_back( uimenu_entry( ( turret_mode == turret_mode_off ) ? 
+                                                _("Enable turrets") : _("Disable turrets"), 't') );
     }
 
     // Turn the fridge on/off
@@ -4484,7 +4484,7 @@ void vehicle::gain_moves()
         check_environmental_effects = do_environmental_effects();
     }
 
-    if( turret_mode ) { // handle turrets
+    if( turret_mode != turret_mode_off ) { // handle turrets
         for( size_t p = 0; p < parts.size(); p++ ) {
             if( !part_flag( p, "TURRET" ) ) {
                 continue;
@@ -5060,7 +5060,7 @@ void vehicle::aim_turrets()
                         g->target( x, y, x - range, y - range,
                                    x + range, y + range, mons,
                                    t, &weap, tmode, turret_pos );
-
+    auto trajectory = g->pl_target_ui( x, y, range, &weap, tmode );
     if( trajectory.empty() ) {
         target.first = turret_pos;
         return;
@@ -5072,12 +5072,12 @@ void vehicle::aim_turrets()
         parts[turret_index].mode = INT_MIN;
     }
 
-    if( turret_mode < 1 ) {
-        add_msg( _("Activating turrets") );
-        turret_mode = 1;
+    if( turret_mode == turret_mode_off ) {
+        turret_mode = turret_mode_manual;
     }
 
-    g->u.moves -= 100 - g->u.dex_cur; // Take some time to aim
+    // Take at least the whole turn to aim
+    g->u.moves = std::min( 0, g->u.moves - 100 + u.dex_cur );
     g->draw_ter();
 }
 
@@ -5154,21 +5154,20 @@ void vehicle::control_turrets() {
         pmenu.reset();
     }
 
-    if( turret_mode < 1 ) {
+    if( turret_mode == turret_mode_off ) {
         add_msg( m_warning, _("Turrets have been configured, but the vehicle turret system is off.") );
     }
 }
 
 void vehicle::cycle_turret_mode()
 {
-    if( ++turret_mode > 1 ) {
-        turret_mode = 0;
-    }
-    if( turret_mode < 1 ) {
+    if( turret_mode != turret_mode_off ) {
+        turret_mode = turret_mode_off;
         add_msg( _("Turrets: Disabled") );
         return;
     }
-    
+
+    turret_mode = turret_mode_autotarget;
     add_msg( _("Turrets: Enabled") );
     std::vector< int > turrets = all_parts_with_feature( "TURRET", true );
     for( int p : turrets ) {
@@ -5199,6 +5198,11 @@ bool vehicle::fire_turret( int p, bool manual )
 
     // Don't let manual-only turrets aim
     if( !manual && target.first == target.second && part_flag( p, "MANUAL" ) ) {
+        return false;
+    }
+
+    // Don't let non-manual turrets get aimed manually
+    if( manual && part_flag( p, "NO_MANUAL" ) ) {
         return false;
     }
 
@@ -5378,13 +5382,13 @@ bool vehicle::automatic_fire_turret( int p, const itype &gun, const itype &ammo,
         add_msg(_("The %s fires its %s!"), name.c_str(), part_info(p).name.c_str());
     }
     // Spawn a fake UPS to power any turreted weapons that need electricity.
-    item tmp_ups( "UPS_off", 0 );
+    item tmp_ups( "fake_UPS", 0 );
     // Drain a ton of power
     tmp_ups.charges = drain( fuel_type_battery, 1000 );
-    item &ups_ref = tmp.i_add(tmp_ups);
+    shooter.worn.insert( tmp.worn.end(), tmp_ups );
     tmp.fire_gun( xtarg, ytarg, burst );
     // Return whatever is left.
-    refill( fuel_type_battery, ups_ref.charges );
+    refill( fuel_type_battery, tmp.back().charges );
     charges = tmp.weapon.charges; // Return real ammo, in case of burst ending early
     
     return true;
@@ -5419,7 +5423,8 @@ bool vehicle::manual_fire_turret( int p, player &shooter, const itype &guntype,
     item tmp_ups( "fake_UPS", 0 );
     // Drain a ton of power
     tmp_ups.charges = drain( fuel_type_battery, 1000 );
-    shooter.worn.insert( shooter.worn.begin(), tmp_ups ); // UGLY!
+    // Fire_gun expects that the fake UPS is a last worn item
+    shooter.worn.insert( shooter.worn.end(), tmp_ups );
 
     const int range = shooter.weapon.gun_range( &shooter );
     auto mons = g->u.get_visible_creatures( range ); // No NPCs using turrets
@@ -5439,8 +5444,21 @@ bool vehicle::manual_fire_turret( int p, player &shooter, const itype &guntype,
     }
 
     // Done shooting, clean up
-    refill( fuel_type_battery, shooter.worn[0].charges );
-    shooter.worn.erase( shooter.worn.begin() ); // Also ugly
+    item &ups = shooter.worn.back();
+    if( ups.type == "fake_UPS" ) {
+        refill( fuel_type_battery, ups.charges );
+        shooter.worn.pop_back();
+    } else {
+        // This shouldn't happen, not even if armor below the UPS is destroyed
+        // ...but let's handle anyway
+        auto upses = shooter.remove_items_with( [] ( item &it ) {
+            return it.type == "fake_UPS";
+        } );
+        for( auto &up : upses ) {
+            refill( fuel_type_battery, up.charges );
+        }
+    }
+
     charges = shooter.weapon.charges;
 
     // Place the shooter back where we took them from

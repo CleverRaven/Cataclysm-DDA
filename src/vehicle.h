@@ -50,6 +50,13 @@ enum veh_coll_type {
  num_veh_coll_types
 };
 
+// Saved to file as int, so values should not change
+enum turret_mode_type : int {
+    turret_mode_off = 0,
+    turret_mode_autotarget = 1,
+    turret_mode_manual = 2
+};
+
 struct veh_collision {
  //int veh?
  int part;
