@@ -1471,7 +1471,7 @@
   ]
 },{
   "type" : "recipe",
-  "result": "v_table",
+  "result": "w_table",
   "category": "CC_OTHER",
   "subcategory": "CSC_OTHER_PARTS",
   "skill_used": "carpentry",
@@ -2978,7 +2978,7 @@
   "category": "CC_OTHER",
   "subcategory": "CSC_OTHER_MEDICAL",
   "skill_used": "firstaid",
-   "difficulty": 1,
+  "difficulty": 1,
   "time": 500,
   "reversible": false,
   "autolearn": true,
@@ -3003,7 +3003,8 @@
       [ "moonshine", 7 ],
       [ "brandy", 7 ],
       [ "disinfectant", 1 ],
-      [ "saline", 5 ]
+      [ "saline", 5 ],
+      [ "thyme_oil", 1 ]
     ]
   ]
 },{
@@ -3176,7 +3177,8 @@
     ],
     [
       [ "disinfectant", 1 ],
-      [ "saline", 10 ]
+      [ "saline", 10 ],
+      [ "thyme_oil", 1 ]
     ],
     [
       [ "bandages", 2 ],
@@ -5228,7 +5230,7 @@
   "difficulty": 2,
   "time": 10000,
   "reversible": false,
-  "autolearn": false,
+  "autolearn": true,
   "qualities":[
     {"id":"HAMMER","level":2,"amount":1}
     ],

@@ -100,13 +100,7 @@ void mapbuffer::save( bool delete_after_save )
     int num_saved_submaps = 0;
     int num_total_submaps = submaps.size();
 
-    point map_origin;
-    if( g->cur_om != NULL ) {
-        map_origin = overmapbuffer::sm_to_omt_copy( g->get_abs_levx(), g->get_abs_levy() );
-    } else {
-        map_origin.x = INT_MIN;
-        map_origin.y = INT_MIN;
-    }
+    const tripoint map_origin = overmapbuffer::sm_to_omt_copy( g->m.get_abs_sub() );
 
     // A set of already-saved submaps, in global overmap coordinates.
     std::set<tripoint, pointcomp> saved_submaps;
@@ -142,7 +136,7 @@ void mapbuffer::save( bool delete_after_save )
         // delete_on_save deletes everything, otherwise delete submaps
         // outside the current map.
 #ifndef ZLEVELS
-        const bool zlev_del = om_addr.z != g->levz;
+        const bool zlev_del = om_addr.z != g->get_levz();
 #else
         const bool zlev_del = false;
 #endif

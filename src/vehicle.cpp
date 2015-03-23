@@ -1214,66 +1214,7 @@ void vehicle::use_controls()
         break;
     case convert_vehicle:
     {
-        if(g->u.controlling_vehicle) {
-            add_msg(m_warning, _("As the pitiless metal bars close on your nether regions, you reconsider trying to fold the %s while riding it."), name.c_str());
-            break;
-        }
-        add_msg(_("You painstakingly pack the %s into a portable configuration."), name.c_str());
-        std::string itype_id = "folding_bicycle";
-        for( const auto &elem : tags ) {
-            if( elem.compare( 0, 12, "convertible:" ) == 0 ) {
-                itype_id = elem.substr( 12 );
-                break;
-            }
-        }
-        // create a folding bicycle item
-        item bicycle;
-        if (can_be_folded) {
-            bicycle.make( "generic_folded_vehicle" );
-        } else {
-            bicycle.make( "folding_bicycle" );
-        }
-
-        // Drop stuff in containers on ground
-        for (size_t p = 0; p < parts.size(); p++) {
-            if( part_flag( p, "CARGO" ) ) {
-                for( auto &elem : get_items(p) ) {
-                    g->m.add_item_or_charges( g->u.posx(), g->u.posy(), elem );
-                }
-                while( !get_items(p).empty() ) {
-                    get_items(p).erase( get_items(p).begin() );
-                }
-            }
-        }
-
-        unboard_all();
-
-        // Store data of all parts, iuse::unfold_bicyle only loads
-        // some of them (like bigness), some are expect to be
-        // vehicle specific and therefor constant (like id, mount).
-        // Writing everything here is easier to manage, as only
-        // iuse::unfold_bicyle has to adopt to changes.
-        try {
-            std::ostringstream veh_data;
-            JsonOut json(veh_data);
-            json.write(parts);
-            bicycle.set_var( "folding_bicycle_parts", veh_data.str() );
-        } catch(std::string e) {
-            debugmsg("Error storing vehicle: %s", e.c_str());
-        }
-        if (can_be_folded) {
-            bicycle.set_var( "weight", total_mass() * 1000 );
-            bicycle.set_var( "volume", total_folded_volume() );
-            bicycle.set_var( "name", string_format(_("folded %s"), name.c_str()) );
-            bicycle.set_var( "vehicle_name", name );
-            // TODO: a better description?
-            bicycle.set_var( "description", string_format(_("A folded %s."), name.c_str()) );
-        }
-
-        g->m.add_item_or_charges(g->u.posx(), g->u.posy(), bicycle);
-        g->m.destroy_vehicle(this);
-
-        g->u.moves -= 500;
+        fold_up();
         break;
     }
     case toggle_tracker:
@@ -1314,6 +1255,88 @@ void vehicle::use_controls()
     case control_cancel:
         break;
     }
+}
+
+bool vehicle::fold_up() {
+    const bool can_be_folded = is_foldable();
+    const bool is_convertible = (tags.count("convertible") > 0);
+    if( ! ( can_be_folded || is_convertible ) ) {
+        debugmsg(_("Tried to fold non-folding vehicle %s"), name.c_str());
+        return false;
+    }
+
+    if( g->u.controlling_vehicle ) {
+        add_msg(m_warning, _("As the pitiless metal bars close on your nether regions, you reconsider trying to fold the %s while riding it."), name.c_str());
+        return false;
+    }
+
+    if( velocity>0 ) {
+        add_msg(m_warning, _("You can't fold the %s while it's in motion."), name.c_str());
+        return false;
+    }
+
+    add_msg(_("You painstakingly pack the %s into a portable configuration."), name.c_str());
+
+    std::string itype_id = "folding_bicycle";
+    for( const auto &elem : tags ) {
+        if( elem.compare( 0, 12, "convertible:" ) == 0 ) {
+            itype_id = elem.substr( 12 );
+            break;
+        }
+    }
+
+    // create a folding [non]bicycle item
+    item bicycle;
+    if (can_be_folded) {
+        bicycle.make( "generic_folded_vehicle" );
+    } else {
+        bicycle.make( "folding_bicycle" );
+    }
+
+    // Drop stuff in containers on ground
+    for (size_t p = 0; p < parts.size(); p++) {
+        if( part_flag( p, "CARGO" ) ) {
+            for( auto &elem : get_items(p) ) {
+                g->m.add_item_or_charges( g->u.posx(), g->u.posy(), elem );
+            }
+            while( !get_items(p).empty() ) {
+                get_items(p).erase( get_items(p).begin() );
+            }
+        }
+    }
+
+    unboard_all();
+
+    // Store data of all parts, iuse::unfold_bicyle only loads
+    // some of them (like bigness), some are expect to be
+    // vehicle specific and therefor constant (like id, mount).
+    // Writing everything here is easier to manage, as only
+    // iuse::unfold_bicyle has to adopt to changes.
+    try {
+        std::ostringstream veh_data;
+        JsonOut json(veh_data);
+        json.write(parts);
+        bicycle.set_var( "folding_bicycle_parts", veh_data.str() );
+    } catch(std::string e) {
+        debugmsg("Error storing vehicle: %s", e.c_str());
+    }
+
+    if (can_be_folded) {
+        bicycle.set_var( "weight", total_mass() * 1000 );
+        bicycle.set_var( "volume", total_folded_volume() );
+        bicycle.set_var( "name", string_format(_("folded %s"), name.c_str()) );
+        bicycle.set_var( "vehicle_name", name );
+        // TODO: a better description?
+        bicycle.set_var( "description", string_format(_("A folded %s."), name.c_str()) );
+    }
+
+    g->m.add_item_or_charges(g->u.posx(), g->u.posy(), bicycle);
+    g->m.destroy_vehicle(this);
+
+    // TODO: take longer to fold bigger vehicles
+    // TODO: make this interruptable
+    g->u.moves -= 500;
+    return true;
 }
 
 void vehicle::start_engine()
@@ -2876,7 +2899,7 @@ bool vehicle::do_environmental_effects()
         /* Only lower blood level if:
          * - The part is outside.
          * - The weather is any effect that would cause the player to be wet. */
-        if( parts[p].blood > 0 && g->m.is_outside(part_pos.x, part_pos.y) && g->levz >= 0 ) {
+        if( parts[p].blood > 0 && g->m.is_outside(part_pos.x, part_pos.y) && g->get_levz() >= 0 ) {
             needed = true;
             if( g->weather >= WEATHER_DRIZZLE && g->weather <= WEATHER_ACID_RAIN ) {
                 parts[p].blood--;
@@ -3396,7 +3419,7 @@ vehicle* vehicle::find_vehicle(point &where)
     point veh_in_sm = where;
     point veh_sm = overmapbuffer::ms_to_sm_remain(veh_in_sm);
 
-    auto sm = MAPBUFFER.lookup_submap(veh_sm.x, veh_sm.y, g->levz);
+    auto sm = MAPBUFFER.lookup_submap(veh_sm.x, veh_sm.y, g->get_levz());
     if(sm == nullptr) {
         return nullptr;
     }
@@ -4163,11 +4186,8 @@ void vehicle::handle_trap (int x, int y, int part)
     if (pwh < 0) {
         return;
     }
-    trap_id t = g->m.tr_at(x, y);
-    if (t == tr_null || t == tr_goo || t == tr_portal || t == tr_telepad || t == tr_temple_flood ||
-        t == tr_temple_toggle ) {
-        return;
-    }
+    const trap &tr = g->m.tr_at(x, y);
+    const trap_id t = tr.loadid;
     int noise = 0;
     int chance = 100;
     int expl = 0;
@@ -4229,11 +4249,13 @@ void vehicle::handle_trap (int x, int y, int part)
         part_damage = 500;
     } else if ( t == tr_sinkhole || t == tr_pit || t == tr_spike_pit || t == tr_ledge || t == tr_glass_pit ) {
         part_damage = 500;
+    } else {
+        return;
     }
     if( g->u.sees(x, y) ) {
-        if( g->u.knows_trap(x, y) ) {
+        if( g->u.knows_trap( tripoint( x, y, g->get_levz() ) ) ) {
             add_msg(m_bad, _("The %s's %s runs over %s."), name.c_str(),
-                    part_info(part).name.c_str(), traplist[t]->name.c_str() );
+                    part_info(part).name.c_str(), tr.name.c_str() );
         } else {
             add_msg(m_bad, _("The %s's %s runs over something."), name.c_str(),
                     part_info(part).name.c_str() );
@@ -5673,7 +5695,7 @@ item vehicle_part::properties_to_item() const
 
         tmp.set_var( "source_x", target.first.x );
         tmp.set_var( "source_y", target.first.y );
-        tmp.set_var( "source_z", g->levz );
+        tmp.set_var( "source_z", g->get_levz() );
         tmp.set_var( "state", "pay_out_cable" );
         tmp.active = true;
     }

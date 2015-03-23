@@ -540,7 +540,7 @@ void iexamine::elevator(player *p, map *m, int examx, int examy)
     if (!query_yn(_("Use the %s?"), m->tername(examx, examy).c_str())) {
         return;
     }
-    int movez = (g->levz < 0 ? 2 : -2);
+    int movez = (g->get_levz() < 0 ? 2 : -2);
     g->vertical_move( movez, false );
 }
 
@@ -603,7 +603,7 @@ void iexamine::cardreader(player *p, map *m, int examx, int examy)
                         p->use_amount("electrohack", 1);
                     } else {
                         add_msg(m_bad, _("Your power is drained!"));
-                        p->charge_power(0 - rng(0, p->power_level));
+                        p->charge_power(-rng(0, p->power_level));
                     }
                 }
                 m->ter_set(examx, examy, t_card_reader_broken);
@@ -638,7 +638,7 @@ void iexamine::rubble(player *p, map *m, int examx, int examy)
     // Ask if there's something possibly more interesting than this rubble here
     std::string xname = m->furnname(examx, examy);
     if( ( m->veh_at( examx, examy ) != nullptr ||
-          m->tr_at( examx, examy ) != tr_null ||
+          !m->tr_at( examx, examy ).is_null() ||
           g->critter_at( examx, examy ) != nullptr ) &&
           !query_yn(_("Clear up that %s?"), xname.c_str() ) ) {
         none(p, m, examx, examy);
@@ -671,7 +671,7 @@ void iexamine::crate(player *p, map *m, int examx, int examy)
     // Shouldn't happen (what kind of creature lives in a crate?), but better safe than getting complaints
     std::string xname = m->furnname(examx, examy);
     if( ( m->veh_at( examx, examy ) != nullptr ||
-          m->tr_at( examx, examy ) != tr_null ||
+          !m->tr_at( examx, examy ).is_null() ||
           g->critter_at( examx, examy ) != nullptr ) &&
           !query_yn(_("Pry that %s?"), xname.c_str() ) ) {
         none(p, m, examx, examy);
@@ -1042,14 +1042,14 @@ void iexamine::gunsafe_el(player *p, map *m, int examx, int examy)
                     p->use_amount("electrohack", 1);
                 } else {
                     add_msg(m_bad, _("Your power is drained!"));
-                    p->charge_power(0 - rng(0, p->power_level));
+                    p->charge_power(-rng(0, p->power_level));
                 }
             }
             p->add_memorial_log(pgettext("memorial_male", "Set off an alarm."),
                                 pgettext("memorial_female", "Set off an alarm."));
             sounds::sound(p->posx(), p->posy(), 60, _("An alarm sounds!"));
-            if (g->levz > 0 && !g->event_queued(EVENT_WANTED)) {
-                g->add_event(EVENT_WANTED, int(calendar::turn) + 300, 0, g->levx, g->levy);
+            if (g->get_levz() > 0 && !g->event_queued(EVENT_WANTED)) {
+                g->add_event(EVENT_WANTED, int(calendar::turn) + 300, 0, p->global_sm_location());
             }
         } else if (success < 6) {
             add_msg(_("Nothing happens."));
@@ -2209,7 +2209,7 @@ void iexamine::shrub_wildveggies(player *p, map *m, int examx, int examy)
     // Ask if there's something possibly more interesting than this shrub here
     if( ( !m->i_at( examx, examy ).empty() ||
           m->veh_at( examx, examy ) != nullptr ||
-          m->tr_at( examx, examy ) != tr_null ||
+          !m->tr_at( examx, examy ).is_null() ||
           g->critter_at( examx, examy ) != nullptr ) &&
           !query_yn(_("Forage through %s?"), m->tername(examx, examy).c_str() ) ) {
         none(p, m, examx, examy);
@@ -2374,25 +2374,23 @@ void iexamine::recycler(player *p, map *m, int examx, int examy)
 
 void iexamine::trap(player *p, map *m, int examx, int examy)
 {
-    const trap_id tid = m->tr_at(examx, examy);
-    if (p == NULL || !p->is_player() || tid == tr_null) {
+    const auto &tr = m->tr_at(examx, examy);
+    if( p == nullptr || !p->is_player() || tr.is_null() ) {
         return;
     }
-    const struct trap &t = *traplist[tid];
-    const int possible = t.get_difficulty();
-    if ( (t.can_see(*p, examx, examy)) && (possible == 99) ) {
+    const int possible = tr.get_difficulty();
+    bool seen = tr.can_see( tripoint( examx, examy, g->get_levz()), *p );
+    if( seen && possible == 99 ) {
         add_msg(m_info, _("That %s looks too dangerous to mess with. Best leave it alone."),
-            t.name.c_str());
+            tr.name.c_str());
         return;
     }
     // Some traps are not actual traps. Those should get a different query.
-    if (t.can_see(*p, examx, examy) && possible == 0 &&
-        t.get_avoidance() == 0) { // Separated so saying no doesn't trigger the other query.
-        if (query_yn(_("There is a %s there. Take down?"), t.name.c_str())) {
+    if( seen && possible == 0 && tr.get_avoidance() == 0 ) { // Separated so saying no doesn't trigger the other query.
+        if( query_yn(_("There is a %s there. Take down?"), tr.name.c_str()) ) {
             m->disarm_trap(examx, examy);
         }
-    } else if (t.can_see(*p, examx, examy) &&
-               query_yn(_("There is a %s there.  Disarm?"), t.name.c_str())) {
+    } else if( seen && query_yn( _("There is a %s there.  Disarm?"), tr.name.c_str() ) ) {
         m->disarm_trap(examx, examy);
     }
 }
@@ -3019,14 +3017,14 @@ void iexamine::pay_gas(player *p, map *m, const int examx, const int examy)
                         p->use_amount("electrohack", 1);
                     } else {
                         add_msg(m_bad, _("Your power is drained!"));
-                        p->charge_power(0 - rng(0, p->power_level));
+                        p->charge_power(-rng(0, p->power_level));
                     }
                 }
                 p->add_memorial_log(pgettext("memorial_male", "Set off an alarm."),
                                       pgettext("memorial_female", "Set off an alarm."));
                 sounds::sound(p->posx(), p->posy(), 60, _("An alarm sounds!"));
-                if (g->levz > 0 && !g->event_queued(EVENT_WANTED)) {
-                    g->add_event(EVENT_WANTED, int(calendar::turn) + 300, 0, g->levx, g->levy);
+                if (g->get_levz() > 0 && !g->event_queued(EVENT_WANTED)) {
+                    g->add_event(EVENT_WANTED, int(calendar::turn) + 300, 0, p->global_sm_location());
                 }
             } else if (success < 6) {
                 add_msg(_("Nothing happens."));

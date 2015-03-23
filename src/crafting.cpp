@@ -378,39 +378,32 @@ bool recipe::check_eligible_containers_for_crafting(int batch) const
     all.insert(all.end(), res.begin(), res.end());
     all.insert(all.end(), bps.begin(), bps.end());
 
-    for(item &prod : all) {
-        if (prod.made_of(LIQUID)) {
-            long charges_to_store = prod.charges;
-            // we go trough half-filled containers first
-            for(item &cont : conts) {
-                if (!cont.is_container_empty()) {
-                    if (cont.contents[0].type->id ==  prod.type->id) {
-                        charges_to_store -= cont.get_remaining_capacity();
-                        if (charges_to_store <= 0) {
-                            break;
-                        }
-                    }
+    for(const item & prod : all) {
+        if( !prod.made_of(LIQUID)) {
+            continue;
+        }
+
+        // we go trough half-filled containers first, then go through empty containers if we need
+        std::sort( conts.begin(), conts.end(), item_compare_by_charges);
+
+        long charges_to_store = prod.charges;
+        for( const item & cont : conts) {
+            if( charges_to_store <= 0) {
+                break;
+            }
+
+            if( !cont.is_container_empty()) {
+                if( cont.contents[0].type->id == prod.type->id) {
+                    charges_to_store -= cont.get_remaining_capacity_for_liquid( cont.contents[0]);
                 }
+            } else {
+                charges_to_store -= cont.get_remaining_capacity_for_liquid( prod);
             }
-            // we go trough empty containers if we need
-            if (charges_to_store > 0) {
-                std::vector<item>::iterator iter;
-                for(iter = conts.begin(); iter != conts.end();) {
-                    if (iter->is_container_empty()) {
-                        charges_to_store -= iter->get_remaining_capacity_for_liquid(prod);
-                        iter = conts.erase(iter);
-                        if (charges_to_store <= 0) {
-                            break;
-                        }
-                    } else {
-                        iter++;
-                    }
-                }
-            }
-            if (charges_to_store > 0) {
-                popup(_("You don't have anything to store %s in!"), prod.tname().c_str());
-                return false;
-            }
+        }
+
+        if (charges_to_store > 0) {
+            popup(_("You don't have anything to store %s in!"), prod.tname().c_str());
+            return false;
         }
     }
 
@@ -1795,7 +1788,7 @@ std::list<item> player::consume_items(const std::vector<item_comp> &components, 
     return ret;
 }
 
-void player::consume_tools(const std::vector<tool_comp> &tools, int batch)
+void player::consume_tools(const std::vector<tool_comp> &tools, int batch, const std::string &hotkeys)
 {
     bool found_nocharge = false;
     inventory map_inv;
@@ -1843,7 +1836,7 @@ void player::consume_tools(const std::vector<tool_comp> &tools, int batch)
         }
 
         // Get selection via a popup menu
-        size_t selection = menu_vec(false, _("Use which tool?"), options) - 1;
+        size_t selection = menu_vec(false, _("Use which tool?"), options, hotkeys) - 1;
         if (selection < map_has.size())
             g->m.use_charges(pos(), PICKUP_RANGE,
                           map_has[selection].type, map_has[selection].count * batch);

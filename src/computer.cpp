@@ -9,6 +9,7 @@
 #include "messages.h"
 #include "sounds.h"
 #include "rng.h"
+#include "mission.h"
 
 #include <fstream>
 #include <string>
@@ -169,11 +170,11 @@ void computer::use()
                     } else {
                         // Successfully hacked function
                         options[ch].security = 0;
-                        activate_function(current.action);
+                        activate_function(current.action, ch);
                     }
                 }
             } else { // No need to hack, just activate
-                activate_function(current.action);
+                activate_function(current.action, ch);
             }
             reset_terminal();
         } // Done processing a selected option.
@@ -275,7 +276,7 @@ void computer::load_data(std::string data)
     }
 }
 
-void computer::activate_function(computer_action action)
+void computer::activate_function(computer_action action, char ch)
 {
     // Token move cost for any action, if an action takes longer decrement moves further.
     g->u.moves -= 30;
@@ -398,7 +399,7 @@ void computer::activate_function(computer_action action)
                     }
                 }
                 if (numtowers == 4) {
-                    if (g->m.tr_at(i, j) == tr_portal) {
+                    if (g->m.tr_at(i, j).id == "tr_portal") {
                         g->m.remove_trap(i, j);
                     } else {
                         g->m.add_trap(i, j, tr_portal);
@@ -437,7 +438,7 @@ void computer::activate_function(computer_action action)
             log = _("No data found.");
         } else {
             g->u.moves -= 70;
-            log = lab_notes[(g->get_abs_levx() + g->get_abs_levy() + g->get_abs_levz() + alerts) %
+            log = lab_notes[(g->get_levx() + g->get_levy() + g->get_levz() + alerts) %
                             lab_notes.size()];
         }
 
@@ -456,7 +457,7 @@ void computer::activate_function(computer_action action)
 
     case COMPACT_MAPS: {
         g->u.moves -= 30;
-        const tripoint center = g->om_global_location();
+        const tripoint center = g->global_omt_location();
         overmap_buffer.reveal(point(center.x, center.y), 40, 0);
         query_any(_("Surface map data downloaded.  Local anomalous-access error logged.  Press any key..."));
         alerts ++;
@@ -465,7 +466,7 @@ void computer::activate_function(computer_action action)
 
     case COMPACT_MAP_SEWER: {
         g->u.moves -= 30;
-        const tripoint center = g->om_global_location();
+        const tripoint center = g->global_omt_location();
         for (int i = -60; i <= 60; i++) {
             for (int j = -60; j <= 60; j++) {
                 const oter_id &oter = overmap_buffer.ter(center.x + i, center.y + j, center.z);
@@ -507,9 +508,9 @@ void computer::activate_function(computer_action action)
 
         //...ERASE MISSILE, OPEN SILO, DISABLE COMPUTER
         // For each level between here and the surface, remove the missile
-        for (int level = g->levz; level <= 0; level++) {
+        for (int level = g->get_levz(); level <= 0; level++) {
             map tmpmap;
-            tmpmap.load(g->levx, g->levy, level, false, g->cur_om);
+            tmpmap.load(g->get_levx(), g->get_levy(), level, false);
 
             if(level < 0) {
                 tmpmap.translate(t_missile, t_hole);
@@ -605,7 +606,7 @@ void computer::activate_function(computer_action action)
     case COMPACT_AMIGARA_LOG: // TODO: This is static, move to data file?
         g->u.moves -= 30;
         reset_terminal();
-        print_line(_("NEPower Mine(%d:%d) Log"), g->get_abs_levx(), g->get_abs_levy());
+        print_line(_("NEPower Mine(%d:%d) Log"), g->get_levx(), g->get_levy());
         print_line(_("\
 ENTRY 47:\n\
 Our normal mining routine has unearthed a hollow chamber.  This would not be\n\
@@ -623,7 +624,7 @@ themselves.\n"));
         }
         g->u.moves -= 30;
         reset_terminal();
-        print_line(_("NEPower Mine(%d:%d) Log"), g->get_abs_levx(), g->get_abs_levy());
+        print_line(_("NEPower Mine(%d:%d) Log"), g->get_levx(), g->get_levy());
         print_line(_("\
 ENTRY 49:\n\
 We've stopped mining operations in this area, obviously, until archaeologists\n\
@@ -642,7 +643,7 @@ for such narrow tunnels, so it's hard to say exactly how far back they go.\n"));
         }
         g->u.moves -= 30;
         reset_terminal();
-        print_line(_("NEPower Mine(%d:%d) Log"), g->get_abs_levx(), g->get_abs_levy());
+        print_line(_("NEPower Mine(%d:%d) Log"), g->get_levx(), g->get_levy());
         print_line(_("\
 ENTRY 54:\n\
 I noticed a couple of the guys down in the chamber with a chisel, breaking\n\
@@ -679,7 +680,7 @@ know that's sort of a big deal, but come on, these guys can't handle it?\n"));
         print_line(_("\
 SITE %d%d%d\n\
 PERTINANT FOREMAN LOGS WILL BE PREPENDED TO NOTES"),
-                   g->get_abs_levx(), g->get_abs_levy(), abs(g->get_abs_levz()));
+                   g->get_levx(), g->get_levy(), abs(g->get_levz()));
         print_line(_("\n\
 MINE OPERATIONS SUSPENDED; CONTROL TRANSFERRED TO AMIGARA PROJECT UNDER\n\
    IMPERATIVE 2:07B\n\
@@ -713,17 +714,53 @@ of pureed bone & LSD."));
         g->u.mod_pain( rng(40, 90) );
         break;
 
+    case COMPACT_COMPLETE_MISSION:
+        for( auto miss : g->u.get_active_missions() ) {
+            if (miss->name() == options[ch].name){
+                print_error(_("--ACCESS GRANTED--"));
+                print_error(_("Mission Complete!"));
+                miss->step_complete( 1 );
+                getch();
+                return;
+                //break;
+            }
+        }
+        print_error(_("ACCESS DENIED"));
+        getch();
+        break;
+
+    case COMPACT_REPEATER_MOD:
+        if (g->u.has_amount("radio_repeater_mod", 1)) {
+            for( auto miss : g->u.get_active_missions() ) {
+                if (miss->name() == "Install Repeater Mod"){
+                    miss->step_complete( 1 );
+                    print_error(_("Repeater mod installed..."));
+                    print_error(_("Mission Complete!"));
+                    g->u.use_amount("radio_repeater_mod", 1);
+                    getch();
+                    options.clear();
+                    activate_failure(COMPFAIL_SHUTDOWN);
+                    break;
+                }
+            }
+        }else{
+            print_error(_("You do not have a repeater mod to install..."));
+            getch();
+            break;
+        }
+        break;
+
     case COMPACT_DOWNLOAD_SOFTWARE:
         if (!g->u.has_amount("usb_drive", 1)) {
             print_error(_("USB drive required!"));
         } else {
-            mission *miss = g->find_mission(mission_id);
+            mission *miss = mission::find(mission_id);
             if (miss == NULL) {
                 debugmsg(_("Computer couldn't find its mission!"));
                 return;
             }
             g->u.moves -= 30;
-            item software(miss->item_id, 0);
+            item software(miss->get_item_id(), 0);
             software.mission_id = mission_id;
             item *usb = g->u.pick_usb();
             usb->contents.clear();
@@ -1134,8 +1171,8 @@ void computer::activate_failure(computer_failure fail)
         g->u.add_memorial_log(pgettext("memorial_male", "Set off an alarm."),
                               pgettext("memorial_female", "Set off an alarm."));
         sounds::sound(g->u.posx(), g->u.posy(), 60, _("An alarm sounds!"));
-        if (g->levz > 0 && !g->event_queued(EVENT_WANTED)) {
-            g->add_event(EVENT_WANTED, int(calendar::turn) + 300, 0, g->get_abs_levx(), g->get_abs_levy());
+        if (g->get_levz() > 0 && !g->event_queued(EVENT_WANTED)) {
+            g->add_event(EVENT_WANTED, int(calendar::turn) + 300, 0, g->u.global_sm_location());
         }
         break;
 

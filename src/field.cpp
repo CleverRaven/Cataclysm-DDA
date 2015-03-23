@@ -505,6 +505,9 @@ bool map::process_fields_in_submap( submap *const current_submap,
                         if (has_flag("SWIMMABLE", x, y)) { // Dissipate faster in water
                             cur->setFieldAge(cur->getFieldAge() + 20);
                         }
+                        if( has_flag( "SEALED", x, y ) ) {
+                            break;
+                        }
                         auto items = i_at(x, y);
                         for( auto melting = items.begin(); melting != items.end(); ) {
                             // see DEVELOPER_FAQ.txt for how acid resistance is calculated
@@ -548,11 +551,12 @@ bool map::process_fields_in_submap( submap *const current_submap,
 
                         // TODO-MATERIALS: use fire resistance
                     case fd_fire: {
+                        const bool is_sealed = has_flag( "SEALED", x, y );
                         auto items_here = i_at(x, y);
                         // explosions will destroy items on this square, iterating
                         // backwards makes sure that every item is visited.
                         for( auto explosive = items_here.begin();
-                             explosive != items_here.end(); ) {
+                             !is_sealed && explosive != items_here.end(); ) {
                             if( explosive->type->explode_in_fire() ) {
                                 // Make a copy and let the copy explode.
                                 item tmp = *explosive;
@@ -573,7 +577,7 @@ bool map::process_fields_in_submap( submap *const current_submap,
                         // The highest # of items this fire can remove in one turn
                         int max_consume = cur->getFieldDensity() * 2;
                         for( auto fuel = items_here.begin();
-                             fuel != items_here.end() && consumed < max_consume; ) {
+                             !is_sealed && fuel != items_here.end() && consumed < max_consume; ) {
                             // Stop when we hit the end of the item buffer OR we consumed
                             // more than max_consume items
                             destroyed = false;
@@ -773,7 +777,7 @@ bool map::process_fields_in_submap( submap *const current_submap,
                         }
                         // If the flames are in a brazier, they're fully contained,
                         // so skip consuming terrain
-                        if((tr_brazier != tr_at(x, y)) &&
+                        if((tr_brazier != tr_at(x, y).loadid) &&
                            (has_flag("FIRE_CONTAINER", x, y) != true )) {
                             // Consume the terrain we're on
                             if (has_flag("FLAMMABLE", x, y) && one_in(32 - cur->getFieldDensity() * 10)) {
@@ -816,7 +820,7 @@ bool map::process_fields_in_submap( submap *const current_submap,
                         bool in_pit = (ter(x, y) == t_pit);
 
                         // If the flames are REALLY big, they contribute to adjacent flames
-                        if (cur->getFieldAge() < 0 && tr_brazier != tr_at(x, y) &&
+                        if (cur->getFieldAge() < 0 && tr_brazier != tr_at(x, y).loadid &&
                             (has_flag("FIRE_CONTAINER", x, y) != true  ) ) {
                             if(cur->getFieldDensity() == 3) {
                                 // Randomly offset our x/y shifts by 0-2, to randomly pick
@@ -907,7 +911,7 @@ bool map::process_fields_in_submap( submap *const current_submap,
                                         spread_chance = 50 + spread_chance / 2;
                                     }
                                     if ((i != 0 || j != 0) && rng(1, 100) < spread_chance &&
-                                          cur->getFieldAge() < 200 && tr_brazier != tr_at(x, y) &&
+                                          cur->getFieldAge() < 200 && tr_brazier != tr_at(x, y).loadid &&
                                           (has_flag("FIRE_CONTAINER", x, y) != true ) &&
                                           (in_pit == (ter(fx, fy) == t_pit)) &&
                                           ((cur->getFieldDensity() >= 2 && (has_flag("FLAMMABLE", fx, fy) && one_in(20))) ||

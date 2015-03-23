@@ -20,7 +20,7 @@ enum aim_location {
     AIM_NORTH,
     AIM_NORTHEAST,
     AIM_ALL,
-    AIM_DRAGED,
+    AIM_DRAGGED,
     AIM_CONTAINER
 };
 
@@ -61,8 +61,10 @@ struct advanced_inv_area {
     // vehicle pointer and cargo part index
     vehicle *veh;
     int vstor;
-    // description, e.g. vehicle name
+    // description, e.g. vehicle name or storage label
     std::string desc;
+    // flags, e.g. FIRE, TRAP, WATER
+    std::string flags;
     // total volume and weight of items currently there
     int volume, weight;
     // maximal count / volume of items there.
@@ -259,6 +261,13 @@ class advanced_inventory
         const int min_w_height;
         const int min_w_width;
         const int max_w_width;
+
+        // minimap that displays things around character
+        WINDOW *minimap, *mm_border;
+        const int minimap_width  = 3;
+        const int minimap_height = 3;
+        void draw_minimap();
+        void refresh_minimap();
 
         bool inCategoryMode;
 

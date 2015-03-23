@@ -58,11 +58,11 @@ enum LIQUID_FILL_ERROR {L_ERR_NONE, L_ERR_NO_MIX, L_ERR_NOT_CONTAINER, L_ERR_NOT
 
 enum layer_level {
     UNDERWEAR = 0,
-    REGULAR_LAYER,
-    WAIST_LAYER,
-    OUTER_LAYER,
-    BELTED_LAYER,
-    MAX_CLOTHING_LAYER
+    REGULAR_LAYER = 10,
+    WAIST_LAYER = 20,
+    OUTER_LAYER = 30,
+    BELTED_LAYER = 40,
+    MAX_CLOTHING_LAYER = 50
 };
 
 class item_category
@@ -518,7 +518,6 @@ public:
 
  LIQUID_FILL_ERROR has_valid_capacity_for_liquid(const item &liquid) const;
  int get_remaining_capacity_for_liquid(const item &liquid) const;
- int get_remaining_capacity() const;
 
  bool operator<(const item& other) const;
     /** List of all @ref components in printable form, empty if this item has
@@ -857,6 +856,19 @@ public:
         /*@}*/
 
         /**
+         * Returns the pointer to use_function with name use_name assigned to the type of
+         * this item or any of its contents. Checks contents recursively.
+         * Returns nullptr if not found.
+         */
+        const use_function *get_use( const std::string &use_name ) const;
+        /**
+         * Checks this item and its contents (recursively) for types that have
+         * use_function with type use_name. Returns the first item that does have
+         * such type or nullptr if none found.
+         */
+        item *get_usable_item( const std::string &use_name );
+
+        /**
          * Recursively check the contents of this item and remove those items
          * that match the filter. Note that this function does *not* match
          * the filter against *this* item, only against the contents.
@@ -938,7 +950,8 @@ public:
  int max_charges_from_flag(std::string flagName);
 };
 
-bool item_compare_by_charges( const item *left, const item *right);
+bool item_compare_by_charges( const item& left, const item& right);
+bool item_ptr_compare_by_charges( const item *left, const item *right);
 
 std::ostream &operator<<(std::ostream &, const item &);
 std::ostream &operator<<(std::ostream &, const item *);
