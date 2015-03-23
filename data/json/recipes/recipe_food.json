@@ -9389,7 +9389,7 @@
   ], 
   "tools": [
     [
-	  [ "hotplate", 10 ],
+      [ "hotplate", 10 ],
       [ "char_smoker", 1 ],
       [ "toolset", 10 ],
       [ "fire", -1 ]
