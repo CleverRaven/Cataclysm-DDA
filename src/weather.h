@@ -33,6 +33,7 @@
 
 class item;
 struct point;
+struct tripoint;
 struct trap;
 enum nc_color : int;
 
@@ -151,7 +152,13 @@ int get_local_windpower(double windpower, std::string const &omtername = "no nam
  */
 void retroactively_fill_from_funnel( item &it, const trap &tr, const calendar &endturn, const point &pos);
 
-int get_hourly_rotpoints_at_temp (int temp);
-int get_rot_since( int since, int endturn, const point &);
+/**
+ * Get the amount of rotting that an item would accumulate between start and end turn at the given
+ * locations.
+ * The location is in absolute maps squares (the system which the @ref map uses),
+ * but absolute (@ref map::getabs).
+ * The returned value is in turns (at standard conditions it is endturn-startturn).
+ */
+int get_rot_since( int startturn, int endturn, const tripoint &pos );
 
 #endif

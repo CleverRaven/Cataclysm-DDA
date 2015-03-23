@@ -43,28 +43,22 @@ void weather_effect::glare()
 }
 ////// food vs weather
 
-/**
- * Retroactively determine weather-related rotting effects.
- * Applies rot based on the temperatures incurred between a turn range.
- */
-int get_rot_since( const int since, const int endturn, const point &location )
+int get_hourly_rotpoints_at_temp( int temp );
+
+int get_rot_since( const int startturn, const int endturn, const tripoint &location )
 {
-    point const abs_location = g->m.getabs( location );
-    // Hack: Ensure food doesn't rot in ice labs, where the
+    // Ensure food doesn't rot in ice labs, where the
     // temperature is much less than the weather specifies.
-    // http://github.com/CleverRaven/Cataclysm-DDA/issues/9162
-    // Bug with this hack: Rot is prevented even when it's above
-    // freezing on the ground floor.
-    const point abs_pos = g->m.getabs( location );
-    const point omt_abs = overmapbuffer::ms_to_omt_copy( abs_pos );
-    // TODO: input location should be an absolute value and inclue a z-component
-    oter_id oter = overmap_buffer.ter( tripoint( omt_abs.x, omt_abs.y, g->get_levz() ) );
+    tripoint const omt_pos = overmapbuffer::ms_to_omt_copy( location );
+    oter_id const & oter = overmap_buffer.ter( omt_pos );
+    // TODO: extract this into a property of the overmap terrain
     if (is_ot_type("ice_lab", oter)) {
         return 0;
     }
+    // TODO: maybe have different rotting speed when underground?
     int ret = 0;
-    for (calendar i(since); i.get_turn() < endturn; i += 600) {
-        w_point w = g->weatherGen.get_weather( abs_location, i );
+    for (calendar i(startturn); i.get_turn() < endturn; i += 600) {
+        w_point w = g->weatherGen.get_weather(location, i);
         ret += std::min(600, endturn - i.get_turn()) * get_hourly_rotpoints_at_temp(w.temperature) / 600;
     }
     return ret;

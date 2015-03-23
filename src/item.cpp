@@ -2267,9 +2267,10 @@ void item::calc_rot(const point &location)
         const int since = ( last_rot_check == 0 ? bday : last_rot_check );
         const int until = ( fridge > 0 ? fridge : now );
         if ( since < until ) {
+            tripoint const abs_location( g->m.getabs( location ), g->get_levz() );
             // rot (outside of fridge) from bday/last_rot_check until fridge/now
             int old = rot;
-            rot += get_rot_since( since, until, location );
+            rot += get_rot_since( since, until, abs_location );
             add_msg( m_debug, "r: %s %d,%d %d->%d", type->id.c_str(), since, until, old, rot );
         }
         last_rot_check = now;

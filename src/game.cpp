@@ -4263,8 +4263,8 @@ void game::debug()
                 spstr = "";
                 diffturn = int(calendar::turn) - (i * 600);
                 pit = weather_log.lower_bound(int(diffturn));
-                int prt = get_rot_since(int(diffturn), int(calendar::turn), u.pos());
-                int perc = (get_rot_since(int(diffturn), int(diffturn) + 600, u.pos()) * 100) / 600;
+                int prt = get_rot_since(int(diffturn), int(calendar::turn), u.global_square_location());
+                int perc = (get_rot_since(int(diffturn), int(diffturn) + 600, u.global_square_location()) * 100) / 600;
                 int frt = int(calendar::turn) - int(diffturn);
                 for (int e = 0; e < ne; e++) {
                     spstr = string_format("%s | %c %c%s", spstr.c_str(),
