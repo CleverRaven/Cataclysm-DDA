@@ -36,6 +36,7 @@ enum activity_type {    // expanded this enum for readability
     ACT_PICKUP,
     ACT_MOVE_ITEMS,
     ACT_ADV_INVENTORY,
+    ACT_ARMOR_LAYERS,
     ACT_START_FIRE,
     ACT_FILL_LIQUID,
     ACT_HOTWIRE_CAR,

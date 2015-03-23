@@ -383,6 +383,30 @@
     },
     {
         "type" : "keybinding",
+        "id": "EQUIP_ARMOR",
+        "category": "SORT_ARMOR",
+        "name": "Equip armor from inventory",
+        "bindings":[
+            {
+                "input_method":"keyboard",
+                "key":"e"
+            }
+        ]
+    },
+    {
+        "type" : "keybinding",
+        "id": "REMOVE_ARMOR",
+        "category": "SORT_ARMOR",
+        "name": "Unequip selected armor",
+        "bindings":[
+            {
+                "input_method":"keyboard",
+                "key":"u"
+            }
+        ]
+    },
+    {
+        "type" : "keybinding",
         "id":"HELP_KEYBINDINGS",
         "name":"Display Help",
         "bindings":[

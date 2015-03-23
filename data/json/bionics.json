@@ -311,7 +311,7 @@
         "id": "bio_resonator",
         "name": "Sonic Resonator",
         "act_cost": 100,
-        "description": "Your entire body may resonate at very high power, creating a short-range shockwave.  While it will not do much damage to flexible creatures, stiff items such as walls, doors, and even robots will be severely damaged."
+        "description": "Your entire body may resonate at very high power, creating a short-range shockwave.  While it will not do much damage to creatures, stiff items such as walls and doors will be damaged."
     },{
         "type": "bionic",
         "id": "bio_time_freeze",

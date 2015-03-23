@@ -32,6 +32,7 @@ class monster;
 class item;
 struct itype;
 struct mapgendata;
+struct trap;
 // TODO: This should be const& but almost no functions are const
 struct wrapped_vehicle{
  int x;
@@ -202,40 +203,44 @@ class map
 
 // Movement and LOS
 
- /**
-  * Calculate the cost to move past the tile at (x, y).
-  *
-  * The move cost is determined by various obstacles, such
-  * as terrain, vehicles and furniture.
-  *
-  * @note Movement costs for players and zombies both use this function.
-  *
-  * @return The return value is interpreted as follows:
-  * Move Cost | Meaning
-  * --------- | -------
-  * 0         | Impassable
-  * n > 0     | x*n turns to move past this
-  */
- int move_cost(const int x, const int y, const vehicle *ignored_vehicle = nullptr) const;
+// Move cost: 2D overloads
+    int move_cost(const int x, const int y, const vehicle *ignored_vehicle = nullptr) const;
+    int move_cost_ter_furn(const int x, const int y) const;
+    int combined_movecost(const int x1, const int y1, const int x2, const int y2,
+                          const vehicle *ignored_vehicle = nullptr, const int modifier = 0) const;
+
+// Move cost: 3D
+
+    /**
+    * Calculate the cost to move past the tile at p.
+    *
+    * The move cost is determined by various obstacles, such
+    * as terrain, vehicles and furniture.
+    *
+    * @note Movement costs for players and zombies both use this function.
+    *
+    * @return The return value is interpreted as follows:
+    * Move Cost | Meaning
+    * --------- | -------
+    * 0         | Impassable
+    * n > 0     | x*n turns to move past this
+    */
+    int move_cost( const tripoint &p, const vehicle *ignored_vehicle = nullptr ) const;
 
 
- /**
-  * Similar behavior to `move_cost()`, but ignores vehicles.
-  */
- int move_cost_ter_furn(const int x, const int y) const;
+    /**
+    * Similar behavior to `move_cost()`, but ignores vehicles.
+    */
+    int move_cost_ter_furn( const tripoint &p ) const;
 
- /**
-  * Cost to move out of one tile and into the next.
-  *
-  * @return The cost in turns to move out of `(x1, y1)` and into `(x2, y2)`
-  */
- int combined_movecost(const int x1, const int y1, const int x2, const int y2,
-                       const vehicle *ignored_vehicle = nullptr, const int modifier = 0) const;
+    /**
+    * Cost to move out of one tile and into the next.
+    *
+    * @return The cost in turns to move out of tripoint `from` and into `to`
+    */
+    int combined_movecost( const tripoint &from, const tripoint &to,
+                           const vehicle *ignored_vehicle = nullptr, const int modifier = 0) const;
 
- /**
-  * Returns whether the tile at `(x, y)` is transparent(you can look past it).
-  */
- bool trans(const int x, const int y) const; // Transparent?
 
  /**
   * Returns whether `(Fx, Fy)` sees `(Tx, Ty)` with a view range of `range`.
@@ -297,21 +302,27 @@ class map
  VehicleList get_vehicles();
  VehicleList get_vehicles(const int sx, const int sy, const int ex, const int ey);
 
- /**
-  * Checks if tile is occupied by vehicle and by which part.
-  *
-  * @param part_num The part number of the part at this tile will be returned in this parameter.
-  * @return A pointer to the vehicle in this tile.
-  */
- vehicle* veh_at(const int x, const int y, int &part_num);
- const vehicle* veh_at(const int x, const int y, int &part_num) const;
- const vehicle* veh_at_internal(const int x, const int y, int &part_num) const;
-
- /**
-  * Same as `veh_at(const int, const int, int)`, but doesn't return part number.
-  */
- vehicle* veh_at(const int x, const int y);// checks if tile is occupied by vehicle
- const vehicle* veh_at(const int x, const int y) const;
+// 2D overloads for vehicles
+    vehicle* veh_at(const int x, const int y, int &part_num);
+    const vehicle* veh_at(const int x, const int y, int &part_num) const;
+    const vehicle* veh_at_internal(const int x, const int y, int &part_num) const;
+    vehicle* veh_at(const int x, const int y);
+    const vehicle* veh_at(const int x, const int y) const;
+// 3D vehicles
+    /**
+    * Checks if tile is occupied by vehicle and by which part.
+    *
+    * @param part_num The part number of the part at this tile will be returned in this parameter.
+    * @return A pointer to the vehicle in this tile.
+    */
+    vehicle* veh_at( const tripoint &p, int &part_num );
+    const vehicle* veh_at( const tripoint &p, int &part_num ) const;
+    const vehicle* veh_at_internal( const tripoint &p, int &part_num ) const;
+    /**
+    * Same as `veh_at(const int, const int, int)`, but doesn't return part number.
+    */
+    vehicle* veh_at( const tripoint &p );// checks if tile is occupied by vehicle
+    const vehicle* veh_at( const tripoint &p ) const;
 
  /**
   * Vehicle-relative coordinates from reality bubble coordinates, if a vehicle
@@ -339,34 +350,61 @@ class map
 // move water under wheels. true if moved
  bool displace_water (const int x, const int y);
 
-// Furniture
- void set(const int x, const int y, const ter_id new_terrain, const furn_id new_furniture);
- void set(const int x, const int y, const std::string new_terrain, const std::string new_furniture);
+// Furniture: 2D overloads
+    void set(const int x, const int y, const ter_id new_terrain, const furn_id new_furniture);
+    void set(const int x, const int y, const std::string new_terrain, const std::string new_furniture);
 
- std::string name(const int x, const int y);
- bool has_furn(const int x, const int y) const;
+    std::string name(const int x, const int y);
+    bool has_furn(const int x, const int y) const;
 
- furn_id furn(const int x, const int y) const; // Furniture at coord (x, y); {x|y}=(0, SEE{X|Y}*3]
- std::string get_furn(const int x, const int y) const;
- furn_t & furn_at(const int x, const int y) const;
+    furn_id furn(const int x, const int y) const; // Furniture at coord (x, y); {x|y}=(0, SEE{X|Y}*3]
+    std::string get_furn(const int x, const int y) const;
+    furn_t & furn_at(const int x, const int y) const;
 
- void furn_set(const int x, const int y, const furn_id new_furniture);
- void furn_set(const int x, const int y, const std::string new_furniture);
+    void furn_set(const int x, const int y, const furn_id new_furniture);
+    void furn_set(const int x, const int y, const std::string new_furniture);
 
- std::string furnname(const int x, const int y);
- bool can_move_furniture( const int x, const int y, player * p = NULL);
-// Terrain
- ter_id ter(const int x, const int y) const; // Terrain integer id at coord (x, y); {x|y}=(0, SEE{X|Y}*3]
- std::string get_ter(const int x, const int y) const; // Terrain string id at coord (x, y); {x|y}=(0, SEE{X|Y}*3]
- std::string get_ter_harvestable(const int x, const int y) const; // harvestable of the terrain
- ter_id get_ter_transforms_into(const int x, const int y) const; // get the terrain id to transform to
- int get_ter_harvest_season(const int x, const int y) const; // get season to harvest the terrain
- ter_t & ter_at(const int x, const int y) const; // Terrain at coord (x, y); {x|y}=(0, SEE{X|Y}*3]
+    std::string furnname(const int x, const int y);
+// Furniture: 3D
+    void set( const tripoint &p, const ter_id new_terrain, const furn_id new_furniture );
+    void set( const tripoint &p, const std::string new_terrain, const std::string new_furniture );
 
- void ter_set(const int x, const int y, const ter_id new_terrain);
- void ter_set(const int x, const int y, const std::string new_terrain);
+    std::string name( const tripoint &p );
+    bool has_furn( const tripoint &p ) const;
 
- std::string tername(const int x, const int y) const; // Name of terrain at (x, y)
+    furn_id furn( const tripoint &p ) const;
+    std::string get_furn( const tripoint &p ) const;
+    furn_t & furn_at( const tripoint &p ) const;
+
+    void furn_set( const tripoint &p, const furn_id new_furniture );
+    void furn_set( const tripoint &p, const std::string new_furniture );
+
+    std::string furnname( const tripoint &p);
+    bool can_move_furniture( const tripoint &pos, player * p = nullptr );
+// Terrain: 2D overloads
+    ter_id ter(const int x, const int y) const; // Terrain integer id at coord (x, y); {x|y}=(0, SEE{X|Y}*3]
+    std::string get_ter(const int x, const int y) const; // Terrain string id at coord (x, y); {x|y}=(0, SEE{X|Y}*3]
+    std::string get_ter_harvestable(const int x, const int y) const; // harvestable of the terrain
+    ter_id get_ter_transforms_into(const int x, const int y) const; // get the terrain id to transform to
+    int get_ter_harvest_season(const int x, const int y) const; // get season to harvest the terrain
+    ter_t & ter_at(const int x, const int y) const; // Terrain at coord (x, y); {x|y}=(0, SEE{X|Y}*3]
+
+    void ter_set(const int x, const int y, const ter_id new_terrain);
+    void ter_set(const int x, const int y, const std::string new_terrain);
+
+    std::string tername(const int x, const int y) const; // Name of terrain at (x, y)
+// Terrain: 3D
+    ter_id ter( const tripoint &p ) const;
+    std::string get_ter( const tripoint &p ) const;
+    std::string get_ter_harvestable( const tripoint &p ) const;
+    ter_id get_ter_transforms_into( const tripoint &p ) const;
+    int get_ter_harvest_season( const tripoint &p ) const;
+    ter_t & ter_at( const tripoint &p ) const;
+
+    void ter_set( const tripoint &p, const ter_id new_terrain);
+    void ter_set( const tripoint &p, const std::string new_terrain);
+
+    std::string tername( const tripoint &p ) const;
 
  // Check for terrain/furniture/field that provide a
  // "fire" item to be used for example when crafting or when
@@ -388,36 +426,59 @@ class map
   */
  bool could_see_items(int x, int y, const player &u) const;
 
+// Flags: 2D overloads
+    std::string features(const int x, const int y); // Words relevant to terrain (sharp, etc)
+    bool has_flag(const std::string & flag, const int x, const int y) const;  // checks terrain, furniture and vehicles
+    bool can_put_items(const int x, const int y); // True if items can be placed in this tile
+    bool has_flag_ter(const std::string & flag, const int x, const int y) const;  // checks terrain
+    bool has_flag_furn(const std::string & flag, const int x, const int y) const;  // checks furniture
+    bool has_flag_ter_or_furn(const std::string & flag, const int x, const int y) const; // checks terrain or furniture
+    bool has_flag_ter_and_furn(const std::string & flag, const int x, const int y) const; // checks terrain and furniture
+    // fast "oh hai it's update_scent/lightmap/draw/monmove/self/etc again, what about this one" flag checking
+    bool has_flag(const ter_bitflags flag, const int x, const int y) const;  // checks terrain, furniture and vehicles
+    bool has_flag_ter(const ter_bitflags flag, const int x, const int y) const;  // checks terrain
+    bool has_flag_furn(const ter_bitflags flag, const int x, const int y) const;  // checks furniture
+    bool has_flag_ter_or_furn(const ter_bitflags flag, const int x, const int y) const; // checks terrain or furniture
+    bool has_flag_ter_and_furn(const ter_bitflags flag, const int x, const int y) const; // checks terrain and furniture
+// Flags: 3D
+    std::string features( const tripoint &p ); // Words relevant to terrain (sharp, etc)
+    bool has_flag( const std::string &flag, const tripoint &p ) const;  // checks terrain, furniture and vehicles
+    bool can_put_items( const tripoint &p ); // True if items can be placed in this tile
+    bool has_flag_ter( const std::string &flag, const tripoint &p ) const;  // checks terrain
+    bool has_flag_furn( const std::string &flag, const tripoint &p ) const;  // checks furniture
+    bool has_flag_ter_or_furn( const std::string &flag, const tripoint &p ) const; // checks terrain or furniture
+    bool has_flag_ter_and_furn( const std::string &flag, const tripoint &p ) const; // checks terrain and furniture
+    // fast "oh hai it's update_scent/lightmap/draw/monmove/self/etc again, what about this one" flag checking
+    bool has_flag( const ter_bitflags flag, const tripoint &p ) const;  // checks terrain, furniture and vehicles
+    bool has_flag_ter( const ter_bitflags flag, const tripoint &p ) const;  // checks terrain
+    bool has_flag_furn( const ter_bitflags flag, const tripoint &p ) const;  // checks furniture
+    bool has_flag_ter_or_furn( const ter_bitflags flag, const tripoint &p ) const; // checks terrain or furniture
+    bool has_flag_ter_and_furn( const ter_bitflags flag, const tripoint &p ) const; // checks terrain and furniture
 
- std::string features(const int x, const int y); // Words relevant to terrain (sharp, etc)
- bool has_flag(const std::string & flag, const int x, const int y) const;  // checks terrain, furniture and vehicles
- bool can_put_items(const int x, const int y); // True if items can be placed in this tile
- bool has_flag_ter(const std::string & flag, const int x, const int y) const;  // checks terrain
- bool has_flag_furn(const std::string & flag, const int x, const int y) const;  // checks furniture
- bool has_flag_ter_or_furn(const std::string & flag, const int x, const int y) const; // checks terrain or furniture
- bool has_flag_ter_and_furn(const std::string & flag, const int x, const int y) const; // checks terrain and furniture
- // fast "oh hai it's update_scent/lightmap/draw/monmove/self/etc again, what about this one" flag checking
- bool has_flag(const ter_bitflags flag, const int x, const int y) const;  // checks terrain, furniture and vehicles
- bool has_flag_ter(const ter_bitflags flag, const int x, const int y) const;  // checks terrain
- bool has_flag_furn(const ter_bitflags flag, const int x, const int y) const;  // checks furniture
- bool has_flag_ter_or_furn(const ter_bitflags flag, const int x, const int y) const; // checks terrain or furniture
- bool has_flag_ter_and_furn(const ter_bitflags flag, const int x, const int y) const; // checks terrain and furniture
-
- /** Returns true if there is a bashable vehicle part or the furn/terrain is bashable at x,y */
- bool is_bashable(const int x, const int y) const;
- /** Returns true if the terrain at x,y is bashable */
- bool is_bashable_ter(const int x, const int y) const;
- /** Returns true if the furniture at x,y is bashable */
- bool is_bashable_furn(const int x, const int y) const;
- /** Returns true if the furniture or terrain at x,y is bashable */
- bool is_bashable_ter_furn(const int x, const int y) const;
- /** Returns max_str of the furniture or terrain at x,y */
- int bash_strength(const int x, const int y) const;
- /** Returns min_str of the furniture or terrain at x,y */
- int bash_resistance(const int x, const int y) const;
- /** Returns a success rating from -1 to 10 for a given tile based on a set strength, used for AI movement planning
-  *  Values roughly correspond to 10% increment chances of success on a given bash, rounded down. -1 means the square is not bashable */
- int bash_rating(const int str, const int x, const int y) const;
+// Bashable: 2D
+    bool is_bashable(const int x, const int y) const;
+    bool is_bashable_ter(const int x, const int y) const;
+    bool is_bashable_furn(const int x, const int y) const;
+    bool is_bashable_ter_furn(const int x, const int y) const;
+    int bash_strength(const int x, const int y) const;
+    int bash_resistance(const int x, const int y) const;
+    int bash_rating(const int str, const int x, const int y) const;
+// Bashable: 3D
+    /** Returns true if there is a bashable vehicle part or the furn/terrain is bashable at p */
+    bool is_bashable( const tripoint &p ) const;
+    /** Returns true if the terrain at p is bashable */
+    bool is_bashable_ter( const tripoint &p ) const;
+    /** Returns true if the furniture at p is bashable */
+    bool is_bashable_furn( const tripoint &p ) const;
+    /** Returns true if the furniture or terrain at p is bashable */
+    bool is_bashable_ter_furn( const tripoint &p ) const;
+    /** Returns max_str of the furniture or terrain at p */
+    int bash_strength( const tripoint &p ) const;
+    /** Returns min_str of the furniture or terrain at p */
+    int bash_resistance( const tripoint &p ) const;
+    /** Returns a success rating from -1 to 10 for a given tile based on a set strength, used for AI movement planning
+    *  Values roughly correspond to 10% increment chances of success on a given bash, rounded down. -1 means the square is not bashable */
+    int bash_rating( const int str, const tripoint &p ) const;
 
  /** Generates rubble at the given location, if overwrite is true it just writes on top of what currently exists
   *  floor_type is only used if there is a non-bashable wall at the location or with overwrite = true */
@@ -502,18 +563,24 @@ void add_corpse(int x, int y);
  void set_signage(const int x, const int y, std::string message) const;
  void delete_signage(const int x, const int y) const;
 
- // Radiation
- int get_radiation(const int x, const int y) const; // Amount of radiation at (x, y);
- void set_radiation(const int x, const int y, const int value);
+// Radiation
+    int get_radiation( const tripoint &p ) const; // Amount of radiation at (x, y);
+    void set_radiation( const tripoint &p, const int value );
+    // Overload for mapgen
+    void set_radiation( const int x, const int y, const int value );
 
- /** Increment the radiation in the given tile by the given delta
-  *  (decrement it if delta is negative)
-  */
- void adjust_radiation(const int x, const int y, const int delta);
+    /** Increment the radiation in the given tile by the given delta
+    *  (decrement it if delta is negative)
+    */
+    void adjust_radiation( const tripoint &p, const int delta );
+    // Overload for mapgen
+    void adjust_radiation( const int x, const int y, const int delta );
 
 // Temperature
- int& temperature(const int x, const int y);    // Temperature for submap
- void set_temperature(const int x, const int y, const int temperature); // Set temperature for all four submap quadrants
+    int& temperature( const tripoint &p );    // Temperature for submap
+    void set_temperature( const tripoint &p, const int temperature ); // Set temperature for all four submap quadrants
+    // 2D overload for mapgen
+    void set_temperature( const int x, const int y, const int temperature );
 
 // Items
  // Accessor that returns a wrapped reference to an item stack for safe modification.
@@ -563,24 +630,22 @@ void add_corpse(int x, int y);
  item *item_from( vehicle *veh, const int cargo_part, const size_t index );
 
 // Traps: 2D overloads
- std::string trap_get(const int x, const int y) const;
  void trap_set(const int x, const int y, const std::string & sid);
  void trap_set(const int x, const int y, const trap_id id);
 
- trap_id tr_at(const int x, const int y) const;
+    const trap & tr_at( const int x, const int y ) const;
  void add_trap(const int x, const int y, const trap_id t);
  void disarm_trap( const int x, const int y);
  void remove_trap(const int x, const int y);
 // Traps: 3D
- std::string trap_get( const tripoint &p ) const;
  void trap_set( const tripoint &p, const std::string & sid);
  void trap_set( const tripoint &p, const trap_id id);
 
- trap_id tr_at( const tripoint &p ) const;
+    const trap & tr_at( const tripoint &p ) const;
  void add_trap( const tripoint &p, const trap_id t);
  void disarm_trap( const tripoint &p );
  void remove_trap( const tripoint &p );
- const std::set<tripoint> trap_locations(trap_id t) const;
+ const std::vector<tripoint> &trap_locations(trap_id t) const;
 
 // Fields: 2D overloads that will later be slowly phased out
         const field& field_at( const int x, const int y ) const;
@@ -601,6 +666,15 @@ void add_corpse(int x, int y);
          * Apply field effects to the creature when it's on a square with fields.
          */
         void creature_in_field( Creature &critter );
+        /**
+         * Apply trap effects to the creature, similar to @ref creature_in_field.
+         * If there is no trap at the creatures location, nothing is done.
+         * If the creature can avoid the trap, nothing is done as well.
+         * Otherwise the trap is triggered.
+         * @param may_avoid If true, the creature tries to avoid the trap
+         * (@ref Creature::avoid_trap). If false, the trap is always triggered.
+         */
+        void creature_on_trap( Creature &critter, bool may_avoid = true );
 // 3D field functions. Eventually all the 2D ones should be replaced with those
         /**
          * Get the fields that are here. This is for querying and looking at it only,
@@ -665,18 +739,19 @@ void add_corpse(int x, int y);
 // End of 3D field function block
 
 // Computers
- computer* computer_at(const int x, const int y);
+    computer* computer_at( const tripoint &p );
+    computer* add_computer(const int x, const int y, std::string name, const int security);
 
  // Camps
- bool allow_camp(const int x, const int y, const int radius = CAMPCHECK);
- basecamp* camp_at(const int x, const int y, const int radius = CAMPSIZE);
- void add_camp(const std::string& name, const int x, const int y);
+    bool allow_camp( const tripoint &p, const int radius = CAMPCHECK);
+    basecamp* camp_at( const tripoint &p, const int radius = CAMPSIZE);
+    void add_camp( const tripoint &p, const std::string& name );
 
 // Graffiti
-    bool has_graffiti_at(int x, int y) const;
-    const std::string &graffiti_at(int x, int y) const;
-    void set_graffiti(int x, int y, const std::string &contents);
-    void delete_graffiti(int x, int y);
+    bool has_graffiti_at( const tripoint &p ) const;
+    const std::string &graffiti_at( const tripoint &p ) const;
+    void set_graffiti( const tripoint &p, const std::string &contents);
+    void delete_graffiti( const tripoint &p );
 
 // mapgen.cpp functions
  void generate(const int x, const int y, const int z, const int turn);
@@ -719,11 +794,22 @@ void add_corpse(int x, int y);
  vehicle *add_vehicle(std::string type, const int x, const int y, const int dir,
                       const int init_veh_fuel = -1, const int init_veh_status = -1,
                       const bool merge_wrecks = true);
- computer* add_computer(const int x, const int y, std::string name, const int security);
- float light_transparency(const int x, const int y) const;
  void build_map_cache();
- lit_level light_at(int dx, int dy); // Assumes 0,0 is light map center
- float ambient_light_at(int dx, int dy); // Raw values for tilesets
+ 
+// Light/transparency: 2D
+    float light_transparency(const int x, const int y) const;
+    lit_level light_at(int dx, int dy); // Assumes 0,0 is light map center
+    float ambient_light_at(int dx, int dy); // Raw values for tilesets
+    bool trans(const int x, const int y) const; // Transparent?
+// Light/transparency: 3D
+    float light_transparency( const tripoint &p ) const;
+    lit_level light_at( const tripoint &p ); // Assumes 0,0 is light map center
+    float ambient_light_at( const tripoint &p ); // Raw values for tilesets
+    /**
+     * Returns whether the tile at `p` is transparent(you can look past it).
+     */
+    bool trans( const tripoint &p ) const; // Transparent?
+// End of light/transparency
         /**
          * Whether the player character (g->u) can see the given square (local map coordinates).
          * This only checks the transparency of the path to the target, the light level is not
@@ -810,6 +896,11 @@ protected:
         void restock_fruits( const point pnt, int time_since_last_actualize );
         void player_in_field( player &u );
         void monster_in_field( monster &z );
+        /**
+         * As part of the map shifting, this shifts the trap locations stored in @ref traplocs.
+         * @param shift The amount shifting in submap, the same as go into @ref shift.
+         */
+        void shift_traps( const tripoint &shift );
 
         void copy_grid( point to, point from );
  void draw_map(const oter_id terrain_type, const oter_id t_north, const oter_id t_east,
@@ -925,7 +1016,6 @@ private:
  void add_light_from_items( const int x, const int y, std::list<item>::iterator begin,
                             std::list<item>::iterator end );
  void calc_ray_end(int angle, int range, int x, int y, int* outx, int* outy) const;
- void forget_traps(const int gridx, const int gridy, const int gridz);
  vehicle *add_vehicle_to_map(vehicle *veh, bool merge_wrecks);
 
  // Iterates over every item on the map, passing each item to the provided function.
@@ -954,7 +1044,13 @@ private:
          * Use @ref getsubmap or @ref setsubmap to access it.
          */
         std::vector<submap*> grid;
- std::map<trap_id, std::set<tripoint> > traplocs;
+        /**
+         * This vector contains an entry for each trap type, it has therefor the same size
+         * as the @ref traplist vector. Each entry contains a list of all point on the map that
+         * contain a trap of that type. The first entry however is always empty as it denotes the
+         * tr_null trap.
+         */
+        std::vector< std::vector<tripoint> > traplocs;
 };
 
 std::vector<point> closest_points_first(int radius, point p);

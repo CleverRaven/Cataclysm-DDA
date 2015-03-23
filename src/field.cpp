@@ -777,7 +777,7 @@ bool map::process_fields_in_submap( submap *const current_submap,
                         }
                         // If the flames are in a brazier, they're fully contained,
                         // so skip consuming terrain
-                        if((tr_brazier != tr_at(x, y)) &&
+                        if((tr_brazier != tr_at(x, y).loadid) &&
                            (has_flag("FIRE_CONTAINER", x, y) != true )) {
                             // Consume the terrain we're on
                             if (has_flag("FLAMMABLE", x, y) && one_in(32 - cur->getFieldDensity() * 10)) {
@@ -820,7 +820,7 @@ bool map::process_fields_in_submap( submap *const current_submap,
                         bool in_pit = (ter(x, y) == t_pit);
 
                         // If the flames are REALLY big, they contribute to adjacent flames
-                        if (cur->getFieldAge() < 0 && tr_brazier != tr_at(x, y) &&
+                        if (cur->getFieldAge() < 0 && tr_brazier != tr_at(x, y).loadid &&
                             (has_flag("FIRE_CONTAINER", x, y) != true  ) ) {
                             if(cur->getFieldDensity() == 3) {
                                 // Randomly offset our x/y shifts by 0-2, to randomly pick
@@ -911,7 +911,7 @@ bool map::process_fields_in_submap( submap *const current_submap,
                                         spread_chance = 50 + spread_chance / 2;
                                     }
                                     if ((i != 0 || j != 0) && rng(1, 100) < spread_chance &&
-                                          cur->getFieldAge() < 200 && tr_brazier != tr_at(x, y) &&
+                                          cur->getFieldAge() < 200 && tr_brazier != tr_at(x, y).loadid &&
                                           (has_flag("FIRE_CONTAINER", x, y) != true ) &&
                                           (in_pit == (ter(fx, fy) == t_pit)) &&
                                           ((cur->getFieldDensity() >= 2 && (has_flag("FLAMMABLE", fx, fy) && one_in(20))) ||

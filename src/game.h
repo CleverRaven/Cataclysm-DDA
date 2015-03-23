@@ -173,6 +173,7 @@ class game
         int  npc_by_id(const int id) const;
         /** Returns the Creature at (x, y). */
         Creature *critter_at(int x, int y);
+        Creature const* critter_at(int x, int y) const;
 
         /** Calls the creature_tracker add function. Returns true if successful. */
         bool add_zombie(monster &critter);
@@ -329,8 +330,9 @@ class game
         int inv_for_salvage(const std::string &title, const salvage_actor &actor );
         item *inv_map_for_liquid(const item &liquid, const std::string &title);
         int inv_for_flag(const std::string &flag, const std::string &title, bool auto_choose_single);
-        int inv_for_filter(const std::string &title, item_filter filter );
-        int display_slice(indexed_invslice const&, const std::string &, int position = INT_MIN);
+        int inv_for_filter(const std::string &title, item_filter filter);
+        int inv_for_unequipped(std::string const &title, item_filter filter);
+        int display_slice(indexed_invslice const&, const std::string &, bool show_worn = true, int position = INT_MIN);
         int inventory_item_menu(int pos, int startx = 0, int width = 50, int position = 0);
         // Select items to drop.  Returns a list of pairs of position, quantity.
         std::list<std::pair<int, int>> multidrop();
@@ -440,13 +442,13 @@ class game
 
         // Animation related functions
         void draw_explosion(int x, int y, int radius, nc_color col);
-        void draw_bullet(Creature &p, int tx, int ty, int i, std::vector<point> trajectory, char bullet,
-                         timespec &ts);
+        void draw_bullet(Creature const &p, int tx, int ty, int i,
+                         std::vector<point> const &trajectory, char bullet);
         void draw_hit_mon(int x, int y, const monster &critter, bool dead = false);
-        void draw_hit_player(player *p, const int iDam, bool dead = false);
-        void draw_line(const int x, const int y, const point center_point, std::vector<point> ret);
-        void draw_line(const int x, const int y, std::vector<point> ret);
-        void draw_weather(weather_printable wPrint);
+        void draw_hit_player(player const &p, int dam);
+        void draw_line(int x, int y, point center_point, std::vector<point> const &ret);
+        void draw_line(int x, int y, std::vector<point> const &ret);
+        void draw_weather(weather_printable const &wPrint);
         void draw_sct();
         void draw_zones(const point &p_pointStart, const point &p_pointEnd, const point &p_pointOffset);
         // Draw critter (if visible!) on its current position into w_terrain.
