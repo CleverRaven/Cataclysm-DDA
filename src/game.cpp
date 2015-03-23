@@ -3850,7 +3850,7 @@ void game::write_memorial_file(std::string sLastWords)
 
 void game::add_event(event_type type, int on_turn, int faction_id)
 {
-    add_event( type, on_turn, faction_id, global_sm_location() );
+    add_event( type, on_turn, faction_id, u.global_sm_location() );
 }
 
 void game::add_event(event_type type, int on_turn, int faction_id, const tripoint center )
@@ -12711,13 +12711,6 @@ void game::update_map(int &x, int &y)
 
     // Update what parts of the world map we can see
     update_overmap_seen();
-}
-
-tripoint game::global_sm_location() const
-{
-    return tripoint( get_levx() + int( MAPSIZE / 2 ),
-                     get_levy() + int( MAPSIZE / 2 ),
-                     get_levz() );
 }
 
 void game::update_overmap_seen()

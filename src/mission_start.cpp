@@ -38,7 +38,7 @@ point random_house_in_city( const city_reference &cref )
 
 point random_house_in_closest_city()
 {
-    const auto center = g->global_sm_location();
+    const auto center = g->u.global_sm_location();
     const auto cref = overmap_buffer.closest_city( point( center.x, center.y ) );
     if( !cref ) {
         debugmsg( "could not find closest city" );
