@@ -37,6 +37,28 @@
         ]
     },{
         "type" : "vehicle_part",
+        "id" : "reclining_seat",
+        "name" : "reclining seat",
+        "symbol" : "#",
+        "color" : "red",
+        "broken_symbol" : "*",
+        "broken_color" : "red",
+        "damage_modifier" : 60,
+        "durability" : 100,
+        "item" : "seat",
+        "difficulty" : 3,
+        "location" : "center",
+        "flags" : [
+            "BED", "SEAT", "BOARDABLE", "BELTABLE"
+        ],
+        "breaks_into" : [
+            {"item": "leather", "min": 1, "max": 5},
+            {"item": "steel_lump", "min": 1, "max": 2},
+            {"item": "steel_chunk", "min": 1, "max": 2},
+            {"item": "scrap", "min": 6, "max": 10}
+        ]
+    },{
+        "type" : "vehicle_part",
         "id" : "tracker",
         "name": "tracking device",
         "symbol": "*",
