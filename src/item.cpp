@@ -2260,17 +2260,16 @@ void item::set_relative_rot( float rel_rot )
     }
 }
 
-void item::calc_rot(const point &location)
+void item::calc_rot(const tripoint &location)
 {
     const int now = calendar::turn;
     if ( last_rot_check + 10 < now ) {
         const int since = ( last_rot_check == 0 ? bday : last_rot_check );
         const int until = ( fridge > 0 ? fridge : now );
         if ( since < until ) {
-            tripoint const abs_location( g->m.getabs( location ), g->get_levz() );
             // rot (outside of fridge) from bday/last_rot_check until fridge/now
             int old = rot;
-            rot += get_rot_since( since, until, abs_location );
+            rot += get_rot_since( since, until, location );
             add_msg( m_debug, "r: %s %d,%d %d->%d", type->id.c_str(), since, until, old, rot );
         }
         last_rot_check = now;
@@ -4514,7 +4513,9 @@ int item::processing_speed() const
 
 bool item::process_food( player * /*carrier*/, point pos )
 {
-    calc_rot( pos );
+    // TODO: this functions (and all the other process functions) should be called with a tripoint
+    // If this gets implemented, don't forget that calc_rot expects an *absolute* position.
+    calc_rot( tripoint( g->m.getabs( pos ), g->get_levz() ) );
     if( item_tags.count( "HOT" ) > 0 ) {
         item_counter--;
         if( item_counter == 0 ) {

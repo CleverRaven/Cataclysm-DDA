@@ -5471,7 +5471,7 @@ void map::loadn( const int gridx, const int gridy, const int gridz, const bool u
     abs_sub.z = old_abs_z;
 }
 
-bool map::has_rotten_away( item &itm, const point &pnt ) const
+bool map::has_rotten_away( item &itm, const tripoint &pnt ) const
 {
     if( itm.is_corpse() ) {
         itm.calc_rot( pnt );
@@ -5505,8 +5505,11 @@ bool map::has_rotten_away( item &itm, const point &pnt ) const
 template <typename Container>
 void map::remove_rotten_items( Container &items, const point &pnt )
 {
+    // TODO: i_rem does not work with a tripoint, make it work and let this function
+    // take the position of the item as a tripoint directly.
+    const tripoint abs_pnt( getabs( pnt ), abs_sub.z );
     for( auto it = items.begin(); it != items.end(); ) {
-        if( has_rotten_away( *it, pnt ) ) {
+        if( has_rotten_away( *it, abs_pnt ) ) {
             it = i_rem( pnt, it );
         } else {
             ++it;
