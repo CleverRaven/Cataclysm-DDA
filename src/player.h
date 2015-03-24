@@ -933,6 +933,7 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         int power_level, max_power_level;
         int hunger, thirst, fatigue;
         int stomach_food, stomach_water;
+        int tank_plut, reactor_plut, slow_rad;
         int oxygen;
         int recoil;
         int driving_recoil;
