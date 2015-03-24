@@ -1,5 +1,7 @@
 #include "game.h"
-#include "cata_tiles.h" // all animation functions will be pushed out to a cata_tiles function in some manner
+#if defined (SDLTILES)
+#   include "cata_tiles.h" // all animation functions will be pushed out to a cata_tiles function in some manner
+#endif
 
 extern cata_tiles *tilecontext; // obtained from sdltiles.cpp
 extern void try_update();
