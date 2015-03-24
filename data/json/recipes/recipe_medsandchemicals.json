@@ -2963,7 +2963,33 @@
 [ "sugar", 5 ]
 ]
 ]
+},{
+  "type" : "recipe",
+  "result": "thyme_oil",
+  "category": "CC_OTHER",
+  "subcategory": "CSC_OTHER_MEDICAL",
+  "skill_used": "cooking",
+  "skills_required": [ "survival", 4 ],
+  "difficulty": 4,
+  "time": 60000,
+  "reversible": false,
+  "autolearn": true,
+  "qualities":[
+    {"id":"HAMMER","level":1,"amount":1},
+    {"id":"CUT","level":1,"amount":1},
+    {"id":"BOIL","level":2,"amount":1}
+  ], 
+  "tools": [
+    [
+      [ "hotplate", 10 ],
+      [ "char_smoker", 1 ],
+      [ "toolset", 10 ],
+      [ "fire", -1 ]
+    ]
+  ], 
+  "components": [
+    [ [ "cooking_oil", 2 ] ],
+    [ [ "thyme", 2 ] ]
+  ]
 }
-
-
 ]

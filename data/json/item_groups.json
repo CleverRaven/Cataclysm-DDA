@@ -974,6 +974,7 @@
       ["l_lookout_9mm", 5],
       ["l_sp_9mm", 4],
       ["l_mp_9mm", 1],
+      ["rm360_carbine", 1],
       ["cx4", 1],
       ["sw_619", 4],
       ["taurus_38", 4],
@@ -2693,6 +2694,7 @@
       ["fn_p90", 7],
       ["hk_mp7", 5],
       ["needlegun", 4],
+      ["rm360_carbine", 2],
       ["rm2000_smg", 1]
     ]
   },{
@@ -2789,6 +2791,7 @@
       ["m249", 1],
       ["v29_cheap", 8],
       ["rm51_assault_rifle", 1],
+      ["rm360_carbine", 2],
       ["rm88_battle_rifle", 1],
       ["rm11b_sniper_rifle", 1],
       ["rm614_lmg", 1],
@@ -4058,6 +4061,7 @@
       ["m1911", 4],
       ["calico", 6],
       ["american_180", 4],
+      ["rm360_carbine", 2],
       ["savage_111f", 4],
       ["rm120c", 3],
       ["rm99_pistol", 3],
@@ -9263,7 +9267,9 @@
       { "item": "egg_reptile", "prob": 5, "count-min": 2, "count-max": 5 },
       { "item": "rhubarb", "prob": 5, "count-min": 2, "count-max": 5 },
       { "item": "wild_herbs", "prob": 10 },
-      { "item": "buckwheat", "prob": 5, "count-min": 1, "count-max": 2 }
+      { "item": "buckwheat", "prob": 5, "count-min": 1, "count-max": 2 },
+      { "item": "thyme", "prob": 5, "count-min": 1, "count-max": 2 },
+      { "item": "canola", "prob": 5, "count-min": 1, "count-max": 2 }
     ]
   },{
 "type" : "item_group",
@@ -9275,7 +9281,9 @@
       { "item": "egg_bird", "prob": 15, "count-min": 2, "count-max": 5 },
       { "item": "egg_reptile", "prob": 5, "count-min": 2, "count-max": 5 },
       { "item": "wild_herbs", "prob": 10 },
-      { "item": "buckwheat", "prob": 10, "count-min": 1, "count-max": 4 }
+      { "item": "buckwheat", "prob": 10, "count-min": 1, "count-max": 4 },
+      { "item": "thyme", "prob": 5, "count-min": 1, "count-max": 3 },
+      { "item": "canola", "prob": 10, "count-min": 1, "count-max": 3 }
     ]
   },{
 "type" : "item_group",
@@ -9287,7 +9295,9 @@
       { "item": "egg_bird", "prob": 15, "count-min": 2, "count-max": 5 },
       { "item": "egg_reptile", "prob": 5, "count-min": 2, "count-max": 5 },
       { "item": "wild_herbs", "prob": 10 },
-      { "item": "buckwheat", "prob": 15, "count-min": 2, "count-max": 4 }
+      { "item": "buckwheat", "prob": 15, "count-min": 2, "count-max": 4 },
+      { "item": "thyme", "prob": 5, "count-min": 1, "count-max": 3 },
+      { "item": "canola", "prob": 5, "count-min": 1, "count-max": 3 }
     ]
   },{
 "type" : "item_group",

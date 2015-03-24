@@ -527,6 +527,7 @@ void advanced_inv_area::init()
         case AIM_NORTHWEST:
         case AIM_NORTH:
         case AIM_NORTHEAST:
+            const tripoint p( g->u.posx() + offx, g->u.posy() + offy, g->u.posz() );
             veh = g->m.veh_at( g->u.posx() + offx, g->u.posy() + offy, vstor );
             if( veh ) {
                 vstor = veh->part_with_feature( vstor, "CARGO", false );
@@ -541,8 +542,8 @@ void advanced_inv_area::init()
                 canputitemsloc = g->m.can_put_items( g->u.posx() + offx, g->u.posy() + offy );
                 max_size = MAX_ITEM_IN_SQUARE;
                 max_volume = g->m.max_volume( g->u.posx() + offx, g->u.posy() + offy );
-                if( g->m.has_graffiti_at( g->u.posx() + offx, g->u.posy() + offy ) ) {
-                    desc = g->m.graffiti_at( g->u.posx() + offx, g->u.posy() + offy );
+                if( g->m.has_graffiti_at( p ) ) {
+                    desc = g->m.graffiti_at( p );
                 }
             }
             break;
@@ -579,12 +580,9 @@ void advanced_inv_area::init()
     }
     
     // trap?
-    const trap_id tid = g->m.tr_at(x, y);
-    if (tid != tr_null) {
-        const struct trap &t = *traplist[tid];
-        if( t.can_see( tripoint(x, y, g->get_levz()), g->u) && !t.is_benign() ) {
-            flags.append(_(" TRAP"));
-        }
+    const trap &tr = g->m.tr_at(x, y);
+    if( tr.can_see( tripoint(x, y, g->get_levz()), g->u) && !tr.is_benign() ) {
+        flags.append(_(" TRAP"));
     }
 
     // water?

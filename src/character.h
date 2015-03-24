@@ -91,6 +91,17 @@ class Character : public Creature
         {
             return -2 - position;
         }
+
+        // checks to see if an item is worn
+        bool is_worn(const item &thing) const
+        {
+            for(const auto &elem : worn) {
+                if(&thing == &elem) {
+                    return true;
+                }
+            }
+            return false;
+        }
         
         /**
          * Test whether an item in the possession of this player match a
@@ -224,7 +235,7 @@ class Character : public Creature
         int volume_carried() const;
         int weight_capacity() const;
         int volume_capacity() const;
-        bool can_pickVolume(int volume) const;
+        bool can_pickVolume(int volume, bool safe = false) const;
         bool can_pickWeight(int weight, bool safe = true) const;
         
         bool has_artifact_with(const art_effect_passive effect) const;

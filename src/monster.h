@@ -101,6 +101,8 @@ class monster : public Creature, public JsonSerializer, public JsonDeserializer
         bool made_of(std::string m) const; // Returns true if it's made of m
         bool made_of(phase_id p) const; // Returns true if its phase is p
 
+        bool avoid_trap( const tripoint &pos, const trap &tr ) override;
+
         void load_legacy(std::stringstream &dump);
         void load_info(std::string data);
 
