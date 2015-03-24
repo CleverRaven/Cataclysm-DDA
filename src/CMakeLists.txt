@@ -282,7 +282,8 @@ if (WIN32)
 	)
 else()
 	add_custom_target(gen_version
-		COMMAND echo \\#define VERSION \$\(git describe --tags --always --dirty --match \"[0-9]*.[0-9]*\"\) > ${CMAKE_SOURCE_DIR}/src/version.h
+		COMMAND echo -n \"\#define VERSION \" > ${CMAKE_SOURCE_DIR}/src/version.h
+		COMMAND git describe --tags --always --dirty --match \"[0-9]*.[0-9]*\" >> ${CMAKE_SOURCE_DIR}/src/version.h
 	)
 endif()
 add_dependencies(cataclysm gen_version)
