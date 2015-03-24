@@ -692,9 +692,9 @@ void reveal_map_actor::load( JsonObject &obj )
     }
 }
 
-void reveal_map_actor::reveal_targets( const std::string &target, int reveal_distance ) const
+void reveal_map_actor::reveal_targets( tripoint const & center, const std::string &target, int reveal_distance ) const
 {
-    const auto places = overmap_buffer.find_all( g->global_omt_location(), target, radius, false );
+    const auto places = overmap_buffer.find_all( center, target, radius, false );
     for( auto & place : places ) {
         overmap_buffer.reveal( place, reveal_distance, g->get_levz() );
     }
@@ -710,8 +710,9 @@ long reveal_map_actor::use( player *p, item *it, bool, point ) const
                               it->tname().c_str() );
         return 0;
     }
+    const auto center = p->global_omt_location();
     for( auto & omt : omt_types ) {
-        reveal_targets( omt, 0 );
+        reveal_targets( center, omt, 0 );
     }
     if( !message.empty() ) {
         p->add_msg_if_player( m_good, "%s", _( message.c_str() ) );
@@ -754,7 +755,7 @@ bool firestarter_actor::prep_firestarter_use( const player *p, const item *it, p
     }
     if( g->m.flammable_items_at(pos.x, pos.y) ||
         g->m.has_flag("FLAMMABLE", pos.x, pos.y) || g->m.has_flag("FLAMMABLE_ASH", pos.x, pos.y) ||
-        g->m.get_field_strength( pos, fd_web ) > 0 ) {
+        g->m.get_field_strength( tripoint( pos, p->posz() ), fd_web ) > 0 ) {
         return true;
     } else {
         p->add_msg_if_player(m_info, _("There's nothing to light there."));
@@ -1195,7 +1196,7 @@ long inscribe_actor::use( player *p, item *it, bool t, point ) const
         if( message.empty() ) {
             return 0;
         } else {
-            g->m.set_graffiti( p->posx(), p->posy(), message );
+            g->m.set_graffiti( p->pos3(), message );
             add_msg( _("You write a message on the ground.") );
             p->moves -= 2 * message.length();
         }
@@ -1502,4 +1503,100 @@ long fireweapon_on_actor::use( player *p, item *it, bool t, point ) const
     }
 
     return it->type->charges_to_use();
+}
+
+iuse_actor *musical_instrument_actor::clone() const
+{
+    return new musical_instrument_actor(*this);
+}
+
+void musical_instrument_actor::load( JsonObject &obj )
+{
+    speed_penalty = obj.get_int( "speed_penalty", 10 );
+    volume = obj.get_int( "volume" );
+    fun = obj.get_int( "fun" );
+    fun_bonus = obj.get_int( "fun_bonus", 0 );
+    description_frequency = obj.get_int( "description_frequency" );
+    descriptions = obj.get_string_array( "descriptions" );
+}
+
+long musical_instrument_actor::use( player *p, item *it, bool t, point ) const
+{
+    if( p == nullptr ) {
+        // No haunted pianos here!
+        it->active = false;
+        return 0;
+    }
+
+    if( p->is_underwater() ) {
+        p->add_msg_if_player( m_bad, _("You can't play music underwater") );
+        it->active = false;
+        return 0;
+    }
+
+    if( !t ) {
+        // TODO: Make the player stop playing music when paralyzed/choking
+        if( it->active || p->has_effect("sleep") ) {
+            p->add_msg_if_player( _("You stop playing your %s"), it->display_name().c_str() );
+            it->active = false;
+            return 0;
+        }
+    }
+
+    // Check for worn or wielded - no "floating"/bionic instruments for now
+    // TODO: Distinguish instruments played with hands and with mouth, consider encumbrance
+    const int inv_pos = p->get_item_position( it );
+    if( inv_pos >= 0 || inv_pos == INT_MIN ) {
+        p->add_msg_if_player( m_bad, _("You need to hold or wear %s to play it"), it->display_name().c_str() );
+        it->active = false;
+        return 0;
+    }
+
+    // At speed this low you can't coordinate your actions well enough to play the instrument
+    if( p->get_speed() <= 25 + speed_penalty ) {
+        p->add_msg_if_player( m_bad, _("You feel too weak to play your %s"), it->display_name().c_str() );
+        it->active = false;
+        return 0;
+    }
+
+    // We can play the music now
+    if( !it->active ) {
+        p->add_msg_if_player( m_good, _("You start playing your %s"), it->display_name().c_str() );
+        it->active = true;
+    }
+
+    if( p->get_effect_int( "playing_instrument" ) <= speed_penalty ) {
+        // Only re-apply the effect if it wouldn't lower the intensity
+        p->add_effect( "playing_instrument", 2, num_bp, false, speed_penalty );
+    }
+
+    std::string desc = "";
+    const int morale_effect = fun + fun_bonus * p->per_cur;
+    if( morale_effect >= 0 && int(calendar::turn) % description_frequency == 0 ) {
+        const size_t desc_index = rng( 0, descriptions.size() - 1 );
+        desc = _(descriptions[ desc_index ].c_str());
+    } else if( morale_effect < 0 && int(calendar::turn) % 10 ) {
+        // No musical skills = possible morale penalty
+        desc = _("You produce an annoying sound");
+    }
+
+    sounds::ambient_sound( p->posx(), p->posy(), volume, desc );
+
+    if( !p->has_effect( "music" ) && !p->can_hear( p->pos(), volume ) ) {
+        p->add_effect( "music", 1 );
+        const int sign = morale_effect > 0 ? 1 : -1;
+        p->add_morale( MORALE_MUSIC, sign, morale_effect, 5, 2 );
+    }
+
+    return 0;
+}
+
+bool musical_instrument_actor::can_use( const player *p, const item*, bool, const point& ) const
+{
+    // TODO (maybe): Mouth encumbrance? Smoke? Lack of arms? Hand encumbrance?
+    if( p->is_underwater() ) {
+        return false;
+    }
+
+    return true;
 }

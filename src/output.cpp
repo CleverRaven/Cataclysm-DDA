@@ -1622,83 +1622,59 @@ size_t shortcut_print(WINDOW *w, nc_color color, nc_color colork, const std::str
     return len;
 }
 
-void get_HP_Bar(const int current_hp, const int max_hp, nc_color &color, std::string &text,
-                const bool bMonster)
+std::pair<std::string, nc_color> const&
+get_hp_bar(const int cur_hp, const int max_hp, const bool is_mon)
 {
-    if (current_hp == max_hp) {
-        color = c_green;
-        text = "|||||";
-    } else if (current_hp > max_hp * .9 && !bMonster) {
-        color = c_green;
-        text = "||||\\";
-    } else if (current_hp > max_hp * .8) {
-        color = c_ltgreen;
-        text = "||||";
-    } else if (current_hp > max_hp * .7 && !bMonster) {
-        color = c_ltgreen;
-        text = "|||\\";
-    } else if (current_hp > max_hp * .6) {
-        color = c_yellow;
-        text = "|||";
-    } else if (current_hp > max_hp * .5 && !bMonster) {
-        color = c_yellow;
-        text = "||\\";
-    } else if (current_hp > max_hp * .4) {
-        color = c_ltred;
-        text = "||";
-    } else if (current_hp > max_hp * .3 && !bMonster) {
-        color = c_ltred;
-        text = "|\\";
-    } else if (current_hp > max_hp * .2) {
-        color = c_red;
-        text = "|";
-    } else if (current_hp > max_hp * .1 && !bMonster) {
-        color = c_red;
-        text = "\\";
-    } else if (current_hp > 0) {
-        color = c_red;
-        text = ":";
-    } else {
-        color = c_ltgray;
-        text = "-----";
-    }
+    using pair_t = std::pair<std::string, nc_color>;
+    static std::array<pair_t, 12> const strings {{
+        //~ creature health bars
+        pair_t {_(R"(|||||)"), c_green},
+        pair_t {_(R"(||||\)"), c_green},
+        pair_t {_(R"(||||)"),  c_ltgreen},
+        pair_t {_(R"(|||\)"),  c_ltgreen},
+        pair_t {_(R"(|||)"),   c_yellow},
+        pair_t {_(R"(||\)"),   c_yellow},
+        pair_t {_(R"(||)"),    c_ltred},
+        pair_t {_(R"(|\)"),    c_ltred},
+        pair_t {_(R"(|)"),     c_red},
+        pair_t {_(R"(\)"),     c_red},
+        pair_t {_(R"(:)"),     c_red},
+        pair_t {_(R"(-----)"), c_ltgray},
+    }};
+
+    double const ratio = static_cast<double>(cur_hp) / (max_hp ? max_hp : 1);
+    return (ratio >= 1.0)            ? strings[0]  :
+           (ratio >= 0.9 && !is_mon) ? strings[1]  :
+           (ratio >= 0.8)            ? strings[2]  :
+           (ratio >= 0.7 && !is_mon) ? strings[3]  :
+           (ratio >= 0.6)            ? strings[4]  :
+           (ratio >= 0.5 && !is_mon) ? strings[5]  :
+           (ratio >= 0.4)            ? strings[6]  :
+           (ratio >= 0.3 && !is_mon) ? strings[7]  :
+           (ratio >= 0.2)            ? strings[8]  :
+           (ratio >= 0.1 && !is_mon) ? strings[9]  :
+           (ratio >= 0.0)            ? strings[10] : strings[11];
 }
 
-std::pair<nc_color, std::string> get_item_HP_Bar(const int iDamage)
+std::pair<std::string, nc_color> const& get_item_hp_bar(const int dmg)
 {
-    nc_color color = c_white;
-    std::string text = "??";
+    using pair_t = std::pair<std::string, nc_color>;
+    static std::array<pair_t, 7> const strings {{
+        //~ item health bars
+        pair_t {_(R"(++)"), c_green},
+        pair_t {_(R"(||)"), c_ltgreen},
+        pair_t {_(R"(|\)"), c_yellow},
+        pair_t {_(R"(|.)"), c_magenta},
+        pair_t {_(R"(\.)"), c_ltred},
+        pair_t {_(R"(..)"), c_red},
+        pair_t {_(R"(??)"), c_white},
+    }};
 
-    switch( iDamage ) {
-    case -1:
-        color = c_green;
-        text = "++";
-        break;
-    case 0:
-        color = c_ltgreen;
-        text = "||";
-        break;
-    case 1:
-        color = c_yellow;
-        text = "|\\";
-        break;
-    case 2:
-        color = c_magenta;
-        text = "|.";
-        break;
-    case 3:
-        color = c_ltred;
-        text = "\\.";
-        break;
-    case 4:
-        color = c_red;
-        text = "..";
-        break;
-    default:
-        break;
+    if (dmg >= -1 && dmg <= 4) {
+        return strings[dmg + 1];
     }
 
-    return std::make_pair(color, text);
+    return strings[6];
 }
 
 /**

@@ -956,7 +956,7 @@ bool player::activate_bionic(int b, bool eff_only)
         if( veh ) {
             vehwindspeed = abs(veh->velocity / 100); // vehicle velocity in mph
         }
-        const oter_id &cur_om_ter = overmap_buffer.ter(g->global_omt_location());
+        const oter_id &cur_om_ter = overmap_buffer.ter( global_omt_location() );
         std::string omtername = otermap[cur_om_ter].name;
         int windpower = get_local_windpower(weatherPoint.windpower + vehwindspeed, omtername, g->is_sheltered(g->u.posx(), g->u.posy()));
 
@@ -1018,6 +1018,12 @@ bool player::activate_bionic(int b, bool eff_only)
         } else {
             bio.powered = g->remoteveh() != nullptr || get_value( "remote_controlling" ) != "";
         }
+    } else if (bio.id == "bio_plutdump") {
+        if (query_yn(_("WARNING: Purging all fuel is likely to result in radiation!  Purge anyway?"))) {
+            slow_rad += (tank_plut + reactor_plut);
+            tank_plut = 0;
+            reactor_plut = 0;
+            }
     }
 
     return true;
@@ -1219,6 +1225,14 @@ bool player::uninstall_bionic(bionic_id b_id)
         return false;
     }
 
+    if (( b_id == "bio_reactor" ) || ( b_id == "bio_advreactor" )) {
+        if (!query_yn(_("WARNING: Removing a reactor may leave radioactive material! Remove anyway?"))) {
+            return false;
+        }
+    } else if (b_id == "bio_plutdump") {
+        popup(_("You must remove your reactor to remove the Plutonium Purger."));
+    }
+
     if ( b_id == "bio_earplugs") {
         popup(_("You must remove the Enhanced Hearing bionic to remove the Sound Dampeners."));
         return false;
@@ -1252,6 +1266,9 @@ bool player::uninstall_bionic(bionic_id b_id)
         add_msg(m_neutral, _("You jiggle your parts back into their familiar places."));
         add_msg(m_good, _("Successfully removed %s."), bionics[b_id]->name.c_str());
         remove_bionic(b_id);
+        if (b_id == "bio_reactor" || b_id == "bio_advreactor") {
+            remove_bionic("bio_plutdump");
+        }
         g->m.spawn_item(posx(), posy(), "burnt_out_bionic", 1);
     } else {
         add_memorial_log(pgettext("memorial_male", "Removed bionic: %s."),
@@ -1273,6 +1290,30 @@ bool player::install_bionics(const itype &type)
     if( bionics.count( bioid ) == 0 ) {
         popup("invalid / unknown bionic id %s", bioid.c_str());
         return false;
+    }
+    if (bioid == "bio_reactor" || bioid == "bio_advreactor") {
+        if (has_bionic("bio_furnace") && has_bionic("bio_storage")) {
+            popup(_("Your internal storage and furnace take up too much room!"));
+            return false;
+        } else if (has_bionic("bio_furnace")) {
+            popup(_("Your internal furnace takes up too much room!"));
+            return false;
+        } else if (has_bionic("bio_storage")) {
+            popup(_("Your internal storage takes up too much room!"));
+            return false;
+        }
+    }
+    if ((bioid == "bio_furnace" ) || (bioid == "bio_storage") || (bioid == "bio_reactor") || (bioid == "bio_advreactor")) {
+        if (has_bionic("bio_reactor") || has_bionic("bio_advreactor")) {
+            popup(_("Your installed reactor leaves no room!"));
+            return false;
+        }
+    }
+    if (bioid == "bio_reactor_upgrade" ){
+        if (!has_bionic("bio_reactor")) {
+            popup(_("There is nothing to upgrade!"));
+            return false;
+        }
     }
     if( has_bionic( bioid ) ) {
         if( !( bioid == "bio_power_storage" || bioid == "bio_power_storage_mkII" ) ) {
@@ -1316,6 +1357,12 @@ bool player::install_bionics(const itype &type)
 
             if (bioid == "bio_ears") {
                 add_bionic("bio_earplugs"); // automatically add the earplugs, they're part of the same bionic
+            } else if (bioid == "bio_reactor_upgrade") {
+                remove_bionic("bio_reactor");
+                remove_bionic("bio_reactor_upgrade");
+                add_bionic("bio_advreactor");
+            } else if (bioid == "bio_reactor" || bioid == "bio_advreactor") {
+                add_bionic("bio_plutdump");
             }
 
         }

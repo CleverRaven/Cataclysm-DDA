@@ -385,6 +385,8 @@ void map::add_light_source(int x, int y, float luminance )
     light_source_buffer[x][y] = std::max(luminance, light_source_buffer[x][y]);
 }
 
+// Tile light/transparency: 2D overloads
+
 lit_level map::light_at(int dx, int dy)
 {
     if (!INBOUNDS(dx, dy)) {
@@ -414,6 +416,65 @@ float map::ambient_light_at(int dx, int dy)
 
     return lm[dx][dy];
 }
+
+bool map::trans(const int x, const int y) const
+{
+    return light_transparency(x, y) > LIGHT_TRANSPARENCY_SOLID;
+}
+
+float map::light_transparency(const int x, const int y) const
+{
+  return transparency_cache[x][y];
+}
+
+// Tile light/transparency: 3D
+
+lit_level map::light_at( const tripoint &p )
+{
+    if( !inbounds( p ) ) {
+        return LL_DARK;    // Out of bounds
+    }
+
+    // TODO: Fix in FoV update
+    const int dx = p.x;
+    const int dy = p.y;
+    if (sm[dx][dy] >= LIGHT_SOURCE_BRIGHT) {
+        return LL_BRIGHT;
+    }
+
+    if (lm[dx][dy] >= LIGHT_AMBIENT_LIT) {
+        return LL_LIT;
+    }
+
+    if (lm[dx][dy] >= LIGHT_AMBIENT_LOW) {
+        return LL_LOW;
+    }
+
+    return LL_DARK;
+}
+
+float map::ambient_light_at( const tripoint &p )
+{
+    if( !inbounds( p ) ) {
+        return 0.0f;
+    }
+
+    // TODO: Fix in FoV update
+    return lm[p.x][p.y];
+}
+
+bool map::trans( const tripoint &p ) const
+{
+    return light_transparency( p ) > LIGHT_TRANSPARENCY_SOLID;
+}
+
+float map::light_transparency( const tripoint &p ) const
+{
+    // TODO: Fix in FoV update
+    return transparency_cache[p.x][p.y];
+}
+
+// End of tile light/transparency
 
 bool map::pl_sees( const int tx, const int ty, const int max_range )
 {

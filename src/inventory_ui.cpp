@@ -100,7 +100,7 @@ class inventory_selector
          * ignore the action in this case). */
         bool handle_movement(const std::string &action);
         /** Update the @ref w_inv window, including wrefresh */
-        void display() const;
+        void display(bool show_worn = true) const;
         /** Returns the item positions of the currently selected entry, or ITEM_MIN
          * if no entry is selected. */
         int get_selected_item_position() const;
@@ -388,7 +388,7 @@ void inventory_selector::print_right_column() const
     }
 }
 
-void inventory_selector::display() const
+void inventory_selector::display(bool show_worn) const
 {
     const size_t &current_page_offset = in_inventory ? current_page_offset_i : current_page_offset_w;
     werase(w_inv);
@@ -408,7 +408,9 @@ void inventory_selector::display() const
     mvwprintz(w_inv, items_per_page + 4, FULL_SCREEN_WIDTH - utf8_width(msg_str.c_str()),
               msg_color, msg_str.c_str());
     print_left_column();
-    print_middle_column();
+    if(show_worn) {
+        print_middle_column();
+    }
     print_right_column();
     const size_t max_size = in_inventory ? items.size() : worn.size();
     const size_t max_pages = (max_size + items_per_page - 1) / items_per_page;
@@ -754,7 +756,7 @@ void inventory_selector::remove_dropping_items( player &u ) const
     }
 }
 
-int game::display_slice(indexed_invslice const &slice, const std::string &title, const int position)
+int game::display_slice(indexed_invslice const &slice, const std::string &title, bool show_worn, const int position)
 {
     inventory_selector inv_s(false, false, title);
     inv_s.make_item_list(slice);
@@ -762,7 +764,7 @@ int game::display_slice(indexed_invslice const &slice, const std::string &title,
     inv_s.select_item_by_position(position);
 
     while(true) {
-        inv_s.display();
+        inv_s.display(show_worn);
         const std::string action = inv_s.ctxt.handle_input();
         const long ch = inv_s.ctxt.get_raw_input().get_first_input();
         const int item_pos = g->u.invlet_to_position(static_cast<char>(ch));
@@ -786,7 +788,7 @@ int game::inv(const std::string &title, const int position)
     u.inv.restack(&u);
     u.inv.sort();
     indexed_invslice slice = u.inv.slice_filter();
-    return display_slice(slice, title, position);
+    return display_slice(slice, title, true, position);
 }
 
 int game::inv_activatable(std::string const &title)
@@ -924,6 +926,14 @@ int game::inv_for_filter(std::string const &title, const item_filter filter)
     u.inv.sort();
     indexed_invslice reduced_inv = u.inv.slice_filter_by( filter );
     return display_slice(reduced_inv, title);
+}
+
+int game::inv_for_unequipped(std::string const &title, const item_filter filter)
+{
+    u.inv.restack(&u);
+    u.inv.sort();
+    indexed_invslice reduced_inv = u.inv.slice_filter_by(filter);
+    return display_slice(reduced_inv, title, false);
 }
 
 int inventory::num_items_at_position( int const position )

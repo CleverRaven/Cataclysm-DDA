@@ -891,7 +891,10 @@
                 "..ss_______,,_______sss."
             ],
             "place_vehicles": [
-                { "vehicle": "policecar", "x": 12, "y": 11, "rotation": 0, "chance": 75}
+                { "vehicle": "policecar", "x": 12, "y":  9, "rotation": 0, "chance": 25},
+                { "vehicle": "policecar", "x":  5, "y": 13, "rotation":-30, "chance": 25},
+                { "vehicle": "policecar", "x": 19, "y": 13, "rotation": 30, "chance": 25},
+                { "vehicle": "policecar", "x": 12, "y": 16, "rotation": 90, "chance": 25}
             ],
             "place_monsters": [
                 { "monster": "GROUP_NECROPOLIS", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.10 }

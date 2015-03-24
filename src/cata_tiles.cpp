@@ -953,27 +953,22 @@ bool cata_tiles::draw_furniture(int x, int y)
 
 bool cata_tiles::draw_trap(int x, int y)
 {
-    int tr_id = g->m.tr_at(x, y);
-    if (tr_id == tr_null) {
+    const trap &tr = g->m.tr_at(x, y);
+    if( !tr.can_see(tripoint(x, y, g->get_levz()), g->u)) {
         return false;
     }
-    if (!traplist[tr_id]->can_see(tripoint(x, y, g->get_levz()), g->u)) {
-        return false;
-    }
-
-    const std::string tr_name = traplist[tr_id]->id;
 
     const int neighborhood[4] = {
-        static_cast<int> (g->m.tr_at(x, y + 1)), // south
-        static_cast<int> (g->m.tr_at(x + 1, y)), // east
-        static_cast<int> (g->m.tr_at(x - 1, y)), // west
-        static_cast<int> (g->m.tr_at(x, y - 1)) // north
+        static_cast<int> (g->m.tr_at(x, y + 1).loadid), // south
+        static_cast<int> (g->m.tr_at(x + 1, y).loadid), // east
+        static_cast<int> (g->m.tr_at(x - 1, y).loadid), // west
+        static_cast<int> (g->m.tr_at(x, y - 1).loadid) // north
     };
 
     int subtile = 0, rotation = 0;
-    get_tile_values(tr_id, neighborhood, subtile, rotation);
+    get_tile_values(tr.loadid, neighborhood, subtile, rotation);
 
-    return draw_from_id_string(tr_name, C_TRAP, empty_string, x, y, subtile, rotation);
+    return draw_from_id_string(tr.id, C_TRAP, empty_string, x, y, subtile, rotation);
 }
 
 bool cata_tiles::draw_field_or_item(int x, int y)
@@ -1226,14 +1221,14 @@ void cata_tiles::init_draw_bullet(int x, int y, std::string name)
     do_draw_bullet = true;
     bul_pos_x = x;
     bul_pos_y = y;
-    bul_id = name;
+    bul_id = std::move(name);
 }
 void cata_tiles::init_draw_hit(int x, int y, std::string name)
 {
     do_draw_hit = true;
     hit_pos_x = x;
     hit_pos_y = y;
-    hit_entity_id = name;
+    hit_entity_id = std::move(name);
 }
 void cata_tiles::init_draw_line(int x, int y, std::vector<point> trajectory, std::string name, bool target_line)
 {
@@ -1241,14 +1236,14 @@ void cata_tiles::init_draw_line(int x, int y, std::vector<point> trajectory, std
     is_target_line = target_line;
     line_pos_x = x;
     line_pos_y = y;
-    line_endpoint_id = name;
-    line_trajectory = trajectory;
+    line_endpoint_id = std::move(name);
+    line_trajectory = std::move(trajectory);
 }
 void cata_tiles::init_draw_weather(weather_printable weather, std::string name)
 {
     do_draw_weather = true;
-    weather_name = name;
-    anim_weather = weather;
+    weather_name = std::move(name);
+    anim_weather = std::move(weather);
 }
 void cata_tiles::init_draw_sct()
 {

@@ -54,7 +54,10 @@ int get_rot_since( const int since, const int endturn, const point &location )
     // http://github.com/CleverRaven/Cataclysm-DDA/issues/9162
     // Bug with this hack: Rot is prevented even when it's above
     // freezing on the ground floor.
-    oter_id oter = overmap_buffer.ter(g->global_omt_location());
+    const point abs_pos = g->m.getabs( location );
+    const point omt_abs = overmapbuffer::ms_to_omt_copy( abs_pos );
+    // TODO: input location should be an absolute value and inclue a z-component
+    oter_id oter = overmap_buffer.ter( tripoint( omt_abs.x, omt_abs.y, g->get_levz() ) );
     if (is_ot_type("ice_lab", oter)) {
         return 0;
     }
@@ -88,11 +91,11 @@ std::pair<int, int> rain_or_acid_level( const int wt )
 /**
  * Determine what a funnel has filled out of game, using funnelcontainer.bday as a starting point.
  */
-void retroactively_fill_from_funnel( item *it, const trap_id t, const calendar &endturn,
+void retroactively_fill_from_funnel( item *it, const trap &tr, const calendar &endturn,
                                      const point &location )
 {
     const calendar startturn = calendar( it->bday > 0 ? it->bday - 1 : 0 );
-    if ( startturn > endturn || traplist[t]->funnel_radius_mm < 1 ) {
+    if ( startturn > endturn || !tr.is_funnel() ) {
         return;
     }
     it->bday = int(endturn.get_turn()); // bday == last fill check
@@ -124,8 +127,8 @@ void retroactively_fill_from_funnel( item *it, const trap_id t, const calendar &
             break;
         }
     }
-    int rain = rain_turns / traplist[t]->funnel_turns_per_charge( rain_amount );
-    int acid = acid_turns / traplist[t]->funnel_turns_per_charge( acid_amount );
+    int rain = rain_turns / tr.funnel_turns_per_charge( rain_amount );
+    int acid = acid_turns / tr.funnel_turns_per_charge( acid_amount );
     it->add_rain_to_container( false, rain );
     it->add_rain_to_container( true, acid );
 }
@@ -219,11 +222,11 @@ double trap::funnel_turns_per_charge( double rain_depth_mm_per_hour ) const
 /**
  * Main routine for filling funnels from weather effects.
  */
-void fill_funnels(int rain_depth_mm_per_hour, bool acid, trap_id t)
+void fill_funnels(int rain_depth_mm_per_hour, bool acid, const trap &tr)
 {
-    const double turns_per_charge = traplist[t]->funnel_turns_per_charge(rain_depth_mm_per_hour);
+    const double turns_per_charge = tr.funnel_turns_per_charge(rain_depth_mm_per_hour);
     // Give each funnel on the map a chance to collect the rain.
-    const std::set<tripoint> &funnel_locs = g->m.trap_locations( t );
+    const auto &funnel_locs = g->m.trap_locations( tr.loadid );
     for( auto loc : funnel_locs ) {
         int maxcontains = 0;
         auto items = g->m.i_at( loc.x, loc.y );
@@ -254,9 +257,13 @@ void fill_funnels(int rain_depth_mm_per_hour, bool acid, trap_id t)
  */
 void fill_water_collectors(int mmPerHour, bool acid)
 {
-    fill_funnels(mmPerHour, acid, tr_funnel);
-    fill_funnels(mmPerHour, acid, tr_makeshift_funnel);
-    fill_funnels(mmPerHour, acid, tr_leather_funnel);
+    for( auto &e : traplist ) {
+        const trap &tr = *e;
+        if( !tr.is_funnel() ) {
+            continue;
+        }
+        fill_funnels( mmPerHour, acid, tr );
+    }
 }
 
 /**

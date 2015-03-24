@@ -378,39 +378,32 @@ bool recipe::check_eligible_containers_for_crafting(int batch) const
     all.insert(all.end(), res.begin(), res.end());
     all.insert(all.end(), bps.begin(), bps.end());
 
-    for(item &prod : all) {
-        if (prod.made_of(LIQUID)) {
-            long charges_to_store = prod.charges;
-            // we go trough half-filled containers first
-            for(item &cont : conts) {
-                if (!cont.is_container_empty()) {
-                    if (cont.contents[0].type->id ==  prod.type->id) {
-                        charges_to_store -= cont.get_remaining_capacity();
-                        if (charges_to_store <= 0) {
-                            break;
-                        }
-                    }
+    for(const item & prod : all) {
+        if( !prod.made_of(LIQUID)) {
+            continue;
+        }
+
+        // we go trough half-filled containers first, then go through empty containers if we need
+        std::sort( conts.begin(), conts.end(), item_compare_by_charges);
+
+        long charges_to_store = prod.charges;
+        for( const item & cont : conts) {
+            if( charges_to_store <= 0) {
+                break;
+            }
+
+            if( !cont.is_container_empty()) {
+                if( cont.contents[0].type->id == prod.type->id) {
+                    charges_to_store -= cont.get_remaining_capacity_for_liquid( cont.contents[0]);
                 }
+            } else {
+                charges_to_store -= cont.get_remaining_capacity_for_liquid( prod);
             }
-            // we go trough empty containers if we need
-            if (charges_to_store > 0) {
-                std::vector<item>::iterator iter;
-                for(iter = conts.begin(); iter != conts.end();) {
-                    if (iter->is_container_empty()) {
-                        charges_to_store -= iter->get_remaining_capacity_for_liquid(prod);
-                        iter = conts.erase(iter);
-                        if (charges_to_store <= 0) {
-                            break;
-                        }
-                    } else {
-                        iter++;
-                    }
-                }
-            }
-            if (charges_to_store > 0) {
-                popup(_("You don't have anything to store %s in!"), prod.tname().c_str());
-                return false;
-            }
+        }
+
+        if (charges_to_store > 0) {
+            popup(_("You don't have anything to store %s in!"), prod.tname().c_str());
+            return false;
         }
     }
 
@@ -1507,7 +1500,8 @@ void player::complete_craft()
     int diff_roll  = dice(diff_dice,  diff_sides);
 
     if (making->skill_used) {
-        practice( making->skill_used, making->difficulty * 5 + 20,
+        //normalize experience gain to crafting time, giving a bonus for longer crafting
+        practice( making->skill_used, (int)( ( making->difficulty * 15 + 10 ) * ( 1 + making->batch_time( batch_size ) / 30000.0 ) ),
                     (int)making->difficulty * 1.25 );
     }
 

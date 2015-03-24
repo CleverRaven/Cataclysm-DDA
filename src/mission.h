@@ -3,6 +3,7 @@
 
 #include <vector>
 #include <string>
+#include <unordered_map>
 #include "omdata.h"
 #include "itype.h"
 #include "npc.h"
@@ -12,7 +13,7 @@ class mission;
 class game;
 enum talk_topic;
 
-enum mission_id {
+enum mission_type_id {
     MISSION_NULL,
     MISSION_GET_ANTIBIOTICS,
     MISSION_GET_SOFTWARE,
@@ -56,7 +57,7 @@ enum mission_id {
     NUM_MISSION_IDS
 };
 
-std::string mission_dialogue(mission_id id, talk_topic state);
+std::string mission_dialogue(mission_type_id id, talk_topic state);
 
 enum mission_origin {
     ORIGIN_NULL = 0,
@@ -147,7 +148,7 @@ struct mission_fail {
 };
 
 struct mission_type {
-    int id; // Matches it to a mission_id above
+    mission_type_id id; // Matches it to a mission_type_id above
     std::string name; // The name the mission is given in menus
     mission_goal goal; // The basic goal type
     int difficulty; // Difficulty; TODO: come up with a scale
@@ -164,14 +165,14 @@ struct mission_type {
     std::string monster_type;
     int monster_kill_goal;
     oter_id target_id;
-    mission_id follow_up;
+    mission_type_id follow_up;
 
     bool (mission_place::*place)(tripoint);
     void (mission_start::*start)(mission *);
     void (mission_end  ::*end  )(mission *);
     void (mission_fail ::*fail )(mission *);
 
-    mission_type(int ID, std::string NAME, mission_goal GOAL, int DIF, int VAL,
+    mission_type(mission_type_id ID, std::string NAME, mission_goal GOAL, int DIF, int VAL,
                  bool URGENT,
                  bool (mission_place::*PLACE)(tripoint),
                  void (mission_start::*START)(mission *),
@@ -192,15 +193,44 @@ struct mission_type {
         follow_up = MISSION_NULL;
     };
 
-    mission create(int npc_id = -1); // Create a mission
+    mission create( int npc_id ) const;
+
+    /**
+     * Get the mission_type object of the given id. Returns null if the input is invalid!
+     */
+    static const mission_type *get( mission_type_id id );
+    /**
+     * Returns a random id of a mission type that can be started at the defined origin
+     * around tripoint p, see @ref mission_start.
+     * Returns @ref MISSION_NULL if no suitable type could be found.
+     */
+    static mission_type_id get_random_id( mission_origin origin, tripoint p );
+    /**
+     * Get all mission types at once.
+     */
+    static const std::vector<mission_type> &get_all();
+
+    static void reset();
+    static void initialize();
+private:
+    /**
+     * All the known mission templates.
+     */
+    static std::vector<mission_type> types;
 };
 
 class mission : public JsonSerializer, public JsonDeserializer
 {
-    public:
-        mission_type *type;
+private:
+    friend struct mission_type; // so mission_type::create is simpler
+    friend struct mission_start; // so it can initialize some properties
+        const mission_type *type;
         std::string description;// Basic descriptive text
-        bool failed;            // True if we've failed it!
+        /**
+         * True if the mission is failed. Failed missions are completed per definition
+         * and should not be reused. Failed mission should not be changed further.
+         */
+        bool failed;
         unsigned long value;    // Cash/Favor value of completing this
         npc_favor reward;       // If there's a special reward for completing it
         int uid;                // Unique ID number, used for referencing elsewhere
@@ -218,10 +248,12 @@ class mission : public JsonSerializer, public JsonDeserializer
         int npc_id;             // ID of a related npc
         int good_fac_id, bad_fac_id; // IDs of the protagonist/antagonist factions
         int step;               // How much have we completed?
-        mission_id follow_up;   // What mission do we get after this succeeds?
+        mission_type_id follow_up;   // What mission do we get after this succeeds?
+        int player_id; // The id of the player that has accepted this mission.
+        bool was_started; // whether @ref mission_type::start had been called
+public:
 
         std::string name();
-        void load_info(std::ifstream &info);
         using JsonSerializer::serialize;
         void serialize(JsonOut &jsout) const;
         using JsonDeserializer::deserialize;
@@ -247,7 +279,105 @@ class mission : public JsonSerializer, public JsonDeserializer
             good_fac_id = -1;
             bad_fac_id = -1;
             step = 0;
+            player_id = -1;
+            was_started = false;
         }
+
+    /** Getters, they mostly return the member directly, mostly. */ 
+    /*@{*/
+    bool has_deadline() const;
+    calendar get_deadline() const;
+    std::string get_description() const;
+    bool has_target() const;
+    point get_target() const;
+    const mission_type &get_type() const;
+    bool has_follow_up() const;
+    mission_type_id get_follow_up() const;
+    long get_value() const;
+    int get_id() const;
+    const std::string &get_item_id() const;
+    int get_npc_id() const;
+    /**
+     * Whether the mission is assigned to a player character. If not, the mission is free and
+     * can be assigned.
+     */
+    bool is_assigned() const;
+    /**
+     * To which player the mission is assigned. It returns the id (@ref player::getID) of the
+     * player.
+     */
+    int get_assigned_player_id() const;
+    /*@}*/
+
+    /**
+     * Simple setters, no checking if the values is performed. */
+    /*@{*/
+    void set_target( point target );
+    /*@}*/
+
+
+    /** Assigns the mission to the player. */
+    void assign( player &u );
+
+    /** Called when the mission has failed, calls the mission fail callback. */
+    void fail();
+    /** Handles mission completion tasks (remove given item, etc.). */
+    void wrap_up();
+    /** Handles partial mission completion (kill complete, now report back!). */
+    void step_complete( int step );
+    /** Checks if the player has completed the matching mission and returns true if they have. */
+    bool is_complete( int npc_id ) const;
+    /** Checks if the player has failed the matching mission and returns true if they have. */
+    bool has_failed() const;
+
+    /**
+     * Create a new mission of the given type and assign it to the given npc.
+     * Returns the new mission.
+     */
+    static mission* reserve_new( mission_type_id type, int npc_id );
+    static mission* reserve_random( mission_origin origin, tripoint p, int npc_id );
+    /**
+     * Returns the mission with the matching id (@ref uid). Returns NULL if no mission with that
+     * id exists.
+     */
+    static mission *find( int id );
+    /**
+     * Remove all active missions, used to cleanup on exit and before reloading a new game.
+     */
+    static void clear_all();
+    /**
+     * Handles mission deadline processing.
+     */
+    static void process_all();
+
+    /**
+     * various callbacks from events that may affect all missions
+     */
+    /*@{*/
+    static void on_creature_death( Creature &poor_dead_dude );
+    /*@}*/
+
+    // Don't use this, it's only for loading legacy saves.
+    static void unserialize_legacy( std::istream &fin );
+    // Serializes and unserializes all missions in @ref active_missions
+    static void serialize_all( JsonOut &json );
+    static void unserialize_all( JsonIn &jsin );
+    /** Converts a vector mission ids to a vector of mission pointers. Invalid ids are skipped! */
+    static std::vector<mission*> to_ptr_vector( const std::vector<int> &vec );
+    static std::vector<int> to_uid_vector( const std::vector<mission*> &vec );
+
+private:
+    /**
+     * Missions which have been created, they might have been assigned or can be assigned or
+     * are already done. They are stored with the main save.
+     * Key is the mission id (@ref uid).
+     */
+    static std::unordered_map<int, mission> active_missions;
+
+    // Don't use this, it's only for loading legacy saves.
+    void load_info(std::istream &info);
+
+    void set_target_to_mission_giver();
 };
 
 #endif

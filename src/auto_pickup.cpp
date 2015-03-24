@@ -230,6 +230,9 @@ void show_auto_pickup()
             if (iCurrentLine > (int)vAutoPickupRules[iCurrentPage].size() - 1) {
                 iCurrentLine--;
             }
+            if(iCurrentLine < 0){
+                iCurrentLine = 0;
+            }
         } else if (action == "COPY_RULE" && currentPageNonEmpty) {
             bStuffChanged = true;
             vAutoPickupRules[iCurrentPage].push_back(cPickupRules(

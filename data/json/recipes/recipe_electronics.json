@@ -1131,6 +1131,124 @@
   ]
 },{
   "type" : "recipe",
+  "result": "bio_reactor",
+  "category": "CC_ELECTRONIC",
+  "subcategory": "CSC_ELECTRONIC_CBMS",
+  "skill_used": "electronics",
+  "skills_required": [ "mechanics", 10 ],
+  "difficulty": 10,
+  "time": 50000,
+  "reversible": false,
+  "autolearn": false,
+  "book_learn": [[ "recipe_lab_elec", 10 ]],
+  "qualities" : [ {"id":"SCREW","level":1,"amount":1} ],
+  "tools": [
+    [
+      [ "soldering_iron", 120 ],
+      [ "toolset", 120 ]
+    ]
+  ],
+  "components": [
+    [ [ "minireactor", 1 ] ],
+    [ [ "metal_tank_little", 1 ] ],
+    [
+      [ "burnt_out_bionic", 1 ],
+      [ "processor", 2 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
+  "result": "bio_plut_filter",
+  "category": "CC_ELECTRONIC",
+  "subcategory": "CSC_ELECTRONIC_CBMS",
+  "skill_used": "electronics",
+  "skills_required": [ "firstaid", 10 ],
+  "difficulty": 10,
+  "time": 50000,
+  "reversible": false,
+  "autolearn": false,
+  "book_learn": [[ "recipe_lab_elec", 10 ]],
+  "qualities" : [ {"id":"SCREW","level":1,"amount":1} ],
+  "tools": [
+    [
+      [ "soldering_iron", 80 ],
+      [ "toolset", 80 ]
+    ],
+    [
+      [ "laptop", -1 ],
+      [ "control_laptop", -1 ]
+    ]
+  ],
+  "components": [
+    [ [ "bio_blood_filter", 1 ] ],
+    [ [ "metal_tank_little", 1 ] ],
+    [
+      [ "burnt_out_bionic", 1 ],
+      [ "processor", 2 ]
+    ],
+    [
+      [ "usb_drive", 1 ],
+      [ "RAM", 1 ],
+      [ "mobile_memory_card", 1 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
+  "result": "bio_reactor_upgrade",
+  "category": "CC_ELECTRONIC",
+  "subcategory": "CSC_ELECTRONIC_CBMS",
+  "skill_used": "electronics",
+  "skills_required": [ "computer", 10 ],
+  "difficulty": 10,
+  "time": 50000,
+  "reversible": false,
+  "autolearn": false,
+  "book_learn": [[ "recipe_lab_elec", 10 ]],
+  "qualities" : [ {"id":"SCREW","level":1,"amount":1} ],
+  "tools": [
+    [
+      [ "soldering_iron", 120 ],
+      [ "toolset", 120 ]
+    ],
+    [
+      [ "laptop", -1 ],
+      [ "control_laptop", -1 ]
+    ]
+  ],
+  "components": [
+    [ [ "bio_radscrubber", 1 ] ],
+    [ [ "bio_geiger", 1 ] ],
+    [
+      [ "usb_drive", 1 ],
+      [ "RAM", 1 ],
+      [ "mobile_memory_card", 1 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
+  "result": "bio_advreactor",
+  "category": "CC_ELECTRONIC",
+  "subcategory": "CSC_ELECTRONIC_CBMS",
+  "skill_used": "electronics",
+  "skills_required": [ "computer", 10 ],
+  "difficulty": 10,
+  "time": 5000,
+  "reversible": false,
+  "autolearn": false,
+  "book_learn": [[ "recipe_lab_elec", 10 ]],
+  "qualities" : [ {"id":"SCREW","level":1,"amount":1} ],
+  "tools": [
+    [
+      [ "soldering_iron", 10 ],
+      [ "toolset", 10 ]
+    ]
+  ],
+  "components": [
+    [ [ "bio_reactor", 1 ] ],
+    [ [ "bio_reactor_upgrade", 1 ] ]
+  ]
+},{
+  "type" : "recipe",
   "result": "bio_power_armor_interface",
   "category": "CC_ELECTRONIC",
   "subcategory": "CSC_ELECTRONIC_CBMS",

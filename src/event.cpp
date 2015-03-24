@@ -55,8 +55,8 @@ void event::actualize()
                     temp->sety( rng( 0, SEEY * MAPSIZE - 1 ) );
                 }
                 // And tell the npc to go to the player.
-                temp->goal.x = g->global_omt_location().x;
-                temp->goal.y = g->global_omt_location().y;
+                temp->goal.x = g->u.global_omt_location().x;
+                temp->goal.y = g->u.global_omt_location().y;
                 // The npcs will be loaded later by game::load_npcs()
             }
         }

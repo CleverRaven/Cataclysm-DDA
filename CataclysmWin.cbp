@@ -191,8 +191,7 @@
 		<Unit filename="src/advanced_inv.h" />
 		<Unit filename="src/ammo.cpp" />
 		<Unit filename="src/ammo.h" />
-		<Unit filename="src/animation_curses.cpp" />
-		<Unit filename="src/animation_tiles.cpp" />
+		<Unit filename="src/animation.cpp" />
 		<Unit filename="src/armor_layers.cpp" />
 		<Unit filename="src/armor_layers.h" />
 		<Unit filename="src/artifact.cpp" />

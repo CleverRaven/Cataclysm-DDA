@@ -9,6 +9,7 @@
 #include "messages.h"
 #include "sounds.h"
 #include "rng.h"
+#include "mission.h"
 
 #include <fstream>
 #include <string>
@@ -398,7 +399,7 @@ void computer::activate_function(computer_action action, char ch)
                     }
                 }
                 if (numtowers == 4) {
-                    if (g->m.tr_at(i, j) == tr_portal) {
+                    if (g->m.tr_at(i, j).id == "tr_portal") {
                         g->m.remove_trap(i, j);
                     } else {
                         g->m.add_trap(i, j, tr_portal);
@@ -456,7 +457,7 @@ void computer::activate_function(computer_action action, char ch)
 
     case COMPACT_MAPS: {
         g->u.moves -= 30;
-        const tripoint center = g->global_omt_location();
+        const tripoint center = g->u.global_omt_location();
         overmap_buffer.reveal(point(center.x, center.y), 40, 0);
         query_any(_("Surface map data downloaded.  Local anomalous-access error logged.  Press any key..."));
         alerts ++;
@@ -465,7 +466,7 @@ void computer::activate_function(computer_action action, char ch)
 
     case COMPACT_MAP_SEWER: {
         g->u.moves -= 30;
-        const tripoint center = g->global_omt_location();
+        const tripoint center = g->u.global_omt_location();
         for (int i = -60; i <= 60; i++) {
             for (int j = -60; j <= 60; j++) {
                 const oter_id &oter = overmap_buffer.ter(center.x + i, center.y + j, center.z);
@@ -714,11 +715,11 @@ of pureed bone & LSD."));
         break;
 
     case COMPACT_COMPLETE_MISSION:
-        for (size_t i = 0; i <  g->u.active_missions.size(); i++) {
-            if (g->find_mission(g->u.active_missions[i])->name() == options[ch].name){
+        for( auto miss : g->u.get_active_missions() ) {
+            if (miss->name() == options[ch].name){
                 print_error(_("--ACCESS GRANTED--"));
                 print_error(_("Mission Complete!"));
-                g->mission_step_complete( g->find_mission(g->u.active_missions[i])->uid, 1);
+                miss->step_complete( 1 );
                 getch();
                 return;
                 //break;
@@ -730,9 +731,9 @@ of pureed bone & LSD."));
 
     case COMPACT_REPEATER_MOD:
         if (g->u.has_amount("radio_repeater_mod", 1)) {
-            for (size_t i = 0; i <  g->u.active_missions.size(); i++) {
-                if (g->find_mission(g->u.active_missions[i])->name() == "Install Repeater Mod"){
-                    g->mission_step_complete( g->find_mission(g->u.active_missions[i])->uid, 1);
+            for( auto miss : g->u.get_active_missions() ) {
+                if (miss->name() == "Install Repeater Mod"){
+                    miss->step_complete( 1 );
                     print_error(_("Repeater mod installed..."));
                     print_error(_("Mission Complete!"));
                     g->u.use_amount("radio_repeater_mod", 1);
@@ -753,13 +754,13 @@ of pureed bone & LSD."));
         if (!g->u.has_amount("usb_drive", 1)) {
             print_error(_("USB drive required!"));
         } else {
-            mission *miss = g->find_mission(mission_id);
+            mission *miss = mission::find(mission_id);
             if (miss == NULL) {
                 debugmsg(_("Computer couldn't find its mission!"));
                 return;
             }
             g->u.moves -= 30;
-            item software(miss->item_id, 0);
+            item software(miss->get_item_id(), 0);
             software.mission_id = mission_id;
             item *usb = g->u.pick_usb();
             usb->contents.clear();
