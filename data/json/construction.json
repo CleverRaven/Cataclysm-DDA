@@ -2214,7 +2214,9 @@
    [ {"id": "HAMMER", "level": 2 } ]
    ],
    "components" : [
-      [ [ "rock", 40 ] ]
+      [ [ "rock", 40 ] ],
+      [ [ "material_cement", 50 ], [ "mortar_build", 1 ], [ "clay_lump", 12 ] ],
+      [ [ "water", 2 ], [ "water_clean", 2 ] ]
    ],
    "pre_special" : "check_empty",
    "post_terrain" : "f_clay_kiln"
