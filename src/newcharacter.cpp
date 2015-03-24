@@ -84,7 +84,6 @@ matype_id choose_ma_style( const character_type type, const std::vector<matype_i
     while( true ) {
         menu.query(true);
         auto &selected = styles[menu.ret];
-        auto &style = martialarts[selected];
         if( query_yn( _( "Use this style?" ) ) ) {
             return selected;
         }
