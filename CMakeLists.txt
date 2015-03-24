@@ -2,8 +2,6 @@
 #
 # Move binary after compilation
 # Support for special builds (json checking, tests, other stuff)
-# Localization support
-
 
 cmake_minimum_required(VERSION 2.8)
 project(CataclysmDDA)
@@ -16,7 +14,14 @@ set(CMAKE_MODULE_PATH
 option(LUA      "Lua support (required for some mods)"  OFF)
 option(TILES    "Support for graphical tilesets"        OFF)
 option(SOUND    "Support for in-game sounds & music"    OFF)
-option(LOCALIZE "Support for language localizations"    ON )
+
+# Disable internationalization on Windows and OS X as it is not supported
+# without external libraries
+if (WIN32 OR APPLE)
+    option(LOCALIZE "Support for language localizations" OFF)
+else()
+    option(LOCALIZE "Support for language localizations" ON)
+endif()
 
 # Build settings
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
