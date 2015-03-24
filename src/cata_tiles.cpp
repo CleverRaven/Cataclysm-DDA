@@ -84,7 +84,7 @@ std::string const& to_string(tile_category const cat)
     auto const i = static_cast<int>(cat);
     if (i < 0 || i >= size) {
         dbg(D_ERROR) << "bad tile_category value";
-        strings[0];
+        return strings[0];
     }
 
     return strings[i];
@@ -147,11 +147,13 @@ std::string const& to_string(multitile_type const mt)
         "unconnected",
         "open",
         "broken",
+        ,""
     }};
 
     auto const i = static_cast<int>(mt);
     if (i < 0 || i >= size) {
         dbg(D_ERROR) << "bad multitile_type value";
+        return strings[size];
     }
 
     return strings[i];
