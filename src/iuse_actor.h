@@ -340,7 +340,7 @@ class reveal_map_actor : public iuse_actor
          */
         std::string message;
 
-        void reveal_targets( const std::string &target, int reveal_distance ) const;
+        void reveal_targets( tripoint const & center, const std::string &target, int reveal_distance ) const;
 
         reveal_map_actor() : iuse_actor(), radius( 0 ) { }
         virtual ~reveal_map_actor();

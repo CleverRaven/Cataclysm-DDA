@@ -262,7 +262,7 @@ MISSION(_("Find Flag"), MGOAL_FIND_ITEM, 2, 100000, false,
 
  MISSION(_("Cull Nightmares"), MGOAL_KILL_MONSTER_TYPE, 5, 250000, false,
          &mission_place::always, &mission_start::kill_20_nightmares,
-         &mission_end::leave, &mission_fail::standard);
+         &mission_end::standard, &mission_fail::standard);
   ORIGINS(ORIGIN_SECONDARY);
 
  MISSION(_("Fabricate Repeater Mod"), MGOAL_FIND_ITEM, 2, 250000, false,
