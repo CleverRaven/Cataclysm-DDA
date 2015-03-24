@@ -47,9 +47,10 @@
         "durability" : 100,
         "item" : "seat",
         "difficulty" : 3,
+        "size" : 25,
         "location" : "center",
         "flags" : [
-            "BED", "SEAT", "BOARDABLE", "BELTABLE"
+            "BED", "SEAT", "BOARDABLE", "BELTABLE", "CARGO"
         ],
         "breaks_into" : [
             {"item": "leather", "min": 1, "max": 5},
