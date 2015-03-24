@@ -139,7 +139,8 @@ class uimenu: public ui_container
         std::string title;
         std::vector<uimenu_entry> entries;
         std::map<int, int> keymap;
-        bool show_descriptions;
+        bool desc_enabled;
+        int desc_lines;
         bool border;
         bool filtering;
         bool filtering_nocase;

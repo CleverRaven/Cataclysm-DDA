@@ -156,7 +156,8 @@ void uimenu::init()
     started = false;       // set to true when width and key calculations are done, and window is generated.
     pad_left = 0;          // make a blank space to the left
     pad_right = 0;         // or right
-    show_descriptions = false; // don't show option description by default.
+    desc_enabled = false;  // don't show option description by default
+    desc_lines = 5;        // default number of lines for description
     border = true;         // todo: always true
     border_color = c_magenta; // border color
     text_color = c_ltgray;  // text color
@@ -349,8 +350,10 @@ void uimenu::setup()
                 w_width = txtwidth + pad + 4;    // todo: or +5 if header
             }
         }
-        if (show_descriptions && w_auto) {
-            int descwidth = utf8_width(entries[i].desc.c_str()) / 4; // 4 lines for description
+        if ( desc_enabled && w_auto ) {
+            // subtract one from desc_lines for the reminder of the text
+            int descwidth = utf8_width(entries[i].desc.c_str()) / (desc_lines - 1);
+            descwidth += 4; // 2x border + 2x ' ' pad
             if ( w_width < descwidth ) {
                 w_width = descwidth;
             }
@@ -414,8 +417,8 @@ void uimenu::setup()
 
     if (h_auto) {
         w_height = 3 + textformatted.size() + entries.size();
-        if (show_descriptions) {
-            w_height += 6; // 4+1 lines + 1 line border
+        if (desc_enabled) {
+            w_height += desc_lines + 1; // one for border
         }
     }
 
@@ -596,23 +599,23 @@ void uimenu::show()
         }
     }
 
-    if ( show_descriptions ) {
+    if ( desc_enabled ) {
         // draw border
-        mvwputch(window, w_height - 7, 0, border_color, LINE_XXXO);
+        mvwputch(window, w_height - desc_lines - 2, 0, border_color, LINE_XXXO);
         for ( int i = 1; i < w_width - 1; ++i) {
-            mvwputch(window, w_height - 7, i, border_color, LINE_OXOX);
+            mvwputch(window, w_height - desc_lines - 2, i, border_color, LINE_OXOX);
         }
-        mvwputch(window, w_height - 7, w_width - 1, border_color, LINE_XOXX);
+        mvwputch(window, w_height - desc_lines - 2, w_width - 1, border_color, LINE_XOXX);
 
         // clear previous desc the ugly way
-        for ( int y = 6; y > 1; --y ) {
+        for ( int y = desc_lines + 1; y > 1; --y ) {
             for ( int x = 2; x < w_width - 2; ++x) {
                 mvwputch(window, w_height - y, x, text_color, " ");
             }
         }
 
         // draw description
-        fold_and_print(window, w_height - 6, 2, w_width - 4, text_color, entries[selected].desc.c_str());
+        fold_and_print(window, w_height - desc_lines - 1, 2, w_width - 4, text_color, entries[selected].desc.c_str());
     }
 
     if ( !filter.empty() ) {
