@@ -1,7 +1,10 @@
 #include "game.h"
+#ifdef SDLTILES
 #include "cata_tiles.h" // all animation functions will be pushed out to a cata_tiles function in some manner
 
 extern cata_tiles *tilecontext; // obtained from sdltiles.cpp
+#endif
+
 extern void try_update();
 bool is_valid_in_w_terrain(int x, int y); // see game.cpp
 

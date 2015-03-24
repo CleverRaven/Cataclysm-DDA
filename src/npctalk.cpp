@@ -934,10 +934,10 @@ std::string dialogue::dynamic_line( const talk_topic topic ) const
 
         case TALK_OLD_GUARD_NEC_COMMO_GOAL:
             return _("We are securing the external communications array for this facility.  I'm rather restricted in what I can release"
-                     "... you should find my commander and ask him any questions you have.");
+                     "... go find my commander if you have any questions.");
 
         case TALK_OLD_GUARD_NEC_COMMO_FREQ:
-            return _("I was expecting him to send a runner.  Here is the list he needs.  What we can identify from here are simply the "
+            return _("I was expecting the captain to send a runner.  Here is the list you are looking for.  What we can identify from here are simply the "
                      "frequencies that have traffic on them.  Many of the transmissions are indecipherable without repairing or "
                      "replacing the equipment here.  When the facility was being overrun, standard procedure was to destroy encryption "
                      "hardware to protect federal secrets and maintain the integrity of the comms network.  We are hoping a few plain "
@@ -1102,7 +1102,9 @@ std::string dialogue::dynamic_line( const talk_topic topic ) const
             break;
 
         case TALK_TRAIN_START:
-            if( overmap_buffer.is_safe( g->global_omt_location() ) ) {
+            // Technically the player could be on another (unsafe) overmap terrain, but the
+            // NPC is only concerned about themselves.
+            if( overmap_buffer.is_safe( p->global_omt_location() ) ) {
                 return _("Alright, let's begin.");
             } else {
                 return _("It's not safe here.  Let's get to safety first.");
@@ -1142,7 +1144,7 @@ std::string dialogue::dynamic_line( const talk_topic topic ) const
         case TALK_HOW_MUCH_FURTHER:
             {
             // TODO: this ignores the z-component
-            const tripoint player_pos = g->global_omt_location();
+            const tripoint player_pos = p->global_omt_location();
             int dist = rl_dist(player_pos, p->goal);
             std::stringstream response;
             dist *= 100;
@@ -2432,7 +2434,7 @@ std::vector<talk_response> dialogue::gen_responses( const talk_topic topic ) con
             break;
 
         case TALK_TRAIN_START:
-            if( overmap_buffer.is_safe( g->global_omt_location() ) ) {
+            if( overmap_buffer.is_safe( p->global_omt_location() ) ) {
                 RESPONSE(_("Sounds good."));
                     SUCCESS(TALK_DONE);
                         SUCCESS_ACTION(&talk_function::start_training);

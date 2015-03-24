@@ -6518,7 +6518,7 @@ int iuse::artifact(player *p, item *it, bool, point)
                 break;
 
             case AEA_MAP: {
-                const tripoint center = g->global_omt_location();
+                const tripoint center = p->global_omt_location();
                 const bool new_map = overmap_buffer.reveal(
                                          point(center.x, center.y), 20, center.z);
                 if (new_map) {
@@ -9601,7 +9601,7 @@ int iuse::weather_tool(player *p, item *it, bool, point)
         if( veh ) {
             vehwindspeed = abs(veh->velocity / 100); // For mph
         }
-        const oter_id &cur_om_ter = overmap_buffer.ter(g->global_omt_location());
+        const oter_id &cur_om_ter = overmap_buffer.ter(p->global_omt_location());
         std::string omtername = otermap[cur_om_ter].name;
         int windpower = get_local_windpower(weatherPoint.windpower + vehwindspeed, omtername, g->is_sheltered(g->u.posx(), g->u.posy()));
 

@@ -6048,6 +6048,11 @@ point map::getlocal(const int x, const int y) const {
     return point( x - abs_sub.x * SEEX, y - abs_sub.y * SEEY );
 }
 
+tripoint map::getlocal( const tripoint &p ) const
+{
+    return tripoint( p.x - abs_sub.x * SEEX, p.y - abs_sub.y * SEEY, p.z );
+}
+
 void map::set_abs_sub(const int x, const int y, const int z)
 {
     abs_sub = tripoint( x, y, z );
