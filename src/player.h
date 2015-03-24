@@ -179,6 +179,8 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         void print_gun_mode( WINDOW *w, nc_color c );
         /** Print just the colored recoil indicator. **/
         void print_recoil( WINDOW *w ) const;
+        /** Displays indicator informing which turrets can fire at `targ`.**/
+        int draw_turret_aim( WINDOW *w, int line_number, const point &targ ) const;
 
         /** Generates the sidebar and it's data in-game */
         void disp_status(WINDOW *w, WINDOW *w2);

@@ -3438,6 +3438,31 @@ void player::print_recoil( WINDOW *w ) const
     }
 }
 
+int player::draw_turret_aim( WINDOW *w, int line_number, const point &targ ) const
+{
+    (void)w;
+    (void)targ;
+    vehicle *veh = g->m.veh_at( pos3() );
+    if( veh == nullptr ) {
+        debugmsg( "Tried to aim turret while outside vehicle" );
+        return line_number;
+    }
+
+    std::string out;
+    //int centerx = posx() + view_offset_x;
+    //int centery = posy() + view_offset_y;
+    const auto turret_state = veh->turrets_can_shoot( targ );
+    for( const auto &pr : turret_state ) {
+        (void)pr;
+    }
+
+    int width = 10;
+    mvwprintw( w, line_number++, 1, "%.*s", width, out.c_str() );
+    //mvwputch( w_terrain, my, mx, c_red, '?' );
+    // TODO: Everything
+    return line_number;
+}
+
 void player::disp_status(WINDOW *w, WINDOW *w2)
 {
     bool sideStyle = use_narrow_sidebar();

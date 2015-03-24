@@ -1106,6 +1106,8 @@ std::vector<point> game::target(int &x, int &y, int lowx, int lowy, int hix,
 
         if( mode == TARGET_MODE_FIRE && critter_at( x, y ) ) {
             line_number = u.print_aim_bars( w_target, line_number, relevant, critter_at( x, y ) );
+        } else if( mode == TARGET_MODE_TURRET ) {
+            line_number = u.draw_turret_aim( w_target, line_number, point( x, y ) );
         }
 
         wrefresh(w_target);

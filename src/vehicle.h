@@ -57,6 +57,15 @@ enum turret_mode_type : int {
     turret_mode_manual = 2
 };
 
+// Describes turret's ability to fire (possibly at a particular target)
+enum turret_fire_ability {
+    turret_all_ok,
+    turret_wont_aim,
+    turret_is_off,
+    turret_out_of_range,
+    turret_no_ammo
+};
+
 struct veh_collision {
  //int veh?
  int part;
@@ -690,15 +699,33 @@ public:
     void leak_fuel (int p);
     void shed_loose_parts();
 
+    // Gets range of part p if it's a turret
+    // If `manual` is true, gets the real item range (gun+ammo range)
+    // otherwise gets part range (as in json)
+    int get_turret_range( int p, bool manual = true );
+
+    // Returns the number of shots this turret could make with current ammo/gas/batteries/etc.
+    // Does not handle tags like FIRE_100
+    long turret_has_ammo( int p );
+
     // Manual turret aiming menu (select turrets etc.) when shooting from controls
-    // TODO: Make it apply some sort of penalty for indirect aiming
-    void aim_turrets();
+    // Returns whether a valid target was picked
+    bool aim_turrets();
+
+    // Maps turret ids to an enum describing their ability to shoot `pos`
+    std::map< int, turret_fire_ability > turrets_can_shoot( const point &pos );
+    turret_fire_ability turret_can_shoot( const int p, const point &pos );
+
+    // Cycle mode for this turret
+    // If `from_controls` is false, only manual modes are allowed 
+    // and message describing the new mode is printed
+    void cycle_turret_mode( int p, bool from_controls );
 
     // Per-turret mode selection
     void control_turrets();
 
     // Cycle through available turret modes
-    void cycle_turret_mode();
+    void cycle_global_turret_mode();
 
     // Set up the turret to fire
     bool fire_turret( int p, bool manual );

@@ -66,7 +66,8 @@ enum safe_mode_type {
 enum target_mode {
     TARGET_MODE_FIRE,
     TARGET_MODE_THROW,
-    TARGET_MODE_TURRET
+    TARGET_MODE_TURRET,
+    TARGET_MODE_TURRET_MANUAL
 };
 
 struct special_game;
@@ -212,6 +213,8 @@ class game
         /** Handles player input parts of gun firing (target selection, etc.). Actual firing is done
          *  in player::fire_gun(). This is interactive and should not be used by NPC's. */
         void plfire(bool burst, int default_target_x = -1, int default_target_y = -1);
+        /** Cycle fire mode of held item. If `force_gun` is false, also checks turrets on the tile */
+        void cycle_item_mode( bool force_gun );
         void throw_item(player &p, int tarx, int tary, item &thrown,
                         std::vector<point> &trajectory);
         /** Target is an interactive function which allows the player to choose a nearby

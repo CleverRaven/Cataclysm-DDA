@@ -2892,7 +2892,7 @@ bool game::handle_action()
             break;
 
         case ACTION_SELECT_FIRE_MODE:
-            u.weapon.next_mode();
+            cycle_item_mode( false );
             break;
 
         case ACTION_DROP:
@@ -10381,7 +10381,10 @@ void game::plfire(bool burst, int default_target_x, int default_target_y)
         vehicle *veh = m.veh_at( u.posx(), u.posy(), part );
         if( veh != nullptr ) {
             int vpturret = veh->part_with_feature( part, "TURRET", true );
+            int vpcontrols = veh->part_with_feature( part, "CONTROLS", true );
             if( vpturret >= 0 && veh->fire_turret( vpturret, true ) ) {
+                return;
+            } else if( vpcontrols >= 0 && veh->aim_turrets() ) {
                 return;
             }
         }
@@ -10546,6 +10549,25 @@ void game::plfire(bool burst, int default_target_x, int default_target_y)
     u.fire_gun(x, y, burst);
     reenter_fullscreen();
     //fire(u, x, y, trajectory, burst);
+}
+
+void game::cycle_item_mode( bool force_gun )
+{
+    if( u.is_armed() ) {
+        u.weapon.next_mode();
+    } else if( !force_gun ) {
+        int part = -1;
+        vehicle *veh = m.veh_at( u.pos3(), part );
+        if( veh != nullptr ) {
+            part = veh->part_with_feature( part, "TURRET" );
+        }
+
+        if( part < 0 ) {
+            return;
+        }
+
+        veh->cycle_turret_mode( part, true );
+    }
 }
 
 void game::butcher()
