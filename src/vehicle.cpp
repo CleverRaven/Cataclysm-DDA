@@ -5457,7 +5457,7 @@ void vehicle::open_or_close(int const part_index, bool const opening)
 
         const bool is_near = (delta == 1);
         const bool is_id = part_info(next_index).id == part_info(part_index).id;
-        const bool do_next = parts[next_index].open ^ opening;
+        const bool do_next = !!parts[next_index].open ^ opening;
 
         if (is_near && is_id && do_next) {
             open_or_close(next_index, opening);
