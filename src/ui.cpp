@@ -157,7 +157,7 @@ void uimenu::init()
     pad_left = 0;          // make a blank space to the left
     pad_right = 0;         // or right
     desc_enabled = false;  // don't show option description by default
-    desc_lines = 5;        // default number of lines for description
+    desc_lines = 6;        // default number of lines for description
     border = true;         // todo: always true
     border_color = c_magenta; // border color
     text_color = c_ltgray;  // text color
