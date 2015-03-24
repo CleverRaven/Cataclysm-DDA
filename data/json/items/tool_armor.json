@@ -101,7 +101,7 @@
         },
         "storage" : 0,
         "symbol" : "[",
-        "description" : "A high-crowned, wide-brimmed, sable colored fedora.  The perfect hat for treasure hunting.",
+        "description" : "A high-crowned, wide-brimmed, sable colored fedora.  Its brim helps keep the sun out of your eyes.  The perfect hat for treasure hunting.",
         "price" : 7500,
         "material" : ["leather", "null"],
         "volume" : 7,
@@ -112,7 +112,7 @@
         "encumbrance" : 10,
         "bashing" : -3,
         "coverage" : 50,
-        "flags" : ["FANCY", "VARSIZE"],
+        "flags" : ["FANCY", "VARSIZE", "SUN_GLASSES"],
         "material_thickness" : 1
     },
     {
