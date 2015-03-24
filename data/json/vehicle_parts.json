@@ -4667,5 +4667,21 @@
         "breaks_into" : [
             {"item": "scrap", "min": 0, "max": 1}
         ]
+    },{
+        "type" : "vehicle_part",
+        "id" : "vehicle_clock",
+        "name" : "clock",
+        "symbol" : ":",
+        "color" : "light_gray",
+        "broken_symbol" : ";",
+        "broken_color" : "dark_gray",
+        "durability" : 20,
+        "epower" : 0,
+        "item" : "wristwatch",
+        "difficulty" : 1,
+        "flags": ["WATCH", "ALARMCLOCK"],
+        "breaks_into" : [
+            {"item": "scrap", "min": 0, "max": 1}
+        ]
     }
 ]
