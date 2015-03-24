@@ -4997,7 +4997,7 @@ int vehicle::get_turret_range( int p, bool manual )
     }
 
     const item gun( part_info( p ).item, 0 );
-    itype *am_itype;
+    itype *am_itype = nullptr;
     auto items = get_items( p );
     if( !items.empty() && items.front().charges > 0 ) {
         am_itype = items.front().type;
@@ -5005,7 +5005,9 @@ int vehicle::get_turret_range( int p, bool manual )
         am_itype = item::find_type( "charge_shot" );
     } else if( fuel_left( part_info( p ).fuel_type ) > 0 ) {
         am_itype = item::find_type( part_info( p ).fuel_type );
-    } else if( !gun.has_flag( "NO_AMMO" ) ) {
+    } else if( gun.has_flag( "NO_AMMO" ) ) {
+        am_itype = item::find_type( "generic_no_ammo" );
+    } else {
         // Couldn't find ammo
         return -1;
     }
@@ -5029,9 +5031,9 @@ turret_fire_ability vehicle::turret_can_shoot( const int p, const point &pos )
         return turret_no_ammo;
     }
 
-    const int turrange = get_turret_range( p, false );
+    const int turrange = get_turret_range( p, true );
     point tpos( global_pos() + parts[p].precalc[0] );
-    if( rl_dist( tpos, pos ) < turrange ) {
+    if( rl_dist( tpos, pos ) > turrange ) {
         return turret_out_of_range;
     }
     
