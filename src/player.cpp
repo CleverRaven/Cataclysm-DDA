@@ -12485,6 +12485,8 @@ void player::practice( const Skill* s, int amount, int cap )
         amount /= 2;
     }
 
+    
+
     if (skillLevel(s) > cap) { //blunt grinding cap implementation for crafting
         amount = 0;
         int curLevel = skillLevel(s);
@@ -12493,7 +12495,7 @@ void player::practice( const Skill* s, int amount, int cap )
                     s->name().c_str(), curLevel);
         }
     }
-
+    
     if (amount > 0 && level.isTraining()) {
         int oldLevel = skillLevel(s);
         skillLevel(s).train(amount);
@@ -12506,6 +12508,7 @@ void player::practice( const Skill* s, int amount, int cap )
             add_msg(m_info, _("You feel that %s tasks of this level are becoming trivial."),
                     s->name().c_str());
         }
+        
 
         int chance_to_drop = focus_pool;
         focus_pool -= chance_to_drop / 100;
