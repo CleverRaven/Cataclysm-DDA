@@ -6553,7 +6553,7 @@
         "bashing" : 7,
         "flags" : ["WATERPROOF", "STURDY"],
         "coverage" : 100,
-        "material_thickness" : 4
+        "material_thickness" : 6
     },
     {
         "type" : "ARMOR",
