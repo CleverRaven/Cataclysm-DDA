@@ -618,7 +618,7 @@ radio_tower_reference create_radio_tower_reference( overmap &om, radio_tower &t,
 {
     // global submap coordinates, same as center is
     const point pos = point( t.x, t.y ) + overmapbuffer::om_to_sm_copy( om.pos() );
-    const int strength = t.strength - rl_dist( pos, center );
+    const int strength = t.strength - rl_dist( tripoint( pos, 0 ), center );
     return radio_tower_reference{ &om, &t, pos, strength };
 }
 
