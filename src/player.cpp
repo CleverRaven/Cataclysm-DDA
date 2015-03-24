@@ -1576,8 +1576,9 @@ void player::recalc_speed_bonus()
 int player::run_cost(int base_cost, bool diag)
 {
     float movecost = float(base_cost);
-    if (diag)
+    if( diag ) {
         movecost *= 0.7071f; // because everything here assumes 100 is base
+    }
     bool flatground = movecost < 105;
     const ter_id ter_at_pos = g->m.ter(posx(), posy());
     // If your floor is hard, flat, and otherwise skateable, list it here
@@ -1705,12 +1706,13 @@ int player::run_cost(int base_cost, bool diag)
         movecost += 10 * footwear_factor();
     }
 
+    // Both walk and run speed drop to half their maximums as stamina approaches 0.
+    float stamina_modifier = (1.0 + ((float)stamina / (float)get_stamina_max())) / 2.0;
     if( move_mode == "run" && stamina > 0 ) {
         // Rationale: Average running speed is 2x walking speed. (NOT sprinting)
-        // At fully rested, can run at 2x walk speed, decaying linearly to walk speed.
-        // So divide movecost by a number between 1 and 2.
-        movecost /= ( 1.0 + ((float)stamina / (float)get_stamina_max()) );
+        stamina_modifier * 2.0;
     }
+    movecost /= stamina_modifier;
 
     if (diag) {
         movecost *= 1.4142;
