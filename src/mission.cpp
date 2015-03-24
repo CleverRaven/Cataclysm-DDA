@@ -238,14 +238,14 @@ bool mission::is_complete( const int _npc_id ) const
         case MGOAL_GO_TO:
             {
                 // TODO: target does not contain a z-component, targets are assume to be on z=0
-                const tripoint cur_pos = g->global_omt_location();
+                const tripoint cur_pos = g->u.global_omt_location();
                 return ( rl_dist( cur_pos.x, cur_pos.y, target.x, target.y ) <= 1 );
             }
             break;
 
         case MGOAL_GO_TO_TYPE:
             {
-                const auto cur_ter = overmap_buffer.ter( g->global_omt_location() );
+                const auto cur_ter = overmap_buffer.ter( g->u.global_omt_location() );
                 return cur_ter == type->target_id;
             }
             break;
