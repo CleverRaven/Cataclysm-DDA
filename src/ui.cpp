@@ -334,6 +334,7 @@ void uimenu::setup()
     max_desc_len = 0;
     std::vector<int> autoassign;
     int pad = pad_left + pad_right + 2;
+    int descwidth_final = 0; // for description width guard
     for ( size_t i = 0; i < entries.size(); i++ ) {
         int txtwidth = utf8_width(remove_color_tags( entries[ i ].txt ).c_str());
         if ( txtwidth > max_entry_len ) {
@@ -356,12 +357,12 @@ void uimenu::setup()
                 w_width = txtwidth + pad + 4;    // todo: or +5 if header
             }
         }
-        if ( desc_enabled && w_auto ) {
+        if ( desc_enabled ) {
             // subtract one from desc_lines for the reminder of the text
             int descwidth = utf8_width(entries[i].desc.c_str()) / (desc_lines - 1);
             descwidth += 4; // 2x border + 2x ' ' pad
-            if ( w_width < descwidth ) {
-                w_width = descwidth;
+            if ( descwidth_final < descwidth ) {
+                descwidth_final = descwidth;
             }
         }
         if ( entries[ i ].text_color == C_UNSET_MASK ) {
@@ -380,6 +381,15 @@ void uimenu::setup()
                 keymap[setkey] = *it;
                 break;
             }
+        }
+    }
+
+    if (desc_enabled) {
+        if (descwidth_final > TERMX) {
+            desc_enabled = false; // give up
+            debugmsg("description would exceed terminal width (%d vs %d available)", descwidth_final, TERMX);
+        } else if (descwidth_final > w_width) {
+            w_width = descwidth_final;
         }
     }
 
@@ -424,7 +434,14 @@ void uimenu::setup()
     if (h_auto) {
         w_height = 3 + textformatted.size() + entries.size();
         if (desc_enabled) {
-            w_height += desc_lines + 1; // one for border
+            int w_height_final = w_height + desc_lines + 1; // add one for border
+            if (w_height_final > TERMY) {
+                desc_enabled = false; // give up
+                debugmsg("with description height would exceed terminal height (%d vs %d available)",
+                         w_height_final, TERMY);
+            } else {
+                w_height = w_height_final;
+            }
         }
     }
 
