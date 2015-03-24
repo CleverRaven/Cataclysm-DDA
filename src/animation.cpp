@@ -20,7 +20,7 @@ point relative_view_pos(player const &u, point const &p) noexcept
 
 void draw_animation_delay(long const scale = 1)
 {
-    auto const delay = static_cast<long>(OPTIONS["ANIMATION_DELAY"]) * scale * 1000000l;
+    const long delay = OPTIONS["ANIMATION_DELAY"] * scale * 1000000l;
 
     timespec const ts = {0, delay};
     if (ts.tv_nsec > 0) {
