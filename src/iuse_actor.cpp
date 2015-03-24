@@ -692,9 +692,9 @@ void reveal_map_actor::load( JsonObject &obj )
     }
 }
 
-void reveal_map_actor::reveal_targets( const std::string &target, int reveal_distance ) const
+void reveal_map_actor::reveal_targets( tripoint const & center, const std::string &target, int reveal_distance ) const
 {
-    const auto places = overmap_buffer.find_all( g->global_omt_location(), target, radius, false );
+    const auto places = overmap_buffer.find_all( center, target, radius, false );
     for( auto & place : places ) {
         overmap_buffer.reveal( place, reveal_distance, g->get_levz() );
     }
@@ -710,8 +710,9 @@ long reveal_map_actor::use( player *p, item *it, bool, point ) const
                               it->tname().c_str() );
         return 0;
     }
+    const auto center = p->global_omt_location();
     for( auto & omt : omt_types ) {
-        reveal_targets( omt, 0 );
+        reveal_targets( center, omt, 0 );
     }
     if( !message.empty() ) {
         p->add_msg_if_player( m_good, "%s", _( message.c_str() ) );
@@ -1195,7 +1196,7 @@ long inscribe_actor::use( player *p, item *it, bool t, point ) const
         if( message.empty() ) {
             return 0;
         } else {
-            g->m.set_graffiti( p->posx(), p->posy(), message );
+            g->m.set_graffiti( p->pos3(), message );
             add_msg( _("You write a message on the ground.") );
             p->moves -= 2 * message.length();
         }

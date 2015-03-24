@@ -238,14 +238,14 @@ bool mission::is_complete( const int _npc_id ) const
         case MGOAL_GO_TO:
             {
                 // TODO: target does not contain a z-component, targets are assume to be on z=0
-                const tripoint cur_pos = g->global_omt_location();
+                const tripoint cur_pos = g->u.global_omt_location();
                 return ( rl_dist( cur_pos.x, cur_pos.y, target.x, target.y ) <= 1 );
             }
             break;
 
         case MGOAL_GO_TO_TYPE:
             {
-                const auto cur_ter = overmap_buffer.ter( g->global_omt_location() );
+                const auto cur_ter = overmap_buffer.ter( g->u.global_omt_location() );
                 return cur_ter == type->target_id;
             }
             break;
@@ -1549,7 +1549,8 @@ Before we get into a major fight just make sure we have the gear we need, boss."
         case TALK_MISSION_INQUIRE:
             return _("Have you had any luck fabricating it?");
         case TALK_MISSION_SUCCESS:
-            return _("Thanks!  It will be some time but I'll need someone to install these around the region.");
+            return _("Thanks, I'll see to installing this one.  It will be some time but I could use someone to position "
+                     "these around the region.");
         case TALK_MISSION_SUCCESS_LIE:
             return _("What good does this do us?");
         case TALK_MISSION_FAILURE:
@@ -1565,7 +1566,7 @@ Before we get into a major fight just make sure we have the gear we need, boss."
             return _("We need help...");
         case TALK_MISSION_OFFER:
             return _("I guess I could use your skills once again.  There are small transmitters located in the nearby evacuation "
-                    "shelters; if we don't don't separate them from the power grid their power systems will rapidly deteriorate "
+                    "shelters; if we don't separate them from the power grid their power systems will rapidly deteriorate "
                     "over the next few weeks.  The task is rather simple but the shelters offer us a place to redirect refugees "
                     "until this vault can be secured. ");
         case TALK_MISSION_ACCEPTED:
@@ -1595,7 +1596,9 @@ Before we get into a major fight just make sure we have the gear we need, boss."
         case TALK_MISSION_OFFER:
             return _("Most of my essential gear has been brought back online so it is time for you to install your "
                      "first radio repeater mod.  Head topside and locate the nearest radio station.  Install the "
-                     "mod on the backup terminal and return to me so that I can verify that everything was successful.");
+                     "mod on the backup terminal and return to me so that I can verify that everything was successful.  "
+                     "Radio towers must unfortunatly be ignored for now, without a dedicated emergency power system "
+                     "they won't be useful for some time.");
         case TALK_MISSION_ACCEPTED:
             return _("I'll be standing by down here once you are done.");
         case TALK_MISSION_REJECTED:

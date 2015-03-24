@@ -170,6 +170,9 @@ player::player() : Character()
  pain = 0;
  pkill = 0;
  radiation = 0;
+ tank_plut = 0;
+ reactor_plut = 0;
+ slow_rad = 0;
  cash = 0;
  recoil = 0;
  driving_recoil = 0;
@@ -766,7 +769,7 @@ void player::update_bodytemp()
     if( veh ) {
         vehwindspeed = abs(veh->velocity / 100); // vehicle velocity in mph
     }
-    const oter_id &cur_om_ter = overmap_buffer.ter(g->global_omt_location());
+    const oter_id &cur_om_ter = overmap_buffer.ter( global_omt_location() );
     std::string omtername = otermap[cur_om_ter].name;
     bool sheltered = g->is_sheltered(posx(), posy());
     int total_windpower = get_local_windpower(weather.windpower + vehwindspeed, omtername, sheltered);
@@ -1860,11 +1863,11 @@ void player::memorial( std::ofstream &memorial_file, std::string epitaph )
     }
 
     //Figure out the location
-    const oter_id &cur_ter = overmap_buffer.ter(g->global_omt_location());
+    const oter_id &cur_ter = overmap_buffer.ter( global_omt_location() );
     std::string tername = otermap[cur_ter].name;
 
     //Were they in a town, or out in the wilderness?
-    const auto global_sm_pos = g->global_sm_location();
+    const auto global_sm_pos = global_sm_location();
     const auto closest_city = overmap_buffer.closest_city( point( global_sm_pos.x, global_sm_pos.y ) );
     std::string kill_place;
     if( !closest_city ) {
@@ -2130,7 +2133,7 @@ void player::add_memorial_log(const char* male_msg, const char* female_msg, ...)
                                calendar::turn.days() + 1, calendar::turn.print_time().c_str()
                                );
 
-    const oter_id &cur_ter = overmap_buffer.ter(g->global_omt_location());
+    const oter_id &cur_ter = overmap_buffer.ter( global_omt_location() );
     std::string location = otermap[cur_ter].name;
 
     std::stringstream log_message;
@@ -4104,7 +4107,7 @@ int player::unimpaired_range()
 
 bool player::overmap_los(int omtx, int omty, int sight_points)
 {
-    const tripoint ompos = g->global_omt_location();
+    const tripoint ompos = global_omt_location();
     if (omtx < ompos.x - sight_points || omtx > ompos.x + sight_points ||
         omty < ompos.y - sight_points || omty > ompos.y + sight_points) {
         // Outside maximum sight range
@@ -4575,7 +4578,7 @@ dealt_damage_instance player::deal_damage(Creature* source, body_part bp, const 
 
     // TODO: Pre or post blit hit tile onto "this"'s location here
     if(g->u.sees( pos() )) {
-        g->draw_hit_player(this, dam);
+        g->draw_hit_player(*this, dam);
 
         if (dam > 0 && is_player() && source) {
             //monster hits player melee
@@ -7562,8 +7565,8 @@ void player::suffer()
         rad_mut = 1;
     }
     if( rad_mut > 0 ) {
-        if( g->m.get_radiation(posx(), posy()) < rad_mut - 1 && one_in( 600 / rad_mut ) ) {
-            g->m.adjust_radiation(posx(), posy(), 1);
+        if( g->m.get_radiation( pos3() ) < rad_mut - 1 && one_in( 600 / rad_mut ) ) {
+            g->m.adjust_radiation( pos3(), 1 );
         } else if( one_in( 300 / rad_mut ) ) {
             radiation++;
         }
@@ -7586,7 +7589,7 @@ void player::suffer()
     int selfRadiation = 0;
     selfRadiation = leak_level("RADIOACTIVE");
 
-    int localRadiation = g->m.get_radiation(posx(), posy());
+    int localRadiation = g->m.get_radiation( pos3() );
 
     if (localRadiation || selfRadiation) {
         bool has_helmet = false;
@@ -7664,6 +7667,82 @@ void player::suffer()
 
     if( radiation > 150 && ( int(calendar::turn) % MINUTES(10) == 0 ) ) {
         hurtall(radiation / 100, nullptr);
+    }
+
+    if (reactor_plut || tank_plut || slow_rad) {
+        // Microreactor CBM and supporting bionics
+        if (has_bionic("bio_reactor") || has_bionic("bio_advreactor")) {
+            //first do the filtering of plutonium from storage to reactor
+            int plut_trans;
+            plut_trans = 0;
+            if (tank_plut > 0) {
+                if (has_active_bionic("bio_plut_filter")) {
+                    plut_trans = (tank_plut * 0.025);
+                } else {
+                    plut_trans = (tank_plut * 0.005);
+                }
+                if (plut_trans < 1) {
+                    plut_trans = 1;
+                }
+                tank_plut -= plut_trans;
+                reactor_plut += plut_trans;
+            }
+            //leaking radiation, reactor is unshielded, but still better than a simple tank
+            slow_rad += ((tank_plut * 0.1) + (reactor_plut * 0.01));
+            //begin power generation
+            if (reactor_plut > 0) {
+                int power_gen;
+                power_gen = 0;
+                if (has_bionic("bio_advreactor")){
+                    if ((reactor_plut * 0.2) > 2000){
+                        power_gen = 2000;
+                    } else {
+                        power_gen = reactor_plut * 0.05;
+                        if (power_gen < 1) {
+                            power_gen = 1;
+                        }
+                    }
+                    slow_rad += (power_gen * 3);
+                    while (slow_rad >= 50) {
+                        if (power_gen >= 1) {
+                            slow_rad -= 50;
+                            power_gen -= 1;
+                            reactor_plut -= 1;
+                        } else {
+                        break;
+                        }
+                    }
+                } else if (has_bionic("bio_reactor")) {
+                    if ((reactor_plut * 0.1) > 500){
+                        power_gen = 500;
+                    } else {
+                        power_gen = reactor_plut * 0.025;
+                        if (power_gen < 1) {
+                            power_gen = 1;
+                        }
+                    }
+                    slow_rad += (power_gen * 3);
+                }
+                reactor_plut -= power_gen;
+                while (power_gen >= 250) {
+                    apply_damage( nullptr, bp_torso, 1);
+                    mod_pain(1);
+                    add_msg(m_bad, _("Your chest burns as your power systems overload!"));
+                    charge_power(50);
+                    power_gen -= 60; // ten units of power lost due to short-circuiting into you
+                }
+                charge_power(power_gen);
+            }
+        } else {
+            slow_rad += (((reactor_plut * 0.4) + (tank_plut * 0.4)) * 100);
+            //plutonium in body without any kind of container.  Not good at all.
+            reactor_plut *= 0.6;
+            tank_plut *= 0.6;
+        }
+        while (slow_rad >= 500) {
+            radiation += 1;
+            slow_rad -=500;
+        }
     }
 
     // Negative bionics effects
@@ -8932,6 +9011,16 @@ bool player::consume(int target_position)
             charge_power(to_eat->charges / factor);
             to_eat->charges -= max_change * factor; //negative charges seem to be okay
             to_eat->charges++; //there's a flat subtraction later
+        } else if (to_eat->is_ammo() &&  ( has_active_bionic("bio_reactor") || has_active_bionic("bio_advreactor") ) && ( to_eat->ammo_type() == "reactor_slurry" || to_eat->ammo_type() == "plutonium")) {
+            if (to_eat->type->id == "plut_cell" && query_yn(_("Thats a LOT of plutonium.  Are you sure you want that much?"))) {
+                tank_plut += 5000;
+            } else if (to_eat->type->id == "plut_slurry_dense") {
+                tank_plut += 500;
+            } else if (to_eat->type->id == "plut_slurry") {
+                tank_plut += 250;
+            }
+            add_msg_player_or_npc( _("You add your %s to your reactor's tank."), _("<npcname> pours %s into their reactor's tank."),
+            to_eat->tname().c_str());
         } else if (!to_eat->is_food() && !to_eat->is_food_container(this)) {
             if (to_eat->is_book()) {
                 if (to_eat->type->book->skill != NULL && !query_yn(_("Really eat %s?"), to_eat->tname().c_str())) {
@@ -12396,6 +12485,8 @@ void player::practice( const Skill* s, int amount, int cap )
         amount /= 2;
     }
 
+    
+
     if (skillLevel(s) > cap) { //blunt grinding cap implementation for crafting
         amount = 0;
         int curLevel = skillLevel(s);
@@ -12404,7 +12495,7 @@ void player::practice( const Skill* s, int amount, int cap )
                     s->name().c_str(), curLevel);
         }
     }
-
+    
     if (amount > 0 && level.isTraining()) {
         int oldLevel = skillLevel(s);
         skillLevel(s).train(amount);
@@ -12417,6 +12508,7 @@ void player::practice( const Skill* s, int amount, int cap )
             add_msg(m_info, _("You feel that %s tasks of this level are becoming trivial."),
                     s->name().c_str());
         }
+        
 
         int chance_to_drop = focus_pool;
         focus_pool -= chance_to_drop / 100;

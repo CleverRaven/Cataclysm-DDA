@@ -307,7 +307,7 @@ void overmapbuffer::process_mongroups()
 {
     // arbitrary radius to include nearby overmaps (aside from the current one)
     const auto radius = MAPSIZE * 2;
-    const auto center = g->global_sm_location();
+    const auto center = g->u.global_sm_location();
     for( auto &om : get_overmaps_near( center, radius ) ) {
         om->process_mongroups();
     }
@@ -317,7 +317,7 @@ void overmapbuffer::move_hordes()
 {
     // arbitrary radius to include nearby overmaps (aside from the current one)
     const auto radius = MAPSIZE * 2;
-    const auto center = g->global_sm_location();
+    const auto center = g->u.global_sm_location();
     for( auto &om : get_overmaps_near( center, radius ) ) {
         om->move_hordes();
     }
@@ -541,7 +541,7 @@ void overmapbuffer::remove_npc(int id)
 
 std::vector<npc*> overmapbuffer::get_npcs_near_player(int radius)
 {
-    tripoint plpos = g->global_omt_location();
+    tripoint plpos = g->u.global_omt_location();
     // get_npcs_near needs submap coordinates
     omt_to_sm(plpos.x, plpos.y);
     return get_npcs_near(plpos.x, plpos.y, plpos.z, radius);
@@ -624,7 +624,7 @@ radio_tower_reference create_radio_tower_reference( overmap &om, radio_tower &t,
 
 radio_tower_reference overmapbuffer::find_radio_station( const int frequency )
 {
-    const auto center = g->global_sm_location();
+    const auto center = g->u.global_sm_location();
     for( auto &om : get_overmaps_near( center, RADIO_MAX_STRENGTH ) ) {
         for( auto &tower : om->radios ) {
             const auto rref = create_radio_tower_reference( *om, tower, center );
@@ -639,7 +639,7 @@ radio_tower_reference overmapbuffer::find_radio_station( const int frequency )
 std::vector<radio_tower_reference> overmapbuffer::find_all_radio_stations()
 {
     std::vector<radio_tower_reference> result;
-    const auto center = g->global_sm_location();
+    const auto center = g->u.global_sm_location();
     // perceived signal strength is distance (in submaps) - signal strength, so towers
     // further than RADIO_MAX_STRENGTH submaps away can never be received at all.
     const int radius = RADIO_MAX_STRENGTH;
