@@ -10558,10 +10558,11 @@ void game::cycle_item_mode( bool force_gun )
     } else if( !force_gun ) {
         int part = -1;
         vehicle *veh = m.veh_at( u.pos3(), part );
-        if( veh != nullptr ) {
-            part = veh->part_with_feature( part, "TURRET" );
+        if( veh == nullptr ) {
+            return;
         }
 
+        part = veh->part_with_feature( part, "TURRET" );
         if( part < 0 ) {
             return;
         }

@@ -5205,32 +5205,42 @@ void vehicle::cycle_turret_mode( int p, bool only_manual_modes )
     const item gun( part_info( p ).item, 0 );
     if( gun.type->gun == nullptr ) {
         debugmsg( "vehicle::cycle_turret_mode tried to pick a non-turret part" );
-        break;
+        return;
     }
 
     vehicle_part &tr = parts[p];
     const bool burst_or_charge = gun.burst_size() > 1 || gun.is_charger_gun();
+    const bool was_auto = tr.mode > 0;
     if( tr.mode < -1 ) {
         tr.mode = -1;
-    } else if( tr.mode < 0 ) {
+    } else if( tr.mode < 0 && !only_manual_modes ) {
         tr.mode = 0;
     } else if( tr.mode == 0 && !only_manual_modes ) {
         tr.mode = 1;
     } else if( tr.mode == 1 && !only_manual_modes ) {
-        tr.mode = burst_or_charge ? INT_MAX : -1;
+        tr.mode = burst_or_charge ? -1000 : -1;
     } else {
-        tr.mode = burst_or_charge ? INT_MIN : -1;
+        tr.mode = burst_or_charge ? -1000 : -1;
     }
 
     if( only_manual_modes ) {
+        const char *name = part_info( p ).name.c_str();
         if( tr.mode < -1 && gun.is_charger_gun() ) {
-            add_msg( m_info, _("Setting turret %s to manual full power mode.") );
+            add_msg( m_info, _("Setting turret %s to full power mode."), name );
+        } else if( tr.mode == -1 && gun.is_charger_gun() ) {
+            add_msg( m_info, _("Setting turret %s to low power mode."), name );
         } else if( tr.mode < -1 ) {
-            add_msg( m_info, _("Setting turret %s to manual burst mode.") );
-        } else if( td.mode == 0 ) {
-            add_msg( m_info, _("Disabling turret %s.") );
+            add_msg( m_info, _("Setting turret %s to burst mode."), name );
+        } else if( tr.mode == -1 ) {
+            add_msg( m_info, _("Setting turret %s to single-fire mode."), name );
+        } else if( tr.mode == 0 ) {
+            add_msg( m_info, _("Disabling turret %s."), name );
         } else {
-            add_msg( m_info, _("Setting turret %s to buggy mode.") );
+            add_msg( m_info, _("Setting turret %s to buggy mode."), name );
+        }
+
+        if( was_auto ) {
+            add_msg( m_warning, _("Disabling automatic target acquisition on %s"), name );
         }
     }
 }
@@ -5324,7 +5334,7 @@ bool vehicle::fire_turret( int p, bool manual )
 
     // turret_mode_manual means the turrets are globally off, but some are aimed
     // target.first == target.second means the turret isn't aimed
-    if( ( turret_mode == turret_mode_manual || parts[p].mode < 0 ) && 
+    if( !manual && ( turret_mode == turret_mode_manual || parts[p].mode < 0 ) && 
         target.first == target.second ) {
         return false;
     }
@@ -5350,8 +5360,7 @@ bool vehicle::fire_turret( int p, bool manual )
             } else {
                 charges = rng(1,4);
             }
-    
-            // mode is INT_MIN when aimed manually, do not use abs(INT_MIN) for charges!
+
             if( charges > abs( parts[p].mode ) ) {
                 charges = abs( parts[p].mode ); // Currently only limiting, not increasing
             }
@@ -5547,8 +5556,10 @@ bool vehicle::manual_fire_turret( int p, player &shooter, const itype &guntype,
     int tx = shooter.posx();
     int ty = shooter.posy();
     auto trajectory = g->pl_target_ui( tx, ty, range, &shooter.weapon, tmode );
-    const bool burst = true; // TODO: Fix
+    const bool burst = abs( parts[p].mode ) > 1;
     if( !trajectory.empty() ) {
+        // Need to redraw before shooting
+        g->draw_ter();
         const point &targ = trajectory.back();
         // Put our shooter on the roof of the vehicle
         shooter.add_effect( "on_roof", 1 );
@@ -5585,7 +5596,7 @@ bool vehicle::manual_fire_turret( int p, player &shooter, const itype &guntype,
     // Deactivate automatic aiming
     if( parts[p].mode > 0 ) {
         parts[p].mode = -parts[p].mode;
-        add_msg( m_warning, "Deactivating automatic aiming for this turret" );
+        add_msg( m_warning, "Deactivating automatic target acquisition for this turret" );
     }
 
     return !trajectory.empty();
