@@ -322,14 +322,6 @@ private:
     int total_folded_volume() const;
 
     /**
-     * Find a possibly off-map vehicle. If necessary, loads up its submap through
-     * the global MAPBUFFER and pulls it from there. For this reason, you should only
-     * give it the coordinates of the origin tile of a target vehicle.
-     * @param where Location of the other vehicle's origin tile.
-     */
-    vehicle* find_vehicle(point &where) const;
-
-    /**
      * Traverses the graph of connected vehicles, starting from start_veh, and continuing
      * along all vehicles connected by some kind of POWER_TRANSFER part.
      * @param start_vehicle The vehicle to start traversing from. NB: the start_vehicle is
@@ -342,9 +334,19 @@ private:
      * @return The last visitor's return value.
      */
     template <typename Func>
-    int traverse_vehicle_graph(vehicle* start_veh, int amount, Func visitor);
+    int traverse_vehicle_graph(vehicle *start_veh, int amount, Func visitor);
 
+    template <typename Func>
+    int traverse_vehicle_graph(vehicle const *start_veh, int amount, Func visitor) const;
 public:
+    /**
+     * Find a possibly off-map vehicle. If necessary, loads up its submap through
+     * the global MAPBUFFER and pulls it from there. For this reason, you should only
+     * give it the coordinates of the origin tile of a target vehicle.
+     * @param where Location of the other vehicle's origin tile.
+     */
+    static vehicle* find_vehicle(point const &where);
+
     vehicle (std::string type_id = "null", int veh_init_fuel = -1, int veh_init_status = -1);
     ~vehicle ();
 
@@ -648,6 +650,7 @@ public:
     std::list<item>::iterator remove_item (int part, std::list<item>::iterator it);
 
     vehicle_stack get_items( int part ) const;
+    vehicle_stack get_items( int part );
 
     // Generates starting items in the car, should only be called when placed on the map
     void place_spawn_items();

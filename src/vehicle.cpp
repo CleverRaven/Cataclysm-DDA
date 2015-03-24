@@ -2689,7 +2689,7 @@ int vehicle::fuel_left (const ammotype & ftype, bool recurse) const
     }
 
     if(recurse && ftype == fuel_type_battery) {
-        auto fuel_counting_visitor = [&] (vehicle* veh, int amount, int) {
+        auto fuel_counting_visitor = [&] (vehicle const* veh, int amount, int) {
             return amount + veh->fuel_left(ftype, false);
         };
 
@@ -3390,7 +3390,7 @@ void vehicle::power_parts (tripoint sm_loc)//TODO: more categories of powered pa
     }
 }
 
-vehicle* vehicle::find_vehicle(point &where) const
+vehicle* vehicle::find_vehicle(point const &where)
 {
     // Is it in the reality bubble?
     point veh_local = g->m.getlocal(where);
@@ -3424,17 +3424,17 @@ vehicle* vehicle::find_vehicle(point &where) const
     return veh;
 }
 
-template<typename Func>
-int vehicle::traverse_vehicle_graph(vehicle* start_veh, int amount, Func action)
+template <typename Func, typename Vehicle>
+int traverse_vehicle_graph_impl(Vehicle *v, Vehicle *start_veh, int amount, Func action)
 {
     // Breadth-first search! Initialize the queue with a pointer to ourselves and go!
-    std::queue< std::pair<vehicle*, int> > connected_vehs;
-    std::set<vehicle*> visited_vehs;
+    std::queue< std::pair<Vehicle*, int> > connected_vehs;
+    std::set<Vehicle*> visited_vehs;
     connected_vehs.push(std::make_pair(start_veh, 0));
 
     while(amount > 0 && connected_vehs.size() > 0) {
         auto current_node = connected_vehs.front();
-        vehicle* current_veh = current_node.first;
+        Vehicle *current_veh = current_node.first;
         int current_loss = current_node.second;
 
         visited_vehs.insert(current_veh);
@@ -3447,7 +3447,7 @@ int vehicle::traverse_vehicle_graph(vehicle* start_veh, int amount, Func action)
                 continue; // ignore loose parts that aren't power transfer cables
             }
 
-            auto target_veh = find_vehicle(current_veh->parts[p].target.second);
+            auto target_veh = vehicle::find_vehicle(current_veh->parts[p].target.second);
             if(target_veh == nullptr || visited_vehs.count(target_veh) > 0) {
                 // Either no destination here (that vehicle's rolled away or off-map) or
                 // we've already looked at that vehicle.
@@ -3476,6 +3476,17 @@ int vehicle::traverse_vehicle_graph(vehicle* start_veh, int amount, Func action)
     return amount;
 }
 
+template <typename Func>
+int vehicle::traverse_vehicle_graph(vehicle *start_veh, int amount, Func visitor)
+{
+    return traverse_vehicle_graph_impl(this, start_veh, amount, visitor);
+}
+
+template <typename Func>
+int vehicle::traverse_vehicle_graph(vehicle const *start_veh, int amount, Func visitor) const
+{
+    return traverse_vehicle_graph_impl(this, start_veh, amount, visitor);
+}
 
 int vehicle::charge_battery (int amount, bool include_other_vehicles)
 {
@@ -4391,10 +4402,17 @@ std::list<item>::iterator vehicle::remove_item( int part, std::list<item>::itera
     return veh_items.erase(it);
 }
 
-vehicle_stack vehicle::get_items(int const part) const
+vehicle_stack vehicle::get_items(int const part)
 {
     return vehicle_stack( &parts[part].items, global_pos() + parts[part].precalc[0],
                           this, part );
+}
+
+vehicle_stack vehicle::get_items( int const part ) const
+{
+    // HACK: callers could modify items through this
+    // TODO: a const version of vehicle_stack is needed
+    return const_cast<vehicle*>(this)->get_items(part);
 }
 
 void vehicle::place_spawn_items()
@@ -4679,7 +4697,9 @@ bool vehicle::is_inside(int const p) const
         return false;
     }
     if (insides_dirty) {
-        refresh_insides ();
+        // TODO: this is a bit of a hack as refresh_insides has side effects
+        // this should be called elsewhere and not in a function that intends to just query
+        const_cast<vehicle*>(this)->refresh_insides();
     }
     return parts[p].inside;
 }

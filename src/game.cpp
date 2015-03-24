@@ -1024,7 +1024,7 @@ void game::calc_driving_offset(vehicle *veh)
     float velocity = veh->velocity;
     rl_vec2d offset = veh->move_vec();
     if (!veh->skidding && std::abs(veh->cruise_velocity - veh->velocity) < 14 * 100 &&
-        veh->player_in_control(&u)) {
+        veh->player_in_control(u)) {
         // Use the cruise controlled velocity, but only if
         // it is not too different from the actual velocity.
         // The actual velocity changes too often (see above slowdown).
@@ -2413,7 +2413,7 @@ bool game::handle_action()
     int veh_part;
     vehicle *veh = m.veh_at( u.posx(), u.posy(), veh_part );
     bool veh_ctrl = !u.is_dead_state() &&
-        ( ( veh && veh->player_in_control(&u) ) || remoteveh() != nullptr );
+        ( ( veh && veh->player_in_control(u) ) || remoteveh() != nullptr );
 
     // If performing an action with right mouse button, co-ordinates
     // of location clicked.
@@ -7438,7 +7438,7 @@ void game::control_vehicle()
         veh = m.veh_at(u.posx(), u.posy(), veh_part);
     }
 
-    if( veh != nullptr && veh->player_in_control( &u ) ) {
+    if( veh != nullptr && veh->player_in_control( u ) ) {
         veh->use_controls();
     } else if (veh && veh->part_with_feature(veh_part, "CONTROLS") >= 0
                && u.in_vehicle) {
@@ -7716,7 +7716,7 @@ void game::examine(int examx, int examy)
         // if we are driving a vehicle, examine the
         // current tile without asking.
         veh = m.veh_at(u.posx(), u.posy(), veh_part);
-        if (veh && veh->player_in_control(&u)) {
+        if (veh && veh->player_in_control(u)) {
             examx = u.posx();
             examy = u.posy();
         } else  if (!choose_adjacent_highlight(_("Examine where?"), examx, examy, ACTION_EXAMINE)) {
@@ -10423,7 +10423,7 @@ void game::plfire(bool burst, int default_target_x, int default_target_y)
     }
 
     vehicle *veh = m.veh_at(u.posx(), u.posy());
-    if (veh && veh->player_in_control(&u) && u.weapon.is_two_handed(&u)) {
+    if (veh && veh->player_in_control(u) && u.weapon.is_two_handed(&u)) {
         add_msg(m_info, _("You need a free arm to drive!"));
         return;
     }
