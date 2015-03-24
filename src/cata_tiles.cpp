@@ -138,7 +138,7 @@ std::string ascii_id::id_ {"ASCII_XFB"};
 std::string const& to_string(multitile_type const mt)
 {
     constexpr int size = static_cast<int>(multitile_type::num_multitile_types);
-    static std::array<std::string, size> const strings {{
+    static std::array<std::string, size + 1> const strings {{
         "center",
         "corner",
         "edge",
