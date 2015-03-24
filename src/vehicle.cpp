@@ -3347,7 +3347,7 @@ void vehicle::consume_fuel( double load = 1.0 )
     }
     //do this with chance proportional to current load
     // But only if the player is actually there!
-    if( load > 0 && one_in( (int) (1 / load) ) && 
+    if( load > 0 && one_in( (int) (1 / load) ) &&
         fuel_left( fuel_type_muscle ) > 0 ) {
         //charge bionics when using muscle engine
         if (g->u.has_bionic("bio_torsionratchet")) {
@@ -3360,6 +3360,7 @@ void vehicle::consume_fuel( double load = 1.0 )
             g->u.fatigue += mod;
             g->u.hunger += mod;
             g->u.thirst += mod;
+            g->u.mod_stat( "stamina", -mod );
         }
     }
 }

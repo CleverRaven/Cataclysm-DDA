@@ -1710,7 +1710,7 @@ int player::run_cost(int base_cost, bool diag)
     float stamina_modifier = (1.0 + ((float)stamina / (float)get_stamina_max())) / 2.0;
     if( move_mode == "run" && stamina > 0 ) {
         // Rationale: Average running speed is 2x walking speed. (NOT sprinting)
-        stamina_modifier * 2.0;
+        stamina_modifier *= 2.0;
     }
     movecost /= stamina_modifier;
 

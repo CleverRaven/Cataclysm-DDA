@@ -7017,6 +7017,9 @@ void game::smash()
     if (didit) {
         u.handle_melee_wear();
         u.moves -= move_cost;
+        const int mod_sta = ( (u.weapon.weight() / 100 ) + 20) * -1;
+        u.mod_stat("stamina", mod_sta);
+
         if (u.skillLevel("melee") == 0) {
             u.practice("melee", rng(0, 1) * rng(0, 1));
         }
