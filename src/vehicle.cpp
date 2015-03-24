@@ -1448,12 +1448,12 @@ int vehicle::part_epower(int const index) const
     return e * parts[index].hp / part_info(index).durability;
 }
 
-int vehicle::epower_to_power(int const epower) const
+int vehicle::epower_to_power(int const epower)
 {
     // Convert epower units (watts) to power units
     // Used primarily for calculating battery charge/discharge
     // TODO: convert batteries to use energy units based on watts (watt-ticks?)
-    const int conversion_factor = 373; // 373 epower == 373 watts == 1 power == 0.5 HP
+    constexpr int conversion_factor = 373; // 373 epower == 373 watts == 1 power == 0.5 HP
     int power = epower / conversion_factor;
     // epower remainder results in chance at additional charge/discharge
     if (x_in_y(abs(epower % conversion_factor), conversion_factor)) {
@@ -1462,12 +1462,12 @@ int vehicle::epower_to_power(int const epower) const
     return power;
 }
 
-int vehicle::power_to_epower(int const power) const
+int vehicle::power_to_epower(int const power)
 {
     // Convert power units to epower units (watts)
     // Used primarily for calculating battery charge/discharge
     // TODO: convert batteries to use energy units based on watts (watt-ticks?)
-    const int conversion_factor = 373; // 373 epower == 373 watts == 1 power == 0.5 HP
+    constexpr int conversion_factor = 373; // 373 epower == 373 watts == 1 power == 0.5 HP
     return power * conversion_factor;
 }
 
@@ -2021,7 +2021,7 @@ void vehicle::break_part_into_pieces(int p, int x, int y, bool scatter) {
     }
 }
 
-const std::vector<int> vehicle::parts_at_relative (const int dx, const int dy, bool use_cache) const
+std::vector<int> vehicle::parts_at_relative (const int dx, const int dy, bool const use_cache) const
 {
     if ( use_cache == false ) {
         std::vector<int> res;
@@ -2042,7 +2042,7 @@ const std::vector<int> vehicle::parts_at_relative (const int dx, const int dy, b
     }
 }
 
-int vehicle::part_with_feature (int part, const vpart_bitflags &flag, bool unbroken) const
+int vehicle::part_with_feature (int part, vpart_bitflags const flag, bool unbroken) const
 {
     if (part_flag(part, flag)) {
         return part;
@@ -2194,7 +2194,7 @@ bool vehicle::part_flag (int part, const std::string &flag) const
     }
 }
 
-bool vehicle::part_flag( int part, const vpart_bitflags &flag) const
+bool vehicle::part_flag( int part, const vpart_bitflags flag) const
 {
    if (part < 0 || part >= (int)parts.size() || parts[part].removed) {
         return false;
@@ -3425,7 +3425,7 @@ vehicle* vehicle::find_vehicle(point const &where)
 }
 
 template <typename Func, typename Vehicle>
-int traverse_vehicle_graph_impl(Vehicle *v, Vehicle *start_veh, int amount, Func action)
+int vehicle::traverse_vehicle_graph(Vehicle *start_veh, int amount, Func action)
 {
     // Breadth-first search! Initialize the queue with a pointer to ourselves and go!
     std::queue< std::pair<Vehicle*, int> > connected_vehs;
@@ -3474,18 +3474,6 @@ int traverse_vehicle_graph_impl(Vehicle *v, Vehicle *start_veh, int amount, Func
         }
     }
     return amount;
-}
-
-template <typename Func>
-int vehicle::traverse_vehicle_graph(vehicle *start_veh, int amount, Func visitor)
-{
-    return traverse_vehicle_graph_impl(this, start_veh, amount, visitor);
-}
-
-template <typename Func>
-int vehicle::traverse_vehicle_graph(vehicle const *start_veh, int amount, Func visitor) const
-{
-    return traverse_vehicle_graph_impl(this, start_veh, amount, visitor);
 }
 
 int vehicle::charge_battery (int amount, bool include_other_vehicles)

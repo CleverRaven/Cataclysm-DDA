@@ -308,10 +308,10 @@ private:
     int part_epower (int index) const;
 
     // convert epower (watts) to power.
-    int epower_to_power (int epower) const;
+    static int epower_to_power (int epower);
 
     // convert power to epower (watts).
-    int power_to_epower (int power) const;
+    static int power_to_epower (int power);
 
     //Refresh all caches and re-locate all parts
     void refresh();
@@ -320,6 +320,14 @@ private:
     bool do_environmental_effects();
 
     int total_folded_volume() const;
+
+    /**
+     * Find a possibly off-map vehicle. If necessary, loads up its submap through
+     * the global MAPBUFFER and pulls it from there. For this reason, you should only
+     * give it the coordinates of the origin tile of a target vehicle.
+     * @param where Location of the other vehicle's origin tile.
+     */
+    static vehicle* find_vehicle(point const &where);
 
     /**
      * Traverses the graph of connected vehicles, starting from start_veh, and continuing
@@ -333,20 +341,9 @@ private:
      * NB: returning 0 from a visitor will stop traversal immediately!
      * @return The last visitor's return value.
      */
-    template <typename Func>
-    int traverse_vehicle_graph(vehicle *start_veh, int amount, Func visitor);
-
-    template <typename Func>
-    int traverse_vehicle_graph(vehicle const *start_veh, int amount, Func visitor) const;
+    template <typename Func, typename Vehicle>
+    static int traverse_vehicle_graph(Vehicle *start_veh, int amount, Func visitor);
 public:
-    /**
-     * Find a possibly off-map vehicle. If necessary, loads up its submap through
-     * the global MAPBUFFER and pulls it from there. For this reason, you should only
-     * give it the coordinates of the origin tile of a target vehicle.
-     * @param where Location of the other vehicle's origin tile.
-     */
-    static vehicle* find_vehicle(point const &where);
-
     vehicle (std::string type_id = "null", int veh_init_fuel = -1, int veh_init_status = -1);
     ~vehicle ();
 
@@ -413,16 +410,16 @@ public:
     void remove_remote_part(int part_num);
 
     std::string const& get_label(int x, int y) const;
-    void set_label(int x, int y, const std::string text);
+    void set_label(int x, int y, std::string text);
 
     void break_part_into_pieces (int p, int x, int y, bool scatter = false);
 
     // returns the list of indeces of parts at certain position (not accounting frame direction)
-    const std::vector<int> parts_at_relative (const int dx, const int dy, bool use_cache = true) const;
+    std::vector<int> parts_at_relative (int dx, int dy, bool use_cache = true) const;
 
     // returns index of part, inner to given, with certain flag, or -1
     int part_with_feature (int p, const std::string &f, bool unbroken = true) const;
-    int part_with_feature (int p, const vpart_bitflags &f, bool unbroken = true) const;
+    int part_with_feature (int p, vpart_bitflags f, bool unbroken = true) const;
 
     /**
      *  Return the index of the next part to open at `p`'s location
@@ -455,7 +452,7 @@ public:
 
     // returns true if given flag is present for given part index
     bool part_flag (int p, const std::string &f) const;
-    bool part_flag (int p, const vpart_bitflags &f) const;
+    bool part_flag (int p, vpart_bitflags f) const;
 
     // Returns the obstacle that shares location with this part (useful in some map code)
     // Open doors don't count as obstacles, but closed do
@@ -517,16 +514,16 @@ public:
     point real_global_pos() const;
 
     // Checks how much certain fuel left in tanks.
-    int fuel_left (const std::string &ftype, bool recurse=false) const;
+    int fuel_left (const std::string &ftype, bool recurse = false) const;
     int fuel_capacity (const std::string &ftype) const;
 
     // refill fuel tank(s) with given type of fuel
     // returns amount of leftover fuel
-    int refill (const std::string & ftype, int amount);
+    int refill (const std::string &ftype, int amount);
 
     // drains a fuel type (e.g. for the kitchen unit)
     // returns amount actually drained, does not engage reactor
-    int drain (const std::string & ftype, int amount);
+    int drain (const std::string &ftype, int amount);
 
     // fuel consumption of vehicle engines of given type, in one-hundreth of fuel
     int basic_consumption (const std::string &ftype) const;
@@ -635,7 +632,7 @@ public:
     int max_volume(int part) const; // stub for per-vpart limit
     int free_volume(int part) const;
     int stored_volume(int part) const;
-    bool is_full(const int part, const int addvolume = -1, const int addnumber = -1 ) const;
+    bool is_full(int part, int addvolume = -1, int addnumber = -1) const;
 
     // add item to part's cargo. if false, then there's no cargo at this part or cargo is full(*)
     // *: "full" means more than 1024 items, or max_volume(part) volume (500 for now)
@@ -727,7 +724,7 @@ public:
     // shows ui menu to select an engine
     int select_engine();
     //returns whether the engine is enabled or not, and has fueltype
-    bool is_engine_type_on(int e, const std::string & ft) const;
+    bool is_engine_type_on(int e, const std::string &ft) const;
     //returns whether the engine is enabled or not
     bool is_engine_on(int e) const;
     //returns whether the part is enabled or not
@@ -740,7 +737,7 @@ public:
     bool is_alternator_on(int a) const;
     //mark engine as on or off
     void toggle_specific_engine(int p, bool on);
-    void toggle_specific_part(int p,bool on);
+    void toggle_specific_part(int p, bool on);
     //true if an engine exists with specified type
     //If enabled true, this engine must be enabled to return true
     bool has_engine_type(const std::string &ft, bool enabled) const;
