@@ -147,7 +147,7 @@ std::string const& to_string(multitile_type const mt)
         "unconnected",
         "open",
         "broken",
-        ,""
+        "",
     }};
 
     auto const i = static_cast<int>(mt);
