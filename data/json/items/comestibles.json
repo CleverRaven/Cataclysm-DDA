@@ -18681,6 +18681,7 @@
         "price" : 120,
         "name" : "canola seeds",
         "name_plural" : "canola seeds",
+        "comestible_type" : "FOOD",
         "tool" : "null",
         "addiction_type": "none",
         "symbol" : ".",
