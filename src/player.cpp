@@ -4229,6 +4229,28 @@ bool player::has_pda()
     return pda;
 }
 
+
+bool player::has_alarm_clock()
+{
+    return ( has_item_with_flag("ALARMCLOCK") ||
+             ( 
+               ( g->m.veh_at( posx(), posy() ) != nullptr ) && 
+               g->m.veh_at( posx(), posy() )->all_parts_with_feature( "ALARMCLOCK", true ).size()>0
+             )
+           ); 
+}
+
+bool player::has_watch()
+{
+    return ( has_item_with_flag("WATCH") ||
+             ( 
+               ( g->m.veh_at( posx(), posy() ) != nullptr ) && 
+               g->m.veh_at( posx(), posy() )->all_parts_with_feature( "WATCH", true ).size()>0
+             ) ||
+             has_bionic("bio_watch")
+           ); 
+}
+
 void player::pause()
 {
     moves = 0;
