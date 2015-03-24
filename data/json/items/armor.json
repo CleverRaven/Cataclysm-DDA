@@ -11148,7 +11148,7 @@
         "warmth" : 15,
         "phase" : "solid",
         "environmental_protection" : 1,
-        "encumbrance" : 10,
+        "encumbrance" : 15,
         "bashing" : -5,
         "flags" : ["VARSIZE", "POCKETS", "OUTER"],
         "coverage" : 90,
