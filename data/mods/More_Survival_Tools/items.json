@@ -84,7 +84,7 @@
     "color": "light_gray",
     "name": "ember carrier (lit)",
     "name_plural": "ember carriers (lit)",
-    "description": "This is a small container for holding tinder, with holes punched in it to provide a controlled airflow.  An ember is smoldering inside it. For buggy reasons, do not manually extinguish. Unload it instead.",
+    "description": "This is a small container for holding tinder, with holes punched in it to provide a controlled airflow.  An ember is smoldering inside it, and can be used to light a fire.",
     "price": 1000,
     "material": "iron",
     "flags": ["FIRE", "FLAMING", "REFILLABLE_LIGHTER"],
