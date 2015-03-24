@@ -39,7 +39,6 @@ set(SRCS
 	character.h
 	char_validity_check.cpp
 	char_validity_check.h
-	chkjson
 	clzones.cpp
 	clzones.h
 	CMakeLists.txt
@@ -130,7 +129,6 @@ set(SRCS
 	line.h
 	live_view.cpp
 	live_view.h
-	lua
 	main.cpp
 	main_menu.cpp
 	mapbuffer.cpp
