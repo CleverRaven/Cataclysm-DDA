@@ -36,12 +36,17 @@ struct uimenu_entry {
     bool enabled;         // darken, and forbid scrolling if hilight_disabled is false
     int hotkey;           // keycode from (int)getch(). -1: automagically pick first free character: 1-9 a-z A-Z
     std::string txt;      // what it says on the tin
+    std::string desc;     // optional, possibly longer, description
     nc_color hotkey_color;
     nc_color text_color;
     mvwzstr extratxt;
 
     //std::string filtertxt; // possibly useful
     uimenu_entry(std::string T) : retval(-1), enabled(true), hotkey(-1), txt(T)
+    {
+        text_color = C_UNSET_MASK;
+    };
+    uimenu_entry(std::string T, std::string D) : retval(-1), enabled(true), hotkey(-1), txt(T), desc(D)
     {
         text_color = C_UNSET_MASK;
     };
@@ -130,9 +135,11 @@ class uimenu: public ui_container
         int textwidth;
         int textalign;
         int max_entry_len;
+        int max_desc_len;
         std::string title;
         std::vector<uimenu_entry> entries;
         std::map<int, int> keymap;
+        bool show_descriptions;
         bool border;
         bool filtering;
         bool filtering_nocase;
@@ -185,6 +192,7 @@ class uimenu: public ui_container
         void addentry(const char *format, ...);
         void addentry(int r, bool e, int k, std::string str);
         void addentry(int r, bool e, int k, const char *format, ...);
+        void addentry_desc(std::string str, std::string desc);
         void settext(std::string str);
         void settext(const char *format, ...);
 
