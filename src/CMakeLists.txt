@@ -41,7 +41,6 @@ set(SRCS
 	char_validity_check.h
 	clzones.cpp
 	clzones.h
-	CMakeLists.txt
 	color.cpp
 	color.h
 	compatibility.h
