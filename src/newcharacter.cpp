@@ -75,7 +75,7 @@ matype_id choose_ma_style( const character_type type, const std::vector<matype_i
     }
     uimenu menu;
     menu.text = _( "Pick your style:" );
-    menu.show_descriptions = true;
+    menu.desc_enabled = true;
     for( auto & s : styles ) {
         auto &style = martialarts[s];
         menu.addentry_desc( style.name, style.description );
