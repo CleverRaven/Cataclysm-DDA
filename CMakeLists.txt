@@ -1,13 +1,8 @@
 # TODO:
 #
-# Add dynamic git based versioning
-# Add Windows library support with pre-compiled deps
 # Move binary after compilation
 # Support for special builds (json checking, tests, other stuff)
-# Release/debug differences
 # Localization support
-#
-# Test both OS X and Windows
 
 
 cmake_minimum_required(VERSION 2.8)
