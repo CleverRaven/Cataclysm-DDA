@@ -6,6 +6,9 @@
 #include "enums.h"
 #include <math.h>
 
+//! This compile-time useable function combines the sign of each (x, y, z) component into a single integer
+//! to allow simple runtime and compiletime mapping of (x, y, z) tuples to @ref direction enumerators.
+//! Specifically, (0, -, +) => (0, 1, 2); a base-3 number.
 inline constexpr unsigned make_xyz(int const x, int const y, int const z) noexcept
 {
     return ((x > 0) ? 2u : (x < 0) ? 1u : 0u) * 1u +
