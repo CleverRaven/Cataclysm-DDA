@@ -14,25 +14,18 @@ ammo_map_t& all_ammunition_types() {
 }
 } //namespace
 
-ammunition_type::ammunition_type()
-  : name_("null")
-{
-}
-
-ammunition_type::ammunition_type(std::string name, std::string default_ammotype)
-  : name_(std::move(name)), default_ammotype_(std::move(default_ammotype))
-{
-}
-
 void ammunition_type::load_ammunition_type(JsonObject &jsobj)
 {
     auto const result = all_ammunition_types().insert(std::make_pair(
-        jsobj.get_string("id"),
-        ammunition_type(jsobj.get_string("name"), jsobj.get_string("default"))));
+        jsobj.get_string("id"), ammunition_type {}));
 
     if (!result.second) {
         debugmsg("duplicate ammo id: %s", result.first->first.c_str());
     }
+
+    auto &ammo = result.first->second;
+    ammo.name_             = jsobj.get_string("name");
+    ammo.default_ammotype_ = jsobj.get_string("default");
 }
 
 ammunition_type const& ammunition_type::find_ammunition_type(std::string const &ident)
@@ -45,7 +38,7 @@ ammunition_type const& ammunition_type::find_ammunition_type(std::string const &
     }
 
     debugmsg("Tried to get invalid ammunition: %s", ident.c_str());
-    static ammunition_type const null_ammunition;
+    static ammunition_type const null_ammunition {"null"};
     return null_ammunition;
 }
 

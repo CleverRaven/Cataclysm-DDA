@@ -9,8 +9,8 @@ class ammunition_type
 {
     friend class DynamicDataLoader;
 public:
-    ammunition_type();
-    ammunition_type(std::string name, std::string default_ammotype);
+    ammunition_type() = default;
+    explicit ammunition_type(std::string name) : name_(std::move(name)) { }
 
     std::string const& name() const {
         return name_;
