@@ -4589,7 +4589,7 @@ lit_level map::apparent_light_at(int x, int y) {
 
     // Don't display area as shadowy if it's outside and illuminated by natural light
     // and illuminated by source of light
-    } else if (this->light_at(x, y) > LL_LOW || dist <= light_sight_range) {
+    } else if (light_at(x, y) > LL_LOW || dist <= light_sight_range) {
         low_sight_range = std::max(g_light_level, natural_sight_range);
     }
 
@@ -4654,11 +4654,9 @@ void map::draw(WINDOW* w, const point center)
 
     update_visibility_variables();
 
-    lit_level ll;
-
     for  (int realx = center.x - getmaxx(w)/2; realx <= center.x + getmaxx(w)/2; realx++) {
         for (int realy = center.y - getmaxy(w)/2; realy <= center.y + getmaxy(w)/2; realy++) {
-            ll = apparent_light_at(realx, realy);
+            lit_level ll = apparent_light_at(realx, realy);
             switch (ll) {
                 case LL_DARK: // can't see this square at all
                     if (u_is_boomered)
@@ -4680,8 +4678,6 @@ void map::draw(WINDOW* w, const point center)
                 case LL_BLANK:
                     mvwputch(w, realy+getmaxy(w)/2 - center.y, realx+getmaxx(w)/2 - center.x, c_black,' ');
                     break;
-                default: // shouldn't happen
-                    mvwputch(w, realy+getmaxy(w)/2 - center.y, realx+getmaxx(w)/2 - center.x, c_magenta, '!');
             }
         }
     }
