@@ -64,6 +64,8 @@ int ranged_skill_offset( std::string skill )
 double Creature::projectile_attack(const projectile &proj, int sourcex, int sourcey,
                                    int targetx, int targety, double shot_dispersion)
 {
+    bool const do_animation = OPTIONS["ANIMATIONS"];
+
     double range = rl_dist(sourcex, sourcey, targetx, targety);
     // .013 * trange is a computationally cheap version of finding the tangent in degrees.
     // 0.0002166... is used because the unit of dispersion is MOA (1/60 degree).
@@ -111,7 +113,9 @@ double Creature::projectile_attack(const projectile &proj, int sourcex, int sour
         ty = trajectory[i].y;
         // Drawing the bullet uses player u, and not player p, because it's drawn
         // relative to YOUR position, which may not be the gunman's position.
-        g->draw_bullet(g->u, tx, ty, (int)i, trajectory, stream ? '#' : '*');
+        if (do_animation) {
+            g->draw_bullet(g->u, tx, ty, (int)i, trajectory, stream ? '#' : '*');
+        }
 
         if( in_veh != nullptr ) {
             int part;
@@ -371,7 +375,7 @@ void player::fire_gun(int tarx, int tary, bool burst)
     // High perception allows you to pick out details better, low perception interferes.
     const bool train_skill = weapon_dispersion < player_dispersion + rng(0, get_per());
     if( train_skill ) {
-        practice( skill_used, 4 + (num_shots / 2));
+        practice( skill_used, 8 + 2*num_shots );
     } else if( one_in(30) ) {
         add_msg_if_player(m_info, _("You'll need a more accurate gun to keep improving your aim."));
     }
@@ -530,17 +534,25 @@ void player::fire_gun(int tarx, int tary, bool burst)
         if (missed_by <= .1) { // TODO: check head existence for headshot
             lifetime_stats()->headshots++;
         }
-
+        
+        int range_multiplier = std::min( range, 3 * ( skillLevel( skill_used ) + 1 ) );
+        int damage_factor = 21; 
+        //debugmsg("Rangemult: %d, missed_by: %f, total_damage: %f", rangemult, missed_by, proj.impact.total_damage());
+        
+        
+        
         if (!train_skill) {
             practice( skill_used, 0 ); // practice, but do not train
         } else if (missed_by <= .1) {
-            practice( skill_used, 5 );
+            practice( skill_used, damage_factor * range_multiplier );
         } else if (missed_by <= .2) {
-            practice( skill_used, 3 );
+            practice( skill_used, damage_factor * range_multiplier / 2 );
         } else if (missed_by <= .4) {
-            practice( skill_used, 2 );
+            practice( skill_used, damage_factor * range_multiplier / 3 );
         } else if (missed_by <= .6) {
-            practice( skill_used, 1 );
+            practice( skill_used, damage_factor * range_multiplier / 4 );
+        } else if (missed_by <= 1.0) {
+            practice( skill_used, damage_factor * range_multiplier / 5 );
         }
 
     }
@@ -550,7 +562,7 @@ void player::fire_gun(int tarx, int tary, bool burst)
     }
 
     if( train_skill ) {
-        practice( "gun", 5 );
+        practice( "gun", 15 );
     } else {
         practice( "gun", 0 );
     }
@@ -708,19 +720,20 @@ void game::throw_item(player &p, int tarx, int tary, item &thrown,
                 gmtSCTcolor = m_headshot;
                 bp = bp_head;
                 dam = rng(dam, dam * 3);
-                p.practice( "throw", 5 );
+                p.practice( "throw", 20 * (i+1) );
                 p.lifetime_stats()->headshots++;
             } else if (goodhit < .2) {
                 message = _("Critical!");
                 gmtSCTcolor = m_critical;
                 dam = rng(dam, dam * 2);
-                p.practice( "throw", 2 );
+                p.practice( "throw", 10 * (i+1) );
             } else if (goodhit < .4) {
                 dam = rng(dam / 2, int(dam * 1.5));
             } else if (goodhit < .5) {
                 message = _("Grazing hit.");
                 gmtSCTcolor = m_grazing;
                 dam = rng(0, dam);
+                p.practice( "throw", 5 * (i+1) );
             }
 
             // Combat text and message

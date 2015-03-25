@@ -9268,7 +9268,8 @@
       { "item": "rhubarb", "prob": 5, "count-min": 2, "count-max": 5 },
       { "item": "wild_herbs", "prob": 10 },
       { "item": "buckwheat", "prob": 5, "count-min": 1, "count-max": 2 },
-      { "item": "thyme", "prob": 5, "count-min": 1, "count-max": 2 }
+      { "item": "thyme", "prob": 5, "count-min": 1, "count-max": 2 },
+      { "item": "canola", "prob": 5, "count-min": 1, "count-max": 2 }
     ]
   },{
 "type" : "item_group",
@@ -9281,7 +9282,8 @@
       { "item": "egg_reptile", "prob": 5, "count-min": 2, "count-max": 5 },
       { "item": "wild_herbs", "prob": 10 },
       { "item": "buckwheat", "prob": 10, "count-min": 1, "count-max": 4 },
-      { "item": "thyme", "prob": 5, "count-min": 1, "count-max": 3 }
+      { "item": "thyme", "prob": 5, "count-min": 1, "count-max": 3 },
+      { "item": "canola", "prob": 10, "count-min": 1, "count-max": 3 }
     ]
   },{
 "type" : "item_group",
@@ -9294,7 +9296,8 @@
       { "item": "egg_reptile", "prob": 5, "count-min": 2, "count-max": 5 },
       { "item": "wild_herbs", "prob": 10 },
       { "item": "buckwheat", "prob": 15, "count-min": 2, "count-max": 4 },
-      { "item": "thyme", "prob": 5, "count-min": 1, "count-max": 3 }
+      { "item": "thyme", "prob": 5, "count-min": 1, "count-max": 3 },
+      { "item": "canola", "prob": 5, "count-min": 1, "count-max": 3 }
     ]
   },{
 "type" : "item_group",
@@ -9469,6 +9472,22 @@
       ["m4a1", 50],
       ["m249", 10],
       ["556", 50]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "hospital_incubator",
+    "items" : [
+      ["blanket", 90],
+      ["child_book", 10]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "tailor",
+    "items" : [
+      ["sewing_kit", 30],
+      ["tailors_kit", 20],
+      ["thread", 80],
+      ["scissors", 50]
     ]
   }
 ]

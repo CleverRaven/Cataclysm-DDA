@@ -4304,13 +4304,13 @@ void map::add_trap(const int x, const int y, const trap_id t)
 
 void map::add_trap( const tripoint &p, const trap_id t)
 {
-    if( !inbounds( p.x, p.y, p.z ) ) 
+    if( !inbounds( p ) ) 
     { 
         return;
     }
 
     int lx, ly;
-    submap * const current_submap = get_submap_at( p, lx, ly);
+    submap * const current_submap = get_submap_at( p, lx, ly );
 
     // If there was already a trap here, remove it.
     if( current_submap->get_trap( lx, ly ) != tr_null ) {
@@ -4381,7 +4381,7 @@ void map::remove_trap(const int x, const int y)
 
 void map::remove_trap( const tripoint &p )
 {
-    if( !inbounds( p.x, p.y, p.z ) ) {
+    if( !inbounds( p ) ) {
         return;
     }
 
@@ -5277,7 +5277,8 @@ void map::load(const int wx, const int wy, const int wz, const bool update_vehic
 
 void map::shift_traps( const tripoint &shift )
 {
-    const tripoint offset( shift.x * SEEX, shift.y * SEEY, shift.z );
+    // Offset needs to have sign opposite to shift direction
+    const tripoint offset( -shift.x * SEEX, -shift.y * SEEY, -shift.z );
     for( auto & traps : traplocs ) {
         for( auto iter = traps.begin(); iter != traps.end(); ) {
             tripoint &pos = *iter;
@@ -5665,7 +5666,7 @@ void map::actualize( const int gridx, const int gridy, const int gridz )
 
             const auto trap_here = tmpsub->get_trap( x, y );
             if( trap_here != tr_null ) {
-                traplocs[trap_here].push_back( pnt );
+                traplocs[trap_here].push_back( tripoint( pnt.x, pnt.y, gridz ) );
             }
 
             if( do_funnels ) {
@@ -6101,6 +6102,11 @@ tripoint map::getabs( const tripoint &p ) const
 
 point map::getlocal(const int x, const int y) const {
     return point( x - abs_sub.x * SEEX, y - abs_sub.y * SEEY );
+}
+
+tripoint map::getlocal( const tripoint &p ) const
+{
+    return tripoint( p.x - abs_sub.x * SEEX, p.y - abs_sub.y * SEEY, p.z );
 }
 
 void map::set_abs_sub(const int x, const int y, const int z)

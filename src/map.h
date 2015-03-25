@@ -849,6 +849,7 @@ void add_corpse(int x, int y);
      */
     point getlocal(const int x, const int y ) const;
     point getlocal(const point p) const { return getlocal(p.x, p.y); }
+    tripoint getlocal( const tripoint &p ) const;
  bool inboundsabs(const int x, const int y);
  bool inbounds(const int x, const int y) const;
  bool inbounds(const int x, const int y, const int z) const;
