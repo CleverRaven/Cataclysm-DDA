@@ -58,15 +58,6 @@ struct tile
 };
 
 /* Enums */
-enum LIGHTING
-{
-    HIDDEN = -1,
-    CLEAR = 0,
-    LIGHT_NORMAL = 1,
-    LIGHT_DARK = 2,
-    BOOMER_NORMAL = 3,
-    BOOMER_DARK = 4
-};
 enum MULTITILE_TYPE
 {
     center,
@@ -224,7 +215,7 @@ class cata_tiles
         void get_rotation_and_subtile(const char val, const int num_connects, int &rota, int &subtype);
 
         /** Drawing Layers */
-        bool draw_lighting(int x, int y, LIGHTING l);
+        bool draw_lighting(int x, int y, lit_level l);
         bool draw_terrain(int x, int y);
         bool draw_furniture(int x, int y);
         bool draw_trap(int x, int y);
@@ -286,7 +277,6 @@ class cata_tiles
         void get_tile_information(std::string dir_path, std::string &json_path, std::string &tileset_path);
         /** Lighting */
         void init_light();
-        LIGHTING light_at(int x, int y);
 
         /** Variables */
         SDL_Renderer *renderer;

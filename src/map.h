@@ -1060,7 +1060,6 @@ private:
         std::vector< std::vector<tripoint> > traplocs;
 
     // cached values for map visibility calculations
-    void update_visibility_variables();
     int g_light_level;
     int natural_sight_range;
     int light_sight_range;
@@ -1069,6 +1068,8 @@ private:
     int u_clairvoyance;
     bool u_sight_impaired;
     bool bio_night_active;
+  public:
+    void update_visibility_variables();
     bool u_is_boomered;
   
 };
