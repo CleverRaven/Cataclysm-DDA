@@ -2163,5 +2163,50 @@
         "flags" : ["STRAPPED"],
         "coverage" : 0,
         "material_thickness" : 1
+    },
+    {
+        "type" : "TOOL_ARMOR",
+        "id" : "acoustic_guitar",
+        "name" : "acoustic guitar",
+        "name_plural": "acoustic guitars",
+        "category" : "tools",
+        "weight" : 2500,
+        "color" : "brown",
+        "covers" : ["TORSO"],
+        "to_hit" : 2,
+        "max_charges": 1,
+        "initial_charges": 1,
+        "charges_per_use": 0,
+        "turns_per_charge": 0,
+        "ammo": "NULL",
+        "use_action": {
+            "type": "musical_instrument",
+            "speed_penalty": 15,
+            "volume": 20,
+            "fun": 2,
+            "fun_bonus": 2,
+            "description_frequency": 100,
+            "descriptions": [
+                "You strum a few chords on your guitar.",
+                "You pluck a few notes on your guitar.",
+                "You play a slow blues-y tune on your guitar."
+            ]
+        },
+        "revert_to": "null",
+        "storage" : 0,
+        "symbol" : "-",
+        "description" : "A simple wooden acoustic guitar with a strap so you can wear it while you aren't playing",
+        "price" : 1000,
+        "material" : ["wood", "null"],
+        "volume" : 27,
+        "cutting" : 0,
+        "warmth" : 2,
+        "phase" : "solid",
+        "environmental_protection" : 0,
+        "encumbrance" : 27,
+        "bashing" : 8,
+        "flags" : ["STRAPPED"],
+        "coverage" : 10,
+        "material_thickness" : 2
     }
 ]
