@@ -644,10 +644,7 @@ void vehicle::control_engines() {
         return;
     }
 
-    if( !start_engines() && g->u.controlling_vehicle && !velocity ) {
-        g->u.controlling_vehicle = false;
-        add_msg( _("You let go of the controls.") );
-    }
+    start_engines();
 }
 
 int vehicle::select_engine() {
@@ -1332,6 +1329,24 @@ bool vehicle::fold_up() {
     return true;
 }
 
+double vehicle::engine_cold_factor( const int e )
+{
+    if( !is_engine_type( e, fuel_type_diesel ) ) { return 0.0; }
+
+    return 1.0 - (std::max( 0, std::min( 40, g->get_temperature() ) ) / 40.0);
+}
+
+int vehicle::engine_start_time( const int e )
+{
+    if( !is_engine_on( e ) || is_engine_type( e, fuel_type_muscle ) ||
+        !fuel_left( part_info( engines[e] ).fuel_type ) ) { return 0; }
+
+    const double dmg = 1.0 - ((double)parts[engines[e]].hp / part_info( engines[e] ).durability);
+    const double cold_factor = engine_cold_factor( e );
+
+    return 100 + (part_power( engines[e], true ) / 16) + (100 * dmg) + (40 * cold_factor);
+}
+
 bool vehicle::start_engine( const int e )
 {
     if( !is_engine_on( e ) ) { return false; }
@@ -1342,39 +1357,26 @@ bool vehicle::start_engine( const int e )
         if( einfo.fuel_type == fuel_type_muscle ) {
             add_msg( _("The %s's mechanism is out of reach!"), name.c_str() );
         } else {
-            add_msg( _("The %s is out of %s."), einfo.name.c_str(), ammo_name( einfo.fuel_type ).c_str() );
+            add_msg( _("Looks like the %s is out of %s."), einfo.name.c_str(),
+                ammo_name( einfo.fuel_type ).c_str() );
         }
         return false;
     }
 
-    const bool combustion = einfo.fuel_type == fuel_type_gasoline ||
-        einfo.fuel_type == fuel_type_diesel;
     const double dmg = 1.0 - ((double)parts[engines[e]].hp / einfo.durability);
     const int engine_power = part_power( engines[e], true );
+    const double cold_factor = engine_cold_factor( e );
 
-    // Diesel engines are harder to start in cold weather
-    double cold_factor = 0.0;
-    if( einfo.fuel_type == fuel_type_diesel ) {
-        cold_factor = 1.0 - (std::max( 0, std::min( 40, g->get_temperature() ) ) / 40.0);
-    }
-
-    // Start attempt takes time and makes noise
     if( einfo.fuel_type != fuel_type_muscle ) {
-        int start_time = combustion ? 50 : 0;
-        start_time += engine_power / 32;
-        start_time += 50 * dmg;
-        start_time += 20 * cold_factor;
-        g->u.moves -= start_time;
-
         if( einfo.fuel_type == fuel_type_gasoline && dmg > 0.75 && one_in( 20 ) ) {
             backfire( e );
         } else {
             const point pos = global_pos() + parts[engines[e]].precalc[0];
-            sounds::ambient_sound( pos.x, pos.y, start_time / 10, "" );
+            sounds::ambient_sound( pos.x, pos.y, engine_start_time( e ) / 10, "" );
         }
     }
 
-    if( combustion ) {
+    if( einfo.fuel_type == fuel_type_gasoline || einfo.fuel_type == fuel_type_diesel ) {
         // Small engines can be started without a battery (pull start or kick start)
         if( engine_power >= 50 ) {
             const int penalty = ((engine_power * dmg) / 2) + ((engine_power * cold_factor) / 5);
@@ -1398,32 +1400,29 @@ bool vehicle::start_engine( const int e )
     return true;
 }
 
-bool vehicle::start_engines()
+void vehicle::start_engines( const bool take_control )
 {
-    int attempted = 0;
-    int started = 0;
-    int not_muscle = 0;
+    int has_engine = false;
+    int start_time = 0;
 
     for( size_t e = 0; e < engines.size(); ++e ) {
-        if( is_engine_on( e ) ) {
-            attempted++;
-            if( start_engine( e ) ) { started++; }
-            if( !is_engine_type( e, fuel_type_muscle ) ) { not_muscle++; }
-        }
+        has_engine = has_engine || is_engine_on( e );
+        start_time = std::max( start_time, engine_start_time( e ) );
     }
 
-    if( attempted == 0 ) {
-        add_msg( _("The %s doesn't have an engine!"), name.c_str() );
-    } else if( not_muscle > 0 ) {
-        if( started == attempted ) {
-            add_msg( ngettext("The %s's engine starts up.", "The %s's engines start up.", not_muscle), name.c_str() );
-        } else {
-            add_msg( m_info, ngettext("The %s's engine fails to start.", "The %s's engines fail to start.", not_muscle), name.c_str() );
-        }
+    if( !has_engine ) {
+        add_msg( m_info, _("The %s doesn't have an engine!"), name.c_str() );
+        return;
     }
 
-    engine_on = started == attempted;
-    return engine_on;
+    if( take_control && !g->u.controlling_vehicle ) {
+        g->u.controlling_vehicle = true;
+        add_msg( _("You take control of the %s."), name.c_str() );
+    }
+
+    g->u.assign_activity( ACT_START_ENGINES, start_time );
+    g->u.activity.placement = global_pos();
+    g->u.activity.values.push_back( take_control );
 }
 
 void vehicle::backfire( const int e )

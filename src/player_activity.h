@@ -42,6 +42,7 @@ enum activity_type {    // expanded this enum for readability
     ACT_HOTWIRE_CAR,
     ACT_AIM,
     ACT_ATM,
+    ACT_START_ENGINES,
     NUM_ACTIVITIES
 };
 

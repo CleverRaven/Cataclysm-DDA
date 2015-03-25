@@ -321,6 +321,12 @@ private:
 
     int total_folded_volume() const;
 
+    // Calculate how long it takes to attempt to start an engine
+    int engine_start_time( const int e );
+
+    // How much does the temperature effect the engine starting (0.0 - 1.0)
+    double engine_cold_factor( const int e );
+
     /**
      * Find a possibly off-map vehicle. If necessary, loads up its submap through
      * the global MAPBUFFER and pulls it from there. For this reason, you should only
@@ -381,7 +387,7 @@ public:
     bool start_engine( const int e );
 
 // Attempt to start the vehicle's active engines
-    bool start_engines();
+    void start_engines( const bool take_control = false );
 
 // Engine backfire, making a loud noise
     void backfire( const int e );

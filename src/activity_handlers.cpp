@@ -1026,3 +1026,41 @@ void activity_handlers::vibe_do_turn( player_activity *act, player *p )
 
     p->pause();
 }
+
+void activity_handlers::start_engines_finish( player_activity *act, player *p )
+{
+    // This does not work well if the vehicle is moving
+    vehicle *veh = g->m.veh_at(act->placement.x, act->placement.y);
+    if( !veh ) { return; }
+
+    int attempted = 0;
+    int started = 0;
+    int not_muscle = 0;
+
+    for( size_t e = 0; e < veh->engines.size(); ++e ) {
+        if( veh->is_engine_on( e ) ) {
+            attempted++;
+            if( veh->start_engine( e ) ) { started++; }
+            if( !veh->is_engine_type( e, "muscle" ) ) { not_muscle++; }
+        }
+    }
+
+    veh->engine_on = attempted > 0 && started == attempted;
+
+    if( attempted == 0 ) {
+        add_msg( m_info, _("The %s doesn't have an engine!"), veh->name.c_str() );
+    } else if( not_muscle > 0 ) {
+        if( started == attempted ) {
+            add_msg( ngettext("The %s's engine starts up.",
+                "The %s's engines start up.", not_muscle), veh->name.c_str() );
+        } else {
+            add_msg( m_bad, ngettext("The %s's engine fails to start.",
+                "The %s's engines fail to start.", not_muscle), veh->name.c_str() );
+        }
+    }
+
+    if( act->values[0] && !veh->engine_on && !veh->velocity ) {
+        p->controlling_vehicle = false;
+        add_msg(_("You let go of the controls."));
+    }
+}
