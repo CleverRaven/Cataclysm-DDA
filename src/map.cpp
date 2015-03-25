@@ -4643,6 +4643,40 @@ lit_level map::apparent_light_at(int x, int y) {
     }
 }
 
+void map::draw_loop(int min_x, int min_y, int max_x, int max_y, void *draw_func(int,int,lit_level)) {
+    for (int x = min_x; x <= max_x; x++) {
+        for (int y = min_y; y <= max_y; y++) {
+            lit_level ll = apparent_light_at(x, y);
+            draw_func(x,y,ll);
+        }
+    }
+}
+
+void map::draw_specific_tile(WINDOW *w, const point center, int x, int y, lit_level ll) {
+    switch (ll) {
+        case LL_DARK: // can't see this square at all
+            if (u_is_boomered)
+                mvwputch(w, y+getmaxy(w)/2 - center.y, x+getmaxx(w)/2 - center.x, c_magenta, '#');
+            else
+                mvwputch(w, y+getmaxy(w)/2 - center.y, x+getmaxx(w)/2 - center.x, c_dkgray, '#');
+            break;
+        case LL_BRIGHT_ONLY: // can only tell that this square is bright
+            if (u_is_boomered)
+                mvwputch(w, y+getmaxy(w)/2 - center.y, x+getmaxx(w)/2 - center.x, c_pink, '#');
+            else
+                mvwputch(w, y+getmaxy(w)/2 - center.y, x+getmaxx(w)/2 - center.x, c_ltgray, '#');
+            break;
+        case LL_LOW: // low light, square visible in monochrome
+        case LL_LIT: // normal light
+        case LL_BRIGHT: // bright light
+            drawsq(w, g->u, x, y, false, true, center.x, center.y, ll==LL_LOW, ll==LL_BRIGHT);
+            break;
+        case LL_BLANK:
+            mvwputch(w, y+getmaxy(w)/2 - center.y, x+getmaxx(w)/2 - center.x, c_black,' ');
+            break;
+    }
+}
+
 void map::draw(WINDOW* w, const point center)
 {
     // We only need to draw anything if we're not in tiles mode.
@@ -4654,35 +4688,17 @@ void map::draw(WINDOW* w, const point center)
 
     update_visibility_variables();
 
-    for  (int realx = center.x - getmaxx(w)/2; realx <= center.x + getmaxx(w)/2; realx++) {
-        for (int realy = center.y - getmaxy(w)/2; realy <= center.y + getmaxy(w)/2; realy++) {
-            lit_level ll = apparent_light_at(realx, realy);
-            switch (ll) {
-                case LL_DARK: // can't see this square at all
-                    if (u_is_boomered)
-                        mvwputch(w, realy+getmaxy(w)/2 - center.y, realx+getmaxx(w)/2 - center.x, c_magenta, '#');
-                    else
-                        mvwputch(w, realy+getmaxy(w)/2 - center.y, realx+getmaxx(w)/2 - center.x, c_dkgray, '#');
-                    break;
-                case LL_BRIGHT_ONLY: // can only tell that this square is bright
-                    if (u_is_boomered)
-                        mvwputch(w, realy+getmaxy(w)/2 - center.y, realx+getmaxx(w)/2 - center.x, c_pink, '#');
-                    else
-                        mvwputch(w, realy+getmaxy(w)/2 - center.y, realx+getmaxx(w)/2 - center.x, c_ltgray, '#');
-                    break;
-                case LL_LOW: // low light, square visible in monochrome
-                case LL_LIT: // normal light
-                case LL_BRIGHT: // bright light
-                    drawsq(w, g->u, realx, realy, false, true, center.x, center.y, ll==LL_LOW, ll==LL_BRIGHT);
-                    break;
-                case LL_BLANK:
-                    mvwputch(w, realy+getmaxy(w)/2 - center.y, realx+getmaxx(w)/2 - center.x, c_black,' ');
-                    break;
-            }
-        }
-    }
+    using namespace std::placeholders;
+    auto map_draw_function = std::bind(this->*draw_specific_tile, w, center, _1, _2, _3)
+ 
+    draw_loop(
+        center.x - getmaxx(w)/2, 
+        center.y - getmaxy(w)/2, 
+        center.x + getmaxx(w)/2, 
+        center.y + getmaxy(w)/2,
+        map_draw_function);
 
-g->draw_critter( g->u, center );
+    g->draw_critter( g->u, center );
 }
 
 void map::drawsq(WINDOW* w, player &u, const int x, const int y, const bool invert_arg,

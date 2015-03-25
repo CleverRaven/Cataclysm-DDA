@@ -136,6 +136,15 @@ class map
   */
  lit_level apparent_light_at(int x, int y); 
 
+ /** Loop through the reality bubble and call a function to draw each visible tile
+  *
+  * @param min_x, min_y, max_x, max_y coordinate box to draw
+  * @param draw_func a function that draws one tile
+  */
+ void draw_loop(int min_x, int min_y, int max_x, int max_y, void *draw_func(int,int,lit_level));
+
+ void draw_specific_tile(WINDOW *w, const point center, int x, int y, lit_level ll);
+
  /** Draw a visible part of the map into `w`.
   *
   * This method uses `g->u.posx()/posy()` for visibility calculations, so it can
