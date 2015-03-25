@@ -48,18 +48,6 @@ bionic_data::bionic_data(std::string nname, bool ps, bool tog, int pac, int pad,
 {
 }
 
-// TODO this is unused and the existing implementation will loop forever if there are no
-// good bionics
-//std::string game::random_good_bionic() const
-//{
-//    std::map<std::string, bionic_data *>::const_iterator random_bionic;
-//    do {
-//        random_bionic = bionics.begin();
-//        std::advance(random_bionic, rng(0, bionics.size() - 1));
-//    } while (random_bionic->second->faulty);
-//    return random_bionic->first;
-//}
-
 void show_bionics_titlebar(WINDOW *window, player *p, std::string menu_mode)
 {
     werase(window);

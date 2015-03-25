@@ -411,8 +411,6 @@ class game
 
         void open_gate( const int examx, const int examy, const ter_id handle_type );
 
-        std::string random_good_bionic() const; // returns a non-faulty, valid bionic
-
         // Helper because explosion was getting too big.
         void do_blast( const int x, const int y, const int power, const int radius, const bool fire );
 
