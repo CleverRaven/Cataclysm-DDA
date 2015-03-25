@@ -130,6 +130,12 @@ class map
   */
  void on_vehicle_moved();
 
+ /** Determine the visible light level for a tile, based on light_at for the tile, vision distance, etc
+  *
+  * @param x, y The tile on this map to draw.
+  */
+ lit_level apparent_light_at(int x, int y); 
+
  /** Draw a visible part of the map into `w`.
   *
   * This method uses `g->u.posx()/posy()` for visibility calculations, so it can
@@ -1052,6 +1058,19 @@ private:
          * tr_null trap.
          */
         std::vector< std::vector<tripoint> > traplocs;
+
+    // cached values for map visibility calculations
+    void update_visibility_variables();
+    int g_light_level;
+    int natural_sight_range;
+    int light_sight_range;
+    int lowlight_sight_range;
+    int max_sight_range;
+    int u_clairvoyance;
+    bool u_sight_impaired;
+    bool bio_night_active;
+    bool u_is_boomered;
+  
 };
 
 std::vector<point> closest_points_first(int radius, point p);
