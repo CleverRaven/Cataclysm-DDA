@@ -352,7 +352,7 @@ struct islot_bionic {
     /**
      * Id of the bionic, see @ref bionics.
      */
-    std::string std::string;
+    std::string bionic_id;
 };
 
 struct islot_software {

@@ -465,8 +465,8 @@ void Item_factory::check_definitions() const
             }
         }
         if( type->bionic ) {
-            if( bionics.count( type->bionic->std::string ) == 0 ) {
-                msg << string_format("there is no bionic with id %s", type->bionic->std::string.c_str()) << "\n";
+            if (!is_valid_bionic(type->bionic->bionic_id)) {
+                msg << string_format("there is no bionic with id %s", type->bionic->bionic_id.c_str()) << "\n";
             }
         }
         if (msg.str().empty()) {
@@ -810,7 +810,7 @@ void Item_factory::load( islot_bionic &slot, JsonObject &jo )
 {
     slot.difficulty = jo.get_int( "difficulty" );
     // TODO: must be the same as the item type id, for compatibility
-    slot.std::string = jo.get_string( "id" );
+    slot.bionic_id = jo.get_string( "id" );
 }
 
 void Item_factory::load_bionic( JsonObject &jo )
