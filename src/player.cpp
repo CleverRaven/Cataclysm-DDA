@@ -810,19 +810,19 @@ void player::update_bodytemp()
         } else if( furn_at_pos == f_makeshift_bed || furn_at_pos == f_armchair ||
                    furn_at_pos == f_sofa ) {
             floor_bedding_warmth += 500;
+        } else if( veh && veh->part_with_feature (vpart, "BED") >= 0 ) {
+            floor_bedding_warmth += 300;
+        } else if( veh && veh->part_with_feature (vpart, "SEAT") >= 0 ) {
+            floor_bedding_warmth += 200;
         } else if( furn_at_pos == f_straw_bed ) {
             floor_bedding_warmth += 200;
+        } else if( trap_at_pos.loadid == tr_fur_rollmat || furn_at_pos == f_hay ) {
+            floor_bedding_warmth += 0;
         } else if( trap_at_pos.loadid == tr_cot || ter_at_pos == t_improvised_shelter ||
                    furn_at_pos == f_tatami ) {
             floor_bedding_warmth -= 500;
         } else if( trap_at_pos.loadid == tr_rollmat ) {
             floor_bedding_warmth -= 1000;
-        } else if( trap_at_pos.loadid == tr_fur_rollmat || furn_at_pos == f_hay ) {
-            floor_bedding_warmth += 0;
-        } else if( veh && veh->part_with_feature (vpart, "SEAT") >= 0 ) {
-            floor_bedding_warmth += 200;
-        } else if( veh && veh->part_with_feature (vpart, "BED") >= 0 ) {
-            floor_bedding_warmth += 300;
         } else {
             floor_bedding_warmth -= 2000;
         }
