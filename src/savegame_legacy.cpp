@@ -1634,7 +1634,7 @@ void player::load_legacy(std::stringstream & dump)
  }
 
  int numbio = 0;
- bionic_id biotype;
+ std::string biotype;
  bionic biotmp;
  dump >> numbio;
  for (int i = 0; i < numbio; i++) {
@@ -1798,13 +1798,13 @@ void npc::load_legacy(std::stringstream & dump) {
   addtmp.type = add_type(typetmp);
   addictions.push_back(addtmp);
  }
- bionic_id tmpbionic;
+ std::string tmpbionic;
  int numbio;
  bionic biotmp;
  dump >> numbio;
  for (int i = 0; i < numbio; i++) {
   dump >> tmpbionic >> biotmp.invlet >> biotmp.powered >> biotmp.charge;
-  biotmp.id = bionic_id(tmpbionic);
+  biotmp.id = std::string(tmpbionic);
   my_bionics.push_back(biotmp);
  }
 // Special NPC stuff

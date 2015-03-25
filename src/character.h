@@ -73,9 +73,9 @@ class Character : public Creature
         
         // --------------- Bionic Stuff ---------------
         /** Returns true if the player has the entered bionic id */
-        bool has_bionic(const bionic_id &b) const;
+        bool has_bionic(const std::string &b) const;
         /** Returns true if the player has the entered bionic id and it is powered on */
-        bool has_active_bionic(const bionic_id &b) const;
+        bool has_active_bionic(const std::string &b) const;
         
         // --------------- Generic Item Stuff ---------------
 

@@ -8,8 +8,6 @@
 /* Thought: Perhaps a HUD bionic that changes the display of the game?
  * Showing more information or something. */
 
-typedef std::string bionic_id;
-
 class bionic_data
 {
     public:
@@ -37,7 +35,7 @@ class bionic_data
 };
 
 struct bionic : public JsonSerializer, public JsonDeserializer {
-    bionic_id id;
+    std::string id;
     char invlet;
     bool powered;
     int charge;
@@ -47,7 +45,7 @@ struct bionic : public JsonSerializer, public JsonDeserializer {
         powered = false;
         charge = 0;
     }
-    bionic(bionic_id pid, char pinvlet) : id(pid)
+    bionic(std::string pid, char pinvlet) : id(pid)
     {
         id = pid;
         invlet = pinvlet;
@@ -75,10 +73,10 @@ struct bionic : public JsonSerializer, public JsonDeserializer {
     }
 };
 
-extern std::map<bionic_id, bionic_data *> bionics;
-extern std::vector<bionic_id> faulty_bionics;
-extern std::vector<bionic_id> power_source_bionics;
-extern std::vector<bionic_id> unpowered_bionics;
+extern std::map<std::string, bionic_data *> bionics;
+extern std::vector<std::string> faulty_bionics;
+extern std::vector<std::string> power_source_bionics;
+extern std::vector<std::string> unpowered_bionics;
 
 void draw_exam_window(WINDOW *win, int border_line, bool examination);
 void reset_bionics();

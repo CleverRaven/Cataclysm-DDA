@@ -16,10 +16,10 @@
 
 #define BATTERY_AMOUNT 100 // How much batteries increase your power
 
-std::map<bionic_id, bionic_data *> bionics;
-std::vector<bionic_id> faulty_bionics;
-std::vector<bionic_id> power_source_bionics;
-std::vector<bionic_id> unpowered_bionics;
+std::map<std::string, bionic_data *> bionics;
+std::vector<std::string> faulty_bionics;
+std::vector<std::string> power_source_bionics;
+std::vector<std::string> unpowered_bionics;
 
 void bionics_install_failure(player *u, int difficulty, int success);
 
@@ -37,7 +37,7 @@ bionic_data::bionic_data(std::string nname, bool ps, bool tog, int pac, int pad,
     faulty = fault;
 }
 
-bionic_id game::random_good_bionic() const
+std::string game::random_good_bionic() const
 {
     std::map<std::string, bionic_data *>::const_iterator random_bionic;
     do {
@@ -1200,7 +1200,7 @@ int bionic_manip_cos(int p_int, int s_electronics, int s_firstaid, int s_mechani
     return chance_of_success;
 }
 
-bool player::uninstall_bionic(bionic_id b_id)
+bool player::uninstall_bionic(std::string b_id)
 {
     // malfunctioning bionics don't have associated items and get a difficulty of 12
     int difficulty = 12;
@@ -1286,7 +1286,7 @@ bool player::install_bionics(const itype &type)
         debugmsg("Tried to install NULL bionic");
         return false;
     }
-    const std::string bioid = type.bionic->bionic_id;
+    const std::string bioid = type.bionic->std::string;
     if( bionics.count( bioid ) == 0 ) {
         popup("invalid / unknown bionic id %s", bioid.c_str());
         return false;
@@ -1476,7 +1476,7 @@ void bionics_install_failure(player *u, int difficulty, int success)
 
     case 5: {
         add_msg(m_bad, _("The installation is faulty!"));
-        std::vector<bionic_id> valid;
+        std::vector<std::string> valid;
         for( auto &faulty_bionic : faulty_bionics ) {
             if( !u->has_bionic( faulty_bionic ) ) {
                 valid.push_back( faulty_bionic );
