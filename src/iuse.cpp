@@ -5957,7 +5957,7 @@ int iuse::vacutainer(player *p, item *it, bool, point)
     return it->type->charges_to_use();
 }
 
-int iuse::cut_log_into_planks(player *p, item *it)
+void iuse::cut_log_into_planks(player *p)
 {
     p->moves -= 300;
     add_msg(_("You cut the log into planks."));
@@ -5973,25 +5973,37 @@ int iuse::cut_log_into_planks(player *p, item *it)
     }
     p->i_add_or_drop(plank, planks);
     p->i_add_or_drop(scrap, scraps);
-    return it->type->charges_to_use();
 }
 
 int iuse::lumber(player *p, item *it, bool, point)
 {
+    // Check if player is standing on any lumber
+    for (auto &i : g->m.i_at(p->posx(), p->posy())) {
+        if (i.type->id == "log")
+        {
+            g->m.i_rem(p->posx(), p->posy(), &i);
+            cut_log_into_planks( p );
+            return it->type->charges_to_use();
+        }
+    }
+
+    // If the player is not standing on a log, check inventory
     int pos = g->inv_for_filter( _("Cut up what?"), []( const item & itm ) {
         return itm.type->id == "log";
     } );
-    item *cut = &( p->i_at( pos ) );
+    item* cut = &( p->i_at( pos ) );
+
     if (cut->type->id == "null") {
         add_msg(m_info, _("You do not have that item!"));
         return 0;
     }
     if (cut->type->id == "log") {
         p->i_rem( cut );
-        return cut_log_into_planks( p, it );
+        cut_log_into_planks(p);
+        return it->type->charges_to_use();
     } else {
         add_msg(m_info, _("You can't cut that up!"));
-        return it->type->charges_to_use();
+        return 0;
     }
 }
 
