@@ -78,14 +78,6 @@ if(SOUND)
         )
     endif()
 
-    # Sound requires ogg, vorbis & vorbisfile libraries
-    find_package(OggVorbis)
-    if(NOT OGGVORBIS_FOUND)
-        message(FATAL_ERROR
-            "You need the ogg, vorbis & vorbisfile development libraries to be able to compile with sound enabled."
-        )
-    endif()
-
     # Sound requires SDL_mixer library
     find_package(SDL2_mixer)
     if(NOT SDL2_MIXER_FOUND)
