@@ -3910,12 +3910,8 @@ void game::debug()
                       _("Display hordes"), // 20
                       _("Test Item Group"), // 21
                       _("Damage Self"), //22
-#ifndef TILES
                       _("Show Sound Clustering"), //23
-#endif
-#ifdef LUA
                       _("Lua Command"), // 24
-#endif
                       _("Cancel"),
                       NULL);
     int veh_num;
@@ -4310,8 +4306,8 @@ void game::debug()
     }
     break;
 
-#ifndef TILES
     case 23: {
+#ifndef TILES
         const point offset{ POSX - u.posx() + u.view_offset_x,
                 POSY - u.posy() + u.view_offset_y };
         draw_ter();
@@ -4324,17 +4320,21 @@ void game::debug()
         }
         wrefresh(w_terrain);
         getch();
+#else
+        popup( "This binary was not compiled with tiles support." );
+#endif
     }
     break;
-#endif
 
-#ifdef LUA
     case 24: {
+#ifdef LUA
         std::string luacode = string_input_popup(_("Lua:"), 60, "");
         call_lua(luacode);
+#else
+        popup( "This binary was not compiled with Lua support." );
+#endif
     }
     break;
-#endif
 
     }
     erase();
