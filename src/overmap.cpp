@@ -1280,9 +1280,7 @@ std::tuple<char, nc_color, size_t> get_note_display_info(std::string const &note
 
 void overmap::draw(WINDOW *w, WINDOW *wbar, const tripoint &center,
                    const tripoint &orig, bool blink, bool show_explored,
-                   input_context *inp_ctxt,
-                   bool debug_monstergroups,
-                   const int iZoneIndex)
+                   input_context *inp_ctxt, const draw_data_t &data)
 {
     const int z     = center.z;
     const int cursx = center.x;
@@ -1306,16 +1304,16 @@ void overmap::draw(WINDOW *w, WINDOW *wbar, const tripoint &center,
     std::string sZoneName;
     tripoint tripointZone = tripoint(-1, -1, -1);
 
-    if (iZoneIndex != -1) {
-        sZoneName = g->u.Zones.vZones[iZoneIndex].getName();
-        point pOMZone = overmapbuffer::ms_to_omt_copy(g->u.Zones.vZones[iZoneIndex].getCenterPoint());
+    if (data.iZoneIndex != -1) {
+        sZoneName = g->u.Zones.vZones[data.iZoneIndex].getName();
+        point pOMZone = overmapbuffer::ms_to_omt_copy(g->u.Zones.vZones[data.iZoneIndex].getCenterPoint());
         tripointZone = tripoint(pOMZone.x, pOMZone.y);
     }
 
     // If we're debugging monster groups, find the monster group we've selected
     const mongroup *mgroup = nullptr;
     std::vector<mongroup *> mgroups;
-    if(debug_monstergroups) {
+    if(data.debug_mongroup) {
         mgroups = overmap_buffer.monsters_at( center.x, center.y, center.z );
         for( const auto &mgp : mgroups ) {
             mgroup = mgp;
@@ -1417,7 +1415,7 @@ void overmap::draw(WINDOW *w, WINDOW *wbar, const tripoint &center,
             }
 
             // Are we debugging monster groups?
-            if(blink && debug_monstergroups) {
+            if(blink && data.debug_mongroup) {
                 // Check if this tile is the target of the currently selected group
                 if(mgroup && mgroup->tx / 2 == omx && mgroup->ty / 2 == omy) {
                     ter_color = c_red;
@@ -1628,18 +1626,33 @@ void overmap::draw(WINDOW *w, WINDOW *wbar, const tripoint &center,
 
 tripoint overmap::draw_overmap()
 {
-    return draw_overmap(g->u.global_omt_location());
+    return draw_overmap(g->u.global_omt_location(), draw_data_t());
 }
 
 tripoint overmap::draw_overmap(int z)
 {
     tripoint loc = g->u.global_omt_location();
     loc.z = z;
-    return draw_overmap(loc);
+    return draw_overmap(loc, draw_data_t());
+}
+
+tripoint overmap::draw_hordes()
+{
+    draw_data_t data;
+    data.debug_mongroup = true;
+    return draw_overmap( g->u.global_omt_location(), data );
+}
+
+tripoint overmap::draw_zones( tripoint const &center, tripoint const &select, int const iZoneIndex )
+{
+    draw_data_t data;
+    data.select = select;
+    data.iZoneIndex = iZoneIndex;
+    return overmap::draw_overmap( center, data );
 }
 
 //Start drawing the overmap on the screen using the (m)ap command.
-tripoint overmap::draw_overmap(const tripoint &orig, bool debug_mongroup, const tripoint &select, const int iZoneIndex)
+tripoint overmap::draw_overmap(const tripoint &orig, const draw_data_t &data)
 {
     delwin(g->w_omlegend);
     g->w_omlegend = newwin(TERMY, 28, 0, TERMX - 28);
@@ -1655,8 +1668,8 @@ tripoint overmap::draw_overmap(const tripoint &orig, bool debug_mongroup, const 
     tripoint ret = invalid_tripoint;
     tripoint curs(orig);
 
-    if (select.x != -1 && select.y != -1 && select.z != -1) {
-        curs = tripoint(select);
+    if( data.select != tripoint( -1, -1, -1 ) ) {
+        curs = tripoint(data.select);
     }
 
     // Configure input context for navigating the map.
@@ -1682,7 +1695,7 @@ tripoint overmap::draw_overmap(const tripoint &orig, bool debug_mongroup, const 
     bool show_explored = true;
     do {
         timeout( BLINK_SPEED );
-        draw(g->w_overmap, g->w_omlegend, curs, orig, uistate.overmap_show_overlays, show_explored, &ictxt, debug_mongroup, iZoneIndex);
+        draw(g->w_overmap, g->w_omlegend, curs, orig, uistate.overmap_show_overlays, show_explored, &ictxt, data);
         action = ictxt.handle_input();
         timeout(-1);
 
@@ -1775,7 +1788,7 @@ tripoint overmap::draw_overmap(const tripoint &orig, bool debug_mongroup, const 
             do {
                 tmp.x = locations[i].x;
                 tmp.y = locations[i].y;
-                draw(g->w_overmap, g->w_omlegend, tmp, orig, uistate.overmap_show_overlays, show_explored, NULL);
+                draw(g->w_overmap, g->w_omlegend, tmp, orig, uistate.overmap_show_overlays, show_explored, NULL, draw_data_t());
                 //Draw search box
                 draw_border(w_search);
                 mvwprintz(w_search, 1, 1, c_red, _("Find place:"));

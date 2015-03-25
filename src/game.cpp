@@ -4293,10 +4293,8 @@ void game::debug()
         cleanup_dead();
     }
     break;
-    case 20: {
-        // display hordes on the map
-        overmap::draw_overmap(u.global_omt_location(), true);
-    }
+    case 20:
+        overmap::draw_hordes();
     break;
     case 21: {
         item_group::debug_spawn();
@@ -8239,11 +8237,9 @@ void game::zones_manager()
                 //show zone position on overmap;
                 point pOMPlayer = overmapbuffer::ms_to_omt_copy(m.getabs(u.posx(), u.posy()));
                 point pOMZone = overmapbuffer::ms_to_omt_copy(u.Zones.vZones[iActive].getCenterPoint());
-                overmap::draw_overmap(tripoint(pOMPlayer.x, pOMPlayer.y),
-                                      false,
-                                      tripoint(pOMZone.x, pOMZone.y),
-                                      iActive
-                                     );
+                overmap::draw_zones( tripoint( pOMPlayer.x, pOMPlayer.y, 0 ),
+                                     tripoint( pOMZone.x, pOMZone.y, 0 ),
+                                     iActive );
 
                 zones_manager_draw_borders(w_zones_border, w_zones_info_border, iInfoHeight, width);
                 zones_manager_shortcuts(w_zones_info);
