@@ -540,7 +540,7 @@ void cata_tiles::draw(int destx, int desty, int centerx, int centery, int width,
             y = my + o_y;
             l = g->m.apparent_light_at(x, y);
             const auto critter = g->critter_at( x, y );
-            if ( l != LL_LIT && l != LL_BRIGHT ) {
+            if ( l == LL_DARK || l == LL_BRIGHT_ONLY || l == LL_BLANK ) {
                 // Draw lighting
                 draw_lighting(x, y, l);
                 if( critter != nullptr && g->u.sees_with_infrared( *critter ) ) {
@@ -864,7 +864,7 @@ bool cata_tiles::draw_lighting(int x, int y, lit_level l)
 {
     std::string light_name;
     switch(l) {
-        case LL_DARK:
+        case LL_BLANK:
             light_name = "lighting_hidden";
             break;
         case LL_LIT:
@@ -874,6 +874,7 @@ bool cata_tiles::draw_lighting(int x, int y, lit_level l)
                 light_name = "lighting_lowlight_light";
             }
             break;
+        case LL_DARK:
         case LL_LOW:
             if (g->m.u_is_boomered) {
                 light_name = "lighting_boomered_dark";
