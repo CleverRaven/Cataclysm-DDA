@@ -415,19 +415,20 @@ void computer::activate_function(computer_action action, char ch)
         }
         g->u.add_memorial_log(pgettext("memorial_male", "Caused a resonance cascade."),
                               pgettext("memorial_female", "Caused a resonance cascade."));
-        std::vector<point> cascade_points;
+        std::vector<tripoint> cascade_points;
         for (int i = g->u.posx() - 10; i <= g->u.posx() + 10; i++) {
             for (int j = g->u.posy() - 10; j <= g->u.posy() + 10; j++) {
                 if (g->m.ter(i, j) == t_radio_tower) {
-                    cascade_points.push_back(point(i, j));
+                    // TODO: Z
+                    cascade_points.push_back( tripoint(i, j, g->get_levz() ) );
                 }
             }
         }
         if (cascade_points.empty()) {
-            g->resonance_cascade(g->u.posx(), g->u.posy());
+            g->resonance_cascade( g->u.pos3() );
         } else {
-            point p = cascade_points[rng(0, cascade_points.size() - 1)];
-            g->resonance_cascade(p.x, p.y);
+            const tripoint &p = cascade_points[rng(0, cascade_points.size() - 1)];
+            g->resonance_cascade( p );
         }
     }
     break;
@@ -532,7 +533,8 @@ void computer::activate_function(computer_action action, char ch)
                    !(x == (target.x - 2) && (y == (target.y + 2))) &&
                    !(x == (target.x + 2) && (y == (target.y - 2))) &&
                    !(x == (target.x + 2) && (y == (target.y + 2)))) {
-                    g->nuke(x, y);
+                    // TODO: Z
+                    g->nuke( tripoint( x, y, 0 ) );
                 }
 
             }

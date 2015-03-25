@@ -2106,12 +2106,27 @@ bool map::is_divable(const int x, const int y) const
   return has_flag("SWIMMABLE", x, y) && has_flag(TFLAG_DEEP_WATER, x, y);
 }
 
+bool map::is_divable( const tripoint &p ) const
+{
+    return has_flag( "SWIMMABLE", p ) && has_flag( TFLAG_DEEP_WATER, p );
+}
+
 bool map::is_outside(const int x, const int y) const
 {
  if(!INBOUNDS(x, y))
   return true;
 
  return outside_cache[x][y];
+}
+
+bool map::is_outside( const tripoint &p ) const
+{
+    if( !inbounds( p ) ) {
+        return true;
+    }
+
+    // TODO: Z
+    return outside_cache[p.x][p.y];
 }
 
 bool map::is_last_ter_wall(const bool no_furn, const int x, const int y,
@@ -2766,6 +2781,17 @@ void map::destroy(const int x, const int y, const bool silent)
     }
 }
 
+void map::destroy( const tripoint &p, const bool silent )
+{
+    // Break if it takes more than 25 destructions to remove to prevent infinite loops
+    // Example: A bashes to B, B bashes to A leads to A->B->A->...
+    int count = 0;
+    // TODO: Z
+    while( count <= 25 && bash( p.x, p.y, 999, silent, true ).second ) {
+        count++;
+    }
+}
+
 void map::destroy_furn(const int x, const int y, const bool silent)
 {
     // Break if it takes more than 25 destructions to remove to prevent infinite loops
@@ -3153,7 +3179,7 @@ bool map::marlossify(const int x, const int y)
         return true;
     }
     for (int i = 0; i < 25; i++) {
-        if(!g->spread_fungus(x, y)) {
+        if(!g->spread_fungus( tripoint( x, y, abs_sub.z ) )) {
             return true;
         }
     }
@@ -4857,6 +4883,19 @@ void map::drawsq(WINDOW* w, player &u, const int x, const int y, const bool inve
     } else {
         mvwputch    (w, j, k, tercol, sym);
     }
+}
+
+// TODO: Implement this function in FoV update
+bool map::sees( const tripoint &F, const tripoint &T, const int range, int &t1, int &t2 ) const
+{
+    (void)t2;
+    return sees( F.x, F.y, T.x, T.y, range, t1 );
+}
+
+bool map::sees( const tripoint &F, const tripoint &T, const int range ) const
+{
+    int t1 = 0;
+    return sees( F.x, F.y, T.x, T.y, range, t1 );
 }
 
 bool map::sees( const point F, const point T, const int range, int &bresenham_slope ) const

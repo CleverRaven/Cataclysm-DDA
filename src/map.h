@@ -242,15 +242,26 @@ class map
                            const vehicle *ignored_vehicle = nullptr, const int modifier = 0) const;
 
 
- /**
-  * Returns whether `(Fx, Fy)` sees `(Tx, Ty)` with a view range of `range`.
-  *
-  * @param bresenham_slope Indicates the Bresenham line used to connect the two points, and may
-  *           subsequently be used to form a path between them
-  */
- bool sees(const int Fx, const int Fy, const int Tx, const int Ty,
-           const int range, int &bresenham_slope) const;
- bool sees( point F, point T, int range, int &bresenham_slope ) const;
+// 2D Sees:
+    /**
+    * Returns whether `(Fx, Fy)` sees `(Tx, Ty)` with a view range of `range`.
+    *
+    * @param bresenham_slope Indicates the Bresenham line used to connect the two points, and may
+    *           subsequently be used to form a path between them
+    */
+    bool sees(const int Fx, const int Fy, const int Tx, const int Ty,
+              const int range, int &bresenham_slope) const;
+    bool sees( point F, point T, int range, int &bresenham_slope ) const;
+// 3D Sees:
+    /**
+    * Returns whether `F` sees `T` with a view range of `range`.
+    *
+    * @param t1 Indicates the x/y component of Bresenham line used to connect the two points, and may
+    *           subsequently be used to form a path between them
+    * @param t2 Indicates the horizontal/vertical component of the Bresenham line
+    */
+    bool sees( const tripoint &F, const tripoint &T, int range, int &t1, int &t2 ) const;
+    bool sees( const tripoint &F, const tripoint &T, int range ) const;
 
  /**
   * Check whether there's a direct line of sight between `(Fx, Fy)` and
@@ -491,6 +502,8 @@ class map
 
  bool is_divable(const int x, const int y) const;
  bool is_outside(const int x, const int y) const;
+    bool is_divable( const tripoint &p ) const;
+    bool is_outside( const tripoint &p ) const;
  /** Check if the last terrain is wall in direction NORTH, SOUTH, WEST or EAST
   *  @param no_furn if true, the function will stop and return false
   *  if it encounters a furniture
@@ -546,6 +559,7 @@ void add_corpse(int x, int y);
  void spawn_item_list(const std::vector<map_bash_item_drop> &items, int x, int y);
  /** Keeps bashing a square until it can't be bashed anymore */
  void destroy(const int x, const int y, const bool silent = false);
+    void destroy( const tripoint &p, const bool silent = false);
  /** Keeps bashing a square until there is no more furniture */
  void destroy_furn(const int x, const int y, const bool silent = false);
  void crush(const int x, const int y);

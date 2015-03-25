@@ -354,7 +354,7 @@ public:
 
  int brewing_time() const;
  bool ready_to_revive( point pos ); // used for corpses
- void detonate(point p) const;
+ void detonate( const tripoint &p ) const;
  bool can_revive();      // test if item is a corpse and can be revived
 // light emission, determined by type->light_emission (LIGHT_???) tag (circular),
 // overridden by light.* struct (shaped)

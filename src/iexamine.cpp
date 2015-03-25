@@ -546,11 +546,12 @@ void iexamine::elevator(player *p, map *m, int examx, int examy)
 
 void iexamine::controls_gate(player *p, map *m, int examx, int examy)
 {
-    if (!query_yn(_("Use the %s?"), m->tername(examx, examy).c_str())) {
+    tripoint examp( examx, examy, g->get_levz() );
+    if (!query_yn(_("Use the %s?"), m->tername( examp ).c_str())) {
         none(p, m, examx, examy);
         return;
     }
-    g->open_gate(examx, examy, (ter_id)m->ter(examx, examy));
+    g->open_gate( examp, (ter_id)m->ter( examp ) );
 }
 
 void iexamine::cardreader(player *p, map *m, int examx, int examy)

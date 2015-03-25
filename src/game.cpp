@@ -2758,7 +2758,7 @@ bool game::handle_action()
             if (u.has_active_mutation("SHELL2")) {
                 add_msg(m_info, _("You can't examine your surroundings while you're in your shell."));
             } else {
-                examine(mouse_action_x, mouse_action_y);
+                examine( tripoint( mouse_action_x, mouse_action_y, u.posz() ) );
             }
             break;
 
@@ -5782,8 +5782,11 @@ void game::monmove()
     cleanup_dead();
 }
 
-void game::do_blast(const int x, const int y, const int power, const int radius, const bool fire)
+void game::do_blast( const tripoint &p, const int power, const int radius, const bool fire )
 {
+    // TODO: Z
+    int x = p.x;
+    int y = p.y;
     int dam;
     for (int i = x - radius; i <= x + radius; i++) {
         for (int j = y - radius; j <= y + radius; j++) {
@@ -5831,8 +5834,11 @@ void game::do_blast(const int x, const int y, const int power, const int radius,
     }
 }
 
-void game::explosion(int x, int y, int power, int shrapnel, bool fire, bool blast)
+void game::explosion( const tripoint &p, int power, int shrapnel, bool fire, bool blast )
 {
+    // TODO: Z
+    int x = p.x;
+    int y = p.y;
     int radius = int(sqrt(double(power / 4)));
     int dam;
     int noise = power * (fire ? 2 : 10);
@@ -5845,7 +5851,7 @@ void game::explosion(int x, int y, int power, int shrapnel, bool fire, bool blas
         sounds::sound(x, y, 3, _("a loud pop!"));
     }
     if (blast) {
-        do_blast(x, y, power, radius, fire);
+        do_blast( p, power, radius, fire );
         // Draw the explosion
         draw_explosion(x, y, radius, c_red);
     }
@@ -5912,91 +5918,91 @@ void game::explosion(int x, int y, int power, int shrapnel, bool fire, bool blas
     }
 }
 
-void game::flashbang(int x, int y, bool player_immune)
+void game::flashbang( const tripoint &p, bool player_immune)
 {
-    draw_explosion(x, y, 8, c_white);
-    int dist = rl_dist(u.posx(), u.posy(), x, y), t;
+    draw_explosion( p.x, p.y, 8, c_white );
+    int dist = rl_dist( u.pos3(), p );
     if (dist <= 8 && !player_immune) {
         if (!u.has_bionic("bio_ears") && !u.is_wearing("rm13_armor_on")) {
             u.add_effect("deaf", 40 - dist * 4);
         }
-        if (m.sees(u.posx(), u.posy(), x, y, 8, t)) {
+        if( m.sees( u.pos3(), p, 8 ) ) {
             int flash_mod = 0;
-            if (u.has_trait("PER_SLIME")) {
+            if( u.has_trait( "PER_SLIME" ) ) {
                 if (one_in(2)) {
                     flash_mod = 3; // Yay, you weren't looking!
                 }
-            } else if (u.has_trait("PER_SLIME_OK")) {
+            } else if( u.has_trait( "PER_SLIME_OK" ) ) {
                 flash_mod = 8; // Just retract those and extrude fresh eyes
-            } else if (u.has_bionic("bio_sunglasses") || u.is_wearing("rm13_armor_on")) {
+            } else if( u.has_bionic( "bio_sunglasses" ) || u.is_wearing( "rm13_armor_on" ) ) {
                 flash_mod = 6;
-            } else if (u.worn_with_flag("BLIND") || u.is_wearing("goggles_welding")) {
+            } else if( u.worn_with_flag( "BLIND" ) || u.is_wearing( "goggles_welding" ) ) {
                 flash_mod = 3; // Not really proper flash protection, but better than nothing
             }
             u.add_env_effect("blind", bp_eyes, (12 - flash_mod - dist) / 2, 10 - dist);
         }
     }
-    for (size_t i = 0; i < num_zombies(); i++) {
+    for( size_t i = 0; i < num_zombies(); i++ ) {
         monster &critter = critter_tracker.find(i);
-        dist = rl_dist(critter.posx(), critter.posy(), x, y);
-        if (dist <= 4) {
+        dist = rl_dist( critter.pos3(), p );
+        if( dist <= 4 ) {
             critter.add_effect("stunned", 10 - dist);
         }
-        if (dist <= 8) {
-            if (critter.has_flag(MF_SEES) && m.sees(critter.posx(), critter.posy(), x, y, 8, t)) {
+        if( dist <= 8 ) {
+            if( critter.has_flag(MF_SEES) && m.sees( critter.pos3(), p, 8 ) ) {
                 critter.add_effect("blind", 18 - dist);
             }
-            if (critter.has_flag(MF_HEARS)) {
+            if( critter.has_flag(MF_HEARS) ) {
                 critter.add_effect("deaf", 60 - dist * 4);
             }
         }
     }
-    sounds::sound(x, y, 12, _("a huge boom!"));
+    sounds::sound( p.x, p.y, 12, _("a huge boom!"));
     // TODO: Blind/deafen NPC
 }
 
-void game::shockwave(int x, int y, int radius, int force, int stun, int dam_mult,
-                     bool ignore_player)
+void game::shockwave( const tripoint &p, int radius, int force, int stun, int dam_mult,
+                      bool ignore_player )
 {
-    draw_explosion(x, y, radius, c_blue);
+    draw_explosion( p.x, p.y, radius, c_blue );
 
-    sounds::sound(x, y, force * force * dam_mult / 2, _("Crack!"));
+    sounds::sound( p.x, p.y, force * force * dam_mult / 2, _("Crack!") );
     for (size_t i = 0; i < num_zombies(); i++) {
         monster &critter = critter_tracker.find(i);
-        if (rl_dist(critter.posx(), critter.posy(), x, y) <= radius) {
+        if( rl_dist( critter.pos3(), p ) <= radius ) {
             add_msg(_("%s is caught in the shockwave!"), critter.name().c_str());
-            knockback(x, y, critter.posx(), critter.posy(), force, stun, dam_mult);
+            knockback( p, critter.pos3(), force, stun, dam_mult);
         }
     }
     for( auto &elem : active_npc ) {
-        if( rl_dist( ( elem )->posx(), ( elem )->posx(), x, y ) <= radius ) {
+        if( rl_dist( ( elem )->pos3(), p ) <= radius ) {
             add_msg( _( "%s is caught in the shockwave!" ), ( elem )->name.c_str() );
-            knockback( x, y, ( elem )->posx(), ( elem )->posy(), force, stun, dam_mult );
+            knockback( p, ( elem )->pos3(), force, stun, dam_mult );
         }
     }
-    if (rl_dist(u.posx(), u.posy(), x, y) <= radius && !ignore_player &&
-          (!u.has_trait("LEG_TENT_BRACE") || u.footwear_factor() == 1 ||
-          (u.footwear_factor() == .5 && one_in(2)))) {
-        add_msg(m_bad, _("You're caught in the shockwave!"));
-        knockback(x, y, u.posx(), u.posy(), force, stun, dam_mult);
+    if( rl_dist(u.pos3(), p ) <= radius && !ignore_player &&
+          (!u.has_trait( "LEG_TENT_BRACE" ) || u.footwear_factor() == 1 ||
+          (u.footwear_factor() == .5 && one_in( 2 ) ) ) ) {
+        add_msg( m_bad, _("You're caught in the shockwave!") );
+        knockback( p, u.pos3(), force, stun, dam_mult);
     }
     return;
 }
 
-/* Knockback target at (tx,ty) by force number of tiles in direction from (sx,sy) to (tx,ty)
+/* Knockback target at t by force number of tiles in direction from s to t
    stun > 0 indicates base stun duration, and causes impact stun; stun == -1 indicates only impact stun
    dam_mult multiplies impact damage, bash effect on impact, and sound level on impact */
 
-void game::knockback(int sx, int sy, int tx, int ty, int force, int stun, int dam_mult)
+void game::knockback( const tripoint &s, const tripoint &t, int force, int stun, int dam_mult)
 {
-    std::vector<point> traj;
+    std::vector<tripoint> traj;
     traj.clear();
-    traj = line_to(sx, sy, tx, ty, 0);
-    traj.insert(traj.begin(), point(sx, sy)); // how annoying, line_to() doesn't include the originating point!
-    traj = continue_line(traj, force);
-    traj.insert(traj.begin(), point(tx, ty)); // how annoying, continue_line() doesn't either!
+    traj = line_to( s, t, 0, 0 );
+    traj.insert( traj.begin(), s ); // how annoying, line_to() doesn't include the originating point!
+    traj = continue_line( traj, force );
+    traj.insert( traj.begin(), t ); // how annoying, continue_line() doesn't either!
 
-    knockback(traj, force, stun, dam_mult);
+    knockback( traj, force, stun, dam_mult );
     return;
 }
 
@@ -6004,17 +6010,16 @@ void game::knockback(int sx, int sy, int tx, int ty, int force, int stun, int da
    stun > 0 indicates base stun duration, and causes impact stun; stun == -1 indicates only impact stun
    dam_mult multiplies impact damage, bash effect on impact, and sound level on impact */
 
-void game::knockback(std::vector<point> &traj, int force, int stun, int dam_mult)
+void game::knockback( std::vector<tripoint> &traj, int force, int stun, int dam_mult )
 {
     (void)force; //FIXME: unused but header says it should do something
     // TODO: make the force parameter actually do something.
     // the header file says higher force causes more damage.
     // perhaps that is what it should do?
-    int tx = traj.front().x;
-    int ty = traj.front().y;
-    const int zid = mon_at(tx, ty);
-    if (zid == -1 && npc_at(tx, ty) == -1 && (u.posx() != tx && u.posy() != ty)) {
-        debugmsg(_("Nothing at (%d,%d) to knockback!"), tx, ty);
+    tripoint tp = traj.front();
+    const int zid = mon_at( tp );
+    if( zid == -1 && npc_at( tp ) == -1 && u.pos3() != tp ) {
+        debugmsg(_("Nothing at (%d,%d) to knockback!"), tp.x, tp.y, tp.z );
         return;
     }
     int force_remaining = 0;
@@ -6102,8 +6107,8 @@ void game::knockback(std::vector<point> &traj, int force, int stun, int dam_mult
                 }
             }
         }
-    } else if (npc_at(tx, ty) != -1) {
-        npc *targ = active_npc[npc_at(tx, ty)];
+    } else if( npc_at( tp ) != -1 ) {
+        npc *targ = active_npc[npc_at( tp )];
         if (stun > 0) {
             targ->add_effect("stunned", stun);
             add_msg(ngettext("%s was stunned for %d turn!",
@@ -6112,8 +6117,7 @@ void game::knockback(std::vector<point> &traj, int force, int stun, int dam_mult
         }
         for (size_t i = 1; i < traj.size(); i++) {
             if (m.move_cost(traj[i].x, traj[i].y) == 0) { // oops, we hit a wall!
-                targ->setx( traj[i - 1].x );
-                targ->sety( traj[i - 1].y );
+                targ->setpos( traj[i - 1] );
                 force_remaining = traj.size() - i;
                 if (stun != 0) {
                     if (targ->has_effect("stunned")) {
@@ -6160,10 +6164,10 @@ void game::knockback(std::vector<point> &traj, int force, int stun, int dam_mult
                 }
                 m.bash(traj[i].x, traj[i].y, 2 * dam_mult * force_remaining);
                 break;
-            } else if (mon_at(traj[i].x, traj[i].y) != -1 || npc_at(traj[i].x, traj[i].y) != -1 ||
-                       (u.posx() == traj[i].x && u.posy() == traj[i].y)) {
-                targ->setx( traj[i - 1].x );
-                targ->sety( traj[i - 1].y );
+            } else if( mon_at(traj[i]) != -1 || 
+                       npc_at(traj[i]) != -1 ||
+                       u.pos3() == traj[i] ) {
+                targ->setpos( traj[i - 1] );
                 force_remaining = traj.size() - i;
                 if (stun != 0) {
                     if (targ->has_effect("stunned")) {
@@ -6202,10 +6206,9 @@ void game::knockback(std::vector<point> &traj, int force, int stun, int dam_mult
                 knockback(traj, force_remaining, stun, dam_mult);
                 break;
             }
-            targ->setx( traj[i].x );
-            targ->sety( traj[i].y );
+            targ->setpos( traj[i] );
         }
-    } else if (u.posx() == tx && u.posy() == ty) {
+    } else if( u.pos3() == tp ) {
         if (stun > 0) {
             u.add_effect("stunned", stun);
             add_msg(m_bad, ngettext("You were stunned for %d turn!",
@@ -6214,9 +6217,8 @@ void game::knockback(std::vector<point> &traj, int force, int stun, int dam_mult
                     stun);
         }
         for (size_t i = 1; i < traj.size(); i++) {
-            if (m.move_cost(traj[i].x, traj[i].y) == 0) { // oops, we hit a wall!
-                u.setx( traj[i - 1].x );
-                u.sety( traj[i - 1].y );
+            if( m.move_cost( traj[i] ) == 0 ) { // oops, we hit a wall!
+                u.setpos( traj[i - 1] );
                 force_remaining = traj.size() - i;
                 if (stun != 0) {
                     if (u.has_effect("stunned")) {
@@ -6259,9 +6261,8 @@ void game::knockback(std::vector<point> &traj, int force, int stun, int dam_mult
                 }
                 m.bash(traj[i].x, traj[i].y, 2 * dam_mult * force_remaining);
                 break;
-            } else if (mon_at(traj[i].x, traj[i].y) != -1 || npc_at(traj[i].x, traj[i].y) != -1) {
-                u.setx( traj[i - 1].x );
-                u.sety( traj[i - 1].y );
+            } else if( mon_at( traj[i] ) != -1 || npc_at( traj[i] ) != -1 ) {
+                u.setpos( traj[i - 1] );
                 force_remaining = traj.size() - i;
                 if (stun != 0) {
                     if (u.has_effect("stunned")) {
@@ -6293,15 +6294,14 @@ void game::knockback(std::vector<point> &traj, int force, int stun, int dam_mult
             if (m.has_flag("LIQUID", u.posx(), u.posy()) && force_remaining < 1) {
                 plswim(u.posx(), u.posy());
             } else {
-                u.setx( traj[i].x );
-                u.sety( traj[i].y );
+                u.setpos( traj[i] );
             }
         }
     }
     return;
 }
 
-void game::use_computer(int x, int y)
+void game::use_computer( const tripoint &p )
 {
     if (u.has_trait("ILLITERATE")) {
         add_msg(m_info, _("You can not read a computer screen!"));
@@ -6314,12 +6314,12 @@ void game::use_computer(int x, int y)
         return;
     }
 
-    computer *used = m.computer_at( tripoint( x, y, get_levz() ) );
+    computer *used = m.computer_at( p );
 
     if (used == NULL) {
         dbg(D_ERROR) << "game:use_computer: Tried to use computer at (" <<
-            x << ", " << y << ") - none there";
-        debugmsg("Tried to use computer at (%d, %d, %d) - none there", x, y, get_levz());
+            p.x << ", " << p.y << ", " << p.z << ") - none there";
+        debugmsg( "Tried to use computer at (%d, %d, %d) - none there", p.x, p.y, p.z );
         return;
     }
 
@@ -6328,10 +6328,10 @@ void game::use_computer(int x, int y)
     refresh_all();
 }
 
-void game::resonance_cascade(int x, int y)
+void game::resonance_cascade( const tripoint &p )
 {
-    int maxglow = 100 - 5 * trig_dist(x, y, u.posx(), u.posy());
-    int minglow = 60 - 5 * trig_dist(x, y, u.posx(), u.posy());
+    int maxglow = 100 - 5 * trig_dist( p, u.pos3() );
+    int minglow = 60 - 5 * trig_dist( p, u.pos3() );
     MonsterGroupResult spawn_details;
     monster invader;
     if (minglow < 0) {
@@ -6340,14 +6340,15 @@ void game::resonance_cascade(int x, int y)
     if (maxglow > 0) {
         u.add_effect("teleglow", rng(minglow, maxglow) * 100);
     }
-    int startx = (x < 8 ? 0 : x - 8), endx = (x + 8 >= SEEX * 3 ? SEEX * 3 - 1 : x + 8);
-    int starty = (y < 8 ? 0 : y - 8), endy = (y + 8 >= SEEY * 3 ? SEEY * 3 - 1 : y + 8);
-    for (int i = startx; i <= endx; i++) {
-        for (int j = starty; j <= endy; j++) {
+    int startx = (p.x < 8 ? 0 : p.x - 8), endx = (p.x + 8 >= SEEX * 3 ? SEEX * 3 - 1 : p.x + 8);
+    int starty = (p.y < 8 ? 0 : p.y - 8), endy = (p.y + 8 >= SEEY * 3 ? SEEY * 3 - 1 : p.y + 8);
+    tripoint dest( startx, starty, p.z );
+    for( int &i = dest.x; i <= endx; i++ ) {
+        for( int &j = dest.y; j <= endy; j++ ) {
             switch (rng(1, 80)) {
             case 1:
             case 2:
-                emp_blast(i, j);
+                emp_blast( dest );
                 break;
             case 3:
             case 4:
@@ -6375,7 +6376,7 @@ void game::resonance_cascade(int x, int y)
                             break;
                         }
                         if (!one_in(3)) {
-                            m.add_field(k, l, type, 3);
+                            m.add_field( k, l, type, 3);
                         }
                     }
                 }
@@ -6385,35 +6386,35 @@ void game::resonance_cascade(int x, int y)
             case  8:
             case  9:
             case 10:
-                m.add_trap(i, j, tr_portal);
+                m.add_trap( dest, tr_portal );
                 break;
             case 11:
             case 12:
-                m.add_trap(i, j, tr_goo);
+                m.add_trap( dest, tr_goo );
                 break;
             case 13:
             case 14:
             case 15:
                 spawn_details = MonsterGroupManager::GetResultFromGroup("GROUP_NETHER");
-                invader = monster( GetMType(spawn_details.name), tripoint( i, j, get_levz() ) );
+                invader = monster( GetMType(spawn_details.name), dest );
                 add_zombie(invader);
                 break;
             case 16:
             case 17:
             case 18:
-                m.destroy(i, j);
+                m.destroy( dest );
                 break;
             case 19:
-                explosion(i, j, rng(1, 10), rng(0, 1) * rng(0, 6), one_in(4));
+                explosion( dest, rng(1, 10), rng(0, 1) * rng(0, 6), one_in(4) );
                 break;
             }
         }
     }
 }
 
-void game::scrambler_blast(int x, int y)
+void game::scrambler_blast( const tripoint &p )
 {
-    int mondex = mon_at(x, y);
+    int mondex = mon_at( p );
     if (mondex != -1) {
         monster &critter = critter_tracker.find(mondex);
         if (critter.has_flag(MF_ELECTRONIC)) {
@@ -6423,8 +6424,11 @@ void game::scrambler_blast(int x, int y)
     }
 }
 
-void game::emp_blast(int x, int y)
+void game::emp_blast( const tripoint &p )
 {
+    // TODO: Implement z part
+    int x = p.x;
+    int y = p.y;
     int rn;
     if (m.has_flag("CONSOLE", x, y)) {
         add_msg(_("The %s is rendered non-functional!"), m.tername(x, y).c_str());
@@ -6526,6 +6530,16 @@ int game::npc_at(const int x, const int y) const
     return -1;
 }
 
+int game::npc_at( const tripoint &p ) const
+{
+    for( size_t i = 0; i < active_npc.size(); i++ ) {
+        if( active_npc[i]->pos3() == p && !active_npc[i]->is_dead() ) {
+            return (int)i;
+        }
+    }
+    return -1;
+}
+
 int game::npc_by_id(const int id) const
 {
     for (size_t i = 0; i < active_npc.size(); i++) {
@@ -6555,6 +6569,27 @@ Creature *game::critter_at(int x, int y)
 Creature const* game::critter_at(int const x, int const y) const
 {
     return const_cast<game*>(this)->critter_at(x, y);
+}
+
+Creature *game::critter_at( const tripoint &p )
+{
+    const int mindex = mon_at( p );
+    if( mindex != -1 ) {
+        return &zombie(mindex);
+    }
+    if( p == u.pos3() ) {
+        return &u;
+    }
+    const int nindex = npc_at( p );
+    if( nindex != -1 ) {
+        return active_npc[nindex];
+    }
+    return NULL;
+}
+
+Creature const* game::critter_at( const tripoint &p ) const
+{
+    return const_cast<game*>(this)->critter_at( p );
 }
 
 bool game::add_zombie(monster &critter)
@@ -6644,9 +6679,13 @@ void game::rebuild_mon_at_cache()
 
 bool game::is_empty(const int x, const int y)
 {
-    return ((m.move_cost(x, y) > 0 || m.has_flag("LIQUID", x, y)) &&
-            npc_at(x, y) == -1 && mon_at(x, y) == -1 &&
-            (u.posx() != x || u.posy() != y));
+    return is_empty( tripoint( x, y, get_levz() ) );
+}
+
+bool game::is_empty( const tripoint &p )
+{
+    return ( m.move_cost( p ) > 0 || m.has_flag( "LIQUID", p ) ) &&
+               critter_at( p ) == nullptr;
 }
 
 bool game::is_in_sunlight(int x, int y)
@@ -6655,25 +6694,25 @@ bool game::is_in_sunlight(int x, int y)
             (weather == WEATHER_CLEAR || weather == WEATHER_SUNNY));
 }
 
+bool game::is_in_sunlight( const tripoint &p )
+{
+    return (m.is_outside( p ) && light_level() >= 40 &&
+            (weather == WEATHER_CLEAR || weather == WEATHER_SUNNY));
+}
+
 bool game::is_sheltered(int x, int y)
 {
-    bool is_inside = false;
-    bool is_underground = false;
-    bool is_in_vehicle = false;
+    return is_sheltered( tripoint( x, y, get_levz() ) );
+}
+
+bool game::is_sheltered( const tripoint &p )
+{
     int vpart = -1;
-    vehicle *veh = m.veh_at(x, y, vpart);
+    vehicle *veh = m.veh_at( p, vpart );
 
-    if (!m.is_outside(x, y))
-        is_inside = true;
-    if (get_levz() < 0)
-        is_underground = true;
-    if (veh && veh->is_inside(vpart))
-        is_in_vehicle = true;
-
-    if (is_inside || is_underground || is_in_vehicle)
-        return true;
-    else
-        return false;
+    return ( !m.is_outside( p ) ||
+             p.z < 0 ||
+             ( veh && veh->is_inside(vpart) ) );
 }
 
 bool game::revive_corpse(int x, int y, int n)
@@ -6758,7 +6797,7 @@ void game::open()
         return;
     }
 
-    bool didit = m.open_door(openx, openy, !m.is_outside(u.posx(), u.posy()));
+    bool didit = m.open_door(openx, openy, !m.is_outside( u.pos3() ) );
 
     if (!didit) {
         const std::string terid = m.get_ter(openx, openy);
@@ -7097,10 +7136,9 @@ void game::handbrake()
     u.moves = 0;
 }
 
-void game::exam_vehicle(vehicle &veh, int examx, int examy, int cx, int cy)
+void game::exam_vehicle(vehicle &veh, const tripoint &p, int cx, int cy)
 {
-    (void)examx;
-    (void)examy; // not currently used
+    (void)p; // not currently used
     veh_interact vehint;
     vehint.ddx = cx;
     vehint.ddy = cy;
@@ -7152,8 +7190,11 @@ void game::exam_vehicle(vehicle &veh, int examx, int examy, int cx, int cy)
     refresh_all();
 }
 
-bool game::forced_gate_closing(int x, int y, ter_id door_type, int bash_dmg)
+bool game::forced_gate_closing( const tripoint &p, ter_id door_type, int bash_dmg )
 {
+    // TODO: Z
+    const int &x = p.x;
+    const int &y = p.y;
     const std::string &door_name = terlist[door_type].name;
     int kbx = x; // Used when player/monsters are knocked back
     int kby = y; // and when moving items out of the way
@@ -7168,6 +7209,7 @@ bool game::forced_gate_closing(int x, int y, ter_id door_type, int bash_dmg)
             break;
         }
     }
+    const tripoint kbp( kbx, kby, p.z );
     const bool can_see = u.sees(x, y);
     player *npc_or_player = NULL;
     if (x == u.pos().x && y == u.pos().y) {
@@ -7189,7 +7231,7 @@ bool game::forced_gate_closing(int x, int y, ter_id door_type, int bash_dmg)
         }
         // TODO: make the npc angry?
         npc_or_player->hitall(bash_dmg, 0, nullptr);
-        knockback(kbx, kby, x, y, std::max(1, bash_dmg / 10), -1, 1);
+        knockback( kbp, p, std::max(1, bash_dmg / 10), -1, 1);
         // TODO: perhaps damage/destroy the gate
         // if the npc was really big?
     }
@@ -7216,7 +7258,7 @@ bool game::forced_gate_closing(int x, int y, ter_id door_type, int bash_dmg)
         }
         if( !critter.is_dead() ) {
             // Still alive? Move the critter away so the door can close
-            knockback(kbx, kby, x, y, std::max(1, bash_dmg / 10), -1, 1);
+            knockback( kbp, p, std::max(1, bash_dmg / 10), -1, 1);
             if (mon_at(x, y) != -1) {
                 return false;
             }
@@ -7290,9 +7332,10 @@ bool game::forced_gate_closing(int x, int y, ter_id door_type, int bash_dmg)
 //
 // The terrain type of the handle is passed in, and that is used to determine the type of
 // the wall and gate.
-void game::open_gate(const int examx, const int examy, const ter_id handle_type)
+void game::open_gate( const tripoint &p, const ter_id handle_type )
 {
-
+    int examx = p.x;
+    int examy = p.y;
     ter_id v_wall_type;
     ter_id h_wall_type;
     ter_id door_type;
@@ -7320,7 +7363,6 @@ void game::open_gate(const int examx, const int examy, const ter_id handle_type)
         open_message = _("The gate is opened!");
         close_message = _("The gate is closed!");
         bash_dmg = 40;
-
     } else if (handle_type == t_barndoor) {
         v_wall_type = t_wall_wood;
         h_wall_type = t_wall_wood;
@@ -7330,7 +7372,6 @@ void game::open_gate(const int examx, const int examy, const ter_id handle_type)
         open_message = _("The barn doors opened!");
         close_message = _("The barn doors closed!");
         bash_dmg = 40;
-
     } else if (handle_type == t_palisade_pulley) {
         v_wall_type = t_palisade;
         h_wall_type = t_palisade;
@@ -7393,7 +7434,7 @@ void game::open_gate(const int examx, const int examy, const ter_id handle_type)
                             (m.ter(examx + wall_x + gate_x, examy + wall_y + gate_y) == floor_type)) {  //closing the gate...
                             close = true;
                             while (m.ter(cur_x, cur_y) == floor_type) {
-                                forced_gate_closing(cur_x, cur_y, door_type, bash_dmg);
+                                forced_gate_closing( tripoint( cur_x, cur_y, p.z ), door_type, bash_dmg);
                                 cur_x = cur_x + gate_x;
                                 cur_y = cur_y + gate_y;
                             }
@@ -7718,11 +7759,19 @@ bool pet_menu(monster *z)
     return true;
 }
 
-void game::examine(int examx, int examy)
+void game::examine()
 {
+    examine( tripoint( -1, -1, get_levz() ) );
+}
+
+void game::examine( const tripoint &p )
+{
+    // TODO: Z
+    int examx = p.x;
+    int examy = p.y;
     int veh_part = 0;
-    vehicle *veh = NULL;
-    const int curz = get_levz();
+    vehicle *veh = nullptr;
+    const int curz = p.z;
 
     if (examx == -1) {
         // if we are driving a vehicle, examine the
@@ -7755,13 +7804,13 @@ void game::examine(int examx, int examy)
         } else if (abs(veh->velocity) > 0) {
             add_msg(m_info, _("You can't do that on a moving vehicle."));
         } else {
-            exam_vehicle(*veh, examx, examy);
+            exam_vehicle(*veh, tripoint( examx, examy, get_levz() ) );
         }
         return;
     }
 
     if (m.has_flag("CONSOLE", examx, examy)) {
-        use_computer(examx, examy);
+        use_computer( tripoint( examx, examy, curz ) );
         return;
     }
     const furn_t *xfurn_t = &furnlist[m.furn(examx, examy)];
@@ -13204,11 +13253,14 @@ void game::teleport(player *p, bool add_teleglow)
     }
 }
 
-void game::nuke(int x, int y)
+void game::nuke( const tripoint &p )
 {
     // TODO: nukes hit above surface, not critter = 0
+    // TODO: Z
+    int x = p.x;
+    int y = p.y;
     tinymap tmpmap;
-    tmpmap.load(x * 2, y * 2, 0, false);
+    tmpmap.load( x * 2, y * 2, 0, false);
     for (int i = 0; i < SEEX * 2; i++) {
         for (int j = 0; j < SEEY * 2; j++) {
             if (!one_in(10)) {
@@ -13229,8 +13281,10 @@ void game::nuke(int x, int y)
     }
 }
 
-bool game::spread_fungus(int x, int y)
+bool game::spread_fungus( const tripoint &p )
 {
+    int x = p.x;
+    int y = p.y;
     int growth = 1;
     for (int i = x - 1; i <= x + 1; i++) {
         for (int j = y - 1; j <= y + 1; j++) {
@@ -13431,11 +13485,12 @@ bool game::spread_fungus(int x, int y)
     }
 }
 
-std::vector<faction *> game::factions_at(int x, int y)
+std::vector<faction *> game::factions_at( const tripoint &p )
 {
+    // TODO: Factions with z-levels
     std::vector<faction *> ret;
     for( auto &elem : factions ) {
-        if( trig_dist( x, y, elem.mapx, elem.mapy ) <= elem.size ) {
+        if( trig_dist( p.x, p.y, elem.mapx, elem.mapy ) <= elem.size ) {
             ret.push_back( &( elem ) );
         }
     }

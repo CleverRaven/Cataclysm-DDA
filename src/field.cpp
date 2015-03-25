@@ -561,7 +561,8 @@ bool map::process_fields_in_submap( submap *const current_submap,
                                 // Make a copy and let the copy explode.
                                 item tmp = *explosive;
                                 i_rem( point(x, y), explosive );
-                                tmp.detonate(point(x,y));
+                                // TODO: Z
+                                tmp.detonate( tripoint(x,y,g->get_levz() ) );
                                 // Just restart from the beginning.
                                 explosive = items_here.begin();
                             } else {
@@ -632,7 +633,9 @@ bool map::process_fields_in_submap( submap *const current_submap,
                                         // large intrinsic effect blows up with half
                                         // the ammos damage in force, for each bullet,
                                         // just creating shrapnel.
-                                        g->explosion( x, y, ammo_type->damage / 2,
+                                        // TODO: Z
+                                        g->explosion( tripoint( x, y, g->get_levz() ),
+                                                      ammo_type->damage / 2,
                                                       true, false, false );
                                     } else if( special ) {
                                         // If it has a special effect just trigger it.
@@ -997,7 +1000,8 @@ bool map::process_fields_in_submap( submap *const current_submap,
                                     }
                                 }
                         } if (one_in(5 - cur->getFieldDensity())) {
-                            g->spread_fungus(x, y); //Haze'd terrain
+                            // TODO: Z
+                            g->spread_fungus( tripoint( x, y, g->get_levz() ) ); //Haze'd terrain
                         }
                         }
                         break;

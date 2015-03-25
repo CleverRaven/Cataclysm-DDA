@@ -912,6 +912,12 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         {
             zpos = z;
         }
+        inline void setpos( const tripoint &p )
+        {
+            position.x = p.x;
+            position.y = p.y;
+            zpos = p.z;
+        }
         int view_offset_x, view_offset_y;
         bool in_vehicle;       // Means player sit inside vehicle on the tile he is now
         bool controlling_vehicle;  // Is currently in control of a vehicle
