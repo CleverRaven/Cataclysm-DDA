@@ -5854,6 +5854,9 @@ void game::explosion(int x, int y, int power, int shrapnel, bool fire, bool blas
     if (shrapnel <= 0 || power < 4) {
         return;
     }
+
+    bool const do_animation = OPTIONS["ANIMATIONS"];
+
     int sx, sy, t, tx, ty;
     std::vector<point> traj;
     for (int i = 0; i < shrapnel; i++) {
@@ -5871,7 +5874,11 @@ void game::explosion(int x, int y, int power, int shrapnel, bool fire, bool blas
         }
         for (size_t j = 0; j < traj.size(); j++) {
             dam = rng(power / 2, power * 2);
-            draw_bullet(u, traj[j].x, traj[j].y, (int)j, traj, '`');
+
+            if (do_animation) {
+                draw_bullet(u, traj[j].x, traj[j].y, (int)j, traj, '`');
+            }
+
             tx = traj[j].x;
             ty = traj[j].y;
             const int zid = mon_at(tx, ty);
