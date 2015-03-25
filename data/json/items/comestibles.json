@@ -11678,7 +11678,7 @@
         "quench" : 0,
         "healthy" : 1,
         "addiction_potential" : 0,
-        "nutrition" : 28,
+        "nutrition" : 24,
         "description" : "Delicious and filling, this home made biscuit is good, and good for you!",
         "price" : 230,
         "material" : "wheat",
@@ -11689,7 +11689,7 @@
         "charges" : 8,
         "bashing" : 0,
         "flags" : ["EATEN_HOT"],
-        "fun" : 2
+        "fun" : 1
     },
     {
         "type" : "COMESTIBLE",
