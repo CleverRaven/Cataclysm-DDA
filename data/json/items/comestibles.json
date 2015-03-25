@@ -11686,7 +11686,7 @@
         "volume" : 4,
         "cutting" : 0,
         "phase" : "solid",
-        "charges" : 4,
+        "charges" : 8,
         "bashing" : 0,
         "flags" : ["EATEN_HOT"],
         "fun" : 1
