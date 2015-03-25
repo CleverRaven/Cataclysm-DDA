@@ -867,6 +867,7 @@ bool cata_tiles::draw_lighting(int x, int y, lit_level l)
         case LL_BLANK:
             light_name = "lighting_hidden";
             break;
+        case LL_BRIGHT_ONLY:
         case LL_LIT:
             if (g->m.u_is_boomered) {
                 light_name = "lighting_boomered_light";
