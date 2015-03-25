@@ -93,7 +93,7 @@
     "bashing": 0,
     "cutting": 0,
     "to_hit": 0,
-    "max_charges": 50,
+    "max_charges": 100,
     "initial_charges": 0,
     "charges_per_use": 0,
     "turns_per_charge": 600,
@@ -567,5 +567,20 @@
         "charges" : 3,
         "bashing" : 0,
         "fun" : 7
+    },{
+        "type":"GENERIC",
+        "id" : "stone_macuahuitl",
+        "name" : "stone macuahuitl",
+        "description" : "A flat wooden club with sharpened pieces of stone set into the edges. Not as sharp as genuine obsidian or even glass would be, but certainly more durable.",
+        "weight" : 997,
+        "to_hit" : 1,
+        "color" : "dark_gray",
+        "symbol" : "/",
+        "material" : ["wood", "stone"],
+        "volume" : 9,
+        "bashing" : 6,
+        "cutting" : 13,
+        "price" : 6000,
+        "flags": ["NON_STUCK"]
     }
 ]

@@ -789,6 +789,7 @@
   "skill_used": "survival",
   "difficulty": 2,
   "skills_required": [ "fabrication", 1 ],
+  "result_mult": 3,
   "time": 9000,
   "reversible": false,
   "autolearn": true,
@@ -999,6 +1000,44 @@
       [ "thread", 20 ],
       [ "duct_tape", 20 ]
     ]
+  ]
+},{
+  "type" : "recipe",
+  "result": "glass_macuahuitl",
+  "override": true,
+  "category": "CC_WEAPON",
+  "subcategory": "CSC_WEAPON_CUTTING",
+  "skill_used": "fabrication",
+  "skills_required": [],
+  "difficulty": 1,
+  "time": 8000,
+  "reversible": true,
+  "autolearn": true,
+  "tools": [],
+  "components": [
+    [ [ "glass_shard", 5 ] ],
+    [ [ "stick", 1 ], [ "2x4", 1 ] ],
+    [ [ "superglue", 3 ], [ "bone_glue", 4 ] ]
+  ]
+},{
+  "type" : "recipe",
+  "result": "stone_macuahuitl",
+  "category": "CC_WEAPON",
+  "subcategory": "CSC_WEAPON_CUTTING",
+  "skill_used": "fabrication",
+  "skills_required": [],
+  "difficulty": 3,
+  "time": 8500,
+  "reversible": true,
+  "autolearn": true,
+  "tools": [],
+  "qualities": [
+    {"id":"HAMMER","level":1,"amount":1}
+  ],
+  "components": [
+    [ [ "rock", 5 ] ],
+    [ [ "stick", 1 ], [ "2x4", 1 ] ],
+    [ [ "superglue", 3 ], [ "bone_glue", 4 ] ]
   ]
 }
 ]

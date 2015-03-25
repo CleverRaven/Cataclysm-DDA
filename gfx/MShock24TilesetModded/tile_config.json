@@ -19326,6 +19326,12 @@
           "id": "javelin_copper",
           "fg": 2463,
           "rotates": false
+        },
+        {
+          "id": "stone_macuahuitl",
+          "fg": 1198,
+          "bg": 499,
+          "rotates": false
         }
       ]
     },

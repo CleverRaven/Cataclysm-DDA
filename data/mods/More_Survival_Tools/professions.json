@@ -7,11 +7,11 @@
         "points": 5,
         "skills": [
             {
-                "level": 2,
+                "level": 3,
                 "name": "survival"
             },
             {
-                "level": 2,
+                "level": 3,
                 "name": "fabrication"
             },
             {
@@ -27,21 +27,17 @@
                 "name": "archery"
             },
             {
-                "level": 3,
+                "level": 2,
                 "name": "cooking"
-            },
-            {
-                "level": 1,
-                "name": "firstaid"
             }
         ],
         "items": {
             "both": [
-                "armor_farmor",
+                "cloak_fur",
+                "loincloth_fur",
                 "backpack_leather",
                 "boots_fur",
                 "gloves_fur",
-                "hat_fur",
                 "scarf_fur",
                 "quiver",
                 "shortbow",
