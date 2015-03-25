@@ -854,6 +854,11 @@ void uimenu::addentry_desc(std::string str, std::string desc)
     entries.push_back(uimenu_entry(str, desc));
 }
 
+void uimenu::addentry_desc(int r, bool e, int k, std::string str, std::string desc)
+{
+    entries.push_back(uimenu_entry(r, e, k, str, desc));
+}
+
 void uimenu::settext(std::string str)
 {
     text = str;

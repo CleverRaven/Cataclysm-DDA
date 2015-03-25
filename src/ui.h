@@ -58,6 +58,10 @@ struct uimenu_entry {
     {
         text_color = C_UNSET_MASK;
     };
+    uimenu_entry(int R, bool E, int K, std::string T, std::string D) : retval(R), enabled(E), hotkey(K), txt(T), desc(D)
+    {
+        text_color = C_UNSET_MASK;
+    };
     uimenu_entry(int R, bool E, int K, std::string T, nc_color H, nc_color C) : retval(R), enabled(E), hotkey(K), txt(T),
         hotkey_color(H), text_color(C) {};
 };
@@ -194,6 +198,7 @@ class uimenu: public ui_container
         void addentry(int r, bool e, int k, std::string str);
         void addentry(int r, bool e, int k, const char *format, ...);
         void addentry_desc(std::string str, std::string desc);
+        void addentry_desc(int r, bool e, int k, std::string str, std::string desc);
         void settext(std::string str);
         void settext(const char *format, ...);
 
