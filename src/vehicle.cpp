@@ -2800,6 +2800,18 @@ int vehicle::refill (const ammotype & ftype, int amount)
 }
 
 int vehicle::drain (const ammotype & ftype, int amount) {
+    if(ftype == "battery") {
+        // Batteries get special handling to take advantage of jumper
+        // cables -- discharge_battery knows how to recurse properly
+        // (including taking cable power loss into account).
+        int remnant = discharge_battery(amount, true);
+
+        // discharge_battery returns amount of charges that were not
+        // found anywhere in the power network, whereas this function
+        // returns amount of charges consumed; simple subtraction.
+        return amount - remnant;
+    }
+
     int drained = 0;
 
     for (auto &p : fuel) {
