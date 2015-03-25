@@ -9794,8 +9794,7 @@ public:
         if( !style_selected.empty() ) {
             const martialart &ma = martialarts[style_selected];
             std::ostringstream buffer;
-            buffer << ma.name << "\n\n";
-            buffer << ma.description << "\n\n";
+            buffer << ma.name << "\n\n \n\n";
             if( !ma.techniques.empty() ) {
                 buffer << ngettext( "Technique:", "Techniques:", ma.techniques.size() ) << " ";
                 for( auto technique = ma.techniques.cbegin();
@@ -9809,9 +9808,9 @@ public:
                         buffer << _(", ");
                     }
                 }
-                buffer << "\n";
             }
             if( !ma.weapons.empty() ) {
+                buffer << "\n\n \n\n";
                 buffer << ngettext( "Weapon:", "Weapons:", ma.weapons.size() ) << " ";
                 for( auto weapon = ma.weapons.cbegin(); weapon != ma.weapons.cend(); ++weapon ) {
                     buffer << item::nname( *weapon );
@@ -9824,13 +9823,6 @@ public:
                     }
                 }
             }
-            popup(buffer.str(), PF_NONE);
-            menu->redraw();
-        }
-        else if( index == 1 ) { // description of the "keep hands free" option
-            std::ostringstream buffer;
-            buffer << _("Keep hands free") << "\n\n";
-            buffer << _("When this is enabled, player won't wield things unless explicitly told to.");
             popup(buffer.str(), PF_NONE);
             menu->redraw();
         }
@@ -9853,21 +9845,22 @@ void player::pick_style() // Style selection menu
     // Any other keys quit the menu
 
     uimenu kmenu;
-    kmenu.text = _("Select a style (press ? for style info)");
+    kmenu.text = _("Select a style (press ? for more info)");
     std::auto_ptr<ma_style_callback> ma_style_info(new ma_style_callback());
     kmenu.callback = ma_style_info.get();
+    kmenu.desc_enabled = true;
     kmenu.addentry( 0, true, 'c', _("Cancel") );
     if (keep_hands_free) {
-      kmenu.addentry( 1, true, 'h', _("Keep hands free (on)") );
+      kmenu.addentry_desc( 1, true, 'h', _("Keep hands free (on)"), _("When this is enabled, player won't wield things unless explicitly told to."));
     }
     else {
-      kmenu.addentry( 1, true, 'h', _("Keep hands free (off)") );
+      kmenu.addentry_desc( 1, true, 'h', _("Keep hands free (off)"), _("When this is enabled, player won't wield things unless explicitly told to."));
     }
 
     if (has_active_bionic("bio_cqb")) {
         for(size_t i = 0; i < bio_cqb_styles.size(); i++) {
             if (martialarts.find(bio_cqb_styles[i]) != martialarts.end()) {
-                kmenu.addentry( i + 2, true, -1, martialarts[bio_cqb_styles[i]].name );
+                kmenu.addentry_desc( i + 2, true, -1, martialarts[bio_cqb_styles[i]].name, martialarts[bio_cqb_styles[i]].description );
             }
         }
 
@@ -9893,7 +9886,7 @@ void player::pick_style() // Style selection menu
                 if( ma_styles[i] == style_selected ) {
                     kmenu.selected =i+3; //+3 because there are "cancel", "keep hands free" and "no style" first in the list
                 }
-                kmenu.addentry( i+3, true, -1, martialarts[ma_styles[i]].name );
+                kmenu.addentry_desc( i+3, true, -1, martialarts[ma_styles[i]].name , martialarts[ma_styles[i]].description );
             }
         }
 
