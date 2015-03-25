@@ -40,9 +40,9 @@ enum bigness_property_aspect : int {
 };
 
 // Returns the name of a category of ammo (e.g. "shot")
-std::string ammo_name(std::string t);
+std::string const& ammo_name(std::string const &t);
 // Returns the default ammo for a category of ammo (e.g. ""00_shot"")
-std::string default_ammo(std::string guntype);
+std::string const& default_ammo(std::string const &guntype);
 
 struct explosion_data {
     // Those 4 values are forwarded to game::explosion.
