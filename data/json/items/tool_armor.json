@@ -2208,5 +2208,49 @@
         "flags" : ["STRAPPED"],
         "coverage" : 10,
         "material_thickness" : 2
+    },
+    {
+        "type" : "TOOL_ARMOR",
+        "id" : "tuba",
+        "name" : "tuba",
+        "name_plural": "tubas",
+        "category" : "tools",
+        "weight" : 10000,
+        "color" : "yellow",
+        "covers" : ["TORSO"],
+        "to_hit" : -1,
+        "max_charges": 1,
+        "initial_charges": 1,
+        "charges_per_use": 0,
+        "turns_per_charge": 0,
+        "ammo": "NULL",
+        "use_action": {
+            "type": "musical_instrument",
+            "speed_penalty": 25,
+            "volume": 20,
+            "fun": -2,
+            "fun_bonus": 4,
+            "description_frequency": 100,
+            "descriptions": [
+                "You play a little tune on your tuba.",
+                "You play a ditty on your tuba.",
+                "You play a marching tune on your tuba."
+            ]
+        },
+        "revert_to": "null",
+        "storage" : 0,
+        "symbol" : "&",
+        "description" : "A big ol' tuba. Much easier to play when wearing.",
+        "price" : 3500,
+        "material" : ["iron", "null"],
+        "volume" : 50,
+        "cutting" : 0,
+        "warmth" : 0,
+        "phase" : "solid",
+        "environmental_protection" : 0,
+        "encumbrance" : 30,
+        "bashing" : 13,
+        "coverage" : 20,
+        "material_thickness" : 4
     }
 ]
