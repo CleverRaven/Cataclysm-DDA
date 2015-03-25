@@ -318,6 +318,10 @@ class overmap
      */
     static tripoint draw_hordes();
     /**
+     * Draw overmap like with @ref draw_overmap() and display the weather.
+     */
+    static tripoint draw_weather();
+    /**
      * Draw overmap like with @ref draw_overmap() and display the given zone.
      */
     static tripoint draw_zones( tripoint const &center, tripoint const &select, int const iZoneIndex );
@@ -400,6 +404,8 @@ public:
     struct draw_data_t {
         // draw monster groups on the overmap
         bool debug_mongroup = false;
+        // draw weather, e.g. clouds etc.
+        bool debug_weather = false;
         // draw zone location
         tripoint select = tripoint(-1, -1, -1);
         int iZoneIndex = -1;

@@ -1278,6 +1278,60 @@ std::tuple<char, nc_color, size_t> get_note_display_info(std::string const &note
     return result;
 }
 
+bool get_weather_glyph( point const &pos, nc_color &ter_color, long &ter_sym )
+{
+    // Weather calculation is a bit expensive, so it's cached here.
+    static std::map<point, weather_type> weather_cache;
+    static calendar last_weather_display = calendar::turn;
+    if( last_weather_display != calendar::turn ) {
+        last_weather_display = calendar::turn;
+        weather_cache.clear();
+    }
+    auto iter = weather_cache.find( pos );
+    if( iter == weather_cache.end() ) {
+        auto const abs_ms_pos =  point( pos.x * SEEX * 2, pos.y * SEEY * 2 );
+        auto const weather = g->weatherGen.get_weather_conditions( abs_ms_pos, calendar::turn );
+        iter = weather_cache.insert( std::make_pair( pos, weather ) ).first;
+    }
+    switch( iter->second ) {
+        case WEATHER_SUNNY:
+        case WEATHER_CLEAR:
+        case WEATHER_NULL:
+        case NUM_WEATHER_TYPES:
+            // show the terrain as usual
+            return false;
+        case WEATHER_CLOUDY:
+            ter_color = c_white;
+            ter_sym = '8';
+            break;
+        case WEATHER_DRIZZLE:
+        case WEATHER_FLURRIES:
+            ter_color = c_ltblue;
+            ter_sym = '8';
+            break;
+        case WEATHER_ACID_DRIZZLE:
+            ter_color = c_ltgreen;
+            ter_sym = '8';
+            break;
+        case WEATHER_RAINY:
+        case WEATHER_SNOW:
+            ter_color = c_blue;
+            ter_sym = '8';
+            break;
+        case WEATHER_ACID_RAIN:
+            ter_color = c_green;
+            ter_sym = '8';
+            break;
+        case WEATHER_THUNDER:
+        case WEATHER_LIGHTNING:
+        case WEATHER_SNOWSTORM:
+            ter_color = c_dkgray;
+            ter_sym = '8';
+            break;
+    }
+    return true;
+}
+
 void overmap::draw(WINDOW *w, WINDOW *wbar, const tripoint &center,
                    const tripoint &orig, bool blink, bool show_explored,
                    input_context *inp_ctxt, const draw_data_t &data)
@@ -1352,6 +1406,8 @@ void overmap::draw(WINDOW *w, WINDOW *wbar, const tripoint &center,
                 // Display player pos, should always be visible
                 ter_color = g->u.symbol_color();
                 ter_sym   = '@';
+            } else if( data.debug_weather && get_weather_glyph( point( omx, omy ), ter_color, ter_sym ) ) {
+                // ter_color and ter_sym have been set by get_weather_glyph
             } else if (blink && has_target && omx == target.x && omy == target.y && z == 0) {
                 // TODO: mission targets currently have no z-component, are assumed to be on z=0
                 // Mission target, display always, player should know where it is anyway.
@@ -1640,6 +1696,13 @@ tripoint overmap::draw_hordes()
 {
     draw_data_t data;
     data.debug_mongroup = true;
+    return draw_overmap( g->u.global_omt_location(), data );
+}
+
+tripoint overmap::draw_weather()
+{
+    draw_data_t data;
+    data.debug_weather = true;
     return draw_overmap( g->u.global_omt_location(), data );
 }
 

@@ -3912,6 +3912,7 @@ void game::debug()
                       _("Damage Self"), //22
                       _("Show Sound Clustering"), //23
                       _("Lua Command"), // 24
+                      _("Display weather"), // 25
                       _("Cancel"),
                       NULL);
     int veh_num;
@@ -3944,6 +3945,8 @@ void game::debug()
             load_npcs();
             m.spawn_monsters( true ); // Static monsters
             update_overmap_seen();
+            // update weather now as it could be different on the new location
+            nextweather = calendar::turn;
             draw_minimap();
         }
     }
@@ -4334,6 +4337,9 @@ void game::debug()
         popup( "This binary was not compiled with Lua support." );
 #endif
     }
+    break;
+    case 25:
+        overmap::draw_weather();
     break;
 
     }
