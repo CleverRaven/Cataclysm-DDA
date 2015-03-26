@@ -124,10 +124,6 @@ void game::load_vehiclepart(JsonObject &jo)
         next_part.set_flag( jarr.next_string() );
     }
 
-    if (jo.has_member("FOLDABLE") && next_part.folded_volume == 0){
-        debugmsg("Error: folded part %s has a volume of 0!", next_part.name.c_str());
-    }
-
     JsonArray breaks_into = jo.get_array("breaks_into");
     while(breaks_into.has_more()) {
         JsonObject next_entry = breaks_into.next_object();
@@ -215,6 +211,9 @@ void game::check_vehicleparts()
                 debugmsg( "Vehicle part %s breaks into non-existent part %s.",
                           part.id.c_str(), component.item_id.c_str() );
             }
+        }
+        if( part.has_flag( "FOLDABLE" ) && part.folded_volume == 0 ) {
+            debugmsg("Error: folded part %s has a volume of 0!", part.name.c_str());
         }
     }
 }
