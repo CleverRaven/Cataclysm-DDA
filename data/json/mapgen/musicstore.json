@@ -125,7 +125,7 @@
                 "T": { }
             },
             "add": [
-                { "item": "violin_golden", "x": 21, "y": 8, "chance": 99}
+                { "item": "violin_golden", "x": 21, "y": 8, "chance": 95}
             ],
             "place_items": [
                 { "item": "mussto_stringinst","chance": 30, "x": [5,10],  "y": 10, "repeat": [1,2] },
