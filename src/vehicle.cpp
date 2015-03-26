@@ -1421,7 +1421,7 @@ void vehicle::start_engines( const bool take_control )
     }
 
     g->u.assign_activity( ACT_START_ENGINES, start_time );
-    g->u.activity.placement = global_pos();
+    g->u.activity.placement = global_pos() - g->u.pos();
     g->u.activity.values.push_back( take_control );
 }
 
