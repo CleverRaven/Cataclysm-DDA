@@ -4669,11 +4669,30 @@ void map::draw_specific_tile(WINDOW *w, const point center, int x, int y, lit_le
 }
 
 void map::draw_loop(int min_x, int min_y, int max_x, int max_y, std::function<void (int,int,lit_level)> draw_func) {
-    for (int x = min_x; x <= max_x; x++) {
-        for (int y = min_y; y <= max_y; y++) {
+    int sm_squares_seen[my_MAPSIZE][my_MAPSIZE];
+    memset(sm_squares_seen, 0, sizeof(sm_squares_seen));
+
+    for (int x = 0; x < SEEX * my_MAPSIZE; x++) {
+        for (int y = 0; y < SEEX * my_MAPSIZE; y++) {
             lit_level ll = apparent_light_at(x, y);
-            draw_func(x,y,ll);
+            sm_squares_seen[x/SEEX][y/SEEY] += (
+                ll == LL_BRIGHT ||
+                ll == LL_LIT
+            );
+            if (x >= min_x && x <= max_x && y >= min_y && y<= max_y) {
+                draw_func(x,y,ll);
+            }
         }
+    }
+    for (int x = 0; x < my_MAPSIZE; x++) {
+        for (int y = 0; y < my_MAPSIZE; y++) {
+            if ( sm_squares_seen[x][y] > 36 ) { // 25% of the submap is visible
+                const point pos(x*SEEX,y*SEEY);
+                const auto abs_pos = g->m.getabs(pos);
+                const auto abs_omt = overmapbuffer::ms_to_omt_copy( abs_pos );
+                overmap_buffer.set_seen( abs_omt.x, abs_omt.y, g->get_levz(), true);
+            }
+        }        
     }
 }
 
