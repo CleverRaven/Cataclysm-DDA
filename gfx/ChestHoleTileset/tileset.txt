@@ -1,6 +1,6 @@
 #Generated from project in Cataclysm DDA Tileset Studio
 #Name of the tileset
-NAME: ChestHole
+NAME: ChestHole#Viewing
 #Viewing (Option) name of the tileset
 VIEW: ChestHole
 #JSON Path - Default of gfx/tile_config.json
