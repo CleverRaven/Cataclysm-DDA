@@ -1278,11 +1278,63 @@ std::tuple<char, nc_color, size_t> get_note_display_info(std::string const &note
     return result;
 }
 
+bool get_weather_glyph( point const &pos, nc_color &ter_color, long &ter_sym )
+{
+    // Weather calculation is a bit expensive, so it's cached here.
+    static std::map<point, weather_type> weather_cache;
+    static calendar last_weather_display = calendar::turn;
+    if( last_weather_display != calendar::turn ) {
+        last_weather_display = calendar::turn;
+        weather_cache.clear();
+    }
+    auto iter = weather_cache.find( pos );
+    if( iter == weather_cache.end() ) {
+        auto const abs_ms_pos =  point( pos.x * SEEX * 2, pos.y * SEEY * 2 );
+        auto const weather = g->weatherGen.get_weather_conditions( abs_ms_pos, calendar::turn );
+        iter = weather_cache.insert( std::make_pair( pos, weather ) ).first;
+    }
+    switch( iter->second ) {
+        case WEATHER_SUNNY:
+        case WEATHER_CLEAR:
+        case WEATHER_NULL:
+        case NUM_WEATHER_TYPES:
+            // show the terrain as usual
+            return false;
+        case WEATHER_CLOUDY:
+            ter_color = c_white;
+            ter_sym = '8';
+            break;
+        case WEATHER_DRIZZLE:
+        case WEATHER_FLURRIES:
+            ter_color = c_ltblue;
+            ter_sym = '8';
+            break;
+        case WEATHER_ACID_DRIZZLE:
+            ter_color = c_ltgreen;
+            ter_sym = '8';
+            break;
+        case WEATHER_RAINY:
+        case WEATHER_SNOW:
+            ter_color = c_blue;
+            ter_sym = '8';
+            break;
+        case WEATHER_ACID_RAIN:
+            ter_color = c_green;
+            ter_sym = '8';
+            break;
+        case WEATHER_THUNDER:
+        case WEATHER_LIGHTNING:
+        case WEATHER_SNOWSTORM:
+            ter_color = c_dkgray;
+            ter_sym = '8';
+            break;
+    }
+    return true;
+}
+
 void overmap::draw(WINDOW *w, WINDOW *wbar, const tripoint &center,
                    const tripoint &orig, bool blink, bool show_explored,
-                   input_context *inp_ctxt,
-                   bool debug_monstergroups,
-                   const int iZoneIndex)
+                   input_context *inp_ctxt, const draw_data_t &data)
 {
     const int z     = center.z;
     const int cursx = center.x;
@@ -1306,16 +1358,16 @@ void overmap::draw(WINDOW *w, WINDOW *wbar, const tripoint &center,
     std::string sZoneName;
     tripoint tripointZone = tripoint(-1, -1, -1);
 
-    if (iZoneIndex != -1) {
-        sZoneName = g->u.Zones.vZones[iZoneIndex].getName();
-        point pOMZone = overmapbuffer::ms_to_omt_copy(g->u.Zones.vZones[iZoneIndex].getCenterPoint());
+    if (data.iZoneIndex != -1) {
+        sZoneName = g->u.Zones.vZones[data.iZoneIndex].getName();
+        point pOMZone = overmapbuffer::ms_to_omt_copy(g->u.Zones.vZones[data.iZoneIndex].getCenterPoint());
         tripointZone = tripoint(pOMZone.x, pOMZone.y);
     }
 
     // If we're debugging monster groups, find the monster group we've selected
     const mongroup *mgroup = nullptr;
     std::vector<mongroup *> mgroups;
-    if(debug_monstergroups) {
+    if(data.debug_mongroup) {
         mgroups = overmap_buffer.monsters_at( center.x, center.y, center.z );
         for( const auto &mgp : mgroups ) {
             mgroup = mgp;
@@ -1354,6 +1406,8 @@ void overmap::draw(WINDOW *w, WINDOW *wbar, const tripoint &center,
                 // Display player pos, should always be visible
                 ter_color = g->u.symbol_color();
                 ter_sym   = '@';
+            } else if( data.debug_weather && get_weather_glyph( point( omx, omy ), ter_color, ter_sym ) ) {
+                // ter_color and ter_sym have been set by get_weather_glyph
             } else if (blink && has_target && omx == target.x && omy == target.y && z == 0) {
                 // TODO: mission targets currently have no z-component, are assumed to be on z=0
                 // Mission target, display always, player should know where it is anyway.
@@ -1417,7 +1471,7 @@ void overmap::draw(WINDOW *w, WINDOW *wbar, const tripoint &center,
             }
 
             // Are we debugging monster groups?
-            if(blink && debug_monstergroups) {
+            if(blink && data.debug_mongroup) {
                 // Check if this tile is the target of the currently selected group
                 if(mgroup && mgroup->tx / 2 == omx && mgroup->ty / 2 == omy) {
                     ter_color = c_red;
@@ -1628,18 +1682,40 @@ void overmap::draw(WINDOW *w, WINDOW *wbar, const tripoint &center,
 
 tripoint overmap::draw_overmap()
 {
-    return draw_overmap(g->u.global_omt_location());
+    return draw_overmap(g->u.global_omt_location(), draw_data_t());
 }
 
 tripoint overmap::draw_overmap(int z)
 {
     tripoint loc = g->u.global_omt_location();
     loc.z = z;
-    return draw_overmap(loc);
+    return draw_overmap(loc, draw_data_t());
+}
+
+tripoint overmap::draw_hordes()
+{
+    draw_data_t data;
+    data.debug_mongroup = true;
+    return draw_overmap( g->u.global_omt_location(), data );
+}
+
+tripoint overmap::draw_weather()
+{
+    draw_data_t data;
+    data.debug_weather = true;
+    return draw_overmap( g->u.global_omt_location(), data );
+}
+
+tripoint overmap::draw_zones( tripoint const &center, tripoint const &select, int const iZoneIndex )
+{
+    draw_data_t data;
+    data.select = select;
+    data.iZoneIndex = iZoneIndex;
+    return overmap::draw_overmap( center, data );
 }
 
 //Start drawing the overmap on the screen using the (m)ap command.
-tripoint overmap::draw_overmap(const tripoint &orig, bool debug_mongroup, const tripoint &select, const int iZoneIndex)
+tripoint overmap::draw_overmap(const tripoint &orig, const draw_data_t &data)
 {
     delwin(g->w_omlegend);
     g->w_omlegend = newwin(TERMY, 28, 0, TERMX - 28);
@@ -1655,8 +1731,8 @@ tripoint overmap::draw_overmap(const tripoint &orig, bool debug_mongroup, const 
     tripoint ret = invalid_tripoint;
     tripoint curs(orig);
 
-    if (select.x != -1 && select.y != -1 && select.z != -1) {
-        curs = tripoint(select);
+    if( data.select != tripoint( -1, -1, -1 ) ) {
+        curs = tripoint(data.select);
     }
 
     // Configure input context for navigating the map.
@@ -1682,7 +1758,7 @@ tripoint overmap::draw_overmap(const tripoint &orig, bool debug_mongroup, const 
     bool show_explored = true;
     do {
         timeout( BLINK_SPEED );
-        draw(g->w_overmap, g->w_omlegend, curs, orig, uistate.overmap_show_overlays, show_explored, &ictxt, debug_mongroup, iZoneIndex);
+        draw(g->w_overmap, g->w_omlegend, curs, orig, uistate.overmap_show_overlays, show_explored, &ictxt, data);
         action = ictxt.handle_input();
         timeout(-1);
 
@@ -1775,7 +1851,7 @@ tripoint overmap::draw_overmap(const tripoint &orig, bool debug_mongroup, const 
             do {
                 tmp.x = locations[i].x;
                 tmp.y = locations[i].y;
-                draw(g->w_overmap, g->w_omlegend, tmp, orig, uistate.overmap_show_overlays, show_explored, NULL);
+                draw(g->w_overmap, g->w_omlegend, tmp, orig, uistate.overmap_show_overlays, show_explored, NULL, draw_data_t());
                 //Draw search box
                 draw_border(w_search);
                 mvwprintz(w_search, 1, 1, c_red, _("Find place:"));
