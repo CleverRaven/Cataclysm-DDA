@@ -30,6 +30,7 @@
 #include "mapsharing.h"
 
 #include "savegame.h"
+#include "tile_id_data.h"
 
 /*
  * Changes that break backwards compatibility should bump this number, so the game can

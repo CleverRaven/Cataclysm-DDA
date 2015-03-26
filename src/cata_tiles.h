@@ -1,85 +1,161 @@
 #ifndef CATA_TILES_H
 #define CATA_TILES_H
 
-#include "enums.h"   // point
-#include "weather.h" // weather_printable
+// make sure that SDL systems are included: Until testing is available for other systems, keep Windows specific
+#if !(defined _WIN32 || defined WINDOWS)
+#include <wordexp.h>
+#endif
 
-#include <string>
-#include <fstream>
-#include <unordered_map>
+#include "SDL2/SDL.h"
+#include "SDL2/SDL_ttf.h"
+
+#include "game.h"
+#include "options.h"
+#include "mapdata.h"
+#include "tile_id_data.h"
+#include "enums.h"
+
+#include <map>
 #include <vector>
-#include <array>
-
-struct SDL_Renderer;
-struct SDL_Texture;
+#include <string>
 
 class JsonObject;
-class Creature;
-class player;
 
-enum class light_type : int;
-enum class tile_category : int;
+/** Structures */
+struct tile_type
+{
+    int fg, bg;
+    bool multitile, rotates;
 
-struct tile_type {
-    std::string const *id = nullptr;
+    std::vector<std::string> available_subtiles;
 
-    int fg = 0;
-    int bg = 0;
-
-    bool rotates      = false;
-    bool multitile    = false;
-    bool has_seasonal = false;
-
-    tile_type() = default;
-    tile_type(int const fg, int const bg,
-              bool const rotates = false, bool const multitile = false
-    ) noexcept : fg(fg), bg(bg), rotates(rotates), multitile(multitile) {}
+    tile_type()
+    {
+        fg = bg = 0;
+        multitile = rotates = false;
+        available_subtiles.clear();
+    }
 };
 
-enum multitile_type : int {
+struct tile
+{
+    /** Screen coordinates as tile number */
+    int sx, sy;
+    /** World coordinates */
+    int wx, wy;
+
+    tile()
+    {
+        sx = wx = wy = 0;
+    }
+    tile(int x, int y, int x2, int y2)
+    {
+        sx = x;
+        sy = y;
+        wx = x2;
+        wy = y2;
+    }
+};
+
+/* Enums */
+enum LIGHTING
+{
+    HIDDEN = -1,
+    CLEAR = 0,
+    LIGHT_NORMAL = 1,
+    LIGHT_DARK = 2,
+    BOOMER_NORMAL = 3,
+    BOOMER_DARK = 4
+};
+enum MULTITILE_TYPE
+{
     center,
     corner,
     edge,
     t_connection,
     end_piece,
     unconnected,
-    open,
+    open_,
     broken,
     num_multitile_types
+};
+// Make sure to change TILE_CATEGORY_IDS if this changes!
+enum TILE_CATEGORY
+{
+    C_NONE,
+    C_VEHICLE_PART,
+    C_TERRAIN,
+    C_ITEM,
+    C_FURNITURE,
+    C_TRAP,
+    C_FIELD,
+    C_LIGHTING,
+    C_MONSTER,
+    C_BULLET,
+    C_HIT_ENTITY,
+    C_WEATHER,
+};
+
+/** Typedefs */
+typedef std::vector<SDL_Texture *> tile_map;
+typedef std::unordered_map<std::string, tile_type *> tile_id_map;
+
+typedef tile_map::iterator tile_iterator;
+typedef tile_id_map::iterator tile_id_iterator;
+
+// Cache of a single tile, used to avoid redrawing what didn't change.
+struct tile_drawing_cache {
+
+    tile_drawing_cache() { };
+
+    // Sprite indices drawn on this tile.
+    // The same indices in a different order need to be drawn differently!
+    std::vector<tile_type *> sprites;
+    std::vector<int> rotations;
+
+    bool operator==(const tile_drawing_cache &other) const {
+        if(sprites.size() != other.sprites.size()) {
+            return false;
+        } else {
+            for( size_t i = 0; i < sprites.size(); ++i ) {
+                if(sprites[i] != other.sprites[i] || rotations[i] != other.rotations[i]) {
+                    return false;
+                }
+            }
+        }
+
+        return true;
+    }
+
+    bool operator!=(const tile_drawing_cache &other) const {
+        return !(this->operator==(other));
+    }
+
+    void operator=(const tile_drawing_cache &other) {
+        this->sprites = other.sprites;
+        this->rotations = other.rotations;
+    }
 };
 
 class cata_tiles
 {
-public:
-    explicit cata_tiles(SDL_Renderer *render);
-    ~cata_tiles();
-
-    /* initialize from an outside file, throws std::string on errors. */
-    void init(std::string const &load_file_path);
-
-    /* Reinitializes the tile context using the original screen information,
-       throws std::string on errors  */
-    void reinit(std::string const &load_file_path);
-
-    int tile_height() const noexcept { return tile_height_; }
-    int tile_width()  const noexcept { return tile_width_;  }
-
-    /** Draw to screen */
-    void draw(int destx, int desty, int centerx, int centery, int width, int height);
-
-    /** 
-     * Reload tileset, with the given scale. Scale is divided by 16 to allow for
-     * scales < 1 without risking float inaccuracies.
-     */
-    void set_draw_scale(int scale);
-private:
+    public:
+        /** Default constructor */
+        cata_tiles(SDL_Renderer *render);
+        /** Default destructor */
+        ~cata_tiles();
+    protected:
         void clear();
-
+    public:
+        /** Reload tileset, with the given scale. Scale is divided by 16 to allow for scales < 1 without risking
+         *  float inaccuracies. */
+        void set_draw_scale(int scale);
+    protected:
         /** Load tileset, R,G,B, are the color components of the transparent color
          * throws std::string on errors. Returns the number of tiles that have
          * been loaded from this tileset image
          */
-        int load_tileset(std::string const &path, int R, int G, int B);
+        int load_tileset(std::string path, int R, int G, int B);
 
         /**
          * Load tileset config file (json format).
@@ -89,7 +165,7 @@ private:
          * are loaded from the json entries.
          * throws std::string on errors.
          */
-        void load_tilejson(std::string const &path, const std::string &imagepath);
+        void load_tilejson(std::string path, const std::string &imagepath);
 
         /**
          * throws std::string on errors.
@@ -115,24 +191,30 @@ private:
          * If it's in that interval, adds offset to it, if it's not in the
          * interval (and not -1), throw an std::string error.
          */
-        tile_type &load_tile(JsonObject &entry, const std::string &id, int offset, int size);
+        tile_type *load_tile(JsonObject &entry, const std::string &id, int offset, int size);
 
         void load_ascii_tilejson_from_file(JsonObject &config, int offset, int size);
         void load_ascii_set(JsonObject &entry, int offset, int size);
-        void add_ascii_subtile(tile_type &curr_tile, const std::string &t_id, int fg, const std::string &s_id);
-
+        void add_ascii_subtile(tile_type *curr_tile, const std::string &t_id, int fg, const std::string &s_id);
+    public:
+        /** Draw to screen */
+        void draw(int destx, int desty, int centerx, int centery, int width, int height);
+    protected:
         /** How many rows and columns of tiles fit into given dimensions **/
         void get_window_tile_counts(const int width, const int height, int &columns, int &rows) const;
 
-        bool draw_from_id_string(std::string const &id, int x, int y, int subtile, int rota);
-        bool draw_from_id_string(std::string const &id, tile_category category,
+        bool draw_from_id_string(std::string id, int x, int y, int subtile, int rota);
+        bool draw_from_id_string(std::string id, TILE_CATEGORY category,
                                  const std::string &subcategory, int x, int y, int subtile, int rota);
-        void draw_tile_at(tile_type const &tile, int x, int y, int rota);
+        bool draw_tile_at(tile_type *tile, int x, int y, int rota);
 
         /**
          * Redraws all the tiles that have changed since the last frame.
          */
         void clear_buffer();
+
+        /** Surface/Sprite rotation specifics */
+        SDL_Surface *create_tile_surface();
 
         /* Tile Picking */
         void get_tile_values(const int t, const int *tn, int &subtile, int &rotation);
@@ -142,7 +224,7 @@ private:
         void get_rotation_and_subtile(const char val, const int num_connects, int &rota, int &subtype);
 
         /** Drawing Layers */
-        bool draw_lighting(int x, int y, light_type l);
+        bool draw_lighting(int x, int y, LIGHTING l);
         bool draw_terrain(int x, int y);
         bool draw_furniture(int x, int y);
         bool draw_trap(int x, int y);
@@ -150,7 +232,9 @@ private:
         bool draw_vpart(int x, int y);
         bool draw_entity( const Creature &critter, int x, int y );
         void draw_entity_with_overlays( const player &p, int x, int y );
+
         bool draw_item_highlight(int x, int y);
+
     public:
         // Animation layers
         bool draw_hit(int x, int y);
@@ -207,40 +291,28 @@ private:
         void tile_loading_report(arraytype const & array, int array_length, std::string const & label, std::string const & prefix = "");
         /** Lighting */
         void init_light();
-        light_type light_at(int x, int y);
+        LIGHTING light_at(int x, int y);
 
         /** Variables */
         SDL_Renderer *renderer;
-        std::vector<SDL_Texture*> tile_values;
-        std::unordered_map<std::string, tile_type> tile_ids;
+        tile_map tile_values;
+        tile_id_map tile_ids;
 
-        using seasonal_variation_t = std::array<tile_type const*, 4>;
-        std::unordered_map<std::string, seasonal_variation_t> seasonal_variations_;
-
-        using multitile_variation_t = std::array<tile_type const*, num_multitile_types>;
-        std::unordered_map<std::string, multitile_variation_t> multitile_variations_;
-
-        int tile_height_ = 0;
-        int tile_width_  = 0;
-        
-        int default_tile_width;
-        int default_tile_height;
+        int tile_height, tile_width, default_tile_width, default_tile_height;
         // The width and height of the area we can draw in,
         // measured in map coordinates, *not* in pixels.
-        
-        int screentile_width;
-        int screentile_height;
+        int screentile_width, screentile_height;
+        float tile_ratiox, tile_ratioy;
 
-        float tile_ratiox = 0.0f;
-        float tile_ratioy = 0.0f;
+        bool in_animation;
 
-        bool do_draw_explosion = false;
-        bool do_draw_bullet    = false;
-        bool do_draw_hit       = false;
-        bool do_draw_line      = false;
-        bool do_draw_weather   = false;
-        bool do_draw_sct       = false;
-        bool do_draw_zones     = false;
+        bool do_draw_explosion;
+        bool do_draw_bullet;
+        bool do_draw_hit;
+        bool do_draw_line;
+        bool do_draw_weather;
+        bool do_draw_sct;
+        bool do_draw_zones;
 
         int exp_pos_x, exp_pos_y, exp_rad;
 
@@ -263,27 +335,27 @@ private:
         point pZoneOffset;
 
         // offset values, in tile coordinates, not pixels
-        int o_x;
-        int o_y;
+        int o_x, o_y;
         // offset for drawing, in pixels.
-        int op_x;
-        int op_y;
+        int op_x, op_y;
 
+    protected:
+    private:
         void create_default_item_highlight();
+        int
+            sightrange_natural,
+            sightrange_light,
+            sightrange_lowlight,
+            sightrange_max;
+        int
+            u_clairvoyance,
+            g_lightlevel;
+        bool
+            boomered,
+            sight_impaired,
+            bionight_bionic_active;
+        int last_pos_x, last_pos_y;
 
-        int sightrange_natural;
-        int sightrange_light;
-        int sightrange_lowlight;
-        int sightrange_max;
-        int u_clairvoyance;
-        int g_lightlevel;
-        
-        bool boomered               = false;
-        bool sight_impaired         = false;
-        bool bionight_bionic_active = false;
-
-        int last_pos_x = 0;
-        int last_pos_y = 0;
 };
 
 #endif

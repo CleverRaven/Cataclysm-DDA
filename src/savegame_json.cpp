@@ -27,6 +27,7 @@
 #include "scenario.h"
 
 #include "savegame.h"
+#include "tile_id_data.h" // for monster::json_save
 #include <ctime>
 #include <bitset>
 

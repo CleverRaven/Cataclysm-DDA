@@ -418,6 +418,7 @@
 		<Unit filename="src/start_location.h" />
 		<Unit filename="src/text_snippets.cpp" />
 		<Unit filename="src/text_snippets.h" />
+		<Unit filename="src/tile_id_data.h" />
 		<Unit filename="src/tileray.cpp" />
 		<Unit filename="src/tileray.h" />
 		<Unit filename="src/translations.cpp" />
