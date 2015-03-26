@@ -4687,10 +4687,10 @@ void map::draw_loop(int min_x, int min_y, int max_x, int max_y, std::function<vo
     for (int x = 0; x < my_MAPSIZE; x++) {
         for (int y = 0; y < my_MAPSIZE; y++) {
             if ( sm_squares_seen[x][y] > 36 ) { // 25% of the submap is visible
-                const point pos(x*SEEX,y*SEEY);
-                const auto abs_pos = g->m.getabs(pos);
-                const auto abs_omt = overmapbuffer::ms_to_omt_copy( abs_pos );
-                overmap_buffer.set_seen( abs_omt.x, abs_omt.y, g->get_levz(), true);
+                const tripoint sm(x,y,g->get_levz());
+                const auto abs_sm = map::abs_sub + sm;
+                const auto abs_omt = overmapbuffer::sm_to_omt_copy( abs_sm );
+                overmap_buffer.set_seen( abs_omt.x, abs_omt.y, abs_omt.z, true);
             }
         }        
     }
