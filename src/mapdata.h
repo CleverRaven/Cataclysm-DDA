@@ -447,6 +447,8 @@ struct submap {
     trap_id         trp[SEEX][SEEY];  // Trap on each square
     int             rad[SEEX][SEEY];  // Irradiation of each square
 
+    bool            known[SEEX][SEEY]; // has the player ever seen this tile
+
     // If is_uniform is true, this submap is a solid block of terrain
     // Uniform submaps aren't saved/loaded, because regenerating them is faster
     bool is_uniform;
