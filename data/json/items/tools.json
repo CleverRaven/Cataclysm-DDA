@@ -9466,7 +9466,7 @@
 	"symbol": ";",
 	"color": "dark_gray",
 	"name": "brick kiln",
-	"description": "This is a portable charcoal-fired kiln.  You could use it to fire your own bricks, for use in construction projects.",
+	"description": "This is a portable charcoal-fired kiln.  It is designed for firing bricks, but you could use it to fire anything made of clay.",
 	"price": 25000,
 	"material": "steel",
 	"weight": 9600,

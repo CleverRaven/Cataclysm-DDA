@@ -6379,12 +6379,7 @@
   "reversible": false,
   "autolearn": true,
   "tools": [
-    [
-      [ "char_kiln", -1 ]
-    ],
-    [
-      [ "fire", -1 ]
-    ]
+    [ [ "brick_kiln", 10 ] ]
   ],
   "components": [
     [
@@ -6420,12 +6415,7 @@
   "reversible": false,
   "autolearn": true,
   "tools": [
-    [
-      [ "char_kiln", -1 ]
-    ],
-    [
-      [ "fire", -1 ]
-    ]
+    [ [ "brick_kiln", 8 ] ]
   ],
   "components": [
     [
@@ -6461,12 +6451,7 @@
   "reversible": false,
   "autolearn": true,
   "tools": [
-    [
-      [ "char_kiln", -1 ]
-    ],
-    [
-      [ "fire", -1 ]
-    ]
+    [ [ "brick_kiln", 18 ] ]
   ],
   "components": [
     [
@@ -6489,12 +6474,7 @@
   "reversible": false,
   "autolearn": true,
   "tools": [
-    [
-      [ "char_kiln", -1 ]
-    ],
-    [
-      [ "fire", -1 ]
-    ]
+    [ [ "brick_kiln", 32 ] ]
   ],
   "components": [
     [
@@ -6530,12 +6510,7 @@
   "reversible": false,
   "autolearn": true,
   "tools": [
-    [
-      [ "char_kiln", -1 ]
-    ],
-    [
-      [ "fire", -1 ]
-    ]
+    [ [ "brick_kiln", 24 ] ]
   ],
   "components": [
     [
@@ -6571,12 +6546,7 @@
   "reversible": false,
   "autolearn": true,
   "tools": [
-    [
-      [ "char_kiln", -1 ]
-    ],
-    [
-      [ "fire", -1 ]
-    ]
+    [ [ "brick_kiln", 12 ] ]
   ],
   "components": [
     [
@@ -6612,12 +6582,7 @@
   "reversible": false,
   "autolearn": true,
   "tools": [
-    [
-      [ "char_kiln", -1 ]
-    ],
-    [
-      [ "fire", -1 ]
-    ]
+    [ [ "brick_kiln", 20 ] ]
   ],
   "components": [
     [
@@ -6640,12 +6605,7 @@
   "reversible": false,
   "autolearn": true,
   "tools": [
-    [
-      [ "char_kiln", -1 ]
-    ],
-    [
-      [ "fire", -1 ]
-    ]
+    [ [ "brick_kiln", 8 ] ]
   ],
   "components": [
     [
@@ -6658,44 +6618,26 @@
   ]
 },{
   "type" : "recipe",
-  "result": "crude_brick",
-  "category": "CC_OTHER",
-  "subcategory": "CSC_OTHER_MATERIALS",
-  "skill_used": "fabrication",
-  "skills_required": [ "carpentry", 2],
-  "difficulty": 1,
-  "time": 10000,
-  "reversible": false,
-  "autolearn": true,
-  "components":
-    [
-     [
-     [ "clay_lump", 1]
-     ],
-     [
-     [ "water", 1]
-     ]
-    ]
-},{
-  "type" : "recipe",
   "result": "brick",
   "category": "CC_OTHER",
   "subcategory": "CSC_OTHER_MATERIALS",
   "skill_used": "fabrication",
   "skills_required": [ "carpentry", 2],
   "difficulty": 2,
-  "time": 30000,
+  "time": 40000,
   "reversible": false,
   "autolearn": true,
   "tools": [
-    [
-    ["brick_kiln", 20]
-    ]
+    [ [ "brick_kiln", 12 ] ]
     ],
   "components":
     [
      [
-     [ "crude_brick", 1]
+     [ "clay_lump", 1]
+     ],
+     [
+     [ "water", 1 ],
+     [ "water_clean", 1 ]
      ]
     ]
 },{
