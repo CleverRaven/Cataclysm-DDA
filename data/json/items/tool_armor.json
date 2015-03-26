@@ -2252,5 +2252,49 @@
         "bashing" : 13,
         "coverage" : 20,
         "material_thickness" : 4
+    },
+	{
+        "type" : "TOOL_ARMOR",
+        "id" : "saxophone",
+        "name" : "saxophone",
+        "name_plural": "saxophones",
+        "category" : "tools",
+        "weight" : 2000,
+        "color" : "yellow",
+        "covers" : ["TORSO"],
+        "to_hit" : 1,
+        "max_charges": 1,
+        "initial_charges": 1,
+        "charges_per_use": 0,
+        "turns_per_charge": 0,
+        "ammo": "NULL",
+        "use_action": {
+            "type": "musical_instrument",
+            "speed_penalty": 18,
+            "volume": 20,
+            "fun": -3,
+            "fun_bonus": 4,
+            "description_frequency": 100,
+            "descriptions": [
+                "You play a little tune on your saxophone.",
+                "You play a soulful jazz piece on your sax.",
+                "You play a quick, energetic ditty on your sax."
+            ]
+        },
+        "revert_to": "null",
+		"storage" : 0,
+        "symbol" : "{",
+        "description" : "A gold plated alto-saxophone with a strap running from the neck to the base which allows you to wear it.",
+        "price" : 7500,
+        "material" : ["iron", "null"],
+        "volume" : 18,
+        "cutting" : 0,
+		"warmth" : 0,
+        "phase" : "solid",
+		"environmental_protection" : 0,
+        "encumbrance" : 30,
+        "bashing" : 12,
+		"coverage" : 20,
+        "material_thickness" : 4    
     }
-]
+]    
