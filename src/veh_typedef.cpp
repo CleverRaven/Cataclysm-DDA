@@ -323,7 +323,6 @@ void game::finalize_vehicles()
 void init_vpart_bitflag_map()
 {
     vpart_bitflag_map["ARMOR"] = VPFLAG_ARMOR;             // (!!!) map::draw
-    vpart_bitflag_map["TRANSPARENT"] = VPFLAG_TRANSPARENT; // (!!!) map::draw
     vpart_bitflag_map["EVENTURN"] = VPFLAG_EVENTURN;       // (!!!) lightmap
     vpart_bitflag_map["ODDTURN"] = VPFLAG_ODDTURN;         // ""
     vpart_bitflag_map["CONE_LIGHT"] = VPFLAG_CONE_LIGHT;   // ""
