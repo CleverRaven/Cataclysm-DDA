@@ -4762,8 +4762,8 @@ void map::drawsq(WINDOW* w, player &u, const int x, const int y, const bool inve
     const int k = x + getmaxx(w)/2 - cx;
     const int j = y + getmaxy(w)/2 - cy;
     nc_color tercol;
-    const ter_id curr_ter = ter(x,y);
-    const furn_id curr_furn = furn(x,y);
+    const ter_t &curr_ter = ter_at(x,y);
+    const furn_t &curr_furn = furn_at(x,y);
     const trap &curr_trap = tr_at(x, y);
     const field &curr_field = field_at(x, y);
     auto curr_items = i_at(x, y);
@@ -4773,12 +4773,12 @@ void map::drawsq(WINDOW* w, player &u, const int x, const int y, const bool inve
     bool draw_item_sym = false;
 
 
-    if (has_furn(x, y)) {
-        sym = furnlist[curr_furn].sym;
-        tercol = furnlist[curr_furn].color;
+    if( curr_furn.loadid != f_null ) {
+        sym = curr_furn.sym;
+        tercol = curr_furn.color;
     } else {
-        sym = terlist[curr_ter].sym;
-        tercol = terlist[curr_ter].color;
+        sym = curr_ter.sym;
+        tercol = curr_ter.color;
     }
     if (has_flag(TFLAG_SWIMMABLE, x, y) && has_flag(TFLAG_DEEP_WATER, x, y) && !u.is_underwater()) {
         show_items = false; // Can only see underwater items if WE are underwater
