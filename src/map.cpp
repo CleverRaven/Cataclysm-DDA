@@ -4643,15 +4643,6 @@ lit_level map::apparent_light_at(int x, int y) {
     }
 }
 
-void map::draw_loop(int min_x, int min_y, int max_x, int max_y, void *draw_func(int,int,lit_level)) {
-    for (int x = min_x; x <= max_x; x++) {
-        for (int y = min_y; y <= max_y; y++) {
-            lit_level ll = apparent_light_at(x, y);
-            draw_func(x,y,ll);
-        }
-    }
-}
-
 void map::draw_specific_tile(WINDOW *w, const point center, int x, int y, lit_level ll) {
     switch (ll) {
         case LL_DARK: // can't see this square at all
@@ -4688,9 +4679,8 @@ void map::draw(WINDOW* w, const point center)
 
     update_visibility_variables();
 
-    using namespace std::placeholders;
-    auto map_draw_function = std::bind(this->*draw_specific_tile, w, center, _1, _2, _3)
- 
+    auto map_draw_function = [&](int x, int y, lit_level ll) { this->draw_specific_tile(w, center, x, y, ll); };
+
     draw_loop(
         center.x - getmaxx(w)/2, 
         center.y - getmaxy(w)/2, 

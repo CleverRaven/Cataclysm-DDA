@@ -141,7 +141,16 @@ class map
   * @param min_x, min_y, max_x, max_y coordinate box to draw
   * @param draw_func a function that draws one tile
   */
- void draw_loop(int min_x, int min_y, int max_x, int max_y, void *draw_func(int,int,lit_level));
+ template <typename F>
+ void draw_loop(int min_x, int min_y, int max_x, int max_y, F&& draw_func) {
+     for (int x = min_x; x <= max_x; x++) {
+         for (int y = min_y; y <= max_y; y++) {
+             lit_level ll = apparent_light_at(x, y);
+             draw_func(x,y,ll);
+         }
+     }
+ }
+
 
  void draw_specific_tile(WINDOW *w, const point center, int x, int y, lit_level ll);
 

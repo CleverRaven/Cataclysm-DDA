@@ -503,6 +503,30 @@ tile_type *cata_tiles::load_tile(JsonObject &entry, const std::string &id, int o
     return curr_subtile;
 }
 
+void cata_tiles::draw_specific_tile(int x, int y, lit_level ll) {
+    const auto critter = g->critter_at( x, y );
+    if ( ll == LL_DARK || ll == LL_BRIGHT_ONLY || ll == LL_BLANK ) {
+        // Draw lighting
+        draw_lighting(x, y, ll);
+        if( critter != nullptr && g->u.sees_with_infrared( *critter ) ) {
+            draw_from_id_string( "infrared_creature", C_NONE, empty_string, x, y, 0, 0 );
+        }
+        return;
+    }
+    // light is no longer being considered, for now.
+    // Draw Terrain if possible. If not possible then we need to continue on to the next part of loop
+    if (!draw_terrain(x, y)) {
+        return;
+    }
+    draw_furniture(x, y);
+    draw_trap(x, y);
+    draw_field_or_item(x, y);
+    draw_vpart(x, y);
+    if( critter != nullptr ) {
+        draw_entity( *critter, x, y );
+    }
+}
+
 void cata_tiles::draw(int destx, int desty, int centerx, int centery, int width, int height)
 {
     if (!g) {
@@ -523,9 +547,6 @@ void cata_tiles::draw(int destx, int desty, int centerx, int centery, int width,
 
     init_light();
 
-    int x, y;
-    lit_level l;
-
     o_x = posx - POSX;
     o_y = posy - POSY;
     op_x = destx;
@@ -534,34 +555,15 @@ void cata_tiles::draw(int destx, int desty, int centerx, int centery, int width,
     screentile_width = (width + tile_width - 1) / tile_width;
     screentile_height = (height + tile_height - 1) / tile_height;
 
-    for (int my = 0; my < sy; ++my) {
-        for (int mx = 0; mx < sx; ++mx) {
-            x = mx + o_x;
-            y = my + o_y;
-            l = g->m.apparent_light_at(x, y);
-            const auto critter = g->critter_at( x, y );
-            if ( l == LL_DARK || l == LL_BRIGHT_ONLY || l == LL_BLANK ) {
-                // Draw lighting
-                draw_lighting(x, y, l);
-                if( critter != nullptr && g->u.sees_with_infrared( *critter ) ) {
-                    draw_from_id_string( "infrared_creature", C_NONE, empty_string, x, y, 0, 0 );
-                }
-                continue;
-            }
-            // light is no longer being considered, for now.
-            // Draw Terrain if possible. If not possible then we need to continue on to the next part of loop
-            if (!draw_terrain(x, y)) {
-                continue;
-            }
-            draw_furniture(x, y);
-            draw_trap(x, y);
-            draw_field_or_item(x, y);
-            draw_vpart(x, y);
-            if( critter != nullptr ) {
-                draw_entity( *critter, x, y );
-            }
-        }
-    }
+    auto map_draw_function = [&](int x, int y, lit_level ll) { this->draw_specific_tile(x, y, ll); };
+
+    g->m.draw_loop(
+        o_x, 
+        o_y, 
+        o_x + sx - 1, 
+        o_y + sy - 1,
+        map_draw_function);
+
     in_animation = do_draw_explosion || do_draw_bullet || do_draw_hit ||
                    do_draw_line || do_draw_weather || do_draw_sct ||
                    do_draw_zones;
