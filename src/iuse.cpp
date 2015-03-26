@@ -4985,7 +4985,7 @@ int iuse::pipebomb_act(player *, item *it, bool t, point pos)
                 add_msg(_("The pipe bomb fizzles out."));
             }
         } else {
-            g->explosion(pos.x, pos.y, rng(6, 14), rng(0, 4), false);
+            g->explosion( tripoint( pos.x, pos.y, g->get_levz() ), rng(6, 14), rng(0, 4), false);
         }
     }
     return 0;
@@ -5017,7 +5017,7 @@ int iuse::granade_act(player *, item *it, bool t, point pos)
         switch (effect_roll) {
             case 1:
                 sounds::sound(pos.x, pos.y, 100, _("BUGFIXES!!"));
-                g->draw_explosion(pos.x, pos.y, explosion_radius, c_ltcyan);
+                g->draw_explosion( tripoint( pos.x, pos.y, g->get_levz() ), explosion_radius, c_ltcyan );
                 for (int i = -explosion_radius; i <= explosion_radius; i++) {
                     for (int j = -explosion_radius; j <= explosion_radius; j++) {
                         const int zid = g->mon_at(pos.x + i, pos.y + j);
@@ -5032,7 +5032,7 @@ int iuse::granade_act(player *, item *it, bool t, point pos)
 
             case 2:
                 sounds::sound(pos.x, pos.y, 100, _("BUFFS!!"));
-                g->draw_explosion(pos.x, pos.y, explosion_radius, c_green);
+                g->draw_explosion( tripoint( pos.x, pos.y, g->get_levz() ), explosion_radius, c_green );
                 for (int i = -explosion_radius; i <= explosion_radius; i++) {
                     for (int j = -explosion_radius; j <= explosion_radius; j++) {
                         const int mon_hit = g->mon_at(pos.x + i, pos.y + j);
@@ -5183,7 +5183,7 @@ int iuse::grenade_inc_act(player *p, item *it, bool t, point pos)
                 g->m.add_field( flame.x, flame.y, fd_fire, rng( 0, 2 ) );
             }
         }
-        g->explosion(pos.x, pos.y, 8, 0, true);
+        g->explosion( tripoint( pos.x, pos.y, g->get_levz() ), 8, 0, true );
         for (int i = -2; i <= 2; i++) {
             for (int j = -2; j <= 2; j++) {
                 g->m.add_field(pos.x + i, pos.y + j, fd_incendiary, 3);
@@ -5249,7 +5249,7 @@ int iuse::molotov_lit(player *p, item *it, bool t, point pos)
         }
     } else {
         if (!t) {
-            g->explosion(pos.x, pos.y, 8, 0, true);
+            g->explosion( tripoint( pos.x, pos.y, g->get_levz() ), 8, 0, true);
         }
     }
     return 0;
@@ -6519,7 +6519,7 @@ int iuse::artifact(player *p, item *it, bool, point)
             case AEA_FIREBALL: {
                 point fireball = g->look_around();
                 if (fireball.x != -1 && fireball.y != -1) {
-                    g->explosion(fireball.x, fireball.y, 8, 0, true);
+                    g->explosion( tripoint( fireball.x, fireball.y, g->get_levz() ), 8, 0, true );
                 }
             }
             break;

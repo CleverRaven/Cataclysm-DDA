@@ -505,7 +505,7 @@ void computer::activate_function(computer_action action, char ch)
                 }
         }
 
-        g->explosion(g->u.posx() + 10, g->u.posx() + 21, 200, 0, true); //Only explode once. But make it large.
+        g->explosion( tripoint( g->u.posx() + 10, g->u.posx() + 21, g->get_levz() ), 200, 0, true); //Only explode once. But make it large.
 
         //...ERASE MISSILE, OPEN SILO, DISABLE COMPUTER
         // For each level between here and the surface, remove the missile
@@ -1089,7 +1089,7 @@ SHORTLY. TO ENSURE YOUR SAFETY PLEASE FOLLOW THE BELOW STEPS. \n\
             for (int y = 0; y < SEEY * MAPSIZE; y++) {
                 if (g->m.ter(x, y) == t_elevator || g->m.ter(x, y) == t_vat) {
                     g->m.make_rubble(x, y, f_rubble_rock, true);
-                    g->explosion(x, y, 40, 0, true);
+                    g->explosion( tripoint( x, y, g->get_levz() ), 40, 0, true);
                 }
                 if (g->m.ter(x, y) == t_wall_glass_h || g->m.ter(x, y) == t_wall_glass_v) {
                     g->m.make_rubble(x, y, f_rubble_rock, true);
@@ -1099,7 +1099,7 @@ SHORTLY. TO ENSURE YOUR SAFETY PLEASE FOLLOW THE BELOW STEPS. \n\
                 }
                 if (g->m.ter(x, y) == t_sewage_pump) {
                     g->m.make_rubble(x, y, f_rubble_rock, true);
-                    g->explosion(x, y, 50, 0, true);
+                    g->explosion( tripoint( x, y, g->get_levz() ), 50, 0, true);
                 }
             }
         }
@@ -1235,7 +1235,7 @@ void computer::activate_failure(computer_failure fail)
             for (int y = 0; y < SEEY * MAPSIZE; y++) {
                 if (g->m.ter(x, y) == t_sewage_pump) {
                     g->m.make_rubble(x, y);
-                    g->explosion(x, y, 10, 0, false);
+                    g->explosion( tripoint( x, y, g->get_levz() ), 10, 0, false);
                 }
             }
         }
@@ -1278,8 +1278,8 @@ void computer::activate_failure(computer_failure fail)
     case COMPFAIL_AMIGARA:
         g->add_event(EVENT_AMIGARA, int(calendar::turn) + 5);
         g->u.add_effect("amigara", 20);
-        g->explosion(rng(0, SEEX * MAPSIZE), rng(0, SEEY * MAPSIZE), 10, 10, false);
-        g->explosion(rng(0, SEEX * MAPSIZE), rng(0, SEEY * MAPSIZE), 10, 10, false);
+        g->explosion( tripoint( rng(0, SEEX * MAPSIZE), rng(0, SEEY * MAPSIZE), g->get_levz() ), 10, 10, false );
+        g->explosion( tripoint( rng(0, SEEX * MAPSIZE), rng(0, SEEY * MAPSIZE), g->get_levz() ), 10, 10, false );
         break;
 
     case COMPFAIL_DESTROY_BLOOD:

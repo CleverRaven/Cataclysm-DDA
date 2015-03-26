@@ -491,7 +491,7 @@ void trapfunc::landmine(Creature *c, int x, int y)
         c->add_memorial_log(pgettext("memorial_male", "Stepped on a land mine."),
                             pgettext("memorial_female", "Stepped on a land mine."));
     }
-    g->explosion(x, y, 10, 8, false);
+    g->explosion( tripoint( x, y, g->get_levz() ), 10, 8, false );
     g->m.remove_trap(x, y);
 }
 
@@ -503,7 +503,7 @@ void trapfunc::boobytrap(Creature *c, int x, int y)
         c->add_memorial_log(pgettext("memorial_male", "Triggered a booby trap."),
                             pgettext("memorial_female", "Triggered a booby trap."));
     }
-    g->explosion(x, y, 18, 12, false);
+    g->explosion( tripoint( x, y, g->get_levz() ), 18, 12, false );
     g->m.remove_trap(x, y);
 }
 
