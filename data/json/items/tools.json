@@ -9882,7 +9882,7 @@
     "name_plural": "clarinets",
     "category" : "tools",
     "weight" : 550,
-    "color" : "black",
+    "color" : "light_gray",
     "to_hit" : 1,
     "max_charges": 1,
     "initial_charges": 1,
@@ -9899,7 +9899,7 @@
         "descriptions": [
             "You play a little tune on your clarinet.",
             "You play a moving, orchestral piece on your clarinet.",
-            "You let out piercing shriek from your clarinet. Oops."
+            "You play an uplifting marching tune on your clarinet."
         ]
     },
     "revert_to": "null",

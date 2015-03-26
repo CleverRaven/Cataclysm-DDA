@@ -2195,7 +2195,7 @@
         "revert_to": "null",
         "storage" : 0,
         "symbol" : "-",
-        "description" : "A simple wooden acoustic guitar with a strap so you can wear it while you aren't playing",
+        "description" : "A simple wooden acoustic guitar with a strap so you can wear it around, even when not playing.",
         "price" : 1000,
         "material" : ["wood", "null"],
         "volume" : 27,

@@ -24,12 +24,12 @@
         "id"    : "light_reading",
         "items" : [
             ["novel_coa", 10],
-			["child_book", 50],
-			["tall_tales", 20],
-			["story_book", 4],
-			["novel_pulp", 16],
-			["fairy_tales", 20],
-			["mag_comic", 20]
+            ["child_book", 50],
+            ["tall_tales", 20],
+            ["story_book", 4],
+            ["novel_pulp", 16],
+            ["fairy_tales", 20],
+            ["mag_comic", 20]
         ]
     },{
         "type": "mapgen",
