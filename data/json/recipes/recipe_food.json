@@ -4123,7 +4123,7 @@
   "skill_used": "cooking",
   "skills_required": [ "survival", 2 ],
   "difficulty": 1,
-  "time": 3000,
+  "time": 6000,
   "reversible": false,
   "autolearn": true,
   "tools": [
@@ -4136,7 +4136,7 @@
   ],
   "components": [
     [
-      ["pinecone", 1]
+      ["pinecone", 4]
     ]
   ]
 },{
