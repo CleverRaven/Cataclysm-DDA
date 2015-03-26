@@ -4526,6 +4526,7 @@
         "durability" : 50,
         "item" : "motor_small",
         "difficulty" : 3,
+        "folded_volume": 1,
         "flags" : ["DOOR_MOTOR", "UNMOUNT_ON_DAMAGE", "FOLDABLE"],
         "breaks_into" : [
             {"item": "scrap", "min": 4, "max": 6}
