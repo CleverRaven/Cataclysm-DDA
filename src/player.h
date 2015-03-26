@@ -311,7 +311,11 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
 
         /** Returns true if the player has a pda */
         bool has_pda();
-
+        /** Returns true if the player or their vehicle has an alarm clock */
+        bool has_alarm_clock();
+        /** Returns true if the player or their vehicle has a watch */
+        bool has_watch();
+        
         using Creature::sees;
         // see Creature::sees
         bool sees( point c, int &bresenham_slope ) const override;

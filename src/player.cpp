@@ -810,6 +810,9 @@ void player::update_bodytemp()
         } else if( furn_at_pos == f_makeshift_bed || furn_at_pos == f_armchair ||
                    furn_at_pos == f_sofa ) {
             floor_bedding_warmth += 500;
+        } else if( veh && veh->part_with_feature (vpart, "BED") >= 0 && 
+            veh->part_with_feature (vpart, "SEAT") >= 0) {
+            floor_bedding_warmth += 250; // BED+SEAT is intentionally worse than just BED
         } else if( veh && veh->part_with_feature (vpart, "BED") >= 0 ) {
             floor_bedding_warmth += 300;
         } else if( veh && veh->part_with_feature (vpart, "SEAT") >= 0 ) {
@@ -4227,6 +4230,28 @@ bool player::has_pda()
     }
 
     return pda;
+}
+
+
+bool player::has_alarm_clock()
+{
+    return ( has_item_with_flag("ALARMCLOCK") ||
+             ( 
+               ( g->m.veh_at( posx(), posy() ) != nullptr ) && 
+               !g->m.veh_at( posx(), posy() )->all_parts_with_feature( "ALARMCLOCK", true ).empty()
+             )
+           ); 
+}
+
+bool player::has_watch()
+{
+    return ( has_item_with_flag("WATCH") ||
+             ( 
+               ( g->m.veh_at( posx(), posy() ) != nullptr ) && 
+               !g->m.veh_at( posx(), posy() )->all_parts_with_feature( "WATCH", true ).empty()
+             ) ||
+             has_bionic("bio_watch")
+           ); 
 }
 
 void player::pause()
