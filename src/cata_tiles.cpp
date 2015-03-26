@@ -555,7 +555,9 @@ void cata_tiles::draw(int destx, int desty, int centerx, int centery, int width,
     screentile_width = (width + tile_width - 1) / tile_width;
     screentile_height = (height + tile_height - 1) / tile_height;
 
-    auto map_draw_function = [&](int x, int y, lit_level ll) { this->draw_specific_tile(x, y, ll); };
+    auto map_draw_function = [&](int x, int y, lit_level ll) -> void {
+        draw_specific_tile(x, y, ll);
+    };
 
     g->m.draw_loop(
         o_x, 

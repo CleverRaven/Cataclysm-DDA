@@ -4668,6 +4668,17 @@ void map::draw_specific_tile(WINDOW *w, const point center, int x, int y, lit_le
     }
 }
 
+void map::draw_loop(int min_x, int min_y, int max_x, int max_y, std::function<void (int,int,lit_level)> draw_func) {
+    for (int x = 0; x < SEEX * my_MAPSIZE; x++) {
+        for (int y = 0; y < SEEX * my_MAPSIZE; y++) {
+            lit_level ll = apparent_light_at(x, y);
+            if (x >= min_x && x <= max_x && y >= min_y && y<= max_y) {
+                draw_func(x,y,ll);
+            }
+        }
+    }
+}
+
 void map::draw(WINDOW* w, const point center)
 {
     // We only need to draw anything if we're not in tiles mode.
@@ -4679,7 +4690,9 @@ void map::draw(WINDOW* w, const point center)
 
     update_visibility_variables();
 
-    auto map_draw_function = [&](int x, int y, lit_level ll) { this->draw_specific_tile(w, center, x, y, ll); };
+    auto map_draw_function = [&, w, center](int x, int y, lit_level ll) -> void {
+        draw_specific_tile(w, center, x, y, ll);
+    };
 
     draw_loop(
         center.x - getmaxx(w)/2, 
