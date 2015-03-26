@@ -1320,6 +1320,7 @@ void show_options(bool ingame)
             g->init_ui();
             if( ingame ) {
                 g->refresh_all();
+                tilecontext->do_tile_loading_report();
             }
         } catch(std::string err) {
             popup(_("Loading the tileset failed: %s"), err.c_str());
