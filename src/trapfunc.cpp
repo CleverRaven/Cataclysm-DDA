@@ -714,7 +714,6 @@ void trapfunc::pit_spikes(Creature *c, int x, int y)
             add_msg(_("The spears break!"));
         }
         g->m.ter_set(x, y, t_pit);
-        g->m.add_trap(x, y, tr_pit);
         for (int i = 0; i < 4; i++) { // 4 spears to a pit
             if (one_in(3)) {
                 g->m.spawn_item(x, y, "pointy_stick");
@@ -791,7 +790,6 @@ void trapfunc::pit_glass(Creature *c, int x, int y)
             add_msg(_("The shards shatter!"));
         }
         g->m.ter_set(x, y, t_pit);
-        g->m.add_trap(x, y, tr_pit);
         for (int i = 0; i < 20; i++) { // 20 shards in a pit.
             if (one_in(3)) {
                 g->m.spawn_item(x, y, "glass_shard");

@@ -4256,6 +4256,12 @@ void map::add_trap( const tripoint &p, const trap_id t)
 
     int lx, ly;
     submap * const current_submap = get_submap_at( p, lx, ly );
+    const ter_t &ter = terlist[ current_submap->get_ter( lx, ly ) ];
+    if( ter.trap != tr_null ) {
+        debugmsg( "set trap %s on top of terrain %s which already has a builit-in trap",
+                  traplist[t]->name.c_str(), ter.name.c_str() );
+        return;
+    }
 
     // If there was already a trap here, remove it.
     if( current_submap->get_trap( lx, ly ) != tr_null ) {
