@@ -1,3 +1,5 @@
+#!/bin/bash
+
 # creates tileset_iso/ based on tileset/
 # currently only works with 24x24 tileset with tiles.png and fallback.png
 
