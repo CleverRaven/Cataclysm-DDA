@@ -843,8 +843,8 @@ void add_corpse(int x, int y);
         /**
          * manipulates the submap array of points that the player has seen
          */
-        bool pl_knows(const tripoint &p) const;
-        void set_pl_known(const tripoint &p);
+        long pl_knows(const tripoint &p) const;
+        void set_pl_known(const tripoint &p, const long sym);
 
  std::set<vehicle*> vehicle_list;
  std::set<vehicle*> dirty_vehicle_list;

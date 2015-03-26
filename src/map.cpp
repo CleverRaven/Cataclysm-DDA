@@ -1327,7 +1327,7 @@ ter_id map::ter(const int x, const int y) const
     return current_submap->get_ter( lx, ly );
 }
 
-bool map::pl_knows( const tripoint &p ) const
+long map::pl_knows( const tripoint &p ) const
 {
     if( !inbounds(p) ) {
         return false;
@@ -1338,7 +1338,7 @@ bool map::pl_knows( const tripoint &p ) const
     return current_submap->known[lx][ly];
 }
 
-void map::set_pl_known( const tripoint &p )
+void map::set_pl_known( const tripoint &p, const long sym)
 {
     if( !inbounds(p) ) {
         return;
@@ -1346,7 +1346,7 @@ void map::set_pl_known( const tripoint &p )
 
     int lx, ly;
     submap * const current_submap = get_submap_at(p, lx, ly);
-    current_submap->known[lx][ly] = true;
+    current_submap->known[lx][ly] = sym;
 }
 
 std::string map::get_ter(const int x, const int y) const {
@@ -4692,6 +4692,7 @@ void map::draw(WINDOW* w, const point center)
  const bool u_sight_impaired = g->u.sight_impaired();
  const bool bio_night_active = g->u.has_active_bionic("bio_night");
  tripoint p;
+ long sym;
 
  for  (int realx = center.x - getmaxx(w)/2; realx <= center.x + getmaxx(w)/2; realx++) {
   for (int realy = center.y - getmaxy(w)/2; realy <= center.y + getmaxy(w)/2; realy++) {
@@ -4759,14 +4760,10 @@ void map::draw(WINDOW* w, const point center)
            (dist > low_sight_range && LL_LIT > lit) ||
            (dist > sight_range && LL_LOW == lit),
            LL_BRIGHT == lit);
-
-    // mark as seen
-    set_pl_known(p);
-
-   } else if (pl_knows(p)) {
+   } else if ((sym = pl_knows(p)) != -1) {
        // draw tiles that the player has seen previously but doesn't see right now
        // as unlit and hide the items
-       drawsq(w, g->u, p, false, false, center.x, center.y, true, false);
+       mvwputch(w, realy+getmaxy(w)/2 - center.y, realx+getmaxx(w)/2 - center.x, c_dkgray, sym);
    } else {
     mvwputch(w, realy+getmaxy(w)/2 - center.y, realx+getmaxx(w)/2 - center.x, c_black,' ');
    }
@@ -4932,6 +4929,9 @@ void map::drawsq(WINDOW* w, player &u, const tripoint &p, const bool invert_arg,
     } else {
         mvwputch    (w, j, k, tercol, sym);
     }
+
+    // mark as seen
+    set_pl_known(p, sym);
 }
 
 // TODO: Implement this function in FoV update
