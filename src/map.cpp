@@ -1329,7 +1329,7 @@ ter_id map::ter(const int x, const int y) const
 
 bool map::pl_knows( const tripoint &p ) const
 {
-    if( !INBOUNDS(p.x, p.y) ) {
+    if( !inbounds(p) ) {
         return false;
     }
 
@@ -1340,7 +1340,7 @@ bool map::pl_knows( const tripoint &p ) const
 
 void map::set_pl_known( const tripoint &p )
 {
-    if( !INBOUNDS(p.x, p.y) ) {
+    if( !inbounds(p) ) {
         return;
     }
 
@@ -4796,7 +4796,7 @@ void map::drawsq(WINDOW* w, player &u, const tripoint &p, const bool invert_arg,
     bool show_items = show_items_arg;
     int cx = view_center_x_arg;
     int cy = view_center_y_arg;
-    if (!INBOUNDS(p.x, p.y))
+    if (!inbounds(p))
         return; // Out of bounds
     if (cx == -1)
         cx = u.posx();
