@@ -1,0 +1,9 @@
+#Generated from project in Cataclysm DDA Tileset Studio
+#Name of the tileset
+NAME: iso_ChestHole
+#Viewing (Option) name of the tileset
+VIEW: iso_ChestHole
+#JSON Path - Default of gfx/tile_config.json
+JSON: ChestHoleTileset_iso/tile_config.json
+#Tileset Path - Default of gfx/tinytile.png
+TILESET: ChestHoleTileset_iso/tiles.png

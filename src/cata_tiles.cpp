@@ -270,6 +270,11 @@ void cata_tiles::load_tilejson_from_file(std::ifstream &f, const std::string &im
         JsonObject curr_info = info.next_object();
         tile_height = curr_info.get_int("height");
         tile_width = curr_info.get_int("width");
+        if (curr_info.has_bool("iso")) {
+            tile_iso = curr_info.get_bool("iso");
+        } else {
+            tile_iso = false;
+        }
 
         default_tile_width = tile_width;
         default_tile_height = tile_height;
@@ -794,8 +799,17 @@ bool cata_tiles::draw_from_id_string(std::string id, TILE_CATEGORY category,
     }
 
     // translate from player-relative to screen relative tile position
-    const int screen_x = (x - o_x) * tile_width + op_x;
-    const int screen_y = (y - o_y) * tile_height + op_y;
+    int screen_x, screen_y;
+    if (tile_iso) {
+        screen_x = ((x-o_x) - (o_y-y)) * tile_width / 2 +
+            op_x;
+        screen_y = ((y-o_y) - (x-o_x)) * tile_height / 4 +
+            screentile_height * tile_height / 4 +
+            op_y;
+    } else {
+        screen_x = (x - o_x) * tile_width + op_x;
+        screen_y = (y - o_y) * tile_height + op_y;
+    }
 
     //draw it!
     draw_tile_at(display_tile, screen_x, screen_y, rota);
@@ -825,7 +839,7 @@ bool cata_tiles::draw_tile_at(tile_type *tile, int x, int y, int rota)
 
     int ret = 0;
     // blit foreground based on rotation
-    if (rota == 0) {
+    if (rota == 0 || tile_iso) {
         if (fg >= 0 && static_cast<size_t>( fg ) < tile_values.size()) {
             SDL_Texture *fg_tex = tile_values[fg];
             ret = SDL_RenderCopyEx( renderer, fg_tex, NULL, &destination, 0, NULL, SDL_FLIP_NONE );

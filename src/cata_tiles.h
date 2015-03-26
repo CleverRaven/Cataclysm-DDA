@@ -299,6 +299,7 @@ class cata_tiles
         tile_id_map tile_ids;
 
         int tile_height, tile_width, default_tile_width, default_tile_height;
+        bool tile_iso;
         // The width and height of the area we can draw in,
         // measured in map coordinates, *not* in pixels.
         int screentile_width, screentile_height;
