@@ -156,6 +156,8 @@ void uimenu::init()
     started = false;       // set to true when width and key calculations are done, and window is generated.
     pad_left = 0;          // make a blank space to the left
     pad_right = 0;         // or right
+    desc_enabled = false;  // don't show option description by default
+    desc_lines = 6;        // default number of lines for description
     border = true;         // todo: always true
     border_color = c_magenta; // border color
     text_color = c_ltgray;  // text color
@@ -177,6 +179,7 @@ void uimenu::init()
     filtering = true;        // enable list display filtering via '/' or '.'
     filtering_nocase = true; // ignore case when filtering
     max_entry_len = 0;       // does nothing but can be read
+    max_desc_len = 0;        // for calculating space for descriptions
 
     scrollbar_auto =
         true;   // there is no force-on; true will only render scrollbar if entries > vertical height
@@ -321,9 +324,17 @@ void uimenu::setup()
     if ( h_auto ) {
         w_height = 4;
     }
+
+    if ( desc_enabled && !(w_auto && h_auto) ) {
+        desc_enabled = false; // give up
+        debugmsg("desc_enabled without w_auto and h_auto (h: %d, w: %d)", h_auto, w_auto);
+    }
+
     max_entry_len = 0;
+    max_desc_len = 0;
     std::vector<int> autoassign;
     int pad = pad_left + pad_right + 2;
+    int descwidth_final = 0; // for description width guard
     for ( size_t i = 0; i < entries.size(); i++ ) {
         int txtwidth = utf8_width(remove_color_tags( entries[ i ].txt ).c_str());
         if ( txtwidth > max_entry_len ) {
@@ -346,6 +357,14 @@ void uimenu::setup()
                 w_width = txtwidth + pad + 4;    // todo: or +5 if header
             }
         }
+        if ( desc_enabled ) {
+            // subtract one from desc_lines for the reminder of the text
+            int descwidth = utf8_width(entries[i].desc.c_str()) / (desc_lines - 1);
+            descwidth += 4; // 2x border + 2x ' ' pad
+            if ( descwidth_final < descwidth ) {
+                descwidth_final = descwidth;
+            }
+        }
         if ( entries[ i ].text_color == C_UNSET_MASK ) {
             entries[ i ].text_color = text_color;
         }
@@ -362,6 +381,15 @@ void uimenu::setup()
                 keymap[setkey] = *it;
                 break;
             }
+        }
+    }
+
+    if (desc_enabled) {
+        if (descwidth_final > TERMX) {
+            desc_enabled = false; // give up
+            debugmsg("description would exceed terminal width (%d vs %d available)", descwidth_final, TERMX);
+        } else if (descwidth_final > w_width) {
+            w_width = descwidth_final;
         }
     }
 
@@ -405,6 +433,16 @@ void uimenu::setup()
 
     if (h_auto) {
         w_height = 3 + textformatted.size() + entries.size();
+        if (desc_enabled) {
+            int w_height_final = w_height + desc_lines + 1; // add one for border
+            if (w_height_final > TERMY) {
+                desc_enabled = false; // give up
+                debugmsg("with description height would exceed terminal height (%d vs %d available)",
+                         w_height_final, TERMY);
+            } else {
+                w_height = w_height_final;
+            }
+        }
     }
 
     if ( w_height > TERMY ) {
@@ -582,6 +620,25 @@ void uimenu::show()
         } else {
             mvwprintz(window, estart + si, pad_left + 1, c_ltgray , "%s", padspaces.c_str());
         }
+    }
+
+    if ( desc_enabled ) {
+        // draw border
+        mvwputch(window, w_height - desc_lines - 2, 0, border_color, LINE_XXXO);
+        for ( int i = 1; i < w_width - 1; ++i) {
+            mvwputch(window, w_height - desc_lines - 2, i, border_color, LINE_OXOX);
+        }
+        mvwputch(window, w_height - desc_lines - 2, w_width - 1, border_color, LINE_XOXX);
+
+        // clear previous desc the ugly way
+        for ( int y = desc_lines + 1; y > 1; --y ) {
+            for ( int x = 2; x < w_width - 2; ++x) {
+                mvwputch(window, w_height - y, x, text_color, " ");
+            }
+        }
+
+        // draw description
+        fold_and_print(window, w_height - desc_lines - 1, 2, w_width - 4, text_color, entries[selected].desc.c_str());
     }
 
     if ( !filter.empty() ) {
@@ -790,6 +847,16 @@ void uimenu::addentry(int r, bool e, int k, const char *format, ...)
     const std::string text = vstring_format(format, ap);
     va_end(ap);
     entries.push_back(uimenu_entry(r, e, k, text));
+}
+
+void uimenu::addentry_desc(std::string str, std::string desc)
+{
+    entries.push_back(uimenu_entry(str, desc));
+}
+
+void uimenu::addentry_desc(int r, bool e, int k, std::string str, std::string desc)
+{
+    entries.push_back(uimenu_entry(r, e, k, str, desc));
 }
 
 void uimenu::settext(std::string str)
