@@ -4925,7 +4925,7 @@ int vehicle::damage_direct (int p, int dmg, int type)
                         name.c_str());
                     g->explosion( tripoint( global_x() + parts[p].precalc[0].x, 
                                             global_y() + parts[p].precalc[0].y, 
-                                            g->get_levz() )
+                                            g->get_levz() ),
                                   pow, 0, (ft == fuel_type_gasoline || ft == fuel_type_diesel));
                     parts[p].hp = 0;
                 }

@@ -1077,7 +1077,7 @@ void trapfunc::glow(Creature *c, int x, int y)
                 n->radiation += rng(10, 30);
             } else if (one_in(4)) {
                 n->add_msg_if_player(m_bad, _("A blinding flash strikes you!"));
-                g->flashbang(x, y);
+                g->flashbang( tripoint( x, y, g->get_levz() ) );
             } else {
                 c->add_msg_if_player(_("Small flashes surround you."));
             }

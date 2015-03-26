@@ -5017,7 +5017,7 @@ int iuse::granade_act(player *, item *it, bool t, point pos)
         switch (effect_roll) {
             case 1:
                 sounds::sound(pos.x, pos.y, 100, _("BUGFIXES!!"));
-                g->draw_explosion( tripoint( pos.x, pos.y, g->get_levz() ), explosion_radius, c_ltcyan );
+                g->draw_explosion(pos.x, pos.y, explosion_radius, c_ltcyan );
                 for (int i = -explosion_radius; i <= explosion_radius; i++) {
                     for (int j = -explosion_radius; j <= explosion_radius; j++) {
                         const int zid = g->mon_at(pos.x + i, pos.y + j);
@@ -5032,7 +5032,7 @@ int iuse::granade_act(player *, item *it, bool t, point pos)
 
             case 2:
                 sounds::sound(pos.x, pos.y, 100, _("BUFFS!!"));
-                g->draw_explosion( tripoint( pos.x, pos.y, g->get_levz() ), explosion_radius, c_green );
+                g->draw_explosion( pos.x, pos.y, explosion_radius, c_green );
                 for (int i = -explosion_radius; i <= explosion_radius; i++) {
                     for (int j = -explosion_radius; j <= explosion_radius; j++) {
                         const int mon_hit = g->mon_at(pos.x + i, pos.y + j);
@@ -6745,7 +6745,7 @@ int iuse::artifact(player *p, item *it, bool, point)
 
             case AEA_FLASH:
                 p->add_msg_if_player(_("The %s flashes brightly!"), it->tname().c_str());
-                g->flashbang(p->posx(), p->posy());
+                g->flashbang( p->pos3() );
                 break;
 
             case AEA_VOMIT:

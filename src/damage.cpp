@@ -195,7 +195,7 @@ void ammo_effects(int x, int y, const std::set<std::string> &effects)
     }
 
     if (effects.count("FLASHBANG")) {
-        g->flashbang(x, y);
+        g->flashbang( tripoint( x, y, g->get_levz() ) );
     }
 
     // TODO: g->u? Are NPC not allowed to use those weapons, or do they ignored the flag because they are stupid ncps and have no right to use those flags.
