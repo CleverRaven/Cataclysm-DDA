@@ -149,31 +149,35 @@ class game
         void add_event(event_type type, int on_turn, int faction_id = -1);
         void add_event(event_type type, int on_turn, int faction_id, tripoint where);
         bool event_queued(event_type type);
-        /** Create explosion at (x, y) of intensity (power) with (shrapnel) chunks of shrapnel. */
-        void explosion(int x, int y, int power, int shrapnel, bool fire, bool blast = true);
-        /** Triggers a flashbang explosion at (x, y). */
-        void flashbang(int x, int y, bool player_immune = false);
+        /** Create explosion at p of intensity (power) with (shrapnel) chunks of shrapnel. */
+        void explosion( const tripoint &p, int power, int shrapnel, bool fire, bool blast = true );
+        /** Triggers a flashbang explosion at p. */
+        void flashbang( const tripoint &p, bool player_immune = false );
         /** Moves the player vertically. If force == true then they are falling. */
         void vertical_move(int z, bool force);
         /** Checks to see if a player can use a computer (not illiterate, etc.) and uses if able. */
-        void use_computer(int x, int y);
+        void use_computer( const tripoint &p );
         /** Attempts to refill the give vehicle's part with the player's current weapon. Returns true if successful. */
         bool refill_vehicle_part (vehicle &veh, vehicle_part *part, bool test = false);
         /** Identical to refill_vehicle_part(veh, &veh.parts[part], test). */
         bool pl_refill_vehicle (vehicle &veh, int part, bool test = false);
-        /** Triggers a resonance cascade at (x, y). */
-        void resonance_cascade(int x, int y);
-        /** Triggers a scrambler blast at (x, y). */
-        void scrambler_blast(int x, int y);
-        /** Triggers an emp blast at (x, y). */
-        void emp_blast(int x, int y);
+        /** Triggers a resonance cascade at p. */
+        void resonance_cascade( const tripoint &p );
+        /** Triggers a scrambler blast at p. */
+        void scrambler_blast( const tripoint &p );
+        /** Triggers an emp blast at p. */
+        void emp_blast( const tripoint &p );
         /** Returns the NPC index of the npc at (x, y). Returns -1 if no NPC is present. */
         int  npc_at(const int x, const int y) const;
+        int  npc_at( const tripoint &p ) const;
         /** Returns the NPC index of the npc with a matching ID. Returns -1 if no NPC is present. */
         int  npc_by_id(const int id) const;
         /** Returns the Creature at (x, y). */
         Creature *critter_at(int x, int y);
         Creature const* critter_at(int x, int y) const;
+        /** Returns the Creature at tripoint p */
+        Creature *critter_at( const tripoint &p );
+        Creature const* critter_at( const tripoint &p ) const;
 
         /** Calls the creature_tracker add function. Returns true if successful. */
         bool add_zombie(monster &critter);
@@ -199,12 +203,15 @@ class game
         int mon_at( const tripoint &p ) const;
         /** Returns true if there is no player, NPC, or monster on the tile and move_cost > 0. */
         bool is_empty(const int x, const int y);
+        bool is_empty( const tripoint &p );
         /** Returns true if the value of test is between down and up. */
         bool isBetween(int test, int down, int up);
         /** Returns true if (x, y) is outdoors and it is sunny. */
         bool is_in_sunlight(int x, int y);
+        bool is_in_sunlight( const tripoint &p );
         /** Returns true if (x, y) is indoors, underground, or in a car. */
         bool is_sheltered(int x, int y);
+        bool is_sheltered( const tripoint &p );
         /** Revives the corpse with position n in the items at (x, y). Returns true if successful. */
         bool revive_corpse(int x, int y, int n);
         /** Revives the corpse at (x, y) by item pointer. Caller handles item deletion. */
@@ -258,10 +265,10 @@ class game
         /** Flings the input creature in the given direction. */
         void fling_creature(Creature *c, const int &dir, float flvel, bool controlled = false);
 
-        /** Nuke the area at (x, y) - global overmap terrain coordinates! */
-        void nuke(int x, int y);
-        bool spread_fungus(int x, int y);
-        std::vector<faction *> factions_at(int x, int y);
+        /** Nuke the area at p - global overmap terrain coordinates! */
+        void nuke( const tripoint &p );
+        bool spread_fungus( const tripoint &p );
+        std::vector<faction *> factions_at( const tripoint &p );
         int &scent(int x, int y);
         float ground_natural_light_level() const;
         float natural_light_level() const;
@@ -409,26 +416,26 @@ class game
         //otherwise returns sentinel -1, signifies transaction fail.
         int move_liquid(item &liquid);
 
-        void open_gate( const int examx, const int examy, const ter_id handle_type );
+        void open_gate( const tripoint &p, const ter_id handle_type );
 
         bionic_id random_good_bionic() const; // returns a non-faulty, valid bionic
 
         // Helper because explosion was getting too big.
-        void do_blast( const int x, const int y, const int power, const int radius, const bool fire );
+        void do_blast( const tripoint &p, const int power, const int radius, const bool fire );
 
-        // Knockback functions: knock target at (tx,ty) along a line, either calculated
-        // from source position (sx,sy) using force parameter or passed as an argument;
+        // Knockback functions: knock target at t along a line, either calculated
+        // from source position s using force parameter or passed as an argument;
         // force determines how far target is knocked, if trajectory is calculated
         // force also determines damage along with dam_mult;
         // stun determines base number of turns target is stunned regardless of impact
         // stun == 0 means no stun, stun == -1 indicates only impact stun (wall or npc/monster)
-        void knockback(int sx, int sy, int tx, int ty, int force, int stun, int dam_mult);
-        void knockback(std::vector<point> &traj, int force, int stun, int dam_mult);
+        void knockback( const tripoint &s, const tripoint &t, int force, int stun, int dam_mult );
+        void knockback( std::vector<tripoint> &traj, int force, int stun, int dam_mult );
 
-        // shockwave applies knockback to all targets within radius of (x,y)
+        // shockwave applies knockback to all targets within radius of p
         // parameters force, stun, and dam_mult are passed to knockback()
         // ignore_player determines if player is affected, useful for bionic, etc.
-        void shockwave(int x, int y, int radius, int force, int stun, int dam_mult, bool ignore_player);
+        void shockwave( const tripoint &p, int radius, int force, int stun, int dam_mult, bool ignore_player );
 
         // Animation related functions
         void draw_explosion(int x, int y, int radius, nc_color col);
@@ -473,7 +480,7 @@ class game
         bool narrow_sidebar;
         bool fullscreen;
         bool was_fullscreen;
-        void exam_vehicle(vehicle &veh, int examx, int examy, int cx = 0,
+        void exam_vehicle(vehicle &veh, const tripoint &p, int cx = 0,
                           int cy = 0); // open vehicle interaction screen
 
         // put items from the item-vector on the map/a vehicle
@@ -542,13 +549,13 @@ class game
         void close(int closex = -1, int closey = -1); // Close a door  'c'
         void smash(); // Smash terrain
 
-        // Forcefully close a door at (x, y).
+        // Forcefully close a door at p.
         // The function checks for creatures/items/vehicles at that point and
         // might kill/harm/destroy them.
         // If there still remains something that prevents the door from closing
         // (e.g. a very big creatures, a vehicle) the door will not be closed and
         // the function returns false.
-        // If the door gets closed the terrain at (x, y) is set to door_type and
+        // If the door gets closed the terrain at p is set to door_type and
         // true is returned.
         // bash_dmg controls how much damage the door does to the
         // creatures/items/vehicle.
@@ -559,12 +566,13 @@ class game
         // will do so, if bash_dmg is greater than 0, items won't stop the door
         // from closing at all.
         // If the door gets closed the items on the door tile get moved away or destroyed.
-        bool forced_gate_closing(int x, int y, ter_id door_type, int bash_dmg);
+        bool forced_gate_closing( const tripoint &p, ter_id door_type, int bash_dmg );
 
         bool vehicle_near ();
         void handbrake ();
         void control_vehicle(); // Use vehicle controls  '^'
-        void examine(int examx = -1, int examy = -1);// Examine nearby terrain  'e'
+        void examine( const tripoint &p );// Examine nearby terrain  'e'
+        void examine();
 
         // Establish a grab on something.
         void grab();
