@@ -2141,7 +2141,7 @@
             "volume": 10,
             "fun": -5,
             "fun_bonus": 2,
-            "description_frequency": 100,
+            "description_frequency": 20,
             "descriptions": [
                 "You produce a happy tune on your harmonica.",
                 "You whistle on your harmonica."
@@ -2185,7 +2185,7 @@
             "volume": 20,
             "fun": 2,
             "fun_bonus": 2,
-            "description_frequency": 100,
+            "description_frequency": 20,
             "descriptions": [
                 "You strum a few chords on your guitar.",
                 "You pluck a few notes on your guitar.",
@@ -2230,7 +2230,7 @@
             "volume": 20,
             "fun": -2,
             "fun_bonus": 4,
-            "description_frequency": 100,
+            "description_frequency": 20,
             "descriptions": [
                 "You play a little tune on your tuba.",
                 "You play a ditty on your tuba.",
@@ -2240,8 +2240,9 @@
         "revert_to": "null",
         "storage" : 0,
         "symbol" : "&",
+        "//~" : "ol' is an informal short-form for old, and here is part of big-ol as large-and-cumbersome.",
         "description" : "A big ol' tuba. Much easier to play when wearing.",
-        "price" : 3500,
+        "price" : 5500,
         "material" : ["iron", "null"],
         "volume" : 50,
         "cutting" : 0,
@@ -2274,7 +2275,7 @@
             "volume": 20,
             "fun": -3,
             "fun_bonus": 4,
-            "description_frequency": 100,
+            "description_frequency": 20,
             "descriptions": [
                 "You play a little tune on your saxophone.",
                 "You play a soulful jazz piece on your sax.",
@@ -2282,19 +2283,19 @@
             ]
         },
         "revert_to": "null",
-		"storage" : 0,
+        "storage" : 0,
         "symbol" : "{",
-        "description" : "A gold plated alto-saxophone with a strap running from the neck to the base which allows you to wear it.",
+        "description" : "A brass-plated alto saxophone with a neck strap, so you can wear it whie playing.",
         "price" : 7500,
         "material" : ["iron", "null"],
         "volume" : 18,
         "cutting" : 0,
-		"warmth" : 0,
+        "warmth" : 0,
         "phase" : "solid",
-		"environmental_protection" : 0,
+        "environmental_protection" : 0,
         "encumbrance" : 30,
         "bashing" : 12,
-		"coverage" : 20,
+        "coverage" : 20,
         "material_thickness" : 4    
     }
 ]    

@@ -9858,7 +9858,7 @@
         "volume": 12,
         "fun": -5,
         "fun_bonus": 2,
-        "description_frequency": 100,
+        "description_frequency": 20,
         "descriptions": [
             "You play a little tune on your flute.",
             "You play a beautiful piece on your flute.",
@@ -9867,7 +9867,7 @@
     },
     "revert_to": "null",
     "symbol" : "-",
-    "description" : "A simple silver plated flute.",
+    "description" : "A simple silver-plated flute.",
     "price" : 5000,
     "material" : ["iron", "silver"],
     "volume" : 2,
@@ -9895,7 +9895,7 @@
         "volume": 14,
         "fun": -5,
         "fun_bonus": 2,
-        "description_frequency": 100,
+        "description_frequency": 20,
         "descriptions": [
             "You play a little tune on your clarinet.",
             "You play a moving, orchestral piece on your clarinet.",
@@ -9933,7 +9933,7 @@
         "volume": 21,
         "fun": -3,
         "fun_bonus": 4,
-        "description_frequency": 100,
+        "description_frequency": 20,
         "descriptions": [
             "You play a little tune on your trumpet.",
             "You play a slow, mourning piece on your trumpet.",
@@ -9942,7 +9942,7 @@
     },
     "revert_to": "null",
     "symbol" : "-",
-    "description" : "A gold plated trumpet with only a few dents here and there.",
+    "description" : "A brass-plated trumpet with only a few dents here and there.",
     "price" : 7500,
     "material" : ["iron", "null"],
     "volume" : 10,
@@ -9970,7 +9970,7 @@
         "volume": 16,
         "fun": -3,
         "fun_bonus": 2,
-        "description_frequency": 100,
+        "description_frequency": 20,
         "descriptions": [
             "You play a little tune on your ukulele.",
             "You play a cute little ditty on your ukulele.",
@@ -10007,16 +10007,16 @@
         "volume": 18,
         "fun": -3,
         "fun_bonus": 2,
-        "description_frequency": 100,
+        "description_frequency": 20,
         "descriptions": [
             "You play a little tune on your banjo.",
             "You play a bluegrass tune on your banjo.",
-            "You play a quick, southern ditty on your banjo."
+            "You play a quick, Southern ditty on your banjo."
         ]
     },
     "revert_to": "null",
     "symbol" : "|",
-    "description" : "A standard factory made banjo. Looks to be in working condition",
+    "description" : "A standard factory-made banjo. Looks to be in working condition.",
     "price" : 7500,
     "material" : ["wood", "iron"],
     "volume" : 12,
@@ -10044,7 +10044,7 @@
         "volume": 18,
         "fun": -2,
         "fun_bonus": 3,
-        "description_frequency": 100,
+        "description_frequency": 20,
         "descriptions": [
             "You play a little tune on your violin.",
             "You play a beautiful orchestral piece on your violin.",
@@ -10053,7 +10053,7 @@
     },
     "revert_to": "null",
     "symbol" : "}",
-    "description" : "A cheap, factory made violin with a built-in holder for a bow. Still produces a nice sound.",
+    "description" : "A cheap, factory-made violin with a built-in holder for a bow. Still produces a nice sound.",
     "price" : 7500,
     "material" : ["wood", "null"],
     "volume" : 10,
@@ -10081,7 +10081,7 @@
         "volume": 25,
         "fun": 1,
         "fun_bonus": 4,
-        "description_frequency": 100,
+        "description_frequency": 10,
         "descriptions": [
             "You play a quick, folksy tune on your fiddle.",
             "As you pull the bow across its strings, it makes an evil hiss.",
