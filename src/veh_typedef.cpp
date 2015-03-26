@@ -85,15 +85,9 @@ void game::load_vehiclepart(JsonObject &jo)
     next_part.difficulty = jo.get_int("difficulty");
     next_part.location = jo.has_member("location") ? jo.get_string("location") : "";
 
-    next_part.bitflags = 0;
     JsonArray jarr = jo.get_array("flags");
-    std::string nstring = "";
     while (jarr.has_more()) {
-        nstring = jarr.next_string();
-        next_part.flags.insert(nstring);
-        if ( vpart_bitflag_map.find(nstring) != vpart_bitflag_map.end() ) {
-            next_part.bitflags |= mfb( vpart_bitflag_map.find(nstring)->second );
-        }
+        next_part.set_flag( jarr.next_string() );
     }
 
     if (jo.has_member("FOLDABLE") && next_part.folded_volume == 0){
@@ -168,6 +162,15 @@ void game::load_vehiclepart(JsonObject &jo)
         vehicle_part_int_types.push_back(next_part);
     }
     vehicle_part_types[next_part.id] = next_part;
+}
+
+void vpart_info::set_flag( const std::string &flag )
+{
+    flags.insert( flag );
+    const auto iter = vpart_bitflag_map.find( flag );
+    if( iter != vpart_bitflag_map.end() ) {
+        bitflags.set( iter->second );
+    }
 }
 
 void game::check_vehicleparts()
