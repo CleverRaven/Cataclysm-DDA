@@ -138,7 +138,6 @@ void game::load_static_data()
     // be moved to game::load_mod or game::load_core_data
     init_body_parts();
     init_ter_bitflags_map();
-    init_vpart_bitflag_map();
     init_mapgen_builtin_functions();
     init_fields();
     init_morale();

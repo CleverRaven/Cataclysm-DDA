@@ -108,7 +108,5 @@ public:
 extern std::map<std::string, vpart_info> vehicle_part_types;
 extern const std::string legacy_vpart_id[74];
 extern std::vector<vpart_info> vehicle_part_int_types;
-extern std::map<std::string, vpart_bitflags> vpart_bitflag_map;
-extern void init_vpart_bitflag_map();
 
 #endif
