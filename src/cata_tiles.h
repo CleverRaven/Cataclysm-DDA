@@ -24,14 +24,13 @@ class JsonObject;
 /** Structures */
 struct tile_type
 {
-    int fg, bg;
+    std::vector<int> fg, bg;
     bool multitile, rotates;
 
     std::vector<std::string> available_subtiles;
 
     tile_type()
     {
-        fg = bg = 0;
         multitile = rotates = false;
         available_subtiles.clear();
     }
