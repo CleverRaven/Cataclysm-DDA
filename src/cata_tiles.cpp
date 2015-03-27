@@ -822,8 +822,8 @@ bool cata_tiles::draw_from_id_string(std::string id, TILE_CATEGORY category,
 bool cata_tiles::draw_tile_at(tile_type *tile, int x, int y, int rota)
 {
     // don't need to check for tile existance, should always exist if it gets this far
-    const std::vector<int> fg = tile->fg;
-    const std::vector<int> bg = tile->bg;
+    const std::vector<int>& fg = tile->fg;
+    const std::vector<int>& bg = tile->bg;
 
     SDL_Rect destination;
     destination.x = x;
