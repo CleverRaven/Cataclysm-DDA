@@ -10315,6 +10315,10 @@ void game::plthrow(int pos)
     move_cost += skill_cost;
     move_cost += 2 * u.encumb(bp_torso);
     move_cost -= dexbonus;
+	if(u.weapon.typeId() == "atlatl" && pos != -1 && thrown.volume() < 2) {
+		move_cost *= 1.25; //extra time spent swinging
+		sound(u.xpos(), u.ypos(), 4, _("zip."));
+	}
 
     if (u.has_trait("LIGHT_BONES")) {
         move_cost *= .9;

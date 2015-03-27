@@ -9181,7 +9181,8 @@
       ["distaff_spindle", 50],
       ["carding_paddles", 50],
       ["knitting_needles", 50],
-      ["pointy_stick", 50]
+      ["pointy_stick", 50],
+	  ["atlatl", 20]
     ]
   },{
 "type" : "item_group",

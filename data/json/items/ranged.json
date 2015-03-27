@@ -4909,5 +4909,30 @@
     "burst": 5,
     "clip_size": 0,
     "reload": 0
+  },
+  {
+    "id": "atlatl",
+	"type": "GUN",
+	"symbol": "J",
+	"color": "brown",
+	"name": "atlatl",
+	"description": "Also known as a spear-thrower, this J-shaped wooden weapon can be used to launch a type of specialized spear, a dart, with speeds far exceeding that of a simple thrown projectile.  You don't have any darts sitting around, but you could probably throw something else with it.  Throw a small item with this equipped to receive a bonus to range.",
+	"//": "firing is handled by throwing code",
+	"price": 1000,
+	"material": "wood",
+	"skill": "throw",
+	"ammo": "NULL",
+	"weight": 800,
+	"volume": 3,
+	"bashing": 1,
+	"cutting": 0,
+	"to_hit": 1,
+	"durability": 5,
+	"dispersion": 105,
+	"sight_dispersion": 150,
+	"aim_speed": 0,
+	"recoil": 0,
+	"clip_size": 0,
+	"reload": 0
   }
 ]

@@ -5916,7 +5916,24 @@
         [ "UPS_off", 2]
       ]
     ]
+},{
+  "type" : "recipe",
+  "result": "atlatl",
+  "category": "CC_WEAPON",
+  "subcategory": "CSC_WEAPON_RANGED",
+  "skill_used": "fabrication",
+  "difficulty": 2, "//": "unlike a sling, requires some precise carving for a working result",
+  "time": 10000,
+  "reversible": false,
+  "autolearn": false,
+  "book_learn": [[ "manual_fabrication", 2 ]],
+  "qualities":[
+    {"id":"CUT","level":1,"amount":1}
+  ],
+  "components": [
+    [
+      [ "stick", 1 ]
+    ]
+  ]
 }
-
-
 ]

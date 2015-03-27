@@ -4347,13 +4347,17 @@ int player::throw_range(int pos)
  // Increases as weight decreases until 150 g, then decreases again
  int ret = (str_cur * 8) / (tmp.weight() >= 150 ? tmp.weight() / 113 : 10 - int(tmp.weight() / 15));
  ret -= int(tmp.volume() / 4);
+ bool is_using_atlatl = weapon.typeId() == "atlatl";
  if (has_active_bionic("bio_railgun") && (tmp.made_of("iron") || tmp.made_of("steel")))
     ret *= 2;
+ else if (is_using_atlatl && pos != -1 && tmp.volume() < 2)
+    ret *= 3; //almost definitely not balanced
  if (ret < 1)
   return 1;
 // Cap at double our strength + skill
- if (ret > str_cur * 1.5 + skillLevel("throw"))
-   return str_cur * 1.5 + skillLevel("throw");
+  int cap = str_cur * (is_using_atlatl ? 2 : 1.5) + skillLevel("throw");
+ if (ret > cap)
+   return cap;
  return ret;
 }
 
