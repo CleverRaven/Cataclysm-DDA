@@ -36,6 +36,10 @@ jq '."tiles-new"[0].tiles|map(select(.id[0:9]=="lighting_"))|map(select(.bg==nul
 jq '."tiles-new"[0].tiles|map(select(.id[0:9]=="lighting_"))|map(.bg)[]' tile_config.json >> iso_tilelist
 jq '."tiles-new"[0].tiles|map(select(.id[0:3]=="vp_"))|map(.fg)[]' tile_config.json >> iso_tilelist
 jq '."tiles-new"[0].tiles|map(select(.id[0:3]=="vp_"))|map(.bg)[]' tile_config.json >> iso_tilelist
+jq '."tiles-new"[0].tiles|map(select(.id[0:3]=="fd_"))|map(.fg)[]' tile_config.json >> iso_tilelist
+jq '."tiles-new"[0].tiles|map(select(.id[0:3]=="fd_"))|map(.bg)[]' tile_config.json >> iso_tilelist
+jq '."tiles-new"[0].tiles|map(select(.id[0:3]=="fd_"))|map(.additional_tiles)|map(select(.!=null))[]|map(.fg)[]' tile_config.json >> iso_tilelist
+jq '."tiles-new"[0].tiles|map(select(.id[0:3]=="fd_"))|map(.additional_tiles)|map(select(.!=null))[]|map(.bg)[]' tile_config.json >> iso_tilelist
 sort -n iso_tilelist | uniq > iso_tilelist_uniq
 sed -i '' -e 's/^...$/0&/' -e 's/^..$/00&/' -e 's/^.$/000&/' -e '/^null$/d' iso_tilelist_uniq
 
