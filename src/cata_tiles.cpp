@@ -278,11 +278,11 @@ void cata_tiles::load_tilejson_from_file(std::ifstream &f, const std::string &im
     set_draw_scale(16);
 
     /** 2) Load tile information if available */
+    int offset = 0;
     if (config.has_array("tiles-new")) {
         // new system, several entries
         // When loading multiple tileset images this defines where
         // the tiles from the most recently loaded image start from.
-        int offset = 0;
         JsonArray tiles_new = config.get_array("tiles-new");
         while (tiles_new.has_more()) {
             JsonObject tile_part_def = tiles_new.next_object();
@@ -313,6 +313,14 @@ void cata_tiles::load_tilejson_from_file(std::ifstream &f, const std::string &im
         dbg( D_INFO ) << "Attempting to Load Tileset file " << image_path;
         const int newsize = load_tileset(image_path, -1, -1, -1);
         load_tilejson_from_file(config, 0, newsize);
+    }
+    // offset should be the total number of sprites loaded from every tileset image
+    // eliminate any sprite references that are too high to exist
+    for( auto& tile_id : tile_ids ) {
+        tile_id.second->fg.erase(std::remove_if(tile_id.second->fg.begin(), tile_id.second->fg.end(), 
+                               [&](int i) { return i >= offset; }), tile_id.second->fg.end());
+        tile_id.second->bg.erase(std::remove_if(tile_id.second->bg.begin(), tile_id.second->bg.end(), 
+                               [&](int i) { return i >= offset; }), tile_id.second->bg.end());
     }
 }
 
@@ -832,7 +840,7 @@ bool cata_tiles::draw_tile_at(tile_type *tile, int x, int y, int rota)
     destination.h = tile_height;
 
     // blit background first : always non-rotated(??)
-    if( !bg.empty() && static_cast<size_t>( bg[0] ) < tile_values.size() ) {
+    if( !bg.empty() ) {
         SDL_Texture *bg_tex = tile_values[bg[0]];
         if( SDL_RenderCopyEx( renderer, bg_tex, NULL, &destination, 0, NULL, SDL_FLIP_NONE ) != 0 ) {
             dbg( D_ERROR ) << "SDL_RenderCopyEx(bg) failed: " << SDL_GetError();
@@ -858,38 +866,36 @@ bool cata_tiles::draw_tile_at(tile_type *tile, int x, int y, int rota)
             sprite_num = rota % fg.size();
         }
 
-        if ( static_cast<size_t>( fg[0] ) < tile_values.size() ) {
-            SDL_Texture *fg_tex = tile_values[fg[sprite_num]];
-            if ( rotate_sprite ) {
-                switch ( rota ) {
-                    default:
-                    case 0: // unrotated (and 180, with just two sprites)
-                        ret = SDL_RenderCopyEx( renderer, fg_tex, NULL, &destination,
-                            0, NULL, SDL_FLIP_NONE );
-                        break;
-                    case 1: // 90 degrees (and 270, with just two sprites)
-    #if (defined _WIN32 || defined WINDOWS)
-                        destination.y -= 1;
-    #endif
-                        ret = SDL_RenderCopyEx( renderer, fg_tex, NULL, &destination,
-                            -90, NULL, SDL_FLIP_NONE );
-                        break;
-                    case 2: // 180 degrees, implemented with flips instead of rotation
-                        ret = SDL_RenderCopyEx( renderer, fg_tex, NULL, &destination,
-                            0, NULL, static_cast<SDL_RendererFlip>( SDL_FLIP_HORIZONTAL | SDL_FLIP_VERTICAL ) );
-                        break;
-                    case 3: // 270 degrees
-    #if (defined _WIN32 || defined WINDOWS)
-                        destination.x -= 1;
-    #endif
-                        ret = SDL_RenderCopyEx( renderer, fg_tex, NULL, &destination,
-                            90, NULL, SDL_FLIP_NONE );
-                        break;
-                }
-            } else { // don't rotate, same as case 0 above
-                ret = SDL_RenderCopyEx( renderer, fg_tex, NULL, &destination,
-                    0, NULL, SDL_FLIP_NONE );
+        SDL_Texture *fg_tex = tile_values[fg[sprite_num]];
+        if ( rotate_sprite ) {
+            switch ( rota ) {
+                default:
+                case 0: // unrotated (and 180, with just two sprites)
+                    ret = SDL_RenderCopyEx( renderer, fg_tex, NULL, &destination,
+                        0, NULL, SDL_FLIP_NONE );
+                    break;
+                case 1: // 90 degrees (and 270, with just two sprites)
+#if (defined _WIN32 || defined WINDOWS)
+                    destination.y -= 1;
+#endif
+                    ret = SDL_RenderCopyEx( renderer, fg_tex, NULL, &destination,
+                        -90, NULL, SDL_FLIP_NONE );
+                    break;
+                case 2: // 180 degrees, implemented with flips instead of rotation
+                    ret = SDL_RenderCopyEx( renderer, fg_tex, NULL, &destination,
+                        0, NULL, static_cast<SDL_RendererFlip>( SDL_FLIP_HORIZONTAL | SDL_FLIP_VERTICAL ) );
+                    break;
+                case 3: // 270 degrees
+#if (defined _WIN32 || defined WINDOWS)
+                    destination.x -= 1;
+#endif
+                    ret = SDL_RenderCopyEx( renderer, fg_tex, NULL, &destination,
+                        90, NULL, SDL_FLIP_NONE );
+                    break;
             }
+        } else { // don't rotate, same as case 0 above
+            ret = SDL_RenderCopyEx( renderer, fg_tex, NULL, &destination,
+                0, NULL, SDL_FLIP_NONE );
         }
 
         if( ret != 0 ) {
