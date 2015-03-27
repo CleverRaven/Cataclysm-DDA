@@ -55,7 +55,7 @@ struct bionic : public JsonSerializer, public JsonDeserializer {
         charge = 0;
     };
     using JsonSerializer::serialize;
-    void serialize(JsonOut &json) const
+    void serialize(JsonOut &json) const override
     {
         json.start_object();
         json.member("id", id);
@@ -65,7 +65,7 @@ struct bionic : public JsonSerializer, public JsonDeserializer {
         json.end_object();
     }
     using JsonDeserializer::deserialize;
-    void deserialize(JsonIn &jsin)
+    void deserialize(JsonIn &jsin) override
     {
         JsonObject jo = jsin.get_object();
         id = jo.get_string("id");

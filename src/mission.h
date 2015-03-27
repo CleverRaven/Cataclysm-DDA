@@ -255,9 +255,9 @@ public:
 
         std::string name();
         using JsonSerializer::serialize;
-        void serialize(JsonOut &jsout) const;
+        void serialize(JsonOut &jsout) const override;
         using JsonDeserializer::deserialize;
-        void deserialize(JsonIn &jsin);
+        void deserialize(JsonIn &jsin) override;
 
         mission()
         {

@@ -9803,7 +9803,7 @@ static const std::array<std::string, 4> bio_cqb_styles {{
 class ma_style_callback : public uimenu_callback
 {
 public:
-    virtual bool key(int key, int entnum, uimenu *menu) {
+    virtual bool key(int key, int entnum, uimenu *menu) override {
         if( key != '?' ) {
             return false;
         }

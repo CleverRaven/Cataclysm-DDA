@@ -183,12 +183,12 @@ public:
 
     using JsonSerializer::serialize;
     // give the option not to save recursively, but recurse by default
-    void serialize(JsonOut &jsout) const { serialize(jsout, true); }
+    void serialize(JsonOut &jsout) const override { serialize(jsout, true); }
     virtual void serialize(JsonOut &jsout, bool save_contents) const;
     using JsonDeserializer::deserialize;
     // easy deserialization from JsonObject
     virtual void deserialize(JsonObject &jo);
-    void deserialize(JsonIn &jsin) {
+    void deserialize(JsonIn &jsin) override {
         JsonObject jo = jsin.get_object();
         deserialize(jo);
     }
