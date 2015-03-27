@@ -1242,7 +1242,7 @@ void cata_tiles::create_default_item_highlight()
     if( texture != nullptr ) {
     tile_values.push_back(texture);
     tile_type *type = new tile_type;
-    type->fg[0] = index;
+    type->fg.push_back(index);
     tile_ids[key] = type;
     }
 }
