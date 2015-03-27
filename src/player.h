@@ -828,7 +828,7 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         // Returns -1 to indicate recipe not found, otherwise difficulty to learn.
         int has_recipe( const recipe *r, const inventory &crafting_inv ) const;
         bool knows_recipe( const recipe *rec ) const;
-        void learn_recipe( recipe *rec );
+        void learn_recipe( const recipe *rec );
 
         bool studied_all_recipes(const itype &book) const;
 
@@ -974,7 +974,7 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
 
         void copy_skill_levels(const player *rhs);
 
-        std::map<std::string, recipe *> learned_recipes;
+        std::map<std::string, const recipe *> learned_recipes;
 
         std::vector<matype_id> ma_styles;
         matype_id style_selected;

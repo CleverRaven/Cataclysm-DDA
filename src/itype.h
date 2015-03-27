@@ -40,9 +40,9 @@ enum bigness_property_aspect : int {
 };
 
 // Returns the name of a category of ammo (e.g. "shot")
-std::string ammo_name(std::string t);
+std::string const& ammo_name(std::string const &t);
 // Returns the default ammo for a category of ammo (e.g. ""00_shot"")
-std::string default_ammo(std::string guntype);
+std::string const& default_ammo(std::string const &guntype);
 
 struct explosion_data {
     // Those 4 values are forwarded to game::explosion.
@@ -150,10 +150,35 @@ struct islot_book {
     int chapters = 0;
     /**
      * What recipes can be learned from this book.
-     * Key is the recipe, value is skill level (of the main skill of the recipes) that is required
-     * to learn the recipe.
      */
-    std::map<const recipe *, int> recipes;
+    struct recipe_with_description_t {
+        /**
+         * The recipe that can be learned (never null).
+         */
+        const struct recipe *recipe;
+        /**
+         * The skill level required to learn the recipe.
+         */
+        int skill_level;
+        /**
+         * The name for the recipe as it appears in the book.
+         */
+        std::string name;
+        /**
+         * Hidden means it does not show up in the description of the book.
+         */
+        bool hidden;
+        bool operator<( const recipe_with_description_t &rhs ) const
+        {
+            return recipe < rhs.recipe;
+        }
+        bool is_hidden() const
+        {
+            return hidden;
+        }
+    };
+    typedef std::set<recipe_with_description_t> recipe_list_t;
+    recipe_list_t recipes;
     /**
      * Special effects that can happen after the item has been read. May be empty.
      */

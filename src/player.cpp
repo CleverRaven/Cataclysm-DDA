@@ -4239,7 +4239,8 @@ bool player::has_alarm_clock()
              ( 
                ( g->m.veh_at( posx(), posy() ) != nullptr ) && 
                !g->m.veh_at( posx(), posy() )->all_parts_with_feature( "ALARMCLOCK", true ).empty()
-             )
+             ) ||
+             has_bionic("bio_watch")
            ); 
 }
 
@@ -11154,23 +11155,34 @@ void player::do_read( item *book )
                          "A chapter of this book takes %d minutes to read.", reading->time),
                 reading->time );
 
-        if (!(reading->recipes.empty())) {
+        std::vector<std::string> recipe_list;
+        for( auto const & elem : reading->recipes ) {
+            // If the player knows it, they recognize it even if it's not clearly stated.
+            if( elem.is_hidden() && !knows_recipe( elem.recipe ) ) {
+                continue;
+            }
+            recipe_list.push_back( elem.name );
+        }
+        if( !recipe_list.empty() ) {
             std::string recipes = "";
             size_t index = 1;
-            for( auto iter = reading->recipes.begin();
-                 iter != reading->recipes.end(); ++iter, ++index ) {
-                recipes += item::nname( iter->first->result );
-                if(index == reading->recipes.size() - 1) {
+            for( auto iter = recipe_list.begin();
+                 iter != recipe_list.end(); ++iter, ++index ) {
+                recipes += *iter;
+                if(index == recipe_list.size() - 1) {
                     recipes += _(" and "); // Who gives a fuck about an oxford comma?
-                } else if(index != reading->recipes.size()) {
+                } else if(index != recipe_list.size()) {
                     recipes += _(", ");
                 }
             }
             std::string recipe_line = string_format(
                 ngettext("This book contains %1$d crafting recipe: %2$s",
-                         "This book contains %1$d crafting recipes: %2$s", reading->recipes.size()),
-                reading->recipes.size(), recipes.c_str());
+                         "This book contains %1$d crafting recipes: %2$s", recipe_list.size()),
+                recipe_list.size(), recipes.c_str());
             add_msg(m_info, "%s", recipe_line.c_str());
+        }
+        if( recipe_list.size() != reading->recipes.size() ) {
+            add_msg( m_info, _( "It might help you figuring out some more recipes." ) );
         }
         activity.type = ACT_NULL;
         return;
@@ -11337,10 +11349,11 @@ bool player::can_study_recipe(const itype &book)
     if( !book.book ) {
         return false;
     }
-    for( auto &elem : book.book->recipes ) {
-        if( !knows_recipe( elem.first ) &&
-            ( elem.first->skill_used == NULL ||
-              skillLevel( elem.first->skill_used ) >= elem.second ) ) {
+    for( auto const &elem : book.book->recipes ) {
+        auto const r = elem.recipe;
+        if( !knows_recipe( r ) &&
+            ( r->skill_used == nullptr ||
+              skillLevel( r->skill_used ) >= elem.skill_level ) ) {
             return true;
         }
     }
@@ -11353,7 +11366,7 @@ bool player::studied_all_recipes(const itype &book) const
         return true;
     }
     for( auto &elem : book.book->recipes ) {
-        if( !knows_recipe( elem.first ) ) {
+        if( !knows_recipe( elem.recipe ) ) {
             return false;
         }
     }
@@ -11365,15 +11378,17 @@ bool player::try_study_recipe( const itype &book )
     if( !book.book ) {
         return false;
     }
-    for( auto iter = book.book->recipes.begin(); iter != book.book->recipes.end(); ++iter ) {
-        if (!knows_recipe(iter->first) &&
-            (iter->first->skill_used == NULL ||
-             skillLevel(iter->first->skill_used) >= iter->second)) {
-            if (iter->first->skill_used == NULL ||
-                rng(0, 4) <= (skillLevel(iter->first->skill_used) - iter->second) / 2) {
-                learn_recipe((recipe *)iter->first);
+    for( auto const & elem : book.book->recipes ) {
+        auto const r = elem.recipe;
+        if( knows_recipe( r ) ) {
+            continue;
+        }
+        if( r->skill_used == nullptr || skillLevel( r->skill_used ) >= elem.skill_level ) {
+            if (r->skill_used == NULL ||
+                rng(0, 4) <= (skillLevel(r->skill_used) - elem.skill_level) / 2) {
+                learn_recipe( r );
                 add_msg(m_good, _("Learned a recipe for %s from the %s."),
-                                item::nname( iter->first->result ).c_str(), book.nname(1).c_str());
+                                item::nname( r->result ).c_str(), book.nname(1).c_str());
                 return true;
             } else {
                 add_msg(_("Failed to learn a recipe from the %s."), book.nname(1).c_str());
@@ -12586,15 +12601,15 @@ int player::has_recipe( const recipe *r, const inventory &crafting_inv ) const
         // We are only checking qualities, so we only care about the first item in the stack.
         const item &candidate = (*stack)->front();
         if( candidate.is_book() && items_identified.count(candidate.type->id) ) {
-            const auto &recipes = candidate.type->book->recipes;
-            for( auto book_recipe = recipes.cbegin();
-                 book_recipe != recipes.cend(); ++book_recipe ) {
+            for( auto const & elem : candidate.type->book->recipes ) {
                 // Does it have the recipe, and do we meet it's requirements?
-                if( book_recipe->first->ident == r->ident &&
-                    ( book_recipe->first->skill_used == NULL ||
-                      get_skill_level(book_recipe->first->skill_used) >= book_recipe->second ) &&
-                    ( difficulty == -1 || book_recipe->second < difficulty ) ) {
-                    difficulty = book_recipe->second;
+                if( elem.recipe != r ) {
+                    continue;
+                }
+                if( ( r->skill_used == NULL ||
+                      get_skill_level(r->skill_used) >= elem.skill_level ) &&
+                    ( difficulty == -1 || elem.skill_level < difficulty ) ) {
+                    difficulty = elem.skill_level;
                 }
             }
         } else {
@@ -12608,7 +12623,7 @@ int player::has_recipe( const recipe *r, const inventory &crafting_inv ) const
     return difficulty;
 }
 
-void player::learn_recipe(recipe *rec)
+void player::learn_recipe( const recipe * const rec )
 {
     learned_recipes[rec->ident] = rec;
 }
