@@ -800,7 +800,7 @@ bool cata_tiles::draw_from_id_string(std::string id, TILE_CATEGORY category,
         screen_x = ((x-o_x) - (o_y-y)) * tile_width / 2 +
             op_x;
         screen_y = ((y-o_y) - (x-o_x)) * tile_height / 4 +
-            screentile_height * tile_height / 4 +
+            screentile_height * tile_height / 2 +
             op_y;
     } else {
         screen_x = (x - o_x) * tile_width + op_x;
