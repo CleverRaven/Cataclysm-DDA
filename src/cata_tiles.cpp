@@ -524,7 +524,6 @@ void cata_tiles::draw(int destx, int desty, int centerx, int centery, int width,
 
     init_light();
 
-    int x, y;
     LIGHTING l;
 
     o_x = posx - POSX;
@@ -535,10 +534,15 @@ void cata_tiles::draw(int destx, int desty, int centerx, int centery, int width,
     screentile_width = (width + tile_width - 1) / tile_width;
     screentile_height = (height + tile_height - 1) / tile_height;
 
-    for (int my = 0; my < sy; ++my) {
-        for (int mx = 0; mx < sx; ++mx) {
-            x = mx + o_x;
-            y = my + o_y;
+    const int min_x = tile_iso ? MAPSIZE*SEEX : o_x;
+    const int max_x = tile_iso ? 0 : sx + o_x;
+    const int dx = tile_iso ? -1 : 1;
+    const int min_y = tile_iso ? 0 : o_y;
+    const int max_y = tile_iso ? MAPSIZE*SEEX : sy + o_y;
+    const int dy = 1;
+
+    for (int y=min_y; (y*dy)<(max_y*dy); y+=dy) {
+        for (int x=min_x; (x*dx)<(max_x*dx); x+=dx) {
             l = light_at(x, y);
             const auto critter = g->critter_at( x, y );
             if (l != CLEAR) {
@@ -632,8 +636,10 @@ bool cata_tiles::draw_from_id_string(std::string id, TILE_CATEGORY category,
 
     // check to make sure that we are drawing within a valid area
     // [0->width|height / tile_width|height]
-    if( x - o_x < 0 || x - o_x >= screentile_width ||
-        y - o_y < 0 || y - o_y >= screentile_height ) {
+    if( !tile_iso && 
+        ( x - o_x < 0 || x - o_x >= screentile_width ||
+          y - o_y < 0 || y - o_y >= screentile_height )
+      ) {
         return false;
     }
 
