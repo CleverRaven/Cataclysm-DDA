@@ -4239,7 +4239,8 @@ bool player::has_alarm_clock()
              ( 
                ( g->m.veh_at( posx(), posy() ) != nullptr ) && 
                !g->m.veh_at( posx(), posy() )->all_parts_with_feature( "ALARMCLOCK", true ).empty()
-             )
+             ) ||
+             has_bionic("bio_watch")
            ); 
 }
 
