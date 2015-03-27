@@ -316,11 +316,12 @@ void cata_tiles::load_tilejson_from_file(std::ifstream &f, const std::string &im
     }
     // offset should be the total number of sprites loaded from every tileset image
     // eliminate any sprite references that are too high to exist
+    // also eliminate negative sprite references
     for( auto& tile_id : tile_ids ) {
         tile_id.second->fg.erase(std::remove_if(tile_id.second->fg.begin(), tile_id.second->fg.end(), 
-                               [&](int i) { return i >= offset; }), tile_id.second->fg.end());
+                               [&](int i) { return i >= offset || i < 0; }), tile_id.second->fg.end());
         tile_id.second->bg.erase(std::remove_if(tile_id.second->bg.begin(), tile_id.second->bg.end(), 
-                               [&](int i) { return i >= offset; }), tile_id.second->bg.end());
+                               [&](int i) { return i >= offset || i < 0; }), tile_id.second->bg.end());
     }
 }
 
