@@ -176,10 +176,10 @@ void player::sort_armor()
         // Player encumbrance - altered copy of '@' screen
         mvwprintz(w_sort_middle, cont_h - 13, 1, c_white, _("Encumbrance and Warmth"));
         for (int i = 0; i < num_bp; ++i) {
-            int enc, armorenc, true_enc;
-            double layers;
-            layers = armorenc = 0;
-            enc = encumb(body_part(i), layers, armorenc);
+            int enc = 0;
+            int armorenc = 0;
+            int true_enc = 0;
+            enc = encumb(body_part(i), armorenc);
             if (leftListSize && (tmp_worn[leftListIndex]->covers(static_cast<body_part>(i)))) {
                 mvwprintz(w_sort_middle, cont_h - 12 + i, 2, c_green, "%s:", armor_cat[i].c_str());
             } else {
@@ -450,7 +450,7 @@ std::vector<std::string> clothing_properties(item *worn_item, int width)
     props.push_back(name_and_value(space + _("Coverage:"),
                                    string_format("%3d", worn_item->get_coverage()), width));
     props.push_back(name_and_value(space + _("Encumbrance:"), string_format("%3d",
-                                   (worn_item->has_flag("FIT")) ? std::max(0, (worn_item->get_encumber() - 10)) :
+                                   (worn_item->has_flag("FIT")) ? std::max(1, (worn_item->get_encumber() - 10)) :
                                    worn_item->get_encumber()), width));
     props.push_back(name_and_value(space + _("Warmth:"),
                                    string_format("%3d", worn_item->get_warmth()), width));

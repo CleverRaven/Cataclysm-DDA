@@ -957,7 +957,7 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump, bool debug) c
         dump->push_back(iteminfo("ARMOR", _("Warmth: "), "", get_warmth()));
         if (has_flag("FIT")) {
             dump->push_back(iteminfo("ARMOR", _("Encumberment: "), _("<num> (fits)"),
-                                     std::max(0, get_encumber() - 10), true, "", true, true));
+                                     std::max(1, get_encumber() - 10), true, "", true, true));
         } else {
             dump->push_back(iteminfo("ARMOR", _("Encumberment: "), "",
                                      get_encumber(), true, "", true, true));
@@ -1152,13 +1152,8 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump, bool debug) c
 
         //See shorten version of this in armor_layers.cpp::clothing_flags_description
         if (is_armor() && has_flag("FIT")) {
-            if( get_encumber() > 0 ) {
-                dump->push_back(iteminfo("DESCRIPTION", "--"));
-                dump->push_back(iteminfo("DESCRIPTION", _("This piece of clothing fits you perfectly.")));
-            } else {
-                dump->push_back(iteminfo("DESCRIPTION", "--"));
-                dump->push_back(iteminfo("DESCRIPTION", _("This piece of clothing fits you perfectly and layers easily.")));
-            }
+            dump->push_back(iteminfo("DESCRIPTION", "--"));
+            dump->push_back(iteminfo("DESCRIPTION", _("This piece of clothing fits you perfectly.")));
         } else if (is_armor() && has_flag("VARSIZE")) {
             dump->push_back(iteminfo("DESCRIPTION", "--"));
             dump->push_back(iteminfo("DESCRIPTION", _("This piece of clothing can be refitted.")));
@@ -2332,18 +2327,18 @@ int item::get_encumber() const
     /* So I made some fixes here, although overall they are buffed up.
      * I am more than open to any fixes, however I thought I'd pitch
      * in having worn these types of clothing in different forms. -Davek */
-    if (item::item_tags.count("wooled")){
+    if (item::item_tags.count("wooled")) {
         encumber += 3;
-        }
-    if (item::item_tags.count("furred")){
+    }
+    if (item::item_tags.count("furred")) {
         encumber += 5;
-        }
-    if (item::item_tags.count("leather_padded")){
+    }
+    if (item::item_tags.count("leather_padded")) {
         encumber += 7;
-        }
-    if (item::item_tags.count("kevlar_padded")){
+    }
+    if (item::item_tags.count("kevlar_padded")) {
         encumber += 5;
-        }
+    }
     return encumber;
 }
 

@@ -2604,18 +2604,14 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4"));
     body_part aBodyPart[] = {bp_torso, bp_head, bp_eyes, bp_mouth, bp_arm_l, bp_arm_r, bp_hand_l,
                              bp_hand_r, bp_leg_l, bp_leg_r, bp_foot_l, bp_foot_r};
     int iEnc, iArmorEnc, iBodyTempInt;
-    double iLayers;
 
     const char *title_ENCUMB = _("ENCUMBRANCE AND WARMTH");
     mvwprintz(w_encumb, 0, 13 - utf8_width(title_ENCUMB) / 2, c_ltgray, title_ENCUMB);
     for (int i = 0; i < 8; i++) {
-        iLayers = iArmorEnc = 0;
+        iArmorEnc = 0;
         iBodyTempInt = (temp_conv[i] / 100.0) * 2 - 100; // Scale of -100 to +100
-        iEnc = encumb(aBodyPart[i], iLayers, iArmorEnc);
+        iEnc = encumb(aBodyPart[i], iArmorEnc);
         mvwprintz(w_encumb, i + 1, 1, c_ltgray, "%s", asText[i].c_str());
-        mvwprintz(w_encumb, i + 1, 8, c_ltgray, "(%d)", static_cast<int>( iLayers ) );
-        mvwprintz(w_encumb, i + 1, 11, c_ltgray, "%*s%d%s%d=", (iArmorEnc < 0 || iArmorEnc > 9 ? 1 : 2),
-                  " ", iArmorEnc, "+", iEnc - iArmorEnc);
         wprintz(w_encumb, encumb_color(iEnc), "%s%d", (iEnc < 0 || iEnc > 9 ? "" : " ") , iEnc);
         wprintz(w_encumb, bodytemp_color(i), " (%3d)", iBodyTempInt);
     }
@@ -2961,17 +2957,14 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4"));
             }
 
             for (unsigned i = min; i < max; i++) {
-                iLayers = iArmorEnc = 0;
+                iArmorEnc = 0;
                 iBodyTempInt = (temp_conv[i] / 100.0) * 2 - 100; // Scale of -100 to +100
-                iEnc = encumb(aBodyPart[i], iLayers, iArmorEnc);
+                iEnc = encumb(aBodyPart[i], iArmorEnc);
                 if (line == i) {
                     mvwprintz(w_encumb, i + 1 - min, 1, h_ltgray, "%s", asText[i].c_str());
                 } else {
                     mvwprintz(w_encumb, i + 1 - min, 1, c_ltgray, "%s", asText[i].c_str());
                 }
-                mvwprintz(w_encumb, i + 1 - min, 8, c_ltgray, "(%d)", static_cast<int>( iLayers ) );
-                mvwprintz(w_encumb, i + 1 - min, 11, c_ltgray, "%*s%d%s%d=", (iArmorEnc < 0 || iArmorEnc > 9 ? 1 : 2),
-                          " ", iArmorEnc, "+", iEnc - iArmorEnc);
                 wprintz(w_encumb, encumb_color(iEnc), "%s%d", (iEnc < 0 || iEnc > 9 ? "" : " ") , iEnc);
                 wprintz(w_encumb, bodytemp_color(i), " (%3d)", iBodyTempInt);
             }
@@ -11785,8 +11778,7 @@ int player::bonus_warmth(body_part bp) const
 int player::encumb( body_part bp ) const
 {
     int iArmorEnc = 0;
-    double iLayers = 0;
-    return encumb(bp, iLayers, iArmorEnc);
+    return encumb(bp, iArmorEnc);
 }
 
 
@@ -11807,11 +11799,9 @@ int player::encumb( body_part bp ) const
  * This is currently handled by each of these articles of clothing
  * being on a different layer and/or body part, therefore accumulating no encumbrance.
  */
-int player::encumb(body_part bp, double &layers, int &armorenc) const
+int player::encumb(body_part bp, int &armorenc) const
 {
     int ret = 0;
-    double layer[MAX_CLOTHING_LAYER] = { };
-    int level = 0;
     bool is_wearing_active_power_armor = false;
     for( auto &w : worn ) {
         if( w.active && w.is_power_armor() ) {
@@ -11822,48 +11812,22 @@ int player::encumb(body_part bp, double &layers, int &armorenc) const
 
     for (size_t i = 0; i < worn.size(); ++i) {
         if( worn[i].covers(bp) ) {
-            if( worn[i].has_flag( "SKINTIGHT" ) ) {
-                level = UNDERWEAR;
-            } else if ( worn[i].has_flag( "WAIST" ) ) {
-                level = WAIST_LAYER;
-            } else if ( worn[i].has_flag( "OUTER" ) ) {
-                level = OUTER_LAYER;
-            } else if ( worn[i].has_flag( "BELTED") ) {
-                level = BELTED_LAYER;
-            } else {
-                level = REGULAR_LAYER;
-            }
 
-            layer[level] += 10;
             if( worn[i].is_power_armor() && is_wearing_active_power_armor ) {
-                armorenc += std::max( 0, worn[i].get_encumber() - 40);
+                armorenc += worn[i].get_encumber() - 40;
             } else {
                 int newenc = worn[i].get_encumber();
-                // Fitted clothes will reduce either encumbrance or layering.
-                if( worn[i].has_flag( "FIT" ) ) {
-                    if( newenc > 0 ) {
-                        newenc = std::max( 0, newenc - 10 );
-                    } else if (layer[level] > 0) {
-                        layer[level] -= 5;
-                    }
+                // Fitted clothes will reduce encumbrance.
+                if( worn[i].has_flag( "FIT" ) && newenc > 0 ) {
+                    newenc = newenc - 10;
                 }
 
-                armorenc += newenc;
+                armorenc += std::max( 1, newenc );
             }
         }
     }
-    if (armorenc < 0) {
-        armorenc = 0;
-    }
+    armorenc = std::max(0, armorenc);
     ret += armorenc;
-
-    for( auto &elem : layer ) {
-        layers += std::max( 0.0, elem - 10.0 );
-    }
-
-    if (layers > 5.0) {
-        ret += (layers);
-    }
 
     if (volume_carried() > volume_capacity() - 2 && bp != bp_head) {
         ret += 30;
