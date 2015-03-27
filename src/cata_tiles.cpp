@@ -270,11 +270,7 @@ void cata_tiles::load_tilejson_from_file(std::ifstream &f, const std::string &im
         JsonObject curr_info = info.next_object();
         tile_height = curr_info.get_int("height");
         tile_width = curr_info.get_int("width");
-        if (curr_info.has_bool("iso")) {
-            tile_iso = curr_info.get_bool("iso");
-        } else {
-            tile_iso = false;
-        }
+        tile_iso = curr_info.get_bool("iso", false);
 
         default_tile_width = tile_width;
         default_tile_height = tile_height;
