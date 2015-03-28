@@ -3482,6 +3482,21 @@ void parse_tags(std::string &phrase, const player *u, const npc *me)
  } while (fa != std::string::npos && fb != std::string::npos);
 }
 
+void dialogue::clear_window_texts()
+{
+    // Note: don't erase the borders, therefor start and end one unit inwards.
+    // Note: start at second line because the first line contains the headers which are not
+    // reprinted.
+    // TODO: make this call werase and reprint the border & the header
+    for( int i = 2; i < FULL_SCREEN_HEIGHT - 1; i++ ) {
+        for( int j = 1; j < FULL_SCREEN_WIDTH - 1; j++ ) {
+            if( j != ( FULL_SCREEN_WIDTH / 2 ) + 1 ) {
+                mvwputch( win, i, j, c_black, ' ' );
+            }
+        }
+    }
+}
+
 talk_topic dialogue::opt(talk_topic topic)
 {
  std::string challenge = dynamic_line( topic );
@@ -3548,12 +3563,7 @@ talk_topic dialogue::opt(talk_topic topic)
          colors.push_back(c_white);
  }
 
- for (int i = 2; i < (FULL_SCREEN_HEIGHT - 1); i++) {
-  for (int j = 1; j < (FULL_SCREEN_WIDTH - 1); j++) {
-   if (j != (FULL_SCREEN_WIDTH / 2) + 1)
-    mvwputch(win, i, j, c_black, ' ');
-  }
- }
+    clear_window_texts();
 
  int curline = FULL_SCREEN_HEIGHT - 2, curhist = 1;
  nc_color col;

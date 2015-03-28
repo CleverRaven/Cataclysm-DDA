@@ -49,6 +49,9 @@ struct dialogue {
      */
     mutable std::vector<talk_response> responses;
     void gen_responses( talk_topic topic ) const;
+
+private:
+    void clear_window_texts();
 };
 
 struct talk_function {
