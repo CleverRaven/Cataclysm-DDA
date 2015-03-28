@@ -400,6 +400,17 @@ void game::init_npctalk()
     for(int j=0; j<10; j++) {talk_catch_up[j] = tmp_talk_catch_up[j];}
 }
 
+void npc_chatbin::check_missions()
+{
+    // TODO: or simply fail them? Some missions might only need to be reported.
+    auto &ma = missions_assigned;
+    auto const last = std::remove_if( ma.begin(), ma.end(), []( class mission const *m ) {
+        return !m->is_assigned();
+    } );
+    std::copy( last, ma.end(), std::back_inserter( missions ) );
+    ma.erase( last, ma.end() );
+}
+
 void npc::talk_to_u()
 {
     // This is necessary so that we don't bug the player over and over
@@ -416,15 +427,7 @@ void npc::talk_to_u()
     d.alpha = &g->u;
     d.beta = this;
 
-    // Look for missions that were assigned, but have been de-assigned (player character died),
-    // move them back into the available mission vector.
-    // TODO: or simply fail them? Some missions might only need to be reported.
-    auto &ma = chatbin.missions_assigned;
-    auto const last = std::remove_if( ma.begin(), ma.end(), []( class mission const *m ) {
-        return !m->is_assigned();
-    } );
-    std::copy( last, ma.end(), std::back_inserter( chatbin.missions ) );
-    ma.erase( last, ma.end() );
+    chatbin.check_missions();
 
     for( auto &mission : chatbin.missions_assigned ) {
         if( mission->get_assigned_player_id() == g->u.getID() ) {

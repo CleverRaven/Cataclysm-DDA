@@ -446,6 +446,11 @@ struct npc_chatbin : public JsonSerializer, public JsonDeserializer
      */
     void add_new_mission( mission *miss );
     /**
+     * Check that assigned missions are still assigned if not move them back to the
+     * unassigned vector. This is called directly before talking.
+     */
+    void check_missions();
+    /**
      * Missions that the NPC can give out. All missions in this vector should be unassigned,
      * when given out, they should be moved to @ref missions_assigned.
      */
