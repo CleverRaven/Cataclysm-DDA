@@ -13627,7 +13627,7 @@ void intro()
  * reports ${LANG} for UTF-8 as "en_US.utf8"! Be aware!
  */
 #if !(defined _WIN32 || defined WINDOWS || defined TILES)
-    // Check if locale is UTF-8 encoding
+    // Check if locale has UTF-8 encoding
     const char *p_locale = setlocale(LC_ALL, NULL);
     bool not_utf8 = p_locale == NULL ? true : false;
     if(not_utf8 == false) {
@@ -13640,7 +13640,6 @@ void intro()
         not_utf8 = index == std::string::npos ? true : false;
         if(not_utf8 == false) {
             // replace entirety of string with important part
-            size_t len = locale.size() - index;
             locale.erase(0, index);
             // afterwards, it should simply be UTF8
             index = locale.find('-');
