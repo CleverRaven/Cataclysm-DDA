@@ -191,7 +191,7 @@ class uimenu: public ui_container
         void filterlist();
         void apply_scrollbar();
         std::string inputfilter();
-        void refresh(bool refresh_callback = true);
+        void refresh(bool refresh_callback = true) override;
         void redraw(bool redraw_callback = true);
         void addentry(std::string str);
         void addentry(const char *format, ...);
@@ -227,8 +227,8 @@ class pointmenu_cb : public uimenu_callback {
     public:
         pointmenu_cb( std::vector< point > &pts );
         ~pointmenu_cb() { };
-        void select( int num, uimenu *menu );
-        void refresh( uimenu *menu );
+        void select( int num, uimenu *menu ) override;
+        void refresh( uimenu *menu ) override;
 };
 
 #endif

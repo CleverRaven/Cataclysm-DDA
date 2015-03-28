@@ -3439,7 +3439,7 @@ void parse_tags(std::string &phrase, const player *u, const npc *me)
     if (!me->weapon.is_gun())
      phrase.replace(fa, l, _("BADAMMO"));
     else {
-     phrase.replace(fa, l, ammunition_type::find_ammunition_type( me->weapon.ammo_type() )->name() );
+     phrase.replace(fa, l, ammo_name(me->weapon.ammo_type()) );
     }
    } else if (tag == "<punc>") {
     switch (rng(0, 2)) {

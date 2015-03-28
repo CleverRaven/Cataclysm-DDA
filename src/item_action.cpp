@@ -43,7 +43,7 @@ class actmenu_cb : public uimenu_callback {
         }
         ~actmenu_cb() { }
         
-        bool key(int ch, int /*num*/, uimenu * /*menu*/) {
+        bool key(int ch, int /*num*/, uimenu * /*menu*/) override {
             input_event wrap = input_event( ch, CATA_INPUT_KEYBOARD );
             const std::string action = ctxt.input_to_action( wrap );
             if( action == "HELP_KEYBINDINGS" ) {

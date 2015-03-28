@@ -63,9 +63,15 @@ struct recipe {
     int result_mult; // used by certain batch recipes that create more than one stack of the result
     bool paired;
 
-    // only used during loading json data: books and the skill needed
-    // to learn this recipe from.
-    std::vector<std::pair<std::string, int> > booksets;
+    // only used during loading json data: book_id is the id of an book item, other stuff is copied
+    // into @ref islot_book::recipes.
+    struct bookdata_t {
+        std::string book_id;
+        int skill_level;
+        std::string recipe_name;
+        bool hidden;
+    };
+    std::vector<bookdata_t> booksets;
 
     //Create a string list to describe the skill requirements fir this recipe
     // Format: skill_name(amount), skill_name(amount)
