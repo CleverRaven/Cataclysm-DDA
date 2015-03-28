@@ -3383,13 +3383,14 @@ talk_topic dialogue::opt(talk_topic topic)
  do {
   do {
    ch = choose_response( hilight_lines );
-   if (special_talk(ch) == TALK_NONE)
+        auto st = special_talk(ch);
+        if( st != TALK_NONE) {
+            return st;
+        }
     ch -= 'a';
-  } while (special_talk(ch) == TALK_NONE && (ch < 0 || ch >= (int)responses.size()));
+  } while ((ch < 0 || ch >= (int)responses.size()));
   okay = false;
-  if (special_talk(ch) != TALK_NONE)
-   okay = true;
-  else if (responses[ch].color == c_white || responses[ch].color == c_green)
+  if (responses[ch].color == c_white || responses[ch].color == c_green)
    okay = true;
   else if (responses[ch].color == c_red && query_yn(_("You may be attacked! Proceed?")))
    okay = true;
@@ -3397,9 +3398,6 @@ talk_topic dialogue::opt(talk_topic topic)
    okay = true;
  } while (!okay);
  history.push_back("");
-
- if (special_talk(ch) != TALK_NONE)
-  return special_talk(ch);
 
  std::string response_printed = rmp_format(_("<you say something>You: %s"), responses[ch].text.c_str());
     add_to_history( response_printed );
