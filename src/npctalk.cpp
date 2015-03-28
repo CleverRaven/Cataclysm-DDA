@@ -84,16 +84,16 @@ tag_data talk_tags[NUM_STATIC_TAGS] = {
 #define TRIAL(tr, diff) ret.back().trial.type = tr;\
                         ret.back().trial.difficulty = diff
 
-#define SUCCESS(topic)  ret.back().success = topic
-#define FAILURE(topic)  ret.back().failure = topic
+#define SUCCESS(topic_)  ret.back().success.topic = topic_
+#define FAILURE(topic_)  ret.back().failure.topic = topic_
 
-#define SUCCESS_OPINION(T, F, V, A, O)   ret.back().opinion_success =\
+#define SUCCESS_OPINION(T, F, V, A, O)   ret.back().success.opinion =\
                                          npc_opinion(T, F, V, A, O)
-#define FAILURE_OPINION(T, F, V, A, O)   ret.back().opinion_failure =\
+#define FAILURE_OPINION(T, F, V, A, O)   ret.back().failure.opinion =\
                                          npc_opinion(T, F, V, A, O)
 
-#define SUCCESS_ACTION(func)  ret.back().effect_success = func
-#define FAILURE_ACTION(func)  ret.back().effect_failure = func
+#define SUCCESS_ACTION(func)  ret.back().success.effect = func
+#define FAILURE_ACTION(func)  ret.back().failure.effect = func
 
 #define dbg(x) DebugLog((DebugLevel)(x),D_GAME) << __FILE__ << ":" << __LINE__ << ": "
 
@@ -1373,7 +1373,7 @@ talk_response &dialogue::add_response( const std::string &text, talk_topic const
     responses.push_back( talk_response() );
     talk_response &result = responses.back();
     result.text = text;
-    result.success = r;
+    result.success.topic = r;
     return result;
 }
 
@@ -1391,7 +1391,7 @@ talk_response &dialogue::add_response( const std::string &text, talk_topic const
                                        void (talk_function::*effect_success)(npc *) ) const
 {
     talk_response &result = add_response( text, r );
-    result.effect_success = effect_success;
+    result.success.effect = effect_success;
     return result;
 }
 
@@ -3403,21 +3403,21 @@ talk_topic dialogue::opt(talk_topic topic)
     const bool success = chosen.trial.roll( *this );
  talk_function effect;
     if( success ) {
-  (effect.*chosen.effect_success)(beta);
-  beta->op_of_u += chosen.opinion_success;
+  (effect.*chosen.success.effect)(beta);
+  beta->op_of_u += chosen.success.opinion;
   if (beta->turned_hostile()) {
    beta->make_angry();
    done = true;
   }
-  return chosen.success;
+  return chosen.success.topic;
  } else {
-  (effect.*chosen.effect_failure)(beta);
-  beta->op_of_u += chosen.opinion_failure;
+  (effect.*chosen.failure.effect)(beta);
+  beta->op_of_u += chosen.failure.opinion;
   if (beta->turned_hostile()) {
    beta->make_angry();
    done = true;
   }
-  return chosen.failure;
+  return chosen.failure.topic;
  }
  return TALK_NONE; // Shouldn't ever happen
 }

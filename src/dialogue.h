@@ -202,17 +202,25 @@ struct talk_response {
     const Skill* skill = nullptr;
     matype_id style;
     /**
-     * The following defines what happens when the trial succeeds or fails. If trial is
+     * Defines what happens when the trial succeeds or fails. If trial is
      * TALK_TRIAL_NONE it always succeeds.
-     * talk_topic is the topic that will be handled next, opinion is added to the NPC's opinion
-     * of the player character (@ref npc::op_of_u) and the effect function is called.
      */
-    npc_opinion opinion_success;
-    npc_opinion opinion_failure;
-    void (talk_function::*effect_success)(npc *) = &talk_function::nothing;
-    void (talk_function::*effect_failure)(npc *) = &talk_function::nothing;
-    talk_topic success = TALK_NONE;
-    talk_topic failure = TALK_NONE;
+    struct effect_t {
+        /**
+         * How (if at all) the NPCs opinion of the player character (@ref npc::op_of_u) will change.
+         */
+        npc_opinion opinion;
+        /**
+         * Function that is called when the response is chosen.
+         */
+        void (talk_function::*effect)(npc *) = &talk_function::nothing;
+        /**
+         * Topic to switch to. TALK_DONE ends the talking, TALK_NONE keeps the current topic.
+         */
+        talk_topic topic = TALK_NONE;
+    };
+    effect_t success;
+    effect_t failure;
 
     /**
      * Text (already folded) and color that is used to display this response.
