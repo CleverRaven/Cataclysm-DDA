@@ -111,8 +111,6 @@ tag_data talk_tags[NUM_STATIC_TAGS] = {
 #define SUCCESS_ACTION(func)  ret.back().effect_success = func
 #define FAILURE_ACTION(func)  ret.back().effect_failure = func
 
-#define SUCCESS_MISSION(type) ret.back().miss = type
-
 #define dbg(x) DebugLog((DebugLevel)(x),D_GAME) << __FILE__ << ":" << __LINE__ << ": "
 
 int topic_category(talk_topic topic);
