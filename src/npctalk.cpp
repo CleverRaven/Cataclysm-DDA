@@ -85,10 +85,6 @@ tag_data talk_tags[NUM_STATIC_TAGS] = {
                                  ret.back().text = txt;\
                                  ret.back().tempvalue = index
 
-#define SELECT_SKIL(txt, skillIn)  ret.push_back(talk_response());\
-                                 ret.back().text = txt;\
-                                 ret.back().skill = skillIn;
-
 #define SELECT_STYLE(txt, styleIn)  ret.push_back(talk_response());\
                                  ret.back().text = txt;\
                                  ret.back().style = styleIn;
@@ -1417,6 +1413,16 @@ talk_response &dialogue::add_response( const std::string &text, talk_topic const
     return result;
 }
 
+talk_response &dialogue::add_response( const std::string &text, talk_topic const r, const Skill *skill ) const
+{
+    if( skill == nullptr ) {
+        debugmsg( "tried to select null skill" );
+    }
+    talk_response &result = add_response( text, r );
+    result.skill = skill;
+    return result;
+}
+
 void dialogue::gen_responses( const talk_topic topic ) const
 {
     const auto p = beta; // for compatibility, later replace it in the code below
@@ -2191,11 +2197,11 @@ void dialogue::gen_responses( const talk_topic topic ) const
                 if(skillt == NULL) {
                     resume << martialarts[backlog.name].name;
                     SELECT_STYLE(resume.str(), backlog.name);
+                    SUCCESS(TALK_TRAIN_START);
                 } else {
                     resume << skillt->name();
-                    SELECT_SKIL(resume.str(), skillt);
+                    add_response( resume.str(), TALK_TRAIN_START, skillt );
                 }
-                SUCCESS(TALK_TRAIN_START);
             }
             std::vector<matype_id> styles = p->styles_offered_to(g->u);
             std::vector<const Skill*> trainable = p->skills_offered_to(g->u);
@@ -2210,11 +2216,10 @@ void dialogue::gen_responses( const talk_topic topic ) const
                 //shift--;
                 printed++;
                 const Skill* trained = trainable[i];
-                SELECT_SKIL(string_format(_("%s: %d -> %d (cost %d)"), trained->name().c_str(),
+                std::string text = string_format(_("%s: %d -> %d (cost %d)"), trained->name().c_str(),
                       static_cast<int>(g->u.skillLevel(trained)), g->u.skillLevel(trained) + 1,
-                      200 * (g->u.skillLevel(trained) + 1)),
-                      trainable[i]);
-                    SUCCESS(TALK_TRAIN_START);
+                      200 * (g->u.skillLevel(trained) + 1));
+                add_response( text, TALK_TRAIN_START, trained );
             }
             if (shift < 0) {
                 shift = 0;
