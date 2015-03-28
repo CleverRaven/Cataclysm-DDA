@@ -126,17 +126,17 @@ struct talk_response {
      * always success, 0 means never. It is however affected by mutations/traits/bionics/etc. of
      * the player character. See @ref trial_chance.
      */
-    talk_trial trial;
-    int difficulty;
+    talk_trial trial = TALK_TRIAL_NONE;
+    int difficulty = 0;
     /**
      * The following values are forwarded to the chatbin of the NPC (see @ref npc_chatbin).
      * Except @ref miss, it is apparently not used but should be a mission type that can create
      * new mission.
      */
-    mission *mission_selected;
-    mission_type_id miss; // If it generates a new mission
-    int tempvalue; // Used for various stuff
-    const Skill* skill;
+    mission *mission_selected = nullptr;
+    mission_type_id miss = MISSION_NULL; // If it generates a new mission
+    int tempvalue = -1; // Used for various stuff
+    const Skill* skill = nullptr;
     matype_id style;
     /**
      * The following defines what happens when the trial succeeds or fails. If trial is
@@ -146,28 +146,12 @@ struct talk_response {
      */
     npc_opinion opinion_success;
     npc_opinion opinion_failure;
-    void (talk_function::*effect_success)(npc *);
-    void (talk_function::*effect_failure)(npc *);
-    talk_topic success;
-    talk_topic failure;
+    void (talk_function::*effect_success)(npc *) = &talk_function::nothing;
+    void (talk_function::*effect_failure)(npc *) = &talk_function::nothing;
+    talk_topic success = TALK_NONE;
+    talk_topic failure = TALK_NONE;
 
-    talk_response()
-    {
-        text = "";
-        trial = TALK_TRIAL_NONE;
-        difficulty = 0;
-        mission_selected = nullptr;
-        miss = MISSION_NULL;
-        tempvalue = -1;
-        skill = NULL;
-        style = "";
-        effect_success = &talk_function::nothing;
-        effect_failure = &talk_function::nothing;
-        opinion_success = npc_opinion();
-        opinion_failure = npc_opinion();
-        success = TALK_NONE;
-        failure = TALK_NONE;
-    }
+    talk_response() = default;
 };
 
 struct talk_response_list {
