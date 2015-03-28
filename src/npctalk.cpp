@@ -1384,6 +1384,25 @@ std::string dialogue::dynamic_line( const talk_topic topic ) const
     return "I don't know what to say. (BUG (npctalk.cpp:dynamic_line))";
 }
 
+talk_response &dialogue::add_response( const std::string &text, talk_topic const r ) const
+{
+    responses.push_back( talk_response() );
+    talk_response &result = responses.back();
+    result.text = text;
+    result.success = r;
+    return result;
+}
+
+talk_response &dialogue::add_response_done( const std::string &text ) const
+{
+    return add_response( text, TALK_DONE );
+}
+
+talk_response &dialogue::add_response_none( const std::string &text ) const
+{
+    return add_response( text, TALK_NONE );
+}
+
 void dialogue::gen_responses( const talk_topic topic ) const
 {
     const auto p = beta; // for compatibility, later replace it in the code below
@@ -1394,86 +1413,68 @@ void dialogue::gen_responses( const talk_topic topic ) const
 
     switch (topic) {
         case TALK_GUARD:
-            RESPONSE(_("Don't mind me..."));
-                SUCCESS(TALK_DONE);
+            add_response_done( _("Don't mind me...") );
             break;
 
         case TALK_MISSION_LIST:
             if (p->chatbin.missions.empty()) {
-                RESPONSE(_("Oh, okay."));
-                    SUCCESS(TALK_NONE);
+                add_response_none( _("Oh, okay.") );
             } else if (p->chatbin.missions.size() == 1) {
                 SELECT_MISS(_("Tell me about it."), p->chatbin.missions.front() );
                     SUCCESS(TALK_MISSION_OFFER);
-                RESPONSE(_("Never mind, I'm not interested."));
-                    SUCCESS(TALK_NONE);
+                add_response_none( _("Never mind, I'm not interested.") );
             } else {
                 for( auto &mission : p->chatbin.missions ) {
                     SELECT_MISS( mission->get_type().name, mission );
                         SUCCESS(TALK_MISSION_OFFER);
                 }
-                RESPONSE(_("Never mind, I'm not interested."));
-                    SUCCESS(TALK_NONE);
+                add_response_none( _("Never mind, I'm not interested.") );
             }
             break;
 
         case TALK_MISSION_LIST_ASSIGNED:
             if( missions_assigned.empty() ) {
-                RESPONSE(_("Never mind then."));
-                    SUCCESS(TALK_NONE);
+                add_response_none( _("Never mind then.") );
             } else if( missions_assigned.size() == 1 ) {
                 SELECT_MISS(_("I have news."), missions_assigned.front() );
                     SUCCESS(TALK_MISSION_INQUIRE);
-                RESPONSE(_("Never mind."));
-                    SUCCESS(TALK_NONE);
+                add_response_none( _("Never mind.") );
             } else {
                 for( auto &miss : missions_assigned ) {
                     SELECT_MISS( miss->get_type().name, miss );
                         SUCCESS(TALK_MISSION_INQUIRE);
                 }
-                RESPONSE(_("Never mind."));
-                    SUCCESS(TALK_NONE);
+                add_response_none( _("Never mind.") );
             }
             break;
 
         case TALK_MISSION_DESCRIBE:
-            RESPONSE(_("What's the matter?"));
-                SUCCESS(TALK_MISSION_OFFER);
-            RESPONSE(_("I don't care."));
-                SUCCESS(TALK_MISSION_REJECTED);
+            add_response( _("What's the matter?"), TALK_MISSION_OFFER );
+            add_response( _("I don't care."), TALK_MISSION_REJECTED );
             break;
 
         case TALK_MISSION_OFFER:
             RESPONSE(_("I'll do it!"));
                 SUCCESS(TALK_MISSION_ACCEPTED);
                     SUCCESS_ACTION(&talk_function::assign_mission);
-            RESPONSE(_("Not interested."));
-                SUCCESS(TALK_MISSION_REJECTED);
+            add_response( _("Not interested."), TALK_MISSION_REJECTED );
             break;
 
         case TALK_MISSION_ACCEPTED:
-            RESPONSE(_("Not a problem."));
-                SUCCESS(TALK_NONE);
-            RESPONSE(_("Got any advice?"));
-                SUCCESS(TALK_MISSION_ADVICE);
-            RESPONSE(_("Can you share some equipment?"));
-                SUCCESS(TALK_SHARE_EQUIPMENT);
-            RESPONSE(_("I'll be back soon!"));
-                SUCCESS(TALK_DONE);
+            add_response_none( _("Not a problem.") );
+            add_response( _("Got any advice?"), TALK_MISSION_ADVICE );
+            add_response( _("Can you share some equipment?"), TALK_SHARE_EQUIPMENT );
+            add_response_done( _("I'll be back soon!") );
             break;
 
         case TALK_MISSION_ADVICE:
-            RESPONSE(_("Sounds good, thanks."));
-                SUCCESS(TALK_NONE);
-            RESPONSE(_("Sounds good.  Bye!"));
-                SUCCESS(TALK_DONE);
+            add_response_none( _("Sounds good, thanks.") );
+            add_response_done( _("Sounds good.  Bye!") );
             break;
 
         case TALK_MISSION_REJECTED:
-            RESPONSE(_("I'm sorry."));
-                SUCCESS(TALK_NONE);
-            RESPONSE(_("Whatever.  Bye."));
-                SUCCESS(TALK_DONE);
+            add_response_none( _("I'm sorry.") );
+            add_response_done( _("Whatever.  Bye.") );
             break;
 
         case TALK_MISSION_INQUIRE: {
@@ -1488,8 +1489,7 @@ void dialogue::gen_responses( const talk_topic topic ) const
                     FAILURE(TALK_MISSION_FAILURE);
                         FAILURE_OPINION(-3, 0, -1, 2, 0);
             } else if( !mission->is_complete( p->getID() ) ) {
-                RESPONSE(_("Not yet."));
-                    SUCCESS(TALK_NONE);
+                add_response_none( _("Not yet.") );
                 if( mission->get_type().goal == MGOAL_KILL_MONSTER ) {
                     RESPONSE(_("Yup, I killed it."));
                     TRIAL(TALK_TRIAL_LIE, 10 + p->op_of_u.trust * 5);
@@ -1499,8 +1499,7 @@ void dialogue::gen_responses( const talk_topic topic ) const
                             FAILURE_OPINION(-5, 0, -1, 5, 0);
                             FAILURE_ACTION(&talk_function::mission_failure);
                 }
-                RESPONSE(_("No.  I'll get back to it, bye!"));
-                    SUCCESS(TALK_DONE);
+                add_response_done( _("No.  I'll get back to it, bye!") );
             } else {
                 // TODO: Lie about mission
                 switch( mission->get_type().goal ) {
@@ -1588,8 +1587,7 @@ void dialogue::gen_responses( const talk_topic topic ) const
                     SUCCESS_ACTION(&talk_function::clear_mission);
 
         case TALK_MISSION_FAILURE:
-            RESPONSE(_("I'm sorry.  I did what I could."));
-                SUCCESS(TALK_NONE);
+            add_response_none( _("I'm sorry.  I did what I could.") );
             break;
 
         case TALK_MISSION_REWARD:
@@ -1602,256 +1600,189 @@ void dialogue::gen_responses( const talk_topic topic ) const
             break;
 
         case TALK_EVAC_MERCHANT:
-            RESPONSE(_("I'm actually new..."));
-                SUCCESS(TALK_EVAC_MERCHANT_NEW);
-            RESPONSE(_("What are you doing here?"));
-                SUCCESS(TALK_EVAC_MERCHANT_PLANS);
-            RESPONSE(_("Heard anything about the outside world?"));
-                SUCCESS(TALK_EVAC_MERCHANT_WORLD);
-            RESPONSE(_("Is there any way I can join your group?"));
-                SUCCESS(TALK_EVAC_MERCHANT_ASK_JOIN);
-            RESPONSE(_("Can I do anything for the center?"));
-                SUCCESS(TALK_MISSION_LIST);
+            add_response( _("I'm actually new..."), TALK_EVAC_MERCHANT_NEW );
+            add_response( _("What are you doing here?"), TALK_EVAC_MERCHANT_PLANS );
+            add_response( _("Heard anything about the outside world?"), TALK_EVAC_MERCHANT_WORLD );
+            add_response( _("Is there any way I can join your group?"), TALK_EVAC_MERCHANT_ASK_JOIN );
+            add_response( _("Can I do anything for the center?"), TALK_MISSION_LIST );
             if( missions_assigned.size() == 1 ) {
-                RESPONSE(_("About that job..."));
-                    SUCCESS(TALK_MISSION_INQUIRE);
+                add_response( _("About that job..."), TALK_MISSION_INQUIRE );
             } else if( missions_assigned.size() >= 2 ) {
-                RESPONSE(_("About one of those jobs..."));
-                    SUCCESS(TALK_MISSION_LIST_ASSIGNED);
+                add_response( _("About one of those jobs..."), TALK_MISSION_LIST_ASSIGNED );
             }
             RESPONSE(_("Let's trade then."));
                 SUCCESS_ACTION(&talk_function::start_trade);
                 SUCCESS(TALK_EVAC_MERCHANT);
-            RESPONSE(_("Well, bye."));
-                SUCCESS(TALK_DONE);
+            add_response_done( _("Well, bye.") );
             break;
 
         case TALK_EVAC_MERCHANT_NEW:
-            RESPONSE(_("No rest for the weary..."));
-                SUCCESS(TALK_EVAC_MERCHANT);
+            add_response( _("No rest for the weary..."), TALK_EVAC_MERCHANT );
             break;
         case TALK_EVAC_MERCHANT_PLANS:
-            RESPONSE(_("It's just as bad out here, if not worse."));
-                SUCCESS(TALK_EVAC_MERCHANT_PLANS2);
+            add_response( _("It's just as bad out here, if not worse."), TALK_EVAC_MERCHANT_PLANS2 );
             break;
         case TALK_EVAC_MERCHANT_PLANS2:
             if (g->u.int_cur >= 12){
-                RESPONSE(_("[INT 12] Wait, six buses and refugees... how many people do you still have crammed in here?"));
-                    SUCCESS(TALK_EVAC_MERCHANT_PLANS3);
+                add_response( _("[INT 12] Wait, six buses and refugees... how many people do you still have crammed in here?"),
+                                  TALK_EVAC_MERCHANT_PLANS3 );
             }
-            RESPONSE(_("Guess shit's a mess everywhere..."));
-                SUCCESS(TALK_EVAC_MERCHANT);
+            add_response( _("Guess shit's a mess everywhere..."), TALK_EVAC_MERCHANT );
             break;
         case TALK_EVAC_MERCHANT_PLANS3:
-            RESPONSE(_("Guess it works for you..."));
-                SUCCESS(TALK_EVAC_MERCHANT);
+            add_response( _("Guess it works for you..."), TALK_EVAC_MERCHANT );
             break;
         case TALK_EVAC_MERCHANT_HORDES:
-            RESPONSE(_("Thanks for the tip."));
-                SUCCESS(TALK_EVAC_MERCHANT);
+            add_response( _("Thanks for the tip."), TALK_EVAC_MERCHANT );
             break;
         case TALK_EVAC_MERCHANT_PRIME_LOOT:
-            RESPONSE(_("Thanks, I'll keep an eye out."));
-                SUCCESS(TALK_EVAC_MERCHANT);
+            add_response( _("Thanks, I'll keep an eye out."), TALK_EVAC_MERCHANT );
             break;
         case TALK_EVAC_MERCHANT_NO:
-            RESPONSE(_("Fine..."));
-                SUCCESS(TALK_EVAC_MERCHANT);
+            add_response( _("Fine..."), TALK_EVAC_MERCHANT );
             break;
         case TALK_EVAC_MERCHANT_HELL_NO:
-            RESPONSE(_("Fine... *coughupyourscough*"));
-                SUCCESS(TALK_EVAC_MERCHANT);
+            add_response( _("Fine... *coughupyourscough*"), TALK_EVAC_MERCHANT );
             break;
 
         case TALK_EVAC_MERCHANT_ASK_JOIN:
             if (g->u.int_cur > 10){
-                RESPONSE(_("[INT 11] I'm sure I can organize salvage operations to increase the bounty scavengers bring in!"));
-                    SUCCESS(TALK_EVAC_MERCHANT_NO);
+                add_response( _("[INT 11] I'm sure I can organize salvage operations to increase the bounty scavengers bring in!"),
+                                  TALK_EVAC_MERCHANT_NO );
             }
             if (g->u.int_cur <= 6 && g->u.str_cur > 10){
-                RESPONSE(_("[STR 11] I punch things in face real good!"));
-                    SUCCESS(TALK_EVAC_MERCHANT_NO);
+                add_response( _("[STR 11] I punch things in face real good!"), TALK_EVAC_MERCHANT_NO );
             }
-            RESPONSE(_("I'm sure I can do something to change your mind *wink*"));
-                SUCCESS(TALK_EVAC_MERCHANT_HELL_NO);
-            RESPONSE(_("I can pull my own weight!"));
-                SUCCESS(TALK_EVAC_MERCHANT_NO);
-            RESPONSE(_("I guess I'll look somewhere else..."));
-                SUCCESS(TALK_EVAC_MERCHANT);
+            add_response( _("I'm sure I can do something to change your mind *wink*"), TALK_EVAC_MERCHANT_HELL_NO );
+            add_response( _("I can pull my own weight!"), TALK_EVAC_MERCHANT_NO );
+            add_response( _("I guess I'll look somewhere else..."), TALK_EVAC_MERCHANT );
             break;
 
         case TALK_EVAC_MERCHANT_WORLD:
-            RESPONSE(_("Hordes?"));
-                SUCCESS(TALK_EVAC_MERCHANT_HORDES);
-            RESPONSE(_("Heard of anything better than the odd gun cache?"));
-                SUCCESS(TALK_EVAC_MERCHANT_PRIME_LOOT);
-            RESPONSE(_("Was hoping for something more..."));
-                SUCCESS(TALK_EVAC_MERCHANT);
+            add_response( _("Hordes?"), TALK_EVAC_MERCHANT_HORDES );
+            add_response( _("Heard of anything better than the odd gun cache?"), TALK_EVAC_MERCHANT_PRIME_LOOT );
+            add_response( _("Was hoping for something more..."), TALK_EVAC_MERCHANT );
             break;
 
         case TALK_EVAC_GUARD1:
-            RESPONSE(_("What is this place?"));
-                SUCCESS(TALK_EVAC_GUARD1_PLACE);
-            RESPONSE(_("Can I join you guys?"));
-                SUCCESS(TALK_EVAC_GUARD1_JOIN);
-            RESPONSE(_("Anything I can do for you?"));
-                SUCCESS(TALK_EVAC_GUARD1_JOB);
-            RESPONSE(_("See you later."));
-                SUCCESS(TALK_EVAC_GUARD1_BYE);
+            add_response( _("What is this place?"), TALK_EVAC_GUARD1_PLACE );
+            add_response( _("Can I join you guys?"), TALK_EVAC_GUARD1_JOIN );
+            add_response( _("Anything I can do for you?"), TALK_EVAC_GUARD1_JOB );
+            add_response( _("See you later."), TALK_EVAC_GUARD1_BYE );
             break;
 
         case TALK_EVAC_GUARD1_PLACE:
-            RESPONSE(_("So are you with the government or something?"));
-                SUCCESS(TALK_EVAC_GUARD1_GOVERNMENT);
-            RESPONSE(_("What do you trade?"));
-                SUCCESS(TALK_EVAC_GUARD1_TRADE);
+            add_response( _("So are you with the government or something?"), TALK_EVAC_GUARD1_GOVERNMENT );
+            add_response( _("What do you trade?"), TALK_EVAC_GUARD1_TRADE );
             break;
 
         case TALK_EVAC_GUARD1_GOVERNMENT:
-            RESPONSE(_("Oh, okay."));
-                SUCCESS(TALK_EVAC_GUARD1);
-            RESPONSE(_("Oh, okay. I'll go look for him"));
-                SUCCESS(TALK_DONE);
+            add_response( _("Oh, okay."), TALK_EVAC_GUARD1 );
+            add_response_done( _("Oh, okay. I'll go look for him") );
             break;
 
         case TALK_EVAC_GUARD1_TRADE:
-            RESPONSE(_("I'll go talk to them later."));
-                SUCCESS(TALK_EVAC_GUARD1);
-            RESPONSE(_("Will do, thanks!"));
-                SUCCESS(TALK_DONE);
+            add_response( _("I'll go talk to them later."), TALK_EVAC_GUARD1 );
+            add_response_done( _("Will do, thanks!") );
             break;
 
         case TALK_EVAC_GUARD1_JOIN:
-            RESPONSE(_("That's pretty blunt!"));
-                SUCCESS(TALK_EVAC_GUARD1_JOIN2);
+            add_response( _("That's pretty blunt!"), TALK_EVAC_GUARD1_JOIN2 );
             break;
 
         case TALK_EVAC_GUARD1_JOIN2:
-            RESPONSE(_("So no negotiating? No, 'If you do this quest then we'll let you in?'"));
-                SUCCESS(TALK_EVAC_GUARD1_JOIN3);
+            add_response( _("So no negotiating? No, 'If you do this quest then we'll let you in?'"),
+                              TALK_EVAC_GUARD1_JOIN3 );
             break;
 
         case TALK_EVAC_GUARD1_JOIN3:
-            RESPONSE(_("I don't like your attitude."));
-                SUCCESS(TALK_EVAC_GUARD1_ATTITUDE);
-            RESPONSE(_("Well alright then."));
-                SUCCESS(TALK_EVAC_GUARD1);
+            add_response( _("I don't like your attitude."), TALK_EVAC_GUARD1_ATTITUDE );
+            add_response( _("Well alright then."), TALK_EVAC_GUARD1 );
             break;
 
         case TALK_EVAC_GUARD1_ATTITUDE:
             RESPONSE(_("I think I'd rather rearrange your face instead!"));
                 SUCCESS_ACTION(&talk_function::insult_combat);
                 SUCCESS(TALK_DONE);
-            RESPONSE(_("I will."));
-                SUCCESS(TALK_DONE);
+            add_response_done( _("I will.") );
             break;
 
         case TALK_EVAC_GUARD1_JOB:
-            RESPONSE(_("Alright then."));
-                SUCCESS(TALK_EVAC_GUARD1);
-            RESPONSE(_("Old Guard huh, I'll go talk to him!"));
-                SUCCESS(TALK_DONE);
-            RESPONSE(_("Who are the Old Guard?"));
-                SUCCESS(TALK_EVAC_GUARD1_OLDGUARD);
+            add_response( _("Alright then."), TALK_EVAC_GUARD1 );
+            add_response_done( _("Old Guard huh, I'll go talk to him!") );
+            add_response( _("Who are the Old Guard?"), TALK_EVAC_GUARD1_OLDGUARD );
             break;
 
         case TALK_EVAC_GUARD1_OLDGUARD:
-            RESPONSE(_("Whatever, I had another question."));
-                SUCCESS(TALK_EVAC_GUARD1);
-            RESPONSE(_("Okay, I'll go look for him then."));
-                SUCCESS(TALK_DONE);
+            add_response( _("Whatever, I had another question."), TALK_EVAC_GUARD1 );
+            add_response_done( _("Okay, I'll go look for him then.") );
             break;
 
         case TALK_EVAC_GUARD1_BYE:
-            RESPONSE(_("..."));
-                SUCCESS(TALK_DONE);
+            add_response_done( _("...") );
             break;
 
         case TALK_EVAC_GUARD2:
-            RESPONSE(_("I am actually new."));
-                SUCCESS(TALK_EVAC_GUARD2_NEW);
-            RESPONSE(_("Are there any rules I should follow while inside?"));
-                SUCCESS(TALK_EVAC_GUARD2_RULES);
-            RESPONSE(_("So who is everyone around here?"));
-                SUCCESS(TALK_EVAC_GUARD2_WHO);
-            RESPONSE(_("Lets trade!"));
-                SUCCESS(TALK_EVAC_GUARD2_TRADE);
-            RESPONSE(_("Is there anything I can do to help?"));
-                SUCCESS(TALK_MISSION_LIST);
+            add_response( _("I am actually new."), TALK_EVAC_GUARD2_NEW );
+            add_response( _("Are there any rules I should follow while inside?"), TALK_EVAC_GUARD2_RULES );
+            add_response( _("So who is everyone around here?"), TALK_EVAC_GUARD2_WHO );
+            add_response( _("Lets trade!"), TALK_EVAC_GUARD2_TRADE );
+            add_response( _("Is there anything I can do to help?"), TALK_MISSION_LIST );
             if( missions_assigned.size() == 1) {
-                RESPONSE(_("About that job..."));
-                    SUCCESS(TALK_MISSION_INQUIRE);
+                add_response( _("About that job..."), TALK_MISSION_INQUIRE );
             } else if( missions_assigned.size() >= 2) {
-                RESPONSE(_("About one of those jobs..."));
-                    SUCCESS(TALK_MISSION_LIST_ASSIGNED);
+                add_response( _("About one of those jobs..."), TALK_MISSION_LIST_ASSIGNED );
             }
-            RESPONSE(_("Thanks! I will be on my way."));
-                SUCCESS(TALK_DONE);
+            add_response_done( _("Thanks! I will be on my way.") );
             break;
 
         case  TALK_EVAC_GUARD2_NEW:
-            RESPONSE(_("..."));
-                SUCCESS(TALK_EVAC_GUARD2);
+            add_response( _("..."), TALK_EVAC_GUARD2 );
             break;
 
         case TALK_EVAC_GUARD2_RULES:
-            RESPONSE(_("Ok, thanks."));
-                SUCCESS(TALK_EVAC_GUARD2);
-            RESPONSE(_("So uhhh, why not?"));
-                SUCCESS(TALK_EVAC_GUARD2_RULES_BASEMENT);
+            add_response( _("Ok, thanks."), TALK_EVAC_GUARD2 );
+            add_response( _("So uhhh, why not?"), TALK_EVAC_GUARD2_RULES_BASEMENT );
             break;
 
         case  TALK_EVAC_GUARD2_RULES_BASEMENT:
-            RESPONSE(_("..."));
-                SUCCESS(TALK_EVAC_GUARD2);
+            add_response( _("..."), TALK_EVAC_GUARD2 );
             break;
 
         case TALK_EVAC_GUARD2_WHO:
-            RESPONSE(_("Thanks for the heads-up."));
-                SUCCESS(TALK_EVAC_GUARD2);
+            add_response( _("Thanks for the heads-up."), TALK_EVAC_GUARD2 );
             break;
 
         case TALK_EVAC_GUARD2_TRADE:
-            RESPONSE(_("..."));
-                SUCCESS(TALK_EVAC_GUARD2);
+            add_response( _("..."), TALK_EVAC_GUARD2 );
             break;
 
         case TALK_EVAC_GUARD3:
-            RESPONSE(_("What do you do around here?"));
-                SUCCESS(TALK_EVAC_GUARD3_NEW);
-            RESPONSE(_("Got tips for avoiding trouble?"));
-                SUCCESS(TALK_EVAC_GUARD3_RULES);
-            RESPONSE(_("Have you seen anyone who might be hiding something?"));
-                SUCCESS(TALK_EVAC_GUARD3_HIDE1);
-            RESPONSE(_("Bye..."));
-                SUCCESS(TALK_DONE);
+            add_response( _("What do you do around here?"), TALK_EVAC_GUARD3_NEW );
+            add_response( _("Got tips for avoiding trouble?"), TALK_EVAC_GUARD3_RULES );
+            add_response( _("Have you seen anyone who might be hiding something?"), TALK_EVAC_GUARD3_HIDE1 );
+            add_response_done( _("Bye...") );
             break;
 
         case TALK_EVAC_GUARD3_NEW:
-            RESPONSE(_("..."));
-                SUCCESS(TALK_EVAC_GUARD3);
+            add_response( _("..."), TALK_EVAC_GUARD3 );
             break;
 
         case TALK_EVAC_GUARD3_RULES:
-            RESPONSE(_("OK..."));
-                SUCCESS(TALK_EVAC_GUARD3);
+            add_response( _("OK..."), TALK_EVAC_GUARD3 );
             break;
 
         case TALK_EVAC_GUARD3_WASTE:
-            RESPONSE(_("Sorry..."));
-                SUCCESS(TALK_EVAC_GUARD3);
+            add_response( _("Sorry..."), TALK_EVAC_GUARD3 );
             break;
 
         case TALK_EVAC_GUARD3_HIDE1:
-            RESPONSE(_("I'm not sure..."));
-                SUCCESS(TALK_EVAC_GUARD3_WASTE);
-            RESPONSE(_("Like they could be working for someone else?"));
-                SUCCESS(TALK_EVAC_GUARD3_HIDE2);
+            add_response( _("I'm not sure..."), TALK_EVAC_GUARD3_WASTE );
+            add_response( _("Like they could be working for someone else?"), TALK_EVAC_GUARD3_HIDE2 );
             break;
 
         case TALK_EVAC_GUARD3_HIDE2:
-            RESPONSE(_("Sorry, I didn't mean to offend you..."));
-                SUCCESS(TALK_EVAC_GUARD3_WASTE);
+            add_response( _("Sorry, I didn't mean to offend you..."), TALK_EVAC_GUARD3_WASTE );
             RESPONSE(_("Get bent, traitor!"));
                 TRIAL(TALK_TRIAL_INTIMIDATE, 20 + p->op_of_u.fear * 3);
                     SUCCESS(TALK_EVAC_GUARD3_HOSTILE);
@@ -1866,60 +1797,45 @@ void dialogue::gen_responses( const talk_topic topic ) const
             p->my_fac->likes_u -= 15;//The Free Merchants are insulted by your actions!
             p->my_fac->respects_u -= 15;
             p->my_fac = g->faction_by_ident("hells_raiders");
-            RESPONSE(_("I didn't mean it!"));
-                SUCCESS(TALK_DONE);
-            RESPONSE(_("..."));
-                SUCCESS(TALK_DONE);
+            add_response_done( _("I didn't mean it!") );
+            add_response_done( _("...") );
             break;
 
         case TALK_EVAC_GUARD3_INSULT:
             p->my_fac->likes_u -= 5;//The Free Merchants are insulted by your actions!
             p->my_fac->respects_u -= 5;
-            RESPONSE(_("..."));
-                SUCCESS(TALK_DONE);
+            add_response_done( _("...") );
             break;
 
         case TALK_EVAC_GUARD3_DEAD:
             p->my_fac = g->faction_by_ident("hells_raiders");
-            RESPONSE(_("I didn't mean it!"));
-                SUCCESS(TALK_DONE);
-            RESPONSE(_("..."));
-                SUCCESS(TALK_DONE);
+            add_response_done( _("I didn't mean it!") );
+            add_response_done( _("...") );
             break;
 
         case TALK_EVAC_HUNTER:
-            RESPONSE(_("You... smelled me?"));
-                SUCCESS(TALK_EVAC_HUNTER_SMELL);
-            RESPONSE(_("What do you do around here?"));
-                SUCCESS(TALK_EVAC_HUNTER_DO);
-            RESPONSE(_("Got anything for sale?"));
-                SUCCESS(TALK_EVAC_HUNTER_SALE);
-            RESPONSE(_("Got any survival advice?"));
-                SUCCESS(TALK_EVAC_HUNTER_ADVICE);
-            RESPONSE(_("Goodbye."));
-                SUCCESS(TALK_EVAC_HUNTER_BYE);
+            add_response( _("You... smelled me?"), TALK_EVAC_HUNTER_SMELL );
+            add_response( _("What do you do around here?"), TALK_EVAC_HUNTER_DO );
+            add_response( _("Got anything for sale?"), TALK_EVAC_HUNTER_SALE );
+            add_response( _("Got any survival advice?"), TALK_EVAC_HUNTER_ADVICE );
+            add_response( _("Goodbye."), TALK_EVAC_HUNTER_BYE );
             break;
 
         case TALK_EVAC_HUNTER_SMELL:
-            RESPONSE(_("O..kay..? "));
-                SUCCESS(TALK_EVAC_HUNTER);
+            add_response( _("O..kay..? "), TALK_EVAC_HUNTER );
             break;
 
         case TALK_EVAC_HUNTER_DO:
-            RESPONSE(_("Interesting."));
-                SUCCESS(TALK_EVAC_HUNTER_LIFE);
-            RESPONSE(_("Oh, so you hunt?"));
-                SUCCESS(TALK_EVAC_HUNTER_HUNT);
+            add_response( _("Interesting."), TALK_EVAC_HUNTER_LIFE );
+            add_response( _("Oh, so you hunt?"), TALK_EVAC_HUNTER_HUNT );
             break;
 
         case TALK_EVAC_HUNTER_LIFE:
-            RESPONSE(_("..."));
-                SUCCESS(TALK_EVAC_HUNTER);
+            add_response( _("..."), TALK_EVAC_HUNTER );
             break;
 
         case TALK_EVAC_HUNTER_HUNT:
-            RESPONSE(_("Great, now my mouth is watering..."));
-                SUCCESS(TALK_EVAC_HUNTER);
+            add_response( _("Great, now my mouth is watering..."), TALK_EVAC_HUNTER );
             break;
 
         case TALK_EVAC_HUNTER_SALE:
@@ -1929,206 +1845,152 @@ void dialogue::gen_responses( const talk_topic topic ) const
             break;
 
         case TALK_EVAC_HUNTER_ADVICE:
-            RESPONSE(_("..."));
-                SUCCESS(TALK_EVAC_HUNTER);
+            add_response( _("..."), TALK_EVAC_HUNTER );
             break;
 
         case TALK_EVAC_HUNTER_BYE:
-            RESPONSE(_("..."));
-                SUCCESS(TALK_DONE);
+            add_response_done( _("...") );
             break;
 
         case TALK_OLD_GUARD_REP:
-            RESPONSE(_("Who are you?"));
-                SUCCESS(TALK_OLD_GUARD_REP_NEW);
-            RESPONSE(_("Heard anything about the outside world?"));
-                SUCCESS(TALK_OLD_GUARD_REP_WORLD);
-            RESPONSE(_("Is there any way I can join the 'Old Guard'?"));
-                SUCCESS( TALK_OLD_GUARD_REP_ASK_JOIN);
-            RESPONSE(_("Does the Old Guard need anything?"));
-                SUCCESS(TALK_MISSION_LIST);
+            add_response( _("Who are you?"), TALK_OLD_GUARD_REP_NEW );
+            add_response( _("Heard anything about the outside world?"), TALK_OLD_GUARD_REP_WORLD );
+            add_response( _("Is there any way I can join the 'Old Guard'?"), TALK_OLD_GUARD_REP_ASK_JOIN );
+            add_response( _("Does the Old Guard need anything?"), TALK_MISSION_LIST );
             if( missions_assigned.size() == 1 ) {
-                RESPONSE(_("About that job..."));
-                    SUCCESS(TALK_MISSION_INQUIRE);
+                add_response( _("About that job..."), TALK_MISSION_INQUIRE );
             } else if( missions_assigned.size() >= 2 ) {
-                RESPONSE(_("About one of those jobs..."));
-                    SUCCESS(TALK_MISSION_LIST_ASSIGNED);
+                add_response( _("About one of those jobs..."), TALK_MISSION_LIST_ASSIGNED );
             }
-            RESPONSE(_("Well, bye."));
-                SUCCESS(TALK_DONE);
+            add_response_done( _("Well, bye.") );
             break;
 
         case TALK_OLD_GUARD_REP_NEW:
-            RESPONSE(_("So what are you actually doing here?"));
-                SUCCESS(TALK_OLD_GUARD_REP_NEW_DOING);
-            RESPONSE(_("Nevermind..."));
-                SUCCESS(TALK_OLD_GUARD_REP);
+            add_response( _("So what are you actually doing here?"), TALK_OLD_GUARD_REP_NEW_DOING );
+            add_response( _("Nevermind..."), TALK_OLD_GUARD_REP );
             break;
 
         case TALK_OLD_GUARD_REP_NEW_DOING:
-            RESPONSE(_("Is there a catch?"));
-                SUCCESS(TALK_OLD_GUARD_REP_NEW_DOWNSIDE);
-            RESPONSE(_("Anything more to it?"));
-                SUCCESS(TALK_OLD_GUARD_REP_NEW_DOWNSIDE);
-            RESPONSE(_("Nevermind..."));
-                SUCCESS(TALK_OLD_GUARD_REP);
+            add_response( _("Is there a catch?"), TALK_OLD_GUARD_REP_NEW_DOWNSIDE );
+            add_response( _("Anything more to it?"), TALK_OLD_GUARD_REP_NEW_DOWNSIDE );
+            add_response( _("Nevermind..."), TALK_OLD_GUARD_REP );
             break;
         case TALK_OLD_GUARD_REP_NEW_DOWNSIDE:
-            RESPONSE(_("Hmmm..."));
-                SUCCESS(TALK_OLD_GUARD_REP);
+            add_response( _("Hmmm..."), TALK_OLD_GUARD_REP );
             break;
 
         case TALK_OLD_GUARD_REP_WORLD:
-            RESPONSE(_("The 2nd Fleet?"));
-                SUCCESS(TALK_OLD_GUARD_REP_WORLD_2NDFLEET);
-            RESPONSE(_("Tell me about the footholds."));
-                SUCCESS(TALK_OLD_GUARD_REP_WORLD_FOOTHOLDS);
-            RESPONSE(_("Nevermind..."));
-                SUCCESS(TALK_OLD_GUARD_REP);
+            add_response( _("The 2nd Fleet?"), TALK_OLD_GUARD_REP_WORLD_2NDFLEET );
+            add_response( _("Tell me about the footholds."), TALK_OLD_GUARD_REP_WORLD_FOOTHOLDS );
+            add_response( _("Nevermind..."), TALK_OLD_GUARD_REP );
             break;
 
         case TALK_OLD_GUARD_REP_WORLD_2NDFLEET:
-            RESPONSE(_("Hmmm..."));
-                SUCCESS(TALK_OLD_GUARD_REP);
+            add_response( _("Hmmm..."), TALK_OLD_GUARD_REP );
             break;
         case TALK_OLD_GUARD_REP_WORLD_FOOTHOLDS:
-            RESPONSE(_("Hmmm..."));
-                SUCCESS(TALK_OLD_GUARD_REP);
+            add_response( _("Hmmm..."), TALK_OLD_GUARD_REP );
             break;
         case TALK_OLD_GUARD_REP_ASK_JOIN:
-            RESPONSE(_("Hmmm..."));
-                SUCCESS(TALK_OLD_GUARD_REP);
+            add_response( _("Hmmm..."), TALK_OLD_GUARD_REP );
             break;
 
         case TALK_OLD_GUARD_SOLDIER:
-            RESPONSE(_("Don't mind me..."));
-                SUCCESS(TALK_DONE);
+            add_response_done( _("Don't mind me...") );
             break;
 
         case TALK_OLD_GUARD_NEC_CPT:
             if (g->u.has_trait("PROF_FED")){
-                RESPONSE(_("What are you doing down here?"));
-                    SUCCESS(TALK_OLD_GUARD_NEC_CPT_GOAL);
-                RESPONSE(_("Can you tell me about this facility?"));
-                    SUCCESS(TALK_OLD_GUARD_NEC_CPT_VAULT);
-                RESPONSE(_("What do you need done?"));
-                    SUCCESS(TALK_MISSION_LIST);
+                add_response( _("What are you doing down here?"), TALK_OLD_GUARD_NEC_CPT_GOAL );
+                add_response( _("Can you tell me about this facility?"), TALK_OLD_GUARD_NEC_CPT_VAULT );
+                add_response( _("What do you need done?"), TALK_MISSION_LIST );
                 if (p->chatbin.missions_assigned.size() == 1) {
-                    RESPONSE(_("About the mission..."));
-                        SUCCESS(TALK_MISSION_INQUIRE);
+                    add_response( _("About the mission..."), TALK_MISSION_INQUIRE );
                 } else if (p->chatbin.missions_assigned.size() >= 2) {
-                    RESPONSE(_("About one of those missions..."));
-                        SUCCESS(TALK_MISSION_LIST_ASSIGNED);
+                    add_response( _("About one of those missions..."), TALK_MISSION_LIST_ASSIGNED );
                 }
             }
-            RESPONSE(_("I've got to go..."));
-                SUCCESS(TALK_DONE);
+            add_response_done( _("I've got to go...") );
             break;
 
         case TALK_OLD_GUARD_NEC_CPT_GOAL:
-            RESPONSE(_("Seems like a decent plan..."));
-                SUCCESS(TALK_OLD_GUARD_NEC_CPT);
+            add_response( _("Seems like a decent plan..."), TALK_OLD_GUARD_NEC_CPT );
             break;
 
         case TALK_OLD_GUARD_NEC_CPT_VAULT:
-            RESPONSE(_("Whatever they did it must have worked since we are still alive..."));
-                SUCCESS(TALK_OLD_GUARD_NEC_CPT);
+            add_response( _("Whatever they did it must have worked since we are still alive..."),
+                              TALK_OLD_GUARD_NEC_CPT );
             break;
 
         case TALK_OLD_GUARD_NEC_COMMO:
             if (g->u.has_trait("PROF_FED")){
                 for( auto miss : g->u.get_active_missions() ) {
                     if( miss->name() == "Locate Commo Team"){
-                        RESPONSE(_("[MISSION] The captain sent me to get a frequency list from you."));
-                            SUCCESS(TALK_OLD_GUARD_NEC_COMMO_FREQ);
+                        add_response( _("[MISSION] The captain sent me to get a frequency list from you."),
+                                          TALK_OLD_GUARD_NEC_COMMO_FREQ );
                     }
                 }
-                RESPONSE(_("What are you doing here?"));
-                    SUCCESS(TALK_OLD_GUARD_NEC_COMMO_GOAL);
-                RESPONSE(_("Do you need any help?"));
-                    SUCCESS(TALK_MISSION_LIST);
+                add_response( _("What are you doing here?"), TALK_OLD_GUARD_NEC_COMMO_GOAL );
+                add_response( _("Do you need any help?"), TALK_MISSION_LIST );
                 if (p->chatbin.missions_assigned.size() == 1) {
-                    RESPONSE(_("About the mission..."));
-                        SUCCESS(TALK_MISSION_INQUIRE);
+                    add_response( _("About the mission..."), TALK_MISSION_INQUIRE );
                 } else if (p->chatbin.missions_assigned.size() >= 2) {
-                    RESPONSE(_("About one of those missions..."));
-                        SUCCESS(TALK_MISSION_LIST_ASSIGNED);
+                    add_response( _("About one of those missions..."), TALK_MISSION_LIST_ASSIGNED );
                 }
             }
-            RESPONSE(_("I should be going..."));
-                SUCCESS(TALK_DONE);
+            add_response_done( _("I should be going...") );
             break;
 
         case TALK_OLD_GUARD_NEC_COMMO_GOAL:
-            RESPONSE(_("I'll try and find your commander then..."));
-                SUCCESS(TALK_OLD_GUARD_NEC_COMMO);
+            add_response( _("I'll try and find your commander then..."), TALK_OLD_GUARD_NEC_COMMO );
             break;
 
         case TALK_OLD_GUARD_NEC_COMMO_FREQ:
             popup(_("%s gives you a %s"), p->name.c_str(), item("necropolis_freq", 0).tname().c_str());
             g->u.i_add( item("necropolis_freq", 0) );
-            RESPONSE(_("Thanks."));
-                SUCCESS(TALK_OLD_GUARD_NEC_COMMO);
+            add_response( _("Thanks."), TALK_OLD_GUARD_NEC_COMMO );
             break;
 
         case TALK_ARSONIST:
-            RESPONSE(_("I'm actually new."));
-                SUCCESS(TALK_ARSONIST_NEW);
-            RESPONSE(_("What are you doing here?"));
-                SUCCESS(TALK_ARSONIST_DOING);
-            RESPONSE(_("Heard anything about the outside world?"));
-                SUCCESS(TALK_ARSONIST_WORLD);
-            RESPONSE(_("Is there any way I can join your group?"));
-                SUCCESS(TALK_ARSONIST_JOIN);
-            RESPONSE(_("What's with your ears?"));
-                SUCCESS(TALK_ARSONIST_MUTATION);
-            RESPONSE(_("Anything I can help with?"));
-                SUCCESS(TALK_MISSION_LIST);
+            add_response( _("I'm actually new."), TALK_ARSONIST_NEW );
+            add_response( _("What are you doing here?"), TALK_ARSONIST_DOING );
+            add_response( _("Heard anything about the outside world?"), TALK_ARSONIST_WORLD );
+            add_response( _("Is there any way I can join your group?"), TALK_ARSONIST_JOIN );
+            add_response( _("What's with your ears?"), TALK_ARSONIST_MUTATION );
+            add_response( _("Anything I can help with?"), TALK_MISSION_LIST );
             if( missions_assigned.size() == 1 ) {
-                RESPONSE(_("About that job..."));
-                    SUCCESS(TALK_MISSION_INQUIRE);
+                add_response( _("About that job..."), TALK_MISSION_INQUIRE );
             } else if( missions_assigned.size() >= 2 ) {
-                RESPONSE(_("About one of those jobs..."));
-                    SUCCESS(TALK_MISSION_LIST_ASSIGNED);
+                add_response( _("About one of those jobs..."), TALK_MISSION_LIST_ASSIGNED );
             }
-            RESPONSE(_("Well, bye."));
-                SUCCESS(TALK_DONE);
+            add_response_done( _("Well, bye.") );
             break;
 
         case TALK_ARSONIST_NEW:
-            RESPONSE(_("Sucks..."));
-                SUCCESS(TALK_ARSONIST);
+            add_response( _("Sucks..."), TALK_ARSONIST );
             break;
         case TALK_ARSONIST_DOING:
             RESPONSE(_("I'll buy."));
                 SUCCESS_ACTION(&talk_function::start_trade);
                 SUCCESS(TALK_ARSONIST);
-            RESPONSE(_("Who needs rebar?"));
-                SUCCESS(TALK_ARSONIST_DOING_REBAR);
+            add_response( _("Who needs rebar?"), TALK_ARSONIST_DOING_REBAR );
             break;
         case TALK_ARSONIST_DOING_REBAR:
-            RESPONSE(_("Well, then..."));
-                SUCCESS(TALK_ARSONIST);
+            add_response( _("Well, then..."), TALK_ARSONIST );
             break;
         case TALK_ARSONIST_WORLD:
-            RESPONSE(_("Nothing optimistic?"));
-                SUCCESS(TALK_ARSONIST_WORLD_OPTIMISTIC);
-            RESPONSE(_("..."));
-                SUCCESS(TALK_ARSONIST);
+            add_response( _("Nothing optimistic?"), TALK_ARSONIST_WORLD_OPTIMISTIC );
+            add_response( _("..."), TALK_ARSONIST );
             break;
         case TALK_ARSONIST_WORLD_OPTIMISTIC:
-            RESPONSE(_("I feel bad for asking."));
-                SUCCESS(TALK_ARSONIST);
+            add_response( _("I feel bad for asking."), TALK_ARSONIST );
             break;
         case TALK_ARSONIST_JOIN:
-            RESPONSE(_("..."));
-                SUCCESS(TALK_ARSONIST);
+            add_response( _("..."), TALK_ARSONIST );
             break;
         case TALK_ARSONIST_MUTATION:
-            RESPONSE(_("Sorry to ask"));
-                SUCCESS(TALK_ARSONIST);
-            RESPONSE(_("You're disgusting."));
-                SUCCESS(TALK_ARSONIST_MUTATION_INSULT);
+            add_response( _("Sorry to ask"), TALK_ARSONIST );
+            add_response( _("You're disgusting."), TALK_ARSONIST_MUTATION_INSULT );
             break;
         case TALK_ARSONIST_MUTATION_INSULT:
             RESPONSE(_("..."));
@@ -2138,32 +2000,24 @@ void dialogue::gen_responses( const talk_topic topic ) const
             break;
 
         case TALK_SCAVENGER_MERC:
-            RESPONSE(_("Who are you?"));
-                SUCCESS(TALK_SCAVENGER_MERC_NEW);
-            RESPONSE(_("Any tips for surviving?"));
-                SUCCESS(TALK_SCAVENGER_MERC_TIPS);
-            RESPONSE(_("What would it cost to hire you?"));
-                SUCCESS(TALK_SCAVENGER_MERC_HIRE);
-            RESPONSE(_("Well, bye."));
-                SUCCESS(TALK_DONE);
+            add_response( _("Who are you?"), TALK_SCAVENGER_MERC_NEW );
+            add_response( _("Any tips for surviving?"), TALK_SCAVENGER_MERC_TIPS );
+            add_response( _("What would it cost to hire you?"), TALK_SCAVENGER_MERC_HIRE );
+            add_response_done( _("Well, bye.") );
             break;
 
         case TALK_SCAVENGER_MERC_NEW:
-            RESPONSE(_("..."));
-                SUCCESS(TALK_SCAVENGER_MERC);
+            add_response( _("..."), TALK_SCAVENGER_MERC );
             break;
         case TALK_SCAVENGER_MERC_TIPS:
-            RESPONSE(_("I suppose I should hire a party then?"));
-                SUCCESS(TALK_SCAVENGER_MERC);
+            add_response( _("I suppose I should hire a party then?"), TALK_SCAVENGER_MERC );
             break;
         case TALK_SCAVENGER_MERC_HIRE:
             if (g->u.cash >= 800000){
-                RESPONSE(_("[$8000] You have a deal."));
+                add_response( _("[$8000] You have a deal."), TALK_SCAVENGER_MERC_HIRE_SUCCESS );
                 g->u.cash -= 800000;
-                    SUCCESS(TALK_SCAVENGER_MERC_HIRE_SUCCESS);
             }
-            RESPONSE(_("I might be back."));
-                SUCCESS(TALK_SCAVENGER_MERC);
+            add_response( _("I might be back."), TALK_SCAVENGER_MERC );
             break;
 
         case TALK_SCAVENGER_MERC_HIRE_SUCCESS:
@@ -2174,46 +2028,35 @@ void dialogue::gen_responses( const talk_topic topic ) const
             break;
 
         case TALK_FREE_MERCHANT_STOCKS:
-            RESPONSE(_("Who are you?"));
-                SUCCESS(TALK_FREE_MERCHANT_STOCKS_NEW);
+            add_response( _("Who are you?"), TALK_FREE_MERCHANT_STOCKS_NEW );
             if (g->u.charges_of("jerky") > 0){
-                RESPONSE(_("Delivering jerky."));
-                    SUCCESS(TALK_FREE_MERCHANT_STOCKS_JERKY);
+                add_response( _("Delivering jerky."), TALK_FREE_MERCHANT_STOCKS_JERKY );
             }
             if (g->u.charges_of("meat_smoked") > 0){
-                RESPONSE(_("Delivering smoked meat."));
-                    SUCCESS(TALK_FREE_MERCHANT_STOCKS_SMMEAT);
+                add_response( _("Delivering smoked meat."), TALK_FREE_MERCHANT_STOCKS_SMMEAT );
             }
             if (g->u.charges_of("fish_smoked") > 0){
-                RESPONSE(_("Delivering smoked fish."));
-                    SUCCESS(TALK_FREE_MERCHANT_STOCKS_SMFISH);
+                add_response( _("Delivering smoked fish."), TALK_FREE_MERCHANT_STOCKS_SMFISH );
             }
             if (g->u.charges_of("cooking_oil") > 0){
-                RESPONSE(_("Delivering cooking oil."));
-                    SUCCESS(TALK_FREE_MERCHANT_STOCKS_OIL);
+                add_response( _("Delivering cooking oil."), TALK_FREE_MERCHANT_STOCKS_OIL );
             }
             if (g->u.charges_of("cornmeal") > 0){
-                RESPONSE(_("Delivering cornmeal."));
-                    SUCCESS(TALK_FREE_MERCHANT_STOCKS_CORNMEAL);
+                add_response( _("Delivering cornmeal."), TALK_FREE_MERCHANT_STOCKS_CORNMEAL );
             }
             if (g->u.charges_of("flour") > 0){
-                RESPONSE(_("Delivering flour."));
-                    SUCCESS(TALK_FREE_MERCHANT_STOCKS_FLOUR);
+                add_response( _("Delivering flour."), TALK_FREE_MERCHANT_STOCKS_FLOUR );
             }
             if (g->u.charges_of("fruit_wine") > 0){
-                RESPONSE(_("Delivering fruit wine."));
-                    SUCCESS(TALK_FREE_MERCHANT_STOCKS_WINE);
+                add_response( _("Delivering fruit wine."), TALK_FREE_MERCHANT_STOCKS_WINE );
             }
             if (g->u.charges_of("hb_beer") > 0){
-                RESPONSE(_("Delivering homebrew beer."));
-                    SUCCESS(TALK_FREE_MERCHANT_STOCKS_BEER);
+                add_response( _("Delivering homebrew beer."), TALK_FREE_MERCHANT_STOCKS_BEER );
             }
             if (g->u.charges_of("sugar") > 0){
-                RESPONSE(_("Delivering sugar."));
-                    SUCCESS(TALK_FREE_MERCHANT_STOCKS_SUGAR);
+                add_response( _("Delivering sugar."), TALK_FREE_MERCHANT_STOCKS_SUGAR );
             }
-            RESPONSE(_("Well, bye."));
-                SUCCESS(TALK_DONE);
+            add_response_done( _("Well, bye.") );
             break;
 
         case TALK_FREE_MERCHANT_STOCKS_JERKY:
@@ -2263,59 +2106,45 @@ void dialogue::gen_responses( const talk_topic topic ) const
             break;
 
         case TALK_FREE_MERCHANT_STOCKS_NEW:
-            RESPONSE(_("Why cornmeal, jerky, and fruit wine?"));
-                SUCCESS(TALK_FREE_MERCHANT_STOCKS_WHY);
+            add_response( _("Why cornmeal, jerky, and fruit wine?"), TALK_FREE_MERCHANT_STOCKS_WHY );
             break;
         case TALK_FREE_MERCHANT_STOCKS_WHY:
-            RESPONSE(_("Are you looking to buy anything else?"));
-                SUCCESS(TALK_FREE_MERCHANT_STOCKS_ALL);
-            RESPONSE(_("Very well..."));
-                SUCCESS(TALK_FREE_MERCHANT_STOCKS);
+            add_response( _("Are you looking to buy anything else?"), TALK_FREE_MERCHANT_STOCKS_ALL );
+            add_response( _("Very well..."), TALK_FREE_MERCHANT_STOCKS );
             break;
         case TALK_FREE_MERCHANT_STOCKS_ALL:
-            RESPONSE(_("Interesting..."));
-                SUCCESS(TALK_FREE_MERCHANT_STOCKS);
+            add_response( _("Interesting..."), TALK_FREE_MERCHANT_STOCKS );
             break;
         case TALK_FREE_MERCHANT_STOCKS_DELIVERED:
-            RESPONSE(_("You might be seeing more of me..."));
-                SUCCESS(TALK_FREE_MERCHANT_STOCKS);
+            add_response( _("You might be seeing more of me..."), TALK_FREE_MERCHANT_STOCKS );
             break;
 
         case TALK_SHELTER:
-            RESPONSE(_("What should we do now?"));
-                SUCCESS(TALK_SHELTER_PLANS);
-            RESPONSE(_("Can I do anything for you?"));
-                SUCCESS(TALK_MISSION_LIST);
+            add_response( _("What should we do now?"), TALK_SHELTER_PLANS );
+            add_response( _("Can I do anything for you?"), TALK_MISSION_LIST );
             if (!p->is_following()) {
-                RESPONSE(_("Want to travel with me?"));
-                    SUCCESS(TALK_SUGGEST_FOLLOW);
+                add_response( _("Want to travel with me?"), TALK_SUGGEST_FOLLOW );
             }
             RESPONSE(_("Let's trade items."));
                 SUCCESS(TALK_NONE);
                 SUCCESS_ACTION(&talk_function::start_trade);
             if( missions_assigned.size() == 1 ) {
-                RESPONSE(_("About that job..."));
-                    SUCCESS(TALK_MISSION_INQUIRE);
+                add_response( _("About that job..."), TALK_MISSION_INQUIRE );
             } else if( missions_assigned.size() >= 2 ) {
-                RESPONSE(_("About one of those jobs..."));
-                    SUCCESS(TALK_MISSION_LIST_ASSIGNED);
+                add_response( _("About one of those jobs..."), TALK_MISSION_LIST_ASSIGNED );
             }
-            RESPONSE(_("I can't leave the shelter without equipment..."));
-                SUCCESS(TALK_SHARE_EQUIPMENT);
-            RESPONSE(_("Well, bye."));
-                SUCCESS(TALK_DONE);
+            add_response( _("I can't leave the shelter without equipment..."), TALK_SHARE_EQUIPMENT );
+            add_response_done( _("Well, bye.") );
             break;
 
         case TALK_SHELTER_PLANS:
             // TODO: Add _("follow me")
-            RESPONSE(_("Hmm, okay."));
-                SUCCESS(TALK_NONE);
+            add_response_none( _("Hmm, okay.") );
             break;
 
         case TALK_SHARE_EQUIPMENT:
             if (p->has_effect(_("asked_for_item"))) {
-                RESPONSE(_("Okay, fine."));
-                    SUCCESS(TALK_NONE);
+                add_response_none( _("Okay, fine.") );
             } else {
                 int score = p->op_of_u.trust + p->op_of_u.value * 3 +
                               p->personality.altruism * 2;
@@ -2359,29 +2188,21 @@ void dialogue::gen_responses( const talk_topic topic ) const
                                             p->personality.bravery - p->intimidation()) * 500);
                         FAILURE(TALK_DENY_EQUIPMENT);
                             FAILURE_OPINION(-3, 1, -3, 5, 0);
-                RESPONSE(_("Eh, never mind."));
-                    SUCCESS(TALK_NONE);
-                RESPONSE(_("Never mind, I'll do without.  Bye."));
-                    SUCCESS(TALK_DONE);
+                add_response_none( _("Eh, never mind.") );
+                add_response_done( _("Never mind, I'll do without.  Bye.") );
             }
             break;
 
         case TALK_GIVE_EQUIPMENT:
-            RESPONSE(_("Thank you!"));
-                SUCCESS(TALK_NONE);
-            RESPONSE(_("Thanks!  But can I have some more?"));
-                SUCCESS(TALK_SHARE_EQUIPMENT);
-            RESPONSE(_("Thanks, see you later!"));
-                SUCCESS(TALK_DONE);
+            add_response_none( _("Thank you!") );
+            add_response( _("Thanks!  But can I have some more?"), TALK_SHARE_EQUIPMENT );
+            add_response_done( _("Thanks, see you later!") );
             break;
 
         case TALK_DENY_EQUIPMENT:
-            RESPONSE(_("Okay, okay, sorry."));
-                SUCCESS(TALK_NONE);
-            RESPONSE(_("Seriously, give me more stuff!"));
-                SUCCESS(TALK_SHARE_EQUIPMENT);
-            RESPONSE(_("Okay, fine, bye."));
-                SUCCESS(TALK_DONE);
+            add_response_none( _("Okay, okay, sorry.") );
+            add_response( _("Seriously, give me more stuff!"), TALK_SHARE_EQUIPMENT );
+            add_response_done( _("Okay, fine, bye.") );
             break;
 
         case TALK_TRAIN: {
@@ -2402,8 +2223,7 @@ void dialogue::gen_responses( const talk_topic topic ) const
             std::vector<matype_id> styles = p->styles_offered_to(g->u);
             std::vector<const Skill*> trainable = p->skills_offered_to(g->u);
             if (trainable.empty() && styles.empty()) {
-                RESPONSE(_("Oh, okay.")); // Nothing to learn here
-                    SUCCESS(TALK_NONE);
+                add_response_none( _("Oh, okay.") );
                 break;
             }
             int printed = 0;
@@ -2440,8 +2260,7 @@ void dialogue::gen_responses( const talk_topic topic ) const
                 SELECT_TEMP(_("Back..."), newshift);
                     SUCCESS(TALK_TRAIN);
             }
-            RESPONSE(_("Eh, never mind."));
-                SUCCESS(TALK_NONE);
+            add_response_none( _("Eh, never mind.") );
         }
             break;
 
@@ -2450,16 +2269,13 @@ void dialogue::gen_responses( const talk_topic topic ) const
                 RESPONSE(_("Sounds good."));
                     SUCCESS(TALK_DONE);
                         SUCCESS_ACTION(&talk_function::start_training);
-                RESPONSE(_("On second thought, never mind."));
-                    SUCCESS(TALK_NONE);
+                add_response_none( _("On second thought, never mind.") );
             } else {
                 RESPONSE(_("Okay.  Lead the way."));
                     SUCCESS(TALK_DONE);
                         SUCCESS_ACTION(&talk_function::lead_to_safety);
-                RESPONSE(_("No, we'll be okay here."));
-                    SUCCESS(TALK_TRAIN_FORCE);
-                RESPONSE(_("On second thought, never mind."));
-                    SUCCESS(TALK_NONE);
+                add_response( _("No, we'll be okay here."), TALK_TRAIN_FORCE );
+                add_response_none( _("On second thought, never mind.") );
             }
             break;
 
@@ -2467,17 +2283,14 @@ void dialogue::gen_responses( const talk_topic topic ) const
             RESPONSE(_("Sounds good."));
                 SUCCESS(TALK_DONE);
                     SUCCESS_ACTION(&talk_function::start_training);
-            RESPONSE(_("On second thought, never mind."));
-                SUCCESS(TALK_NONE);
+            add_response_none( _("On second thought, never mind.") );
             break;
 
         case TALK_SUGGEST_FOLLOW:
             if (p->has_effect(_("infection"))) {
-                RESPONSE(_("Understood.  I'll get those antibiotics."));
-                    SUCCESS(TALK_NONE);
+                add_response_none( _("Understood.  I'll get those antibiotics.") );
             } else if (p->has_effect(_("asked_to_follow"))) {
-                RESPONSE(_("Right, right, I'll ask later."));
-                    SUCCESS(TALK_NONE);
+                add_response_none( _("Right, right, I'll ask later.") );
             } else {
                 int strength = 3 * p->op_of_u.fear + p->op_of_u.value + p->op_of_u.trust +
                                 (10 - p->personality.bravery);
@@ -2520,26 +2333,21 @@ void dialogue::gen_responses( const talk_topic topic ) const
             break;
 
         case TALK_AGREE_FOLLOW:
-            RESPONSE(_("Awesome!"));
-                SUCCESS(TALK_FRIEND);
-            RESPONSE(_("Okay, let's go!"));
-                SUCCESS(TALK_DONE);
+            add_response( _("Awesome!"), TALK_FRIEND );
+            add_response_done( _("Okay, let's go!") );
             break;
 
         case TALK_DENY_FOLLOW:
-            RESPONSE(_("Oh, okay."));
-                SUCCESS(TALK_NONE);
+            add_response_none( _("Oh, okay.") );
             break;
 
         case TALK_LEADER: {
             int persuade = p->op_of_u.fear + p->op_of_u.value + p->op_of_u.trust -
                             p->personality.bravery - p->personality.aggression;
             if (p->has_destination()) {
-                RESPONSE(_("How much further?"));
-                    SUCCESS(TALK_HOW_MUCH_FURTHER);
+                add_response( _("How much further?"), TALK_HOW_MUCH_FURTHER );
             }
-                RESPONSE(_("I'm going to go my own way for a while."));
-                    SUCCESS(TALK_LEAVE);
+            add_response( _("I'm going to go my own way for a while."), TALK_LEAVE );
             if (!p->has_effect(_("asked_to_lead"))) {
                 RESPONSE(_("I'd like to lead for a while."));
                     TRIAL(TALK_TRIAL_PERSUADE, persuade);
@@ -2555,56 +2363,45 @@ void dialogue::gen_responses( const talk_topic topic ) const
                         FAILURE(TALK_LEADER_STAYS);
                             FAILURE_OPINION(-1, 0, -1, 1, 0);
             }
-            RESPONSE(_("Can I do anything for you?"));
-                SUCCESS(TALK_MISSION_LIST);
+            add_response( _("Can I do anything for you?"), TALK_MISSION_LIST );
             RESPONSE(_("Let's trade items."));
                 SUCCESS(TALK_NONE);
                 SUCCESS_ACTION(&talk_function::start_trade);
-            RESPONSE(_("Let's go."));
-                SUCCESS(TALK_DONE);
+            add_response_done( _("Let's go.") );
         }
             break;
 
         case TALK_LEAVE:
-            RESPONSE(_("Nah, I'm just kidding."));
-                SUCCESS(TALK_NONE);
+            add_response_none( _("Nah, I'm just kidding.") );
             RESPONSE(_("Yeah, I'm sure.  Bye."));
                 SUCCESS_ACTION(&talk_function::leave);
                 SUCCESS(TALK_DONE);
             break;
 
         case TALK_PLAYER_LEADS:
-            RESPONSE(_("Good.  Something else..."));
-                SUCCESS(TALK_FRIEND);
-            RESPONSE(_("Alright, let's go."));
-                SUCCESS(TALK_DONE);
+            add_response( _("Good.  Something else..."), TALK_FRIEND );
+            add_response_done( _("Alright, let's go.") );
             break;
 
         case TALK_LEADER_STAYS:
-            RESPONSE(_("Okay, okay."));
-                SUCCESS(TALK_NONE);
+            add_response_none( _("Okay, okay.") );
             break;
 
         case TALK_HOW_MUCH_FURTHER:
-            RESPONSE(_("Okay, thanks."));
-                SUCCESS(TALK_NONE);
-            RESPONSE(_("Let's keep moving."));
-                SUCCESS(TALK_DONE);
+            add_response_none( _("Okay, thanks.") );
+            add_response_done( _("Let's keep moving.") );
             break;
 
         case TALK_FRIEND_GUARD:
             RESPONSE(_("I need you to come with me."));
                 SUCCESS(TALK_FRIEND);
                     SUCCESS_ACTION(&talk_function::stop_guard);
-            RESPONSE(_("See you around."));
-                SUCCESS(TALK_DONE);
+            add_response_done( _("See you around.") );
             break;
 
         case TALK_FRIEND:
-            RESPONSE(_("Combat commands..."));
-                SUCCESS(TALK_COMBAT_COMMANDS);
-            RESPONSE(_("Can I do anything for you?"));
-                SUCCESS(TALK_MISSION_LIST);
+            add_response( _("Combat commands..."), TALK_COMBAT_COMMANDS );
+            add_response( _("Can I do anything for you?"), TALK_MISSION_LIST );
             SELECT_TEMP(_("Can you teach me anything?"), 0);
             if (!p->has_effect("asked_to_train")) {
                 int commitment = 2 * p->op_of_u.trust + 1 * p->op_of_u.value -
@@ -2648,30 +2445,24 @@ void dialogue::gen_responses( const talk_topic topic ) const
                     SUCCESS (TALK_FRIEND_UNCOMFORTABLE);
                 }
             }
-            RESPONSE(_("I'm going to go my own way for a while."));
-                SUCCESS(TALK_LEAVE);
-            RESPONSE(_("Let's go."));
-                SUCCESS(TALK_DONE);
+            add_response( _("I'm going to go my own way for a while."), TALK_LEAVE );
+            add_response_done( _("Let's go.") );
             break;
 
         case TALK_FRIEND_UNCOMFORTABLE:
-            RESPONSE(_("I'll give you some space."));
-                SUCCESS(TALK_FRIEND);
+            add_response( _("I'll give you some space."), TALK_FRIEND );
             break;
 
         case TALK_DENY_TRAIN:
-            RESPONSE(_("Very well..."));
-                SUCCESS(TALK_FRIEND);
+            add_response( _("Very well..."), TALK_FRIEND );
             break;
 
         case TALK_DENY_PERSONAL:
-            RESPONSE(_("I understand..."));
-                SUCCESS(TALK_FRIEND);
+            add_response( _("I understand..."), TALK_FRIEND );
             break;
 
         case TALK_COMBAT_COMMANDS: {
-            RESPONSE(_("Change your engagement rules..."));
-                SUCCESS(TALK_COMBAT_ENGAGEMENT);
+            add_response( _("Change your engagement rules..."), TALK_COMBAT_ENGAGEMENT );
             if (p->combat_rules.use_guns) {
                 RESPONSE(_("Don't use guns anymore."));
                     SUCCESS(TALK_COMBAT_COMMANDS);
@@ -2699,8 +2490,7 @@ void dialogue::gen_responses( const talk_topic topic ) const
                     SUCCESS(TALK_COMBAT_COMMANDS);
                         SUCCESS_ACTION(&talk_function::toggle_use_grenades);
             }
-            RESPONSE(_("Never mind."));
-                SUCCESS(TALK_NONE);
+            add_response_none( _("Never mind.") );
         }
             break;
 
@@ -2730,8 +2520,7 @@ void dialogue::gen_responses( const talk_topic topic ) const
                     SUCCESS(TALK_NONE);
                         SUCCESS_ACTION(&talk_function::set_engagement_all);
             }
-            RESPONSE(_("Never mind."));
-                SUCCESS(TALK_NONE);
+            add_response_none( _("Never mind.") );
         }
             break;
 
@@ -2740,15 +2529,12 @@ void dialogue::gen_responses( const talk_topic topic ) const
         case TALK_STRANGER_SCARED:
         case TALK_STRANGER_FRIENDLY:
             if (topic == TALK_STRANGER_NEUTRAL || topic == TALK_STRANGER_FRIENDLY) {
-                RESPONSE(_("Another survivor!  We should travel together."));
-                    SUCCESS(TALK_SUGGEST_FOLLOW);
-                RESPONSE(_("What are you doing?"));
-                    SUCCESS(TALK_DESCRIBE_MISSION);
+                add_response( _("Another survivor!  We should travel together."), TALK_SUGGEST_FOLLOW );
+                add_response( _("What are you doing?"), TALK_DESCRIBE_MISSION );
                 RESPONSE(_("Care to trade?"));
                     SUCCESS(TALK_DONE);
                         SUCCESS_ACTION(&talk_function::start_trade);
-                RESPONSE(_("Bye."));
-                    SUCCESS(TALK_DONE);
+                add_response_done( _("Bye.") );
             } else {
                 if (!g->u.unarmed_attack()) {
                     if (g->u.volume_carried() + g->u.weapon.volume() <= g->u.volume_capacity()){
@@ -2838,10 +2624,8 @@ void dialogue::gen_responses( const talk_topic topic ) const
             break;
 
         case TALK_DESCRIBE_MISSION:
-            RESPONSE(_("I see."));
-                SUCCESS(TALK_NONE);
-            RESPONSE(_("Bye."));
-                SUCCESS(TALK_DONE);
+            add_response_none( _("I see.") );
+            add_response_done( _("Bye.") );
             break;
 
         case TALK_WEAPON_DROPPED:
@@ -2861,8 +2645,7 @@ void dialogue::gen_responses( const talk_topic topic ) const
         case TALK_SIZE_UP:
         case TALK_LOOK_AT:
         case TALK_OPINION:
-            RESPONSE(_("Okay."));
-                SUCCESS(TALK_NONE);
+            add_response_none( _("Okay.") );
             break;
 
         default:
@@ -2871,8 +2654,7 @@ void dialogue::gen_responses( const talk_topic topic ) const
     }
 
     if (ret.empty()) {
-        RESPONSE(_("Bye."));
-            SUCCESS(TALK_DONE);
+        add_response_done( _("Bye.") );
     }
 }
 

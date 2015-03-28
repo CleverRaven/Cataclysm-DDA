@@ -59,6 +59,18 @@ private:
      * Folds and adds the folded text to @ref history. Returns the number of added lines.
      */
     size_t add_to_history( const std::string &text );
+    /**
+     * Add a simple response that switches the topic to the new one.
+     */
+    talk_response &add_response( const std::string &text, talk_topic r ) const;
+    /**
+     * Add a response with the result TALK_DONE.
+     */
+    talk_response &add_response_done( const std::string &text ) const;
+    /**
+     * Add a response with the result TALK_NONE.
+     */
+    talk_response &add_response_none( const std::string &text ) const;
 };
 
 struct talk_function {
