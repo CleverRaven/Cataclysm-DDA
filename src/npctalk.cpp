@@ -117,8 +117,6 @@ int topic_category(talk_topic topic);
 
 talk_topic special_talk(char ch);
 
-int trial_chance(talk_response response, player *u, npc *p);
-
 bool trade(npc *p, int cost, std::string deal);
 
 void game::init_npctalk()
@@ -2863,117 +2861,118 @@ void dialogue::gen_responses( const talk_topic topic ) const
     }
 }
 
-int trial_chance(talk_response response, player *u, npc *p)
+int talk_response::calc_chance( const dialogue &d ) const
 {
- talk_trial trial = response.trial;
- int chance = response.difficulty;
+    player &u = *d.alpha;
+    npc &p = *d.beta;
+ int chance = difficulty;
  switch (trial) {
   case TALK_TRIAL_NONE:
   case NUM_TALK_TRIALS:
-   dbg( D_ERROR ) << "called trial_chance with invalid talk_trial value: " << trial;
+   dbg( D_ERROR ) << "called calc_chance with invalid talk_trial value: " << trial;
    break;
   case TALK_TRIAL_LIE:
-   chance += u->talk_skill() - p->talk_skill() + p->op_of_u.trust * 3;
-   if (u->has_trait("TRUTHTELLER")) {
+   chance += u.talk_skill() - p.talk_skill() + p.op_of_u.trust * 3;
+   if (u.has_trait("TRUTHTELLER")) {
       chance -= 40;
    }
-   if (u->has_trait("TAIL_FLUFFY")) {
+   if (u.has_trait("TAIL_FLUFFY")) {
       chance -= 20;
    }
-   else if (u->has_trait("LIAR")) {
+   else if (u.has_trait("LIAR")) {
       chance += 40;
    }
-   if (u->has_trait("ELFAEYES")) {
+   if (u.has_trait("ELFAEYES")) {
       chance += 10;
    }
-   if ((u->has_trait("WINGS_BUTTERFLY")) || (u->has_trait("FLOWERS"))) {
+   if ((u.has_trait("WINGS_BUTTERFLY")) || (u.has_trait("FLOWERS"))) {
       chance += 10;
    }
-   if (u->has_bionic("bio_voice")) { //come on, who would suspect a robot of lying?
+   if (u.has_bionic("bio_voice")) { //come on, who would suspect a robot of lying?
       chance += 10;
    }
-   if (u->has_bionic("bio_face_mask")) {
+   if (u.has_bionic("bio_face_mask")) {
    chance += 20;
    }
    break;
 
   case TALK_TRIAL_PERSUADE:
-   chance += u->talk_skill() - int(p->talk_skill() / 2) +
-           p->op_of_u.trust * 2 + p->op_of_u.value;
-   if (u->has_trait("ELFAEYES")) {
+   chance += u.talk_skill() - int(p.talk_skill() / 2) +
+           p.op_of_u.trust * 2 + p.op_of_u.value;
+   if (u.has_trait("ELFAEYES")) {
       chance += 20;
    }
-   if (u->has_trait("TAIL_FLUFFY")) {
+   if (u.has_trait("TAIL_FLUFFY")) {
       chance += 10;
    }
-   if (u->has_trait("WINGS_BUTTERFLY")) {
+   if (u.has_trait("WINGS_BUTTERFLY")) {
       chance += 15; // Flutter your wings at 'em
    }
-   if (u->has_bionic("bio_face_mask")) {
+   if (u.has_bionic("bio_face_mask")) {
       chance += 10;
    }
-   if (u->has_trait("GROWL")) {
+   if (u.has_trait("GROWL")) {
       chance -= 25;
    }
-   if (u->has_trait("HISS")) {
+   if (u.has_trait("HISS")) {
       chance -= 25;
    }
-   if (u->has_trait("SNARL")) {
+   if (u.has_trait("SNARL")) {
       chance -= 60;
    }
-   if (u->has_bionic("bio_deformity")) {
+   if (u.has_bionic("bio_deformity")) {
       chance -= 50;
    }
-   if (u->has_bionic("bio_voice")) {
+   if (u.has_bionic("bio_voice")) {
       chance -= 20;
    }
    break;
 
   case TALK_TRIAL_INTIMIDATE:
-   chance += u->intimidation() - p->intimidation() + p->op_of_u.fear * 2 -
-           p->personality.bravery * 2;
-   if (u->has_trait("MINOTAUR")) {
+   chance += u.intimidation() - p.intimidation() + p.op_of_u.fear * 2 -
+           p.personality.bravery * 2;
+   if (u.has_trait("MINOTAUR")) {
       chance += 15;
    }
-   if (u->has_trait("MUZZLE")) {
+   if (u.has_trait("MUZZLE")) {
       chance += 6;
    }
-   if (u->has_trait("MUZZLE_LONG")) {
+   if (u.has_trait("MUZZLE_LONG")) {
       chance += 20;
    }
-   if (u->has_trait("SABER_TEETH")) {
+   if (u.has_trait("SABER_TEETH")) {
       chance += 15;
    }
-   if (u->has_trait("TERRIFYING")) {
+   if (u.has_trait("TERRIFYING")) {
       chance += 15;
    }
-   if (u->has_trait("ELFAEYES")) {
+   if (u.has_trait("ELFAEYES")) {
       chance += 10;
    }
- //if (p->has_trait("TERRIFYING")) // This appears to do nothing, since NPCs don't seem to actually check for it.
+ //if (p.has_trait("TERRIFYING")) // This appears to do nothing, since NPCs don't seem to actually check for it.
  // chance -= 15;
-   if (u->has_trait("GROWL")) {
+   if (u.has_trait("GROWL")) {
       chance += 15;
    }
-   if (u->has_trait("HISS")) {
+   if (u.has_trait("HISS")) {
       chance += 15;
    }
-   if (u->has_trait("SNARL")) {
+   if (u.has_trait("SNARL")) {
       chance += 30;
    }
-   if (u->has_trait("WINGS_BUTTERFLY")) {
+   if (u.has_trait("WINGS_BUTTERFLY")) {
       chance -= 20; // Butterflies are not terribly threatening.  :-(
    }
-   if (u->has_bionic("bio_face_mask")) {
+   if (u.has_bionic("bio_face_mask")) {
       chance += 10;
    }
-   if (u->has_bionic("bio_armor_eyes")) {
+   if (u.has_bionic("bio_armor_eyes")) {
       chance += 10;
    }
-   if (u->has_bionic("bio_deformity")) {
+   if (u.has_bionic("bio_deformity")) {
       chance += 20;
    }
-   if (u->has_bionic("bio_voice")) {
+   if (u.has_bionic("bio_voice")) {
       chance += 20;
    }
    break;
@@ -3496,7 +3495,7 @@ talk_topic dialogue::opt(talk_topic topic)
                  _("<talk option>%1$c: [%2$s %3$d%%] %4$s"),
                  char('a' + i),                           // option letter
                  talk_trial_text[responses[i].trial],     // trial type
-                 trial_chance(responses[i], alpha, beta), // trial % chance
+                 responses[i].calc_chance( *this ), // trial % chance
                  responses[i].text.c_str()                // response
              )
          );
@@ -3597,9 +3596,9 @@ talk_topic dialogue::opt(talk_topic topic)
 
  talk_function effect;
  if (chosen.trial == TALK_TRIAL_NONE ||
-     rng(0, 99) < trial_chance(chosen, alpha, beta)) {
+     rng(0, 99) < chosen.calc_chance( *this )) {
   if (chosen.trial != TALK_TRIAL_NONE)
-    alpha->practice( "speech", (100 - trial_chance(chosen, alpha, beta)) / 10 );
+    alpha->practice( "speech", (100 - chosen.calc_chance( *this )) / 10 );
   (effect.*chosen.effect_success)(beta);
   beta->op_of_u += chosen.opinion_success;
   if (beta->turned_hostile()) {
@@ -3608,7 +3607,7 @@ talk_topic dialogue::opt(talk_topic topic)
   }
   return chosen.success;
  } else {
-   alpha->practice( "speech", (100 - trial_chance(chosen, alpha, beta)) / 7 );
+   alpha->practice( "speech", (100 - chosen.calc_chance( *this )) / 7 );
   (effect.*chosen.effect_failure)(beta);
   beta->op_of_u += chosen.opinion_failure;
   if (beta->turned_hostile()) {

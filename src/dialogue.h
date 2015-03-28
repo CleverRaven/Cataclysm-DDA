@@ -151,6 +151,8 @@ struct talk_response {
     talk_topic failure = TALK_NONE;
 
     talk_response() = default;
+
+    int calc_chance( const dialogue &d ) const;
 };
 
 struct talk_response_list {
