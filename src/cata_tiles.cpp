@@ -534,9 +534,11 @@ void cata_tiles::draw(int destx, int desty, int centerx, int centery, int width,
     screentile_width = (width + tile_width - 1) / tile_width;
     screentile_height = (height + tile_height - 1) / tile_height;
 
+    // in isometric mode, render the whole reality bubble
+    // TODO: make this smarter
     const int min_x = tile_iso ? MAPSIZE*SEEX : o_x;
     const int max_x = tile_iso ? 0 : sx + o_x;
-    const int dx = tile_iso ? -1 : 1;
+    const int dx = tile_iso ? -1 : 1; // iso mode renders right to left, for overlap reasons
     const int min_y = tile_iso ? 0 : o_y;
     const int max_y = tile_iso ? MAPSIZE*SEEX : sy + o_y;
     const int dy = 1;
@@ -805,8 +807,10 @@ bool cata_tiles::draw_from_id_string(std::string id, TILE_CATEGORY category,
     if (tile_iso) {
         screen_x = ((x-o_x) - (o_y-y)) * tile_width / 2 +
             op_x;
-        screen_y = ((y-o_y) - (x-o_x)) * tile_height / 4 +
-            screentile_height * tile_height / 2 +
+        // y uses tile_width because width is definitive for iso tiles
+        // tile footprints are half as tall as wide, aribtrarily tall
+        screen_y = ((y-o_y) - (x-o_x)) * tile_width / 4 +
+            screentile_height * tile_height / 2 + // TODO: more obvious centering math
             op_y;
     } else {
         screen_x = (x - o_x) * tile_width + op_x;
