@@ -85,10 +85,6 @@ tag_data talk_tags[NUM_STATIC_TAGS] = {
                                  ret.back().text = txt;\
                                  ret.back().tempvalue = index
 
-#define SELECT_STYLE(txt, styleIn)  ret.push_back(talk_response());\
-                                 ret.back().text = txt;\
-                                 ret.back().style = styleIn;
-
 #define TRIAL(tr, diff) ret.back().trial.type = tr;\
                         ret.back().trial.difficulty = diff
 
@@ -1423,6 +1419,13 @@ talk_response &dialogue::add_response( const std::string &text, talk_topic const
     return result;
 }
 
+talk_response &dialogue::add_response( const std::string &text, talk_topic const r, const martialart &style ) const
+{
+    talk_response &result = add_response( text, r );
+    result.style = style.id;
+    return result;
+}
+
 void dialogue::gen_responses( const talk_topic topic ) const
 {
     const auto p = beta; // for compatibility, later replace it in the code below
@@ -2193,11 +2196,12 @@ void dialogue::gen_responses( const talk_topic topic ) const
                 player_activity &backlog = g->u.backlog.front();
                 std::stringstream resume;
                 resume << _("Yes, let's resume training ");
+                // TODO: add a Skill::exists or is_defined or similar function
                 const Skill* skillt = Skill::skill(backlog.name);
                 if(skillt == NULL) {
-                    resume << martialarts[backlog.name].name;
-                    SELECT_STYLE(resume.str(), backlog.name);
-                    SUCCESS(TALK_TRAIN_START);
+                    auto &style = martialarts[backlog.name];
+                    resume << style.name;
+                    add_response( resume.str(), TALK_TRAIN_START, style );
                 } else {
                     resume << skillt->name();
                     add_response( resume.str(), TALK_TRAIN_START, skillt );
@@ -2226,9 +2230,9 @@ void dialogue::gen_responses( const talk_topic topic ) const
             }
             for (size_t i = 0; i < styles.size() && printed < 9; i++) {
                 printed++;
-                SELECT_STYLE( string_format(_("%s (cost 800)"), martialarts[styles[i]].name.c_str()),
-                      styles[i] );
-                    SUCCESS(TALK_TRAIN_START);
+                auto &style = martialarts[styles[i]];
+                const std::string text = string_format( _("%s (cost 800)"), style.name.c_str() );
+                add_response( text, TALK_TRAIN_START, style );
             }
             if (more) {
                 SELECT_TEMP(_("More..."), shift + 9);

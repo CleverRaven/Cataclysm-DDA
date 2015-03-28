@@ -9,6 +9,8 @@
 #include <vector>
 #include <string>
 
+class martialart;
+
 struct talk_response;
 struct talk_function;
 struct dialogue {
@@ -88,6 +90,11 @@ private:
      * talked about skill to the given one. The skill pointer must be valid.
      */
     talk_response &add_response( const std::string &text, talk_topic r, const Skill *skill ) const;
+    /**
+     * Add a simple response that switches the topic to the new one and sets the currently
+     * talked about martial art style to the given one.
+     */
+    talk_response &add_response( const std::string &text, talk_topic r, const martialart &style ) const;
 };
 
 struct talk_function {
