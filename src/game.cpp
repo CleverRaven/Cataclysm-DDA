@@ -13631,7 +13631,7 @@ void intro()
     char *locale = setlocale(LC_ALL, NULL);
     if (locale != NULL) {
         // convert all to uppercase, no need to retain originals
-        for(int i = 0; i < strlen(locale); ++i)
+        for(size_t i = 0; i < strlen(locale); ++i)
             locale[i] = toupper(locale[i]);
         // grab the rest of the string onward
         char *p = strstr(locale, "UTF");
