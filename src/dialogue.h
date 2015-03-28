@@ -14,17 +14,17 @@ struct dialogue {
      * The player character that speaks (always g->u).
      * TODO: make it a reference, not a pointer.
      */
-    player *alpha;
+    player *alpha = nullptr;
     /**
      * The NPC we talk to. Never null.
      * TODO: make it a reference, not a pointer.
      */
-    npc *beta;
-    WINDOW *win;
+    npc *beta = nullptr;
+    WINDOW *win = nullptr;
     /**
      * If true, we are done talking and the dialog ends.
      */
-    bool done;
+    bool done = false;
     /**
      * This contains the exchanged words, it is basically like the global message log.
      * Each responses of the player character and the NPC are added as are information about
@@ -40,13 +40,7 @@ struct dialogue {
     int opt(std::string challenge, ...);
     talk_topic opt(talk_topic topic);
 
-    dialogue()
-    {
-        alpha = NULL;
-        beta = NULL;
-        win = NULL;
-        done = false;
-    }
+    dialogue() = default;
 
     std::string dynamic_line( talk_topic topic ) const;
     std::vector<talk_response> gen_responses( talk_topic topic ) const;
