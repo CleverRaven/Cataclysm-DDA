@@ -2213,38 +2213,16 @@ void dialogue::gen_responses( const talk_topic topic ) const
                 add_response_none( _("Oh, okay.") );
                 break;
             }
-            int printed = 0;
-            int shift = p->chatbin.tempvalue;
-            bool more = trainable.size() + styles.size() - shift > 9;
-            for (size_t i = shift; i < trainable.size() && printed < 9; i++) {
-                //shift--;
-                printed++;
-                const Skill* trained = trainable[i];
+            for( auto & trained : trainable ) {
                 std::string text = string_format(_("%s: %d -> %d (cost %d)"), trained->name().c_str(),
                       static_cast<int>(g->u.skillLevel(trained)), g->u.skillLevel(trained) + 1,
                       200 * (g->u.skillLevel(trained) + 1));
                 add_response( text, TALK_TRAIN_START, trained );
             }
-            if (shift < 0) {
-                shift = 0;
-            }
-            for (size_t i = 0; i < styles.size() && printed < 9; i++) {
-                printed++;
-                auto &style = martialarts[styles[i]];
+            for( auto & style_id : styles ) {
+                auto &style = martialarts[style_id];
                 const std::string text = string_format( _("%s (cost 800)"), style.name.c_str() );
                 add_response( text, TALK_TRAIN_START, style );
-            }
-            if (more) {
-                SELECT_TEMP(_("More..."), shift + 9);
-                    SUCCESS(TALK_TRAIN);
-            }
-            if (shift > 0) {
-                int newshift = shift - 9;
-                if (newshift < 0) {
-                    newshift = 0;
-                }
-                SELECT_TEMP(_("Back..."), newshift);
-                    SUCCESS(TALK_TRAIN);
             }
             add_response_none( _("Eh, never mind.") );
         }
