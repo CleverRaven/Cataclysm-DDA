@@ -115,6 +115,31 @@ const std::string &talk_trial::name() const
     return texts[type];
 }
 
+/** Time (in turns) and cost (in cent) for training: */
+// TODO: maybe move this function into the skill class? Or into the NPC class?
+static int calc_skill_training_time( const Skill *skill )
+{
+    return MINUTES( 10 ) + MINUTES( 5 ) * g->u.skillLevel( skill );
+}
+
+static int calc_skill_training_cost( const Skill *skill )
+{
+    return 200 * ( 1 + g->u.skillLevel( skill ) );
+}
+
+// TODO: all styles cost the same and take the same time to train,
+// maybe add values to the ma_style class to makes this variable
+// TODO: maybe move this function into the ma_style class? Or into the NPC class?
+static int calc_ma_style_training_time( const std::string & /* id */ )
+{
+    return MINUTES( 30 );
+}
+
+static int calc_ma_style_training_cost( const std::string & /* id */ )
+{
+    return 800;
+}
+
 void game::init_npctalk()
 {
     std::string tmp_talk_needs[num_needs][5] = {
@@ -2210,14 +2235,18 @@ void dialogue::gen_responses( const talk_topic topic ) const
                 break;
             }
             for( auto & trained : trainable ) {
+                const int cost = calc_skill_training_cost( trained );
+                const int cur_level = g->u.skillLevel( trained );
+                //~Skill name: current level -> next level (cost in cent)
                 std::string text = string_format(_("%s: %d -> %d (cost %d)"), trained->name().c_str(),
-                      static_cast<int>(g->u.skillLevel(trained)), g->u.skillLevel(trained) + 1,
-                      200 * (g->u.skillLevel(trained) + 1));
+                      cur_level, cur_level + 1, cost );
                 add_response( text, TALK_TRAIN_START, trained );
             }
             for( auto & style_id : styles ) {
                 auto &style = martialarts[style_id];
-                const std::string text = string_format( _("%s (cost 800)"), style.name.c_str() );
+                const int cost = calc_ma_style_training_cost( style.id );
+                //~Martial art style (cost in cent)
+                const std::string text = string_format( _("%s (cost %d)"), style.name.c_str(), cost );
                 add_response( text, TALK_TRAIN_START, style );
             }
             add_response_none( _("Eh, never mind.") );
@@ -3110,32 +3139,29 @@ void talk_function::set_engagement_all(npc *p)
  p->combat_rules.engagement = ENGAGE_ALL;
 }
 
-//TODO currently this does not handle martial art styles correctly
 void talk_function::start_training( npc *p )
 {
-    int cost = 0, time = 0;
-    const Skill *sk_used = NULL;
+    int cost;
+    int time;
     std::string name;
     if( p->chatbin.skill == NULL ) {
-        // we're training a martial art style
-        cost = -800;
-        time = 30000;
+        auto &ma_style_id = p->chatbin.style;
+        cost = calc_ma_style_training_cost( ma_style_id );
+        time = calc_ma_style_training_time( ma_style_id );
         name = p->chatbin.style;
     } else {
-        sk_used = p->chatbin.skill;
-        cost = -200 * ( 1 + g->u.skillLevel( sk_used ) );
-        time = 10000 + 5000 * g->u.skillLevel( sk_used );
-        name = p->chatbin.skill->ident();
+        const Skill *skill = p->chatbin.skill;
+        cost = calc_skill_training_cost( skill );
+        time = calc_skill_training_time( skill );
+        name = skill->ident();
     }
 
-    // Pay for it
-    if( p->op_of_u.owed >= 0 - cost ) {
-        p->op_of_u.owed += cost;
-    } else if( !trade( p, cost, _( "Pay for training:" ) ) ) {
+    if( p->op_of_u.owed >= cost ) {
+        p->op_of_u.owed -= cost;
+    } else if( !trade( p, -cost, _( "Pay for training:" ) ) ) {
         return;
     }
-    // Then receive it
-    g->u.assign_activity( ACT_TRAIN, time, 0, 0, name );
+    g->u.assign_activity( ACT_TRAIN, time * 100, 0, 0, name );
     p->add_effect( "asked_to_train", 3600 );
 }
 
