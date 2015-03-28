@@ -3337,6 +3337,18 @@ void talk_response::do_formatting( const dialogue &d, char const letter )
     }
 }
 
+talk_topic talk_response::effect_t::apply( dialogue &d ) const
+{
+    talk_function tmp;
+    (tmp.*effect)( d.beta );
+    d.beta->op_of_u += opinion;
+    if( d.beta->turned_hostile() ) {
+        d.beta->make_angry();
+        return TALK_DONE;
+    }
+    return topic;
+}
+
 talk_topic dialogue::opt(talk_topic topic)
 {
  std::string challenge = dynamic_line( topic );
@@ -3401,25 +3413,8 @@ talk_topic dialogue::opt(talk_topic topic)
   beta->chatbin.style = chosen.style;
 
     const bool success = chosen.trial.roll( *this );
- talk_function effect;
-    if( success ) {
-  (effect.*chosen.success.effect)(beta);
-  beta->op_of_u += chosen.success.opinion;
-  if (beta->turned_hostile()) {
-   beta->make_angry();
-   done = true;
-  }
-  return chosen.success.topic;
- } else {
-  (effect.*chosen.failure.effect)(beta);
-  beta->op_of_u += chosen.failure.opinion;
-  if (beta->turned_hostile()) {
-   beta->make_angry();
-   done = true;
-  }
-  return chosen.failure.topic;
- }
- return TALK_NONE; // Shouldn't ever happen
+    const auto &effects = success ? chosen.success : chosen.failure;
+    return effects.apply( *this );
 }
 
 talk_topic special_talk(char ch)

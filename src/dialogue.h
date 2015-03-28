@@ -218,6 +218,8 @@ struct talk_response {
          * Topic to switch to. TALK_DONE ends the talking, TALK_NONE keeps the current topic.
          */
         talk_topic topic = TALK_NONE;
+
+        talk_topic apply( dialogue &d ) const;
     };
     effect_t success;
     effect_t failure;
