@@ -78,6 +78,11 @@ private:
      */
     talk_response &add_response( const std::string &text, talk_topic r,
                                  void (talk_function::*effect_success)(npc *) ) const;
+    /**
+     * Add a simple response that switches the topic to the new one and sets the currently
+     * talked about mission to the given one. The mission pointer must be valid.
+     */
+    talk_response &add_response( const std::string &text, talk_topic r, mission *miss ) const;
 };
 
 struct talk_function {

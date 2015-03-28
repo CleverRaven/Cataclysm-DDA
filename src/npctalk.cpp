@@ -81,10 +81,6 @@ tag_data talk_tags[NUM_STATIC_TAGS] = {
 #define RESPONSE(txt)      ret.push_back(talk_response());\
                            ret.back().text = txt
 
-#define SELECT_MISS(txt, index)  ret.push_back(talk_response());\
-                                 ret.back().text = txt;\
-                                 ret.back().mission_selected = index
-
 #define SELECT_TEMP(txt, index)  ret.push_back(talk_response());\
                                  ret.back().text = txt;\
                                  ret.back().tempvalue = index
@@ -1411,6 +1407,16 @@ talk_response &dialogue::add_response( const std::string &text, talk_topic const
     return result;
 }
 
+talk_response &dialogue::add_response( const std::string &text, talk_topic const r, mission *miss ) const
+{
+    if( miss == nullptr ) {
+        debugmsg( "tried to select null mission" );
+    }
+    talk_response &result = add_response( text, r );
+    result.mission_selected = miss;
+    return result;
+}
+
 void dialogue::gen_responses( const talk_topic topic ) const
 {
     const auto p = beta; // for compatibility, later replace it in the code below
@@ -1428,13 +1434,11 @@ void dialogue::gen_responses( const talk_topic topic ) const
             if (p->chatbin.missions.empty()) {
                 add_response_none( _("Oh, okay.") );
             } else if (p->chatbin.missions.size() == 1) {
-                SELECT_MISS(_("Tell me about it."), p->chatbin.missions.front() );
-                    SUCCESS(TALK_MISSION_OFFER);
+                add_response( _("Tell me about it."),TALK_MISSION_OFFER,  p->chatbin.missions.front() );
                 add_response_none( _("Never mind, I'm not interested.") );
             } else {
                 for( auto &mission : p->chatbin.missions ) {
-                    SELECT_MISS( mission->get_type().name, mission );
-                        SUCCESS(TALK_MISSION_OFFER);
+                    add_response( mission->get_type().name, TALK_MISSION_OFFER, mission );
                 }
                 add_response_none( _("Never mind, I'm not interested.") );
             }
@@ -1444,13 +1448,11 @@ void dialogue::gen_responses( const talk_topic topic ) const
             if( missions_assigned.empty() ) {
                 add_response_none( _("Never mind then.") );
             } else if( missions_assigned.size() == 1 ) {
-                SELECT_MISS(_("I have news."), missions_assigned.front() );
-                    SUCCESS(TALK_MISSION_INQUIRE);
+                add_response( _("I have news."), TALK_MISSION_INQUIRE, missions_assigned.front() );
                 add_response_none( _("Never mind.") );
             } else {
                 for( auto &miss : missions_assigned ) {
-                    SELECT_MISS( miss->get_type().name, miss );
-                        SUCCESS(TALK_MISSION_INQUIRE);
+                    add_response( miss->get_type().name, TALK_MISSION_INQUIRE, miss );
                 }
                 add_response_none( _("Never mind.") );
             }
