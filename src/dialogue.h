@@ -129,6 +129,10 @@ struct talk_trial {
     {
         return type != TALK_TRIAL_NONE;
     }
+    /**
+     * Roll for success or failure of this trial.
+     */
+    bool roll( dialogue &d ) const;
 };
 
 /**

@@ -2999,6 +2999,21 @@ int talk_trial::calc_chance( const dialogue &d ) const
  return chance;
 }
 
+bool talk_trial::roll( dialogue &d ) const
+{
+    if( type == TALK_TRIAL_NONE ) {
+        return true;
+    }
+    int const chance = calc_chance( d );
+    bool const success = rng( 0, 99 ) < chance;
+    if( success ) {
+        d.alpha->practice( "speech", ( 100 - chance ) / 10 );
+    } else {
+        d.alpha->practice( "speech", ( 100 - chance ) / 7 );
+    }
+    return success;
+}
+
 int topic_category(talk_topic topic)
 {
  switch (topic) {
@@ -3603,11 +3618,9 @@ talk_topic dialogue::opt(talk_topic topic)
  if (!chosen.style.empty())
   beta->chatbin.style = chosen.style;
 
+    const bool success = chosen.trial.roll( *this );
  talk_function effect;
- if (chosen.trial.type == TALK_TRIAL_NONE ||
-     rng(0, 99) < chosen.trial.calc_chance( *this )) {
-  if (chosen.trial.type != TALK_TRIAL_NONE)
-    alpha->practice( "speech", (100 - chosen.trial.calc_chance( *this )) / 10 );
+    if( success ) {
   (effect.*chosen.effect_success)(beta);
   beta->op_of_u += chosen.opinion_success;
   if (beta->turned_hostile()) {
@@ -3616,7 +3629,6 @@ talk_topic dialogue::opt(talk_topic topic)
   }
   return chosen.success;
  } else {
-   alpha->practice( "speech", (100 - chosen.trial.calc_chance( *this )) / 7 );
   (effect.*chosen.effect_failure)(beta);
   beta->op_of_u += chosen.opinion_failure;
   if (beta->turned_hostile()) {
