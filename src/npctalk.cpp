@@ -3504,6 +3504,22 @@ size_t dialogue::add_to_history( const std::string &text )
     return folded.size();
 }
 
+void dialogue::print_history( size_t const hilight_lines )
+{
+    int curline = FULL_SCREEN_HEIGHT - 2;
+    int curindex = history.size() - 1;
+    // index of the first line that is highlighted
+    int newindex = history.size() - hilight_lines;
+    // Print at line 2 and below, line 1 contains the header, line 0 the border
+    while( curindex >= 0 && curline >= 2 ) {
+        // red for new text, gray for old, similar to coloring of messages
+        nc_color const col = ( curindex >= newindex ) ? c_red : c_dkgray;
+        mvwprintz( win, curline, 1, col, "%s", history[curindex].c_str() );
+        curline--;
+        curindex--;
+    }
+}
+
 talk_topic dialogue::opt(talk_topic topic)
 {
  std::string challenge = dynamic_line( topic );
@@ -3528,7 +3544,7 @@ talk_topic dialogue::opt(talk_topic topic)
  history.push_back(""); // Empty line between lines of dialogue
 
     // Number of lines to highlight
-    int const hilight_lines = add_to_history( challenge );
+    size_t const hilight_lines = add_to_history( challenge );
     std::vector<std::string> folded;
 
  std::vector<std::string> options;
@@ -3567,20 +3583,9 @@ talk_topic dialogue::opt(talk_topic topic)
  }
 
     clear_window_texts();
+    print_history( hilight_lines );
 
- int curline = FULL_SCREEN_HEIGHT - 2, curhist = 1;
- nc_color col;
- while (curhist <= (int)history.size() && curline > 0) {
-  if (curhist <= hilight_lines)
-   col = c_red;
-  else
-   col = c_dkgray;
-  mvwprintz(win, curline, 1, col, history[history.size() - curhist].c_str());
-  curline--;
-  curhist++;
- }
-
-    curline = 3;
+    int curline = 3;
     for (size_t i = 0; i < options.size(); i++) {
         folded = foldstring(options[i], (FULL_SCREEN_WIDTH / 2) - 4);
         for( size_t j = 0; j < folded.size(); ++j ) {

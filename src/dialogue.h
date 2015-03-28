@@ -52,6 +52,7 @@ struct dialogue {
 
 private:
     void clear_window_texts();
+    void print_history( size_t hilight_lines );
     /**
      * Folds and adds the folded text to @ref history. Returns the number of added lines.
      */
