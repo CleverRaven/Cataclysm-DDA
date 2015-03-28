@@ -42,7 +42,6 @@ ignorable = {
     "overmap_special",
     "recipe_category",
     "recipe_subcategory",
-    "recipe",
     "region_settings",
     "BULLET_PULLING",
     "SPECIES"
@@ -201,6 +200,13 @@ def extract_mapgen(item):
                     if speckey == "signage":
                         writestr(outfile, special[speckey])
 
+def extract_recipes(item):
+    outfile = get_outfile("recipe")
+    if "book_learn" in item:
+        for arr in item["book_learn"]:
+            if len(arr) >= 3 and len(arr[2]) > 0:
+                writestr(outfile, arr[2])
+
 def extract_mutation(item):
     outfile = get_outfile("mutation_category")
 
@@ -235,6 +241,7 @@ extract_specials = {
     "material": extract_material,
     "martial_art": extract_martial_art,
     "profession": extract_professions,
+    "recipe": extract_recipes,
     "scenario": extract_scenarios,
     "mapgen": extract_mapgen,
     "mutation_category":extract_mutation

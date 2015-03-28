@@ -35,7 +35,7 @@
   "time": 100,
   "reversible": false,
   "autolearn": false,
-  "book_learn": [[ "textbook_gaswarfare", 4 ] , [ "manual_launcher", 4 ]],
+  "book_learn": [[ "textbook_gaswarfare", 4, "" ] , [ "manual_launcher", 4 ]],
   "qualities" : [
     {"id":"SCREW","level":1,"amount":1}
   ], "components": [
@@ -80,6 +80,58 @@
     ],
     [
       [ "transponder", 1 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
+  "result": "plut_slurry_dense",
+  "category": "CC_AMMO",
+  "subcategory": "CSC_AMMO_OTHER",
+  "skill_used": "fabrication",
+  "skills_required": ["electronics",  7],
+  "difficulty": 8,
+  "time": 95000,
+  "reversible": false,
+  "autolearn": false,
+  "book_learn": [[ "recipe_lab_elec", 10 ]],
+  "qualities":[
+    {"id":"SAW_M","level":1,"amount":1},
+    {"id":"SCREW","level":1,"amount":1},
+    {"id":"HAMMER","level":2,"amount":1}
+  ],
+  "components": [
+    [
+      ["plut_cell", 1]
+    ],
+    [
+      [ "water", 10 ],
+	  [ "water_clean", 10]
+    ]
+  ]
+},{
+  "type" : "recipe",
+  "result": "plut_slurry",
+  "category": "CC_AMMO",
+  "subcategory": "CSC_AMMO_OTHER",
+  "skill_used": "fabrication",
+  "skills_required": ["electronics",  7],
+  "difficulty": 8,
+  "time": 95000,
+  "reversible": false,
+  "autolearn": false,
+  "book_learn": [[ "recipe_lab_elec", 10 ]],
+  "qualities":[
+    {"id":"SAW_M","level":1,"amount":1},
+    {"id":"SCREW","level":1,"amount":1},
+    {"id":"HAMMER","level":2,"amount":1}
+  ],
+  "components": [
+    [
+      ["plut_slurry_dense", 5]
+    ],
+    [
+      [ "water", 5 ],
+	  [ "water_clean", 5]
     ]
   ]
 },{
@@ -4109,7 +4161,7 @@
   "time": 60000,
   "reversible": false,
   "autolearn": false,
-  "book_learn": [["textbook_gaswarfare" , 8 ], ["textbook_anarch" , 7 ], ["recipe_labchem", 6 ]],
+  "book_learn": [["textbook_gaswarfare" , 8, "" ], ["textbook_anarch" , 7, "Stuff THE MAN doesn't want you to know" ], ["recipe_labchem", 6 ]],
   "tools": [ [ ["chemistry_set", 25]  ] ],
   "components": [
     [ [ "gasoline", 125 ], [ "diesel", 125 ] ],

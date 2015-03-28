@@ -374,6 +374,9 @@ public:
 // Operate vehicle
     void use_controls();
 
+// Fold up the vehicle
+    bool fold_up();
+
 // Start the vehicle's engine, if there are any
     void start_engine();
 
@@ -592,6 +595,8 @@ public:
     float strain ();
 
 // calculate if it can move using its wheels configuration
+    bool sufficient_wheel_config ();
+    bool balanced_wheel_config ();
     bool valid_wheel_config ();
 
 // idle fuel consumption
@@ -828,6 +833,7 @@ public:
     bool overhead_lights_on; //circle lights on/off
     bool dome_lights_on; // dome lights (rear view mirror lights) on
     bool aisle_lights_on; // aisle lights on
+    bool has_atomic_lights; // has any always-on atomic lights
     bool fridge_on;     //fridge on/off
     bool recharger_on;  //recharger on/off
     int turn_dir;       // direction, to wich vehicle is turning (player control). will rotate frame on next move

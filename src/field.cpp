@@ -561,7 +561,8 @@ bool map::process_fields_in_submap( submap *const current_submap,
                                 // Make a copy and let the copy explode.
                                 item tmp = *explosive;
                                 i_rem( point(x, y), explosive );
-                                tmp.detonate(point(x,y));
+                                // TODO: Z
+                                tmp.detonate( tripoint(x,y,g->get_levz() ) );
                                 // Just restart from the beginning.
                                 explosive = items_here.begin();
                             } else {
@@ -632,7 +633,9 @@ bool map::process_fields_in_submap( submap *const current_submap,
                                         // large intrinsic effect blows up with half
                                         // the ammos damage in force, for each bullet,
                                         // just creating shrapnel.
-                                        g->explosion( x, y, ammo_type->damage / 2,
+                                        // TODO: Z
+                                        g->explosion( tripoint( x, y, g->get_levz() ),
+                                                      ammo_type->damage / 2,
                                                       true, false, false );
                                     } else if( special ) {
                                         // If it has a special effect just trigger it.
@@ -777,7 +780,7 @@ bool map::process_fields_in_submap( submap *const current_submap,
                         }
                         // If the flames are in a brazier, they're fully contained,
                         // so skip consuming terrain
-                        if((tr_brazier != tr_at(x, y)) &&
+                        if((tr_brazier != tr_at(x, y).loadid) &&
                            (has_flag("FIRE_CONTAINER", x, y) != true )) {
                             // Consume the terrain we're on
                             if (has_flag("FLAMMABLE", x, y) && one_in(32 - cur->getFieldDensity() * 10)) {
@@ -820,7 +823,7 @@ bool map::process_fields_in_submap( submap *const current_submap,
                         bool in_pit = (ter(x, y) == t_pit);
 
                         // If the flames are REALLY big, they contribute to adjacent flames
-                        if (cur->getFieldAge() < 0 && tr_brazier != tr_at(x, y) &&
+                        if (cur->getFieldAge() < 0 && tr_brazier != tr_at(x, y).loadid &&
                             (has_flag("FIRE_CONTAINER", x, y) != true  ) ) {
                             if(cur->getFieldDensity() == 3) {
                                 // Randomly offset our x/y shifts by 0-2, to randomly pick
@@ -911,7 +914,7 @@ bool map::process_fields_in_submap( submap *const current_submap,
                                         spread_chance = 50 + spread_chance / 2;
                                     }
                                     if ((i != 0 || j != 0) && rng(1, 100) < spread_chance &&
-                                          cur->getFieldAge() < 200 && tr_brazier != tr_at(x, y) &&
+                                          cur->getFieldAge() < 200 && tr_brazier != tr_at(x, y).loadid &&
                                           (has_flag("FIRE_CONTAINER", x, y) != true ) &&
                                           (in_pit == (ter(fx, fy) == t_pit)) &&
                                           ((cur->getFieldDensity() >= 2 && (has_flag("FLAMMABLE", fx, fy) && one_in(20))) ||
@@ -997,7 +1000,8 @@ bool map::process_fields_in_submap( submap *const current_submap,
                                     }
                                 }
                         } if (one_in(5 - cur->getFieldDensity())) {
-                            g->spread_fungus(x, y); //Haze'd terrain
+                            // TODO: Z
+                            g->spread_fungus( tripoint( x, y, g->get_levz() ) ); //Haze'd terrain
                         }
                         }
                         break;

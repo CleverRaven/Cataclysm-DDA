@@ -298,7 +298,7 @@ void trapfunc::shotgun(Creature *c, int x, int y)
         player *n = dynamic_cast<player *>(c);
         if (n != NULL) {
             shots = (one_in(8) || one_in(20 - n->str_max) ? 2 : 1);
-            if (g->m.tr_at(x, y) == tr_shotgun_1) {
+            if (g->m.tr_at(x, y).loadid == tr_shotgun_1) {
                 shots = 1;
             }
             if (rng(5, 50) > n->get_dodge()) {
@@ -359,7 +359,7 @@ void trapfunc::shotgun(Creature *c, int x, int y)
                     break;
             }
             shots = (one_in(8) || one_in(chance) ? 2 : 1);
-            if (g->m.tr_at(x, y) == tr_shotgun_1) {
+            if (g->m.tr_at(x, y).loadid == tr_shotgun_1) {
                 shots = 1;
             }
             if (seen) {
@@ -369,7 +369,7 @@ void trapfunc::shotgun(Creature *c, int x, int y)
         }
         c->check_dead_state();
     }
-    if (shots == 2 || g->m.tr_at(x, y) == tr_shotgun_1) {
+    if (shots == 2 || g->m.tr_at(x, y).loadid == tr_shotgun_1) {
         g->m.remove_trap(x, y);
         g->m.spawn_item(x, y, "shotgun_sawn");
         g->m.spawn_item(x, y, "string_6");
@@ -491,7 +491,7 @@ void trapfunc::landmine(Creature *c, int x, int y)
         c->add_memorial_log(pgettext("memorial_male", "Stepped on a land mine."),
                             pgettext("memorial_female", "Stepped on a land mine."));
     }
-    g->explosion(x, y, 10, 8, false);
+    g->explosion( tripoint( x, y, g->get_levz() ), 10, 8, false );
     g->m.remove_trap(x, y);
 }
 
@@ -503,7 +503,7 @@ void trapfunc::boobytrap(Creature *c, int x, int y)
         c->add_memorial_log(pgettext("memorial_male", "Triggered a booby trap."),
                             pgettext("memorial_female", "Triggered a booby trap."));
     }
-    g->explosion(x, y, 18, 12, false);
+    g->explosion( tripoint( x, y, g->get_levz() ), 18, 12, false );
     g->m.remove_trap(x, y);
 }
 
@@ -714,7 +714,6 @@ void trapfunc::pit_spikes(Creature *c, int x, int y)
             add_msg(_("The spears break!"));
         }
         g->m.ter_set(x, y, t_pit);
-        g->m.add_trap(x, y, tr_pit);
         for (int i = 0; i < 4; i++) { // 4 spears to a pit
             if (one_in(3)) {
                 g->m.spawn_item(x, y, "pointy_stick");
@@ -791,7 +790,6 @@ void trapfunc::pit_glass(Creature *c, int x, int y)
             add_msg(_("The shards shatter!"));
         }
         g->m.ter_set(x, y, t_pit);
-        g->m.add_trap(x, y, tr_pit);
         for (int i = 0; i < 20; i++) { // 20 shards in a pit.
             if (one_in(3)) {
                 g->m.spawn_item(x, y, "glass_shard");
@@ -865,7 +863,7 @@ void trapfunc::sinkhole(Creature *c, int /*x*/, int /*y*/) {
                 std::vector<point> safe;
                 for (int i = g->u.posx() - 1; i <= g->u.posx() + 1; i++) {
                     for (int j = g->u.posy() - 1; j <= g->u.posy() + 1; j++) {
-                        if (g->m.move_cost(i, j) > 0 && g->m.tr_at(i, j) != tr_pit) {
+                        if (g->m.move_cost(i, j) > 0 && g->m.tr_at(i, j).loadid != tr_pit) {
                             safe.push_back(point(i, j));
                         }
                     }
@@ -924,7 +922,7 @@ void trapfunc::sinkhole(Creature *c, int /*x*/, int /*y*/) {
                     std::vector<point> safe;
                     for (int i = g->u.posx() - 1; i <= g->u.posx() + 1; i++) {
                         for (int j = g->u.posy() - 1; j <= g->u.posy() + 1; j++) {
-                            if (g->m.move_cost(i, j) > 0 && g->m.tr_at(i, j) != tr_pit) {
+                            if (g->m.move_cost(i, j) > 0 && g->m.tr_at(i, j).loadid != tr_pit) {
                                 safe.push_back(point(i, j));
                             }
                         }
@@ -957,7 +955,7 @@ void trapfunc::sinkhole(Creature *c, int /*x*/, int /*y*/) {
                 std::vector<point> safe;
                 for (int i = g->u.posx() - 1; i <= g->u.posx() + 1; i++) {
                     for (int j = g->u.posy() - 1; j <= g->u.posy() + 1; j++) {
-                        if (g->m.move_cost(i, j) > 0 && g->m.tr_at(i, j) != tr_pit) {
+                        if (g->m.move_cost(i, j) > 0 && g->m.tr_at(i, j).loadid != tr_pit) {
                             safe.push_back(point(i, j));
                         }
                     }
@@ -1025,7 +1023,7 @@ void trapfunc::temple_flood(Creature *c, int /*x*/, int /*y*/)
                               pgettext("memorial_female", "Triggered a flood trap."));
         for (int i = 0; i < SEEX * MAPSIZE; i++) {
             for (int j = 0; j < SEEY * MAPSIZE; j++) {
-                if (g->m.tr_at(i, j) == tr_temple_flood) {
+                if (g->m.tr_at(i, j).loadid == tr_temple_flood) {
                     g->m.remove_trap(i, j);
                 }
             }
@@ -1077,7 +1075,7 @@ void trapfunc::glow(Creature *c, int x, int y)
                 n->radiation += rng(10, 30);
             } else if (one_in(4)) {
                 n->add_msg_if_player(m_bad, _("A blinding flash strikes you!"));
-                g->flashbang(x, y);
+                g->flashbang( tripoint( x, y, g->get_levz() ) );
             } else {
                 c->add_msg_if_player(_("Small flashes surround you."));
             }

@@ -399,7 +399,7 @@ void computer::activate_function(computer_action action, char ch)
                     }
                 }
                 if (numtowers == 4) {
-                    if (g->m.tr_at(i, j) == tr_portal) {
+                    if (g->m.tr_at(i, j).id == "tr_portal") {
                         g->m.remove_trap(i, j);
                     } else {
                         g->m.add_trap(i, j, tr_portal);
@@ -415,19 +415,20 @@ void computer::activate_function(computer_action action, char ch)
         }
         g->u.add_memorial_log(pgettext("memorial_male", "Caused a resonance cascade."),
                               pgettext("memorial_female", "Caused a resonance cascade."));
-        std::vector<point> cascade_points;
+        std::vector<tripoint> cascade_points;
         for (int i = g->u.posx() - 10; i <= g->u.posx() + 10; i++) {
             for (int j = g->u.posy() - 10; j <= g->u.posy() + 10; j++) {
                 if (g->m.ter(i, j) == t_radio_tower) {
-                    cascade_points.push_back(point(i, j));
+                    // TODO: Z
+                    cascade_points.push_back( tripoint(i, j, g->get_levz() ) );
                 }
             }
         }
         if (cascade_points.empty()) {
-            g->resonance_cascade(g->u.posx(), g->u.posy());
+            g->resonance_cascade( g->u.pos3() );
         } else {
-            point p = cascade_points[rng(0, cascade_points.size() - 1)];
-            g->resonance_cascade(p.x, p.y);
+            const tripoint &p = cascade_points[rng(0, cascade_points.size() - 1)];
+            g->resonance_cascade( p );
         }
     }
     break;
@@ -457,7 +458,7 @@ void computer::activate_function(computer_action action, char ch)
 
     case COMPACT_MAPS: {
         g->u.moves -= 30;
-        const tripoint center = g->global_omt_location();
+        const tripoint center = g->u.global_omt_location();
         overmap_buffer.reveal(point(center.x, center.y), 40, 0);
         query_any(_("Surface map data downloaded.  Local anomalous-access error logged.  Press any key..."));
         alerts ++;
@@ -466,7 +467,7 @@ void computer::activate_function(computer_action action, char ch)
 
     case COMPACT_MAP_SEWER: {
         g->u.moves -= 30;
-        const tripoint center = g->global_omt_location();
+        const tripoint center = g->u.global_omt_location();
         for (int i = -60; i <= 60; i++) {
             for (int j = -60; j <= 60; j++) {
                 const oter_id &oter = overmap_buffer.ter(center.x + i, center.y + j, center.z);
@@ -504,7 +505,7 @@ void computer::activate_function(computer_action action, char ch)
                 }
         }
 
-        g->explosion(g->u.posx() + 10, g->u.posx() + 21, 200, 0, true); //Only explode once. But make it large.
+        g->explosion( tripoint( g->u.posx() + 10, g->u.posx() + 21, g->get_levz() ), 200, 0, true); //Only explode once. But make it large.
 
         //...ERASE MISSILE, OPEN SILO, DISABLE COMPUTER
         // For each level between here and the surface, remove the missile
@@ -532,7 +533,8 @@ void computer::activate_function(computer_action action, char ch)
                    !(x == (target.x - 2) && (y == (target.y + 2))) &&
                    !(x == (target.x + 2) && (y == (target.y - 2))) &&
                    !(x == (target.x + 2) && (y == (target.y + 2)))) {
-                    g->nuke(x, y);
+                    // TODO: Z
+                    g->nuke( tripoint( x, y, 0 ) );
                 }
 
             }
@@ -1087,7 +1089,7 @@ SHORTLY. TO ENSURE YOUR SAFETY PLEASE FOLLOW THE BELOW STEPS. \n\
             for (int y = 0; y < SEEY * MAPSIZE; y++) {
                 if (g->m.ter(x, y) == t_elevator || g->m.ter(x, y) == t_vat) {
                     g->m.make_rubble(x, y, f_rubble_rock, true);
-                    g->explosion(x, y, 40, 0, true);
+                    g->explosion( tripoint( x, y, g->get_levz() ), 40, 0, true);
                 }
                 if (g->m.ter(x, y) == t_wall_glass_h || g->m.ter(x, y) == t_wall_glass_v) {
                     g->m.make_rubble(x, y, f_rubble_rock, true);
@@ -1097,7 +1099,7 @@ SHORTLY. TO ENSURE YOUR SAFETY PLEASE FOLLOW THE BELOW STEPS. \n\
                 }
                 if (g->m.ter(x, y) == t_sewage_pump) {
                     g->m.make_rubble(x, y, f_rubble_rock, true);
-                    g->explosion(x, y, 50, 0, true);
+                    g->explosion( tripoint( x, y, g->get_levz() ), 50, 0, true);
                 }
             }
         }
@@ -1233,7 +1235,7 @@ void computer::activate_failure(computer_failure fail)
             for (int y = 0; y < SEEY * MAPSIZE; y++) {
                 if (g->m.ter(x, y) == t_sewage_pump) {
                     g->m.make_rubble(x, y);
-                    g->explosion(x, y, 10, 0, false);
+                    g->explosion( tripoint( x, y, g->get_levz() ), 10, 0, false);
                 }
             }
         }
@@ -1276,8 +1278,8 @@ void computer::activate_failure(computer_failure fail)
     case COMPFAIL_AMIGARA:
         g->add_event(EVENT_AMIGARA, int(calendar::turn) + 5);
         g->u.add_effect("amigara", 20);
-        g->explosion(rng(0, SEEX * MAPSIZE), rng(0, SEEY * MAPSIZE), 10, 10, false);
-        g->explosion(rng(0, SEEX * MAPSIZE), rng(0, SEEY * MAPSIZE), 10, 10, false);
+        g->explosion( tripoint( rng(0, SEEX * MAPSIZE), rng(0, SEEY * MAPSIZE), g->get_levz() ), 10, 10, false );
+        g->explosion( tripoint( rng(0, SEEX * MAPSIZE), rng(0, SEEY * MAPSIZE), g->get_levz() ), 10, 10, false );
         break;
 
     case COMPFAIL_DESTROY_BLOOD:

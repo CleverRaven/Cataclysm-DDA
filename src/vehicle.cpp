@@ -195,6 +195,7 @@ vehicle::vehicle(std::string type_id, int init_veh_fuel, int init_veh_status): t
     camera_on = false;
     dome_lights_on = false;
     aisle_lights_on = false;
+    has_atomic_lights = false;
 
     //type can be null if the type_id parameter is omitted
     if(type != "null") {
@@ -1214,66 +1215,7 @@ void vehicle::use_controls()
         break;
     case convert_vehicle:
     {
-        if(g->u.controlling_vehicle) {
-            add_msg(m_warning, _("As the pitiless metal bars close on your nether regions, you reconsider trying to fold the %s while riding it."), name.c_str());
-            break;
-        }
-        add_msg(_("You painstakingly pack the %s into a portable configuration."), name.c_str());
-        std::string itype_id = "folding_bicycle";
-        for( const auto &elem : tags ) {
-            if( elem.compare( 0, 12, "convertible:" ) == 0 ) {
-                itype_id = elem.substr( 12 );
-                break;
-            }
-        }
-        // create a folding bicycle item
-        item bicycle;
-        if (can_be_folded) {
-            bicycle.make( "generic_folded_vehicle" );
-        } else {
-            bicycle.make( "folding_bicycle" );
-        }
-
-        // Drop stuff in containers on ground
-        for (size_t p = 0; p < parts.size(); p++) {
-            if( part_flag( p, "CARGO" ) ) {
-                for( auto &elem : get_items(p) ) {
-                    g->m.add_item_or_charges( g->u.posx(), g->u.posy(), elem );
-                }
-                while( !get_items(p).empty() ) {
-                    get_items(p).erase( get_items(p).begin() );
-                }
-            }
-        }
-
-        unboard_all();
-
-        // Store data of all parts, iuse::unfold_bicyle only loads
-        // some of them (like bigness), some are expect to be
-        // vehicle specific and therefor constant (like id, mount).
-        // Writing everything here is easier to manage, as only
-        // iuse::unfold_bicyle has to adopt to changes.
-        try {
-            std::ostringstream veh_data;
-            JsonOut json(veh_data);
-            json.write(parts);
-            bicycle.set_var( "folding_bicycle_parts", veh_data.str() );
-        } catch(std::string e) {
-            debugmsg("Error storing vehicle: %s", e.c_str());
-        }
-        if (can_be_folded) {
-            bicycle.set_var( "weight", total_mass() * 1000 );
-            bicycle.set_var( "volume", total_folded_volume() );
-            bicycle.set_var( "name", string_format(_("folded %s"), name.c_str()) );
-            bicycle.set_var( "vehicle_name", name );
-            // TODO: a better description?
-            bicycle.set_var( "description", string_format(_("A folded %s."), name.c_str()) );
-        }
-
-        g->m.add_item_or_charges(g->u.posx(), g->u.posy(), bicycle);
-        g->m.destroy_vehicle(this);
-
-        g->u.moves -= 500;
+        fold_up();
         break;
     }
     case toggle_tracker:
@@ -1314,6 +1256,88 @@ void vehicle::use_controls()
     case control_cancel:
         break;
     }
+}
+
+bool vehicle::fold_up() {
+    const bool can_be_folded = is_foldable();
+    const bool is_convertible = (tags.count("convertible") > 0);
+    if( ! ( can_be_folded || is_convertible ) ) {
+        debugmsg(_("Tried to fold non-folding vehicle %s"), name.c_str());
+        return false;
+    }
+
+    if( g->u.controlling_vehicle ) {
+        add_msg(m_warning, _("As the pitiless metal bars close on your nether regions, you reconsider trying to fold the %s while riding it."), name.c_str());
+        return false;
+    }
+
+    if( velocity>0 ) {
+        add_msg(m_warning, _("You can't fold the %s while it's in motion."), name.c_str());
+        return false;
+    }
+
+    add_msg(_("You painstakingly pack the %s into a portable configuration."), name.c_str());
+
+    std::string itype_id = "folding_bicycle";
+    for( const auto &elem : tags ) {
+        if( elem.compare( 0, 12, "convertible:" ) == 0 ) {
+            itype_id = elem.substr( 12 );
+            break;
+        }
+    }
+
+    // create a folding [non]bicycle item
+    item bicycle;
+    if (can_be_folded) {
+        bicycle.make( "generic_folded_vehicle" );
+    } else {
+        bicycle.make( "folding_bicycle" );
+    }
+
+    // Drop stuff in containers on ground
+    for (size_t p = 0; p < parts.size(); p++) {
+        if( part_flag( p, "CARGO" ) ) {
+            for( auto &elem : get_items(p) ) {
+                g->m.add_item_or_charges( g->u.posx(), g->u.posy(), elem );
+            }
+            while( !get_items(p).empty() ) {
+                get_items(p).erase( get_items(p).begin() );
+            }
+        }
+    }
+
+    unboard_all();
+
+    // Store data of all parts, iuse::unfold_bicyle only loads
+    // some of them (like bigness), some are expect to be
+    // vehicle specific and therefor constant (like id, mount).
+    // Writing everything here is easier to manage, as only
+    // iuse::unfold_bicyle has to adopt to changes.
+    try {
+        std::ostringstream veh_data;
+        JsonOut json(veh_data);
+        json.write(parts);
+        bicycle.set_var( "folding_bicycle_parts", veh_data.str() );
+    } catch(std::string e) {
+        debugmsg("Error storing vehicle: %s", e.c_str());
+    }
+
+    if (can_be_folded) {
+        bicycle.set_var( "weight", total_mass() * 1000 );
+        bicycle.set_var( "volume", total_folded_volume() );
+        bicycle.set_var( "name", string_format(_("folded %s"), name.c_str()) );
+        bicycle.set_var( "vehicle_name", name );
+        // TODO: a better description?
+        bicycle.set_var( "description", string_format(_("A folded %s."), name.c_str()) );
+    }
+
+    g->m.add_item_or_charges(g->u.posx(), g->u.posy(), bicycle);
+    g->m.destroy_vehicle(this);
+
+    // TODO: take longer to fold bigger vehicles
+    // TODO: make this interruptable
+    g->u.moves -= 500;
+    return true;
 }
 
 void vehicle::start_engine()
@@ -1643,6 +1667,25 @@ bool vehicle::can_mount (int dx, int dy, std::string id)
         }
     }
 
+    //Mirrors cannot be mounted on OPAQUE parts
+    if( vehicle_part_types[id].has_flag( "VISION" ) &&
+        !vehicle_part_types[id].has_flag( "CAMERA" ) ) {
+        for( const auto &elem : parts_in_square ) {
+            if( part_info( elem ).has_flag( "OPAQUE" ) ) {
+                return false;
+            }
+        }
+    }
+    //and vice versa
+    if( vehicle_part_types[id].has_flag( "OPAQUE" ) ) {
+        for( const auto &elem : parts_in_square ) {
+            if( part_info( elem ).has_flag( "VISION" ) &&
+                !part_info( elem ).has_flag( "CAMERA" ) ) {
+                return false;
+            }
+        }
+    }
+
     //Anything not explicitly denied is permitted
     return true;
 }
@@ -1883,6 +1926,17 @@ bool vehicle::remove_part (int p)
             if (!has_tracker){ // disable tracking
                 overmap_buffer.remove_vehicle( this );
                 tracking_on = false;
+            }
+        }
+    }
+
+    if (part_flag(p, "ATOMIC_LIGHT")) {
+        // disable atomic lights if this was the last one
+        has_atomic_lights = false;
+        for (int i = 0; i != (int)parts.size(); i++){
+            if (i != p && part_flag(i, "ATOMIC_LIGHT")){
+                has_atomic_lights = true;
+                break;
             }
         }
     }
@@ -2667,8 +2721,8 @@ void vehicle::center_of_mass(int &x, int &y)
     }
     xf /= m_total;
     yf /= m_total;
-    x = int(xf + 0.5); //round to nearest
-    y = int(yf + 0.5);
+    x = std::round(xf);
+    y = std::round(yf);
 }
 
 int vehicle::fuel_left (const ammotype & ftype, bool recurse)
@@ -2746,6 +2800,18 @@ int vehicle::refill (const ammotype & ftype, int amount)
 }
 
 int vehicle::drain (const ammotype & ftype, int amount) {
+    if(ftype == "battery") {
+        // Batteries get special handling to take advantage of jumper
+        // cables -- discharge_battery knows how to recurse properly
+        // (including taking cable power loss into account).
+        int remnant = discharge_battery(amount, true);
+
+        // discharge_battery returns amount of charges that were not
+        // found anywhere in the power network, whereas this function
+        // returns amount of charges consumed; simple subtraction.
+        return amount - remnant;
+    }
+
     int drained = 0;
 
     for (auto &p : fuel) {
@@ -3113,66 +3179,65 @@ float vehicle::strain ()
         return (float) (abs(velocity) - sv) / (float) (mv - sv);
 }
 
-bool vehicle::valid_wheel_config ()
+bool vehicle::sufficient_wheel_config ()
 {
     std::vector<int> floats = all_parts_with_feature(VPFLAG_FLOATS);
     if( !floats.empty() ) {
         return floats.size() > 2;
     }
-
-    int x1 = 0, y1 = 0, x2 = 0, y2 = 0;
-    int count = 0;
     std::vector<int> wheel_indices = all_parts_with_feature(VPFLAG_WHEEL);
     if(wheel_indices.empty()) {
-        //No wheels!
+        // No wheels!
         return false;
     } else if(wheel_indices.size() == 1) {
-        //Has to be a stable wheel
-        if(part_info(wheel_indices[0]).has_flag("STABLE")) {
-            //Valid only if the vehicle is 1 square in size (1 structural part)
-            return (all_parts_at_location(part_location_structure).size() == 1);
-        } else {
+        //Has to be a stable wheel, and one wheel can only support a 1-3 tile vehicle
+        if( !part_info(wheel_indices[0]).has_flag("STABLE") ||
+             all_parts_at_location(part_location_structure).size() > 3) {
             return false;
         }
     }
+    return true;
+}
+
+bool vehicle::balanced_wheel_config ()
+{
+    int x1 = 0, y1 = 0, x2 = 0, y2 = 0;
+    int count = 0;
+    std::vector<int> wheel_indices = all_parts_with_feature(VPFLAG_WHEEL);
+    // find the bounding box of the wheels
+    // TODO: find convex hull instead
     for (auto &w : wheel_indices) {
         if (!count) {
-            x1 = x2 = parts[w].mount.x;
-            y1 = y2 = parts[w].mount.y;
+            x1 = x2 = parts[w].precalc[0].x;
+            y1 = y2 = parts[w].precalc[0].y;
         }
-        if (parts[w].mount.x < x1) {
-            x1 = parts[w].mount.x;
+        if (parts[w].precalc[0].x < x1) {
+            x1 = parts[w].precalc[0].x;
         }
-        if (parts[w].mount.x > x2) {
-            x2 = parts[w].mount.x;
+        if (parts[w].precalc[0].x > x2) {
+            x2 = parts[w].precalc[0].x;
         }
-        if (parts[w].mount.y < y1) {
-            y1 = parts[w].mount.y;
+        if (parts[w].precalc[0].y < y1) {
+            y1 = parts[w].precalc[0].y;
         }
-        if (parts[w].mount.y > y2) {
-            y2 = parts[w].mount.y;
+        if (parts[w].precalc[0].y > y2) {
+            y2 = parts[w].precalc[0].y;
         }
         count++;
     }
-    float xo = 0, yo = 0;
-    float wo = 0, w2;
-    // lets find vehicle's center of masses
-    for (size_t p = 0; p < parts.size(); p++) {
-        if (parts[p].removed) {
-          continue;
-        }
-        w2 = item::find_type( part_info(p).item )->weight;
-        if (w2 < 1)
-            continue;
-        xo = xo * wo / (wo + w2) + parts[p].mount.x * w2 / (wo + w2);
-        yo = yo * wo / (wo + w2) + parts[p].mount.y * w2 / (wo + w2);
-        wo += w2;
-    }
-//    add_msg("cm x=%.3f y=%.3f m=%d  x1=%d y1=%d x2=%d y2=%d", xo, yo, (int) wo, x1, y1, x2, y2);
-    if ((int)xo < x1 || (int)xo > x2 || (int)yo < y1 || (int)yo > y2) {
-        return false; // center of masses not inside support of wheels (roughly)
+    // find the center of mass of the vehicle
+    int xo, yo;
+    center_of_mass(xo, yo);
+//    add_msg("cm x=%d y=%d x1=%d y1=%d x2=%d y2=%d", xo, yo, x1, y1, x2, y2);
+    if (xo < x1 || xo > x2 || yo < y1 || yo > y2) {
+        return false; // center of mass not inside support of wheels (roughly)
     }
     return true;
+}
+
+bool vehicle::valid_wheel_config ()
+{
+    return sufficient_wheel_config() && balanced_wheel_config();
 }
 
 /**
@@ -4163,11 +4228,8 @@ void vehicle::handle_trap (int x, int y, int part)
     if (pwh < 0) {
         return;
     }
-    trap_id t = g->m.tr_at(x, y);
-    if (t == tr_null || t == tr_goo || t == tr_portal || t == tr_telepad || t == tr_temple_flood ||
-        t == tr_temple_toggle ) {
-        return;
-    }
+    const trap &tr = g->m.tr_at(x, y);
+    const trap_id t = tr.loadid;
     int noise = 0;
     int chance = 100;
     int expl = 0;
@@ -4229,11 +4291,13 @@ void vehicle::handle_trap (int x, int y, int part)
         part_damage = 500;
     } else if ( t == tr_sinkhole || t == tr_pit || t == tr_spike_pit || t == tr_ledge || t == tr_glass_pit ) {
         part_damage = 500;
+    } else {
+        return;
     }
     if( g->u.sees(x, y) ) {
         if( g->u.knows_trap( tripoint( x, y, g->get_levz() ) ) ) {
             add_msg(m_bad, _("The %s's %s runs over %s."), name.c_str(),
-                    part_info(part).name.c_str(), traplist[t]->name.c_str() );
+                    part_info(part).name.c_str(), tr.name.c_str() );
         } else {
             add_msg(m_bad, _("The %s's %s runs over something."), name.c_str(),
                     part_info(part).name.c_str() );
@@ -4247,7 +4311,7 @@ void vehicle::handle_trap (int x, int y, int part)
         damage_direct( pwh, part_damage );
     }
     if (expl > 0) {
-        g->explosion(x, y, expl, shrap, false);
+        g->explosion( tripoint( x, y, g->get_levz() ), expl, shrap, false);
     }
 }
 
@@ -4506,6 +4570,7 @@ void vehicle::refresh()
     aisle_lights_epower = 0;
     alternator_load = 0;
     camera_epower = 0;
+    has_atomic_lights = false;
 
     // Used to sort part list so it displays properly when examining
     struct sort_veh_part_vector {
@@ -4568,6 +4633,9 @@ void vehicle::refresh()
         }
         if( vpi.has_flag( "CAMERA" ) ) {
             camera_epower += vpi.epower;
+        }
+        if( vpi.has_flag( "ATOMIC_LIGHT" ) ) {
+            has_atomic_lights = true;
         }
         // Build map of point -> all parts in that point
         const point pt = parts[p].mount;
@@ -4889,8 +4957,10 @@ int vehicle::damage_direct (int p, int dmg, int type)
                     g->u.add_memorial_log(pgettext("memorial_male","The fuel tank of the %s exploded!"),
                         pgettext("memorial_female", "The fuel tank of the %s exploded!"),
                         name.c_str());
-                    g->explosion (global_x() + parts[p].precalc[0].x, global_y() + parts[p].precalc[0].y,
-                                pow, 0, (ft == fuel_type_gasoline || ft == fuel_type_diesel));
+                    g->explosion( tripoint( global_x() + parts[p].precalc[0].x, 
+                                            global_y() + parts[p].precalc[0].y, 
+                                            g->get_levz() ),
+                                  pow, 0, (ft == fuel_type_gasoline || ft == fuel_type_diesel));
                     parts[p].hp = 0;
                 }
             }

@@ -229,49 +229,7 @@ int iuse::honeycomb(player *p, item *it, bool, point)
 
 int iuse::royal_jelly(player *p, item *it, bool, point)
 {
-    // TODO: Add other effects here; royal jelly is a cure-all!
-    p->pkill += 5;
-    std::string message;
-    if (p->has_effect("fungus")) {
-        message = _("You feel cleansed inside!");
-        p->remove_effect("fungus");
-    }
-    if (p->has_effect("dermatik") || p->has_effect("bloodworms") ||
-        p->has_effect("paincysts") || p->has_effect("brainworm") ||
-        p->has_effect("tapeworm")) {
-        message = _("You feel cleansed inside!");
-        p->remove_effect("dermatik");
-        p->remove_effect("bloodworms");
-        p->remove_effect("paincysts");
-        p->remove_effect("brainworm");
-        p->remove_effect("tapeworm");
-    }
-    if (p->has_effect("blind")) {
-        message = "";
-        p->remove_effect("blind");
-    }
-    if (p->has_effect("poison") || p->has_effect("foodpoison") ||
-        p->has_effect("badpoison") || p->has_effect("paralyzepoison") ||
-        p->has_effect("tetanus") || p->has_effect("infected") || p->has_effect("stung")) {
-        message = _("You feel much better!");
-        p->remove_effect("poison");
-        p->remove_effect("stung");
-        p->remove_effect("badpoison");
-        p->remove_effect("foodpoison");
-        p->remove_effect("paralyzepoison");
-        p->remove_effect("tetanus");
-        p->remove_effect("infected");
-    }
-    if (p->has_effect("asthma")) {
-        message = _("Your breathing clears up!");
-        p->remove_effect("asthma");
-    }
-    if (p->has_effect("common_cold") || p->has_effect("flu")) {
-        message = _("You feel healthier!");
-        p->remove_effect("common_cold");
-        p->remove_effect("flu");
-    }
-    p->add_msg_if_player(m_good, message.c_str());
+    p->add_effect("cureall", 1);
     return it->type->charges_to_use();
 }
 
@@ -347,13 +305,13 @@ static hp_part body_window(player *p, item *, std::string item_name,
         }
     }
     mvwprintz(hp_window, 8, 1, c_ltgray, _("7: Exit"));
-    std::string health_bar = "";
+    std::string health_bar;
     for (int i = 0; i < num_hp_parts; i++) {
         if (allowed_result[i]) {
             // have printed the name of the body part, can select it
             int current_hp = p->hp_cur[i];
             if (current_hp != 0) {
-                get_HP_Bar(current_hp, p->hp_max[i], color, health_bar, false);
+                std::tie(health_bar, color) = get_hp_bar(current_hp, p->hp_max[i], false);
                 if (p->has_trait("SELFAWARE")) {
                     mvwprintz(hp_window, i + 2, 15, color, "%5d", current_hp);
                 } else {
@@ -381,7 +339,7 @@ static hp_part body_window(player *p, item *, std::string item_name,
                 } else if (current_hp < 0) {
                     current_hp = 0;
                 }
-                get_HP_Bar(current_hp, p->hp_max[i], color, health_bar, false);
+                std::tie(health_bar, color) = get_hp_bar(current_hp, p->hp_max[i], false);
                 if (p->has_trait("SELFAWARE")) {
                     mvwprintz(hp_window, i + 2, 24, color, "%5d", current_hp);
                 } else {
@@ -4666,21 +4624,20 @@ int iuse::set_trap(player *p, item *it, bool, point)
     }
     int posx = dirx;
     int posy = diry;
-    const tripoint tr_loc( posx, posy, p->posz() );
+    tripoint tr_loc( posx, posy, p->posz() );
     if (g->m.move_cost(posx, posy) != 2) {
         p->add_msg_if_player(m_info, _("You can't place a %s there."), it->tname().c_str());
         return 0;
     }
 
-    const trap_id existing_trap = g->m.tr_at( tr_loc );
-    if (existing_trap != tr_null) {
-        const struct trap &t = *traplist[existing_trap];
-        if( t.can_see( tr_loc, *p )) {
+    const trap &existing_trap = g->m.tr_at( tr_loc );
+    if( !existing_trap.is_null() ) {
+        if( existing_trap.can_see( tr_loc, *p )) {
             p->add_msg_if_player(m_info, _("You can't place a %s there.  It contains a trap already."),
                                  it->tname().c_str());
         } else {
-            p->add_msg_if_player(m_bad, _("You trigger a %s!"), t.name.c_str());
-            t.trigger( tr_loc, p );
+            p->add_msg_if_player(m_bad, _("You trigger a %s!"), existing_trap.name.c_str());
+            existing_trap.trigger( tr_loc, p );
         }
         return 0;
     }
@@ -4777,6 +4734,7 @@ int iuse::set_trap(player *p, item *it, bool, point)
     } else if (it->type->id == "blade_trap") {
         posx = (dirx - p->posx()) * 2 + p->posx(); //math correction for blade trap
         posy = (diry - p->posy()) * 2 + p->posy();
+        tr_loc = tripoint( posx, posy, p->posz() );
         for (int i = -1; i <= 1; i++) {
             for (int j = -1; j <= 1; j++) {
                 if (g->m.move_cost(posx + i, posy + j) != 2) {
@@ -4864,8 +4822,9 @@ int iuse::set_trap(player *p, item *it, bool, point)
 
 int iuse::geiger(player *p, item *it, bool t, point pos)
 {
+    const tripoint pos3 = p != nullptr ? tripoint( p->pos3() ) : tripoint( pos, g->get_levz() );
     if (t) { // Every-turn use when it's on
-        const int rads = g->m.get_radiation(pos.x, pos.y);
+        const int rads = g->m.get_radiation( pos3 );
         if (rads == 0) {
             return it->type->charges_to_use();
         }
@@ -4910,7 +4869,7 @@ int iuse::geiger(player *p, item *it, bool t, point pos)
             break;
         case 2:
             p->add_msg_if_player(m_info, _("The ground's radiation level: %d"),
-                                 g->m.get_radiation(p->posx(), p->posy()));
+                                 g->m.get_radiation( p->pos3() ) );
             break;
         case 3:
             p->add_msg_if_player(_("The geiger counter's scan LED turns on."));
@@ -4973,7 +4932,7 @@ int iuse::can_goo(player *p, item *it, bool, point)
             gooy = p->posy() + rng(-2, 2);
             tries++;
         } while (g->m.move_cost(goox, gooy) == 0 &&
-                 g->m.tr_at(goox, gooy) == tr_null && tries < 10);
+                 g->m.tr_at(goox, gooy).is_null() && tries < 10);
         if (tries < 10) {
             if (g->u.sees(goox, gooy)) {
                 add_msg(m_warning, _("A nearby splatter of goo forms into a goo pit."));
@@ -5026,7 +4985,7 @@ int iuse::pipebomb_act(player *, item *it, bool t, point pos)
                 add_msg(_("The pipe bomb fizzles out."));
             }
         } else {
-            g->explosion(pos.x, pos.y, rng(6, 14), rng(0, 4), false);
+            g->explosion( tripoint( pos.x, pos.y, g->get_levz() ), rng(6, 14), rng(0, 4), false);
         }
     }
     return 0;
@@ -5058,7 +5017,7 @@ int iuse::granade_act(player *, item *it, bool t, point pos)
         switch (effect_roll) {
             case 1:
                 sounds::sound(pos.x, pos.y, 100, _("BUGFIXES!!"));
-                g->draw_explosion(pos.x, pos.y, explosion_radius, c_ltcyan);
+                g->draw_explosion(pos.x, pos.y, explosion_radius, c_ltcyan );
                 for (int i = -explosion_radius; i <= explosion_radius; i++) {
                     for (int j = -explosion_radius; j <= explosion_radius; j++) {
                         const int zid = g->mon_at(pos.x + i, pos.y + j);
@@ -5073,7 +5032,7 @@ int iuse::granade_act(player *, item *it, bool t, point pos)
 
             case 2:
                 sounds::sound(pos.x, pos.y, 100, _("BUFFS!!"));
-                g->draw_explosion(pos.x, pos.y, explosion_radius, c_green);
+                g->draw_explosion( pos.x, pos.y, explosion_radius, c_green );
                 for (int i = -explosion_radius; i <= explosion_radius; i++) {
                     for (int j = -explosion_radius; j <= explosion_radius; j++) {
                         const int mon_hit = g->mon_at(pos.x + i, pos.y + j);
@@ -5224,7 +5183,7 @@ int iuse::grenade_inc_act(player *p, item *it, bool t, point pos)
                 g->m.add_field( flame.x, flame.y, fd_fire, rng( 0, 2 ) );
             }
         }
-        g->explosion(pos.x, pos.y, 8, 0, true);
+        g->explosion( tripoint( pos.x, pos.y, g->get_levz() ), 8, 0, true );
         for (int i = -2; i <= 2; i++) {
             for (int j = -2; j <= 2; j++) {
                 g->m.add_field(pos.x + i, pos.y + j, fd_incendiary, 3);
@@ -5290,7 +5249,7 @@ int iuse::molotov_lit(player *p, item *it, bool t, point pos)
         }
     } else {
         if (!t) {
-            g->explosion(pos.x, pos.y, 8, 0, true);
+            g->explosion( tripoint( pos.x, pos.y, g->get_levz() ), 8, 0, true);
         }
     }
     return 0;
@@ -5998,7 +5957,7 @@ int iuse::vacutainer(player *p, item *it, bool, point)
     return it->type->charges_to_use();
 }
 
-int iuse::cut_log_into_planks(player *p, item *it)
+void iuse::cut_log_into_planks(player *p)
 {
     p->moves -= 300;
     add_msg(_("You cut the log into planks."));
@@ -6014,25 +5973,37 @@ int iuse::cut_log_into_planks(player *p, item *it)
     }
     p->i_add_or_drop(plank, planks);
     p->i_add_or_drop(scrap, scraps);
-    return it->type->charges_to_use();
 }
 
 int iuse::lumber(player *p, item *it, bool, point)
 {
+    // Check if player is standing on any lumber
+    for (auto &i : g->m.i_at(p->posx(), p->posy())) {
+        if (i.type->id == "log")
+        {
+            g->m.i_rem(p->posx(), p->posy(), &i);
+            cut_log_into_planks( p );
+            return it->type->charges_to_use();
+        }
+    }
+
+    // If the player is not standing on a log, check inventory
     int pos = g->inv_for_filter( _("Cut up what?"), []( const item & itm ) {
         return itm.type->id == "log";
     } );
-    item *cut = &( p->i_at( pos ) );
+    item* cut = &( p->i_at( pos ) );
+
     if (cut->type->id == "null") {
         add_msg(m_info, _("You do not have that item!"));
         return 0;
     }
     if (cut->type->id == "log") {
         p->i_rem( cut );
-        return cut_log_into_planks( p, it );
+        cut_log_into_planks(p);
+        return it->type->charges_to_use();
     } else {
         add_msg(m_info, _("You can't cut that up!"));
-        return it->type->charges_to_use();
+        return 0;
     }
 }
 
@@ -6548,7 +6519,7 @@ int iuse::artifact(player *p, item *it, bool, point)
             case AEA_FIREBALL: {
                 point fireball = g->look_around();
                 if (fireball.x != -1 && fireball.y != -1) {
-                    g->explosion(fireball.x, fireball.y, 8, 0, true);
+                    g->explosion( tripoint( fireball.x, fireball.y, g->get_levz() ), 8, 0, true );
                 }
             }
             break;
@@ -6559,7 +6530,7 @@ int iuse::artifact(player *p, item *it, bool, point)
                 break;
 
             case AEA_MAP: {
-                const tripoint center = g->global_omt_location();
+                const tripoint center = p->global_omt_location();
                 const bool new_map = overmap_buffer.reveal(
                                          point(center.x, center.y), 20, center.z);
                 if (new_map) {
@@ -6774,7 +6745,7 @@ int iuse::artifact(player *p, item *it, bool, point)
 
             case AEA_FLASH:
                 p->add_msg_if_player(_("The %s flashes brightly!"), it->tname().c_str());
-                g->flashbang(p->posx(), p->posy());
+                g->flashbang( p->pos3() );
                 break;
 
             case AEA_VOMIT:
@@ -6850,7 +6821,7 @@ int iuse::spray_can(player *p, item *it, bool, point)
     if (message.empty()) {
         return 0;
     } else {
-        g->m.set_graffiti( p->posx(), p->posy(), message );
+        g->m.set_graffiti( p->pos3(), message );
             add_msg(
                 ismarker ?
                 _("You write a message on the ground.") :
@@ -7351,7 +7322,7 @@ int iuse::boots(player *p, item *it, bool, point)
             p->add_msg_if_player(m_info, _("You do not have that item!"));
             return 0;
         }
-        if (!put->type->can_use("KNIFE")) {
+        if (!put->has_flag("SHEATH_KNIFE")) {
             p->add_msg_if_player(m_info, _("That isn't a knife!"));
             return 0;
         }
@@ -7486,12 +7457,6 @@ int iuse::jet_injector(player *p, item *it, bool, point)
         p->add_effect("jetinjector", 200, num_bp, false, 2);
         p->pkill += 20;
         p->stim += 10;
-        p->remove_effect("infected");
-        p->remove_effect("bite");
-        p->remove_effect("bleed");
-        p->remove_effect("fungus");
-        p->remove_effect("dermatik");
-        p->radiation += 4;
         p->healall(20);
     }
 
@@ -9614,7 +9579,7 @@ int iuse::cable_attach(player *p, item *it, bool, point)
 
 int iuse::weather_tool(player *p, item *it, bool, point)
 {
-    w_point weatherPoint = g->weatherGen.get_weather(p->pos(), calendar::turn);
+    w_point const weatherPoint = g->weatherGen.get_weather( p->global_square_location(), calendar::turn );
 
     if (it->type->id == "weather_reader") {
         p->add_msg_if_player(m_neutral, _("The %s's monitor slowly outputs the data..."), it->tname().c_str());
@@ -9648,7 +9613,7 @@ int iuse::weather_tool(player *p, item *it, bool, point)
         if( veh ) {
             vehwindspeed = abs(veh->velocity / 100); // For mph
         }
-        const oter_id &cur_om_ter = overmap_buffer.ter(g->global_omt_location());
+        const oter_id &cur_om_ter = overmap_buffer.ter(p->global_omt_location());
         std::string omtername = otermap[cur_om_ter].name;
         int windpower = get_local_windpower(weatherPoint.windpower + vehwindspeed, omtername, g->is_sheltered(g->u.posx(), g->u.posy()));
 

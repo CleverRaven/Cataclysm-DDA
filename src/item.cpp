@@ -1013,30 +1013,43 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump, bool debug) c
                                            unread ) );
             }
 
-            if (!(book->recipes.empty())) {
+            std::vector<std::string> recipe_list;
+            for( auto const & elem : book->recipes ) {
+                const bool knows_it = g->u.knows_recipe( elem.recipe );
+                // If the player knows it, they recognize it even if it's not clearly stated.
+                if( elem.is_hidden() && !knows_it ) {
+                    continue;
+                }
+                if( knows_it ) {
+                    // In case the recipe is known, but has a different name in the book, use the
+                    // real name to avoid confusing the player.
+                    const std::string name = item::nname( elem.recipe->result );
+                    recipe_list.push_back( string_format( "<color_ltgray>%s</color>", name.c_str() ) );
+                } else {
+                    recipe_list.push_back( elem.name );
+                }
+            }
+            if( !recipe_list.empty() ) {
                 std::string recipes = "";
                 size_t index = 1;
-                for( auto iter = book->recipes.begin();
-                     iter != book->recipes.end(); ++iter, ++index ) {
-                    if(g->u.knows_recipe(iter->first)) {
-                        recipes += "<color_ltgray>";
-                    }
-                    recipes += nname( iter->first->result, 1 );
-                    if(g->u.knows_recipe(iter->first)) {
-                        recipes += "</color>";
-                    }
-                    if(index == book->recipes.size() - 1) {
+                for( auto iter = recipe_list.begin();
+                     iter != recipe_list.end(); ++iter, ++index ) {
+                    recipes += *iter;
+                    if(index == recipe_list.size() - 1) {
                         recipes += _(" and "); // Who gives a fuck about an oxford comma?
-                    } else if(index != book->recipes.size()) {
+                    } else if(index != recipe_list.size()) {
                         recipes += _(", ");
                     }
                 }
                 std::string recipe_line = string_format(
                     ngettext("This book contains %1$d crafting recipe: %2$s",
-                             "This book contains %1$d crafting recipes: %2$s", book->recipes.size()),
-                    book->recipes.size(), recipes.c_str());
+                             "This book contains %1$d crafting recipes: %2$s", recipe_list.size()),
+                    recipe_list.size(), recipes.c_str());
                 dump->push_back(iteminfo("DESCRIPTION", "--"));
                 dump->push_back(iteminfo("DESCRIPTION", recipe_line));
+            }
+            if( recipe_list.size() != book->recipes.size() ) {
+                dump->push_back( iteminfo( "DESCRIPTION", _( "It might help you figuring out some more recipes." ) ) );
             }
         } else {
             dump->push_back(iteminfo("BOOK", _("You need to read this book to see its contents.")));
@@ -1666,8 +1679,8 @@ std::string item::tname( unsigned int quantity, bool with_prefix ) const
             } else if (is_gun())  {
                 damtext = rm_prefix(_("<dam_adj>accurized "));
             } else if ( OPTIONS["ITEM_HEALTH_BAR"] ) {
-                auto nc_text = get_item_HP_Bar(damage);
-                damtext = "<color_" + string_from_color(nc_text.first) + ">" + nc_text.second + " </color>";
+                auto const &nc_text = get_item_hp_bar(damage);
+                damtext = "<color_" + string_from_color(nc_text.second) + ">" + nc_text.first + " </color>";
             } else {
                 damtext = rm_prefix(_("<dam_adj>reinforced "));
             }
@@ -1679,8 +1692,8 @@ std::string item::tname( unsigned int quantity, bool with_prefix ) const
                 if (damage == 4) damtext = rm_prefix(_("<dam_adj>pulped "));
 
             } else if ( OPTIONS["ITEM_HEALTH_BAR"] ) {
-                auto nc_text = get_item_HP_Bar(damage);
-                damtext = "<color_" + string_from_color(nc_text.first) + ">" + nc_text.second + " </color>";
+                auto const &nc_text = get_item_hp_bar(damage);
+                damtext = "<color_" + string_from_color(nc_text.second) + ">" + nc_text.first + " </color>";
 
             } else {
                 damtext = rmp_format("%s ", get_base_material().dmg_adj(damage).c_str());
@@ -2260,7 +2273,7 @@ void item::set_relative_rot( float rel_rot )
     }
 }
 
-void item::calc_rot(const point &location)
+void item::calc_rot(const tripoint &location)
 {
     const int now = calendar::turn;
     if ( last_rot_check + 10 < now ) {
@@ -2525,7 +2538,7 @@ int item::melee_value(player *p)
 
 int item::bash_resist() const
 {
-    int resist = 0;
+    float resist = 0;
     float l_padding = 0;
     float k_padding = 0;
     int eff_thickness = 1;
@@ -2561,12 +2574,12 @@ int item::bash_resist() const
     // Average based on number of materials.
     resist /= mat_types.size();
 
-    return (int)((resist * eff_thickness * adjustment) + l_padding + k_padding);
+    return std::lround((resist * eff_thickness * adjustment) + l_padding + k_padding);
 }
 
 int item::cut_resist() const
 {
-    int resist = 0;
+    float resist = 0;
     float l_padding = 0;
     float k_padding = 0;
     int eff_thickness = 1;
@@ -2603,12 +2616,12 @@ int item::cut_resist() const
     // Average based on number of materials.
     resist /= mat_types.size();
 
-    return (int)((resist * eff_thickness * adjustment) + l_padding + k_padding);
+    return std::lround((resist * eff_thickness * adjustment) + l_padding + k_padding);
 }
 
 int item::acid_resist() const
 {
-    int resist = 0;
+    float resist = 0;
     // With the multiplying and dividing in previous code, the following
     // is a coefficient equivalent to the bonuses and maluses hardcoded in
     // previous versions. Adjust to make you happier/sadder.
@@ -2628,7 +2641,7 @@ int item::acid_resist() const
     // Average based on number of materials.
     resist /= mat_types.size();
 
-    return (int)(resist * adjustment);
+    return std::lround(resist * adjustment);
 }
 
 bool item::is_two_handed(player *u)
@@ -2804,6 +2817,10 @@ bool item::is_food(player const*u) const
     if( u->has_active_bionic( "bio_batteries" ) && is_ammo() && ammo_type() == "battery" ) {
         return true;
     }
+
+    if( ( u->has_active_bionic( "bio_reactor" ) || u->has_active_bionic( "bio_advreactor" ) ) && is_ammo() && ( ammo_type() == "reactor_slurry" || ammo_type() == "plutonium" ) ) {
+        return true;
+    }
     if (u->has_active_bionic("bio_furnace") && flammable() && typeId() != "corpse")
         return true;
     return false;
@@ -2937,7 +2954,7 @@ bool item::is_container_full() const
     if( is_container_empty() ) {
         return false;
     }
-    return get_remaining_capacity() == 0;
+    return get_remaining_capacity_for_liquid( contents[0] ) == 0;
 }
 
 bool item::is_salvageable() const
@@ -4078,19 +4095,6 @@ LIQUID_FILL_ERROR item::has_valid_capacity_for_liquid(const item &liquid) const
     return L_ERR_NONE;
 }
 
-// Remaining capacity for currently stored liquid in container - do not call for empty container
-int item::get_remaining_capacity() const
-{
-    const auto total_capacity = contents[0].liquid_charges( type->container->contains );
-
-    int remaining_capacity = total_capacity;
-    if (!contents.empty()) {
-        remaining_capacity -= contents[0].charges;
-    }
-
-    return remaining_capacity;
-}
-
 int item::amount_of(const itype_id &it, bool used_as_tool) const
 {
     int count = 0;
@@ -4293,15 +4297,15 @@ iteminfo::iteminfo(std::string Type, std::string Name, std::string Fmt, double V
     bDrawName = DrawName;
 }
 
-void item::detonate(point p) const
+void item::detonate( const tripoint &p ) const
 {
     if (type == NULL || type->explosion_on_fire_data.power < 0) {
         return;
     }
-    g->explosion(p.x, p.y, type->explosion_on_fire_data.power, type->explosion_on_fire_data.shrapnel, type->explosion_on_fire_data.fire, type->explosion_on_fire_data.blast);
+    g->explosion( p.x, type->explosion_on_fire_data.power, type->explosion_on_fire_data.shrapnel, type->explosion_on_fire_data.fire, type->explosion_on_fire_data.blast);
 }
 
-bool item_compare_by_charges( const item *left, const item *right)
+bool item_ptr_compare_by_charges( const item *left, const item *right)
 {
     if(left->contents.empty()) {
         return false;
@@ -4310,6 +4314,11 @@ bool item_compare_by_charges( const item *left, const item *right)
     } else {
         return right->contents[0].charges < left->contents[0].charges;
     }
+}
+
+bool item_compare_by_charges( const item& left, const item& right)
+{
+    return item_ptr_compare_by_charges( &left, &right);
 }
 
 //return value is number of arrows/bolts quivered
@@ -4517,7 +4526,9 @@ int item::processing_speed() const
 
 bool item::process_food( player * /*carrier*/, point pos )
 {
-    calc_rot( pos );
+    // TODO: this functions (and all the other process functions) should be called with a tripoint
+    // If this gets implemented, don't forget that calc_rot expects an *absolute* position.
+    calc_rot( tripoint( g->m.getabs( pos ), g->get_levz() ) );
     if( item_tags.count( "HOT" ) > 0 ) {
         item_counter--;
         if( item_counter == 0 ) {

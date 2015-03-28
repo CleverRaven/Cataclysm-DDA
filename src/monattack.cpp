@@ -1736,7 +1736,7 @@ void mattack::plant(monster *z, int index)
 {
     (void)index; //unused
     // Spores taking seed and growing into a fungaloid
-    if (!g->spread_fungus(z->posx(), z->posy()) && one_in(20)) {
+    if (!g->spread_fungus( z->pos3() ) && one_in(20)) {
         if (g->u.sees( *z )) {
             add_msg(m_warning, _("The %s takes seed and becomes a young fungaloid!"),
                     z->name().c_str());

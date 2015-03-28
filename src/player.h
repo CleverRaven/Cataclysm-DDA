@@ -307,11 +307,15 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         /** True if unarmed or wielding a weapon with the UNARMED_WEAPON flag */
         bool unarmed_attack() const;
         /** Called when a player triggers a trap, returns true if they don't set it off */
-        bool avoid_trap( const tripoint &pos, trap *tr );
+        bool avoid_trap( const tripoint &pos, const trap &tr ) override;
 
         /** Returns true if the player has a pda */
         bool has_pda();
-
+        /** Returns true if the player or their vehicle has an alarm clock */
+        bool has_alarm_clock();
+        /** Returns true if the player or their vehicle has a watch */
+        bool has_watch();
+        
         using Creature::sees;
         // see Creature::sees
         bool sees( point c, int &bresenham_slope ) const override;
@@ -824,7 +828,7 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         // Returns -1 to indicate recipe not found, otherwise difficulty to learn.
         int has_recipe( const recipe *r, const inventory &crafting_inv ) const;
         bool knows_recipe( const recipe *rec ) const;
-        void learn_recipe( recipe *rec );
+        void learn_recipe( const recipe *rec );
 
         bool studied_all_recipes(const itype &book) const;
 
@@ -912,6 +916,12 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         {
             zpos = z;
         }
+        inline void setpos( const tripoint &p )
+        {
+            position.x = p.x;
+            position.y = p.y;
+            zpos = p.z;
+        }
         int view_offset_x, view_offset_y;
         bool in_vehicle;       // Means player sit inside vehicle on the tile he is now
         bool controlling_vehicle;  // Is currently in control of a vehicle
@@ -933,6 +943,7 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         int power_level, max_power_level;
         int hunger, thirst, fatigue;
         int stomach_food, stomach_water;
+        int tank_plut, reactor_plut, slow_rad;
         int oxygen;
         int recoil;
         int driving_recoil;
@@ -963,7 +974,7 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
 
         void copy_skill_levels(const player *rhs);
 
-        std::map<std::string, recipe *> learned_recipes;
+        std::map<std::string, const recipe *> learned_recipes;
 
         std::vector<matype_id> ma_styles;
         matype_id style_selected;

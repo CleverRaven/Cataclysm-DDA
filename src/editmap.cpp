@@ -430,7 +430,7 @@ void editmap::update_view(bool update_info)
     furn_t furniture_type = furnlist[target_frn];
 
     cur_field = &g->m.get_field(target.x, target.y);
-    cur_trap = g->m.tr_at(target.x, target.y);
+    cur_trap = g->m.tr_at(target.x, target.y).loadid;
     const Creature *critter = g->critter_at( target.x, target.y );
 
     // update map always
@@ -581,8 +581,9 @@ void editmap::update_view(bool update_info)
         }
 
 
-        if( g->m.has_graffiti_at( target.x, target.y ) ) {
-            mvwprintw(w_info, off, 1, _("Graffiti: %s"), g->m.graffiti_at( target.x, target.y ).c_str() );
+        const tripoint target3( target, g->get_levz() );
+        if( g->m.has_graffiti_at( target3 ) ) {
+            mvwprintw(w_info, off, 1, _("Graffiti: %s"), g->m.graffiti_at( target3 ).c_str() );
         }
         off++;
 
