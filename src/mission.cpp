@@ -212,9 +212,9 @@ void mission::wrap_up()
     }
     u.on_mission_finished( *this );
     std::vector<item_comp> comps;
-    comps.push_back(item_comp(type->item_id, item_count));
     switch( type->goal ) {
         case MGOAL_FIND_ITEM:
+            comps.push_back(item_comp(type->item_id, item_count));
             u.consume_items(comps);
             break;
         case MGOAL_FIND_ANY_ITEM:
@@ -251,7 +251,7 @@ bool mission::is_complete( const int _npc_id ) const
 
         case MGOAL_FIND_ITEM:
             // TODO: check for count_by_charges and use appropriate player::has_* function
-            if (!tmp_inv.has_amount(type->item_id, miss->item_count)) {
+            if (!tmp_inv.has_amount(type->item_id, item_count)) {
                 return tmp_inv.has_amount( type->item_id, 1 ) && tmp_inv.has_charges( type->item_id, item_count );
             }
             if( npc_id != -1 && npc_id != _npc_id ) {
