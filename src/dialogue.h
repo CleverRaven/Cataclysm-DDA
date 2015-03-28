@@ -199,7 +199,6 @@ struct talk_response {
      */
     mission *mission_selected = nullptr;
     mission_type_id miss = MISSION_NULL; // If it generates a new mission
-    int tempvalue = -1; // Used for various stuff
     const Skill* skill = nullptr;
     matype_id style;
     /**

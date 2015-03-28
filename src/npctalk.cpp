@@ -81,10 +81,6 @@ tag_data talk_tags[NUM_STATIC_TAGS] = {
 #define RESPONSE(txt)      ret.push_back(talk_response());\
                            ret.back().text = txt
 
-#define SELECT_TEMP(txt, index)  ret.push_back(talk_response());\
-                                 ret.back().text = txt;\
-                                 ret.back().tempvalue = index
-
 #define TRIAL(tr, diff) ret.back().trial.type = tr;\
                         ret.back().trial.difficulty = diff
 
@@ -1569,7 +1565,7 @@ void dialogue::gen_responses( const talk_topic topic ) const
                           &talk_function::mission_reward );
             if((!p->skills_offered_to(g->u).empty() || !p->styles_offered_to(g->u).empty())
                   && p->myclass != NC_EVAC_SHOPKEEP) {
-                SELECT_TEMP(_("Maybe you can teach me something as payment."), 0);
+                RESPONSE(_("Maybe you can teach me something as payment."));
                     SUCCESS(TALK_TRAIN);
                         SUCCESS_ACTION(&talk_function::clear_mission);
             }
@@ -2354,7 +2350,7 @@ void dialogue::gen_responses( const talk_topic topic ) const
         case TALK_FRIEND:
             add_response( _("Combat commands..."), TALK_COMBAT_COMMANDS );
             add_response( _("Can I do anything for you?"), TALK_MISSION_LIST );
-            SELECT_TEMP(_("Can you teach me anything?"), 0);
+            RESPONSE(_("Can you teach me anything?"));
             if (!p->has_effect("asked_to_train")) {
                 int commitment = 2 * p->op_of_u.trust + 1 * p->op_of_u.value -
                                   3 * p->op_of_u.anger + p->op_of_u.owed / 50;
@@ -3139,7 +3135,7 @@ void talk_function::start_training( npc *p )
         return;
     }
     // Then receive it
-    g->u.assign_activity( ACT_TRAIN, time, p->chatbin.tempvalue, 0, name );
+    g->u.assign_activity( ACT_TRAIN, time, 0, 0, name );
     p->add_effect( "asked_to_train", 3600 );
 }
 
@@ -3399,8 +3395,6 @@ talk_topic dialogue::opt(talk_topic topic)
  talk_response chosen = responses[ch];
  if (chosen.mission_selected != nullptr)
   beta->chatbin.mission_selected = chosen.mission_selected;
- if (chosen.tempvalue != -1)
-  beta->chatbin.tempvalue = chosen.tempvalue;
  if (chosen.skill != NULL)
   beta->chatbin.skill = chosen.skill;
  if (!chosen.style.empty())

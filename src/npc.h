@@ -464,7 +464,6 @@ struct npc_chatbin : public JsonSerializer, public JsonDeserializer
      * missions in @ref missions or @ref missions_assigned.
      */
     mission *mission_selected;
- int tempvalue; //No clue what this value does, but it is used all over the place. So it is NOT temp.
     /**
      * The skill this NPC offers to train.
      */
@@ -478,7 +477,6 @@ struct npc_chatbin : public JsonSerializer, public JsonDeserializer
  npc_chatbin()
  {
   mission_selected = nullptr;
-  tempvalue = -1;
   skill = NULL;
   style = "";
   first_topic = TALK_NONE;
