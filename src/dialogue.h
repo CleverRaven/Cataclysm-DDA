@@ -179,10 +179,10 @@ struct talk_response {
     talk_topic failure = TALK_NONE;
 
     /**
-     * Text and color that is used to display this response.
+     * Text (already folded) and color that is used to display this response.
      * This is set up in @ref do_formatting.
      */
-    std::string formated_text;
+    std::vector<std::string> formated_text;
     nc_color color = c_white;
 
     void do_formatting( const dialogue &d, char letter );

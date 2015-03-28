@@ -3524,13 +3524,10 @@ void dialogue::print_responses()
 {
     // Responses go on the right side of the window, add 2 for spacing
     int const xoffset = FULL_SCREEN_WIDTH / 2 + 2;
-    // Remaining width of the responses area, -2 for the border
-    int const fold_width = FULL_SCREEN_WIDTH - xoffset - 2;
     int curline = 3;
     for( size_t i = 0; i < responses.size(); i++ ) {
-        auto const &text = responses[i].formated_text;
+        auto const &folded = responses[i].formated_text;
         auto const &color = responses[i].color;
-        auto const folded = foldstring( text, fold_width );
         for( size_t j = 0; j < folded.size(); j++, curline++ ) {
             int const off = ( j != 0 ) ? +3 : 0;
             mvwprintz( win, curline, xoffset + off, color, "%s", folded[j].c_str() );
@@ -3543,8 +3540,9 @@ void dialogue::print_responses()
 
 void talk_response::do_formatting( const dialogue &d, char const letter )
 {
+    std::string ftext;
     if( trial != TALK_TRIAL_NONE ) { // dialogue w/ a % chance to work
-        formated_text = rmp_format(
+        ftext = rmp_format(
             _( "<talk option>%1$c: [%2$s %3$d%%] %4$s" ),
             letter,                         // option letter
             trial.name().c_str(),     // trial type
@@ -3552,13 +3550,16 @@ void talk_response::do_formatting( const dialogue &d, char const letter )
             text.c_str()                // response
         );
     } else { // regular dialogue
-        formated_text = rmp_format(
+        ftext = rmp_format(
             _( "<talk option>%1$c: %2$s" ),
             letter,          // option letter
             text.c_str() // response
         );
     }
-    parse_tags( formated_text, d.alpha, d.beta );
+    parse_tags( ftext, d.alpha, d.beta );
+    // Remaining width of the responses area, -2 for the border, -2 for indentation
+    int const fold_width = FULL_SCREEN_WIDTH / 2 - 2 - 2;
+    formated_text = foldstring( ftext, fold_width );
 
     if( text[0] == '!' ) {
         color = c_red;
