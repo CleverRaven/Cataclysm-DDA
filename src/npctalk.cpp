@@ -3497,6 +3497,13 @@ void dialogue::clear_window_texts()
     }
 }
 
+size_t dialogue::add_to_history( const std::string &text )
+{
+    auto const folded = foldstring( text, FULL_SCREEN_WIDTH / 2 );
+    history.insert( history.end(), folded.begin(), folded.end() );
+    return folded.size();
+}
+
 talk_topic dialogue::opt(talk_topic topic)
 {
  std::string challenge = dynamic_line( topic );
@@ -3520,13 +3527,9 @@ talk_topic dialogue::opt(talk_topic topic)
      challenge.c_str());
  history.push_back(""); // Empty line between lines of dialogue
 
-// Number of lines to highlight
- int hilight_lines = 1;
- std::vector<std::string> folded = foldstring(challenge, FULL_SCREEN_WIDTH / 2);
- for( auto &elem : folded ) {
-     history.push_back( elem );
-  hilight_lines++;
- }
+    // Number of lines to highlight
+    int const hilight_lines = add_to_history( challenge );
+    std::vector<std::string> folded;
 
  std::vector<std::string> options;
  std::vector<nc_color>    colors;
@@ -3615,11 +3618,7 @@ talk_topic dialogue::opt(talk_topic topic)
   return special_talk(ch);
 
  std::string response_printed = rmp_format(_("<you say something>You: %s"), responses[ch].text.c_str());
- folded = foldstring(response_printed, FULL_SCREEN_WIDTH / 2);
- for( auto &elem : folded ) {
-     history.push_back( elem );
-   hilight_lines++;
- }
+    add_to_history( response_printed );
 
  talk_response chosen = responses[ch];
  if (chosen.mission_selected != nullptr)

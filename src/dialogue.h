@@ -52,6 +52,10 @@ struct dialogue {
 
 private:
     void clear_window_texts();
+    /**
+     * Folds and adds the folded text to @ref history. Returns the number of added lines.
+     */
+    size_t add_to_history( const std::string &text );
 };
 
 struct talk_function {
