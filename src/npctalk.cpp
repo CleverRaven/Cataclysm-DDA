@@ -3372,31 +3372,32 @@ void talk_function::set_engagement_all(npc *p)
 }
 
 //TODO currently this does not handle martial art styles correctly
-void talk_function::start_training(npc *p)
+void talk_function::start_training( npc *p )
 {
- int cost = 0, time = 0;
- const Skill* sk_used = NULL;
- std::string name;
- if (p->chatbin.skill == NULL) {
-  // we're training a martial art style
-  cost = -800;
-  time = 30000;
-  name = p->chatbin.style;
- } else {
-   sk_used = p->chatbin.skill;
-   cost = -200 * (1 + g->u.skillLevel(sk_used));
-   time = 10000 + 5000 * g->u.skillLevel(sk_used);
-   name = p->chatbin.skill->ident();
- }
+    int cost = 0, time = 0;
+    const Skill *sk_used = NULL;
+    std::string name;
+    if( p->chatbin.skill == NULL ) {
+        // we're training a martial art style
+        cost = -800;
+        time = 30000;
+        name = p->chatbin.style;
+    } else {
+        sk_used = p->chatbin.skill;
+        cost = -200 * ( 1 + g->u.skillLevel( sk_used ) );
+        time = 10000 + 5000 * g->u.skillLevel( sk_used );
+        name = p->chatbin.skill->ident();
+    }
 
-// Pay for it
- if (p->op_of_u.owed >= 0 - cost)
-  p->op_of_u.owed += cost;
- else if (!trade(p, cost, _("Pay for training:")))
-  return;
-// Then receive it
- g->u.assign_activity(ACT_TRAIN, time, p->chatbin.tempvalue, 0, name);
- p->add_effect("asked_to_train", 3600);
+    // Pay for it
+    if( p->op_of_u.owed >= 0 - cost ) {
+        p->op_of_u.owed += cost;
+    } else if( !trade( p, cost, _( "Pay for training:" ) ) ) {
+        return;
+    }
+    // Then receive it
+    g->u.assign_activity( ACT_TRAIN, time, p->chatbin.tempvalue, 0, name );
+    p->add_effect( "asked_to_train", 3600 );
 }
 
 void parse_tags(std::string &phrase, const player *u, const npc *me)
