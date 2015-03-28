@@ -2363,7 +2363,7 @@ vehicle *game::remoteveh()
         int vx, vy;
         remote_veh_string >> vx >> vy;
         vehicle *veh = m.veh_at( vx, vy );
-        if( veh->fuel_left( "battery", true ) > 0 ) {
+        if( veh && veh->fuel_left( "battery", true ) > 0 ) {
             remoteveh_cache = veh;
         } else {
             remoteveh_cache = nullptr;
