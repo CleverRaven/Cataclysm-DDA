@@ -10,6 +10,7 @@
 #include <string>
 
 struct talk_response;
+struct talk_function;
 struct dialogue {
     /**
      * The player character that speaks (always g->u).
@@ -71,6 +72,12 @@ private:
      * Add a response with the result TALK_NONE.
      */
     talk_response &add_response_none( const std::string &text ) const;
+    /**
+     * Add a simple response that switches the topic to the new one and executes the given
+     * action. The response always succeeds.
+     */
+    talk_response &add_response( const std::string &text, talk_topic r,
+                                 void (talk_function::*effect_success)(npc *) ) const;
 };
 
 struct talk_function {

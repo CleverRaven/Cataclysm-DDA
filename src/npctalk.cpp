@@ -1403,6 +1403,14 @@ talk_response &dialogue::add_response_none( const std::string &text ) const
     return add_response( text, TALK_NONE );
 }
 
+talk_response &dialogue::add_response( const std::string &text, talk_topic const r,
+                                       void (talk_function::*effect_success)(npc *) ) const
+{
+    talk_response &result = add_response( text, r );
+    result.effect_success = effect_success;
+    return result;
+}
+
 void dialogue::gen_responses( const talk_topic topic ) const
 {
     const auto p = beta; // for compatibility, later replace it in the code below
@@ -1454,9 +1462,7 @@ void dialogue::gen_responses( const talk_topic topic ) const
             break;
 
         case TALK_MISSION_OFFER:
-            RESPONSE(_("I'll do it!"));
-                SUCCESS(TALK_MISSION_ACCEPTED);
-                    SUCCESS_ACTION(&talk_function::assign_mission);
+            add_response( _("I'll do it!"), TALK_MISSION_ACCEPTED, &talk_function::assign_mission );
             add_response( _("Not interested."), TALK_MISSION_REJECTED );
             break;
 
@@ -1505,51 +1511,37 @@ void dialogue::gen_responses( const talk_topic topic ) const
                 switch( mission->get_type().goal ) {
                     case MGOAL_FIND_ITEM:
                     case MGOAL_FIND_ANY_ITEM:
-                        RESPONSE(_("Yup!  Here it is!"));
-                            SUCCESS(TALK_MISSION_SUCCESS);
-                                SUCCESS_ACTION(&talk_function::mission_success);
+                        add_response( _("Yup!  Here it is!"), TALK_MISSION_SUCCESS,
+                                      &talk_function::mission_success );
                         break;
                     case MGOAL_GO_TO_TYPE:
-                        RESPONSE(_("We're here!"));
-                            SUCCESS(TALK_MISSION_SUCCESS);
-                                SUCCESS_ACTION(&talk_function::mission_success);
+                        add_response( _("We're here!"), TALK_MISSION_SUCCESS, &talk_function::mission_success );
                         break;
                     case MGOAL_GO_TO:
                     case MGOAL_FIND_NPC:
-                        RESPONSE(_("Here I am."));
-                            SUCCESS(TALK_MISSION_SUCCESS);
-                                SUCCESS_ACTION(&talk_function::mission_success);
+                        add_response( _("Here I am."), TALK_MISSION_SUCCESS, &talk_function::mission_success );
                         break;
                     case MGOAL_FIND_MONSTER:
-                        RESPONSE(_("Here it is!"));
-                            SUCCESS(TALK_MISSION_SUCCESS);
-                                SUCCESS_ACTION(&talk_function::mission_success);
+                        add_response( _("Here it is!"), TALK_MISSION_SUCCESS, &talk_function::mission_success );
                         break;
                     case MGOAL_ASSASSINATE:
-                        RESPONSE(_("Justice has been served."));
-                            SUCCESS(TALK_MISSION_SUCCESS);
-                                SUCCESS_ACTION(&talk_function::mission_success);
+                        add_response( _("Justice has been served."), TALK_MISSION_SUCCESS,
+                                      &talk_function::mission_success );
                         break;
                     case MGOAL_KILL_MONSTER:
-                        RESPONSE(_("I killed it."));
-                            SUCCESS(TALK_MISSION_SUCCESS);
-                                SUCCESS_ACTION(&talk_function::mission_success);
+                        add_response( _("I killed it."), TALK_MISSION_SUCCESS, &talk_function::mission_success );
                         break;
                     case MGOAL_RECRUIT_NPC:
                     case MGOAL_RECRUIT_NPC_CLASS:
-                        RESPONSE(_("I brought'em."));
-                            SUCCESS(TALK_MISSION_SUCCESS);
-                                SUCCESS_ACTION(&talk_function::mission_success);
+                        add_response( _("I brought'em."), TALK_MISSION_SUCCESS, &talk_function::mission_success );
                         break;
                     case MGOAL_COMPUTER_TOGGLE:
-                        RESPONSE(_("I've taken care of it..."));
-                            SUCCESS(TALK_MISSION_SUCCESS);
-                                SUCCESS_ACTION(&talk_function::mission_success);
+                        add_response( _("I've taken care of it..."), TALK_MISSION_SUCCESS,
+                                      &talk_function::mission_success );
                         break;
                     default:
-                        RESPONSE(_("Mission success!  I don't know what else to say."));
-                        SUCCESS(TALK_MISSION_SUCCESS);
-                            SUCCESS_ACTION(&talk_function::mission_success);
+                        add_response( _("Mission success!  I don't know what else to say."),
+                                      TALK_MISSION_SUCCESS, &talk_function::mission_success );
                         break;
                 }
             }
@@ -1562,18 +1554,16 @@ void dialogue::gen_responses( const talk_topic topic ) const
                     SUCCESS_OPINION(miss->get_value() / (OWED_VAL * 4), -1,
                                     miss->get_value() / (OWED_VAL * 2), -1, 0 - miss->get_value());
                     SUCCESS_ACTION(&talk_function::clear_mission);
-            RESPONSE(_("How about some items as payment?"));
-                SUCCESS(TALK_MISSION_REWARD);
-                    SUCCESS_ACTION(&talk_function::mission_reward);
+            add_response( _("How about some items as payment?"), TALK_MISSION_REWARD,
+                          &talk_function::mission_reward );
             if((!p->skills_offered_to(g->u).empty() || !p->styles_offered_to(g->u).empty())
                   && p->myclass != NC_EVAC_SHOPKEEP) {
                 SELECT_TEMP(_("Maybe you can teach me something as payment."), 0);
                     SUCCESS(TALK_TRAIN);
                         SUCCESS_ACTION(&talk_function::clear_mission);
             }
-            RESPONSE(_("I'll take cash if you got it!"));
-                SUCCESS(TALK_MISSION_REWARD);
-                    SUCCESS_ACTION(&talk_function::mission_reward_cash);
+            add_response( _("I'll take cash if you got it!"), TALK_MISSION_REWARD,
+                          &talk_function::mission_reward_cash );
             RESPONSE(_("Glad to help.  I need no payment.  Bye!"));
                 SUCCESS(TALK_DONE);
                     SUCCESS_ACTION(&talk_function::clear_mission);
@@ -1582,21 +1572,15 @@ void dialogue::gen_responses( const talk_topic topic ) const
             break;
 
         case TALK_MISSION_SUCCESS_LIE:
-            RESPONSE(_("Well, um, sorry."));
-                SUCCESS(TALK_NONE);
-                    SUCCESS_ACTION(&talk_function::clear_mission);
+            add_response( _("Well, um, sorry."), TALK_NONE, &talk_function::clear_mission );
 
         case TALK_MISSION_FAILURE:
             add_response_none( _("I'm sorry.  I did what I could.") );
             break;
 
         case TALK_MISSION_REWARD:
-            RESPONSE(_("Thank you."));
-                SUCCESS(TALK_NONE);
-                    SUCCESS_ACTION(&talk_function::clear_mission);
-            RESPONSE(_("Thanks, bye."));
-                SUCCESS(TALK_DONE);
-                    SUCCESS_ACTION(&talk_function::clear_mission);
+            add_response( _("Thank you."), TALK_NONE, &talk_function::clear_mission );
+            add_response( _("Thanks, bye."), TALK_DONE, &talk_function::clear_mission );
             break;
 
         case TALK_EVAC_MERCHANT:
@@ -1610,9 +1594,7 @@ void dialogue::gen_responses( const talk_topic topic ) const
             } else if( missions_assigned.size() >= 2 ) {
                 add_response( _("About one of those jobs..."), TALK_MISSION_LIST_ASSIGNED );
             }
-            RESPONSE(_("Let's trade then."));
-                SUCCESS_ACTION(&talk_function::start_trade);
-                SUCCESS(TALK_EVAC_MERCHANT);
+            add_response( _("Let's trade then."), TALK_EVAC_MERCHANT, &talk_function::start_trade );
             add_response_done( _("Well, bye.") );
             break;
 
@@ -1701,9 +1683,8 @@ void dialogue::gen_responses( const talk_topic topic ) const
             break;
 
         case TALK_EVAC_GUARD1_ATTITUDE:
-            RESPONSE(_("I think I'd rather rearrange your face instead!"));
-                SUCCESS_ACTION(&talk_function::insult_combat);
-                SUCCESS(TALK_DONE);
+            add_response( _("I think I'd rather rearrange your face instead!"), TALK_DONE,
+                          &talk_function::insult_combat );
             add_response_done( _("I will.") );
             break;
 
@@ -1839,9 +1820,7 @@ void dialogue::gen_responses( const talk_topic topic ) const
             break;
 
         case TALK_EVAC_HUNTER_SALE:
-            RESPONSE(_("..."));
-                SUCCESS_ACTION(&talk_function::start_trade);
-                SUCCESS(TALK_EVAC_HUNTER);
+            add_response( _("..."), TALK_EVAC_HUNTER, &talk_function::start_trade );
             break;
 
         case TALK_EVAC_HUNTER_ADVICE:
@@ -1970,9 +1949,7 @@ void dialogue::gen_responses( const talk_topic topic ) const
             add_response( _("Sucks..."), TALK_ARSONIST );
             break;
         case TALK_ARSONIST_DOING:
-            RESPONSE(_("I'll buy."));
-                SUCCESS_ACTION(&talk_function::start_trade);
-                SUCCESS(TALK_ARSONIST);
+            add_response( _("I'll buy."), TALK_ARSONIST, &talk_function::start_trade );
             add_response( _("Who needs rebar?"), TALK_ARSONIST_DOING_REBAR );
             break;
         case TALK_ARSONIST_DOING_REBAR:
@@ -2125,9 +2102,7 @@ void dialogue::gen_responses( const talk_topic topic ) const
             if (!p->is_following()) {
                 add_response( _("Want to travel with me?"), TALK_SUGGEST_FOLLOW );
             }
-            RESPONSE(_("Let's trade items."));
-                SUCCESS(TALK_NONE);
-                SUCCESS_ACTION(&talk_function::start_trade);
+            add_response( _("Let's trade items."), TALK_NONE, &talk_function::start_trade );
             if( missions_assigned.size() == 1 ) {
                 add_response( _("About that job..."), TALK_MISSION_INQUIRE );
             } else if( missions_assigned.size() >= 2 ) {
@@ -2266,23 +2241,17 @@ void dialogue::gen_responses( const talk_topic topic ) const
 
         case TALK_TRAIN_START:
             if( overmap_buffer.is_safe( p->global_omt_location() ) ) {
-                RESPONSE(_("Sounds good."));
-                    SUCCESS(TALK_DONE);
-                        SUCCESS_ACTION(&talk_function::start_training);
+                add_response( _("Sounds good."), TALK_DONE, &talk_function::start_training );
                 add_response_none( _("On second thought, never mind.") );
             } else {
-                RESPONSE(_("Okay.  Lead the way."));
-                    SUCCESS(TALK_DONE);
-                        SUCCESS_ACTION(&talk_function::lead_to_safety);
+                add_response( _("Okay.  Lead the way."), TALK_DONE, &talk_function::lead_to_safety );
                 add_response( _("No, we'll be okay here."), TALK_TRAIN_FORCE );
                 add_response_none( _("On second thought, never mind.") );
             }
             break;
 
         case TALK_TRAIN_FORCE:
-            RESPONSE(_("Sounds good."));
-                SUCCESS(TALK_DONE);
-                    SUCCESS_ACTION(&talk_function::start_training);
+            add_response( _("Sounds good."), TALK_DONE, &talk_function::start_training );
             add_response_none( _("On second thought, never mind.") );
             break;
 
@@ -2364,18 +2333,14 @@ void dialogue::gen_responses( const talk_topic topic ) const
                             FAILURE_OPINION(-1, 0, -1, 1, 0);
             }
             add_response( _("Can I do anything for you?"), TALK_MISSION_LIST );
-            RESPONSE(_("Let's trade items."));
-                SUCCESS(TALK_NONE);
-                SUCCESS_ACTION(&talk_function::start_trade);
+            add_response( _("Let's trade items."), TALK_NONE, &talk_function::start_trade );
             add_response_done( _("Let's go.") );
         }
             break;
 
         case TALK_LEAVE:
             add_response_none( _("Nah, I'm just kidding.") );
-            RESPONSE(_("Yeah, I'm sure.  Bye."));
-                SUCCESS_ACTION(&talk_function::leave);
-                SUCCESS(TALK_DONE);
+            add_response( _("Yeah, I'm sure.  Bye."), TALK_DONE, &talk_function::leave );
             break;
 
         case TALK_PLAYER_LEADS:
@@ -2393,9 +2358,7 @@ void dialogue::gen_responses( const talk_topic topic ) const
             break;
 
         case TALK_FRIEND_GUARD:
-            RESPONSE(_("I need you to come with me."));
-                SUCCESS(TALK_FRIEND);
-                    SUCCESS_ACTION(&talk_function::stop_guard);
+            add_response( _("I need you to come with me."), TALK_FRIEND, &talk_function::stop_guard );
             add_response_done( _("See you around.") );
             break;
 
@@ -2413,13 +2376,9 @@ void dialogue::gen_responses( const talk_topic topic ) const
             } else {
                 SUCCESS(TALK_DENY_TRAIN);
             }
-            RESPONSE(_("Let's trade items."));
-                SUCCESS(TALK_NONE);
-                SUCCESS_ACTION(&talk_function::start_trade);
+            add_response( _("Let's trade items."), TALK_NONE, &talk_function::start_trade );
             if (p->is_following() && g->m.camp_at( g->u.pos3() )) {
-                RESPONSE(_("Wait at this base."));
-                    SUCCESS(TALK_DONE);
-                        SUCCESS_ACTION(&talk_function::assign_base);
+                add_response( _("Wait at this base."), TALK_DONE, &talk_function::assign_base );
             }
             if (p->is_following()) {
                 RESPONSE(_("Guard this position."));
@@ -2464,31 +2423,25 @@ void dialogue::gen_responses( const talk_topic topic ) const
         case TALK_COMBAT_COMMANDS: {
             add_response( _("Change your engagement rules..."), TALK_COMBAT_ENGAGEMENT );
             if (p->combat_rules.use_guns) {
-                RESPONSE(_("Don't use guns anymore."));
-                    SUCCESS(TALK_COMBAT_COMMANDS);
-                        SUCCESS_ACTION(&talk_function::toggle_use_guns);
+                add_response( _("Don't use guns anymore."), TALK_COMBAT_COMMANDS,
+                              &talk_function::toggle_use_guns );
             } else {
-                RESPONSE(_("You can use guns."));
-                    SUCCESS(TALK_COMBAT_COMMANDS);
-                        SUCCESS_ACTION(&talk_function::toggle_use_guns);
+                add_response( _("You can use guns."), TALK_COMBAT_COMMANDS,
+                              &talk_function::toggle_use_guns );
             }
             if (p->combat_rules.use_silent) {
-                RESPONSE(_("Don't worry about noise."));
-                    SUCCESS(TALK_COMBAT_COMMANDS);
-                        SUCCESS_ACTION(&talk_function::toggle_use_silent);
+                add_response( _("Don't worry about noise."), TALK_COMBAT_COMMANDS,
+                              &talk_function::toggle_use_silent );
             } else {
-                RESPONSE(_("Use only silent weapons."));
-                    SUCCESS(TALK_COMBAT_COMMANDS);
-                        SUCCESS_ACTION(&talk_function::toggle_use_silent);
+                add_response( _("Use only silent weapons."), TALK_COMBAT_COMMANDS,
+                              &talk_function::toggle_use_silent );
             }
             if (p->combat_rules.use_grenades) {
-                RESPONSE(_("Don't use grenades anymore."));
-                    SUCCESS(TALK_COMBAT_COMMANDS);
-                        SUCCESS_ACTION(&talk_function::toggle_use_grenades);
+                add_response( _("Don't use grenades anymore."), TALK_COMBAT_COMMANDS,
+                              &talk_function::toggle_use_grenades );
             } else {
-                RESPONSE(_("You can use grenades."));
-                    SUCCESS(TALK_COMBAT_COMMANDS);
-                        SUCCESS_ACTION(&talk_function::toggle_use_grenades);
+                add_response( _("You can use grenades."), TALK_COMBAT_COMMANDS,
+                              &talk_function::toggle_use_grenades );
             }
             add_response_none( _("Never mind.") );
         }
@@ -2496,29 +2449,24 @@ void dialogue::gen_responses( const talk_topic topic ) const
 
         case TALK_COMBAT_ENGAGEMENT: {
             if (p->combat_rules.engagement != ENGAGE_NONE) {
-                RESPONSE(_("Don't fight unless your life depends on it."));
-                    SUCCESS(TALK_NONE);
-                        SUCCESS_ACTION(&talk_function::set_engagement_none);
+                add_response( _("Don't fight unless your life depends on it."), TALK_NONE,
+                              &talk_function::set_engagement_none );
             }
             if (p->combat_rules.engagement != ENGAGE_CLOSE) {
-                RESPONSE(_("Attack enemies that get too close."));
-                    SUCCESS(TALK_NONE);
-                        SUCCESS_ACTION(&talk_function::set_engagement_close);
+                add_response( _("Attack enemies that get too close."), TALK_NONE,
+                              &talk_function::set_engagement_close);
             }
             if (p->combat_rules.engagement != ENGAGE_WEAK) {
-                RESPONSE(_("Attack enemies that you can kill easily."));
-                    SUCCESS(TALK_NONE);
-                        SUCCESS_ACTION(&talk_function::set_engagement_weak);
+                add_response( _("Attack enemies that you can kill easily."), TALK_NONE,
+                              &talk_function::set_engagement_weak );
             }
             if (p->combat_rules.engagement != ENGAGE_HIT) {
-                RESPONSE(_("Attack only enemies that I attack first."));
-                    SUCCESS(TALK_NONE);
-                        SUCCESS_ACTION(&talk_function::set_engagement_hit);
+                add_response( _("Attack only enemies that I attack first."), TALK_NONE,
+                              &talk_function::set_engagement_hit );
             }
             if (p->combat_rules.engagement != ENGAGE_ALL) {
-                RESPONSE(_("Attack anything you want."));
-                    SUCCESS(TALK_NONE);
-                        SUCCESS_ACTION(&talk_function::set_engagement_all);
+                add_response( _("Attack anything you want."), TALK_NONE,
+                              &talk_function::set_engagement_all );
             }
             add_response_none( _("Never mind.") );
         }
@@ -2531,9 +2479,7 @@ void dialogue::gen_responses( const talk_topic topic ) const
             if (topic == TALK_STRANGER_NEUTRAL || topic == TALK_STRANGER_FRIENDLY) {
                 add_response( _("Another survivor!  We should travel together."), TALK_SUGGEST_FOLLOW );
                 add_response( _("What are you doing?"), TALK_DESCRIBE_MISSION );
-                RESPONSE(_("Care to trade?"));
-                    SUCCESS(TALK_DONE);
-                        SUCCESS_ACTION(&talk_function::start_trade);
+                add_response( _("Care to trade?"), TALK_DONE, &talk_function::start_trade );
                 add_response_done( _("Bye.") );
             } else {
                 if (!g->u.unarmed_attack()) {
@@ -2617,9 +2563,7 @@ void dialogue::gen_responses( const talk_topic topic ) const
                             SUCCESS_OPINION(-2, 1, 0, 1, 0);
                         FAILURE(TALK_DONE);
                             FAILURE_ACTION(&talk_function::hostile);
-                RESPONSE(_("&Put hands up."));
-                    SUCCESS(TALK_DONE);
-                        SUCCESS_ACTION(&talk_function::start_mugging);
+                add_response( _("&Put hands up."), TALK_DONE, &talk_function::start_mugging );
             }
             break;
 
