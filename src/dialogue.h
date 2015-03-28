@@ -5,6 +5,7 @@
 #include "output.h"
 #include "npc.h"
 #include "mission.h"
+#include "color.h"
 #include <vector>
 #include <string>
 
@@ -175,6 +176,15 @@ struct talk_response {
     void (talk_function::*effect_failure)(npc *) = &talk_function::nothing;
     talk_topic success = TALK_NONE;
     talk_topic failure = TALK_NONE;
+
+    /**
+     * Text and color that is used to display this response.
+     * This is set up in @ref do_formatting.
+     */
+    std::string formated_text;
+    nc_color color = c_white;
+
+    void do_formatting( const dialogue &d, char letter );
 
     talk_response() = default;
 };

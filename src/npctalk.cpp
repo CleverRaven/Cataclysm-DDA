@@ -3520,6 +3520,36 @@ void dialogue::print_history( size_t const hilight_lines )
     }
 }
 
+void talk_response::do_formatting( const dialogue &d, char const letter )
+{
+    if( trial != TALK_TRIAL_NONE ) { // dialogue w/ a % chance to work
+        formated_text = rmp_format(
+            _( "<talk option>%1$c: [%2$s %3$d%%] %4$s" ),
+            letter,                         // option letter
+            trial.name().c_str(),     // trial type
+            trial.calc_chance( d ), // trial % chance
+            text.c_str()                // response
+        );
+    } else { // regular dialogue
+        formated_text = rmp_format(
+            _( "<talk option>%1$c: %2$s" ),
+            letter,          // option letter
+            text.c_str() // response
+        );
+    }
+    parse_tags( formated_text, d.alpha, d.beta );
+
+    if( text[0] == '!' ) {
+        color = c_red;
+    } else if( text[0] == '*' ) {
+        color = c_ltred;
+    } else if( text[0] == '&' ) {
+        color = c_green;
+    } else {
+        color = c_white;
+    }
+}
+
 talk_topic dialogue::opt(talk_topic topic)
 {
  std::string challenge = dynamic_line( topic );
@@ -3545,51 +3575,19 @@ talk_topic dialogue::opt(talk_topic topic)
 
     // Number of lines to highlight
     size_t const hilight_lines = add_to_history( challenge );
-    std::vector<std::string> folded;
 
- std::vector<std::string> options;
- std::vector<nc_color>    colors;
- for (size_t i = 0; i < responses.size(); i++) {
-     if( !responses[i].trial ) {  // dialogue w/ a % chance to work
-         options.push_back(
-             rmp_format(
-                 _("<talk option>%1$c: [%2$s %3$d%%] %4$s"),
-                 char('a' + i),                           // option letter
-                 responses[i].trial.name().c_str(),     // trial type
-                 responses[i].trial.calc_chance( *this ), // trial % chance
-                 responses[i].text.c_str()                // response
-             )
-         );
-     }
-     else { // regular dialogue
-         options.push_back(
-             rmp_format(
-                 _("<talk option>%1$c: %2$s"),
-                 char('a' + i),            // option letter
-                 responses[i].text.c_str() // response
-             )
-         );
-     }
-
-     parse_tags(options.back(), alpha, beta);
-     if (responses[i].text[0] == '!')
-         colors.push_back(c_red);
-     else if (responses[i].text[0] == '*')
-         colors.push_back(c_ltred);
-     else if (responses[i].text[0] == '&')
-         colors.push_back(c_green);
-     else
-         colors.push_back(c_white);
- }
+    for( size_t i = 0; i < responses.size(); i++ ) {
+        responses[i].do_formatting( *this, 'a' + i );
+    }
 
     clear_window_texts();
     print_history( hilight_lines );
 
     int curline = 3;
-    for (size_t i = 0; i < options.size(); i++) {
-        folded = foldstring(options[i], (FULL_SCREEN_WIDTH / 2) - 4);
+    for (size_t i = 0; i < responses.size(); i++) {
+        auto folded = foldstring(responses[i].formated_text, (FULL_SCREEN_WIDTH / 2) - 4);
         for( size_t j = 0; j < folded.size(); ++j ) {
-            mvwprintz(win, curline, (FULL_SCREEN_WIDTH / 2) + 2, colors[i],
+            mvwprintz(win, curline, (FULL_SCREEN_WIDTH / 2) + 2, responses[i].color,
                         ((j == 0 ? "" : "   ") + folded[j]).c_str());
             curline++;
         }
@@ -3606,15 +3604,15 @@ talk_topic dialogue::opt(talk_topic topic)
    ch = getch();
    if (special_talk(ch) == TALK_NONE)
     ch -= 'a';
-  } while (special_talk(ch) == TALK_NONE && (ch < 0 || ch >= (int)options.size()));
+  } while (special_talk(ch) == TALK_NONE && (ch < 0 || ch >= (int)responses.size()));
   okay = false;
   if (special_talk(ch) != TALK_NONE)
    okay = true;
-  else if (colors[ch] == c_white || colors[ch] == c_green)
+  else if (responses[ch].color == c_white || responses[ch].color == c_green)
    okay = true;
-  else if (colors[ch] == c_red && query_yn(_("You may be attacked! Proceed?")))
+  else if (responses[ch].color == c_red && query_yn(_("You may be attacked! Proceed?")))
    okay = true;
-  else if (colors[ch] == c_ltred && query_yn(_("You'll be helpless! Proceed?")))
+  else if (responses[ch].color == c_ltred && query_yn(_("You'll be helpless! Proceed?")))
    okay = true;
  } while (!okay);
  history.push_back("");
