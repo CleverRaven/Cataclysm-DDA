@@ -97,8 +97,8 @@ tag_data talk_tags[NUM_STATIC_TAGS] = {
                                  ret.back().text = txt;\
                                  ret.back().style = styleIn;
 
-#define TRIAL(tr, diff) ret.back().trial = tr;\
-                        ret.back().difficulty = diff
+#define TRIAL(tr, diff) ret.back().trial.type = tr;\
+                        ret.back().trial.difficulty = diff
 
 #define SUCCESS(topic)  ret.back().success = topic
 #define FAILURE(topic)  ret.back().failure = topic
@@ -119,16 +119,16 @@ talk_topic special_talk(char ch);
 
 bool trade(npc *p, int cost, std::string deal);
 
-static const std::string &get_trial_text( talk_trial const trial )
+const std::string &talk_trial::name() const
 {
     static std::array<std::string, NUM_TALK_TRIALS> const texts = { {
         "", _("LIE"), _("PERSUADE"), _("INTIMIDATE")
     } };
-    if( static_cast<size_t>( trial ) >= texts.size() ) {
-        debugmsg( "invalid trial type %d", static_cast<int>( trial ) );
+    if( static_cast<size_t>( type ) >= texts.size() ) {
+        debugmsg( "invalid trial type %d", static_cast<int>( type ) );
         return texts[0];
     }
-    return texts[trial];
+    return texts[type];
 }
 
 void game::init_npctalk()
@@ -2873,15 +2873,15 @@ void dialogue::gen_responses( const talk_topic topic ) const
     }
 }
 
-int talk_response::calc_chance( const dialogue &d ) const
+int talk_trial::calc_chance( const dialogue &d ) const
 {
     player &u = *d.alpha;
     npc &p = *d.beta;
  int chance = difficulty;
- switch (trial) {
+ switch (type) {
   case TALK_TRIAL_NONE:
   case NUM_TALK_TRIALS:
-   dbg( D_ERROR ) << "called calc_chance with invalid talk_trial value: " << trial;
+   dbg( D_ERROR ) << "called calc_chance with invalid talk_trial value: " << type;
    break;
   case TALK_TRIAL_LIE:
    chance += u.talk_skill() - p.talk_skill() + p.op_of_u.trust * 3;
@@ -3498,13 +3498,13 @@ talk_topic dialogue::opt(talk_topic topic)
  std::vector<std::string> options;
  std::vector<nc_color>    colors;
  for (size_t i = 0; i < responses.size(); i++) {
-     if (responses[i].trial > 0) {  // dialogue w/ a % chance to work
+     if( !responses[i].trial ) {  // dialogue w/ a % chance to work
          options.push_back(
              rmp_format(
                  _("<talk option>%1$c: [%2$s %3$d%%] %4$s"),
                  char('a' + i),                           // option letter
-                 get_trial_text( responses[i].trial ).c_str(),     // trial type
-                 responses[i].calc_chance( *this ), // trial % chance
+                 responses[i].trial.name().c_str(),     // trial type
+                 responses[i].trial.calc_chance( *this ), // trial % chance
                  responses[i].text.c_str()                // response
              )
          );
@@ -3604,10 +3604,10 @@ talk_topic dialogue::opt(talk_topic topic)
   beta->chatbin.style = chosen.style;
 
  talk_function effect;
- if (chosen.trial == TALK_TRIAL_NONE ||
-     rng(0, 99) < chosen.calc_chance( *this )) {
-  if (chosen.trial != TALK_TRIAL_NONE)
-    alpha->practice( "speech", (100 - chosen.calc_chance( *this )) / 10 );
+ if (chosen.trial.type == TALK_TRIAL_NONE ||
+     rng(0, 99) < chosen.trial.calc_chance( *this )) {
+  if (chosen.trial.type != TALK_TRIAL_NONE)
+    alpha->practice( "speech", (100 - chosen.trial.calc_chance( *this )) / 10 );
   (effect.*chosen.effect_success)(beta);
   beta->op_of_u += chosen.opinion_success;
   if (beta->turned_hostile()) {
@@ -3616,7 +3616,7 @@ talk_topic dialogue::opt(talk_topic topic)
   }
   return chosen.success;
  } else {
-   alpha->practice( "speech", (100 - chosen.calc_chance( *this )) / 7 );
+   alpha->practice( "speech", (100 - chosen.trial.calc_chance( *this )) / 7 );
   (effect.*chosen.effect_failure)(beta);
   beta->op_of_u += chosen.opinion_failure;
   if (beta->turned_hostile()) {

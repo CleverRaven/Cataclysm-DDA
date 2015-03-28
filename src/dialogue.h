@@ -102,12 +102,33 @@ struct talk_function {
     void set_engagement_all   (npc *);
 };
 
-enum talk_trial {
+enum talk_trial_type {
     TALK_TRIAL_NONE, // No challenge here!
     TALK_TRIAL_LIE, // Straight up lying
     TALK_TRIAL_PERSUADE, // Convince them
     TALK_TRIAL_INTIMIDATE, // Physical intimidation
     NUM_TALK_TRIALS
+};
+
+/**
+ * If not TALK_TRIAL_NONE, it defines how to decide whether the responses succeeds (e.g. the
+ * NPC believes the lie). The difficulty is a 0...100 percent chance of success (!), 100 means
+ * always success, 0 means never. It is however affected by mutations/traits/bionics/etc. of
+ * the player character.
+ */
+struct talk_trial {
+    talk_trial_type type = TALK_TRIAL_NONE;
+    int difficulty = 0;
+
+    int calc_chance( const dialogue &d ) const;
+    /**
+     * Returns a user-friendly representation of @ref type
+     */
+    const std::string &name() const;
+    operator bool() const
+    {
+        return type != TALK_TRIAL_NONE;
+    }
 };
 
 /**
@@ -119,14 +140,7 @@ struct talk_response {
      * displayed. The first character controls the color of it ('*'/'&'/'!').
      */
     std::string text;
-    /**
-     * If not TALK_TRIAL_NONE, it defines how to decide whether the responses succeeds (e.g. the
-     * NPC believes the lie). The difficulty is a 0...100 percent chance of success (!), 100 means
-     * always success, 0 means never. It is however affected by mutations/traits/bionics/etc. of
-     * the player character. See @ref trial_chance.
-     */
-    talk_trial trial = TALK_TRIAL_NONE;
-    int difficulty = 0;
+    talk_trial trial;
     /**
      * The following values are forwarded to the chatbin of the NPC (see @ref npc_chatbin).
      * Except @ref miss, it is apparently not used but should be a mission type that can create
@@ -151,8 +165,6 @@ struct talk_response {
     talk_topic failure = TALK_NONE;
 
     talk_response() = default;
-
-    int calc_chance( const dialogue &d ) const;
 };
 
 struct talk_response_list {
