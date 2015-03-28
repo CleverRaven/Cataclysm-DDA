@@ -43,7 +43,12 @@ struct dialogue {
     dialogue() = default;
 
     std::string dynamic_line( talk_topic topic ) const;
-    std::vector<talk_response> gen_responses( talk_topic topic ) const;
+
+    /**
+     * Possible responses from the player character, filled in @ref gen_responses.
+     */
+    mutable std::vector<talk_response> responses;
+    void gen_responses( talk_topic topic ) const;
 };
 
 struct talk_function {

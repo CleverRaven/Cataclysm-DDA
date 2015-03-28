@@ -1371,10 +1371,11 @@ std::string dialogue::dynamic_line( const talk_topic topic ) const
     return "I don't know what to say. (BUG (npctalk.cpp:dynamic_line))";
 }
 
-std::vector<talk_response> dialogue::gen_responses( const talk_topic topic ) const
+void dialogue::gen_responses( const talk_topic topic ) const
 {
     const auto p = beta; // for compatibility, later replace it in the code below
-    std::vector<talk_response> ret;
+    auto &ret = responses; // for compatibility, later replace it in the code below
+    ret.clear();
     mission *miss = p->chatbin.mission_selected;
     talk_function effect;
 
@@ -2860,8 +2861,6 @@ std::vector<talk_response> dialogue::gen_responses( const talk_topic topic ) con
         RESPONSE(_("Bye."));
             SUCCESS(TALK_DONE);
     }
-
-    return ret;
 }
 
 int trial_chance(talk_response response, player *u, npc *p)
@@ -3460,7 +3459,7 @@ talk_topic dialogue::opt(talk_topic topic)
   "", _("LIE"), _("PERSUADE"), _("INTIMIDATE")
  };
  std::string challenge = dynamic_line( topic );
- std::vector<talk_response> responses = gen_responses( topic );
+ gen_responses( topic );
 // Put quotes around challenge (unless it's an action)
  if (challenge[0] != '*' && challenge[0] != '&') {
   std::stringstream tmp;
