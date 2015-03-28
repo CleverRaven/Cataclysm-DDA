@@ -13634,13 +13634,17 @@ void intro()
         for(int i = 0; i < strlen(locale); ++i)
             locale[i] = toupper(locale[i]);
         // grab the rest of the string onward
-        std::string lc(strstr(locale, "UTF"));
-        // "UTF-8" => "UTF8"
-        if(lc.size() > 4)
-            lc[4] = lc[5];
-        lc.resize(4);
+        char *p = strstr(locale, "UTF");
+        std::string lc;
+        if(p != NULL) { 
+            lc = p;
+            // "UTF-8" => "UTF8"
+            if(lc.size() > 4)
+                lc[4] = lc[5];
+            lc.resize(4);
+        }
         // anything but 0 is inequality
-        if(lc.compare("UTF8")) {
+        if(p == NULL || lc.compare("UTF8")) {
             fold_and_print(tmp, 0, 0, maxx, c_white, _("You don't seem to have a Unicode locale. You may see some weird "
                                                        "characters (e.g. empty boxes or question marks). You have been warned."),
                            minWidth, minHeight, maxx, maxy);
