@@ -13627,31 +13627,37 @@ void intro()
  * reports ${LANG} for UTF-8 as "en_US.utf8"! Be aware!
  */
 #if !(defined _WIN32 || defined WINDOWS || defined TILES)
-    // Check if locale is has UTF-8 encoding
-    char *locale = setlocale(LC_ALL, NULL);
-    if (locale != NULL) {
-        // convert all to uppercase, no need to retain originals
-        for(size_t i = 0; i < strlen(locale); ++i)
+    // Check if locale is UTF-8 encoding
+    const char *p_locale = setlocale(LC_ALL, NULL);
+    bool not_utf8 = p_locale == NULL ? true : false;
+    if(not_utf8 == false) {
+        std::string locale = p_locale;
+        // convert all to uppercase
+        for(size_t i = 0; i < locale.length(); ++i)
             locale[i] = toupper(locale[i]);
-        // grab the rest of the string onward
-        char *p = strstr(locale, "UTF");
-        std::string lc;
-        if(p != NULL) { 
-            lc = p;
-            // "UTF-8" => "UTF8"
-            if(lc.size() > 4)
-                lc[4] = lc[5];
-            lc.resize(4);
+        auto index = locale.find("UTF");
+        // were we able to find those three magical letters?
+        not_utf8 = index == std::string::npos ? true : false;
+        if(not_utf8 == false) {
+            // replace entirety of string with important part
+            size_t len = locale.size() - index;
+            locale.erase(0, index);
+            // afterwards, it should simply be UTF8
+            index = locale.find('-');
+            if(index != std::string::npos)
+                locale.erase(index, 1);
+            // anything but zero indicates failure
+            not_utf8 = locale.compare("UTF8") != 0;
         }
-        // anything but 0 is inequality
-        if(p == NULL || lc.compare("UTF8")) {
-            fold_and_print(tmp, 0, 0, maxx, c_white, _("You don't seem to have a Unicode locale. You may see some weird "
-                                                       "characters (e.g. empty boxes or question marks). You have been warned."),
-                           minWidth, minHeight, maxx, maxy);
-            wrefresh(tmp);
-            wgetch(tmp);
-            werase(tmp);
-        }
+    }
+    if (not_utf8 == true) {
+        const char *unicode_error_msg = 
+            _("You don't seem to have a valid Unicode locale. You may see some weird " 
+              "characters (e.g. empty boxes or question marks). You have been warned.");
+        fold_and_print(tmp, 0, 0, maxx, c_white, unicode_error_msg, minWidth, minHeight, maxx, maxy);
+        wrefresh(tmp);
+        wgetch(tmp);
+        werase(tmp);
     }
 #endif
 
