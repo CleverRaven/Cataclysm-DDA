@@ -73,7 +73,7 @@ namespace internal
         statically_determine_terrain() : id(0) {}
         statically_determine_terrain(int pid) : id(pid) {}
         virtual ~statically_determine_terrain() {}
-        virtual int operator ()(map *, const int /*x*/, const int /*y*/) {
+        virtual int operator ()(map *, const int /*x*/, const int /*y*/) override {
             return id;
         }
     };
@@ -88,7 +88,7 @@ namespace internal
         determine_terrain_with_simple_method() : f(NULL) {}
         determine_terrain_with_simple_method(ter_id_func pf) : f(pf) {}
         virtual ~determine_terrain_with_simple_method() {}
-        virtual int operator ()(map *, const int /*x*/, const int /*y*/) {
+        virtual int operator ()(map *, const int /*x*/, const int /*y*/) override {
             return f();
         }
     };
@@ -102,7 +102,7 @@ namespace internal
    determine_terrain_with_complex_method():f(NULL) {}
    determine_terrain_with_complex_method(ter_id (*pf)(map*, const int, const int)):f(pf) {}
    virtual ~determine_terrain_with_complex_method() {}
-   virtual int operator ()(map* m, const int x, const int y){return f(m,x,y);}
+   virtual int operator ()(map* m, const int x, const int y) override{return f(m,x,y);}
  };
 
 

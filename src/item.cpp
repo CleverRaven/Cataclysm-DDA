@@ -1013,30 +1013,43 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump, bool debug) c
                                            unread ) );
             }
 
-            if (!(book->recipes.empty())) {
+            std::vector<std::string> recipe_list;
+            for( auto const & elem : book->recipes ) {
+                const bool knows_it = g->u.knows_recipe( elem.recipe );
+                // If the player knows it, they recognize it even if it's not clearly stated.
+                if( elem.is_hidden() && !knows_it ) {
+                    continue;
+                }
+                if( knows_it ) {
+                    // In case the recipe is known, but has a different name in the book, use the
+                    // real name to avoid confusing the player.
+                    const std::string name = item::nname( elem.recipe->result );
+                    recipe_list.push_back( string_format( "<color_ltgray>%s</color>", name.c_str() ) );
+                } else {
+                    recipe_list.push_back( elem.name );
+                }
+            }
+            if( !recipe_list.empty() ) {
                 std::string recipes = "";
                 size_t index = 1;
-                for( auto iter = book->recipes.begin();
-                     iter != book->recipes.end(); ++iter, ++index ) {
-                    if(g->u.knows_recipe(iter->first)) {
-                        recipes += "<color_ltgray>";
-                    }
-                    recipes += nname( iter->first->result, 1 );
-                    if(g->u.knows_recipe(iter->first)) {
-                        recipes += "</color>";
-                    }
-                    if(index == book->recipes.size() - 1) {
+                for( auto iter = recipe_list.begin();
+                     iter != recipe_list.end(); ++iter, ++index ) {
+                    recipes += *iter;
+                    if(index == recipe_list.size() - 1) {
                         recipes += _(" and "); // Who gives a fuck about an oxford comma?
-                    } else if(index != book->recipes.size()) {
+                    } else if(index != recipe_list.size()) {
                         recipes += _(", ");
                     }
                 }
                 std::string recipe_line = string_format(
                     ngettext("This book contains %1$d crafting recipe: %2$s",
-                             "This book contains %1$d crafting recipes: %2$s", book->recipes.size()),
-                    book->recipes.size(), recipes.c_str());
+                             "This book contains %1$d crafting recipes: %2$s", recipe_list.size()),
+                    recipe_list.size(), recipes.c_str());
                 dump->push_back(iteminfo("DESCRIPTION", "--"));
                 dump->push_back(iteminfo("DESCRIPTION", recipe_line));
+            }
+            if( recipe_list.size() != book->recipes.size() ) {
+                dump->push_back( iteminfo( "DESCRIPTION", _( "It might help you figuring out some more recipes." ) ) );
             }
         } else {
             dump->push_back(iteminfo("BOOK", _("You need to read this book to see its contents.")));

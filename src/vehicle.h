@@ -87,11 +87,11 @@ private:
 public:
 vehicle_stack( std::list<item> *newstack, point newloc, vehicle *neworigin, int part ) :
     mystack(newstack), location(newloc), myorigin(neworigin), part_num(part) {};
-    size_t size() const;
-    bool empty() const;
-    std::list<item>::iterator erase( std::list<item>::iterator it );
-    void push_back( const item &newitem );
-    void insert_at( std::list<item>::iterator index, const item &newitem );
+    size_t size() const override;
+    bool empty() const override;
+    std::list<item>::iterator erase( std::list<item>::iterator it ) override;
+    void push_back( const item &newitem ) override;
+    void insert_at( std::list<item>::iterator index, const item &newitem ) override;
     std::list<item>::iterator begin();
     std::list<item>::iterator end();
     std::list<item>::const_iterator begin() const;
@@ -100,8 +100,8 @@ vehicle_stack( std::list<item> *newstack, point newloc, vehicle *neworigin, int 
     std::list<item>::reverse_iterator rend();
     std::list<item>::const_reverse_iterator rbegin() const;
     std::list<item>::const_reverse_iterator rend() const;
-    item &front();
-    item &operator[]( size_t index );
+    item &front() override;
+    item &operator[]( size_t index ) override;
 };
 
 /**
@@ -167,9 +167,9 @@ public:
 
     // json saving/loading
     using JsonSerializer::serialize;
-    void serialize(JsonOut &jsout) const;
+    void serialize(JsonOut &jsout) const override;
     using JsonDeserializer::deserialize;
-    void deserialize(JsonIn &jsin);
+    void deserialize(JsonIn &jsin) override;
 
     /**
      * Generate the corresponding item from this vehicle part. It includes
@@ -213,9 +213,9 @@ struct label : public JsonSerializer, public JsonDeserializer {
 
     // json saving/loading
     using JsonSerializer::serialize;
-    void serialize(JsonOut &jsout) const;
+    void serialize(JsonOut &jsout) const override;
     using JsonDeserializer::deserialize;
-    void deserialize(JsonIn &jsin);
+    void deserialize(JsonIn &jsin) override;
 };
 
 /**
@@ -367,9 +367,9 @@ public:
     void save (std::ofstream &stout);
 
     using JsonSerializer::serialize;
-    void serialize(JsonOut &jsout) const;
+    void serialize(JsonOut &jsout) const override;
     using JsonDeserializer::deserialize;
-    void deserialize(JsonIn &jsin);
+    void deserialize(JsonIn &jsin) override;
 
 // Operate vehicle
     void use_controls();
@@ -595,6 +595,8 @@ public:
     float strain ();
 
 // calculate if it can move using its wheels configuration
+    bool sufficient_wheel_config ();
+    bool balanced_wheel_config ();
     bool valid_wheel_config ();
 
 // idle fuel consumption
