@@ -920,7 +920,8 @@ bool map::process_fields_in_submap( submap *const current_submap,
                                           ((cur->getFieldDensity() >= 2 && (has_flag("FLAMMABLE", fx, fy) && one_in(20))) ||
                                           (cur->getFieldDensity() >= 2  && (has_flag("FLAMMABLE_ASH", fx, fy) && one_in(10))) ||
                                           (cur->getFieldDensity() == 3  && (has_flag("FLAMMABLE_HARD", fx, fy) && one_in(10))) ||
-                                          flammable_items_at(fx, fy) || nearwebfld )) {
+                                          // TODO: Z
+                                          flammable_items_at( tripoint( fx, fy, abs_sub.z ) ) || nearwebfld )) {
                                         add_field(fx, fy, fd_fire, 1); //Nearby open flammable ground? Set it on fire.
                                         tmpfld = nearby_field.findField(fd_fire);
                                         if(tmpfld) {

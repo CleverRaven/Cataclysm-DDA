@@ -5059,8 +5059,8 @@ ff.......|....|WWWWWWWW|\n\
         square(this, t_rock_floor, SEEX - 1, 1, SEEX + 2, 4);
         square(this, t_rock_floor, SEEX, 5, SEEX + 1, SEEY * 2 - 1);
         line(this, t_stairs_up, SEEX, SEEY * 2 - 1, SEEX + 1, SEEY * 2 - 1);
-        spawn_artifact(rng(SEEX, SEEX + 1), rng(2, 3));
-        spawn_artifact(rng(SEEX, SEEX + 1), rng(2, 3));
+        spawn_artifact( tripoint( rng(SEEX, SEEX + 1), rng(2, 3), abs_sub.z ) );
+        spawn_artifact( tripoint( rng(SEEX, SEEX + 1), rng(2, 3), abs_sub.z ) );
         return;
 
     } else if (terrain_type == "sewage_treatment") {
@@ -5746,7 +5746,7 @@ ff.......|....|WWWWWWWW|\n\
                 place_items("mine_equipment", 60, x, y, x, y, false, 0);
             }
             add_spawn("mon_dog_thing", 1, rng(SEEX, SEEX + 1), rng(SEEX, SEEX + 1), true);
-            spawn_artifact(rng(SEEX, SEEX + 1), rng(SEEY, SEEY + 1));
+            spawn_artifact( tripoint( rng(SEEX, SEEX + 1), rng(SEEY, SEEY + 1), abs_sub.z ) );
         }
         break;
 
@@ -13700,7 +13700,7 @@ void map::add_extra(map_extra type)
         for (int i = x - 5; i <= x + 5; i++) {
             for (int j = y - 5; j <= y + 5; j++) {
                 if (rng(1, 9) >= trig_dist(x, y, i, j)) {
-                    marlossify(i, j);
+                    marlossify( tripoint( i, j, abs_sub.z ) );
                     if (one_in(15)) {
                         add_spawn( monids[rng( 0, 4 )], 1, i, j );
                     }
@@ -13711,11 +13711,11 @@ void map::add_extra(map_extra type)
     break;
 
     case mx_anomaly: {
-        point center( rng(6, SEEX * 2 - 7), rng(6, SEEY * 2 - 7) );
+        tripoint center( rng(6, SEEX * 2 - 7), rng(6, SEEY * 2 - 7), abs_sub.z );
         artifact_natural_property prop =
             artifact_natural_property(rng(ARTPROP_NULL + 1, ARTPROP_MAX - 1));
-        create_anomaly(center.x, center.y, prop);
-        spawn_natural_artifact(center.x, center.y, prop);
+        create_anomaly( center, prop );
+        spawn_natural_artifact( center, prop );
     }
     break;
 
@@ -13726,6 +13726,14 @@ void map::add_extra(map_extra type)
 
 void map::create_anomaly(int cx, int cy, artifact_natural_property prop)
 {
+    create_anomaly( tripoint( cx, cy, abs_sub.z ), prop );
+}
+
+void map::create_anomaly( const tripoint &cp, artifact_natural_property prop )
+{
+    // TODO: Z
+    int cx = cp.x;
+    int cy = cp.y;
     rough_circle(this, t_dirt, cx, cy, 11);
     rough_circle_furn(this, f_rubble, cx, cy, 5);
     furn_set(cx, cy, f_null);

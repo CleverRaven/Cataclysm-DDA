@@ -150,7 +150,7 @@ int get_local_windpower(double windpower, std::string const &omtername = "no nam
  * by the @ref map, but absolute).
  * @param tr The funnel (trap which acts as a funnel).
  */
-void retroactively_fill_from_funnel( item &it, const trap &tr, const calendar &endturn, const point &pos);
+void retroactively_fill_from_funnel( item &it, const trap &tr, const calendar &endturn, const tripoint &pos);
 
 /**
  * Get the amount of rotting that an item would accumulate between start and end turn at the given

@@ -201,7 +201,8 @@ void mattack::acid(monster *z, int index)
     int hity = target->posy() + rng(-2, 2);
     std::vector<point> line = line_to(z->posx(), z->posy(), hitx, hity, junk);
     for (auto &i : line) {
-        if (g->m.hit_with_acid(i.x, i.y)) {
+        // TODO: Z
+        if (g->m.hit_with_acid( tripoint( i.x, i.y, z->posz() ) )) {
             if (g->u.sees( i )) {
                 add_msg(_("A glob of acid hits the %s!"),
                         g->m.tername(i.x, i.y).c_str());
@@ -3124,7 +3125,8 @@ void mattack::flame( monster *z, Creature *target )
 
       for (auto &i : traj) {
           // break out of attack if flame hits a wall
-          if (g->m.hit_with_fire(i.x, i.y)) {
+          // TODO: Z
+          if (g->m.hit_with_fire( tripoint( i.x, i.y, z->posz() ) )) {
               if (g->u.sees( i ))
                   add_msg(_("The tongue of flame hits the %s!"),
                           g->m.tername(i.x, i.y).c_str());
@@ -3146,7 +3148,7 @@ void mattack::flame( monster *z, Creature *target )
 
     for (auto &i : traj) {
         // break out of attack if flame hits a wall
-        if (g->m.hit_with_fire(i.x, i.y)) {
+        if (g->m.hit_with_fire( tripoint( i.x, i.y, z->posz() ) )) {
             if (g->u.sees( i ))
                 add_msg(_("The tongue of flame hits the %s!"),
                         g->m.tername(i.x, i.y).c_str());

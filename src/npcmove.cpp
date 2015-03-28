@@ -1328,7 +1328,7 @@ void npc::find_item()
 
     for (int x = minx; x <= maxx; x++) {
         for (int y = miny; y <= maxy; y++) {
-            if (sees(x, y) && g->m.sees_some_items(x, y, *this)) {
+            if (sees(x, y) && g->m.sees_some_items( tripoint( x, y, posz() ), *this)) {
                 for( auto &elem : g->m.i_at(x, y) ) {
                     if( elem.made_of( LIQUID ) ) {
                         // Don't even consider liquids.

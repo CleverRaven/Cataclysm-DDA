@@ -87,7 +87,7 @@ std::pair<int, int> rain_or_acid_level( const int wt )
  * Determine what a funnel has filled out of game, using funnelcontainer.bday as a starting point.
  */
 void retroactively_fill_from_funnel( item &it, const trap &tr, const calendar &endturn,
-                                     const point &location )
+                                     const tripoint &location )
 {
     const calendar startturn = calendar( it.bday > 0 ? it.bday - 1 : 0 );
     if ( startturn > endturn || !tr.is_funnel() ) {
@@ -99,7 +99,8 @@ void retroactively_fill_from_funnel( item &it, const trap &tr, const calendar &e
     int rain_turns = 0;
     int acid_turns = 0;
     for( calendar turn(startturn); turn >= endturn; turn += 10) {
-        switch(g->weatherGen.get_weather_conditions(location, turn)) {
+        // TODO: Z-level weather
+        switch(g->weatherGen.get_weather_conditions(point(location.x, location.y), turn)) {
         case WEATHER_DRIZZLE:
             rain_amount += 4;
             rain_turns++;
@@ -224,7 +225,7 @@ void fill_funnels(int rain_depth_mm_per_hour, bool acid, const trap &tr)
     const auto &funnel_locs = g->m.trap_locations( tr.loadid );
     for( auto loc : funnel_locs ) {
         int maxcontains = 0;
-        auto items = g->m.i_at( loc.x, loc.y );
+        auto items = g->m.i_at( loc );
         if (one_in(turns_per_charge)) { // todo; fixme. todo; fixme
             //add_msg("%d mm/h %d tps %.4f: fill",int(calendar::turn),rain_depth_mm_per_hour,turns_per_charge);
             // This funnel has collected some rain! Put the rain in the largest

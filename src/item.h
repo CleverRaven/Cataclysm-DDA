@@ -432,6 +432,8 @@ public:
      * should than delete the item wherever it was stored.
      * Returns false if the item is not destroyed.
      */
+    bool process(player *carrier, const tripoint &pos, bool activate);
+    // Overload for the above
     bool process(player *carrier, point pos, bool activate);
 protected:
     // Sub-functions of @ref process, they handle the processing for different

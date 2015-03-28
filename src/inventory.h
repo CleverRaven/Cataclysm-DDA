@@ -73,7 +73,7 @@ class inventory
          */
         void restack(player *p = NULL);
 
-        void form_from_map(point origin, int distance, bool assign_invlet = true);
+        void form_from_map( const tripoint &origin, int distance, bool assign_invlet = true );
 
         /**
          * Remove a specific item from the inventory. The item is compared

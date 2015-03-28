@@ -4159,11 +4159,11 @@ void game::debug()
     break;
 
     case 15: {
-        point center = look_around();
+        tripoint center( look_around(), get_levz() );
         artifact_natural_property prop =
             artifact_natural_property(rng(ARTPROP_NULL + 1, ARTPROP_MAX - 1));
-        m.create_anomaly(center.x, center.y, prop);
-        m.spawn_natural_artifact(center.x, center.y, prop);
+        m.create_anomaly( center, prop );
+        m.spawn_natural_artifact( center, prop );
     }
     break;
 
@@ -8013,7 +8013,7 @@ void game::print_object_info(int lx, int ly, WINDOW *w_look, const int column, i
 void game::handle_multi_item_info(int lx, int ly, WINDOW *w_look, const int column, int &line,
                                   bool mouse_hover)
 {
-    if (m.sees_some_items(lx, ly, u)) {
+    if (m.sees_some_items( tripoint( lx, ly, get_levz() ), u)) {
         if (mouse_hover) {
             // items are displayed from the live view, don't do this here
             return;
@@ -8023,7 +8023,7 @@ void game::handle_multi_item_info(int lx, int ly, WINDOW *w_look, const int colu
         if (items.size() > 1) {
             mvwprintw(w_look, line++, column, _("There are other items there as well."));
         }
-    } else if (m.has_flag("CONTAINER", lx, ly) && !m.could_see_items(lx, ly, u)) {
+    } else if (m.has_flag("CONTAINER", lx, ly) && !m.could_see_items( tripoint( lx, ly, get_levz() ), u)) {
         mvwprintw(w_look, line++, column, _("You cannot see what is inside of it."));
     }
 }
@@ -8803,7 +8803,7 @@ std::vector<map_item_stack> game::find_nearby_items(int iRadius)
     for( auto &points_p_it : points ) {
         if( points_p_it.y >= u.posy() - iRadius && points_p_it.y <= u.posy() + iRadius &&
             u.sees( points_p_it ) &&
-            m.sees_some_items( points_p_it.x, points_p_it.y, u ) ) {
+            m.sees_some_items( tripoint( points_p_it.x, points_p_it.y, get_levz() ), u ) ) {
 
             for( auto &elem : m.i_at( points_p_it.x, points_p_it.y ) ) {
                 const std::string name = elem.tname();
