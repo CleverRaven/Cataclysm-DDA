@@ -69,10 +69,9 @@
             "add": [
                 { "item": "gasoline", "x": 3, "y": 5, "repeat": [200, 1075] }
             ],
-
-            "set": [
-            { "point": "terrain", "id": "t_gas_tank", "x": 3, "y": 5}
-             ]
+            "place_terrain": [
+                { "ter": "t_gas_tank", "x": 3, "y": 5}
+            ]
         }
     }
 ]
