@@ -3257,15 +3257,32 @@ void dialogue::print_history( size_t const hilight_lines )
     }
 }
 
-void dialogue::print_responses()
+// Number of lines that can be used for the list of responses:
+// -2 for border, -2 for options that are always there, -1 for header
+static int RESPONSE_AREA_HEIGHT() {
+    return FULL_SCREEN_HEIGHT - 2 - 2 - 1;
+}
+
+bool dialogue::print_responses( int const yoffset )
 {
     // Responses go on the right side of the window, add 2 for spacing
-    int const xoffset = FULL_SCREEN_WIDTH / 2 + 2;
-    int curline = 3;
-    for( size_t i = 0; i < responses.size(); i++ ) {
+    size_t const xoffset = FULL_SCREEN_WIDTH / 2 + 2;
+    // First line we can print to, +2 for borders, +1 for the header.
+    int const min_line = 2 + 1;
+    // Bottom most line we can print to
+    int const max_line = min_line + RESPONSE_AREA_HEIGHT() - 1;
+
+    int curline = min_line - (int) yoffset;
+    size_t i;
+    for( i = 0; i < responses.size() && curline <= max_line; i++ ) {
         auto const &folded = responses[i].formated_text;
         auto const &color = responses[i].color;
         for( size_t j = 0; j < folded.size(); j++, curline++ ) {
+            if( curline < min_line ) {
+                continue;
+            } else if( curline > max_line ) {
+                break;
+            }
             int const off = ( j != 0 ) ? +3 : 0;
             mvwprintz( win, curline, xoffset + off, color, "%s", folded[j].c_str() );
         }
@@ -3273,6 +3290,43 @@ void dialogue::print_responses()
     // Those are always available, their key bindings are fixed as well.
     mvwprintz( win, curline + 2, xoffset, c_magenta, _( "L: Look at" ) );
     mvwprintz( win, curline + 3, xoffset, c_magenta, _( "S: Size up stats" ) );
+    return curline > max_line; // whether there is more to print.
+}
+
+int dialogue::choose_response( int const hilight_lines )
+{
+    int yoffset = 0;
+    while( true ) {
+        clear_window_texts();
+        print_history( hilight_lines );
+        bool const can_sroll_down = print_responses( yoffset );
+        bool const can_sroll_up = yoffset > 0;
+        if( can_sroll_up ) {
+            mvwprintz( win, 2, FULL_SCREEN_WIDTH - 2 - 2, c_green, "^^" );
+        }
+        if( can_sroll_down ) {
+            mvwprintz( win, FULL_SCREEN_HEIGHT - 2, FULL_SCREEN_WIDTH - 2 - 2, c_green, "vv" );
+        }
+        wrefresh( win );
+        // TODO: input_context?
+        const long ch = getch();
+        switch( ch ) {
+            case KEY_DOWN:
+            case KEY_NPAGE:
+                if( can_sroll_down ) {
+                    yoffset += RESPONSE_AREA_HEIGHT();
+                }
+                break;
+            case KEY_UP:
+            case KEY_PPAGE:
+                if( can_sroll_up ) {
+                    yoffset = std::max( 0, yoffset - RESPONSE_AREA_HEIGHT() );
+                }
+                break;
+            default:
+                return ch;
+        }
+    }
 }
 
 void talk_response::do_formatting( const dialogue &d, char const letter )
@@ -3334,22 +3388,15 @@ talk_topic dialogue::opt(talk_topic topic)
 
     // Number of lines to highlight
     size_t const hilight_lines = add_to_history( challenge );
-
     for( size_t i = 0; i < responses.size(); i++ ) {
         responses[i].do_formatting( *this, 'a' + i );
     }
-
-    clear_window_texts();
-    print_history( hilight_lines );
-    print_responses();
-
-    wrefresh(win);
 
  int ch;
  bool okay;
  do {
   do {
-   ch = getch();
+   ch = choose_response( hilight_lines );
    if (special_talk(ch) == TALK_NONE)
     ch -= 'a';
   } while (special_talk(ch) == TALK_NONE && (ch < 0 || ch >= (int)responses.size()));
