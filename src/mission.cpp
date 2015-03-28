@@ -211,13 +211,11 @@ void mission::wrap_up()
         debugmsg( "mission::wrap_up called, player %d was assigned, but current player is %d", player_id, u.getID() );
     }
     u.on_mission_finished( *this );
+    std::vector<item_comp> comps;
+    comps.push_back(item_comp(type->item_id, item_count));
     switch( type->goal ) {
         case MGOAL_FIND_ITEM:
-            if( item::count_by_charges( type->item_id ) ) {
-                u.use_charges( type->item_id, item_count );
-            } else {
-                u.use_amount( type->item_id, item_count );
-            }
+            u.consume_items(comps);
             break;
         case MGOAL_FIND_ANY_ITEM:
             u.remove_mission_items( uid );
@@ -234,6 +232,7 @@ bool mission::is_complete( const int _npc_id ) const
 {
     // TODO: maybe not g->u, but more generalized?
     auto &u = g->u;
+    inventory tmp_inv = u.crafting_inventory();
     switch( type->goal ) {
         case MGOAL_GO_TO:
             {
@@ -252,8 +251,8 @@ bool mission::is_complete( const int _npc_id ) const
 
         case MGOAL_FIND_ITEM:
             // TODO: check for count_by_charges and use appropriate player::has_* function
-            if( !u.has_amount( type->item_id, item_count ) ) {
-                return u.has_amount( type->item_id, 1 ) && u.has_charges( type->item_id, item_count );
+            if (!tmp_inv.has_amount(type->item_id, miss->item_count)) {
+                return tmp_inv.has_amount( type->item_id, 1 ) && tmp_inv.has_charges( type->item_id, item_count );
             }
             if( npc_id != -1 && npc_id != _npc_id ) {
                 return false;
