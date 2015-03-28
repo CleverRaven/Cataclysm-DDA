@@ -119,6 +119,18 @@ talk_topic special_talk(char ch);
 
 bool trade(npc *p, int cost, std::string deal);
 
+static const std::string &get_trial_text( talk_trial const trial )
+{
+    static std::array<std::string, NUM_TALK_TRIALS> const texts = { {
+        "", _("LIE"), _("PERSUADE"), _("INTIMIDATE")
+    } };
+    if( static_cast<size_t>( trial ) >= texts.size() ) {
+        debugmsg( "invalid trial type %d", static_cast<int>( trial ) );
+        return texts[0];
+    }
+    return texts[trial];
+}
+
 void game::init_npctalk()
 {
     std::string tmp_talk_needs[num_needs][5] = {
@@ -3454,9 +3466,6 @@ void parse_tags(std::string &phrase, const player *u, const npc *me)
 
 talk_topic dialogue::opt(talk_topic topic)
 {
- const char* talk_trial_text[NUM_TALK_TRIALS] = {
-  "", _("LIE"), _("PERSUADE"), _("INTIMIDATE")
- };
  std::string challenge = dynamic_line( topic );
  gen_responses( topic );
 // Put quotes around challenge (unless it's an action)
@@ -3494,7 +3503,7 @@ talk_topic dialogue::opt(talk_topic topic)
              rmp_format(
                  _("<talk option>%1$c: [%2$s %3$d%%] %4$s"),
                  char('a' + i),                           // option letter
-                 talk_trial_text[responses[i].trial],     // trial type
+                 get_trial_text( responses[i].trial ).c_str(),     // trial type
                  responses[i].calc_chance( *this ), // trial % chance
                  responses[i].text.c_str()                // response
              )
