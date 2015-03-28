@@ -13626,7 +13626,7 @@ void intro()
  * Not all locale are equal! Gentoo Linux, for instance,
  * reports ${LANG} for UTF-8 as "en_US.utf8"! Be aware!
  */
-#if !(defined _WIN32 || defined WINDOWS)
+#if !(defined _WIN32 || defined WINDOWS || defined TILES)
     // Check if locale is has UTF-8 encoding
     char *locale = setlocale(LC_ALL, NULL);
     if (locale != NULL) {
