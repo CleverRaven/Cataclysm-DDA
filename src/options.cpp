@@ -809,7 +809,7 @@ void initOptions()
 
     OPTIONS["TILES"] = cOpt("graphics", _("Choose tileset"),
                             _("Choose the tileset you want to use."),
-                            tileset_names, "hoder", COPT_CURSES_HIDE
+                            tileset_names, "ChestHole", COPT_CURSES_HIDE
                            ); // populate the options dynamically
 
     mOptionsSort["graphics"]++;
@@ -1320,6 +1320,7 @@ void show_options(bool ingame)
             g->init_ui();
             if( ingame ) {
                 g->refresh_all();
+                tilecontext->do_tile_loading_report();
             }
         } catch(std::string err) {
             popup(_("Loading the tileset failed: %s"), err.c_str());

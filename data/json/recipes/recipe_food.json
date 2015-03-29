@@ -3532,7 +3532,8 @@
   "subcategory": "CSC_FOOD_BREAD",
   "skill_used": "cooking",
   "difficulty": 2,
-  "time": 20000,
+  "time": 28000,
+  "batch_time_factors":[50, 4],
   "reversible": false,
   "autolearn": true,
   "qualities":[
@@ -4122,7 +4123,7 @@
   "skill_used": "cooking",
   "skills_required": [ "survival", 2 ],
   "difficulty": 1,
-  "time": 3000,
+  "time": 6000,
   "reversible": false,
   "autolearn": true,
   "tools": [
@@ -4135,7 +4136,7 @@
   ],
   "components": [
     [
-      ["pinecone", 1]
+      ["pinecone", 4]
     ]
   ]
 },{

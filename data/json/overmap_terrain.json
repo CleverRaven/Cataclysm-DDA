@@ -873,6 +873,17 @@
         "sidewalk" : true
     },{
         "type" : "overmap_terrain",
+        "id" : "s_music",
+        "name" : "music store",
+        "rotate" : true,
+        "sym" : 109,
+        "color" : "brown",
+        "see_cost" : 5,
+        "extras" : "build",
+        "mondensity" : 2,
+        "sidewalk" : true
+    },{
+        "type" : "overmap_terrain",
         "id" : "megastore_entrance",
         "name" : "megastore",
         "sym" : 43,

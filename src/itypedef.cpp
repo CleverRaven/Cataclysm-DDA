@@ -163,12 +163,12 @@ void Item_factory::init_old()
     add_item_type( m_missing_item );
 }
 
-std::string ammo_name(std::string t)
+std::string const& ammo_name(std::string const &t)
 {
-    return ammunition_type::find_ammunition_type(t)->name();
+    return ammunition_type::find_ammunition_type(t).name();
 }
 
-itype_id default_ammo(std::string t)
+itype_id const& default_ammo(std::string const &t)
 {
-    return ammunition_type::find_ammunition_type(t)->default_ammotype();
+    return ammunition_type::find_ammunition_type(t).default_ammotype();
 }

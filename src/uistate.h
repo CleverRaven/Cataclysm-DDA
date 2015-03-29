@@ -98,7 +98,7 @@ class uistatedata : public JsonSerializer, public JsonDeserializer
         }
 
         using JsonSerializer::serialize;
-        void serialize(JsonOut &json) const
+        void serialize(JsonOut &json) const override
         {
             const unsigned int input_history_save_max = 25;
             json.start_object();
@@ -144,7 +144,7 @@ class uistatedata : public JsonSerializer, public JsonDeserializer
             json.end_object();
         };
 
-        void deserialize(JsonIn &jsin)
+        void deserialize(JsonIn &jsin) override
         {
             JsonObject jo = jsin.get_object();
             /**** here ****/

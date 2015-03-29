@@ -258,6 +258,9 @@ void player::load(JsonObject &data)
     data.read("stim", stim);
     data.read("pkill", pkill);
     data.read("radiation", radiation);
+    data.read("tank_plut", tank_plut);
+    data.read("reactor_plut", reactor_plut);
+    data.read("slow_rad", slow_rad);
     data.read("scent", scent);
     data.read("oxygen", oxygen);
     data.read("male", male);
@@ -329,6 +332,9 @@ void player::store(JsonOut &json) const
     json.member( "pkill", pkill );
     // misc levels
     json.member( "radiation", radiation );
+    json.member( "tank_plut", tank_plut );
+    json.member( "reactor_plut", reactor_plut );
+    json.member( "slow_rad", slow_rad );
     json.member( "scent", int(scent) );
     json.member( "body_wetness", body_wetness );
 
@@ -658,8 +664,6 @@ void npc_chatbin::serialize(JsonOut &json) const
     if( mission_selected != nullptr ) {
         json.member( "mission_selected", mission_selected->get_id() );
     }
-    json.member( "tempvalue",
-                 tempvalue );     //No clue what this value does, but it is used all over the place. So it is NOT temp.
     if ( skill ) {
         json.member("skill", skill->ident() );
     }
@@ -681,7 +685,6 @@ void npc_chatbin::deserialize(JsonIn &jsin)
         skill = Skill::skill(skill_ident);
     }
 
-    data.read("tempvalue", tempvalue);
     std::vector<int> tmpmissions;
     data.read( "missions", tmpmissions );
     missions = mission::to_ptr_vector( tmpmissions );
@@ -1431,6 +1434,7 @@ void vehicle::deserialize(JsonIn &jsin)
     data.read("camera_on", camera_on);
     data.read("dome_lights_on", dome_lights_on);
     data.read("aisle_lights_on", aisle_lights_on);
+    data.read("has_atomic_lights", has_atomic_lights);
 
     face.init (fdir);
     move.init (mdir);
@@ -1507,6 +1511,7 @@ void vehicle::serialize(JsonOut &json) const
     json.member( "camera_on", camera_on );
     json.member( "dome_lights_on", dome_lights_on );
     json.member( "aisle_lights_on", aisle_lights_on );
+    json.member( "has_atomic_lights", has_atomic_lights );
     json.end_object();
 }
 

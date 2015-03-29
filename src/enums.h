@@ -192,7 +192,7 @@ struct point : public JsonSerializer, public JsonDeserializer {
     point &operator=(const point &) = default;
     ~point() {}
     using JsonSerializer::serialize;
-    void serialize(JsonOut &jsout) const
+    void serialize(JsonOut &jsout) const override
     {
         jsout.start_array();
         jsout.write(x);
@@ -200,7 +200,7 @@ struct point : public JsonSerializer, public JsonDeserializer {
         jsout.end_array();
     }
     using JsonDeserializer::deserialize;
-    void deserialize(JsonIn &jsin)
+    void deserialize(JsonIn &jsin) override
     {
         JsonArray ja = jsin.get_array();
         x = ja.get_int(0);
@@ -258,14 +258,14 @@ struct tripoint : public JsonSerializer, public JsonDeserializer {
     int y;
     int z;
     tripoint(int X = 0, int Y = 0, int Z = 0) : x (X), y (Y), z (Z) {}
-    tripoint(const point &p, int Z = 0) : x (p.x), y (p.y), z (Z) {}
     tripoint(tripoint &&) = default;
     tripoint(const tripoint &) = default;
     tripoint &operator=(tripoint &&) = default;
     tripoint &operator=(const tripoint &) = default;
+    explicit tripoint(const point &p, int Z = 0) : x (p.x), y (p.y), z (Z) {}
     ~tripoint() {}
     using JsonSerializer::serialize;
-    void serialize(JsonOut &jsout) const
+    void serialize(JsonOut &jsout) const override
     {
         jsout.start_array();
         jsout.write(x);
@@ -274,7 +274,7 @@ struct tripoint : public JsonSerializer, public JsonDeserializer {
         jsout.end_array();
     }
     using JsonDeserializer::deserialize;
-    void deserialize(JsonIn &jsin)
+    void deserialize(JsonIn &jsin) override
     {
         JsonArray ja = jsin.get_array();
         x = ja.get_int(0);

@@ -133,148 +133,10 @@ map::~map()
 {
 }
 
+// Vehicle functions
+
 VehicleList map::get_vehicles(){
    return get_vehicles(0,0,SEEX*my_MAPSIZE, SEEY*my_MAPSIZE);
-}
-
-VehicleList map::get_vehicles(const int sx, const int sy, const int ex, const int ey)
-{
- const int chunk_sx = std::max( 0, (sx / SEEX) - 1 );
- const int chunk_ex = std::min( my_MAPSIZE - 1, (ex / SEEX) + 1 );
- const int chunk_sy = std::max( 0, (sy / SEEY) - 1 );
- const int chunk_ey = std::min( my_MAPSIZE - 1, (ey / SEEY) + 1 );
- VehicleList vehs;
-
- for(int cx = chunk_sx; cx <= chunk_ex; ++cx) {
-  for(int cy = chunk_sy; cy <= chunk_ey; ++cy) {
-   submap *current_submap = get_submap_at_grid( cx, cy );
-   for( auto &elem : current_submap->vehicles ) {
-    wrapped_vehicle w;
-    w.v = elem;
-    w.x = w.v->posx + cx * SEEX;
-    w.y = w.v->posy + cy * SEEY;
-    w.i = cx;
-    w.j = cy;
-    vehs.push_back(w);
-   }
-  }
- }
-
- return vehs;
-}
-
-// 2D veh_at functions
-
-vehicle* map::veh_at(const int x, const int y, int &part_num)
-{
-    if( !veh_in_active_range || !INBOUNDS(x, y) ) {
-        return nullptr; // Out-of-bounds - null vehicle
-    }
-
-    // Apparently this is a proper coding practice and not an ugly hack
-    return const_cast<vehicle *>( veh_at_internal( x, y, part_num ) );
-}
-
-const vehicle* map::veh_at(const int x, const int y, int &part_num) const
-{
-    if( !veh_in_active_range || !INBOUNDS( x, y ) ) {
-        return nullptr; // Out-of-bounds - null vehicle
-    }
-
-    return veh_at_internal( x, y, part_num );
-}
-
-const vehicle* map::veh_at_internal( const int x, const int y, int &part_num) const
-{
-    // This function is called A LOT. Move as much out of here as possible.
-    if( !veh_in_active_range || !veh_exists_at[x][y] ) {
-        return nullptr; // Clear cache indicates no vehicle. This should optimize a great deal.
-    }
-
-    const auto it = veh_cached_parts.find( point( x, y ) );
-    if( it != veh_cached_parts.end() ) {
-        part_num = it->second.second;
-        return it->second.first;
-    }
-
-    debugmsg( "vehicle part cache indicated vehicle not found: %d %d", x, y );
-    return nullptr;
-}
-
-vehicle* map::veh_at(const int x, const int y)
-{
-    int part = 0;
-    return veh_at(x, y, part);
-}
-
-const vehicle* map::veh_at(const int x, const int y) const
-{
-    int part = 0;
-    return veh_at(x, y, part);
-}
-
-// 3D veh_at functions
-
-vehicle* map::veh_at( const tripoint &p, int &part_num )
-{
-    if( !veh_in_active_range || !inbounds( p ) ) {
-        return nullptr; // Out-of-bounds - null vehicle
-    }
-
-    // Apparently this is a proper coding practice and not an ugly hack
-    return const_cast<vehicle *>( veh_at_internal( p, part_num ) );
-}
-
-const vehicle* map::veh_at( const tripoint &p, int &part_num ) const
-{
-    if( !veh_in_active_range || !inbounds( p ) ) {
-        return nullptr; // Out-of-bounds - null vehicle
-    }
-
-    return veh_at_internal( p, part_num );
-}
-
-const vehicle* map::veh_at_internal( const tripoint &p, int &part_num ) const
-{
-    // This function is called A LOT. Move as much out of here as possible.
-    if( !veh_in_active_range || !veh_exists_at[p.x][p.y] ) {
-        return nullptr; // Clear cache indicates no vehicle. This should optimize a great deal.
-    }
-
-    const auto it = veh_cached_parts.find( point( p.x, p.y ) );
-    if( it != veh_cached_parts.end() ) {
-        part_num = it->second.second;
-        return it->second.first;
-    }
-
-    debugmsg( "vehicle part cache indicated vehicle not found: %d %d %d", p.x, p.y, p.z );
-    return nullptr;
-}
-
-vehicle* map::veh_at( const tripoint &p )
-{
-    int part = 0;
-    return veh_at( p, part );
-}
-
-const vehicle* map::veh_at( const tripoint &p ) const
-{
-    int part = 0;
-    return veh_at( p, part );
-}
-
-// End of 3D veh_at
-
-point map::veh_part_coordinates(const int x, const int y)
-{
-    int part_num;
-    vehicle* veh = veh_at(x, y, part_num);
-
-    if(veh == nullptr) {
-        return point(0,0);
-    }
-
-    return veh->parts[part_num].mount;
 }
 
 void map::reset_vehicle_cache()
@@ -344,89 +206,6 @@ void map::update_vehicle_list( submap *const to )
     }
 }
 
-void map::board_vehicle(int x, int y, player *p)
-{
-    if (!p) {
-        debugmsg ("map::board_vehicle: null player");
-        return;
-    }
-
-    int part = 0;
-    vehicle *veh = veh_at(x, y, part);
-    if (!veh) {
-        if(p->grab_point.x == 0 && p->grab_point.y == 0) {
-            debugmsg ("map::board_vehicle: vehicle not found");
-        }
-        return;
-    }
-
-    const int seat_part = veh->part_with_feature (part, VPFLAG_BOARDABLE);
-    if (seat_part < 0) {
-        debugmsg ("map::board_vehicle: boarding %s (not boardable)",
-                  veh->part_info(part).name.c_str());
-        return;
-    }
-    if (veh->parts[seat_part].has_flag(vehicle_part::passenger_flag)) {
-        player *psg = veh->get_passenger (seat_part);
-        debugmsg ("map::board_vehicle: passenger (%s) is already there",
-                  psg ? psg->name.c_str() : "<null>");
-        unboard_vehicle( x, y );
-    }
-    veh->parts[seat_part].set_flag(vehicle_part::passenger_flag);
-    veh->parts[seat_part].passenger_id = p->getID();
-
-    p->setx( x );
-    p->sety( y );
-    p->in_vehicle = true;
-    if (p == &g->u &&
-        (x < SEEX * int(my_MAPSIZE / 2) || y < SEEY * int(my_MAPSIZE / 2) ||
-         x >= SEEX * (1 + int(my_MAPSIZE / 2)) ||
-         y >= SEEY * (1 + int(my_MAPSIZE / 2))   )) {
-        g->update_map(x, y);
-    }
-}
-
-void map::unboard_vehicle(const int x, const int y)
-{
-    int part = 0;
-    vehicle *veh = veh_at(x, y, part);
-    player *passenger = NULL;
-    if (!veh) {
-        debugmsg ("map::unboard_vehicle: vehicle not found");
-        // Try and force unboard the player anyway.
-        if( g->u.posx() == x && g->u.posy() == y ) {
-            passenger = &(g->u);
-        } else {
-            int npcdex = g->npc_at( x, y );
-            if( npcdex != -1 ) {
-                passenger = g->active_npc[npcdex];
-            }
-        }
-        if( passenger ) {
-            passenger->in_vehicle = false;
-            passenger->driving_recoil = 0;
-            passenger->controlling_vehicle = false;
-        }
-        return;
-    }
-    const int seat_part = veh->part_with_feature (part, VPFLAG_BOARDABLE, false);
-    if (seat_part < 0) {
-        debugmsg ("map::unboard_vehicle: unboarding %s (not boardable)",
-                  veh->part_info(part).name.c_str());
-        return;
-    }
-    passenger = veh->get_passenger(seat_part);
-    if (!passenger) {
-        debugmsg ("map::unboard_vehicle: passenger not found");
-        return;
-    }
-    passenger->in_vehicle = false;
-    passenger->driving_recoil = 0;
-    passenger->controlling_vehicle = false;
-    veh->parts[seat_part].remove_flag(vehicle_part::passenger_flag);
-    veh->skidding = true;
-}
-
 void map::destroy_vehicle (vehicle *veh)
 {
     if (!veh) {
@@ -444,148 +223,6 @@ void map::destroy_vehicle (vehicle *veh)
         }
     }
     debugmsg ("destroy_vehicle can't find it! name=%s, x=%d, y=%d", veh->name.c_str(), veh->smx, veh->smy);
-}
-
-bool map::displace_vehicle (int &x, int &y, const int dx, const int dy, bool test)
-{
-    const int x2 = x + dx;
-    const int y2 = y + dy;
-    int srcx = x;
-    int srcy = y;
-    int dstx = x2;
-    int dsty = y2;
-
-    if (!inbounds(srcx, srcy)){
-        add_msg( m_debug, "map::displace_vehicle: coords out of bounds %d,%d->%d,%d",
-                        srcx, srcy, dstx, dsty);
-        return false;
-    }
-
-    int src_offset_x, src_offset_y, dst_offset_x, dst_offset_y;
-    submap * const src_submap = get_submap_at(srcx, srcy, src_offset_x, src_offset_y);
-    submap * const dst_submap = get_submap_at(dstx, dsty, dst_offset_x, dst_offset_y);
-
-    if (test) {
-        return src_submap != dst_submap;
-    }
-
-    // first, let's find our position in current vehicles vector
-    int our_i = -1;
-    for (size_t i = 0; i < src_submap->vehicles.size(); i++) {
-        if (src_submap->vehicles[i]->posx == src_offset_x &&
-              src_submap->vehicles[i]->posy == src_offset_y) {
-            our_i = i;
-            break;
-        }
-    }
-    if (our_i < 0) {
-        vehicle *v = veh_at(x, y);
-        for( auto & smap : grid ) {
-            for (size_t i = 0; i < smap->vehicles.size(); i++) {
-                if (smap->vehicles[i] == v) {
-                    our_i = i;
-                    const_cast<submap*&>(src_submap) = smap;
-                    break;
-                }
-            }
-        }
-    }
-    if (our_i < 0) {
-        add_msg( m_debug, "displace_vehicle our_i=%d", our_i );
-        return false;
-    }
-    // move the vehicle
-    vehicle *veh = src_submap->vehicles[our_i];
-    // don't let it go off grid
-    if (!inbounds(x2, y2)) {
-        veh->stop();
-        // Silent debug
-        dbg(D_ERROR) << "map:displace_vehicle: Stopping vehicle, displaced dx=" << dx << ", dy=" << dy;
-        return false;
-    }
-
-    // record every passenger inside
-    std::vector<int> psg_parts = veh->boarded_parts();
-    std::vector<player *> psgs;
-    for (auto &p : psg_parts) {
-        psgs.push_back(veh->get_passenger(p));
-    }
-
-    const int rec = abs(veh->velocity) / 5 / 100;
-
-    bool need_update = false;
-    int upd_x, upd_y;
-    // move passengers
-    for (size_t i = 0; i < psg_parts.size(); i++) {
-        player *psg = psgs[i];
-        const int p = psg_parts[i];
-        if (!psg) {
-            debugmsg ("empty passenger part %d pcoord=%d,%d u=%d,%d?", p,
-                         veh->global_x() + veh->parts[p].precalc[0].x,
-                         veh->global_y() + veh->parts[p].precalc[0].y,
-                                  g->u.posx(), g->u.posy());
-            veh->parts[p].remove_flag(vehicle_part::passenger_flag);
-            continue;
-        }
-        // add recoil
-        psg->driving_recoil = rec;
-        // displace passenger taking in account vehicle movement (dx, dy)
-        // and turning: precalc[0] contains previous frame direction,
-        // and precalc[1] should contain next direction
-        psg->setx( psg->posx() + dx + veh->parts[p].precalc[1].x - veh->parts[p].precalc[0].x );
-        psg->sety( psg->posy() + dy + veh->parts[p].precalc[1].y - veh->parts[p].precalc[0].y );
-        if (psg == &g->u) { // if passenger is you, we need to update the map
-            need_update = true;
-            upd_x = psg->posx();
-            upd_y = psg->posy();
-        }
-    }
-
-    veh->shed_loose_parts();
-    for (auto &p : veh->parts) {
-        p.precalc[0] = p.precalc[1];
-    }
-
-    veh->posx = dst_offset_x;
-    veh->posy = dst_offset_y;
-    if (src_submap != dst_submap) {
-        veh->set_submap_moved( int( x2 / SEEX ), int( y2 / SEEY ) );
-        dst_submap->vehicles.push_back( veh );
-        src_submap->vehicles.erase( src_submap->vehicles.begin() + our_i );
-    }
-
-    // Need old coords to check for remote control
-    bool remote = veh->remote_controlled( &g->u );
-
-    x += dx;
-    y += dy;
-
-    update_vehicle_cache(veh);
-
-    bool was_update = false;
-    if (need_update &&
-          (upd_x < SEEX * int(my_MAPSIZE / 2) || upd_y < SEEY *int(my_MAPSIZE / 2) ||
-          upd_x >= SEEX * (1+int(my_MAPSIZE / 2)) ||
-          upd_y >= SEEY * (1+int(my_MAPSIZE / 2)))) {
-        // map will shift, so adjust vehicle coords we've been passed
-        if (upd_x < SEEX * int(my_MAPSIZE / 2)) {
-            x += SEEX;
-        } else if (upd_x >= SEEX * (1+int(my_MAPSIZE / 2))) {
-            x -= SEEX;
-        }
-        if (upd_y < SEEY * int(my_MAPSIZE / 2)) {
-            y += SEEY;
-        } else if (upd_y >= SEEY * (1+int(my_MAPSIZE / 2))) {
-            y -= SEEY;
-        }
-        g->update_map(upd_x, upd_y);
-        was_update = true;
-    }
-    if( remote ) { // Has to be after update_map or coords won't be valid
-        g->setremoteveh( veh );
-    }
-
-    return (src_submap != dst_submap) || was_update;
 }
 
 void map::on_vehicle_moved() {
@@ -1064,43 +701,461 @@ bool map::vehproceed()
     return true;
 }
 
+// 2D vehicle functions
+
+VehicleList map::get_vehicles(const int sx, const int sy, const int ex, const int ey)
+{
+    return get_vehicles( tripoint( sx, sy, abs_sub.z ), tripoint( ex, ey, abs_sub.z ) );
+}
+
+vehicle* map::veh_at(const int x, const int y, int &part_num)
+{
+    if( !veh_in_active_range || !INBOUNDS(x, y) ) {
+        return nullptr; // Out-of-bounds - null vehicle
+    }
+
+    // Apparently this is a proper coding practice and not an ugly hack
+    return const_cast<vehicle *>( veh_at_internal( x, y, part_num ) );
+}
+
+const vehicle* map::veh_at(const int x, const int y, int &part_num) const
+{
+    if( !veh_in_active_range || !INBOUNDS( x, y ) ) {
+        return nullptr; // Out-of-bounds - null vehicle
+    }
+
+    return veh_at_internal( x, y, part_num );
+}
+
+const vehicle* map::veh_at_internal( const int x, const int y, int &part_num) const
+{
+    // This function is called A LOT. Move as much out of here as possible.
+    if( !veh_in_active_range || !veh_exists_at[x][y] ) {
+        return nullptr; // Clear cache indicates no vehicle. This should optimize a great deal.
+    }
+
+    const auto it = veh_cached_parts.find( point( x, y ) );
+    if( it != veh_cached_parts.end() ) {
+        part_num = it->second.second;
+        return it->second.first;
+    }
+
+    debugmsg( "vehicle part cache indicated vehicle not found: %d %d", x, y );
+    return nullptr;
+}
+
+vehicle* map::veh_at(const int x, const int y)
+{
+    int part = 0;
+    return veh_at(x, y, part);
+}
+
+const vehicle* map::veh_at(const int x, const int y) const
+{
+    int part = 0;
+    return veh_at(x, y, part);
+}
+
+point map::veh_part_coordinates(const int x, const int y)
+{
+    int part_num;
+    vehicle* veh = veh_at(x, y, part_num);
+
+    if(veh == nullptr) {
+        return point(0,0);
+    }
+
+    return veh->parts[part_num].mount;
+}
+
+void map::board_vehicle(int x, int y, player *p)
+{
+    board_vehicle( tripoint( x, y, abs_sub.z ), p );
+}
+
+void map::unboard_vehicle(const int x, const int y)
+{
+    unboard_vehicle( tripoint( x, y, abs_sub.z ) );
+}
+
+bool map::displace_vehicle (int &x, int &y, const int dx, const int dy, bool test)
+{
+    tripoint p( x, y, abs_sub.z );
+    tripoint dp( dx, dy, 0 );
+    bool ret = displace_vehicle( p, dp, test );
+    x = p.x;
+    y = p.y;
+    return ret;
+}
+
 bool map::displace_water (const int x, const int y)
 {
-    if (has_flag("SWIMMABLE", x, y) && !has_flag(TFLAG_DEEP_WATER, x, y)) // shallow water
-    { // displace it
+    return displace_water( tripoint( x, y, abs_sub.z ) );
+}
+
+// 3D vehicle functions
+
+VehicleList map::get_vehicles( const tripoint &start, const tripoint &end )
+{
+    const int chunk_sx = std::max( 0, (start.x / SEEX) - 1 );
+    const int chunk_ex = std::min( my_MAPSIZE - 1, (end.x / SEEX) + 1 );
+    const int chunk_sy = std::max( 0, (start.y / SEEY) - 1 );
+    const int chunk_ey = std::min( my_MAPSIZE - 1, (end.y / SEEY) + 1 );
+    const int chunk_sz = start.z;
+    const int chunk_ez = end.z;
+    VehicleList vehs;
+
+    for( int cx = chunk_sx; cx <= chunk_ex; ++cx ) {
+        for( int cy = chunk_sy; cy <= chunk_ey; ++cy ) {
+            for( int cz = chunk_sz; cz <= chunk_ez; ++cz ) {
+                submap *current_submap = get_submap_at_grid( cx, cy, cz );
+                for( auto &elem : current_submap->vehicles ) {
+                    wrapped_vehicle w;
+                    w.v = elem;
+                    w.x = w.v->posx + cx * SEEX;
+                    w.y = w.v->posy + cy * SEEY;
+                    w.i = cx;
+                    w.j = cy;
+                    vehs.push_back( w );
+                }
+            }
+        }
+    }
+
+    return vehs;
+}
+
+vehicle* map::veh_at( const tripoint &p, int &part_num )
+{
+    if( !veh_in_active_range || !inbounds( p ) ) {
+        return nullptr; // Out-of-bounds - null vehicle
+    }
+
+    // Apparently this is a proper coding practice and not an ugly hack
+    return const_cast<vehicle *>( veh_at_internal( p, part_num ) );
+}
+
+const vehicle* map::veh_at( const tripoint &p, int &part_num ) const
+{
+    if( !veh_in_active_range || !inbounds( p ) ) {
+        return nullptr; // Out-of-bounds - null vehicle
+    }
+
+    return veh_at_internal( p, part_num );
+}
+
+const vehicle* map::veh_at_internal( const tripoint &p, int &part_num ) const
+{
+    // This function is called A LOT. Move as much out of here as possible.
+    if( !veh_in_active_range || !veh_exists_at[p.x][p.y] ) {
+        return nullptr; // Clear cache indicates no vehicle. This should optimize a great deal.
+    }
+
+    const auto it = veh_cached_parts.find( point( p.x, p.y ) );
+    if( it != veh_cached_parts.end() ) {
+        part_num = it->second.second;
+        return it->second.first;
+    }
+
+    debugmsg( "vehicle part cache indicated vehicle not found: %d %d %d", p.x, p.y, p.z );
+    return nullptr;
+}
+
+vehicle* map::veh_at( const tripoint &p )
+{
+    int part = 0;
+    return veh_at( p, part );
+}
+
+const vehicle* map::veh_at( const tripoint &p ) const
+{
+    int part = 0;
+    return veh_at( p, part );
+}
+
+point map::veh_part_coordinates( const tripoint &p )
+{
+    int part_num;
+    vehicle* veh = veh_at( p, part_num );
+
+    if(veh == nullptr) {
+        return point( 0,0 );
+    }
+
+    return veh->parts[part_num].mount;
+}
+
+void map::board_vehicle( const tripoint &pos, player *p )
+{
+    if( !p ) {
+        debugmsg ("map::board_vehicle: null player");
+        return;
+    }
+
+    int part = 0;
+    vehicle *veh = veh_at( pos, part );
+    if( !veh ) {
+        if( p->grab_point.x == 0 && p->grab_point.y == 0 ) {
+            debugmsg ("map::board_vehicle: vehicle not found");
+        }
+        return;
+    }
+
+    const int seat_part = veh->part_with_feature (part, VPFLAG_BOARDABLE);
+    if( seat_part < 0 ) {
+        debugmsg( "map::board_vehicle: boarding %s (not boardable)",
+                  veh->part_info(part).name.c_str() );
+        return;
+    }
+    if( veh->parts[seat_part].has_flag( vehicle_part::passenger_flag ) ) {
+        player *psg = veh->get_passenger( seat_part );
+        debugmsg( "map::board_vehicle: passenger (%s) is already there",
+                  psg ? psg->name.c_str() : "<null>" );
+        unboard_vehicle( pos );
+    }
+    veh->parts[seat_part].set_flag(vehicle_part::passenger_flag);
+    veh->parts[seat_part].passenger_id = p->getID();
+
+    p->setx( pos.x );
+    p->sety( pos.y );
+    p->setz( pos.z );
+    p->in_vehicle = true;
+    if( p == &g->u &&
+        ( pos.x < SEEX * int(my_MAPSIZE / 2) ||
+          pos.y < SEEY * int(my_MAPSIZE / 2) ||
+          pos.x >= SEEX * (1 + int(my_MAPSIZE / 2) ) ||
+          pos.y >= SEEY * (1 + int(my_MAPSIZE / 2) ) ) ) {
+        int tempx = pos.x;
+        int tempy = pos.y;
+        g->update_map( tempx, tempy );
+    }
+}
+
+void map::unboard_vehicle( const tripoint &p )
+{
+    int part = 0;
+    vehicle *veh = veh_at( p, part );
+    player *passenger = nullptr;
+    if( !veh ) {
+        debugmsg ("map::unboard_vehicle: vehicle not found");
+        // Try and force unboard the player anyway.
+        if( g->u.pos3() == p ) {
+            passenger = &(g->u);
+        } else {
+            int npcdex = g->npc_at( p.x, p.y );
+            if( npcdex != -1 ) {
+                passenger = g->active_npc[npcdex];
+            }
+        }
+        if( passenger ) {
+            passenger->in_vehicle = false;
+            passenger->driving_recoil = 0;
+            passenger->controlling_vehicle = false;
+        }
+        return;
+    }
+    const int seat_part = veh->part_with_feature( part, VPFLAG_BOARDABLE, false );
+    if( seat_part < 0 ) {
+        debugmsg ("map::unboard_vehicle: unboarding %s (not boardable)",
+                  veh->part_info(part).name.c_str());
+        return;
+    }
+    passenger = veh->get_passenger(seat_part);
+    if( !passenger ) {
+        debugmsg ("map::unboard_vehicle: passenger not found");
+        return;
+    }
+    passenger->in_vehicle = false;
+    passenger->driving_recoil = 0;
+    passenger->controlling_vehicle = false;
+    veh->parts[seat_part].remove_flag(vehicle_part::passenger_flag);
+    veh->skidding = true;
+}
+
+bool map::displace_vehicle( tripoint &p, const tripoint &dp, bool test )
+{
+    const tripoint p2 = p + dp;
+    tripoint src = p;
+    tripoint dst = p2;
+
+    if( !inbounds( src ) ) {
+        add_msg( m_debug, "map::displace_vehicle: coords out of bounds %d,%d,%d->%d,%d,%d",
+                        src.x, src.y, src.z, dst.x, dst.y, dst.z );
+        return false;
+    }
+
+    int src_offset_x, src_offset_y, dst_offset_x, dst_offset_y;
+    submap *const src_submap = get_submap_at( src, src_offset_x, src_offset_y );
+    submap *const dst_submap = get_submap_at( dst, dst_offset_x, dst_offset_y );
+
+    if( test ) {
+        return src_submap != dst_submap;
+    }
+
+    // first, let's find our position in current vehicles vector
+    int our_i = -1;
+    for( size_t i = 0; i < src_submap->vehicles.size(); i++ ) {
+        if( src_submap->vehicles[i]->posx == src_offset_x &&
+              src_submap->vehicles[i]->posy == src_offset_y ) {
+            our_i = i;
+            break;
+        }
+    }
+    if( our_i < 0 ) {
+        vehicle *v = veh_at( p );
+        for( auto & smap : grid ) {
+            for (size_t i = 0; i < smap->vehicles.size(); i++) {
+                if (smap->vehicles[i] == v) {
+                    our_i = i;
+                    const_cast<submap*&>(src_submap) = smap;
+                    break;
+                }
+            }
+        }
+    }
+    if( our_i < 0 ) {
+        add_msg( m_debug, "displace_vehicle our_i=%d", our_i );
+        return false;
+    }
+    // move the vehicle
+    vehicle *veh = src_submap->vehicles[our_i];
+    // don't let it go off grid
+    if( !inbounds( p2 ) ) {
+        veh->stop();
+        // Silent debug
+        dbg(D_ERROR) << "map:displace_vehicle: Stopping vehicle, displaced dp=("
+                     << dp.x << ", " << dp.y << ", " << dp.z << ")";
+        return false;
+    }
+
+    // record every passenger inside
+    std::vector<int> psg_parts = veh->boarded_parts();
+    std::vector<player *> psgs;
+    for( auto &prt : psg_parts ) {
+        psgs.push_back( veh->get_passenger( prt ) );
+    }
+
+    const int rec = abs( veh->velocity ) / 5 / 100;
+
+    bool need_update = false;
+    int upd_x, upd_y;
+    // move passengers
+    for( size_t i = 0; i < psg_parts.size(); i++ ) {
+        player *psg = psgs[i];
+        const int prt = psg_parts[i];
+        if( !psg ) {
+            debugmsg( "empty passenger part %d pcoord=%d,%d,%d u=%d,%d,%d?",
+                         prt,
+                         veh->global_x() + veh->parts[prt].precalc[0].x,
+                         veh->global_y() + veh->parts[prt].precalc[0].y,
+                         p.z,
+                         g->u.posx(), g->u.posy(), g->u.posz() );
+            veh->parts[prt].remove_flag(vehicle_part::passenger_flag);
+            continue;
+        }
+        // add recoil
+        psg->driving_recoil = rec;
+        // displace passenger taking in account vehicle movement (dx, dy)
+        // and turning: precalc[0] contains previous frame direction,
+        // and precalc[1] should contain next direction
+        psg->setx( psg->posx() + dp.x + veh->parts[prt].precalc[1].x - veh->parts[prt].precalc[0].x );
+        psg->sety( psg->posy() + dp.y + veh->parts[prt].precalc[1].y - veh->parts[prt].precalc[0].y );
+        if( psg == &g->u ) { // if passenger is you, we need to update the map
+            need_update = true;
+            upd_x = psg->posx();
+            upd_y = psg->posy();
+        }
+    }
+
+    veh->shed_loose_parts();
+    for( auto &prt : veh->parts ) {
+        prt.precalc[0] = prt.precalc[1];
+    }
+
+    veh->posx = dst_offset_x;
+    veh->posy = dst_offset_y;
+    if (src_submap != dst_submap) {
+        veh->set_submap_moved( int( p2.x / SEEX ), int( p2.y / SEEY ) );
+        dst_submap->vehicles.push_back( veh );
+        src_submap->vehicles.erase( src_submap->vehicles.begin() + our_i );
+    }
+
+    // Need old coords to check for remote control
+    bool remote = veh->remote_controlled( &g->u );
+
+    p += dp;
+
+    update_vehicle_cache(veh);
+
+    bool was_update = false;
+    if (need_update &&
+          (upd_x < SEEX * int(my_MAPSIZE / 2) || upd_y < SEEY *int(my_MAPSIZE / 2) ||
+          upd_x >= SEEX * (1+int(my_MAPSIZE / 2)) ||
+          upd_y >= SEEY * (1+int(my_MAPSIZE / 2)))) {
+        // map will shift, so adjust vehicle coords we've been passed
+        if (upd_x < SEEX * int(my_MAPSIZE / 2)) {
+            p.x += SEEX;
+        } else if (upd_x >= SEEX * (1+int(my_MAPSIZE / 2))) {
+            p.x -= SEEX;
+        }
+        if (upd_y < SEEY * int(my_MAPSIZE / 2)) {
+            p.y += SEEY;
+        } else if (upd_y >= SEEY * (1+int(my_MAPSIZE / 2))) {
+            p.y -= SEEY;
+        }
+        g->update_map(upd_x, upd_y);
+        was_update = true;
+    }
+    if( remote ) { // Has to be after update_map or coords won't be valid
+        g->setremoteveh( veh );
+    }
+
+    return (src_submap != dst_submap) || was_update;
+}
+
+bool map::displace_water ( const tripoint &p )
+{
+    // Check for shallow water
+    if( has_flag( "SWIMMABLE", p ) && !has_flag( TFLAG_DEEP_WATER, p ) ) {
         int dis_places = 0, sel_place = 0;
-        for (int pass = 0; pass < 2; pass++)
-        { // we do 2 passes.
-        // first, count how many non-water places around
-        // then choose one within count and fill it with water on second pass
-            if (pass)
-            {
-                sel_place = rng (0, dis_places - 1);
+        for( int pass = 0; pass < 2; pass++ ) {
+            // we do 2 passes.
+            // first, count how many non-water places around
+            // then choose one within count and fill it with water on second pass
+            if( pass != 0 ) {
+                sel_place = rng( 0, dis_places - 1 );
                 dis_places = 0;
             }
-            for (int tx = -1; tx <= 1; tx++)
-                for (int ty = -1; ty <= 1; ty++)
-                {
-                    if ((!tx && !ty)
-                            || move_cost_ter_furn(x + tx, y + ty) == 0
-                            || has_flag(TFLAG_DEEP_WATER, x + tx, y + ty))
+            tripoint temp( p );
+            int &tx = temp.x;
+            int &ty = temp.y;
+            for( tx = p.x - 1; tx <= p.x + 1; tx++ ) {
+                for( ty = p.y -1; ty <= p.y + 1; ty++ ) {
+                    if( ( tx != p.x && ty != p.y )
+                            || move_cost_ter_furn( temp ) == 0
+                            || has_flag( TFLAG_DEEP_WATER, temp ) ) {
                         continue;
-                    ter_id ter0 = ter (x + tx, y + ty);
-                    if (ter0 == t_water_sh ||
-                        ter0 == t_water_dp)
+                    }
+                    ter_id ter0 = ter( temp );
+                    if( ter0 == t_water_sh ||
+                        ter0 == t_water_dp) {
                         continue;
-                    if (pass && dis_places == sel_place)
-                    {
-                       ter_set(x + tx, y + ty, t_water_sh);
-                       ter_set(x, y, t_dirt);
+                    }
+                    if( pass != 0 && dis_places == sel_place ) {
+                        ter_set( temp, t_water_sh );
+                        ter_set( temp, t_dirt );
                         return true;
                     }
+
                     dis_places++;
                 }
+            }
         }
     }
     return false;
 }
+
+// End of 3D vehicle
 
 // 2D overloads for furniture
 // To be removed once not needed
@@ -2051,12 +2106,27 @@ bool map::is_divable(const int x, const int y) const
   return has_flag("SWIMMABLE", x, y) && has_flag(TFLAG_DEEP_WATER, x, y);
 }
 
+bool map::is_divable( const tripoint &p ) const
+{
+    return has_flag( "SWIMMABLE", p ) && has_flag( TFLAG_DEEP_WATER, p );
+}
+
 bool map::is_outside(const int x, const int y) const
 {
  if(!INBOUNDS(x, y))
   return true;
 
  return outside_cache[x][y];
+}
+
+bool map::is_outside( const tripoint &p ) const
+{
+    if( !inbounds( p ) ) {
+        return true;
+    }
+
+    // TODO: Z
+    return outside_cache[p.x][p.y];
 }
 
 bool map::is_last_ter_wall(const bool no_furn, const int x, const int y,
@@ -2534,7 +2604,7 @@ std::pair<bool, bool> map::bash(const int x, const int y, const int str,
 
                 spawn_item_list(bash->items, x, y);
                 if (bash->explosive > 0) {
-                    g->explosion(x, y, bash->explosive, 0, false);
+                    g->explosion( tripoint( x, y, g->get_levz() ), bash->explosive, 0, false);
                 }
 
                 if (collapses) {
@@ -2707,6 +2777,17 @@ void map::destroy(const int x, const int y, const bool silent)
     // Example: A bashes to B, B bashes to A leads to A->B->A->...
     int count = 0;
     while (count <= 25 && bash(x, y, 999, silent, true).second) {
+        count++;
+    }
+}
+
+void map::destroy( const tripoint &p, const bool silent )
+{
+    // Break if it takes more than 25 destructions to remove to prevent infinite loops
+    // Example: A bashes to B, B bashes to A leads to A->B->A->...
+    int count = 0;
+    // TODO: Z
+    while( count <= 25 && bash( p.x, p.y, 999, silent, true ).second ) {
         count++;
     }
 }
@@ -2944,7 +3025,7 @@ void map::shoot(const int x, const int y, int &dam,
         if (hit_items || one_in(3)) {
             if (dam > 15) {
                 if (ammo_effects.count("INCENDIARY") || ammo_effects.count("FLAME")) {
-                    g->explosion(x, y, 40, 0, true);
+                    g->explosion( tripoint( x, y, g->get_levz() ), 40, 0, true);
                 } else {
                     for (int i = x - 2; i <= x + 2; i++) {
                         for (int j = y - 2; j <= y + 2; j++) {
@@ -3098,7 +3179,7 @@ bool map::marlossify(const int x, const int y)
         return true;
     }
     for (int i = 0; i < 25; i++) {
-        if(!g->spread_fungus(x, y)) {
+        if(!g->spread_fungus( tripoint( x, y, abs_sub.z ) )) {
             return true;
         }
     }
@@ -4249,13 +4330,19 @@ void map::add_trap(const int x, const int y, const trap_id t)
 
 void map::add_trap( const tripoint &p, const trap_id t)
 {
-    if( !inbounds( p.x, p.y, p.z ) ) 
+    if( !inbounds( p ) ) 
     { 
         return;
     }
 
     int lx, ly;
-    submap * const current_submap = get_submap_at( p, lx, ly);
+    submap * const current_submap = get_submap_at( p, lx, ly );
+    const ter_t &ter = terlist[ current_submap->get_ter( lx, ly ) ];
+    if( ter.trap != tr_null ) {
+        debugmsg( "set trap %s on top of terrain %s which already has a builit-in trap",
+                  traplist[t]->name.c_str(), ter.name.c_str() );
+        return;
+    }
 
     // If there was already a trap here, remove it.
     if( current_submap->get_trap( lx, ly ) != tr_null ) {
@@ -4326,7 +4413,7 @@ void map::remove_trap(const int x, const int y)
 
 void map::remove_trap( const tripoint &p )
 {
-    if( !inbounds( p.x, p.y, p.z ) ) {
+    if( !inbounds( p ) ) {
         return;
     }
 
@@ -4804,6 +4891,19 @@ void map::drawsq(WINDOW* w, player &u, const int x, const int y, const bool inve
     }
 }
 
+// TODO: Implement this function in FoV update
+bool map::sees( const tripoint &F, const tripoint &T, const int range, int &t1, int &t2 ) const
+{
+    (void)t2;
+    return sees( F.x, F.y, T.x, T.y, range, t1 );
+}
+
+bool map::sees( const tripoint &F, const tripoint &T, const int range ) const
+{
+    int t1 = 0;
+    return sees( F.x, F.y, T.x, T.y, range, t1 );
+}
+
 bool map::sees( const point F, const point T, const int range, int &bresenham_slope ) const
 {
     return sees( F.x, F.y, T.x, T.y, range, bresenham_slope );
@@ -5222,7 +5322,8 @@ void map::load(const int wx, const int wy, const int wz, const bool update_vehic
 
 void map::shift_traps( const tripoint &shift )
 {
-    const tripoint offset( shift.x * SEEX, shift.y * SEEY, shift.z );
+    // Offset needs to have sign opposite to shift direction
+    const tripoint offset( -shift.x * SEEX, -shift.y * SEEY, -shift.z );
     for( auto & traps : traplocs ) {
         for( auto iter = traps.begin(); iter != traps.end(); ) {
             tripoint &pos = *iter;
@@ -5265,6 +5366,7 @@ void map::shift( const int sx, const int sy )
     }
 
 // Clear vehicle list and rebuild after shift
+    vehicle *remoteveh = g->remoteveh();
     clear_vehicle_cache();
     vehicle_list.clear();
 // Shift the map sx submaps to the right and sy submaps down.
@@ -5320,6 +5422,7 @@ void map::shift( const int sx, const int sy )
         }
     }
     reset_vehicle_cache();
+    g->setremoteveh( remoteveh );
 }
 
 void map::vertical_shift( const int newz )
@@ -5470,7 +5573,7 @@ void map::loadn( const int gridx, const int gridy, const int gridz, const bool u
     abs_sub.z = old_abs_z;
 }
 
-bool map::has_rotten_away( item &itm, const point &pnt ) const
+bool map::has_rotten_away( item &itm, const tripoint &pnt ) const
 {
     if( itm.is_corpse() ) {
         itm.calc_rot( pnt );
@@ -5504,8 +5607,11 @@ bool map::has_rotten_away( item &itm, const point &pnt ) const
 template <typename Container>
 void map::remove_rotten_items( Container &items, const point &pnt )
 {
+    // TODO: i_rem does not work with a tripoint, make it work and let this function
+    // take the position of the item as a tripoint directly.
+    const tripoint abs_pnt( getabs( pnt ), abs_sub.z );
     for( auto it = items.begin(); it != items.end(); ) {
-        if( has_rotten_away( *it, pnt ) ) {
+        if( has_rotten_away( *it, abs_pnt ) ) {
             it = i_rem( pnt, it );
         } else {
             ++it;
@@ -5532,7 +5638,7 @@ void map::fill_funnels( const point pnt )
         }
     }
     if( biggest_container != items.end() ) {
-        retroactively_fill_from_funnel( &*biggest_container, tr, calendar::turn, pnt );
+        retroactively_fill_from_funnel( *biggest_container, tr, calendar::turn, getabs( pnt ) );
     }
 }
 
@@ -5610,7 +5716,7 @@ void map::actualize( const int gridx, const int gridy, const int gridz )
 
             const auto trap_here = tmpsub->get_trap( x, y );
             if( trap_here != tr_null ) {
-                traplocs[trap_here].push_back( pnt );
+                traplocs[trap_here].push_back( tripoint( pnt.x, pnt.y, gridz ) );
             }
 
             if( do_funnels ) {

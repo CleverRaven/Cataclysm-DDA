@@ -331,6 +331,17 @@ void map::generate_lightmap()
                 }
             }
         }
+        if(v->has_atomic_lights) {
+            // atomic light is always on
+            std::vector<int> light_indices = v->all_parts_with_feature(VPFLAG_ATOMIC_LIGHT);
+            for( auto &light_indice : light_indices ) {
+                int px = vv.x + v->parts[light_indice].precalc[0].x;
+                int py = vv.y + v->parts[light_indice].precalc[0].y;
+                if(INBOUNDS(px, py)) {
+                    add_light_source( px, py, v->part_info( light_indice ).bonus );
+                }
+            }
+        }
         for( size_t p = 0; p < v->parts.size(); ++p ) {
             int px = vv.x + v->parts[p].precalc[0].x;
             int py = vv.y + v->parts[p].precalc[0].y;

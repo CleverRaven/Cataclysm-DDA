@@ -237,9 +237,12 @@ void load_recipe(JsonObject &jsobj)
     jsarr = jsobj.get_array("book_learn");
     while (jsarr.has_more()) {
         JsonArray ja = jsarr.next_array();
-        std::string book_name = ja.get_string(0);
-        int book_level = ja.get_int(1);
-        rec->booksets.push_back(std::pair<std::string, int>(book_name, book_level));
+        recipe::bookdata_t bd{ ja.get_string( 0 ), ja.get_int( 1 ), "", false };
+        if( ja.size() >= 3 ) {
+            bd.recipe_name = ja.get_string( 2 );
+            bd.hidden = bd.recipe_name.empty();
+        }
+        rec->booksets.push_back( bd );
     }
 
     add_to_component_lookup(rec);
@@ -262,10 +265,8 @@ void finalize_recipes()
 {
     for( auto &recipes_it : recipes ) {
         for( auto r : recipes_it.second ) {
-
             for( auto j = r->booksets.begin(); j != r->booksets.end(); ++j ) {
-                const std::string &book_id = j->first;
-                const int skill_level = j->second;
+                const std::string &book_id = j->book_id;
                 if( !item::type_is_defined( book_id ) ) {
                     debugmsg("book %s for recipe %s does not exist", book_id.c_str(), r->ident.c_str());
                     continue;
@@ -276,7 +277,13 @@ void finalize_recipes()
                     debugmsg("book %s for recipe %s is not a book", book_id.c_str(), r->ident.c_str());
                     continue;
                 }
-                t->book->recipes[r] = skill_level;
+                islot_book::recipe_with_description_t rwd{ r, j->skill_level, "", j->hidden };
+                if( j->recipe_name.empty() ) {
+                    rwd.name = item::nname( r->result );
+                } else {
+                    rwd.name = _( j->recipe_name.c_str() );
+                }
+                t->book->recipes.insert( rwd );
             }
             r->booksets.clear();
         }
@@ -1500,7 +1507,8 @@ void player::complete_craft()
     int diff_roll  = dice(diff_dice,  diff_sides);
 
     if (making->skill_used) {
-        practice( making->skill_used, making->difficulty * 5 + 20,
+        //normalize experience gain to crafting time, giving a bonus for longer crafting
+        practice( making->skill_used, (int)( ( making->difficulty * 15 + 10 ) * ( 1 + making->batch_time( batch_size ) / 30000.0 ) ),
                     (int)making->difficulty * 1.25 );
     }
 
@@ -1956,7 +1964,7 @@ void player::disassemble(int dis_pos)
     //checks to see if you're disassembling rotten food, and will stop you if true
     if( (dis_item->is_food() && dis_item->goes_bad()) ||
         (dis_item->is_food_container() && dis_item->contents[0].goes_bad()) ) {
-        dis_item->calc_rot(pos());
+        dis_item->calc_rot( global_square_location() );
         if( dis_item->rotten() ||
             (dis_item->is_food_container() && dis_item->contents[0].rotten())) {
             add_msg(m_info, _("It's rotten, I'm not taking that apart."));
