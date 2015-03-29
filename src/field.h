@@ -218,8 +218,6 @@ public:
      */
     field_id fieldSymbol() const;
 
-    std::map<field_id, field_entry>::iterator replaceField(field_id old_field, field_id new_field);
-
     //Returns the vector iterator to begin searching through the list.
     std::map<field_id, field_entry>::iterator begin();
     std::map<field_id, field_entry>::const_iterator begin() const;

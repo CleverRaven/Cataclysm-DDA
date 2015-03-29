@@ -2255,22 +2255,6 @@ field_id field::fieldSymbol() const
     return draw_symbol;
 }
 
-std::map<field_id, field_entry >::iterator field::replaceField( field_id old_field,
-        field_id new_field )
-{
-    auto it = field_list.find( old_field );
-    if( it != field_list.end() ) {
-        field_entry tmp = it->second;
-        tmp.setFieldType( new_field );
-        field_list.erase( it++ );
-        field_list[new_field] = tmp;
-        if( draw_symbol == old_field ) {
-            draw_symbol = new_field;
-        }
-    }
-    return it;
-}
-
 int field::move_cost() const
 {
     int current_cost = 0;
