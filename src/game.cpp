@@ -5490,9 +5490,9 @@ int game::mon_info(WINDOW *w)
                 }
             }
 
-            const auto &vec = unique_mons[dir_to_mon];
+            auto &vec = unique_mons[index];
             if( std::find( vec.begin(), vec.end(), critter.type->id ) == vec.end() ) {
-                unique_mons[index].push_back(critter.type->id);
+                vec.push_back(critter.type->id);
             }
         } else if( p != nullptr ) {
             if (p->attitude == NPCATT_KILL)
