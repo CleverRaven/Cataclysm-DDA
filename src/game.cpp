@@ -5404,7 +5404,55 @@ int game::mon_info(WINDOW *w)
         if( is_valid_in_w_terrain( mx, my ) ) {
             index = 8;
         } else {
-            index = dir_to_mon;
+            // for compatibility with old code, see diagram below, it explains the values for index,
+            // also might need revisiting one z-levels are in.
+            switch( dir_to_mon ) {
+                case ABOVENORTHWEST:
+                case NORTHWEST:
+                case BELOWNORTHWEST:
+                    index = 7;
+                    break;
+                case ABOVENORTH:
+                case NORTH:
+                case BELOWNORTH:
+                    index = 0;
+                    break;
+                case ABOVENORTHEAST:
+                case NORTHEAST:
+                case BELOWNORTHEAST:
+                    index = 1;
+                    break;
+                case ABOVEWEST:
+                case WEST:
+                case BELOWWEST:
+                    index = 6;
+                    break;
+                case ABOVECENTER:
+                case CENTER:
+                case BELOWCENTER:
+                    index = 8;
+                    break;
+                case ABOVEEAST:
+                case EAST:
+                case BELOWEAST:
+                    index = 2;
+                    break;
+                case ABOVESOUTHWEST:
+                case SOUTHWEST:
+                case BELOWSOUTHWEST:
+                    index = 5;
+                    break;
+                case ABOVESOUTH:
+                case SOUTH:
+                case BELOWSOUTH:
+                    index = 4;
+                    break;
+                case ABOVESOUTHEAST:
+                case SOUTHEAST:
+                case BELOWSOUTHEAST:
+                    index = 3;
+                    break;
+            }
         }
         if( m != nullptr ) {
             auto &critter = *m;
