@@ -828,33 +828,20 @@ bool cata_tiles::draw_from_id_string(std::string id, TILE_CATEGORY category,
     return true;
 }
 
-bool cata_tiles::draw_tile_at(tile_type *tile, int x, int y, int rota)
-{
-    // don't need to check for tile existance, should always exist if it gets this far
-    const std::vector<int>& fg = tile->fg;
-    const std::vector<int>& bg = tile->bg;
-
+bool cata_tiles::draw_sprite_at(std::vector<int>& spritelist, int x, int y, int rota) {
     SDL_Rect destination;
     destination.x = x;
     destination.y = y;
     destination.w = tile_width;
     destination.h = tile_height;
 
-    // blit background first : always non-rotated(??)
-    if( !bg.empty() ) {
-        SDL_Texture *bg_tex = tile_values[bg[0]];
-        if( SDL_RenderCopyEx( renderer, bg_tex, NULL, &destination, 0, NULL, SDL_FLIP_NONE ) != 0 ) {
-            dbg( D_ERROR ) << "SDL_RenderCopyEx(bg) failed: " << SDL_GetError();
-        }
-    }
-
     int ret = 0;
     // blit foreground based on rotation
     int rotate_sprite, sprite_num;
-    if ( fg.empty() ) { 
+    if ( spritelist.empty() ) { 
         // render nothing
     } else {
-        if ( fg.size() == 1 ) {
+        if ( spritelist.size() == 1 ) {
             // just one tile, apply SDL sprite rotation
             rotate_sprite = true;
             sprite_num = 0;
@@ -864,46 +851,52 @@ bool cata_tiles::draw_tile_at(tile_type *tile, int x, int y, int rota)
             // two tiles, tile 0 is N/S, tile 1 is E/W
             // four tiles, 0=N, 1=E, 2=S, 3=W
             // extending this to more than 4 rotated tiles will require changing rota to degrees
-            sprite_num = rota % fg.size();
+            sprite_num = rota % spritelist.size();
         }
 
-        SDL_Texture *fg_tex = tile_values[fg[sprite_num]];
+        SDL_Texture *sprite_tex = tile_values[spritelist[sprite_num]];
         if ( rotate_sprite ) {
             switch ( rota ) {
                 default:
                 case 0: // unrotated (and 180, with just two sprites)
-                    ret = SDL_RenderCopyEx( renderer, fg_tex, NULL, &destination,
+                    ret = SDL_RenderCopyEx( renderer, sprite_tex, NULL, &destination,
                         0, NULL, SDL_FLIP_NONE );
                     break;
                 case 1: // 90 degrees (and 270, with just two sprites)
 #if (defined _WIN32 || defined WINDOWS)
                     destination.y -= 1;
 #endif
-                    ret = SDL_RenderCopyEx( renderer, fg_tex, NULL, &destination,
+                    ret = SDL_RenderCopyEx( renderer, sprite_tex, NULL, &destination,
                         -90, NULL, SDL_FLIP_NONE );
                     break;
                 case 2: // 180 degrees, implemented with flips instead of rotation
-                    ret = SDL_RenderCopyEx( renderer, fg_tex, NULL, &destination,
+                    ret = SDL_RenderCopyEx( renderer, sprite_tex, NULL, &destination,
                         0, NULL, static_cast<SDL_RendererFlip>( SDL_FLIP_HORIZONTAL | SDL_FLIP_VERTICAL ) );
                     break;
                 case 3: // 270 degrees
 #if (defined _WIN32 || defined WINDOWS)
                     destination.x -= 1;
 #endif
-                    ret = SDL_RenderCopyEx( renderer, fg_tex, NULL, &destination,
+                    ret = SDL_RenderCopyEx( renderer, sprite_tex, NULL, &destination,
                         90, NULL, SDL_FLIP_NONE );
                     break;
             }
         } else { // don't rotate, same as case 0 above
-            ret = SDL_RenderCopyEx( renderer, fg_tex, NULL, &destination,
+            ret = SDL_RenderCopyEx( renderer, sprite_tex, NULL, &destination,
                 0, NULL, SDL_FLIP_NONE );
         }
 
         if( ret != 0 ) {
-            dbg( D_ERROR ) << "SDL_RenderCopyEx(fg) failed: " << SDL_GetError();
+            dbg( D_ERROR ) << "SDL_RenderCopyEx() failed: " << SDL_GetError();
         }
     }
+    return true;
+}
 
+bool cata_tiles::draw_tile_at(tile_type *tile, int x, int y, int rota)
+{
+    draw_sprite_at(tile->bg, x, y, (tile->bg.size()<2)?0:rota);
+    draw_sprite_at(tile->fg, x, y, rota);
     return true;
 }
 

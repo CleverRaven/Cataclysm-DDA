@@ -205,6 +205,7 @@ class cata_tiles
         bool draw_from_id_string(std::string id, int x, int y, int subtile, int rota);
         bool draw_from_id_string(std::string id, TILE_CATEGORY category,
                                  const std::string &subcategory, int x, int y, int subtile, int rota);
+        bool draw_sprite_at(std::vector<int>& spritelist, int x, int y, int rota);
         bool draw_tile_at(tile_type *tile, int x, int y, int rota);
 
         /**
