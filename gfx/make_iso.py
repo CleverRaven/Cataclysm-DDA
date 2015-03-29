@@ -10,9 +10,10 @@ import math
 
 # when a 2d sprite 'stands up' on an isometric tile bae, like a tree
 # how far up should it be from the bottom corner of the tile?
+# offset=0 will align the bottom of the sprite with the bottom (southwest corner) of the square
 # offset<1 will be a fraction of the isometric tile height
 # offset>=1 will be an absolute number of pixels
-SPRITE_OFFSET_FROM_BOTTOM = 1/4
+SPRITE_OFFSET_FROM_BOTTOM = 1.0/8
 
 parser = argparse.ArgumentParser(description='Convert a Cataclysm-DDA tileset to isometric view.')
 
@@ -105,7 +106,7 @@ def tile_convert(otile, main_id, new_tile_number):
                     otile['id'] == 't_connection'):
                     print "  and rotating " + str(otile[g][0])
                     # create 3 new iso-ized tiles, as well
-                    for rot in ((90, 180, 270) if otile['id']==main_id else (270,180,90)):
+                    for rot in (270,180,90):
                         if iso_ize(otile[g][0], ntile['ntn'], rot):
                             ntile[g].append(ntile['ntn'])
                             ntile['ntn'] += 1
@@ -118,7 +119,7 @@ def tile_convert(otile, main_id, new_tile_number):
                     command = (
                         'convert -background transparent ' + new_tileset_name + '/tiles/tile-' + "{:0>6d}".format(otile[g][0]) + '.png' +
                         ' -extent ' + str(nwidth) + 'x' + str(nheight) +
-                        '-' + str(int((nwidth-owidth)/2)) + '-' + str(int((nheight-oheight)+flat_sprite_offset)) + ' ' +
+                        '-' + str(int((nwidth-owidth)/2)) + '-' + str(int((nheight-oheight)-flat_sprite_offset)) + ' ' +
                         '+repage ' +
                         new_tileset_name + '/tiles/to_merge/tile-' + '{:0>6d}'.format(otile[g][0]) + '.png')
                     print command
