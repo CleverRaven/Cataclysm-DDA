@@ -24,7 +24,7 @@ struct centroid
 // The sound events since the last monster turn.
 static std::vector<std::pair<point, int>> recent_sounds;
 // The sound events since the last interactive player turn. (doesn't count sleep etc)
-static std::unordered_map<point, sound_event> sounds_since_last_turn;
+static std::vector<std::pair<point, sound_event>> sounds_since_last_turn;
 // The sound events currently displayed to the player.
 static std::unordered_map<point, sound_event> sound_markers;
 
@@ -41,13 +41,13 @@ void sounds::sound(int x, int y, int vol, std::string description, bool ambient)
         return;
     }
     recent_sounds.emplace_back( std::make_pair( point(x, y), vol ) );
-    sounds_since_last_turn.emplace(
+    sounds_since_last_turn.emplace_back(
         std::make_pair( point(x, y), sound_event{vol, description, ambient, false} ) );
 }
 
 void sounds::add_footstep(int x, int y, int volume, int, monster *)
 {
-    sounds_since_last_turn.emplace(
+    sounds_since_last_turn.emplace_back(
         std::make_pair( point(x, y), sound_event{volume, "", false, true} ) );
 }
 

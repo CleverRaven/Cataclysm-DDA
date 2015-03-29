@@ -36,7 +36,7 @@ class wish_mutate_callback: public uimenu_callback
             vTraits.clear();
             pTraits.clear();
         }
-        virtual bool key(int key, int entnum, uimenu *menu)
+        virtual bool key(int key, int entnum, uimenu *menu) override
         {
             if ( key == 't' && p->has_trait( vTraits[ entnum ] ) ) {
                 if ( p->has_base_trait( vTraits[ entnum ] ) ) {
@@ -54,7 +54,7 @@ class wish_mutate_callback: public uimenu_callback
             return false;
         }
 
-        virtual void select(int entnum, uimenu *menu)
+        virtual void select(int entnum, uimenu *menu) override
         {
             if ( ! started ) {
                 started = true;
@@ -280,7 +280,7 @@ class wish_monster_callback: public uimenu_callback
             wrefresh(w_info);
         }
 
-        virtual bool key(int key, int entnum, uimenu *menu)
+        virtual bool key(int key, int entnum, uimenu *menu) override
         {
             (void)entnum; // unused
             (void)menu;   // unused
@@ -301,7 +301,7 @@ class wish_monster_callback: public uimenu_callback
             return false;
         }
 
-        virtual void select(int entnum, uimenu *menu)
+        virtual void select(int entnum, uimenu *menu) override
         {
             if ( ! started ) {
                 started = true;
@@ -331,7 +331,7 @@ class wish_monster_callback: public uimenu_callback
                       _("[/] find, [f]riendly, [h]allucination [i]ncrease group, [d]ecrease group, [q]uit"));
         }
 
-        virtual void refresh(uimenu *menu)
+        virtual void refresh(uimenu *menu) override
         {
             (void)menu; // unused
             wrefresh(w_info);
@@ -406,7 +406,7 @@ class wish_item_callback: public uimenu_callback
             , standard_itype_ids( ids )
         {
         }
-        virtual bool key(int key, int /*entnum*/, uimenu * /*menu*/)
+        virtual bool key(int key, int /*entnum*/, uimenu * /*menu*/) override
         {
             if ( key == 'f' ) {
                 incontainer = !incontainer;
@@ -415,7 +415,7 @@ class wish_item_callback: public uimenu_callback
             return false;
         }
 
-        virtual void select(int entnum, uimenu *menu)
+        virtual void select(int entnum, uimenu *menu) override
         {
             const int starty = 3;
             const int startx = menu->w_width - menu->pad_right;

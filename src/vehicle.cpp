@@ -3537,7 +3537,7 @@ int vehicle::traverse_vehicle_graph(vehicle* start_veh, int amount, Func action)
 int vehicle::charge_battery (int amount, bool include_other_vehicles)
 {
     for(auto &f : fuel) {
-        if(part_info(f).fuel_type == fuel_type_battery) {
+        if(part_info(f).fuel_type == fuel_type_battery && parts[f].hp > 0) {
             int empty = part_info(f).size - parts[f].amount;
             if(empty < amount) {
                 amount -= empty;
@@ -3570,7 +3570,7 @@ int vehicle::discharge_battery (int amount, bool recurse)
     int avail_charge;
 
     for(auto &f : fuel) {
-        if(part_info(f).fuel_type == fuel_type_battery) {
+        if(part_info(f).fuel_type == fuel_type_battery && parts[f].hp > 0) {
             avail_charge = parts[f].amount;
             if(avail_charge < amount) {
                 amount -= avail_charge;

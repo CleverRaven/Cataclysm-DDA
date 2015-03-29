@@ -2363,7 +2363,7 @@ vehicle *game::remoteveh()
         int vx, vy;
         remote_veh_string >> vx >> vy;
         vehicle *veh = m.veh_at( vx, vy );
-        if( veh->fuel_left( "battery", true ) > 0 ) {
+        if( veh && veh->fuel_left( "battery", true ) > 0 ) {
             remoteveh_cache = veh;
         } else {
             remoteveh_cache = nullptr;
@@ -5404,7 +5404,55 @@ int game::mon_info(WINDOW *w)
         if( is_valid_in_w_terrain( mx, my ) ) {
             index = 8;
         } else {
-            index = dir_to_mon;
+            // for compatibility with old code, see diagram below, it explains the values for index,
+            // also might need revisiting one z-levels are in.
+            switch( dir_to_mon ) {
+                case ABOVENORTHWEST:
+                case NORTHWEST:
+                case BELOWNORTHWEST:
+                    index = 7;
+                    break;
+                case ABOVENORTH:
+                case NORTH:
+                case BELOWNORTH:
+                    index = 0;
+                    break;
+                case ABOVENORTHEAST:
+                case NORTHEAST:
+                case BELOWNORTHEAST:
+                    index = 1;
+                    break;
+                case ABOVEWEST:
+                case WEST:
+                case BELOWWEST:
+                    index = 6;
+                    break;
+                case ABOVECENTER:
+                case CENTER:
+                case BELOWCENTER:
+                    index = 8;
+                    break;
+                case ABOVEEAST:
+                case EAST:
+                case BELOWEAST:
+                    index = 2;
+                    break;
+                case ABOVESOUTHWEST:
+                case SOUTHWEST:
+                case BELOWSOUTHWEST:
+                    index = 5;
+                    break;
+                case ABOVESOUTH:
+                case SOUTH:
+                case BELOWSOUTH:
+                    index = 4;
+                    break;
+                case ABOVESOUTHEAST:
+                case SOUTHEAST:
+                case BELOWSOUTHEAST:
+                    index = 3;
+                    break;
+            }
         }
         if( m != nullptr ) {
             auto &critter = *m;
@@ -5442,9 +5490,9 @@ int game::mon_info(WINDOW *w)
                 }
             }
 
-            const auto &vec = unique_mons[dir_to_mon];
+            auto &vec = unique_mons[index];
             if( std::find( vec.begin(), vec.end(), critter.type->id ) == vec.end() ) {
-                unique_mons[index].push_back(critter.type->id);
+                vec.push_back(critter.type->id);
             }
         } else if( p != nullptr ) {
             if (p->attitude == NPCATT_KILL)
@@ -7468,7 +7516,8 @@ void game::moving_vehicle_dismount(int tox, int toy)
         debugmsg("Need somewhere to dismount towards.");
         return;
     }
-    int d = (45 * (direction_from(u.posx(), u.posy(), tox, toy)) - 90) % 360;
+    tileray ray( tox - u.posx(), toy - u.posy() );
+    const int d = ray.dir(); // TODO:: make dir() const correct!
     add_msg(_("You dive from the %s."), veh->name.c_str());
     m.unboard_vehicle(u.posx(), u.posy());
     u.moves -= 200;
@@ -13622,18 +13671,41 @@ void intro()
     }
     werase(tmp);
 
-#if !(defined _WIN32 || defined WINDOWS)
-    // Check if locale is has UTF-8 encoding
-    char *locale = setlocale(LC_ALL, NULL);
-    if (locale != NULL) {
-        if (strstr(locale, "UTF-8") == NULL) {
-            fold_and_print(tmp, 0, 0, maxx, c_white, _("You don't seem to have a Unicode locale. You may see some weird "
-                                                       "characters (e.g. empty boxes or question marks). You have been warned."),
-                           minWidth, minHeight, maxx, maxy);
-            wrefresh(tmp);
-            wgetch(tmp);
-            werase(tmp);
+/*                      *** NOTE ***
+ * Not all locale are equal! Gentoo Linux, for instance,
+ * reports ${LANG} for UTF-8 as "en_US.utf8"! Be aware!
+ */
+#if !(defined _WIN32 || defined WINDOWS || defined TILES)
+    // Check if locale has UTF-8 encoding
+    const char *p_locale = setlocale(LC_ALL, NULL);
+    bool not_utf8 = p_locale == NULL ? true : false;
+    if(not_utf8 == false) {
+        std::string locale = p_locale;
+        // convert all to uppercase
+        for(size_t i = 0; i < locale.length(); ++i)
+            locale[i] = toupper(locale[i]);
+        auto index = locale.find("UTF");
+        // were we able to find those three magical letters?
+        not_utf8 = index == std::string::npos ? true : false;
+        if(not_utf8 == false) {
+            // replace entirety of string with important part
+            locale.erase(0, index);
+            // afterwards, it should simply be UTF8
+            index = locale.find('-');
+            if(index != std::string::npos)
+                locale.erase(index, 1);
+            // anything but zero indicates failure
+            not_utf8 = locale.compare("UTF8") != 0;
         }
+    }
+    if (not_utf8 == true) {
+        const char *unicode_error_msg = 
+            _("You don't seem to have a valid Unicode locale. You may see some weird " 
+              "characters (e.g. empty boxes or question marks). You have been warned.");
+        fold_and_print(tmp, 0, 0, maxx, c_white, unicode_error_msg, minWidth, minHeight, maxx, maxy);
+        wrefresh(tmp);
+        wgetch(tmp);
+        werase(tmp);
     }
 #endif
 
