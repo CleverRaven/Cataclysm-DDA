@@ -3520,6 +3520,27 @@ void dialogue::print_history( size_t const hilight_lines )
     }
 }
 
+void dialogue::print_responses()
+{
+    // Responses go on the right side of the window, add 2 for spacing
+    int const xoffset = FULL_SCREEN_WIDTH / 2 + 2;
+    // Remaining width of the responses area, -2 for the border
+    int const fold_width = FULL_SCREEN_WIDTH - xoffset - 2;
+    int curline = 3;
+    for( size_t i = 0; i < responses.size(); i++ ) {
+        auto const &text = responses[i].formated_text;
+        auto const &color = responses[i].color;
+        auto const folded = foldstring( text, fold_width );
+        for( size_t j = 0; j < folded.size(); j++, curline++ ) {
+            int const off = ( j != 0 ) ? +3 : 0;
+            mvwprintz( win, curline, xoffset + off, color, "%s", folded[j].c_str() );
+        }
+    }
+    // Those are always available, their key bindings are fixed as well.
+    mvwprintz( win, curline + 2, xoffset, c_magenta, _( "L: Look at" ) );
+    mvwprintz( win, curline + 3, xoffset, c_magenta, _( "S: Size up stats" ) );
+}
+
 void talk_response::do_formatting( const dialogue &d, char const letter )
 {
     if( trial != TALK_TRIAL_NONE ) { // dialogue w/ a % chance to work
@@ -3582,18 +3603,7 @@ talk_topic dialogue::opt(talk_topic topic)
 
     clear_window_texts();
     print_history( hilight_lines );
-
-    int curline = 3;
-    for (size_t i = 0; i < responses.size(); i++) {
-        auto folded = foldstring(responses[i].formated_text, (FULL_SCREEN_WIDTH / 2) - 4);
-        for( size_t j = 0; j < folded.size(); ++j ) {
-            mvwprintz(win, curline, (FULL_SCREEN_WIDTH / 2) + 2, responses[i].color,
-                        ((j == 0 ? "" : "   ") + folded[j]).c_str());
-            curline++;
-        }
-    }
-    mvwprintz(win, curline + 2, (FULL_SCREEN_WIDTH / 2) + 2, c_magenta, _("L: Look at"));
-    mvwprintz(win, curline + 3, (FULL_SCREEN_WIDTH / 2) + 2, c_magenta, _("S: Size up stats"));
+    print_responses();
 
     wrefresh(win);
 
