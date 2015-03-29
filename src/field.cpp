@@ -1089,23 +1089,21 @@ bool map::process_fields_in_submap( submap *const current_submap,
                             if (one_in(3)) {
                                 cur->setFieldDensity(cur->getFieldDensity() - 1);
                             }
+                            create_hot_air( x, y, cur->getFieldDensity());
                         } else {
-                            it = curfield.replaceField(fd_fire_vent, fd_flame_burst);
-                            cur->setFieldDensity(3);
-                            continue;
+                            add_field( point( x, y ), fd_flame_burst, 3, cur->getFieldAge() );
+                            cur->setFieldDensity( 0 );
                         }
-                        create_hot_air( x, y, cur->getFieldDensity());
                         break;
 
                     case fd_flame_burst:
                         if (cur->getFieldDensity() > 1) {
                             cur->setFieldDensity(cur->getFieldDensity() - 1);
+                            create_hot_air( x, y, cur->getFieldDensity());
                         } else {
-                            it = curfield.replaceField(fd_flame_burst, fd_fire_vent);
-                            cur->setFieldDensity(3);
-                            continue;
+                            add_field( point( x, y ), fd_fire_vent, 3, cur->getFieldAge() );
+                            cur->setFieldDensity( 0 );
                         }
-                        create_hot_air( x, y, cur->getFieldDensity());
                         break;
 
                     case fd_electricity:
