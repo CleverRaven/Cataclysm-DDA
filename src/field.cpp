@@ -461,7 +461,7 @@ bool map::process_fields_in_submap( submap *const current_submap,
                 // The field might have been killed by processing a neighbour field
                 if( !cur->isAlive() ) {
                     current_submap->field_count--;
-                    it = curfield.removeField( cur->getFieldType() );
+                    curfield.removeField( it++ );
                     continue;
                 }
 
@@ -1395,7 +1395,7 @@ bool map::process_fields_in_submap( submap *const current_submap,
                 }
                 if( !cur->isAlive() ) {
                     current_submap->field_count--;
-                    it = curfield.removeField( cur->getFieldType() );
+                    curfield.removeField( it++ );
                 } else {
                     ++it;
                 }
@@ -2194,16 +2194,20 @@ bool field::addField(const field_id field_to_add, const int new_density, const i
     return true;
 }
 
-/*
-Function: removeField
-Removes the field entry with a type equal to the field_id parameter.
-Returns the next iterator or field_list.end().
-*/
-std::map<field_id, field_entry>::iterator field::removeField(const field_id field_to_remove){
-    auto it = field_list.find(field_to_remove);
-    if(it != field_list.end()) {
-        field_list.erase(it++);
-        if (field_list.empty()) {
+bool field::removeField( field_id const field_to_remove )
+{
+    const auto it = field_list.find( field_to_remove );
+    if( it == field_list.end() ) {
+        return false;
+    }
+    removeField( it );
+    return true;
+}
+
+void field::removeField( std::map<field_id, field_entry>::iterator const it )
+{
+        field_list.erase( it );
+        if( field_list.empty() ) {
             draw_symbol = fd_null;
         } else {
             draw_symbol = fd_null;
@@ -2213,8 +2217,6 @@ std::map<field_id, field_entry>::iterator field::removeField(const field_id fiel
                 }
             }
         }
-    };
-    return it;
 }
 
 /*

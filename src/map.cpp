@@ -4715,11 +4715,10 @@ void map::remove_field( const tripoint &p, const field_id field_to_remove )
     int lx, ly;
     submap * const current_submap = get_submap_at( p, lx, ly );
 
-    if( current_submap->fld[lx][ly].findField( field_to_remove ) ) { //same as checking for fd_null in the old system
+    if( current_submap->fld[lx][ly].removeField( field_to_remove ) ) {
+        // Only adjust the count if the field actually existed.
         current_submap->field_count--;
     }
-
-    current_submap->fld[lx][ly].removeField(field_to_remove);
 }
 
 computer* map::computer_at( const tripoint &p )
