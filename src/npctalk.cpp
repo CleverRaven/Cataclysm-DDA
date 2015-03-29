@@ -2862,6 +2862,11 @@ void talk_function::clear_mission(npc *p)
         return;
     }
     p->chatbin.missions_assigned.erase( it );
+    if( p->chatbin.missions_assigned.empty() ) {
+        p->chatbin.mission_selected = nullptr;
+    } else {
+        p->chatbin.mission_selected = p->chatbin.missions_assigned.front();
+    }
     if( miss->has_follow_up() ) {
         p->add_new_mission( mission::reserve_new( miss->get_follow_up(), p->getID() ) );
     }
@@ -3378,6 +3383,18 @@ talk_topic talk_response::effect_t::apply( dialogue &d ) const
         d.beta->make_angry();
         return TALK_DONE;
     }
+
+    // TODO: this is a hack, it should be in clear_mission or so, but those functions have
+    // no access to the dialogue object.
+    auto &ma = d.missions_assigned;
+    ma.clear();
+    // Update the missions we can talk about (must only be current, non-complete ones)
+    for( auto &mission : d.beta->chatbin.missions_assigned ) {
+        if( mission->get_assigned_player_id() == d.alpha->getID() ) {
+            ma.push_back( mission );
+        }
+    }
+
     return topic;
 }
 
