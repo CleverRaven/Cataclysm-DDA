@@ -463,24 +463,18 @@ struct npc_chatbin : public JsonSerializer, public JsonDeserializer
      * The mission (if any) that we talk about right now. Can be null. Should be one of the
      * missions in @ref missions or @ref missions_assigned.
      */
-    mission *mission_selected;
+    mission *mission_selected = nullptr;
     /**
      * The skill this NPC offers to train.
      */
-    const Skill* skill;
+    const Skill* skill = nullptr;
     /**
      * The martial art style this NPC offers to train.
      */
     matype_id style;
- talk_topic first_topic;
+ talk_topic first_topic = TALK_NONE;
 
- npc_chatbin()
- {
-  mission_selected = nullptr;
-  skill = NULL;
-  style = "";
-  first_topic = TALK_NONE;
- }
+    npc_chatbin() = default;
 
     using JsonSerializer::serialize;
     void serialize(JsonOut &jsout) const override;
