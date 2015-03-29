@@ -929,7 +929,7 @@ bool map::process_fields_in_submap( submap *const current_submap,
                                             cur->setFieldAge(cur->getFieldAge() + 50);
                                         }
                                         if(nearwebfld) {
-                                            nearby_field.removeField( fd_web );
+                                            nearwebfld->setFieldDensity( 0 );
                                         }
                                     } else {
                                         bool nosmoke = true;
@@ -1460,12 +1460,12 @@ void map::player_in_field( player &u )
             if (!u.has_trait("WEB_WALKER") && !u.in_vehicle) {
                 //between 5 and 15 minus your current web level.
                 u.add_effect("webbed", 1, num_bp, true, cur->getFieldDensity());
-                field_list_it = curfield.removeField( fd_web ); //Its spent.
+                cur->setFieldDensity( 0 ); //Its spent.
                 continue;
                 //If you are in a vehicle destroy the web.
                 //It should of been destroyed when you ran over it anyway.
             } else if (u.in_vehicle) {
-                field_list_it = curfield.removeField( fd_web );
+                cur->setFieldDensity( 0 );
                 continue;
             }
         } break;
@@ -1506,18 +1506,13 @@ void map::player_in_field( player &u )
             }
             u.add_msg_player_or_npc(m_bad, _("The sap sticks to you!"), _("The sap sticks to <npcname>!"));
             u.add_effect("sap", cur->getFieldDensity() * 2);
-            if (cur->getFieldDensity() == 1) {
-                field_list_it = curfield.removeField( fd_sap );
-                continue;
-            } else {
-                cur->setFieldDensity(cur->getFieldDensity() - 1); //Use up sap.
-            }
+            cur->setFieldDensity(cur->getFieldDensity() - 1); //Use up sap.
             break;
 
         case fd_sludge:
             u.add_msg_if_player(m_bad, _("The sludge is thick and sticky. You struggle to pull free."));
             u.moves -= cur->getFieldDensity() * 300;
-            field_list_it = curfield.removeField( fd_sludge );
+            cur->setFieldDensity( 0 );
             break;
 
         case fd_fire:
@@ -1723,12 +1718,12 @@ void map::player_in_field( player &u )
             //Why do these get removed???
         case fd_shock_vent:
             //Stepping on a shock vent shuts it down.
-            field_list_it = curfield.removeField( fd_shock_vent );
+            cur->setFieldDensity( 0 );
             continue;
 
         case fd_acid_vent:
             //Stepping on an acid vent shuts it down.
-            field_list_it = curfield.removeField( fd_acid_vent );
+            cur->setFieldDensity( 0 );
             continue;
 
         case fd_bees:
@@ -1836,8 +1831,7 @@ void map::monster_in_field( monster &z )
         case fd_web:
             if (!z.has_flag(MF_WEBWALK)) {
                 z.add_effect("webbed", 1, num_bp, true, cur->getFieldDensity());
-                field_list_it = curfield.removeField( fd_web );
-                continue;
+                cur->setFieldDensity( 0 );
             }
             break;
 
@@ -1856,19 +1850,14 @@ void map::monster_in_field( monster &z )
 
         case fd_sap:
             z.moves -= cur->getFieldDensity() * 5;
-            if (cur->getFieldDensity() == 1) {
-                field_list_it = curfield.removeField( fd_sap );
-                continue;
-            } else {
-                cur->setFieldDensity(cur->getFieldDensity() - 1);
-            }
+            cur->setFieldDensity(cur->getFieldDensity() - 1);
             break;
 
         case fd_sludge:
             if (!z.has_flag(MF_DIGS) && !z.has_flag(MF_FLIES) &&
                 !z.has_flag(MF_SLUDGEPROOF)) {
               z.moves -= cur->getFieldDensity() * 300;
-              field_list_it = curfield.removeField( fd_sludge );
+              cur->setFieldDensity( 0 );
             }
             break;
 
