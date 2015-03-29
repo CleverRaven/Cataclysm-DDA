@@ -693,6 +693,11 @@ void initOptions()
                                             false
                                            );
 
+    OPTIONS["REMEMBER_SEEN_TILES"] = cOpt("interface", _("Remember and draw already seen tiles"),
+                                            _("If true, If true, tiles that have been seen before will be drawn as unlit."),
+                                            true
+                                           );
+
     mOptionsSort["interface"]++;
 
     //~ sidebar style

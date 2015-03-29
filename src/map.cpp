@@ -4691,6 +4691,7 @@ void map::draw(WINDOW* w, const point center)
  const int u_clairvoyance = g->u.clairvoyance();
  const bool u_sight_impaired = g->u.sight_impaired();
  const bool bio_night_active = g->u.has_active_bionic("bio_night");
+ remember_seen_tiles = OPTIONS["REMEMBER_SEEN_TILES"];
  tripoint p;
  long sym;
 
@@ -4760,7 +4761,7 @@ void map::draw(WINDOW* w, const point center)
            (dist > low_sight_range && LL_LIT > lit) ||
            (dist > sight_range && LL_LOW == lit),
            LL_BRIGHT == lit);
-   } else if ((sym = pl_knows(p)) != -1) {
+   } else if (remember_seen_tiles && (sym = pl_knows(p)) != -1) {
        // draw tiles that the player has seen previously but doesn't see right now
        // as unlit and hide the items
        mvwputch(w, realy+getmaxy(w)/2 - center.y, realx+getmaxx(w)/2 - center.x, c_dkgray, sym);
@@ -4930,8 +4931,10 @@ void map::drawsq(WINDOW* w, player &u, const tripoint &p, const bool invert_arg,
         mvwputch    (w, j, k, tercol, sym);
     }
 
-    // mark as seen
-    set_pl_known(p, sym);
+    if(remember_seen_tiles) {
+        // mark as seen
+        set_pl_known(p, sym);
+    }
 }
 
 // TODO: Implement this function in FoV update

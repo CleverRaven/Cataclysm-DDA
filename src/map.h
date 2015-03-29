@@ -845,6 +845,7 @@ void add_corpse(int x, int y);
          */
         long pl_knows(const tripoint &p) const;
         void set_pl_known(const tripoint &p, const long sym);
+        bool remember_seen_tiles;
 
  std::set<vehicle*> vehicle_list;
  std::set<vehicle*> dirty_vehicle_list;
