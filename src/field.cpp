@@ -445,8 +445,6 @@ bool map::process_fields_in_submap( submap *const current_submap,
     field_entry *tmpfld = NULL;
     field_id curtype; //Holds cur->getFieldType() as thats what the old system used before rewrite.
 
-    bool skipIterIncr = false; // keep track on when not to increment it[erator]
-
     //Loop through all tiles in this submap indicated by current_submap
     for (int locx = 0; locx < SEEX; locx++) {
         for (int locy = 0; locy < SEEY; locy++) {
@@ -460,6 +458,12 @@ bool map::process_fields_in_submap( submap *const current_submap,
             for( auto it = curfield.begin(); it != curfield.end();) {
                 //Iterating through all field effects in the submap's field.
                 field_entry * cur = &it->second;
+                // The field might have been killed by processing a neighbour field
+                if( !cur->isAlive() ) {
+                    current_submap->field_count--;
+                    it = curfield.removeField( cur->getFieldType() );
+                    continue;
+                }
 
                 curtype = cur->getFieldType();
                 // Setting our return value. fd_null really doesn't exist anymore,
@@ -1383,25 +1387,18 @@ bool map::process_fields_in_submap( submap *const current_submap,
                 } // switch (curtype)
 
                 cur->setFieldAge(cur->getFieldAge() + 1);
-                if (fieldlist[cur->getFieldType()].halflife > 0) {
-                    bool should_dissipate = false;
-                    if (cur->getFieldAge() > 0 &&
-                        dice(2, cur->getFieldAge()) > fieldlist[cur->getFieldType()].halflife) {
-                        cur->setFieldAge(0);
-                        if(cur->getFieldDensity() == 1 || !cur->isAlive()) {
-                            should_dissipate = true;
-                        }
-                        cur->setFieldDensity(cur->getFieldDensity() - 1);
-                    }
-                    if (should_dissipate == true || !cur->isAlive()) { // Totally dissapated.
-                        current_submap->field_count--;
-                        it = current_submap->fld[locx][locy].removeField(cur->getFieldType());
-                        continue;
-                    }
+                auto &fdata = fieldlist[cur->getFieldType()];
+                if( fdata.halflife > 0 && cur->getFieldAge() > 0 &&
+                    dice( 2, cur->getFieldAge() ) > fdata.halflife ) {
+                    cur->setFieldAge( 0 );
+                    cur->setFieldDensity( cur->getFieldDensity() - 1 );
                 }
-                if (!skipIterIncr)
+                if( !cur->isAlive() ) {
+                    current_submap->field_count--;
+                    it = curfield.removeField( cur->getFieldType() );
+                } else {
                     ++it;
-                skipIterIncr = false;
+                }
             }
         }
     }
