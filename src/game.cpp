@@ -5400,10 +5400,8 @@ int game::mon_info(WINDOW *w)
         const auto dir_to_mon = direction_from( viewx, viewy, c->posx(), c->posy() );
         const int mx = POSX + ( c->posx() - viewx );
         const int my = POSY + ( c->posy() - viewy );
-        int index;
-        if( is_valid_in_w_terrain( mx, my ) ) {
-            index = 8;
-        } else {
+        int index = 8;
+        if( !is_valid_in_w_terrain( mx, my ) ) {
             // for compatibility with old code, see diagram below, it explains the values for index,
             // also might need revisiting one z-levels are in.
             switch( dir_to_mon ) {
