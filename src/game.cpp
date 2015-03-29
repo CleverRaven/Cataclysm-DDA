@@ -7516,7 +7516,8 @@ void game::moving_vehicle_dismount(int tox, int toy)
         debugmsg("Need somewhere to dismount towards.");
         return;
     }
-    int d = (45 * (direction_from(u.posx(), u.posy(), tox, toy)) - 90) % 360;
+    tileray ray( tox - u.posx(), toy - u.posy() );
+    const int d = ray.dir(); // TODO:: make dir() const correct!
     add_msg(_("You dive from the %s."), veh->name.c_str());
     m.unboard_vehicle(u.posx(), u.posy());
     u.moves -= 200;
