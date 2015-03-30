@@ -854,7 +854,7 @@ int player::roll_stab_damage(bool crit)
     if (ret <= 0)
         return 0; // No negative stabbing!
 
-    // 76%, 86%, 96%, 106%, 116%, 122%, 128%, 134%, 140%, 146%
+    // 66%, 76%, 86%, 96%, 106%, 116%, 122%, 128%, 134%, 140%
     if (stabbing_skill <= 5)
         ret *= 0.66 + 0.1 * stabbing_skill;
     else
