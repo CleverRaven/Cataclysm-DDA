@@ -4565,7 +4565,7 @@ void map::debug()
  getch();
 }
 
-void map::update_visibility_variables() {
+void map::update_visibility_cache() {
     g_light_level = (int)g->light_level();
     natural_sight_range = g->u.sight_range(1);
     light_sight_range = g->u.sight_range(g_light_level);
@@ -4574,7 +4574,14 @@ void map::update_visibility_variables() {
     u_clairvoyance = g->u.clairvoyance();
     u_sight_impaired = g->u.sight_impaired();
     bio_night_active = g->u.has_active_bionic("bio_night");
+    
     u_is_boomered = g->u.has_effect("boomered");
+    
+    for (int x = 0; x < MAPSIZE*SEEX; x++) {
+        for (int y = 0; y < MAPSIZE*SEEY; y++) {
+            visibility_cache[x][y] = apparent_light_at(x, y);
+        }
+    }
 }
 
 lit_level map::apparent_light_at(int x, int y) {
@@ -4668,15 +4675,6 @@ void map::draw_specific_tile(WINDOW *w, const point center, int x, int y, lit_le
     }
 }
 
-void map::draw_loop(int min_x, int min_y, int max_x, int max_y, std::function<void (int,int,lit_level)> draw_func) {
-    for (int x = min_x; x <= max_x; x++) {
-        for (int y = min_y; y <= max_y; y++) {
-            lit_level ll = apparent_light_at(x, y);
-            draw_func(x,y,ll);
-        }
-    }
-}
-
 void map::draw(WINDOW* w, const point center)
 {
     // We only need to draw anything if we're not in tiles mode.
@@ -4686,18 +4684,13 @@ void map::draw(WINDOW* w, const point center)
 
     g->reset_light_level();
 
-    update_visibility_variables();
+    update_visibility_cache();
 
-    auto map_draw_function = [&, w, center](int x, int y, lit_level ll) -> void {
-        draw_specific_tile(w, center, x, y, ll);
-    };
-
-    draw_loop(
-        center.x - getmaxx(w)/2, 
-        center.y - getmaxy(w)/2, 
-        center.x + getmaxx(w)/2, 
-        center.y + getmaxy(w)/2,
-        map_draw_function);
+    for (int x = center.x - getmaxx(w)/2; x <= center.x + getmaxx(w)/2; x++) {
+        for (int y = center.y - getmaxy(w)/2; y <= center.y + getmaxy(w)/2; y++) {
+            draw_specific_tile(w, center, x, y, visibility_cache[x][y]);
+        }
+    }
 
     g->draw_critter( g->u, center );
 }

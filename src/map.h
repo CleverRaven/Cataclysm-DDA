@@ -1078,7 +1078,8 @@ private:
     bool u_sight_impaired;
     bool bio_night_active;
   public:
-    void update_visibility_variables();
+    void update_visibility_cache();
+    lit_level visibility_cache[MAPSIZE*SEEX][MAPSIZE*SEEY];
     bool u_is_boomered;
   
 };
