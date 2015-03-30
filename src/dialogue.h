@@ -40,7 +40,6 @@ struct dialogue {
     /** Missions that have been assigned by this npc to the player they currently speak to. */
     std::vector<mission*> missions_assigned;
 
-    int opt(std::string challenge, ...);
     talk_topic opt(talk_topic topic);
 
     dialogue() = default;
