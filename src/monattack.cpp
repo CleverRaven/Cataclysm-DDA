@@ -3583,6 +3583,7 @@ void mattack::stretch_bite(monster *z, int index)
     int dodge_check = std::max( target->get_dodge() - rng( 0, z->type->melee_skill ), 0L );
     if( uncanny || ( rng(0, 10000) < 10000 / (1 + (99 * exp(-.6 * dodge_check) ) ) ) ) {
         z->moves -=150;
+        z->add_effect("Stunned", 100);
         if( foe != nullptr ) {
             if( seen ) {
                 auto msg_type = foe == &g->u ? m_warning : m_info;
@@ -3609,8 +3610,8 @@ void mattack::stretch_bite(monster *z, int index)
             auto msg_type = foe == &g->u ? m_bad : m_info;
             //~ 1$s is monster name, 2$s bodypart in accusative
             foe->add_msg_player_or_npc( msg_type,
-                                        _("The %1$s's teeth sinks into your %2$s!"),
-                                        _("The %1$s's teeth sinks into <npcname>'s %2$s!"),
+                                        _("The %1$s's teeth sink into your %2$s!"),
+                                        _("The %1$s's teeth sink into <npcname>'s %2$s!"),
                                         z->name().c_str(),
                                         body_part_name_accusative( hit ).c_str() );
         }
@@ -3633,7 +3634,7 @@ void mattack::stretch_bite(monster *z, int index)
                                         body_part_name_accusative( hit ).c_str() );
         }
     } else if( seen ) {
-        add_msg( _("The %s's teeth sinks into %s!"), z->name().c_str(), target->disp_name().c_str() );
+        add_msg( _("The %s's teeth sink into %s!"), z->name().c_str(), target->disp_name().c_str() );
     }
     target->check_dead_state();
 }
