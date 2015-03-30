@@ -392,6 +392,10 @@ struct islot_seed {
      * Time it takes for a seed to grow (in days, based of off a season length of 91)
      */
     int grow = 0;
+    /**
+     * Name of the plant, already translated.
+     */
+    std::string plant_name;
 
     islot_seed() { }
 };

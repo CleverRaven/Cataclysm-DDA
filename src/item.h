@@ -667,6 +667,11 @@ public:
          * seed, seedling, mature and harvest. Non-seed items return 0.
          */
         int get_plant_epoch() const;
+        /**
+         * The name of the plant as it appears in the various informational menus. This should be
+         * translated. Returns an empty string for non-seed items.
+         */
+        std::string get_plant_name() const;
         /*@}*/
 
         /**

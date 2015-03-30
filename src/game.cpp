@@ -7982,14 +7982,10 @@ void game::print_terrain_info(int lx, int ly, WINDOW *w_look, int column, int &l
     if (m.has_furn(lx, ly)) {
         furn_t furn = m.furn_at(lx, ly);
         tile += "; " + furn.name;
-        if (furn.has_flag("PLANT")) {
+        if( furn.has_flag( "PLANT" ) && !m.i_at( lx, ly ).empty() ) {
             // Plant types are defined by seeds.
-            item plantType = m.i_at(lx, ly)[0];
-            if (plantType.typeId() != "fungal_seeds") {
-                // We rely on the seeds we care about to be
-                // id'd as seed_*.
-                tile += " (" + plantType.typeId().substr(5) + ")";
-            }
+            const item &seed = m.i_at(lx, ly)[0];
+            tile += " (" + seed.get_plant_name() + ")";
         }
     }
 

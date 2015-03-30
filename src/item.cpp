@@ -5035,6 +5035,14 @@ int item::get_plant_epoch() const
     return DAYS( type->seed->grow * calendar::season_length() / ( 91 * 3 ) );
 }
 
+std::string item::get_plant_name() const
+{
+    if( !type->seed ) {
+        return std::string{};
+    }
+    return type->seed->plant_name;
+}
+
 std::string item::type_name( unsigned int quantity ) const
 {
     const auto iter = item_vars.find( "name" );

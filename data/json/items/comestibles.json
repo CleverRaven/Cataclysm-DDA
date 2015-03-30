@@ -7649,6 +7649,7 @@
         "charges" : 4,
         "stack_size" : 100,
         "seed_data": {
+            "plant_name": "blueberry",
             "grow" : 91
         }
     },
@@ -7759,6 +7760,7 @@
         "charges" : 4,
         "stack_size" : 100,
         "seed_data": {
+            "plant_name": "strawberry",
             "grow" : 91
         }
     },
@@ -7813,6 +7815,7 @@
         "charges" : 4,
         "stack_size" : 40,
         "seed_data": {
+            "plant_name": "wheat",
             "grow" : 120
         }
     },
@@ -7956,6 +7959,7 @@
         "charges" : 2,
         "stack_size" : 8,
         "seed_data": {
+            "plant_name": "hops",
             "grow" : 120
         }
     },
@@ -8009,6 +8013,7 @@
         "charges" : 2,
         "stack_size" : 40,
         "seed_data": {
+            "plant_name": "barley",
             "grow" : 70
         }
     },
@@ -8061,6 +8066,7 @@
         "charges" : 4,
         "stack_size" : 40,
         "seed_data": {
+            "plant_name": "sugar beet",
             "grow" : 90
         }
     },
@@ -8114,6 +8120,7 @@
         "charges" : 4,
         "stack_size" : 100,
         "seed_data": {
+            "plant_name": "lettuce",
             "grow" : 85
         }
     },
@@ -8168,6 +8175,7 @@
         "charges" : 4,
         "stack_size" : 100,
         "seed_data": {
+            "plant_name": "tomato",
             "grow" : 65
         }
     },
@@ -8193,6 +8201,7 @@
         "charges" : 8,
         "stack_size" : 40,
         "seed_data": {
+            "plant_name": "cotton",
             "grow" : 130
         }
     },
@@ -8309,6 +8318,7 @@
         "charges" : 4,
         "stack_size" : 100,
         "seed_data": {
+            "plant_name": "broccoli",
             "grow" : 75
         }
     },
@@ -8363,6 +8373,7 @@
         "charges" : 4,
         "stack_size" : 100,
         "seed_data": {
+            "plant_name": "zucchini",
             "grow" : 47
         }
     },
@@ -8417,6 +8428,7 @@
         "charges" : 4,
         "stack_size" : 100,
         "seed_data": {
+            "plant_name": "onion",
             "grow" : 65
         }
     },
@@ -8471,6 +8483,7 @@
         "charges" : 4,
         "stack_size" : 100,
         "seed_data": {
+            "plant_name": "carrot",
             "grow" : 65
         }
     },
@@ -8526,6 +8539,7 @@
         "charges" : 4,
         "stack_size" : 100,
         "seed_data": {
+            "plant_name": "corn",
             "grow" : 80
         }
     },
@@ -9986,6 +10000,7 @@
         "bashing" : 0,
         "fun" : 30,
         "seed_data": {
+            "plant_name": "marloss berry",
             "grow" : 91
         }
     },
@@ -10187,6 +10202,7 @@
         "charges" : 4,
         "stack_size" : 40,
         "seed_data": {
+            "plant_name": "oats",
             "grow" : 45
         }
     },
@@ -11153,6 +11169,7 @@
         "charges" : 4,
         "stack_size" : 10,
         "seed_data": {
+            "plant_name": "potatoes",
             "grow" : 95
         }
     },
@@ -13440,6 +13457,7 @@
         "bashing" : 0,
         "fun" : 1,
         "seed_data": {
+            "plant_name": "cannabis",
             "grow" : 91
         }
     },
@@ -15265,6 +15283,7 @@
         "count" : 1,
         "stack_size" : 8,
         "seed_data": {
+            "plant_name": "fungal flower",
             "grow" : 91
         }
     },
@@ -17447,6 +17466,7 @@
         "charges" : 4,
         "stack_size" : 100,
         "seed_data": {
+            "plant_name": "cucumber",
             "grow" : 60
         }
     },{
@@ -17526,6 +17546,7 @@
         "charges" : 4,
         "stack_size" : 100,
         "seed_data": {
+            "plant_name": "celery",
             "grow" : 130
         }
     },
@@ -18670,6 +18691,7 @@
         "charges" : 2,
         "stack_size" : 100,
         "seed_data": {
+            "plant_name": "thyme",
             "grow" : 91
         }
     },{
@@ -18721,6 +18743,7 @@
         "charges" : 2,
         "stack_size" : 100,
         "seed_data": {
+            "plant_name": "canola",
             "grow" : 91
         }
     },{
@@ -18797,6 +18820,7 @@
         "charges" : 2,
         "stack_size" : 100,
         "seed_data": {
+            "plant_name": "dogbane",
             "grow" : 91
         }
     }

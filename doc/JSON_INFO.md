@@ -562,6 +562,7 @@ Every item type can have optional spawn data:
 Every item type can have optional seed data, if the item has seed data, it's considered a seed and can be planted:
 ```
 "seed_data" : {
+    "plant_name": "sunflower", // The name of the plant that grows from this seed. This is only used as information displayed to the user.
     "grow" : 91 // Time it takes for a plant to fully mature. Based around a 91 day season length (roughly a real world season) to give better accuracy for longer season lengths
                 // Note that growing time is later converted based upon the season_length option, basing it around 91 is just for accuracy purposes
                 // A value 91 means 3 full seasons, a value of 30 would mean 1 season.
