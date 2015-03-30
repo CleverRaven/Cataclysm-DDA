@@ -494,7 +494,7 @@ bool veh_interact::can_install_part(int msg_width){
                 veh->part_info(p).fuel_type != "muscle")
             {
                 engines++;
-                dif_eng = dif_eng / 2 + 12;
+                dif_eng = dif_eng / 2 + 8;
             }
         }
     }
