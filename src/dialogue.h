@@ -8,6 +8,7 @@
 #include "color.h"
 #include <vector>
 #include <string>
+#include <functional>
 
 class martialart;
 
@@ -78,7 +79,7 @@ private:
      * action. The response always succeeds.
      */
     talk_response &add_response( const std::string &text, const std::string &r,
-                                 void (*effect_success)(npc *) ) const;
+                                 std::function<void(npc*)> effect_success ) const;
     /**
      * Add a simple response that switches the topic to the new one and sets the currently
      * talked about mission to the given one. The mission pointer must be valid.
@@ -209,7 +210,7 @@ struct talk_response {
         /**
          * Function that is called when the response is chosen.
          */
-        void (*effect)(npc *) = &talk_function::nothing;
+        std::function<void(npc*)> effect = &talk_function::nothing;
         /**
          * Topic to switch to. TALK_DONE ends the talking, TALK_NONE keeps the current topic.
          */

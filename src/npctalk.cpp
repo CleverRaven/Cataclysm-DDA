@@ -1383,7 +1383,7 @@ talk_response &dialogue::add_response_none( const std::string &text ) const
 }
 
 talk_response &dialogue::add_response( const std::string &text, const std::string &r,
-                                       void (*effect_success)(npc *) ) const
+                                       std::function<void(npc*)> effect_success ) const
 {
     talk_response &result = add_response( text, r );
     result.success.effect = effect_success;
