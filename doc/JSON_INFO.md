@@ -455,8 +455,6 @@ Never use `yellow` and `red`, those colors are reserved for sounds and infrared 
 "stack_size" : 8,     // (Optional) How many uses are in the above-defined volume. If omitted, is the same as 'charges'
 "bashing" : 0,        // Bashing damage caused by using it as a melee weapon
 "fun" : 50,            // Morale effects when used
-"grow" : 91           // Time it takes for a plant to fully mature. Based around a 91 day season length (roughly a real world season) to give better accuracy for longer season lengths
-                      // Note that growing time is later converted based upon the season_length option, basing it around 91 is just for accuracy purposes
 ```
 ###CONTAINERS
 ```C++
@@ -557,6 +555,17 @@ Every item type can have optional spawn data:
 ```
 "spawn_data" : {
     "container": "can"  // The id of a container item, new item will be put into that container (optional, default: no container)
+}
+```
+
+###SEED DATA
+Every item type can have optional seed data, if the item has seed data, it's considered a seed and can be planted:
+```
+"seed_data" : {
+    "plant_name": "sunflower", // The name of the plant that grows from this seed. This is only used as information displayed to the user.
+    "grow" : 91 // Time it takes for a plant to fully mature. Based around a 91 day season length (roughly a real world season) to give better accuracy for longer season lengths
+                // Note that growing time is later converted based upon the season_length option, basing it around 91 is just for accuracy purposes
+                // A value 91 means 3 full seasons, a value of 30 would mean 1 season.
 }
 ```
 ###USE ACTIONS
