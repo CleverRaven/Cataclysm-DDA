@@ -689,10 +689,10 @@ int player::roll_bash_damage(bool crit)
         }
     } else {
         // 80%, 88%, 96%, 104%, 112%, 116%, 120%, 124%, 128%, 132%
-        if (bashing_skill <= 5) {
+        if( bashing_skill < 5 ) {
             ret *= 0.8 + 0.08 * bashing_skill;
         } else {
-            ret *= 0.92 + 0.04 * bashing_skill;
+            ret *= 0.96 + 0.04 * bashing_skill;
         }
     }
 
