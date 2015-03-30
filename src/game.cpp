@@ -13399,11 +13399,8 @@ bool game::spread_fungus( const tripoint &p )
                     m.furn_set(x, y, f_fungal_clump);
                 }
             } else if (m.has_flag("PLANT", x, y)) {
-                for (size_t k = 0; k < m.i_at(x, y).size(); k++) {
-                    m.i_rem(x, y, k);
-                }
-                item seeds("fungal_seeds", int(calendar::turn));
-                m.add_item_or_charges(x, y, seeds);
+                // Replace the (already existing) seed
+                m.i_at( x, y )[0] = item( "fungal_seeds", calendar::turn );
             }
         }
         return true;
@@ -13507,11 +13504,8 @@ bool game::spread_fungus( const tripoint &p )
                                 m.furn_set(i, j, f_fungal_clump);
                             }
                         } else if (m.has_flag("PLANT", i, j)) {
-                            for (size_t k = 0; k < m.i_at(i, j).size(); k++) {
-                                m.i_rem(i, j, k);
-                            }
-                            item seeds("fungal_seeds", int(calendar::turn));
-                            m.add_item_or_charges(x, y, seeds);
+                            // Replace the (already existing) seed
+                            m.i_at( x, y )[0] = item( "fungal_seeds", calendar::turn );
                         }
                     }
                 }
