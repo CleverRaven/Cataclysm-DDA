@@ -4302,7 +4302,7 @@ void item::detonate( const tripoint &p ) const
     if (type == NULL || type->explosion_on_fire_data.power < 0) {
         return;
     }
-    g->explosion( p.x, type->explosion_on_fire_data.power, type->explosion_on_fire_data.shrapnel, type->explosion_on_fire_data.fire, type->explosion_on_fire_data.blast);
+    g->explosion( p, type->explosion_on_fire_data.power, type->explosion_on_fire_data.shrapnel, type->explosion_on_fire_data.fire, type->explosion_on_fire_data.blast);
 }
 
 bool item_ptr_compare_by_charges( const item *left, const item *right)

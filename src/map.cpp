@@ -5777,8 +5777,8 @@ void map::grow_plant( const tripoint &p )
     auto seed = items.front();
     if( !seed.is_seed() ) {
         // No seed there anymore, we don't know what kind of plant it was.
-        dbg( D_ERROR ) << "a planted item at " << pnt.x << "," << pnt.y << " has no seed data";
-        furn_set( pnt.x, pnt.y, f_null );
+        dbg( D_ERROR ) << "a planted item at " << p.x << "," << p.y << "," << p.z << " has no seed data";
+        furn_set( p, f_null );
         return;
     }
     const int plantEpoch = seed.get_plant_epoch();
