@@ -16855,7 +16855,7 @@
         "nutrition" : 40,
         "description" : "A rich and tasty fish chowder from Scotland, made with preserved fish and creamy milk.",
         "price" : 500,
-        "material" : ["flesh", "dairy"],
+        "material" : ["flesh", "milk"],
         "tool" : "null",
         "volume" : 1,
         "cutting" : 0,

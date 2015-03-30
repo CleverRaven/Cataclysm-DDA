@@ -9380,7 +9380,7 @@
   "time": 12000,
   "reversible": false,
   "autolearn": false,
-  "book_learn": [[ "family_cookbook", 4 ][ "scots_cookbook", 2 ]],
+  "book_learn": [[ "family_cookbook", 4 ], [ "scots_cookbook", 2 ]],
   "batch_time_factors":[50, 4],
   "qualities":[
     {"id":"COOK","level":3,"amount":1},
