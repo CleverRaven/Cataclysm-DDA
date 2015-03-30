@@ -981,7 +981,10 @@ void activity_handlers::vehicle_finish( player_activity *act, player *)
     } else {
         if( veh ) {
             g->refresh_all();
-            g->exam_vehicle(*veh, act->values[0], act->values[1],
+            // TODO: Z (and also where the activity is queued)
+            // Or not, because the vehicle coords are dropped anyway
+            g->exam_vehicle(*veh,
+                            tripoint( act->values[0], act->values[1], g->get_levz() ),
                             act->values[2], act->values[3]);
             return;
         } else {
@@ -1025,4 +1028,47 @@ void activity_handlers::vibe_do_turn( player_activity *act, player *p )
     // well with roots.  Sorry.  :-(
 
     p->pause();
+}
+
+void activity_handlers::start_engines_finish( player_activity *act, player *p )
+{
+    // Find the vehicle by looking for a remote vehicle first, then by player relative coords
+    vehicle *veh = g->remoteveh();
+    if( !veh ) {
+        const point pos = act->placement + g->u.pos();
+        veh = g->m.veh_at( pos.x, pos.y );
+        if( !veh ) { return; }
+    }
+
+    int attempted = 0;
+    int started = 0;
+    int not_muscle = 0;
+    const bool take_control = act->values[0];
+
+    for( size_t e = 0; e < veh->engines.size(); ++e ) {
+        if( veh->is_engine_on( e ) ) {
+            attempted++;
+            if( veh->start_engine( e ) ) { started++; }
+            if( !veh->is_engine_type( e, "muscle" ) ) { not_muscle++; }
+        }
+    }
+
+    veh->engine_on = attempted > 0 && started == attempted;
+
+    if( attempted == 0 ) {
+        add_msg( m_info, _("The %s doesn't have an engine!"), veh->name.c_str() );
+    } else if( not_muscle > 0 ) {
+        if( started == attempted ) {
+            add_msg( ngettext("The %s's engine starts up.",
+                "The %s's engines start up.", not_muscle), veh->name.c_str() );
+        } else {
+            add_msg( m_bad, ngettext("The %s's engine fails to start.",
+                "The %s's engines fail to start.", not_muscle), veh->name.c_str() );
+        }
+    }
+
+    if( take_control && !veh->engine_on && !veh->velocity ) {
+        p->controlling_vehicle = false;
+        add_msg(_("You let go of the controls."));
+    }
 }

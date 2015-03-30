@@ -64,6 +64,8 @@ int ranged_skill_offset( std::string skill )
 double Creature::projectile_attack(const projectile &proj, int sourcex, int sourcey,
                                    int targetx, int targety, double shot_dispersion)
 {
+    bool const do_animation = OPTIONS["ANIMATIONS"];
+
     double range = rl_dist(sourcex, sourcey, targetx, targety);
     // .013 * trange is a computationally cheap version of finding the tangent in degrees.
     // 0.0002166... is used because the unit of dispersion is MOA (1/60 degree).
@@ -112,7 +114,9 @@ double Creature::projectile_attack(const projectile &proj, int sourcex, int sour
         ty = trajectory[i].y;
         // Drawing the bullet uses player u, and not player p, because it's drawn
         // relative to YOUR position, which may not be the gunman's position.
-        g->draw_bullet(g->u, tx, ty, (int)i, trajectory, stream ? '#' : '*');
+        if (do_animation) {
+            g->draw_bullet(g->u, tx, ty, (int)i, trajectory, stream ? '#' : '*');
+        }
 
         if( in_veh != nullptr ) {
             int part;

@@ -546,11 +546,12 @@ void iexamine::elevator(player *p, map *m, int examx, int examy)
 
 void iexamine::controls_gate(player *p, map *m, int examx, int examy)
 {
-    if (!query_yn(_("Use the %s?"), m->tername(examx, examy).c_str())) {
+    tripoint examp( examx, examy, g->get_levz() );
+    if (!query_yn(_("Use the %s?"), m->tername( examp ).c_str())) {
         none(p, m, examx, examy);
         return;
     }
-    g->open_gate(examx, examy, (ter_id)m->ter(examx, examy));
+    g->open_gate( examp, (ter_id)m->ter( examp ) );
 }
 
 void iexamine::cardreader(player *p, map *m, int examx, int examy)
@@ -1464,7 +1465,9 @@ void iexamine::dirtmound(player *p, map *m, int examx, int examy)
         add_msg(m_info, _("It is too dark to plant anything now."));
         return;
     }*/
-    std::vector<const item *> seed_inv = p->all_items_with_flag( "SEED" );
+    std::vector<item *> seed_inv = p->items_with( []( const item &itm ) {
+        return itm.is_seed();
+    } );
     if( seed_inv.empty() ) {
         add_msg(m_info, _("You have no seeds to plant."));
         return;
@@ -1504,10 +1507,15 @@ void iexamine::dirtmound(player *p, map *m, int examx, int examy)
         add_msg(_("You saved your seeds for later.")); // huehuehue
         return;
     }
+    const auto &seed_id = seed_types[seed_index];
 
     // Actual planting
-    std::list<item> planted = p->use_charges( seed_types[seed_index], 1 );
-    m->spawn_item(examx, examy, seed_types[seed_index], 1, 1, calendar::turn);
+    if( item::count_by_charges( seed_id ) ) {
+        p->use_charges( seed_id, 1 );
+    } else {
+        p->use_amount( seed_id, 1 );
+    }
+    m->spawn_item(examx, examy, seed_id, 1, 1, calendar::turn);
     m->set(examx, examy, t_dirt, f_plant_seed);
     p->moves -= 500;
     add_msg(_("Planted %s"), seed_names[seed_index].c_str());
@@ -2167,7 +2175,6 @@ void iexamine::tree_blackjack(player *p, map *m, int examx, int examy)
         none(p, m, examx, examy);
         return;
     }
-    m->spawn_item(p->posx(), p->posy(), "acorns", 2, 6 );
     m->spawn_item( p->posx(), p->posy(), "tanbark", rng( 1, 2 ) );
     m->ter_set(examx, examy, t_tree);
 }

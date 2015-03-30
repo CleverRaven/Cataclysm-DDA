@@ -4,6 +4,7 @@
 #include "json.h"
 #include "path_info.h"
 #include "monstergenerator.h"
+#include "item_factory.h"
 #include "item.h"
 #include "veh_type.h"
 #include "filesystem.h"
@@ -1646,6 +1647,54 @@ void cata_tiles::get_tile_values(const int t, const int *tn, int &subtile, int &
         }
     }
     get_rotation_and_subtile(val, num_connects, rotation, subtile);
+}
+
+void cata_tiles::do_tile_loading_report() {
+    DebugLog( D_INFO, DC_ALL ) << "Loaded tileset: " << OPTIONS["TILES"].getValue();
+
+    tile_loading_report(termap, "Terrain", "");
+    tile_loading_report(furnmap, "Furniture", "");
+    //TODO: exclude fake items from Item_factory::init_old()
+    tile_loading_report(item_controller->get_all_itypes(), "Items", "");
+    tile_loading_report(MonsterGenerator::generator().get_all_mtypes(), "Monsters", "");
+    tile_loading_report(vehicle_part_types, "Vehicle Parts", "vp_");
+    tile_loading_report(trapmap, "Traps", "");
+    tile_loading_report(fieldlist, num_fields, "Fields", "");
+
+    // needed until DebugLog ostream::flush bugfix lands
+    DebugLog( D_INFO, DC_ALL );
+}
+
+// TODO: make one more generally templated function, possibly using specialization, for both maps and arrays with ids
+template <typename maptype>
+void cata_tiles::tile_loading_report(maptype const & tiletypemap, std::string const & label, std::string const & prefix) {
+    int missing=0, present=0;
+    std::string missing_list;
+    for( auto const & i : tiletypemap ) {
+        if (tile_ids.count(prefix+i.first) == 0) {
+            missing++;
+            missing_list.append(i.first+" ");
+        } else {
+            present++;
+        }
+    }
+    DebugLog( D_INFO, DC_ALL ) << "Missing " << label << ": " << missing_list;
+}
+
+template <typename arraytype>
+void cata_tiles::tile_loading_report(arraytype const & array, int array_length, std::string const & label, std::string const & prefix) {
+    // fields are the only tile-able thing not kept in a map?
+    int missing=0, present=0;
+    std::string missing_list;
+    for(int i = 0; i < array_length; ++i) {
+        if (tile_ids.count(prefix+array[i].id) == 0) {
+            missing++;
+            missing_list.append(array[i].id+" ");
+        } else {
+            present++;
+        }
+    }
+    DebugLog( D_INFO, DC_ALL ) << "Missing " << label << ": " << missing_list;
 }
 
 #endif // SDL_TILES

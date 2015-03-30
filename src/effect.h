@@ -227,9 +227,9 @@ class effect : public JsonSerializer, public JsonDeserializer
         }
 
         using JsonSerializer::serialize;
-        void serialize(JsonOut &json) const;
+        void serialize(JsonOut &json) const override;
         using JsonDeserializer::deserialize;
-        void deserialize(JsonIn &jsin);
+        void deserialize(JsonIn &jsin) override;
 
     protected:
         effect_type *eff_type;

@@ -181,7 +181,7 @@ int Pickup::interact_with_vehicle( vehicle *veh, int posx, int posy, int veh_roo
         }
 
         if(menu_items[choice] == _("Examine vehicle")) {
-            g->exam_vehicle(*veh, posx, posy);
+            g->exam_vehicle(*veh, tripoint( posx, posy, g->get_levz() ) );
             return -2;
         }
 

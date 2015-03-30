@@ -40,9 +40,9 @@ enum bigness_property_aspect : int {
 };
 
 // Returns the name of a category of ammo (e.g. "shot")
-std::string ammo_name(std::string t);
+std::string const& ammo_name(std::string const &t);
 // Returns the default ammo for a category of ammo (e.g. ""00_shot"")
-std::string default_ammo(std::string guntype);
+std::string const& default_ammo(std::string const &guntype);
 
 struct explosion_data {
     // Those 4 values are forwarded to game::explosion.
@@ -150,10 +150,35 @@ struct islot_book {
     int chapters = 0;
     /**
      * What recipes can be learned from this book.
-     * Key is the recipe, value is skill level (of the main skill of the recipes) that is required
-     * to learn the recipe.
      */
-    std::map<const recipe *, int> recipes;
+    struct recipe_with_description_t {
+        /**
+         * The recipe that can be learned (never null).
+         */
+        const struct recipe *recipe;
+        /**
+         * The skill level required to learn the recipe.
+         */
+        int skill_level;
+        /**
+         * The name for the recipe as it appears in the book.
+         */
+        std::string name;
+        /**
+         * Hidden means it does not show up in the description of the book.
+         */
+        bool hidden;
+        bool operator<( const recipe_with_description_t &rhs ) const
+        {
+            return recipe < rhs.recipe;
+        }
+        bool is_hidden() const
+        {
+            return hidden;
+        }
+    };
+    typedef std::set<recipe_with_description_t> recipe_list_t;
+    recipe_list_t recipes;
     /**
      * Special effects that can happen after the item has been read. May be empty.
      */
@@ -362,6 +387,19 @@ struct islot_software {
     software_type swtype = SW_USELESS;
 };
 
+struct islot_seed {
+    /**
+     * Time it takes for a seed to grow (in days, based of off a season length of 91)
+     */
+    int grow = 0;
+    /**
+     * Name of the plant, already translated.
+     */
+    std::string plant_name;
+
+    islot_seed() { }
+};
+
 // Data used when spawning items, should be obsoleted by the spawn system, but
 // is still used at several places and makes it easier when it applies to all new items of a type.
 struct islot_spawn {
@@ -393,6 +431,7 @@ struct itype {
     std::unique_ptr<islot_software> software;
     std::unique_ptr<islot_spawn> spawn;
     std::unique_ptr<islot_ammo> ammo;
+    std::unique_ptr<islot_seed> seed;
     /*@}*/
 protected:
     // private because is should only be accessed through itype::nname!
@@ -541,8 +580,6 @@ struct it_comest : itype {
     unsigned brewtime = 0; // How long it takes for a brew to ferment.
     int      fun      = 0; // How fun its use is
     
-    // Time it takes for a seed to grow (in days, based of off a season length of 91)
-    unsigned grow = 0;
     add_type add = ADD_NULL; // Effects of addiction
 
     it_comest() = default;

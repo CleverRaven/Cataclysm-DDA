@@ -103,11 +103,11 @@ private:
 public:
 vehicle_stack( std::list<item> *newstack, point newloc, vehicle *neworigin, int part ) :
     mystack(newstack), location(newloc), myorigin(neworigin), part_num(part) {};
-    size_t size() const;
-    bool empty() const;
-    std::list<item>::iterator erase( std::list<item>::iterator it );
-    void push_back( const item &newitem );
-    void insert_at( std::list<item>::iterator index, const item &newitem );
+    size_t size() const override;
+    bool empty() const override;
+    std::list<item>::iterator erase( std::list<item>::iterator it ) override;
+    void push_back( const item &newitem ) override;
+    void insert_at( std::list<item>::iterator index, const item &newitem ) override;
     std::list<item>::iterator begin();
     std::list<item>::iterator end();
     std::list<item>::const_iterator begin() const;
@@ -116,8 +116,8 @@ vehicle_stack( std::list<item> *newstack, point newloc, vehicle *neworigin, int 
     std::list<item>::reverse_iterator rend();
     std::list<item>::const_reverse_iterator rbegin() const;
     std::list<item>::const_reverse_iterator rend() const;
-    item &front();
-    item &operator[]( size_t index );
+    item &front() override;
+    item &operator[]( size_t index ) override;
 };
 
 /**
@@ -183,9 +183,9 @@ public:
 
     // json saving/loading
     using JsonSerializer::serialize;
-    void serialize(JsonOut &jsout) const;
+    void serialize(JsonOut &jsout) const override;
     using JsonDeserializer::deserialize;
-    void deserialize(JsonIn &jsin);
+    void deserialize(JsonIn &jsin) override;
 
     /**
      * Generate the corresponding item from this vehicle part. It includes
@@ -229,9 +229,9 @@ struct label : public JsonSerializer, public JsonDeserializer {
 
     // json saving/loading
     using JsonSerializer::serialize;
-    void serialize(JsonOut &jsout) const;
+    void serialize(JsonOut &jsout) const override;
     using JsonDeserializer::deserialize;
-    void deserialize(JsonIn &jsin);
+    void deserialize(JsonIn &jsin) override;
 };
 
 /**
@@ -337,6 +337,12 @@ private:
 
     int total_folded_volume() const;
 
+    // Calculate how long it takes to attempt to start an engine
+    int engine_start_time( const int e );
+
+    // How much does the temperature effect the engine starting (0.0 - 1.0)
+    double engine_cold_factor( const int e );
+
     /**
      * Find a possibly off-map vehicle. If necessary, loads up its submap through
      * the global MAPBUFFER and pulls it from there. For this reason, you should only
@@ -383,9 +389,9 @@ public:
     void save (std::ofstream &stout);
 
     using JsonSerializer::serialize;
-    void serialize(JsonOut &jsout) const;
+    void serialize(JsonOut &jsout) const override;
     using JsonDeserializer::deserialize;
-    void deserialize(JsonIn &jsin);
+    void deserialize(JsonIn &jsin) override;
 
 // Operate vehicle
     void use_controls();
@@ -393,8 +399,14 @@ public:
 // Fold up the vehicle
     bool fold_up();
 
-// Start the vehicle's engine, if there are any
-    void start_engine();
+// Attempt to start an engine
+    bool start_engine( const int e );
+
+// Attempt to start the vehicle's active engines
+    void start_engines( const bool take_control = false );
+
+// Engine backfire, making a loud noise
+    void backfire( const int e );
 
 // Honk the vehicle's horn, if there are any
     void honk_horn();
@@ -611,6 +623,8 @@ public:
     float strain ();
 
 // calculate if it can move using its wheels configuration
+    bool sufficient_wheel_config ();
+    bool balanced_wheel_config ();
     bool valid_wheel_config ();
 
 // idle fuel consumption
@@ -784,8 +798,6 @@ public:
     //true if an engine exists without the specified type
     //If enabled true, this engine must be enabled to return true
     bool has_engine_type_not(const ammotype  & ft, bool enabled);
-    //prints message relating to vehicle start failure
-    void msg_start_engine_fail();
     //if necessary, damage this engine
     void do_engine_damage(size_t p, int strain);
     //remotely open/close doors
@@ -871,6 +883,7 @@ public:
     bool overhead_lights_on; //circle lights on/off
     bool dome_lights_on; // dome lights (rear view mirror lights) on
     bool aisle_lights_on; // aisle lights on
+    bool has_atomic_lights; // has any always-on atomic lights
     bool fridge_on;     //fridge on/off
     bool recharger_on;  //recharger on/off
     int turn_dir;       // direction, to wich vehicle is turning (player control). will rotate frame on next move

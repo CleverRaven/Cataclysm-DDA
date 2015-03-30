@@ -195,6 +195,10 @@ The syntax listed here is still valid.
 "override": false,           // Optional (default: false). If false and the ident of the recipe is already used by another recipe, loading of recipes fails. If true and a recipe with the ident is already defined, the existing recipe is replaced by the new recipe.
 "skill_used": "fabrication", // Skill trained and used for success checks
 "requires_skills": [["survival", 1], ["throw", 2]], // Skills required to unlock recipe
+"book_learn": [              // (optional) Array of books that this recipe can be learned from. Each entry contains the id of the book and the skill level at which it can be learned.
+    [ "textbook_anarch", 7, "something" ], // The optional third entry defines a name for the recipe as it should appear in the books description (default is the name of resulting item of the recipe)
+    [ "textbook_gaswarfare", 8, "" ] // If the name is empty, the recipe is hidden, it will not be shown in the description of the book.
+],
 "difficulty": 3,             // Difficulty of success check
 "time": 5000,                // Time to perform recipe (where 1000 ~= 10 turns ~= 1 minute game time)
 "reversible": false,         // Can be disassembled.
@@ -451,8 +455,6 @@ Never use `yellow` and `red`, those colors are reserved for sounds and infrared 
 "stack_size" : 8,     // (Optional) How many uses are in the above-defined volume. If omitted, is the same as 'charges'
 "bashing" : 0,        // Bashing damage caused by using it as a melee weapon
 "fun" : 50,            // Morale effects when used
-"grow" : 91           // Time it takes for a plant to fully mature. Based around a 91 day season length (roughly a real world season) to give better accuracy for longer season lengths
-                      // Note that growing time is later converted based upon the season_length option, basing it around 91 is just for accuracy purposes
 ```
 ###CONTAINERS
 ```C++
@@ -553,6 +555,17 @@ Every item type can have optional spawn data:
 ```
 "spawn_data" : {
     "container": "can"  // The id of a container item, new item will be put into that container (optional, default: no container)
+}
+```
+
+###SEED DATA
+Every item type can have optional seed data, if the item has seed data, it's considered a seed and can be planted:
+```
+"seed_data" : {
+    "plant_name": "sunflower", // The name of the plant that grows from this seed. This is only used as information displayed to the user.
+    "grow" : 91 // Time it takes for a plant to fully mature. Based around a 91 day season length (roughly a real world season) to give better accuracy for longer season lengths
+                // Note that growing time is later converted based upon the season_length option, basing it around 91 is just for accuracy purposes
+                // A value 91 means 3 full seasons, a value of 30 would mean 1 season.
 }
 ```
 ###USE ACTIONS
