@@ -177,10 +177,10 @@ class clColors {
         clColors() {};
 
         nc_color get(const std::string &sName);
-        std::string get(const nc_color &color);
-        nc_color get_invert(const nc_color &color);
+        std::string get(const nc_color color);
+        nc_color get_invert(const nc_color color);
         nc_color get_default(const std::string &sName);
-        nc_color get_highlight(const nc_color &color, const std::string &bgColor = "");
+        nc_color get_highlight(const nc_color color, const std::string &bgColor = "");
         nc_color get_random();
 
         void set_custom(const std::string &sName, const std::string &sCustomName);
@@ -188,14 +188,17 @@ class clColors {
         void load_default();
 
     private:
-        void add_color(const std::string &sName, const nc_color &iColorPair, const std::string &sInvert, const std::string &sInvertNoBright = "");
+        void add_color(const std::string &sName, const nc_color iColorPair, const std::string &sInvert, const std::string &sInvertNoBright = "");
         void add_highlight(const std::string &sName);
 
-        //                 Name                   Default   Custom Color
-        std::unordered_map<std::string, std::pair<nc_color, std::string> > mapColors;
+        struct stColors {
+            nc_color color; // Default color
+            std::string sCustom; // Custom color name
+            std::string sInvert; // Invert
+            std::string sNoBrigt; // No Bright
+        };
 
-        //                 Name                   Invert       No Bright
-        std::unordered_map<std::string, std::pair<std::string, std::string>> mapInvert;
+        std::unordered_map<std::string, stColors> mapColors;
 };
 
 extern clColors all_colors;
@@ -208,11 +211,10 @@ nc_color green_background(nc_color c);
 nc_color yellow_background(nc_color c);
 nc_color magenta_background(nc_color c);
 nc_color cyan_background(nc_color c);
-nc_color rand_color();
 
-nc_color color_from_string(const std::string  &color);
-std::string const& string_from_color(const nc_color &color);
-nc_color bgcolor_from_string(const std::string  &color);
+nc_color color_from_string(const std::string &color);
+std::string const& string_from_color(const nc_color color);
+nc_color bgcolor_from_string(std::string color);
 nc_color get_color_from_tag(const std::string &s, const nc_color base_color);
 
 void setattr(nc_color &col, col_attribute attr);

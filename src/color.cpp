@@ -11,17 +11,21 @@ clColors all_colors;
 
 nc_color clColors::get(const std::string &sName)
 {
-    if ( mapColors[sName].first == 0 ) {
+    auto const iter = mapColors.find( sName );
+
+    if( iter == mapColors.end() ) {
         return 0;
     }
 
-    return ( mapColors[sName].second != "" ) ? mapColors[mapColors[sName].second].first : mapColors[sName].first;
+    auto &entry = iter->second;
+
+    return ( !entry.sCustom.empty() ) ? mapColors[entry.sCustom].color : entry.color;
 }
 
-std::string clColors::get(const nc_color &color)
+std::string clColors::get(const nc_color color)
 {
     for ( const auto& iter : mapColors ) {
-        if ( iter.second.first == color ) {
+        if ( iter.second.color == color ) {
             return iter.first;
             break;
         }
@@ -30,30 +34,34 @@ std::string clColors::get(const nc_color &color)
     return "c_unset";
 }
 
-nc_color clColors::get_invert(const nc_color &color)
+nc_color clColors::get_invert(const nc_color color)
 {
     const std::string sName = all_colors.get(color);
 
-    if ( mapInvert[sName].first == "" ) {
+    auto const iter = mapColors.find( sName );
+    if( iter == mapColors.end() ) {
         return 0;
     }
 
+    auto &entry = iter->second;
+
     if ( OPTIONS["NO_BRIGHT_BACKGROUNDS"] ) {
-        if ( mapInvert[sName].second != "" ) {
-            return get(mapInvert[sName].second);
+        if ( !entry.sNoBrigt.empty() ) {
+            return get(entry.sNoBrigt);
         }
     }
 
-    return get(mapInvert[sName].first);
+    return get(entry.sInvert);
 }
 
 nc_color clColors::get_default(const std::string &sName)
 {
-    if ( mapColors[sName].first == 0 ) {
+    auto const iter = mapColors.find( sName );
+    if( iter == mapColors.end() ) {
         return 0;
     }
 
-    return mapColors[sName].first;
+    return iter->second.color;
 }
 
 nc_color clColors::get_random()
@@ -61,56 +69,42 @@ nc_color clColors::get_random()
     auto item = mapColors.begin();
     std::advance( item, rand() % mapColors.size() );
 
-    return item->second.first;
+    return item->second.color;
 }
 
 void clColors::set_custom(const std::string &sName, const std::string &sCustomName)
 {
-    mapColors[sName].second = sCustomName;
+    mapColors[sName].sCustom = sCustomName;
 }
 
-void clColors::add_color(const std::string &sName, const nc_color &color, const std::string &sInvert, const std::string &sInvertNoBright)
+void clColors::add_color(const std::string &sName, const nc_color color, const std::string &sInvert, const std::string &sInvertNoBright)
 {
-    mapColors[sName] = std::make_pair(color, "");
-    mapInvert[sName] = std::make_pair(sInvert, sInvertNoBright);
+    mapColors[sName] = {color, "", sInvert, sInvertNoBright};
 }
 
-nc_color clColors::get_highlight(const nc_color &color, const std::string &bgColor)
+nc_color clColors::get_highlight(const nc_color color, const std::string &bgColor)
 {
     /*
     //             Base Name      Highlight      Red BG              White BG            Green BG            Yellow BG
     add_hightlight("c_black",     "h_black",     "",                 "c_black_white",    "c_black_green",    "c_black_yellow",   "c_black_magenta",      "c_black_cyan");
     add_hightlight("c_white",     "h_white",     "c_white_red",      "c_white_white",    "c_white_green",    "c_white_yellow",   "c_white_magenta",      "c_white_cyan");
-    add_hightlight("c_ltgray",    "h_ltgray",    "c_ltgray_red",     "c_ltgray_white",   "c_ltgray_green",   "c_ltgray_yellow",  "c_ltgray_magenta",     "c_ltgray_cyan");
-    add_hightlight("c_dkgray",    "h_dkgray",    "c_dkgray_red",     "c_dkgray_white",   "c_dkgray_green",   "c_dkgray_yellow",  "c_dkgray_magenta",     "c_dkgray_cyan");
-    add_hightlight("c_red",       "h_red",       "c_red_red",        "c_red_white",      "c_red_green",      "c_red_yellow",     "c_red_magenta",        "c_red_cyan");
-    add_hightlight("c_green",     "h_green",     "c_green_red",      "c_green_white",    "c_green_green",    "c_green_yellow",   "c_green_magenta",      "c_green_cyan");
-    add_hightlight("c_blue",      "h_blue",      "c_blue_red",       "c_blue_white",     "c_blue_green",     "c_blue_yellow",    "c_blue_magenta",       "c_blue_cyan");
-    add_hightlight("c_cyan",      "h_cyan",      "c_cyan_red",       "c_cyan_white",     "c_cyan_green",     "c_cyan_yellow",    "c_cyan_magenta",       "c_cyan_cyan");
-    add_hightlight("c_magenta",   "h_magenta",   "c_magenta_red",    "c_magenta_white",  "c_magenta_green",  "c_magenta_yellow", "c_magenta_magenta",    "c_magenta_cyan");
-    add_hightlight("c_brown",     "h_brown",     "c_brown_red",      "c_brown_white",    "c_brown_green",    "c_brown_yellow",   "c_brown_magenta",      "c_brown_cyan");
-    add_hightlight("c_ltred",     "h_ltred",     "c_ltred_red",      "c_ltred_white",    "c_ltred_green",    "c_ltred_yellow",   "c_ltred_magenta",      "c_ltred_cyan");
-    add_hightlight("c_ltgreen",   "h_ltgreen",   "c_ltgreen_red",    "c_ltgreen_white",  "c_ltgreen_green",  "c_ltgreen_yellow", "c_ltgreen_magenta",    "c_ltgreen_cyan");
-    add_hightlight("c_ltblue",    "h_ltblue",    "c_ltblue_red",     "c_ltblue_white",   "c_ltblue_green",   "c_ltblue_yellow",  "c_ltblue_magenta",     "c_ltblue_cyan");
-    add_hightlight("c_ltcyan",    "h_ltcyan",    "c_ltcyan_red",     "c_ltcyan_white",   "c_ltcyan_green",   "c_ltcyan_yellow",  "c_ltcyan_magenta",     "c_ltcyan_cyan");
-    add_hightlight("c_pink",      "h_pink",      "c_pink_red",       "c_pink_white",     "c_pink_green",     "c_pink_yellow",    "c_pink_magenta",       "c_pink_cyan");
-    add_hightlight("c_yellow",    "h_yellow",    "c_yellow_red",     "c_yellow_white",   "c_yellow_green",   "c_yellow_yellow",  "c_yellow_magenta",     "c_yellow_cyan");
+    etc.
     */
 
     std::string sName = "";
 
     for ( const auto& iter : mapColors ) {
-        if ( iter.second.first == color ) { //c_black -> c_black_<bgColor>
-            sName = iter.first + (( bgColor != "" ) ? "_" + bgColor : (std::string)"");
+        if ( iter.second.color == color ) { //c_black -> c_black_<bgColor>
+            sName = iter.first + (( !bgColor.empty() ) ? "_" + bgColor : (std::string)"");
             break;
         }
     }
 
-    if ( bgColor == "" ) {  //c_black -> h_black
-        sName = "h" + sName.substr(1, sName.length()-1);
+    if ( bgColor.empty() ) {  //c_black -> h_black
+        sName = "h_" + sName.substr(2, sName.length() - 2);
     }
 
-    if ( sName == "" || mapColors[sName].first == 0 ) {
+    if ( sName.empty() || mapColors[sName].color == 0 ) {
         return 0;
     }
 
@@ -414,31 +408,14 @@ nc_color cyan_background(nc_color c)
     return ((int)color > 0) ? color : c_black_cyan;
 }
 
-nc_color rand_color()
-{
-    switch (rng(0, 9)) {
-    case 0: return c_white;
-    case 1: return c_ltgray;
-    case 2: return c_green;
-    case 3: return c_red;
-    case 4: return c_yellow;
-    case 5: return c_blue;
-    case 6: return c_ltblue;
-    case 7: return c_pink;
-    case 8: return c_magenta;
-    case 9: return c_brown;
-    }
-    return c_dkgray;
-}
-
 /**
  * Given the name of a color, returns the nc_color value that matches. If
  * no match is found, c_unset is returned.
  * Special cases:
  * {"black"           , c_black}, // missing default prefix c_
  * {"<c|h|i>_black"   , h_black}, // has prefix c_ or h_ or i_
- * {"dark_gray_red"   , c_dkgray_red}, // dark instead of dk
- * {"light_blue_red"  , c_ltblue_red}, // light instead of lt
+ * {"dark_gray_red"   , c_dkgray_red}, // dark_ instead of dk
+ * {"light_blue_red"  , c_ltblue_red}, // light_ instead of lt
  * @param new_color The color to get, as a std::string.
  * @return The nc_color constant that matches the input.
  */
@@ -463,18 +440,19 @@ nc_color color_from_string(const std::string &color)
         return col;
     }
 
-    debugmsg("color_from_string: couldn't parse color: %s", new_color.c_str());
+    debugmsg("color_from_string: couldn't parse color: %s", color.c_str());
     return c_unset;
 }
 
 /**
  * The reverse of color_from_string.
  */
-std::string const& string_from_color(const nc_color &color)
+std::string const& string_from_color(const nc_color color)
 {
-    static std::string const sColor = all_colors.get(color);
+    const std::string sTemp = all_colors.get(color);
+    static std::string const sColor = sTemp.substr(2, sTemp.length()-2);
 
-    if ( sColor != "c_unset" ) {
+    if ( sColor != "unset" ) {
         return sColor;
     }
 
@@ -489,20 +467,20 @@ std::string const& string_from_color(const nc_color &color)
  * @param new_color The color to get, as a std::string.
  * @return The nc_color constant that matches the input.
  */
-nc_color bgcolor_from_string(std::string const &color)
+nc_color bgcolor_from_string(std::string color)
 {
-    std::string new_color = "i_" + color;
+    color = "i_" + color;
 
     const std::pair<std::string, std::string> pSearch[2] = {{"light_", "lt"}, {"dark_", "dk"}};
     for (int i=0; i < 2; ++i) {
         size_t pos = 0;
-        while ((pos = new_color.find(pSearch[i].first, pos)) != std::string::npos) {
-            new_color.replace(pos, pSearch[i].first.length(), pSearch[i].second);
+        while ((pos = color.find(pSearch[i].first, pos)) != std::string::npos) {
+            color.replace(pos, pSearch[i].first.length(), pSearch[i].second);
             pos += pSearch[i].second.length();
         }
     }
 
-    const nc_color col = all_colors.get(new_color);
+    const nc_color col = all_colors.get(color);
     if ( col > 0 ) {
         return col;
     }
