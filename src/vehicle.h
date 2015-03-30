@@ -321,6 +321,12 @@ private:
 
     int total_folded_volume() const;
 
+    // Calculate how long it takes to attempt to start an engine
+    int engine_start_time( const int e );
+
+    // How much does the temperature effect the engine starting (0.0 - 1.0)
+    double engine_cold_factor( const int e );
+
     /**
      * Find a possibly off-map vehicle. If necessary, loads up its submap through
      * the global MAPBUFFER and pulls it from there. For this reason, you should only
@@ -377,8 +383,14 @@ public:
 // Fold up the vehicle
     bool fold_up();
 
-// Start the vehicle's engine, if there are any
-    void start_engine();
+// Attempt to start an engine
+    bool start_engine( const int e );
+
+// Attempt to start the vehicle's active engines
+    void start_engines( const bool take_control = false );
+
+// Engine backfire, making a loud noise
+    void backfire( const int e );
 
 // Honk the vehicle's horn, if there are any
     void honk_horn();
@@ -746,8 +758,6 @@ public:
     //true if an engine exists without the specified type
     //If enabled true, this engine must be enabled to return true
     bool has_engine_type_not(const ammotype  & ft, bool enabled);
-    //prints message relating to vehicle start failure
-    void msg_start_engine_fail();
     //if necessary, damage this engine
     void do_engine_damage(size_t p, int strain);
     //remotely open/close doors
