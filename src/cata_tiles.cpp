@@ -555,16 +555,11 @@ void cata_tiles::draw(int destx, int desty, int centerx, int centery, int width,
     screentile_width = (width + tile_width - 1) / tile_width;
     screentile_height = (height + tile_height - 1) / tile_height;
 
-    auto map_draw_function = [&](int x, int y, lit_level ll) -> void {
-        draw_specific_tile(x, y, ll);
-    };
-
-    g->m.draw_loop(
-        o_x, 
-        o_y, 
-        o_x + sx - 1, 
-        o_y + sy - 1,
-        map_draw_function);
+    for (int x=o_x; x <= o_x+sx-1; x++) {
+        for (int y=o_y; y <= o_y+sy-1; y++) {
+            draw_specific_tile(x,y,g->m.visibility_cache[x][y]);
+        }
+    }
 
     in_animation = do_draw_explosion || do_draw_bullet || do_draw_hit ||
                    do_draw_line || do_draw_weather || do_draw_sct ||
@@ -1436,7 +1431,7 @@ void cata_tiles::init_light()
 {
     g->reset_light_level();
 
-    g->m.update_visibility_variables();
+    g->m.update_visibility_cache();
 }
 
 void cata_tiles::get_terrain_orientation(int x, int y, int &rota, int &subtile)
