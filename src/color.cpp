@@ -447,17 +447,16 @@ nc_color color_from_string(const std::string &color)
 /**
  * The reverse of color_from_string.
  */
-std::string const& string_from_color(const nc_color color)
+std::string string_from_color(const nc_color color)
 {
-    const std::string sTemp = all_colors.get(color);
-    static std::string const sColor = sTemp.substr(2, sTemp.length()-2);
+    std::string sColor = all_colors.get(color);
+    sColor = sColor.substr(2, sColor.length()-2);
 
     if ( sColor != "unset" ) {
         return sColor;
     }
 
-    static std::string const fallback {"white"};
-    return fallback;
+    return "white";
 }
 
 /**

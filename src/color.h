@@ -213,7 +213,7 @@ nc_color magenta_background(nc_color c);
 nc_color cyan_background(nc_color c);
 
 nc_color color_from_string(const std::string &color);
-std::string const& string_from_color(const nc_color color);
+std::string string_from_color(const nc_color color);
 nc_color bgcolor_from_string(std::string color);
 nc_color get_color_from_tag(const std::string &s, const nc_color base_color);
 
