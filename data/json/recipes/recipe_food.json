@@ -6982,7 +6982,6 @@
   "time": 25000,
   "reversible": false,
   "autolearn": false,
-  "book_learn": [ ["brewing_cookbook", 5] ],
   "qualities":[
     {"id":"BREW","level":2,"amount":1}
   ], "tools": [
