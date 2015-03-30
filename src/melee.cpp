@@ -786,10 +786,10 @@ int player::roll_cut_damage(bool crit)
 
 
     // 80%, 88%, 96%, 104%, 112%, 116%, 120%, 124%, 128%, 132%
-    if (cutting_skill <= 5)
+    if( cutting_skill < 5 )
         ret *= 0.8 + 0.08 * cutting_skill;
     else
-        ret *= 0.92 + 0.04 * cutting_skill;
+        ret *= 0.96 + 0.04 * cutting_skill;
 
     if (crit)
         ret *= 1.0 + (cutting_skill / 12.0);
