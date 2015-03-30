@@ -541,22 +541,19 @@ void npc::talk_to_u()
 std::string dialogue::dynamic_line( const talk_topic topic ) const
 {
     const auto p = beta; // for compatibility, later replace it in the code below
-    // First, a sanity test for mission stuff
-    if (topic >= TALK_MISSION_START && topic <= TALK_MISSION_END) {
-        if (topic == TALK_MISSION_START) {
-            return "Used TALK_MISSION_START - not meant to be used!";
-        }
-        if (topic == TALK_MISSION_END) {
-            return "Used TALK_MISSION_END - not meant to be used!";
-        }
-
+    // Those topics are handled by the mission system, see there.
+    static const std::set<talk_topic> mission_topics = { {
+        TALK_MISSION_DESCRIBE, TALK_MISSION_OFFER, TALK_MISSION_ACCEPTED,
+        TALK_MISSION_REJECTED, TALK_MISSION_ADVICE, TALK_MISSION_INQUIRE,
+        TALK_MISSION_SUCCESS, TALK_MISSION_SUCCESS_LIE, TALK_MISSION_FAILURE
+    } };
+    if( mission_topics.count( topic ) > 0 ) {
         if( p->chatbin.mission_selected == nullptr ) {
             return "mission_selected == nullptr; BUG! (npctalk.cpp:dynamic_line)";
         }
-
-        // Mission stuff is a special case, so we'll handle it up here
         mission *miss = p->chatbin.mission_selected;
         const auto &type = miss->get_type();
+        // TODO: make it a member of the mission class, maybe at mission instance specific data
         std::string ret = mission_dialogue( type.id, topic);
         if (ret.empty()) {
             debugmsg("Bug in npctalk.cpp:dynamic_line. Wrong mission_id(%d) or topic(%d)",
@@ -575,15 +572,13 @@ std::string dialogue::dynamic_line( const talk_topic topic ) const
             }
         }
 
-    return ret;
+        return ret;
     }
 
-    switch (topic) {
-        case TALK_NONE:
-        case TALK_DONE:
+    if( topic == TALK_NONE || topic == TALK_DONE ) {
             return "";
 
-        case TALK_GUARD:
+    } else if( topic == TALK_GUARD ) {
             switch (rng(1,5)){
             case 1:
                 return _("I'm not in charge here, you're looking for someone else...");
@@ -606,7 +601,7 @@ std::string dialogue::dynamic_line( const talk_topic topic ) const
             //    return _("Keep civil or I'll bring the pain.");
             }
 
-        case TALK_MISSION_LIST:
+    } else if( topic == TALK_MISSION_LIST ) {
             if (p->chatbin.missions.empty()) {
                 if( missions_assigned.empty() ) {
                     return _("I don't have any jobs for you.");
@@ -625,7 +620,7 @@ std::string dialogue::dynamic_line( const talk_topic topic ) const
                 return _("I have several more jobs for you.  Which should I describe?");
             }
 
-        case TALK_MISSION_LIST_ASSIGNED:
+    } else if( topic == TALK_MISSION_LIST_ASSIGNED ) {
             if( missions_assigned.empty() ) {
                 return _("You're not working on anything for me right now.");
             } else if( missions_assigned.size() == 1 ) {
@@ -634,122 +629,122 @@ std::string dialogue::dynamic_line( const talk_topic topic ) const
                 return _("Which job?");
             }
 
-        case TALK_MISSION_REWARD:
+    } else if( topic == TALK_MISSION_REWARD ) {
             return _("Sure, here you go!");
 
-        case TALK_EVAC_MERCHANT:
+    } else if( topic == TALK_EVAC_MERCHANT ) {
             if (g->u.is_wearing("badge_marshal"))
                 return _("Welcome marshal...");
             return _("Welcome...");
 
-        case TALK_EVAC_MERCHANT_NEW:
+    } else if( topic == TALK_EVAC_MERCHANT_NEW ) {
             return _("Before you say anything else, we're full.  Few days ago we had an outbreak due to lett'n in too many new refugees."
                      "  We do desperately need supplies and are willing to trade what we can for it.  Pay top dollar for jerky if you have any.");
 
-        case TALK_EVAC_MERCHANT_PLANS:
+    } else if( topic == TALK_EVAC_MERCHANT_PLANS ) {
             return _("To be honest, we started out with six buses full of office workers and soccer moms... after the refugee outbreak a day or two"
                     " ago the more courageous ones in our party ended up dead.  The only thing we want now is to run enough trade through"
                     " here to keep us alive.  Don't care who your goods come from or how you got them, just don't bring trouble.");
 
-        case TALK_EVAC_MERCHANT_PLANS2:
+    } else if( topic == TALK_EVAC_MERCHANT_PLANS2 ) {
             return _("I'm sorry, but the only way we're going to make it is if we keep our gates buttoned fast.  The guards in the basement "
                     "have orders to shoot on sight, if you so much as peep your head in the lower levels.  I don't know what made the scavengers "
                     "out there so ruthless but some of us have had to kill our own bloody kids... don't even think about strong arming us.");
 
-        case TALK_EVAC_MERCHANT_PLANS3:
+    } else if( topic == TALK_EVAC_MERCHANT_PLANS3 ) {
             return _("Well the refugees were staying here on the first floor when one their parties tried to sneak a dying guy in through the loading bay, "
                      "we ended up being awoken to shrieks and screams. Maybe two dozen people died that night.  The remaining refugees were banished the next "
                      "day and went on to form a couple of scavenging bands.  I'd say we got twenty decent men or women still here but our real strength comes "
                      "from all of our business partners that are accustomed to doing whatever is needed to survive.");
 
-        case TALK_EVAC_MERCHANT_WORLD:
+    } else if( topic == TALK_EVAC_MERCHANT_WORLD ) {
             return _("Can't say we've heard much.  Most these shelters seemed to have been designed to make people feel safer... not actually "
                     "aid in their survival.  Our radio equipment is utter garbage that someone convinced the government to buy, with no intention "
                     "of it ever being used.  From the passing scavengers I've heard nothing but prime loot'n spots and rumors of hordes.");
 
-        case TALK_EVAC_MERCHANT_HORDES:
+    } else if( topic == TALK_EVAC_MERCHANT_HORDES ) {
             return _("Had one guy pop in here a while back saying he had tried to drive into Syracuse after the outbreak.  Didn't even make it "
                      "downtown before he ran into a wall of the living dead that could stop a tank.  He hightailed it out but claims there were "
                      "several thousand at least.  Guess when you get a bunch of them together they end up making enough noise to attract everyone "
                      "in the neighborhood.  Luckily we haven't had a mob like that pass by here.");
 
-        case TALK_EVAC_MERCHANT_PRIME_LOOT:
+    } else if( topic == TALK_EVAC_MERCHANT_PRIME_LOOT ) {
             return _("Well, there is a party of about a dozen 'scavengers' that found some sort of government facility.  They bring us a literal "
                      "truck load of jumpsuits, m4's, and canned food every week or so.  Since some of those guys got family here, we've been "
                      "doing alright.  As to where it is, I don't have the foggiest of ideas.");
 
-        case TALK_EVAC_MERCHANT_ASK_JOIN:
+    } else if( topic == TALK_EVAC_MERCHANT_ASK_JOIN ) {
             return _("Sorry, last thing we need is another mouth to feed.  Most of us lack any real survival skills so keeping our group "
                      "small enough to survive on the food random scavengers bring to trade with us is important.");
 
-        case TALK_EVAC_MERCHANT_NO:
+    } else if( topic == TALK_EVAC_MERCHANT_NO ) {
             return _("I'm sorry, not a risk we are willing to take right now.");
 
-        case TALK_EVAC_MERCHANT_HELL_NO:
+    } else if( topic == TALK_EVAC_MERCHANT_HELL_NO ) {
             return _("There isn't a chance in hell!  We had one guy come in here with bloody fur all over his body... well I guess that isn't all that "
                      "strange but I'm pretty sure whatever toxic waste is still out there is bound to mutate more than just his hair.");
 
-        case TALK_EVAC_GUARD1:
+    } else if( topic == TALK_EVAC_GUARD1 ) {
             if (g->u.is_wearing("badge_marshal"))
                 return _("Hello marshal.");
             return _("Hello there.");
 
-        case TALK_EVAC_GUARD1_PLACE:
+    } else if( topic == TALK_EVAC_GUARD1_PLACE ) {
             return _("This is a refugee center that we've made into a sort of trading hub.");
 
-        case TALK_EVAC_GUARD1_GOVERNMENT:
+    } else if( topic == TALK_EVAC_GUARD1_GOVERNMENT ) {
             return _("Ha ha ha, no. Though there is Old Guard somewhere around here if you have any questions "
                      "relating to what the government is up to.");
 
-        case TALK_EVAC_GUARD1_TRADE:
+    } else if( topic == TALK_EVAC_GUARD1_TRADE ) {
             return _("Anything valuable really. If you really want to know, go ask one of the actual traders. I'm just protection.");
 
-        case TALK_EVAC_GUARD1_JOIN:
+    } else if( topic == TALK_EVAC_GUARD1_JOIN ) {
             return _("Nope.");
 
-        case TALK_EVAC_GUARD1_JOIN2:
+    } else if( topic == TALK_EVAC_GUARD1_JOIN2 ) {
             return _("Death is pretty blunt.");
 
-        case TALK_EVAC_GUARD1_JOIN3:
+    } else if( topic == TALK_EVAC_GUARD1_JOIN3 ) {
             return _("Nope.");
 
-        case TALK_EVAC_GUARD1_ATTITUDE:
+    } else if( topic == TALK_EVAC_GUARD1_ATTITUDE ) {
             return _("Then leave, you have two feet.");
 
-        case TALK_EVAC_GUARD1_JOB:
+    } else if( topic == TALK_EVAC_GUARD1_JOB ) {
             return _("Uh, not really. Go talk to a merchant if you have anything to sell. Otherwise the Old Guard liaison "
                      "might have something, if you can find him.");
 
-        case TALK_EVAC_GUARD1_OLDGUARD:
+    } else if( topic == TALK_EVAC_GUARD1_OLDGUARD ) {
             return _("That's just our nickname for them. They're what's left of the federal government.  "
                      "Don't know how legitimate they are but they are named after some military unit "
                      "that once protected the president.  Their liaison is usually hanging around "
                      "here somewhere.");
 
-        case TALK_EVAC_GUARD1_BYE:
+    } else if( topic == TALK_EVAC_GUARD1_BYE ) {
             return _("Stay safe out there. Hate to have to kill you after you've already died.");
 
-        case TALK_EVAC_GUARD2:
+    } else if( topic == TALK_EVAC_GUARD2 ) {
             if (g->u.is_wearing("badge_marshal"))
                 return _("Hello marshal.");
             return _("Hello.");
 
-        case TALK_EVAC_GUARD2_NEW:
+    } else if( topic == TALK_EVAC_GUARD2_NEW ) {
             return _("Yes of course. Just don't bring any trouble and it's all fine by me.");
 
-        case TALK_EVAC_GUARD2_RULES:
+    } else if( topic == TALK_EVAC_GUARD2_RULES ) {
             return _("Well mostly no. Just don't go around robbing others and starting fights "
                      "and you will be all set. Also, don't go into the basement. Outsiders "
                      "are not allowed in there.");
 
-        case TALK_EVAC_GUARD2_RULES_BASEMENT:
+    } else if( topic == TALK_EVAC_GUARD2_RULES_BASEMENT ) {
             return _("In short, we had a problem when a sick refugee died and turned "
                      "into a zombie.  We had to expel the refugees and most of our "
                      "surviving group now stays to the basement to prevent it from "
                      "happening again. Unless you really prove your worth I don't "
                      "foresee any exceptions to that rule.");
 
-         case TALK_EVAC_GUARD2_WHO:
+     } else if( topic == TALK_EVAC_GUARD2_WHO ) {
             return _("Most are scavengers like you.  They now make a living by "
                      "looting the cities in search for anything useful: food, "
                      "weapons, tools, gasoline. In exchange for their findings "
@@ -757,69 +752,69 @@ std::string dialogue::dynamic_line( const talk_topic topic ) const
                      "of our shop. I bet some of them would be willing to organize "
                      "resource runs with you if you ask.");
 
-        case  TALK_EVAC_GUARD2_TRADE:
+     } else if( topic == TALK_EVAC_GUARD2_TRADE ) {
             return _("You are asking the wrong person, should look for our "
                      "merchant by the main entrance. Perhaps one of the scavengers "
                      "is also interested.");
 
-        case TALK_EVAC_GUARD3:
+    } else if( topic == TALK_EVAC_GUARD3 ) {
             return _("Keep to yourself and you won't find any problems.");
 
-        case TALK_EVAC_GUARD3_NEW:
+    } else if( topic == TALK_EVAC_GUARD3_NEW ) {
             return _("I haven't been here for long but I do my best to watch who "
                      "comes and goes.  You can't always predict who will bring trouble.");
 
-        case TALK_EVAC_GUARD3_RULES:
+    } else if( topic == TALK_EVAC_GUARD3_RULES ) {
             return _("Keep your head down and stay out of my way.");
 
-        case TALK_EVAC_GUARD3_HIDE1:
+    } else if( topic == TALK_EVAC_GUARD3_HIDE1 ) {
             return _("Like what?");
 
-        case TALK_EVAC_GUARD3_HIDE2:
+    } else if( topic == TALK_EVAC_GUARD3_HIDE2 ) {
             return _("You're new here, who the hell put you up to this crap?");
 
-        case TALK_EVAC_GUARD3_WASTE:
+    } else if( topic == TALK_EVAC_GUARD3_WASTE ) {
             return _("If you don't get on with your business I'm going to have to "
                      "ask you to leave and not come back.");
 
-        case TALK_EVAC_GUARD3_DEAD:
+    } else if( topic == TALK_EVAC_GUARD3_DEAD ) {
             return _("That's it, you're dead!");
 
-        case TALK_EVAC_GUARD3_HOSTILE:
+    } else if( topic == TALK_EVAC_GUARD3_HOSTILE ) {
             return _("You must really have a death wish!");
 
-        case TALK_EVAC_GUARD3_INSULT:
+    } else if( topic == TALK_EVAC_GUARD3_INSULT ) {
             return _("We don't put-up with garbage like you, finish your business and "
                      "get the hell out.");
 
-        case TALK_EVAC_HUNTER:
+    } else if( topic == TALK_EVAC_HUNTER ) {
             if (g->u.is_wearing("badge_marshal"))
                 return _("I thought I smelled a pig.  I jest... please don't arrest me.");
             return _("Huh, thought I smelled someone new. Can I help you?");
 
-        case TALK_EVAC_HUNTER_SMELL:
+    } else if( topic == TALK_EVAC_HUNTER_SMELL ) {
             return _("Oh, I didn't mean that in a bad way. Been out in the wilderness "
                      "so long, I find myself noticing things by scent before sight.");
 
-        case TALK_EVAC_HUNTER_DO:
+    } else if( topic == TALK_EVAC_HUNTER_DO ) {
             return _("I trade food here in exchange for a place to crash and general "
                      "supplies. Well, more specifically I trade food that isn't stale "
                      "chips and flat cola.");
 
-        case TALK_EVAC_HUNTER_LIFE:
+    } else if( topic == TALK_EVAC_HUNTER_LIFE ) {
             return _("Not really, just trying to lead my life.");
 
-        case TALK_EVAC_HUNTER_HUNT:
+    } else if( topic == TALK_EVAC_HUNTER_HUNT ) {
             return _("Yep. Whatever game I spot, I bag and sell the meat and other "
                      "parts here. Got the occasional fish and basket full of wild "
                      "fruit, but nothing comes close to a freshly-cooked moose steak "
                      "for supper!");
 
-        case TALK_EVAC_HUNTER_SALE:
+    } else if( topic == TALK_EVAC_HUNTER_SALE ) {
             return _("Sure, just bagged a fresh batch of meat. You may want to grill "
                      "it up before it gets too, uh... 'tender'. ");
 
-        case TALK_EVAC_HUNTER_ADVICE:
+    } else if( topic == TALK_EVAC_HUNTER_ADVICE ) {
             switch (rng(1,7)){
             case 1:
                 return _("Feed a man a fish, he's full for a day. Feed a man a bullet, "
@@ -842,10 +837,10 @@ std::string dialogue::dynamic_line( const talk_topic topic ) const
                 return _("Smoke crack to get more shit done.");
             }
 
-        case TALK_EVAC_HUNTER_BYE:
+    } else if( topic == TALK_EVAC_HUNTER_BYE ) {
             return _("Watch your back out there.");
 
-        case TALK_OLD_GUARD_REP:
+    } else if( topic == TALK_OLD_GUARD_REP ) {
             // The rep should know whether you're a sworn officer.
             // TODO: wearing the badge w/o the trait => Bad Idea
             if (g->u.has_trait("PROF_FED")) {
@@ -853,42 +848,42 @@ std::string dialogue::dynamic_line( const talk_topic topic ) const
             }
             return _("Citizen...");
 
-        case TALK_OLD_GUARD_REP_NEW:
+    } else if( topic == TALK_OLD_GUARD_REP_NEW ) {
              return _("I'm the region's federal liaison.  Most people here call us the 'Old Guard' and I rather like the sound of it.  "
                       "Despite how things currently appear, the federal government was not entirely destroyed.  After the outbreak I was "
                       "chosen to coordinate civilian and militia efforts in support of military operations.");
 
-        case TALK_OLD_GUARD_REP_NEW_DOING:
+    } else if( topic == TALK_OLD_GUARD_REP_NEW_DOING ) {
              return _("I ensure that the citizens here have what they need to survive and protect themselves from raiders.  Keeping "
                       "some form law is going to be the most important  element in rebuilding the world.  We do what we can to keep the "
                       "'Free Merchants' here prospering and in return they have provided us with spare men and supplies when they can.");
 
-        case TALK_OLD_GUARD_REP_NEW_DOWNSIDE:
+    } else if( topic == TALK_OLD_GUARD_REP_NEW_DOWNSIDE ) {
              return _("Well... I was like any other civilian till they conscripted me so I'll tell it to you straight.  They're the "
                       " best hope we got right now.  They are stretched impossibly thin but are willing to do what is needed to maintain "
                       "order.  They don't care much about looters since they understand most everyone is dead, but if you have something "
                       "they need... you WILL give it to them.  Since most survivors have have nothing they want, they are welcomed as champions.");
 
-        case TALK_OLD_GUARD_REP_WORLD:
+    } else if( topic == TALK_OLD_GUARD_REP_WORLD ) {
              return _("There isn't much pushed out by public relations that I'd actually believe.  From what I gather, communication "
                       "between the regional force commands is almost non-existent.  What I do know is that the 'Old Guard' is currently "
                       "based out of the 2nd Fleet and patrols the Atlantic coast trying to provide support to the remaining footholds.");
 
-        case TALK_OLD_GUARD_REP_WORLD_2NDFLEET:
+    } else if( topic == TALK_OLD_GUARD_REP_WORLD_2NDFLEET ) {
              return _("I don't know much about how it formed but it is the armada of military and commercial ships that's floating off the "
                       "coast.  They have everything from supertankers and carriers to fishing trawlers... even a few NATO ships.  Most civilians "
                       "are offered a cabin on one of the liners to retire to if they serve as a federal employee for a few years.");
 
-        case TALK_OLD_GUARD_REP_WORLD_FOOTHOLDS:
+    } else if( topic == TALK_OLD_GUARD_REP_WORLD_FOOTHOLDS ) {
              return _("They may just be propaganda but apparently one or two cities were successful in 'walling themselves off.' Around "
                       "here I was told that there were a few places like this one but I couldn't tell you where.");
 
-        case TALK_OLD_GUARD_REP_ASK_JOIN:
+    } else if( topic == TALK_OLD_GUARD_REP_ASK_JOIN ) {
              return _("You can't actually join unless you go through a recruiter.  We can usually use help though, ask me from time to time "
                       "if there is any work available.  Completing missions as a contractor is a great way to make a name for yourself among "
                       "the most powerful men left in the world.");
 
-         case TALK_OLD_GUARD_SOLDIER:
+     } else if( topic == TALK_OLD_GUARD_SOLDIER ) {
 	        if (g->u.is_wearing("badge_marshal"))
 	            switch (rng(1,4)){
 	                case 1:
@@ -919,7 +914,7 @@ std::string dialogue::dynamic_line( const talk_topic topic ) const
                     return _("Hey miss, don't you think it would be safer if you stuck with me?");
             }
 
-        case TALK_OLD_GUARD_NEC_CPT:
+    } else if( topic == TALK_OLD_GUARD_NEC_CPT ) {
             if (g->u.has_trait("PROF_FED")) {
                 return _("Marshal, I hope you're here to assist us.");
             }
@@ -927,14 +922,14 @@ std::string dialogue::dynamic_line( const talk_topic topic ) const
                     return _("Sir, I don't know how the hell you got down here but if you have any sense you'll get out while you can.");
             return _("Ma'am, I don't know how the hell you got down here but if you have any sense you'll get out while you can.");
 
-        case TALK_OLD_GUARD_NEC_CPT_GOAL:
+    } else if( topic == TALK_OLD_GUARD_NEC_CPT_GOAL ) {
             return _("I'm leading what remains of my company on a mission to re-secure this facility.  We entered the complex with two "
                      "dozen men and immediately went about securing this control room.  From here I dispatched my men to secure vital "
                      "systems located on this floor and the floors below this one.  If  we are successful, this facility can be cleared "
                      "and used as a permanent base of operations in the region.  Most importantly it will allow us to redirect refugee "
                      "traffic away from overcrowded outposts and free up more of our forces to conduct recovery operations.");
 
-        case TALK_OLD_GUARD_NEC_CPT_VAULT:
+    } else if( topic == TALK_OLD_GUARD_NEC_CPT_VAULT ) {
             return _("This facility was constructed to provide a safe haven in the event of a global conflict.  The vault can support "
                      "several thousand people for a few years if all systems are operational and sufficient notification is given.  "
                      "Unfortunately, the power system was damaged or sabotaged at some point and released a single extremely lethal "
@@ -943,7 +938,7 @@ std::string dialogue::dynamic_line( const talk_topic topic ) const
                      "lower floors before succumbing to radiation sickness.  The only other thing the logs tell us is that all water "
                      "pressure was diverted to the lower levels.");
 
-        case TALK_OLD_GUARD_NEC_COMMO:
+    } else if( topic == TALK_OLD_GUARD_NEC_COMMO ) {
             if (g->u.has_trait("PROF_FED")) {
                 return _("Marshal, I'm rather surprised to see you here.");
             }
@@ -951,87 +946,87 @@ std::string dialogue::dynamic_line( const talk_topic topic ) const
                     return _("Sir you are not authorized to be here... you should leave.");
             return _("Ma'am you are not authorized to be here... you should leave.");
 
-        case TALK_OLD_GUARD_NEC_COMMO_GOAL:
+    } else if( topic == TALK_OLD_GUARD_NEC_COMMO_GOAL ) {
             return _("We are securing the external communications array for this facility.  I'm rather restricted in what I can release"
                      "... go find my commander if you have any questions.");
 
-        case TALK_OLD_GUARD_NEC_COMMO_FREQ:
+    } else if( topic == TALK_OLD_GUARD_NEC_COMMO_FREQ ) {
             return _("I was expecting the captain to send a runner.  Here is the list you are looking for.  What we can identify from here are simply the "
                      "frequencies that have traffic on them.  Many of the transmissions are indecipherable without repairing or "
                      "replacing the equipment here.  When the facility was being overrun, standard procedure was to destroy encryption "
                      "hardware to protect federal secrets and maintain the integrity of the comms network.  We are hoping a few plain "
                      "text messages can get picked up though.");
 
-        case TALK_ARSONIST:
+    } else if( topic == TALK_ARSONIST ) {
             if (g->u.is_wearing("badge_marshal"))
                 return _("That sure is a shiny badge you got there!");
             return _("Heh, you look important.");
 
-        case TALK_ARSONIST_NEW:
+    } else if( topic == TALK_ARSONIST_NEW ) {
             return _("Guess that makes two of us. Well, kind of. I don't think we're open, though. Full up as hell; it's almost a crowd "
                      "downstairs. See the trader over there? There's the one to ask.");
 
-        case TALK_ARSONIST_DOING:
+    } else if( topic == TALK_ARSONIST_DOING ) {
             return _("I burn down buildings and sell the Free Merchants the materials. No, seriously. If you've seen burned "
                      "wreckage in place of suburbs or even see the pile of rebar for sale, that's probably me. They've kept "
                      "me well off in exchange, I guess. I'll sell you a Molotov Cocktail or two, if you want.");
 
-        case TALK_ARSONIST_DOING_REBAR:
+    } else if( topic == TALK_ARSONIST_DOING_REBAR ) {
             return _("Well, there's a guy downstairs who got a working pneumatic cannon. It shoots metal like... like a "
                      "cannon without the bang. Cost-efficient as hell. And there's no shortage of improvised weapons you "
                      "can make.  The big thing though, seems to be continuing construction of fortifications.  Very few of "
                      "those monsters seem to be able to break through a fence or wall constructed with the stuff.");
 
-        case TALK_ARSONIST_WORLD:
+    } else if( topic == TALK_ARSONIST_WORLD ) {
             return _("Nothing optimistic, at least. Had a pal on the road with a ham radio, but she's gone and so is that "
                      "thing. Kaput.");
 
-        case TALK_ARSONIST_WORLD_OPTIMISTIC:
+    } else if( topic == TALK_ARSONIST_WORLD_OPTIMISTIC ) {
             return _("Most of the emergency camps have dissolved by now. The cities are mobbed, the forests crawling with "
                      "glowing eyes and zombies. Some insane shit out there, and everyone with a radio seems to feel like "
                      "documenting their last awful moments.");
 
-        case TALK_ARSONIST_JOIN:
+    } else if( topic == TALK_ARSONIST_JOIN ) {
             return _("I don't know. I mean, if you can make yourself useful. But that's become a real hazy thing nowadays."
                      " It depends who you ask. The merchant definitely doesn't want me here when I'm not selling, but... "
                      "some people get away with it.");
 
-        case TALK_ARSONIST_MUTATION:
+    } else if( topic == TALK_ARSONIST_MUTATION ) {
             return _("Ssh. Some people in here hate... mutations. This was an accident.");
 
-        case TALK_ARSONIST_MUTATION_INSULT:
+    } else if( topic == TALK_ARSONIST_MUTATION_INSULT ) {
             return _("Screw You!");
 
-        case TALK_SCAVENGER_MERC:
+    } else if( topic == TALK_SCAVENGER_MERC ) {
             if (g->u.is_wearing("badge_marshal"))
                 return _("I haven't done anything wrong...");
             return _("...");
 
-        case TALK_SCAVENGER_MERC_NEW:
+    } else if( topic == TALK_SCAVENGER_MERC_NEW ) {
              return _("I'm just a hired hand.  Someone pays me and I do what needs to be done.");
 
-        case TALK_SCAVENGER_MERC_TIPS:
+    } else if( topic == TALK_SCAVENGER_MERC_TIPS ) {
              return _("If you have to fight your way out of an ambush, the only thing that is going to save you is having a party that can "
                       "return fire.  People who work alone are easy pickings for monsters and bandits.");
 
-        case TALK_SCAVENGER_MERC_HIRE:
+    } else if( topic == TALK_SCAVENGER_MERC_HIRE ) {
              return _("I'm currently waiting for a customer to return... I'll make you a deal though, "
                       " $8,000 will cover my expenses if I get a small cut of the loot.");
 
-        case TALK_SCAVENGER_MERC_HIRE_SUCCESS:
+    } else if( topic == TALK_SCAVENGER_MERC_HIRE_SUCCESS ) {
              return _("I guess you're the boss.");
 
-        case TALK_FREE_MERCHANT_STOCKS:
+    } else if( topic == TALK_FREE_MERCHANT_STOCKS ) {
              return _("Hope you're here to trade.");
 
-        case TALK_FREE_MERCHANT_STOCKS_NEW:
+    } else if( topic == TALK_FREE_MERCHANT_STOCKS_NEW ) {
              return _("I oversee the food stocks for the center.  There was significant looting during "
                       "the panic when we first arrived so most of our food was carried away.  I manage "
                       "what we have left and do everything I can to increase our supplies.  Rot and mold "
                       "are more significant in the damp basement so I prioritize non-perishable food, "
                       "such as cornmeal, jerky, and fruit wine.");
 
-        case TALK_FREE_MERCHANT_STOCKS_WHY:
+    } else if( topic == TALK_FREE_MERCHANT_STOCKS_WHY ) {
              return _("All three are easy to locally produce in significant quantities and are "
                       "non-perishable.  We have a local farmer or two and a few hunter types that have "
                       "been making attempts to provide us with the nutritious supplies.  We do always "
@@ -1039,48 +1034,48 @@ std::string dialogue::dynamic_line( const talk_topic topic ) const
                       "pay a premium for any you have on you.  Canned food and other edibles are "
                       "handled by the merchant in the front.");
 
-        case TALK_FREE_MERCHANT_STOCKS_ALL:
+    } else if( topic == TALK_FREE_MERCHANT_STOCKS_ALL ) {
              return _("I'm actually accepting a number of different foodstuffs: homebrew beer, sugar, flour, "
                       "smoked meat, smoked fish, cooking oil; and as mentioned before, jerky, cornmeal, "
                       "and fruit wine.");
 
-        case TALK_FREE_MERCHANT_STOCKS_JERKY:
+    } else if( topic == TALK_FREE_MERCHANT_STOCKS_JERKY ) {
             return talk_function::bulk_trade_inquire(p, "jerky");
 
-        case TALK_FREE_MERCHANT_STOCKS_CORNMEAL:
+    } else if( topic == TALK_FREE_MERCHANT_STOCKS_CORNMEAL ) {
             return talk_function::bulk_trade_inquire(p, "cornmeal");
 
-        case TALK_FREE_MERCHANT_STOCKS_WINE:
+    } else if( topic == TALK_FREE_MERCHANT_STOCKS_WINE ) {
             return talk_function::bulk_trade_inquire(p, "fruit_wine");
 
-        case TALK_FREE_MERCHANT_STOCKS_FLOUR:
+    } else if( topic == TALK_FREE_MERCHANT_STOCKS_FLOUR ) {
             return talk_function::bulk_trade_inquire(p, "flour");
 
-        case TALK_FREE_MERCHANT_STOCKS_SUGAR:
+    } else if( topic == TALK_FREE_MERCHANT_STOCKS_SUGAR ) {
             return talk_function::bulk_trade_inquire(p, "sugar");
 
-        case TALK_FREE_MERCHANT_STOCKS_BEER:
+    } else if( topic == TALK_FREE_MERCHANT_STOCKS_BEER ) {
             return talk_function::bulk_trade_inquire(p, "hb_beer");
 
-        case TALK_FREE_MERCHANT_STOCKS_SMMEAT:
+    } else if( topic == TALK_FREE_MERCHANT_STOCKS_SMMEAT ) {
             return talk_function::bulk_trade_inquire(p, "meat_smoked");
 
-        case TALK_FREE_MERCHANT_STOCKS_SMFISH:
+    } else if( topic == TALK_FREE_MERCHANT_STOCKS_SMFISH ) {
             return talk_function::bulk_trade_inquire(p, "fish_smoked");
 
-        case TALK_FREE_MERCHANT_STOCKS_OIL:
+    } else if( topic == TALK_FREE_MERCHANT_STOCKS_OIL ) {
             return talk_function::bulk_trade_inquire(p, "cooking_oil");
 
-        case TALK_FREE_MERCHANT_STOCKS_DELIVERED:
+    } else if( topic == TALK_FREE_MERCHANT_STOCKS_DELIVERED ) {
              return _("Thank you for your business!");
 
-        case TALK_SHELTER:
+    } else if( topic == TALK_SHELTER ) {
             switch (rng(1, 2)) {
                 case 1: return _("Well, I guess it's just us.");
                 case 2: return _("At least we've got shelter.");
             }
 
-        case TALK_SHELTER_PLANS:
+    } else if( topic == TALK_SHELTER_PLANS ) {
             switch (rng(1, 5)) {
                 case 1: return _("I don't know, look for supplies and other survivors I guess.");
                 case 2: return _("Maybe we should start boarding up this place.");
@@ -1089,24 +1084,23 @@ std::string dialogue::dynamic_line( const talk_topic topic ) const
                 case 5: return _("We should probably stay away from those cities, even if there's plenty of useful stuff there.");
             }
             
-        case TALK_SHARE_EQUIPMENT:
+    } else if( topic == TALK_SHARE_EQUIPMENT ) {
             if (p->has_effect(_("asked_for_item"))) {
                 return _("You just asked me for stuff; ask later.");
             }
             return _("Why should I share my equipment with you?");
 
-        case TALK_GIVE_EQUIPMENT:
+    } else if( topic == TALK_GIVE_EQUIPMENT ) {
             return _("Okay, here you go.");
 
-        case TALK_DENY_EQUIPMENT:
+    } else if( topic == TALK_DENY_EQUIPMENT ) {
             if (p->op_of_u.anger >= p->hostile_anger_level() - 4) {
                 return _("<no>, and if you ask again, <ill_kill_you>!");
             } else {
                 return _("<no><punc> <fuck_you>!");
             }
 
-        case TALK_TRAIN:
-            {
+    } else if( topic == TALK_TRAIN ) {
                 if( !g->u.backlog.empty() && g->u.backlog.front().type == ACT_TRAIN ) {
                 return _("Shall we resume?");
             }
@@ -1117,10 +1111,8 @@ std::string dialogue::dynamic_line( const talk_topic topic ) const
             } else {
                 return _("Here's what I can teach you...");
             }
-            }
-            break;
 
-        case TALK_TRAIN_START:
+    } else if( topic == TALK_TRAIN_START ) {
             // Technically the player could be on another (unsafe) overmap terrain, but the
             // NPC is only concerned about themselves.
             if( overmap_buffer.is_safe( p->global_omt_location() ) ) {
@@ -1128,12 +1120,11 @@ std::string dialogue::dynamic_line( const talk_topic topic ) const
             } else {
                 return _("It's not safe here.  Let's get to safety first.");
             }
-            break;
 
-        case TALK_TRAIN_FORCE:
+    } else if( topic == TALK_TRAIN_FORCE ) {
             return _("Alright, let's begin.");
 
-        case TALK_SUGGEST_FOLLOW:
+    } else if( topic == TALK_SUGGEST_FOLLOW ) {
             if (p->has_effect(_("infection"))) {
                 return _("Not until I get some antibiotics...");
             }
@@ -1142,26 +1133,25 @@ std::string dialogue::dynamic_line( const talk_topic topic ) const
             }
             return _("Why should I travel with you?");
 
-        case TALK_AGREE_FOLLOW:
+    } else if( topic == TALK_AGREE_FOLLOW ) {
             return _("You got it, I'm with you!");
 
-        case TALK_DENY_FOLLOW:
+    } else if( topic == TALK_DENY_FOLLOW ) {
             return _("Yeah... I don't think so.");
 
-        case TALK_LEADER:
+    } else if( topic == TALK_LEADER ) {
             return _("What is it?");
 
-        case TALK_LEAVE:
+    } else if( topic == TALK_LEAVE ) {
             return _("You're really leaving?");
 
-        case TALK_PLAYER_LEADS:
+    } else if( topic == TALK_PLAYER_LEADS ) {
             return _("Alright.  You can lead now.");
 
-        case TALK_LEADER_STAYS:
+    } else if( topic == TALK_LEADER_STAYS ) {
             return _("No.  I'm the leader here.");
 
-        case TALK_HOW_MUCH_FURTHER:
-            {
+    } else if( topic == TALK_HOW_MUCH_FURTHER ) {
             // TODO: this ignores the z-component
             const tripoint player_pos = p->global_omt_location();
             int dist = rl_dist(player_pos, p->goal);
@@ -1179,28 +1169,26 @@ std::string dialogue::dynamic_line( const talk_topic topic ) const
                 response << string_format(ngettext("%d foot.","%d feet.",dist), dist);
             }
             return response.str();
-            }
 
-        case TALK_FRIEND:
+    } else if( topic == TALK_FRIEND ) {
             return _("What is it?");
 
-        case TALK_FRIEND_GUARD:
+    } else if( topic == TALK_FRIEND_GUARD ) {
             return _("I'm on watch.");
 
-        case TALK_DENY_GUARD:
+    } else if( topic == TALK_DENY_GUARD ) {
             return _("Not a bloody chance, I'm going to get left behind!");
 
-        case TALK_DENY_TRAIN:
+    } else if( topic == TALK_DENY_TRAIN ) {
             return _("Give it some time, I'll show you something new later...");
 
-        case TALK_DENY_PERSONAL:
+    } else if( topic == TALK_DENY_PERSONAL ) {
             return _("I'd prefer to keep that to myself.");
 
-        case TALK_FRIEND_UNCOMFORTABLE:
+    } else if( topic == TALK_FRIEND_UNCOMFORTABLE ) {
             return _("I really don't feel comfortable doing so...");
 
-        case TALK_COMBAT_COMMANDS:
-            {
+    } else if( topic == TALK_COMBAT_COMMANDS ) {
             std::stringstream status;
             // Prepending * makes this an action, not a phrase
             switch (p->combat_rules.engagement) {
@@ -1227,44 +1215,43 @@ std::string dialogue::dynamic_line( const talk_topic topic ) const
             }
 
             return status.str();
-            }
 
-        case TALK_COMBAT_ENGAGEMENT:
+    } else if( topic == TALK_COMBAT_ENGAGEMENT ) {
             return _("What should I do?");
 
-        case TALK_STRANGER_NEUTRAL:
+    } else if( topic == TALK_STRANGER_NEUTRAL ) {
             if (p->myclass == NC_TRADER) {
                 return _("Hello!  Would you care to see my goods?");
             }
             return _("Hello there.");
 
-        case TALK_STRANGER_WARY:
+    } else if( topic == TALK_STRANGER_WARY ) {
             return _("Okay, no sudden movements...");
 
-        case TALK_STRANGER_SCARED:
+    } else if( topic == TALK_STRANGER_SCARED ) {
             return _("Keep your distance!");
 
-        case TALK_STRANGER_FRIENDLY:
+    } else if( topic == TALK_STRANGER_FRIENDLY ) {
             if (p->myclass == NC_TRADER) {
                 return _("Hello!  Would you care to see my goods?");
             }
             return _("Hey there, <name_g>.");
 
-        case TALK_STRANGER_AGGRESSIVE:
+    } else if( topic == TALK_STRANGER_AGGRESSIVE ) {
             if (!g->u.unarmed_attack()) {
                 return "<drop_it>";
             } else {
                 return _("This is my territory, <name_b>.");
             }
 
-        case TALK_MUG:
+    } else if( topic == TALK_MUG ) {
         if (!g->u.unarmed_attack()) {
             return "<drop_it>";
         } else {
             return "<hands_up>";
         }
 
-        case TALK_DESCRIBE_MISSION:
+    } else if( topic == TALK_DESCRIBE_MISSION ) {
             switch (p->mission) {
                 case NPC_MISSION_RESCUE_U:
                     return _("I'm here to save you!");
@@ -1318,19 +1305,15 @@ std::string dialogue::dynamic_line( const talk_topic topic ) const
                 default:
                     return "ERROR: Someone forgot to code an npc_mission text.";
             } // switch (p->mission)
-            break;
 
-        case TALK_WEAPON_DROPPED:
-            {
+    } else if( topic == TALK_WEAPON_DROPPED ) {
             std::string npcstr = rm_prefix(p->male ? _("<npc>his") : _("<npc>her"));
             return string_format(_("*drops %s weapon."), npcstr.c_str());
-            }
 
-        case TALK_DEMAND_LEAVE:
+    } else if( topic == TALK_DEMAND_LEAVE ) {
             return _("Now get out of here, before I kill you.");
 
-        case TALK_SIZE_UP:
-            {
+    } else if( topic == TALK_SIZE_UP ) {
             int ability = g->u.per_cur * 3 + g->u.int_cur;
             if (ability <= 10) {
                 return "&You can't make anything out.";
@@ -1365,28 +1348,16 @@ std::string dialogue::dynamic_line( const talk_topic topic ) const
             }
 
             return info.str();
-            }
-            break;
 
-        case TALK_LOOK_AT:
-            {
+    } else if( topic == TALK_LOOK_AT ) {
             std::stringstream look;
             look << "&" << p->short_description();
             return look.str();
-            }
-            break;
 
-        case TALK_OPINION:
-            {
+    } else if( topic == TALK_OPINION ) {
             std::stringstream opinion;
             opinion << "&" << p->opinion_text();
             return opinion.str();
-            }
-            break;
-
-        default:
-            //Suppress warnings
-            break;
     }
 
     return "I don't know what to say. (BUG (npctalk.cpp:dynamic_line))";
@@ -1453,12 +1424,10 @@ void dialogue::gen_responses( const talk_topic topic ) const
     ret.clear();
     mission *miss = p->chatbin.mission_selected;
 
-    switch (topic) {
-        case TALK_GUARD:
+    if( topic == TALK_GUARD ) {
             add_response_done( _("Don't mind me...") );
-            break;
 
-        case TALK_MISSION_LIST:
+    } else if( topic == TALK_MISSION_LIST ) {
             if (p->chatbin.missions.empty()) {
                 add_response_none( _("Oh, okay.") );
             } else if (p->chatbin.missions.size() == 1) {
@@ -1470,9 +1439,8 @@ void dialogue::gen_responses( const talk_topic topic ) const
                 }
                 add_response_none( _("Never mind, I'm not interested.") );
             }
-            break;
 
-        case TALK_MISSION_LIST_ASSIGNED:
+    } else if( topic == TALK_MISSION_LIST_ASSIGNED ) {
             if( missions_assigned.empty() ) {
                 add_response_none( _("Never mind then.") );
             } else if( missions_assigned.size() == 1 ) {
@@ -1484,36 +1452,30 @@ void dialogue::gen_responses( const talk_topic topic ) const
                 }
                 add_response_none( _("Never mind.") );
             }
-            break;
 
-        case TALK_MISSION_DESCRIBE:
+    } else if( topic == TALK_MISSION_DESCRIBE ) {
             add_response( _("What's the matter?"), TALK_MISSION_OFFER );
             add_response( _("I don't care."), TALK_MISSION_REJECTED );
-            break;
 
-        case TALK_MISSION_OFFER:
+    } else if( topic == TALK_MISSION_OFFER ) {
             add_response( _("I'll do it!"), TALK_MISSION_ACCEPTED, &talk_function::assign_mission );
             add_response( _("Not interested."), TALK_MISSION_REJECTED );
-            break;
 
-        case TALK_MISSION_ACCEPTED:
+    } else if( topic == TALK_MISSION_ACCEPTED ) {
             add_response_none( _("Not a problem.") );
             add_response( _("Got any advice?"), TALK_MISSION_ADVICE );
             add_response( _("Can you share some equipment?"), TALK_SHARE_EQUIPMENT );
             add_response_done( _("I'll be back soon!") );
-            break;
 
-        case TALK_MISSION_ADVICE:
+    } else if( topic == TALK_MISSION_ADVICE ) {
             add_response_none( _("Sounds good, thanks.") );
             add_response_done( _("Sounds good.  Bye!") );
-            break;
 
-        case TALK_MISSION_REJECTED:
+    } else if( topic == TALK_MISSION_REJECTED ) {
             add_response_none( _("I'm sorry.") );
             add_response_done( _("Whatever.  Bye.") );
-            break;
 
-        case TALK_MISSION_INQUIRE: {
+    } else if( topic == TALK_MISSION_INQUIRE ) {
             const auto mission = p->chatbin.mission_selected;
             if( mission->has_failed() ) {
                 RESPONSE(_("I'm sorry... I failed."));
@@ -1575,10 +1537,8 @@ void dialogue::gen_responses( const talk_topic topic ) const
                         break;
                 }
             }
-        }
-            break;
 
-        case TALK_MISSION_SUCCESS:
+    } else if( topic == TALK_MISSION_SUCCESS ) {
             RESPONSE(_("Glad to help.  I need no payment."));
                 SUCCESS(TALK_NONE);
                     SUCCESS_OPINION(miss->get_value() / (OWED_VAL * 4), -1,
@@ -1599,21 +1559,18 @@ void dialogue::gen_responses( const talk_topic topic ) const
                     SUCCESS_ACTION(&talk_function::clear_mission);
                     SUCCESS_OPINION(p->op_of_u.owed / (OWED_VAL * 4), -1,
                                     p->op_of_u.owed / (OWED_VAL * 2), -1, 0 - miss->get_value());
-            break;
 
-        case TALK_MISSION_SUCCESS_LIE:
+    } else if( topic == TALK_MISSION_SUCCESS_LIE ) {
             add_response( _("Well, um, sorry."), TALK_NONE, &talk_function::clear_mission );
 
-        case TALK_MISSION_FAILURE:
+    } else if( topic == TALK_MISSION_FAILURE ) {
             add_response_none( _("I'm sorry.  I did what I could.") );
-            break;
 
-        case TALK_MISSION_REWARD:
+    } else if( topic == TALK_MISSION_REWARD ) {
             add_response( _("Thank you."), TALK_NONE, &talk_function::clear_mission );
             add_response( _("Thanks, bye."), TALK_DONE, &talk_function::clear_mission );
-            break;
 
-        case TALK_EVAC_MERCHANT:
+    } else if( topic == TALK_EVAC_MERCHANT ) {
             add_response( _("I'm actually new..."), TALK_EVAC_MERCHANT_NEW );
             add_response( _("What are you doing here?"), TALK_EVAC_MERCHANT_PLANS );
             add_response( _("Heard anything about the outside world?"), TALK_EVAC_MERCHANT_WORLD );
@@ -1626,38 +1583,29 @@ void dialogue::gen_responses( const talk_topic topic ) const
             }
             add_response( _("Let's trade then."), TALK_EVAC_MERCHANT, &talk_function::start_trade );
             add_response_done( _("Well, bye.") );
-            break;
 
-        case TALK_EVAC_MERCHANT_NEW:
+    } else if( topic == TALK_EVAC_MERCHANT_NEW ) {
             add_response( _("No rest for the weary..."), TALK_EVAC_MERCHANT );
-            break;
-        case TALK_EVAC_MERCHANT_PLANS:
+    } else if( topic == TALK_EVAC_MERCHANT_PLANS ) {
             add_response( _("It's just as bad out here, if not worse."), TALK_EVAC_MERCHANT_PLANS2 );
-            break;
-        case TALK_EVAC_MERCHANT_PLANS2:
+    } else if( topic == TALK_EVAC_MERCHANT_PLANS2 ) {
             if (g->u.int_cur >= 12){
                 add_response( _("[INT 12] Wait, six buses and refugees... how many people do you still have crammed in here?"),
                                   TALK_EVAC_MERCHANT_PLANS3 );
             }
             add_response( _("Guess shit's a mess everywhere..."), TALK_EVAC_MERCHANT );
-            break;
-        case TALK_EVAC_MERCHANT_PLANS3:
+    } else if( topic == TALK_EVAC_MERCHANT_PLANS3 ) {
             add_response( _("Guess it works for you..."), TALK_EVAC_MERCHANT );
-            break;
-        case TALK_EVAC_MERCHANT_HORDES:
+    } else if( topic == TALK_EVAC_MERCHANT_HORDES ) {
             add_response( _("Thanks for the tip."), TALK_EVAC_MERCHANT );
-            break;
-        case TALK_EVAC_MERCHANT_PRIME_LOOT:
+    } else if( topic == TALK_EVAC_MERCHANT_PRIME_LOOT ) {
             add_response( _("Thanks, I'll keep an eye out."), TALK_EVAC_MERCHANT );
-            break;
-        case TALK_EVAC_MERCHANT_NO:
+    } else if( topic == TALK_EVAC_MERCHANT_NO ) {
             add_response( _("Fine..."), TALK_EVAC_MERCHANT );
-            break;
-        case TALK_EVAC_MERCHANT_HELL_NO:
+    } else if( topic == TALK_EVAC_MERCHANT_HELL_NO ) {
             add_response( _("Fine... *coughupyourscough*"), TALK_EVAC_MERCHANT );
-            break;
 
-        case TALK_EVAC_MERCHANT_ASK_JOIN:
+    } else if( topic == TALK_EVAC_MERCHANT_ASK_JOIN ) {
             if (g->u.int_cur > 10){
                 add_response( _("[INT 11] I'm sure I can organize salvage operations to increase the bounty scavengers bring in!"),
                                   TALK_EVAC_MERCHANT_NO );
@@ -1668,72 +1616,59 @@ void dialogue::gen_responses( const talk_topic topic ) const
             add_response( _("I'm sure I can do something to change your mind *wink*"), TALK_EVAC_MERCHANT_HELL_NO );
             add_response( _("I can pull my own weight!"), TALK_EVAC_MERCHANT_NO );
             add_response( _("I guess I'll look somewhere else..."), TALK_EVAC_MERCHANT );
-            break;
 
-        case TALK_EVAC_MERCHANT_WORLD:
+    } else if( topic == TALK_EVAC_MERCHANT_WORLD ) {
             add_response( _("Hordes?"), TALK_EVAC_MERCHANT_HORDES );
             add_response( _("Heard of anything better than the odd gun cache?"), TALK_EVAC_MERCHANT_PRIME_LOOT );
             add_response( _("Was hoping for something more..."), TALK_EVAC_MERCHANT );
-            break;
 
-        case TALK_EVAC_GUARD1:
+    } else if( topic == TALK_EVAC_GUARD1 ) {
             add_response( _("What is this place?"), TALK_EVAC_GUARD1_PLACE );
             add_response( _("Can I join you guys?"), TALK_EVAC_GUARD1_JOIN );
             add_response( _("Anything I can do for you?"), TALK_EVAC_GUARD1_JOB );
             add_response( _("See you later."), TALK_EVAC_GUARD1_BYE );
-            break;
 
-        case TALK_EVAC_GUARD1_PLACE:
+    } else if( topic == TALK_EVAC_GUARD1_PLACE ) {
             add_response( _("So are you with the government or something?"), TALK_EVAC_GUARD1_GOVERNMENT );
             add_response( _("What do you trade?"), TALK_EVAC_GUARD1_TRADE );
-            break;
 
-        case TALK_EVAC_GUARD1_GOVERNMENT:
+    } else if( topic == TALK_EVAC_GUARD1_GOVERNMENT ) {
             add_response( _("Oh, okay."), TALK_EVAC_GUARD1 );
             add_response_done( _("Oh, okay. I'll go look for him") );
-            break;
 
-        case TALK_EVAC_GUARD1_TRADE:
+    } else if( topic == TALK_EVAC_GUARD1_TRADE ) {
             add_response( _("I'll go talk to them later."), TALK_EVAC_GUARD1 );
             add_response_done( _("Will do, thanks!") );
-            break;
 
-        case TALK_EVAC_GUARD1_JOIN:
+    } else if( topic == TALK_EVAC_GUARD1_JOIN ) {
             add_response( _("That's pretty blunt!"), TALK_EVAC_GUARD1_JOIN2 );
-            break;
 
-        case TALK_EVAC_GUARD1_JOIN2:
+    } else if( topic == TALK_EVAC_GUARD1_JOIN2 ) {
             add_response( _("So no negotiating? No, 'If you do this quest then we'll let you in?'"),
                               TALK_EVAC_GUARD1_JOIN3 );
-            break;
 
-        case TALK_EVAC_GUARD1_JOIN3:
+    } else if( topic == TALK_EVAC_GUARD1_JOIN3 ) {
             add_response( _("I don't like your attitude."), TALK_EVAC_GUARD1_ATTITUDE );
             add_response( _("Well alright then."), TALK_EVAC_GUARD1 );
-            break;
 
-        case TALK_EVAC_GUARD1_ATTITUDE:
+    } else if( topic == TALK_EVAC_GUARD1_ATTITUDE ) {
             add_response( _("I think I'd rather rearrange your face instead!"), TALK_DONE,
                           &talk_function::insult_combat );
             add_response_done( _("I will.") );
-            break;
 
-        case TALK_EVAC_GUARD1_JOB:
+    } else if( topic == TALK_EVAC_GUARD1_JOB ) {
             add_response( _("Alright then."), TALK_EVAC_GUARD1 );
             add_response_done( _("Old Guard huh, I'll go talk to him!") );
             add_response( _("Who are the Old Guard?"), TALK_EVAC_GUARD1_OLDGUARD );
-            break;
 
-        case TALK_EVAC_GUARD1_OLDGUARD:
+    } else if( topic == TALK_EVAC_GUARD1_OLDGUARD ) {
             add_response( _("Whatever, I had another question."), TALK_EVAC_GUARD1 );
             add_response_done( _("Okay, I'll go look for him then.") );
-            break;
 
-        case TALK_EVAC_GUARD1_BYE:
+    } else if( topic == TALK_EVAC_GUARD1_BYE ) {
             add_response_done( _("...") );
-            break;
 
-        case TALK_EVAC_GUARD2:
+    } else if( topic == TALK_EVAC_GUARD2 ) {
             add_response( _("I am actually new."), TALK_EVAC_GUARD2_NEW );
             add_response( _("Are there any rules I should follow while inside?"), TALK_EVAC_GUARD2_RULES );
             add_response( _("So who is everyone around here?"), TALK_EVAC_GUARD2_WHO );
@@ -1745,54 +1680,43 @@ void dialogue::gen_responses( const talk_topic topic ) const
                 add_response( _("About one of those jobs..."), TALK_MISSION_LIST_ASSIGNED );
             }
             add_response_done( _("Thanks! I will be on my way.") );
-            break;
 
-        case  TALK_EVAC_GUARD2_NEW:
+    } else if( topic == TALK_EVAC_GUARD2_NEW ) {
             add_response( _("..."), TALK_EVAC_GUARD2 );
-            break;
 
-        case TALK_EVAC_GUARD2_RULES:
+    } else if( topic == TALK_EVAC_GUARD2_RULES ) {
             add_response( _("Ok, thanks."), TALK_EVAC_GUARD2 );
             add_response( _("So uhhh, why not?"), TALK_EVAC_GUARD2_RULES_BASEMENT );
-            break;
 
-        case  TALK_EVAC_GUARD2_RULES_BASEMENT:
+    } else if( topic == TALK_EVAC_GUARD2_RULES_BASEMENT ) {
             add_response( _("..."), TALK_EVAC_GUARD2 );
-            break;
 
-        case TALK_EVAC_GUARD2_WHO:
+    } else if( topic == TALK_EVAC_GUARD2_WHO ) {
             add_response( _("Thanks for the heads-up."), TALK_EVAC_GUARD2 );
-            break;
 
-        case TALK_EVAC_GUARD2_TRADE:
+    } else if( topic == TALK_EVAC_GUARD2_TRADE ) {
             add_response( _("..."), TALK_EVAC_GUARD2 );
-            break;
 
-        case TALK_EVAC_GUARD3:
+    } else if( topic == TALK_EVAC_GUARD3 ) {
             add_response( _("What do you do around here?"), TALK_EVAC_GUARD3_NEW );
             add_response( _("Got tips for avoiding trouble?"), TALK_EVAC_GUARD3_RULES );
             add_response( _("Have you seen anyone who might be hiding something?"), TALK_EVAC_GUARD3_HIDE1 );
             add_response_done( _("Bye...") );
-            break;
 
-        case TALK_EVAC_GUARD3_NEW:
+    } else if( topic == TALK_EVAC_GUARD3_NEW ) {
             add_response( _("..."), TALK_EVAC_GUARD3 );
-            break;
 
-        case TALK_EVAC_GUARD3_RULES:
+    } else if( topic == TALK_EVAC_GUARD3_RULES ) {
             add_response( _("OK..."), TALK_EVAC_GUARD3 );
-            break;
 
-        case TALK_EVAC_GUARD3_WASTE:
+    } else if( topic == TALK_EVAC_GUARD3_WASTE ) {
             add_response( _("Sorry..."), TALK_EVAC_GUARD3 );
-            break;
 
-        case TALK_EVAC_GUARD3_HIDE1:
+    } else if( topic == TALK_EVAC_GUARD3_HIDE1 ) {
             add_response( _("I'm not sure..."), TALK_EVAC_GUARD3_WASTE );
             add_response( _("Like they could be working for someone else?"), TALK_EVAC_GUARD3_HIDE2 );
-            break;
 
-        case TALK_EVAC_GUARD3_HIDE2:
+    } else if( topic == TALK_EVAC_GUARD3_HIDE2 ) {
             add_response( _("Sorry, I didn't mean to offend you..."), TALK_EVAC_GUARD3_WASTE );
             RESPONSE(_("Get bent, traitor!"));
                 TRIAL(TALK_TRIAL_INTIMIDATE, 20 + p->op_of_u.fear * 3);
@@ -1802,66 +1726,54 @@ void dialogue::gen_responses( const talk_topic topic ) const
                 TRIAL(TALK_TRIAL_PERSUADE, 10 + p->op_of_u.trust * 3);
                     SUCCESS(TALK_EVAC_GUARD3_DEAD);
                     FAILURE(TALK_EVAC_GUARD3_INSULT);
-            break;
 
-        case TALK_EVAC_GUARD3_HOSTILE:
+    } else if( topic == TALK_EVAC_GUARD3_HOSTILE ) {
             p->my_fac->likes_u -= 15;//The Free Merchants are insulted by your actions!
             p->my_fac->respects_u -= 15;
             p->my_fac = g->faction_by_ident("hells_raiders");
             add_response_done( _("I didn't mean it!") );
             add_response_done( _("...") );
-            break;
 
-        case TALK_EVAC_GUARD3_INSULT:
+    } else if( topic == TALK_EVAC_GUARD3_INSULT ) {
             p->my_fac->likes_u -= 5;//The Free Merchants are insulted by your actions!
             p->my_fac->respects_u -= 5;
             add_response_done( _("...") );
-            break;
 
-        case TALK_EVAC_GUARD3_DEAD:
+    } else if( topic == TALK_EVAC_GUARD3_DEAD ) {
             p->my_fac = g->faction_by_ident("hells_raiders");
             add_response_done( _("I didn't mean it!") );
             add_response_done( _("...") );
-            break;
 
-        case TALK_EVAC_HUNTER:
+    } else if( topic == TALK_EVAC_HUNTER ) {
             add_response( _("You... smelled me?"), TALK_EVAC_HUNTER_SMELL );
             add_response( _("What do you do around here?"), TALK_EVAC_HUNTER_DO );
             add_response( _("Got anything for sale?"), TALK_EVAC_HUNTER_SALE );
             add_response( _("Got any survival advice?"), TALK_EVAC_HUNTER_ADVICE );
             add_response( _("Goodbye."), TALK_EVAC_HUNTER_BYE );
-            break;
 
-        case TALK_EVAC_HUNTER_SMELL:
+    } else if( topic == TALK_EVAC_HUNTER_SMELL ) {
             add_response( _("O..kay..? "), TALK_EVAC_HUNTER );
-            break;
 
-        case TALK_EVAC_HUNTER_DO:
+    } else if( topic == TALK_EVAC_HUNTER_DO ) {
             add_response( _("Interesting."), TALK_EVAC_HUNTER_LIFE );
             add_response( _("Oh, so you hunt?"), TALK_EVAC_HUNTER_HUNT );
-            break;
 
-        case TALK_EVAC_HUNTER_LIFE:
+    } else if( topic == TALK_EVAC_HUNTER_LIFE ) {
             add_response( _("..."), TALK_EVAC_HUNTER );
-            break;
 
-        case TALK_EVAC_HUNTER_HUNT:
+    } else if( topic == TALK_EVAC_HUNTER_HUNT ) {
             add_response( _("Great, now my mouth is watering..."), TALK_EVAC_HUNTER );
-            break;
 
-        case TALK_EVAC_HUNTER_SALE:
+    } else if( topic == TALK_EVAC_HUNTER_SALE ) {
             add_response( _("..."), TALK_EVAC_HUNTER, &talk_function::start_trade );
-            break;
 
-        case TALK_EVAC_HUNTER_ADVICE:
+    } else if( topic == TALK_EVAC_HUNTER_ADVICE ) {
             add_response( _("..."), TALK_EVAC_HUNTER );
-            break;
 
-        case TALK_EVAC_HUNTER_BYE:
+    } else if( topic == TALK_EVAC_HUNTER_BYE ) {
             add_response_done( _("...") );
-            break;
 
-        case TALK_OLD_GUARD_REP:
+    } else if( topic == TALK_OLD_GUARD_REP ) {
             add_response( _("Who are you?"), TALK_OLD_GUARD_REP_NEW );
             add_response( _("Heard anything about the outside world?"), TALK_OLD_GUARD_REP_WORLD );
             add_response( _("Is there any way I can join the 'Old Guard'?"), TALK_OLD_GUARD_REP_ASK_JOIN );
@@ -1872,43 +1784,34 @@ void dialogue::gen_responses( const talk_topic topic ) const
                 add_response( _("About one of those jobs..."), TALK_MISSION_LIST_ASSIGNED );
             }
             add_response_done( _("Well, bye.") );
-            break;
 
-        case TALK_OLD_GUARD_REP_NEW:
+    } else if( topic == TALK_OLD_GUARD_REP_NEW ) {
             add_response( _("So what are you actually doing here?"), TALK_OLD_GUARD_REP_NEW_DOING );
             add_response( _("Nevermind..."), TALK_OLD_GUARD_REP );
-            break;
 
-        case TALK_OLD_GUARD_REP_NEW_DOING:
+    } else if( topic == TALK_OLD_GUARD_REP_NEW_DOING ) {
             add_response( _("Is there a catch?"), TALK_OLD_GUARD_REP_NEW_DOWNSIDE );
             add_response( _("Anything more to it?"), TALK_OLD_GUARD_REP_NEW_DOWNSIDE );
             add_response( _("Nevermind..."), TALK_OLD_GUARD_REP );
-            break;
-        case TALK_OLD_GUARD_REP_NEW_DOWNSIDE:
+    } else if( topic == TALK_OLD_GUARD_REP_NEW_DOWNSIDE ) {
             add_response( _("Hmmm..."), TALK_OLD_GUARD_REP );
-            break;
 
-        case TALK_OLD_GUARD_REP_WORLD:
+    } else if( topic == TALK_OLD_GUARD_REP_WORLD ) {
             add_response( _("The 2nd Fleet?"), TALK_OLD_GUARD_REP_WORLD_2NDFLEET );
             add_response( _("Tell me about the footholds."), TALK_OLD_GUARD_REP_WORLD_FOOTHOLDS );
             add_response( _("Nevermind..."), TALK_OLD_GUARD_REP );
-            break;
 
-        case TALK_OLD_GUARD_REP_WORLD_2NDFLEET:
+    } else if( topic == TALK_OLD_GUARD_REP_WORLD_2NDFLEET ) {
             add_response( _("Hmmm..."), TALK_OLD_GUARD_REP );
-            break;
-        case TALK_OLD_GUARD_REP_WORLD_FOOTHOLDS:
+    } else if( topic == TALK_OLD_GUARD_REP_WORLD_FOOTHOLDS ) {
             add_response( _("Hmmm..."), TALK_OLD_GUARD_REP );
-            break;
-        case TALK_OLD_GUARD_REP_ASK_JOIN:
+    } else if( topic == TALK_OLD_GUARD_REP_ASK_JOIN ) {
             add_response( _("Hmmm..."), TALK_OLD_GUARD_REP );
-            break;
 
-        case TALK_OLD_GUARD_SOLDIER:
+    } else if( topic == TALK_OLD_GUARD_SOLDIER ) {
             add_response_done( _("Don't mind me...") );
-            break;
 
-        case TALK_OLD_GUARD_NEC_CPT:
+    } else if( topic == TALK_OLD_GUARD_NEC_CPT ) {
             if (g->u.has_trait("PROF_FED")){
                 add_response( _("What are you doing down here?"), TALK_OLD_GUARD_NEC_CPT_GOAL );
                 add_response( _("Can you tell me about this facility?"), TALK_OLD_GUARD_NEC_CPT_VAULT );
@@ -1920,18 +1823,15 @@ void dialogue::gen_responses( const talk_topic topic ) const
                 }
             }
             add_response_done( _("I've got to go...") );
-            break;
 
-        case TALK_OLD_GUARD_NEC_CPT_GOAL:
+    } else if( topic == TALK_OLD_GUARD_NEC_CPT_GOAL ) {
             add_response( _("Seems like a decent plan..."), TALK_OLD_GUARD_NEC_CPT );
-            break;
 
-        case TALK_OLD_GUARD_NEC_CPT_VAULT:
+    } else if( topic == TALK_OLD_GUARD_NEC_CPT_VAULT ) {
             add_response( _("Whatever they did it must have worked since we are still alive..."),
                               TALK_OLD_GUARD_NEC_CPT );
-            break;
 
-        case TALK_OLD_GUARD_NEC_COMMO:
+    } else if( topic == TALK_OLD_GUARD_NEC_COMMO ) {
             if (g->u.has_trait("PROF_FED")){
                 for( auto miss : g->u.get_active_missions() ) {
                     if( miss->name() == "Locate Commo Team"){
@@ -1948,19 +1848,16 @@ void dialogue::gen_responses( const talk_topic topic ) const
                 }
             }
             add_response_done( _("I should be going...") );
-            break;
 
-        case TALK_OLD_GUARD_NEC_COMMO_GOAL:
+    } else if( topic == TALK_OLD_GUARD_NEC_COMMO_GOAL ) {
             add_response( _("I'll try and find your commander then..."), TALK_OLD_GUARD_NEC_COMMO );
-            break;
 
-        case TALK_OLD_GUARD_NEC_COMMO_FREQ:
+    } else if( topic == TALK_OLD_GUARD_NEC_COMMO_FREQ ) {
             popup(_("%s gives you a %s"), p->name.c_str(), item("necropolis_freq", 0).tname().c_str());
             g->u.i_add( item("necropolis_freq", 0) );
             add_response( _("Thanks."), TALK_OLD_GUARD_NEC_COMMO );
-            break;
 
-        case TALK_ARSONIST:
+    } else if( topic == TALK_ARSONIST ) {
             add_response( _("I'm actually new."), TALK_ARSONIST_NEW );
             add_response( _("What are you doing here?"), TALK_ARSONIST_DOING );
             add_response( _("Heard anything about the outside world?"), TALK_ARSONIST_WORLD );
@@ -1973,68 +1870,54 @@ void dialogue::gen_responses( const talk_topic topic ) const
                 add_response( _("About one of those jobs..."), TALK_MISSION_LIST_ASSIGNED );
             }
             add_response_done( _("Well, bye.") );
-            break;
 
-        case TALK_ARSONIST_NEW:
+    } else if( topic == TALK_ARSONIST_NEW ) {
             add_response( _("Sucks..."), TALK_ARSONIST );
-            break;
-        case TALK_ARSONIST_DOING:
+    } else if( topic == TALK_ARSONIST_DOING ) {
             add_response( _("I'll buy."), TALK_ARSONIST, &talk_function::start_trade );
             add_response( _("Who needs rebar?"), TALK_ARSONIST_DOING_REBAR );
-            break;
-        case TALK_ARSONIST_DOING_REBAR:
+    } else if( topic == TALK_ARSONIST_DOING_REBAR ) {
             add_response( _("Well, then..."), TALK_ARSONIST );
-            break;
-        case TALK_ARSONIST_WORLD:
+    } else if( topic == TALK_ARSONIST_WORLD ) {
             add_response( _("Nothing optimistic?"), TALK_ARSONIST_WORLD_OPTIMISTIC );
             add_response( _("..."), TALK_ARSONIST );
-            break;
-        case TALK_ARSONIST_WORLD_OPTIMISTIC:
+    } else if( topic == TALK_ARSONIST_WORLD_OPTIMISTIC ) {
             add_response( _("I feel bad for asking."), TALK_ARSONIST );
-            break;
-        case TALK_ARSONIST_JOIN:
+    } else if( topic == TALK_ARSONIST_JOIN ) {
             add_response( _("..."), TALK_ARSONIST );
-            break;
-        case TALK_ARSONIST_MUTATION:
+    } else if( topic == TALK_ARSONIST_MUTATION ) {
             add_response( _("Sorry to ask"), TALK_ARSONIST );
             add_response( _("You're disgusting."), TALK_ARSONIST_MUTATION_INSULT );
-            break;
-        case TALK_ARSONIST_MUTATION_INSULT:
+    } else if( topic == TALK_ARSONIST_MUTATION_INSULT ) {
             RESPONSE(_("..."));
                 SUCCESS(TALK_DONE);
                     SUCCESS_OPINION(-1, -2, -1, 1, 0);
                     SUCCESS_ACTION(&talk_function::end_conversation);
-            break;
 
-        case TALK_SCAVENGER_MERC:
+    } else if( topic == TALK_SCAVENGER_MERC ) {
             add_response( _("Who are you?"), TALK_SCAVENGER_MERC_NEW );
             add_response( _("Any tips for surviving?"), TALK_SCAVENGER_MERC_TIPS );
             add_response( _("What would it cost to hire you?"), TALK_SCAVENGER_MERC_HIRE );
             add_response_done( _("Well, bye.") );
-            break;
 
-        case TALK_SCAVENGER_MERC_NEW:
+    } else if( topic == TALK_SCAVENGER_MERC_NEW ) {
             add_response( _("..."), TALK_SCAVENGER_MERC );
-            break;
-        case TALK_SCAVENGER_MERC_TIPS:
+    } else if( topic == TALK_SCAVENGER_MERC_TIPS ) {
             add_response( _("I suppose I should hire a party then?"), TALK_SCAVENGER_MERC );
-            break;
-        case TALK_SCAVENGER_MERC_HIRE:
+    } else if( topic == TALK_SCAVENGER_MERC_HIRE ) {
             if (g->u.cash >= 800000){
                 add_response( _("[$8000] You have a deal."), TALK_SCAVENGER_MERC_HIRE_SUCCESS );
                 g->u.cash -= 800000;
             }
             add_response( _("I might be back."), TALK_SCAVENGER_MERC );
-            break;
 
-        case TALK_SCAVENGER_MERC_HIRE_SUCCESS:
+    } else if( topic == TALK_SCAVENGER_MERC_HIRE_SUCCESS ) {
             RESPONSE(_("Glad to have you aboard."));
                 SUCCESS_ACTION(&talk_function::follow);
                 SUCCESS_OPINION(1, 0, 1, 0, 0);
                 SUCCESS(TALK_DONE);
-            break;
 
-        case TALK_FREE_MERCHANT_STOCKS:
+    } else if( topic == TALK_FREE_MERCHANT_STOCKS ) {
             add_response( _("Who are you?"), TALK_FREE_MERCHANT_STOCKS_NEW );
             if (g->u.charges_of("jerky") > 0){
                 add_response( _("Delivering jerky."), TALK_FREE_MERCHANT_STOCKS_JERKY );
@@ -2064,69 +1947,53 @@ void dialogue::gen_responses( const talk_topic topic ) const
                 add_response( _("Delivering sugar."), TALK_FREE_MERCHANT_STOCKS_SUGAR );
             }
             add_response_done( _("Well, bye.") );
-            break;
 
-        case TALK_FREE_MERCHANT_STOCKS_JERKY:
+    } else if( topic == TALK_FREE_MERCHANT_STOCKS_JERKY ) {
             RESPONSE(_("Works for me."));
                 talk_function::bulk_trade_accept(p, "jerky");
                 SUCCESS(TALK_FREE_MERCHANT_STOCKS_DELIVERED);
-            break;
-        case TALK_FREE_MERCHANT_STOCKS_SMMEAT:
+    } else if( topic == TALK_FREE_MERCHANT_STOCKS_SMMEAT ) {
             RESPONSE(_("Works for me."));
                 talk_function::bulk_trade_accept(p, "meat_smoked");
                 SUCCESS(TALK_FREE_MERCHANT_STOCKS_DELIVERED);
-            break;
-        case TALK_FREE_MERCHANT_STOCKS_SMFISH:
+    } else if( topic == TALK_FREE_MERCHANT_STOCKS_SMFISH ) {
             RESPONSE(_("Works for me."));
                 talk_function::bulk_trade_accept(p, "fish_smoked");
                 SUCCESS(TALK_FREE_MERCHANT_STOCKS_DELIVERED);
-            break;
-        case TALK_FREE_MERCHANT_STOCKS_OIL:
+    } else if( topic == TALK_FREE_MERCHANT_STOCKS_OIL ) {
             RESPONSE(_("Works for me."));
                 talk_function::bulk_trade_accept(p, "cooking_oil");
             SUCCESS(TALK_FREE_MERCHANT_STOCKS_DELIVERED);
-            break;
-        case TALK_FREE_MERCHANT_STOCKS_CORNMEAL:
+    } else if( topic == TALK_FREE_MERCHANT_STOCKS_CORNMEAL ) {
             RESPONSE(_("Works for me."));
                 talk_function::bulk_trade_accept(p, "cornmeal");
                 SUCCESS(TALK_FREE_MERCHANT_STOCKS_DELIVERED);
-            break;
-        case TALK_FREE_MERCHANT_STOCKS_FLOUR:
+    } else if( topic == TALK_FREE_MERCHANT_STOCKS_FLOUR ) {
             RESPONSE(_("Works for me."));
                 talk_function::bulk_trade_accept(p, "flour");
                 SUCCESS(TALK_FREE_MERCHANT_STOCKS_DELIVERED);
-            break;
-        case TALK_FREE_MERCHANT_STOCKS_SUGAR:
+    } else if( topic == TALK_FREE_MERCHANT_STOCKS_SUGAR ) {
             RESPONSE(_("Works for me."));
                 talk_function::bulk_trade_accept(p, "sugar");
                 SUCCESS(TALK_FREE_MERCHANT_STOCKS_DELIVERED);
-            break;
-        case TALK_FREE_MERCHANT_STOCKS_WINE:
+    } else if( topic == TALK_FREE_MERCHANT_STOCKS_WINE ) {
             RESPONSE(_("Works for me."));
                 talk_function::bulk_trade_accept(p, "fruit_wine");
                 SUCCESS(TALK_FREE_MERCHANT_STOCKS_DELIVERED);
-            break;
-        case TALK_FREE_MERCHANT_STOCKS_BEER:
+    } else if( topic == TALK_FREE_MERCHANT_STOCKS_BEER ) {
             RESPONSE(_("Works for me."));
                 talk_function::bulk_trade_accept(p, "hb_beer");
                 SUCCESS(TALK_FREE_MERCHANT_STOCKS_DELIVERED);
-            break;
-
-        case TALK_FREE_MERCHANT_STOCKS_NEW:
+    } else if( topic == TALK_FREE_MERCHANT_STOCKS_NEW ) {
             add_response( _("Why cornmeal, jerky, and fruit wine?"), TALK_FREE_MERCHANT_STOCKS_WHY );
-            break;
-        case TALK_FREE_MERCHANT_STOCKS_WHY:
+    } else if( topic == TALK_FREE_MERCHANT_STOCKS_WHY ) {
             add_response( _("Are you looking to buy anything else?"), TALK_FREE_MERCHANT_STOCKS_ALL );
             add_response( _("Very well..."), TALK_FREE_MERCHANT_STOCKS );
-            break;
-        case TALK_FREE_MERCHANT_STOCKS_ALL:
+    } else if( topic == TALK_FREE_MERCHANT_STOCKS_ALL ) {
             add_response( _("Interesting..."), TALK_FREE_MERCHANT_STOCKS );
-            break;
-        case TALK_FREE_MERCHANT_STOCKS_DELIVERED:
+    } else if( topic == TALK_FREE_MERCHANT_STOCKS_DELIVERED ) {
             add_response( _("You might be seeing more of me..."), TALK_FREE_MERCHANT_STOCKS );
-            break;
-
-        case TALK_SHELTER:
+    } else if( topic == TALK_SHELTER ) {
             add_response( _("What should we do now?"), TALK_SHELTER_PLANS );
             add_response( _("Can I do anything for you?"), TALK_MISSION_LIST );
             if (!p->is_following()) {
@@ -2140,14 +2007,12 @@ void dialogue::gen_responses( const talk_topic topic ) const
             }
             add_response( _("I can't leave the shelter without equipment..."), TALK_SHARE_EQUIPMENT );
             add_response_done( _("Well, bye.") );
-            break;
 
-        case TALK_SHELTER_PLANS:
+    } else if( topic == TALK_SHELTER_PLANS ) {
             // TODO: Add _("follow me")
             add_response_none( _("Hmm, okay.") );
-            break;
 
-        case TALK_SHARE_EQUIPMENT:
+    } else if( topic == TALK_SHARE_EQUIPMENT ) {
             if (p->has_effect(_("asked_for_item"))) {
                 add_response_none( _("Okay, fine.") );
             } else {
@@ -2196,21 +2061,18 @@ void dialogue::gen_responses( const talk_topic topic ) const
                 add_response_none( _("Eh, never mind.") );
                 add_response_done( _("Never mind, I'll do without.  Bye.") );
             }
-            break;
 
-        case TALK_GIVE_EQUIPMENT:
+    } else if( topic == TALK_GIVE_EQUIPMENT ) {
             add_response_none( _("Thank you!") );
             add_response( _("Thanks!  But can I have some more?"), TALK_SHARE_EQUIPMENT );
             add_response_done( _("Thanks, see you later!") );
-            break;
 
-        case TALK_DENY_EQUIPMENT:
+    } else if( topic == TALK_DENY_EQUIPMENT ) {
             add_response_none( _("Okay, okay, sorry.") );
             add_response( _("Seriously, give me more stuff!"), TALK_SHARE_EQUIPMENT );
             add_response_done( _("Okay, fine, bye.") );
-            break;
 
-        case TALK_TRAIN: {
+    } else if( topic == TALK_TRAIN ) {
             if( !g->u.backlog.empty() && g->u.backlog.front().type == ACT_TRAIN ) {
                 player_activity &backlog = g->u.backlog.front();
                 std::stringstream resume;
@@ -2230,7 +2092,7 @@ void dialogue::gen_responses( const talk_topic topic ) const
             std::vector<const Skill*> trainable = p->skills_offered_to(g->u);
             if (trainable.empty() && styles.empty()) {
                 add_response_none( _("Oh, okay.") );
-                break;
+                return;
             }
             for( auto & trained : trainable ) {
                 const int cost = calc_skill_training_cost( trained );
@@ -2248,10 +2110,8 @@ void dialogue::gen_responses( const talk_topic topic ) const
                 add_response( text, TALK_TRAIN_START, style );
             }
             add_response_none( _("Eh, never mind.") );
-        }
-            break;
 
-        case TALK_TRAIN_START:
+    } else if( topic == TALK_TRAIN_START ) {
             if( overmap_buffer.is_safe( p->global_omt_location() ) ) {
                 add_response( _("Sounds good."), TALK_DONE, &talk_function::start_training );
                 add_response_none( _("On second thought, never mind.") );
@@ -2260,14 +2120,12 @@ void dialogue::gen_responses( const talk_topic topic ) const
                 add_response( _("No, we'll be okay here."), TALK_TRAIN_FORCE );
                 add_response_none( _("On second thought, never mind.") );
             }
-            break;
 
-        case TALK_TRAIN_FORCE:
+    } else if( topic == TALK_TRAIN_FORCE ) {
             add_response( _("Sounds good."), TALK_DONE, &talk_function::start_training );
             add_response_none( _("On second thought, never mind.") );
-            break;
 
-        case TALK_SUGGEST_FOLLOW:
+    } else if( topic == TALK_SUGGEST_FOLLOW ) {
             if (p->has_effect(_("infection"))) {
                 add_response_none( _("Understood.  I'll get those antibiotics.") );
             } else if (p->has_effect(_("asked_to_follow"))) {
@@ -2311,18 +2169,15 @@ void dialogue::gen_responses( const talk_topic topic ) const
                         FAILURE(TALK_DENY_FOLLOW);
                             FAILURE_OPINION(-4, 0, -5, 10, 0);
             }
-            break;
 
-        case TALK_AGREE_FOLLOW:
+    } else if( topic == TALK_AGREE_FOLLOW ) {
             add_response( _("Awesome!"), TALK_FRIEND );
             add_response_done( _("Okay, let's go!") );
-            break;
 
-        case TALK_DENY_FOLLOW:
+    } else if( topic == TALK_DENY_FOLLOW ) {
             add_response_none( _("Oh, okay.") );
-            break;
 
-        case TALK_LEADER: {
+    } else if( topic == TALK_LEADER ) {
             int persuade = p->op_of_u.fear + p->op_of_u.value + p->op_of_u.trust -
                             p->personality.bravery - p->personality.aggression;
             if (p->has_destination()) {
@@ -2347,34 +2202,27 @@ void dialogue::gen_responses( const talk_topic topic ) const
             add_response( _("Can I do anything for you?"), TALK_MISSION_LIST );
             add_response( _("Let's trade items."), TALK_NONE, &talk_function::start_trade );
             add_response_done( _("Let's go.") );
-        }
-            break;
 
-        case TALK_LEAVE:
+    } else if( topic == TALK_LEAVE ) {
             add_response_none( _("Nah, I'm just kidding.") );
             add_response( _("Yeah, I'm sure.  Bye."), TALK_DONE, &talk_function::leave );
-            break;
 
-        case TALK_PLAYER_LEADS:
+    } else if( topic == TALK_PLAYER_LEADS ) {
             add_response( _("Good.  Something else..."), TALK_FRIEND );
             add_response_done( _("Alright, let's go.") );
-            break;
 
-        case TALK_LEADER_STAYS:
+    } else if( topic == TALK_LEADER_STAYS ) {
             add_response_none( _("Okay, okay.") );
-            break;
 
-        case TALK_HOW_MUCH_FURTHER:
+    } else if( topic == TALK_HOW_MUCH_FURTHER ) {
             add_response_none( _("Okay, thanks.") );
             add_response_done( _("Let's keep moving.") );
-            break;
 
-        case TALK_FRIEND_GUARD:
+    } else if( topic == TALK_FRIEND_GUARD ) {
             add_response( _("I need you to come with me."), TALK_FRIEND, &talk_function::stop_guard );
             add_response_done( _("See you around.") );
-            break;
 
-        case TALK_FRIEND:
+    } else if( topic == TALK_FRIEND ) {
             add_response( _("Combat commands..."), TALK_COMBAT_COMMANDS );
             add_response( _("Can I do anything for you?"), TALK_MISSION_LIST );
             RESPONSE(_("Can you teach me anything?"));
@@ -2418,21 +2266,17 @@ void dialogue::gen_responses( const talk_topic topic ) const
             }
             add_response( _("I'm going to go my own way for a while."), TALK_LEAVE );
             add_response_done( _("Let's go.") );
-            break;
 
-        case TALK_FRIEND_UNCOMFORTABLE:
+    } else if( topic == TALK_FRIEND_UNCOMFORTABLE ) {
             add_response( _("I'll give you some space."), TALK_FRIEND );
-            break;
 
-        case TALK_DENY_TRAIN:
+    } else if( topic == TALK_DENY_TRAIN ) {
             add_response( _("Very well..."), TALK_FRIEND );
-            break;
 
-        case TALK_DENY_PERSONAL:
+    } else if( topic == TALK_DENY_PERSONAL ) {
             add_response( _("I understand..."), TALK_FRIEND );
-            break;
 
-        case TALK_COMBAT_COMMANDS: {
+    } else if( topic == TALK_COMBAT_COMMANDS ) {
             add_response( _("Change your engagement rules..."), TALK_COMBAT_ENGAGEMENT );
             if (p->combat_rules.use_guns) {
                 add_response( _("Don't use guns anymore."), TALK_COMBAT_COMMANDS,
@@ -2456,10 +2300,8 @@ void dialogue::gen_responses( const talk_topic topic ) const
                               &talk_function::toggle_use_grenades );
             }
             add_response_none( _("Never mind.") );
-        }
-            break;
 
-        case TALK_COMBAT_ENGAGEMENT: {
+    } else if( topic == TALK_COMBAT_ENGAGEMENT ) {
             if (p->combat_rules.engagement != ENGAGE_NONE) {
                 add_response( _("Don't fight unless your life depends on it."), TALK_NONE,
                               &talk_function::set_engagement_none );
@@ -2481,13 +2323,9 @@ void dialogue::gen_responses( const talk_topic topic ) const
                               &talk_function::set_engagement_all );
             }
             add_response_none( _("Never mind.") );
-        }
-            break;
 
-        case TALK_STRANGER_NEUTRAL:
-        case TALK_STRANGER_WARY:
-        case TALK_STRANGER_SCARED:
-        case TALK_STRANGER_FRIENDLY:
+    } else if( topic == TALK_STRANGER_NEUTRAL || topic == TALK_STRANGER_WARY ||
+               topic == TALK_STRANGER_SCARED || topic == TALK_STRANGER_FRIENDLY ) {
             if (topic == TALK_STRANGER_NEUTRAL || topic == TALK_STRANGER_FRIENDLY) {
                 add_response( _("Another survivor!  We should travel together."), TALK_SUGGEST_FOLLOW );
                 add_response( _("What are you doing?"), TALK_DESCRIBE_MISSION );
@@ -2530,10 +2368,8 @@ void dialogue::gen_responses( const talk_topic topic ) const
                         SUCCESS_ACTION(&talk_function::flee);
                     FAILURE(TALK_DONE);
                         FAILURE_ACTION(&talk_function::hostile);
-            break;
 
-        case TALK_STRANGER_AGGRESSIVE:
-        case TALK_MUG:
+    } else if( topic == TALK_STRANGER_AGGRESSIVE || topic == TALK_MUG ) {
             if (!g->u.unarmed_attack()) {
                int chance = 30 + p->personality.bravery - 3 * p->personality.aggression +
                              2 * p->personality.altruism - 2 * p->op_of_u.fear +
@@ -2577,36 +2413,26 @@ void dialogue::gen_responses( const talk_topic topic ) const
                             FAILURE_ACTION(&talk_function::hostile);
                 add_response( _("&Put hands up."), TALK_DONE, &talk_function::start_mugging );
             }
-            break;
 
-        case TALK_DESCRIBE_MISSION:
+    } else if( topic == TALK_DESCRIBE_MISSION ) {
             add_response_none( _("I see.") );
             add_response_done( _("Bye.") );
-            break;
 
-        case TALK_WEAPON_DROPPED:
+    } else if( topic == TALK_WEAPON_DROPPED ) {
             RESPONSE(_("Now get out of here."));
                 SUCCESS(TALK_DONE);
                     SUCCESS_OPINION(-1, -2, 0, -2, 0);
                     SUCCESS_ACTION(&talk_function::flee);
-            break;
 
-        case TALK_DEMAND_LEAVE:
+    } else if( topic == TALK_DEMAND_LEAVE ) {
             RESPONSE(_("Okay, I'm going."));
                 SUCCESS(TALK_DONE);
                     SUCCESS_OPINION(0, -1, 0, 0, 0);
                     SUCCESS_ACTION(&talk_function::player_leaving);
-            break;
 
-        case TALK_SIZE_UP:
-        case TALK_LOOK_AT:
-        case TALK_OPINION:
+    } else if( topic == TALK_SIZE_UP || topic == TALK_LOOK_AT || topic == TALK_OPINION ) {
             add_response_none( _("Okay.") );
-            break;
 
-        default:
-            //Suppress warnings
-            break;
     }
 
     if (ret.empty()) {
@@ -2757,51 +2583,54 @@ bool talk_trial::roll( dialogue &d ) const
 
 int topic_category(talk_topic topic)
 {
- switch (topic) {
-  case TALK_MISSION_START:
-  case TALK_MISSION_DESCRIBE:
-  case TALK_MISSION_OFFER:
-  case TALK_MISSION_ACCEPTED:
-  case TALK_MISSION_REJECTED:
-  case TALK_MISSION_ADVICE:
-  case TALK_MISSION_INQUIRE:
-  case TALK_MISSION_SUCCESS:
-  case TALK_MISSION_SUCCESS_LIE:
-  case TALK_MISSION_FAILURE:
-  case TALK_MISSION_REWARD:
-  case TALK_MISSION_END:
-   return 1;
-
-  case TALK_SHARE_EQUIPMENT:
-  case TALK_GIVE_EQUIPMENT:
-  case TALK_DENY_EQUIPMENT:
-   return 2;
-
-  case TALK_SUGGEST_FOLLOW:
-  case TALK_AGREE_FOLLOW:
-  case TALK_DENY_FOLLOW:
-   return 3;
-
-  case TALK_COMBAT_ENGAGEMENT:
-   return 4;
-
-  case TALK_COMBAT_COMMANDS:
-   return 5;
-
-  case TALK_TRAIN:
-  case TALK_TRAIN_START:
-  case TALK_TRAIN_FORCE:
-   return 6;
-
-  case TALK_SIZE_UP:
-  case TALK_LOOK_AT:
-  case TALK_OPINION:
-   return 99;
-
-  default:
-   return -1; // Not grouped with other topics
- }
- return -1;
+    // TODO: ideally, this would be a property of the topic itself.
+    // How this works: each category has a set of topics that belong to it, each set is checked
+    // for the given topic and if a set contains, the category number is returned.
+    static const std::set<talk_topic> topic_1 = { {
+        TALK_MISSION_START, TALK_MISSION_DESCRIBE, TALK_MISSION_OFFER, TALK_MISSION_ACCEPTED,
+        TALK_MISSION_REJECTED, TALK_MISSION_ADVICE, TALK_MISSION_INQUIRE, TALK_MISSION_SUCCESS,
+        TALK_MISSION_SUCCESS_LIE, TALK_MISSION_FAILURE, TALK_MISSION_REWARD, TALK_MISSION_END
+    } };
+    if( topic_1.count( topic ) > 0 ) {
+        return 1;
+    }
+    static const std::set<talk_topic> topic_2 = { {
+        TALK_SHARE_EQUIPMENT, TALK_GIVE_EQUIPMENT, TALK_DENY_EQUIPMENT
+    } };
+    if( topic_2.count( topic ) > 0 ) {
+        return 2;
+    }
+    static const std::set<talk_topic> topic_3 = { {
+        TALK_SUGGEST_FOLLOW, TALK_AGREE_FOLLOW, TALK_DENY_FOLLOW,
+    } };
+    if( topic_3.count( topic ) > 0 ) {
+        return 3;
+    }
+    static const std::set<talk_topic> topic_4 = { {
+        TALK_COMBAT_ENGAGEMENT,
+    } };
+    if( topic_4.count( topic ) > 0 ) {
+        return 4;
+    }
+    static const std::set<talk_topic> topic_5 = { {
+        TALK_COMBAT_COMMANDS,
+    } };
+    if( topic_5.count( topic ) > 0 ) {
+        return 5;
+    }
+    static const std::set<talk_topic> topic_6 = { {
+        TALK_TRAIN, TALK_TRAIN_START, TALK_TRAIN_FORCE
+    } };
+    if( topic_6.count( topic ) > 0 ) {
+        return 6;
+    }
+    static const std::set<talk_topic> topic_99 = { {
+        TALK_SIZE_UP, TALK_LOOK_AT, TALK_OPINION
+    } };
+    if( topic_99.count( topic ) > 0 ) {
+        return 99;
+    }
+    return -1; // Not grouped with other topics
 }
 
 void talk_function::nothing( npc * )
