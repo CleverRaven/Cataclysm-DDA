@@ -9327,7 +9327,8 @@
   "batch_time_factors":[50, 4],
   "qualities":[
     {"id":"BOIL","level":1,"amount":1},
-    {"id":"COOK","level":3,"amount":1}
+    {"id":"COOK","level":3,"amount":1},
+    {"id":"CUT","level":1,"amount":1}
   ], "tools": [
     [
       [ "hotplate", 5 ],
@@ -9367,6 +9368,47 @@
       [ "fat", 1 ],
       [ "tallow", 1 ],
       [ "lard", 1 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
+  "result": "soup_cullenskink",
+  "category": "CC_FOOD",
+  "subcategory": "CSC_FOOD_MEAT",
+  "skill_used": "cooking",
+  "difficulty": 2,
+  "skills_required": [ "tailor", 1 ],
+  "time": 20000,
+  "reversible": false,
+  "autolearn": false,
+  "book_learn": [[ "scots_cookbook", 2 ]],
+  "batch_time_factors":[50, 4],
+  "qualities":[
+    {"id":"COOK","level":3,"amount":1},
+    {"id":"CUT","level":1,"amount":1}
+  ], "tools": [
+    [
+      [ "hotplate", 5 ],
+      [ "toolset", 5 ],
+      [ "char_smoker", 1 ],
+      [ "fire", -1 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "water", 1 ],
+      [ "water_clean", 1 ]
+    ],
+    [
+      [ "milk", 1 ],
+      [ "con_milk", 1 ],
+      [ "milk_powder", 1 ]
+    ],
+    [
+      [ "dry_fish", 1],
+      [ "salted_fish", 1 ],
+      [ "fish_smoked", 1],
+      [ "fish_pickled", 1 ]
     ]
   ]
 },
