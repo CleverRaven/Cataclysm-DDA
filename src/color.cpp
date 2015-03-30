@@ -8,6 +8,7 @@
 #define HILIGHT COLOR_BLUE
 
 clColors all_colors;
+std::unordered_map<std::string, note_color> color_shortcuts;
 
 nc_color clColors::get(const std::string &sName)
 {
@@ -100,11 +101,15 @@ nc_color clColors::get_highlight(const nc_color color, const std::string &bgColo
         }
     }
 
+    if ( sName.empty() ) {
+        return 0;
+    }
+
     if ( bgColor.empty() ) {  //c_black -> h_black
         sName = "h_" + sName.substr(2, sName.length() - 2);
     }
 
-    if ( sName.empty() || mapColors[sName].color == 0 ) {
+    if ( mapColors[sName].color == 0 ) {
         return 0;
     }
 
@@ -358,6 +363,17 @@ void init_colors()
     init_pair(71, COLOR_CYAN,       COLOR_CYAN);
 
     all_colors.load_default();
+
+    // The color codes are intentionally untranslatable.
+    color_shortcuts = {
+        {"br", {c_brown, _("brown")}}, {"lg", {c_ltgray, _("lt gray")}},
+        {"dg", {c_dkgray, _("dk gray")}}, {"r", {c_ltred, _("lt red")}},
+        {"R", {c_red, _("red")}}, {"g", {c_ltgreen, _("lt green")}},
+        {"G", {c_green, _("green")}}, {"b", {c_ltblue, _("lt blue")}},
+        {"B", {c_blue, _("blue")}}, {"W", {c_white, _("white")}},
+        {"C", {c_cyan, _("cyan")}}, {"c", {c_ltcyan, _("lt cyan")}},
+        {"P", {c_pink, _("pink")}}, {"m", {c_magenta, _("magenta")}}
+    };
 }
 
 nc_color hilite(nc_color c)
@@ -502,22 +518,6 @@ nc_color get_color_from_tag(const std::string &s, const nc_color base_color)
     std::string color_name = s.substr(7,tag_close-7);
     return color_from_string(color_name);
 }
-
-struct note_color {
-    nc_color color;
-    std::string name;
-};
-
-// The color codes are intentionally untranslatable.
-const std::map<std::string, note_color> color_shortcuts {
-    {"br", {c_brown, _("brown")}}, {"lg", {c_ltgray, _("lt gray")}},
-    {"dg", {c_dkgray, _("dk gray")}}, {"r", {c_ltred, _("lt red")}},
-    {"R", {c_red, _("red")}}, {"g", {c_ltgreen, _("lt green")}},
-    {"G", {c_green, _("green")}}, {"b", {c_ltblue, _("lt blue")}},
-    {"B", {c_blue, _("blue")}}, {"W", {c_white, _("white")}},
-    {"C", {c_cyan, _("cyan")}}, {"c", {c_ltcyan, _("lt cyan")}},
-    {"P", {c_pink, _("pink")}}, {"m", {c_magenta, _("magenta")}}
-};
 
 nc_color get_note_color(std::string const &note_id)
 {

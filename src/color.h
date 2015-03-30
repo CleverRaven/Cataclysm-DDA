@@ -203,6 +203,13 @@ class clColors {
 
 extern clColors all_colors;
 
+struct note_color {
+    nc_color color;
+    std::string name;
+};
+
+extern std::unordered_map<std::string, note_color> color_shortcuts;
+
 nc_color hilite(nc_color c);
 nc_color invert_color(nc_color c);
 nc_color red_background(nc_color c);
