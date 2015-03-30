@@ -5310,7 +5310,7 @@ void vehicle::control_turrets() {
         }
 
         selected = pmenu.ret;
-        cycle_turret_mode( selected, false );
+        cycle_turret_mode( turrets[selected], false );
 
         pmenu.reset();
     }
@@ -5323,6 +5323,7 @@ void vehicle::control_turrets() {
 void vehicle::cycle_turret_mode( int p, bool only_manual_modes )
 {
     if( !part_flag( p, "TURRET" ) ) {
+        debugmsg( "vehicle::cycle_turret_mode tried to pick a non-turret part" );
         return;
     }
     
@@ -5342,7 +5343,7 @@ void vehicle::cycle_turret_mode( int p, bool only_manual_modes )
     } else if( tr.mode == 0 && !only_manual_modes ) {
         tr.mode = 1;
     } else if( tr.mode == 1 && !only_manual_modes ) {
-        tr.mode = burst_or_charge ? -1000 : -1;
+        tr.mode = burst_or_charge ? 1000 : -1;
     } else {
         tr.mode = burst_or_charge ? -1000 : -1;
     }
@@ -5453,7 +5454,19 @@ bool vehicle::fire_turret( int p, bool manual )
 
     // Don't let non-manual turrets get aimed manually
     if( manual && part_flag( p, "NO_MANUAL" ) ) {
+        if( manual ) {
+            add_msg( m_bad, "This turret can't be aimed manually" );
+        }
+
         return false;
+    }
+
+    if( parts[p].mode == 0 ) {
+        if( !manual ) {
+            return false;
+        }
+
+        cycle_turret_mode( p, true );
     }
 
     // turret_mode_manual means the turrets are globally off, but some are aimed
@@ -5467,6 +5480,10 @@ bool vehicle::fire_turret( int p, bool manual )
     const auto &gun_data = *gun.type->gun;
     const int power = fuel_left( fuel_type_battery );
     if( gun_data.ups_charges > 0 && gun_data.ups_charges < power ) {
+        if( manual ) {
+            add_msg( m_bad, "This turret is not powered" );
+        }
+
         return false;
     }
     long charges = gun.burst_size();
@@ -5512,6 +5529,10 @@ bool vehicle::fire_turret( int p, bool manual )
     } else {
         charges = std::min( charges, turret_has_ammo( p ) );
         if( charges <= 0 ) {
+            if( manual ) {
+                add_msg( m_bad, "This turret doesn't have enough ammo" );
+            }
+
             return false;
         }
 
