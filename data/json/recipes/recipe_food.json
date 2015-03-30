@@ -9312,6 +9312,63 @@
         [ "honey_glassed", 5 ]
       ]
     ]
+},{
+  "type" : "recipe",
+  "result": "haggis",
+  "category": "CC_FOOD",
+  "subcategory": "CSC_FOOD_MEAT",
+  "skill_used": "cooking",
+  "difficulty": 3,
+  "skills_required": [ "tailor", 1 ],
+  "time": 20000,
+  "reversible": false,
+  "autolearn": false,
+  "book_learn": [[ "family_cookbook", 5 ], [ "survival_book", 6 ], [ "scots_cookbook", 3 ]],
+  "batch_time_factors":[50, 4],
+  "qualities":[
+    {"id":"BOIL","level":1,"amount":1},
+    {"id":"COOK","level":3,"amount":1}
+  ], "tools": [
+    [
+      [ "hotplate", 5 ],
+      [ "toolset", 5 ],
+      [ "char_smoker", 1 ],
+      [ "fire", -1 ]
+    ],
+    [
+      [ "needle_bone", 2 ],
+      [ "needle_wood", 2 ],
+      [ "tailors_kit", 2 ],
+      [ "sewing_kit", 2 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "water", 1 ],
+      [ "water_clean", 1 ]
+    ],
+    [
+      [ "stomach", 1 ]
+    ],
+    [
+      [ "oatmeal", 1 ],
+      [ "buckwheat", 1 ]
+    ],
+    [
+      [ "meat", 1],
+      [ "rehydrated_meat", 1 ],
+      [ "dry_meat", 1 ],
+      [ "meat_canned", 1 ],
+      [ "jerky", 1 ],
+      [ "meat_vac", 1 ],
+      [ "meat_smoked", 1 ]
+    ],
+    [
+      [ "fat", 1 ],
+      [ "tallow", 1 ],
+      [ "lard", 1 ]
+    ]
+  ]
 },
 {
   "type" : "recipe",
