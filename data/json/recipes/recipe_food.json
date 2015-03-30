@@ -9320,7 +9320,7 @@
   "skill_used": "cooking",
   "difficulty": 3,
   "skills_required": [ "tailor", 1 ],
-  "time": 20000,
+  "time": 30000,
   "reversible": false,
   "autolearn": false,
   "book_learn": [[ "family_cookbook", 5 ], [ "survival_book", 6 ], [ "scots_cookbook", 3 ]],
@@ -9377,8 +9377,7 @@
   "subcategory": "CSC_FOOD_MEAT",
   "skill_used": "cooking",
   "difficulty": 2,
-  "skills_required": [ "tailor", 1 ],
-  "time": 20000,
+  "time": 12000,
   "reversible": false,
   "autolearn": false,
   "book_learn": [[ "scots_cookbook", 2 ]],
@@ -9409,6 +9408,59 @@
       [ "salted_fish", 1 ],
       [ "fish_smoked", 1],
       [ "fish_pickled", 1 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
+  "result": "cloutie_dumpling",
+  "category": "CC_FOOD",
+  "subcategory": "CSC_FOOD_SNACK",
+  "skill_used": "cooking",
+  "difficulty": 3,
+  "time": 20000,
+  "reversible": false,
+  "autolearn": false,
+  "book_learn": [[ "family_cookbook", 4 ], [ "scots_cookbook", 2 ]],
+  "batch_time_factors":[50, 4],
+  "qualities":[
+    {"id":"BOIL","level":1,"amount":1},
+    {"id":"COOK","level":3,"amount":1}
+  ], "tools": [
+    [
+      [ "hotplate", 5 ],
+      [ "toolset", 5 ],
+      [ "char_smoker", 1 ],
+      [ "fire", -1 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "oatmeal", 1 ],
+      [ "flour", 1 ],
+      [ "buckwheat", 1 ]
+    ],
+    [
+      [ "dry_fruit", 1]
+    ],
+    [
+      [ "fat", 1 ],
+      [ "tallow", 1 ],
+      [ "lard", 1 ]
+    ],
+    [
+      [ "fat", 1 ],
+      [ "tallow", 1 ],
+      [ "lard", 1 ]
+    ],
+    [
+      [ "sugar", 1 ],
+      [ "syrup", 1 ],
+      [ "beet_syrup", 1],
+      [ "molasses", 1 ],
+      [ "coffee_syrup", 1 ],
+      [ "honeycomb", 1 ],
+      [ "honey_bottled", 1],
+      [ "honey_glassed", 1]
     ]
   ]
 },
