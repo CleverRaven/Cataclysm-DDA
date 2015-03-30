@@ -233,12 +233,6 @@ struct talk_response {
     talk_response() = default;
 };
 
-struct talk_response_list {
-    std::vector<talk_response> none(npc *);
-    std::vector<talk_response> shelter(npc *);
-    std::vector<talk_response> shopkeep(npc *);
-};
-
 /* There is a array of tag_data, "tags", at the bottom of this file.
  * It maps tags to the array of string replacements;
  * e.g. "<name_g>" => talk_good_names
