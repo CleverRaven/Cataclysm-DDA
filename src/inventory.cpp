@@ -494,8 +494,10 @@ void inventory::form_from_map( const tripoint &origin, int range, bool assign_in
     items.clear();
     // TODO: Z
     tripoint p( origin.x - range, origin.y - range, origin.z );
-    for (int &x = p.x; x <= origin.x + range; x++) {
-        for (int &y = p.y; y <= origin.y + range; y++) {
+    int &x = p.x;
+    int &y = p.y;
+    for( x = origin.x - range; x <= origin.x + range; x++ ) {
+        for( y = origin.y - range; y <= origin.y + range; y++ ) {
             if (g->m.has_furn(x, y) && g->m.accessible_furniture( origin, p, range )) {
                 const furn_t &f = g->m.furn_at(x, y);
                 itype *type = f.crafting_pseudo_item_type();

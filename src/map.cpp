@@ -2537,7 +2537,7 @@ std::pair<bool, bool> map::bash(const int x, const int y, const int str,
                 g->u.add_memorial_log(pgettext("memorial_male", "Set off an alarm."),
                                       pgettext("memorial_female", "Set off an alarm."));
                 const point abs = overmapbuffer::ms_to_sm_copy( getabs( x, y ) );
-                g->add_event(EVENT_WANTED, int(calendar::turn) + 300, 0, tripoint( abs.x, abs.y, g->get_levz() ) );
+                g->add_event(EVENT_WANTED, int(calendar::turn) + 300, 0, tripoint( abs.x, abs.y, abs_sub.z ) );
             }
         }
 
@@ -2610,7 +2610,7 @@ std::pair<bool, bool> map::bash(const int x, const int y, const int str,
 
                 spawn_item_list(bash->items, x, y);
                 if (bash->explosive > 0) {
-                    g->explosion( tripoint( x, y, g->get_levz() ), bash->explosive, 0, false);
+                    g->explosion( tripoint( x, y, abs_sub.z ), bash->explosive, 0, false);
                 }
 
                 if (collapses) {
@@ -2883,7 +2883,7 @@ void map::shoot(const int x, const int y, int &dam,
     {
         sounds::sound(x, y, 30, _("An alarm sounds!"));
         const point abs = overmapbuffer::ms_to_sm_copy( getabs( x, y ) );
-        g->add_event(EVENT_WANTED, int(calendar::turn) + 300, 0, tripoint( abs.x, abs.y, g->get_levz() ) );
+        g->add_event(EVENT_WANTED, int(calendar::turn) + 300, 0, tripoint( abs.x, abs.y, abs_sub.z ) );
     }
 
     int vpart;
@@ -3031,7 +3031,7 @@ void map::shoot(const int x, const int y, int &dam,
         if (hit_items || one_in(3)) {
             if (dam > 15) {
                 if (ammo_effects.count("INCENDIARY") || ammo_effects.count("FLAME")) {
-                    g->explosion( tripoint( x, y, g->get_levz() ), 40, 0, true);
+                    g->explosion( tripoint( x, y, abs_sub.z ), 40, 0, true);
                 } else {
                     for (int i = x - 2; i <= x + 2; i++) {
                         for (int j = y - 2; j <= y + 2; j++) {
@@ -3784,7 +3784,6 @@ void map::add_item_at( const tripoint &p,
     current_submap->is_uniform = false;
 
     current_submap->update_lum_add(new_item, lx, ly);
-
     const auto new_pos = current_submap->itm[lx][ly].insert( index, new_item );
     if( new_item.needs_processing() ) {
         current_submap->active_items.add( new_pos, point(lx, ly) );
@@ -3898,10 +3897,12 @@ template<typename T>
 void map::process_items( bool const active, T processor, std::string const &signal )
 {
     // TODO: Z
-    const int gz = g->get_levz();
+    const int gz = abs_sub.z;
     tripoint gp( 0, 0, gz );
-    for( int &gx = gp.x; gx < my_MAPSIZE; ++gx ) {
-        for( int &gy = gp.y; gy < my_MAPSIZE; ++gy ) {
+    int &gx = gp.x;
+    int &gy = gp.y;
+    for( gx = 0; gx < my_MAPSIZE; ++gx ) {
+        for( gy = 0; gy < my_MAPSIZE; ++gy ) {
             submap *const current_submap = get_submap_at_grid( gp );
             // Vehicles first in case they get blown up and drop active items on the map.
             if( !current_submap->vehicles.empty() ) {
@@ -3984,7 +3985,7 @@ void map::process_items_in_vehicle( vehicle *const cur_veh, submap *const curren
         auto const part_index = static_cast<size_t>(*it);
         const point partloc = cur_veh->global_pos() + cur_veh->parts[part_index].precalc[0];
         // TODO: Make this 3D when vehicles know their Z coord
-        const tripoint item_location = tripoint( partloc, g->get_levz() );
+        const tripoint item_location = tripoint( partloc, abs_sub.z );
         auto items = cur_veh->get_items(static_cast<int>(part_index));
         if(!processor(items, active_item.item_iterator, item_location, signal)) {
             // If the item was NOT destroyed, we can skip the remainder,
@@ -4077,8 +4078,10 @@ std::list<item> map::use_amount( const tripoint &origin, const int range, const 
     int quantity = amount;
     for( int radius = 0; radius <= range && quantity > 0; radius++ ) {
         tripoint p( origin.x - radius, origin.y - radius, origin.z );
-        for( int &x = p.x; x <= origin.x + radius; x++ ) {
-            for( int &y = p.y; y <= origin.y + radius; y++ ) {
+        int &x = p.x;
+        int &y = p.y;
+        for( x = p.x; x <= origin.x + radius; x++ ) {
+            for( y = p.y; y <= origin.y + radius; y++ ) {
                 if( rl_dist( origin, p ) >= radius ) {
                     std::list<item> tmp;
                     tmp = use_amount_square( p , type, quantity, use_container );
@@ -4154,8 +4157,10 @@ std::list<item> map::use_charges(const tripoint &origin, const int range,
     long quantity = amount;
     for( int radius = 0; radius <= range && quantity > 0; radius++ ) {
         tripoint p( origin.x - radius, origin.y - radius, origin.z );
-        for( int &x = p.x; x <= origin.x + radius; x++ ) {
-            for( int &y = p.y; y <= origin.y + radius; y++ ) {
+        int &x = p.x;
+        int &y = p.y;
+        for( x = p.x; x <= origin.x + radius; x++ ) {
+            for( y = p.y; y <= origin.y + radius; y++ ) {
                 if( has_furn( p ) && accessible_furniture( origin, p, range ) ) {
                     use_charges_from_furn( furn_at( p ), type, quantity, this, p, ret );
                     if( quantity <= 0 ) {
@@ -4881,7 +4886,7 @@ void map::drawsq(WINDOW* w, player &u, const int x, const int y, const bool inve
         show_items = false; // Can only see underwater items if WE are underwater
     }
     // If there's a trap here, and we have sufficient perception, draw that instead
-    if( curr_trap.can_see( tripoint( x, y, g->get_levz() ), g->u ) ) {
+    if( curr_trap.can_see( tripoint( x, y, abs_sub.z ), g->u ) ) {
         tercol = curr_trap.color;
         if (curr_trap.sym == '%') {
             switch(rng(1, 5)) {
@@ -6155,7 +6160,7 @@ void map::build_outside_cache()
         return;
     }
 
-    if (g->get_levz() < 0)
+    if (abs_sub.z < 0)
     {
         memset(outside_cache, false, sizeof(outside_cache));
         return;
