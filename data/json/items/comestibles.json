@@ -7648,8 +7648,9 @@
         "phase": "solid",
         "charges" : 4,
         "stack_size" : 100,
-        "grow" : 91,
-        "flags": ["SEED"]
+        "seed_data": {
+            "grow" : 91
+        }
     },
     {
         "type" : "COMESTIBLE",
@@ -7757,8 +7758,9 @@
         "to_hit" : 0,
         "charges" : 4,
         "stack_size" : 100,
-        "grow" : 91,
-        "flags": ["SEED"]
+        "seed_data": {
+            "grow" : 91
+        }
     },
     {
         "type" : "COMESTIBLE",
@@ -7809,9 +7811,10 @@
         "cutting" : 0,
         "to_hit" : 0,
         "charges" : 4,
-        "grow" : 120,
         "stack_size" : 40,
-        "flags": ["SEED"]
+        "seed_data": {
+            "grow" : 120
+        }
     },
 
     {
@@ -7951,9 +7954,10 @@
         "cutting" : 0,
         "to_hit" : 0,
         "charges" : 2,
-        "grow" : 120,
         "stack_size" : 8,
-        "flags": ["SEED"]
+        "seed_data": {
+            "grow" : 120
+        }
     },
     {
         "type" : "COMESTIBLE",
@@ -8003,9 +8007,10 @@
         "cutting" : 0,
         "to_hit" : 0,
         "charges" : 2,
-        "grow" : 70,
         "stack_size" : 40,
-        "flags": ["SEED"]
+        "seed_data": {
+            "grow" : 70
+        }
     },
     {
         "type" : "COMESTIBLE",
@@ -8054,9 +8059,10 @@
         "cutting" : 0,
         "to_hit" : 0,
         "charges" : 4,
-        "grow" : 90,
         "stack_size" : 40,
-        "flags": ["SEED"]
+        "seed_data": {
+            "grow" : 90
+        }
     },
     {
         "type" : "COMESTIBLE",
@@ -8106,9 +8112,10 @@
         "cutting" : 0,
         "to_hit" : 0,
         "charges" : 4,
-        "grow" : 85,
         "stack_size" : 100,
-        "flags": ["SEED"]
+        "seed_data": {
+            "grow" : 85
+        }
     },
     {
         "type" : "COMESTIBLE",
@@ -8159,9 +8166,10 @@
         "cutting" : 0,
         "to_hit" : 0,
         "charges" : 4,
-        "grow" : 65,
         "stack_size" : 100,
-        "flags": ["SEED"]
+        "seed_data": {
+            "grow" : 65
+        }
     },
     {
         "type" : "COMESTIBLE",
@@ -8183,9 +8191,10 @@
         "cutting" : 0,
         "to_hit" : 0,
         "charges" : 8,
-        "grow" : 130,
         "stack_size" : 40,
-        "flags": ["SEED"]
+        "seed_data": {
+            "grow" : 130
+        }
     },
     {
         "type" : "COMESTIBLE",
@@ -8298,9 +8307,10 @@
         "cutting" : 0,
         "to_hit" : 0,
         "charges" : 4,
-        "grow" : 75,
         "stack_size" : 100,
-        "flags": ["SEED"]
+        "seed_data": {
+            "grow" : 75
+        }
     },
     {
         "type" : "COMESTIBLE",
@@ -8351,9 +8361,10 @@
         "cutting" : 0,
         "to_hit" : 0,
         "charges" : 4,
-        "grow" : 47,
         "stack_size" : 100,
-        "flags": ["SEED"]
+        "seed_data": {
+            "grow" : 47
+        }
     },
     {
         "type" : "COMESTIBLE",
@@ -8404,9 +8415,10 @@
         "cutting" : 0,
         "to_hit" : 0,
         "charges" : 4,
-        "grow" : 65,
         "stack_size" : 100,
-        "flags": ["SEED"]
+        "seed_data": {
+            "grow" : 65
+        }
     },
     {
         "type" : "COMESTIBLE",
@@ -8457,9 +8469,10 @@
         "cutting" : 0,
         "to_hit" : 0,
         "charges" : 4,
-        "grow" : 65,
         "stack_size" : 100,
-        "flags": ["SEED"]
+        "seed_data": {
+            "grow" : 65
+        }
     },
     {
         "type" : "COMESTIBLE",
@@ -8510,10 +8523,11 @@
         "bashing" : 0,
         "cutting" : 0,
         "to_hit" : 0,
-        "grow" : 80,
         "charges" : 4,
         "stack_size" : 100,
-        "flags": ["SEED"]
+        "seed_data": {
+            "grow" : 80
+        }
     },
     {
         "type" : "COMESTIBLE",
@@ -9971,7 +9985,9 @@
         "stack_size" : 10,
         "bashing" : 0,
         "fun" : 30,
-        "flags": ["SEED"]
+        "seed_data": {
+            "grow" : 91
+        }
     },
     {
         "type" : "COMESTIBLE",
@@ -10169,9 +10185,10 @@
         "cutting" : 0,
         "to_hit" : 0,
         "charges" : 4,
-        "grow" : 45,
         "stack_size" : 40,
-        "flags": ["SEED"]
+        "seed_data": {
+            "grow" : 45
+        }
     },
     {
         "type" : "COMESTIBLE",
@@ -11134,9 +11151,10 @@
         "cutting" : 0,
         "to_hit" : 0,
         "charges" : 4,
-        "grow" : 95,
         "stack_size" : 10,
-        "flags": ["SEED"]
+        "seed_data": {
+            "grow" : 95
+        }
     },
     {
         "type" : "COMESTIBLE",
@@ -13398,7 +13416,6 @@
         "name" : "hemp seed",
         "weight" : 1,
         "color" : "green",
-        "flags": ["SEED"],
         "addiction_type" : "none",
         "spoils_in" : 0,
         "use_action" : "SEED",
@@ -13422,7 +13439,9 @@
         "stack_size" : 100,
         "bashing" : 0,
         "fun" : 1,
-        "grow" : 91
+        "seed_data": {
+            "grow" : 91
+        }
     },
     {
         "type" : "COMESTIBLE",
@@ -15245,7 +15264,9 @@
         "recoil" : 0,
         "count" : 1,
         "stack_size" : 8,
-        "flags": ["SEED"]
+        "seed_data": {
+            "grow" : 91
+        }
     },
     {
         "type" : "COMESTIBLE",
@@ -17424,9 +17445,10 @@
         "cutting" : 0,
         "to_hit" : 0,
         "charges" : 4,
-        "grow" : 60,
         "stack_size" : 100,
-        "flags": ["SEED"]
+        "seed_data": {
+            "grow" : 60
+        }
     },{
         "type" : "COMESTIBLE",
         "id" : "irradiated_cucumber",
@@ -17502,9 +17524,10 @@
         "cutting" : 0,
         "to_hit" : 0,
         "charges" : 4,
-        "grow" : 130,
         "stack_size" : 100,
-        "flags": ["SEED"]
+        "seed_data": {
+            "grow" : 130
+        }
     },
     {
         "type" : "COMESTIBLE",
@@ -18646,8 +18669,9 @@
         "phase": "solid",
         "charges" : 2,
         "stack_size" : 100,
-        "grow" : 91,
-        "flags": ["SEED"]
+        "seed_data": {
+            "grow" : 91
+        }
     },{
         "type" : "COMESTIBLE",
         "id" : "thyme_oil",
@@ -18696,9 +18720,10 @@
         "phase": "solid",
         "charges" : 2,
         "stack_size" : 100,
-        "grow" : 91,
-        "flags": ["SEED"]
-},{
+        "seed_data": {
+            "grow" : 91
+        }
+    },{
         "type": "COMESTIBLE",
         "id" : "canola",
         "name" : "canola",
@@ -18771,7 +18796,8 @@
         "phase": "solid",
         "charges" : 2,
         "stack_size" : 100,
-        "grow" : 91,
-        "flags": ["SEED"]
-}
+        "seed_data": {
+            "grow" : 91
+        }
+    }
 ]

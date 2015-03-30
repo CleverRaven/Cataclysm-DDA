@@ -746,9 +746,6 @@ void Item_factory::load_comestible(JsonObject &jo)
     }
     comest_template->fun = jo.get_int("fun", 0);
 
-    //Default to 91 as an approximation of a real world season length.
-    comest_template->grow = jo.get_int("grow", 91);
-
     comest_template->add = addiction_type(jo.get_string("addiction_type"));
 
     itype *new_item_template = comest_template;
@@ -761,6 +758,11 @@ void Item_factory::load_container(JsonObject &jo)
     itype *new_item_template = new itype();
     load_slot( new_item_template->container, jo );
     load_basic_info( jo, new_item_template );
+}
+
+void Item_factory::load( islot_seed &slot, JsonObject &jo )
+{
+    slot.grow = jo.get_int( "grow" );
 }
 
 void Item_factory::load( islot_container &slot, JsonObject &jo )
@@ -970,6 +972,7 @@ void Item_factory::load_basic_info(JsonObject &jo, itype *new_item_template)
     load_slot_optional( new_item_template->bionic, jo, "bionic_data" );
     load_slot_optional( new_item_template->spawn, jo, "spawn_data" );
     load_slot_optional( new_item_template->ammo, jo, "ammo_data" );
+    load_slot_optional( new_item_template->seed, jo, "seed_data" );
 }
 
 void Item_factory::load_item_category(JsonObject &jo)
