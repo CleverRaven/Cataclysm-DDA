@@ -9,6 +9,7 @@
 #include "veh_type.h"
 #include "filesystem.h"
 #include "sounds.h"
+#include "map.h"
 
 #include <algorithm>
 #include <fstream>
@@ -529,6 +530,30 @@ tile_type *cata_tiles::load_tile(JsonObject &entry, const std::string &id, int o
     return curr_subtile;
 }
 
+void cata_tiles::draw_specific_tile(int x, int y, lit_level ll) {
+    const auto critter = g->critter_at( x, y );
+    if ( ll == LL_DARK || ll == LL_BRIGHT_ONLY || ll == LL_BLANK ) {
+        // Draw lighting
+        draw_lighting(x, y, ll);
+        if( critter != nullptr && g->u.sees_with_infrared( *critter ) ) {
+            draw_from_id_string( "infrared_creature", C_NONE, empty_string, x, y, 0, 0 );
+        }
+        return;
+    }
+    // light is no longer being considered, for now.
+    // Draw Terrain if possible. If not possible then we need to continue on to the next part of loop
+    if (!draw_terrain(x, y)) {
+        return;
+    }
+    draw_furniture(x, y);
+    draw_trap(x, y);
+    draw_field_or_item(x, y);
+    draw_vpart(x, y);
+    if( critter != nullptr ) {
+        draw_entity( *critter, x, y );
+    }
+}
+
 void cata_tiles::draw(int destx, int desty, int centerx, int centery, int width, int height)
 {
     if (!g) {
@@ -549,8 +574,6 @@ void cata_tiles::draw(int destx, int desty, int centerx, int centery, int width,
 
     init_light();
 
-    LIGHTING l;
-
     o_x = posx - POSX;
     o_y = posy - POSY;
     op_x = destx;
@@ -559,41 +582,12 @@ void cata_tiles::draw(int destx, int desty, int centerx, int centery, int width,
     screentile_width = (width + tile_width - 1) / tile_width;
     screentile_height = (height + tile_height - 1) / tile_height;
 
-    // in isometric mode, render the whole reality bubble
-    // TODO: make this smarter
-    const int min_x = tile_iso ? MAPSIZE*SEEX : o_x;
-    const int max_x = tile_iso ? 0 : sx + o_x;
-    const int dx = tile_iso ? -1 : 1; // iso mode renders right to left, for overlap reasons
-    const int min_y = tile_iso ? 0 : o_y;
-    const int max_y = tile_iso ? MAPSIZE*SEEX : sy + o_y;
-    const int dy = 1;
-
-    for (int y=min_y; (y*dy)<(max_y*dy); y+=dy) {
-        for (int x=min_x; (x*dx)<(max_x*dx); x+=dx) {
-            l = light_at(x, y);
-            const auto critter = g->critter_at( x, y );
-            if (l != CLEAR) {
-                // Draw lighting
-                draw_lighting(x, y, l);
-                if( critter != nullptr && g->u.sees_with_infrared( *critter ) ) {
-                    draw_from_id_string( "infrared_creature", C_NONE, empty_string, x, y, 0, 0 );
-                }
-                continue;
-            }
-            // light is no longer being considered, for now.
-            // Draw Terrain if possible. If not possible then we need to continue on to the next part of loop
-            if (!draw_terrain(x, y)) {
-                continue;
-            }
-            draw_furniture(x, y);
-            draw_trap(x, y);
-            draw_field_or_item(x, y);
-            draw_vpart(x, y);
-            if( critter != nullptr ) {
-                draw_entity( *critter, x, y );
-            }
+    for (int x=o_x; x <= o_x+sx-1; x++) {
+        for (int y=o_y; y <= o_y+sy-1; y++) {
+            draw_specific_tile(x,y,g->m.visibility_cache[x][y]);
         }
     }
+
     in_animation = do_draw_explosion || do_draw_bullet || do_draw_hit ||
                    do_draw_line || do_draw_weather || do_draw_sct ||
                    do_draw_zones;
@@ -920,26 +914,30 @@ bool cata_tiles::draw_tile_at(tile_type *tile, int x, int y, int rota)
     return true;
 }
 
-bool cata_tiles::draw_lighting(int x, int y, LIGHTING l)
+bool cata_tiles::draw_lighting(int x, int y, lit_level l)
 {
     std::string light_name;
     switch(l) {
-        case HIDDEN:
+        case LL_BLANK:
             light_name = "lighting_hidden";
             break;
-        case LIGHT_NORMAL:
-            light_name = "lighting_lowlight_light";
+        case LL_BRIGHT_ONLY:
+        case LL_LIT:
+            if (g->m.u_is_boomered) {
+                light_name = "lighting_boomered_light";
+            } else {
+                light_name = "lighting_lowlight_light";
+            }
             break;
-        case LIGHT_DARK:
-            light_name = "lighting_lowlight_dark";
+        case LL_DARK:
+        case LL_LOW:
+            if (g->m.u_is_boomered) {
+                light_name = "lighting_boomered_dark";
+            } else {
+                light_name = "lighting_lowlight_dark";
+            }
             break;
-        case BOOMER_NORMAL:
-            light_name = "lighting_boomered_light";
-            break;
-        case BOOMER_DARK:
-            light_name = "lighting_boomered_dark";
-            break;
-        case CLEAR: // Actually handled by the caller.
+        default: // Actually handled by the caller.
             return false;
     }
 
@@ -1487,71 +1485,7 @@ void cata_tiles::init_light()
 {
     g->reset_light_level();
 
-    sightrange_natural = g->u.sight_range(1);
-    g_lightlevel = (int)g->light_level();
-    sightrange_light = g->u.sight_range(g_lightlevel);
-    sightrange_lowlight = std::max(g_lightlevel / 2, sightrange_natural);
-    sightrange_max = g->u.unimpaired_range();
-    u_clairvoyance = g->u.clairvoyance();
-
-    boomered = g->u.has_effect("boomered");
-    sight_impaired = g->u.sight_impaired();
-    bionight_bionic_active = g->u.has_active_bionic("bio_night");
-}
-
-LIGHTING cata_tiles::light_at(int x, int y)
-{
-    /** Logic */
-    const int dist = rl_dist(g->u.posx(), g->u.posy(), x, y);
-
-    int real_max_sight_range = sightrange_light > sightrange_max ? sightrange_light : sightrange_max;
-    int distance_to_look = DAYLIGHT_LEVEL;
-
-    bool can_see = g->m.pl_sees( x, y, distance_to_look );
-    lit_level lit = g->m.light_at(x, y);
-
-    if (lit != LL_BRIGHT && dist > real_max_sight_range) {
-        int intlit = (int)lit - (dist - real_max_sight_range) / 2;
-        if (intlit < 0) {
-            intlit = LL_DARK;
-        }
-        lit = (lit_level)intlit;
-    }
-
-    if (lit > LL_DARK && real_max_sight_range > 1) {
-        real_max_sight_range = distance_to_look;
-    }
-
-    /** Conditional Returns */
-    if ((bionight_bionic_active && dist < 15 && dist > sightrange_natural) ||
-            dist > real_max_sight_range ||
-            (dist > sightrange_light &&
-             (lit == LL_DARK ||
-              (sight_impaired && lit != LL_BRIGHT) ||
-              !can_see))) {
-        if (boomered) {
-            // exit w/ dark boomerfication
-            return BOOMER_DARK;
-        } else {
-            // exit w/ dark normal
-            return LIGHT_DARK;
-        }
-    } else if (dist > sightrange_light && sight_impaired && lit == LL_BRIGHT) {
-        if (boomered) {
-            // exit w/ light boomerfication
-            return BOOMER_NORMAL;
-        } else {
-            // exit w/ light normal
-            return LIGHT_NORMAL;
-        }
-    } else if (dist <= u_clairvoyance || can_see) {
-        // check for rain
-
-        // return with okay to draw the square = 0
-        return CLEAR;
-    }
-
-    return HIDDEN;
+    g->m.update_visibility_cache();
 }
 
 void cata_tiles::get_terrain_orientation(int x, int y, int &rota, int &subtile)
