@@ -9323,7 +9323,7 @@
   "time": 30000,
   "reversible": false,
   "autolearn": false,
-  "book_learn": [[ "family_cookbook", 5 ], [ "survival_book", 6 ], [ "scots_cookbook", 3 ]],
+  "book_learn": [[ "survival_book", 6 ], [ "scots_cookbook", 3 ]],
   "batch_time_factors":[50, 4],
   "qualities":[
     {"id":"BOIL","level":1,"amount":1},
@@ -9380,7 +9380,7 @@
   "time": 12000,
   "reversible": false,
   "autolearn": false,
-  "book_learn": [[ "scots_cookbook", 2 ]],
+  "book_learn": [[ "family_cookbook", 4 ][ "scots_cookbook", 2 ]],
   "batch_time_factors":[50, 4],
   "qualities":[
     {"id":"COOK","level":3,"amount":1},
@@ -9420,7 +9420,7 @@
   "time": 20000,
   "reversible": false,
   "autolearn": false,
-  "book_learn": [[ "family_cookbook", 4 ], [ "scots_cookbook", 2 ]],
+  "book_learn": [[ "family_cookbook", 6 ], [ "scots_cookbook", 2 ]],
   "batch_time_factors":[50, 4],
   "qualities":[
     {"id":"BOIL","level":1,"amount":1},
