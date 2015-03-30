@@ -15,8 +15,8 @@
                 ".-----..................",
                 ".|...|..........sss.....",
                 ".|.Q.|...........&s.....",
-                ".|...|...........{s.....",
-                ".|...|P..........{s.....",
+                ".|...|...........1s.....",
+                ".|...|P..........2s.....",
                 ".--+--..........sss.....",
                 "........................",
                 "...s9s...........s9s....",
@@ -46,7 +46,8 @@
                 "+": "t_chaingate_l",
 
                 "&": "t_atm",
-                "{": "t_pavement",
+                "1": "t_pavement",
+                "2": "t_pavement",
 
                 "5": "t_gas_pump",
                 "s": "t_little_column",
@@ -56,29 +57,20 @@
 
             },
             "furniture": {
-                "9": "f_aut_gas_console",
-
-                "P": "f_sign",
-
-                "{": "f_vending_c"
-
+                "9": "f_aut_gas_console"
             },
-            "place_signs": [
-                { "x": 6, "y": 7, "signage": "Danger! Do not smoke! Risk of explosion!" }
-            ],
-            
+            "vendingmachines" : {
+                "1": { "item_group": "vending_drink" },
+                "2": { "item_group": "vending_food" }
+            },
+            "signs": {
+                "P": { "signage": "Danger! Do not smoke! Risk of explosion!" }
+            },
             "add": [
                 { "item": "gasoline", "x": 3, "y": 5, "repeat": [200, 1075] }
             ],
-
-            "set": [
-            { "point": "terrain", "id": "t_gas_tank", "x": 3, "y": 5}
-             ],
-
-            "place_items": [
-                { "item": "vending_drink", "chance": 85, "x": 17, "y": 6 },
-                { "item": "vending_food", "chance": 85, "x": 17, "y": 7 }
-
+            "place_terrain": [
+                { "ter": "t_gas_tank", "x": 3, "y": 5}
             ]
         }
     }

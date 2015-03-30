@@ -397,6 +397,9 @@ def extract(item, infilename):
         if "sound_fail" in bash:
             writestr(outfile, bash["sound_fail"], **kwargs)
             wrote = True
+    if "seed_data" in item:
+        seed_data = item["seed_data"]
+        writestr(outfile, seed_data["plant_name"], **kwargs)
     if "text" in item:
         writestr(outfile, item["text"], **kwargs)
         wrote = True

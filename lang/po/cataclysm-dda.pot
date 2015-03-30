@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: cataclysm-dda 0.C\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-03-23 09:20+0300\n"
+"POT-Creation-Date: 2015-03-30 09:22+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -124,6 +124,23 @@ msgstr[1] ""
 msgid ""
 "A nuclear-powered battery.  Used to charge advanced and rare electronics."
 msgstr ""
+
+#: lang/json/AMMO_from_json.py lang/json/ammunition_type_from_json.py
+msgid "plutonium slurry"
+msgid_plural "plutonium slurry"
+msgstr[0] ""
+msgstr[1] ""
+
+#: lang/json/AMMO_from_json.py
+msgid ""
+"Highly radioactive slurry.  It is probably best to get far away from this."
+msgstr ""
+
+#: lang/json/AMMO_from_json.py
+msgid "watery plutonium slurry"
+msgid_plural "watery plutonium slurry"
+msgstr[0] ""
+msgstr[1] ""
 
 #: lang/json/AMMO_from_json.py
 msgid "nail"
@@ -2805,6 +2822,10 @@ msgstr[1] ""
 
 #: lang/json/AMMO_from_json.py
 msgid "Some fungal seeds."
+msgstr ""
+
+#: lang/json/AMMO_from_json.py lang/json/furniture_from_json.py
+msgid "fungal flower"
 msgstr ""
 
 #: lang/json/AMMO_from_json.py
@@ -10154,6 +10175,55 @@ msgid ""
 msgstr ""
 
 #: lang/json/BIONIC_ITEM_from_json.py
+msgid "Internal Microreactor CBM"
+msgid_plural "Internal Microreactor CBMs"
+msgstr[0] ""
+msgstr[1] ""
+
+#: lang/json/BIONIC_ITEM_from_json.py
+msgid ""
+"Storage tank and stripped down plutonium reactor, allowing generation of "
+"power from small amounts of plutonium.  Warning: minimal radiation shielding."
+msgstr ""
+
+#: lang/json/BIONIC_ITEM_from_json.py
+msgid "Microreactor Upgrade CBM"
+msgid_plural "Microreactor Upgrade CBMs"
+msgstr[0] ""
+msgstr[1] ""
+
+#: lang/json/BIONIC_ITEM_from_json.py
+msgid ""
+"A kit for upgrading a pre-installed microreactor with enhanced maximum yield "
+"and automatic radiation scrubbing."
+msgstr ""
+
+#: lang/json/BIONIC_ITEM_from_json.py
+msgid "Plutonium Filter CBM"
+msgid_plural "Plutonium Filter CBMs"
+msgstr[0] ""
+msgstr[1] ""
+
+#: lang/json/BIONIC_ITEM_from_json.py
+msgid ""
+"System of tanks and filters to extract plutonium more rapidly from slurry "
+"for a microreactor."
+msgstr ""
+
+#: lang/json/BIONIC_ITEM_from_json.py
+msgid "Advanced Microreactor CBM"
+msgid_plural "Advanced Microreactor CBMs"
+msgstr[0] ""
+msgstr[1] ""
+
+#: lang/json/BIONIC_ITEM_from_json.py
+msgid ""
+"Storage tank and stripped down plutonium reactor, allowing generation of "
+"power from small amounts of plutonium.  This one has been heavily upgraded.  "
+"Warning: minimal radiation shielding."
+msgstr ""
+
+#: lang/json/BIONIC_ITEM_from_json.py
 msgid "Integrated Dosimeter CBM"
 msgid_plural "Integrated Dosimeter CBMs"
 msgstr[0] ""
@@ -13995,7 +14065,7 @@ msgstr[1] ""
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid ""
-"A flavorful and nutritious ale brewed by monks in Belgium.  Best served in a "
+"A flavorful and filling ale brewed by monks in Belgium.  Best served in a "
 "goblet."
 msgstr ""
 
@@ -15936,6 +16006,10 @@ msgid "Roots of a hop plant, for growing your own."
 msgstr ""
 
 #: lang/json/COMESTIBLE_from_json.py
+msgid "hops"
+msgstr ""
+
+#: lang/json/COMESTIBLE_from_json.py
 msgid "barley"
 msgid_plural "barleys"
 msgstr[0] ""
@@ -16029,6 +16103,10 @@ msgstr[1] ""
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "Some cotton seeds.  Can be processed to produce an edible oil."
+msgstr ""
+
+#: lang/json/COMESTIBLE_from_json.py
+msgid "cotton"
 msgstr ""
 
 #: lang/json/COMESTIBLE_from_json.py
@@ -17131,6 +17209,10 @@ msgstr[1] ""
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "Some seed potatoes."
+msgstr ""
+
+#: lang/json/COMESTIBLE_from_json.py
+msgid "potatoes"
 msgstr ""
 
 #: lang/json/COMESTIBLE_from_json.py
@@ -20016,7 +20098,7 @@ msgid "A stalk of thyme.  Smells delicious."
 msgstr ""
 
 #: lang/json/COMESTIBLE_from_json.py
-msgid "thyme seed"
+msgid "thyme seeds"
 msgid_plural "thyme seeds"
 msgstr[0] ""
 msgstr[1] ""
@@ -20035,6 +20117,47 @@ msgstr[1] ""
 msgid ""
 "Some essential oil made from thyme, which can act as a mildly irritating "
 "disinfectant."
+msgstr ""
+
+#: lang/json/COMESTIBLE_from_json.py
+msgid "canola seeds"
+msgid_plural "canola seeds"
+msgstr[0] ""
+msgstr[1] ""
+
+#: lang/json/COMESTIBLE_from_json.py
+msgid ""
+"Some canola seeds.  You could probably plant these, or press them into oil."
+msgstr ""
+
+#: lang/json/COMESTIBLE_from_json.py
+msgid "canola"
+msgid_plural "canolas"
+msgstr[0] ""
+msgstr[1] ""
+
+#: lang/json/COMESTIBLE_from_json.py
+msgid "A pretty stalk of canola.  Its seeds can be pressed into oil."
+msgstr ""
+
+#: lang/json/COMESTIBLE_from_json.py
+msgid "dogbane"
+msgid_plural "dogbanes"
+msgstr[0] ""
+msgstr[1] ""
+
+#: lang/json/COMESTIBLE_from_json.py
+msgid "A stalk of dogbane.  It has very fibrous stems and is mildly poisonous."
+msgstr ""
+
+#: lang/json/COMESTIBLE_from_json.py
+msgid "dogbane seeds"
+msgid_plural "dogbane seeds"
+msgstr[0] ""
+msgstr[1] ""
+
+#: lang/json/COMESTIBLE_from_json.py
+msgid "Some dogbane seeds.  You could probably plant these."
 msgstr ""
 
 #: lang/json/COMESTIBLE_from_json.py
@@ -22011,7 +22134,7 @@ msgid ""
 "A large rag, drenched in blood.  It could be cleaned with boiling water."
 msgstr ""
 
-#: lang/json/GENERIC_from_json.py
+#: lang/json/GENERIC_from_json.py lang/json/vehicle_part_from_json.py
 msgid "clock"
 msgid_plural "clocks"
 msgstr[0] ""
@@ -22945,7 +23068,7 @@ msgstr[1] ""
 msgid "You collapse your PR-24 baton."
 msgstr ""
 
-#: lang/json/GENERIC_from_json.py
+#: lang/json/GENERIC_from_json.py lang/json/vehicle_part_from_json.py
 msgid "atomic nightlight"
 msgid_plural "atomic nightlights"
 msgstr[0] ""
@@ -22958,7 +23081,7 @@ msgid ""
 "for at least 160 million years of faithful service."
 msgstr ""
 
-#: lang/json/GENERIC_from_json.py
+#: lang/json/GENERIC_from_json.py lang/json/vehicle_part_from_json.py
 msgid "atomic lamp"
 msgid_plural "atomic lamps"
 msgstr[0] ""
@@ -33056,6 +33179,40 @@ msgstr[1] ""
 msgid "A harmonica with a holder, so that you can play it without a free hand."
 msgstr ""
 
+#: lang/json/TOOL_ARMOR_from_json.py
+msgid "acoustic guitar"
+msgid_plural "acoustic guitars"
+msgstr[0] ""
+msgstr[1] ""
+
+#: lang/json/TOOL_ARMOR_from_json.py
+msgid ""
+"A simple wooden acoustic guitar with a strap so you can wear it around, even "
+"when not playing."
+msgstr ""
+
+#: lang/json/TOOL_ARMOR_from_json.py
+msgid "tuba"
+msgid_plural "tubas"
+msgstr[0] ""
+msgstr[1] ""
+
+#: lang/json/TOOL_ARMOR_from_json.py
+msgid "A big ol' tuba. Much easier to play when wearing."
+msgstr ""
+
+#: lang/json/TOOL_ARMOR_from_json.py
+msgid "saxophone"
+msgid_plural "saxophones"
+msgstr[0] ""
+msgstr[1] ""
+
+#: lang/json/TOOL_ARMOR_from_json.py
+msgid ""
+"A brass-plated alto saxophone with a neck strap, so you can wear it whie "
+"playing."
+msgstr ""
+
 #: lang/json/TOOL_from_json.py
 msgid "silver gas discount card"
 msgid_plural "silver gas discount cards"
@@ -37467,8 +37624,8 @@ msgstr[1] ""
 
 #: lang/json/TOOL_from_json.py
 msgid ""
-"This is a portable charcoal-fired kiln.  You could use it to fire your own "
-"bricks, for use in construction projects."
+"This is a portable charcoal-fired kiln.  It is designed for firing bricks, "
+"but you could use it to fire anything made of clay."
 msgstr ""
 
 #: lang/json/TOOL_from_json.py
@@ -37650,6 +37807,80 @@ msgstr[1] ""
 msgid ""
 "This is a chunk of rocket candy that has been lit on fire and burns with a "
 "loud hiss, spewing forth large amounts of smoke."
+msgstr ""
+
+#: lang/json/TOOL_from_json.py
+msgid "flute"
+msgid_plural "flutes"
+msgstr[0] ""
+msgstr[1] ""
+
+#: lang/json/TOOL_from_json.py
+msgid "A simple silver-plated flute."
+msgstr ""
+
+#: lang/json/TOOL_from_json.py
+msgid "clarinet"
+msgid_plural "clarinets"
+msgstr[0] ""
+msgstr[1] ""
+
+#: lang/json/TOOL_from_json.py
+msgid "An ornate clarinet made from wood."
+msgstr ""
+
+#: lang/json/TOOL_from_json.py
+msgid "trumpet"
+msgid_plural "trumpets"
+msgstr[0] ""
+msgstr[1] ""
+
+#: lang/json/TOOL_from_json.py
+msgid "A brass-plated trumpet with only a few dents here and there."
+msgstr ""
+
+#: lang/json/TOOL_from_json.py
+msgid "ukulele"
+msgid_plural "ukuleles"
+msgstr[0] ""
+msgstr[1] ""
+
+#: lang/json/TOOL_from_json.py
+msgid "A small factory made ukulele. Looks to be in working condition."
+msgstr ""
+
+#: lang/json/TOOL_from_json.py
+msgid "banjo"
+msgid_plural "banjos"
+msgstr[0] ""
+msgstr[1] ""
+
+#: lang/json/TOOL_from_json.py
+msgid "A standard factory-made banjo. Looks to be in working condition."
+msgstr ""
+
+#: lang/json/TOOL_from_json.py
+msgid "violin"
+msgid_plural "violins"
+msgstr[0] ""
+msgstr[1] ""
+
+#: lang/json/TOOL_from_json.py
+msgid ""
+"A cheap, factory-made violin with a built-in holder for a bow. Still "
+"produces a nice sound."
+msgstr ""
+
+#: lang/json/TOOL_from_json.py
+msgid "golden fiddle"
+msgid_plural "golden fiddles"
+msgstr[0] ""
+msgstr[1] ""
+
+#: lang/json/TOOL_from_json.py
+msgid ""
+"A shiny golden fiddle, with a strange aura around it. You feel like it once "
+"belonged to the best there's ever been."
 msgstr ""
 
 #: lang/json/TOOL_from_json.py lang/json/vehicle_part_from_json.py
@@ -38311,6 +38542,54 @@ msgstr ""
 
 #: lang/json/bionic_from_json.py
 msgid "Battery System"
+msgstr ""
+
+#: lang/json/bionic_from_json.py
+msgid "Plutonium Filter"
+msgstr ""
+
+#: lang/json/bionic_from_json.py
+msgid ""
+"This set of tanks and filters allows you to more rapidly extract usable "
+"plutonium from slurry for a microreactor."
+msgstr ""
+
+#: lang/json/bionic_from_json.py
+msgid "Plutonium Purger"
+msgstr ""
+
+#: lang/json/bionic_from_json.py
+msgid "Emergency reactor fuel purge ejects all fuel from your reactor."
+msgstr ""
+
+#: lang/json/bionic_from_json.py
+msgid "Reactor Upgrade"
+msgstr ""
+
+#: lang/json/bionic_from_json.py
+msgid "You shouldn't see this."
+msgstr ""
+
+#: lang/json/bionic_from_json.py
+msgid "Microreactor System"
+msgstr ""
+
+#: lang/json/bionic_from_json.py
+msgid ""
+"This stripped down mini-reactor may not be the best thing to have in your "
+"chest.  There is no way to shut it down, but you can toggle additional fuel "
+"intake."
+msgstr ""
+
+#: lang/json/bionic_from_json.py
+msgid "Advanced Microreactor System"
+msgstr ""
+
+#: lang/json/bionic_from_json.py
+msgid ""
+"This stripped down mini-reactor is safer than it appears due to integrated "
+"radiation cleansers.  There is no way to shut it down, but you can toggle "
+"additional fuel intake."
 msgstr ""
 
 #: lang/json/bionic_from_json.py
@@ -39295,6 +39574,10 @@ msgstr ""
 
 #: lang/json/construction_from_json.py
 msgid "Build Rock Forge"
+msgstr ""
+
+#: lang/json/construction_from_json.py
+msgid "Build Clay Kiln"
 msgstr ""
 
 #: lang/json/dream_from_json.py
@@ -41234,7 +41517,6 @@ msgid "smash!"
 msgstr ""
 
 #: lang/json/furniture_from_json.py
-#: lang/json/furniture_from_json.py lang/json/terrain_from_json.py
 #: lang/json/terrain_from_json.py
 msgid "whump."
 msgstr ""
@@ -41256,9 +41538,8 @@ msgid "bulletin board"
 msgstr ""
 
 #: lang/json/furniture_from_json.py
-#: lang/json/furniture_from_json.py lang/json/terrain_from_json.py
 #: lang/json/terrain_from_json.py
-#: lang/json/terrain_from_json.py src/iuse.cpp
+#: src/iuse.cpp
 msgid "crunch!"
 msgstr ""
 
@@ -41512,10 +41793,6 @@ msgid "crunch."
 msgstr ""
 
 #: lang/json/furniture_from_json.py
-msgid "fungal flower"
-msgstr ""
-
-#: lang/json/furniture_from_json.py
 msgid "poof."
 msgstr ""
 
@@ -41694,6 +41971,10 @@ msgstr ""
 
 #: lang/json/furniture_from_json.py
 msgid "rock forge"
+msgstr ""
+
+#: lang/json/furniture_from_json.py
+msgid "clay kiln"
 msgstr ""
 
 #: lang/json/furniture_from_json.py
@@ -49342,6 +49623,10 @@ msgid "abandoned storefront"
 msgstr ""
 
 #: lang/json/overmap_terrain_from_json.py
+msgid "music store"
+msgstr ""
+
+#: lang/json/overmap_terrain_from_json.py
 msgid "megastore"
 msgstr ""
 
@@ -49671,6 +49956,58 @@ msgstr ""
 
 #: lang/json/overmap_terrain_from_json.py
 msgid "Vault - Labs"
+msgstr ""
+
+#: lang/json/overmap_terrain_from_json.py
+msgid "Vault - Robotics Bay"
+msgstr ""
+
+#: lang/json/overmap_terrain_from_json.py
+msgid "Vault - Slum Housing"
+msgstr ""
+
+#: lang/json/overmap_terrain_from_json.py
+msgid "Vault - Suites"
+msgstr ""
+
+#: lang/json/overmap_terrain_from_json.py
+msgid "Vault - Living Bays"
+msgstr ""
+
+#: lang/json/overmap_terrain_from_json.py
+msgid "Vault - Housing"
+msgstr ""
+
+#: lang/json/overmap_terrain_from_json.py
+msgid "Vault - Transition Bay"
+msgstr ""
+
+#: lang/json/overmap_terrain_from_json.py
+msgid "Vault - Maint. Bay"
+msgstr ""
+
+#: lang/json/overmap_terrain_from_json.py
+msgid "Vault - Quartermasters"
+msgstr ""
+
+#: lang/json/overmap_terrain_from_json.py
+msgid "Vault - Kitchen"
+msgstr ""
+
+#: lang/json/overmap_terrain_from_json.py
+msgid "Vault - Conference Room"
+msgstr ""
+
+#: lang/json/overmap_terrain_from_json.py
+msgid "Vault - Library"
+msgstr ""
+
+#: lang/json/overmap_terrain_from_json.py
+msgid "Vault - Light Industry"
+msgstr ""
+
+#: lang/json/overmap_terrain_from_json.py
+msgid "Vault - Gym"
 msgstr ""
 
 #: lang/json/overmap_terrain_from_json.py
@@ -53045,6 +53382,10 @@ msgctxt "prof_desc_female"
 msgid ""
 "A wise student of ancient and forbidden knowledge; you are a wizard, a "
 "mystical practitioner of the (bionic) arcane arts."
+msgstr ""
+
+#: lang/json/recipe_from_json.py
+msgid "Stuff THE MAN doesn't want you to know"
 msgstr ""
 
 #: lang/json/scenario_from_json.py
@@ -59029,6 +59370,10 @@ msgid "null part"
 msgstr ""
 
 #: lang/json/vehicle_part_from_json.py
+msgid "reclining seat"
+msgstr ""
+
+#: lang/json/vehicle_part_from_json.py
 msgid "tracking device"
 msgstr ""
 
@@ -59082,6 +59427,10 @@ msgstr ""
 
 #: lang/json/vehicle_part_from_json.py
 msgid "wooden quarterpanel"
+msgstr ""
+
+#: lang/json/vehicle_part_from_json.py
+msgid "aisle lights"
 msgstr ""
 
 #: lang/json/vehicle_part_from_json.py
@@ -59350,6 +59699,10 @@ msgstr ""
 
 #: lang/json/vehicle_part_from_json.py
 msgid "wing mirror"
+msgstr ""
+
+#: lang/json/vehicle_part_from_json.py
+msgid "inboard mirror"
 msgstr ""
 
 #: lang/json/vehicle_part_from_json.py
@@ -59870,6 +60223,29 @@ msgstr ""
 
 #: src/activity_handlers.cpp
 msgid "You're too tired to continue."
+msgstr ""
+
+#: src/activity_handlers.cpp src/vehicle.cpp
+#, c-format
+msgid "The %s doesn't have an engine!"
+msgstr ""
+
+#: src/activity_handlers.cpp
+#, c-format
+msgid "The %s's engine starts up."
+msgid_plural "The %s's engines start up."
+msgstr[0] ""
+msgstr[1] ""
+
+#: src/activity_handlers.cpp
+#, c-format
+msgid "The %s's engine fails to start."
+msgid_plural "The %s's engines fail to start."
+msgstr[0] ""
+msgstr[1] ""
+
+#: src/activity_handlers.cpp src/vehicle.cpp
+msgid "You let go of the controls."
 msgstr ""
 
 #: src/activity_item_handling.cpp
@@ -60445,6 +60821,102 @@ msgstr ""
 msgid "R"
 msgstr ""
 
+#: src/armor_layers.cpp
+msgid "This is worn next to the skin."
+msgstr ""
+
+#: src/armor_layers.cpp
+msgid "This is worn on or around your waist."
+msgstr ""
+
+#: src/armor_layers.cpp
+msgid "This is worn over your other clothes."
+msgstr ""
+
+#: src/armor_layers.cpp
+msgid "This is strapped onto you."
+msgstr ""
+
+#: src/armor_layers.cpp
+msgid "Properties"
+msgstr ""
+
+#: src/armor_layers.cpp
+msgid "Coverage:"
+msgstr ""
+
+#: src/armor_layers.cpp
+msgid "Encumbrance:"
+msgstr ""
+
+#: src/armor_layers.cpp
+msgid "Warmth:"
+msgstr ""
+
+#: src/armor_layers.cpp
+msgid "Storage:"
+msgstr ""
+
+#: src/armor_layers.cpp
+msgid "Protection"
+msgstr ""
+
+#: src/armor_layers.cpp
+msgid "Bash:"
+msgstr ""
+
+#: src/armor_layers.cpp
+msgid "Cut:"
+msgstr ""
+
+#: src/armor_layers.cpp
+msgid "Environmental:"
+msgstr ""
+
+#: src/armor_layers.cpp
+msgid "It fits you well."
+msgstr ""
+
+#: src/armor_layers.cpp
+msgid "It could be refitted."
+msgstr ""
+
+#: src/armor_layers.cpp
+msgid "It has a hood."
+msgstr ""
+
+#: src/armor_layers.cpp
+msgid "It has pockets."
+msgstr ""
+
+#: src/armor_layers.cpp
+msgid "It is waterproof."
+msgstr ""
+
+#: src/armor_layers.cpp
+msgid "It is water friendly."
+msgstr ""
+
+#: src/armor_layers.cpp
+msgid "It looks fancy."
+msgstr ""
+
+#: src/armor_layers.cpp
+msgid "It looks really fancy."
+msgstr ""
+
+#: src/armor_layers.cpp
+msgid "You will not drown today."
+msgstr ""
+
+#: src/armor_layers.cpp
+msgid "It is very bulky."
+msgstr ""
+
+#: src/armor_layers.cpp
+msgid "It helps you to see clearly underwater."
+msgstr ""
+
 #: src/armor_layers.cpp src/player.cpp
 msgid "Eyes"
 msgstr ""
@@ -60563,102 +61035,6 @@ msgid ""
 "that bodypart.\n"
 "The sum of these values is the effective encumbrance value your character "
 "has for that bodypart."
-msgstr ""
-
-#: src/armor_layers.cpp
-msgid "This is worn next to the skin."
-msgstr ""
-
-#: src/armor_layers.cpp
-msgid "This is worn on or around your waist."
-msgstr ""
-
-#: src/armor_layers.cpp
-msgid "This is worn over your other clothes."
-msgstr ""
-
-#: src/armor_layers.cpp
-msgid "This is strapped onto you."
-msgstr ""
-
-#: src/armor_layers.cpp
-msgid "Properties"
-msgstr ""
-
-#: src/armor_layers.cpp
-msgid "Coverage:"
-msgstr ""
-
-#: src/armor_layers.cpp
-msgid "Encumbrance:"
-msgstr ""
-
-#: src/armor_layers.cpp
-msgid "Warmth:"
-msgstr ""
-
-#: src/armor_layers.cpp
-msgid "Storage:"
-msgstr ""
-
-#: src/armor_layers.cpp
-msgid "Protection"
-msgstr ""
-
-#: src/armor_layers.cpp
-msgid "Bash:"
-msgstr ""
-
-#: src/armor_layers.cpp
-msgid "Cut:"
-msgstr ""
-
-#: src/armor_layers.cpp
-msgid "Environmental:"
-msgstr ""
-
-#: src/armor_layers.cpp
-msgid "It fits you well."
-msgstr ""
-
-#: src/armor_layers.cpp
-msgid "It could be refitted."
-msgstr ""
-
-#: src/armor_layers.cpp
-msgid "It has a hood."
-msgstr ""
-
-#: src/armor_layers.cpp
-msgid "It has pockets."
-msgstr ""
-
-#: src/armor_layers.cpp
-msgid "It is waterproof."
-msgstr ""
-
-#: src/armor_layers.cpp
-msgid "It is water friendly."
-msgstr ""
-
-#: src/armor_layers.cpp
-msgid "It looks fancy."
-msgstr ""
-
-#: src/armor_layers.cpp
-msgid "It looks really fancy."
-msgstr ""
-
-#: src/armor_layers.cpp
-msgid "You will not drown today."
-msgstr ""
-
-#: src/armor_layers.cpp
-msgid "It is very bulky."
-msgstr ""
-
-#: src/armor_layers.cpp
-msgid "It helps you to see clearly underwater."
 msgstr ""
 
 #: src/artifact.cpp
@@ -61715,6 +62091,11 @@ msgid "RC radio"
 msgstr ""
 
 #: src/bionics.cpp
+msgid ""
+"WARNING: Purging all fuel is likely to result in radiation!  Purge anyway?"
+msgstr ""
+
+#: src/bionics.cpp
 #, c-format
 msgid "You can't deactivate your %s manually!"
 msgstr ""
@@ -61793,6 +62174,15 @@ msgstr ""
 
 #: src/bionics.cpp
 msgid ""
+"WARNING: Removing a reactor may leave radioactive material! Remove anyway?"
+msgstr ""
+
+#: src/bionics.cpp
+msgid "You must remove your reactor to remove the Plutonium Purger."
+msgstr ""
+
+#: src/bionics.cpp
+msgid ""
 "You must remove the Enhanced Hearing bionic to remove the Sound Dampeners."
 msgstr ""
 
@@ -61822,6 +62212,26 @@ msgstr ""
 #: src/bionics.cpp
 #, c-format
 msgid "Successfully removed %s."
+msgstr ""
+
+#: src/bionics.cpp
+msgid "Your internal storage and furnace take up too much room!"
+msgstr ""
+
+#: src/bionics.cpp
+msgid "Your internal furnace takes up too much room!"
+msgstr ""
+
+#: src/bionics.cpp
+msgid "Your internal storage takes up too much room!"
+msgstr ""
+
+#: src/bionics.cpp
+msgid "Your installed reactor leaves no room!"
+msgstr ""
+
+#: src/bionics.cpp
+msgid "There is nothing to upgrade!"
 msgstr ""
 
 #: src/bionics.cpp
@@ -63208,6 +63618,14 @@ msgid "You disassemble the %s."
 msgstr ""
 
 #: src/construction.cpp
+msgid "There's nowhere to pull yourself to, and you fall!"
+msgstr ""
+
+#: src/construction.cpp
+msgid "You pull yourself to safety!"
+msgstr ""
+
+#: src/construction.cpp
 msgid "The rock feels much warmer than normal. Proceed?"
 msgstr ""
 
@@ -63267,14 +63685,6 @@ msgstr ""
 
 #: src/construction.cpp src/trapfunc.cpp
 msgid "The grappling hook catches something!"
-msgstr ""
-
-#: src/construction.cpp
-msgid "There's nowhere to pull yourself to, and you fall!"
-msgstr ""
-
-#: src/construction.cpp
-msgid "You pull yourself to safety!"
 msgstr ""
 
 #: src/construction.cpp
@@ -67457,6 +67867,10 @@ msgid "Lua Command"
 msgstr ""
 
 #: src/game.cpp
+msgid "Display weather"
+msgstr ""
+
+#: src/game.cpp
 msgid "Current overmap revealed."
 msgstr ""
 
@@ -68229,7 +68643,7 @@ msgstr ""
 msgid "You dive from the %s."
 msgstr ""
 
-#: src/game.cpp
+#: src/game.cpp src/vehicle.cpp
 #, c-format
 msgid "You take control of the %s."
 msgstr ""
@@ -69788,6 +70202,12 @@ msgid ""
 "Woah, woah, we're just a little short on space here. The game requires a "
 "minimum terminal size of %dx%d to run. %dx%d isn't quite enough! Can you "
 "make the terminal just a smidgen taller?"
+msgstr ""
+
+#: src/game.cpp
+msgid ""
+"You don't seem to have a valid Unicode locale. You may see some weird "
+"characters (e.g. empty boxes or question marks). You have been warned."
 msgstr ""
 
 #: src/game.cpp src/player.cpp
@@ -72762,6 +73182,10 @@ msgid "This book contains %1$d crafting recipe: %2$s"
 msgid_plural "This book contains %1$d crafting recipes: %2$s"
 msgstr[0] ""
 msgstr[1] ""
+
+#: src/item.cpp src/player.cpp
+msgid "It might help you figuring out some more recipes."
+msgstr ""
 
 #: src/item.cpp
 msgid "You need to read this book to see its contents."
@@ -78647,108 +79071,13 @@ msgstr ""
 msgid "<u>ndo move"
 msgstr ""
 
-#: src/line.cpp
-msgid "north"
-msgstr ""
-
-#: src/line.cpp
-msgid "northeast"
-msgstr ""
-
-#: src/line.cpp
-msgid "east"
-msgstr ""
-
-#: src/line.cpp
-msgid "southeast"
-msgstr ""
-
-#: src/line.cpp
-msgid "south"
-msgstr ""
-
-#: src/line.cpp
-msgid "southwest"
-msgstr ""
-
-#: src/line.cpp
-msgid "west"
-msgstr ""
-
-#: src/line.cpp
-msgid "northwest"
-msgstr ""
-
-#: src/line.cpp
-msgid "north and above"
-msgstr ""
-
-#: src/line.cpp
-msgid "northeast and above"
-msgstr ""
-
-#: src/line.cpp
-msgid "east and above"
-msgstr ""
-
-#: src/line.cpp
-msgid "southeast and above"
-msgstr ""
-
-#: src/line.cpp
-msgid "south and above"
-msgstr ""
-
-#: src/line.cpp
-msgid "southwest and above"
-msgstr ""
-
-#: src/line.cpp
-msgid "west and above"
-msgstr ""
-
-#: src/line.cpp
-msgid "northwest and above"
-msgstr ""
-
-#: src/line.cpp
-msgid "north and below"
-msgstr ""
-
-#: src/line.cpp
-msgid "northeast and below"
-msgstr ""
-
-#: src/line.cpp
-msgid "east and below"
-msgstr ""
-
-#: src/line.cpp
-msgid "southeast and below"
-msgstr ""
-
-#: src/line.cpp
-msgid "south and below"
-msgstr ""
-
-#: src/line.cpp
-msgid "southwest and below"
-msgstr ""
-
-#: src/line.cpp
-msgid "west and below"
-msgstr ""
-
-#: src/line.cpp
-msgid "northwest and below"
-msgstr ""
-
-#: src/line.cpp
-msgid "center"
-msgstr ""
-
+#. ~ abbreviated direction names and long direction names
 #: src/line.cpp
 msgid "N    "
+msgstr ""
+
+#: src/line.cpp
+msgid "north"
 msgstr ""
 
 #: src/line.cpp
@@ -78756,7 +79085,15 @@ msgid "NE   "
 msgstr ""
 
 #: src/line.cpp
+msgid "northeast"
+msgstr ""
+
+#: src/line.cpp
 msgid "E    "
+msgstr ""
+
+#: src/line.cpp
+msgid "east"
 msgstr ""
 
 #: src/line.cpp
@@ -78764,7 +79101,15 @@ msgid "SE   "
 msgstr ""
 
 #: src/line.cpp
+msgid "southeast"
+msgstr ""
+
+#: src/line.cpp
 msgid "S    "
+msgstr ""
+
+#: src/line.cpp
+msgid "south"
 msgstr ""
 
 #: src/line.cpp
@@ -78772,7 +79117,15 @@ msgid "SW   "
 msgstr ""
 
 #: src/line.cpp
+msgid "southwest"
+msgstr ""
+
+#: src/line.cpp
 msgid "W    "
+msgstr ""
+
+#: src/line.cpp
+msgid "west"
 msgstr ""
 
 #: src/line.cpp
@@ -78780,7 +79133,15 @@ msgid "NW   "
 msgstr ""
 
 #: src/line.cpp
+msgid "northwest"
+msgstr ""
+
+#: src/line.cpp
 msgid "UP_N "
+msgstr ""
+
+#: src/line.cpp
+msgid "north and above"
 msgstr ""
 
 #: src/line.cpp
@@ -78788,7 +79149,15 @@ msgid "UP_NE"
 msgstr ""
 
 #: src/line.cpp
+msgid "northeast and above"
+msgstr ""
+
+#: src/line.cpp
 msgid "UP_E "
+msgstr ""
+
+#: src/line.cpp
+msgid "east and above"
 msgstr ""
 
 #: src/line.cpp
@@ -78796,7 +79165,15 @@ msgid "UP_SE"
 msgstr ""
 
 #: src/line.cpp
+msgid "southeast and above"
+msgstr ""
+
+#: src/line.cpp
 msgid "UP_S "
+msgstr ""
+
+#: src/line.cpp
+msgid "south and above"
 msgstr ""
 
 #: src/line.cpp
@@ -78804,7 +79181,15 @@ msgid "UP_SW"
 msgstr ""
 
 #: src/line.cpp
+msgid "southwest and above"
+msgstr ""
+
+#: src/line.cpp
 msgid "UP_W "
+msgstr ""
+
+#: src/line.cpp
+msgid "west and above"
 msgstr ""
 
 #: src/line.cpp
@@ -78812,7 +79197,15 @@ msgid "UP_NW"
 msgstr ""
 
 #: src/line.cpp
+msgid "northwest and above"
+msgstr ""
+
+#: src/line.cpp
 msgid "DN_N "
+msgstr ""
+
+#: src/line.cpp
+msgid "north and below"
 msgstr ""
 
 #: src/line.cpp
@@ -78820,7 +79213,15 @@ msgid "DN_NE"
 msgstr ""
 
 #: src/line.cpp
+msgid "northeast and below"
+msgstr ""
+
+#: src/line.cpp
 msgid "DN_E "
+msgstr ""
+
+#: src/line.cpp
+msgid "east and below"
 msgstr ""
 
 #: src/line.cpp
@@ -78828,7 +79229,15 @@ msgid "DN_SE"
 msgstr ""
 
 #: src/line.cpp
+msgid "southeast and below"
+msgstr ""
+
+#: src/line.cpp
 msgid "DN_S "
+msgstr ""
+
+#: src/line.cpp
+msgid "south and below"
 msgstr ""
 
 #: src/line.cpp
@@ -78836,7 +79245,15 @@ msgid "DN_SW"
 msgstr ""
 
 #: src/line.cpp
+msgid "southwest and below"
+msgstr ""
+
+#: src/line.cpp
 msgid "DN_W "
+msgstr ""
+
+#: src/line.cpp
+msgid "west and below"
 msgstr ""
 
 #: src/line.cpp
@@ -78844,7 +79261,31 @@ msgid "DN_NW"
 msgstr ""
 
 #: src/line.cpp
-msgid "CE"
+msgid "northwest and below"
+msgstr ""
+
+#: src/line.cpp
+msgid "UP_CE"
+msgstr ""
+
+#: src/line.cpp
+msgid "center and above"
+msgstr ""
+
+#: src/line.cpp
+msgid "CE   "
+msgstr ""
+
+#: src/line.cpp
+msgid "center"
+msgstr ""
+
+#: src/line.cpp
+msgid "DN_CE"
+msgstr ""
+
+#: src/line.cpp
+msgid "center and below"
 msgstr ""
 
 #: src/live_view.cpp
@@ -81393,17 +81834,17 @@ msgstr ""
 
 #: src/mission.cpp
 msgid ""
-"Thanks!  It will be some time but I'll need someone to install these around "
-"the region."
+"Thanks, I'll see to installing this one.  It will be some time but I could "
+"use someone to position these around the region."
 msgstr ""
 
 #: src/mission.cpp
 msgid ""
 "I guess I could use your skills once again.  There are small transmitters "
-"located in the nearby evacuation shelters; if we don't don't separate them "
-"from the power grid their power systems will rapidly deteriorate over the "
-"next few weeks.  The task is rather simple but the shelters offer us a place "
-"to redirect refugees until this vault can be secured. "
+"located in the nearby evacuation shelters; if we don't separate them from "
+"the power grid their power systems will rapidly deteriorate over the next "
+"few weeks.  The task is rather simple but the shelters offer us a place to "
+"redirect refugees until this vault can be secured. "
 msgstr ""
 
 #: src/mission.cpp
@@ -81429,7 +81870,9 @@ msgid ""
 "Most of my essential gear has been brought back online so it is time for you "
 "to install your first radio repeater mod.  Head topside and locate the "
 "nearest radio station.  Install the mod on the backup terminal and return to "
-"me so that I can verify that everything was successful."
+"me so that I can verify that everything was successful.  Radio towers must "
+"unfortunatly be ignored for now, without a dedicated emergency power system "
+"they won't be useful for some time."
 msgstr ""
 
 #: src/mission.cpp
@@ -84661,6 +85104,18 @@ msgid "Avoid friendly fire"
 msgstr ""
 
 #: src/npctalk.cpp
+msgid "INTIMIDATE"
+msgstr ""
+
+#: src/npctalk.cpp
+msgid "LIE"
+msgstr ""
+
+#: src/npctalk.cpp
+msgid "PERSUADE"
+msgstr ""
+
+#: src/npctalk.cpp
 msgid "Hey<punc> You got any <ammo>?"
 msgstr ""
 
@@ -86255,19 +86710,19 @@ msgstr ""
 #: src/npctalk.cpp
 msgid ""
 "We are securing the external communications array for this facility.  I'm "
-"rather restricted in what I can release... you should find my commander and "
-"ask him any questions you have."
+"rather restricted in what I can release... go find my commander if you have "
+"any questions."
 msgstr ""
 
 #: src/npctalk.cpp
 msgid ""
-"I was expecting him to send a runner.  Here is the list he needs.  What we "
-"can identify from here are simply the frequencies that have traffic on "
-"them.  Many of the transmissions are indecipherable without repairing or "
-"replacing the equipment here.  When the facility was being overrun, standard "
-"procedure was to destroy encryption hardware to protect federal secrets and "
-"maintain the integrity of the comms network.  We are hoping a few plain text "
-"messages can get picked up though."
+"I was expecting the captain to send a runner.  Here is the list you are "
+"looking for.  What we can identify from here are simply the frequencies that "
+"have traffic on them.  Many of the transmissions are indecipherable without "
+"repairing or replacing the equipment here.  When the facility was being "
+"overrun, standard procedure was to destroy encryption hardware to protect "
+"federal secrets and maintain the integrity of the comms network.  We are "
+"hoping a few plain text messages can get picked up though."
 msgstr ""
 
 #: src/npctalk.cpp
@@ -87519,22 +87974,16 @@ msgstr ""
 msgid "Yes, let's resume training "
 msgstr ""
 
+#. ~Skill name: current level -> next level (cost in cent)
 #: src/npctalk.cpp
 #, c-format
 msgid "%s: %d -> %d (cost %d)"
 msgstr ""
 
+#. ~Martial art style (cost in cent)
 #: src/npctalk.cpp
 #, c-format
-msgid "%s (cost 800)"
-msgstr ""
-
-#: src/npctalk.cpp
-msgid "More..."
-msgstr ""
-
-#: src/npctalk.cpp
-msgid "Back..."
+msgid "%s (cost %d)"
 msgstr ""
 
 #: src/npctalk.cpp
@@ -87904,25 +88353,11 @@ msgid "<punc>!"
 msgstr ""
 
 #: src/npctalk.cpp
-msgid "INTIMIDATE"
+msgid "L: Look at"
 msgstr ""
 
 #: src/npctalk.cpp
-msgid "LIE"
-msgstr ""
-
-#: src/npctalk.cpp
-msgid "PERSUADE"
-msgstr ""
-
-#: src/npctalk.cpp
-#, c-format
-msgid "<npc does something>%s %s"
-msgstr ""
-
-#: src/npctalk.cpp
-#, c-format
-msgid "<npc says something>%s: %s"
+msgid "S: Size up stats"
 msgstr ""
 
 #: src/npctalk.cpp
@@ -87936,11 +88371,13 @@ msgid "<talk option>%1$c: %2$s"
 msgstr ""
 
 #: src/npctalk.cpp
-msgid "L: Look at"
+#, c-format
+msgid "<npc does something>%s %s"
 msgstr ""
 
 #: src/npctalk.cpp
-msgid "S: Size up stats"
+#, c-format
+msgid "<npc says something>%s: %s"
 msgstr ""
 
 #: src/npctalk.cpp
@@ -91290,6 +91727,10 @@ msgid "Your radiation badge changes from %s to %s!"
 msgstr ""
 
 #: src/player.cpp
+msgid "Your chest burns as your power systems overload!"
+msgstr ""
+
+#: src/player.cpp
 msgid "You suffer a painful electrical discharge!"
 msgstr ""
 
@@ -91391,6 +91832,20 @@ msgstr ""
 
 #: src/player.cpp
 msgid "Your internal power storage is fully powered."
+msgstr ""
+
+#: src/player.cpp
+msgid "Thats a LOT of plutonium.  Are you sure you want that much?"
+msgstr ""
+
+#: src/player.cpp
+#, c-format
+msgid "<npcname> pours %s into their reactor's tank."
+msgstr ""
+
+#: src/player.cpp
+#, c-format
+msgid "You add your %s to your reactor's tank."
 msgstr ""
 
 #: src/player.cpp
@@ -91682,20 +92137,16 @@ msgstr[0] ""
 msgstr[1] ""
 
 #: src/player.cpp
-msgid "Keep hands free"
+msgid "Select a style (press ? for more info)"
+msgstr ""
+
+#: src/player.cpp
+msgid "Keep hands free (on)"
 msgstr ""
 
 #: src/player.cpp
 msgid ""
 "When this is enabled, player won't wield things unless explicitly told to."
-msgstr ""
-
-#: src/player.cpp
-msgid "Select a style (press ? for style info)"
-msgstr ""
-
-#: src/player.cpp
-msgid "Keep hands free (on)"
 msgstr ""
 
 #: src/player.cpp
@@ -92452,6 +92903,10 @@ msgstr ""
 
 #: src/player_activity.cpp
 msgid " Stop using the ATM?"
+msgstr ""
+
+#: src/player_activity.cpp
+msgid " Stop trying to start the vehicle?"
 msgstr ""
 
 #: src/player_activity.cpp
@@ -93795,19 +94250,27 @@ msgid "Status: "
 msgstr ""
 
 #: src/veh_interact.cpp
-msgid "Wheels:    <color_ltgreen>enough</color>"
-msgstr ""
-
-#: src/veh_interact.cpp
 msgid "Wheels:      <color_ltred>lack</color>"
 msgstr ""
 
 #: src/veh_interact.cpp
-msgid "Boat:    <color_blue>can swim</color>"
+msgid "Wheels:  <color_ltred>unbalanced</color>"
+msgstr ""
+
+#: src/veh_interact.cpp
+msgid "Wheels:    <color_ltgreen>enough</color>"
 msgstr ""
 
 #: src/veh_interact.cpp
 msgid "Boat:  <color_ltred>can't swim</color>"
+msgstr ""
+
+#: src/veh_interact.cpp
+msgid "Boat:  <color_ltred>unbalanced</color>"
+msgstr ""
+
+#: src/veh_interact.cpp
+msgid "Boat:    <color_blue>can swim</color>"
 msgstr ""
 
 #: src/veh_interact.cpp
@@ -94070,15 +94533,12 @@ msgstr ""
 
 #: src/vehicle.cpp
 #, c-format
-msgid "Switched %s %s"
+msgid "You turn off the %s's engines to change their configurations."
 msgstr ""
 
 #: src/vehicle.cpp
-msgid "off"
-msgstr ""
-
-#: src/vehicle.cpp
-msgid "on"
+#, c-format
+msgid "You change the %s's engine configuration."
 msgstr ""
 
 #: src/vehicle.cpp
@@ -94087,26 +94547,6 @@ msgstr ""
 
 #: src/vehicle.cpp
 msgid "Finish"
-msgstr ""
-
-#: src/vehicle.cpp
-#, c-format
-msgid "The %s doesn't have an engine!"
-msgstr ""
-
-#: src/vehicle.cpp
-#, c-format
-msgid "The %s's mechanism is out of reach!"
-msgstr ""
-
-#: src/vehicle.cpp
-#, c-format
-msgid "The %s's engine isn't on!"
-msgstr ""
-
-#: src/vehicle.cpp
-#, c-format
-msgid "The %s's engine emits a sneezing sound."
 msgstr ""
 
 #: src/vehicle.cpp
@@ -94444,10 +94884,6 @@ msgid "You turn the engine off and let go of the controls."
 msgstr ""
 
 #: src/vehicle.cpp
-msgid "You let go of the controls."
-msgstr ""
-
-#: src/vehicle.cpp
 msgid "You turn the engine off."
 msgstr ""
 
@@ -94513,12 +94949,27 @@ msgstr ""
 
 #: src/vehicle.cpp
 #, c-format
-msgid "The %s's engine fails to start."
+msgid "The %s's mechanism is out of reach!"
 msgstr ""
 
 #: src/vehicle.cpp
 #, c-format
-msgid "The %s's engine starts up."
+msgid "Looks like the %s is out of %s."
+msgstr ""
+
+#: src/vehicle.cpp
+#, c-format
+msgid "The %s makes a rapid clicking sound."
+msgstr ""
+
+#: src/vehicle.cpp
+#, c-format
+msgid "The %s makes a deep clunking sound."
+msgstr ""
+
+#: src/vehicle.cpp
+#, c-format
+msgid "The %s makes a terrible clanking sound."
 msgstr ""
 
 #: src/vehicle.cpp
@@ -94600,6 +95051,16 @@ msgstr ""
 #: src/vehicle.cpp
 #, c-format
 msgid "The %s is too leaky!"
+msgstr ""
+
+#: src/vehicle.cpp
+#, c-format
+msgid "The %s's engine isn't on!"
+msgstr ""
+
+#: src/vehicle.cpp
+#, c-format
+msgid "The %s's engine emits a sneezing sound."
 msgstr ""
 
 #. ~ 1$s - vehicle name, 2$s - part name, 3$s - collision object name, 4$s - sound message

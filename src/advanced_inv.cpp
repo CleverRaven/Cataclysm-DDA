@@ -1159,6 +1159,10 @@ void advanced_inventory::display()
             mvwprintz( head, 0, 
                     w_width - (minimap_width + 2) - utf8_width(msg.c_str()) - 1, 
                     c_white, msg.c_str() );
+            if (g->u.has_watch()) {
+                const std::string time = calendar::turn.print_time();
+                mvwprintz(head, 0, 2, c_white, time.c_str());
+            }
             wrefresh( head );
             refresh_minimap();
         }

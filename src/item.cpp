@@ -5022,6 +5022,33 @@ bool item::has_effect_when_carried( art_effect_passive effect ) const
     return false;
 }
 
+bool item::is_seed() const
+{
+    return type->seed.get() != nullptr;
+}
+
+int item::get_plant_epoch() const
+{
+    if( !type->seed ) {
+        return 0;
+    }
+    // 91 days is the approximate length of a real world season
+    // Growing times have been based around 91 rather than the default of 14 to give
+    // more accuracy for longer season lengths
+    // Note that it is converted based on the season_length option!
+    // Also note that seed->grow is the time it takes from seeding to harvest, this is
+    // divied by 3 to get the time it takes from one plant state to the next.
+    return DAYS( type->seed->grow * calendar::season_length() / ( 91 * 3 ) );
+}
+
+std::string item::get_plant_name() const
+{
+    if( !type->seed ) {
+        return std::string{};
+    }
+    return type->seed->plant_name;
+}
+
 std::string item::type_name( unsigned int quantity ) const
 {
     const auto iter = item_vars.find( "name" );

@@ -200,7 +200,7 @@ struct npc_opinion : public JsonSerializer, public JsonDeserializer
  npc_opinion(signed char T, signed char F, signed char V, signed char A, int O):
              trust (T), fear (F), value (V), anger(A), owed (O) { };
 
- npc_opinion& operator+= (npc_opinion &rhs)
+ npc_opinion& operator+= ( const npc_opinion &rhs )
  {
   trust += rhs.trust;
   fear  += rhs.fear;
@@ -446,6 +446,11 @@ struct npc_chatbin : public JsonSerializer, public JsonDeserializer
      */
     void add_new_mission( mission *miss );
     /**
+     * Check that assigned missions are still assigned if not move them back to the
+     * unassigned vector. This is called directly before talking.
+     */
+    void check_missions();
+    /**
      * Missions that the NPC can give out. All missions in this vector should be unassigned,
      * when given out, they should be moved to @ref missions_assigned.
      */
@@ -459,7 +464,6 @@ struct npc_chatbin : public JsonSerializer, public JsonDeserializer
      * missions in @ref missions or @ref missions_assigned.
      */
     mission *mission_selected;
- int tempvalue; //No clue what this value does, but it is used all over the place. So it is NOT temp.
     /**
      * The skill this NPC offers to train.
      */
@@ -473,7 +477,6 @@ struct npc_chatbin : public JsonSerializer, public JsonDeserializer
  npc_chatbin()
  {
   mission_selected = nullptr;
-  tempvalue = -1;
   skill = NULL;
   style = "";
   first_topic = TALK_NONE;

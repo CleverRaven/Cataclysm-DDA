@@ -664,8 +664,6 @@ void npc_chatbin::serialize(JsonOut &json) const
     if( mission_selected != nullptr ) {
         json.member( "mission_selected", mission_selected->get_id() );
     }
-    json.member( "tempvalue",
-                 tempvalue );     //No clue what this value does, but it is used all over the place. So it is NOT temp.
     if ( skill ) {
         json.member("skill", skill->ident() );
     }
@@ -687,7 +685,6 @@ void npc_chatbin::deserialize(JsonIn &jsin)
         skill = Skill::skill(skill_ident);
     }
 
-    data.read("tempvalue", tempvalue);
     std::vector<int> tmpmissions;
     data.read( "missions", tmpmissions );
     missions = mission::to_ptr_vector( tmpmissions );

@@ -5400,11 +5400,57 @@ int game::mon_info(WINDOW *w)
         const auto dir_to_mon = direction_from( viewx, viewy, c->posx(), c->posy() );
         const int mx = POSX + ( c->posx() - viewx );
         const int my = POSY + ( c->posy() - viewy );
-        int index;
-        if( is_valid_in_w_terrain( mx, my ) ) {
-            index = 8;
-        } else {
-            index = dir_to_mon;
+        int index = 8;
+        if( !is_valid_in_w_terrain( mx, my ) ) {
+            // for compatibility with old code, see diagram below, it explains the values for index,
+            // also might need revisiting one z-levels are in.
+            switch( dir_to_mon ) {
+                case ABOVENORTHWEST:
+                case NORTHWEST:
+                case BELOWNORTHWEST:
+                    index = 7;
+                    break;
+                case ABOVENORTH:
+                case NORTH:
+                case BELOWNORTH:
+                    index = 0;
+                    break;
+                case ABOVENORTHEAST:
+                case NORTHEAST:
+                case BELOWNORTHEAST:
+                    index = 1;
+                    break;
+                case ABOVEWEST:
+                case WEST:
+                case BELOWWEST:
+                    index = 6;
+                    break;
+                case ABOVECENTER:
+                case CENTER:
+                case BELOWCENTER:
+                    index = 8;
+                    break;
+                case ABOVEEAST:
+                case EAST:
+                case BELOWEAST:
+                    index = 2;
+                    break;
+                case ABOVESOUTHWEST:
+                case SOUTHWEST:
+                case BELOWSOUTHWEST:
+                    index = 5;
+                    break;
+                case ABOVESOUTH:
+                case SOUTH:
+                case BELOWSOUTH:
+                    index = 4;
+                    break;
+                case ABOVESOUTHEAST:
+                case SOUTHEAST:
+                case BELOWSOUTHEAST:
+                    index = 3;
+                    break;
+            }
         }
         if( m != nullptr ) {
             auto &critter = *m;
@@ -5442,9 +5488,9 @@ int game::mon_info(WINDOW *w)
                 }
             }
 
-            const auto &vec = unique_mons[dir_to_mon];
+            auto &vec = unique_mons[index];
             if( std::find( vec.begin(), vec.end(), critter.type->id ) == vec.end() ) {
-                unique_mons[index].push_back(critter.type->id);
+                vec.push_back(critter.type->id);
             }
         } else if( p != nullptr ) {
             if (p->attitude == NPCATT_KILL)
@@ -7468,7 +7514,8 @@ void game::moving_vehicle_dismount(int tox, int toy)
         debugmsg("Need somewhere to dismount towards.");
         return;
     }
-    int d = (45 * (direction_from(u.posx(), u.posy(), tox, toy)) - 90) % 360;
+    tileray ray( tox - u.posx(), toy - u.posy() );
+    const int d = ray.dir(); // TODO:: make dir() const correct!
     add_msg(_("You dive from the %s."), veh->name.c_str());
     m.unboard_vehicle(u.posx(), u.posy());
     u.moves -= 200;
@@ -7495,14 +7542,13 @@ void game::control_vehicle()
 
     if( veh != nullptr && veh->player_in_control( &u ) ) {
         veh->use_controls();
-    } else if (veh && veh->part_with_feature(veh_part, "CONTROLS") >= 0
-               && u.in_vehicle) {
-        if (veh->interact_vehicle_locked()){
+    } else if( veh && veh->part_with_feature( veh_part, "CONTROLS" ) >= 0 && u.in_vehicle ) {
+        if( !veh->interact_vehicle_locked() ) { return; }
+        if( veh->engine_on ) {
             u.controlling_vehicle = true;
-            add_msg(_("You take control of the %s."), veh->name.c_str());
-            if (!veh->engine_on) {
-                veh->start_engine();
-            }
+            add_msg( _("You take control of the %s."), veh->name.c_str() );
+        } else {
+            veh->start_engines( true );
         }
     } else {
         int examx, examy;
@@ -7935,14 +7981,10 @@ void game::print_terrain_info(int lx, int ly, WINDOW *w_look, int column, int &l
     if (m.has_furn(lx, ly)) {
         furn_t furn = m.furn_at(lx, ly);
         tile += "; " + furn.name;
-        if (furn.has_flag("PLANT")) {
+        if( furn.has_flag( "PLANT" ) && !m.i_at( lx, ly ).empty() ) {
             // Plant types are defined by seeds.
-            item plantType = m.i_at(lx, ly)[0];
-            if (plantType.typeId() != "fungal_seeds") {
-                // We rely on the seeds we care about to be
-                // id'd as seed_*.
-                tile += " (" + plantType.typeId().substr(5) + ")";
-            }
+            const item &seed = m.i_at(lx, ly)[0];
+            tile += " (" + seed.get_plant_name() + ")";
         }
     }
 
@@ -13356,11 +13398,8 @@ bool game::spread_fungus( const tripoint &p )
                     m.furn_set(x, y, f_fungal_clump);
                 }
             } else if (m.has_flag("PLANT", x, y)) {
-                for (size_t k = 0; k < m.i_at(x, y).size(); k++) {
-                    m.i_rem(x, y, k);
-                }
-                item seeds("fungal_seeds", int(calendar::turn));
-                m.add_item_or_charges(x, y, seeds);
+                // Replace the (already existing) seed
+                m.i_at( x, y )[0] = item( "fungal_seeds", calendar::turn );
             }
         }
         return true;
@@ -13464,11 +13503,8 @@ bool game::spread_fungus( const tripoint &p )
                                 m.furn_set(i, j, f_fungal_clump);
                             }
                         } else if (m.has_flag("PLANT", i, j)) {
-                            for (size_t k = 0; k < m.i_at(i, j).size(); k++) {
-                                m.i_rem(i, j, k);
-                            }
-                            item seeds("fungal_seeds", int(calendar::turn));
-                            m.add_item_or_charges(x, y, seeds);
+                            // Replace the (already existing) seed
+                            m.i_at( x, y )[0] = item( "fungal_seeds", calendar::turn );
                         }
                     }
                 }
@@ -13622,18 +13658,41 @@ void intro()
     }
     werase(tmp);
 
-#if !(defined _WIN32 || defined WINDOWS)
-    // Check if locale is has UTF-8 encoding
-    char *locale = setlocale(LC_ALL, NULL);
-    if (locale != NULL) {
-        if (strstr(locale, "UTF-8") == NULL) {
-            fold_and_print(tmp, 0, 0, maxx, c_white, _("You don't seem to have a Unicode locale. You may see some weird "
-                                                       "characters (e.g. empty boxes or question marks). You have been warned."),
-                           minWidth, minHeight, maxx, maxy);
-            wrefresh(tmp);
-            wgetch(tmp);
-            werase(tmp);
+/*                      *** NOTE ***
+ * Not all locale are equal! Gentoo Linux, for instance,
+ * reports ${LANG} for UTF-8 as "en_US.utf8"! Be aware!
+ */
+#if !(defined _WIN32 || defined WINDOWS || defined TILES)
+    // Check if locale has UTF-8 encoding
+    const char *p_locale = setlocale(LC_ALL, NULL);
+    bool not_utf8 = p_locale == NULL ? true : false;
+    if(not_utf8 == false) {
+        std::string locale = p_locale;
+        // convert all to uppercase
+        for(size_t i = 0; i < locale.length(); ++i)
+            locale[i] = toupper(locale[i]);
+        auto index = locale.find("UTF");
+        // were we able to find those three magical letters?
+        not_utf8 = index == std::string::npos ? true : false;
+        if(not_utf8 == false) {
+            // replace entirety of string with important part
+            locale.erase(0, index);
+            // afterwards, it should simply be UTF8
+            index = locale.find('-');
+            if(index != std::string::npos)
+                locale.erase(index, 1);
+            // anything but zero indicates failure
+            not_utf8 = locale.compare("UTF8") != 0;
         }
+    }
+    if (not_utf8 == true) {
+        const char *unicode_error_msg = 
+            _("You don't seem to have a valid Unicode locale. You may see some weird " 
+              "characters (e.g. empty boxes or question marks). You have been warned.");
+        fold_and_print(tmp, 0, 0, maxx, c_white, unicode_error_msg, minWidth, minHeight, maxx, maxy);
+        wrefresh(tmp);
+        wgetch(tmp);
+        werase(tmp);
     }
 #endif
 
