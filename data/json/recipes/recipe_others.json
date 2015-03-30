@@ -6821,6 +6821,7 @@
   ],
   "components": [
     [
+      [ "large_stomach_sealed", 1 ],
       [ "tanned_hide", 2 ],
       [ "leather", 10 ],
       [ "tanned_pelt", 2 ],
