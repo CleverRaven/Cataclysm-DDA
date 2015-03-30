@@ -663,10 +663,12 @@ void npc_combat_rules::deserialize(JsonIn &jsin)
     data.read( "use_silent", use_silent);
 }
 
+extern std::string convert_talk_topic( talk_topic_enum );
+
 void npc_chatbin::serialize(JsonOut &json) const
 {
     json.start_object();
-    json.member( "first_topic", (int)first_topic );
+    json.member( "first_topic", first_topic );
     if( mission_selected != nullptr ) {
         json.member( "mission_selected", mission_selected->get_id() );
     }
@@ -681,11 +683,15 @@ void npc_chatbin::serialize(JsonOut &json) const
 void npc_chatbin::deserialize(JsonIn &jsin)
 {
     JsonObject data = jsin.get_object();
-    int tmptopic;
     std::string skill_ident;
 
-    data.read("first_topic", tmptopic);
-    first_topic = talk_topic(tmptopic);
+    if( data.has_int( "first_topic" ) ) {
+        int tmptopic;
+        data.read("first_topic", tmptopic);
+        first_topic = convert_talk_topic( talk_topic_enum(tmptopic) );
+    } else {
+        data.read("first_topic", first_topic);
+    }
 
     if ( data.read("skill", skill_ident) ) {
         skill = Skill::skill(skill_ident);

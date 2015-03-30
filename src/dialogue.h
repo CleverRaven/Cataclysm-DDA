@@ -35,22 +35,22 @@ struct dialogue {
      * This will be displayed in the dialog window and should already be translated.
      */
     std::vector<std::string> history;
-    std::vector<talk_topic> topic_stack;
+    std::vector<std::string> topic_stack;
 
     /** Missions that have been assigned by this npc to the player they currently speak to. */
     std::vector<mission*> missions_assigned;
 
-    talk_topic opt(talk_topic topic);
+    std::string opt( const std::string &topic );
 
     dialogue() = default;
 
-    std::string dynamic_line( talk_topic topic ) const;
+    std::string dynamic_line( const std::string &topic ) const;
 
     /**
      * Possible responses from the player character, filled in @ref gen_responses.
      */
     mutable std::vector<talk_response> responses;
-    void gen_responses( talk_topic topic ) const;
+    void gen_responses( const std::string &topic ) const;
 
 private:
     void clear_window_texts();
@@ -64,7 +64,7 @@ private:
     /**
      * Add a simple response that switches the topic to the new one.
      */
-    talk_response &add_response( const std::string &text, talk_topic r ) const;
+    talk_response &add_response( const std::string &text, const std::string &r ) const;
     /**
      * Add a response with the result TALK_DONE.
      */
@@ -77,23 +77,23 @@ private:
      * Add a simple response that switches the topic to the new one and executes the given
      * action. The response always succeeds.
      */
-    talk_response &add_response( const std::string &text, talk_topic r,
+    talk_response &add_response( const std::string &text, const std::string &r,
                                  void (*effect_success)(npc *) ) const;
     /**
      * Add a simple response that switches the topic to the new one and sets the currently
      * talked about mission to the given one. The mission pointer must be valid.
      */
-    talk_response &add_response( const std::string &text, talk_topic r, mission *miss ) const;
+    talk_response &add_response( const std::string &text, const std::string &r, mission *miss ) const;
     /**
      * Add a simple response that switches the topic to the new one and sets the currently
      * talked about skill to the given one. The skill pointer must be valid.
      */
-    talk_response &add_response( const std::string &text, talk_topic r, const Skill *skill ) const;
+    talk_response &add_response( const std::string &text, const std::string &r, const Skill *skill ) const;
     /**
      * Add a simple response that switches the topic to the new one and sets the currently
      * talked about martial art style to the given one.
      */
-    talk_response &add_response( const std::string &text, talk_topic r, const martialart &style ) const;
+    talk_response &add_response( const std::string &text, const std::string &r, const martialart &style ) const;
 };
 
 namespace talk_function {
@@ -213,9 +213,9 @@ struct talk_response {
         /**
          * Topic to switch to. TALK_DONE ends the talking, TALK_NONE keeps the current topic.
          */
-        talk_topic topic = TALK_NONE;
+        std::string topic = "TALK_NONE";
 
-        talk_topic apply( dialogue &d ) const;
+        std::string apply( dialogue &d ) const;
     };
     effect_t success;
     effect_t failure;
