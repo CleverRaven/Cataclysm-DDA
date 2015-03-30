@@ -59,6 +59,8 @@ def tile_convert(otile, main_id, new_tile_number):
         if g not in otile:
             continue
         if type(otile[g]) == int:
+            if otile[g] == -1:
+                continue
             otile[g] = list([otile[g]])
 
         # tile ids to iso-ify:
