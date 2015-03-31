@@ -775,39 +775,6 @@ std::string dialogue::dynamic_line( const std::string &topic ) const
             return _("There isn't a chance in hell!  We had one guy come in here with bloody fur all over his body... well I guess that isn't all that "
                      "strange but I'm pretty sure whatever toxic waste is still out there is bound to mutate more than just his hair.");
 
-    } else if( topic == "TALK_EVAC_GUARD2" ) {
-            if (g->u.is_wearing("badge_marshal"))
-                return _("Hello marshal.");
-            return _("Hello.");
-
-    } else if( topic == "TALK_EVAC_GUARD2_NEW" ) {
-            return _("Yes of course. Just don't bring any trouble and it's all fine by me.");
-
-    } else if( topic == "TALK_EVAC_GUARD2_RULES" ) {
-            return _("Well mostly no. Just don't go around robbing others and starting fights "
-                     "and you will be all set. Also, don't go into the basement. Outsiders "
-                     "are not allowed in there.");
-
-    } else if( topic == "TALK_EVAC_GUARD2_RULES_BASEMENT" ) {
-            return _("In short, we had a problem when a sick refugee died and turned "
-                     "into a zombie.  We had to expel the refugees and most of our "
-                     "surviving group now stays to the basement to prevent it from "
-                     "happening again. Unless you really prove your worth I don't "
-                     "foresee any exceptions to that rule.");
-
-     } else if( topic == "TALK_EVAC_GUARD2_WHO" ) {
-            return _("Most are scavengers like you.  They now make a living by "
-                     "looting the cities in search for anything useful: food, "
-                     "weapons, tools, gasoline. In exchange for their findings "
-                     "we offer them a temporary place to rest and the services "
-                     "of our shop. I bet some of them would be willing to organize "
-                     "resource runs with you if you ask.");
-
-     } else if( topic == "TALK_EVAC_GUARD2_TRADE" ) {
-            return _("You are asking the wrong person, should look for our "
-                     "merchant by the main entrance. Perhaps one of the scavengers "
-                     "is also interested.");
-
     } else if( topic == "TALK_EVAC_GUARD3" ) {
             return _("Keep to yourself and you won't find any problems.");
 
@@ -1634,30 +1601,6 @@ void dialogue::gen_responses( const std::string &topic )
             add_response( _("Hordes?"), "TALK_EVAC_MERCHANT_HORDES" );
             add_response( _("Heard of anything better than the odd gun cache?"), "TALK_EVAC_MERCHANT_PRIME_LOOT" );
             add_response( _("Was hoping for something more..."), "TALK_EVAC_MERCHANT" );
-
-    } else if( topic == "TALK_EVAC_GUARD2" ) {
-            add_response( _("I am actually new."), "TALK_EVAC_GUARD2_NEW" );
-            add_response( _("Are there any rules I should follow while inside?"), "TALK_EVAC_GUARD2_RULES" );
-            add_response( _("So who is everyone around here?"), "TALK_EVAC_GUARD2_WHO" );
-            add_response( _("Lets trade!"), "TALK_EVAC_GUARD2_TRADE" );
-            add_response( _("Is there anything I can do to help?"), "TALK_MISSION_LIST" );
-            add_response_done( _("Thanks! I will be on my way.") );
-
-    } else if( topic == "TALK_EVAC_GUARD2_NEW" ) {
-            add_response( _("..."), "TALK_EVAC_GUARD2" );
-
-    } else if( topic == "TALK_EVAC_GUARD2_RULES" ) {
-            add_response( _("Ok, thanks."), "TALK_EVAC_GUARD2" );
-            add_response( _("So uhhh, why not?"), "TALK_EVAC_GUARD2_RULES_BASEMENT" );
-
-    } else if( topic == "TALK_EVAC_GUARD2_RULES_BASEMENT" ) {
-            add_response( _("..."), "TALK_EVAC_GUARD2" );
-
-    } else if( topic == "TALK_EVAC_GUARD2_WHO" ) {
-            add_response( _("Thanks for the heads-up."), "TALK_EVAC_GUARD2" );
-
-    } else if( topic == "TALK_EVAC_GUARD2_TRADE" ) {
-            add_response( _("..."), "TALK_EVAC_GUARD2" );
 
     } else if( topic == "TALK_EVAC_GUARD3" ) {
             add_response( _("What do you do around here?"), "TALK_EVAC_GUARD3_NEW" );
