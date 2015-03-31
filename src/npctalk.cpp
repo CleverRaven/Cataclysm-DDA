@@ -10,6 +10,8 @@
 #include "mission.h"
 #include "ammo.h"
 #include "overmapbuffer.h"
+#include "json.h"
+
 #include <vector>
 #include <string>
 #include <sstream>
@@ -42,6 +44,52 @@ std::string talk_move[10];
 std::string talk_done_mugging[10];
 std::string talk_leaving[10];
 std::string talk_catch_up[10];
+
+/**
+ * A dynamically generated line, spoken by the NPC.
+ * This struct only adds the constructors which will load the data from json
+ * into a lambda, stored in the std::function object.
+ * Invoking the function operator with a dialog reference (so the function can access the NPC)
+ * returns the actual line.
+ */
+struct dynamic_line_t {
+private:
+    std::function<std::string( const dialogue & )> function;
+
+public:
+    dynamic_line_t() = default;
+    dynamic_line_t( const std::string &line );
+    dynamic_line_t( JsonObject jo );
+    dynamic_line_t( JsonArray ja );
+
+    std::string operator()( const dialogue &d ) const
+    {
+        if( !function ) {
+            return std::string{};
+        }
+        return function( d );
+    }
+};
+/**
+ * Talk topic definitions load from json.
+ */
+class json_talk_topic {
+public:
+    bool replace_built_in_responses;
+    std::vector<talk_response> responses;
+
+private:
+    dynamic_line_t dynamic_line;
+
+public:
+    json_talk_topic() = default;
+    json_talk_topic( JsonObject &jo );
+
+    std::string get_dynamic_line( const dialogue &d ) const;
+    void check_consistency() const;
+};
+
+static std::map<std::string, json_talk_topic> json_talk_topics;
 
 #define NUM_STATIC_TAGS 26
 
@@ -540,6 +588,13 @@ void npc::talk_to_u()
 
 std::string dialogue::dynamic_line( const std::string &topic ) const
 {
+    auto const iter = json_talk_topics.find( topic );
+    if( iter != json_talk_topics.end() ) {
+        const std::string line = iter->second.get_dynamic_line( *this );
+        if( !line.empty() ) {
+            return line;
+        }
+    }
     const auto p = beta; // for compatibility, later replace it in the code below
     // Those topics are handled by the mission system, see there.
     static const std::unordered_set<std::string> mission_topics = { {
@@ -1422,6 +1477,15 @@ void dialogue::gen_responses( const std::string &topic )
     const auto p = beta; // for compatibility, later replace it in the code below
     auto &ret = responses; // for compatibility, later replace it in the code below
     ret.clear();
+    auto const iter = json_talk_topics.find( topic );
+    if( iter != json_talk_topics.end() ) {
+        json_talk_topic &jtt = iter->second;
+        if( jtt.replace_built_in_responses ) {
+            responses = jtt.responses;
+            return;
+        }
+        responses.insert( responses.begin(), jtt.responses.begin(), jtt.responses.end() );
+    }
     mission *miss = p->chatbin.mission_selected;
 
     if( topic == "TALK_GUARD" ) {
@@ -3578,4 +3642,134 @@ TAB key to switch lists, letters to pick items, Enter to finalize, Esc to quit,\
         return true;
     }
     return false;
+}
+
+talk_trial::talk_trial( JsonObject jo )
+{
+    static const std::unordered_map<std::string, talk_trial_type> types_map = { {
+#define WRAP(value) { #value, TALK_TRIAL_##value }
+        WRAP(NONE),
+        WRAP(LIE),
+        WRAP(PERSUADE),
+        WRAP(INTIMIDATE)
+#undef WRAP
+    } };
+    auto const iter = types_map.find( jo.get_string( "type", "NONE" ) );
+    if( iter == types_map.end() ) {
+        jo.throw_error( "invalid talk trial type", "type" );
+    }
+    type = iter->second;
+    if( type != TALK_TRIAL_NONE ) {
+        difficulty = jo.get_int( "difficulty" );
+    }
+}
+
+talk_response::effect_t::effect_t( JsonObject jo )
+{
+    // TODO: the effect function
+    topic = jo.get_string( "topic" );
+    if( jo.has_member( "opinion" ) ) {
+        JsonIn *ji = jo.get_raw( "opinion" );
+        // Same format as when saving a game (-:
+        opinion.deserialize( *ji );
+    }
+}
+
+talk_response::talk_response( JsonObject jo )
+{
+    if( jo.has_member( "trial" ) ) {
+        trial = talk_trial( jo.get_object( "trial" ) );
+    }
+    if( jo.has_member( "success" ) ) {
+        success = effect_t( jo.get_object( "success" ) );
+    } else {
+        // This is for simple topic switching, no effects beside that
+        success.topic = jo.get_string( "topic" );
+    }
+    if( trial && !jo.has_member( "failure" ) ) {
+        jo.throw_error( "the failure effect is mandatory if a talk_trial has been defined" );
+    }
+    if( jo.has_member( "failure" ) ) {
+        failure = effect_t( jo.get_object( "failure" ) );
+    }
+    text = _( jo.get_string( "text" ).c_str() );
+    // TODO: mission_selected
+    // TODO: skill
+    // TODO: style
+}
+
+dynamic_line_t::dynamic_line_t( const std::string &line )
+{
+    function = [line]( const dialogue & ) {
+        return _( line.c_str() );
+    };
+}
+
+dynamic_line_t::dynamic_line_t( JsonObject jo )
+{
+    jo.throw_error( "no supported" );
+}
+
+dynamic_line_t::dynamic_line_t( JsonArray ja )
+{
+    std::vector<dynamic_line_t> lines;
+    while( ja.has_more() ) {
+        if( ja.test_string() ) {
+            lines.emplace_back( ja.next_string() );
+        } else if( ja.test_array() ) {
+            lines.emplace_back( ja.next_array() );
+        } else if( ja.test_object() ) {
+            lines.emplace_back( ja.next_object() );
+        } else {
+            ja.throw_error( "invalid format: must be string, array or object" );
+        }
+    }
+    function = [lines]( const dialogue &d ) {
+        if( lines.empty() ) {
+            return std::string{};
+        }
+        return lines[rng( 0, lines.size() - 1 )]( d );
+    };
+}
+
+json_talk_topic::json_talk_topic( JsonObject &jo )
+{
+    if( jo.has_array( "dynamic_line" ) ) {
+        dynamic_line = dynamic_line_t( jo.get_array( "dynamic_line" ) );
+    } else if( jo.has_object( "dynamic_line" ) ) {
+        dynamic_line = dynamic_line_t( jo.get_object( "dynamic_line" ) );
+    } else if( jo.has_string( "dynamic_line" ) ) {
+        dynamic_line = dynamic_line_t( jo.get_string( "dynamic_line" ) );
+    }
+    JsonArray ja = jo.get_array( "responses" );
+    responses.reserve( ja.size() );
+    while( ja.has_more() ) {
+        responses.emplace_back( ja.next_object() );
+    }
+    if( responses.empty() ) {
+        jo.throw_error( "no responses for talk topic defined", "responses" );
+    }
+    replace_built_in_responses = jo.get_bool( "replace_built_in_responses", false );
+}
+
+std::string json_talk_topic::get_dynamic_line( const dialogue &d ) const
+{
+    return dynamic_line( d );
+}
+
+void json_talk_topic::check_consistency() const
+{
+    // TODO: check that all referenced topic actually exist. This is currently not possible
+    // as they only exist as built in strings, not in the json_talk_topics map.
+}
+
+void unload_talk_topics()
+{
+    json_talk_topics.clear();
+}
+
+void load_talk_topic( JsonObject &jo )
+{
+    const std::string id = jo.get_string( "id" );
+    json_talk_topics[id] = json_talk_topic( jo );
 }

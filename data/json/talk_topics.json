@@ -1,0 +1,109 @@
+[
+    {
+        "type": "talk_topic",
+        "id": "TALK_SHARE_EQUIPMENT", "//": "The topic you get when asking I can't leave the shelter without items",
+        "dynamic_line": "Who do you think I am? The wish menu?",
+        "replace_built_in_responses": true,
+        "//": "responses test the opinion, check with debug menu before and after talking",
+        "responses": [
+            {
+                "text": "Sorry, I didn't mean to bother you.",
+                "success": {
+                    "opinion": {
+                        "anger": -10
+                    },
+                    "topic": "TALK_NONE"
+                }
+            },
+            {
+                "text": "Yeah, whatever.",
+                "success": {
+                    "//": "this will make the NPC hostile if it's selected often enough",
+                    "opinion": {
+                        "anger": 10
+                    },
+                    "topic": "TALK_NONE"
+                }
+            },
+            {
+                "text": "Well, if you don't want to, I have ways to make you...",
+                "success": {
+                    "opinion": {
+                        "fear": 10
+                    },
+                    "topic": "TALK_NONE"
+                }
+            },
+            {
+                "text": "No, but what's this wish menu you talk about?",
+                "topic": "TALK_WISH_MENU"
+            }
+        ]
+    },
+    {
+        "type": "talk_topic",
+        "id": "TALK_WISH_MENU",
+        "dynamic_line": [
+            "The wish menu is a debug thing, it's cheating, don't do it.",
+            "The wish menu is awesome.",
+            "It is rumored to grant you items.",
+            "You need to define your own key binding for it."
+        ],
+        "responses": [
+            {
+                "text": "Hey, thanks for the info, I'll give you some credit.",
+                "success": {
+                    "opinion": {
+                        "value": 10, "//": "not money, it has some other meaning"
+                    },
+                    "topic": "TALK_NONE"
+                }
+            },
+            {
+                "text": "Uhm, M'kay.",
+                "topic": "TALK_NONE"
+            },
+            {
+                "text": "Great! I have to try it right now, bye.",
+                "topic": "TALK_DONE"
+            }
+        ]
+    },
+    {
+        "type": "talk_topic",
+        "id": "TALK_STRANGER_NEUTRAL", "//": "this is the initial topic for most (random) NPCs",
+        "dynamic_line": [
+            "You know something?"
+        ],
+        "responses": [
+            {
+                "text": "Sure, a lot.",
+                "trial": {
+                    "type": "LIE",
+                    "difficulty": 10
+                },
+                "success": {
+                    "topic": "TALK_NONE"
+                },
+                "failure": {
+                    "topic": "TALK_HAHA"
+                }
+            },
+            {
+                "text": "Not much.",
+                "topic": "TALK_NONE"
+            }
+        ]
+    },
+    {
+        "type": "talk_topic",
+        "id": "TALK_HAHA",
+        "dynamic_line": "I don't believe you.",
+        "responses": [
+            {
+                "text": "As if I care.",
+                "topic": "TALK_NONE"
+            }
+        ]
+    }
+]

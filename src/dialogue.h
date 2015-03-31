@@ -11,6 +11,7 @@
 #include <functional>
 
 class martialart;
+class JsonObject;
 
 struct talk_response;
 struct dialogue {
@@ -178,6 +179,9 @@ struct talk_trial {
      * Roll for success or failure of this trial.
      */
     bool roll( dialogue &d ) const;
+
+    talk_trial() = default;
+    talk_trial( JsonObject );
 };
 
 /**
@@ -217,6 +221,9 @@ struct talk_response {
         std::string topic = "TALK_NONE";
 
         std::string apply( dialogue &d ) const;
+
+        effect_t() = default;
+        effect_t( JsonObject );
     };
     effect_t success;
     effect_t failure;
@@ -231,6 +238,7 @@ struct talk_response {
     void do_formatting( const dialogue &d, char letter );
 
     talk_response() = default;
+    talk_response( JsonObject );
 };
 
 /* There is a array of tag_data, "tags", at the bottom of this file.
@@ -243,5 +251,8 @@ struct tag_data {
     std::string tag;
     std::string (*replacement)[10];
 };
+
+void unload_talk_topics();
+void load_talk_topic( JsonObject &jo );
 
 #endif
