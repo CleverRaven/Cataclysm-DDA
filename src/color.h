@@ -2,6 +2,7 @@
 #define COLOR_H
 
 #include "cursesdef.h"
+#include "json.h"
 #include <string>
 #include <list>
 #include <unordered_map>
@@ -172,7 +173,27 @@ INV = 2
 
 typedef int nc_color;
 
-class clColors {
+class clColors : public JsonSerializer, public JsonDeserializer {
+    private:
+        void add_color(const std::string &sName, const nc_color iColorPair, const std::string &sInvert, const std::string &sNoBright = "");
+
+        struct stColors {
+            nc_color color; // Default color
+            std::string sCustom; // Custom color name
+            std::string sInvert; // Invert
+            std::string sInvertCustom; // Invert Custom
+            std::string sNoBright; // No Bright
+            std::string sNoBrightCustom; // No Bright Custom
+        };
+
+        std::unordered_map<std::string, stColors> mapColors;
+
+        void set_custom(const std::string &sName, const std::string &sCustomName);
+        void set_invert_custom(const std::string &sName, const std::string &sCustomName);
+        void set_nobright_custom(const std::string &sName, const std::string &sCustomName);
+
+        bool save_custom();
+
     public:
         clColors() {};
 
@@ -183,22 +204,14 @@ class clColors {
         nc_color get_highlight(const nc_color color, const std::string &bgColor = "");
         nc_color get_random();
 
-        void set_custom(const std::string &sName, const std::string &sCustomName);
-
         void load_default();
+        void load_custom();
 
-    private:
-        void add_color(const std::string &sName, const nc_color iColorPair, const std::string &sInvert, const std::string &sInvertNoBright = "");
-        void add_highlight(const std::string &sName);
+        void show_gui();
 
-        struct stColors {
-            nc_color color; // Default color
-            std::string sCustom; // Custom color name
-            std::string sInvert; // Invert
-            std::string sNoBrigt; // No Bright
-        };
-
-        std::unordered_map<std::string, stColors> mapColors;
+        using JsonSerializer::serialize;
+        void serialize(JsonOut &json) const override;
+        void deserialize(JsonIn &jsin) override;
 };
 
 extern clColors all_colors;
