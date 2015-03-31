@@ -195,7 +195,6 @@ struct talk_response {
      * new mission.
      */
     mission *mission_selected = nullptr;
-    mission_type_id miss = MISSION_NULL; // If it generates a new mission
     const Skill* skill = nullptr;
     matype_id style;
     /**
