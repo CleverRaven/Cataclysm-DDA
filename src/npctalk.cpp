@@ -61,6 +61,7 @@ public:
     dynamic_line_t( const std::string &line );
     dynamic_line_t( JsonObject jo );
     dynamic_line_t( JsonArray ja );
+    static dynamic_line_t from_member( JsonObject &jo, const std::string &member_name );
 
     std::string operator()( const dialogue &d ) const
     {
@@ -3711,6 +3712,19 @@ talk_response::talk_response( JsonObject jo )
     // TODO: style
 }
 
+dynamic_line_t dynamic_line_t::from_member( JsonObject &jo, const std::string &member_name )
+{
+    if( jo.has_array( member_name ) ) {
+        return dynamic_line_t( jo.get_array( member_name ) );
+    } else if( jo.has_object( member_name ) ) {
+        return dynamic_line_t( jo.get_object( member_name ) );
+    } else if( jo.has_string( member_name ) ) {
+        return dynamic_line_t( jo.get_string( member_name ) );
+    } else {
+        return dynamic_line_t{};
+    }
+}
+
 dynamic_line_t::dynamic_line_t( const std::string &line )
 {
     function = [line]( const dialogue & ) {
@@ -3747,13 +3761,7 @@ dynamic_line_t::dynamic_line_t( JsonArray ja )
 
 json_talk_topic::json_talk_topic( JsonObject &jo )
 {
-    if( jo.has_array( "dynamic_line" ) ) {
-        dynamic_line = dynamic_line_t( jo.get_array( "dynamic_line" ) );
-    } else if( jo.has_object( "dynamic_line" ) ) {
-        dynamic_line = dynamic_line_t( jo.get_object( "dynamic_line" ) );
-    } else if( jo.has_string( "dynamic_line" ) ) {
-        dynamic_line = dynamic_line_t( jo.get_string( "dynamic_line" ) );
-    }
+    dynamic_line = dynamic_line_t::from_member( jo, "dynamic_line" );
     JsonArray ja = jo.get_array( "responses" );
     responses.reserve( ja.size() );
     while( ja.has_more() ) {

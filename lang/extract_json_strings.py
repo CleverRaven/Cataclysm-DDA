@@ -211,6 +211,8 @@ def extract_dynamic_line(line, outfile):
     if type(line) == list:
         for l in line:
             extract_dynamic_line(l, outfile)
+    elif type(line) == dict:
+        ...
     else:
         writestr(outfile, line)
 

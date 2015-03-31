@@ -40,13 +40,20 @@ Must always be there and must always be "talk_topic".
 The topic id, can be one of the build in topics, but if several talk topics *in json* have the same id, the last topic definition will override the previous ones.
 
 ### dynamic_line
-This is the line spoken by the NPC. It can be a simple string, or an array of strings. If it's an array, a line will be chosen randomly every time the NPC needs it. Each entry has the same probability. It is optional, if it's not defined and this topic has the same id as a built in topic, the `dynamic_line` from that built in topic will be used. Otherwise the NPC will say nothing.
+This is the line spoken by the NPC. See the chapter for dynamic_line below. It is optional, if it's not defined and this topic has the same id as a built in topic, the `dynamic_line` from that built in topic will be used. Otherwise the NPC will say nothing.
 
 ### response
 An array with possible responses, it must not be empty. Each entry must be a response object, see below.
 
 ### replace_built_in_responses
 A boolean (optional, default is `false`) that defines whether to dismiss the build in responses for that topic. If there are no built in responses, this won't do anything. If `true`, the built in responses are ignored and only those from this definition in json are used. If `false`, the responses from json are used *and* the built in responses (if any).
+
+---
+
+## dynamic_line
+A dynamic line can either be a simple string, or an complex object, or an array with `dynamic_line` entries. If it's an array, an entry will be chosen randomly every time the NPC needs it. Each entry has the same probability.
+
+A complex `dynamic_line` usually contains several `dynamic_line` entry and some condition that determines which is used.
 
 ---
 
