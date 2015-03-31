@@ -163,7 +163,8 @@ void activity_handlers::butcher_finish( player_activity *act, player *p )
     
     p->practice("survival", practice);
 
-    // Lose some skins and bones if the rolls are low
+    // Lose some meat, skins, etc if the rolls are low
+    pieces +=   std::min( 0, roll_butchery() );
     skins +=    std::min( 0, roll_butchery() - 4 );
     bones +=    std::min( 0, roll_butchery() - 2 );
     fats +=     std::min( 0, roll_butchery() - 4 );
