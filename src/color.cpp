@@ -7,7 +7,12 @@
 
 #define HILIGHT COLOR_BLUE
 
-clColors all_colors;
+clColors &get_all_colors()
+{
+    static clColors single_instance;
+    return single_instance;
+}
+
 std::unordered_map<std::string, note_color> color_shortcuts;
 
 nc_color clColors::get(const std::string &sName)

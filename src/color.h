@@ -6,6 +6,8 @@
 #include <list>
 #include <unordered_map>
 
+#define all_colors get_all_colors()
+
 #define c_black all_colors.get("c_black")
 #define c_white all_colors.get("c_white")
 #define c_ltgray all_colors.get("c_ltgray")
@@ -201,7 +203,7 @@ class clColors {
         std::unordered_map<std::string, stColors> mapColors;
 };
 
-extern clColors all_colors;
+clColors &get_all_colors();
 
 struct note_color {
     nc_color color;
