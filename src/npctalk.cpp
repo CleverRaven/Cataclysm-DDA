@@ -1363,7 +1363,7 @@ std::string dialogue::dynamic_line( const std::string &topic ) const
     return "I don't know what to say. (BUG (npctalk.cpp:dynamic_line))";
 }
 
-talk_response &dialogue::add_response( const std::string &text, const std::string &r ) const
+talk_response &dialogue::add_response( const std::string &text, const std::string &r )
 {
     responses.push_back( talk_response() );
     talk_response &result = responses.back();
@@ -1372,25 +1372,25 @@ talk_response &dialogue::add_response( const std::string &text, const std::strin
     return result;
 }
 
-talk_response &dialogue::add_response_done( const std::string &text ) const
+talk_response &dialogue::add_response_done( const std::string &text )
 {
     return add_response( text, "TALK_DONE" );
 }
 
-talk_response &dialogue::add_response_none( const std::string &text ) const
+talk_response &dialogue::add_response_none( const std::string &text )
 {
     return add_response( text, "TALK_NONE" );
 }
 
 talk_response &dialogue::add_response( const std::string &text, const std::string &r,
-                                       std::function<void(npc*)> effect_success ) const
+                                       std::function<void(npc*)> effect_success )
 {
     talk_response &result = add_response( text, r );
     result.success.effect = effect_success;
     return result;
 }
 
-talk_response &dialogue::add_response( const std::string &text, const std::string &r, mission *miss ) const
+talk_response &dialogue::add_response( const std::string &text, const std::string &r, mission *miss )
 {
     if( miss == nullptr ) {
         debugmsg( "tried to select null mission" );
@@ -1400,7 +1400,7 @@ talk_response &dialogue::add_response( const std::string &text, const std::strin
     return result;
 }
 
-talk_response &dialogue::add_response( const std::string &text, const std::string &r, const Skill *skill ) const
+talk_response &dialogue::add_response( const std::string &text, const std::string &r, const Skill *skill )
 {
     if( skill == nullptr ) {
         debugmsg( "tried to select null skill" );
@@ -1410,14 +1410,14 @@ talk_response &dialogue::add_response( const std::string &text, const std::strin
     return result;
 }
 
-talk_response &dialogue::add_response( const std::string &text, const std::string &r, const martialart &style ) const
+talk_response &dialogue::add_response( const std::string &text, const std::string &r, const martialart &style )
 {
     talk_response &result = add_response( text, r );
     result.style = style.id;
     return result;
 }
 
-void dialogue::gen_responses( const std::string &topic ) const
+void dialogue::gen_responses( const std::string &topic )
 {
     const auto p = beta; // for compatibility, later replace it in the code below
     auto &ret = responses; // for compatibility, later replace it in the code below

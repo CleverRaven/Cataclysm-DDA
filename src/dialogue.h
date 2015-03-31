@@ -50,8 +50,8 @@ struct dialogue {
     /**
      * Possible responses from the player character, filled in @ref gen_responses.
      */
-    mutable std::vector<talk_response> responses;
-    void gen_responses( const std::string &topic ) const;
+    std::vector<talk_response> responses;
+    void gen_responses( const std::string &topic );
 
 private:
     void clear_window_texts();
@@ -65,36 +65,36 @@ private:
     /**
      * Add a simple response that switches the topic to the new one.
      */
-    talk_response &add_response( const std::string &text, const std::string &r ) const;
+    talk_response &add_response( const std::string &text, const std::string &r );
     /**
      * Add a response with the result TALK_DONE.
      */
-    talk_response &add_response_done( const std::string &text ) const;
+    talk_response &add_response_done( const std::string &text );
     /**
      * Add a response with the result TALK_NONE.
      */
-    talk_response &add_response_none( const std::string &text ) const;
+    talk_response &add_response_none( const std::string &text );
     /**
      * Add a simple response that switches the topic to the new one and executes the given
      * action. The response always succeeds.
      */
     talk_response &add_response( const std::string &text, const std::string &r,
-                                 std::function<void(npc*)> effect_success ) const;
+                                 std::function<void(npc*)> effect_success );
     /**
      * Add a simple response that switches the topic to the new one and sets the currently
      * talked about mission to the given one. The mission pointer must be valid.
      */
-    talk_response &add_response( const std::string &text, const std::string &r, mission *miss ) const;
+    talk_response &add_response( const std::string &text, const std::string &r, mission *miss );
     /**
      * Add a simple response that switches the topic to the new one and sets the currently
      * talked about skill to the given one. The skill pointer must be valid.
      */
-    talk_response &add_response( const std::string &text, const std::string &r, const Skill *skill ) const;
+    talk_response &add_response( const std::string &text, const std::string &r, const Skill *skill );
     /**
      * Add a simple response that switches the topic to the new one and sets the currently
      * talked about martial art style to the given one.
      */
-    talk_response &add_response( const std::string &text, const std::string &r, const martialart &style ) const;
+    talk_response &add_response( const std::string &text, const std::string &r, const martialart &style );
 };
 
 namespace talk_function {
