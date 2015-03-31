@@ -3664,10 +3664,21 @@ talk_trial::talk_trial( JsonObject jo )
     }
 }
 
+std::string load_inline_topic( JsonObject jo )
+{
+    const std::string id = jo.get_string( "id" );
+    json_talk_topics[id] = json_talk_topic( jo );
+    return id;
+}
+
 talk_response::effect_t::effect_t( JsonObject jo )
 {
     // TODO: the effect function
-    topic = jo.get_string( "topic" );
+    if( jo.has_object( "topic" ) ) {
+        topic = load_inline_topic( jo.get_object( "topic" ) );
+    } else {
+        topic = jo.get_string( "topic" );
+    }
     if( jo.has_member( "opinion" ) ) {
         JsonIn *ji = jo.get_raw( "opinion" );
         // Same format as when saving a game (-:
@@ -3682,9 +3693,11 @@ talk_response::talk_response( JsonObject jo )
     }
     if( jo.has_member( "success" ) ) {
         success = effect_t( jo.get_object( "success" ) );
-    } else {
+    } else if( jo.has_string( "topic" ) ) {
         // This is for simple topic switching, no effects beside that
         success.topic = jo.get_string( "topic" );
+    } else if ( jo.has_object( "topic" ) ) {
+        success.topic = load_inline_topic( jo.get_object( "topic" ) );
     }
     if( trial && !jo.has_member( "failure" ) ) {
         jo.throw_error( "the failure effect is mandatory if a talk_trial has been defined" );

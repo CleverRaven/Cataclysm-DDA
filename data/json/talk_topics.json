@@ -86,22 +86,20 @@
                     "topic": "TALK_NONE"
                 },
                 "failure": {
-                    "topic": "TALK_HAHA"
+                    "topic": {
+                        "id": "TALK_HAHA",
+                        "dynamic_line": "I don't believe you.",
+                        "responses": [
+                            {
+                                "text": "As if I care.",
+                                "topic": "TALK_NONE"
+                            }
+                        ]
+                    }
                 }
             },
             {
                 "text": "Not much.",
-                "topic": "TALK_NONE"
-            }
-        ]
-    },
-    {
-        "type": "talk_topic",
-        "id": "TALK_HAHA",
-        "dynamic_line": "I don't believe you.",
-        "responses": [
-            {
-                "text": "As if I care.",
                 "topic": "TALK_NONE"
             }
         ]

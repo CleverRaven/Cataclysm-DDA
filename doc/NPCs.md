@@ -111,5 +111,16 @@ Both objects have the same structure. `topic` defines which topic the dialogue w
 
 The `failure` object is used if the trial fails, the `success` object is used otherwise.
 
+`topic` can also be a single topic object (the `type` member is not required here):
+```JSON
+"success": {
+    "topic": {
+        "id": "TALK_NEXT",
+        "dynamic_line": "...",
+        "responses": [
+        ]
+    }
+}
+```
 
 
