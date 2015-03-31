@@ -541,7 +541,6 @@ void npc::talk_to_u()
 std::string dialogue::dynamic_line( const talk_topic topic ) const
 {
     const auto p = beta; // for compatibility, later replace it in the code below
-    talk_function effect;
     // First, a sanity test for mission stuff
     if (topic >= TALK_MISSION_START && topic <= TALK_MISSION_END) {
         if (topic == TALK_MISSION_START) {
@@ -1046,31 +1045,31 @@ std::string dialogue::dynamic_line( const talk_topic topic ) const
                       "and fruit wine.");
 
         case TALK_FREE_MERCHANT_STOCKS_JERKY:
-            return effect.bulk_trade_inquire(p, "jerky");
+            return talk_function::bulk_trade_inquire(p, "jerky");
 
         case TALK_FREE_MERCHANT_STOCKS_CORNMEAL:
-            return effect.bulk_trade_inquire(p, "cornmeal");
+            return talk_function::bulk_trade_inquire(p, "cornmeal");
 
         case TALK_FREE_MERCHANT_STOCKS_WINE:
-            return effect.bulk_trade_inquire(p, "fruit_wine");
+            return talk_function::bulk_trade_inquire(p, "fruit_wine");
 
         case TALK_FREE_MERCHANT_STOCKS_FLOUR:
-            return effect.bulk_trade_inquire(p, "flour");
+            return talk_function::bulk_trade_inquire(p, "flour");
 
         case TALK_FREE_MERCHANT_STOCKS_SUGAR:
-            return effect.bulk_trade_inquire(p, "sugar");
+            return talk_function::bulk_trade_inquire(p, "sugar");
 
         case TALK_FREE_MERCHANT_STOCKS_BEER:
-            return effect.bulk_trade_inquire(p, "hb_beer");
+            return talk_function::bulk_trade_inquire(p, "hb_beer");
 
         case TALK_FREE_MERCHANT_STOCKS_SMMEAT:
-            return effect.bulk_trade_inquire(p, "meat_smoked");
+            return talk_function::bulk_trade_inquire(p, "meat_smoked");
 
         case TALK_FREE_MERCHANT_STOCKS_SMFISH:
-            return effect.bulk_trade_inquire(p, "fish_smoked");
+            return talk_function::bulk_trade_inquire(p, "fish_smoked");
 
         case TALK_FREE_MERCHANT_STOCKS_OIL:
-            return effect.bulk_trade_inquire(p, "cooking_oil");
+            return talk_function::bulk_trade_inquire(p, "cooking_oil");
 
         case TALK_FREE_MERCHANT_STOCKS_DELIVERED:
              return _("Thank you for your business!");
@@ -1413,7 +1412,7 @@ talk_response &dialogue::add_response_none( const std::string &text ) const
 }
 
 talk_response &dialogue::add_response( const std::string &text, talk_topic const r,
-                                       void (talk_function::*effect_success)(npc *) ) const
+                                       void (*effect_success)(npc *) ) const
 {
     talk_response &result = add_response( text, r );
     result.success.effect = effect_success;
@@ -1453,7 +1452,6 @@ void dialogue::gen_responses( const talk_topic topic ) const
     auto &ret = responses; // for compatibility, later replace it in the code below
     ret.clear();
     mission *miss = p->chatbin.mission_selected;
-    talk_function effect;
 
     switch (topic) {
         case TALK_GUARD:
@@ -2070,47 +2068,47 @@ void dialogue::gen_responses( const talk_topic topic ) const
 
         case TALK_FREE_MERCHANT_STOCKS_JERKY:
             RESPONSE(_("Works for me."));
-                effect.bulk_trade_accept(p, "jerky");
+                talk_function::bulk_trade_accept(p, "jerky");
                 SUCCESS(TALK_FREE_MERCHANT_STOCKS_DELIVERED);
             break;
         case TALK_FREE_MERCHANT_STOCKS_SMMEAT:
             RESPONSE(_("Works for me."));
-                effect.bulk_trade_accept(p, "meat_smoked");
+                talk_function::bulk_trade_accept(p, "meat_smoked");
                 SUCCESS(TALK_FREE_MERCHANT_STOCKS_DELIVERED);
             break;
         case TALK_FREE_MERCHANT_STOCKS_SMFISH:
             RESPONSE(_("Works for me."));
-                effect.bulk_trade_accept(p, "fish_smoked");
+                talk_function::bulk_trade_accept(p, "fish_smoked");
                 SUCCESS(TALK_FREE_MERCHANT_STOCKS_DELIVERED);
             break;
         case TALK_FREE_MERCHANT_STOCKS_OIL:
             RESPONSE(_("Works for me."));
-                effect.bulk_trade_accept(p, "cooking_oil");
+                talk_function::bulk_trade_accept(p, "cooking_oil");
             SUCCESS(TALK_FREE_MERCHANT_STOCKS_DELIVERED);
             break;
         case TALK_FREE_MERCHANT_STOCKS_CORNMEAL:
             RESPONSE(_("Works for me."));
-                effect.bulk_trade_accept(p, "cornmeal");
+                talk_function::bulk_trade_accept(p, "cornmeal");
                 SUCCESS(TALK_FREE_MERCHANT_STOCKS_DELIVERED);
             break;
         case TALK_FREE_MERCHANT_STOCKS_FLOUR:
             RESPONSE(_("Works for me."));
-                effect.bulk_trade_accept(p, "flour");
+                talk_function::bulk_trade_accept(p, "flour");
                 SUCCESS(TALK_FREE_MERCHANT_STOCKS_DELIVERED);
             break;
         case TALK_FREE_MERCHANT_STOCKS_SUGAR:
             RESPONSE(_("Works for me."));
-                effect.bulk_trade_accept(p, "sugar");
+                talk_function::bulk_trade_accept(p, "sugar");
                 SUCCESS(TALK_FREE_MERCHANT_STOCKS_DELIVERED);
             break;
         case TALK_FREE_MERCHANT_STOCKS_WINE:
             RESPONSE(_("Works for me."));
-                effect.bulk_trade_accept(p, "fruit_wine");
+                talk_function::bulk_trade_accept(p, "fruit_wine");
                 SUCCESS(TALK_FREE_MERCHANT_STOCKS_DELIVERED);
             break;
         case TALK_FREE_MERCHANT_STOCKS_BEER:
             RESPONSE(_("Works for me."));
-                effect.bulk_trade_accept(p, "hb_beer");
+                talk_function::bulk_trade_accept(p, "hb_beer");
                 SUCCESS(TALK_FREE_MERCHANT_STOCKS_DELIVERED);
             break;
 
@@ -2806,6 +2804,10 @@ int topic_category(talk_topic topic)
  return -1;
 }
 
+void talk_function::nothing( npc * )
+{
+}
+
 void talk_function::assign_mission(npc *p)
 {
     mission *miss = p->chatbin.mission_selected;
@@ -3376,8 +3378,7 @@ void talk_response::do_formatting( const dialogue &d, char const letter )
 
 talk_topic talk_response::effect_t::apply( dialogue &d ) const
 {
-    talk_function tmp;
-    (tmp.*effect)( d.beta );
+    effect( d.beta );
     d.beta->op_of_u += opinion;
     if( d.beta->turned_hostile() ) {
         d.beta->make_angry();

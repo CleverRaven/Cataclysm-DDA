@@ -12,7 +12,6 @@
 class martialart;
 
 struct talk_response;
-struct talk_function;
 struct dialogue {
     /**
      * The player character that speaks (always g->u).
@@ -80,7 +79,7 @@ private:
      * action. The response always succeeds.
      */
     talk_response &add_response( const std::string &text, talk_topic r,
-                                 void (talk_function::*effect_success)(npc *) ) const;
+                                 void (*effect_success)(npc *) ) const;
     /**
      * Add a simple response that switches the topic to the new one and sets the currently
      * talked about mission to the given one. The mission pointer must be valid.
@@ -98,8 +97,8 @@ private:
     talk_response &add_response( const std::string &text, talk_topic r, const martialart &style ) const;
 };
 
-struct talk_function {
-    void nothing              (npc *) {};
+namespace talk_function {
+    void nothing              (npc *);
     void assign_mission       (npc *);
     void mission_success      (npc *);
     void mission_failure      (npc *);
@@ -123,7 +122,6 @@ struct talk_function {
     void deny_equipment       (npc *); // p gets "asked_for_item"
     void deny_train           (npc *); // p gets "asked_to_train"
     void deny_personal_info   (npc *); // p gets "asked_personal_info"
-    void enslave              (npc *) {}; // p becomes slave of u
     void hostile              (npc *); // p turns hostile to u
     void flee                 (npc *);
     void leave                (npc *); // p becomes indifferant
@@ -213,7 +211,7 @@ struct talk_response {
         /**
          * Function that is called when the response is chosen.
          */
-        void (talk_function::*effect)(npc *) = &talk_function::nothing;
+        void (*effect)(npc *) = &talk_function::nothing;
         /**
          * Topic to switch to. TALK_DONE ends the talking, TALK_NONE keeps the current topic.
          */
