@@ -4315,7 +4315,7 @@ void mattack::stretch_attack(monster *z, int index){
     int distance = rl_dist(z->pos(), target->pos());
     player *foe = dynamic_cast< player* >( target );
     bool seen = g->u.sees( *z );
-    if (distance > 2 && distance <= 3){
+    if (distance >= 2 && distance <= 3){
         z->moves -=100;
         z->reset_special(index);
         if ( foe != nullptr){
