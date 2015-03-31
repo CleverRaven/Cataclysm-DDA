@@ -775,46 +775,6 @@ std::string dialogue::dynamic_line( const std::string &topic ) const
             return _("There isn't a chance in hell!  We had one guy come in here with bloody fur all over his body... well I guess that isn't all that "
                      "strange but I'm pretty sure whatever toxic waste is still out there is bound to mutate more than just his hair.");
 
-    } else if( topic == "TALK_EVAC_GUARD1" ) {
-            if (g->u.is_wearing("badge_marshal"))
-                return _("Hello marshal.");
-            return _("Hello there.");
-
-    } else if( topic == "TALK_EVAC_GUARD1_PLACE" ) {
-            return _("This is a refugee center that we've made into a sort of trading hub.");
-
-    } else if( topic == "TALK_EVAC_GUARD1_GOVERNMENT" ) {
-            return _("Ha ha ha, no. Though there is Old Guard somewhere around here if you have any questions "
-                     "relating to what the government is up to.");
-
-    } else if( topic == "TALK_EVAC_GUARD1_TRADE" ) {
-            return _("Anything valuable really. If you really want to know, go ask one of the actual traders. I'm just protection.");
-
-    } else if( topic == "TALK_EVAC_GUARD1_JOIN" ) {
-            return _("Nope.");
-
-    } else if( topic == "TALK_EVAC_GUARD1_JOIN2" ) {
-            return _("Death is pretty blunt.");
-
-    } else if( topic == "TALK_EVAC_GUARD1_JOIN3" ) {
-            return _("Nope.");
-
-    } else if( topic == "TALK_EVAC_GUARD1_ATTITUDE" ) {
-            return _("Then leave, you have two feet.");
-
-    } else if( topic == "TALK_EVAC_GUARD1_JOB" ) {
-            return _("Uh, not really. Go talk to a merchant if you have anything to sell. Otherwise the Old Guard liaison "
-                     "might have something, if you can find him.");
-
-    } else if( topic == "TALK_EVAC_GUARD1_OLDGUARD" ) {
-            return _("That's just our nickname for them. They're what's left of the federal government.  "
-                     "Don't know how legitimate they are but they are named after some military unit "
-                     "that once protected the president.  Their liaison is usually hanging around "
-                     "here somewhere.");
-
-    } else if( topic == "TALK_EVAC_GUARD1_BYE" ) {
-            return _("Stay safe out there. Hate to have to kill you after you've already died.");
-
     } else if( topic == "TALK_EVAC_GUARD2" ) {
             if (g->u.is_wearing("badge_marshal"))
                 return _("Hello marshal.");
@@ -1674,52 +1634,6 @@ void dialogue::gen_responses( const std::string &topic )
             add_response( _("Hordes?"), "TALK_EVAC_MERCHANT_HORDES" );
             add_response( _("Heard of anything better than the odd gun cache?"), "TALK_EVAC_MERCHANT_PRIME_LOOT" );
             add_response( _("Was hoping for something more..."), "TALK_EVAC_MERCHANT" );
-
-    } else if( topic == "TALK_EVAC_GUARD1" ) {
-            add_response( _("What is this place?"), "TALK_EVAC_GUARD1_PLACE" );
-            add_response( _("Can I join you guys?"), "TALK_EVAC_GUARD1_JOIN" );
-            add_response( _("Anything I can do for you?"), "TALK_EVAC_GUARD1_JOB" );
-            add_response( _("See you later."), "TALK_EVAC_GUARD1_BYE" );
-
-    } else if( topic == "TALK_EVAC_GUARD1_PLACE" ) {
-            add_response( _("So are you with the government or something?"), "TALK_EVAC_GUARD1_GOVERNMENT" );
-            add_response( _("What do you trade?"), "TALK_EVAC_GUARD1_TRADE" );
-
-    } else if( topic == "TALK_EVAC_GUARD1_GOVERNMENT" ) {
-            add_response( _("Oh, okay."), "TALK_EVAC_GUARD1" );
-            add_response_done( _("Oh, okay. I'll go look for him") );
-
-    } else if( topic == "TALK_EVAC_GUARD1_TRADE" ) {
-            add_response( _("I'll go talk to them later."), "TALK_EVAC_GUARD1" );
-            add_response_done( _("Will do, thanks!") );
-
-    } else if( topic == "TALK_EVAC_GUARD1_JOIN" ) {
-            add_response( _("That's pretty blunt!"), "TALK_EVAC_GUARD1_JOIN2" );
-
-    } else if( topic == "TALK_EVAC_GUARD1_JOIN2" ) {
-            add_response( _("So no negotiating? No, 'If you do this quest then we'll let you in?'"),
-                              "TALK_EVAC_GUARD1_JOIN3" );
-
-    } else if( topic == "TALK_EVAC_GUARD1_JOIN3" ) {
-            add_response( _("I don't like your attitude."), "TALK_EVAC_GUARD1_ATTITUDE" );
-            add_response( _("Well alright then."), "TALK_EVAC_GUARD1" );
-
-    } else if( topic == "TALK_EVAC_GUARD1_ATTITUDE" ) {
-            add_response( _("I think I'd rather rearrange your face instead!"), "TALK_DONE",
-                          &talk_function::insult_combat );
-            add_response_done( _("I will.") );
-
-    } else if( topic == "TALK_EVAC_GUARD1_JOB" ) {
-            add_response( _("Alright then."), "TALK_EVAC_GUARD1" );
-            add_response_done( _("Old Guard huh, I'll go talk to him!") );
-            add_response( _("Who are the Old Guard?"), "TALK_EVAC_GUARD1_OLDGUARD" );
-
-    } else if( topic == "TALK_EVAC_GUARD1_OLDGUARD" ) {
-            add_response( _("Whatever, I had another question."), "TALK_EVAC_GUARD1" );
-            add_response_done( _("Okay, I'll go look for him then.") );
-
-    } else if( topic == "TALK_EVAC_GUARD1_BYE" ) {
-            add_response_done( _("...") );
 
     } else if( topic == "TALK_EVAC_GUARD2" ) {
             add_response( _("I am actually new."), "TALK_EVAC_GUARD2_NEW" );
