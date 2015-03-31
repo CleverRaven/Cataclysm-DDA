@@ -87,21 +87,6 @@ nc_color clColors::get_random()
     return item->second.color;
 }
 
-void clColors::set_custom(const std::string &sName, const std::string &sCustomName)
-{
-    mapColors[sName].sCustom = sCustomName;
-}
-
-void clColors::set_invert_custom(const std::string &sName, const std::string &sCustomName)
-{
-    mapColors[sName].sInvertCustom = sCustomName;
-}
-
-void clColors::set_nobright_custom(const std::string &sName, const std::string &sCustomName)
-{
-    mapColors[sName].sNoBrightCustom = sCustomName;
-}
-
 void clColors::add_color(const std::string &sName, const nc_color color, const std::string &sInvert, const std::string &sNoBright)
 {
     mapColors[sName] = {color, "", sInvert, "", sNoBright, ""};
@@ -566,8 +551,6 @@ std::list<std::pair<std::string, std::string>> get_note_color_names()
 
 void clColors::show_gui()
 {
-    //save_reset_changes(false);
-
     const int iHeaderHeight = 4;
     const int iContentHeight = FULL_SCREEN_HEIGHT - 2 - iHeaderHeight;
 
@@ -664,6 +647,7 @@ void clColors::show_gui()
         std::advance( iter, iStartPos );
 
         std::string sActive = "";
+
         // display colormanager
         for (int i=iStartPos; iter != mapColorsOrdered.end(); ++iter, ++i) {
             if (i >= iStartPos && i < iStartPos + ((iContentHeight > iMaxColors) ? iMaxColors : iContentHeight)) {
@@ -881,20 +865,24 @@ void clColors::deserialize(JsonIn &jsin)
         const std::string sInvertCustom = joColors.get_string("invertcustom");
         const std::string sNoBrightCustom = joColors.get_string("nobrightcustom");
 
-        if( mapColors.find( sName ) == mapColors.end() ) {
+        auto iter = mapColors.find( sName );
+
+        if( iter == mapColors.end() ) {
             continue;
         }
 
+        auto &entry = iter->second;
+
         if ( !sCustom.empty() ) {
-            set_custom(sName, sCustom);
+            entry.sCustom = sCustom;
         }
 
         if ( !sInvertCustom.empty() ) {
-            set_invert_custom(sName, sInvertCustom);
+            entry.sInvertCustom = sInvertCustom;
         }
 
         if ( !sNoBrightCustom.empty() ) {
-            set_nobright_custom(sName, sNoBrightCustom);
+            entry.sNoBrightCustom = sNoBrightCustom;
         }
     }
 }

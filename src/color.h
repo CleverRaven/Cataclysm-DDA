@@ -188,10 +188,6 @@ class clColors : public JsonSerializer, public JsonDeserializer {
 
         std::unordered_map<std::string, stColors> mapColors;
 
-        void set_custom(const std::string &sName, const std::string &sCustomName);
-        void set_invert_custom(const std::string &sName, const std::string &sCustomName);
-        void set_nobright_custom(const std::string &sName, const std::string &sCustomName);
-
         bool save_custom();
 
     public:

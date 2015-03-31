@@ -76,7 +76,7 @@ Press q or ESC to return to the game.")) + 1;
     headers.push_back(_("1: List of all commands (you can change key commands here)"));
     headers.push_back(_("2: List of all options  (you can change options here)"));
     headers.push_back(_("3: Auto pickup manager  (you can change pickup rules here)"));
-    headers.push_back(_("4: Colormanager GUI     (you can change all colors here)"));
+    headers.push_back(_("4: Color manager        (you can change all colors here)"));
     headers.push_back(_("5: List of item types and data"));
     headers.push_back(_("6: Description of map symbols"));
     headers.push_back(_("7: Description of gun types"));
