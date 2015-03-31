@@ -3734,7 +3734,21 @@ dynamic_line_t::dynamic_line_t( const std::string &line )
 
 dynamic_line_t::dynamic_line_t( JsonObject jo )
 {
-    jo.throw_error( "no supported" );
+    if( jo.has_member( "u_male" ) && jo.has_member( "u_female" ) ) {
+        const dynamic_line_t u_male = from_member( jo, "u_male" );
+        const dynamic_line_t u_female = from_member( jo, "u_female" );
+        function = [u_male, u_female]( const dialogue &d ) {
+            return ( d.alpha->male ? u_male : u_female )( d );
+        };
+    } else if( jo.has_member( "npc_male" ) && jo.has_member( "npc_female" ) ) {
+        const dynamic_line_t npc_male = from_member( jo, "npc_male" );
+        const dynamic_line_t npc_female = from_member( jo, "npc_female" );
+        function = [npc_male, npc_female]( const dialogue &d ) {
+            return ( d.beta->male ? npc_male : npc_female )( d );
+        };
+    } else {
+        jo.throw_error( "no supported" );
+    }
 }
 
 dynamic_line_t::dynamic_line_t( JsonArray ja )

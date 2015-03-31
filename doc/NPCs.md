@@ -53,7 +53,38 @@ A boolean (optional, default is `false`) that defines whether to dismiss the bui
 ## dynamic_line
 A dynamic line can either be a simple string, or an complex object, or an array with `dynamic_line` entries. If it's an array, an entry will be chosen randomly every time the NPC needs it. Each entry has the same probability.
 
-A complex `dynamic_line` usually contains several `dynamic_line` entry and some condition that determines which is used.
+Example:
+```JSON
+"dynamic_line": [
+    "generic text",
+    {
+        "npc_female": [ "text1", "text2", "text3" ],
+        "npc_male": { "u_female": "text a", "u_male": "text b" }
+    }
+]
+```
+
+A complex `dynamic_line` usually contains several `dynamic_line` entry and some condition that determines which is used. They can be defined like this:
+
+### Based on the gender of the NPC / NPC
+The dynamic line is chosen based on the gender of the NPC, both entries must exists. Both entries are parsed as `dynamic_line`.
+
+```JSON
+{
+    "npc_male": "I'm a man.",
+    "npc_female": "I'm a woman."
+}
+```
+
+### Based on the gender of the player character
+The dynamic line is chosen based on the gender of the player character, both entries must exists. Both entries are parsed as `dynamic_line`. `u` is the player character.
+
+```JSON
+{
+    "u_male": "You're a man.",
+    "u_female": "You're a woman."
+}
+```
 
 ---
 

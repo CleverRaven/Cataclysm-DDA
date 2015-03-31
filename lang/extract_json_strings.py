@@ -207,12 +207,19 @@ def extract_recipes(item):
             if len(arr) >= 3 and len(arr[2]) > 0:
                 writestr(outfile, arr[2])
 
+def extract_dynamic_line_optional(line, member, outfile):
+    if member in line:
+        extract_dynamic_line(line[member], outfile)
+
 def extract_dynamic_line(line, outfile):
     if type(line) == list:
         for l in line:
             extract_dynamic_line(l, outfile)
     elif type(line) == dict:
-        ...
+        extract_dynamic_line_optional(line, "u_male", outfile)
+        extract_dynamic_line_optional(line, "u_female", outfile)
+        extract_dynamic_line_optional(line, "npc_male", outfile)
+        extract_dynamic_line_optional(line, "npc_female", outfile)
     else:
         writestr(outfile, line)
 

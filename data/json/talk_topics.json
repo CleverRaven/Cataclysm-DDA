@@ -71,6 +71,29 @@
     },
     {
         "type": "talk_topic",
+        "id": "TALK_STRANGER_FRIENDLY",
+        "dynamic_line": {
+            "//" : [ "This shows the possible combinations. Each combination of the gender of",
+                     "NPC and player character *can* have different lines"
+            ],
+            "u_male": {
+                "npc_male": "*smiles at you. He looks surprised.",
+                "npc_female": "*smiles at you. She looks surprised."
+            },
+            "u_female": {
+                "npc_male": "*looks at you. He looks surprised.",
+                "npc_female": "*looks at you. She looks surprised."
+            }
+        },
+        "responses": [
+            {
+                "text": "You smile back.",
+                "topic": "TALK_NONE"
+            }
+        ]
+    },
+    {
+        "type": "talk_topic",
         "id": "TALK_STRANGER_NEUTRAL", "//": "this is the initial topic for most (random) NPCs",
         "dynamic_line": [
             "You know something?"
