@@ -71,15 +71,27 @@ public:
         return function( d );
     }
 };
+class json_talk_response {
+private:
+    talk_response actual_response;
+
+public:
+    json_talk_response( JsonObject jo );
+
+    /**
+     * Callback from @ref json_talk_topic::gen_responses, see there.
+     */
+    void gen_responses( dialogue &d ) const;
+};
 /**
  * Talk topic definitions load from json.
  */
 class json_talk_topic {
 public:
-    bool replace_built_in_responses;
-    std::vector<talk_response> responses;
 
 private:
+    bool replace_built_in_responses;
+    std::vector<json_talk_response> responses;
     dynamic_line_t dynamic_line;
 
 public:
@@ -88,6 +100,14 @@ public:
 
     std::string get_dynamic_line( const dialogue &d ) const;
     void check_consistency() const;
+    /**
+     * Callback from @ref dialogue::gen_responses, it should add the response from here
+     * into the list of possible responses (that will be presented to the player).
+     * It may add an arbitrary number of responses (including none at all).
+     * @return true if built in response should excluded (not added). If false, built in
+     * responses will be added (behind those added here).
+     */
+    bool gen_responses( dialogue &d ) const;
 };
 
 static std::map<std::string, json_talk_topic> json_talk_topics;
@@ -1481,11 +1501,9 @@ void dialogue::gen_responses( const std::string &topic )
     auto const iter = json_talk_topics.find( topic );
     if( iter != json_talk_topics.end() ) {
         json_talk_topic &jtt = iter->second;
-        if( jtt.replace_built_in_responses ) {
-            responses = jtt.responses;
+        if( jtt.gen_responses( *this ) ) {
             return;
         }
-        responses.insert( responses.begin(), jtt.responses.begin(), jtt.responses.end() );
     }
     mission *miss = p->chatbin.mission_selected;
 
@@ -3712,6 +3730,16 @@ talk_response::talk_response( JsonObject jo )
     // TODO: style
 }
 
+json_talk_response::json_talk_response( JsonObject jo )
+: actual_response( jo )
+{
+}
+
+void json_talk_response::gen_responses( dialogue &d ) const
+{
+    d.responses.emplace_back( actual_response );
+}
+
 dynamic_line_t dynamic_line_t::from_member( JsonObject &jo, const std::string &member_name )
 {
     if( jo.has_array( member_name ) ) {
@@ -3793,6 +3821,15 @@ json_talk_topic::json_talk_topic( JsonObject &jo )
         jo.throw_error( "no responses for talk topic defined", "responses" );
     }
     replace_built_in_responses = jo.get_bool( "replace_built_in_responses", false );
+}
+
+bool json_talk_topic::gen_responses( dialogue &d ) const
+{
+    d.responses.reserve( responses.size() ); // A wild guess, can actually be more or less
+    for( auto & r : responses ) {
+        r.gen_responses( d );
+    }
+    return replace_built_in_responses;
 }
 
 std::string json_talk_topic::get_dynamic_line( const dialogue &d ) const
