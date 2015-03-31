@@ -90,13 +90,19 @@ class json_talk_topic {
 public:
 
 private:
-    bool replace_built_in_responses;
+    bool replace_built_in_responses = false;
     std::vector<json_talk_response> responses;
     dynamic_line_t dynamic_line;
 
 public:
     json_talk_topic() = default;
-    json_talk_topic( JsonObject &jo );
+    /**
+     * Load data from json.
+     * This will append responses (not change existing ones).
+     * It will override dynamic_line and replace_built_in_responses if those entries
+     * exist in the input, otherwise they will not be changed at all.
+     */
+    void load( JsonObject &jo );
 
     std::string get_dynamic_line( const dialogue &d ) const;
     void check_consistency() const;
@@ -3686,7 +3692,7 @@ talk_trial::talk_trial( JsonObject jo )
 std::string load_inline_topic( JsonObject jo )
 {
     const std::string id = jo.get_string( "id" );
-    json_talk_topics[id] = json_talk_topic( jo );
+    json_talk_topics[id].load( jo );
     return id;
 }
 
@@ -3809,18 +3815,20 @@ dynamic_line_t::dynamic_line_t( JsonArray ja )
     };
 }
 
-json_talk_topic::json_talk_topic( JsonObject &jo )
+void json_talk_topic::load( JsonObject &jo )
 {
-    dynamic_line = dynamic_line_t::from_member( jo, "dynamic_line" );
+    if( jo.has_member( "dynamic_line" ) ) {
+        dynamic_line = dynamic_line_t::from_member( jo, "dynamic_line" );
+    }
     JsonArray ja = jo.get_array( "responses" );
-    responses.reserve( ja.size() );
+    responses.reserve( responses.size() + ja.size() );
     while( ja.has_more() ) {
         responses.emplace_back( ja.next_object() );
     }
     if( responses.empty() ) {
         jo.throw_error( "no responses for talk topic defined", "responses" );
     }
-    replace_built_in_responses = jo.get_bool( "replace_built_in_responses", false );
+    replace_built_in_responses = jo.get_bool( "replace_built_in_responses", replace_built_in_responses );
 }
 
 bool json_talk_topic::gen_responses( dialogue &d ) const
@@ -3850,6 +3858,12 @@ void unload_talk_topics()
 
 void load_talk_topic( JsonObject &jo )
 {
-    const std::string id = jo.get_string( "id" );
-    json_talk_topics[id] = json_talk_topic( jo );
+    if( jo.has_array( "id" ) ) {
+        for( auto & id : jo.get_string_array( "id" ) ) {
+            json_talk_topics[id].load( jo );
+        }
+    } else {
+        const std::string id = jo.get_string( "id" );
+        json_talk_topics[id].load( jo );
+    }
 }

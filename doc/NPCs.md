@@ -39,6 +39,23 @@ Must always be there and must always be "talk_topic".
 ### id
 The topic id, can be one of the build in topics, but if several talk topics *in json* have the same id, the last topic definition will override the previous ones.
 
+It can also be an array of strings. This is loaded as if several topics with the exact same content had been given in json, each associated with an id from the `id`, array. Note that loading from json will append responses and, if defined in json, override the `dynamic_line` and the `replace_built_in_responses` setting. This allows to add responses to several topics at once.
+
+This example adds the "I'm going now!" to the all the listed topics.
+```JSON
+{
+    "type": "talk_topic",
+    "id": [ "TALK_ARSONIST", "TALK_STRANGER_FRIENDLY", "TALK_STRANGER_NEUTRAL" ],
+    "dynamic_line": "What now?",
+    "responses": [
+        {
+            "text": "I'm going now.",
+            "topic": "TALK_DONE"
+        }
+    ]
+}
+```
+
 ### dynamic_line
 This is the line spoken by the NPC. See the chapter for dynamic_line below. It is optional, if it's not defined and this topic has the same id as a built in topic, the `dynamic_line` from that built in topic will be used. Otherwise the NPC will say nothing.
 
