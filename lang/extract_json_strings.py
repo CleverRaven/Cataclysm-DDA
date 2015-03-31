@@ -220,6 +220,8 @@ def extract_dynamic_line(line, outfile):
         extract_dynamic_line_optional(line, "u_female", outfile)
         extract_dynamic_line_optional(line, "npc_male", outfile)
         extract_dynamic_line_optional(line, "npc_female", outfile)
+        extract_dynamic_line_optional(line, "yes", outfile)
+        extract_dynamic_line_optional(line, "no", outfile)
     else:
         writestr(outfile, line)
 

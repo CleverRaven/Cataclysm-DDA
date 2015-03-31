@@ -88,7 +88,20 @@
         "responses": [
             {
                 "text": "You smile back.",
-                "topic": "TALK_NONE"
+                "topic": {
+                    "id": "dummy, not used anywhere else, for now",
+                    "dynamic_line": {
+                        "u_is_wearing": "fur_cat_ears",
+                        "yes": "Hello, I like your ears.",
+                        "no": "Hello. Do you know where to get a pair of fuzzy cat ears?"
+                    },
+                    "responses": [
+                        {
+                            "text": "...",
+                            "topic": "TALK_NONE"
+                        }
+                    ]
+                }
             }
         ]
     },

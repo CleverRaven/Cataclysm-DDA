@@ -86,6 +86,17 @@ The dynamic line is chosen based on the gender of the player character, both ent
 }
 ```
 
+### Based on items worn by the player character
+The dynamic line is chosen based on the gender of the player character, both entries are optional, but you should make sure the NPC says something all the time. Both entries are parsed as dynamic_line. `u` is the player character. The `u_is_wearing` string should be a valid item id.
+
+```JSON
+{
+    "u_is_wearing": "fur_cat_ears",
+    "yes": "Hello, I like your ears.",
+    "no": "Hello."
+}
+```
+
 ---
 
 ## Responses

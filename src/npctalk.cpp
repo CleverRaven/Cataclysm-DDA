@@ -3746,6 +3746,14 @@ dynamic_line_t::dynamic_line_t( JsonObject jo )
         function = [npc_male, npc_female]( const dialogue &d ) {
             return ( d.beta->male ? npc_male : npc_female )( d );
         };
+    } else if( jo.has_member( "u_is_wearing" ) ) {
+        const std::string item_id = jo.get_string( "u_is_wearing" );
+        const dynamic_line_t yes = from_member( jo, "yes" );
+        const dynamic_line_t no = from_member( jo, "no" );
+        function = [item_id, yes, no]( const dialogue &d ) {
+            const bool wearing = d.alpha->is_wearing( item_id );
+            return ( wearing ? yes : no )( d );
+        };
     } else {
         jo.throw_error( "no supported" );
     }
