@@ -53,9 +53,17 @@ nc_color clColors::get_invert(const nc_color color)
     auto &entry = iter->second;
 
     if ( OPTIONS["NO_BRIGHT_BACKGROUNDS"] ) {
+        if ( !entry.sNoBrightCustom.empty() ) {
+            return get(entry.sNoBrightCustom);
+        }
+
         if ( !entry.sNoBright.empty() ) {
             return get(entry.sNoBright);
         }
+    }
+
+    if ( !entry.sInvertCustom.empty() ) {
+        return get(entry.sInvertCustom);
     }
 
     return get(entry.sInvert);
