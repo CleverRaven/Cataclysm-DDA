@@ -170,6 +170,7 @@ tag_data talk_tags[NUM_STATIC_TAGS] = {
 #define SUCCESS(topic_)  ret.back().success.topic = topic_
 #define FAILURE(topic_)  ret.back().failure.topic = topic_
 
+// trust (T), fear (F), value (V), anger(A), owed (O) { };
 #define SUCCESS_OPINION(T, F, V, A, O)   ret.back().success.opinion =\
                                          npc_opinion(T, F, V, A, O)
 #define FAILURE_OPINION(T, F, V, A, O)   ret.back().failure.opinion =\
@@ -1047,46 +1048,6 @@ std::string dialogue::dynamic_line( const std::string &topic ) const
                      "hardware to protect federal secrets and maintain the integrity of the comms network.  We are hoping a few plain "
                      "text messages can get picked up though.");
 
-    } else if( topic == "TALK_ARSONIST" ) {
-            if (g->u.is_wearing("badge_marshal"))
-                return _("That sure is a shiny badge you got there!");
-            return _("Heh, you look important.");
-
-    } else if( topic == "TALK_ARSONIST_NEW" ) {
-            return _("Guess that makes two of us. Well, kind of. I don't think we're open, though. Full up as hell; it's almost a crowd "
-                     "downstairs. See the trader over there? There's the one to ask.");
-
-    } else if( topic == "TALK_ARSONIST_DOING" ) {
-            return _("I burn down buildings and sell the Free Merchants the materials. No, seriously. If you've seen burned "
-                     "wreckage in place of suburbs or even see the pile of rebar for sale, that's probably me. They've kept "
-                     "me well off in exchange, I guess. I'll sell you a Molotov Cocktail or two, if you want.");
-
-    } else if( topic == "TALK_ARSONIST_DOING_REBAR" ) {
-            return _("Well, there's a guy downstairs who got a working pneumatic cannon. It shoots metal like... like a "
-                     "cannon without the bang. Cost-efficient as hell. And there's no shortage of improvised weapons you "
-                     "can make.  The big thing though, seems to be continuing construction of fortifications.  Very few of "
-                     "those monsters seem to be able to break through a fence or wall constructed with the stuff.");
-
-    } else if( topic == "TALK_ARSONIST_WORLD" ) {
-            return _("Nothing optimistic, at least. Had a pal on the road with a ham radio, but she's gone and so is that "
-                     "thing. Kaput.");
-
-    } else if( topic == "TALK_ARSONIST_WORLD_OPTIMISTIC" ) {
-            return _("Most of the emergency camps have dissolved by now. The cities are mobbed, the forests crawling with "
-                     "glowing eyes and zombies. Some insane shit out there, and everyone with a radio seems to feel like "
-                     "documenting their last awful moments.");
-
-    } else if( topic == "TALK_ARSONIST_JOIN" ) {
-            return _("I don't know. I mean, if you can make yourself useful. But that's become a real hazy thing nowadays."
-                     " It depends who you ask. The merchant definitely doesn't want me here when I'm not selling, but... "
-                     "some people get away with it.");
-
-    } else if( topic == "TALK_ARSONIST_MUTATION" ) {
-            return _("Ssh. Some people in here hate... mutations. This was an accident.");
-
-    } else if( topic == "TALK_ARSONIST_MUTATION_INSULT" ) {
-            return _("Screw You!");
-
     } else if( topic == "TALK_SCAVENGER_MERC" ) {
             if (g->u.is_wearing("badge_marshal"))
                 return _("I haven't done anything wrong...");
@@ -1938,38 +1899,6 @@ void dialogue::gen_responses( const std::string &topic )
             popup(_("%s gives you a %s"), p->name.c_str(), item("necropolis_freq", 0).tname().c_str());
             g->u.i_add( item("necropolis_freq", 0) );
             add_response( _("Thanks."), "TALK_OLD_GUARD_NEC_COMMO" );
-
-    } else if( topic == "TALK_ARSONIST" ) {
-            add_response( _("I'm actually new."), "TALK_ARSONIST_NEW" );
-            add_response( _("What are you doing here?"), "TALK_ARSONIST_DOING" );
-            add_response( _("Heard anything about the outside world?"), "TALK_ARSONIST_WORLD" );
-            add_response( _("Is there any way I can join your group?"), "TALK_ARSONIST_JOIN" );
-            add_response( _("What's with your ears?"), "TALK_ARSONIST_MUTATION" );
-            add_response( _("Anything I can help with?"), "TALK_MISSION_LIST" );
-            add_response_done( _("Well, bye.") );
-
-    } else if( topic == "TALK_ARSONIST_NEW" ) {
-            add_response( _("Sucks..."), "TALK_ARSONIST" );
-    } else if( topic == "TALK_ARSONIST_DOING" ) {
-            add_response( _("I'll buy."), "TALK_ARSONIST", &talk_function::start_trade );
-            add_response( _("Who needs rebar?"), "TALK_ARSONIST_DOING_REBAR" );
-    } else if( topic == "TALK_ARSONIST_DOING_REBAR" ) {
-            add_response( _("Well, then..."), "TALK_ARSONIST" );
-    } else if( topic == "TALK_ARSONIST_WORLD" ) {
-            add_response( _("Nothing optimistic?"), "TALK_ARSONIST_WORLD_OPTIMISTIC" );
-            add_response( _("..."), "TALK_ARSONIST" );
-    } else if( topic == "TALK_ARSONIST_WORLD_OPTIMISTIC" ) {
-            add_response( _("I feel bad for asking."), "TALK_ARSONIST" );
-    } else if( topic == "TALK_ARSONIST_JOIN" ) {
-            add_response( _("..."), "TALK_ARSONIST" );
-    } else if( topic == "TALK_ARSONIST_MUTATION" ) {
-            add_response( _("Sorry to ask"), "TALK_ARSONIST" );
-            add_response( _("You're disgusting."), "TALK_ARSONIST_MUTATION_INSULT" );
-    } else if( topic == "TALK_ARSONIST_MUTATION_INSULT" ) {
-            RESPONSE(_("..."));
-                SUCCESS("TALK_DONE");
-                    SUCCESS_OPINION(-1, -2, -1, 1, 0);
-                    SUCCESS_ACTION(&talk_function::end_conversation);
 
     } else if( topic == "TALK_SCAVENGER_MERC" ) {
             add_response( _("Who are you?"), "TALK_SCAVENGER_MERC_NEW" );
