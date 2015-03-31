@@ -10,7 +10,7 @@
 #include <functional>
 
 class JsonObject;
-enum nc_color : int;
+typedef int nc_color;
 
 struct construction
 {

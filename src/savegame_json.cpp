@@ -1182,6 +1182,16 @@ void item::deserialize(JsonObject &data)
         // There was a bug that set all comestibles active, this reverses that.
         active = false;
     }
+    // We need item tags here to make sure HOT/COLD food is active
+    // and bugged WET towels get reactivated
+    data.read("item_tags", item_tags);
+
+    if( !active && 
+        (item_tags.count( "HOT" ) > 0 || item_tags.count( "COLD" ) > 0 || 
+         item_tags.count( "WET" ) > 0) ) {
+        // Some hot/cold items from legacy saves may be inactive
+        active = true;
+    }
 
     if( data.read( "curammo", ammotmp ) ) {
         set_curammo( ammotmp );
@@ -1197,9 +1207,6 @@ void item::deserialize(JsonObject &data)
     } else {
         covered_bodyparts = tmp_covers;
     }
-
-    data.read("item_tags", item_tags);
-
 
     int tmplum = 0;
     if ( data.read("light", tmplum) ) {

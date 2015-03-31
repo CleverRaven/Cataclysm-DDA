@@ -510,7 +510,8 @@
       ["dry_beans", 40],
       ["dry_rice", 40],
       ["survnote", 1],
-      ["cookbook_sushi", 5]
+      ["cookbook_sushi", 5],
+      ["scots_cookbook", 6]
     ]
   },{
     "type" : "item_group",
@@ -3561,7 +3562,8 @@
       ["mag_fabrication", 30],
       ["mag_tailor", 25],
       ["cookbook_sushi", 15],
-      ["survnote", 1]
+      ["survnote", 1],
+      ["scots_cookbook", 8]
     ]
   },{
     "type" : "item_group",
@@ -3670,7 +3672,8 @@
       ["novel_samurai", 10],
       ["plays_book", 10],
       ["poetry_book", 10],
-      ["carpentry_book", 8]
+      ["carpentry_book", 8],
+      ["scots_cookbook", 10]
     ]
   },{
     "type" : "item_group",
@@ -4599,7 +4602,8 @@
       ["rollerskates", 10],
       ["survnote", 3],
       ["radio_car_box", 3],
-      ["radiocontrol", 10]
+      ["radiocontrol", 10],
+      ["scots_cookbook", 1]
     ]
   },{
     "type" : "item_group",

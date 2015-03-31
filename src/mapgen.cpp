@@ -1067,7 +1067,7 @@ bool mapgen_function_json::setup() {
                         const auto tmpval = pjo.get_string( key );
                         const auto iter = termap.find( tmpval );
                         if( iter == termap.end() ) {
-                            jo.throw_error( "Invalid terrain", key );
+                            pjo.throw_error( "Invalid terrain", key );
                         }
                         format_terrain[key[0]] = iter->second.loadid;
                     } else {
@@ -1094,7 +1094,7 @@ bool mapgen_function_json::setup() {
                         const auto tmpval = pjo.get_string( key );
                         const auto iter = furnmap.find( tmpval );
                         if( iter == furnmap.end() ) {
-                            jo.throw_error( "Invalid furniture", key );
+                            pjo.throw_error( "Invalid furniture", key );
                         }
                         format_furniture[key[0]] = iter->second.loadid;
                     } else {

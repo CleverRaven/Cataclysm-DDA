@@ -6982,7 +6982,7 @@
   "time": 25000,
   "reversible": false,
   "autolearn": false,
-  "book_learn": [ ["brewing_cookbook", 5] ],
+  "book_learn": [ ["brewing_cookbook", 5], [ "scots_cookbook", 5 ] ],
   "qualities":[
     {"id":"BREW","level":2,"amount":1}
   ], "tools": [
@@ -9312,6 +9312,152 @@
         [ "honey_glassed", 5 ]
       ]
     ]
+},{
+  "type" : "recipe",
+  "result": "haggis",
+  "category": "CC_FOOD",
+  "subcategory": "CSC_FOOD_MEAT",
+  "skill_used": "cooking",
+  "difficulty": 3,
+  "skills_required": [ "tailor", 1 ],
+  "time": 30000,
+  "reversible": false,
+  "autolearn": false,
+  "book_learn": [[ "survival_book", 6 ], [ "scots_cookbook", 3 ]],
+  "batch_time_factors":[50, 4],
+  "qualities":[
+    {"id":"BOIL","level":1,"amount":1},
+    {"id":"COOK","level":3,"amount":1},
+    {"id":"CUT","level":1,"amount":1}
+  ], "tools": [
+    [
+      [ "hotplate", 5 ],
+      [ "toolset", 5 ],
+      [ "char_smoker", 1 ],
+      [ "fire", -1 ]
+    ],
+    [
+      [ "needle_bone", 2 ],
+      [ "needle_wood", 2 ],
+      [ "tailors_kit", 2 ],
+      [ "sewing_kit", 2 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "water", 1 ],
+      [ "water_clean", 1 ]
+    ],
+    [
+      [ "stomach", 1 ]
+    ],
+    [
+      [ "oatmeal", 1 ],
+      [ "buckwheat", 1 ]
+    ],
+    [
+      [ "meat", 1],
+      [ "rehydrated_meat", 1 ],
+      [ "dry_meat", 1 ],
+      [ "meat_canned", 1 ],
+      [ "jerky", 1 ],
+      [ "meat_vac", 1 ],
+      [ "meat_smoked", 1 ]
+    ],
+    [
+      [ "fat", 1 ],
+      [ "tallow", 1 ],
+      [ "lard", 1 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
+  "result": "soup_cullenskink",
+  "category": "CC_FOOD",
+  "subcategory": "CSC_FOOD_MEAT",
+  "skill_used": "cooking",
+  "difficulty": 2,
+  "time": 12000,
+  "reversible": false,
+  "autolearn": false,
+  "book_learn": [[ "family_cookbook", 4 ], [ "scots_cookbook", 2 ]],
+  "batch_time_factors":[50, 4],
+  "qualities":[
+    {"id":"COOK","level":3,"amount":1},
+    {"id":"CUT","level":1,"amount":1}
+  ], "tools": [
+    [
+      [ "hotplate", 5 ],
+      [ "toolset", 5 ],
+      [ "char_smoker", 1 ],
+      [ "fire", -1 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "water", 1 ],
+      [ "water_clean", 1 ]
+    ],
+    [
+      [ "milk", 1 ],
+      [ "con_milk", 1 ],
+      [ "milk_powder", 1 ]
+    ],
+    [
+      [ "dry_fish", 1],
+      [ "salted_fish", 1 ],
+      [ "fish_smoked", 1],
+      [ "fish_pickled", 1 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
+  "result": "cloutie_dumpling",
+  "category": "CC_FOOD",
+  "subcategory": "CSC_FOOD_SNACK",
+  "skill_used": "cooking",
+  "difficulty": 3,
+  "time": 20000,
+  "reversible": false,
+  "autolearn": false,
+  "book_learn": [[ "family_cookbook", 6 ], [ "scots_cookbook", 2 ]],
+  "batch_time_factors":[50, 4],
+  "qualities":[
+    {"id":"BOIL","level":1,"amount":1},
+    {"id":"COOK","level":3,"amount":1}
+  ], "tools": [
+    [
+      [ "hotplate", 5 ],
+      [ "toolset", 5 ],
+      [ "char_smoker", 1 ],
+      [ "fire", -1 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "oatmeal", 1 ],
+      [ "flour", 1 ],
+      [ "buckwheat", 1 ]
+    ],
+    [
+      [ "dry_fruit", 1]
+    ],
+    [
+      [ "fat", 1 ],
+      [ "tallow", 1 ],
+      [ "lard", 1 ]
+    ],
+    [
+      [ "sugar", 1 ],
+      [ "syrup", 1 ],
+      [ "beet_syrup", 1],
+      [ "molasses", 1 ],
+      [ "coffee_syrup", 1 ],
+      [ "honeycomb", 1 ],
+      [ "honey_bottled", 1],
+      [ "honey_glassed", 1]
+    ]
+  ]
 },
 {
   "type" : "recipe",
