@@ -148,6 +148,11 @@
             {
                 "text": "About the... Ooh, Shiny!",
                 "topic": "TALK_DONE"
+            },
+            {
+                "text": "Let's trade.",
+                "effect": "start_trade",
+                "topic": "TALK_DONE"
             }
         ]
     }

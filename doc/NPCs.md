@@ -130,6 +130,7 @@ Format:
     },
     "success": {
         "topic": "TALK_DONE",
+        "effect": "...",
         "opinion": {
             "trust": 0,
             "fear": 0,
@@ -149,10 +150,11 @@ Alternatively a short format:
 ```JSON
 {
     "text": "I, the player, say to you...",
+    "effect": "...",
     "topic": "TALK_WHATEVER"
 }
 ```
-The short format is equivalent to (an unconditional switching of the topic):
+The short format is equivalent to (an unconditional switching of the topic, `effect` is optional):
 ```JSON
 {
     "text": "I, the player, say to you...",
@@ -160,6 +162,7 @@ The short format is equivalent to (an unconditional switching of the topic):
         "type": "NONE"
     },
     "success": {
+        "effect": "...",
         "topic": "TALK_WHATEVER"
     }
 }
@@ -174,7 +177,7 @@ Optional, if not defined, "NONE" is used. Otherwise one of "NONE", "LIE", "PERSU
 The `difficulty` is only required if type is not "NONE" and specifies the success chance in percent (it is however modified by various things like mutations).
 
 ### success and failure
-Both objects have the same structure. `topic` defines which topic the dialogue will switch to. `opinion` is optional, if given it defines how the opinion of the NPC will change. The given values are *added* to the opinion of the NPC, they are all optional and default to 0.
+Both objects have the same structure. `topic` defines which topic the dialogue will switch to. `opinion` is optional, if given it defines how the opinion of the NPC will change. The given values are *added* to the opinion of the NPC, they are all optional and default to 0. `effect` is a function that is executed after choosing the the response, see below.
 
 The `failure` object is used if the trial fails, the `success` object is used otherwise.
 
@@ -192,6 +195,47 @@ The `failure` object is used if the trial fails, the `success` object is used ot
 
 ### condition
 This is an optional condition which can be used to prevent the response under certain circumstances. If not defined, it defaults to always `true`. If the condition is not met, the response is not included in the list of possible responses. For possible content see below.
+
+---
+
+## response effect
+The `effect` function ca be one the following:
+
+### start_trade
+Opens the trade screen and allows trading with the NPC.
+
+### hostile
+Make the NPC hostile and end the conversation.
+
+### flee
+Makes the NPC flee from your character.
+
+### follow
+Makes the NPC follow your character.
+
+### leave
+Makes the NPC not follow your character anymore.
+
+### stop_guard
+Releases the NPC from their guard duty (also see "assign_guard").
+
+### assign_guard
+Makes the NPC into a guard, which will defend the current location.
+
+### end_conversation
+Ends the conversation and makes the NPC ignore you from now on.
+
+### insult_combat
+Ends the conversation and makes the NPC hostile, adds a message that character starts a fight with the NPC.
+
+### drop_weapon
+Make the NPC drop their weapon.
+
+### player_weapon_away
+Makes the player character put away (unwield) their weapon.
+
+### player_weapon_drop
+Makes the player character drop their weapon.
 
 ---
 

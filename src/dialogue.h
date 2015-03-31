@@ -221,6 +221,7 @@ struct talk_response {
         std::string topic = "TALK_NONE";
 
         std::string apply( dialogue &d ) const;
+        void load_effect( JsonObject &jo );
 
         effect_t() = default;
         effect_t( JsonObject );

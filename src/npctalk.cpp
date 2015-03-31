@@ -3681,7 +3681,7 @@ std::string load_inline_topic( JsonObject jo )
 
 talk_response::effect_t::effect_t( JsonObject jo )
 {
-    // TODO: the effect function
+    load_effect( jo );
     if( jo.has_object( "topic" ) ) {
         topic = load_inline_topic( jo.get_object( "topic" ) );
     } else {
@@ -3694,6 +3694,43 @@ talk_response::effect_t::effect_t( JsonObject jo )
     }
 }
 
+void talk_response::effect_t::load_effect( JsonObject &jo )
+{
+    static const std::string member_name( "effect" );
+    if( !jo.has_member( member_name ) ) {
+        return;
+    } else if( jo.has_string( member_name ) ) {
+        const std::string type = jo.get_string( member_name );
+        static const std::unordered_map<std::string, void(*)(npc*)> static_functions_map = { {
+#define WRAP( function ) { #function, &talk_function::function }
+            WRAP( start_trade ),
+            WRAP( hostile ),
+            WRAP( leave ),
+            WRAP( flee ),
+            WRAP( follow ),
+            WRAP( stop_guard ),
+            WRAP( assign_guard ),
+            WRAP( end_conversation ),
+            WRAP( insult_combat ),
+            WRAP( drop_weapon ),
+            WRAP( player_weapon_away ),
+            WRAP( player_weapon_drop )
+#undef WRAP
+        } };
+        const auto iter = static_functions_map.find( type );
+        if( iter != static_functions_map.end() ) {
+            effect = iter->second;
+            return;
+        }
+        // more functions can be added here, they don't need to be in the map above.
+        {
+            jo.throw_error( "unknown effect type", member_name );
+        }
+    } else {
+        jo.throw_error( "invalid effect syntax", member_name );
+    }
+}
+
 talk_response::talk_response( JsonObject jo )
 {
     if( jo.has_member( "trial" ) ) {
@@ -3702,8 +3739,9 @@ talk_response::talk_response( JsonObject jo )
     if( jo.has_member( "success" ) ) {
         success = effect_t( jo.get_object( "success" ) );
     } else if( jo.has_string( "topic" ) ) {
-        // This is for simple topic switching, no effects beside that
+        // This is for simple topic switching without a possible failure
         success.topic = jo.get_string( "topic" );
+        success.load_effect( jo );
     } else if ( jo.has_object( "topic" ) ) {
         success.topic = load_inline_topic( jo.get_object( "topic" ) );
     }
