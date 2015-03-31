@@ -6036,5 +6036,38 @@
         "see_cost" : 5,
         "mondensity" : 2,
         "sidewalk" : true
+    },
+	{
+        "type" : "overmap_terrain",
+        "id" : "hdwr_large_entrance",
+        "name" : "Home Improvment Superstore Entrance",
+        "sym" : 44,
+        "color" : "cyan",
+        "see_cost" : 5,
+        "extras" : "field"
+    },{
+        "type" : "overmap_terrain",
+        "id" : "hdwr_large_SW",
+        "name" : "Home Improvment Superstore",
+        "sym" : 80,
+        "color" : "cyan",
+        "see_cost" : 5,
+        "extras" : "field"
+    },{
+        "type" : "overmap_terrain",
+        "id" : "hdwr_large_NW",
+        "name" : "Home Improvment Superstore",
+        "sym" : 80,
+        "color" : "cyan",
+        "see_cost" : 5,
+        "extras" : "field"
+    },{
+        "type" : "overmap_terrain",
+        "id" : "hdwr_large_NE",
+        "name" : "Home Improvment Superstore",
+        "sym" : 80,
+        "color" : "cyan",
+        "see_cost" : 5,
+        "extras" : "field"
     }
 ]

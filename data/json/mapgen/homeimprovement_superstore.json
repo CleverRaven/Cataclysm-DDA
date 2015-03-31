@@ -1,0 +1,291 @@
+[
+    {
+        "type"  : "item_group",
+        "id"    : "pwr_clothing",
+        "items" : [
+            ["hat_hard",         100],
+            ["boots",            35],
+            ["glasses_safety",   50]
+        ]
+    },
+        {
+        "type"  : "item_group",
+        "id"    : "pwr_tools",
+        "items" : [
+            ["flashlight",       35],
+            ["wrench",           50],
+            ["screwdriver",      35]
+        ]
+    },
+        {
+        "type"  : "item_group",
+        "id"    : "pwr_parts",
+        "items" : [
+            ["cable",            65],
+            ["power_supply",     50],
+            ["amplifier",        50]
+        ]
+    },
+	    {
+        "type"  : "item_group",
+        "id"    : "wood",
+        "items" : [
+            ["2x4",            80],
+            ["power_supply",     50],
+            ["amplifier",        50]
+        ]
+    },
+    {
+        "type" : "mapgen",
+        "om_terrain" : ["hdwr_large_entrance"],
+        "method": "json",
+        "weight": 100,
+        "object": {
+            "rows":[
+            ".|s....................|",
+            ".|t.............rrrrrrr|",
+            ".......................|",
+            ".................ccc...|",
+            ".---.....r|r...........|",
+            ".|CT.....r|r.....ccc...|", 
+            ".|s......r|r...........|",
+            ".|t......r|r.....ccc...|",
+            ".........r|r...........|",
+            ".........r|r.....ccc...|",
+            ".......................|",
+            "...rrrrr.......^..^...&|",
+            "+---------------++------",
+            "..........|.............",
+            "..........|_____________",
+            "________________________",
+            "________________________",
+            "________________________",
+            "________________________",
+            "________________________",
+            "________________________",
+            "..........|_____________",
+            "..........|_____________",
+            "-----------_____________"
+            ],
+            "terrain": {
+            "_": "t_pavement",
+			".": "t_floor",
+            ",": "t_pavement_y",
+			"r": "t_concrete",
+            "-": "t_wall_h",
+            "|": "t_wall_v",
+            "+": "t_door_clear_c",
+            "d": "t_door_locked",
+            "W": "t_window"
+            },
+            "furniture": {
+            "c": "f_counter",
+			"r": "f_rack",
+			"^": "f_indoor_plant",
+			"T": "f_table",
+			"t": "f_toilet",
+			"C": "f_chair",
+			"s": "f_sink"
+            },
+            "place_items": [
+                { "item": "pwr_clothing",   "x": 10, "y": 17, "chance": 18 },
+                { "item": "pwr_parts",      "x": 10, "y": 17, "chance": 12 },
+                
+                { "item": "pwr_clothing",   "x": 8, "y": 17, "chance": 12 },
+                { "item": "pwr_tools",      "x": 8, "y": 17, "chance": 36 },
+                { "item": "pwr_parts",      "x": 8, "y": 17, "chance": 12 },
+                
+                { "item": "pwr_clothing",   "x": 7, "y": 17, "chance": 6 },
+                { "item": "pwr_tools",      "x": 7, "y": 17, "chance": 48 },
+                { "item": "pwr_parts",      "x": 7, "y": 17, "chance": 36 },
+                
+                { "item": "pwr_clothing",   "x": 5, "y": 17, "chance": 12 },
+                { "item": "pwr_tools",      "x": 5, "y": 17, "chance": 24 },
+                { "item": "pwr_parts",      "x": 5, "y": 17, "chance": 12 }
+                ]
+        }
+    },{
+        "type" : "mapgen",
+        "om_terrain" : ["hdwr_large_SW"],
+        "method": "json",
+        "weight": 10,
+        "object": {
+            "rows":[
+            "|rrrrrrr............|s..",
+            "|...................|t..",
+            "|rrrrrrr................",
+            "|.......................",
+            "|...................---.",
+            "|..ccc..............|CT.", 
+            "|...................|s..",
+            "|..ccc..............|t..",
+            "|........|..............",
+            "|..ccc...|.CT.CT........",
+            "|........|$.......|.....",
+            "|..^..^..|.CT.CT.&|.....",
+            "----++-----------------+",
+            "..........|.............",
+            "__________|.............",
+            "________________________",
+            "________________________",
+            "________________________",
+            "________________________",
+            "________________________",
+            "________________________",
+            "__________|.............",
+            "__________|.............",
+            "__________--------------"
+            ],
+            "terrain": {
+            "_": "t_pavement",
+			".": "t_floor",
+            ",": "t_pavement_y",
+			"r": "t_concrete",
+            "-": "t_wall_h",
+            "|": "t_wall_v",
+            "+": "t_door_clear_c",
+            "d": "t_door_locked",
+            "W": "t_window"
+            },
+            "furniture": {
+            "c": "f_counter",
+			"r": "f_rack",
+			"^": "f_indoor_plant",
+			"T": "f_table",
+			"t": "f_toilet",
+			"C": "f_chair",
+			"s": "f_sink",
+			"$": "f_vending_machine"
+            },
+            "place_items": [
+                { "item": "pwr_clothing",   "x": 17, "y": 17, "chance": 24 },
+                { "item": "pwr_parts",      "x": 17, "y": 17, "chance": 12 },
+                
+                { "item": "pwr_clothing",   "x": 18, "y": 17, "chance": 18 },
+                { "item": "pwr_parts",      "x": 18, "y": 17, "chance": 36 },
+                
+                { "item": "pwr_clothing",   "x": 20, "y": 17, "chance": 12 },
+                { "item": "pwr_tools",      "x": 20, "y": 17, "chance": 24 },
+                { "item": "pwr_parts",      "x": 20, "y": 17, "chance": 12 },
+                
+                { "item": "pwr_clothing",   "x": 22, "y": 17, "chance": 12 },
+                { "item": "pwr_tools",      "x": 22, "y": 17, "chance": 24 },
+                { "item": "pwr_parts",      "x": 22, "y": 17, "chance": 12 }
+                ]
+        }
+    },{
+        "type" : "mapgen",
+        "om_terrain" : ["hdwr_large_NW"],
+        "method": "json",
+        "weight": 10,
+        "object": {
+            "rows": [
+            "------------------------",
+            "|....+.+....|r..r..r....",
+            "|s...|.|...s|r..r..r....",
+            "|s..-|.|-..s|r..r..r....",
+            "|s..t|.|t..s|r..r..r....",
+            "|s..-|.|-..s|r..r..r....",
+            "|s..t|.|t..s|r..r..r....",
+            "|-----.------...........",
+            "|.......................",
+            "|.................r|..r|",
+            "|ccccccc^.........r|..r|",
+            "|.................r|..r|",
+            "|ccccccc^.........r|..r|",
+            "|.......................",
+            "|ccccccc^.........r|..r|",
+            "|.................r|..r|",
+            "|ccccccc^.........r|..r|",
+            "|...........rrrrrrr|..r|",
+            "|-------....--------....",   
+            "|rrrrrrr................",
+            "|.......................",
+            "|rrrrrrr................",
+            "|...................---.",
+            "|rrrrrrr............|CT."
+            ],
+            "terrain": {
+            "_": "t_pavement",
+			".": "t_floor",
+            ",": "t_pavement_y",
+			"r": "t_concrete",
+            "-": "t_wall_h",
+            "|": "t_wall_v",
+            "+": "t_door_clear_c",
+            "d": "t_door_locked",
+            "W": "t_window"
+            },
+            "furniture": {
+			"-": "f_null",
+			"|": "f_null",
+			".": "f_null",
+            "c": "f_counter",
+			"r": "f_rack",
+			"^": "f_indoor_plant",
+			"T": "f_table",
+			"t": "f_toilet",
+			"C": "f_chair",
+			"s": "f_sink",
+			"$": "f_vending_c"
+            }
+        }
+    },{
+        "type" : "mapgen",
+        "om_terrain" : ["hdwr_large_NE"],
+        "method": "json",
+        "weight": 10,
+        "object": {
+            "rows": [
+            "------------------------",
+            ".......&|cccccccccccccc|",
+            "..CT....|c.............|",
+            "........|c..cc.....cc..|",
+            "..CT....|c..cc.....cc..|",
+            "........|c.............|",
+            "........|c..cc.....cc..|",
+            "........|c..cc.....cc..|",
+            ".......................|",
+            "r..|r..................|",
+            "r..|r..................|",
+            "r..|r..................|",
+            "r..|r....rr..rr........|",
+            ".........rr..rr........|",
+            "r..|r..................|",
+            "r..|r..................|",
+            "r..|r....rr..rr........|",
+            "r..|rrr..rr..rr........|",
+            "...----................|",
+            ".......................|",
+            ".........rr..rr........|",
+            ".........rr..rr........|",
+            ".|--...................|",
+            ".|CT...................|"
+            ],
+            "terrain": {
+            "_": "t_pavement",
+			".": "t_floor",
+            ",": "t_pavement_y",
+			"r": "t_concrete",
+            "-": "t_wall_h",
+            "|": "t_wall_v",
+            "+": "t_door_clear_c",
+            "d": "t_door_locked",
+            "W": "t_window"
+            },
+            "furniture": {
+			"-": "f_null",
+			"|": "f_null",
+			".": "f_null",
+            "c": "f_counter",
+			"r": "f_rack",
+			"^": "f_indoor_plant",
+			"T": "f_table",
+			"t": "f_toilet",
+			"C": "f_chair",
+			"s": "f_sink",
+			"$": "f_vending_c"
+            }
+        }
+    }
+]
