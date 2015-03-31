@@ -2646,7 +2646,7 @@
         "epower" : 2238,
         "fuel_type" : "plasma",
         "item" : "plasma_engine",
-        "difficulty" : 6,
+        "difficulty" : 8,
         "location" : "engine_block",
         "flags" : ["ENGINE"],
         "breaks_into" : [
@@ -3601,7 +3601,7 @@
         "range" : 12,
         "fuel_type" : "plasma",
         "item" : "plasma_rifle",
-        "difficulty" : 6,
+        "difficulty" : 8,
         "location" : "on_roof",
         "flags" : ["TURRET"],
         "breaks_into" : [
@@ -3620,7 +3620,7 @@
         "range" : 12,
         "fuel_type" : "fusion",
         "item" : "ftk93",
-        "difficulty" : 7,
+        "difficulty" : 8,
         "size" : 10,
         "location" : "on_roof",
         "flags" : ["TURRET", "CARGO"],
@@ -3640,7 +3640,7 @@
         "range" : 12,
         "fuel_type" : "battery",
         "item" : "nx17",
-        "difficulty" : 6,
+        "difficulty" : 8,
         "location" : "on_roof",
         "flags" : ["TURRET"],
         "breaks_into" : [
