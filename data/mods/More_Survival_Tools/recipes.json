@@ -821,6 +821,9 @@
   ["manual_survival", 3]],
   "components": [
     [
+      [ "waterskin", 1 ]
+    ],
+    [
       [ "milk", 5 ]
     ],
     [
@@ -854,7 +857,7 @@
     ],
   "components": [
     [
-      [ "milk_curdled", 1 ]
+      [ "milk_curdled", 6 ]
     ],
     [
       [ "salt_water", 1 ],
