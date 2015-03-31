@@ -90,6 +90,7 @@ void retroactively_fill_from_funnel( item &it, const trap &tr, const calendar &e
                                      const tripoint &location )
 {
     const calendar startturn = calendar( it.bday > 0 ? it.bday - 1 : 0 );
+
     if ( startturn > endturn || !tr.is_funnel() ) {
         return;
     }
@@ -98,7 +99,7 @@ void retroactively_fill_from_funnel( item &it, const trap &tr, const calendar &e
     int acid_amount = 0;
     int rain_turns = 0;
     int acid_turns = 0;
-    for( calendar turn(startturn); turn >= endturn; turn += 10) {
+    for( calendar turn(startturn); turn < endturn; turn += 10) {
         // TODO: Z-level weather
         switch(g->weatherGen.get_weather_conditions(point(location.x, location.y), turn)) {
         case WEATHER_DRIZZLE:
@@ -123,10 +124,17 @@ void retroactively_fill_from_funnel( item &it, const trap &tr, const calendar &e
             break;
         }
     }
-    int rain = rain_turns / tr.funnel_turns_per_charge( rain_amount );
-    int acid = acid_turns / tr.funnel_turns_per_charge( acid_amount );
-    it.add_rain_to_container( false, rain );
-    it.add_rain_to_container( true, acid );
+
+    // Technically 0.0 division is OK, but it will be cleaner without it
+    if( rain_amount > 0 ) {
+        int rain = rain_turns / tr.funnel_turns_per_charge( rain_amount );
+        it.add_rain_to_container( false, rain );
+    }
+
+    if( acid_amount > 0 ) {
+        int acid = acid_turns / tr.funnel_turns_per_charge( acid_amount );
+        it.add_rain_to_container( true, acid );
+    }
 }
 
 /**

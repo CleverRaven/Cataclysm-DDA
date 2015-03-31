@@ -4080,8 +4080,8 @@ std::list<item> map::use_amount( const tripoint &origin, const int range, const 
         tripoint p( origin.x - radius, origin.y - radius, origin.z );
         int &x = p.x;
         int &y = p.y;
-        for( x = p.x; x <= origin.x + radius; x++ ) {
-            for( y = p.y; y <= origin.y + radius; y++ ) {
+        for( x = origin.x - radius; x <= origin.x + radius; x++ ) {
+            for( y = origin.y - radius; y <= origin.y + radius; y++ ) {
                 if( rl_dist( origin, p ) >= radius ) {
                     std::list<item> tmp;
                     tmp = use_amount_square( p , type, quantity, use_container );
@@ -4159,15 +4159,15 @@ std::list<item> map::use_charges(const tripoint &origin, const int range,
         tripoint p( origin.x - radius, origin.y - radius, origin.z );
         int &x = p.x;
         int &y = p.y;
-        for( x = p.x; x <= origin.x + radius; x++ ) {
-            for( y = p.y; y <= origin.y + radius; y++ ) {
+        for( x = origin.x - radius; x <= origin.x + radius; x++ ) {
+            for( y = origin.y - radius; y <= origin.y + radius; y++ ) {
                 if( has_furn( p ) && accessible_furniture( origin, p, range ) ) {
                     use_charges_from_furn( furn_at( p ), type, quantity, this, p, ret );
                     if( quantity <= 0 ) {
                         return ret;
                     }
                 }
-                if( accessible_items( origin, p, range) ) {
+                if( !accessible_items( origin, p, range) ) {
                     continue;
                 }
                 if( rl_dist( origin, p ) >= radius ) {
@@ -5154,7 +5154,7 @@ bool map::clear_path( const tripoint &f, const tripoint &t, const int range,
     }
 
     bres2 = 0;
-    return clear_path( f.x, f.y, t.z, t.y, range, cost_min, cost_max, bres1 );
+    return clear_path( f.x, f.y, t.x, t.y, range, cost_min, cost_max, bres1 );
 }
 
 bool map::clear_path( const tripoint &f, const tripoint &t, const int range,
@@ -5167,8 +5167,8 @@ bool map::clear_path( const tripoint &f, const tripoint &t, const int range,
 
 bool map::accessible_items( const tripoint &f, const tripoint &t, const int range ) const
 {
-    return ( has_flag( "SEALED", t ) && !has_flag( "LIQUIDCONT", t ) ) ||
-           ( f != t && !clear_path( f, t, range, 1, 100 ) );
+    return ( !has_flag( "SEALED", t ) || has_flag( "LIQUIDCONT", t ) ) &&
+           ( f == t || clear_path( f, t, range, 1, 100 ) );
 }
 
 bool map::accessible_furniture( const tripoint &f, const tripoint &t, const int range ) const
@@ -5754,6 +5754,7 @@ void map::fill_funnels( const tripoint &p )
         }
     }
     if( biggest_container != items.end() ) {
+
         retroactively_fill_from_funnel( *biggest_container, tr, calendar::turn, getabs( p ) );
     }
 }

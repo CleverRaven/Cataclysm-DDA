@@ -511,7 +511,7 @@ void inventory::form_from_map( const tripoint &origin, int range, bool assign_in
                     add_item(furn_item);
                 }
             }
-            if(g->m.accessible_items( origin, p, range )) {
+            if( !g->m.accessible_items( origin, p, range ) ) {
                 continue;
             }
             for (auto &i : g->m.i_at(x, y)) {
