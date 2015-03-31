@@ -8,7 +8,8 @@
             ["flute", 25],
             ["clarinet", 25],
             ["saxophone", 25],
-			["harmonica_holder", 25]
+            ["harmonica_holder", 25],
+            ["bagpipes", 5]
         ]
     },{
         "type"  : "item_group",
