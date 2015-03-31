@@ -70,8 +70,6 @@ npc::npc()
 
 npc_map npc::_all_npc;
 
-extern std::string convert_talk_topic( talk_topic_enum );
-
 void npc::load_npc(JsonObject &jsobj)
 {
     npc guy;
@@ -90,8 +88,7 @@ void npc::load_npc(JsonObject &jsobj)
     guy.myclass = npc_class(jsobj.get_int("class"));
     guy.attitude = npc_attitude(jsobj.get_int("attitude"));
     guy.mission = npc_mission(jsobj.get_int("mission"));
-    // TODO: change to string in json
-    guy.chatbin.first_topic = convert_talk_topic( talk_topic_enum(jsobj.get_int("chat")) );
+    guy.chatbin.first_topic = jsobj.get_string( "chat" );
     if (jsobj.has_int("mission_offered")){
         guy.miss_id = jsobj.get_int("mission_offered");
     } else {
