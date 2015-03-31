@@ -71,9 +71,17 @@ public:
         return function( d );
     }
 };
+/**
+ * An extended response. It contains the response itself and a condition, so we can include the
+ * response if, and only if the condition is met.
+ */
 class json_talk_response {
 private:
     talk_response actual_response;
+    std::function<bool(const dialogue &)> condition;
+
+    void load_condition( JsonObject &jo );
+    bool test_condition( const dialogue &d ) const;
 
 public:
     json_talk_response( JsonObject jo );
@@ -1665,11 +1673,6 @@ void dialogue::gen_responses( const std::string &topic )
             add_response( _("Heard anything about the outside world?"), "TALK_EVAC_MERCHANT_WORLD" );
             add_response( _("Is there any way I can join your group?"), "TALK_EVAC_MERCHANT_ASK_JOIN" );
             add_response( _("Can I do anything for the center?"), "TALK_MISSION_LIST" );
-            if( missions_assigned.size() == 1 ) {
-                add_response( _("About that job..."), "TALK_MISSION_INQUIRE" );
-            } else if( missions_assigned.size() >= 2 ) {
-                add_response( _("About one of those jobs..."), "TALK_MISSION_LIST_ASSIGNED" );
-            }
             add_response( _("Let's trade then."), "TALK_EVAC_MERCHANT", &talk_function::start_trade );
             add_response_done( _("Well, bye.") );
 
@@ -1763,11 +1766,6 @@ void dialogue::gen_responses( const std::string &topic )
             add_response( _("So who is everyone around here?"), "TALK_EVAC_GUARD2_WHO" );
             add_response( _("Lets trade!"), "TALK_EVAC_GUARD2_TRADE" );
             add_response( _("Is there anything I can do to help?"), "TALK_MISSION_LIST" );
-            if( missions_assigned.size() == 1) {
-                add_response( _("About that job..."), "TALK_MISSION_INQUIRE" );
-            } else if( missions_assigned.size() >= 2) {
-                add_response( _("About one of those jobs..."), "TALK_MISSION_LIST_ASSIGNED" );
-            }
             add_response_done( _("Thanks! I will be on my way.") );
 
     } else if( topic == "TALK_EVAC_GUARD2_NEW" ) {
@@ -1867,11 +1865,6 @@ void dialogue::gen_responses( const std::string &topic )
             add_response( _("Heard anything about the outside world?"), "TALK_OLD_GUARD_REP_WORLD" );
             add_response( _("Is there any way I can join the 'Old Guard'?"), "TALK_OLD_GUARD_REP_ASK_JOIN" );
             add_response( _("Does the Old Guard need anything?"), "TALK_MISSION_LIST" );
-            if( missions_assigned.size() == 1 ) {
-                add_response( _("About that job..."), "TALK_MISSION_INQUIRE" );
-            } else if( missions_assigned.size() >= 2 ) {
-                add_response( _("About one of those jobs..."), "TALK_MISSION_LIST_ASSIGNED" );
-            }
             add_response_done( _("Well, bye.") );
 
     } else if( topic == "TALK_OLD_GUARD_REP_NEW" ) {
@@ -1953,11 +1946,6 @@ void dialogue::gen_responses( const std::string &topic )
             add_response( _("Is there any way I can join your group?"), "TALK_ARSONIST_JOIN" );
             add_response( _("What's with your ears?"), "TALK_ARSONIST_MUTATION" );
             add_response( _("Anything I can help with?"), "TALK_MISSION_LIST" );
-            if( missions_assigned.size() == 1 ) {
-                add_response( _("About that job..."), "TALK_MISSION_INQUIRE" );
-            } else if( missions_assigned.size() >= 2 ) {
-                add_response( _("About one of those jobs..."), "TALK_MISSION_LIST_ASSIGNED" );
-            }
             add_response_done( _("Well, bye.") );
 
     } else if( topic == "TALK_ARSONIST_NEW" ) {
@@ -2089,11 +2077,6 @@ void dialogue::gen_responses( const std::string &topic )
                 add_response( _("Want to travel with me?"), "TALK_SUGGEST_FOLLOW" );
             }
             add_response( _("Let's trade items."), "TALK_NONE", &talk_function::start_trade );
-            if( missions_assigned.size() == 1 ) {
-                add_response( _("About that job..."), "TALK_MISSION_INQUIRE" );
-            } else if( missions_assigned.size() >= 2 ) {
-                add_response( _("About one of those jobs..."), "TALK_MISSION_LIST_ASSIGNED" );
-            }
             add_response( _("I can't leave the shelter without equipment..."), "TALK_SHARE_EQUIPMENT" );
             add_response_done( _("Well, bye.") );
 
@@ -3739,11 +3722,46 @@ talk_response::talk_response( JsonObject jo )
 json_talk_response::json_talk_response( JsonObject jo )
 : actual_response( jo )
 {
+    load_condition( jo );
+}
+
+void json_talk_response::load_condition( JsonObject &jo )
+{
+    static const std::string member_name( "condition" );
+    if( !jo.has_member( member_name ) ) {
+        // Leave condition unset, defaults to true.
+        return;
+    } else if( jo.has_string( member_name ) ) {
+        const std::string type = jo.get_string( member_name );
+        if( type == "has_assigned_mission" ) {
+            condition = []( const dialogue &d ) {
+                return d.missions_assigned.size() == 1;
+            };
+        } else if( type == "has_many_assigned_missions" ) {
+            condition = []( const dialogue &d ) {
+                return d.missions_assigned.size() >= 2;
+            };
+        } else {
+            jo.throw_error( "unknown condition type", member_name );
+        }
+    } else {
+        jo.throw_error( "invalid condition syntax", member_name );
+    }
+}
+
+bool json_talk_response::test_condition( const dialogue &d ) const
+{
+    if( condition ) {
+        return condition( d );
+    }
+    return true;
 }
 
 void json_talk_response::gen_responses( dialogue &d ) const
 {
-    d.responses.emplace_back( actual_response );
+    if( test_condition( d ) ) {
+        d.responses.emplace_back( actual_response );
+    }
 }
 
 dynamic_line_t dynamic_line_t::from_member( JsonObject &jo, const std::string &member_name )

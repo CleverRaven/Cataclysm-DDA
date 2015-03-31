@@ -123,6 +123,7 @@ Format:
 ```JSON
 {
     "text": "I, the player, say to you...",
+    "condition": "...something...",
     "trial": {
         "type": "PERSUADE",
         "difficulty": 10
@@ -188,5 +189,19 @@ The `failure` object is used if the trial fails, the `success` object is used ot
     }
 }
 ```
+
+### condition
+This is an optional condition which can be used to prevent the response under certain circumstances. If not defined, it defaults to always `true`. If the condition is not met, the response is not included in the list of possible responses. For possible content see below.
+
+---
+
+## response conditions
+Conditions can be a simple string.
+
+### "has_assigned_mission"
+`true` if the player character has exactly one mission from the NPC. Can be used for texts like "About that job..."
+
+### "has_many_assigned_missions"
+`true` if the player character has several mission from the NPC (more than one). Can be used for texts like "About one of those jobs..." and to switch to the "TALK_MISSION_LIST_ASSIGNED" topic.
 
 
