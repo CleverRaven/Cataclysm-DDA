@@ -104,7 +104,7 @@ The dynamic line is chosen based on the gender of the player character, both ent
 ```
 
 ### Based on items worn by the player character
-The dynamic line is chosen based on the gender of the player character, both entries are optional, but you should make sure the NPC says something all the time. Both entries are parsed as dynamic_line. `u` is the player character. The `u_is_wearing` string should be a valid item id.
+The dynamic line is chosen based on whether the player character wears a specific item, both entries are optional, but you should make sure the NPC says something all the time. Both entries are parsed as `dynamic_line`. `u` is the player character. The `u_is_wearing` string should be a valid item id. The line from `yes` will be shown if the character wears the item, otherwise the line from `no`.
 
 ```JSON
 {
@@ -178,6 +178,15 @@ The `difficulty` is only required if type is not "NONE" and specifies the succes
 
 ### success and failure
 Both objects have the same structure. `topic` defines which topic the dialogue will switch to. `opinion` is optional, if given it defines how the opinion of the NPC will change. The given values are *added* to the opinion of the NPC, they are all optional and default to 0. `effect` is a function that is executed after choosing the the response, see below.
+
+The opinion of the NPC affects several aspects of the interaction with NPCs:
+- Higher trust makes it easier to lie and persuade, and it usually a good thing.
+- Higher fear makes it easier to intimidate, but the NPC may flee from you (and will not talk to you).
+- Higher value makes it easier to persuade them and to give them orders, it's a kind of a friendship indicator.
+- High anger value (about 20 points more than fear, but this also depends on the NPCs personality) makes the NPC hostile and is usually a bad thing.
+The combination of fear and trust decide together with the personality of the NPC the initial talk topic ("TALK_MUG", "TALK_STRANGER_AGGRESSIVE", "TALK_STRANGER_SCARED", "TALK_STRANGER_WARY", "TALK_STRANGER_FRIENDLY" or "TALK_STRANGER_NEUTRAL").
+
+For the actual usage of that data, search the source code for "op_of_u".
 
 The `failure` object is used if the trial fails, the `success` object is used otherwise.
 
