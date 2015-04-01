@@ -721,7 +721,7 @@ void clColors::show_gui()
                 ui_templates.addentry(std::string(_("Cancel")));
                 ui_templates.query();
 
-                if ( (size_t)ui_templates.ret < mapColorsOrdered.size() ) {
+                if ( (size_t)ui_templates.ret < vFiles.size() ) {
                     bStuffChanged = true;
 
                     auto mapColorsTemp = mapColors;
@@ -767,7 +767,7 @@ void clColors::show_gui()
                 }
 
                 if ( !iter.second.sCustom.empty() ) {
-                    sCustom = " <color_" + iter.second.sCustom + ">" +iter.second.sCustom + "</color>";
+                    sCustom = " <color_" + iter.second.sCustom + ">" + iter.second.sCustom + "</color>";
                 }
 
                 ui_colors.addentry(string_format( "%-17s <color_%s>%s</color>%s", iter.first.c_str(), sColor.c_str(), sType.c_str(), sCustom.c_str() ) );
