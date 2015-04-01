@@ -182,6 +182,8 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         /** Displays indicator informing which turrets can fire at `targ`.**/
         int draw_turret_aim( WINDOW *w, int line_number, const point &targ ) const;
 
+        /** Print the player's stamina bar. **/
+        void print_stamina_bar( WINDOW *w ) const;
         /** Generates the sidebar and it's data in-game */
         void disp_status(WINDOW *w, WINDOW *w2);
 
@@ -341,6 +343,7 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         Attitude attitude_to( const Creature &other ) const override;
 
         void pause(); // '.' command; pauses & reduces recoil
+        void toggle_move_mode(); // Toggles to the next move mode.
 
         // martialarts.cpp
         /** Fires all non-triggered martial arts events */
@@ -942,11 +945,13 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
 
         int next_climate_control_check;
         bool last_climate_control_ret;
+        std::string move_mode;
         int power_level, max_power_level;
         int hunger, thirst, fatigue;
         int stomach_food, stomach_water;
         int tank_plut, reactor_plut, slow_rad;
         int oxygen;
+        int stamina;
         int recoil;
         int driving_recoil;
         int scent;
@@ -1024,6 +1029,8 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         m_size get_size() const override;
         int get_hp( hp_part bp ) const override;
         int get_hp_max( hp_part bp ) const override;
+        int get_stamina_max() const;
+        void burn_move_stamina( int moves );
 
         field_id playerBloodType() const;
 
