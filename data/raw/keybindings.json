@@ -2224,11 +2224,11 @@
         "bindings":[
             {
                 "input_method":"keyboard",
-                "key":"l"
+                "key":"t"
             },
             {
                 "input_method":"keyboard",
-                "key":"L"
+                "key":"T"
             }
         ]
     }

@@ -53,16 +53,6 @@ nc_color clColors::get_invert(const nc_color color)
 
     auto &entry = iter->second;
 
-    if ( OPTIONS["NO_BRIGHT_BACKGROUNDS"] ) {
-        if ( !entry.sNoBrightCustom.empty() ) {
-            return get(entry.sNoBrightCustom);
-        }
-
-        if ( !entry.sNoBright.empty() ) {
-            return get(entry.sNoBright);
-        }
-    }
-
     if ( !entry.sInvertCustom.empty() ) {
         return get(entry.sInvertCustom);
     }
@@ -88,9 +78,9 @@ nc_color clColors::get_random()
     return item->second.color;
 }
 
-void clColors::add_color(const std::string &sName, const nc_color color, const std::string &sInvert, const std::string &sNoBright)
+void clColors::add_color(const std::string &sName, const nc_color color, const std::string &sInvert)
 {
-    mapColors[sName] = {color, "", sInvert, "", sNoBright, ""};
+    mapColors[sName] = {color, "", sInvert, ""};
 }
 
 nc_color clColors::get_highlight(const nc_color color, const std::string &bgColor)
@@ -128,23 +118,23 @@ nc_color clColors::get_highlight(const nc_color color, const std::string &bgColo
 
 void clColors::load_default()
 {
-    //        Color Name             Color Pair                  Invert Name            Invert No bright BG
+    //        Color Name             Color Pair                  Invert Name
     add_color("c_black",             COLOR_PAIR(30),             "i_black");
-    add_color("c_white",             COLOR_PAIR(1) | A_BOLD,     "i_white",             "i_ltgray");
+    add_color("c_white",             COLOR_PAIR(1) | A_BOLD,     "i_white");
     add_color("c_ltgray",            COLOR_PAIR(1),              "i_ltgray");
-    add_color("c_dkgray",            COLOR_PAIR(30) | A_BOLD,    "i_dkgray",            "i_ltgray");
+    add_color("c_dkgray",            COLOR_PAIR(30) | A_BOLD,    "i_dkgray");
     add_color("c_red",               COLOR_PAIR(2),              "i_red");
     add_color("c_green",             COLOR_PAIR(3),              "i_green");
     add_color("c_blue",              COLOR_PAIR(4),              "i_blue");
     add_color("c_cyan",              COLOR_PAIR(5),              "i_cyan");
     add_color("c_magenta",           COLOR_PAIR(6),              "i_magenta");
     add_color("c_brown",             COLOR_PAIR(7),              "i_brown");
-    add_color("c_ltred",             COLOR_PAIR(2) | A_BOLD,     "i_ltred",             "i_red");
-    add_color("c_ltgreen",           COLOR_PAIR(3) | A_BOLD,     "i_ltgreen",           "i_green");
-    add_color("c_ltblue",            COLOR_PAIR(4) | A_BOLD,     "i_ltblue",            "i_blue");
-    add_color("c_ltcyan",            COLOR_PAIR(5) | A_BOLD,     "i_ltcyan",            "i_cyan");
-    add_color("c_pink",              COLOR_PAIR(6) | A_BOLD,     "i_pink",              "i_magenta");
-    add_color("c_yellow",            COLOR_PAIR(7) | A_BOLD,     "i_yellow",            "i_brown");
+    add_color("c_ltred",             COLOR_PAIR(2) | A_BOLD,     "i_ltred");
+    add_color("c_ltgreen",           COLOR_PAIR(3) | A_BOLD,     "i_ltgreen");
+    add_color("c_ltblue",            COLOR_PAIR(4) | A_BOLD,     "i_ltblue");
+    add_color("c_ltcyan",            COLOR_PAIR(5) | A_BOLD,     "i_ltcyan");
+    add_color("c_pink",              COLOR_PAIR(6) | A_BOLD,     "i_pink");
+    add_color("c_yellow",            COLOR_PAIR(7) | A_BOLD,     "i_yellow");
 
     add_color("h_black",             COLOR_PAIR(20),             "c_blue");
     add_color("h_white",             COLOR_PAIR(15) | A_BOLD,    "c_ltblue_white");
@@ -165,7 +155,7 @@ void clColors::load_default()
 
     add_color("i_black",             COLOR_PAIR(32),             "c_black");
     add_color("i_white",             COLOR_PAIR(8) | A_BLINK,    "c_white");
-    add_color("i_ltgray",            COLOR_PAIR(8),              "c_ltgray",            "c_white");
+    add_color("i_ltgray",            COLOR_PAIR(8),              "c_ltgray");
     add_color("i_dkgray",            COLOR_PAIR(32) | A_BLINK,   "c_dkgray");
     add_color("i_red",               COLOR_PAIR(9),              "c_red");
     add_color("i_green",             COLOR_PAIR(10),             "c_green");
@@ -560,8 +550,7 @@ void clColors::show_gui()
 
     std::vector<int> vLines;
     vLines.push_back(-1);
-    vLines.push_back(37);
-    vLines.push_back(57);
+    vLines.push_back(48);
 
     const int iTotalCols = vLines.size();
 
@@ -600,15 +589,14 @@ void clColors::show_gui()
     int tmpx = 0;
     tmpx += shortcut_print(w_colors_header, 0, tmpx, c_white, c_ltgreen, _("<R>emove custom color")) + 2;
     tmpx += shortcut_print(w_colors_header, 0, tmpx, c_white, c_ltgreen, _("<Arrow Keys> To navigate")) + 2;
-    tmpx += shortcut_print(w_colors_header, 0, tmpx, c_white, c_ltgreen, _("<Enter>-Edit"));
-    shortcut_print(w_colors_header, 0, tmpx, c_white, c_ltgreen, _("<L>-oad Template"));
+    tmpx += shortcut_print(w_colors_header, 0, tmpx, c_white, c_ltgreen, _("<Enter>-Edit")) + 2;
+    shortcut_print(w_colors_header, 0, tmpx, c_white, c_ltgreen, _("Load <T>emplate"));
 
     mvwprintz(w_colors_header, 1, 0, c_white, _("Some color changes may require a restart."));
 
     mvwprintz(w_colors_header, 3, 3, c_white, _("Colorname"));
     mvwprintz(w_colors_header, 3, 21, c_white, _("Normal"));
-    mvwprintz(w_colors_header, 3, 41, c_white, _("Invert"));
-    mvwprintz(w_colors_header, 3, 61, c_white, _("NoBright"));
+    mvwprintz(w_colors_header, 3, 52, c_white, _("Invert"));
 
     wrefresh(w_colors_header);
 
@@ -665,21 +653,13 @@ void clColors::show_gui()
                 mvwprintz(w_colors, i - iStartPos, 21, entry.color, _("default")); //default color
 
                 if ( !entry.sCustom.empty() ) {
-                    mvwprintz(w_colors, i - iStartPos, 30, mapColorsOrdered[entry.sCustom].color, _("custom")); //custom color
+                    mvwprintz(w_colors, i - iStartPos, 30, mapColorsOrdered[entry.sCustom].color, entry.sCustom.c_str()); //custom color
                 }
 
-                mvwprintz(w_colors, i - iStartPos, 41, mapColorsOrdered[entry.sInvert].color, _("default")); //invert default color
+                mvwprintz(w_colors, i - iStartPos, 52, mapColorsOrdered[entry.sInvert].color, _("default")); //invert default color
 
                 if ( !entry.sInvertCustom.empty() ) {
-                    mvwprintz(w_colors, i - iStartPos, 50, mapColorsOrdered[entry.sInvertCustom].color, _("custom")); //invert custom color
-                }
-
-                if ( !entry.sNoBright.empty() ) {
-                    mvwprintz(w_colors, i - iStartPos, 61, mapColorsOrdered[entry.sNoBright].color, _("default")); //nobright default color
-                }
-
-                if ( !entry.sNoBrightCustom.empty() ) {
-                    mvwprintz(w_colors, i - iStartPos, 70, mapColorsOrdered[entry.sNoBrightCustom].color, _("custom")); //nobright custom color
+                    mvwprintz(w_colors, i - iStartPos, 61, mapColorsOrdered[entry.sInvertCustom].color, entry.sInvertCustom.c_str()); //invert custom color
                 }
             }
         }
@@ -721,9 +701,6 @@ void clColors::show_gui()
                 bStuffChanged = true;
                 entry.sInvertCustom = "";
 
-            } else if ( iCurrentCol == 3 && !entry.sNoBrightCustom.empty() ) {
-                bStuffChanged = true;
-                entry.sNoBrightCustom = "";
             }
 
         } else if (action == "LOAD_TEMPLATE") {
@@ -738,19 +715,21 @@ void clColors::show_gui()
                 ui_templates.text = _("Color templates:");
 
                 for ( const auto& filename : vFiles ) {
-                    ui_templates.addentry( filename );
+                    ui_templates.addentry( filename.substr(filename.find_last_of("/") + 1) );
                 }
 
                 ui_templates.addentry(std::string(_("Cancel")));
                 ui_templates.query();
 
                 if ( (size_t)ui_templates.ret < mapColorsOrdered.size() ) {
+                    bStuffChanged = true;
+
                     auto mapColorsTemp = mapColors;
 
                     mapColors.clear();
                     load_default();
 
-                    //load_custom(vFiles[ui_templates.ret]);
+                    load_custom(vFiles[ui_templates.ret]);
 
                     mapColorsOrdered.clear();
                     std::map<std::string, stColors> mapColorsOrderedTemp(mapColors.begin(), mapColors.end());
@@ -772,9 +751,6 @@ void clColors::show_gui()
                 sColorType = _("Invert");
                 sSelected = mapColorsOrdered[sActive].sInvertCustom;
 
-            } else if ( iCurrentCol == 3 ) {
-                sColorType = _("NoBright");
-                sSelected = mapColorsOrdered[sActive].sNoBrightCustom;
             }
 
             ui_colors.text = string_format( _("Custom %s color:"), sColorType.c_str() );
@@ -791,7 +767,7 @@ void clColors::show_gui()
                 }
 
                 if ( !iter.second.sCustom.empty() ) {
-                    sCustom = " <color_" + iter.second.sCustom + ">" + _("custom") + "</color>";
+                    sCustom = " <color_" + iter.second.sCustom + ">" +iter.second.sCustom + "</color>";
                 }
 
                 ui_colors.addentry(string_format( "%-17s <color_%s>%s</color>%s", iter.first.c_str(), sColor.c_str(), sType.c_str(), sCustom.c_str() ) );
@@ -816,8 +792,6 @@ void clColors::show_gui()
                 } else if ( iCurrentCol == 2 ) {
                     entry.sInvertCustom = iter->first;
 
-                } else if ( iCurrentCol == 3 ) {
-                    entry.sNoBrightCustom = iter->first;
                 }
             }
         }
@@ -886,13 +860,12 @@ void clColors::serialize(JsonOut &json) const
     for( auto &iter : mapColors ) {
         auto &entry = iter.second;
 
-        if ( !entry.sCustom.empty() || !entry.sInvertCustom.empty() || !entry.sNoBrightCustom.empty()) {
+        if ( !entry.sCustom.empty() || !entry.sInvertCustom.empty()) {
             json.start_object();
 
             json.member( "name", iter.first );
             json.member( "custom", entry.sCustom );
             json.member( "invertcustom", entry.sInvertCustom );
-            json.member( "nobrightcustom", entry.sNoBrightCustom );
 
             json.end_object();
         }
@@ -910,7 +883,6 @@ void clColors::deserialize(JsonIn &jsin)
         const std::string sName = joColors.get_string("name");
         const std::string sCustom = joColors.get_string("custom");
         const std::string sInvertCustom = joColors.get_string("invertcustom");
-        const std::string sNoBrightCustom = joColors.get_string("nobrightcustom");
 
         auto iter = mapColors.find( sName );
 
@@ -926,10 +898,6 @@ void clColors::deserialize(JsonIn &jsin)
 
         if ( !sInvertCustom.empty() ) {
             entry.sInvertCustom = sInvertCustom;
-        }
-
-        if ( !sNoBrightCustom.empty() ) {
-            entry.sNoBrightCustom = sNoBrightCustom;
         }
     }
 }
