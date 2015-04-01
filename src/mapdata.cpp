@@ -4,6 +4,7 @@
 #include "game_constants.h"
 #include "debug.h"
 #include <ostream>
+#include <unordered_map>
 #include <memory>
 
 std::vector<ter_t> terlist;
@@ -11,8 +12,6 @@ std::map<std::string, ter_t> termap;
 
 std::vector<furn_t> furnlist;
 std::map<std::string, furn_t> furnmap;
-
-std::map<std::string, ter_bitflags> ter_bitflags_map;
 
 std::ostream & operator<<(std::ostream & out, const submap * sm)
 {
@@ -57,34 +56,31 @@ std::ostream & operator<<(std::ostream & out, const submap & sm)
  return out;
 }
 
-/*
- * Initialize static mapping of heavily used string flags to bitflags for load_(terrain|furniture)
- */
-void init_ter_bitflags_map() {
-    ter_bitflags_map["DESTROY_ITEM"]            = TFLAG_DESTROY_ITEM;   // add/spawn_item*()
-    ter_bitflags_map["ROUGH"]                   = TFLAG_ROUGH;          // monmove
-    ter_bitflags_map["UNSTABLE"]                = TFLAG_UNSTABLE;       // monmove
-    ter_bitflags_map["LIQUID"]                  = TFLAG_LIQUID;         // *move(), add/spawn_item*()
-    ter_bitflags_map["FIRE_CONTAINER"]          = TFLAG_FIRE_CONTAINER; // fire
-    ter_bitflags_map["DIGGABLE"]                = TFLAG_DIGGABLE;       // monmove
-    ter_bitflags_map["SUPPRESS_SMOKE"]          = TFLAG_SUPPRESS_SMOKE; // fire
-    ter_bitflags_map["FLAMMABLE_HARD"]          = TFLAG_FLAMMABLE_HARD; // fire
-    ter_bitflags_map["COLLAPSES"]               = TFLAG_COLLAPSES;      // building "remodeling"
-    ter_bitflags_map["FLAMMABLE"]               = TFLAG_FLAMMABLE;      // fire bad! fire SLOW!
-    ter_bitflags_map["REDUCE_SCENT"]            = TFLAG_REDUCE_SCENT;   // ...and the other half is update_scent
-    ter_bitflags_map["INDOORS"]                 = TFLAG_INDOORS;        // vehicle gain_moves, weather
-    ter_bitflags_map["SHARP"]                   = TFLAG_SHARP;          // monmove
-    ter_bitflags_map["SUPPORTS_ROOF"]           = TFLAG_SUPPORTS_ROOF;  // and by building "remodeling" I mean hulkSMASH
-    ter_bitflags_map["SWIMMABLE"]               = TFLAG_SWIMMABLE;      // monmove
-    ter_bitflags_map["TRANSPARENT"]             = TFLAG_TRANSPARENT;    // map::trans / lightmap
-    ter_bitflags_map["NOITEM"]                  = TFLAG_NOITEM;         // add/spawn_item*()
-    ter_bitflags_map["FLAMMABLE_ASH"]           = TFLAG_FLAMMABLE_ASH;  // oh hey fire. again.
-    ter_bitflags_map["PLANT"]                   = TFLAG_PLANT;          // full map iteration
-    ter_bitflags_map["WALL"]                    = TFLAG_WALL;           // smells
-    ter_bitflags_map["DEEP_WATER"]              = TFLAG_DEEP_WATER;     // Deep enough to submerge things
-    ter_bitflags_map["HARVESTED"]               = TFLAG_HARVESTED;      // harvested.  will not bear fruit.
-    ter_bitflags_map["PERMEABLE"]               = TFLAG_PERMEABLE;      // gases can flow through.
-}
+static const std::unordered_map<std::string, ter_bitflags> ter_bitflags_map = { {
+    { "DESTROY_ITEM",             TFLAG_DESTROY_ITEM },   // add/spawn_item*()
+    { "ROUGH",                    TFLAG_ROUGH },          // monmove
+    { "UNSTABLE",                 TFLAG_UNSTABLE },       // monmove
+    { "LIQUID",                   TFLAG_LIQUID },         // *move(), add/spawn_item*()
+    { "FIRE_CONTAINER",           TFLAG_FIRE_CONTAINER }, // fire
+    { "DIGGABLE",                 TFLAG_DIGGABLE },       // monmove
+    { "SUPPRESS_SMOKE",           TFLAG_SUPPRESS_SMOKE }, // fire
+    { "FLAMMABLE_HARD",           TFLAG_FLAMMABLE_HARD }, // fire
+    { "COLLAPSES",                TFLAG_COLLAPSES },      // building "remodeling"
+    { "FLAMMABLE",                TFLAG_FLAMMABLE },      // fire bad! fire SLOW!
+    { "REDUCE_SCENT",             TFLAG_REDUCE_SCENT },   // ...and the other half is update_scent
+    { "INDOORS",                  TFLAG_INDOORS },        // vehicle gain_moves, weather
+    { "SHARP",                    TFLAG_SHARP },          // monmove
+    { "SUPPORTS_ROOF",            TFLAG_SUPPORTS_ROOF },  // and by building "remodeling" I mean hulkSMASH
+    { "SWIMMABLE",                TFLAG_SWIMMABLE },      // monmove
+    { "TRANSPARENT",              TFLAG_TRANSPARENT },    // map::trans / lightmap
+    { "NOITEM",                   TFLAG_NOITEM },         // add/spawn_item*()
+    { "FLAMMABLE_ASH",            TFLAG_FLAMMABLE_ASH },  // oh hey fire. again.
+    { "PLANT",                    TFLAG_PLANT },          // full map iteration
+    { "WALL",                     TFLAG_WALL },           // smells
+    { "DEEP_WATER",               TFLAG_DEEP_WATER },     // Deep enough to submerge things
+    { "HARVESTED",                TFLAG_HARVESTED },      // harvested.  will not bear fruit.
+    { "PERMEABLE",                TFLAG_PERMEABLE },      // gases can flow through.
+} };
 
 void load_map_bash_item_drop_list(JsonArray ja, std::vector<map_bash_item_drop> &items) {
     while ( ja.has_more() ) {
@@ -158,7 +154,6 @@ furn_t null_furniture_t() {
   new_furniture.movecost = 0;
   new_furniture.move_str_req = -1;
   new_furniture.transparent = true;
-  new_furniture.bitflags = 0;
   new_furniture.set_flag("TRANSPARENT");
   new_furniture.examine = iexamine_function_from_string("none");
   new_furniture.loadid = 0;
@@ -178,7 +173,6 @@ ter_t null_terrain_t() {
   new_terrain.trap = tr_null;
   new_terrain.trap_id_str = "";
   new_terrain.transparent = true;
-  new_terrain.bitflags = 0;
   new_terrain.set_flag("TRANSPARENT");
   new_terrain.set_flag("DIGGABLE");
   new_terrain.examine = iexamine_function_from_string("none");
@@ -227,11 +221,9 @@ void load_furniture(JsonObject &jsobj)
   new_furniture.crafting_pseudo_item = jsobj.get_string("crafting_pseudo_item", "");
 
   new_furniture.transparent = false;
-  new_furniture.bitflags = 0;
-  JsonArray flags = jsobj.get_array("flags");
-  while(flags.has_more()) {
-    new_furniture.set_flag(flags.next_string());
-  }
+    for( auto & flag : jsobj.get_string_array( "flags" ) ) {
+        new_furniture.set_flag( flag );
+    }
 
   if(jsobj.has_member("examine_action")) {
     std::string function_name = jsobj.get_string("examine_action");
@@ -295,11 +287,9 @@ void load_terrain(JsonObject &jsobj)
   new_terrain.max_volume = jsobj.get_int("max_volume", MAX_VOLUME_IN_SQUARE);
 
   new_terrain.transparent = false;
-  new_terrain.bitflags = 0;
-  JsonArray flags = jsobj.get_array("flags");
-  while(flags.has_more()) {
-    new_terrain.set_flag(flags.next_string());
-  }
+    for( auto & flag : jsobj.get_string_array( "flags" ) ) {
+        new_terrain.set_flag( flag );
+    }
 
   if(jsobj.has_member("examine_action")) {
     std::string function_name = jsobj.get_string("examine_action");
@@ -384,6 +374,19 @@ ter_id terfind(const std::string & id) {
     }
     debugmsg( "can't find terrain %s", id.c_str() );
     return t_null;
+}
+
+void map_data_common_t::set_flag( const std::string &flag )
+{
+    flags.insert( flag );
+
+    auto const it = ter_bitflags_map.find( flag );
+    if( it != ter_bitflags_map.end() ) {
+        bitflags.set( it->second );
+        if( !transparent && it->second == TFLAG_TRANSPARENT ) {
+            transparent = true;
+        }
+    }
 }
 
 ter_id t_null,

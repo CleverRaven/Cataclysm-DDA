@@ -16,6 +16,7 @@
 #include "rng.h"
 
 #include <iosfwd>
+#include <bitset>
 #include <unordered_set>
 #include <vector>
 #include <list>
@@ -140,7 +141,6 @@ struct map_deconstruct_info {
  * Order does not matter.
  */
 enum ter_bitflags {
-    TFLAG_NONE,
     TFLAG_TRANSPARENT,
     TFLAG_FLAMMABLE,
     TFLAG_REDUCE_SCENT,
@@ -165,10 +165,10 @@ enum ter_bitflags {
     TFLAG_WALL,
     TFLAG_DEEP_WATER,
     TFLAG_HARVESTED,
-    TFLAG_PERMEABLE
+    TFLAG_PERMEABLE,
+
+    NUM_TERFLAGS
 };
-extern std::map<std::string, ter_bitflags> ter_bitflags_map;
-void init_ter_bitflags_map();
 
 typedef int ter_id;
 typedef int furn_id;
@@ -182,8 +182,10 @@ struct map_data_common_t {
     map_bash_info        bash;
     map_deconstruct_info deconstruct;
 
+private:
     std::set<std::string> flags;    // string flags which possibly refer to what's documented above.
-    unsigned long         bitflags; // bitfield of -certian- string flags which are heavily checked
+    std::bitset<NUM_TERFLAGS> bitflags; // bitfield of -certian- string flags which are heavily checked
+public:
 
     /*
     * The symbol drawn on the screen for the terrain. Please note that there are extensive rules
@@ -203,25 +205,14 @@ struct map_data_common_t {
     bool transparent;
 
     bool has_flag(const std::string & flag) const {
-        return !!flags.count(flag);
+        return flags.count(flag) > 0;
     }
 
     bool has_flag(const ter_bitflags flag) const {
-        return (bitflags & mfb(flag));
+        return bitflags.test( flag );
     }
 
-    void set_flag(std::string flag) {
-        flags.insert( flag );
-
-        if(!transparent && "TRANSPARENT" == flag) {
-            transparent = true;
-        }
-
-        auto const it = ter_bitflags_map.find(flag);
-        if (it != std::end(ter_bitflags_map)) {
-            bitflags |= mfb(it->second);
-        }
-    }
+    void set_flag( const std::string &flag );
 };
 
 /*
