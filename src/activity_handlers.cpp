@@ -786,6 +786,8 @@ void activity_handlers::pulp_do_turn( player_activity *act, player *p )
         field_id type_blood = corpse->get_mtype()->bloodType();
         do {
             moves += move_cost;
+            const int mod_sta = ( (p->weapon.weight() / 100 ) + 20) * -1;
+            p->mod_stat("stamina", mod_sta);
             // Increase damage as we keep smashing,
             // to insure that we eventually smash the target.
             if( x_in_y(pulp_power, corpse->volume())  ) {

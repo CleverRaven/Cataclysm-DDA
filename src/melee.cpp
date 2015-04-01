@@ -431,6 +431,12 @@ void player::melee_attack(Creature &t, bool allow_special, matec_id force_techni
         t.check_dead_state();
     }
 
+    int mod_sta = ( (weapon.weight() / 100 ) + 20) * -1;
+    mod_stat("stamina", mod_sta);
+    int sta_percent = (100 * stamina) / get_stamina_max();
+    int mod_mc = ( (sta_percent < 25) ? ((25 - sta_percent) * 2) : 0 );
+    move_cost += mod_mc;
+
     mod_moves(-move_cost);
 
     ma_onattack_effects(); // trigger martial arts on-attack effects
