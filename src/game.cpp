@@ -425,7 +425,7 @@ void game::init_ui()
         hpY = MINIMAP_HEIGHT;
         // under the minimap, but down to the same line as w_location (which is under w_messages)
         // so it erases the space between w_terrain and (w_messages and w_location)
-        hpH = messH - MINIMAP_HEIGHT + 1;
+        hpH = messH - MINIMAP_HEIGHT + 3;
         hpW = 7;
         locX = MINIMAP_WIDTH;
         locY = messY + messH;
@@ -4930,7 +4930,7 @@ void game::draw_HP()
     int hpx = wide ? 7 : 0;
     int hpy = wide ? 0 : 1;
     int dy = wide ? 1 : 2;
-    
+
     bool const is_self_aware = u.has_trait("SELFAWARE");
 
     for (int i = 0; i < num_hp_parts; i++) {
@@ -4952,7 +4952,8 @@ void game::draw_HP()
     }
 
     static const char *body_parts[] = { _("HEAD"), _("TORSO"), _("L ARM"),
-                                        _("R ARM"), _("L LEG"), _("R LEG"), _("POWER")
+                                        _("R ARM"), _("L LEG"), _("R LEG"),
+                                        _("POWER")
                                       };
     static body_part part[] = { bp_head, bp_torso, bp_arm_l,
                                 bp_arm_r, bp_leg_l, bp_leg_r, num_bp
@@ -4991,6 +4992,11 @@ void game::draw_HP()
             color = c_yellow;
         }
         mvwprintz(w_HP, powy, powx, color, "%-3d", u.power_level);
+    }
+    if( !wide ) {
+        mvwprintz(w_HP, 14, hpx, c_white, "%s", _("STA"));
+        wmove(w_HP, 15, hpx);
+        u.print_stamina_bar(w_HP);
     }
     wrefresh(w_HP);
 }

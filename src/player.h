@@ -182,6 +182,8 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         /** Displays indicator informing which turrets can fire at `targ`.**/
         int draw_turret_aim( WINDOW *w, int line_number, const point &targ ) const;
 
+        /** Print the player's stamina bar. **/
+        void print_stamina_bar( WINDOW *w ) const;
         /** Generates the sidebar and it's data in-game */
         void disp_status(WINDOW *w, WINDOW *w2);
 
@@ -1027,7 +1029,7 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         m_size get_size() const override;
         int get_hp( hp_part bp ) const override;
         int get_hp_max( hp_part bp ) const override;
-        int get_stamina_max();
+        int get_stamina_max() const;
         void burn_move_stamina( int moves );
 
         field_id playerBloodType() const;
