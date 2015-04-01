@@ -6069,7 +6069,7 @@
   ]
 },{
   "type" : "recipe",
-  "result": "tanning_hide",
+  "result": "tanned_hide",
   "category": "CC_OTHER",
   "subcategory": "CSC_OTHER_MATERIALS",
   "skill_used": "survival",
@@ -6144,7 +6144,7 @@
   ]
 },{
   "type" : "recipe",
-  "result": "tanning_pelt",
+  "result": "tanned_pelt",
   "category": "CC_OTHER",
   "subcategory": "CSC_OTHER_MATERIALS",
   "skill_used": "survival",
@@ -6195,7 +6195,7 @@
   ]
 },{
   "type" : "recipe",
-  "result": "tanning_hide",
+  "result": "tanned_hide",
   "id_suffix": "modern",
   "category": "CC_OTHER",
   "subcategory": "CSC_OTHER_MATERIALS",
@@ -6236,7 +6236,7 @@
   ]
 },{
   "type" : "recipe",
-  "result": "tanning_pelt",
+  "result": "tanned_pelt",
   "id_suffix": "modern",
   "category": "CC_OTHER",
   "subcategory": "CSC_OTHER_MATERIALS",
