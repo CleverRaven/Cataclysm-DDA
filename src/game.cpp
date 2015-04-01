@@ -1137,7 +1137,7 @@ bool game::do_turn()
     // Recover some stamina every turn.
     if( u.stamina < u.get_stamina_max() && !u.has_effect("winded") ) {
         // But mouth encumberance interferes.
-        u.stamina += std::max( 0, 10 - u.encumb(bp_mouth) );
+        u.stamina += std::max( 1, 10 - (u.encumb(bp_mouth) / 10) );
         // TODO: recovering stamina causes hunger/thirst/fatigue.
     }
 
