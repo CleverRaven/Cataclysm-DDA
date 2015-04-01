@@ -7458,6 +7458,30 @@
   ]
 },{
   "type" : "recipe",
+  "result": "kilt",
+  "category": "CC_ARMOR",
+  "subcategory": "CSC_ARMOR_HANDS",
+  "skill_used": "tailor",
+  "difficulty": 4,
+  "time": 90000,
+  "reversible": false,
+  "autolearn": false,
+  "book_learn": [["scots_cookbook", 4]],
+  "tools": [
+    [
+        [ "needle_bone", 30 ],
+        [ "needle_wood", 30 ],
+        [ "tailors_kit", 30 ],
+        [ "sewing_kit", 30 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "felt_patch", 18 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
   "result": "hat_knit",
   "id_suffix": "knitting",
   "category": "CC_ARMOR",

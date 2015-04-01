@@ -561,7 +561,7 @@ void map::build_seen_cache()
             if( !is_camera ) {
                 offsetDistance = rl_dist(offsetX, offsetY, mirror_pos.x, mirror_pos.y);
             } else {
-                offsetDistance = 60 - veh->part_info( mirror ).bonus *  
+                offsetDistance = 60 - veh->part_info( mirror ).bonus *
                                       veh->parts[mirror].hp / veh->part_info( mirror ).durability;
                 seen_cache[mirror_pos.x][mirror_pos.y] = true;
             }

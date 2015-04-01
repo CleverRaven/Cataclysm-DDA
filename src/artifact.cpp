@@ -1121,7 +1121,7 @@ void it_artifact_tool::deserialize(JsonObject &jo)
     name = jo.get_string("name");
     description = jo.get_string("description");
     sym = jo.get_int("sym");
-    color = int_to_color(jo.get_int("color"));
+    color = jo.get_int("color");
     price = jo.get_int("price");
     // LEGACY: Since it seems artifacts get serialized out to disk, and they're
     // dynamic, we need to allow for them to be read from disk for, oh, I guess
@@ -1187,7 +1187,7 @@ void it_artifact_armor::deserialize(JsonObject &jo)
     name = jo.get_string("name");
     description = jo.get_string("description");
     sym = jo.get_int("sym");
-    color = int_to_color(jo.get_int("color"));
+    color = jo.get_int("color");
     price = jo.get_int("price");
     // LEGACY: Since it seems artifacts get serialized out to disk, and they're
     // dynamic, we need to allow for them to be read from disk for, oh, I guess
@@ -1280,7 +1280,7 @@ void it_artifact_tool::serialize(JsonOut &json) const
     json.member("name", name);
     json.member("description", description);
     json.member("sym", sym);
-    json.member("color", color_to_int(color));
+    json.member("color", color);
     json.member("price", price);
     json.member("materials");
     json.start_array();
@@ -1325,7 +1325,7 @@ void it_artifact_armor::serialize(JsonOut &json) const
     json.member("name", name);
     json.member("description", description);
     json.member("sym", sym);
-    json.member("color", color_to_int(color));
+    json.member("color", color);
     json.member("price", price);
     json.member("materials");
     json.start_array();

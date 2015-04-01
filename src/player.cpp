@@ -166,6 +166,7 @@ player::player() : Character()
  stomach_food = 0;
  stomach_water = 0;
  fatigue = 0;
+ stamina = get_stamina_max();
  stim = 0;
  pain = 0;
  pkill = 0;
@@ -193,6 +194,7 @@ player::player() : Character()
  grab_point.x = 0;
  grab_point.y = 0;
  grab_type = OBJECT_NONE;
+ move_mode = "walk";
  style_selected = "style_none";
  keep_hands_free = false;
  focus_pool = 100;
@@ -255,6 +257,7 @@ void player::normalize()
     for (int i = 0 ; i < num_bp; i++) {
         temp_conv[i] = BODYTEMP_NORM;
     }
+    stamina = get_stamina_max();
 }
 
 std::string player::disp_name(bool possessive) const
@@ -1573,8 +1576,9 @@ void player::recalc_speed_bonus()
 int player::run_cost(int base_cost, bool diag)
 {
     float movecost = float(base_cost);
-    if (diag)
+    if( diag ) {
         movecost *= 0.7071f; // because everything here assumes 100 is base
+    }
     bool flatground = movecost < 105;
     const ter_id ter_at_pos = g->m.ter(posx(), posy());
     // If your floor is hard, flat, and otherwise skateable, list it here
@@ -1683,7 +1687,8 @@ int player::run_cost(int base_cost, bool diag)
         }
     }
 
-    movecost += (encumb(bp_mouth) / 10) * 5 + ((encumb(bp_foot_l) / 10) + (encumb(bp_foot_r) / 10)) * 2.5 + ((encumb(bp_leg_l) / 10) + (encumb(bp_leg_r) / 10)) * 1.5;
+    movecost += ((encumb(bp_foot_l) / 10) + (encumb(bp_foot_r) / 10)) * 2.5 +
+        ((encumb(bp_leg_l) / 10) + (encumb(bp_leg_r) / 10)) * 1.5;
 
     // ROOTS3 does slow you down as your roots are probing around for nutrients,
     // whether you want them to or not.  ROOTS1 is just too squiggly without shoes
@@ -1701,6 +1706,14 @@ int player::run_cost(int base_cost, bool diag)
         g->m.has_flag("DIGGABLE", posx(), posy()) ) {
         movecost += 10 * footwear_factor();
     }
+
+    // Both walk and run speed drop to half their maximums as stamina approaches 0.
+    float stamina_modifier = (1.0 + ((float)stamina / (float)get_stamina_max())) / 2.0;
+    if( move_mode == "run" && stamina > 0 ) {
+        // Rationale: Average running speed is 2x walking speed. (NOT sprinting)
+        stamina_modifier *= 2.0;
+    }
+    movecost /= stamina_modifier;
 
     if (diag) {
         movecost *= 1.4142;
@@ -2208,6 +2221,10 @@ void player::mod_stat( std::string stat, int modifier )
         fatigue += modifier;
     } else if( stat == "oxygen" ) {
         oxygen += modifier;
+    } else if( stat == "stamina" ) {
+        stamina += modifier;
+        stamina = std::min( stamina, get_stamina_max() );
+        stamina = std::max( 0, stamina );
     } else {
         // Fall through to the creature method.
         Creature::mod_stat( stat, modifier );
@@ -2992,7 +3009,7 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4"));
                                    -(encumb(bp_eyes) / 10),
                                    double(double(-(encumb(bp_eyes) / 10)) / 2));
             } else if (line == 3) { //Eyes
-                s += run_cost_text( (encumb( bp_mouth ) / 10) * 5 );
+                s += _("Covering your mouth will make it more difficult to breathe and catch your breath.");
             } else if (line == 4) { //Left Arm
                 s += _("Arm encumbrance affects your accuracy with ranged weapons.");
             } else if (line == 5) { //Right Arm
@@ -3441,6 +3458,33 @@ void player::print_recoil( WINDOW *w ) const
     }
 }
 
+int player::draw_turret_aim( WINDOW *w, int line_number, const point &targ ) const
+{
+    vehicle *veh = g->m.veh_at( pos3() );
+    if( veh == nullptr ) {
+        debugmsg( "Tried to aim turret while outside vehicle" );
+        return line_number;
+    }
+
+    const auto turret_state = veh->turrets_can_shoot( targ );
+    int num_ok = 0;
+    for( const auto &pr : turret_state ) {
+        if( pr.second == turret_all_ok ) {
+            num_ok++;
+        }
+    }
+
+    mvwprintw( w, line_number++, 1, _("Turrets in range: %d"), num_ok );
+    return line_number;
+}
+
+void player::print_stamina_bar( WINDOW *w ) const {
+    std::string sta_bar = "";
+    nc_color sta_color;
+    std::tie(sta_bar, sta_color) = get_hp_bar( stamina ,  get_stamina_max() );
+    wprintz(w, sta_color, sta_bar.c_str());
+}
+
 void player::disp_status(WINDOW *w, WINDOW *w2)
 {
     bool sideStyle = use_narrow_sidebar();
@@ -3654,8 +3698,8 @@ void player::disp_status(WINDOW *w, WINDOW *w2)
 
   bool metric = OPTIONS["USE_METRIC_SPEEDS"] == "km/h";
   const char *units = metric ? _("km/h") : _("mph");
-  int velx    = metric ?  5 : 4; // strlen(units) + 1
-  int cruisex = metric ? 10 : 9; // strlen(units) + 6
+  int velx    = metric ? 4 : 3; // strlen(units) + 1
+  int cruisex = metric ? 9 : 8; // strlen(units) + 6
   float conv  = metric ? 0.0161f : 0.01f;
 
   if (0 == sideStyle) {
@@ -3663,20 +3707,26 @@ void player::disp_status(WINDOW *w, WINDOW *w2)
     if (!metric)         speedox++;
   }
 
-  const char *speedo = veh->cruise_on ? "{%s....>....}" : "{%s....}";
+  const char *speedo = veh->cruise_on ? "%s....>...." : "%s....";
   mvwprintz(w, speedoy, speedox,        col_indf1, speedo, units);
   mvwprintz(w, speedoy, speedox + velx, col_vel,   "%4d", int(veh->velocity * conv));
   if (veh->cruise_on)
     mvwprintz(w, speedoy, speedox + cruisex, c_ltgreen, "%4d", int(veh->cruise_velocity * conv));
 
-
   if (veh->velocity != 0) {
+   const int offset_from_screen_edge = sideStyle ? 11 : 3;
    nc_color col_indc = veh->skidding? c_red : c_green;
    int dfm = veh->face.dir() - veh->move.dir();
-   wmove(w, sideStyle ? 5 : 3, getmaxx(w) - 3);
+   wmove(w, sideStyle ? 5 : 3, getmaxx(w) - offset_from_screen_edge);
    wprintz(w, col_indc, dfm <  0 ? "L" : ".");
    wprintz(w, col_indc, dfm == 0 ? "0" : ".");
    wprintz(w, col_indc, dfm >  0 ? "R" : ".");
+  }
+
+  if( sideStyle ) {
+      // Make sure this is left-aligned.
+      mvwprintz(w, speedoy, getmaxx(w) - 7, c_white, "%s", "St");
+      print_stamina_bar(w);
   }
  } else {  // Not in vehicle
   nc_color col_str = c_white, col_dex = c_white, col_int = c_white,
@@ -3707,18 +3757,18 @@ void player::disp_status(WINDOW *w, WINDOW *w2)
   if (spd_bonus > 0)
    col_spd = c_green;
 
-    int x  = sideStyle ? 18 : 13;
+    int x  = sideStyle ? 19 : 13;
     int y  = sideStyle ?  0 :  3;
-    int dx = sideStyle ?  0 :  7;
+    int dx = sideStyle ?  0 :  6;
     int dy = sideStyle ?  1 :  0;
-    mvwprintz(w, y + dy * 0, x + dx * 0, col_str, _("Str %2d"), get_str());
-    mvwprintz(w, y + dy * 1, x + dx * 1, col_dex, _("Dex %2d"), get_dex());
-    mvwprintz(w, y + dy * 2, x + dx * 2, col_int, _("Int %2d"), get_int());
-    mvwprintz(w, y + dy * 3, x + dx * 3, col_per, _("Per %2d"), get_per());
+    mvwprintz(w, y + dy * 0, x + dx * 0, col_str, _("Str%2d"), get_str());
+    mvwprintz(w, y + dy * 1, x + dx * 1, col_dex, _("Dex%2d"), get_dex());
+    mvwprintz(w, y + dy * 2, x + dx * 2, col_int, _("Int%2d"), get_int());
+    mvwprintz(w, y + dy * 3, x + dx * 3, col_per, _("Per%2d"), get_per());
 
     int spdx = sideStyle ?  0 : x + dx * 4;
     int spdy = sideStyle ?  5 : y + dy * 4;
-    mvwprintz(w, spdy, spdx, col_spd, _("Spd %2d"), get_speed());
+    mvwprintz(w, spdy, spdx, col_spd, _("Spd%3d"), get_speed());
     if (this->weight_carried() > this->weight_capacity()) {
         col_time = h_black;
     }
@@ -3729,7 +3779,13 @@ void player::disp_status(WINDOW *w, WINDOW *w2)
             col_time = c_dkgray_red;
         }
     }
-    wprintz(w, col_time, "  %d", movecounter);
+    wprintz(w, col_time, " %3d", movecounter);
+
+    wprintz(w, c_white, " %5s", _(move_mode.c_str()));
+    if( sideStyle ) {
+        wprintz(w, c_white, " St");
+        print_stamina_bar(w);
+    }
  }
 }
 
@@ -4288,6 +4344,21 @@ void player::pause()
     }
 
     search_surroundings();
+}
+
+void player::toggle_move_mode()
+{
+    if( move_mode == "walk" ) {
+        if( stamina > 0 && !has_effect("winded") ) {
+            move_mode = "run";
+            add_msg(_("You start running."));
+        } else {
+            add_msg(m_bad, _("You're too tired to run."));
+        }
+    } else if( move_mode == "run" ) {
+        move_mode = "walk";
+        add_msg(_("You slow to a walk."));
+    }
 }
 
 void player::search_surroundings()
@@ -13057,6 +13128,23 @@ int player::get_hp_max( hp_part bp ) const
         hp_total += hp_max[i];
     }
     return hp_total;
+}
+
+int player::get_stamina_max() const
+{
+    return 1000;
+}
+
+void player::burn_move_stamina( int moves )
+{
+    // Regain 10 stamina / turn
+    // 7/turn walking
+    // 20/turn running
+    int burn_ratio = 7;
+    if( move_mode == "run" ) {
+        burn_ratio = 20;
+    }
+    mod_stat( "stamina", -((moves * burn_ratio) / 100) );
 }
 
 field_id player::playerBloodType() const {

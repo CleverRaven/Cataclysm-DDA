@@ -50,6 +50,22 @@ enum veh_coll_type {
  num_veh_coll_types
 };
 
+// Saved to file as int, so values should not change
+enum turret_mode_type : int {
+    turret_mode_off = 0,
+    turret_mode_autotarget = 1,
+    turret_mode_manual = 2
+};
+
+// Describes turret's ability to fire (possibly at a particular target)
+enum turret_fire_ability {
+    turret_all_ok,
+    turret_wont_aim,
+    turret_is_off,
+    turret_out_of_range,
+    turret_no_ammo
+};
+
 struct veh_collision {
  //int veh?
  int part;
@@ -697,21 +713,45 @@ public:
     void leak_fuel (int p);
     void shed_loose_parts();
 
-    // Manual turret aiming
-    void aim_turrets();
+    // Gets range of part p if it's a turret
+    // If `manual` is true, gets the real item range (gun+ammo range)
+    // otherwise gets part range (as in json)
+    int get_turret_range( int p, bool manual = true );
+
+    // Returns the number of shots this turret could make with current ammo/gas/batteries/etc.
+    // Does not handle tags like FIRE_100
+    long turret_has_ammo( int p );
+
+    // Manual turret aiming menu (select turrets etc.) when shooting from controls
+    // Returns whether a valid target was picked
+    bool aim_turrets();
+
+    // Maps turret ids to an enum describing their ability to shoot `pos`
+    std::map< int, turret_fire_ability > turrets_can_shoot( const point &pos );
+    turret_fire_ability turret_can_shoot( const int p, const point &pos );
+
+    // Cycle mode for this turret
+    // If `from_controls` is false, only manual modes are allowed 
+    // and message describing the new mode is printed
+    void cycle_turret_mode( int p, bool from_controls );
 
     // Per-turret mode selection
     void control_turrets();
 
     // Cycle through available turret modes
-    void cycle_turret_mode();
+    void cycle_global_turret_mode();
 
-    // fire the turret which is part p
-    bool fire_turret( int p, bool burst = true );
+    // Set up the turret to fire
+    bool fire_turret( int p, bool manual );
 
-    // internal procedure of turret firing
-    bool fire_turret_internal (int p, const itype &gun, const itype &ammo, long &charges,
-                               const std::string &firing_sound = "");
+    // Fire turret at some automatically acquired target
+    bool automatic_fire_turret( int p, const itype &gun, const itype &ammo, long &charges );
+
+    // Manual turret fire - gives the `shooter` a temporary weapon, makes them use it,
+    // then gives back the weapon held before (if any).
+    // TODO: Make it work correctly with UPS-powered turrets when player has a UPS already
+    bool manual_fire_turret( int p, player &shooter, const itype &guntype, 
+                             const itype &ammotype, long &charges );
 
     // opens/closes doors or multipart doors
     void open(int part_index);
