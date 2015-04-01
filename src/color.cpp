@@ -4,6 +4,12 @@
 #include "rng.h"
 #include "output.h"
 #include "debug.h"
+#include "input.h"
+#include "worldfactory.h"
+#include "path_info.h"
+#include "mapsharing.h"
+#include <iostream>
+#include <fstream>
 
 #define HILIGHT COLOR_BLUE
 
@@ -52,9 +58,17 @@ nc_color clColors::get_invert(const nc_color color)
     auto &entry = iter->second;
 
     if ( OPTIONS["NO_BRIGHT_BACKGROUNDS"] ) {
-        if ( !entry.sNoBrigt.empty() ) {
-            return get(entry.sNoBrigt);
+        if ( !entry.sNoBrightCustom.empty() ) {
+            return get(entry.sNoBrightCustom);
         }
+
+        if ( !entry.sNoBright.empty() ) {
+            return get(entry.sNoBright);
+        }
+    }
+
+    if ( !entry.sInvertCustom.empty() ) {
+        return get(entry.sInvertCustom);
     }
 
     return get(entry.sInvert);
@@ -78,14 +92,9 @@ nc_color clColors::get_random()
     return item->second.color;
 }
 
-void clColors::set_custom(const std::string &sName, const std::string &sCustomName)
+void clColors::add_color(const std::string &sName, const nc_color color, const std::string &sInvert, const std::string &sNoBright)
 {
-    mapColors[sName].sCustom = sCustomName;
-}
-
-void clColors::add_color(const std::string &sName, const nc_color color, const std::string &sInvert, const std::string &sInvertNoBright)
-{
-    mapColors[sName] = {color, "", sInvert, sInvertNoBright};
+    mapColors[sName] = {color, "", sInvert, "", sNoBright, ""};
 }
 
 nc_color clColors::get_highlight(const nc_color color, const std::string &bgColor)
@@ -368,6 +377,7 @@ void init_colors()
     init_pair(71, COLOR_CYAN,       COLOR_CYAN);
 
     all_colors.load_default();
+    all_colors.load_custom();
 
     // The color codes are intentionally untranslatable.
     color_shortcuts = {
@@ -541,4 +551,343 @@ std::list<std::pair<std::string, std::string>> get_note_color_names()
         color_list.emplace_back( color_pair.first, color_pair.second.name );
     }
     return color_list;
+}
+
+
+void clColors::show_gui()
+{
+    const int iHeaderHeight = 4;
+    const int iContentHeight = FULL_SCREEN_HEIGHT - 2 - iHeaderHeight;
+
+    const int iOffsetX = (TERMX > FULL_SCREEN_WIDTH) ? (TERMX - FULL_SCREEN_WIDTH) / 2 : 0;
+    const int iOffsetY = (TERMY > FULL_SCREEN_HEIGHT) ? (TERMY - FULL_SCREEN_HEIGHT) / 2 : 0;
+
+    std::vector<int> vLines;
+    vLines.push_back(-1);
+    vLines.push_back(37);
+    vLines.push_back(57);
+
+    const int iTotalCols = vLines.size();
+
+    WINDOW *w_colors_help = newwin((FULL_SCREEN_HEIGHT / 2) - 2, FULL_SCREEN_WIDTH * 3 / 4,
+                                        7 + iOffsetY + (FULL_SCREEN_HEIGHT / 2) / 2, iOffsetX + 19 / 2);
+    WINDOW_PTR w_colors_helpptr( w_colors_help );
+
+    WINDOW *w_colors_border = newwin(FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH, iOffsetY, iOffsetX);
+    WINDOW_PTR w_colors_borderptr( w_colors_border );
+    WINDOW *w_colors_header = newwin(iHeaderHeight, FULL_SCREEN_WIDTH - 2, 1 + iOffsetY,
+                                          1 + iOffsetX);
+    WINDOW_PTR w_colors_headerptr( w_colors_header );
+    WINDOW *w_colors = newwin(iContentHeight, FULL_SCREEN_WIDTH - 2, iHeaderHeight + 1 + iOffsetY,
+                                   1 + iOffsetX);
+    WINDOW_PTR w_colorsptr( w_colors );
+
+    draw_border(w_colors_border);
+    mvwputch(w_colors_border, 3,  0, c_ltgray, LINE_XXXO); // |-
+    mvwputch(w_colors_border, 3, 79, c_ltgray, LINE_XOXX); // -|
+
+    for (int i = 0; i < 78; i++) {
+        mvwputch(w_colors_header, 2, i, c_ltgray, LINE_OXOX); // Draw line under header
+    }
+
+    for( auto &iCol : vLines ) {
+        if ( iCol > -1 ) {
+            mvwputch(w_colors_border, FULL_SCREEN_HEIGHT - 1, iCol + 1, c_ltgray, LINE_XXOX); // _|_
+            mvwputch(w_colors_header, 2, iCol, c_ltgray, LINE_OXXX);
+            mvwputch(w_colors_header, 3, iCol, c_ltgray, LINE_XOXO);
+        }
+    }
+
+    mvwprintz(w_colors_border, 0, 32, c_ltred, _(" COLOR MANAGER "));
+    wrefresh(w_colors_border);
+
+    int tmpx = 0;
+    tmpx += shortcut_print(w_colors_header, 0, tmpx, c_white, c_ltgreen, _("<R>emove custom color")) + 2;
+    tmpx += shortcut_print(w_colors_header, 0, tmpx, c_white, c_ltgreen, _("<Arrow Keys> To navigate")) + 2;
+    shortcut_print(w_colors_header, 0, tmpx, c_white, c_ltgreen, _("<Enter>-Edit"));
+
+    mvwprintz(w_colors_header, 1, 0, c_white, _("Some color changes may require a restart."));
+
+    mvwprintz(w_colors_header, 3, 3, c_white, _("Colorname"));
+    mvwprintz(w_colors_header, 3, 21, c_white, _("Normal"));
+    mvwprintz(w_colors_header, 3, 41, c_white, _("Invert"));
+    mvwprintz(w_colors_header, 3, 61, c_white, _("NoBright"));
+
+    wrefresh(w_colors_header);
+
+    int iCurrentLine = 0;
+    int iCurrentCol = 1;
+    int iStartPos = 0;
+    const int iMaxColors = mapColors.size();
+    bool bStuffChanged = false;
+    input_context ctxt("COLORS");
+    ctxt.register_cardinal();
+    ctxt.register_action("CONFIRM");
+    ctxt.register_action("QUIT");
+    ctxt.register_action("REMOVE_CUSTOM");
+    ctxt.register_action("HELP_KEYBINDINGS");
+
+    std::map<std::string, stColors> mapColorsOrdered(mapColors.begin(), mapColors.end());
+
+    while(true) {
+        // Clear all lines
+        for (int i = 0; i < iContentHeight; i++) {
+            for (int j = 0; j < 79; j++) {
+                mvwputch(w_colors, i, j, c_black, ' ');
+
+                for( auto &iCol : vLines ) {
+                    if ( iCol == j ) {
+                        mvwputch(w_colors, i, j, c_ltgray, LINE_XOXO);
+                    }
+                }
+            }
+        }
+
+        calcStartPos(iStartPos, iCurrentLine, iContentHeight, iMaxColors);
+
+        //Draw Scrollbar
+        draw_scrollbar(w_colors_border, iCurrentLine, iContentHeight, iMaxColors, 5);
+
+        auto iter = mapColorsOrdered.begin();
+        std::advance( iter, iStartPos );
+
+        std::string sActive = "";
+
+        // display colormanager
+        for (int i=iStartPos; iter != mapColorsOrdered.end(); ++iter, ++i) {
+            if (i >= iStartPos && i < iStartPos + ((iContentHeight > iMaxColors) ? iMaxColors : iContentHeight)) {
+                auto &entry = iter->second;
+
+                if (iCurrentLine == i) {
+                    sActive = iter->first;
+                    mvwprintz(w_colors, i - iStartPos, vLines[iCurrentCol-1] + 2, c_yellow, ">");
+                }
+
+                mvwprintz(w_colors, i - iStartPos, 3, c_white, iter->first.c_str()); //colorname
+                mvwprintz(w_colors, i - iStartPos, 21, entry.color, _("default")); //default color
+
+                if ( !entry.sCustom.empty() ) {
+                    mvwprintz(w_colors, i - iStartPos, 30, mapColorsOrdered[entry.sCustom].color, _("custom")); //custom color
+                }
+
+                mvwprintz(w_colors, i - iStartPos, 41, mapColorsOrdered[entry.sInvert].color, _("default")); //invert default color
+
+                if ( !entry.sInvertCustom.empty() ) {
+                    mvwprintz(w_colors, i - iStartPos, 50, mapColorsOrdered[entry.sInvertCustom].color, _("custom")); //invert custom color
+                }
+
+                if ( !entry.sNoBright.empty() ) {
+                    mvwprintz(w_colors, i - iStartPos, 61, mapColorsOrdered[entry.sNoBright].color, _("default")); //nobright default color
+                }
+
+                if ( !entry.sNoBrightCustom.empty() ) {
+                    mvwprintz(w_colors, i - iStartPos, 70, mapColorsOrdered[entry.sNoBrightCustom].color, _("custom")); //nobright custom color
+                }
+            }
+        }
+
+        wrefresh(w_colors);
+
+        const std::string action = ctxt.handle_input();
+
+        if (action == "QUIT") {
+            break;
+        } else if (action == "UP") {
+            iCurrentLine--;
+            if (iCurrentLine < 0) {
+                iCurrentLine = iMaxColors - 1;
+            }
+        } else if (action == "DOWN") {
+            iCurrentLine++;
+            if (iCurrentLine >= (int)iMaxColors) {
+                iCurrentLine = 0;
+            }
+        } else if (action == "LEFT") {
+            iCurrentCol--;
+            if (iCurrentCol < 1) {
+                iCurrentCol = iTotalCols;
+            }
+        } else if (action == "RIGHT") {
+            iCurrentCol++;
+            if (iCurrentCol > iTotalCols) {
+                iCurrentCol = 1;
+            }
+        } else if (action == "REMOVE_CUSTOM") {
+            auto &entry = mapColorsOrdered[sActive];
+
+            if ( iCurrentCol == 1 && !entry.sCustom.empty() ) {
+                bStuffChanged = true;
+                entry.sCustom = "";
+
+            } else if ( iCurrentCol == 2 && !entry.sInvertCustom.empty() ) {
+                bStuffChanged = true;
+                entry.sInvertCustom = "";
+
+            } else if ( iCurrentCol == 3 && !entry.sNoBrightCustom.empty() ) {
+                bStuffChanged = true;
+                entry.sNoBrightCustom = "";
+            }
+
+        } else if (action == "CONFIRM") {
+            uimenu ui_colors;
+            ui_colors.w_y = iHeaderHeight + 1 + iOffsetY;
+            ui_colors.w_height = 18;
+            ui_colors.return_invalid = true;
+
+            std::string sColorType = _("Normal");
+            if ( iCurrentCol == 2 ) {
+                sColorType = _("Invert");
+
+            } else if ( iCurrentCol == 3 ) {
+                sColorType = _("NoBright");
+            }
+
+            ui_colors.text = string_format( _("Custom %s color:"), sColorType.c_str() );
+
+            for ( auto &iter : mapColorsOrdered ) {
+                std::string sColor = iter.first;
+                std::string sType = _("default");
+
+                std::string sCustom = "";
+
+                if ( !iter.second.sCustom.empty() ) {
+                    sCustom = " <color_" + iter.second.sCustom + ">" + _("custom") + "</color>";
+                }
+
+                ui_colors.addentry(string_format( "%-17s <color_%s>%s</color>%s", iter.first.c_str(), sColor.c_str(), sType.c_str(), sCustom.c_str() ) );
+            }
+
+            ui_colors.addentry(std::string(_("Cancel")));
+            ui_colors.query();
+
+            if ( (size_t)ui_colors.ret < mapColorsOrdered.size() ) {
+                bStuffChanged = true;
+
+                iter = mapColorsOrdered.begin();
+                std::advance( iter, ui_colors.ret );
+
+                auto &entry = mapColorsOrdered[sActive];
+
+                if ( iCurrentCol == 1 ) {
+                    entry.sCustom = iter->first;
+
+                } else if ( iCurrentCol == 2 ) {
+                    entry.sInvertCustom = iter->first;
+
+                } else if ( iCurrentCol == 3 ) {
+                    entry.sNoBrightCustom = iter->first;
+                }
+            }
+        }
+    }
+
+    if (bStuffChanged) {
+        if(query_yn(_("Save changes?"))) {
+            std::unordered_map<std::string, stColors> mapColorsUnordered(mapColorsOrdered.begin(), mapColorsOrdered.end());
+            mapColors.clear();
+            mapColors = mapColorsUnordered;
+
+            save_custom();
+        }
+    }
+}
+
+bool clColors::save_custom()
+{
+    const auto savefile = FILENAMES["custom_colors"];
+
+    try {
+        std::ofstream fout;
+        fout.exceptions(std::ios::badbit | std::ios::failbit);
+
+        fopen_exclusive(fout, savefile.c_str());
+        if(!fout.is_open()) {
+            return true; //trick game into thinking it was saved
+        }
+
+        fout << serialize();
+        fclose_exclusive(fout, savefile.c_str());
+        return true;
+
+    } catch(std::ios::failure &) {
+        popup(_("Failed to save custom colors to %s"), savefile.c_str());
+        return false;
+    }
+
+    return false;
+}
+
+void clColors::load_custom()
+{
+    const auto savefile = FILENAMES["custom_colors"];
+
+    std::ifstream fin;
+    fin.open(savefile.c_str(), std::ifstream::in | std::ifstream::binary);
+    if(!fin.good()) {
+        fin.close();
+        return;
+    }
+
+    try {
+        JsonIn jsin(fin);
+        deserialize(jsin);
+    } catch (std::string e) {
+        DebugLog(D_ERROR, DC_ALL) << "load_custom: " << e;
+    }
+
+    fin.close();
+}
+
+void clColors::serialize(JsonOut &json) const
+{
+    json.start_array();
+    for( auto &iter : mapColors ) {
+        auto &entry = iter.second;
+
+        if ( !entry.sCustom.empty() || !entry.sInvertCustom.empty() || !entry.sNoBrightCustom.empty()) {
+            json.start_object();
+
+            json.member( "name", iter.first );
+            json.member( "custom", entry.sCustom );
+            json.member( "invertcustom", entry.sInvertCustom );
+            json.member( "nobrightcustom", entry.sNoBrightCustom );
+
+            json.end_object();
+        }
+    }
+
+    json.end_array();
+}
+
+void clColors::deserialize(JsonIn &jsin)
+{
+    jsin.start_array();
+    while (!jsin.end_array()) {
+        JsonObject joColors = jsin.get_object();
+
+        const std::string sName = joColors.get_string("name");
+        const std::string sCustom = joColors.get_string("custom");
+        const std::string sInvertCustom = joColors.get_string("invertcustom");
+        const std::string sNoBrightCustom = joColors.get_string("nobrightcustom");
+
+        auto iter = mapColors.find( sName );
+
+        if( iter == mapColors.end() ) {
+            continue;
+        }
+
+        auto &entry = iter->second;
+
+        if ( !sCustom.empty() ) {
+            entry.sCustom = sCustom;
+        }
+
+        if ( !sInvertCustom.empty() ) {
+            entry.sInvertCustom = sInvertCustom;
+        }
+
+        if ( !sNoBrightCustom.empty() ) {
+            entry.sNoBrightCustom = sNoBrightCustom;
+        }
+    }
 }

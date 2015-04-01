@@ -2199,5 +2199,21 @@
                 "key":"w"
             }
         ]
+    },
+    {
+        "type" : "keybinding",
+        "id": "REMOVE_CUSTOM",
+        "category": "COLORS",
+        "name": "Remove custom color",
+        "bindings":[
+            {
+                "input_method":"keyboard",
+                "key":"r"
+            },
+            {
+                "input_method":"keyboard",
+                "key":"R"
+            }
+        ]
     }
 ]
