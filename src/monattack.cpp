@@ -3568,16 +3568,30 @@ void mattack::stretch_bite(monster *z, int index)
 
     // Let it be used on non-player creatures
     // can be used at close range too!
+    int t;
     Creature *target = z->attack_target();
-    if( target == nullptr || rl_dist( z->pos(), target->pos() ) > 3 ) {
+    if( target == nullptr || rl_dist( z->pos(), target->pos() ) > 3
+            || !z->sees(*target, t)) {
         return;
     }
 
     player *foe = dynamic_cast< player* >( target );
+    std::vector<point> line = line_to( z->pos(), target->pos(), t );
     bool seen = g->u.sees( *z );
 
     z->reset_special(index); // Reset timer
     z->moves -= 150;
+
+    ter_t terrain;
+    for (auto &i : line){
+        terrain = g->m.ter_at(i.x, i.y);
+        //head's not going to fit through the bars
+        if (terrain.movecost == 0 ){
+            z->add_effect("Stunned", 200);
+            add_msg( _("The %s stretches it head at you but bounces off the %s"), z->name().c_str(), terrain.name.c_str() );
+            return;
+        }
+    }
     bool uncanny = foe != nullptr && foe->uncanny_dodge();
     // Can we dodge the attack? Uses player dodge function % chance (melee.cpp)
     int dodge_check = std::max( target->get_dodge() - rng( 0, z->type->melee_skill ), 0L );
@@ -4308,16 +4322,29 @@ void mattack::stretch_attack(monster *z, int index){
     if( !z->can_act() ) {
         return;
     }
+
+    int t;
     Creature *target = z->attack_target();
-    if (target == nullptr || rl_dist(z->pos(), target->pos()) > 3 || !z->sees(*target)){
+
+    if (target == nullptr || rl_dist(z->pos(), target->pos()) > 3 || !z->sees(*target, t)){
         return;
     }
     int distance = rl_dist(z->pos(), target->pos());
     player *foe = dynamic_cast< player* >( target );
     bool seen = g->u.sees( *z );
+    std::vector<point> line = line_to( z->pos(), target->pos(), t );
+    int dam = rng(5, 10);
     if (distance >= 2 && distance <= 3){
         z->moves -=100;
         z->reset_special(index);
+        ter_t terrain;
+        for (auto &i : line){
+                terrain = g->m.ter_at(i.x, i.y);
+                if (!(terrain.id == "t_bars") && terrain.movecost == 0 ){
+                    add_msg( _("The %s thrusts its arm at you but bounces off the %s"), z->name().c_str(), terrain.name.c_str() );
+                    return;
+                }
+        }
         if ( foe != nullptr){
             auto msg_type = foe == &g->u ? m_warning : m_info;
             foe->add_msg_player_or_npc(msg_type, _("The %s thrusts its arm at you, stretching to reach you from afar"),
@@ -4345,7 +4372,6 @@ void mattack::stretch_attack(monster *z, int index){
             return;
         }
         body_part hit = foe != nullptr ? random_body_part() : bp_torso;
-        int dam = rng(5, 10);
         dam = target->deal_damage( z, hit, damage_instance( DT_STAB, dam ) ).total_damage();
 
         if(foe != nullptr && dam > 0 ) {
