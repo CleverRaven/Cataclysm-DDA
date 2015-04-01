@@ -3781,7 +3781,6 @@ void player::disp_status(WINDOW *w, WINDOW *w2)
     }
     wprintz(w, col_time, " %3d", movecounter);
 
-    std::string sta_strings[] = { _("walk"), _("run") };
     wprintz(w, c_white, " %5s", _(move_mode.c_str()));
     if( sideStyle ) {
         wprintz(w, c_white, " St");
