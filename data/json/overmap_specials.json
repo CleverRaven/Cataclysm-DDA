@@ -1450,9 +1450,11 @@
         "overmaps" :
         [
             { "point":[0,1,0], "overmap": "hdwr_large_entrance", "connect":"road"},
-            { "point":[-1,1,0], "overmap": "hdwr_large_SW"},
+            { "point":[-1,1,0], "overmap": "hdwr_large_SW", "connect":"road"},
             { "point":[-1,0,0], "overmap": "hdwr_large_NW"},
-            { "point":[0,0,0], "overmap": "hdwr_large_NE"}
+            { "point":[0,0,0], "overmap": "hdwr_large_NE"},
+            { "point":[-1,-1,0], "overmap": "hdwr_large_backroom"},
+            { "point":[0,-1,0], "overmap": "hdwr_large_loadingbay"}
         ],
         "locations" : [ "wilderness" ], "//":"what special locations does it spawn",
         "city_distance" : [1, 10], "//":"how far from a city it should be",

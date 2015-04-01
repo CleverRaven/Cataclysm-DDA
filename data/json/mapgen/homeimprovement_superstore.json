@@ -30,9 +30,7 @@
         "type"  : "item_group",
         "id"    : "wood",
         "items" : [
-            ["2x4",            80],
-            ["power_supply",     50],
-            ["amplifier",        50]
+            ["2x4",            80]
         ]
     },
     {
@@ -73,7 +71,7 @@
             ",": "t_pavement_y",
             "-": "t_wall_h",
             "|": "t_wall_v",
-            "+": "t_door_c",
+            "+": "t_door_glass_c",
             "W": "t_window",
             "C": "t_floor",
             "r": "t_floor",
@@ -150,7 +148,7 @@
             ",": "t_pavement_y",
             "-": "t_wall_h",
             "|": "t_wall_v",
-            "+": "t_door_c",
+            "+": "t_door_glass_c",
             "W": "t_window",
             "C": "t_floor",
             "r": "t_floor",
@@ -195,7 +193,7 @@
         "weight": 10,
         "object": {
             "rows": [
-            "------------------------",
+            "---------------------++-",
             "|....+.+....|r..r..r....",
             "|s...|.|...s|r..r..r....",
             "|s..-|.|-..s|r..r..r....",
@@ -226,7 +224,7 @@
             ",": "t_pavement_y",
             "-": "t_wall_h",
             "|": "t_wall_v",
-            "+": "t_door_c",
+            "+": "t_door_locked_interior",
             "W": "t_window",
             "C": "t_floor",
             "r": "t_floor",
@@ -247,7 +245,23 @@
             "C": "f_chair",
             "s": "f_sink",
             "$": "f_vending_c"
-            }
+            },
+            "place_items": [
+                { "item": "wood",   "x": [12,18], "y": 17, "chance": 40 },
+                { "item": "wood",      "x": 18, "y": [9,12], "chance": 40 },
+                
+                { "item": "pwr_clothing",   "x": 8, "y": 17, "chance": 12 },
+                { "item": "pwr_tools",      "x": 8, "y": 17, "chance": 36 },
+                { "item": "pwr_parts",      "x": 8, "y": 17, "chance": 12 },
+                
+                { "item": "pwr_clothing",   "x": 7, "y": 17, "chance": 6 },
+                { "item": "pwr_tools",      "x": 7, "y": 17, "chance": 48 },
+                { "item": "pwr_parts",      "x": 7, "y": 17, "chance": 36 },
+                
+                { "item": "pwr_clothing",   "x": 5, "y": 17, "chance": 12 },
+                { "item": "pwr_tools",      "x": 5, "y": 17, "chance": 24 },
+                { "item": "pwr_parts",      "x": 5, "y": 17, "chance": 12 }
+                ]
         }
     },{
         "type" : "mapgen",
@@ -307,6 +321,150 @@
             "t": "f_toilet",
             "C": "f_chair",
             "s": "f_sink",
+            "$": "f_vending_c"
+            },
+            "place_items": [
+                { "item": "pwr_clothing",   "x": 10, "y": 17, "chance": 18 },
+                { "item": "pwr_parts",      "x": 10, "y": 17, "chance": 12 },
+                
+                { "item": "pwr_clothing",   "x": 8, "y": 17, "chance": 12 },
+                { "item": "pwr_tools",      "x": 8, "y": 17, "chance": 36 },
+                { "item": "pwr_parts",      "x": 8, "y": 17, "chance": 12 },
+                
+                { "item": "pwr_clothing",   "x": 7, "y": 17, "chance": 6 },
+                { "item": "pwr_tools",      "x": 7, "y": 17, "chance": 48 },
+                { "item": "pwr_parts",      "x": 7, "y": 17, "chance": 36 },
+                
+                { "item": "pwr_clothing",   "x": 5, "y": 17, "chance": 12 },
+                { "item": "pwr_tools",      "x": 5, "y": 17, "chance": 24 },
+                { "item": "pwr_parts",      "x": 5, "y": 17, "chance": 12 }
+                ]
+        }
+    },{
+        "type" : "mapgen",
+        "om_terrain" : ["hdwr_large_backroom"],
+        "method": "json",
+        "weight": 10,
+        "object": {
+            "rows": [
+            ",,,,,,,,,,,,,,,,,,,,,,,,",
+            ",,,,,,,,,,,,,,,,,,,,,,,,",
+            ",,,,,,,,,,,,,,,,,,,,,,,,",
+            "________________________",
+            "________________________",
+            "________________________",
+            "________________________",
+            "________________________",
+            "________________________",
+            "________________________",
+            "|-----------------------",
+            "|xx.......xx...........|",
+            "|xx.......xx...........|",
+            "|................xx....|",
+            "|xx....xx...xx...xx....|",
+            "|xx....xx...xx.x.xx....|",
+            "|.....................x|",
+            "|..........xx.........x|",
+            "|xx........xx..........+",   
+            "|xx....................+",
+            "|......................|",
+            "|........CTC...........|",
+            "|$...........C.....&---|",
+            "|CTC...................|"
+            ],
+            "terrain": {
+            "_": "t_pavement",
+            ".": "t_floor",
+            ",": "t_grass",
+            "-": "t_wall_h",
+            "|": "t_wall_v",
+            "+": "t_door_locked_interior",
+            "W": "t_window",
+            "C": "t_floor",
+            "r": "t_floor",
+            "c": "t_floor",
+            "s": "t_floor",
+            "^": "t_floor",
+            "T": "t_floor",
+            "t": "t_floor",
+            "&": "t_floor",
+            "x": "t_floor",
+            "$": "t_floor"
+            },
+            "furniture": {
+            "c": "f_counter",
+            "r": "f_rack",
+            "^": "f_indoor_plant",
+            "T": "f_table",
+            "x": "f_crate_c",
+            "t": "f_toilet",
+            "C": "f_chair",
+            "s": "f_sink",
+            "$": "f_vending_c"
+            }
+        }
+    },{
+        "type" : "mapgen",
+        "om_terrain" : ["hdwr_large_loadingbay"],
+        "method": "json",
+        "weight": 10,
+        "object": {
+            "rows": [
+            ",,,,,,,,,,,,,,,,,,,,,,,,",
+            ",,,,,,,,,,,,,,,,,,,,,,,,",
+            ",,,,,,,,,,,,,,,,,,,,,,,,",
+            "________________________",
+            "________________________",
+            "________________________",
+            "________________________",
+            "________________________",
+            "________________________",
+            "________________________",
+            "XX______________________",
+            "XX______________________",
+            "________________________",
+            "________________________",
+            "________________________",
+            "________________________",
+            "________________________",
+            "________________________",
+            "_____|_____|_____|_____|",   
+            "_____|_____|_____|_____|",
+            "_____|_____|_____|_____|",
+            "_____|_____|_____|_____|",
+            "_____|_____|_____|_____|",
+            "_____|_____|_____|_____|"
+            ],
+            "terrain": {
+            "_": "t_pavement",
+            "X": "t_pavement",
+            ".": "t_floor",
+            ",": "t_grass",
+            "-": "t_wall_h",
+            "|": "t_pavement_y",
+            "+": "t_door_locked_interior",
+            "W": "t_window",
+            "C": "t_floor",
+            "r": "t_floor",
+            "c": "t_floor",
+            "s": "t_floor",
+            "^": "t_floor",
+            "T": "t_floor",
+            "t": "t_floor",
+            "&": "t_floor",
+            "x": "t_floor",
+            "$": "t_floor"
+            },
+            "furniture": {
+            "c": "f_counter",
+            "r": "f_rack",
+            "^": "f_indoor_plant",
+            "T": "f_table",
+            "x": "f_crate_c",
+            "t": "f_toilet",
+            "C": "f_chair",
+            "s": "f_sink",
+            "X": "f_dumpster",
             "$": "f_vending_c"
             }
         }
