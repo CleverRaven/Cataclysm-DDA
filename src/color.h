@@ -201,7 +201,7 @@ class clColors : public JsonSerializer, public JsonDeserializer {
         nc_color get_random();
 
         void load_default();
-        void load_custom();
+        void load_custom(const std::string &sPath = "");
 
         void show_gui();
 

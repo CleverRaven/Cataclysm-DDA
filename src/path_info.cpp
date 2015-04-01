@@ -125,6 +125,7 @@ void PATH_INFO::set_standard_filenames(void)
     update_pathname("titledir", FILENAMES["datadir"] + "title/");
     update_pathname("motddir", FILENAMES["datadir"] + "motd/");
     update_pathname("creditsdir", FILENAMES["datadir"] + "credits/");
+    update_pathname("color_templates", FILENAMES["rawdir"] + "color_templates/");
 
     // Shared files
     update_pathname("title", FILENAMES["titledir"] + "en.title");

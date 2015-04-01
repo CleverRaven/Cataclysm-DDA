@@ -8,6 +8,7 @@
 #include "worldfactory.h"
 #include "path_info.h"
 #include "mapsharing.h"
+#include "filesystem.h"
 #include <iostream>
 #include <fstream>
 
@@ -599,7 +600,8 @@ void clColors::show_gui()
     int tmpx = 0;
     tmpx += shortcut_print(w_colors_header, 0, tmpx, c_white, c_ltgreen, _("<R>emove custom color")) + 2;
     tmpx += shortcut_print(w_colors_header, 0, tmpx, c_white, c_ltgreen, _("<Arrow Keys> To navigate")) + 2;
-    shortcut_print(w_colors_header, 0, tmpx, c_white, c_ltgreen, _("<Enter>-Edit"));
+    tmpx += shortcut_print(w_colors_header, 0, tmpx, c_white, c_ltgreen, _("<Enter>-Edit"));
+    shortcut_print(w_colors_header, 0, tmpx, c_white, c_ltgreen, _("<L>-oad Template"));
 
     mvwprintz(w_colors_header, 1, 0, c_white, _("Some color changes may require a restart."));
 
@@ -620,6 +622,7 @@ void clColors::show_gui()
     ctxt.register_action("CONFIRM");
     ctxt.register_action("QUIT");
     ctxt.register_action("REMOVE_CUSTOM");
+    ctxt.register_action("LOAD_TEMPLATE");
     ctxt.register_action("HELP_KEYBINDINGS");
 
     std::map<std::string, stColors> mapColorsOrdered(mapColors.begin(), mapColors.end());
@@ -723,6 +726,39 @@ void clColors::show_gui()
                 entry.sNoBrightCustom = "";
             }
 
+        } else if (action == "LOAD_TEMPLATE") {
+            auto vFiles = get_files_from_path(".json", FILENAMES["color_templates"], false, true);
+
+            if ( vFiles.size() > 0 ) {
+                uimenu ui_templates;
+                ui_templates.w_y = iHeaderHeight + 1 + iOffsetY;
+                ui_templates.w_height = 18;
+                ui_templates.return_invalid = true;
+
+                ui_templates.text = _("Color templates:");
+
+                for ( const auto& filename : vFiles ) {
+                    ui_templates.addentry( filename );
+                }
+
+                ui_templates.addentry(std::string(_("Cancel")));
+                ui_templates.query();
+
+                if ( (size_t)ui_templates.ret < mapColorsOrdered.size() ) {
+                    auto mapColorsTemp = mapColors;
+
+                    mapColors.clear();
+                    load_default();
+
+                    //load_custom(vFiles[ui_templates.ret]);
+
+                    mapColorsOrdered.clear();
+                    std::map<std::string, stColors> mapColorsOrderedTemp(mapColors.begin(), mapColors.end());
+
+                    mapColorsOrdered = mapColorsOrderedTemp;
+                }
+            }
+
         } else if (action == "CONFIRM") {
             uimenu ui_colors;
             ui_colors.w_y = iHeaderHeight + 1 + iOffsetY;
@@ -730,26 +766,37 @@ void clColors::show_gui()
             ui_colors.return_invalid = true;
 
             std::string sColorType = _("Normal");
+            std::string sSelected = mapColorsOrdered[sActive].sCustom;
+
             if ( iCurrentCol == 2 ) {
                 sColorType = _("Invert");
+                sSelected = mapColorsOrdered[sActive].sInvertCustom;
 
             } else if ( iCurrentCol == 3 ) {
                 sColorType = _("NoBright");
+                sSelected = mapColorsOrdered[sActive].sNoBrightCustom;
             }
 
             ui_colors.text = string_format( _("Custom %s color:"), sColorType.c_str() );
 
+            int i = 0;
             for ( auto &iter : mapColorsOrdered ) {
                 std::string sColor = iter.first;
                 std::string sType = _("default");
 
                 std::string sCustom = "";
 
+                if ( sSelected == sColor ) {
+                    ui_colors.selected = i;
+                }
+
                 if ( !iter.second.sCustom.empty() ) {
                     sCustom = " <color_" + iter.second.sCustom + ">" + _("custom") + "</color>";
                 }
 
                 ui_colors.addentry(string_format( "%-17s <color_%s>%s</color>%s", iter.first.c_str(), sColor.c_str(), sType.c_str(), sCustom.c_str() ) );
+
+                i++;
             }
 
             ui_colors.addentry(std::string(_("Cancel")));
@@ -812,12 +859,12 @@ bool clColors::save_custom()
     return false;
 }
 
-void clColors::load_custom()
+void clColors::load_custom(const std::string &sPath)
 {
-    const auto savefile = FILENAMES["custom_colors"];
+    const auto file = ( sPath.empty() ) ? FILENAMES["custom_colors"] : sPath;
 
     std::ifstream fin;
-    fin.open(savefile.c_str(), std::ifstream::in | std::ifstream::binary);
+    fin.open(file.c_str(), std::ifstream::in | std::ifstream::binary);
     if(!fin.good()) {
         fin.close();
         return;
