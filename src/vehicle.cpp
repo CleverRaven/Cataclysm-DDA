@@ -3353,15 +3353,14 @@ void vehicle::consume_fuel( double load = 1.0 )
         if (g->u.has_bionic("bio_torsionratchet")) {
             g->u.charge_power(1);
         }
-        //cost fatigue and hunger
+        //cost proportional to strain
+        int mod = 1 + 4 * st;
         if (one_in(10)) {
-            //cost proportional to strain
-            int mod = 1 + 4 * st;
             g->u.fatigue += mod;
             g->u.hunger += mod;
             g->u.thirst += mod;
-            g->u.mod_stat( "stamina", -mod );
         }
+        g->u.mod_stat( "stamina", -mod * 20);
     }
 }
 
@@ -3766,7 +3765,7 @@ void vehicle::slow_leak()
 }
 
 void vehicle::thrust (int thd) {
-    //if vehicle is stopped, set target direction to forward. 
+    //if vehicle is stopped, set target direction to forward.
     //ensure it is not skidding. Set turns used to 0.
     if( velocity == 0 ) {
         turn_dir = face.dir();
