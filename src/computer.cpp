@@ -355,15 +355,13 @@ void computer::activate_function(computer_action action, char ch)
         g->u.add_memorial_log(pgettext("memorial_male", "Released subspace specimens."),
                               pgettext("memorial_female", "Released subspace specimens."));
         sounds::sound(g->u.posx(), g->u.posy(), 40, _("An alarm sounds!"));
-        g->m.translate_radius(t_reinforced_glass_h, t_floor, 25.0, g->u.posx(), g->u.posy());
-        g->m.translate_radius(t_reinforced_glass_v, t_floor, 25.0, g->u.posx(), g->u.posy());
+        g->m.translate_radius(t_reinforced_glass, t_floor, 25.0, g->u.posx(), g->u.posy());
         query_any(_("Containment shields opened.  Press any key..."));
         break;
 
     case COMPACT_RELEASE_BIONICS:
         sounds::sound(g->u.posx(), g->u.posy(), 40, _("An alarm sounds!"));
-        g->m.translate_radius(t_reinforced_glass_h, t_floor, 2.0, g->u.posx(), g->u.posy());
-        g->m.translate_radius(t_reinforced_glass_v, t_floor, 2.0, g->u.posx(), g->u.posy());
+        g->m.translate_radius(t_reinforced_glass, t_floor, 2.0, g->u.posx(), g->u.posy());
         query_any(_("Containment shields opened.  Press any key..."));
         break;
 
@@ -374,10 +372,10 @@ void computer::activate_function(computer_action action, char ch)
             for (int y = 0; y < SEEY * MAPSIZE; y++) {
                 int mondex = g->mon_at(x, y);
                 if (mondex != -1 &&
-                    ((g->m.ter(x, y - 1) == t_reinforced_glass_h &&
-                      g->m.ter(x, y + 1) == t_concrete_h) ||
-                     (g->m.ter(x, y + 1) == t_reinforced_glass_h &&
-                      g->m.ter(x, y - 1) == t_concrete_h))) {
+                    ((g->m.ter(x, y - 1) == t_reinforced_glass &&
+                      g->m.ter(x, y + 1) == t_concrete_wall) ||
+                     (g->m.ter(x, y + 1) == t_reinforced_glass &&
+                      g->m.ter(x, y - 1) == t_concrete_wall))) {
                     g->zombie( mondex ).die( &g->u );
                 }
             }
@@ -1091,7 +1089,7 @@ SHORTLY. TO ENSURE YOUR SAFETY PLEASE FOLLOW THE BELOW STEPS. \n\
                     g->m.make_rubble(x, y, f_rubble_rock, true);
                     g->explosion( tripoint( x, y, g->get_levz() ), 40, 0, true);
                 }
-                if (g->m.ter(x, y) == t_wall_glass_h || g->m.ter(x, y) == t_wall_glass_v) {
+                if (g->m.ter(x, y) == t_wall_glass) {
                     g->m.make_rubble(x, y, f_rubble_rock, true);
                 }
                 if (g->m.ter(x, y) == t_sewage_pipe || g->m.ter(x, y) == t_sewage || g->m.ter(x, y) == t_grate) {

@@ -39,6 +39,8 @@ class monster;
 #define mfb(n) static_cast <unsigned long> (1 << (n))
 #endif
 
+static constexpr long LINE_AUTO_WALL = 2; // not an ascii character at all
+
 struct map_bash_item_drop {
     std::string itemtype; // item id
     int amount;           // number dropped
@@ -553,11 +555,11 @@ extern ter_id t_null,
     // Walls
     t_wall_log_half, t_wall_log, t_wall_log_chipped, t_wall_log_broken, t_palisade, t_palisade_gate, t_palisade_gate_o,
     t_wall_half, t_wall_wood, t_wall_wood_chipped, t_wall_wood_broken,
-    t_wall_v, t_wall_h, t_concrete_v, t_concrete_h,
-    t_wall_metal_v, t_wall_metal_h,
-    t_wall_glass_v, t_wall_glass_h,
-    t_wall_glass_v_alarm, t_wall_glass_h_alarm,
-    t_reinforced_glass_v, t_reinforced_glass_h,
+    t_wall, t_concrete_wall,
+    t_wall_metal,
+    t_wall_glass,
+    t_wall_glass_alarm,
+    t_reinforced_glass,
     t_bars,
     t_door_c, t_door_c_peep, t_door_b, t_door_b_peep, t_door_o, t_door_o_peep,
     t_door_locked_interior, t_door_locked, t_door_locked_peep, t_door_locked_alarm, t_door_frame,
@@ -583,8 +585,8 @@ extern ter_id t_null,
     t_fence_post, t_fence_wire, t_fence_barbed, t_fence_rope,
     t_railing_v, t_railing_h,
     // Nether
-    t_marloss, t_fungus_floor_in, t_fungus_floor_sup, t_fungus_floor_out, t_fungus_wall, t_fungus_wall_v,
-    t_fungus_wall_h, t_fungus_mound, t_fungus, t_shrub_fungal, t_tree_fungal, t_tree_fungal_young, t_marloss_tree,
+    t_marloss, t_fungus_floor_in, t_fungus_floor_sup, t_fungus_floor_out, t_fungus_wall,
+    t_fungus_mound, t_fungus, t_shrub_fungal, t_tree_fungal, t_tree_fungal_young, t_marloss_tree,
     // Water, lava, etc.
     t_water_sh, t_swater_sh, t_water_dp, t_swater_dp, t_water_pool, t_sewage,
     t_lava,

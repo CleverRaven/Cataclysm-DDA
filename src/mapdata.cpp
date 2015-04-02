@@ -277,6 +277,8 @@ void load_terrain(JsonObject &jsobj)
     new_terrain.sym = LINE_XOXO;
   } else if("LINE_OXOX" == symbol) {
     new_terrain.sym = LINE_OXOX;
+  } else if("AUTO_WALL" == symbol) {
+    new_terrain.sym = LINE_AUTO_WALL;
   } else {
     new_terrain.sym = symbol.c_str()[0];
   }
@@ -333,13 +335,55 @@ void load_terrain(JsonObject &jsobj)
   terlist.push_back(new_terrain);
 }
 
+static const std::unordered_map<std::string, std::string> ter_type_conversion_map = { {
+    { "t_wall_h", "t_wall" },
+    { "t_wall_v", "t_wall" },
+    { "t_concrete_h", "t_concrete_wall" },
+    { "t_concrete_v", "t_concrete_wall" },
+    { "t_wall_metal_h", "t_wall_metal" },
+    { "t_wall_metal_v", "t_wall_metal" },
+    { "t_wall_glass_h", "t_wall_glass" },
+    { "t_wall_glass_v", "t_wall_glass" },
+    { "t_wall_glass_h_alarm", "t_wall_glass_alarm" },
+    { "t_wall_glass_v_alarm", "t_wall_glass_alarm" },
+    { "t_reinforced_glass_h", "t_reinforced_glass" },
+    { "t_reinforced_glass_v", "t_reinforced_glass" },
+    { "t_fungus_wall_h", "t_fungus_wall" },
+    { "t_fungus_wall_v", "t_fungus_wall" },
+    { "t_wall_h_r", "t_wall_r" },
+    { "t_wall_v_r", "t_wall_r" },
+    { "t_wall_h_w", "t_wall_w" },
+    { "t_wall_v_w", "t_wall_w" },
+    { "t_wall_h_b", "t_wall_b" },
+    { "t_wall_v_b", "t_wall_b" },
+    { "t_wall_h_g", "t_wall_g" },
+    { "t_wall_v_g", "t_wall_g" },
+    { "t_wall_h_y", "t_wall_y" },
+    { "t_wall_v_y", "t_wall_y" },
+    { "t_wall_h_p", "t_wall_p" },
+    { "t_wall_v_p", "t_wall_p" },
+} };
+
+std::string convert_terrain_type( const std::string &t )
+{
+    const auto iter = ter_type_conversion_map.find( t );
+    if( iter == ter_type_conversion_map.end() ) {
+        return t;
+    }
+    return iter->second;
+}
 
 ter_id terfind(const std::string & id) {
-    if( termap.find(id) == termap.end() ) {
-         debugmsg("Can't find %s",id.c_str());
-         return 0;
+    auto iter = termap.find( id );
+    if( iter != termap.end() ) {
+        return iter->second.loadid;
     }
-    return termap[id].loadid;
+    const std::string new_id = convert_terrain_type( id );
+    if( new_id != id ) {
+        return terfind( new_id );
+    }
+    debugmsg( "can't find terrain %s", id.c_str() );
+    return t_null;
 }
 
 ter_id t_null,
@@ -364,14 +408,13 @@ ter_id t_null,
     // Walls
     t_wall_log_half, t_wall_log, t_wall_log_chipped, t_wall_log_broken, t_palisade, t_palisade_gate, t_palisade_gate_o,
     t_wall_half, t_wall_wood, t_wall_wood_chipped, t_wall_wood_broken,
-    t_wall_v, t_wall_h, t_concrete_v, t_concrete_h,
-    t_wall_metal_v, t_wall_metal_h,
-    t_wall_glass_v, t_wall_glass_h,
-    t_wall_glass_v_alarm, t_wall_glass_h_alarm,
-    t_reinforced_glass_v, t_reinforced_glass_h,
+    t_wall, t_concrete_wall,
+    t_wall_metal,
+    t_wall_glass,
+    t_wall_glass_alarm,
+    t_reinforced_glass,
     t_bars,
-    t_wall_h_r,t_wall_h_w,t_wall_h_b,t_wall_h_g,t_wall_h_p,t_wall_h_y,
-    t_wall_v_r,t_wall_v_w,t_wall_v_b,t_wall_v_g,t_wall_v_p,t_wall_v_y,
+    t_wall_r,t_wall_w,t_wall_b,t_wall_g,t_wall_p,t_wall_y,
     t_door_c, t_door_c_peep, t_door_b, t_door_b_peep, t_door_o, t_door_o_peep, t_rdoor_c, t_rdoor_b, t_rdoor_o,t_door_locked_interior, t_door_locked, t_door_locked_peep, t_door_locked_alarm, t_door_frame,
     t_chaingate_l, t_fencegate_c, t_fencegate_o, t_chaingate_c, t_chaingate_o,
     t_door_boarded, t_door_boarded_damaged, t_door_boarded_peep, t_rdoor_boarded, t_rdoor_boarded_damaged, t_door_boarded_damaged_peep,
@@ -396,8 +439,8 @@ ter_id t_null,
     t_fence_post, t_fence_wire, t_fence_barbed, t_fence_rope,
     t_railing_v, t_railing_h,
     // Nether
-    t_marloss, t_fungus_floor_in, t_fungus_floor_sup, t_fungus_floor_out, t_fungus_wall, t_fungus_wall_v,
-    t_fungus_wall_h, t_fungus_mound, t_fungus, t_shrub_fungal, t_tree_fungal, t_tree_fungal_young, t_marloss_tree,
+    t_marloss, t_fungus_floor_in, t_fungus_floor_sup, t_fungus_floor_out, t_fungus_wall,
+    t_fungus_mound, t_fungus, t_shrub_fungal, t_tree_fungal, t_tree_fungal_young, t_marloss_tree,
     // Water, lava, etc.
     t_water_sh, t_water_dp, t_swater_sh, t_swater_dp, t_water_pool, t_sewage,
     t_lava,
@@ -477,29 +520,18 @@ void set_ter_ids() {
     t_wall_wood=terfind("t_wall_wood");
     t_wall_wood_chipped=terfind("t_wall_wood_chipped");
     t_wall_wood_broken=terfind("t_wall_wood_broken");
-    t_wall_v=terfind("t_wall_v");
-    t_wall_h=terfind("t_wall_h");
-    t_concrete_v=terfind("t_concrete_v");
-    t_concrete_h=terfind("t_concrete_h");
-    t_wall_metal_v=terfind("t_wall_metal_v");
-    t_wall_metal_h=terfind("t_wall_metal_h");
-    t_wall_glass_v=terfind("t_wall_glass_v");
-    t_wall_glass_h=terfind("t_wall_glass_h");
-    t_wall_glass_v_alarm=terfind("t_wall_glass_v_alarm");
-    t_wall_glass_h_alarm=terfind("t_wall_glass_h_alarm");
-    t_reinforced_glass_v=terfind("t_reinforced_glass_v");
-    t_reinforced_glass_h=terfind("t_reinforced_glass_h");
+    t_wall=terfind("t_wall");
+    t_concrete_wall=terfind("t_concrete_wall");
+    t_wall_metal=terfind("t_wall_metal");
+    t_wall_glass=terfind("t_wall_glass");
+    t_wall_glass_alarm=terfind("t_wall_glass_alarm");
+    t_reinforced_glass=terfind("t_reinforced_glass");
     t_bars=terfind("t_bars");
-    t_wall_h_b=terfind("t_wall_h_b");
-    t_wall_h_g=terfind("t_wall_h_g");
-    t_wall_h_p=terfind("t_wall_h_p");
-    t_wall_h_r=terfind("t_wall_h_r");
-    t_wall_h_w=terfind("t_wall_h_w");
-    t_wall_v_b=terfind("t_wall_v_b");
-    t_wall_v_g=terfind("t_wall_v_g");
-    t_wall_v_p=terfind("t_wall_v_p");
-    t_wall_v_r=terfind("t_wall_v_r");
-    t_wall_v_w=terfind("t_wall_v_w");
+    t_wall_b=terfind("t_wall_b");
+    t_wall_g=terfind("t_wall_g");
+    t_wall_p=terfind("t_wall_p");
+    t_wall_r=terfind("t_wall_r");
+    t_wall_w=terfind("t_wall_w");
     t_door_c=terfind("t_door_c");
     t_door_c_peep=terfind("t_door_c_peep");
     t_door_b=terfind("t_door_b");
@@ -603,8 +635,6 @@ void set_ter_ids() {
     t_fungus_floor_sup=terfind("t_fungus_floor_sup");
     t_fungus_floor_out=terfind("t_fungus_floor_out");
     t_fungus_wall=terfind("t_fungus_wall");
-    t_fungus_wall_v=terfind("t_fungus_wall_v");
-    t_fungus_wall_h=terfind("t_fungus_wall_h");
     t_fungus_mound=terfind("t_fungus_mound");
     t_fungus=terfind("t_fungus");
     t_shrub_fungal=terfind("t_shrub_fungal");

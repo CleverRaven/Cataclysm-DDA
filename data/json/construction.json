@@ -1725,7 +1725,7 @@
         "post_terrain" : "t_water_pump"
     },{
         "type" : "construction",
-        "description" : "Paint Wall Red", "//": "For horizontal walls",
+        "description" : "Paint Wall Red",
         "category" : "DECORATE",
         "difficulty" : 0,
         "time" : 40,
@@ -1735,25 +1735,11 @@
         "components" : [
             [ [ "r_paint", 25 ] ]
           ],
-        "pre_terrain" : "t_wall_h",
-        "post_terrain" : "t_wall_h_r"
+        "pre_terrain" : "t_wall",
+        "post_terrain" : "t_wall_r"
     },{
         "type" : "construction",
-        "description" : "Paint Wall Red", "//": "For vert walls",
-        "category" : "DECORATE",
-        "difficulty" : 0,
-        "time" : 40,
-        "tools" : [
-            [ "paint_brush"]
-          ],
-        "components" : [
-            [ [ "r_paint", 25 ] ]
-          ],
-        "pre_terrain" : "t_wall_v",
-        "post_terrain" : "t_wall_v_r"
-    },{
-        "type" : "construction",
-        "description" : "Paint Wall Blue", "//": "For horizontal walls",
+        "description" : "Paint Wall Blue",
         "category" : "DECORATE",
         "difficulty" : 0,
         "time" : 40,
@@ -1763,25 +1749,11 @@
         "components" : [
             [ [ "b_paint", 25 ] ]
           ],
-        "pre_terrain" : "t_wall_h",
-        "post_terrain" : "t_wall_h_b"
+        "pre_terrain" : "t_wall",
+        "post_terrain" : "t_wall_b"
     },{
         "type" : "construction",
-        "description" : "Paint Wall Blue", "//": "For vert walls",
-        "category" : "DECORATE",
-        "difficulty" : 0,
-        "time" : 40,
-        "tools" : [
-            [ "paint_brush"]
-          ],
-        "components" : [
-            [ [ "b_paint", 25 ] ]
-          ],
-        "pre_terrain" : "t_wall_v",
-        "post_terrain" : "t_wall_v_b"
-    },{
-        "type" : "construction",
-        "description" : "Paint Wall white", "//": "For horizontal walls",
+        "description" : "Paint Wall white",
         "category" : "DECORATE",
         "difficulty" : 0,
         "time" : 40,
@@ -1791,25 +1763,11 @@
         "components" : [
             [ [ "w_paint", 25 ] ]
           ],
-        "pre_terrain" : "t_wall_h",
-        "post_terrain" : "t_wall_h_w"
+        "pre_terrain" : "t_wall",
+        "post_terrain" : "t_wall_w"
     },{
         "type" : "construction",
-        "description" : "Paint Wall white", "//": "For vertical walls",
-        "category" : "DECORATE",
-        "difficulty" : 0,
-        "time" : 40,
-          "tools" : [
-            [ "paint_brush"]
-          ],
-        "components" : [
-            [ [ "w_paint", 25 ] ]
-          ],
-        "pre_terrain" : "t_wall_v",
-        "post_terrain" : "t_wall_v_w"
-    },{
-        "type" : "construction",
-        "description" : "Paint Wall Green", "//": "For horizontal walls",
+        "description" : "Paint Wall Green",
         "category" : "DECORATE",
         "difficulty" : 0,
         "time" : 40,
@@ -1819,25 +1777,11 @@
         "components" : [
             [ [ "g_paint", 25 ] ]
           ],
-        "pre_terrain" : "t_wall_h",
-        "post_terrain" : "t_wall_h_g"
+        "pre_terrain" : "t_wall",
+        "post_terrain" : "t_wall_g"
     },{
         "type" : "construction",
-        "description" : "Paint Wall Green", "//": "For vertical walls",
-        "category" : "DECORATE",
-        "difficulty" : 0,
-        "time" : 40,
-        "tools" : [
-            [ "paint_brush"]
-          ],
-        "components" : [
-            [ [ "g_paint", 25 ] ]
-          ],
-        "pre_terrain" : "t_wall_v",
-        "post_terrain" : "t_wall_v_g"
-    },{
-        "type" : "construction",
-        "description" : "Paint Wall Purple", "//": "For horizontal walls",
+        "description" : "Paint Wall Purple",
         "category" : "DECORATE",
         "difficulty" : 0,
         "time" : 40,
@@ -1847,25 +1791,11 @@
         "components" : [
             [ [ "p_paint", 25 ] ]
           ],
-        "pre_terrain" : "t_wall_h",
-        "post_terrain" : "t_wall_h_p"
+        "pre_terrain" : "t_wall",
+        "post_terrain" : "t_wall_p"
     },{
         "type" : "construction",
-        "description" : "Paint Wall Purple", "//": "For vertical walls",
-        "category" : "DECORATE",
-        "difficulty" : 0,
-        "time" : 40,
-        "tools" : [
-            [ "paint_brush"]
-          ],
-        "components" : [
-            [ [ "p_paint", 25 ] ]
-          ],
-        "pre_terrain" : "t_wall_v",
-        "post_terrain" : "t_wall_v_p"
-    },{
-        "type" : "construction",
-        "description" : "Paint Wall Yellow", "//": "For horizontal walls",
+        "description" : "Paint Wall Yellow",
         "category" : "DECORATE",
         "difficulty" : 0,
         "time" : 40,
@@ -1875,22 +1805,8 @@
         "components" : [
             [ [ "y_paint", 25 ] ]
           ],
-        "pre_terrain" : "t_wall_h",
-        "post_terrain" : "t_wall_h_y"
-    },{
-        "type" : "construction",
-        "description" : "Paint Wall Yellow", "//": "For vertical walls",
-        "category" : "DECORATE",
-        "difficulty" : 0,
-        "time" : 40,
-        "tools" : [
-            [ "paint_brush"]
-          ],
-        "components" : [
-            [ [ "y_paint", 25 ] ]
-          ],
-        "pre_terrain" : "t_wall_v",
-        "post_terrain" : "t_wall_v_y"
+        "pre_terrain" : "t_wall",
+        "post_terrain" : "t_wall_y"
     },{
         "type" : "construction",
         "description" : "Take Paint Off Wall", "//": "For vertical walls",
@@ -1900,19 +1816,8 @@
         "tools" : [
             [ "chipper"]
           ],
-        "pre_flags" : "CHIPV",
-        "post_terrain" : "t_wall_v"
-    },{
-        "type" : "construction",
-        "description" : "Take Paint Off Wall", "//": "For horizontal walls",
-        "category" : "DECORATE",
-        "difficulty" : 0,
-        "time" : 80,
-        "tools" : [
-            [ "chipper"]
-          ],
-        "pre_flags" : "CHIPH",
-        "post_terrain" : "t_wall_h"
+        "pre_flags" : "CHIP",
+        "post_terrain" : "t_wall"
     },{
         "type" : "construction",
         "description" : "Remove Carpet",

@@ -3129,7 +3129,7 @@ bool map::hit_with_acid( const int x, const int y )
         return false;    // Didn't hit the tile!
     }
     const ter_id t = ter( x, y );
-    if( t == t_wall_glass_v || t == t_wall_glass_h || t == t_wall_glass_v_alarm || t == t_wall_glass_h_alarm ||
+    if( t == t_wall_glass || t == t_wall_glass_alarm ||
         t == t_vat ) {
         ter_set( x, y, t_floor );
     } else if( t == t_door_c || t == t_door_locked || t == t_door_locked_peep || t == t_door_locked_alarm ) {
@@ -4866,8 +4866,8 @@ void map::drawsq(WINDOW* w, player &u, const int x, const int y, const bool inve
     }
 
     //suprise, we're not done, if it's a wall adjacent to an other, put the right glyph
-    if(sym == LINE_XOXO || sym == LINE_OXOX) { //vertical or horizontal
-        sym = determine_wall_corner(x, y, sym);
+    if( sym == LINE_AUTO_WALL ) {
+        sym = determine_wall_corner( x, y );
     }
 
     if (u.has_effect("boomered")) {
@@ -5967,9 +5967,9 @@ bool map::has_graffiti_at( const tripoint &p ) const
     return current_submap->has_graffiti( lx, ly );
 }
 
-long map::determine_wall_corner(const int x, const int y, const long orig_sym) const
+long map::determine_wall_corner(const int x, const int y) const
 {
-    long sym = orig_sym;
+    const long sym = LINE_AUTO_WALL;
     //LINE_NESW
     const long above = ter_at(x, y-1).sym;
     const long below = ter_at(x, y+1).sym;
@@ -5980,61 +5980,35 @@ long map::determine_wall_corner(const int x, const int y, const long orig_sym) c
     const bool below_connects = below == sym || (below == '"' || below == '+' || below == '\'');
     const bool left_connects  = left  == sym || (left  == '"' || left  == '+' || left  == '\'');
     const bool right_connects = right == sym || (right == '"' || right == '+' || right == '\'');
+#define B(i,b) ((b) ? (i) : 0)
+    const long bits = B(1, above_connects) +
+                      B(2, right_connects) +
+                      B(4, below_connects) +
+                      B(8, left_connects);
+#undef B
+    switch( bits ) {
+        case 1 | 2 | 4 | 8: return LINE_XXXX;
+        case 0 | 2 | 4 | 8: return LINE_OXXX;
+        
+        case 1 | 0 | 4 | 8: return LINE_XOXX;
+        case 0 | 0 | 4 | 8: return LINE_OOXX;
 
-    // -
-    // |      this = - and above = | or a connectable
-    if(sym == LINE_OXOX &&  (above == LINE_XOXO || above_connects))
-    {
-        //connects to upper
-        if(left_connects)
-            sym = LINE_XOOX; // ┘ left coming wall
-        else if(right_connects)
-            sym = LINE_XXOO;//└   right coming wall
-        if(left_connects && right_connects)
-            sym = LINE_XXOX; // ┴ passing by
+        case 1 | 2 | 0 | 8: return LINE_XXOX;
+        case 0 | 2 | 0 | 8: return LINE_OXOX;
+        case 1 | 0 | 0 | 8: return LINE_XOOX;
+        case 0 | 0 | 0 | 8: return LINE_OXOX; // LINE_OOOX would be better
+
+        case 1 | 2 | 4 | 0: return LINE_XXXO;
+        case 0 | 2 | 4 | 0: return LINE_OXXO;
+        case 1 | 0 | 4 | 0: return LINE_XOXO;
+        case 0 | 0 | 4 | 0: return LINE_XOXO; // LINE_OOXO would be better
+        case 1 | 2 | 0 | 0: return LINE_XXOO;
+        case 0 | 2 | 0 | 0: return LINE_OXOX; // LINE_OXOO would be better
+        case 1 | 0 | 0 | 0: return LINE_XOXO; // LINE_XOOO would be better
+
+        case 0 | 0 | 0 | 0: return '|'; // technically just a column
     }
-
-    // |
-    // -      this = - and below = | or a connectable
-    else if(sym == LINE_OXOX && (below == LINE_XOXO || below_connects))
-    {
-        //connects to lower
-        if(left_connects)
-            sym = LINE_OOXX; // ┐ left coming wall
-        else if(right_connects)
-            sym = LINE_OXXO;//┌   right coming wall
-        if(left_connects && right_connects)
-            sym = LINE_OXXX; // ┬ passing by
-    }
-
-    // -|       this = | and left = - or a connectable
-    else if(sym == LINE_XOXO && (left == LINE_OXOX || left_connects))
-    {
-        //connexts to left
-        if(above_connects)
-            sym = LINE_XOOX; // ┘ north coming wall
-        else if(below_connects )
-            sym = LINE_OOXX;//┐   south coming wall
-        if(above_connects && below_connects)
-            sym = LINE_XOXX; // ┤ passing by
-    }
-
-    // |-       this = | and right = - or a connectable
-    else if(sym == LINE_XOXO && (right == LINE_OXOX || right_connects))
-    {
-        //connects to right
-        if(above_connects)
-            sym = LINE_XXOO; // └ north coming wall
-        else if(below_connects)
-            sym = LINE_OXXO;// ┌   south coming wall
-        if(above_connects && below_connects)
-            sym = LINE_XXXO; // ├ passing by
-    }
-
-    if(above == LINE_XOXO && left == LINE_OXOX && above == below && left == right)
-        sym = LINE_XXXX; // ┼ crossway
-
-    return sym;
+    return '?';
 }
 
 void map::build_outside_cache()
