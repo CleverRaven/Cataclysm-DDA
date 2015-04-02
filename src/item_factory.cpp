@@ -465,7 +465,7 @@ void Item_factory::check_definitions() const
             }
         }
         if( type->bionic ) {
-            if( bionics.count( type->bionic->bionic_id ) == 0 ) {
+            if (!is_valid_bionic(type->bionic->bionic_id)) {
                 msg << string_format("there is no bionic with id %s", type->bionic->bionic_id.c_str()) << "\n";
             }
         }

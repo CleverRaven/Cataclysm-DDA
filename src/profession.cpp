@@ -186,10 +186,9 @@ void profession::check_definition() const
     check_item_definitions( _starting_items );
     check_item_definitions( _starting_items_female );
     check_item_definitions( _starting_items_male );
-    for (std::vector<std::string>::const_iterator a = _starting_CBMs.begin(); a != _starting_CBMs.end();
-         ++a) {
-        if (bionics.count(*a) == 0) {
-            debugmsg("bionic %s for profession %s does not exist", a->c_str(), _ident.c_str());
+    for (auto const &a : _starting_CBMs) {
+        if (!is_valid_bionic(a)) {
+            debugmsg("bionic %s for profession %s does not exist", a.c_str(), _ident.c_str());
         }
     }
     

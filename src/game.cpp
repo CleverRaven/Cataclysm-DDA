@@ -3012,10 +3012,14 @@ bool game::handle_action()
                     }
                 }
                 for ( int i = 0; i < g->u.num_bionics(); i++ ) {
-                    bionic &bio = g->u.bionic_at_index(i);
-                    if ( bio.powered && bionics[bio.id]->power_over_time > 0 &&
-                         bio.id != "bio_alarm" ) {
-                        active.push_back( bionics[bio.id]->name );
+                    bionic const &bio = g->u.bionic_at_index(i);
+                    if (!bio.powered) {
+                        continue;
+                    }
+
+                    auto const &info = bio.info();
+                    if (info.power_over_time > 0 && bio.id != "bio_alarm") {
+                        active.push_back(info.name);
                     }
                 }
                 for ( auto &mut : g->u.get_mutations() ) {

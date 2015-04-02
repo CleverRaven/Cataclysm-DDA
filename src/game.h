@@ -428,8 +428,6 @@ class game
 
         void open_gate( const tripoint &p, const ter_id handle_type );
 
-        bionic_id random_good_bionic() const; // returns a non-faulty, valid bionic
-
         // Helper because explosion was getting too big.
         void do_blast( const tripoint &p, const int power, const int radius, const bool fire );
 
