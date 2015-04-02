@@ -80,6 +80,7 @@ static const std::unordered_map<std::string, ter_bitflags> ter_bitflags_map = { 
     { "DEEP_WATER",               TFLAG_DEEP_WATER },     // Deep enough to submerge things
     { "HARVESTED",                TFLAG_HARVESTED },      // harvested.  will not bear fruit.
     { "PERMEABLE",                TFLAG_PERMEABLE },      // gases can flow through.
+    { "AUTO_WALL_SYMBOL",         TFLAG_AUTO_WALL_SYMBOL }, // automatically create the appropriate wall
 } };
 
 void load_map_bash_item_drop_list(JsonArray ja, std::vector<map_bash_item_drop> &items) {
@@ -269,8 +270,6 @@ void load_terrain(JsonObject &jsobj)
     new_terrain.sym = LINE_XOXO;
   } else if("LINE_OXOX" == symbol) {
     new_terrain.sym = LINE_OXOX;
-  } else if("AUTO_WALL" == symbol) {
-    new_terrain.sym = LINE_AUTO_WALL;
   } else {
     new_terrain.sym = symbol.c_str()[0];
   }

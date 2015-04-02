@@ -40,8 +40,6 @@ class monster;
 #define mfb(n) static_cast <unsigned long> (1 << (n))
 #endif
 
-static constexpr long LINE_AUTO_WALL = 2; // not an ascii character at all
-
 struct map_bash_item_drop {
     std::string itemtype; // item id
     int amount;           // number dropped
@@ -166,6 +164,7 @@ enum ter_bitflags {
     TFLAG_DEEP_WATER,
     TFLAG_HARVESTED,
     TFLAG_PERMEABLE,
+    TFLAG_AUTO_WALL_SYMBOL,
 
     NUM_TERFLAGS
 };

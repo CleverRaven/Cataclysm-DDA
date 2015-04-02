@@ -4771,13 +4771,20 @@ void map::drawsq(WINDOW* w, player &u, const int x, const int y, const bool inve
     bool hi = false;
     bool graf = false;
     bool draw_item_sym = false;
-
+    static const long AUTO_WALL_PLACEHOLDER = 2; // this should never appear as a real symbol!
 
     if( curr_furn.loadid != f_null ) {
         sym = curr_furn.sym;
         tercol = curr_furn.color;
     } else {
-        sym = curr_ter.sym;
+        if( curr_ter.has_flag( TFLAG_AUTO_WALL_SYMBOL ) ) {
+            // If the terrain symbol is later overriden by something, we don't need to calculate
+            // the wall symbol at all. This case will be detected by comparing sym to this
+            // placeholder, if it's still the same, we have to calculate the wall symbol.
+            sym = AUTO_WALL_PLACEHOLDER;
+        } else {
+            sym = curr_ter.sym;
+        }
         tercol = curr_ter.color;
     }
     if (has_flag(TFLAG_SWIMMABLE, x, y) && has_flag(TFLAG_DEEP_WATER, x, y) && !u.is_underwater()) {
@@ -4866,7 +4873,7 @@ void map::drawsq(WINDOW* w, player &u, const int x, const int y, const bool inve
     }
 
     //suprise, we're not done, if it's a wall adjacent to an other, put the right glyph
-    if( sym == LINE_AUTO_WALL ) {
+    if( sym == AUTO_WALL_PLACEHOLDER ) {
         sym = determine_wall_corner( x, y );
     }
 
@@ -5969,17 +5976,15 @@ bool map::has_graffiti_at( const tripoint &p ) const
 
 long map::determine_wall_corner(const int x, const int y) const
 {
-    const long sym = LINE_AUTO_WALL;
-    //LINE_NESW
-    const long above = ter_at(x, y-1).sym;
-    const long below = ter_at(x, y+1).sym;
-    const long left  = ter_at(x-1, y).sym;
-    const long right = ter_at(x+1, y).sym;
+    const bool above = ter_at(x, y-1).has_flag( TFLAG_AUTO_WALL_SYMBOL );
+    const bool below = ter_at(x, y+1).has_flag( TFLAG_AUTO_WALL_SYMBOL );
+    const bool left  = ter_at(x-1, y).has_flag( TFLAG_AUTO_WALL_SYMBOL );
+    const bool right = ter_at(x+1, y).has_flag( TFLAG_AUTO_WALL_SYMBOL );
 
-    const bool above_connects = above == sym || (above == '"' || above == '+' || above == '\'');
-    const bool below_connects = below == sym || (below == '"' || below == '+' || below == '\'');
-    const bool left_connects  = left  == sym || (left  == '"' || left  == '+' || left  == '\'');
-    const bool right_connects = right == sym || (right == '"' || right == '+' || right == '\'');
+    const bool above_connects = above || (above == '"' || above == '+' || above == '\'');
+    const bool below_connects = below || (below == '"' || below == '+' || below == '\'');
+    const bool left_connects  = left  || (left  == '"' || left  == '+' || left  == '\'');
+    const bool right_connects = right || (right == '"' || right == '+' || right == '\'');
 #define B(i,b) ((b) ? (i) : 0)
     const long bits = B(1, above_connects) +
                       B(2, right_connects) +
@@ -6006,9 +6011,13 @@ long map::determine_wall_corner(const int x, const int y) const
         case 0 | 2 | 0 | 0: return LINE_OXOX; // LINE_OXOO would be better
         case 1 | 0 | 0 | 0: return LINE_XOXO; // LINE_XOOO would be better
 
-        case 0 | 0 | 0 | 0: return '|'; // technically just a column
+        case 0 | 0 | 0 | 0: return ter_at( x, y ).sym; // technically just a column
+
+        default:
+            // assert( false );
+            // this shall not happen
+            return '?';
     }
-    return '?';
 }
 
 void map::build_outside_cache()
