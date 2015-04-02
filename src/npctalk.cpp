@@ -1338,7 +1338,7 @@ std::string dialogue::dynamic_line( const std::string &topic ) const
             return opinion.str();
     }
 
-    return "I don't know what to say. (BUG (npctalk.cpp:dynamic_line))";
+    return string_format("I don't know what to say for %s. (BUG (npctalk.cpp:dynamic_line))", topic.c_str() );
 }
 
 talk_response &dialogue::add_response( const std::string &text, const std::string &r )
