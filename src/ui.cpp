@@ -365,7 +365,7 @@ void uimenu::setup()
                 descwidth_final = descwidth;
             }
         }
-        if ( entries[ i ].text_color == C_UNSET_MASK ) {
+        if ( entries[ i ].text_color == c_red_red ) {
             entries[ i ].text_color = text_color;
         }
         fentries.push_back( i );

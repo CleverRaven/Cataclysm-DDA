@@ -550,9 +550,12 @@ bool query_yn(const char *mes, ...)
 
     bool const force_uc = !!OPTIONS["FORCE_CAPITAL_YN"];
 
-    // localizes the selectors, requires translation to use lower case
+    //~ Translation of query answer letters (y mean yes, n - no)
+    //~ Translation MUST contain symbols ONLY from ASCII charset. Undefined behavior otherwise.
+    //~ Translation MUST be in lowercase. Undefined behavior otherwise.
+    //~ Translation MUST contain only 2 letters. Original string will be used otherwise.
     std::string selectors = _("yn");
-    if (selectors.length() < 2) {
+    if (selectors.length() != 2) {
         selectors = "yn";
     }
     std::string ucselectors = selectors;

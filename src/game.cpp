@@ -425,7 +425,7 @@ void game::init_ui()
         hpY = MINIMAP_HEIGHT;
         // under the minimap, but down to the same line as w_location (which is under w_messages)
         // so it erases the space between w_terrain and (w_messages and w_location)
-        hpH = messH - MINIMAP_HEIGHT + 1;
+        hpH = messH - MINIMAP_HEIGHT + 3;
         hpW = 7;
         locX = MINIMAP_WIDTH;
         locY = messY + messH;
@@ -634,6 +634,7 @@ void game::start_game(std::string worldname)
 
     u.moves = 0;
     u.process_turn(); // process_turn adds the initial move points
+    u.stamina = u.get_stamina_max();
     nextspawn = int(calendar::turn);
     temperature = 65; // Springtime-appropriate?
     update_weather(); // Springtime-appropriate, definitely.
@@ -1131,6 +1132,13 @@ bool game::do_turn()
         // Hordes that reached the reality bubble need to spawn,
         // make them spawn in invisible areas only.
         m.spawn_monsters( false );
+    }
+
+    // Recover some stamina every turn.
+    if( u.stamina < u.get_stamina_max() && !u.has_effect("winded") ) {
+        // But mouth encumberance interferes.
+        u.stamina += std::max( 1, 10 - (u.encumb(bp_mouth) / 10) );
+        // TODO: recovering stamina causes hunger/thirst/fatigue.
     }
 
     // Check if we've overdosed... in any deadly way.
@@ -2067,6 +2075,7 @@ input_context get_default_mode_input_context()
     ctxt.register_action("shift_sw");
     ctxt.register_action("shift_w");
     ctxt.register_action("shift_nw");
+    ctxt.register_action("toggle_move");
     ctxt.register_action("open");
     ctxt.register_action("close");
     ctxt.register_action("smash");
@@ -2619,6 +2628,10 @@ bool game::handle_action()
             }
             break;
 
+        case ACTION_TOGGLE_MOVE:
+            u.toggle_move_mode();
+            break;
+
         case ACTION_MOVE_N:
             moveCount++;
 
@@ -2891,7 +2904,7 @@ bool game::handle_action()
             break;
 
         case ACTION_SELECT_FIRE_MODE:
-            u.weapon.next_mode();
+            cycle_item_mode( false );
             break;
 
         case ACTION_DROP:
@@ -4917,7 +4930,7 @@ void game::draw_HP()
     int hpx = wide ? 7 : 0;
     int hpy = wide ? 0 : 1;
     int dy = wide ? 1 : 2;
-    
+
     bool const is_self_aware = u.has_trait("SELFAWARE");
 
     for (int i = 0; i < num_hp_parts; i++) {
@@ -4939,7 +4952,8 @@ void game::draw_HP()
     }
 
     static const char *body_parts[] = { _("HEAD"), _("TORSO"), _("L ARM"),
-                                        _("R ARM"), _("L LEG"), _("R LEG"), _("POWER")
+                                        _("R ARM"), _("L LEG"), _("R LEG"),
+                                        _("POWER")
                                       };
     static body_part part[] = { bp_head, bp_torso, bp_arm_l,
                                 bp_arm_r, bp_leg_l, bp_leg_r, num_bp
@@ -4978,6 +4992,11 @@ void game::draw_HP()
             color = c_yellow;
         }
         mvwprintz(w_HP, powy, powx, color, "%-3d", u.power_level);
+    }
+    if( !wide ) {
+        mvwprintz(w_HP, 14, hpx, c_white, "%s", _("STA"));
+        wmove(w_HP, 15, hpx);
+        u.print_stamina_bar(w_HP);
     }
     wrefresh(w_HP);
 }
@@ -7005,6 +7024,9 @@ void game::smash()
     if (didit) {
         u.handle_melee_wear();
         u.moves -= move_cost;
+        const int mod_sta = ( (u.weapon.weight() / 100 ) + 20) * -1;
+        u.mod_stat("stamina", mod_sta);
+
         if (u.skillLevel("melee") == 0) {
             u.practice("melee", rng(0, 1) * rng(0, 1));
         }
@@ -7542,14 +7564,13 @@ void game::control_vehicle()
 
     if( veh != nullptr && veh->player_in_control( &u ) ) {
         veh->use_controls();
-    } else if (veh && veh->part_with_feature(veh_part, "CONTROLS") >= 0
-               && u.in_vehicle) {
-        if (veh->interact_vehicle_locked()){
+    } else if( veh && veh->part_with_feature( veh_part, "CONTROLS" ) >= 0 && u.in_vehicle ) {
+        if( !veh->interact_vehicle_locked() ) { return; }
+        if( veh->engine_on ) {
             u.controlling_vehicle = true;
-            add_msg(_("You take control of the %s."), veh->name.c_str());
-            if (!veh->engine_on) {
-                veh->start_engine();
-            }
+            add_msg( _("You take control of the %s."), veh->name.c_str() );
+        } else {
+            veh->start_engines( true );
         }
     } else {
         int examx, examy;
@@ -7982,14 +8003,10 @@ void game::print_terrain_info(int lx, int ly, WINDOW *w_look, int column, int &l
     if (m.has_furn(lx, ly)) {
         furn_t furn = m.furn_at(lx, ly);
         tile += "; " + furn.name;
-        if (furn.has_flag("PLANT")) {
+        if( furn.has_flag( "PLANT" ) && !m.i_at( lx, ly ).empty() ) {
             // Plant types are defined by seeds.
-            item plantType = m.i_at(lx, ly)[0];
-            if (plantType.typeId() != "fungal_seeds") {
-                // We rely on the seeds we care about to be
-                // id'd as seed_*.
-                tile += " (" + plantType.typeId().substr(5) + ")";
-            }
+            const item &seed = m.i_at(lx, ly)[0];
+            tile += " (" + seed.get_plant_name() + ")";
         }
     }
 
@@ -10377,6 +10394,9 @@ void game::plthrow(int pos)
     u.moves -= move_cost;
     u.practice("throw", 10);
 
+    int stamina_cost = ( (thrown.weight() / 100 ) + 20) * -1;
+    u.mod_stat("stamina", stamina_cost);
+
     throw_item(u, x, y, thrown, trajectory);
     reenter_fullscreen();
 }
@@ -10470,8 +10490,20 @@ void game::plfire(bool burst, int default_target_x, int default_target_y)
             return;
         }
     }
-    // draw pistol from a holster if unarmed
+    // Use vehicle turret or draw a pistol from a holster if unarmed
     if( !u.is_armed() ) {
+        // Vehicle turret first, if on our tile
+        int part = -1;
+        vehicle *veh = m.veh_at( u.posx(), u.posy(), part );
+        if( veh != nullptr ) {
+            int vpturret = veh->part_with_feature( part, "TURRET", true );
+            int vpcontrols = veh->part_with_feature( part, "CONTROLS", true );
+            if( vpturret >= 0 && veh->fire_turret( vpturret, true ) ) {
+                return;
+            } else if( vpcontrols >= 0 && veh->aim_turrets() ) {
+                return;
+            }
+        }
         // get a list of holsters from worn items
         std::vector<item *> holsters;
         for( auto &worn : u.worn ) {
@@ -10481,6 +10513,7 @@ void game::plfire(bool burst, int default_target_x, int default_target_y)
                 holsters.push_back(&worn);
             }
         }
+        // TODO: Turret vs. holster choice
         if( !holsters.empty() ) {
             int choice = -1;
             // only one holster found, choose it
@@ -10552,9 +10585,28 @@ void game::plfire(bool burst, int default_target_x, int default_target_y)
             add_msg(m_info, _("Out of ammo!"));
             return;
         }
+
         if( !u.weapon.reload( u, reload_pos ) ) {
             return;
         }
+
+        // Burn 2x the strength required to fire in stamina.
+        int strength_needed = 6;
+        if (u.weapon.has_flag("STR8_DRAW")) {
+            strength_needed = 8;
+        }
+        if (u.weapon.has_flag("STR10_DRAW")) {
+            strength_needed = 10;
+        }
+        if (u.weapon.has_flag("STR12_DRAW")) {
+            strength_needed = 12;
+        }
+        u.mod_stat("stamina", strength_needed * -2);
+
+        // At low stamina levels, firing starts getting slow.
+        int sta_percent = (100 * u.stamina) / u.get_stamina_max();
+        u.moves -= (sta_percent < 25) ? ((25 - sta_percent) * 2) : 0;
+
         u.moves -= u.weapon.reload_time(u);
         refresh_all();
     }
@@ -10632,6 +10684,26 @@ void game::plfire(bool burst, int default_target_x, int default_target_y)
     u.fire_gun(x, y, burst);
     reenter_fullscreen();
     //fire(u, x, y, trajectory, burst);
+}
+
+void game::cycle_item_mode( bool force_gun )
+{
+    if( u.is_armed() ) {
+        u.weapon.next_mode();
+    } else if( !force_gun ) {
+        int part = -1;
+        vehicle *veh = m.veh_at( u.pos3(), part );
+        if( veh == nullptr ) {
+            return;
+        }
+
+        part = veh->part_with_feature( part, "TURRET" );
+        if( part < 0 ) {
+            return;
+        }
+
+        veh->cycle_turret_mode( part, true );
+    }
 }
 
 void game::butcher()
@@ -11889,8 +11961,11 @@ bool game::plmove(int dx, int dy)
 
         // Calculate cost of moving
         bool diag = trigdist && u.posx() != x && u.posy() != y;
+        const int previous_moves = u.moves;
         u.moves -= int(u.run_cost(m.combined_movecost(u.posx(), u.posy(), x, y, grabbed_vehicle,
-                                               movecost_modifier), diag) * drag_multiplier);
+                                                      movecost_modifier), diag) * drag_multiplier);
+
+        u.burn_move_stamina( previous_moves - u.moves );
 
         // Adjust recoil down
         u.recoil -= int(u.str_cur / 2) + u.skillLevel("gun");
@@ -12200,6 +12275,14 @@ void game::on_move_effects()
             u.charge_power(1);
         }
     }
+    if( u.move_mode == "run" ) {
+        if( u.stamina <= 0 ) {
+            u.toggle_move_mode();
+        }
+        if( one_in( u.stamina ) ) {
+            u.add_effect("winded", 3);
+        }
+    }
 }
 
 void game::plswim(int x, int y)
@@ -12251,6 +12334,8 @@ void game::plswim(int x, int y)
     }
     u.moves -= (movecost > 200 ? 200 : movecost)  * (trigdist && diagonal ? 1.41 : 1);
     u.inv.rust_iron_items();
+
+    u.burn_move_stamina( movecost );
 
     int drenchFlags = mfb(bp_leg_l) | mfb(bp_leg_r) | mfb(bp_torso) | mfb(bp_arm_l) |
         mfb(bp_arm_r) | mfb(bp_foot_l) | mfb(bp_foot_r);
@@ -13403,11 +13488,8 @@ bool game::spread_fungus( const tripoint &p )
                     m.furn_set(x, y, f_fungal_clump);
                 }
             } else if (m.has_flag("PLANT", x, y)) {
-                for (size_t k = 0; k < m.i_at(x, y).size(); k++) {
-                    m.i_rem(x, y, k);
-                }
-                item seeds("fungal_seeds", int(calendar::turn));
-                m.add_item_or_charges(x, y, seeds);
+                // Replace the (already existing) seed
+                m.i_at( x, y )[0] = item( "fungal_seeds", calendar::turn );
             }
         }
         return true;
@@ -13511,11 +13593,8 @@ bool game::spread_fungus( const tripoint &p )
                                 m.furn_set(i, j, f_fungal_clump);
                             }
                         } else if (m.has_flag("PLANT", i, j)) {
-                            for (size_t k = 0; k < m.i_at(i, j).size(); k++) {
-                                m.i_rem(i, j, k);
-                            }
-                            item seeds("fungal_seeds", int(calendar::turn));
-                            m.add_item_or_charges(x, y, seeds);
+                            // Replace the (already existing) seed
+                            m.i_at( x, y )[0] = item( "fungal_seeds", calendar::turn );
                         }
                     }
                 }

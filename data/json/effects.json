@@ -121,6 +121,29 @@
     },
     {
         "type": "effect_type",
+        "id": "winded",
+        "name": ["Winded"],
+        "desc": ["You're short of breath.  Running and fighting will be difficult until you recover."],
+        "apply_message": "Your breath gives out!",
+        "remove_message": "You catch your breath.",
+        "rating": "bad",
+        "base_mods": {
+            "per_mod": [-1],
+            "dex_mod": [-1],
+            "str_mod": [-4, -1],
+            "speed_mod": [-20],
+            "pain_min": [1],
+            "pain_chance": [1, 30],
+            "fatigue_min": [1],
+            "fatigue_chance": [1, 4],
+            "hunger_min": [1],
+            "hunger_chance": [1, 6],
+            "thirst_min": [1],
+            "thirst_chance": [1, 4]
+        }
+    },
+    {
+        "type": "effect_type",
         "id": "darkness",
         "apply_message": "Your vision flickers and goes gray!",
         "remove_message": "The world flickers back to normality.",
@@ -862,7 +885,7 @@
         "rating": "good",
         "max_intensity": 2,
         "int_dur_factor": 50,
-        "removes_effects": ["infected", "bite", "bleed", "fungus", "dermatik"],
+        "removes_effects": ["infected", "bite", "bleed", "fungus", "dermatik", "winded"],
         "base_mods": {
             "str_mod": [-1],
             "dex_mod": [-2],
@@ -894,6 +917,7 @@
         "max_intensity": 2,
         "int_dur_factor": 150,
         "dur_add_perc": 15,
+        "removes_effect": "winded",
         "base_mods": {
             "speed_mod": [-10],
             "str_mod": [-2],
@@ -1266,5 +1290,10 @@
         "scaling_mods": {
             "speed_mod": [-1]
         }
+    },
+    {
+        "//": "On roof of a vehicle, aiming a turret",
+        "type": "effect_type",
+        "id": "on_roof"
     }
 ]

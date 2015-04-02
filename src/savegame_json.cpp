@@ -432,6 +432,9 @@ void player::serialize(JsonOut &json) const
     json.member( "stomach_food", stomach_food );
     json.member( "stomach_water", stomach_water );
 
+    json.member( "stamina", stamina);
+    json.member( "move_mode", move_mode );
+
     // crafting etc
     json.member( "activity", activity );
     json.member( "backlog", backlog );
@@ -539,6 +542,9 @@ void player::deserialize(JsonIn &jsin)
     data.read( "focus_pool", focus_pool);
     data.read( "style_selected", style_selected );
     data.read( "keep_hands_free", keep_hands_free );
+
+    data.read( "stamina", stamina);
+    data.read( "move_mode", move_mode );
 
     set_highest_cat_level();
     drench_mut_calc();
@@ -1182,6 +1188,16 @@ void item::deserialize(JsonObject &data)
         // There was a bug that set all comestibles active, this reverses that.
         active = false;
     }
+    // We need item tags here to make sure HOT/COLD food is active
+    // and bugged WET towels get reactivated
+    data.read("item_tags", item_tags);
+
+    if( !active && 
+        (item_tags.count( "HOT" ) > 0 || item_tags.count( "COLD" ) > 0 || 
+         item_tags.count( "WET" ) > 0) ) {
+        // Some hot/cold items from legacy saves may be inactive
+        active = true;
+    }
 
     if( data.read( "curammo", ammotmp ) ) {
         set_curammo( ammotmp );
@@ -1197,9 +1213,6 @@ void item::deserialize(JsonObject &data)
     } else {
         covered_bodyparts = tmp_covers;
     }
-
-    data.read("item_tags", item_tags);
-
 
     int tmplum = 0;
     if ( data.read("light", tmplum) ) {

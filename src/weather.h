@@ -35,7 +35,7 @@ class item;
 struct point;
 struct tripoint;
 struct trap;
-enum nc_color : int;
+typedef int nc_color;
 
 /**
  * Weather type enum.

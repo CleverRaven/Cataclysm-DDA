@@ -7648,8 +7648,10 @@
         "phase": "solid",
         "charges" : 4,
         "stack_size" : 100,
-        "grow" : 91,
-        "flags": ["SEED"]
+        "seed_data": {
+            "plant_name": "blueberry",
+            "grow" : 91
+        }
     },
     {
         "type" : "COMESTIBLE",
@@ -7757,8 +7759,10 @@
         "to_hit" : 0,
         "charges" : 4,
         "stack_size" : 100,
-        "grow" : 91,
-        "flags": ["SEED"]
+        "seed_data": {
+            "plant_name": "strawberry",
+            "grow" : 91
+        }
     },
     {
         "type" : "COMESTIBLE",
@@ -7809,9 +7813,11 @@
         "cutting" : 0,
         "to_hit" : 0,
         "charges" : 4,
-        "grow" : 120,
         "stack_size" : 40,
-        "flags": ["SEED"]
+        "seed_data": {
+            "plant_name": "wheat",
+            "grow" : 120
+        }
     },
 
     {
@@ -7951,9 +7957,11 @@
         "cutting" : 0,
         "to_hit" : 0,
         "charges" : 2,
-        "grow" : 120,
         "stack_size" : 8,
-        "flags": ["SEED"]
+        "seed_data": {
+            "plant_name": "hops",
+            "grow" : 120
+        }
     },
     {
         "type" : "COMESTIBLE",
@@ -8003,9 +8011,11 @@
         "cutting" : 0,
         "to_hit" : 0,
         "charges" : 2,
-        "grow" : 70,
         "stack_size" : 40,
-        "flags": ["SEED"]
+        "seed_data": {
+            "plant_name": "barley",
+            "grow" : 70
+        }
     },
     {
         "type" : "COMESTIBLE",
@@ -8054,9 +8064,11 @@
         "cutting" : 0,
         "to_hit" : 0,
         "charges" : 4,
-        "grow" : 90,
         "stack_size" : 40,
-        "flags": ["SEED"]
+        "seed_data": {
+            "plant_name": "sugar beet",
+            "grow" : 90
+        }
     },
     {
         "type" : "COMESTIBLE",
@@ -8106,9 +8118,11 @@
         "cutting" : 0,
         "to_hit" : 0,
         "charges" : 4,
-        "grow" : 85,
         "stack_size" : 100,
-        "flags": ["SEED"]
+        "seed_data": {
+            "plant_name": "lettuce",
+            "grow" : 85
+        }
     },
     {
         "type" : "COMESTIBLE",
@@ -8159,9 +8173,11 @@
         "cutting" : 0,
         "to_hit" : 0,
         "charges" : 4,
-        "grow" : 65,
         "stack_size" : 100,
-        "flags": ["SEED"]
+        "seed_data": {
+            "plant_name": "tomato",
+            "grow" : 65
+        }
     },
     {
         "type" : "COMESTIBLE",
@@ -8183,9 +8199,11 @@
         "cutting" : 0,
         "to_hit" : 0,
         "charges" : 8,
-        "grow" : 130,
         "stack_size" : 40,
-        "flags": ["SEED"]
+        "seed_data": {
+            "plant_name": "cotton",
+            "grow" : 130
+        }
     },
     {
         "type" : "COMESTIBLE",
@@ -8298,9 +8316,11 @@
         "cutting" : 0,
         "to_hit" : 0,
         "charges" : 4,
-        "grow" : 75,
         "stack_size" : 100,
-        "flags": ["SEED"]
+        "seed_data": {
+            "plant_name": "broccoli",
+            "grow" : 75
+        }
     },
     {
         "type" : "COMESTIBLE",
@@ -8351,9 +8371,11 @@
         "cutting" : 0,
         "to_hit" : 0,
         "charges" : 4,
-        "grow" : 47,
         "stack_size" : 100,
-        "flags": ["SEED"]
+        "seed_data": {
+            "plant_name": "zucchini",
+            "grow" : 47
+        }
     },
     {
         "type" : "COMESTIBLE",
@@ -8404,9 +8426,11 @@
         "cutting" : 0,
         "to_hit" : 0,
         "charges" : 4,
-        "grow" : 65,
         "stack_size" : 100,
-        "flags": ["SEED"]
+        "seed_data": {
+            "plant_name": "onion",
+            "grow" : 65
+        }
     },
     {
         "type" : "COMESTIBLE",
@@ -8457,9 +8481,11 @@
         "cutting" : 0,
         "to_hit" : 0,
         "charges" : 4,
-        "grow" : 65,
         "stack_size" : 100,
-        "flags": ["SEED"]
+        "seed_data": {
+            "plant_name": "carrot",
+            "grow" : 65
+        }
     },
     {
         "type" : "COMESTIBLE",
@@ -8510,10 +8536,12 @@
         "bashing" : 0,
         "cutting" : 0,
         "to_hit" : 0,
-        "grow" : 80,
         "charges" : 4,
         "stack_size" : 100,
-        "flags": ["SEED"]
+        "seed_data": {
+            "plant_name": "corn",
+            "grow" : 80
+        }
     },
     {
         "type" : "COMESTIBLE",
@@ -9971,7 +9999,10 @@
         "stack_size" : 10,
         "bashing" : 0,
         "fun" : 30,
-        "flags": ["SEED"]
+        "seed_data": {
+            "plant_name": "marloss berry",
+            "grow" : 91
+        }
     },
     {
         "type" : "COMESTIBLE",
@@ -10169,9 +10200,11 @@
         "cutting" : 0,
         "to_hit" : 0,
         "charges" : 4,
-        "grow" : 45,
         "stack_size" : 40,
-        "flags": ["SEED"]
+        "seed_data": {
+            "plant_name": "oats",
+            "grow" : 45
+        }
     },
     {
         "type" : "COMESTIBLE",
@@ -11134,9 +11167,11 @@
         "cutting" : 0,
         "to_hit" : 0,
         "charges" : 4,
-        "grow" : 95,
         "stack_size" : 10,
-        "flags": ["SEED"]
+        "seed_data": {
+            "plant_name": "potatoes",
+            "grow" : 95
+        }
     },
     {
         "type" : "COMESTIBLE",
@@ -13398,7 +13433,6 @@
         "name" : "hemp seed",
         "weight" : 1,
         "color" : "green",
-        "flags": ["SEED"],
         "addiction_type" : "none",
         "spoils_in" : 0,
         "use_action" : "SEED",
@@ -13422,7 +13456,10 @@
         "stack_size" : 100,
         "bashing" : 0,
         "fun" : 1,
-        "grow" : 91
+        "seed_data": {
+            "plant_name": "cannabis",
+            "grow" : 91
+        }
     },
     {
         "type" : "COMESTIBLE",
@@ -15245,7 +15282,10 @@
         "recoil" : 0,
         "count" : 1,
         "stack_size" : 8,
-        "flags": ["SEED"]
+        "seed_data": {
+            "plant_name": "fungal flower",
+            "grow" : 91
+        }
     },
     {
         "type" : "COMESTIBLE",
@@ -16808,6 +16848,94 @@
     },
     {
         "type" : "COMESTIBLE",
+        "id" : "haggis",
+        "name" : "haggis",
+        "name_plural" : "haggii", "//" : "Yes, that is the correct plural form.",
+        "weight" : 624,
+        "color" : "brown",
+        "addiction_type" : "none",
+        "spoils_in" : 360,
+        "stim" : 0,
+        "container" : "null",
+        "to_hit" : 0,
+        "comestible_type" : "FOOD",
+        "symbol" : "%",
+        "quench" : 2,
+        "healthy" : 1,
+        "addiction_potential" : 0,
+        "nutrition" : 48,
+        "description" : "This traditional Scottish savory pudding is made of meat and offal mixed with oatmeal, which is sewn into an animal's stomach and boiled.  Surprisingly tasty and quite filling, it is best served with boiled root vegetables and strong whisky.", "//" : "That's whisky without an 'e' because we're talking about Scotch whisky.",
+        "price" : 750,
+        "material" : ["veggy", "flesh"],
+        "tool" : "null",
+        "volume" : 1,
+        "cutting" : 0,
+        "phase" : "solid",
+        "charges" : 6,
+        "bashing" : 0,
+        "flags" : ["EATEN_HOT"],
+        "fun" : 2
+    },
+    {
+        "type" : "COMESTIBLE",
+        "id" : "soup_cullenskink",
+        "name" : "cullen skink",
+        "weight" : 288,
+        "color" : "white",
+        "addiction_type" : "none",
+        "spoils_in" : 120,
+        "stim" : 0,
+        "container" : "can_food",
+        "to_hit" : 0,
+        "comestible_type" : "DRINK",
+        "symbol" : "~",
+        "quench" : 8,
+        "healthy" : 1,
+        "addiction_potential" : 0,
+        "nutrition" : 40,
+        "description" : "A rich and tasty fish chowder from Scotland, made with preserved fish and creamy milk.",
+        "price" : 500,
+        "material" : ["flesh", "milk"],
+        "tool" : "null",
+        "volume" : 1,
+        "cutting" : 0,
+        "phase" : "liquid",
+        "charges" : 4,
+        "bashing" : 0,
+        "flags" : ["EATEN_HOT", "USE_EAT_VERB"],
+        "fun" : 3
+    },
+    {
+        "type" : "COMESTIBLE",
+        "id" : "cloutie_dumpling",
+        "name" : "cloutie dumpling",
+        "weight" : 112,
+        "color" : "brown",
+        "addiction_type" : "none",
+        "spoils_in" : 0,
+        "stim" : 0,
+        "container" : "box_small",
+        "to_hit" : 0,
+        "comestible_type" : "FOOD",
+        "symbol" : "%",
+        "quench" : -2,
+        "healthy" : 0,
+        "addiction_potential" : 0,
+        "nutrition" : 28,
+        "description" : "This traditional Scottish treat is a sweet and filling little boiled cake studded with dried fruit.",
+        "price" : 195,
+        "material" : ["wheat", "null"],
+        "tool" : "null",
+        "volume" : 1,
+        "cutting" : 0,
+        "phase" : "solid",
+        "charges" : 2,
+        "stack_size" : 40,
+        "bashing" : 0,
+        "fun" : 9
+    },
+    {
+        "type" : "COMESTIBLE",
         "id" : "neccowafers",
         "name" : "Necco wafer",
         "weight" : 46,
@@ -17424,9 +17552,11 @@
         "cutting" : 0,
         "to_hit" : 0,
         "charges" : 4,
-        "grow" : 60,
         "stack_size" : 100,
-        "flags": ["SEED"]
+        "seed_data": {
+            "plant_name": "cucumber",
+            "grow" : 60
+        }
     },{
         "type" : "COMESTIBLE",
         "id" : "irradiated_cucumber",
@@ -17502,9 +17632,11 @@
         "cutting" : 0,
         "to_hit" : 0,
         "charges" : 4,
-        "grow" : 130,
         "stack_size" : 100,
-        "flags": ["SEED"]
+        "seed_data": {
+            "plant_name": "celery",
+            "grow" : 130
+        }
     },
     {
         "type" : "COMESTIBLE",
@@ -18646,8 +18778,10 @@
         "phase": "solid",
         "charges" : 2,
         "stack_size" : 100,
-        "grow" : 91,
-        "flags": ["SEED"]
+        "seed_data": {
+            "plant_name": "thyme",
+            "grow" : 91
+        }
     },{
         "type" : "COMESTIBLE",
         "id" : "thyme_oil",
@@ -18696,9 +18830,11 @@
         "phase": "solid",
         "charges" : 2,
         "stack_size" : 100,
-        "grow" : 91,
-        "flags": ["SEED"]
-},{
+        "seed_data": {
+            "plant_name": "canola",
+            "grow" : 91
+        }
+    },{
         "type": "COMESTIBLE",
         "id" : "canola",
         "name" : "canola",
@@ -18771,7 +18907,9 @@
         "phase": "solid",
         "charges" : 2,
         "stack_size" : 100,
-        "grow" : 91,
-        "flags": ["SEED"]
-}
+        "seed_data": {
+            "plant_name": "dogbane",
+            "grow" : 91
+        }
+    }
 ]

@@ -97,6 +97,7 @@ void PATH_INFO::update_config_dir()
     update_pathname("fontlist", FILENAMES["config_dir"] + "fontlist.txt");
     update_pathname("fontdata", FILENAMES["config_dir"] + "fonts.json");
     update_pathname("autopickup", FILENAMES["config_dir"] + "auto_pickup.txt");
+    update_pathname("custom_colors", FILENAMES["config_dir"] + "custom_colors.json");
 }
 
 void PATH_INFO::set_standard_filenames(void)
@@ -124,6 +125,7 @@ void PATH_INFO::set_standard_filenames(void)
     update_pathname("titledir", FILENAMES["datadir"] + "title/");
     update_pathname("motddir", FILENAMES["datadir"] + "motd/");
     update_pathname("creditsdir", FILENAMES["datadir"] + "credits/");
+    update_pathname("color_templates", FILENAMES["rawdir"] + "color_templates/");
 
     // Shared files
     update_pathname("title", FILENAMES["titledir"] + "en.title");
@@ -152,6 +154,7 @@ void PATH_INFO::set_standard_filenames(void)
     update_pathname("fontlist", FILENAMES["config_dir"] + "fontlist.txt");
     update_pathname("fontdata", FILENAMES["config_dir"] + "fonts.json");
     update_pathname("autopickup", FILENAMES["config_dir"] + "auto_pickup.txt");
+    update_pathname("custom_colors", FILENAMES["config_dir"] + "custom_colors.json");
 
     // Needed to move files from these legacy locations to the new config directory.
     update_pathname("legacy_options", "data/options.txt");

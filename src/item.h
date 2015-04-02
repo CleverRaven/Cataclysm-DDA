@@ -655,6 +655,26 @@ public:
         /*@}*/
 
         /**
+         * @name Seed data.
+         */
+        /*@{*/
+        /**
+         * Whether this is actually a seed, the seed functions won't be of much use for non-seeds.
+         */
+        bool is_seed() const;
+        /**
+         * Time (in turns) it takes to grow from one stage to another. There are 4 plant stages:
+         * seed, seedling, mature and harvest. Non-seed items return 0.
+         */
+        int get_plant_epoch() const;
+        /**
+         * The name of the plant as it appears in the various informational menus. This should be
+         * translated. Returns an empty string for non-seed items.
+         */
+        std::string get_plant_name() const;
+        /*@}*/
+
+        /**
          * @name Armor related functions.
          *
          * The functions here refer to values from @ref it_armor. They only apply to armor items,

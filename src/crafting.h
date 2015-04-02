@@ -17,7 +17,7 @@ class inventory;
 class player;
 
 enum body_part : int; // From bodypart.h
-enum nc_color : int; // From color.h
+typedef int nc_color; // From color.h
 
 using itype_id     = std::string; // From itype.h
 

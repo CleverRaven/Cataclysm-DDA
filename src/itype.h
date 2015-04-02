@@ -387,6 +387,19 @@ struct islot_software {
     software_type swtype = SW_USELESS;
 };
 
+struct islot_seed {
+    /**
+     * Time it takes for a seed to grow (in days, based of off a season length of 91)
+     */
+    int grow = 0;
+    /**
+     * Name of the plant, already translated.
+     */
+    std::string plant_name;
+
+    islot_seed() { }
+};
+
 // Data used when spawning items, should be obsoleted by the spawn system, but
 // is still used at several places and makes it easier when it applies to all new items of a type.
 struct islot_spawn {
@@ -418,6 +431,7 @@ struct itype {
     std::unique_ptr<islot_software> software;
     std::unique_ptr<islot_spawn> spawn;
     std::unique_ptr<islot_ammo> ammo;
+    std::unique_ptr<islot_seed> seed;
     /*@}*/
 protected:
     // private because is should only be accessed through itype::nname!
@@ -566,8 +580,6 @@ struct it_comest : itype {
     unsigned brewtime = 0; // How long it takes for a brew to ferment.
     int      fun      = 0; // How fun its use is
     
-    // Time it takes for a seed to grow (in days, based of off a season length of 91)
-    unsigned grow = 0;
     add_type add = ADD_NULL; // Effects of addiction
 
     it_comest() = default;
