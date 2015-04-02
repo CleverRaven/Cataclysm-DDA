@@ -3587,8 +3587,8 @@ void mattack::stretch_bite(monster *z, int index)
         terrain = g->m.ter_at(i.x, i.y);
         //head's not going to fit through the bars
         if (terrain.movecost == 0 ){
-            z->add_effect("Stunned", 200);
-            add_msg( _("The %s stretches it head at you but bounces off the %s"), z->name().c_str(), terrain.name.c_str() );
+            z->add_effect("stunned", 6);
+            add_msg( _("The %s stretches its head at you, but bounces off the %s"), z->name().c_str(), terrain.name.c_str() );
             return;
         }
     }
@@ -3597,7 +3597,7 @@ void mattack::stretch_bite(monster *z, int index)
     int dodge_check = std::max( target->get_dodge() - rng( 0, z->type->melee_skill ), 0L );
     if( uncanny || ( rng(0, 10000) < 10000 / (1 + (99 * exp(-.6 * dodge_check) ) ) ) ) {
         z->moves -=150;
-        z->add_effect("Stunned", 100);
+        z->add_effect("stunned", 3);
         if( foe != nullptr ) {
             if( seen ) {
                 auto msg_type = foe == &g->u ? m_warning : m_info;
