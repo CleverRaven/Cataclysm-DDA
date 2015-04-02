@@ -1046,7 +1046,6 @@ static bool unserialize_legacy(std::ifstream & fin ) {
         std::string tstr;
         for(int i=0; i < num_legacy_ter; i++) {
             tstr = legacy_ter_id[i];
-            if ( termap.find(tstr) == termap.end() ) {
                 if (tstr == "t_rubble") {
                     ter_key[i] = termap["t_dirt"].loadid;
                     furn_key[i] = furnmap["f_rubble"].loadid;
@@ -1057,12 +1056,8 @@ static bool unserialize_legacy(std::ifstream & fin ) {
                     ter_key[i] = termap["t_dirt"].loadid;
                     furn_key[i] = furnmap["f_ash"].loadid;
                 } else {
-                    debugmsg("Can't find terrain '%s' (%d)",tstr.c_str(), i );
-                    ter_key[i] = termap["t_null"].loadid;
+                    ter_key[i] = terfind( tstr );
                 }
-            } else {
-                ter_key[i] = termap[tstr].loadid;
-            }
         }
 
         // it's a...
@@ -1247,17 +1242,13 @@ static int unserialize_keys( std::ifstream &fin, std::map<int, int> &ter_key,
             jsin.start_array();
             while (!jsin.end_array()) {
                 std::string tstr = jsin.get_string();
-                if ( termap.find(tstr) == termap.end() ) {
                     if (tstr == "t_rubble" || tstr == "t_wreckage" || tstr == "t_ash" ||
                           tstr == "t_metal" || tstr == "t_skylight" || tstr == "t_emergency_light" ||
                           tstr == "t_emergency_light_flicker") {
                         ter_key[i] = termap["t_dirt"].loadid;
                     } else {
-                        debugmsg("Can't find terrain '%s' (%d)", tstr.c_str(), i);
+                        ter_key[i] = terfind( tstr );
                     }
-                } else {
-                    ter_key[i] = termap[tstr].loadid;
-                }
                 ++i;
             }
         } else if (name == "furniture_key") {
