@@ -81,6 +81,7 @@ static const std::unordered_map<std::string, ter_bitflags> ter_bitflags_map = { 
     { "HARVESTED",                TFLAG_HARVESTED },      // harvested.  will not bear fruit.
     { "PERMEABLE",                TFLAG_PERMEABLE },      // gases can flow through.
     { "AUTO_WALL_SYMBOL",         TFLAG_AUTO_WALL_SYMBOL }, // automatically create the appropriate wall
+    { "CONNECT_TO_WALL",          TFLAG_CONNECT_TO_WALL }, // works with TFLAG_AUTO_WALL_SYMBOL
 } };
 
 void load_map_bash_item_drop_list(JsonArray ja, std::vector<map_bash_item_drop> &items) {
@@ -384,6 +385,10 @@ void map_data_common_t::set_flag( const std::string &flag )
         bitflags.set( it->second );
         if( !transparent && it->second == TFLAG_TRANSPARENT ) {
             transparent = true;
+        }
+        // Faster to set this here instead of checking all three flags when drawing.
+        if( it->second == TFLAG_WALL || it->second == TFLAG_AUTO_WALL_SYMBOL ) {
+            set_flag( "CONNECT_TO_WALL" );
         }
     }
 }

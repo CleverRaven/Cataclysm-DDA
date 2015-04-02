@@ -5976,15 +5976,11 @@ bool map::has_graffiti_at( const tripoint &p ) const
 
 long map::determine_wall_corner(const int x, const int y) const
 {
-    const bool above = ter_at(x, y-1).has_flag( TFLAG_AUTO_WALL_SYMBOL );
-    const bool below = ter_at(x, y+1).has_flag( TFLAG_AUTO_WALL_SYMBOL );
-    const bool left  = ter_at(x-1, y).has_flag( TFLAG_AUTO_WALL_SYMBOL );
-    const bool right = ter_at(x+1, y).has_flag( TFLAG_AUTO_WALL_SYMBOL );
+    const bool above_connects = has_flag_ter( TFLAG_CONNECT_TO_WALL, x, y - 1 );
+    const bool below_connects = has_flag_ter( TFLAG_CONNECT_TO_WALL, x, y + 1 );
+    const bool left_connects  = has_flag_ter( TFLAG_CONNECT_TO_WALL, x - 1, y );
+    const bool right_connects = has_flag_ter( TFLAG_CONNECT_TO_WALL, x + 1, y );
 
-    const bool above_connects = above || (above == '"' || above == '+' || above == '\'');
-    const bool below_connects = below || (below == '"' || below == '+' || below == '\'');
-    const bool left_connects  = left  || (left  == '"' || left  == '+' || left  == '\'');
-    const bool right_connects = right || (right == '"' || right == '+' || right == '\'');
 #define B(i,b) ((b) ? (i) : 0)
     const long bits = B(1, above_connects) +
                       B(2, right_connects) +
