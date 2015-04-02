@@ -2569,6 +2569,56 @@
   ]
 },{
   "type" : "recipe",
+  "result": "survivor_goggles",
+  "category": "CC_ARMOR",
+  "subcategory": "CSC_ARMOR_HEAD",
+  "skill_used": "fabrication",
+  "skills_required" : ["tailor", 4],
+  "difficulty": 5,
+  "time": 20000,
+  "reversible": false,
+  "autolearn": true,
+  "qualities" : [
+    {"id":"CUT","level":1,"amount":1}
+  ],
+  "tools": [
+      [
+      [ "needle_bone", 10 ],
+      [ "needle_wood", 10 ],
+      [ "tailors_kit", 10 ],
+      [ "sewing_kit", 10 ]
+    ],
+    [
+      [ "welder", 28 ],
+      [ "soldering_iron", 28 ],
+      [ "toolset", 28 ]
+      ]
+  ],
+  "components": [
+      [
+      [ "goggles_ski", 1 ],
+      [ "goggles_welding", 1 ],
+      [ "sunglasses", 1 ],
+      [ "fancy_sunglasses", 1 ],
+      [ "fitover_sunglasses", 1 ]
+      ],
+      [
+      [ "glasses_safety", 2 ],
+      [ "glasses_bal", 1 ]
+      ],
+      [
+      [ "duct_tape", 25 ],
+      [ "superglue", 1 ]
+      ],
+      [
+      [ "leather", 3 ]
+      ],
+      [
+      [ "kevlar_plate", 2 ]
+      ]
+  ]
+},{
+  "type" : "recipe",
   "result": "mask_lsurvivor",
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_HEAD",
