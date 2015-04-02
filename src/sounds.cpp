@@ -2,6 +2,7 @@
 
 #include "game.h"
 #include "enums.h"
+#include "overmapbuffer.h"
 
 struct sound_event {
     int volume;
@@ -23,7 +24,7 @@ struct centroid
 // The sound events since the last monster turn.
 static std::vector<std::pair<point, int>> recent_sounds;
 // The sound events since the last interactive player turn. (doesn't count sleep etc)
-static std::unordered_map<point, sound_event> sounds_since_last_turn;
+static std::vector<std::pair<point, sound_event>> sounds_since_last_turn;
 // The sound events currently displayed to the player.
 static std::unordered_map<point, sound_event> sound_markers;
 
@@ -40,13 +41,13 @@ void sounds::sound(int x, int y, int vol, std::string description, bool ambient)
         return;
     }
     recent_sounds.emplace_back( std::make_pair( point(x, y), vol ) );
-    sounds_since_last_turn.emplace(
+    sounds_since_last_turn.emplace_back(
         std::make_pair( point(x, y), sound_event{vol, description, ambient, false} ) );
 }
 
 void sounds::add_footstep(int x, int y, int volume, int, monster *)
 {
-    sounds_since_last_turn.emplace(
+    sounds_since_last_turn.emplace_back(
         std::make_pair( point(x, y), sound_event{volume, "", false, true} ) );
 }
 
@@ -120,10 +121,12 @@ void sounds::process_sounds()
         const point source = point(this_centroid.x, this_centroid.y);
         // --- Monster sound handling here ---
         // Alert all hordes
-        if( vol > 20 && g->levz == 0 ) {
+        if( vol > 20 && g->get_levz() == 0 ) {
             int sig_power = ((vol > 140) ? 140 : vol) - 20;
-            g->cur_om->signal_hordes( g->levx + (MAPSIZE / 2),
-                                      g->levy + (MAPSIZE / 2), sig_power );
+            const point abs_ms = g->m.getabs( source.x, source.y );
+            const point abs_sm = overmapbuffer::ms_to_sm_copy( abs_ms );
+            const tripoint target( abs_sm.x, abs_sm.y, g->get_levz() );
+            overmap_buffer.signal_hordes( target, sig_power );
         }
         // Alert all monsters (that can hear) to the sound.
         for (int i = 0, numz = g->num_zombies(); i < numz; i++) {

@@ -1,10 +1,14 @@
 #include "mission.h"
 #include "game.h"
+#include "debug.h"
+#include "overmapbuffer.h"
 
 #include <fstream>
 #include <sstream>
 
-mission mission_type::create(int npc_id)
+#define dbg(x) DebugLog((DebugLevel)(x),D_GAME) << __FILE__ << ":" << __LINE__ << ": "
+
+mission mission_type::create( const int npc_id ) const
 {
     mission ret;
     ret.uid = g->assign_mission_id();
@@ -24,6 +28,371 @@ mission mission_type::create(int npc_id)
     return ret;
 }
 
+std::unordered_map<int, mission> mission::active_missions;
+
+mission* mission::reserve_new( const mission_type_id type, const int npc_id )
+{
+    const mission tmp = mission_type::get( type )->create( npc_id );
+    auto &result = active_missions[tmp.uid];
+    result = tmp;
+    return &result;
+}
+
+mission *mission::find( int id )
+{
+    const auto iter = active_missions.find( id );
+    if( iter != active_missions.end() ) {
+        return &iter->second;
+    }
+    dbg( D_ERROR ) << "requested mission with uid " << id << " does not exist";
+    debugmsg( "requested mission with uid %d does not exist", id );
+    return nullptr;
+}
+
+void mission::process_all()
+{
+    for( auto & e : active_missions ) {
+        auto &m = e.second;
+        if( m.deadline > 0 && !m.failed && int( calendar::turn ) > m.deadline ) {
+            m.fail();
+        }
+    }
+}
+
+std::vector<mission*> mission::to_ptr_vector( const std::vector<int> &vec )
+{
+    std::vector<mission*> result;
+    for( auto &id : vec ) {
+        const auto miss = find( id );
+        if( miss != nullptr ) {
+            result.push_back( miss );
+        }
+    }
+    return result;
+}
+
+std::vector<int> mission::to_uid_vector( const std::vector<mission*> &vec )
+{
+    std::vector<int> result;
+    for( auto &miss : vec ) {
+        result.push_back( miss->uid );
+    }
+    return result;
+}
+
+void mission::clear_all()
+{
+    active_missions.clear();
+}
+
+void mission::on_creature_death( Creature &poor_dead_dude )
+{
+    if( poor_dead_dude.is_hallucination() ) {
+        return;
+    }
+    monster *mon = dynamic_cast<monster *>( &poor_dead_dude );
+    if( mon != nullptr ) {
+        if( mon->mission_id == -1 ) {
+            return;
+        }
+        const auto mission = mission::find( mon->mission_id );
+        const auto type = mission->type;
+        if( type->goal == MGOAL_FIND_MONSTER ) {
+            mission->fail();
+        }
+        if( type->goal == MGOAL_KILL_MONSTER ) {
+            mission->step_complete( 1 );
+        }
+        return;
+    }
+    npc *p = dynamic_cast<npc *>( &poor_dead_dude );
+    if( p == nullptr ) {
+        // Must be the player
+        for( auto &miss : g->u.get_active_missions() ) {
+            // mission is free and can be reused
+            miss->player_id = -1;
+        }
+        // The missions remains assigned to the (dead) character. This should not cause any problems
+        // as the character is dismissed anyway.
+        // Technically, the active missions could be moved to the failed mission section.
+        return;
+    }
+    const auto dead_guys_id = p->getID();
+    for( auto & e : active_missions ) {
+        auto &i = e.second;
+        //complete the mission if you needed killing
+        if( i.type->goal == MGOAL_ASSASSINATE && i.target_npc_id == dead_guys_id ) {
+            i.step_complete( 1 );
+        }
+        //fail the mission if the mission giver dies
+        if( i.npc_id == dead_guys_id ) {
+            i.fail();
+        }
+        //fail the mission if recruit target dies
+        if( i.type->goal == MGOAL_RECRUIT_NPC && i.target_npc_id == dead_guys_id ) {
+            i.fail();
+        }
+    }
+}
+
+mission* mission::reserve_random( const mission_origin origin, const tripoint p, const int npc_id )
+{
+    const auto type = mission_type::get_random_id( origin, p );
+    if( type == MISSION_NULL ) {
+        return nullptr;
+    }
+    return mission::reserve_new( type, npc_id );
+}
+
+void mission::assign( player &u )
+{
+    if( player_id == u.getID() ) {
+        debugmsg( "strange: player is already assigned to mission %d", uid );
+        return;
+    }
+    if( player_id != -1 ) {
+        debugmsg( "tried to assign mission %d to player, but mission is already assigned to %d", uid, player_id );
+        return;
+    }
+    player_id = u.getID();
+    u.on_mission_assignment( *this );
+    if( !was_started ) {
+        mission_start m_s;
+        (m_s.*type->start)(this);
+        was_started = true;
+    }
+}
+
+void mission::fail()
+{
+    failed = true;
+    if( g->u.getID() == player_id ) {
+        g->u.on_mission_finished( *this );
+    }
+    mission_fail failfunc;
+    (failfunc.*type->fail)( this );
+}
+
+void mission::set_target_to_mission_giver()
+{
+    const auto giver = g->find_npc( npc_id );
+    if( giver != nullptr ) {
+        tripoint t = giver->global_omt_location();
+        target.x = t.x;
+        target.y = t.y;
+    } else {
+        target = overmap::invalid_point;
+    }
+}
+
+void mission::step_complete( const int _step )
+{
+    step = _step;
+    switch( type->goal ) {
+        case MGOAL_FIND_ITEM:
+        case MGOAL_FIND_MONSTER:
+        case MGOAL_ASSASSINATE:
+        case MGOAL_KILL_MONSTER:
+            // Go back and report.
+            set_target_to_mission_giver();
+            break;
+        default:
+            //Suppress warnings
+            break;
+    }
+}
+
+void mission::wrap_up()
+{
+    auto &u = g->u;
+    if( u.getID() != player_id ) {
+        // This is called from npctalk.cpp, the npc should only offer the option to wrap up mission
+        // that have been assigned to the current player.
+        debugmsg( "mission::wrap_up called, player %d was assigned, but current player is %d", player_id, u.getID() );
+    }
+    u.on_mission_finished( *this );
+    std::vector<item_comp> comps;
+    switch( type->goal ) {
+        case MGOAL_FIND_ITEM:
+            comps.push_back(item_comp(type->item_id, item_count));
+            u.consume_items(comps);
+            break;
+        case MGOAL_FIND_ANY_ITEM:
+            u.remove_mission_items( uid );
+            break;
+        default:
+            //Suppress warnings
+            break;
+    }
+    mission_end endfunc;
+    ( endfunc.*type->end )( this );
+}
+
+bool mission::is_complete( const int _npc_id ) const
+{
+    // TODO: maybe not g->u, but more generalized?
+    auto &u = g->u;
+    inventory tmp_inv = u.crafting_inventory();
+    switch( type->goal ) {
+        case MGOAL_GO_TO:
+            {
+                // TODO: target does not contain a z-component, targets are assume to be on z=0
+                const tripoint cur_pos = g->u.global_omt_location();
+                return ( rl_dist( cur_pos.x, cur_pos.y, target.x, target.y ) <= 1 );
+            }
+            break;
+
+        case MGOAL_GO_TO_TYPE:
+            {
+                const auto cur_ter = overmap_buffer.ter( g->u.global_omt_location() );
+                return cur_ter == type->target_id;
+            }
+            break;
+
+        case MGOAL_FIND_ITEM:
+            // TODO: check for count_by_charges and use appropriate player::has_* function
+            if (!tmp_inv.has_amount(type->item_id, item_count)) {
+                return tmp_inv.has_amount( type->item_id, 1 ) && tmp_inv.has_charges( type->item_id, item_count );
+            }
+            if( npc_id != -1 && npc_id != _npc_id ) {
+                return false;
+            }
+            return true;
+
+        case MGOAL_FIND_ANY_ITEM:
+            return u.has_mission_item( uid ) && ( npc_id == -1 || npc_id == _npc_id );
+
+        case MGOAL_FIND_MONSTER:
+            if( npc_id != -1 && npc_id != _npc_id ) {
+                return false;
+            }
+            for( size_t i = 0; i < g->num_zombies(); i++ ) {
+                if( g->zombie( i ).mission_id == uid ) {
+                    return true;
+                }
+            }
+            return false;
+
+        case MGOAL_RECRUIT_NPC:
+            {
+                npc *p = g->find_npc( target_npc_id );
+                return p != nullptr && p->attitude == NPCATT_FOLLOW;
+            }
+
+        case MGOAL_RECRUIT_NPC_CLASS:
+            {
+                const auto npcs = overmap_buffer.get_npcs_near_player( 100 );
+                for( auto & npc : npcs ) {
+                    if( npc->myclass == recruit_class && npc->attitude == NPCATT_FOLLOW ) {
+                        return true;
+                    }
+                }
+                return false;
+            }
+
+        case MGOAL_FIND_NPC:
+            return npc_id == _npc_id;
+
+        case MGOAL_ASSASSINATE:
+            return step >= 1;
+
+        case MGOAL_KILL_MONSTER:
+            return step >= 1;
+
+        case MGOAL_KILL_MONSTER_TYPE:
+            debugmsg( "%d kill count", g->kill_count( monster_type ) );
+            debugmsg( "%d goal", monster_kill_goal );
+            return g->kill_count( monster_type ) >= monster_kill_goal;
+
+        case MGOAL_COMPUTER_TOGGLE:
+            return step >= 1;
+
+        default:
+            return false;
+    }
+    return false;
+}
+
+bool mission::has_deadline() const
+{
+    return deadline != 0;
+}
+
+calendar mission::get_deadline() const
+{
+    return deadline;
+}
+
+std::string mission::get_description() const
+{
+    return description;
+}
+
+bool mission::has_target() const
+{
+    return target != overmap::invalid_point;
+}
+
+point mission::get_target() const
+{
+    return target;
+}
+
+const mission_type &mission::get_type() const
+{
+    return *type;
+}
+
+bool mission::has_follow_up() const
+{
+    return follow_up != MISSION_NULL;
+}
+
+mission_type_id mission::get_follow_up() const
+{
+    return follow_up;
+}
+
+long mission::get_value() const
+{
+    return value;
+}
+
+int mission::get_id() const
+{
+    return uid;
+}
+
+const std::string &mission::get_item_id() const
+{
+    return item_id;
+}
+
+bool mission::has_failed() const
+{
+    return failed;
+}
+
+int mission::get_npc_id() const
+{
+    return npc_id;
+}
+
+void mission::set_target( const point new_target )
+{
+    target = new_target;
+}
+
+bool mission::is_assigned() const
+{
+    return player_id != -1;
+}
+
+int mission::get_assigned_player_id() const
+{
+    return player_id;
+}
+
 std::string mission::name()
 {
     if (type == NULL) {
@@ -32,12 +401,12 @@ std::string mission::name()
     return type->name;
 }
 
-void mission::load_info(std::ifstream &data)
+void mission::load_info(std::istream &data)
 {
     int type_id, rewtype, reward_id, rew_skill, tmpfollow, item_num, target_npc_id;
     std::string rew_item, itemid;
     data >> type_id;
-    type = &(g->mission_types[type_id]);
+    type = mission_type::get( static_cast<mission_type_id>( type_id ) );
     std::string tmpdesc;
     do {
         data >> tmpdesc;
@@ -49,7 +418,7 @@ void mission::load_info(std::ifstream &data)
     data >> failed >> value >> rewtype >> reward_id >> rew_item >> rew_skill >>
          uid >> target.x >> target.y >> itemid >> item_num >> deadline >> npc_id >>
          good_fac_id >> bad_fac_id >> step >> tmpfollow >> target_npc_id;
-    follow_up = mission_id(tmpfollow);
+    follow_up = mission_type_id(tmpfollow);
     reward.type = npc_favor_type(reward_id);
     reward.item_id = itype_id( rew_item );
     reward.skill = Skill::skill( rew_skill );
@@ -57,7 +426,7 @@ void mission::load_info(std::ifstream &data)
     item_count = int(item_num);
 }
 
-std::string mission_dialogue (mission_id id, talk_topic state)
+std::string mission_dialogue (mission_type_id id, talk_topic state)
 {
     switch (id) {
 
@@ -1080,7 +1449,194 @@ Before we get into a major fight just make sure we have the gear we need, boss."
         case TALK_MISSION_INQUIRE:
             return _("Has the leadership been dealt with?");
         case TALK_MISSION_SUCCESS:
-            return _("Marshal, you continue to impress us.");
+            popup("Marshal, you continue to impress us.");
+            popup("If you are interested, I recently received a message that a unit was deploying into our AO.");
+            popup("I don't have the exact coordinates but they said they were securing an underground facility and may require assistance.");
+            popup("The bird dropped them off next to a pump station.  Can't tell you much more.");
+            popup("If you cound locate the captain in charge, I'm sure he could use your skills. ");
+            popup("Don't forget to wear your badge when meeting with them.");
+            return _("Thank you once again marshal.");
+        case TALK_MISSION_SUCCESS_LIE:
+            return _("What good does this do us?");
+        case TALK_MISSION_FAILURE:
+            return _("It was a lost cause anyways...");
+        default: // It's a bug.
+            return "";
+        }
+        break;
+
+    case MISSION_OLD_GUARD_NEC_1:
+        switch (state) {
+        case TALK_MISSION_DESCRIBE:
+            return _("We need help...");
+        case TALK_MISSION_OFFER:
+            return _("My communications team went to secure the radio control room after we "
+                     "breached the facility.  I haven't heard from them since, I need you to "
+                     "locate them.  Their first objective was to record all active channels that "
+                     "were transmitting information on other survivors or facilities.  Find them "
+                     "and return the frequency list to me.  I'm sure they could probably use your "
+                     "help also.");
+        case TALK_MISSION_ACCEPTED:
+            return _("Good luck, the communications room shouldn't be far from here.");
+        case TALK_MISSION_REJECTED:
+            return _("I don't know why you would bother wasting your time down here if you can't "
+                     "handle a few small tasks...");
+        case TALK_MISSION_ADVICE:
+            return _("We were briefed that the communications array was on this level.");
+        case TALK_MISSION_INQUIRE:
+            return _("How is the search going?");
+        case TALK_MISSION_SUCCESS:
+            return _("Thanks, let me know when you need another tasking.");
+        case TALK_MISSION_SUCCESS_LIE:
+            return _("What good does this do us?");
+        case TALK_MISSION_FAILURE:
+            return _("It was a lost cause anyways...");
+        default: // It's a bug.
+            return "";
+        }
+        break;
+
+    case MISSION_OLD_GUARD_NEC_2:
+        switch (state) {
+        case TALK_MISSION_DESCRIBE:
+            return _("We need help...");
+        case TALK_MISSION_OFFER:
+            return _("Your assistance is greatly appreciated, we need to clear out the more "
+                     "ruthless monsters that are wandering up from the lower levels.  If you "
+                     "could cull twenty or so of what we refer to as 'nightmares' my men "
+                     "would be much safer.  If you've cleared out most of this floor then the "
+                     "lower levels should be your next target. ");
+        case TALK_MISSION_ACCEPTED:
+            return _("Good luck, finding a clear passage to the second level may be tricky.");
+        case TALK_MISSION_REJECTED:
+            return _("I don't know why you would bother wasting your time down here if you can't "
+                     "handle a few small tasks...");
+        case TALK_MISSION_ADVICE:
+            return _("These creatures can swing their appendages surprisingly far.");
+        case TALK_MISSION_INQUIRE:
+            return _("How is the hunt going?");
+        case TALK_MISSION_SUCCESS:
+            return _("Thanks, let me know when you need another tasking.");
+        case TALK_MISSION_SUCCESS_LIE:
+            return _("What good does this do us?");
+        case TALK_MISSION_FAILURE:
+            return _("It was a lost cause anyways...");
+        default: // It's a bug.
+            return "";
+        }
+        break;
+
+    case MISSION_OLD_GUARD_NEC_COMMO_1:
+        switch (state) {
+        case TALK_MISSION_DESCRIBE:
+            return _("We need help...");
+        case TALK_MISSION_OFFER:
+            return _("My chief responsibility is to monitor radio traffic and locate potential targets to "
+                     "secure or rescue.  The majority of radio repeaters are down and those that are working "
+                     "have only emergency power.  If you have a basic understanding of electronics you should "
+                     "be able to fabricate  the 'radio repeater mod' found in these plans.  When this mod is "
+                     "attached to a radio station's main terminal, all short range radio traffic on emergency "
+                     "channels is boosted so we can pick it up at much longer ranges.  I really need you make "
+                     "me one.");
+        case TALK_MISSION_ACCEPTED:
+            return _("Thanks, I know the labs on the other side of the complex have electronic parts sitting around.");
+        case TALK_MISSION_REJECTED:
+            return _("I don't know why you would bother wasting your time down here if you can't "
+                     "handle a few small tasks...");
+        case TALK_MISSION_ADVICE:
+            return _("I'm sure the motorpool has a truck battery you could salvage.");
+        case TALK_MISSION_INQUIRE:
+            return _("Have you had any luck fabricating it?");
+        case TALK_MISSION_SUCCESS:
+            return _("Thanks, I'll see to installing this one.  It will be some time but I could use someone to position "
+                     "these around the region.");
+        case TALK_MISSION_SUCCESS_LIE:
+            return _("What good does this do us?");
+        case TALK_MISSION_FAILURE:
+            return _("It was a lost cause anyways...");
+        default: // It's a bug.
+            return "";
+        }
+        break;
+
+    case MISSION_OLD_GUARD_NEC_COMMO_2:
+        switch (state) {
+        case TALK_MISSION_DESCRIBE:
+            return _("We need help...");
+        case TALK_MISSION_OFFER:
+            return _("I guess I could use your skills once again.  There are small transmitters located in the nearby evacuation "
+                    "shelters; if we don't separate them from the power grid their power systems will rapidly deteriorate "
+                    "over the next few weeks.  The task is rather simple but the shelters offer us a place to redirect refugees "
+                    "until this vault can be secured. ");
+        case TALK_MISSION_ACCEPTED:
+            return _("Thanks, I should be ready for you to install the radio repeater mods by the time you get back.");
+        case TALK_MISSION_REJECTED:
+            return _("I don't know why you would bother wasting your time down here if you can't "
+                     "handle a few small tasks...");
+        case TALK_MISSION_ADVICE:
+            return _("Try searching on the outskirts of towns.");
+        case TALK_MISSION_INQUIRE:
+            return _("Have you had any luck severing the connection?");
+        case TALK_MISSION_SUCCESS:
+            return _("We are good to go!  The last of the gear is powering up now.");
+        case TALK_MISSION_SUCCESS_LIE:
+            return _("What good does this do us?");
+        case TALK_MISSION_FAILURE:
+            return _("It was a lost cause anyways...");
+        default: // It's a bug.
+            return "";
+        }
+        break;
+
+    case MISSION_OLD_GUARD_NEC_COMMO_3:
+        switch (state) {
+        case TALK_MISSION_DESCRIBE:
+            return _("We need help...");
+        case TALK_MISSION_OFFER:
+            return _("Most of my essential gear has been brought back online so it is time for you to install your "
+                     "first radio repeater mod.  Head topside and locate the nearest radio station.  Install the "
+                     "mod on the backup terminal and return to me so that I can verify that everything was successful.  "
+                     "Radio towers must unfortunatly be ignored for now, without a dedicated emergency power system "
+                     "they won't be useful for some time.");
+        case TALK_MISSION_ACCEPTED:
+            return _("I'll be standing by down here once you are done.");
+        case TALK_MISSION_REJECTED:
+            return _("I don't know why you would bother wasting your time down here if you can't "
+                     "handle a few small tasks...");
+        case TALK_MISSION_ADVICE:
+            return _("If you could make some sort of directional antenna, it might help locating the radio stations.");
+        case TALK_MISSION_INQUIRE:
+            return _("Have you had any luck finding a radio tower?");
+        case TALK_MISSION_SUCCESS:
+            return _("That's one down.");
+        case TALK_MISSION_SUCCESS_LIE:
+            return _("What good does this do us?");
+        case TALK_MISSION_FAILURE:
+            return _("It was a lost cause anyways...");
+        default: // It's a bug.
+            return "";
+        }
+        break;
+
+    case MISSION_OLD_GUARD_NEC_COMMO_4:
+        switch (state) {
+        case TALK_MISSION_DESCRIBE:
+            return _("We need help...");
+        case TALK_MISSION_OFFER:
+            return _("I could always use you to put another repeater mod up.  I don't have to remind you but every "
+                     "one that goes up extends our response area just a little bit more.  With enough of them we'll "
+                     "be able to maintain communication with anyone in the region.");
+        case TALK_MISSION_ACCEPTED:
+            return _("I'll be standing by.");
+        case TALK_MISSION_REJECTED:
+            return _("I don't know why you would bother wasting your time down here if you can't "
+                     "handle a few small tasks...");
+        case TALK_MISSION_ADVICE:
+            return _("Getting a working vehicle is going to become important as the distance you have to travel increases.");
+        case TALK_MISSION_INQUIRE:
+            return _("Have you had any luck finding a radio tower?");
+        case TALK_MISSION_SUCCESS:
+            return _("I'll try and update the captain with any signals that I need investigated.");
         case TALK_MISSION_SUCCESS_LIE:
             return _("What good does this do us?");
         case TALK_MISSION_FAILURE:

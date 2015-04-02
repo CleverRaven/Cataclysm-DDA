@@ -435,6 +435,12 @@ void player::melee_attack(Creature &t, bool allow_special, matec_id force_techni
         t.check_dead_state();
     }
 
+    int mod_sta = ( (weapon.weight() / 100 ) + 20) * -1;
+    mod_stat("stamina", mod_sta);
+    int sta_percent = (100 * stamina) / get_stamina_max();
+    int mod_mc = ( (sta_percent < 25) ? ((25 - sta_percent) * 2) : 0 );
+    move_cost += mod_mc;
+
     mod_moves(-move_cost);
 
     ma_onattack_effects(); // trigger martial arts on-attack effects
@@ -743,10 +749,10 @@ int player::roll_bash_damage(bool crit)
         }
     } else {
         // 80%, 88%, 96%, 104%, 112%, 116%, 120%, 124%, 128%, 132%
-        if (bashing_skill <= 5) {
+        if( bashing_skill < 5 ) {
             ret *= 0.8 + 0.08 * bashing_skill;
         } else {
-            ret *= 0.92 + 0.04 * bashing_skill;
+            ret *= 0.96 + 0.04 * bashing_skill;
         }
     }
 
@@ -840,10 +846,10 @@ int player::roll_cut_damage(bool crit)
 
 
     // 80%, 88%, 96%, 104%, 112%, 116%, 120%, 124%, 128%, 132%
-    if (cutting_skill <= 5)
+    if( cutting_skill < 5 )
         ret *= 0.8 + 0.08 * cutting_skill;
     else
-        ret *= 0.92 + 0.04 * cutting_skill;
+        ret *= 0.96 + 0.04 * cutting_skill;
 
     if (crit)
         ret *= 1.0 + (cutting_skill / 12.0);
@@ -908,7 +914,7 @@ int player::roll_stab_damage(bool crit)
     if (ret <= 0)
         return 0; // No negative stabbing!
 
-    // 76%, 86%, 96%, 106%, 116%, 122%, 128%, 134%, 140%, 146%
+    // 66%, 76%, 86%, 96%, 106%, 116%, 122%, 128%, 134%, 140%
     if (stabbing_skill <= 5)
         ret *= 0.66 + 0.1 * stabbing_skill;
     else
@@ -1573,7 +1579,7 @@ std::string player::melee_special_effects(Creature &t, damage_instance &d, ma_te
 
 
     if (shock_them) { // bionics only
-        power_level -= 2;
+        charge_power(-2);
         int shock = rng(2, 5);
         d.add_damage(DT_ELECTRIC, shock * rng(1, 3));
 
@@ -2269,23 +2275,17 @@ void player_hit_message(player* attacker, std::string message,
 
     if (dam > 0 && attacker->is_player()) {
         //player hits monster melee
-        nc_color color;
-        std::string health_bar = "";
-        get_HP_Bar(dam, t.get_hp_max(), color, health_bar, true);
-
         SCT.add(t.posx(),
                 t.posy(),
                 direction_from(0, 0, t.posx() - attacker->posx(), t.posy() - attacker->posy()),
-                health_bar, m_good,
+                get_hp_bar(dam, t.get_hp_max(), true).first, m_good,
                 sSCTmod, gmtSCTcolor);
 
         if (t.get_hp() > 0) {
-            get_HP_Bar(t.get_hp(), t.get_hp_max(), color, health_bar, true);
-
             SCT.add(t.posx(),
                     t.posy(),
                     direction_from(0, 0, t.posx() - attacker->posx(), t.posy() - attacker->posy()),
-                    health_bar, m_good,
+                    get_hp_bar(t.get_hp(), t.get_hp_max(), true).first, m_good,
                     //~ “hit points”, used in scrolling combat text
                     _("hp"), m_neutral,
                     "hp");

@@ -85,9 +85,11 @@ const Skill* Skill::random_skill_with_tag(const std::string& tag)
             valid.push_back(&s);
         }
     }
-
-    auto const size = static_cast<long>(valid.size());
-    return size ? valid[rng(0, size - 1)] : nullptr;
+    if( valid.empty() ) {
+        debugmsg( "could not find a skill with the %s tag", tag.c_str() );
+        return &skills.front();
+    }
+    return valid[rng( 0, valid.size() - 1 )];
 }
 
 size_t Skill::skill_count()
@@ -120,7 +122,7 @@ void SkillLevel::train(int amount)
 {
     _exercise += amount;
 
-    if (_exercise >= 100 * (_level + 1)) {
+    if (_exercise >= 100 * (_level + 1) * (_level + 1)) {
         _exercise = 0;
         ++_level;
     }
@@ -161,7 +163,7 @@ bool SkillLevel::rust( bool charged_bio_mem )
     auto const &rust_type = OPTIONS["SKILL_RUST"];
     if (_exercise < 0) {
         if (rust_type == "vanilla" || rust_type == "int") {
-            _exercise = (100 * _level) - 1;
+            _exercise = (100 * _level * _level) - 1;
             --_level;
         } else {
             _exercise = 0;
@@ -179,7 +181,7 @@ void SkillLevel::practice()
 void SkillLevel::readBook(int minimumGain, int maximumGain, int maximumLevel)
 {
     if (_level < maximumLevel || maximumLevel < 0) {
-        train(rng(minimumGain, maximumGain));
+        train((_level + 1) * rng(minimumGain, maximumGain));
     }
 
     practice();

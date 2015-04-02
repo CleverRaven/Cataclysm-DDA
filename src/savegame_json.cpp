@@ -249,12 +249,18 @@ void player::load(JsonObject &data)
         debugmsg("BAD PLAYER/NPC JSON: no 'posx'?");
     }
     data.read("posy", position.y);
+    if( !data.read("posz", zpos) && g != nullptr ) {
+      zpos = g->get_levz();
+    }
     data.read("hunger", hunger);
     data.read("thirst", thirst);
     data.read("fatigue", fatigue);
     data.read("stim", stim);
     data.read("pkill", pkill);
     data.read("radiation", radiation);
+    data.read("tank_plut", tank_plut);
+    data.read("reactor_plut", reactor_plut);
+    data.read("slow_rad", slow_rad);
     data.read("scent", scent);
     data.read("oxygen", oxygen);
     data.read("male", male);
@@ -271,6 +277,11 @@ void player::load(JsonObject &data)
     if( savegame_loading_version <= 20 ) {
         power_level *= 25;
         max_power_level *= 25;
+    }
+
+    // Bionic power should not be negative!
+    if( power_level < 0) {
+        power_level = 0;
     }
 
     data.read("ma_styles", ma_styles);
@@ -290,6 +301,12 @@ void player::load(JsonObject &data)
         const std::string t = pmap.get_string("trap");
         known_traps.insert(trap_map::value_type(p, t));
     }
+    
+    // Add the earplugs.
+    if (has_bionic("bio_ears") && !has_bionic("bio_earplugs")) {
+        add_bionic("bio_earplugs");
+    }
+    
 }
 
 /*
@@ -303,6 +320,7 @@ void player::store(JsonOut &json) const
     // positional data
     json.member( "posx", position.x );
     json.member( "posy", position.y );
+    json.member( "posz", zpos );
 
     // om-noms or lack thereof
     json.member( "hunger", hunger );
@@ -314,6 +332,9 @@ void player::store(JsonOut &json) const
     json.member( "pkill", pkill );
     // misc levels
     json.member( "radiation", radiation );
+    json.member( "tank_plut", tank_plut );
+    json.member( "reactor_plut", reactor_plut );
+    json.member( "slow_rad", slow_rad );
     json.member( "scent", int(scent) );
     json.member( "body_wetness", body_wetness );
 
@@ -411,6 +432,9 @@ void player::serialize(JsonOut &json) const
     json.member( "stomach_food", stomach_food );
     json.member( "stomach_water", stomach_water );
 
+    json.member( "stamina", stamina);
+    json.member( "move_mode", move_mode );
+
     // crafting etc
     json.member( "activity", activity );
     json.member( "backlog", backlog );
@@ -435,11 +459,11 @@ void player::serialize(JsonOut &json) const
     json.member( "morale", morale );
 
     // mission stuff
-    json.member("active_mission", active_mission );
+    json.member("active_mission", active_mission == nullptr ? -1 : active_mission->get_id() );
 
-    json.member( "active_missions", active_missions );
-    json.member( "completed_missions", completed_missions );
-    json.member( "failed_missions", failed_missions );
+    json.member( "active_missions", mission::to_uid_vector( active_missions ) );
+    json.member( "completed_missions", mission::to_uid_vector( completed_missions ) );
+    json.member( "failed_missions", mission::to_uid_vector( failed_missions ) );
 
     json.member( "player_stats", get_stats() );
 
@@ -519,6 +543,9 @@ void player::deserialize(JsonIn &jsin)
     data.read( "style_selected", style_selected );
     data.read( "keep_hands_free", keep_hands_free );
 
+    data.read( "stamina", stamina);
+    data.read( "move_mode", move_mode );
+
     set_highest_cat_level();
     drench_mut_calc();
     std::string scen_ident="(null)";
@@ -563,11 +590,38 @@ void player::deserialize(JsonIn &jsin)
 
     data.read("morale", morale);
 
-    data.read( "active_mission", active_mission );
+    int tmpactive_mission;
+    if( data.read( "active_mission", tmpactive_mission ) && tmpactive_mission != -1 ) {
+        active_mission = mission::find( tmpactive_mission );
+    }
 
-    data.read( "active_missions", active_missions );
-    data.read( "failed_missions", failed_missions );
-    data.read( "completed_missions", completed_missions );
+    std::vector<int> tmpmissions;
+    if( data.read( "active_missions", tmpmissions ) ) {
+        active_missions = mission::to_ptr_vector( tmpmissions );
+    }
+    if( data.read( "failed_missions", tmpmissions ) ) {
+        failed_missions = mission::to_ptr_vector( tmpmissions );
+    }
+    if( data.read( "completed_missions", tmpmissions ) ) {
+        completed_missions = mission::to_ptr_vector( tmpmissions );
+    }
+
+    // Normally there is only one player character loaded, so if a mission that is assigned to
+    // another character (not the current one) fails, the other character(s) are not informed.
+    // We must inform them when they get loaded the next time.
+    // Only active missions need checking, failed/complete will not change anymore.
+    auto const last = std::remove_if( active_missions.begin(), active_missions.end(), []( mission const *m ) {
+        return m->has_failed();
+    } );
+    std::copy( last, active_missions.end(), std::back_inserter( failed_missions ) );
+    active_missions.erase( last, active_missions.end() );
+    if( active_mission && active_mission->has_failed() ) {
+        if( active_missions.empty() ) {
+            active_mission = nullptr;
+        } else {
+            active_mission = active_missions.front();
+        }
+    }
 
     stats &pstats = *lifetime_stats();
     data.read("player_stats", pstats);
@@ -613,14 +667,14 @@ void npc_chatbin::serialize(JsonOut &json) const
 {
     json.start_object();
     json.member( "first_topic", (int)first_topic );
-    json.member( "mission_selected", mission_selected );
-    json.member( "tempvalue",
-                 tempvalue );     //No clue what this value does, but it is used all over the place. So it is NOT temp.
+    if( mission_selected != nullptr ) {
+        json.member( "mission_selected", mission_selected->get_id() );
+    }
     if ( skill ) {
         json.member("skill", skill->ident() );
     }
-    json.member( "missions", missions );
-    json.member( "missions_assigned", missions_assigned );
+    json.member( "missions", mission::to_uid_vector( missions ) );
+    json.member( "missions_assigned", mission::to_uid_vector( missions_assigned ) );
     json.end_object();
 }
 
@@ -637,10 +691,19 @@ void npc_chatbin::deserialize(JsonIn &jsin)
         skill = Skill::skill(skill_ident);
     }
 
-    data.read("tempvalue", tempvalue);
-    data.read("mission_selected", mission_selected);
-    data.read( "missions", missions );
-    data.read( "missions_assigned", missions_assigned );
+    std::vector<int> tmpmissions;
+    data.read( "missions", tmpmissions );
+    missions = mission::to_ptr_vector( tmpmissions );
+    std::vector<int> tmpmissions_assigned;
+    data.read( "missions_assigned", tmpmissions_assigned );
+    missions_assigned = mission::to_ptr_vector( tmpmissions_assigned );
+    int tmpmission_selected;
+    mission_selected = nullptr;
+    if( savegame_loading_version <= 23 ) {
+        mission_selected = nullptr; // player can re-select which mision to talk about in the dialog
+    } else if( data.read( "mission_selected", tmpmission_selected ) && tmpmission_selected != -1 ) {
+        mission_selected = mission::find( tmpmission_selected );
+    }
 }
 
 void npc_personality::deserialize(JsonIn &jsin)
@@ -940,7 +1003,7 @@ void monster::load(JsonObject &data)
     data.read("posx", position.x);
     data.read("posy", position.y);
     if( !data.read("posz", zpos) ) {
-        zpos = g->levz;
+        zpos = g->get_levz();
     }
 
     data.read("wandx", wandx);
@@ -1125,6 +1188,16 @@ void item::deserialize(JsonObject &data)
         // There was a bug that set all comestibles active, this reverses that.
         active = false;
     }
+    // We need item tags here to make sure HOT/COLD food is active
+    // and bugged WET towels get reactivated
+    data.read("item_tags", item_tags);
+
+    if( !active && 
+        (item_tags.count( "HOT" ) > 0 || item_tags.count( "COLD" ) > 0 || 
+         item_tags.count( "WET" ) > 0) ) {
+        // Some hot/cold items from legacy saves may be inactive
+        active = true;
+    }
 
     if( data.read( "curammo", ammotmp ) ) {
         set_curammo( ammotmp );
@@ -1140,9 +1213,6 @@ void item::deserialize(JsonObject &data)
     } else {
         covered_bodyparts = tmp_covers;
     }
-
-    data.read("item_tags", item_tags);
-
 
     int tmplum = 0;
     if ( data.read("light", tmplum) ) {
@@ -1377,6 +1447,7 @@ void vehicle::deserialize(JsonIn &jsin)
     data.read("camera_on", camera_on);
     data.read("dome_lights_on", dome_lights_on);
     data.read("aisle_lights_on", aisle_lights_on);
+    data.read("has_atomic_lights", has_atomic_lights);
 
     face.init (fdir);
     move.init (mdir);
@@ -1453,6 +1524,7 @@ void vehicle::serialize(JsonOut &json) const
     json.member( "camera_on", camera_on );
     json.member( "dome_lights_on", dome_lights_on );
     json.member( "aisle_lights_on", aisle_lights_on );
+    json.member( "has_atomic_lights", has_atomic_lights );
     json.end_object();
 }
 
@@ -1463,7 +1535,7 @@ void mission::deserialize(JsonIn &jsin)
     JsonObject jo = jsin.get_object();
 
     if (jo.has_member("type_id")) {
-        type = &(g->mission_types[jo.get_int("type_id")]);
+        type = mission_type::get( static_cast<mission_type_id>( jo.get_int( "type_id" ) ) );
     }
     jo.read("description", description);
     jo.read("failed", failed);
@@ -1475,7 +1547,7 @@ void mission::deserialize(JsonIn &jsin)
         target.x = ja.get_int(0);
         target.y = ja.get_int(1);
     }
-    follow_up = mission_id(jo.get_int("follow_up", follow_up));
+    follow_up = static_cast<mission_type_id>(jo.get_int("follow_up", follow_up));
     item_id = itype_id(jo.get_string("item_id", item_id));
 
     const std::string omid = jo.get_string( "target_id", "" );
@@ -1492,13 +1564,15 @@ void mission::deserialize(JsonIn &jsin)
     jo.read("npc_id", npc_id );
     jo.read("good_fac_id", good_fac_id );
     jo.read("bad_fac_id", bad_fac_id );
+    jo.read("player_id", player_id );
+    jo.read("was_started", was_started );
 }
 
 void mission::serialize(JsonOut &json) const
 {
     json.start_object();
 
-    json.member("type_id", type == NULL ? -1 : (int)type->id);
+    json.member("type_id", type == NULL ? -1 : static_cast<int>( type->id ) );
     json.member("description", description);
     json.member("failed", failed);
     json.member("value", value);
@@ -1524,6 +1598,8 @@ void mission::serialize(JsonOut &json) const
     json.member("bad_fac_id", bad_fac_id);
     json.member("step", step);
     json.member("follow_up", (int)follow_up);
+    json.member("player_id", player_id);
+    json.member("was_started", was_started);
 
     json.end_object();
 }

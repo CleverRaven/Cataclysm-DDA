@@ -36,11 +36,13 @@ enum activity_type {    // expanded this enum for readability
     ACT_PICKUP,
     ACT_MOVE_ITEMS,
     ACT_ADV_INVENTORY,
+    ACT_ARMOR_LAYERS,
     ACT_START_FIRE,
     ACT_FILL_LIQUID,
     ACT_HOTWIRE_CAR,
     ACT_AIM,
     ACT_ATM,
+    ACT_START_ENGINES,
     NUM_ACTIVITIES
 };
 
@@ -100,9 +102,9 @@ class player_activity : public JsonSerializer, public JsonDeserializer
         bool is_suspendable() const;
 
         using JsonSerializer::serialize;
-        void serialize(JsonOut &jsout) const;
+        void serialize(JsonOut &jsout) const override;
         using JsonDeserializer::deserialize;
-        void deserialize(JsonIn &jsin);
+        void deserialize(JsonIn &jsin) override;
 
         void load_legacy(std::stringstream &dump);
 

@@ -809,7 +809,7 @@ void initOptions()
 
     OPTIONS["TILES"] = cOpt("graphics", _("Choose tileset"),
                             _("Choose the tileset you want to use."),
-                            tileset_names, "hoder", COPT_CURSES_HIDE
+                            tileset_names, "ChestHole", COPT_CURSES_HIDE
                            ); // populate the options dynamically
 
     mOptionsSort["graphics"]++;
@@ -894,6 +894,10 @@ void initOptions()
     OPTIONS["NPC_DENSITY"] = cOpt("world_default", _("NPC spawn rate scaling factor"),
                                     _("A scaling factor that determines density of dynamic NPC spawns."),
                                     0.0, 100.0, 1.0, 0.01
+                                   );
+    OPTIONS["MONSTER_GROUP_DIFFICULTY"] = cOpt("world_default", _("Monster difficulty"),
+                                    _("A scaling factor that determines the rate of monster advancement. 0 spawns advanced groups immediately!"),
+                                    0, 100, 1
                                    );
 
     mOptionsSort["world_default"]++;
@@ -1316,6 +1320,7 @@ void show_options(bool ingame)
             g->init_ui();
             if( ingame ) {
                 g->refresh_all();
+                tilecontext->do_tile_loading_report();
             }
         } catch(std::string err) {
             popup(_("Loading the tileset failed: %s"), err.c_str());

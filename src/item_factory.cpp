@@ -746,9 +746,6 @@ void Item_factory::load_comestible(JsonObject &jo)
     }
     comest_template->fun = jo.get_int("fun", 0);
 
-    //Default to 91 as an approximation of a real world season length.
-    comest_template->grow = jo.get_int("grow", 91);
-
     comest_template->add = addiction_type(jo.get_string("addiction_type"));
 
     itype *new_item_template = comest_template;
@@ -761,6 +758,12 @@ void Item_factory::load_container(JsonObject &jo)
     itype *new_item_template = new itype();
     load_slot( new_item_template->container, jo );
     load_basic_info( jo, new_item_template );
+}
+
+void Item_factory::load( islot_seed &slot, JsonObject &jo )
+{
+    slot.grow = jo.get_int( "grow" );
+    slot.plant_name = _( jo.get_string( "plant_name" ).c_str() );
 }
 
 void Item_factory::load( islot_container &slot, JsonObject &jo )
@@ -970,6 +973,7 @@ void Item_factory::load_basic_info(JsonObject &jo, itype *new_item_template)
     load_slot_optional( new_item_template->bionic, jo, "bionic_data" );
     load_slot_optional( new_item_template->spawn, jo, "spawn_data" );
     load_slot_optional( new_item_template->ammo, jo, "ammo_data" );
+    load_slot_optional( new_item_template->seed, jo, "seed_data" );
 }
 
 void Item_factory::load_item_category(JsonObject &jo)
@@ -1359,6 +1363,8 @@ void Item_factory::set_uses_from_object(JsonObject obj, std::vector<use_function
         newfun = load_actor<fireweapon_off_actor>( obj );
     } else if( type == "fireweapon_on" ) {
         newfun = load_actor<fireweapon_on_actor>( obj );
+    } else if( type == "musical_instrument" ) {
+        newfun = load_actor<musical_instrument_actor>( obj );
     } else if( type == "knife" ) {
         use_methods.push_back( load_actor<salvage_actor>( obj, "salvage" ) );
         use_methods.push_back( load_actor<inscribe_actor>( obj, "inscribe" ) );

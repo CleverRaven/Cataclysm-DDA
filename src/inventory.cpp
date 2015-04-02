@@ -594,7 +594,7 @@ void inventory::form_from_map(point origin, int range, bool assign_invlet)
 
                 if (kpart >= 0) {
                     item hotplate("hotplate", 0);
-                    hotplate.charges = veh->fuel_left("battery");
+                    hotplate.charges = veh->fuel_left("battery", true);
                     hotplate.item_tags.insert("PSEUDO");
                     add_item(hotplate);
 
@@ -611,45 +611,45 @@ void inventory::form_from_map(point origin, int range, bool assign_invlet)
                 }
                 if (weldpart >= 0) {
                     item welder("welder", 0);
-                    welder.charges = veh->fuel_left("battery");
+                    welder.charges = veh->fuel_left("battery", true);
                     welder.item_tags.insert("PSEUDO");
                     add_item(welder);
 
                     item soldering_iron("soldering_iron", 0);
-                    soldering_iron.charges = veh->fuel_left("battery");
+                    soldering_iron.charges = veh->fuel_left("battery", true);
                     soldering_iron.item_tags.insert("PSEUDO");
                     add_item(soldering_iron);
                 }
                 if (craftpart >= 0) {
                     item vac_sealer("vac_sealer", 0);
-                    vac_sealer.charges = veh->fuel_left("battery");
+                    vac_sealer.charges = veh->fuel_left("battery", true);
                     vac_sealer.item_tags.insert("PSEUDO");
                     add_item(vac_sealer);
 
                     item dehydrator("dehydrator", 0);
-                    dehydrator.charges = veh->fuel_left("battery");
+                    dehydrator.charges = veh->fuel_left("battery", true);
                     dehydrator.item_tags.insert("PSEUDO");
                     add_item(dehydrator);
 
                     item press("press", 0);
-                    press.charges = veh->fuel_left("battery");
+                    press.charges = veh->fuel_left("battery", true);
                     press.item_tags.insert("PSEUDO");
                     add_item(press);
                 }
                 if (forgepart >= 0) {
                     item forge("forge", 0);
-                    forge.charges = veh->fuel_left("battery");
+                    forge.charges = veh->fuel_left("battery", true);
                     forge.item_tags.insert("PSEUDO");
                     add_item(forge);
                 }
                 if (chempart >= 0) {
                     item hotplate("hotplate", 0);
-                    hotplate.charges = veh->fuel_left("battery");
+                    hotplate.charges = veh->fuel_left("battery", true);
                     hotplate.item_tags.insert("PSEUDO");
                     add_item(hotplate);
 
                     item chemistry_set("chemistry_set", 0);
-                    chemistry_set.charges = veh->fuel_left("battery");
+                    chemistry_set.charges = veh->fuel_left("battery", true);
                     chemistry_set.item_tags.insert("PSEUDO");
                     add_item(chemistry_set);
                 }

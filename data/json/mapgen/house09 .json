@@ -74,7 +74,6 @@
                 "8": "f_bathtub",
                 "9": "f_rack",
                 ":": "f_dresser",
-                ";": "f_toilet",
                 "=": "f_fireplace",
                 ">": "f_counter",
                 "?": "f_sofa",
@@ -90,9 +89,9 @@
                 "w": "f_washer",
                 "G": "f_oven"
             },
-            "place_toilets": [
-                { "x": 15, "y": 13 }
-            ],
+            "toilets": {
+                ";": { }
+            },
             "add": [
                 { "item": "television", "x": 5, "y": 11 }
             ],

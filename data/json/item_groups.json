@@ -510,7 +510,8 @@
       ["dry_beans", 40],
       ["dry_rice", 40],
       ["survnote", 1],
-      ["cookbook_sushi", 5]
+      ["cookbook_sushi", 5],
+      ["scots_cookbook", 6]
     ]
   },{
     "type" : "item_group",
@@ -823,6 +824,13 @@
       ["purse", 40],
       ["mbag", 20],
       ["fanny", 10],
+      ["acoustic_guitar", 20],
+      ["saxophone", 15],
+      ["clarinet", 10],
+      ["flute", 10],
+      ["harmonica_holder", 10],
+      ["banjo", 5],
+      ["ukulele", 15],
       ["gobag", 5],
       ["battery", 50],
       ["bb", 8],
@@ -974,6 +982,7 @@
       ["l_lookout_9mm", 5],
       ["l_sp_9mm", 4],
       ["l_mp_9mm", 1],
+      ["rm360_carbine", 1],
       ["cx4", 1],
       ["sw_619", 4],
       ["taurus_38", 4],
@@ -2693,6 +2702,7 @@
       ["fn_p90", 7],
       ["hk_mp7", 5],
       ["needlegun", 4],
+      ["rm360_carbine", 2],
       ["rm2000_smg", 1]
     ]
   },{
@@ -2789,6 +2799,7 @@
       ["m249", 1],
       ["v29_cheap", 8],
       ["rm51_assault_rifle", 1],
+      ["rm360_carbine", 2],
       ["rm88_battle_rifle", 1],
       ["rm11b_sniper_rifle", 1],
       ["rm614_lmg", 1],
@@ -3551,7 +3562,8 @@
       ["mag_fabrication", 30],
       ["mag_tailor", 25],
       ["cookbook_sushi", 15],
-      ["survnote", 1]
+      ["survnote", 1],
+      ["scots_cookbook", 8]
     ]
   },{
     "type" : "item_group",
@@ -3660,7 +3672,8 @@
       ["novel_samurai", 10],
       ["plays_book", 10],
       ["poetry_book", 10],
-      ["carpentry_book", 8]
+      ["carpentry_book", 8],
+      ["scots_cookbook", 10]
     ]
   },{
     "type" : "item_group",
@@ -4058,6 +4071,7 @@
       ["m1911", 4],
       ["calico", 6],
       ["american_180", 4],
+      ["rm360_carbine", 2],
       ["savage_111f", 4],
       ["rm120c", 3],
       ["rm99_pistol", 3],
@@ -4588,7 +4602,8 @@
       ["rollerskates", 10],
       ["survnote", 3],
       ["radio_car_box", 3],
-      ["radiocontrol", 10]
+      ["radiocontrol", 10],
+      ["scots_cookbook", 1]
     ]
   },{
     "type" : "item_group",
@@ -9259,35 +9274,43 @@
 "id" : "forage_spring",
 "subtype": "distribution",
 "entries" : [
+      { "item": "veggy_wild", "prob": 100, "count-min": 1, "count-max": 2 },      
       { "item": "egg_bird", "prob": 15, "count-min": 2, "count-max": 5 },
       { "item": "egg_reptile", "prob": 5, "count-min": 2, "count-max": 5 },
       { "item": "rhubarb", "prob": 5, "count-min": 2, "count-max": 5 },
       { "item": "wild_herbs", "prob": 10 },
-      { "item": "buckwheat", "prob": 5, "count-min": 1, "count-max": 2 }
+      { "item": "thyme", "prob": 5, "count-min": 1, "count-max": 2 },
+      { "item": "canola", "prob": 5, "count-min": 1, "count-max": 2 },
+      { "item": "dogbane", "prob": 5, "count-min": 1, "count-max": 2 }
     ]
   },{
 "type" : "item_group",
 "id" : "forage_summer",
 "subtype": "distribution",
 "entries" : [
-      { "item": "veggy_wild", "prob": 100, "count-min": 1, "count-max": 2 },
-      { "group": "forage_mushroom", "prob": 50 },
-      { "item": "egg_bird", "prob": 15, "count-min": 2, "count-max": 5 },
-      { "item": "egg_reptile", "prob": 5, "count-min": 2, "count-max": 5 },
-      { "item": "wild_herbs", "prob": 10 },
-      { "item": "buckwheat", "prob": 10, "count-min": 1, "count-max": 4 }
+      { "item": "veggy_wild", "prob": 50, "count-min": 1, "count-max": 2 },      
+      { "group": "forage_mushroom", "prob": 25 },
+      { "item": "egg_bird", "prob": 5, "count-min": 2, "count-max": 5 },
+      { "item": "egg_reptile", "prob": 5, "count-min": 1, "count-max": 3 },
+      { "item": "wild_herbs", "prob": 20 },
+      { "item": "blackberries", "prob": 20, "count-min": 2, "count-max": 5 },
+      { "item": "buckwheat", "prob": 5, "count-min": 1, "count-max": 4 },
+      { "item": "thyme", "prob": 5, "count-min": 1, "count-max": 3 },
+      { "item": "canola", "prob": 10, "count-min": 1, "count-max": 3 },
+      { "item": "dogbane", "prob": 10, "count-min": 1, "count-max": 3 }
     ]
   },{
 "type" : "item_group",
 "id" : "forage_autumn",
 "subtype": "distribution",
 "entries" : [
-      { "item": "veggy_wild", "prob": 100, "count-min": 1, "count-max": 2 },
       { "group": "forage_mushroom", "prob": 50 },
-      { "item": "egg_bird", "prob": 15, "count-min": 2, "count-max": 5 },
-      { "item": "egg_reptile", "prob": 5, "count-min": 2, "count-max": 5 },
       { "item": "wild_herbs", "prob": 10 },
-      { "item": "buckwheat", "prob": 15, "count-min": 2, "count-max": 4 }
+      { "item": "acorns", "prob": 100, "count-min": 2, "count-max": 3 },      
+      { "item": "buckwheat", "prob": 15, "count-min": 2, "count-max": 4 },
+      { "item": "thyme", "prob": 5, "count-min": 1, "count-max": 3 },
+      { "item": "canola", "prob": 5, "count-min": 1, "count-max": 3 },
+      { "item": "dogbane", "prob": 5, "count-min": 1, "count-max": 3 }
     ]
   },{
 "type" : "item_group",
@@ -9462,6 +9485,22 @@
       ["m4a1", 50],
       ["m249", 10],
       ["556", 50]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "hospital_incubator",
+    "items" : [
+      ["blanket", 90],
+      ["child_book", 10]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "tailor",
+    "items" : [
+      ["sewing_kit", 30],
+      ["tailors_kit", 20],
+      ["thread", 80],
+      ["scissors", 50]
     ]
   }
 ]

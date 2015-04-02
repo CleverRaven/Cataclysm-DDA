@@ -108,11 +108,11 @@ class SkillLevel : public JsonSerializer, public JsonDeserializer
 
         int exercise(bool raw = false) const
         {
-            return raw ? _exercise : _exercise / (_level + 1);
+            return raw ? _exercise : _exercise / ( (_level + 1) * (_level + 1) );
         }
 
         int exercised_level() const {
-            return level() * 100 + exercise();
+            return level() * level() * 100 + exercise();
         }
 
         int lastPracticed() const
@@ -182,9 +182,9 @@ class SkillLevel : public JsonSerializer, public JsonDeserializer
         SkillLevel &operator= (const SkillLevel &) = default;
 
         using JsonSerializer::serialize;
-        void serialize(JsonOut &jsout) const;
+        void serialize(JsonOut &jsout) const override;
         using JsonDeserializer::deserialize;
-        void deserialize(JsonIn &jsin);
+        void deserialize(JsonIn &jsin) override;
 
         // Make skillLevel act like a raw level by default.
         operator int() const

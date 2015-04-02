@@ -33,8 +33,9 @@
 
 class item;
 struct point;
-struct radio_tower;
-enum nc_color : int;
+struct tripoint;
+struct trap;
+typedef int nc_color;
 
 /**
  * Weather type enum.
@@ -125,7 +126,7 @@ std::string const& season_name(int season);
 std::string const& season_name_upper(int season);
 weather_datum const& weather_data(weather_type type);
 
-std::string weather_forecast(radio_tower const &tower);
+std::string weather_forecast( point const &abs_sm_pos );
 
 // Returns input value (in fahrenheit) converted to whatever temperature scale set in options.
 //
@@ -143,9 +144,21 @@ int get_local_humidity(double humidity, weather_type weather, bool sheltered = f
 int get_local_windpower(double windpower, std::string const &omtername = "no name",
                         bool sheltered = false);
 
-void retroactively_fill_from_funnel( item *it, const int trap_id, const calendar &, const point &);
+/**
+ * @param it The container item which is to be filled.
+ * @param pos The absolute position of the funnel (in the map square system, the one used
+ * by the @ref map, but absolute).
+ * @param tr The funnel (trap which acts as a funnel).
+ */
+void retroactively_fill_from_funnel( item &it, const trap &tr, const calendar &endturn, const point &pos);
 
-int get_hourly_rotpoints_at_temp (int temp);
-int get_rot_since( int since, int endturn, const point &);
+/**
+ * Get the amount of rotting that an item would accumulate between start and end turn at the given
+ * locations.
+ * The location is in absolute maps squares (the system which the @ref map uses),
+ * but absolute (@ref map::getabs).
+ * The returned value is in turns (at standard conditions it is endturn-startturn).
+ */
+int get_rot_since( int startturn, int endturn, const tripoint &pos );
 
 #endif

@@ -30,7 +30,7 @@ class mapgen_function_builtin : public virtual mapgen_function {
     building_gen_pointer fptr;
     mapgen_function_builtin(building_gen_pointer ptr, int w = 1000) : mapgen_function( w ), fptr(ptr) {
     };
-    virtual void generate(map*m, oter_id o, mapgendata mgd, int i, float d) {
+    virtual void generate(map*m, oter_id o, mapgendata mgd, int i, float d) override {
         (*fptr)(m, o, mgd, i, d);
     }
 };
@@ -46,6 +46,15 @@ struct jmapgen_int {
   jmapgen_int(int v) : val(v), valmax(v) {}
   jmapgen_int(int v, int v2) : val(v), valmax(v2) {}
   jmapgen_int( point p ) : val(p.x), valmax(p.y) {}
+    /**
+     * Throws as usually if the json is invalid or missing.
+     */
+    jmapgen_int( JsonObject &jso, const std::string &key );
+    /**
+     * Throws is the json is malformed (e.g. a string not an integer, but does not throw
+     * if the member is just missing (the default values are used instead).
+     */
+    jmapgen_int( JsonObject &jso, const std::string &key, short def_val, short def_valmax );
 
   int get() const {
       return ( val == valmax ? val : rng(val, valmax) );
@@ -96,20 +105,6 @@ struct jmapgen_setmap {
     bool apply( map * m );
 };
 
-struct jmapgen_spawn_item {
-    jmapgen_int x;
-    jmapgen_int y;
-    std::string itype;
-    jmapgen_int amount;
-    int chance;
-    jmapgen_int repeat;
-    jmapgen_spawn_item( const jmapgen_int ix, jmapgen_int iy, std::string iitype, jmapgen_int iamount, int ichance = 1,
-        jmapgen_int irepeat = jmapgen_int(1,1) ) :
-      x(ix), y(iy), itype(iitype), amount(iamount), chance(ichance), repeat(irepeat) {}
-    void apply( map * m );
-
-};
-
 /**
  * Basic mapgen object. It is supposed to place or do something on a specific square on the map.
  * Inherit from this class and implement the @ref apply function.
@@ -137,6 +132,7 @@ protected:
 public:
     /** Place something on the map m at (x,y). mon_density */
     virtual void apply( map &m, size_t x, size_t y, float mon_density ) const = 0;
+    virtual ~jmapgen_piece() { }
 };
 
 /**
@@ -154,10 +150,10 @@ public:
 
 class mapgen_function_json : public virtual mapgen_function {
     public:
-    bool check_inbounds( jmapgen_int & var );
+    bool check_inbounds( const jmapgen_int & var ) const;
     void setup_setmap(JsonArray &parray);
-    virtual bool setup();
-    virtual void generate(map*, oter_id, mapgendata, int, float);
+    virtual bool setup() override;
+    virtual void generate(map*, oter_id, mapgendata, int, float) override;
 
     mapgen_function_json(std::string s, int w = 1000) : mapgen_function( w ) {
         jdata = s;
@@ -176,7 +172,6 @@ class mapgen_function_json : public virtual mapgen_function {
     int fill_ter;
     std::unique_ptr<ter_furn_id[]> format;
     std::vector<jmapgen_setmap> setmap_points;
-    std::vector<jmapgen_spawn_item> spawnitems;
     /**
      * Combination of where to place something and what to place.
      */
@@ -223,7 +218,7 @@ class mapgen_function_lua : public virtual mapgen_function {
     }
 #if defined(LUA)
     // Prevents instantiating this class in non-lua builds
-    virtual void generate(map*, oter_id, mapgendata, int, float);
+    virtual void generate(map*, oter_id, mapgendata, int, float) override;
 #endif
 };
 /////////////////////////////////////////////////////////

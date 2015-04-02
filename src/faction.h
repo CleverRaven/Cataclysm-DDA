@@ -111,9 +111,9 @@ class faction : public JsonSerializer, public JsonDeserializer
         ~faction();
         void load_info(std::string data);
         using JsonDeserializer::deserialize;
-        void deserialize(JsonIn &jsin);
+        void deserialize(JsonIn &jsin) override;
         using JsonSerializer::serialize;
-        void serialize(JsonOut &jsout) const;
+        void serialize(JsonOut &jsout) const override;
 
         static faction_map _all_faction;
 

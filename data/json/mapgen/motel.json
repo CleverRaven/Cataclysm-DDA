@@ -198,7 +198,6 @@
                 "8": "f_bathtub",
                 "9": "f_locker",
                 ":": "f_dresser",
-                ";": "f_toilet",
                 "=": "f_fireplace",
                 ">": "f_counter",
                 "?": "f_sofa",
@@ -217,9 +216,9 @@
                 { "x": 18, "y": 7 },
                 { "x": 18, "y": 9 }
             ],
-            "place_toilets": [
-                { "x": 2, "y": 18 }
-            ],
+            "toilets": {
+                ";": { }
+            },
             "set": [
                 { "point": "terrain", "id": "t_dirt", "x": 0, "y": [ 0, 23 ], "repeat": [ 5, 10 ] },
                 { "point": "terrain", "id": "t_dirt", "x": 0, "y": [ 15, 16 ], "repeat": [ 5, 10 ] },
@@ -332,7 +331,6 @@
                 "8": "f_bathtub",
                 "9": "f_rack",
                 ":": "f_dresser",
-                ";": "f_toilet",
                 "=": "f_fireplace",
                 ">": "f_counter",
                 "?": "f_sofa",
@@ -347,13 +345,9 @@
                 "H": "f_sofa",
                 "{": "f_dumpster"
             },
-            "place_toilets": [
-                { "x": 2, "y": 0 },
-                { "x": 2, "y": 6 },
-                { "x": 2, "y": 12 },
-                { "x": 14, "y": 21 },
-                { "x": 20, "y": 21 }
-            ],
+            "toilets": {
+                ";": { }
+            },
             "set": [
                 { "point": "terrain", "id": "t_dirt", "x": [ 0, 23 ], "y": 23, "repeat": [ 5, 8 ] }
             ],
@@ -467,7 +461,6 @@
                 "8": "f_bathtub",
                 "9": "f_rack",
                 ":": "f_dresser",
-                ";": "f_toilet",
                 "=": "f_fireplace",
                 ">": "f_counter",
                 "?": "f_sofa",
@@ -480,12 +473,9 @@
                 "F": "f_fridge",
                 "G": "f_oven"
             },
-            "place_toilets": [
-                { "x": 2, "y": 21 },
-                { "x": 8, "y": 21 },
-                { "x": 14, "y": 21 },
-                { "x": 20, "y": 21 }
-            ],
+            "toilets": {
+                ";": { }
+            },
             "set": [
                 { "point": "terrain", "id": "t_dirt", "x": [ 0,23 ], "y": 23, "repeat": [ 5, 10 ] }
             ],
@@ -500,7 +490,24 @@
                 { "item": "holybook_bible3", "x": 22, "y": 13, "chance": 2 }
             ],
             "place_vehicles": [
-                { "vehicle": "car", "x": 8, "y": 8, "rotation": 90, "chance": 35  }
+                { "vehicle": "car", "x": 3, "y": 7, "rotation": 90, "chance": 2  },
+                { "vehicle": "car", "x": 5, "y": 7, "rotation":270, "chance": 2  },
+                { "vehicle": "car", "x": 7, "y": 7, "rotation": 60, "chance": 2  },
+                { "vehicle": "car", "x": 9, "y": 7, "rotation":270, "chance": 2  },
+                { "vehicle": "car", "x":11, "y": 7, "rotation": 90, "chance": 2  },
+                { "vehicle": "car", "x":13, "y": 7, "rotation":270, "chance": 2  },
+                { "vehicle": "car", "x":15, "y": 7, "rotation":110, "chance": 2  },
+                { "vehicle": "car", "x":17, "y": 7, "rotation":270, "chance": 2  },
+                { "vehicle": "car", "x":19, "y": 7, "rotation": 90, "chance": 2  },
+                { "vehicle": "pickup", "x": 3, "y": 7, "rotation": 90, "chance": 2  },
+                { "vehicle": "car", "x": 5, "y": 7, "rotation":270, "chance": 2  },
+                { "vehicle": "flatbed_truck", "x": 7, "y": 7, "rotation": 60, "chance": 2  },
+                { "vehicle": "car", "x": 9, "y": 7, "rotation":270, "chance": 2  },
+                { "vehicle": "policecar", "x":11, "y": 7, "rotation": 90, "chance": 2  },
+                { "vehicle": "car", "x":13, "y": 7, "rotation":270, "chance": 2  },
+                { "vehicle": "car", "x":15, "y": 7, "rotation":110, "chance": 2  },
+                { "vehicle": "motorcycle", "x":17, "y": 7, "rotation":270, "chance": 2  },
+                { "vehicle": "car", "x":19, "y": 7, "rotation": 90, "chance": 2  }
             ],
             "place_items": [
                 { "item": "bed", "chance": 80, "x": [0,1 ], "y": [14,15 ]},

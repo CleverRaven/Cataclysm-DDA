@@ -88,13 +88,11 @@
         "C": "f_sofa",
         "F": "f_fridge",
         "S": "f_sink",
-        "T": "f_toilet",
         "d": "f_dumpster"
       },
-      "place_toilets": [
-        { "x": 19, "y": 21 },
-        { "x": 21, "y": 21 }
-      ],
+      "toilets": {
+        "T": { }
+      },
       "set": [
         { "point": "terrain", "id": "t_tree_young",
           "x": 22, "y": [ 1, 4 ], "chance": 10, "repeat" : [ 1, 3 ] },

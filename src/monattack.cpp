@@ -1736,7 +1736,7 @@ void mattack::plant(monster *z, int index)
 {
     (void)index; //unused
     // Spores taking seed and growing into a fungaloid
-    if (!g->spread_fungus(z->posx(), z->posy()) && one_in(20)) {
+    if (!g->spread_fungus( z->pos3() ) && one_in(20)) {
         if (g->u.sees( *z )) {
             add_msg(m_warning, _("The %s takes seed and becomes a young fungaloid!"),
                     z->name().c_str());
@@ -2405,7 +2405,7 @@ void mattack::photograph(monster *z, int index)
     add_msg(m_warning, _("The %s takes your picture!"), z->name().c_str());
     // TODO: Make the player known to the faction
     g->add_event(EVENT_ROBOT_ATTACK, int(calendar::turn) + rng(15, 30), 0,
-                 g->get_abs_levx(), g->get_abs_levy());
+                 g->u.global_sm_location());
 }
 
 void mattack::tazer( monster *z, int index )
@@ -4022,7 +4022,7 @@ void mattack::riotbot(monster *z, int index)
             if (is_uncanny || is_dex) {
 
                 if (is_uncanny) {
-                    g->u.power_level -= 75;
+                    g->u.charge_power(-75);
                 }
 
                 add_msg(m_good,

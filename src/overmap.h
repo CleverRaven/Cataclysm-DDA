@@ -184,6 +184,7 @@ struct regional_settings {
 
 
 struct city {
+ // in overmap terrain coordinates
  int x;
  int y;
  int s;
@@ -215,6 +216,7 @@ enum radio_type {
 #define RADIO_MAX_STRENGTH 200
 
 struct radio_tower {
+ // local (to the containing overmap) submap coordinates
  int x;
  int y;
  int strength;
@@ -264,11 +266,6 @@ class overmap
      * Returns @ref invalid_tripoint if no suitable place has been found.
      */
     tripoint find_random_omt( const std::string &omt_base_type ) const;
-
-    void process_mongroups(); // Makes them die out, maybe more
-    void move_hordes();
-    void signal_hordes( const int x, const int y, const int sig_power);
-
     /**
      * Return a vector containing the absolute coordinates of
      * every matching terrain on the current z level of the current overmap.
@@ -276,15 +273,11 @@ class overmap
      * coordinates), or empty vector if no matching terrain is found.
      */
     std::vector<point> find_terrain(const std::string &term, int zlevel);
-    int closest_city(point p);
-    point random_house_in_city(int city_id);
-    int dist_from_city(point p);
 
     oter_id& ter(const int x, const int y, const int z);
     const oter_id get_ter(const int x, const int y, const int z) const;
     bool&   seen(int x, int y, int z);
     bool&   explored(int x, int y, int z);
-    bool is_safe(int x, int y, int z); // true if monsters_at is empty, or only woodland
     bool is_road_or_highway(int x, int y, int z);
     bool is_explored(int const x, int const y, int const z) const;
 
@@ -321,13 +314,21 @@ class overmap
      */
     static tripoint draw_overmap();
     /**
+     * Draw overmap like with @ref draw_overmap() and display hordes.
+     */
+    static tripoint draw_hordes();
+    /**
+     * Draw overmap like with @ref draw_overmap() and display the weather.
+     */
+    static tripoint draw_weather();
+    /**
+     * Draw overmap like with @ref draw_overmap() and display the given zone.
+     */
+    static tripoint draw_zones( tripoint const &center, tripoint const &select, int const iZoneIndex );
+    /**
      * Same as @ref draw_overmap() but starts at select if set.
      * Otherwise on players location.
      */
-    static tripoint draw_overmap(const tripoint& center,
-                                 bool debug_mongroup = false,
-                                 const tripoint& select = tripoint(-1, -1, -1),
-                                 const int iZoneIndex = -1);
     /**
      * Same as above but start at z-level z instead of players
      * current z-level, x and y are taken from the players position.
@@ -394,6 +395,22 @@ public:
   void generate(const overmap* north, const overmap* east, const overmap* south, const overmap* west);
   bool generate_sub(int const z);
 
+    int dist_from_city(point p);
+    void signal_hordes( int x, int y, int sig_power );
+    void process_mongroups();
+    void move_hordes();
+
+    // drawing relevant data, e.g. what to draw
+    struct draw_data_t {
+        // draw monster groups on the overmap
+        bool debug_mongroup = false;
+        // draw weather, e.g. clouds etc.
+        bool debug_weather = false;
+        // draw zone location
+        tripoint select = tripoint(-1, -1, -1);
+        int iZoneIndex = -1;
+    };
+    static tripoint draw_overmap(const tripoint& center, const draw_data_t &data);
   /**
    * Draws the overmap terrain.
    * @param w The window to draw in.
@@ -405,8 +422,7 @@ public:
    */
   static void draw(WINDOW *w, WINDOW *wbar, const tripoint &center,
             const tripoint &orig, bool blink, bool showExplored,
-            input_context* inp_ctxt, bool debug_monstergroups = false,
-            const int iZoneIndex = -1);
+            input_context* inp_ctxt, const draw_data_t &data);
 
   // Overall terrain
   void place_river(point pa, point pb);

@@ -191,11 +191,11 @@ void start_location::prepare_map( tinymap &m ) const
     }
 }
 
-tripoint start_location::setup( overmap *&cur_om, int &levx, int &levy, int &levz ) const
+tripoint start_location::setup() const
 {
     // We start in the (0,0,0) overmap.
-    cur_om = &overmap_buffer.get( 0, 0 );
-    tripoint omtstart = cur_om->find_random_omt( target() );
+    overmap &initial_overmap = overmap_buffer.get( 0, 0 );
+    tripoint omtstart = initial_overmap.find_random_omt( target() );
     if( omtstart == overmap::invalid_tripoint ) {
         // TODO (maybe): either regenerate the overmap (conflicts with existing characters there,
         // that has to be checked. Or look at the neighboring overmaps, but one has to stop
@@ -207,15 +207,10 @@ tripoint start_location::setup( overmap *&cur_om, int &levx, int &levy, int &lev
     // Now prepare the initial map (change terrain etc.)
     const point player_location = overmapbuffer::omt_to_sm_copy( omtstart.x, omtstart.y );
     tinymap player_start;
-    player_start.load( player_location.x, player_location.y, omtstart.z, false, cur_om );
+    player_start.load( player_location.x, player_location.y, omtstart.z, false );
     prepare_map( player_start );
     player_start.save();
 
-    // Setup game::levx/levy/levz - those are in submap coordinates!
-    // And the player is centered in the map
-    levx = player_location.x - ( MAPSIZE / 2 );
-    levy = player_location.y - ( MAPSIZE / 2 );
-    levz = omtstart.z;
     return omtstart;
 }
 
@@ -226,6 +221,7 @@ void start_location::place_player( player &u ) const
     // Start us off somewhere in the shelter.
     u.setx( SEEX * int( MAPSIZE / 2 ) + 5 );
     u.sety( SEEY * int( MAPSIZE / 2 ) + 6 );
+    u.setz( g->get_levz() );
 
     m.build_map_cache();
     int tries = 0;
@@ -241,15 +237,11 @@ void start_location::place_player( player &u ) const
     }
 }
 
-void start_location::burn( overmap *&cur_om, tripoint &omtstart,
+void start_location::burn( const tripoint &omtstart,
                            const size_t count, const int rad ) const {
-    cur_om = &overmap_buffer.get( 0, 0 );
-    if( omtstart == overmap::invalid_tripoint ) {
-        omtstart = tripoint( 0, 0, 0 );
-    }
-    const point player_location = overmapbuffer::omt_to_sm_copy( omtstart.x, omtstart.y );
+    const tripoint player_location = overmapbuffer::omt_to_sm_copy( omtstart );
     tinymap m;
-    m.load( player_location.x, player_location.y, omtstart.z, false, cur_om );
+    m.load( player_location.x, player_location.y, player_location.z, false );
     m.build_outside_cache();
     const int ux = g->u.posx() % (SEEX * int( MAPSIZE / 2 ));
     const int uy = g->u.posy() % (SEEY * int( MAPSIZE / 2 ));

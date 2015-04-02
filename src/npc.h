@@ -88,6 +88,7 @@ enum npc_class {
  NC_SCAVENGER,      // Good with pistols light weapons
  NC_ARSONIST,       // Evacuation Center, restocks moltovs and anarcist type stuff
  NC_HUNTER,         // Survivor type good with bow or rifle
+ NC_SOLDIER,        // Well equiped and trained combatant, good with rifles and melee
  NC_MAX
 };
 
@@ -150,9 +151,9 @@ struct npc_favor : public JsonSerializer, public JsonDeserializer
     };
 
     using JsonSerializer::serialize;
-    void serialize(JsonOut &jsout) const;
+    void serialize(JsonOut &jsout) const override;
     using JsonDeserializer::deserialize;
-    void deserialize(JsonIn &jsin);
+    void deserialize(JsonIn &jsin) override;
 };
 
 struct npc_personality : public JsonSerializer, public JsonDeserializer
@@ -170,9 +171,9 @@ struct npc_personality : public JsonSerializer, public JsonDeserializer
  };
 
     using JsonSerializer::serialize;
-    void serialize(JsonOut &jsout) const;
+    void serialize(JsonOut &jsout) const override;
     using JsonDeserializer::deserialize;
-    void deserialize(JsonIn &jsin);
+    void deserialize(JsonIn &jsin) override;
 };
 
 struct npc_opinion : public JsonSerializer, public JsonDeserializer
@@ -199,7 +200,7 @@ struct npc_opinion : public JsonSerializer, public JsonDeserializer
  npc_opinion(signed char T, signed char F, signed char V, signed char A, int O):
              trust (T), fear (F), value (V), anger(A), owed (O) { };
 
- npc_opinion& operator+= (npc_opinion &rhs)
+ npc_opinion& operator+= ( const npc_opinion &rhs )
  {
   trust += rhs.trust;
   fear  += rhs.fear;
@@ -227,9 +228,9 @@ struct npc_opinion : public JsonSerializer, public JsonDeserializer
  };
 
     using JsonSerializer::serialize;
-    void serialize(JsonOut &jsout) const;
+    void serialize(JsonOut &jsout) const override;
     using JsonDeserializer::deserialize;
-    void deserialize(JsonIn &jsin);
+    void deserialize(JsonIn &jsin) override;
 
  void load_legacy(std::stringstream &info);
 };
@@ -260,9 +261,9 @@ struct npc_combat_rules : public JsonSerializer, public JsonDeserializer
  void load_legacy(std::istream &data);
 
     using JsonSerializer::serialize;
-    void serialize(JsonOut &jsout) const;
+    void serialize(JsonOut &jsout) const override;
     using JsonDeserializer::deserialize;
-    void deserialize(JsonIn &jsin);
+    void deserialize(JsonIn &jsin) override;
 };
 
 enum talk_topic {
@@ -376,6 +377,17 @@ enum talk_topic {
  TALK_SCAVENGER_MERC_HIRE,
  TALK_SCAVENGER_MERC_HIRE_SUCCESS,
 
+ TALK_OLD_GUARD_SOLDIER,//98, Generic Old Guard
+
+ TALK_OLD_GUARD_NEC_CPT,//99, Main mission source in Necropolis
+ TALK_OLD_GUARD_NEC_CPT_GOAL,
+ TALK_OLD_GUARD_NEC_CPT_VAULT,
+
+ TALK_OLD_GUARD_NEC_COMMO,//102, Mission source/destination in Necropolis
+ TALK_OLD_GUARD_NEC_COMMO_GOAL,
+ TALK_OLD_GUARD_NEC_COMMO_FREQ,
+
+
  TALK_SHELTER,
  TALK_SHELTER_PLANS,
  TALK_SHARE_EQUIPMENT,
@@ -428,27 +440,52 @@ enum talk_topic {
 
 struct npc_chatbin : public JsonSerializer, public JsonDeserializer
 {
- std::vector<int> missions;
- std::vector<int> missions_assigned;
- int mission_selected;
- int tempvalue; //No clue what this value does, but it is used all over the place. So it is NOT temp.
- const Skill* skill;
- matype_id style;
+    /**
+     * Add a new mission to the available missions (@ref missions). For compatibility it silently
+     * ignores null pointers passed to it.
+     */
+    void add_new_mission( mission *miss );
+    /**
+     * Check that assigned missions are still assigned if not move them back to the
+     * unassigned vector. This is called directly before talking.
+     */
+    void check_missions();
+    /**
+     * Missions that the NPC can give out. All missions in this vector should be unassigned,
+     * when given out, they should be moved to @ref missions_assigned.
+     */
+    std::vector<mission*> missions;
+    /**
+     * Mission that have been assigned by this NPC to a player character.
+     */
+    std::vector<mission*> missions_assigned;
+    /**
+     * The mission (if any) that we talk about right now. Can be null. Should be one of the
+     * missions in @ref missions or @ref missions_assigned.
+     */
+    mission *mission_selected;
+    /**
+     * The skill this NPC offers to train.
+     */
+    const Skill* skill;
+    /**
+     * The martial art style this NPC offers to train.
+     */
+    matype_id style;
  talk_topic first_topic;
 
  npc_chatbin()
  {
-  mission_selected = -1;
-  tempvalue = -1;
+  mission_selected = nullptr;
   skill = NULL;
   style = "";
   first_topic = TALK_NONE;
  }
 
     using JsonSerializer::serialize;
-    void serialize(JsonOut &jsout) const;
+    void serialize(JsonOut &jsout) const override;
     using JsonDeserializer::deserialize;
-    void deserialize(JsonIn &jsin);
+    void deserialize(JsonIn &jsin) override;
 
  void load_legacy(std::stringstream &info);
 };
@@ -467,8 +504,8 @@ public:
  npc &operator=(const npc &) = default;
  npc &operator=(npc &&) = default;
  virtual ~npc();
- virtual bool is_player() const { return false; }
- virtual bool is_npc() const { return true; }
+ virtual bool is_player() const override { return false; }
+ virtual bool is_npc() const override { return true; }
 
  static void load_npc(JsonObject &jsobj);
  npc* find_npc(std::string ident);
@@ -497,22 +534,27 @@ public:
      * a spiral search for an empty square around it is performed.
      */
     void place_on_map();
+    /**
+     * See @ref npc_chatbin::add_new_mission
+     */
+    void add_new_mission( mission *miss );
+
  const Skill* best_skill() const;
  void starting_weapon(npc_class type);
 
 // Save & load
- virtual void load_legacy(std::stringstream & dump);// Overloaded from player
- virtual void load_info(std::string data);// Overloaded from player
- virtual std::string save_info();
+ virtual void load_legacy(std::stringstream & dump) override;// Overloaded from player
+ virtual void load_info(std::string data) override;// Overloaded from player
+ virtual std::string save_info() override;
 
     using player::deserialize;
-    virtual void deserialize(JsonIn &jsin);
+    virtual void deserialize(JsonIn &jsin) override;
     using player::serialize;
     virtual void serialize(JsonOut &jsout) const override;
 
 // Display
-    virtual nc_color basic_symbol_color() const;
- int print_info(WINDOW* w, int vStart, int vLines, int column) const;
+    virtual nc_color basic_symbol_color() const override;
+ int print_info(WINDOW* w, int vStart, int vLines, int column) const override;
  std::string short_description() const;
  std::string opinion_text() const;
 
@@ -533,8 +575,8 @@ public:
  void make_angry(); // Called if the player attacks us
  bool wants_to_travel_with(player *p) const;
  int assigned_missions_value();
- std::vector<const Skill*> skills_offered_to(player *p); // Skills that're higher
- std::vector<itype_id> styles_offered_to(player *p); // Martial Arts
+ std::vector<const Skill*> skills_offered_to(const player &p); // Skills that're higher
+ std::vector<itype_id> styles_offered_to(const player &p); // Martial Arts
 // State checks
  bool is_enemy() const; // We want to kill/mug/etc the player
  bool is_following() const; // Traveling w/ player (whether as a friend or a slave)
@@ -566,7 +608,7 @@ public:
  void update_worst_item_value(); // Find the worst value in our inventory
  int  value(const item &it);
  bool wear_if_wanted(item it);
- virtual bool wield(item* it, bool);
+ virtual bool wield(item* it, bool) override;
  virtual bool wield(item* it);
  bool has_healing_item();
  bool has_painkiller();
@@ -582,7 +624,7 @@ public:
  bool is_active() const;
  void say(std::string line, ...) const;
  void decide_needs();
- void die(Creature* killer);
+ void die(Creature* killer) override;
  bool is_dead() const;
 /* shift() works much like monster::shift(), and is called when the player moves
  * from one submap to an adjacent submap.  It updates our position (shifting by
@@ -649,13 +691,13 @@ public:
  void reach_destination(); // We made it!
 
  //message related stuff
- virtual void add_msg_if_npc(const char* msg, ...) const;
- virtual void add_msg_player_or_npc(const char* player_str, const char* npc_str, ...) const;
- virtual void add_msg_if_npc(game_message_type type, const char* msg, ...) const;
- virtual void add_msg_player_or_npc(game_message_type type, const char* player_str, const char* npc_str, ...) const;
- virtual void add_msg_if_player(const char *, ...) const{};
- virtual void add_msg_if_player(game_message_type, const char *, ...) const{};
- virtual void add_memorial_log(const char*, const char*, ...) {};
+ virtual void add_msg_if_npc(const char* msg, ...) const override;
+ virtual void add_msg_player_or_npc(const char* player_str, const char* npc_str, ...) const override;
+ virtual void add_msg_if_npc(game_message_type type, const char* msg, ...) const override;
+ virtual void add_msg_player_or_npc(game_message_type type, const char* player_str, const char* npc_str, ...) const override;
+ virtual void add_msg_if_player(const char *, ...) const override{};
+ virtual void add_msg_if_player(game_message_type, const char *, ...) const override{};
+ virtual void add_memorial_log(const char*, const char*, ...) override {};
  virtual void add_miss_reason(const char *, unsigned int) {};
 
 // The preceding are in npcmove.cpp
@@ -700,15 +742,7 @@ public:
      * posx += SEEX; mapx -= 1;
      * This does not change the global position of the NPC.
      */
-    tripoint global_square_location() const;
-    /**
-     * Returns the location of the NPC in global submap coordinates.
-     */
-    tripoint global_sm_location() const;
-    /**
-     * Returns the location of the NPC in global overmap terrain coordinates.
-     */
-    tripoint global_omt_location() const;
+    tripoint global_square_location() const override;
  int plx, ply, plt;// Where we last saw the player, timeout to forgetting
  int itx, ity; // The square containing an item we want
  int guardx, guardy;  // These are the local coordinates that a guard will return to inside of their goal tripoint

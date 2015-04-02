@@ -20,6 +20,8 @@
 #define ISNAN std::isnan
 #endif
 
+static const std::string repair_hotkeys("r1234567890");
+
 /**
  * Creates a blank veh_interact window.
  */
@@ -639,6 +641,7 @@ void veh_interact::do_install()
                                                    part.has_flag(VPFLAG_CIRCLE_LIGHT) ||
                                                    part.has_flag(VPFLAG_DOME_LIGHT) ||
                                                    part.has_flag(VPFLAG_AISLE_LIGHT) ||
+                                                   part.has_flag(VPFLAG_ATOMIC_LIGHT) ||
                                                    part.has_flag(VPFLAG_EVENTURN) ||
                                                    part.has_flag(VPFLAG_ODDTURN); };
     tab_filters[3] = [&](vpart_info part) { return part.has_flag("TRACK") || //Util
@@ -800,7 +803,7 @@ void veh_interact::do_repair()
     int msg_width = getmaxx(w_msg);
     switch (reason) {
     case LOW_MORALE:
-        mvwprintz(w_msg, 0, 1, c_ltred, _("Your morale is too low to construct..."));
+        mvwprintz(w_msg, 0, 1, c_ltred, _("Your morale is too low to repair..."));
         wrefresh (w_msg);
         return;
     case INVALID_TARGET:
@@ -1499,11 +1502,6 @@ void veh_interact::display_stats()
         }
     }
 
-    bool isBoat = !veh->all_parts_with_feature(VPFLAG_FLOATS).empty();
-    bool conf;
-
-    conf = veh->valid_wheel_config();
-
     std::string speed_units = OPTIONS["USE_METRIC_SPEEDS"].getValue();
     float speed_factor = 0.01f;
     if (speed_units == "km/h") {
@@ -1532,21 +1530,31 @@ void veh_interact::display_stats()
     x[4] += utf8_width(_("Status: ")) + 1;
     fold_and_print(w_stats, y[4], x[4], w[4], totalDurabilityColor, totalDurabilityText);
 
+    bool isBoat = !veh->all_parts_with_feature(VPFLAG_FLOATS).empty();
+    bool suf, bal;
+    suf = veh->sufficient_wheel_config();
+    bal = veh->balanced_wheel_config();
     if( !isBoat ) {
-        if( conf ) {
-            fold_and_print(w_stats, y[5], x[5], w[5], c_ltgray,
-                           _("Wheels:    <color_ltgreen>enough</color>"));
-        }   else {
+        if( !suf ) {
             fold_and_print(w_stats, y[5], x[5], w[5], c_ltgray,
                            _("Wheels:      <color_ltred>lack</color>"));
+        } else if (!bal) {
+            fold_and_print(w_stats, y[5], x[5], w[5], c_ltgray,
+                           _("Wheels:  <color_ltred>unbalanced</color>"));
+        } else {
+            fold_and_print(w_stats, y[5], x[5], w[5], c_ltgray,
+                           _("Wheels:    <color_ltgreen>enough</color>"));
         }
     }   else {
-        if (conf) {
-            fold_and_print(w_stats, y[5], x[5], w[5], c_ltgray,
-                           _("Boat:    <color_blue>can swim</color>"));
-        }   else {
+        if( !suf ) {
             fold_and_print(w_stats, y[5], x[5], w[5], c_ltgray,
                            _("Boat:  <color_ltred>can't swim</color>"));
+        } else if (!bal) {
+            fold_and_print(w_stats, y[5], x[5], w[5], c_ltgray,
+                           _("Boat:  <color_ltred>unbalanced</color>"));
+        } else {
+            fold_and_print(w_stats, y[5], x[5], w[5], c_ltgray,
+                           _("Boat:    <color_blue>can swim</color>"));
         }
     }
 
@@ -1802,7 +1810,7 @@ void veh_interact::display_details( const vpart_info *part )
         } else if ( part->has_flag(VPFLAG_LIGHT) || part->has_flag(VPFLAG_CONE_LIGHT) ||
                     part->has_flag(VPFLAG_CIRCLE_LIGHT) || part->has_flag(VPFLAG_DOME_LIGHT) ||
                     part->has_flag(VPFLAG_AISLE_LIGHT) || part->has_flag(VPFLAG_EVENTURN) ||
-                    part->has_flag(VPFLAG_ODDTURN)) {
+                    part->has_flag(VPFLAG_ODDTURN) || part->has_flag(VPFLAG_ATOMIC_LIGHT)) {
             label = _("Light");
         } else {
             label = small_mode ? _("Cap") : _("Capacity");
@@ -2243,7 +2251,7 @@ void complete_vehicle ()
         }
         tools.push_back(tool_comp("duct_tape", int(DUCT_TAPE_USED * dmg)));
         tools.push_back(tool_comp("toolbox", int(DUCT_TAPE_USED * dmg)));
-        g->u.consume_tools(tools);
+        g->u.consume_tools(tools, 1, repair_hotkeys);
         veh->parts[vehicle_part].hp = veh->part_info(vehicle_part).durability;
         add_msg (m_good, _("You repair the %s's %s."),
                  veh->name.c_str(), veh->part_info(vehicle_part).name.c_str());

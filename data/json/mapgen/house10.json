@@ -76,13 +76,11 @@
                 "o": "f_bookcase",
                 "P": "f_indoor_plant",
                 "r": "f_rack",
-                "S": "f_sink",
-                "t": "f_toilet"
+                "S": "f_sink"
             },
-            "place_toilets": [
-                { "x": 3, "y": 11 },
-                { "x": 20, "y": 13 }
-            ],
+            "toilets": {
+                "t": { }
+            },
             "comment": "specific terrain/furniture/radiation. doing this until grass_or_dirt is supported ---v",
             "set": [
                 { "point": "terrain", "id": "t_dirt", "x": [ 0, 23 ], "y": [ 22, 23 ], "repeat": [ 10, 20 ] },

@@ -698,7 +698,7 @@
          "covers" : ["TORSO"],
          "coverage" : 5,
          "material_thickness" : 1,
-         "encumbrance" : 2,
+         "encumbrance" : 20,
          "environmental_protection" : 0,
          "warmth" : 0,
          "storage" : 0
@@ -734,7 +734,7 @@
          "covers" : ["TORSO"],
          "coverage" : 5,
          "material_thickness" : 1,
-         "encumbrance" : 2,
+         "encumbrance" : 20,
          "environmental_protection" : 0,
          "warmth" : 0,
          "storage" : 0
@@ -771,7 +771,7 @@
          "covers" : ["TORSO"],
          "coverage" : 5,
          "material_thickness" : 1,
-         "encumbrance" : 2,
+         "encumbrance" : 20,
          "environmental_protection" : 0,
          "warmth" : 0,
          "storage" : 0
@@ -808,7 +808,7 @@
          "covers" : ["TORSO"],
          "coverage" : 5,
          "material_thickness" : 1,
-         "encumbrance" : 2,
+         "encumbrance" : 20,
          "environmental_protection" : 0,
          "warmth" : 0,
          "storage" : 0
@@ -845,7 +845,7 @@
          "covers" : ["TORSO"],
          "coverage" : 5,
          "material_thickness" : 1,
-         "encumbrance" : 2,
+         "encumbrance" : 20,
          "environmental_protection" : 0,
          "warmth" : 0,
          "storage" : 0
@@ -882,7 +882,7 @@
          "covers" : ["TORSO"],
          "coverage" : 5,
          "material_thickness" : 1,
-         "encumbrance" : 2,
+         "encumbrance" : 20,
          "environmental_protection" : 0,
          "warmth" : 0,
          "storage" : 0
@@ -919,7 +919,7 @@
          "covers" : ["TORSO"],
          "coverage" : 5,
          "material_thickness" : 1,
-         "encumbrance" : 2,
+         "encumbrance" : 20,
          "environmental_protection" : 0,
          "warmth" : 0,
          "storage" : 0
@@ -956,7 +956,7 @@
          "covers" : ["TORSO"],
          "coverage" : 5,
          "material_thickness" : 1,
-         "encumbrance" : 2,
+         "encumbrance" : 20,
          "environmental_protection" : 0,
          "warmth" : 0,
          "storage" : 0

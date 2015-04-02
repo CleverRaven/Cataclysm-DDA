@@ -1103,17 +1103,12 @@ void npc::move_to(int x, int y)
             position.y = y;
             bool diag = trigdist && posx() != x && posy() != y;
             moves -= run_cost(g->m.combined_movecost(posx(), posy(), x, y), diag);
-            if (g->m.tr_at(x, y) != tr_null) { // NPC stepped on a trap!
-                trap *tr = traplist[g->m.tr_at(x, y)];
-                if (!this->avoid_trap(tr, x, y)) {
-                    tr->trigger(this, x, y);
-                }
-            }
             int part;
             vehicle *veh = g->m.veh_at( posx(), posy(), part );
             if( veh != nullptr && veh->part_with_feature( part, VPFLAG_BOARDABLE ) >= 0 ) {
                 g->m.board_vehicle( posx(), posy(), this );
             }
+            g->m.creature_on_trap( *this );
             g->m.creature_in_field( *this );
         } else if (g->m.open_door(x, y, !g->m.is_outside( posx(), posy() ) ) ) {
             moves -= 100;
@@ -1341,9 +1336,9 @@ void npc::find_item()
                     }
                     int itval = value( elem );
                     int wgt = elem.weight(), vol = elem.volume();
-                    if (itval > best_value &&
+                    if( itval > best_value &&
                         //(itval > worst_item_value ||
-                        (can_pickWeight(wgt) && can_pickVolume(vol))) {
+                        ( can_pickWeight( wgt, true ) && can_pickVolume( vol, true ) ) ) {
                         itx = x;
                         ity = y;
                         wanted = &( elem );
@@ -1385,8 +1380,8 @@ void npc::pick_up_item()
         int vol = item.volume();
         int wgt = item.weight();
         if ( itval >= minimum_item_value() && // (itval >= worst_item_value ||
-             ( can_pickVolume( total_volume + vol ) &&
-               can_pickWeight( total_weight + wgt ) ) &&
+             ( can_pickVolume( total_volume + vol, true ) &&
+               can_pickWeight( total_weight + wgt, true ) ) &&
              !item.made_of( LIQUID ) ) {
             pickup.push_back( i );
             total_volume += vol;
@@ -2047,9 +2042,9 @@ void npc::mug_player(player &mark)
             int item_index = INT_MIN;
             invslice slice = mark.inv.slice();
             for (size_t i = 0; i < slice.size(); i++) {
-                if (value(slice[i]->front()) >= best_value &&
-                    can_pickVolume(slice[i]->front().volume()) &&
-                    can_pickWeight(slice[i]->front().weight())) {
+                if( value(slice[i]->front()) >= best_value &&
+                    can_pickVolume( slice[i]->front().volume(), true ) &&
+                    can_pickWeight( slice[i]->front().weight(), true ) ) {
                     best_value = value(slice[i]->front());
                     item_index = i;
                 }
@@ -2181,7 +2176,7 @@ void npc::set_destination()
     if (mission == NPC_MISSION_GUARD || mission == NPC_MISSION_SHOPKEEP) {
         goal.x = global_omt_location().x;
         goal.y = global_omt_location().y;
-        goal.z = g->levz;
+        goal.z = g->get_levz();
         guardx = global_square_location().x;
         guardy = global_square_location().y;
         return;
@@ -2189,7 +2184,7 @@ void npc::set_destination()
 
     // all of the following luxuries are at ground level.
     // so please wallow in hunger & fear if below ground.
-    if(g->levz != 0) {
+    if(g->get_levz() != 0) {
         goal = no_goal_point;
         return;
     }
@@ -2237,7 +2232,7 @@ void npc::set_destination()
     const point p = overmap_buffer.find_closest(global_omt_location(), dest_type, dist, false);
     goal.x = p.x;
     goal.y = p.y;
-    goal.z = g->levz;
+    goal.z = g->get_levz();
 }
 
 void npc::go_to_destination()

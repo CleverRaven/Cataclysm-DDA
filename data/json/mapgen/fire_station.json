@@ -106,14 +106,13 @@
                     "F": "f_fridge",
                     "@": "f_bed",
                     ":": "f_dresser",
-                    "T": "f_toilet",
                     "l": "f_locker",
                     "S": "f_sink",
                     "G": "f_oven"
                 },
-                "place_toilets": [
-                    { "x": 1, "y": 21 }
-                ],
+                "toilets": {
+                    "T": { }
+                },
                 "set": [
                     { "point": "terrain", "id": "t_dirt", "x": [ 0, 23 ], "y": 23, "repeat": [ 5, 8 ] }
                 ],

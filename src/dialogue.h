@@ -4,27 +4,98 @@
 #include "player.h"
 #include "output.h"
 #include "npc.h"
+#include "mission.h"
+#include "color.h"
 #include <vector>
 #include <string>
 
+class martialart;
+
+struct talk_response;
+struct talk_function;
 struct dialogue {
-    player *alpha;
-    npc *beta;
-    WINDOW *win;
-    bool done;
+    /**
+     * The player character that speaks (always g->u).
+     * TODO: make it a reference, not a pointer.
+     */
+    player *alpha = nullptr;
+    /**
+     * The NPC we talk to. Never null.
+     * TODO: make it a reference, not a pointer.
+     */
+    npc *beta = nullptr;
+    WINDOW *win = nullptr;
+    /**
+     * If true, we are done talking and the dialog ends.
+     */
+    bool done = false;
+    /**
+     * This contains the exchanged words, it is basically like the global message log.
+     * Each responses of the player character and the NPC are added as are information about
+     * what each of them does (e.g. the npc drops their weapon).
+     * This will be displayed in the dialog window and should already be translated.
+     */
     std::vector<std::string> history;
     std::vector<talk_topic> topic_stack;
+
+    /** Missions that have been assigned by this npc to the player they currently speak to. */
+    std::vector<mission*> missions_assigned;
 
     int opt(std::string challenge, ...);
     talk_topic opt(talk_topic topic);
 
-    dialogue()
-    {
-        alpha = NULL;
-        beta = NULL;
-        win = NULL;
-        done = false;
-    }
+    dialogue() = default;
+
+    std::string dynamic_line( talk_topic topic ) const;
+
+    /**
+     * Possible responses from the player character, filled in @ref gen_responses.
+     */
+    mutable std::vector<talk_response> responses;
+    void gen_responses( talk_topic topic ) const;
+
+private:
+    void clear_window_texts();
+    void print_history( size_t hilight_lines );
+    bool print_responses( int yoffset );
+    int choose_response( int hilight_lines );
+    /**
+     * Folds and adds the folded text to @ref history. Returns the number of added lines.
+     */
+    size_t add_to_history( const std::string &text );
+    /**
+     * Add a simple response that switches the topic to the new one.
+     */
+    talk_response &add_response( const std::string &text, talk_topic r ) const;
+    /**
+     * Add a response with the result TALK_DONE.
+     */
+    talk_response &add_response_done( const std::string &text ) const;
+    /**
+     * Add a response with the result TALK_NONE.
+     */
+    talk_response &add_response_none( const std::string &text ) const;
+    /**
+     * Add a simple response that switches the topic to the new one and executes the given
+     * action. The response always succeeds.
+     */
+    talk_response &add_response( const std::string &text, talk_topic r,
+                                 void (talk_function::*effect_success)(npc *) ) const;
+    /**
+     * Add a simple response that switches the topic to the new one and sets the currently
+     * talked about mission to the given one. The mission pointer must be valid.
+     */
+    talk_response &add_response( const std::string &text, talk_topic r, mission *miss ) const;
+    /**
+     * Add a simple response that switches the topic to the new one and sets the currently
+     * talked about skill to the given one. The skill pointer must be valid.
+     */
+    talk_response &add_response( const std::string &text, talk_topic r, const Skill *skill ) const;
+    /**
+     * Add a simple response that switches the topic to the new one and sets the currently
+     * talked about martial art style to the given one.
+     */
+    talk_response &add_response( const std::string &text, talk_topic r, const martialart &style ) const;
 };
 
 struct talk_function {
@@ -78,7 +149,7 @@ struct talk_function {
     void set_engagement_all   (npc *);
 };
 
-enum talk_trial {
+enum talk_trial_type {
     TALK_TRIAL_NONE, // No challenge here!
     TALK_TRIAL_LIE, // Straight up lying
     TALK_TRIAL_PERSUADE, // Convince them
@@ -86,57 +157,83 @@ enum talk_trial {
     NUM_TALK_TRIALS
 };
 
+/**
+ * If not TALK_TRIAL_NONE, it defines how to decide whether the responses succeeds (e.g. the
+ * NPC believes the lie). The difficulty is a 0...100 percent chance of success (!), 100 means
+ * always success, 0 means never. It is however affected by mutations/traits/bionics/etc. of
+ * the player character.
+ */
+struct talk_trial {
+    talk_trial_type type = TALK_TRIAL_NONE;
+    int difficulty = 0;
+
+    int calc_chance( const dialogue &d ) const;
+    /**
+     * Returns a user-friendly representation of @ref type
+     */
+    const std::string &name() const;
+    operator bool() const
+    {
+        return type != TALK_TRIAL_NONE;
+    }
+    /**
+     * Roll for success or failure of this trial.
+     */
+    bool roll( dialogue &d ) const;
+};
+
+/**
+ * This defines possible responses from the player character.
+ */
 struct talk_response {
+    /**
+     * What the player character says (literally). Should already be translated and will be
+     * displayed. The first character controls the color of it ('*'/'&'/'!').
+     */
     std::string text;
     talk_trial trial;
-    int difficulty;
-    int mission_index;
-    mission_id miss; // If it generates a new mission
-    int tempvalue; // Used for various stuff
-    const Skill* skill;
+    /**
+     * The following values are forwarded to the chatbin of the NPC (see @ref npc_chatbin).
+     * Except @ref miss, it is apparently not used but should be a mission type that can create
+     * new mission.
+     */
+    mission *mission_selected = nullptr;
+    mission_type_id miss = MISSION_NULL; // If it generates a new mission
+    const Skill* skill = nullptr;
     matype_id style;
-    npc_opinion opinion_success;
-    npc_opinion opinion_failure;
-    void (talk_function::*effect_success)(npc *);
-    void (talk_function::*effect_failure)(npc *);
-    talk_topic success;
-    talk_topic failure;
+    /**
+     * Defines what happens when the trial succeeds or fails. If trial is
+     * TALK_TRIAL_NONE it always succeeds.
+     */
+    struct effect_t {
+        /**
+         * How (if at all) the NPCs opinion of the player character (@ref npc::op_of_u) will change.
+         */
+        npc_opinion opinion;
+        /**
+         * Function that is called when the response is chosen.
+         */
+        void (talk_function::*effect)(npc *) = &talk_function::nothing;
+        /**
+         * Topic to switch to. TALK_DONE ends the talking, TALK_NONE keeps the current topic.
+         */
+        talk_topic topic = TALK_NONE;
 
-    talk_response()
-    {
-        text = "";
-        trial = TALK_TRIAL_NONE;
-        difficulty = 0;
-        mission_index = -1;
-        miss = MISSION_NULL;
-        tempvalue = -1;
-        skill = NULL;
-        style = "";
-        effect_success = &talk_function::nothing;
-        effect_failure = &talk_function::nothing;
-        opinion_success = npc_opinion();
-        opinion_failure = npc_opinion();
-        success = TALK_NONE;
-        failure = TALK_NONE;
-    }
+        talk_topic apply( dialogue &d ) const;
+    };
+    effect_t success;
+    effect_t failure;
 
-    talk_response(const talk_response &rhs)
-    {
-        text = rhs.text;
-        trial = rhs.trial;
-        difficulty = rhs.difficulty;
-        mission_index = rhs.mission_index;
-        miss = rhs.miss;
-        tempvalue = rhs.tempvalue;
-        skill = rhs.skill;
-        style = rhs.style;
-        effect_success = rhs.effect_success;
-        effect_failure = rhs.effect_failure;
-        opinion_success = rhs.opinion_success;
-        opinion_failure = rhs.opinion_failure;
-        success = rhs.success;
-        failure = rhs.failure;
-    }
+    /**
+     * Text (already folded) and color that is used to display this response.
+     * This is set up in @ref do_formatting.
+     */
+    std::vector<std::string> formated_text;
+    nc_color color = c_white;
+
+    void do_formatting( const dialogue &d, char letter );
+
+    talk_response() = default;
 };
 
 struct talk_response_list {

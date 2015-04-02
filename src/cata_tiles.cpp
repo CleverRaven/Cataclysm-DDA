@@ -4,6 +4,7 @@
 #include "json.h"
 #include "path_info.h"
 #include "monstergenerator.h"
+#include "item_factory.h"
 #include "item.h"
 #include "veh_type.h"
 #include "filesystem.h"
@@ -953,27 +954,22 @@ bool cata_tiles::draw_furniture(int x, int y)
 
 bool cata_tiles::draw_trap(int x, int y)
 {
-    int tr_id = g->m.tr_at(x, y);
-    if (tr_id == tr_null) {
+    const trap &tr = g->m.tr_at(x, y);
+    if( !tr.can_see(tripoint(x, y, g->get_levz()), g->u)) {
         return false;
     }
-    if (!traplist[tr_id]->can_see(g->u, x, y)) {
-        return false;
-    }
-
-    const std::string tr_name = traplist[tr_id]->id;
 
     const int neighborhood[4] = {
-        static_cast<int> (g->m.tr_at(x, y + 1)), // south
-        static_cast<int> (g->m.tr_at(x + 1, y)), // east
-        static_cast<int> (g->m.tr_at(x - 1, y)), // west
-        static_cast<int> (g->m.tr_at(x, y - 1)) // north
+        static_cast<int> (g->m.tr_at(x, y + 1).loadid), // south
+        static_cast<int> (g->m.tr_at(x + 1, y).loadid), // east
+        static_cast<int> (g->m.tr_at(x - 1, y).loadid), // west
+        static_cast<int> (g->m.tr_at(x, y - 1).loadid) // north
     };
 
     int subtile = 0, rotation = 0;
-    get_tile_values(tr_id, neighborhood, subtile, rotation);
+    get_tile_values(tr.loadid, neighborhood, subtile, rotation);
 
-    return draw_from_id_string(tr_name, C_TRAP, empty_string, x, y, subtile, rotation);
+    return draw_from_id_string(tr.id, C_TRAP, empty_string, x, y, subtile, rotation);
 }
 
 bool cata_tiles::draw_field_or_item(int x, int y)
@@ -1226,14 +1222,14 @@ void cata_tiles::init_draw_bullet(int x, int y, std::string name)
     do_draw_bullet = true;
     bul_pos_x = x;
     bul_pos_y = y;
-    bul_id = name;
+    bul_id = std::move(name);
 }
 void cata_tiles::init_draw_hit(int x, int y, std::string name)
 {
     do_draw_hit = true;
     hit_pos_x = x;
     hit_pos_y = y;
-    hit_entity_id = name;
+    hit_entity_id = std::move(name);
 }
 void cata_tiles::init_draw_line(int x, int y, std::vector<point> trajectory, std::string name, bool target_line)
 {
@@ -1241,14 +1237,14 @@ void cata_tiles::init_draw_line(int x, int y, std::vector<point> trajectory, std
     is_target_line = target_line;
     line_pos_x = x;
     line_pos_y = y;
-    line_endpoint_id = name;
-    line_trajectory = trajectory;
+    line_endpoint_id = std::move(name);
+    line_trajectory = std::move(trajectory);
 }
 void cata_tiles::init_draw_weather(weather_printable weather, std::string name)
 {
     do_draw_weather = true;
-    weather_name = name;
-    anim_weather = weather;
+    weather_name = std::move(name);
+    anim_weather = std::move(weather);
 }
 void cata_tiles::init_draw_sct()
 {
@@ -1651,6 +1647,54 @@ void cata_tiles::get_tile_values(const int t, const int *tn, int &subtile, int &
         }
     }
     get_rotation_and_subtile(val, num_connects, rotation, subtile);
+}
+
+void cata_tiles::do_tile_loading_report() {
+    DebugLog( D_INFO, DC_ALL ) << "Loaded tileset: " << OPTIONS["TILES"].getValue();
+
+    tile_loading_report(termap, "Terrain", "");
+    tile_loading_report(furnmap, "Furniture", "");
+    //TODO: exclude fake items from Item_factory::init_old()
+    tile_loading_report(item_controller->get_all_itypes(), "Items", "");
+    tile_loading_report(MonsterGenerator::generator().get_all_mtypes(), "Monsters", "");
+    tile_loading_report(vehicle_part_types, "Vehicle Parts", "vp_");
+    tile_loading_report(trapmap, "Traps", "");
+    tile_loading_report(fieldlist, num_fields, "Fields", "");
+
+    // needed until DebugLog ostream::flush bugfix lands
+    DebugLog( D_INFO, DC_ALL );
+}
+
+// TODO: make one more generally templated function, possibly using specialization, for both maps and arrays with ids
+template <typename maptype>
+void cata_tiles::tile_loading_report(maptype const & tiletypemap, std::string const & label, std::string const & prefix) {
+    int missing=0, present=0;
+    std::string missing_list;
+    for( auto const & i : tiletypemap ) {
+        if (tile_ids.count(prefix+i.first) == 0) {
+            missing++;
+            missing_list.append(i.first+" ");
+        } else {
+            present++;
+        }
+    }
+    DebugLog( D_INFO, DC_ALL ) << "Missing " << label << ": " << missing_list;
+}
+
+template <typename arraytype>
+void cata_tiles::tile_loading_report(arraytype const & array, int array_length, std::string const & label, std::string const & prefix) {
+    // fields are the only tile-able thing not kept in a map?
+    int missing=0, present=0;
+    std::string missing_list;
+    for(int i = 0; i < array_length; ++i) {
+        if (tile_ids.count(prefix+array[i].id) == 0) {
+            missing++;
+            missing_list.append(array[i].id+" ");
+        } else {
+            present++;
+        }
+    }
+    DebugLog( D_INFO, DC_ALL ) << "Missing " << label << ": " << missing_list;
 }
 
 #endif // SDL_TILES

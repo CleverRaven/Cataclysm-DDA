@@ -83,7 +83,7 @@ class effect_type
         
         std::string resist_trait;
         std::string resist_effect;
-        std::string removes_effect;
+	std::vector<std::string> removes_effects;
         
         std::vector<std::pair<std::string, int>> miss_msgs;
         
@@ -184,8 +184,8 @@ class effect : public JsonSerializer, public JsonDeserializer
         std::string get_resist_trait() const;
         /** Returns the string id of the resist effect to be used in has_effect("id"). */
         std::string get_resist_effect() const;
-        /** Returns the string id of the effect removed by this effect to be used in remove_effect("id"). */
-        std::string get_removes_effect() const;
+        /** Returns the string ids of the effects removed by this effect to be used in remove_effect("id"). */
+        const std::vector<std::string> &get_removes_effects() const;
         
         /** Returns the matching modifier type from an effect, used for getting actual effect effects. */
         int get_mod(std::string arg, bool reduced = false) const;
@@ -227,9 +227,9 @@ class effect : public JsonSerializer, public JsonDeserializer
         }
 
         using JsonSerializer::serialize;
-        void serialize(JsonOut &json) const;
+        void serialize(JsonOut &json) const override;
         using JsonDeserializer::deserialize;
-        void deserialize(JsonIn &jsin);
+        void deserialize(JsonIn &jsin) override;
 
     protected:
         effect_type *eff_type;

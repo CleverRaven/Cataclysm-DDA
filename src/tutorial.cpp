@@ -39,20 +39,17 @@ bool tutorial_game::init()
  g->u.name = _("John Smith");
  g->u.prof = profession::generic();
     int lx = 50, ly = 50; // overmap terrain coordinates
-    g->cur_om = &overmap_buffer.get(0, 0);
+    auto &starting_om = overmap_buffer.get(0, 0);
     for (int i = 0; i < OMAPX; i++) {
         for (int j = 0; j < OMAPY; j++) {
-            g->cur_om->ter( i, j, -1 ) = "rock";
+            starting_om.ter( i, j, -1 ) = "rock";
             // Start with the overmap revealed
-            g->cur_om->seen( i, j, 0 ) = true;
+            starting_om.seen( i, j, 0 ) = true;
         }
     }
-    g->cur_om->ter(lx, ly, 0) = "tutorial";
-    g->cur_om->ter(lx, ly, -1) = "tutorial";
-    g->cur_om->clear_mon_groups();
-    // to submap coordinates as it is supposed to be
-    g->levx = lx * 2;
-    g->levy = ly * 2;
+    starting_om.ter(lx, ly, 0) = "tutorial";
+    starting_om.ter(lx, ly, -1) = "tutorial";
+    starting_om.clear_mon_groups();
 
  g->u.toggle_trait("QUICK");
  item lighter("lighter", 0);
@@ -60,8 +57,7 @@ bool tutorial_game::init()
  g->u.inv.add_item(lighter);
  g->u.skillLevel("gun").level(5);
  g->u.skillLevel("melee").level(5);
- g->m.load(g->levx, g->levy, 0, true, g->cur_om);
- g->levz = 0;
+    g->load_map( overmapbuffer::omt_to_sm_copy( tripoint( lx, ly, 0 ) ) );
  g->u.setx( 2 );
  g->u.sety( 4 );
 
@@ -171,7 +167,7 @@ void tutorial_game::post_action(action_id act)
    add_message(LESSON_ACT_GRENADE);
   for (int x = g->u.posx() - 1; x <= g->u.posx() + 1; x++) {
    for (int y = g->u.posy() - 1; y <= g->u.posy() + 1; y++) {
-    if (g->m.tr_at(x, y) == tr_bubblewrap)
+    if (g->m.tr_at(x, y).id == "tr_bubblewrap")
      add_message(LESSON_ACT_BUBBLEWRAP);
    }
   }

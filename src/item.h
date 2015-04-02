@@ -58,11 +58,11 @@ enum LIQUID_FILL_ERROR {L_ERR_NONE, L_ERR_NO_MIX, L_ERR_NOT_CONTAINER, L_ERR_NOT
 
 enum layer_level {
     UNDERWEAR = 0,
-    REGULAR_LAYER,
-    WAIST_LAYER,
-    OUTER_LAYER,
-    BELTED_LAYER,
-    MAX_CLOTHING_LAYER
+    REGULAR_LAYER = 10,
+    WAIST_LAYER = 20,
+    OUTER_LAYER = 30,
+    BELTED_LAYER = 40,
+    MAX_CLOTHING_LAYER = 50
 };
 
 class item_category
@@ -183,12 +183,12 @@ public:
 
     using JsonSerializer::serialize;
     // give the option not to save recursively, but recurse by default
-    void serialize(JsonOut &jsout) const { serialize(jsout, true); }
+    void serialize(JsonOut &jsout) const override { serialize(jsout, true); }
     virtual void serialize(JsonOut &jsout, bool save_contents) const;
     using JsonDeserializer::deserialize;
     // easy deserialization from JsonObject
     virtual void deserialize(JsonObject &jo);
-    void deserialize(JsonIn &jsin) {
+    void deserialize(JsonIn &jsin) override {
         JsonObject jo = jsin.get_object();
         deserialize(jo);
     }
@@ -315,9 +315,10 @@ public:
      * Accumulate rot of the item since last rot calculation.
      * This function works for non-rotting stuff, too - it increases the value
      * of rot.
-     * @param p The location of the item to check for temperature.
+     * @param p The absolute, global location (in map square coordinates) of the item to
+     * check for temperature.
      */
-    void calc_rot(const point &p);
+    void calc_rot( const tripoint &p );
     /**
      * Returns whether the item has completely rotten away.
      */
@@ -354,7 +355,7 @@ public:
 
  int brewing_time() const;
  bool ready_to_revive( point pos ); // used for corpses
- void detonate(point p) const;
+ void detonate( const tripoint &p ) const;
  bool can_revive();      // test if item is a corpse and can be revived
 // light emission, determined by type->light_emission (LIGHT_???) tag (circular),
 // overridden by light.* struct (shaped)
@@ -518,7 +519,6 @@ public:
 
  LIQUID_FILL_ERROR has_valid_capacity_for_liquid(const item &liquid) const;
  int get_remaining_capacity_for_liquid(const item &liquid) const;
- int get_remaining_capacity() const;
 
  bool operator<(const item& other) const;
     /** List of all @ref components in printable form, empty if this item has
@@ -652,6 +652,26 @@ public:
         bool has_var( const std::string &name ) const;
         /** Erase the value of the given variable. */
         void erase_var( const std::string &name );
+        /*@}*/
+
+        /**
+         * @name Seed data.
+         */
+        /*@{*/
+        /**
+         * Whether this is actually a seed, the seed functions won't be of much use for non-seeds.
+         */
+        bool is_seed() const;
+        /**
+         * Time (in turns) it takes to grow from one stage to another. There are 4 plant stages:
+         * seed, seedling, mature and harvest. Non-seed items return 0.
+         */
+        int get_plant_epoch() const;
+        /**
+         * The name of the plant as it appears in the various informational menus. This should be
+         * translated. Returns an empty string for non-seed items.
+         */
+        std::string get_plant_name() const;
         /*@}*/
 
         /**
@@ -951,7 +971,8 @@ public:
  int max_charges_from_flag(std::string flagName);
 };
 
-bool item_compare_by_charges( const item *left, const item *right);
+bool item_compare_by_charges( const item& left, const item& right);
+bool item_ptr_compare_by_charges( const item *left, const item *right);
 
 std::ostream &operator<<(std::ostream &, const item &);
 std::ostream &operator<<(std::ostream &, const item *);
