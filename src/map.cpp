@@ -5980,13 +5980,10 @@ long map::determine_wall_corner(const int x, const int y) const
     const bool below_connects = has_flag_ter( TFLAG_CONNECT_TO_WALL, x, y + 1 );
     const bool left_connects  = has_flag_ter( TFLAG_CONNECT_TO_WALL, x - 1, y );
     const bool right_connects = has_flag_ter( TFLAG_CONNECT_TO_WALL, x + 1, y );
-
-#define B(i,b) ((b) ? (i) : 0)
-    const long bits = B(1, above_connects) +
-                      B(2, right_connects) +
-                      B(4, below_connects) +
-                      B(8, left_connects);
-#undef B
+    const auto bits = ( above_connects ? 1 : 0 ) +
+                      ( right_connects ? 2 : 0 ) +
+                      ( below_connects ? 4 : 0 ) +
+                      ( left_connects  ? 8 : 0 );
     switch( bits ) {
         case 1 | 2 | 4 | 8: return LINE_XXXX;
         case 0 | 2 | 4 | 8: return LINE_OXXX;
