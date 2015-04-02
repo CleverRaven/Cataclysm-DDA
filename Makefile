@@ -33,6 +33,8 @@
 #  (for example: make LANGUAGES="zh_CN zh_TW" for Chinese)
 # Enable experimental z-levels
 #  make ZLEVELS=1
+# Change mapsize (reality bubble size)
+#  make MAPSIZE=<size>
 # Install to system directories.
 #  make install
 # Enable lua support. Required only for full-fledged mods.
