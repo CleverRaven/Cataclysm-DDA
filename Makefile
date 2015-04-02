@@ -247,6 +247,10 @@ ifeq ($(TARGETSYSTEM),WINDOWS)
   endif
 endif
 
+ifdef MAPSIZE
+    CXXFLAGS += -DMAPSIZE=$(MAPSIZE)
+endif
+
 ifdef SOUND
   ifndef TILES
     $(error "SOUND=1 only works with TILES=1")

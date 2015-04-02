@@ -23,7 +23,9 @@
 #include "active_item_cache.h"
 
 //TODO: include comments about how these variables work. Where are they used. Are they constant etc.
+#ifndef MAPSIZE
 #define MAPSIZE 11
+#endif
 #define CAMPSIZE 1
 #define CAMPCHECK 3
 
