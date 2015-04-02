@@ -400,6 +400,15 @@ bool monster::can_act() const
           ( !has_effect("stunned") && !has_effect("downed") && !has_effect("webbed") ) );
 }
 
+bool monster::dodge_check(){
+    Creature *target = attack_target();
+    int dodge = std::max( target->get_dodge() - rng(0, type->melee_skill), 0L );
+    if (rng(0, 10000) < 10000 / (1 + (99 * exp(-.6 * dodge)))) {
+        return true;
+    }
+    return false;
+}
+
 int monster::sight_range( const int light_level ) const
 {
     // Non-aquatic monsters can't see much when submerged
@@ -516,7 +525,7 @@ Creature::Attitude monster::attitude_to( const Creature &other ) const
             // Friendly (to player) monsters are friendly to each other
             // Unfriendly monsters go by faction attitude
             return A_FRIENDLY;
-        } else if( ( friendly == 0 && m->friendly == 0 && faction_att == MFA_NEUTRAL ) || 
+        } else if( ( friendly == 0 && m->friendly == 0 && faction_att == MFA_NEUTRAL ) ||
                      morale < 0 || anger < 10 ) {
             // Stuff that won't attack is neutral to everything
             return A_NEUTRAL;
