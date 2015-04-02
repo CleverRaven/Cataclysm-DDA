@@ -4302,7 +4302,7 @@ void item::detonate( const tripoint &p ) const
     if (type == NULL || type->explosion_on_fire_data.power < 0) {
         return;
     }
-    g->explosion( p.x, type->explosion_on_fire_data.power, type->explosion_on_fire_data.shrapnel, type->explosion_on_fire_data.fire, type->explosion_on_fire_data.blast);
+    g->explosion( p, type->explosion_on_fire_data.power, type->explosion_on_fire_data.shrapnel, type->explosion_on_fire_data.fire, type->explosion_on_fire_data.blast);
 }
 
 bool item_ptr_compare_by_charges( const item *left, const item *right)
@@ -4634,7 +4634,7 @@ bool item::process_litcig( player *carrier, point pos )
         if( item_counter % 5 == 0 ) {
             g->m.add_field( pos.x + rng( -2, 2 ), pos.y + rng( -2, 2 ), smoke_type, 1 );
             // lit cigarette can start fires
-            if( g->m.flammable_items_at( pos.x, pos.y ) ||
+            if( g->m.flammable_items_at( tripoint( pos, g->get_levz() ) ) ||
                 g->m.has_flag( "FLAMMABLE", pos.x, pos.y ) ||
                 g->m.has_flag( "FLAMMABLE_ASH", pos.x, pos.y ) ) {
                 g->m.add_field( pos.x, pos.y, fd_fire, 1 );
@@ -4897,6 +4897,12 @@ bool item::process_charger_gun( player *carrier, point pos )
         active = false;
     }
     return false;
+}
+
+bool item::process( player *carrier, const tripoint &pos, bool activate )
+{
+    // TODO: Z
+    return process( carrier, point( pos.x, pos.y ), activate );
 }
 
 bool item::process( player *carrier, point pos, bool activate )

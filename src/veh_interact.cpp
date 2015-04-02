@@ -1950,7 +1950,7 @@ item consume_vpart_item (std::string vpid)
     std::vector<bool> candidates;
     const itype_id itid = vehicle_part_types[vpid].item;
     inventory map_inv;
-    map_inv.form_from_map( point(g->u.posx(), g->u.posy()), PICKUP_RANGE );
+    map_inv.form_from_map( g->u.pos3(), PICKUP_RANGE );
 
     if( g->u.has_amount( itid, 1 ) ) {
         candidates.push_back( true );
@@ -1989,7 +1989,7 @@ item consume_vpart_item (std::string vpid)
     if( candidates[selection] ) {
         item_used = g->u.use_amount( itid, 1 );
     } else {
-        item_used = g->m.use_amount( point(g->u.posx(), g->u.posy()), PICKUP_RANGE, itid, 1 );
+        item_used = g->m.use_amount( g->u.pos3(), PICKUP_RANGE, itid, 1 );
     }
 
     return item_used.front();

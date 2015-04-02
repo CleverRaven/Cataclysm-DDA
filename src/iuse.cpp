@@ -1971,7 +1971,7 @@ int iuse::marloss(player *p, item *it, bool t, point pos)
             for (int y = p->posy() - 4; y <= p->posy() + 4; y++) {
                 if (rng(0, 10) > trig_dist(x, y, p->posx(), p->posy()) &&
                     rng(0, 10) > trig_dist(x, y, p->posx(), p->posy())) {
-                    g->m.marlossify(x, y);
+                    g->m.marlossify( tripoint( x, y, p->posz() ));
                 }
                 bool moveOK = (g->m.move_cost(x, y) > 0);
                 bool monOK = g->mon_at(x, y) == -1;
@@ -2096,7 +2096,7 @@ int iuse::marloss_seed(player *p, item *it, bool t, point pos)
             for (int y = p->posy() - 4; y <= p->posy() + 4; y++) {
                 if (rng(0, 10) > trig_dist(x, y, p->posx(), p->posy()) &&
                     rng(0, 10) > trig_dist(x, y, p->posx(), p->posy())) {
-                    g->m.marlossify(x, y);
+                    g->m.marlossify( tripoint( x, y, p->posz() ) );
                 }
                 bool moveOK = (g->m.move_cost(x, y) > 0);
                 bool monOK = g->mon_at(x, y) == -1;
@@ -2217,7 +2217,7 @@ int iuse::marloss_gel(player *p, item *it, bool t, point pos)
             for (int y = p->posy() - 4; y <= p->posy() + 4; y++) {
                 if (rng(0, 10) > trig_dist(x, y, p->posx(), p->posy()) &&
                     rng(0, 10) > trig_dist(x, y, p->posx(), p->posy())) {
-                    g->m.marlossify(x, y);
+                    g->m.marlossify( tripoint( x, y, p->posz() ));
                 }
                 bool moveOK = (g->m.move_cost(x, y) > 0);
                 bool monOK = g->mon_at(x, y) == -1;
@@ -2336,7 +2336,7 @@ int iuse::mycus(player *p, item *it, bool t, point pos)
         p->add_msg_if_player(m_good, _("As, in time, shall we adapt to better welcome those who have not received us."));
         for (int x = p->posx() - 3; x <= p->posx() + 3; x++) {
             for (int y = p->posy() - 3; y <= p->posy() + 3; y++) {
-                g->m.marlossify(x, y);
+                g->m.marlossify( tripoint( x, y, p->posz() ) );
             }
         }
         p->rem_addiction(ADD_MARLOSS_R);
@@ -6393,6 +6393,7 @@ int iuse::mop(player *p, item *it, bool, point)
         return 0;
     }
 
+    tripoint dirp( dirx, diry, p->posz() );
     if (dirx == p->posx() && diry == p->posy()) {
         p->add_msg_if_player(_("You mop yourself up."));
         p->add_msg_if_player(_("The universe implodes and reforms around you."));
@@ -6401,12 +6402,12 @@ int iuse::mop(player *p, item *it, bool, point)
     if (p->has_effect("blind") || p->worn_with_flag("BLIND")) {
         add_msg(_("You move the mop around, unsure whether it's doing any good."));
         p->moves -= 15;
-        if (one_in(3) && g->m.moppable_items_at(dirx, diry)) {
-            g->m.mop_spills(dirx, diry);
+        if (one_in(3) && g->m.moppable_items_at( dirp )) {
+            g->m.mop_spills( dirp );
         }
     } else {
-        if (g->m.moppable_items_at(dirx, diry)) {
-            g->m.mop_spills(dirx, diry);
+        if (g->m.moppable_items_at( dirp )) {
+            g->m.mop_spills( dirp );
             add_msg(_("You mop up the spill."));
             p->moves -= 15;
         } else {

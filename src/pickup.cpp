@@ -23,7 +23,7 @@ int Pickup::interact_with_vehicle( vehicle *veh, int posx, int posy, int veh_roo
     int ctrl_part = 0;
     std::vector<std::string> menu_items;
     std::vector<uimenu_entry> options_message;
-    const bool has_items_on_ground = g->m.sees_some_items( posx, posy, g->u );
+    const bool has_items_on_ground = g->m.sees_some_items( tripoint( posx, posy, g->u.posz() ), g->u );
     const bool items_are_sealed = g->m.has_flag( "SEALED", posx, posy );
 
     if( veh ) {
@@ -408,7 +408,7 @@ void Pickup::do_pickup( point pickup_target, bool from_vehicle,
         if( from_vehicle ) {
             target = g->m.item_from( veh, cargo_part, index );
         } else {
-            target = g->m.item_from( pickup_target, index );
+            target = g->m.item_from( tripoint( pickup_target, g->get_levz() ), index );
         }
 
         if( target == nullptr ) {
