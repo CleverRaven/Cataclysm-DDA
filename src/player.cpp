@@ -7791,7 +7791,7 @@ void player::suffer()
                 int power_gen;
                 power_gen = 0;
                 if (has_bionic("bio_advreactor")){
-                    if ((reactor_plut * 0.2) > 2000){
+                    if ((reactor_plut * 0.05) > 2000){
                         power_gen = 2000;
                     } else {
                         power_gen = reactor_plut * 0.05;
@@ -7810,7 +7810,7 @@ void player::suffer()
                         }
                     }
                 } else if (has_bionic("bio_reactor")) {
-                    if ((reactor_plut * 0.1) > 500){
+                    if ((reactor_plut * 0.025) > 500){
                         power_gen = 500;
                     } else {
                         power_gen = reactor_plut * 0.025;
