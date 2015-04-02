@@ -218,8 +218,7 @@ class cata_tiles
 
         /* Tile Picking */
         void get_tile_values(const int t, const int *tn, int &subtile, int &rotation);
-        void get_wall_values(const int x, const int y, const long vertical_wall_symbol,
-                             const long horizontal_wall_symbol, int &subtile, int &rotation);
+        void get_wall_values(const int x, const int y, int &subtile, int &rotation);
         void get_terrain_orientation(int x, int y, int &rota, int &subtype);
         void get_rotation_and_subtile(const char val, const int num_connects, int &rota, int &subtype);
 
