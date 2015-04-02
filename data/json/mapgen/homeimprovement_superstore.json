@@ -1,5 +1,17 @@
 [
     {
+        "type":"monstergroup",
+        "name" : "GROUP_MALL",
+        "default" : "mon_zombie",
+        "monsters" : [
+            { "monster" : "mon_zombie", "freq" : 100, "cost_multiplier" : 1 },
+            { "monster" : "mon_zombie_fat", "freq" : 30, "cost_multiplier" : 1 },
+            { "monster" : "mon_zombie_cop", "freq" :10, "cost_multiplier" : 2 },
+            { "monster" : "mon_zombie_child", "freq" : 20, "cost_multiplier" : 1 },
+            { "monster" : "mon_zombie_crawler", "freq" : 10, "cost_multiplier" : 1 }
+            ]	
+    },
+    {
         "type"  : "item_group",
         "id"    : "hardware_clothing",
         "items" : [
@@ -38,15 +50,6 @@
             ["bag_plastic",   20],
             ["news_regional", 15],
             ["mag_news",      15]
-        ]
-    },
-        {
-        "type"  : "item_group",
-        "id"    : "hardware_bionics",
-        "items" : [
-            ["bio_power_storage", 100],
-            ["bio_tools", 35],
-            ["bio_torsionratchet", 35]
         ]
     },
         {
@@ -140,6 +143,9 @@
             "..........|_____________",
             "-----------_____________"
             ],
+            "place_monsters": [
+                { "monster": "GROUP_MALL", "x": [ 2, 23 ], "y": [ 2, 23 ], "density": 1 }
+            ],
             "terrain": {
             "_": "t_pavement",
             ".": "t_floor",
@@ -169,10 +175,10 @@
             "$": "f_vending_c"
             },
             "place_items": [
-                { "item": "hand_tools", "x": [3,7], "y": 11, "chance": 20 },
-                { "item": "hardware_clothing", "x": [16,22], "y": 1, "chance": 60 },
-                { "item": "elec_parts",   "x": 11, "y": [4,9], "chance": 50, "repeat": [2,3] },
-                { "item": "elec_parts",      "x": 9, "y": [4,9], "chance": 50, "repeat": [2,3] }
+                { "item": "hand_tools", "x": [3,7], "y": 11, "chance": 40 },
+                { "item": "hardware_clothing", "x": [16,22], "y": 1, "chance": 80 },
+                { "item": "elec_parts",   "x": 11, "y": [4,9], "chance": 90, "repeat": [2,3] },
+                { "item": "elec_parts",      "x": 9, "y": [4,9], "chance": 90, "repeat": [2,3] }
                 ]
         }
     },{
@@ -207,6 +213,9 @@
             "___________|............",
             "___________-------------"
             ],
+            "place_monsters": [
+                { "monster": "GROUP_MALL", "x": [ 2, 23 ], "y": [ 2, 23 ], "density": 1 }
+            ],
             "terrain": {
             "_": "t_pavement",
             ".": "t_floor",
@@ -237,9 +246,9 @@
             "$": "f_vending_c"
             },
             "place_items": [
-                { "item": "power_tools",   "x": [1,7], "y": 0, "chance": 10 },
-                { "item": "hardware_clothing",   "x": [1,7], "y": 2, "chance": 50, "repeat": [1,2] },
-                { "item": "vending_drink",   "x": 10, "y": 10, "chance": 40, "repeat": [5,8] },
+                { "item": "power_tools",   "x": [1,7], "y": 0, "chance": 40 },
+                { "item": "hardware_clothing",   "x": [1,7], "y": 2, "chance": 70, "repeat": [1,2] },
+                { "item": "vending_drink",   "x": 10, "y": 10, "chance": 80, "repeat": [5,8] },
                 { "item": "hardware_trash",   "x": 17, "y": 11, "chance": 100, "repeat": [2,8] }
                 ]
         }
@@ -275,6 +284,9 @@
             "|...................---.",
             "|rrrrrrr............|CT."
             ],
+            "place_monsters": [
+                { "monster": "GROUP_MALL", "x": [ 2, 23 ], "y": [ 2, 23 ], "density": 1 }
+            ],
             "terrain": {
             "_": "t_pavement",
             ".": "t_floor",
@@ -290,7 +302,7 @@
             "`": "t_thconc_floor",
             "s": "t_floor",
             "=": "t_door_c",
-            "##": "t_door_locked_interior",
+            "#": "t_door_locked_interior",
             "^": "t_thconc_floor",
             "T": "t_floor",
             "t": "t_floor",
@@ -302,23 +314,25 @@
             "r": "f_rack",
             "^": "f_indoor_plant",
             "T": "f_table",
-            "t": "f_toilet",
             "C": "f_chair",
             "s": "f_sink",
             "$": "f_vending_c"
             },
+            "toilets": {
+                "t": { }
+            },
             "place_items": [
-                { "item": "raw_materials",      "x": [12,18], "y": 17, "chance": 40, "repeat": [2,3] },
-                { "item": "raw_materials",      "x": 18, "y": [9,12], "chance": 40, "repeat": [2,3] },
-                { "item": "raw_materials",      "x": 18, "y": [14,16], "chance": 40, "repeat": [2,3] },
-                { "item": "raw_materials",      "x": 22, "y": [9,12], "chance": 40, "repeat": [2,3] },
-                { "item": "raw_materials",      "x": 22, "y": [14,17], "chance": 40, "repeat": [2,3] },
-                { "item": "farming_tools", "x": [1,7], "y": 10, "chance": 30, "repeat": [1,2]  },
-                { "item": "farming_tools", "x": [1,7], "y": 14, "chance": 30, "repeat": [1,2]  },
-                { "item": "farming_seeds", "x": [1,7], "y": 12, "chance": 80, "repeat": [2,3] },
-                { "item": "farming_seeds", "x": [1,7], "y": 16, "chance": 80, "repeat": [2,3] },
-                { "item": "hardware_clothing",   "x": [1,7], "y": 19, "chance": 50, "repeat": [1,2] },
-                { "item": "hardware_clothing",   "x": [1,7], "y": 21, "chance": 50, "repeat": [1,2] },
+                { "item": "raw_materials",      "x": [12,18], "y": 17, "chance": 70, "repeat": [2,3] },
+                { "item": "raw_materials",      "x": 18, "y": [9,12], "chance": 70, "repeat": [2,3] },
+                { "item": "raw_materials",      "x": 18, "y": [14,16], "chance": 70, "repeat": [2,3] },
+                { "item": "raw_materials",      "x": 22, "y": [9,12], "chance": 70, "repeat": [2,3] },
+                { "item": "raw_materials",      "x": 22, "y": [14,17], "chance": 70, "repeat": [2,3] },
+                { "item": "farming_tools", "x": [1,7], "y": 10, "chance": 40, "repeat": [1,2]  },
+                { "item": "farming_tools", "x": [1,7], "y": 14, "chance": 40, "repeat": [1,2]  },
+                { "item": "farming_seeds", "x": [1,7], "y": 12, "chance": 90, "repeat": [2,3] },
+                { "item": "farming_seeds", "x": [1,7], "y": 16, "chance": 90, "repeat": [2,3] },
+                { "item": "hardware_clothing",   "x": [1,7], "y": 19, "chance": 70, "repeat": [1,2] },
+                { "item": "hardware_clothing",   "x": [1,7], "y": 21, "chance": 70, "repeat": [1,2] },
                 { "item": "hand_tools",   "x": [1,7], "y": 23, "chance": 35, "repeat": [1,2] }
                 
                 ]
@@ -355,6 +369,9 @@
             ".|--...................|",
             ".|CT...................|"
             ],
+            "place_monsters": [
+                { "monster": "GROUP_MALL", "x": [ 2, 23 ], "y": [ 2, 23 ], "density": 1 }
+            ],
             "terrain": {
             "_": "t_pavement",
             ".": "t_floor",
@@ -385,17 +402,17 @@
             "$": "f_vending_c"
             },
             "place_items": [
-                { "item": "raw_materials",      "x": 0, "y": [9,12], "chance": 40, "repeat": [2,3] },
-                { "item": "raw_materials",      "x": 0, "y": [14,17], "chance": 40, "repeat": [2,3] },
-                { "item": "raw_materials",      "x": 4, "y": [9,12], "chance": 40, "repeat": [2,3] },
-                { "item": "raw_materials",      "x": 4, "y": [14,17], "chance": 40, "repeat": [2,3] },
-                { "item": "raw_materials",      "x": [5,10], "y": 17, "chance": 40, "repeat": [2,3] },
-                { "item": "hardware_bionics",   "x": [9,10], "y": [20,21], "chance": 10 },
-                { "item": "hardware_bionics",   "x": [13,14], "y": [20,21], "chance": 10 },
-                { "item": "hardware_clothing",  "x": [13,14], "y": [12,13], "chance": 50, "repeat": [1,2] },
-                { "item": "hardware_clothing",  "x": [17,18], "y": [12,13], "chance": 50, "repeat": [1,2] },
-                { "item": "hardware_clothing",  "x": [13,14], "y": [16,17], "chance": 50, "repeat": [1,2] },
-                { "item": "hardware_clothing",  "x": [17,18], "y": [16,17], "chance": 50, "repeat": [1,2] },
+                { "item": "raw_materials",      "x": 0, "y": [9,12], "chance": 60, "repeat": [2,3] },
+                { "item": "raw_materials",      "x": 0, "y": [14,17], "chance": 60, "repeat": [2,3] },
+                { "item": "raw_materials",      "x": 4, "y": [9,12], "chance": 60, "repeat": [2,3] },
+                { "item": "raw_materials",      "x": 4, "y": [14,17], "chance": 60, "repeat": [2,3] },
+                { "item": "raw_materials",      "x": [5,10], "y": 17, "chance": 60, "repeat": [2,3] },
+                { "item": "elec_parts",         "x": [9,10], "y": [20,21], "chance": 80 },
+                { "item": "elec_parts",         "x": [13,14], "y": [20,21], "chance": 80 },
+                { "item": "hardware_clothing",  "x": [13,14], "y": [12,13], "chance": 70, "repeat": [1,2] },
+                { "item": "hardware_clothing",  "x": [17,18], "y": [12,13], "chance": 70, "repeat": [1,2] },
+                { "item": "hardware_clothing",  "x": [13,14], "y": [16,17], "chance": 70, "repeat": [1,2] },
+                { "item": "hardware_clothing",  "x": [17,18], "y": [16,17], "chance": 70, "repeat": [1,2] },
                 { "item": "paint",              "x": [9,22], "y": 1, "chance": 70, "repeat": [1,2] },
                 { "item": "paint",              "x": 9, "y": [2,7], "chance": 70, "repeat": [1,2] },
                 { "item": "paint",              "x": [12,13], "y": [3,4], "chance": 70, "repeat": [1,2] },
@@ -437,6 +454,9 @@
             "|$...........C.....&---|",
             "|CTC...................|"
             ],
+            "place_monsters": [
+                { "monster": "GROUP_MALL", "x": [ 2, 23 ], "y": [ 2, 23 ], "density": 1 }
+            ],
             "terrain": {
             "_": "t_pavement",
             ".": "t_floor",
@@ -469,17 +489,17 @@
             "$": "f_vending_c"
             },
             "place_items": [
-                { "item": "raw_materials",      "x": [1,2], "y": [11,12], "chance": 40, "repeat": [2,3] },
-                { "item": "raw_materials",      "x": [1,2], "y": [14,15], "chance": 40, "repeat": [2,3] },
-                { "item": "raw_materials",      "x": [1,2], "y": [18,19], "chance": 40, "repeat": [2,3] },
-                { "item": "power_tools",        "x": [10,11], "y": [11,12], "chance": 40 },
-                { "item": "hand_tools",         "x": [8,7], "y": [14,15], "chance": 40 },
-                { "item": "paint",              "x": [12,13], "y": [14,15], "chance": 40, "repeat": [2,3] },
-                { "item": "farming_tools",      "x": [11,12], "y": [17,18], "chance": 40 },
-                { "item": "hardware_bionics",   "x": 15, "y": 15, "chance": 50 },
-                { "item": "hardware_clothing",  "x": [16,17], "y": [14,16], "chance": 50, "repeat": [1,2] },
+                { "item": "raw_materials",      "x": [1,2], "y": [11,12], "chance": 80, "repeat": [2,3] },
+                { "item": "raw_materials",      "x": [1,2], "y": [14,15], "chance": 80, "repeat": [2,3] },
+                { "item": "raw_materials",      "x": [1,2], "y": [18,19], "chance": 80, "repeat": [2,3] },
+                { "item": "power_tools",        "x": [10,11], "y": [11,12], "chance": 60 },
+                { "item": "hand_tools",         "x": [8,7], "y": [14,15], "chance": 70 },
+                { "item": "paint",              "x": [12,13], "y": [14,15], "chance": 80, "repeat": [2,3] },
+                { "item": "farming_tools",      "x": [11,12], "y": [17,18], "chance": 60 },
+                { "item": "power_tools",        "x": 15, "y": 15, "chance": 80 },
+                { "item": "hardware_clothing",  "x": [16,17], "y": [14,16], "chance": 70, "repeat": [1,2] },
                 { "item": "hardware_trash",     "x": 19, "y": 22, "chance": 100, "repeat": [2,8] },
-                { "item": "vending_drink",      "x": 1, "y": 22, "chance": 50, "repeat": [1,2] }
+                { "item": "vending_drink",      "x": 1, "y": 22, "chance": 90, "repeat": [1,2] }
                 ]
         }
     },{
@@ -513,6 +533,9 @@
             "_____|_____|_____|_____|",
             "_____|_____|_____|_____|",
             "_____|_____|_____|_____|"
+            ],
+            "place_monsters": [
+                { "monster": "GROUP_MALL", "x": [ 2, 23 ], "y": [ 2, 23 ], "density": 0.5 }
             ],
             "terrain": {
             "_": "t_pavement",
