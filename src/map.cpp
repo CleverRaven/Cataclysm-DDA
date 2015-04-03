@@ -4610,6 +4610,7 @@ lit_level map::apparent_light_at(int x, int y) {
 
     int sight_range = light_sight_range;
     int low_sight_range = lowlight_sight_range;
+    lit_level lit = light_at(x, y);
 
     // While viewing indoor areas use lightmap model
     if (!is_outside(x, y)) {
@@ -4617,7 +4618,7 @@ lit_level map::apparent_light_at(int x, int y) {
 
     // Don't display area as shadowy if it's outside and illuminated by natural light
     // and illuminated by source of light
-    } else if (light_at(x, y) > LL_LOW || dist <= light_sight_range) {
+    } else if (lit > LL_LOW || dist <= light_sight_range) {
         low_sight_range = std::max(g_light_level, natural_sight_range);
     }
 
@@ -4625,7 +4626,6 @@ lit_level map::apparent_light_at(int x, int y) {
     int distance_to_look = DAYLIGHT_LEVEL;
 
     bool can_see = pl_sees( x, y, distance_to_look );
-    lit_level lit = light_at(x, y);
 
     // now we're gonna adjust real_max_sight, to cover some nearby "highlights",
     // but at the same time changing light-level depending on distance,
