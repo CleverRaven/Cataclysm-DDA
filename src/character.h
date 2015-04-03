@@ -12,17 +12,17 @@ class Character : public Creature
     public:
         virtual ~Character() override { };
 
-        field_id bloodType() const;
-        field_id gibType() const;
+        field_id bloodType() const override;
+        field_id gibType() const override;
         virtual bool is_warm() const override;
         virtual const std::string &symbol() const override;
         
         /** Processes effects which may prevent the Character from moving (bear traps, crushed, etc.).
          *  Returns false if movement is stopped. */
-        virtual bool move_effects();
+        virtual bool move_effects() override;
         /** Performs any Character-specific modifications to the arguments before passing to Creature::add_effect(). */
         virtual void add_effect(efftype_id eff_id, int dur, body_part bp = num_bp, bool permanent = false,
-                                int intensity = 0);
+                                int intensity = 0) override;
         
         /** Recalculates HP after a change to max strength */
         void recalc_hp();
@@ -46,7 +46,7 @@ class Character : public Creature
         
         // In mutation.cpp
         /** Returns true if the player has the entered trait */
-        virtual bool has_trait(const std::string &flag) const;
+        virtual bool has_trait(const std::string &flag) const override;
         /** Returns true if the player has the entered starting trait */
         bool has_base_trait(const std::string &flag) const;
         /** Returns the trait id with the given invlet, or an empty string if no trait has that invlet */
@@ -233,7 +233,7 @@ class Character : public Creature
         
         int weight_carried() const;
         int volume_carried() const;
-        int weight_capacity() const;
+        int weight_capacity() const override;
         int volume_capacity() const;
         bool can_pickVolume(int volume, bool safe = false) const;
         bool can_pickWeight(int weight, bool safe = true) const;
@@ -276,11 +276,11 @@ class Character : public Creature
          *  nulls out the player's weapon
          *  Should only be called through player::normalize(), not on it's own!
          */
-        virtual void normalize();
-        virtual void die(Creature *nkiller);
+        virtual void normalize() override;
+        virtual void die(Creature *nkiller) override;
         
         /** Resets stats, and applies effects in an idempotent manner */
-        virtual void reset_stats();
+        virtual void reset_stats() override;
         
         /** Returns true if the player has some form of night vision */
         bool has_nv();
@@ -330,9 +330,9 @@ class Character : public Creature
             bool powered = false;
             // -- serialization stuff, see savegame_json.cpp
             using JsonSerializer::serialize;
-            void serialize( JsonOut &json ) const;
+            void serialize( JsonOut &json ) const override;
             using JsonDeserializer::deserialize;
-            void deserialize( JsonIn &jsin );
+            void deserialize( JsonIn &jsin ) override;
         };
         /**
          * Traits / mutations of the character. Key is the mutation id (it's also a valid

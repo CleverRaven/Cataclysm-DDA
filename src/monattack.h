@@ -75,6 +75,8 @@ void bio_op_takedown    (monster *z, int index);
 void suicide            (monster *z, int index);
 bool thrown_by_judo     (monster *z, int index); //handles zombie getting thrown when u.is_throw_immune()
 void riotbot            (monster *z, int index);
+void stretch_attack     (monster *z, int index);
+void stretch_bite       (monster *z, int index);
 
 void taze               (monster *z, Creature *target);
 void rifle              (monster *z, Creature *target); // Automated M4

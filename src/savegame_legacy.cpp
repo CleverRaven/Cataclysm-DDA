@@ -1853,7 +1853,7 @@ void npc::load_legacy(std::stringstream & dump) {
 
  void npc_chatbin::load_legacy(std::stringstream &info)
  {
-  int tmpsize_miss, tmpsize_assigned, tmptopic, tmpmission_selected;
+  int tmpsize_miss, tmpsize_assigned, tmptopic, tmpmission_selected, tempvalue;
   std::string skill_ident;
   info >> tmptopic >> tmpmission_selected >> tempvalue >> skill_ident >>
           tmpsize_miss >> tmpsize_assigned;

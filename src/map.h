@@ -54,11 +54,11 @@ private:
 public:
     map_stack( std::list<item> *newstack, point newloc, map *neworigin ) :
     mystack(newstack), location(newloc), myorigin(neworigin) {};
-    size_t size() const;
-    bool empty() const;
-    std::list<item>::iterator erase( std::list<item>::iterator it );
-    void push_back( const item &newitem );
-    void insert_at( std::list<item>::iterator index, const item &newitem );
+    size_t size() const override;
+    bool empty() const override;
+    std::list<item>::iterator erase( std::list<item>::iterator it ) override;
+    void push_back( const item &newitem ) override;
+    void insert_at( std::list<item>::iterator index, const item &newitem ) override;
     std::list<item>::iterator begin();
     std::list<item>::iterator end();
     std::list<item>::const_iterator begin() const;
@@ -67,8 +67,8 @@ public:
     std::list<item>::reverse_iterator rend();
     std::list<item>::const_reverse_iterator rbegin() const;
     std::list<item>::const_reverse_iterator rend() const;
-    item &front();
-    item &operator[]( size_t index );
+    item &front() override;
+    item &operator[]( size_t index ) override;
 };
 
 /**

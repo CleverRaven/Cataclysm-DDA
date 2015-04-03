@@ -40,9 +40,9 @@ void help_draw_dir(WINDOW *win, int line_y)
 void help_main(WINDOW *win)
 {
     werase(win);
-    int y = fold_and_print(win, 1, 1, getmaxx(win) - 2, c_white, _("\
+    int y = fold_and_print(win, 0, 1, getmaxx(win) - 2, c_white, _("\
 Please press one of the following for help on that topic:\n\
-Press q or ESC to return to the game.")) + 2;
+Press q or ESC to return to the game.")) + 1;
 
     std::vector<std::string> headers;
     headers.push_back(_("a: Introduction"));
@@ -76,10 +76,11 @@ Press q or ESC to return to the game.")) + 2;
     headers.push_back(_("1: List of all commands (you can change key commands here)"));
     headers.push_back(_("2: List of all options  (you can change options here)"));
     headers.push_back(_("3: Auto pickup manager  (you can change pickup rules here)"));
-    headers.push_back(_("4: List of item types and data"));
-    headers.push_back(_("5: Description of map symbols"));
-    headers.push_back(_("6: Description of gun types"));
-    headers.push_back(_("7: Frequently Asked Questions (Some spoilers!)"));
+    headers.push_back(_("4: Color manager        (you can change all colors here)"));
+    headers.push_back(_("5: List of item types and data"));
+    headers.push_back(_("6: Description of map symbols"));
+    headers.push_back(_("7: Description of gun types"));
+    headers.push_back(_("8: Frequently Asked Questions (Some spoilers!)"));
     headers.push_back(_(" "));
     headers.push_back(_("q: Return to game"));
 
@@ -1091,18 +1092,23 @@ void display_help()
             break;
 
         case '4':
-            multipage(w_help, text_types(), _("Item types:"));
+            all_colors.show_gui();
+            werase(w_help);
             break;
 
         case '5':
-            help_map(w_help);
+            multipage(w_help, text_types(), _("Item types:"));
             break;
 
         case '6':
-            multipage(w_help, text_guns(), _("Gun types:"));
+            help_map(w_help);
             break;
 
         case '7':
+            multipage(w_help, text_guns(), _("Gun types:"));
+            break;
+
+        case '8':
             multipage(w_help, text_faq());
             break;
 

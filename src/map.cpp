@@ -5366,6 +5366,7 @@ void map::shift( const int sx, const int sy )
     }
 
 // Clear vehicle list and rebuild after shift
+    vehicle *remoteveh = g->remoteveh();
     clear_vehicle_cache();
     vehicle_list.clear();
 // Shift the map sx submaps to the right and sy submaps down.
@@ -5421,6 +5422,7 @@ void map::shift( const int sx, const int sy )
         }
     }
     reset_vehicle_cache();
+    g->setremoteveh( remoteveh );
 }
 
 void map::vertical_shift( const int newz )
@@ -5657,14 +5659,13 @@ void map::grow_plant( const point pnt )
     // Erase fertilizer tokens, but keep the seed item
     i_rem( pnt.x, pnt.y, 1 );
     auto seed = items.front();
-    it_comest* seed_comest = dynamic_cast<it_comest*>(seed.type);
-
-    // plantEpoch is the time it takes to grow from one stage to another
-    // 91 days is the approximate length of a real world season
-    // Growing times have been based around 91 rather than the default of 14 to give more accuracy for longer season lengths
-    // Note that it is converted based on the season_length option!
-
-    const int plantEpoch = DAYS(seed_comest->grow * calendar::season_length() / ( 91 * 3 ));
+    if( !seed.is_seed() ) {
+        // No seed there anymore, we don't know what kind of plant it was.
+        dbg( D_ERROR ) << "a planted item at " << pnt.x << "," << pnt.y << " has no seed data";
+        furn_set( pnt.x, pnt.y, f_null );
+        return;
+    }
+    const int plantEpoch = seed.get_plant_epoch();
 
     if ( calendar::turn >= seed.bday + plantEpoch ) {
 		if (calendar::turn < seed.bday + plantEpoch * 2 ) {

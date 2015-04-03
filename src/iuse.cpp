@@ -1422,6 +1422,7 @@ int iuse::oxygen_bottle(player *p, item *it, bool, point)
         p->stim += 8;
         p->pkill += 2;
     }
+    p->remove_effect("winded");
     p->pkill += 2;
     return it->type->charges_to_use();
 }
@@ -9116,7 +9117,7 @@ int iuse::remoteveh(player *p, item *it, bool t, point pos)
         g->setremoteveh( veh );
         p->add_msg_if_player(m_good, _("You take control of the vehicle."));
         if( !veh->engine_on ) {
-            veh->start_engine();
+            veh->start_engines();
         }
     } else if( choice == 3 ) {
         veh->use_controls();

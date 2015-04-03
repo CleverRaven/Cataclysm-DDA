@@ -4291,6 +4291,28 @@
         "dispersion" : 0,
         "recoil" : 0,
         "count" : 1
+    },
+    {   "type" : "AMMO",
+        "id" : "pointer_fake_ammo",
+        "price" : 0,
+        "name" : "point",
+        "symbol" : "*",
+        "color" : "red",
+        "description" : "A point on turret control screen display.",
+        "material" : "null",
+        "volume" : 0,
+        "weight" : 0,
+        "bashing" : 0,
+        "cutting" : 0,
+        "to_hit" : 0,
+        "ammo_type" : "pointer_fake_ammo",
+        "casing" : "NULL",
+        "damage" : 0,
+        "pierce" : 0,
+        "range" : 0,
+        "dispersion" : 0,
+        "recoil" : 0,
+        "count" : 1
     }
 
 ]

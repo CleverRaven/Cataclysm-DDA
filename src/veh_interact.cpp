@@ -1591,7 +1591,7 @@ void veh_interact::display_stats()
 
     bool first = true;
     int fuel_name_length = 0;
-    for( auto & ft : fuel_types ) {
+    for( auto & ft : get_fuel_types() ) {
         int fuel_usage = veh->basic_consumption( ft.id );
         if (fuel_usage > 0) {
             fuel_name_length = std::max(fuel_name_length, utf8_width(ammo_name( ft.id ).c_str()));
