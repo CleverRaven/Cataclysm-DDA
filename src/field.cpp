@@ -789,7 +789,7 @@ bool map::process_fields_in_submap( submap *const current_submap,
                                                  cur->getFieldDensity() * 40);
                                 smoke += 15;
                                 if (cur->getFieldDensity() == 3) {
-                                    destroy(x, y, true);
+                                    destroy( tripoint( x, y, abs_sub.z ), true);
                                 }
 
                             } else if (has_flag("FLAMMABLE_ASH", x, y) &&
@@ -810,7 +810,7 @@ bool map::process_fields_in_submap( submap *const current_submap,
                                                  cur->getFieldDensity() * 30);
                                 smoke += 10;
                                 if (cur->getFieldDensity() == 3 || cur->getFieldAge() < -600) {
-                                    destroy(x, y, true);
+                                    destroy( tripoint( x, y, abs_sub.z ), true);
                                 }
 
                             } else if (terlist[ter(x, y)].has_flag("SWIMMABLE")) {
@@ -1380,7 +1380,7 @@ bool map::process_fields_in_submap( submap *const current_submap,
 
                     //Legacy Stuff
                     case fd_rubble:
-                        make_rubble(x, y);
+                        make_rubble( tripoint( x, y, abs_sub.z ) );
                         break;
 
                     default:

@@ -814,6 +814,7 @@ VehicleList map::get_vehicles( const tripoint &start, const tripoint &end )
                     w.v = elem;
                     w.x = w.v->posx + cx * SEEX;
                     w.y = w.v->posy + cy * SEEY;
+                    w.z = cz;
                     w.i = cx;
                     w.j = cy;
                     vehs.push_back( w );
@@ -2039,19 +2040,22 @@ int map::bash_rating( const int str, const tripoint &p ) const
 
 // End of 3D bashable
 
-void map::make_rubble(const int x, const int y, furn_id rubble_type, bool items, ter_id floor_type, bool overwrite)
+void map::make_rubble( const tripoint &p, furn_id rubble_type, bool items, ter_id floor_type, bool overwrite)
 {
+    // TODO: Z
+    const int x = p.x;
+    const int y = p.y;
     if (overwrite) {
         ter_set(x, y, floor_type);
         furn_set(x, y, rubble_type);
     } else {
         // First see if there is existing furniture to destroy
         if (is_bashable_furn(x, y)) {
-            destroy_furn(x, y, true);
+            destroy_furn( p, true );
         }
         // Leave the terrain alone unless it interferes with furniture placement
         if (move_cost(x, y) <= 0 && is_bashable_ter(x, y)) {
-            destroy(x, y, true);
+            destroy( p, true );
         }
         // Check again for new terrain after potential destruction
         if (move_cost(x, y) <= 0) {
@@ -2428,22 +2432,28 @@ void map::create_spores( const tripoint &p, Creature* source )
     }
 }
 
-int map::collapse_check(const int x, const int y)
+int map::collapse_check( const tripoint &p )
 {
+    // TODO: Z
+    const int x = p.x;
+    const int y = p.y;
     int num_supports = 0;
-    for (int i = x - 1; i <= x + 1; i++) {
-        for (int j = y - 1; j <= y + 1; j++) {
-            if (i == x && j == y) {
+    tripoint t( p );
+    int &i = t.x;
+    int &j = t.y;
+    for( i = x - 1; i <= x + 1; i++ ) {
+        for( j = y - 1; j <= y + 1; j++ ) {
+            if( p == t ) {
                 continue;
             }
-            if (has_flag("COLLAPSES", x, y)) {
-                if (has_flag("COLLAPSES", i, j)) {
+            if( has_flag( "COLLAPSES", p ) ) {
+                if( has_flag( "COLLAPSES", t ) ) {
                     num_supports++;
-                } else if (has_flag("SUPPORTS_ROOF", i, j)) {
+                } else if( has_flag( "SUPPORTS_ROOF", t ) ) {
                     num_supports += 2;
                 }
-            } else if (has_flag("SUPPORTS_ROOF", x, y)) {
-                if (has_flag("SUPPORTS_ROOF", i, j) && !has_flag("COLLAPSES", i, j)) {
+            } else if( has_flag( "SUPPORTS_ROOF", p ) ) {
+                if( has_flag( "SUPPORTS_ROOF", t ) && !has_flag( "COLLAPSES", t ) ) {
                     num_supports += 3;
                 }
             }
@@ -2452,32 +2462,39 @@ int map::collapse_check(const int x, const int y)
     return 1.7 * num_supports;
 }
 
-void map::collapse_at(const int x, const int y)
+void map::collapse_at( const tripoint &p )
 {
-    destroy (x, y, false);
-    crush(x, y);
-    make_rubble(x, y);
-    for (int i = x - 1; i <= x + 1; i++) {
-        for (int j = y - 1; j <= y + 1; j++) {
-            if ((i == x && j == y)) {
+    // TODO: Z
+    const int x = p.x;
+    const int y = p.y;
+    destroy ( p, false );
+    crush( p );
+    make_rubble( p );
+    tripoint t( p );
+    int &i = t.x;
+    int &j = t.y;
+    for( i = x - 1; i <= x + 1; i++ ) {
+        for( j = y - 1; j <= y + 1; j++ ) {
+            if( p == t ) {
                 continue;
             }
-            if (has_flag("COLLAPSES", i, j) && one_in(collapse_check(i, j))) {
-                destroy (i, j, false);
+            if( has_flag( "COLLAPSES", t ) && one_in( collapse_check( t ) ) ) {
+                destroy( t, false );
             // We only check for rubble spread if it doesn't already collapse to prevent double crushing
-            } else if (has_flag("FLAT", i, j) && one_in(8)) {
-                crush(i, j);
-                make_rubble(i, j);
+            } else if( has_flag("FLAT", t ) && one_in( 8 ) ) {
+                crush( t );
+                make_rubble( t );
             }
         }
     }
 }
 
-std::pair<bool, bool> map::bash(const int x, const int y, const int str,
-                                bool silent, bool destroy, vehicle *bashing_vehicle )
+std::pair<bool, bool> map::bash( const tripoint &p, const int str,
+                                 bool silent, bool destroy, vehicle *bashing_vehicle )
 {
-    // TODO: Make this an argument
-    tripoint p( x, y, abs_sub.z );
+    // TODO: Z
+    const int x = p.x;
+    const int y = p.y;
     bool success = false;
     int sound_volume = 0;
     std::string sound;
@@ -2600,7 +2617,7 @@ std::pair<bool, bool> map::bash(const int x, const int y, const int str,
                     // furniture can't store dynamic data to disk. To prevent writing
                     // mysteriously appearing for a sign later built here, remove the
                     // writing from the submap.
-                    delete_signage(x, y);
+                    delete_signage( p );
                 } else if (smash_ter == true) {
                     ter_set(x, y, bash->ter_set);
                 } else {
@@ -2608,23 +2625,26 @@ std::pair<bool, bool> map::bash(const int x, const int y, const int str,
                               ter_at(x,y).id.c_str() );
                 }
 
-                spawn_item_list(bash->items, x, y);
+                spawn_item_list( bash->items, p );
                 if (bash->explosive > 0) {
                     g->explosion( tripoint( x, y, abs_sub.z ), bash->explosive, 0, false);
                 }
 
                 if (collapses) {
-                    collapse_at(x, y);
+                    collapse_at( p );
                 }
                 // Check the flag again to ensure the new terrain doesn't support anything
-                if (supports && !has_flag("SUPPORTS_ROOF", x, y)) {
-                    for (int i = x - 1; i <= x + 1; i++) {
-                        for (int j = y - 1; j <= y + 1; j++) {
-                            if ((i == x && j == y) || !has_flag("COLLAPSES", i, j)) {
+                if (supports && !has_flag( "SUPPORTS_ROOF", p) ) {
+                    tripoint t( p );
+                    int &i = t.x;
+                    int &j = t.y;
+                    for( i = x - 1; i <= x + 1; i++ ) {
+                        for( j = y - 1; j <= y + 1; j++ ) {
+                            if( p == t || !has_flag("COLLAPSES", t) ) {
                                 continue;
                             }
-                            if (one_in(collapse_check(i, j))) {
-                                collapse_at(i, j);
+                            if( one_in( collapse_check( t ) ) ) {
+                                collapse_at( t );
                             }
                         }
                     }
@@ -2745,7 +2765,10 @@ std::pair<bool, bool> map::bash(const int x, const int y, const int str,
     return std::pair<bool, bool> (smashed_something, success);
 }
 
-void map::spawn_item_list(const std::vector<map_bash_item_drop> &items, int x, int y) {
+void map::spawn_item_list( const std::vector<map_bash_item_drop> &items, const tripoint &p ) {
+    // TODO: Z
+    const int x = p.x;
+    const int y = p.y;
     for( auto &items_i : items ) {
         const map_bash_item_drop &drop = items_i;
         int chance = drop.chance;
@@ -2777,39 +2800,32 @@ void map::spawn_item_list(const std::vector<map_bash_item_drop> &items, int x, i
     }
 }
 
-void map::destroy(const int x, const int y, const bool silent)
-{
-    // Break if it takes more than 25 destructions to remove to prevent infinite loops
-    // Example: A bashes to B, B bashes to A leads to A->B->A->...
-    int count = 0;
-    while (count <= 25 && bash(x, y, 999, silent, true).second) {
-        count++;
-    }
-}
-
 void map::destroy( const tripoint &p, const bool silent )
 {
     // Break if it takes more than 25 destructions to remove to prevent infinite loops
     // Example: A bashes to B, B bashes to A leads to A->B->A->...
     int count = 0;
     // TODO: Z
-    while( count <= 25 && bash( p.x, p.y, 999, silent, true ).second ) {
+    while( count <= 25 && bash( p, 999, silent, true ).second ) {
         count++;
     }
 }
 
-void map::destroy_furn(const int x, const int y, const bool silent)
+void map::destroy_furn( const tripoint &p, const bool silent )
 {
     // Break if it takes more than 25 destructions to remove to prevent infinite loops
     // Example: A bashes to B, B bashes to A leads to A->B->A->...
     int count = 0;
-    while (count <= 25 && furn(x, y) != f_null && bash(x, y, 999, silent, true).second) {
+    while (count <= 25 && furn(p) != f_null && bash(p, 999, silent, true).second) {
         count++;
     }
 }
 
-void map::crush(const int x, const int y)
+void map::crush( const tripoint &p )
 {
+    // TODO: Z
+    const int x = p.x;
+    const int y = p.y;
     int veh_part;
     player *crushed_player = nullptr;
     //The index of the NPC at (x,y), or -1 if there isn't one
@@ -2871,9 +2887,12 @@ void map::crush(const int x, const int y)
     }
 }
 
-void map::shoot(const int x, const int y, int &dam,
-                const bool hit_items, const std::set<std::string>& ammo_effects)
+void map::shoot( const tripoint &p, int &dam,
+                 const bool hit_items, const std::set<std::string>& ammo_effects )
 {
+    // TODO: Z
+    const int x = p.x;
+    const int y = p.y;
     if (dam < 0)
     {
         return;
@@ -3192,8 +3211,11 @@ bool map::marlossify( const tripoint &p )
     return false;
 }
 
-bool map::open_door(const int x, const int y, const bool inside, const bool check_only)
+bool map::open_door( const tripoint &p, const bool inside, const bool check_only )
 {
+    // TODO: Z
+    const int x = p.x;
+    const int y = p.y;
     const auto &ter = ter_at( x, y );
     const auto &furn = furn_at( x, y );
     int vpart = -1;
@@ -3246,53 +3268,66 @@ bool map::open_door(const int x, const int y, const bool inside, const bool chec
 
 void map::translate(const ter_id from, const ter_id to)
 {
- if (from == to) {
-  debugmsg("map::translate %s => %s", terlist[from].name.c_str(),
-                                      terlist[from].name.c_str());
-  return;
- }
- for (int x = 0; x < SEEX * my_MAPSIZE; x++) {
-  for (int y = 0; y < SEEY * my_MAPSIZE; y++) {
-   if (ter(x, y) == from)
-    ter_set(x, y, to);
-  }
- }
+    if (from == to) {
+        debugmsg( "map::translate %s => %s", 
+                  terlist[from].name.c_str(),
+                  terlist[from].name.c_str() );
+        return;
+        }
+
+        tripoint p( 0, 0, abs_sub.z );
+        int &x = p.x;
+        int &y = p.y;
+        for( x = 0; x < SEEX * my_MAPSIZE; x++ ) {
+            for( y = 0; y < SEEY * my_MAPSIZE; y++ ) {
+            if( ter( p ) == from ) {
+                ter_set( p, to );
+            }
+        }
+    }
 }
 
 //This function performs the translate function within a given radius of the player.
-void map::translate_radius(const ter_id from, const ter_id to, float radi, int uX, int uY)
+void map::translate_radius(const ter_id from, const ter_id to, float radi, const tripoint &p )
 {
- if (from == to) {
-  debugmsg("map::translate %s => %s", terlist[from].name.c_str(),
-                                      terlist[from].name.c_str());
-  return;
- }
- for (int x = 0; x < SEEX * my_MAPSIZE; x++) {
-  for (int y = 0; y < SEEY * my_MAPSIZE; y++) {
-   if (ter(x, y) == from){
-    //float radiX = 0.0;
-    float radiX = sqrt(float((uX-x)*(uX-x) + (uY-y)*(uY-y)));
-    if (radiX <= radi){
-      ter_set(x, y, to);}
+    if( from == to ) {
+        debugmsg( "map::translate %s => %s", 
+                  terlist[from].name.c_str(),
+                  terlist[from].name.c_str() );
+        return;
     }
-   }
-  }
- }
 
-bool map::close_door(const int x, const int y, const bool inside, const bool check_only)
+    const int uX = p.x;
+    const int uY = p.y;
+    tripoint t( 0, 0, abs_sub.z );
+    int &x = t.x;
+    int &y = t.y;
+    for( x = 0; x < SEEX * my_MAPSIZE; x++ ) {
+        for( y = 0; y < SEEY * my_MAPSIZE; y++ ) {
+            if( ter( t ) == from ) {
+                float radiX = sqrt(float((uX-x)*(uX-x) + (uY-y)*(uY-y)));
+                if( radiX <= radi ){
+                    ter_set( t, to);
+                }
+            }
+        }
+    }
+}
+
+bool map::close_door( const tripoint &p, const bool inside, const bool check_only )
 {
- const auto &ter = ter_at(x, y);
- const auto &furn = furn_at(x, y);
+ const auto &ter = ter_at( p );
+ const auto &furn = furn_at( p );
  if ( !ter.close.empty() && ter.close != "t_null" ) {
      if ( termap.find( ter.close ) == termap.end() ) {
          debugmsg("terrain %s.close == non existant terrain '%s'\n", ter.id.c_str(), ter.close.c_str() );
          return false;
      }
-     if ( has_flag("OPENCLOSE_INSIDE", x, y) && inside == false ) {
+     if ( has_flag("OPENCLOSE_INSIDE", p) && inside == false ) {
          return false;
      }
      if (!check_only) {
-        ter_set(x, y, ter.close );
+        ter_set(p, ter.close );
      }
      return true;
  } else if ( !furn.close.empty() && furn.close != "t_null" ) {
@@ -3300,47 +3335,47 @@ bool map::close_door(const int x, const int y, const bool inside, const bool che
          debugmsg("terrain %s.close == non existant furniture '%s'\n", furn.id.c_str(), furn.close.c_str() );
          return false;
      }
-     if ( has_flag("OPENCLOSE_INSIDE", x, y) && inside == false ) {
+     if ( has_flag("OPENCLOSE_INSIDE", p) && inside == false ) {
          return false;
      }
      if (!check_only) {
-         furn_set(x, y, furn.close );
+         furn_set(p, furn.close );
      }
      return true;
  }
  return false;
 }
 
-const std::string map::get_signage(const int x, const int y) const
+const std::string map::get_signage( const tripoint &p ) const
 {
-    if (!INBOUNDS(x, y)) {
+    if( !inbounds( p ) ) {
         return "";
     }
 
     int lx, ly;
-    submap * const current_submap = get_submap_at(x, y, lx, ly);
+    submap * const current_submap = get_submap_at( p, lx, ly );
 
     return current_submap->get_signage(lx, ly);
 }
-void map::set_signage(const int x, const int y, std::string message) const
+void map::set_signage( const tripoint &p, std::string message ) const
 {
-    if (!INBOUNDS(x, y)) {
+    if( !inbounds( p ) ) {
         return;
     }
 
     int lx, ly;
-    submap * const current_submap = get_submap_at(x, y, lx, ly);
+    submap * const current_submap = get_submap_at( p, lx, ly );
 
     current_submap->set_signage(lx, ly, message);
 }
-void map::delete_signage(const int x, const int y) const
+void map::delete_signage( const tripoint &p ) const
 {
-    if (!INBOUNDS(x, y)) {
+    if( !inbounds( p ) ) {
         return;
     }
 
     int lx, ly;
-    submap * const current_submap = get_submap_at(x, y, lx, ly);
+    submap * const current_submap = get_submap_at( p, lx, ly );
 
     current_submap->delete_signage(lx, ly);
 }
@@ -5876,8 +5911,11 @@ void map::copy_grid( const point to, const point from )
     }
 }
 
-void map::spawn_monsters( int gx, int gy, mongroup &group, bool ignore_sight )
+void map::spawn_monsters( const tripoint &gp, mongroup &group, bool ignore_sight )
 {
+    // TODO: Z
+    const int gx = gp.x;
+    const int gy = gp.y;
     const int s_range = std::min(SEEX * (MAPSIZE / 2), g->u.sight_range( g->light_level() ) );
     int pop = group.population;
     std::vector<point> locations;
@@ -5948,7 +5986,8 @@ void map::spawn_monsters(bool ignore_sight)
         for (int gy = 0; gy < my_MAPSIZE; gy++) {
             auto groups = overmap_buffer.groups_at( abs_sub.x + gx, abs_sub.y + gy, abs_sub.z );
             for( auto &mgp : groups ) {
-                spawn_monsters( gx, gy, *mgp, ignore_sight );
+                // TODO: Z
+                spawn_monsters( tripoint( gx, gy, abs_sub.z ), *mgp, ignore_sight );
             }
 
             submap * const current_submap = get_submap_at_grid(gx, gy);
@@ -6554,7 +6593,7 @@ void map::draw_rough_circle_furn(std::string type, int x, int y, int rad) {
     draw_rough_circle(find_furn_id(type), x, y, rad);
 }
 
-void map::add_corpse(int x, int y) {
+void map::add_corpse( const tripoint &p ) {
     item body;
 
     const bool isReviveSpecial = one_in(10);
@@ -6567,15 +6606,15 @@ void map::add_corpse(int x, int y) {
         body.active = true;
     }
 
-    add_item_or_charges(x, y, body);
-    put_items_from_loc( "shoes",  x, y, 0);
-    put_items_from_loc( "pants",  x, y, 0);
-    put_items_from_loc( "shirts", x, y, 0);
+    add_item_or_charges(p, body);
+    put_items_from_loc( "shoes",  p, 0);
+    put_items_from_loc( "pants",  p, 0);
+    put_items_from_loc( "shirts", p, 0);
     if (one_in(6)) {
-        put_items_from_loc("jackets", x, y, 0);
+        put_items_from_loc("jackets", p, 0);
     }
     if (one_in(15)) {
-        put_items_from_loc("bags", x, y, 0);
+        put_items_from_loc("bags", p, 0);
     }
 }
 

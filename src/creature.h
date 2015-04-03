@@ -111,6 +111,10 @@ class Creature
         bool sees( int tx, int ty ) const;
         virtual bool sees( point t, int &bresenham_slope ) const;
         bool sees( point t ) const;
+        bool sees( const tripoint &t ) const
+        {
+            return sees( point( t.x, t.y ) );
+        }
         /*@}*/
 
         /**

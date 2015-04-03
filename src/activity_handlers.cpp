@@ -56,30 +56,30 @@ void activity_handlers::burrow_finish(player_activity *act, player *p)
         p->fatigue += 10;
         p->thirst += 5;
     }
-    g->m.destroy(dirx, diry, true);
+    g->m.destroy( tripoint( dirx, diry, p->posz() ), true);
 }
 
-bool butcher_cbm_item( const std::string &item, const point &pos, const int age )
+bool butcher_cbm_item( const std::string &item, const tripoint &pos, const int age )
 {
     //To see if it spawns a random additional CBM
     if( one_in( 2 ) ) { //The CBM works
-        g->m.spawn_item( pos.x, pos.y, item, 1, 0, age );
+        g->m.spawn_item( pos, item, 1, 0, age );
         return true;
     }
     //There is a burnt out CBM
-    g->m.spawn_item( pos.x, pos.y, "burnt_out_bionic", 1, 0, age );
+    g->m.spawn_item( pos, "burnt_out_bionic", 1, 0, age );
     return false;
 }
 
-bool butcher_cbm_group( const std::string &group, const point &pos, const int age )
+bool butcher_cbm_group( const std::string &group, const tripoint &pos, const int age )
 {
     //To see if it spawns a random additional CBM
     if( one_in( 2 ) ) { //The CBM works
-        g->m.put_items_from_loc( group, pos.x, pos.y, age );
+        g->m.put_items_from_loc( group, pos, age );
         return true;
     }
     //There is a burnt out CBM
-    g->m.spawn_item( pos.x, pos.y, "burnt_out_bionic", 1, 0, age);
+    g->m.spawn_item( pos, "burnt_out_bionic", 1, 0, age);
     return false;
 }
 
@@ -272,12 +272,12 @@ void activity_handlers::butcher_finish( player_activity *act, player *p )
     if( corpse->has_flag(MF_CBM_CIV) ) {
         if( roll_butchery() >= 0 ) {
             any_cbm = true;
-            cbm = butcher_cbm_item( "bio_power_storage", p->pos(), age ) || cbm;
+            cbm = butcher_cbm_item( "bio_power_storage", p->pos3(), age ) || cbm;
         }
 
         if( roll_butchery() >= 0 ) {
             any_cbm = true;
-            cbm = butcher_cbm_group( "bionics_common", p->pos(), age ) || cbm;
+            cbm = butcher_cbm_group( "bionics_common", p->pos3(), age ) || cbm;
         }
     }
 
@@ -285,12 +285,12 @@ void activity_handlers::butcher_finish( player_activity *act, player *p )
     if( corpse->has_flag(MF_CBM_SCI) ) {
         if( roll_butchery() >= 0 ) {
             any_cbm = true;
-            cbm = butcher_cbm_item( "bio_power_storage", p->pos(), age ) || cbm;
+            cbm = butcher_cbm_item( "bio_power_storage", p->pos3(), age ) || cbm;
         }
 
         if( roll_butchery() >= 0 ) {
             any_cbm = true;
-            cbm = butcher_cbm_group( "bionics_sci", p->pos(), age ) || cbm;
+            cbm = butcher_cbm_group( "bionics_sci", p->pos3(), age ) || cbm;
         }
     }
 
@@ -298,12 +298,12 @@ void activity_handlers::butcher_finish( player_activity *act, player *p )
     if( corpse->has_flag(MF_CBM_TECH) ) {
         if( roll_butchery() >= 0 ) {
             any_cbm = true;
-            cbm = butcher_cbm_item( "bio_power_storage", p->pos(), age ) || cbm;
+            cbm = butcher_cbm_item( "bio_power_storage", p->pos3(), age ) || cbm;
         }
 
         if( roll_butchery() >= 0 ) {
             any_cbm = true;
-            cbm = butcher_cbm_group( "bionics_tech", p->pos(), age ) || cbm;
+            cbm = butcher_cbm_group( "bionics_tech", p->pos3(), age ) || cbm;
         }
     }
 
@@ -311,17 +311,17 @@ void activity_handlers::butcher_finish( player_activity *act, player *p )
     if( corpse->has_flag(MF_CBM_SUBS) ) {
         if( roll_butchery() >= 0 ) {
             any_cbm = true;
-            cbm = butcher_cbm_item( "bio_power_storage", p->pos(), age ) || cbm;
+            cbm = butcher_cbm_item( "bio_power_storage", p->pos3(), age ) || cbm;
         }
 
         if( roll_butchery() >= 0 ) {
             any_cbm = true;
-            cbm = butcher_cbm_group( "bionics_subs", p->pos(), age ) || cbm;
+            cbm = butcher_cbm_group( "bionics_subs", p->pos3(), age ) || cbm;
         }
 
         if( roll_butchery() >= 0 ) {
             any_cbm = true;
-            cbm = butcher_cbm_group( "bionics_subs", p->pos(), age ) || cbm;
+            cbm = butcher_cbm_group( "bionics_subs", p->pos3(), age ) || cbm;
         }
     }
 
@@ -329,12 +329,12 @@ void activity_handlers::butcher_finish( player_activity *act, player *p )
     if( corpse->has_flag(MF_CBM_OP) ) {
         if( roll_butchery() >= 0 ) {
             any_cbm = true;
-            cbm = butcher_cbm_item( "bio_power_storage_mkII", p->pos(), age ) || cbm;
+            cbm = butcher_cbm_item( "bio_power_storage_mkII", p->pos3(), age ) || cbm;
         }
 
         if( roll_butchery() >= 0 ) {
             any_cbm = true;
-            cbm = butcher_cbm_group( "bionics_op", p->pos(), age ) || cbm;
+            cbm = butcher_cbm_group( "bionics_op", p->pos3(), age ) || cbm;
         }
     }
 
@@ -352,11 +352,11 @@ void activity_handlers::butcher_finish( player_activity *act, player *p )
             //To see if it spawns a battery
             if( one_in(3) ) { //The battery works 33% of the time.
                 add_msg(m_good, _("You discover a power storage in the %s!"), corpse->nname().c_str());
-                g->m.spawn_item(p->posx(), p->posy(), "bio_power_storage", 1, 0, age);
+                g->m.spawn_item( p->pos3(), "bio_power_storage", 1, 0, age);
             } else { //There is a burnt out CBM
                 add_msg(m_good, _("You discover a fused lump of bio-circuitry in the %s!"),
                         corpse->nname().c_str());
-                g->m.spawn_item(p->posx(), p->posy(), "burnt_out_bionic", 1, 0, age);
+                g->m.spawn_item( p->pos3(), "burnt_out_bionic", 1, 0, age);
             }
         }
     }
@@ -472,7 +472,7 @@ void activity_handlers::forage_finish( player_activity *act, player *p )
 
     if( one_in(12) ) {
         add_msg(m_good, _("You found some trash!"));
-        g->m.put_items_from_loc( "trash_forest", p->posx(), p->posy(), calendar::turn );
+        g->m.put_items_from_loc( "trash_forest", p->pos3(), calendar::turn );
         found_something = true;
     }
     // Compromise: Survival gives a bigger boost, and Peception is leveled a bit.
@@ -493,7 +493,7 @@ void activity_handlers::forage_finish( player_activity *act, player *p )
             break;
         }
         // Returns zero if location has no defined items.
-        int cnt = g->m.put_items_from_loc( loc, p->posx(), p->posy(), calendar::turn );
+        int cnt = g->m.put_items_from_loc( loc, p->pos3(), calendar::turn );
         if( cnt > 0 ) {
             add_msg(m_good, _("You found something!"));
             g->m.ter_set(act->placement.x, act->placement.y, t_dirt);
@@ -744,7 +744,7 @@ void activity_handlers::pickaxe_finish(player_activity *act, player *p)
         p->fatigue += 10;
         p->thirst += 5;
     }
-    g->m.destroy(dirx, diry, true);
+    g->m.destroy( tripoint( dirx, diry, p->posz() ), true);
     it->charges = std::max(long(0), it->charges - it->type->charges_to_use());
     if( it->charges == 0 && it->destroyed_at_zero_charges() ) {
         p->i_rem(act->position);

@@ -1168,7 +1168,7 @@ void iexamine::door_peephole(player *p, map *m, int examx, int examy) {
         g->peek( examx, examy );
         p->add_msg_if_player( _("You peek through the peephole.") );
     } else if( choice == 2 ) {
-        m->open_door(examx, examy, true, false);
+        m->open_door( tripoint( examx, examy, p->posz() ), true, false);
         p->add_msg_if_player( _("You open the door.") );
     } else {
         p->add_msg_if_player( _("Never mind."));
@@ -2561,7 +2561,7 @@ void iexamine::curtains(player *p, map *m, const int examx, const int examy)
 
 void iexamine::sign(player *p, map *m, int examx, int examy)
 {
-    std::string existing_signage = m->get_signage(examx, examy);
+    std::string existing_signage = m->get_signage( tripoint( examx, examy, p->posz() ) );
     bool previous_signage_exists = !existing_signage.empty();
 
     // Display existing message, or lack thereof.
@@ -2588,7 +2588,7 @@ void iexamine::sign(player *p, map *m, int examx, int examy)
             if (signage.empty()) {
                 p->add_msg_if_player(m_neutral, ignore_message.c_str());
             } else {
-                m->set_signage(examx, examy, signage);
+                m->set_signage( tripoint( examx, examy, p->posz() ), signage);
                 p->add_msg_if_player(m_info, spray_painted_message.c_str());
                 p->moves -= 2 * signage.length();
                 p->use_charges("spray_can", required_writing_charges);

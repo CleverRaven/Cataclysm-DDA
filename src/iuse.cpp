@@ -4505,15 +4505,16 @@ int iuse::jackhammer(player *p, item *it, bool, point)
         p->add_msg_if_player(_("Don't do anything rash.."));
         return 0;
     }
+    tripoint dirp( dirx, diry, p->posz() );
     if (g->m.is_bashable(dirx, diry) && g->m.has_flag("SUPPORTS_ROOF", dirx, diry) &&
         g->m.ter(dirx, diry) != t_tree) {
-        g->m.destroy(dirx, diry, true);
+        g->m.destroy( dirp, true );
         p->moves -= 500;
         //~ the sound of a jackhammer
         sounds::sound(dirx, diry, 45, _("TATATATATATATAT!"));
     } else if (g->m.move_cost(dirx, diry) == 2 && g->get_levz() != -1 &&
                g->m.ter(dirx, diry) != t_dirt && g->m.ter(dirx, diry) != t_grass) {
-        g->m.destroy(dirx, diry, true);
+        g->m.destroy( dirp, true );
         p->moves -= 500;
         sounds::sound(dirx, diry, 45, _("TATATATATATATAT!"));
     } else {
@@ -4550,16 +4551,17 @@ int iuse::jacqueshammer(player *p, item *it, bool, point)
     }
     dirx += p->posx();
     diry += p->posy();
+    tripoint dirp( dirx, diry, p->posz() );
     if (g->m.is_bashable(dirx, diry) && g->m.has_flag("SUPPORTS_ROOF", dirx, diry) &&
         g->m.ter(dirx, diry) != t_tree) {
-        g->m.destroy(dirx, diry, true);
+        g->m.destroy( dirp, true );
         // This looked like 50 minutes, but seems more like 50 seconds.  Needs checked.
         p->moves -= 500;
         //~ the sound of a "jacqueshammer"
         sounds::sound(dirx, diry, 45, _("OHOHOHOHOHOHOHOHO!"));
     } else if (g->m.move_cost(dirx, diry) == 2 && g->get_levz() != -1 &&
                g->m.ter(dirx, diry) != t_dirt && g->m.ter(dirx, diry) != t_grass) {
-        g->m.destroy(dirx, diry, true);
+        g->m.destroy( dirp, true );
         p->moves -= 500;
         sounds::sound(dirx, diry, 45, _("OHOHOHOHOHOHOHOHO!"));
     } else {
@@ -6581,11 +6583,12 @@ int iuse::artifact(player *p, item *it, bool, point)
                 sounds::sound(p->posx(), p->posy(), 30, _("The earth shakes!"));
                 for (int x = p->posx() - 2; x <= p->posx() + 2; x++) {
                     for (int y = p->posy() - 2; y <= p->posy() + 2; y++) {
-                        g->m.bash(x, y, 40);
-                        g->m.bash(x, y, 40);  // Multibash effect, so that doors &c will fall
-                        g->m.bash(x, y, 40);
-                        if (g->m.is_bashable(x, y) && rng(1, 10) >= 3) {
-                            g->m.bash(x, y, 999, false, true);
+                        tripoint pt( x, y, p->posz() );
+                        g->m.bash( pt, 40 );
+                        g->m.bash( pt, 40 );  // Multibash effect, so that doors &c will fall
+                        g->m.bash( pt, 40 );
+                        if (g->m.is_bashable( pt ) && rng(1, 10) >= 3) {
+                            g->m.bash( pt, 999, false, true );
                         }
                     }
                 }

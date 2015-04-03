@@ -564,7 +564,7 @@ public:
     {
         m.furn_set( x, y, f_null );
         m.furn_set( x, y, "f_sign" );
-        m.set_signage( x, y, signage );
+        m.set_signage( tripoint( x, y, m.get_abs_sub().z ), signage );
     }
 };
 /**
@@ -1232,7 +1232,7 @@ bool jmapgen_setmap::apply( map *m ) {
                     m->set_radiation( x.get(), y.get(), val.get());
                 } break;
                 case JMAPGEN_SETMAP_BASH: {
-                    m->bash( x.get(), y.get(), 9999);
+                    m->bash( tripoint( x.get(), y.get(), m->get_abs_sub().z ), 9999);
                 } break;
 
                 case JMAPGEN_SETMAP_LINE_TER: {
@@ -3539,11 +3539,11 @@ C..C..C...|hhh|#########\n\
                         }
                     }
                     computer *tmpcomp2 = NULL;
-                    tmpcomp2 = add_computer(10, 21, _("Barracks Entrance"), 4);
+                    tmpcomp2 = add_computer( tripoint( 10,  21, abs_sub.z ), _("Barracks Entrance"), 4);
                     tmpcomp2->add_option(_("UNLOCK ENTRANCE"), COMPACT_UNLOCK, 6);
                     tmpcomp2->add_failure(COMPFAIL_DAMAGE);
                     tmpcomp2->add_failure(COMPFAIL_SHUTDOWN);
-                    tmpcomp = add_computer(15, 12, _("Magazine Entrance"), 6);
+                    tmpcomp = add_computer( tripoint( 15,  12, abs_sub.z ), _("Magazine Entrance"), 6);
                     tmpcomp->add_option(_("UNLOCK ENTRANCE"), COMPACT_UNLOCK, 7);
                     tmpcomp->add_failure(COMPFAIL_DAMAGE);
                     tmpcomp->add_failure(COMPFAIL_SHUTDOWN);
@@ -3609,9 +3609,9 @@ C..C..C...|hhh|#########\n\
                         }
                     }
                     computer *tmpcomp2 = NULL;
-                    tmpcomp2 = add_computer(13, 20, _("Prisoner Containment Entrance"), 4);
+                    tmpcomp2 = add_computer( tripoint( 13,  20, abs_sub.z ), _("Prisoner Containment Entrance"), 4);
                     tmpcomp2->add_option(_("UNLOCK ENTRANCE"), COMPACT_UNLOCK, 4);
-                    tmpcomp = add_computer(5, 11, _("Containment Control"), 4);
+                    tmpcomp = add_computer( tripoint( 5,  11, abs_sub.z ), _("Containment Control"), 4);
                     tmpcomp->add_option(_("EMERGENCY CONTAINMENT RELEASE"), COMPACT_OPEN, 5);
                     add_trap(19, 19, tr_dissector);
                     item body;
@@ -3927,11 +3927,11 @@ C..C..C...|hhh|#########\n\
                             }
                         }
                         computer *tmpcomp2 = NULL;
-                        tmpcomp2 = add_computer(6, 1, _("Containment Terminal"), 4);
+                        tmpcomp2 = add_computer( tripoint( 6,  1, abs_sub.z ), _("Containment Terminal"), 4);
                         tmpcomp2->add_option(_("EMERGENCY CONTAINMENT UNLOCK"), COMPACT_UNLOCK, 4);
                         tmpcomp2->add_failure(COMPFAIL_DAMAGE);
                         tmpcomp2->add_failure(COMPFAIL_SHUTDOWN);
-                        tmpcomp = add_computer(12, 16, _("Containment Control"), 4);
+                        tmpcomp = add_computer( tripoint( 12,  16, abs_sub.z ), _("Containment Control"), 4);
                         tmpcomp->add_option(_("EMERGENCY CONTAINMENT UNLOCK"), COMPACT_UNLOCK, 4);
                         tmpcomp->add_option(_("EMERGENCY CLEANSE"), COMPACT_DISCONNECT, 7);
                         tmpcomp->add_failure(COMPFAIL_DAMAGE);
@@ -4110,7 +4110,7 @@ ff.......|....|WWWWWWWW|\n\
                                 }
                             }
                         }
-                        tmpcomp = add_computer(11, 8, _("Mk IV Algorithmic Data Analyzer"), 4);
+                        tmpcomp = add_computer( tripoint( 11,  8, abs_sub.z ), _("Mk IV Algorithmic Data Analyzer"), 4);
                         tmpcomp->add_option(_("Run Decryption Algorithm"), COMPACT_DATA_ANAL, 4);
                         tmpcomp->add_option(_("Upload Data to Melchior"), COMPACT_DISCONNECT, 7);
                         tmpcomp->add_option(_("Access Melchior"), COMPACT_DISCONNECT, 12);
@@ -4174,7 +4174,7 @@ ff.......|....|WWWWWWWW|\n\
                         (j < SEEY * 2 - bw && (!one_in(3) || (i > SEEX - 6 && i < SEEX + 5)))) {
                         ter_set(i, j, t_rock_floor);
                         if (one_in(5)) {
-                            make_rubble(i, j, f_rubble_rock, true, t_rock_floor);
+                            make_rubble( tripoint( i, j, abs_sub.z ), f_rubble_rock, true, t_rock_floor);
                         }
                     }
                 }
@@ -4192,7 +4192,7 @@ ff.......|....|WWWWWWWW|\n\
                     if (((j <= tw || i >= rw) && i >= j && (SEEX * 2 - 1 - i) <= j) ||
                         ((j >= bw || i <= lw) && i <= j && (SEEY * 2 - 1 - j) <= i)   ) {
                         if (one_in(5)) {
-                            make_rubble(i, j, f_rubble_rock, true, t_slime);
+                            make_rubble( tripoint( i,  j, abs_sub.z ), f_rubble_rock, true, t_slime);
                         } else if (!one_in(5)) {
                             ter_set(i, j, t_slime);
                         }
@@ -4325,7 +4325,7 @@ ff.......|....|WWWWWWWW|\n\
                     }
                 }
             }
-            tmpcomp = add_computer(SEEX, 8, _("Sub-prime contact console"), 7);
+            tmpcomp = add_computer( tripoint( SEEX,  8, abs_sub.z ), _("Sub-prime contact console"), 7);
             if(monsters_end) { //only add these options when there are monsters.
                 tmpcomp->add_option(_("Terminate Specimens"), COMPACT_TERMINATE, 2);
                 tmpcomp->add_option(_("Release Specimens"), COMPACT_RELEASE, 3);
@@ -4360,7 +4360,7 @@ ff.......|....|WWWWWWWW|\n\
             line(this, t_reinforced_glass_v, SEEX - 2, SEEY - 1, SEEX - 2, SEEY);
             line(this, t_reinforced_glass_v, SEEX + 1, SEEY - 1, SEEX + 1, SEEY);
             ter_set(SEEX - 3, SEEY - 3, t_console);
-            tmpcomp = add_computer(SEEX - 3, SEEY - 3, _("Bionic access"), 3);
+            tmpcomp = add_computer( tripoint( SEEX - 3,  SEEY - 3, abs_sub.z ), _("Bionic access"), 3);
             tmpcomp->add_option(_("Manifest"), COMPACT_LIST_BIONICS, 0);
             tmpcomp->add_option(_("Open Chambers"), COMPACT_RELEASE, 5);
             tmpcomp->add_failure(COMPFAIL_MANHACKS);
@@ -4828,7 +4828,7 @@ ff.......|....|WWWWWWWW|\n\
             }
         }
         ter_set(0, 0, t_stairs_up);
-        tmpcomp = add_computer(4, 5, _("Missile Controls"), 8);
+        tmpcomp = add_computer( tripoint( 4,  5, abs_sub.z ), _("Missile Controls"), 8);
         tmpcomp->add_option(_("Launch Missile"), COMPACT_MISS_LAUNCH, 10);
         tmpcomp->add_option(_("Disarm Missile"), COMPACT_MISS_DISARM,  8);
         tmpcomp->add_failure(COMPFAIL_SECUBOTS);
@@ -5113,11 +5113,11 @@ ff.......|....|WWWWWWWW|\n\
         ter_set(2, 19, t_console);
         ter_set(6, 19, t_console);
         // Computers to unlock stair room, and items
-        tmpcomp = add_computer(2, 19, _("EnviroCom OS v2.03"), 1);
+        tmpcomp = add_computer( tripoint( 2,  19, abs_sub.z ), _("EnviroCom OS v2.03"), 1);
         tmpcomp->add_option(_("Unlock stairs"), COMPACT_OPEN, 0);
         tmpcomp->add_failure(COMPFAIL_SHUTDOWN);
 
-        tmpcomp = add_computer(6, 19, _("EnviroCom OS v2.03"), 1);
+        tmpcomp = add_computer( tripoint( 6,  19, abs_sub.z ), _("EnviroCom OS v2.03"), 1);
         tmpcomp->add_option(_("Unlock stairs"), COMPACT_OPEN, 0);
         tmpcomp->add_failure(COMPFAIL_SHUTDOWN);
         place_items("sewage_plant", 80, 1, 6, 1, 13, false, 0);
@@ -5257,7 +5257,7 @@ ff.......|....|WWWWWWWW|\n\
             ter_set(1, 6, t_sewage_pump);
             furn_set(2, 6, f_counter);
             ter_set(1, 2, t_console);
-            tmpcomp = add_computer(1, 2, _("EnviroCom OS v2.03"), 0);
+            tmpcomp = add_computer( tripoint( 1,  2, abs_sub.z ), _("EnviroCom OS v2.03"), 0);
             tmpcomp->add_option(_("Download Sewer Maps"), COMPACT_MAP_SEWER, 0);
             tmpcomp->add_option(_("Divert sample"), COMPACT_SAMPLE, 3);
             tmpcomp->add_failure(COMPFAIL_PUMP_EXPLODE);
@@ -5282,7 +5282,7 @@ ff.......|....|WWWWWWWW|\n\
             ter_set(20, 23, t_sewage_pump);
             furn_set(20, 22, f_counter);
             ter_set(16, 23, t_console);
-            tmpcomp = add_computer(16, 23, _("EnviroCom OS v2.03"), 0);
+            tmpcomp = add_computer( tripoint( 16,  23, abs_sub.z ), _("EnviroCom OS v2.03"), 0);
             tmpcomp->add_option(_("Download Sewer Maps"), COMPACT_MAP_SEWER, 0);
             tmpcomp->add_option(_("Divert sample"), COMPACT_SAMPLE, 3);
             tmpcomp->add_failure(COMPFAIL_PUMP_EXPLODE);
@@ -5461,7 +5461,7 @@ ff.......|....|WWWWWWWW|\n\
                 for (int i = x - 3; i < x + 3; i++) {
                     for (int j = y - 3; j < y + 3; j++) {
                         if (!one_in(4)) {
-                            make_rubble(i, j, f_wreckage, true);
+                            make_rubble( tripoint( i,  j, abs_sub.z ), f_wreckage, true);
                         }
                     }
                 }
@@ -5793,7 +5793,7 @@ ff.......|....|WWWWWWWW|\n\
             }
 
             ter_set(SEEX, SEEY, t_console);
-            tmpcomp = add_computer(SEEX, SEEY, _("NEPowerOS"), 0);
+            tmpcomp = add_computer( tripoint( SEEX,  SEEY, abs_sub.z ), _("NEPowerOS"), 0);
             tmpcomp->add_option(_("Read Logs"), COMPACT_AMIGARA_LOG, 0);
             tmpcomp->add_option(_("Initiate Tremors"), COMPACT_AMIGARA_START, 4);
             tmpcomp->add_failure(COMPFAIL_AMIGARA);
@@ -5947,7 +5947,7 @@ ff.......|....|WWWWWWWW|\n\
                                            f_null,    f_armchair, f_trashcan, f_null,   f_null,              f_null,        f_null,   f_null,
                                            f_toilet, f_sink,  f_fridge, f_bookcase, f_chair, f_counter, f_desk,  f_null,           f_locker,
                                            f_null,         f_null,         f_null,     f_null,        f_null,        f_null));
-        tmpcomp = add_computer(17, 13, _("Broadcasting Control"), 0);
+        tmpcomp = add_computer( tripoint( 17,  13, abs_sub.z ), _("Broadcasting Control"), 0);
         tmpcomp->add_option(_("ERROR:  SIGNAL DISCONNECT"), COMPACT_TOWER_UNRESPONSIVE, 0);
         tmpcomp->add_option(_("Install Repeater Mod"), COMPACT_REPEATER_MOD, 0);
         spawn_item(18, 13, "record_weather");
@@ -8740,13 +8740,13 @@ tth.............^|..|###\n\
                                    mapf::basic_bind(". - | 6 X # r t + = D w T S e o h c d l s", f_null,  f_null,   f_null,   f_null,
                                            f_null,              f_bench, f_trashcan, f_table, f_null,   f_null,              f_null,
                                            f_null,   f_toilet, f_sink,  f_fridge, f_bookcase, f_chair, f_counter, f_desk,  f_locker, f_null));
-        tmpcomp = add_computer(20, 4, _("Medical Supply Access"), 2);
+        tmpcomp = add_computer( tripoint( 20,  4, abs_sub.z ), _("Medical Supply Access"), 2);
         tmpcomp->add_option(_("Lock Door"), COMPACT_LOCK, 2);
         tmpcomp->add_option(_("Unlock Door"), COMPACT_UNLOCK, 2);
         tmpcomp->add_failure(COMPFAIL_SHUTDOWN);
         tmpcomp->add_failure(COMPFAIL_ALARM);
 
-        tmpcomp = add_computer(20, 6, _("Medical Supply Access"), 2);
+        tmpcomp = add_computer( tripoint( 20,  6, abs_sub.z ), _("Medical Supply Access"), 2);
         tmpcomp->add_option(_("Unlock Door"), COMPACT_UNLOCK, 2);
         tmpcomp->add_failure(COMPFAIL_SHUTDOWN);
         tmpcomp->add_failure(COMPFAIL_ALARM);
@@ -9070,7 +9070,7 @@ FFFFFFFFFFFFFFFFFFFFFFf \n\
                     adjust_radiation(x, y, rng(10, 30));
                 }
             }
-            tmpcomp = add_computer(2, 23, _("SRCF Security Terminal"), 0);
+            tmpcomp = add_computer( tripoint( 2,  23, abs_sub.z ), _("SRCF Security Terminal"), 0);
             tmpcomp->add_option(_("Security Reminder [1055]"), COMPACT_SR1_MESS, 0);
             tmpcomp->add_option(_("Security Reminder [1056]"), COMPACT_SR2_MESS, 0);
             tmpcomp->add_option(_("Security Reminder [1057]"), COMPACT_SR3_MESS, 0);
@@ -9156,7 +9156,7 @@ FFFFFFFFFFFFFFFFFFFFFFf \n\
                         ter_set(i, j, t_dirtmound);
                     }
                     if (one_in(2)) {
-                        make_rubble(i, j, f_wreckage, true);
+                        make_rubble( tripoint( i,  j, abs_sub.z ), f_wreckage, true);
                     }
                     place_items("trash", 50,  i,  j, i,  j, false, 0);
                     place_items("sewer", 50,  i,  j, i,  j, false, 0);
@@ -9249,7 +9249,7 @@ FFFFFFFFFFFFFFFFFFFFFFf \n\
                             ter_set(i, j, t_dirtmound);
                         }
                         if (one_in(2)) {
-                            make_rubble(i, j, f_wreckage, true);
+                            make_rubble( tripoint( i,  j, abs_sub.z ), f_wreckage, true);
                         }
                         place_items("trash", 50,  i,  j, i,  j, false, 0);
                         place_items("sewer", 50,  i,  j, i,  j, false, 0);
@@ -9335,7 +9335,7 @@ FFFFFFFFFFFFFFFFFFFFFFf \n\
                             ter_set(i, j, t_dirtmound);
                         }
                         if (one_in(2)) {
-                            make_rubble(i, j, f_wreckage, true);
+                            make_rubble( tripoint( i,  j, abs_sub.z ), f_wreckage, true);
                         }
                         place_items("trash", 50,  i,  j, i,  j, false, 0);
                         place_items("sewer", 50,  i,  j, i,  j, false, 0);
@@ -9430,7 +9430,7 @@ $$$$-|-|=HH-|-HHHH-|####\n",
                             ter_set(i, j, t_dirtmound);
                         }
                         if (one_in(2)) {
-                            make_rubble(i, j, f_wreckage, true);
+                            make_rubble( tripoint( i,  j, abs_sub.z ), f_wreckage, true);
                         }
                         place_items("trash", 50,  i,  j, i,  j, false, 0);
                         place_items("sewer", 50,  i,  j, i,  j, false, 0);
@@ -9446,7 +9446,7 @@ $$$$-|-|=HH-|-HHHH-|####\n",
                     }
                 }
             }
-            tmpcomp = add_computer(16, 21, _("SRCF Security Terminal"), 0);
+            tmpcomp = add_computer( tripoint( 16,  21, abs_sub.z ), _("SRCF Security Terminal"), 0);
             tmpcomp->add_option(_("Security Reminder [1055]"), COMPACT_SR1_MESS, 0);
             tmpcomp->add_option(_("Security Reminder [1056]"), COMPACT_SR2_MESS, 0);
             tmpcomp->add_option(_("Security Reminder [1057]"), COMPACT_SR3_MESS, 0);
@@ -10130,7 +10130,7 @@ FFFFFFFFFFFFFFFFFFFFFFFF\n\
             ter_set(4, 18, t_centrifuge);
             furn_set(4, 18, f_null);
             line(this, t_floor, 5, 18, 6, rng(17, 19)); // Clear path to console
-            tmpcomp = add_computer(5, 18, _("Centrifuge"), 0);
+            tmpcomp = add_computer( tripoint( 5,  18, abs_sub.z ), _("Centrifuge"), 0);
             tmpcomp->add_option(_("Analyze blood"), COMPACT_BLOOD_ANAL, 4);
             tmpcomp->add_failure(COMPFAIL_DESTROY_BLOOD);
             // Sample storage
@@ -10342,7 +10342,7 @@ FFFFFFFFFFFFFFFFFFFFFFFF\n\
                 square_furn(this, f_bed, 18, 18, 19, 19);
                 place_items("bed", 60, 18, 18, 19, 19, false, 0);
                 // computer to begin healing broken bones,
-                tmpcomp = add_computer(16, 16, _("Mr. Stem Cell"), 3);
+                tmpcomp = add_computer( tripoint( 16,  16, abs_sub.z ), _("Mr. Stem Cell"), 3);
                 tmpcomp->add_option(_("Stem Cell Treatment"), COMPACT_STEMCELL_TREATMENT, 3);
                 tmpcomp->add_failure(COMPFAIL_ALARM);
 
@@ -11311,7 +11311,7 @@ void map::post_process(unsigned zones)
         if (!one_in(10)) { // 90% chance of smashing stuff up
             for (int x = 0; x < 24; x++) {
                 for (int y = 0; y < 24; y++) {
-                    bash(x, y, 20, true);
+                    bash( tripoint( x, y, abs_sub.z ), 20, true);
                 }
             }
         }
@@ -11320,7 +11320,7 @@ void map::post_process(unsigned zones)
             for (int i = 0; i < num_corpses; i++) {
                 int x = rng(0, 23), y = rng(0, 23);
                 if (move_cost(x, y) > 0) {
-                    add_corpse(x, y);
+                    add_corpse( tripoint( x, y, abs_sub.z ) );
                 }
             }
         }
@@ -11333,7 +11333,7 @@ void map::post_process(unsigned zones)
             for (int x = center.x - radius; x <= center.x + radius; x++) {
                 for (int y = center.y - radius; y <= center.y + radius; y++) {
                     if (rl_dist(x, y, center.x, center.y) <= rng(1, radius)) {
-                        destroy(x, y, true);
+                        destroy( tripoint( x, y, abs_sub.z ), true);
                     }
                 }
             }
@@ -11472,7 +11472,7 @@ int map::place_items(items_location loc, int chance, int x1, int y1,
                        (!ongrass && !terlist[ter(px, py)].has_flag("FLAT")) ) &&
                      tries < 20);
             if (tries < 20) {
-                item_num += put_items_from_loc( loc, px, py, turn );
+                item_num += put_items_from_loc( loc, tripoint( px, py, abs_sub.z ), turn );
             }
         }
         if (chance == 100) {
@@ -11482,10 +11482,10 @@ int map::place_items(items_location loc, int chance, int x1, int y1,
     return item_num;
 }
 
-int map::put_items_from_loc(items_location loc, int x, int y, int turn)
+int map::put_items_from_loc(items_location loc, const tripoint &p, int turn)
 {
     const auto items = item_group::items_from(loc, turn);
-    spawn_items(x, y, items);
+    spawn_items( p, items );
     return items.size();
 }
 
@@ -11654,7 +11654,7 @@ vehicle *map::add_vehicle_to_map(vehicle *veh, const bool merge_wrecks)
             }
 
             //There's a wall or other obstacle here; destroy it
-            destroy(p.x, p.y, true);
+            destroy( tripoint( p.x, p.y, abs_sub.z ), true);
 
             //Then smash up the vehicle
             if(!veh_smashed) {
@@ -11668,10 +11668,10 @@ vehicle *map::add_vehicle_to_map(vehicle *veh, const bool merge_wrecks)
     return veh;
 }
 
-computer *map::add_computer(int x, int y, std::string name, int security)
+computer *map::add_computer( const tripoint &p, std::string name, int security )
 {
-    ter_set(x, y, t_console); // TODO: Turn this off?
-    submap *place_on_submap = get_submap_at(x, y);
+    ter_set( p, t_console ); // TODO: Turn this off?
+    submap *place_on_submap = get_submap_at( p );
     place_on_submap->comp = computer(name, security);
     return &(place_on_submap->comp);
 }
@@ -12064,7 +12064,7 @@ void science_room(map *m, int x1, int y1, int x2, int y2, int z, int rotate)
             for (int x = x1 + int(width / 4); x < x2 - int(width / 4); x++) {
                 m->furn_set(x, desk, f_counter);
             }
-            computer *tmpcomp = m->add_computer(x2 - int(width / 4), desk,
+            computer *tmpcomp = m->add_computer( tripoint( x2 - int(width / 4), desk, z ),
                                                 _("Log Console"), 3);
             tmpcomp->add_option(_("View Research Logs"), COMPACT_RESEARCH, 0);
             tmpcomp->add_option(_("Download Map Data"), COMPACT_MAPS, 0);
@@ -12077,7 +12077,7 @@ void science_room(map *m, int x1, int y1, int x2, int y2, int z, int rotate)
             for (int y = y1 + int(width / 4); y < y2 - int(width / 4); y++) {
                 m->furn_set(desk, y, f_counter);
             }
-            computer *tmpcomp = m->add_computer(desk, y2 - int(width / 4),
+            computer *tmpcomp = m->add_computer( tripoint( desk, y2 - int(width / 4), z ),
                                                 _("Log Console"), 3);
             tmpcomp->add_option(_("View Research Logs"), COMPACT_RESEARCH, 0);
             tmpcomp->add_option(_("Download Map Data"), COMPACT_MAPS, 0);
@@ -12203,7 +12203,7 @@ void science_room(map *m, int x1, int y1, int x2, int y2, int z, int rotate)
             m->place_items("bionics_common", 70, biox, bioy, biox, bioy, false, 0);
 
             m->ter_set(biox, bioy+2, t_console);
-            computer *tmpcomp = m->add_computer(biox, bioy+2, _("Bionic access"), 2);
+            computer *tmpcomp = m->add_computer( tripoint( biox,  bioy+2, z ), _("Bionic access"), 2);
             tmpcomp->add_option(_("Manifest"), COMPACT_LIST_BIONICS, 0);
             tmpcomp->add_option(_("Open Chambers"), COMPACT_RELEASE_BIONICS, 3);
             tmpcomp->add_failure(COMPFAIL_MANHACKS);
@@ -12220,7 +12220,7 @@ void science_room(map *m, int x1, int y1, int x2, int y2, int z, int rotate)
             m->place_items("bionics_common", 70, biox, bioy, biox, bioy, false, 0);
 
             m->ter_set(biox, bioy-2, t_console);
-            computer *tmpcomp2 = m->add_computer(biox, bioy-2, _("Bionic access"), 2);
+            computer *tmpcomp2 = m->add_computer( tripoint( biox,  bioy-2, z ), _("Bionic access"), 2);
             tmpcomp2->add_option(_("Manifest"), COMPACT_LIST_BIONICS, 0);
             tmpcomp2->add_option(_("Open Chambers"), COMPACT_RELEASE_BIONICS, 3);
             tmpcomp2->add_failure(COMPFAIL_MANHACKS);
@@ -12237,7 +12237,7 @@ void science_room(map *m, int x1, int y1, int x2, int y2, int z, int rotate)
             m->place_items("bionics_common", 70, biox, bioy, biox, bioy, false, 0);
 
             m->ter_set(biox+2, bioy, t_console);
-            computer *tmpcomp = m->add_computer(biox+2, bioy, _("Bionic access"), 2);
+            computer *tmpcomp = m->add_computer( tripoint( biox+2,  bioy, z ), _("Bionic access"), 2);
             tmpcomp->add_option(_("Manifest"), COMPACT_LIST_BIONICS, 0);
             tmpcomp->add_option(_("Open Chambers"), COMPACT_RELEASE_BIONICS, 3);
             tmpcomp->add_failure(COMPFAIL_MANHACKS);
@@ -12254,7 +12254,7 @@ void science_room(map *m, int x1, int y1, int x2, int y2, int z, int rotate)
             m->place_items("bionics_common", 70, biox, bioy, biox, bioy, false, 0);
 
             m->ter_set(biox-2, bioy, t_console);
-            computer *tmpcomp2 = m->add_computer(biox-2, bioy, _("Bionic access"), 2);
+            computer *tmpcomp2 = m->add_computer( tripoint( biox-2,  bioy, z ), _("Bionic access"), 2);
             tmpcomp2->add_option(_("Manifest"), COMPACT_LIST_BIONICS, 0);
             tmpcomp2->add_option(_("Open Chambers"), COMPACT_RELEASE_BIONICS, 3);
             tmpcomp2->add_failure(COMPFAIL_MANHACKS);
@@ -12628,7 +12628,7 @@ void build_mine_room(map *m, room_type type, int x1, int y1, int x2, int y2, map
         line(m, t_wall_h, x2 - 2, y1 + 2, x2 - 1, y1 + 2);
         m->ter_set(x2 - 2, y1 + 1, t_elevator);
         m->ter_set(x2 - 1, y1 + 1, t_elevator_control_off);
-        computer *tmpcomp = m->add_computer(x1 + 1, y1 + 1, _("NEPowerOS"), 2);
+        computer *tmpcomp = m->add_computer( tripoint( x1 + 1,  y1 + 1, m->get_abs_sub().z ), _("NEPowerOS"), 2);
         tmpcomp->add_option(_("Divert power to elevator"), COMPACT_ELEVATOR_ON, 0);
         tmpcomp->add_failure(COMPFAIL_ALARM);
     }
@@ -13271,12 +13271,12 @@ void map::add_extra(map_extra type)
             for (int y = 0; y < SEEY * 2; y++) {
                 if (x >= cx - 4 && x <= cx + 4 && y >= cy - 4 && y <= cy + 4) {
                     if (!one_in(5)) {
-                        make_rubble(x, y, f_wreckage, true);
+                        make_rubble( tripoint( x,  y, abs_sub.z ), f_wreckage, true);
                     } else if (is_bashable(x, y)) {
-                        destroy(x, y, true);
+                        destroy( tripoint( x,  y, abs_sub.z ), true );
                     }
                 } else if (one_in(10)) { // 1 in 10 chance of being wreckage anyway
-                    make_rubble(x, y, f_wreckage, true);
+                    make_rubble( tripoint( x,  y, abs_sub.z ), f_wreckage, true);
                 }
             }
         }
@@ -13608,7 +13608,7 @@ void map::add_extra(map_extra type)
                 items_created += place_items(item_group, 80, x, y, x, y, true, 0);
             }
             if (i_at(x, y).empty()) {
-                destroy(x, y, true);
+                destroy( tripoint( x,  y, abs_sub.z ), true );
             }
         }
     }
@@ -13620,7 +13620,7 @@ void map::add_extra(map_extra type)
         int x = rng(1, SEEX * 2 - 2), y = rng(1, SEEY * 2 - 2);
         for (int i = x - 1; i <= x + 1; i++) {
             for (int j = y - 1; j <= y + 1; j++) {
-                make_rubble(i, j, f_rubble_rock, true);
+                make_rubble( tripoint( i,  j, abs_sub.z ), f_rubble_rock, true);
             }
         }
         add_trap(x, y, tr_portal);
@@ -13628,7 +13628,7 @@ void map::add_extra(map_extra type)
         for (int i = 0; i < num_monsters; i++) {
             std::string type = spawncreatures[( rng(0, 4) )];
             int mx = rng(1, SEEX * 2 - 2), my = rng(1, SEEY * 2 - 2);
-            make_rubble(mx, my, f_rubble_rock, true);
+            make_rubble( tripoint( mx,  my, abs_sub.z ), f_rubble_rock, true);
             add_spawn(type, 1, mx, my);
         }
     }
@@ -13656,13 +13656,13 @@ void map::add_extra(map_extra type)
         int x2 = (SEEX * 2 - 1);
         int y2 = (SEEY * 2 - 1);
         furn_set(x1, y1, "f_sign");
-        set_signage(x1, y1, "DANGER! MINEFIELD!");
+        set_signage( tripoint( x1,  y1, abs_sub.z ), "DANGER! MINEFIELD!");
         furn_set(x1, y2, "f_sign");
-        set_signage(x1, y2, "DANGER! MINEFIELD!");
+        set_signage( tripoint( x1,  y2, abs_sub.z ), "DANGER! MINEFIELD!");
         furn_set(x2, y1, "f_sign");
-        set_signage(x2, y1, "DANGER! MINEFIELD!");
+        set_signage( tripoint( x2,  y1, abs_sub.z ), "DANGER! MINEFIELD!");
         furn_set(x2, y2, "f_sign");
-        set_signage(x2, y2, "DANGER! MINEFIELD!");
+        set_signage( tripoint( x2,  y2, abs_sub.z ), "DANGER! MINEFIELD!");
     }
     break;
 
@@ -13675,7 +13675,7 @@ void map::add_extra(map_extra type)
                 //If we're using circular distances, make circular craters
                 //Pythagoras to the rescue, x^2 + y^2 = hypotenuse^2
                 if(!trigdist || (((i - x) * (i - x) + (j - y) * (j - y)) <= size_squared)) {
-                    destroy(i, j, true);
+                    destroy( tripoint( i,  j, abs_sub.z ), true);
                     adjust_radiation(i, j, rng(20, 40));
                 }
             }
@@ -13895,7 +13895,7 @@ void rough_circle_furn(map *m, furn_id type, int x, int y, int rad) {
     m->draw_rough_circle_furn(type, x, y, rad);
 }
 void add_corpse(map *m, int x, int y) {
-    m->add_corpse(x, y);
+    m->add_corpse( tripoint( x, y, m->get_abs_sub().z ) );
 }
 
 /////////
