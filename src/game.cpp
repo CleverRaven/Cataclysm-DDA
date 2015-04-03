@@ -10586,30 +10586,37 @@ void game::plfire(bool burst, int default_target_x, int default_target_y)
             return;
         }
 
-        if( !u.weapon.reload( u, reload_pos ) ) {
-            return;
-        }
+        if (u.weapon.has_flag("RELOAD_AND_SHOOT") && u.weapon.charges == 0) {
+            const int reload_pos = u.weapon.pick_reload_ammo( u, true );
+            if (reload_pos == INT_MIN) {
+                add_msg(m_info, _("Out of ammo!"));
+                return;
+            }
 
-        // Burn 2x the strength required to fire in stamina.
-        int strength_needed = 6;
-        if (u.weapon.has_flag("STR8_DRAW")) {
-            strength_needed = 8;
-        }
-        if (u.weapon.has_flag("STR10_DRAW")) {
-            strength_needed = 10;
-        }
-        if (u.weapon.has_flag("STR12_DRAW")) {
-            strength_needed = 12;
-        }
-        u.mod_stat("stamina", strength_needed * -2);
+            if( !u.weapon.reload( u, reload_pos ) ) {
+                return;
+            }
 
-        // At low stamina levels, firing starts getting slow.
-        int sta_percent = (100 * u.stamina) / u.get_stamina_max();
-        u.moves -= (sta_percent < 25) ? ((25 - sta_percent) * 2) : 0;
+            // Burn 2x the strength required to fire in stamina.
+            int strength_needed = 6;
+            if (u.weapon.has_flag("STR8_DRAW")) {
+                strength_needed = 8;
+            }
+            if (u.weapon.has_flag("STR10_DRAW")) {
+                strength_needed = 10;
+            }
+            if (u.weapon.has_flag("STR12_DRAW")) {
+                strength_needed = 12;
+            }
+            u.mod_stat("stamina", strength_needed * -2);
 
-        u.moves -= u.weapon.reload_time(u);
-        refresh_all();
-    }
+            // At low stamina levels, firing starts getting slow.
+            int sta_percent = (100 * u.stamina) / u.get_stamina_max();
+            u.moves -= (sta_percent < 25) ? ((25 - sta_percent) * 2) : 0;
+
+            u.moves -= u.weapon.reload_time(u);
+            refresh_all();
+        }
 
         if( u.weapon.num_charges() == 0 && !u.weapon.has_flag("RELOAD_AND_SHOOT") &&
             !u.weapon.has_flag("NO_AMMO") ) {
