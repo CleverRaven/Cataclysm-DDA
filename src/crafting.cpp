@@ -1216,6 +1216,17 @@ int recipe::batch_time(int batch) const
         return time * batch;
     }
 
+    // NPCs around you should assist in batch production if they have the skills
+    int assistants = 0;
+    if (!g->active_npc.empty()) {
+        for( auto &elem : g->active_npc ) {
+            if (rl_dist( elem->pos(), g->u.pos() ) < PICKUP_RANGE && elem->is_friend()){
+                if (elem->skillLevel(skill_used) >= difficulty)
+                    assistants++;
+            }
+        }
+    }
+
     double total_time = 0.0;
     double scale = batch_rsize / 6.0; // At batch_rsize, incremental time increase is 99.5% of batch_rscale
     for (int x = 0; x < batch; x++) {
@@ -1223,6 +1234,15 @@ int recipe::batch_time(int batch) const
         double logf = (2.0/(1.0+exp(-((double)x/scale)))) - 1.0;
         total_time += (double)time * (1.0 - (batch_rscale * logf));
     }
+
+    //Assistants can decrease the time for production but never less than that of one unit
+    if (assistants == 1){
+        total_time = total_time * .75;
+    } else if (assistants >= 2) {
+        total_time = total_time * .60;
+    }
+    if (total_time < time)
+        total_time = time;
 
     return (int)total_time;
 }
@@ -1510,6 +1530,27 @@ void player::complete_craft()
         //normalize experience gain to crafting time, giving a bonus for longer crafting
         practice( making->skill_used, (int)( ( making->difficulty * 15 + 10 ) * ( 1 + making->batch_time( batch_size ) / 30000.0 ) ),
                     (int)making->difficulty * 1.25 );
+
+        //NPCs assisting or watching should gain experience...
+        if (!g->active_npc.empty()) {
+            for( auto &elem : g->active_npc ) {
+                if (rl_dist( elem->pos(), g->u.pos() ) < PICKUP_RANGE && elem->is_friend()){
+                    //If the NPC can understand what you are doing, they gain more exp
+                    if (elem->skillLevel(making->skill_used) >= making->difficulty){
+                        elem->practice( making->skill_used, (int)( ( making->difficulty * 15 + 10 ) * ( 1 + making->batch_time( batch_size ) / 30000.0 ) * .50), (int)making->difficulty * 1.25 );
+                        if (batch_size > 1)
+                            add_msg(m_info, _("%s assists with crafting..."), elem->name.c_str());
+                        if (batch_size == 1)
+                            add_msg(m_info, _("%s could assist you with a batch..."), elem->name.c_str());
+                    //NPCs around you understand the skill used better
+                    } else {
+                        elem->practice( making->skill_used, (int)( ( making->difficulty * 15 + 10 ) * ( 1 + making->batch_time( batch_size ) / 30000.0 ) * .15), (int)making->difficulty * 1.25 );
+                        add_msg(m_info, _("%s watches you craft..."), elem->name.c_str());
+                    }
+                }
+            }
+        }
+
     }
 
     // Messed up badly; waste some components.
