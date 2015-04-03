@@ -460,7 +460,7 @@
     "turns_per_charge": 0,
     "ammo": "NULL",
     "revert_to": "null",
-    "qualities": [["AXE", 3]],
+    "qualities": [["AXE", 2]],
     "use_action": "LUMBER"
      },
     {
