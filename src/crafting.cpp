@@ -1218,12 +1218,10 @@ int recipe::batch_time(int batch) const
 
     // NPCs around you should assist in batch production if they have the skills
     int assistants = 0;
-    if (!g->active_npc.empty()) {
-        for( auto &elem : g->active_npc ) {
-            if (rl_dist( elem->pos(), g->u.pos() ) < PICKUP_RANGE && elem->is_friend()){
-                if (elem->skillLevel(skill_used) >= difficulty)
-                    assistants++;
-            }
+    for( auto &elem : g->active_npc ) {
+        if (rl_dist( elem->pos(), g->u.pos() ) < PICKUP_RANGE && elem->is_friend()){
+            if (elem->skillLevel(skill_used) >= difficulty)
+                assistants++;
         }
     }
 
@@ -1532,21 +1530,19 @@ void player::complete_craft()
                     (int)making->difficulty * 1.25 );
 
         //NPCs assisting or watching should gain experience...
-        if (!g->active_npc.empty()) {
-            for( auto &elem : g->active_npc ) {
-                if (rl_dist( elem->pos(), g->u.pos() ) < PICKUP_RANGE && elem->is_friend()){
-                    //If the NPC can understand what you are doing, they gain more exp
-                    if (elem->skillLevel(making->skill_used) >= making->difficulty){
-                        elem->practice( making->skill_used, (int)( ( making->difficulty * 15 + 10 ) * ( 1 + making->batch_time( batch_size ) / 30000.0 ) * .50), (int)making->difficulty * 1.25 );
-                        if (batch_size > 1)
-                            add_msg(m_info, _("%s assists with crafting..."), elem->name.c_str());
-                        if (batch_size == 1)
-                            add_msg(m_info, _("%s could assist you with a batch..."), elem->name.c_str());
-                    //NPCs around you understand the skill used better
-                    } else {
-                        elem->practice( making->skill_used, (int)( ( making->difficulty * 15 + 10 ) * ( 1 + making->batch_time( batch_size ) / 30000.0 ) * .15), (int)making->difficulty * 1.25 );
-                        add_msg(m_info, _("%s watches you craft..."), elem->name.c_str());
-                    }
+        for( auto &elem : g->active_npc ) {
+            if (rl_dist( elem->pos(), g->u.pos() ) < PICKUP_RANGE && elem->is_friend()){
+                //If the NPC can understand what you are doing, they gain more exp
+                if (elem->skillLevel(making->skill_used) >= making->difficulty){
+                    elem->practice( making->skill_used, (int)( ( making->difficulty * 15 + 10 ) * ( 1 + making->batch_time( batch_size ) / 30000.0 ) * .50), (int)making->difficulty * 1.25 );
+                    if (batch_size > 1)
+                        add_msg(m_info, _("%s assists with crafting..."), elem->name.c_str());
+                    if (batch_size == 1)
+                        add_msg(m_info, _("%s could assist you with a batch..."), elem->name.c_str());
+                //NPCs around you understand the skill used better
+                } else {
+                    elem->practice( making->skill_used, (int)( ( making->difficulty * 15 + 10 ) * ( 1 + making->batch_time( batch_size ) / 30000.0 ) * .15), (int)making->difficulty * 1.25 );
+                    add_msg(m_info, _("%s watches you craft..."), elem->name.c_str());
                 }
             }
         }
