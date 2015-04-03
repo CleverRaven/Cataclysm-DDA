@@ -400,14 +400,6 @@ bool monster::can_act() const
           ( !has_effect("stunned") && !has_effect("downed") && !has_effect("webbed") ) );
 }
 
-bool monster::dodge_check(){
-    Creature *target = attack_target();
-    int dodge = std::max( target->get_dodge() - rng(0, type->melee_skill), 0L );
-    if (rng(0, 10000) < 10000 / (1 + (99 * exp(-.6 * dodge)))) {
-        return true;
-    }
-    return false;
-}
 
 int monster::sight_range( const int light_level ) const
 {
