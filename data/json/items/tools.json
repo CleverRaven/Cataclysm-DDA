@@ -1347,6 +1347,7 @@
     "charges_per_use": 0,
     "turns_per_charge": 0,
     "ammo": "battery",
+    "flags": ["RADIO_MODABLE"],
     "revert_to": "null",
     "use_action": "NOISE_EMITTER_OFF"
   },
@@ -1371,6 +1372,7 @@
     "charges_per_use": 0,
     "turns_per_charge": 1,
     "ammo": "battery",
+    "flags": ["RADIO_MODABLE"],
     "revert_to": "noise_emitter",
     "use_action": "NOISE_EMITTER_ON"
   },
@@ -2531,6 +2533,7 @@
     "charges_per_use": 0,
     "turns_per_charge": 0,
     "ammo": "NULL",
+    "flags": ["RADIO_MODABLE", "RADIO_INVOKE_PROC", "BOMB"],
     "revert_to": "null",
     "category": "weapons",
     "use_action": {
@@ -2561,6 +2564,7 @@
     "charges_per_use": 0,
     "turns_per_charge": 1,
     "ammo": "NULL",
+    "flags": ["BOMB"],
     "revert_to": "null",
     "category": "weapons",
     "use_action": {
@@ -2592,7 +2596,7 @@
     "charges_per_use": 0,
     "turns_per_charge": 0,
     "ammo": "NULL",
-    "flags": "ACT_IN_FIRE",
+    "flags": ["RADIO_MODABLE", "RADIO_INVOKE_PROC", "BOMB", "ACT_IN_FIRE"],
     "revert_to": "null",
     "category": "weapons",
     "use_action": {
@@ -2623,7 +2627,7 @@
     "charges_per_use": 0,
     "turns_per_charge": 1,
     "ammo": "NULL",
-    "flags": "ACT_IN_FIRE",
+    "flags": ["ACT_IN_FIRE", "BOMB"],
     "revert_to": "canister_empty",
     "category": "weapons",
     "use_action": "GRENADE_INC_ACT"
@@ -2696,6 +2700,7 @@
     "charges_per_use": 0,
     "turns_per_charge": 0,
     "ammo": "NULL",
+    "flags": ["RADIO_MODABLE", "RADIO_INVOKE_PROC", "BOMB"],
     "revert_to": "null",
     "category": "weapons",
     "use_action": {
@@ -2756,6 +2761,7 @@
     "charges_per_use": 0,
     "turns_per_charge": 0,
     "ammo": "NULL",
+    "flags": ["RADIO_MODABLE", "RADIO_INVOKE_PROC", "BOMB"],
     "revert_to": "null",
     "category": "weapons",
     "use_action": {
@@ -2818,6 +2824,7 @@
     "charges_per_use": 0,
     "turns_per_charge": 0,
     "ammo": "NULL",
+    "flags": ["RADIO_MODABLE", "RADIO_INVOKE_PROC", "BOMB"],
     "revert_to": "null",
     "category": "weapons",
     "use_action": {
@@ -2880,6 +2887,7 @@
     "charges_per_use": 0,
     "turns_per_charge": 0,
     "ammo": "NULL",
+    "flags": ["RADIO_MODABLE", "RADIO_INVOKE_PROC", "BOMB"],
     "revert_to": "null",
     "category": "weapons",
     "use_action": {
@@ -2943,6 +2951,7 @@
     "charges_per_use": 0,
     "turns_per_charge": 0,
     "ammo": "NULL",
+    "flags": ["RADIO_MODABLE", "RADIO_INVOKE_PROC", "BOMB"],
     "revert_to": "null",
     "category": "weapons",
     "use_action": {
@@ -3135,6 +3144,7 @@
     "charges_per_use": 0,
     "turns_per_charge": 0,
     "ammo": "NULL",
+    "flags": ["RADIO_MODABLE", "RADIO_INVOKE_PROC", "BOMB"],
     "revert_to": "null",
     "category": "weapons",
     "explode_in_fire" : {
@@ -3292,7 +3302,7 @@
     "description": "This is an extremely powerful weapon--essentially a hand-held nuclear bomb.  Use it to activate the timer.  You guess that the explosion would be large enough to take out a small house.",
     "price": 180000,
     "material": ["steel", "plastic"],
-    "flags": ["LEAK_DAM", "RADIOACTIVE"],
+    "flags": ["LEAK_DAM", "RADIOACTIVE", "RADIO_MODABLE", "RADIO_INVOKE_PROC", "BOMB"],
     "weight": 4071,
     "volume": 3,
     "bashing": 8,
@@ -8503,6 +8513,29 @@
     "use_action": "UPS_BATTERY"
   },
   {
+    "id": "radio_mod",
+    "type": "TOOL",
+    "symbol": ";",
+    "color": "dark_gray",
+    "name": "radio activation mod",
+    "description": "This small piece of electronics can be attached to certain items and activate them after receiving a radio signal.",
+    "price": 5000,
+    "material": "steel",
+    "weight": 142,
+    "volume": 1,
+    "bashing": 0,
+    "cutting": 0,
+    "to_hit": -2,
+    "max_charges": 0,
+    "initial_charges": 0,
+    "charges_per_use": 0,
+    "turns_per_charge": 0,
+    "ammo": "NULL",
+    "revert_to": "null",
+    "category" : "spare_parts",
+    "use_action": "RADIO_MOD"
+  },
+  {
     "type": "TOOL",
     "id": "g_shovel",
     "symbol": "/",
@@ -9523,6 +9556,7 @@
     "charges_per_use": 0,
     "turns_per_charge": 0,
     "ammo": "NULL",
+    "flags": ["RADIO_MODABLE", "RADIO_INVOKE_PROC", "BOMB"],
     "revert_to": "null",
     "category": "weapons",
     "use_action": {
@@ -9552,6 +9586,7 @@
     "charges_per_use": 0,
     "turns_per_charge": 1,
     "ammo": "NULL",
+    "flags": ["BOMB"],
     "revert_to": "null",
     "category": "weapons",
     "use_action": {
@@ -9582,6 +9617,7 @@
     "charges_per_use": 0,
     "turns_per_charge": 0,
     "ammo": "NULL",
+    "flags": ["RADIO_MODABLE", "RADIO_INVOKE_PROC", "BOMB"],
     "revert_to": "null",
     "category": "weapons",
     "use_action": {
@@ -9611,6 +9647,7 @@
     "charges_per_use": 0,
     "turns_per_charge": 1,
     "ammo": "NULL",
+    "flags": ["BOMB"],
     "revert_to": "null",
     "category": "weapons",
     "use_action": {
@@ -9641,6 +9678,7 @@
     "charges_per_use": 0,
     "turns_per_charge": 0,
     "ammo": "NULL",
+    "flags": ["RADIO_MODABLE", "RADIO_INVOKE_PROC", "BOMB"],
     "revert_to": "null",
     "category": "weapons",
     "use_action": {
@@ -9670,6 +9708,7 @@
     "charges_per_use": 0,
     "turns_per_charge": 1,
     "ammo": "NULL",
+    "flags": ["BOMB"],
     "revert_to": "null",
     "category": "weapons",
     "use_action": {
@@ -9700,6 +9739,7 @@
     "charges_per_use": 0,
     "turns_per_charge": 0,
     "ammo": "NULL",
+    "flags": ["RADIO_MODABLE", "RADIO_INVOKE_PROC", "BOMB"],
     "revert_to": "null",
     "category": "weapons",
     "use_action": {
@@ -9729,6 +9769,7 @@
     "charges_per_use": 0,
     "turns_per_charge": 1,
     "ammo": "NULL",
+    "flags": ["BOMB"],
     "revert_to": "null",
     "category": "weapons",
     "use_action": {
@@ -9759,6 +9800,7 @@
     "charges_per_use": 0,
     "turns_per_charge": 0,
     "ammo": "NULL",
+    "flags": ["RADIO_MODABLE", "RADIO_INVOKE_PROC", "BOMB"],
     "revert_to": "null",
     "category": "weapons",
     "use_action": {
@@ -9788,6 +9830,7 @@
     "charges_per_use": 0,
     "turns_per_charge": 1,
     "ammo": "NULL",
+    "flags": ["BOMB"],
     "revert_to": "null",
     "category": "weapons",
     "use_action": {
@@ -9818,6 +9861,7 @@
     "charges_per_use": 0,
     "turns_per_charge": 0,
     "ammo": "NULL",
+    "flags": ["RADIO_MODABLE", "RADIO_INVOKE_PROC", "BOMB"],
     "revert_to": "null",
     "category": "weapons",
     "use_action": {
@@ -9847,6 +9891,7 @@
     "charges_per_use": 0,
     "turns_per_charge": 1,
     "ammo": "NULL",
+    "flags": ["BOMB"],
     "revert_to": "null",
     "category": "weapons",
     "use_action": {

@@ -3951,19 +3951,19 @@ std::list<item *> player::get_radio_items()
     for( auto &stack : stacks ) {
         item &itemit = stack->front();
         item *stack_iter = &itemit;
-        if (stack_iter->active && stack_iter->has_flag("RADIO_ACTIVATION")) {
+        if( stack_iter->has_flag("RADIO_ACTIVATION") ) {
             rc_items.push_back( stack_iter );
         }
     }
 
     for( auto &elem : worn ) {
-        if( elem.active && elem.has_flag( "RADIO_ACTIVATION" ) ) {
+        if( elem.has_flag( "RADIO_ACTIVATION" ) ) {
             rc_items.push_back( &elem );
         }
     }
 
     if (!weapon.is_null()) {
-        if ( weapon.active  && weapon.has_flag("RADIO_ACTIVATION")) {
+        if ( weapon.has_flag("RADIO_ACTIVATION")) {
             rc_items.push_back( &weapon );
         }
     }

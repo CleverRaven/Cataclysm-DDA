@@ -99,6 +99,21 @@ void remove_ups_mod( item &it, player &p )
     it.item_tags.erase( "NO_RELOAD" );
 }
 
+void remove_radio_mod( item &it, player &p )
+{
+    if( !it.has_flag( "RADIO_MOD" ) ) {
+        return;
+    }
+    p.add_msg_if_player( _( "You remove the radio modification from your %s." ), it.tname().c_str() );
+    item mod( "radio_mod", calendar::turn );
+    p.i_add_or_drop( mod, 1 );
+    it.item_tags.erase( "RADIO_ACTIVATION" );
+    it.item_tags.erase( "RADIO_MOD" );
+    it.item_tags.erase( "RADIOSIGNAL_1" );
+    it.item_tags.erase( "RADIOSIGNAL_2" );
+    it.item_tags.erase( "RADIOSIGNAL_3" );
+}
+
 // Checks that the player does not have an active item with LITCIG flag.
 bool check_litcig( player &u )
 {
@@ -2996,6 +3011,13 @@ int iuse::sew_advanced(player *p, item *it, bool, point)
     }
 }
 
+void remove_battery_mods( item &modded, player &p )
+{
+    remove_atomic_mod( modded, p );
+    remove_recharge_mod( modded, p );
+    remove_ups_mod( modded, p );
+}
+
 int iuse::extra_battery(player *p, item *, bool, point)
 {
     int inventory_index = g->inv_for_filter( _("Modify what?"), []( const item & itm ) {
@@ -3024,9 +3046,7 @@ int iuse::extra_battery(player *p, item *, bool, point)
         return 0;
     }
 
-    remove_atomic_mod(*modded, *p);
-    remove_recharge_mod(*modded, *p);
-    remove_ups_mod(*modded, *p);
+    remove_battery_mods( *modded, *p );
 
     p->add_msg_if_player( _( "You double the battery capacity of your %s!" ), modded->tname().c_str() );
     modded->item_tags.insert("DOUBLE_AMMO");
@@ -3061,9 +3081,7 @@ int iuse::rechargeable_battery(player *p, item *it, bool, point)
         return 0;
     }
 
-    remove_atomic_mod(*modded, *p);
-    remove_ups_mod(*modded, *p);
-    remove_double_ammo_mod(*modded, *p);
+    remove_battery_mods( *modded, *p );
     remove_ammo( modded, *p ); // remove batteries, replaced by charges from mod
 
     p->add_msg_if_player( _( "You replace the battery compartment of your %s with a rechargeable battery pack!" ), modded->tname().c_str() );
@@ -3103,9 +3121,7 @@ int iuse::atomic_battery(player *p, item *it, bool, point)
         return 0;
     }
 
-    remove_double_ammo_mod( *modded, *p );
-    remove_recharge_mod( *modded, *p );
-    remove_ups_mod( *modded, *p );
+    remove_battery_mods( *modded, *p );
     remove_ammo( modded, *p ); // remove batteries, item::charges is now plutonium
 
     p->add_msg_if_player( _( "You modify your %s to run off plutonium cells!" ), modded->tname().c_str() );
@@ -3148,10 +3164,8 @@ int iuse::ups_battery(player *p, item *, bool, point)
         return 0;
     }
 
-    remove_double_ammo_mod(*modded, *p);
-    remove_recharge_mod(*modded, *p);
-    remove_atomic_mod(*modded, *p);
-    remove_ammo(modded, *p);
+    remove_battery_mods( *modded, *p );
+    remove_ammo( modded, *p );
 
     p->add_msg_if_player( _( "You modify your %s to run off a UPS!" ), modded->tname().c_str() );
     modded->item_tags.insert("USE_UPS");
@@ -3159,6 +3173,59 @@ int iuse::ups_battery(player *p, item *, bool, point)
     modded->item_tags.insert("NO_RELOAD");
     //Perhaps keep the modded charges at 1 or 0?
     modded->charges = 0;
+    return 1;
+}
+
+int iuse::radio_mod( player *p, item *, bool, point )
+{
+    int inventory_index = g->inv_for_filter( _("Modify what?"), []( const item & itm ) {
+        return itm.is_tool() && itm.has_flag( "RADIO_MODABLE" );
+    } );
+    item &modded = p->i_at( inventory_index );
+
+    if( modded.is_null() ) {
+        p->add_msg_if_player(_("You do not have that item!"));
+        return 0;
+    }
+    if( !modded.is_tool() || !modded.has_flag( "RADIO_MODABLE" ) ) {
+        p->add_msg_if_player(_("This item can't be made modified this way."));
+        return 0;
+    }
+
+    int choice = menu( true, _("Which signal should activate the item?:"), _("\"Red\""),
+                      _("\"Blue\""), _("\"Green\""), _("Cancel"), nullptr );
+
+    std::string newtag;
+    std::string colorname;
+    switch( choice ) {
+        case 1:
+            newtag = "RADIOSIGNAL_1";
+            colorname = _("\"Red\"");
+            break;
+        case 2:
+            newtag = "RADIOSIGNAL_2";
+            colorname = _("\"Blue\"");
+            break;
+        case 3:
+            newtag = "RADIOSIGNAL_3";
+            colorname = _("\"Green\"");
+            break;
+        default:
+            return 0;
+    }
+
+    if( modded.has_flag( "RADIO_MOD" ) && modded.has_flag( newtag ) ) {
+        p->add_msg_if_player(_("This item has been modified this way already."));
+        return 0;
+    }
+
+    remove_radio_mod( modded, *p );
+
+    p->add_msg_if_player( _( "You modify your %s to listen for %s activation signal on the radio." ), 
+                          modded.tname().c_str(), colorname.c_str() );
+    modded.item_tags.insert( "RADIO_ACTIVATION" );
+    modded.item_tags.insert( "RADIO_MOD" );
+    modded.item_tags.insert( newtag );
     return 1;
 }
 
@@ -3186,10 +3253,8 @@ int iuse::remove_all_mods(player *p, item *, bool, point)
         return 0;
     }
 
-    remove_double_ammo_mod( *modded, *p );
-    remove_recharge_mod( *modded, *p );
-    remove_atomic_mod( *modded, *p );
-    remove_ups_mod( *modded, *p );
+    remove_battery_mods( *modded, *p );
+    remove_radio_mod( *modded, *p );
     return 0;
 }
 
@@ -8880,6 +8945,14 @@ void sendRadioSignal(player *p, std::string signal)
             sounds::sound(p->posx(), p->posy(), 6, "beep.");
 
             it_tool *tmp = dynamic_cast<it_tool *>(it.type);
+            if( it.has_flag("RADIO_INVOKE_PROC") ) {
+                // Invoke twice: first to transform, then later to proc
+                tmp->invoke( p, &it, p->pos() );
+                it.charges = 0;
+                // The type changed
+                tmp = dynamic_cast<it_tool *>(it.type);
+            }
+
             tmp->invoke(p, &it, p->pos());
         }
     }
@@ -8944,21 +9017,19 @@ int iuse::radiocontrol(player *p, item *it, bool t, point)
         }
     } else if (choice > 2) {
         std::string signal = "RADIOSIGNAL_";
-        //red button
-        if (choice == 3) {
-            auto item_list = p->get_radio_items();
-            for( auto &elem : item_list ) {
-                if( ( elem )->has_flag( "BOMB" ) ) {
-                    p->add_msg_if_player( m_warning,
-                        _("You might want to place that radio bomb somewhere before detonating it.") );
-                    return 0;
-                }
-            }
-        }
-
         std::stringstream choice_str;
         choice_str << (choice - 2);
         signal += choice_str.str();
+        
+        auto item_list = p->get_radio_items();
+        for( auto &elem : item_list ) {
+            if( ( elem )->has_flag( "BOMB" ) && ( elem )->has_flag( signal ) ) {
+                p->add_msg_if_player( m_warning,
+                    _("The %s in you inventory would explode on this signal. Place it down before sending the signal."),
+                    ( elem )->display_name().c_str() );
+                return 0;
+            }
+        }
 
         p->add_msg_if_player(_("Click."));
         sendRadioSignal(p, signal);
