@@ -150,6 +150,9 @@ class map
  void drawsq(WINDOW* w, player &u, const int x, const int y, const bool invert, const bool show_items,
              const int view_center_x = -1, const int view_center_y = -1,
              const bool low_light = false, const bool bright_level = false);
+ void drawsq(WINDOW* w, player &u, const tripoint &p, const bool invert, const bool show_items,
+             const int view_center_x = -1, const int view_center_y = -1,
+             const bool low_light = false, const bool bright_level = false);
 
     /**
      * Add currently loaded submaps (in @ref grid) to the @ref mapbuffer.
@@ -836,6 +839,14 @@ void add_corpse(int x, int y);
          * Ignored if smaller than 0.
          */
         bool pl_sees( int tx, int ty, int max_range );
+
+        /**
+         * manipulates the submap array of points that the player has seen
+         */
+        long pl_knows(const tripoint &p) const;
+        void set_pl_known(const tripoint &p, const long sym);
+        bool remember_seen_tiles;
+
  std::set<vehicle*> vehicle_list;
  std::set<vehicle*> dirty_vehicle_list;
 

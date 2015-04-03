@@ -1327,6 +1327,28 @@ ter_id map::ter(const int x, const int y) const
     return current_submap->get_ter( lx, ly );
 }
 
+long map::pl_knows( const tripoint &p ) const
+{
+    if( !inbounds(p) ) {
+        return false;
+    }
+
+    int lx, ly;
+    submap * const current_submap = get_submap_at(p, lx, ly);
+    return current_submap->known[lx][ly];
+}
+
+void map::set_pl_known( const tripoint &p, const long sym)
+{
+    if( !inbounds(p) ) {
+        return;
+    }
+
+    int lx, ly;
+    submap * const current_submap = get_submap_at(p, lx, ly);
+    current_submap->known[lx][ly] = sym;
+}
+
 std::string map::get_ter(const int x, const int y) const {
     return ter_at(x, y).id;
 }
@@ -4669,10 +4691,18 @@ void map::draw(WINDOW* w, const point center)
  const int u_clairvoyance = g->u.clairvoyance();
  const bool u_sight_impaired = g->u.sight_impaired();
  const bool bio_night_active = g->u.has_active_bionic("bio_night");
+ remember_seen_tiles = OPTIONS["REMEMBER_SEEN_TILES"];
+ tripoint p;
+ long sym;
 
  for  (int realx = center.x - getmaxx(w)/2; realx <= center.x + getmaxx(w)/2; realx++) {
   for (int realy = center.y - getmaxy(w)/2; realy <= center.y + getmaxy(w)/2; realy++) {
+   p.x = realx;
+   p.y = realy;
+   p.z = abs_sub.z;
+
    const int dist = rl_dist(g->u.posx(), g->u.posy(), realx, realy);
+
    int sight_range = light_sight_range;
    int low_sight_range = lowlight_sight_range;
    // While viewing indoor areas use lightmap model
@@ -4727,10 +4757,14 @@ void map::draw(WINDOW* w, const point center)
     else
      mvwputch(w, realy+getmaxy(w)/2 - center.y, realx+getmaxx(w)/2 - center.x, c_ltgray, '#');
    } else if (dist <= u_clairvoyance || can_see) {
-    drawsq(w, g->u, realx, realy, false, true, center.x, center.y,
+    drawsq(w, g->u, p, false, true, center.x, center.y,
            (dist > low_sight_range && LL_LIT > lit) ||
            (dist > sight_range && LL_LOW == lit),
            LL_BRIGHT == lit);
+   } else if (remember_seen_tiles && (sym = pl_knows(p)) != -1) {
+       // draw tiles that the player has seen previously but doesn't see right now
+       // as unlit and hide the items
+       mvwputch(w, realy+getmaxy(w)/2 - center.y, realx+getmaxx(w)/2 - center.x, c_dkgray, sym);
    } else {
     mvwputch(w, realy+getmaxy(w)/2 - center.y, realx+getmaxx(w)/2 - center.x, c_black,' ');
    }
@@ -4739,7 +4773,15 @@ void map::draw(WINDOW* w, const point center)
     g->draw_critter( g->u, center );
 }
 
-void map::drawsq(WINDOW* w, player &u, const int x, const int y, const bool invert_arg,
+void map::drawsq(WINDOW* w, player &u, int x, int y, const bool invert_arg,
+                 const bool show_items_arg, const int view_center_x_arg, const int view_center_y_arg,
+                 const bool low_light, const bool bright_light)
+{
+    const tripoint p(x, y, abs_sub.z);
+    drawsq(w, u, p, invert_arg, show_items_arg, view_center_x_arg, view_center_y_arg, low_light, bright_light);
+}
+
+void map::drawsq(WINDOW* w, player &u, const tripoint &p, const bool invert_arg,
                  const bool show_items_arg, const int view_center_x_arg, const int view_center_y_arg,
                  const bool low_light, const bool bright_light)
 {
@@ -4748,43 +4790,42 @@ void map::drawsq(WINDOW* w, player &u, const int x, const int y, const bool inve
         return;
     }
 
-    const tripoint p( x, y, abs_sub.z );
     bool invert = invert_arg;
     bool show_items = show_items_arg;
     int cx = view_center_x_arg;
     int cy = view_center_y_arg;
-    if (!INBOUNDS(x, y))
+    if (!inbounds(p))
         return; // Out of bounds
     if (cx == -1)
         cx = u.posx();
     if (cy == -1)
         cy = u.posy();
-    const int k = x + getmaxx(w)/2 - cx;
-    const int j = y + getmaxy(w)/2 - cy;
+    const int k = p.x + getmaxx(w)/2 - cx;
+    const int j = p.y + getmaxy(w)/2 - cy;
     nc_color tercol;
-    const ter_id curr_ter = ter(x,y);
-    const furn_id curr_furn = furn(x,y);
-    const trap &curr_trap = tr_at(x, y);
-    const field &curr_field = field_at(x, y);
-    auto curr_items = i_at(x, y);
+    const ter_id curr_ter = ter(p);
+    const furn_id curr_furn = furn(p);
+    const trap &curr_trap = tr_at(p);
+    const field &curr_field = field_at(p);
+    auto curr_items = i_at(p.x, p.y);
     long sym;
     bool hi = false;
     bool graf = false;
     bool draw_item_sym = false;
 
 
-    if (has_furn(x, y)) {
+    if (has_furn(p)) {
         sym = furnlist[curr_furn].sym;
         tercol = furnlist[curr_furn].color;
     } else {
         sym = terlist[curr_ter].sym;
         tercol = terlist[curr_ter].color;
     }
-    if (has_flag(TFLAG_SWIMMABLE, x, y) && has_flag(TFLAG_DEEP_WATER, x, y) && !u.is_underwater()) {
+    if (has_flag(TFLAG_SWIMMABLE, p) && has_flag(TFLAG_DEEP_WATER, p) && !u.is_underwater()) {
         show_items = false; // Can only see underwater items if WE are underwater
     }
     // If there's a trap here, and we have sufficient perception, draw that instead
-    if( curr_trap.can_see( tripoint( x, y, g->get_levz() ), g->u ) ) {
+    if( curr_trap.can_see( tripoint( p.x, p.y, g->get_levz() ), g->u ) ) {
         tercol = curr_trap.color;
         if (curr_trap.sym == '%') {
             switch(rng(1, 5)) {
@@ -4837,7 +4878,7 @@ void map::drawsq(WINDOW* w, player &u, const int x, const int y, const bool inve
     }
 
     // If there are items here, draw those instead
-    if (show_items && sees_some_items(x, y, g->u)) {
+    if (show_items && sees_some_items(p.x, p.y, g->u)) {
         // if there's furniture/terrain/trap/fields (sym!='.')
         // and we should not override it, then only highlight the square
         if (sym != '.' && sym != '%' && !draw_item_sym) {
@@ -4855,7 +4896,7 @@ void map::drawsq(WINDOW* w, player &u, const int x, const int y, const bool inve
     }
 
     int veh_part = 0;
-    vehicle *veh = veh_at(x, y, veh_part);
+    vehicle *veh = veh_at(p, veh_part);
     if (veh) {
         sym = special_symbol (veh->face.dir_symbol(veh->part_sym(veh_part)));
         tercol = veh->part_color(veh_part);
@@ -4867,7 +4908,7 @@ void map::drawsq(WINDOW* w, player &u, const int x, const int y, const bool inve
 
     //suprise, we're not done, if it's a wall adjacent to an other, put the right glyph
     if(sym == LINE_XOXO || sym == LINE_OXOX) { //vertical or horizontal
-        sym = determine_wall_corner(x, y, sym);
+        sym = determine_wall_corner(p.x, p.y, sym);
     }
 
     if (u.has_effect("boomered")) {
@@ -4888,6 +4929,11 @@ void map::drawsq(WINDOW* w, player &u, const int x, const int y, const bool inve
         mvwputch    (w, j, k, red_background(tercol), sym);
     } else {
         mvwputch    (w, j, k, tercol, sym);
+    }
+
+    if(remember_seen_tiles) {
+        // mark as seen
+        set_pl_known(p, sym);
     }
 }
 
