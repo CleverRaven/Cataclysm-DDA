@@ -297,7 +297,8 @@ void MonsterGenerator::init_attack()
     attack_map["BIO_OP_TAKEDOWN"] = &mattack::bio_op_takedown;
     attack_map["SUICIDE"] = &mattack::suicide;
     attack_map["RIOTBOT"] = &mattack::riotbot;
-
+    attack_map["STRETCH_ATTACK"] = &mattack::stretch_attack;
+    attack_map["STRETCH_BITE"] = &mattack::stretch_bite;
 }
 
 void MonsterGenerator::init_defense()
@@ -564,7 +565,7 @@ void MonsterGenerator::load_species(JsonObject &jo)
 }
 
 // Get pointers to factions from 'keys' and add them to 'map' with value == 'value'
-void MonsterGenerator::add_to_attitude_map( const std::set< std::string > &keys, mfaction_att_map &map, 
+void MonsterGenerator::add_to_attitude_map( const std::set< std::string > &keys, mfaction_att_map &map,
                                             mf_attitude value )
 {
     for( const auto &k : keys ) {

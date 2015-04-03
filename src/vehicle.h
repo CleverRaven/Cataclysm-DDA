@@ -33,7 +33,7 @@ struct fuel_type {
     /** Factor is used when transforming from item charges to fuel amount. */
     int charges_to_amount_factor;
 };
-extern const std::array<fuel_type, 7> fuel_types;
+const std::array<fuel_type, 7> &get_fuel_types();
 extern int fuel_charges_to_amount_factor( const ammotype &ftype );
 
 #define k_mvel 200 //adjust this to balance collision damage

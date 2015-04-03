@@ -1413,6 +1413,13 @@
     { "type":"keybinding", "name": "Craft as long as possible", "category":"DEFAULTMODE", "id":"long_craft" },
     { "type":"keybinding", "name": "Toggle Auto-Safemode", "category":"DEFAULTMODE", "id":"autosafe" },
     {
+      "type":"keybinding",
+      "name": "Toggle move mode (run/walk)",
+      "category":"DEFAULTMODE",
+      "id":"toggle_move",
+      "bindings": [ {"input_method": "keyboard", "key":"\""} ]
+    },
+    {
         "type" : "keybinding",
         "id":"COMPARE",
         "category":"LIST_ITEMS",
