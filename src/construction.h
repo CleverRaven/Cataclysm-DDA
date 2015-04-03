@@ -34,6 +34,7 @@ struct construction
     bool pre_is_furniture; // whether it's furniture or terrain
     bool post_is_furniture; // whether it's furniture or terrain
 
+    int adjusted_time() const; // NPC assistance adjusted
     int print_time(WINDOW *w, int ypos, int xpos, int width, nc_color col) const;
     std::vector<std::string> get_folded_time_string(int width) const;
     private:
