@@ -946,7 +946,7 @@ bool cata_tiles::draw_furniture(int x, int y)
     // get the name of this furniture piece
     std::string f_name = furnlist[f_id].id; // replace with furniture names array access
     bool ret = draw_from_id_string(f_name, C_FURNITURE, empty_string, x, y, subtile, rotation);
-    if (ret && g->m.sees_some_items(x, y, g->u)) {
+    if (ret && g->m.sees_some_items(tripoint(x, y, g->get_levz()), g->u)) {
         draw_item_highlight(x, y);
     }
     return ret;
@@ -1036,7 +1036,7 @@ bool cata_tiles::draw_field_or_item(int x, int y)
         ret_draw_field = draw_from_id_string(fd_name, C_FIELD, empty_string, x, y, subtile, rotation);
     }
     if(do_item) {
-        if (!g->m.sees_some_items(x, y, g->u)) {
+        if (!g->m.sees_some_items(tripoint(x, y, g->get_levz()), g->u)) {
             return false;
         }
         auto items = g->m.i_at(x, y);
