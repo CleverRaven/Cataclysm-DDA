@@ -477,8 +477,7 @@ void mattack::smash(monster *z, int index)
     }
 
     // Can we dodge the attack? Uses player dodge function % chance (melee.cpp)
-    int dodge_check = std::max( target->get_dodge() - rng(0, z->type->melee_skill), 0L );
-    if (rng(0, 10000) < 10000 / (1 + (99 * exp(-.6 * dodge_check)))) {
+    if (dodge_check(z, target)) {
         target->add_msg_player_or_npc( _("The %s takes a powerful swing at you, but you dodge it!"),
                                        _("The %s takes a powerful swing at <npcname>, but <npcname> dodges it!"),
                                        z->name().c_str() );
@@ -1323,8 +1322,7 @@ void mattack::fungus_inject(monster *z, int index)
     }
 
     // Can we dodge the attack? Uses player dodge function % chance (melee.cpp)
-    int dodge_check = std::max(g->u.get_dodge() - rng(0, z->type->melee_skill), 0L);
-    if (rng(0, 10000) < 10000 / (1 + (99 * exp(-.6 * dodge_check)))) {
+    if (dodge_check(z, target)) {
         target->add_msg_player_or_npc( _("You dodge it!"),
                                        _("<npcname> dodges it!") );
         g->u.practice( "dodge", z->type->melee_skill * 2 );
@@ -1378,8 +1376,7 @@ void mattack::fungus_bristle(monster *z, int index)
     }
 
     // Can we dodge the attack? Uses player dodge function % chance (melee.cpp)
-    int dodge_check = std::max(g->u.get_dodge() - rng(0, z->type->melee_skill), 0L);
-    if (rng(0, 10000) < 10000 / (1 + (99 * exp(-.6 * dodge_check)))) {
+    if (dodge_check(z, target)) {
         target->add_msg_player_or_npc( _("You dodge it!"),
                                        _("<npcname> dodges it!") );
         if( foe != nullptr )  {
@@ -1548,8 +1545,7 @@ void mattack::fungus_fortify(monster *z, int index)
                 return;
             }
             // Can we dodge the attack? Uses player dodge function % chance (melee.cpp)
-            int dodge_check = std::max(g->u.get_dodge() - rng(0, z->type->melee_skill), 0L);
-            if (rng(0, 10000) < 10000 / (1 + (99 * exp(-.6 * dodge_check)))) {
+            if (dodge_check(z, target)) {
                 target->add_msg_player_or_npc( _("You dodge it!"),
                                                _("<npcname> dodges it!") );
                 g->u.practice( "dodge", z->type->melee_skill * 2 );
@@ -1667,8 +1663,7 @@ void mattack::dermatik(monster *z, int index)
         return; // No implanting monsters for now
     }
     // Can we dodge the attack? Uses player dodge function % chance (melee.cpp)
-    int dodge_check = std::max(g->u.get_dodge() - rng(0, z->type->melee_skill), 0L);
-    if (rng(0, 10000) < 10000 / (1 + (99 * exp(-.6 * dodge_check)))) {
+    if (dodge_check(z, target)) {
         if( target == &g->u ) {
             add_msg(_("The %s tries to land on you, but you dodge."), z->name().c_str());
         }
@@ -2005,8 +2000,7 @@ void mattack::tentacle(monster *z, int index)
         return;
     }
     // Can we dodge the attack? Uses player dodge function % chance (melee.cpp)
-    int dodge_check = std::max(g->u.get_dodge() - rng(0, z->type->melee_skill), 0L);
-    if (rng(0, 10000) < 10000 / (1 + (99 * exp(-.6 * dodge_check)))) {
+    if (dodge_check(z, target)) {
         target->add_msg_player_or_npc( _("You dodge it!"),
                                        _("<npcname> dodges it!") );
         g->u.practice( "dodge", z->type->melee_skill * 2 );
@@ -3505,8 +3499,7 @@ void mattack::bite(monster *z, int index)
     z->moves -= 100;
     bool uncanny = foe != nullptr && foe->uncanny_dodge();
     // Can we dodge the attack? Uses player dodge function % chance (melee.cpp)
-    int dodge_check = std::max( target->get_dodge() - rng( 0, z->type->melee_skill ), 0L );
-    if( uncanny || ( rng(0, 10000) < 10000 / (1 + (99 * exp(-.6 * dodge_check) ) ) ) ) {
+    if( uncanny || dodge_check(z, target) ){
         if( foe != nullptr ) {
             if( seen ) {
                 auto msg_type = foe == &g->u ? m_warning : m_info;
@@ -3596,8 +3589,7 @@ void mattack::stretch_bite(monster *z, int index)
     }
     bool uncanny = foe != nullptr && foe->uncanny_dodge();
     // Can we dodge the attack? Uses player dodge function % chance (melee.cpp)
-    int dodge_check = std::max( target->get_dodge() - rng( 0, z->type->melee_skill ), 0L );
-    if( uncanny || ( rng(0, 10000) < 10000 / (1 + (99 * exp(-.6 * dodge_check) ) ) ) ) {
+    if( uncanny || dodge_check(z, target) ) {
         z->moves -=150;
         z->add_effect("stunned", 3);
         if( foe != nullptr ) {
@@ -3702,8 +3694,7 @@ void mattack::flesh_golem(monster *z, int index)
     }
 
     // Can we dodge the attack? Uses player dodge function % chance (melee.cpp)
-    int dodge_check = std::max( target->get_dodge() - rng(0, z->type->melee_skill), 0L);
-    if (rng(0, 10000) < 10000 / (1 + (99 * exp(-.6 * dodge_check)))) {
+    if (dodge_check(z, target)) {
         target->add_msg_player_or_npc( _("You dodge it!"),
                                        _("<npcname> dodges it!") );
         if( foe != nullptr ) {
@@ -3769,8 +3760,7 @@ void mattack::lunge(monster *z, int index)
     }
 
     // Can we dodge the attack? Uses player dodge function % chance (melee.cpp)
-    int dodge_check = std::max( target->get_dodge() - rng(0, z->type->melee_skill), 0L);
-    if (rng(0, 10000) < 10000 / (1 + (99 * exp(-.6 * dodge_check)))) {
+    if (dodge_check(z, target)) {
         target->add_msg_player_or_npc( _("You sidestep it!"),
                                        _("<npcname> sidesteps it!") );
         if( foe != nullptr ) {
@@ -3801,6 +3791,7 @@ void mattack::longswipe(monster *z, int index)
     if( z->friendly ) {
         return; // TODO: handle friendly monsters
     }
+    Creature *target = z->attack_target();
     if (rl_dist( z->pos(), g->u.pos() ) > 1) {
         if (one_in(5)) {
             if (rl_dist( z->pos(), g->u.pos() ) > 3 ||
@@ -3815,8 +3806,7 @@ void mattack::longswipe(monster *z, int index)
                 return;
             }
             // Can we dodge the attack? Uses player dodge function % chance (melee.cpp)
-            int dodge_check = std::max(g->u.get_dodge() - rng(0, z->type->melee_skill), 0L);
-            if (rng(0, 10000) < 10000 / (1 + (99 * exp(-.6 * dodge_check)))) {
+            if (dodge_check(z, target)) {
                 add_msg(_("You evade it!"));
                 g->u.practice( "dodge", z->type->melee_skill * 2 );
                 g->u.ma_ondodge_effects();
@@ -3841,8 +3831,7 @@ void mattack::longswipe(monster *z, int index)
     }
 
     // Can we dodge the attack? Uses player dodge function % chance (melee.cpp)
-    int dodge_check = std::max(g->u.get_dodge() - rng(0, z->type->melee_skill), 0L);
-    if (rng(0, 10000) < 10000 / (1 + (99 * exp(-.6 * dodge_check)))) {
+    if (dodge_check(z, target)) {
         add_msg(_("You duck!"));
         g->u.practice( "dodge", z->type->melee_skill * 2 );
         g->u.ma_ondodge_effects();
@@ -4243,8 +4232,7 @@ void mattack::bio_op_takedown(monster *z, int index)
     }
 
     // Can we dodge the attack? Uses player dodge function % chance (melee.cpp)
-    int dodge_check = std::max( target->get_dodge() - rng(0, z->type->melee_skill ), 0L );
-    if (rng(0, 10000) < 10000 / (1 + (99 * exp(-.6 * dodge_check)))) {
+    if (dodge_check(z, target)) {
         target->add_msg_player_or_npc( _("You dodge it!"),
                                        _("<npcname> dodges it!") );
         if( foe != nullptr ) {
@@ -4356,8 +4344,7 @@ void mattack::stretch_attack(monster *z, int index){
             add_msg( _("The %s thrusts its arm at %s."),
                         z->name().c_str(), target->disp_name().c_str());
         }
-        int dodge_check = std::max(g->u.get_dodge() - rng(0, z->type->melee_skill), 0L);
-        if (rng(0, 10000) < 10000 / (1 + (99 * exp(-.6 * dodge_check))) || g->u.uncanny_dodge()) {
+        if (dodge_check(z, target) || g->u.uncanny_dodge()) {
             if ( foe != nullptr) {
                 auto msg_type = foe == &g->u ? m_warning : m_info;
                 foe->add_msg_player_or_npc(msg_type, _("You evade the stretched arm and it sails past you!"),
@@ -4401,4 +4388,12 @@ void mattack::stretch_attack(monster *z, int index){
         }
     }
     target->check_dead_state();
+}
+
+bool mattack::dodge_check(monster *z, Creature *target){
+    int dodge = std::max( target->get_dodge() - rng(0, z->type->melee_skill), 0L );
+    if (rng(0, 10000) < 10000 / (1 + (99 * exp(-.6 * dodge)))) {
+        return true;
+    }
+    return false;
 }
