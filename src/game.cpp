@@ -732,7 +732,7 @@ void game::create_starting_npcs()
     tmp->attitude = NPCATT_NULL;
     //This sets the npc mission. This NPC remains in the shelter.
     tmp->mission = NPC_MISSION_SHELTER;
-    tmp->chatbin.first_topic = TALK_SHELTER;
+    tmp->chatbin.first_topic = "TALK_SHELTER";
     //one random shelter mission.
     tmp->add_new_mission( mission::reserve_random( ORIGIN_OPENER_NPC, tmp->global_omt_location(), tmp->getID() ) );
 }
