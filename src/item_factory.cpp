@@ -294,6 +294,7 @@ void Item_factory::init()
     iuse_function_list["OXYGEN_BOTTLE"] = &iuse::oxygen_bottle;
     iuse_function_list["ATOMIC_BATTERY"] = &iuse::atomic_battery;
     iuse_function_list["UPS_BATTERY"] = &iuse::ups_battery;
+    iuse_function_list["RADIO_MOD"] = &iuse::radio_mod;
     iuse_function_list["FISH_ROD"] = &iuse::fishing_rod;
     iuse_function_list["FISH_TRAP"] = &iuse::fish_trap;
     iuse_function_list["GUN_REPAIR"] = &iuse::gun_repair;

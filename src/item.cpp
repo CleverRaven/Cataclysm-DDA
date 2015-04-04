@@ -1358,6 +1358,30 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump, bool debug) c
             dump->push_back(iteminfo("DESCRIPTION",
                 _("This tool has been modified to use a universal power supply and is not compatible with standard batteries.")));
         }
+        if( is_tool() && has_flag("RADIO_ACTIVATION") ) {
+            if( has_flag( "RADIO_MOD" ) ) {
+                dump->push_back(iteminfo("DESCRIPTION",
+                    _("This item has been modified to listen to radio signals. It can still be activated manually.")));
+            } else {
+                dump->push_back(iteminfo("DESCRIPTION",
+                    _("This item can only be activated by a radio signal.")));
+            }
+
+            if( has_flag("RADIOSIGNAL_1") ) {
+                dump->push_back(iteminfo("DESCRIPTION", _("It will be activated by \"Red\" radio signal.")));
+            } else if( has_flag("RADIOSIGNAL_2") ) {
+                dump->push_back(iteminfo("DESCRIPTION", _("It will be activated by \"Blue\" radio signal.")));
+            } else if( has_flag("RADIOSIGNAL_3") ) {
+                dump->push_back(iteminfo("DESCRIPTION", _("It will be activated by \"Green\" radio signal.")));
+            } else {
+                dump->push_back(iteminfo("DESCRIPTION", _("It is bugged and does not actually listen to radio signals.")));
+            }
+
+            if( has_flag( "RADIO_INVOKE_PROC" ) ) {
+                dump->push_back(iteminfo("DESCRIPTION",
+                    _("Activating this item with a radio signal will detonate it immediately.")));
+            }
+        }
 
         if (has_flag("LEAK_DAM") && has_flag("RADIOACTIVE") && damage > 0) {
             dump->push_back(iteminfo("DESCRIPTION",
@@ -1810,6 +1834,18 @@ std::string item::tname( unsigned int quantity, bool with_prefix ) const
     }
     if (is_tool() && has_flag("USE_UPS")){
         ret << _(" (UPS)");
+    }
+    if (is_tool() && has_flag("RADIO_MOD")){
+        ret << _(" (radio:");
+        if( has_flag( "RADIOSIGNAL_1" ) ) {
+            ret << _("R)");
+        } else if( has_flag( "RADIOSIGNAL_2" ) ) {
+            ret << _("B)");
+        } else if( has_flag( "RADIOSIGNAL_3" ) ) {
+            ret << _("G)");
+        } else {
+            ret << _("Bug");
+        }
     }
     if (item_tags.count("wooled") > 0 ){
         ret << _(" (W)");
@@ -4922,7 +4958,7 @@ bool item::process( player *carrier, point pos, bool activate )
     }
     if( activate ) {
         it_tool *tmp = dynamic_cast<it_tool *>( type );
-        return tmp->tick( carrier != nullptr ? carrier : &g->u, this, pos );
+        return tmp->invoke( carrier != nullptr ? carrier : &g->u, this, pos );
     }
     // How this works: it checks what kind of processing has to be done
     // (e.g. for food, for drying towels, lit cigars), and if that matches,

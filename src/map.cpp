@@ -4330,8 +4330,14 @@ static bool trigger_radio_item( item_stack &items, std::list<item>::iterator &n,
                                 std::string signal )
 {
     bool trigger_item = false;
-    if( n->has_flag("RADIO_ACTIVATION") && n->has_flag(signal) ) {
+    // Check for charges != 0 not >0, so that -1 charge tools can still be used
+    if( n->charges != 0 && n->has_flag("RADIO_ACTIVATION") && n->has_flag(signal) ) {
         sounds::sound(pos.x, pos.y, 6, "beep.");
+        if( n->has_flag("RADIO_INVOKE_PROC") ) {
+            // Invoke twice: first to transform, then later to proc
+            process_item( items, n, pos, true );
+            n->charges = 0;
+        }
         if( n->has_flag("BOMB") ) {
             // Set charges to 0 to ensure it detonates.
             n->charges = 0;
@@ -4348,7 +4354,7 @@ static bool trigger_radio_item( item_stack &items, std::list<item>::iterator &n,
         trigger_item = true;
     }
     if( trigger_item ) {
-        return process_item( items, n, pos, true );
+        return process_item( items, n, pos, true ); 
     }
     return false;
 }

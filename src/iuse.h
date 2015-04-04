@@ -186,6 +186,7 @@ public:
     int oxygen_bottle       (player *, item *, bool, point);
     int atomic_battery      (player *, item *, bool, point);
     int ups_battery         (player *, item *, bool, point);
+    int radio_mod           (player *, item *, bool, point);
     int remove_all_mods     (player *, item *, bool, point);
     int fishing_rod         (player *, item *, bool, point);
     int fish_trap           (player *, item *, bool, point);
