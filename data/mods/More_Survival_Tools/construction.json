@@ -2,7 +2,7 @@
     {
         "type" : "construction",
         "skill" : "survival",
-        "description" : "Build Improvised Shelter",
+        "description" : "Build Lean-To",
         "category" : "CONSTRUCT",
         "difficulty" : 2,
         "time" : 90,
