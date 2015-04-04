@@ -4985,13 +4985,13 @@ void player::heal(body_part healed, int dam)
 
 void player::heal(hp_part healed, int dam)
 {
-    if (hp_cur[healed] > 0) {
-        hp_cur[healed] += dam;
-        if (hp_cur[healed] > hp_max[healed]) {
-            lifetime_stats()->damage_healed -= hp_cur[healed] - hp_max[healed];
-            hp_cur[healed] = hp_max[healed];
-        }
-        lifetime_stats()->damage_healed += dam;
+    if (hp_cur[healed] > 0) { //part is not missing or broken        
+        int heal_amt = std::min( dam, std::max( 0, hp_max[healed] - hp_cur[healed] ) );
+        if (heal_amt > 0) {
+            //add_msg( _( "%d damage healed!" ), heal_amt ); 
+            hp_cur[healed] += heal_amt;
+            lifetime_stats()->damage_healed += heal_amt;
+        }        
     }
 }
 
