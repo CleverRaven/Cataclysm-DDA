@@ -4991,6 +4991,7 @@ void player::heal(hp_part healed, int dam)
             //add_msg( _( "%d damage healed!" ), heal_amt ); 
             hp_cur[healed] += heal_amt;
             lifetime_stats()->damage_healed += heal_amt;
+            practice( "firstaid", heal_amt );
         }        
     }
 }
