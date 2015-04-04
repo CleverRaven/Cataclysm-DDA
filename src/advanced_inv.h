@@ -5,6 +5,7 @@
 #include <array>
 
 class uimenu;
+class vehicle;
 
 typedef std::vector< std::pair<item *, int> > itemslice;
 
@@ -59,8 +60,27 @@ struct advanced_inv_area {
     */
     bool canputitemsloc;
     // vehicle pointer and cargo part index
-    vehicle *veh;
+    vehicle *veh = nullptr;
+    vehicle *veh_shadow = nullptr;
     int vstor;
+    // toggles where the item pickups are coming from
+    void toggle_subarea()
+    {
+        std::swap(veh, veh_shadow);
+    }
+    bool is_ground_items() const
+    {
+        return veh == nullptr;
+    }
+    bool is_vehicle_items() const
+    {
+        return veh != nullptr;
+    }
+    bool has_vehicle() const
+    {
+        return (veh != nullptr || veh_shadow != nullptr || vstor >= 0);
+    }
+
     // description, e.g. vehicle name or storage label
     std::string desc;
     // flags, e.g. FIRE, TRAP, WATER
@@ -72,7 +92,8 @@ struct advanced_inv_area {
 
     advanced_inv_area( aim_location id, int hscreenx, int hscreeny, int offx, int offy, std::string name, std::string shortname ) :
         id( id ), hscreenx( hscreenx ), hscreeny( hscreeny ), offx( offx ), offy( offy ), name( name ), shortname( shortname ),
-        x( 0 ), y( 0 ), canputitemsloc( false ), veh( nullptr ), vstor( -1 ), desc( "" ), volume( 0 ), weight( 0 ), max_size( 0 ), max_volume( 0 )
+        x( 0 ), y( 0 ), canputitemsloc( false ), veh( nullptr ), veh_shadow( nullptr ), vstor( -1 ), desc( "" ), volume( 0 ), 
+        weight( 0 ), max_size( 0 ), max_volume( 0 )
     {
     }
 
@@ -182,6 +203,10 @@ class advanced_inventory_pane
         advanced_inv_sortby sortby;
         WINDOW *window;
         std::vector<advanced_inv_listitem> items;
+        /**
+         * Whether this particular pane is storing vehicular items.
+         */
+        bool store_vehicle;
         /**
          * The current filter string.
          */
