@@ -785,6 +785,7 @@
 },{
   "type" : "recipe",
   "result": "plant_fibre",
+  "id_suffix": "spun",
   "category": "CC_OTHER",
   "subcategory": "CSC_OTHER_MATERIALS",
   "skill_used": "survival",
