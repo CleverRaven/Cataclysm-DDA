@@ -11030,14 +11030,26 @@ hint_rating player::rate_action_read(item *it)
   return HINT_CANT;
  }
 
+//Check for NPCs to read for you, negates Illiterate and Far Sighted
+//The NPC gets a slight boost to int requirement since they wouldn't need to
+//understand what they are reading necessarily
+  int assistants = 0;
+  for( auto &elem : g->active_npc ) {
+        if (rl_dist( elem->pos(), g->u.pos() ) < PICKUP_RANGE && elem->is_friend()){
+            if ((elem->int_cur+1) >= it->type->book->intel)
+                assistants++;
+        }
+  }
+
+
  if (g && g->light_level() < 8 && LL_LIT > g->m.light_at(posx(), posy())) {
   return HINT_IFFY;
  } else if (morale_level() < MIN_MORALE_READ && it->type->book->fun <= 0) {
   return HINT_IFFY; //won't read non-fun books when sad
- } else if (it->type->book->intel > 0 && has_trait("ILLITERATE")) {
+ } else if (it->type->book->intel > 0 && has_trait("ILLITERATE") && assistants == 0) {
   return HINT_IFFY;
  } else if (has_trait("HYPEROPIC") && !is_wearing("glasses_reading")
-            && !is_wearing("glasses_bifocal") && !has_effect("contacts")) {
+            && !is_wearing("glasses_bifocal") && !has_effect("contacts") && assistants == 0) {
   return HINT_IFFY;
  }
 
@@ -11046,6 +11058,29 @@ hint_rating player::rate_action_read(item *it)
 
 void player::read(int inventory_position)
 {
+    // Find the object
+    item* it = &i_at(inventory_position);
+
+    if (it == NULL || it->is_null()) {
+        add_msg(m_info, _("You do not have that item."));
+        return;
+    }
+
+    if (!it->is_book()) {
+        add_msg(m_info, _("Your %s is not good reading material."),
+        it->tname().c_str());
+        return;
+    }
+
+    //Check for NPCs to read for you, negates Illiterate and Far Sighted
+    int assistants = 0;
+    for( auto &elem : g->active_npc ) {
+        if (rl_dist( elem->pos(), g->u.pos() ) < PICKUP_RANGE && elem->is_friend()){
+            if ((elem->int_cur+1) >= it->type->book->intel)
+                assistants++;
+        }
+    }
+
     vehicle *veh = g->m.veh_at (posx(), posy());
     if (veh && veh->player_in_control (this)) {
         add_msg(m_info, _("It's a bad idea to read while driving!"));
@@ -11063,21 +11098,11 @@ void player::read(int inventory_position)
     if (has_trait("HYPEROPIC") && !is_wearing("glasses_reading") &&
         !is_wearing("glasses_bifocal") && !has_effect("contacts")) {
         add_msg(m_info, _("Your eyes won't focus without reading glasses."));
-        return;
-    }
-
-    // Find the object
-    item* it = &i_at(inventory_position);
-
-    if (it == NULL || it->is_null()) {
-        add_msg(m_info, _("You do not have that item."));
-        return;
-    }
-
-    if (!it->is_book()) {
-        add_msg(m_info, _("Your %s is not good reading material."),
-        it->tname().c_str());
-        return;
+        if (assistants != 0){
+            add_msg(m_info, _("A fellow survivor reads aloud to you..."));
+        } else {
+            return;
+        }
     }
 
     auto tmp = it->type->book.get();
@@ -11087,7 +11112,11 @@ void player::read(int inventory_position)
     bool study = continuous;
     if (tmp->intel > 0 && has_trait("ILLITERATE")) {
         add_msg(m_info, _("You're illiterate!"));
-        return;
+        if (assistants != 0){
+            add_msg(m_info, _("A fellow survivor reads aloud to you..."));
+        } else {
+            return;
+        }
     }
 
     // Now we've established that the player CAN read.
