@@ -1071,3 +1071,61 @@ void activity_handlers::start_engines_finish( player_activity *act, player *p )
         add_msg(_("You let go of the controls."));
     }
 }
+
+void activity_handlers::oxytorch_do_turn( player_activity *act, player *p )
+{
+    item &it = p->i_at( act->position );
+    // act->values[0] is the number of charges yet to be consumed
+    const int charges_used = std::min( act->values[0], it.type->charges_to_use() );
+
+    it.charges -= charges_used;
+    act->values[0] -= charges_used;
+
+    if( calendar::turn % 2 ) {
+        sounds::sound( act->placement.x, act->placement.y, 10, _("hissssssssss!") );
+    }
+}
+
+void activity_handlers::oxytorch_finish( player_activity *act, player *p )
+{
+    const int dirx = act->placement.x;
+    const int diry = act->placement.y;
+    const ter_id ter = g->m.ter( dirx, diry );
+
+    // fast players might still have some charges left to be consumed
+    p->i_at( act->position ).charges -= act->values[0];
+
+    if( g->m.furn( dirx, diry ) == f_rack ) {
+        g->m.furn_set( dirx, diry, f_null );
+        g->m.spawn_item( p->posx(), p->posy(), "steel_chunk", rng(2, 6) );
+    } else if( ter == t_chainfence_v || ter == t_chainfence_h || ter == t_chaingate_c ||
+        ter == t_chaingate_l ) {
+        g->m.ter_set(  dirx, diry, t_dirt  );
+        g->m.spawn_item( dirx, diry, "pipe", rng(1, 4) );
+        g->m.spawn_item( dirx, diry, "wire", rng(4, 16) );
+    } else if( ter == t_chainfence_posts ) {
+        g->m.ter_set( dirx, diry, t_dirt );
+        g->m.spawn_item( dirx, diry, "pipe", rng(1, 4) );
+    } else if( ter == t_door_metal_locked || ter == t_door_metal_c || ter == t_door_bar_c ||
+               ter == t_door_bar_locked || ter == t_door_metal_pickable ) {
+        g->m.ter_set( dirx, diry, t_mdoor_frame );
+        g->m.spawn_item( dirx, diry, "steel_plate", rng(0, 1) );
+        g->m.spawn_item( dirx, diry, "steel_chunk", rng(3, 8) );
+    } else if( ter == t_window_enhanced || ter == t_window_enhanced_noglass ) {
+        g->m.ter_set( dirx, diry, t_window_empty  );
+        g->m.spawn_item( dirx, diry, "steel_plate", rng(0, 1) );
+        g->m.spawn_item( dirx, diry, "sheet_metal", rng(1, 3) );
+    } else if( ter == t_bars ) {
+        if (g->m.ter( dirx + 1, diry ) == t_sewage || g->m.ter( dirx, diry + 1 ) == t_sewage ||
+            g->m.ter( dirx - 1, diry ) == t_sewage || g->m.ter( dirx, diry - 1 ) == t_sewage) {
+            g->m.ter_set( dirx, diry, t_sewage );
+            g->m.spawn_item( p->posx(), p->posy(), "pipe", rng(1, 2) );
+        } else {
+            g->m.ter_set( dirx, diry, t_floor );
+            g->m.spawn_item( p->posx(), p->posy(), "pipe", rng(1, 2) );
+        }
+    } else if( ter == t_window_bars_alarm ) {
+        g->m.ter_set( dirx, diry, t_window_empty );
+        g->m.spawn_item( p->posx(), p->posy(), "pipe", rng(1, 2) );
+    }
+}
