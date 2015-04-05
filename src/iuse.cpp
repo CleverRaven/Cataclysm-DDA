@@ -5819,7 +5819,7 @@ void iuse::play_music( player *p, point source, int volume )
         }
     }
     sounds::ambient_sound( source.x, source.y, volume, sound );
-    if( !p->has_effect("music") && !p->can_hear( source, volume ) ) {
+    if( !p->has_effect("music") && p->can_hear( source, volume ) ) {
         p->add_effect("music", 1);
         p->add_morale(MORALE_MUSIC, 1, 50, 5, 2);
     }
