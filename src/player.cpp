@@ -7700,18 +7700,16 @@ void player::suffer()
         } else {
             rads = localRadiation / 32.0f + selfRadiation / 3.0f;
         }
+        int rads_max = 0;
         if( rads > 0 ) {
-            int rads_trunc = static_cast<int>( rads );
-            if( x_in_y( rads - rads_trunc, 1 ) ) {
-                rads_trunc++;
+            rads_max = static_cast<int>( rads );
+            if( x_in_y( rads - rads_max, 1 ) ) {
+                rads_max++;
             }
-            radiation += rng( 0, rads_trunc );
         }
+        radiation += rng( 0, rads_max );
 
         // Apply rads to any radiation badges.
-        const int rad_delta_min = 0;
-        const int rad_delta_max = localRadiation / 16;
-
         for (item *const it : inv_dump()) {
             if (it->type->id != "rad_badge") {
                 continue;
@@ -7721,7 +7719,7 @@ void player::suffer()
             // This is intentional.
             int const before = it->irridation;
 
-            const int delta = rng(rad_delta_min, rad_delta_max);
+            const int delta = rng( 0, rads_max );
             if (delta == 0) {
                 continue;
             }
