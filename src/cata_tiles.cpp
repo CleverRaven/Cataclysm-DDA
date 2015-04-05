@@ -60,10 +60,6 @@ cata_tiles::cata_tiles(SDL_Renderer *render)
     do_draw_sct = false;
     do_draw_zones = false;
 
-    boomered = false;
-    sight_impaired = false;
-    bionight_bionic_active = false;
-
     last_pos_x = 0;
     last_pos_y = 0;
 }
@@ -504,11 +500,12 @@ tile_type *cata_tiles::load_tile(JsonObject &entry, const std::string &id, int o
     return curr_subtile;
 }
 
-void cata_tiles::apply_vision_effects(int x, int y, lit_level ll) {
+void cata_tiles::apply_vision_effects( int x, int y, lit_level ll,
+                                       const visibility_variables &cache ) {
     const auto critter = g->critter_at( x, y );
     if ( ll == LL_DARK || ll == LL_BRIGHT_ONLY || ll == LL_BLANK ) {
         // Draw lighting
-        draw_lighting(x, y, ll);
+        draw_lighting( x, y, ll, cache );
         if( critter != nullptr && g->u.sees_with_infrared( *critter ) ) {
             draw_from_id_string( "infrared_creature", C_NONE, empty_string, x, y, 0, 0 );
         }
@@ -547,6 +544,8 @@ void cata_tiles::draw(int destx, int desty, int centerx, int centery, int width,
     get_window_tile_counts(width, height, sx, sy);
 
     init_light();
+    visibility_variables cache;
+    g->m.update_visibility_cache(cache);
 
     o_x = posx - POSX;
     o_y = posy - POSY;
@@ -556,9 +555,9 @@ void cata_tiles::draw(int destx, int desty, int centerx, int centery, int width,
     screentile_width = (width + tile_width - 1) / tile_width;
     screentile_height = (height + tile_height - 1) / tile_height;
 
-    for (int x=o_x; x <= o_x+sx-1; x++) {
-        for (int y=o_y; y <= o_y+sy-1; y++) {
-            apply_vision_effects(x,y,g->m.visibility_cache[x][y]);
+    for( int x = o_x; x <= o_x + sx - 1; x++ ) {
+        for( int y = o_y; y <= o_y + sy - 1; y++ ) {
+            apply_vision_effects( x, y, g->m.visibility_cache[x][y], cache );
         }
     }
 
@@ -860,7 +859,8 @@ bool cata_tiles::draw_tile_at(tile_type *tile, int x, int y, int rota)
     return true;
 }
 
-bool cata_tiles::draw_lighting(int x, int y, lit_level l)
+bool cata_tiles::draw_lighting( int x, int y, lit_level l,
+                                const visibility_variables &cache )
 {
     std::string light_name;
     switch(l) {
@@ -869,7 +869,7 @@ bool cata_tiles::draw_lighting(int x, int y, lit_level l)
             break;
         case LL_BRIGHT_ONLY:
         case LL_LIT:
-            if (g->m.u_is_boomered) {
+            if( cache.u_is_boomered ) {
                 light_name = "lighting_boomered_light";
             } else {
                 light_name = "lighting_lowlight_light";
@@ -877,7 +877,7 @@ bool cata_tiles::draw_lighting(int x, int y, lit_level l)
             break;
         case LL_DARK:
         case LL_LOW:
-            if (g->m.u_is_boomered) {
+            if( cache.u_is_boomered ) {
                 light_name = "lighting_boomered_dark";
             } else {
                 light_name = "lighting_lowlight_dark";
@@ -1040,7 +1040,7 @@ bool cata_tiles::draw_field_or_item(int x, int y)
         ret_draw_field = draw_from_id_string(fd_name, C_FIELD, empty_string, x, y, subtile, rotation);
     }
     if(do_item) {
-        if (!g->m.sees_some_items(tripoint(x, y, g->get_levz()), g->u)) {
+        if( !g->m.sees_some_items(tripoint(x, y, g->get_levz()), g->u) ) {
             return false;
         }
         auto items = g->m.i_at(x, y);
@@ -1431,8 +1431,6 @@ void cata_tiles::draw_footsteps_frame()
 void cata_tiles::init_light()
 {
     g->reset_light_level();
-
-    g->m.update_visibility_cache();
 }
 
 void cata_tiles::get_terrain_orientation(int x, int y, int &rota, int &subtile)

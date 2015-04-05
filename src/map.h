@@ -71,6 +71,19 @@ public:
     item &operator[]( size_t index ) override;
 };
 
+struct visibility_variables {
+    // cached values for map visibility calculations
+    int g_light_level;
+    int natural_sight_range;
+    int light_sight_range;
+    int lowlight_sight_range;
+    int max_sight_range;
+    int u_clairvoyance;
+    bool u_sight_impaired;
+    bool bio_night_active;
+    bool u_is_boomered;
+};
+
 /**
  * Manage and cache data about a part of the map.
  *
@@ -135,9 +148,10 @@ class map
      *
      * @param x, y The tile on this map to draw.
      */
-    lit_level apparent_light_at(int x, int y); 
+    lit_level apparent_light_at(int x, int y, const visibility_variables &cache);
 
-    void apply_vision_effects(WINDOW *w, const point center, int x, int y, lit_level ll);
+    void apply_vision_effects( WINDOW *w, const point center, int x, int y,
+                               lit_level ll, const visibility_variables &cache );
 
  /** Draw a visible part of the map into `w`.
   *
@@ -1117,20 +1131,9 @@ private:
          */
         std::vector< std::vector<tripoint> > traplocs;
 
-    // cached values for map visibility calculations
-    int g_light_level;
-    int natural_sight_range;
-    int light_sight_range;
-    int lowlight_sight_range;
-    int max_sight_range;
-    int u_clairvoyance;
-    bool u_sight_impaired;
-    bool bio_night_active;
   public:
-    void update_visibility_cache();
+    void update_visibility_cache( visibility_variables &cache );
     lit_level visibility_cache[MAPSIZE*SEEX][MAPSIZE*SEEY];
-    bool u_is_boomered;
-  
 };
 
 std::vector<point> closest_points_first(int radius, point p);

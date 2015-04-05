@@ -4760,42 +4760,43 @@ void map::debug()
  getch();
 }
 
-void map::update_visibility_cache() {
-    g_light_level = (int)g->light_level();
-    natural_sight_range = g->u.sight_range(1);
-    light_sight_range = g->u.sight_range(g_light_level);
-    lowlight_sight_range = std::max(g_light_level / 2, natural_sight_range);
-    max_sight_range = g->u.unimpaired_range();
-    u_clairvoyance = g->u.clairvoyance();
-    u_sight_impaired = g->u.sight_impaired();
-    bio_night_active = g->u.has_active_bionic("bio_night");
+void map::update_visibility_cache( visibility_variables &cache) {
+    cache.g_light_level = (int)g->light_level();
+    cache.natural_sight_range = g->u.sight_range(1);
+    cache.light_sight_range = g->u.sight_range(cache.g_light_level);
+    cache.lowlight_sight_range = std::max(cache.g_light_level / 2,
+                                          cache.natural_sight_range);
+    cache.max_sight_range = g->u.unimpaired_range();
+    cache.u_clairvoyance = g->u.clairvoyance();
+    cache.u_sight_impaired = g->u.sight_impaired();
+    cache.bio_night_active = g->u.has_active_bionic("bio_night");
     
-    u_is_boomered = g->u.has_effect("boomered");
+    cache.u_is_boomered = g->u.has_effect("boomered");
     
-    for (int x = 0; x < MAPSIZE*SEEX; x++) {
-        for (int y = 0; y < MAPSIZE*SEEY; y++) {
-            visibility_cache[x][y] = apparent_light_at(x, y);
+    for( int x = 0; x < MAPSIZE * SEEX; x++ ) {
+        for( int y = 0; y < MAPSIZE * SEEY; y++ ) {
+            visibility_cache[x][y] = apparent_light_at(x, y, cache);
         }
     }
 }
 
-lit_level map::apparent_light_at(int x, int y) {
+lit_level map::apparent_light_at(int x, int y, const visibility_variables &cache) {
     const int dist = rl_dist(g->u.posx(), g->u.posy(), x, y);
 
-    int sight_range = light_sight_range;
-    int low_sight_range = lowlight_sight_range;
+    int sight_range = cache.light_sight_range;
+    int low_sight_range = cache.lowlight_sight_range;
 
     // While viewing indoor areas use lightmap model
     if (!is_outside(x, y)) {
-        sight_range = natural_sight_range;
+        sight_range = cache.natural_sight_range;
 
     // Don't display area as shadowy if it's outside and illuminated by natural light
     // and illuminated by source of light
-    } else if (light_at(x, y) > LL_LOW || dist <= light_sight_range) {
-        low_sight_range = std::max(g_light_level, natural_sight_range);
+    } else if (light_at(x, y) > LL_LOW || dist <= cache.light_sight_range) {
+        low_sight_range = std::max(cache.g_light_level, cache.natural_sight_range);
     }
 
-    int real_max_sight_range = light_sight_range > max_sight_range ? light_sight_range : max_sight_range;
+    int real_max_sight_range = std::max(cache.light_sight_range, cache.max_sight_range);
     int distance_to_look = DAYLIGHT_LEVEL;
 
     bool can_see = pl_sees( x, y, distance_to_look );
@@ -4821,16 +4822,16 @@ lit_level map::apparent_light_at(int x, int y) {
         real_max_sight_range = distance_to_look;
     }
 
-    if ((bio_night_active && dist < 15 && dist > natural_sight_range) || // if bio_night active, blackout 15 tile radius around player
+    if ((cache.bio_night_active && dist < 15 && dist > cache.natural_sight_range) || // if bio_night active, blackout 15 tile radius around player
         dist > real_max_sight_range || // too far away, no matter what
-        (dist > light_sight_range &&
+        (dist > cache.light_sight_range &&
             (lit == LL_DARK ||
-                (u_sight_impaired && lit != LL_BRIGHT) ||
+                (cache.u_sight_impaired && lit != LL_BRIGHT) ||
                 !can_see))) { // blind
         return LL_DARK;
-    } else if (dist > light_sight_range && u_sight_impaired && lit == LL_BRIGHT) {
+    } else if (dist > cache.light_sight_range && cache.u_sight_impaired && lit == LL_BRIGHT) {
         return LL_BRIGHT_ONLY;
-    } else if (dist <= u_clairvoyance || can_see) {
+    } else if (dist <= cache.u_clairvoyance || can_see) {
         if ( lit == LL_BRIGHT ) {
             return LL_BRIGHT;
         } else {
@@ -4840,26 +4841,26 @@ lit_level map::apparent_light_at(int x, int y) {
                 return LL_LIT;
             }
         }
-    } else {
-        return LL_BLANK;
     }
+    return LL_BLANK;
 }
 
-void map::apply_vision_effects(WINDOW *w, const point center, int x, int y, lit_level ll) {
+void map::apply_vision_effects(WINDOW *w, const point center, int x, int y,
+                               lit_level ll, const visibility_variables &cache) {
     int symbol = ' ';
     nc_color color = c_black;
     switch (ll) {
         case LL_DARK: // can't see this square at all
             symbol = '#';
             color = c_dkgray;
-            if( u_is_boomered ) {
+            if( cache.u_is_boomered ) {
                 color = c_magenta;
             }
             break;
         case LL_BRIGHT_ONLY: // can only tell that this square is bright
             symbol = '#';
             color = c_ltgray;
-            if( u_is_boomered ) {
+            if( cache.u_is_boomered ) {
                 color = c_pink;
             }
             break;
@@ -4887,11 +4888,12 @@ void map::draw(WINDOW* w, const point center)
 
     g->reset_light_level();
 
-    update_visibility_cache();
+    visibility_variables cache;
+    update_visibility_cache( cache );
 
     for (int x = center.x - getmaxx(w)/2; x <= center.x + getmaxx(w)/2; x++) {
         for (int y = center.y - getmaxy(w)/2; y <= center.y + getmaxy(w)/2; y++) {
-            apply_vision_effects(w, center, x, y, visibility_cache[x][y]);
+            apply_vision_effects( w, center, x, y, visibility_cache[x][y], cache );
         }
     }
 

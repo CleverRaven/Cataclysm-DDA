@@ -20,6 +20,7 @@
 #include <string>
 
 class JsonObject;
+struct visibility_variables;
 
 /** Structures */
 struct tile_type
@@ -215,7 +216,8 @@ class cata_tiles
         void get_rotation_and_subtile(const char val, const int num_connects, int &rota, int &subtype);
 
         /** Drawing Layers */
-        bool draw_lighting(int x, int y, lit_level l);
+        bool draw_lighting(int x, int y, lit_level l,
+                           const visibility_variables &cache);
         bool draw_terrain(int x, int y);
         bool draw_furniture(int x, int y);
         bool draw_trap(int x, int y);
@@ -332,21 +334,9 @@ class cata_tiles
     protected:
     private:
         void create_default_item_highlight();
-        void apply_vision_effects(int x, int y, lit_level ll);
-        int
-            sightrange_natural,
-            sightrange_light,
-            sightrange_lowlight,
-            sightrange_max;
-        int
-            u_clairvoyance,
-            g_lightlevel;
-        bool
-            boomered,
-            sight_impaired,
-            bionight_bionic_active;
+        void apply_vision_effects(int x, int y, lit_level ll,
+                                  const visibility_variables &cache);
         int last_pos_x, last_pos_y;
-
 };
 
 #endif
