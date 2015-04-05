@@ -66,9 +66,7 @@ advanced_inventory::~advanced_inventory()
         auto loc = squares[AIM_VEHICLE].offset_to_location();
         uistate.adv_inv_veh_location = static_cast<int>(loc);
     }
-    uistate.adv_inv_last_coords.x = g->u.posx();
-    uistate.adv_inv_last_coords.y = g->u.posy();
-    uistate.adv_inv_last_coords.z = g->u.posz();
+    uistate.adv_inv_last_coords = g->u.pos3();
     uistate.adv_inv_leftarea = pl.area;
     uistate.adv_inv_rightarea = pr.area;
     uistate.adv_inv_leftindex = pl.index;
