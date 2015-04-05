@@ -3439,6 +3439,7 @@ void game::death_screen()
     gamemode->game_over();
     Messages::display_messages();
     disp_kills();
+    disp_faction_ends();
 }
 
 void game::move_save_to_graveyard()
@@ -4394,6 +4395,79 @@ void game::disp_kills()
         buffer << string_format(_("KILL COUNT: %d"), totalkills);
     }
     display_table(w, buffer.str(), 3, data);
+
+    werase(w);
+    wrefresh(w);
+    delwin(w);
+    refresh_all();
+}
+
+void game::disp_faction_ends()
+{
+    WINDOW *w = newwin(FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH,
+                       std::max(0, (TERMY - FULL_SCREEN_HEIGHT) / 2),
+                       std::max(0, (TERMX - FULL_SCREEN_WIDTH) / 2));
+    std::vector<std::string> data;
+
+    for( auto &elem : factions ) {
+        if(elem.known_by_u) {
+            if (elem.name == "Your Followers"){
+                data.push_back( "" );
+                data.push_back( "" );
+                data.push_back( "" );
+                data.push_back( "" );
+                data.push_back( "" );
+                data.push_back( "" );
+                data.push_back( "" );
+                data.push_back( "" );
+                data.push_back( "" );
+                data.push_back( "       You are forgotten among the billions lost in the cataclysm..." );
+
+                display_table(w, "", 1, data);
+            } else if (elem.name == "The Old Guard" && elem.power != 100){
+                data.push_back( "" );
+                data.push_back( "" );
+                data.push_back( "" );
+                data.push_back( "" );
+                data.push_back( "" );
+                data.push_back( "" );
+                data.push_back( "" );
+                data.push_back( "    Locked in an endless battle, the Old Guard is forced to consolidate their");
+                data.push_back( "resources in a handful of fortified bases along the coast.  Without the men" );
+                data.push_back( "or material to rebuild, the soldiers that remain lose all hope..." );
+                display_table(w, "The Old Guard", 1, data);
+            } else if (elem.name == "The Free Merchants" && elem.power != 100){
+                if (elem.power < 150){
+                    data.push_back( "" );
+                    data.push_back( "" );
+                    data.push_back( "" );
+                    data.push_back( "" );
+                    data.push_back( "" );
+                    data.push_back( "" );
+                    data.push_back( "" );
+                    data.push_back( "    Life in the refugee shelter deteriorates as food shortages and disease ");
+                    data.push_back( "destroy any hope of maintaining a civilized enclave.  The merchants and ");
+                    data.push_back( "craftsmen disperse to found new colonies but most become victims of marauding");
+                    data.push_back( "bandits.  Those who survive never find a place to call home...");
+                } else {
+                    data.push_back( "" );
+                    data.push_back( "" );
+                    data.push_back( "" );
+                    data.push_back( "" );
+                    data.push_back( "" );
+                    data.push_back( "" );
+                    data.push_back( "" );
+                    data.push_back( "    The Free Merchants struggle for years to keep themselves fed but their");
+                    data.push_back( "once profitable trade routes are plundered by bandits and thugs.  In squalor");
+                    data.push_back( "and filth the first generations born after the cataclysm are told stories of");
+                    data.push_back( "the old days when food was abundant and children allow to play in the sun...");
+                }
+                display_table(w, "The Free Merchants", 1, data);
+            }
+
+        }
+        data.clear();
+    }
 
     werase(w);
     wrefresh(w);
