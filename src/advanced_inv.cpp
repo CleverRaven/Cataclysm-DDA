@@ -67,15 +67,15 @@ advanced_inventory::~advanced_inventory()
         uistate.adv_inv_veh_location = static_cast<int>(loc);
     }
     uistate.adv_inv_last_coords = g->u.pos3();
-    uistate.adv_inv_leftarea = pl.area;
-    uistate.adv_inv_rightarea = pr.area;
-    uistate.adv_inv_leftindex = pl.index;
-    uistate.adv_inv_rightindex = pr.index;
-    uistate.adv_inv_src = src;
+    uistate.adv_inv_leftarea    = pl.area;
+    uistate.adv_inv_rightarea   = pr.area;
+    uistate.adv_inv_leftindex   = pl.index;
+    uistate.adv_inv_rightindex  = pr.index;
+    uistate.adv_inv_leftfilter  = pl.filter;
+    uistate.adv_inv_rightfilter = pr.filter;
+    uistate.adv_inv_src  = src;
     uistate.adv_inv_dest = dest;
 
-    uistate.adv_inv_leftfilter = pl.filter;
-    uistate.adv_inv_rightfilter = pr.filter;
 
     // Only refresh if we exited manually, otherwise we're going to be right back
     if( exit ) {
@@ -1738,10 +1738,9 @@ bool advanced_inventory::query_charges( aim_location destarea, const advanced_in
         if( amount < input_amount ) {
             popupmsg = string_format( _( "Destination can only hold %d! Move how many? (0 to cancel) " ), amount );
         }
-        const long possible_max = std::min( input_amount, amount );
-        amount = std::atoi( string_input_popup( popupmsg, 20,
-                                 to_string( possible_max ),
-                                 "", "", -1, true ).c_str() );
+        // instead of prompting to move all, prompt to move all _but_ one
+        const long possible_max = std::min( input_amount, (amount - 1) );
+        amount = std::atoi( string_input_popup( popupmsg, 20, to_string( possible_max ), "", "", -1, true ).c_str() );
         if( amount <= 0 ) {
             return false;
         }
