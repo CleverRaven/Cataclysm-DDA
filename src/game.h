@@ -692,6 +692,7 @@ class game
         // On-request draw functions
         void draw_overmap();     // Draws the overmap, allows note-taking etc.
         void disp_kills();       // Display the player's kill counts
+        void disp_faction_ends();// Display the faction endings
         void disp_NPCs();        // Currently UNUSED.  Lists global NPCs.
         void list_missions();    // Listed current, completed and failed missions.
 
