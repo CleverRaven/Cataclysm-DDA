@@ -500,12 +500,10 @@ tile_type *cata_tiles::load_tile(JsonObject &entry, const std::string &id, int o
     return curr_subtile;
 }
 
-void cata_tiles::apply_vision_effects( int x, int y, lit_level ll,
-                                       const visibility_variables &cache ) {
-    const auto critter = g->critter_at( x, y );
-    if ( ll == LL_DARK || ll == LL_BRIGHT_ONLY || ll == LL_BLANK ) {
-        // Draw lighting
-        draw_lighting( x, y, ll, cache );
+void cata_tiles::draw_single_tile( int x, int y, lit_level ll,
+                                   const visibility_variables &cache ) {
+    if( apply_vision_effects( x, y, g->m.get_visibility(ll, cache) ) ) {
+        const auto critter = g->critter_at( x, y );
         if( critter != nullptr && g->u.sees_with_infrared( *critter ) ) {
             draw_from_id_string( "infrared_creature", C_NONE, empty_string, x, y, 0, 0 );
         }
@@ -520,6 +518,7 @@ void cata_tiles::apply_vision_effects( int x, int y, lit_level ll,
     draw_trap(x, y);
     draw_field_or_item(x, y);
     draw_vpart(x, y);
+    const auto critter = g->critter_at( x, y );
     if( critter != nullptr ) {
         draw_entity( *critter, x, y );
     }
@@ -557,7 +556,7 @@ void cata_tiles::draw(int destx, int desty, int centerx, int centery, int width,
 
     for( int x = o_x; x <= o_x + sx - 1; x++ ) {
         for( int y = o_y; y <= o_y + sy - 1; y++ ) {
-            apply_vision_effects( x, y, g->m.visibility_cache[x][y], cache );
+            draw_single_tile( x, y, g->m.visibility_cache[x][y], cache );
         }
     }
 
@@ -859,38 +858,34 @@ bool cata_tiles::draw_tile_at(tile_type *tile, int x, int y, int rota)
     return true;
 }
 
-bool cata_tiles::draw_lighting( int x, int y, lit_level l,
-                                const visibility_variables &cache )
+bool cata_tiles::apply_vision_effects( const int x, const int y,
+                                       const visibility_type visibility )
 {
     std::string light_name;
-    switch(l) {
-        case LL_BLANK:
+    switch( visibility ) {
+        case VIS_HIDDEN:
             light_name = "lighting_hidden";
             break;
-        case LL_BRIGHT_ONLY:
-        case LL_LIT:
-            if( cache.u_is_boomered ) {
-                light_name = "lighting_boomered_light";
-            } else {
-                light_name = "lighting_lowlight_light";
-            }
+        case VIS_LIT:
+            light_name = "lighting_lowlight_light";
             break;
-        case LL_DARK:
-        case LL_LOW:
-            if( cache.u_is_boomered ) {
-                light_name = "lighting_boomered_dark";
-            } else {
-                light_name = "lighting_lowlight_dark";
-            }
+        case VIS_BOOMER:
+            light_name = "lighting_boomered_light";
             break;
-        default: // Actually handled by the caller.
+        case VIS_BOOMER_DARK:
+            light_name = "lighting_boomered_dark";
+            break;
+        case VIS_DARK:
+            light_name = "lighting_lowlight_dark";
+            break;
+        case VIS_CLEAR: // Handled by the caller.
             return false;
     }
 
     // lighting is never rotated, though, could possibly add in random rotation?
     draw_from_id_string(light_name, C_LIGHTING, empty_string, x, y, 0, 0);
 
-    return false;
+    return true;
 }
 
 bool cata_tiles::draw_terrain(int x, int y)

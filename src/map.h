@@ -84,6 +84,15 @@ struct visibility_variables {
     bool u_is_boomered;
 };
 
+enum visibility_type {
+  VIS_HIDDEN,
+  VIS_CLEAR,
+  VIS_LIT,
+  VIS_BOOMER,
+  VIS_DARK,
+  VIS_BOOMER_DARK
+};
+
 /**
  * Manage and cache data about a part of the map.
  *
@@ -149,9 +158,11 @@ class map
      * @param x, y The tile on this map to draw.
      */
     lit_level apparent_light_at(int x, int y, const visibility_variables &cache);
+    visibility_type get_visibility( const lit_level ll,
+				    const visibility_variables &cache ) const;
 
-    void apply_vision_effects( WINDOW *w, const point center, int x, int y,
-                               lit_level ll, const visibility_variables &cache );
+    bool apply_vision_effects( WINDOW *w, const point center, int x, int y, lit_level ll,
+			       const visibility_variables &cache ) const;
 
  /** Draw a visible part of the map into `w`.
   *

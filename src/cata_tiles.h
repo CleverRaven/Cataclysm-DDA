@@ -216,8 +216,10 @@ class cata_tiles
         void get_rotation_and_subtile(const char val, const int num_connects, int &rota, int &subtype);
 
         /** Drawing Layers */
-        bool draw_lighting(int x, int y, lit_level l,
-                           const visibility_variables &cache);
+        void draw_single_tile(const int x, const int y, const lit_level ll,
+			      const visibility_variables &cache);
+        bool apply_vision_effects(const int x, const int y,
+                                  const visibility_type visibility);
         bool draw_terrain(int x, int y);
         bool draw_furniture(int x, int y);
         bool draw_trap(int x, int y);
@@ -334,8 +336,6 @@ class cata_tiles
     protected:
     private:
         void create_default_item_highlight();
-        void apply_vision_effects(int x, int y, lit_level ll,
-                                  const visibility_variables &cache);
         int last_pos_x, last_pos_y;
 };
 
