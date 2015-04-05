@@ -196,7 +196,7 @@ void advanced_inventory::print_items( advanced_inventory_pane &pane, bool active
                                   g->u.convert_weight( squares[pane.area].weight ),
                                   squares[pane.area].volume );
         } else {
-            int maxvolume = 0;;
+            int maxvolume = 0;
             auto &s = squares[pane.area];
             if ( pane.area == AIM_CONTAINER && s.get_container() != nullptr ) {
                 maxvolume = s.get_container()->type->container->contains;
