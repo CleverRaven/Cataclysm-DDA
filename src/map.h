@@ -130,20 +130,14 @@ class map
   */
  void on_vehicle_moved();
 
- /** Determine the visible light level for a tile, based on light_at for the tile, vision distance, etc
-  *
-  * @param x, y The tile on this map to draw.
-  */
- lit_level apparent_light_at(int x, int y); 
+    /** Determine the visible light level for a tile, based on light_at
+     * for the tile, vision distance, etc
+     *
+     * @param x, y The tile on this map to draw.
+     */
+    lit_level apparent_light_at(int x, int y); 
 
- /** Loop through the reality bubble and call a function to draw each visible tile
-  *
-  * @param min_x, min_y, max_x, max_y coordinate box to draw
-  * @param draw_func a function that draws one tile
-  */
- void draw_loop(int min_x, int min_y, int max_x, int max_y, std::function<void (int,int,lit_level)> draw_func);
-
- void draw_specific_tile(WINDOW *w, const point center, int x, int y, lit_level ll);
+    void apply_vision_effects(WINDOW *w, const point center, int x, int y, lit_level ll);
 
  /** Draw a visible part of the map into `w`.
   *

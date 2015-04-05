@@ -332,7 +332,7 @@ class cata_tiles
     protected:
     private:
         void create_default_item_highlight();
-        void draw_specific_tile(int x, int y, lit_level ll);
+        void apply_vision_effects(int x, int y, lit_level ll);
         int
             sightrange_natural,
             sightrange_light,

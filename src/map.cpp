@@ -4845,29 +4845,37 @@ lit_level map::apparent_light_at(int x, int y) {
     }
 }
 
-void map::draw_specific_tile(WINDOW *w, const point center, int x, int y, lit_level ll) {
+void map::apply_vision_effects(WINDOW *w, const point center, int x, int y, lit_level ll) {
+    int symbol = ' ';
+    nc_color color = c_black;
     switch (ll) {
         case LL_DARK: // can't see this square at all
-            if (u_is_boomered)
-                mvwputch(w, y+getmaxy(w)/2 - center.y, x+getmaxx(w)/2 - center.x, c_magenta, '#');
-            else
-                mvwputch(w, y+getmaxy(w)/2 - center.y, x+getmaxx(w)/2 - center.x, c_dkgray, '#');
+            symbol = '#';
+            color = c_dkgray;
+            if( u_is_boomered ) {
+                color = c_magenta;
+            }
             break;
         case LL_BRIGHT_ONLY: // can only tell that this square is bright
-            if (u_is_boomered)
-                mvwputch(w, y+getmaxy(w)/2 - center.y, x+getmaxx(w)/2 - center.x, c_pink, '#');
-            else
-                mvwputch(w, y+getmaxy(w)/2 - center.y, x+getmaxx(w)/2 - center.x, c_ltgray, '#');
+            symbol = '#';
+            color = c_ltgray;
+            if( u_is_boomered ) {
+                color = c_pink;
+            }
             break;
         case LL_LOW: // low light, square visible in monochrome
         case LL_LIT: // normal light
         case LL_BRIGHT: // bright light
-            drawsq(w, g->u, x, y, false, true, center.x, center.y, ll==LL_LOW, ll==LL_BRIGHT);
-            break;
+            drawsq( w, g->u, x, y, false, true, center.x, center.y,
+                    ll == LL_LOW, ll == LL_BRIGHT );
+            return;
         case LL_BLANK:
-            mvwputch(w, y+getmaxy(w)/2 - center.y, x+getmaxx(w)/2 - center.x, c_black,' ');
+            symbol = ' ';
+            color = c_black;
             break;
     }
+    mvwputch( w, y + getmaxy(w) / 2 - center.y,
+              x + getmaxx(w) / 2 - center.x, color, symbol );
 }
 
 void map::draw(WINDOW* w, const point center)
@@ -4883,7 +4891,7 @@ void map::draw(WINDOW* w, const point center)
 
     for (int x = center.x - getmaxx(w)/2; x <= center.x + getmaxx(w)/2; x++) {
         for (int y = center.y - getmaxy(w)/2; y <= center.y + getmaxy(w)/2; y++) {
-            draw_specific_tile(w, center, x, y, visibility_cache[x][y]);
+            apply_vision_effects(w, center, x, y, visibility_cache[x][y]);
         }
     }
 

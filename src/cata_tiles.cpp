@@ -504,7 +504,7 @@ tile_type *cata_tiles::load_tile(JsonObject &entry, const std::string &id, int o
     return curr_subtile;
 }
 
-void cata_tiles::draw_specific_tile(int x, int y, lit_level ll) {
+void cata_tiles::apply_vision_effects(int x, int y, lit_level ll) {
     const auto critter = g->critter_at( x, y );
     if ( ll == LL_DARK || ll == LL_BRIGHT_ONLY || ll == LL_BLANK ) {
         // Draw lighting
@@ -558,7 +558,7 @@ void cata_tiles::draw(int destx, int desty, int centerx, int centery, int width,
 
     for (int x=o_x; x <= o_x+sx-1; x++) {
         for (int y=o_y; y <= o_y+sy-1; y++) {
-            draw_specific_tile(x,y,g->m.visibility_cache[x][y]);
+            apply_vision_effects(x,y,g->m.visibility_cache[x][y]);
         }
     }
 
