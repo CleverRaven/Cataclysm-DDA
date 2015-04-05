@@ -6579,7 +6579,7 @@
         "bashing" : 7,
         "flags" : ["WATERPROOF", "STURDY"],
         "coverage" : 100,
-        "material_thickness" : 4
+        "material_thickness" : 6
     },
     {
         "type" : "ARMOR",
@@ -11174,7 +11174,7 @@
         "warmth" : 15,
         "phase" : "solid",
         "environmental_protection" : 1,
-        "encumbrance" : 10,
+        "encumbrance" : 15,
         "bashing" : -5,
         "flags" : ["VARSIZE", "POCKETS", "OUTER"],
         "coverage" : 90,
@@ -12181,7 +12181,7 @@
         "warmth" : 0,
         "phase" : "solid",
         "environmental_protection" : 0,
-        "encumbrance" : 25,
+        "encumbrance" : 20,
         "bashing" : -3,
         "flags" : ["VARSIZE", "STURDY"],
         "coverage" : 95,
