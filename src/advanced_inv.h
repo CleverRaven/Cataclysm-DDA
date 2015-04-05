@@ -5,6 +5,7 @@
 #include <array>
 
 class uimenu;
+class vehicle;
 
 typedef std::vector< std::pair<item *, int> > itemslice;
 
@@ -21,7 +22,8 @@ enum aim_location {
     AIM_NORTHEAST,
     AIM_ALL,
     AIM_DRAGGED,
-    AIM_CONTAINER
+    AIM_CONTAINER,
+    AIM_VEHICLE
 };
 
 enum advanced_inv_sortby {
@@ -45,8 +47,9 @@ struct advanced_inv_area {
     const int hscreenx;
     const int hscreeny;
     // relative (to the player) position of the map point
-    const int offx;
-    const int offy;
+    int offx;
+    int offy;
+    int offz;
     /** Long name, displayed, translated */
     const std::string name;
     /** Shorter name (2 letters) */
@@ -54,14 +57,14 @@ struct advanced_inv_area {
     // absolute position of the map point.
     int x;
     int y;
-    /** Can we put items there? Only checks if location is valid, not if selected container in pane is.
-        For full check use canputitems()
-    */
+    int z;
+    /** Can we put items there? Only checks if location is valid, not if
+        selected container in pane is. For full check use canputitems() **/
     bool canputitemsloc;
     // vehicle pointer and cargo part index
     vehicle *veh;
     int vstor;
-    // description, e.g. vehicle name or storage label
+    // description, e.g. vehicle name, label, or terrain
     std::string desc;
     // flags, e.g. FIRE, TRAP, WATER
     std::string flags;
@@ -87,6 +90,14 @@ struct advanced_inv_area {
     void set_container( const advanced_inv_listitem *advitem );
     bool is_container_valid( const item *it ) const;
     void set_container_position();
+    aim_location offset_to_location() const;
+    void set_vehicle(advanced_inv_area &s);
+    bool can_store_in_vehicle() const
+    {
+        bool id_check  = (id != AIM_ALL && id != AIM_INVENTORY);
+        bool veh_check = (veh != nullptr && vstor >= 0);
+        return (id_check && veh_check);
+    }
 };
 
 // see item_factory.h
@@ -298,7 +309,7 @@ class advanced_inventory
          * as index.
          */
         std::array<advanced_inventory_pane, 2> panes;
-        std::array<advanced_inv_area, 13> squares;
+        std::array<advanced_inv_area, 14> squares;
 
         WINDOW *head;
         WINDOW *left_window;
@@ -369,6 +380,10 @@ class advanced_inventory
          */
         void remove_item( advanced_inv_listitem &sitem );
         void menu_square(uimenu *menu);
+
+        // set AIM_VEHICLE to the location given.
+        void set_vehicle(aim_location sel);
+        void load_veh_data();
 
         static char get_location_key( aim_location area );
 };

@@ -2161,6 +2161,22 @@
     },
     {
         "type" : "keybinding",
+        "id": "ITEMS_VEHICLE",
+        "category": "ADVANCED_INVENTORY",
+        "name": "Select items in vehicle storage",
+        "bindings":[
+            {
+                "input_method":"keyboard",
+                "key":"v"
+            },
+            {
+                "input_method":"keyboard",
+                "key":"V"
+            }
+        ]
+    },
+    {
+        "type" : "keybinding",
         "id": "SEW",
         "category": "ITEM_ACTIONS",
         "name": "Sew",
