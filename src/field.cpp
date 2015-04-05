@@ -2015,9 +2015,11 @@ void map::monster_in_field( monster &z )
             break;
 
         case fd_electricity:
-            dam += rng(1, cur->getFieldDensity());
-            if (one_in(8 - cur->getFieldDensity())) {
-                z.moves -= cur->getFieldDensity() * 150;
+            if( !z.is_elec_immune() ) {
+                dam += rng(1, cur->getFieldDensity());
+                if (one_in(8 - cur->getFieldDensity())) {
+                    z.moves -= cur->getFieldDensity() * 150;
+                }
             }
             break;
 

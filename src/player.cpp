@@ -1784,6 +1784,13 @@ bool player::is_on_ground() const
     return  on_ground;
 }
 
+bool player::is_elec_immune() const
+{
+    return has_active_bionic( "bio_faraday" ) ||
+           worn_with_flag( "ELECTRIC_IMMUNE" ) ||
+           has_artifact_with( AEP_RESIST_ELECTRICITY );
+}
+
 bool player::is_underwater() const
 {
     return underwater;
