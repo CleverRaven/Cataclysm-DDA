@@ -3135,7 +3135,7 @@ bool map::hit_with_acid( const tripoint &p )
         return false;    // Didn't hit the tile!
     }
     const ter_id t = ter( p );
-    if( t == t_wall_glass_v || t == t_wall_glass_h || t == t_wall_glass_v_alarm || t == t_wall_glass_h_alarm ||
+    if( t == t_wall_glass || t == t_wall_glass_alarm ||
         t == t_vat ) {
         ter_set( p, t_floor );
     } else if( t == t_door_c || t == t_door_locked || t == t_door_locked_peep || t == t_door_locked_alarm ) {
@@ -4878,7 +4878,7 @@ bool map::apply_vision_effects( WINDOW *w, const point center, int x, int y,
         case VIS_DARK: // can't see this square at all
             symbol = '#';
             color = c_dkgray;
-	    break;
+            break;
         case VIS_CLEAR:
             // Drew the tile, so bail out now.
             return false;
@@ -4952,8 +4952,8 @@ void map::drawsq(WINDOW* w, player &u, const int x, const int y, const bool inve
     const int k = x + getmaxx(w)/2 - cx;
     const int j = y + getmaxy(w)/2 - cy;
     nc_color tercol;
-    const ter_id curr_ter = ter(x,y);
-    const furn_id curr_furn = furn(x,y);
+    const ter_t &curr_ter = ter_at(x,y);
+    const furn_t &curr_furn = furn_at(x,y);
     const trap &curr_trap = tr_at(x, y);
     const field &curr_field = field_at(x, y);
     auto curr_items = i_at(x, y);
@@ -4961,14 +4961,21 @@ void map::drawsq(WINDOW* w, player &u, const int x, const int y, const bool inve
     bool hi = false;
     bool graf = false;
     bool draw_item_sym = false;
+    static const long AUTO_WALL_PLACEHOLDER = 2; // this should never appear as a real symbol!
 
-
-    if (has_furn(x, y)) {
-        sym = furnlist[curr_furn].sym;
-        tercol = furnlist[curr_furn].color;
+    if( curr_furn.loadid != f_null ) {
+        sym = curr_furn.sym;
+        tercol = curr_furn.color;
     } else {
-        sym = terlist[curr_ter].sym;
-        tercol = terlist[curr_ter].color;
+        if( curr_ter.has_flag( TFLAG_AUTO_WALL_SYMBOL ) ) {
+            // If the terrain symbol is later overriden by something, we don't need to calculate
+            // the wall symbol at all. This case will be detected by comparing sym to this
+            // placeholder, if it's still the same, we have to calculate the wall symbol.
+            sym = AUTO_WALL_PLACEHOLDER;
+        } else {
+            sym = curr_ter.sym;
+        }
+        tercol = curr_ter.color;
     }
     if (has_flag(TFLAG_SWIMMABLE, x, y) && has_flag(TFLAG_DEEP_WATER, x, y) && !u.is_underwater()) {
         show_items = false; // Can only see underwater items if WE are underwater
@@ -5056,8 +5063,8 @@ void map::drawsq(WINDOW* w, player &u, const int x, const int y, const bool inve
     }
 
     //suprise, we're not done, if it's a wall adjacent to an other, put the right glyph
-    if(sym == LINE_XOXO || sym == LINE_OXOX) { //vertical or horizontal
-        sym = determine_wall_corner(x, y, sym);
+    if( sym == AUTO_WALL_PLACEHOLDER ) {
+        sym = determine_wall_corner( x, y );
     }
 
     if (u.has_effect("boomered")) {
@@ -6172,74 +6179,43 @@ bool map::has_graffiti_at( const tripoint &p ) const
     return current_submap->has_graffiti( lx, ly );
 }
 
-long map::determine_wall_corner(const int x, const int y, const long orig_sym) const
+long map::determine_wall_corner(const int x, const int y) const
 {
-    long sym = orig_sym;
-    //LINE_NESW
-    const long above = ter_at(x, y-1).sym;
-    const long below = ter_at(x, y+1).sym;
-    const long left  = ter_at(x-1, y).sym;
-    const long right = ter_at(x+1, y).sym;
+    const bool above_connects = has_flag_ter( TFLAG_CONNECT_TO_WALL, x, y - 1 );
+    const bool below_connects = has_flag_ter( TFLAG_CONNECT_TO_WALL, x, y + 1 );
+    const bool left_connects  = has_flag_ter( TFLAG_CONNECT_TO_WALL, x - 1, y );
+    const bool right_connects = has_flag_ter( TFLAG_CONNECT_TO_WALL, x + 1, y );
+    const auto bits = ( above_connects ? 1 : 0 ) +
+                      ( right_connects ? 2 : 0 ) +
+                      ( below_connects ? 4 : 0 ) +
+                      ( left_connects  ? 8 : 0 );
+    switch( bits ) {
+        case 1 | 2 | 4 | 8: return LINE_XXXX;
+        case 0 | 2 | 4 | 8: return LINE_OXXX;
+        
+        case 1 | 0 | 4 | 8: return LINE_XOXX;
+        case 0 | 0 | 4 | 8: return LINE_OOXX;
 
-    const bool above_connects = above == sym || (above == '"' || above == '+' || above == '\'');
-    const bool below_connects = below == sym || (below == '"' || below == '+' || below == '\'');
-    const bool left_connects  = left  == sym || (left  == '"' || left  == '+' || left  == '\'');
-    const bool right_connects = right == sym || (right == '"' || right == '+' || right == '\'');
+        case 1 | 2 | 0 | 8: return LINE_XXOX;
+        case 0 | 2 | 0 | 8: return LINE_OXOX;
+        case 1 | 0 | 0 | 8: return LINE_XOOX;
+        case 0 | 0 | 0 | 8: return LINE_OXOX; // LINE_OOOX would be better
 
-    // -
-    // |      this = - and above = | or a connectable
-    if(sym == LINE_OXOX &&  (above == LINE_XOXO || above_connects))
-    {
-        //connects to upper
-        if(left_connects)
-            sym = LINE_XOOX; // ┘ left coming wall
-        else if(right_connects)
-            sym = LINE_XXOO;//└   right coming wall
-        if(left_connects && right_connects)
-            sym = LINE_XXOX; // ┴ passing by
+        case 1 | 2 | 4 | 0: return LINE_XXXO;
+        case 0 | 2 | 4 | 0: return LINE_OXXO;
+        case 1 | 0 | 4 | 0: return LINE_XOXO;
+        case 0 | 0 | 4 | 0: return LINE_XOXO; // LINE_OOXO would be better
+        case 1 | 2 | 0 | 0: return LINE_XXOO;
+        case 0 | 2 | 0 | 0: return LINE_OXOX; // LINE_OXOO would be better
+        case 1 | 0 | 0 | 0: return LINE_XOXO; // LINE_XOOO would be better
+
+        case 0 | 0 | 0 | 0: return ter_at( x, y ).sym; // technically just a column
+
+        default:
+            // assert( false );
+            // this shall not happen
+            return '?';
     }
-
-    // |
-    // -      this = - and below = | or a connectable
-    else if(sym == LINE_OXOX && (below == LINE_XOXO || below_connects))
-    {
-        //connects to lower
-        if(left_connects)
-            sym = LINE_OOXX; // ┐ left coming wall
-        else if(right_connects)
-            sym = LINE_OXXO;//┌   right coming wall
-        if(left_connects && right_connects)
-            sym = LINE_OXXX; // ┬ passing by
-    }
-
-    // -|       this = | and left = - or a connectable
-    else if(sym == LINE_XOXO && (left == LINE_OXOX || left_connects))
-    {
-        //connexts to left
-        if(above_connects)
-            sym = LINE_XOOX; // ┘ north coming wall
-        else if(below_connects )
-            sym = LINE_OOXX;//┐   south coming wall
-        if(above_connects && below_connects)
-            sym = LINE_XOXX; // ┤ passing by
-    }
-
-    // |-       this = | and right = - or a connectable
-    else if(sym == LINE_XOXO && (right == LINE_OXOX || right_connects))
-    {
-        //connects to right
-        if(above_connects)
-            sym = LINE_XXOO; // └ north coming wall
-        else if(below_connects)
-            sym = LINE_OXXO;// ┌   south coming wall
-        if(above_connects && below_connects)
-            sym = LINE_XXXO; // ├ passing by
-    }
-
-    if(above == LINE_XOXO && left == LINE_OXOX && above == below && left == right)
-        sym = LINE_XXXX; // ┼ crossway
-
-    return sym;
 }
 
 void map::build_outside_cache()

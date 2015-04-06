@@ -36,8 +36,8 @@
             ],
             "terrain": {
                 "." : "t_grass",
-                "-": "t_wall_h",
-                "|": "t_wall_v",
+                "-": "t_wall",
+                "|": "t_wall",
                 "S" : "t_sidewalk",
                 "M": "t_door_metal_locked",
                 "O": "t_window",

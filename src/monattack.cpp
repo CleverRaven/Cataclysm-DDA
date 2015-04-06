@@ -2272,8 +2272,7 @@ void mattack::stare(monster *z, int index)
         add_msg(m_bad, _("A piercing beam of light bursts forth!"));
         std::vector<point> sight = line_to( z->pos(), g->u.pos(), 0 );
         for (auto &i : sight) {
-            if (g->m.ter(i.x, i.y) == t_reinforced_glass_h ||
-                g->m.ter(i.x, i.y) == t_reinforced_glass_v) {
+            if (g->m.ter(i.x, i.y) == t_reinforced_glass ) {
                 break;
             } else if (g->m.is_bashable(i.x, i.y)) {
                 //Destroy it

@@ -896,19 +896,11 @@ bool cata_tiles::draw_terrain(int x, int y)
         return false;
     }
 
-    // need to check for walls, and then deal with wallfication details!
-    int s = terlist[t].sym;
-
     //char alteration = 0;
     int subtile = 0, rotation = 0;
 
-    // check walls
-    if (s == LINE_XOXO /*vertical*/ || s == LINE_OXOX /*horizontal*/) {
-        get_wall_values(x, y, LINE_XOXO, LINE_OXOX, subtile, rotation);
-    }
-    // check windows and doors for wall connections, may or may not have a subtile available, but should be able to rotate to some extent
-    else if (s == '"' || s == '+' || s == '\'') {
-        get_wall_values(x, y, LINE_XOXO, LINE_OXOX, subtile, rotation);
+    if( g->m.ter_at( x, y ).has_flag( TFLAG_CONNECT_TO_WALL ) ) {
+        get_wall_values( x, y, subtile, rotation );
     } else {
         get_terrain_orientation(x, y, rotation, subtile);
         // do something to get other terrain orientation values
@@ -1539,26 +1531,21 @@ void cata_tiles::get_rotation_and_subtile(const char val, const int num_connects
             break;
     }
 }
-void cata_tiles::get_wall_values(const int x, const int y, const long vertical_wall_symbol,
-                                 const long horizontal_wall_symbol, int &subtile, int &rotation)
-{
-    // makes the assumption that x,y is a wall | window | door of some sort
-    const long neighborhood[4] = {
-        terlist[g->m.ter(x, y + 1)].sym, // south
-        terlist[g->m.ter(x + 1, y)].sym, // east
-        terlist[g->m.ter(x - 1, y)].sym, // west
-        terlist[g->m.ter(x, y - 1)].sym // north
-    };
 
-    bool connects[4];
+void cata_tiles::get_wall_values(const int x, const int y, int &subtile, int &rotation)
+{
+    const bool connects[4] = {
+        g->m.ter_at( x, y + 1 ).has_flag( TFLAG_CONNECT_TO_WALL ),
+        g->m.ter_at( x + 1, y ).has_flag( TFLAG_CONNECT_TO_WALL ),
+        g->m.ter_at( x - 1, y ).has_flag( TFLAG_CONNECT_TO_WALL ),
+        g->m.ter_at( x, y - 1 ).has_flag( TFLAG_CONNECT_TO_WALL )
+    };
 
     char val = 0;
     int num_connects = 0;
 
     // populate connection information
     for (int i = 0; i < 4; ++i) {
-        connects[i] = (neighborhood[i] == vertical_wall_symbol || neighborhood[i] == horizontal_wall_symbol) || (neighborhood[i] == '"' || neighborhood[i] == '+' || neighborhood[i] == '\'');
-
         if (connects[i]) {
             ++num_connects;
             val += 1 << i;

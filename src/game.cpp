@@ -137,7 +137,6 @@ void game::load_static_data()
     // If this changes (if they load data from json), they have to
     // be moved to game::load_mod or game::load_core_data
     init_body_parts();
-    init_ter_bitflags_map();
     init_mapgen_builtin_functions();
     init_fields();
     init_morale();
@@ -7410,8 +7409,7 @@ void game::open_gate( const tripoint &p, const ter_id handle_type )
 {
     int examx = p.x;
     int examy = p.y;
-    ter_id v_wall_type;
-    ter_id h_wall_type;
+    ter_id wall_type;
     ter_id door_type;
     ter_id floor_type;
     const char *pull_message;
@@ -7420,8 +7418,7 @@ void game::open_gate( const tripoint &p, const ter_id handle_type )
     int bash_dmg;
 
     if (handle_type == t_gates_mech_control) {
-        v_wall_type = t_wall_v;
-        h_wall_type = t_wall_h;
+        wall_type = t_wall;
         door_type = t_door_metal_locked;
         floor_type = t_floor;
         pull_message = _("You turn the handle...");
@@ -7429,8 +7426,7 @@ void game::open_gate( const tripoint &p, const ter_id handle_type )
         close_message = _("The gate is closed!");
         bash_dmg = 40;
     } else if (handle_type == t_gates_control_concrete) {
-        v_wall_type = t_concrete_v;
-        h_wall_type = t_concrete_h;
+        wall_type = t_concrete_wall;
         door_type = t_door_metal_locked;
         floor_type = t_floor;
         pull_message = _("You turn the handle...");
@@ -7438,8 +7434,7 @@ void game::open_gate( const tripoint &p, const ter_id handle_type )
         close_message = _("The gate is closed!");
         bash_dmg = 40;
     } else if (handle_type == t_barndoor) {
-        v_wall_type = t_wall_wood;
-        h_wall_type = t_wall_wood;
+        wall_type = t_wall_wood;
         door_type = t_door_metal_locked;
         floor_type = t_dirtfloor;
         pull_message = _("You pull the rope...");
@@ -7447,8 +7442,7 @@ void game::open_gate( const tripoint &p, const ter_id handle_type )
         close_message = _("The barn doors closed!");
         bash_dmg = 40;
     } else if (handle_type == t_palisade_pulley) {
-        v_wall_type = t_palisade;
-        h_wall_type = t_palisade;
+        wall_type = t_palisade;
         door_type = t_palisade_gate;
         floor_type = t_palisade_gate_o;
         pull_message = _("You pull the rope...");
@@ -7456,8 +7450,7 @@ void game::open_gate( const tripoint &p, const ter_id handle_type )
         close_message = _("The palisade gate swings closed with a crash!");
         bash_dmg = 30;
     } else if ( handle_type == t_gates_control_metal) {
-        v_wall_type = t_wall_metal_v;
-        h_wall_type = t_wall_metal_h;
+        wall_type = t_wall_metal;
         door_type = t_door_metal_locked;
         floor_type = t_metal_floor;
         pull_message = _("You throw the lever...");
@@ -7486,10 +7479,10 @@ void game::open_gate( const tripoint &p, const ter_id handle_type )
                     if ((wall_x + wall_y == 1 || wall_x + wall_y == -1) &&
                         // make sure wall not diagonally opposite to handle
                         (gate_x + gate_y == 1 || gate_x + gate_y == -1) &&  // same for gate direction
-                        ((wall_y != 0 && (m.ter(examx + wall_x, examy + wall_y) == h_wall_type)) ||
+                        ((wall_y != 0 && (m.ter(examx + wall_x, examy + wall_y) == wall_type)) ||
                          //horizontal orientation of the gate
                          (wall_x != 0 &&
-                          (m.ter(examx + wall_x, examy + wall_y) == v_wall_type)))) { //vertical orientation of the gate
+                          (m.ter(examx + wall_x, examy + wall_y) == wall_type)))) { //vertical orientation of the gate
 
                         int cur_x = examx + wall_x + gate_x;
                         int cur_y = examy + wall_y + gate_y;
@@ -13474,13 +13467,7 @@ bool game::spread_fungus( const tripoint &p )
         } else if (m.has_flag("WALL", x, y)) {
             if (x_in_y(growth * 10, 5000)) {
                 converted = true;
-                if (m.ter_at(x, y).sym == LINE_OXOX) {
-                    m.ter_set(x, y, t_fungus_wall_h);
-                } else if (m.ter_at(x, y).sym == LINE_XOXO) {
-                    m.ter_set(x, y, t_fungus_wall_v);
-                } else {
-                    m.ter_set(x, y, t_fungus_wall);
-                }
+                m.ter_set(x, y, t_fungus_wall);
             }
         }
         // Furniture conversion
@@ -13579,13 +13566,7 @@ bool game::spread_fungus( const tripoint &p )
                     } else if (m.has_flag("WALL", i, j)) {
                         if (one_in(50)) {
                             converted = true;
-                            if (m.ter_at(i, j).sym == LINE_OXOX) {
-                                m.ter_set(i, j, t_fungus_wall_h);
-                            } else if (m.ter_at(i, j).sym == LINE_XOXO) {
-                                m.ter_set(i, j, t_fungus_wall_v);
-                            } else {
-                                m.ter_set(i, j, t_fungus_wall);
-                            }
+                            m.ter_set(i, j, t_fungus_wall);
                         }
                     }
 
