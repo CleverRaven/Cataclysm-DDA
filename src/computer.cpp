@@ -1218,11 +1218,8 @@ void computer::activate_failure(computer_failure fail)
 
     case COMPFAIL_DAMAGE:
         add_msg(m_neutral, _("The console electrocutes you."));
-        if (g->u.has_artifact_with(AEP_RESIST_ELECTRICITY) ||
-            g->u.has_active_bionic("bio_faraday")) { //Artifact or bionic stops electricity.
-            add_msg(m_neutral, _("The electricity flows around you."));
-        } else if (g->u.worn_with_flag("ELECTRIC_IMMUNE")) { //Armor stops electricity.
-            add_msg(m_neutral, _("Your armor safely grounds the electrical discharge."));
+        if( g->u.is_elec_immune() ) {
+            add_msg( m_good, _("You're protected from electric shocks.") );
         } else {
             add_msg(m_bad, _("Your body is damaged by the electric shock!"));
             g->u.hurtall(rng(1, 10), nullptr);

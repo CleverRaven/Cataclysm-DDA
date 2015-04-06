@@ -2455,18 +2455,17 @@ void mattack::taze( monster *z, Creature *target )
 {
     z->moves -= 200;   // It takes a while
     player *foe = dynamic_cast< player* >( target );
-    if( foe != nullptr && foe->uncanny_dodge()) {
+    if( target == nullptr || target->uncanny_dodge() ) {
         return;
     }
-    if( foe != nullptr ) {
-        if( foe->has_artifact_with(AEP_RESIST_ELECTRICITY) || foe->has_active_bionic("bio_faraday") ||
-            foe->worn_with_flag("ELECTRIC_IMMUNE")) { //Resistances applied.
-            foe->add_msg_player_or_npc( m_info, _("The %s unsuccessfully attempts to shock you."),
-                                                _("The %s unsuccessfully attempts to shock <npcname>."),
-                                                z->name().c_str() );
-            return;
-        }
 
+    if( target->is_elec_immune() ) {
+        target->add_msg_player_or_npc( _("The %s unsuccessfully attempts to shock you."),
+                                       _("The %s unsuccessfully attempts to shock <npcname>."),
+                                       z->name().c_str() );
+    }
+
+    if( foe != nullptr ) {
         int shock = rng(1, 5);
         foe->apply_damage( z, bp_torso, shock * rng( 1, 3 ) );
         foe->moves -= shock * 20;
@@ -3984,10 +3983,7 @@ bool mattack::thrown_by_judo(monster *z, int index)
             foe->add_msg_if_player( m_good, _("but you grab its arm and flip it to the ground!") );
 
             // most of the time, when not isolated
-            if ( !one_in(4) && !foe->has_active_bionic("bio_faraday") &&
-                 !foe->worn_with_flag("ELECTRIC_IMMUNE") &&
-                 !foe->has_artifact_with(AEP_RESIST_ELECTRICITY) &&
-                 (z->type->sp_defense == &mdefense::zapback || z->has_flag(MF_ELECTRIC) ) ) {
+            if ( !one_in(4) && !target->is_elec_immune() ) {
                 // If it all pans out, we're zap the player's arm as he flips the monster.
                 foe->add_msg_if_player(_("The flip does shock you..."));
                 // Discounted electric damage for quick flip

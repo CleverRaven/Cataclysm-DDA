@@ -11646,6 +11646,8 @@ bool game::plmove(int dx, int dy)
                 dangerous = (!((u.get_env_resist(bp_mouth) >= 15) &&
                               (u.get_env_resist(bp_eyes) >= 15) ) &&
                               !u.has_trait("M_IMMUNE"));
+            case fd_electricity:
+                dangerous = !u.is_elec_immune();
                 break;
             default:
                 dangerous = cur.is_dangerous();
