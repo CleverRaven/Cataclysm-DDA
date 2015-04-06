@@ -510,17 +510,17 @@ void map::build_seen_cache()
     const int offsetX = g->u.posx();
     const int offsetY = g->u.posy();
 
-    castLight( 1, 1.0f, 0.0f, 0, 1, 1, 0, offsetX, offsetY, 0 );
-    castLight( 1, 1.0f, 0.0f, 1, 0, 0, 1, offsetX, offsetY, 0 );
+    castLight( seen_cache, transparency_cache, 0, 1, 1, 0, offsetX, offsetY, 0 );
+    castLight( seen_cache, transparency_cache, 1, 0, 0, 1, offsetX, offsetY, 0 );
 
-    castLight( 1, 1.0f, 0.0f, 0, -1, 1, 0, offsetX, offsetY, 0 );
-    castLight( 1, 1.0f, 0.0f, -1, 0, 0, 1, offsetX, offsetY, 0 );
+    castLight( seen_cache, transparency_cache, 0, -1, 1, 0, offsetX, offsetY, 0 );
+    castLight( seen_cache, transparency_cache, -1, 0, 0, 1, offsetX, offsetY, 0 );
 
-    castLight( 1, 1.0f, 0.0f, 0, 1, -1, 0, offsetX, offsetY, 0 );
-    castLight( 1, 1.0f, 0.0f, 1, 0, 0, -1, offsetX, offsetY, 0 );
+    castLight( seen_cache, transparency_cache, 0, 1, -1, 0, offsetX, offsetY, 0 );
+    castLight( seen_cache, transparency_cache, 1, 0, 0, -1, offsetX, offsetY, 0 );
 
-    castLight( 1, 1.0f, 0.0f, 0, -1, -1, 0, offsetX, offsetY, 0 );
-    castLight( 1, 1.0f, 0.0f, -1, 0, 0, -1, offsetX, offsetY, 0 );
+    castLight( seen_cache, transparency_cache, 0, -1, -1, 0, offsetX, offsetY, 0 );
+    castLight( seen_cache, transparency_cache, -1, 0, 0, -1, offsetX, offsetY, 0 );
 
     int part;
     if ( vehicle *veh = veh_at( offsetX, offsetY, part ) ) {
@@ -571,23 +571,34 @@ void map::build_seen_cache()
             //
             // The naive solution of making the mirrors act like a second player
             // at an offset appears to give reasonable results though.
-            castLight( 1, 1.0f, 0.0f, 0, 1, 1, 0, mirror_pos.x, mirror_pos.y, offsetDistance );
-            castLight( 1, 1.0f, 0.0f, 1, 0, 0, 1, mirror_pos.x, mirror_pos.y, offsetDistance );
+            castLight( seen_cache, transparency_cache, 0, 1, 1, 0,
+                       mirror_pos.x, mirror_pos.y, offsetDistance );
+            castLight( seen_cache, transparency_cache, 1, 0, 0, 1,
+                       mirror_pos.x, mirror_pos.y, offsetDistance );
 
-            castLight( 1, 1.0f, 0.0f, 0, -1, 1, 0, mirror_pos.x, mirror_pos.y, offsetDistance );
-            castLight( 1, 1.0f, 0.0f, -1, 0, 0, 1, mirror_pos.x, mirror_pos.y, offsetDistance );
+            castLight( seen_cache, transparency_cache, 0, -1, 1, 0,
+                       mirror_pos.x, mirror_pos.y, offsetDistance );
+            castLight( seen_cache, transparency_cache, -1, 0, 0, 1,
+                       mirror_pos.x, mirror_pos.y, offsetDistance );
 
-            castLight( 1, 1.0f, 0.0f, 0, 1, -1, 0, mirror_pos.x, mirror_pos.y, offsetDistance );
-            castLight( 1, 1.0f, 0.0f, 1, 0, 0, -1, mirror_pos.x, mirror_pos.y, offsetDistance );
+            castLight( seen_cache, transparency_cache, 0, 1, -1, 0,
+                       mirror_pos.x, mirror_pos.y, offsetDistance );
+            castLight( seen_cache, transparency_cache, 1, 0, 0, -1,
+                       mirror_pos.x, mirror_pos.y, offsetDistance );
 
-            castLight( 1, 1.0f, 0.0f, 0, -1, -1, 0, mirror_pos.x, mirror_pos.y, offsetDistance );
-            castLight( 1, 1.0f, 0.0f, -1, 0, 0, -1, mirror_pos.x, mirror_pos.y, offsetDistance );
+            castLight( seen_cache, transparency_cache, 0, -1, -1, 0,
+                       mirror_pos.x, mirror_pos.y, offsetDistance );
+            castLight( seen_cache, transparency_cache, -1, 0, 0, -1,
+                       mirror_pos.x, mirror_pos.y, offsetDistance );
         }
     }
 }
 
-void map::castLight( int row, float start, float end, int xx, int xy, int yx, int yy,
-                     const int offsetX, const int offsetY, const int offsetDistance )
+void map::castLight( bool (&output_cache)[MAPSIZE*SEEX][MAPSIZE*SEEY],
+                     const float (&input_array)[MAPSIZE*SEEX][MAPSIZE*SEEY],
+                     const int xx, const int xy, const int yx, const int yy,
+                     const int offsetX, const int offsetY, const int offsetDistance,
+                     const int row, float start, const float end )
 {
     float newStart = 0.0f;
     float radius = 60.0f - offsetDistance;
@@ -612,7 +623,7 @@ void map::castLight( int row, float start, float end, int xx, int xy, int yx, in
             }
             if( !started_row ) {
                 started_row = true;
-                current_transparency = light_transparency( currentX, currentY );
+                current_transparency = input_array[ currentX ][ currentY ];
             }
 
             //check if it's within the visible area and mark visible if so
@@ -621,16 +632,17 @@ void map::castLight( int row, float start, float end, int xx, int xy, int yx, in
                 float bright = (float) (1 - (rStrat.radius(deltaX, deltaY) / radius));
                 lightMap[currentX][currentY] = bright;
                 */
-                seen_cache[currentX][currentY] = true;
+                // TODO: handle circular distance.
+                output_cache[ currentX ][ currentY] = true;
             }
 
-            float new_transparency = light_transparency( currentX, currentY );
+            float new_transparency = input_array[ currentX ][ currentY ];
 
             if( new_transparency != current_transparency ) {
                 // Only cast recursively if previous span was not opaque.
                 if( current_transparency != LIGHT_TRANSPARENCY_SOLID ) {
-                    castLight( distance + 1, start, leadingEdge, xx, xy, yx, yy,
-                               offsetX, offsetY, offsetDistance );
+                    castLight( output_cache, input_array, xx, xy, yx, yy,
+                               offsetX, offsetY, offsetDistance, distance + 1, start, leadingEdge);
                     newStart = trailingEdge;
                 }
                 // We either recursed into a transparent span, or did NOT recurse into an opaque span,
