@@ -20,7 +20,7 @@
         "description" : "Dig Pit", "//": "Step 1: shallow pit",
         "category" : "DIG",
         "difficulty" : 0,
-        "time" : 10,
+        "time" : 30,
         "qualities": [ [ { "id": "DIG", "level": 1 } ] ],
         "pre_flags" : "DIGGABLE",
         "post_terrain" : "t_pit_shallow"
@@ -29,7 +29,7 @@
         "description" : "Dig Pit", "//": "Step 2: deep pit",
         "category" : "DIG",
         "difficulty" : 0,
-        "time" : 10,
+        "time" : 90,
         "qualities": [ [ { "id": "DIG", "level": 2 } ] ],
         "pre_terrain" : "t_pit_shallow",
         "post_terrain" : "t_pit"
@@ -37,8 +37,8 @@
         "type" : "construction",
         "description" : "Spike Pit",
         "category" : "DIG",
-        "difficulty" : 0,
-        "time" : 5,
+        "difficulty" : 1,
+        "time" : 30,
         "components" : [
             [ [ "spear_wood", 4 ], [ "pointy_stick", 4] ]
         ],
@@ -48,8 +48,8 @@
         "type" : "construction",
         "description" : "Glass Pit",
         "category" : "DIG",
-        "difficulty" : 0,
-        "time" : 5,
+        "difficulty" : 1,
+        "time" : 30,
         "components" : [
             [ ["glass_shard", 20] ]
         ],
@@ -60,7 +60,7 @@
         "description" : "Fill Pit", "//": "fill in a pit",
         "category" : "DIG",
         "difficulty" : 0,
-        "time" : 5,
+        "time" : 30,
         "qualities": [ [ { "id": "DIG", "level": 2 } ] ],
         "pre_terrain" : "t_pit",
         "post_terrain" : "t_pit_shallow"
@@ -69,7 +69,7 @@
         "description" : "Fill Pit", "//": "fill in the spiked pit",
         "category" : "DIG",
         "difficulty" : 0,
-        "time" : 5,
+        "time" : 30,
         "qualities": [ [ { "id": "DIG", "level": 2 } ] ],
         "pre_terrain" : "t_pit_spiked",
         "post_terrain" : "t_pit_shallow"
@@ -78,7 +78,7 @@
         "description" : "Fill Pit", "//": "fill in a glass pit",
         "category" : "DIG",
         "difficulty" : 0,
-        "time" : 5,
+        "time" : 30,
         "qualities": [ [ { "id": "DIG", "level": 2 } ] ],
         "pre_terrain" : "t_pit_glass",
         "post_terrain" : "t_pit_shallow"
@@ -87,7 +87,7 @@
         "description" : "Fill Pit", "//": "fill in the shallow pit",
         "category" : "DIG",
         "difficulty" : 0,
-        "time" : 5,
+        "time" : 15,
         "qualities": [ [ { "id": "DIG", "level": 2 } ] ],
         "pre_terrain" : "t_pit_shallow",
         "post_terrain" : "t_dirt"
@@ -96,7 +96,7 @@
         "description" : "Till Soil",
         "category" : "FARM_WOOD",
         "difficulty" : 0,
-        "time" : 10,
+        "time" : 60,
         "qualities": [ [ { "id": "DIG", "level": 1 } ] ],
         "pre_flags" : "DIGGABLE",
         "post_terrain" : "t_dirtmound"
