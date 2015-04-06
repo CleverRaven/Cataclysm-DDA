@@ -1485,7 +1485,6 @@ void vehicle::play_music()
             stereo_on = false;
             return;
         }
-        std::string sound = "";
         const auto radio_pos = global_pos() + parts[p].precalc[0];
         iuse::play_music( &(g->u), radio_pos, 15 );
     }
