@@ -5808,7 +5808,7 @@ std::string get_random_music_description(player *p)
     return sound;
 }
 
-void iuse::play_music( player *p, point source, int volume )
+void iuse::play_music( player * const p, point const source, int const volume, int const max_morale )
 {
     std::string sound = "";
     if( int(calendar::turn) % 50 == 0 ) {
@@ -5821,14 +5821,14 @@ void iuse::play_music( player *p, point source, int volume )
     sounds::ambient_sound( source.x, source.y, volume, sound );
     if( !p->has_effect("music") && p->can_hear( source, volume ) ) {
         p->add_effect("music", 1);
-        p->add_morale(MORALE_MUSIC, 1, 50, 5, 2);
+        p->add_morale(MORALE_MUSIC, 1, max_morale, 5, 2);
     }
 }
 
 int iuse::mp3_on(player *p, item *it, bool t, point pos)
 {
     if (t) { // Normal use
-        play_music( p, pos, 0 );
+        play_music( p, pos, 0, 50 );
     } else { // Turning it off
         p->add_msg_if_player(_("The mp3 player turns off."));
         it->make("mp3");
@@ -8125,18 +8125,7 @@ int iuse::einktabletpc(player *p, item *it, bool t, point pos)
 
             //the more varied music, the better max mood.
             const int songs = it->get_var( "EIPC_MUSIC", 0 );
-
-            //if user can hear this music and not already hear music
-            if( p->can_hear( pos, 8 ) && !p->has_effect("music")) {
-
-                p->add_effect("music", 1);
-                p->add_morale(MORALE_MUSIC, 1, std::min(100, songs), 5, 2);
-
-                if (int(calendar::turn) % 50 == 0) { // Every 5 minutes, describe the music
-                    const std::string sound = get_random_music_description(p);
-                    sounds::sound(pos.x, pos.y, 8, sound);
-                }
-            }
+            play_music( p, pos, 8, std::min( 100, songs ) );
         }
 
         return 0;
