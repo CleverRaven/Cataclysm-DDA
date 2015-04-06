@@ -6037,7 +6037,7 @@
         "mondensity" : 2,
         "sidewalk" : true
     },
-	{
+    {
         "type" : "overmap_terrain",
         "id" : "hdwr_large_entrance",
         "name" : "Home Improvment Superstore Entrance",

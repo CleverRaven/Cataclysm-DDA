@@ -89,7 +89,7 @@
             ["amplifier", 50]
         ]
     },
-	    {
+    {
         "type"  : "item_group",
         "id"    : "raw_materials",
         "items" : [

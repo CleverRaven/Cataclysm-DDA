@@ -276,7 +276,7 @@
     "ammo": "thread",
     "revert_to": "null",
     "use_action": "SEW_ADVANCED",
-	"qualities": [["CUT", 1]]
+    "qualities": [["CUT", 1]]
   },
 
   {
@@ -6596,7 +6596,7 @@
         "type": "transform",
         "msg": "You open the jar, exposing it to the atmosphere.",
         "target": "soup_woods",
-		"target_charges": 4,
+        "target_charges": 4,
         "container": "jar_glass"
     }
   },
@@ -6621,7 +6621,7 @@
         "type": "transform",
         "msg": "You open the jar, exposing it to the atmosphere.",
         "target": "soup_meat",
-		"target_charges": 4,
+        "target_charges": 4,
         "container": "jar_glass"
     }
   },
@@ -6646,7 +6646,7 @@
         "type": "transform",
         "msg": "You open the jar, exposing it to the atmosphere.",
         "target": "soup_fish",
-		"target_charges": 4,
+        "target_charges": 4,
         "container": "jar_glass"
     }
   },
@@ -6671,7 +6671,7 @@
         "type": "transform",
         "msg": "You open the jar, exposing it to the atmosphere.",
         "target": "soup_veggy",
-		"target_charges": 4,
+        "target_charges": 4,
         "container": "jar_glass"
     }
   },
@@ -6696,7 +6696,7 @@
         "type": "transform",
         "msg": "You open the jar, exposing it to the atmosphere.",
         "target": "soup_human",
-		"target_charges": 4,
+        "target_charges": 4,
         "container": "jar_glass"
     }
   },
@@ -6721,7 +6721,7 @@
         "type": "transform",
         "msg": "You open the jar, exposing it to the atmosphere.",
         "target": "broth",
-		"target_charges": 1,
+        "target_charges": 1,
         "container": "jar_glass"
     }
   },
@@ -6746,7 +6746,7 @@
         "type": "transform",
         "msg": "You open the jar, exposing it to the atmosphere.",
         "target": "broth_bone",
-		"target_charges": 1,
+        "target_charges": 1,
         "container": "jar_glass"
     }
   },
@@ -6771,7 +6771,7 @@
         "type": "transform",
         "msg": "You open the jar, exposing it to the atmosphere.",
         "target": "V8",
-		"target_charges": 2,
+        "target_charges": 2,
         "container": "jar_glass"
     }
   },
@@ -9517,25 +9517,25 @@
     "revert_to": "null",
     "use_action": "REMOTEVEH"
   },{
-	"id": "brick_kiln",
-	"type": "TOOL",
-	"symbol": ";",
-	"color": "dark_gray",
-	"name": "brick kiln",
-	"description": "This is a portable charcoal-fired kiln.  It is designed for firing bricks, but you could use it to fire anything made of clay.",
-	"price": 25000,
-	"material": "steel",
-	"weight": 9600,
-	"volume": 36,
-	"bashing": 13,
-	"cutting": 0,
-	"to_hit": -3,
-	"max_charges": 200,
-	"initial_charges": 0,
-	"charges_per_use": 0,
-	"turns_per_charge": 0,
-	"ammo": "charcoal",
-	"revert_to": "null"
+    "id": "brick_kiln",
+    "type": "TOOL",
+    "symbol": ";",
+    "color": "dark_gray",
+    "name": "brick kiln",
+    "description": "This is a portable charcoal-fired kiln.  It is designed for firing bricks, but you could use it to fire anything made of clay.",
+    "price": 25000,
+    "material": "steel",
+    "weight": 9600,
+    "volume": 36,
+    "bashing": 13,
+    "cutting": 0,
+    "to_hit": -3,
+    "max_charges": 200,
+    "initial_charges": 0,
+    "charges_per_use": 0,
+    "turns_per_charge": 0,
+    "ammo": "charcoal",
+    "revert_to": "null"
   },
   {
     "id": "tool_anfo_charge",

@@ -159,10 +159,10 @@ class map
      */
     lit_level apparent_light_at(int x, int y, const visibility_variables &cache);
     visibility_type get_visibility( const lit_level ll,
-				    const visibility_variables &cache ) const;
+                                    const visibility_variables &cache ) const;
 
     bool apply_vision_effects( WINDOW *w, const point center, int x, int y, lit_level ll,
-			       const visibility_variables &cache ) const;
+                               const visibility_variables &cache ) const;
 
  /** Draw a visible part of the map into `w`.
   *

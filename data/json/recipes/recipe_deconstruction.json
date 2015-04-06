@@ -1946,7 +1946,7 @@
     "time": 500,
     "reversible": true,
     "autolearn": false,
-    "components": [ [ [ "paper", 10 ] ]	]
+    "components": [ [ [ "paper", 10 ] ]    ]
 },{
     "type" : "recipe",
     "result": "survivormap",
@@ -1979,7 +1979,7 @@
     "time": 500,
     "reversible": true,
     "autolearn": false,
-    "components": [ [ [ "paper", 10 ] ]	]
+    "components": [ [ [ "paper", 10 ] ]    ]
 },{
     "type" : "recipe",
     "result": "touristmap",
@@ -1990,7 +1990,7 @@
     "time": 500,
     "reversible": true,
     "autolearn": false,
-    "components": [ [ [ "paper", 10 ] ]	]
+    "components": [ [ [ "paper", 10 ] ]    ]
 },{
     "type" : "recipe",
     "result": "newest_newspaper",

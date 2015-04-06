@@ -62,8 +62,8 @@ class Character : public Creature
         /** Retrieves a stat mod of a mutation. */
         int get_mod(std::string mut, std::string arg) const;
  protected:
-	/** Applies stat mods to character. */
-	void apply_mods(const std::string &mut, bool add_remove);
+        /** Applies stat mods to character. */
+        void apply_mods(const std::string &mut, bool add_remove);
  public:
         /** Handles things like destruction of armor, etc. */
         void mutation_effect(std::string mut);
