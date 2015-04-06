@@ -864,7 +864,18 @@ const recipe *select_crafting_recipe( int &batch_size )
             keepline = true;
         } else if (action == "FILTER") {
             filterstring = string_input_popup(_("Search:"), 85, filterstring,
-                                              _("Search tools or component using prefix t. \nSearch skills using prefix s, or S for skill used only. \n (i.e. \"t:hammer\" or \"c:two by four\" or \"s:cooking\".)"));
+                                              _("Special prefixes:\n"
+                                                "  [t] search tools\n"
+                                                "  [c] search components\n"
+                                                "  [q] search qualities\n"
+                                                "  [s] search skills\n"
+                                                "  [S] search skill used only\n"
+                                                "Examples:\n"
+                                                "  t:hammer\n"
+                                                "  c:two by four\n"
+                                                "  q:butchering\n"
+                                                "  s:cooking"
+                                                ));
             redraw = true;
         } else if (action == "QUIT") {
             chosen = nullptr;
@@ -1255,6 +1266,7 @@ void pick_recipes(const inventory &crafting_inv,
     bool search_component = false;
     bool search_skill = false;
     bool search_skill_primary_only = false;
+    bool search_qualities = false;
     size_t pos = filter.find(":");
     if(pos != std::string::npos) {
         search_name = false;
@@ -1270,6 +1282,8 @@ void pick_recipes(const inventory &crafting_inv,
                 search_skill = true;
             } else if( elem == 'S' ) {
                 search_skill_primary_only = true;
+            } else if( elem == 'q' ) {
+                search_qualities = true;
             }
         }
         filter = filter.substr(pos + 1);
@@ -1310,6 +1324,20 @@ void pick_recipes(const inventory &crafting_inv,
                     if( !lcmatch( item::nname( rec->result ), filter ) ) {
                         continue;
                     }
+                }
+                if(search_qualities) {
+                  bool match_found = false;
+                  itype *it = item::find_type(rec->result);
+
+                  for( auto & quality : it->qualities ) {
+                    if (lcmatch(quality::get_name(quality.first), filter)) {
+                      match_found = true;
+                      break;
+                    }
+                  }
+                  if (!match_found) {
+                    continue;
+                  }
                 }
                 if(search_tool) {
                     if( !lcmatch_any( rec->requirements.tools, filter ) ) {
