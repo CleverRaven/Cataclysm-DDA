@@ -502,28 +502,25 @@ bool map::pl_sees( const int tx, const int ty, const int max_range )
  * @param starty the vertical component of the starting location
  * @param radius the maximum distance to draw the FOV
  */
-void map::build_seen_cache()
+void map::build_seen_cache(const tripoint &origin)
 {
     memset(seen_cache, false, sizeof(seen_cache));
-    seen_cache[g->u.posx()][g->u.posy()] = true;
+    seen_cache[origin.x][origin.y] = true;
 
-    const int offsetX = g->u.posx();
-    const int offsetY = g->u.posy();
+    castLight( seen_cache, transparency_cache, 0, 1, 1, 0, origin.x, origin.y, 0 );
+    castLight( seen_cache, transparency_cache, 1, 0, 0, 1, origin.x, origin.y, 0 );
 
-    castLight( seen_cache, transparency_cache, 0, 1, 1, 0, offsetX, offsetY, 0 );
-    castLight( seen_cache, transparency_cache, 1, 0, 0, 1, offsetX, offsetY, 0 );
+    castLight( seen_cache, transparency_cache, 0, -1, 1, 0, origin.x, origin.y, 0 );
+    castLight( seen_cache, transparency_cache, -1, 0, 0, 1, origin.x, origin.y, 0 );
 
-    castLight( seen_cache, transparency_cache, 0, -1, 1, 0, offsetX, offsetY, 0 );
-    castLight( seen_cache, transparency_cache, -1, 0, 0, 1, offsetX, offsetY, 0 );
+    castLight( seen_cache, transparency_cache, 0, 1, -1, 0, origin.x, origin.y, 0 );
+    castLight( seen_cache, transparency_cache, 1, 0, 0, -1, origin.x, origin.y, 0 );
 
-    castLight( seen_cache, transparency_cache, 0, 1, -1, 0, offsetX, offsetY, 0 );
-    castLight( seen_cache, transparency_cache, 1, 0, 0, -1, offsetX, offsetY, 0 );
-
-    castLight( seen_cache, transparency_cache, 0, -1, -1, 0, offsetX, offsetY, 0 );
-    castLight( seen_cache, transparency_cache, -1, 0, 0, -1, offsetX, offsetY, 0 );
+    castLight( seen_cache, transparency_cache, 0, -1, -1, 0, origin.x, origin.y, 0 );
+    castLight( seen_cache, transparency_cache, -1, 0, 0, -1, origin.x, origin.y, 0 );
 
     int part;
-    if ( vehicle *veh = veh_at( offsetX, offsetY, part ) ) {
+    if ( vehicle *veh = veh_at( origin.x, origin.y, part ) ) {
         // We're inside a vehicle. Do mirror calcs.
         std::vector<int> mirrors = veh->all_parts_with_feature(VPFLAG_EXTENDS_VISION, true);
         // Do all the sight checks first to prevent fake multiple reflection
@@ -539,7 +536,7 @@ void map::build_seen_cache()
             } else if( !veh->part_info( *m_it ).has_flag( "CAMERA_CONTROL" ) ) {
                 ++m_it;
             } else {
-                if( offsetX == mirror_pos.x && offsetY == mirror_pos.y && veh->camera_on ) {
+                if( origin.x == mirror_pos.x && origin.y == mirror_pos.y && veh->camera_on ) {
                     cam_control = *m_it;
                 }
                 m_it = mirrors.erase( m_it );
@@ -559,7 +556,7 @@ void map::build_seen_cache()
             // don't cheat the light distance falloff.
             int offsetDistance;
             if( !is_camera ) {
-                offsetDistance = rl_dist(offsetX, offsetY, mirror_pos.x, mirror_pos.y);
+                offsetDistance = rl_dist(origin.x, origin.y, mirror_pos.x, mirror_pos.y);
             } else {
                 offsetDistance = 60 - veh->part_info( mirror ).bonus *
                                       veh->parts[mirror].hp / veh->part_info( mirror ).durability;
