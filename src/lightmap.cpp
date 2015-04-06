@@ -594,20 +594,25 @@ void map::castLight( int row, float start, float end, int xx, int xy, int yx, in
     if( start < end ) {
         return;
     }
-    bool blocked = false;
-    for( int distance = row; distance <= radius && !blocked; distance++ ) {
+    for( int distance = row; distance <= radius; distance++ ) {
         int deltaY = -distance;
+        bool started_row = false;
+        float current_transparency;
         for( int deltaX = -distance; deltaX <= 0; deltaX++ ) {
             int currentX = offsetX + deltaX * xx + deltaY * xy;
             int currentY = offsetY + deltaX * yx + deltaY * yy;
-            float leftSlope = (deltaX - 0.5f) / (deltaY + 0.5f);
-            float rightSlope = (deltaX + 0.5f) / (deltaY - 0.5f);
+            float leadingEdge = (deltaX - 0.5f) / (deltaY + 0.5f);
+            float trailingEdge = (deltaX + 0.5f) / (deltaY - 0.5f);
 
             if( !(currentX >= 0 && currentY >= 0 && currentX < SEEX * my_MAPSIZE &&
-                  currentY < SEEY * my_MAPSIZE) || start < rightSlope ) {
+                  currentY < SEEY * my_MAPSIZE) || start < trailingEdge ) {
                 continue;
-            } else if( end > leftSlope ) {
+            } else if( end > leadingEdge ) {
                 break;
+            }
+            if( !started_row ) {
+                started_row = true;
+                current_transparency = light_transparency( currentX, currentY );
             }
 
             //check if it's within the visible area and mark visible if so
@@ -619,26 +624,28 @@ void map::castLight( int row, float start, float end, int xx, int xy, int yx, in
                 seen_cache[currentX][currentY] = true;
             }
 
-            if( blocked ) {
-                //previous cell was a blocking one
-                if( light_transparency(currentX, currentY) == LIGHT_TRANSPARENCY_SOLID ) {
-                    //hit a wall
-                    newStart = rightSlope;
-                    continue;
-                } else {
-                    blocked = false;
+            float new_transparency = light_transparency( currentX, currentY );
+
+            if( new_transparency != current_transparency ) {
+                // Only cast recursively if previous span was not opaque.
+                if( current_transparency != LIGHT_TRANSPARENCY_SOLID ) {
+                    castLight( distance + 1, start, leadingEdge, xx, xy, yx, yy,
+                               offsetX, offsetY, offsetDistance );
+                    newStart = trailingEdge;
+                }
+                // We either recursed into a transparent span, or did NOT recurse into an opaque span,
+                // either way the new span starts at the trailing edge of the previous square.
+                if( new_transparency != LIGHT_TRANSPARENCY_SOLID ) {
                     start = newStart;
                 }
-            } else {
-                if( light_transparency(currentX, currentY) == LIGHT_TRANSPARENCY_SOLID &&
-                    distance < radius ) {
-                    //hit a wall within sight line
-                    blocked = true;
-                    castLight(distance + 1, start, leftSlope, xx, xy, yx, yy,
-                              offsetX, offsetY, offsetDistance);
-                    newStart = rightSlope;
-                }
+                current_transparency = new_transparency;
+            } else if( current_transparency == LIGHT_TRANSPARENCY_SOLID ) {
+                newStart = trailingEdge;
             }
+        }
+        if( current_transparency == LIGHT_TRANSPARENCY_SOLID ) {
+            // If we reach the end of the span with terrain being opaque, we don't iterate further.
+            break;
         }
     }
 }
