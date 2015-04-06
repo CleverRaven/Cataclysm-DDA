@@ -11,6 +11,7 @@ typedef std::vector< std::pair<item *, int> > itemslice;
 
 enum aim_location {
     AIM_INVENTORY,
+    AIM_WORN,
     AIM_SOUTHWEST,
     AIM_SOUTH,
     AIM_SOUTHEAST,
@@ -309,7 +310,7 @@ class advanced_inventory
          * as index.
          */
         std::array<advanced_inventory_pane, 2> panes;
-        std::array<advanced_inv_area, 14> squares;
+        std::array<advanced_inv_area, 15> squares;
 
         WINDOW *head;
         WINDOW *left_window;

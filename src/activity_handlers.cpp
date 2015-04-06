@@ -409,6 +409,18 @@ void activity_handlers::fill_liquid_do_turn( player_activity *act, player *p )
     p->pause();
 }
 
+// handles equipping an item on ACT_PICKUP, if requested
+void activity_handlers::pickup_finish(player_activity *act, player *p)
+{
+    // loop through all the str_values, and if we find equip, do so.
+    // if no str_values present, carry on
+    for(auto &elem : act->str_values) {
+        if(elem == "equip") {
+            item &it = p->i_at(act->position);
+            p->wear_item(&it);
+        }
+    }
+}
 
 void activity_handlers::firstaid_finish( player_activity *act, player *p )
 {
