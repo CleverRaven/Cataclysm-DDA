@@ -47,7 +47,8 @@ const std::string &player_activity::get_stop_phrase() const
         _(" Stop fiddling with your clothes?"),
         _(" Stop lighting the fire?"), _(" Stop filling the container?"),
         _(" Stop hotwiring the vehicle?"),
-        _(" Stop aiming?"), _(" Stop using the ATM?")
+        _(" Stop aiming?"), _(" Stop using the ATM?"),
+        _(" Stop trying to start the vehicle?"), _(" Stop welding?")
     };
     return stop_phrase[type];
 }
@@ -76,6 +77,8 @@ bool player_activity::is_abortable() const
         case ACT_ARMOR_LAYERS:
         case ACT_START_FIRE:
         case ACT_FILL_LIQUID:
+        case ACT_START_ENGINES:
+        case ACT_OXYTORCH:
             return true;
         default:
             return false;
@@ -104,6 +107,7 @@ bool player_activity::is_suspendable() const
         case ACT_ARMOR_LAYERS:
         case ACT_AIM:
         case ACT_ATM:
+        case ACT_START_ENGINES:
             return false;
         default:
             return true;
@@ -218,6 +222,23 @@ void player_activity::do_turn( player *p )
                 moves_left = 0;
             }
             iexamine::atm(p, nullptr, 0, 0);
+            break;
+        case ACT_START_ENGINES:
+            moves_left -= 100;
+            p->rooted();
+            p->pause();
+            break;
+        case ACT_OXYTORCH:
+            if( p->moves <= moves_left ) {
+                moves_left -= p->moves;
+                p->moves = 0;
+            } else {
+                p->moves -= moves_left;
+                moves_left = 0;
+            }
+            if( values[0] > 0 ) {
+                activity_handlers::oxytorch_do_turn( this, p );
+            }
             break;
         default:
             // Based on speed, not time
@@ -335,6 +356,14 @@ void player_activity::finish( player *p )
             if (!index) {
                 type = ACT_NULL;
             }
+            break;
+        case ACT_START_ENGINES:
+            activity_handlers::start_engines_finish( this, p );
+            type = ACT_NULL;
+            break;
+        case ACT_OXYTORCH:
+            activity_handlers::oxytorch_finish( this, p );
+            type = ACT_NULL;
             break;
         default:
             type = ACT_NULL;

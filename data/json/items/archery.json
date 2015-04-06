@@ -543,7 +543,7 @@
       "symbol" : "=",
       "color" : "green",
       "name" : "exploding arrowhead",
-      "description" : "This simple IED is designed to be attached to an arrow and detonate on impact.  Theoretically you could throw it but who would want to do that?",
+      "description" : "This simple IED is designed to be attached to an arrow and detonate on impact.",
       "price" : 2000,
       "material" : "steel",
       "weight" : 562,

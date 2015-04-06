@@ -20,6 +20,7 @@
 #include <string>
 
 class JsonObject;
+struct visibility_variables;
 
 /** Structures */
 struct tile_type
@@ -215,7 +216,10 @@ class cata_tiles
         void get_rotation_and_subtile(const char val, const int num_connects, int &rota, int &subtype);
 
         /** Drawing Layers */
-        bool draw_lighting(int x, int y, lit_level l);
+        void draw_single_tile(const int x, const int y, const lit_level ll,
+			      const visibility_variables &cache);
+        bool apply_vision_effects(const int x, const int y,
+                                  const visibility_type visibility);
         bool draw_terrain(int x, int y);
         bool draw_furniture(int x, int y);
         bool draw_trap(int x, int y);
@@ -273,8 +277,13 @@ class cata_tiles
         int get_tile_width() const { return tile_width; }
         float get_tile_ratiox() const { return tile_ratiox; }
         float get_tile_ratioy() const { return tile_ratioy; }
+        void do_tile_loading_report();
     protected:
         void get_tile_information(std::string dir_path, std::string &json_path, std::string &tileset_path);
+        template <typename maptype>
+        void tile_loading_report(maptype const & tiletypemap, std::string const & label, std::string const & prefix = "");
+        template <typename arraytype>
+        void tile_loading_report(arraytype const & array, int array_length, std::string const & label, std::string const & prefix = "");
         /** Lighting */
         void init_light();
 
@@ -327,21 +336,7 @@ class cata_tiles
     protected:
     private:
         void create_default_item_highlight();
-        void draw_specific_tile(int x, int y, lit_level ll);
-        int
-            sightrange_natural,
-            sightrange_light,
-            sightrange_lowlight,
-            sightrange_max;
-        int
-            u_clairvoyance,
-            g_lightlevel;
-        bool
-            boomered,
-            sight_impaired,
-            bionight_bionic_active;
         int last_pos_x, last_pos_y;
-
 };
 
 #endif

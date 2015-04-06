@@ -33,8 +33,9 @@
 
 class item;
 struct point;
+struct tripoint;
 struct trap;
-enum nc_color : int;
+typedef int nc_color;
 
 /**
  * Weather type enum.
@@ -143,9 +144,21 @@ int get_local_humidity(double humidity, weather_type weather, bool sheltered = f
 int get_local_windpower(double windpower, std::string const &omtername = "no name",
                         bool sheltered = false);
 
-void retroactively_fill_from_funnel( item *it, const trap &tr, const calendar &, const point &);
+/**
+ * @param it The container item which is to be filled.
+ * @param pos The absolute position of the funnel (in the map square system, the one used
+ * by the @ref map, but absolute).
+ * @param tr The funnel (trap which acts as a funnel).
+ */
+void retroactively_fill_from_funnel( item &it, const trap &tr, const calendar &endturn, const tripoint &pos);
 
-int get_hourly_rotpoints_at_temp (int temp);
-int get_rot_since( int since, int endturn, const point &);
+/**
+ * Get the amount of rotting that an item would accumulate between start and end turn at the given
+ * locations.
+ * The location is in absolute maps squares (the system which the @ref map uses),
+ * but absolute (@ref map::getabs).
+ * The returned value is in turns (at standard conditions it is endturn-startturn).
+ */
+int get_rot_since( int startturn, int endturn, const tripoint &pos );
 
 #endif

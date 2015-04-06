@@ -4,6 +4,7 @@
 #include "json.h"
 #include "path_info.h"
 #include "monstergenerator.h"
+#include "item_factory.h"
 #include "item.h"
 #include "veh_type.h"
 #include "filesystem.h"
@@ -58,10 +59,6 @@ cata_tiles::cata_tiles(SDL_Renderer *render)
     do_draw_weather = false;
     do_draw_sct = false;
     do_draw_zones = false;
-
-    boomered = false;
-    sight_impaired = false;
-    bionight_bionic_active = false;
 
     last_pos_x = 0;
     last_pos_y = 0;
@@ -503,11 +500,10 @@ tile_type *cata_tiles::load_tile(JsonObject &entry, const std::string &id, int o
     return curr_subtile;
 }
 
-void cata_tiles::draw_specific_tile(int x, int y, lit_level ll) {
-    const auto critter = g->critter_at( x, y );
-    if ( ll == LL_DARK || ll == LL_BRIGHT_ONLY || ll == LL_BLANK ) {
-        // Draw lighting
-        draw_lighting(x, y, ll);
+void cata_tiles::draw_single_tile( int x, int y, lit_level ll,
+                                   const visibility_variables &cache ) {
+    if( apply_vision_effects( x, y, g->m.get_visibility(ll, cache) ) ) {
+        const auto critter = g->critter_at( x, y );
         if( critter != nullptr && g->u.sees_with_infrared( *critter ) ) {
             draw_from_id_string( "infrared_creature", C_NONE, empty_string, x, y, 0, 0 );
         }
@@ -522,6 +518,7 @@ void cata_tiles::draw_specific_tile(int x, int y, lit_level ll) {
     draw_trap(x, y);
     draw_field_or_item(x, y);
     draw_vpart(x, y);
+    const auto critter = g->critter_at( x, y );
     if( critter != nullptr ) {
         draw_entity( *critter, x, y );
     }
@@ -546,6 +543,8 @@ void cata_tiles::draw(int destx, int desty, int centerx, int centery, int width,
     get_window_tile_counts(width, height, sx, sy);
 
     init_light();
+    visibility_variables cache;
+    g->m.update_visibility_cache(cache);
 
     o_x = posx - POSX;
     o_y = posy - POSY;
@@ -555,9 +554,9 @@ void cata_tiles::draw(int destx, int desty, int centerx, int centery, int width,
     screentile_width = (width + tile_width - 1) / tile_width;
     screentile_height = (height + tile_height - 1) / tile_height;
 
-    for (int x=o_x; x <= o_x+sx-1; x++) {
-        for (int y=o_y; y <= o_y+sy-1; y++) {
-            draw_specific_tile(x,y,g->m.visibility_cache[x][y]);
+    for( int x = o_x; x <= o_x + sx - 1; x++ ) {
+        for( int y = o_y; y <= o_y + sy - 1; y++ ) {
+            draw_single_tile( x, y, g->m.visibility_cache[x][y], cache );
         }
     }
 
@@ -859,37 +858,34 @@ bool cata_tiles::draw_tile_at(tile_type *tile, int x, int y, int rota)
     return true;
 }
 
-bool cata_tiles::draw_lighting(int x, int y, lit_level l)
+bool cata_tiles::apply_vision_effects( const int x, const int y,
+                                       const visibility_type visibility )
 {
     std::string light_name;
-    switch(l) {
-        case LL_BLANK:
+    switch( visibility ) {
+        case VIS_HIDDEN:
             light_name = "lighting_hidden";
             break;
-        case LL_BRIGHT_ONLY:
-        case LL_LIT:
-            if (g->m.u_is_boomered) {
-                light_name = "lighting_boomered_light";
-            } else {
-                light_name = "lighting_lowlight_light";
-            }
+        case VIS_LIT:
+            light_name = "lighting_lowlight_light";
             break;
-        case LL_DARK:
-        case LL_LOW:
-            if (g->m.u_is_boomered) {
-                light_name = "lighting_boomered_dark";
-            } else {
-                light_name = "lighting_lowlight_dark";
-            }
+        case VIS_BOOMER:
+            light_name = "lighting_boomered_light";
             break;
-        default: // Actually handled by the caller.
+        case VIS_BOOMER_DARK:
+            light_name = "lighting_boomered_dark";
+            break;
+        case VIS_DARK:
+            light_name = "lighting_lowlight_dark";
+            break;
+        case VIS_CLEAR: // Handled by the caller.
             return false;
     }
 
     // lighting is never rotated, though, could possibly add in random rotation?
     draw_from_id_string(light_name, C_LIGHTING, empty_string, x, y, 0, 0);
 
-    return false;
+    return true;
 }
 
 bool cata_tiles::draw_terrain(int x, int y)
@@ -949,7 +945,7 @@ bool cata_tiles::draw_furniture(int x, int y)
     // get the name of this furniture piece
     std::string f_name = furnlist[f_id].id; // replace with furniture names array access
     bool ret = draw_from_id_string(f_name, C_FURNITURE, empty_string, x, y, subtile, rotation);
-    if (ret && g->m.sees_some_items(x, y, g->u)) {
+    if (ret && g->m.sees_some_items(tripoint(x, y, g->get_levz()), g->u)) {
         draw_item_highlight(x, y);
     }
     return ret;
@@ -1039,7 +1035,7 @@ bool cata_tiles::draw_field_or_item(int x, int y)
         ret_draw_field = draw_from_id_string(fd_name, C_FIELD, empty_string, x, y, subtile, rotation);
     }
     if(do_item) {
-        if (!g->m.sees_some_items(x, y, g->u)) {
+        if( !g->m.sees_some_items(tripoint(x, y, g->get_levz()), g->u) ) {
             return false;
         }
         auto items = g->m.i_at(x, y);
@@ -1430,8 +1426,6 @@ void cata_tiles::draw_footsteps_frame()
 void cata_tiles::init_light()
 {
     g->reset_light_level();
-
-    g->m.update_visibility_cache();
 }
 
 void cata_tiles::get_terrain_orientation(int x, int y, int &rota, int &subtile)
@@ -1586,6 +1580,54 @@ void cata_tiles::get_tile_values(const int t, const int *tn, int &subtile, int &
         }
     }
     get_rotation_and_subtile(val, num_connects, rotation, subtile);
+}
+
+void cata_tiles::do_tile_loading_report() {
+    DebugLog( D_INFO, DC_ALL ) << "Loaded tileset: " << OPTIONS["TILES"].getValue();
+
+    tile_loading_report(termap, "Terrain", "");
+    tile_loading_report(furnmap, "Furniture", "");
+    //TODO: exclude fake items from Item_factory::init_old()
+    tile_loading_report(item_controller->get_all_itypes(), "Items", "");
+    tile_loading_report(MonsterGenerator::generator().get_all_mtypes(), "Monsters", "");
+    tile_loading_report(vehicle_part_types, "Vehicle Parts", "vp_");
+    tile_loading_report(trapmap, "Traps", "");
+    tile_loading_report(fieldlist, num_fields, "Fields", "");
+
+    // needed until DebugLog ostream::flush bugfix lands
+    DebugLog( D_INFO, DC_ALL );
+}
+
+// TODO: make one more generally templated function, possibly using specialization, for both maps and arrays with ids
+template <typename maptype>
+void cata_tiles::tile_loading_report(maptype const & tiletypemap, std::string const & label, std::string const & prefix) {
+    int missing=0, present=0;
+    std::string missing_list;
+    for( auto const & i : tiletypemap ) {
+        if (tile_ids.count(prefix+i.first) == 0) {
+            missing++;
+            missing_list.append(i.first+" ");
+        } else {
+            present++;
+        }
+    }
+    DebugLog( D_INFO, DC_ALL ) << "Missing " << label << ": " << missing_list;
+}
+
+template <typename arraytype>
+void cata_tiles::tile_loading_report(arraytype const & array, int array_length, std::string const & label, std::string const & prefix) {
+    // fields are the only tile-able thing not kept in a map?
+    int missing=0, present=0;
+    std::string missing_list;
+    for(int i = 0; i < array_length; ++i) {
+        if (tile_ids.count(prefix+array[i].id) == 0) {
+            missing++;
+            missing_list.append(array[i].id+" ");
+        } else {
+            present++;
+        }
+    }
+    DebugLog( D_INFO, DC_ALL ) << "Missing " << label << ": " << missing_list;
 }
 
 #endif // SDL_TILES

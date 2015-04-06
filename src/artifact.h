@@ -72,10 +72,10 @@ class it_artifact_tool : public it_tool, public JsonSerializer, public JsonDeser
         }
 
         using JsonSerializer::serialize;
-        void serialize(JsonOut &json) const;
+        void serialize(JsonOut &json) const override;
         using JsonDeserializer::deserialize;
         void deserialize(JsonObject &jo);
-        void deserialize(JsonIn &jsin)
+        void deserialize(JsonIn &jsin) override
         {
             JsonObject jo = jsin.get_object();
             deserialize(jo);
@@ -99,10 +99,10 @@ class it_artifact_armor : public itype, public JsonSerializer, public JsonDeseri
         }
 
         using JsonSerializer::serialize;
-        void serialize(JsonOut &json) const;
+        void serialize(JsonOut &json) const override;
         using JsonDeserializer::deserialize;
         void deserialize(JsonObject &jo);
-        void deserialize(JsonIn &jsin)
+        void deserialize(JsonIn &jsin) override
         {
             JsonObject jo = jsin.get_object();
             deserialize(jo);

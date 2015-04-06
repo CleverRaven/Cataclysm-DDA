@@ -432,6 +432,9 @@ void player::serialize(JsonOut &json) const
     json.member( "stomach_food", stomach_food );
     json.member( "stomach_water", stomach_water );
 
+    json.member( "stamina", stamina);
+    json.member( "move_mode", move_mode );
+
     // crafting etc
     json.member( "activity", activity );
     json.member( "backlog", backlog );
@@ -539,6 +542,9 @@ void player::deserialize(JsonIn &jsin)
     data.read( "focus_pool", focus_pool);
     data.read( "style_selected", style_selected );
     data.read( "keep_hands_free", keep_hands_free );
+
+    data.read( "stamina", stamina);
+    data.read( "move_mode", move_mode );
 
     set_highest_cat_level();
     drench_mut_calc();
@@ -657,15 +663,15 @@ void npc_combat_rules::deserialize(JsonIn &jsin)
     data.read( "use_silent", use_silent);
 }
 
+extern std::string convert_talk_topic( talk_topic_enum );
+
 void npc_chatbin::serialize(JsonOut &json) const
 {
     json.start_object();
-    json.member( "first_topic", (int)first_topic );
+    json.member( "first_topic", first_topic );
     if( mission_selected != nullptr ) {
         json.member( "mission_selected", mission_selected->get_id() );
     }
-    json.member( "tempvalue",
-                 tempvalue );     //No clue what this value does, but it is used all over the place. So it is NOT temp.
     if ( skill ) {
         json.member("skill", skill->ident() );
     }
@@ -677,17 +683,20 @@ void npc_chatbin::serialize(JsonOut &json) const
 void npc_chatbin::deserialize(JsonIn &jsin)
 {
     JsonObject data = jsin.get_object();
-    int tmptopic;
     std::string skill_ident;
 
-    data.read("first_topic", tmptopic);
-    first_topic = talk_topic(tmptopic);
+    if( data.has_int( "first_topic" ) ) {
+        int tmptopic;
+        data.read("first_topic", tmptopic);
+        first_topic = convert_talk_topic( talk_topic_enum(tmptopic) );
+    } else {
+        data.read("first_topic", first_topic);
+    }
 
     if ( data.read("skill", skill_ident) ) {
         skill = Skill::skill(skill_ident);
     }
 
-    data.read("tempvalue", tempvalue);
     std::vector<int> tmpmissions;
     data.read( "missions", tmpmissions );
     missions = mission::to_ptr_vector( tmpmissions );
@@ -1185,6 +1194,16 @@ void item::deserialize(JsonObject &data)
         // There was a bug that set all comestibles active, this reverses that.
         active = false;
     }
+    // We need item tags here to make sure HOT/COLD food is active
+    // and bugged WET towels get reactivated
+    data.read("item_tags", item_tags);
+
+    if( !active && 
+        (item_tags.count( "HOT" ) > 0 || item_tags.count( "COLD" ) > 0 || 
+         item_tags.count( "WET" ) > 0) ) {
+        // Some hot/cold items from legacy saves may be inactive
+        active = true;
+    }
 
     if( data.read( "curammo", ammotmp ) ) {
         set_curammo( ammotmp );
@@ -1200,9 +1219,6 @@ void item::deserialize(JsonObject &data)
     } else {
         covered_bodyparts = tmp_covers;
     }
-
-    data.read("item_tags", item_tags);
-
 
     int tmplum = 0;
     if ( data.read("light", tmplum) ) {
@@ -1437,6 +1453,7 @@ void vehicle::deserialize(JsonIn &jsin)
     data.read("camera_on", camera_on);
     data.read("dome_lights_on", dome_lights_on);
     data.read("aisle_lights_on", aisle_lights_on);
+    data.read("has_atomic_lights", has_atomic_lights);
 
     face.init (fdir);
     move.init (mdir);
@@ -1513,6 +1530,7 @@ void vehicle::serialize(JsonOut &json) const
     json.member( "camera_on", camera_on );
     json.member( "dome_lights_on", dome_lights_on );
     json.member( "aisle_lights_on", aisle_lights_on );
+    json.member( "has_atomic_lights", has_atomic_lights );
     json.end_object();
 }
 

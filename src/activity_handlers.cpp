@@ -159,15 +159,12 @@ void activity_handlers::butcher_finish( player_activity *act, player *p )
         return static_cast<int>( skill_shift );
     };
 
-    pieces += roll_butchery();
-    int practice = 4 + pieces;
-    if( practice > 20 ) {
-        practice = 20;
-    }
-
+    int practice = std::max( 0, 4 + pieces + roll_butchery());
+    
     p->practice("survival", practice);
 
-    // Lose some skins and bones if the rolls are low
+    // Lose some meat, skins, etc if the rolls are low
+    pieces +=   std::min( 0, roll_butchery() );
     skins +=    std::min( 0, roll_butchery() - 4 );
     bones +=    std::min( 0, roll_butchery() - 2 );
     fats +=     std::min( 0, roll_butchery() - 4 );
@@ -786,6 +783,8 @@ void activity_handlers::pulp_do_turn( player_activity *act, player *p )
         field_id type_blood = corpse->get_mtype()->bloodType();
         do {
             moves += move_cost;
+            const int mod_sta = ( (p->weapon.weight() / 100 ) + 20) * -1;
+            p->mod_stat("stamina", mod_sta);
             // Increase damage as we keep smashing,
             // to insure that we eventually smash the target.
             if( x_in_y(pulp_power, corpse->volume())  ) {
@@ -981,7 +980,10 @@ void activity_handlers::vehicle_finish( player_activity *act, player *)
     } else {
         if( veh ) {
             g->refresh_all();
-            g->exam_vehicle(*veh, act->values[0], act->values[1],
+            // TODO: Z (and also where the activity is queued)
+            // Or not, because the vehicle coords are dropped anyway
+            g->exam_vehicle(*veh,
+                            tripoint( act->values[0], act->values[1], g->get_levz() ),
                             act->values[2], act->values[3]);
             return;
         } else {
@@ -1025,4 +1027,105 @@ void activity_handlers::vibe_do_turn( player_activity *act, player *p )
     // well with roots.  Sorry.  :-(
 
     p->pause();
+}
+
+void activity_handlers::start_engines_finish( player_activity *act, player *p )
+{
+    // Find the vehicle by looking for a remote vehicle first, then by player relative coords
+    vehicle *veh = g->remoteveh();
+    if( !veh ) {
+        const point pos = act->placement + g->u.pos();
+        veh = g->m.veh_at( pos.x, pos.y );
+        if( !veh ) { return; }
+    }
+
+    int attempted = 0;
+    int started = 0;
+    int not_muscle = 0;
+    const bool take_control = act->values[0];
+
+    for( size_t e = 0; e < veh->engines.size(); ++e ) {
+        if( veh->is_engine_on( e ) ) {
+            attempted++;
+            if( veh->start_engine( e ) ) { started++; }
+            if( !veh->is_engine_type( e, "muscle" ) ) { not_muscle++; }
+        }
+    }
+
+    veh->engine_on = attempted > 0 && started == attempted;
+
+    if( attempted == 0 ) {
+        add_msg( m_info, _("The %s doesn't have an engine!"), veh->name.c_str() );
+    } else if( not_muscle > 0 ) {
+        if( started == attempted ) {
+            add_msg( ngettext("The %s's engine starts up.",
+                "The %s's engines start up.", not_muscle), veh->name.c_str() );
+        } else {
+            add_msg( m_bad, ngettext("The %s's engine fails to start.",
+                "The %s's engines fail to start.", not_muscle), veh->name.c_str() );
+        }
+    }
+
+    if( take_control && !veh->engine_on && !veh->velocity ) {
+        p->controlling_vehicle = false;
+        add_msg(_("You let go of the controls."));
+    }
+}
+
+void activity_handlers::oxytorch_do_turn( player_activity *act, player *p )
+{
+    item &it = p->i_at( act->position );
+    // act->values[0] is the number of charges yet to be consumed
+    const int charges_used = std::min( act->values[0], it.type->charges_to_use() );
+
+    it.charges -= charges_used;
+    act->values[0] -= charges_used;
+
+    if( calendar::turn % 2 ) {
+        sounds::sound( act->placement.x, act->placement.y, 10, _("hissssssssss!") );
+    }
+}
+
+void activity_handlers::oxytorch_finish( player_activity *act, player *p )
+{
+    const int dirx = act->placement.x;
+    const int diry = act->placement.y;
+    const ter_id ter = g->m.ter( dirx, diry );
+
+    // fast players might still have some charges left to be consumed
+    p->i_at( act->position ).charges -= act->values[0];
+
+    if( g->m.furn( dirx, diry ) == f_rack ) {
+        g->m.furn_set( dirx, diry, f_null );
+        g->m.spawn_item( p->posx(), p->posy(), "steel_chunk", rng(2, 6) );
+    } else if( ter == t_chainfence_v || ter == t_chainfence_h || ter == t_chaingate_c ||
+        ter == t_chaingate_l ) {
+        g->m.ter_set(  dirx, diry, t_dirt  );
+        g->m.spawn_item( dirx, diry, "pipe", rng(1, 4) );
+        g->m.spawn_item( dirx, diry, "wire", rng(4, 16) );
+    } else if( ter == t_chainfence_posts ) {
+        g->m.ter_set( dirx, diry, t_dirt );
+        g->m.spawn_item( dirx, diry, "pipe", rng(1, 4) );
+    } else if( ter == t_door_metal_locked || ter == t_door_metal_c || ter == t_door_bar_c ||
+               ter == t_door_bar_locked || ter == t_door_metal_pickable ) {
+        g->m.ter_set( dirx, diry, t_mdoor_frame );
+        g->m.spawn_item( dirx, diry, "steel_plate", rng(0, 1) );
+        g->m.spawn_item( dirx, diry, "steel_chunk", rng(3, 8) );
+    } else if( ter == t_window_enhanced || ter == t_window_enhanced_noglass ) {
+        g->m.ter_set( dirx, diry, t_window_empty  );
+        g->m.spawn_item( dirx, diry, "steel_plate", rng(0, 1) );
+        g->m.spawn_item( dirx, diry, "sheet_metal", rng(1, 3) );
+    } else if( ter == t_bars ) {
+        if (g->m.ter( dirx + 1, diry ) == t_sewage || g->m.ter( dirx, diry + 1 ) == t_sewage ||
+            g->m.ter( dirx - 1, diry ) == t_sewage || g->m.ter( dirx, diry - 1 ) == t_sewage) {
+            g->m.ter_set( dirx, diry, t_sewage );
+            g->m.spawn_item( p->posx(), p->posy(), "pipe", rng(1, 2) );
+        } else {
+            g->m.ter_set( dirx, diry, t_floor );
+            g->m.spawn_item( p->posx(), p->posy(), "pipe", rng(1, 2) );
+        }
+    } else if( ter == t_window_bars_alarm ) {
+        g->m.ter_set( dirx, diry, t_window_empty );
+        g->m.spawn_item( p->posx(), p->posy(), "pipe", rng(1, 2) );
+    }
 }

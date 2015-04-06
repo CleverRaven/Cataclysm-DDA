@@ -1013,30 +1013,43 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump, bool debug) c
                                            unread ) );
             }
 
-            if (!(book->recipes.empty())) {
+            std::vector<std::string> recipe_list;
+            for( auto const & elem : book->recipes ) {
+                const bool knows_it = g->u.knows_recipe( elem.recipe );
+                // If the player knows it, they recognize it even if it's not clearly stated.
+                if( elem.is_hidden() && !knows_it ) {
+                    continue;
+                }
+                if( knows_it ) {
+                    // In case the recipe is known, but has a different name in the book, use the
+                    // real name to avoid confusing the player.
+                    const std::string name = item::nname( elem.recipe->result );
+                    recipe_list.push_back( string_format( "<color_ltgray>%s</color>", name.c_str() ) );
+                } else {
+                    recipe_list.push_back( elem.name );
+                }
+            }
+            if( !recipe_list.empty() ) {
                 std::string recipes = "";
                 size_t index = 1;
-                for( auto iter = book->recipes.begin();
-                     iter != book->recipes.end(); ++iter, ++index ) {
-                    if(g->u.knows_recipe(iter->first)) {
-                        recipes += "<color_ltgray>";
-                    }
-                    recipes += nname( iter->first->result, 1 );
-                    if(g->u.knows_recipe(iter->first)) {
-                        recipes += "</color>";
-                    }
-                    if(index == book->recipes.size() - 1) {
+                for( auto iter = recipe_list.begin();
+                     iter != recipe_list.end(); ++iter, ++index ) {
+                    recipes += *iter;
+                    if(index == recipe_list.size() - 1) {
                         recipes += _(" and "); // Who gives a fuck about an oxford comma?
-                    } else if(index != book->recipes.size()) {
+                    } else if(index != recipe_list.size()) {
                         recipes += _(", ");
                     }
                 }
                 std::string recipe_line = string_format(
                     ngettext("This book contains %1$d crafting recipe: %2$s",
-                             "This book contains %1$d crafting recipes: %2$s", book->recipes.size()),
-                    book->recipes.size(), recipes.c_str());
+                             "This book contains %1$d crafting recipes: %2$s", recipe_list.size()),
+                    recipe_list.size(), recipes.c_str());
                 dump->push_back(iteminfo("DESCRIPTION", "--"));
                 dump->push_back(iteminfo("DESCRIPTION", recipe_line));
+            }
+            if( recipe_list.size() != book->recipes.size() ) {
+                dump->push_back( iteminfo( "DESCRIPTION", _( "It might help you figuring out some more recipes." ) ) );
             }
         } else {
             dump->push_back(iteminfo("BOOK", _("You need to read this book to see its contents.")));
@@ -1344,6 +1357,30 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump, bool debug) c
         if (is_tool() && has_flag("USE_UPS")) {
             dump->push_back(iteminfo("DESCRIPTION",
                 _("This tool has been modified to use a universal power supply and is not compatible with standard batteries.")));
+        }
+        if( is_tool() && has_flag("RADIO_ACTIVATION") ) {
+            if( has_flag( "RADIO_MOD" ) ) {
+                dump->push_back(iteminfo("DESCRIPTION",
+                    _("This item has been modified to listen to radio signals. It can still be activated manually.")));
+            } else {
+                dump->push_back(iteminfo("DESCRIPTION",
+                    _("This item can only be activated by a radio signal.")));
+            }
+
+            if( has_flag("RADIOSIGNAL_1") ) {
+                dump->push_back(iteminfo("DESCRIPTION", _("It will be activated by \"Red\" radio signal.")));
+            } else if( has_flag("RADIOSIGNAL_2") ) {
+                dump->push_back(iteminfo("DESCRIPTION", _("It will be activated by \"Blue\" radio signal.")));
+            } else if( has_flag("RADIOSIGNAL_3") ) {
+                dump->push_back(iteminfo("DESCRIPTION", _("It will be activated by \"Green\" radio signal.")));
+            } else {
+                dump->push_back(iteminfo("DESCRIPTION", _("It is bugged and does not actually listen to radio signals.")));
+            }
+
+            if( has_flag( "RADIO_INVOKE_PROC" ) ) {
+                dump->push_back(iteminfo("DESCRIPTION",
+                    _("Activating this item with a radio signal will detonate it immediately.")));
+            }
         }
 
         if (has_flag("LEAK_DAM") && has_flag("RADIOACTIVE") && damage > 0) {
@@ -1797,6 +1834,18 @@ std::string item::tname( unsigned int quantity, bool with_prefix ) const
     }
     if (is_tool() && has_flag("USE_UPS")){
         ret << _(" (UPS)");
+    }
+    if (is_tool() && has_flag("RADIO_MOD")){
+        ret << _(" (radio:");
+        if( has_flag( "RADIOSIGNAL_1" ) ) {
+            ret << _("R)");
+        } else if( has_flag( "RADIOSIGNAL_2" ) ) {
+            ret << _("B)");
+        } else if( has_flag( "RADIOSIGNAL_3" ) ) {
+            ret << _("G)");
+        } else {
+            ret << _("Bug");
+        }
     }
     if (item_tags.count("wooled") > 0 ){
         ret << _(" (W)");
@@ -2260,7 +2309,7 @@ void item::set_relative_rot( float rel_rot )
     }
 }
 
-void item::calc_rot(const point &location)
+void item::calc_rot(const tripoint &location)
 {
     const int now = calendar::turn;
     if ( last_rot_check + 10 < now ) {
@@ -4284,12 +4333,12 @@ iteminfo::iteminfo(std::string Type, std::string Name, std::string Fmt, double V
     bDrawName = DrawName;
 }
 
-void item::detonate(point p) const
+void item::detonate( const tripoint &p ) const
 {
     if (type == NULL || type->explosion_on_fire_data.power < 0) {
         return;
     }
-    g->explosion(p.x, p.y, type->explosion_on_fire_data.power, type->explosion_on_fire_data.shrapnel, type->explosion_on_fire_data.fire, type->explosion_on_fire_data.blast);
+    g->explosion( p, type->explosion_on_fire_data.power, type->explosion_on_fire_data.shrapnel, type->explosion_on_fire_data.fire, type->explosion_on_fire_data.blast);
 }
 
 bool item_ptr_compare_by_charges( const item *left, const item *right)
@@ -4513,7 +4562,9 @@ int item::processing_speed() const
 
 bool item::process_food( player * /*carrier*/, point pos )
 {
-    calc_rot( pos );
+    // TODO: this functions (and all the other process functions) should be called with a tripoint
+    // If this gets implemented, don't forget that calc_rot expects an *absolute* position.
+    calc_rot( tripoint( g->m.getabs( pos ), g->get_levz() ) );
     if( item_tags.count( "HOT" ) > 0 ) {
         item_counter--;
         if( item_counter == 0 ) {
@@ -4619,7 +4670,7 @@ bool item::process_litcig( player *carrier, point pos )
         if( item_counter % 5 == 0 ) {
             g->m.add_field( pos.x + rng( -2, 2 ), pos.y + rng( -2, 2 ), smoke_type, 1 );
             // lit cigarette can start fires
-            if( g->m.flammable_items_at( pos.x, pos.y ) ||
+            if( g->m.flammable_items_at( tripoint( pos, g->get_levz() ) ) ||
                 g->m.has_flag( "FLAMMABLE", pos.x, pos.y ) ||
                 g->m.has_flag( "FLAMMABLE_ASH", pos.x, pos.y ) ) {
                 g->m.add_field( pos.x, pos.y, fd_fire, 1 );
@@ -4884,6 +4935,12 @@ bool item::process_charger_gun( player *carrier, point pos )
     return false;
 }
 
+bool item::process( player *carrier, const tripoint &pos, bool activate )
+{
+    // TODO: Z
+    return process( carrier, point( pos.x, pos.y ), activate );
+}
+
 bool item::process( player *carrier, point pos, bool activate )
 {
     const bool preserves = type->container && type->container->preserves;
@@ -4901,7 +4958,7 @@ bool item::process( player *carrier, point pos, bool activate )
     }
     if( activate ) {
         it_tool *tmp = dynamic_cast<it_tool *>( type );
-        return tmp->tick( carrier != nullptr ? carrier : &g->u, this, pos );
+        return tmp->invoke( carrier != nullptr ? carrier : &g->u, this, pos );
     }
     // How this works: it checks what kind of processing has to be done
     // (e.g. for food, for drying towels, lit cigars), and if that matches,
@@ -4999,6 +5056,33 @@ bool item::has_effect_when_carried( art_effect_passive effect ) const
         }
     }
     return false;
+}
+
+bool item::is_seed() const
+{
+    return type->seed.get() != nullptr;
+}
+
+int item::get_plant_epoch() const
+{
+    if( !type->seed ) {
+        return 0;
+    }
+    // 91 days is the approximate length of a real world season
+    // Growing times have been based around 91 rather than the default of 14 to give
+    // more accuracy for longer season lengths
+    // Note that it is converted based on the season_length option!
+    // Also note that seed->grow is the time it takes from seeding to harvest, this is
+    // divied by 3 to get the time it takes from one plant state to the next.
+    return DAYS( type->seed->grow * calendar::season_length() / ( 91 * 3 ) );
+}
+
+std::string item::get_plant_name() const
+{
+    if( !type->seed ) {
+        return std::string{};
+    }
+    return type->seed->plant_name;
 }
 
 std::string item::type_name( unsigned int quantity ) const

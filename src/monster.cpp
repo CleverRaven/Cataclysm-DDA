@@ -358,7 +358,7 @@ bool monster::avoid_trap( const tripoint & /* pos */, const trap &tr )
     if( digging() || has_flag( MF_FLIES ) ) {
         return true;
     }
-    return dice( 3, type->sk_dodge + 1 ) < dice( 3, tr.get_avoidance() );
+    return dice( 3, type->sk_dodge + 1 ) >= dice( 3, tr.get_avoidance() );
 }
 
 bool monster::has_flag(const m_flag f) const
@@ -399,6 +399,7 @@ bool monster::can_act() const
         ( effects.empty() ||
           ( !has_effect("stunned") && !has_effect("downed") && !has_effect("webbed") ) );
 }
+
 
 int monster::sight_range( const int light_level ) const
 {
@@ -516,7 +517,7 @@ Creature::Attitude monster::attitude_to( const Creature &other ) const
             // Friendly (to player) monsters are friendly to each other
             // Unfriendly monsters go by faction attitude
             return A_FRIENDLY;
-        } else if( ( friendly == 0 && m->friendly == 0 && faction_att == MFA_NEUTRAL ) || 
+        } else if( ( friendly == 0 && m->friendly == 0 && faction_att == MFA_NEUTRAL ) ||
                      morale < 0 || anger < 10 ) {
             // Stuff that won't attack is neutral to everything
             return A_NEUTRAL;
@@ -722,6 +723,12 @@ bool monster::is_warm() const {
     return has_flag(MF_WARM);
 }
 
+bool monster::is_elec_immune() const
+{
+    return type->sp_defense == &mdefense::zapback ||
+           has_flag( MF_ELECTRIC );
+}
+
 bool monster::is_dead_state() const {
     return hp <= 0;
 }
@@ -891,7 +898,7 @@ void monster::hit_monster(monster &other)
  if (!is_hallucination()) {
   int damage = dice(type->melee_dice, type->melee_sides);
   target->apply_damage( this, bp_torso, damage );
-  type->sp_defense(target, this, nullptr);
+  target->type->sp_defense(target, this, nullptr);
   target->check_dead_state();
  }
 }

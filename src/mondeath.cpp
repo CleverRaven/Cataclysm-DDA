@@ -440,7 +440,7 @@ void mdeath::amigara(monster *z)
     if (count <= 1) { // We're the last!
         g->u.remove_effect("amigara");
         add_msg(_("Your obsession with the fault fades away..."));
-        g->m.spawn_artifact( z->posx(), z->posy() );
+        g->m.spawn_artifact( z->pos3() );
     }
 }
 
@@ -471,7 +471,7 @@ void mdeath::explode(monster *z)
         size = 26;
         break;
     }
-    g->explosion(z->posx(), z->posy(), size, 0, false);
+    g->explosion(z->pos3(), size, 0, false);
 }
 
 void mdeath::focused_beam(monster *z)
@@ -505,7 +505,7 @@ void mdeath::focused_beam(monster *z)
 
     z->inv.clear();
 
-    g->explosion(z->posx(), z->posy(), 8, 0, false);
+    g->explosion(z->pos3(), 8, 0, false);
 }
 
 void mdeath::broken(monster *z) {

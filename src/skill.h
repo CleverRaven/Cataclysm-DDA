@@ -182,9 +182,9 @@ class SkillLevel : public JsonSerializer, public JsonDeserializer
         SkillLevel &operator= (const SkillLevel &) = default;
 
         using JsonSerializer::serialize;
-        void serialize(JsonOut &jsout) const;
+        void serialize(JsonOut &jsout) const override;
         using JsonDeserializer::deserialize;
-        void deserialize(JsonIn &jsin);
+        void deserialize(JsonIn &jsin) override;
 
         // Make skillLevel act like a raw level by default.
         operator int() const

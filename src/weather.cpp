@@ -43,26 +43,21 @@ void weather_effect::glare()
 }
 ////// food vs weather
 
-/**
- * Retroactively determine weather-related rotting effects.
- * Applies rot based on the temperatures incurred between a turn range.
- */
-int get_rot_since( const int since, const int endturn, const point &location )
+int get_hourly_rotpoints_at_temp( int temp );
+
+int get_rot_since( const int startturn, const int endturn, const tripoint &location )
 {
-    // Hack: Ensure food doesn't rot in ice labs, where the
+    // Ensure food doesn't rot in ice labs, where the
     // temperature is much less than the weather specifies.
-    // http://github.com/CleverRaven/Cataclysm-DDA/issues/9162
-    // Bug with this hack: Rot is prevented even when it's above
-    // freezing on the ground floor.
-    const point abs_pos = g->m.getabs( location );
-    const point omt_abs = overmapbuffer::ms_to_omt_copy( abs_pos );
-    // TODO: input location should be an absolute value and inclue a z-component
-    oter_id oter = overmap_buffer.ter( tripoint( omt_abs.x, omt_abs.y, g->get_levz() ) );
+    tripoint const omt_pos = overmapbuffer::ms_to_omt_copy( location );
+    oter_id const & oter = overmap_buffer.ter( omt_pos );
+    // TODO: extract this into a property of the overmap terrain
     if (is_ot_type("ice_lab", oter)) {
         return 0;
     }
+    // TODO: maybe have different rotting speed when underground?
     int ret = 0;
-    for (calendar i(since); i.get_turn() < endturn; i += 600) {
+    for (calendar i(startturn); i.get_turn() < endturn; i += 600) {
         w_point w = g->weatherGen.get_weather(location, i);
         ret += std::min(600, endturn - i.get_turn()) * get_hourly_rotpoints_at_temp(w.temperature) / 600;
     }
@@ -91,20 +86,22 @@ std::pair<int, int> rain_or_acid_level( const int wt )
 /**
  * Determine what a funnel has filled out of game, using funnelcontainer.bday as a starting point.
  */
-void retroactively_fill_from_funnel( item *it, const trap &tr, const calendar &endturn,
-                                     const point &location )
+void retroactively_fill_from_funnel( item &it, const trap &tr, const calendar &endturn,
+                                     const tripoint &location )
 {
-    const calendar startturn = calendar( it->bday > 0 ? it->bday - 1 : 0 );
+    const calendar startturn = calendar( it.bday > 0 ? it.bday - 1 : 0 );
+
     if ( startturn > endturn || !tr.is_funnel() ) {
         return;
     }
-    it->bday = int(endturn.get_turn()); // bday == last fill check
+    it.bday = endturn; // bday == last fill check
     int rain_amount = 0;
     int acid_amount = 0;
     int rain_turns = 0;
     int acid_turns = 0;
-    for( calendar turn(startturn); turn >= endturn; turn += 10) {
-        switch(g->weatherGen.get_weather_conditions(location, turn)) {
+    for( calendar turn(startturn); turn < endturn; turn += 10) {
+        // TODO: Z-level weather
+        switch(g->weatherGen.get_weather_conditions(point(location.x, location.y), turn)) {
         case WEATHER_DRIZZLE:
             rain_amount += 4;
             rain_turns++;
@@ -127,10 +124,17 @@ void retroactively_fill_from_funnel( item *it, const trap &tr, const calendar &e
             break;
         }
     }
-    int rain = rain_turns / tr.funnel_turns_per_charge( rain_amount );
-    int acid = acid_turns / tr.funnel_turns_per_charge( acid_amount );
-    it->add_rain_to_container( false, rain );
-    it->add_rain_to_container( true, acid );
+
+    // Technically 0.0 division is OK, but it will be cleaner without it
+    if( rain_amount > 0 ) {
+        int rain = rain_turns / tr.funnel_turns_per_charge( rain_amount );
+        it.add_rain_to_container( false, rain );
+    }
+
+    if( acid_amount > 0 ) {
+        int acid = acid_turns / tr.funnel_turns_per_charge( acid_amount );
+        it.add_rain_to_container( true, acid );
+    }
 }
 
 /**
@@ -229,7 +233,7 @@ void fill_funnels(int rain_depth_mm_per_hour, bool acid, const trap &tr)
     const auto &funnel_locs = g->m.trap_locations( tr.loadid );
     for( auto loc : funnel_locs ) {
         int maxcontains = 0;
-        auto items = g->m.i_at( loc.x, loc.y );
+        auto items = g->m.i_at( loc );
         if (one_in(turns_per_charge)) { // todo; fixme. todo; fixme
             //add_msg("%d mm/h %d tps %.4f: fill",int(calendar::turn),rain_depth_mm_per_hour,turns_per_charge);
             // This funnel has collected some rain! Put the rain in the largest
@@ -500,12 +504,13 @@ std::string weather_forecast( point const &abs_sm_pos )
     // int weather_proportions[NUM_WEATHER_TYPES] = {0};
     double high = -100.0;
     double low = 100.0;
+    point const abs_ms_pos = overmapbuffer::sm_to_ms_copy( abs_sm_pos );
     // TODO wind direction and speed
     int last_hour = calendar::turn - (calendar::turn % HOURS(1));
     for(int d = 0; d < 6; d++) {
         weather_type forecast = WEATHER_NULL;
         for(calendar i(last_hour + 7200 * d); i < last_hour + 7200 * (d + 1); i += 600) {
-            w_point w = g->weatherGen.get_weather(abs_sm_pos, i);
+            w_point w = g->weatherGen.get_weather( abs_ms_pos, i );
             forecast = std::max(forecast, g->weatherGen.get_weather_conditions(w));
             high = std::max(high, w.temperature);
             low = std::min(low, w.temperature);

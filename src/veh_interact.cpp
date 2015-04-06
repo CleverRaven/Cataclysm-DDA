@@ -494,7 +494,7 @@ bool veh_interact::can_install_part(int msg_width){
                 veh->part_info(p).fuel_type != "muscle")
             {
                 engines++;
-                dif_eng = dif_eng / 2 + 12;
+                dif_eng = dif_eng / 2 + 8;
             }
         }
     }
@@ -559,11 +559,12 @@ bool veh_interact::can_install_part(int msg_width){
     } else {
         werase (w_msg);
         fold_and_print(w_msg, 0, 1, msg_width - 2, c_ltgray,
-                        _("Needs <color_%1$s>%2$s</color>, a <color_%3$s>wrench</color>, either a <color_%4$s>powered welder</color> or <color_%5$s>duct tape</color>, and level <color_%6$s>%7$d</color> skill in mechanics.%8$s"),
+                        _("Needs <color_%1$s>%2$s</color>, a <color_%3$s>wrench</color>, either a <color_%4$s>powered welder</color> (and <color_%5$s>welding goggles</color>) or <color_%6$s>duct tape</color>, and level <color_%7$s>%8$d</color> skill in mechanics.%9$s"),
                         has_comps ? "ltgreen" : "red",
                         item::nname( itm ).c_str(),
                         has_wrench ? "ltgreen" : "red",
-                        (has_welder && has_goggles) ? "ltgreen" : "red",
+                        has_welder ? "ltgreen" : "red",
+                        has_goggles ? "ltgreen" : "red",
                         has_duct_tape ? "ltgreen" : "red",
                         has_skill ? "ltgreen" : "red",
                         sel_vpart_info->difficulty,
@@ -641,6 +642,7 @@ void veh_interact::do_install()
                                                    part.has_flag(VPFLAG_CIRCLE_LIGHT) ||
                                                    part.has_flag(VPFLAG_DOME_LIGHT) ||
                                                    part.has_flag(VPFLAG_AISLE_LIGHT) ||
+                                                   part.has_flag(VPFLAG_ATOMIC_LIGHT) ||
                                                    part.has_flag(VPFLAG_EVENTURN) ||
                                                    part.has_flag(VPFLAG_ODDTURN); };
     tab_filters[3] = [&](vpart_info part) { return part.has_flag("TRACK") || //Util
@@ -824,8 +826,9 @@ void veh_interact::do_repair()
         return;
     case LACK_TOOLS:
         fold_and_print(w_msg, 0, 1, msg_width - 2, c_ltgray,
-                       _("You need a <color_%1$s>powered welder and welding goggles</color> or <color_%2$s>duct tape</color> to repair."),
-                       (has_welder && has_goggles) ? "ltgreen" : "red",
+                       _("You need a <color_%1$s>powered welder</color> (and <color_%2$s>welding goggles</color>) or <color_%3$s>duct tape</color> to repair."),
+                       has_welder ? "ltgreen" : "red",
+                       has_goggles ? "ltgreen" : "red",
                        has_duct_tape ? "ltgreen" : "red");
         wrefresh (w_msg);
         return;
@@ -993,7 +996,7 @@ bool veh_interact::can_remove_part(int veh_part_index, int mech_skill, int msg_w
                            skill_req);
         } else {
             fold_and_print(w_msg, 0, 1, msg_width - 2, c_ltgray,
-                           _("You need a <color_%1$s>wrench</color> and a <color_%2$s>hacksaw, cutting torch and goggles, or circular saw (off)</color> and <color_%3$s>level %4$d</color> mechanics skill to remove this part."),
+                           _("You need a <color_%1$s>wrench</color> and a <color_%2$s>hacksaw, cutting torch and welding goggles, or circular saw (off)</color> and <color_%3$s>level %4$d</color> mechanics skill to remove this part."),
                            has_wrench ? "ltgreen" : "red",
                            has_hacksaw ? "ltgreen" : "red",
                            has_skill ? "ltgreen" : "red",
@@ -1501,11 +1504,6 @@ void veh_interact::display_stats()
         }
     }
 
-    bool isBoat = !veh->all_parts_with_feature(VPFLAG_FLOATS).empty();
-    bool conf;
-
-    conf = veh->valid_wheel_config();
-
     std::string speed_units = OPTIONS["USE_METRIC_SPEEDS"].getValue();
     float speed_factor = 0.01f;
     if (speed_units == "km/h") {
@@ -1534,21 +1532,31 @@ void veh_interact::display_stats()
     x[4] += utf8_width(_("Status: ")) + 1;
     fold_and_print(w_stats, y[4], x[4], w[4], totalDurabilityColor, totalDurabilityText);
 
+    bool isBoat = !veh->all_parts_with_feature(VPFLAG_FLOATS).empty();
+    bool suf, bal;
+    suf = veh->sufficient_wheel_config();
+    bal = veh->balanced_wheel_config();
     if( !isBoat ) {
-        if( conf ) {
-            fold_and_print(w_stats, y[5], x[5], w[5], c_ltgray,
-                           _("Wheels:    <color_ltgreen>enough</color>"));
-        }   else {
+        if( !suf ) {
             fold_and_print(w_stats, y[5], x[5], w[5], c_ltgray,
                            _("Wheels:      <color_ltred>lack</color>"));
+        } else if (!bal) {
+            fold_and_print(w_stats, y[5], x[5], w[5], c_ltgray,
+                           _("Wheels:  <color_ltred>unbalanced</color>"));
+        } else {
+            fold_and_print(w_stats, y[5], x[5], w[5], c_ltgray,
+                           _("Wheels:    <color_ltgreen>enough</color>"));
         }
     }   else {
-        if (conf) {
-            fold_and_print(w_stats, y[5], x[5], w[5], c_ltgray,
-                           _("Boat:    <color_blue>can swim</color>"));
-        }   else {
+        if( !suf ) {
             fold_and_print(w_stats, y[5], x[5], w[5], c_ltgray,
                            _("Boat:  <color_ltred>can't swim</color>"));
+        } else if (!bal) {
+            fold_and_print(w_stats, y[5], x[5], w[5], c_ltgray,
+                           _("Boat:  <color_ltred>unbalanced</color>"));
+        } else {
+            fold_and_print(w_stats, y[5], x[5], w[5], c_ltgray,
+                           _("Boat:    <color_blue>can swim</color>"));
         }
     }
 
@@ -1585,7 +1593,7 @@ void veh_interact::display_stats()
 
     bool first = true;
     int fuel_name_length = 0;
-    for( auto & ft : fuel_types ) {
+    for( auto & ft : get_fuel_types() ) {
         int fuel_usage = veh->basic_consumption( ft.id );
         if (fuel_usage > 0) {
             fuel_name_length = std::max(fuel_name_length, utf8_width(ammo_name( ft.id ).c_str()));
@@ -1804,7 +1812,7 @@ void veh_interact::display_details( const vpart_info *part )
         } else if ( part->has_flag(VPFLAG_LIGHT) || part->has_flag(VPFLAG_CONE_LIGHT) ||
                     part->has_flag(VPFLAG_CIRCLE_LIGHT) || part->has_flag(VPFLAG_DOME_LIGHT) ||
                     part->has_flag(VPFLAG_AISLE_LIGHT) || part->has_flag(VPFLAG_EVENTURN) ||
-                    part->has_flag(VPFLAG_ODDTURN)) {
+                    part->has_flag(VPFLAG_ODDTURN) || part->has_flag(VPFLAG_ATOMIC_LIGHT)) {
             label = _("Light");
         } else {
             label = small_mode ? _("Cap") : _("Capacity");
@@ -1944,7 +1952,7 @@ item consume_vpart_item (std::string vpid)
     std::vector<bool> candidates;
     const itype_id itid = vehicle_part_types[vpid].item;
     inventory map_inv;
-    map_inv.form_from_map( point(g->u.posx(), g->u.posy()), PICKUP_RANGE );
+    map_inv.form_from_map( g->u.pos3(), PICKUP_RANGE );
 
     if( g->u.has_amount( itid, 1 ) ) {
         candidates.push_back( true );
@@ -1983,7 +1991,7 @@ item consume_vpart_item (std::string vpid)
     if( candidates[selection] ) {
         item_used = g->u.use_amount( itid, 1 );
     } else {
-        item_used = g->m.use_amount( point(g->u.posx(), g->u.posy()), PICKUP_RANGE, itid, 1 );
+        item_used = g->m.use_amount( g->u.pos3(), PICKUP_RANGE, itid, 1 );
     }
 
     return item_used.front();

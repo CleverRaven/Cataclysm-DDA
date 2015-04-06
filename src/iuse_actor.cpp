@@ -188,13 +188,14 @@ long explosion_iuse::use(player *p, item *it, bool t, point pos) const
         return 0;
     }
     if (explosion_power >= 0) {
-        g->explosion(pos.x, pos.y, explosion_power, explosion_shrapnel, explosion_fire, explosion_blast);
+        g->explosion( tripoint( pos.x, pos.y, g->get_levz() ), 
+                      explosion_power, explosion_shrapnel, explosion_fire, explosion_blast);
     }
     if (draw_explosion_radius >= 0) {
         g->draw_explosion(pos.x, pos.y, draw_explosion_radius, draw_explosion_color);
     }
     if (do_flashbang) {
-        g->flashbang(pos.x, pos.y, flashbang_player_immune);
+        g->flashbang( tripoint( pos.x, pos.y, g->get_levz() ), flashbang_player_immune);
     }
     if (fields_radius >= 0 && fields_type != fd_null) {
         std::vector<point> gas_sources = points_for_gas_cloud(pos, fields_radius);
@@ -207,14 +208,14 @@ long explosion_iuse::use(player *p, item *it, bool t, point pos) const
     if (scrambler_blast_radius >= 0) {
         for (int x = pos.x - scrambler_blast_radius; x <= pos.x + scrambler_blast_radius; x++) {
             for (int y = pos.y - scrambler_blast_radius; y <= pos.y + scrambler_blast_radius; y++) {
-                g->scrambler_blast(x, y);
+                g->scrambler_blast( tripoint( x, y, g->get_levz() ) );
             }
         }
     }
     if (emp_blast_radius >= 0) {
         for (int x = pos.x - emp_blast_radius; x <= pos.x + emp_blast_radius; x++) {
             for (int y = pos.y - emp_blast_radius; y <= pos.y + emp_blast_radius; y++) {
-                g->emp_blast(x, y);
+                g->emp_blast( tripoint( x, y, g->get_levz() ) );
             }
         }
     }
@@ -753,7 +754,7 @@ bool firestarter_actor::prep_firestarter_use( const player *p, const item *it, p
         p->add_msg_if_player(m_info, _("There is already a fire."));
         return false;
     }
-    if( g->m.flammable_items_at(pos.x, pos.y) ||
+    if( g->m.flammable_items_at( tripoint( pos.x, pos.y, p->posz() ) ) ||
         g->m.has_flag("FLAMMABLE", pos.x, pos.y) || g->m.has_flag("FLAMMABLE_ASH", pos.x, pos.y) ||
         g->m.get_field_strength( tripoint( pos, p->posz() ), fd_web ) > 0 ) {
         return true;

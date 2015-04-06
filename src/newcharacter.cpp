@@ -75,16 +75,15 @@ matype_id choose_ma_style( const character_type type, const std::vector<matype_i
     }
     uimenu menu;
     menu.text = _( "Pick your style:" );
+    menu.desc_enabled = true;
     for( auto & s : styles ) {
         auto &style = martialarts[s];
-        menu.addentry( style.name );
+        menu.addentry_desc( style.name, style.description );
     }
     menu.selected = 0;
     while( true ) {
-        menu.query();
+        menu.query(true);
         auto &selected = styles[menu.ret];
-        auto &style = martialarts[selected];
-        popup( style.description, PF_NONE );
         if( query_yn( _( "Use this style?" ) ) ) {
             return selected;
         }
@@ -1174,20 +1173,22 @@ int set_profession(WINDOW *w, player *u, int &points)
 
         // Profession bionics, active bionics shown first
         auto prof_CBMs = sorted_profs[cur_id]->CBMs();
-        std::sort(prof_CBMs.begin(), prof_CBMs.end(),
-            [=](std::string a, std::string b) {return bionics[a]->activated && !bionics[b]->activated;}
-        );
+        std::sort(begin(prof_CBMs), end(prof_CBMs), [](std::string const &a, std::string const &b) {
+            return bionic_info(a).activated && !bionic_info(b).activated;
+        });
         buffer << "<color_ltblue>" << _( "Profession bionics:" ) << "</color>\n";
         if( prof_CBMs.empty() ) {
             buffer << pgettext( "set_profession_bionic", "None" ) << "\n";
         } else {
             for( const auto &b : prof_CBMs ) {
-                if (bionics[b]->activated && bionics[b]->toggled) {
-                    buffer << bionics[b]->name << " (" << _("toggled") << ")\n";
-                } else if (bionics[b]->activated) {
-                    buffer << bionics[b]->name << " (" << _("activated") << ")\n";
+                auto const &cbm = bionic_info(b);
+
+                if (cbm.activated && cbm.toggled) {
+                    buffer << cbm.name << " (" << _("toggled") << ")\n";
+                } else if (cbm.activated) {
+                    buffer << cbm.name << " (" << _("activated") << ")\n";
                 } else {
-                    buffer << bionics[b]->name << "\n";
+                    buffer << cbm.name << "\n";
                 }
             }
         }

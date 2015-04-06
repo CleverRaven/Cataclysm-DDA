@@ -131,8 +131,8 @@ class clZones : public JsonSerializer, public JsonDeserializer
         void cacheZoneData();
         bool hasZone(const std::string p_sType, const point p_pointInput);
         using JsonSerializer::serialize;
-        void serialize(JsonOut &json) const;
-        void deserialize(JsonIn &jsin);
+        void serialize(JsonOut &json) const override;
+        void deserialize(JsonIn &jsin) override;
 };
 
 #endif

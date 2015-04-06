@@ -12,7 +12,7 @@
             ],
 			"replace_monster_group" : true,
 			"new_monster_group_id" : "GROUP_ZOMBIE_MID",
-			"replacement_time" : 0	
+			"replacement_time" : 14	
     },{
             "type" : "item_group",
             "id" : "floor_trash",

@@ -19,6 +19,7 @@
 #include <stdlib.h>
 #include <set>
 
+
 /*
  * Speed up all those if ( blarg == "structure" ) statements that are used everywhere;
  *   assemble "structure" once here instead of repeatedly later.
@@ -32,19 +33,25 @@ static const std::string fuel_type_water("water");
 static const std::string fuel_type_muscle("muscle");
 static const std::string part_location_structure("structure");
 
-const std::array<fuel_type, 7> fuel_types = { {
-    fuel_type { fuel_type_gasoline, c_ltred, 100, 1 },
-    fuel_type { fuel_type_diesel, c_brown, 100, 1 },
-    fuel_type { fuel_type_battery, c_yellow, 1, 1 },
-    fuel_type { fuel_type_plutonium, c_ltgreen, 1, 1000 },
-    fuel_type { fuel_type_plasma, c_ltblue, 100, 100 },
-    fuel_type { fuel_type_water, c_ltcyan, 1, 1 },
-    fuel_type { fuel_type_muscle, c_white, 0, 1 }
-} };
+const std::array<fuel_type, 7> &get_fuel_types()
+{
+
+    static const std::array<fuel_type, 7> fuel_types = {{
+        fuel_type {fuel_type_gasoline,  c_ltred,   100, 1},
+        fuel_type {fuel_type_diesel,    c_brown,   100, 1},
+        fuel_type {fuel_type_battery,   c_yellow,  1,   1},
+        fuel_type {fuel_type_plutonium, c_ltgreen, 1,   1000},
+        fuel_type {fuel_type_plasma,    c_ltblue,  100, 100},
+        fuel_type {fuel_type_water,     c_ltcyan,  1,   1},
+        fuel_type {fuel_type_muscle,    c_white,   0,   1}
+    }};
+
+    return fuel_types;
+}
 
 int fuel_charges_to_amount_factor( const ammotype &ftype )
 {
-    for( auto & ft : fuel_types ) {
+    for( auto & ft : get_fuel_types() ) {
         if( ft.id == ftype ) {
             return ft.charges_to_amount_factor;
         }
@@ -167,7 +174,7 @@ vehicle::vehicle(std::string type_id, int init_veh_fuel, int init_veh_status): t
     last_turn = 0;
     last_repair_turn = -1;
     of_turn_carry = 0;
-    turret_mode = 0;
+    turret_mode = turret_mode_off;
     lights_epower = 0;
     overhead_epower = 0;
     fridge_epower = 0;
@@ -195,6 +202,7 @@ vehicle::vehicle(std::string type_id, int init_veh_fuel, int init_veh_status): t
     camera_on = false;
     dome_lights_on = false;
     aisle_lights_on = false;
+    has_atomic_lights = false;
 
     //type can be null if the type_id parameter is omitted
     if(type != "null") {
@@ -607,6 +615,7 @@ void vehicle::control_doors() {
 
 void vehicle::control_engines() {
     int e_toggle = 0;
+    bool dirty = false;
     //count active engines
     int active_count = 0;
     for (size_t e = 0; e < engines.size(); ++e){
@@ -622,11 +631,12 @@ void vehicle::control_engines() {
             (active_count > 1 || !is_part_on(engines[e_toggle]))) {
             active_count += (!is_part_on(engines[e_toggle])) ? 1 : -1;
             toggle_specific_engine(e_toggle, !is_part_on(engines[e_toggle]));
-
-            add_msg(_("Switched %s %s"),part_info(engines[e_toggle]).name.c_str(),
-                    (is_part_on(engines[e_toggle])?_("on"):_("off")));
+            dirty = true;
         }
     }
+
+    if( !dirty ) { return; }
+
     // if current velocity greater than new configuration safe speed
     // drop down cruise velocity.
     int safe_vel = safe_velocity();
@@ -634,10 +644,15 @@ void vehicle::control_engines() {
         cruise_velocity = safe_vel;
     }
 
-    //if an engine isn't running, and player is in control, need to start engine.
-    if (g->u.controlling_vehicle && !engine_on) {
-        start_engine();
+    if( engine_on ) {
+        add_msg( _("You turn off the %s's engines to change their configurations."), name.c_str() );
+        engine_on = false;
+    } else if( !g->u.controlling_vehicle ) {
+        add_msg( _("You change the %s's engine configuration."), name.c_str() );
+        return;
     }
+
+    start_engines();
 }
 
 int vehicle::select_engine() {
@@ -680,18 +695,6 @@ bool vehicle::has_engine_type_not(const ammotype  & ft, bool enabled) {
         }
     }
     return false;
-}
-
-void vehicle::msg_start_engine_fail() {
-    if (total_power (false) <= 0) {
-        add_msg (m_info, _("The %s doesn't have an engine!"), name.c_str());
-    } else if (has_engine_type(fuel_type_muscle, true)) {
-        add_msg (m_info, _("The %s's mechanism is out of reach!"), name.c_str());
-    } else if (!engine_on) {
-        add_msg (_("The %s's engine isn't on!"), name.c_str());
-    } else {
-        add_msg (_("The %s's engine emits a sneezing sound."), name.c_str());
-    }
 }
 
 bool vehicle::is_engine_type(int e, const ammotype  & ft) {
@@ -962,8 +965,8 @@ void vehicle::use_controls()
     // Turrets: off or burst mode
     if (has_turrets) {
         options_choice.push_back(toggle_turrets);
-        options_message.push_back(uimenu_entry((0 == turret_mode) ? _("Enable turrets") :
-                                               _("Disable turrets"), 't'));
+        options_message.push_back( uimenu_entry( ( turret_mode == turret_mode_off ) ? 
+                                                _("Enable turrets") : _("Disable turrets"), 't') );
     }
 
     // Turn the fridge on/off
@@ -1022,7 +1025,7 @@ void vehicle::use_controls()
         options_message.push_back(uimenu_entry(_("Configure individual turrets"), 'x'));
         
         options_choice.push_back(manual_fire);
-        options_message.push_back(uimenu_entry(_("Aim a turret manually"), 'w'));
+        options_message.push_back(uimenu_entry(_("Aim turrets manually"), 'w'));
     }
     // toggle cameras
     if( camera_on || ( has_camera && has_camera_control ) ) {
@@ -1145,7 +1148,7 @@ void vehicle::use_controls()
         honk_horn();
         break;
     case toggle_turrets:
-        cycle_turret_mode();
+        cycle_global_turret_mode();
         break;
     case toggle_fridge:
         if( fridge_on ) {
@@ -1195,12 +1198,7 @@ void vehicle::use_controls()
                 add_msg(_("You turn the engine off."));
             engine_on = false;
         } else {
-            if (total_power () < 1) {
-                msg_start_engine_fail();
-            }
-            else {
-                start_engine();
-            }
+            start_engines();
         }
         break;
     case release_control:
@@ -1339,41 +1337,107 @@ bool vehicle::fold_up() {
     return true;
 }
 
-void vehicle::start_engine()
+double vehicle::engine_cold_factor( const int e )
 {
-    bool failed_start = false;
-    bool muscle_powered = false;
-    // TODO: Make chance of success based on engine condition.
-    // electric and plasma engines don't require anything special
-    for( size_t e = 0; e < engines.size(); ++e ) {
-        if( is_engine_on( e ) ) {
-            if( is_engine_type_on(e, fuel_type_gasoline)  ||
-                is_engine_type_on(e, fuel_type_diesel) ) {
-                // Big engines can't be pull-started
-                int engine_power = part_power(engines[e]);
-                if(engine_power >= 50) {
-                    // Starter motor battery draw proportional to engine power
-                    if(discharge_battery(engine_power / 10)) {
-                        failed_start = true;
-                    }
-                }
-            } else if (is_engine_type_on(e, fuel_type_muscle)) {
-                muscle_powered = true;
-            }
-        } else if( is_part_on( engines[e] ) ) {
-            failed_start = true;
+    if( !is_engine_type( e, fuel_type_diesel ) ) { return 0.0; }
+
+    return 1.0 - (std::max( 0, std::min( 40, g->get_temperature() ) ) / 40.0);
+}
+
+int vehicle::engine_start_time( const int e )
+{
+    if( !is_engine_on( e ) || is_engine_type( e, fuel_type_muscle ) ||
+        !fuel_left( part_info( engines[e] ).fuel_type ) ) { return 0; }
+
+    const double dmg = 1.0 - ((double)parts[engines[e]].hp / part_info( engines[e] ).durability);
+    const double cold_factor = engine_cold_factor( e );
+
+    return 100 + (part_power( engines[e], true ) / 16) + (100 * dmg) + (40 * cold_factor);
+}
+
+bool vehicle::start_engine( const int e )
+{
+    if( !is_engine_on( e ) ) { return false; }
+
+    const vpart_info &einfo = part_info( engines[e] );
+
+    if( !fuel_left( einfo.fuel_type ) ) {
+        if( einfo.fuel_type == fuel_type_muscle ) {
+            add_msg( _("The %s's mechanism is out of reach!"), name.c_str() );
+        } else {
+            add_msg( _("Looks like the %s is out of %s."), einfo.name.c_str(),
+                ammo_name( einfo.fuel_type ).c_str() );
+        }
+        return false;
+    }
+
+    const double dmg = 1.0 - ((double)parts[engines[e]].hp / einfo.durability);
+    const int engine_power = part_power( engines[e], true );
+    const double cold_factor = engine_cold_factor( e );
+
+    if( einfo.fuel_type != fuel_type_muscle ) {
+        if( einfo.fuel_type == fuel_type_gasoline && dmg > 0.75 && one_in( 20 ) ) {
+            backfire( e );
+        } else {
+            const point pos = global_pos() + parts[engines[e]].precalc[0];
+            sounds::ambient_sound( pos.x, pos.y, engine_start_time( e ) / 10, "" );
         }
     }
 
-    if (failed_start) {
-        add_msg (_("The %s's engine fails to start."), name.c_str());
-    } else {
-        if (!muscle_powered) {
-            add_msg(_("The %s's engine starts up."), name.c_str());
+    if( einfo.fuel_type == fuel_type_gasoline || einfo.fuel_type == fuel_type_diesel ) {
+        // Small engines can be started without a battery (pull start or kick start)
+        if( engine_power >= 50 ) {
+            const int penalty = ((engine_power * dmg) / 2) + ((engine_power * cold_factor) / 5);
+            if( discharge_battery( (engine_power + penalty) / 10, true ) != 0 ) {
+                add_msg( _("The %s makes a rapid clicking sound."), einfo.name.c_str() );
+                return false;
+            }
         }
-        //turn on engine since nothing bad happened
-        engine_on = true;
+
+        // Damaged engines have a chance of failing to start
+        if( x_in_y( dmg * 100, 120 - (20 * cold_factor) ) ) {
+            if( one_in( 2 ) ) {
+                add_msg( _("The %s makes a deep clunking sound."), einfo.name.c_str() );
+            } else {
+                add_msg( _("The %s makes a terrible clanking sound."), einfo.name.c_str() );
+            }
+            return false;
+        }
     }
+
+    return true;
+}
+
+void vehicle::start_engines( const bool take_control )
+{
+    int has_engine = false;
+    int start_time = 0;
+
+    for( size_t e = 0; e < engines.size(); ++e ) {
+        has_engine = has_engine || is_engine_on( e );
+        start_time = std::max( start_time, engine_start_time( e ) );
+    }
+
+    if( !has_engine ) {
+        add_msg( m_info, _("The %s doesn't have an engine!"), name.c_str() );
+        return;
+    }
+
+    if( take_control && !g->u.controlling_vehicle ) {
+        g->u.controlling_vehicle = true;
+        add_msg( _("You take control of the %s."), name.c_str() );
+    }
+
+    g->u.assign_activity( ACT_START_ENGINES, start_time );
+    g->u.activity.placement = global_pos() - g->u.pos();
+    g->u.activity.values.push_back( take_control );
+}
+
+void vehicle::backfire( const int e )
+{
+    const int power = part_power( engines[e], true );
+    const point pos = global_pos() + parts[engines[e]].precalc[0];
+    sounds::ambient_sound( pos.x, pos.y, 40 + (power / 30), "BANG!" );
 }
 
 void vehicle::honk_horn()
@@ -1456,8 +1520,13 @@ int vehicle::part_power( int index, bool at_full_hp ) {
     if( at_full_hp ) {
         return pwr; // Assume full hp
     }
-    // The more damaged a part is, the less power it gives
-    return pwr * parts[index].hp / part_info(index).durability;
+    // Damaged engines give less power, but gas/diesel handle it better
+    if( part_info(index).fuel_type == fuel_type_gasoline ||
+        part_info(index).fuel_type == fuel_type_diesel ) {
+        return pwr * (0.25 + (0.75 * ((double)parts[index].hp / part_info(index).durability)));
+    } else {
+        return pwr * parts[index].hp / part_info(index).durability;
+    }
  }
 
 // alternators, solar panels, reactors, and accessories all have epower.
@@ -1663,6 +1732,25 @@ bool vehicle::can_mount (int dx, int dy, std::string id)
         }
         if(!anchor_found) {
             return false;
+        }
+    }
+
+    //Mirrors cannot be mounted on OPAQUE parts
+    if( vehicle_part_types[id].has_flag( "VISION" ) &&
+        !vehicle_part_types[id].has_flag( "CAMERA" ) ) {
+        for( const auto &elem : parts_in_square ) {
+            if( part_info( elem ).has_flag( "OPAQUE" ) ) {
+                return false;
+            }
+        }
+    }
+    //and vice versa
+    if( vehicle_part_types[id].has_flag( "OPAQUE" ) ) {
+        for( const auto &elem : parts_in_square ) {
+            if( part_info( elem ).has_flag( "VISION" ) &&
+                !part_info( elem ).has_flag( "CAMERA" ) ) {
+                return false;
+            }
         }
     }
 
@@ -1906,6 +1994,17 @@ bool vehicle::remove_part (int p)
             if (!has_tracker){ // disable tracking
                 overmap_buffer.remove_vehicle( this );
                 tracking_on = false;
+            }
+        }
+    }
+
+    if (part_flag(p, "ATOMIC_LIGHT")) {
+        // disable atomic lights if this was the last one
+        has_atomic_lights = false;
+        for (int i = 0; i != (int)parts.size(); i++){
+            if (i != p && part_flag(i, "ATOMIC_LIGHT")){
+                has_atomic_lights = true;
+                break;
             }
         }
     }
@@ -2484,7 +2583,7 @@ void vehicle::print_fuel_indicator (void *w, int y, int x, bool fullsize, bool v
     int max_gauge = (isHorizontal) ? 12 : 5;
     int cur_gauge = 0;
     std::vector< ammotype > fuels;
-    for( auto &ft : fuel_types ) {
+    for( auto &ft : get_fuel_types() ) {
         fuels.push_back( ft.id );
     }
     // Find non-hardcoded fuel types, add them after the hardcoded
@@ -2500,8 +2599,8 @@ void vehicle::print_fuel_indicator (void *w, int y, int x, bool fullsize, bool v
         int cap = fuel_capacity( f );
         int f_left = fuel_left( f );
         nc_color f_color;
-        if( i < static_cast<int>( fuel_types.size() ) ) {
-            f_color = fuel_types[i].color;
+        if( i < static_cast<int>( get_fuel_types().size() ) ) {
+            f_color = get_fuel_types()[i].color;
         } else {
             // Get color of the default item of this type
             f_color = item::find_type( default_ammo( f ) )->color;
@@ -2690,8 +2789,8 @@ void vehicle::center_of_mass(int &x, int &y)
     }
     xf /= m_total;
     yf /= m_total;
-    x = int(xf + 0.5); //round to nearest
-    y = int(yf + 0.5);
+    x = std::round(xf);
+    y = std::round(yf);
 }
 
 int vehicle::fuel_left (const ammotype & ftype, bool recurse)
@@ -3018,6 +3117,11 @@ void vehicle::noise_and_smoke( double load, double time )
             double cur_pwr = load * max_pwr;
 
             if( is_engine_type(e, fuel_type_gasoline) || is_engine_type(e, fuel_type_diesel)) {
+                const double dmg = 1.0 - ((double)parts[p].hp / part_info( p ).durability);
+                if( is_engine_type( e, fuel_type_gasoline ) && dmg > 0.75 &&
+                        one_in( 200 - (150 * dmg) ) ) {
+                    backfire( e );
+                }
                 double j = power_to_epower(part_power(p, true)) * load * time * muffle;
                 if( (exhaust_part == -1) && engine_on ) {
                     spew_smoke( j, p );
@@ -3148,66 +3252,65 @@ float vehicle::strain ()
         return (float) (abs(velocity) - sv) / (float) (mv - sv);
 }
 
-bool vehicle::valid_wheel_config ()
+bool vehicle::sufficient_wheel_config ()
 {
     std::vector<int> floats = all_parts_with_feature(VPFLAG_FLOATS);
     if( !floats.empty() ) {
         return floats.size() > 2;
     }
-
-    int x1 = 0, y1 = 0, x2 = 0, y2 = 0;
-    int count = 0;
     std::vector<int> wheel_indices = all_parts_with_feature(VPFLAG_WHEEL);
     if(wheel_indices.empty()) {
-        //No wheels!
+        // No wheels!
         return false;
     } else if(wheel_indices.size() == 1) {
-        //Has to be a stable wheel
-        if(part_info(wheel_indices[0]).has_flag("STABLE")) {
-            //Valid only if the vehicle is 1 square in size (1 structural part)
-            return (all_parts_at_location(part_location_structure).size() == 1);
-        } else {
+        //Has to be a stable wheel, and one wheel can only support a 1-3 tile vehicle
+        if( !part_info(wheel_indices[0]).has_flag("STABLE") ||
+             all_parts_at_location(part_location_structure).size() > 3) {
             return false;
         }
     }
+    return true;
+}
+
+bool vehicle::balanced_wheel_config ()
+{
+    int x1 = 0, y1 = 0, x2 = 0, y2 = 0;
+    int count = 0;
+    std::vector<int> wheel_indices = all_parts_with_feature(VPFLAG_WHEEL);
+    // find the bounding box of the wheels
+    // TODO: find convex hull instead
     for (auto &w : wheel_indices) {
         if (!count) {
-            x1 = x2 = parts[w].mount.x;
-            y1 = y2 = parts[w].mount.y;
+            x1 = x2 = parts[w].precalc[0].x;
+            y1 = y2 = parts[w].precalc[0].y;
         }
-        if (parts[w].mount.x < x1) {
-            x1 = parts[w].mount.x;
+        if (parts[w].precalc[0].x < x1) {
+            x1 = parts[w].precalc[0].x;
         }
-        if (parts[w].mount.x > x2) {
-            x2 = parts[w].mount.x;
+        if (parts[w].precalc[0].x > x2) {
+            x2 = parts[w].precalc[0].x;
         }
-        if (parts[w].mount.y < y1) {
-            y1 = parts[w].mount.y;
+        if (parts[w].precalc[0].y < y1) {
+            y1 = parts[w].precalc[0].y;
         }
-        if (parts[w].mount.y > y2) {
-            y2 = parts[w].mount.y;
+        if (parts[w].precalc[0].y > y2) {
+            y2 = parts[w].precalc[0].y;
         }
         count++;
     }
-    float xo = 0, yo = 0;
-    float wo = 0, w2;
-    // lets find vehicle's center of masses
-    for (size_t p = 0; p < parts.size(); p++) {
-        if (parts[p].removed) {
-          continue;
-        }
-        w2 = item::find_type( part_info(p).item )->weight;
-        if (w2 < 1)
-            continue;
-        xo = xo * wo / (wo + w2) + parts[p].mount.x * w2 / (wo + w2);
-        yo = yo * wo / (wo + w2) + parts[p].mount.y * w2 / (wo + w2);
-        wo += w2;
-    }
-//    add_msg("cm x=%.3f y=%.3f m=%d  x1=%d y1=%d x2=%d y2=%d", xo, yo, (int) wo, x1, y1, x2, y2);
-    if ((int)xo < x1 || (int)xo > x2 || (int)yo < y1 || (int)yo > y2) {
-        return false; // center of masses not inside support of wheels (roughly)
+    // find the center of mass of the vehicle
+    int xo, yo;
+    center_of_mass(xo, yo);
+//    add_msg("cm x=%d y=%d x1=%d y1=%d x2=%d y2=%d", xo, yo, x1, y1, x2, y2);
+    if (xo < x1 || xo > x2 || yo < y1 || yo > y2) {
+        return false; // center of mass not inside support of wheels (roughly)
     }
     return true;
+}
+
+bool vehicle::valid_wheel_config ()
+{
+    return sufficient_wheel_config() && balanced_wheel_config();
 }
 
 /**
@@ -3222,7 +3325,7 @@ bool vehicle::valid_wheel_config ()
 void vehicle::consume_fuel( double load = 1.0 )
 {
     float st = strain();
-    for( auto &ft : fuel_types ) {
+    for( auto &ft : get_fuel_types() ) {
         // if no engines use this fuel, skip
         int amnt_fuel_use = basic_consumption( ft.id );
         if (amnt_fuel_use == 0) continue;
@@ -3251,20 +3354,20 @@ void vehicle::consume_fuel( double load = 1.0 )
     }
     //do this with chance proportional to current load
     // But only if the player is actually there!
-    if( load > 0 && one_in( (int) (1 / load) ) && 
+    if( load > 0 && one_in( (int) (1 / load) ) &&
         fuel_left( fuel_type_muscle ) > 0 ) {
         //charge bionics when using muscle engine
         if (g->u.has_bionic("bio_torsionratchet")) {
             g->u.charge_power(1);
         }
-        //cost fatigue and hunger
+        //cost proportional to strain
+        int mod = 1 + 4 * st;
         if (one_in(10)) {
-            //cost proportional to strain
-            int mod = 1 + 4 * st;
             g->u.fatigue += mod;
             g->u.hunger += mod;
             g->u.thirst += mod;
         }
+        g->u.mod_stat( "stamina", -mod * 20);
     }
 }
 
@@ -3507,7 +3610,7 @@ int vehicle::traverse_vehicle_graph(vehicle* start_veh, int amount, Func action)
 int vehicle::charge_battery (int amount, bool include_other_vehicles)
 {
     for(auto &f : fuel) {
-        if(part_info(f).fuel_type == fuel_type_battery) {
+        if(part_info(f).fuel_type == fuel_type_battery && parts[f].hp > 0) {
             int empty = part_info(f).size - parts[f].amount;
             if(empty < amount) {
                 amount -= empty;
@@ -3540,7 +3643,7 @@ int vehicle::discharge_battery (int amount, bool recurse)
     int avail_charge;
 
     for(auto &f : fuel) {
-        if(part_info(f).fuel_type == fuel_type_battery) {
+        if(part_info(f).fuel_type == fuel_type_battery && parts[f].hp > 0) {
             avail_charge = parts[f].amount;
             if(avail_charge < amount) {
                 amount -= avail_charge;
@@ -3669,7 +3772,7 @@ void vehicle::slow_leak()
 }
 
 void vehicle::thrust (int thd) {
-    //if vehicle is stopped, set target direction to forward. 
+    //if vehicle is stopped, set target direction to forward.
     //ensure it is not skidding. Set turns used to 0.
     if( velocity == 0 ) {
         turn_dir = face.dir();
@@ -3749,7 +3852,15 @@ void vehicle::thrust (int thd) {
         //abort if engines not operational
         if (total_power () <= 0 || !engine_on) {
             if (pl_ctrl) {
-                msg_start_engine_fail();
+                if( total_power( false ) <= 0 ) {
+                    add_msg( m_info, _("The %s doesn't have an engine!"), name.c_str() );
+                } else if( has_engine_type( fuel_type_muscle, true ) ) {
+                    add_msg( m_info, _("The %s's mechanism is out of reach!"), name.c_str() );
+                } else if( !engine_on ) {
+                    add_msg( _("The %s's engine isn't on!"), name.c_str() );
+                } else {
+                    add_msg( _("The %s's engine emits a sneezing sound."), name.c_str() );
+                }
             }
             cruise_velocity = 0;
             return;
@@ -4281,7 +4392,7 @@ void vehicle::handle_trap (int x, int y, int part)
         damage_direct( pwh, part_damage );
     }
     if (expl > 0) {
-        g->explosion(x, y, expl, shrap, false);
+        g->explosion( tripoint( x, y, g->get_levz() ), expl, shrap, false);
     }
 }
 
@@ -4496,22 +4607,23 @@ void vehicle::gain_moves()
         check_environmental_effects = do_environmental_effects();
     }
 
-    if( turret_mode ) { // handle turrets
+    if( turret_mode != turret_mode_off ) { // handle turrets
         for( size_t p = 0; p < parts.size(); p++ ) {
             if( !part_flag( p, "TURRET" ) ) {
                 continue;
             }
-            bool success = fire_turret( p );
-            // Negative mode means we aimed manually a turret set not to aim automatically
-            if( parts[p].mode < 0 ) {
-                parts[p].mode = 0;
-            }
-            // Manually aimed shot failed
+            bool success = fire_turret( p, false );
             if( !success && parts[p].target.first != parts[p].target.second ) {
                 add_msg( m_bad, _("%s failed to fire! It isn't loaded and/or powered."), part_info( p ).name.c_str() );
             }
             // Clear manual target
-            parts[p].target.first = parts[p].target.second;
+            parts[p].target.second = parts[p].target.first;
+        }
+
+        if( turret_mode == turret_mode_manual ) {
+            // Manual mode is automatically set when aiming from off, but not from auto
+            // It should only be set for one turn
+            turret_mode = turret_mode_off;
         }
     }
 }
@@ -4540,6 +4652,7 @@ void vehicle::refresh()
     aisle_lights_epower = 0;
     alternator_load = 0;
     camera_epower = 0;
+    has_atomic_lights = false;
 
     // Used to sort part list so it displays properly when examining
     struct sort_veh_part_vector {
@@ -4602,6 +4715,9 @@ void vehicle::refresh()
         }
         if( vpi.has_flag( "CAMERA" ) ) {
             camera_epower += vpi.epower;
+        }
+        if( vpi.has_flag( "ATOMIC_LIGHT" ) ) {
+            has_atomic_lights = true;
         }
         // Build map of point -> all parts in that point
         const point pt = parts[p].mount;
@@ -4923,8 +5039,10 @@ int vehicle::damage_direct (int p, int dmg, int type)
                     g->u.add_memorial_log(pgettext("memorial_male","The fuel tank of the %s exploded!"),
                         pgettext("memorial_female", "The fuel tank of the %s exploded!"),
                         name.c_str());
-                    g->explosion (global_x() + parts[p].precalc[0].x, global_y() + parts[p].precalc[0].y,
-                                pow, 0, (ft == fuel_type_gasoline || ft == fuel_type_diesel));
+                    g->explosion( tripoint( global_x() + parts[p].precalc[0].x, 
+                                            global_y() + parts[p].precalc[0].y, 
+                                            g->get_levz() ),
+                                  pow, 0, (ft == fuel_type_gasoline || ft == fuel_type_diesel));
                     parts[p].hp = 0;
                 }
             }
@@ -4992,105 +5110,155 @@ std::string aim_type( const vehicle_part &part )
     }
 }
 
-void vehicle::aim_turrets()
+int vehicle::get_turret_range( int p, bool manual )
 {
-    std::vector< int > turrets = all_parts_with_feature( "TURRET", true );
-    std::vector< point > locations;
-    
-    uimenu pmenu;
-    for( int p : turrets ) {
-        locations.push_back( global_pos() + parts[p].precalc[0] );
+    if( !part_flag( p, "TURRET" ) ) {
+        return -1;
     }
 
-    pointmenu_cb callback( locations );
-
-    int selected = 0;
-
-    pmenu.title = _("Pick turret to aim");
-    pmenu.callback = &callback;
-    int i = 0;
-    for( int p : turrets ) {
-        std::string aimed;
-        bool en;
-        auto items = get_items( p );
-        if( fuel_left( part_info( p ).fuel_type ) < 1 && ( items.empty() || items.front().charges < 1 ) ) {
-            aimed = _("No ammo");
-            en = false;
-        } else {
-            aimed = aim_type( parts[p] );
-            en = true;
-        }
-        
-        pmenu.addentry( i++, en, MENU_AUTOASSIGN, _("[%s] %s"),
-                        aimed.c_str(), part_info( p ).name.c_str() );
+    if( ( !manual && part_flag( p, "MANUAL" ) ) ||
+        ( manual && part_flag( p, "NO_MANUAL" ) ) ) {
+        return -1;
     }
 
-    pmenu.addentry( i, true, 'q', _("Finish") );
-    pmenu.w_y = 0; // Move the menu so that we can see our vehicle
-    
-    pmenu.selected = selected;
-    pmenu.fselected = selected;
-    pmenu.query();
-    if( pmenu.ret < 0 || pmenu.ret >= i ) {
-        return;
+    if( !manual ) {
+        return part_info( p ).range;
     }
 
-    selected = pmenu.ret;
-
-    int turret_index = turrets[selected];
-
-    const item gun( part_info( turret_index ).item, 0 );
-    if( !part_flag( turret_index, "TURRET" ) || gun.type->gun == nullptr ) {
-        debugmsg( "vehicle::aim_turrets tried to pick a non-turret part" );
-        return;
-    }
-
-    // Remember turret's position at the time of aiming
-    auto &target = parts[turret_index].target;
-    auto &turret_pos = target.second;
-    turret_pos = global_pos() + parts[turret_index].precalc[0];
-
-    itype *am_itype;
-    auto items = get_items( turret_index );
+    const item gun( part_info( p ).item, 0 );
+    itype *am_itype = nullptr;
+    auto items = get_items( p );
     if( !items.empty() && items.front().charges > 0 ) {
         am_itype = items.front().type;
-    } else if( !gun.is_charger_gun() ) { // Charger guns "use" different ammo than they fire
-        am_itype = item::find_type( part_info( turret_index ).fuel_type );
-    } else {
+    } else if( gun.is_charger_gun() ) { // Charger guns "use" different ammo than they fire
         am_itype = item::find_type( "charge_shot" );
+    } else if( fuel_left( part_info( p ).fuel_type ) > 0 ) {
+        am_itype = item::find_type( part_info( p ).fuel_type );
+    } else if( gun.has_flag( "NO_AMMO" ) ) {
+        am_itype = item::find_type( "generic_no_ammo" );
+    } else {
+        // Couldn't find ammo
+        return -1;
     }
+
     const auto ammo = am_itype->ammo.get();
     const auto &gun_data = *gun.type->gun;
-    int range = gun_data.range + ( ammo != nullptr ? ammo->range : 0 );
-    int x = turret_pos.x;
-    int y = turret_pos.y;
-    int t;
-    auto mons = g->u.get_visible_creatures( range );
+    return gun_data.range + ( ammo != nullptr ? ammo->range : 0 );
+}
+
+turret_fire_ability vehicle::turret_can_shoot( const int p, const point &pos )
+{
+    if( part_flag( p, "MANUAL" ) ) {
+        return turret_wont_aim;
+    }
+
+    if( parts[p].mode == 0 ) {
+        return turret_is_off;
+    }
+
+    if( turret_has_ammo( p ) < 1 ) {
+        return turret_no_ammo;
+    }
+
+    const int turrange = get_turret_range( p, true );
+    point tpos( global_pos() + parts[p].precalc[0] );
+    if( rl_dist( tpos, pos ) > turrange ) {
+        return turret_out_of_range;
+    }
+    
+    return turret_all_ok;
+}
+
+std::map< int, turret_fire_ability > vehicle::turrets_can_shoot( const point &pos )
+{
+    std::vector< int > turrets = all_parts_with_feature( "TURRET", true );
+    std::map< int, turret_fire_ability > ret;
+    for( const int turret_index : turrets ) {
+        ret[turret_index] = turret_can_shoot( turret_index, pos );
+    }
+
+    return ret;
+}
+
+bool vehicle::aim_turrets()
+{
+    std::vector< int > turrets = all_parts_with_feature( "TURRET", true );
+    // We only want turrets that can aim by themselves and are on
+    auto cant_shoot = [&]( const int tur ) {
+        return part_flag( tur, "MANUAL" ) || parts[tur].mode == 0;
+    };
+    turrets.erase( std::remove_if( turrets.begin(), turrets.end(), cant_shoot ), turrets.end() );
+    if( turrets.empty() ) {
+        add_msg( m_warning, _("Can't aim turrets: all turrets are offline") );
+        return false;
+    }
+
+    // Find the radius of a circle (centered at u) that encompasses points turrets can aim at
+    // Each turret range circle is represented by 4 points
+    // Maybe extend to 8 (diagonals) for better accuracy with circular?
+    std::vector< point > bounds;
+    bounds.reserve( 4 * turrets.size() );
+    for( const int turret_index : turrets ) {
+        const int turrange = get_turret_range( turret_index, true );
+        if( turrange <= 0 ) {
+            continue;
+        }
+        
+        point tpos( global_pos() + parts[turret_index].precalc[0] );
+        bounds.push_back( point( tpos.x + turrange, tpos.y ) );
+        bounds.push_back( point( tpos.x - turrange, tpos.y ) );
+        bounds.push_back( point( tpos.x, tpos.y + turrange ) );
+        bounds.push_back( point( tpos.x, tpos.y - turrange ) );
+        // Reset turrets
+        parts[turret_index].target.first = tpos;
+        parts[turret_index].target.second = tpos;
+    }
+
+    const point &upos = g->u.pos();
+    int range = 0;
+    for( auto &bnd : bounds ) {
+        int dist = rl_dist( upos, bnd );
+        range = std::max( range, dist );
+    }
+
+    if( range <= 0 ) {
+        return false;
+    }
+
+    // Fake gun item to aim
+    item pointer( "vehicle_pointer", 0 );
+    pointer.set_curammo( "pointer_fake_ammo" );
+    auto tmpammo = pointer.get_curammo()->ammo.get();
+    tmpammo->range = range;
+
+    int x = upos.x;
+    int y = upos.y;
     target_mode tmode = TARGET_MODE_TURRET; // We can't aim here yet
-    item weap( part_info( turret_index ).item, 0 );
-    std::vector<point> trajectory = 
-                        g->target( x, y, x - range, y - range,
-                                   x + range, y + range, mons,
-                                   t, &weap, tmode, turret_pos );
-
+    auto trajectory = g->pl_target_ui( x, y, range, &pointer, tmode );
     if( trajectory.empty() ) {
-        target.first = turret_pos;
-        return;
+        add_msg( m_info, _("Clearing targets") );
+        return false;
     }
 
-    target.first = point( x, y );
-    if( parts[turret_index].mode <= 0 ) {
-        // Fire only one full burst, then back to off
-        parts[turret_index].mode = INT_MIN;
+    const point &targ = trajectory.back();
+    for( int turret_index : turrets ) {
+        int turrange = get_turret_range( turret_index, true );
+        point tpos( global_pos() + parts[turret_index].precalc[0] );
+        if( turrange < rl_dist( tpos, targ ) ) {
+            continue;
+        }
+
+        parts[turret_index].target.second = targ;
     }
 
-    if( turret_mode < 1 ) {
-        add_msg( _("Activating turrets") );
-        turret_mode = 1;
+    if( turret_mode == turret_mode_off ) {
+        turret_mode = turret_mode_manual;
     }
 
-    g->u.moves -= 100 - g->u.dex_cur; // Take some time to aim
+    // Take at least a single whole turn to aim
+    g->u.moves = std::min( 0, g->u.moves - 100 + (5 * g->u.int_cur) );
     g->draw_ter();
+    return true;
 }
 
 void vehicle::control_turrets() {
@@ -5126,9 +5294,11 @@ void vehicle::control_turrets() {
                 sym = 'B'; // Burst
             } else if( parts[p].mode > 9 && charge ) {
                 sym = 'X'; // Big charge
-            } else if( ( burst || charge ) && parts[p].mode > 0 && parts[p].mode < 10 ) {
+            } else if( parts[p].mode > 0 && parts[p].mode < 10 ) {
                 sym = '0' + parts[p].mode;
-            } else if( parts[p].mode < 0 ) {
+            } else if( parts[p].mode < -1 ) {
+                sym = 'M'; // Manual burst
+            } else if( parts[p].mode == -1 ) {
                 sym = 'm'; // Manual
             } else {
                 sym = 'x';
@@ -5147,42 +5317,82 @@ void vehicle::control_turrets() {
         }
 
         selected = pmenu.ret;
-        int turret_index = turrets[selected];
-        const auto gun = item::find_type( part_info( turret_index ).item )->gun.get();
-        if( !part_flag( turret_index, "TURRET" ) || gun == nullptr ) {
-            debugmsg( "vehicle::toggle_turrets tried to pick a non-turret part" );
-            break;
-        }
-
-        vehicle_part &tr = parts[turret_index];
-        if( tr.mode < 0 || tr.mode > 1 ) {
-            tr.mode = 0;
-        } else if( tr.mode == 0 && gun->burst > 1 ) {
-            tr.mode = 1;
-        } else {
-            tr.mode = INT_MAX;
-        }
+        cycle_turret_mode( turrets[selected], false );
 
         pmenu.reset();
     }
 
-    if( turret_mode < 1 ) {
+    if( turret_mode == turret_mode_off ) {
         add_msg( m_warning, _("Turrets have been configured, but the vehicle turret system is off.") );
     }
 }
 
-void vehicle::cycle_turret_mode()
+void vehicle::cycle_turret_mode( int p, bool only_manual_modes )
 {
-    if( ++turret_mode > 1 ) {
-        turret_mode = 0;
-    }
-    if( turret_mode < 1 ) {
-        add_msg( _("Turrets: Disabled") );
+    if( !part_flag( p, "TURRET" ) ) {
+        debugmsg( "vehicle::cycle_turret_mode tried to pick a non-turret part" );
         return;
     }
     
-    add_msg( _("Turrets: Enabled") );
+    const item gun( part_info( p ).item, 0 );
+    if( gun.type->gun == nullptr ) {
+        debugmsg( "vehicle::cycle_turret_mode tried to pick a non-turret part" );
+        return;
+    }
+
+    vehicle_part &tr = parts[p];
+    const bool burst_or_charge = gun.burst_size() > 1 || gun.is_charger_gun();
+    const bool was_auto = tr.mode > 0;
+    if( tr.mode < -1 ) {
+        tr.mode = -1;
+    } else if( tr.mode < 0 && !only_manual_modes ) {
+        tr.mode = 0;
+    } else if( tr.mode == 0 && !only_manual_modes ) {
+        tr.mode = 1;
+    } else if( tr.mode == 1 && !only_manual_modes ) {
+        tr.mode = burst_or_charge ? 1000 : -1;
+    } else {
+        tr.mode = burst_or_charge ? -1000 : -1;
+    }
+
+    if( only_manual_modes ) {
+        const char *name = part_info( p ).name.c_str();
+        if( tr.mode < -1 && gun.is_charger_gun() ) {
+            add_msg( m_info, _("Setting turret %s to full power mode."), name );
+        } else if( tr.mode == -1 && gun.is_charger_gun() ) {
+            add_msg( m_info, _("Setting turret %s to low power mode."), name );
+        } else if( tr.mode < -1 ) {
+            add_msg( m_info, _("Setting turret %s to burst mode."), name );
+        } else if( tr.mode == -1 ) {
+            add_msg( m_info, _("Setting turret %s to single-fire mode."), name );
+        } else if( tr.mode == 0 ) {
+            add_msg( m_info, _("Disabling turret %s."), name );
+        } else {
+            add_msg( m_info, _("Setting turret %s to buggy mode."), name );
+        }
+
+        if( was_auto ) {
+            add_msg( m_warning, _("Disabling automatic target acquisition on %s"), name );
+        }
+    }
+}
+
+void vehicle::cycle_global_turret_mode()
+{
     std::vector< int > turrets = all_parts_with_feature( "TURRET", true );
+    if( turret_mode != turret_mode_off ) {
+        turret_mode = turret_mode_off;
+        add_msg( _("Turrets: Disabled") );
+        // Clear aim points
+        for( int p : turrets ) {
+            parts[p].target.second = parts[p].target.first;
+        }
+
+        return;
+    }
+
+    turret_mode = turret_mode_autotarget;
+    add_msg( _("Turrets: Enabled") );
     for( int p : turrets ) {
         if( parts[p].mode > 0 ) {
             return; // No need to warn
@@ -5192,64 +5402,120 @@ void vehicle::cycle_turret_mode()
     add_msg( m_warning, _("Turret system is on, but all turrets are configured not to shoot.") );
 }
 
-bool vehicle::fire_turret (int p, bool /* burst */ )
+long vehicle::turret_has_ammo( int p )
 {
-    if (!part_flag (p, "TURRET"))
+    long ammo_for = LONG_MAX;
+    const item gun( part_info( p ).item, 0 );
+    // UPS power
+    const auto &gun_data = *gun.type->gun;
+    const long power = fuel_left( fuel_type_battery );
+    if( gun_data.ups_charges > 0 ) {
+        ammo_for = std::min( ammo_for, power / gun_data.ups_charges );
+    }
+
+    ammotype amt = part_info( p ).fuel_type;
+    int charge_mult = 1;
+    long liquid_fuel = fuel_left( part_info( p ).fuel_type ); // Items for which a fuel tank exists
+    if( liquid_fuel > 0 ) {
+        // In case of charger guns, we return max charge rather than max burst
+        if ( gun.is_charger_gun() ) {
+            charge_mult *= 5;
+        }
+
+        if( amt == fuel_type_plasma ) {
+            charge_mult *= 10; // 1 unit of hydrogen adds 10 units to hydro tank
+        }
+
+        return std::min( ammo_for, liquid_fuel / charge_mult );
+    }
+
+    auto items = get_items( p );
+    if( items.empty() ) {
+        return 0L;
+    }
+
+    itype *am_type = items.front().type;
+    if( !am_type->ammo || am_type->ammo->type != amt || items.front().charges < 1 ) {
+        return 0L;
+    }
+
+    return std::min( ammo_for, items.front().charges );
+}
+
+bool vehicle::fire_turret( int p, bool manual )
+{
+    if( !part_flag ( p, "TURRET" ) ) {
         return false;
+    }
+
     const item gun( part_info( p ).item, 0 );
     if( !gun.is_gun() ) {
         return false;
     }
+
     std::pair< point, point > &target = parts[p].target;
-    // Manually aimed turrets will shoot even when disabled
-    if( parts[p].mode <= 0 && target.first == target.second ) {
-        return false;
-    }
     // Don't let manual-only turrets aim
-    if( target.first == target.second && part_flag( p, "MANUAL" ) ) {
+    if( !manual && part_flag( p, "MANUAL" ) ) {
         return false;
     }
+
+    // Don't let non-manual turrets get aimed manually
+    if( manual && part_flag( p, "NO_MANUAL" ) ) {
+        if( manual ) {
+            add_msg( m_bad, "This turret can't be aimed manually" );
+        }
+
+        return false;
+    }
+
+    if( parts[p].mode == 0 ) {
+        if( !manual ) {
+            return false;
+        }
+
+        cycle_turret_mode( p, true );
+    }
+
+    // turret_mode_manual means the turrets are globally off, but some are aimed
+    // target.first == target.second means the turret isn't aimed
+    if( !manual && ( turret_mode == turret_mode_manual || parts[p].mode < 0 ) && 
+        target.first == target.second ) {
+        return false;
+    }
+
     // Check for available power for turrets that use it.
     const auto &gun_data = *gun.type->gun;
-    const int power = fuel_left(fuel_type_battery);
+    const int power = fuel_left( fuel_type_battery );
     if( gun_data.ups_charges > 0 && gun_data.ups_charges < power ) {
+        if( manual ) {
+            add_msg( m_bad, "This turret is not powered" );
+        }
+
         return false;
     }
     long charges = gun.burst_size();
-    std::string whoosh = "";
     if( charges <= 0 ) {
         charges = 1;
     }
     ammotype amt = part_info( p ).fuel_type;
     int charge_mult = 1;
     int liquid_fuel = fuel_left( part_info( p ).fuel_type ); // Items for which a fuel tank exists
-    if( liquid_fuel > 1 )
-    {
+    bool success = false;
+    if( liquid_fuel > 1 ) {
         if ( gun.is_charger_gun() ) {
-            if (one_in(100)) {
+            if( one_in(100) ) {
                 charges = rng(5,8); // kaboom
             } else {
                 charges = rng(1,4);
             }
-            // mode is INT_MIN when aimed manually, do not use abs(INT_MIN) for charges!
-            if( charges > abs( parts[p].mode ) && target.first == target.second ) {
+
+            if( charges > abs( parts[p].mode ) ) {
                 charges = abs( parts[p].mode ); // Currently only limiting, not increasing
             }
-            if( charges > 4 ) {
-                //~ the sound of a charge-rifle firing a massive ball of plasma
-                whoosh = _("whoosh!");
-            }
-            charge_mult *= 5 * charges;
         }
-        if( amt == fuel_type_plasma ) {
-            charge_mult *= 10; // 1 unit of hydrogen adds 10 units to hydro tank
-        }
-        if( liquid_fuel < charges * charge_mult ) {
-            charges = liquid_fuel / charge_mult;
-        }
-        if( liquid_fuel < 1 || charges < 1 ) {
-            return false;
-        }
+
+        charges = std::min( charges, turret_has_ammo( p ) );
+    
         itype *am_type = item::find_type( default_ammo( amt ) );
         if( !am_type->ammo ) {
             debugmsg( "vehicle::fire_turret tried to use %s (which isn't an ammo type) as ammo for %s",
@@ -5257,26 +5523,33 @@ bool vehicle::fire_turret (int p, bool /* burst */ )
             return false;
         }
         long charges_left = charges;
-        if( fire_turret_internal(p, *gun.type, *am_type, charges_left, whoosh) ) {
+        // TODO sometime: change that g->u to a parameter, so that NPCs can shoot too
+        success = manual ? 
+            manual_fire_turret( p, g->u, *gun.type, *am_type, charges_left ) :
+            automatic_fire_turret( p, *gun.type, *am_type, charges_left );
+        if( success ) {
             long charges_consumed = charges - charges_left;
             // consume fuel
             charges_consumed *= charge_mult;
             drain( amt, (int)charges_consumed );
         }
     } else {
+        charges = std::min( charges, turret_has_ammo( p ) );
+        if( charges <= 0 ) {
+            if( manual ) {
+                add_msg( m_bad, "This turret doesn't have enough ammo" );
+            }
+
+            return false;
+        }
+
         auto items = get_items( p );
-        if( items.empty() ) {
-            return false;
-        }
         itype *am_type = items.front().type;
-        if( !am_type->ammo || am_type->ammo->type != amt || items.front().charges < 1 ) {
-            return false;
-        }
-        if( charges > items.front().charges ) {
-            charges = items.front().charges;
-        }
         long charges_left = charges;
-        if( fire_turret_internal(p, *gun.type, *am_type, charges_left ) ) {
+        success = manual ? 
+            manual_fire_turret( p, g->u, *gun.type, *am_type, charges_left ) :
+            automatic_fire_turret( p, *gun.type, *am_type, charges_left );
+        if( success ) {
             // consume ammo
             long charges_consumed = charges - charges_left;
             charges_consumed *= charge_mult;
@@ -5287,7 +5560,9 @@ bool vehicle::fire_turret (int p, bool /* burst */ )
             }
         }
     }
-    return true;
+
+    // If manual, we need to know if the shot was actually executed
+    return !manual || success;
 }
 
 // Ammo/weapon tags to area of effect
@@ -5311,7 +5586,7 @@ int aoe_size( std::set< std::string > tags )
     return 0;
 }
 
-bool vehicle::fire_turret_internal (int p, const itype &gun, const itype &ammo, long &charges, const std::string &extra_sound)
+bool vehicle::automatic_fire_turret( int p, const itype &gun, const itype &ammo, long &charges )
 {
     int x = global_x() + parts[p].precalc[0].x;
     int y = global_y() + parts[p].precalc[0].y;
@@ -5344,7 +5619,7 @@ bool vehicle::fire_turret_internal (int p, const itype &gun, const itype &ammo, 
     int xtarg;
     int ytarg;
     std::pair< point, point > &target = parts[p].target;
-    if( target.first == target.second ) {
+    if( target.first == target.second && !part_flag( p, "MANUAL" ) ) {
         // Manual target not set, find one automatically
         const bool u_see = g->u.sees(x, y);
         int boo_hoo;
@@ -5360,36 +5635,123 @@ bool vehicle::fire_turret_internal (int p, const itype &gun, const itype &ammo, 
         }
         xtarg = auto_target->posx();
         ytarg = auto_target->posy();
-    } else {
+    } else if( target.first != target.second ) {
         // Target set manually
-        // Second value of 'target' is last position
-        // If vehicle moved, move the "sights" with it
-        xtarg = target.first.x + (x - target.second.x);
-        ytarg = target.first.y + (y - target.second.y);
+        // Make sure we didn't move between aiming and firing (it's a bug if we did)
+        if( x != target.first.x || y != target.first.y ) {
+            target.second = target.first;
+            return false;
+        }
+
+        xtarg = target.second.x;
+        ytarg = target.second.y;
         // Remove the target
-        target.first.x = x;
-        target.first.y = y;
+        target.second = target.first;
+    } else {
+        // Shouldn't happen
+        target.first = target.second;
+        return false;
     }
 
-    // make a noise, if extra noise is to be made
-    if (extra_sound != "") {
-        sounds::sound(x, y, 20, extra_sound);
+    // Move the charger gun "whoosh" here - no need to pass it from above
+    if( tmp.weapon.is_charger_gun() && charges > 20 ) {
+        sounds::sound( x, y, 20, _("whoosh!") );
     }
     // notify player if player can see the shot
     if( g->u.sees(x, y) ) {
         add_msg(_("The %s fires its %s!"), name.c_str(), part_info(p).name.c_str());
     }
     // Spawn a fake UPS to power any turreted weapons that need electricity.
-    item tmp_ups( "UPS_off", 0 );
+    item tmp_ups( "fake_UPS", 0 );
     // Drain a ton of power
     tmp_ups.charges = drain( fuel_type_battery, 1000 );
-    item &ups_ref = tmp.i_add(tmp_ups);
+    tmp.worn.insert( tmp.worn.end(), tmp_ups );
     tmp.fire_gun( xtarg, ytarg, burst );
     // Return whatever is left.
-    refill( fuel_type_battery, ups_ref.charges );
+    refill( fuel_type_battery, tmp.worn.back().charges );
     charges = tmp.weapon.charges; // Return real ammo, in case of burst ending early
     
     return true;
+}
+
+bool vehicle::manual_fire_turret( int p, player &shooter, const itype &guntype, 
+                                  const itype &ammotype, long &charges )
+{
+    int x = global_x() + parts[p].precalc[0].x;
+    int y = global_y() + parts[p].precalc[0].y;
+
+    // Place the shooter at the turret
+    const point &oldpos = shooter.pos();
+    shooter.setx( x );
+    shooter.sety( y );
+
+    // Create a fake gun
+    // TODO: Damage the gun based on part hp
+    item gun( guntype.id, 0 );
+    gun.set_curammo( ammotype.id );
+    gun.charges = charges;
+
+    // Give shooter fake weapon
+    item old_weapon = shooter.weapon;
+    shooter.weapon = gun;
+
+    // Spawn a fake UPS to power any turreted weapons that need electricity.
+    item tmp_ups( "fake_UPS", 0 );
+    // Drain a ton of power
+    tmp_ups.charges = drain( fuel_type_battery, 1000 );
+    // Fire_gun expects that the fake UPS is a last worn item
+    shooter.worn.insert( shooter.worn.end(), tmp_ups );
+
+    const int range = shooter.weapon.gun_range( &shooter );
+    auto mons = shooter.get_visible_creatures( range );
+    constexpr target_mode tmode = TARGET_MODE_TURRET_MANUAL; // No aiming yet!
+    int tx = shooter.posx();
+    int ty = shooter.posy();
+    auto trajectory = g->pl_target_ui( tx, ty, range, &shooter.weapon, tmode );
+    const bool burst = abs( parts[p].mode ) > 1;
+    if( !trajectory.empty() ) {
+        // Need to redraw before shooting
+        g->draw_ter();
+        const point &targ = trajectory.back();
+        // Put our shooter on the roof of the vehicle
+        shooter.add_effect( "on_roof", 1 );
+        // TODO (maybe): Less recoil? We're using a mounted, stabilized turret
+        shooter.fire_gun( targ.x, targ.y, burst );
+        // And now back - we don't want to get any weird behavior
+        shooter.remove_effect( "on_roof" );
+    }
+
+    // Done shooting, clean up
+    item &ups = shooter.worn.back();
+    if( ups.type->id == "fake_UPS" ) {
+        refill( fuel_type_battery, ups.charges );
+        shooter.worn.pop_back();
+    } else {
+        // This shouldn't happen, not even if armor below the UPS is destroyed
+        // ...but let's handle anyway
+        auto upses = shooter.remove_items_with( [] ( item &it ) {
+            return it.type->id == "fake_UPS";
+        } );
+        for( auto &up : upses ) {
+            refill( fuel_type_battery, up.charges );
+        }
+    }
+
+    charges = shooter.weapon.charges;
+
+    // Place the shooter back where we took them from
+    shooter.setx( oldpos.x );
+    shooter.sety( oldpos.y );
+    // Give back old weapon
+    shooter.weapon = old_weapon;
+
+    // Deactivate automatic aiming
+    if( parts[p].mode > 0 ) {
+        parts[p].mode = -parts[p].mode;
+        add_msg( m_warning, "Deactivating automatic target acquisition for this turret" );
+    }
+
+    return !trajectory.empty();
 }
 
 /**

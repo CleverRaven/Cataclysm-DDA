@@ -314,13 +314,21 @@ class overmap
      */
     static tripoint draw_overmap();
     /**
+     * Draw overmap like with @ref draw_overmap() and display hordes.
+     */
+    static tripoint draw_hordes();
+    /**
+     * Draw overmap like with @ref draw_overmap() and display the weather.
+     */
+    static tripoint draw_weather();
+    /**
+     * Draw overmap like with @ref draw_overmap() and display the given zone.
+     */
+    static tripoint draw_zones( tripoint const &center, tripoint const &select, int const iZoneIndex );
+    /**
      * Same as @ref draw_overmap() but starts at select if set.
      * Otherwise on players location.
      */
-    static tripoint draw_overmap(const tripoint& center,
-                                 bool debug_mongroup = false,
-                                 const tripoint& select = tripoint(-1, -1, -1),
-                                 const int iZoneIndex = -1);
     /**
      * Same as above but start at z-level z instead of players
      * current z-level, x and y are taken from the players position.
@@ -392,6 +400,17 @@ public:
     void process_mongroups();
     void move_hordes();
 
+    // drawing relevant data, e.g. what to draw
+    struct draw_data_t {
+        // draw monster groups on the overmap
+        bool debug_mongroup = false;
+        // draw weather, e.g. clouds etc.
+        bool debug_weather = false;
+        // draw zone location
+        tripoint select = tripoint(-1, -1, -1);
+        int iZoneIndex = -1;
+    };
+    static tripoint draw_overmap(const tripoint& center, const draw_data_t &data);
   /**
    * Draws the overmap terrain.
    * @param w The window to draw in.
@@ -403,8 +422,7 @@ public:
    */
   static void draw(WINDOW *w, WINDOW *wbar, const tripoint &center,
             const tripoint &orig, bool blink, bool showExplored,
-            input_context* inp_ctxt, bool debug_monstergroups = false,
-            const int iZoneIndex = -1);
+            input_context* inp_ctxt, const draw_data_t &data);
 
   // Overall terrain
   void place_river(point pa, point pb);

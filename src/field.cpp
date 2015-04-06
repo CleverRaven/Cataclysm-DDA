@@ -561,7 +561,8 @@ bool map::process_fields_in_submap( submap *const current_submap,
                                 // Make a copy and let the copy explode.
                                 item tmp = *explosive;
                                 i_rem( point(x, y), explosive );
-                                tmp.detonate(point(x,y));
+                                // TODO: Z
+                                tmp.detonate( tripoint(x,y,g->get_levz() ) );
                                 // Just restart from the beginning.
                                 explosive = items_here.begin();
                             } else {
@@ -632,7 +633,9 @@ bool map::process_fields_in_submap( submap *const current_submap,
                                         // large intrinsic effect blows up with half
                                         // the ammos damage in force, for each bullet,
                                         // just creating shrapnel.
-                                        g->explosion( x, y, ammo_type->damage / 2,
+                                        // TODO: Z
+                                        g->explosion( tripoint( x, y, g->get_levz() ),
+                                                      ammo_type->damage / 2,
                                                       true, false, false );
                                     } else if( special ) {
                                         // If it has a special effect just trigger it.
@@ -917,7 +920,8 @@ bool map::process_fields_in_submap( submap *const current_submap,
                                           ((cur->getFieldDensity() >= 2 && (has_flag("FLAMMABLE", fx, fy) && one_in(20))) ||
                                           (cur->getFieldDensity() >= 2  && (has_flag("FLAMMABLE_ASH", fx, fy) && one_in(10))) ||
                                           (cur->getFieldDensity() == 3  && (has_flag("FLAMMABLE_HARD", fx, fy) && one_in(10))) ||
-                                          flammable_items_at(fx, fy) || nearwebfld )) {
+                                          // TODO: Z
+                                          flammable_items_at( tripoint( fx, fy, abs_sub.z ) ) || nearwebfld )) {
                                         add_field(fx, fy, fd_fire, 1); //Nearby open flammable ground? Set it on fire.
                                         tmpfld = nearby_field.findField(fd_fire);
                                         if(tmpfld) {
@@ -997,7 +1001,8 @@ bool map::process_fields_in_submap( submap *const current_submap,
                                     }
                                 }
                         } if (one_in(5 - cur->getFieldDensity())) {
-                            g->spread_fungus(x, y); //Haze'd terrain
+                            // TODO: Z
+                            g->spread_fungus( tripoint( x, y, g->get_levz() ) ); //Haze'd terrain
                         }
                         }
                         break;
@@ -1695,11 +1700,10 @@ void map::player_in_field( player &u )
             break;
 
         case fd_electricity:
-            if (u.has_artifact_with(AEP_RESIST_ELECTRICITY) || u.has_active_bionic("bio_faraday")) //Artifact or bionic stops electricity.
-                u.add_msg_if_player(_("The electricity flows around you."));
-            else if (u.worn_with_flag("ELECTRIC_IMMUNE")) //Artifact or bionic stops electricity.
-                u.add_msg_if_player(_("Your armor safely grounds the electrical discharge."));
-            else {
+            if ( u.is_elec_immune() ) {
+                u.add_msg_player_or_npc( _("The electric cloud doesn't affect you."),
+                                         _("The electric cloud doesn't seem to affect <npcname>.") );
+            } else {
                 u.add_msg_player_or_npc(m_bad, _("You're electrocuted!"), _("<npcname> is electrocuted!"));
                 //small universal damage based on density.
                 u.hurtall(rng(1, cur->getFieldDensity()), nullptr);
@@ -2010,9 +2014,11 @@ void map::monster_in_field( monster &z )
             break;
 
         case fd_electricity:
-            dam += rng(1, cur->getFieldDensity());
-            if (one_in(8 - cur->getFieldDensity())) {
-                z.moves -= cur->getFieldDensity() * 150;
+            if( !z.is_elec_immune() ) {
+                dam += rng(1, cur->getFieldDensity());
+                if (one_in(8 - cur->getFieldDensity())) {
+                    z.moves -= cur->getFieldDensity() * 150;
+                }
             }
             break;
 

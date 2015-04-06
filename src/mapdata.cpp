@@ -418,7 +418,7 @@ ter_id t_null,
     t_cvdbody, t_cvdmachine,
     t_water_pump,
     t_conveyor, t_machinery_light, t_machinery_heavy, t_machinery_old, t_machinery_electronic,
-    t_improvised_shelter,
+    t_improvised_shelter, t_leanto,
     // Staircases etc.
     t_stairs_down, t_stairs_up, t_manhole, t_ladder_up, t_ladder_down, t_slope_down,
      t_slope_up, t_rope_up,
@@ -646,6 +646,7 @@ void set_ter_ids() {
     t_vat=terfind("t_vat");
     t_cvdbody=terfind("t_cvdbody");
     t_cvdmachine=terfind("t_cvdmachine");
+    t_leanto=terfind("t_leanto");
     t_stairs_down=terfind("t_stairs_down");
     t_stairs_up=terfind("t_stairs_up");
     t_manhole=terfind("t_manhole");
