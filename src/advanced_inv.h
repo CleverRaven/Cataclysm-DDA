@@ -11,7 +11,6 @@ typedef std::vector< std::pair<item *, int> > itemslice;
 
 enum aim_location {
     AIM_INVENTORY = 0,
-    AIM_WORN,
     AIM_SOUTHWEST,
     AIM_SOUTH,
     AIM_SOUTHEAST,
@@ -25,6 +24,7 @@ enum aim_location {
     AIM_DRAGGED,
     AIM_CONTAINER,
     AIM_VEHICLE,
+    AIM_WORN,
     NUM_AIM_LOCATIONS
 };
 
@@ -80,8 +80,7 @@ struct advanced_inv_area {
     void init();
     int free_volume() const;
     int get_item_count() const;
-    // Other area is actually the same item source, e.g. dragged vehicle to the south
-    // and AIM_SOUTH
+    // Other area is actually the same item source, e.g. dragged vehicle to the south and AIM_SOUTH
     bool is_same( const advanced_inv_area &other ) const;
     bool canputitems( const advanced_inv_listitem *advitem = nullptr );
     item* get_container();
@@ -89,10 +88,6 @@ struct advanced_inv_area {
     bool is_container_valid( const item *it ) const;
     void set_container_position();
     aim_location offset_to_location() const;
-    // returns offsets in (x, y, z)
-    tripoint offset() const;
-    // returns position + offsets 
-    tripoint position() const;
     void set_vehicle(advanced_inv_area &square);
     bool can_store_in_vehicle() const
     {
@@ -191,8 +186,6 @@ class advanced_inventory_pane
          */
         int index;
         advanced_inv_sortby sortby;
-        // if things are updated or changed, this needs to be set
-        bool update_sorting;
         WINDOW *window;
         std::vector<advanced_inv_listitem> items;
         /**
