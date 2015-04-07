@@ -11240,7 +11240,10 @@ void game::wield(int pos)
 
 void game::read()
 {
-    int pos = inv_type(_("Read:"), IC_BOOK);
+    auto filter = []( const item &it ) {
+        return it.is_book();
+    };
+    int pos = inv_for_filter( _("Read:"), filter );
 
     if (pos == INT_MIN) {
         add_msg(_("Never mind."));
