@@ -10905,7 +10905,10 @@ void game::eat(int pos)
         return;
     }
     if (pos == INT_MIN) {
-        pos = inv_type(_("Consume item:"), IC_COMESTIBLE);
+        auto filter = [this]( const item &it ) {
+            return it.is_food( &u ) || it.is_food_container( &u );
+        };
+        pos = inv_for_filter( _("Consume item:"), filter );
     }
 
     if (pos == INT_MIN) {
