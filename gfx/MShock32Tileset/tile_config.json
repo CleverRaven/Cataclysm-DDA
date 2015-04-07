@@ -11792,40 +11792,7 @@
           "rotates": false
         },
         {
-          "id": "t_reinforced_glass_h",
-          "fg": 1860,
-          "bg": 513,
-          "rotates": false,
-          "multitile": true,
-          "additional_tiles": [
-            {
-              "id": "center",
-              "fg": 1860
-            },
-            {
-              "id": "corner",
-              "fg": 1861
-            },
-            {
-              "id": "edge",
-              "fg": 1862
-            },
-            {
-              "id": "end_piece",
-              "fg": 1863
-            },
-            {
-              "id": "t_connection",
-              "fg": 1864
-            },
-            {
-              "id": "unconnected",
-              "fg": 1865
-            }
-          ]
-        },
-        {
-          "id": "t_reinforced_glass_v",
+          "id": "t_reinforced_glass",
           "fg": 1860,
           "bg": 513,
           "rotates": false,
@@ -11936,7 +11903,7 @@
           "rotates": false
         },
         {
-          "id": "t_wall_h",
+          "id": "t_wall",
           "fg": 1953,
           "bg": 513,
           "rotates": false,
@@ -11997,39 +11964,6 @@
           "fg": 1987,
           "bg": 513,
           "rotates": false
-        },
-        {
-          "id": "t_wall_v",
-          "fg": 1953,
-          "bg": 513,
-          "rotates": false,
-          "multitile": true,
-          "additional_tiles": [
-            {
-              "id": "center",
-              "fg": 1953
-            },
-            {
-              "id": "corner",
-              "fg": 1961
-            },
-            {
-              "id": "edge",
-              "fg": 1962
-            },
-            {
-              "id": "end_piece",
-              "fg": 1963
-            },
-            {
-              "id": "t_connection",
-              "fg": 1976
-            },
-            {
-              "id": "unconnected",
-              "fg": 1977
-            }
-          ]
         },
         {
           "id": "t_wall_wood",
@@ -13928,46 +13862,7 @@
           "rotates": false
         },
         {
-          "id": "t_concrete_h",
-          "fg": 1725,
-          "bg": 534,
-          "rotates": false,
-          "multitile": true,
-          "additional_tiles": [
-            {
-              "id": "center",
-              "fg": 1725,
-              "bg": 534
-            },
-            {
-              "id": "corner",
-              "fg": 1726,
-              "bg": 534
-            },
-            {
-              "id": "edge",
-              "fg": 1727,
-              "bg": 534
-            },
-            {
-              "id": "t_connection",
-              "fg": 1729,
-              "bg": 534
-            },
-            {
-              "id": "end_piece",
-              "fg": 1728,
-              "bg": 534
-            },
-            {
-              "id": "unconnected",
-              "fg": 1730,
-              "bg": 534
-            }
-          ]
-        },
-        {
-          "id": "t_concrete_v",
+          "id": "t_concrete_wall",
           "fg": 1725,
           "bg": 534,
           "rotates": false,
@@ -14394,7 +14289,7 @@
           "rotates": false
         },
         {
-          "id": "t_wall_h_r",
+          "id": "t_wall_r",
           "fg": 1970,
           "bg": 534,
           "rotates": false,
@@ -14433,46 +14328,7 @@
           ]
         },
         {
-          "id": "t_wall_v_r",
-          "fg": 1970,
-          "bg": 534,
-          "rotates": false,
-          "multitile": true,
-          "additional_tiles": [
-            {
-              "id": "center",
-              "fg": 1971,
-              "bg": 534
-            },
-            {
-              "id": "corner",
-              "fg": 1972,
-              "bg": 534
-            },
-            {
-              "id": "edge",
-              "fg": 1973,
-              "bg": 534
-            },
-            {
-              "id": "t_connection",
-              "fg": 1975,
-              "bg": 534
-            },
-            {
-              "id": "end_piece",
-              "fg": 1974,
-              "bg": 534
-            },
-            {
-              "id": "unconnected",
-              "fg": 1970,
-              "bg": 534
-            }
-          ]
-        },
-        {
-          "id": "t_wall_h_w",
+          "id": "t_wall_w",
           "fg": 1978,
           "bg": 534,
           "rotates": false,
@@ -14511,46 +14367,7 @@
           ]
         },
         {
-          "id": "t_wall_v_w",
-          "fg": 1978,
-          "bg": 534,
-          "rotates": false,
-          "multitile": true,
-          "additional_tiles": [
-            {
-              "id": "center",
-              "fg": 1979,
-              "bg": 534
-            },
-            {
-              "id": "corner",
-              "fg": 1980,
-              "bg": 534
-            },
-            {
-              "id": "edge",
-              "fg": 1981,
-              "bg": 534
-            },
-            {
-              "id": "t_connection",
-              "fg": 1983,
-              "bg": 534
-            },
-            {
-              "id": "end_piece",
-              "fg": 1982,
-              "bg": 534
-            },
-            {
-              "id": "unconnected",
-              "fg": 1978,
-              "bg": 534
-            }
-          ]
-        },
-        {
-          "id": "t_wall_v_g",
+          "id": "t_wall_g",
           "fg": 1994,
           "bg": 534,
           "rotates": false,
@@ -14589,85 +14406,7 @@
           ]
         },
         {
-          "id": "t_wall_h_g",
-          "fg": 1994,
-          "bg": 534,
-          "rotates": false,
-          "multitile": true,
-          "additional_tiles": [
-            {
-              "id": "center",
-              "fg": 1995,
-              "bg": 534
-            },
-            {
-              "id": "corner",
-              "fg": 1996,
-              "bg": 534
-            },
-            {
-              "id": "edge",
-              "fg": 1997,
-              "bg": 534
-            },
-            {
-              "id": "t_connection",
-              "fg": 1999,
-              "bg": 534
-            },
-            {
-              "id": "end_piece",
-              "fg": 1998,
-              "bg": 534
-            },
-            {
-              "id": "unconnected",
-              "fg": 1994,
-              "bg": 534
-            }
-          ]
-        },
-        {
-          "id": "t_wall_v_y",
-          "fg": 2000,
-          "bg": 534,
-          "rotates": false,
-          "multitile": true,
-          "additional_tiles": [
-            {
-              "id": "center",
-              "fg": 2001,
-              "bg": 534
-            },
-            {
-              "id": "corner",
-              "fg": 2002,
-              "bg": 534
-            },
-            {
-              "id": "edge",
-              "fg": 2003,
-              "bg": 534
-            },
-            {
-              "id": "t_connection",
-              "fg": 2005,
-              "bg": 534
-            },
-            {
-              "id": "end_piece",
-              "fg": 2004,
-              "bg": 534
-            },
-            {
-              "id": "unconnected",
-              "fg": 2000,
-              "bg": 534
-            }
-          ]
-        },
-        {
-          "id": "t_wall_h_y",
+          "id": "t_wall_y",
           "fg": 2000,
           "bg": 534,
           "rotates": false,
@@ -14748,6 +14487,11 @@
           "id": "t_wall_v_p",
           "fg": 1964,
           "bg": 534,
+=======
+          "id": "t_wall_p",
+          "fg": 1943,
+          "bg": 528,
+>>>>>>> origin/pr/11895
           "rotates": false,
           "multitile": true,
           "additional_tiles": [
@@ -14796,7 +14540,7 @@
           "rotates": false
         },
         {
-          "id": "t_wall_metal_v",
+          "id": "t_wall_metal",
           "fg": 1988,
           "bg": 534,
           "rotates": false,
@@ -14830,45 +14574,6 @@
             {
               "id": "edge",
               "fg": 1990,
-              "bg": 534
-            }
-          ]
-        },
-        {
-          "id": "t_wall_metal_h",
-          "fg": 1988,
-          "bg": 534,
-          "rotates": false,
-          "multitile": true,
-          "additional_tiles": [
-            {
-              "id": "corner",
-              "fg": 1989,
-              "bg": 534
-            },
-            {
-              "id": "edge",
-              "fg": 1990,
-              "bg": 534
-            },
-            {
-              "id": "center",
-              "fg": 1988,
-              "bg": 534
-            },
-            {
-              "id": "t_connection",
-              "fg": 1992,
-              "bg": 534
-            },
-            {
-              "id": "end_piece",
-              "fg": 1991,
-              "bg": 534
-            },
-            {
-              "id": "unconnected",
-              "fg": 1993,
               "bg": 534
             }
           ]
@@ -14969,40 +14674,7 @@
           "rotates": false
         },
         {
-          "id": "t_wall_glass_h_alarm",
-          "fg": 1947,
-          "bg": 535,
-          "rotates": false,
-          "multitile": true,
-          "additional_tiles": [
-            {
-              "id": "unconnected",
-              "fg": 1726
-            },
-            {
-              "id": "center",
-              "fg": 1947
-            },
-            {
-              "id": "corner",
-              "fg": 1948
-            },
-            {
-              "id": "edge",
-              "fg": 1949
-            },
-            {
-              "id": "end_piece",
-              "fg": 1950
-            },
-            {
-              "id": "t_connection",
-              "fg": 1951
-            }
-          ]
-        },
-        {
-          "id": "t_wall_glass_v_alarm",
+          "id": "t_wall_glass_alarm",
           "fg": 1947,
           "bg": 535,
           "rotates": false,
@@ -15096,46 +14768,7 @@
           "rotates": false
         },
         {
-          "id": "t_fungus_wall_h",
-          "fg": 1778,
-          "bg": 539,
-          "rotates": false,
-          "multitile": true,
-          "additional_tiles": [
-            {
-              "id": "center",
-              "fg": 1779,
-              "bg": 539
-            },
-            {
-              "id": "corner",
-              "fg": 1780,
-              "bg": 539
-            },
-            {
-              "id": "edge",
-              "fg": 1781,
-              "bg": 539
-            },
-            {
-              "id": "t_connection",
-              "fg": 1783,
-              "bg": 539
-            },
-            {
-              "id": "end_piece",
-              "fg": 1782,
-              "bg": 539
-            },
-            {
-              "id": "unconnected",
-              "fg": 1778,
-              "bg": 539
-            }
-          ]
-        },
-        {
-          "id": "t_fungus_wall_v",
+          "id": "t_fungus_wall",
           "fg": 1778,
           "bg": 539,
           "rotates": false,
@@ -17965,7 +17598,7 @@
           "rotates": false
         },
         {
-          "id": "t_wall_glass_h",
+          "id": "t_wall_glass",
           "fg": 1947,
           "rotates": false,
           "multitile": true,
@@ -17997,71 +17630,7 @@
           ]
         },
         {
-          "id": "t_wall_glass_v",
-          "fg": 1947,
-          "rotates": false,
-          "multitile": true,
-          "additional_tiles": [
-            {
-              "id": "center",
-              "fg": 1947
-            },
-            {
-              "id": "corner",
-              "fg": 1948
-            },
-            {
-              "id": "edge",
-              "fg": 1949
-            },
-            {
-              "id": "end_piece",
-              "fg": 1950
-            },
-            {
-              "id": "t_connection",
-              "fg": 1951
-            },
-            {
-              "id": "unconnected",
-              "fg": 1952
-            }
-          ]
-        },
-        {
-          "id": "t_wall_h_b",
-          "fg": 1955,
-          "rotates": false,
-          "multitile": true,
-          "additional_tiles": [
-            {
-              "id": "center",
-              "fg": 1955
-            },
-            {
-              "id": "corner",
-              "fg": 1956
-            },
-            {
-              "id": "edge",
-              "fg": 1957
-            },
-            {
-              "id": "end_piece",
-              "fg": 1958
-            },
-            {
-              "id": "t_connection",
-              "fg": 1959
-            },
-            {
-              "id": "unconnected",
-              "fg": 1960
-            }
-          ]
-        },
-        {
-          "id": "t_wall_v_b",
+          "id": "t_wall_b",
           "fg": 1955,
           "rotates": false,
           "multitile": true,

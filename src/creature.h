@@ -209,6 +209,7 @@ class Creature
         virtual bool is_warm() const; // is this creature warm, for IR vision, heat drain, etc
         virtual bool has_weapon() const = 0;
         virtual bool is_hallucination() const = 0;
+        virtual bool is_elec_immune() const = 0;
         // returns true if health is zero or otherwise should be dead
         virtual bool is_dead_state() const = 0;
         /**

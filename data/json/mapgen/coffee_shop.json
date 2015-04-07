@@ -148,14 +148,14 @@
         "|-------------L--------|"
       ],
       "terrain": {
-        "5": "t_wall_glass_h",
-        "%": "t_wall_glass_v",
+        "5": "t_wall_glass",
+        "%": "t_wall_glass",
         ",": "t_pavement_y",        
         "_": "t_pavement",
         "x": "t_console_broken",
         ".": "t_floor",
-        "-": "t_wall_h",
-        "|": "t_wall_v",
+        "-": "t_wall",
+        "|": "t_wall",
         "#": "t_shrub",
         "+": "t_door_glass_c",
         "s": "t_sidewalk",

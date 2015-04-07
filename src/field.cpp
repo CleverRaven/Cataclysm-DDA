@@ -1700,11 +1700,10 @@ void map::player_in_field( player &u )
             break;
 
         case fd_electricity:
-            if (u.has_artifact_with(AEP_RESIST_ELECTRICITY) || u.has_active_bionic("bio_faraday")) //Artifact or bionic stops electricity.
-                u.add_msg_if_player(_("The electricity flows around you."));
-            else if (u.worn_with_flag("ELECTRIC_IMMUNE")) //Artifact or bionic stops electricity.
-                u.add_msg_if_player(_("Your armor safely grounds the electrical discharge."));
-            else {
+            if ( u.is_elec_immune() ) {
+                u.add_msg_player_or_npc( _("The electric cloud doesn't affect you."),
+                                         _("The electric cloud doesn't seem to affect <npcname>.") );
+            } else {
                 u.add_msg_player_or_npc(m_bad, _("You're electrocuted!"), _("<npcname> is electrocuted!"));
                 //small universal damage based on density.
                 u.hurtall(rng(1, cur->getFieldDensity()), nullptr);
@@ -2015,9 +2014,11 @@ void map::monster_in_field( monster &z )
             break;
 
         case fd_electricity:
-            dam += rng(1, cur->getFieldDensity());
-            if (one_in(8 - cur->getFieldDensity())) {
-                z.moves -= cur->getFieldDensity() * 150;
+            if( !z.is_elec_immune() ) {
+                dam += rng(1, cur->getFieldDensity());
+                if (one_in(8 - cur->getFieldDensity())) {
+                    z.moves -= cur->getFieldDensity() * 150;
+                }
             }
             break;
 

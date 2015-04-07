@@ -8786,13 +8786,11 @@ int iuse::ehandcuffs(player *p, item *it, bool t, point pos)
 
             if (p->has_item(it) && p->weapon.type->id == "e_handcuffs") {
 
-                if (p->has_artifact_with(AEP_RESIST_ELECTRICITY) ||
-                    p->has_active_bionic("bio_faraday")) { //Artifact or bionic stops electricity.
-                    add_msg(_("The electricity flows around you."));
-                } else if (p->worn_with_flag("ELECTRIC_IMMUNE")) { //Artifact or bionic stops electricity.
-                    add_msg(_("Your armor safely grounds the electrical discharge."));
+                if( p->is_elec_immune() ) {
+                    if( one_in( 10 ) ) {
+                        add_msg( m_good, _("The cuffs try to shock you, but you're protected from electrocution.") );
+                    }
                 } else {
-
                     add_msg(m_bad, _("Ouch, the cuffs shock you!"));
 
                     p->apply_damage(nullptr, bp_arm_l, rng(0, 2));

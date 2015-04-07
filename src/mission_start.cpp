@@ -455,7 +455,7 @@ void mission_start::place_deposit_box(mission *miss)
      bool okay = false;
      for (int x2 = x - 1; x2 <= x + 1 && !okay; x2++) {
       for (int y2 = y - 1; y2 <= y + 1 && !okay; y2++) {
-       if (compmap.ter(x2, y2) == t_wall_metal_h|| compmap.ter(x2, y2) == t_wall_metal_v) {
+       if (compmap.ter(x2, y2) == t_wall_metal) {
         okay = true;
         valid.push_back( point(x, y) );
        }

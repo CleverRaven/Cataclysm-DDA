@@ -16,6 +16,7 @@
 #include "rng.h"
 
 #include <iosfwd>
+#include <bitset>
 #include <unordered_set>
 #include <vector>
 #include <list>
@@ -138,7 +139,6 @@ struct map_deconstruct_info {
  * Order does not matter.
  */
 enum ter_bitflags {
-    TFLAG_NONE,
     TFLAG_TRANSPARENT,
     TFLAG_FLAMMABLE,
     TFLAG_REDUCE_SCENT,
@@ -163,10 +163,12 @@ enum ter_bitflags {
     TFLAG_WALL,
     TFLAG_DEEP_WATER,
     TFLAG_HARVESTED,
-    TFLAG_PERMEABLE
+    TFLAG_PERMEABLE,
+    TFLAG_AUTO_WALL_SYMBOL,
+    TFLAG_CONNECT_TO_WALL,
+
+    NUM_TERFLAGS
 };
-extern std::map<std::string, ter_bitflags> ter_bitflags_map;
-void init_ter_bitflags_map();
 
 typedef int ter_id;
 typedef int furn_id;
@@ -180,8 +182,10 @@ struct map_data_common_t {
     map_bash_info        bash;
     map_deconstruct_info deconstruct;
 
+private:
     std::set<std::string> flags;    // string flags which possibly refer to what's documented above.
-    unsigned long         bitflags; // bitfield of -certian- string flags which are heavily checked
+    std::bitset<NUM_TERFLAGS> bitflags; // bitfield of -certian- string flags which are heavily checked
+public:
 
     /*
     * The symbol drawn on the screen for the terrain. Please note that there are extensive rules
@@ -201,25 +205,14 @@ struct map_data_common_t {
     bool transparent;
 
     bool has_flag(const std::string & flag) const {
-        return !!flags.count(flag);
+        return flags.count(flag) > 0;
     }
 
     bool has_flag(const ter_bitflags flag) const {
-        return (bitflags & mfb(flag));
+        return bitflags.test( flag );
     }
 
-    void set_flag(std::string flag) {
-        flags.insert( flag );
-
-        if(!transparent && "TRANSPARENT" == flag) {
-            transparent = true;
-        }
-
-        auto const it = ter_bitflags_map.find(flag);
-        if (it != std::end(ter_bitflags_map)) {
-            bitflags |= mfb(it->second);
-        }
-    }
+    void set_flag( const std::string &flag );
 };
 
 /*
@@ -553,11 +546,11 @@ extern ter_id t_null,
     // Walls
     t_wall_log_half, t_wall_log, t_wall_log_chipped, t_wall_log_broken, t_palisade, t_palisade_gate, t_palisade_gate_o,
     t_wall_half, t_wall_wood, t_wall_wood_chipped, t_wall_wood_broken,
-    t_wall_v, t_wall_h, t_concrete_v, t_concrete_h,
-    t_wall_metal_v, t_wall_metal_h,
-    t_wall_glass_v, t_wall_glass_h,
-    t_wall_glass_v_alarm, t_wall_glass_h_alarm,
-    t_reinforced_glass_v, t_reinforced_glass_h,
+    t_wall, t_concrete_wall,
+    t_wall_metal,
+    t_wall_glass,
+    t_wall_glass_alarm,
+    t_reinforced_glass,
     t_bars,
     t_door_c, t_door_c_peep, t_door_b, t_door_b_peep, t_door_o, t_door_o_peep,
     t_door_locked_interior, t_door_locked, t_door_locked_peep, t_door_locked_alarm, t_door_frame,
@@ -583,8 +576,8 @@ extern ter_id t_null,
     t_fence_post, t_fence_wire, t_fence_barbed, t_fence_rope,
     t_railing_v, t_railing_h,
     // Nether
-    t_marloss, t_fungus_floor_in, t_fungus_floor_sup, t_fungus_floor_out, t_fungus_wall, t_fungus_wall_v,
-    t_fungus_wall_h, t_fungus_mound, t_fungus, t_shrub_fungal, t_tree_fungal, t_tree_fungal_young, t_marloss_tree,
+    t_marloss, t_fungus_floor_in, t_fungus_floor_sup, t_fungus_floor_out, t_fungus_wall,
+    t_fungus_mound, t_fungus, t_shrub_fungal, t_tree_fungal, t_tree_fungal_young, t_marloss_tree,
     // Water, lava, etc.
     t_water_sh, t_swater_sh, t_water_dp, t_swater_dp, t_water_pool, t_sewage,
     t_lava,
