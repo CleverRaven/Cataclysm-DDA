@@ -117,14 +117,10 @@ inventory inventory::operator+ (const item &rhs)
     return u.rate_action_use(&it) != HINT_CANT;
 }
 
-/*static*/ bool inventory::has_category(const item &it, item_cat cat, const player &u)
+// TODO: Remove the second argument
+/*static*/ bool inventory::has_category(const item &it, item_cat cat, const player &)
 {
     switch (cat) {
-    case IC_COMESTIBLE: // food
-        if (it.is_food(&u) || it.is_food_container(&u)) {
-            return true;
-        }
-        break;
     case IC_AMMO: // ammo
         if (it.is_ammo() || it.is_ammo_container()) {
             return true;

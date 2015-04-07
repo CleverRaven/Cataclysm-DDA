@@ -10915,7 +10915,7 @@ void game::eat(int pos)
     }
 
     auto filter = [&]( const item &it ) {
-        return u.inv.has_category( it, IC_COMESTIBLE, u );
+        return it.is_food( &u ) || it.is_food_container( &u );
     };
 
     auto pr = inv_map_splice( filter, _("Consume item:") );

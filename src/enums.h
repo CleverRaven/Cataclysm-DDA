@@ -151,7 +151,6 @@ enum artifact_natural_property {
 // for use in category specific inventory lists
 enum item_cat {
     IC_NULL = 0,
-    IC_COMESTIBLE,
     IC_AMMO,
     IC_ARMOR,
     IC_GUN,

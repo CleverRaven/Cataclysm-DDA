@@ -845,7 +845,6 @@ std::pair< int, item* > game::inv_map_splice( item_filter inv_filter, item_filte
     indexed_invslice grounditems_slice;
     std::vector<item *> ground_selectables;
 
-    std::set<std::string> dups;
     for( auto candidate = here.begin(); candidate != here.end(); ++candidate ) {
         if( ground_filter( *candidate ) ) {
             // Check if we can stack the item with an existing one
@@ -866,7 +865,6 @@ std::pair< int, item* > game::inv_map_splice( item_filter inv_filter, item_filte
                 } else {
                     grounditems.back().front().invlet = ' ';
                 }
-                dups.insert( candidate->tname() );
 
                 ground_selectables.push_back( &*candidate );
             }
