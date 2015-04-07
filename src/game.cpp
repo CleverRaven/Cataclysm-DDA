@@ -10928,7 +10928,10 @@ void game::wear(int pos)
 void game::takeoff(int pos)
 {
     if (pos == INT_MIN) {
-        pos = inv_type(_("Take off item:"), IC_NULL);
+        auto filter = [this]( const item &it ) {
+            return u.get_item_position( &it ) < -1; // means item is worn.
+        };
+        pos = inv_for_filter( _("Take off item:"), filter );
     }
 
     if (pos == INT_MIN) {
