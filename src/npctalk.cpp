@@ -687,7 +687,7 @@ std::string dialogue::dynamic_line( const std::string &topic ) const
                 return _("Rough out there, isn't it?");
             else
                 return _("Ma'am, you really shouldn't be traveling out there.");
-
+        }
     } else if( topic == "TALK_MISSION_LIST" ) {
         if (p->chatbin.missions.empty()) {
             if( missions_assigned.empty() ) {
