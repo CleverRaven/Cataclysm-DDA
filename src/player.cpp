@@ -9021,30 +9021,28 @@ hint_rating player::rate_action_eat(item *it)
  return HINT_CANT;
 }
 
-//Returns the amount of charges that were consumed byt he player
+//Returns the amount of charges that were consumed by the player
 int player::drink_from_hands(item& water) {
     int charges_consumed = 0;
-    if (query_yn(_("Drink from your hands?")))
+    if( query_yn( _("Drink %s from your hands?"), water.type_name().c_str() ) )
+    {
+        // Create a dose of water no greater than the amount of water remaining.
+        item water_temp( water );
+        // If player is slaked water might not get consumed.
+        consume_item( water_temp );
+        charges_consumed = water.charges - water_temp.charges;
+        if( charges_consumed > 0 )
         {
-            // Create a dose of water no greater than the amount of water remaining.
-            item water_temp(water);
-            inv.push_back(water_temp);
-            // If player is slaked water might not get consumed.
-            if (consume(inv.position_by_type(water_temp.typeId())))
-            {
-                moves -= 350;
-
-                charges_consumed = 1;// for some reason water_temp doesn't seem to have charges consumed, jsut set this to 1
-            }
-            inv.remove_item(inv.position_by_type(water_temp.typeId()));
+            moves -= 350;
         }
+    }
+
     return charges_consumed;
 }
 
 
-bool player::consume(int target_position)
+bool player::consume_item( item &target )
 {
-    auto &target = i_at( target_position );
     if( target.is_null() ) {
         add_msg_if_player( m_info, _("You do not have that item."));
         return false;
@@ -9068,12 +9066,10 @@ bool player::consume(int target_position)
     it_comest *comest = dynamic_cast<it_comest*>( to_eat->type );
 
     int amount_used = 1;
-    bool was_consumed = false;
     if (comest != NULL) {
         if (comest->comesttype == "FOOD" || comest->comesttype == "DRINK") {
-            was_consumed = eat(to_eat, comest);
-            if (!was_consumed) {
-                return was_consumed;
+            if( !eat(to_eat, comest) ) {
+                return false;
             }
         } else if (comest->comesttype == "MED") {
             if (comest->tool != "null") {
@@ -9099,7 +9095,6 @@ bool player::consume(int target_position)
             }
             consume_effects(to_eat, comest);
             moves -= 250;
-            was_consumed = true;
         } else {
             debugmsg("Unknown comestible type of item: %s\n", to_eat->tname().c_str());
         }
@@ -9145,18 +9140,22 @@ bool player::consume(int target_position)
                                      to_eat->tname().c_str());
         }
         moves -= 250;
-        was_consumed = true;
     }
 
-    if (!was_consumed) {
-        return false;
-    }
-
-    // Actions after consume
     to_eat->charges -= amount_used;
-    if (to_eat->charges <= 0) {
-        const bool was_in_container = &target != to_eat;
-        i_rem( to_eat );
+    return to_eat->charges <= 0;
+}
+
+bool player::consume(int target_position)
+{
+    auto &target = i_at( target_position );
+    const bool was_in_container = target.is_food_container( this );
+    if( consume_item( target ) ) {
+        if( was_in_container ) {
+            i_rem( &target.contents[0] );
+        } else {
+            i_rem( &target );
+        }
         if( was_in_container && target_position == -1 ) {
             add_msg_if_player(_("You are now wielding an empty %s."), weapon.tname().c_str());
         } else if( was_in_container && target_position < -1 ) {
@@ -9178,11 +9177,13 @@ bool player::consume(int target_position)
             }
         }
     }
+
     if( target_position >= 0 ) {
         // Always restack and resort the inventory when items in it have been changed.
         inv.restack( this );
         inv.unsort();
     }
+
     return true;
 }
 
@@ -10963,6 +10964,11 @@ bool player::invoke_item( item* used )
         return consume_charges( used, charges_used );
     }
 
+    // Food can't be invoked here - it is already invoked as a part of consumption
+    if( used->is_food() || used->is_food_container() ) {
+        return consume_item( *used );
+    }
+
     uimenu umenu;
     umenu.text = string_format( _("What to do with your %s?"), used->tname().c_str() );
     int num_total = 0;
@@ -10995,6 +11001,11 @@ bool player::invoke_item( item* used, const std::string &method )
     if( actually_used == nullptr ) {
         debugmsg( "Tried to invoke a method %s on item %s, which doesn't have this method",
                   method.c_str(), used->tname().c_str() );
+    }
+
+    // Food can't be invoked here - it is already invoked as a part of consumption
+    if( used->is_food() || used->is_food_container() ) {
+        return consume_item( *used );
     }
 
     long charges_used = actually_used->type->invoke( this, actually_used, pos(), method );

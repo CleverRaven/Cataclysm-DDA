@@ -10908,16 +10908,38 @@ void game::eat(int pos)
         }
         return;
     }
-    if (pos == INT_MIN) {
-        pos = inv_type(_("Consume item:"), IC_COMESTIBLE);
+
+    if( pos != INT_MIN ) {
+        u.consume(pos);
+        return;
     }
 
-    if (pos == INT_MIN) {
+    auto filter = [&]( const item &it ) {
+        return u.inv.has_category( it, IC_COMESTIBLE, u );
+    };
+
+    auto pr = inv_map_splice( filter, _("Consume item:") );
+    if( pr.second == nullptr ) {
         add_msg(_("Never mind."));
         return;
     }
 
-    u.consume(pos);
+    // TODO: Wrap it nicely into a player function
+    if( pr.first != INT_MIN ) {
+        // In the inventory
+        u.consume( pr.first );
+    } else {
+        // Off the ground
+        item &it = *pr.second;
+        if( u.consume_item( it ) ) {
+            if( it.is_food_container() ) {
+                it.contents.erase( it.contents.begin() );
+                add_msg( _("You leave the empty %s on the ground"), it.tname().c_str() );
+            } else {
+                m.i_rem( u.pos3(), pr.second );
+            }
+        }
+    }
 }
 
 void game::wear(int pos)
