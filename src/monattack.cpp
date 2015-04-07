@@ -310,6 +310,15 @@ void mattack::pull_metal_weapon(monster *z, int index)
     }
 }
 
+void mattack::extinguish(monster *z, int index){
+    z->reset_special(index);
+    for (int x = z->posx() - 4; x <= z->posx() + 4; x++) {
+        for (int y = z->posy() - 4; y <= z->posy() + 4; y++) {
+            g->m.remove_field(x, y, fd_fire);
+        }
+    }
+}
+
 void mattack::smokecloud(monster *z, int index)
 {
     z->reset_special(index); // Reset timer

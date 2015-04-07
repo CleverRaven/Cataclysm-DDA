@@ -209,7 +209,7 @@ void monster::plan(const mfactions &factions)
     const monfaction *actual_faction = friendly == 0 ? faction : GetMFact( "player" );
     auto const &myfaction_iter = factions.find( actual_faction );
     if( myfaction_iter == factions.end() ) {
-        DebugLog( D_ERROR, D_GAME ) << disp_name() << " tried to find faction " << 
+        DebugLog( D_ERROR, D_GAME ) << disp_name() << " tried to find faction " <<
             ( friendly == 0 ? faction->name : "player" ) << " which wasn't loaded in game::monmove";
         swarms = false;
         group_morale = false;
@@ -904,6 +904,20 @@ int monster::move_to(int x, int y, bool force)
     // Acid trail monsters leave... a trail of acid
     if (has_flag(MF_ACIDTRAIL)){
         g->m.add_field(posx(), posy(), fd_acid, 3);
+    }
+
+    if (has_flag(MF_FIRETRAIL)){
+        if (one_in(2)){
+            g->m.add_field(posx()+1, posy(), fd_fire, 1);
+            g->m.add_field(posx()-1, posy(), fd_fire, 1);
+            g->m.add_field(posx(), posy()-1, fd_fire, 1);
+            g->m.add_field(posx(), posy()+1, fd_fire, 1);
+        } else {
+            g->m.add_field(posx()+1, posy()+1, fd_fire, 1);
+            g->m.add_field(posx()-1, posy()+1, fd_fire, 1);
+            g->m.add_field(posx()+1, posy()-1, fd_fire, 1);
+            g->m.add_field(posx()-1, posy()-1, fd_fire, 1);
+        }
     }
 
     if (has_flag(MF_SLUDGETRAIL)) {
