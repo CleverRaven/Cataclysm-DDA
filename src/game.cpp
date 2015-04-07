@@ -10919,7 +10919,12 @@ void game::eat(int pos)
 void game::wear(int pos)
 {
     if (pos == INT_MIN) {
-        pos = inv_type(_("Wear item:"), IC_ARMOR);
+        auto filter = [this]( const item &it ) {
+            // TODO: Add more filter conditions like "not made of wool if allergic to it".
+            return it.is_armor() &&
+                   u.get_item_position( &it ) >= -1; // not already worn
+        };
+        pos = inv_for_filter( _("Wear item:"), filter );
     }
 
     u.wear(pos);
