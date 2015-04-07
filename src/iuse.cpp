@@ -7065,27 +7065,27 @@ int iuse::holster_gun(player *p, item *it, bool, point)
         int minvol = maxvol / 3;
 
         int inventory_index = g->inv_type(_("Holster what?"), IC_GUN); // only show guns
-        item *put = &(p->i_at(inventory_index));
-        if (put == NULL || put->is_null()) {
+        item &put = p->i_at( inventory_index );
+        if( put.is_null() ) {
             p->add_msg_if_player(_("Never mind."));
             return 0;
         }
 
         // make sure we're holstering a pistol
-        if (!put->is_gun()) {
-            p->add_msg_if_player(m_info, _("That isn't a gun!"), put->tname().c_str());
+        if (!put.is_gun()) {
+            p->add_msg_if_player(m_info, _("That isn't a gun!"), put.tname().c_str());
             return 0;
         }
 
-        auto gun = put->type->gun.get();
+        auto gun = put.type->gun.get();
         // only allow guns smaller than a certain size
-        if (put->volume() > maxvol) {
+        if (put.volume() > maxvol) {
             p->add_msg_if_player(m_info, _("That holster is too small to hold your %s!"),
-                                 put->tname().c_str());
+                                 put.tname().c_str());
             return 0;
-        } else if (put->volume() < minvol) {
+        } else if (put.volume() < minvol) {
           p->add_msg_if_player(m_info, _("That holster is too big to hold your %s!"),
-                              put->tname().c_str());
+                              put.tname().c_str());
           return 0;
         }
 
@@ -7099,8 +7099,8 @@ int iuse::holster_gun(player *p, item *it, bool, point)
             message = _("You holster your %s.");
         }
 
-        p->add_msg_if_player(message.c_str(), put->tname().c_str());
-        p->store(it, put, gun->skill_used->ident(), 14);
+        p->add_msg_if_player(message.c_str(), put.tname().c_str());
+        p->store(it, &put, gun->skill_used->ident(), 14);
 
     } else if( &p->weapon == it ) {
         p->add_msg_if_player( _( "You need to unwield the %s before using it." ), it->tname().c_str() );
