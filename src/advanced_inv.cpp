@@ -2118,49 +2118,32 @@ void advanced_inventory::set_vehicle(aim_location sel)
 
 void advanced_inv_area::set_vehicle(advanced_inv_area &s)
 {
-    // this only works for the AIM_VEHICLE square!
-    if(id != AIM_VEHICLE || 
-            s.id == AIM_ALL || 
-            s.id == AIM_INVENTORY || 
-            s.id == AIM_WORN) {
+    // disallow for non-cardinals, or if unable to store in that square
+    if(id > AIM_NORTHEAST || id < AIM_SOUTHWEST || !can_store_in_vehicle()) {
         return;
     }
-    if(s.veh == nullptr) {
-        debugmsg("[bug]: squares[sel].veh == nullptr!");
-        return;
-    }
-    switch(s.id) {
-        case AIM_VEHICLE:
-        case AIM_INVENTORY:
-        case AIM_WORN:
-        case AIM_CONTAINER:
-        case AIM_DRAGGED:
-            popup(_("You can't access vehicle storage from there!"));
-            return;
-        default:
-            // get (possible) label for description
-            const auto &part = s.veh->parts[s.vstor];
-            const auto label = s.veh->get_label(part.mount.x, part.mount.y);
-            const auto name  = s.veh->name;
+    // get (possible) label for description
+    const auto &part = s.veh->parts[s.vstor];
+    const auto label = s.veh->get_label(part.mount.x, part.mount.y);
+    const auto name  = s.veh->name;
 
-            // carry over absolute coordinates
-            x = s.x;
-            y = s.y;
-            z = s.z;
-            // copy over offsets
-            offx = s.offx;
-            offy = s.offy;
-            offz = s.offz;
-            // vehicle information
-            veh   = s.veh;
-            vstor = s.vstor;
-            desc  = (label.empty() == false) ? label : name;
-            // volume/size et al
-            max_size       = MAX_ITEM_IN_VEHICLE_STORAGE;
-            max_volume     = s.veh->max_volume(s.vstor);
-            flags          = s.flags; // TODO: make sure we don't need to re-eval flags
-            canputitemsloc = (veh != nullptr && vstor >= 0);
-    }
+    // carry over absolute coordinates
+    x = s.x;
+    y = s.y;
+    z = s.z;
+    // copy over offsets
+    offx = s.offx;
+    offy = s.offy;
+    offz = s.offz;
+    // vehicle information
+    veh   = s.veh;
+    vstor = s.vstor;
+    desc  = (label.empty() == false) ? label : name;
+    // volume/size et al
+    max_size       = MAX_ITEM_IN_VEHICLE_STORAGE;
+    max_volume     = s.veh->max_volume(s.vstor);
+    flags          = s.flags; // TODO: make sure we don't need to re-eval flags
+    canputitemsloc = (veh != nullptr && vstor >= 0);
 }
 
 aim_location advanced_inv_area::offset_to_location() const
