@@ -7703,7 +7703,10 @@ bool pet_menu(monster *z)
     }
 
     if (attach_bag == choice) {
-        int pos = g->inv_type(_("Bag item:"), IC_ARMOR);
+        auto filter = []( const item &it ) {
+            return it.is_armor() && it.get_storage() > 0;
+        };
+        int pos = g->inv_for_filter( _("Bag item:"), filter );
         if (pos == INT_MIN) {
             add_msg(_("Never mind."));
             return true;
