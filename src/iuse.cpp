@@ -7064,7 +7064,10 @@ int iuse::holster_gun(player *p, item *it, bool, point)
         }
         int minvol = maxvol / 3;
 
-        int inventory_index = g->inv_type(_("Holster what?"), IC_GUN); // only show guns
+        auto filter = [maxvol, minvol]( const item &it ) {
+            return it.is_gun() && it.volume() <= maxvol && it.volume() >= minvol;
+        };
+        int const inventory_index = g->inv_for_filter( _("Holster what?"), filter );
         item &put = p->i_at( inventory_index );
         if( put.is_null() ) {
             p->add_msg_if_player(_("Never mind."));
