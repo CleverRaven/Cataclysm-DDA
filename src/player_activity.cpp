@@ -48,7 +48,7 @@ const std::string &player_activity::get_stop_phrase() const
         _(" Stop lighting the fire?"), _(" Stop filling the container?"),
         _(" Stop hotwiring the vehicle?"),
         _(" Stop aiming?"), _(" Stop using the ATM?"),
-        _(" Stop trying to start the vehicle?")
+        _(" Stop trying to start the vehicle?"), _(" Stop welding?")
     };
     return stop_phrase[type];
 }
@@ -78,6 +78,7 @@ bool player_activity::is_abortable() const
         case ACT_START_FIRE:
         case ACT_FILL_LIQUID:
         case ACT_START_ENGINES:
+        case ACT_OXYTORCH:
             return true;
         default:
             return false;
@@ -227,6 +228,18 @@ void player_activity::do_turn( player *p )
             p->rooted();
             p->pause();
             break;
+        case ACT_OXYTORCH:
+            if( p->moves <= moves_left ) {
+                moves_left -= p->moves;
+                p->moves = 0;
+            } else {
+                p->moves -= moves_left;
+                moves_left = 0;
+            }
+            if( values[0] > 0 ) {
+                activity_handlers::oxytorch_do_turn( this, p );
+            }
+            break;
         default:
             // Based on speed, not time
             if( p->moves <= moves_left ) {
@@ -269,7 +282,7 @@ void player_activity::finish( player *p )
             {
                 int batch_size = values.front();
                 p->complete_craft();
-		type = ACT_NULL;
+                type = ACT_NULL;
                 // Workaround for a bug where longcraft can be unset in complete_craft().
                 if( p->making_would_work( p->lastrecipe, batch_size ) ) {
                     p->make_all_craft( p->lastrecipe, batch_size );
@@ -346,6 +359,10 @@ void player_activity::finish( player *p )
             break;
         case ACT_START_ENGINES:
             activity_handlers::start_engines_finish( this, p );
+            type = ACT_NULL;
+            break;
+        case ACT_OXYTORCH:
+            activity_handlers::oxytorch_finish( this, p );
             type = ACT_NULL;
             break;
         default:

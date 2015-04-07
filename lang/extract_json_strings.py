@@ -207,6 +207,40 @@ def extract_recipes(item):
             if len(arr) >= 3 and len(arr[2]) > 0:
                 writestr(outfile, arr[2])
 
+def extract_dynamic_line_optional(line, member, outfile):
+    if member in line:
+        extract_dynamic_line(line[member], outfile)
+
+def extract_dynamic_line(line, outfile):
+    if type(line) == list:
+        for l in line:
+            extract_dynamic_line(l, outfile)
+    elif type(line) == dict:
+        extract_dynamic_line_optional(line, "u_male", outfile)
+        extract_dynamic_line_optional(line, "u_female", outfile)
+        extract_dynamic_line_optional(line, "npc_male", outfile)
+        extract_dynamic_line_optional(line, "npc_female", outfile)
+        extract_dynamic_line_optional(line, "yes", outfile)
+        extract_dynamic_line_optional(line, "no", outfile)
+    else:
+        writestr(outfile, line)
+
+def extract_talk_response(response, outfile):
+    if "text" in response:
+        writestr(outfile, response["text"])
+    if "success" in response:
+        extract_talk_response(response["success"], outfile)
+    if "failure" in response:
+        extract_talk_response(response["failure"], outfile)
+
+def extract_talk_topic(item):
+    outfile = get_outfile("talk_topic")
+    if "dynamic_line" in item:
+        extract_dynamic_line(item["dynamic_line"], outfile)
+    for r in item["responses"]:
+        extract_talk_response(r, outfile)
+
+
 def extract_mutation(item):
     outfile = get_outfile("mutation_category")
 
@@ -244,6 +278,7 @@ extract_specials = {
     "recipe": extract_recipes,
     "scenario": extract_scenarios,
     "mapgen": extract_mapgen,
+    "talk_topic": extract_talk_topic,
     "mutation_category":extract_mutation
 }
 

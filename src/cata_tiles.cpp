@@ -9,6 +9,7 @@
 #include "veh_type.h"
 #include "filesystem.h"
 #include "sounds.h"
+#include "map.h"
 
 #include <algorithm>
 #include <fstream>
@@ -58,10 +59,6 @@ cata_tiles::cata_tiles(SDL_Renderer *render)
     do_draw_weather = false;
     do_draw_sct = false;
     do_draw_zones = false;
-
-    boomered = false;
-    sight_impaired = false;
-    bionight_bionic_active = false;
 
     last_pos_x = 0;
     last_pos_y = 0;
@@ -503,6 +500,30 @@ tile_type *cata_tiles::load_tile(JsonObject &entry, const std::string &id, int o
     return curr_subtile;
 }
 
+void cata_tiles::draw_single_tile( int x, int y, lit_level ll,
+                                   const visibility_variables &cache ) {
+    if( apply_vision_effects( x, y, g->m.get_visibility(ll, cache) ) ) {
+        const auto critter = g->critter_at( x, y );
+        if( critter != nullptr && g->u.sees_with_infrared( *critter ) ) {
+            draw_from_id_string( "infrared_creature", C_NONE, empty_string, x, y, 0, 0 );
+        }
+        return;
+    }
+    // light is no longer being considered, for now.
+    // Draw Terrain if possible. If not possible then we need to continue on to the next part of loop
+    if (!draw_terrain(x, y)) {
+        return;
+    }
+    draw_furniture(x, y);
+    draw_trap(x, y);
+    draw_field_or_item(x, y);
+    draw_vpart(x, y);
+    const auto critter = g->critter_at( x, y );
+    if( critter != nullptr ) {
+        draw_entity( *critter, x, y );
+    }
+}
+
 void cata_tiles::draw(int destx, int desty, int centerx, int centery, int width, int height)
 {
     if (!g) {
@@ -522,9 +543,8 @@ void cata_tiles::draw(int destx, int desty, int centerx, int centery, int width,
     get_window_tile_counts(width, height, sx, sy);
 
     init_light();
-
-    int x, y;
-    LIGHTING l;
+    visibility_variables cache;
+    g->m.update_visibility_cache(cache);
 
     o_x = posx - POSX;
     o_y = posy - POSY;
@@ -534,34 +554,12 @@ void cata_tiles::draw(int destx, int desty, int centerx, int centery, int width,
     screentile_width = (width + tile_width - 1) / tile_width;
     screentile_height = (height + tile_height - 1) / tile_height;
 
-    for (int my = 0; my < sy; ++my) {
-        for (int mx = 0; mx < sx; ++mx) {
-            x = mx + o_x;
-            y = my + o_y;
-            l = light_at(x, y);
-            const auto critter = g->critter_at( x, y );
-            if (l != CLEAR) {
-                // Draw lighting
-                draw_lighting(x, y, l);
-                if( critter != nullptr && g->u.sees_with_infrared( *critter ) ) {
-                    draw_from_id_string( "infrared_creature", C_NONE, empty_string, x, y, 0, 0 );
-                }
-                continue;
-            }
-            // light is no longer being considered, for now.
-            // Draw Terrain if possible. If not possible then we need to continue on to the next part of loop
-            if (!draw_terrain(x, y)) {
-                continue;
-            }
-            draw_furniture(x, y);
-            draw_trap(x, y);
-            draw_field_or_item(x, y);
-            draw_vpart(x, y);
-            if( critter != nullptr ) {
-                draw_entity( *critter, x, y );
-            }
+    for( int x = o_x; x <= o_x + sx - 1; x++ ) {
+        for( int y = o_y; y <= o_y + sy - 1; y++ ) {
+            draw_single_tile( x, y, g->m.visibility_cache[x][y], cache );
         }
     }
+
     in_animation = do_draw_explosion || do_draw_bullet || do_draw_hit ||
                    do_draw_line || do_draw_weather || do_draw_sct ||
                    do_draw_zones;
@@ -860,33 +858,34 @@ bool cata_tiles::draw_tile_at(tile_type *tile, int x, int y, int rota)
     return true;
 }
 
-bool cata_tiles::draw_lighting(int x, int y, LIGHTING l)
+bool cata_tiles::apply_vision_effects( const int x, const int y,
+                                       const visibility_type visibility )
 {
     std::string light_name;
-    switch(l) {
-        case HIDDEN:
+    switch( visibility ) {
+        case VIS_HIDDEN:
             light_name = "lighting_hidden";
             break;
-        case LIGHT_NORMAL:
+        case VIS_LIT:
             light_name = "lighting_lowlight_light";
             break;
-        case LIGHT_DARK:
-            light_name = "lighting_lowlight_dark";
-            break;
-        case BOOMER_NORMAL:
+        case VIS_BOOMER:
             light_name = "lighting_boomered_light";
             break;
-        case BOOMER_DARK:
+        case VIS_BOOMER_DARK:
             light_name = "lighting_boomered_dark";
             break;
-        case CLEAR: // Actually handled by the caller.
+        case VIS_DARK:
+            light_name = "lighting_lowlight_dark";
+            break;
+        case VIS_CLEAR: // Handled by the caller.
             return false;
     }
 
     // lighting is never rotated, though, could possibly add in random rotation?
     draw_from_id_string(light_name, C_LIGHTING, empty_string, x, y, 0, 0);
 
-    return false;
+    return true;
 }
 
 bool cata_tiles::draw_terrain(int x, int y)
@@ -897,19 +896,11 @@ bool cata_tiles::draw_terrain(int x, int y)
         return false;
     }
 
-    // need to check for walls, and then deal with wallfication details!
-    int s = terlist[t].sym;
-
     //char alteration = 0;
     int subtile = 0, rotation = 0;
 
-    // check walls
-    if (s == LINE_XOXO /*vertical*/ || s == LINE_OXOX /*horizontal*/) {
-        get_wall_values(x, y, LINE_XOXO, LINE_OXOX, subtile, rotation);
-    }
-    // check windows and doors for wall connections, may or may not have a subtile available, but should be able to rotate to some extent
-    else if (s == '"' || s == '+' || s == '\'') {
-        get_wall_values(x, y, LINE_XOXO, LINE_OXOX, subtile, rotation);
+    if( g->m.ter_at( x, y ).has_flag( TFLAG_CONNECT_TO_WALL ) ) {
+        get_wall_values( x, y, subtile, rotation );
     } else {
         get_terrain_orientation(x, y, rotation, subtile);
         // do something to get other terrain orientation values
@@ -946,7 +937,7 @@ bool cata_tiles::draw_furniture(int x, int y)
     // get the name of this furniture piece
     std::string f_name = furnlist[f_id].id; // replace with furniture names array access
     bool ret = draw_from_id_string(f_name, C_FURNITURE, empty_string, x, y, subtile, rotation);
-    if (ret && g->m.sees_some_items(x, y, g->u)) {
+    if (ret && g->m.sees_some_items(tripoint(x, y, g->get_levz()), g->u)) {
         draw_item_highlight(x, y);
     }
     return ret;
@@ -1036,7 +1027,7 @@ bool cata_tiles::draw_field_or_item(int x, int y)
         ret_draw_field = draw_from_id_string(fd_name, C_FIELD, empty_string, x, y, subtile, rotation);
     }
     if(do_item) {
-        if (!g->m.sees_some_items(x, y, g->u)) {
+        if( !g->m.sees_some_items(tripoint(x, y, g->get_levz()), g->u) ) {
             return false;
         }
         auto items = g->m.i_at(x, y);
@@ -1427,72 +1418,6 @@ void cata_tiles::draw_footsteps_frame()
 void cata_tiles::init_light()
 {
     g->reset_light_level();
-
-    sightrange_natural = g->u.sight_range(1);
-    g_lightlevel = (int)g->light_level();
-    sightrange_light = g->u.sight_range(g_lightlevel);
-    sightrange_lowlight = std::max(g_lightlevel / 2, sightrange_natural);
-    sightrange_max = g->u.unimpaired_range();
-    u_clairvoyance = g->u.clairvoyance();
-
-    boomered = g->u.has_effect("boomered");
-    sight_impaired = g->u.sight_impaired();
-    bionight_bionic_active = g->u.has_active_bionic("bio_night");
-}
-
-LIGHTING cata_tiles::light_at(int x, int y)
-{
-    /** Logic */
-    const int dist = rl_dist(g->u.posx(), g->u.posy(), x, y);
-
-    int real_max_sight_range = sightrange_light > sightrange_max ? sightrange_light : sightrange_max;
-    int distance_to_look = DAYLIGHT_LEVEL;
-
-    bool can_see = g->m.pl_sees( x, y, distance_to_look );
-    lit_level lit = g->m.light_at(x, y);
-
-    if (lit != LL_BRIGHT && dist > real_max_sight_range) {
-        int intlit = (int)lit - (dist - real_max_sight_range) / 2;
-        if (intlit < 0) {
-            intlit = LL_DARK;
-        }
-        lit = (lit_level)intlit;
-    }
-
-    if (lit > LL_DARK && real_max_sight_range > 1) {
-        real_max_sight_range = distance_to_look;
-    }
-
-    /** Conditional Returns */
-    if ((bionight_bionic_active && dist < 15 && dist > sightrange_natural) ||
-            dist > real_max_sight_range ||
-            (dist > sightrange_light &&
-             (lit == LL_DARK ||
-              (sight_impaired && lit != LL_BRIGHT) ||
-              !can_see))) {
-        if (boomered) {
-            // exit w/ dark boomerfication
-            return BOOMER_DARK;
-        } else {
-            // exit w/ dark normal
-            return LIGHT_DARK;
-        }
-    } else if (dist > sightrange_light && sight_impaired && lit == LL_BRIGHT) {
-        if (boomered) {
-            // exit w/ light boomerfication
-            return BOOMER_NORMAL;
-        } else {
-            // exit w/ light normal
-            return LIGHT_NORMAL;
-        }
-    } else if (dist <= u_clairvoyance || can_see) {
-        // check for rain
-
-        // return with okay to draw the square = 0
-        return CLEAR;
-    }
-
-    return HIDDEN;
 }
 
 void cata_tiles::get_terrain_orientation(int x, int y, int &rota, int &subtile)
@@ -1606,26 +1531,21 @@ void cata_tiles::get_rotation_and_subtile(const char val, const int num_connects
             break;
     }
 }
-void cata_tiles::get_wall_values(const int x, const int y, const long vertical_wall_symbol,
-                                 const long horizontal_wall_symbol, int &subtile, int &rotation)
-{
-    // makes the assumption that x,y is a wall | window | door of some sort
-    const long neighborhood[4] = {
-        terlist[g->m.ter(x, y + 1)].sym, // south
-        terlist[g->m.ter(x + 1, y)].sym, // east
-        terlist[g->m.ter(x - 1, y)].sym, // west
-        terlist[g->m.ter(x, y - 1)].sym // north
-    };
 
-    bool connects[4];
+void cata_tiles::get_wall_values(const int x, const int y, int &subtile, int &rotation)
+{
+    const bool connects[4] = {
+        g->m.ter_at( x, y + 1 ).has_flag( TFLAG_CONNECT_TO_WALL ),
+        g->m.ter_at( x + 1, y ).has_flag( TFLAG_CONNECT_TO_WALL ),
+        g->m.ter_at( x - 1, y ).has_flag( TFLAG_CONNECT_TO_WALL ),
+        g->m.ter_at( x, y - 1 ).has_flag( TFLAG_CONNECT_TO_WALL )
+    };
 
     char val = 0;
     int num_connects = 0;
 
     // populate connection information
     for (int i = 0; i < 4; ++i) {
-        connects[i] = (neighborhood[i] == vertical_wall_symbol || neighborhood[i] == horizontal_wall_symbol) || (neighborhood[i] == '"' || neighborhood[i] == '+' || neighborhood[i] == '\'');
-
         if (connects[i]) {
             ++num_connects;
             val += 1 << i;

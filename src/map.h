@@ -72,6 +72,28 @@ public:
     item &operator[]( size_t index ) override;
 };
 
+struct visibility_variables {
+    // cached values for map visibility calculations
+    int g_light_level;
+    int natural_sight_range;
+    int light_sight_range;
+    int lowlight_sight_range;
+    int max_sight_range;
+    int u_clairvoyance;
+    bool u_sight_impaired;
+    bool bio_night_active;
+    bool u_is_boomered;
+};
+
+enum visibility_type {
+  VIS_HIDDEN,
+  VIS_CLEAR,
+  VIS_LIT,
+  VIS_BOOMER,
+  VIS_DARK,
+  VIS_BOOMER_DARK
+};
+
 /**
  * Manage and cache data about a part of the map.
  *
@@ -130,6 +152,18 @@ class map
   * Callback invoked when a vehicle has moved.
   */
  void on_vehicle_moved();
+
+    /** Determine the visible light level for a tile, based on light_at
+     * for the tile, vision distance, etc
+     *
+     * @param x, y The tile on this map to draw.
+     */
+    lit_level apparent_light_at(int x, int y, const visibility_variables &cache);
+    visibility_type get_visibility( const lit_level ll,
+                                    const visibility_variables &cache ) const;
+
+    bool apply_vision_effects( WINDOW *w, const point center, int x, int y, lit_level ll,
+                               const visibility_variables &cache ) const;
 
  /** Draw a visible part of the map into `w`.
   *
@@ -1066,7 +1100,7 @@ private:
     int bash_rating_internal( const int str, const furn_t &furniture, 
                               const ter_t &terrain, const vehicle *veh, const int part ) const;
 
- long determine_wall_corner(const int x, const int y, const long orig_sym) const;
+ long determine_wall_corner(const int x, const int y) const;
  void cache_seen(const int fx, const int fy, const int tx, const int ty, const int max_range);
  // apply a circular light pattern immediately, however it's best to use...
  void apply_light_source(int x, int y, float luminance, bool trig_brightcalc);
@@ -1114,6 +1148,10 @@ private:
          * tr_null trap.
          */
         std::vector< std::vector<tripoint> > traplocs;
+
+  public:
+    void update_visibility_cache( visibility_variables &cache );
+    lit_level visibility_cache[MAPSIZE*SEEX][MAPSIZE*SEEY];
 };
 
 std::vector<point> closest_points_first(int radius, point p);

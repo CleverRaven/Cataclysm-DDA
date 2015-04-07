@@ -34,8 +34,8 @@ void mission_end::thankful(mission *miss)
          p->attitude == NPCATT_FLEE || p->attitude == NPCATT_KILL ) {
         p->attitude = NPCATT_NULL;
     }
-    if (p->chatbin.first_topic != TALK_FRIEND) {
-        p->chatbin.first_topic = TALK_STRANGER_FRIENDLY;
+    if (p->chatbin.first_topic != "TALK_FRIEND") {
+        p->chatbin.first_topic = "TALK_STRANGER_FRIENDLY";
     }
     p->personality.aggression -= 1;
 }

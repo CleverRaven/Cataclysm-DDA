@@ -864,7 +864,18 @@ const recipe *select_crafting_recipe( int &batch_size )
             keepline = true;
         } else if (action == "FILTER") {
             filterstring = string_input_popup(_("Search:"), 85, filterstring,
-                                              _("Search tools or component using prefix t. \nSearch skills using prefix s, or S for skill used only. \n (i.e. \"t:hammer\" or \"c:two by four\" or \"s:cooking\".)"));
+                                              _("Special prefixes:\n"
+                                                "  [t] search tools\n"
+                                                "  [c] search components\n"
+                                                "  [q] search qualities\n"
+                                                "  [s] search skills\n"
+                                                "  [S] search skill used only\n"
+                                                "Examples:\n"
+                                                "  t:hammer\n"
+                                                "  c:two by four\n"
+                                                "  q:butchering\n"
+                                                "  s:cooking"
+                                                ));
             redraw = true;
         } else if (action == "QUIT") {
             chosen = nullptr;
@@ -1216,6 +1227,15 @@ int recipe::batch_time(int batch) const
         return time * batch;
     }
 
+    // NPCs around you should assist in batch production if they have the skills
+    int assistants = 0;
+    for( auto &elem : g->active_npc ) {
+        if (rl_dist( elem->pos(), g->u.pos() ) < PICKUP_RANGE && elem->is_friend()){
+            if (elem->skillLevel(skill_used) >= difficulty)
+                assistants++;
+        }
+    }
+
     double total_time = 0.0;
     double scale = batch_rsize / 6.0; // At batch_rsize, incremental time increase is 99.5% of batch_rscale
     for (int x = 0; x < batch; x++) {
@@ -1223,6 +1243,15 @@ int recipe::batch_time(int batch) const
         double logf = (2.0/(1.0+exp(-((double)x/scale)))) - 1.0;
         total_time += (double)time * (1.0 - (batch_rscale * logf));
     }
+
+    //Assistants can decrease the time for production but never less than that of one unit
+    if (assistants == 1){
+        total_time = total_time * .75;
+    } else if (assistants >= 2) {
+        total_time = total_time * .60;
+    }
+    if (total_time < time)
+        total_time = time;
 
     return (int)total_time;
 }
@@ -1237,6 +1266,7 @@ void pick_recipes(const inventory &crafting_inv,
     bool search_component = false;
     bool search_skill = false;
     bool search_skill_primary_only = false;
+    bool search_qualities = false;
     size_t pos = filter.find(":");
     if(pos != std::string::npos) {
         search_name = false;
@@ -1252,6 +1282,8 @@ void pick_recipes(const inventory &crafting_inv,
                 search_skill = true;
             } else if( elem == 'S' ) {
                 search_skill_primary_only = true;
+            } else if( elem == 'q' ) {
+                search_qualities = true;
             }
         }
         filter = filter.substr(pos + 1);
@@ -1292,6 +1324,20 @@ void pick_recipes(const inventory &crafting_inv,
                     if( !lcmatch( item::nname( rec->result ), filter ) ) {
                         continue;
                     }
+                }
+                if(search_qualities) {
+                  bool match_found = false;
+                  itype *it = item::find_type(rec->result);
+
+                  for( auto & quality : it->qualities ) {
+                    if (lcmatch(quality::get_name(quality.first), filter)) {
+                      match_found = true;
+                      break;
+                    }
+                  }
+                  if (!match_found) {
+                    continue;
+                  }
                 }
                 if(search_tool) {
                     if( !lcmatch_any( rec->requirements.tools, filter ) ) {
@@ -1510,6 +1556,25 @@ void player::complete_craft()
         //normalize experience gain to crafting time, giving a bonus for longer crafting
         practice( making->skill_used, (int)( ( making->difficulty * 15 + 10 ) * ( 1 + making->batch_time( batch_size ) / 30000.0 ) ),
                     (int)making->difficulty * 1.25 );
+
+        //NPCs assisting or watching should gain experience...
+        for( auto &elem : g->active_npc ) {
+            if (rl_dist( elem->pos(), g->u.pos() ) < PICKUP_RANGE && elem->is_friend()){
+                //If the NPC can understand what you are doing, they gain more exp
+                if (elem->skillLevel(making->skill_used) >= making->difficulty){
+                    elem->practice( making->skill_used, (int)( ( making->difficulty * 15 + 10 ) * ( 1 + making->batch_time( batch_size ) / 30000.0 ) * .50), (int)making->difficulty * 1.25 );
+                    if (batch_size > 1)
+                        add_msg(m_info, _("%s assists with crafting..."), elem->name.c_str());
+                    if (batch_size == 1)
+                        add_msg(m_info, _("%s could assist you with a batch..."), elem->name.c_str());
+                //NPCs around you understand the skill used better
+                } else {
+                    elem->practice( making->skill_used, (int)( ( making->difficulty * 15 + 10 ) * ( 1 + making->batch_time( batch_size ) / 30000.0 ) * .15), (int)making->difficulty * 1.25 );
+                    add_msg(m_info, _("%s watches you craft..."), elem->name.c_str());
+                }
+            }
+        }
+
     }
 
     // Messed up badly; waste some components.

@@ -514,9 +514,9 @@
       { "monster" : "mon_zombie_technician", "freq" : 1, "cost_multiplier" : 12},
       { "monster" : "mon_zombie_brute_shocker", "freq" : 5, "cost_multiplier" : 40 }
     ],
-	"replace_monster_group" : true,
-	"new_monster_group_id" : "GROUP_ZOMBIE_MID",
-	"replacement_time" : 14, "//" : "(replacement_time * difficulty)DAYS *(SEASON_LENGTH / 14)"
+    "replace_monster_group" : true,
+    "new_monster_group_id" : "GROUP_ZOMBIE_MID",
+    "replacement_time" : 14, "//" : "(replacement_time * difficulty)DAYS *(SEASON_LENGTH / 14)"
   },{
     "type":"monstergroup",
     "name" : "GROUP_TRIFFID",
@@ -1360,8 +1360,8 @@
       { "monster" : "mon_beekeeper", "freq" : 5, "cost_multiplier" : 1 },
       { "monster" : "mon_zombie_technician", "freq" : 10, "cost_multiplier" : 6},
       { "monster" : "mon_zombie_brute_shocker", "freq" : 10, "cost_multiplier" : 20 },
-	  { "monster" : "mon_zombie_hollow", "freq" : 2, "cost_multiplier" : 5 }
-    ]	
+      { "monster" : "mon_zombie_hollow", "freq" : 2, "cost_multiplier" : 5 }
+    ]
   }
 ]
 

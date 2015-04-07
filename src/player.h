@@ -398,6 +398,8 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         bool digging() const override;
         /** Returns true if the player is knocked over or has broken legs */
         bool is_on_ground() const override;
+        /** Returns true is the player is protected from electric shocks */
+        bool is_elec_immune() const override;
         /** Returns true if the player should be dead */
         bool is_dead_state() const override;
 

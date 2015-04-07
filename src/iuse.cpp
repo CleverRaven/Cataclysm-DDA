@@ -99,6 +99,21 @@ void remove_ups_mod( item &it, player &p )
     it.item_tags.erase( "NO_RELOAD" );
 }
 
+void remove_radio_mod( item &it, player &p )
+{
+    if( !it.has_flag( "RADIO_MOD" ) ) {
+        return;
+    }
+    p.add_msg_if_player( _( "You remove the radio modification from your %s." ), it.tname().c_str() );
+    item mod( "radio_mod", calendar::turn );
+    p.i_add_or_drop( mod, 1 );
+    it.item_tags.erase( "RADIO_ACTIVATION" );
+    it.item_tags.erase( "RADIO_MOD" );
+    it.item_tags.erase( "RADIOSIGNAL_1" );
+    it.item_tags.erase( "RADIOSIGNAL_2" );
+    it.item_tags.erase( "RADIOSIGNAL_3" );
+}
+
 // Checks that the player does not have an active item with LITCIG flag.
 bool check_litcig( player &u )
 {
@@ -2996,6 +3011,13 @@ int iuse::sew_advanced(player *p, item *it, bool, point)
     }
 }
 
+void remove_battery_mods( item &modded, player &p )
+{
+    remove_atomic_mod( modded, p );
+    remove_recharge_mod( modded, p );
+    remove_ups_mod( modded, p );
+}
+
 int iuse::extra_battery(player *p, item *, bool, point)
 {
     int inventory_index = g->inv_for_filter( _("Modify what?"), []( const item & itm ) {
@@ -3024,9 +3046,7 @@ int iuse::extra_battery(player *p, item *, bool, point)
         return 0;
     }
 
-    remove_atomic_mod(*modded, *p);
-    remove_recharge_mod(*modded, *p);
-    remove_ups_mod(*modded, *p);
+    remove_battery_mods( *modded, *p );
 
     p->add_msg_if_player( _( "You double the battery capacity of your %s!" ), modded->tname().c_str() );
     modded->item_tags.insert("DOUBLE_AMMO");
@@ -3061,9 +3081,7 @@ int iuse::rechargeable_battery(player *p, item *it, bool, point)
         return 0;
     }
 
-    remove_atomic_mod(*modded, *p);
-    remove_ups_mod(*modded, *p);
-    remove_double_ammo_mod(*modded, *p);
+    remove_battery_mods( *modded, *p );
     remove_ammo( modded, *p ); // remove batteries, replaced by charges from mod
 
     p->add_msg_if_player( _( "You replace the battery compartment of your %s with a rechargeable battery pack!" ), modded->tname().c_str() );
@@ -3103,9 +3121,7 @@ int iuse::atomic_battery(player *p, item *it, bool, point)
         return 0;
     }
 
-    remove_double_ammo_mod( *modded, *p );
-    remove_recharge_mod( *modded, *p );
-    remove_ups_mod( *modded, *p );
+    remove_battery_mods( *modded, *p );
     remove_ammo( modded, *p ); // remove batteries, item::charges is now plutonium
 
     p->add_msg_if_player( _( "You modify your %s to run off plutonium cells!" ), modded->tname().c_str() );
@@ -3148,10 +3164,8 @@ int iuse::ups_battery(player *p, item *, bool, point)
         return 0;
     }
 
-    remove_double_ammo_mod(*modded, *p);
-    remove_recharge_mod(*modded, *p);
-    remove_atomic_mod(*modded, *p);
-    remove_ammo(modded, *p);
+    remove_battery_mods( *modded, *p );
+    remove_ammo( modded, *p );
 
     p->add_msg_if_player( _( "You modify your %s to run off a UPS!" ), modded->tname().c_str() );
     modded->item_tags.insert("USE_UPS");
@@ -3159,6 +3173,59 @@ int iuse::ups_battery(player *p, item *, bool, point)
     modded->item_tags.insert("NO_RELOAD");
     //Perhaps keep the modded charges at 1 or 0?
     modded->charges = 0;
+    return 1;
+}
+
+int iuse::radio_mod( player *p, item *, bool, point )
+{
+    int inventory_index = g->inv_for_filter( _("Modify what?"), []( const item & itm ) {
+        return itm.is_tool() && itm.has_flag( "RADIO_MODABLE" );
+    } );
+    item &modded = p->i_at( inventory_index );
+
+    if( modded.is_null() ) {
+        p->add_msg_if_player(_("You do not have that item!"));
+        return 0;
+    }
+    if( !modded.is_tool() || !modded.has_flag( "RADIO_MODABLE" ) ) {
+        p->add_msg_if_player(_("This item can't be made modified this way."));
+        return 0;
+    }
+
+    int choice = menu( true, _("Which signal should activate the item?:"), _("\"Red\""),
+                      _("\"Blue\""), _("\"Green\""), _("Cancel"), nullptr );
+
+    std::string newtag;
+    std::string colorname;
+    switch( choice ) {
+        case 1:
+            newtag = "RADIOSIGNAL_1";
+            colorname = _("\"Red\"");
+            break;
+        case 2:
+            newtag = "RADIOSIGNAL_2";
+            colorname = _("\"Blue\"");
+            break;
+        case 3:
+            newtag = "RADIOSIGNAL_3";
+            colorname = _("\"Green\"");
+            break;
+        default:
+            return 0;
+    }
+
+    if( modded.has_flag( "RADIO_MOD" ) && modded.has_flag( newtag ) ) {
+        p->add_msg_if_player(_("This item has been modified this way already."));
+        return 0;
+    }
+
+    remove_radio_mod( modded, *p );
+
+    p->add_msg_if_player( _( "You modify your %s to listen for %s activation signal on the radio." ), 
+                          modded.tname().c_str(), colorname.c_str() );
+    modded.item_tags.insert( "RADIO_ACTIVATION" );
+    modded.item_tags.insert( "RADIO_MOD" );
+    modded.item_tags.insert( newtag );
     return 1;
 }
 
@@ -3186,10 +3253,8 @@ int iuse::remove_all_mods(player *p, item *, bool, point)
         return 0;
     }
 
-    remove_double_ammo_mod( *modded, *p );
-    remove_recharge_mod( *modded, *p );
-    remove_atomic_mod( *modded, *p );
-    remove_ups_mod( *modded, *p );
+    remove_battery_mods( *modded, *p );
+    remove_radio_mod( *modded, *p );
     return 0;
 }
 
@@ -6028,68 +6093,38 @@ int iuse::oxytorch(player *p, item *it, bool, point)
         return 0;
     }
 
-
-    if (g->m.furn(dirx, diry) == f_rack) {
-        p->moves -= 200;
-        g->m.furn_set(dirx, diry, f_null);
-        sounds::sound(dirx, diry, 10, _("hissssssssss!"));
-        g->m.spawn_item(p->posx(), p->posy(), "steel_chunk", rng(2, 6));
-        return it->type->charges_to_use();
-    }
-
     const ter_id ter = g->m.ter( dirx, diry );
-    if( ter == t_chainfence_v || ter == t_chainfence_h || ter == t_chaingate_c ||
-        ter == t_chaingate_l) {
-        p->moves -= 1000;
-        g->m.ter_set(dirx, diry, t_dirt);
-        sounds::sound(dirx, diry, 10, _("hissssssssss!"));
-        g->m.spawn_item(dirx, diry, "pipe", rng(1, 4));
-        g->m.spawn_item(dirx, diry, "wire", rng(4, 16));
-    } else if( ter == t_chainfence_posts ) {
-        p->moves -= 200;
-        g->m.ter_set(dirx, diry, t_dirt);
-        sounds::sound(dirx, diry, 10, _("hissssssssss!"));
-        g->m.spawn_item(dirx, diry, "pipe", rng(1, 4));
-    } else if( ter == t_chaingate_l || ter == t_chaingate_c ) {
-        p->moves -= 200;
-        g->m.ter_set(dirx, diry, t_dirt);
-        sounds::sound(dirx, diry, 10, _("hissssssssss!"));
-        g->m.spawn_item(dirx, diry, "pipe", rng(1, 4));
+    int moves;
+
+    if( g->m.furn(dirx, diry) == f_rack || ter == t_chainfence_posts ) {
+        moves = 200;
+    } else if( ter == t_window_enhanced || ter == t_window_enhanced_noglass ) {
+        moves = 500;
+    } else if( ter == t_chainfence_v || ter == t_chainfence_h || ter == t_chaingate_c ||
+               ter == t_chaingate_l  || ter == t_bars || ter == t_window_bars_alarm ) {
+        moves = 1000;
     } else if( ter == t_door_metal_locked || ter == t_door_metal_c || ter == t_door_bar_c ||
-               ter == t_door_bar_locked || ter == t_door_metal_pickable) {
-        p->moves -= 1500;
-        g->m.ter_set(dirx, diry, t_mdoor_frame);
-        sounds::sound(dirx, diry, 10, _("hissssssssss!"));
-        g->m.spawn_item(dirx, diry, "steel_plate", rng(0, 1));
-        g->m.spawn_item(dirx, diry, "steel_chunk", rng(1, 2));
-    } else if( ter == t_window_enhanced || ter == t_window_empty ) {
-        p->moves -= 500;
-        g->m.ter_set(dirx, diry, t_window_reinforced_noglass);
-        sounds::sound(dirx, diry, 10, _("hissssssssss!"));
-        g->m.spawn_item(dirx, diry, "steel_plate", rng(0, 1));
-    } else if( ter == t_bars ) {
-        if (g->m.ter(dirx + 1, diry) == t_sewage || g->m.ter(dirx, diry + 1) == t_sewage ||
-            g->m.ter(dirx - 1, diry) == t_sewage || g->m.ter(dirx, diry - 1) == t_sewage) {
-            g->m.ter_set(dirx, diry, t_sewage);
-            p->moves -= 1000;
-            sounds::sound(dirx, diry, 10, _("hissssssssss!"));
-            g->m.spawn_item(p->posx(), p->posy(), "pipe", rng(1, 2));
-        } else {
-            g->m.ter_set(dirx, diry, t_floor);
-            p->moves -= 1000;
-            sounds::sound(dirx, diry, 10, _("hissssssssss!"));
-            g->m.spawn_item(p->posx(), p->posy(), "pipe", rng(1, 2));
-        }
-    } else if( ter == t_window_bars_alarm ) {
-        p->moves -= 1000;
-        g->m.ter_set(dirx, diry, t_window_empty);
-        sounds::sound(dirx, diry, 10, _("hissssssssss!"));
-        g->m.spawn_item(p->posx(), p->posy(), "pipe", rng(1, 2));
+               ter == t_door_bar_locked || ter == t_door_metal_pickable ) {
+        moves = 1500;
     } else {
-        add_msg(m_info, _("You can't cut that."));
+        add_msg( m_info, _("You can't cut that.") );
         return 0;
     }
-    return it->type->charges_to_use();
+
+    const int charges = moves / 100 * it->type->charges_to_use();
+
+    if( charges > it->charges ) {
+        add_msg( m_info, _("Your torch doesn't have enough acetylene to cut that.") );
+        return 0;
+    }
+
+    // placing ter here makes resuming tasks work better
+    p->assign_activity( ACT_OXYTORCH, moves, (int)ter, p->get_item_position( it ) );
+    p->activity.placement = point( dirx, diry );
+    p->activity.values.push_back( charges );
+
+    // charges will be consumed in oxytorch_do_turn, not here
+    return 0;
 }
 
 int iuse::hacksaw(player *p, item *it, bool, point)
@@ -6256,6 +6291,45 @@ int iuse::torch_lit(player *p, item *it, bool t, point pos)
     return it->type->charges_to_use();
 }
 
+int iuse::tinderbox_lit(player *p, item *it, bool t, point pos)
+{
+    if (p->is_underwater()) {
+        p->add_msg_if_player(_("The ember carrier is snuffed out."));
+        it->make("tinderbox");
+        it->active = false;
+        return 0;
+    }
+    if (t) {
+        if (it->charges < it->type->charges_to_use()) {
+            p->add_msg_if_player(_("The ember dies out."));
+            it->make("tinderbox");
+            it->active = false;
+        }
+    } else if (it->charges <= 0) {
+        p->add_msg_if_player(_("The %s dies out"), it->tname().c_str());
+    } else { // Turning it off
+        int choice = menu(true, _("ember carrier (lit)"), _("extinguish"),
+                          _("light something"), _("cancel"), NULL);
+        switch (choice) {
+            case 1: {
+                p->add_msg_if_player(_("The ember is extinguished"));
+                it->charges -= 1;
+                it->make("tinderbox");
+                it->active = false;
+                return 0;
+            }
+            break;
+            case 2: {
+                if( firestarter_actor::prep_firestarter_use(p, it, pos) ) {
+                    p->moves -= 5;
+                    firestarter_actor::resolve_firestarter_use(p, it, pos);
+                    return it->type->charges_to_use();
+                }
+            }
+        }
+    }
+    return it->type->charges_to_use();
+}
 
 int iuse::battletorch_lit(player *p, item *it, bool t, point pos)
 {
@@ -8715,13 +8789,11 @@ int iuse::ehandcuffs(player *p, item *it, bool t, point pos)
 
             if (p->has_item(it) && p->weapon.type->id == "e_handcuffs") {
 
-                if (p->has_artifact_with(AEP_RESIST_ELECTRICITY) ||
-                    p->has_active_bionic("bio_faraday")) { //Artifact or bionic stops electricity.
-                    add_msg(_("The electricity flows around you."));
-                } else if (p->worn_with_flag("ELECTRIC_IMMUNE")) { //Artifact or bionic stops electricity.
-                    add_msg(_("Your armor safely grounds the electrical discharge."));
+                if( p->is_elec_immune() ) {
+                    if( one_in( 10 ) ) {
+                        add_msg( m_good, _("The cuffs try to shock you, but you're protected from electrocution.") );
+                    }
                 } else {
-
                     add_msg(m_bad, _("Ouch, the cuffs shock you!"));
 
                     p->apply_damage(nullptr, bp_arm_l, rng(0, 2));
@@ -8883,6 +8955,14 @@ void sendRadioSignal(player *p, std::string signal)
             sounds::sound(p->posx(), p->posy(), 6, "beep.");
 
             it_tool *tmp = dynamic_cast<it_tool *>(it.type);
+            if( it.has_flag("RADIO_INVOKE_PROC") ) {
+                // Invoke twice: first to transform, then later to proc
+                tmp->invoke( p, &it, p->pos() );
+                it.charges = 0;
+                // The type changed
+                tmp = dynamic_cast<it_tool *>(it.type);
+            }
+
             tmp->invoke(p, &it, p->pos());
         }
     }
@@ -8947,21 +9027,19 @@ int iuse::radiocontrol(player *p, item *it, bool t, point)
         }
     } else if (choice > 2) {
         std::string signal = "RADIOSIGNAL_";
-        //red button
-        if (choice == 3) {
-            auto item_list = p->get_radio_items();
-            for( auto &elem : item_list ) {
-                if( ( elem )->has_flag( "BOMB" ) ) {
-                    p->add_msg_if_player( m_warning,
-                        _("You might want to place that radio bomb somewhere before detonating it.") );
-                    return 0;
-                }
-            }
-        }
-
         std::stringstream choice_str;
         choice_str << (choice - 2);
         signal += choice_str.str();
+        
+        auto item_list = p->get_radio_items();
+        for( auto &elem : item_list ) {
+            if( ( elem )->has_flag( "BOMB" ) && ( elem )->has_flag( signal ) ) {
+                p->add_msg_if_player( m_warning,
+                    _("The %s in you inventory would explode on this signal. Place it down before sending the signal."),
+                    ( elem )->display_name().c_str() );
+                return 0;
+            }
+        }
 
         p->add_msg_if_player(_("Click."));
         sendRadioSignal(p, signal);

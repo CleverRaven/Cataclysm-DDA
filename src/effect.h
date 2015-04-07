@@ -83,7 +83,7 @@ class effect_type
         
         std::string resist_trait;
         std::string resist_effect;
-	std::vector<std::string> removes_effects;
+        std::vector<std::string> removes_effects;
         
         std::vector<std::pair<std::string, int>> miss_msgs;
         

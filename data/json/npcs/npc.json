@@ -15,8 +15,7 @@
     "comment" : "Mission is based on the enum in npc.h.  The important ones are 0=NPC_MISSION_NUL, 3=NPC_MISSION_SHOPKEEP",
     "comment" : "and 7=NPC_MISSION_GUARD",
     "mission" : 7,
-    "comment" : "Chat is based on the enum talk_topic in npc.h.  Which is going to be a nightmare to update... 1=TALK_DONE",
-    "chat" : 76,
+    "chat" : "TALK_OLD_GUARD_REP",
     "faction" : "old_guard",
     "mission_offered" : 30,
     "comment" : "Mission_offered is based on the enum mission_id in mission.h.  0=MISSION_NULL"
@@ -28,7 +27,7 @@
     "class" : 14,
     "attitude" : 0,
     "mission" : 7,
-    "chat" : 98,
+    "chat" : "TALK_OLD_GUARD_SOLDIER",
     "faction" : "old_guard"
   },{
     "type" : "npc",
@@ -38,7 +37,7 @@
     "class" : 14,
     "attitude" : 0,
     "mission" : 7,
-    "chat" : 99,
+    "chat" : "TALK_OLD_GUARD_NEC_CPT",
     "faction" : "old_guard",
     "mission_offered" : 34
   },{
@@ -49,7 +48,7 @@
     "class" : 14,
     "attitude" : 0,
     "mission" : 7,
-    "chat" : 102,
+    "chat" : "TALK_OLD_GUARD_NEC_COMMO",
     "faction" : "old_guard",
     "mission_offered" : 36
   },{
@@ -60,7 +59,7 @@
     "class" : 1,
     "attitude" : 0,
     "mission" : 3,
-    "chat" : 17,
+    "chat" : "TALK_EVAC_MERCHANT",
     "mission_offered" : 27,
     "faction" : "free_merchants"
   },{
@@ -71,7 +70,7 @@
     "class" : 9,
     "attitude" : 0,
     "mission" : 7,
-    "chat" : 28,
+    "chat" : "TALK_FREE_MERCHANT_STOCKS",
     "faction" : "free_merchants"
   },{
     "type" : "npc",
@@ -81,7 +80,7 @@
     "class" : 9,
     "attitude" : 0,
     "mission" : 7,
-    "chat" : 42,
+    "chat" : "TALK_EVAC_GUARD1",
     "faction" : "free_merchants"
   },{
     "type" : "npc",
@@ -91,7 +90,7 @@
     "class" : 9,
     "attitude" : 0,
     "mission" : 7,
-    "chat" : 53,
+    "chat" : "TALK_EVAC_GUARD2",
     "faction" : "free_merchants"
   },{
     "type" : "npc",
@@ -101,7 +100,7 @@
     "class" : 9,
     "attitude" : 0,
     "mission" : 7,
-    "chat" : 59,
+    "chat" : "TALK_EVAC_GUARD3",
     "faction" : "free_merchants"
   },{
     "type" : "npc",
@@ -111,7 +110,7 @@
     "class" : 9,
     "attitude" : 0,
     "mission" : 7,
-    "chat" : 2,
+    "chat" : "TALK_GUARD",
     "faction" : "free_merchants"
   },{
     "type" : "npc",
@@ -121,7 +120,7 @@
     "class" : 9,
     "attitude" : 10,
     "mission" : 7,
-    "chat" : 1,
+    "chat" : "TALK_DONE",
     "faction" : "free_merchants"
   },{
     "type" : "npc",
@@ -131,7 +130,7 @@
     "class" : 13,
     "attitude" : 0,
     "mission" : 7,
-    "chat" : 68,
+    "chat" : "TALK_EVAC_HUNTER",
     "faction" : "wasteland_scavengers"
   },{
     "type" : "npc",
@@ -141,7 +140,7 @@
     "class" : 7,
     "attitude" : 0,
     "mission" : 7,
-    "chat" : 93,
+    "chat" : "TALK_SCAVENGER_MERC",
     "faction" : "wasteland_scavengers"
   },{
     "type" : "npc",
@@ -153,7 +152,7 @@
     "class" : 12,
     "attitude" : 0,
     "mission" : 3,
-    "chat" : 84,
+    "chat" : "TALK_ARSONIST",
     "faction" : "wasteland_scavengers"
   },{
     "type" : "npc",
@@ -163,7 +162,7 @@
     "class" : 10,
     "attitude" : 0,
     "mission" : 7,
-    "chat" : 1,
+    "chat" : "TALK_DONE",
     "faction" : "hells_raiders"
   },{
     "type" : "npc",
@@ -173,7 +172,7 @@
     "class" : 11,
     "attitude" : 0,
     "mission" : 7,
-    "chat" : 1,
+    "chat" : "TALK_DONE",
     "faction" : "hells_raiders"
   }
 ]
