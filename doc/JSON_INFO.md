@@ -716,7 +716,7 @@ The format also support snippet ids like above.
 "symbol": "0",             //Symbol used
 "color": "ltred",          //Color of the symbol
 "move_cost": 10,           //Move cost to move through. 2 = normal speed, 0 = impassable
-"trap": "spike_pit",       //(OPTIONAL) trap_id minus the tr_ prefix of the trap type.
+"trap": "spike_pit",       //(OPTIONAL) trap_id of the trap type.
                            //If omitted, defaults to tr_null.
 "flags": ["TRANSPARENT", "DIGGABLE"],   //Terrain flags
 "examine_action": "pit"    //(OPTIONAL) Function called when examined, see iexamine.cpp.
