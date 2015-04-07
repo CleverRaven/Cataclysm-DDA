@@ -2077,53 +2077,53 @@
         "pre_special" : "check_empty",
         "post_terrain" : "f_kiln_metal_empty"
     },{
-    "type" : "construction",
-    "description" : "Build Smoking Rack",
-    "category" : "FURN",
-    "difficulty" : 3,
-    "time" : 90,
-    "qualities": [
-      [ { "id": "DIG", "level": 1 } ],
-      [ { "id": "HAMMER", "level": 2 } ],
-      [ { "id": "CUT", "level": 1 } ],
-      [ { "id": "SAW_W", "level": 1 } ]
-    ],
-    "components" : [
-        [ [ "stick", 16 ], [ "2x4", 16 ] ],
-        [ [ "rock", 8 ] ]
-    ],
-    "pre_special" : "check_empty",
-    "post_terrain" : "f_smoking_rack"
-},{
-   "type" : "construction",
-   "description" : "Build Rock Forge",
-   "category" : "FURN",
-   "difficulty" : 5,
-   "time" : 120,
-   "qualities": [
-     [ { "id": "DIG", "level": 2 } ],
-     [ { "id": "HAMMER", "level": 2 } ]
-   ],
-   "components" : [
-      [ [ "rock", 40 ] ]
-   ],
-   "pre_special" : "check_empty",
-   "post_terrain" : "f_forge_rock"
-},{
-   "type" : "construction",
-   "description" : "Build Clay Kiln",
-   "category" : "FURN",
-   "difficulty" : 4,
-   "time" : 150,
-   "qualities": [
-   [ {"id": "HAMMER", "level": 2 } ]
-   ],
-   "components" : [
-      [ [ "rock", 40 ] ],
-      [ [ "material_cement", 50 ], [ "mortar_build", 1 ], [ "clay_lump", 12 ] ],
-      [ [ "water", 2 ], [ "water_clean", 2 ] ]
-   ],
-   "pre_special" : "check_empty",
-   "post_terrain" : "f_clay_kiln"
-}
+        "type" : "construction",
+        "description" : "Build Smoking Rack",
+        "category" : "FURN",
+        "difficulty" : 3,
+        "time" : 90,
+        "qualities": [
+            [ { "id": "DIG", "level": 1 } ],
+            [ { "id": "HAMMER", "level": 2 } ],
+            [ { "id": "CUT", "level": 1 } ],
+            [ { "id": "SAW_W", "level": 1 } ]
+        ],
+        "components" : [
+            [ [ "stick", 16 ], [ "2x4", 16 ] ],
+            [ [ "rock", 8 ] ]
+        ],
+        "pre_special" : "check_empty",
+        "post_terrain" : "f_smoking_rack"
+    },{
+        "type" : "construction",
+        "description" : "Build Rock Forge",
+        "category" : "FURN",
+        "difficulty" : 5,
+        "time" : 120,
+        "qualities": [
+            [ { "id": "DIG", "level": 2 } ],
+            [ { "id": "HAMMER", "level": 2 } ]
+        ],
+        "components" : [
+            [ [ "rock", 40 ] ]
+        ],
+        "pre_special" : "check_empty",
+        "post_terrain" : "f_forge_rock"
+    },{
+        "type" : "construction",
+        "description" : "Build Clay Kiln",
+        "category" : "FURN",
+        "difficulty" : 4,
+        "time" : 150,
+        "qualities": [
+            [ {"id": "HAMMER", "level": 2 } ]
+        ],
+        "components" : [
+            [ [ "rock", 40 ] ],
+            [ [ "material_cement", 50 ], [ "mortar_build", 1 ], [ "clay_lump", 12 ] ],
+            [ [ "water", 2 ], [ "water_clean", 2 ] ]
+        ],
+        "pre_special" : "check_empty",
+        "post_terrain" : "f_clay_kiln"
+    }
 ]
