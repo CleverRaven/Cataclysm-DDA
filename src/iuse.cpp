@@ -7077,7 +7077,6 @@ int iuse::holster_gun(player *p, item *it, bool, point)
             return 0;
         }
 
-        auto gun = put.type->gun.get();
         // only allow guns smaller than a certain size
         if (put.volume() > maxvol) {
             p->add_msg_if_player(m_info, _("That holster is too small to hold your %s!"),
@@ -7089,7 +7088,8 @@ int iuse::holster_gun(player *p, item *it, bool, point)
           return 0;
         }
 
-        int lvl = p->skillLevel(gun->skill_used);
+        std::string const gun_skill = put.gun_skill();
+        int const lvl = p->skillLevel( gun_skill );
         std::string message;
         if (lvl < 2) {
             message = _("You clumsily holster your %s.");
@@ -7100,7 +7100,7 @@ int iuse::holster_gun(player *p, item *it, bool, point)
         }
 
         p->add_msg_if_player(message.c_str(), put.tname().c_str());
-        p->store(it, &put, gun->skill_used->ident(), 14);
+        p->store(it, &put, gun_skill, 14);
 
     } else if( &p->weapon == it ) {
         p->add_msg_if_player( _( "You need to unwield the %s before using it." ), it->tname().c_str() );
