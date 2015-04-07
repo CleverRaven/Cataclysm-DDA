@@ -10,7 +10,7 @@ class vehicle;
 typedef std::vector< std::pair<item *, int> > itemslice;
 
 enum aim_location {
-    AIM_INVENTORY,
+    AIM_INVENTORY = 0,
     AIM_WORN,
     AIM_SOUTHWEST,
     AIM_SOUTH,
@@ -24,7 +24,8 @@ enum aim_location {
     AIM_ALL,
     AIM_DRAGGED,
     AIM_CONTAINER,
-    AIM_VEHICLE
+    AIM_VEHICLE,
+    NUM_AIM_LOCATIONS
 };
 
 enum advanced_inv_sortby {
@@ -48,17 +49,13 @@ struct advanced_inv_area {
     const int hscreenx;
     const int hscreeny;
     // relative (to the player) position of the map point
-    int offx;
-    int offy;
-    int offz;
+    tripoint off;
     /** Long name, displayed, translated */
     const std::string name;
     /** Shorter name (2 letters) */
     const std::string shortname;
     // absolute position of the map point.
-    int x;
-    int y;
-    int z;
+    tripoint pos;
     /** Can we put items there? Only checks if location is valid, not if
         selected container in pane is. For full check use canputitems() **/
     bool canputitemsloc;
@@ -74,9 +71,9 @@ struct advanced_inv_area {
     // maximal count / volume of items there.
     int max_size, max_volume;
 
-    advanced_inv_area( aim_location id, int hscreenx, int hscreeny, int offx, int offy, std::string name, std::string shortname ) :
-        id( id ), hscreenx( hscreenx ), hscreeny( hscreeny ), offx( offx ), offy( offy ), name( name ), shortname( shortname ),
-        x( 0 ), y( 0 ), canputitemsloc( false ), veh( nullptr ), vstor( -1 ), desc( "" ), volume( 0 ), weight( 0 ), max_size( 0 ), max_volume( 0 )
+    advanced_inv_area( aim_location id, int hscreenx, int hscreeny, tripoint off, std::string name, std::string shortname ) :
+        id( id ), hscreenx( hscreenx ), hscreeny( hscreeny ), off( off ), name( name ), shortname( shortname ),
+        pos(0, 0, 0), canputitemsloc( false ), veh( nullptr ), vstor( -1 ), desc( "" ), volume( 0 ), weight( 0 ), max_size( 0 ), max_volume( 0 )
     {
     }
 
@@ -92,12 +89,14 @@ struct advanced_inv_area {
     bool is_container_valid( const item *it ) const;
     void set_container_position();
     aim_location offset_to_location() const;
-    void set_vehicle(advanced_inv_area &s);
+    // returns offsets in (x, y, z)
+    tripoint offset() const;
+    // returns position + offsets 
+    tripoint position() const;
+    void set_vehicle(advanced_inv_area &square);
     bool can_store_in_vehicle() const
     {
-        bool id_check  = (id != AIM_ALL && id != AIM_INVENTORY);
-        bool veh_check = (veh != nullptr && vstor >= 0);
-        return (id_check && veh_check);
+        return (veh != nullptr && vstor >= 0);
     }
 };
 
@@ -192,6 +191,8 @@ class advanced_inventory_pane
          */
         int index;
         advanced_inv_sortby sortby;
+        // if things are updated or changed, this needs to be set
+        bool update_sorting;
         WINDOW *window;
         std::vector<advanced_inv_listitem> items;
         /**
@@ -310,7 +311,7 @@ class advanced_inventory
          * as index.
          */
         std::array<advanced_inventory_pane, 2> panes;
-        std::array<advanced_inv_area, 15> squares;
+        std::array<advanced_inv_area, NUM_AIM_LOCATIONS> squares;
 
         WINDOW *head;
         WINDOW *left_window;
@@ -353,9 +354,10 @@ class advanced_inventory
          * Add the item to the destination area.
          * @param destarea Where add the item to. This must not be AIM_ALL.
          * @param new_item The item to add.
+         * @param inv_item Pointer-pointer for the inventory's item pointer, if applicable.
          * @return true if adding has been done, false if adding the item failed.
          */
-        bool add_item( aim_location destarea, const item &new_item );
+        bool add_item( aim_location destarea, const item &new_item, item **inv_item = nullptr );
         /**
          * Move content of source container into destination container (destination pane = AIM_CONTAINER)
          * @param src_container Source container
@@ -383,7 +385,7 @@ class advanced_inventory
         void menu_square(uimenu *menu);
 
         // set AIM_VEHICLE to the location given.
-        void set_vehicle(aim_location sel);
+        bool set_vehicle(aim_location sel);
         void load_veh_data();
 
         static char get_location_key( aim_location area );
