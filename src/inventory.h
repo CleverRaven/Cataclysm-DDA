@@ -8,6 +8,7 @@
 #include <string>
 #include <utility>
 #include <vector>
+#include <functional>
 
 class map;
 
@@ -17,7 +18,7 @@ typedef std::list< std::list<item> > invstack;
 typedef std::vector< std::list<item>* > invslice;
 typedef std::vector< const std::list<item>* > const_invslice;
 typedef std::vector< std::pair<std::list<item>*, int> > indexed_invslice;
-typedef bool (*item_filter)( const item & );
+typedef std::function<bool(const item &)> item_filter;
 
 class salvage_actor;
 
