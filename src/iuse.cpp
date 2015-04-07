@@ -7057,6 +7057,13 @@ int iuse::holster_gun(player *p, item *it, bool, point)
 {
     // if holster is empty, pull up menu asking what to holster
     if (it->contents.empty()) {
+        int maxvol = 0;
+        // TODO: extract into an item function
+        if( it->type->properties["holster_size"] != "0" ) {
+            maxvol = std::atoi( it->type->properties["holster_size"].c_str() );
+        }
+        int minvol = maxvol / 3;
+
         int inventory_index = g->inv_type(_("Holster what?"), IC_GUN); // only show guns
         item *put = &(p->i_at(inventory_index));
         if (put == NULL || put->is_null()) {
@@ -7071,16 +7078,12 @@ int iuse::holster_gun(player *p, item *it, bool, point)
         }
 
         auto gun = put->type->gun.get();
-        int maxvol = 0;
-        if(it->type->properties["holster_size"] != "0") {
-          maxvol = std::atoi(it->type->properties["holster_size"].c_str());
-        }
         // only allow guns smaller than a certain size
         if (put->volume() > maxvol) {
             p->add_msg_if_player(m_info, _("That holster is too small to hold your %s!"),
                                  put->tname().c_str());
             return 0;
-        } else if (put->volume() < (maxvol / 3)) {
+        } else if (put->volume() < minvol) {
           p->add_msg_if_player(m_info, _("That holster is too big to hold your %s!"),
                               put->tname().c_str());
           return 0;
