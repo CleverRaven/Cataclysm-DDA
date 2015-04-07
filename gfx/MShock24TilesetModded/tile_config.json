@@ -19332,6 +19332,12 @@
           "fg": 1198,
           "bg": 499,
           "rotates": false
+        },
+        {
+          "id": "leg_warmers_f",
+          "fg": 397,
+          "bg": 499,
+          "rotates": false
         }
       ]
     },
