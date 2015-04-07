@@ -47,12 +47,10 @@ class inventory
         inventory  operator+  (const std::list<item> &rhs);
 
         static bool has_activation(const item &it, const player &u);
-        static bool has_category(const item &it, item_cat cat, const player &u);
         static bool has_capacity_for_liquid(const item &it, const item &liquid);
 
         indexed_invslice slice_filter();  // unfiltered, but useful for a consistent interface.
         indexed_invslice slice_filter_by_activation(const player &u);
-        indexed_invslice slice_filter_by_category(item_cat cat, const player &u);
         indexed_invslice slice_filter_by_capacity_for_liquid(const item &liquid);
         indexed_invslice slice_filter_by_flag(const std::string flag);
         indexed_invslice slice_filter_by_salvageability(const salvage_actor &actor);
