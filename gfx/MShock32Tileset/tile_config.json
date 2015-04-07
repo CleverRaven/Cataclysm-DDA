@@ -14445,53 +14445,9 @@
           ]
         },
         {
-          "id": "t_wall_h_p",
-          "fg": 1964,
-          "bg": 534,
-          "rotates": false,
-          "multitile": true,
-          "additional_tiles": [
-            {
-              "id": "center",
-              "fg": 1965,
-              "bg": 534
-            },
-            {
-              "id": "corner",
-              "fg": 1966,
-              "bg": 534
-            },
-            {
-              "id": "edge",
-              "fg": 1967,
-              "bg": 534
-            },
-            {
-              "id": "t_connection",
-              "fg": 1969,
-              "bg": 534
-            },
-            {
-              "id": "end_piece",
-              "fg": 1968,
-              "bg": 534
-            },
-            {
-              "id": "unconnected",
-              "fg": 1964,
-              "bg": 534
-            }
-          ]
-        },
-        {
-          "id": "t_wall_v_p",
-          "fg": 1964,
-          "bg": 534,
-=======
           "id": "t_wall_p",
-          "fg": 1943,
-          "bg": 528,
->>>>>>> origin/pr/11895
+          "fg": 1964,
+          "bg": 534,
           "rotates": false,
           "multitile": true,
           "additional_tiles": [
