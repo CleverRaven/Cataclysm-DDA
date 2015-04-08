@@ -79,5 +79,6 @@ then
     exit 1
 fi
 
+echo "---"
 echo "Update finished. It's safe to commit."
 cd $oldpwd

@@ -2,6 +2,7 @@
     {
         "id": "manual_karate",
         "type": "GENERIC",
+        "category": "books",
         "symbol": "?",
         "color": "green",
         "name": "The Shotokan Karate Handbook",
@@ -28,6 +29,7 @@
     {
         "id": "manual_aikido",
         "type": "GENERIC",
+        "category": "books",
         "symbol": "?",
         "color": "green",
         "name": "The Spirit of Aikido",
@@ -54,6 +56,7 @@
     {
         "id": "manual_boxing",
         "type": "GENERIC",
+        "category": "books",
         "symbol": "?",
         "color": "green",
         "name": "Practical Pugilism",
@@ -80,6 +83,7 @@
     {
         "id": "manual_judo",
         "type": "GENERIC",
+        "category": "books",
         "symbol": "?",
         "color": "green",
         "name": "Kodokan Judo",
@@ -106,6 +110,7 @@
     {
         "id": "manual_tai_chi",
         "type": "GENERIC",
+        "category": "books",
         "symbol": "?",
         "color": "green",
         "name": "Becoming One with the Tao",
@@ -132,6 +137,7 @@
     {
         "id": "manual_capoeira",
         "type": "GENERIC",
+        "category": "books",
         "symbol": "?",
         "color": "green",
         "name": "Capoeira 100",
@@ -158,6 +164,7 @@
     {
         "id": "manual_krav_maga",
         "type": "GENERIC",
+        "category": "books",
         "symbol": "?",
         "color": "green",
         "name": "Complete Krav Maga",
@@ -184,6 +191,7 @@
     {
         "id": "manual_muay_thai",
         "type": "GENERIC",
+        "category": "books",
         "symbol": "?",
         "color": "green",
         "name": "Ultimate Muay Thai",
@@ -210,6 +218,7 @@
     {
         "id": "manual_ninjutsu",
         "type": "GENERIC",
+        "category": "books",
         "symbol": "?",
         "color": "green",
         "name": "Essence of Ninjutsu",
@@ -236,6 +245,7 @@
     {
         "id": "manual_taekwondo",
         "type": "GENERIC",
+        "category": "books",
         "symbol": "?",
         "color": "green",
         "name": "Official Taekwondo Training Manual",
@@ -261,6 +271,7 @@
     {
         "id": "manual_zui_quan",
         "type": "GENERIC",
+        "category": "books",
         "symbol": "?",
         "color": "green",
         "name": "Zui Quan and You",
@@ -287,6 +298,7 @@
     {
         "id": "manual_crane",
         "type": "GENERIC",
+        "category": "books",
         "symbol": "?",
         "color": "green",
         "name": "The Red Crane",
@@ -313,6 +325,7 @@
     {
         "id": "manual_dragon",
         "type": "GENERIC",
+        "category": "books",
         "symbol": "?",
         "color": "green",
         "name": "The Jade Dragon",
@@ -339,6 +352,7 @@
     {
         "id": "manual_leopard",
         "type": "GENERIC",
+        "category": "books",
         "symbol": "?",
         "color": "green",
         "name": "The Deaf Leopard",
@@ -365,6 +379,7 @@
     {
         "id": "manual_tiger",
         "type": "GENERIC",
+        "category": "books",
         "symbol": "?",
         "color": "green",
         "name": "The White Tiger",
@@ -391,6 +406,7 @@
     {
         "id": "manual_snake",
         "type": "GENERIC",
+        "category": "books",
         "symbol": "?",
         "color": "green",
         "name": "The Black Snake",
@@ -417,6 +433,7 @@
     {
         "id": "manual_centipede",
         "type": "GENERIC",
+        "category": "books",
         "symbol": "?",
         "color": "green",
         "name": "The Centipede Lu Feng",
@@ -443,6 +460,7 @@
     {
         "id": "manual_scorpion",
         "type": "GENERIC",
+        "category": "books",
         "symbol": "?",
         "color": "green",
         "name": "The Scorpion Sun Chien",
@@ -469,6 +487,7 @@
     {
         "id": "manual_toad",
         "type": "GENERIC",
+        "category": "books",
         "symbol": "?",
         "color": "green",
         "name": "The Toad Lo Mang",
@@ -495,6 +514,7 @@
     {
         "id": "manual_lizard",
         "type": "GENERIC",
+        "category": "books",
         "symbol": "?",
         "color": "green",
         "name": "The Lizard Kuo Chui",
@@ -521,6 +541,7 @@
     {
         "id": "manual_venom_snake",
         "type": "GENERIC",
+        "category": "books",
         "symbol": "?",
         "color": "green",
         "name": "The Viper Wei Pai",
@@ -547,6 +568,7 @@
     {
         "id": "manual_eskrima",
         "type": "GENERIC",
+        "category": "books",
         "symbol": "?",
         "color": "green",
         "name": "Practical Eskrima",
@@ -573,6 +595,7 @@
     {
         "id": "manual_fencing",
         "type": "GENERIC",
+        "category": "books",
         "symbol": "?",
         "color": "green",
         "name": "The Modern Swordsman",
@@ -599,6 +622,7 @@
     {
         "id": "manual_silat",
         "type": "GENERIC",
+        "category": "books",
         "symbol": "?",
         "color": "green",
         "name": "The Indonesian Warrior",
@@ -625,6 +649,7 @@
     {
         "id": "manual_niten",
         "type": "GENERIC",
+        "category": "books",
         "symbol": "?",
         "color": "green",
         "name": "The Book of Five Rings",

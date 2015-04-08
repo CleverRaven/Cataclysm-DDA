@@ -13,6 +13,12 @@
     },
     {
         "type" : "ammunition_type",
+        "id" : "pointer_fake_ammo",
+        "name" : "none", 
+        "default" : "pointer_fake_ammo"
+    },
+    {
+        "type" : "ammunition_type",
         "id" : "700nx",
         "name" : ".700 Nitro Express",
         "default" : "700nx"

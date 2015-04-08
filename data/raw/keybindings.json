@@ -1001,7 +1001,7 @@
             }
         ]
     },
-	{
+    {
         "type" : "keybinding",
         "id": "REROLL_CHARACTER",
         "category": "NEW_CHAR_DESCRIPTION",
@@ -1412,6 +1412,13 @@
     { "type":"keybinding", "name": "Burst-Fire Wielded Item", "category":"DEFAULTMODE", "id":"fire_burst" },
     { "type":"keybinding", "name": "Craft as long as possible", "category":"DEFAULTMODE", "id":"long_craft" },
     { "type":"keybinding", "name": "Toggle Auto-Safemode", "category":"DEFAULTMODE", "id":"autosafe" },
+    {
+      "type":"keybinding",
+      "name": "Toggle move mode (run/walk)",
+      "category":"DEFAULTMODE",
+      "id":"toggle_move",
+      "bindings": [ {"input_method": "keyboard", "key":"\""} ]
+    },
     {
         "type" : "keybinding",
         "id":"COMPARE",
@@ -2197,6 +2204,38 @@
             {
                 "input_method":"keyboard",
                 "key":"w"
+            }
+        ]
+    },
+    {
+        "type" : "keybinding",
+        "id": "REMOVE_CUSTOM",
+        "category": "COLORS",
+        "name": "Remove custom color",
+        "bindings":[
+            {
+                "input_method":"keyboard",
+                "key":"r"
+            },
+            {
+                "input_method":"keyboard",
+                "key":"R"
+            }
+        ]
+    },
+    {
+        "type" : "keybinding",
+        "id": "LOAD_TEMPLATE",
+        "category": "COLORS",
+        "name": "Load color template",
+        "bindings":[
+            {
+                "input_method":"keyboard",
+                "key":"t"
+            },
+            {
+                "input_method":"keyboard",
+                "key":"T"
             }
         ]
     }

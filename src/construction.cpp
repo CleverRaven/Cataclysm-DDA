@@ -646,7 +646,7 @@ void place_construction(const std::string &desc)
     }
 
     construction *con = valid[choice];
-    g->u.assign_activity(ACT_BUILD, con->time, con->id);
+    g->u.assign_activity(ACT_BUILD, con->adjusted_time(), con->id);
     g->u.activity.placement = choice;
 }
 
@@ -657,6 +657,23 @@ void complete_construction()
 
     u.practice( built.skill, std::max(built.difficulty, 1) * 10,
                    (int)(built.difficulty * 1.25) );
+                   
+
+    // Friendly NPCs gain exp from assisting or watching...
+    for( auto &elem : g->active_npc ) {
+        if (rl_dist( elem->pos(), u.pos() ) < PICKUP_RANGE && elem->is_friend()){
+            //If the NPC can understand what you are doing, they gain more exp
+            if (elem->skillLevel(built.skill) >= built.difficulty){
+                elem->practice( built.skill, std::max(built.difficulty, 1) * 10, (int)(built.difficulty * 1.25));
+                add_msg(m_info, _("%s assists you with the work..."), elem->name.c_str());
+            //NPC near you isn't skilled enough to help
+            } else {
+                elem->practice( built.skill, std::max(built.difficulty, 1) * 10, (int)(built.difficulty * 1.25));
+                add_msg(m_info, _("%s watches you work..."), elem->name.c_str());
+            }
+        }
+    }
+                   
     for (const auto &it : built.requirements.components) {
         // Tried issuing rope for WEB_ROPE here.  Didn't arrive in time for the
         // gear check.  Ultimately just coded a bypass in crafting.cpp.
@@ -1521,9 +1538,26 @@ int construction::print_time(WINDOW *w, int ypos, int xpos, int width,
     return fold_and_print( w, ypos, xpos, width, col, text );
 }
 
+int construction::adjusted_time() const
+{
+    int basic = time;
+    int assistants = 0;
+    for( auto &elem : g->active_npc ) {
+        if (rl_dist( elem->pos(), g->u.pos() ) < PICKUP_RANGE && elem->is_friend()){
+            if (elem->skillLevel(skill) >= difficulty)
+                assistants++;
+        }
+    }
+    for( int i = 0; i < assistants; i++ )
+        basic = basic * .75;
+    if (basic <= time * .4)
+        basic = time * .4;
+    return basic;
+}
+
 std::string construction::get_time_string() const
 {
-    const int turns = time / 100;
+    const int turns = adjusted_time() / 100;
     std::string text;
     if( turns < MINUTES( 1 ) ) {
         const int seconds = std::max( 1, turns * 6 );

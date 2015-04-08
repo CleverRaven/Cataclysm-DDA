@@ -940,18 +940,18 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump, bool debug) c
         temp1.str("");
         temp1 << _("Layer: ");
         if (has_flag("SKINTIGHT")) {
-				temp1 << _("Close to skin. ");
-		} else if (has_flag("BELTED")) {
-			temp1 << _("Strapped. ");
-		} else if (has_flag("OUTER")) {
-			temp1 << _("Outer. ");
-		} else if (has_flag("WAIST")) {
-			temp1 << _("Waist. ");
-		} else {
-			temp1 << _("Normal. ");
-		}
+            temp1 << _("Close to skin. ");
+        } else if (has_flag("BELTED")) {
+            temp1 << _("Strapped. ");
+        } else if (has_flag("OUTER")) {
+            temp1 << _("Outer. ");
+        } else if (has_flag("WAIST")) {
+            temp1 << _("Waist. ");
+        } else {
+            temp1 << _("Normal. ");
+        }
 
-		dump->push_back(iteminfo("ARMOR", temp1.str()));
+        dump->push_back(iteminfo("ARMOR", temp1.str()));
 
         dump->push_back(iteminfo("ARMOR", _("Coverage: "), "<num>% ", get_coverage(), true, "", false));
         dump->push_back(iteminfo("ARMOR", _("Warmth: "), "", get_warmth()));
@@ -1357,6 +1357,30 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump, bool debug) c
         if (is_tool() && has_flag("USE_UPS")) {
             dump->push_back(iteminfo("DESCRIPTION",
                 _("This tool has been modified to use a universal power supply and is not compatible with standard batteries.")));
+        }
+        if( is_tool() && has_flag("RADIO_ACTIVATION") ) {
+            if( has_flag( "RADIO_MOD" ) ) {
+                dump->push_back(iteminfo("DESCRIPTION",
+                    _("This item has been modified to listen to radio signals. It can still be activated manually.")));
+            } else {
+                dump->push_back(iteminfo("DESCRIPTION",
+                    _("This item can only be activated by a radio signal.")));
+            }
+
+            if( has_flag("RADIOSIGNAL_1") ) {
+                dump->push_back(iteminfo("DESCRIPTION", _("It will be activated by \"Red\" radio signal.")));
+            } else if( has_flag("RADIOSIGNAL_2") ) {
+                dump->push_back(iteminfo("DESCRIPTION", _("It will be activated by \"Blue\" radio signal.")));
+            } else if( has_flag("RADIOSIGNAL_3") ) {
+                dump->push_back(iteminfo("DESCRIPTION", _("It will be activated by \"Green\" radio signal.")));
+            } else {
+                dump->push_back(iteminfo("DESCRIPTION", _("It is bugged and does not actually listen to radio signals.")));
+            }
+
+            if( has_flag( "RADIO_INVOKE_PROC" ) ) {
+                dump->push_back(iteminfo("DESCRIPTION",
+                    _("Activating this item with a radio signal will detonate it immediately.")));
+            }
         }
 
         if (has_flag("LEAK_DAM") && has_flag("RADIOACTIVE") && damage > 0) {
@@ -1810,6 +1834,18 @@ std::string item::tname( unsigned int quantity, bool with_prefix ) const
     }
     if (is_tool() && has_flag("USE_UPS")){
         ret << _(" (UPS)");
+    }
+    if (is_tool() && has_flag("RADIO_MOD")){
+        ret << _(" (radio:");
+        if( has_flag( "RADIOSIGNAL_1" ) ) {
+            ret << _("R)");
+        } else if( has_flag( "RADIOSIGNAL_2" ) ) {
+            ret << _("B)");
+        } else if( has_flag( "RADIOSIGNAL_3" ) ) {
+            ret << _("G)");
+        } else {
+            ret << _("Bug");
+        }
     }
     if (item_tags.count("wooled") > 0 ){
         ret << _(" (W)");
@@ -3314,11 +3350,11 @@ int item::aim_speed( int aim_threshold ) const
         if( elem.is_gunmod() ) {
             const auto mod = elem.type->gunmod.get();
             if( mod->sight_dispersion != -1 && mod->aim_speed != -1 &&
-		((aim_threshold == -1 && mod->sight_dispersion < best_dispersion ) ||
-		 (mod->sight_dispersion <= aim_threshold &&
-		  mod->aim_speed < best_aim_speed)) ) {
-	        best_aim_speed = mod->aim_speed;
-		best_dispersion = mod->sight_dispersion;
+                ((aim_threshold == -1 && mod->sight_dispersion < best_dispersion ) ||
+                 (mod->sight_dispersion <= aim_threshold &&
+                  mod->aim_speed < best_aim_speed)) ) {
+                best_aim_speed = mod->aim_speed;
+                best_dispersion = mod->sight_dispersion;
             }
         }
     }
@@ -4302,7 +4338,7 @@ void item::detonate( const tripoint &p ) const
     if (type == NULL || type->explosion_on_fire_data.power < 0) {
         return;
     }
-    g->explosion( p.x, type->explosion_on_fire_data.power, type->explosion_on_fire_data.shrapnel, type->explosion_on_fire_data.fire, type->explosion_on_fire_data.blast);
+    g->explosion( p, type->explosion_on_fire_data.power, type->explosion_on_fire_data.shrapnel, type->explosion_on_fire_data.fire, type->explosion_on_fire_data.blast);
 }
 
 bool item_ptr_compare_by_charges( const item *left, const item *right)
@@ -4634,7 +4670,7 @@ bool item::process_litcig( player *carrier, point pos )
         if( item_counter % 5 == 0 ) {
             g->m.add_field( pos.x + rng( -2, 2 ), pos.y + rng( -2, 2 ), smoke_type, 1 );
             // lit cigarette can start fires
-            if( g->m.flammable_items_at( pos.x, pos.y ) ||
+            if( g->m.flammable_items_at( tripoint( pos, g->get_levz() ) ) ||
                 g->m.has_flag( "FLAMMABLE", pos.x, pos.y ) ||
                 g->m.has_flag( "FLAMMABLE_ASH", pos.x, pos.y ) ) {
                 g->m.add_field( pos.x, pos.y, fd_fire, 1 );
@@ -4899,6 +4935,12 @@ bool item::process_charger_gun( player *carrier, point pos )
     return false;
 }
 
+bool item::process( player *carrier, const tripoint &pos, bool activate )
+{
+    // TODO: Z
+    return process( carrier, point( pos.x, pos.y ), activate );
+}
+
 bool item::process( player *carrier, point pos, bool activate )
 {
     const bool preserves = type->container && type->container->preserves;
@@ -4916,7 +4958,7 @@ bool item::process( player *carrier, point pos, bool activate )
     }
     if( activate ) {
         it_tool *tmp = dynamic_cast<it_tool *>( type );
-        return tmp->tick( carrier != nullptr ? carrier : &g->u, this, pos );
+        return tmp->invoke( carrier != nullptr ? carrier : &g->u, this, pos );
     }
     // How this works: it checks what kind of processing has to be done
     // (e.g. for food, for drying towels, lit cigars), and if that matches,
@@ -5014,6 +5056,33 @@ bool item::has_effect_when_carried( art_effect_passive effect ) const
         }
     }
     return false;
+}
+
+bool item::is_seed() const
+{
+    return type->seed.get() != nullptr;
+}
+
+int item::get_plant_epoch() const
+{
+    if( !type->seed ) {
+        return 0;
+    }
+    // 91 days is the approximate length of a real world season
+    // Growing times have been based around 91 rather than the default of 14 to give
+    // more accuracy for longer season lengths
+    // Note that it is converted based on the season_length option!
+    // Also note that seed->grow is the time it takes from seeding to harvest, this is
+    // divied by 3 to get the time it takes from one plant state to the next.
+    return DAYS( type->seed->grow * calendar::season_length() / ( 91 * 3 ) );
+}
+
+std::string item::get_plant_name() const
+{
+    if( !type->seed ) {
+        return std::string{};
+    }
+    return type->seed->plant_name;
 }
 
 std::string item::type_name( unsigned int quantity ) const

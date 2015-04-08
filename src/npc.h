@@ -151,9 +151,9 @@ struct npc_favor : public JsonSerializer, public JsonDeserializer
     };
 
     using JsonSerializer::serialize;
-    void serialize(JsonOut &jsout) const;
+    void serialize(JsonOut &jsout) const override;
     using JsonDeserializer::deserialize;
-    void deserialize(JsonIn &jsin);
+    void deserialize(JsonIn &jsin) override;
 };
 
 struct npc_personality : public JsonSerializer, public JsonDeserializer
@@ -171,9 +171,9 @@ struct npc_personality : public JsonSerializer, public JsonDeserializer
  };
 
     using JsonSerializer::serialize;
-    void serialize(JsonOut &jsout) const;
+    void serialize(JsonOut &jsout) const override;
     using JsonDeserializer::deserialize;
-    void deserialize(JsonIn &jsin);
+    void deserialize(JsonIn &jsin) override;
 };
 
 struct npc_opinion : public JsonSerializer, public JsonDeserializer
@@ -200,7 +200,7 @@ struct npc_opinion : public JsonSerializer, public JsonDeserializer
  npc_opinion(signed char T, signed char F, signed char V, signed char A, int O):
              trust (T), fear (F), value (V), anger(A), owed (O) { };
 
- npc_opinion& operator+= (npc_opinion &rhs)
+ npc_opinion& operator+= ( const npc_opinion &rhs )
  {
   trust += rhs.trust;
   fear  += rhs.fear;
@@ -228,9 +228,9 @@ struct npc_opinion : public JsonSerializer, public JsonDeserializer
  };
 
     using JsonSerializer::serialize;
-    void serialize(JsonOut &jsout) const;
+    void serialize(JsonOut &jsout) const override;
     using JsonDeserializer::deserialize;
-    void deserialize(JsonIn &jsin);
+    void deserialize(JsonIn &jsin) override;
 
  void load_legacy(std::stringstream &info);
 };
@@ -261,12 +261,15 @@ struct npc_combat_rules : public JsonSerializer, public JsonDeserializer
  void load_legacy(std::istream &data);
 
     using JsonSerializer::serialize;
-    void serialize(JsonOut &jsout) const;
+    void serialize(JsonOut &jsout) const override;
     using JsonDeserializer::deserialize;
-    void deserialize(JsonIn &jsin);
+    void deserialize(JsonIn &jsin) override;
 };
 
-enum talk_topic {
+// DO NOT USE! This is old, use strings as talk topic instead, e.g. "TALK_AGREE_FOLLOW" instead of
+// TALK_AGREE_FOLLOW. There is also convert_talk_topic which can convert the enumeration values to
+// the new string values (used to load old saves).
+enum talk_topic_enum {
  TALK_NONE = 0, // Used to go back to last subject
  TALK_DONE, // Used to end the conversation
  TALK_GUARD, // End conversation, nothing to be said
@@ -446,6 +449,11 @@ struct npc_chatbin : public JsonSerializer, public JsonDeserializer
      */
     void add_new_mission( mission *miss );
     /**
+     * Check that assigned missions are still assigned if not move them back to the
+     * unassigned vector. This is called directly before talking.
+     */
+    void check_missions();
+    /**
      * Missions that the NPC can give out. All missions in this vector should be unassigned,
      * when given out, they should be moved to @ref missions_assigned.
      */
@@ -458,31 +466,23 @@ struct npc_chatbin : public JsonSerializer, public JsonDeserializer
      * The mission (if any) that we talk about right now. Can be null. Should be one of the
      * missions in @ref missions or @ref missions_assigned.
      */
-    mission *mission_selected;
- int tempvalue; //No clue what this value does, but it is used all over the place. So it is NOT temp.
+    mission *mission_selected = nullptr;
     /**
      * The skill this NPC offers to train.
      */
-    const Skill* skill;
+    const Skill* skill = nullptr;
     /**
      * The martial art style this NPC offers to train.
      */
     matype_id style;
- talk_topic first_topic;
+    std::string first_topic = "TALK_NONE";
 
- npc_chatbin()
- {
-  mission_selected = nullptr;
-  tempvalue = -1;
-  skill = NULL;
-  style = "";
-  first_topic = TALK_NONE;
- }
+    npc_chatbin() = default;
 
     using JsonSerializer::serialize;
-    void serialize(JsonOut &jsout) const;
+    void serialize(JsonOut &jsout) const override;
     using JsonDeserializer::deserialize;
-    void deserialize(JsonIn &jsin);
+    void deserialize(JsonIn &jsin) override;
 
  void load_legacy(std::stringstream &info);
 };
@@ -501,8 +501,8 @@ public:
  npc &operator=(const npc &) = default;
  npc &operator=(npc &&) = default;
  virtual ~npc();
- virtual bool is_player() const { return false; }
- virtual bool is_npc() const { return true; }
+ virtual bool is_player() const override { return false; }
+ virtual bool is_npc() const override { return true; }
 
  static void load_npc(JsonObject &jsobj);
  npc* find_npc(std::string ident);
@@ -540,18 +540,18 @@ public:
  void starting_weapon(npc_class type);
 
 // Save & load
- virtual void load_legacy(std::stringstream & dump);// Overloaded from player
- virtual void load_info(std::string data);// Overloaded from player
- virtual std::string save_info();
+ virtual void load_legacy(std::stringstream & dump) override;// Overloaded from player
+ virtual void load_info(std::string data) override;// Overloaded from player
+ virtual std::string save_info() override;
 
     using player::deserialize;
-    virtual void deserialize(JsonIn &jsin);
+    virtual void deserialize(JsonIn &jsin) override;
     using player::serialize;
     virtual void serialize(JsonOut &jsout) const override;
 
 // Display
-    virtual nc_color basic_symbol_color() const;
- int print_info(WINDOW* w, int vStart, int vLines, int column) const;
+    virtual nc_color basic_symbol_color() const override;
+ int print_info(WINDOW* w, int vStart, int vLines, int column) const override;
  std::string short_description() const;
  std::string opinion_text() const;
 
@@ -564,7 +564,7 @@ public:
 
 // Interaction with the player
  void form_opinion(player *u);
- talk_topic pick_talk_topic(player *u);
+    std::string pick_talk_topic(player *u);
  int  player_danger(player *u) const; // Comparable to monsters
  int vehicle_danger(int radius) const;
  bool turned_hostile() const; // True if our anger is at least equal to...
@@ -605,7 +605,7 @@ public:
  void update_worst_item_value(); // Find the worst value in our inventory
  int  value(const item &it);
  bool wear_if_wanted(item it);
- virtual bool wield(item* it, bool);
+ virtual bool wield(item* it, bool) override;
  virtual bool wield(item* it);
  bool has_healing_item();
  bool has_painkiller();
@@ -621,7 +621,7 @@ public:
  bool is_active() const;
  void say(std::string line, ...) const;
  void decide_needs();
- void die(Creature* killer);
+ void die(Creature* killer) override;
  bool is_dead() const;
 /* shift() works much like monster::shift(), and is called when the player moves
  * from one submap to an adjacent submap.  It updates our position (shifting by
@@ -688,13 +688,13 @@ public:
  void reach_destination(); // We made it!
 
  //message related stuff
- virtual void add_msg_if_npc(const char* msg, ...) const;
- virtual void add_msg_player_or_npc(const char* player_str, const char* npc_str, ...) const;
- virtual void add_msg_if_npc(game_message_type type, const char* msg, ...) const;
- virtual void add_msg_player_or_npc(game_message_type type, const char* player_str, const char* npc_str, ...) const;
- virtual void add_msg_if_player(const char *, ...) const{};
- virtual void add_msg_if_player(game_message_type, const char *, ...) const{};
- virtual void add_memorial_log(const char*, const char*, ...) {};
+ virtual void add_msg_if_npc(const char* msg, ...) const override;
+ virtual void add_msg_player_or_npc(const char* player_str, const char* npc_str, ...) const override;
+ virtual void add_msg_if_npc(game_message_type type, const char* msg, ...) const override;
+ virtual void add_msg_player_or_npc(game_message_type type, const char* player_str, const char* npc_str, ...) const override;
+ virtual void add_msg_if_player(const char *, ...) const override{};
+ virtual void add_msg_if_player(game_message_type, const char *, ...) const override{};
+ virtual void add_memorial_log(const char*, const char*, ...) override {};
  virtual void add_miss_reason(const char *, unsigned int) {};
 
 // The preceding are in npcmove.cpp

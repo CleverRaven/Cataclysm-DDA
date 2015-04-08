@@ -183,12 +183,12 @@ public:
 
     using JsonSerializer::serialize;
     // give the option not to save recursively, but recurse by default
-    void serialize(JsonOut &jsout) const { serialize(jsout, true); }
+    void serialize(JsonOut &jsout) const override { serialize(jsout, true); }
     virtual void serialize(JsonOut &jsout, bool save_contents) const;
     using JsonDeserializer::deserialize;
     // easy deserialization from JsonObject
     virtual void deserialize(JsonObject &jo);
-    void deserialize(JsonIn &jsin) {
+    void deserialize(JsonIn &jsin) override {
         JsonObject jo = jsin.get_object();
         deserialize(jo);
     }
@@ -432,6 +432,8 @@ public:
      * should than delete the item wherever it was stored.
      * Returns false if the item is not destroyed.
      */
+    bool process(player *carrier, const tripoint &pos, bool activate);
+    // Overload for the above
     bool process(player *carrier, point pos, bool activate);
 protected:
     // Sub-functions of @ref process, they handle the processing for different
@@ -652,6 +654,26 @@ public:
         bool has_var( const std::string &name ) const;
         /** Erase the value of the given variable. */
         void erase_var( const std::string &name );
+        /*@}*/
+
+        /**
+         * @name Seed data.
+         */
+        /*@{*/
+        /**
+         * Whether this is actually a seed, the seed functions won't be of much use for non-seeds.
+         */
+        bool is_seed() const;
+        /**
+         * Time (in turns) it takes to grow from one stage to another. There are 4 plant stages:
+         * seed, seedling, mature and harvest. Non-seed items return 0.
+         */
+        int get_plant_epoch() const;
+        /**
+         * The name of the plant as it appears in the various informational menus. This should be
+         * translated. Returns an empty string for non-seed items.
+         */
+        std::string get_plant_name() const;
         /*@}*/
 
         /**

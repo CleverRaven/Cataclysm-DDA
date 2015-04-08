@@ -88,7 +88,7 @@ void npc::load_npc(JsonObject &jsobj)
     guy.myclass = npc_class(jsobj.get_int("class"));
     guy.attitude = npc_attitude(jsobj.get_int("attitude"));
     guy.mission = npc_mission(jsobj.get_int("mission"));
-    guy.chatbin.first_topic = talk_topic(jsobj.get_int("chat"));
+    guy.chatbin.first_topic = jsobj.get_string( "chat" );
     if (jsobj.has_int("mission_offered")){
         guy.miss_id = jsobj.get_int("mission_offered");
     } else {
@@ -1231,25 +1231,25 @@ void npc::form_opinion(player *u)
   attitude = NPCATT_FLEE;
 }
 
-talk_topic npc::pick_talk_topic(player *u)
+std::string npc::pick_talk_topic(player *u)
 {
  //form_opinion(u);
  (void)u;
  if (personality.aggression > 0) {
   if (op_of_u.fear * 2 < personality.bravery && personality.altruism < 0)
-   return TALK_MUG;
+   return "TALK_MUG";
   if (personality.aggression + personality.bravery - op_of_u.fear > 0)
-   return TALK_STRANGER_AGGRESSIVE;
+   return "TALK_STRANGER_AGGRESSIVE";
  }
  if (op_of_u.fear * 2 > personality.altruism + personality.bravery)
-  return TALK_STRANGER_SCARED;
+  return "TALK_STRANGER_SCARED";
  if (op_of_u.fear * 2 > personality.bravery + op_of_u.trust)
-  return TALK_STRANGER_WARY;
+  return "TALK_STRANGER_WARY";
  if (op_of_u.trust - op_of_u.fear +
      (personality.bravery + personality.altruism) / 2 > 0)
-  return TALK_STRANGER_FRIENDLY;
+  return "TALK_STRANGER_FRIENDLY";
 
- return TALK_STRANGER_NEUTRAL;
+ return "TALK_STRANGER_NEUTRAL";
 }
 
 int npc::player_danger(player *u) const

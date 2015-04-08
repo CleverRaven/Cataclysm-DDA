@@ -779,7 +779,7 @@ void iexamine::portable_structure(player *p, map *m, int examx, int examy)
 void iexamine::pit(player *p, map *m, int examx, int examy)
 {
     inventory map_inv;
-    map_inv.form_from_map(point(p->posx(), p->posy()), 1);
+    map_inv.form_from_map( p->pos3(), 1);
 
     bool player_has = p->has_amount("2x4", 1);
     bool map_has = map_inv.has_amount("2x4", 1);
@@ -794,14 +794,14 @@ void iexamine::pit(player *p, map *m, int examx, int examy)
         // if both have, then ask to use the one on the map
         if (player_has && map_has) {
             if (query_yn(_("Use the plank at your feet?"))) {
-                m->use_amount(point(p->posx(), p->posy()), 1, "2x4", 1, false);
+                m->use_amount( p->pos3(), 1, "2x4", 1, false);
             } else {
                 p->use_amount("2x4", 1);
             }
         } else if (player_has && !map_has) { // only player has plank
             p->use_amount("2x4", 1);
         } else if (!player_has && map_has) { // only map has plank
-            m->use_amount(point(p->posx(), p->posy()), 1, "2x4", 1, false);
+            m->use_amount( p->pos3(), 1, "2x4", 1, false);
         }
 
         if( m->ter(examx, examy) == t_pit ) {
@@ -1448,7 +1448,7 @@ void iexamine::egg_sackws( player *p, map *m, int examx, int examy )
 void iexamine::fungus(player *p, map *m, int examx, int examy)
 {
     add_msg(_("The %s crumbles into spores!"), m->furnname(examx, examy).c_str());
-    m->create_spores(examx, examy, p);
+    m->create_spores( tripoint( examx, examy, p->posz() ), p);
     m->furn_set(examx, examy, f_null);
     p->moves -= 50;
 }
@@ -1465,7 +1465,9 @@ void iexamine::dirtmound(player *p, map *m, int examx, int examy)
         add_msg(m_info, _("It is too dark to plant anything now."));
         return;
     }*/
-    std::vector<const item *> seed_inv = p->all_items_with_flag( "SEED" );
+    std::vector<item *> seed_inv = p->items_with( []( const item &itm ) {
+        return itm.is_seed();
+    } );
     if( seed_inv.empty() ) {
         add_msg(m_info, _("You have no seeds to plant."));
         return;
@@ -1505,10 +1507,15 @@ void iexamine::dirtmound(player *p, map *m, int examx, int examy)
         add_msg(_("You saved your seeds for later.")); // huehuehue
         return;
     }
+    const auto &seed_id = seed_types[seed_index];
 
     // Actual planting
-    std::list<item> planted = p->use_charges( seed_types[seed_index], 1 );
-    m->spawn_item(examx, examy, seed_types[seed_index], 1, 1, calendar::turn);
+    if( item::count_by_charges( seed_id ) ) {
+        p->use_charges( seed_id, 1 );
+    } else {
+        p->use_amount( seed_id, 1 );
+    }
+    m->spawn_item(examx, examy, seed_id, 1, 1, calendar::turn);
     m->set(examx, examy, t_dirt, f_plant_seed);
     p->moves -= 500;
     add_msg(_("Planted %s"), seed_names[seed_index].c_str());
@@ -2168,7 +2175,6 @@ void iexamine::tree_blackjack(player *p, map *m, int examx, int examy)
         none(p, m, examx, examy);
         return;
     }
-    m->spawn_item(p->posx(), p->posy(), "acorns", 2, 6 );
     m->spawn_item( p->posx(), p->posy(), "tanbark", rng( 1, 2 ) );
     m->ter_set(examx, examy, t_tree);
 }
@@ -2398,7 +2404,7 @@ void iexamine::trap(player *p, map *m, int examx, int examy)
 
 void iexamine::water_source(player *p, map *m, const int examx, const int examy)
 {
-    item water = m->water_from(examx, examy);
+    item water = m->water_from( tripoint( examx, examy, p->posz() ) );
     const std::string text = string_format(_("Container for %s"), water.tname().c_str());
     item *cont = g->inv_map_for_liquid(water, text);
     if (cont == NULL || cont->is_null()) {
@@ -2421,7 +2427,7 @@ void iexamine::water_source(player *p, map *m, const int examx, const int examy)
 }
 void iexamine::swater_source(player *p, map *m, const int examx, const int examy)
 {
-    item swater = m->swater_from(examx, examy);
+    item swater = m->swater_from( tripoint( examx, examy, p->posz() ) );
     const std::string text = string_format(_("Container for %s"), swater.tname().c_str());
     item *cont = g->inv_map_for_liquid(swater, text);
     if (cont == NULL || cont->is_null()) {
@@ -2440,13 +2446,6 @@ void iexamine::swater_source(player *p, map *m, const int examx, const int examy
             p->activity.values.push_back(swater.poison);
             p->activity.values.push_back(swater.bday);
         }
-    }
-}
-void iexamine::acid_source(player *p, map *m, const int examx, const int examy)
-{
-    item acid = m->acid_from(examx, examy);
-    if (g->handle_liquid(acid, true, true)) {
-        p->moves -= 100;
     }
 }
 
@@ -3238,9 +3237,6 @@ iexamine_function iexamine_function_from_string(std::string const &function_name
     }
     if ("swater_source" == function_name) {
         return &iexamine::swater_source;
-    }
-    if ("acid_source" == function_name) {
-        return &iexamine::acid_source;
     }
     if ("reload_furniture" == function_name) {
         return &iexamine::reload_furniture;

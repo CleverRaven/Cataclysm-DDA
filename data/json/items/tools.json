@@ -276,7 +276,7 @@
     "ammo": "thread",
     "revert_to": "null",
     "use_action": "SEW_ADVANCED",
-	"qualities": [["CUT", 1]]
+    "qualities": [["CUT", 1]]
   },
 
   {
@@ -1347,6 +1347,7 @@
     "charges_per_use": 0,
     "turns_per_charge": 0,
     "ammo": "battery",
+    "flags": ["RADIO_MODABLE"],
     "revert_to": "null",
     "use_action": "NOISE_EMITTER_OFF"
   },
@@ -1371,6 +1372,7 @@
     "charges_per_use": 0,
     "turns_per_charge": 1,
     "ammo": "battery",
+    "flags": ["RADIO_MODABLE"],
     "revert_to": "noise_emitter",
     "use_action": "NOISE_EMITTER_ON"
   },
@@ -2531,6 +2533,7 @@
     "charges_per_use": 0,
     "turns_per_charge": 0,
     "ammo": "NULL",
+    "flags": ["RADIO_MODABLE", "RADIO_INVOKE_PROC", "BOMB"],
     "revert_to": "null",
     "category": "weapons",
     "use_action": {
@@ -2561,6 +2564,7 @@
     "charges_per_use": 0,
     "turns_per_charge": 1,
     "ammo": "NULL",
+    "flags": ["BOMB"],
     "revert_to": "null",
     "category": "weapons",
     "use_action": {
@@ -2592,7 +2596,7 @@
     "charges_per_use": 0,
     "turns_per_charge": 0,
     "ammo": "NULL",
-    "flags": "ACT_IN_FIRE",
+    "flags": ["RADIO_MODABLE", "RADIO_INVOKE_PROC", "BOMB", "ACT_IN_FIRE"],
     "revert_to": "null",
     "category": "weapons",
     "use_action": {
@@ -2623,7 +2627,7 @@
     "charges_per_use": 0,
     "turns_per_charge": 1,
     "ammo": "NULL",
-    "flags": "ACT_IN_FIRE",
+    "flags": ["ACT_IN_FIRE", "BOMB"],
     "revert_to": "canister_empty",
     "category": "weapons",
     "use_action": "GRENADE_INC_ACT"
@@ -2696,6 +2700,7 @@
     "charges_per_use": 0,
     "turns_per_charge": 0,
     "ammo": "NULL",
+    "flags": ["RADIO_MODABLE", "RADIO_INVOKE_PROC", "BOMB"],
     "revert_to": "null",
     "category": "weapons",
     "use_action": {
@@ -2756,6 +2761,7 @@
     "charges_per_use": 0,
     "turns_per_charge": 0,
     "ammo": "NULL",
+    "flags": ["RADIO_MODABLE", "RADIO_INVOKE_PROC", "BOMB"],
     "revert_to": "null",
     "category": "weapons",
     "use_action": {
@@ -2818,6 +2824,7 @@
     "charges_per_use": 0,
     "turns_per_charge": 0,
     "ammo": "NULL",
+    "flags": ["RADIO_MODABLE", "RADIO_INVOKE_PROC", "BOMB"],
     "revert_to": "null",
     "category": "weapons",
     "use_action": {
@@ -2880,6 +2887,7 @@
     "charges_per_use": 0,
     "turns_per_charge": 0,
     "ammo": "NULL",
+    "flags": ["RADIO_MODABLE", "RADIO_INVOKE_PROC", "BOMB"],
     "revert_to": "null",
     "category": "weapons",
     "use_action": {
@@ -2943,6 +2951,7 @@
     "charges_per_use": 0,
     "turns_per_charge": 0,
     "ammo": "NULL",
+    "flags": ["RADIO_MODABLE", "RADIO_INVOKE_PROC", "BOMB"],
     "revert_to": "null",
     "category": "weapons",
     "use_action": {
@@ -3135,6 +3144,7 @@
     "charges_per_use": 0,
     "turns_per_charge": 0,
     "ammo": "NULL",
+    "flags": ["RADIO_MODABLE", "RADIO_INVOKE_PROC", "BOMB"],
     "revert_to": "null",
     "category": "weapons",
     "explode_in_fire" : {
@@ -3292,7 +3302,7 @@
     "description": "This is an extremely powerful weapon--essentially a hand-held nuclear bomb.  Use it to activate the timer.  You guess that the explosion would be large enough to take out a small house.",
     "price": 180000,
     "material": ["steel", "plastic"],
-    "flags": ["LEAK_DAM", "RADIOACTIVE"],
+    "flags": ["LEAK_DAM", "RADIOACTIVE", "RADIO_MODABLE", "RADIO_INVOKE_PROC", "BOMB"],
     "weight": 4071,
     "volume": 3,
     "bashing": 8,
@@ -3553,6 +3563,29 @@
     "charges_per_use": 0,
     "turns_per_charge": 0,
     "ammo": "plutonium",
+    "revert_to": "null"
+  },
+
+  {
+    "id": "fake_UPS",
+    "type": "TOOL",
+    "symbol": ";",
+    "color": "light_red",
+    "name": "fake UPS",
+    "name_plural": "fake UPS",
+    "description": "If you can see this, it is a bug.",
+    "price": 0,
+    "material": ["null"],
+    "weight": 0,
+    "volume": 0,
+    "bashing": 0,
+    "cutting": 0,
+    "to_hit": 0,
+    "max_charges": 1000,
+    "initial_charges": 0,
+    "charges_per_use": 0,
+    "turns_per_charge": 0,
+    "ammo": "battery",
     "revert_to": "null"
   },
 
@@ -6563,7 +6596,7 @@
         "type": "transform",
         "msg": "You open the jar, exposing it to the atmosphere.",
         "target": "soup_woods",
-		"target_charges": 4,
+        "target_charges": 4,
         "container": "jar_glass"
     }
   },
@@ -6588,7 +6621,7 @@
         "type": "transform",
         "msg": "You open the jar, exposing it to the atmosphere.",
         "target": "soup_meat",
-		"target_charges": 4,
+        "target_charges": 4,
         "container": "jar_glass"
     }
   },
@@ -6613,7 +6646,7 @@
         "type": "transform",
         "msg": "You open the jar, exposing it to the atmosphere.",
         "target": "soup_fish",
-		"target_charges": 4,
+        "target_charges": 4,
         "container": "jar_glass"
     }
   },
@@ -6638,7 +6671,7 @@
         "type": "transform",
         "msg": "You open the jar, exposing it to the atmosphere.",
         "target": "soup_veggy",
-		"target_charges": 4,
+        "target_charges": 4,
         "container": "jar_glass"
     }
   },
@@ -6663,7 +6696,7 @@
         "type": "transform",
         "msg": "You open the jar, exposing it to the atmosphere.",
         "target": "soup_human",
-		"target_charges": 4,
+        "target_charges": 4,
         "container": "jar_glass"
     }
   },
@@ -6688,7 +6721,7 @@
         "type": "transform",
         "msg": "You open the jar, exposing it to the atmosphere.",
         "target": "broth",
-		"target_charges": 1,
+        "target_charges": 1,
         "container": "jar_glass"
     }
   },
@@ -6713,7 +6746,7 @@
         "type": "transform",
         "msg": "You open the jar, exposing it to the atmosphere.",
         "target": "broth_bone",
-		"target_charges": 1,
+        "target_charges": 1,
         "container": "jar_glass"
     }
   },
@@ -6738,7 +6771,7 @@
         "type": "transform",
         "msg": "You open the jar, exposing it to the atmosphere.",
         "target": "V8",
-		"target_charges": 2,
+        "target_charges": 2,
         "container": "jar_glass"
     }
   },
@@ -8480,6 +8513,29 @@
     "use_action": "UPS_BATTERY"
   },
   {
+    "id": "radio_mod",
+    "type": "TOOL",
+    "symbol": ";",
+    "color": "dark_gray",
+    "name": "radio activation mod",
+    "description": "This small piece of electronics can be attached to certain items and activate them after receiving a radio signal.",
+    "price": 5000,
+    "material": "steel",
+    "weight": 142,
+    "volume": 1,
+    "bashing": 0,
+    "cutting": 0,
+    "to_hit": -2,
+    "max_charges": 0,
+    "initial_charges": 0,
+    "charges_per_use": 0,
+    "turns_per_charge": 0,
+    "ammo": "NULL",
+    "revert_to": "null",
+    "category" : "spare_parts",
+    "use_action": "RADIO_MOD"
+  },
+  {
     "type": "TOOL",
     "id": "g_shovel",
     "symbol": "/",
@@ -9022,7 +9078,7 @@
     "to_hit": 0,
     "max_charges": 1000,
     "initial_charges": 1000,
-    "charges_per_use": 10,
+    "charges_per_use": 4,
     "turns_per_charge": 0,
     "ammo": "NULL",
     "revert_to": "null",
@@ -9461,25 +9517,25 @@
     "revert_to": "null",
     "use_action": "REMOTEVEH"
   },{
-	"id": "brick_kiln",
-	"type": "TOOL",
-	"symbol": ";",
-	"color": "dark_gray",
-	"name": "brick kiln",
-	"description": "This is a portable charcoal-fired kiln.  It is designed for firing bricks, but you could use it to fire anything made of clay.",
-	"price": 25000,
-	"material": "steel",
-	"weight": 9600,
-	"volume": 36,
-	"bashing": 13,
-	"cutting": 0,
-	"to_hit": -3,
-	"max_charges": 200,
-	"initial_charges": 0,
-	"charges_per_use": 0,
-	"turns_per_charge": 0,
-	"ammo": "charcoal",
-	"revert_to": "null"
+    "id": "brick_kiln",
+    "type": "TOOL",
+    "symbol": ";",
+    "color": "dark_gray",
+    "name": "brick kiln",
+    "description": "This is a portable charcoal-fired kiln.  It is designed for firing bricks, but you could use it to fire anything made of clay.",
+    "price": 25000,
+    "material": "steel",
+    "weight": 9600,
+    "volume": 36,
+    "bashing": 13,
+    "cutting": 0,
+    "to_hit": -3,
+    "max_charges": 200,
+    "initial_charges": 0,
+    "charges_per_use": 0,
+    "turns_per_charge": 0,
+    "ammo": "charcoal",
+    "revert_to": "null"
   },
   {
     "id": "tool_anfo_charge",
@@ -9500,6 +9556,7 @@
     "charges_per_use": 0,
     "turns_per_charge": 0,
     "ammo": "NULL",
+    "flags": ["RADIO_MODABLE", "RADIO_INVOKE_PROC", "BOMB"],
     "revert_to": "null",
     "category": "weapons",
     "use_action": {
@@ -9529,6 +9586,7 @@
     "charges_per_use": 0,
     "turns_per_charge": 1,
     "ammo": "NULL",
+    "flags": ["BOMB"],
     "revert_to": "null",
     "category": "weapons",
     "use_action": {
@@ -9559,6 +9617,7 @@
     "charges_per_use": 0,
     "turns_per_charge": 0,
     "ammo": "NULL",
+    "flags": ["RADIO_MODABLE", "RADIO_INVOKE_PROC", "BOMB"],
     "revert_to": "null",
     "category": "weapons",
     "use_action": {
@@ -9588,6 +9647,7 @@
     "charges_per_use": 0,
     "turns_per_charge": 1,
     "ammo": "NULL",
+    "flags": ["BOMB"],
     "revert_to": "null",
     "category": "weapons",
     "use_action": {
@@ -9618,6 +9678,7 @@
     "charges_per_use": 0,
     "turns_per_charge": 0,
     "ammo": "NULL",
+    "flags": ["RADIO_MODABLE", "RADIO_INVOKE_PROC", "BOMB"],
     "revert_to": "null",
     "category": "weapons",
     "use_action": {
@@ -9647,6 +9708,7 @@
     "charges_per_use": 0,
     "turns_per_charge": 1,
     "ammo": "NULL",
+    "flags": ["BOMB"],
     "revert_to": "null",
     "category": "weapons",
     "use_action": {
@@ -9677,6 +9739,7 @@
     "charges_per_use": 0,
     "turns_per_charge": 0,
     "ammo": "NULL",
+    "flags": ["RADIO_MODABLE", "RADIO_INVOKE_PROC", "BOMB"],
     "revert_to": "null",
     "category": "weapons",
     "use_action": {
@@ -9706,6 +9769,7 @@
     "charges_per_use": 0,
     "turns_per_charge": 1,
     "ammo": "NULL",
+    "flags": ["BOMB"],
     "revert_to": "null",
     "category": "weapons",
     "use_action": {
@@ -9736,6 +9800,7 @@
     "charges_per_use": 0,
     "turns_per_charge": 0,
     "ammo": "NULL",
+    "flags": ["RADIO_MODABLE", "RADIO_INVOKE_PROC", "BOMB"],
     "revert_to": "null",
     "category": "weapons",
     "use_action": {
@@ -9765,6 +9830,7 @@
     "charges_per_use": 0,
     "turns_per_charge": 1,
     "ammo": "NULL",
+    "flags": ["BOMB"],
     "revert_to": "null",
     "category": "weapons",
     "use_action": {
@@ -9795,6 +9861,7 @@
     "charges_per_use": 0,
     "turns_per_charge": 0,
     "ammo": "NULL",
+    "flags": ["RADIO_MODABLE", "RADIO_INVOKE_PROC", "BOMB"],
     "revert_to": "null",
     "category": "weapons",
     "use_action": {
@@ -9824,6 +9891,7 @@
     "charges_per_use": 0,
     "turns_per_charge": 1,
     "ammo": "NULL",
+    "flags": ["BOMB"],
     "revert_to": "null",
     "category": "weapons",
     "use_action": {
@@ -9979,7 +10047,7 @@
     },
     "revert_to": "null",
     "symbol" : "(",
-    "description" : "A small factory made ukulele. Looks to be in working condition.",
+    "description" : "A small factory made ukulele.  Looks to be in working condition.",
     "price" : 7500,
     "material" : ["wood", "null"],
     "volume" : 10,
@@ -10016,7 +10084,7 @@
     },
     "revert_to": "null",
     "symbol" : "|",
-    "description" : "A standard factory-made banjo. Looks to be in working condition.",
+    "description" : "A standard factory-made banjo.  Looks to be in working condition.",
     "price" : 7500,
     "material" : ["wood", "iron"],
     "volume" : 12,
@@ -10053,7 +10121,7 @@
     },
     "revert_to": "null",
     "symbol" : "}",
-    "description" : "A cheap, factory-made violin with a built-in holder for a bow. Still produces a nice sound.",
+    "description" : "A cheap, factory-made violin with a built-in holder for a bow.  Still produces a nice sound.",
     "price" : 7500,
     "material" : ["wood", "null"],
     "volume" : 10,
@@ -10090,7 +10158,7 @@
     },
     "revert_to": "null",
     "symbol" : "}",
-    "description" : "A shiny golden fiddle, with a strange aura around it. You feel like it once belonged to the best there's ever been.",
+    "description" : "A shiny golden fiddle, with a strange aura around it.  You feel like it once belonged to the best there's ever been.",
     "price" : 1000000,
     "material" : ["gold", "null"],
     "volume" : 10,

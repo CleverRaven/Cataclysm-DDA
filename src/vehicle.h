@@ -33,7 +33,7 @@ struct fuel_type {
     /** Factor is used when transforming from item charges to fuel amount. */
     int charges_to_amount_factor;
 };
-extern const std::array<fuel_type, 7> fuel_types;
+const std::array<fuel_type, 7> &get_fuel_types();
 extern int fuel_charges_to_amount_factor( const ammotype &ftype );
 
 #define k_mvel 200 //adjust this to balance collision damage
@@ -48,6 +48,22 @@ enum veh_coll_type {
  veh_coll_other,
 
  num_veh_coll_types
+};
+
+// Saved to file as int, so values should not change
+enum turret_mode_type : int {
+    turret_mode_off = 0,
+    turret_mode_autotarget = 1,
+    turret_mode_manual = 2
+};
+
+// Describes turret's ability to fire (possibly at a particular target)
+enum turret_fire_ability {
+    turret_all_ok,
+    turret_wont_aim,
+    turret_is_off,
+    turret_out_of_range,
+    turret_no_ammo
 };
 
 struct veh_collision {
@@ -87,11 +103,11 @@ private:
 public:
 vehicle_stack( std::list<item> *newstack, point newloc, vehicle *neworigin, int part ) :
     mystack(newstack), location(newloc), myorigin(neworigin), part_num(part) {};
-    size_t size() const;
-    bool empty() const;
-    std::list<item>::iterator erase( std::list<item>::iterator it );
-    void push_back( const item &newitem );
-    void insert_at( std::list<item>::iterator index, const item &newitem );
+    size_t size() const override;
+    bool empty() const override;
+    std::list<item>::iterator erase( std::list<item>::iterator it ) override;
+    void push_back( const item &newitem ) override;
+    void insert_at( std::list<item>::iterator index, const item &newitem ) override;
     std::list<item>::iterator begin();
     std::list<item>::iterator end();
     std::list<item>::const_iterator begin() const;
@@ -100,8 +116,8 @@ vehicle_stack( std::list<item> *newstack, point newloc, vehicle *neworigin, int 
     std::list<item>::reverse_iterator rend();
     std::list<item>::const_reverse_iterator rbegin() const;
     std::list<item>::const_reverse_iterator rend() const;
-    item &front();
-    item &operator[]( size_t index );
+    item &front() override;
+    item &operator[]( size_t index ) override;
 };
 
 /**
@@ -167,9 +183,9 @@ public:
 
     // json saving/loading
     using JsonSerializer::serialize;
-    void serialize(JsonOut &jsout) const;
+    void serialize(JsonOut &jsout) const override;
     using JsonDeserializer::deserialize;
-    void deserialize(JsonIn &jsin);
+    void deserialize(JsonIn &jsin) override;
 
     /**
      * Generate the corresponding item from this vehicle part. It includes
@@ -213,9 +229,9 @@ struct label : public JsonSerializer, public JsonDeserializer {
 
     // json saving/loading
     using JsonSerializer::serialize;
-    void serialize(JsonOut &jsout) const;
+    void serialize(JsonOut &jsout) const override;
     using JsonDeserializer::deserialize;
-    void deserialize(JsonIn &jsin);
+    void deserialize(JsonIn &jsin) override;
 };
 
 /**
@@ -321,6 +337,12 @@ private:
 
     int total_folded_volume() const;
 
+    // Calculate how long it takes to attempt to start an engine
+    int engine_start_time( const int e );
+
+    // How much does the temperature effect the engine starting (0.0 - 1.0)
+    double engine_cold_factor( const int e );
+
     /**
      * Find a possibly off-map vehicle. If necessary, loads up its submap through
      * the global MAPBUFFER and pulls it from there. For this reason, you should only
@@ -367,9 +389,9 @@ public:
     void save (std::ofstream &stout);
 
     using JsonSerializer::serialize;
-    void serialize(JsonOut &jsout) const;
+    void serialize(JsonOut &jsout) const override;
     using JsonDeserializer::deserialize;
-    void deserialize(JsonIn &jsin);
+    void deserialize(JsonIn &jsin) override;
 
 // Operate vehicle
     void use_controls();
@@ -377,8 +399,14 @@ public:
 // Fold up the vehicle
     bool fold_up();
 
-// Start the vehicle's engine, if there are any
-    void start_engine();
+// Attempt to start an engine
+    bool start_engine( const int e );
+
+// Attempt to start the vehicle's active engines
+    void start_engines( const bool take_control = false );
+
+// Engine backfire, making a loud noise
+    void backfire( const int e );
 
 // Honk the vehicle's horn, if there are any
     void honk_horn();
@@ -685,21 +713,45 @@ public:
     void leak_fuel (int p);
     void shed_loose_parts();
 
-    // Manual turret aiming
-    void aim_turrets();
+    // Gets range of part p if it's a turret
+    // If `manual` is true, gets the real item range (gun+ammo range)
+    // otherwise gets part range (as in json)
+    int get_turret_range( int p, bool manual = true );
+
+    // Returns the number of shots this turret could make with current ammo/gas/batteries/etc.
+    // Does not handle tags like FIRE_100
+    long turret_has_ammo( int p );
+
+    // Manual turret aiming menu (select turrets etc.) when shooting from controls
+    // Returns whether a valid target was picked
+    bool aim_turrets();
+
+    // Maps turret ids to an enum describing their ability to shoot `pos`
+    std::map< int, turret_fire_ability > turrets_can_shoot( const point &pos );
+    turret_fire_ability turret_can_shoot( const int p, const point &pos );
+
+    // Cycle mode for this turret
+    // If `from_controls` is false, only manual modes are allowed 
+    // and message describing the new mode is printed
+    void cycle_turret_mode( int p, bool from_controls );
 
     // Per-turret mode selection
     void control_turrets();
 
     // Cycle through available turret modes
-    void cycle_turret_mode();
+    void cycle_global_turret_mode();
 
-    // fire the turret which is part p
-    bool fire_turret( int p, bool burst = true );
+    // Set up the turret to fire
+    bool fire_turret( int p, bool manual );
 
-    // internal procedure of turret firing
-    bool fire_turret_internal (int p, const itype &gun, const itype &ammo, long &charges,
-                               const std::string &firing_sound = "");
+    // Fire turret at some automatically acquired target
+    bool automatic_fire_turret( int p, const itype &gun, const itype &ammo, long &charges );
+
+    // Manual turret fire - gives the `shooter` a temporary weapon, makes them use it,
+    // then gives back the weapon held before (if any).
+    // TODO: Make it work correctly with UPS-powered turrets when player has a UPS already
+    bool manual_fire_turret( int p, player &shooter, const itype &guntype, 
+                             const itype &ammotype, long &charges );
 
     // opens/closes doors or multipart doors
     void open(int part_index);
@@ -746,8 +798,6 @@ public:
     //true if an engine exists without the specified type
     //If enabled true, this engine must be enabled to return true
     bool has_engine_type_not(const ammotype  & ft, bool enabled);
-    //prints message relating to vehicle start failure
-    void msg_start_engine_fail();
     //if necessary, damage this engine
     void do_engine_damage(size_t p, int strain);
     //remotely open/close doors

@@ -11,7 +11,6 @@
 
 class mission;
 class game;
-enum talk_topic;
 
 enum mission_type_id {
     MISSION_NULL,
@@ -57,7 +56,7 @@ enum mission_type_id {
     NUM_MISSION_IDS
 };
 
-std::string mission_dialogue(mission_type_id id, talk_topic state);
+std::string mission_dialogue(mission_type_id id, const std::string &state);
 
 enum mission_origin {
     ORIGIN_NULL = 0,
@@ -255,9 +254,9 @@ public:
 
         std::string name();
         using JsonSerializer::serialize;
-        void serialize(JsonOut &jsout) const;
+        void serialize(JsonOut &jsout) const override;
         using JsonDeserializer::deserialize;
-        void deserialize(JsonIn &jsin);
+        void deserialize(JsonIn &jsin) override;
 
         mission()
         {

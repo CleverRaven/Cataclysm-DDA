@@ -324,7 +324,7 @@ static void move_items( point source, point destination,
         if( cargo_part >= 0 ) {
             temp_item = g->m.item_from( veh, cargo_part, index );
         } else {
-            temp_item = g->m.item_from( source, index );
+            temp_item = g->m.item_from( tripoint( source, g->get_levz() ), index );
         }
 
         if( temp_item == nullptr ) {

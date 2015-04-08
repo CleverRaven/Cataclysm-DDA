@@ -158,6 +158,7 @@ public:
     int large_tent          (player *, item *, bool, point);
     int shelter             (player *, item *, bool, point);
     int torch_lit           (player *, item *, bool, point);
+    int tinderbox_lit       (player *, item *, bool, point);
     int battletorch_lit     (player *, item *, bool, point);
     int bullet_puller       (player *, item *, bool, point);
     int boltcutters         (player *, item *, bool, point);
@@ -185,6 +186,7 @@ public:
     int oxygen_bottle       (player *, item *, bool, point);
     int atomic_battery      (player *, item *, bool, point);
     int ups_battery         (player *, item *, bool, point);
+    int radio_mod           (player *, item *, bool, point);
     int remove_all_mods     (player *, item *, bool, point);
     int fishing_rod         (player *, item *, bool, point);
     int fish_trap           (player *, item *, bool, point);
