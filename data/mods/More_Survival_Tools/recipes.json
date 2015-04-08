@@ -1072,7 +1072,7 @@
   "components": [
     [ [ "glass_shard", 5 ] ],
     [ [ "stick", 1 ], [ "2x4", 1 ] ],
-    [ [ "superglue", 3 ], [ "bone_glue", 4 ] ]
+    [ [ "superglue", 1 ], [ "bone_glue", 2 ] ]
   ]
 },{
   "type" : "recipe",
@@ -1090,9 +1090,9 @@
     {"id":"HAMMER","level":1,"amount":1}
   ],
   "components": [
-    [ [ "rock", 5 ], [ "ceramic_shard", 1 ], [ "sharp_rock", 1 ] ],
+    [ [ "rock", 5 ], [ "ceramic_shard", 5 ], [ "sharp_rock", 5 ] ],
     [ [ "stick", 1 ], [ "2x4", 1 ] ],
-    [ [ "superglue", 3 ], [ "bone_glue", 4 ] ]
+    [ [ "superglue", 1 ], [ "bone_glue", 2 ] ]
   ]
 },{
   "type" : "recipe",
