@@ -302,7 +302,13 @@ void load_terrain(JsonObject &jsobj)
   // if the terrain has something harvestable
   if (jsobj.has_member("harvestable")) {
     new_terrain.harvestable = jsobj.get_string("harvestable"); // get the harvestable
+  }  
+  
+  if (jsobj.has_member("transforms_into")) {   
     new_terrain.transforms_into = jsobj.get_string("transforms_into"); // get the terrain to transform into later on
+  }
+  
+  if (jsobj.has_member("harvest_season")) {  
     //get the harvest season
     if (jsobj.get_string("harvest_season") == "SPRING") {new_terrain.harvest_season = 0;} // convert the season to int for calendar compare
     else if (jsobj.get_string("harvest_season") == "SUMMER") {new_terrain.harvest_season = 1;}
