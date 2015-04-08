@@ -6319,7 +6319,7 @@ void map::build_map_cache()
         }
     }
 
-    build_seen_cache( tripoint(g->u.posx(), g->u.posy(), g->u.posz()) );
+    build_seen_cache( g->u.pos3() );
     generate_lightmap();
 }
 
