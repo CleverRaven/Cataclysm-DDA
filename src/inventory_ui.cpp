@@ -311,7 +311,7 @@ void inventory_selector::print_column(const itemstack_vector &items, size_t y, s
             continue;
         }
         const item &it = *cur_entry.it;
-        std::string item_name = it.display_name();
+        std::string item_name = it.display_name().c_str();
         if (cur_entry.slice != NULL) {
             const size_t count = cur_entry.slice->size();
             if (count > 1) {
@@ -331,7 +331,7 @@ void inventory_selector::print_column(const itemstack_vector &items, size_t y, s
         if (it.invlet != 0) {
             mvwputch(w_inv, cur_line, y, invlet_color, it.invlet);
         }
-        trim_and_print(w_inv, cur_line, y + 2, w - 2, name_color, "%s", item_name.c_str());
+        trim_and_print(w_inv, cur_line, y + 2, w - 2, name_color, "%c %s", it.symbol(), item_name.c_str());
     }
 }
 

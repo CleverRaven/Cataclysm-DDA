@@ -255,7 +255,7 @@ void advanced_inventory::print_items( advanced_inventory_pane &pane, bool active
         }
 
         //print item name
-        trim_and_print( window, 6 + x, compact ? 1 : 4, max_name_length, thiscolor, "%s", it.display_name().c_str() );
+        trim_and_print( window, 6 + x, compact ? 1 : 4, max_name_length, thiscolor, "%c %s", it.symbol(), it.display_name().c_str() );
 
         //print src column
         if( pane.area == AIM_ALL && !compact ) {
