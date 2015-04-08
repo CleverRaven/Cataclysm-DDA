@@ -3486,7 +3486,7 @@
         "points" : -2,
         "visibility" : 5,
         "ugliness" : 6,
-        "description" : "Your body is covered in painful sores.  The pain is worse when they are covered in clothing.",
+        "description" : "Your extremities are covered in painful sores.  The pain is worse when they are covered in clothing.",
         "prereqs" : ["SPOTS"],
         "category" : ["MUTCAT_SLIME"]
     },{
