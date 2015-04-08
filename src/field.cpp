@@ -929,12 +929,7 @@ bool map::process_fields_in_submap( submap *const current_submap,
                                             cur->setFieldAge(cur->getFieldAge() + 50);
                                         }
                                         if(nearwebfld) {
-                                            if (fx == x && fy == y){
-                                                it = nearby_field.removeField(fd_web);
-                                                skipIterIncr = true;
-                                            } else {
-                                                nearby_field.removeField(fd_web);
-                                            }
+                                            nearby_field.removeField( fd_web );
                                         }
                                     } else {
                                         bool nosmoke = true;
