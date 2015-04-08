@@ -602,15 +602,18 @@ void map::castLight( bool (&output_cache)[MAPSIZE*SEEX][MAPSIZE*SEEY],
     if( start < end ) {
         return;
     }
+    // Making these static prevents them from being needlessly constructed/destructed all the time.
+    static const tripoint origin(0, 0, 0);
+    static tripoint delta(0, 0, 0);
     for( int distance = row; distance <= radius; distance++ ) {
-        int deltaY = -distance;
+        delta.y = -distance;
         bool started_row = false;
         float current_transparency;
-        for( int deltaX = -distance; deltaX <= 0; deltaX++ ) {
-            int currentX = offsetX + deltaX * xx + deltaY * xy;
-            int currentY = offsetY + deltaX * yx + deltaY * yy;
-            float leadingEdge = (deltaX - 0.5f) / (deltaY + 0.5f);
-            float trailingEdge = (deltaX + 0.5f) / (deltaY - 0.5f);
+        for( delta.x = -distance; delta.x <= 0; delta.x++ ) {
+            int currentX = offsetX + delta.x * xx + delta.y * xy;
+            int currentY = offsetY + delta.x * yx + delta.y * yy;
+            float leadingEdge = (delta.x - 0.5f) / (delta.y + 0.5f);
+            float trailingEdge = (delta.x + 0.5f) / (delta.y - 0.5f);
 
             if( !(currentX >= 0 && currentY >= 0 && currentX < SEEX * my_MAPSIZE &&
                   currentY < SEEY * my_MAPSIZE) || start < trailingEdge ) {
@@ -624,9 +627,9 @@ void map::castLight( bool (&output_cache)[MAPSIZE*SEEX][MAPSIZE*SEEY],
             }
 
             //check if it's within the visible area and mark visible if so
-            if( rl_dist(0, 0, deltaX, deltaY) <= radius ) {
+            if( rl_dist(origin, delta) <= radius ) {
                 /*
-                float bright = (float) (1 - (rStrat.radius(deltaX, deltaY) / radius));
+                float bright = (float) (1 - (rStrat.radius(delta.x, delta.y) / radius));
                 lightMap[currentX][currentY] = bright;
                 */
                 // TODO: handle circular distance.
