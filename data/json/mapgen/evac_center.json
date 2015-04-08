@@ -51,7 +51,7 @@
                 "c": "t_floor",
                 "D": "t_floor",
                 "E": "t_elevator",
-                "H": "t_reinforced_glass_h",
+                "H": "t_reinforced_glass",
                 "h": "t_floor",
                 "I": "t_column",
                 "k": "t_floor",
@@ -66,7 +66,7 @@
                 "s": "t_sidewalk",
                 "t": "t_floor",
                 "u": "t_floor",
-                "V": "t_reinforced_glass_v",
+                "V": "t_reinforced_glass",
                 "z": "t_floor"
             },
             "furniture": {
@@ -147,7 +147,7 @@
                 "c": "t_floor",
                 "D": "t_floor",
                 "E": "t_elevator",
-                "H": "t_reinforced_glass_h",
+                "H": "t_reinforced_glass",
                 "h": "t_floor",
                 "I": "t_column",
                 "k": "t_floor",
@@ -162,7 +162,7 @@
                 "s": "t_sidewalk",
                 "t": "t_floor",
                 "u": "t_floor",
-                "V": "t_reinforced_glass_v",
+                "V": "t_reinforced_glass",
                 "z": "t_floor"
             },
             "furniture": {
@@ -243,7 +243,7 @@
                 "c": "t_floor",
                 "D": "t_floor",
                 "E": "t_elevator",
-                "H": "t_reinforced_glass_h",
+                "H": "t_reinforced_glass",
                 "h": "t_floor",
                 "I": "t_column",
                 "k": "t_floor",
@@ -258,7 +258,7 @@
                 "s": "t_sidewalk",
                 "t": "t_floor",
                 "u": "t_floor",
-                "V": "t_reinforced_glass_v",
+                "V": "t_reinforced_glass",
                 "z": "t_floor"
             },
             "furniture": {
@@ -336,7 +336,7 @@
                 "c": "t_floor",
                 "D": "t_floor",
                 "E": "t_elevator",
-                "H": "t_reinforced_glass_h",
+                "H": "t_reinforced_glass",
                 "h": "t_floor",
                 "I": "t_column",
                 "k": "t_floor",
@@ -351,7 +351,7 @@
                 "s": "t_sidewalk",
                 "t": "t_floor",
                 "u": "t_floor",
-                "V": "t_reinforced_glass_v",
+                "V": "t_reinforced_glass",
                 "z": "t_floor"
             },
             "furniture": {
@@ -429,7 +429,7 @@
                 "c": "t_floor",
                 "D": "t_floor",
                 "E": "t_elevator",
-                "H": "t_reinforced_glass_h",
+                "H": "t_reinforced_glass",
                 "h": "t_floor",
                 "I": "t_column",
                 "k": "t_floor",
@@ -444,7 +444,7 @@
                 "s": "t_sidewalk",
                 "t": "t_floor",
                 "u": "t_floor",
-                "V": "t_reinforced_glass_v",
+                "V": "t_reinforced_glass",
                 "z": "t_floor"
             },
             "furniture": {
@@ -525,7 +525,7 @@
                 "c": "t_floor",
                 "D": "t_floor",
                 "E": "t_elevator",
-                "H": "t_reinforced_glass_h",
+                "H": "t_reinforced_glass",
                 "h": "t_floor",
                 "I": "t_column",
                 "k": "t_floor",
@@ -540,7 +540,7 @@
                 "s": "t_sidewalk",
                 "t": "t_floor",
                 "u": "t_floor",
-                "V": "t_reinforced_glass_v",
+                "V": "t_reinforced_glass",
                 "z": "t_floor"
             },
             "furniture": {
@@ -644,7 +644,7 @@
                 "c": "t_floor",
                 "D": "t_floor",
                 "E": "t_elevator",
-                "H": "t_reinforced_glass_h",
+                "H": "t_reinforced_glass",
                 "h": "t_floor",
                 "I": "t_column",
                 "k": "t_floor",
@@ -659,7 +659,7 @@
                 "s": "t_sidewalk",
                 "t": "t_floor",
                 "u": "t_floor",
-                "V": "t_reinforced_glass_v",
+                "V": "t_reinforced_glass",
                 "z": "t_floor"
             },
             "furniture": {
@@ -749,7 +749,7 @@
                 "c": "t_floor",
                 "D": "t_floor",
                 "E": "t_elevator",
-                "H": "t_reinforced_glass_h",
+                "H": "t_reinforced_glass",
                 "h": "t_floor",
                 "I": "t_column",
                 "k": "t_floor",
@@ -764,7 +764,7 @@
                 "s": "t_sidewalk",
                 "t": "t_floor",
                 "u": "t_floor",
-                "V": "t_reinforced_glass_v",
+                "V": "t_reinforced_glass",
                 "z": "t_floor"
             },
             "furniture": {
@@ -867,7 +867,7 @@
                 "c": "t_floor",
                 "D": "t_floor",
                 "E": "t_elevator",
-                "H": "t_reinforced_glass_h",
+                "H": "t_reinforced_glass",
                 "h": "t_floor",
                 "I": "t_column",
                 "k": "t_floor",
@@ -882,7 +882,7 @@
                 "s": "t_sidewalk",
                 "t": "t_floor",
                 "u": "t_floor",
-                "V": "t_reinforced_glass_v",
+                "V": "t_reinforced_glass",
                 "z": "t_floor"
             },
             "furniture": {
@@ -963,7 +963,7 @@
                 "c": "t_floor",
                 "D": "t_floor",
                 "E": "t_elevator",
-                "H": "t_reinforced_glass_h",
+                "H": "t_reinforced_glass",
                 "h": "t_floor",
                 "I": "t_column",
                 "k": "t_floor",
@@ -978,7 +978,7 @@
                 "s": "t_sidewalk",
                 "t": "t_floor",
                 "u": "t_floor",
-                "V": "t_reinforced_glass_v",
+                "V": "t_reinforced_glass",
                 "z": "t_floor"
             },
             "furniture": {
@@ -1056,7 +1056,7 @@
                 "c": "t_floor",
                 "D": "t_floor",
                 "E": "t_elevator",
-                "H": "t_reinforced_glass_h",
+                "H": "t_reinforced_glass",
                 "h": "t_floor",
                 "I": "t_column",
                 "k": "t_floor",
@@ -1071,7 +1071,7 @@
                 "s": "t_sidewalk",
                 "t": "t_floor",
                 "u": "t_floor",
-                "V": "t_reinforced_glass_v",
+                "V": "t_reinforced_glass",
                 "z": "t_floor"
             },
             "furniture": {
@@ -1163,7 +1163,7 @@
                 "c": "t_floor",
                 "D": "t_floor",
                 "E": "t_elevator",
-                "H": "t_reinforced_glass_h",
+                "H": "t_reinforced_glass",
                 "h": "t_floor",
                 "I": "t_column",
                 "k": "t_floor",
@@ -1178,7 +1178,7 @@
                 "s": "t_sidewalk",
                 "t": "t_floor",
                 "u": "t_floor",
-                "V": "t_reinforced_glass_v",
+                "V": "t_reinforced_glass",
                 "z": "t_floor"
             },
             "furniture": {
@@ -1270,7 +1270,7 @@
                 "c": "t_floor",
                 "D": "t_floor",
                 "E": "t_elevator",
-                "H": "t_reinforced_glass_h",
+                "H": "t_reinforced_glass",
                 "h": "t_floor",
                 "I": "t_column",
                 "k": "t_floor",
@@ -1285,7 +1285,7 @@
                 "s": "t_sidewalk",
                 "t": "t_floor",
                 "u": "t_floor",
-                "V": "t_reinforced_glass_v",
+                "V": "t_reinforced_glass",
                 "z": "t_floor"
             },
             "furniture": {
@@ -1375,7 +1375,7 @@
                 "c": "t_floor",
                 "D": "t_floor",
                 "E": "t_elevator",
-                "H": "t_reinforced_glass_h",
+                "H": "t_reinforced_glass",
                 "h": "t_floor",
                 "I": "t_column",
                 "k": "t_floor",
@@ -1390,7 +1390,7 @@
                 "s": "t_sidewalk",
                 "t": "t_floor",
                 "u": "t_floor",
-                "V": "t_reinforced_glass_v",
+                "V": "t_reinforced_glass",
                 "z": "t_floor"
             },
             "furniture": {
@@ -1468,7 +1468,7 @@
                 "c": "t_floor",
                 "D": "t_floor",
                 "E": "t_elevator",
-                "H": "t_reinforced_glass_h",
+                "H": "t_reinforced_glass",
                 "h": "t_floor",
                 "I": "t_column",
                 "k": "t_floor",
@@ -1483,7 +1483,7 @@
                 "s": "t_sidewalk",
                 "t": "t_floor",
                 "u": "t_floor",
-                "V": "t_reinforced_glass_v",
+                "V": "t_reinforced_glass",
                 "z": "t_floor"
             },
             "furniture": {
@@ -1565,7 +1565,7 @@
                 "c": "t_floor",
                 "D": "t_floor",
                 "E": "t_elevator",
-                "H": "t_reinforced_glass_h",
+                "H": "t_reinforced_glass",
                 "h": "t_floor",
                 "I": "t_column",
                 "k": "t_floor",
@@ -1580,7 +1580,7 @@
                 "s": "t_sidewalk",
                 "t": "t_floor",
                 "u": "t_floor",
-                "V": "t_reinforced_glass_v",
+                "V": "t_reinforced_glass",
                 "z": "t_floor"
             },
             "furniture": {
@@ -1666,7 +1666,7 @@
                 "c": "t_floor",
                 "D": "t_floor",
                 "E": "t_elevator",
-                "H": "t_reinforced_glass_h",
+                "H": "t_reinforced_glass",
                 "h": "t_floor",
                 "I": "t_column",
                 "k": "t_floor",
@@ -1681,7 +1681,7 @@
                 "s": "t_sidewalk",
                 "t": "t_floor",
                 "u": "t_floor",
-                "V": "t_reinforced_glass_v",
+                "V": "t_reinforced_glass",
                 "z": "t_floor"
             },
             "furniture": {
@@ -1765,7 +1765,7 @@
                 "c": "t_floor",
                 "D": "t_floor",
                 "E": "t_elevator",
-                "H": "t_reinforced_glass_h",
+                "H": "t_reinforced_glass",
                 "h": "t_floor",
                 "I": "t_column",
                 "k": "t_floor",
@@ -1780,7 +1780,7 @@
                 "s": "t_sidewalk",
                 "t": "t_floor",
                 "u": "t_floor",
-                "V": "t_reinforced_glass_v",
+                "V": "t_reinforced_glass",
                 "z": "t_floor"
             },
             "furniture": {
@@ -1872,7 +1872,7 @@
                 "c": "t_floor",
                 "D": "t_floor",
                 "E": "t_elevator",
-                "H": "t_reinforced_glass_h",
+                "H": "t_reinforced_glass",
                 "h": "t_floor",
                 "I": "t_column",
                 "k": "t_floor",
@@ -1887,7 +1887,7 @@
                 "s": "t_sidewalk",
                 "t": "t_floor",
                 "u": "t_floor",
-                "V": "t_reinforced_glass_v",
+                "V": "t_reinforced_glass",
                 "z": "t_floor"
             },
             "furniture": {
@@ -1968,7 +1968,7 @@
                 "c": "t_floor",
                 "D": "t_floor",
                 "E": "t_elevator",
-                "H": "t_reinforced_glass_h",
+                "H": "t_reinforced_glass",
                 "h": "t_floor",
                 "I": "t_column",
                 "k": "t_floor",
@@ -1983,7 +1983,7 @@
                 "s": "t_sidewalk",
                 "t": "t_floor",
                 "u": "t_floor",
-                "V": "t_reinforced_glass_v",
+                "V": "t_reinforced_glass",
                 "z": "t_floor"
             },
             "furniture": {
@@ -2061,7 +2061,7 @@
                 "c": "t_floor",
                 "D": "t_floor",
                 "E": "t_elevator",
-                "H": "t_reinforced_glass_h",
+                "H": "t_reinforced_glass",
                 "h": "t_floor",
                 "I": "t_column",
                 "k": "t_floor",
@@ -2076,7 +2076,7 @@
                 "s": "t_sidewalk",
                 "t": "t_floor",
                 "u": "t_floor",
-                "V": "t_reinforced_glass_v",
+                "V": "t_reinforced_glass",
                 "z": "t_floor"
             },
             "furniture": {
@@ -2157,7 +2157,7 @@
                 "c": "t_floor",
                 "D": "t_floor",
                 "E": "t_elevator",
-                "H": "t_reinforced_glass_h",
+                "H": "t_reinforced_glass",
                 "h": "t_floor",
                 "I": "t_column",
                 "k": "t_floor",
@@ -2172,7 +2172,7 @@
                 "s": "t_sidewalk",
                 "t": "t_floor",
                 "u": "t_floor",
-                "V": "t_reinforced_glass_v",
+                "V": "t_reinforced_glass",
                 "z": "t_floor"
             },
             "furniture": {
@@ -2250,7 +2250,7 @@
                 "c": "t_floor",
                 "D": "t_floor",
                 "E": "t_elevator",
-                "H": "t_reinforced_glass_h",
+                "H": "t_reinforced_glass",
                 "h": "t_floor",
                 "I": "t_column",
                 "k": "t_floor",
@@ -2265,7 +2265,7 @@
                 "s": "t_sidewalk",
                 "t": "t_floor",
                 "u": "t_floor",
-                "V": "t_reinforced_glass_v",
+                "V": "t_reinforced_glass",
                 "z": "t_floor"
             },
             "furniture": {
@@ -2343,7 +2343,7 @@
                 "c": "t_floor",
                 "D": "t_floor",
                 "E": "t_elevator",
-                "H": "t_reinforced_glass_h",
+                "H": "t_reinforced_glass",
                 "h": "t_floor",
                 "I": "t_column",
                 "k": "t_floor",
@@ -2358,7 +2358,7 @@
                 "s": "t_sidewalk",
                 "t": "t_floor",
                 "u": "t_floor",
-                "V": "t_reinforced_glass_v",
+                "V": "t_reinforced_glass",
                 "z": "t_floor"
             },
             "furniture": {
@@ -2436,7 +2436,7 @@
                 "c": "t_floor",
                 "D": "t_floor",
                 "E": "t_elevator",
-                "H": "t_reinforced_glass_h",
+                "H": "t_reinforced_glass",
                 "h": "t_floor",
                 "I": "t_column",
                 "k": "t_floor",
@@ -2451,7 +2451,7 @@
                 "s": "t_sidewalk",
                 "t": "t_floor",
                 "u": "t_floor",
-                "V": "t_reinforced_glass_v",
+                "V": "t_reinforced_glass",
                 "z": "t_floor"
             },
             "furniture": {

@@ -2363,8 +2363,8 @@
   "qualities":[ {"id":"SCREW","level":1,"amount":1} ],
   "tools": [
     [
-	[ "soldering_iron", 50 ],
-	[ "toolset", 50 ]
+    [ "soldering_iron", 50 ],
+    [ "toolset", 50 ]
     ],
     [ [ "mold_plastic", -1 ] ]
   ],

@@ -20,6 +20,7 @@
 #include <string>
 
 class JsonObject;
+struct visibility_variables;
 
 /** Structures */
 struct tile_type
@@ -58,15 +59,6 @@ struct tile
 };
 
 /* Enums */
-enum LIGHTING
-{
-    HIDDEN = -1,
-    CLEAR = 0,
-    LIGHT_NORMAL = 1,
-    LIGHT_DARK = 2,
-    BOOMER_NORMAL = 3,
-    BOOMER_DARK = 4
-};
 enum MULTITILE_TYPE
 {
     center,
@@ -218,13 +210,15 @@ class cata_tiles
 
         /* Tile Picking */
         void get_tile_values(const int t, const int *tn, int &subtile, int &rotation);
-        void get_wall_values(const int x, const int y, const long vertical_wall_symbol,
-                             const long horizontal_wall_symbol, int &subtile, int &rotation);
+        void get_wall_values(const int x, const int y, int &subtile, int &rotation);
         void get_terrain_orientation(int x, int y, int &rota, int &subtype);
         void get_rotation_and_subtile(const char val, const int num_connects, int &rota, int &subtype);
 
         /** Drawing Layers */
-        bool draw_lighting(int x, int y, LIGHTING l);
+        void draw_single_tile(const int x, const int y, const lit_level ll,
+                              const visibility_variables &cache);
+        bool apply_vision_effects(const int x, const int y,
+                                  const visibility_type visibility);
         bool draw_terrain(int x, int y);
         bool draw_furniture(int x, int y);
         bool draw_trap(int x, int y);
@@ -291,7 +285,6 @@ class cata_tiles
         void tile_loading_report(arraytype const & array, int array_length, std::string const & label, std::string const & prefix = "");
         /** Lighting */
         void init_light();
-        LIGHTING light_at(int x, int y);
 
         /** Variables */
         SDL_Renderer *renderer;
@@ -342,20 +335,7 @@ class cata_tiles
     protected:
     private:
         void create_default_item_highlight();
-        int
-            sightrange_natural,
-            sightrange_light,
-            sightrange_lowlight,
-            sightrange_max;
-        int
-            u_clairvoyance,
-            g_lightlevel;
-        bool
-            boomered,
-            sight_impaired,
-            bionight_bionic_active;
         int last_pos_x, last_pos_y;
-
 };
 
 #endif

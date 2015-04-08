@@ -459,14 +459,14 @@ submap *mapbuffer::unserialize_submaps( const tripoint &p )
                             } else if (ter_string == "t_pwr_sb_switchgear_s"){
                                 sm->ter[i][j] = termap[ "t_switchgear_s" ].loadid;
                             } else {
-                                sm->ter[i][j] = termap[ ter_string ].loadid;
+                                sm->ter[i][j] = terfind( ter_string );
                             }
                         }
                     }
                 } else {
                     for( int j = 0; j < SEEY; j++ ) {
                         for( int i = 0; i < SEEX; i++ ) {
-                            sm->ter[i][j] = termap[ jsin.get_string() ].loadid;
+                            sm->ter[i][j] = terfind( jsin.get_string() );
                         }
                     }
                 }
