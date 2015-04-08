@@ -5897,6 +5897,9 @@ void map::restock_fruits( const tripoint &p, int time_since_last_actualize )
     if( !ter.has_flag( TFLAG_HARVESTED ) ) {
         return;
     }
+    if (ter.id == "t_underbrush_harvested_autumn"){
+        debugmsg( "Underbrush restocking! %d %d",ter.harvest_season,calendar::turn.get_season() );
+    }
     if( ter.harvest_season != calendar::turn.get_season() ||
         time_since_last_actualize >= DAYS( calendar::season_length() ) ) {
         ter_set( p, ter.transforms_into );
