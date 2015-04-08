@@ -11093,6 +11093,7 @@
         "type" : "COMESTIBLE",
         "id" : "bacon",
         "name" : "bacon",
+        "name_plural" : "pieces of bacon",
         "weight" : 120,
         "color" : "pink",
         "addiction_type" : "none",
