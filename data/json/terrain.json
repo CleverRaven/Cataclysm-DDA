@@ -5387,6 +5387,14 @@
         }
     },{
         "type" : "terrain",
+        "id" : "t_leanto",
+        "name": "fake leanto for unmodded games",
+        "symbol": " ",
+        "color": "i_cyan",
+        "move_cost": 2,
+        "flags": ["TRANSPARENT", "NOITEM"]
+    },{
+        "type" : "terrain",
         "id" : "t_machinery_electronic",
         "name": "electronic machinery",
         "symbol": "$",
