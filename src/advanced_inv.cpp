@@ -856,27 +856,6 @@ void advanced_inventory_pane::add_items_from_area( advanced_inv_area &square )
             }
             square.desc = cont->tname( 1, false );
         }
-//    } else if(area == AIM_ALL) {
-//        // add both vehicle and map items to display dynamically (if applicable)
-//        std::vector<itemslice> stacks;
-//        // if the area has a vehicle storage area, grab those items too
-//        stacks.push_back(i_stacked(m.i_at(square.pos)));
-//        if(square.can_store_in_vehicle()) {
-//            stacks.push_back(i_stacked(square.veh->get_items(square.vstor)));
-//        }
-//        for(auto &stack : stacks) {
-//            for(size_t i = 0; i < stack.size(); ++i) {
-//                advanced_inv_listitem it(stack[i].first, i, stack[i].second, square.id);
-//                // also skip if including from vehicle storage, so as to not allow duplicates
-//                if(is_filtered(it.it)) {
-//                    continue;
-//                }
-//                square.volume += it.volume;
-//                square.weight += it.weight;
-//                items.push_back(it);
-//            }
-//            stack.clear();
-//        }
     } else {
         const itemslice &stacks = (square.id == AIM_VEHICLE && square.can_store_in_vehicle()) ?
             i_stacked(square.veh->get_items(square.vstor)) :
@@ -1924,17 +1903,11 @@ bool advanced_inv_area::is_same( const advanced_inv_area &other ) const
     if( id == other.id ) {
         return true;
     }
-//    // don't pass over things that share the same coords as AIM_VEHICLE
-//    if((id == AIM_VEHICLE && other.id != AIM_VEHICLE) || 
-//       (id != AIM_VEHICLE && other.id == AIM_VEHICLE)) {
-//        return false;
-//    }
     // Inventory and Container are compared by id only, the coordinates are not of concern there.
     // All other locations are compared by the coordinates, e.g. dragged vehicle
     // (to the south) and AIM_SOUTH are the same.
     if( id != AIM_INVENTORY && other.id != AIM_INVENTORY &&
         id != AIM_WORN      && other.id != AIM_WORN      && 
-//        id != AIM_VEHICLE   && other.id != AIM_VEHICLE   &&
         id != AIM_CONTAINER && other.id != AIM_CONTAINER ) {
 
         if(pos == other.pos && veh == other.veh) { 
@@ -2160,8 +2133,6 @@ void advanced_inventory::refresh_minimap()
     wrefresh(minimap);
 }
 
-// minimap is drawn same as squares order
-// sw -> s -> se -> w -> pl -> e -> nw -> n -> ne
 void advanced_inventory::draw_minimap()
 {
     // get the center of the window
