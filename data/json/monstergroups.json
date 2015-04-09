@@ -335,7 +335,7 @@
       { "monster" : "mon_worm", "freq" :  1, "cost_multiplier" : 0, "starts" : 336, "conditions" : ["SPRING", "SUMMER", "AUTUMN"] },
       { "monster" : "mon_worm", "freq" :  1, "cost_multiplier" : 0, "starts" : 504, "conditions" : ["SPRING", "SUMMER", "AUTUMN"] },
       { "monster" : "mon_worm", "freq" :  1, "cost_multiplier" : 0, "starts" : 672, "conditions" : ["SPRING", "SUMMER", "AUTUMN"] },
-	  { "monster" : "mon_bear_smoky", "freq" :  1, "cost_multiplier" : 0, "starts" : 672, "conditions" : ["SPRING", "SUMMER", "AUTUMN"] }
+	{ "monster" : "mon_bear_smoky", "freq" :  1, "cost_multiplier" : 0, "starts" : 672, "conditions" : ["SPRING", "SUMMER", "AUTUMN"] }
     ]
   },{
     "type":"monstergroup",
