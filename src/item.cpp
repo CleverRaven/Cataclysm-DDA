@@ -3963,14 +3963,6 @@ bool item::flammable() const
         return true;
     }
 
-    if( is_ammo() && ammo_type() != "water" && ammo_type() != "battery" &&
-        ammo_type() != "nail" && ammo_type() != "BB" &&
-        ammo_type() != "bolt" && ammo_type() != "arrow" &&
-        ammo_type() != "pebble" && ammo_type() != "fishspear" &&
-        ammo_type() != "NULL") {
-        return true;
-    }
-
     return false;
 }
 
