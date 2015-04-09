@@ -2076,40 +2076,42 @@ bool advanced_inv_area::is_container_valid( const item *it ) const
 
 void advanced_inv_area::set_container_position()
 {
-    int offx, offy;
+    // update the offset of the container based on location
     switch ( uistate.adv_inv_container_location ) {
         case AIM_DRAGGED:
-            offx = g->u.grab_point.x; offy = g->u.grab_point.y;
+            off = tripoint(g->u.grab_point.x, g->u.grab_point.y, 0);
             break;
         case AIM_SOUTHWEST:
-            offx = -1; offy = 1;
+            off = tripoint(-1, 1, 0);
             break;
         case AIM_SOUTH:
-            offx = 0; offy = 1;
+            off = tripoint(0, 1, 0);
             break;
         case AIM_SOUTHEAST:
-            offx = 1; offy = 1;
+            off = tripoint(1, 1, 0);
             break;
         case AIM_WEST:
-            offx = -1; offy = 0;
+            off = tripoint(-1, 0, 0);
             break;
         case AIM_EAST:
-            offx = 1; offy = 0;
+            off = tripoint(1, 0, 0);
             break;
         case AIM_NORTHWEST:
-            offx = -1; offy = -1;
+            off = tripoint(-1, -1, 0);
             break;
         case AIM_NORTH:
-            offx = 0; offy = -1;
+            off = tripoint(0, -1, 0);
             break;
         case AIM_NORTHEAST:
-            offx = 1; offy = -1;
+            off = tripoint(1, -1, 0);
             break;
         default:
-            offx = 0; offy = 0;
+            off = tripoint(0, 0, 0);
             break;
     }
-
+    // update the absolute position
+    pos = g->u.pos3() + off;
+    // update vehicle information
     veh = g->m.veh_at(pos, vstor);
     if(veh != nullptr) {
         vstor = veh->part_with_feature(vstor, "CARGO", false);
