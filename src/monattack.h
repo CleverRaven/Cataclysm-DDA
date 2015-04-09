@@ -77,7 +77,6 @@ bool thrown_by_judo     (monster *z, int index); //handles zombie getting thrown
 void riotbot            (monster *z, int index);
 void stretch_attack     (monster *z, int index);
 void stretch_bite       (monster *z, int index);
-void extinguish         (monster *z, int index);
 
 void taze               (monster *z, Creature *target);
 void rifle              (monster *z, Creature *target); // Automated M4

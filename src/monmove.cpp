@@ -906,20 +906,6 @@ int monster::move_to(int x, int y, bool force)
         g->m.add_field(posx(), posy(), fd_acid, 3);
     }
 
-    if (has_flag(MF_FIRETRAIL)){
-        if (one_in(2)){
-            g->m.add_field(posx()+1, posy(), fd_fire, 1);
-            g->m.add_field(posx()-1, posy(), fd_fire, 1);
-            g->m.add_field(posx(), posy()-1, fd_fire, 1);
-            g->m.add_field(posx(), posy()+1, fd_fire, 1);
-        } else {
-            g->m.add_field(posx()+1, posy()+1, fd_fire, 1);
-            g->m.add_field(posx()-1, posy()+1, fd_fire, 1);
-            g->m.add_field(posx()+1, posy()-1, fd_fire, 1);
-            g->m.add_field(posx()-1, posy()-1, fd_fire, 1);
-        }
-    }
-
     if (has_flag(MF_SLUDGETRAIL)) {
         for (int dx = -1; dx <= 1; dx++) {
             for (int dy = -1; dy <= 1; dy++) {
