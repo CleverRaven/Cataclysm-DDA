@@ -111,7 +111,7 @@
             { "item": "bed", "chance": 80, "x": [ 2,3 ],    "y": [ 19, 20 ]},
             { "item": "dresser", "chance": 80, "x": 2,    "y": 21},
             { "item": "fridgesnacks", "chance": 80, "x": [ 2,9 ],    "y": 17},
-            { "item": "fridge", "chance": 80, "x":  17,    "y": 19},				
+            { "item": "fridge", "chance": 80, "x":  17,    "y": 19},
             { "item": "snacks",     "chance": 80, "x": [ 2,5 ],   "y": 15},
             { "item": "behindcounter",     "chance": 80, "x": [ 21,21 ],   "y": [13,14] },
             { "item": "road",     "chance": 20, "x": [ 20,20 ],   "y": [13,14] },

@@ -799,14 +799,6 @@ int game::inv_activatable(std::string const &title)
     return display_slice(activatables, title);
 }
 
-int game::inv_type(std::string const &title, item_cat const inv_item_type)
-{
-    u.inv.restack(&u);
-    u.inv.sort();
-    indexed_invslice reduced_inv = u.inv.slice_filter_by_category(inv_item_type, u);
-    return display_slice(reduced_inv, title);
-}
-
 int game::inv_for_liquid(const item &liquid, const std::string &title, bool const auto_choose_single)
 {
     u.inv.restack(&u);

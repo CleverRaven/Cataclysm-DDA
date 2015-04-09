@@ -2270,14 +2270,10 @@
   "batch_time_factors":[80, 4],
   "qualities":[
     {"id":"HAMMER","level":1,"amount":1}
-  ],    "components": [
-    [
-      [ "roasted_coffee_bean", 1 ]
-    ],
-	[
-		["bag_plastic",1]
-	]
-	
+  ],
+  "components": [
+    [ [ "roasted_coffee_bean", 1 ] ],
+    [ ["bag_plastic",1] ]
   ]
 },{
   "type" : "recipe",

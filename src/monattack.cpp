@@ -201,7 +201,8 @@ void mattack::acid(monster *z, int index)
     int hity = target->posy() + rng(-2, 2);
     std::vector<point> line = line_to(z->posx(), z->posy(), hitx, hity, junk);
     for (auto &i : line) {
-        if (g->m.hit_with_acid(i.x, i.y)) {
+        // TODO: Z
+        if (g->m.hit_with_acid( tripoint( i.x, i.y, z->posz() ) )) {
             if (g->u.sees( i )) {
                 add_msg(_("A glob of acid hits the %s!"),
                         g->m.tername(i.x, i.y).c_str());
@@ -476,8 +477,7 @@ void mattack::smash(monster *z, int index)
     }
 
     // Can we dodge the attack? Uses player dodge function % chance (melee.cpp)
-    int dodge_check = std::max( target->get_dodge() - rng(0, z->type->melee_skill), 0L );
-    if (rng(0, 10000) < 10000 / (1 + (99 * exp(-.6 * dodge_check)))) {
+    if (dodge_check(z, target)) {
         target->add_msg_player_or_npc( _("The %s takes a powerful swing at you, but you dodge it!"),
                                        _("The %s takes a powerful swing at <npcname>, but <npcname> dodges it!"),
                                        z->name().c_str() );
@@ -755,11 +755,12 @@ void mattack::growplants(monster *z, int index)
             if (i == 0 && j == 0) {
                 j++;
             }
+            tripoint p( z->posx() + i, z->posy() + j, z->posz() );
             if (!g->m.has_flag("DIGGABLE", z->posx() + i, z->posy() + j) && one_in(4)) {
                 g->m.ter_set(z->posx() + i, z->posy() + j, t_dirt);
-            } else if (one_in(3) && g->m.is_bashable(z->posx() + i, z->posy() + j)) {
+            } else if (one_in(3) && g->m.is_bashable( p )) {
                 // Destroy everything
-                g->m.bash(z->posx() + i, z->posy() + j, 999, false, true);
+                g->m.bash( p, 999, false, true );
                 // And then make the ground fertile
                 g->m.ter_set(z->posx() + i, z->posy() + j, t_dirtmound);
             } else {
@@ -1037,22 +1038,25 @@ void mattack::spit_sap(monster *z, int index)
             add_msg(_("The %s spits sap, but misses %s."), z->name().c_str(), target->disp_name().c_str() );
         }
 
-        int hitx = target->posx() + rng(0 - int(missed_by), int(missed_by)),
-            hity = target->posy() + rng(0 - int(missed_by), int(missed_by));
-        std::vector<point> line = line_to(z->posx(), z->posy(), hitx, hity, 0);
+        tripoint hitp( target->posx() + rng(0 - int(missed_by), int(missed_by)),
+                       target->posy() + rng(0 - int(missed_by), int(missed_by)),
+                       target->posz() );
+        std::vector<tripoint> line = line_to( z->pos3(), hitp, 0, 0 );
         int dam = 5;
-        for (auto &i : line) {
-            g->m.shoot(i.x, i.y, dam, false, no_effects);
+        for( auto &i : line ) {
+            g->m.shoot( i, dam, false, no_effects);
             if (dam == 0 && g->u.sees( i )) {
                 add_msg(_("A glob of sap hits the %s!"),
-                        g->m.tername(i.x, i.y).c_str());
+                        g->m.tername( i ).c_str());
                 return;
             }
+
             if (dam <= 0) {
                 break;
             }
         }
-        g->m.add_field(hitx, hity, fd_sap, (dam >= 4 ? 3 : 2));
+
+        g->m.add_field( hitp, fd_sap, (dam >= 4 ? 3 : 2), 0 );
         return;
     }
 
@@ -1060,13 +1064,13 @@ void mattack::spit_sap(monster *z, int index)
         add_msg(_("The %s spits sap!"), z->name().c_str());
     }
     g->m.sees( z->pos(), target->pos(), 60, t);
-    std::vector<point> line = line_to( z->pos(), target->pos(), t );
+    std::vector<tripoint> line = line_to( z->pos3(), target->pos3(), t, 0 );
     int dam = 5;
     for (auto &i : line) {
-        g->m.shoot(i.x, i.y, dam, false, no_effects);
+        g->m.shoot( i, dam, false, no_effects );
         if (dam == 0 && g->u.sees( i )) {
             add_msg(_("A glob of sap hits the %s!"),
-                    g->m.tername(i.x, i.y).c_str());
+                    g->m.tername( i ).c_str());
             return;
         }
     }
@@ -1322,8 +1326,7 @@ void mattack::fungus_inject(monster *z, int index)
     }
 
     // Can we dodge the attack? Uses player dodge function % chance (melee.cpp)
-    int dodge_check = std::max(g->u.get_dodge() - rng(0, z->type->melee_skill), 0L);
-    if (rng(0, 10000) < 10000 / (1 + (99 * exp(-.6 * dodge_check)))) {
+    if (dodge_check(z, target)) {
         target->add_msg_player_or_npc( _("You dodge it!"),
                                        _("<npcname> dodges it!") );
         g->u.practice( "dodge", z->type->melee_skill * 2 );
@@ -1377,8 +1380,7 @@ void mattack::fungus_bristle(monster *z, int index)
     }
 
     // Can we dodge the attack? Uses player dodge function % chance (melee.cpp)
-    int dodge_check = std::max(g->u.get_dodge() - rng(0, z->type->melee_skill), 0L);
-    if (rng(0, 10000) < 10000 / (1 + (99 * exp(-.6 * dodge_check)))) {
+    if (dodge_check(z, target)) {
         target->add_msg_player_or_npc( _("You dodge it!"),
                                        _("<npcname> dodges it!") );
         if( foe != nullptr )  {
@@ -1547,8 +1549,7 @@ void mattack::fungus_fortify(monster *z, int index)
                 return;
             }
             // Can we dodge the attack? Uses player dodge function % chance (melee.cpp)
-            int dodge_check = std::max(g->u.get_dodge() - rng(0, z->type->melee_skill), 0L);
-            if (rng(0, 10000) < 10000 / (1 + (99 * exp(-.6 * dodge_check)))) {
+            if (dodge_check(z, target)) {
                 target->add_msg_player_or_npc( _("You dodge it!"),
                                                _("<npcname> dodges it!") );
                 g->u.practice( "dodge", z->type->melee_skill * 2 );
@@ -1666,8 +1667,7 @@ void mattack::dermatik(monster *z, int index)
         return; // No implanting monsters for now
     }
     // Can we dodge the attack? Uses player dodge function % chance (melee.cpp)
-    int dodge_check = std::max(g->u.get_dodge() - rng(0, z->type->melee_skill), 0L);
-    if (rng(0, 10000) < 10000 / (1 + (99 * exp(-.6 * dodge_check)))) {
+    if (dodge_check(z, target)) {
         if( target == &g->u ) {
             add_msg(_("The %s tries to land on you, but you dodge."), z->name().c_str());
         }
@@ -1993,19 +1993,18 @@ void mattack::tentacle(monster *z, int index)
     z->moves -= 100;
     z->reset_special(index); // Reset timer
 
-    std::vector<point> line = line_to( z->pos(), g->u.pos(), t );
+    std::vector<tripoint> line = line_to( z->pos3(), g->u.pos3(), t, 0 );
     std::set<std::string> no_effects;
     for (auto &i : line) {
         int tmpdam = 20;
-        g->m.shoot(i.x, i.y, tmpdam, true, no_effects);
+        g->m.shoot( i, tmpdam, true, no_effects );
     }
 
     if (g->u.uncanny_dodge()) {
         return;
     }
     // Can we dodge the attack? Uses player dodge function % chance (melee.cpp)
-    int dodge_check = std::max(g->u.get_dodge() - rng(0, z->type->melee_skill), 0L);
-    if (rng(0, 10000) < 10000 / (1 + (99 * exp(-.6 * dodge_check)))) {
+    if (dodge_check(z, target)) {
         target->add_msg_player_or_npc( _("You dodge it!"),
                                        _("<npcname> dodges it!") );
         g->u.practice( "dodge", z->type->melee_skill * 2 );
@@ -2038,7 +2037,7 @@ void mattack::vortex(monster *z, int index)
             if (x == z->posx() && y == z->posy()) { // Don't throw us!
                 y++;
             }
-            g->m.bash( x, y, 14 );
+            g->m.bash( tripoint( x, y, z->posz() ), 14 );
         }
     }
     std::set<std::string> no_effects;
@@ -2048,26 +2047,27 @@ void mattack::vortex(monster *z, int index)
             if (x == z->posx() && y == z->posy()) { // Don't throw us!
                 y++;
             }
-            std::vector<point> from_monster = line_to(z->posx(), z->posy(), x, y, 0);
+            // TODO: Z
+            std::vector<tripoint> from_monster = line_to( z->pos3(), tripoint( x, y, z->posz() ), 0, 0 );
             while (!g->m.i_at(x, y).empty()) {
                 item thrown = g->m.i_at(x, y)[index];
                 g->m.i_rem(x, y, 0);
                 int distance = 5 - (thrown.weight() / 1700);
                 if (distance > 0) {
                     int dam = (thrown.weight() / 113) / double(3 + double(thrown.volume() / 6));
-                    std::vector<point> traj = continue_line(from_monster, distance);
+                    std::vector<tripoint> traj = continue_line( from_monster, distance );
                     for (size_t i = 0; i < traj.size() && dam > 0; i++) {
-                        g->m.shoot(traj[i].x, traj[i].y, dam, false, no_effects);
-                        int mondex = g->mon_at(traj[i].x, traj[i].y);
+                        g->m.shoot( traj[i], dam, false, no_effects );
+                        int mondex = g->mon_at( traj[i] );
                         if (mondex != -1) {
                             g->zombie( mondex ).apply_damage( z, random_body_part(), dam );
                             g->zombie( mondex ).check_dead_state();
                             dam = 0;
                         }
-                        if (g->m.move_cost(traj[i].x, traj[i].y) == 0) {
+                        if (g->m.move_cost( traj[i] ) == 0) {
                             dam = 0;
                             i--;
-                        } else if (traj[i].x == g->u.posx() && traj[i].y == g->u.posy()) {
+                        } else if( traj[i] == g->u.pos3() ) {
                             if (! g->u.uncanny_dodge()) {
                                 body_part hit = random_body_part();
                                 //~ 1$s is item name, 2$s is bodypart in accusative, 3$d is damage value.
@@ -2128,7 +2128,7 @@ void mattack::vortex(monster *z, int index)
                     if (g->u.sees(*thrown)) {
                         add_msg(_("The %s is thrown by winds!"), thrown->name().c_str());
                     }
-                    std::vector<point> traj = continue_line(from_monster, distance);
+                    std::vector<tripoint> traj = continue_line(from_monster, distance);
                     bool hit_wall = false;
                     for (size_t i = 0; i < traj.size() && !hit_wall; i++) {
                         int monhit = g->mon_at(traj[i].x, traj[i].y);
@@ -2145,7 +2145,7 @@ void mattack::vortex(monster *z, int index)
                             thrown->setpos(traj[i - 1]);
                         }
                         int damage_copy = damage;
-                        g->m.shoot(traj[i].x, traj[i].y, damage_copy, false, no_effects);
+                        g->m.shoot( traj[i], damage_copy, false, no_effects );
                         if (damage_copy < damage) {
                             thrown->apply_damage( nullptr, bp_torso, damage - damage_copy );
                         }
@@ -2172,7 +2172,7 @@ void mattack::vortex(monster *z, int index)
                     immune = true;
                 }
                 if (!g->u.uncanny_dodge() && !immune) {
-                    std::vector<point> traj = continue_line(from_monster, rng(2, 3));
+                    std::vector<tripoint> traj = continue_line(from_monster, rng(2, 3));
                     add_msg(m_bad, _("You're thrown by winds!"));
                     bool hit_wall = false;
                     int damage = rng(5, 10);
@@ -2195,7 +2195,7 @@ void mattack::vortex(monster *z, int index)
                             g->u.sety( traj[i - 1].y );
                         }
                         int damage_copy = damage;
-                        g->m.shoot(traj[i].x, traj[i].y, damage_copy, false, no_effects);
+                        g->m.shoot( traj[i], damage_copy, false, no_effects);
                         if (damage_copy < damage) {
                             g->u.deal_damage( z, bp_torso, damage_instance( DT_BASH, damage - damage_copy ) );
                             g->u.check_dead_state();
@@ -2275,14 +2275,13 @@ void mattack::stare(monster *z, int index)
         g->u.add_effect("teleglow", 800);
     } else {
         add_msg(m_bad, _("A piercing beam of light bursts forth!"));
-        std::vector<point> sight = line_to( z->pos(), g->u.pos(), 0 );
+        std::vector<tripoint> sight = line_to( z->pos3(), g->u.pos3(), 0, 0 );
         for (auto &i : sight) {
-            if (g->m.ter(i.x, i.y) == t_reinforced_glass_h ||
-                g->m.ter(i.x, i.y) == t_reinforced_glass_v) {
+            if( g->m.ter( i ) == t_reinforced_glass ) {
                 break;
-            } else if (g->m.is_bashable(i.x, i.y)) {
+            } else if( g->m.is_bashable( i ) ) {
                 //Destroy it
-                g->m.bash(i.x, i.y, 999, false, true);
+                g->m.bash( i, 999, false, true );
             }
         }
     }
@@ -2460,18 +2459,17 @@ void mattack::taze( monster *z, Creature *target )
 {
     z->moves -= 200;   // It takes a while
     player *foe = dynamic_cast< player* >( target );
-    if( foe != nullptr && foe->uncanny_dodge()) {
+    if( target == nullptr || target->uncanny_dodge() ) {
         return;
     }
-    if( foe != nullptr ) {
-        if( foe->has_artifact_with(AEP_RESIST_ELECTRICITY) || foe->has_active_bionic("bio_faraday") ||
-            foe->worn_with_flag("ELECTRIC_IMMUNE")) { //Resistances applied.
-            foe->add_msg_player_or_npc( m_info, _("The %s unsuccessfully attempts to shock you."),
-                                                _("The %s unsuccessfully attempts to shock <npcname>."),
-                                                z->name().c_str() );
-            return;
-        }
 
+    if( target->is_elec_immune() ) {
+        target->add_msg_player_or_npc( _("The %s unsuccessfully attempts to shock you."),
+                                       _("The %s unsuccessfully attempts to shock <npcname>."),
+                                       z->name().c_str() );
+    }
+
+    if( foe != nullptr ) {
         int shock = rng(1, 5);
         foe->apply_damage( z, bp_torso, shock * rng( 1, 3 ) );
         foe->moves -= shock * 20;
@@ -3120,11 +3118,12 @@ void mattack::flame( monster *z, Creature *target )
         // shouldn't happen
         debugmsg( "mattack::flame invoked on invisible target" );
       }
-      std::vector<point> traj = line_to( z->pos(), target->pos(), bres );
+      std::vector<tripoint> traj = line_to( z->pos3(), target->pos3(), bres, 0 );
 
       for (auto &i : traj) {
           // break out of attack if flame hits a wall
-          if (g->m.hit_with_fire(i.x, i.y)) {
+          // TODO: Z
+          if (g->m.hit_with_fire( tripoint( i.x, i.y, z->posz() ) )) {
               if (g->u.sees( i ))
                   add_msg(_("The tongue of flame hits the %s!"),
                           g->m.tername(i.x, i.y).c_str());
@@ -3142,11 +3141,11 @@ void mattack::flame( monster *z, Creature *target )
         // shouldn't happen
         debugmsg( "mattack::flame invoked on invisible target" );
     }
-    std::vector<point> traj = line_to( z->pos(), target->pos(), bres );
+    std::vector<tripoint> traj = line_to( z->pos3(), target->pos3(), bres, 0 );
 
     for (auto &i : traj) {
         // break out of attack if flame hits a wall
-        if (g->m.hit_with_fire(i.x, i.y)) {
+        if (g->m.hit_with_fire( tripoint( i.x, i.y, z->posz() ) )) {
             if (g->u.sees( i ))
                 add_msg(_("The tongue of flame hits the %s!"),
                         g->m.tername(i.x, i.y).c_str());
@@ -3503,8 +3502,7 @@ void mattack::bite(monster *z, int index)
     z->moves -= 100;
     bool uncanny = foe != nullptr && foe->uncanny_dodge();
     // Can we dodge the attack? Uses player dodge function % chance (melee.cpp)
-    int dodge_check = std::max( target->get_dodge() - rng( 0, z->type->melee_skill ), 0L );
-    if( uncanny || ( rng(0, 10000) < 10000 / (1 + (99 * exp(-.6 * dodge_check) ) ) ) ) {
+    if( uncanny || dodge_check(z, target) ){
         if( foe != nullptr ) {
             if( seen ) {
                 auto msg_type = foe == &g->u ? m_warning : m_info;
@@ -3594,8 +3592,7 @@ void mattack::stretch_bite(monster *z, int index)
     }
     bool uncanny = foe != nullptr && foe->uncanny_dodge();
     // Can we dodge the attack? Uses player dodge function % chance (melee.cpp)
-    int dodge_check = std::max( target->get_dodge() - rng( 0, z->type->melee_skill ), 0L );
-    if( uncanny || ( rng(0, 10000) < 10000 / (1 + (99 * exp(-.6 * dodge_check) ) ) ) ) {
+    if( uncanny || dodge_check(z, target) ) {
         z->moves -=150;
         z->add_effect("stunned", 3);
         if( foe != nullptr ) {
@@ -3700,8 +3697,7 @@ void mattack::flesh_golem(monster *z, int index)
     }
 
     // Can we dodge the attack? Uses player dodge function % chance (melee.cpp)
-    int dodge_check = std::max( target->get_dodge() - rng(0, z->type->melee_skill), 0L);
-    if (rng(0, 10000) < 10000 / (1 + (99 * exp(-.6 * dodge_check)))) {
+    if (dodge_check(z, target)) {
         target->add_msg_player_or_npc( _("You dodge it!"),
                                        _("<npcname> dodges it!") );
         if( foe != nullptr ) {
@@ -3767,8 +3763,7 @@ void mattack::lunge(monster *z, int index)
     }
 
     // Can we dodge the attack? Uses player dodge function % chance (melee.cpp)
-    int dodge_check = std::max( target->get_dodge() - rng(0, z->type->melee_skill), 0L);
-    if (rng(0, 10000) < 10000 / (1 + (99 * exp(-.6 * dodge_check)))) {
+    if (dodge_check(z, target)) {
         target->add_msg_player_or_npc( _("You sidestep it!"),
                                        _("<npcname> sidesteps it!") );
         if( foe != nullptr ) {
@@ -3799,6 +3794,7 @@ void mattack::longswipe(monster *z, int index)
     if( z->friendly ) {
         return; // TODO: handle friendly monsters
     }
+    Creature *target = z->attack_target();
     if (rl_dist( z->pos(), g->u.pos() ) > 1) {
         if (one_in(5)) {
             if (rl_dist( z->pos(), g->u.pos() ) > 3 ||
@@ -3813,8 +3809,7 @@ void mattack::longswipe(monster *z, int index)
                 return;
             }
             // Can we dodge the attack? Uses player dodge function % chance (melee.cpp)
-            int dodge_check = std::max(g->u.get_dodge() - rng(0, z->type->melee_skill), 0L);
-            if (rng(0, 10000) < 10000 / (1 + (99 * exp(-.6 * dodge_check)))) {
+            if (dodge_check(z, target)) {
                 add_msg(_("You evade it!"));
                 g->u.practice( "dodge", z->type->melee_skill * 2 );
                 g->u.ma_ondodge_effects();
@@ -3839,8 +3834,7 @@ void mattack::longswipe(monster *z, int index)
     }
 
     // Can we dodge the attack? Uses player dodge function % chance (melee.cpp)
-    int dodge_check = std::max(g->u.get_dodge() - rng(0, z->type->melee_skill), 0L);
-    if (rng(0, 10000) < 10000 / (1 + (99 * exp(-.6 * dodge_check)))) {
+    if (dodge_check(z, target)) {
         add_msg(_("You duck!"));
         g->u.practice( "dodge", z->type->melee_skill * 2 );
         g->u.ma_ondodge_effects();
@@ -3993,10 +3987,7 @@ bool mattack::thrown_by_judo(monster *z, int index)
             foe->add_msg_if_player( m_good, _("but you grab its arm and flip it to the ground!") );
 
             // most of the time, when not isolated
-            if ( !one_in(4) && !foe->has_active_bionic("bio_faraday") &&
-                 !foe->worn_with_flag("ELECTRIC_IMMUNE") &&
-                 !foe->has_artifact_with(AEP_RESIST_ELECTRICITY) &&
-                 (z->type->sp_defense == &mdefense::zapback || z->has_flag(MF_ELECTRIC) ) ) {
+            if ( !one_in(4) && !target->is_elec_immune() ) {
                 // If it all pans out, we're zap the player's arm as he flips the monster.
                 foe->add_msg_if_player(_("The flip does shock you..."));
                 // Discounted electric damage for quick flip
@@ -4241,8 +4232,7 @@ void mattack::bio_op_takedown(monster *z, int index)
     }
 
     // Can we dodge the attack? Uses player dodge function % chance (melee.cpp)
-    int dodge_check = std::max( target->get_dodge() - rng(0, z->type->melee_skill ), 0L );
-    if (rng(0, 10000) < 10000 / (1 + (99 * exp(-.6 * dodge_check)))) {
+    if (dodge_check(z, target)) {
         target->add_msg_player_or_npc( _("You dodge it!"),
                                        _("<npcname> dodges it!") );
         if( foe != nullptr ) {
@@ -4354,8 +4344,7 @@ void mattack::stretch_attack(monster *z, int index){
             add_msg( _("The %s thrusts its arm at %s."),
                         z->name().c_str(), target->disp_name().c_str());
         }
-        int dodge_check = std::max(g->u.get_dodge() - rng(0, z->type->melee_skill), 0L);
-        if (rng(0, 10000) < 10000 / (1 + (99 * exp(-.6 * dodge_check))) || g->u.uncanny_dodge()) {
+        if (dodge_check(z, target) || g->u.uncanny_dodge()) {
             if ( foe != nullptr) {
                 auto msg_type = foe == &g->u ? m_warning : m_info;
                 foe->add_msg_player_or_npc(msg_type, _("You evade the stretched arm and it sails past you!"),
@@ -4399,4 +4388,12 @@ void mattack::stretch_attack(monster *z, int index){
         }
     }
     target->check_dead_state();
+}
+
+bool mattack::dodge_check(monster *z, Creature *target){
+    int dodge = std::max( target->get_dodge() - rng(0, z->type->melee_skill), 0L );
+    if (rng(0, 10000) < 10000 / (1 + (99 * exp(-.6 * dodge)))) {
+        return true;
+    }
+    return false;
 }

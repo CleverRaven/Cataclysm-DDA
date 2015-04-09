@@ -1,123 +1,107 @@
-# WARNING: Only linux is currently supported by this cmake build file.
-
-# This file is used to build cataclysm with CMake.
+# TODO:
 #
-# To use it, install cmake, then:
-#
-# cd cataclysm
-# mkdir build
-# cd build
-# cmake -G "Unix Makefiles" -DLOCALIZE=ON -DSDL=OFF ..
-# make
-#
-# This will build and install cataclysm into the build directory.
-#
-# "Unix Makefiles" is a generator, you can get a list of supported generators
-# on your system by running "cmake" without any arguments.
-#
-# -DOPTION_NAME=ON/OFF enables/disables OPTION_NAME
+# Move binary after compilation
+# Support for special builds (json checking, tests, other stuff)
 
-CMAKE_MINIMUM_REQUIRED(VERSION 2.8.8)
-
-PROJECT(CataclysmDDA)
-
-OPTION(LOCALIZE "Toggle gettext localization/translation." ON)
-OPTION(SDL "Use SDL curses emulation instead of terminal support. Also enables tiles support." OFF)
-OPTION(SOUND "Use SDL mixer to play music and sounds." ON)
-OPTION(LUA "Enable lua scripting support." ON)
-OPTION(LUA_BINARY "Select the lua binary to execute lua scripts with." "lua")
-
-# Note: The CMake documentation says it's better to list the actual source
-#       files here, as otherwise cmake won't know to rerun when a new file
-#       is added. However, currently the Makefile also just scans for source
-#       files, so this approach should be "good enough".
-FILE(GLOB CataclysmDDA_SRCS src/*.cpp)
-FILE(GLOB CataclysmDDA_HDRS src/*.h)
-
-ADD_EXECUTABLE(cataclysm ${CataclysmDDA_SRCS} ${CataclysmDDA_HDRS})
-
-# Custom command that will be executed whenever the "cataclysm" target is built.
-# Copy all the relevant game data into the build directory.
-ADD_CUSTOM_COMMAND(
-    TARGET cataclysm PRE_BUILD
-    COMMAND ${CMAKE_COMMAND} -E copy_directory ${CMAKE_SOURCE_DIR}/data $<TARGET_FILE_DIR:cataclysm>/data
-    COMMAND ${CMAKE_COMMAND} -E copy ${CMAKE_SOURCE_DIR}/LICENSE.txt $<TARGET_FILE_DIR:cataclysm> # Don't forget the license :)
+cmake_minimum_required(VERSION 2.8)
+project(CataclysmDDA)
+set(CMAKE_MODULE_PATH
+    ${CMAKE_MODULE_PATH}
+    ${CMAKE_SOURCE_DIR}/cmake
 )
 
-# We're using c++11 now
-add_definitions("-std=c++11")
+# Build options
+option(LUA      "Lua support (required for some mods)"  OFF)
+option(TILES    "Support for graphical tilesets"        OFF)
+option(SOUND    "Support for in-game sounds & music"    OFF)
 
-IF(MINGW)
-    add_definitions("-D_WINDOWS -D_MINGW -D_WIN32 -DWIN32 -D__MINGW__")
-ENDIF()
+# Disable internationalization on Windows and OS X as it is not supported
+# without external libraries
+if (WIN32 OR APPLE)
+    option(LOCALIZE "Support for language localizations" OFF)
+else()
+    option(LOCALIZE "Support for language localizations" ON)
+endif()
 
-IF(LOCALIZE)
+# Build settings
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
+set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -g -Wall -Wextra")
+set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} -Wall -Wextra -Werror -Os -DRELEASE")
+
+# Force out-of-source build
+if(${CMAKE_SOURCE_DIR} STREQUAL ${CMAKE_BINARY_DIR})
+  message(FATAL_ERROR
+    "This project requires an out of source build. Remove the file 'CMakeCache.txt' found in this directory before continuing, create a separate build directory and run 'cmake [options] <srcs>' from there."
+  )
+endif()
+
+if(TILES)
+    # Find SDL, SDL_ttf & SDL_image for graphical install
+    find_package(SDL2)
+    if(NOT SDL2_FOUND)
+        message(FATAL_ERROR
+            "This project requires SDL2 to be installed to be compiled in graphical mode. Please install the SDL2 development libraries, or try compiling without the -DTILES=1 for a text only compilation."
+        )
+    endif()
+
+    find_package(SDL2_ttf)
+    if(NOT SDL2_TTF_FOUND)
+        message(FATAL_ERROR
+            "This project requires SDL2_ttf to be installed to be compiled in graphical mode. Please install the SDL2_ttf development libraries, or try compiling without the -DTILES=1 for a text only compilation."
+        )
+    endif()
+
+    find_package(SDL2_image)
+    if(NOT SDL2_IMAGE_FOUND)
+        message(FATAL_ERROR
+            "This project requires SDL2_image to be installed to be compiled in graphical mode. Please install the SDL2_image development libraries, or try compiling without the -DTILES=1 for a text only compilation."
+        )
+    endif()
+
+    add_definitions(-DTILES -DSDLTILES)
+else()
+    # Find the ncurses library for a text based compile
+    set(CURSES_NEED_NCURSES TRUE)
+    find_package(Curses)
+    if(NOT CURSES_FOUND)
+        message(FATAL_ERROR
+            "This project requires ncurses to be installed to be compiled in text only mode. Please install the ncurses development libraries, or try compiling with the -DTILES=1 for a graphical compilation."
+        )
+    endif()
+endif()
+
+if(SOUND)
+    # You need TILES to be able to use SOUND
+    if(NOT TILES)
+        message(FATAL_ERROR
+            "You must enable graphical support with -DTILES=1 to be able to enable sound support."
+        )
+    endif()
+
+    # Sound requires SDL_mixer library
+    find_package(SDL2_mixer)
+    if(NOT SDL2_MIXER_FOUND)
+        message(FATAL_ERROR
+            "You need the SDL2_mixer development library to be able to compile with sound enabled."
+        )
+    endif()
+
+    add_definitions(-DSDL_SOUND)
+endif()
+
+if(LUA)
+    find_package(Lua)
+    if(NOT LUA_FOUND)
+        message(FATAL_ERROR
+            "You need the Lua development library to be able to compile with Lua support."
+        )
+    endif()
+
+    add_definitions(-DLUA)
+endif()
+
+if(LOCALIZE)
     add_definitions(-DLOCALIZE)
-    #TARGET_LINK_LIBRARIES(cataclysm
-    #    intl
-    #)
-ENDIF()
+endif()
 
-# TODO: windows rc stuff
-
-IF(MSVC OR MINGW)
-    add_definitions(-Wl,-stack,12000000,-subsystem,windows)
-ENDIF()
-
-Include(FindPkgConfig)
-IF(LUA)
-    # Generate lua bindings
-    #ADD_CUSTOM_COMMAND(OUTPUT ${CMAKE_BINARY_DIR}/lua/catabindings.cpp
-	#WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}/src/lua
-        #COMMAND ${LUA_BINARY} generate_bindings.lua ${CMAKE_BINARY_DIR}/lua/catabindings.cpp
-        #DEPENDS ${CMAKE_SOURCE_DIR}/lua/generate_bindings.lua
-        #DEPENDS ${CMAKE_SOURCE_DIR}/lua/class_definitions.lua
-    #)
-
-    ADD_DEFINITIONS(-DLUA)
-    # The CMake Lua51 package on linux is BROKEN, it yields lua52
-    # Use pkg_config first, and only if that fails, use find_package
-    PKG_SEARCH_MODULE(Lua51 REQUIRED lua5.1)
-    if(NOT LUA51_FOUND)
-	find_package(Lua51 REQUIRED)
-    endif()
-
-    if(LUA51_FOUND)
-        ADD_DEFINITIONS(-I${LUA51_INCLUDE_DIRS})
-        target_link_libraries(cataclysm ${LUA51_LIBRARIES})
-    endif()
-ENDIF()
-
-IF(SDL)
-    # Look for SDL2 using pkgconfig
-    PKG_SEARCH_MODULE(SDL2 REQUIRED sdl2)
-
-    # Hardcode these for now since they don't seem to be included in pkg-config
-    # CMake is bound to get SDL2 finders eventually.
-    #PKG_SEARCH_MODULE(SDL2_TTF REQUIRED sdl2_ttf)
-    #PKG_SEARCH_MODULE(SDL2_IMAGE REQUIRED sdl2_image)
-    SET(SDL2_TTF_LIBRARIES -lSDL2_ttf)
-    SET(SDL2_IMAGE_LIBRARIES -lSDL2_image)
-
-    TARGET_LINK_LIBRARIES(cataclysm ${SDL2_LIBRARIES} ${SDL2_TTF_LIBRARIES} ${SDL2_IMAGE_LIBRARIES})
-    include_directories(${SDL2_INCLUDE_DIRS})
-
-    # Install GFX directory
-    ADD_CUSTOM_COMMAND(
-        TARGET cataclysm PRE_BUILD
-        COMMAND ${CMAKE_COMMAND} -E copy_directory ${CMAKE_SOURCE_DIR}/gfx $<TARGET_FILE_DIR:cataclysm>/gfx
-    )
-
-    ADD_DEFINITIONS(-DSDLTILES -DTILES)
-
-    IF(SOUND)
-        SET(SDL2_MIXER_LIBRARIES -lSDL2_mixer)
-        TARGET_LINK_LIBRARIES(cataclysm ${SDL2_MIXER_LIBRARIES})
-    ADD_DEFINITIONS(-DSDL_SOUND)
-    ENDIF()
-ELSEIF(MSVC OR MINGW)
-    # On windows our default isn't curses, but rather GDI
-    TARGET_LINK_LIBRARIES(cataclysm gdi32 intl iconv winmm)
-ELSE()
-    TARGET_LINK_LIBRARIES(cataclysm curses)
-ENDIF()
+add_subdirectory(src)

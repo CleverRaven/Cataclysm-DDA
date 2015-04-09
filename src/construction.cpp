@@ -646,7 +646,7 @@ void place_construction(const std::string &desc)
     }
 
     construction *con = valid[choice];
-    g->u.assign_activity(ACT_BUILD, con->time, con->id);
+    g->u.assign_activity(ACT_BUILD, con->adjusted_time(), con->id);
     g->u.activity.placement = choice;
 }
 
@@ -657,6 +657,23 @@ void complete_construction()
 
     u.practice( built.skill, std::max(built.difficulty, 1) * 10,
                    (int)(built.difficulty * 1.25) );
+                   
+
+    // Friendly NPCs gain exp from assisting or watching...
+    for( auto &elem : g->active_npc ) {
+        if (rl_dist( elem->pos(), u.pos() ) < PICKUP_RANGE && elem->is_friend()){
+            //If the NPC can understand what you are doing, they gain more exp
+            if (elem->skillLevel(built.skill) >= built.difficulty){
+                elem->practice( built.skill, std::max(built.difficulty, 1) * 10, (int)(built.difficulty * 1.25));
+                add_msg(m_info, _("%s assists you with the work..."), elem->name.c_str());
+            //NPC near you isn't skilled enough to help
+            } else {
+                elem->practice( built.skill, std::max(built.difficulty, 1) * 10, (int)(built.difficulty * 1.25));
+                add_msg(m_info, _("%s watches you work..."), elem->name.c_str());
+            }
+        }
+    }
+                   
     for (const auto &it : built.requirements.components) {
         // Tried issuing rope for WEB_ROPE here.  Didn't arrive in time for the
         // gear check.  Ultimately just coded a bypass in crafting.cpp.
@@ -744,7 +761,7 @@ void construct::done_tree(point p)
     y = p.y + y * 3 + rng(-1, 1);
     std::vector<point> tree = line_to(p.x, p.y, x, y, rng(1, 8));
     for( auto &elem : tree ) {
-        g->m.destroy( elem.x, elem.y );
+        g->m.destroy( tripoint( elem.x, elem.y, g->get_levz() ) );
         g->m.ter_set( elem.x, elem.y, t_trunk );
     }
 }
@@ -799,6 +816,8 @@ void construct::done_vehicle(point p)
 
 void construct::done_deconstruct(point p)
 {
+    // TODO: Make this the argument
+    tripoint p3( p, g->get_levz() );
     if (g->m.has_furn(p.x, p.y)) {
         furn_t &f = g->m.furn_at(p.x, p.y);
         if (!f.deconstruct.can_do) {
@@ -811,13 +830,13 @@ void construct::done_deconstruct(point p)
             g->m.furn_set(p.x, p.y, f.deconstruct.furn_set);
         }
         add_msg(_("You disassemble the %s."), f.name.c_str());
-        g->m.spawn_item_list(f.deconstruct.items, p.x, p.y);
+        g->m.spawn_item_list( f.deconstruct.items, p3 );
         // Hack alert.
         // Signs have cosmetics associated with them on the submap since
         // furniture can't store dynamic data to disk. To prevent writing
         // mysteriously appearing for a sign later built here, remove the
         // writing from the submap.
-        g->m.delete_signage(p.x, p.y);
+        g->m.delete_signage( p3 );
     } else {
         ter_t &t = g->m.ter_at(p.x, p.y);
         if (!t.deconstruct.can_do) {
@@ -836,7 +855,7 @@ void construct::done_deconstruct(point p)
         }
         g->m.ter_set(p.x, p.y, t.deconstruct.ter_set);
         add_msg(_("You disassemble the %s."), t.name.c_str());
-        g->m.spawn_item_list(t.deconstruct.items, p.x, p.y);
+        g->m.spawn_item_list( t.deconstruct.items, p3 );
     }
 }
 
@@ -1521,9 +1540,26 @@ int construction::print_time(WINDOW *w, int ypos, int xpos, int width,
     return fold_and_print( w, ypos, xpos, width, col, text );
 }
 
+int construction::adjusted_time() const
+{
+    int basic = time;
+    int assistants = 0;
+    for( auto &elem : g->active_npc ) {
+        if (rl_dist( elem->pos(), g->u.pos() ) < PICKUP_RANGE && elem->is_friend()){
+            if (elem->skillLevel(skill) >= difficulty)
+                assistants++;
+        }
+    }
+    for( int i = 0; i < assistants; i++ )
+        basic = basic * .75;
+    if (basic <= time * .4)
+        basic = time * .4;
+    return basic;
+}
+
 std::string construction::get_time_string() const
 {
-    const int turns = time / 100;
+    const int turns = adjusted_time() / 100;
     std::string text;
     if( turns < MINUTES( 1 ) ) {
         const int seconds = std::max( 1, turns * 6 );

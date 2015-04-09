@@ -789,7 +789,7 @@ bool map::process_fields_in_submap( submap *const current_submap,
                                                  cur->getFieldDensity() * 40);
                                 smoke += 15;
                                 if (cur->getFieldDensity() == 3) {
-                                    destroy(x, y, true);
+                                    destroy( tripoint( x, y, abs_sub.z ), true);
                                 }
 
                             } else if (has_flag("FLAMMABLE_ASH", x, y) &&
@@ -810,7 +810,7 @@ bool map::process_fields_in_submap( submap *const current_submap,
                                                  cur->getFieldDensity() * 30);
                                 smoke += 10;
                                 if (cur->getFieldDensity() == 3 || cur->getFieldAge() < -600) {
-                                    destroy(x, y, true);
+                                    destroy( tripoint( x, y, abs_sub.z ), true);
                                 }
 
                             } else if (terlist[ter(x, y)].has_flag("SWIMMABLE")) {
@@ -920,7 +920,8 @@ bool map::process_fields_in_submap( submap *const current_submap,
                                           ((cur->getFieldDensity() >= 2 && (has_flag("FLAMMABLE", fx, fy) && one_in(20))) ||
                                           (cur->getFieldDensity() >= 2  && (has_flag("FLAMMABLE_ASH", fx, fy) && one_in(10))) ||
                                           (cur->getFieldDensity() == 3  && (has_flag("FLAMMABLE_HARD", fx, fy) && one_in(10))) ||
-                                          flammable_items_at(fx, fy) || nearwebfld )) {
+                                          // TODO: Z
+                                          flammable_items_at( tripoint( fx, fy, abs_sub.z ) ) || nearwebfld )) {
                                         add_field(fx, fy, fd_fire, 1); //Nearby open flammable ground? Set it on fire.
                                         tmpfld = nearby_field.findField(fd_fire);
                                         if(tmpfld) {
@@ -1379,7 +1380,7 @@ bool map::process_fields_in_submap( submap *const current_submap,
 
                     //Legacy Stuff
                     case fd_rubble:
-                        make_rubble(x, y);
+                        make_rubble( tripoint( x, y, abs_sub.z ) );
                         break;
 
                     default:
@@ -1699,11 +1700,10 @@ void map::player_in_field( player &u )
             break;
 
         case fd_electricity:
-            if (u.has_artifact_with(AEP_RESIST_ELECTRICITY) || u.has_active_bionic("bio_faraday")) //Artifact or bionic stops electricity.
-                u.add_msg_if_player(_("The electricity flows around you."));
-            else if (u.worn_with_flag("ELECTRIC_IMMUNE")) //Artifact or bionic stops electricity.
-                u.add_msg_if_player(_("Your armor safely grounds the electrical discharge."));
-            else {
+            if ( u.is_elec_immune() ) {
+                u.add_msg_player_or_npc( _("The electric cloud doesn't affect you."),
+                                         _("The electric cloud doesn't seem to affect <npcname>.") );
+            } else {
                 u.add_msg_player_or_npc(m_bad, _("You're electrocuted!"), _("<npcname> is electrocuted!"));
                 //small universal damage based on density.
                 u.hurtall(rng(1, cur->getFieldDensity()), nullptr);
@@ -2014,9 +2014,11 @@ void map::monster_in_field( monster &z )
             break;
 
         case fd_electricity:
-            dam += rng(1, cur->getFieldDensity());
-            if (one_in(8 - cur->getFieldDensity())) {
-                z.moves -= cur->getFieldDensity() * 150;
+            if( !z.is_elec_immune() ) {
+                dam += rng(1, cur->getFieldDensity());
+                if (one_in(8 - cur->getFieldDensity())) {
+                    z.moves -= cur->getFieldDensity() * 150;
+                }
             }
             break;
 

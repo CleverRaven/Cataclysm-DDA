@@ -42,7 +42,7 @@ void weed_msg(player *p) {
             if(p->has_amount("money_bundle", 1)) { // Half Baked
                 p->add_msg_if_player(_("You ever see the back of a twenty dollar bill... on weed?"));
                 if(one_in(2)) {
-                    p->add_msg_if_player(_("Oh, there's some crazy shit, man. There's a dude in the bushes. Has he got a gun? I dunno!"));
+                    p->add_msg_if_player(_("Oh, there's some crazy shit, man.  There's a dude in the bushes.  Has he got a gun?  I dunno!"));
                     if(one_in(3)) {
                         p->add_msg_if_player(_("RED TEAM GO, RED TEAM GO!"));
                     }

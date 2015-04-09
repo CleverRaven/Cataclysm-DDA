@@ -1,4 +1,4 @@
-#include "item_factory.h"
+﻿#include "item_factory.h"
 #include "enums.h"
 #include "json.h"
 #include "addiction.h"
@@ -266,6 +266,7 @@ void Item_factory::init()
     iuse_function_list["HACKSAW"] = &iuse::hacksaw;
     iuse_function_list["PORTABLE_STRUCTURE"] = &iuse::portable_structure;
     iuse_function_list["TORCH_LIT"] = &iuse::torch_lit;
+    iuse_function_list["TINDERBOX_LIT"] = &iuse::tinderbox_lit;
     iuse_function_list["BATTLETORCH_LIT"] = &iuse::battletorch_lit;
     iuse_function_list["BULLET_PULLER"] = &iuse::bullet_puller;
     iuse_function_list["BOLTCUTTERS"] = &iuse::boltcutters;
@@ -293,6 +294,7 @@ void Item_factory::init()
     iuse_function_list["OXYGEN_BOTTLE"] = &iuse::oxygen_bottle;
     iuse_function_list["ATOMIC_BATTERY"] = &iuse::atomic_battery;
     iuse_function_list["UPS_BATTERY"] = &iuse::ups_battery;
+    iuse_function_list["RADIO_MOD"] = &iuse::radio_mod;
     iuse_function_list["FISH_ROD"] = &iuse::fishing_rod;
     iuse_function_list["FISH_TRAP"] = &iuse::fish_trap;
     iuse_function_list["GUN_REPAIR"] = &iuse::gun_repair;
@@ -465,7 +467,7 @@ void Item_factory::check_definitions() const
             }
         }
         if( type->bionic ) {
-            if( bionics.count( type->bionic->bionic_id ) == 0 ) {
+            if (!is_valid_bionic(type->bionic->bionic_id)) {
                 msg << string_format("there is no bionic with id %s", type->bionic->bionic_id.c_str()) << "\n";
             }
         }

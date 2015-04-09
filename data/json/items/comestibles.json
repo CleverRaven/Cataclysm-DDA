@@ -11093,6 +11093,7 @@
         "type" : "COMESTIBLE",
         "id" : "bacon",
         "name" : "bacon",
+        "name_plural" : "pieces of bacon",
         "weight" : 120,
         "color" : "pink",
         "addiction_type" : "none",
@@ -15478,7 +15479,7 @@
         "to_hit" : 0,
         "charges" : 1,
         "stack_size" : 40,
-		"weight" : 1
+        "weight" : 1
     },{
         "type" : "COMESTIBLE",
         "id" : "roasted_coffee_bean",
@@ -15500,7 +15501,7 @@
         "to_hit" : 0,
         "charges" : 1,
         "stack_size" : 40,
-		"weight" : 1
+        "weight" : 1
     },{
         "type" : "COMESTIBLE",
         "id" : "cherries",

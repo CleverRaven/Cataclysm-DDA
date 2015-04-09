@@ -351,7 +351,7 @@ struct islot_ammo : common_ranged_data {
      */
     std::set<std::string> ammo_effects;
 
-    islot_ammo() : casing {"NULL"} { }
+    islot_ammo() : casing ("NULL") { }
 };
 
 struct islot_variable_bigness {
@@ -406,7 +406,7 @@ struct islot_spawn {
     std::string default_container; // The container it comes in
     std::vector<long> rand_charges;
 
-    islot_spawn() : default_container {"null"} { }
+    islot_spawn() : default_container ("null") { }
 };
 
 struct itype {

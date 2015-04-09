@@ -177,15 +177,13 @@ typedef int nc_color;
 
 class clColors : public JsonSerializer, public JsonDeserializer {
     private:
-        void add_color(const std::string &sName, const nc_color iColorPair, const std::string &sInvert, const std::string &sNoBright = "");
+        void add_color(const std::string &sName, const nc_color iColorPair, const std::string &sInvert);
 
         struct stColors {
             nc_color color; // Default color
             std::string sCustom; // Custom color name
             std::string sInvert; // Invert
             std::string sInvertCustom; // Invert Custom
-            std::string sNoBright; // No Bright
-            std::string sNoBrightCustom; // No Bright Custom
         };
 
         std::unordered_map<std::string, stColors> mapColors;
@@ -203,7 +201,7 @@ class clColors : public JsonSerializer, public JsonDeserializer {
         nc_color get_random();
 
         void load_default();
-        void load_custom();
+        void load_custom(const std::string &sPath = "");
 
         void show_gui();
 

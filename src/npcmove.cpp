@@ -1007,7 +1007,7 @@ bool npc::can_move_to(int x, int y) const
     return( rl_dist(posx(), posy(), x, y) <= 1 &&
               (g->m.move_cost(x, y) > 0 ||
                g->m.bash_rating(str_cur + weapon.type->melee_dam, x, y) > 0 ||
-               g->m.open_door( x, y, !g->m.is_outside( posx(), posy() ), true ) )
+               g->m.open_door( tripoint( x, y, posz() ), !g->m.is_outside( pos3() ), true ) )
            );
 }
 
@@ -1110,12 +1110,12 @@ void npc::move_to(int x, int y)
             }
             g->m.creature_on_trap( *this );
             g->m.creature_in_field( *this );
-        } else if (g->m.open_door(x, y, !g->m.is_outside( posx(), posy() ) ) ) {
+        } else if (g->m.open_door( tripoint( x, y, posz() ), !g->m.is_outside( pos3() ) ) ) {
             moves -= 100;
         } else if (g->m.is_bashable(x, y) && g->m.bash_rating(str_cur + weapon.type->melee_dam, x, y) > 0) {
             moves -= int(weapon.is_null() ? 80 : weapon.attack_time() * 0.8);;
             int smashskill = str_cur + weapon.type->melee_dam;
-            g->m.bash( x, y, smashskill );
+            g->m.bash( tripoint( x, y, posz() ), smashskill );
         } else {
             moves -= 100;
         }
@@ -1328,7 +1328,7 @@ void npc::find_item()
 
     for (int x = minx; x <= maxx; x++) {
         for (int y = miny; y <= maxy; y++) {
-            if (sees(x, y) && g->m.sees_some_items(x, y, *this)) {
+            if (sees(x, y) && g->m.sees_some_items( tripoint( x, y, posz() ), *this)) {
                 for( auto &elem : g->m.i_at(x, y) ) {
                     if( elem.made_of( LIQUID ) ) {
                         // Don't even consider liquids.
@@ -2258,7 +2258,7 @@ void npc::go_to_destination()
                     if ((g->m.move_cost(x + dx, y + dy) > 0 ||
                          //Needs 20% chance of bashing success to be considered for pathing
                          g->m.bash_rating(str_cur + weapon.type->melee_dam, x, y) >= 2 ||
-                         g->m.open_door(x + dx, y + dy, true, true) ) &&
+                         g->m.open_door( tripoint( x + dx, y + dy, posz() ), true, true) ) &&
                         sees( x + dx, y + dy )) {
                         path = g->m.route( posx(), posy(), x + dx, y + dy, str_cur + weapon.type->melee_dam );
                         if( !path.empty() && can_move_to( path[0].x, path[0].y ) ) {
