@@ -46,14 +46,14 @@ struct advanced_inv_listitem;
 struct advanced_inv_area {
     const aim_location id;
     // Used for the small overview 3x3 grid
-    const int hscreenx;
-    const int hscreeny;
+    const int hscreenx = 0;
+    const int hscreeny = 0;
     // relative (to the player) position of the map point
     tripoint off;
     /** Long name, displayed, translated */
-    const std::string name;
+    const std::string name = "fake";
     /** Shorter name (2 letters) */
-    const std::string shortname;
+    const std::string shortname = "FK"; // FK in my coffee
     // absolute position of the map point.
     tripoint pos;
     /** Can we put items there? Only checks if location is valid, not if
@@ -71,6 +71,7 @@ struct advanced_inv_area {
     // maximal count / volume of items there.
     int max_size, max_volume;
 
+    advanced_inv_area( aim_location id ) : id( id ) {}
     advanced_inv_area( aim_location id, int hscreenx, int hscreeny, tripoint off, std::string name, std::string shortname ) :
         id( id ), hscreenx( hscreenx ), hscreeny( hscreeny ), off( off ), name( name ), shortname( shortname ),
         pos(0, 0, 0), canputitemsloc( false ), veh( nullptr ), vstor( -1 ), desc( "" ), volume( 0 ), weight( 0 ), max_size( 0 ), max_volume( 0 )

@@ -35,7 +35,6 @@ advanced_inventory::advanced_inventory()
     // panes don't need initialization, they are recalculated immediately
     , squares ({ { //    y  x    x    y   z
         { AIM_INVENTORY, 2, 25, {0,   0,  0}, _( "Inventory" ),          _( "IN" ) },
-        { AIM_WORN,      3, 25, {0,   0,  0}, _( "Worn Items" ),         _( "WR" ) },
         { AIM_SOUTHWEST, 3, 30, {-1,  1,  0}, _( "South West" ),         _( "SW" ) },
         { AIM_SOUTH,     3, 33, {0,   1,  0}, _( "South" ),              _( "S" )  },
         { AIM_SOUTHEAST, 3, 36, {1,   1,  0}, _( "South East" ),         _( "SE" ) },
@@ -48,7 +47,8 @@ advanced_inventory::advanced_inventory()
         { AIM_ALL,       3, 22, {0,   0,  0}, _( "Surrounding area" ),   _( "AL" ) },
         { AIM_DRAGGED,   1, 25, {0,   0,  0}, _( "Grabbed Vehicle" ),    _( "GR" ) },
         { AIM_CONTAINER, 1, 22, {0,   0,  0}, _( "Container" ),          _( "CN" ) },
-        { AIM_VEHICLE,   2, 22, {0,   0,  0}, _( "Vehicle Storage" ),    _( "VH" ) }
+        { AIM_VEHICLE,   2, 22, {0,   0,  0}, _( "Vehicle Storage" ),    _( "VH" ) },
+        { AIM_WORN,      3, 25, {0,   0,  0}, _( "Worn Items" ),         _( "WR" ) }
     }
 })
 , head( nullptr )
@@ -856,27 +856,27 @@ void advanced_inventory_pane::add_items_from_area( advanced_inv_area &square )
             }
             square.desc = cont->tname( 1, false );
         }
-    } else if(area == AIM_ALL) {
-        // add both vehicle and map items to display dynamically (if applicable)
-        std::vector<itemslice> stacks;
-        // if the area has a vehicle storage area, grab those items too
-        if(square.can_store_in_vehicle()) {
-            stacks.push_back(i_stacked(square.veh->get_items(square.vstor)));
-        }
-        stacks.push_back(i_stacked(m.i_at(square.pos)));
-        for(auto &stack : stacks) {
-            for(size_t i = 0; i < stack.size(); ++i) {
-                advanced_inv_listitem it(stack[i].first, i, stack[i].second, square.id);
-                // also skip if including from vehicle storage, so as to not allow duplicates
-                if(is_filtered(it.it) || square.id == AIM_VEHICLE) {
-                    continue;
-                }
-                square.volume += it.volume;
-                square.weight += it.weight;
-                items.push_back(it);
-            }
-            stack.clear();
-        }
+//    } else if(area == AIM_ALL) {
+//        // add both vehicle and map items to display dynamically (if applicable)
+//        std::vector<itemslice> stacks;
+//        // if the area has a vehicle storage area, grab those items too
+//        stacks.push_back(i_stacked(m.i_at(square.pos)));
+//        if(square.can_store_in_vehicle()) {
+//            stacks.push_back(i_stacked(square.veh->get_items(square.vstor)));
+//        }
+//        for(auto &stack : stacks) {
+//            for(size_t i = 0; i < stack.size(); ++i) {
+//                advanced_inv_listitem it(stack[i].first, i, stack[i].second, square.id);
+//                // also skip if including from vehicle storage, so as to not allow duplicates
+//                if(is_filtered(it.it)) {
+//                    continue;
+//                }
+//                square.volume += it.volume;
+//                square.weight += it.weight;
+//                items.push_back(it);
+//            }
+//            stack.clear();
+//        }
     } else {
         const itemslice &stacks = (square.id == AIM_VEHICLE && square.can_store_in_vehicle()) ?
             i_stacked(square.veh->get_items(square.vstor)) :
@@ -951,6 +951,7 @@ void advanced_inventory::recalc_pane( side p )
     // Add items from the source location or in case of all 9 surrounding squares,
     // add items from several locations.
     if( pane.area == AIM_ALL ) {
+        // FIXME: shows direction contents in AIM_ALL if vehicle in other pane, or nothing if on ground
         auto &alls = squares[AIM_ALL];
         auto &other = squares[panes[-p + 1].area];
         alls.volume = 0;
@@ -965,14 +966,29 @@ void advanced_inventory::recalc_pane( side p )
                     s.id == AIM_WORN ) {
                 continue;
             }
+            // check if we have items to add from vehicle cargo _before_ checking whether
+            // the other pane is the same, that way we can get the vehicle items in. 
+            // it makes sure that if other pane is AIM_VEHICLE, that it is skipped if we 
+            // are in that cargo area.
+            if(s.can_store_in_vehicle()) { 
+                bool skip = (other.id == AIM_VEHICLE && squares[AIM_VEHICLE].is_same(s));
+                if(skip == false) {
+                    // use a fake to grab items from vehicle
+                    advanced_inv_area fake(AIM_VEHICLE);
+                    fake.set_vehicle(s);
+                    pane.add_items_from_area(fake);
+                    alls.volume += fake.volume;
+                    alls.weight += fake.weight;
+                }
+            }
             // to allow the user to transfer all items from all surrounding squares to
             // a specific square, filter out items that are already on that square.
             // e.g. left pane AIM_ALL, right pane AIM_NORTH. The user holds the
             // enter key down in the left square and moves all items to the other side.
-            if( other.is_same( s ) ) {
+            if(other.is_same(s) && other.id != AIM_VEHICLE) {
                 continue;
             }
-            pane.add_items_from_area( s );
+            pane.add_items_from_area(s);
             alls.volume += s.volume;
             alls.weight += s.weight;
         }
@@ -1326,6 +1342,9 @@ void advanced_inventory::display()
                     squares[changeSquare].set_container( nullptr );
                 } else if( changeSquare == AIM_VEHICLE ) {
                     okay = set_vehicle(spane.area);
+                    if(dpane.area == AIM_ALL) {
+                        dpane.recalc = true;
+                    }
                 }
                 if(okay == true) {
                     spane.area = changeSquare;
@@ -1341,6 +1360,9 @@ void advanced_inventory::display()
                     spane.area = changeSquare;
                     spane.index = 0;
                     spane.recalc = true;
+                    if(dpane.area == AIM_ALL) {
+                        dpane.recalc = true;
+                    }
                 }
                 redraw = true;
             } else {
@@ -1690,7 +1712,7 @@ bool advanced_inventory::query_destination( aim_location &def )
     }
 
     // Selected keyed to uimenu.entries, which starts at 0.
-    menu.selected = uistate.adv_inv_last_popup_dest - AIM_SOUTHWEST - AIM_WORN;
+    menu.selected = uistate.adv_inv_last_popup_dest - AIM_SOUTHWEST;
     menu.show(); // generate and show window.
     while( menu.ret == UIMENU_INVALID && menu.keypress != 'q' && menu.keypress != KEY_ESCAPE ) {
         // Render a fancy ascii grid at the left of the menu.
@@ -1700,14 +1722,9 @@ bool advanced_inventory::query_destination( aim_location &def )
     redraw = true; // the menu has messed the screen up.
     if( menu.ret >= AIM_SOUTHWEST && menu.ret <= AIM_NORTHEAST ) {
         assert(squares[menu.ret].canputitems());
-//        if( !squares[menu.ret].canputitems() ) {
-//            // TODO: should be an assert, the uimenu should not return disabled entries
-//            popup( _( "Invalid.  Like the menu said." ) );
-//        } else {
-            def = static_cast<aim_location>( menu.ret );
-            uistate.adv_inv_last_popup_dest = menu.ret;
-            return true;
-//        }
+        def = static_cast<aim_location>( menu.ret );
+        uistate.adv_inv_last_popup_dest = menu.ret;
+        return true;
     }
     return false;
 }
@@ -1907,15 +1924,20 @@ bool advanced_inv_area::is_same( const advanced_inv_area &other ) const
     if( id == other.id ) {
         return true;
     }
+//    // don't pass over things that share the same coords as AIM_VEHICLE
+//    if((id == AIM_VEHICLE && other.id != AIM_VEHICLE) || 
+//       (id != AIM_VEHICLE && other.id == AIM_VEHICLE)) {
+//        return false;
+//    }
     // Inventory and Container are compared by id only, the coordinates are not of concern there.
     // All other locations are compared by the coordinates, e.g. dragged vehicle
     // (to the south) and AIM_SOUTH are the same.
     if( id != AIM_INVENTORY && other.id != AIM_INVENTORY &&
         id != AIM_WORN      && other.id != AIM_WORN      && 
-        id != AIM_VEHICLE   && other.id != AIM_VEHICLE   &&
+//        id != AIM_VEHICLE   && other.id != AIM_VEHICLE   &&
         id != AIM_CONTAINER && other.id != AIM_CONTAINER ) {
 
-        if(pos == other.pos && veh == other.veh) {
+        if(pos == other.pos && veh == other.veh) { 
             return true;
         }
     }
