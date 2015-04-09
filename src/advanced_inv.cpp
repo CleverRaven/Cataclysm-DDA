@@ -1726,7 +1726,7 @@ void advanced_inventory::remove_item( advanced_inv_listitem &sitem )
         assert( !cont->contents.empty() );
         assert( &cont->contents.front() == sitem.it );
         cont->contents.erase( cont->contents.begin() );
-    } else if(sitem.area == AIM_VEHICLE) {
+    } else if(sitem.area == AIM_VEHICLE || sitem.area == AIM_DRAGGED) {
         if(s.can_store_in_vehicle()) {
             s.veh->remove_item( s.vstor, sitem.it );
         }
