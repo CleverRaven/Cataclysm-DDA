@@ -725,6 +725,7 @@ void set_ter_ids() {
     t_pavement_y_bg_dp = terfind("t_pavement_y_bg_dp");
     t_sidewalk_bg_dp = terfind("t_sidewalk_bg_dp");
     t_guardrail_bg_dp = terfind("t_guardrail_bg_dp");
+    t_improvised_shelter = terfind("t_improvised_shelter");
 }
 
 furn_id furnfind(const std::string & id) {
