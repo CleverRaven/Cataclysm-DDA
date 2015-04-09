@@ -108,6 +108,8 @@ void oldCastLight( bool (&output_cache)[MAPSIZE*SEEX][MAPSIZE*SEEY],
 
 int main(int argc, char *argv[])
 {
+    (void)argc;
+    (void)argv;
     plan( 1 );
 
     // Construct a rng that produces integers in a range selected to provide the probability
@@ -140,7 +142,7 @@ int main(int argc, char *argv[])
     struct timespec start1;
     struct timespec end1;
     clock_gettime( CLOCK_REALTIME, &start1 );
-#define PERFORMANCE_TEST_ITERATIONS 100000
+#define PERFORMANCE_TEST_ITERATIONS 10000000
     for( int i = 0; i < PERFORMANCE_TEST_ITERATIONS; i++ ) {
     // First the control algorithm.
     oldCastLight( seen_squares_control, transparency_cache, 0, 1, 1, 0, offsetX, offsetY, 0 );
@@ -157,7 +159,6 @@ int main(int argc, char *argv[])
     }
 
     clock_gettime( CLOCK_REALTIME, &end1 );
-    long count2 = 0;
     struct timespec start2;
     struct timespec end2;
     clock_gettime( CLOCK_REALTIME, &start2 );

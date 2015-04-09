@@ -66,6 +66,8 @@ void test_temperature_spread( player *p, int ambient_temps[], std::string clothi
 
 int main(int argc, char *argv[])
 {
+    (void)argc;
+    (void)argv;
  plan(29);
 
  player dummy;

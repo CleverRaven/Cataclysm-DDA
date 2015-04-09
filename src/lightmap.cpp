@@ -608,7 +608,7 @@ void map::castLight( bool (&output_cache)[MAPSIZE*SEEX][MAPSIZE*SEEY],
     for( int distance = row; distance <= radius; distance++ ) {
         delta.y = -distance;
         bool started_row = false;
-        float current_transparency;
+        float current_transparency = 0.0;
         for( delta.x = -distance; delta.x <= 0; delta.x++ ) {
             int currentX = offsetX + delta.x * xx + delta.y * xy;
             int currentY = offsetY + delta.x * yx + delta.y * yy;
