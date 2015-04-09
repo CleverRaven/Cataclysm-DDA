@@ -44,8 +44,8 @@ advanced_inventory::advanced_inventory()
         { AIM_NORTHWEST, 1, 30, {-1, -1,  0}, _( "North West" ),         _( "NW" ) },
         { AIM_NORTH,     1, 33, {0,  -1,  0}, _( "North" ),              _( "N" )  },
         { AIM_NORTHEAST, 1, 36, {1,  -1,  0}, _( "North East" ),         _( "NE" ) },
-        { AIM_ALL,       3, 22, {0,   0,  0}, _( "Surrounding area" ),   _( "AL" ) },
         { AIM_DRAGGED,   1, 25, {0,   0,  0}, _( "Grabbed Vehicle" ),    _( "GR" ) },
+        { AIM_ALL,       3, 22, {0,   0,  0}, _( "Surrounding area" ),   _( "AL" ) },
         { AIM_CONTAINER, 1, 22, {0,   0,  0}, _( "Container" ),          _( "CN" ) },
         { AIM_VEHICLE,   2, 22, {0,   0,  0}, _( "Vehicle Storage" ),    _( "VH" ) },
         { AIM_WORN,      3, 25, {0,   0,  0}, _( "Worn Items" ),         _( "WR" ) }
@@ -201,9 +201,9 @@ void advanced_inventory::print_items( advanced_inventory_pane &pane, bool active
             auto &s = squares[pane.area];
             if ( pane.area == AIM_CONTAINER && s.get_container() != nullptr ) {
                 maxvolume = s.get_container()->type->container->contains;
-            } else if(pane.area == AIM_VEHICLE) {
+            } else if(pane.area == AIM_VEHICLE || pane.area == AIM_DRAGGED) {
                 if(s.can_store_in_vehicle()) {
-                    maxvolume = s.veh->max_volume( s.vstor );
+                    maxvolume = s.veh->max_volume(s.vstor);
                 }
             } else {
                 maxvolume = g->m.max_volume(s.pos);
@@ -490,7 +490,7 @@ int advanced_inv_area::get_item_count() const
         return g->u.worn.size();
     } else if( id == AIM_ALL ) {
         return 0;
-    } else if(id == AIM_VEHICLE) {
+    } else if(id == AIM_VEHICLE || id == AIM_DRAGGED) {
         return (can_store_in_vehicle() == true) ? veh->get_items(vstor).size() : 0;
     } else {
         return g->m.i_at(pos).size();
@@ -515,8 +515,11 @@ void advanced_inv_area::init()
                 desc = _( "Not dragging any vehicle" );
                 break;
             }
-            pos.x += g->u.grab_point.x;
-            pos.y += g->u.grab_point.y;
+            // offset for dragged vehicles is not statically initialized, so get it
+            off.x = g->u.grab_point.x;
+            off.y = g->u.grab_point.y;
+            // make sure the position is the true position
+            pos += off;
             veh = g->m.veh_at(pos, vstor);
             if( veh ) {
                 vstor = veh->part_with_feature( vstor, "CARGO", false );
@@ -857,9 +860,10 @@ void advanced_inventory_pane::add_items_from_area( advanced_inv_area &square )
             square.desc = cont->tname( 1, false );
         }
     } else {
-        const itemslice &stacks = (square.id == AIM_VEHICLE && square.can_store_in_vehicle()) ?
-            i_stacked(square.veh->get_items(square.vstor)) :
-            i_stacked(m.i_at(square.pos));
+        const itemslice &stacks = ((square.id == AIM_VEHICLE || square.id == AIM_DRAGGED) && 
+            square.can_store_in_vehicle()) ?
+                i_stacked(square.veh->get_items(square.vstor)) :
+                i_stacked(m.i_at(square.pos));
         for( size_t x = 0; x < stacks.size(); ++x ) {
             advanced_inv_listitem it( stacks[x].first, x, stacks[x].second, square.id );
             if( is_filtered( it.it ) ) {
@@ -950,7 +954,8 @@ void advanced_inventory::recalc_pane( side p )
             // it makes sure that if other pane is AIM_VEHICLE, that it is skipped if we 
             // are in that cargo area.
             if(s.can_store_in_vehicle()) { 
-                bool skip = (other.id == AIM_VEHICLE && squares[AIM_VEHICLE].is_same(s));
+                bool skip = (other.id == AIM_VEHICLE && squares[AIM_VEHICLE].is_same(s)) ||
+                            (other.id == AIM_DRAGGED && squares[AIM_DRAGGED].is_same(s));
                 if(skip == false) {
                     // use a fake to grab items from vehicle
                     advanced_inv_area fake(AIM_VEHICLE);
@@ -1164,7 +1169,7 @@ bool advanced_inventory::move_all_items()
 
         std::list<item>::iterator begin;
         std::list<item>::iterator end;
-        if(sarea.id == AIM_VEHICLE) {
+        if(sarea.id == AIM_VEHICLE || sarea.id == AIM_DRAGGED) {
             if(sarea.can_store_in_vehicle()) {
                 begin = sarea.veh->get_items(sarea.vstor).begin();
                 end = sarea.veh->get_items(sarea.vstor).end();
@@ -1751,7 +1756,7 @@ bool advanced_inventory::add_item( aim_location destarea, const item &new_item, 
         }
     } else {
         advanced_inv_area &p = squares[destarea];
-        if( p.id == AIM_VEHICLE && p.can_store_in_vehicle() ) {
+        if( (p.id == AIM_VEHICLE || p.id == AIM_DRAGGED) && p.can_store_in_vehicle() ) {
             if( !p.veh->add_item( p.vstor, new_item ) ) {
                 rc = false;
             }
@@ -1803,7 +1808,9 @@ int advanced_inv_area::free_volume() const
     if( id == AIM_INVENTORY || id == AIM_WORN ) {
         return (g->u.volume_capacity() - g->u.volume_carried());
     }
-    return (id == AIM_VEHICLE && can_store_in_vehicle()) ? veh->free_volume(vstor) : g->m.free_volume(pos);
+    return ((id == AIM_VEHICLE || id == AIM_DRAGGED) && can_store_in_vehicle()) ? 
+        veh->free_volume(vstor) : 
+        g->m.free_volume(pos);
 }
 
 bool advanced_inventory::query_charges( aim_location destarea, const advanced_inv_listitem &sitem,
@@ -1996,7 +2003,7 @@ item* advanced_inv_area::get_container()
             }
         } else {
             map &m = g->m;
-            const itemslice &stacks = (id == AIM_VEHICLE && can_store_in_vehicle()) ? 
+            const itemslice &stacks = ((id == AIM_VEHICLE || id == AIM_DRAGGED) && can_store_in_vehicle()) ? 
                 i_stacked(veh->get_items(vstor)) : 
                 i_stacked(m.i_at(pos));
 
@@ -2183,8 +2190,8 @@ void advanced_inventory::draw_minimap()
 
 bool advanced_inventory::set_vehicle(aim_location sel)
 {
-    // disallow for non-cardinals, or if unable to store in that square
-    if(sel > AIM_NORTHEAST || sel < AIM_SOUTHWEST || !squares[sel].can_store_in_vehicle()) {
+    // allow if dragged, otherwise only stick to directions that can store in vehicle cargo
+    if(sel > AIM_DRAGGED || sel < AIM_SOUTHWEST || !squares[sel].can_store_in_vehicle()) {
         const char *msg = nullptr;
         // throw in some flavour :^)
         switch(sel) {
