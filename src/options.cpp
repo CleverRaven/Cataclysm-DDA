@@ -741,6 +741,10 @@ void initOptions()
                                      _("If true, show item health bars instead of reinforced, scratched etc. text."),
                                      true
                                     );
+    OPTIONS["ITEM_SYMBOLS"] = cOpt("interface", _("Show item symbols"),
+                                     _("If true, show item symbols in inventory and pick up menu."),
+                                     false
+                                    );
 
     mOptionsSort["interface"]++;
 
