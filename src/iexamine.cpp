@@ -2222,13 +2222,7 @@ void iexamine::shrub_wildveggies(player *p, map *m, int examx, int examy)
         none(p, m, examx, examy);
         return;
     }
-
-    //if the bush has been recently harvested
-    if (m->has_flag(TFLAG_HARVESTED, examx, examy)){
-        add_msg(m_info, _("This %s has already been picked clean. Check it again next season."), m->tername(examx, examy).c_str());
-        return;
-    }
-
+    
     add_msg(_("You forage through the %s."), m->tername(examx, examy).c_str());
     p->assign_activity(ACT_FORAGE, 500 / (p->skillLevel("survival") + 1), 0);
     p->activity.placement = point(examx, examy);

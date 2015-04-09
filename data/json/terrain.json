@@ -2488,14 +2488,13 @@
     },{
         "type" : "terrain",
         "id" : "t_underbrush_harvested_spring",
-        "name": "underbrush",
+        "name": "foliage",
         "symbol": "#",
         "color": "green",
         "move_cost": 6,
         "flags": ["TRANSPARENT", "DIGGABLE", "CONTAINER", "FLAMMABLE_ASH", "THIN_OBSTACLE", "PLACE_ITEM", "SHRUB", "SHORT", "HARVESTED"],
         "harvest_season": "SPRING",
         "transforms_into": "t_underbrush",
-        "examine_action": "shrub_wildveggies",
         "bash": {
             "str_min": 4, "str_max": 30,
             "sound": "crunch.",
@@ -2505,14 +2504,13 @@
     },{
         "type" : "terrain",
         "id" : "t_underbrush_harvested_summer",
-        "name": "underbrush",
+        "name": "foliage",
         "symbol": "#",
         "color": "green",
         "move_cost": 6,
         "flags": ["TRANSPARENT", "DIGGABLE", "CONTAINER", "FLAMMABLE_ASH", "THIN_OBSTACLE", "PLACE_ITEM", "SHRUB", "SHORT", "HARVESTED"],
         "harvest_season": "SUMMER",
         "transforms_into": "t_underbrush",
-        "examine_action": "shrub_wildveggies",
         "bash": {
             "str_min": 4, "str_max": 30,
             "sound": "crunch.",
@@ -2522,14 +2520,13 @@
     },{
         "type" : "terrain",
         "id" : "t_underbrush_harvested_autumn",
-        "name": "underbrush",
+        "name": "foliage",
         "symbol": "#",
         "color": "green",
         "move_cost": 6,
         "flags": ["TRANSPARENT", "DIGGABLE", "CONTAINER", "FLAMMABLE_ASH", "THIN_OBSTACLE", "PLACE_ITEM", "SHRUB", "SHORT", "HARVESTED"],
         "harvest_season": "AUTUMN",
         "transforms_into": "t_underbrush",
-        "examine_action": "shrub_wildveggies",
         "bash": {
             "str_min": 4, "str_max": 30,
             "sound": "crunch.",
@@ -2539,14 +2536,13 @@
     },{
         "type" : "terrain",
         "id" : "t_underbrush_harvested_winter",
-        "name": "underbrush",
+        "name": "foliage",
         "symbol": "#",
         "color": "green",
         "move_cost": 6,
         "flags": ["TRANSPARENT", "DIGGABLE", "CONTAINER", "FLAMMABLE_ASH", "THIN_OBSTACLE", "PLACE_ITEM", "SHRUB", "SHORT", "HARVESTED"],
         "harvest_season": "WINTER",
         "transforms_into": "t_underbrush",
-        "examine_action": "shrub_wildveggies",
         "bash": {
             "str_min": 4, "str_max": 30,
             "sound": "crunch.",
