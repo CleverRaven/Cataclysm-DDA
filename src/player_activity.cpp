@@ -127,6 +127,7 @@ std::string player_activity::get_str_value(size_t index, std::string def) const
 
 void player_activity::do_turn( player *p )
 {
+    float season_mult = 91.0/calendar::turn.season_length();
     switch (type) {
         case ACT_WAIT:
         case ACT_WAIT_WEATHER:
@@ -137,13 +138,13 @@ void player_activity::do_turn( player *p )
             break;
         case ACT_PICKAXE:
             // Based on speed, not time
-            moves_left -= p->moves;
+            moves_left -= (int)(p->moves * season_mult);
             p->moves = 0;
             activity_handlers::pickaxe_do_turn( this, p );
             break;
         case ACT_BURROW:
             // Based on speed, not time
-            moves_left -= p->moves;
+            moves_left -= (int)(p->moves * season_mult);
             p->moves = 0;
             activity_handlers::burrow_do_turn( this, p );
             break;
@@ -214,11 +215,11 @@ void player_activity::do_turn( player *p )
             break;
         case ACT_ATM:
             // Based on speed, not time
-            if (p->moves <= moves_left) {
-                moves_left -= p->moves;
+            if (p->moves * season_mult <= moves_left) {
+                moves_left -= (int)(p->moves * season_mult);
                 p->moves = 0;
             } else {
-                p->moves -= moves_left;
+                p->moves -= (int)(moves_left * season_mult);
                 moves_left = 0;
             }
             iexamine::atm(p, nullptr, 0, 0);
@@ -229,11 +230,11 @@ void player_activity::do_turn( player *p )
             p->pause();
             break;
         case ACT_OXYTORCH:
-            if( p->moves <= moves_left ) {
-                moves_left -= p->moves;
+            if( p->moves * season_mult <= moves_left ) {
+                moves_left -= (int)(p->moves * season_mult);
                 p->moves = 0;
             } else {
-                p->moves -= moves_left;
+                p->moves -= (int)(moves_left * season_mult);
                 moves_left = 0;
             }
             if( values[0] > 0 ) {
@@ -242,11 +243,11 @@ void player_activity::do_turn( player *p )
             break;
         default:
             // Based on speed, not time
-            if( p->moves <= moves_left ) {
-                moves_left -= p->moves;
+            if( p->moves * season_mult <= moves_left ) {
+                moves_left -= (int)(p->moves * season_mult);
                 p->moves = 0;
             } else {
-                p->moves -= moves_left;
+                p->moves -= (int)(moves_left * season_mult);
                 moves_left = 0;
             }
     }
