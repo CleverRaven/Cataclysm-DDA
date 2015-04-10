@@ -1,0 +1,8 @@
+set(CATACLYSM_DDA_LUA_SOURCES
+    ${CMAKE_SOURCE_DIR}/lua/class_definitions.lua
+    ${CMAKE_SOURCE_DIR}/lua/autoexec.lua
+)
+
+IF(NOT DEBUG)
+	install(FILES ${CATACLYSM_DDA_LUA_SOURCES} DESTINATION ${DATA_PREFIX}/lua)
+ENDIF(NOT DEBUG)

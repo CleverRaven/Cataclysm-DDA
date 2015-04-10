@@ -21,6 +21,7 @@ option(ZLEVELS      "Enable experimental z-levels"              "OFF")
 option(USE_HOME_DIR "Use user's home directory for save files." "OFF")
 option(LOCALIZE     "Support for language localizations"        "OFF")
 
+
 MESSAGE("\n * Cataclysm: Dark Days Ahead is a roguelike set in a post-apocalyptic world.")
 MESSAGE("   _________            __                   .__                                ")
 MESSAGE("   \\_   ___ \\ _____   _/  |_ _____     ____  |  |   ___.__   ______  _____      ")
@@ -81,6 +82,10 @@ ENDIF (${CMAKE_SYSTEM_NAME} MATCHES Linux OR ${CMAKE_SYSTEM_NAME} MATCHES FreeBS
 
 MESSAGE(STATUS "${PROJECT} build options --\n")
 
+IF ( LUA )
+	SET (LUA_BINARY "lua")
+ENDIF ( LUA )
+
 IF( DEVELOP )
 	MESSAGE("\n")
 	MESSAGE(STATUS "Build ${PROJECT} in development mode (DEVELOP=ON) --\n")
@@ -95,6 +100,9 @@ ELSE ( DEVELOP )
 	MESSAGE(STATUS "MANPAGE_ENTRY_PATH            : ${MANPAGE_ENTRY_PATH}\n")
 
 	MESSAGE(STATUS "LUA                           : ${LUA}")
+IF ( LUA )
+	MESSAGE(STATUS "LUA_BINARY                    : ${LUA_BINARY}")
+ENDIF ( LUA )
 	MESSAGE(STATUS "TILES                         : ${TILES}")
 	MESSAGE(STATUS "SOUND                         : ${SOUND}")
 	MESSAGE(STATUS "DEBUG                         : ${DEBUG}")
@@ -174,15 +182,8 @@ IF(SOUND)
 ENDIF(SOUND)
 
 IF(LUA)
-	MESSAGE(STATUS "Searching for Lua library --\n")
-	FIND_PACKAGE(Lua)
-	IF(NOT LUA_FOUND)
-		MESSAGE(FATAL_ERROR
-			"You need the Lua development library to be able to compile with Lua support.\nSee INSTALL file for details and more info\n"
-		)
-	ENDIF(NOT LUA_FOUND)
-
-	ADD_DEFINITIONS(-DLUA)
+	add_subdirectory(lua)
+	add_subdirectory(src/lua)
 ENDIF(LUA)
 
 IF(LOCALIZE)
