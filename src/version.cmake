@@ -1,0 +1,6 @@
+EXECUTE_PROCESS(
+	COMMAND /usr/bin/git describe --tags --always --dirty --match "[0-9]*.[0-9]*"
+	OUTPUT_VARIABLE VERSION
+	OUTPUT_STRIP_TRAILING_WHITESPACE
+)
+CONFIGURE_FILE(${SRC} ${DST} @ONLY)
