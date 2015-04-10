@@ -493,7 +493,6 @@ def add_fake_types():
     outfile = os.path.join(to_dir, "faketypes.py")
 
     # fake item types
-    writestr(outfile, "note", "notes")
 
     # fake monster types
     writestr(outfile, "human", "humans")
