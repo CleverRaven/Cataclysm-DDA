@@ -1,0 +1,14 @@
+
+set(CHKJSON_SOURCES
+	${CMAKE_SOURCE_DIR}/src/json.cpp
+	${CMAKE_SOURCE_DIR}/src/chkjson/chkjson.cpp
+)
+
+SET (CHKJSON_HEADERS
+	${CMAKE_SOURCE_DIR}/src/json.h
+)
+
+INCLUDE_DIRECTORIES( ${CMAKE_SOURCE_DIR}/src ${CMAKE_SOURCE_DIR}/src/chkjson )
+
+# Add the actual executable
+ADD_EXECUTABLE(chkjson ${CHKJSON_SOURCES} ${CHKJSON_HEADERS})

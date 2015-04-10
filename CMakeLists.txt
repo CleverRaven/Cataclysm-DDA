@@ -186,6 +186,8 @@ IF(LUA)
 	add_subdirectory(src/lua)
 ENDIF(LUA)
 
+add_subdirectory(src/chkjson)
+
 IF(LOCALIZE)
 	ADD_DEFINITIONS(-DLOCALIZE)
 ENDIF(LOCALIZE)
