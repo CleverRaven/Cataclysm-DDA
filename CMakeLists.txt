@@ -13,6 +13,7 @@ SET(CMAKE_MODULE_PATH
 )
 
 # Build options
+option(SILENT       "Build-only: suppress ASCII logo. usefull for ccmake users :)"      "OFF")
 option(LUA          "Lua support (required for some mods)"      "OFF")
 option(TILES        "Support for graphical tilesets"            "OFF")
 option(SOUND        "Support for in-game sounds & music"        "OFF")
@@ -21,7 +22,7 @@ option(ZLEVELS      "Enable experimental z-levels"              "OFF")
 option(USE_HOME_DIR "Use user's home directory for save files." "OFF")
 option(LOCALIZE     "Support for language localizations"        "OFF")
 
-
+IF (NOT SILENT)
 MESSAGE("\n * Cataclysm: Dark Days Ahead is a roguelike set in a post-apocalyptic world.")
 MESSAGE("   _________            __                   .__                                ")
 MESSAGE("   \\_   ___ \\ _____   _/  |_ _____     ____  |  |   ___.__   ______  _____      ")
@@ -31,6 +32,7 @@ MESSAGE("    \\______  /\(____  / |__|  \(____  / \\___  >|____/ / ____|/____  >
 MESSAGE("           \\/      \\/             \\/      \\/        \\/          \\/       \\/     ")
 MESSAGE("                               --= Dark Days Ahead =--") 
 MESSAGE("\n * http://en.cataclysmdda.com/\n")
+ENDIF (NOT SILENT)
 
 MESSAGE(STATUS "${PROJECT} build environment -- \n")
 

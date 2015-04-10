@@ -1,13 +1,21 @@
 set(CATACLYSM_DATA_DIRS
-    ${CMAKE_SOURCE_DIR}/data/font
-    ${CMAKE_SOURCE_DIR}/data/json
-    ${CMAKE_SOURCE_DIR}/data/mods
-    ${CMAKE_SOURCE_DIR}/data/names
-    ${CMAKE_SOURCE_DIR}/data/raw
-    ${CMAKE_SOURCE_DIR}/data/recycling
-    ${CMAKE_SOURCE_DIR}/data/motd
-    ${CMAKE_SOURCE_DIR}/data/credits
-    ${CMAKE_SOURCE_DIR}/data/title
+	${CMAKE_SOURCE_DIR}/data/font
+	${CMAKE_SOURCE_DIR}/data/json
+	${CMAKE_SOURCE_DIR}/data/mods
+	${CMAKE_SOURCE_DIR}/data/names
+	${CMAKE_SOURCE_DIR}/data/raw
+	${CMAKE_SOURCE_DIR}/data/recycling
+	${CMAKE_SOURCE_DIR}/data/motd
+	${CMAKE_SOURCE_DIR}/data/credits
+	${CMAKE_SOURCE_DIR}/data/title
+)
+
+set(CATACLYSM_DATA_FILES
+	${CMAKE_SOURCE_DIR}/data/changelog.txt
+	${CMAKE_SOURCE_DIR}/data/cataicon.ico
+	${CMAKE_SOURCE_DIR}/data/fontdata.json
+	${CMAKE_SOURCE_DIR}/README.txt
+	${CMAKE_SOURCE_DIR}/LICENSE.txt
 )
 
 IF(NOT DEBUG)
