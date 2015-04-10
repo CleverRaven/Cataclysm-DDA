@@ -283,9 +283,13 @@ ADD_CUSTOM_TARGET(
 	${CMAKE_COMMAND} -D SRC=${CMAKE_SOURCE_DIR}/src/version.h.in
 	-D DST=${CMAKE_SOURCE_DIR}/src/version.h
 	-P ${CMAKE_SOURCE_DIR}/src/version.cmake
+	BYPRODUCTS ${CMAKE_SOURCE_DIR}/src/version.h
 )
 
 ADD_DEPENDENCIES(cataclysm get_version)
+IF (LUA)
+	ADD_DEPENDENCIES(cataclysm lua_bindings)
+ENDIF(LUA)
 
 # Required library linkage
 IF(TILES)
