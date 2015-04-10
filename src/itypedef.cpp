@@ -79,10 +79,6 @@ long itype::invoke( player *p, item *it, point pos, const std::string &iuse_name
     return use->call( p, it, false, pos );
 }
 
-void Item_factory::init_old()
-{
-}
-
 std::string const& ammo_name(std::string const &t)
 {
     return ammunition_type::find_ammunition_type(t).name();

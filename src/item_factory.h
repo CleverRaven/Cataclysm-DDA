@@ -293,7 +293,6 @@ class Item_factory
                                 const std::string &flag_type);
         void clear();
         void init();
-        void init_old();
 
         //iuse stuff
         std::map<Item_tag, use_function> iuse_function_list;

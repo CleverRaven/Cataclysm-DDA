@@ -331,8 +331,6 @@ void Item_factory::init()
     iuse_function_list["REMOTEVEH"] = &iuse::remoteveh;
 
     create_inital_categories();
-
-    init_old();
 }
 
 void Item_factory::create_inital_categories()
