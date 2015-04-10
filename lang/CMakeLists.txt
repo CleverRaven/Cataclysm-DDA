@@ -1,5 +1,14 @@
 MESSAGE(STATUS "Process LINGUAS variable --\n")
 
+FIND_PACKAGE(Gettext)
+
+IF (NOT GETTEXT_FOUND)
+	MESSAGE(FATAL_ERROR
+		"Gettext not found. Install gettext package or diable
+		localization with: -DLOCALIZE=OFF \nSee INSTALL file for details and more info\n"
+	)
+ENDIF (NOT GETTEXT_FOUND)
+
 foreach (LANG ${LANGUAGES})
 	MESSAGE(STATUS "Add translation for ${LANG}: ${LANG}.po")
 endforeach ()
@@ -51,22 +60,16 @@ foreach (LANG ${LANGUAGES})
 		        -E make_directory ${CMAKE_SOURCE_DIR}/lang/mo/${LANG}/LC_MESSAGES
 		WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
 	)
-endforeach()
-
-foreach (LANG ${LANGUAGES})
 	add_custom_command (
 		TARGET translations_compile
 		PRE_BUILD
 		COMMAND 
-		msgfmt -f ${CMAKE_SOURCE_DIR}/lang/po/${LANG}.po
+		${GETTEXT_MSGFMT_EXECUTABLE} -f ${CMAKE_SOURCE_DIR}/lang/po/${LANG}.po
 		       -o ${CMAKE_SOURCE_DIR}/lang/mo/${LANG}/LC_MESSAGES/cataclysm-dda.mo
 		WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
 	)
-endforeach()
-
-IF(RELEASE)
-	foreach (LANG ${LANGUAGES})
+	IF(RELEASE)
 		install(DIRECTORY ${CMAKE_SOURCE_DIR}/lang/mo/${LANG} DESTINATION ${DATA_PREFIX}/locale)
-	endforeach()
-ENDIF(RELEASE)
+	ENDIF(RELEASE)
+endforeach()
 
