@@ -1010,9 +1010,9 @@ protected:
 public:
  void build_outside_cache();
  void build_seen_cache(const tripoint &origin);
+ template<int xx, int xy, int yx, int yy>
  void castLight( bool (&output_cache)[MAPSIZE*SEEX][MAPSIZE*SEEY],
                  const float (&input_array)[MAPSIZE*SEEX][MAPSIZE*SEEY],
-                 const int xx, const int xy, const int yx, const int yy,
                  const int offsetX, const int offsetY, const int offsetDistance,
                  const int row = 1, float start = 1.0f, const float end = 0.0f );
 protected:
