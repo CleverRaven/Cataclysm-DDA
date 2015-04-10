@@ -103,12 +103,6 @@ void Item_factory::init_old()
         new itype("null", 0, "none", "none", "", '#', c_white, no_materials, PNULL,
                   0, 0, 0, 0, 0) );
     itypes["null"]->item_tags.insert( "PSEUDO" );
-    // For smoking drugs
-    add_item_type(
-        new itype("apparatus", 0, "a smoking device and a source of flame", "none",
-                  "A fake item. If you are reading this it's a bug! (itypdef:apparatus)",
-                  '$', c_red, no_materials, PNULL, 0, 0, 0, 0, 0) );
-    itypes["apparatus"]->item_tags.insert( "PSEUDO" );
     // For CVD Forging
     add_item_type(
         new itype("cvd_machine", 0, "cvd machine", "none",

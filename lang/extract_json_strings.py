@@ -494,7 +494,6 @@ def add_fake_types():
 
     # fake item types
     writestr(outfile, "cvd machine")
-    writestr(outfile, "a smoking device and a source of flame")
     writestr(outfile, "note", "notes")
     writestr(outfile, "misc software")
     writestr(outfile, "MediSoft")

@@ -51,6 +51,23 @@
     },
     {
         "type":"GENERIC",
+        "//": "pseudo item, only used for as a required tool, checked for in player::amount_of",
+        "id": "apparatus",
+        "symbol": "$",
+        "color": "red",
+        "name": "a smoking device and a source of flame",
+        "name_plural": "none",
+        "description": "seeing this is a bug",
+        "price": 0,
+        "weight": 0,
+        "volume": 0,
+        "bashing": 0,
+        "cutting": 0,
+        "to_hit": 0,
+        "flags": ["PSEUDO"]
+    },
+    {
+        "type":"GENERIC",
         "id": "withered",
         "symbol": "%",
         "color": "light_gray",
