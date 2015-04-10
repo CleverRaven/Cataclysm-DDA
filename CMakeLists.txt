@@ -1,9 +1,5 @@
-# TODO:
-#
-# Move binary after compilation
-# Support for special builds (json checking, tests, other stuff)
-
-cmake_minimum_required(VERSION 2.8)
+# Main project build script
+cmake_minimum_required(VERSION 2.8.12)
 
 PROJECT(CataclysmDDA)
 
@@ -38,6 +34,7 @@ MESSAGE(STATUS "${PROJECT} build environment -- \n")
 
 MESSAGE(STATUS "Build realm is   : ${CMAKE_SYSTEM_NAME} ${CMAKE_HOST_SYSTEM_PROCESSOR}\n")
 
+#OS Check Placeholders. Will be used for BINDIST
 IF (${CMAKE_SYSTEM_NAME} MATCHES Linux)
 	SET(_OS_LINUX_ 1)
 ENDIF (${CMAKE_SYSTEM_NAME} MATCHES Linux)
@@ -58,6 +55,7 @@ IF( ${CMAKE_SYSTEM_NAME} MATCHES Windows )
 	#MESSAGE(STATUS "Disable internationalization on Windows as it is not supported")
 ENDIF( ${CMAKE_SYSTEM_NAME} MATCHES Windows )
 
+#Sysem specific actions
 IF (${CMAKE_SYSTEM_NAME} MATCHES Linux OR ${CMAKE_SYSTEM_NAME} MATCHES FreeBSD)
     IF( NOT DATA_PREFIX )
         SET( DATA_PREFIX ${CMAKE_INSTALL_PREFIX}/share/cataclysm-dda )
@@ -84,14 +82,16 @@ ENDIF (${CMAKE_SYSTEM_NAME} MATCHES Linux OR ${CMAKE_SYSTEM_NAME} MATCHES FreeBS
 
 MESSAGE(STATUS "${PROJECT} build options --\n")
 
-IF ( LUA )
+# Preset variables
+IF ( NOT LUA_BINARY )
 	SET (LUA_BINARY "lua")
-ENDIF ( LUA )
+ENDIF ( NOT LUA_BINARY )
 
 IF( NOT LANGUAGES )
 	SET ( LANGUAGES cs de el es_AR es_ES fi fr it_IT ja ko pl pt_BR pt pt_PT ru sr vi zh_CN zh_TW)
 ENDIF( NOT LANGUAGES )
 
+# Set build types and display info
 IF( RELEASE )
 	MESSAGE(STATUS "CMAKE_INSTALL_PREFIX          : ${CMAKE_INSTALL_PREFIX}")
 	MESSAGE(STATUS "BIN_PREFIX                    : ${BIN_PREFIX}")
@@ -122,9 +122,9 @@ ENDIF ( LUA )
 	MESSAGE(STATUS "ZLEVELS                       : ${ZLEVELS}")
 	MESSAGE(STATUS "USE_HOME_DIR                  : ${USE_HOME_DIR}\n")
 
-MESSAGE(STATUS "LANGUAGES                     : ${LANGUAGES}\n")
+	MESSAGE(STATUS "LANGUAGES                     : ${LANGUAGES}\n")
 
-MESSAGE(STATUS "See INSTALL file for details and more info --\n")
+	MESSAGE(STATUS "See INSTALL file for details and more info --\n")
 
 
 # Force out-of-source build
@@ -134,6 +134,7 @@ IF( ${CMAKE_SOURCE_DIR} STREQUAL ${CMAKE_BINARY_DIR} )
 	)
 ENDIF( ${CMAKE_SOURCE_DIR} STREQUAL ${CMAKE_BINARY_DIR} )
 
+# Check for build types and libraries
 IF(TILES)
 	# Find SDL, SDL_ttf & SDL_image for graphical install
 	MESSAGE(STATUS "Searching for SDL2 library --\n")
@@ -193,7 +194,9 @@ IF(SOUND)
 	ADD_DEFINITIONS(-DSDL_SOUND)
 ENDIF(SOUND)
 
+# Ok. Now create build and install recipes
 IF(LOCALIZE)
+	add_subdirectory(lang)
 	ADD_DEFINITIONS(-DLOCALIZE)
 ENDIF(LOCALIZE)
 
@@ -205,18 +208,12 @@ IF(USE_HOME_DIR)
 	ADD_DEFINITIONS(-DUSE_HOME_DIR)
 ENDIF(USE_HOME_DIR)
 
-add_subdirectory(src)
-add_subdirectory(data)
 IF(LUA)
 	add_subdirectory(lua)
 	add_subdirectory(src/lua)
 ENDIF(LUA)
+
+add_subdirectory(src)
+add_subdirectory(data)
 add_subdirectory(src/chkjson)
-IF(TILES)
-	IF(RELEASE)
-		install(DIRECTORY ${CMAKE_SOURCE_DIR}/gfx DESTINATION ${DATA_PREFIX})
-	ENDIF(RELEASE)
-ENDIF(TILES)
-IF(LOCALIZE)
-	add_subdirectory(lang)
-ENDIF(LOCALIZE)
+

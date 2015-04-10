@@ -1,3 +1,6 @@
+# Cataclysm DDA client
+cmake_minimum_required(VERSION 2.8.12)
+
 set(CATACLYSM_DDA_SOURCES
     ${CMAKE_SOURCE_DIR}/src/veh_interact.cpp
     ${CMAKE_SOURCE_DIR}/src/mondeath.cpp
