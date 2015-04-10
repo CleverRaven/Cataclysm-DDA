@@ -65,6 +65,7 @@
 #include <cassert>
 #include <iterator>
 #include <ctime>
+#include <langinfo.h>
 
 #if (defined _WIN32 || defined __WIN32__)
 #   include "platform_win.h"
@@ -13776,27 +13777,8 @@ void intro()
  */
 #if !(defined _WIN32 || defined WINDOWS || defined TILES)
     // Check if locale has UTF-8 encoding
-    const char *p_locale = setlocale(LC_ALL, NULL);
-    bool not_utf8 = p_locale == NULL ? true : false;
-    if(not_utf8 == false) {
-        std::string locale = p_locale;
-        // convert all to uppercase
-        for(size_t i = 0; i < locale.length(); ++i)
-            locale[i] = toupper(locale[i]);
-        auto index = locale.find("UTF");
-        // were we able to find those three magical letters?
-        not_utf8 = index == std::string::npos ? true : false;
-        if(not_utf8 == false) {
-            // replace entirety of string with important part
-            locale.erase(0, index);
-            // afterwards, it should simply be UTF8
-            index = locale.find('-');
-            if(index != std::string::npos)
-                locale.erase(index, 1);
-            // anything but zero indicates failure
-            not_utf8 = locale.compare("UTF8") != 0;
-        }
-    }
+    bool not_utf8 = strcmp(nl_langinfo(CODESET), "UTF-8") !=0;
+
     if (not_utf8 == true) {
         const char *unicode_error_msg = 
             _("You don't seem to have a valid Unicode locale. You may see some weird " 
