@@ -2923,7 +2923,7 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4"));
 
                     fold_and_print(w_info, 0, 1, FULL_SCREEN_WIDTH - 2, c_magenta,
                      _("Intelligence is less important in most situations, but it is vital for more complex tasks like "
-                     "electronics crafting. It also affects how much skill you can pick up from reading a book."));
+                     "electronics crafting.  It also affects how much skill you can pick up from reading a book."));
                 } else if (line == 3) {
                     // Display player current perception effects
                     mvwprintz(w_stats, 5, 1, h_ltgray, _("Perception:"));
@@ -2933,7 +2933,7 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4"));
                     mvwprintz(w_stats, 7, 23, c_magenta, "%2d", get_per());
 
                     fold_and_print(w_info, 0, 1, FULL_SCREEN_WIDTH - 2, c_magenta,
-                     _("Perception is the most important stat for ranged combat. It's also used for "
+                     _("Perception is the most important stat for ranged combat.  It's also used for "
                      "detecting traps and other things of interest."));
                 }
                 wrefresh(w_stats);
