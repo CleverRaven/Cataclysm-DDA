@@ -463,23 +463,23 @@ void player::reach_attack( const int x, const int y )
     int move_cost = attack_speed( *this );
     int skill = std::min( 10, (int)get_skill_level("stabbing") );
     int t = 0;
-    std::vector<point> path = line_to( posx(), posy(), x, y, t );
+    std::vector<tripoint> path = line_to( pos3(), tripoint( x, y, posz() ), t, 0 );
     path.pop_back(); // Last point is our critter
-    for( const point &p : path ) {
+    for( const tripoint &p : path ) {
         // Possibly hit some unintended target instead
-        Creature *inter = g->critter_at( p.x, p.y );
+        Creature *inter = g->critter_at( p );
         if( inter != nullptr && 
               !x_in_y( ( target_size * target_size + 1 ) * skill, 
                        ( inter->get_size() * inter->get_size() + 1 ) * 10 ) ) {
             // Even if we miss here, low roll means weapon is pushed away or something like that
             critter = inter;
             break;
-        } else if( g->m.move_cost( p.x, p.y ) == 0 &&
+        } else if( g->m.move_cost( p ) == 0 &&
                    // Fences etc. Spears can stab through those
                      !( weapon.has_flag( "SPEAR" ) && 
-                        g->m.has_flag( "THIN_OBSTACLE", p.x, p.y ) && 
+                        g->m.has_flag( "THIN_OBSTACLE", p ) && 
                         x_in_y( skill, 10 ) ) ) {
-            g->m.bash( p.x, p.y, str_cur + weapon.type->melee_dam );
+            g->m.bash( p, str_cur + weapon.type->melee_dam );
             handle_melee_wear();
             mod_moves( -move_cost );
             return;
@@ -487,7 +487,7 @@ void player::reach_attack( const int x, const int y )
     }
 
     if( critter == nullptr ) {
-        add_msg_if_player( _("You attack the air.") );
+        add_msg_if_player( _("You swing at the air.") );
         if( has_miss_recovery_tec() ) {
             move_cost /= 3; // "Probing" is faster than a regular miss
         }
