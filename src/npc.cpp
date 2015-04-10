@@ -34,7 +34,6 @@ npc::npc()
  wandx = 0;
  wandy = 0;
  wandf = 0;
- goal = tripoint( 0, 0, 0 );
  plx = 999;
  ply = 999;
  plt = 999;

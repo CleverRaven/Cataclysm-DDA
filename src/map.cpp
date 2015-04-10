@@ -5763,6 +5763,39 @@ void map::loadn( const int gridx, const int gridy, const bool update_vehicles ) 
     }
 }
 
+// Optimized mapgen function that only works properly for very simple overmap types
+// Does not create or require a temporary map and does its own saving
+static void generate_uniform( const int x, const int y, const int z, const oter_id &terrain_type )
+{
+    static const oter_id rock("empty_rock");
+    static const oter_id air("open_air");
+
+    dbg( D_INFO ) << "generate_uniform x: " << x << "  y: " << y << "  abs_z: " << z
+                  << "  terrain_type: " << static_cast<std::string const&>(terrain_type);
+
+    ter_id fill = t_null;
+    if( terrain_type == rock ) {
+        fill = t_rock;
+    } else if( terrain_type == air ) {
+        fill = t_open_air;
+    } else {
+        debugmsg( "map::generate_uniform called on non-uniform type: %s",
+                  static_cast<std::string const&>(terrain_type).c_str() );
+        return;
+    }
+
+    constexpr size_t block_size = SEEX * SEEY;
+    for( int xd = 0; xd <= 1; xd++ ) {
+        for( int yd = 0; yd <= 1; yd++ ) {
+            submap *sm = new submap();
+            sm->is_uniform = true;
+            std::uninitialized_fill_n( &sm->ter[0][0], block_size, fill );
+            sm->turn_last_touched = int(calendar::turn);
+            MAPBUFFER.add_submap( x + xd, y + yd, z, sm );
+        }
+    }
+}
+
 void map::loadn( const int gridx, const int gridy, const int gridz, const bool update_vehicles )
 {
     // Cache empty overmap types
