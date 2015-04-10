@@ -6481,7 +6481,7 @@ void player::hardcoded_effects(effect &it)
             } while (((x == posx() && y == posy()) || g->mon_at(x, y) != -1) && tries < 10);
             if (tries < 10) {
                 if (g->m.move_cost(x, y) == 0) {
-                    g->m.make_rubble(x, y, f_rubble_rock, true);
+                    g->m.make_rubble( tripoint( x, y, posz() ), f_rubble_rock, true);
                 }
                 beast.spawn(x, y);
                 g->add_zombie(beast);
@@ -6564,7 +6564,7 @@ void player::hardcoded_effects(effect &it)
                 } while (((x == posx() && y == posy()) || g->mon_at(x, y) != -1));
                 if (tries < 10) {
                     if (g->m.move_cost(x, y) == 0) {
-                        g->m.make_rubble(x, y, f_rubble_rock, true);
+                        g->m.make_rubble( tripoint( x, y, posz() ), f_rubble_rock, true);
                     }
                     beast.spawn(x, y);
                     g->add_zombie(beast);
@@ -7603,9 +7603,10 @@ void player::suffer()
 
     if (has_trait("SORES")) {
         for (int i = bp_head; i < num_bp; i++) {
-            if ((pain < 5 + 4 * abs(encumb(body_part(i)))) && (!(has_trait("NOPAIN")))) {
+            int sores_pain = 5 + (int)(0.4 * abs( encumb( body_part( i ) ) ) );
+            if ((pain < sores_pain) && (!(has_trait("NOPAIN")))) {
                 pain = 0;
-                mod_pain( 5 + 4 * abs(encumb(body_part(i))) );
+                mod_pain( sores_pain );
             }
         }
     }
@@ -13392,7 +13393,7 @@ bool player::can_hear( const point source, const int volume ) const
     }
     const int dist = rl_dist( source, pos() );
     const float volume_multiplier = hearing_ability();
-    return volume * volume_multiplier < dist;
+    return volume * volume_multiplier >= dist;
 }
 
 // This method intentionally does not factor in deafness.

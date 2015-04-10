@@ -23,7 +23,9 @@
 #include "active_item_cache.h"
 
 //TODO: include comments about how these variables work. Where are they used. Are they constant etc.
+#ifndef MAPSIZE
 #define MAPSIZE 11
+#endif
 #define CAMPSIZE 1
 #define CAMPCHECK 3
 
@@ -37,6 +39,7 @@ struct trap;
 struct wrapped_vehicle{
  int x;
  int y;
+ int z;
  int i; // submap col
  int j; // submap row
  vehicle* v;
@@ -159,10 +162,10 @@ class map
      */
     lit_level apparent_light_at(int x, int y, const visibility_variables &cache);
     visibility_type get_visibility( const lit_level ll,
-				    const visibility_variables &cache ) const;
+                                    const visibility_variables &cache ) const;
 
     bool apply_vision_effects( WINDOW *w, const point center, int x, int y, lit_level ll,
-			       const visibility_variables &cache ) const;
+                               const visibility_variables &cache ) const;
 
  /** Draw a visible part of the map into `w`.
   *
@@ -537,10 +540,12 @@ class map
     *  Values roughly correspond to 10% increment chances of success on a given bash, rounded down. -1 means the square is not bashable */
     int bash_rating( const int str, const tripoint &p ) const;
 
- /** Generates rubble at the given location, if overwrite is true it just writes on top of what currently exists
-  *  floor_type is only used if there is a non-bashable wall at the location or with overwrite = true */
- void make_rubble(const int x, const int y, furn_id rubble_type = f_rubble, bool items = false,
-                    ter_id floor_type = t_dirt, bool overwrite = false);
+    /** Generates rubble at the given location, if overwrite is true it just writes on top of what currently exists
+     *  floor_type is only used if there is a non-bashable wall at the location or with overwrite = true */
+    void make_rubble( const tripoint &p, furn_id rubble_type = f_rubble, bool items = false,
+                      ter_id floor_type = t_dirt, bool overwrite = false);
+    void make_rubble( int, int, furn_id rubble_type = f_rubble, bool items = false,
+                      ter_id floor_type = t_dirt, bool overwrite = false) = delete;
 
  bool is_divable(const int x, const int y) const;
  bool is_outside(const int x, const int y) const;
@@ -553,8 +558,8 @@ class map
   *  all terrain is floor and the last terrain is a wall */
  bool is_last_ter_wall(const bool no_furn, const int x, const int y,
                        const int xmax, const int ymax, const direction dir) const;
- bool flammable_items_at( const tripoint &p );
- bool moppable_items_at( const tripoint &p );
+    bool flammable_items_at( const tripoint &p );
+    bool moppable_items_at( const tripoint &p );
  point random_outdoor_tile();
 // mapgen
 
@@ -578,50 +583,54 @@ void draw_rough_circle(std::string type, int x, int y, int rad);
 void draw_rough_circle_furn(furn_id type, int x, int y, int rad);
 void draw_rough_circle_furn(std::string type, int x, int y, int rad);
 
-void add_corpse(int x, int y);
+void add_corpse( const tripoint &p );
 
 
-//
- void translate(const std::string terfrom, const std::string terto); // Change all instances of $from->$to
- void translate_radius(const std::string terfrom, const std::string terto, const float radi, const int uX, const int uY);
- void translate(const ter_id from, const ter_id to); // Change all instances of $from->$to
- void translate_radius(const ter_id from, const ter_id to, const float radi, const int uX, const int uY);
- bool close_door(const int x, const int y, const bool inside, const bool check_only);
- bool open_door(const int x, const int y, const bool inside, const bool check_only = false);
- /** Makes spores at the respective x and y. source is used for kill counting */
- void create_spores( const tripoint &p, Creature* source = nullptr );
- /** Checks if a square should collapse, returns the X for the one_in(X) collapse chance */
- int collapse_check(const int x, const int y);
- /** Causes a collapse at (x, y), such as from destroying a wall */
- void collapse_at(const int x, const int y);
- /** Returns a pair where first is whether something was smashed and second is if it was a success */
- std::pair<bool, bool> bash(const int x, const int y, const int str, bool silent = false,
-                            bool destroy = false, vehicle *bashing_vehicle = nullptr);
- // spawn items from the list, see map_bash_item_drop
- void spawn_item_list(const std::vector<map_bash_item_drop> &items, int x, int y);
- /** Keeps bashing a square until it can't be bashed anymore */
- void destroy(const int x, const int y, const bool silent = false);
+// Terrain changing functions
+    void translate( const ter_id from, const ter_id to ); // Change all instances of $from->$to
+    void translate_radius( const ter_id from, const ter_id to, const float radi, const tripoint &p );
+    bool close_door( const tripoint &p, const bool inside, const bool check_only );
+    bool open_door( const tripoint &p, const bool inside, const bool check_only = false );
+// Destruction
+     /** Keeps bashing a square until it can't be bashed anymore */
     void destroy( const tripoint &p, const bool silent = false);
- /** Keeps bashing a square until there is no more furniture */
- void destroy_furn(const int x, const int y, const bool silent = false);
- void crush(const int x, const int y);
- void shoot(const int x, const int y, int &dam, const bool hit_items,
-            const std::set<std::string>& ammo_effects);
+    void destroy( int, int ) = delete;
+    /** Keeps bashing a square until there is no more furniture */
+    void destroy_furn( const tripoint &p, const bool silent = false );
+    void crush( const tripoint &p );
+    void shoot( const tripoint &p, int &dam, const bool hit_items,
+                const std::set<std::string>& ammo_effects );
+    /** Checks if a square should collapse, returns the X for the one_in(X) collapse chance */
+    int collapse_check( const tripoint &p );
+    /** Causes a collapse at (x, y), such as from destroying a wall */
+    void collapse_at( const tripoint &p );
+    /** Returns a pair where first is whether something was smashed and second is if it was a success */
+    std::pair<bool, bool> bash( const tripoint &p, const int str, bool silent = false,
+                                bool destroy = false, vehicle *bashing_vehicle = nullptr );
+    std::pair<bool, bool> bash( int, int, const int, bool silent = false,
+                                bool destroy = false, vehicle *bashing_vehicle = nullptr ) = delete;
+    /** Spawn items from the list, see map_bash_item_drop */
+    void spawn_item_list( const std::vector<map_bash_item_drop> &items, const tripoint &p );
+
+// Effects of attacks/items
     bool hit_with_acid( const tripoint &p );
     bool hit_with_fire( const tripoint &p );
     bool marlossify( const tripoint &p );
+    /** Makes spores at the respective x and y. source is used for kill counting */
+    void create_spores( const tripoint &p, Creature* source = nullptr );
+
     bool has_adjacent_furniture( const tripoint &p );
     void mop_spills( const tripoint &p );
- /** 
-  * Moved here from weather.cpp for speed. Decays fire, washable fields and scent.
-  * Washable fields are decayed only by 1/3 of the amount fire is.
-  */
- void decay_fields_and_scent( const int amount );
+    /**
+    * Moved here from weather.cpp for speed. Decays fire, washable fields and scent.
+    * Washable fields are decayed only by 1/3 of the amount fire is.
+    */
+    void decay_fields_and_scent( const int amount );
 
- // Signs
- const std::string get_signage(const int x, const int y) const;
- void set_signage(const int x, const int y, std::string message) const;
- void delete_signage(const int x, const int y) const;
+// Signs
+    const std::string get_signage( const tripoint &p ) const;
+    void set_signage( const tripoint &p, std::string message ) const;
+    void delete_signage( const tripoint &p ) const;
 
 // Radiation
     int get_radiation( const tripoint &p ) const; // Amount of radiation at (x, y);
@@ -664,7 +673,6 @@ void add_corpse(int x, int y);
                         const long charges, const int damlevel );
     int place_items(items_location loc, const int chance, const int x1, const int y1,
                   const int x2, const int y2, bool ongrass, const int turn, bool rand = true);
-    int put_items_from_loc(items_location loc, const int x, const int y, const int turn = 0);
     void spawn_items(const int x, const int y, const std::vector<item> &new_items);
     void create_anomaly(const int cx, const int cy, artifact_natural_property prop);
 // Items: 3D
@@ -851,7 +859,7 @@ void add_corpse(int x, int y);
 
 // Computers
     computer* computer_at( const tripoint &p );
-    computer* add_computer(const int x, const int y, std::string name, const int security);
+    computer* add_computer( const tripoint &p, std::string name, const int security );
 
  // Camps
     bool allow_camp( const tripoint &p, const int radius = CAMPCHECK);
@@ -904,8 +912,9 @@ void add_corpse(int x, int y);
          * Ignored if smaller than 0.
          */
         bool pl_sees( int tx, int ty, int max_range );
- std::set<vehicle*> vehicle_list;
- std::set<vehicle*> dirty_vehicle_list;
+        bool pl_sees( const tripoint &t, int max_range );
+    std::set<vehicle*> vehicle_list;
+    std::set<vehicle*> dirty_vehicle_list;
 
  std::map< point, std::pair<vehicle*,int> > veh_cached_parts;
  bool veh_exists_at [SEEX * MAPSIZE][SEEY * MAPSIZE];
@@ -1082,7 +1091,7 @@ private:
          */
         void setsubmap( size_t grididx, submap *smap );
 
-    void spawn_monsters( int gx, int gy, mongroup &group, bool ignore_sight );
+    void spawn_monsters( const tripoint &gp, mongroup &group, bool ignore_sight );
 
     /**
      * Internal versions of public functions to avoid checking same variables multiple times.
@@ -1093,7 +1102,7 @@ private:
     int bash_rating_internal( const int str, const furn_t &furniture, 
                               const ter_t &terrain, const vehicle *veh, const int part ) const;
 
- long determine_wall_corner(const int x, const int y, const long orig_sym) const;
+ long determine_wall_corner(const int x, const int y) const;
  void cache_seen(const int fx, const int fy, const int tx, const int ty, const int max_range);
  // apply a circular light pattern immediately, however it's best to use...
  void apply_light_source(int x, int y, float luminance, bool trig_brightcalc);

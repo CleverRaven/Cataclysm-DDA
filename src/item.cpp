@@ -940,18 +940,18 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump, bool debug) c
         temp1.str("");
         temp1 << _("Layer: ");
         if (has_flag("SKINTIGHT")) {
-				temp1 << _("Close to skin. ");
-		} else if (has_flag("BELTED")) {
-			temp1 << _("Strapped. ");
-		} else if (has_flag("OUTER")) {
-			temp1 << _("Outer. ");
-		} else if (has_flag("WAIST")) {
-			temp1 << _("Waist. ");
-		} else {
-			temp1 << _("Normal. ");
-		}
+            temp1 << _("Close to skin. ");
+        } else if (has_flag("BELTED")) {
+            temp1 << _("Strapped. ");
+        } else if (has_flag("OUTER")) {
+            temp1 << _("Outer. ");
+        } else if (has_flag("WAIST")) {
+            temp1 << _("Waist. ");
+        } else {
+            temp1 << _("Normal. ");
+        }
 
-		dump->push_back(iteminfo("ARMOR", temp1.str()));
+        dump->push_back(iteminfo("ARMOR", temp1.str()));
 
         dump->push_back(iteminfo("ARMOR", _("Coverage: "), "<num>% ", get_coverage(), true, "", false));
         dump->push_back(iteminfo("ARMOR", _("Warmth: "), "", get_warmth()));
@@ -1700,11 +1700,11 @@ std::string item::tname( unsigned int quantity, bool with_prefix ) const
         if( damage < 0 )  {
             if( damage < -1 ) {
                 damtext = rm_prefix(_("<dam_adj>bugged "));
-            } else if (is_gun())  {
-                damtext = rm_prefix(_("<dam_adj>accurized "));
             } else if ( OPTIONS["ITEM_HEALTH_BAR"] ) {
                 auto const &nc_text = get_item_hp_bar(damage);
                 damtext = "<color_" + string_from_color(nc_text.second) + ">" + nc_text.first + " </color>";
+            } else if (is_gun())  {
+                damtext = rm_prefix(_("<dam_adj>accurized "));
             } else {
                 damtext = rm_prefix(_("<dam_adj>reinforced "));
             }
@@ -3350,11 +3350,11 @@ int item::aim_speed( int aim_threshold ) const
         if( elem.is_gunmod() ) {
             const auto mod = elem.type->gunmod.get();
             if( mod->sight_dispersion != -1 && mod->aim_speed != -1 &&
-		((aim_threshold == -1 && mod->sight_dispersion < best_dispersion ) ||
-		 (mod->sight_dispersion <= aim_threshold &&
-		  mod->aim_speed < best_aim_speed)) ) {
-	        best_aim_speed = mod->aim_speed;
-		best_dispersion = mod->sight_dispersion;
+                ((aim_threshold == -1 && mod->sight_dispersion < best_dispersion ) ||
+                 (mod->sight_dispersion <= aim_threshold &&
+                  mod->aim_speed < best_aim_speed)) ) {
+                best_aim_speed = mod->aim_speed;
+                best_dispersion = mod->sight_dispersion;
             }
         }
     }
@@ -3960,14 +3960,6 @@ bool item::flammable() const
     }
 
     if( ( made_of("cotton") || made_of("wool") ) && ( burnt / ( vol + 1 ) <= 1 ) ) {
-        return true;
-    }
-
-    if( is_ammo() && ammo_type() != "water" && ammo_type() != "battery" &&
-        ammo_type() != "nail" && ammo_type() != "BB" &&
-        ammo_type() != "bolt" && ammo_type() != "arrow" &&
-        ammo_type() != "pebble" && ammo_type() != "fishspear" &&
-        ammo_type() != "NULL") {
         return true;
     }
 

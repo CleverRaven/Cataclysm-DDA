@@ -4570,15 +4570,16 @@ int iuse::jackhammer(player *p, item *it, bool, point)
         p->add_msg_if_player(_("Don't do anything rash.."));
         return 0;
     }
+    tripoint dirp( dirx, diry, p->posz() );
     if (g->m.is_bashable(dirx, diry) && g->m.has_flag("SUPPORTS_ROOF", dirx, diry) &&
         g->m.ter(dirx, diry) != t_tree) {
-        g->m.destroy(dirx, diry, true);
+        g->m.destroy( dirp, true );
         p->moves -= 500;
         //~ the sound of a jackhammer
         sounds::sound(dirx, diry, 45, _("TATATATATATATAT!"));
     } else if (g->m.move_cost(dirx, diry) == 2 && g->get_levz() != -1 &&
                g->m.ter(dirx, diry) != t_dirt && g->m.ter(dirx, diry) != t_grass) {
-        g->m.destroy(dirx, diry, true);
+        g->m.destroy( dirp, true );
         p->moves -= 500;
         sounds::sound(dirx, diry, 45, _("TATATATATATATAT!"));
     } else {
@@ -4615,16 +4616,17 @@ int iuse::jacqueshammer(player *p, item *it, bool, point)
     }
     dirx += p->posx();
     diry += p->posy();
+    tripoint dirp( dirx, diry, p->posz() );
     if (g->m.is_bashable(dirx, diry) && g->m.has_flag("SUPPORTS_ROOF", dirx, diry) &&
         g->m.ter(dirx, diry) != t_tree) {
-        g->m.destroy(dirx, diry, true);
+        g->m.destroy( dirp, true );
         // This looked like 50 minutes, but seems more like 50 seconds.  Needs checked.
         p->moves -= 500;
         //~ the sound of a "jacqueshammer"
         sounds::sound(dirx, diry, 45, _("OHOHOHOHOHOHOHOHO!"));
     } else if (g->m.move_cost(dirx, diry) == 2 && g->get_levz() != -1 &&
                g->m.ter(dirx, diry) != t_dirt && g->m.ter(dirx, diry) != t_grass) {
-        g->m.destroy(dirx, diry, true);
+        g->m.destroy( dirp, true );
         p->moves -= 500;
         sounds::sound(dirx, diry, 45, _("OHOHOHOHOHOHOHOHO!"));
     } else {
@@ -5776,59 +5778,72 @@ int iuse::mp3(player *p, item *it, bool, point)
     return it->type->charges_to_use();
 }
 
-std::string get_random_music_description(player *p)
+// Some music descriptions affect the character additionally, e.g. increase player::stim, or
+// increase the morale from the music.
+struct music_description {
+    std::string sound;
+    int stim_bonus = 0;
+    int morale_bonus = 0;
+};
+music_description get_music_description( const player & p )
 {
-    std::string sound = "";
-
-    switch (rng(1, 10)) {
+    music_description result;
+    switch( rng( 1, 10 ) ) {
         case 1:
-            sound = _("a sweet guitar solo!");
-            p->stim++;
+            result.sound = _("a sweet guitar solo!");
+            result.stim_bonus = 1;
             break;
         case 2:
-            sound = _("a funky bassline.");
+            result.sound = _("a funky bassline.");
             break;
         case 3:
-            sound = _("some amazing vocals.");
+            result.sound = _("some amazing vocals.");
             break;
         case 4:
-            sound = _("some pumping bass.");
+            result.sound = _("some pumping bass.");
             break;
         case 5:
-            sound = _("dramatic classical music.");
-            if (p->int_cur >= 10) {
-                p->add_morale(MORALE_MUSIC, 1, (50 + p->int_cur*2), 5, 2);
+            result.sound = _("dramatic classical music.");
+            if( p.int_cur >= 10 ) {
+                result.morale_bonus = p.int_cur * 2;
             }
             break;
     }
     if (one_in(50)) {
-        sound = _("some bass-heavy post-glam speed polka");
+        result.sound = _("some bass-heavy post-glam speed polka");
     }
-
-    return sound;
+    return result;
 }
 
-void iuse::play_music( player *p, point source, int volume )
+void iuse::play_music( player * const p, point const source, int const volume, int const max_morale )
 {
-    std::string sound = "";
+    // TODO: what about other "player", e.g. when a NPC is listening or when the PC is listening,
+    // the other characters around should be able to profit as well.
+    bool const do_effects = !p->has_effect( "music" ) && p->can_hear( source, volume );
+    int morale_bonus = 0;
+    std::string sound;
     if( int(calendar::turn) % 50 == 0 ) {
         // Every 5 minutes, describe the music
-        std::string description = get_random_music_description(p);
-        if( !description.empty() ) {
-            sound = string_format( _("You listen to %s"), description.c_str() );
+        auto const music = get_music_description( *p );
+        if( !music.sound.empty() ) {
+            sound = string_format( _("You listen to %s"), music.sound.c_str() );
+        }
+        if( do_effects ) {
+            p->stim += music.stim_bonus;
+            morale_bonus += music.morale_bonus;
         }
     }
     sounds::ambient_sound( source.x, source.y, volume, sound );
-    if( !p->has_effect("music") && !p->can_hear( source, volume ) ) {
+    if( do_effects ) {
         p->add_effect("music", 1);
-        p->add_morale(MORALE_MUSIC, 1, 50, 5, 2);
+        p->add_morale(MORALE_MUSIC, 1, max_morale + morale_bonus, 5, 2);
     }
 }
 
-int iuse::mp3_on(player *p, item *it, bool t, point)
+int iuse::mp3_on(player *p, item *it, bool t, point pos)
 {
     if (t) { // Normal use
-        play_music( p, p->pos(), 0 );
+        play_music( p, pos, 0, 50 );
     } else { // Turning it off
         p->add_msg_if_player(_("The mp3 player turns off."));
         it->make("mp3");
@@ -6655,11 +6670,12 @@ int iuse::artifact(player *p, item *it, bool, point)
                 sounds::sound(p->posx(), p->posy(), 30, _("The earth shakes!"));
                 for (int x = p->posx() - 2; x <= p->posx() + 2; x++) {
                     for (int y = p->posy() - 2; y <= p->posy() + 2; y++) {
-                        g->m.bash(x, y, 40);
-                        g->m.bash(x, y, 40);  // Multibash effect, so that doors &c will fall
-                        g->m.bash(x, y, 40);
-                        if (g->m.is_bashable(x, y) && rng(1, 10) >= 3) {
-                            g->m.bash(x, y, 999, false, true);
+                        tripoint pt( x, y, p->posz() );
+                        g->m.bash( pt, 40 );
+                        g->m.bash( pt, 40 );  // Multibash effect, so that doors &c will fall
+                        g->m.bash( pt, 40 );
+                        if (g->m.is_bashable( pt ) && rng(1, 10) >= 3) {
+                            g->m.bash( pt, 999, false, true );
                         }
                     }
                 }
@@ -7057,36 +7073,42 @@ int iuse::holster_gun(player *p, item *it, bool, point)
 {
     // if holster is empty, pull up menu asking what to holster
     if (it->contents.empty()) {
-        int inventory_index = g->inv_type(_("Holster what?"), IC_GUN); // only show guns
-        item *put = &(p->i_at(inventory_index));
-        if (put == NULL || put->is_null()) {
+        int maxvol = 0;
+        // TODO: extract into an item function
+        if( it->type->properties["holster_size"] != "0" ) {
+            maxvol = std::atoi( it->type->properties["holster_size"].c_str() );
+        }
+        int minvol = maxvol / 3;
+
+        auto filter = [maxvol, minvol]( const item &it ) {
+            return it.is_gun() && it.volume() <= maxvol && it.volume() >= minvol;
+        };
+        int const inventory_index = g->inv_for_filter( _("Holster what?"), filter );
+        item &put = p->i_at( inventory_index );
+        if( put.is_null() ) {
             p->add_msg_if_player(_("Never mind."));
             return 0;
         }
 
         // make sure we're holstering a pistol
-        if (!put->is_gun()) {
-            p->add_msg_if_player(m_info, _("That isn't a gun!"), put->tname().c_str());
+        if (!put.is_gun()) {
+            p->add_msg_if_player(m_info, _("That isn't a gun!"), put.tname().c_str());
             return 0;
         }
 
-        auto gun = put->type->gun.get();
-        int maxvol = 0;
-        if(it->type->properties["holster_size"] != "0") {
-          maxvol = std::atoi(it->type->properties["holster_size"].c_str());
-        }
         // only allow guns smaller than a certain size
-        if (put->volume() > maxvol) {
+        if (put.volume() > maxvol) {
             p->add_msg_if_player(m_info, _("That holster is too small to hold your %s!"),
-                                 put->tname().c_str());
+                                 put.tname().c_str());
             return 0;
-        } else if (put->volume() < (maxvol / 3)) {
+        } else if (put.volume() < minvol) {
           p->add_msg_if_player(m_info, _("That holster is too big to hold your %s!"),
-                              put->tname().c_str());
+                              put.tname().c_str());
           return 0;
         }
 
-        int lvl = p->skillLevel(gun->skill_used);
+        std::string const gun_skill = put.gun_skill();
+        int const lvl = p->skillLevel( gun_skill );
         std::string message;
         if (lvl < 2) {
             message = _("You clumsily holster your %s.");
@@ -7096,8 +7118,8 @@ int iuse::holster_gun(player *p, item *it, bool, point)
             message = _("You holster your %s.");
         }
 
-        p->add_msg_if_player(message.c_str(), put->tname().c_str());
-        p->store(it, put, gun->skill_used->ident(), 14);
+        p->add_msg_if_player(message.c_str(), put.tname().c_str());
+        p->store(it, &put, gun_skill, 14);
 
     } else if( &p->weapon == it ) {
         p->add_msg_if_player( _( "You need to unwield the %s before using it." ), it->tname().c_str() );
@@ -8125,18 +8147,7 @@ int iuse::einktabletpc(player *p, item *it, bool t, point pos)
 
             //the more varied music, the better max mood.
             const int songs = it->get_var( "EIPC_MUSIC", 0 );
-
-            //if user can hear this music and not already hear music
-            if( p->can_hear( pos, 8 ) && !p->has_effect("music")) {
-
-                p->add_effect("music", 1);
-                p->add_morale(MORALE_MUSIC, 1, std::min(100, songs), 5, 2);
-
-                if (int(calendar::turn) % 50 == 0) { // Every 5 minutes, describe the music
-                    const std::string sound = get_random_music_description(p);
-                    sounds::sound(pos.x, pos.y, 8, sound);
-                }
-            }
+            play_music( p, pos, 8, std::min( 100, songs ) );
         }
 
         return 0;

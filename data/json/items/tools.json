@@ -276,7 +276,7 @@
     "ammo": "thread",
     "revert_to": "null",
     "use_action": "SEW_ADVANCED",
-	"qualities": [["CUT", 1]]
+    "qualities": [["CUT", 1]]
   },
 
   {
@@ -3133,7 +3133,7 @@
     "name": "dynamite",
     "description": "These are several sticks of explosives with a fuse attached.  Use this item to light the fuse.  You will, of course, need a lighter or matches in your inventory to do this.  Shortly after lighting the fuse, this item will explode, so get away!",
     "price": 6000,
-    "material": "paper",
+    "material": ["paper", "powder"],
     "weight": 1133,
     "volume": 3,
     "bashing": 4,
@@ -3171,7 +3171,7 @@
     "name_plural": "dynamites (lit)",
     "description": "The fuse on this dynamite is lit and hissing.  It'll explode any moment now.",
     "price": 0,
-    "material": "paper",
+    "material": ["paper", "powder"],
     "weight": 1133,
     "volume": 3,
     "bashing": 4,
@@ -6596,7 +6596,7 @@
         "type": "transform",
         "msg": "You open the jar, exposing it to the atmosphere.",
         "target": "soup_woods",
-		"target_charges": 4,
+        "target_charges": 4,
         "container": "jar_glass"
     }
   },
@@ -6621,7 +6621,7 @@
         "type": "transform",
         "msg": "You open the jar, exposing it to the atmosphere.",
         "target": "soup_meat",
-		"target_charges": 4,
+        "target_charges": 4,
         "container": "jar_glass"
     }
   },
@@ -6646,7 +6646,7 @@
         "type": "transform",
         "msg": "You open the jar, exposing it to the atmosphere.",
         "target": "soup_fish",
-		"target_charges": 4,
+        "target_charges": 4,
         "container": "jar_glass"
     }
   },
@@ -6671,7 +6671,7 @@
         "type": "transform",
         "msg": "You open the jar, exposing it to the atmosphere.",
         "target": "soup_veggy",
-		"target_charges": 4,
+        "target_charges": 4,
         "container": "jar_glass"
     }
   },
@@ -6696,7 +6696,7 @@
         "type": "transform",
         "msg": "You open the jar, exposing it to the atmosphere.",
         "target": "soup_human",
-		"target_charges": 4,
+        "target_charges": 4,
         "container": "jar_glass"
     }
   },
@@ -6721,7 +6721,7 @@
         "type": "transform",
         "msg": "You open the jar, exposing it to the atmosphere.",
         "target": "broth",
-		"target_charges": 1,
+        "target_charges": 1,
         "container": "jar_glass"
     }
   },
@@ -6746,7 +6746,7 @@
         "type": "transform",
         "msg": "You open the jar, exposing it to the atmosphere.",
         "target": "broth_bone",
-		"target_charges": 1,
+        "target_charges": 1,
         "container": "jar_glass"
     }
   },
@@ -6771,7 +6771,7 @@
         "type": "transform",
         "msg": "You open the jar, exposing it to the atmosphere.",
         "target": "V8",
-		"target_charges": 2,
+        "target_charges": 2,
         "container": "jar_glass"
     }
   },
@@ -9093,7 +9093,7 @@
     "name": "fertilizer bomb",
     "description": "This is a volatile homemade explosive.  Use this item to light the fuse.  You will, of course, need a lighter or matches in your inventory to do this.  Shortly after lighting the fuse, this item will explode, so get away!",
     "price": 0,
-    "material": "plastic",
+    "material": ["plastic", "powder"],
     "weight": 1133,
     "volume": 3,
     "bashing": 4,
@@ -9130,7 +9130,7 @@
     "name_plural": "fertilizer bombs (lit)",
     "description": "The fuse on this fertilizer bomb is lit and hissing.  It'll explode any moment now.",
     "price": 0,
-    "material": "plastic",
+    "material": ["plastic", "powder"],
     "weight": 1300,
     "volume": 3,
     "bashing": 4,
@@ -9517,25 +9517,25 @@
     "revert_to": "null",
     "use_action": "REMOTEVEH"
   },{
-	"id": "brick_kiln",
-	"type": "TOOL",
-	"symbol": ";",
-	"color": "dark_gray",
-	"name": "brick kiln",
-	"description": "This is a portable charcoal-fired kiln.  It is designed for firing bricks, but you could use it to fire anything made of clay.",
-	"price": 25000,
-	"material": "steel",
-	"weight": 9600,
-	"volume": 36,
-	"bashing": 13,
-	"cutting": 0,
-	"to_hit": -3,
-	"max_charges": 200,
-	"initial_charges": 0,
-	"charges_per_use": 0,
-	"turns_per_charge": 0,
-	"ammo": "charcoal",
-	"revert_to": "null"
+    "id": "brick_kiln",
+    "type": "TOOL",
+    "symbol": ";",
+    "color": "dark_gray",
+    "name": "brick kiln",
+    "description": "This is a portable charcoal-fired kiln.  It is designed for firing bricks, but you could use it to fire anything made of clay.",
+    "price": 25000,
+    "material": "steel",
+    "weight": 9600,
+    "volume": 36,
+    "bashing": 13,
+    "cutting": 0,
+    "to_hit": -3,
+    "max_charges": 200,
+    "initial_charges": 0,
+    "charges_per_use": 0,
+    "turns_per_charge": 0,
+    "ammo": "charcoal",
+    "revert_to": "null"
   },
   {
     "id": "tool_anfo_charge",

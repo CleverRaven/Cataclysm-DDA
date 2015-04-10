@@ -3154,7 +3154,7 @@
     "symbol": "(",
     "color": "brown",
     "name": "blunderbuss",
-	"name_plural": "blunderbusses",
+    "name_plural": "blunderbusses",
     "description": "A homemade version of a crude precursor to the shotgun. Able to fire just about anything you put down the barrel, but it will degrade pretty quick.",
     "price": 15000,
     "material": ["steel", "wood"],

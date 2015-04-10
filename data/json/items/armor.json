@@ -2241,7 +2241,7 @@
         "coverage" : 85,
         "material_thickness" : 2
     },
-	{
+    {
         "type" : "ARMOR",
         "id" : "cassock",
         "name" : "cassock",
@@ -2266,7 +2266,7 @@
         "coverage" : 90,
         "material_thickness" : 2
     },
-	{
+    {
         "type" : "ARMOR",
         "id" : "thawb",
         "name" : "thawb",
@@ -2291,7 +2291,7 @@
         "coverage" : 90,
         "material_thickness" : 2
     },
-	{
+    {
         "type" : "ARMOR",
         "id" : "kittel",
         "name" : "kittel",
@@ -2316,7 +2316,7 @@
         "coverage" : 80,
         "material_thickness" : 2
     },
-	{
+    {
         "type" : "ARMOR",
         "id" : "robe",
         "name" : "robe",
@@ -2341,7 +2341,7 @@
         "coverage" : 80,
         "material_thickness" : 2
     },
-	{
+    {
         "type" : "ARMOR",
         "id" : "kariginu",
         "name" : "kariginu",
@@ -2389,7 +2389,7 @@
         "coverage" : 90,
         "material_thickness" : 2
     },
-	{
+    {
         "type" : "ARMOR",
         "id" : "kufi",
         "name" : "kufi cap",
@@ -2413,7 +2413,7 @@
         "coverage" : 50,
         "material_thickness" : 1
     },
-	{
+    {
         "type" : "ARMOR",
         "id" : "kippah",
         "name" : "kippah",
@@ -2437,7 +2437,7 @@
         "coverage" : 40,
         "material_thickness" : 1
     },
-	{
+    {
         "type" : "ARMOR",
         "id" : "eboshi",
         "name" : "eboshi",

@@ -18,7 +18,7 @@ typedef std::list< std::list<item> > invstack;
 typedef std::vector< std::list<item>* > invslice;
 typedef std::vector< const std::list<item>* > const_invslice;
 typedef std::vector< std::pair<std::list<item>*, int> > indexed_invslice;
-typedef std::function<bool(const item&)> item_filter;
+typedef std::function<bool(const item &)> item_filter;
 
 class salvage_actor;
 
@@ -47,12 +47,10 @@ class inventory
         inventory  operator+  (const std::list<item> &rhs);
 
         static bool has_activation(const item &it, const player &u);
-        static bool has_category(const item &it, item_cat cat, const player &u);
         static bool has_capacity_for_liquid(const item &it, const item &liquid);
 
         indexed_invslice slice_filter();  // unfiltered, but useful for a consistent interface.
         indexed_invslice slice_filter_by_activation(const player &u);
-        indexed_invslice slice_filter_by_category(item_cat cat, const player &u);
         indexed_invslice slice_filter_by_capacity_for_liquid(const item &liquid);
         indexed_invslice slice_filter_by_flag(const std::string flag);
         indexed_invslice slice_filter_by_salvageability(const salvage_actor &actor);

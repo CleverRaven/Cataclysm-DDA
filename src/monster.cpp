@@ -1296,7 +1296,7 @@ void monster::explode()
                     g->m.add_field( tarx, tary, type_gib, rng( 1, j + 1 ) );
                 }
                 if( g->m.move_cost( tarx, tary ) == 0 ) {
-                    if( !g->m.bash( tarx, tary, 3 ).second ) {
+                    if( !g->m.bash( tripoint( tarx, tary, posz() ), 3 ).second ) {
                         // Target is obstacle, not destroyed by bashing,
                         // stop trajectory in front of it, if this is the first
                         // point (e.g. wall adjacent to monster) , make it invalid.
@@ -1439,7 +1439,7 @@ void monster::drop_items_on_death()
     if (type->death_drops.empty()) {
         return;
     }
-    g->m.put_items_from_loc( type->death_drops, posx(), posy(), calendar::turn );
+    g->m.put_items_from_loc( type->death_drops, pos3(), calendar::turn );
 }
 
 void monster::process_effects()

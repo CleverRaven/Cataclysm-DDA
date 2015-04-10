@@ -105,7 +105,7 @@
     ],
     [
       [ "water", 10 ],
-	  [ "water_clean", 10]
+      [ "water_clean", 10]
     ]
   ]
 },{
@@ -131,7 +131,7 @@
     ],
     [
       [ "water", 5 ],
-	  [ "water_clean", 5]
+      [ "water_clean", 5]
     ]
   ]
 },{

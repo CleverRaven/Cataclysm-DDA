@@ -1001,7 +1001,7 @@
             }
         ]
     },
-	{
+    {
         "type" : "keybinding",
         "id": "REROLL_CHARACTER",
         "category": "NEW_CHAR_DESCRIPTION",

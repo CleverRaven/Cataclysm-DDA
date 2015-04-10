@@ -210,14 +210,13 @@ class cata_tiles
 
         /* Tile Picking */
         void get_tile_values(const int t, const int *tn, int &subtile, int &rotation);
-        void get_wall_values(const int x, const int y, const long vertical_wall_symbol,
-                             const long horizontal_wall_symbol, int &subtile, int &rotation);
+        void get_wall_values(const int x, const int y, int &subtile, int &rotation);
         void get_terrain_orientation(int x, int y, int &rota, int &subtype);
         void get_rotation_and_subtile(const char val, const int num_connects, int &rota, int &subtype);
 
         /** Drawing Layers */
         void draw_single_tile(const int x, const int y, const lit_level ll,
-			      const visibility_variables &cache);
+                              const visibility_variables &cache);
         bool apply_vision_effects(const int x, const int y,
                                   const visibility_type visibility);
         bool draw_terrain(int x, int y);
