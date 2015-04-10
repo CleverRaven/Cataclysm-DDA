@@ -1496,7 +1496,7 @@
     "luminance":0,
     "hp":80,
     "death_function":"NORMAL",
-    "special_attacks":[["BITE", 5]],
+    "special_attacks":[["BITE", 5], ["SELF_UPGRADE", 100]],
     "description":"A human body, swaying as it moves, an unstoppable rage is visible in its oily black eyes.",
     "flags":["SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "GROUP_BASH", "POISON", "BLEED", "NO_BREATHE", "REVIVES", "BONES"],
     "categories":["CLASSIC"]

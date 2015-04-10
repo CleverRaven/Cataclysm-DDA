@@ -62,6 +62,7 @@ void multi_robot        (monster *z, int index); // Tazer, flame, M4, MGL, or 12
 void ratking            (monster *z, int index);
 void generator          (monster *z, int index);
 void upgrade            (monster *z, int index);
+void self_upgrade       (monster *z, int index);
 void breathe            (monster *z, int index);
 void bite               (monster *z, int index);
 void brandish           (monster *z, int index);

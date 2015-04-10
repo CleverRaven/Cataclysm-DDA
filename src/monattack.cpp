@@ -3444,6 +3444,25 @@ void mattack::upgrade(monster *z, int index)
     }
 }
 
+void mattack::self_upgrade(monster *z, int index){
+    z->reset_special(index);
+    int replace_time = DAYS(ACTIVE_WORLD_OPTIONS["MONSTER_GROUP_DIFFICULTY"]) *
+        (calendar::turn.season_length() / 14) * 2;
+    if (calendar::turn.get_turn() <= replace_time || !z->can_act()){
+        return;
+    }
+    const auto monsters = MonsterGroupManager::GetMonstersFromGroup("GROUP_ZOMBIE_UPGRADE");
+    const std::string newtype = monsters[rng(0, monsters.size() - 1)];
+
+    z->poly(GetMType(newtype));
+    if (g->u.sees( *z )){
+        add_msg(m_warning, _("The zombie begins twiching as it changes into something better... \
+                             ... and changes into a %s"), z->name().c_str());
+    }
+    //takes a lot longer than the Zombie Master's transformation
+    z->moves -= 1000;
+}
+
 void mattack::breathe(monster *z, int index)
 {
     z->reset_special(index); // Reset timer
