@@ -874,6 +874,7 @@ void add_corpse( const tripoint &p );
 
 // mapgen.cpp functions
  void generate(const int x, const int y, const int z, const int turn);
+ void generate_uniform(const int x, const int y, const int z, const oter_id &terrain_type);
  void post_process(unsigned zones);
  void place_spawns(std::string group, const int chance,
                    const int x1, const int y1, const int x2, const int y2, const float density);

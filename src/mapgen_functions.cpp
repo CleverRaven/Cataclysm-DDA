@@ -116,10 +116,15 @@ void init_mapgen_builtin_functions() {
     mapgen_cfunction_map["cave"] = &mapgen_cave;
     mapgen_cfunction_map["cave_rat"] = &mapgen_cave_rat;
     mapgen_cfunction_map["cavern"] = &mapgen_cavern;
-    mapgen_cfunction_map["rock"] = &mapgen_rock;
     mapgen_cfunction_map["open_air"] = &mapgen_open_air;
     mapgen_cfunction_map["rift"] = &mapgen_rift;
     mapgen_cfunction_map["hellmouth"] = &mapgen_hellmouth;
+
+    // New rock function - should be default, but isn't yet for compatibility reasons (old overmaps)
+    mapgen_cfunction_map["empty_rock"] = &mapgen_rock;
+    // Old rock behavior, for compatibility and near caverns and slime pits
+    mapgen_cfunction_map["rock"] = &mapgen_rock_partial;
+
     mapgen_cfunction_map["subway_station"] = &mapgen_subway_station;
 
     mapgen_cfunction_map["subway_straight"]    = &mapgen_subway_straight;
@@ -6270,32 +6275,36 @@ void mapgen_cavern(map *m, oter_id, mapgendata dat, int, float)
 
 }
 
-
-void mapgen_rock(map *m, oter_id, mapgendata dat, int, float)
+void mapgen_rock_partial(map *m, oter_id, mapgendata dat, int, float)
 {
     fill_background( m, t_rock );
-    for (int i = 0; i < 4; i++) {
-        if (dat.t_nesw[i] == "cavern" || dat.t_nesw[i] == "slimepit" ||
-            dat.t_nesw[i] == "slimepit_down") {
+    for( int i = 0; i < 4; i++ ) {
+        if( dat.t_nesw[i] == "cavern" || dat.t_nesw[i] == "slimepit" ||
+            dat.t_nesw[i] == "slimepit_down" ) {
             dat.dir(i) = 6;
         } else {
             dat.dir(i) = 0;
         }
     }
 
-    for (int i = 0; i < SEEX * 2; i++) {
-        for (int j = 0; j < SEEY * 2; j++) {
-            if (rng(0, dat.n_fac) > j || rng(0, dat.e_fac) > SEEX * 2 - 1 - i ||
-                rng(0, dat.w_fac) > i || rng(0, dat.s_fac) > SEEY * 2 - 1 - j   ) {
+    for( int i = 0; i < SEEX * 2; i++ ) {
+        for( int j = 0; j < SEEY * 2; j++ ) {
+            if( rng(0, dat.n_fac) > j || rng(0, dat.s_fac) > SEEY * 2 - 1 - j ||
+                rng(0, dat.w_fac) > i || rng(0, dat.e_fac) > SEEX * 2 - 1 - i ) {
                 m->ter_set(i, j, t_rock_floor);
             }
         }
     }
 }
 
+void mapgen_rock(map *m, oter_id, mapgendata, int, float)
+{
+    fill_background( m, t_rock );
+}
+
 
 void mapgen_open_air(map *m, oter_id, mapgendata, int, float){
-    fill_background(m, t_open_air);
+    fill_background( m, t_open_air );
 }
 
 

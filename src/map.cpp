@@ -5763,17 +5763,21 @@ void map::loadn( const int gridx, const int gridy, const bool update_vehicles ) 
     }
 }
 
-void map::loadn( const int gridx, const int gridy, const int gridz, const bool update_vehicles ) {
+void map::loadn( const int gridx, const int gridy, const int gridz, const bool update_vehicles )
+{
+    // Cache empty overmap types
+    static const oter_id rock("empty_rock");
+    static const oter_id air("open_air");
 
- dbg(D_INFO) << "map::loadn(game[" << g << "], worldx[" << abs_sub.x << "], worldy[" << abs_sub.y << "], gridx["
-             << gridx << "], gridy[" << gridy << "], gridz[" << gridz << "])";
+    dbg(D_INFO) << "map::loadn(game[" << g << "], worldx[" << abs_sub.x << "], worldy[" << abs_sub.y << "], gridx["
+                << gridx << "], gridy[" << gridy << "], gridz[" << gridz << "])";
 
- const int absx = abs_sub.x + gridx,
-           absy = abs_sub.y + gridy;
+    const int absx = abs_sub.x + gridx,
+              absy = abs_sub.y + gridy;
     const size_t gridn = get_nonant( gridx, gridy, gridz );
 
- dbg(D_INFO) << "map::loadn absx: " << absx << "  absy: " << absy
-            << "  gridn: " << gridn;
+    dbg(D_INFO) << "map::loadn absx: " << absx << "  absy: " << absy
+                << "  gridn: " << gridn;
 
     const int old_abs_z = abs_sub.z; // Ugly, but necessary at the moment
     abs_sub.z = gridz;
@@ -5782,12 +5786,23 @@ void map::loadn( const int gridx, const int gridy, const int gridz, const bool u
     if( tmpsub == nullptr ) {
         // It doesn't exist; we must generate it!
         dbg( D_INFO | D_WARNING ) << "map::loadn: Missing mapbuffer data. Regenerating.";
-        tinymap tmp_map;
+
         // Each overmap square is two nonants; to prevent overlap, generate only at
         //  squares divisible by 2.
         const int newmapx = absx - ( abs( absx ) % 2 );
         const int newmapy = absy - ( abs( absy ) % 2 );
-        tmp_map.generate( newmapx, newmapy, gridz, calendar::turn );
+        // Short-circuit if the map tile is uniform
+        int overx = newmapx;
+        int overy = newmapy;
+        overmapbuffer::sm_to_omt( overx, overy );
+        oter_id terrain_type = overmap_buffer.ter( overx, overy, gridz );
+        if( terrain_type == rock || terrain_type == air ) {
+            generate_uniform( newmapx, newmapy, gridz, terrain_type );
+        } else {
+            tinymap tmp_map;
+            tmp_map.generate( newmapx, newmapy, gridz, calendar::turn );
+        }
+
         // This is the same call to MAPBUFFER as above!
         tmpsub = MAPBUFFER.lookup_submap( absx, absy, gridz );
         if( tmpsub == nullptr ) {
