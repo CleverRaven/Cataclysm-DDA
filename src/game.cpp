@@ -65,7 +65,10 @@
 #include <cassert>
 #include <iterator>
 #include <ctime>
+
+#if !(defined _WIN32 || defined WINDOWS || defined TILES)
 #include <langinfo.h>
+#endif
 
 #if (defined _WIN32 || defined __WIN32__)
 #   include "platform_win.h"
@@ -13771,15 +13774,10 @@ void intro()
     }
     werase(tmp);
 
-/*                      *** NOTE ***
- * Not all locale are equal! Gentoo Linux, for instance,
- * reports ${LANG} for UTF-8 as "en_US.utf8"! Be aware!
- */
 #if !(defined _WIN32 || defined WINDOWS || defined TILES)
-    // Check if locale has UTF-8 encoding
-    bool not_utf8 = strcmp(nl_langinfo(CODESET), "UTF-8") !=0;
-
-    if (not_utf8 == true) {
+    // Check whether LC_CTYPE supports the UTF-8 encoding
+    // and show a warning if it doesn't
+    if (strcmp(nl_langinfo(CODESET), "UTF-8") != 0) {
         const char *unicode_error_msg = 
             _("You don't seem to have a valid Unicode locale. You may see some weird " 
               "characters (e.g. empty boxes or question marks). You have been warned.");
