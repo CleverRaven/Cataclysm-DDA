@@ -48,14 +48,14 @@ ENDIF (${CMAKE_SYSTEM_NAME} MATCHES FreeBSD)
 
 IF( ${CMAKE_SYSTEM_NAME} MATCHES Darwin )
 	SET(_OS_DARWIN_ 1)
-	SET(LOCALIZE OFF)
-	MESSAGE(STATUS "Disable internationalization on Darwin as it is not supported")
+	#SET(LOCALIZE OFF)
+	#MESSAGE(STATUS "Disable internationalization on Darwin as it is not supported")
 ENDIF( ${CMAKE_SYSTEM_NAME} MATCHES Darwin )
 
 IF( ${CMAKE_SYSTEM_NAME} MATCHES Windows )
 	SET(_OS_WINDOWS_ 1)
-	SET(LOCALIZE OFF)
-	MESSAGE(STATUS "Disable internationalization on Windows as it is not supported")
+	#SET(LOCALIZE OFF)
+	#MESSAGE(STATUS "Disable internationalization on Windows as it is not supported")
 ENDIF( ${CMAKE_SYSTEM_NAME} MATCHES Windows )
 
 IF (${CMAKE_SYSTEM_NAME} MATCHES Linux OR ${CMAKE_SYSTEM_NAME} MATCHES FreeBSD)
