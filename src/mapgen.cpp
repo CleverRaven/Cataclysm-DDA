@@ -9,6 +9,7 @@
 #include "item_group.h"
 #include "mapgen_functions.h"
 #include "mapgenformat.h"
+#include "mapbuffer.h"
 #include "overmapbuffer.h"
 #include "enums.h"
 #include "monstergenerator.h"
@@ -4800,7 +4801,6 @@ ff.......|....|WWWWWWWW|\n\
                         }
                     } else if (trig_dist(i, j, SEEX, SEEY) == 5) {
                         ter_set(i, j, t_hole);
-                        add_trap(i, j, tr_ledge);
                     } else {
                         ter_set(i, j, t_missile);
                     }

@@ -331,8 +331,6 @@ void Item_factory::init()
     iuse_function_list["REMOTEVEH"] = &iuse::remoteveh;
 
     create_inital_categories();
-
-    init_old();
 }
 
 void Item_factory::create_inital_categories()
@@ -562,6 +560,12 @@ void Item_factory::load_slot_optional( std::unique_ptr<SlotType> &slotptr, JsonO
     }
     JsonObject slotjo = jo.get_object( member );
     load_slot( slotptr, slotjo );
+}
+
+void Item_factory::load( islot_software &slot, JsonObject &jo )
+{
+    slot.type = jo.get_string( "type" );
+    slot.power = jo.get_int( "power" );
 }
 
 void Item_factory::load( islot_ammo &slot, JsonObject &jo )
@@ -976,6 +980,7 @@ void Item_factory::load_basic_info(JsonObject &jo, itype *new_item_template)
     load_slot_optional( new_item_template->spawn, jo, "spawn_data" );
     load_slot_optional( new_item_template->ammo, jo, "ammo_data" );
     load_slot_optional( new_item_template->seed, jo, "seed_data" );
+    load_slot_optional( new_item_template->software, jo, "software_data" );
 }
 
 void Item_factory::load_item_category(JsonObject &jo)

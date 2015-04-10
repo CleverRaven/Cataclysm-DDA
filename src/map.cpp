@@ -5761,17 +5761,54 @@ void map::loadn( const int gridx, const int gridy, const bool update_vehicles ) 
     }
 }
 
-void map::loadn( const int gridx, const int gridy, const int gridz, const bool update_vehicles ) {
+// Optimized mapgen function that only works properly for very simple overmap types
+// Does not create or require a temporary map and does its own saving
+static void generate_uniform( const int x, const int y, const int z, const oter_id &terrain_type )
+{
+    static const oter_id rock("empty_rock");
+    static const oter_id air("open_air");
 
- dbg(D_INFO) << "map::loadn(game[" << g << "], worldx[" << abs_sub.x << "], worldy[" << abs_sub.y << "], gridx["
-             << gridx << "], gridy[" << gridy << "], gridz[" << gridz << "])";
+    dbg( D_INFO ) << "generate_uniform x: " << x << "  y: " << y << "  abs_z: " << z
+                  << "  terrain_type: " << static_cast<std::string const&>(terrain_type);
 
- const int absx = abs_sub.x + gridx,
-           absy = abs_sub.y + gridy;
+    ter_id fill = t_null;
+    if( terrain_type == rock ) {
+        fill = t_rock;
+    } else if( terrain_type == air ) {
+        fill = t_open_air;
+    } else {
+        debugmsg( "map::generate_uniform called on non-uniform type: %s",
+                  static_cast<std::string const&>(terrain_type).c_str() );
+        return;
+    }
+
+    constexpr size_t block_size = SEEX * SEEY;
+    for( int xd = 0; xd <= 1; xd++ ) {
+        for( int yd = 0; yd <= 1; yd++ ) {
+            submap *sm = new submap();
+            sm->is_uniform = true;
+            std::uninitialized_fill_n( &sm->ter[0][0], block_size, fill );
+            sm->turn_last_touched = int(calendar::turn);
+            MAPBUFFER.add_submap( x + xd, y + yd, z, sm );
+        }
+    }
+}
+
+void map::loadn( const int gridx, const int gridy, const int gridz, const bool update_vehicles )
+{
+    // Cache empty overmap types
+    static const oter_id rock("empty_rock");
+    static const oter_id air("open_air");
+
+    dbg(D_INFO) << "map::loadn(game[" << g << "], worldx[" << abs_sub.x << "], worldy[" << abs_sub.y << "], gridx["
+                << gridx << "], gridy[" << gridy << "], gridz[" << gridz << "])";
+
+    const int absx = abs_sub.x + gridx,
+              absy = abs_sub.y + gridy;
     const size_t gridn = get_nonant( gridx, gridy, gridz );
 
- dbg(D_INFO) << "map::loadn absx: " << absx << "  absy: " << absy
-            << "  gridn: " << gridn;
+    dbg(D_INFO) << "map::loadn absx: " << absx << "  absy: " << absy
+                << "  gridn: " << gridn;
 
     const int old_abs_z = abs_sub.z; // Ugly, but necessary at the moment
     abs_sub.z = gridz;
@@ -5780,12 +5817,23 @@ void map::loadn( const int gridx, const int gridy, const int gridz, const bool u
     if( tmpsub == nullptr ) {
         // It doesn't exist; we must generate it!
         dbg( D_INFO | D_WARNING ) << "map::loadn: Missing mapbuffer data. Regenerating.";
-        tinymap tmp_map;
+
         // Each overmap square is two nonants; to prevent overlap, generate only at
         //  squares divisible by 2.
         const int newmapx = absx - ( abs( absx ) % 2 );
         const int newmapy = absy - ( abs( absy ) % 2 );
-        tmp_map.generate( newmapx, newmapy, gridz, calendar::turn );
+        // Short-circuit if the map tile is uniform
+        int overx = newmapx;
+        int overy = newmapy;
+        overmapbuffer::sm_to_omt( overx, overy );
+        oter_id terrain_type = overmap_buffer.ter( overx, overy, gridz );
+        if( terrain_type == rock || terrain_type == air ) {
+            generate_uniform( newmapx, newmapy, gridz, terrain_type );
+        } else {
+            tinymap tmp_map;
+            tmp_map.generate( newmapx, newmapy, gridz, calendar::turn );
+        }
+
         // This is the same call to MAPBUFFER as above!
         tmpsub = MAPBUFFER.lookup_submap( absx, absy, gridz );
         if( tmpsub == nullptr ) {

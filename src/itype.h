@@ -26,14 +26,6 @@ class item;
 typedef std::string itype_id;
 typedef std::string ammotype;
 
-enum software_type : int {
-    SW_USELESS,
-    SW_HACKING,
-    SW_MEDICAL,
-    SW_SCIENCE,
-    SW_DATA
-};
-
 enum bigness_property_aspect : int {
     BIGNESS_ENGINE_DISPLACEMENT, // combustion engine CC displacement
     BIGNESS_WHEEL_DIAMETER,      // wheel size in inches, including tire
@@ -382,9 +374,13 @@ struct islot_bionic {
 
 struct islot_software {
     /**
-     * Type of software, see enum.
+     * Type of software, not used by anything at all.
      */
-    software_type swtype = SW_USELESS;
+    std::string type = "USELESS";
+    /**
+     * No used, but it's there is the original data.
+     */
+    int power;
 };
 
 struct islot_seed {
