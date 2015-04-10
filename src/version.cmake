@@ -1,3 +1,5 @@
+FIND_PACKAGE(Git)
+
 EXECUTE_PROCESS(
 	COMMAND ${GIT_EXECUTABLE} describe --tags --always --dirty --match "[0-9]*.[0-9]*"
 	OUTPUT_VARIABLE VERSION
