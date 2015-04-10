@@ -2913,10 +2913,10 @@ void map::shoot( const tripoint &p, int &dam,
         dam = veh->damage (vpart, dam, inc? 2 : 0, hit_items);
     }
 
-    ter_t terrain = ter_at(x, y);
-    if( 0 == terrain.id.compare("t_wall_wood_broken") ||
-        0 == terrain.id.compare("t_wall_log_broken") ||
-        0 == terrain.id.compare("t_door_b") ) {
+    ter_id terrain = ter( p );
+    if( terrain == t_wall_wood_broken ||
+        terrain == t_wall_log_broken ||
+        terrain == t_door_b ) {
         if (hit_items || one_in(8)) { // 1 in 8 chance of hitting the door
             dam -= rng(20, 40);
             if (dam > 0) {
@@ -2927,26 +2927,26 @@ void map::shoot( const tripoint &p, int &dam,
         else {
             dam -= rng(0, 1);
         }
-    } else if( 0 == terrain.id.compare("t_door_c") ||
-               0 == terrain.id.compare("t_door_locked") ||
-               0 == terrain.id.compare("t_door_locked_peep") ||
-               0 == terrain.id.compare("t_door_locked_alarm") ) {
+    } else if( terrain == t_door_c ||
+               terrain == t_door_locked ||
+               terrain == t_door_locked_peep ||
+               terrain == t_door_locked_alarm ) {
         dam -= rng(15, 30);
         if (dam > 0) {
             sounds::sound(x, y, 10, _("smash!"));
             ter_set(x, y, t_door_b);
         }
-    } else if( 0 == terrain.id.compare("t_door_boarded") ||
-               0 == terrain.id.compare("t_door_boarded_damaged") ||
-               0 == terrain.id.compare("t_rdoor_boarded") ||
-               0 == terrain.id.compare("t_rdoor_boarded_damaged") ) {
+    } else if( terrain == t_door_boarded ||
+               terrain == t_door_boarded_damaged ||
+               terrain == t_rdoor_boarded ||
+               terrain == t_rdoor_boarded_damaged ) {
         dam -= rng(15, 35);
         if (dam > 0) {
             sounds::sound(x, y, 10, _("crash!"));
             ter_set(x, y, t_door_b);
         }
-    } else if( 0 == terrain.id.compare("t_window_domestic_taped") ||
-               0 == terrain.id.compare("t_curtains") ) {
+    } else if( terrain == t_window_domestic_taped ||
+               terrain == t_curtains ) {
         if (ammo_effects.count("LASER")) {
             dam -= rng(1, 5);
         }
@@ -2962,7 +2962,7 @@ void map::shoot( const tripoint &p, int &dam,
                 spawn_item(x, y, "string_36");
             }
         }
-    } else if( 0 == terrain.id.compare("t_window_domestic") ) {
+    } else if( terrain == t_window_domestic ) {
         if (ammo_effects.count("LASER")) {
             dam -= rng(0, 5);
         } else {
@@ -2975,8 +2975,8 @@ void map::shoot( const tripoint &p, int &dam,
                 spawn_item(x, y, "string_36");
             }
         }
-    } else if( 0 == terrain.id.compare("t_window_taped") ||
-               0 == terrain.id.compare("t_window_alarm_taped") ) {
+    } else if( terrain == t_window_taped ||
+               terrain == t_window_alarm_taped ) {
         if (ammo_effects.count("LASER")) {
             dam -= rng(1, 5);
         }
@@ -2989,8 +2989,8 @@ void map::shoot( const tripoint &p, int &dam,
                 ter_set(x, y, t_window_frame);
             }
         }
-    } else if( 0 == terrain.id.compare("t_window") ||
-               0 == terrain.id.compare("t_window_alarm") ) {
+    } else if( terrain == t_window ||
+               terrain == t_window_alarm ) {
         if (ammo_effects.count("LASER")) {
             dam -= rng(0, 5);
         } else {
@@ -3000,16 +3000,15 @@ void map::shoot( const tripoint &p, int &dam,
                 ter_set(x, y, t_window_frame);
             }
         }
-    } else if( 0 == terrain.id.compare("t_window_boarded") ) {
+    } else if( terrain == t_window_boarded ) {
         dam -= rng(10, 30);
         if (dam > 0) {
             sounds::sound(x, y, 16, _("glass breaking!"));
             ter_set(x, y, t_window_frame);
         }
-    } else if( 0 == terrain.id.compare("t_wall_glass_h") ||
-               0 == terrain.id.compare("t_wall_glass_v") ||
-               0 == terrain.id.compare("t_wall_glass_h_alarm") ||
-               0 == terrain.id.compare("t_wall_glass_v_alarm") ) {
+    } else if( terrain == t_wall_glass  ||
+               terrain == t_wall_glass_alarm ||
+               terrain == t_door_glass_c ) {
         if (ammo_effects.count("LASER")) {
             dam -= rng(0,5);
         } else {
@@ -3019,8 +3018,7 @@ void map::shoot( const tripoint &p, int &dam,
                 ter_set(x, y, t_floor);
             }
         }
-    } else if( 0 == terrain.id.compare("t_reinforced_glass_v") ||
-               0 == terrain.id.compare("t_reinforced_glass_h") ) {
+    } else if( terrain == t_reinforced_glass ) {
         // reinforced glass stops most bullets
         // laser beams are attenuated
         if (ammo_effects.count("LASER")) {
@@ -3037,7 +3035,7 @@ void map::shoot( const tripoint &p, int &dam,
                 ter_set(x, y, t_floor);
             }
         }
-    } else if( 0 == terrain.id.compare("t_paper") ) {
+    } else if( terrain == t_paper ) {
         dam -= rng(4, 16);
         if (dam > 0) {
             sounds::sound(x, y, 8, _("rrrrip!"));
@@ -3046,7 +3044,7 @@ void map::shoot( const tripoint &p, int &dam,
         if (ammo_effects.count("INCENDIARY")) {
             add_field(x, y, fd_fire, 1);
         }
-    } else if( 0 == terrain.id.compare("t_gas_pump") ) {
+    } else if( terrain == t_gas_pump ) {
         if (hit_items || one_in(3)) {
             if (dam > 15) {
                 if (ammo_effects.count("INCENDIARY") || ammo_effects.count("FLAME")) {
@@ -3065,7 +3063,7 @@ void map::shoot( const tripoint &p, int &dam,
             }
             dam -= 60;
         }
-    } else if( 0 == terrain.id.compare("t_vat") ) {
+    } else if( terrain == t_vat ) {
         if (dam >= 10) {
             sounds::sound(x, y, 20, _("ke-rash!"));
             ter_set(x, y, t_floor);
