@@ -568,6 +568,16 @@ Every item type can have optional seed data, if the item has seed data, it's con
                 // A value 91 means 3 full seasons, a value of 30 would mean 1 season.
 }
 ```
+
+###SOFTWARE DATA
+Every item type can have software data, it does not have any behavior:
+```
+"software_data" : {
+    "type": "USELESS", // unused
+    "power" : 91 // unused
+}
+```
+
 ###USE ACTIONS
 The contents of use_action fields can either be a string indicating a built-in function to call when the item is activated (defined in iuse.cpp), or one of several special definitions that invoke a more structured function.
 ```C++

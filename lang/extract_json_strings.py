@@ -494,10 +494,6 @@ def add_fake_types():
 
     # fake item types
     writestr(outfile, "note", "notes")
-    writestr(outfile, "misc software")
-    writestr(outfile, "MediSoft")
-    writestr(outfile, "infection data")
-    writestr(outfile, "hackPRO")
 
     # fake monster types
     writestr(outfile, "human", "humans")

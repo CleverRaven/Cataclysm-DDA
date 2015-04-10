@@ -79,35 +79,8 @@ long itype::invoke( player *p, item *it, point pos, const std::string &iuse_name
     return use->call( p, it, false, pos );
 }
 
-itype *newSoftwareIType( const itype_id &id, const std::string &name, const std::string &name_plural,
-               unsigned int price, software_type swtype, int /*power*/, const std::string &description )
-{
-    static const std::vector<std::string> no_materials = { "null" };
-    itype *t = new itype( id, price, name, name_plural, description, ' ', c_white, no_materials,
-                          SOLID, 0, 0, 0, 0, 0 );
-    t->software.reset( new islot_software() );
-    t->software->swtype = swtype;
-    t->spawn.reset( new islot_spawn() );
-    t->spawn->default_container = "usb_drive";
-    return t;
-}
-
 void Item_factory::init_old()
 {
-    add_item_type( newSoftwareIType( "software_useless", "misc software", "none", 300, SW_USELESS, 0,
-    _( "A miscellaneous piece of hobby software. Probably useless." ) ) );
-
-    add_item_type( newSoftwareIType( "software_hacking", "hackPRO", "none", 800, SW_HACKING, 2,
-    _( "A piece of hacking software." ) ) );
-
-    add_item_type( newSoftwareIType( "software_medical", "MediSoft", "none", 600, SW_MEDICAL, 2,
-    _( "A piece of medical software." ) ) );
-
-    add_item_type( newSoftwareIType( "software_math", "MatheMAX", "none", 500, SW_SCIENCE, 3,
-    _( "A piece of mathematical software." ) ) );
-
-    add_item_type( newSoftwareIType( "software_blood_data", "infection data", "none", 200, SW_DATA, 5,
-    _( "Medical data on zombie blood." ) ) );
 }
 
 std::string const& ammo_name(std::string const &t)
