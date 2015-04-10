@@ -103,15 +103,6 @@ void Item_factory::init_old()
         new itype("null", 0, "none", "none", "", '#', c_white, no_materials, PNULL,
                   0, 0, 0, 0, 0) );
     itypes["null"]->item_tags.insert( "PSEUDO" );
-    // Integrated toolset - ditto
-    add_item_type(
-        new itype("toolset", 0, "integrated toolset", "none",
-                  "A fake item. If you are reading this it's a bug! (itypdef:toolset)",
-                  '$', c_red, no_materials, PNULL, 0, 0, 0, 0, 0) );
-    itypes["toolset"]->item_tags.insert( "PSEUDO" );
-    itypes["toolset"]->qualities[ "WRENCH" ] = 1;
-    itypes["toolset"]->qualities[ "SAW_M" ] = 1;
-    itypes["toolset"]->qualities[ "SAW_M_FINE" ] = 1;
     // For smoking drugs
     add_item_type(
         new itype("apparatus", 0, "a smoking device and a source of flame", "none",
