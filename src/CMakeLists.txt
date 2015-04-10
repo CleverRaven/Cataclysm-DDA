@@ -1,295 +1,307 @@
-set(SRCS
-	action.cpp
-	action.h
-	active_item_cache.cpp
-	active_item_cache.h
-	activity_handlers.cpp
-	activity_handlers.h
-	activity_item_handling.cpp
-	addiction.cpp
-	addiction.h
-	advanced_inv.cpp
-	advanced_inv.h
-	ammo.cpp
-	ammo.h
-	animation_curses.cpp
-	animation_tiles.cpp
-	armor_layers.cpp
-	armor_layers.h
-	artifact.cpp
-	artifact.h
-	auto_pickup.cpp
-	auto_pickup.h
-	basecamp.cpp
-	basecamp.h
-	bionics.cpp
-	bionics.h
-	bodypart.cpp
-	bodypart.h
-	calendar.cpp
-	calendar.h
-	catacharset.cpp
-	catacharset.h
-	catacurse.h
-	catalua.cpp
-	catalua.h
-	cata_tiles.cpp
-	cata_tiles.h
-	character.cpp
-	character.h
-	char_validity_check.cpp
-	char_validity_check.h
-	clzones.cpp
-	clzones.h
-	color.cpp
-	color.h
-	compatibility.h
-	computer.cpp
-	computer.h
-	construction.cpp
-	construction.h
-	coordinates.h
-	crafting.cpp
-	crafting.h
-	creature.cpp
-	creature.h
-	creature_tracker.cpp
-	creature_tracker.h
-	cursesdef.h
-	cursesport.cpp
-	damage.cpp
-	damage.h
-	debug.cpp
-	debug.h
-	defense.cpp
-	dependency_tree.cpp
-	dependency_tree.h
-	dialogue.h
-	disease.cpp
-	disease.h
-	editmap.cpp
-	editmap.h
-	effect.cpp
-	effect.h
-	enums.h
-	event.cpp
-	event.h
-	faction.cpp
-	faction.h
-	field.cpp
-	field.h
-	filesystem.cpp
-	filesystem.h
-	game_constants.h
-	game.cpp
-	game.h
-	gamemode.cpp
-	gamemode.h
-	get_version.h
-	help.cpp
-	help.h
-	iexamine.cpp
-	iexamine.h
-	init.cpp
-	init.h
-	input.cpp
-	input.h
-	inventory.cpp
-	inventory.h
-	inventory_ui.cpp
-	item_action.cpp
-	item_action.h
-	item.cpp
-	item_factory.cpp
-	item_factory.h
-	item_group.cpp
-	item_group.h
-	item.h
-	item_stack.h
-	itypedef.cpp
-	itype.h
-	iuse_actor.cpp
-	iuse_actor.h
-	iuse.cpp
-	iuse.h
-	iuse_software.cpp
-	iuse_software.h
-	iuse_software_kitten.cpp
-	iuse_software_kitten.h
-	iuse_software_snake.cpp
-	iuse_software_snake.h
-	iuse_software_sokoban.cpp
-	iuse_software_sokoban.h
-	json.cpp
-	json.h
-	lightmap.cpp
-	lightmap.h
-	line.cpp
-	line.h
-	live_view.cpp
-	live_view.h
-	main.cpp
-	main_menu.cpp
-	mapbuffer.cpp
-	mapbuffer.h
-	map.cpp
-	mapdata.cpp
-	mapdata.h
-	mapgen.cpp
-	mapgenformat.cpp
-	mapgenformat.h
-	mapgen_functions.cpp
-	mapgen_functions.h
-	mapgen.h
-	map.h
-	mapsharing.cpp
-	mapsharing.h
-	martialarts.cpp
-	martialarts.h
-	material.cpp
-	material.h
-	melee.cpp
-	messages.cpp
-	messages.h
-	mission.cpp
-	missiondef.cpp
-	mission_end.cpp
-	mission_fail.cpp
-	mission.h
-	mission_place.cpp
-	mission_start.cpp
-	mod_manager.cpp
-	mod_manager.h
-	mod_manager_ui.cpp
-	monattack.cpp
-	monattack.h
-	mondeath.cpp
-	mondeath.h
-	mondefense.cpp
-	mondefense.h
-	mongroupdef.cpp
-	mongroup.h
-	monmove.cpp
-	monster.cpp
-	monstergenerator.cpp
-	monstergenerator.h
-	monster.h
-	moraledata.h
-	morale.h
-	mtypedef.cpp
-	mtype.h
-	mutation.cpp
-	mutation_data.cpp
-	mutation.h
-	name.cpp
-	name.h
-	newcharacter.cpp
-	nonplayer.cpp
-	nonplayer.h
-	npc.cpp
-	npc.h
-	npcmove.cpp
-	npctalk.cpp
-	omdata.h
-	options.cpp
-	options.h
-	output.cpp
-	output.h
-	overmapbuffer.cpp
-	overmapbuffer.h
-	overmap.cpp
-	overmap.h
-	path_info.cpp
-	path_info.h
-	pickup.cpp
-	pickup.h
-	platform_win.h
-	player_activity.cpp
-	player_activity.h
-	player.cpp
-	player.h
-	pldata.h
-	posix_time.cpp
-	posix_time.h
-	profession.cpp
-	profession.h
-	ranged.cpp
-	requirements.cpp
-	requirements.h
-	resource.rc
-	rng.cpp
-	rng.h
-	savegame.cpp
-	savegame.h
-	savegame_json.cpp
-	savegame_legacy.cpp
-	scenario.cpp
-	scenario.h
-	sdltiles.cpp
-	simplexnoise.cpp
-	simplexnoise.h
-	skill.cpp
-	skill.h
-	sounds.cpp
-	sounds.h
-	speech.cpp
-	speech.h
-	start_location.cpp
-	start_location.h
-	text_snippets.cpp
-	text_snippets.h
-	tile_id_data.h
-	tileray.cpp
-	tileray.h
-	translations.cpp
-	translations.h
-	trapdef.cpp
-	trapfunc.cpp
-	trap.h
-	tutorial.cpp
-	tutorial.h
-	ui.cpp
-	ui.h
-	uistate.h
-	vehicle.cpp
-	vehicle.h
-	veh_interact.cpp
-	veh_interact.h
-	veh_typedef.cpp
-	veh_type.h
-	version.cpp
-	wcwidth.h
-	wdirent.h
-	weather.cpp
-	weather_data.cpp
-	weather_gen.cpp
-	weather_gen.h
-	weather.h
-	wincurse.cpp
-	wish.cpp
-	worldfactory.cpp
-	worldfactory.h
+set(CATACLYSM_DDA_SOURCES
+    ${CMAKE_SOURCE_DIR}/src/veh_interact.cpp
+    ${CMAKE_SOURCE_DIR}/src/mondeath.cpp
+    ${CMAKE_SOURCE_DIR}/src/path_info.cpp
+    ${CMAKE_SOURCE_DIR}/src/iuse_software_kitten.cpp
+    ${CMAKE_SOURCE_DIR}/src/advanced_inv.cpp
+    ${CMAKE_SOURCE_DIR}/src/player_activity.cpp
+    ${CMAKE_SOURCE_DIR}/src/color.cpp
+    ${CMAKE_SOURCE_DIR}/src/basecamp.cpp
+    ${CMAKE_SOURCE_DIR}/src/tileray.cpp
+    ${CMAKE_SOURCE_DIR}/src/npcmove.cpp
+    ${CMAKE_SOURCE_DIR}/src/itypedef.cpp
+    ${CMAKE_SOURCE_DIR}/src/options.cpp
+    ${CMAKE_SOURCE_DIR}/src/field.cpp
+    ${CMAKE_SOURCE_DIR}/src/main_menu.cpp
+    ${CMAKE_SOURCE_DIR}/src/savegame_legacy.cpp
+    ${CMAKE_SOURCE_DIR}/src/mutation_data.cpp
+    ${CMAKE_SOURCE_DIR}/src/posix_time.cpp
+    ${CMAKE_SOURCE_DIR}/src/tutorial.cpp
+    ${CMAKE_SOURCE_DIR}/src/catacharset.cpp
+    ${CMAKE_SOURCE_DIR}/src/item_factory.cpp
+    ${CMAKE_SOURCE_DIR}/src/activity_handlers.cpp
+    ${CMAKE_SOURCE_DIR}/src/mongroupdef.cpp
+    ${CMAKE_SOURCE_DIR}/src/mapgen_functions.cpp
+    ${CMAKE_SOURCE_DIR}/src/savegame_json.cpp
+    ${CMAKE_SOURCE_DIR}/src/item_action.cpp
+    ${CMAKE_SOURCE_DIR}/src/inventory.cpp
+    ${CMAKE_SOURCE_DIR}/src/npctalk.cpp
+    ${CMAKE_SOURCE_DIR}/src/calendar.cpp
+    ${CMAKE_SOURCE_DIR}/src/rng.cpp
+    ${CMAKE_SOURCE_DIR}/src/creature_tracker.cpp
+    ${CMAKE_SOURCE_DIR}/src/mapgenformat.cpp
+    ${CMAKE_SOURCE_DIR}/src/disease.cpp
+    ${CMAKE_SOURCE_DIR}/src/output.cpp
+    ${CMAKE_SOURCE_DIR}/src/construction.cpp
+    ${CMAKE_SOURCE_DIR}/src/overmapbuffer.cpp
+    ${CMAKE_SOURCE_DIR}/src/json.cpp
+    ${CMAKE_SOURCE_DIR}/src/item_group.cpp
+    ${CMAKE_SOURCE_DIR}/src/monmove.cpp
+    ${CMAKE_SOURCE_DIR}/src/debug.cpp
+    ${CMAKE_SOURCE_DIR}/src/monstergenerator.cpp
+    ${CMAKE_SOURCE_DIR}/src/catalua.cpp
+    ${CMAKE_SOURCE_DIR}/src/map.cpp
+    ${CMAKE_SOURCE_DIR}/src/action.cpp
+    ${CMAKE_SOURCE_DIR}/src/nonplayer.cpp
+    ${CMAKE_SOURCE_DIR}/src/start_location.cpp
+    ${CMAKE_SOURCE_DIR}/src/mutation.cpp
+    ${CMAKE_SOURCE_DIR}/src/mapgen.cpp
+    ${CMAKE_SOURCE_DIR}/src/main.cpp
+    ${CMAKE_SOURCE_DIR}/src/damage.cpp
+    ${CMAKE_SOURCE_DIR}/src/activity_item_handling.cpp
+    ${CMAKE_SOURCE_DIR}/src/ranged.cpp
+    ${CMAKE_SOURCE_DIR}/src/skill.cpp
+    ${CMAKE_SOURCE_DIR}/src/version.cpp
+    ${CMAKE_SOURCE_DIR}/src/armor_layers.cpp
+    ${CMAKE_SOURCE_DIR}/src/simplexnoise.cpp
+    ${CMAKE_SOURCE_DIR}/src/translations.cpp
+    ${CMAKE_SOURCE_DIR}/src/mission_start.cpp
+    ${CMAKE_SOURCE_DIR}/src/mondefense.cpp
+    ${CMAKE_SOURCE_DIR}/src/weather_gen.cpp
+    ${CMAKE_SOURCE_DIR}/src/animation.cpp
+    ${CMAKE_SOURCE_DIR}/src/mission.cpp
+    ${CMAKE_SOURCE_DIR}/src/trapfunc.cpp
+    ${CMAKE_SOURCE_DIR}/src/event.cpp
+    ${CMAKE_SOURCE_DIR}/src/dependency_tree.cpp
+    ${CMAKE_SOURCE_DIR}/src/monster.cpp
+    ${CMAKE_SOURCE_DIR}/src/editmap.cpp
+    ${CMAKE_SOURCE_DIR}/src/mapsharing.cpp
+    ${CMAKE_SOURCE_DIR}/src/requirements.cpp
+    ${CMAKE_SOURCE_DIR}/src/cursesport.cpp
+    ${CMAKE_SOURCE_DIR}/src/sdltiles.cpp
+    ${CMAKE_SOURCE_DIR}/src/artifact.cpp
+    ${CMAKE_SOURCE_DIR}/src/mtypedef.cpp
+    ${CMAKE_SOURCE_DIR}/src/input.cpp
+    ${CMAKE_SOURCE_DIR}/src/speech.cpp
+    ${CMAKE_SOURCE_DIR}/src/mod_manager_ui.cpp
+    ${CMAKE_SOURCE_DIR}/src/iuse_software_snake.cpp
+    ${CMAKE_SOURCE_DIR}/src/savegame.cpp
+    ${CMAKE_SOURCE_DIR}/src/lightmap.cpp
+    ${CMAKE_SOURCE_DIR}/src/mapdata.cpp
+    ${CMAKE_SOURCE_DIR}/src/weather_data.cpp
+    ${CMAKE_SOURCE_DIR}/src/martialarts.cpp
+    ${CMAKE_SOURCE_DIR}/src/mod_manager.cpp
+    ${CMAKE_SOURCE_DIR}/src/vehicle.cpp
+    ${CMAKE_SOURCE_DIR}/src/mission_place.cpp
+    ${CMAKE_SOURCE_DIR}/src/material.cpp
+    ${CMAKE_SOURCE_DIR}/src/veh_typedef.cpp
+    ${CMAKE_SOURCE_DIR}/src/melee.cpp
+    ${CMAKE_SOURCE_DIR}/src/defense.cpp
+    ${CMAKE_SOURCE_DIR}/src/npc.cpp
+    ${CMAKE_SOURCE_DIR}/src/text_snippets.cpp
+    ${CMAKE_SOURCE_DIR}/src/pickup.cpp
+    ${CMAKE_SOURCE_DIR}/src/mapbuffer.cpp
+    ${CMAKE_SOURCE_DIR}/src/item.cpp
+    ${CMAKE_SOURCE_DIR}/src/weather.cpp
+    ${CMAKE_SOURCE_DIR}/src/mission_fail.cpp
+    ${CMAKE_SOURCE_DIR}/src/ui.cpp
+    ${CMAKE_SOURCE_DIR}/src/newcharacter.cpp
+    ${CMAKE_SOURCE_DIR}/src/scenario.cpp
+    ${CMAKE_SOURCE_DIR}/src/faction.cpp
+    ${CMAKE_SOURCE_DIR}/src/wish.cpp
+    ${CMAKE_SOURCE_DIR}/src/bionics.cpp
+    ${CMAKE_SOURCE_DIR}/src/missiondef.cpp
+    ${CMAKE_SOURCE_DIR}/src/wincurse.cpp
+    ${CMAKE_SOURCE_DIR}/src/worldfactory.cpp
+    ${CMAKE_SOURCE_DIR}/src/active_item_cache.cpp
+    ${CMAKE_SOURCE_DIR}/src/addiction.cpp
+    ${CMAKE_SOURCE_DIR}/src/computer.cpp
+    ${CMAKE_SOURCE_DIR}/src/trapdef.cpp
+    ${CMAKE_SOURCE_DIR}/src/game.cpp
+    ${CMAKE_SOURCE_DIR}/src/monattack.cpp
+    ${CMAKE_SOURCE_DIR}/src/effect.cpp
+    ${CMAKE_SOURCE_DIR}/src/iuse_software_sokoban.cpp
+    ${CMAKE_SOURCE_DIR}/src/iuse_software.cpp
+    ${CMAKE_SOURCE_DIR}/src/auto_pickup.cpp
+    ${CMAKE_SOURCE_DIR}/src/iuse_actor.cpp
+    ${CMAKE_SOURCE_DIR}/src/cata_tiles.cpp
+    ${CMAKE_SOURCE_DIR}/src/profession.cpp
+    ${CMAKE_SOURCE_DIR}/src/init.cpp
+    ${CMAKE_SOURCE_DIR}/src/sounds.cpp
+    ${CMAKE_SOURCE_DIR}/src/filesystem.cpp
+    ${CMAKE_SOURCE_DIR}/src/messages.cpp
+    ${CMAKE_SOURCE_DIR}/src/clzones.cpp
+    ${CMAKE_SOURCE_DIR}/src/character.cpp
+    ${CMAKE_SOURCE_DIR}/src/live_view.cpp
+    ${CMAKE_SOURCE_DIR}/src/iexamine.cpp
+    ${CMAKE_SOURCE_DIR}/src/gamemode.cpp
+    #${CMAKE_SOURCE_DIR}/src/chkjson/chkjson.cpp
+    ${CMAKE_SOURCE_DIR}/src/creature.cpp
+    ${CMAKE_SOURCE_DIR}/src/inventory_ui.cpp
+    ${CMAKE_SOURCE_DIR}/src/char_validity_check.cpp
+    ${CMAKE_SOURCE_DIR}/src/bodypart.cpp
+    ${CMAKE_SOURCE_DIR}/src/line.cpp
+    ${CMAKE_SOURCE_DIR}/src/overmap.cpp
+    ${CMAKE_SOURCE_DIR}/src/ammo.cpp
+    ${CMAKE_SOURCE_DIR}/src/mission_end.cpp
+    ${CMAKE_SOURCE_DIR}/src/help.cpp
+    ${CMAKE_SOURCE_DIR}/src/name.cpp
+    ${CMAKE_SOURCE_DIR}/src/player.cpp
+    ${CMAKE_SOURCE_DIR}/src/iuse.cpp
+    ${CMAKE_SOURCE_DIR}/src/crafting.cpp
+)
+
+SET (CATACLYSM_DDA_HEADERS
+    ${CMAKE_SOURCE_DIR}/src/weather.h
+    ${CMAKE_SOURCE_DIR}/src/iuse_software.h
+    ${CMAKE_SOURCE_DIR}/src/catacurse.h
+    ${CMAKE_SOURCE_DIR}/src/ui.h
+    ${CMAKE_SOURCE_DIR}/src/damage.h
+    ${CMAKE_SOURCE_DIR}/src/cursesdef.h
+    ${CMAKE_SOURCE_DIR}/src/color.h
+    ${CMAKE_SOURCE_DIR}/src/debug.h
+    ${CMAKE_SOURCE_DIR}/src/activity_handlers.h
+    ${CMAKE_SOURCE_DIR}/src/bodypart.h
+    ${CMAKE_SOURCE_DIR}/src/mapgen_functions.h
+    ${CMAKE_SOURCE_DIR}/src/basecamp.h
+    ${CMAKE_SOURCE_DIR}/src/overmapbuffer.h
+    ${CMAKE_SOURCE_DIR}/src/monster.h
+    ${CMAKE_SOURCE_DIR}/src/tileray.h
+    ${CMAKE_SOURCE_DIR}/src/messages.h
+    ${CMAKE_SOURCE_DIR}/src/veh_type.h
+    ${CMAKE_SOURCE_DIR}/src/mapgenformat.h
+    ${CMAKE_SOURCE_DIR}/src/mapbuffer.h
+    ${CMAKE_SOURCE_DIR}/src/posix_time.h
+    ${CMAKE_SOURCE_DIR}/src/item_action.h
+    ${CMAKE_SOURCE_DIR}/src/map.h
+    ${CMAKE_SOURCE_DIR}/src/npc.h
+    ${CMAKE_SOURCE_DIR}/src/rng.h
+    ${CMAKE_SOURCE_DIR}/src/compatibility.h
+    ${CMAKE_SOURCE_DIR}/src/faction.h
+    ${CMAKE_SOURCE_DIR}/src/speech.h
+    ${CMAKE_SOURCE_DIR}/src/iuse_software_kitten.h
+    ${CMAKE_SOURCE_DIR}/src/item_group.h
+    ${CMAKE_SOURCE_DIR}/src/overmap.h
+    ${CMAKE_SOURCE_DIR}/src/mongroup.h
+    ${CMAKE_SOURCE_DIR}/src/calendar.h
+    ${CMAKE_SOURCE_DIR}/src/mod_manager.h
+    ${CMAKE_SOURCE_DIR}/src/catacharset.h
+    ${CMAKE_SOURCE_DIR}/src/nonplayer.h
+    ${CMAKE_SOURCE_DIR}/src/omdata.h
+    ${CMAKE_SOURCE_DIR}/src/game_constants.h
+    ${CMAKE_SOURCE_DIR}/src/mission.h
+    ${CMAKE_SOURCE_DIR}/src/requirements.h
+    ${CMAKE_SOURCE_DIR}/src/savegame.h
+    ${CMAKE_SOURCE_DIR}/src/sounds.h
+    ${CMAKE_SOURCE_DIR}/src/worldfactory.h
+    ${CMAKE_SOURCE_DIR}/src/editmap.h
+    ${CMAKE_SOURCE_DIR}/src/effect.h
+    ${CMAKE_SOURCE_DIR}/src/creature.h
+    ${CMAKE_SOURCE_DIR}/src/vehicle.h
+    ${CMAKE_SOURCE_DIR}/src/clzones.h
+    ${CMAKE_SOURCE_DIR}/src/translations.h
+    ${CMAKE_SOURCE_DIR}/src/skill.h
+    ${CMAKE_SOURCE_DIR}/src/iuse_software_snake.h
+    ${CMAKE_SOURCE_DIR}/src/bionics.h
+    ${CMAKE_SOURCE_DIR}/src/pickup.h
+    ${CMAKE_SOURCE_DIR}/src/enums.h
+    ${CMAKE_SOURCE_DIR}/src/tutorial.h
+    ${CMAKE_SOURCE_DIR}/src/simplexnoise.h
+    ${CMAKE_SOURCE_DIR}/src/scenario.h
+    ${CMAKE_SOURCE_DIR}/src/auto_pickup.h
+    ${CMAKE_SOURCE_DIR}/src/cata_tiles.h
+    ${CMAKE_SOURCE_DIR}/src/char_validity_check.h
+    ${CMAKE_SOURCE_DIR}/src/coordinates.h
+    ${CMAKE_SOURCE_DIR}/src/field.h
+    ${CMAKE_SOURCE_DIR}/src/monstergenerator.h
+    ${CMAKE_SOURCE_DIR}/src/event.h
+    ${CMAKE_SOURCE_DIR}/src/ammo.h
+    ${CMAKE_SOURCE_DIR}/src/mapgen.h
+    ${CMAKE_SOURCE_DIR}/src/dialogue.h
+    ${CMAKE_SOURCE_DIR}/src/computer.h
+    ${CMAKE_SOURCE_DIR}/src/veh_interact.h
+    ${CMAKE_SOURCE_DIR}/src/morale.h
+    ${CMAKE_SOURCE_DIR}/src/game.h
+    ${CMAKE_SOURCE_DIR}/src/help.h
+    ${CMAKE_SOURCE_DIR}/src/lightmap.h
+    ${CMAKE_SOURCE_DIR}/src/mutation.h
+    ${CMAKE_SOURCE_DIR}/src/init.h
+    ${CMAKE_SOURCE_DIR}/src/wdirent.h
+    ${CMAKE_SOURCE_DIR}/src/item.h
+    ${CMAKE_SOURCE_DIR}/src/iuse.h
+    ${CMAKE_SOURCE_DIR}/src/creature_tracker.h
+    ${CMAKE_SOURCE_DIR}/src/json.h
+    ${CMAKE_SOURCE_DIR}/src/mondeath.h
+    ${CMAKE_SOURCE_DIR}/src/mondefense.h
+    ${CMAKE_SOURCE_DIR}/src/line.h
+    ${CMAKE_SOURCE_DIR}/src/mtype.h
+    ${CMAKE_SOURCE_DIR}/src/live_view.h
+    ${CMAKE_SOURCE_DIR}/src/character.h
+    ${CMAKE_SOURCE_DIR}/src/name.h
+    ${CMAKE_SOURCE_DIR}/src/tile_id_data.h
+    ${CMAKE_SOURCE_DIR}/src/crafting.h
+    ${CMAKE_SOURCE_DIR}/src/output.h
+    ${CMAKE_SOURCE_DIR}/src/material.h
+    ${CMAKE_SOURCE_DIR}/src/action.h
+    ${CMAKE_SOURCE_DIR}/src/dependency_tree.h
+    ${CMAKE_SOURCE_DIR}/src/martialarts.h
+    ${CMAKE_SOURCE_DIR}/src/iexamine.h
+    ${CMAKE_SOURCE_DIR}/src/iuse_software_sokoban.h
+    ${CMAKE_SOURCE_DIR}/src/options.h
+    ${CMAKE_SOURCE_DIR}/src/get_version.h
+    ${CMAKE_SOURCE_DIR}/src/mapsharing.h
+    ${CMAKE_SOURCE_DIR}/src/catalua.h
+    ${CMAKE_SOURCE_DIR}/src/trap.h
+    ${CMAKE_SOURCE_DIR}/src/item_factory.h
+    ${CMAKE_SOURCE_DIR}/src/weather_gen.h
+    ${CMAKE_SOURCE_DIR}/src/platform_win.h
+    ${CMAKE_SOURCE_DIR}/src/active_item_cache.h
+    ${CMAKE_SOURCE_DIR}/src/construction.h
+    ${CMAKE_SOURCE_DIR}/src/player.h
+    ${CMAKE_SOURCE_DIR}/src/advanced_inv.h
+    ${CMAKE_SOURCE_DIR}/src/pldata.h
+    ${CMAKE_SOURCE_DIR}/src/start_location.h
+    ${CMAKE_SOURCE_DIR}/src/inventory.h
+    ${CMAKE_SOURCE_DIR}/src/gamemode.h
+    ${CMAKE_SOURCE_DIR}/src/artifact.h
+    ${CMAKE_SOURCE_DIR}/src/mapdata.h
+    ${CMAKE_SOURCE_DIR}/src/text_snippets.h
+    ${CMAKE_SOURCE_DIR}/src/monattack.h
+    ${CMAKE_SOURCE_DIR}/src/filesystem.h
+    ${CMAKE_SOURCE_DIR}/src/player_activity.h
+    ${CMAKE_SOURCE_DIR}/src/addiction.h
+    ${CMAKE_SOURCE_DIR}/src/iuse_actor.h
+    ${CMAKE_SOURCE_DIR}/src/wcwidth.h
+    ${CMAKE_SOURCE_DIR}/src/uistate.h
+    ${CMAKE_SOURCE_DIR}/src/profession.h
+    ${CMAKE_SOURCE_DIR}/src/path_info.h
+    ${CMAKE_SOURCE_DIR}/src/version.h
+    ${CMAKE_SOURCE_DIR}/src/input.h
+    ${CMAKE_SOURCE_DIR}/src/disease.h
+    ${CMAKE_SOURCE_DIR}/src/item_stack.h
+    ${CMAKE_SOURCE_DIR}/src/moraledata.h
+    ${CMAKE_SOURCE_DIR}/src/itype.h
 )
 
 # Add the actual executable
-add_executable(cataclysm ${SRCS})
+ADD_EXECUTABLE(cataclysm ${CATACLYSM_DDA_SOURCES} ${CATACLYSM_DDA_HEADERS})
 
-# Generate version information
-if (WIN32)
-	add_custom_target(gen_version
-		COMMAND for /F \"tokens=*\" %%i in \('git describe --tags --always --dirty --match \"[0-9]*.[0-9]*\"'\) do set VERSION=%%i
-		COMMAND echo \#define VERSION \"%VERSION%\" > ${CMAKE_SOURCE_DIR}/src/version.h
+FIND_PACKAGE(Git)
+
+FILE(WRITE ${CMAKE_SOURCE_DIR}/src/version.h.in
+	"\#define VERSION \"@VERSION@\"\n"
+)
+
+FILE(WRITE ${CMAKE_SOURCE_DIR}/src/version.cmake
+	"EXECUTE_PROCESS(
+		COMMAND ${GIT_EXECUTABLE} describe --tags --always --dirty --match \"[0-9]*.[0-9]*\"
+		OUTPUT_VARIABLE VERSION
+		OUTPUT_STRIP_TRAILING_WHITESPACE
 	)
-else()
-	add_custom_target(gen_version
-		COMMAND echo -n \"\#define VERSION \" > ${CMAKE_SOURCE_DIR}/src/version.h
-		COMMAND git describe --tags --always --dirty --match \"[0-9]*.[0-9]*\" >> ${CMAKE_SOURCE_DIR}/src/version.h
-	)
-endif()
-add_dependencies(cataclysm gen_version)
+	CONFIGURE_FILE(\${SRC} \${DST} @ONLY)"
+)
+
+ADD_CUSTOM_TARGET(
+	get_version
+	${CMAKE_COMMAND} -D SRC=${CMAKE_SOURCE_DIR}/src/version.h.in
+	-D DST=${CMAKE_SOURCE_DIR}/src/version.h
+	-P ${CMAKE_SOURCE_DIR}/src/version.cmake
+)
+
+ADD_DEPENDENCIES(cataclysm get_version)
 
 # Required library linkage
-if(TILES)
+IF(TILES)
 	target_include_directories(cataclysm PUBLIC ${SDL2_INCLUDE_DIR})
 	target_link_libraries(cataclysm ${SDL2_LIBRARY})
 
@@ -298,16 +310,16 @@ if(TILES)
 
 	target_include_directories(cataclysm PUBLIC ${SDL2_IMAGE_INCLUDE_DIRS})
 	target_link_libraries(cataclysm ${SDL2_IMAGE_LIBRARIES})
-else()
+ELSE(TILES)
 	target_include_directories(cataclysm PUBLIC ${CURSES_INCLUDE_DIRS})
 	target_link_libraries(cataclysm ${CURSES_LIBRARIES})
 
-    if(WIN32)
-        target_link_libraries(cataclysm winmm.lib)
-    endif()
-endif()
+	IF(WIN32)
+        	target_link_libraries(cataclysm winmm.lib)
+	ENDIF(WIN32)
+ENDIF(TILES)
 
-if(SOUND)
+IF(SOUND)
 	target_include_directories(cataclysm PUBLIC ${OGGVORBIS_INCLUDE_DIR})
 	target_link_libraries(cataclysm ${OGG_LIBRARY})
 	target_link_libraries(cataclysm ${VORBIS_LIBRARY})
@@ -315,4 +327,8 @@ if(SOUND)
 
 	target_include_directories(cataclysm PUBLIC ${SDL2_MIXER_INCLUDE_DIRS})
 	target_link_libraries(cataclysm ${SDL2_MIXER_LIBRARIES})
-endif()
+ENDIF(SOUND)
+
+IF(NOT DEBUG)
+	install(TARGETS cataclysm DESTINATION ${APPS_ENTRY_PATH})
+ENDIF(NOT DEBUG)
