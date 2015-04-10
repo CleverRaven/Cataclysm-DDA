@@ -493,7 +493,6 @@ def add_fake_types():
     outfile = os.path.join(to_dir, "faketypes.py")
 
     # fake item types
-    writestr(outfile, "nearby fire")
     writestr(outfile, "cvd machine")
     writestr(outfile, "integrated toolset")
     writestr(outfile, "a smoking device and a source of flame")

@@ -103,12 +103,6 @@ void Item_factory::init_old()
         new itype("null", 0, "none", "none", "", '#', c_white, no_materials, PNULL,
                   0, 0, 0, 0, 0) );
     itypes["null"]->item_tags.insert( "PSEUDO" );
-    // Fire - only appears in crafting recipes
-    add_item_type(
-        new itype("fire", 0, "nearby fire", "none",
-                  "Some fire - if you are reading this it's a bug! (itypdef:fire)",
-                  '$', c_red, no_materials, PNULL, 0, 0, 0, 0, 0) );
-    itypes["fire"]->item_tags.insert( "PSEUDO" );
     // Integrated toolset - ditto
     add_item_type(
         new itype("toolset", 0, "integrated toolset", "none",
