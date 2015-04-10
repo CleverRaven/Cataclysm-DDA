@@ -19021,6 +19021,16 @@
           "id": "leg_warmers_xlf",
           "fg": 2494,
           "rotates": false
+        },
+        {
+          "id": "foil_alum",
+          "fg": 2495,
+          "rotates": false
+        },
+        {
+          "id": "hat_alum",
+          "fg": 2496,
+          "rotates": false
         }
       ]
     },
