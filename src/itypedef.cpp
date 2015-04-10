@@ -118,16 +118,6 @@ void Item_factory::init_old()
 
     add_item_type( newSoftwareIType( "software_blood_data", "infection data", "none", 200, SW_DATA, 5,
     _( "Medical data on zombie blood." ) ) );
-
-    itype *m_missing_item = new itype();
-    // intentionally left untranslated
-    // because using _() at global scope is problematic,
-    // and if this appears it's a bug anyway.
-    m_missing_item->name = "Error: Item Missing.";
-    m_missing_item->name_plural = "Error: Item Missing.";
-    m_missing_item->description =
-        "There is only the space where an object should be, but isn't. No item template of this type exists.";
-    add_item_type( m_missing_item );
 }
 
 std::string const& ammo_name(std::string const &t)
