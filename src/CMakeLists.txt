@@ -280,6 +280,7 @@ ADD_CUSTOM_TARGET(
 	${CMAKE_COMMAND} -D SRC=${CMAKE_SOURCE_DIR}/src/version.h.in
 	-D DST=${CMAKE_SOURCE_DIR}/src/version.h
 	-P ${CMAKE_SOURCE_DIR}/src/version.cmake
+	WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
 )
 
 ADD_DEPENDENCIES(cataclysm get_version)
