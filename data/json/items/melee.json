@@ -18,6 +18,22 @@
     },
     {
         "type":"GENERIC",
+        "id": "corpse",
+        "symbol": "%",
+        "color": "white",
+        "name": "corpse",
+        "description": "A dead body.",
+        "//": "most of the properties depend on the monster type and are created at runtime!",
+        "price": 0,
+        "weight": 0,
+        "volume": 0,
+        "bashing": 0,
+        "cutting": 0,
+        "to_hit": 0,
+        "flags": ["NO_UNLOAD"]
+    },
+    {
+        "type":"GENERIC",
         "id": "withered",
         "symbol": "%",
         "color": "light_gray",

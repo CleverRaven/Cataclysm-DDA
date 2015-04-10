@@ -103,12 +103,6 @@ void Item_factory::init_old()
         new itype("null", 0, "none", "none", "", '#', c_white, no_materials, PNULL,
                   0, 0, 0, 0, 0) );
     itypes["null"]->item_tags.insert( "PSEUDO" );
-    // Corpse - a special item
-    add_item_type(
-        new itype("corpse", 0, "corpse", "corpses", _("A dead body."), '%', c_white,
-                  no_materials, PNULL, 0, 0, 0, 0, 1) );
-    itypes["corpse"]->item_tags.insert("NO_UNLOAD");
-    itypes["corpse"]->item_tags.insert( "PSEUDO" );
     // Fire - only appears in crafting recipes
     add_item_type(
         new itype("fire", 0, "nearby fire", "none",
