@@ -400,6 +400,7 @@ bool monster::can_act() const
           ( !has_effect("stunned") && !has_effect("downed") && !has_effect("webbed") ) );
 }
 
+
 int monster::sight_range( const int light_level ) const
 {
     // Non-aquatic monsters can't see much when submerged
@@ -516,7 +517,7 @@ Creature::Attitude monster::attitude_to( const Creature &other ) const
             // Friendly (to player) monsters are friendly to each other
             // Unfriendly monsters go by faction attitude
             return A_FRIENDLY;
-        } else if( ( friendly == 0 && m->friendly == 0 && faction_att == MFA_NEUTRAL ) || 
+        } else if( ( friendly == 0 && m->friendly == 0 && faction_att == MFA_NEUTRAL ) ||
                      morale < 0 || anger < 10 ) {
             // Stuff that won't attack is neutral to everything
             return A_NEUTRAL;
@@ -722,6 +723,12 @@ bool monster::is_warm() const {
     return has_flag(MF_WARM);
 }
 
+bool monster::is_elec_immune() const
+{
+    return type->sp_defense == &mdefense::zapback ||
+           has_flag( MF_ELECTRIC );
+}
+
 bool monster::is_dead_state() const {
     return hp <= 0;
 }
@@ -891,7 +898,7 @@ void monster::hit_monster(monster &other)
  if (!is_hallucination()) {
   int damage = dice(type->melee_dice, type->melee_sides);
   target->apply_damage( this, bp_torso, damage );
-  type->sp_defense(target, this, nullptr);
+  target->type->sp_defense(target, this, nullptr);
   target->check_dead_state();
  }
 }
@@ -1289,7 +1296,7 @@ void monster::explode()
                     g->m.add_field( tarx, tary, type_gib, rng( 1, j + 1 ) );
                 }
                 if( g->m.move_cost( tarx, tary ) == 0 ) {
-                    if( !g->m.bash( tarx, tary, 3 ).second ) {
+                    if( !g->m.bash( tripoint( tarx, tary, posz() ), 3 ).second ) {
                         // Target is obstacle, not destroyed by bashing,
                         // stop trajectory in front of it, if this is the first
                         // point (e.g. wall adjacent to monster) , make it invalid.
@@ -1432,7 +1439,7 @@ void monster::drop_items_on_death()
     if (type->death_drops.empty()) {
         return;
     }
-    g->m.put_items_from_loc( type->death_drops, posx(), posy(), calendar::turn );
+    g->m.put_items_from_loc( type->death_drops, pos3(), calendar::turn );
 }
 
 void monster::process_effects()

@@ -102307,7 +102307,7 @@ msgstr "d: удалить историю"
 
 #: src/output.cpp
 msgid "yn"
-msgstr "дн"
+msgstr ""
 
 #: src/overmap.cpp
 msgid " - Add/Edit a note"

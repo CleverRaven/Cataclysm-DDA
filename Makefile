@@ -33,6 +33,8 @@
 #  (for example: make LANGUAGES="zh_CN zh_TW" for Chinese)
 # Enable experimental z-levels
 #  make ZLEVELS=1
+# Change mapsize (reality bubble size)
+#  make MAPSIZE=<size>
 # Install to system directories.
 #  make install
 # Enable lua support. Required only for full-fledged mods.
@@ -245,6 +247,10 @@ ifeq ($(TARGETSYSTEM),WINDOWS)
   ifeq ($(NATIVE), win64)
     RFLAGS += -F pe-x86-64
   endif
+endif
+
+ifdef MAPSIZE
+    CXXFLAGS += -DMAPSIZE=$(MAPSIZE)
 endif
 
 ifdef SOUND

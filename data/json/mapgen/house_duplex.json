@@ -37,8 +37,8 @@
             "terrain": {
                 " ": "t_floor",
                 ".": "t_grass",
-                "-": "t_wall_h",
-                "|": "t_wall_v",
+                "-": "t_wall",
+                "|": "t_wall",
                 ":": "t_floor",
                 ";": "t_floor",
                 "+": "t_door_c",

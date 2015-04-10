@@ -761,13 +761,6 @@ void initOptions()
                                  );
 
     ////////////////////////////GRAPHICS/////////////////////////
-    OPTIONS["NO_BRIGHT_BACKGROUNDS"] = cOpt("graphics", _("No bright backgrounds"),
-                                            _("If true, bright backgrounds are not used - some consoles are not compatible."),
-                                            false
-                                           );
-
-    mOptionsSort["graphics"]++;
-
     OPTIONS["ANIMATIONS"] = cOpt("graphics", _("Animations"),
                                  _("If true, will display enabled animations."),
                                  true

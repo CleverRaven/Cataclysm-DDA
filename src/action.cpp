@@ -482,10 +482,10 @@ bool can_interact_at(action_id action, int x, int y)
 {
     switch(action) {
     case ACTION_OPEN:
-        return g->m.open_door(x, y, !g->m.is_outside(g->u.posx(), g->u.posy()), true);
+        return g->m.open_door( tripoint( x, y, g->u.posz() ), !g->m.is_outside( g->u.pos3() ), true);
         break;
     case ACTION_CLOSE:
-        return g->m.close_door(x, y, !g->m.is_outside(g->u.posx(), g->u.posy()), true);
+        return g->m.close_door( tripoint( x, y, g->u.posz() ), !g->m.is_outside( g->u.pos3() ), true);
         break;
     case ACTION_BUTCHER:
         return can_butcher_at(x, y);

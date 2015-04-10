@@ -4,7 +4,6 @@
 #include "damage.h"
 #include "pldata.h"
 #include "skill.h"
-#include "bionics.h"
 #include "json.h"
 #include "effect.h"
 #include "bodypart.h"
@@ -112,6 +111,10 @@ class Creature
         bool sees( int tx, int ty ) const;
         virtual bool sees( point t, int &bresenham_slope ) const;
         bool sees( point t ) const;
+        bool sees( const tripoint &t ) const
+        {
+            return sees( point( t.x, t.y ) );
+        }
         /*@}*/
 
         /**
@@ -210,6 +213,7 @@ class Creature
         virtual bool is_warm() const; // is this creature warm, for IR vision, heat drain, etc
         virtual bool has_weapon() const = 0;
         virtual bool is_hallucination() const = 0;
+        virtual bool is_elec_immune() const = 0;
         // returns true if health is zero or otherwise should be dead
         virtual bool is_dead_state() const = 0;
         /**

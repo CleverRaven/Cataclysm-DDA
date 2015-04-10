@@ -1001,7 +1001,7 @@
             }
         ]
     },
-	{
+    {
         "type" : "keybinding",
         "id": "REROLL_CHARACTER",
         "category": "NEW_CHAR_DESCRIPTION",
@@ -2220,6 +2220,22 @@
             {
                 "input_method":"keyboard",
                 "key":"R"
+            }
+        ]
+    },
+    {
+        "type" : "keybinding",
+        "id": "LOAD_TEMPLATE",
+        "category": "COLORS",
+        "name": "Load color template",
+        "bindings":[
+            {
+                "input_method":"keyboard",
+                "key":"t"
+            },
+            {
+                "input_method":"keyboard",
+                "key":"T"
             }
         ]
     }

@@ -1,4 +1,4 @@
-#include "player.h"
+﻿#include "player.h"
 #include "profession.h"
 #include "bionics.h"
 #include "mission.h"
@@ -1784,6 +1784,13 @@ bool player::is_on_ground() const
     return  on_ground;
 }
 
+bool player::is_elec_immune() const
+{
+    return has_active_bionic( "bio_faraday" ) ||
+           worn_with_flag( "ELECTRIC_IMMUNE" ) ||
+           has_artifact_with( AEP_RESIST_ELECTRICITY );
+}
+
 bool player::is_underwater() const
 {
     return underwater;
@@ -2050,8 +2057,7 @@ void player::memorial( std::ofstream &memorial_file, std::string epitaph )
     memorial_file << _("Bionics:") << "\n";
     int total_bionics = 0;
     for( size_t i = 0; i < my_bionics.size(); ++i ) {
-      bionic_id next_bionic_id = my_bionics[i].id;
-      memorial_file << indent << (i+1) << ": " << bionics[next_bionic_id]->name << "\n";
+      memorial_file << indent << (i+1) << ": " << bionic_info(my_bionics[i].id).name << "\n";
       total_bionics++;
     }
     if(total_bionics == 0) {
@@ -3954,19 +3960,19 @@ std::list<item *> player::get_radio_items()
     for( auto &stack : stacks ) {
         item &itemit = stack->front();
         item *stack_iter = &itemit;
-        if (stack_iter->active && stack_iter->has_flag("RADIO_ACTIVATION")) {
+        if( stack_iter->has_flag("RADIO_ACTIVATION") ) {
             rc_items.push_back( stack_iter );
         }
     }
 
     for( auto &elem : worn ) {
-        if( elem.active && elem.has_flag( "RADIO_ACTIVATION" ) ) {
+        if( elem.has_flag( "RADIO_ACTIVATION" ) ) {
             rc_items.push_back( &elem );
         }
     }
 
     if (!weapon.is_null()) {
-        if ( weapon.active  && weapon.has_flag("RADIO_ACTIVATION")) {
+        if ( weapon.has_flag("RADIO_ACTIVATION")) {
             rc_items.push_back( &weapon );
         }
     }
@@ -3983,7 +3989,7 @@ bool player::has_active_optcloak() const
     return false;
 }
 
-void player::add_bionic( bionic_id b )
+void player::add_bionic( std::string const &b )
 {
     if( has_bionic( b ) ) {
         debugmsg( "Tried to install bionic %s that is already installed!", b.c_str() );
@@ -4003,7 +4009,7 @@ void player::add_bionic( bionic_id b )
     recalc_sight_limits();
 }
 
-void player::remove_bionic(bionic_id b) {
+void player::remove_bionic(std::string const &b) {
     std::vector<bionic> new_my_bionics;
     for(auto &i : my_bionics) {
         if (b == i.id) {
@@ -6477,7 +6483,7 @@ void player::hardcoded_effects(effect &it)
             } while (((x == posx() && y == posy()) || g->mon_at(x, y) != -1) && tries < 10);
             if (tries < 10) {
                 if (g->m.move_cost(x, y) == 0) {
-                    g->m.make_rubble(x, y, f_rubble_rock, true);
+                    g->m.make_rubble( tripoint( x, y, posz() ), f_rubble_rock, true);
                 }
                 beast.spawn(x, y);
                 g->add_zombie(beast);
@@ -6492,19 +6498,19 @@ void player::hardcoded_effects(effect &it)
         if (intense == 1) {
             add_miss_reason(_("The bees have started escaping your teeth."), 2);
             if (one_in(150)) {
-                add_msg_if_player(m_bad, _("You feel paranoid. They're watching you."));
+                add_msg_if_player(m_bad, _("You feel paranoid.  They're watching you."));
                 mod_pain(1);
                 fatigue += dice(1,6);
             } else if (one_in(500)) {
-                add_msg_if_player(m_bad, _("You feel like you need less teeth. You pull one out, and it is rotten to the core."));
+                add_msg_if_player(m_bad, _("You feel like you need less teeth.  You pull one out, and it is rotten to the core."));
                 mod_pain(1);
             } else if (one_in(500)) {
-                add_msg_if_player(m_bad, _("You notice a large abscess. You pick at it."));
+                add_msg_if_player(m_bad, _("You notice a large abscess.  You pick at it."));
                 body_part itch = random_body_part(true);
                 add_effect("formication", 600, itch);
                 mod_pain(1);
             } else if (one_in(500)) {
-                add_msg_if_player(m_bad, _("You feel so sick, like you've been poisoned, but you need more. So much more."));
+                add_msg_if_player(m_bad, _("You feel so sick, like you've been poisoned, but you need more.  So much more."));
                 vomit();
                 fatigue += dice(1,6);
             }
@@ -6560,7 +6566,7 @@ void player::hardcoded_effects(effect &it)
                 } while (((x == posx() && y == posy()) || g->mon_at(x, y) != -1));
                 if (tries < 10) {
                     if (g->m.move_cost(x, y) == 0) {
-                        g->m.make_rubble(x, y, f_rubble_rock, true);
+                        g->m.make_rubble( tripoint( x, y, posz() ), f_rubble_rock, true);
                     }
                     beast.spawn(x, y);
                     g->add_zombie(beast);
@@ -7599,9 +7605,10 @@ void player::suffer()
 
     if (has_trait("SORES")) {
         for (int i = bp_head; i < num_bp; i++) {
-            if ((pain < 5 + 4 * abs(encumb(body_part(i)))) && (!(has_trait("NOPAIN")))) {
+            int sores_pain = 5 + (int)(0.4 * abs( encumb( body_part( i ) ) ) );
+            if ((pain < sores_pain) && (!(has_trait("NOPAIN")))) {
                 pain = 0;
-                mod_pain( 5 + 4 * abs(encumb(body_part(i))) );
+                mod_pain( sores_pain );
             }
         }
     }
@@ -7703,18 +7710,16 @@ void player::suffer()
         } else {
             rads = localRadiation / 32.0f + selfRadiation / 3.0f;
         }
+        int rads_max = 0;
         if( rads > 0 ) {
-            int rads_trunc = static_cast<int>( rads );
-            if( x_in_y( rads - rads_trunc, 1 ) ) {
-                rads_trunc++;
+            rads_max = static_cast<int>( rads );
+            if( x_in_y( rads - rads_max, 1 ) ) {
+                rads_max++;
             }
-            radiation += rng( 0, rads_trunc );
         }
+        radiation += rng( 0, rads_max );
 
         // Apply rads to any radiation badges.
-        const int rad_delta_min = 0;
-        const int rad_delta_max = localRadiation / 16;
-
         for (item *const it : inv_dump()) {
             if (it->type->id != "rad_badge") {
                 continue;
@@ -7724,7 +7729,7 @@ void player::suffer()
             // This is intentional.
             int const before = it->irridation;
 
-            const int delta = rng(rad_delta_min, rad_delta_max);
+            const int delta = rng( 0, rads_max );
             if (delta == 0) {
                 continue;
             }
@@ -7793,7 +7798,7 @@ void player::suffer()
                 int power_gen;
                 power_gen = 0;
                 if (has_bionic("bio_advreactor")){
-                    if ((reactor_plut * 0.2) > 2000){
+                    if ((reactor_plut * 0.05) > 2000){
                         power_gen = 2000;
                     } else {
                         power_gen = reactor_plut * 0.05;
@@ -7812,7 +7817,7 @@ void player::suffer()
                         }
                     }
                 } else if (has_bionic("bio_reactor")) {
-                    if ((reactor_plut * 0.1) > 500){
+                    if ((reactor_plut * 0.025) > 500){
                         power_gen = 500;
                     } else {
                         power_gen = reactor_plut * 0.025;
@@ -8636,6 +8641,8 @@ bool player::has_fire(const int quantity) const
         return true;
     } else if (has_charges("torch_lit", 1)) {
         return true;
+    } else if (has_charges("tinderbox_lit", 1)) {
+        return true;
     } else if (has_charges("battletorch_lit", quantity)) {
         return true;
     } else if (has_charges("handflare_lit", 1)) {
@@ -8689,6 +8696,8 @@ void player::use_fire(const int quantity)
     if (g->m.has_nearby_fire(posx(), posy())) {
         return;
     } else if (has_charges("torch_lit", 1)) {
+        return;
+    } else if (has_charges("tinderbox_lit", 1)) {
         return;
     } else if (has_charges("battletorch_lit", 1)) {
         return;
@@ -11032,14 +11041,26 @@ hint_rating player::rate_action_read(item *it)
   return HINT_CANT;
  }
 
+//Check for NPCs to read for you, negates Illiterate and Far Sighted
+//The NPC gets a slight boost to int requirement since they wouldn't need to
+//understand what they are reading necessarily
+  int assistants = 0;
+  for( auto &elem : g->active_npc ) {
+        if (rl_dist( elem->pos(), g->u.pos() ) < PICKUP_RANGE && elem->is_friend()){
+            if ((elem->int_cur+1) >= it->type->book->intel)
+                assistants++;
+        }
+  }
+
+
  if (g && g->light_level() < 8 && LL_LIT > g->m.light_at(posx(), posy())) {
   return HINT_IFFY;
  } else if (morale_level() < MIN_MORALE_READ && it->type->book->fun <= 0) {
   return HINT_IFFY; //won't read non-fun books when sad
- } else if (it->type->book->intel > 0 && has_trait("ILLITERATE")) {
+ } else if (it->type->book->intel > 0 && has_trait("ILLITERATE") && assistants == 0) {
   return HINT_IFFY;
  } else if (has_trait("HYPEROPIC") && !is_wearing("glasses_reading")
-            && !is_wearing("glasses_bifocal") && !has_effect("contacts")) {
+            && !is_wearing("glasses_bifocal") && !has_effect("contacts") && assistants == 0) {
   return HINT_IFFY;
  }
 
@@ -11048,6 +11069,29 @@ hint_rating player::rate_action_read(item *it)
 
 void player::read(int inventory_position)
 {
+    // Find the object
+    item* it = &i_at(inventory_position);
+
+    if (it == NULL || it->is_null()) {
+        add_msg(m_info, _("You do not have that item."));
+        return;
+    }
+
+    if (!it->is_book()) {
+        add_msg(m_info, _("Your %s is not good reading material."),
+        it->tname().c_str());
+        return;
+    }
+
+    //Check for NPCs to read for you, negates Illiterate and Far Sighted
+    int assistants = 0;
+    for( auto &elem : g->active_npc ) {
+        if (rl_dist( elem->pos(), g->u.pos() ) < PICKUP_RANGE && elem->is_friend()){
+            if ((elem->int_cur+1) >= it->type->book->intel)
+                assistants++;
+        }
+    }
+
     vehicle *veh = g->m.veh_at (posx(), posy());
     if (veh && veh->player_in_control (this)) {
         add_msg(m_info, _("It's a bad idea to read while driving!"));
@@ -11065,21 +11109,11 @@ void player::read(int inventory_position)
     if (has_trait("HYPEROPIC") && !is_wearing("glasses_reading") &&
         !is_wearing("glasses_bifocal") && !has_effect("contacts")) {
         add_msg(m_info, _("Your eyes won't focus without reading glasses."));
-        return;
-    }
-
-    // Find the object
-    item* it = &i_at(inventory_position);
-
-    if (it == NULL || it->is_null()) {
-        add_msg(m_info, _("You do not have that item."));
-        return;
-    }
-
-    if (!it->is_book()) {
-        add_msg(m_info, _("Your %s is not good reading material."),
-        it->tname().c_str());
-        return;
+        if (assistants != 0){
+            add_msg(m_info, _("A fellow survivor reads aloud to you..."));
+        } else {
+            return;
+        }
     }
 
     auto tmp = it->type->book.get();
@@ -11089,7 +11123,11 @@ void player::read(int inventory_position)
     bool study = continuous;
     if (tmp->intel > 0 && has_trait("ILLITERATE")) {
         add_msg(m_info, _("You're illiterate!"));
-        return;
+        if (assistants != 0){
+            add_msg(m_info, _("A fellow survivor reads aloud to you..."));
+        } else {
+            return;
+        }
     }
 
     // Now we've established that the player CAN read.
@@ -13346,7 +13384,7 @@ bool player::can_hear( const point source, const int volume ) const
     }
     const int dist = rl_dist( source, pos() );
     const float volume_multiplier = hearing_ability();
-    return volume * volume_multiplier < dist;
+    return volume * volume_multiplier >= dist;
 }
 
 // This method intentionally does not factor in deafness.

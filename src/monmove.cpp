@@ -698,7 +698,7 @@ int monster::bash_at(int x, int y) {
     if( try_bash && can_bash ) {
         int bashskill = group_bash_skill( point(x, y) );
 
-        g->m.bash( x, y, bashskill );
+        g->m.bash( tripoint( x, y, posz() ), bashskill );
         moves -= 100;
         return 1;
     }

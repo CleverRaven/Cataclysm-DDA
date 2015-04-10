@@ -266,7 +266,10 @@ struct npc_combat_rules : public JsonSerializer, public JsonDeserializer
     void deserialize(JsonIn &jsin) override;
 };
 
-enum talk_topic {
+// DO NOT USE! This is old, use strings as talk topic instead, e.g. "TALK_AGREE_FOLLOW" instead of
+// TALK_AGREE_FOLLOW. There is also convert_talk_topic which can convert the enumeration values to
+// the new string values (used to load old saves).
+enum talk_topic_enum {
  TALK_NONE = 0, // Used to go back to last subject
  TALK_DONE, // Used to end the conversation
  TALK_GUARD, // End conversation, nothing to be said
@@ -463,24 +466,18 @@ struct npc_chatbin : public JsonSerializer, public JsonDeserializer
      * The mission (if any) that we talk about right now. Can be null. Should be one of the
      * missions in @ref missions or @ref missions_assigned.
      */
-    mission *mission_selected;
+    mission *mission_selected = nullptr;
     /**
      * The skill this NPC offers to train.
      */
-    const Skill* skill;
+    const Skill* skill = nullptr;
     /**
      * The martial art style this NPC offers to train.
      */
     matype_id style;
- talk_topic first_topic;
+    std::string first_topic = "TALK_NONE";
 
- npc_chatbin()
- {
-  mission_selected = nullptr;
-  skill = NULL;
-  style = "";
-  first_topic = TALK_NONE;
- }
+    npc_chatbin() = default;
 
     using JsonSerializer::serialize;
     void serialize(JsonOut &jsout) const override;
@@ -567,7 +564,7 @@ public:
 
 // Interaction with the player
  void form_opinion(player *u);
- talk_topic pick_talk_topic(player *u);
+    std::string pick_talk_topic(player *u);
  int  player_danger(player *u) const; // Comparable to monsters
  int vehicle_danger(int radius) const;
  bool turned_hostile() const; // True if our anger is at least equal to...

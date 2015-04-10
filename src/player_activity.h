@@ -43,6 +43,7 @@ enum activity_type {    // expanded this enum for readability
     ACT_AIM,
     ACT_ATM,
     ACT_START_ENGINES,
+    ACT_OXYTORCH,
     NUM_ACTIVITIES
 };
 

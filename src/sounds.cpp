@@ -35,9 +35,9 @@ void sounds::ambient_sound(int x, int y, int vol, std::string description)
 
 void sounds::sound(int x, int y, int vol, std::string description, bool ambient)
 {
-    if( vol == 0 ) {
+    if( vol < 0 ) {
         // Bail out if no volume.
-        // TODO: log an error, this shouldn't happen?
+        debugmsg( "negative sound volume %d", vol );
         return;
     }
     recent_sounds.emplace_back( std::make_pair( point(x, y), vol ) );

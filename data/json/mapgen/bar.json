@@ -148,8 +148,8 @@
                 "|-----|          |-----|"
             ],
             "terrain": {
-                "-": "t_wall_h",
-                "|": "t_wall_v",
+                "-": "t_wall",
+                "|": "t_wall",
                 "+": "t_door_c",
                 "D": "t_door_locked",
                 "'": "t_window",

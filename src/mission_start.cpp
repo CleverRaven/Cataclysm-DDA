@@ -188,8 +188,8 @@ void mission_start::place_caravan_ambush(mission *miss)
  bay.spawn_item(SEEX+rng(-2,3), SEEY+rng(3,6), "9mm_casing",1,1,0,0,true);
  bay.spawn_item(SEEX+rng(-2,3), SEEY+rng(3,6), "9mm_casing",1,1,0,0,true);
  bay.spawn_item(SEEX+rng(-2,3), SEEY+rng(3,6), "9mm_casing",1,1,0,0,true);
- bay.add_corpse(SEEX+1, SEEY+7);
- bay.add_corpse(SEEX, SEEY+8);
+ bay.add_corpse( tripoint( SEEX+1, SEEY+7, bay.get_abs_sub().z ) );
+ bay.add_corpse( tripoint( SEEX, SEEY+8, bay.get_abs_sub().z ) );
  bay.add_field(SEEX, SEEY+7,fd_blood,1);
  bay.add_field(SEEX+2, SEEY+7,fd_blood,1);
  bay.add_field(SEEX-1, SEEY+8,fd_blood,1);
@@ -402,7 +402,7 @@ void mission_start::place_npc_software(mission *miss)
     }
 
  compmap.ter_set(comppoint.x, comppoint.y, t_console);
- computer *tmpcomp = compmap.add_computer(comppoint.x, comppoint.y, string_format(_("%s's Terminal"), dev->name.c_str()), 0);
+ computer *tmpcomp = compmap.add_computer( tripoint( comppoint, g->get_levz() ), string_format(_("%s's Terminal"), dev->name.c_str()), 0);
  tmpcomp->mission_id = miss->uid;
  tmpcomp->add_option(_("Download Software"), COMPACT_DOWNLOAD_SOFTWARE, 0);
  compmap.save();
@@ -455,7 +455,7 @@ void mission_start::place_deposit_box(mission *miss)
      bool okay = false;
      for (int x2 = x - 1; x2 <= x + 1 && !okay; x2++) {
       for (int y2 = y - 1; y2 <= y + 1 && !okay; y2++) {
-       if (compmap.ter(x2, y2) == t_wall_metal_h|| compmap.ter(x2, y2) == t_wall_metal_v) {
+       if (compmap.ter(x2, y2) == t_wall_metal) {
         okay = true;
         valid.push_back( point(x, y) );
        }

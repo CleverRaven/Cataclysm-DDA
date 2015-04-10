@@ -13,7 +13,7 @@
     },
     {
         "type" : "ammunition_type",
-        "id" : "mininuke_mod",
+        "id" : "h_projectile",
         "name" : "heavy projectiles",
         "default" : "mininuke_mod"
     }
