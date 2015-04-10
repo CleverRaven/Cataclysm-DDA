@@ -181,13 +181,6 @@ IF(SOUND)
 	ADD_DEFINITIONS(-DSDL_SOUND)
 ENDIF(SOUND)
 
-IF(LUA)
-	add_subdirectory(lua)
-	add_subdirectory(src/lua)
-ENDIF(LUA)
-
-add_subdirectory(src/chkjson)
-
 IF(LOCALIZE)
 	ADD_DEFINITIONS(-DLOCALIZE)
 ENDIF(LOCALIZE)
@@ -201,3 +194,10 @@ IF(USE_HOME_DIR)
 ENDIF(USE_HOME_DIR)
 
 add_subdirectory(src)
+add_subdirectory(data)
+IF(LUA)
+	add_subdirectory(lua)
+	add_subdirectory(src/lua)
+ENDIF(LUA)
+add_subdirectory(src/chkjson)
+
