@@ -4,104 +4,186 @@
 # Support for special builds (json checking, tests, other stuff)
 
 cmake_minimum_required(VERSION 2.8)
-project(CataclysmDDA)
-set(CMAKE_MODULE_PATH
+
+PROJECT(CataclysmDDA)
+
+SET(CMAKE_MODULE_PATH
     ${CMAKE_MODULE_PATH}
     ${CMAKE_SOURCE_DIR}/cmake
 )
 
 # Build options
-option(LUA      "Lua support (required for some mods)"  OFF)
-option(TILES    "Support for graphical tilesets"        OFF)
-option(SOUND    "Support for in-game sounds & music"    OFF)
+option(LUA      "Lua support (required for some mods)"  "OFF")
+option(TILES    "Support for graphical tilesets"        "OFF")
+option(SOUND    "Support for in-game sounds & music"    "OFF")
+option(DEBUG    "Enable debug. Use it for development or bug reporting
+purposes." "OFF")
+option(LOCALIZE "Support for language localizations"    "OFF")
 
-# Disable internationalization on Windows and OS X as it is not supported
-# without external libraries
-if (WIN32 OR APPLE)
-    option(LOCALIZE "Support for language localizations" OFF)
-else()
-    option(LOCALIZE "Support for language localizations" ON)
-endif()
+MESSAGE("\n * Cataclysm: Dark Days Ahead is a roguelike set in a post-apocalyptic world.")
+MESSAGE("   _________            __                   .__                                ")
+MESSAGE("   \\_   ___ \\ _____   _/  |_ _____     ____  |  |   ___.__   ______  _____      ")
+MESSAGE("   /    \\  \\/ \\__  \\  \\   __\\\\__  \\  _/ ___\\ |  |  <   |  | /  ___/ /     \\     ")
+MESSAGE("   \\     \\____ / __ \\_ |  |   / __ \\_\\  \\___ |  |__ \\___  | \\___ \\ |  Y Y  \\    ")
+MESSAGE("    \\______  /\(____  / |__|  \(____  / \\___  >|____/ / ____|/____  >|__|_|  /    ")
+MESSAGE("           \\/      \\/             \\/      \\/        \\/          \\/       \\/     ")
+MESSAGE("                               --= Dark Days Ahead =--") 
+MESSAGE("\n * http://en.cataclysmdda.com/\n")
 
-# Build settings
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
-set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -g -Wall -Wextra")
-set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} -Wall -Wextra -Werror -Os -DRELEASE")
+MESSAGE(STATUS "${PROJECT} build environment -- \n")
+
+MESSAGE(STATUS "Build realm is   : ${CMAKE_SYSTEM_NAME} ${CMAKE_HOST_SYSTEM_PROCESSOR}\n")
+
+IF (${CMAKE_SYSTEM_NAME} MATCHES Linux)
+	SET(_OS_LINUX_ 1)
+ENDIF (${CMAKE_SYSTEM_NAME} MATCHES Linux)
+
+IF (${CMAKE_SYSTEM_NAME} MATCHES FreeBSD)
+	SET(_OS_FREEBSD_ 1)
+ENDIF (${CMAKE_SYSTEM_NAME} MATCHES FreeBSD)
+
+IF( ${CMAKE_SYSTEM_NAME} MATCHES Darwin )
+	SET(_OS_DARWIN_ 1)
+	SET(LOCALIZE OFF)
+	MESSAGE(STATUS "Disable internationalization on Darwin as it is not supported")
+ENDIF( ${CMAKE_SYSTEM_NAME} MATCHES Darwin )
+
+IF( ${CMAKE_SYSTEM_NAME} MATCHES Windows )
+	SET(_OS_WINDOWS_ 1)
+	SET(LOCALIZE OFF)
+	MESSAGE(STATUS "Disable internationalization on Windows as it is not supported")
+ENDIF( ${CMAKE_SYSTEM_NAME} MATCHES Windows )
+
+IF (${CMAKE_SYSTEM_NAME} MATCHES Linux OR ${CMAKE_SYSTEM_NAME} MATCHES FreeBSD)
+    IF( NOT DATA_PREFIX )
+        SET( DATA_PREFIX ${CMAKE_INSTALL_PREFIX}/share/cataclysm-dda/ )
+    ENDIF( NOT DATA_PREFIX )
+    IF( NOT LOCALE_DIR )
+        SET( LOCALE_DIR ${CMAKE_INSTALL_PREFIX}/share/cataclysm-dda/locale )
+    ENDIF( NOT LOCALE_DIR )
+    IF( NOT BIN_PREFIX )
+        SET( BIN_PREFIX ${CMAKE_INSTALL_PREFIX}/bin )
+    ENDIF( NOT BIN_PREFIX )
+    IF( NOT DESKTOP_ENTRY_PATH )
+        SET( DESKTOP_ENTRY_PATH ${CMAKE_INSTALL_PREFIX}/share/applications )
+    ENDIF( NOT DESKTOP_ENTRY_PATH )
+    IF( NOT PIXMAPS_ENTRY_PATH )
+        SET( PIXMAPS_ENTRY_PATH ${CMAKE_INSTALL_PREFIX}/share/icons/hicolor )
+    ENDIF( NOT PIXMAPS_ENTRY_PATH )
+    IF( NOT PIXMAPS_UNITY_ENTRY_PATH )
+        SET( PIXMAPS_UNITY_ENTRY_PATH ${CMAKE_INSTALL_PREFIX}/share/icons/ubuntu-mono-dark )
+    ENDIF( NOT PIXMAPS_UNITY_ENTRY_PATH )
+    IF( NOT MANPAGE_ENTRY_PATH )
+        SET( MANPAGE_ENTRY_PATH ${CMAKE_INSTALL_PREFIX}/share/man )
+    ENDIF( NOT MANPAGE_ENTRY_PATH )
+ENDIF (${CMAKE_SYSTEM_NAME} MATCHES Linux OR ${CMAKE_SYSTEM_NAME} MATCHES FreeBSD)
+
+MESSAGE(STATUS "${PROJECT} build options --\n")
+
+IF( DEVELOP )
+	MESSAGE("\n")
+	MESSAGE(STATUS "Build ${PROJECT} in development mode (DEVELOP=ON) --\n")
+	ADD_DEFINITIONS(-std=c++11 -g -Wall -Wextra)
+ELSE ( DEVELOP )
+	MESSAGE(STATUS "CMAKE_INSTALL_PREFIX          : ${CMAKE_INSTALL_PREFIX}")
+	MESSAGE(STATUS "BIN_PREFIX               : ${BIN_PREFIX}")
+	MESSAGE(STATUS "DATA_PREFIX               : ${DATA_PREFIX}")
+	MESSAGE(STATUS "DESKTOP_ENTRY_PATH            : ${DESKTOP_ENTRY_PATH}")
+	MESSAGE(STATUS "PIXMAPS_ENTRY_PATH            : ${PIXMAPS_ENTRY_PATH}")
+	MESSAGE(STATUS "PIXMAPS_UNITY_ENTRY_PATH      : ${PIXMAPS_UNITY_ENTRY_PATH}")
+	MESSAGE(STATUS "MANPAGE_ENTRY_PATH            : ${MANPAGE_ENTRY_PATH}\n")
+
+	MESSAGE(STATUS "LUA                           : ${LUA}")
+	MESSAGE(STATUS "TILES                         : ${TILES}")
+	MESSAGE(STATUS "SOUND                         : ${SOUND}")
+	MESSAGE(STATUS "DEBUG                         : ${DEBUG}")
+	MESSAGE(STATUS "LOCALIZE                      : ${LOCALIZE}\n")
+	ADD_DEFINITIONS(-std=c++11 -Wall -Wextra -Werror -Os -DRELEASE)
+ENDIF ( DEVELOP )
+
+MESSAGE(STATUS "See INSTALL file for details and more info --\n")
+
 
 # Force out-of-source build
-if(${CMAKE_SOURCE_DIR} STREQUAL ${CMAKE_BINARY_DIR})
-  message(FATAL_ERROR
-    "This project requires an out of source build. Remove the file 'CMakeCache.txt' found in this directory before continuing, create a separate build directory and run 'cmake [options] <srcs>' from there."
-  )
-endif()
+IF(${CMAKE_SOURCE_DIR} STREQUAL ${CMAKE_BINARY_DIR})
+	MESSAGE(FATAL_ERROR
+		"This project requires an out of source build. Remove the file 'CMakeCache.txt' found in this directory before continuing, create a separate build directory and run 'cmake [options] <srcs>' from there.\nSee INSTALL file for details and more info\n"
+	)
+ENDIF(${CMAKE_SOURCE_DIR} STREQUAL ${CMAKE_BINARY_DIR})
 
-if(TILES)
-    # Find SDL, SDL_ttf & SDL_image for graphical install
-    find_package(SDL2)
-    if(NOT SDL2_FOUND)
-        message(FATAL_ERROR
-            "This project requires SDL2 to be installed to be compiled in graphical mode. Please install the SDL2 development libraries, or try compiling without the -DTILES=1 for a text only compilation."
-        )
-    endif()
+IF(TILES)
+	# Find SDL, SDL_ttf & SDL_image for graphical install
+	MESSAGE(STATUS "Searching for SDL2 library --\n")
+	FIND_PACKAGE(SDL2)
+	IF(NOT SDL2_FOUND)
+        	MESSAGE(FATAL_ERROR
+            		"This project requires SDL2 to be installed to be compiled in graphical mode. Please install the SDL2 development libraries, or try compiling without the -DTILES=1 for a text only compilation.\nSee INSTALL file for details and more info\n"
+		)
+	ENDIF(NOT SDL2_FOUND)
 
-    find_package(SDL2_ttf)
-    if(NOT SDL2_TTF_FOUND)
-        message(FATAL_ERROR
-            "This project requires SDL2_ttf to be installed to be compiled in graphical mode. Please install the SDL2_ttf development libraries, or try compiling without the -DTILES=1 for a text only compilation."
-        )
-    endif()
+	MESSAGE(STATUS "Searching for SDL2_TTF library --\n")
+	FIND_PACKAGE(SDL2_ttf)
+		IF(NOT SDL2_TTF_FOUND)
+		MESSAGE(FATAL_ERROR
+			"This project requires SDL2_ttf to be installed to be compiled in graphical mode. Please install the SDL2_ttf development libraries, or try compiling without the -DTILES=1 for a text only compilation.\nSee INSTALL file for details and moreinfo\n"
+		)
+	ENDIF(NOT SDL2_TTF_FOUND)
 
-    find_package(SDL2_image)
-    if(NOT SDL2_IMAGE_FOUND)
-        message(FATAL_ERROR
-            "This project requires SDL2_image to be installed to be compiled in graphical mode. Please install the SDL2_image development libraries, or try compiling without the -DTILES=1 for a text only compilation."
-        )
-    endif()
+	MESSAGE(STATUS "Searching for SDL2_image library --\n")
+	FIND_PACKAGE(SDL2_image)
+	IF(NOT SDL2_IMAGE_FOUND)
+        	MESSAGE(FATAL_ERROR
+			"This project requires SDL2_image to be installed to be compiled in graphical mode. Please install the SDL2_image development libraries, or try compiling without the -DTILES=1 for a text only compilation.\nSee INSTALL file for details and more info\n"
+		)
+	ENDIF(NOT SDL2_IMAGE_FOUND)
 
-    add_definitions(-DTILES -DSDLTILES)
-else()
-    # Find the ncurses library for a text based compile
-    set(CURSES_NEED_NCURSES TRUE)
-    find_package(Curses)
-    if(NOT CURSES_FOUND)
-        message(FATAL_ERROR
-            "This project requires ncurses to be installed to be compiled in text only mode. Please install the ncurses development libraries, or try compiling with the -DTILES=1 for a graphical compilation."
-        )
-    endif()
-endif()
+	ADD_DEFINITIONS(-DTILES -DSDLTILES)
+ELSE(TILES)
+	# Find the ncurses library for a text based compile
+	MESSAGE(STATUS "Searching for Curses library --\n")
+	FIND_PACKAGE(Curses)
+	IF(NOT CURSES_FOUND)
+		MESSAGE(FATAL_ERROR
+			"This project requires ncurses to be installed to be compiled in text only mode. Please install the ncurses development libraries, or try compiling with the -DTILES=1 for a graphical compilation.\nSee INSTALL file for details and more info\n"
+		)
+	ENDIF(NOT CURSES_FOUND)
+	SET(CURSES_NEED_NCURSES TRUE)
+ENDIF(TILES)
 
-if(SOUND)
-    # You need TILES to be able to use SOUND
-    if(NOT TILES)
-        message(FATAL_ERROR
-            "You must enable graphical support with -DTILES=1 to be able to enable sound support."
-        )
-    endif()
+IF(SOUND)
+	# You need TILES to be able to use SOUND
+	IF(NOT TILES)
+		MESSAGE(FATAL_ERROR
+			"You must enable graphical support with -DTILES=1 to be able to enable sound support.\nSee INSTALL file for details and more info\n"
+		)
+	ENDIF(NOT TILES)
 
-    # Sound requires SDL_mixer library
-    find_package(SDL2_mixer)
-    if(NOT SDL2_MIXER_FOUND)
-        message(FATAL_ERROR
-            "You need the SDL2_mixer development library to be able to compile with sound enabled."
-        )
-    endif()
+	# Sound requires SDL_mixer library
+	MESSAGE(STATUS "Searching for SDL2_mixer library --\n")
+	FIND_PACKAGE(SDL2_mixer)
+	IF(NOT SDL2_MIXER_FOUND)
+		MESSAGE(FATAL_ERROR
+			"You need the SDL2_mixer development library to be able to compile with sound enabled.\nSee INSTALL file for details and more info\n"
+		)
+	ENDIF(NOT SDL2_MIXER_FOUND)
 
-    add_definitions(-DSDL_SOUND)
-endif()
+	ADD_DEFINITIONS(-DSDL_SOUND)
+ENDIF(SOUND)
 
-if(LUA)
-    find_package(Lua)
-    if(NOT LUA_FOUND)
-        message(FATAL_ERROR
-            "You need the Lua development library to be able to compile with Lua support."
-        )
-    endif()
+IF(LUA)
+	MESSAGE(STATUS "Searching for Lua library --\n")
+	FIND_PACKAGE(Lua)
+	IF(NOT LUA_FOUND)
+		MESSAGE(FATAL_ERROR
+			"You need the Lua development library to be able to compile with Lua support.\nSee INSTALL file for details and more info\n"
+		)
+	ENDIF(NOT LUA_FOUND)
 
-    add_definitions(-DLUA)
-endif()
+	ADD_DEFINITIONS(-DLUA)
+ENDIF(LUA)
 
-if(LOCALIZE)
-    add_definitions(-DLOCALIZE)
-endif()
+IF(LOCALIZE)
+	ADD_DEFINITIONS(-DLOCALIZE)
+ENDIF(LOCALIZE)
 
 add_subdirectory(src)
