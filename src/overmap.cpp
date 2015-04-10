@@ -1362,7 +1362,7 @@ void overmap::draw(WINDOW *w, WINDOW *wbar, const tripoint &center,
     if (data.iZoneIndex != -1) {
         sZoneName = g->u.Zones.vZones[data.iZoneIndex].getName();
         point pOMZone = overmapbuffer::ms_to_omt_copy(g->u.Zones.vZones[data.iZoneIndex].getCenterPoint());
-        tripointZone = tripoint(pOMZone.x, pOMZone.y);
+        tripointZone = tripoint( pOMZone, 0 );
     }
 
     // If we're debugging monster groups, find the monster group we've selected
