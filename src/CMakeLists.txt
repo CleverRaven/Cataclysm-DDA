@@ -125,7 +125,6 @@ set(CATACLYSM_DDA_SOURCES
     ${CMAKE_SOURCE_DIR}/src/live_view.cpp
     ${CMAKE_SOURCE_DIR}/src/iexamine.cpp
     ${CMAKE_SOURCE_DIR}/src/gamemode.cpp
-    #${CMAKE_SOURCE_DIR}/src/chkjson/chkjson.cpp
     ${CMAKE_SOURCE_DIR}/src/creature.cpp
     ${CMAKE_SOURCE_DIR}/src/inventory_ui.cpp
     ${CMAKE_SOURCE_DIR}/src/char_validity_check.cpp
@@ -283,7 +282,6 @@ ADD_CUSTOM_TARGET(
 	${CMAKE_COMMAND} -D SRC=${CMAKE_SOURCE_DIR}/src/version.h.in
 	-D DST=${CMAKE_SOURCE_DIR}/src/version.h
 	-P ${CMAKE_SOURCE_DIR}/src/version.cmake
-	BYPRODUCTS ${CMAKE_SOURCE_DIR}/src/version.h
 )
 
 ADD_DEPENDENCIES(cataclysm get_version)
