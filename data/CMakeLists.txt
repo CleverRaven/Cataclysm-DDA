@@ -1,3 +1,6 @@
+# Cataclysm data files
+cmake_minimum_required(VERSION 2.8.12)
+
 SET(CATACLYSM_DATA_DIRS
 	${CMAKE_SOURCE_DIR}/data/font
 	${CMAKE_SOURCE_DIR}/data/json
@@ -16,6 +19,13 @@ IF(SOUND)
 		${CMAKE_SOURCE_DIR}/data/sound
 	)
 ENDIF(SOUND)
+
+IF(TILES)
+	SET(CATACLYSM_DATA_DIRS
+		${CATACLYSM_DATA_DIRS}
+		${CMAKE_SOURCE_DIR}/gfx
+	)	
+ENDIF(TILES)
 
 SET(CATACLYSM_DATA_FILES
 	${CMAKE_SOURCE_DIR}/data/changelog.txt

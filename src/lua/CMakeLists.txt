@@ -1,3 +1,6 @@
+# CataclysmDDA Lua bindings
+cmake_minimum_required(VERSION 2.8.12)
+
 MESSAGE(STATUS "Searching for Lua library --\n")
 FIND_PACKAGE(Lua)
 IF(NOT LUA_FOUND)
