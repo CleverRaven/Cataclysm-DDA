@@ -94,16 +94,6 @@ itype *newSoftwareIType( const itype_id &id, const std::string &name, const std:
 
 void Item_factory::init_old()
 {
-    auto &itypes = m_templates; // So I don't have to change that in the code below
-
-    std::vector<std::string> no_materials = { "null" };
-
-    // First, the null object.  NOT REALLY AN OBJECT AT ALL.  More of a concept.
-    add_item_type(
-        new itype("null", 0, "none", "none", "", '#', c_white, no_materials, PNULL,
-                  0, 0, 0, 0, 0) );
-    itypes["null"]->item_tags.insert( "PSEUDO" );
-
     add_item_type( newSoftwareIType( "software_useless", "misc software", "none", 300, SW_USELESS, 0,
     _( "A miscellaneous piece of hobby software. Probably useless." ) ) );
 
