@@ -1961,5 +1961,44 @@ void play_music(std::string)
 void play_sound(std::string)
 {
 }
-
 #endif
+
+std::string format_pad(const std::string &str, unsigned int length)
+{
+    return format_pad(str.c_str(), length);
+}
+
+std::string format_pad(const char *str, unsigned int length)
+{
+    std::string ret = str;
+    if(ret.size() > length) {
+        ret.clear();
+    } else if(ret.size() < length) {
+        ret += std::string(length - ret.size(), ' ');
+    }
+    return ret;
+}
+
+std::string format_pad(int number, unsigned int length)
+{
+    std::string ret;
+    // length must be positive, otherwise there is improper length
+    if(length <= 0) {
+        ret.clear();
+    // not gonna have enough space!
+    } else if(length == 1 && number > 9) {
+        ret.clear();
+    // format the number by dividing 10 repeatedly to extract number of zeroes
+    } else {
+        // take into account the first digit
+        int i = length - 1;
+        for(int j = number; j >= 10; j = j / 10) {
+            --i;
+        }
+        if(i > 0) {
+            ret = string_format("%d", number) + std::string(i, ' ');
+        }
+    }
+    return ret;
+}
+

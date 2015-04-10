@@ -342,4 +342,11 @@ bool is_draw_tiles_mode();
 void play_music(std::string playlist);
 void play_sound(std::string identifier);
 
+// note: both of the below functions return [""] if there are issues with length!
+// format a string to a length and if less than length is formatted, pad rest with zeroes
+std::string format_pad(const std::string &str, unsigned int length);
+std::string format_pad(const char *str, unsigned int length);
+// int version of above, does maths to determine how much to pad instead of string length
+std::string format_pad(int number, unsigned int length);
+
 #endif
