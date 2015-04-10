@@ -102,6 +102,7 @@ void PATH_INFO::update_config_dir()
 
 void PATH_INFO::set_standard_filenames(void)
 {
+    #ifdef RELEASE
     // Special: data_dir lua_dir and gfx_dir
     if (!FILENAMES["base_path"].empty()) {
         update_pathname("datadir", FILENAMES["base_path"] + "share/cataclysm-dda/");
@@ -112,6 +113,17 @@ void PATH_INFO::set_standard_filenames(void)
         update_pathname("gfxdir", "gfx/");
         update_pathname("luadir", "lua/");
     }
+    #else
+    if (!FILENAMES["base_path"].empty()) {
+        update_pathname("datadir", FILENAMES["base_path"] + "data/");
+        update_pathname("gfxdir", FILENAMES["datadir"] + "gfx/");
+        update_pathname("luadir", FILENAMES["datadir"] + "lua/");
+    } else {
+        update_pathname("datadir", "data/");
+        update_pathname("gfxdir", "gfx/");
+        update_pathname("luadir", "lua/");
+    }
+    #endif
 
     // Shared dirs
     update_pathname("autoexeclua", FILENAMES["luadir"] + "autoexec.lua");

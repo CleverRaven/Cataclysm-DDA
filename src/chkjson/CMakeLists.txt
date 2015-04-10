@@ -1,5 +1,5 @@
 
-set(CHKJSON_SOURCES
+SET (CHKJSON_SOURCES
 	${CMAKE_SOURCE_DIR}/src/json.cpp
 	${CMAKE_SOURCE_DIR}/src/chkjson/chkjson.cpp
 )
