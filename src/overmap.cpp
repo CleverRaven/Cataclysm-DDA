@@ -634,7 +634,7 @@ void apply_region_overlay(JsonObject &jo, regional_settings region)
             jio.read("secondary", region.default_groundcover_str->secondary_str);
         }
         if (jio.has_member("ratio")) {
-            jio.read("ratio", region.default_groundcover_str.chance);
+            jio.read("ratio", region.default_groundcover.chance);
         }
     }
 
@@ -732,10 +732,10 @@ void apply_region_overlay(JsonObject &jo, regional_settings region)
         JsonObject cjo = jo.get_object("city");
 
         if (cjo.has_member("shop_radius")) {
-            cjo.read("shop_radius", region.city_spec.shop_radius;
+            cjo.read("shop_radius", region.city_spec.shop_radius);
         }
         if (cjo.has_member("park_radius")) {
-            cjo.read("park_radius", region.city_spec.park_radius;
+            cjo.read("park_radius", region.city_spec.park_radius);
         }
 
         if (cjo.has_object("shops")) {

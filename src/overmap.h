@@ -46,7 +46,7 @@ struct oter_weight_list {
     }
 
     void add_or_replace_item(std::string id, int weight) {
-        for(i=0; i<items.size(); i++) {
+        for(size_t i=0; i<items.size(); i++) {
             if(items[i].ot_sid == id) {
                 total_weight += (weight - items[i].weight);
                 items[i].weight = weight;
