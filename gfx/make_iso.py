@@ -36,7 +36,8 @@ def iso_ize(tile_num, new_tile_num=-1, initial_rotation=0, override=False):
             '+repage -extent ' + str(nwidth) + 'x' + str(nheight) + '+0-' + str(nheight-int(nwidth/2)) + ' ' +
             new_tileset_name + '/tiles/to_merge/tile-' + "{:0>6d}".format(new_tile_num) + '.png')
         print command
-        os.system(command)
+        if os.system(command):
+            raise
         return True
     return False
 
@@ -128,7 +129,8 @@ def tile_convert(otile, main_id, new_tile_number):
                         '+repage ' +
                         new_tileset_name + '/tiles/to_merge/tile-' + '{:0>6d}'.format(otile[g][0]) + '.png')
                     print command
-                    os.system(command)
+                    if os.system(command):
+                        raise
         else:
             ntile[g] = otile[g]
             # iso-ize each existing rotation of this tile
@@ -217,7 +219,8 @@ for otn in otc['tiles-new']:
     # split tile image sheet into individual tile images
     command = 'convert -crop '+str(oheight)+'x'+str(owidth)+' ../'+otn['file']+' +repage '+new_tileset_name+'/tiles/tile-%06d.png'
     print command
-    os.system(command)
+    if os.system(command):
+        raise
     os.system('cp '+new_tileset_name+'/tiles/tile-*.png '+new_tileset_name+'/tiles/to_merge')
 
     # path joining version for other paths
@@ -236,7 +239,8 @@ for otn in otc['tiles-new']:
     command = ('montage -background transparent "' + new_tileset_name + '/tiles/to_merge/tile-*.png" -tile 16x -geometry +0+0 ' +
      new_tileset_name + '/' + os.path.basename(otn['file']))
     print command
-    os.system(command)
+    if os.system(command):
+        raise
 
 with open(new_tileset_name + '/tile_config.json', 'w') as new_tile_config_json_file:
     json.dump(ntc, new_tile_config_json_file, sort_keys=True, indent=2, separators=(',', ': '))
