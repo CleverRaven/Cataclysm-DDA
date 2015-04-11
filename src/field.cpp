@@ -1431,10 +1431,13 @@ void map::player_in_field( player &u )
     }
 
     // Iterate through all field effects on this tile.
-    // When removing a field, do field_list_it = curfield.removeField(type) and continue
-    // This ensures proper iteration through the fields.
-    for( auto field_list_it = curfield.begin(); field_list_it != curfield.end(); ){
+    // Do not remove the field with removeField, instead set it's density to 0. It will be removed
+    // later by the field processing, which will also adjust field_count accordingly.
+    for( auto field_list_it = curfield.begin(); field_list_it != curfield.end(); ++field_list_it){
         field_entry * cur = &field_list_it->second;
+        if( !cur->isAlive() ) {
+            continue;
+        }
 
         //Do things based on what field effect we are currently in.
         switch (cur->getFieldType()) {
@@ -1785,12 +1788,6 @@ void map::player_in_field( player &u )
             //Suppress warnings
             break;
         }
-        if (field_list_it != curfield.end()) {
-            // It may have became the last one as a result of a field
-            // being removed, in which case incrementing would make us
-            // pass on by, so only increment if that's not the case
-            ++field_list_it;
-        }
     }
 
 }
@@ -1814,8 +1811,14 @@ void map::monster_in_field( monster &z )
     field &curfield = get_field( z.posx(), z.posy() );
 
     int dam = 0;
-    for( auto field_list_it = curfield.begin(); field_list_it != curfield.end(); ) {
+    // Iterate through all field effects on this tile.
+    // Do not remove the field with removeField, instead set it's density to 0. It will be removed
+    // later by the field processing, which will also adjust field_count accordingly.
+    for( auto field_list_it = curfield.begin(); field_list_it != curfield.end(); ++field_list_it ) {
         field_entry * cur = &field_list_it->second;
+        if( cur->isAlive() ) {
+            continue;
+        }
 
         switch (cur->getFieldType()) {
         case fd_null:
@@ -2067,13 +2070,6 @@ void map::monster_in_field( monster &z )
         default:
             //Suppress warnings
             break;
-        }
-
-        if (field_list_it != curfield.end()) {
-            // It may have became the last one as a result of a field
-            // being removed, in which case incrementing would make us
-            // pass on by, so only increment if that's not the case
-            ++field_list_it;
         }
     }
     if (dam > 0) {

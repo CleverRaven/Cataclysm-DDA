@@ -4713,9 +4713,8 @@ bool map::add_field(const tripoint &p, const field_id t, int density, const int 
     current_submap->is_uniform = false;
 
     if( current_submap->fld[lx][ly].addField( t, density, age ) ) {
-        // TODO: Update overall field_count appropriately.
-        // This is the spirit of "fd_null" that it used to be.
-        current_submap->field_count++; //Only adding it to the count if it doesn't exist.
+        //Only adding it to the count if it doesn't exist.
+        current_submap->field_count++;
     }
 
     if( g != nullptr && this == &g->m && p == g->u.pos3() ) {
