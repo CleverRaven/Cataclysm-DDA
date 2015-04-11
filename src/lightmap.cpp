@@ -592,10 +592,10 @@ void map::build_seen_cache(const tripoint &origin)
 }
 
 template<int xx, int xy, int yx, int yy>
-void map::castLight( bool (&output_cache)[MAPSIZE*SEEX][MAPSIZE*SEEY],
-                     const float (&input_array)[MAPSIZE*SEEX][MAPSIZE*SEEY],
-                     const int offsetX, const int offsetY, const int offsetDistance,
-                     const int row, float start, const float end )
+void castLight( bool (&output_cache)[MAPSIZE*SEEX][MAPSIZE*SEEY],
+                const float (&input_array)[MAPSIZE*SEEX][MAPSIZE*SEEY],
+                const int offsetX, const int offsetY, const int offsetDistance,
+                const int row, float start, const float end )
 {
     float newStart = 0.0f;
     float radius = 60.0f - offsetDistance;
@@ -615,8 +615,8 @@ void map::castLight( bool (&output_cache)[MAPSIZE*SEEX][MAPSIZE*SEEY],
             float leadingEdge = (delta.x - 0.5f) / (delta.y + 0.5f);
             float trailingEdge = (delta.x + 0.5f) / (delta.y - 0.5f);
 
-            if( !(currentX >= 0 && currentY >= 0 && currentX < SEEX * my_MAPSIZE &&
-                  currentY < SEEY * my_MAPSIZE) || start < trailingEdge ) {
+            if( !(currentX >= 0 && currentY >= 0 && currentX < SEEX * MAPSIZE &&
+                  currentY < SEEY * MAPSIZE) || start < trailingEdge ) {
                 continue;
             } else if( end > leadingEdge ) {
                 break;

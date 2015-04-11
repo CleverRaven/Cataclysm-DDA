@@ -157,27 +157,27 @@ int main(int argc, char *argv[])
     oldCastLight( seen_squares_control, transparency_cache, 0, -1, -1, 0, offsetX, offsetY, 0 );
     oldCastLight( seen_squares_control, transparency_cache, -1, 0, 0, -1, offsetX, offsetY, 0 );
     }
-
     clock_gettime( CLOCK_REALTIME, &end1 );
+
     struct timespec start2;
     struct timespec end2;
     clock_gettime( CLOCK_REALTIME, &start2 );
-
     for( int i = 0; i < PERFORMANCE_TEST_ITERATIONS; i++ ) {
-    // Then the experimental algorithm.
-    dummy.castLight( seen_squares_experiment, transparency_cache, 0, 1, 1, 0, offsetX, offsetY, 0 );
-    dummy.castLight( seen_squares_experiment, transparency_cache, 1, 0, 0, 1, offsetX, offsetY, 0 );
+        // Then the current algorithm.
+        castLight<0, 1, 1, 0>( seen_squares_experiment, transparency_cache, offsetX, offsetY, 0 );
+        castLight<1, 0, 0, 1>( seen_squares_experiment, transparency_cache, offsetX, offsetY, 0 );
 
-    dummy.castLight( seen_squares_experiment, transparency_cache, 0, -1, 1, 0, offsetX, offsetY, 0 );
-    dummy.castLight( seen_squares_experiment, transparency_cache, -1, 0, 0, 1, offsetX, offsetY, 0 );
+        castLight<0, -1, 1, 0>( seen_squares_experiment, transparency_cache, offsetX, offsetY, 0 );
+        castLight<-1, 0, 0, 1>( seen_squares_experiment, transparency_cache, offsetX, offsetY, 0 );
 
-    dummy.castLight( seen_squares_experiment, transparency_cache, 0, 1, -1, 0, offsetX, offsetY, 0 );
-    dummy.castLight( seen_squares_experiment, transparency_cache, 1, 0, 0, -1, offsetX, offsetY, 0 );
+        castLight<0, 1, -1, 0>( seen_squares_experiment, transparency_cache, offsetX, offsetY, 0 );
+        castLight<1, 0, 0, -1>( seen_squares_experiment, transparency_cache, offsetX, offsetY, 0 );
 
-    dummy.castLight( seen_squares_experiment, transparency_cache, 0, -1, -1, 0, offsetX, offsetY, 0 );
-    dummy.castLight( seen_squares_experiment, transparency_cache, -1, 0, 0, -1, offsetX, offsetY, 0 );
+        castLight<0, -1, -1, 0>( seen_squares_experiment, transparency_cache, offsetX, offsetY, 0 );
+        castLight<-1, 0, 0, -1>( seen_squares_experiment, transparency_cache, offsetX, offsetY, 0 );
     }
     clock_gettime( CLOCK_REALTIME, &end2 );
+
     struct timespec diff1;
     struct timespec diff2;
     timespec_subtract( &diff1, &end1, &start1 );
@@ -189,7 +189,6 @@ int main(int argc, char *argv[])
             PERFORMANCE_TEST_ITERATIONS, diff1.tv_sec, diff1.tv_nsec );
     printf( "castLight() executed %d times in %ld.%ld seconds.\n",
             PERFORMANCE_TEST_ITERATIONS, diff2.tv_sec, diff2.tv_nsec );
-
 
     bool passed = true;
     for( int x = 0; passed && x < MAPSIZE*SEEX; ++x ) {
