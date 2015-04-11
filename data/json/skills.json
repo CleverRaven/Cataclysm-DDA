@@ -16,9 +16,14 @@
         "description" : "Your general competence in building construction. This governs the complexity of structures that can be built, and the time required to build them."
     },{
         "type" : "skill",
+        "ident" : "chemistry",
+        "name" : "chemistry",
+        "description" : "Your skill in understanding the world at the atomic level, and manipulating matter in useful, sometimes esoteric ways."
+    },{    
+        "type" : "skill",
         "ident" : "cooking",
         "name" : "cooking",
-        "description" : "Your skill in combining food ingredients to make other, tastier food items. It may also be used in certain chemical mixtures and other, more esoteric tasks."
+        "description" : "Your skill in combining food ingredients to make other, tastier food items."
     },{
         "type" : "skill",
         "ident" : "driving",
