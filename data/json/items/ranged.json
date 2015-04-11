@@ -3101,7 +3101,8 @@
     "recoil": 10,
     "durability": 9,
     "clip_size": 1,
-    "reload": 300
+    "reload": 100,
+    "loudness" : 300,
   },
   {
     "id": "coilgun",
