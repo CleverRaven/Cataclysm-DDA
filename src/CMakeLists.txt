@@ -275,9 +275,7 @@ SET (CATACLYSM_DDA_HEADERS
     ${CMAKE_SOURCE_DIR}/src/itype.h
 )
 
-# Add the actual executable
-ADD_EXECUTABLE(cataclysm ${CATACLYSM_DDA_SOURCES} ${CATACLYSM_DDA_HEADERS})
-
+# Get GIT version strings
 ADD_CUSTOM_TARGET(
 	get_version
 	${CMAKE_COMMAND} -D SRC=${CMAKE_SOURCE_DIR}/src/version.h.in
@@ -286,40 +284,62 @@ ADD_CUSTOM_TARGET(
 	WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
 )
 
-ADD_DEPENDENCIES(cataclysm get_version)
-IF (LUA)
-	ADD_DEPENDENCIES(cataclysm lua_bindings)
-ENDIF(LUA)
-
-# Required library linkage
+# Build tiles version if requested
 IF(TILES)
-	target_include_directories(cataclysm PUBLIC ${SDL2_INCLUDE_DIR})
-	target_link_libraries(cataclysm ${SDL2_LIBRARY})
+	ADD_EXECUTABLE(cataclysm-tiles ${CATACLYSM_DDA_SOURCES} ${CATACLYSM_DDA_HEADERS})
 
-	target_include_directories(cataclysm PUBLIC ${SDL2_TTF_INCLUDE_DIRS})
-	target_link_libraries(cataclysm ${SDL2_TTF_LIBRARIES})
 
-	target_include_directories(cataclysm PUBLIC ${SDL2_IMAGE_INCLUDE_DIRS})
-	target_link_libraries(cataclysm ${SDL2_IMAGE_LIBRARIES})
-ELSE(TILES)
+	ADD_DEPENDENCIES(cataclysm-tiles get_version)
+	IF (LUA)
+		ADD_DEPENDENCIES(cataclysm-tiles lua_bindings)
+	ENDIF(LUA)
+
+	target_include_directories(cataclysm-tiles PUBLIC ${SDL2_INCLUDE_DIR})
+	target_link_libraries(cataclysm-tiles ${SDL2_LIBRARY})
+
+	target_include_directories(cataclysm-tiles PUBLIC ${SDL2_TTF_INCLUDE_DIRS})
+	target_link_libraries(cataclysm-tiles ${SDL2_TTF_LIBRARIES})
+
+	target_include_directories(cataclysm-tiles PUBLIC ${SDL2_IMAGE_INCLUDE_DIRS})
+	target_link_libraries(cataclysm-tiles ${SDL2_IMAGE_LIBRARIES})
+	IF(SOUND)
+		set_target_properties(cataclysm-tiles PROPERTIES COMPILE_DEFINITIONS
+			"SDLTILES;TILES;SDL_SOUND" )
+
+		target_include_directories(cataclysm-tiles PUBLIC ${OGGVORBIS_INCLUDE_DIR})
+		target_link_libraries(cataclysm-tiles ${OGG_LIBRARY})
+		target_link_libraries(cataclysm-tiles ${VORBIS_LIBRARY})
+		target_link_libraries(cataclysm-tiles ${VORBISFILE_LIBRARY})
+	
+		target_include_directories(cataclysm-tiles PUBLIC ${SDL2_MIXER_INCLUDE_DIRS})
+		target_link_libraries(cataclysm-tiles ${SDL2_MIXER_LIBRARIES})
+	ELSE(SOUND)
+		# Set additional build props
+		set_target_properties(cataclysm-tiles PROPERTIES COMPILE_DEFINITIONS
+			"SDLTILES;TILES" )
+	ENDIF(SOUND)
+	IF(RELEASE)
+		install(TARGETS cataclysm-tiles DESTINATION ${BIN_PREFIX})
+	ENDIF(RELEASE)
+ENDIF(TILES)
+
+# Build curses version if requested
+IF(CURSES)
+	ADD_EXECUTABLE(cataclysm ${CATACLYSM_DDA_SOURCES} ${CATACLYSM_DDA_HEADERS})
+
+	ADD_DEPENDENCIES(cataclysm get_version)
+	IF (LUA)
+		ADD_DEPENDENCIES(cataclysm lua_bindings)
+	ENDIF(LUA)
+
 	target_include_directories(cataclysm PUBLIC ${CURSES_INCLUDE_DIRS})
 	target_link_libraries(cataclysm ${CURSES_LIBRARIES})
 
 	IF(WIN32)
         	target_link_libraries(cataclysm winmm.lib)
 	ENDIF(WIN32)
-ENDIF(TILES)
+	IF(RELEASE)
+		install(TARGETS cataclysm DESTINATION ${BIN_PREFIX})
+	ENDIF(RELEASE)
+ENDIF(CURSES)
 
-IF(SOUND)
-	target_include_directories(cataclysm PUBLIC ${OGGVORBIS_INCLUDE_DIR})
-	target_link_libraries(cataclysm ${OGG_LIBRARY})
-	target_link_libraries(cataclysm ${VORBIS_LIBRARY})
-	target_link_libraries(cataclysm ${VORBISFILE_LIBRARY})
-
-	target_include_directories(cataclysm PUBLIC ${SDL2_MIXER_INCLUDE_DIRS})
-	target_link_libraries(cataclysm ${SDL2_MIXER_LIBRARIES})
-ENDIF(SOUND)
-
-IF(RELEASE)
-	install(TARGETS cataclysm DESTINATION ${BIN_PREFIX})
-ENDIF(RELEASE)
