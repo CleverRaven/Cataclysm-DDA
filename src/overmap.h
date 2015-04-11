@@ -487,7 +487,6 @@ extern std::unordered_map<std::string,oter_t> otermap;
 extern std::vector<oter_t> oterlist;
 //extern const regional_settings default_region_settings;
 typedef std::unordered_map<std::string, regional_settings> t_regional_settings_map;
-typedef t_regional_settings_map::iterator t_regional_settings_map_itr;
 typedef t_regional_settings_map::const_iterator t_regional_settings_map_citr;
 extern t_regional_settings_map region_settings_map;
 

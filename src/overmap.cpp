@@ -616,13 +616,12 @@ void load_region_overlay(JsonObject &jo)
                     jo.throw_error("regions: More than one region is not allowed when \"all\" is used");
                 }
 
-                for(t_regional_settings_map_itr itr = region_settings_map.begin();
-                    itr != region_settings_map.end(); itr++) {
-                    apply_region_overlay(jo, itr->second);
+                for(auto &itr : region_settings_map) {
+                    apply_region_overlay(jo, itr.second);
                 }
             }
             else {
-                t_regional_settings_map_itr itr = region_settings_map.find(regionid);
+                auto itr = region_settings_map.find(regionid);
                 if(itr == region_settings_map.end()) {
                     jo.throw_error("region: " + regionid + " not found in region_settings_map");
                 }
