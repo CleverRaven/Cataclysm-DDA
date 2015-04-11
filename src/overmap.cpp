@@ -70,7 +70,7 @@ std::vector<oter_t> oterlist;
 
 std::unordered_map<std::string, oter_t> obasetermap;
 //const regional_settings default_region_settings;
-std::unordered_map<std::string, regional_settings> region_settings_map;
+t_regional_settings_map region_settings_map;
 
 std::vector<overmap_special> overmap_specials;
 
@@ -451,7 +451,7 @@ void finalize_overmap_terrain( )
     }
 }
 
-
+//KIWI
 
 void load_region_settings( JsonObject &jo )
 {
@@ -596,6 +596,16 @@ void load_region_settings( JsonObject &jo )
     region_settings_map[new_region.id] = new_region;
 }
 
+void load_region_overlay( JsonObject &jo )
+{
+    if(jo.get_string("region") =="all")
+    {
+
+    }
+    region_settings_map[new_region.id]
+
+}
+
 void reset_region_settings()
 {
     region_settings_map.clear();
@@ -612,8 +622,7 @@ overmap::overmap(int const x, int const y)
     // STUB: need region map:
     // settings = regionmap->calculate_settings( loc );
     const std::string rsettings_id = ACTIVE_WORLD_OPTIONS["DEFAULT_REGION"].getValue();
-    std::unordered_map<std::string, regional_settings>::const_iterator rsit =
-        region_settings_map.find( rsettings_id );
+    t_regional_settings_map_citr rsit = region_settings_map.find( rsettings_id );
 
     if ( rsit == region_settings_map.end() ) {
         debugmsg("overmap(%d,%d): can't find region '%s'", x, y, rsettings_id.c_str() ); // gonna die now =[
@@ -1390,7 +1399,7 @@ void overmap::draw(WINDOW *w, WINDOW *wbar, const tripoint &center,
         for (int j = 0; j < om_map_height; ++j) {
             const int omx = i + offset_x;
             const int omy = j + offset_y;
-            
+
             const bool see = overmap_buffer.seen(omx, omy, z);
             if (see) {
                 // Only load terrain if we can actually see it
@@ -1557,7 +1566,7 @@ void overmap::draw(WINDOW *w, WINDOW *wbar, const tripoint &center,
             corner_text.emplace_back(note_text.substr(pos));
         }
     }
-   
+
     for( const auto &npc : overmap_buffer.get_npcs_near_omt(cursx, cursy, z, 0) ) {
         if( !npc->marked_for_death ) {
             corner_text.emplace_back( npc->name );

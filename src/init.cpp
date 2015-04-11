@@ -67,6 +67,8 @@ DynamicDataLoader &DynamicDataLoader::get_instance()
     return theDynamicDataLoader;
 }
 
+// KIWI
+
 void DynamicDataLoader::load_object(JsonObject &jo)
 {
     std::string type = jo.get_string("type");
@@ -87,6 +89,8 @@ void load_ingored_type(JsonObject &jo)
     // (for example for testing or for unimplemented types)
     (void) jo;
 }
+
+// KIWI
 
 void DynamicDataLoader::initialize()
 {
