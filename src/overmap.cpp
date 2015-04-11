@@ -599,6 +599,10 @@ void reset_region_settings()
     region_settings_map.clear();
 }
 
+/*
+    Entry point for parsing "region_overlay" json objects.
+        Will loop through and apply the overlay to each of the overlay's regions.
+*/
 void load_region_overlay(JsonObject &jo)
 {
     if (jo.has_array("regions")) {
