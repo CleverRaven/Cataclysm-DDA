@@ -1700,11 +1700,11 @@ std::string item::tname( unsigned int quantity, bool with_prefix ) const
         if( damage < 0 )  {
             if( damage < -1 ) {
                 damtext = rm_prefix(_("<dam_adj>bugged "));
-            } else if (is_gun())  {
-                damtext = rm_prefix(_("<dam_adj>accurized "));
             } else if ( OPTIONS["ITEM_HEALTH_BAR"] ) {
                 auto const &nc_text = get_item_hp_bar(damage);
                 damtext = "<color_" + string_from_color(nc_text.second) + ">" + nc_text.first + " </color>";
+            } else if (is_gun())  {
+                damtext = rm_prefix(_("<dam_adj>accurized "));
             } else {
                 damtext = rm_prefix(_("<dam_adj>reinforced "));
             }

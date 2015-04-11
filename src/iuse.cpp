@@ -5776,59 +5776,72 @@ int iuse::mp3(player *p, item *it, bool, point)
     return it->type->charges_to_use();
 }
 
-std::string get_random_music_description(player *p)
+// Some music descriptions affect the character additionally, e.g. increase player::stim, or
+// increase the morale from the music.
+struct music_description {
+    std::string sound;
+    int stim_bonus = 0;
+    int morale_bonus = 0;
+};
+music_description get_music_description( const player & p )
 {
-    std::string sound = "";
-
-    switch (rng(1, 10)) {
+    music_description result;
+    switch( rng( 1, 10 ) ) {
         case 1:
-            sound = _("a sweet guitar solo!");
-            p->stim++;
+            result.sound = _("a sweet guitar solo!");
+            result.stim_bonus = 1;
             break;
         case 2:
-            sound = _("a funky bassline.");
+            result.sound = _("a funky bassline.");
             break;
         case 3:
-            sound = _("some amazing vocals.");
+            result.sound = _("some amazing vocals.");
             break;
         case 4:
-            sound = _("some pumping bass.");
+            result.sound = _("some pumping bass.");
             break;
         case 5:
-            sound = _("dramatic classical music.");
-            if (p->int_cur >= 10) {
-                p->add_morale(MORALE_MUSIC, 1, (50 + p->int_cur*2), 5, 2);
+            result.sound = _("dramatic classical music.");
+            if( p.int_cur >= 10 ) {
+                result.morale_bonus = p.int_cur * 2;
             }
             break;
     }
     if (one_in(50)) {
-        sound = _("some bass-heavy post-glam speed polka");
+        result.sound = _("some bass-heavy post-glam speed polka");
     }
-
-    return sound;
+    return result;
 }
 
-void iuse::play_music( player *p, point source, int volume )
+void iuse::play_music( player * const p, point const source, int const volume, int const max_morale )
 {
-    std::string sound = "";
+    // TODO: what about other "player", e.g. when a NPC is listening or when the PC is listening,
+    // the other characters around should be able to profit as well.
+    bool const do_effects = !p->has_effect( "music" ) && p->can_hear( source, volume );
+    int morale_bonus = 0;
+    std::string sound;
     if( int(calendar::turn) % 50 == 0 ) {
         // Every 5 minutes, describe the music
-        std::string description = get_random_music_description(p);
-        if( !description.empty() ) {
-            sound = string_format( _("You listen to %s"), description.c_str() );
+        auto const music = get_music_description( *p );
+        if( !music.sound.empty() ) {
+            sound = string_format( _("You listen to %s"), music.sound.c_str() );
+        }
+        if( do_effects ) {
+            p->stim += music.stim_bonus;
+            morale_bonus += music.morale_bonus;
         }
     }
     sounds::ambient_sound( source.x, source.y, volume, sound );
-    if( !p->has_effect("music") && !p->can_hear( source, volume ) ) {
+    if( do_effects ) {
         p->add_effect("music", 1);
-        p->add_morale(MORALE_MUSIC, 1, 50, 5, 2);
+        p->add_morale(MORALE_MUSIC, 1, max_morale + morale_bonus, 5, 2);
     }
 }
 
-int iuse::mp3_on(player *p, item *it, bool t, point)
+int iuse::mp3_on(player *p, item *it, bool t, point pos)
 {
     if (t) { // Normal use
-        play_music( p, p->pos(), 0 );
+        play_music( p, pos, 0, 50 );
     } else { // Turning it off
         p->add_msg_if_player(_("The mp3 player turns off."));
         it->make("mp3");
@@ -8125,18 +8138,7 @@ int iuse::einktabletpc(player *p, item *it, bool t, point pos)
 
             //the more varied music, the better max mood.
             const int songs = it->get_var( "EIPC_MUSIC", 0 );
-
-            //if user can hear this music and not already hear music
-            if( p->can_hear( pos, 8 ) && !p->has_effect("music")) {
-
-                p->add_effect("music", 1);
-                p->add_morale(MORALE_MUSIC, 1, std::min(100, songs), 5, 2);
-
-                if (int(calendar::turn) % 50 == 0) { // Every 5 minutes, describe the music
-                    const std::string sound = get_random_music_description(p);
-                    sounds::sound(pos.x, pos.y, 8, sound);
-                }
-            }
+            play_music( p, pos, 8, std::min( 100, songs ) );
         }
 
         return 0;

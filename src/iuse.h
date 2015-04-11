@@ -223,7 +223,7 @@ public:
     int artifact            (player *, item *, bool, point);
 
     // Helper for listening to music, might deserve a better home, but not sure where.
-    static void play_music( player *p, point source, int volume );
+    static void play_music( player *p, point source, int volume, int max_morale );
 
     static void reset_bullet_pulling();
     static void load_bullet_pulling(JsonObject &jo);
