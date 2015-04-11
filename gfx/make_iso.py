@@ -202,7 +202,8 @@ new_tiles = list()
 
 print 'processing tiles-new'
 for otn in otc['tiles-new']:
-    if(os.path.basename(otn['file']) == 'fallback.png'):
+    # need to add support for fallback tiles
+    if os.path.basename(otn['file']).find('fallback') > -1:
         continue
     converted_tile_ids = dict()
     if first_filename == '':
