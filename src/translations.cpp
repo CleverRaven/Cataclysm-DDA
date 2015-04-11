@@ -95,6 +95,9 @@ void set_language(bool reload_options)
 #else // !LOCALIZE
 void set_language(bool reload_options)
 {
+#if !(defined _WIN32 || defined WINDOWS)
+    setlocale(LC_ALL, "");
+#endif
     (void) reload_options; // Cancels MinGW warning on Windows
 }
 
