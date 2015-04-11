@@ -1212,7 +1212,8 @@
       { "monster" : "mon_boomer", "freq" : 30, "cost_multiplier" : 5 },
       { "monster" : "mon_zombie_brute", "freq" : 15, "cost_multiplier" : 15 },
       { "monster" : "mon_zombie_hulk", "freq" : 1, "cost_multiplier" : 50 },
-      { "monster" : "mon_zombie_master", "freq" : 1, "cost_multiplier" : 30 }
+      { "monster" : "mon_zombie_master", "freq" : 1, "cost_multiplier" : 30 },
+      { "monster" : "mon_zombie_hollow", "freq" : 2, "cost_multiplier" : 10 }
     ]
   },{
     "type":"monstergroup",
