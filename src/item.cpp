@@ -3407,19 +3407,21 @@ int item::noise() const
         return gunmod->noise();
     }
     // TODO: use islot_gun::loudness here.
-    int ret = 0;
+    const islot_gun* gun = type->gun.get();
+    int ret = gun->loudness;
     if( has_curammo() ) {
-        ret = get_curammo()->ammo->damage;
+        ret += get_curammo()->ammo->damage;
     }
-    ret *= .8;
+    /*ret *= .8;
     if (ret >= 5) {
         ret += 20;
-    }
+    }*/
     for( auto &elem : contents ) {
         if( elem.is_gunmod() ) {
             ret += elem.type->gunmod->loudness;
         }
     }
+    debugmsg("loudness: %d", ret);
     return ret;
 }
 

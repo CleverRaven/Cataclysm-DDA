@@ -231,7 +231,7 @@ struct common_firing_data : common_ranged_data {
      */
     int clip = 0;
     /**
-     * TODO: document me
+     * loudnes modifier of gun/gunmods
      */
     int loudness = 0;
 };
@@ -449,7 +449,7 @@ public:
 
     std::set<std::string> item_tags;
     std::set<std::string> techniques;
-    
+
     // Explosion that happens when the item is set on fire
     explosion_data explosion_on_fire_data;
 
@@ -575,7 +575,7 @@ struct it_comest : itype {
     int      healthy  = 0;
     unsigned brewtime = 0; // How long it takes for a brew to ferment.
     int      fun      = 0; // How fun its use is
-    
+
     add_type add = ADD_NULL; // Effects of addiction
 
     it_comest() = default;
