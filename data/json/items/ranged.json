@@ -385,7 +385,7 @@
     "burst": 3,
     "clip_size": 30,
     "reload": 800,
-    "loudness" : 175,
+    "loudness" : 175
   },
   {
     "id": "sig_mosquito",
@@ -3076,7 +3076,7 @@
     "durability": 9,
     "clip_size": 1,
     "reload": 150,
-    "loudness" : 200,
+    "loudness" : 200
   },
   {
     "id": "TANK",
@@ -3102,7 +3102,7 @@
     "durability": 9,
     "clip_size": 1,
     "reload": 100,
-    "loudness" : 300,
+    "loudness" : 300
   },
   {
     "id": "coilgun",
@@ -4484,7 +4484,7 @@
     "durability": 5,
     "clip_size": 0,
     "reload": 0,
-    "loudness" : 50,
+    "loudness" : 50
   },
   {
     "id": "tokarev",
@@ -5029,7 +5029,7 @@
     "burst": 1,
     "clip_size": 1,
     "reload": 800,
-    "loudness" : 200,
+    "loudness" : 200
   },
   {
     "id": "watercannon",
