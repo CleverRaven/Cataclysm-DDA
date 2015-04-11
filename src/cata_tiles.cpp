@@ -490,18 +490,24 @@ tile_type *cata_tiles::load_tile(JsonObject &entry, const std::string &id, int o
     if ( entry.has_array("fg") ) {
         JsonArray fg_array = entry.get_array("fg");
         while (fg_array.has_more()) {
-            curr_subtile->fg.push_back(fg_array.next_int());
+            const int fg = fg_array.next_int();
+            if ( fg >= 0 ) {
+                curr_subtile->fg.push_back(fg);
+            }
         }
-    } else if (entry.has_int("fg") ) {
+    } else if (entry.has_int("fg") && entry.get_int("fg") >= 0) {
         curr_subtile->fg.push_back(entry.get_int("fg"));
     }
 
     if ( entry.has_array("bg") ) {
         JsonArray bg_array = entry.get_array("bg");
         while (bg_array.has_more()) {
-            curr_subtile->bg.push_back(bg_array.next_int());
+            const int bg = bg_array.next_int();
+            if ( bg >= 0 ) {
+                curr_subtile->bg.push_back(bg);
+            }
         }
-    } else if (entry.has_int("bg") ) {
+    } else if (entry.has_int("bg") && entry.get_int("bg") >= 0) {
         curr_subtile->bg.push_back(entry.get_int("bg"));
     }
 
