@@ -62,7 +62,7 @@ void multi_robot        (monster *z, int index); // Tazer, flame, M4, MGL, or 12
 void ratking            (monster *z, int index);
 void generator          (monster *z, int index);
 void upgrade            (monster *z, int index);
-void self_upgrade       (monster *z, int index);
+void zombie_self_upgrade(monster *z, int index);
 void breathe            (monster *z, int index);
 void bite               (monster *z, int index);
 void brandish           (monster *z, int index);
@@ -86,6 +86,7 @@ void tankgun            (monster *z, Creature *target); // Tankbot primary.
 void flame              (monster *z, Creature *target);
 
 bool dodge_check        (monster *z, Creature *target);
+void self_upgrade       (monster *z, std::string change_message);
 } //namespace mattack
 
 #endif
