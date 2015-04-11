@@ -45,6 +45,19 @@ struct oter_weight_list {
         total_weight += weight;
     }
 
+    void add_or_replace_item(std::string id, int weight) {
+        for(i=0; i<items.size(); i++) {
+            if(items[i].ot_sid == id) {
+                total_weight += (weight - items[i].weight);
+                items[i].weight = weight;
+                return;
+            }
+        }
+
+        // if not found, add to end of list
+        add_item(id, weight);
+    }
+
     void setup() { // populate iid's for faster generation and sanity check.
         for(std::vector<oter_weight>::iterator item_it = items.begin();
             item_it != items.end(); ++item_it ) {
@@ -474,6 +487,7 @@ extern std::unordered_map<std::string,oter_t> otermap;
 extern std::vector<oter_t> oterlist;
 //extern const regional_settings default_region_settings;
 typedef std::unordered_map<std::string, regional_settings> t_regional_settings_map;
+typedef t_regional_settings_map::iterator t_regional_settings_map_itr;
 typedef t_regional_settings_map::const_iterator t_regional_settings_map_citr;
 extern t_regional_settings_map region_settings_map;
 
