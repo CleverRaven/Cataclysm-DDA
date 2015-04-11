@@ -86,7 +86,7 @@ void tankgun            (monster *z, Creature *target); // Tankbot primary.
 void flame              (monster *z, Creature *target);
 
 bool dodge_check        (monster *z, Creature *target);
-void self_upgrade       (monster *z, std::string change_message);
+void self_upgrade       (monster *z, std::string change_message, std::string group_type);
 } //namespace mattack
 
 #endif
