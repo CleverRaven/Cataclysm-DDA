@@ -231,7 +231,7 @@ struct common_firing_data : common_ranged_data {
      */
     int clip = 0;
     /**
-     * loudnes modifier of gun/gunmods
+     * loudness for guns/gunmods
      */
     int loudness = 0;
 };
