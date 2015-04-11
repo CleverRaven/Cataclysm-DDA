@@ -277,6 +277,7 @@ class cata_tiles
         float get_tile_ratiox() const { return tile_ratiox; }
         float get_tile_ratioy() const { return tile_ratioy; }
         void do_tile_loading_report();
+        bool tile_iso;
     protected:
         void get_tile_information(std::string dir_path, std::string &json_path, std::string &tileset_path);
         template <typename maptype>
@@ -292,7 +293,6 @@ class cata_tiles
         tile_id_map tile_ids;
 
         int tile_height, tile_width, default_tile_width, default_tile_height;
-        bool tile_iso;
         // The width and height of the area we can draw in,
         // measured in map coordinates, *not* in pixels.
         int screentile_width, screentile_height;
