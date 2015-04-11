@@ -451,8 +451,6 @@ void finalize_overmap_terrain( )
     }
 }
 
-//KIWI
-
 void load_region_settings( JsonObject &jo )
 {
     regional_settings new_region;
@@ -596,19 +594,174 @@ void load_region_settings( JsonObject &jo )
     region_settings_map[new_region.id] = new_region;
 }
 
-void load_region_overlay( JsonObject &jo )
-{
-    if(jo.get_string("region") =="all")
-    {
-
-    }
-    region_settings_map[new_region.id]
-
-}
-
 void reset_region_settings()
 {
     region_settings_map.clear();
+}
+
+void load_region_overlay(JsonObject &jo)
+{
+    if(jo.get_string("region") =="all") {
+        for(t_regional_settings_map_itr itr = region_settings_map.begin();
+            itr != region_settings_map.end(); itr++) {
+            apply_region_overlay(jo, itr->second);
+        }
+    }
+    else { // KIWI - handle lists of regions
+        t_regional_settings_map_itr itr = region_settings_map.find(jo.get_string("region"));
+        if(itr == region_settings_map.end()) {
+            jo.throw_error("region: " + jo.get_string("region") + " not found in region_settings_map");
+        }
+        else {
+            apply_region_overlay(jo, itr->second);
+        }
+    }
+}
+
+void apply_region_overlay(JsonObject &jo, regional_settings region)
+{
+    if (jo.has_member("default_oter")) {
+        jo.read("default_oter", region.default_oter);
+    }
+
+    if (jo.has_object("default_groundcover")) {
+        JsonObject jio = jo.get_object("default_groundcover");
+
+        if (jio.has_member("primary")) {
+            jio.read("primary", region.default_groundcover_str->primary_str);
+        }
+        if (jio.has_member("secondary")) {
+            jio.read("secondary", region.default_groundcover_str->secondary_str);
+        }
+        if (jio.has_member("ratio")) {
+            jio.read("ratio", region.default_groundcover_str.chance);
+        }
+    }
+
+    if (jo.has_member("num_forests")) {
+        jo.read("num_forests", region.num_forests);
+    }
+    if (jo.has_member("forest_size_min")) {
+        jo.read("forest_size_min", region.forest_size_min);
+    }
+    if (jo.has_member("forest_size_max")) {
+        jo.read("forest_size_max", region.forest_size_max);
+    }
+    if (jo.has_member("house_basement_chance")) {
+        jo.read("house_basement_chance", region.house_basement_chance);
+    }
+    if (jo.has_member("swamp_maxsize")) {
+        jo.read("swamp_maxsize", region.swamp_maxsize);
+    }
+    if (jo.has_member("swamp_river_influence")) {
+        jo.read("swamp_river_influence", region.swamp_river_influence);
+    }
+    if (jo.has_member("swamp_spread_chance")) {
+        jo.read("swamp_spread_chance", region.swamp_spread_chance);
+    }
+
+    if (jo.has_object("field_coverage")) {
+        JsonObject pjo = jo.get_object("field_coverage");
+
+        if (pjo.has_member("percent_coverage")) {
+            double tmpval = 0.0f;
+            pjo.read("percent_coverage", tmpval);
+            region.field_coverage.mpercent_coverage = (int)(tmpval * 10000.0);
+        }
+
+        if (pjo.has_member("default_ter")) {
+            pjo.read("default_ter", region.field_coverage.default_ter_str);
+        }
+
+        if (pjo.has_object("other")) {
+            double tmpval = 0.0f;
+            JsonObject opjo = pjo.get_object("other");
+            std::set<std::string> keys = opjo.get_member_names();
+            for( const auto &key : keys ) {
+                tmpval = 0.0f;
+                if( key != "//" ) {
+                    if( opjo.read( key, tmpval ) ) {
+                        region.field_coverage.percent_str[key] = tmpval;
+                    }
+                }
+            }
+        }
+
+        if (pjo.has_member("boost_chance")) {
+            double tmpval = 0.0f;
+            pjo.read("boost_chance", tmpval);
+            if(tmpval != 0.0f) {
+                region.field_coverage.boost_chance = (int)(tmpval * 10000.0);
+
+                if (pjo.has_member("boosted_percent_coverage")) {
+                    pjo.read("boosted_percent_coverage", tmpval);
+                    region.field_coverage.boosted_mpercent_coverage = (int)(tmpval * 10000.0);
+                }
+                if(region.field_coverage.boosted_mpercent_coverage == 0.0f) {
+                    pjo.throw_error("boost_chance > 0 requires boosted_percent_coverage");
+                }
+
+                if (pjo.has_member("boosted_other_percent")) {
+                    pjo.read("boosted_other_percent", tmpval);
+                    region.field_coverage.boosted_other_mpercent = (int)(tmpval * 10000.0);
+                }
+                if(region.field_coverage.boosted_other_mpercent == 0.0f) {
+                    pjo.throw_error("boost_chance > 0 requires boosted_other_percent");
+                }
+
+                if (pjo.has_object("boosted_other")) {
+                    JsonObject opjo = pjo.get_object("boosted_other");
+                    std::set<std::string> keys = opjo.get_member_names();
+                    for( const auto &key : keys ) {
+                        tmpval = 0.0f;
+                        if( key != "//" ) {
+                            if( opjo.read( key, tmpval ) ) {
+                                region.field_coverage.boosted_percent_str[key] = tmpval;
+                            }
+                        }
+                    }
+                }
+                if(region.field_coverage.boosted_percent_str.size() == 0) {
+                    pjo.throw_error("boost_chance > 0 requires boosted_other { ... }");
+                }
+            }
+        }
+    }
+
+    if (jo.has_object("city")) {
+        JsonObject cjo = jo.get_object("city");
+
+        if (cjo.has_member("shop_radius")) {
+            cjo.read("shop_radius", region.city_spec.shop_radius;
+        }
+        if (cjo.has_member("park_radius")) {
+            cjo.read("park_radius", region.city_spec.park_radius;
+        }
+
+        if (cjo.has_object("shops")) {
+            JsonObject wjo = cjo.get_object("shops");
+            std::set<std::string> keys = wjo.get_member_names();
+            for( const auto &key : keys ) {
+                if( key != "//" ) {
+                    if( wjo.has_int( key ) ) {
+                        region.city_spec.shops.add_or_replace_item(key, wjo.get_int(key));
+                    }
+                }
+            }
+        }
+
+        if (cjo.has_object("parks")) {
+            JsonObject wjo = cjo.get_object("parks");
+            std::set<std::string> keys = wjo.get_member_names();
+            for( const auto &key : keys ) {
+                if( key != "//" ) {
+                    if( wjo.has_int( key ) ) {
+                        region.city_spec.parks.add_or_replace_item(key, wjo.get_int(key));
+                    }
+                }
+            }
+        }
+    }
 }
 
 
