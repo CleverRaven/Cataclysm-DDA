@@ -601,20 +601,35 @@ void reset_region_settings()
 
 void load_region_overlay(JsonObject &jo)
 {
-    if(jo.get_string("region") == "all") {
-        for(t_regional_settings_map_itr itr = region_settings_map.begin();
-            itr != region_settings_map.end(); itr++) {
-            apply_region_overlay(jo, itr->second);
+    if (jo.has_array("regions")) {
+        JsonArray regions = jo.get_array("regions");
+
+        while (regions.has_more()) {
+            std::string regionid = regions.next_string();
+
+            if(regionid == "all") {
+                if(regions.size() != 1) {
+                    jo.throw_error("regions: More than one region is not allowed when \"all\" is used");
+                }
+
+                for(t_regional_settings_map_itr itr = region_settings_map.begin();
+                    itr != region_settings_map.end(); itr++) {
+                    apply_region_overlay(jo, itr->second);
+                }
+            }
+            else {
+                t_regional_settings_map_itr itr = region_settings_map.find(regionid);
+                if(itr == region_settings_map.end()) {
+                    jo.throw_error("region: " + regionid + " not found in region_settings_map");
+                }
+                else {
+                    apply_region_overlay(jo, itr->second);
+                }
+            }
         }
     }
-    else { // KIWI - handle lists of regions
-        t_regional_settings_map_itr itr = region_settings_map.find(jo.get_string("region"));
-        if(itr == region_settings_map.end()) {
-            jo.throw_error("region: " + jo.get_string("region") + " not found in region_settings_map");
-        }
-        else {
-            apply_region_overlay(jo, itr->second);
-        }
+    else {
+        jo.throw_error("\"regions\" is required and must be an array");
     }
 }
 
@@ -763,7 +778,6 @@ void apply_region_overlay(JsonObject &jo, regional_settings &region)
         }
     }
 }
-
 
 // *** BEGIN overmap FUNCTIONS ***
 
