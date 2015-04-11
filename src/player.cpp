@@ -13681,27 +13681,27 @@ void player::print_encumbrance(WINDOW *win, int min, int max, int line)
                              bp_hand_r, bp_leg_l, bp_leg_r, bp_foot_l, bp_foot_r};
     int iEnc, iArmorEnc, iBodyTempInt;
     double iLayers;
+    std::string out;
     /*** I chose to instead only display X+Y instead of X+Y=Z. More room was needed ***
      *** for displaying triple digit encumbrance, due to new encumbrance system.    ***
      *** If the player wants to see the total without having to do them maths, the  ***
      *** armor layers ui shows everything they want :-) -Davek                      ***/
     for (int i = min; i < max; ++i) {
+        out.clear();
         iLayers = iArmorEnc = 0;
         iBodyTempInt = (temp_conv[i] / 100.0) * 2 - 100; // Scale of -100 to +100
         iEnc = encumb(aBodyPart[i], iLayers, iArmorEnc);
         // limb, and possible color highlighting
-        std::string out = format_pad(asText[i].c_str(), 7);
+        out = string_format("%-7s", asText[i].c_str());
         mvwprintz(win, i + 1 - min, 1, (line == i) ? h_ltgray : c_ltgray, out.c_str());
         // take into account the new encumbrance system for layers
-        out = "(" + format_pad(static_cast<int>(iLayers / 10.0), 1, true) + ") ";
+        out = string_format("(%1d) ", static_cast<int>(iLayers / 10.0));
         wprintz(win, c_ltgray, out.c_str());
         // accumulated encumbrance from clothing, plus extra encumbrance from layering
-        nc_color enc_col = encumb_color(iEnc);
-        wprintz(win, enc_col, format_pad(iArmorEnc, 3, true).c_str());
-        wprintz(win, c_ltgray, "+");
-        wprintz(win, enc_col, format_pad(iEnc - iArmorEnc, 3).c_str());
-        // print warmth, tethered to right hand side of window
-        out = "(" + format_pad(iBodyTempInt, 3, true) + ")";
+        out = string_format("%3d+%-3d", iArmorEnc, iEnc - iArmorEnc);
+        wprintz(win, encumb_color(iEnc), out.c_str());
+        // print warmth, tethered to right hand side of the window
+        out = string_format("(% 3d)", iBodyTempInt);
         mvwprintz(win, i + 1 - min, getmaxx(win) - 6, bodytemp_color(i), out.c_str());
     }
 }
