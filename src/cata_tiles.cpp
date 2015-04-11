@@ -580,8 +580,17 @@ void cata_tiles::draw(int destx, int desty, int centerx, int centery, int width,
     screentile_width = (width + tile_width - 1) / tile_width;
     screentile_height = (height + tile_height - 1) / tile_height;
 
-    for( int x = o_x; x <= o_x + sx - 1; x++ ) {
-        for( int y = o_y; y <= o_y + sy - 1; y++ ) {
+    // in isometric mode, render the whole reality bubble
+    // TODO: make this smarter
+    const int min_x = tile_iso ? MAPSIZE*SEEX : o_x;
+    const int max_x = tile_iso ? 0 : sx + o_x;
+    const int dx = tile_iso ? -1 : 1; // iso mode renders right to left, for overlap reasons
+    const int min_y = tile_iso ? 0 : o_y;
+    const int max_y = tile_iso ? MAPSIZE*SEEX : sy + o_y;
+    const int dy = 1;
+
+    for (int y=min_y; (y*dy)<(max_y*dy); y+=dy) {
+        for (int x=min_x; (x*dx)<(max_x*dx); x+=dx) {
             draw_single_tile( x, y, g->m.visibility_cache[x][y], cache );
         }
     }
