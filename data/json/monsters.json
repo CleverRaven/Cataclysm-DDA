@@ -146,7 +146,7 @@
     "luminance":0,
     "hp":100,
     "death_function":"SMOKEBURST",
-    "description":"Smoke bellows from this black-white bear's fur, and the ground bursts into flame in its wake, only to be put out a moment later.",
+    "description":"A smoking husk is all that remains of this once proud bear.  Its black eyes gaze at you with malice... and hunger.",
     "flags":["SEES", "HEARS", "SMELLS", "ANIMAL", "WARM", "FUR", "BLEED", "BASHES", "ATTACKMON", "BONES", "FAT", "FIREPROOF", "NO_BREATHE", "POISON"],
 	"special_attacks":[["SMOKECLOUD", 1], ["BITE", 5]],
     "anger_triggers":["HURT", "PLAYER_CLOSE"],
