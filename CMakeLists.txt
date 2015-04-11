@@ -10,7 +10,8 @@ SET(CMAKE_MODULE_PATH
 
 # Build options
 option(LUA          "Lua support (required for some mods)"      "OFF")
-option(TILES        "Support for graphical tilesets"            "OFF")
+option(TILES        "Build graphical tileset version"           "OFF")
+option(CURSES       "Build curses version"                      "OFF")
 option(SOUND        "Support for in-game sounds & music"        "OFF")
 option(RELEASE      "Enable debug and ability to run binary without need to install it. Use it for development purposes ONLY." "OFF")
 option(ZLEVELS      "Enable experimental z-levels"              "OFF")
@@ -116,6 +117,7 @@ IF ( LUA )
 	MESSAGE(STATUS "LUA_BINARY                    : ${LUA_BINARY}")
 ENDIF ( LUA )
 	MESSAGE(STATUS "TILES                         : ${TILES}")
+	MESSAGE(STATUS "CURSES                        : ${CURSES}")
 	MESSAGE(STATUS "SOUND                         : ${SOUND}")
 	MESSAGE(STATUS "RELEASE                       : ${RELEASE}")
 	MESSAGE(STATUS "LOCALIZE                      : ${LOCALIZE}")
@@ -160,9 +162,9 @@ IF(TILES)
 			"This project requires SDL2_image to be installed to be compiled in graphical mode. Please install the SDL2_image development libraries, or try compiling without the -DTILES=1 for a text only compilation.\nSee INSTALL file for details and more info\n"
 		)
 	ENDIF(NOT SDL2_IMAGE_FOUND)
+ENDIF(TILES)
 
-	ADD_DEFINITIONS(-DTILES -DSDLTILES)
-ELSE(TILES)
+IF(CURSES)
 	# Find the ncurses library for a text based compile
 	MESSAGE(STATUS "Searching for Curses library --\n")
 	FIND_PACKAGE(Curses)
@@ -171,8 +173,7 @@ ELSE(TILES)
 			"This project requires ncurses to be installed to be compiled in text only mode. Please install the ncurses development libraries, or try compiling with the -DTILES=1 for a graphical compilation.\nSee INSTALL file for details and more info\n"
 		)
 	ENDIF(NOT CURSES_FOUND)
-	SET(CURSES_NEED_NCURSES TRUE)
-ENDIF(TILES)
+ENDIF(CURSES)
 
 IF(SOUND)
 	# You need TILES to be able to use SOUND
@@ -190,8 +191,6 @@ IF(SOUND)
 			"You need the SDL2_mixer development library to be able to compile with sound enabled.\nSee INSTALL file for details and more info\n"
 		)
 	ENDIF(NOT SDL2_MIXER_FOUND)
-
-	ADD_DEFINITIONS(-DSDL_SOUND)
 ENDIF(SOUND)
 
 # Ok. Now create build and install recipes
