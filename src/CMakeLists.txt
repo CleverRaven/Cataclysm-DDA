@@ -332,8 +332,10 @@ IF(CURSES)
 		ADD_DEPENDENCIES(cataclysm lua_bindings)
 	ENDIF(LUA)
 
-	target_include_directories(cataclysm PUBLIC ${CURSES_INCLUDE_DIRS})
+	target_include_directories(cataclysm PUBLIC ${CURSES_INCLUDE_PATH})
 	target_link_libraries(cataclysm ${CURSES_LIBRARIES})
+	#-L/usr/lib64 -lncursesw)
+	#${CURSES_LIBRARIES} -L/usr/lib64)
 
 	IF(WIN32)
         	target_link_libraries(cataclysm winmm.lib)
