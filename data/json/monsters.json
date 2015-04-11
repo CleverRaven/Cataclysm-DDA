@@ -1528,7 +1528,7 @@
     "luminance":0,
     "hp":95,
     "death_function":["NORMAL"],
-    "special_attacks":[["BITE", 5]],
+    "special_attacks":[["BITE", 5], ["SELF_UPGRADE", 100]],
     "description":"Stumbling as it moves, this corpse of an overweight human regards its surroundings with an empty black gaze.",
     "flags":["SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "GROUP_BASH", "POISON", "BLEED", "NO_BREATHE", "REVIVES", "BONES", "FAT"],
     "categories":["CLASSIC"]
@@ -1592,7 +1592,7 @@
     "luminance":0,
     "hp":60,
     "death_function":["NORMAL"],
-    "special_attacks":[["BITE", 5]],
+    "special_attacks":[["BITE", 5], ["SELF_UPGRADE", 100]],
     "description":"This human corpse drags itself along slowly with its arms.  Its legs are damaged beyond repair",
     "flags":["SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "GRABS", "POISON", "BLEED", "NO_BREATHE", "REVIVES", "BONES"],
     "categories":["CLASSIC"]
@@ -1624,7 +1624,7 @@
     "luminance":0,
     "hp":80,
     "death_function":["NORMAL"],
-    "special_attacks":[["BITE", 5]],
+    "special_attacks":[["BITE", 5], ["SELF_UPGRADE", 100]],
     "description":"This zombie's face and body is completely covered by a protective suit.  It wanders around, unsteadily.",
     "flags":["SEES", "HEARS", "STUMBLES", "WARM", "BASHES", "GROUP_BASH", "POISON", "BLEED", "ACIDPROOF", "NO_BREATHE", "REVIVES", "BONES"],
     "categories":["CLASSIC"]
@@ -1656,6 +1656,7 @@
     "luminance":0,
     "hp":80,
     "death_function":["NORMAL"],
+	"special_attacks":[["SELF_UPGRADE", 100]],
     "description":"A decaying human body clad in tattered firefighting gear.  It staggers aimlessly, reeking of smoke and decay.",
     "flags":["SEES", "HEARS", "STUMBLES", "WARM", "BASHES", "GROUP_BASH", "POISON", "BLEED", "ACIDPROOF", "NO_BREATHE", "REVIVES", "BONES"],
     "categories":["CLASSIC"]
@@ -1718,7 +1719,7 @@
     "luminance":0,
     "hp":55,
     "death_function":["NORMAL"],
-    "special_attacks":[["BITE", 2]],
+    "special_attacks":[["BITE", 2], ["SELF_UPGRADE", 100]],
     "description":"A once-dead human corpse.  Its discolored swollen flesh is riddled with festering wounds and open sores.",
     "flags":["SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "GROUP_BASH", "POISON", "BLEED", "NO_BREATHE", "REVIVES", "BONES"],
     "categories":["CLASSIC"]
@@ -1750,6 +1751,7 @@
     "luminance":0,
     "hp":80,
     "death_function":["NORMAL"],
+    "special_attacks":[["SELF_UPGRADE", 100]],
     "description":"A human body covered by a weather-beaten and badly damaged set of riot gear.",
     "flags":["SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "GROUP_BASH", "POISON", "BLEED", "NO_BREATHE", "REVIVES", "BONES"],
     "categories":["CLASSIC"]
@@ -2337,7 +2339,7 @@
     "luminance":0,
     "hp":100,
     "death_function":["NORMAL"],
-    "special_attacks":[["BITE", 5]],
+    "special_attacks":[["BITE", 5], ["SELF_UPGRADE", 100]],
     "description":"Once a soldier, it is dressed head to toe in combat gear and carries itself rather steadily for a zombie.",
     "flags":["SEES", "HEARS", "SMELLS", "WARM", "BASHES", "GROUP_BASH", "POISON", "BLEED", "NO_BREATHE", "REVIVES", "BONES"],
     "categories":["CLASSIC"]
@@ -2537,6 +2539,7 @@
     "luminance":0,
     "hp":40,
     "death_function":["NORMAL"],
+    "special_attacks":[["BITE", 5], ["SELF_UPGRADE", 100]],
     "description":"It was only a child, and little is different about it now aside from the hungry look in its eyes.  You'd be hard pressed to not feel like you were killing an actual child by putting it down.",
     "flags":["SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "BLEED", "POISON", "GUILT", "NO_BREATHE", "REVIVES", "BONES"],
     "categories":["CLASSIC"]
