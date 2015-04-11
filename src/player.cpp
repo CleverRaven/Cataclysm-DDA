@@ -13698,8 +13698,10 @@ void player::print_encumbrance(WINDOW *win, int min, int max, int line)
         out = string_format("(%1d) ", static_cast<int>(iLayers / 10.0));
         wprintz(win, c_ltgray, out.c_str());
         // accumulated encumbrance from clothing, plus extra encumbrance from layering
-        out = string_format("%3d+%-3d", iArmorEnc, iEnc - iArmorEnc);
-        wprintz(win, encumb_color(iEnc), out.c_str());
+        wprintz(win, encumb_color(iEnc), string_format("%3d", iArmorEnc).c_str());
+        // seperator in low toned color
+        wprintz(win, c_ltgray, "+");
+        wprintz(win, encumb_color(iEnc), string_format("%-3d", iEnc - iArmorEnc).c_str());
         // print warmth, tethered to right hand side of the window
         out = string_format("(% 3d)", iBodyTempInt);
         mvwprintz(win, i + 1 - min, getmaxx(win) - 6, bodytemp_color(i), out.c_str());
