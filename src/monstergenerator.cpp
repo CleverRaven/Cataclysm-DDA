@@ -285,6 +285,7 @@ void MonsterGenerator::init_attack()
     attack_map["RATKING"] = &mattack::ratking;
     attack_map["GENERATOR"] = &mattack::generator;
     attack_map["UPGRADE"] = &mattack::upgrade;
+    attack_map["SELF_UPGRADE"] = &mattack::zombie_self_upgrade;
     attack_map["BREATHE"] = &mattack::breathe;
     attack_map["BITE"] = &mattack::bite;
     attack_map["BRANDISH"] = &mattack::brandish;
