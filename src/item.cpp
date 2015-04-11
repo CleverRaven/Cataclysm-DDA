@@ -3416,7 +3416,6 @@ int item::noise() const
             ret += elem.type->gunmod->loudness;
         }
     }
-    debugmsg("loudness: %d", ret);
     return ret;
 }
 
