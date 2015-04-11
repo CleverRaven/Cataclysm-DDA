@@ -19,6 +19,8 @@ parser = argparse.ArgumentParser(description='Convert a Cataclysm-DDA tileset to
 
 parser.add_argument('tileset', help='name of the tileset directory to convert')
 
+parser.add_argument('-f', dest='floodfill', action='store_true')
+
 args = parser.parse_args()
 
 def iso_ize(tile_num, new_tile_num=-1, initial_rotation=0, override=False):
@@ -120,6 +122,7 @@ def tile_convert(otile, main_id, new_tile_number):
                     # offset this flat tile
                     command = (
                         'convert -background transparent ' + new_tileset_name + '/tiles/tile-' + "{:0>6d}".format(otile[g][0]) + '.png' +
+                        (' -fill transparent -draw "color 0,0 floodfill"' if args.floodfill else '') +
                         ' -extent ' + str(nwidth) + 'x' + str(nheight) +
                         '-' + str(int((nwidth-owidth)/2)) + '-' + str(int((nheight-oheight)-flat_sprite_offset)) + ' ' +
                         '+repage ' +
