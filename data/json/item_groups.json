@@ -1875,6 +1875,22 @@
       ["chem_thermite", 10]
     ]
   },{
+    "type"  : "item_group",
+    "id"    : "hardware_bulk",
+    "items" : [
+      ["2x4", 100],
+      ["rock", 70],
+      ["coal", 20],
+      ["material_shrd_limestone", 70],
+      ["fertilizer_commercial", 100],
+      ["material_quicklime", 70],
+      ["material_sand", 100],
+      ["concrete", 70],
+      ["rebar", 40],
+      ["brick", 40],
+      ["pipe", 40]
+    ]
+  },{
     "type" : "item_group",
     "id" : "tools",
     "items":[
