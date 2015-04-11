@@ -1096,6 +1096,9 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
          */
         void on_mission_finished( mission &mission );
 
+        // formats and prints encumbrance info to specified window
+        void print_encumbrance(WINDOW *win, int min, int max, int line = -1);
+
     protected:
         std::list<disease> illness;
         // The player's position on the local map.
