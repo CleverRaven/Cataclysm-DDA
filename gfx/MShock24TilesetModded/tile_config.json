@@ -19141,6 +19141,143 @@
           "id": "f_fvat_full",
           "fg": 890,
           "rotates": false
+        },
+        {
+          "id": "t_sconc_wall",
+          "fg": 1725,
+          "bg": 534,
+          "rotates": false
+        },
+        {
+          "id": "t_strconc_wall",
+          "fg": 1725,
+          "bg": 534,
+          "rotates": false
+        },
+        {
+          "id": "t_sconc_wall_halfway",
+          "fg": 1873,
+          "bg": 534,
+          "rotates": false
+        },
+        {
+          "id": "t_strconc_wall_halfway",
+          "fg": 1873,
+          "bg": 534,
+          "rotates": false
+        },
+        {
+          "id": "t_reb_cage",
+          "fg": 1733,
+          "bg": 534,
+          "rotates": false
+        },
+        {
+          "id": "t_brick_wall_halfway",
+          "fg": 1805,
+          "bg": 534,
+          "rotates": false
+        },
+        {
+          "id": "t_brick_wall",
+          "fg": 1805,
+          "bg": 534,
+          "rotates": false
+        },
+        {
+          "id": "t_pontoon_dp",
+          "fg": 1742,
+          "rotates": false,
+          "multitile": true,
+          "additional_tiles": [
+            {
+              "id": "center",
+              "fg": 1742
+            },
+            {
+              "id": "unconnected",
+              "fg": 1742
+            },
+            {
+              "id": "corner",
+              "fg": 1743
+            },
+            {
+              "id": "edge",
+              "fg": 1744
+            },
+            {
+              "id": "end_piece",
+              "fg": 1745
+            },
+            {
+              "id": "t_connection",
+              "fg": 1746
+            }
+          ]
+        },
+        {
+          "id": "t_gates_control_metal",
+          "fg": 1787,
+          "rotates": false
+        },
+        {
+          "id": "t_thconc_floor",
+          "fg": 534,
+          "rotates": false
+        },
+        {
+          "id": "t_strconc_floor",
+          "fg": 534,
+          "rotates": false
+        },
+        {
+          "id": "t_ov_smreb_cage",
+          "fg": 2508,
+          "bg": 534,
+          "rotates": false
+        },
+        {
+          "id": "t_ov_reb_cage",
+          "fg": 2508,
+          "bg": 534,
+          "rotates": false
+        },
+        {
+          "id": "t_strconc_floor_halfway",
+          "fg": 2507,
+          "bg": 534,
+          "rotates": false
+        },
+        {
+          "id": "t_machinery_light",
+          "fg": 2509,
+          "bg": 534,
+          "rotates": false
+        },
+        {
+          "id": "t_machinery_heavy",
+          "fg": 2510,
+          "bg": 534,
+          "rotates": false
+        },
+        {
+          "id": "t_machinery_electronic",
+          "fg": 2511,
+          "bg": 534,
+          "rotates": false
+        },
+        {
+          "id": "t_conveyor",
+          "fg": 2512,
+          "bg": 534,
+          "rotates": false
+        },
+        {
+          "id": "t_machinery_old",
+          "fg": 2513,
+          "bg": 534,
+          "rotates": false
         }
       ]
     },
