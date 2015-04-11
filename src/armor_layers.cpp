@@ -310,7 +310,7 @@ void player::sort_armor()
             }
             true_enc = enc - armorenc;
             // well, now I can't use my "Tom is my only friend" joke anymore
-            std::string enc_string = format_pad(armorenc, 3) + "+" + format_pad(true_enc, 3) + "= ";
+            std::string enc_string = format_pad(armorenc, 3, true) + "+" + format_pad(true_enc, 3) + "= ";
             // TODO: perhaps make (middle_w - 20) something a bit more dynamic? (p.s. originally 'middle_w - 16')
             mvwprintz(w_sort_middle, cont_h - 12 + i, (middle_w - 20), c_ltgray, enc_string.c_str());
             wprintz(w_sort_middle, encumb_color(enc), "%d" , enc);
