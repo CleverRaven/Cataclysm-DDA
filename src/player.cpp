@@ -6000,26 +6000,26 @@ void player::hardcoded_effects(effect &it)
                 }
             }
             if (is_npc() && one_in(200)) {
-                std::string npcText;
+                const char *npcText;
                 switch(rng(1,4)) {
                     case 1:
-                        npcText = "\"I think it's starting to kick in.\"";
+                        npcText = _("\"I think it's starting to kick in.\"");
                         break;
                     case 2:
-                        npcText = "\"Oh God, what's happening?\"";
+                        npcText = _("\"Oh God, what's happening?\"");
                         break;
                     case 3:
-                        npcText = "\"Of course... it's all fractals!\"";
+                        npcText = _("\"Of course... it's all fractals!\"");
                         break;
                     default:
-                        npcText = "\"Huh?  What was that?\"";
+                        npcText = _("\"Huh?  What was that?\"");
                         break;
 
                 }
                 int loudness = 20 + str_cur - int_cur;
                 loudness = (loudness > 5 ? loudness : 5);
                 loudness = (loudness < 30 ? loudness : 30);
-                sounds::sound(posx(), posy(), loudness, _(npcText.c_str()));
+                sounds::sound(posx(), posy(), loudness, npcText);
             }
         } else if (dur == peakTime) {
             // Visuals start
