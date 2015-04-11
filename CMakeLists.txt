@@ -5,7 +5,7 @@ PROJECT(CataclysmDDA)
 
 SET(CMAKE_MODULE_PATH
     ${CMAKE_MODULE_PATH}
-    ${CMAKE_SOURCE_DIR}/cmake
+    ${CMAKE_SOURCE_DIR}/CMakeModules
 )
 
 # Build options
