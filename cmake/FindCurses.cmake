@@ -1,74 +1,38 @@
-#.rst:
-# FindCurses
-# ----------
+# - Find the curses include file and library
 #
-# Find the curses or ncurses include file and library.
+#  CURSES_FOUND - system has Curses
+#  CURSES_INCLUDE_DIR - the Curses include directory
+#  CURSES_LIBRARIES - The libraries needed to use Curses
+#  CURSES_HAVE_CURSES_H - true if curses.h is available
+#  CURSES_HAVE_NCURSES_H - true if ncurses.h is available
+#  CURSES_HAVE_NCURSES_NCURSES_H - true if ncurses/ncurses.h is available
+#  CURSES_HAVE_NCURSES_CURSES_H - true if ncurses/curses.h is available
+#  CURSES_LIBRARY - set for backwards compatibility with 2.4 CMake
 #
-# Result Variables
-# ^^^^^^^^^^^^^^^^
-#
-# This module defines the following variables:
-#
-# ``CURSES_FOUND``
-#   True if Curses is found.
-# ``CURSES_INCLUDE_DIRS``
-#   The include directories needed to use Curses.
-# ``CURSES_LIBRARIES``
-#   The libraries needed to use Curses.
-# ``CURSES_HAVE_CURSES_H``
-#   True if curses.h is available.
-# ``CURSES_HAVE_NCURSES_H``
-#   True if ncurses.h is available.
-# ``CURSES_HAVE_NCURSES_NCURSES_H``
-#   True if ``ncurses/ncurses.h`` is available.
-# ``CURSES_HAVE_NCURSES_CURSES_H``
-#   True if ``ncurses/curses.h`` is available.
-#
-# Set ``CURSES_NEED_NCURSES`` to ``TRUE`` before the
-# ``find_package(Curses)`` call if NCurses functionality is required.
-#
-# Backward Compatibility
-# ^^^^^^^^^^^^^^^^^^^^^^
-#
-# The following variable are provided for backward compatibility:
-#
-# ``CURSES_INCLUDE_DIR``
-#   Path to Curses include.  Use ``CURSES_INCLUDE_DIRS`` instead.
-# ``CURSES_LIBRARY``
-#   Path to Curses library.  Use ``CURSES_LIBRARIES`` instead.
+# Set CURSES_NEED_NCURSES to TRUE before the FIND_PACKAGE() command if NCurses 
+# functionality is required.
 
-#=============================================================================
-# Copyright 2001-2014 Kitware, Inc.
-#
-# Distributed under the OSI-approved BSD License (the "License");
-# see accompanying file Copyright.txt for details.
-#
-# This software is distributed WITHOUT ANY WARRANTY; without even the
-# implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
-# See the License for more information.
-#=============================================================================
-# (To distribute this file outside of CMake, substitute the full
-#  License text for the above reference.)
+# Set CURSES_NEED_WIDE to TRUE before the FIND_PACKAGE() command if unicode
+# functionality is required
 
-include(CheckLibraryExists)
+SET(CURSES_LIBRARY_NAME "curses")
+SET(NCURSES_LIBRARY_NAME "ncurses")
+IF(CURSES_NEED_WIDE)
+  SET(CURSES_LIBRARY_NAME "cursesw")
+  SET(NCURSES_LIBRARY_NAME "ncursesw")
+ENDIF(CURSES_NEED_WIDE)
 
-find_library(CURSES_CURSES_LIBRARY NAMES curses PATHS ${CMAKE_SOURCE_DIR}/dep/lib)
+FIND_LIBRARY(CURSES_CURSES_LIBRARY "${CURSES_LIBRARY_NAME}")
+# MESSAGE(STATUS "CURSES! " ${CURSES_CURSES_LIBRARY})
 
-find_library(CURSES_NCURSES_LIBRARY NAMES ncurses HINTS ${CMAKE_SOURCE_DIR}/dep/lib)
-set(CURSES_USE_NCURSES FALSE)
+FIND_LIBRARY(CURSES_NCURSES_LIBRARY "${NCURSES_LIBRARY_NAME}")
+# MESSAGE(STATUS "NCURSES! " ${CURSES_NCURSES_LIBRARY})
 
-if(CURSES_NCURSES_LIBRARY  AND ((NOT CURSES_CURSES_LIBRARY) OR CURSES_NEED_NCURSES))
-  set(CURSES_USE_NCURSES TRUE)
-endif()
-# http://cygwin.com/ml/cygwin-announce/2010-01/msg00002.html
-# cygwin ncurses stopped providing curses.h symlinks see above
-# message.  Cygwin is an ncurses package, so force ncurses on
-# cygwin if the curses.h is missing
-if(CYGWIN)
-  if(NOT EXISTS /usr/include/curses.h)
-    set(CURSES_USE_NCURSES TRUE)
-  endif()
-endif()
+SET(CURSES_USE_NCURSES FALSE)
+
+IF(CURSES_NCURSES_LIBRARY  AND NOT  CURSES_CURSES_LIBRARY)
+  SET(CURSES_USE_NCURSES TRUE)
+ENDIF(CURSES_NCURSES_LIBRARY  AND NOT  CURSES_CURSES_LIBRARY)
 
 
 # Not sure the logic is correct here.
@@ -80,136 +44,136 @@ endif()
 # some web pages also say that even with ncurses there is not always a ncurses.h:
 # http://osdir.com/ml/gnome.apps.mc.devel/2002-06/msg00029.html
 # So at first try ncurses.h, if not found, try to find curses.h under the same
-# prefix as the library was found, if still not found, try curses.h with the
+# prefix as the library was found, if still not found, try curses.h with the 
 # default search paths.
-if(CURSES_CURSES_LIBRARY  AND  CURSES_NEED_NCURSES)
-  include(CMakePushCheckState)
-  cmake_push_check_state()
-  set(CMAKE_REQUIRED_QUIET ${Curses_FIND_QUIETLY})
-  CHECK_LIBRARY_EXISTS("${CURSES_CURSES_LIBRARY}"
+IF(CURSES_CURSES_LIBRARY  AND  CURSES_NEED_NCURSES)
+  INCLUDE(CheckLibraryExists)
+  CHECK_LIBRARY_EXISTS("${CURSES_CURSES_LIBRARY}" 
     wsyncup "" CURSES_CURSES_HAS_WSYNCUP)
 
-  if(CURSES_NCURSES_LIBRARY  AND NOT  CURSES_CURSES_HAS_WSYNCUP)
-    CHECK_LIBRARY_EXISTS("${CURSES_NCURSES_LIBRARY}"
+  IF(CURSES_NCURSES_LIBRARY  AND NOT  CURSES_CURSES_HAS_WSYNCUP)
+    CHECK_LIBRARY_EXISTS("${CURSES_NCURSES_LIBRARY}" 
       wsyncup "" CURSES_NCURSES_HAS_WSYNCUP)
-    if( CURSES_NCURSES_HAS_WSYNCUP)
-      set(CURSES_USE_NCURSES TRUE)
-    endif()
-  endif()
-  cmake_pop_check_state()
+    IF( CURSES_NCURSES_HAS_WSYNCUP)
+      SET(CURSES_USE_NCURSES TRUE)
+    ENDIF( CURSES_NCURSES_HAS_WSYNCUP)
+  ENDIF(CURSES_NCURSES_LIBRARY  AND NOT  CURSES_CURSES_HAS_WSYNCUP)
 
-endif()
+ENDIF(CURSES_CURSES_LIBRARY  AND  CURSES_NEED_NCURSES)
 
-if(CURSES_USE_NCURSES)
-  get_filename_component(_cursesLibDir "${CURSES_NCURSES_LIBRARY}" PATH)
-  get_filename_component(_cursesParentDir "${_cursesLibDir}" PATH)
 
-  # Use CURSES_NCURSES_INCLUDE_PATH if set, for compatibility.
-  if(CURSES_NCURSES_INCLUDE_PATH)
-    find_path(CURSES_INCLUDE_PATH
-      NAMES ncurses/ncurses.h ncurses/curses.h ncurses.h curses.h
-      PATHS ${CURSES_NCURSES_INCLUDE_PATH}
-      NO_DEFAULT_PATH
-      ${CMAKE_SOURCE_DIR}/dep/include/
-      )
-  endif()
+IF(NOT CURSES_USE_NCURSES)
+  FIND_FILE(CURSES_HAVE_CURSES_H curses.h )
+  FIND_FILE(CURSES_HAVE_CURSESW_H cursesw.h )
+  FIND_PATH(CURSES_CURSES_H_PATH curses.h )
+  FIND_PATH(CURSES_CURSESW_H_PATH cursesw.h )
+  GET_FILENAME_COMPONENT(_cursesLibDir "${CURSES_CURSES_LIBRARY}" PATH)
+  GET_FILENAME_COMPONENT(_cursesParentDir "${_cursesLibDir}" PATH)
 
-  find_path(CURSES_INCLUDE_PATH
-    NAMES ncurses/ncurses.h ncurses/curses.h ncurses.h curses.h
-    HINTS "${_cursesParentDir}/include" "${CMAKE_SOURCE_DIR}/dep/include/"
-    )
+  # for compatibility with older FindCurses.cmake this has to be in the cache
+  # FORCE must not be used since this would break builds which preload a cache wqith these variables set
+  SET(CURSES_INCLUDE_PATH "${CURSES_CURSES_H_PATH} ${CURSES_CURSESW_H_PATH}"
+    CACHE FILEPATH "The curses include path")
+  SET(CURSES_LIBRARY "${CURSES_CURSES_LIBRARY}"
+    CACHE FILEPATH "The curses library")
+ELSE(NOT CURSES_USE_NCURSES)
+# we need to find ncurses
+  GET_FILENAME_COMPONENT(_cursesLibDir "${CURSES_NCURSES_LIBRARY}" PATH)
+  GET_FILENAME_COMPONENT(_cursesParentDir "${_cursesLibDir}" PATH)
 
-  # Previous versions of FindCurses provided these values.
-  if(NOT DEFINED CURSES_LIBRARY)
-    set(CURSES_LIBRARY "${CURSES_NCURSES_LIBRARY}")
-  endif()
+  FIND_FILE(CURSES_HAVE_NCURSES_H         ncurses.h)
+  FIND_FILE(CURSES_HAVE_NCURSES_NCURSES_H ncurses/ncurses.h)
+  FIND_FILE(CURSES_HAVE_NCURSES_CURSES_H  ncurses/curses.h)
+  FIND_FILE(CURSES_HAVE_CURSES_H          curses.h 
+    HINTS "${_cursesParentDir}/include")
 
-  CHECK_LIBRARY_EXISTS("${CURSES_NCURSES_LIBRARY}"
-    cbreak "" CURSES_NCURSES_HAS_CBREAK)
-  if(NOT CURSES_NCURSES_HAS_CBREAK)
-    find_library(CURSES_EXTRA_LIBRARY tinfo HINTS "${_cursesLibDir}" "${CMAKE_SOURCE_DIR}/dep/include/")
-    find_library(CURSES_EXTRA_LIBRARY tinfo )
-  endif()
-else()
-  get_filename_component(_cursesLibDir "${CURSES_CURSES_LIBRARY}" PATH)
-  get_filename_component(_cursesParentDir "${_cursesLibDir}" PATH)
+  FIND_FILE(CURSES_HAVE_NCURSESW_H         ncursesw.h)
+  FIND_FILE(CURSES_HAVE_NCURSESW_NCURSES_H ncursesw/ncurses.h)
+  FIND_FILE(CURSES_HAVE_NCURSESW_CURSES_H  ncursesw/curses.h)
+  FIND_FILE(CURSES_HAVE_CURSESW_H          cursesw.h 
+    HINTS "${_cursesParentDir}/include")
 
-  find_path(CURSES_INCLUDE_PATH
-    NAMES curses.h
-    HINTS "${_cursesParentDir}/include" "${CMAKE_SOURCE_DIR}/dep/include/"
-    )
+  #FIND_PATH(CURSES_NCURSES_INCLUDE_PATH ncurses.h ncurses/ncurses.h 
+  #  ncurses/curses.h ncursesw.h ncursesw/ncurses.h ncursesw/curses.h cursesw.h)
+  FIND_PATH(CURSES_NCURSES_INCLUDE_PATH curses.h
+    HINTS "${_cursesParentDir}/include/ncursesw" "${_cursesParentDir}/include" "${_cursesParentDir}")
 
-  # Previous versions of FindCurses provided these values.
-  if(NOT DEFINED CURSES_CURSES_H_PATH)
-    set(CURSES_CURSES_H_PATH "${CURSES_INCLUDE_PATH}")
-  endif()
-  if(NOT DEFINED CURSES_LIBRARY)
-    set(CURSES_LIBRARY "${CURSES_CURSES_LIBRARY}")
-  endif()
-endif()
+  # for compatibility with older FindCurses.cmake this has to be in the cache
+  # FORCE must not be used since this would break builds which preload
+  # a cache wqith these variables set
+  # only put ncurses include and library into 
+  # variables if they are found
+  IF(CURSES_NCURSES_INCLUDE_PATH AND CURSES_NCURSES_LIBRARY)
 
-# Report whether each possible header name exists in the include directory.
-if(NOT DEFINED CURSES_HAVE_NCURSES_NCURSES_H)
-  if(EXISTS "${CURSES_INCLUDE_PATH}/ncurses/ncurses.h")
-    set(CURSES_HAVE_NCURSES_NCURSES_H "${CURSES_INCLUDE_PATH}/ncurses/ncurses.h")
-  else()
-    set(CURSES_HAVE_NCURSES_NCURSES_H "CURSES_HAVE_NCURSES_NCURSES_H-NOTFOUND")
-  endif()
-endif()
-if(NOT DEFINED CURSES_HAVE_NCURSES_CURSES_H)
-  if(EXISTS "${CURSES_INCLUDE_PATH}/ncurses/curses.h")
-    set(CURSES_HAVE_NCURSES_CURSES_H "${CURSES_INCLUDE_PATH}/ncurses/curses.h")
-  else()
-    set(CURSES_HAVE_NCURSES_CURSES_H "CURSES_HAVE_NCURSES_CURSES_H-NOTFOUND")
-  endif()
-endif()
-if(NOT DEFINED CURSES_HAVE_NCURSES_H)
-  if(EXISTS "${CURSES_INCLUDE_PATH}/ncurses.h")
-    set(CURSES_HAVE_NCURSES_H "${CURSES_INCLUDE_PATH}/ncurses.h")
-  else()
-    set(CURSES_HAVE_NCURSES_H "CURSES_HAVE_NCURSES_H-NOTFOUND")
-  endif()
-endif()
-if(NOT DEFINED CURSES_HAVE_CURSES_H)
-  if(EXISTS "${CURSES_INCLUDE_PATH}/curses.h")
-    set(CURSES_HAVE_CURSES_H "${CURSES_INCLUDE_PATH}/curses.h")
-  else()
-    set(CURSES_HAVE_CURSES_H "CURSES_HAVE_CURSES_H-NOTFOUND")
-  endif()
-endif()
+    SET(CURSES_INCLUDE_PATH "${CURSES_NCURSES_INCLUDE_PATH}"
+      CACHE FILEPATH "The curses include path")
+    SET(CURSES_LIBRARY "${CURSES_NCURSES_LIBRARY}" 
+      CACHE FILEPATH "The curses library")
+  ENDIF(CURSES_NCURSES_INCLUDE_PATH AND CURSES_NCURSES_LIBRARY)
 
-find_library(CURSES_FORM_LIBRARY form HINTS "${_cursesLibDir}" ${CMAKE_SOURCE_DIR}/dep/)
-find_library(CURSES_FORM_LIBRARY form )
+ENDIF(NOT CURSES_USE_NCURSES)
 
-# Previous versions of FindCurses provided these values.
-if(NOT DEFINED FORM_LIBRARY)
-  set(FORM_LIBRARY "${CURSES_FORM_LIBRARY}")
-endif()
+
+
+FIND_LIBRARY(CURSES_EXTRA_LIBRARY cur_colr HINTS "${_cursesLibDir}")
+FIND_LIBRARY(CURSES_EXTRA_LIBRARY cur_colr )
+
+SET(CURSES_FORM_LIBRARY_NAME "form")
+IF(CURSES_NEED_WIDE)
+  SET(CURSES_FORM_LIBRARY_NAME "formw")
+ENDIF(CURSES_NEED_WIDE)
+
+FIND_LIBRARY(CURSES_CURSES_LIBRARY "${CURSES_LIBRARY_NAME}")
+FIND_LIBRARY(CURSES_FORM_LIBRARY "${CURSES_FORM_LIBRARY_NAME}" HINTS "${_cursesLibDir}")
+FIND_LIBRARY(CURSES_FORM_LIBRARY "${CURSES_FORM_LIBRARY_NAME}" )
+
+# for compatibility with older FindCurses.cmake this has to be in the cache
+# FORCE must not be used since this would break builds which preload a cache
+# qith these variables set
+SET(FORM_LIBRARY "${CURSES_FORM_LIBRARY}"         
+  CACHE FILEPATH "The curses form library")
 
 # Need to provide the *_LIBRARIES
-set(CURSES_LIBRARIES ${CURSES_LIBRARY})
+SET(CURSES_LIBRARIES ${CURSES_LIBRARY})
 
-if(CURSES_EXTRA_LIBRARY)
-  set(CURSES_LIBRARIES ${CURSES_LIBRARIES} ${CURSES_EXTRA_LIBRARY})
-endif()
+IF(CURSES_EXTRA_LIBRARY)
+  SET(CURSES_LIBRARIES ${CURSES_LIBRARIES} ${CURSES_EXTRA_LIBRARY})
+ENDIF(CURSES_EXTRA_LIBRARY)
 
-if(CURSES_FORM_LIBRARY)
-  set(CURSES_LIBRARIES ${CURSES_LIBRARIES} ${CURSES_FORM_LIBRARY})
-endif()
+IF(CURSES_FORM_LIBRARY)
+  SET(CURSES_LIBRARIES ${CURSES_LIBRARIES} ${CURSES_FORM_LIBRARY})
+ENDIF(CURSES_FORM_LIBRARY)
 
-# Provide the *_INCLUDE_DIRS result.
-set(CURSES_INCLUDE_DIRS ${CURSES_INCLUDE_PATH})
-set(CURSES_INCLUDE_DIR ${CURSES_INCLUDE_PATH}) # compatibility
+# Proper name is *_INCLUDE_DIR
+SET(CURSES_INCLUDE_DIR ${CURSES_INCLUDE_PATH})
 
-# handle the QUIETLY and REQUIRED arguments and set CURSES_FOUND to TRUE if
+# handle the QUIETLY and REQUIRED arguments and set CURSES_FOUND to TRUE if 
 # all listed variables are TRUE
-include(FindPackageHandleStandardArgs)
+INCLUDE(FindPackageHandleStandardArgs)
 FIND_PACKAGE_HANDLE_STANDARD_ARGS(Curses DEFAULT_MSG
   CURSES_LIBRARY CURSES_INCLUDE_PATH)
 
-mark_as_advanced(
+MARK_AS_ADVANCED(
   CURSES_INCLUDE_PATH
+  CURSES_LIBRARY
+  CURSES_CURSES_INCLUDE_PATH
   CURSES_CURSES_LIBRARY
+  CURSES_NCURSES_INCLUDE_PATH
   CURSES_NCURSES_LIBRARY
   CURSES_EXTRA_LIBRARY
+  FORM_LIBRARY
+  CURSES_FORM_LIBRARY
+  CURSES_LIBRARIES
+  CURSES_INCLUDE_DIR
+  CURSES_CURSES_HAS_WSYNCUP
+  CURSES_NCURSES_HAS_WSYNCUP
+  CURSES_HAVE_CURSESW_H
+  CURSES_HAVE_CURSES_H
+  CURSES_HAVE_NCURSESW_CURSES_H
+  CURSES_HAVE_NCURSESW_H
+  CURSES_HAVE_NCURSESW_NCURSES_H
+  CURSES_HAVE_NCURSES_CURSES_H
+  CURSES_HAVE_NCURSES_H
+  CURSES_HAVE_NCURSES_NCURSES_H
   )
+
