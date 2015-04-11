@@ -496,7 +496,7 @@ void reset_overmap_terrain();
 void load_region_settings(JsonObject &jo);
 void reset_region_settings();
 void load_region_overlay(JsonObject &jo);
-void apply_region_overlay(JsonObject &jo, regional_settings region);
+void apply_region_overlay(JsonObject &jo, regional_settings &region);
 
 void finalize_overmap_terrain();
 

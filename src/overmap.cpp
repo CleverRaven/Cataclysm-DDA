@@ -601,7 +601,7 @@ void reset_region_settings()
 
 void load_region_overlay(JsonObject &jo)
 {
-    if(jo.get_string("region") =="all") {
+    if(jo.get_string("region") == "all") {
         for(t_regional_settings_map_itr itr = region_settings_map.begin();
             itr != region_settings_map.end(); itr++) {
             apply_region_overlay(jo, itr->second);
@@ -618,7 +618,7 @@ void load_region_overlay(JsonObject &jo)
     }
 }
 
-void apply_region_overlay(JsonObject &jo, regional_settings region)
+void apply_region_overlay(JsonObject &jo, regional_settings &region)
 {
     if (jo.has_member("default_oter")) {
         jo.read("default_oter", region.default_oter);
