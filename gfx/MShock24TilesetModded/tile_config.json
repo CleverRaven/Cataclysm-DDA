@@ -19031,6 +19031,116 @@
           "id": "hat_alum",
           "fg": 2496,
           "rotates": false
+        },
+        {
+          "id": "straw_pile",
+          "fg": 2497,
+          "rotates": false
+        },
+        {
+          "id": "pine_nuts",
+          "fg": 2498,
+          "rotates": false
+        },
+        {
+          "id": "seed_corn",
+          "fg": 821,
+          "rotates": false
+        },
+        {
+          "id": "seed_onion",
+          "fg": 816,
+          "rotates": false
+        },
+        {
+          "id": "stomach",
+          "fg": 2499,
+          "rotates": false
+        },
+        {
+          "id": "stomach_large",
+          "fg": 2500,
+          "rotates": false
+        },
+        {
+          "id": "waterskin2",
+          "fg": 2501,
+          "rotates": false
+        },
+        {
+          "id": "waterskin3",
+          "fg": 2502,
+          "rotates": false
+        },
+        {
+          "id": "stomach_sealed",
+          "fg": 889,
+          "rotates": false
+        },
+        {
+          "id": "large_stomach_sealed",
+          "fg": 2501,
+          "rotates": false
+        },
+        {
+          "id": "stomach_boiled",
+          "fg": 2499,
+          "rotates": false
+        },
+        {
+          "id": "jerky",
+          "fg": 2503,
+          "rotates": false
+        },
+        {
+          "id": "jerky_human",
+          "fg": 2503,
+          "rotates": false
+        },
+        {
+          "id": "t_claymound",
+          "fg": 2504,
+          "rotates": false
+        },
+        {
+          "id": "f_kiln_empty",
+          "fg": 2505,
+          "rotates": false
+        },
+        {
+          "id": "f_kiln_full",
+          "fg": 2506,
+          "rotates": false
+        },
+        {
+          "id": "f_clay_kiln",
+          "fg": 2505,
+          "rotates": false
+        },
+        {
+          "id": "f_kiln_metal_empty",
+          "fg": 1058,
+          "rotates": false
+        },
+        {
+          "id": "f_kiln_metal_full",
+          "fg": 1058,
+          "rotates": false
+        },
+        {
+          "id": "f_wood_keg",
+          "fg": 890,
+          "rotates": false
+        },
+        {
+          "id": "f_fvat_empty",
+          "fg": 890,
+          "rotates": false
+        },
+        {
+          "id": "f_fvat_full",
+          "fg": 890,
+          "rotates": false
         }
       ]
     },
