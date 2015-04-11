@@ -4718,6 +4718,13 @@ void map::remove_field( const tripoint &p, const field_id field_to_remove )
     if( current_submap->fld[lx][ly].removeField( field_to_remove ) ) {
         // Only adjust the count if the field actually existed.
         current_submap->field_count--;
+        const auto &fdata = fieldlist[ field_to_remove ];
+        for( int i = 0; i < 3; ++i ) {
+            if( !fdata.transparent[i] ) {
+                set_transparency_cache_dirty();
+                break;
+            }
+        }
     }
 }
 
