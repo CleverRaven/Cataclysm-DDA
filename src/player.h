@@ -612,8 +612,11 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
 
         /** used for drinking from hands, returns how many charges were consumed */
         int drink_from_hands(item &water);
-        /** Used for eating object at pos, returns true if object is successfully eaten */
+        /** Used for eating object at pos, returns true if object is removed from inventory (last charge was consumed) */
         bool consume(int pos);
+        /** Used for eating a particular item that doesn't need to be in inventory. 
+         *  Returns true if the item is to be removed (doesn't remove). */
+        bool consume_item( item &eat );
         /** Used for eating entered comestible, returns true if comestible is successfully eaten */
         bool eat(item *eat, it_comest *comest);
         /** Handles the nutrition value for a comestible **/
