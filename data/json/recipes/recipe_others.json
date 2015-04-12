@@ -3393,12 +3393,12 @@
   "category": "CC_OTHER",
   "subcategory": "CSC_OTHER_TOOLS",
   "skill_used" : "fabrication",
-  "skills_required" : ["cooking", 2],
+  "skills_required" : ["chemistry", 2],
   "difficulty" : 2,
   "time": 50000,
   "reversible": false,
   "autolearn": false,
-  "book_learn": [["adv_chemistry", 1] , ["textbook_chemistry", 1]],
+  "book_learn": [["adv_chemistry", 1] , ["textbook_chemistry", 1] , ["manual_chemistry", 1]],
   "components": [
     [
       ["wire", 5],
