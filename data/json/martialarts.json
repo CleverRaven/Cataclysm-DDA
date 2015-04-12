@@ -939,7 +939,7 @@
     },{
         "type" : "martial_art",
         "id" : "style_hema",
-        "name" : "HEMA",
+        "name" : "Historical European Fencing",
         "description": "The modern recreation of European fencing, based off the manuals of Medieval and Renaissance fencing masters. It emphasises quick footwork and aggressive striking. Skilled fencers can apply their techniques to make lightning fast attacks and devastating combos, while maintaining their defense.", 
         "arm_block" : 99,
         "leg_block" : 99,
