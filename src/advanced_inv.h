@@ -263,8 +263,7 @@ class advanced_inventory
          */
         enum side {
             left  = 0,
-            right = 1,
-            error = 2
+            right = 1
         };
         const int head_height;
         const int min_w_height;
@@ -322,12 +321,6 @@ class advanced_inventory
         void recalc_pane(side p);
         void redraw_pane(side p);
         void swap_panes();
-        // returns the pane side associated with the area
-        side area_to_side(aim_location place) const
-        {
-            return (panes[left].area == place) ? left : 
-                (panes[right].area == place) ? right : error;
-        }
         // Returns the x coordinate where the header started. The header is
         // displayed right right of it, everything left of it is till free.
         int print_header(advanced_inventory_pane &pane, aim_location sel);
