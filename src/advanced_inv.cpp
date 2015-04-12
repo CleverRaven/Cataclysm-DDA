@@ -1798,7 +1798,9 @@ bool advanced_inventory::add_item( aim_location destarea, const item &new_item, 
     } else {
         advanced_inv_area &p = squares[destarea];
         // set the vehicle area for the destination area
-        set_vehicle(panes[dest], panes[dest].veh_area);
+        if(squares[destarea].can_store_in_vehicle()) {
+            set_vehicle(panes[dest], panes[dest].veh_area);
+        }
         if( (p.id == AIM_VEHICLE || p.id == AIM_DRAGGED) && p.can_store_in_vehicle() ) {
             if( !p.veh->add_item( p.vstor, new_item ) ) {
                 rc = false;
@@ -1937,7 +1939,8 @@ bool advanced_inventory::query_charges( aim_location destarea, const advanced_in
         }
         // instead of prompting to move all, prompt to move all _but_ one
         const long possible_max = std::min( input_amount, amount );
-        amount = std::atoi( string_input_popup( popupmsg, 20, to_string( possible_max - 1 ), "", "", -1, true ).c_str() );
+        amount = std::atoi( string_input_popup( popupmsg, 20, 
+                    to_string( (possible_max > 1) ? possible_max - 1 : possible_max ), "", "", -1, true ).c_str() );
         if( amount <= 0 ) {
             return false;
         }
