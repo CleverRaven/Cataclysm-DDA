@@ -2474,7 +2474,7 @@
   "category": "CC_CHEM",
   "subcategory": "CSC_CHEM_CHEMICALS",
   "skill_used": "chemistry",
-  "difficulty": 6,
+  "difficulty": 5,
   "time": 45000,
   "reversible": false,
   "autolearn": false,
