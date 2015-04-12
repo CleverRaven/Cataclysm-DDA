@@ -6992,3 +6992,138 @@ void map::creature_on_trap( Creature &c, bool const may_avoid )
     }
     tr.trigger( c.pos3(), &c );
 }
+
+template<typename Functor>
+    void map::function_over( const tripoint &start, const tripoint &end, Functor fun ) const
+{
+    function_over( start.x, start.y, start.z, end.x, end.y, end.z, fun );
+}
+
+template<typename Functor>
+    void map::function_over( const int stx, const int sty, const int stz, 
+                             const int enx, const int eny, const int enz, Functor fun ) const
+{
+    // start and end are just two points, end can be "before" start
+    // Also clip the area to map area
+    const int minx = std::max( std::min(stx, enx ), 0 );
+    const int miny = std::max( std::min(sty, eny ), 0 );
+    const int minz = std::max( std::min(stz, enz ), -OVERMAP_DEPTH );
+    const int maxx = std::min( std::max(stx, enx ), my_MAPSIZE * SEEX );
+    const int maxy = std::min( std::max(sty, eny ), my_MAPSIZE * SEEY );
+    const int maxz = std::min( std::max(stz, enz ), OVERMAP_HEIGHT );
+
+    // Submaps that contain the bounding points
+    const int min_smx = minx / SEEX;
+    const int min_smy = miny / SEEY;
+    const int max_smx = ( maxx + SEEX - 1 ) / SEEX;
+    const int max_smy = ( maxy + SEEY - 1 ) / SEEY;
+    // Z outermost, because submaps are flat
+    tripoint gp;
+    int &z = gp.z;
+    int &smx = gp.x;
+    int &smy = gp.y;
+    for( z = minz; z <= maxz; z++ ) {
+        for( smx = min_smx; smx <= max_smx; smx++ ) {
+            for( smy = min_smy; smy <= max_smy; smy++ ) {
+                submap const *cur_submap = get_submap_at_grid( smx, smy, z );
+                // Bounds on the submap coords
+                const int sm_minx = smx > min_smx ? 0 : minx % SEEX;
+                const int sm_miny = smy > min_smy ? 0 : miny % SEEY;
+                const int sm_maxx = smx < max_smx ? (SEEX - 1) : maxx % SEEX;
+                const int sm_maxy = smy < max_smy ? (SEEY - 1) : maxy % SEEY;
+
+                point lp;
+                int &sx = lp.x;
+                int &sy = lp.y;
+                for( sx = sm_minx; sx <= sm_maxx; ++sx ) {
+                    for( sy = sm_miny; sy <= sm_maxy; ++sy ) {
+                        const iteration_state rval = fun( gp, cur_submap, lp );
+                        if( rval != ITER_CONTINUE ) {
+                            switch( rval ) {
+                            case ITER_SKIP_ZLEVEL:
+                                smx = my_MAPSIZE + 1;
+                                smy = my_MAPSIZE + 1;
+                                // Fall through
+                            case ITER_SKIP_SUBMAP:
+                                sx = SEEX;
+                                sy = SEEY;
+                                break;
+                            default:
+                                return;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+void map::scent_blockers( bool blocks_scent[SEEX * MAPSIZE][SEEY * MAPSIZE],
+                     bool reduces_scent[SEEX * MAPSIZE][SEEY * MAPSIZE] )
+{
+    auto reduce = TFLAG_REDUCE_SCENT;
+    auto block = TFLAG_WALL;
+    auto fill_values = [&]( const tripoint &gp, const submap *sm, const point &lp ) {
+        if( terlist[ sm->get_ter( lp.x, lp.y ) ].has_flag( block ) ) {
+            // We need to generate the x/y coords, because we can't get them "for free"
+            const int x = ( gp.x * SEEX ) + lp.x;
+            const int y = ( gp.y * SEEY ) + lp.y;
+            blocks_scent[x][y] = true;
+        } else if( terlist[ sm->get_ter( lp.x, lp.y ) ].has_flag( reduce ) || furnlist[ sm->get_furn( lp.x, lp.y ) ].has_flag( reduce ) ) {
+            const int x = ( gp.x * SEEX ) + lp.x;
+            const int y = ( gp.y * SEEY ) + lp.y;
+            reduces_scent[x][y] = true;
+        }
+
+        return ITER_CONTINUE;
+    };
+
+    function_over( 0, 0, abs_sub.z, SEEX * MAPSIZE, SEEY * MAPSIZE, abs_sub.z, fill_values );
+
+    // Now vehicles
+    auto vehs = get_vehicles();
+    for( auto &wrapped_veh : vehs ) {
+        vehicle &veh = *(wrapped_veh.v);
+        auto obstacles = veh.all_parts_with_feature( VPFLAG_OBSTACLE, true );
+        for( const int p : obstacles ) {
+            const point part_pos = veh.global_pos() + veh.parts[p].precalc[0];
+            if( inbounds( part_pos.x, part_pos.y ) ) {
+                reduces_scent[part_pos.x][part_pos.y] = true;
+            }
+        }
+
+        // Doors, but only the closed ones
+        auto doors = veh.all_parts_with_feature( VPFLAG_OPENABLE, true );
+        for( const int p : doors ) {
+            if( veh.parts[p].open ) {
+                continue;
+            }
+
+            const point part_pos = veh.global_pos() + veh.parts[p].precalc[0];
+            if( inbounds( part_pos.x, part_pos.y ) ) {
+                reduces_scent[part_pos.x][part_pos.y] = true;
+            }
+        }
+    }
+}
+
+void map::scent_slime( int grscent[SEEX * MAPSIZE][SEEY * MAPSIZE] )
+{
+    auto find_fields = [&]( const tripoint &gp, const submap *sm, const point &lp ) {
+        const field_entry *fd = sm->fld[lp.x][lp.y].findField( fd_slime );
+        if( fd != nullptr ) {
+            // We need to generate the x/y coords, because we can't get them "for free"
+            const int x = ( gp.x * SEEX ) + lp.x;
+            const int y = ( gp.y * SEEY ) + lp.y;
+            const int fslime = fd->getFieldDensity() * 10;
+            if( grscent[x][y] < fslime ) {
+                grscent[x][y] = fslime;
+            }
+        }
+
+        return sm->field_count > 0 ? ITER_CONTINUE : ITER_SKIP_SUBMAP;
+    };
+
+    function_over( 0, 0, abs_sub.z, SEEX * MAPSIZE, SEEY * MAPSIZE, abs_sub.z, find_fields );
+}
