@@ -2236,11 +2236,22 @@ void map::decay_fields_and_scent( const int amount )
             auto const cur_submap = get_submap_at_grid( smx, smy );
             int to_proc = cur_submap->field_count;
             if( to_proc < 1 ) {
+                if( to_proc < 0 ) {
+                    cur_submap->field_count = 0;
+                    dbg( D_ERROR ) << "map::decay_fields_and_scent: submap at "
+                                   << abs_sub.x + smx << "," << abs_sub.y + smy << "," << abs_sub.z
+                                   << "has " << to_proc << " field_count";
+                }
                 // This submap has no fields
                 continue;
             }
 
             for( int sx = 0; sx < SEEX; ++sx ) {
+                if( to_proc < 1 ) {
+                    // This submap had some fields, but all got proc'd already
+                    break;
+                }
+
                 for( int sy = 0; sy < SEEY; ++sy ) {
                     const int x = sx + smx * SEEX;
                     const int y = sy + smy * SEEY;
@@ -2291,6 +2302,14 @@ void map::decay_fields_and_scent( const int amount )
                         }
                     }
                 }
+            }
+
+            if( to_proc > 0 ) {
+                cur_submap->field_count = cur_submap->field_count - to_proc;
+                dbg( D_ERROR ) << "map::decay_fields_and_scent: submap at "
+                               << abs_sub.x + smx << "," << abs_sub.y + smy << "," << abs_sub.z
+                               << "has " << cur_submap->field_count - to_proc << "fields, but "
+                               << cur_submap->field_count << " field_count";
             }
         }
     }
@@ -4694,9 +4713,8 @@ bool map::add_field(const tripoint &p, const field_id t, int density, const int 
     current_submap->is_uniform = false;
 
     if( current_submap->fld[lx][ly].addField( t, density, age ) ) {
-        // TODO: Update overall field_count appropriately.
-        // This is the spirit of "fd_null" that it used to be.
-        current_submap->field_count++; //Only adding it to the count if it doesn't exist.
+        //Only adding it to the count if it doesn't exist.
+        current_submap->field_count++;
     }
 
     if( g != nullptr && this == &g->m && p == g->u.pos3() ) {
@@ -4715,11 +4733,17 @@ void map::remove_field( const tripoint &p, const field_id field_to_remove )
     int lx, ly;
     submap * const current_submap = get_submap_at( p, lx, ly );
 
-    if( current_submap->fld[lx][ly].findField( field_to_remove ) ) { //same as checking for fd_null in the old system
+    if( current_submap->fld[lx][ly].removeField( field_to_remove ) ) {
+        // Only adjust the count if the field actually existed.
         current_submap->field_count--;
+        const auto &fdata = fieldlist[ field_to_remove ];
+        for( int i = 0; i < 3; ++i ) {
+            if( !fdata.transparent[i] ) {
+                set_transparency_cache_dirty();
+                break;
+            }
+        }
     }
-
-    current_submap->fld[lx][ly].removeField(field_to_remove);
 }
 
 computer* map::computer_at( const tripoint &p )
