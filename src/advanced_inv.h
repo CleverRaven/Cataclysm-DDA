@@ -23,8 +23,8 @@ enum aim_location {
     AIM_DRAGGED,
     AIM_ALL,
     AIM_CONTAINER,
-    AIM_VEHICLE,
     AIM_WORN,
+    AIM_VEHICLE,
     NUM_AIM_LOCATIONS
 };
 
@@ -182,6 +182,7 @@ class advanced_inventory_pane
 {
     public:
         aim_location area;
+        aim_location veh_area;
         /**
          * Index of the selected item (index of @ref items),
          */
@@ -261,8 +262,9 @@ class advanced_inventory
          * Refers to the two panels, used as index into @ref panels.
          */
         enum side {
-            left = 0,
-            right = 1
+            left  = 0,
+            right = 1,
+            error = 2
         };
         const int head_height;
         const int min_w_height;
@@ -305,6 +307,7 @@ class advanced_inventory
          * as index.
          */
         std::array<advanced_inventory_pane, 2> panes;
+        static const advanced_inventory_pane null_pane;
         std::array<advanced_inv_area, NUM_AIM_LOCATIONS> squares;
 
         WINDOW *head;
@@ -318,6 +321,13 @@ class advanced_inventory
         void print_items(advanced_inventory_pane &pane, bool active);
         void recalc_pane(side p);
         void redraw_pane(side p);
+        void swap_panes();
+        // returns the pane side associated with the area
+        const side area_to_side(aim_location place) const
+        {
+            return (panes[left].area == place) ? left : 
+                (panes[right].area == place) ? right : error;
+        }
         // Returns the x coordinate where the header started. The header is
         // displayed right right of it, everything left of it is till free.
         int print_header(advanced_inventory_pane &pane, aim_location sel);
@@ -379,7 +389,7 @@ class advanced_inventory
         void menu_square(uimenu *menu);
 
         // set AIM_VEHICLE to the location given.
-        bool set_vehicle(aim_location sel);
+        bool set_vehicle(advanced_inventory_pane &pane, aim_location sel);
         void load_veh_data();
 
         static char get_location_key( aim_location area );
