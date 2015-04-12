@@ -1936,8 +1936,8 @@ bool advanced_inventory::query_charges( aim_location destarea, const advanced_in
             popupmsg = string_format( _( "Destination can only hold %d! Move how many? (0 to cancel) " ), amount );
         }
         // instead of prompting to move all, prompt to move all _but_ one
-        const long possible_max = std::min( input_amount, (amount - 1) );
-        amount = std::atoi( string_input_popup( popupmsg, 20, to_string( possible_max ), "", "", -1, true ).c_str() );
+        const long possible_max = std::min( input_amount, amount );
+        amount = std::atoi( string_input_popup( popupmsg, 20, to_string( possible_max - 1 ), "", "", -1, true ).c_str() );
         if( amount <= 0 ) {
             return false;
         }
