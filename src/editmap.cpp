@@ -1017,21 +1017,22 @@ int editmap::edit_fld()
             }
             if ( fdens != fsel_dens || target_list.size() > 1 ) {
                 for( auto &elem : target_list ) {
+                    auto const fid = static_cast<field_id>( idx );
                     field *t_field = &g->m.get_field( elem.x, elem.y );
-                    field_entry *t_fld = t_field->findField((field_id)idx);
+                    field_entry *t_fld = t_field->findField( fid );
                     int t_dens = 0;
                     if ( t_fld != NULL ) {
                         t_dens = t_fld->getFieldDensity();
                     }
                     if ( fsel_dens != 0 ) {
                         if ( t_dens != 0 ) {
-                            t_fld->setFieldDensity(fsel_dens);
+                            g->m.set_field_strength( elem, fid, fsel_dens );
                         } else {
-                            g->m.add_field( elem.x, elem.y, (field_id)idx, fsel_dens );
+                            g->m.add_field( elem, fid, fsel_dens, 0 );
                         }
                     } else {
                         if ( t_dens != 0 ) {
-                            t_field->removeField( (field_id)idx );
+                            g->m.remove_field( elem.x, elem.y, fid );
                         }
                     }
                 }
@@ -1043,15 +1044,12 @@ int editmap::edit_fld()
         } else if ( fmenu.selected == 0 && fmenu.keypress == '\n' ) {
             for( auto &elem : target_list ) {
                 field *t_field = &g->m.get_field( elem.x, elem.y );
-                if ( t_field->fieldCount() > 0 ) {
-                    for ( auto field_list_it = t_field->begin();
-                          field_list_it != t_field->end(); /* noop */ ) {
-                        field_id rmid = field_list_it->first;
-                        field_list_it = t_field->removeField( rmid );
+                while( t_field->fieldCount() > 0 ) {
+                    auto const rmid = t_field->begin()->first;
+                    g->m.remove_field( elem.x, elem.y, rmid );
                         if( elem.x == target.x && elem.y == target.y ) {
                             update_fmenu_entry( &fmenu, t_field, (int)rmid );
                         }
-                    }
                 }
             }
             update_view(true);

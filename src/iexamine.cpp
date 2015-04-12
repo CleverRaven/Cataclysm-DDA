@@ -1490,7 +1490,7 @@ void iexamine::dirtmound(player *p, map *m, int examx, int examy)
     // Choose seed if applicable
     int seed_index = 0;
     if (seed_types.size() > 1) {
-        seed_names.push_back("Cancel");
+        seed_names.push_back(_("Cancel"));
         seed_index = menu_vec(false, _("Use which seed?"),
                               seed_names) - 1; // TODO: make cancelable using ESC
         if (seed_index == (int)seed_names.size() - 1) {
@@ -1597,7 +1597,7 @@ void iexamine::aggie_plant(player *p, map *m, int examx, int examy)
             // Choose fertilizer from list
             int f_index = 0;
             if (f_types.size() > 1) {
-                f_names.push_back("Cancel");
+                f_names.push_back(_("Cancel"));
                 f_index = menu_vec(false, _("Use which fertilizer?"), f_names) - 1;
                 if (f_index == (int)f_names.size() - 1) {
                     f_index = -1;
@@ -1801,7 +1801,7 @@ void iexamine::fvat_empty(player *p, map *m, int examx, int examy)
         // Choose brew from list
         int b_index = 0;
         if (b_types.size() > 1) {
-            b_names.push_back("Cancel");
+            b_names.push_back(_("Cancel"));
             b_index = menu_vec(false, _("Use which brew?"), b_names) - 1;
             if (b_index == (int)b_names.size() - 1) {
                 b_index = -1;
@@ -1965,7 +1965,7 @@ void iexamine::keg(player *p, map *m, int examx, int examy)
         // Choose drink to store in keg from list
         int drink_index = 0;
         if (drink_types.size() > 1) {
-            drink_names.push_back("Cancel");
+            drink_names.push_back(_("Cancel"));
             drink_index = menu_vec(false, _("Store which drink?"), drink_names) - 1;
             if (drink_index == (int)drink_names.size() - 1) {
                 drink_index = -1;
@@ -2222,7 +2222,7 @@ void iexamine::shrub_wildveggies(player *p, map *m, int examx, int examy)
         none(p, m, examx, examy);
         return;
     }
-
+    
     add_msg(_("You forage through the %s."), m->tername(examx, examy).c_str());
     p->assign_activity(ACT_FORAGE, 500 / (p->skillLevel("survival") + 1), 0);
     p->activity.placement = point(examx, examy);

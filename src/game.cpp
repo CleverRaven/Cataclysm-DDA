@@ -7610,9 +7610,9 @@ bool pet_menu(monster *z)
 
     uimenu amenu;
 
-    std::string pet_name = "dog";
+    std::string pet_name = _("dog");
     if( z->type->in_species("ZOMBIE") ) {
-        pet_name = "zombie slave";
+        pet_name = _("zombie slave");
     }
 
     amenu.selected = 0;

@@ -4685,11 +4685,6 @@ int iuse::set_trap(player *p, item *it, bool, point)
         return 0;
     }
 
-    if (dirx == p->posx() && diry == p->posy()) {
-        p->add_msg_if_player(m_info, _("Yeah.  Place the %s at your feet."), it->tname().c_str());
-        p->add_msg_if_player(m_info, _("Real damn smart move."));
-        return 0;
-    }
     int posx = dirx;
     int posy = diry;
     tripoint tr_loc( posx, posy, p->posz() );
@@ -4749,12 +4744,12 @@ int iuse::set_trap(player *p, item *it, bool, point)
         message << (buried ? _("You bury the beartrap.") : _("You set the beartrap."));
         practice = (buried ? 7 : 4);
     } else if (it->type->id == "board_trap") {
-        message << string_format("You set the board trap on the %s, nails facing up.",
+        message << string_format(_("You set the board trap on the %s, nails facing up."),
                                  g->m.tername(posx, posy).c_str());
         type = tr_nailboard;
         practice = 2;
     } else if (it->type->id == "caltrops") {
-        message << string_format("You scatter the caltrops on the %s.",
+        message << string_format(_("You scatter the caltrops on the %s."),
                                  g->m.tername(posx, posy).c_str());
         type = tr_caltrops;
         practice = 2;
@@ -4858,6 +4853,13 @@ int iuse::set_trap(player *p, item *it, bool, point)
         p->add_msg_if_player(_("Tried to set a trap.  But got confused! %s"), it->tname().c_str());
     }
 
+    trap *tr = traplist[type];
+    if (dirx == p->posx() && diry == p->posy() && !tr->is_benign()) {
+        p->add_msg_if_player(m_info, _("Yeah.  Place the %s at your feet."), it->tname().c_str());
+        p->add_msg_if_player(m_info, _("Real damn smart move."));
+        return 0;
+    }
+
     if (buried) {
         if (!p->has_amount("shovel", 1) && !p->has_amount("e_tool", 1)) {
             p->add_msg_if_player(m_info, _("You need a shovel."));
@@ -4870,7 +4872,6 @@ int iuse::set_trap(player *p, item *it, bool, point)
 
     p->add_msg_if_player(message.str().c_str());
     p->practice("traps", practice);
-    trap *tr = traplist[type];
     g->m.add_trap( tr_loc, type );
     if( !tr->can_see( tr_loc, *p ) ) {
         p->add_known_trap( tr_loc, tr->id );
@@ -8831,10 +8832,10 @@ int iuse::ehandcuffs(player *p, item *it, bool t, point pos)
     }
 
     if (it->active) {
-        add_msg("The %s are clamped tightly on your wrists.  You can't take them off.",
+        add_msg(_("The %s are clamped tightly on your wrists.  You can't take them off."),
                 it->tname().c_str());
     } else {
-        add_msg("The %s have discharged and can be taken off.", it->tname().c_str());
+        add_msg(_("The %s have discharged and can be taken off."), it->tname().c_str());
     }
 
     return it->type->charges_to_use();
@@ -8917,7 +8918,8 @@ int iuse::radiocar(player *p, item *it, bool, point)
 int iuse::radiocaron(player *p, item *it, bool t, point pos)
 {
     if (t) {
-        sounds::sound(pos.x, pos.y, 6, "buzzz...");
+        //~Sound of a radio controlled car moving around
+        sounds::sound(pos.x, pos.y, 6, _("buzzz..."));
 
         return it->type->charges_to_use();
     } else if ( it->charges <= 0 ) {

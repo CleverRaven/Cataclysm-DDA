@@ -23,27 +23,27 @@ void game::init_fields()
         {
             "fd_blood",
             {_("blood splatter"), _("blood stain"), _("puddle of blood")}, '%', 0,
-            {c_red, c_red, c_red}, {true, true, true}, {false, false, false}, 28800,
+            {c_red, c_red, c_red}, {true, true, true}, {false, false, false}, HOURS(48),
             {0,0,0}
         },
         {
             "fd_bile",
             {_("bile splatter"), _("bile stain"), _("puddle of bile")}, '%', 0,
-            {c_pink, c_pink, c_pink}, {true, true, true}, {false, false, false}, 14400,
+            {c_pink, c_pink, c_pink}, {true, true, true}, {false, false, false}, HOURS(24),
             {0,0,0}
         },
 
         {
             "fd_gibs_flesh",
             {_("scraps of flesh"), _("bloody meat chunks"), _("heap of gore")}, '~', 0,
-            {c_brown, c_ltred, c_red}, {true, true, true}, {false, false, false}, 28800,
+            {c_brown, c_ltred, c_red}, {true, true, true}, {false, false, false}, HOURS(48),
             {0,0,0}
         },
 
         {
             "fd_gibs_veggy",
             {_("shredded leaves and twigs"), _("shattered branches and leaves"), _("broken vegetation tangle")}, '~', 0,
-            {c_ltgreen, c_ltgreen, c_green}, {true, true, true}, {false, false, false}, 28800,
+            {c_ltgreen, c_ltgreen, c_green}, {true, true, true}, {false, false, false}, HOURS(48),
             {0,0,0}
         },
 
@@ -57,35 +57,35 @@ void game::init_fields()
         {
             "fd_slime",
             {_("slime trail"), _("slime stain"), _("puddle of slime")}, '%', 0,
-            {c_ltgreen, c_ltgreen, c_green},{true, true, true},{false, false, false}, 14400,
+            {c_ltgreen, c_ltgreen, c_green},{true, true, true},{false, false, false}, HOURS(24),
             {0,0,0}
         },
 
         {
             "fd_acid",
             {_("acid splatter"), _("acid streak"), _("pool of acid")}, '5', 2,
-            {c_ltgreen, c_green, c_green}, {true, true, true}, {true, true, true}, 10,
+            {c_ltgreen, c_green, c_green}, {true, true, true}, {true, true, true}, MINUTES(1),
             {0,0,0}
         },
 
         {
             "fd_sap",
             {_("sap splatter"), _("glob of sap"), _("pool of sap")}, '5', 2,
-            {c_yellow, c_brown, c_brown}, {true, true, true}, {true, true, true}, 20,
+            {c_yellow, c_brown, c_brown}, {true, true, true}, {true, true, true}, MINUTES(2),
             {0,0,0}
         },
 
         {
             "fd_sludge",
             {_("thin sludge trail"), _("sludge trail"), _("thick sludge trail")}, '5', 2,
-            {c_ltgray, c_dkgray, c_black}, {true, true, true}, {false, false, false}, 3600,
+            {c_ltgray, c_dkgray, c_black}, {true, true, true}, {false, false, false}, HOURS(6),
             {0,0,0}
         },
 
         {
             "fd_fire",
             {_("small fire"), _("fire"), _("raging fire")}, '4', 4,
-            {c_yellow, c_ltred, c_red}, {true, true, true}, {true, true, true}, 800,
+            {c_yellow, c_ltred, c_red}, {true, true, true}, {true, true, true}, MINUTES(80),
             {0,0,0}
         },
 
@@ -99,27 +99,27 @@ void game::init_fields()
         {
             "fd_smoke",
             {_("thin smoke"), _("smoke"), _("thick smoke")}, '8', 8,
-            {c_white, c_ltgray, c_dkgray}, {true, false, false},{false, true, true},  300,
+            {c_white, c_ltgray, c_dkgray}, {true, false, false},{false, true, true}, MINUTES(3),
             {0,0,0}
         },
         {
             "fd_toxic_gas",
             {_("hazy cloud"),_("toxic gas"),_("thick toxic gas")}, '8', 8,
-            {c_white, c_ltgreen, c_green}, {true, false, false},{false, true, true},  900,
+            {c_white, c_ltgreen, c_green}, {true, false, false},{false, true, true}, MINUTES(90),
             {0,0,0}
         },
 
         {
             "fd_tear_gas",
             {_("hazy cloud"),_("tear gas"),_("thick tear gas")}, '8', 8,
-            {c_white, c_yellow, c_brown}, {true, false, false},{true, true, true},   600,
+            {c_white, c_yellow, c_brown}, {true, false, false},{true, true, true}, MINUTES(60),
             {0,0,0}
         },
 
         {
             "fd_nuke_gas",
             {_("hazy cloud"),_("radioactive gas"), _("thick radioactive gas")}, '8', 8,
-            {c_white, c_ltgreen, c_green}, {true, true, false}, {true, true, true},  1000,
+            {c_white, c_ltgreen, c_green}, {true, true, false}, {true, true, true}, MINUTES(100),
             {0,0,0}
         },
 
@@ -207,37 +207,37 @@ void game::init_fields()
         {
             "fd_blood_veggy",
             {_("plant sap splatter"), _("plant sap stain"), _("puddle of resin")}, '%', 0,
-            {c_ltgreen, c_ltgreen, c_ltgreen}, {true, true, true}, {false, false, false}, 28800,
+            {c_ltgreen, c_ltgreen, c_ltgreen}, {true, true, true}, {false, false, false}, HOURS(48),
             {0,0,0}
         },
         {
             "fd_blood_insect",
             {_("bug blood splatter"), _("bug blood stain"), _("puddle of bug blood")}, '%', 0,
-            {c_green, c_green, c_green}, {true, true, true}, {false, false, false}, 28800,
+            {c_green, c_green, c_green}, {true, true, true}, {false, false, false}, HOURS(48),
             {0,0,0}
         },
         {
             "fd_blood_invertebrate",
             {_("hemolymph splatter"), _("hemolymph stain"), _("puddle of hemolymph")}, '%', 0,
-            {c_ltgray, c_ltgray, c_ltgray}, {true, true, true}, {false, false, false}, 28800,
+            {c_ltgray, c_ltgray, c_ltgray}, {true, true, true}, {false, false, false}, HOURS(48),
             {0,0,0}
         },
         {
             "fd_gibs_insect",
             {_("shards of chitin"), _("shattered bug leg"), _("torn insect organs")}, '~', 0,
-            {c_ltgreen, c_green, c_yellow}, {true, true, true}, {false, false, false}, 28800,
+            {c_ltgreen, c_green, c_yellow}, {true, true, true}, {false, false, false}, HOURS(48),
             {0,0,0}
         },
         {
             "fd_gibs_invertebrate",
             {_("gooey scraps"), _("icky mess"), _("heap of squishy gore")}, '~', 0,
-            {c_ltgray, c_ltgray, c_dkgray}, {true, true, true}, {false, false, false}, 28800,
+            {c_ltgray, c_ltgray, c_dkgray}, {true, true, true}, {false, false, false}, HOURS(48),
             {0,0,0}
         },
         {
             "fd_cigsmoke",
             {_("swirl of tobacco smoke"), _("tobacco smoke"), _("thick tobacco smoke")}, '%', 8,
-            {c_white, c_ltgray, c_dkgray}, {true, true, true},{false, false, false},  350,
+            {c_white, c_ltgray, c_dkgray}, {true, true, true},{false, false, false}, MINUTES(35),
             {0,0,0}
         },
         {
@@ -262,56 +262,56 @@ void game::init_fields()
         {
             "fd_bees",
             {_("some bees"), _("swarm of bees"), _("angry swarm of bees")}, '8', 8,
-            {c_white, c_ltgray, c_dkgray}, {true, true, true},{true, true, true},  1000,
+            {c_white, c_ltgray, c_dkgray}, {true, true, true},{true, true, true}, MINUTES(100),
             {0,0,0}
         },
 
         {
             "fd_incendiary",
             {_("smoke"),_("airborne incendiary"), _("airborne incendiary")}, '8', 8,
-            {c_white, c_ltred, c_ltred_red}, {true, true, false}, {true, true, true},  500,
+            {c_white, c_ltred, c_ltred_red}, {true, true, false}, {true, true, true}, MINUTES(50),
             {0,0,0}
         },
 
         {
             "fd_relax_gas",
             {_("hazy cloud"),_("sedative gas"),_("relaxation gas")}, '.', 8,
-            { c_white, c_pink, c_cyan }, { true, true, true }, { false, true, true }, 500,
+            { c_white, c_pink, c_cyan }, { true, true, true }, { false, true, true }, MINUTES(50),
             {0,0,0}
         },
 
         {
             "fd_fungal_haze",
             {_("hazy cloud"),_("fungal haze"),_("thick fungal haze")}, '.', 8,
-            { c_white, c_cyan, c_cyan }, { true, true, false }, { true, true, true }, 40,
+            { c_white, c_cyan, c_cyan }, { true, true, false }, { true, true, true }, MINUTES(4),
             {0,0,0}
         },
 
         {
             "fd_hot_air1",
             {"", "", ""}, '&', -1,
-            {c_white, c_yellow, c_red}, {true, true, true}, {false, false, false}, 500,
+            {c_white, c_yellow, c_red}, {true, true, true}, {false, false, false}, MINUTES(50),
             {0,0,0}
         },
 
         {
             "fd_hot_air2",
             {"", "", ""}, '&', -1,
-            {c_white, c_yellow, c_red}, {true, true, true}, {false, false, false}, 500,
+            {c_white, c_yellow, c_red}, {true, true, true}, {false, false, false}, MINUTES(50),
             {0,0,0}
         },
 
         {
             "fd_hot_air3",
             {"", "", ""}, '&', -1,
-            {c_white, c_yellow, c_red}, {true, true, true}, {false, false, false}, 500,
+            {c_white, c_yellow, c_red}, {true, true, true}, {false, false, false}, MINUTES(50),
             {0,0,0}
         },
 
         {
             "fd_hot_air4",
             {"", "", ""}, '&', -1,
-            {c_white, c_yellow, c_red}, {true, true, true}, {false, false, false}, 500,
+            {c_white, c_yellow, c_red}, {true, true, true}, {false, false, false}, MINUTES(50),
             {0,0,0}
         }
 
@@ -445,8 +445,6 @@ bool map::process_fields_in_submap( submap *const current_submap,
     field_entry *tmpfld = NULL;
     field_id curtype; //Holds cur->getFieldType() as thats what the old system used before rewrite.
 
-    bool skipIterIncr = false; // keep track on when not to increment it[erator]
-
     //Loop through all tiles in this submap indicated by current_submap
     for (int locx = 0; locx < SEEX; locx++) {
         for (int locy = 0; locy < SEEY; locy++) {
@@ -460,6 +458,12 @@ bool map::process_fields_in_submap( submap *const current_submap,
             for( auto it = curfield.begin(); it != curfield.end();) {
                 //Iterating through all field effects in the submap's field.
                 field_entry * cur = &it->second;
+                // The field might have been killed by processing a neighbour field
+                if( !cur->isAlive() ) {
+                    current_submap->field_count--;
+                    curfield.removeField( it++ );
+                    continue;
+                }
 
                 curtype = cur->getFieldType();
                 // Setting our return value. fd_null really doesn't exist anymore,
@@ -929,12 +933,7 @@ bool map::process_fields_in_submap( submap *const current_submap,
                                             cur->setFieldAge(cur->getFieldAge() + 50);
                                         }
                                         if(nearwebfld) {
-                                            if (fx == x && fy == y){
-                                                it = nearby_field.removeField(fd_web);
-                                                skipIterIncr = true;
-                                            } else {
-                                                nearby_field.removeField(fd_web);
-                                            }
+                                            nearwebfld->setFieldDensity( 0 );
                                         }
                                     } else {
                                         bool nosmoke = true;
@@ -1094,23 +1093,21 @@ bool map::process_fields_in_submap( submap *const current_submap,
                             if (one_in(3)) {
                                 cur->setFieldDensity(cur->getFieldDensity() - 1);
                             }
+                            create_hot_air( x, y, cur->getFieldDensity());
                         } else {
-                            it = curfield.replaceField(fd_fire_vent, fd_flame_burst);
-                            cur->setFieldDensity(3);
-                            continue;
+                            add_field( point( x, y ), fd_flame_burst, 3, cur->getFieldAge() );
+                            cur->setFieldDensity( 0 );
                         }
-                        create_hot_air( x, y, cur->getFieldDensity());
                         break;
 
                     case fd_flame_burst:
                         if (cur->getFieldDensity() > 1) {
                             cur->setFieldDensity(cur->getFieldDensity() - 1);
+                            create_hot_air( x, y, cur->getFieldDensity());
                         } else {
-                            it = curfield.replaceField(fd_flame_burst, fd_fire_vent);
-                            cur->setFieldDensity(3);
-                            continue;
+                            add_field( point( x, y ), fd_fire_vent, 3, cur->getFieldAge() );
+                            cur->setFieldDensity( 0 );
                         }
-                        create_hot_air( x, y, cur->getFieldDensity());
                         break;
 
                     case fd_electricity:
@@ -1390,25 +1387,18 @@ bool map::process_fields_in_submap( submap *const current_submap,
                 } // switch (curtype)
 
                 cur->setFieldAge(cur->getFieldAge() + 1);
-                if (fieldlist[cur->getFieldType()].halflife > 0) {
-                    bool should_dissipate = false;
-                    if (cur->getFieldAge() > 0 &&
-                        dice(2, cur->getFieldAge()) > fieldlist[cur->getFieldType()].halflife) {
-                        cur->setFieldAge(0);
-                        if(cur->getFieldDensity() == 1 || !cur->isAlive()) {
-                            should_dissipate = true;
-                        }
-                        cur->setFieldDensity(cur->getFieldDensity() - 1);
-                    }
-                    if (should_dissipate == true || !cur->isAlive()) { // Totally dissapated.
-                        current_submap->field_count--;
-                        it = current_submap->fld[locx][locy].removeField(cur->getFieldType());
-                        continue;
-                    }
+                auto &fdata = fieldlist[cur->getFieldType()];
+                if( fdata.halflife > 0 && cur->getFieldAge() > 0 &&
+                    dice( 2, cur->getFieldAge() ) > fdata.halflife ) {
+                    cur->setFieldAge( 0 );
+                    cur->setFieldDensity( cur->getFieldDensity() - 1 );
                 }
-                if (!skipIterIncr)
+                if( !cur->isAlive() ) {
+                    current_submap->field_count--;
+                    curfield.removeField( it++ );
+                } else {
                     ++it;
-                skipIterIncr = false;
+                }
             }
         }
     }
@@ -1441,10 +1431,13 @@ void map::player_in_field( player &u )
     }
 
     // Iterate through all field effects on this tile.
-    // When removing a field, do field_list_it = curfield.removeField(type) and continue
-    // This ensures proper iteration through the fields.
-    for( auto field_list_it = curfield.begin(); field_list_it != curfield.end(); ){
+    // Do not remove the field with removeField, instead set it's density to 0. It will be removed
+    // later by the field processing, which will also adjust field_count accordingly.
+    for( auto field_list_it = curfield.begin(); field_list_it != curfield.end(); ++field_list_it){
         field_entry * cur = &field_list_it->second;
+        if( !cur->isAlive() ) {
+            continue;
+        }
 
         //Do things based on what field effect we are currently in.
         switch (cur->getFieldType()) {
@@ -1465,12 +1458,12 @@ void map::player_in_field( player &u )
             if (!u.has_trait("WEB_WALKER") && !u.in_vehicle) {
                 //between 5 and 15 minus your current web level.
                 u.add_effect("webbed", 1, num_bp, true, cur->getFieldDensity());
-                field_list_it = curfield.removeField( fd_web ); //Its spent.
+                cur->setFieldDensity( 0 ); //Its spent.
                 continue;
                 //If you are in a vehicle destroy the web.
                 //It should of been destroyed when you ran over it anyway.
             } else if (u.in_vehicle) {
-                field_list_it = curfield.removeField( fd_web );
+                cur->setFieldDensity( 0 );
                 continue;
             }
         } break;
@@ -1511,18 +1504,13 @@ void map::player_in_field( player &u )
             }
             u.add_msg_player_or_npc(m_bad, _("The sap sticks to you!"), _("The sap sticks to <npcname>!"));
             u.add_effect("sap", cur->getFieldDensity() * 2);
-            if (cur->getFieldDensity() == 1) {
-                field_list_it = curfield.removeField( fd_sap );
-                continue;
-            } else {
-                cur->setFieldDensity(cur->getFieldDensity() - 1); //Use up sap.
-            }
+            cur->setFieldDensity(cur->getFieldDensity() - 1); //Use up sap.
             break;
 
         case fd_sludge:
             u.add_msg_if_player(m_bad, _("The sludge is thick and sticky. You struggle to pull free."));
             u.moves -= cur->getFieldDensity() * 300;
-            field_list_it = curfield.removeField( fd_sludge );
+            cur->setFieldDensity( 0 );
             break;
 
         case fd_fire:
@@ -1728,12 +1716,12 @@ void map::player_in_field( player &u )
             //Why do these get removed???
         case fd_shock_vent:
             //Stepping on a shock vent shuts it down.
-            field_list_it = curfield.removeField( fd_shock_vent );
+            cur->setFieldDensity( 0 );
             continue;
 
         case fd_acid_vent:
             //Stepping on an acid vent shuts it down.
-            field_list_it = curfield.removeField( fd_acid_vent );
+            cur->setFieldDensity( 0 );
             continue;
 
         case fd_bees:
@@ -1800,12 +1788,6 @@ void map::player_in_field( player &u )
             //Suppress warnings
             break;
         }
-        if (field_list_it != curfield.end()) {
-            // It may have became the last one as a result of a field
-            // being removed, in which case incrementing would make us
-            // pass on by, so only increment if that's not the case
-            ++field_list_it;
-        }
     }
 
 }
@@ -1829,8 +1811,14 @@ void map::monster_in_field( monster &z )
     field &curfield = get_field( z.posx(), z.posy() );
 
     int dam = 0;
-    for( auto field_list_it = curfield.begin(); field_list_it != curfield.end(); ) {
+    // Iterate through all field effects on this tile.
+    // Do not remove the field with removeField, instead set it's density to 0. It will be removed
+    // later by the field processing, which will also adjust field_count accordingly.
+    for( auto field_list_it = curfield.begin(); field_list_it != curfield.end(); ++field_list_it ) {
         field_entry * cur = &field_list_it->second;
+        if( cur->isAlive() ) {
+            continue;
+        }
 
         switch (cur->getFieldType()) {
         case fd_null:
@@ -1841,8 +1829,7 @@ void map::monster_in_field( monster &z )
         case fd_web:
             if (!z.has_flag(MF_WEBWALK)) {
                 z.add_effect("webbed", 1, num_bp, true, cur->getFieldDensity());
-                field_list_it = curfield.removeField( fd_web );
-                continue;
+                cur->setFieldDensity( 0 );
             }
             break;
 
@@ -1861,24 +1848,22 @@ void map::monster_in_field( monster &z )
 
         case fd_sap:
             z.moves -= cur->getFieldDensity() * 5;
-            if (cur->getFieldDensity() == 1) {
-                field_list_it = curfield.removeField( fd_sap );
-                continue;
-            } else {
-                cur->setFieldDensity(cur->getFieldDensity() - 1);
-            }
+            cur->setFieldDensity(cur->getFieldDensity() - 1);
             break;
 
         case fd_sludge:
             if (!z.has_flag(MF_DIGS) && !z.has_flag(MF_FLIES) &&
                 !z.has_flag(MF_SLUDGEPROOF)) {
               z.moves -= cur->getFieldDensity() * 300;
-              field_list_it = curfield.removeField( fd_sludge );
+              cur->setFieldDensity( 0 );
             }
             break;
 
             // MATERIALS-TODO: Use fire resistance
         case fd_fire:
+            if (z.has_flag(MF_FIREPROOF)){
+                return;
+            }
             if ( z.made_of("flesh") || z.made_of("hflesh") || z.made_of("iflesh") ) {
                 dam += 3;
             }
@@ -2089,13 +2074,6 @@ void map::monster_in_field( monster &z )
             //Suppress warnings
             break;
         }
-
-        if (field_list_it != curfield.end()) {
-            // It may have became the last one as a result of a field
-            // being removed, in which case incrementing would make us
-            // pass on by, so only increment if that's not the case
-            ++field_list_it;
-        }
     }
     if (dam > 0) {
         z.apply_damage( nullptr, bp_torso, dam );
@@ -2215,16 +2193,20 @@ bool field::addField(const field_id field_to_add, const int new_density, const i
     return true;
 }
 
-/*
-Function: removeField
-Removes the field entry with a type equal to the field_id parameter.
-Returns the next iterator or field_list.end().
-*/
-std::map<field_id, field_entry>::iterator field::removeField(const field_id field_to_remove){
-    auto it = field_list.find(field_to_remove);
-    if(it != field_list.end()) {
-        field_list.erase(it++);
-        if (field_list.empty()) {
+bool field::removeField( field_id const field_to_remove )
+{
+    const auto it = field_list.find( field_to_remove );
+    if( it == field_list.end() ) {
+        return false;
+    }
+    removeField( it );
+    return true;
+}
+
+void field::removeField( std::map<field_id, field_entry>::iterator const it )
+{
+        field_list.erase( it );
+        if( field_list.empty() ) {
             draw_symbol = fd_null;
         } else {
             draw_symbol = fd_null;
@@ -2234,8 +2216,6 @@ std::map<field_id, field_entry>::iterator field::removeField(const field_id fiel
                 }
             }
         }
-    };
-    return it;
 }
 
 /*
@@ -2274,22 +2254,6 @@ Returns the last added field from the tile for drawing purposes.
 field_id field::fieldSymbol() const
 {
     return draw_symbol;
-}
-
-std::map<field_id, field_entry >::iterator field::replaceField( field_id old_field,
-        field_id new_field )
-{
-    auto it = field_list.find( old_field );
-    if( it != field_list.end() ) {
-        field_entry tmp = it->second;
-        tmp.setFieldType( new_field );
-        field_list.erase( it++ );
-        field_list[new_field] = tmp;
-        if( draw_symbol == old_field ) {
-            draw_symbol = new_field;
-        }
-    }
-    return it;
 }
 
 int field::move_cost() const

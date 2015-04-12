@@ -42,6 +42,9 @@
 
 #include <fstream>
 
+// use this instead of having to type out 26 spaces like before
+static const std::string header_spaces(26, ' ');
+
 extern std::map<std::string, martialart> ma_styles;
 
 std::string morale_data[NUM_MORALE_TYPES];
@@ -2621,27 +2624,9 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4"));
     wrefresh(w_stats);
 
     // Next, draw encumberment.
-    std::string asText[] = {_("Torso"), _("Head"), _("Eyes"), _("Mouth"), _("L. Arm"), _("R. Arm"),
-                             _("L. Hand"), _("R. Hand"), _("L. Leg"), _("R. Leg"), _("L. Foot"),
-                             _("R. Foot")};
-    body_part aBodyPart[] = {bp_torso, bp_head, bp_eyes, bp_mouth, bp_arm_l, bp_arm_r, bp_hand_l,
-                             bp_hand_r, bp_leg_l, bp_leg_r, bp_foot_l, bp_foot_r};
-    int iEnc, iArmorEnc, iBodyTempInt;
-    double iLayers;
-
     const char *title_ENCUMB = _("ENCUMBRANCE AND WARMTH");
     mvwprintz(w_encumb, 0, 13 - utf8_width(title_ENCUMB) / 2, c_ltgray, title_ENCUMB);
-    for (int i = 0; i < 8; i++) {
-        iLayers = iArmorEnc = 0;
-        iBodyTempInt = (temp_conv[i] / 100.0) * 2 - 100; // Scale of -100 to +100
-        iEnc = encumb(aBodyPart[i], iLayers, iArmorEnc);
-        mvwprintz(w_encumb, i + 1, 1, c_ltgray, "%s", asText[i].c_str());
-        mvwprintz(w_encumb, i + 1, 8, c_ltgray, "(%d)", static_cast<int>( iLayers ) );
-        mvwprintz(w_encumb, i + 1, 11, c_ltgray, "%*s%d%s%d=", (iArmorEnc < 0 || iArmorEnc > 9 ? 1 : 2),
-                  " ", iArmorEnc, "+", iEnc - iArmorEnc);
-        wprintz(w_encumb, encumb_color(iEnc), "%s%d", (iEnc < 0 || iEnc > 9 ? "" : " ") , iEnc);
-        wprintz(w_encumb, bodytemp_color(i), " (%3d)", iBodyTempInt);
-    }
+    print_encumbrance(w_encumb, 0, 8);
     wrefresh(w_encumb);
 
     // Next, draw traits.
@@ -2868,7 +2853,7 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4"));
         werase(w_info);
         switch (curtab) {
             case 1: // Stats tab
-                mvwprintz(w_stats, 0, 0, h_ltgray, _("                          "));
+                mvwprintz(w_stats, 0, 0, h_ltgray, header_spaces.c_str());
                 mvwprintz(w_stats, 0, 13 - utf8_width(title_STATS)/2, h_ltgray, title_STATS);
 
                 // Clear bonus/penalty menu.
@@ -2951,7 +2936,7 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4"));
                         line--;
                     }
                 } else if (action == "NEXT_TAB") {
-                    mvwprintz(w_stats, 0, 0, c_ltgray, _("                          "));
+                    mvwprintz(w_stats, 0, 0, c_ltgray, header_spaces.c_str());
                     mvwprintz(w_stats, 0, 13 - utf8_width(title_STATS)/2, c_ltgray, title_STATS);
                     wrefresh(w_stats);
                     line = 0;
@@ -2968,7 +2953,7 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4"));
         case 2: // Encumberment tab
         {
             werase(w_encumb);
-            mvwprintz(w_encumb, 0, 0, h_ltgray,  _("                          "));
+            mvwprintz(w_encumb, 0, 0, h_ltgray, header_spaces.c_str());
             mvwprintz(w_encumb, 0, 13 - utf8_width(title_ENCUMB)/2, h_ltgray, title_ENCUMB);
             int encumb_win_size_y = 8;
             half_y = encumb_win_size_y / 2;
@@ -2983,21 +2968,8 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4"));
                 max = line - half_y + encumb_win_size_y;
             }
 
-            for (unsigned i = min; i < max; i++) {
-                iLayers = iArmorEnc = 0;
-                iBodyTempInt = (temp_conv[i] / 100.0) * 2 - 100; // Scale of -100 to +100
-                iEnc = encumb(aBodyPart[i], iLayers, iArmorEnc);
-                if (line == i) {
-                    mvwprintz(w_encumb, i + 1 - min, 1, h_ltgray, "%s", asText[i].c_str());
-                } else {
-                    mvwprintz(w_encumb, i + 1 - min, 1, c_ltgray, "%s", asText[i].c_str());
-                }
-                mvwprintz(w_encumb, i + 1 - min, 8, c_ltgray, "(%d)", static_cast<int>( iLayers ) );
-                mvwprintz(w_encumb, i + 1 - min, 11, c_ltgray, "%*s%d%s%d=", (iArmorEnc < 0 || iArmorEnc > 9 ? 1 : 2),
-                          " ", iArmorEnc, "+", iEnc - iArmorEnc);
-                wprintz(w_encumb, encumb_color(iEnc), "%s%d", (iEnc < 0 || iEnc > 9 ? "" : " ") , iEnc);
-                wprintz(w_encumb, bodytemp_color(i), " (%3d)", iBodyTempInt);
-            }
+            print_encumbrance(w_encumb, min, max, line);
+            wrefresh(w_encumb);
             draw_scrollbar(w_encumb, line, encumb_win_size_y, 12, 1);
 
             werase(w_info);
@@ -3053,7 +3025,7 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4"));
                     line--;
                 }
             } else if (action == "NEXT_TAB") {
-                mvwprintz(w_encumb, 0, 0, c_ltgray,  _("                          "));
+                mvwprintz(w_encumb, 0, 0, c_ltgray, header_spaces.c_str());
                 mvwprintz(w_encumb, 0, 13 - utf8_width(title_ENCUMB)/2, c_ltgray, title_ENCUMB);
                 wrefresh(w_encumb);
                 line = 0;
@@ -3064,7 +3036,7 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4"));
             break;
         }
         case 4: // Traits tab
-            mvwprintz(w_traits, 0, 0, h_ltgray,  _("                          "));
+            mvwprintz(w_traits, 0, 0, h_ltgray, header_spaces.c_str());
             mvwprintz(w_traits, 0, 13 - utf8_width(title_TRAITS)/2, h_ltgray, title_TRAITS);
             if (line <= (trait_win_size_y-1)/2) {
                 min = 0;
@@ -3110,7 +3082,7 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4"));
                 if (line > 0)
                     line--;
             } else if (action == "NEXT_TAB") {
-                mvwprintz(w_traits, 0, 0, c_ltgray,  _("                          "));
+                mvwprintz(w_traits, 0, 0, c_ltgray, header_spaces.c_str());
                 mvwprintz(w_traits, 0, 13 - utf8_width(title_TRAITS)/2, c_ltgray, title_TRAITS);
                 for (size_t i = 0; i < traitslist.size() && i < trait_win_size_y; i++) {
                     const auto &mdata = mutation_branch::get( traitslist[i] );
@@ -3127,7 +3099,7 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4"));
             break;
 
         case 5: // Effects tab
-            mvwprintz(w_effects, 0, 0, h_ltgray,  _("                          "));
+            mvwprintz(w_effects, 0, 0, h_ltgray, header_spaces.c_str());
             mvwprintz(w_effects, 0, 13 - utf8_width(title_EFFECTS)/2, h_ltgray, title_EFFECTS);
             half_y = effect_win_size_y / 2;
             if (line <= half_y) {
@@ -3166,7 +3138,7 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4"));
                 if (line > 0)
                     line--;
             } else if (action == "NEXT_TAB") {
-                mvwprintz(w_effects, 0, 0, c_ltgray,  _("                          "));
+                mvwprintz(w_effects, 0, 0, c_ltgray, header_spaces.c_str());
                 mvwprintz(w_effects, 0, 13 - utf8_width(title_EFFECTS)/2, c_ltgray, title_EFFECTS);
                 for (size_t i = 0; i < effect_name.size() && i < 7; i++) {
                     mvwprintz(w_effects, i + 1, 0, c_ltgray, "%s", effect_name[i].c_str());
@@ -3180,7 +3152,7 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4"));
             break;
 
         case 3: // Skills tab
-            mvwprintz(w_skills, 0, 0, h_ltgray,  _("                          "));
+            mvwprintz(w_skills, 0, 0, h_ltgray, header_spaces.c_str());
             mvwprintz(w_skills, 0, 13 - utf8_width(title_SKILLS)/2, h_ltgray, title_SKILLS);
             half_y = skill_win_size_y / 2;
             if (line <= half_y) {
@@ -3247,7 +3219,7 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4"));
                     line--;
             } else if (action == "NEXT_TAB") {
                 werase(w_skills);
-                mvwprintz(w_skills, 0, 0, c_ltgray,  _("                          "));
+                mvwprintz(w_skills, 0, 0, c_ltgray, header_spaces.c_str());
                 mvwprintz(w_skills, 0, 13 - utf8_width(title_SKILLS)/2, c_ltgray, title_SKILLS);
                 for (size_t i = 0; i < skillslist.size() && i < size_t(skill_win_size_y); i++) {
                     const Skill* thisSkill = skillslist[i];
@@ -6000,26 +5972,26 @@ void player::hardcoded_effects(effect &it)
                 }
             }
             if (is_npc() && one_in(200)) {
-                std::string npcText;
+                const char *npcText;
                 switch(rng(1,4)) {
                     case 1:
-                        npcText = "\"I think it's starting to kick in.\"";
+                        npcText = _("\"I think it's starting to kick in.\"");
                         break;
                     case 2:
-                        npcText = "\"Oh God, what's happening?\"";
+                        npcText = _("\"Oh God, what's happening?\"");
                         break;
                     case 3:
-                        npcText = "\"Of course... it's all fractals!\"";
+                        npcText = _("\"Of course... it's all fractals!\"");
                         break;
                     default:
-                        npcText = "\"Huh?  What was that?\"";
+                        npcText = _("\"Huh?  What was that?\"");
                         break;
 
                 }
                 int loudness = 20 + str_cur - int_cur;
                 loudness = (loudness > 5 ? loudness : 5);
                 loudness = (loudness < 30 ? loudness : 30);
-                sounds::sound(posx(), posy(), loudness, _(npcText.c_str()));
+                sounds::sound(posx(), posy(), loudness, npcText);
             }
         } else if (dur == peakTime) {
             // Visuals start
@@ -10242,7 +10214,8 @@ bool player::wear_item(item *to_wear, bool interactive)
             return false;
         }
 
-        if (to_wear->covers(bp_head) && encumb(bp_head) != 0 && to_wear->get_encumber() > 0) {
+        // this simply checked if it was zero, I've updated this for the new encumb system
+        if (to_wear->covers(bp_head) && (encumb(bp_head) + to_wear->get_encumber()) > 20) {
             if(interactive) {
                 add_msg(m_info, wearing_something_on(bp_head) ?
                                 _("You can't wear another helmet!") : _("You can't wear a helmet!"));
@@ -11987,9 +11960,7 @@ int player::encumb(body_part bp, double &layers, int &armorenc) const
             }
         }
     }
-    if (armorenc < 0) {
-        armorenc = 0;
-    }
+    armorenc = std::max(0, armorenc);
     ret += armorenc;
 
     for( auto &elem : layer ) {
@@ -13710,3 +13681,41 @@ std::vector<mission*> player::get_failed_missions() const
 {
     return failed_missions;
 }
+
+void player::print_encumbrance(WINDOW *win, int min, int max, int line)
+{
+    // initialize these once, and only once
+    static std::string asText[] = {_("Torso"), _("Head"), _("Eyes"), _("Mouth"), _("L. Arm"), _("R. Arm"),
+                             _("L. Hand"), _("R. Hand"), _("L. Leg"), _("R. Leg"), _("L. Foot"),
+                             _("R. Foot")};
+    static body_part aBodyPart[] = {bp_torso, bp_head, bp_eyes, bp_mouth, bp_arm_l, bp_arm_r, bp_hand_l,
+                             bp_hand_r, bp_leg_l, bp_leg_r, bp_foot_l, bp_foot_r};
+    int iEnc, iArmorEnc, iBodyTempInt;
+    double iLayers;
+    std::string out;
+    /*** I chose to instead only display X+Y instead of X+Y=Z. More room was needed ***
+     *** for displaying triple digit encumbrance, due to new encumbrance system.    ***
+     *** If the player wants to see the total without having to do them maths, the  ***
+     *** armor layers ui shows everything they want :-) -Davek                      ***/
+    for (int i = min; i < max; ++i) {
+        out.clear();
+        iLayers = iArmorEnc = 0;
+        iBodyTempInt = (temp_conv[i] / 100.0) * 2 - 100; // Scale of -100 to +100
+        iEnc = encumb(aBodyPart[i], iLayers, iArmorEnc);
+        // limb, and possible color highlighting
+        out = string_format("%-7s", asText[i].c_str());
+        mvwprintz(win, i + 1 - min, 1, (line == i) ? h_ltgray : c_ltgray, out.c_str());
+        // take into account the new encumbrance system for layers
+        out = string_format("(%1d) ", static_cast<int>(iLayers / 10.0));
+        wprintz(win, c_ltgray, out.c_str());
+        // accumulated encumbrance from clothing, plus extra encumbrance from layering
+        wprintz(win, encumb_color(iEnc), string_format("%3d", iArmorEnc).c_str());
+        // seperator in low toned color
+        wprintz(win, c_ltgray, "+");
+        wprintz(win, encumb_color(iEnc), string_format("%-3d", iEnc - iArmorEnc).c_str());
+        // print warmth, tethered to right hand side of the window
+        out = string_format("(% 3d)", iBodyTempInt);
+        mvwprintz(win, i + 1 - min, getmaxx(win) - 6, bodytemp_color(i), out.c_str());
+    }
+}
+

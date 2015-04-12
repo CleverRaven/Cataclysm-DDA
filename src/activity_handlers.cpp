@@ -409,6 +409,18 @@ void activity_handlers::fill_liquid_do_turn( player_activity *act, player *p )
     p->pause();
 }
 
+// handles equipping an item on ACT_PICKUP, if requested
+void activity_handlers::pickup_finish(player_activity *act, player *p)
+{
+    // loop through all the str_values, and if we find equip, do so.
+    // if no str_values present, carry on
+    for(auto &elem : act->str_values) {
+        if(elem == "equip") {
+            item &it = p->i_at(act->position);
+            p->wear_item(&it);
+        }
+    }
+}
 
 void activity_handlers::firstaid_finish( player_activity *act, player *p )
 {
@@ -475,33 +487,39 @@ void activity_handlers::forage_finish( player_activity *act, player *p )
         g->m.put_items_from_loc( "trash_forest", p->pos3(), calendar::turn );
         found_something = true;
     }
+    items_location loc;
+    ter_id next_ter = 0; //Just to have a default for compilers' sake
+    switch (calendar::turn.get_season() ) {
+    case SPRING:
+        loc = "forage_spring";
+        next_ter = terfind("t_underbrush_harvested_spring");
+        break;
+    case SUMMER:
+        loc = "forage_summer";
+        next_ter = terfind("t_underbrush_harvested_summer");
+        break;
+    case AUTUMN:
+        loc = "forage_autumn";
+        next_ter = terfind("t_underbrush_harvested_autumn");
+        break;
+    case WINTER:
+        loc = "forage_winter";
+        next_ter = terfind("t_underbrush_harvested_winter");
+        break;
+    }
+    
     // Compromise: Survival gives a bigger boost, and Peception is leveled a bit.
-    if( veggy_chance < ((p->skillLevel("survival") * 1.5) + ((p->per_cur / 2 - 4) + 3)) ) {
-        items_location loc;
-        switch (calendar::turn.get_season() ) {
-        case SPRING:
-            loc = "forage_spring";
-            break;
-        case SUMMER:
-            loc = "forage_summer";
-            break;
-        case AUTUMN:
-            loc = "forage_autumn";
-            break;
-        case WINTER:
-            loc = "forage_winter";
-            break;
-        }
+    if( veggy_chance < ((p->skillLevel("survival") * 1.5) + ((p->per_cur / 2 - 4) + 3)) ) {                
         // Returns zero if location has no defined items.
         int cnt = g->m.put_items_from_loc( loc, p->pos3(), calendar::turn );
         if( cnt > 0 ) {
             add_msg(m_good, _("You found something!"));
-            g->m.ter_set(act->placement.x, act->placement.y, t_dirt);
+            g->m.ter_set(act->placement.x, act->placement.y, next_ter);
             found_something = true;
         }
     } else {
         if( one_in(2) ) {
-            g->m.ter_set(act->placement.x, act->placement.y, t_dirt);
+            g->m.ter_set(act->placement.x, act->placement.y, next_ter);
         }
     }
     if( !found_something ) {
