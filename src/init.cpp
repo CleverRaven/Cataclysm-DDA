@@ -39,6 +39,7 @@
 #include "faction.h"
 #include "npc.h"
 #include "item_action.h"
+#include "dialogue.h"
 
 #include <string>
 #include <vector>
@@ -197,6 +198,8 @@ void DynamicDataLoader::initialize()
         &faction::load_faction);
     type_function_map["npc"] = new StaticFunctionAccessor(
         &npc::load_npc);
+    type_function_map["talk_topic"] = new StaticFunctionAccessor(
+        &load_talk_topic);
     type_function_map["epilogue"] = new StaticFunctionAccessor(
         &epilogue::load_epilogue);
 
@@ -344,6 +347,7 @@ void DynamicDataLoader::unload_data()
     iuse::reset_bullet_pulling();
     clear_overmap_specials();
     ammunition_type::reset();
+    unload_talk_topics();
 
     // TODO:
     //    NameGenerator::generator().clear_names();
