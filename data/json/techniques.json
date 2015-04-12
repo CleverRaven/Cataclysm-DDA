@@ -1220,7 +1220,7 @@
 		    "You strike as you close in on %s",
 			"<npcname> closes in and strikes at %s"
 		]
-	},{
+    },{
 	    "type" : "technique",
 		"id" : "tec_hema_strike",
 		"name" : "Quick strike",
@@ -1241,6 +1241,9 @@
         "cut_mult" : 1.2,
 		"bash_mult" : 1.2,
 		"crit_tec" : true,
+		"req_buffs" : [
+		    "hema_hit_buff"
+		],
         "messages" : [
             "You strike at %s with great force",
             "<npcname> strikes at %s with great force"
@@ -1253,6 +1256,9 @@
         "cut_mult" : 1.5,
 		"bash_mult" : 1.5,
 		"crit_tec" : true,
+		"req_buffs" : [
+		    "hema_hit_buff"
+		],
 	    "messages" : [
             "You strike at %s with devastating force",
             "<npcname> strikes at %s with devastating force"
