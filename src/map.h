@@ -867,11 +867,6 @@ void add_corpse( const tripoint &p );
     void scent_blockers( bool (&blocks_scent)[SEEX * MAPSIZE][SEEY * MAPSIZE],
                          bool (&reduces_scent)[SEEX * MAPSIZE][SEEY * MAPSIZE],
                          int minx, int miny, int maxx, int maxy );
-    /**
-     * Used by `game` to create scent over slime tiles.
-     */
-    void scent_slime( int (&grscent)[SEEX * MAPSIZE][SEEY * MAPSIZE],
-                      int minx, int miny, int maxx, int maxy );
 
 // Computers
     computer* computer_at( const tripoint &p );
