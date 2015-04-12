@@ -77,10 +77,7 @@ weather_datum const& weather_data(weather_type const type)
     /**
      * Weather types data definition.
      * Name, color in UI, ranged penalty, sight penalty,
-     * light_modifier, warn player?
-     * Note that max time is NOT when the weather is guaranteed to stop; it is
-     * simply when the weather is guaranteed to be recalculated.  Most weather
-     * patterns have "stay the same" as a highly likely transition; see below
+     * light modifier, sound attenuation, warn player?
      * Note light modifier assumes baseline of DAYLIGHT_LEVEL at 60
      */
     static std::array<weather_datum, NUM_WEATHER_TYPES> const data {{
@@ -90,52 +87,51 @@ weather_datum const& weather_data(weather_type const type)
             &weather_effect::none
         },
         weather_datum {
-            _("Clear"), c_cyan, 0, 0, 0, false,
+            _("Clear"), c_cyan, 0, 0, 0, 0, false,
             &weather_effect::none
         },
         weather_datum {
-            _("Sunny"), c_ltcyan, 0, 0, 20, false,
+            _("Sunny"), c_ltcyan, 0, 0, 20, 0, false,
             &weather_effect::glare
         },
         weather_datum {
-            _("Cloudy"), c_ltgray, 0, 2, -20, false,
+            _("Cloudy"), c_ltgray, 0, 2, -20, 0, false,
             &weather_effect::none
         },
         weather_datum {
-            _("Drizzle"), c_ltblue, 1, 3, -30, true,
+            _("Drizzle"), c_ltblue, 1, 3, -30, 1, true,
             &weather_effect::wet
         },
         weather_datum {
-            _("Rain"), c_blue, 3, 5, -40, true,
+            _("Rain"), c_blue, 3, 5, -40, 3, true,
             &weather_effect::very_wet
         },
         weather_datum {
-            _("Thunder Storm"), c_dkgray, 4, 7, -50, true,
+            _("Thunder Storm"), c_dkgray, 4, 7, -50, 5, true,
             &weather_effect::thunder
         },
         weather_datum {
-            _("Lightning Storm"), c_yellow, 4, 8, -50, true,
+            _("Lightning Storm"), c_yellow, 4, 8, -50, 5, true,
             &weather_effect::lightning
         },
-        // Name, UI Color, Ranged penalty, Sight penalty, light_mod
         weather_datum {
-            _("Acidic Drizzle"), c_ltgreen, 2, 3, -30, true,
+            _("Acidic Drizzle"), c_ltgreen, 2, 3, -30, 1, true,
             &weather_effect::light_acid
         },
         weather_datum {
-            _("Acid Rain"), c_green, 4, 6, -40, true,
+            _("Acid Rain"), c_green, 4, 6, -40, 3, true,
             &weather_effect::acid
         },
         weather_datum {
-            _("Flurries"), c_white, 2, 4, -30, true,
+            _("Flurries"), c_white, 2, 4, -30, 2, true,
             &weather_effect::flurry
         },
         weather_datum {
-            _("Snowing"), c_white, 4, 7, -30, true,
+            _("Snowing"), c_white, 4, 7, -30, 4, true,
             &weather_effect::snow
         },
         weather_datum {
-            _("Snowstorm"), c_white, 6, 10, -55, true,
+            _("Snowstorm"), c_white, 6, 10, -55, 6, true,
             &weather_effect::snowstorm
         }
     }};

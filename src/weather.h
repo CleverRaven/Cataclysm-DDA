@@ -115,6 +115,7 @@ struct weather_datum {
     int ranged_penalty;     //!< Penalty to ranged attacks.
     int sight_penalty;      //!< Penalty to max sight range.
     int light_modifier;     //!< Modification to ambient light.
+    int sound_attn;         //!< Sound attenuation of a given weather type.
     bool dangerous;         //!< If true, our activity gets interrupted.
     void (*effect)();       //!< Function pointer for weather effects.
 };
