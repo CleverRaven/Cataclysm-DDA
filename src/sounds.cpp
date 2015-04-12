@@ -211,11 +211,10 @@ void sounds::process_sound_markers( player *p )
 
         // At this point we are dealing with attention (as opposed to physical effects)
         // so reduce volume by the amount of ambient noise from the weather.
-        const int mod_vol = volume - weather_vol;
+        const int mod_vol = (sound_event_pair.second.volume - weather_vol) * volume_multiplier;
 
-        // The noise was drowned out by the surroundings, check for volume == 0 here
-        // to allow the player to still hear timer sounds.
-        if (mod_vol <= 0 && volume != 0) {
+        // The noise was drowned out by the surroundings.
+        if( mod_vol - dist < 0 ) {
             continue;
         }
 
