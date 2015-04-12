@@ -103,15 +103,15 @@ weather_datum const& weather_data(weather_type const type)
             &weather_effect::wet
         },
         weather_datum {
-            _("Rain"), c_blue, 3, 5, -40, 3, true,
+            _("Rain"), c_blue, 3, 5, -40, 4, true,
             &weather_effect::very_wet
         },
         weather_datum {
-            _("Thunder Storm"), c_dkgray, 4, 7, -50, 5, true,
+            _("Thunder Storm"), c_dkgray, 4, 7, -50, 8, true,
             &weather_effect::thunder
         },
         weather_datum {
-            _("Lightning Storm"), c_yellow, 4, 8, -50, 5, true,
+            _("Lightning Storm"), c_yellow, 4, 8, -50, 8, true,
             &weather_effect::lightning
         },
         weather_datum {
@@ -119,7 +119,7 @@ weather_datum const& weather_data(weather_type const type)
             &weather_effect::light_acid
         },
         weather_datum {
-            _("Acid Rain"), c_green, 4, 6, -40, 3, true,
+            _("Acid Rain"), c_green, 4, 6, -40, 4, true,
             &weather_effect::acid
         },
         weather_datum {
