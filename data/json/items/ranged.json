@@ -137,7 +137,7 @@
     "burst": 5,
     "clip_size": 100,
     "reload": 350,
-    "loudness" : 10,
+    "loudness" : 5,
     "valid_mod_locations": [[ "accessories", 4 ],[ "barrel", 1 ],[ "grip", 1 ],[ "sights", 1 ],[ "stock", 1 ]]
   },
   {
