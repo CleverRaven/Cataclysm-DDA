@@ -703,6 +703,8 @@ void game::load_npcs()
         if (temp->marked_for_death) {
             temp->die( nullptr );
         } else {
+            if (temp->my_fac != NULL)
+                temp->my_fac->known_by_u = true;
             active_npc.push_back(temp);
         }
     }
@@ -3439,6 +3441,7 @@ void game::death_screen()
     gamemode->game_over();
     Messages::display_messages();
     disp_kills();
+    disp_NPC_epilogues();
     disp_faction_ends();
 }
 
@@ -4401,6 +4404,36 @@ void game::disp_kills()
     delwin(w);
     refresh_all();
 }
+
+void game::disp_NPC_epilogues()
+{
+    WINDOW *w = newwin(FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH,
+                       std::max(0, (TERMY - FULL_SCREEN_HEIGHT) / 2),
+                       std::max(0, (TERMX - FULL_SCREEN_WIDTH) / 2));
+    std::vector<std::string> data;
+    epilogue epi;
+    //This search needs to be expanded to all NPCs
+    for( auto &elem : active_npc ) {
+        if(elem->is_friend()) {
+            if (elem->male){
+                epi.random_by_group("male", elem->name);
+            } else {
+                epi.random_by_group("female", elem->name);
+            }
+            for( auto &ln : epi.lines ) {
+                data.push_back( ln );
+            }
+            display_table(w, "", 1, data);
+        }
+        data.clear();
+    }
+
+    werase(w);
+    wrefresh(w);
+    delwin(w);
+    refresh_all();
+}
+
 
 void game::disp_faction_ends()
 {
