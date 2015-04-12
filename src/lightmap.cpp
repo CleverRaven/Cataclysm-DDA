@@ -604,7 +604,7 @@ void castLight( bool (&output_cache)[MAPSIZE*SEEX][MAPSIZE*SEEY],
     }
     // Making these static prevents them from being needlessly constructed/destructed all the time.
     static const tripoint origin(0, 0, 0);
-    static tripoint delta(0, 0, 0);
+    tripoint delta(0, 0, 0);
     for( int distance = row; distance <= radius; distance++ ) {
         delta.y = -distance;
         bool started_row = false;
