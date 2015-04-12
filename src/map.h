@@ -644,6 +644,8 @@ void add_corpse( const tripoint &p );
     void adjust_radiation( const tripoint &p, const int delta );
     // Overload for mapgen
     void adjust_radiation( const int x, const int y, const int delta );
+    /** Sums radiation from `start` to `end` */
+    int radiation_over( const tripoint &start, const tripoint &end ) const;
 
 // Temperature
     int& temperature( const tripoint &p );    // Temperature for submap
@@ -856,6 +858,15 @@ void add_corpse( const tripoint &p );
          */
         void remove_field( const tripoint &p, const field_id field_to_remove );
 // End of 3D field function block
+
+// Scent propagation helpers
+    /**
+     * Build the map of scent-resistant tiles.
+     * Should be way faster than if done in `game.cpp` using public map functions.
+     */
+    void scent_blockers( bool (&blocks_scent)[SEEX * MAPSIZE][SEEY * MAPSIZE],
+                         bool (&reduces_scent)[SEEX * MAPSIZE][SEEY * MAPSIZE],
+                         int minx, int miny, int maxx, int maxy );
 
 // Computers
     computer* computer_at( const tripoint &p );
@@ -1128,6 +1139,27 @@ private:
  template<typename T>
      void process_items_in_vehicle( vehicle *cur_veh, submap *current_submap,
                                     T processor, std::string const &signal );
+
+    /** Enum used by functors in `function_over` to control execution. */
+    enum iteration_state {
+        ITER_CONTINUE = 0,  // Keep iterating
+        ITER_SKIP_SUBMAP,   // Skip the rest of this submap
+        ITER_SKIP_ZLEVEL,   // Skip the rest of this z-level
+        ITER_FINISH         // End iteration
+    };
+    /**
+    * Runs a `(tripoint &gp, submap* sm, point &lp) -> void` functor 
+    * over submaps in the area, getting next submap only when the current one "runs out" rather than every time.
+    * @param gp Grid (like `get_submap_at_grid`) coordinate of the submap, 
+    * @param lp Local (submap) coordinate of currently accessed point.
+    * Will silently clip the area to map bounds.
+    */
+    /*@{*/
+    template<typename Functor>
+        void function_over( const tripoint &start, const tripoint &end, Functor fun ) const;
+    template<typename Functor>
+        void function_over( int stx, int sty, int stz, int enx, int eny, int enz, Functor fun ) const;
+    /*@}*/
 
  float lm[MAPSIZE*SEEX][MAPSIZE*SEEY];
  float sm[MAPSIZE*SEEX][MAPSIZE*SEEY];

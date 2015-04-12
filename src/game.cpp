@@ -3309,6 +3309,9 @@ void game::update_scent()
         grscent[u.posx()][u.posy()] = u.scent;
     }
 
+    // The new scent flag searching function. Should be wayyy faster than the old one.
+    m.scent_blockers( blocks_scent, reduces_scent,
+                      scentmap_minx, scentmap_miny, scentmap_maxx, scentmap_maxy );
     // Sum neighbors in the y direction.  This way, each square gets called 3 times instead of 9
     // times. This cost us an extra loop here, but it also eliminated a loop at the end, so there
     // is a net performance improvement over the old code. Could probably still be better.
@@ -3317,16 +3320,6 @@ void game::update_scent()
     // SEEX*MAPSIZE, but if that changes, this may need tweaking.
     for (int x = scentmap_minx - 1; x <= scentmap_maxx + 1; ++x) {
         for (int y = scentmap_miny; y <= scentmap_maxy; ++y) {
-            // cache expensive flag checks, once per tile.
-            if (y == scentmap_miny) {  // Setting y-1 y-0, when we are at the top row...
-                for (int i = y - 1; i <= y; ++i) {
-                    blocks_scent[x][i] = m.has_flag(TFLAG_WALL, x, i);
-                    reduces_scent[x][i] = m.has_flag(TFLAG_REDUCE_SCENT, x, i);
-                }
-            }
-            blocks_scent[x][y + 1] = m.has_flag(TFLAG_WALL, x, y + 1); // ...so only y+1 here.
-            reduces_scent[x][y + 1] = m.has_flag(TFLAG_REDUCE_SCENT, x, y + 1);
-
             // remember the sum of the scent val for the 3 neighboring squares that can defuse into
             sum_3_scent_y[y][x] = 0;
             squares_used_y[y][x] = 0;
@@ -3344,6 +3337,8 @@ void game::update_scent()
             }
         }
     }
+
+    // Rest of the scent map
     for (int x = scentmap_minx; x <= scentmap_maxx; ++x) {
         for (int y = scentmap_miny; y <= scentmap_maxy; ++y) {
             if (! blocks_scent[x][y]) {
@@ -3374,11 +3369,6 @@ void game::update_scent()
                                            + sum_3_scent_y[y][x + 1])
                     ) / (1000 * 10);
 
-
-                const int fslime = m.get_field_strength( tripoint(x, y, get_levz()), fd_slime) * 10;
-                if (fslime > 0 && grscent[x][y] < fslime) {
-                    grscent[x][y] = fslime;
-                }
                 if (grscent[x][y] > 10000) {
                     dbg(D_ERROR) << "game:update_scent: Wacky scent at " << x << ","
                                  << y << " (" << grscent[x][y] << ")";

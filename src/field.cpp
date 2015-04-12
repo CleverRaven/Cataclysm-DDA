@@ -547,6 +547,9 @@ bool map::process_fields_in_submap( submap *const current_submap,
                     case fd_sludge:
                         break;
                     case fd_slime:
+                        if( g->scent( x, y ) < cur->getFieldDensity() * 10 ) {
+                            g->scent( x, y ) = cur->getFieldDensity() * 10;
+                        }
                         break;
                     case fd_plasma:
                         break;
