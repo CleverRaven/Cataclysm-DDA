@@ -323,7 +323,7 @@ class advanced_inventory
         void redraw_pane(side p);
         void swap_panes();
         // returns the pane side associated with the area
-        const side area_to_side(aim_location place) const
+        side area_to_side(aim_location place) const
         {
             return (panes[left].area == place) ? left : 
                 (panes[right].area == place) ? right : error;
