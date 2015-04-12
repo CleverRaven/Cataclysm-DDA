@@ -83,7 +83,7 @@ weather_datum const& weather_data(weather_type const type)
     static std::array<weather_datum, NUM_WEATHER_TYPES> const data {{
         weather_datum {
             "NULL Weather - BUG (weather_data.cpp:weather_data)", c_magenta,
-            0, 0, 0, false,
+            0, 0, 0, 0, false,
             &weather_effect::none
         },
         weather_datum {
