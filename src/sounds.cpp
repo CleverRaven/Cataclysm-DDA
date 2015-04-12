@@ -213,6 +213,11 @@ void sounds::process_sound_markers( player *p )
         // so reduce volume by the amount of ambient noise from the weather.
         const int mod_vol = volume - weather_vol;
 
+        // The noise was drowned out by the surroundings
+        if (mod_vol <= 0) {
+            continue;
+        }
+
         // See if we need to wake someone up
         if( p->has_effect("sleep")) {
             if( (!(p->has_trait("HEAVYSLEEPER") ||
