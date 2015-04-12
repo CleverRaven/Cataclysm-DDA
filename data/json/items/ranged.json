@@ -4483,8 +4483,7 @@
     "recoil": 150,
     "durability": 5,
     "clip_size": 0,
-    "reload": 0,
-    "loudness" : 50
+    "reload": 0
   },
   {
     "id": "tokarev",
