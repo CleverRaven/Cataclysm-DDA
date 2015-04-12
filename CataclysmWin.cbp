@@ -216,7 +216,6 @@
 		<Unit filename="src/char_validity_check.h" />
 		<Unit filename="src/character.cpp" />
 		<Unit filename="src/character.h" />
-		<Unit filename="src/chkjson/chkjson.cpp" />
 		<Unit filename="src/clzones.cpp" />
 		<Unit filename="src/clzones.h" />
 		<Unit filename="src/color.cpp" />
