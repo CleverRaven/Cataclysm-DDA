@@ -7059,8 +7059,9 @@ template<typename Functor>
     }
 }
 
-void map::scent_blockers( bool blocks_scent[SEEX * MAPSIZE][SEEY * MAPSIZE],
-                     bool reduces_scent[SEEX * MAPSIZE][SEEY * MAPSIZE] )
+void map::scent_blockers( bool (&blocks_scent)[SEEX * MAPSIZE][SEEY * MAPSIZE],
+                          bool (&reduces_scent)[SEEX * MAPSIZE][SEEY * MAPSIZE],
+                          const int minx, const int miny, const int maxx, const int maxy )
 {
     auto reduce = TFLAG_REDUCE_SCENT;
     auto block = TFLAG_WALL;
@@ -7079,16 +7080,22 @@ void map::scent_blockers( bool blocks_scent[SEEX * MAPSIZE][SEEY * MAPSIZE],
         return ITER_CONTINUE;
     };
 
-    function_over( 0, 0, abs_sub.z, SEEX * MAPSIZE, SEEY * MAPSIZE, abs_sub.z, fill_values );
+    function_over( minx, miny, abs_sub.z, maxx, maxy, abs_sub.z, fill_values );
 
     // Now vehicles
+
+    // Currently the scentmap is limited to an area around the player rather than entire map
+    auto local_bounds = [=]( const point &coord ) {
+        return coord.x >= minx && coord.x <= maxx && coord.y >= miny && coord.y <= maxy;
+    };
+
     auto vehs = get_vehicles();
     for( auto &wrapped_veh : vehs ) {
         vehicle &veh = *(wrapped_veh.v);
         auto obstacles = veh.all_parts_with_feature( VPFLAG_OBSTACLE, true );
         for( const int p : obstacles ) {
             const point part_pos = veh.global_pos() + veh.parts[p].precalc[0];
-            if( inbounds( part_pos.x, part_pos.y ) ) {
+            if( local_bounds( part_pos ) ) {
                 reduces_scent[part_pos.x][part_pos.y] = true;
             }
         }
@@ -7101,29 +7108,9 @@ void map::scent_blockers( bool blocks_scent[SEEX * MAPSIZE][SEEY * MAPSIZE],
             }
 
             const point part_pos = veh.global_pos() + veh.parts[p].precalc[0];
-            if( inbounds( part_pos.x, part_pos.y ) ) {
+            if( local_bounds( part_pos ) ) {
                 reduces_scent[part_pos.x][part_pos.y] = true;
             }
         }
     }
-}
-
-void map::scent_slime( int grscent[SEEX * MAPSIZE][SEEY * MAPSIZE] )
-{
-    auto find_fields = [&]( const tripoint &gp, const submap *sm, const point &lp ) {
-        const field_entry *fd = sm->fld[lp.x][lp.y].findField( fd_slime );
-        if( fd != nullptr ) {
-            // We need to generate the x/y coords, because we can't get them "for free"
-            const int x = ( gp.x * SEEX ) + lp.x;
-            const int y = ( gp.y * SEEY ) + lp.y;
-            const int fslime = fd->getFieldDensity() * 10;
-            if( grscent[x][y] < fslime ) {
-                grscent[x][y] = fslime;
-            }
-        }
-
-        return sm->field_count > 0 ? ITER_CONTINUE : ITER_SKIP_SUBMAP;
-    };
-
-    function_over( 0, 0, abs_sub.z, SEEX * MAPSIZE, SEEY * MAPSIZE, abs_sub.z, find_fields );
 }

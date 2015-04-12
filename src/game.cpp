@@ -3310,7 +3310,8 @@ void game::update_scent()
     }
 
     // The new scent flag searching function. Should be wayyy faster than the old one.
-    m.scent_blockers( blocks_scent, reduces_scent );
+    m.scent_blockers( blocks_scent, reduces_scent,
+                      scentmap_minx, scentmap_miny, scentmap_maxx, scentmap_maxy );
     // Sum neighbors in the y direction.  This way, each square gets called 3 times instead of 9
     // times. This cost us an extra loop here, but it also eliminated a loop at the end, so there
     // is a net performance improvement over the old code. Could probably still be better.
@@ -3337,8 +3338,6 @@ void game::update_scent()
         }
     }
 
-    // New slime smell function. Should also be wayyy faster than the old one.
-    m.scent_slime( grscent );
     // Rest of the scent map
     for (int x = scentmap_minx; x <= scentmap_maxx; ++x) {
         for (int y = scentmap_miny; y <= scentmap_maxy; ++y) {

@@ -864,12 +864,14 @@ void add_corpse( const tripoint &p );
      * Build the map of scent-resistant tiles.
      * Should be way faster than if done in `game.cpp` using public map functions.
      */
-    void scent_blockers( bool blocks_scent[SEEX * MAPSIZE][SEEY * MAPSIZE],
-                         bool reduces_scent[SEEX * MAPSIZE][SEEY * MAPSIZE] );
+    void scent_blockers( bool (&blocks_scent)[SEEX * MAPSIZE][SEEY * MAPSIZE],
+                         bool (&reduces_scent)[SEEX * MAPSIZE][SEEY * MAPSIZE],
+                         int minx, int miny, int maxx, int maxy );
     /**
      * Used by `game` to create scent over slime tiles.
      */
-    void scent_slime( int grscent[SEEX * MAPSIZE][SEEY * MAPSIZE] );
+    void scent_slime( int (&grscent)[SEEX * MAPSIZE][SEEY * MAPSIZE],
+                      int minx, int miny, int maxx, int maxy );
 
 // Computers
     computer* computer_at( const tripoint &p );
