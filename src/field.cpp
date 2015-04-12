@@ -1879,6 +1879,9 @@ void map::monster_in_field( monster &z )
 
             // MATERIALS-TODO: Use fire resistance
         case fd_fire:
+            if (z.has_flag(MF_FIREPROOF)){
+                return;
+            }
             if ( z.made_of("flesh") || z.made_of("hflesh") || z.made_of("iflesh") ) {
                 dam += 3;
             }
