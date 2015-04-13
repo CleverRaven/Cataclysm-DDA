@@ -107,18 +107,19 @@ IF( RELEASE )
 ELSE ( RELEASE )
 	MESSAGE("\n")
 	MESSAGE(STATUS "Build ${PROJECT} in development mode (RELEASE=OFF) --\n")
-	MESSAGE(STATUS "CMAKE_INSTALL_PREFIX          : ${CMAKE_SOURCE_DIR}")
+	MESSAGE(STATUS "Binaries will be located in: " ${CMAKE_SOURCE_DIR})
 	ADD_DEFINITIONS(-std=c++11 -MMD -Wall -Wextra -std=c++11 -g)
 	IF (${CMAKE_SYSTEM_NAME} MATCHES Linux)
 		ADD_DEFINITIONS(-D_GLIBCXX_DEBUG)
 	ENDIF (${CMAKE_SYSTEM_NAME} MATCHES Linux)
 	SET(CMAKE_VERBOSE_MAKEFILE ON)
-	# Workaround CataclusmDDA funny path handlers for develop builds
+	# Since CataclusmDDA does not respect PREFIX for development builds
+	# and has funny path handlers, we should create resulting Binaries
+	# in the source redectory
 	SET(CMAKE_RUNTIME_OUTPUT_DIRECTORY
 		${CMAKE_SOURCE_DIR}
 		CACHE PATH "Single Directory for all Executables."
 	)
-	MESSAGE(STATUS "Binaryies will ba placed into: " ${CMAKE_SOURCE_DIR})
 ENDIF ( RELEASE )
 
 	MESSAGE(STATUS "LUA                           : ${LUA}")
