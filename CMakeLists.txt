@@ -13,9 +13,9 @@ option(LUA          "Lua support (required for some mods)"      "OFF")
 option(TILES        "Build graphical tileset version"           "OFF")
 option(CURSES       "Build curses version"                      "ON")
 option(SOUND        "Support for in-game sounds & music"        "OFF")
-option(RELEASE      "Enable debug and ability to run binary without need to install it. Use it for development purposes ONLY." "OFF")
+option(RELEASE      "Disable debug. Use it for user-ready buils." "OFF")
 option(ZLEVELS      "Enable experimental z-levels"              "OFF")
-option(USE_HOME_DIR "Use user's home directory for save files." "OFF")
+option(USE_HOME_DIR "Use user's home directory for save files." "ON")
 option(LOCALIZE     "Support for language localizations. Also enable UTF support."        "ON")
 option(LANGUAGES    "Compile localization files for specified languages"  "")
 
@@ -112,8 +112,13 @@ ELSE ( RELEASE )
 	IF (${CMAKE_SYSTEM_NAME} MATCHES Linux)
 		ADD_DEFINITIONS(-D_GLIBCXX_DEBUG)
 	ENDIF (${CMAKE_SYSTEM_NAME} MATCHES Linux)
-	ADD_DEFINITIONS(-DPREFIX=${CMAKE_SOURCE_DIR})
 	SET(CMAKE_VERBOSE_MAKEFILE ON)
+	# Workaround CataclusmDDA funny path handlers for develop builds
+	SET(CMAKE_RUNTIME_OUTPUT_DIRECTORY
+		${CMAKE_SOURCE_DIR}
+		CACHE PATH "Single Directory for all Executables."
+	)
+	MESSAGE(STATUS "Binaryies will ba placed into: " ${CMAKE_SOURCE_DIR})
 ENDIF ( RELEASE )
 
 	MESSAGE(STATUS "LUA                           : ${LUA}")
@@ -198,6 +203,16 @@ IF(SOUND)
 		)
 	ENDIF(NOT SDL2_MIXER_FOUND)
 ENDIF(SOUND)
+
+IF(LUA)
+	FIND_PACKAGE(Lua)
+	IF(NOT LUA_FOUND)
+	MESSAGE(FATAL_ERROR
+		"You need the Lua development library to be able to compile with Lua support.\nSee INSTALL file for details and more info\n"
+	)
+	ENDIF(NOT LUA_FOUND)
+	ADD_DEFINITIONS(-DLUA)
+ENDIF(LUA)
 
 # Ok. Now create build and install recipes
 IF(LOCALIZE)

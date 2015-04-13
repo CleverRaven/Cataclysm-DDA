@@ -298,6 +298,8 @@ IF(TILES)
 	ADD_DEPENDENCIES(cataclysm-tiles get_version)
 	IF (LUA)
 		ADD_DEPENDENCIES(cataclysm-tiles lua_bindings)
+		target_include_directories(cataclysm-tiles PUBLIC ${LUA_INCLUDE_DIR})
+		target_link_libraries(cataclysm-tiles ${LUA_LIBRARIES})
 	ENDIF(LUA)
 
 	target_include_directories(cataclysm-tiles PUBLIC ${SDL2_INCLUDE_DIR})
@@ -332,16 +334,15 @@ ENDIF(TILES)
 # Build curses version if requested
 IF(CURSES)
 	ADD_EXECUTABLE(cataclysm ${CATACLYSM_DDA_SOURCES} ${CATACLYSM_DDA_HEADERS})
-
 	ADD_DEPENDENCIES(cataclysm get_version)
 	IF (LUA)
 		ADD_DEPENDENCIES(cataclysm lua_bindings)
+		target_include_directories(cataclysm PUBLIC ${LUA_INCLUDE_DIR})
+		target_link_libraries(cataclysm ${LUA_LIBRARIES})
 	ENDIF(LUA)
 
 	target_include_directories(cataclysm PUBLIC ${CURSES_INCLUDE_PATH})
 	target_link_libraries(cataclysm ${CURSES_LIBRARIES})
-	#-L/usr/lib64 -lncursesw)
-	#${CURSES_LIBRARIES} -L/usr/lib64)
 
 	IF(WIN32)
         	target_link_libraries(cataclysm winmm.lib)
