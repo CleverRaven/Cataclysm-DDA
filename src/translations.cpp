@@ -59,17 +59,6 @@ void set_language(bool reload_options)
         }
     }
 
-#if (defined _WIN32 || defined WINDOWS)
-    // Use the ANSI code page 1252 to work around some language output bugs.
-    if (setlocale(LC_ALL, ".1252") == NULL) {
-        DebugLog(D_WARNING, D_MAIN) << "Error while setlocale(LC_ALL, '.1252').";
-    }
-#else
-    if (setlocale(LC_ALL, "") == NULL) {
-        DebugLog(D_WARNING, D_MAIN) << "Error while setlocale(LC_ALL, '').";
-    }
-#endif
-
     // Step 2. Bind to gettext domain.
     const char *locale_dir;
 #ifdef __linux__
@@ -95,9 +84,6 @@ void set_language(bool reload_options)
 #else // !LOCALIZE
 void set_language(bool reload_options)
 {
-#if !(defined _WIN32 || defined WINDOWS)
-    setlocale(LC_ALL, "");
-#endif
     (void) reload_options; // Cancels MinGW warning on Windows
 }
 
