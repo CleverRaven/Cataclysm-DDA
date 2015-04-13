@@ -3849,11 +3849,11 @@ void vehicle::thrust (int thd) {
     } else {
         // Increase velocity up to max_vel or min_vel, but not above.
         const int min_vel = -max_vel / 4;
-        velocity += vel_inc;
         if( vel_inc > 0 ) {
-            velocity = std::min( velocity, max_vel );
+            // Don't allow braking by accelerating (could happen with damaged engines)
+            velocity = std::max( velocity, std::min( velocity + vel_inc, max_vel ) );
         } else {
-            velocity = std::max( velocity, min_vel );
+            velocity = std::min( velocity, std::max( velocity + vel_inc, min_vel ) );
         }
     }
 }
