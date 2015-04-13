@@ -6237,7 +6237,7 @@ void game::knockback( std::vector<tripoint> &traj, int force, int stun, int dam_
                 }
                 m.bash( traj[i], 2 * dam_mult * force_remaining );
                 break;
-            } else if( mon_at(traj[i]) != -1 || 
+            } else if( mon_at(traj[i]) != -1 ||
                        npc_at(traj[i]) != -1 ||
                        u.pos3() == traj[i] ) {
                 targ->setpos( traj[i - 1] );
@@ -6672,6 +6672,7 @@ bool game::add_zombie(monster &critter)
                        << critter.posx() << "," << critter.posy() << ","  << critter.posz()
                        << " - " << critter.disp_name();
     }
+    critter.update_check();
     return critter_tracker.add(critter);
 }
 
@@ -9746,7 +9747,7 @@ int game::list_monsters(const int iLastState)
                         if( m != nullptr ) {
                             m->get_HP_Bar(color, sText);
                         } else {
-                            std::tie(sText, color) = 
+                            std::tie(sText, color) =
                                 ::get_hp_bar( critter->get_hp(), critter->get_hp_max(), false );
                         }
                         mvwprintz(w_monsters, y, 22, color, "%s", sText.c_str());
@@ -13790,8 +13791,8 @@ void intro()
         }
     }
     if (not_utf8 == true) {
-        const char *unicode_error_msg = 
-            _("You don't seem to have a valid Unicode locale. You may see some weird " 
+        const char *unicode_error_msg =
+            _("You don't seem to have a valid Unicode locale. You may see some weird "
               "characters (e.g. empty boxes or question marks). You have been warned.");
         fold_and_print(tmp, 0, 0, maxx, c_white, unicode_error_msg, minWidth, minHeight, maxx, maxy);
         wrefresh(tmp);

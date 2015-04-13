@@ -519,6 +519,8 @@ void MonsterGenerator::load_monster(JsonObject &jo)
         newmon->dies = get_death_functions(jo, "death_function");
         load_special_defense(newmon, jo, "special_when_hit");
         load_special_attacks(newmon, jo, "special_attacks");
+        newmon->upgrade_time = jo.get_int("upgrade_time", -1);
+        newmon->upgrade_group = jo.get_string("upgrade_group", "NULL");
 
         std::set<std::string> flags, anger_trig, placate_trig, fear_trig;
         flags = jo.get_tags("flags");

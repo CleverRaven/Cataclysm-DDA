@@ -44,6 +44,7 @@ class monster : public Creature, public JsonSerializer, public JsonDeserializer
         }
 
         void poly(mtype *t);
+        void update_check();
         void spawn( const int x, const int y ); // All this does is moves the monster to x,y,g->levz
         void spawn( const int x, const int y, const int z ); // As above, except with any z
         m_size get_size() const override;

@@ -162,6 +162,17 @@ void monster::poly(mtype *t)
     faction = t->default_faction;
 }
 
+void monster::update_check(){
+    if (type->upgrade_group != "NULL"){
+        int time_passed = calendar::turn.get_turn()/ DAYS(1);
+        int upgrade_time = type->upgrade_time;
+        if (!x_in_y(upgrade_time, time_passed)){
+            const auto monsters = MonsterGroupManager::GetMonstersFromGroup(type->upgrade_group);
+            const std::string newtype = monsters[rng(0, monsters.size() - 1)];
+            poly(GetMType(newtype));
+        }
+    }
+}
 void monster::spawn(int x, int y)
 {
     spawn( x, y, g->get_levz() );

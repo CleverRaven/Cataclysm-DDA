@@ -1299,7 +1299,7 @@ bool map::can_move_furniture( const tripoint &pos, player *p ) {
     int required_str = furniture_type.move_str_req;
 
     // Object can not be moved (or nothing there)
-    if( required_str < 0 ) { 
+    if( required_str < 0 ) {
         return false;
     }
 
@@ -1837,7 +1837,7 @@ bool map::has_flag_ter_and_furn( const ter_bitflags flag, const tripoint &p ) co
 
 // Bashable - common function
 
-int map::bash_rating_internal( const int str, const furn_t &furniture, 
+int map::bash_rating_internal( const int str, const furn_t &furniture,
                                const ter_t &terrain, const vehicle *veh, const int part ) const
 {
     bool furn_smash = false;
@@ -2320,7 +2320,7 @@ bool map::has_adjacent_furniture( const tripoint &p )
     {
         const int adj_x = p.x + cx[i];
         const int adj_y = p.y + cy[i];
-        if ( has_furn( tripoint( adj_x, adj_y, p.z ) ) && 
+        if ( has_furn( tripoint( adj_x, adj_y, p.z ) ) &&
              furn_at( tripoint( adj_x, adj_y, p.z ) ).has_flag("BLOCKSDOOR") ) {
             return true;
         }
@@ -3269,7 +3269,7 @@ bool map::open_door( const tripoint &p, const bool inside, const bool check_only
 void map::translate(const ter_id from, const ter_id to)
 {
     if (from == to) {
-        debugmsg( "map::translate %s => %s", 
+        debugmsg( "map::translate %s => %s",
                   terlist[from].name.c_str(),
                   terlist[from].name.c_str() );
         return;
@@ -3291,7 +3291,7 @@ void map::translate(const ter_id from, const ter_id to)
 void map::translate_radius(const ter_id from, const ter_id to, float radi, const tripoint &p )
 {
     if( from == to ) {
-        debugmsg( "map::translate %s => %s", 
+        debugmsg( "map::translate %s => %s",
                   terlist[from].name.c_str(),
                   terlist[from].name.c_str() );
         return;
@@ -3499,7 +3499,7 @@ void map::spawn_item(const int x, const int y, const std::string &type_id,
                      const unsigned quantity, const long charges,
                      const unsigned birthday, const int damlevel, const bool rand)
 {
-    spawn_item( tripoint( x, y, abs_sub.z ), type_id, 
+    spawn_item( tripoint( x, y, abs_sub.z ), type_id,
                 quantity, charges, birthday, damlevel, rand );
 }
 
@@ -3891,7 +3891,7 @@ static bool process_item( item_stack &items, Iterator &n, const tripoint &locati
     return true;
 }
 
-static bool process_map_items( item_stack &items, std::list<item>::iterator &n, 
+static bool process_map_items( item_stack &items, std::list<item>::iterator &n,
                                const tripoint &location, std::string )
 {
     return process_item( items, n, location, false );
@@ -3951,7 +3951,7 @@ void map::process_items( bool const active, T processor, std::string const &sign
 }
 
 template<typename T>
-void map::process_items_in_submap( submap *const current_submap, 
+void map::process_items_in_submap( submap *const current_submap,
                                    const tripoint &gridp,
                                    T processor, std::string const &signal )
 {
@@ -4064,7 +4064,7 @@ bool map::could_see_items( const tripoint &p, const player &u ) const
     if( container ) {
         // can see inside of containers if adjacent or
         // on top of the container
-        return ( abs( p.x - u.posx() ) <= 1 && 
+        return ( abs( p.x - u.posx() ) <= 1 &&
                  abs( p.y - u.posy() ) <= 1 &&
                  abs( p.z - u.posz() ) <= 1 );
     }
@@ -4360,7 +4360,7 @@ std::list<std::pair<tripoint, item *> > map::get_rc_items( int x, int y, int z )
     return rc_pairs;
 }
 
-static bool trigger_radio_item( item_stack &items, std::list<item>::iterator &n, 
+static bool trigger_radio_item( item_stack &items, std::list<item>::iterator &n,
                                 const tripoint &pos,
                                 std::string signal )
 {
@@ -4389,7 +4389,7 @@ static bool trigger_radio_item( item_stack &items, std::list<item>::iterator &n,
         trigger_item = true;
     }
     if( trigger_item ) {
-        return process_item( items, n, pos, true ); 
+        return process_item( items, n, pos, true );
     }
     return false;
 }
@@ -4473,8 +4473,8 @@ void map::add_trap(const int x, const int y, const trap_id t)
 
 void map::add_trap( const tripoint &p, const trap_id t)
 {
-    if( !inbounds( p ) ) 
-    { 
+    if( !inbounds( p ) )
+    {
         return;
     }
 
@@ -4805,9 +4805,9 @@ void map::update_visibility_cache( visibility_variables &cache) {
     cache.u_clairvoyance = g->u.clairvoyance();
     cache.u_sight_impaired = g->u.sight_impaired();
     cache.bio_night_active = g->u.has_active_bionic("bio_night");
-    
+
     cache.u_is_boomered = g->u.has_effect("boomered");
-    
+
     for( int x = 0; x < MAPSIZE * SEEX; x++ ) {
         for( int y = 0; y < MAPSIZE * SEEY; y++ ) {
             visibility_cache[x][y] = apparent_light_at(x, y, cache);
@@ -5485,7 +5485,7 @@ std::vector<point> map::route(const int Fx, const int Fy, const int Tx, const in
                     } else if( rating > 1 ) {
                         // Expected number of turns to bash it down, 1 turn to move there
                         // and 2 turns of penalty not to trash everything just because we can
-                        newg += ( 20 / rating ) + 2 + 4; 
+                        newg += ( 20 / rating ) + 2 + 4;
                     } else if( rating == 1 ) {
                         // Desperate measures, avoid whenever possible
                         newg += 1000;
@@ -5681,7 +5681,7 @@ void map::vertical_shift( const int newz )
     return;
 #else
     if( newz < -OVERMAP_DEPTH || newz > OVERMAP_HEIGHT ) {
-        debugmsg( "Tried to get z-level %d outside allowed range of %d-%d", 
+        debugmsg( "Tried to get z-level %d outside allowed range of %d-%d",
                   newz, -OVERMAP_DEPTH, OVERMAP_HEIGHT );
         return;
     }
@@ -5731,7 +5731,7 @@ void map::saven( const int gridx, const int gridy, const int gridz )
     const int abs_z = gridz;
 #ifndef ZLEVELS
     if( gridz != abs_sub.z ) {
-        debugmsg( "Tried to save submap (%d,%d,%d) as (%d,%d,%d), which isn't supported in non-z-level builds", 
+        debugmsg( "Tried to save submap (%d,%d,%d) as (%d,%d,%d), which isn't supported in non-z-level builds",
                   abs_x, abs_y, abs_sub.z, abs_x, abs_y, gridz );
     }
 #endif
@@ -5758,7 +5758,7 @@ void map::loadn( const int gridx, const int gridy, const bool update_vehicles ) 
     {
 #endif
         // TODO: Update vehicles on all z-levels, but only after the veh cache becomes 3D
-        
+
         loadn( gridx, gridy, gridz, need_veh_update );
     }
 }
@@ -6161,8 +6161,8 @@ bool map::inbounds(const int x, const int y) const
 bool map::inbounds(const int x, const int y, const int z) const
 {
 #ifdef ZLEVELS
-    return (x >= 0 && x < SEEX * my_MAPSIZE && 
-            y >= 0 && y < SEEY * my_MAPSIZE && 
+    return (x >= 0 && x < SEEX * my_MAPSIZE &&
+            y >= 0 && y < SEEY * my_MAPSIZE &&
             z >= -OVERMAP_DEPTH && z <= OVERMAP_HEIGHT);
 #else
     (void)z;
@@ -6172,8 +6172,8 @@ bool map::inbounds(const int x, const int y, const int z) const
 
 bool map::inbounds( const tripoint &p ) const
 {
- return (p.x >= 0 && p.x < SEEX * my_MAPSIZE && 
-         p.y >= 0 && p.y < SEEY * my_MAPSIZE && 
+ return (p.x >= 0 && p.x < SEEX * my_MAPSIZE &&
+         p.y >= 0 && p.y < SEEY * my_MAPSIZE &&
          p.z >= -OVERMAP_DEPTH && p.z <= OVERMAP_HEIGHT);
 }
 
@@ -6231,7 +6231,7 @@ long map::determine_wall_corner(const int x, const int y) const
     switch( bits ) {
         case 1 | 2 | 4 | 8: return LINE_XXXX;
         case 0 | 2 | 4 | 8: return LINE_OXXX;
-        
+
         case 1 | 0 | 4 | 8: return LINE_XOXX;
         case 0 | 0 | 4 | 8: return LINE_OOXX;
 
