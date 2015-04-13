@@ -3395,29 +3395,29 @@
   "skill_used" : "fabrication",
   "skills_required" : ["cooking", 2],
   "difficulty" : 2,
-  "time": 50000,
-  "reversible": false,
+  "time": 5000,
+  "reversible": true,
   "autolearn": false,
   "book_learn": [["adv_chemistry", 1] , ["textbook_chemistry", 1]],
   "components": [
     [
-      ["wire", 5],
-      ["cable", 5]
+      ["cable", 10],
+      ["wire", 1]
     ],
     [
       ["hotplate", 1]
     ],
     [
-      ["glasses_safety", 1]
+      ["hose", 3],
+      ["pipe_glass", 3]
     ],
     [
-      ["hose", 3]
-    ],
-    [
+      ["flask_glass", 4],
       ["bottle_glass", 4],
-      ["flask_glass", 4]
+      ["clay_canister", 4]
     ],
     [
+      ["bag_canvas", 1],
       ["backpack", 1],
       ["backpack_leather", 1],
       ["rucksack", 1],
@@ -4537,7 +4537,7 @@
   ], "tools": [
     [
       [ "hotplate", 18 ],
-      [ "chemistry_set", 18 ],
+      [ "char_smoker", 2 ],
       [ "toolset", 18 ],
       [ "fire", -1 ]
     ]
@@ -4569,7 +4569,7 @@
   ], "tools": [
     [
       [ "hotplate", 18 ],
-      [ "chemistry_set", 18 ],
+      [ "char_smoker", 2 ],
       [ "toolset", 18 ],
       [ "fire", -1 ]
     ]
@@ -5027,7 +5027,7 @@
       [ "forge", 25], [ "char_forge", 5 ]
      ],
      [
-      [ "hotplate", 15], [ "chemistry_set", 15], [ "toolset", 15] 
+      [ "hotplate", 15], [ "char_smoker", 2], [ "toolset", 15], [ "fire", -1 ]
      ]
     ],
   "components": [
@@ -5707,15 +5707,15 @@
   "reversible": false,
   "autolearn": true,
   "qualities":[
-    {"id":"CHEM","level":2,"amount":1},
+    {"id":"CHEM","level":1,"amount":1},
     {"id":"CUT","level":1,"amount":1}
   ],
   "tools": [
-    [ ["hotplate", 15], ["chemistry_set", 15], ["toolset", 15] ]
+    [ ["hotplate", 15], ["char_smoker", 2], ["toolset", 15], ["fire", -1] ]
   ],
   "components": [
      [ [ "milk", 15 ] ],
-     [ [ "bleach", 1 ] ]
+     [ [ "bleach", 1 ], [ "vinegar", 4 ] ]
   ]
   },{
   "type" : "recipe",
