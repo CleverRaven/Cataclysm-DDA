@@ -2350,7 +2350,6 @@ void epilogue::load_epilogue(JsonObject &jsobj)
     base.id = jsobj.get_string("id");
     base.group = jsobj.get_string("group");
     base.is_unique = jsobj.get_bool("unique", false);
-    base.lines.clear();
     base.lines.push_back(jsobj.get_string("line_01"));
     base.lines.push_back(jsobj.get_string("line_02"));
     base.lines.push_back(jsobj.get_string("line_03"));
@@ -2394,14 +2393,15 @@ void epilogue::random_by_group(std::string group, std::string name)
             v.push_back( epi.second );
         }
     }
-    epilogue epi = v.at(rng(0,v.size()));
+    if (v.size() == 0)
+     return;
+    epilogue epi = v.at(rng(0,v.size()-1));
     id = epi.id;
     group = epi.group;
     is_unique = epi.is_unique;
-    lines.clear();
     lines = epi.lines;
     for( auto &ln : lines ) {
-        if (ln.at(0)=='*'){
+        if (!ln.empty() && ln[0]=='*'){
             ln.replace(0,name.size(),name);
         }
     }
