@@ -180,6 +180,7 @@
         "id": "blind",
         "name": ["Blind"],
         "desc": ["Range of Sight: 0"],
+        "removes_effects": ["glare", "darkness"],
         "apply_message": "You're blinded!",
         "remove_message": "Your sight returns!",
         "rating": "bad"
