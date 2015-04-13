@@ -848,7 +848,8 @@
     },
     {
         "type": "effect_type",
-        "id": "flushot"
+        "id": "flushot",
+        "blocks_effects": ["flu"]
     },
     {
         "type": "effect_type",
@@ -917,7 +918,7 @@
         "max_intensity": 2,
         "int_dur_factor": 150,
         "dur_add_perc": 15,
-        "removes_effect": "winded",
+        "removes_effects": ["winded"],
         "base_mods": {
             "speed_mod": [-10],
             "str_mod": [-2],

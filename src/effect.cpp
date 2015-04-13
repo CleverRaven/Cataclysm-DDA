@@ -747,6 +747,12 @@ const std::vector<std::string> &effect::get_removes_effects() const
 {
     return eff_type->removes_effects;
 }
+const std::vector<std::string> effect::get_blocks_effects() const
+{
+    std::vector<std::string> ret = eff_type->removes_effects;
+    ret.insert(ret.end(), eff_type->blocks_effects.begin(), eff_type->blocks_effects.end());
+    return ret;
+}
 
 int effect::get_mod(std::string arg, bool reduced) const
 {
@@ -1122,6 +1128,7 @@ void load_effect_type(JsonObject &jo)
     new_etype.resist_trait = jo.get_string("resist_trait", "");
     new_etype.resist_effect = jo.get_string("resist_effect", "");
     new_etype.removes_effects = jo.get_string_array("removes_effects");
+    new_etype.blocks_effects = jo.get_string_array("blocks_effects");
 
     new_etype.max_intensity = jo.get_int("max_intensity", 1);
     new_etype.max_duration = jo.get_int("max_duration", 0);
