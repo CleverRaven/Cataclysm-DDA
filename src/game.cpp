@@ -529,7 +529,7 @@ void game::setup()
 {
     load_world_modfiles(world_generator->active_world);
 
-    m = map(); // reset the main map
+    m = map( static_cast<bool>( ACTIVE_WORLD_OPTIONS["ZLEVELS"] ) );
 
     next_npc_id = 1;
     next_faction_id = 1;
@@ -5487,7 +5487,7 @@ int game::mon_info(WINDOW *w)
                         }
                     }
                     if (!passmon) {
-                        int news = mon_at( critter.posx(), critter.posy() );
+                        int news = mon_at( critter.pos3() );
                         if( news != -1 ) {
                             newseen++;
                             new_seen_mon.push_back( news );
@@ -8700,8 +8700,7 @@ point game::look_around(WINDOW *w_info, const point pairCoordsFirst)
             } else if (action == "TOGGLE_FAST_SCROLL") {
                 fast_scroll = !fast_scroll;
             } else if( action == "LEVEL_UP" || action == "LEVEL_DOWN" ) {
-#ifdef ZLEVELS
-                if( !debug_mode ) {
+                if( !m.has_zlevels() || !debug_mode ) {
                     continue; // TODO: Make this work in z-level FOV update
                 }
 
@@ -8717,10 +8716,6 @@ point game::look_around(WINDOW *w_info, const point pairCoordsFirst)
                 lz = get_levz();
                 refresh_all();
                 draw_ter(lx, ly, true);
-#else
-                (void)old_levz;
-                (void)lz;
-#endif
             } else if (!ctxt.get_coordinates(w_terrain, lx, ly)) {
                 int dx, dy;
                 ctxt.get_direction(dx, dy, action);
@@ -8757,11 +8752,9 @@ point game::look_around(WINDOW *w_info, const point pairCoordsFirst)
         }
     } while (action != "QUIT" && action != "CONFIRM");
 
-#ifdef ZLEVELS
-    if( get_levz() != old_levz ) {
+    if( m.has_zlevels() && get_levz() != old_levz ) {
         m.vertical_shift( old_levz );
     }
-#endif
 
     inp_mngr.set_timeout(-1);
 
@@ -12611,8 +12604,8 @@ void game::vertical_move(int movez, bool force)
         return;
     }
 
-    // Becase get_levz takes z-value from the map, it will change when vertical_shift (ZLEVELS)
-    // is called or when the map is loaded on new z-level (not ZLEVELS).
+    // Becase get_levz takes z-value from the map, it will change when vertical_shift (m.has_zlevels() == true)
+    // is called or when the map is loaded on new z-level (== false).
     // This caches the z-level we start the movement on (current) and the level we're want to end.
     const int z_before = get_levz();
     const int z_after = get_levz() + movez;
@@ -12622,13 +12615,18 @@ void game::vertical_move(int movez, bool force)
     }
 
     // Shift the map up or down
-#ifdef ZLEVELS
-    map &maybetmp = m;
-    maybetmp.vertical_shift( z_after );
-#else
-    map maybetmp;
-    maybetmp.load(get_levx(), get_levy(), z_after, false);
-#endif
+
+    std::unique_ptr<map> tmp_map_ptr;
+    if( !m.has_zlevels() ) {
+        tmp_map_ptr.reset( new map() );
+    }
+
+    map &maybetmp = m.has_zlevels() ? m : *( tmp_map_ptr.get() );
+    if( m.has_zlevels() ) {
+        maybetmp.vertical_shift( z_after );
+    } else {
+        maybetmp.load(get_levx(), get_levy(), z_after, false);
+    }
 
     // Find the corresponding staircase
     int stairx = -1, stairy = -1;
@@ -12736,10 +12734,11 @@ void game::vertical_move(int movez, bool force)
     }
 
     if( !actually_moved ) {
-#ifdef ZLEVELS
-        // Have to undo the map shift
-        m.vertical_shift( z_before );
-#endif
+        if( m.has_zlevels() ) {
+            // Have to undo the map shift
+            m.vertical_shift( z_before );
+        }
+
         return;
     }
 
@@ -12807,10 +12806,10 @@ void game::vertical_move(int movez, bool force)
     m.vehicle_list.clear();
     m.set_transparency_cache_dirty();
     m.set_outside_cache_dirty();
-#ifndef ZLEVELS
-    (void)actually_moved;
-    m.load( get_levx(), get_levy(), z_after, true );
-#endif
+    if( !m.has_zlevels() ) {
+        m.load( get_levx(), get_levy(), z_after, true );
+    }
+
     u.setx( stairx );
     u.sety( stairy );
     u.setz( get_levz() );

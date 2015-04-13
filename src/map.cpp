@@ -112,16 +112,18 @@ item &map_stack::operator[]( size_t index )
 
 // Map class methods.
 
-map::map(int mapsize)
+map::map( int mapsize, bool zlev )
 {
     nulter = t_null;
     my_MAPSIZE = mapsize;
-#ifdef ZLEVELS
-    grid.resize( my_MAPSIZE * my_MAPSIZE * OVERMAP_LAYERS, nullptr );
-#else
-    grid.resize( my_MAPSIZE * my_MAPSIZE, nullptr );
-#endif
-    dbg(D_INFO) << "map::map(): my_MAPSIZE: " << my_MAPSIZE;
+    zlevels = zlev;
+    if( zlevels ) {
+        grid.resize( my_MAPSIZE * my_MAPSIZE * OVERMAP_LAYERS, nullptr );
+    } else {
+        grid.resize( my_MAPSIZE * my_MAPSIZE, nullptr );
+    }
+
+    dbg(D_INFO) << "map::map(): my_MAPSIZE: " << my_MAPSIZE << " zlevels enabled:" << zlevels;
     veh_in_active_range = true;
     transparency_cache_dirty = true;
     outside_cache_dirty = true;
@@ -5566,13 +5568,13 @@ void map::save()
 {
     for( int gridx = 0; gridx < my_MAPSIZE; gridx++ ) {
         for( int gridy = 0; gridy < my_MAPSIZE; gridy++ ) {
-#ifdef ZLEVELS
-            for( int gridz = -OVERMAP_DEPTH; gridz <= OVERMAP_HEIGHT; gridz++ ) {
-                saven( gridx, gridy, gridz );
+            if( zlevels ) {
+                for( int gridz = -OVERMAP_DEPTH; gridz <= OVERMAP_HEIGHT; gridz++ ) {
+                    saven( gridx, gridy, gridz );
+                }
+            } else {
+                saven( gridx, gridy, abs_sub.z );
             }
-#else
-            saven( gridx, gridy, abs_sub.z );
-#endif
         }
     }
 }
@@ -5697,11 +5699,11 @@ void map::shift( const int sx, const int sy )
 
 void map::vertical_shift( const int newz )
 {
-#ifndef ZLEVELS
-    (void)newz;
-    debugmsg( "Called map::vertical_shift outside z-level build (this shouldn't happen)" );
-    return;
-#else
+    if( !zlevels ) {
+        debugmsg( "Called map::vertical_shift in a non-z-level world" );
+        return;
+    }
+
     if( newz < -OVERMAP_DEPTH || newz > OVERMAP_HEIGHT ) {
         debugmsg( "Tried to get z-level %d outside allowed range of %d-%d", 
                   newz, -OVERMAP_DEPTH, OVERMAP_HEIGHT );
@@ -5724,7 +5726,6 @@ void map::vertical_shift( const int newz )
     }
 
     reset_vehicle_cache();
-#endif
 }
 
 // saven saves a single nonant.  worldx and worldy are used for the file
@@ -5751,12 +5752,12 @@ void map::saven( const int gridx, const int gridy, const int gridz )
     const int abs_x = abs_sub.x + gridx;
     const int abs_y = abs_sub.y + gridy;
     const int abs_z = gridz;
-#ifndef ZLEVELS
-    if( gridz != abs_sub.z ) {
+
+    if( !zlevels && gridz != abs_sub.z ) {
         debugmsg( "Tried to save submap (%d,%d,%d) as (%d,%d,%d), which isn't supported in non-z-level builds", 
                   abs_x, abs_y, abs_sub.z, abs_x, abs_y, gridz );
     }
-#endif
+
     dbg( D_INFO ) << "map::saven abs_x: " << abs_x << "  abs_y: " << abs_y << "  abs_z: " << abs_z
                   << "  gridn: " << gridn;
     submap_to_save->turn_last_touched = int(calendar::turn);
@@ -5771,17 +5772,14 @@ void map::saven( const int gridx, const int gridy, const int gridz )
 // (worldx,worldy,worldz) denotes the absolute coordinate of the submap
 // in grid[0].
 void map::loadn( const int gridx, const int gridy, const bool update_vehicles ) {
-#ifdef ZLEVELS
-    for( int gridz = -OVERMAP_DEPTH; gridz <= OVERMAP_HEIGHT; gridz++ ) {
-        bool need_veh_update = update_vehicles && gridz == abs_sub.z;
-#else
-    int gridz = abs_sub.z;
-    bool need_veh_update = update_vehicles;
-    {
-#endif
-        // TODO: Update vehicles on all z-levels, but only after the veh cache becomes 3D
-        
-        loadn( gridx, gridy, gridz, need_veh_update );
+    if( zlevels ) {
+        for( int gridz = -OVERMAP_DEPTH; gridz <= OVERMAP_HEIGHT; gridz++ ) {
+            bool need_veh_update = update_vehicles && gridz == abs_sub.z;
+            // TODO: Update vehicles on all z-levels, but only after the veh cache becomes 3D
+            loadn( gridx, gridy, gridz, need_veh_update );
+        }
+    } else {
+        loadn( gridx, gridy, abs_sub.z, update_vehicles );
     }
 }
 
@@ -6061,12 +6059,10 @@ void map::actualize( const int gridx, const int gridy, const int gridz )
 
 void map::copy_grid( const point to, const point from )
 {
-#ifdef ZLEVELS
-    for( int z = -OVERMAP_DEPTH; z <= OVERMAP_HEIGHT; z++ ) {
-#else
-    int z = abs_sub.z;
-    {
-#endif
+    const int zmin = zlevels ? -OVERMAP_DEPTH : abs_sub.z;
+    const int zmax = zlevels ? OVERMAP_HEIGHT : abs_sub.z;
+
+    for( int z = zmin; z <= zmax; z++ ) {
         const auto smap = get_submap_at_grid( from.x, from.y, z );
         setsubmap( get_nonant( to.x, to.y, z ), smap );
         for( auto &it : smap->vehicles ) {
@@ -6230,14 +6226,9 @@ bool map::inbounds(const int x, const int y) const
 
 bool map::inbounds(const int x, const int y, const int z) const
 {
-#ifdef ZLEVELS
     return (x >= 0 && x < SEEX * my_MAPSIZE && 
             y >= 0 && y < SEEY * my_MAPSIZE && 
             z >= -OVERMAP_DEPTH && z <= OVERMAP_HEIGHT);
-#else
-    (void)z;
-    return (x >= 0 && x < SEEX * my_MAPSIZE && y >= 0 && y < SEEY * my_MAPSIZE);
-#endif
 }
 
 bool map::inbounds( const tripoint &p ) const
@@ -6509,7 +6500,7 @@ void map::setsubmap( const size_t grididx, submap * const smap )
 submap *map::get_submap_at( const int x, const int y, const int z ) const
 {
     if( !inbounds( x, y, z ) ) {
-        debugmsg( "Tried to access invalid map position (%d,%d, %d)", x, y, z );
+        debugmsg( "Tried to access invalid map position (%d, %d, %d)", x, y, z );
         return nullptr;
     }
     return get_submap_at_grid( x / SEEX, y / SEEY, z );
@@ -6518,7 +6509,7 @@ submap *map::get_submap_at( const int x, const int y, const int z ) const
 submap *map::get_submap_at( const tripoint &p ) const
 {
     if( !inbounds( p ) ) {
-        debugmsg( "Tried to access invalid map position (%d,%d, %d)", p.x, p.y, p.z );
+        debugmsg( "Tried to access invalid map position (%d, %d, %d)", p.x, p.y, p.z );
         return nullptr;
     }
     return get_submap_at_grid( p.x / SEEX, p.y / SEEY, p.z );
@@ -6570,29 +6561,23 @@ size_t map::get_nonant( const int gridx, const int gridy ) const
 
 size_t map::get_nonant( const int gridx, const int gridy, const int gridz ) const
 {
-#ifdef ZLEVELS
     if( gridx < 0 || gridx >= my_MAPSIZE ||
         gridy < 0 || gridy >= my_MAPSIZE ||
-        gridz < -OVERMAP_DEPTH || gridz > OVERMAP_HEIGHT) {
+        gridz < -OVERMAP_DEPTH || gridz > OVERMAP_HEIGHT ) {
         debugmsg( "Tried to access invalid map position at grid (%d,%d,%d)", gridx, gridy, gridz );
         return 0;
     }
 
-    const int indexz = gridz + OVERMAP_HEIGHT; // Can't be lower than 0
-    return indexz + ( gridx + gridy * my_MAPSIZE ) * OVERMAP_LAYERS;
-#else
-    if( gridx < 0 || gridx >= my_MAPSIZE ||
-        gridy < 0 || gridy >= my_MAPSIZE ) {
-        debugmsg( "Tried to access invalid map position at grid (%d,%d,%d)", gridx, gridy, gridz );
-        return 0;
+    if( zlevels ) {
+        const int indexz = gridz + OVERMAP_HEIGHT; // Can't be lower than 0
+        return indexz + ( gridx + gridy * my_MAPSIZE ) * OVERMAP_LAYERS;
+    } else {
+        return gridx + gridy * my_MAPSIZE;
     }
-
-    return gridx + gridy * my_MAPSIZE;
-#endif
 }
 
-tinymap::tinymap(int mapsize)
-: map(mapsize)
+tinymap::tinymap(int mapsize, bool zlevels)
+: map(mapsize, zlevels)
 {
 }
 
