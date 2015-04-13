@@ -165,7 +165,7 @@ void monster::poly(mtype *t)
 void monster::update_check(){
     if (type->upgrade_group != "NULL"){
         int time_passed = calendar::turn.get_turn()/ DAYS(1);
-        int upgrade_time = type->upgrade_time;
+        int upgrade_time = type->upgrade_time * ACTIVE_WORLD_OPTIONS["MONSTER_GROUP_DIFFICULTY"];
         if (!x_in_y(upgrade_time, time_passed)){
             const auto monsters = MonsterGroupManager::GetMonstersFromGroup(type->upgrade_group);
             const std::string newtype = monsters[rng(0, monsters.size() - 1)];
