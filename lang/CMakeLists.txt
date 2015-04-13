@@ -45,12 +45,21 @@ add_custom_target (
 	WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
 )
 
-add_custom_target (
-	translations_compile
-	ALL
-	WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
-	DEPENDS translations_prepare
-)
+# Auto-Compile translation on release builds only
+IF (RELEASE)
+	add_custom_target (
+		translations_compile
+		ALL
+		WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
+		DEPENDS translations_prepare
+	)
+ELSE (RELEASE)
+	add_custom_target (
+		translations_compile
+		WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
+		DEPENDS translations_prepare
+	)
+ENDIF (RELEASE)
 
 foreach (LANG ${LANGUAGES})
 	add_custom_command (
