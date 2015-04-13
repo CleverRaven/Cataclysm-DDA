@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: cataclysm-dda 0.C\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-04-06 10:15+0300\n"
+"POT-Creation-Date: 2015-04-13 12:25+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17325,7 +17325,7 @@ msgstr ""
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "bacon"
-msgid_plural "bacons"
+msgid_plural "pieces of bacon"
 msgstr[0] ""
 msgstr[1] ""
 
@@ -20857,7 +20857,7 @@ msgid ""
 "impact."
 msgstr ""
 
-#: lang/json/GENERIC_from_json.py lang/json/faketypes.py
+#: lang/json/GENERIC_from_json.py
 msgid "note"
 msgid_plural "notes"
 msgstr[0] ""
@@ -21161,6 +21161,51 @@ msgid ""
 "Shall possess the power to...\n"
 "CRUSH!!'"
 msgstr ""
+
+#: lang/json/GENERIC_from_json.py
+msgid "corpse"
+msgid_plural "corpses"
+msgstr[0] ""
+msgstr[1] ""
+
+#: lang/json/GENERIC_from_json.py
+msgid "A dead body."
+msgstr ""
+
+#: lang/json/GENERIC_from_json.py
+msgid "nearby fire"
+msgid_plural "none"
+msgstr[0] ""
+msgstr[1] ""
+
+#: lang/json/GENERIC_from_json.py
+#: lang/json/TOOL_from_json.py
+msgid "seeing this is a bug"
+msgid_plural "seeing this is a bugs"
+msgstr[0] ""
+msgstr[1] ""
+
+#: lang/json/GENERIC_from_json.py
+msgid "a smoking device and a source of flame"
+msgid_plural "none"
+msgstr[0] ""
+msgstr[1] ""
+
+#: lang/json/GENERIC_from_json.py lang/json/terrain_from_json.py
+msgid "cvd machine"
+msgid_plural "none"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Adjective in "You block <adjective> of the damage with your <weapon>.
+#: lang/json/GENERIC_from_json.py lang/json/ammunition_type_from_json.py
+#: lang/json/ammunition_type_from_json.py
+#: lang/json/ammunition_type_from_json.py lang/json/trap_from_json.py
+#: src/advanced_inv.cpp src/melee.cpp
+msgid "none"
+msgid_plural "none"
+msgstr[0] ""
+msgstr[1] ""
 
 #: lang/json/GENERIC_from_json.py
 msgid "withered plant"
@@ -24120,6 +24165,56 @@ msgstr[1] ""
 msgid ""
 "A folded glossy handout that appears to be an introduction to living in a "
 "massive underground complex."
+msgstr ""
+
+#: lang/json/GENERIC_from_json.py
+msgid "misc software"
+msgid_plural "none"
+msgstr[0] ""
+msgstr[1] ""
+
+#: lang/json/GENERIC_from_json.py
+msgid "A miscellaneous piece of hobby software. Probably useless."
+msgstr ""
+
+#: lang/json/GENERIC_from_json.py
+msgid "hackPRO"
+msgid_plural "none"
+msgstr[0] ""
+msgstr[1] ""
+
+#: lang/json/GENERIC_from_json.py
+msgid "A piece of hacking software."
+msgstr ""
+
+#: lang/json/GENERIC_from_json.py
+msgid "MediSoft"
+msgid_plural "none"
+msgstr[0] ""
+msgstr[1] ""
+
+#: lang/json/GENERIC_from_json.py
+msgid "A piece of medical software."
+msgstr ""
+
+#: lang/json/GENERIC_from_json.py
+msgid "MatheMAX"
+msgid_plural "none"
+msgstr[0] ""
+msgstr[1] ""
+
+#: lang/json/GENERIC_from_json.py
+msgid "A piece of mathematical software."
+msgstr ""
+
+#: lang/json/GENERIC_from_json.py
+msgid "infection data"
+msgid_plural "none"
+msgstr[0] ""
+msgstr[1] ""
+
+#: lang/json/GENERIC_from_json.py
+msgid "Medical data on zombie blood."
 msgstr ""
 
 #: lang/json/GENERIC_from_json.py
@@ -29824,6 +29919,18 @@ msgid ""
 msgstr ""
 
 #: lang/json/MONSTER_from_json.py
+msgid "Smoky bear"
+msgid_plural "Smoky bears"
+msgstr[0] ""
+msgstr[1] ""
+
+#: lang/json/MONSTER_from_json.py
+msgid ""
+"A smoking husk is all that remains of this once proud bear.  Its black eyes "
+"gaze at you with malice... and hunger."
+msgstr ""
+
+#: lang/json/MONSTER_from_json.py
 msgid "bobcat"
 msgid_plural "bobcats"
 msgstr[0] ""
@@ -29957,6 +30064,7 @@ msgid ""
 msgstr ""
 
 #: lang/json/MONSTER_from_json.py
+#: src/game.cpp
 msgid "dog"
 msgid_plural "dogs"
 msgstr[0] ""
@@ -32146,6 +32254,18 @@ msgid ""
 msgstr ""
 
 #: lang/json/MONSTER_from_json.py
+msgid "decayed paladin"
+msgid_plural "decayed paladins"
+msgstr[0] ""
+msgstr[1] ""
+
+#: lang/json/MONSTER_from_json.py
+msgid ""
+"Despite being encased in a what was once a nigh-impenetrable suit of power "
+"armor, something still managed to kill this soldier."
+msgstr ""
+
+#: lang/json/MONSTER_from_json.py
 msgid "festering boar"
 msgid_plural "festering boars"
 msgstr[0] ""
@@ -33629,12 +33749,6 @@ msgstr[1] ""
 #: lang/json/TOOL_from_json.py
 msgid "HOLY SHIT THIS THING IS ON FIRE"
 msgstr ""
-
-#: lang/json/TOOL_from_json.py
-msgid "seeing this is a bug"
-msgid_plural "seeing this is a bugs"
-msgstr[0] ""
-msgstr[1] ""
 
 #: lang/json/TOOL_from_json.py
 msgid "cash card"
@@ -37506,7 +37620,7 @@ msgid ""
 "catch 'em all."
 msgstr ""
 
-#: lang/json/TOOL_from_json.py lang/json/faketypes.py
+#: lang/json/TOOL_from_json.py
 msgid "integrated toolset"
 msgid_plural "integrated toolsets"
 msgstr[0] ""
@@ -38758,13 +38872,6 @@ msgid ""
 "A wooden board that keeps the boat afloat.  To change a vehicle into a boat, "
 "place as you would wheels on a car. Then attach oars or a motor to get the "
 "boat to move."
-msgstr ""
-
-#. ~ Adjective in "You block <adjective> of the damage with your <weapon>.
-#: lang/json/ammunition_type_from_json.py
-#: lang/json/ammunition_type_from_json.py lang/json/trap_from_json.py
-#: src/advanced_inv.cpp src/melee.cpp
-msgid "none"
 msgstr ""
 
 #: lang/json/ammunition_type_from_json.py
@@ -41915,40 +42022,6 @@ msgid ""
 msgstr ""
 
 #: lang/json/faketypes.py
-msgid "corpse"
-msgid_plural "corpses"
-msgstr[0] ""
-msgstr[1] ""
-
-#: lang/json/faketypes.py
-msgid "nearby fire"
-msgstr ""
-
-#: lang/json/faketypes.py lang/json/terrain_from_json.py
-msgid "cvd machine"
-msgstr ""
-
-#: lang/json/faketypes.py
-msgid "a smoking device and a source of flame"
-msgstr ""
-
-#: lang/json/faketypes.py
-msgid "misc software"
-msgstr ""
-
-#: lang/json/faketypes.py
-msgid "MediSoft"
-msgstr ""
-
-#: lang/json/faketypes.py
-msgid "infection data"
-msgstr ""
-
-#: lang/json/faketypes.py
-msgid "hackPRO"
-msgstr ""
-
-#: lang/json/faketypes.py
 msgid "human"
 msgid_plural "humans"
 msgstr[0] ""
@@ -42016,7 +42089,7 @@ msgstr ""
 
 #: lang/json/furniture_from_json.py
 #: lang/json/terrain_from_json.py
-#: lang/json/terrain_from_json.py src/iuse.cpp
+#: src/iuse.cpp
 msgid "crunch!"
 msgstr ""
 
@@ -42190,9 +42263,9 @@ msgstr ""
 #: lang/json/furniture_from_json.py
 #: lang/json/furniture_from_json.py lang/json/terrain_from_json.py
 #: lang/json/terrain_from_json.py
-#: src/iuse.cpp src/map.cpp
+#: lang/json/terrain_from_json.py src/iuse.cpp src/map.cpp
 #: src/map.cpp
-#: src/monattack.cpp src/ranged.cpp
+#: src/map.cpp src/monattack.cpp src/ranged.cpp
 msgid "glass breaking!"
 msgstr ""
 
@@ -44044,6 +44117,14 @@ msgstr ""
 
 #: lang/json/keybinding_from_json.py
 msgid "Select items in container"
+msgstr ""
+
+#: lang/json/keybinding_from_json.py
+msgid "Select items in vehicle storage"
+msgstr ""
+
+#: lang/json/keybinding_from_json.py
+msgid "Select items currently worn"
 msgstr ""
 
 #: lang/json/keybinding_from_json.py
@@ -49049,8 +49130,8 @@ msgstr ""
 
 #: lang/json/mutation_from_json.py
 msgid ""
-"Your body is covered in painful sores.  The pain is worse when they are "
-"covered in clothing."
+"Your extremities are covered in painful sores.  The pain is worse when they "
+"are covered in clothing."
 msgstr ""
 
 #: lang/json/mutation_from_json.py
@@ -59136,6 +59217,10 @@ msgid "brush."
 msgstr ""
 
 #: lang/json/terrain_from_json.py
+msgid "foliage"
+msgstr ""
+
+#: lang/json/terrain_from_json.py
 msgid "shrub"
 msgstr ""
 
@@ -60889,11 +60974,11 @@ msgstr ""
 #: src/game.cpp
 #: src/game.cpp src/iexamine.cpp
 #: src/iexamine.cpp
-#: src/inventory_ui.cpp src/item_action.cpp src/iuse.cpp
+#: src/iexamine.cpp src/inventory_ui.cpp src/item_action.cpp
 #: src/iuse.cpp
-#: src/iuse_actor.cpp src/player.cpp
-#: src/player.cpp src/veh_interact.cpp
-#: src/vehicle.cpp
+#: src/iuse.cpp src/iuse_actor.cpp
+#: src/player.cpp
+#: src/veh_interact.cpp src/vehicle.cpp
 msgid "Cancel"
 msgstr ""
 
@@ -61562,14 +61647,6 @@ msgid "North East"
 msgstr ""
 
 #: src/advanced_inv.cpp
-msgid "AL"
-msgstr ""
-
-#: src/advanced_inv.cpp
-msgid "Surrounding area"
-msgstr ""
-
-#: src/advanced_inv.cpp
 msgid "GR"
 msgstr ""
 
@@ -61578,11 +61655,35 @@ msgid "Grabbed Vehicle"
 msgstr ""
 
 #: src/advanced_inv.cpp
+msgid "AL"
+msgstr ""
+
+#: src/advanced_inv.cpp
+msgid "Surrounding area"
+msgstr ""
+
+#: src/advanced_inv.cpp
 msgid "CN"
 msgstr ""
 
 #: src/advanced_inv.cpp src/iuse.cpp src/veh_interact.cpp
 msgid "Container"
+msgstr ""
+
+#: src/advanced_inv.cpp
+msgid "VH"
+msgstr ""
+
+#: src/advanced_inv.cpp
+msgid "Vehicle Storage"
+msgstr ""
+
+#: src/advanced_inv.cpp
+msgid "WR"
+msgstr ""
+
+#: src/advanced_inv.cpp
+msgid "Worn Items"
 msgstr ""
 
 #: src/advanced_inv.cpp
@@ -61686,6 +61787,10 @@ msgid "Really move everything from your inventory?"
 msgstr ""
 
 #: src/advanced_inv.cpp
+msgid "Really remove all your clothes? (woo woo)"
+msgstr ""
+
+#: src/advanced_inv.cpp
 msgid "Sort by... "
 msgstr ""
 
@@ -61712,10 +61817,6 @@ msgstr ""
 
 #: src/advanced_inv.cpp
 msgid " (FULL)"
-msgstr ""
-
-#: src/advanced_inv.cpp
-msgid "Invalid.  Like the menu said."
 msgstr ""
 
 #: src/advanced_inv.cpp
@@ -61774,6 +61875,34 @@ msgstr ""
 
 #: src/advanced_inv.cpp
 msgid "R"
+msgstr ""
+
+#: src/advanced_inv.cpp
+msgid "You got a car in your pocket?"
+msgstr ""
+
+#: src/advanced_inv.cpp
+msgid "Don't know how you'd wear a truck..."
+msgstr ""
+
+#: src/advanced_inv.cpp
+msgid "Pick a specific tile! Don't be TOO antsy!"
+msgstr ""
+
+#: src/advanced_inv.cpp
+msgid "In the Cataclysm, it's doubtful you will find a ship in a bottle..."
+msgstr ""
+
+#: src/advanced_inv.cpp
+msgid "Your thoughts drift to a dream within a dream..."
+msgstr ""
+
+#: src/advanced_inv.cpp
+msgid "Where ya gonna put it, genius?"
+msgstr ""
+
+#: src/advanced_inv.cpp
+msgid "Wishing for a Ferrari won't make it happen..."
 msgstr ""
 
 #: src/armor_layers.cpp
@@ -62719,6 +62848,12 @@ msgstr ""
 #: src/auto_pickup.cpp
 #, c-format
 msgid "Failed to write autopickup rules to %s"
+msgstr ""
+
+#. ~ Name of a basecamp
+#: src/basecamp.cpp
+#, c-format
+msgid "%s Board"
 msgstr ""
 
 #: src/bionics.cpp
@@ -65156,6 +65291,10 @@ msgid "%s (%d)"
 msgstr ""
 
 #: src/crafting.cpp
+msgid "Handedness?:"
+msgstr ""
+
+#: src/crafting.cpp
 msgid "Left-handed"
 msgstr ""
 
@@ -66185,8 +66324,8 @@ msgstr ""
 
 #: src/effect.cpp
 msgid ""
-"Oh, there's some crazy shit, man. There's a dude in the bushes. Has he got a "
-"gun? I dunno!"
+"Oh, there's some crazy shit, man.  There's a dude in the bushes.  Has he got "
+"a gun?  I dunno!"
 msgstr ""
 
 #: src/effect.cpp
@@ -69702,6 +69841,10 @@ msgstr ""
 msgid "No controls there."
 msgstr ""
 
+#: src/game.cpp
+msgid "zombie slave"
+msgstr ""
+
 #: src/game.cpp src/player.cpp
 #, c-format
 msgid "What to do with your %s?"
@@ -70406,6 +70549,11 @@ msgstr ""
 
 #: src/game.cpp
 msgid "Consume item:"
+msgstr ""
+
+#: src/game.cpp
+#, c-format
+msgid "You leave the empty %s on the ground"
 msgstr ""
 
 #: src/game.cpp
@@ -75039,30 +75187,6 @@ msgstr ""
 msgid "Result of 100 spawns:"
 msgstr ""
 
-#: src/itypedef.cpp
-msgid "A dead body."
-msgstr ""
-
-#: src/itypedef.cpp
-msgid "A miscellaneous piece of hobby software. Probably useless."
-msgstr ""
-
-#: src/itypedef.cpp
-msgid "A piece of hacking software."
-msgstr ""
-
-#: src/itypedef.cpp
-msgid "A piece of medical software."
-msgstr ""
-
-#: src/itypedef.cpp
-msgid "A piece of mathematical software."
-msgstr ""
-
-#: src/itypedef.cpp
-msgid "Medical data on zombie blood."
-msgstr ""
-
 #: src/iuse.cpp
 #, c-format
 msgid "You remove the double battery capacity mod of your %s!"
@@ -76994,15 +77118,6 @@ msgstr ""
 
 #: src/iuse.cpp
 #, c-format
-msgid "Yeah.  Place the %s at your feet."
-msgstr ""
-
-#: src/iuse.cpp
-msgid "Real damn smart move."
-msgstr ""
-
-#: src/iuse.cpp
-#, c-format
 msgid "You can't place a %s there."
 msgstr ""
 
@@ -77050,6 +77165,16 @@ msgstr ""
 
 #: src/iuse.cpp
 msgid "You set the beartrap."
+msgstr ""
+
+#: src/iuse.cpp
+#, c-format
+msgid "You set the board trap on the %s, nails facing up."
+msgstr ""
+
+#: src/iuse.cpp
+#, c-format
+msgid "You scatter the caltrops on the %s."
 msgstr ""
 
 #: src/iuse.cpp
@@ -77115,6 +77240,15 @@ msgstr ""
 #: src/iuse.cpp
 #, c-format
 msgid "Tried to set a trap.  But got confused! %s"
+msgstr ""
+
+#: src/iuse.cpp
+#, c-format
+msgid "Yeah.  Place the %s at your feet."
+msgstr ""
+
+#: src/iuse.cpp
+msgid "Real damn smart move."
 msgstr ""
 
 #: src/iuse.cpp
@@ -78681,6 +78815,16 @@ msgid "The %s spark with electricity!"
 msgstr ""
 
 #: src/iuse.cpp
+#, c-format
+msgid "The %s are clamped tightly on your wrists.  You can't take them off."
+msgstr ""
+
+#: src/iuse.cpp
+#, c-format
+msgid "The %s have discharged and can be taken off."
+msgstr ""
+
+#: src/iuse.cpp
 msgid "Using RC car:"
 msgstr ""
 
@@ -78714,6 +78858,11 @@ msgstr ""
 
 #: src/iuse.cpp
 msgid "You disarmed your RC car"
+msgstr ""
+
+#. ~Sound of a radio controlled car moving around
+#: src/iuse.cpp
+msgid "buzzz..."
 msgstr ""
 
 #: src/iuse.cpp
@@ -91356,10 +91505,6 @@ msgid "Bionic Speed        +%s%d%%"
 msgstr ""
 
 #: src/player.cpp
-msgid "                          "
-msgstr ""
-
-#: src/player.cpp
 msgid "Base HP:"
 msgstr ""
 
@@ -91419,7 +91564,7 @@ msgstr ""
 #: src/player.cpp
 msgid ""
 "Intelligence is less important in most situations, but it is vital for more "
-"complex tasks like electronics crafting. It also affects how much skill you "
+"complex tasks like electronics crafting.  It also affects how much skill you "
 "can pick up from reading a book."
 msgstr ""
 
@@ -91429,7 +91574,7 @@ msgstr ""
 
 #: src/player.cpp
 msgid ""
-"Perception is the most important stat for ranged combat. It's also used for "
+"Perception is the most important stat for ranged combat.  It's also used for "
 "detecting traps and other things of interest."
 msgstr ""
 
@@ -92052,6 +92197,22 @@ msgstr ""
 
 #: src/player.cpp
 msgid "You feel sick to your stomach."
+msgstr ""
+
+#: src/player.cpp
+msgid "\"I think it's starting to kick in.\""
+msgstr ""
+
+#: src/player.cpp
+msgid "\"Oh God, what's happening?\""
+msgstr ""
+
+#: src/player.cpp
+msgid "\"Of course... it's all fractals!\""
+msgstr ""
+
+#: src/player.cpp
+msgid "\"Huh?  What was that?\""
 msgstr ""
 
 #: src/player.cpp
@@ -92745,7 +92906,8 @@ msgid "Choose drive:"
 msgstr ""
 
 #: src/player.cpp
-msgid "Drink from your hands?"
+#, c-format
+msgid "Drink %s from your hands?"
 msgstr ""
 
 #: src/player.cpp
@@ -95530,6 +95692,10 @@ msgid "The alarm stops."
 msgstr ""
 
 #: src/vehicle.cpp
+msgid "Vehicle controls"
+msgstr ""
+
+#: src/vehicle.cpp
 msgid "Let go of controls"
 msgstr ""
 
@@ -95680,10 +95846,6 @@ msgstr ""
 
 #: src/vehicle.cpp
 msgid "Do nothing"
-msgstr ""
-
-#: src/vehicle.cpp
-msgid "Vehicle controls"
 msgstr ""
 
 #: src/vehicle.cpp
@@ -95968,16 +96130,21 @@ msgid "The %s's reactor dies!"
 msgstr ""
 
 #: src/vehicle.cpp
-msgid "Your engine emits a high pitched whine."
-msgstr ""
-
-#: src/vehicle.cpp
-msgid "Your engine emits a loud grinding sound."
+#, c-format
+msgid "The %s's battery dies!"
 msgstr ""
 
 #: src/vehicle.cpp
 #, c-format
 msgid "The %s's engine dies!"
+msgstr ""
+
+#: src/vehicle.cpp
+msgid "Your engine emits a high pitched whine."
+msgstr ""
+
+#: src/vehicle.cpp
+msgid "Your engine emits a loud grinding sound."
 msgstr ""
 
 #: src/vehicle.cpp
@@ -96155,6 +96322,18 @@ msgid "Turret system is on, but all turrets are configured not to shoot."
 msgstr ""
 
 #: src/vehicle.cpp
+msgid "This turret can't be aimed manually"
+msgstr ""
+
+#: src/vehicle.cpp
+msgid "This turret is not powered"
+msgstr ""
+
+#: src/vehicle.cpp
+msgid "This turret doesn't have enough ammo"
+msgstr ""
+
+#: src/vehicle.cpp
 #, c-format
 msgid "<veh_player>The %s"
 msgstr ""
@@ -96173,6 +96352,10 @@ msgstr ""
 #: src/vehicle.cpp
 #, c-format
 msgid "The %s fires its %s!"
+msgstr ""
+
+#: src/vehicle.cpp
+msgid "Deactivating automatic target acquisition for this turret"
 msgstr ""
 
 #: src/vehicle.cpp
