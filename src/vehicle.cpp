@@ -3649,12 +3649,10 @@ void vehicle::idle(bool on_map) {
     float idle_rate;
 
     if (engine_on && total_power() > 0) {
-        int strn = (int)(strain() * strain() * 100);
         for (size_t e = 0; e < engines.size(); e++){
             size_t p = engines[e];
             if (fuel_left(part_info(p).fuel_type) && is_engine_on(e)) {
                 engines_power += part_power(engines[e]);
-                do_engine_damage(e, strn);
             }
         }
 
@@ -3844,18 +3842,18 @@ void vehicle::thrust (int thd) {
     }
 
     //change vehicles velocity
-    if ((velocity > 0 && velocity + vel_inc < 0) ||
-        (velocity < 0 && velocity + vel_inc > 0)) {
+    if( (velocity > 0 && velocity + vel_inc < 0) ||
+        (velocity < 0 && velocity + vel_inc > 0) ) {
         //velocity within braking distance of 0
         stop ();
-    } else if (!(velocity > max_vel)) { // check engines didn't just explode
+    } else {
         // Increase velocity up to max_vel or min_vel, but not above.
         const int min_vel = -max_vel / 4;
         velocity += vel_inc;
-        if (velocity > 0) {
-            velocity = std::min(velocity, max_vel);
+        if( vel_inc > 0 ) {
+            velocity = std::min( velocity, max_vel );
         } else {
-            velocity = std::max(velocity, min_vel);
+            velocity = std::max( velocity, min_vel );
         }
     }
 }
