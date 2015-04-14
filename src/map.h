@@ -1020,11 +1020,9 @@ protected:
  void build_transparency_cache();
 public:
  void build_outside_cache();
+ void build_seen_cache(const tripoint &origin);
 protected:
  void generate_lightmap();
- void build_seen_cache();
- void castLight( int row, float start, float end, int xx, int xy, int yx, int yy,
-                 const int offsetX, const int offsetY, const int offsetDistance );
 
  int my_MAPSIZE;
 
@@ -1108,9 +1106,9 @@ private:
      * Internal versions of public functions to avoid checking same variables multiple times.
      * They lack safety checks, because their callers already do those.
      */
-    int move_cost_internal(const furn_t &furniture, const ter_t &terrain, 
+    int move_cost_internal(const furn_t &furniture, const ter_t &terrain,
                            const vehicle *veh, const int vpart) const;
-    int bash_rating_internal( const int str, const furn_t &furniture, 
+    int bash_rating_internal( const int str, const furn_t &furniture,
                               const ter_t &terrain, const vehicle *veh, const int part ) const;
 
  long determine_wall_corner(const int x, const int y) const;
@@ -1198,6 +1196,12 @@ friend class editmap;
 public:
  tinymap(int mapsize = 2);
 };
+
+template<int xx, int xy, int yx, int yy>
+    void castLight( bool (&output_cache)[MAPSIZE*SEEX][MAPSIZE*SEEY],
+                    const float (&input_array)[MAPSIZE*SEEX][MAPSIZE*SEEY],
+                    const int offsetX, const int offsetY, const int offsetDistance,
+                    const int row = 1, float start = 1.0f, const float end = 0.0f );
 
 #endif
 

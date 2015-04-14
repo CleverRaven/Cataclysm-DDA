@@ -6389,7 +6389,7 @@ void map::build_map_cache()
         }
     }
 
-    build_seen_cache();
+    build_seen_cache( g->u.pos3() );
     generate_lightmap();
 }
 

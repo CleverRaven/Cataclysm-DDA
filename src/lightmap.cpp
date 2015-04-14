@@ -502,28 +502,25 @@ bool map::pl_sees( const int tx, const int ty, const int max_range )
  * @param starty the vertical component of the starting location
  * @param radius the maximum distance to draw the FOV
  */
-void map::build_seen_cache()
+void map::build_seen_cache(const tripoint &origin)
 {
     memset(seen_cache, false, sizeof(seen_cache));
-    seen_cache[g->u.posx()][g->u.posy()] = true;
+    seen_cache[origin.x][origin.y] = true;
 
-    const int offsetX = g->u.posx();
-    const int offsetY = g->u.posy();
+    castLight<0, 1, 1, 0>( seen_cache, transparency_cache, origin.x, origin.y, 0 );
+    castLight<1, 0, 0, 1>( seen_cache, transparency_cache, origin.x, origin.y, 0 );
 
-    castLight( 1, 1.0f, 0.0f, 0, 1, 1, 0, offsetX, offsetY, 0 );
-    castLight( 1, 1.0f, 0.0f, 1, 0, 0, 1, offsetX, offsetY, 0 );
+    castLight<0, -1, 1, 0>( seen_cache, transparency_cache, origin.x, origin.y, 0 );
+    castLight<-1, 0, 0, 1>( seen_cache, transparency_cache, origin.x, origin.y, 0 );
 
-    castLight( 1, 1.0f, 0.0f, 0, -1, 1, 0, offsetX, offsetY, 0 );
-    castLight( 1, 1.0f, 0.0f, -1, 0, 0, 1, offsetX, offsetY, 0 );
+    castLight<0, 1, -1, 0>( seen_cache, transparency_cache, origin.x, origin.y, 0 );
+    castLight<1, 0, 0, -1>( seen_cache, transparency_cache, origin.x, origin.y, 0 );
 
-    castLight( 1, 1.0f, 0.0f, 0, 1, -1, 0, offsetX, offsetY, 0 );
-    castLight( 1, 1.0f, 0.0f, 1, 0, 0, -1, offsetX, offsetY, 0 );
-
-    castLight( 1, 1.0f, 0.0f, 0, -1, -1, 0, offsetX, offsetY, 0 );
-    castLight( 1, 1.0f, 0.0f, -1, 0, 0, -1, offsetX, offsetY, 0 );
+    castLight<0, -1, -1, 0>( seen_cache, transparency_cache, origin.x, origin.y, 0 );
+    castLight<-1, 0, 0, -1>( seen_cache, transparency_cache, origin.x, origin.y, 0 );
 
     int part;
-    if ( vehicle *veh = veh_at( offsetX, offsetY, part ) ) {
+    if ( vehicle *veh = veh_at( origin.x, origin.y, part ) ) {
         // We're inside a vehicle. Do mirror calcs.
         std::vector<int> mirrors = veh->all_parts_with_feature(VPFLAG_EXTENDS_VISION, true);
         // Do all the sight checks first to prevent fake multiple reflection
@@ -539,7 +536,7 @@ void map::build_seen_cache()
             } else if( !veh->part_info( *m_it ).has_flag( "CAMERA_CONTROL" ) ) {
                 ++m_it;
             } else {
-                if( offsetX == mirror_pos.x && offsetY == mirror_pos.y && veh->camera_on ) {
+                if( origin.x == mirror_pos.x && origin.y == mirror_pos.y && veh->camera_on ) {
                     cam_control = *m_it;
                 }
                 m_it = mirrors.erase( m_it );
@@ -559,7 +556,7 @@ void map::build_seen_cache()
             // don't cheat the light distance falloff.
             int offsetDistance;
             if( !is_camera ) {
-                offsetDistance = rl_dist(offsetX, offsetY, mirror_pos.x, mirror_pos.y);
+                offsetDistance = rl_dist(origin.x, origin.y, mirror_pos.x, mirror_pos.y);
             } else {
                 offsetDistance = 60 - veh->part_info( mirror ).bonus *
                                       veh->parts[mirror].hp / veh->part_info( mirror ).durability;
@@ -571,74 +568,96 @@ void map::build_seen_cache()
             //
             // The naive solution of making the mirrors act like a second player
             // at an offset appears to give reasonable results though.
-            castLight( 1, 1.0f, 0.0f, 0, 1, 1, 0, mirror_pos.x, mirror_pos.y, offsetDistance );
-            castLight( 1, 1.0f, 0.0f, 1, 0, 0, 1, mirror_pos.x, mirror_pos.y, offsetDistance );
+            castLight<0, 1, 1, 0>( seen_cache, transparency_cache,
+                                   mirror_pos.x, mirror_pos.y, offsetDistance );
+            castLight<1, 0, 0, 1>( seen_cache, transparency_cache,
+                                   mirror_pos.x, mirror_pos.y, offsetDistance );
 
-            castLight( 1, 1.0f, 0.0f, 0, -1, 1, 0, mirror_pos.x, mirror_pos.y, offsetDistance );
-            castLight( 1, 1.0f, 0.0f, -1, 0, 0, 1, mirror_pos.x, mirror_pos.y, offsetDistance );
+            castLight<0, -1, 1, 0>( seen_cache, transparency_cache,
+                                    mirror_pos.x, mirror_pos.y, offsetDistance );
+            castLight<-1, 0, 0, 1>( seen_cache, transparency_cache,
+                                    mirror_pos.x, mirror_pos.y, offsetDistance );
 
-            castLight( 1, 1.0f, 0.0f, 0, 1, -1, 0, mirror_pos.x, mirror_pos.y, offsetDistance );
-            castLight( 1, 1.0f, 0.0f, 1, 0, 0, -1, mirror_pos.x, mirror_pos.y, offsetDistance );
+            castLight<0, 1, -1, 0>( seen_cache, transparency_cache,
+                                    mirror_pos.x, mirror_pos.y, offsetDistance );
+            castLight<1, 0, 0, -1>( seen_cache, transparency_cache,
+                                    mirror_pos.x, mirror_pos.y, offsetDistance );
 
-            castLight( 1, 1.0f, 0.0f, 0, -1, -1, 0, mirror_pos.x, mirror_pos.y, offsetDistance );
-            castLight( 1, 1.0f, 0.0f, -1, 0, 0, -1, mirror_pos.x, mirror_pos.y, offsetDistance );
+            castLight<0, -1, -1, 0>( seen_cache, transparency_cache,
+                                     mirror_pos.x, mirror_pos.y, offsetDistance );
+            castLight<-1, 0, 0, -1>( seen_cache, transparency_cache,
+                                     mirror_pos.x, mirror_pos.y, offsetDistance );
         }
     }
 }
 
-void map::castLight( int row, float start, float end, int xx, int xy, int yx, int yy,
-                     const int offsetX, const int offsetY, const int offsetDistance )
+template<int xx, int xy, int yx, int yy>
+void castLight( bool (&output_cache)[MAPSIZE*SEEX][MAPSIZE*SEEY],
+                const float (&input_array)[MAPSIZE*SEEX][MAPSIZE*SEEY],
+                const int offsetX, const int offsetY, const int offsetDistance,
+                const int row, float start, const float end )
 {
     float newStart = 0.0f;
     float radius = 60.0f - offsetDistance;
     if( start < end ) {
         return;
     }
-    bool blocked = false;
-    for( int distance = row; distance <= radius && !blocked; distance++ ) {
-        int deltaY = -distance;
-        for( int deltaX = -distance; deltaX <= 0; deltaX++ ) {
-            int currentX = offsetX + deltaX * xx + deltaY * xy;
-            int currentY = offsetY + deltaX * yx + deltaY * yy;
-            float leftSlope = (deltaX - 0.5f) / (deltaY + 0.5f);
-            float rightSlope = (deltaX + 0.5f) / (deltaY - 0.5f);
+    // Making these static prevents them from being needlessly constructed/destructed all the time.
+    static const tripoint origin(0, 0, 0);
+    tripoint delta(0, 0, 0);
+    for( int distance = row; distance <= radius; distance++ ) {
+        delta.y = -distance;
+        bool started_row = false;
+        float current_transparency = 0.0;
+        for( delta.x = -distance; delta.x <= 0; delta.x++ ) {
+            int currentX = offsetX + delta.x * xx + delta.y * xy;
+            int currentY = offsetY + delta.x * yx + delta.y * yy;
+            float leadingEdge = (delta.x - 0.5f) / (delta.y + 0.5f);
+            float trailingEdge = (delta.x + 0.5f) / (delta.y - 0.5f);
 
-            if( !(currentX >= 0 && currentY >= 0 && currentX < SEEX * my_MAPSIZE &&
-                  currentY < SEEY * my_MAPSIZE) || start < rightSlope ) {
+            if( !(currentX >= 0 && currentY >= 0 && currentX < SEEX * MAPSIZE &&
+                  currentY < SEEY * MAPSIZE) || start < trailingEdge ) {
                 continue;
-            } else if( end > leftSlope ) {
+            } else if( end > leadingEdge ) {
                 break;
+            }
+            if( !started_row ) {
+                started_row = true;
+                current_transparency = input_array[ currentX ][ currentY ];
             }
 
             //check if it's within the visible area and mark visible if so
-            if( rl_dist(0, 0, deltaX, deltaY) <= radius ) {
+            if( rl_dist(origin, delta) <= radius ) {
                 /*
-                float bright = (float) (1 - (rStrat.radius(deltaX, deltaY) / radius));
+                float bright = (float) (1 - (rStrat.radius(delta.x, delta.y) / radius));
                 lightMap[currentX][currentY] = bright;
                 */
-                seen_cache[currentX][currentY] = true;
+                // TODO: handle circular distance.
+                output_cache[ currentX ][ currentY] = true;
             }
 
-            if( blocked ) {
-                //previous cell was a blocking one
-                if( light_transparency(currentX, currentY) == LIGHT_TRANSPARENCY_SOLID ) {
-                    //hit a wall
-                    newStart = rightSlope;
-                    continue;
-                } else {
-                    blocked = false;
+            float new_transparency = input_array[ currentX ][ currentY ];
+
+            if( new_transparency != current_transparency ) {
+                // Only cast recursively if previous span was not opaque.
+                if( current_transparency != LIGHT_TRANSPARENCY_SOLID ) {
+                    castLight<xx, xy, yx, yy>( output_cache, input_array,
+                               offsetX, offsetY, offsetDistance, distance + 1, start, leadingEdge);
+                    newStart = trailingEdge;
+                }
+                // We either recursed into a transparent span, or did NOT recurse into an opaque span,
+                // either way the new span starts at the trailing edge of the previous square.
+                if( new_transparency != LIGHT_TRANSPARENCY_SOLID ) {
                     start = newStart;
                 }
-            } else {
-                if( light_transparency(currentX, currentY) == LIGHT_TRANSPARENCY_SOLID &&
-                    distance < radius ) {
-                    //hit a wall within sight line
-                    blocked = true;
-                    castLight(distance + 1, start, leftSlope, xx, xy, yx, yy,
-                              offsetX, offsetY, offsetDistance);
-                    newStart = rightSlope;
-                }
+                current_transparency = new_transparency;
+            } else if( current_transparency == LIGHT_TRANSPARENCY_SOLID ) {
+                newStart = trailingEdge;
             }
+        }
+        if( current_transparency == LIGHT_TRANSPARENCY_SOLID ) {
+            // If we reach the end of the span with terrain being opaque, we don't iterate further.
+            break;
         }
     }
 }
