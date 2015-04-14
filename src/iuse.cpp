@@ -629,7 +629,7 @@ int iuse::raw_meat(player *p, item *it, bool, point)
         p->add_effect("tapeworm", 1, num_bp, true);
     }
     if ((one_in(64)) && !(p->has_effect("bloodworms") || p->has_bionic("bio_digestion") ||
-                          p->has_trait("PARAIMMUNE"))) {
+                          p->has_trait("PARAIMMUNE") || p->has_trait("ACIDBLOOD"))) {
         p->add_effect("bloodworms", 1, num_bp, true);
     }
     if ((one_in(128)) && !(p->has_effect("brainworm") || p->has_bionic("bio_digestion") ||
@@ -651,7 +651,7 @@ int iuse::raw_fat(player *p, item *it, bool, point)
         p->add_effect("tapeworm", 1, num_bp, true);
     }
     if ((one_in(128)) && !(p->has_effect("bloodworms") || p->has_bionic("bio_digestion") ||
-                           p->has_trait("PARAIMMUNE"))) {
+                           p->has_trait("PARAIMMUNE") || p->has_trait("ACIDBLOOD"))) {
         p->add_effect("bloodworms", 1, num_bp, true);
     }
     if ((one_in(128)) && !(p->has_effect("brainworm") || p->has_bionic("bio_digestion") ||
@@ -664,7 +664,7 @@ int iuse::raw_fat(player *p, item *it, bool, point)
 int iuse::raw_bone(player *p, item *it, bool, point)
 {
     if ((one_in(128)) && !(p->has_effect("bloodworms") || p->has_bionic("bio_digestion") ||
-                           p->has_trait("PARAIMMUNE"))) {
+                           p->has_trait("PARAIMMUNE") || p->has_trait("ACIDBLOOD"))) {
         p->add_effect("bloodworms", 1, num_bp, true);
     }
     return it->type->charges_to_use();
@@ -678,7 +678,7 @@ int iuse::raw_fish(player *p, item *it, bool, point)
         p->add_effect("tapeworm", 1, num_bp, true);
     }
     if ((one_in(256)) && !(p->has_effect("bloodworms") || p->has_bionic("bio_digestion") ||
-                           p->has_trait("PARAIMMUNE"))) {
+                           p->has_trait("PARAIMMUNE") || p->has_trait("ACIDBLOOD"))) {
         p->add_effect("bloodworms", 1, num_bp, true);
     }
     if ((one_in(256)) && !(p->has_effect("brainworm") || p->has_bionic("bio_digestion") ||
@@ -700,7 +700,7 @@ int iuse::raw_wildveg(player *p, item *it, bool, point)
         p->add_effect("tapeworm", 1, num_bp, true);
     }
     if ((one_in(256)) && !(p->has_effect("bloodworms") || p->has_bionic("bio_digestion") ||
-                           p->has_trait("PARAIMMUNE"))) {
+                           p->has_trait("PARAIMMUNE") || p->has_trait("ACIDBLOOD"))) {
         p->add_effect("bloodworms", 1, num_bp, true);
     }
     if ((one_in(512)) && !(p->has_effect("brainworm") || p->has_bionic("bio_digestion") ||
@@ -6018,6 +6018,7 @@ int iuse::vacutainer(player *p, item *it, bool, point)
     }
 
     item blood("blood", calendar::turn);
+    item acid("acid", calendar::turn);
     bool drew_blood = false;
     for( auto &map_it : g->m.i_at(p->posx(), p->posy()) ) {
         if( map_it.is_corpse() &&
@@ -6029,6 +6030,10 @@ int iuse::vacutainer(player *p, item *it, bool, point)
 
     if (!drew_blood && query_yn(_("Draw your own blood?"))) {
         drew_blood = true;
+        if (p->has_trait ("ACIDBLOOD")) {
+            it->put_in(acid);
+            return it->type->charges_to_use();
+        }
     }
 
     if (!drew_blood) {
