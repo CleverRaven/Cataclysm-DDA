@@ -164,7 +164,7 @@ class map
     visibility_type get_visibility( const lit_level ll,
                                     const visibility_variables &cache ) const;
 
-    bool apply_vision_effects( WINDOW *w, const point center, lit_level ll,
+    bool apply_vision_effects( WINDOW *w, lit_level ll,
                                const visibility_variables &cache ) const;
 
  /** Draw a visible part of the map into `w`.

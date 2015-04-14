@@ -4926,7 +4926,7 @@ visibility_type map::get_visibility( const lit_level ll, const visibility_variab
     return VIS_HIDDEN;
 }
 
-bool map::apply_vision_effects( WINDOW *w, const point center, lit_level ll,
+bool map::apply_vision_effects( WINDOW *w, lit_level ll,
                                 const visibility_variables &cache ) const {
     int symbol = ' ';
     nc_color color = c_black;
@@ -4989,7 +4989,7 @@ void map::draw(WINDOW* w, const point center)
         }
         for( ; x < MAPSIZE * SEEX && x <= center.x + getmaxx(w) / 2; x++ ) {
             const lit_level lighting = visibility_cache[x][y];
-            if( !apply_vision_effects( w, center, x, y, lighting, cache ) ) {
+            if( !apply_vision_effects( w, lighting, cache ) ) {
                 drawsq( w, g->u, x, y, false, true, center.x, center.y,
                         lighting == LL_LOW, lighting == LL_BRIGHT, true );
             }
