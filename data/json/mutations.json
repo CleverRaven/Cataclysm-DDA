@@ -4361,7 +4361,7 @@
         "points" : 3,
         "visibility" : 0,
         "ugliness" : 0,
-        "description" : "Your flesh is immune to the damaging effects of acid.",
+        "description" : "Your mutated flesh is immune to the damaging effects of acid.",
         "valid": false
     },{
         "type" : "mutation",
@@ -4371,8 +4371,9 @@
         "visibility" : 0,
         "ugliness" : 0,
         "mixed_effect" : true,
-        "description" : "You have acid for blood.",
-        "valid": false
+        "description" : "Your body has developed a a wonderful defense mechanism.  Instead of normal blood, you bleed a strong molecular acid which will damage any creature foolish enough to harm you.",
+        "valid": false,
+        "prereqs" : ["ACIDPROOF"]
     },{
         "type" : "mutation",
         "id" : "PROF_POLICE",
