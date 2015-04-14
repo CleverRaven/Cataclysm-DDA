@@ -2262,11 +2262,12 @@ void map::decay_fields_and_scent( const int amount )
                     const int x = sx + smx * SEEX;
                     const int y = sy + smy * SEEY;
 
+                    field &fields = cur_submap->fld[sx][sy];
                     if( !outside_cache[x][y] ) {
+                        to_proc -= fields.fieldCount();
                         continue;
                     }
 
-                    field &fields = cur_submap->fld[sx][sy];
                     for( auto &fp : fields ) {
                         to_proc--;
                         field_entry &cur = fp.second;
