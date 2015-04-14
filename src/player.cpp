@@ -10215,7 +10215,6 @@ bool player::wear_item(item *to_wear, bool interactive)
         }
 
         // this simply checked if it was zero, I've updated this for the new encumb system
-        if (to_wear->covers(bp_head) && (encumb(bp_head) + to_wear->get_encumber()) > 20) {
             if(interactive) {
                 add_msg(m_info, wearing_something_on(bp_head) ?
                                 _("You can't wear another helmet!") : _("You can't wear a helmet!"));
