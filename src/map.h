@@ -122,7 +122,8 @@ class map
  friend class editmap;
  public:
 // Constructors & Initialization
- map(int mapsize = MAPSIZE);
+ map(int mapsize = MAPSIZE, bool zlev = false);
+ map( bool zlev ) : map( MAPSIZE, zlev ) { }
  ~map();
 
 // Visual Output
@@ -957,7 +958,8 @@ void add_corpse( const tripoint &p );
  bool inbounds(const int x, const int y, const int z) const;
  bool inbounds( const tripoint &p ) const;
 
- int getmapsize() { return my_MAPSIZE; };
+ int getmapsize() const { return my_MAPSIZE; };
+ bool has_zlevels() const { return zlevels; }
 
  // Not protected/private for mapgen_functions.cpp access
  void rotate(const int turns);// Rotates the current map 90*turns degress clockwise
@@ -1025,6 +1027,7 @@ protected:
  void generate_lightmap();
 
  int my_MAPSIZE;
+ bool zlevels;
 
  mutable std::list<item> nulitems; // Returned when &i_at() is asked for an OOB value
  mutable ter_id nulter;  // Returned when &ter() is asked for an OOB value
@@ -1194,7 +1197,7 @@ class tinymap : public map
 {
 friend class editmap;
 public:
- tinymap(int mapsize = 2);
+ tinymap(int mapsize = 2, bool zlevels = false);
 };
 
 template<int xx, int xy, int yx, int yy>

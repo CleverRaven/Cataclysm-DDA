@@ -963,6 +963,12 @@ void initOptions()
                                    true
                                   );
 
+    mOptionsSort["world_default"]++;
+
+    OPTIONS["ZLEVELS"] = cOpt( "world_default", _("Experimental z-levels"),
+                               _("If true, experimental z-level maps will be enabled. This feature is not finished yet and turning it on will only slow the game down."),
+                               false );
+
     for (unsigned i = 0; i < vPages.size(); ++i) {
         mPageItems[i].resize(mOptionsSort[vPages[i].first]);
     }
