@@ -1659,11 +1659,8 @@ void mattack::impale(monster *z, int index)
     bool seen = g->u.sees( *z );
 
     z->reset_special(index); // Reset timer
-    z->moves -= 100;
+    z->moves -= 80;
     bool uncanny = foe != nullptr && foe->uncanny_dodge();
-
-    add_msg(m_bad, _("%s impales you!"), _("%s impales <npcname>!"),
-                                  z->disp_name().c_str());
     if( uncanny || dodge_check(z, target) ){
     if( foe != nullptr ) {
         if( seen ) {
@@ -1682,11 +1679,8 @@ void mattack::impale(monster *z, int index)
     return;
     }
     auto hit = bp_torso;
-    int dam = rng(10, 20);
-    foe->apply_damage( z, bp_torso, dam * rng( 1, 3 ) );
-    foe->moves -= dam * 20;
-    dam = target->deal_damage( z, hit, damage_instance( DT_BASH, dam ) ).total_damage();
-
+    int dam = rng(10, 15);
+    dam = target->deal_damage( z, hit, damage_instance( DT_CUT, dam ) ).total_damage();
     if( dam > 0 && foe != nullptr ) {
         if( seen ) {
             auto msg_type = foe == &g->u ? m_bad : m_info;
@@ -1697,20 +1691,21 @@ void mattack::impale(monster *z, int index)
                                         z->name().c_str());
         }
         foe->practice( "dodge", z->type->melee_skill );
-        if( one_in( 14 - dam ) ) {
-            if( foe->has_effect("impaled", hit)) {
-                foe->add_effect("impaled", 400, hit, true);
-            } else if( foe->has_effect( "infected", hit ) ) {
+        if( one_in( 10 - dam ) ) {
+            if( foe->has_effect( "infected", hit ) ) {
                 foe->add_effect( "infected", 50, hit, true );
+                foe->apply_damage( z, bp_torso, dam * rng( 2, 3 ) );
+                foe->moves -= dam * 20;
             } else {
-                foe->add_effect( "impaled", 1, hit, true );
+                foe->apply_damage( z, bp_torso, dam * rng( 2, 3 ) );
+                foe->moves -= dam * 20;
             }
         }
         foe->check_dead_state();
     } else if( foe != nullptr ) {
         if( seen ) {
-            foe->add_msg_player_or_npc( _("The %1$s impales your %2$s, but fails to penetrate armor!"),
-                                        _("The %1$s impales <npcname>'s %2$s, but fails to penetrate armor!"),
+            foe->add_msg_player_or_npc( _("The %1$s impales your %2$s, but fails to penetrate your armor!"),
+                                        _("The %1$s impales <npcname>'s %2$s, but fails to penetrate their armor!"),
                                         z->name().c_str(),
                                         body_part_name_accusative( hit ).c_str() );
         }

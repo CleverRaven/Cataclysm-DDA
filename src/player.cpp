@@ -6733,6 +6733,11 @@ void player::hardcoded_effects(effect &it)
         dodges_left = 0;
         // Set ourselves up for removal
         it.set_duration(0);
+    } else if (id == "impaled") {
+        blocks_left -= 2;
+        dodges_left = 0;
+        // Set ourselves up for removal
+        it.set_duration(0);
     } else if (id == "bite") {
         bool recovered = false;
         // Recovery chance
@@ -10215,7 +10220,7 @@ bool player::wear_item(item *to_wear, bool interactive)
         }
 
         // this simply checked if it was zero, I've updated this for the new encumb system
-        if (to_wear->covers(bp_head) && (encumb(bp_head) + to_wear->get_encumber()) > 20) {
+        if (to_wear->covers(bp_head) && (encumb(bp_head) + to_wear->get_encumber()) > 200) {
             if(interactive) {
                 add_msg(m_info, wearing_something_on(bp_head) ?
                                 _("You can't wear another helmet!") : _("You can't wear a helmet!"));

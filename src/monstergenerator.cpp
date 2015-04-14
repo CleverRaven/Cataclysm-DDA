@@ -287,6 +287,7 @@ void MonsterGenerator::init_attack()
     attack_map["UPGRADE"] = &mattack::upgrade;
     attack_map["BREATHE"] = &mattack::breathe;
     attack_map["BITE"] = &mattack::bite;
+    attack_map["IMPALE"] = &mattack::impale;
     attack_map["BRANDISH"] = &mattack::brandish;
     attack_map["FLESH_GOLEM"] = &mattack::flesh_golem;
     attack_map["LUNGE"] = &mattack::lunge;
