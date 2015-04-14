@@ -7166,7 +7166,7 @@
     "color": "light_gray",
     "symbol": ";",
     "name": "chemistry set",
-    "description": "This is a chemistry set stored in a bag.  The contents include glass containers, hoses, metal wire and hotplate.  It might be used to craft some chemistry projects if you're so inclined.",
+    "description": "This is a chemistry set stored in a bag.  The contents include glass containers, hoses, metal wire, a hotplate, and safety glasses.  It might be used to craft some chemistry projects if you're so inclined.",
     "price": 20000,
     "material": ["glass", "cotton"],
     "weight": 5200,
