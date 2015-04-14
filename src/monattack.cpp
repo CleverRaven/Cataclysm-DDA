@@ -1645,6 +1645,81 @@ void mattack::leap(monster *z, int index)
     }
 }
 
+void mattack::impale(monster *z, int index)
+{
+    if( !z->can_act() ) {
+        return;
+    }
+    Creature *target = z->attack_target();
+    if( target == nullptr || rl_dist( z->pos(), target->pos() ) > 1 ) {
+        return;
+    }
+
+    player *foe = dynamic_cast< player* >( target );
+    bool seen = g->u.sees( *z );
+
+    z->reset_special(index); // Reset timer
+    z->moves -= 100;
+    bool uncanny = foe != nullptr && foe->uncanny_dodge();
+
+    add_msg(m_bad, _("%s impales you!"), _("%s impales <npcname>!"),
+                                  z->disp_name().c_str());
+    if( uncanny || dodge_check(z, target) ){
+    if( foe != nullptr ) {
+        if( seen ) {
+            auto msg_type = foe == &g->u ? m_warning : m_info;
+            foe->add_msg_player_or_npc( msg_type, _("The %s lunges at you, but you dodge!"),
+                                                _("The %s lunges at <npcname>, but they dodge!"),
+                                            z->name().c_str() );
+        }
+        if( !uncanny ) {
+            foe->practice( "dodge", z->type->melee_skill * 2 );
+            foe->ma_ondodge_effects();
+        }
+    } else if( seen ) {
+        add_msg( _("The %s lunges at %s, but misses!"), z->name().c_str(), target->disp_name().c_str() );
+    }
+    return;
+    }
+    auto hit = bp_torso;
+    int dam = rng(10, 20);
+    foe->apply_damage( z, bp_torso, dam * rng( 1, 3 ) );
+    foe->moves -= dam * 20;
+    dam = target->deal_damage( z, hit, damage_instance( DT_BASH, dam ) ).total_damage();
+
+    if( dam > 0 && foe != nullptr ) {
+        if( seen ) {
+            auto msg_type = foe == &g->u ? m_bad : m_info;
+            //~ 1$s is monster name, 2$s bodypart in accusative
+            foe->add_msg_player_or_npc( msg_type,
+                                        _("The %1$s impales your torso!"),
+                                        _("The %1$s impales <npcname>'s torso!"),
+                                        z->name().c_str());
+        }
+        foe->practice( "dodge", z->type->melee_skill );
+        if( one_in( 14 - dam ) ) {
+            if( foe->has_effect("impaled", hit)) {
+                foe->add_effect("impaled", 400, hit, true);
+            } else if( foe->has_effect( "infected", hit ) ) {
+                foe->add_effect( "infected", 50, hit, true );
+            } else {
+                foe->add_effect( "impaled", 1, hit, true );
+            }
+        }
+        foe->check_dead_state();
+    } else if( foe != nullptr ) {
+        if( seen ) {
+            foe->add_msg_player_or_npc( _("The %1$s impales your %2$s, but fails to penetrate armor!"),
+                                        _("The %1$s impales <npcname>'s %2$s, but fails to penetrate armor!"),
+                                        z->name().c_str(),
+                                        body_part_name_accusative( hit ).c_str() );
+        }
+    } else if( seen ) {
+        add_msg( _("The %s impales %s!"), z->name().c_str(), target->disp_name().c_str() );
+    }
+    target->check_dead_state();
+}
+
 void mattack::dermatik(monster *z, int index)
 {
     if( !z->can_act() ) {

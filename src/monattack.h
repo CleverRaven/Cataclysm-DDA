@@ -32,6 +32,7 @@ void fungus_growth      (monster *z, int index); // Sporeling -> fungaloid
 void fungus_sprout      (monster *z, int index); // Grow fungal walls
 void fungus_fortify     (monster *z, int index); // Grow fungal hedgerows
 void leap               (monster *z, int index);
+void impale             (monster *z, int index);
 void dermatik           (monster *z, int index);
 void dermatik_growth    (monster *z, int index);
 void plant              (monster *z, int index);
