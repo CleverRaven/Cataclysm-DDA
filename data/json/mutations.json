@@ -4356,6 +4356,16 @@
         "threshold": true
     },{
         "type" : "mutation",
+        "id" : "ACIDBLOOD",
+        "name" : "Acid Blood",
+        "points" : 3,
+        "visibility" : 0,
+        "ugliness" : 0,
+        "mixed_effect" : true,
+        "description" : "You have acid for blood.",
+        "valid": false
+    },{
+        "type" : "mutation",
         "id" : "PROF_POLICE",
         "name" : "Police Officer",
         "points" : 0,

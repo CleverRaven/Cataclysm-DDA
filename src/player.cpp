@@ -4583,6 +4583,19 @@ void player::on_gethit(Creature *source, body_part bp_hit, damage_instance &) {
             ods_shock_damage.add_damage(DT_ELECTRIC, rng(10,40));
             source->deal_damage(this, bp_torso, ods_shock_damage);
         }
+        if (has_trait("ACIDBLOOD") && !one_in(3)) {
+            if (is_player()) {
+                add_msg(m_good, _("Your acidic blood splashes %s in mid-attack!"),
+                                source->disp_name().c_str());
+            } else if (u_see) {
+                add_msg(_("%s's acidic blood splashes on %s in mid-attack!"),
+                            disp_name().c_str(),
+                            source->disp_name().c_str());
+            }
+            damage_instance acidblood_damage;
+            acidblood_damage.add_damage(DT_ACID, rng(1,4));
+            source->deal_damage(this, bp_torso, acidblood_damage);
+        }
         if ((!(wearing_something_on(bp_hit))) && (has_trait("SPINES") || has_trait("QUILLS"))) {
             int spine = rng(1, (has_trait("QUILLS") ? 20 : 8));
             if (!is_player()) {
@@ -13168,6 +13181,8 @@ void player::burn_move_stamina( int moves )
 }
 
 field_id player::playerBloodType() const {
+    if (has_trait("ACIDBLOOD"))
+        return fd_acid;
     if (has_trait("THRESH_PLANT"))
         return fd_blood_veggy;
     if (has_trait("THRESH_INSECT") || has_trait("THRESH_SPIDER"))
