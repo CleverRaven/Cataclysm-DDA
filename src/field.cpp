@@ -1897,7 +1897,7 @@ void map::monster_in_field( monster &z )
     // later by the field processing, which will also adjust field_count accordingly.
     for( auto field_list_it = curfield.begin(); field_list_it != curfield.end(); ++field_list_it ) {
         field_entry * cur = &field_list_it->second;
-        if( cur->isAlive() ) {
+        if( !cur->isAlive() ) {
             continue;
         }
 
