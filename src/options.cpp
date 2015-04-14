@@ -922,6 +922,11 @@ void initOptions()
                                     14, 127, 14
                                    );
 
+    OPTIONS["CONSTRUCTION_SCALING"] = cOpt("world_default", _("Construction scaling"),
+                                           _(" Multiplies the speed of construction by the given percentage. '0' automatically scales construction to match the world's season length."),
+                                           0, 1000, 100
+                                           );
+
     mOptionsSort["world_default"]++;
 
     OPTIONS["STATIC_SPAWN"] = cOpt("world_default", _("Static spawn"),
