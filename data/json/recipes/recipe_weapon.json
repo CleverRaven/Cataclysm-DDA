@@ -2788,7 +2788,7 @@
       [ "welder_crude", 25 ],
       [ "toolset", 15 ],
       [ "small_repairkit", 15 ],
-      [ "small_repairkit", 15 ]
+      [ "large_repairkit", 15 ]
     ]
   ],
   "components": [
