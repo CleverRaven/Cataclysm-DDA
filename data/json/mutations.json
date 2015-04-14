@@ -4362,7 +4362,7 @@
         "visibility" : 0,
         "ugliness" : 0,
         "description" : "Your mutated flesh is immune to the damaging effects of acid.",
-        "valid": false
+        "threshreq" : ["THRESH_INSECT", "THRESH_CHIMERA", "THRESH_MEDICAL", "THRESH_SLIME"]
     },{
         "type" : "mutation",
         "id" : "ACIDBLOOD",
@@ -4370,10 +4370,9 @@
         "points" : 4,
         "visibility" : 0,
         "ugliness" : 0,
-        "mixed_effect" : true,
         "description" : "Your body has developed a a wonderful defense mechanism.  Instead of normal blood, you bleed a strong molecular acid which will damage any creature foolish enough to harm you.",
-        "valid": false,
-        "prereqs" : ["ACIDPROOF"]
+        "prereqs" : ["ACIDPROOF"],
+        "threshreq" : ["THRESH_INSECT", "THRESH_CHIMERA", "THRESH_MEDICAL", "THRESH_SLIME"]
     },{
         "type" : "mutation",
         "id" : "PROF_POLICE",
