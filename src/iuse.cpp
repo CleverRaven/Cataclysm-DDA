@@ -6032,6 +6032,14 @@ int iuse::vacutainer(player *p, item *it, bool, point)
         drew_blood = true;
         if (p->has_trait ("ACIDBLOOD")) {
             it->put_in(acid);
+            if (one_in(2) && it->damage <= 3){
+                it->damage++;
+                p->add_msg_if_player(m_info, _("Your acidic blood damages the %s!"), it->tname().c_str());
+            }
+            if (!one_in(4) && it->damage >= 4){
+                p->inv.remove_item(it);
+                p->add_msg_if_player(m_info, _("Your acidic blood melts the %s, destroying it!"), it->tname().c_str());
+            }
             return it->type->charges_to_use();
         }
     }
