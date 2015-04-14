@@ -428,7 +428,7 @@
   "result": "battery",
   "category": "CC_ELECTRONIC",
   "subcategory": "CSC_ELECTRONIC_COMPONENTS",
-  "skill_used": "fabrication",
+  "skill_used": "chemistry",
   "skills_required": [ "electronics", 1 ],
   "difficulty": 2,
   "time": 5000,
