@@ -152,6 +152,7 @@ void Character::recalc_hp()
 {
     int new_max_hp[num_hp_parts];
     for( auto &elem : new_max_hp ) {
+        ///\xrefitem Stat_Effects_Strength "" "" Max Strength increases base hp
         elem = 60 + str_max * 3;
         if (has_trait("HUGE")) {
             // Bad-Huge doesn't quite have the cardio/skeletal/etc to support the mass,
@@ -674,7 +675,9 @@ void Character::reset_stats()
         mod_dodge_bonus(-4);
     }
 
+    ///\xrefitem Stat_Effects_Strength "" "" Max Strength above 15 decreases Dodge bonus (NEGATIVE)
     if (str_max >= 16) {mod_dodge_bonus(-1);} // Penalty if we're huge
+    ///\xrefitem Stat_Effects_Strength "" "" Max Strength below 6 increases Dodge bonus
     else if (str_max <= 5) {mod_dodge_bonus(1);} // Bonus if we're small
 
     nv_cached = false;

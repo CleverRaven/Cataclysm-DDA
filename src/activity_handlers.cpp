@@ -146,8 +146,11 @@ void activity_handlers::butcher_finish( player_activity *act, player *p )
 
     auto roll_butchery = [&] () {
         double skill_shift = 0.;
+        ///\xrefitem Skill_Effects_Survival "" "" Survival above 3 randomly increases Butcher rolls
         skill_shift += rng( 0, sSkillLevel - 3 );
+        ///\xrefitem Stat_Effects_Dexterity "" "" Dexterity above 8 randomly increases Butcher rolls, slightly
         skill_shift += rng( 0, p->dex_cur - 8 ) / 4;
+        ///\xrefitem Stat_Effects_Strength "" "" Strength below 4 randomly decreases Butcher rolls, slightly
         if( p->str_cur < 4 ) {
             skill_shift -= rng( 0, 5 * ( 4 - p->str_cur ) ) / 4;
         }
@@ -767,8 +770,10 @@ void activity_handlers::pulp_do_turn( player_activity *act, player *p )
     if( p->weapon.has_flag("STAB") || p->weapon.has_flag("SPEAR") ) {
         cut_power /= 2;
     }
+    ///\xrefitem Stat_Effects_Strength "" "" Strength increases pulping power, with diminishing returns
     double pulp_power = sqrt((double)(p->str_cur + p->weapon.type->melee_dam)) *
         std::min(1.0, sqrt((double)(cut_power + 1)));
+    ///\xrefitem Stat_Effects_Strength "" "" Strength caps pulping power
     pulp_power = std::min(pulp_power, (double)p->str_cur);
     pulp_power *= 20; // constant multiplier to get the chance right
     int moves = 0;
