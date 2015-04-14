@@ -101,6 +101,7 @@ void mapbuffer::save( bool delete_after_save )
     int num_total_submaps = submaps.size();
 
     const tripoint map_origin = overmapbuffer::sm_to_omt_copy( g->m.get_abs_sub() );
+    const bool map_has_zlevels = g != nullptr && g->m.has_zlevels();
 
     // A set of already-saved submaps, in global overmap coordinates.
     std::set<tripoint, pointcomp> saved_submaps;
@@ -135,11 +136,7 @@ void mapbuffer::save( bool delete_after_save )
 
         // delete_on_save deletes everything, otherwise delete submaps
         // outside the current map.
-#ifndef ZLEVELS
-        const bool zlev_del = om_addr.z != g->get_levz();
-#else
-        const bool zlev_del = false;
-#endif
+        const bool zlev_del = !map_has_zlevels && om_addr.z != g->get_levz();
         save_quad( dirname.str(), quad_path.str(), om_addr, submaps_to_delete,
                    delete_after_save || zlev_del ||
                    om_addr.x < map_origin.x || om_addr.y < map_origin.y ||

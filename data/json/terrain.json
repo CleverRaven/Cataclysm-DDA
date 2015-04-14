@@ -3289,7 +3289,16 @@
         "color": "green",
         "move_cost": 0,
         "flags": ["TRANSPARENT", "FLAMMABLE", "NOITEM", "SEALED", "CONTAINER", "REDUCE_SCENT", "PERMEABLE"],
-        "examine_action": "gaspump"
+        "examine_action": "gaspump",
+        "bash": {
+            "str_min": 8, "str_max": 150,
+            "sound": "crunch!",
+            "sound_fail": "clang!",
+            "ter_set": "t_diesel_pump_smashed",
+            "items": [
+                { "item": "scrap", "amount": 1}
+            ]
+        }
     },{
         "type" : "terrain",
         "id" : "t_diesel_pump_smashed",
@@ -3297,7 +3306,19 @@
         "symbol": "&",
         "color": "ltgreen",
         "move_cost": 0,
-        "flags": ["TRANSPARENT", "NOITEM", "REDUCE_SCENT", "PERMEABLE"]
+        "flags": ["TRANSPARENT", "NOITEM", "REDUCE_SCENT", "PERMEABLE"],
+        "bash": {
+            "str_min": 20, "str_max": 150,
+            "explosive": 40,
+            "sound": "metal screeching!",
+            "sound_fail": "clang!",
+            "ter_set": "t_pavement",
+            "items": [
+                { "item": "steel_lump", "amount": 1, "chance": 50 },
+                { "item": "steel_chunk", "amount": 4, "minamount": 1 },
+                { "item": "scrap", "amount": 7, "minamount": 3 }
+            ]
+        }
     },{
         "type" : "terrain",
         "id" : "t_atm",

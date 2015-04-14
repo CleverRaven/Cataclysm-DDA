@@ -3221,7 +3221,7 @@ int iuse::radio_mod( player *p, item *, bool, point )
 
     remove_radio_mod( modded, *p );
 
-    p->add_msg_if_player( _( "You modify your %s to listen for %s activation signal on the radio." ), 
+    p->add_msg_if_player( _( "You modify your %s to listen for %s activation signal on the radio." ),
                           modded.tname().c_str(), colorname.c_str() );
     modded.item_tags.insert( "RADIO_ACTIVATION" );
     modded.item_tags.insert( "RADIO_MOD" );
@@ -3963,11 +3963,13 @@ int iuse::radio_on(player *p, item *it, bool t, point pos)
                 message = weather_forecast( tref.abs_sm_pos );
             }
             for( auto &elem : message ) {
-                if (dice(10, 100) > dice(10, tref.signal_strength * 3)) {
-                    if (!one_in(10)) {
-                        elem = '#';
-                    } else {
+                int signal_roll = dice(10, tref.signal_strength * 3);
+                int static_roll = dice(10, 100);
+                if (static_roll > signal_roll) {
+                    if (static_roll < signal_roll * 1.1 && one_in(4)) {
                         elem = char( rng( 'a', 'z' ) );
+                    } else {
+                        elem = '#';
                     }
                 }
             }
@@ -9040,7 +9042,7 @@ int iuse::radiocontrol(player *p, item *it, bool t, point)
         std::stringstream choice_str;
         choice_str << (choice - 2);
         signal += choice_str.str();
-        
+
         auto item_list = p->get_radio_items();
         for( auto &elem : item_list ) {
             if( ( elem )->has_flag( "BOMB" ) && ( elem )->has_flag( signal ) ) {
