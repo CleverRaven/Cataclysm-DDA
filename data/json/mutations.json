@@ -4356,9 +4356,18 @@
         "threshold": true
     },{
         "type" : "mutation",
+        "id" : "ACIDPROOF",
+        "name" : "Acidproof",
+        "points" : 3,
+        "visibility" : 0,
+        "ugliness" : 0,
+        "description" : "Your flesh is immune to the damaging effects of acid.",
+        "valid": false
+    },{
+        "type" : "mutation",
         "id" : "ACIDBLOOD",
         "name" : "Acid Blood",
-        "points" : 3,
+        "points" : 4,
         "visibility" : 0,
         "ugliness" : 0,
         "mixed_effect" : true,

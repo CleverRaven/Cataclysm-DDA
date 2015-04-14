@@ -11675,6 +11675,9 @@ bool game::plmove(int dx, int dy)
             case fd_electricity:
                 dangerous = !u.is_elec_immune();
                 break;
+            case fd_acid:
+                dangerous = !u.has_trait("ACIDPROOF");
+                break;
             default:
                 dangerous = cur.is_dangerous();
                 break;
