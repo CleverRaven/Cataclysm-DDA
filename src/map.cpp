@@ -1638,18 +1638,7 @@ int map::combined_movecost( const tripoint &from, const tripoint &to,
 
 bool map::has_flag(const std::string &flag, const int x, const int y) const
 {
-    static const std::string flag_str_REDUCE_SCENT("REDUCE_SCENT"); // construct once per runtime, slash delay 90%
-    if (!INBOUNDS(x, y)) {
-        return false;
-    }
-
-    int vpart;
-    const vehicle *veh = veh_at( x, y, vpart );
-    if( veh != nullptr && flag_str_REDUCE_SCENT == flag && veh->obstacle_at_part( vpart ) >= 0 ) {
-        return true;
-    }
-
-    return has_flag_ter_or_furn(flag, x, y);
+    return has_flag_ter_or_furn(flag, x, y); // Does bound checking
 }
 
 bool map::can_put_items(const int x, const int y)
@@ -1686,17 +1675,7 @@ bool map::has_flag_ter_and_furn(const std::string & flag, const int x, const int
 /////
 bool map::has_flag(const ter_bitflags flag, const int x, const int y) const
 {
-    if (!INBOUNDS(x, y)) {
-        return false;
-    }
-
-    int vpart;
-    const vehicle *veh = veh_at( x, y, vpart );
-    if( veh != nullptr && flag == TFLAG_REDUCE_SCENT && veh->obstacle_at_part( vpart ) >= 0 ) {
-        return true;
-    }
-
-    return has_flag_ter_or_furn(flag, x, y);
+    return has_flag_ter_or_furn(flag, x, y); // Does bound checking
 }
 
 bool map::has_flag_ter(const ter_bitflags flag, const int x, const int y) const
@@ -1737,18 +1716,7 @@ bool map::has_flag_ter_and_furn(const ter_bitflags flag, const int x, const int 
 
 bool map::has_flag( const std::string &flag, const tripoint &p ) const
 {
-    static const std::string flag_str_REDUCE_SCENT( "REDUCE_SCENT" ); // construct once per runtime, slash delay 90%
-    if( !inbounds( p ) ) {
-        return false;
-    }
-
-    int vpart;
-    const vehicle *veh = veh_at( p, vpart );
-    if( veh != nullptr && flag_str_REDUCE_SCENT == flag && veh->obstacle_at_part( vpart ) >= 0 ) {
-        return true;
-    }
-
-    return has_flag_ter_or_furn( flag, p );
+    return has_flag_ter_or_furn( flag, p ); // Does bound checking
 }
 
 bool map::can_put_items( const tripoint &p )
@@ -1786,17 +1754,7 @@ bool map::has_flag_ter_and_furn( const std::string & flag, const tripoint &p ) c
 
 bool map::has_flag( const ter_bitflags flag, const tripoint &p ) const
 {
-    if( !inbounds( p ) ) {
-        return false;
-    }
-
-    int vpart;
-    const vehicle *veh = veh_at( p, vpart );
-    if( veh != nullptr && flag == TFLAG_REDUCE_SCENT && veh->obstacle_at_part( vpart ) >= 0 ) {
-        return true;
-    }
-
-    return has_flag_ter_or_furn( flag, p );
+    return has_flag_ter_or_furn( flag, p ); // Does bound checking
 }
 
 bool map::has_flag_ter( const ter_bitflags flag, const tripoint &p ) const
