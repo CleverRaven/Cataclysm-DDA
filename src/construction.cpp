@@ -1558,8 +1558,9 @@ int construction::adjusted_time() const
 }
 
 std::string construction::get_time_string() const
-{
-    const int turns = adjusted_time() / 100;
+{    
+    const float season_mult = calendar::turn.season_length()/91.0;
+    const int turns = (int)(season_mult * adjusted_time() / 100);
     std::string text;
     if( turns < MINUTES( 1 ) ) {
         const int seconds = std::max( 1, turns * 6 );

@@ -1169,7 +1169,8 @@ void player::invalidate_crafting_inventory()
 int recipe::print_time(WINDOW *w, int ypos, int xpos, int width,
                        nc_color col, int batch) const
 {
-    const int turns = batch_time(batch) / 100;
+    const float season_mult = calendar::turn.season_length()/91.0;
+    const int turns = (int)(season_mult * batch_time(batch) / 100);
     std::string text;
     if( turns < MINUTES( 1 ) ) {
         const int seconds = std::max( 1, turns * 6 );
