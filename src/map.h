@@ -771,7 +771,6 @@ void add_corpse( const tripoint &p );
 
 // Fields: 2D overloads that will later be slowly phased out
         const field& field_at( const int x, const int y ) const;
-        int get_field_age( const point p, const field_id t ) const;
         int get_field_strength( const point p, const field_id t ) const;
         int adjust_field_age( const point p, const field_id t, const int offset );
         int adjust_field_strength( const point p, const field_id t, const int offset );
@@ -783,7 +782,8 @@ void add_corpse( const tripoint &p );
         void remove_field( const int x, const int y, const field_id field_to_remove );
 // End of 2D overload block
  bool process_fields(); // See fields.cpp
- bool process_fields_in_submap(submap * const current_submap, const int submap_x, const int submap_y); // See fields.cpp
+ bool process_fields_in_submap( submap * const current_submap, 
+                                const int submap_x, const int submap_y, const int submap_z); // See fields.cpp
         /**
          * Apply field effects to the creature when it's on a square with fields.
          */
@@ -1052,10 +1052,10 @@ protected:
     void set_abs_sub(const int x, const int y, const int z);
 
 private:
-    field& get_field(const int x, const int y);
-    void spread_gas( field_entry *cur, int x, int y, field_id curtype,
+    field& get_field( const tripoint &p );
+    void spread_gas( field_entry *cur, const tripoint &p, field_id curtype,
                         int percent_spread, int outdoor_age_speedup );
-    void create_hot_air( int x, int y, int density );
+    void create_hot_air( const tripoint &p, int density );
 
  bool transparency_cache_dirty;
  bool outside_cache_dirty;

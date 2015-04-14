@@ -2180,7 +2180,12 @@ bool map::is_last_ter_wall(const bool no_furn, const int x, const int y,
 
 bool map::flammable_items_at( const tripoint &p )
 {
-    for( const auto &i : i_at(p) ) {
+    if( has_flag( TFLAG_SEALED, p ) && !has_flag( TFLAG_ALLOW_FIELD_EFFECT, p ) ) {
+        // Sealed containers don't allow fire, so shouldn't allow setting the fire either
+        return false;
+    }
+
+    for( const auto &i : i_at( p ) ) {
         if( i.flammable() ) {
             // Total fire resistance == 0
             return true;
@@ -4696,6 +4701,10 @@ field_entry *map::get_field( const tripoint &p, const field_id t ) {
     return current_submap->fld[lx][ly].findField( t );
 }
 
+field_entry *map::get_field( const point pnt, const field_id t ) {
+    return get_field( tripoint( pnt, abs_sub.z ), t );
+}
+
 bool map::add_field(const tripoint &p, const field_id t, int density, const int age)
 {
     if( !inbounds( p ) ) {
@@ -4723,6 +4732,8 @@ bool map::add_field(const tripoint &p, const field_id t, int density, const int 
         creature_in_field( g->u ); //Hit the player with the field if it spawned on top of them.
     }
 
+    // Dirty the transparency cache now that field processing doesn't always do it
+    set_transparency_cache_dirty();
     return true;
 }
 
@@ -6929,11 +6940,6 @@ const field &map::field_at( const int x, const int y ) const
     return field_at( tripoint( x, y, abs_sub.z ) );
 }
 
-int map::get_field_age( const point p, const field_id t ) const
-{
-    return get_field_age( tripoint( p, abs_sub.z ), t );
-}
-
 int map::get_field_strength( const point p, const field_id t ) const
 {
     return get_field_strength( tripoint( p, abs_sub.z ), t );
@@ -6959,11 +6965,6 @@ int map::set_field_strength( const point p, const field_id t, const int str, boo
     return set_field_strength( tripoint( p, abs_sub.z ), t, str, isoffset );
 }
 
-field_entry *map::get_field( const point p, const field_id t )
-{
-    return get_field( tripoint( p, abs_sub.z ), t );
-}
-
 bool map::add_field(const point p, const field_id t, const int density, const int age)
 {
     return add_field( tripoint( p, abs_sub.z ), t, density, age );
@@ -6979,9 +6980,9 @@ void map::remove_field( const int x, const int y, const field_id field_to_remove
     remove_field( tripoint( x, y, abs_sub.z ), field_to_remove );
 }
 
-field &map::get_field( const int x, const int y )
+field &map::get_field( const tripoint &p )
 {
-    return field_at( tripoint( x, y, abs_sub.z ) );
+    return field_at( p );
 }
 
 void map::creature_on_trap( Creature &c, bool const may_avoid )
