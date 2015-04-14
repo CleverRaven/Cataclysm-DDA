@@ -2180,6 +2180,10 @@ bool map::is_last_ter_wall(const bool no_furn, const int x, const int y,
 
 bool map::flammable_items_at( const tripoint &p )
 {
+    // items in sealed containers don't burn, see field.cpp
+    if( has_flag( "SEALED", p ) ) {
+        return false;
+    }
     for( const auto &i : i_at(p) ) {
         if( i.flammable() ) {
             // Total fire resistance == 0
