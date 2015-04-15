@@ -15146,7 +15146,7 @@
         },
         {
           "id": "mon_dog",
-          "fg": 2799,
+          "fg": 2803,
           "bg": 642,
           "rotates": false
         },
@@ -15158,7 +15158,7 @@
         },
         {
           "id": "mon_dog_thing",
-          "fg": 2803,
+          "fg": 2799,
           "bg": 642,
           "rotates": false
         },
@@ -15236,7 +15236,7 @@
         },
         {
           "id": "mon_fungal_blossom",
-          "fg": 2821,
+          "fg": 2828,
           "bg": 642,
           "rotates": false
         },
@@ -15252,12 +15252,17 @@
           "rotates": false
         },
         {
+          "id": "mon_fungaloid_seeder",
+          "fg": 2821,
+          "rotates": false
+        },
+        {
           "id": "mon_fungal_tendril",
           "fg": 2823,
           "rotates": false
         },
         {
-          "id": "mon_fungal_tower",
+          "id": "mon_fungaloid_tower",
           "fg": 1694,
           "rotates": false
         },
