@@ -2138,6 +2138,10 @@ bool map::is_last_ter_wall(const bool no_furn, const int x, const int y,
 
 bool map::flammable_items_at( const tripoint &p )
 {
+    // items in sealed containers don't burn, see field.cpp
+    if( has_flag( "SEALED", p ) ) {
+        return false;
+    }
     for( const auto &i : i_at(p) ) {
         if( i.flammable() ) {
             // Total fire resistance == 0
@@ -2216,11 +2220,12 @@ void map::decay_fields_and_scent( const int amount )
                     const int x = sx + smx * SEEX;
                     const int y = sy + smy * SEEY;
 
+                    field &fields = cur_submap->fld[sx][sy];
                     if( !outside_cache[x][y] ) {
+                        to_proc -= fields.fieldCount();
                         continue;
                     }
 
-                    field &fields = cur_submap->fld[sx][sy];
                     for( auto &fp : fields ) {
                         to_proc--;
                         field_entry &cur = fp.second;
