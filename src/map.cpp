@@ -4928,8 +4928,8 @@ visibility_type map::get_visibility( const lit_level ll, const visibility_variab
     return VIS_HIDDEN;
 }
 
-bool map::apply_vision_effects( WINDOW *w, const point center, int x, int y,
-                                lit_level ll, const visibility_variables &cache ) const {
+bool map::apply_vision_effects( WINDOW *w, lit_level ll,
+                                const visibility_variables &cache ) const {
     int symbol = ' ';
     nc_color color = c_black;
 
@@ -4958,8 +4958,7 @@ bool map::apply_vision_effects( WINDOW *w, const point center, int x, int y,
             color = c_black;
             break;
     }
-    mvwputch( w, y + getmaxy(w) / 2 - center.y,
-              x + getmaxx(w) / 2 - center.x, color, symbol );
+    wputch( w, color, symbol );
     return true;
 }
 
@@ -4975,13 +4974,31 @@ void map::draw(WINDOW* w, const point center)
     visibility_variables cache;
     update_visibility_cache( cache );
 
-    for( int x = center.x - getmaxx(w)/2; x <= center.x + getmaxx(w)/2; x++ ) {
-        for( int y = center.y - getmaxy(w)/2; y <= center.y + getmaxy(w)/2; y++ ) {
-            const lit_level lighting = visibility_cache[x][y];
-            if( !apply_vision_effects( w, center, x, y, lighting, cache ) ) {
-                drawsq( w, g->u, x, y, false, true, center.x, center.y,
-                        lighting == LL_LOW, lighting == LL_BRIGHT );
+    // X and y are in map coordinates, but might be out of range of the map.
+    // When they are out of range, we just draw '#'s.
+    for( int y = center.y - getmaxy(w) / 2; y <= center.y + getmaxy(w) / 2; y++ ) {
+        wmove( w, y - center.y + getmaxy(w) / 2, 0 );
+        if( y < 0 || y >= MAPSIZE * SEEY ) {
+            for( int x = 0; x < getmaxx(w); x++ ) {
+                wputch( w, c_dkgray, '#' );
             }
+            continue;
+        }
+        int x = center.x - getmaxx(w) / 2;
+        while( x < 0 ) {
+            wputch( w, c_dkgray, '#' );
+            x++;
+        }
+        for( ; x < MAPSIZE * SEEX && x <= center.x + getmaxx(w) / 2; x++ ) {
+            const lit_level lighting = visibility_cache[x][y];
+            if( !apply_vision_effects( w, lighting, cache ) ) {
+                drawsq( w, g->u, x, y, false, true, center.x, center.y,
+                        lighting == LL_LOW, lighting == LL_BRIGHT, true );
+            }
+        }
+        while( x <= center.x + getmaxx(w) / 2 ) {
+            wputch( w, c_dkgray, '#' );
+            x++;
         }
     }
 
@@ -4990,7 +5007,7 @@ void map::draw(WINDOW* w, const point center)
 
 void map::drawsq(WINDOW* w, player &u, const int x, const int y, const bool invert_arg,
                  const bool show_items_arg, const int view_center_x_arg, const int view_center_y_arg,
-                 const bool low_light, const bool bright_light)
+                 const bool low_light, const bool bright_light, const bool inorder)
 {
     // We only need to draw anything if we're not in tiles mode.
     if(is_draw_tiles_mode()) {
@@ -5008,8 +5025,6 @@ void map::drawsq(WINDOW* w, player &u, const int x, const int y, const bool inve
         cx = u.posx();
     if (cy == -1)
         cy = u.posy();
-    const int k = x + getmaxx(w)/2 - cx;
-    const int j = y + getmaxy(w)/2 - cy;
     nc_color tercol;
     const ter_t &curr_ter = ter_at(x,y);
     const furn_t &curr_furn = furn_at(x,y);
@@ -5137,13 +5152,21 @@ void map::drawsq(WINDOW* w, player &u, const int x, const int y, const bool inve
     }
 
     if (invert) {
-        mvwputch_inv(w, j, k, tercol, sym);
+        tercol = invert_color(tercol);
     } else if (hi) {
-        mvwputch_hi (w, j, k, tercol, sym);
+        tercol = hilite(tercol);
     } else if (graf) {
-        mvwputch    (w, j, k, red_background(tercol), sym);
+        tercol = red_background(tercol);
+    }
+
+    if( inorder ) {
+        // Rastering the whole map, take advantage of automatically moving the cursor.
+        wputch(w, tercol, sym);
     } else {
-        mvwputch    (w, j, k, tercol, sym);
+        // Otherwise move the cursor before drawing.
+        const int k = x + getmaxx(w) / 2 - cx;
+        const int j = y + getmaxy(w) / 2 - cy;
+        mvwputch(w, j, k, tercol, sym);
     }
 }
 
