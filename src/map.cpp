@@ -7047,8 +7047,8 @@ template<typename Functor>
     // Submaps that contain the bounding points
     const int min_smx = minx / SEEX;
     const int min_smy = miny / SEEY;
-    const int max_smx = ( maxx + SEEX - 1 ) / SEEX;
-    const int max_smy = ( maxy + SEEY - 1 ) / SEEY;
+    const int max_smx = maxx / SEEX;
+    const int max_smy = maxy / SEEY;
     // Z outermost, because submaps are flat
     tripoint gp;
     int &z = gp.z;
