@@ -2484,7 +2484,6 @@
   "difficulty": 4,
   "time": 15000,
   "reversible": false,
-  "decomp_learn": 0,
   "autolearn": false,
   "book_learn": [[ "manual_electronics", 2 ] , [ "textbook_electronics", 2 ]],
   "qualities" : [
