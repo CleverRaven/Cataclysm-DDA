@@ -1567,11 +1567,14 @@ void iexamine::aggie_plant(player *p, map *m, int examx, int examy)
             int plantCount = rng(skillLevel / 2, skillLevel);
             if (plantCount >= 12) {
                 plantCount = 12;
+            } else if( plantCount <= 0 ) {
+                plantCount = 1;
             }
+            const int seedCount = std::max( 1l, rng( plantCount / 4, plantCount / 2 ) );
             if( item::count_by_charges( seedType ) ) {
-                m->spawn_item(examx, examy, seedType, 1, rng(plantCount / 4, plantCount / 2), calendar::turn);
+                m->spawn_item(examx, examy, seedType, 1, seedCount, calendar::turn);
             } else {
-                m->spawn_item(examx, examy, seedType, rng(plantCount / 4, plantCount / 2), -1, calendar::turn);
+                m->spawn_item(examx, examy, seedType, seedCount, -1, calendar::turn);
             }
             // making the last two arguments to 1 (amount), 1 (charges) works fine whether the
             // item is counted by charges or not. It will spawn exactly one item with one charge
