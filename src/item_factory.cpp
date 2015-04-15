@@ -442,6 +442,16 @@ void Item_factory::check_definitions() const
                 msg << string_format("invalid tool property %s", comest->tool.c_str()) << "\n";
             }
         }
+        if( type->seed ) {
+            if( !has_template( type->seed->fruit_id ) ) {
+                msg << string_format( "invalid fruit id %s", type->seed->fruit_id.c_str() ) << "\n";
+            }
+            for( auto & b : type->seed->byproducts ) {
+                if( !has_template( b ) ) {
+                    msg << string_format( "invalid byproduct id %s", b.c_str() ) << "\n";
+                }
+            }
+        }
         if( type->ammo ) {
             check_ammo_type( msg, type->ammo->type );
             if( type->ammo->casing != "NULL" && !has_template( type->ammo->casing ) ) {
