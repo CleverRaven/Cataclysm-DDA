@@ -640,8 +640,8 @@ void advanced_inventory::init()
                    uistate.adv_inv_last_coords.y != g->u.posy() ||
                    uistate.adv_inv_last_coords.z != g->u.posz());
 
-    panes[left].sortby  = (advanced_inv_sortby) static_cast<advanced_inv_sortby>(uistate.adv_inv_leftsort);
-    panes[right].sortby = (advanced_inv_sortby) static_cast<advanced_inv_sortby>(uistate.adv_inv_rightsort);
+    panes[left].sortby  = static_cast<advanced_inv_sortby>(uistate.adv_inv_leftsort);
+    panes[right].sortby = static_cast<advanced_inv_sortby>(uistate.adv_inv_rightsort);
     panes[left].area  = (moved == true) ? AIM_ALL : static_cast<aim_location>(uistate.adv_inv_leftarea);
     panes[right].area = (moved == true) ? AIM_INVENTORY : static_cast<aim_location>(uistate.adv_inv_rightarea);
 
@@ -1396,6 +1396,23 @@ void advanced_inventory::display()
             if( !query_charges( destarea, *sitem, action == "MOVE_SINGLE_ITEM", amount_to_move ) ) {
                 continue;
             }
+            /* for now, if the destination target is an area with vehicle storage, use
+             * the vehicle storage instead. users won't expect there items to fall through
+             * cargo storage onto the ground! store the old vehicle information as well! */
+            bool restore = false;
+            aim_location destination = destarea;
+            advanced_inv_area fake(AIM_VEHICLE);
+            // only do this for AIM_ALL
+            if(dpane.area == AIM_ALL && squares[destarea].can_store_in_vehicle()) {
+                auto loc = squares[AIM_VEHICLE].offset_to_location();
+                if(squares[loc].can_store_in_vehicle()) {
+                    // backup old vehicle stuffs
+                    fake.set_vehicle(squares[loc]);
+                    restore = true;
+                }
+                squares[AIM_VEHICLE].set_vehicle(squares[destarea]);
+                destination = AIM_VEHICLE;
+            }
             // This makes sure that all item references in the advanced_inventory_pane::items vector
             // are recalculated, even when they might not have change, but they could (e.g. items
             // taken from inventory, but unable to put into the cargo trunk go back into the inventory,
@@ -1422,7 +1439,9 @@ void advanced_inventory::display()
                         if(srcarea == AIM_INVENTORY) {
                             g->u.i_add(moving_item);
                         } else if(srcarea == AIM_WORN) {
-                            g->u.wear_item(&g->u.i_add(moving_item));
+                            // add the item directly to the player
+                            g->u.wear_item(&moving_item);
+//                            g->u.wear_item(&g->u.i_add(moving_item));
                         }
                         continue;
                     }
@@ -1438,7 +1457,7 @@ void advanced_inventory::display()
                             item *thing = nullptr;
                             if(chargeback) {
                                 thing = &g->u.i_add(elem);
-                            } else if(add_item(destarea, elem, &thing)) {
+                            } else if(add_item(destarea, elem)) {
                                 ++moved;
                             } else {
                                 thing = &g->u.i_add(elem);
@@ -1446,7 +1465,7 @@ void advanced_inventory::display()
                             }
                             // we need to do some removal of possible duplicates
                             if(destarea == AIM_WORN && thing != nullptr && g->u.has_item(thing)) {
-                                g->u.i_rem(thing);
+                                remove_item(*sitem);
                             }
                         }
                         if(moved == 0) {
@@ -1474,19 +1493,6 @@ void advanced_inventory::display()
                     }
                 }
             } else {
-                /* for now, if the destination target is an area with vehicle storage, use
-                 * the vehicle storage instead. users won't expect there items to fall through
-                 * cargo storage onto the ground! store the old vehicle information as well! */
-                bool restore = false;
-                aim_location destination = destarea;
-                advanced_inv_area fake(AIM_VEHICLE);
-                // only do this for AIM_ALL
-                if(dpane.area == AIM_ALL && squares[destarea].can_store_in_vehicle()) {
-                    fake.set_vehicle(squares[AIM_VEHICLE]);
-                    squares[AIM_VEHICLE].set_vehicle(squares[destarea]);
-                    destination = AIM_VEHICLE;
-                    restore = true;
-                }
                 // from map/vehicle: add the item to the destination, if that worked,
                 // remove it from the source, else continue.
                 // TODO: move partial stack with items that are not counted by charges
@@ -1502,16 +1508,16 @@ void advanced_inventory::display()
                 } else {
                     remove_item( *sitem );
                 }
-                // restore the old vehicle information
-                if(restore == true) {
-                    squares[AIM_VEHICLE].set_vehicle(fake);
-                }
             }
             // This is only reached when at least one item has been moved.
             g->u.moves -= 100;
             // Just in case the items have moved from/to the inventory
             g->u.inv.sort();
             g->u.inv.restack( &g->u );
+            // restore the old vehicle information
+            if(restore == true) {
+                squares[AIM_VEHICLE].set_vehicle(fake);
+            }
         } else if( action == "MOVE_ALL_ITEMS" ) {
             if( move_all_items() ) {
                 exit = true;
@@ -1778,7 +1784,7 @@ void advanced_inventory::remove_item( advanced_inv_listitem &sitem )
     }
 }
 
-bool advanced_inventory::add_item( aim_location destarea, const item &new_item, item **inv_item )
+bool advanced_inventory::add_item( aim_location destarea, item &new_item )
 {
     assert( destarea != AIM_ALL ); // should be a specific location instead
     bool rc = true;
@@ -1787,14 +1793,10 @@ bool advanced_inventory::add_item( aim_location destarea, const item &new_item, 
         g->u.moves -= 100;
         return rc;
     } else if(destarea == AIM_WORN) {
-        // add and equip item, note this can duplicate if proper removal is not done post call.
-        if(inv_item != nullptr) {
-            // return the item's pointer, for removal after call is done
-            *inv_item = &g->u.i_add(new_item);
-            return g->u.wear_item(*inv_item);
-        } else {
-            return g->u.wear_item(&g->u.i_add(new_item));
+        if((rc = g->u.wear_item(&new_item)) == false) {
+            popup(_("You can't wear that!"));
         }
+        return rc;
     } else {
         advanced_inv_area &p = squares[destarea];
         // set the vehicle area for the destination area
@@ -2240,20 +2242,12 @@ bool advanced_inventory::set_vehicle(advanced_inventory_pane &pane, aim_location
 {
     // allow if dragged, otherwise only stick to directions that can store in vehicle cargo
     if(sel > AIM_DRAGGED || sel < AIM_SOUTHWEST || !squares[sel].can_store_in_vehicle()) {
+        swap_panes();
         const char *msg = nullptr;
         // throw in some flavour :^)
         switch(sel) {
             case NUM_AIM_LOCATIONS:
-                msg = _("This here be a bug! [NUM_AIM_LOCATIONS in set_vehicle()]");
-                break;
-            case AIM_INVENTORY:
-                msg = _("You got a car in your pocket?");
-                break;
-            case AIM_WORN:
-                msg = _("Don't know how you'd wear a truck...");
-                break;
-            case AIM_ALL:
-                msg = _("Pick a specific tile! Don't be TOO antsy!");
+                msg = _("This here be a bug! [NUM_AIM_LOCATIONS] in set_vehicle()");
                 break;
             case AIM_CONTAINER:
                 msg = _("In the Cataclysm, it's doubtful you will find a ship in a bottle...");
@@ -2262,9 +2256,9 @@ bool advanced_inventory::set_vehicle(advanced_inventory_pane &pane, aim_location
                 swap_panes();
                 break;
             default:
-                msg = (squares[sel].veh != nullptr) ?
-                    _("Where ya gonna put it, genius?") :
-                    _("Wishing for a Ferrari won't make it happen...");
+                msg = (squares[sel].veh != nullptr) ? 
+                    _("There isn't a cargo area there!") : 
+                    _("There isn't a vehicle there!");
                 break;
         }
         if(msg != nullptr) {
@@ -2283,6 +2277,10 @@ bool advanced_inventory::set_vehicle(advanced_inventory_pane &pane, aim_location
 
 void advanced_inv_area::set_vehicle(advanced_inv_area &s)
 {
+    if(veh == nullptr) {
+        debugmsg("[veh == nullptr] in advanced_inv_area::set_vehicle() [%c]", s.id);
+        return;
+    }
     // get (possible) label for description
     const auto &part = s.veh->parts[s.vstor];
     const auto label = s.veh->get_label(part.mount.x, part.mount.y);
@@ -2292,7 +2290,7 @@ void advanced_inv_area::set_vehicle(advanced_inv_area &s)
     pos = s.pos;
     // copy over offsets
     off = s.off;
-    // vehicle information (if we even reached here, this information is viable)
+    // vehicle information
     veh   = s.veh;
     vstor = s.vstor;
     desc  = (label.empty() == false) ? label : name;

@@ -354,7 +354,7 @@ class advanced_inventory
          * @param inv_item Pointer-pointer for the inventory's item pointer, if applicable.
          * @return true if adding has been done, false if adding the item failed.
          */
-        bool add_item( aim_location destarea, const item &new_item, item **inv_item = nullptr );
+        bool add_item( aim_location destarea, item &new_item );
         /**
          * Move content of source container into destination container (destination pane = AIM_CONTAINER)
          * @param src_container Source container
