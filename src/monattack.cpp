@@ -700,6 +700,12 @@ void mattack::science(monster *const z, int const index) // I said SCIENCE again
     case att_manhack : {
         z->moves -= att_cost_manhack;
 
+        int &cnt = z->ammo["bot_manhack"];
+        if( cnt <= 0 ) {
+            break;
+        }
+        cnt--;
+
         // if the player can see it
         if (g->u.sees(*z)) {
             add_msg(m_warning, _("The %s opens its coat, and a manhack flies out!"),
