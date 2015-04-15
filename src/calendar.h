@@ -25,6 +25,9 @@
 // How much light is provided in full daylight
 #define DAYLIGHT_LEVEL 60
 
+// How long real-life seasons last, in days, for reference
+#define REAL_WORLD_SEASON_LENGTH 91
+
 enum season_type {
     SPRING = 0,
     SUMMER = 1,
@@ -131,6 +134,11 @@ class calendar
             return season_length() * 4;
         }
         static int season_length(); // In days
+        
+        static float season_ratio() //returns relative length of game season to irl season
+        {
+            return static_cast<float>(season_length()) / REAL_WORLD_SEASON_LENGTH;
+        }
 
         int turn_of_year() const
         {
