@@ -1327,9 +1327,6 @@ void advanced_inventory::display()
                 // instead of swapping the vehicle pane, allow per pane vehicle selection
                 if(changeSquare == AIM_VEHICLE) {
                     if(set_vehicle(spane, spane.area) == true) {
-                        if(dpane.area == AIM_ALL) {
-                            dpane.recalc = true;
-                        }
                         spane.area = changeSquare;
                         spane.index = 0;
                         spane.recalc = true;
@@ -1345,11 +1342,19 @@ void advanced_inventory::display()
                     squares[changeSquare].set_container( spane.get_cur_item_ptr() );
                 } else if( spane.area == AIM_CONTAINER ) {
                     squares[changeSquare].set_container( nullptr );
-                } else if( changeSquare == AIM_VEHICLE ) {
-                    okay = set_vehicle(spane, spane.area);
-                    if(dpane.area == AIM_ALL) {
-                        dpane.recalc = true;
+                } else if( squares[changeSquare].can_store_in_vehicle() ) {
+                    // check item stacks in vehicle and map at said square
+                    auto sq = squares[changeSquare];
+                    auto map_stack = g->m.i_at(sq.pos);
+                    auto veh_stack = sq.veh->get_items(sq.vstor);
+                    // auto switch to AIM_VEHICLE if vehicle items are there, or neither are there
+                    if(!veh_stack.empty() || (map_stack.empty() && veh_stack.empty())) {
+                        spane.area = changeSquare;
+                        changeSquare = AIM_VEHICLE;
                     }
+                }
+                if( changeSquare == AIM_VEHICLE ) {
+                    okay = set_vehicle(spane, spane.area);
                 }
                 if(okay == true) {
                     spane.area = changeSquare;
@@ -1357,17 +1362,11 @@ void advanced_inventory::display()
                     spane.recalc = true;
                 }
                 redraw = true;
-                if( dpane.area == AIM_ALL ) {
-                    dpane.recalc = true; // to exclude the items from changed source pane
-                }
             } else if(changeSquare == AIM_VEHICLE && squares[spane.area].canputitems()) {
-                if(set_vehicle(spane, spane.area)) {
+                if(set_vehicle(spane, spane.area) == true) {
                     spane.area = changeSquare;
                     spane.index = 0;
                     spane.recalc = true;
-                    if(dpane.area == AIM_ALL) {
-                        dpane.recalc = true;
-                    }
                 }
                 redraw = true;
             } else {
@@ -1418,7 +1417,6 @@ void advanced_inventory::display()
             // taken from inventory, but unable to put into the cargo trunk go back into the inventory,
             // but are potentially at a different place).
             recalc = true;
-            // FIXME: issue here when moving once with move stack, then moving again
             assert( amount_to_move > 0 );
             if( destarea == AIM_CONTAINER ) {
                 if ( !move_content( *sitem->it, *squares[destarea].get_container() ) ) {
@@ -1439,9 +1437,10 @@ void advanced_inventory::display()
                         if(srcarea == AIM_INVENTORY) {
                             g->u.i_add(moving_item);
                         } else if(srcarea == AIM_WORN) {
-                            // add the item directly to the player
-                            g->u.wear_item(&moving_item);
-//                            g->u.wear_item(&g->u.i_add(moving_item));
+                            if(g->u.wear_item(&moving_item) == false) {
+                                popup(_("You can't wear that!"));
+                                redraw = true;
+                            }
                         }
                         continue;
                     }
@@ -1795,6 +1794,7 @@ bool advanced_inventory::add_item( aim_location destarea, item &new_item )
     } else if(destarea == AIM_WORN) {
         if((rc = g->u.wear_item(&new_item)) == false) {
             popup(_("You can't wear that!"));
+            redraw = true;
         }
         return rc;
     } else {
@@ -2242,9 +2242,7 @@ bool advanced_inventory::set_vehicle(advanced_inventory_pane &pane, aim_location
 {
     // allow if dragged, otherwise only stick to directions that can store in vehicle cargo
     if(sel > AIM_DRAGGED || sel < AIM_SOUTHWEST || !squares[sel].can_store_in_vehicle()) {
-        swap_panes();
         const char *msg = nullptr;
-        // throw in some flavour :^)
         switch(sel) {
             case NUM_AIM_LOCATIONS:
                 msg = _("This here be a bug! [NUM_AIM_LOCATIONS] in set_vehicle()");
@@ -2264,6 +2262,7 @@ bool advanced_inventory::set_vehicle(advanced_inventory_pane &pane, aim_location
         if(msg != nullptr) {
             popup(msg);
         }
+        redraw = true;
         return false;
     }
     // note the location the vehicle is being set to, per pane
@@ -2272,13 +2271,17 @@ bool advanced_inventory::set_vehicle(advanced_inventory_pane &pane, aim_location
     // setup on the square's offsets, as a second safeguard
     auto &valid_square = squares[loc];
     squares[AIM_VEHICLE].set_vehicle(valid_square);
+    // if AIM_ALL, need to recalculate
+    if(panes[dest].area == AIM_ALL) {
+        panes[dest].recalc = true;
+    }
     return true;
 }
 
 void advanced_inv_area::set_vehicle(advanced_inv_area &s)
 {
-    if(veh == nullptr) {
-        debugmsg("[veh == nullptr] in advanced_inv_area::set_vehicle() [%c]", s.id);
+    if(s.veh == nullptr) {
+        debugmsg("[s.veh == nullptr] in advanced_inv_area::set_vehicle() [%c]", s.id);
         return;
     }
     // get (possible) label for description
