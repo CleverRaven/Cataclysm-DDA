@@ -1532,7 +1532,13 @@ void iexamine::aggie_plant(player *p, map *m, int examx, int examy)
             debugmsg("Missing seeds in harvested plant!");
             return;
         }
-        itype_id seedType = m->i_at(examx, examy)[0].typeId();
+        const item &seed = m->i_at( examx, examy )[0];
+        if( !seed.is_seed() ) {
+            debugmsg( "The seed is not a seed!" );
+            return;
+        }
+        const islot_seed &seed_data = *seed.type->seed;
+        const std::string &seedType = seed.typeId();
         if (seedType == "fungal_seeds") {
             fungus(p, m, examx, examy);
             m->i_clear(examx, examy);
@@ -1553,7 +1559,7 @@ void iexamine::aggie_plant(player *p, map *m, int examx, int examy)
                 m->furn_set(examx, examy, f_flower_fungal);
                 add_msg(m_info, _("The seed blossoms into a flower-looking fungus."));
             }
-        } else {
+        } else { // Generic seed, use the seed item data
             m->i_clear(examx, examy);
             m->furn_set(examx, examy, f_null);
 
@@ -1562,18 +1568,19 @@ void iexamine::aggie_plant(player *p, map *m, int examx, int examy)
             if (plantCount >= 12) {
                 plantCount = 12;
             }
-            m->spawn_item(examx, examy, seedType.substr(5), plantCount, 0, calendar::turn);
             if( item::count_by_charges( seedType ) ) {
                 m->spawn_item(examx, examy, seedType, 1, rng(plantCount / 4, plantCount / 2));
             } else {
                 m->spawn_item(examx, examy, seedType, rng(plantCount / 4, plantCount / 2));
             }
-
-            if ((seedType == "seed_wheat") || (seedType == "seed_barley") ||
-                (seedType == "seed_hops")) {
-                m->spawn_item(examx, examy, "straw_pile");
-            } else if (seedType != "seed_sugar_beet") {
-                m->spawn_item(examx, examy, "withered");
+            // making the last two arguments to 1 (amount), 1 (charges) works fine whether the
+            // item is counted by charges or not. It will spawn exactly one item with one charge
+            // (if by-charge), or one item with no charge (if not by-charge) per call.
+            for( int i = 0; i < plantCount; ++i ) {
+                m->spawn_item( examx, examy, seed_data.fruit_id, 1, 1 );
+            }
+            for( auto &b : seed_data.byproducts ) {
+                m->spawn_item( examx, examy, b, 1, 1 );
             }
             p->moves -= 500;
         }

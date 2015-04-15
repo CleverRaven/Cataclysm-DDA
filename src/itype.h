@@ -392,6 +392,14 @@ struct islot_seed {
      * Name of the plant, already translated.
      */
     std::string plant_name;
+    /**
+     * Type id of the fruit item.
+     */
+    std::string fruit_id;
+    /**
+     * Additionally items (a list of their item ids) that will spawn when harvesting the plant.
+     */
+    std::vector<std::string> byproducts;
 
     islot_seed() { }
 };
