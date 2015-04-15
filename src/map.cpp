@@ -1638,18 +1638,7 @@ int map::combined_movecost( const tripoint &from, const tripoint &to,
 
 bool map::has_flag(const std::string &flag, const int x, const int y) const
 {
-    static const std::string flag_str_REDUCE_SCENT("REDUCE_SCENT"); // construct once per runtime, slash delay 90%
-    if (!INBOUNDS(x, y)) {
-        return false;
-    }
-
-    int vpart;
-    const vehicle *veh = veh_at( x, y, vpart );
-    if( veh != nullptr && flag_str_REDUCE_SCENT == flag && veh->obstacle_at_part( vpart ) >= 0 ) {
-        return true;
-    }
-
-    return has_flag_ter_or_furn(flag, x, y);
+    return has_flag_ter_or_furn(flag, x, y); // Does bound checking
 }
 
 bool map::can_put_items(const int x, const int y)
@@ -1686,17 +1675,7 @@ bool map::has_flag_ter_and_furn(const std::string & flag, const int x, const int
 /////
 bool map::has_flag(const ter_bitflags flag, const int x, const int y) const
 {
-    if (!INBOUNDS(x, y)) {
-        return false;
-    }
-
-    int vpart;
-    const vehicle *veh = veh_at( x, y, vpart );
-    if( veh != nullptr && flag == TFLAG_REDUCE_SCENT && veh->obstacle_at_part( vpart ) >= 0 ) {
-        return true;
-    }
-
-    return has_flag_ter_or_furn(flag, x, y);
+    return has_flag_ter_or_furn(flag, x, y); // Does bound checking
 }
 
 bool map::has_flag_ter(const ter_bitflags flag, const int x, const int y) const
@@ -1737,18 +1716,7 @@ bool map::has_flag_ter_and_furn(const ter_bitflags flag, const int x, const int 
 
 bool map::has_flag( const std::string &flag, const tripoint &p ) const
 {
-    static const std::string flag_str_REDUCE_SCENT( "REDUCE_SCENT" ); // construct once per runtime, slash delay 90%
-    if( !inbounds( p ) ) {
-        return false;
-    }
-
-    int vpart;
-    const vehicle *veh = veh_at( p, vpart );
-    if( veh != nullptr && flag_str_REDUCE_SCENT == flag && veh->obstacle_at_part( vpart ) >= 0 ) {
-        return true;
-    }
-
-    return has_flag_ter_or_furn( flag, p );
+    return has_flag_ter_or_furn( flag, p ); // Does bound checking
 }
 
 bool map::can_put_items( const tripoint &p )
@@ -1786,17 +1754,7 @@ bool map::has_flag_ter_and_furn( const std::string & flag, const tripoint &p ) c
 
 bool map::has_flag( const ter_bitflags flag, const tripoint &p ) const
 {
-    if( !inbounds( p ) ) {
-        return false;
-    }
-
-    int vpart;
-    const vehicle *veh = veh_at( p, vpart );
-    if( veh != nullptr && flag == TFLAG_REDUCE_SCENT && veh->obstacle_at_part( vpart ) >= 0 ) {
-        return true;
-    }
-
-    return has_flag_ter_or_furn( flag, p );
+    return has_flag_ter_or_furn( flag, p ); // Does bound checking
 }
 
 bool map::has_flag_ter( const ter_bitflags flag, const tripoint &p ) const
@@ -2263,11 +2221,12 @@ void map::decay_fields_and_scent( const int amount )
                     const int x = sx + smx * SEEX;
                     const int y = sy + smy * SEEY;
 
+                    field &fields = cur_submap->fld[sx][sy];
                     if( !outside_cache[x][y] ) {
+                        to_proc -= fields.fieldCount();
                         continue;
                     }
 
-                    field &fields = cur_submap->fld[sx][sy];
                     for( auto &fp : fields ) {
                         to_proc--;
                         field_entry &cur = fp.second;
@@ -4939,8 +4898,8 @@ visibility_type map::get_visibility( const lit_level ll, const visibility_variab
     return VIS_HIDDEN;
 }
 
-bool map::apply_vision_effects( WINDOW *w, const point center, int x, int y,
-                                lit_level ll, const visibility_variables &cache ) const {
+bool map::apply_vision_effects( WINDOW *w, lit_level ll,
+                                const visibility_variables &cache ) const {
     int symbol = ' ';
     nc_color color = c_black;
 
@@ -4969,8 +4928,7 @@ bool map::apply_vision_effects( WINDOW *w, const point center, int x, int y,
             color = c_black;
             break;
     }
-    mvwputch( w, y + getmaxy(w) / 2 - center.y,
-              x + getmaxx(w) / 2 - center.x, color, symbol );
+    wputch( w, color, symbol );
     return true;
 }
 
@@ -4986,13 +4944,31 @@ void map::draw(WINDOW* w, const point center)
     visibility_variables cache;
     update_visibility_cache( cache );
 
-    for( int x = center.x - getmaxx(w)/2; x <= center.x + getmaxx(w)/2; x++ ) {
-        for( int y = center.y - getmaxy(w)/2; y <= center.y + getmaxy(w)/2; y++ ) {
-            const lit_level lighting = visibility_cache[x][y];
-            if( !apply_vision_effects( w, center, x, y, lighting, cache ) ) {
-                drawsq( w, g->u, x, y, false, true, center.x, center.y,
-                        lighting == LL_LOW, lighting == LL_BRIGHT );
+    // X and y are in map coordinates, but might be out of range of the map.
+    // When they are out of range, we just draw '#'s.
+    for( int y = center.y - getmaxy(w) / 2; y <= center.y + getmaxy(w) / 2; y++ ) {
+        wmove( w, y - center.y + getmaxy(w) / 2, 0 );
+        if( y < 0 || y >= MAPSIZE * SEEY ) {
+            for( int x = 0; x < getmaxx(w); x++ ) {
+                wputch( w, c_dkgray, '#' );
             }
+            continue;
+        }
+        int x = center.x - getmaxx(w) / 2;
+        while( x < 0 ) {
+            wputch( w, c_dkgray, '#' );
+            x++;
+        }
+        for( ; x < MAPSIZE * SEEX && x <= center.x + getmaxx(w) / 2; x++ ) {
+            const lit_level lighting = visibility_cache[x][y];
+            if( !apply_vision_effects( w, lighting, cache ) ) {
+                drawsq( w, g->u, x, y, false, true, center.x, center.y,
+                        lighting == LL_LOW, lighting == LL_BRIGHT, true );
+            }
+        }
+        while( x <= center.x + getmaxx(w) / 2 ) {
+            wputch( w, c_dkgray, '#' );
+            x++;
         }
     }
 
@@ -5001,7 +4977,7 @@ void map::draw(WINDOW* w, const point center)
 
 void map::drawsq(WINDOW* w, player &u, const int x, const int y, const bool invert_arg,
                  const bool show_items_arg, const int view_center_x_arg, const int view_center_y_arg,
-                 const bool low_light, const bool bright_light)
+                 const bool low_light, const bool bright_light, const bool inorder)
 {
     // We only need to draw anything if we're not in tiles mode.
     if(is_draw_tiles_mode()) {
@@ -5019,8 +4995,6 @@ void map::drawsq(WINDOW* w, player &u, const int x, const int y, const bool inve
         cx = u.posx();
     if (cy == -1)
         cy = u.posy();
-    const int k = x + getmaxx(w)/2 - cx;
-    const int j = y + getmaxy(w)/2 - cy;
     nc_color tercol;
     const ter_t &curr_ter = ter_at(x,y);
     const furn_t &curr_furn = furn_at(x,y);
@@ -5148,13 +5122,21 @@ void map::drawsq(WINDOW* w, player &u, const int x, const int y, const bool inve
     }
 
     if (invert) {
-        mvwputch_inv(w, j, k, tercol, sym);
+        tercol = invert_color(tercol);
     } else if (hi) {
-        mvwputch_hi (w, j, k, tercol, sym);
+        tercol = hilite(tercol);
     } else if (graf) {
-        mvwputch    (w, j, k, red_background(tercol), sym);
+        tercol = red_background(tercol);
+    }
+
+    if( inorder ) {
+        // Rastering the whole map, take advantage of automatically moving the cursor.
+        wputch(w, tercol, sym);
     } else {
-        mvwputch    (w, j, k, tercol, sym);
+        // Otherwise move the cursor before drawing.
+        const int k = x + getmaxx(w) / 2 - cx;
+        const int j = y + getmaxy(w) / 2 - cy;
+        mvwputch(w, j, k, tercol, sym);
     }
 }
 
@@ -7025,8 +7007,8 @@ template<typename Functor>
     // Submaps that contain the bounding points
     const int min_smx = minx / SEEX;
     const int min_smy = miny / SEEY;
-    const int max_smx = ( maxx + SEEX - 1 ) / SEEX;
-    const int max_smy = ( maxy + SEEY - 1 ) / SEEY;
+    const int max_smx = maxx / SEEX;
+    const int max_smy = maxy / SEEY;
     // Z outermost, because submaps are flat
     tripoint gp;
     int &z = gp.z;
