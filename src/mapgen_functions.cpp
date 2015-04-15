@@ -116,10 +116,15 @@ void init_mapgen_builtin_functions() {
     mapgen_cfunction_map["cave"] = &mapgen_cave;
     mapgen_cfunction_map["cave_rat"] = &mapgen_cave_rat;
     mapgen_cfunction_map["cavern"] = &mapgen_cavern;
-    mapgen_cfunction_map["rock"] = &mapgen_rock;
     mapgen_cfunction_map["open_air"] = &mapgen_open_air;
     mapgen_cfunction_map["rift"] = &mapgen_rift;
     mapgen_cfunction_map["hellmouth"] = &mapgen_hellmouth;
+
+    // New rock function - should be default, but isn't yet for compatibility reasons (old overmaps)
+    mapgen_cfunction_map["empty_rock"] = &mapgen_rock;
+    // Old rock behavior, for compatibility and near caverns and slime pits
+    mapgen_cfunction_map["rock"] = &mapgen_rock_partial;
+
     mapgen_cfunction_map["subway_station"] = &mapgen_subway_station;
 
     mapgen_cfunction_map["subway_straight"]    = &mapgen_subway_straight;
@@ -397,7 +402,7 @@ void mapgen_crater(map *m, oter_id, mapgendata dat, int, float)
            if (rng(0, dat.w_fac) <= i && rng(0, dat.e_fac) <= SEEX * 2 - 1 - i &&
                rng(0, dat.n_fac) <= j && rng(0, dat.s_fac) <= SEEX * 2 - 1 - j ) {
                m->ter_set(i, j, t_dirt);
-               m->make_rubble(i, j, f_rubble_rock, true);
+               m->make_rubble( tripoint( i,  j, m->get_abs_sub().z ), f_rubble_rock, true);
                m->set_radiation(i, j, rng(0, 4) * rng(0, 2));
            } else {
                m->ter_set(i, j, dat.groundcover());
@@ -1401,7 +1406,7 @@ void mapgen_subway_straight(map *m, oter_id terrain_type, mapgendata dat, int, f
                     m->ter_set(i, j, t_rock);
                 } else if (one_in(90)) {
                     m->ter_set(i, j, t_rock_floor);
-                    m->make_rubble(i, j, f_rubble_rock, true);
+                    m->make_rubble( tripoint( i,  j, m->get_abs_sub().z ), f_rubble_rock, true);
                 } else {
                     m->ter_set(i, j, t_rock_floor);
                 }
@@ -1424,7 +1429,7 @@ void mapgen_subway_curved(map *m, oter_id terrain_type, mapgendata dat, int, flo
                     m->ter_set(i, j, t_rock);
                 } else if (one_in(30)) {
                     m->ter_set(i, j, t_rock_floor);
-                    m->make_rubble(i, j, f_rubble_rock, true);
+                    m->make_rubble( tripoint( i,  j, m->get_abs_sub().z ), f_rubble_rock, true);
                 } else {
                     m->ter_set(i, j, t_rock_floor);
                 }
@@ -1453,7 +1458,7 @@ void mapgen_subway_tee(map *m, oter_id terrain_type, mapgendata dat, int, float)
                     m->ter_set(i, j, t_rock);
                 } else if (one_in(30)) {
                     m->ter_set(i, j, t_rock_floor);
-                    m->make_rubble(i, j, f_rubble_rock, true);
+                    m->make_rubble( tripoint( i,  j, m->get_abs_sub().z ), f_rubble_rock, true);
                 } else {
                     m->ter_set(i, j, t_rock_floor);
                 }
@@ -1484,7 +1489,7 @@ void mapgen_subway_four_way(map *m, oter_id, mapgendata dat, int, float)
                     m->ter_set(i, j, t_rock);
                 } else if (one_in(30)) {
                     m->ter_set(i, j, t_rock_floor);
-                    m->make_rubble(i, j, f_rubble_rock, true);
+                    m->make_rubble( tripoint( i,  j, m->get_abs_sub().z ), f_rubble_rock, true);
                 } else {
                     m->ter_set(i, j, t_rock_floor);
                 }
@@ -2920,7 +2925,7 @@ void mapgen_church_new_england(map *m, oter_id terrain_type, mapgendata dat, int
     m->place_items("church", 85,  12,  2, 14,  2, false, 0);
     m->place_items("office", 60,  6,  2, 8,  3, false, 0);
     m->place_items("jackets", 85,  7,  18, 8,  18, false, 0);
-    tmpcomp = m->add_computer(11, 2, _("Church Bells 1.2"), 0);
+    tmpcomp = m->add_computer( tripoint( 11, 2, m->get_abs_sub().z ), _("Church Bells 1.2"), 0);
     tmpcomp->add_option(_("Gathering Toll"), COMPACT_TOLL, 0);
     tmpcomp->add_option(_("Wedding Toll"), COMPACT_TOLL, 0);
     tmpcomp->add_option(_("Funeral Toll"), COMPACT_TOLL, 0);
@@ -2972,7 +2977,7 @@ ssssssssssssssssssssssss\n",
     m->place_items("church", 60,  6,  7, 17,  16, false, 0);
     m->place_items("cleaning", 60,  3,  18, 4,  21, false, 0);
     m->place_items("jackets", 85,  14,  18, 16,  18, false, 0);
-    tmpcomp = m->add_computer(19, 20, _("Church Bells 1.2"), 0);
+    tmpcomp = m->add_computer( tripoint( 19, 20, m->get_abs_sub().z ), _("Church Bells 1.2"), 0);
     tmpcomp->add_option(_("Gathering Toll"), COMPACT_TOLL, 0);
     tmpcomp->add_option(_("Wedding Toll"), COMPACT_TOLL, 0);
     tmpcomp->add_option(_("Funeral Toll"), COMPACT_TOLL, 0);
@@ -3739,7 +3744,7 @@ void mapgen_shelter(map *m, oter_id, mapgendata dat, int, float) {
                                    mapf::basic_bind("- | + : 6 x >", t_wall, t_wall, t_door_c, t_window_domestic,  t_console,
                                            t_console_broken, t_stairs_down),
                                    mapf::basic_bind("b c l", f_bench, f_counter, f_locker));
-        computer * tmpcomp = m->add_computer(SEEX + 6, 5, _("Evac shelter computer"), 0);
+        computer * tmpcomp = m->add_computer( tripoint( SEEX + 6, 5, m->get_abs_sub().z ), _("Evac shelter computer"), 0);
         tmpcomp->add_option(_("Emergency Message"), COMPACT_EMERG_MESS, 0);
         tmpcomp->add_option(_("Disable External Power"), COMPACT_COMPLETE_MISSION, 0);
         int lx = rng(5 , 8);
@@ -4156,13 +4161,13 @@ void mapgen_office_doctor(map *m, oter_id terrain_type, mapgendata dat, int, flo
                                    mapf::basic_bind(". - | 6 X # r t + = D w T S e o h c d l s", f_null,  f_null,   f_null,   f_null,
                                            f_null,              f_bench, f_trashcan, f_table, f_null,   f_null,              f_null,
                                            f_null,   f_toilet, f_sink,  f_fridge, f_bookcase, f_chair, f_counter, f_desk,  f_locker, f_null));
-        computer * tmpcomp = m->add_computer(20, 4, _("Medical Supply Access"), 2);
+        computer * tmpcomp = m->add_computer( tripoint( 20, 4, m->get_abs_sub().z ), _("Medical Supply Access"), 2);
         tmpcomp->add_option(_("Lock Door"), COMPACT_LOCK, 2);
         tmpcomp->add_option(_("Unlock Door"), COMPACT_UNLOCK, 2);
         tmpcomp->add_failure(COMPFAIL_SHUTDOWN);
         tmpcomp->add_failure(COMPFAIL_ALARM);
 
-        tmpcomp = m->add_computer(20, 6, _("Medical Supply Access"), 2);
+        tmpcomp = m->add_computer( tripoint( 20, 6, m->get_abs_sub().z ), _("Medical Supply Access"), 2);
         tmpcomp->add_option(_("Unlock Door"), COMPACT_UNLOCK, 2);
         tmpcomp->add_failure(COMPFAIL_SHUTDOWN);
         tmpcomp->add_failure(COMPFAIL_ALARM);
@@ -4590,8 +4595,8 @@ void mapgen_cabin(map *m, oter_id, mapgendata dat, int, float)
             line(m, t_fencegate_c, 11, 20, 12, 20);
             line_furn(m, f_bench, 4, 17, 7, 17);
             square_furn(m, f_rubble, 19, 18, 20, 19);
-            m->make_rubble(20, 17, f_rubble, true);
-            m->make_rubble(18, 19, f_rubble, true);
+            m->make_rubble( tripoint( 20,  17, m->get_abs_sub().z ), f_rubble, true);
+            m->make_rubble( tripoint( 18,  19, m->get_abs_sub().z ), f_rubble, true);
             line(m, t_door_c, 11, 16, 12, 16); //Interior
             square(m, t_floor, 3, 4, 9, 9);
             square(m, t_floor, 3, 11, 9, 15);
@@ -4610,8 +4615,8 @@ void mapgen_cabin(map *m, oter_id, mapgendata dat, int, float)
             m->ter_set(8, 3, t_curtains); //Windows End
             line(m, t_door_c, 11, 3, 12, 3); //Rear Doors
             square_furn(m, f_rubble, 20, 3, 21, 4);
-            m->make_rubble(19, 3, f_rubble, true);
-            m->make_rubble(21, 5, f_rubble, true);
+            m->make_rubble( tripoint( 19,  3, m->get_abs_sub().z ), f_rubble, true);
+            m->make_rubble( tripoint( 21,  5, m->get_abs_sub().z ), f_rubble, true);
             m->furn_set(6, 4, f_desk);
             m->furn_set(6, 5, f_chair);
             m->furn_set(7, 9, f_locker);
@@ -4763,7 +4768,7 @@ void mapgen_police(map *m, oter_id terrain_type, mapgendata dat, int, float dens
         m->ter_set(rng( 6,  9), 12, t_door_c);
         m->ter_set(rng(11, 15), 12, t_door_c);
         m->ter_set(21, 12, t_door_metal_locked);
-        computer * tmpcomp = m->add_computer(22, 13, _("PolCom OS v1.47"), 3);
+        computer * tmpcomp = m->add_computer( tripoint( 22, 13, m->get_abs_sub().z ), _("PolCom OS v1.47"), 3);
         tmpcomp->add_option(_("Open Supply Room"), COMPACT_OPEN, 3);
         tmpcomp->add_failure(COMPFAIL_SHUTDOWN);
         tmpcomp->add_failure(COMPFAIL_ALARM);
@@ -4773,7 +4778,7 @@ void mapgen_police(map *m, oter_id terrain_type, mapgendata dat, int, float dens
         m->ter_set(15, 14, t_door_c);
         m->ter_set(rng(20, 22), 15, t_door_c);
         m->ter_set(2, 17, t_door_metal_locked);
-        tmpcomp = m->add_computer(22, 13, _("PolCom OS v1.47"), 3);
+        tmpcomp = m->add_computer( tripoint( 22, 13, m->get_abs_sub().z ), _("PolCom OS v1.47"), 3);
         tmpcomp->add_option(_("Open Evidence Locker"), COMPACT_OPEN, 3);
         tmpcomp->add_failure(COMPFAIL_SHUTDOWN);
         tmpcomp->add_failure(COMPFAIL_ALARM);
@@ -4999,7 +5004,7 @@ void mapgen_bank(map *m, oter_id terrain_type, mapgendata dat, int, float)
         line(m, t_bars, 8, 18, 11, 18);
         line(m, t_door_metal_locked, 9, 18, 10, 18);
     }
-    computer * tmpcomp = m->add_computer(8, 21, _("Consolidated Computerized Bank of the Treasury"), 3);
+    computer * tmpcomp = m->add_computer( tripoint( 8, 21, m->get_abs_sub().z ), _("Consolidated Computerized Bank of the Treasury"), 3);
     tmpcomp->add_option(_("Open Vault"), COMPACT_OPEN, 3);
     tmpcomp->add_failure(COMPFAIL_SHUTDOWN);
     tmpcomp->add_failure(COMPFAIL_ALARM);
@@ -6261,7 +6266,7 @@ void mapgen_cavern(map *m, oter_id, mapgendata dat, int, float)
         }
         while (!one_in(3)) {
             for( int i = 0; i < 3; ++i ) {
-                m->put_items_from_loc( "cannedfood", x, y, 0 );
+                m->put_items_from_loc( "cannedfood", tripoint( x, y, m->get_abs_sub().z ), 0 );
             }
         }
     }
@@ -6270,32 +6275,36 @@ void mapgen_cavern(map *m, oter_id, mapgendata dat, int, float)
 
 }
 
-
-void mapgen_rock(map *m, oter_id, mapgendata dat, int, float)
+void mapgen_rock_partial(map *m, oter_id, mapgendata dat, int, float)
 {
     fill_background( m, t_rock );
-    for (int i = 0; i < 4; i++) {
-        if (dat.t_nesw[i] == "cavern" || dat.t_nesw[i] == "slimepit" ||
-            dat.t_nesw[i] == "slimepit_down") {
+    for( int i = 0; i < 4; i++ ) {
+        if( dat.t_nesw[i] == "cavern" || dat.t_nesw[i] == "slimepit" ||
+            dat.t_nesw[i] == "slimepit_down" ) {
             dat.dir(i) = 6;
         } else {
             dat.dir(i) = 0;
         }
     }
 
-    for (int i = 0; i < SEEX * 2; i++) {
-        for (int j = 0; j < SEEY * 2; j++) {
-            if (rng(0, dat.n_fac) > j || rng(0, dat.e_fac) > SEEX * 2 - 1 - i ||
-                rng(0, dat.w_fac) > i || rng(0, dat.s_fac) > SEEY * 2 - 1 - j   ) {
+    for( int i = 0; i < SEEX * 2; i++ ) {
+        for( int j = 0; j < SEEY * 2; j++ ) {
+            if( rng(0, dat.n_fac) > j || rng(0, dat.s_fac) > SEEY * 2 - 1 - j ||
+                rng(0, dat.w_fac) > i || rng(0, dat.e_fac) > SEEX * 2 - 1 - i ) {
                 m->ter_set(i, j, t_rock_floor);
             }
         }
     }
 }
 
+void mapgen_rock(map *m, oter_id, mapgendata, int, float)
+{
+    fill_background( m, t_rock );
+}
+
 
 void mapgen_open_air(map *m, oter_id, mapgendata, int, float){
-    fill_background(m, t_open_air);
+    fill_background( m, t_open_air );
 }
 
 

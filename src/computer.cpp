@@ -287,7 +287,7 @@ void computer::activate_function(computer_action action, char ch)
         break;
 
     case COMPACT_OPEN:
-        g->m.translate_radius(t_door_metal_locked, t_floor, 25.0, g->u.posx(), g->u.posy());
+        g->m.translate_radius(t_door_metal_locked, t_floor, 25.0, g->u.pos3());
         query_any(_("Doors opened.  Press any key..."));
         break;
 
@@ -297,12 +297,12 @@ void computer::activate_function(computer_action action, char ch)
     //Simply uses translate_radius which take a given radius and
     // player position to determine which terrain tiles to edit.
     case COMPACT_LOCK:
-        g->m.translate_radius(t_door_metal_c, t_door_metal_locked, 8.0, g->u.posx(), g->u.posy());
+        g->m.translate_radius(t_door_metal_c, t_door_metal_locked, 8.0, g->u.pos3());
         query_any(_("Lock enabled.  Press any key..."));
         break;
 
     case COMPACT_UNLOCK:
-        g->m.translate_radius(t_door_metal_locked, t_door_metal_c, 8.0, g->u.posx(), g->u.posy());
+        g->m.translate_radius(t_door_metal_locked, t_door_metal_c, 8.0, g->u.pos3());
         query_any(_("Lock disabled.  Press any key..."));
         break;
 
@@ -355,13 +355,13 @@ void computer::activate_function(computer_action action, char ch)
         g->u.add_memorial_log(pgettext("memorial_male", "Released subspace specimens."),
                               pgettext("memorial_female", "Released subspace specimens."));
         sounds::sound(g->u.posx(), g->u.posy(), 40, _("An alarm sounds!"));
-        g->m.translate_radius(t_reinforced_glass, t_floor, 25.0, g->u.posx(), g->u.posy());
+        g->m.translate_radius(t_reinforced_glass, t_floor, 25.0, g->u.pos3());
         query_any(_("Containment shields opened.  Press any key..."));
         break;
 
     case COMPACT_RELEASE_BIONICS:
         sounds::sound(g->u.posx(), g->u.posy(), 40, _("An alarm sounds!"));
-        g->m.translate_radius(t_reinforced_glass, t_floor, 2.0, g->u.posx(), g->u.posy());
+        g->m.translate_radius(t_reinforced_glass, t_floor, 2.0, g->u.pos3());
         query_any(_("Containment shields opened.  Press any key..."));
         break;
 
@@ -1085,19 +1085,20 @@ SHORTLY. TO ENSURE YOUR SAFETY PLEASE FOLLOW THE BELOW STEPS. \n\
         add_msg(m_warning, _("Evacuate Immediately!"));
         for (int x = 0; x < SEEX * MAPSIZE; x++) {
             for (int y = 0; y < SEEY * MAPSIZE; y++) {
+                tripoint p( x, y, g->get_levz() );
                 if (g->m.ter(x, y) == t_elevator || g->m.ter(x, y) == t_vat) {
-                    g->m.make_rubble(x, y, f_rubble_rock, true);
-                    g->explosion( tripoint( x, y, g->get_levz() ), 40, 0, true);
+                    g->m.make_rubble( p, f_rubble_rock, true);
+                    g->explosion( p, 40, 0, true );
                 }
                 if (g->m.ter(x, y) == t_wall_glass) {
-                    g->m.make_rubble(x, y, f_rubble_rock, true);
+                    g->m.make_rubble( p, f_rubble_rock, true );
                 }
                 if (g->m.ter(x, y) == t_sewage_pipe || g->m.ter(x, y) == t_sewage || g->m.ter(x, y) == t_grate) {
-                    g->m.make_rubble(x, y, f_rubble_rock, true);
+                    g->m.make_rubble( p, f_rubble_rock, true );
                 }
                 if (g->m.ter(x, y) == t_sewage_pump) {
-                    g->m.make_rubble(x, y, f_rubble_rock, true);
-                    g->explosion( tripoint( x, y, g->get_levz() ), 50, 0, true);
+                    g->m.make_rubble( p, f_rubble_rock, true );
+                    g->explosion( p, 50, 0, true);
                 }
             }
         }
@@ -1229,8 +1230,9 @@ void computer::activate_failure(computer_failure fail)
         for (int x = 0; x < SEEX * MAPSIZE; x++) {
             for (int y = 0; y < SEEY * MAPSIZE; y++) {
                 if (g->m.ter(x, y) == t_sewage_pump) {
-                    g->m.make_rubble(x, y);
-                    g->explosion( tripoint( x, y, g->get_levz() ), 10, 0, false);
+                    tripoint p( x, y, g->get_levz() );
+                    g->m.make_rubble( p );
+                    g->explosion( p, 10, 0, false);
                 }
             }
         }

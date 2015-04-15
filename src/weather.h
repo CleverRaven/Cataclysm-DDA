@@ -112,12 +112,10 @@ struct weather_segment {
 struct weather_datum {
     std::string name;       //!< UI name of weather type.
     nc_color color;         //!< UI color of weather type.
-    int avg_temperature[4]; //!< Spring, Summer, Winter, Fall.
     int ranged_penalty;     //!< Penalty to ranged attacks.
     int sight_penalty;      //!< Penalty to max sight range.
     int light_modifier;     //!< Modification to ambient light.
-    int mintime;            //!< min/max time it lasts, in minutes.
-    int maxtime;            //!  Note that this is a *recalculation* deadline.
+    int sound_attn;         //!< Sound attenuation of a given weather type.
     bool dangerous;         //!< If true, our activity gets interrupted.
     void (*effect)();       //!< Function pointer for weather effects.
 };

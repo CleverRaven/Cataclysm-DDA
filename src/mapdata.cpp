@@ -302,7 +302,13 @@ void load_terrain(JsonObject &jsobj)
   // if the terrain has something harvestable
   if (jsobj.has_member("harvestable")) {
     new_terrain.harvestable = jsobj.get_string("harvestable"); // get the harvestable
+  }  
+  
+  if (jsobj.has_member("transforms_into")) {   
     new_terrain.transforms_into = jsobj.get_string("transforms_into"); // get the terrain to transform into later on
+  }
+  
+  if (jsobj.has_member("harvest_season")) {  
     //get the harvest season
     if (jsobj.get_string("harvest_season") == "SPRING") {new_terrain.harvest_season = 0;} // convert the season to int for calendar compare
     else if (jsobj.get_string("harvest_season") == "SUMMER") {new_terrain.harvest_season = 1;}
@@ -468,7 +474,7 @@ ter_id t_null,
     t_cvdbody, t_cvdmachine,
     t_water_pump,
     t_conveyor, t_machinery_light, t_machinery_heavy, t_machinery_old, t_machinery_electronic,
-    t_improvised_shelter, t_leanto,
+    t_improvised_shelter,
     // Staircases etc.
     t_stairs_down, t_stairs_up, t_manhole, t_ladder_up, t_ladder_down, t_slope_down,
      t_slope_up, t_rope_up,
@@ -683,7 +689,6 @@ void set_ter_ids() {
     t_vat=terfind("t_vat");
     t_cvdbody=terfind("t_cvdbody");
     t_cvdmachine=terfind("t_cvdmachine");
-    t_leanto=terfind("t_leanto");
     t_stairs_down=terfind("t_stairs_down");
     t_stairs_up=terfind("t_stairs_up");
     t_manhole=terfind("t_manhole");
@@ -725,6 +730,7 @@ void set_ter_ids() {
     t_pavement_y_bg_dp = terfind("t_pavement_y_bg_dp");
     t_sidewalk_bg_dp = terfind("t_sidewalk_bg_dp");
     t_guardrail_bg_dp = terfind("t_guardrail_bg_dp");
+    t_improvised_shelter = terfind("t_improvised_shelter");
 }
 
 furn_id furnfind(const std::string & id) {

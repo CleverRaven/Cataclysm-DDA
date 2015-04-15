@@ -1,4 +1,4 @@
-﻿#include "player.h"
+#include "player.h"
 #include "profession.h"
 #include "bionics.h"
 #include "mission.h"
@@ -41,6 +41,9 @@
 #include <bitset>
 
 #include <fstream>
+
+// use this instead of having to type out 26 spaces like before
+static const std::string header_spaces(26, ' ');
 
 extern std::map<std::string, martialart> ma_styles;
 
@@ -813,7 +816,7 @@ void player::update_bodytemp()
         } else if( furn_at_pos == f_makeshift_bed || furn_at_pos == f_armchair ||
                    furn_at_pos == f_sofa ) {
             floor_bedding_warmth += 500;
-        } else if( veh && veh->part_with_feature (vpart, "BED") >= 0 && 
+        } else if( veh && veh->part_with_feature (vpart, "BED") >= 0 &&
             veh->part_with_feature (vpart, "SEAT") >= 0) {
             floor_bedding_warmth += 250; // BED+SEAT is intentionally worse than just BED
         } else if( veh && veh->part_with_feature (vpart, "BED") >= 0 ) {
@@ -1894,7 +1897,7 @@ void player::memorial( std::ofstream &memorial_file, std::string epitaph )
     const auto closest_city = overmap_buffer.closest_city( point( global_sm_pos.x, global_sm_pos.y ) );
     std::string kill_place;
     if( !closest_city ) {
-        //~ First parameter is a pronoun (“He”/“She”), second parameter is a terrain name.
+        //~ First parameter is a pronoun ("He"/"She"), second parameter is a terrain name.
         kill_place = string_format(_("%s was killed in a %s in the middle of nowhere."),
                      pronoun.c_str(), tername.c_str());
     } else {
@@ -1902,16 +1905,16 @@ void player::memorial( std::ofstream &memorial_file, std::string epitaph )
         //Give slightly different messages based on how far we are from the middle
         const int distance_from_city = closest_city.distance - nearest_city.s;
         if(distance_from_city > nearest_city.s + 4) {
-            //~ First parameter is a pronoun (“He”/“She”), second parameter is a terrain name.
+            //~ First parameter is a pronoun ("He"/"She"), second parameter is a terrain name.
             kill_place = string_format(_("%s was killed in a %s in the wilderness."),
                          pronoun.c_str(), tername.c_str());
 
         } else if(distance_from_city >= nearest_city.s) {
-            //~ First parameter is a pronoun (“He”/“She”), second parameter is a terrain name, third parameter is a city name.
+            //~ First parameter is a pronoun ("He"/"She"), second parameter is a terrain name, third parameter is a city name.
             kill_place = string_format(_("%s was killed in a %s on the outskirts of %s."),
                          pronoun.c_str(), tername.c_str(), nearest_city.name.c_str());
         } else {
-            //~ First parameter is a pronoun (“He”/“She”), second parameter is a terrain name, third parameter is a city name.
+            //~ First parameter is a pronoun ("He"/"She"), second parameter is a terrain name, third parameter is a city name.
             kill_place = string_format(_("%s was killed in a %s in %s."),
                          pronoun.c_str(), tername.c_str(), nearest_city.name.c_str());
         }
@@ -1923,7 +1926,7 @@ void player::memorial( std::ofstream &memorial_file, std::string epitaph )
     memorial_file << "\n";
     memorial_file << string_format(_("In memory of: %s"), name.c_str()) << "\n";
     if(epitaph.length() > 0) { //Don't record empty epitaphs
-        //~ The “%s” will be replaced by an epitaph as displyed in the memorial files. Replace the quotation marks as appropriate for your language.
+        //~ The "%s" will be replaced by an epitaph as displyed in the memorial files. Replace the quotation marks as appropriate for your language.
         memorial_file << string_format(pgettext("epitaph","\"%s\""), epitaph.c_str()) << "\n\n";
     }
     //~ First parameter: Pronoun, second parameter: a profession name (with article)
@@ -2621,27 +2624,9 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4"));
     wrefresh(w_stats);
 
     // Next, draw encumberment.
-    std::string asText[] = {_("Torso"), _("Head"), _("Eyes"), _("Mouth"), _("L. Arm"), _("R. Arm"),
-                             _("L. Hand"), _("R. Hand"), _("L. Leg"), _("R. Leg"), _("L. Foot"),
-                             _("R. Foot")};
-    body_part aBodyPart[] = {bp_torso, bp_head, bp_eyes, bp_mouth, bp_arm_l, bp_arm_r, bp_hand_l,
-                             bp_hand_r, bp_leg_l, bp_leg_r, bp_foot_l, bp_foot_r};
-    int iEnc, iArmorEnc, iBodyTempInt;
-    double iLayers;
-
     const char *title_ENCUMB = _("ENCUMBRANCE AND WARMTH");
     mvwprintz(w_encumb, 0, 13 - utf8_width(title_ENCUMB) / 2, c_ltgray, title_ENCUMB);
-    for (int i = 0; i < 8; i++) {
-        iLayers = iArmorEnc = 0;
-        iBodyTempInt = (temp_conv[i] / 100.0) * 2 - 100; // Scale of -100 to +100
-        iEnc = encumb(aBodyPart[i], iLayers, iArmorEnc);
-        mvwprintz(w_encumb, i + 1, 1, c_ltgray, "%s", asText[i].c_str());
-        mvwprintz(w_encumb, i + 1, 8, c_ltgray, "(%d)", static_cast<int>( iLayers ) );
-        mvwprintz(w_encumb, i + 1, 11, c_ltgray, "%*s%d%s%d=", (iArmorEnc < 0 || iArmorEnc > 9 ? 1 : 2),
-                  " ", iArmorEnc, "+", iEnc - iArmorEnc);
-        wprintz(w_encumb, encumb_color(iEnc), "%s%d", (iEnc < 0 || iEnc > 9 ? "" : " ") , iEnc);
-        wprintz(w_encumb, bodytemp_color(i), " (%3d)", iBodyTempInt);
-    }
+    print_encumbrance(w_encumb, 0, 8);
     wrefresh(w_encumb);
 
     // Next, draw traits.
@@ -2868,7 +2853,7 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4"));
         werase(w_info);
         switch (curtab) {
             case 1: // Stats tab
-                mvwprintz(w_stats, 0, 0, h_ltgray, _("                          "));
+                mvwprintz(w_stats, 0, 0, h_ltgray, header_spaces.c_str());
                 mvwprintz(w_stats, 0, 13 - utf8_width(title_STATS)/2, h_ltgray, title_STATS);
 
                 // Clear bonus/penalty menu.
@@ -2923,7 +2908,7 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4"));
 
                     fold_and_print(w_info, 0, 1, FULL_SCREEN_WIDTH - 2, c_magenta,
                      _("Intelligence is less important in most situations, but it is vital for more complex tasks like "
-                     "electronics crafting. It also affects how much skill you can pick up from reading a book."));
+                     "electronics crafting.  It also affects how much skill you can pick up from reading a book."));
                 } else if (line == 3) {
                     // Display player current perception effects
                     mvwprintz(w_stats, 5, 1, h_ltgray, _("Perception:"));
@@ -2933,7 +2918,7 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4"));
                     mvwprintz(w_stats, 7, 23, c_magenta, "%2d", get_per());
 
                     fold_and_print(w_info, 0, 1, FULL_SCREEN_WIDTH - 2, c_magenta,
-                     _("Perception is the most important stat for ranged combat. It's also used for "
+                     _("Perception is the most important stat for ranged combat.  It's also used for "
                      "detecting traps and other things of interest."));
                 }
                 wrefresh(w_stats);
@@ -2951,7 +2936,7 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4"));
                         line--;
                     }
                 } else if (action == "NEXT_TAB") {
-                    mvwprintz(w_stats, 0, 0, c_ltgray, _("                          "));
+                    mvwprintz(w_stats, 0, 0, c_ltgray, header_spaces.c_str());
                     mvwprintz(w_stats, 0, 13 - utf8_width(title_STATS)/2, c_ltgray, title_STATS);
                     wrefresh(w_stats);
                     line = 0;
@@ -2968,7 +2953,7 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4"));
         case 2: // Encumberment tab
         {
             werase(w_encumb);
-            mvwprintz(w_encumb, 0, 0, h_ltgray,  _("                          "));
+            mvwprintz(w_encumb, 0, 0, h_ltgray, header_spaces.c_str());
             mvwprintz(w_encumb, 0, 13 - utf8_width(title_ENCUMB)/2, h_ltgray, title_ENCUMB);
             int encumb_win_size_y = 8;
             half_y = encumb_win_size_y / 2;
@@ -2983,21 +2968,8 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4"));
                 max = line - half_y + encumb_win_size_y;
             }
 
-            for (unsigned i = min; i < max; i++) {
-                iLayers = iArmorEnc = 0;
-                iBodyTempInt = (temp_conv[i] / 100.0) * 2 - 100; // Scale of -100 to +100
-                iEnc = encumb(aBodyPart[i], iLayers, iArmorEnc);
-                if (line == i) {
-                    mvwprintz(w_encumb, i + 1 - min, 1, h_ltgray, "%s", asText[i].c_str());
-                } else {
-                    mvwprintz(w_encumb, i + 1 - min, 1, c_ltgray, "%s", asText[i].c_str());
-                }
-                mvwprintz(w_encumb, i + 1 - min, 8, c_ltgray, "(%d)", static_cast<int>( iLayers ) );
-                mvwprintz(w_encumb, i + 1 - min, 11, c_ltgray, "%*s%d%s%d=", (iArmorEnc < 0 || iArmorEnc > 9 ? 1 : 2),
-                          " ", iArmorEnc, "+", iEnc - iArmorEnc);
-                wprintz(w_encumb, encumb_color(iEnc), "%s%d", (iEnc < 0 || iEnc > 9 ? "" : " ") , iEnc);
-                wprintz(w_encumb, bodytemp_color(i), " (%3d)", iBodyTempInt);
-            }
+            print_encumbrance(w_encumb, min, max, line);
+            wrefresh(w_encumb);
             draw_scrollbar(w_encumb, line, encumb_win_size_y, 12, 1);
 
             werase(w_info);
@@ -3053,7 +3025,7 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4"));
                     line--;
                 }
             } else if (action == "NEXT_TAB") {
-                mvwprintz(w_encumb, 0, 0, c_ltgray,  _("                          "));
+                mvwprintz(w_encumb, 0, 0, c_ltgray, header_spaces.c_str());
                 mvwprintz(w_encumb, 0, 13 - utf8_width(title_ENCUMB)/2, c_ltgray, title_ENCUMB);
                 wrefresh(w_encumb);
                 line = 0;
@@ -3064,7 +3036,7 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4"));
             break;
         }
         case 4: // Traits tab
-            mvwprintz(w_traits, 0, 0, h_ltgray,  _("                          "));
+            mvwprintz(w_traits, 0, 0, h_ltgray, header_spaces.c_str());
             mvwprintz(w_traits, 0, 13 - utf8_width(title_TRAITS)/2, h_ltgray, title_TRAITS);
             if (line <= (trait_win_size_y-1)/2) {
                 min = 0;
@@ -3110,7 +3082,7 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4"));
                 if (line > 0)
                     line--;
             } else if (action == "NEXT_TAB") {
-                mvwprintz(w_traits, 0, 0, c_ltgray,  _("                          "));
+                mvwprintz(w_traits, 0, 0, c_ltgray, header_spaces.c_str());
                 mvwprintz(w_traits, 0, 13 - utf8_width(title_TRAITS)/2, c_ltgray, title_TRAITS);
                 for (size_t i = 0; i < traitslist.size() && i < trait_win_size_y; i++) {
                     const auto &mdata = mutation_branch::get( traitslist[i] );
@@ -3127,7 +3099,7 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4"));
             break;
 
         case 5: // Effects tab
-            mvwprintz(w_effects, 0, 0, h_ltgray,  _("                          "));
+            mvwprintz(w_effects, 0, 0, h_ltgray, header_spaces.c_str());
             mvwprintz(w_effects, 0, 13 - utf8_width(title_EFFECTS)/2, h_ltgray, title_EFFECTS);
             half_y = effect_win_size_y / 2;
             if (line <= half_y) {
@@ -3166,7 +3138,7 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4"));
                 if (line > 0)
                     line--;
             } else if (action == "NEXT_TAB") {
-                mvwprintz(w_effects, 0, 0, c_ltgray,  _("                          "));
+                mvwprintz(w_effects, 0, 0, c_ltgray, header_spaces.c_str());
                 mvwprintz(w_effects, 0, 13 - utf8_width(title_EFFECTS)/2, c_ltgray, title_EFFECTS);
                 for (size_t i = 0; i < effect_name.size() && i < 7; i++) {
                     mvwprintz(w_effects, i + 1, 0, c_ltgray, "%s", effect_name[i].c_str());
@@ -3180,7 +3152,7 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4"));
             break;
 
         case 3: // Skills tab
-            mvwprintz(w_skills, 0, 0, h_ltgray,  _("                          "));
+            mvwprintz(w_skills, 0, 0, h_ltgray, header_spaces.c_str());
             mvwprintz(w_skills, 0, 13 - utf8_width(title_SKILLS)/2, h_ltgray, title_SKILLS);
             half_y = skill_win_size_y / 2;
             if (line <= half_y) {
@@ -3247,7 +3219,7 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4"));
                     line--;
             } else if (action == "NEXT_TAB") {
                 werase(w_skills);
-                mvwprintz(w_skills, 0, 0, c_ltgray,  _("                          "));
+                mvwprintz(w_skills, 0, 0, c_ltgray, header_spaces.c_str());
                 mvwprintz(w_skills, 0, 13 - utf8_width(title_SKILLS)/2, c_ltgray, title_SKILLS);
                 for (size_t i = 0; i < skillslist.size() && i < size_t(skill_win_size_y); i++) {
                     const Skill* thisSkill = skillslist[i];
@@ -4298,23 +4270,23 @@ bool player::has_pda()
 bool player::has_alarm_clock()
 {
     return ( has_item_with_flag("ALARMCLOCK") ||
-             ( 
-               ( g->m.veh_at( posx(), posy() ) != nullptr ) && 
+             (
+               ( g->m.veh_at( posx(), posy() ) != nullptr ) &&
                !g->m.veh_at( posx(), posy() )->all_parts_with_feature( "ALARMCLOCK", true ).empty()
              ) ||
              has_bionic("bio_watch")
-           ); 
+           );
 }
 
 bool player::has_watch()
 {
     return ( has_item_with_flag("WATCH") ||
-             ( 
-               ( g->m.veh_at( posx(), posy() ) != nullptr ) && 
+             (
+               ( g->m.veh_at( posx(), posy() ) != nullptr ) &&
                !g->m.veh_at( posx(), posy() )->all_parts_with_feature( "WATCH", true ).empty()
              ) ||
              has_bionic("bio_watch")
-           ); 
+           );
 }
 
 void player::pause()
@@ -5167,7 +5139,7 @@ void player::get_sick()
 
     if (!has_effect("flu") && !has_effect("common_cold") &&
         one_in(900 + get_healthy() + (has_trait("DISRESISTANT") ? 300 : 0))) {
-        if (one_in(6) && !has_effect("flushot")) {
+        if (one_in(6)) {
             add_env_effect("flu", bp_mouth, 3, rng(40000, 80000));
         } else {
             add_env_effect("common_cold", bp_mouth, 3, rng(20000, 60000));
@@ -6000,26 +5972,26 @@ void player::hardcoded_effects(effect &it)
                 }
             }
             if (is_npc() && one_in(200)) {
-                std::string npcText;
+                const char *npcText;
                 switch(rng(1,4)) {
                     case 1:
-                        npcText = "\"I think it's starting to kick in.\"";
+                        npcText = _("\"I think it's starting to kick in.\"");
                         break;
                     case 2:
-                        npcText = "\"Oh God, what's happening?\"";
+                        npcText = _("\"Oh God, what's happening?\"");
                         break;
                     case 3:
-                        npcText = "\"Of course... it's all fractals!\"";
+                        npcText = _("\"Of course... it's all fractals!\"");
                         break;
                     default:
-                        npcText = "\"Huh?  What was that?\"";
+                        npcText = _("\"Huh?  What was that?\"");
                         break;
 
                 }
                 int loudness = 20 + str_cur - int_cur;
                 loudness = (loudness > 5 ? loudness : 5);
                 loudness = (loudness < 30 ? loudness : 30);
-                sounds::sound(posx(), posy(), loudness, _(npcText.c_str()));
+                sounds::sound(posx(), posy(), loudness, npcText);
             }
         } else if (dur == peakTime) {
             // Visuals start
@@ -6481,7 +6453,7 @@ void player::hardcoded_effects(effect &it)
             } while (((x == posx() && y == posy()) || g->mon_at(x, y) != -1) && tries < 10);
             if (tries < 10) {
                 if (g->m.move_cost(x, y) == 0) {
-                    g->m.make_rubble(x, y, f_rubble_rock, true);
+                    g->m.make_rubble( tripoint( x, y, posz() ), f_rubble_rock, true);
                 }
                 beast.spawn(x, y);
                 g->add_zombie(beast);
@@ -6564,7 +6536,7 @@ void player::hardcoded_effects(effect &it)
                 } while (((x == posx() && y == posy()) || g->mon_at(x, y) != -1));
                 if (tries < 10) {
                     if (g->m.move_cost(x, y) == 0) {
-                        g->m.make_rubble(x, y, f_rubble_rock, true);
+                        g->m.make_rubble( tripoint( x, y, posz() ), f_rubble_rock, true);
                     }
                     beast.spawn(x, y);
                     g->add_zombie(beast);
@@ -7603,9 +7575,10 @@ void player::suffer()
 
     if (has_trait("SORES")) {
         for (int i = bp_head; i < num_bp; i++) {
-            if ((pain < 5 + 4 * abs(encumb(body_part(i)))) && (!(has_trait("NOPAIN")))) {
+            int sores_pain = 5 + (int)(0.4 * abs( encumb( body_part( i ) ) ) );
+            if ((pain < sores_pain) && (!(has_trait("NOPAIN")))) {
                 pain = 0;
-                mod_pain( 5 + 4 * abs(encumb(body_part(i))) );
+                mod_pain( sores_pain );
             }
         }
     }
@@ -8634,7 +8607,7 @@ bool player::has_fire(const int quantity) const
 {
 // TODO: Replace this with a "tool produces fire" flag.
 
-    if (g->m.has_nearby_fire(posx(), posy())) {
+    if( g->m.has_nearby_fire( pos3() ) ) {
         return true;
     } else if (has_charges("torch_lit", 1)) {
         return true;
@@ -8690,7 +8663,7 @@ void player::use_fire(const int quantity)
 // (home made, military), hotplate, welder in that order.
 // bio_lighter, bio_laser, bio_tools, has_active_bionic("bio_tools"
 
-    if (g->m.has_nearby_fire(posx(), posy())) {
+    if( g->m.has_nearby_fire( pos3() ) ) {
         return;
     } else if (has_charges("torch_lit", 1)) {
         return;
@@ -9021,30 +8994,28 @@ hint_rating player::rate_action_eat(item *it)
  return HINT_CANT;
 }
 
-//Returns the amount of charges that were consumed byt he player
+//Returns the amount of charges that were consumed by the player
 int player::drink_from_hands(item& water) {
     int charges_consumed = 0;
-    if (query_yn(_("Drink from your hands?")))
+    if( query_yn( _("Drink %s from your hands?"), water.type_name().c_str() ) )
+    {
+        // Create a dose of water no greater than the amount of water remaining.
+        item water_temp( water );
+        // If player is slaked water might not get consumed.
+        consume_item( water_temp );
+        charges_consumed = water.charges - water_temp.charges;
+        if( charges_consumed > 0 )
         {
-            // Create a dose of water no greater than the amount of water remaining.
-            item water_temp(water);
-            inv.push_back(water_temp);
-            // If player is slaked water might not get consumed.
-            if (consume(inv.position_by_type(water_temp.typeId())))
-            {
-                moves -= 350;
-
-                charges_consumed = 1;// for some reason water_temp doesn't seem to have charges consumed, jsut set this to 1
-            }
-            inv.remove_item(inv.position_by_type(water_temp.typeId()));
+            moves -= 350;
         }
+    }
+
     return charges_consumed;
 }
 
 
-bool player::consume(int target_position)
+bool player::consume_item( item &target )
 {
-    auto &target = i_at( target_position );
     if( target.is_null() ) {
         add_msg_if_player( m_info, _("You do not have that item."));
         return false;
@@ -9068,12 +9039,10 @@ bool player::consume(int target_position)
     it_comest *comest = dynamic_cast<it_comest*>( to_eat->type );
 
     int amount_used = 1;
-    bool was_consumed = false;
     if (comest != NULL) {
         if (comest->comesttype == "FOOD" || comest->comesttype == "DRINK") {
-            was_consumed = eat(to_eat, comest);
-            if (!was_consumed) {
-                return was_consumed;
+            if( !eat(to_eat, comest) ) {
+                return false;
             }
         } else if (comest->comesttype == "MED") {
             if (comest->tool != "null") {
@@ -9099,7 +9068,6 @@ bool player::consume(int target_position)
             }
             consume_effects(to_eat, comest);
             moves -= 250;
-            was_consumed = true;
         } else {
             debugmsg("Unknown comestible type of item: %s\n", to_eat->tname().c_str());
         }
@@ -9145,18 +9113,22 @@ bool player::consume(int target_position)
                                      to_eat->tname().c_str());
         }
         moves -= 250;
-        was_consumed = true;
     }
 
-    if (!was_consumed) {
-        return false;
-    }
-
-    // Actions after consume
     to_eat->charges -= amount_used;
-    if (to_eat->charges <= 0) {
-        const bool was_in_container = &target != to_eat;
-        i_rem( to_eat );
+    return to_eat->charges <= 0;
+}
+
+bool player::consume(int target_position)
+{
+    auto &target = i_at( target_position );
+    const bool was_in_container = target.is_food_container( this );
+    if( consume_item( target ) ) {
+        if( was_in_container ) {
+            i_rem( &target.contents[0] );
+        } else {
+            i_rem( &target );
+        }
         if( was_in_container && target_position == -1 ) {
             add_msg_if_player(_("You are now wielding an empty %s."), weapon.tname().c_str());
         } else if( was_in_container && target_position < -1 ) {
@@ -9178,11 +9150,13 @@ bool player::consume(int target_position)
             }
         }
     }
+
     if( target_position >= 0 ) {
         // Always restack and resort the inventory when items in it have been changed.
         inv.restack( this );
         inv.unsort();
     }
+
     return true;
 }
 
@@ -9579,7 +9553,7 @@ bool player::eat(item *eaten, it_comest *comest)
     return true;
 }
 
-int player::nutrition_for(const it_comest *comest) 
+int player::nutrition_for(const it_comest *comest)
 {
     /* thresholds:
     **  100 : 1x
@@ -10240,7 +10214,8 @@ bool player::wear_item(item *to_wear, bool interactive)
             return false;
         }
 
-        if (to_wear->covers(bp_head) && encumb(bp_head) != 0 && to_wear->get_encumber() > 0) {
+        // this simply checked if it was zero, I've updated this for the new encumb system
+        if (to_wear->covers(bp_head) && (encumb(bp_head) > 10 || ((to_wear->get_encumber()) < 10 && to_wear->has_flag("FIT")))) {
             if(interactive) {
                 add_msg(m_info, wearing_something_on(bp_head) ?
                                 _("You can't wear another helmet!") : _("You can't wear a helmet!"));
@@ -10963,6 +10938,11 @@ bool player::invoke_item( item* used )
         return consume_charges( used, charges_used );
     }
 
+    // Food can't be invoked here - it is already invoked as a part of consumption
+    if( used->is_food() || used->is_food_container() ) {
+        return consume_item( *used );
+    }
+
     uimenu umenu;
     umenu.text = string_format( _("What to do with your %s?"), used->tname().c_str() );
     int num_total = 0;
@@ -10995,6 +10975,11 @@ bool player::invoke_item( item* used, const std::string &method )
     if( actually_used == nullptr ) {
         debugmsg( "Tried to invoke a method %s on item %s, which doesn't have this method",
                   method.c_str(), used->tname().c_str() );
+    }
+
+    // Food can't be invoked here - it is already invoked as a part of consumption
+    if( used->is_food() || used->is_food_container() ) {
+        return consume_item( *used );
     }
 
     long charges_used = actually_used->type->invoke( this, actually_used, pos(), method );
@@ -11975,9 +11960,7 @@ int player::encumb(body_part bp, double &layers, int &armorenc) const
             }
         }
     }
-    if (armorenc < 0) {
-        armorenc = 0;
-    }
+    armorenc = std::max(0, armorenc);
     ret += armorenc;
 
     for( auto &elem : layer ) {
@@ -12626,7 +12609,7 @@ void player::practice( const Skill* s, int amount, int cap )
         amount /= 2;
     }
 
-    
+
 
     if (skillLevel(s) > cap) { //blunt grinding cap implementation for crafting
         amount = 0;
@@ -12636,7 +12619,7 @@ void player::practice( const Skill* s, int amount, int cap )
                     s->name().c_str(), curLevel);
         }
     }
-    
+
     if (amount > 0 && level.isTraining()) {
         int oldLevel = skillLevel(s);
         skillLevel(s).train(amount);
@@ -12649,7 +12632,7 @@ void player::practice( const Skill* s, int amount, int cap )
             add_msg(m_info, _("You feel that %s tasks of this level are becoming trivial."),
                     s->name().c_str());
         }
-        
+
 
         int chance_to_drop = focus_pool;
         focus_pool -= chance_to_drop / 100;
@@ -13381,7 +13364,7 @@ bool player::can_hear( const point source, const int volume ) const
     }
     const int dist = rl_dist( source, pos() );
     const float volume_multiplier = hearing_ability();
-    return volume * volume_multiplier < dist;
+    return volume * volume_multiplier >= dist;
 }
 
 // This method intentionally does not factor in deafness.
@@ -13698,3 +13681,41 @@ std::vector<mission*> player::get_failed_missions() const
 {
     return failed_missions;
 }
+
+void player::print_encumbrance(WINDOW *win, int min, int max, int line)
+{
+    // initialize these once, and only once
+    static std::string asText[] = {_("Torso"), _("Head"), _("Eyes"), _("Mouth"), _("L. Arm"), _("R. Arm"),
+                             _("L. Hand"), _("R. Hand"), _("L. Leg"), _("R. Leg"), _("L. Foot"),
+                             _("R. Foot")};
+    static body_part aBodyPart[] = {bp_torso, bp_head, bp_eyes, bp_mouth, bp_arm_l, bp_arm_r, bp_hand_l,
+                             bp_hand_r, bp_leg_l, bp_leg_r, bp_foot_l, bp_foot_r};
+    int iEnc, iArmorEnc, iBodyTempInt;
+    double iLayers;
+    std::string out;
+    /*** I chose to instead only display X+Y instead of X+Y=Z. More room was needed ***
+     *** for displaying triple digit encumbrance, due to new encumbrance system.    ***
+     *** If the player wants to see the total without having to do them maths, the  ***
+     *** armor layers ui shows everything they want :-) -Davek                      ***/
+    for (int i = min; i < max; ++i) {
+        out.clear();
+        iLayers = iArmorEnc = 0;
+        iBodyTempInt = (temp_conv[i] / 100.0) * 2 - 100; // Scale of -100 to +100
+        iEnc = encumb(aBodyPart[i], iLayers, iArmorEnc);
+        // limb, and possible color highlighting
+        out = string_format("%-7s", asText[i].c_str());
+        mvwprintz(win, i + 1 - min, 1, (line == i) ? h_ltgray : c_ltgray, out.c_str());
+        // take into account the new encumbrance system for layers
+        out = string_format("(%1d) ", static_cast<int>(iLayers / 10.0));
+        wprintz(win, c_ltgray, out.c_str());
+        // accumulated encumbrance from clothing, plus extra encumbrance from layering
+        wprintz(win, encumb_color(iEnc), string_format("%3d", iArmorEnc).c_str());
+        // seperator in low toned color
+        wprintz(win, c_ltgray, "+");
+        wprintz(win, encumb_color(iEnc), string_format("%-3d", iEnc - iArmorEnc).c_str());
+        // print warmth, tethered to right hand side of the window
+        out = string_format("(% 3d)", iBodyTempInt);
+        mvwprintz(win, i + 1 - min, getmaxx(win) - 6, bodytemp_color(i), out.c_str());
+    }
+}
+

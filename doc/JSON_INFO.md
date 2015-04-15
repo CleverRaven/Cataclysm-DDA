@@ -568,6 +568,16 @@ Every item type can have optional seed data, if the item has seed data, it's con
                 // A value 91 means 3 full seasons, a value of 30 would mean 1 season.
 }
 ```
+
+###SOFTWARE DATA
+Every item type can have software data, it does not have any behavior:
+```
+"software_data" : {
+    "type": "USELESS", // unused
+    "power" : 91 // unused
+}
+```
+
 ###USE ACTIONS
 The contents of use_action fields can either be a string indicating a built-in function to call when the item is activated (defined in iuse.cpp), or one of several special definitions that invoke a more structured function.
 ```C++
@@ -716,7 +726,7 @@ The format also support snippet ids like above.
 "symbol": "0",             //Symbol used
 "color": "ltred",          //Color of the symbol
 "move_cost": 10,           //Move cost to move through. 2 = normal speed, 0 = impassable
-"trap": "spike_pit",       //(OPTIONAL) trap_id minus the tr_ prefix of the trap type.
+"trap": "spike_pit",       //(OPTIONAL) trap_id of the trap type.
                            //If omitted, defaults to tr_null.
 "flags": ["TRANSPARENT", "DIGGABLE"],   //Terrain flags
 "examine_action": "pit"    //(OPTIONAL) Function called when examined, see iexamine.cpp.

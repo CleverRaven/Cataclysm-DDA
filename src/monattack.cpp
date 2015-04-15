@@ -755,11 +755,12 @@ void mattack::growplants(monster *z, int index)
             if (i == 0 && j == 0) {
                 j++;
             }
+            tripoint p( z->posx() + i, z->posy() + j, z->posz() );
             if (!g->m.has_flag("DIGGABLE", z->posx() + i, z->posy() + j) && one_in(4)) {
                 g->m.ter_set(z->posx() + i, z->posy() + j, t_dirt);
-            } else if (one_in(3) && g->m.is_bashable(z->posx() + i, z->posy() + j)) {
+            } else if (one_in(3) && g->m.is_bashable( p )) {
                 // Destroy everything
-                g->m.bash(z->posx() + i, z->posy() + j, 999, false, true);
+                g->m.bash( p, 999, false, true );
                 // And then make the ground fertile
                 g->m.ter_set(z->posx() + i, z->posy() + j, t_dirtmound);
             } else {
@@ -1037,22 +1038,25 @@ void mattack::spit_sap(monster *z, int index)
             add_msg(_("The %s spits sap, but misses %s."), z->name().c_str(), target->disp_name().c_str() );
         }
 
-        int hitx = target->posx() + rng(0 - int(missed_by), int(missed_by)),
-            hity = target->posy() + rng(0 - int(missed_by), int(missed_by));
-        std::vector<point> line = line_to(z->posx(), z->posy(), hitx, hity, 0);
+        tripoint hitp( target->posx() + rng(0 - int(missed_by), int(missed_by)),
+                       target->posy() + rng(0 - int(missed_by), int(missed_by)),
+                       target->posz() );
+        std::vector<tripoint> line = line_to( z->pos3(), hitp, 0, 0 );
         int dam = 5;
-        for (auto &i : line) {
-            g->m.shoot(i.x, i.y, dam, false, no_effects);
+        for( auto &i : line ) {
+            g->m.shoot( i, dam, false, no_effects);
             if (dam == 0 && g->u.sees( i )) {
                 add_msg(_("A glob of sap hits the %s!"),
-                        g->m.tername(i.x, i.y).c_str());
+                        g->m.tername( i ).c_str());
                 return;
             }
+
             if (dam <= 0) {
                 break;
             }
         }
-        g->m.add_field(hitx, hity, fd_sap, (dam >= 4 ? 3 : 2));
+
+        g->m.add_field( hitp, fd_sap, (dam >= 4 ? 3 : 2), 0 );
         return;
     }
 
@@ -1060,13 +1064,13 @@ void mattack::spit_sap(monster *z, int index)
         add_msg(_("The %s spits sap!"), z->name().c_str());
     }
     g->m.sees( z->pos(), target->pos(), 60, t);
-    std::vector<point> line = line_to( z->pos(), target->pos(), t );
+    std::vector<tripoint> line = line_to( z->pos3(), target->pos3(), t, 0 );
     int dam = 5;
     for (auto &i : line) {
-        g->m.shoot(i.x, i.y, dam, false, no_effects);
+        g->m.shoot( i, dam, false, no_effects );
         if (dam == 0 && g->u.sees( i )) {
             add_msg(_("A glob of sap hits the %s!"),
-                    g->m.tername(i.x, i.y).c_str());
+                    g->m.tername( i ).c_str());
             return;
         }
     }
@@ -1989,11 +1993,11 @@ void mattack::tentacle(monster *z, int index)
     z->moves -= 100;
     z->reset_special(index); // Reset timer
 
-    std::vector<point> line = line_to( z->pos(), g->u.pos(), t );
+    std::vector<tripoint> line = line_to( z->pos3(), g->u.pos3(), t, 0 );
     std::set<std::string> no_effects;
     for (auto &i : line) {
         int tmpdam = 20;
-        g->m.shoot(i.x, i.y, tmpdam, true, no_effects);
+        g->m.shoot( i, tmpdam, true, no_effects );
     }
 
     if (g->u.uncanny_dodge()) {
@@ -2033,7 +2037,7 @@ void mattack::vortex(monster *z, int index)
             if (x == z->posx() && y == z->posy()) { // Don't throw us!
                 y++;
             }
-            g->m.bash( x, y, 14 );
+            g->m.bash( tripoint( x, y, z->posz() ), 14 );
         }
     }
     std::set<std::string> no_effects;
@@ -2043,26 +2047,27 @@ void mattack::vortex(monster *z, int index)
             if (x == z->posx() && y == z->posy()) { // Don't throw us!
                 y++;
             }
-            std::vector<point> from_monster = line_to(z->posx(), z->posy(), x, y, 0);
+            // TODO: Z
+            std::vector<tripoint> from_monster = line_to( z->pos3(), tripoint( x, y, z->posz() ), 0, 0 );
             while (!g->m.i_at(x, y).empty()) {
                 item thrown = g->m.i_at(x, y)[index];
                 g->m.i_rem(x, y, 0);
                 int distance = 5 - (thrown.weight() / 1700);
                 if (distance > 0) {
                     int dam = (thrown.weight() / 113) / double(3 + double(thrown.volume() / 6));
-                    std::vector<point> traj = continue_line(from_monster, distance);
+                    std::vector<tripoint> traj = continue_line( from_monster, distance );
                     for (size_t i = 0; i < traj.size() && dam > 0; i++) {
-                        g->m.shoot(traj[i].x, traj[i].y, dam, false, no_effects);
-                        int mondex = g->mon_at(traj[i].x, traj[i].y);
+                        g->m.shoot( traj[i], dam, false, no_effects );
+                        int mondex = g->mon_at( traj[i] );
                         if (mondex != -1) {
                             g->zombie( mondex ).apply_damage( z, random_body_part(), dam );
                             g->zombie( mondex ).check_dead_state();
                             dam = 0;
                         }
-                        if (g->m.move_cost(traj[i].x, traj[i].y) == 0) {
+                        if (g->m.move_cost( traj[i] ) == 0) {
                             dam = 0;
                             i--;
-                        } else if (traj[i].x == g->u.posx() && traj[i].y == g->u.posy()) {
+                        } else if( traj[i] == g->u.pos3() ) {
                             if (! g->u.uncanny_dodge()) {
                                 body_part hit = random_body_part();
                                 //~ 1$s is item name, 2$s is bodypart in accusative, 3$d is damage value.
@@ -2123,7 +2128,7 @@ void mattack::vortex(monster *z, int index)
                     if (g->u.sees(*thrown)) {
                         add_msg(_("The %s is thrown by winds!"), thrown->name().c_str());
                     }
-                    std::vector<point> traj = continue_line(from_monster, distance);
+                    std::vector<tripoint> traj = continue_line(from_monster, distance);
                     bool hit_wall = false;
                     for (size_t i = 0; i < traj.size() && !hit_wall; i++) {
                         int monhit = g->mon_at(traj[i].x, traj[i].y);
@@ -2140,7 +2145,7 @@ void mattack::vortex(monster *z, int index)
                             thrown->setpos(traj[i - 1]);
                         }
                         int damage_copy = damage;
-                        g->m.shoot(traj[i].x, traj[i].y, damage_copy, false, no_effects);
+                        g->m.shoot( traj[i], damage_copy, false, no_effects );
                         if (damage_copy < damage) {
                             thrown->apply_damage( nullptr, bp_torso, damage - damage_copy );
                         }
@@ -2167,7 +2172,7 @@ void mattack::vortex(monster *z, int index)
                     immune = true;
                 }
                 if (!g->u.uncanny_dodge() && !immune) {
-                    std::vector<point> traj = continue_line(from_monster, rng(2, 3));
+                    std::vector<tripoint> traj = continue_line(from_monster, rng(2, 3));
                     add_msg(m_bad, _("You're thrown by winds!"));
                     bool hit_wall = false;
                     int damage = rng(5, 10);
@@ -2190,7 +2195,7 @@ void mattack::vortex(monster *z, int index)
                             g->u.sety( traj[i - 1].y );
                         }
                         int damage_copy = damage;
-                        g->m.shoot(traj[i].x, traj[i].y, damage_copy, false, no_effects);
+                        g->m.shoot( traj[i], damage_copy, false, no_effects);
                         if (damage_copy < damage) {
                             g->u.deal_damage( z, bp_torso, damage_instance( DT_BASH, damage - damage_copy ) );
                             g->u.check_dead_state();
@@ -2270,13 +2275,13 @@ void mattack::stare(monster *z, int index)
         g->u.add_effect("teleglow", 800);
     } else {
         add_msg(m_bad, _("A piercing beam of light bursts forth!"));
-        std::vector<point> sight = line_to( z->pos(), g->u.pos(), 0 );
+        std::vector<tripoint> sight = line_to( z->pos3(), g->u.pos3(), 0, 0 );
         for (auto &i : sight) {
-            if (g->m.ter(i.x, i.y) == t_reinforced_glass ) {
+            if( g->m.ter( i ) == t_reinforced_glass ) {
                 break;
-            } else if (g->m.is_bashable(i.x, i.y)) {
+            } else if( g->m.is_bashable( i ) ) {
                 //Destroy it
-                g->m.bash(i.x, i.y, 999, false, true);
+                g->m.bash( i, 999, false, true );
             }
         }
     }
@@ -3113,7 +3118,7 @@ void mattack::flame( monster *z, Creature *target )
         // shouldn't happen
         debugmsg( "mattack::flame invoked on invisible target" );
       }
-      std::vector<point> traj = line_to( z->pos(), target->pos(), bres );
+      std::vector<tripoint> traj = line_to( z->pos3(), target->pos3(), bres, 0 );
 
       for (auto &i : traj) {
           // break out of attack if flame hits a wall
@@ -3136,7 +3141,7 @@ void mattack::flame( monster *z, Creature *target )
         // shouldn't happen
         debugmsg( "mattack::flame invoked on invisible target" );
     }
-    std::vector<point> traj = line_to( z->pos(), target->pos(), bres );
+    std::vector<tripoint> traj = line_to( z->pos3(), target->pos3(), bres, 0 );
 
     for (auto &i : traj) {
         // break out of attack if flame hits a wall

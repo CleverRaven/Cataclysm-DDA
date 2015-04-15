@@ -117,56 +117,6 @@ inventory inventory::operator+ (const item &rhs)
     return u.rate_action_use(&it) != HINT_CANT;
 }
 
-/*static*/ bool inventory::has_category(const item &it, item_cat cat, const player &u)
-{
-    switch (cat) {
-    case IC_COMESTIBLE: // food
-        if (it.is_food(&u) || it.is_food_container(&u)) {
-            return true;
-        }
-        break;
-    case IC_AMMO: // ammo
-        if (it.is_ammo() || it.is_ammo_container()) {
-            return true;
-        }
-        break;
-    case IC_ARMOR: // armor
-        if (it.is_armor()) {
-            return true;
-        }
-        break;
-    case IC_BOOK: // books
-        if (it.is_book()) {
-            return true;
-        }
-        break;
-    case IC_TOOL: // tools
-        if (it.is_tool()) {
-            return true;
-        }
-        break;
-    case IC_CONTAINER: // containers for liquid handling
-        if (it.is_tool() || it.is_gun()) {
-            if (it.ammo_type() == "gasoline") {
-                return true;
-            }
-        } else {
-            if (it.is_container()) {
-                return true;
-            }
-        }
-        break;
-    case IC_GUN:
-        if(it.is_gun()) {
-            return true;
-        }
-        break;
-    case IC_NULL:
-        break;
-    }
-    return false;
-}
-
 /*static*/ bool inventory::has_capacity_for_liquid(const item &it, const item &liquid)
 {
     return (it.get_remaining_capacity_for_liquid(liquid) > 0);
@@ -189,19 +139,6 @@ indexed_invslice inventory::slice_filter_by_activation(const player &u)
     indexed_invslice stacks;
     for( auto &elem : items ) {
         if( has_activation( elem.front(), u ) ) {
-            stacks.push_back( std::make_pair( &elem, i ) );
-        }
-        ++i;
-    }
-    return stacks;
-}
-
-indexed_invslice inventory::slice_filter_by_category(item_cat cat, const player &u)
-{
-    int i = 0;
-    indexed_invslice stacks;
-    for( auto &elem : items ) {
-        if( has_category( elem.front(), cat, u ) ) {
             stacks.push_back( std::make_pair( &elem, i ) );
         }
         ++i;

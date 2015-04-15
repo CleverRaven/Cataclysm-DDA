@@ -147,6 +147,7 @@ struct overmap_special_spawns {
 };
 
 struct overmap_special_terrain {
+    overmap_special_terrain() : p( 0, 0, 0 ) { };
     tripoint p;
     std::string connect;
     std::string terrain;

@@ -812,8 +812,10 @@ void vehicle::smash_security_system(){
 
 void vehicle::use_controls()
 {
-    std::vector<vehicle_controls> options_choice;
-    std::vector<uimenu_entry> options_message;
+    uimenu menu;
+    menu.return_invalid = true;
+    menu.text = _("Vehicle controls");
+
     int vpart;
 
     if (!interact_vehicle_locked()) return;
@@ -822,11 +824,9 @@ void vehicle::use_controls()
     // Let go without turning the engine off.
     if (g->u.controlling_vehicle &&
         g->m.veh_at(g->u.posx(), g->u.posy(), vpart) == this) {
-        options_choice.push_back(release_control);
-        options_message.push_back(uimenu_entry(_("Let go of controls"), 'l'));
+        menu.addentry( release_control, true, 'l', _("Let go of controls") );
     } else if( remotely_controlled ) {
-        options_choice.push_back(release_remote_control);
-        options_message.push_back(uimenu_entry(_("Stop controlling"), 'l'));
+        menu.addentry( release_remote_control, true, 'l', _("Stop controlling") );
     }
 
 
@@ -905,150 +905,113 @@ void vehicle::use_controls()
     // Toggle engine on/off, stop driving if we are driving.
     if( has_engine ) {
         if( g->u.controlling_vehicle || ( remotely_controlled && engine_on ) ) {
-            options_choice.push_back(toggle_engine);
-            options_message.push_back(uimenu_entry(_("Stop driving"), 's'));
+            menu.addentry( toggle_engine, true, 'e', _("Stop driving") );
         } else if( has_engine_type_not(fuel_type_muscle, true ) ) {
-            options_choice.push_back(toggle_engine);
-            options_message.push_back(uimenu_entry((engine_on) ?
-                        _("Turn off the engine") : _("Turn on the engine"), 'e'));
+            menu.addentry( toggle_engine, true, 'e', engine_on ?
+                           _("Turn off the engine") : _("Turn on the engine") );
         }
     }
 
     if( is_alarm_on && velocity == 0 && !remotely_controlled ) {
-        options_choice.push_back(try_disarm_alarm);
-        options_message.push_back(uimenu_entry(_("Try to disarm alarm."), 'z'));
+        menu.addentry( try_disarm_alarm, true, 'z', _("Try to disarm alarm.") );
     }
 
-    options_choice.push_back(toggle_cruise_control);
-    options_message.push_back(uimenu_entry((cruise_on) ? _("Disable cruise control") :
-                                           _("Enable cruise control"), 'c'));
+    menu.addentry( toggle_cruise_control, true, 'c', cruise_on ?
+                   _("Disable cruise control") : _("Enable cruise control") );
 
 
     // Lights if they are there - Note you can turn them on even when damaged, they just don't work
     if (has_lights) {
-        options_choice.push_back(toggle_lights);
-        options_message.push_back(uimenu_entry((lights_on) ? _("Turn off headlights") :
-                                               _("Turn on headlights"), 'h'));
+        menu.addentry( toggle_lights, true, 'h', lights_on ?
+                       _("Turn off headlights") : _("Turn on headlights") );
     }
 
     if (has_stereo) {
-        options_choice.push_back(toggle_stereo);
-        options_message.push_back(uimenu_entry((stereo_on) ? _("Turn off stereo") :
-                                               _("Turn on stereo"), 'm'));
+        menu.addentry( toggle_stereo, true, 'm', stereo_on ?
+                       _("Turn off stereo") : _("Turn on stereo") );
     }
 
    if (has_overhead_lights) {
-       options_choice.push_back(toggle_overhead_lights);
-       options_message.push_back(uimenu_entry(overhead_lights_on ? _("Turn off overhead lights") :
-                                              _("Turn on overhead lights"), 'v'));
+        menu.addentry( toggle_overhead_lights, true, 'v', overhead_lights_on ?
+                       _("Turn off overhead lights") : _("Turn on overhead lights") );
    }
 
 
     if (has_dome_lights) {
-        options_choice.push_back(toggle_dome_lights);
-        options_message.push_back(uimenu_entry((dome_lights_on) ? _("Turn off dome lights") :
-                                               _("Turn on dome lights"), 'D'));
+        menu.addentry( toggle_dome_lights, true, 'D', dome_lights_on ?
+                       _("Turn off dome lights") : _("Turn on dome lights") );
     }
 
     if (has_aisle_lights) {
-        options_choice.push_back(toggle_aisle_lights);
-        options_message.push_back(uimenu_entry((aisle_lights_on) ? _("Turn off aisle lights") :
-                                               _("Turn on aisle lights"), 'A'));
+        menu.addentry( toggle_aisle_lights, true, 'A', aisle_lights_on ?
+                       _("Turn off aisle lights") : _("Turn on aisle lights") );
     }
 
     //Honk the horn!
     if (has_horn) {
-        options_choice.push_back(activate_horn);
-        options_message.push_back(uimenu_entry(_("Honk horn"), 'o'));
+        menu.addentry( activate_horn, true, 'o', _("Honk horn") );
     }
 
     // Turrets: off or burst mode
     if (has_turrets) {
-        options_choice.push_back(toggle_turrets);
-        options_message.push_back( uimenu_entry( ( turret_mode == turret_mode_off ) ? 
-                                                _("Enable turrets") : _("Disable turrets"), 't') );
+        menu.addentry( toggle_turrets, true, 't', turret_mode == turret_mode_off ?
+                       _("Enable turrets") : _("Disable turrets") );
     }
 
     // Turn the fridge on/off
     if (has_fridge) {
-        options_choice.push_back(toggle_fridge);
-        options_message.push_back(uimenu_entry(fridge_on ? _("Turn off fridge") :
-                                               _("Turn on fridge"), 'f'));
+        menu.addentry( toggle_fridge, true, 'f', fridge_on ? _("Turn off fridge") : _("Turn on fridge") );
     }
 
     // Turn the recharging station on/off
     if (has_recharger) {
-        options_choice.push_back(toggle_recharger);
-        options_message.push_back(uimenu_entry(recharger_on ? _("Turn off recharger") :
-                                               _("Turn on recharger"), 'r'));
+        menu.addentry( toggle_recharger, true, 'r', recharger_on ? _("Turn off recharger") : _("Turn on recharger") );
     }
 
     // Tracking on the overmap
     if (has_tracker) {
-        options_choice.push_back(toggle_tracker);
-        options_message.push_back(uimenu_entry((tracking_on) ? _("Disable tracking device") :
-                                                _("Enable tracking device"), 'g'));
-
+        menu.addentry( toggle_tracker, true, 'g', tracking_on ?
+                       _("Disable tracking device") : _("Enable tracking device") );
     }
 
     const bool can_be_folded = is_foldable();
     const bool is_convertible = (tags.count("convertible") > 0);
     if( ( can_be_folded || is_convertible ) && !remotely_controlled ) {
-        options_choice.push_back(convert_vehicle);
-        options_message.push_back(uimenu_entry(string_format(_("Fold %s"), name.c_str()), 'f'));
+        menu.addentry( convert_vehicle, true, 'f', string_format( _( "Fold %s" ), name.c_str() ) );
     }
 
     // Turn the reactor on/off
     if (has_reactor) {
-        options_choice.push_back(toggle_reactor);
-        options_message.push_back(uimenu_entry(reactor_on ? _("Turn off reactor") :
-                                               _("Turn on reactor"), 'k'));
+        menu.addentry( toggle_reactor, true, 'k', reactor_on ? _("Turn off reactor") : _("Turn on reactor") );
     }
     // Toggle doors remotely
     if (has_door_motor) {
-        options_choice.push_back(toggle_doors);
-        options_message.push_back(uimenu_entry(_("Toggle door"), 'd'));
+        menu.addentry( toggle_doors, true, 'd', _("Toggle door") );
     }
     // control an engine
     if (has_mult_engine) {
-        options_choice.push_back(cont_engines);
-        options_message.push_back(uimenu_entry(_("Control individual engines"), 'y'));
+        menu.addentry( cont_engines, true, 'y', _("Control individual engines") );
     }
     // start alarm
     if (can_trigger_alarm) {
-        options_choice.push_back(trigger_alarm);
-        options_message.push_back(uimenu_entry(_("Trigger alarm"), 'p'));
+        menu.addentry( trigger_alarm, true, 'p', _("Trigger alarm") );
     }
     // cycle individual turret modes
     if( has_turrets ) {
-        options_choice.push_back(cont_turrets);
-        options_message.push_back(uimenu_entry(_("Configure individual turrets"), 'x'));
-        
-        options_choice.push_back(manual_fire);
-        options_message.push_back(uimenu_entry(_("Aim turrets manually"), 'w'));
+        menu.addentry( cont_turrets, true, 'x', _("Configure individual turrets") );
+        menu.addentry( manual_fire, true, 'w', _("Aim turrets manually") );
     }
     // toggle cameras
     if( camera_on || ( has_camera && has_camera_control ) ) {
-        options_choice.push_back( toggle_camera );
-        options_message.push_back( uimenu_entry( camera_on ? _("Turn off camera system") :
-                                                             _("Turn on camera system"), 'M' ) );
+        menu.addentry( toggle_camera, true, 'M', camera_on ?
+                       _("Turn off camera system") : _("Turn on camera system") );
     }
 
-    options_choice.push_back(control_cancel);
-    options_message.push_back(uimenu_entry(_("Do nothing"), ' '));
+    menu.addentry( control_cancel, true, ' ', _("Do nothing") );
 
-    uimenu selectmenu;
-    selectmenu.return_invalid = true;
-    selectmenu.text = _("Vehicle controls");
-    selectmenu.entries = options_message;
-    selectmenu.query();
-    int select = selectmenu.ret;
+    menu.query();
 
-    if (select < 0) {
-        return;
-    }
-
-    switch(options_choice[select]) {
+    switch( static_cast<vehicle_controls>( menu.ret ) ) {
     case trigger_alarm:
         is_alarm_on = true;
         add_msg(_("You trigger the alarm"));
@@ -1211,10 +1174,8 @@ void vehicle::use_controls()
         add_msg(_("You stop controlling the vehicle."));
         break;
     case convert_vehicle:
-    {
         fold_up();
         break;
-    }
     case toggle_tracker:
         if (tracking_on)
         {
@@ -1485,9 +1446,8 @@ void vehicle::play_music()
             stereo_on = false;
             return;
         }
-        std::string sound = "";
         const auto radio_pos = global_pos() + parts[p].precalc[0];
-        iuse::play_music( &(g->u), radio_pos, 15 );
+        iuse::play_music( &g->u, radio_pos, 15, 50 );
     }
 }
 vpart_info& vehicle::part_info (int index, bool include_removed) const
@@ -3508,13 +3468,13 @@ void vehicle::power_parts (tripoint sm_loc)//TODO: more categories of powered pa
         dome_lights_on = false;
         aisle_lights_on = false;
         if(player_in_control(&g->u) || g->u.sees( global_pos() )) {
-            add_msg("The %s's battery dies!",name.c_str());
+            add_msg(_("The %s's battery dies!"),name.c_str());
         }
         if(gas_epower < 0) {
             // Not enough epower to run gas engine ignition system
             engine_on = false;
             if(player_in_control(&g->u) || g->u.sees( global_pos() )) {
-                add_msg("The %s's engine dies!",name.c_str());
+                add_msg(_("The %s's engine dies!"),name.c_str());
             }
         }
     }
@@ -3689,12 +3649,10 @@ void vehicle::idle(bool on_map) {
     float idle_rate;
 
     if (engine_on && total_power() > 0) {
-        int strn = (int)(strain() * strain() * 100);
         for (size_t e = 0; e < engines.size(); e++){
             size_t p = engines[e];
             if (fuel_left(part_info(p).fuel_type) && is_engine_on(e)) {
                 engines_power += part_power(engines[e]);
-                do_engine_damage(e, strn);
             }
         }
 
@@ -3884,18 +3842,18 @@ void vehicle::thrust (int thd) {
     }
 
     //change vehicles velocity
-    if ((velocity > 0 && velocity + vel_inc < 0) ||
-        (velocity < 0 && velocity + vel_inc > 0)) {
+    if( (velocity > 0 && velocity + vel_inc < 0) ||
+        (velocity < 0 && velocity + vel_inc > 0) ) {
         //velocity within braking distance of 0
         stop ();
-    } else if (!(velocity > max_vel)) { // check engines didn't just explode
+    } else {
         // Increase velocity up to max_vel or min_vel, but not above.
         const int min_vel = -max_vel / 4;
-        velocity += vel_inc;
-        if (velocity > 0) {
-            velocity = std::min(velocity, max_vel);
+        if( vel_inc > 0 ) {
+            // Don't allow braking by accelerating (could happen with damaged engines)
+            velocity = std::max( velocity, std::min( velocity + vel_inc, max_vel ) );
         } else {
-            velocity = std::max(velocity, min_vel);
+            velocity = std::min( velocity, std::max( velocity + vel_inc, min_vel ) );
         }
     }
 }
@@ -4164,7 +4122,8 @@ veh_collision vehicle::part_collision (int part, int x, int y, bool just_detect)
             smashed = false;
         } else if (collision_type == veh_coll_bashable) {
             // something bashable -- use map::bash to determine outcome
-            smashed = g->m.bash(x, y, obj_dmg, false, false, this).second;
+            // TODO: Z
+            smashed = g->m.bash( tripoint( x, y, g->get_levz() ), obj_dmg, false, false, this).second;
             if (smashed) {
                 if (g->m.is_bashable_ter_furn(x, y)) {
                     // There's new terrain there to smash
@@ -5462,7 +5421,7 @@ bool vehicle::fire_turret( int p, bool manual )
     // Don't let non-manual turrets get aimed manually
     if( manual && part_flag( p, "NO_MANUAL" ) ) {
         if( manual ) {
-            add_msg( m_bad, "This turret can't be aimed manually" );
+            add_msg( m_bad, _("This turret can't be aimed manually") );
         }
 
         return false;
@@ -5488,7 +5447,7 @@ bool vehicle::fire_turret( int p, bool manual )
     const int power = fuel_left( fuel_type_battery );
     if( gun_data.ups_charges > 0 && gun_data.ups_charges < power ) {
         if( manual ) {
-            add_msg( m_bad, "This turret is not powered" );
+            add_msg( m_bad, _("This turret is not powered") );
         }
 
         return false;
@@ -5537,7 +5496,7 @@ bool vehicle::fire_turret( int p, bool manual )
         charges = std::min( charges, turret_has_ammo( p ) );
         if( charges <= 0 ) {
             if( manual ) {
-                add_msg( m_bad, "This turret doesn't have enough ammo" );
+                add_msg( m_bad, _("This turret doesn't have enough ammo") );
             }
 
             return false;
@@ -5748,7 +5707,7 @@ bool vehicle::manual_fire_turret( int p, player &shooter, const itype &guntype,
     // Deactivate automatic aiming
     if( parts[p].mode > 0 ) {
         parts[p].mode = -parts[p].mode;
-        add_msg( m_warning, "Deactivating automatic target acquisition for this turret" );
+        add_msg( m_warning, _("Deactivating automatic target acquisition for this turret" ));
     }
 
     return !trajectory.empty();

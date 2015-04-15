@@ -922,6 +922,11 @@ void initOptions()
                                     14, 127, 14
                                    );
 
+    OPTIONS["CONSTRUCTION_SCALING"] = cOpt("world_default", _("Construction scaling"),
+                                           _(" Multiplies the speed of construction by the given percentage. '0' automatically scales construction to match the world's season length."),
+                                           0, 1000, 100
+                                           );
+
     mOptionsSort["world_default"]++;
 
     OPTIONS["STATIC_SPAWN"] = cOpt("world_default", _("Static spawn"),
@@ -962,6 +967,12 @@ void initOptions()
                                    _("If true, radiation causes the player to mutate."),
                                    true
                                   );
+
+    mOptionsSort["world_default"]++;
+
+    OPTIONS["ZLEVELS"] = cOpt( "world_default", _("Experimental z-levels"),
+                               _("If true, experimental z-level maps will be enabled. This feature is not finished yet and turning it on will only slow the game down."),
+                               false );
 
     for (unsigned i = 0; i < vPages.size(); ++i) {
         mPageItems[i].resize(mOptionsSort[vPages[i].first]);

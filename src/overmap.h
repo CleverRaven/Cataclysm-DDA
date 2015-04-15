@@ -448,6 +448,7 @@ public:
   bool check_ot_type_road(const std::string &otype, int x, int y, int z);
   bool is_road(int x, int y, int z);
   void polish(const int z, const std::string &terrain_type="all");
+  void chip_rock(int x, int y, int z);
   void good_road(const std::string &base, int x, int y, int z);
   void good_river(int x, int y, int z);
   oter_id rotate(const oter_id &oter, int dir);

@@ -78,7 +78,7 @@ void mdeath::boomer(monster *z)
     sounds::sound(z->posx(), z->posy(), 24, explode);
     for (int i = -1; i <= 1; i++) {
         for (int j = -1; j <= 1; j++) {
-            g->m.bash( z->posx() + i, z->posy() + j, 10 );
+            g->m.bash( tripoint( z->posx() + i, z->posy() + j, z->posz() ), 10 );
             g->m.add_field(z->posx() + i, z->posy() + j, fd_bile, 1);
             int mondex = g->mon_at(z->posx() + i, z->posy() + j);
             if (mondex != -1) {

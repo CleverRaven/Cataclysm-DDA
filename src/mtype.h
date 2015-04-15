@@ -90,6 +90,7 @@ enum m_flag {
     MF_ELECTRIC,            // Shocks unarmed attackers
     MF_ACIDPROOF,           // Immune to acid
     MF_ACIDTRAIL,           // Leaves a trail of acid
+    MF_FIREPROOF,           //Immune to fire
     MF_SLUDGEPROOF,         // Ignores the effect of sludge trails
     MF_SLUDGETRAIL,         // Causes monster to leave a sludge trap trail when moving
     MF_LEAKSGAS,            // Occasionally leaks gas when moving
@@ -164,7 +165,7 @@ struct mon_effect_data
     body_part bp;
     bool permanent;
     int chance;
-    
+
     mon_effect_data(std::string nid, int dur, body_part nbp, bool perm, int nchance) :
                     id(nid), duration(dur), bp(nbp), permanent(perm), chance(nchance) {};
 };
@@ -192,7 +193,7 @@ struct mtype {
 
         std::bitset<MF_MAX> bitflags;
         std::bitset<N_MONSTER_TRIGGERS> bitanger, bitfear, bitplacate;
-        
+
         /** Stores effect data for effects placed on attack */
         std::vector<mon_effect_data> atk_effs;
 
@@ -218,9 +219,9 @@ struct mtype {
         float luminance;           // 0 is default, >0 gives luminance to lightmap
         int hp;
         std::vector<unsigned int> sp_freq;     // How long sp_attack takes to charge
-        
+
         unsigned int def_chance; // How likely a special "defensive" move is to trigger (0-100%, default 0)
-        
+
         std::vector<mon_action_death>  dies;       // What happens when this monster dies
         std::vector<mon_action_attack> sp_attack;  // This monster's special attack
 
