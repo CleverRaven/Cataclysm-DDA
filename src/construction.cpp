@@ -1540,19 +1540,20 @@ int construction::print_time(WINDOW *w, int ypos, int xpos, int width,
     return fold_and_print( w, ypos, xpos, width, col, text );
 }
 
+float construction::time_scale() const
+{
+    //incorporate construction time scaling
+    if( ACTIVE_WORLD_OPTIONS.empty() || int(ACTIVE_WORLD_OPTIONS["CONSTRUCTION_SCALING"]) == 0 ) {
+        return calendar::season_ratio();
+    }else{
+        return 100.0 / int(ACTIVE_WORLD_OPTIONS["CONSTRUCTION_SCALING"]);
+    }
+}
+
 int construction::adjusted_time() const
 {
     int basic = time;
-    int assistants = 0;
-    
-    //incorporate construction time scaling
-    float time_scale;
-    if( ACTIVE_WORLD_OPTIONS.empty() || int(ACTIVE_WORLD_OPTIONS["CONSTRUCTION_SCALING"]) == 0 ) {
-        time_scale = calendar::season_ratio();
-    }else{
-        time_scale = 100.0 / int(ACTIVE_WORLD_OPTIONS["CONSTRUCTION_SCALING"]);
-    }
-    basic *= time_scale;    
+    int assistants = 0;                
     
     for( auto &elem : g->active_npc ) {
         if (rl_dist( elem->pos(), g->u.pos() ) < PICKUP_RANGE && elem->is_friend()){
@@ -1564,6 +1565,9 @@ int construction::adjusted_time() const
         basic = basic * .75;
     if (basic <= time * .4)
         basic = time * .4;
+        
+    basic *= time_scale();
+    
     return basic;
 }
 

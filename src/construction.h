@@ -37,6 +37,7 @@ struct construction
     int adjusted_time() const; // NPC assistance adjusted
     int print_time(WINDOW *w, int ypos, int xpos, int width, nc_color col) const;
     std::vector<std::string> get_folded_time_string(int width) const;
+    float time_scale() const; //result of construction scaling option
     private:
     std::string get_time_string() const;
 };
