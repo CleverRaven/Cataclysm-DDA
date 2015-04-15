@@ -192,9 +192,9 @@
         "category": "flier",
         "text": "This is an illustrated poster for a brand of solar car.  The vehicle is driving through a lush country side as small animals look on.  The slogan \"Improving the world, one tank at a time.\" is written across the top.  Someone used a blue pen to write \"who gives a shit\" across the slogan and put X's over the eyes of all the animals."
     },{
-		"type" : "snippet",
-		"category" : "flier",
-		"text" : "This is a poster advertising a underground bunker.  The poster shows a nuclear bomb wiping out a city while a family huddles safely underground.  There a slogan \"Concerned about enemy attack?  Want to protect your family?  Join the VAULT program today.\" which is written in the middle."
+        "type" : "snippet",
+        "category" : "flier",
+        "text" : "This is a poster advertising a underground bunker.  The poster shows a nuclear bomb wiping out a city while a family huddles safely underground.  There a slogan \"Concerned about enemy attack?  Want to protect your family?  Join the VAULT program today.\" which is written in the middle.  However, there seems to be no information about *how* one might do so."
 	},{
         "type" : "snippet",
         "category" : "note",
@@ -592,9 +592,9 @@
         "category" : "note",
         "text" : "\"This thing isn't a car any more.  It's just a fucking mountain of metal on wheels, which I live in.\""
     },{
-		"type" : "snippet",
-		"category" : "note",
-		"text" : "\"I've heard there is a underground shelter somewhere\""
+        "type" : "snippet",
+        "category" : "note",
+        "text" : "\"I've heard there is a underground shelter somewhere\""
     },{
 "type": "snippet",
 "category":"newest_news", 
@@ -611,7 +611,7 @@
  "TOWNS OCCUPIED TERRITORY: FEMA officials said today \"Do not try to defend your property in towns: invaders use advanced tracking, perhaps scent.  Please retreat to your nearest evacuation center outside town and await extraction.\"",
  "PUBLIC SERVICE ANNOUNCEMENT: \"Beware Acid Rain\".  Several caustic chemicals in the air react with rain clouds to cause deadly acid rain.  No word yet on if this is a deliberate tactic or a side effect of the earlier bombings.", 
  "EDITOR SAYS \"DESTROY THE DEAD\".  Recognisable enemy dead left lying in the street may give away militia positions!  If you kill an enemy combatant, smash or butcher with a knife until unrecognizable!  Screw Geneva!  Protect our troops!",
- "SOLDIERS SEEN HEADED UNDERGROUND.  Rumors abound as eyewitness see troops headed underground near a local salon.  Expert sources suggest that the soldiers may be headed to a possible underground bunker"]
+ "SOLDIERS SEEN HEADED UNDERGROUND.  Rumors abound as eyewitness see troops headed underground near a local salon.  Expert sources suggest that the soldiers may be headed to a possible underground bunker."]
 },
 
 
