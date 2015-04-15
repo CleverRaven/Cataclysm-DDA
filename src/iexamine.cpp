@@ -1569,18 +1569,18 @@ void iexamine::aggie_plant(player *p, map *m, int examx, int examy)
                 plantCount = 12;
             }
             if( item::count_by_charges( seedType ) ) {
-                m->spawn_item(examx, examy, seedType, 1, rng(plantCount / 4, plantCount / 2));
+                m->spawn_item(examx, examy, seedType, 1, rng(plantCount / 4, plantCount / 2), calendar::turn);
             } else {
-                m->spawn_item(examx, examy, seedType, rng(plantCount / 4, plantCount / 2));
+                m->spawn_item(examx, examy, seedType, rng(plantCount / 4, plantCount / 2), -1, calendar::turn);
             }
             // making the last two arguments to 1 (amount), 1 (charges) works fine whether the
             // item is counted by charges or not. It will spawn exactly one item with one charge
             // (if by-charge), or one item with no charge (if not by-charge) per call.
             for( int i = 0; i < plantCount; ++i ) {
-                m->spawn_item( examx, examy, seed_data.fruit_id, 1, 1 );
+                m->spawn_item( examx, examy, seed_data.fruit_id, 1, 1, calendar::turn );
             }
             for( auto &b : seed_data.byproducts ) {
-                m->spawn_item( examx, examy, b, 1, 1 );
+                m->spawn_item( examx, examy, b, 1, 1, calendar::turn );
             }
             p->moves -= 500;
         }
