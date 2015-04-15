@@ -1544,6 +1544,16 @@ int construction::adjusted_time() const
 {
     int basic = time;
     int assistants = 0;
+    
+    //incorporate construction time scaling
+    float time_scale;
+    if( ACTIVE_WORLD_OPTIONS.empty() || int(ACTIVE_WORLD_OPTIONS["CONSTRUCTION_SCALING"]) == 0 ) {
+        time_scale = calendar::season_ratio();
+    }else{
+        time_scale = 100.0 / int(ACTIVE_WORLD_OPTIONS["CONSTRUCTION_SCALING"]);
+    }
+    basic *= time_scale;    
+    
     for( auto &elem : g->active_npc ) {
         if (rl_dist( elem->pos(), g->u.pos() ) < PICKUP_RANGE && elem->is_friend()){
             if (elem->skillLevel(skill) >= difficulty)
