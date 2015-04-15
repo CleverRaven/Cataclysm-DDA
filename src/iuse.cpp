@@ -3309,7 +3309,7 @@ int iuse::fish_trap(player *p, item *it, bool t, point pos)
         }
 
         if (it->charges == 0) {
-            p->add_msg_if_player(_("Fishes are not silly to go in here without bait."));
+            p->add_msg_if_player(_("Fish are not foolish enough to go in here without bait."));
             return 0;
         }
 
@@ -5547,7 +5547,7 @@ int iuse::tazer(player *p, item *it, bool, point)
     }
 
     if (dirx == p->posx() && diry == p->posy()) {
-        p->add_msg_if_player(m_info, _("Umm. No."));
+        p->add_msg_if_player(m_info, _("Umm.  No."));
         return 0;
     }
     int mondex = g->mon_at(dirx, diry);
@@ -5623,7 +5623,7 @@ int iuse::tazer2(player *p, item *it, bool, point)
         }
 
         if (dirx == p->posx() && diry == p->posy()) {
-            p->add_msg_if_player(m_info, _("Umm. No."));
+            p->add_msg_if_player(m_info, _("Umm.  No."));
             return 0;
         }
 
@@ -8728,7 +8728,7 @@ int iuse::camera(player *p, item *it, bool, point)
         init_memory_card_with_random_stuff(p, mc);
 
         if (mc->has_flag("MC_ENCRYPTED")) {
-            if (!query_yn(_("This memory card is encrypted. Format and clear data?"))) {
+            if (!query_yn(_("This memory card is encrypted.  Format and clear data?"))) {
                 return it->type->charges_to_use();
             }
         }
@@ -9047,7 +9047,7 @@ int iuse::radiocontrol(player *p, item *it, bool t, point)
         for( auto &elem : item_list ) {
             if( ( elem )->has_flag( "BOMB" ) && ( elem )->has_flag( signal ) ) {
                 p->add_msg_if_player( m_warning,
-                    _("The %s in you inventory would explode on this signal. Place it down before sending the signal."),
+                    _("The %s in you inventory would explode on this signal.  Place it down before sending the signal."),
                     ( elem )->display_name().c_str() );
                 return 0;
             }
