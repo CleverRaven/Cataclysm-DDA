@@ -707,12 +707,26 @@ void add_corpse( const tripoint &p );
     void spawn_an_item( const tripoint &p, item new_item,
                         const long charges, const int damlevel);
 
+    /**
+     * @name Consume items on the map
+     *
+     * The functions here consume accessible items / item charges on the map or in vehicles
+     * around the player (whose positions is given as origin).
+     * They return a list of copies of the consumed items (with the actually consumed charges
+     * in it).
+     * The quantity / amount parameter will be reduced by the number of items/charges removed.
+     * If all required items could be removed from the map, the quantity/amount will be 0,
+     * otherwise it will contain a positive value and the remaining items must be gathered from
+     * somewhere else.
+     */
+    /*@{*/
     std::list<item> use_amount_square( const tripoint &p, const itype_id type,
-                                       int &quantity, const bool use_container );
+                                       long &quantity, const bool use_container );
     std::list<item> use_amount( const tripoint &origin, const int range, const itype_id type,
-                                const int amount, const bool use_container = false );
+                                long &amount, const bool use_container = false );
     std::list<item> use_charges( const tripoint &origin, const int range, const itype_id type,
-                                 const long amount );
+                                 long &amount );
+    /*@}*/
     std::list<std::pair<tripoint, item *> > get_rc_items( int x = -1, int y = -1, int z = -1 );
 
     /**

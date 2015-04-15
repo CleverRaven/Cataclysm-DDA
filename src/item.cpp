@@ -4140,7 +4140,7 @@ int item::amount_of(const itype_id &it, bool used_as_tool) const
     return count;
 }
 
-bool item::use_amount(const itype_id &it, int &quantity, bool use_container, std::list<item> &used)
+bool item::use_amount(const itype_id &it, long &quantity, bool use_container, std::list<item> &used)
 {
     // First, check contents
     bool used_item_contents = false;

@@ -4054,7 +4054,7 @@ bool map::could_see_items( const tripoint &p, const player &u ) const
 }
 
 template <typename Stack>
-std::list<item> use_amount_stack( Stack stack, const itype_id type, int &quantity,
+std::list<item> use_amount_stack( Stack stack, const itype_id type, long &quantity,
                                 const bool use_container )
 {
     std::list<item> ret;
@@ -4069,7 +4069,7 @@ std::list<item> use_amount_stack( Stack stack, const itype_id type, int &quantit
 }
 
 std::list<item> map::use_amount_square( const tripoint &p, const itype_id type,
-                                        int &quantity, const bool use_container )
+                                        long &quantity, const bool use_container )
 {
     std::list<item> ret;
     int vpart = -1;
@@ -4089,10 +4089,9 @@ std::list<item> map::use_amount_square( const tripoint &p, const itype_id type,
 }
 
 std::list<item> map::use_amount( const tripoint &origin, const int range, const itype_id type,
-                                 const int amount, const bool use_container )
+                                 long &quantity, const bool use_container )
 {
     std::list<item> ret;
-    int quantity = amount;
     for( int radius = 0; radius <= range && quantity > 0; radius++ ) {
         tripoint p( origin.x - radius, origin.y - radius, origin.z );
         int &x = p.x;
@@ -4100,8 +4099,7 @@ std::list<item> map::use_amount( const tripoint &origin, const int range, const 
         for( x = origin.x - radius; x <= origin.x + radius; x++ ) {
             for( y = origin.y - radius; y <= origin.y + radius; y++ ) {
                 if( rl_dist( origin, p ) >= radius ) {
-                    std::list<item> tmp;
-                    tmp = use_amount_square( p , type, quantity, use_container );
+                    std::list<item> tmp = use_amount_square( p , type, quantity, use_container );
                     ret.splice( ret.end(), tmp );
                 }
             }
@@ -4168,10 +4166,9 @@ void use_charges_from_furn( const furn_t &f, const itype_id &type, long &quantit
 }
 
 std::list<item> map::use_charges(const tripoint &origin, const int range,
-                                 const itype_id type, const long amount)
+                                 const itype_id type, long &quantity)
 {
     std::list<item> ret;
-    long quantity = amount;
     for( int radius = 0; radius <= range && quantity > 0; radius++ ) {
         tripoint p( origin.x - radius, origin.y - radius, origin.z );
         int &x = p.x;
