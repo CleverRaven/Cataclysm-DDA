@@ -10574,6 +10574,10 @@ void game::plfire(bool burst, int default_target_x, int default_target_y)
         if (reload_pos == INT_MIN) {
             add_msg(m_info, _("Out of ammo!"));
             return;
+        }else if (reload_pos == -1) {
+            add_msg(m_info, _("Nevermind."));
+            refresh_all();
+            return;
         }
 
         if( !u.weapon.reload( u, reload_pos ) ) {
@@ -11009,6 +11013,10 @@ void game::reload(int pos)
             add_msg(m_info, _("Out of ammo!"));
             refresh_all();
             return;
+        }else if (am_pos == -1) {
+            add_msg(m_info, _("Nevermind."));
+            refresh_all();
+            return;
         }
 
         // and finally reload.
@@ -11034,6 +11042,11 @@ void game::reload(int pos)
         if (am_pos == INT_MIN) {
             // no ammo, fail reload
             add_msg(m_info, _("Out of %s!"), ammo_name(tool->ammo_id).c_str());
+            return;
+        }else if (am_pos == -1) {
+            //cancelled or invalid selection
+            add_msg(m_info, _("Nevermind."));
+            refresh_all();
             return;
         }
 
