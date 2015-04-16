@@ -4785,6 +4785,44 @@
   ]
 },{
   "type" : "recipe",
+  "result": "gun_crossbow",
+  "category": "CC_WEAPON",
+  "subcategory": "CSC_WEAPON_RANGED",
+  "skill_used": "mechanics",
+  "skills_required": [ "archery", 3 ],
+  "difficulty": 4,
+  "time": 35000,
+  "reversible": false,
+  "autolearn": false,
+  "book_learn" : [[ "recipe_bows", 3 ] , [ "manual_archery", 5] , [ "book_archery", 4]],
+  "qualities":[
+    {"id":"CUT","level":1,"amount":1},
+    {"id":"HAMMER","level":2,"amount":1},
+    {"id":"SCREW","level":1,"amount":1},
+    {"id":"WRENCH","level":1,"amount":1}
+  ], "components": [
+    [
+      [ "2x4", 1 ],
+      [ "stick", 2 ]
+    ],
+    [
+      [ "string_6", 1 ]
+    ],
+    [
+      [ "spring", 1 ]
+    ],
+    [
+      [ "scrap", 4 ]
+    ],
+    [
+      [ "nail", 5 ]
+    ],
+    [
+      [ "plastic_chunk", 2 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
   "result": "sword_crude",
   "category": "CC_WEAPON",
   "subcategory": "CSC_WEAPON_CUTTING",
