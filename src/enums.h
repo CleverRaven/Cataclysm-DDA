@@ -274,12 +274,20 @@ struct tripoint : public JsonSerializer, public JsonDeserializer {
     {
         return tripoint( x + rhs.x, y + rhs.y, z + rhs.z );
     }
+    tripoint operator-(const tripoint &rhs) const
+    {
+        return tripoint( x - rhs.x, y - rhs.y, z - rhs.z );
+    }
     tripoint &operator+=(const tripoint &rhs)
     {
         x += rhs.x;
         y += rhs.y;
         z += rhs.z;
         return *this;
+    }
+    tripoint operator-() const
+    {
+        return tripoint( -x, -y, -z );
     }
 };
 

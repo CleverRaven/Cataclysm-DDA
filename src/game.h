@@ -136,8 +136,8 @@ class game
         /** MAIN GAME LOOP. Returns true if game is over (death, saved, quit, etc.). */
         bool do_turn();
         void draw();
-        void draw_ter(int posx = -999, int posy = -999);
-        void draw_ter(int posx, int posy, bool looking);
+        void draw_ter();
+        void draw_ter( const tripoint &center, bool looking = false );
         void draw_veh_dir_indicator(void);
         /**
          * Add an entry to @ref events. For further information see event.h
@@ -186,8 +186,6 @@ class game
         size_t num_zombies() const;
         /** Returns the monster with match index. Redirects to the creature_tracker find() function. */
         monster &zombie(const int idx);
-        /** Redirects to the creature_tracker update_pos() function. */
-        bool update_zombie_pos(const monster &critter, const int newx, const int newy);
         /** Redirects to the creature_tracker update_pos() function. */
         bool update_zombie_pos( const monster &critter, const tripoint &pos );
         void remove_zombie(const int idx);
@@ -299,7 +297,8 @@ class game
         void process_artifact(item *it, player *p);
         void add_artifact_messages(std::vector<art_effect_passive> effects);
 
-        void peek( int peekx = 0, int peeky = 0);
+        void peek();
+        void peek( const tripoint &p );
         point look_debug();
 
         bool checkZone(const std::string p_sType, const int p_iX, const int p_iY);
@@ -314,7 +313,7 @@ class game
         int list_items(const int iLastState); //List all items around the player
         int list_monsters(const int iLastState); //List all monsters around the player
         // Shared method to print "look around" info
-        void print_all_tile_info(int lx, int ly, WINDOW *w_look, int column, int &line, bool mouse_hover);
+        void print_all_tile_info( const tripoint &lp, WINDOW *w_look, int column, int &line, bool mouse_hover );
 
         bool list_items_match(const item *item, std::string sPattern);
         int list_filter_high_priority(std::vector<map_item_stack> &stack, std::string prorities);
@@ -325,7 +324,7 @@ class game
         void draw_item_filter_rules(WINDOW *window, int rows);
         std::string ask_item_priority_high(WINDOW *window, int rows);
         std::string ask_item_priority_low(WINDOW *window, int rows);
-        void draw_trail_to_square(int x, int y, bool bDrawX);
+        void draw_trail_to_square( const tripoint &t, bool bDrawX );
         void reset_item_list_state(WINDOW *window, int height, bool bRadiusSort);
         std::string sFilter; // this is a member so that it's remembered over time
         std::string list_item_upvote;
@@ -400,7 +399,7 @@ class game
         std::vector<item> items_dragged;
         int weight_dragged; // Computed once, when you start dragging
 
-        int ter_view_x, ter_view_y;
+        int ter_view_x, ter_view_y, ter_view_z;
         WINDOW *w_terrain;
         WINDOW *w_overmap;
         WINDOW *w_omlegend;
@@ -414,7 +413,7 @@ class game
         live_view liveview;
 
         // View offset based on the driving speed (if any)
-        // that has been added to u.view_offset_*,
+        // that has been added to u.view_offset,
         // Don't write to this directly, always use set_driving_view_offset
         point driving_view_offset;
         // Setter for driving_view_offset
@@ -452,19 +451,19 @@ class game
         void shockwave( const tripoint &p, int radius, int force, int stun, int dam_mult, bool ignore_player );
 
         // Animation related functions
-        void draw_explosion(int x, int y, int radius, nc_color col);
-        void draw_bullet(Creature const &p, int tx, int ty, int i,
-                         std::vector<point> const &trajectory, char bullet);
-        void draw_hit_mon(int x, int y, const monster &critter, bool dead = false);
+        void draw_explosion( const tripoint &p, int radius, nc_color col );
+        void draw_bullet( Creature const &p, const tripoint &pos, int i,
+                          std::vector<tripoint> const &trajectory, char bullet );
+        void draw_hit_mon( const tripoint &p, const monster &critter, bool dead = false);
         void draw_hit_player(player const &p, int dam);
-        void draw_line(int x, int y, point center_point, std::vector<point> const &ret);
-        void draw_line(int x, int y, std::vector<point> const &ret);
+        void draw_line( const tripoint &p, const tripoint &center_point, std::vector<tripoint> const &ret );
+        void draw_line( const tripoint &p, std::vector<tripoint> const &ret);
         void draw_weather(weather_printable const &wPrint);
         void draw_sct();
         void draw_zones(const point &p_pointStart, const point &p_pointEnd, const point &p_pointOffset);
         // Draw critter (if visible!) on its current position into w_terrain.
         // @param center the center of view, same as when calling map::draw
-        void draw_critter(const Creature &critter, const point &center);
+        void draw_critter( const Creature &critter, const tripoint &center );
 
         // Vehicle related JSON loaders and variables
         void load_vehiclepart(JsonObject &jo);
@@ -547,7 +546,7 @@ class game
         void create_starting_npcs(); // Creates NPCs that start near you
 
         // Player actions
-        void wishitem( player *p = NULL, int x = -1, int y = -1 );
+        void wishitem( player *p = nullptr, int x = -1, int y = -1, int z = -1 );
         void wishmonster( int x = -1, int y = -1 );
         void wishmutate( player *p );
         void wishskill( player *p );
@@ -592,7 +591,8 @@ class game
         void grab();
         // Pick where to put liquid; false if it's left where it was
 
-        void compare(int iCompareX = -999, int iCompareY = -999); // Compare two Items 'I'
+        void compare(); // Compare two Items 'I'
+        void compare( const tripoint &offset ); // Offset is added to player's position
         void drop(int pos = INT_MIN); // Drop an item  'd'
         void drop_in_direction(); // Drop w/ direction  'D'
 
@@ -617,13 +617,13 @@ class game
         void plthrow(int pos = INT_MIN); // Throw an item  't'
 
         // Internal methods to show "look around" info
-        void print_fields_info(int lx, int ly, WINDOW *w_look, int column, int &line);
-        void print_terrain_info(int lx, int ly, WINDOW *w_look, int column, int &line);
-        void print_trap_info(int lx, int ly, WINDOW *w_look, const int column, int &line);
-        void print_object_info(int lx, int ly, WINDOW *w_look, const int column, int &line,
-                               bool mouse_hover);
-        void handle_multi_item_info(int lx, int ly, WINDOW *w_look, const int column, int &line,
-                                    bool mouse_hover);
+        void print_fields_info( const tripoint &lp, WINDOW *w_look, int column, int &line );
+        void print_terrain_info( const tripoint &lp, WINDOW *w_look, int column, int &line );
+        void print_trap_info( const tripoint &lp, WINDOW *w_look, const int column, int &line );
+        void print_object_info( const tripoint &lp, WINDOW *w_look, const int column, int &line,
+                               bool mouse_hover );
+        void handle_multi_item_info( const tripoint &lp, WINDOW *w_look, const int column, int &line,
+                                    bool mouse_hover );
         void get_lookaround_dimensions(int &lookWidth, int &begin_y, int &begin_x) const;
 
         input_context get_player_input(std::string &action);
@@ -656,7 +656,7 @@ class game
         void process_events();   // Processes and enacts long-term events
         void process_activity(); // Processes and enacts the player's activity
         void update_weather();   // Updates the temperature and weather patten
-        void hallucinate(const int x, const int y); // Prints hallucination junk to the screen
+        void hallucinate( const tripoint &center ); // Prints hallucination junk to the screen
         int  mon_info(WINDOW *); // Prints a list of nearby monsters
         void handle_key_blocking_activity(); // Abort reading etc.
         bool handle_action();
@@ -672,7 +672,7 @@ class game
          * been done. false if the player did not choose any action and the function
          * has effectively done nothing.
          */
-        bool disable_robot( point p );
+        bool disable_robot( const tripoint &p );
 
         void update_scent();     // Updates the scent map
         bool is_game_over();     // Returns true if the player quit or died

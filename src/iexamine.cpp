@@ -1165,7 +1165,7 @@ void iexamine::door_peephole(player *p, map *m, int examx, int examy) {
                        _("Cancel"), NULL );
     if( choice == 1 ) {
         // Peek
-        g->peek( examx, examy );
+        g->peek( tripoint( examx, examy, p->posz() ) );
         p->add_msg_if_player( _("You peek through the peephole.") );
     } else if( choice == 2 ) {
         m->open_door( tripoint( examx, examy, p->posz() ), true, false);
@@ -2543,7 +2543,7 @@ void iexamine::curtains(player *p, map *m, const int examx, const int examy)
                        _("Cancel"), NULL );
     if( choice == 1 ) {
         // Peek
-        g->peek( examx, examy );
+        g->peek( tripoint( examx, examy, p->posz() ) );
         p->add_msg_if_player( _("You carefully peek through the curtains.") );
     } else if( choice == 2 ) {
         // Mr. Gorbachev, tear down those curtains!

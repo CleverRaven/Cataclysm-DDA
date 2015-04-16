@@ -1473,27 +1473,32 @@ std::string map::tername( const tripoint &p ) const
 
 std::string map::features(const int x, const int y)
 {
+    return features( tripoint( x, y, abs_sub.z ) );
+}
+
+std::string map::features( const tripoint &p )
+{
     // This is used in an info window that is 46 characters wide, and is expected
     // to take up one line.  So, make sure it does that.
     // FIXME: can't control length of localized text.
     // Make the caller wrap properly, if it does not already.
     std::string ret;
-    if (is_bashable(x, y)) {
+    if (is_bashable(p)) {
         ret += _("Smashable. ");
     }
-    if (has_flag("DIGGABLE", x, y)) {
+    if (has_flag("DIGGABLE", p)) {
         ret += _("Diggable. ");
     }
-    if (has_flag("ROUGH", x, y)) {
+    if (has_flag("ROUGH", p)) {
         ret += _("Rough. ");
     }
-    if (has_flag("UNSTABLE", x, y)) {
+    if (has_flag("UNSTABLE", p)) {
         ret += _("Unstable. ");
     }
-    if (has_flag("SHARP", x, y)) {
+    if (has_flag("SHARP", p)) {
         ret += _("Sharp. ");
     }
-    if (has_flag("FLAT", x, y)) {
+    if (has_flag("FLAT", p)) {
         ret += _("Flat. ");
     }
     return ret;
@@ -4782,47 +4787,64 @@ void map::debug()
  getch();
 }
 
-void map::update_visibility_cache( visibility_variables &cache) {
-    cache.g_light_level = (int)g->light_level();
-    cache.natural_sight_range = g->u.sight_range(1);
-    cache.light_sight_range = g->u.sight_range(cache.g_light_level);
-    cache.lowlight_sight_range = std::max(cache.g_light_level / 2,
-                                          cache.natural_sight_range);
-    cache.max_sight_range = g->u.unimpaired_range();
-    cache.u_clairvoyance = g->u.clairvoyance();
-    cache.u_sight_impaired = g->u.sight_impaired();
-    cache.bio_night_active = g->u.has_active_bionic("bio_night");
-    
-    cache.u_is_boomered = g->u.has_effect("boomered");
-    
-    for( int x = 0; x < MAPSIZE * SEEX; x++ ) {
-        for( int y = 0; y < MAPSIZE * SEEY; y++ ) {
-            visibility_cache[x][y] = apparent_light_at(x, y, cache);
+void map::update_visibility_cache( visibility_variables &cache, const int zlev ) {
+    // Make variable caching work in FoV update so that those values don't have to be
+    // recalculated for all 21 Z-levels
+    if( true ) { //!cache.variables_set ) {
+        cache.variables_set = true;
+        cache.g_light_level = (int)g->light_level();
+        cache.natural_sight_range = g->u.sight_range(1);
+        cache.light_sight_range = g->u.sight_range(cache.g_light_level);
+        cache.lowlight_sight_range = std::max(cache.g_light_level / 2,
+                                              cache.natural_sight_range);
+        cache.max_sight_range = g->u.unimpaired_range();
+        cache.u_clairvoyance = g->u.clairvoyance();
+        cache.u_sight_impaired = g->u.sight_impaired();
+        cache.bio_night_active = g->u.has_active_bionic("bio_night");
+
+        cache.u_is_boomered = g->u.has_effect("boomered");
+    } else {
+        // Those change every z-level
+        cache.g_light_level = (int)g->light_level();
+        cache.light_sight_range = g->u.sight_range(cache.g_light_level);
+        cache.lowlight_sight_range = std::max(cache.g_light_level / 2,
+                                              cache.natural_sight_range);
+    }
+
+    // If in bounds, update zlev. Otherwise current z-level
+    const int z = (zlevels && zlev >= -OVERMAP_DEPTH && zlev <= OVERMAP_HEIGHT) ? zlev : abs_sub.z;
+    tripoint p;
+    p.z = z;
+    int &x = p.x;
+    int &y = p.y;
+    for( x = 0; x < MAPSIZE * SEEX; x++ ) {
+        for( y = 0; y < MAPSIZE * SEEY; y++ ) {
+            visibility_cache[x][y] = apparent_light_at( p, cache );
         }
     }
 }
 
-lit_level map::apparent_light_at(int x, int y, const visibility_variables &cache) {
-    const int dist = rl_dist(g->u.posx(), g->u.posy(), x, y);
+lit_level map::apparent_light_at( const tripoint &p, const visibility_variables &cache ) {
+    const int dist = rl_dist(g->u.posx(), g->u.posy(), p.x, p.y);
 
     int sight_range = cache.light_sight_range;
     int low_sight_range = cache.lowlight_sight_range;
 
     // While viewing indoor areas use lightmap model
-    if (!is_outside(x, y)) {
+    if( !is_outside( p ) ) {
         sight_range = cache.natural_sight_range;
 
     // Don't display area as shadowy if it's outside and illuminated by natural light
     // and illuminated by source of light
-    } else if (light_at(x, y) > LL_LOW || dist <= cache.light_sight_range) {
+    } else if( light_at( p ) > LL_LOW || dist <= cache.light_sight_range ) {
         low_sight_range = std::max(cache.g_light_level, cache.natural_sight_range);
     }
 
     int real_max_sight_range = std::max(cache.light_sight_range, cache.max_sight_range);
     int distance_to_look = DAYLIGHT_LEVEL;
 
-    bool can_see = pl_sees( x, y, distance_to_look );
-    lit_level lit = light_at(x, y);
+    bool can_see = pl_sees( p, distance_to_look );
+    lit_level lit = light_at( p );
 
     // now we're gonna adjust real_max_sight, to cover some nearby "highlights",
     // but at the same time changing light-level depending on distance,
@@ -4840,7 +4862,7 @@ lit_level map::apparent_light_at(int x, int y, const visibility_variables &cache
     // if both light_sight_range and max_sight_range were small
     // it means we really have limited visibility (e.g. inside a pit)
     // and we shouldn't touch that
-    if (lit > LL_DARK && real_max_sight_range > 1) {
+    if( lit > LL_DARK && real_max_sight_range > 1 ) {
         real_max_sight_range = distance_to_look;
     }
 
@@ -4925,7 +4947,7 @@ bool map::apply_vision_effects( WINDOW *w, lit_level ll,
     return true;
 }
 
-void map::draw(WINDOW* w, const point center)
+void map::draw( WINDOW* w, const tripoint &center )
 {
     // We only need to draw anything if we're not in tiles mode.
     if(is_draw_tiles_mode()) {
@@ -4935,11 +4957,15 @@ void map::draw(WINDOW* w, const point center)
     g->reset_light_level();
 
     visibility_variables cache;
-    update_visibility_cache( cache );
+    update_visibility_cache( cache, center.z );
 
     // X and y are in map coordinates, but might be out of range of the map.
     // When they are out of range, we just draw '#'s.
-    for( int y = center.y - getmaxy(w) / 2; y <= center.y + getmaxy(w) / 2; y++ ) {
+    tripoint p;
+    p.z = center.z;
+    int &x = p.x;
+    int &y = p.y;
+    for( y = center.y - getmaxy(w) / 2; y <= center.y + getmaxy(w) / 2; y++ ) {
         wmove( w, y - center.y + getmaxy(w) / 2, 0 );
         if( y < 0 || y >= MAPSIZE * SEEY ) {
             for( int x = 0; x < getmaxx(w); x++ ) {
@@ -4947,28 +4973,40 @@ void map::draw(WINDOW* w, const point center)
             }
             continue;
         }
-        int x = center.x - getmaxx(w) / 2;
+
+        x = center.x - getmaxx(w) / 2;
         while( x < 0 ) {
             wputch( w, c_dkgray, '#' );
             x++;
         }
+
         for( ; x < MAPSIZE * SEEX && x <= center.x + getmaxx(w) / 2; x++ ) {
             const lit_level lighting = visibility_cache[x][y];
             if( !apply_vision_effects( w, lighting, cache ) ) {
-                drawsq( w, g->u, x, y, false, true, center.x, center.y,
+                drawsq( w, g->u, p, false, true, center.x, center.y,
                         lighting == LL_LOW, lighting == LL_BRIGHT, true );
             }
         }
+
         while( x <= center.x + getmaxx(w) / 2 ) {
             wputch( w, c_dkgray, '#' );
             x++;
         }
     }
 
-    g->draw_critter( g->u, center );
+    if( g->u.posz() == center.z ) {
+        g->draw_critter( g->u, center );
+    }
 }
 
-void map::drawsq(WINDOW* w, player &u, const int x, const int y, const bool invert_arg,
+void map::drawsq(WINDOW* w, player &u, const tripoint &p, const bool invert_arg,
+                 const bool show_items_arg, const tripoint &view_center,
+                 const bool low_light, const bool bright_light, const bool inorder)
+{
+    drawsq( w, u, p, invert_arg, show_items_arg, view_center.x, view_center.y, low_light, bright_light, inorder );
+}
+
+void map::drawsq(WINDOW* w, player &u, const tripoint &p, const bool invert_arg,
                  const bool show_items_arg, const int view_center_x_arg, const int view_center_y_arg,
                  const bool low_light, const bool bright_light, const bool inorder)
 {
@@ -4977,23 +5015,22 @@ void map::drawsq(WINDOW* w, player &u, const int x, const int y, const bool inve
         return;
     }
 
-    const tripoint p( x, y, abs_sub.z );
     bool invert = invert_arg;
     bool show_items = show_items_arg;
     int cx = view_center_x_arg;
     int cy = view_center_y_arg;
-    if (!INBOUNDS(x, y))
+    if( !inbounds( p ) )
         return; // Out of bounds
     if (cx == -1)
         cx = u.posx();
     if (cy == -1)
         cy = u.posy();
     nc_color tercol;
-    const ter_t &curr_ter = ter_at(x,y);
-    const furn_t &curr_furn = furn_at(x,y);
-    const trap &curr_trap = tr_at(x, y);
-    const field &curr_field = field_at(x, y);
-    auto curr_items = i_at(x, y);
+    const ter_t &curr_ter = ter_at( p );
+    const furn_t &curr_furn = furn_at( p );
+    const trap &curr_trap = tr_at( p );
+    const field &curr_field = field_at( p );
+    auto curr_items = i_at( p );
     long sym;
     bool hi = false;
     bool graf = false;
@@ -5014,11 +5051,11 @@ void map::drawsq(WINDOW* w, player &u, const int x, const int y, const bool inve
         }
         tercol = curr_ter.color;
     }
-    if (has_flag(TFLAG_SWIMMABLE, x, y) && has_flag(TFLAG_DEEP_WATER, x, y) && !u.is_underwater()) {
+    if( has_flag( TFLAG_SWIMMABLE, p ) && has_flag( TFLAG_DEEP_WATER, p ) && !u.is_underwater() ) {
         show_items = false; // Can only see underwater items if WE are underwater
     }
     // If there's a trap here, and we have sufficient perception, draw that instead
-    if( curr_trap.can_see( tripoint( x, y, abs_sub.z ), g->u ) ) {
+    if( curr_trap.can_see( p, g->u ) ) {
         tercol = curr_trap.color;
         if (curr_trap.sym == '%') {
             switch(rng(1, 5)) {
@@ -5071,7 +5108,7 @@ void map::drawsq(WINDOW* w, player &u, const int x, const int y, const bool inve
     }
 
     // If there are items here, draw those instead
-    if (show_items && sees_some_items( p, g->u)) {
+    if( show_items && sees_some_items( p, g->u ) ) {
         // if there's furniture/terrain/trap/fields (sym!='.')
         // and we should not override it, then only highlight the square
         if (sym != '.' && sym != '%' && !draw_item_sym) {
@@ -5089,7 +5126,7 @@ void map::drawsq(WINDOW* w, player &u, const int x, const int y, const bool inve
     }
 
     int veh_part = 0;
-    vehicle *veh = veh_at(x, y, veh_part);
+    vehicle *veh = veh_at( p, veh_part );
     if (veh) {
         sym = special_symbol (veh->face.dir_symbol(veh->part_sym(veh_part)));
         tercol = veh->part_color(veh_part);
@@ -5101,7 +5138,7 @@ void map::drawsq(WINDOW* w, player &u, const int x, const int y, const bool inve
 
     //suprise, we're not done, if it's a wall adjacent to an other, put the right glyph
     if( sym == AUTO_WALL_PLACEHOLDER ) {
-        sym = determine_wall_corner( x, y );
+        sym = determine_wall_corner( p );
     }
 
     if (u.has_effect("boomered")) {
@@ -5127,8 +5164,8 @@ void map::drawsq(WINDOW* w, player &u, const int x, const int y, const bool inve
         wputch(w, tercol, sym);
     } else {
         // Otherwise move the cursor before drawing.
-        const int k = x + getmaxx(w) / 2 - cx;
-        const int j = y + getmaxy(w) / 2 - cy;
+        const int k = p.x + getmaxx(w) / 2 - cx;
+        const int j = p.y + getmaxy(w) / 2 - cy;
         mvwputch(w, j, k, tercol, sym);
     }
 }
@@ -6265,12 +6302,13 @@ bool map::has_graffiti_at( const tripoint &p ) const
     return current_submap->has_graffiti( lx, ly );
 }
 
-long map::determine_wall_corner(const int x, const int y) const
+long map::determine_wall_corner( const tripoint &p ) const
 {
-    const bool above_connects = has_flag_ter( TFLAG_CONNECT_TO_WALL, x, y - 1 );
-    const bool below_connects = has_flag_ter( TFLAG_CONNECT_TO_WALL, x, y + 1 );
-    const bool left_connects  = has_flag_ter( TFLAG_CONNECT_TO_WALL, x - 1, y );
-    const bool right_connects = has_flag_ter( TFLAG_CONNECT_TO_WALL, x + 1, y );
+    // This could be cached nicely
+    const bool above_connects = has_flag_ter( TFLAG_CONNECT_TO_WALL, tripoint( p.x, p.y - 1, p.z ) );
+    const bool below_connects = has_flag_ter( TFLAG_CONNECT_TO_WALL, tripoint( p.x, p.y + 1, p.z ) );
+    const bool left_connects  = has_flag_ter( TFLAG_CONNECT_TO_WALL, tripoint( p.x - 1, p.y, p.z ) );
+    const bool right_connects = has_flag_ter( TFLAG_CONNECT_TO_WALL, tripoint( p.x + 1, p.y, p.z ) );
     const auto bits = ( above_connects ? 1 : 0 ) +
                       ( right_connects ? 2 : 0 ) +
                       ( below_connects ? 4 : 0 ) +
@@ -6295,7 +6333,7 @@ long map::determine_wall_corner(const int x, const int y) const
         case 0 | 2 | 0 | 0: return LINE_OXOX; // LINE_OXOO would be better
         case 1 | 0 | 0 | 0: return LINE_XOXO; // LINE_XOOO would be better
 
-        case 0 | 0 | 0 | 0: return ter_at( x, y ).sym; // technically just a column
+        case 0 | 0 | 0 | 0: return ter_at( p ).sym; // technically just a column
 
         default:
             // assert( false );
