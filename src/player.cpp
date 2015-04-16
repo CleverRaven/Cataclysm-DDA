@@ -431,6 +431,10 @@ void player::process_turn()
         charge_power(25);
     }
 
+    remove_items_with( [this]( item &itm ) {
+        return itm.process_artifact( this, pos() );
+    } );
+
     suffer();
 
     // Set our scent towards the norm
