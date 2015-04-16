@@ -1691,7 +1691,7 @@ void mattack::impale(monster *z, int index)
                                         z->name().c_str());
         }
         foe->practice( "dodge", z->type->melee_skill );
-        if( one_in( 10 - dam ) ) {
+        if( one_in( dam - 10 ) ) {
             if( foe->has_effect( "infected", hit ) ) {
                 foe->add_effect( "infected", 50, hit, true );
                 foe->apply_damage( z, bp_torso, dam * rng( 2, 3 ) );
@@ -1704,8 +1704,8 @@ void mattack::impale(monster *z, int index)
         foe->check_dead_state();
     } else if( foe != nullptr ) {
         if( seen ) {
-            foe->add_msg_player_or_npc( _("The %1$s impales your %2$s, but fails to penetrate your armor!"),
-                                        _("The %1$s impales <npcname>'s %2$s, but fails to penetrate their armor!"),
+            foe->add_msg_player_or_npc( _("The %1$s tries to impales your %2$s, but fails to penetrate your armor!"),
+                                        _("The %1$s tries to impales <npcname>'s %2$s, but fails to penetrate their armor!"),
                                         z->name().c_str(),
                                         body_part_name_accusative( hit ).c_str() );
         }
