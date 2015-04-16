@@ -397,6 +397,10 @@ struct islot_seed {
      */
     std::string fruit_id;
     /**
+     * Whether to spawn seed items additionally to the fruit items.
+     */
+    bool spawn_seeds = true;
+    /**
      * Additionally items (a list of their item ids) that will spawn when harvesting the plant.
      */
     std::vector<std::string> byproducts;

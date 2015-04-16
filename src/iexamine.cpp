@@ -1572,13 +1572,16 @@ void iexamine::aggie_plant(player *p, map *m, int examx, int examy)
             } else if( plantCount <= 0 ) {
                 plantCount = 1;
             }
-            const int seedCount = std::max( 1l, rng( plantCount / 4, plantCount / 2 ) );
-            item tmp( seedType, calendar::turn );
-            if( tmp.count_by_charges() ) {
-                tmp.charges = 1;
-            }
-            for( int i = 0; i < seedCount; ++i ) {
-                m->add_item_or_charges( examx, examy, tmp );
+            item tmp;
+            if( seed_data.spawn_seeds ) {
+                tmp = item( seedType, calendar::turn );
+                const int seedCount = std::max( 1l, rng( plantCount / 4, plantCount / 2 ) );
+                if( tmp.count_by_charges() ) {
+                    tmp.charges = 1;
+                }
+                for( int i = 0; i < seedCount; ++i ) {
+                    m->add_item_or_charges( examx, examy, tmp );
+                }
             }
             tmp = item( seed_data.fruit_id, calendar::turn );
             if( tmp.count_by_charges() ) {
