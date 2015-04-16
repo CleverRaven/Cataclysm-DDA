@@ -2339,6 +2339,7 @@
     "hp":80,
     "death_function":["NORMAL"],
     "special_attacks":[["SCIENCE", 20]],
+    "starting_ammo" : { "bot_manhack": 3 },
     "description":"Apart from the jet black eyes it would be easy to believe this scientist was still alive.  Clad in a tattered lab coat, it looks to have some measure of situational awareness and resourcefulness.",
     "flags":["SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "POISON", "BLEED", "CBM_SCI", "ACIDPROOF", "NO_BREATHE", "REVIVES", "BONES"]
     },{

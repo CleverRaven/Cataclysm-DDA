@@ -644,7 +644,9 @@ void mattack::science(monster *const z, int const index) // I said SCIENCE again
     size_t const empty_neighbor_count = empty_neighbors.second;
 
     if (empty_neighbor_count) {
-        valid_attacks[valid_attack_count++] = att_manhack;
+        if( z->ammo["bot_manhack"] > 0 ) {
+            valid_attacks[valid_attack_count++] = att_manhack;
+        }
         valid_attacks[valid_attack_count++] = att_acid_pool;
     }
 
@@ -699,6 +701,7 @@ void mattack::science(monster *const z, int const index) // I said SCIENCE again
       } break;
     case att_manhack : {
         z->moves -= att_cost_manhack;
+        z->ammo["bot_manhack"]--;
 
         // if the player can see it
         if (g->u.sees(*z)) {
