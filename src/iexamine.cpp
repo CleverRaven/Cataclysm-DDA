@@ -1512,12 +1512,14 @@ void iexamine::dirtmound(player *p, map *m, int examx, int examy)
     const auto &seed_id = seed_types[seed_index];
 
     // Actual planting
+    std::list<item> used_seed;
     if( item::count_by_charges( seed_id ) ) {
-        p->use_charges( seed_id, 1 );
+        used_seed = p->use_charges( seed_id, 1 );
     } else {
-        p->use_amount( seed_id, 1 );
+        used_seed = p->use_amount( seed_id, 1 );
     }
-    m->spawn_item(examx, examy, seed_id, 1, 1, calendar::turn);
+    used_seed.front().bday = calendar::turn;
+    m->add_item_or_charges( examx, examy, used_seed.front() );
     m->set(examx, examy, t_dirt, f_plant_seed);
     p->moves -= 500;
     add_msg(_("Planted %s"), seed_names[seed_index].c_str());
