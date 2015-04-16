@@ -274,7 +274,7 @@ public:
   * container it was in.
   * @param On success all consumed items will be stored here.
   */
- bool use_amount(const itype_id &it, int &quantity, bool use_container, std::list<item> &used);
+ bool use_amount(const itype_id &it, long &quantity, bool use_container, std::list<item> &used);
 /**
  * Fill container with liquid up to its capacity.
  * @param liquid Liquid to fill the container with.
@@ -441,7 +441,6 @@ protected:
     // The interface is the same as for @ref process.
     bool process_food(player *carrier, point pos);
     bool process_corpse(player *carrier, point pos);
-    bool process_artifact(player *carrier, point pos);
     bool process_wet(player *carrier, point pos);
     bool process_litcig(player *carrier, point pos);
     bool process_cable(player *carrier, point pos);
@@ -461,6 +460,15 @@ public:
      * The rate at which an item should be processed, in number of turns between updates.
      */
     int processing_speed() const;
+    /**
+     * Process and apply artifact effects. This should be called exactly once each turn, it may
+     * modify character stats (like speed, strength, ...), so call it after those have been reset.
+     * @return True if the item should be destroyed (it has run out of charges or similar), false
+     * if the item should be kept. Artifacts usually return false as they never get destroyed.
+     * @param carrier The character carrying the artifact, can be null.
+     * @param pos The location of the artifact (should be the player location if carried).
+     */
+    bool process_artifact( player *carrier, point pos );
 
  // umber of mods that can still be installed into the given
  // mod location, for non-guns it returns always 0

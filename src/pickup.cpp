@@ -773,8 +773,12 @@ void Pickup::pick_up(int posx, int posy, int min)
                     } else {
                         wprintw(w_pickup, " - ");
                     }
+                    std::string item_name = here[cur_it].display_name();
+                    if (OPTIONS["ITEM_SYMBOLS"]) {
+                        item_name = string_format("%c %s", here[cur_it].symbol(), item_name.c_str());
+                    }
                     trim_and_print(w_pickup, 1 + (cur_it % maxitems), 6, pickupW - 4, icolor,
-                                   "%s", here[cur_it].display_name().c_str());
+                                   "%s", item_name.c_str());
                 }
             }
 

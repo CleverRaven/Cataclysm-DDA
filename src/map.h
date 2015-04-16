@@ -711,12 +711,26 @@ void add_corpse( const tripoint &p );
     void spawn_an_item( const tripoint &p, item new_item,
                         const long charges, const int damlevel);
 
+    /**
+     * @name Consume items on the map
+     *
+     * The functions here consume accessible items / item charges on the map or in vehicles
+     * around the player (whose positions is given as origin).
+     * They return a list of copies of the consumed items (with the actually consumed charges
+     * in it).
+     * The quantity / amount parameter will be reduced by the number of items/charges removed.
+     * If all required items could be removed from the map, the quantity/amount will be 0,
+     * otherwise it will contain a positive value and the remaining items must be gathered from
+     * somewhere else.
+     */
+    /*@{*/
     std::list<item> use_amount_square( const tripoint &p, const itype_id type,
-                                       int &quantity, const bool use_container );
+                                       long &quantity, const bool use_container );
     std::list<item> use_amount( const tripoint &origin, const int range, const itype_id type,
-                                const int amount, const bool use_container = false );
+                                long &amount, const bool use_container = false );
     std::list<item> use_charges( const tripoint &origin, const int range, const itype_id type,
-                                 const long amount );
+                                 long &amount );
+    /*@}*/
     std::list<std::pair<tripoint, item *> > get_rc_items( int x = -1, int y = -1, int z = -1 );
 
     /**
@@ -775,7 +789,6 @@ void add_corpse( const tripoint &p );
 
 // Fields: 2D overloads that will later be slowly phased out
         const field& field_at( const int x, const int y ) const;
-        int get_field_age( const point p, const field_id t ) const;
         int get_field_strength( const point p, const field_id t ) const;
         int adjust_field_age( const point p, const field_id t, const int offset );
         int adjust_field_strength( const point p, const field_id t, const int offset );
@@ -787,7 +800,8 @@ void add_corpse( const tripoint &p );
         void remove_field( const int x, const int y, const field_id field_to_remove );
 // End of 2D overload block
  bool process_fields(); // See fields.cpp
- bool process_fields_in_submap(submap * const current_submap, const int submap_x, const int submap_y); // See fields.cpp
+ bool process_fields_in_submap( submap * const current_submap, 
+                                const int submap_x, const int submap_y, const int submap_z); // See fields.cpp
         /**
          * Apply field effects to the creature when it's on a square with fields.
          */
@@ -1056,10 +1070,10 @@ protected:
     void set_abs_sub(const int x, const int y, const int z);
 
 private:
-    field& get_field(const int x, const int y);
-    void spread_gas( field_entry *cur, int x, int y, field_id curtype,
+    field& get_field( const tripoint &p );
+    void spread_gas( field_entry *cur, const tripoint &p, field_id curtype,
                         int percent_spread, int outdoor_age_speedup );
-    void create_hot_air( int x, int y, int density );
+    void create_hot_air( const tripoint &p, int density );
 
  bool transparency_cache_dirty;
  bool outside_cache_dirty;

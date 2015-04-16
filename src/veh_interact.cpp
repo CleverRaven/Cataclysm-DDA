@@ -1991,7 +1991,8 @@ item consume_vpart_item (std::string vpid)
     if( candidates[selection] ) {
         item_used = g->u.use_amount( itid, 1 );
     } else {
-        item_used = g->m.use_amount( g->u.pos3(), PICKUP_RANGE, itid, 1 );
+        long quantity = 1;
+        item_used = g->m.use_amount( g->u.pos3(), PICKUP_RANGE, itid, quantity );
     }
 
     return item_used.front();

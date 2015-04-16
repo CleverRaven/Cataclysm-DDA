@@ -794,14 +794,16 @@ void iexamine::pit(player *p, map *m, int examx, int examy)
         // if both have, then ask to use the one on the map
         if (player_has && map_has) {
             if (query_yn(_("Use the plank at your feet?"))) {
-                m->use_amount( p->pos3(), 1, "2x4", 1, false);
+                long quantity = 1;
+                m->use_amount( p->pos3(), 1, "2x4", quantity, false);
             } else {
                 p->use_amount("2x4", 1);
             }
         } else if (player_has && !map_has) { // only player has plank
             p->use_amount("2x4", 1);
         } else if (!player_has && map_has) { // only map has plank
-            m->use_amount( p->pos3(), 1, "2x4", 1, false);
+            long quantity = 1;
+            m->use_amount( p->pos3(), 1, "2x4", quantity, false);
         }
 
         if( m->ter(examx, examy) == t_pit ) {

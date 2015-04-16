@@ -181,6 +181,7 @@ void DynamicDataLoader::initialize()
         new StaticFunctionAccessor(&load_overmap_specials);
 
     type_function_map["region_settings"] = new StaticFunctionAccessor(&load_region_settings);
+    type_function_map["region_overlay"] = new StaticFunctionAccessor(&load_region_overlay);
     type_function_map["ITEM_BLACKLIST"] = new ClassFunctionAccessor<Item_factory>(item_controller,
             &Item_factory::load_item_blacklist);
     type_function_map["ITEM_WHITELIST"] = new ClassFunctionAccessor<Item_factory>(item_controller,
@@ -200,6 +201,8 @@ void DynamicDataLoader::initialize()
         &npc::load_npc);
     type_function_map["talk_topic"] = new StaticFunctionAccessor(
         &load_talk_topic);
+    type_function_map["epilogue"] = new StaticFunctionAccessor(
+        &epilogue::load_epilogue);
 
 }
 

@@ -265,8 +265,13 @@ void advanced_inventory::print_items( advanced_inventory_pane &pane, bool active
             }
         }
 
+        std::string item_name = it.display_name();
+        if ( OPTIONS["ITEM_SYMBOLS"] ) {
+            item_name = string_format("%c %s", it.symbol(), item_name.c_str());
+        }
+
         //print item name
-        trim_and_print( window, 6 + x, compact ? 1 : 4, max_name_length, thiscolor, "%s", it.display_name().c_str() );
+        trim_and_print( window, 6 + x, compact ? 1 : 4, max_name_length, thiscolor, "%s", item_name.c_str() );
 
         //print src column
         // TODO: specify this is coming from a vehicle!

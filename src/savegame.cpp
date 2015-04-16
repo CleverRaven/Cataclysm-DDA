@@ -469,8 +469,7 @@ void overmap::unserialize(std::ifstream & fin, std::string const & plrfilename,
 
                     if ( data.read("region_id",tmpstr) ) { // temporary, until option DEFAULT_REGION becomes start_scenario.region_id
                         if ( settings.id != tmpstr ) {
-                            std::unordered_map<std::string, regional_settings>::const_iterator rit =
-                                region_settings_map.find( tmpstr );
+                            t_regional_settings_map_citr rit = region_settings_map.find( tmpstr );
                             if ( rit != region_settings_map.end() ) {
                                 // temporary; user changed option, this overmap should remain whatever it was set to.
                                 settings = rit->second; // todo optimize

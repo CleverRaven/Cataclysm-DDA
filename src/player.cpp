@@ -431,6 +431,10 @@ void player::process_turn()
         charge_power(25);
     }
 
+    remove_items_with( [this]( item &itm ) {
+        return itm.process_artifact( this, pos() );
+    } );
+
     suffer();
 
     // Set our scent towards the norm
@@ -8572,9 +8576,10 @@ std::vector<item *> player::inv_dump()
     return ret;
 }
 
-std::list<item> player::use_amount(itype_id it, int quantity, bool use_container)
+std::list<item> player::use_amount(itype_id it, int _quantity, bool use_container)
 {
     std::list<item> ret;
+    long quantity = _quantity; // Don't wanny change the function signature right now
     if (weapon.use_amount(it, quantity, use_container, ret)) {
         remove_weapon();
     }
@@ -10215,7 +10220,7 @@ bool player::wear_item(item *to_wear, bool interactive)
         }
 
         // this simply checked if it was zero, I've updated this for the new encumb system
-        if (to_wear->covers(bp_head) && (encumb(bp_head) > 10 || ((to_wear->get_encumber()) < 10 && to_wear->has_flag("FIT")))) {
+        if (to_wear->covers(bp_head) && (encumb(bp_head) > 10) && (!(to_wear->get_encumber() < 9))) {
             if(interactive) {
                 add_msg(m_info, wearing_something_on(bp_head) ?
                                 _("You can't wear another helmet!") : _("You can't wear a helmet!"));

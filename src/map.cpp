@@ -2143,11 +2143,12 @@ bool map::is_last_ter_wall(const bool no_furn, const int x, const int y,
 
 bool map::flammable_items_at( const tripoint &p )
 {
-    // items in sealed containers don't burn, see field.cpp
-    if( has_flag( "SEALED", p ) ) {
+    if( has_flag( TFLAG_SEALED, p ) && !has_flag( TFLAG_ALLOW_FIELD_EFFECT, p ) ) {
+        // Sealed containers don't allow fire, so shouldn't allow setting the fire either
         return false;
     }
-    for( const auto &i : i_at(p) ) {
+
+    for( const auto &i : i_at( p ) ) {
         if( i.flammable() ) {
             // Total fire resistance == 0
             return true;
@@ -4059,7 +4060,7 @@ bool map::could_see_items( const tripoint &p, const player &u ) const
 }
 
 template <typename Stack>
-std::list<item> use_amount_stack( Stack stack, const itype_id type, int &quantity,
+std::list<item> use_amount_stack( Stack stack, const itype_id type, long &quantity,
                                 const bool use_container )
 {
     std::list<item> ret;
@@ -4074,7 +4075,7 @@ std::list<item> use_amount_stack( Stack stack, const itype_id type, int &quantit
 }
 
 std::list<item> map::use_amount_square( const tripoint &p, const itype_id type,
-                                        int &quantity, const bool use_container )
+                                        long &quantity, const bool use_container )
 {
     std::list<item> ret;
     int vpart = -1;
@@ -4094,10 +4095,9 @@ std::list<item> map::use_amount_square( const tripoint &p, const itype_id type,
 }
 
 std::list<item> map::use_amount( const tripoint &origin, const int range, const itype_id type,
-                                 const int amount, const bool use_container )
+                                 long &quantity, const bool use_container )
 {
     std::list<item> ret;
-    int quantity = amount;
     for( int radius = 0; radius <= range && quantity > 0; radius++ ) {
         tripoint p( origin.x - radius, origin.y - radius, origin.z );
         int &x = p.x;
@@ -4105,8 +4105,7 @@ std::list<item> map::use_amount( const tripoint &origin, const int range, const 
         for( x = origin.x - radius; x <= origin.x + radius; x++ ) {
             for( y = origin.y - radius; y <= origin.y + radius; y++ ) {
                 if( rl_dist( origin, p ) >= radius ) {
-                    std::list<item> tmp;
-                    tmp = use_amount_square( p , type, quantity, use_container );
+                    std::list<item> tmp = use_amount_square( p , type, quantity, use_container );
                     ret.splice( ret.end(), tmp );
                 }
             }
@@ -4173,10 +4172,9 @@ void use_charges_from_furn( const furn_t &f, const itype_id &type, long &quantit
 }
 
 std::list<item> map::use_charges(const tripoint &origin, const int range,
-                                 const itype_id type, const long amount)
+                                 const itype_id type, long &quantity)
 {
     std::list<item> ret;
-    long quantity = amount;
     for( int radius = 0; radius <= range && quantity > 0; radius++ ) {
         tripoint p( origin.x - radius, origin.y - radius, origin.z );
         int &x = p.x;
@@ -4664,6 +4662,10 @@ field_entry *map::get_field( const tripoint &p, const field_id t ) {
     return current_submap->fld[lx][ly].findField( t );
 }
 
+field_entry *map::get_field( const point pnt, const field_id t ) {
+    return get_field( tripoint( pnt, abs_sub.z ), t );
+}
+
 bool map::add_field(const tripoint &p, const field_id t, int density, const int age)
 {
     if( !inbounds( p ) ) {
@@ -4691,6 +4693,8 @@ bool map::add_field(const tripoint &p, const field_id t, int density, const int 
         creature_in_field( g->u ); //Hit the player with the field if it spawned on top of them.
     }
 
+    // Dirty the transparency cache now that field processing doesn't always do it
+    set_transparency_cache_dirty();
     return true;
 }
 
@@ -4788,40 +4792,49 @@ void map::debug()
 }
 
 void map::update_visibility_cache( visibility_variables &cache, const int zlev ) {
-    // Make variable caching work in FoV update so that those values don't have to be
-    // recalculated for all 21 Z-levels
-    if( true ) { //!cache.variables_set ) {
-        cache.variables_set = true;
-        cache.g_light_level = (int)g->light_level();
-        cache.natural_sight_range = g->u.sight_range(1);
-        cache.light_sight_range = g->u.sight_range(cache.g_light_level);
-        cache.lowlight_sight_range = std::max(cache.g_light_level / 2,
-                                              cache.natural_sight_range);
-        cache.max_sight_range = g->u.unimpaired_range();
-        cache.u_clairvoyance = g->u.clairvoyance();
-        cache.u_sight_impaired = g->u.sight_impaired();
-        cache.bio_night_active = g->u.has_active_bionic("bio_night");
+    cache.variables_set = true; // Not used yet
+    cache.g_light_level = (int)g->light_level();
+    cache.natural_sight_range = g->u.sight_range(1);
+    cache.light_sight_range = g->u.sight_range(cache.g_light_level);
+    cache.lowlight_sight_range = std::max(cache.g_light_level / 2,
+                                          cache.natural_sight_range);
+    cache.max_sight_range = g->u.unimpaired_range();
+    cache.u_clairvoyance = g->u.clairvoyance();
+    cache.u_sight_impaired = g->u.sight_impaired();
+    cache.bio_night_active = g->u.has_active_bionic("bio_night");
+    
+    cache.u_is_boomered = g->u.has_effect("boomered");
+    
+    int sm_squares_seen[my_MAPSIZE][my_MAPSIZE];
+    memset(sm_squares_seen, 0, sizeof(sm_squares_seen));
 
-        cache.u_is_boomered = g->u.has_effect("boomered");
-    } else {
-        // Those change every z-level
-        cache.g_light_level = (int)g->light_level();
-        cache.light_sight_range = g->u.sight_range(cache.g_light_level);
-        cache.lowlight_sight_range = std::max(cache.g_light_level / 2,
-                                              cache.natural_sight_range);
-    }
-
-    // If in bounds, update zlev. Otherwise current z-level
-    const int z = (zlevels && zlev >= -OVERMAP_DEPTH && zlev <= OVERMAP_HEIGHT) ? zlev : abs_sub.z;
     tripoint p;
-    p.z = z;
+    p.z = zlev;
     int &x = p.x;
     int &y = p.y;
     for( x = 0; x < MAPSIZE * SEEX; x++ ) {
         for( y = 0; y < MAPSIZE * SEEY; y++ ) {
-            visibility_cache[x][y] = apparent_light_at( p, cache );
+            lit_level ll = apparent_light_at( p, cache );
+            visibility_cache[x][y] = ll;
+            sm_squares_seen[x/SEEX][y/SEEY] += (
+                ll == LL_BRIGHT ||
+                ll == LL_LIT
+            );
         }
     }
+
+    for( int gridx = 0; gridx < my_MAPSIZE; gridx++ ) {
+        for( int gridy = 0; gridy < my_MAPSIZE; gridy++ ) {
+            if( sm_squares_seen[gridx][gridy] > 36 ) { // 25% of the submap is visible
+                const tripoint sm( gridx, gridy, g->get_levz() );
+                const auto abs_sm = map::abs_sub + sm;
+                const auto abs_omt = overmapbuffer::sm_to_omt_copy( abs_sm );
+                overmap_buffer.set_seen( abs_omt.x, abs_omt.y, abs_omt.z, true);
+            }
+        }        
+    }
+
+
 }
 
 lit_level map::apparent_light_at( const tripoint &p, const visibility_variables &cache ) {
@@ -4829,6 +4842,7 @@ lit_level map::apparent_light_at( const tripoint &p, const visibility_variables 
 
     int sight_range = cache.light_sight_range;
     int low_sight_range = cache.lowlight_sight_range;
+    lit_level lit = light_at( p );
 
     // While viewing indoor areas use lightmap model
     if( !is_outside( p ) ) {
@@ -4836,7 +4850,7 @@ lit_level map::apparent_light_at( const tripoint &p, const visibility_variables 
 
     // Don't display area as shadowy if it's outside and illuminated by natural light
     // and illuminated by source of light
-    } else if( light_at( p ) > LL_LOW || dist <= cache.light_sight_range ) {
+    } else if (lit > LL_LOW || dist <= cache.light_sight_range) {
         low_sight_range = std::max(cache.g_light_level, cache.natural_sight_range);
     }
 
@@ -4844,7 +4858,6 @@ lit_level map::apparent_light_at( const tripoint &p, const visibility_variables 
     int distance_to_look = DAYLIGHT_LEVEL;
 
     bool can_see = pl_sees( p, distance_to_look );
-    lit_level lit = light_at( p );
 
     // now we're gonna adjust real_max_sight, to cover some nearby "highlights",
     // but at the same time changing light-level depending on distance,
@@ -6953,11 +6966,6 @@ const field &map::field_at( const int x, const int y ) const
     return field_at( tripoint( x, y, abs_sub.z ) );
 }
 
-int map::get_field_age( const point p, const field_id t ) const
-{
-    return get_field_age( tripoint( p, abs_sub.z ), t );
-}
-
 int map::get_field_strength( const point p, const field_id t ) const
 {
     return get_field_strength( tripoint( p, abs_sub.z ), t );
@@ -6983,11 +6991,6 @@ int map::set_field_strength( const point p, const field_id t, const int str, boo
     return set_field_strength( tripoint( p, abs_sub.z ), t, str, isoffset );
 }
 
-field_entry *map::get_field( const point p, const field_id t )
-{
-    return get_field( tripoint( p, abs_sub.z ), t );
-}
-
 bool map::add_field(const point p, const field_id t, const int density, const int age)
 {
     return add_field( tripoint( p, abs_sub.z ), t, density, age );
@@ -7003,9 +7006,9 @@ void map::remove_field( const int x, const int y, const field_id field_to_remove
     remove_field( tripoint( x, y, abs_sub.z ), field_to_remove );
 }
 
-field &map::get_field( const int x, const int y )
+field &map::get_field( const tripoint &p )
 {
-    return field_at( tripoint( x, y, abs_sub.z ) );
+    return field_at( p );
 }
 
 void map::creature_on_trap( Creature &c, bool const may_avoid )
