@@ -355,6 +355,7 @@ class monster : public Creature, public JsonSerializer, public JsonDeserializer
         point position;
         // Temporary z-level coord, should later be merged with position
         int zpos;
+        int last_loaded = 0;//time the monster was last loaded
         bool dead;
         /** Attack another monster */
         void hit_monster(monster &other);

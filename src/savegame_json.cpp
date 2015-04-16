@@ -301,19 +301,19 @@ void player::load(JsonObject &data)
         const std::string t = pmap.get_string("trap");
         known_traps.insert(trap_map::value_type(p, t));
     }
-    
+
     // Add the earplugs.
     if (has_bionic("bio_ears") && !has_bionic("bio_earplugs")) {
         add_bionic("bio_earplugs");
     }
-    
+
 }
 
 /*
  * Variables common to player (and npc's, should eventually just be players)
  */
 void player::store(JsonOut &json) const
-{   
+{
     Character::store( json );
 
     // assumes already in player object
@@ -1016,6 +1016,7 @@ void monster::load(JsonObject &data)
     data.read("wandy", wandy);
     data.read("wandf", wandf);
     data.read("hp", hp);
+    data.read("last_loaded", last_loaded);
 
     if (data.has_array("sp_timeout")) {
         JsonArray parray = data.get_array("sp_timeout");
@@ -1089,6 +1090,7 @@ void monster::store(JsonOut &json) const
     json.member("faction", faction->name);
     json.member("mission_id", mission_id);
     json.member("no_extra_death_drops", no_extra_death_drops );
+    json.member("last_loaded", last_loaded);
     json.member("dead", dead);
     json.member("anger", anger);
     json.member("morale", morale);
@@ -1198,8 +1200,8 @@ void item::deserialize(JsonObject &data)
     // and bugged WET towels get reactivated
     data.read("item_tags", item_tags);
 
-    if( !active && 
-        (item_tags.count( "HOT" ) > 0 || item_tags.count( "COLD" ) > 0 || 
+    if( !active &&
+        (item_tags.count( "HOT" ) > 0 || item_tags.count( "COLD" ) > 0 ||
          item_tags.count( "WET" ) > 0) ) {
         // Some hot/cold items from legacy saves may be inactive
         active = true;

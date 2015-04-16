@@ -35,6 +35,7 @@ monster::monster()
  friendly = 0;
  anger = 0;
  morale = 2;
+ last_loaded = 0;
  faction = MonsterGenerator::generator().faction_by_name( "" );
  mission_id = -1;
  no_extra_death_drops = false;
@@ -163,15 +164,34 @@ void monster::poly(mtype *t)
 }
 
 void monster::update_check(){
-    if (type->upgrade_group != "NULL"){
-        int time_passed = calendar::turn.get_turn()/ DAYS(1);
-        int upgrade_time = type->upgrade_time * ACTIVE_WORLD_OPTIONS["MONSTER_GROUP_DIFFICULTY"];
-        if (!x_in_y(upgrade_time, time_passed)){
-            const auto monsters = MonsterGroupManager::GetMonstersFromGroup(type->upgrade_group);
-            const std::string newtype = monsters[rng(0, monsters.size() - 1)];
-            poly(GetMType(newtype));
-        }
+    if (type->upgrade_group == "NULL"){
+        return;
     }
+    int current_day = calendar::turn.get_turn()/ DAYS(1);
+    int upgrade_time = type->upgrade_min * ACTIVE_WORLD_OPTIONS["MONSTER_GROUP_DIFFICULTY"];
+    //g->u.add_msg_if_player(m_debug, "Upgrade group: %s ", type->upgrade_group);
+    g->u.add_msg_if_player(m_debug, "Current:day: %d", current_day);
+    g->u.add_msg_if_player(m_debug, "Upgrade time : %d", upgrade_time);
+    g->u.add_msg_if_player(m_debug, "Last loaded: %d", last_loaded);
+
+    if (current_day == last_loaded || last_loaded < upgrade_time){
+        g->u.add_msg_if_player(m_debug, "Upgrade time less");
+        last_loaded = current_day;
+        return;
+    }
+
+    int time_passed = current_day - last_loaded;
+    g->u.add_msg_if_player(m_debug, "Time passed: %d", time_passed);
+    //radioactive decay function
+    float upgrade_chance = ((1*0.5*exp(type->half_life / time_passed)) + type->base_upgrade_chance) * 100;
+    g->u.add_msg_if_player(m_debug, "Upgrade chance: %f", upgrade_chance);
+    if (upgrade_chance > rng(0, 100)){
+        const auto monsters = MonsterGroupManager::GetMonstersFromGroup(type->upgrade_group);
+        const std::string newtype = monsters[rng(0, monsters.size() - 1)];
+        poly(GetMType(newtype));
+    }
+
+    last_loaded = current_day;
 }
 void monster::spawn(int x, int y)
 {
