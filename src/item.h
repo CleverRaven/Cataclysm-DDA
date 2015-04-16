@@ -274,7 +274,7 @@ public:
   * container it was in.
   * @param On success all consumed items will be stored here.
   */
- bool use_amount(const itype_id &it, int &quantity, bool use_container, std::list<item> &used);
+ bool use_amount(const itype_id &it, long &quantity, bool use_container, std::list<item> &used);
 /**
  * Fill container with liquid up to its capacity.
  * @param liquid Liquid to fill the container with.

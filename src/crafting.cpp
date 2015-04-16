@@ -1824,7 +1824,7 @@ std::list<item> player::consume_items(const std::vector<item_comp> &components, 
     const tripoint &loc = pos3();
     const bool by_charges = (item::count_by_charges( selected_comp.type ) && selected_comp.count > 0);
     // Count given to use_amount/use_charges, changed by those functions!
-    int real_count = (selected_comp.count > 0) ? selected_comp.count * batch : abs(selected_comp.count);
+    long real_count = (selected_comp.count > 0) ? selected_comp.count * batch : abs(selected_comp.count);
     const bool in_container = (selected_comp.count < 0);
     // First try to get everything from the map, than (remaining amount) from player
     if (use_from & use_from_map) {
@@ -1891,7 +1891,8 @@ void player::consume_tools(const std::vector<tool_comp> &tools, int batch, const
         if(map_has.empty()) {
             use_charges(player_has[0].type, player_has[0].count * batch);
         } else {
-            g->m.use_charges(pos3(), PICKUP_RANGE, map_has[0].type, map_has[0].count * batch);
+            long quantity = map_has[0].count * batch;
+            g->m.use_charges(pos3(), PICKUP_RANGE, map_has[0].type, quantity);
         }
     } else { // Variety of options, list them and pick one
         // Populate the list
@@ -1910,10 +1911,10 @@ void player::consume_tools(const std::vector<tool_comp> &tools, int batch, const
 
         // Get selection via a popup menu
         size_t selection = menu_vec(false, _("Use which tool?"), options, hotkeys) - 1;
-        if (selection < map_has.size())
-            g->m.use_charges(pos3(), PICKUP_RANGE,
-                          map_has[selection].type, map_has[selection].count * batch);
-        else {
+        if (selection < map_has.size()) {
+            long quantity = map_has[selection].count * batch;
+            g->m.use_charges(pos3(), PICKUP_RANGE, map_has[selection].type, quantity );
+        } else {
             selection -= map_has.size();
             use_charges(player_has[selection].type, player_has[selection].count * batch);
         }
