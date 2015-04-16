@@ -1133,7 +1133,7 @@ bool advanced_inventory::move_all_items()
 
     if(spane.get_area() == AIM_INVENTORY || spane.get_area() == AIM_WORN) {
         g->u.assign_activity(ACT_DROP, 0);
-        g->u.activity.placement = point(darea.off.x, darea.off.y);
+        g->u.activity.placement = point(darea.pos.x, darea.pos.y);
     }
     if( spane.get_area() == AIM_INVENTORY ) {
         for( size_t index = 0; index < g->u.inv.size(); ++index ) {
@@ -1171,10 +1171,10 @@ bool advanced_inventory::move_all_items()
         } else { // Vehicle and map destinations are handled the same.
             g->u.assign_activity( ACT_MOVE_ITEMS, 0 );
             // Stash the destination at the start of the values vector.
-            g->u.activity.values.push_back(darea.off.x);
-            g->u.activity.values.push_back(darea.off.y);
+            g->u.activity.values.push_back(darea.pos.x);
+            g->u.activity.values.push_back(darea.pos.y);
         }
-        g->u.activity.placement = point(sarea.off.x, sarea.off.y);
+        g->u.activity.placement = point(sarea.pos.x, sarea.pos.y);
 
         std::list<item>::iterator begin;
         std::list<item>::iterator end;
@@ -1583,7 +1583,9 @@ void advanced_inventory::display()
             }
             int ret = 0;
             if( spane.get_area() == AIM_INVENTORY || spane.get_area() == AIM_WORN) {
-                ret = g->inventory_item_menu( sitem->idx, colstart + ( src == left ? w_width / 2 : 0 ),
+                int idx = (spane.get_area() == AIM_INVENTORY) ? 
+                    sitem->idx : g->u.worn_position_to_index(sitem->idx);
+                ret = g->inventory_item_menu( idx, colstart + ( src == left ? w_width / 2 : 0 ),
                                               w_width / 2, ( src == right ? 0 : -1 ) );
                 // if player has started an activity, leave the screen and process it
                 if( !g->u.has_activity( ACT_NULL ) ) {
@@ -1814,16 +1816,21 @@ bool advanced_inventory::add_item( aim_location destarea, item &new_item )
         return rc;
     } else {
         advanced_inv_area &p = squares[destarea];
-        auto loc = panes[dest].veh_area;
-        // set the vehicle area for the destination area
-        if(squares[loc].can_store_in_vehicle()) {
-            rc = set_vehicle(panes[dest], loc);
-        }
         if(p.can_store_in_vehicle() && 
                 (destarea == AIM_VEHICLE || 
                  destarea == AIM_DRAGGED || 
                  panes[dest].get_area() == AIM_ALL)) {
-            rc = p.veh->add_item(p.vstor, new_item);
+
+            auto loc = panes[dest].veh_area;
+            // set the vehicle area for the destination area
+            if(loc < NUM_AIM_LOCATIONS && squares[loc].can_store_in_vehicle()) {
+                if((rc = set_vehicle(panes[dest], loc)) == true) { 
+                    rc = p.veh->add_item(p.vstor, new_item);
+                } else {
+                    debugmsg("error setting vehicle in [advanced_inventory::add_item");
+                    return rc;
+                }
+            }
         } else {
             rc = g->m.add_item_or_charges(p.pos, new_item, 0);
         }
@@ -1887,8 +1894,8 @@ bool advanced_inventory::query_charges( aim_location destarea, const advanced_in
     const bool by_charges = it.count_by_charges();
     const int unitvolume = it.precise_unit_volume();
     const int free_volume = 1000 * p.free_volume();
-    // default to move all
-    const long input_amount = by_charges ? it.charges : sitem.stacks;
+    // default to move all, unless if being equipped
+    const long input_amount = by_charges ? it.charges : (destarea == AIM_WORN) ? 1 : sitem.stacks;
     assert( input_amount > 0 ); // there has to be something to begin with
     amount = input_amount;
 
