@@ -4317,7 +4317,7 @@ void player::pause()
     vehicle* veh = NULL;
     for (auto &v : vehs) {
         veh = v.v;
-        if (veh && veh->velocity != 0 && veh->player_in_control(this)) {
+        if (veh && veh->velocity != 0 && veh->player_in_control(*this)) {
             if (one_in(10)) {
                 practice( "driving", 1 );
             }
@@ -11080,7 +11080,7 @@ void player::read(int inventory_position)
     }
 
     vehicle *veh = g->m.veh_at (posx(), posy());
-    if (veh && veh->player_in_control (this)) {
+    if (veh && veh->player_in_control(*this)) {
         add_msg(m_info, _("It's a bad idea to read while driving!"));
         return;
     }
