@@ -18821,7 +18821,6 @@
         "seed_data": {
             "plant_name": "thyme",
             "fruit": "thyme",
-            "byproducts": [ "withered" ],
             "grow" : 91
         }
     },{
@@ -19090,7 +19089,6 @@
         "seed_data": {
             "plant_name": "mugwort",
             "fruit": "mugwort",
-            "byproducts": [ "withered" ],
             "grow" : 91
         }
 },{   
@@ -19172,7 +19170,6 @@
         "seed_data": {
             "plant_name": "wild herb",
             "fruit": "wild_herbs",
-            "byproducts": [ "withered" ],
             "grow" : 91
         }
 },{   
@@ -19228,7 +19225,6 @@
         "seed_data": {
             "plant_name": "dandelion",
             "fruit": "raw_dandelion",
-            "byproducts": [ "withered" ],
             "grow" : 91
         }
 },{   
@@ -19284,7 +19280,6 @@
         "seed_data": {
             "plant_name": "mushroom",
             "fruit": "mushroom",
-            "byproducts": [ "withered" ],
             "grow" : 91
         }
 },{   
@@ -19312,7 +19307,6 @@
         "seed_data": {
             "plant_name": "morel mushroom",
             "fruit": "mushroom_morel",
-            "byproducts": [ "withered" ],
             "grow" : 91
         }
 },{   
@@ -19341,7 +19335,6 @@
         "seed_data": {
             "plant_name": "mushroom",
             "fruit": "mushroom_magic",
-            "byproducts": [ "withered" ],
             "grow" : 91
         }
 },{   
@@ -19370,7 +19363,6 @@
         "seed_data": {
             "plant_name": "mushroom",
             "fruit": "mushroom_poison",
-            "byproducts": [ "withered" ],
             "grow" : 91
         }
 }
