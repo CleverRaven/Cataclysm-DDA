@@ -1683,19 +1683,19 @@ void dialogue::gen_responses( const std::string &topic )
 
     } else if( topic == "TALK_OLD_GUARD_REP_NEW" ) {
             add_response( _("So what are you actually doing here?"), "TALK_OLD_GUARD_REP_NEW_DOING" );
-            add_response( _("Nevermind..."), "TALK_OLD_GUARD_REP" );
+            add_response( _("Never mind..."), "TALK_OLD_GUARD_REP" );
 
     } else if( topic == "TALK_OLD_GUARD_REP_NEW_DOING" ) {
             add_response( _("Is there a catch?"), "TALK_OLD_GUARD_REP_NEW_DOWNSIDE" );
             add_response( _("Anything more to it?"), "TALK_OLD_GUARD_REP_NEW_DOWNSIDE" );
-            add_response( _("Nevermind..."), "TALK_OLD_GUARD_REP" );
+            add_response( _("Never mind..."), "TALK_OLD_GUARD_REP" );
     } else if( topic == "TALK_OLD_GUARD_REP_NEW_DOWNSIDE" ) {
             add_response( _("Hmmm..."), "TALK_OLD_GUARD_REP" );
 
     } else if( topic == "TALK_OLD_GUARD_REP_WORLD" ) {
             add_response( _("The 2nd Fleet?"), "TALK_OLD_GUARD_REP_WORLD_2NDFLEET" );
             add_response( _("Tell me about the footholds."), "TALK_OLD_GUARD_REP_WORLD_FOOTHOLDS" );
-            add_response( _("Nevermind..."), "TALK_OLD_GUARD_REP" );
+            add_response( _("Never mind..."), "TALK_OLD_GUARD_REP" );
 
     } else if( topic == "TALK_OLD_GUARD_REP_WORLD_2NDFLEET" ) {
             add_response( _("Hmmm..."), "TALK_OLD_GUARD_REP" );

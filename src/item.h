@@ -173,8 +173,9 @@ public:
      * @param u The player whose inventory is used to search for suitable ammo.
      * @param interactive Whether to show a dialog to select the ammo, if false it will select
      * the first suitable ammo.
+     * @retval INT_MIN+2 to indicate the user canceled the menu
      * @retval INT_MIN+1 to indicate reload from spare magazine
-     * @retval INT_MIN to indicate no suitable ammo found or user canceled the menu.
+     * @retval INT_MIN to indicate no suitable ammo found.
      * @retval other the item position (@ref player::i_at) in the players inventory.
      */
     int pick_reload_ammo( const player &u, bool interactive );

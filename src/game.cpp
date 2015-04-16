@@ -10036,7 +10036,7 @@ void game::grab()
             add_msg(m_info, _("There's nothing to grab there!"));
         }
     } else {
-        add_msg(_("Never Mind."));
+        add_msg(_("Never mind."));
     }
 }
 
@@ -10757,8 +10757,8 @@ void game::plfire(bool burst, int default_target_x, int default_target_y)
         if (reload_pos == INT_MIN) {
             add_msg(m_info, _("Out of ammo!"));
             return;
-        }else if (reload_pos == -1) {
-            add_msg(m_info, _("Nevermind."));
+        }else if (reload_pos == INT_MIN + 2) {
+            add_msg(m_info, _("Never mind."));
             refresh_all();
             return;
         }
@@ -11196,8 +11196,8 @@ void game::reload(int pos)
             add_msg(m_info, _("Out of ammo!"));
             refresh_all();
             return;
-        }else if (am_pos == -1) {
-            add_msg(m_info, _("Nevermind."));
+        }else if (am_pos == INT_MIN + 2) {
+            add_msg(m_info, _("Never mind."));
             refresh_all();
             return;
         }
@@ -11226,9 +11226,9 @@ void game::reload(int pos)
             // no ammo, fail reload
             add_msg(m_info, _("Out of %s!"), ammo_name(tool->ammo_id).c_str());
             return;
-        }else if (am_pos == -1) {
+        }else if (am_pos == INT_MIN + 2) {
             //cancelled or invalid selection
-            add_msg(m_info, _("Nevermind."));
+            add_msg(m_info, _("Never mind."));
             refresh_all();
             return;
         }

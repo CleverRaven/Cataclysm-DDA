@@ -178,7 +178,7 @@ private:
         });
 
         if (index == INT_MIN) {
-            add_msg(m_info, _("Nevermind."));
+            add_msg(m_info, _("Never mind."));
             return nullptr; // player canceled
         }
 
