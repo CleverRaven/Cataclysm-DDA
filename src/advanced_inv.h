@@ -89,7 +89,7 @@ struct advanced_inv_area {
     bool is_container_valid( const item *it ) const;
     void set_container_position();
     aim_location offset_to_location() const;
-    void set_vehicle(advanced_inv_area &square);
+    bool set_vehicle(advanced_inv_area &square);
     bool can_store_in_vehicle() const
     {
         return (veh != nullptr && vstor >= 0);
@@ -180,9 +180,24 @@ struct advanced_inv_listitem {
  */
 class advanced_inventory_pane
 {
+    private:
+        aim_location area = NUM_AIM_LOCATIONS;
+        bool in_veh = false;
     public:
-        aim_location area;
-        aim_location veh_area;
+        aim_location get_area() const
+        {
+            return area;
+        }
+        void set_area(aim_location loc)
+        {
+            area = loc;
+            in_veh = area == AIM_VEHICLE;
+        }
+        bool in_vehicle() const
+        {
+            return in_veh;
+        }
+        aim_location veh_area = NUM_AIM_LOCATIONS;
         /**
          * Index of the selected item (index of @ref items),
          */
@@ -378,7 +393,7 @@ class advanced_inventory
          * @param sitem The item reference that should be removed, along with the
          * source area.
          */
-        void remove_item( advanced_inv_listitem &sitem );
+        bool remove_item( advanced_inv_listitem &sitem );
         void menu_square(uimenu *menu);
 
         // set AIM_VEHICLE to the location given.
