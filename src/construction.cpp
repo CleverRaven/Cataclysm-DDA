@@ -655,8 +655,8 @@ void complete_construction()
     player &u = g->u;
     const construction &built = constructions[u.activity.index];
 
-    u.practice( built.skill, std::max(built.difficulty, 1) * 10,
-                   (int)(built.difficulty * 1.25) );
+    u.practice( built.skill, (int)( (10 + 15*built.difficulty) * (1 + built.time/30000.0) ), 
+                    (int)(built.difficulty * 1.25) );
                    
 
     // Friendly NPCs gain exp from assisting or watching...
@@ -664,11 +664,13 @@ void complete_construction()
         if (rl_dist( elem->pos(), u.pos() ) < PICKUP_RANGE && elem->is_friend()){
             //If the NPC can understand what you are doing, they gain more exp
             if (elem->skillLevel(built.skill) >= built.difficulty){
-                elem->practice( built.skill, std::max(built.difficulty, 1) * 10, (int)(built.difficulty * 1.25));
+                elem->practice( built.skill, (int)( (10 + 15*built.difficulty) * (1 + built.time/30000.0) ), 
+                                    (int)(built.difficulty * 1.25) );
                 add_msg(m_info, _("%s assists you with the work..."), elem->name.c_str());
             //NPC near you isn't skilled enough to help
             } else {
-                elem->practice( built.skill, std::max(built.difficulty, 1) * 10, (int)(built.difficulty * 1.25));
+                elem->practice( built.skill, (int)( (10 + 15*built.difficulty) * (1 + built.time/30000.0) ),
+                                    (int)(built.difficulty * 1.25) );
                 add_msg(m_info, _("%s watches you work..."), elem->name.c_str());
             }
         }
