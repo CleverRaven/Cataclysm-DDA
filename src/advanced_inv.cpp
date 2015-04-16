@@ -637,9 +637,7 @@ void advanced_inventory::init()
         square.init();
     }
 
-    bool moved = ( uistate.adv_inv_last_coords.x != g->u.posx() || 
-                   uistate.adv_inv_last_coords.y != g->u.posy() ||
-                   uistate.adv_inv_last_coords.z != g->u.posz());
+    bool moved = uistate.adv_inv_last_coords != g->u.pos3();
 
     panes[left].sortby  = static_cast<advanced_inv_sortby>(uistate.adv_inv_leftsort);
     panes[right].sortby = static_cast<advanced_inv_sortby>(uistate.adv_inv_rightsort);
