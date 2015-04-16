@@ -694,10 +694,12 @@ class game
         void hide_mouseview(); // Hides the mouse hover box and redraws what was under it
 
         // On-request draw functions
-        void draw_overmap();     // Draws the overmap, allows note-taking etc.
-        void disp_kills();       // Display the player's kill counts
-        void disp_NPCs();        // Currently UNUSED.  Lists global NPCs.
-        void list_missions();    // Listed current, completed and failed missions.
+        void draw_overmap();        // Draws the overmap, allows note-taking etc.
+        void disp_kills();          // Display the player's kill counts
+        void disp_faction_ends();   // Display the faction endings
+        void disp_NPC_epilogues();  // Display NPC endings
+        void disp_NPCs();           // Currently UNUSED.  Lists global NPCs.
+        void list_missions();       // Listed current, completed and failed missions.
 
         // Debug functions
         void debug();           // All-encompassing debug screen.  TODO: This.

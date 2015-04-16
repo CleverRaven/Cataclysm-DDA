@@ -200,6 +200,8 @@ void DynamicDataLoader::initialize()
         &npc::load_npc);
     type_function_map["talk_topic"] = new StaticFunctionAccessor(
         &load_talk_topic);
+    type_function_map["epilogue"] = new StaticFunctionAccessor(
+        &epilogue::load_epilogue);
 
 }
 

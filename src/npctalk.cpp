@@ -2516,6 +2516,7 @@ void talk_function::mission_success(npc *p)
     if (p->my_fac != NULL){
         p->my_fac->likes_u += 10;
         p->my_fac->respects_u += 10;
+        p->my_fac->power += 10;
     }
     miss->wrap_up();
 }
