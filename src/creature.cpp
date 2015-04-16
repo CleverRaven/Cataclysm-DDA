@@ -187,7 +187,8 @@ bool Creature::sees( const Creature &critter, int &bresenham_slope ) const
 
     const auto p = dynamic_cast< const player* >( &critter );
     if( p != nullptr && p->is_invisible() ) {
-        return false;
+        // Let invisible players see themselves (simplifies drawing)
+        return p == this;
     }
 
     int cx = critter.posx();

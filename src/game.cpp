@@ -2242,9 +2242,9 @@ input_context game::get_player_input(std::string &action)
                         if( elem.getStep() > 0 ) {
                             for( size_t i = 0; i < elem.getText().length(); ++i ) {
                                 if( u.sees( elem.getPosX() + i, elem.getPosY() ) ) {
-                                    m.drawsq( w_terrain, u, tripoint( elem.getPosX() + i, elem.getPosY(), get_levz() ),
-                                              false, true, u.posx() + u.view_offset.x,
-                                              u.posy() + u.view_offset.y );
+                                    m.drawsq( w_terrain, u, 
+                                              tripoint( elem.getPosX() + i, elem.getPosY(), u.posz() + u.view_offset.z ),
+                                              false, true, u.pos3() + u.view_offset );
                                 } else {
                                     const int iDY =
                                         POSY + ( elem.getPosY() - ( u.posy() + u.view_offset.y ) );
@@ -8457,7 +8457,7 @@ void game::zones_manager()
                         for (int iX = pStart.x; iX <= pEnd.x; ++iX) {
                             if (u.sees(iX, iY)) {
                                 m.drawsq(w_terrain, u,
-                                         tripoint( iX, iY, get_levz() ),
+                                         tripoint( iX, iY, u.posz() + u.view_offset.z ),
                                          false,
                                          false,
                                          u.pos3() + u.view_offset );
@@ -8612,7 +8612,7 @@ point game::look_around(WINDOW *w_info, const point pairCoordsFirst)
                             for (int iX = std::min(pairCoordsFirst.x, lx); iX <= std::max(pairCoordsFirst.x, lx); ++iX) {
                                 if (u.sees(iX, iY)) {
                                     m.drawsq(w_terrain, u,
-                                             tripoint( iX, iY, get_levz() ),
+                                             tripoint( iX, iY, u.posz() + u.view_offset.z ),
                                              false,
                                              false,
                                              lx,
