@@ -3723,7 +3723,7 @@ int item::pick_reload_ammo( const player &u, bool interactive )
     amenu.query();
     if( amenu.ret < 0 || amenu.ret >= ( int )ammo_list.size() ) {
         // invalid selection / escaped from the menu
-        return -1;
+        return INT_MIN + 2;
     }    
     const auto &selected = ammo_list[ amenu.ret ];
     uistate.lastreload[ ammo_type() ] = std::get<0>( selected )->id;
