@@ -4792,11 +4792,32 @@ void map::update_visibility_cache( visibility_variables &cache) {
     
     cache.u_is_boomered = g->u.has_effect("boomered");
     
+    int sm_squares_seen[my_MAPSIZE][my_MAPSIZE];
+    memset(sm_squares_seen, 0, sizeof(sm_squares_seen));
+
     for( int x = 0; x < MAPSIZE * SEEX; x++ ) {
         for( int y = 0; y < MAPSIZE * SEEY; y++ ) {
-            visibility_cache[x][y] = apparent_light_at(x, y, cache);
+            lit_level ll = apparent_light_at(x, y, cache);
+            visibility_cache[x][y] = ll;
+            sm_squares_seen[x/SEEX][y/SEEY] += (
+                ll == LL_BRIGHT ||
+                ll == LL_LIT
+            );
         }
     }
+
+    for (int x = 0; x < my_MAPSIZE; x++) {
+        for (int y = 0; y < my_MAPSIZE; y++) {
+            if ( sm_squares_seen[x][y] > 36 ) { // 25% of the submap is visible
+                const tripoint sm(x,y,g->get_levz());
+                const auto abs_sm = map::abs_sub + sm;
+                const auto abs_omt = overmapbuffer::sm_to_omt_copy( abs_sm );
+                overmap_buffer.set_seen( abs_omt.x, abs_omt.y, abs_omt.z, true);
+            }
+        }        
+    }
+
+
 }
 
 lit_level map::apparent_light_at(int x, int y, const visibility_variables &cache) {
@@ -4804,6 +4825,7 @@ lit_level map::apparent_light_at(int x, int y, const visibility_variables &cache
 
     int sight_range = cache.light_sight_range;
     int low_sight_range = cache.lowlight_sight_range;
+    lit_level lit = light_at(x, y);
 
     // While viewing indoor areas use lightmap model
     if (!is_outside(x, y)) {
@@ -4811,7 +4833,7 @@ lit_level map::apparent_light_at(int x, int y, const visibility_variables &cache
 
     // Don't display area as shadowy if it's outside and illuminated by natural light
     // and illuminated by source of light
-    } else if (light_at(x, y) > LL_LOW || dist <= cache.light_sight_range) {
+    } else if (lit > LL_LOW || dist <= cache.light_sight_range) {
         low_sight_range = std::max(cache.g_light_level, cache.natural_sight_range);
     }
 
@@ -4819,7 +4841,6 @@ lit_level map::apparent_light_at(int x, int y, const visibility_variables &cache
     int distance_to_look = DAYLIGHT_LEVEL;
 
     bool can_see = pl_sees( x, y, distance_to_look );
-    lit_level lit = light_at(x, y);
 
     // now we're gonna adjust real_max_sight, to cover some nearby "highlights",
     // but at the same time changing light-level depending on distance,
@@ -4921,6 +4942,7 @@ bool map::apply_vision_effects( WINDOW *w, lit_level ll,
     wputch( w, color, symbol );
     return true;
 }
+
 
 void map::draw(WINDOW* w, const point center)
 {
