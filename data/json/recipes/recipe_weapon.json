@@ -2843,7 +2843,7 @@
   "type" : "recipe",
   "result": "gun_crossbow",
   "category": "CC_WEAPON",
-  "subcategory": "CSC_WEAPON_RANGED",
+  "subcategory": "CSC_WEAPON_MODS",
   "skill_used": "mechanics",
   "skills_required": [ "archery", 3 ],
   "difficulty": 4,
