@@ -331,8 +331,6 @@ void Item_factory::init()
     iuse_function_list["REMOTEVEH"] = &iuse::remoteveh;
 
     create_inital_categories();
-
-    init_old();
 }
 
 void Item_factory::create_inital_categories()
@@ -442,6 +440,16 @@ void Item_factory::check_definitions() const
         if (comest != 0) {
             if (comest->tool != "null" && !has_template(comest->tool)) {
                 msg << string_format("invalid tool property %s", comest->tool.c_str()) << "\n";
+            }
+        }
+        if( type->seed ) {
+            if( !has_template( type->seed->fruit_id ) ) {
+                msg << string_format( "invalid fruit id %s", type->seed->fruit_id.c_str() ) << "\n";
+            }
+            for( auto & b : type->seed->byproducts ) {
+                if( !has_template( b ) ) {
+                    msg << string_format( "invalid byproduct id %s", b.c_str() ) << "\n";
+                }
             }
         }
         if( type->ammo ) {
@@ -564,6 +572,12 @@ void Item_factory::load_slot_optional( std::unique_ptr<SlotType> &slotptr, JsonO
     load_slot( slotptr, slotjo );
 }
 
+void Item_factory::load( islot_software &slot, JsonObject &jo )
+{
+    slot.type = jo.get_string( "type" );
+    slot.power = jo.get_int( "power" );
+}
+
 void Item_factory::load( islot_ammo &slot, JsonObject &jo )
 {
     slot.type = jo.get_string( "ammo_type" );
@@ -590,9 +604,7 @@ void Item_factory::load( islot_gun &slot, JsonObject &jo )
 {
     slot.ammo = jo.get_string( "ammo" );
     slot.skill_used = Skill::skill( jo.get_string( "skill" ) );
-    // TODO: implement loading this from json (think of a proper name)
-    // Or calculate it automatically, see item::noise and ranged.cpp
-    // slot.loudness = jo.get_string( "loudness", 0 );
+    slot.loudness = jo.get_int( "loudness", 0 );
     slot.damage = jo.get_int( "ranged_damage", 0 );
     slot.range = jo.get_int( "range", 0 );
     slot.dispersion = jo.get_int( "dispersion" );
@@ -766,6 +778,9 @@ void Item_factory::load( islot_seed &slot, JsonObject &jo )
 {
     slot.grow = jo.get_int( "grow" );
     slot.plant_name = _( jo.get_string( "plant_name" ).c_str() );
+    slot.fruit_id = jo.get_string( "fruit" );
+    slot.spawn_seeds = jo.get_bool( "seeds", true );
+    slot.byproducts = jo.get_string_array( "byproducts" );
 }
 
 void Item_factory::load( islot_container &slot, JsonObject &jo )
@@ -976,6 +991,7 @@ void Item_factory::load_basic_info(JsonObject &jo, itype *new_item_template)
     load_slot_optional( new_item_template->spawn, jo, "spawn_data" );
     load_slot_optional( new_item_template->ammo, jo, "ammo_data" );
     load_slot_optional( new_item_template->seed, jo, "seed_data" );
+    load_slot_optional( new_item_template->software, jo, "software_data" );
 }
 
 void Item_factory::load_item_category(JsonObject &jo)

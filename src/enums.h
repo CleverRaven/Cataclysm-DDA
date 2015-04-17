@@ -245,12 +245,13 @@ struct tripoint : public JsonSerializer, public JsonDeserializer {
     int x;
     int y;
     int z;
-    tripoint(int X = 0, int Y = 0, int Z = 0) : x (X), y (Y), z (Z) {}
+    tripoint() : x(0), y(0), z(0) {}
+    tripoint(int X, int Y, int Z) : x (X), y (Y), z (Z) {}
     tripoint(tripoint &&) = default;
     tripoint(const tripoint &) = default;
     tripoint &operator=(tripoint &&) = default;
     tripoint &operator=(const tripoint &) = default;
-    explicit tripoint(const point &p, int Z = 0) : x (p.x), y (p.y), z (Z) {}
+    explicit tripoint(const point &p, int Z) : x (p.x), y (p.y), z (Z) {}
     ~tripoint() {}
     using JsonSerializer::serialize;
     void serialize(JsonOut &jsout) const override

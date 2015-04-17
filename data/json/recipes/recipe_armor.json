@@ -1474,6 +1474,22 @@
   ]
 },{
   "type" : "recipe",
+  "result": "tinfoil_hat",
+  "category": "CC_ARMOR",
+  "subcategory": "CSC_ARMOR_HEAD",
+  "skill_used": "tailor",
+  "difficulty": 0,
+  "time": 500,
+  "reversible": false,
+  "autolearn": true,
+  "tools": [ ],
+  "components": [
+    [
+      [ "aluminum_foil", 4 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
   "result": "trenchcoat_fur",
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_TORSO",

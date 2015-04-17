@@ -222,6 +222,7 @@ void mapgen_triffid_roots(map *m, oter_id terrain_type, mapgendata dat, int turn
 void mapgen_triffid_finale(map *m, oter_id terrain_type, mapgendata dat, int turn, float density);
 void mapgen_cavern(map *m, oter_id terrain_type, mapgendata dat, int turn, float density);
 void mapgen_rock(map *m, oter_id terrain_type, mapgendata dat, int turn, float density);
+void mapgen_rock_partial(map *m, oter_id terrain_type, mapgendata dat, int turn, float density);
 void mapgen_open_air(map *m, oter_id terrain_type, mapgendata dat, int turn, float density);
 void mapgen_rift(map *m, oter_id terrain_type, mapgendata dat, int turn, float density);
 void mapgen_hellmouth(map *m, oter_id terrain_type, mapgendata dat, int turn, float density);

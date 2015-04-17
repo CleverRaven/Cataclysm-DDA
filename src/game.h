@@ -340,6 +340,13 @@ class game
         int inv_for_unequipped(std::string const &title, item_filter filter);
         int display_slice(indexed_invslice const&, const std::string &, bool show_worn = true, int position = INT_MIN);
         int inventory_item_menu(int pos, int startx = 0, int width = 50, int position = 0);
+
+        // Combines filtered player inventory with filtered ground items to create a pseudo-inventory.
+        // Then asks the player to select an item and returns a pair: ( item index, item pointer )
+        // If the item is outside player inventory, index is INT_MIN, but pointer is not null
+        std::pair< int, item* > inv_map_splice( item_filter inv_filter, item_filter ground_filter, const std::string &title );
+        std::pair< int, item* > inv_map_splice( item_filter filter, const std::string &title );
+
         // Select items to drop.  Returns a list of pairs of position, quantity.
         std::list<std::pair<int, int>> multidrop();
         faction *list_factions(std::string title = "FACTIONS:");
@@ -687,10 +694,12 @@ class game
         void hide_mouseview(); // Hides the mouse hover box and redraws what was under it
 
         // On-request draw functions
-        void draw_overmap();     // Draws the overmap, allows note-taking etc.
-        void disp_kills();       // Display the player's kill counts
-        void disp_NPCs();        // Currently UNUSED.  Lists global NPCs.
-        void list_missions();    // Listed current, completed and failed missions.
+        void draw_overmap();        // Draws the overmap, allows note-taking etc.
+        void disp_kills();          // Display the player's kill counts
+        void disp_faction_ends();   // Display the faction endings
+        void disp_NPC_epilogues();  // Display NPC endings
+        void disp_NPCs();           // Currently UNUSED.  Lists global NPCs.
+        void list_missions();       // Listed current, completed and failed missions.
 
         // Debug functions
         void debug();           // All-encompassing debug screen.  TODO: This.

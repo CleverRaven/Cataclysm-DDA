@@ -529,7 +529,7 @@ void game::setup()
 {
     load_world_modfiles(world_generator->active_world);
 
-    m = map(); // reset the main map
+    m = map( static_cast<bool>( ACTIVE_WORLD_OPTIONS["ZLEVELS"] ) );
 
     next_npc_id = 1;
     next_faction_id = 1;
@@ -702,6 +702,8 @@ void game::load_npcs()
         if (temp->marked_for_death) {
             temp->die( nullptr );
         } else {
+            if (temp->my_fac != NULL)
+                temp->my_fac->known_by_u = true;
             active_npc.push_back(temp);
         }
     }
@@ -1023,7 +1025,7 @@ void game::calc_driving_offset(vehicle *veh)
     float velocity = veh->velocity;
     rl_vec2d offset = veh->move_vec();
     if (!veh->skidding && std::abs(veh->cruise_velocity - veh->velocity) < 14 * 100 &&
-        veh->player_in_control(&u)) {
+        veh->player_in_control(u)) {
         // Use the cruise controlled velocity, but only if
         // it is not too different from the actual velocity.
         // The actual velocity changes too often (see above slowdown).
@@ -2420,7 +2422,7 @@ bool game::handle_action()
     int veh_part;
     vehicle *veh = m.veh_at( u.posx(), u.posy(), veh_part );
     bool veh_ctrl = !u.is_dead_state() &&
-        ( ( veh && veh->player_in_control(&u) ) || remoteveh() != nullptr );
+        ( ( veh && veh->player_in_control(u) ) || remoteveh() != nullptr );
 
     // If performing an action with right mouse button, co-ordinates
     // of location clicked.
@@ -3309,6 +3311,9 @@ void game::update_scent()
         grscent[u.posx()][u.posy()] = u.scent;
     }
 
+    // The new scent flag searching function. Should be wayyy faster than the old one.
+    m.scent_blockers( blocks_scent, reduces_scent,
+                      scentmap_minx, scentmap_miny, scentmap_maxx, scentmap_maxy );
     // Sum neighbors in the y direction.  This way, each square gets called 3 times instead of 9
     // times. This cost us an extra loop here, but it also eliminated a loop at the end, so there
     // is a net performance improvement over the old code. Could probably still be better.
@@ -3317,16 +3322,6 @@ void game::update_scent()
     // SEEX*MAPSIZE, but if that changes, this may need tweaking.
     for (int x = scentmap_minx - 1; x <= scentmap_maxx + 1; ++x) {
         for (int y = scentmap_miny; y <= scentmap_maxy; ++y) {
-            // cache expensive flag checks, once per tile.
-            if (y == scentmap_miny) {  // Setting y-1 y-0, when we are at the top row...
-                for (int i = y - 1; i <= y; ++i) {
-                    blocks_scent[x][i] = m.has_flag(TFLAG_WALL, x, i);
-                    reduces_scent[x][i] = m.has_flag(TFLAG_REDUCE_SCENT, x, i);
-                }
-            }
-            blocks_scent[x][y + 1] = m.has_flag(TFLAG_WALL, x, y + 1); // ...so only y+1 here.
-            reduces_scent[x][y + 1] = m.has_flag(TFLAG_REDUCE_SCENT, x, y + 1);
-
             // remember the sum of the scent val for the 3 neighboring squares that can defuse into
             sum_3_scent_y[y][x] = 0;
             squares_used_y[y][x] = 0;
@@ -3344,6 +3339,8 @@ void game::update_scent()
             }
         }
     }
+
+    // Rest of the scent map
     for (int x = scentmap_minx; x <= scentmap_maxx; ++x) {
         for (int y = scentmap_miny; y <= scentmap_maxy; ++y) {
             if (! blocks_scent[x][y]) {
@@ -3374,11 +3371,6 @@ void game::update_scent()
                                            + sum_3_scent_y[y][x + 1])
                     ) / (1000 * 10);
 
-
-                const int fslime = m.get_field_strength( tripoint(x, y, get_levz()), fd_slime) * 10;
-                if (fslime > 0 && grscent[x][y] < fslime) {
-                    grscent[x][y] = fslime;
-                }
                 if (grscent[x][y] > 10000) {
                     dbg(D_ERROR) << "game:update_scent: Wacky scent at " << x << ","
                                  << y << " (" << grscent[x][y] << ")";
@@ -3442,6 +3434,8 @@ void game::death_screen()
     gamemode->game_over();
     Messages::display_messages();
     disp_kills();
+    disp_NPC_epilogues();
+    disp_faction_ends();
 }
 
 void game::move_save_to_graveyard()
@@ -4397,6 +4391,185 @@ void game::disp_kills()
         buffer << string_format(_("KILL COUNT: %d"), totalkills);
     }
     display_table(w, buffer.str(), 3, data);
+
+    werase(w);
+    wrefresh(w);
+    delwin(w);
+    refresh_all();
+}
+
+void game::disp_NPC_epilogues()
+{
+    WINDOW *w = newwin(FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH,
+                       std::max(0, (TERMY - FULL_SCREEN_HEIGHT) / 2),
+                       std::max(0, (TERMX - FULL_SCREEN_WIDTH) / 2));
+    std::vector<std::string> data;
+    epilogue epi;
+    //This search needs to be expanded to all NPCs
+    for( auto &elem : active_npc ) {
+        if(elem->is_friend()) {
+            if (elem->male){
+                epi.random_by_group("male", elem->name);
+            } else {
+                epi.random_by_group("female", elem->name);
+            }
+            for( auto &ln : epi.lines ) {
+                data.push_back( ln );
+            }
+            display_table(w, "", 1, data);
+        }
+        data.clear();
+    }
+
+    werase(w);
+    wrefresh(w);
+    delwin(w);
+    refresh_all();
+}
+
+
+void game::disp_faction_ends()
+{
+    WINDOW *w = newwin(FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH,
+                       std::max(0, (TERMY - FULL_SCREEN_HEIGHT) / 2),
+                       std::max(0, (TERMX - FULL_SCREEN_WIDTH) / 2));
+    std::vector<std::string> data;
+
+    for( auto &elem : factions ) {
+        if(elem.known_by_u) {
+            if (elem.name == "Your Followers"){
+                data.push_back( "" );
+                data.push_back( "" );
+                data.push_back( "" );
+                data.push_back( "" );
+                data.push_back( "" );
+                data.push_back( "" );
+                data.push_back( "" );
+                data.push_back( "" );
+                data.push_back( "" );
+                data.push_back( "       You are forgotten among the billions lost in the cataclysm..." );
+
+                display_table(w, "", 1, data);
+            } else if (elem.name == "The Old Guard" && elem.power != 100){
+                if (elem.power < 150){
+                    data.push_back( "" );
+                    data.push_back( "" );
+                    data.push_back( "" );
+                    data.push_back( "" );
+                    data.push_back( "" );
+                    data.push_back( "" );
+                    data.push_back( "" );
+                    data.push_back( "    Locked in an endless battle, the Old Guard was forced to consolidate their");
+                    data.push_back( "resources in a handful of fortified bases along the coast.  Without the men" );
+                    data.push_back( "or material to rebuild, the soldiers that remained lost all hope..." );
+                } else {
+                    data.push_back( "" );
+                    data.push_back( "" );
+                    data.push_back( "" );
+                    data.push_back( "" );
+                    data.push_back( "" );
+                    data.push_back( "" );
+                    data.push_back( "" );
+                    data.push_back( "    The steadfastness of individual survivors after the cataclysm impressed ");
+                    data.push_back( "the tattered remains of the once glorious union.  Spurred on by small ");
+                    data.push_back( "successes, a number of operations to re-secure facilities met with limited ");
+                    data.push_back( "success.  Forced to eventually consolidate to large bases, the Old Guard left");
+                    data.push_back( "these facilities in the hands of the few survivors that remained.  As the ");
+                    data.push_back( "years past, little materialized from the hopes of rebuilding civilization...");
+                }
+                display_table(w, "The Old Guard", 1, data);
+            } else if (elem.name == "The Free Merchants" && elem.power != 100){
+                if (elem.power < 150){
+                    data.push_back( "" );
+                    data.push_back( "" );
+                    data.push_back( "" );
+                    data.push_back( "" );
+                    data.push_back( "" );
+                    data.push_back( "" );
+                    data.push_back( "" );
+                    data.push_back( "    Life in the refugee shelter deteriorated as food shortages and disease ");
+                    data.push_back( "destroyed any hope of maintaining a civilized enclave.  The merchants and ");
+                    data.push_back( "craftsmen dispersed to found new colonies but most became victims of");
+                    data.push_back( "marauding bandits.  Those who survived never found a place to call home...");
+                } else {
+                    data.push_back( "" );
+                    data.push_back( "" );
+                    data.push_back( "" );
+                    data.push_back( "" );
+                    data.push_back( "" );
+                    data.push_back( "" );
+                    data.push_back( "" );
+                    data.push_back( "    The Free Merchants struggled for years to keep themselves fed but their");
+                    data.push_back( "once profitable trade routes were plundered by bandits and thugs.  In squalor");
+                    data.push_back( "and filth the first generations born after the cataclysm are told stories of");
+                    data.push_back( "the old days when food was abundant and the children were allowed to play in");
+                    data.push_back( "the sun...");
+                }
+                display_table(w, "The Free Merchants", 1, data);
+            } else if (elem.name == "The Wasteland Scavengers" && elem.power != 100){
+                if (elem.power < 150){
+                    data.push_back( "" );
+                    data.push_back( "" );
+                    data.push_back( "" );
+                    data.push_back( "" );
+                    data.push_back( "" );
+                    data.push_back( "" );
+                    data.push_back( "" );
+                    data.push_back( "    The lone bands of survivors who wandered the now alien world dwindled in");
+                    data.push_back( "number through the years.  Unable to compete with the growing number of ");
+                    data.push_back( "monstrosities that had adapted to live in their world, those who did survive");
+                    data.push_back( "lived in dejected poverty and hopelessness...");
+                } else {
+                    data.push_back( "" );
+                    data.push_back( "" );
+                    data.push_back( "" );
+                    data.push_back( "" );
+                    data.push_back( "" );
+                    data.push_back( "" );
+                    data.push_back( "" );
+                    data.push_back( "    The scavengers who flourished in the opening days of the cataclysm found");
+                    data.push_back( "an ever increasing challenge in finding and maintaining equipment from the ");
+                    data.push_back( "old world.  Enormous hordes made cities impossible to enter while new ");
+                    data.push_back( "eldritch horrors appeared mysteriously near old research labs.  But on the ");
+                    data.push_back( "fringes of where civilization once ended, bands of hunter-gatherers began to");
+                    data.push_back( "adopt agrarian lifestyles in fortified enclaves...");
+                }
+                display_table(w, "The Wasteland Scavengers", 1, data);
+            } else if (elem.name == "Hell's Raiders" && elem.power != 100){
+                if (elem.power < 150){
+                    data.push_back( "" );
+                    data.push_back( "" );
+                    data.push_back( "" );
+                    data.push_back( "" );
+                    data.push_back( "" );
+                    data.push_back( "" );
+                    data.push_back( "    The raiders grew more powerful than any other faction as attrition ");
+                    data.push_back( "destroyed the Old Guard.  The ruthless men and women who banded together to");
+                    data.push_back( "rob refugees and pillage settlements soon found themselves without enough ");
+                    data.push_back( "victims to survive.  The Hell's Raiders were eventually destroyed when ");
+                    data.push_back( "infighting erupted into civil war but there were few survivors left to ");
+                    data.push_back( "celebrate their destruction.");
+                } else {
+                    data.push_back( "" );
+                    data.push_back( "" );
+                    data.push_back( "" );
+                    data.push_back( "" );
+                    data.push_back( "" );
+                    data.push_back( "" );
+                    data.push_back( "" );
+                    data.push_back( "    Fueled by drugs and rage, the Hell's Raiders fought tooth and nail to");
+                    data.push_back( "overthrow the last strongholds of the Old Guard.  The costly victories ");
+                    data.push_back( "brought the warlords abundant territory and slaves but little in the way of");
+                    data.push_back( "stability.  Within weeks, infighting led to civil war as tribes vied for ");
+                    data.push_back( "leadership of the faction.  When only one warlord finally secured control,");
+                    data.push_back( "there was nothing left to fight for... just endless cities full of the dead.");
+                }
+                display_table(w, "Hell's Raiders", 1, data);
+            }
+
+        }
+        data.clear();
+    }
 
     werase(w);
     wrefresh(w);
@@ -5497,7 +5670,7 @@ int game::mon_info(WINDOW *w)
                         }
                     }
                     if (!passmon) {
-                        int news = mon_at( critter.posx(), critter.posy() );
+                        int news = mon_at( critter.pos3() );
                         if( news != -1 ) {
                             newseen++;
                             new_seen_mon.push_back( news );
@@ -7565,7 +7738,7 @@ void game::control_vehicle()
         veh = m.veh_at(u.posx(), u.posy(), veh_part);
     }
 
-    if( veh != nullptr && veh->player_in_control( &u ) ) {
+    if( veh != nullptr && veh->player_in_control( u ) ) {
         veh->use_controls();
     } else if( veh && veh->part_with_feature( veh_part, "CONTROLS" ) >= 0 && u.in_vehicle ) {
         if( !veh->interact_vehicle_locked() ) { return; }
@@ -7611,9 +7784,9 @@ bool pet_menu(monster *z)
 
     uimenu amenu;
 
-    std::string pet_name = "dog";
+    std::string pet_name = _("dog");
     if( z->type->in_species("ZOMBIE") ) {
-        pet_name = "zombie slave";
+        pet_name = _("zombie slave");
     }
 
     amenu.selected = 0;
@@ -7853,7 +8026,7 @@ void game::examine( const tripoint &p )
         // if we are driving a vehicle, examine the
         // current tile without asking.
         veh = m.veh_at(u.posx(), u.posy(), veh_part);
-        if (veh && veh->player_in_control(&u)) {
+        if (veh && veh->player_in_control(u)) {
             examx = u.posx();
             examy = u.posy();
         } else  if (!choose_adjacent_highlight(_("Examine where?"), examx, examy, ACTION_EXAMINE)) {
@@ -8711,8 +8884,7 @@ point game::look_around(WINDOW *w_info, const point pairCoordsFirst)
             } else if (action == "TOGGLE_FAST_SCROLL") {
                 fast_scroll = !fast_scroll;
             } else if( action == "LEVEL_UP" || action == "LEVEL_DOWN" ) {
-#ifdef ZLEVELS
-                if( !debug_mode ) {
+                if( !m.has_zlevels() || !debug_mode ) {
                     continue; // TODO: Make this work in z-level FOV update
                 }
 
@@ -8728,10 +8900,6 @@ point game::look_around(WINDOW *w_info, const point pairCoordsFirst)
                 lz = get_levz();
                 refresh_all();
                 draw_ter(lx, ly, true);
-#else
-                (void)old_levz;
-                (void)lz;
-#endif
             } else if (!ctxt.get_coordinates(w_terrain, lx, ly)) {
                 int dx, dy;
                 ctxt.get_direction(dx, dy, action);
@@ -8768,11 +8936,9 @@ point game::look_around(WINDOW *w_info, const point pairCoordsFirst)
         }
     } while (action != "QUIT" && action != "CONFIRM");
 
-#ifdef ZLEVELS
-    if( get_levz() != old_levz ) {
+    if( m.has_zlevels() && get_levz() != old_levz ) {
         m.vertical_shift( old_levz );
     }
-#endif
 
     inp_mngr.set_timeout(-1);
 
@@ -9871,7 +10037,7 @@ void game::grab()
             add_msg(m_info, _("There's nothing to grab there!"));
         }
     } else {
-        add_msg(_("Never Mind."));
+        add_msg(_("Never mind."));
     }
 }
 
@@ -10565,7 +10731,7 @@ void game::plfire(bool burst, int default_target_x, int default_target_y)
     }
 
     vehicle *veh = m.veh_at(u.posx(), u.posy());
-    if (veh && veh->player_in_control(&u) && u.weapon.is_two_handed(&u)) {
+    if (veh && veh->player_in_control(u) && u.weapon.is_two_handed(&u)) {
         add_msg(m_info, _("You need a free arm to drive!"));
         return;
     }
@@ -10591,6 +10757,10 @@ void game::plfire(bool burst, int default_target_x, int default_target_y)
         const int reload_pos = u.weapon.pick_reload_ammo( u, true );
         if (reload_pos == INT_MIN) {
             add_msg(m_info, _("Out of ammo!"));
+            return;
+        }else if (reload_pos == INT_MIN + 2) {
+            add_msg(m_info, _("Never mind."));
+            refresh_all();
             return;
         }
 
@@ -10912,19 +11082,38 @@ void game::eat(int pos)
         }
         return;
     }
-    if (pos == INT_MIN) {
-        auto filter = [this]( const item &it ) {
-            return it.is_food( &u ) || it.is_food_container( &u );
-        };
-        pos = inv_for_filter( _("Consume item:"), filter );
+
+    if( pos != INT_MIN ) {
+        u.consume(pos);
+        return;
     }
 
-    if (pos == INT_MIN) {
+    auto filter = [&]( const item &it ) {
+        return it.is_food( &u ) || it.is_food_container( &u );
+    };
+
+    auto pr = inv_map_splice( filter, _("Consume item:") );
+    if( pr.second == nullptr ) {
         add_msg(_("Never mind."));
         return;
     }
 
-    u.consume(pos);
+    // TODO: Wrap it nicely into a player function
+    if( pr.first != INT_MIN ) {
+        // In the inventory
+        u.consume( pr.first );
+    } else {
+        // Off the ground
+        item &it = *pr.second;
+        if( u.consume_item( it ) ) {
+            if( it.is_food_container() ) {
+                it.contents.erase( it.contents.begin() );
+                add_msg( _("You leave the empty %s on the ground"), it.tname().c_str() );
+            } else {
+                m.i_rem( u.pos3(), pr.second );
+            }
+        }
+    }
 }
 
 void game::wear(int pos)
@@ -11008,6 +11197,10 @@ void game::reload(int pos)
             add_msg(m_info, _("Out of ammo!"));
             refresh_all();
             return;
+        }else if (am_pos == INT_MIN + 2) {
+            add_msg(m_info, _("Never mind."));
+            refresh_all();
+            return;
         }
 
         // and finally reload.
@@ -11033,6 +11226,11 @@ void game::reload(int pos)
         if (am_pos == INT_MIN) {
             // no ammo, fail reload
             add_msg(m_info, _("Out of %s!"), ammo_name(tool->ammo_id).c_str());
+            return;
+        }else if (am_pos == INT_MIN + 2) {
+            //cancelled or invalid selection
+            add_msg(m_info, _("Never mind."));
+            refresh_all();
             return;
         }
 
@@ -12603,8 +12801,8 @@ void game::vertical_move(int movez, bool force)
         return;
     }
 
-    // Becase get_levz takes z-value from the map, it will change when vertical_shift (ZLEVELS)
-    // is called or when the map is loaded on new z-level (not ZLEVELS).
+    // Becase get_levz takes z-value from the map, it will change when vertical_shift (m.has_zlevels() == true)
+    // is called or when the map is loaded on new z-level (== false).
     // This caches the z-level we start the movement on (current) and the level we're want to end.
     const int z_before = get_levz();
     const int z_after = get_levz() + movez;
@@ -12614,13 +12812,18 @@ void game::vertical_move(int movez, bool force)
     }
 
     // Shift the map up or down
-#ifdef ZLEVELS
-    map &maybetmp = m;
-    maybetmp.vertical_shift( z_after );
-#else
-    map maybetmp;
-    maybetmp.load(get_levx(), get_levy(), z_after, false);
-#endif
+
+    std::unique_ptr<map> tmp_map_ptr;
+    if( !m.has_zlevels() ) {
+        tmp_map_ptr.reset( new map() );
+    }
+
+    map &maybetmp = m.has_zlevels() ? m : *( tmp_map_ptr.get() );
+    if( m.has_zlevels() ) {
+        maybetmp.vertical_shift( z_after );
+    } else {
+        maybetmp.load(get_levx(), get_levy(), z_after, false);
+    }
 
     // Find the corresponding staircase
     int stairx = -1, stairy = -1;
@@ -12728,10 +12931,11 @@ void game::vertical_move(int movez, bool force)
     }
 
     if( !actually_moved ) {
-#ifdef ZLEVELS
-        // Have to undo the map shift
-        m.vertical_shift( z_before );
-#endif
+        if( m.has_zlevels() ) {
+            // Have to undo the map shift
+            m.vertical_shift( z_before );
+        }
+
         return;
     }
 
@@ -12799,10 +13003,10 @@ void game::vertical_move(int movez, bool force)
     m.vehicle_list.clear();
     m.set_transparency_cache_dirty();
     m.set_outside_cache_dirty();
-#ifndef ZLEVELS
-    (void)actually_moved;
-    m.load( get_levx(), get_levy(), z_after, true );
-#endif
+    if( !m.has_zlevels() ) {
+        m.load( get_levx(), get_levy(), z_after, true );
+    }
+
     u.setx( stairx );
     u.sety( stairy );
     u.setz( get_levz() );

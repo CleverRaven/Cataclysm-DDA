@@ -61,8 +61,8 @@ class inventory
         void add_stack(std::list<item> newits);
         void clone_stack(const std::list<item> &rhs);
         void push_back(std::list<item> newits);
-        item &add_item (item newit, bool keep_invlet = false,
-                        bool assign_invlet = true); //returns a ref to the added item
+        // returns a reference to the added item
+        item &add_item (item newit, bool keep_invlet = false, bool assign_invlet = true);
         void add_item_keep_invlet(item newit);
         void push_back(item newit);
 

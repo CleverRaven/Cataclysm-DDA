@@ -104,6 +104,8 @@ std::vector <point> canonical_line_to(const int x1, const int y1, const int x2, 
 
 int main(int argc, char *argv[])
 {
+    (void)argc;
+    (void)argv;
  plan( 2 + RANDOM_TEST_NUM );
 
  ok( trig_dist(0, 0, 0, 0) == 0 );

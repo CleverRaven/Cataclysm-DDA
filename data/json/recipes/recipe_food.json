@@ -814,10 +814,10 @@
     {"id":"CHEM","level":2,"amount":1}
   ], "tools": [
     [
-      [ "chemistry_set", 25 ],
       [ "hotplate", 25 ],
       [ "toolset", 25 ],
-      [ "fire", -1 ]
+      [ "fire", -1 ],
+      [ "char_smoker", 3 ]
     ]
   ],
   "components": [
@@ -5723,9 +5723,14 @@
   "time": 48000,
   "reversible": false,
   "autolearn": true,
-  "tools": [
+  "qualities":[
+    {"id":"CHEM","level":2,"amount":1}
+  ], "tools": [
     [
-      [ "chemistry_set", 50 ]
+      [ "hotplate", 50 ],
+      [ "toolset", 50 ],
+      [ "fire", -1 ],
+      [ "char_smoker", 5 ]
     ]
   ],
   "components": [
@@ -5753,9 +5758,10 @@
     {"id":"CHEM","level":2,"amount":1}
   ], "tools": [
     [
-      [ "chemistry_set", 50 ],
       [ "hotplate", 50 ],
-      [ "toolset", 50 ]
+      [ "toolset", 50 ],
+      [ "fire", -1 ],
+      [ "char_smoker", 5 ]
     ]
   ],
   "components": [
@@ -5843,9 +5849,10 @@
     {"id":"CHEM","level":2,"amount":1}
   ], "tools": [
     [
-      [ "chemistry_set", 50 ],
       [ "hotplate", 50 ],
-      [ "toolset", 50 ]
+      [ "toolset", 50 ],
+      [ "fire", -1 ],
+      [ "char_smoker", 5 ]
     ]
   ],
   "components": [
@@ -5878,9 +5885,10 @@
     {"id":"BREW","level":1,"amount":1}
   ], "tools": [
     [
-      [ "chemistry_set", 40 ],
       [ "hotplate", 40 ],
-      [ "toolset", 40 ]
+      [ "toolset", 40 ],
+      [ "fire", -1 ],
+      [ "char_smoker", 4 ]
     ]
   ],
   "components": [
@@ -7103,7 +7111,7 @@
   "qualities":[
     {"id":"BREW","level":1,"amount":1}
   ], "tools": [
-    [ [ "hotplate", 6 ], [ "char_smoker", 1 ], [ "toolset", 6 ], [ "chemistry_set", 6 ], [ "fire", -1 ] ]
+    [ [ "hotplate", 6 ], [ "char_smoker", 1 ], [ "toolset", 6 ], [ "fire", -1 ] ]
     ],
   "components": [
     [
@@ -7140,7 +7148,7 @@
   "qualities":[
     {"id":"BREW","level":1,"amount":1}
   ], "tools": [
-    [ [ "hotplate", 6 ], [ "char_smoker", 1 ], [ "toolset", 6 ], [ "chemistry_set", 6 ], [ "fire", -1 ] ]
+    [ [ "hotplate", 6 ], [ "char_smoker", 1 ], [ "toolset", 6 ], [ "fire", -1 ] ]
     ],
   "components": [
     [
@@ -9530,6 +9538,263 @@
   "components": [
     [
       [ "dogbane", 1 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
+  "result": "seed_bee_balm",
+  "category": "CC_FOOD",
+  "subcategory": "CSC_FOOD_OTHER",
+  "skill_used": "survival",
+  "difficulty": 2,
+  "time": 5000,
+  "reversible": false,
+  "autolearn": true,
+  "qualities" : [
+    {"id":"CUT","level":1,"amount":1}
+  ],
+  "components": [
+    [
+      [ "bee_balm", 1 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
+  "result": "bee_balm_tea",
+  "category": "CC_FOOD",
+  "subcategory": "CSC_FOOD_DRINKS",
+  "skill_used": "cooking",
+  "difficulty": 2,
+  "time": 10000,
+  "reversible": false,
+  "autolearn": true,
+  "batch_time_factors":[80, 4],
+  "qualities":[
+    {"id":"BOIL","level":1,"amount":1}
+  ], "tools": [
+    [
+      [ "hotplate", 2 ],
+      [ "char_smoker", 1 ],
+      [ "toolset", 2 ],
+      [ "atomic_coffeepot", -1 ],
+      [ "fire", -1 ],
+      [ "coffeemaker", 2]
+    ]
+  ],
+  "components": [
+    [
+      [ "bee_balm", 1 ]
+    ],
+    [
+      [ "water", 1 ],
+      [ "water_clean", 1 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
+  "result": "seed_mugwort",
+  "category": "CC_FOOD",
+  "subcategory": "CSC_FOOD_OTHER",
+  "skill_used": "survival",
+  "difficulty": 2,
+  "time": 5000,
+  "reversible": false,
+  "autolearn": true,
+  "qualities" : [
+    {"id":"CUT","level":1,"amount":1}
+  ],
+  "components": [
+    [
+      [ "mugwort", 1 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
+  "result": "mugwort_oil",
+  "category": "CC_OTHER",
+  "subcategory": "CSC_OTHER_MATERIALS",
+  "skill_used": "cooking",
+  "skills_required": [ "survival", 4 ],
+  "difficulty": 4,
+  "time": 60000,
+  "reversible": false,
+  "autolearn": true,
+  "qualities":[
+    {"id":"HAMMER","level":1,"amount":1},
+    {"id":"CUT","level":1,"amount":1},
+    {"id":"BOIL","level":2,"amount":1}
+  ], 
+  "tools": [
+    [ [ "hotplate", 10 ],
+      [ "char_smoker", 1 ],
+      [ "toolset", 10 ],
+      [ "fire", -1 ]
+    ]
+  ], 
+  "components": [
+    [ [ "cooking_oil", 2 ] ],
+    [ [ "mugwort", 2 ] ]
+  ]
+},{
+  "type" : "recipe",
+  "result": "seed_rhubarb",
+  "category": "CC_FOOD",
+  "subcategory": "CSC_FOOD_OTHER",
+  "skill_used": "survival",
+  "difficulty": 2,
+  "time": 5000,
+  "reversible": false,
+  "autolearn": true,
+  "qualities" : [
+    {"id":"CUT","level":1,"amount":1}
+  ],
+  "components": [
+    [
+      [ "rhubarb", 4 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
+  "result": "seed_buckwheat",
+  "category": "CC_FOOD",
+  "subcategory": "CSC_FOOD_OTHER",
+  "skill_used": "survival",
+  "difficulty": 2,
+  "time": 5000,
+  "reversible": false,
+  "autolearn": true,
+  "qualities" : [
+    {"id":"CUT","level":1,"amount":1}
+  ],
+  "components": [
+    [
+      [ "buckwheat", 1 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
+  "result": "seed_wild_herbs",
+  "category": "CC_FOOD",
+  "subcategory": "CSC_FOOD_OTHER",
+  "skill_used": "survival",
+  "difficulty": 2,
+  "time": 5000,
+  "reversible": false,
+  "autolearn": true,
+  "qualities" : [
+    {"id":"CUT","level":1,"amount":1}
+  ],
+  "components": [
+    [
+      [ "wild_herbs", 20 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
+  "result": "seed_veggy_wild",
+  "category": "CC_FOOD",
+  "subcategory": "CSC_FOOD_OTHER",
+  "skill_used": "survival",
+  "difficulty": 2,
+  "time": 5000,
+  "reversible": false,
+  "autolearn": true,
+  "qualities" : [
+    {"id":"CUT","level":1,"amount":1}
+  ],
+  "components": [
+    [
+      [ "veggy_wild", 1 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
+  "result": "seed_raw_dandelion",
+  "category": "CC_FOOD",
+  "subcategory": "CSC_FOOD_OTHER",
+  "skill_used": "survival",
+  "difficulty": 2,
+  "time": 5000,
+  "reversible": false,
+  "autolearn": true,
+  "qualities" : [
+    {"id":"CUT","level":1,"amount":1}
+  ],
+  "components": [
+    [
+      [ "raw_dandelion", 4 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
+  "result": "seed_mushroom",
+  "category": "CC_FOOD",
+  "subcategory": "CSC_FOOD_OTHER",
+  "skill_used": "survival",
+  "difficulty": 4,
+  "time": 5000,
+  "reversible": false,
+  "autolearn": true,
+  "qualities" : [
+    {"id":"CUT","level":1,"amount":1}
+  ],
+  "components": [
+    [
+      [ "mushroom", 1 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
+  "result": "seed_mushroom_magic",
+  "category": "CC_FOOD",
+  "subcategory": "CSC_FOOD_OTHER",
+  "skill_used": "survival",
+  "difficulty": 4,
+  "time": 5000,
+  "reversible": false,
+  "autolearn": true,
+  "qualities" : [
+    {"id":"CUT","level":1,"amount":1}
+  ],
+  "components": [
+    [
+      [ "mushroom_magic", 1 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
+  "result": "seed_mushroom_poison",
+  "category": "CC_FOOD",
+  "subcategory": "CSC_FOOD_OTHER",
+  "skill_used": "survival",
+  "difficulty": 4,
+  "time": 5000,
+  "reversible": false,
+  "autolearn": true,
+  "qualities" : [
+    {"id":"CUT","level":1,"amount":1}
+  ],
+  "components": [
+    [
+      [ "mushroom_poison", 1 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
+  "result": "seed_mushroom_morel",
+  "category": "CC_FOOD",
+  "subcategory": "CSC_FOOD_OTHER",
+  "skill_used": "survival",
+  "difficulty": 5,
+  "time": 5000,
+  "reversible": false,
+  "autolearn": true,
+  "qualities" : [
+    {"id":"CUT","level":1,"amount":1}
+  ],
+  "components": [
+    [
+      [ "mushroom_morel", 1 ]
     ]
   ]
 }

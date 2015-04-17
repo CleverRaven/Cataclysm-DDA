@@ -193,7 +193,6 @@
 		<Unit filename="src/ammo.h" />
 		<Unit filename="src/animation.cpp" />
 		<Unit filename="src/armor_layers.cpp" />
-		<Unit filename="src/armor_layers.h" />
 		<Unit filename="src/artifact.cpp" />
 		<Unit filename="src/artifact.h" />
 		<Unit filename="src/auto_pickup.cpp" />
@@ -438,6 +437,7 @@
 		<Unit filename="src/vehicle.cpp" />
 		<Unit filename="src/vehicle.h" />
 		<Unit filename="src/version.cpp" />
+		<Unit filename="src/wcwidth.h" />
 		<Unit filename="src/wdirent.h" />
 		<Unit filename="src/weather.cpp" />
 		<Unit filename="src/weather.h" />

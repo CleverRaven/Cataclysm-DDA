@@ -332,6 +332,7 @@
     "type" : "item_group",
     "id" : "kitchen",
     "items":[
+      ["aluminum_foil", 25],
       ["chips", 65],
       ["cereal", 50],
       ["cereal2", 60],
@@ -1873,6 +1874,22 @@
       ["magnifying_glass", 5],
       ["chem_chromium_oxide", 5],
       ["chem_thermite", 10]
+    ]
+  },{
+    "type"  : "item_group",
+    "id"    : "hardware_bulk",
+    "items" : [
+      ["2x4", 100],
+      ["rock", 70],
+      ["coal", 20],
+      ["material_shrd_limestone", 70],
+      ["fertilizer_commercial", 100],
+      ["material_quicklime", 70],
+      ["material_sand", 100],
+      ["concrete", 70],
+      ["rebar", 40],
+      ["brick", 40],
+      ["pipe", 40]
     ]
   },{
     "type" : "item_group",
@@ -6767,7 +6784,8 @@
       ["holster", 3],
       ["sholster", 2],
       ["toolbox", 1],
-      ["survnote", 5]
+      ["survnote", 5],
+      ["tinfoil_hat", 1]
     ]
   },{
     "type" : "item_group",
@@ -9282,7 +9300,9 @@
       { "item": "wild_herbs", "prob": 10 },
       { "item": "thyme", "prob": 5, "count-min": 1, "count-max": 2 },
       { "item": "canola", "prob": 5, "count-min": 1, "count-max": 2 },
-      { "item": "dogbane", "prob": 5, "count-min": 1, "count-max": 2 }
+      { "item": "dogbane", "prob": 5, "count-min": 1, "count-max": 2 },
+      { "item": "bee_balm", "prob": 5, "count-min": 1, "count-max": 2 },
+      { "item": "mugwort", "prob": 5, "count-min": 1, "count-max": 2 }
     ]
   },{
 "type" : "item_group",
@@ -9298,7 +9318,9 @@
       { "item": "buckwheat", "prob": 5, "count-min": 1, "count-max": 4 },
       { "item": "thyme", "prob": 5, "count-min": 1, "count-max": 3 },
       { "item": "canola", "prob": 10, "count-min": 1, "count-max": 3 },
-      { "item": "dogbane", "prob": 10, "count-min": 1, "count-max": 3 }
+      { "item": "dogbane", "prob": 10, "count-min": 1, "count-max": 3 },
+      { "item": "bee_balm", "prob": 10, "count-min": 1, "count-max": 3 },
+      { "item": "mugwort", "prob": 10, "count-min": 1, "count-max": 3 }
     ]
   },{
 "type" : "item_group",
@@ -9311,7 +9333,9 @@
       { "item": "buckwheat", "prob": 15, "count-min": 2, "count-max": 4 },
       { "item": "thyme", "prob": 5, "count-min": 1, "count-max": 3 },
       { "item": "canola", "prob": 5, "count-min": 1, "count-max": 3 },
-      { "item": "dogbane", "prob": 5, "count-min": 1, "count-max": 3 }
+      { "item": "dogbane", "prob": 5, "count-min": 1, "count-max": 3 },
+      { "item": "bee_balm", "prob": 5, "count-min": 1, "count-max": 3 },
+      { "item": "mugwort", "prob": 5, "count-min": 1, "count-max": 3 }
     ]
   },{
 "type" : "item_group",

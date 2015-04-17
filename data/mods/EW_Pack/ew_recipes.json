@@ -17,8 +17,10 @@
       ],
       [
         [ "fire", -1 ],
-        [ "toolset", 1 ],
-        [ "press", 2 ]
+        [ "toolset", 2 ],
+        [ "press", 2 ],
+        [ "hotplate", 2 ],
+        [ "char_smoker", 1 ]
       ]
     ],
     "components": [
@@ -61,8 +63,10 @@
     ],
     [
       [ "fire", -1 ],
-      [ "toolset", 1 ],
-      [ "press", 2 ]
+      [ "toolset", 2 ],
+      [ "press", 2 ],
+      [ "hotplate", 2 ],
+      [ "char_smoker", 1 ]
     ]
   ],
   "components": [
@@ -106,8 +110,10 @@
     ],
     [
       [ "fire", -1 ],
-      [ "toolset", 1 ],
-      [ "press", 2 ]
+      [ "toolset", 2 ],
+      [ "press", 2 ],
+      [ "hotplate", 2 ],
+      [ "char_smoker", 1 ]
     ]
   ],
   "components": [
@@ -147,7 +153,8 @@
   "tools": [
   [
       [ "forge", 50],
-      [ "char_forge", 10]
+      [ "char_forge", 10],
+      [ "oxy_torch", 10 ]
   ],
   [
       [ "swage", -1]
@@ -189,7 +196,8 @@
     [
       [ "welder", 30 ],
       [ "toolset", 40 ],
-      [ "welder_crude", 40]
+      [ "welder_crude", 40],
+      [ "oxy_torch", 6 ]
     ]
   ],
   "components": [

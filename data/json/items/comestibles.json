@@ -7650,6 +7650,8 @@
         "stack_size" : 100,
         "seed_data": {
             "plant_name": "blueberry",
+            "fruit": "blueberries",
+            "byproducts": [ "withered" ],
             "grow" : 91
         }
     },
@@ -7761,6 +7763,8 @@
         "stack_size" : 100,
         "seed_data": {
             "plant_name": "strawberry",
+            "fruit": "strawberries",
+            "byproducts": [ "withered" ],
             "grow" : 91
         }
     },
@@ -7816,6 +7820,8 @@
         "stack_size" : 40,
         "seed_data": {
             "plant_name": "wheat",
+            "fruit": "wheat",
+            "byproducts": [ "straw_pile" ],
             "grow" : 120
         }
     },
@@ -7960,6 +7966,8 @@
         "stack_size" : 8,
         "seed_data": {
             "plant_name": "hops",
+            "fruit": "hops",
+            "byproducts": [ "straw_pile" ],
             "grow" : 120
         }
     },
@@ -8014,6 +8022,8 @@
         "stack_size" : 40,
         "seed_data": {
             "plant_name": "barley",
+            "fruit": "barley",
+            "byproducts": [ "straw_pile" ],
             "grow" : 70
         }
     },
@@ -8067,6 +8077,7 @@
         "stack_size" : 40,
         "seed_data": {
             "plant_name": "sugar beet",
+            "fruit": "sugar_beet",
             "grow" : 90
         }
     },
@@ -8121,6 +8132,8 @@
         "stack_size" : 100,
         "seed_data": {
             "plant_name": "lettuce",
+            "fruit": "lettuce",
+            "byproducts": [ "withered" ],
             "grow" : 85
         }
     },
@@ -8176,6 +8189,8 @@
         "stack_size" : 100,
         "seed_data": {
             "plant_name": "tomato",
+            "fruit": "tomato",
+            "byproducts": [ "withered" ],
             "grow" : 65
         }
     },
@@ -8202,6 +8217,8 @@
         "stack_size" : 40,
         "seed_data": {
             "plant_name": "cotton",
+            "fruit": "cotton_boll",
+            "byproducts": [ "withered" ],
             "grow" : 130
         }
     },
@@ -8319,6 +8336,8 @@
         "stack_size" : 100,
         "seed_data": {
             "plant_name": "broccoli",
+            "fruit": "broccoli",
+            "byproducts": [ "withered" ],
             "grow" : 75
         }
     },
@@ -8374,6 +8393,8 @@
         "stack_size" : 100,
         "seed_data": {
             "plant_name": "zucchini",
+            "fruit": "zucchini",
+            "byproducts": [ "withered" ],
             "grow" : 47
         }
     },
@@ -8429,6 +8450,8 @@
         "stack_size" : 100,
         "seed_data": {
             "plant_name": "onion",
+            "fruit": "onion",
+            "byproducts": [ "withered" ],
             "grow" : 65
         }
     },
@@ -8484,6 +8507,8 @@
         "stack_size" : 100,
         "seed_data": {
             "plant_name": "carrot",
+            "fruit": "carrot",
+            "byproducts": [ "withered" ],
             "grow" : 65
         }
     },
@@ -8540,6 +8565,8 @@
         "stack_size" : 100,
         "seed_data": {
             "plant_name": "corn",
+            "fruit": "corn",
+            "byproducts": [ "withered" ],
             "grow" : 80
         }
     },
@@ -10000,6 +10027,7 @@
         "bashing" : 0,
         "fun" : 30,
         "seed_data": {
+            "fruit": "null", "//": "dummy entry, results are hardcoded",
             "plant_name": "marloss berry",
             "grow" : 91
         }
@@ -10203,6 +10231,8 @@
         "stack_size" : 40,
         "seed_data": {
             "plant_name": "oats",
+            "fruit": "oats",
+            "byproducts": [ "withered" ],
             "grow" : 45
         }
     },
@@ -11171,6 +11201,8 @@
         "stack_size" : 10,
         "seed_data": {
             "plant_name": "potatoes",
+            "fruit": "potato_raw",
+            "byproducts": [ "withered" ],
             "grow" : 95
         }
     },
@@ -13459,6 +13491,8 @@
         "fun" : 1,
         "seed_data": {
             "plant_name": "cannabis",
+            "fruit": "weed",
+            "byproducts": [ "withered" ],
             "grow" : 91
         }
     },
@@ -15284,6 +15318,7 @@
         "count" : 1,
         "stack_size" : 8,
         "seed_data": {
+            "fruit": "null", "//": "dummy entry, results are hardcoded",
             "plant_name": "fungal flower",
             "grow" : 91
         }
@@ -17556,6 +17591,8 @@
         "stack_size" : 100,
         "seed_data": {
             "plant_name": "cucumber",
+            "fruit": "cucumber",
+            "byproducts": [ "withered" ],
             "grow" : 60
         }
     },{
@@ -17636,6 +17673,8 @@
         "stack_size" : 100,
         "seed_data": {
             "plant_name": "celery",
+            "fruit": "celery",
+            "byproducts": [ "withered" ],
             "grow" : 130
         }
     },
@@ -18781,6 +18820,7 @@
         "stack_size" : 100,
         "seed_data": {
             "plant_name": "thyme",
+            "fruit": "thyme",
             "grow" : 91
         }
     },{
@@ -18833,6 +18873,8 @@
         "stack_size" : 100,
         "seed_data": {
             "plant_name": "canola",
+            "fruit": "canola",
+            "byproducts": [ "withered" ],
             "grow" : 91
         }
     },{
@@ -18910,7 +18952,418 @@
         "stack_size" : 100,
         "seed_data": {
             "plant_name": "dogbane",
+            "fruit": "dogbane",
+            "byproducts": [ "withered" ],
             "grow" : 91
         }
-    }
+},{
+       "type": "COMESTIBLE",
+       "id" : "bee_balm",
+       "name" : "bee balm",
+       "description" : "A snow-white flower also known as wild bergamot.  Smells faintly of mint.",
+       "comestible_type" : "FOOD",
+       "container" : "null",
+       "addiction_type" : "none",
+       "spoils_in" : 0,
+       "quench" : 0,
+       "nutrition" : 1,
+       "fun" : -5,
+       "tool" : "null",
+       "phase" : "solid",
+       "healthy" : 0,
+       "weight" : 40,
+       "to_hit" : -3,
+       "color" : "white",
+       "symbol" : ",",
+       "material" : ["veggy"],
+       "volume" : 1,
+       "bashing" : -8,
+       "cutting" : 0,
+       "charges" : 1,
+       "price" : 0
+},{   
+        "type" : "COMESTIBLE",
+        "id" : "seed_bee_balm",
+        "category": "other",
+        "price" : 120,
+        "name" : "bee balm seeds",
+        "name_plural" : "bee balm seeds",
+        "comestible_type" : "FOOD",
+        "tool" : "null",
+        "addiction_type": "none",
+        "symbol" : ".",
+        "color" : "green",
+        "description" : "Some bee balm seeds.  You could probably plant these.",
+        "material" : "veggy",
+        "volume" : 1,
+        "weight" : 1,
+        "bashing" : 0,
+        "cutting" : 0,
+        "to_hit" : 0,
+        "phase": "solid",
+        "charges" : 2,
+        "stack_size" : 100,
+        "seed_data": {
+            "plant_name": "bee balm",
+            "fruit": "bee_balm",
+            "byproducts": [ "withered" ],
+            "grow" : 91
+        }
+},{
+       "type" : "COMESTIBLE",
+       "id" : "bee_balm_tea",
+       "name" : "bee balm tea",
+       "name_plural" : "bee balm tea",
+       "weight" : 256,
+       "color" : "green",
+       "addiction_type" : "none",
+       "use_action" : "FLUMED",
+       "spoils_in" : 240,
+       "stim" : 1,
+       "container" : "bottle_plastic",
+       "to_hit" : 0,
+       "comestible_type" : "DRINK",
+       "symbol" : "~",
+       "quench" : 34,
+       "healthy" : 1,
+       "addiction_potential" : 0,
+       "nutrition" : 2,
+       "description" : "A healthy beverage made from bee balm steeped in boiling water. Can be used to reduce negative effects of common cold or flu.",
+       "price" : 100,
+       "material" : "null",
+       "tool" : "null",
+       "volume" : 1,
+       "cutting" : 0,
+       "phase" : "liquid",
+       "charges" : 1,
+       "bashing" : 0,
+       "flags" : ["EATEN_HOT"],
+       "fun" : 1
+},{
+       "type": "COMESTIBLE",
+       "id" : "mugwort",
+       "name" : "mugwort",
+       "description" : "A stalk of mugwort.  Smells wonderful.",
+       "comestible_type" : "FOOD",
+       "container" : "null",
+       "addiction_type" : "none",
+       "spoils_in" : 240,
+       "quench" : 0,
+       "nutrition" : 1,
+       "fun" : -8,
+       "tool" : "null",
+       "phase" : "solid",
+       "healthy" : 0,
+       "weight" : 40,
+       "to_hit" : -3,
+       "color" : "magenta",
+       "symbol" : ",",
+       "material" : ["veggy"],
+       "volume" : 1,
+       "bashing" : -8,
+       "cutting" : 0,
+       "charges" : 1,
+       "price" : 0
+},{   
+        "type" : "COMESTIBLE",
+        "id" : "seed_mugwort",
+        "category": "other",
+        "price" : 120,
+        "name" : "mugwort seeds",
+        "name_plural" : "mugwort seeds",
+        "comestible_type" : "FOOD",
+        "tool" : "null",
+        "addiction_type": "none",
+        "symbol" : ".",
+        "color" : "green",
+        "description" : "Some mugwort seeds.  You could probably plant these.",
+        "material" : "veggy",
+        "volume" : 1,
+        "weight" : 1,
+        "bashing" : 0,
+        "cutting" : 0,
+        "to_hit" : 0,
+        "phase": "solid",
+        "charges" : 2,
+        "stack_size" : 100,
+        "seed_data": {
+            "plant_name": "mugwort",
+            "fruit": "mugwort",
+            "grow" : 91
+        }
+},{   
+        "type" : "COMESTIBLE",
+        "id" : "mugwort_oil",
+        "name" : "mugwort oil",
+        "description" : "Some essential oil made from mugwort, which may kill parasites when ingested.  Consume it with water!",
+        "material" : "null",
+        "comestible_type" : "MED",
+        "use_action" : "ANTIPARASITIC",
+        "container" : "null",
+        "addiction_type" : "none",
+        "spoils_in" : 672,
+        "quench" : -50,
+        "nutrition" : 0,
+        "fun" : -5,
+        "tool" : "null",
+        "phase" : "liquid",
+        "healthy" : 0,
+        "weight" : 40,
+        "to_hit" : -3,
+        "color" : "yellow",
+        "symbol" : "~",
+        "volume" : 1,
+        "bashing" : -8,
+        "cutting" : 0,
+        "charges" : 1,
+        "price" : 0
+},{   
+        "type" : "COMESTIBLE",
+        "id" : "seed_buckwheat",
+        "category": "other",
+        "price" : 120,
+        "name" : "buckwheat seeds",
+        "name_plural" : "buckwheat seeds",
+        "comestible_type" : "FOOD",
+        "tool" : "null",
+        "addiction_type": "none",
+        "symbol" : ".",
+        "color" : "green",
+        "description" : "Some buckwheat seeds.  You could probably plant these.",
+        "material" : "veggy",
+        "volume" : 1,
+        "weight" : 1,
+        "bashing" : 0,
+        "cutting" : 0,
+        "to_hit" : 0,
+        "phase": "solid",
+        "charges" : 2,
+        "stack_size" : 100,
+        "seed_data": {
+            "plant_name": "buckwheat",
+            "fruit": "buckwheat",
+            "byproducts": [ "withered" ],
+            "grow" : 91
+        }
+},{   
+        "type" : "COMESTIBLE",
+        "id" : "seed_wild_herbs",
+        "category": "other",
+        "price" : 120,
+        "name" : "wild herb seeds",
+        "name_plural" : "wild herb seeds",
+        "comestible_type" : "FOOD",
+        "tool" : "null",
+        "addiction_type": "none",
+        "symbol" : ".",
+        "color" : "green",
+        "description" : "Some seeds harvested from wild herbs.  You could probably plant these.",
+        "material" : "veggy",
+        "volume" : 1,
+        "weight" : 1,
+        "bashing" : 0,
+        "cutting" : 0,
+        "to_hit" : 0,
+        "phase": "solid",
+        "charges" : 2,
+        "stack_size" : 100,
+        "seed_data": {
+            "plant_name": "wild herb",
+            "fruit": "wild_herbs",
+            "grow" : 91
+        }
+},{   
+        "type" : "COMESTIBLE",
+        "id" : "seed_veggy_wild",
+        "category": "other",
+        "price" : 120,
+        "name" : "wild vegetable stems",
+        "name_plural" : "wild vegetable stems",
+        "comestible_type" : "FOOD",
+        "tool" : "null",
+        "addiction_type": "none",
+        "symbol" : ".",
+        "color" : "green",
+        "description" : "Some wild vegetable stems.  You could probably plant these.",
+        "material" : "veggy",
+        "volume" : 1,
+        "weight" : 1,
+        "bashing" : 0,
+        "cutting" : 0,
+        "to_hit" : 0,
+        "phase": "solid",
+        "charges" : 2,
+        "stack_size" : 100,
+        "seed_data": {
+            "plant_name": "wild vegetable",
+            "fruit": "veggy_wild",
+            "byproducts": [ "withered" ],
+            "grow" : 91
+        }
+},{   
+        "type" : "COMESTIBLE",
+        "id" : "seed_raw_dandelion",
+        "category": "other",
+        "price" : 120,
+        "name" : "dandelion seeds",
+        "name_plural" : "dandelion seeds",
+        "comestible_type" : "FOOD",
+        "tool" : "null",
+        "addiction_type": "none",
+        "symbol" : ".",
+        "color" : "green",
+        "description" : "Some dandelion seeds.  You could probably plant these.",
+        "material" : "veggy",
+        "volume" : 1,
+        "weight" : 1,
+        "bashing" : 0,
+        "cutting" : 0,
+        "to_hit" : 0,
+        "phase": "solid",
+        "charges" : 2,
+        "stack_size" : 100,
+        "seed_data": {
+            "plant_name": "dandelion",
+            "fruit": "raw_dandelion",
+            "grow" : 91
+        }
+},{   
+        "type" : "COMESTIBLE",
+        "id" : "seed_rhubarb",
+        "category": "other",
+        "price" : 120,
+        "name" : "rhubarb stems",
+        "name_plural" : "rhubarb stems",
+        "comestible_type" : "FOOD",
+        "tool" : "null",
+        "addiction_type": "none",
+        "symbol" : ".",
+        "color" : "green",
+        "description" : "Some rhubarb stems.  You could probably plant these.",
+        "material" : "veggy",
+        "volume" : 1,
+        "weight" : 1,
+        "bashing" : 0,
+        "cutting" : 0,
+        "to_hit" : 0,
+        "phase": "solid",
+        "charges" : 2,
+        "stack_size" : 100,
+        "seed_data": {
+            "plant_name": "rhubarb",
+            "fruit": "rhubarb",
+            "byproducts": [ "withered" ],
+            "grow" : 91
+        }
+},{   
+        "type" : "COMESTIBLE",
+        "id" : "seed_mushroom",
+        "category": "other",
+        "price" : 120,
+        "name" : "mushroom spores",
+        "name_plural" : "mushroom spores",
+        "comestible_type" : "FOOD",
+        "tool" : "null",
+        "addiction_type": "none",
+        "symbol" : ".",
+        "color" : "green",
+        "description" : "Some mushroom spores.  You could probably plant these.",
+        "material" : "veggy",
+        "volume" : 1,
+        "weight" : 1,
+        "bashing" : 0,
+        "cutting" : 0,
+        "to_hit" : 0,
+        "phase": "solid",
+        "charges" : 2,
+        "stack_size" : 100,
+        "seed_data": {
+            "plant_name": "mushroom",
+            "fruit": "mushroom",
+            "grow" : 91
+        }
+},{   
+        "type" : "COMESTIBLE",
+        "id" : "seed_mushroom_morel",
+        "category": "other",
+        "price" : 120,
+        "name" : " morel mushroom spores",
+        "name_plural" : " morel mushroom spores",
+        "comestible_type" : "FOOD",
+        "tool" : "null",
+        "addiction_type": "none",
+        "symbol" : ".",
+        "color" : "green",
+        "description" : "Some morel mushroom spores.  You could probably plant these.",
+        "material" : "veggy",
+        "volume" : 1,
+        "weight" : 1,
+        "bashing" : 0,
+        "cutting" : 0,
+        "to_hit" : 0,
+        "phase": "solid",
+        "charges" : 2,
+        "stack_size" : 100,
+        "seed_data": {
+            "plant_name": "morel mushroom",
+            "fruit": "mushroom_morel",
+            "grow" : 91
+        }
+},{   
+        "type" : "COMESTIBLE",
+        "id" : "seed_mushroom_magic",
+        "category": "other",
+        "price" : 120,
+        "name" : "mushroom spores",
+        "name_plural" : "mushroom spores",
+        "comestible_type" : "FOOD",
+        "tool" : "null",
+        "addiction_type": "none",
+        "symbol" : ".",
+        "color" : "green",
+        "description" : "Some mushroom spores.  You could probably plant these.",
+        "material" : "veggy",
+        "volume" : 1,
+        "weight" : 1,
+        "bashing" : 0,
+        "cutting" : 0,
+        "to_hit" : 0,
+        "phase": "solid",
+        "charges" : 2,
+        "stack_size" : 100,
+        "flags" : ["HIDDEN_HALLU"],
+        "seed_data": {
+            "plant_name": "mushroom",
+            "fruit": "mushroom_magic",
+            "grow" : 91
+        }
+},{   
+        "type" : "COMESTIBLE",
+        "id" : "seed_mushroom_poison",
+        "category": "other",
+        "price" : 120,
+        "name" : "mushroom spores",
+        "name_plural" : "mushroom spores",
+        "comestible_type" : "FOOD",
+        "tool" : "null",
+        "addiction_type": "none",
+        "symbol" : ".",
+        "color" : "green",
+        "description" : "Some mushroom spores.  You could probably plant these.",
+        "material" : "veggy",
+        "volume" : 1,
+        "weight" : 1,
+        "bashing" : 0,
+        "cutting" : 0,
+        "to_hit" : 0,
+        "phase": "solid",
+        "charges" : 2,
+        "stack_size" : 100,
+        "flags" : ["HIDDEN_POISON"],
+        "seed_data": {
+            "plant_name": "mushroom",
+            "fruit": "mushroom_poison",
+            "grow" : 91
+        }
+}
 ]

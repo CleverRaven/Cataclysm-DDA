@@ -312,7 +312,8 @@
     [
       [ "hotplate", 3 ],
       [ "toolset", 3 ],
-      [ "fire", -1 ]
+      [ "fire", -1 ],
+      [ "char_smoker", 1 ]
     ]
   ],
   "components": [
@@ -1989,7 +1990,8 @@
     [
       [ "hotplate", 20 ],
       [ "toolset", 20 ],
-      [ "fire", -1 ]
+      [ "fire", -1 ],
+      [ "char_smoker", 2 ]
     ],
     [ ["mold_plastic", -1] ]
   ],

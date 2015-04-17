@@ -116,8 +116,12 @@ void sounds::process_sounds()
 {
     std::vector<centroid> sound_clusters = cluster_sounds( recent_sounds );
 
+    const int weather_vol = weather_data(g->weather).sound_attn;
     for( const auto &this_centroid : sound_clusters ) {
-        const int vol = this_centroid.volume;
+        // Since monsters don't go deaf ATM we can just use the weather modified volume
+        // If they later get physical effects from loud noises we'll have to change this
+        // to use the unmodified volume for those effects.
+        const int vol = this_centroid.volume - weather_vol;
         const point source = point(this_centroid.x, this_centroid.y);
         // --- Monster sound handling here ---
         // Alert all hordes
@@ -167,9 +171,10 @@ void sounds::process_sound_markers( player *p )
 {
     bool is_deaf = p->is_deaf();
     const float volume_multiplier = p->hearing_ability();
+    const int weather_vol = weather_data(g->weather).sound_attn;
 
     for( const auto &sound_event_pair : sounds_since_last_turn ) {
-        int volume = sound_event_pair.second.volume * volume_multiplier;
+        const int volume = sound_event_pair.second.volume * volume_multiplier;
         int dist = rl_dist( p->pos(), sound_event_pair.first );
         bool ambient = sound_event_pair.second.ambient;
 
@@ -204,12 +209,21 @@ void sounds::process_sound_markers( player *p )
             continue;
         }
 
+        // At this point we are dealing with attention (as opposed to physical effects)
+        // so reduce volume by the amount of ambient noise from the weather.
+        const int mod_vol = (sound_event_pair.second.volume - weather_vol) * volume_multiplier;
+
+        // The noise was drowned out by the surroundings.
+        if( mod_vol - dist < 0 ) {
+            continue;
+        }
+
         // See if we need to wake someone up
         if( p->has_effect("sleep")) {
             if( (!(p->has_trait("HEAVYSLEEPER") ||
-                   p->has_trait("HEAVYSLEEPER2")) && dice(2, 15) < volume - dist) ||
-                (p->has_trait("HEAVYSLEEPER") && dice(3, 15) < volume - dist) ||
-                (p->has_trait("HEAVYSLEEPER2") && dice(6, 15) < volume - dist) ) {
+                   p->has_trait("HEAVYSLEEPER2")) && dice(2, 15) < mod_vol - dist) ||
+                (p->has_trait("HEAVYSLEEPER") && dice(3, 15) < mod_vol - dist) ||
+                (p->has_trait("HEAVYSLEEPER2") && dice(6, 15) < mod_vol - dist) ) {
                 //Not kidding about sleep-thru-firefight
                 p->wake_up();
                 add_msg(m_warning, _("Something is making noise."));
@@ -261,9 +275,9 @@ void sounds::process_sound_markers( player *p )
         }
 
         int err_offset;
-        if( volume / dist < 2 ) {
+        if( mod_vol / dist < 2 ) {
             err_offset = 3;
-        } else if( volume / dist < 3 ) {
+        } else if( mod_vol / dist < 3 ) {
             err_offset = 2;
         } else {
             err_offset = 1;

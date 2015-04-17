@@ -655,8 +655,8 @@ void complete_construction()
     player &u = g->u;
     const construction &built = constructions[u.activity.index];
 
-    u.practice( built.skill, std::max(built.difficulty, 1) * 10,
-                   (int)(built.difficulty * 1.25) );
+    u.practice( built.skill, (int)( (10 + 15*built.difficulty) * (1 + built.time/30000.0) ), 
+                    (int)(built.difficulty * 1.25) );
                    
 
     // Friendly NPCs gain exp from assisting or watching...
@@ -664,11 +664,13 @@ void complete_construction()
         if (rl_dist( elem->pos(), u.pos() ) < PICKUP_RANGE && elem->is_friend()){
             //If the NPC can understand what you are doing, they gain more exp
             if (elem->skillLevel(built.skill) >= built.difficulty){
-                elem->practice( built.skill, std::max(built.difficulty, 1) * 10, (int)(built.difficulty * 1.25));
+                elem->practice( built.skill, (int)( (10 + 15*built.difficulty) * (1 + built.time/30000.0) ), 
+                                    (int)(built.difficulty * 1.25) );
                 add_msg(m_info, _("%s assists you with the work..."), elem->name.c_str());
             //NPC near you isn't skilled enough to help
             } else {
-                elem->practice( built.skill, std::max(built.difficulty, 1) * 10, (int)(built.difficulty * 1.25));
+                elem->practice( built.skill, (int)( (10 + 15*built.difficulty) * (1 + built.time/30000.0) ),
+                                    (int)(built.difficulty * 1.25) );
                 add_msg(m_info, _("%s watches you work..."), elem->name.c_str());
             }
         }
@@ -1540,10 +1542,21 @@ int construction::print_time(WINDOW *w, int ypos, int xpos, int width,
     return fold_and_print( w, ypos, xpos, width, col, text );
 }
 
+float construction::time_scale() const
+{
+    //incorporate construction time scaling
+    if( ACTIVE_WORLD_OPTIONS.empty() || int(ACTIVE_WORLD_OPTIONS["CONSTRUCTION_SCALING"]) == 0 ) {
+        return calendar::season_ratio();
+    }else{
+        return 100.0 / int(ACTIVE_WORLD_OPTIONS["CONSTRUCTION_SCALING"]);
+    }
+}
+
 int construction::adjusted_time() const
 {
     int basic = time;
-    int assistants = 0;
+    int assistants = 0;                
+    
     for( auto &elem : g->active_npc ) {
         if (rl_dist( elem->pos(), g->u.pos() ) < PICKUP_RANGE && elem->is_friend()){
             if (elem->skillLevel(skill) >= difficulty)
@@ -1554,6 +1567,9 @@ int construction::adjusted_time() const
         basic = basic * .75;
     if (basic <= time * .4)
         basic = time * .4;
+        
+    basic *= time_scale();
+    
     return basic;
 }
 
