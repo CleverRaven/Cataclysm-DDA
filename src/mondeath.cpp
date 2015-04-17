@@ -590,6 +590,22 @@ void mdeath::smokeburst(monster *z)
     }
 }
 
+void mdeath::jabberwock(monster *z)
+{
+    add_msg("Test 1");
+    player *ch = dynamic_cast<player*>( z->get_killer() );
+    if (ch->is_player() && rl_dist( z->pos(), g->u.pos() ) <= 1  &&
+         ch->weapon.has_flag("JABBER")) {
+        add_msg("Test 2");
+        if (g->u.sees(*z)) {
+            add_msg(m_info, _("As the flame in the %s's eyes die out, your weapon seems to shine slightly brighter."),
+                    z->name().c_str());
+        }
+        ch->weapon.item_tags.insert("vorpal");
+    }
+    mdeath::normal(z);
+}
+
 void mdeath::gameover(monster *z)
 {
     add_msg(m_bad, _("The %s was destroyed!  GAME OVER!"), z->name().c_str());
