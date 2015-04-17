@@ -1928,7 +1928,8 @@
       ["anvil", -1]
      ],
      [
-      ["crucible", -1]
+      ["crucible", -1],
+      ["crucible_clay", -1]
      ],
      [
       ["forge", 50], ["char_forge", 10], ["oxy_torch", 10]
@@ -2104,7 +2105,8 @@
       [ "goggles_welding", -1 ]
     ],
     [
-      [ "crucible", -1 ]
+      [ "crucible", -1 ],
+      [ "crucible_clay", -1 ]
     ],
     [
       [ "welder", 20 ],
@@ -2321,7 +2323,8 @@
       [ "goggles_welding", -1 ]
     ],
     [
-      [ "crucible", -1 ]
+      [ "crucible", -1 ],
+      [ "crucible_clay", -1 ]
     ],
     [
       [ "welder", 50 ],
@@ -2352,7 +2355,8 @@
       [ "goggles_welding", -1 ]
     ],
     [
-      [ "crucible", -1 ]
+      [ "crucible", -1 ],
+      [ "crucible_clay", -1 ]
     ],
     [
       [ "welder", 50 ],
@@ -3140,7 +3144,8 @@
       [ "goggles_welding", -1 ]
     ],
     [
-      [ "crucible", -1 ]
+      [ "crucible", -1 ],
+      [ "crucible_clay", -1 ]
     ],
     [
       [ "welder", 20 ],
@@ -3279,7 +3284,8 @@
       ["anvil", -1]
      ],
      [
-      ["crucible", -1]
+      ["crucible", -1],
+      ["crucible_clay", -1]
      ],
      [
       ["swage", -1]
@@ -3592,10 +3598,11 @@
   "reversible": false,
   "autolearn": true,
   "qualities":[
-    {"id":"HAMMER","level":3,"amount":1}
+    {"id":"HAMMER","level":2,"amount":1}
   ], "tools": [
       [
-      ["crucible", -1]
+      ["crucible", -1],
+      ["crucible_clay", -1]
       ],
       [
       [ "forge", 150],
@@ -3637,6 +3644,28 @@
     ]
 },{
   "type" : "recipe",
+  "result": "crucible_clay",
+  "category": "CC_OTHER",
+  "subcategory": "CSC_OTHER_TOOLS",
+  "skill_used": "fabrication",
+  "difficulty": 2,
+  "time": 45000,
+  "reversible": false,
+  "autolearn": true,
+  "tools": [
+    [ [ "brick_kiln", 18 ] ]
+  ],
+  "components": [
+    [
+      [ "water", 1 ],
+      [ "water_clean", 1 ]
+    ],
+    [
+      [ "clay_lump", 5 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
   "result": "tongs",
   "category": "CC_OTHER",
   "subcategory": "CSC_OTHER_TOOLS",
@@ -3646,7 +3675,7 @@
   "reversible": false,
   "autolearn": true,
   "qualities":[
-    {"id":"HAMMER","level":3,"amount":1}
+    {"id":"HAMMER","level":2,"amount":1}
   ], "tools": [
       [
       ["anvil", -1]
@@ -3711,7 +3740,7 @@
   "difficulty": 5,
   "time": 120000,
   "reversible": false,
-  "autolearn": false,
+  "autolearn": true,
   "book_learn": [["textbook_fabrication", 4] , ["textbook_weapeast", 5] , ["textbook_weapwest", 5] , ["textbook_armeast", 5] , ["textbook_armwest", 5]],
   "qualities":[
     {"id":"HAMMER","level":3,"amount":1}
@@ -3757,13 +3786,7 @@
       ["tongs", -1]
       ],
       [
-      ["chisel", -1]
-      ],
-      [
       ["anvil", -1]
-      ],
-      [
-      ["swage", -1]
       ],
       [
       [ "forge", 250],
@@ -3919,7 +3942,8 @@
       ["anvil", -1]
      ],
      [
-      ["crucible", -1]
+      ["crucible", -1],
+      ["crucible_clay", -1]
      ],
      [
       ["forge", 200], ["char_forge", 40], [ "oxy_torch", 40]
@@ -3958,7 +3982,8 @@
       ["anvil", -1]
      ],
      [
-      ["crucible", -1]
+      ["crucible", -1],
+      ["crucible_clay", -1]
      ],
      [
       ["swage", -1]
@@ -4041,7 +4066,8 @@
       ["anvil", -1]
      ],
      [
-      ["crucible", -1]
+      ["crucible", -1],
+      ["crucible_clay", -1]
      ],
      [
       ["forge", 300], ["char_forge", 60], [ "oxy_torch", 60]
@@ -4082,7 +4108,8 @@
       ["anvil", -1]
      ],
      [
-      ["crucible", -1]
+      ["crucible", -1],
+      ["crucible_clay", -1]
      ],
      [
       ["forge", 200], ["char_forge", 40], [ "oxy_torch", 40]
@@ -4127,7 +4154,8 @@
       ["anvil", -1]
      ],
      [
-      ["crucible", -1]
+      ["crucible", -1],
+      ["crucible_clay", -1]
      ],
      [
       ["forge", 350], ["char_forge", 70], [ "oxy_torch", 70]
@@ -4165,7 +4193,8 @@
       ["anvil", -1]
      ],
      [
-      ["crucible", -1]
+      ["crucible", -1],
+      ["crucible_clay", -1]
      ],
      [
       ["forge", 250], ["char_forge", 50], [ "oxy_torch", 50]
@@ -4207,7 +4236,8 @@
       ["anvil", -1]
      ],
      [
-      ["crucible", -1]
+      ["crucible", -1],
+      ["crucible_clay", -1]
      ],
      [
       ["forge", 300], ["char_forge", 60], [ "oxy_torch", 60]
@@ -4249,7 +4279,8 @@
       ["anvil", -1]
      ],
      [
-      ["crucible", -1]
+      ["crucible", -1],
+      ["crucible_clay", -1]
      ],
      [
       ["forge", 350], ["char_forge", 70], [ "oxy_torch", 70]
@@ -4291,7 +4322,8 @@
       ["anvil", -1]
      ],
      [
-      ["crucible", -1]
+      ["crucible", -1],
+      ["crucible_clay", -1]
      ],
      [
       ["forge", 300], ["char_forge", 60], [ "oxy_torch", 60]
@@ -4331,7 +4363,8 @@
       ["anvil", -1]
      ],
      [
-      ["crucible", -1]
+      ["crucible", -1],
+      ["crucible_clay", -1]
      ],
      [
       ["swage", -1]
@@ -4370,7 +4403,8 @@
       ["anvil", -1]
      ],
      [
-      ["crucible", -1]
+      ["crucible", -1],
+      ["crucible_clay", -1]
      ],
      [
       ["forge", 20], ["char_forge", 4], [ "oxy_torch", 4]
@@ -4449,7 +4483,8 @@
       ["anvil", -1]
      ],
      [
-      ["crucible", -1]
+      ["crucible", -1],
+      ["crucible_clay", -1]
      ],
      [
       ["forge", 400], ["char_forge", 80], [ "oxy_torch", 80]
@@ -4900,7 +4935,8 @@
       ["anvil", -1]
      ],
      [
-      ["crucible", -1]
+      ["crucible", -1],
+      ["crucible_clay", -1]
      ],
      [
       ["forge", 400], ["char_forge", 80], [ "oxy_torch", 80]
@@ -4936,7 +4972,8 @@
       ["anvil", -1]
      ],
      [
-      ["crucible", -1]
+      ["crucible", -1],
+      ["crucible_clay", -1]
      ],
      [
       ["forge", 250], ["char_forge", 40], [ "oxy_torch", 40]
@@ -5020,7 +5057,8 @@
     ],
   "tools": [
      [
-      [ "crucible", -1 ]
+      [ "crucible", -1 ],
+      [ "crucible_clay", -1 ]
      ],
      [
       [ "sheet_metal", -1 ]
@@ -5071,7 +5109,8 @@
       ["pipe", -1]
      ],
      [
-      ["crucible", -1]
+      ["crucible", -1],
+      ["crucible_clay", -1]
      ],
      [
       ["forge", 150], ["char_forge", 30]
@@ -5107,7 +5146,8 @@
       ["pipe", -1]
      ],
      [
-      ["crucible", -1]
+      ["crucible", -1],
+      ["crucible_clay", -1]
      ],
      [
       ["forge", 75], ["char_forge", 15]
@@ -5143,7 +5183,8 @@
       ["pipe", -1]
      ],
      [
-      ["crucible", -1]
+      ["crucible", -1],
+      ["crucible_clay", -1]
      ],
      [
       ["forge", 50], ["char_forge", 10]
@@ -5178,7 +5219,8 @@
       ["pipe", -1]
      ],
      [
-      ["crucible", -1]
+      ["crucible", -1],
+      ["crucible_clay", -1]
      ],
      [
       ["forge", 25], ["char_forge", 5]
@@ -5206,7 +5248,8 @@
       ["tongs", -1]
      ],
      [
-      ["crucible", -1]
+      ["crucible", -1],
+      ["crucible_clay", -1]
      ],
      [
       ["forge", 75], ["char_forge", 15]
@@ -5244,7 +5287,8 @@
       ["polisher", 20]
      ],
      [
-      ["crucible", -1]
+      ["crucible", -1],
+      ["crucible_clay", -1]
      ],
      [
       ["forge", 50], ["char_forge", 10]
@@ -5279,7 +5323,8 @@
       ["pipe", -1]
      ],
      [
-      ["crucible", -1]
+      ["crucible", -1],
+      ["crucible_clay", -1]
      ],
      [
       ["forge", 25], ["char_forge", 5]
@@ -5306,7 +5351,8 @@
       ["tongs", -1]
      ],
      [
-      ["crucible", -1]
+      ["crucible", -1],
+      ["crucible_clay", -1]
      ],
      [
       [ "sheet_metal", -1 ]
@@ -5550,7 +5596,8 @@
   "autolearn": true,
   "tools": [
     [
-    ["crucible", -1]
+    ["crucible", -1],
+    ["crucible_clay", -1]
     ],
     [
     ["forge", 250], ["char_forge", 50], [ "oxy_torch", 50]
@@ -5574,7 +5621,8 @@
   "autolearn": true,
   "tools": [
     [
-    ["crucible", -1]
+    ["crucible", -1],
+    ["crucible_clay", -1]
     ],
     [
     ["forge", 250], ["char_forge", 50], [ "oxy_torch", 50]
@@ -5832,7 +5880,8 @@
      ["anvil", -1]
     ],
     [
-     ["crucible", -1]
+     ["crucible", -1],
+     ["crucible_clay", -1]
     ],
     [
      ["forge", 250], ["char_forge", 50], ["oxy_torch", 50]

@@ -187,7 +187,8 @@
       ["tongs", -1]
      ],
      [
-      ["crucible", -1]
+      ["crucible", -1],
+      ["crucible_clay", -1]
      ],
      [
       ["forge", 25], ["char_forge", 5]
@@ -217,7 +218,8 @@
       [ "press", -1 ]
     ],
     [
-      ["crucible", -1]
+      ["crucible", -1],
+      ["crucible_clay", -1]
     ],
     [
       ["forge", 100], ["char_forge", 20], [ "oxy_torch", 20]
@@ -3312,7 +3314,8 @@
       [ "press", -1 ]
      ],
      [
-      ["crucible", -1]
+      ["crucible", -1],
+      ["crucible_clay", -1]
      ],
      [
       ["forge", 50], ["char_forge", 10], [ "oxy_torch", 10]
@@ -3453,7 +3456,8 @@
       ["anvil", -1]
      ],
      [
-      ["crucible", -1]
+      ["crucible", -1],
+      ["crucible_clay", -1]
      ],
      [
       ["forge", 200], ["char_forge", 40], [ "oxy_torch", 40]

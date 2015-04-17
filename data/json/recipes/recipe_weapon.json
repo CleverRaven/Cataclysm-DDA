@@ -4382,7 +4382,8 @@
       ["anvil", -1]
      ],
      [
-      ["crucible", -1]
+      ["crucible", -1],
+      ["crucible_clay", -1]
      ],
      [
       ["forge", 150], ["char_forge", 30], [ "oxy_torch", 30]
@@ -4420,7 +4421,8 @@
       ["anvil", -1]
      ],
      [
-      ["crucible", -1]
+      ["crucible", -1],
+      ["crucible_clay", -1]
      ],
      [
       ["forge", 400], ["char_forge", 80], [ "oxy_torch", 80]
@@ -4458,7 +4460,8 @@
       ["anvil", -1]
      ],
      [
-      ["crucible", -1]
+      ["crucible", -1],
+      ["crucible_clay", -1]
      ],
      [
       ["forge", 450], ["char_forge", 90], [ "oxy_torch", 90]
@@ -6500,7 +6503,8 @@
         ["anvil", -1]
       ],
       [
-        ["crucible", -1]
+        ["crucible", -1],
+        ["crucible_clay", -1]
       ],
       [
         ["swage", -1]

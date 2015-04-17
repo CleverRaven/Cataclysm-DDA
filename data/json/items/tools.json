@@ -7318,7 +7318,27 @@
     "ammo": "NULL",
     "revert_to": "null"
   },
-
+  {
+    "id": "crucible_clay",
+    "type": "TOOL",
+    "symbol": ";",
+    "color": "brown",
+    "name": "clay crucible",
+    "description": "This is a primitive metalworking crucible made of clay.  You could use it for metalworking.",
+    "price": 60000,
+    "material": "clay",
+    "weight": 16422,
+    "volume": 10,
+    "bashing": 10,
+    "cutting": 0,
+    "to_hit": -2,
+    "max_charges": 0,
+    "initial_charges": 0,
+    "charges_per_use": 0,
+    "turns_per_charge": 0,
+    "ammo": "NULL",
+    "revert_to": "null"
+  },
   {
     "id": "anvil",
     "type": "TOOL",
