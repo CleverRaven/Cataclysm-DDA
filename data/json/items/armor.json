@@ -279,7 +279,7 @@
         "id" : "tinfoil_hat",
         "category" : "armor",
         "name" : "tinfoil hat",
-        "weight" : 250,
+        "weight" : 16,
         "color" : "yellow",
         "covers" : ["HEAD"],
         "to_hit" : 0,
