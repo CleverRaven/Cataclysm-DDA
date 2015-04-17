@@ -11302,6 +11302,7 @@
         "seed_data": {
             "plant_name": "beans",
             "fruit": "raw_beans",
+            "byproducts": [ "withered" ],
             "grow" : 91
         }
     },
@@ -17529,6 +17530,7 @@
             "plant_name": "datura",
             "fruit": "datura_seed",
             "seeds": false,
+            "byproducts": [ "withered" ],
             "grow" : 91
         }
     },
