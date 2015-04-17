@@ -7786,6 +7786,8 @@
         "stack_size" : 100,
         "seed_data": {
             "plant_name": "blackberry",
+            "fruit": "blackberries",
+            "byproducts": [ "withered" ],
             "grow" : 91
         }
     },
@@ -7811,6 +7813,8 @@
         "stack_size" : 100,
         "seed_data": {
             "plant_name": "cranberry",
+            "fruit": "cranberries",
+            "byproducts": [ "withered" ],
             "grow" : 91
         }
     },
@@ -7836,6 +7840,8 @@
         "stack_size" : 100,
         "seed_data": {
             "plant_name": "raspberry",
+            "fruit": "raspberries",
+            "byproducts": [ "withered" ],
             "grow" : 91
         }
     },
