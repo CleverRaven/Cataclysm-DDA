@@ -3087,6 +3087,7 @@
       [ "egg_bird", 1 ],
       [ "egg_reptile", 1 ],
       [ "dry_beans", 1 ],
+      [ "raw_beans", 1 ],
       [ "dry_rice", 1 ],
       [ "dandelion_cooked", 1 ],
       [ "acorns_cooked", 1 ]
@@ -3146,6 +3147,7 @@
       [ "egg_bird", 1 ],
       [ "egg_reptile", 1 ],
       [ "dry_beans", 1 ],
+      [ "raw_beans", 1 ],
       [ "dry_rice", 1 ],
       [ "dandelion_cooked", 1 ],
       [ "acorns_cooked", 1 ]
@@ -3209,6 +3211,7 @@
       [ "egg_bird", 1 ],
       [ "egg_reptile", 1 ],
       [ "dry_beans", 1 ],
+      [ "raw_beans", 1 ],
       [ "dry_rice", 1 ],
       [ "dandelion_cooked", 1 ],
       [ "dry_mushroom", 1 ],
@@ -3275,6 +3278,7 @@
       [ "rehydrated_veggy", 1 ],
       [ "dry_veggy", 1 ],
       [ "dry_beans", 1 ],
+      [ "raw_beans", 1 ],
       [ "dry_rice", 1 ],
       [ "dandelion_cooked", 1 ],
       [ "acorns_cooked", 1 ]
@@ -3319,6 +3323,7 @@
       [ "egg_bird", 1 ],
       [ "egg_reptile", 1 ],
       [ "dry_beans", 1 ],
+      [ "raw_beans", 1 ],
       [ "dry_rice", 1 ],
       [ "acorns_cooked", 1 ]
     ],
@@ -3608,11 +3613,36 @@
   ],
   "components": [
     [
-      [ "dry_beans", 1 ]
+      [ "dry_beans", 1 ],
+      [ "raw_beans", 1 ]
     ],
     [
       [ "water", 1 ],
       [ "water_clean", 1 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
+  "result": "dry_beans",
+  "category": "CC_FOOD",
+  "subcategory": "CSC_FOOD_VEGGI",
+  "skill_used": "cooking",
+  "difficulty": 2,
+  "time": 18000,
+  "reversible": false,
+  "autolearn": true,
+  "batch_time_factors":[67, 5],
+  "qualities":[
+    {"id":"CUT","level":1,"amount":1}
+  ], "tools": [
+    [
+      [ "dehydrator", 25 ],
+      [ "char_smoker", 5 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "raw_beans", 8 ]
     ]
   ]
 },{
@@ -3864,7 +3894,8 @@
   ],
   "components": [
     [
-      [ "dry_beans", 1 ]
+      [ "dry_beans", 1 ],
+      [ "raw_beans", 1 ]
     ],
     [
       [ "dry_rice", 1 ]
@@ -3897,7 +3928,8 @@
   ],
   "components": [
     [
-      [ "dry_beans", 1 ]
+      [ "dry_beans", 1 ],
+      [ "raw_beans", 1 ]
     ],
     [
       [ "dry_rice", 1 ]
@@ -3953,7 +3985,8 @@
   ],
   "components": [
     [
-      [ "dry_beans", 1 ]
+      [ "dry_beans", 1 ],
+      [ "raw_beans", 1 ]
     ],
     [
       [ "dry_rice", 1 ]
@@ -5135,6 +5168,7 @@
       [ "rehydrated_veggy", 2 ],
       [ "dry_veggy", 2 ],
       [ "dry_beans", 1 ],
+      [ "raw_beans", 1 ],
       [ "dry_rice", 1 ]
     ],
     [
@@ -5179,6 +5213,7 @@
       [ "rehydrated_veggy", 2 ],
       [ "dry_veggy", 2 ],
       [ "dry_beans", 1 ],
+      [ "raw_beans", 1 ],
       [ "dry_rice", 1 ]
     ],
     [
@@ -5230,7 +5265,8 @@
     ],
     [
       [ "can_beans", 1],
-      [ "dry_beans", 1 ]
+      [ "raw_beans", 1],
+      [ "dry_beans", 1]
     ],
     [
       [ "sauce_red", 1 ],
@@ -5277,7 +5313,8 @@
     ],
     [
       [ "can_beans", 1],
-      [ "dry_beans", 1 ]
+      [ "raw_beans", 1],
+      [ "dry_beans", 1]
     ],
     [
       [ "sauce_red", 1 ],
