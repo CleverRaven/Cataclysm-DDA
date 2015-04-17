@@ -1495,7 +1495,7 @@
     "death_drops": "default_zombie_death_drops",
     "upgrade_group" : "GROUP_ZOMBIE_UPGRADE",
     "upgrade_min" : 14,
-	"half_life" : 4,
+	"half_life" : 1,
 	"base_upgrade_chance" : 0.00,
     "luminance":0,
     "hp":80,
