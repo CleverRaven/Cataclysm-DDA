@@ -7161,6 +7161,7 @@
 
   {
     "id": "chemistry_set",
+    "sub": "hotplate",
     "type": "TOOL",
     "color": "light_gray",
     "symbol": ";",
