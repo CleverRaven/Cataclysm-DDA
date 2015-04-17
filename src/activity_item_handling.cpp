@@ -6,6 +6,7 @@
 #include "pickup.h"
 #include <list>
 #include <vector>
+#include <cassert>
 
 bool game::make_drop_activity( enum activity_type act, point target )
 {
@@ -68,8 +69,9 @@ static point get_item_pointers_from_activity(
         const bool is_worn = position < -1;
         const bool is_weapon = position == -1;
         if( is_worn ) {
-            selected_worn_items.push_back(
-                &g->u.worn[player::worn_position_to_index(position)] );
+            size_t idx = player::worn_position_to_index(position);
+            assert(idx < g->u.worn.size());
+            selected_worn_items.push_back( &g->u.worn[idx] );
             worn_item_quantities.push_back( quantity );
         } else  if( is_weapon ) {
             selected_items.push_back( &g->u.weapon );
@@ -180,10 +182,8 @@ static void place_item_activity( std::list<item *> &selected_items, std::list<in
         // Whether it succeeds or fails, we're done processing it.
         selected_worn_items.pop_front();
         worn_item_quantities.pop_front();
-        if( taken_off ) {
-            // Move cost for taking off worn item.
-            g->u.moves -= 250;
-        } else {
+        // removed `g->u.moves -= 250', g->drop() below handles move cost changes
+        if( !taken_off ) {
             // If we failed to take off the item, bail out.
             return;
         }
@@ -262,13 +262,16 @@ void activity_on_turn_pickup()
     // indices of items on map, and quantities of same.
     bool from_vehicle = g->u.activity.values.front();
     point pickup_target = g->u.activity.placement;
+    tripoint true_target = g->u.pos3();
+    true_target.x += pickup_target.x;
+    true_target.y += pickup_target.y;
     // Auto_resume implies autopickup.
     bool autopickup = g->u.activity.auto_resume;
     std::list<int> indices;
     std::list<int> quantities;
+    auto map_stack = g->m.i_at(true_target);
 
-    if( !from_vehicle &&
-        g->m.i_at(pickup_target.x + g->u.posx(), pickup_target.y + g->u.posy()).size() <= 0 ) {
+    if( !from_vehicle && map_stack.empty() ) {
         g->u.cancel_activity();
         return;
     }

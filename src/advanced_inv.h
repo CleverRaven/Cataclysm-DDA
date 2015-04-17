@@ -24,7 +24,6 @@ enum aim_location {
     AIM_ALL,
     AIM_CONTAINER,
     AIM_WORN,
-    AIM_VEHICLE,
     NUM_AIM_LOCATIONS
 };
 
@@ -89,11 +88,11 @@ struct advanced_inv_area {
     bool is_container_valid( const item *it ) const;
     void set_container_position();
     aim_location offset_to_location() const;
-    bool set_vehicle(advanced_inv_area &square);
-    bool can_store_in_vehicle() const
-    {
-        return (veh != nullptr && vstor >= 0);
-    }
+//    bool set_vehicle(advanced_inv_area &square);
+//    bool can_store_in_vehicle() const
+//    {
+//        return (veh != nullptr && vstor >= 0);
+//    }
 };
 
 // see item_factory.h
@@ -182,6 +181,7 @@ class advanced_inventory_pane
 {
     private:
         aim_location area = NUM_AIM_LOCATIONS;
+        aim_location veh_area = NUM_AIM_LOCATIONS;
         bool in_veh = false;
     public:
         aim_location get_area() const
@@ -191,13 +191,13 @@ class advanced_inventory_pane
         void set_area(aim_location loc)
         {
             area = loc;
-            in_veh = area == AIM_VEHICLE;
+//            in_veh = area == AIM_VEHICLE;
         }
         bool in_vehicle() const
         {
             return in_veh;
         }
-        aim_location veh_area = NUM_AIM_LOCATIONS;
+        bool set_vehicle(aim_location loc);
         /**
          * Index of the selected item (index of @ref items),
          */
@@ -397,8 +397,8 @@ class advanced_inventory
         void menu_square(uimenu *menu);
 
         // set AIM_VEHICLE to the location given.
-        bool set_vehicle(advanced_inventory_pane &pane, aim_location sel);
-        void load_veh_data();
+//        bool set_vehicle(advanced_inventory_pane &pane, aim_location sel);
+//        void load_veh_data();
 
         static char get_location_key( aim_location area );
 };
