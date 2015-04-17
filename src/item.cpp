@@ -3406,14 +3406,10 @@ int item::noise() const
     if( gunmod != nullptr ) {
         return gunmod->noise();
     }
-    // TODO: use islot_gun::loudness here.
-    int ret = 0;
+    const islot_gun* gun = type->gun.get();
+    int ret = gun->loudness;
     if( has_curammo() ) {
-        ret = get_curammo()->ammo->damage;
-    }
-    ret *= .8;
-    if (ret >= 5) {
-        ret += 20;
+        ret += get_curammo()->ammo->damage;
     }
     for( auto &elem : contents ) {
         if( elem.is_gunmod() ) {

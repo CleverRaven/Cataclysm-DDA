@@ -604,9 +604,7 @@ void Item_factory::load( islot_gun &slot, JsonObject &jo )
 {
     slot.ammo = jo.get_string( "ammo" );
     slot.skill_used = Skill::skill( jo.get_string( "skill" ) );
-    // TODO: implement loading this from json (think of a proper name)
-    // Or calculate it automatically, see item::noise and ranged.cpp
-    // slot.loudness = jo.get_string( "loudness", 0 );
+    slot.loudness = jo.get_int( "loudness", 0 );
     slot.damage = jo.get_int( "ranged_damage", 0 );
     slot.range = jo.get_int( "range", 0 );
     slot.dispersion = jo.get_int( "dispersion" );

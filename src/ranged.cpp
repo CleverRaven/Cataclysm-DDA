@@ -1320,19 +1320,19 @@ void make_gun_sound_effect(player &p, bool burst, item *weapon)
         noise = 20;
         gunsound = _("Crack!");
     } else {
-        if (noise < 5) {
+        if (noise < 10) {
             if (burst) {
                 gunsound = _("Brrrip!");
             } else {
                 gunsound = _("plink!");
             }
-        } else if (noise < 25) {
+        } else if (noise < 150) {
             if (burst) {
                 gunsound = _("Brrrap!");
             } else {
                 gunsound = _("bang!");
             }
-        } else if (noise < 60) {
+        } else if (noise < 175) {
             if (burst) {
                 gunsound = _("P-p-p-pow!");
             } else {
