@@ -9553,24 +9553,6 @@
   ]
 },{
   "type" : "recipe",
-  "result": "seed_datura_seed",
-  "category": "CC_FOOD",
-  "subcategory": "CSC_FOOD_OTHER",
-  "skill_used": "survival",
-  "difficulty": 2,
-  "time": 5000,
-  "reversible": false,
-  "autolearn": true,
-  "qualities" : [
-    {"id":"CUT","level":1,"amount":1}
-  ],
-  "components": [
-    [
-      [ "datura_seed", 4 ]
-    ]
-  ]
-},{
-  "type" : "recipe",
   "result": "seed_dogbane",
   "category": "CC_FOOD",
   "subcategory": "CSC_FOOD_OTHER",
