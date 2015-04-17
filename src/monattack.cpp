@@ -2294,7 +2294,7 @@ void mattack::fear_paralyze(monster *z, int index)
     }
     if (g->u.sees( *z )) {
         z->reset_special(index); // Reset timer
-        if (g->u.has_artifact_with(AEP_PSYSHIELD) || g->u.is_wearing("tinfoil_hat")) {
+        if (g->u.has_artifact_with(AEP_PSYSHIELD) || (g->u.is_wearing("tinfoil_hat") && one_in(4)) {
             add_msg(_("The %s probes your mind, but is rebuffed!"), z->name().c_str());
         } else if (rng(1, 20) > g->u.int_cur) {
             add_msg(m_bad, _("The terrifying visage of the %s paralyzes you."),
