@@ -35,7 +35,7 @@
         "symbol" : "=",
         "color" : "light_gray",
         "description" : "A thin foil made of aluminum.  Sometimes called 'tin foil' due to being made of tin in the past.",
-        "material" : "steel",
+        "material" : "aluminum",
         "volume" : 0,
         "weight" : 50,
         "bashing" : 1,

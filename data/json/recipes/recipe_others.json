@@ -6714,7 +6714,8 @@
 "components":
 [
 [
-[ "material_aluminium_ingot", 1]
+[ "material_aluminium_ingot", 1],
+[ "aluminum_foil", 40]
 ],
 [
 [ "water", 5 ],

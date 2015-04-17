@@ -332,6 +332,7 @@
     "type" : "item_group",
     "id" : "kitchen",
     "items":[
+      ["aluminum_foil", 25],
       ["chips", 65],
       ["cereal", 50],
       ["cereal2", 60],
@@ -6783,7 +6784,8 @@
       ["holster", 3],
       ["sholster", 2],
       ["toolbox", 1],
-      ["survnote", 5]
+      ["survnote", 5],
+      ["tinfoil_hat", 1]
     ]
   },{
     "type" : "item_group",
