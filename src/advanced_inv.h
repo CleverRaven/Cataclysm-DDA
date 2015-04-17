@@ -78,21 +78,24 @@ struct advanced_inv_area {
     }
 
     void init();
-    int free_volume() const;
+    // if you want vehicle cargo, specify so via `in_vehicle'
+    int free_volume(bool in_vehicle = false) const;
     int get_item_count() const;
     // Other area is actually the same item source, e.g. dragged vehicle to the south and AIM_SOUTH
     bool is_same( const advanced_inv_area &other ) const;
+    // does _not_ check vehicle storage, do that with `can_store_in_vehicle()' below
     bool canputitems( const advanced_inv_listitem *advitem = nullptr );
-    item* get_container();
+    // if you want vehicle cargo, specify so via `in_vehicle'
+    item* get_container(bool in_vehicle = false);
     void set_container( const advanced_inv_listitem *advitem );
     bool is_container_valid( const item *it ) const;
     void set_container_position();
     aim_location offset_to_location() const;
 //    bool set_vehicle(advanced_inv_area &square);
-//    bool can_store_in_vehicle() const
-//    {
-//        return (veh != nullptr && vstor >= 0);
-//    }
+    bool can_store_in_vehicle() const
+    {
+        return (veh != nullptr && vstor >= 0);
+    }
 };
 
 // see item_factory.h
@@ -188,10 +191,13 @@ class advanced_inventory_pane
         {
             return area;
         }
+        aim_location get_veh_area() const
+        {
+            return veh_area;
+        }
         void set_area(aim_location loc)
         {
             area = loc;
-//            in_veh = area == AIM_VEHICLE;
         }
         bool in_vehicle() const
         {
@@ -219,7 +225,7 @@ class advanced_inventory_pane
          */
         bool redraw;
 
-        void add_items_from_area(advanced_inv_area &square);
+        void add_items_from_area(advanced_inv_area &square, bool vehicle_override = false);
         /**
          * Makes sure the @ref index is valid (if possible).
          */
@@ -335,7 +341,6 @@ class advanced_inventory
         void print_items(advanced_inventory_pane &pane, bool active);
         void recalc_pane(side p);
         void redraw_pane(side p);
-        void swap_panes();
         // Returns the x coordinate where the header started. The header is
         // displayed right right of it, everything left of it is till free.
         int print_header(advanced_inventory_pane &pane, aim_location sel);
