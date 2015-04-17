@@ -520,7 +520,7 @@ void MonsterGenerator::load_monster(JsonObject &jo)
         load_special_defense(newmon, jo, "special_when_hit");
         load_special_attacks(newmon, jo, "special_attacks");
         newmon->upgrade_min = jo.get_int("upgrade_min", -1);
-        newmon->half_life = jo.get_int("half-life", -1);
+        newmon->half_life = jo.get_int("half_life", -1);
         newmon->base_upgrade_chance = jo.get_float("base_upgrade_chance", 0);
         newmon->upgrade_group = jo.get_string("upgrade_group", "NULL");
 

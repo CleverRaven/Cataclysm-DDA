@@ -183,8 +183,9 @@ void monster::update_check(){
     int time_passed = current_day - last_loaded;
     g->u.add_msg_if_player(m_debug, "Time passed: %d", time_passed);
     //radioactive decay function
-    float upgrade_chance = ((1*0.5*exp(type->half_life / time_passed)) + type->base_upgrade_chance) * 100;
-    g->u.add_msg_if_player(m_debug, "Upgrade chance: %f", upgrade_chance);
+    int half_life = type->half_life;
+    float upgrade_chance =100 * pow(0.5 , (half_life / (time_passed)));
+    g->u.add_msg_if_player(m_debug, "Upgrade time: %f", upgrade_chance);
     if (upgrade_chance > rng(0, 100)){
         const auto monsters = MonsterGroupManager::GetMonstersFromGroup(type->upgrade_group);
         const std::string newtype = monsters[rng(0, monsters.size() - 1)];
