@@ -6748,6 +6748,54 @@
       [ "duct_tape", 50 ]
     ]
   ]
+},{
+  "type" : "recipe",
+  "result": "oil_cooker",
+  "category": "CC_OTHER",
+  "subcategory": "CSC_OTHER_TOOLS",
+  "skill_used": "fabrication",
+  "difficulty": 4,
+  "time": 10000,
+  "reversible": true,
+  "autolearn": true,
+  "components": [
+    [
+      [ "oil_lamp", 1 ]
+    ],
+    [
+      [ "pilot_light", 1 ]
+    ],
+    [
+      [ "scrap", 3 ]
+    ],
+    [
+      [ "duct_tape", 50 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
+  "result": "gasoline_cooker",
+  "category": "CC_OTHER",
+  "subcategory": "CSC_OTHER_TOOLS",
+  "skill_used": "fabrication",
+  "difficulty": 4,
+  "time": 10000,
+  "reversible": true,
+  "autolearn": true,
+  "components": [
+    [
+      [ "gasoline_lantern", 1 ]
+    ],
+    [
+      [ "pilot_light", 1 ]
+    ],
+    [
+      [ "scrap", 3 ]
+    ],
+    [
+      [ "duct_tape", 50 ]
+    ]
+  ]
 },
 {
 "type" : "recipe",
