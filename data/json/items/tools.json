@@ -1025,7 +1025,7 @@
     "ammo": "gasoline",
     "revert_to": "null",
     "use_action": "HOTPLATE"
-  }
+  },
   {
     "id": "mil_mess_kit",
     "sub": "hotplate",
