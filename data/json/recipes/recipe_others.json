@@ -1194,7 +1194,8 @@
     [
       [ "jug_plastic", 1 ],
       [ "bottle_plastic", 3 ],
-      [ "bottle_plastic_small", 6 ]
+      [ "bottle_plastic_small", 6 ],
+      [ "aluminum_foil", 6]
     ]
   ]
 },{
@@ -6715,7 +6716,8 @@
 "components":
 [
 [
-[ "material_aluminium_ingot", 1]
+[ "material_aluminium_ingot", 1],
+[ "aluminum_foil", 40]
 ],
 [
 [ "water", 5 ],
