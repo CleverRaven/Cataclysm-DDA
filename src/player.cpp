@@ -4719,7 +4719,7 @@ dealt_damage_instance player::deal_damage(Creature* source, body_part bp, const 
 
         //Acid blood effects.
         bool u_see = g->u.sees(*this);
-        if (has_trait("ACIDBLOOD") && !one_in(3) && (dam >= 1)) {
+        if (has_trait("ACIDBLOOD") && !one_in(3) && (dam >= 1) && (rl_dist(g->u.pos(), source->pos()) <= 1)) {
             if (is_player()) {
                 add_msg(m_good, _("Your acidic blood splashes %s in mid-attack!"),
                                 source->disp_name().c_str());
