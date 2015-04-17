@@ -183,7 +183,7 @@ void monster::update_check(){
     int time_passed = current_day - last_loaded;
     add_msg(m_debug, "Time passed: %d", time_passed);
     //radioactive decay function
-    float upgrade_chance =100 * (1- pow(0.5 , (time_passed / type->half_life ))) + type->base_upgrade_chance;
+    float upgrade_chance =100 * (1- pow(0.5 , (float(time_passed) / float(type->half_life )))) + type->base_upgrade_chance;
     add_msg(m_debug, "Upgrade chance: %f", upgrade_chance);
     if (upgrade_chance > rng(0, 100)){
         const auto monsters = MonsterGroupManager::GetMonstersFromGroup(type->upgrade_group);
