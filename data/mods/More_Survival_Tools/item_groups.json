@@ -165,15 +165,13 @@
     "id" : "allclothes",
     "items":[
       ["boxer_briefs", 20],
-      ["gloves_work", 5],
-      ["hat_alum", 1]
+      ["gloves_work", 5]
     ]
   },{
     "type" : "item_group",
     "id" : "survivorzed_extra",
     "items":[
-      ["hat_hooded", 1],
-      ["hat_alum", 1]
+      ["hat_hooded", 1]
     ]
   },{
     "type" : "item_group",

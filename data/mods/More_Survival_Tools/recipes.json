@@ -1175,18 +1175,16 @@
   ]
 },{
         "type" : "recipe",
-  "result": "hat_alum",
-  "category": "CC_ARMOR",
-  "subcategory": "CSC_ARMOR_HEAD",
-  "skill_used": "fabrication",
+  "result": "foil_alum",
+  "category": "CC_OTHER",
+  "subcategory": "CSC_OTHER_OTHER",
   "difficulty": 0,
-  "time": 500,
+  "time": 200,
   "reversible": false,
   "autolearn": true,
   "components": [
     [
-      [ "foil_alum", 5 ],
-      [ "string_6", 2 ]
+      [ "aluminum_foil", 3 ]
     ]
   ]
 }

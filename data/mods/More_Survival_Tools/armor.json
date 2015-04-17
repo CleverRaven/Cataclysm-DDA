@@ -141,29 +141,5 @@
         "flags" : ["VARSIZE"],
         "coverage" : 60,
         "material_thickness" : 2
-    },
-    {
-        "type" : "ARMOR",
-        "id" : "hat_alum",
-        "name" : "tinfoil hat",
-        "weight" : 15,
-        "color" : "light_gray",
-        "covers" : ["HEAD"],
-        "to_hit" : 0,
-        "storage" : 0,
-        "symbol" : "[",
-        "description" : "A simple hat folded from aluminum foil. Probably won't keep the mind-readers out of your head, nor will it protect your brain from the zombies.",
-        "price" : 100,
-        "material" : ["aluminum", "cotton"],
-        "volume" : 1,
-        "cutting" : 0,
-        "warmth" : 0,
-        "phase" : "solid",
-        "environmental_protection" : 0,
-        "encumbrance" : 0,
-        "flags" : ["WATERPROOF", "OVERSIZE"],
-        "bashing" : -10,
-        "coverage" : 50,
-        "material_thickness" : 1
     }
 ]
