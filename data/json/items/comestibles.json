@@ -11247,7 +11247,7 @@
         "healthy" : -2,
         "addiction_potential" : 0,
         "nutrition" : 14,
-        "description" : "Raw, uncooked beans.  They are mildly toxic in this form, but you could cook them to make them tasty.",
+        "description" : "Raw, uncooked beans.  They are mildly toxic in this form, but you could cook them to make them tasty. Alternatively, you could plant them.",
         "price" : 90,
         "material" : "veggy",
         "tool" : "null",
@@ -11256,7 +11256,14 @@
         "phase" : "solid",
         "charges" : 1,
         "bashing" : 0,
-        "fun" : -1
+        "fun" : -1,
+        "seed_data": {
+            "plant_name": "beans",
+            "fruit": "raw_beans",
+            "seeds": false,
+            "byproducts": [ "withered" ],
+            "grow" : 91
+        }
     },
     {
         "type" : "COMESTIBLE",
@@ -11282,34 +11289,6 @@
         "seed_data": {
             "plant_name": "potatoes",
             "grow" : 95
-        }
-    },
-    {
-        "type" : "COMESTIBLE",
-        "id" : "seed_raw_beans",
-        "category": "other",
-        "price" : 50,
-        "name" : "bean seed",
-        "name_plural" : "bean seeds",
-        "symbol" : ".",
-        "color" : "brown",
-        "description" : "Some bean seeds.",
-        "material" : "veggy",
-        "comestible_type": "FOOD",
-        "tool" : "null",
-        "addiction_type": "none",
-        "volume" : 1,
-        "weight" : 1,
-        "bashing" : 0,
-        "cutting" : 0,
-        "to_hit" : 0,
-        "charges" : 4,
-        "stack_size" : 100,
-        "seed_data": {
-            "plant_name": "beans",
-            "fruit": "raw_beans",
-            "byproducts": [ "withered" ],
-            "grow" : 91
         }
     },
     {
