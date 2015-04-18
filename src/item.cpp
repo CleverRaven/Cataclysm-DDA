@@ -11,7 +11,6 @@
 #include "options.h"
 #include "uistate.h"
 #include "messages.h"
-#include "disease.h"
 #include "artifact.h"
 #include "itype.h"
 #include "iuse_actor.h"

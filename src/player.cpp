@@ -3,7 +3,6 @@
 #include "bionics.h"
 #include "mission.h"
 #include "game.h"
-#include "disease.h"
 #include "addiction.h"
 #include "moraledata.h"
 #include "inventory.h"
@@ -2020,13 +2019,6 @@ void player::memorial( std::ofstream &memorial_file, std::string epitaph )
     //Effects (illnesses)
     memorial_file << _("Ongoing Effects:") << "\n";
     bool had_effect = false;
-    for (auto &next_illness : illness) {
-      if(dis_name(next_illness).size() > 0) {
-        had_effect = true;
-        memorial_file << indent << dis_name(next_illness) << "\n";
-      }
-    }
-    //Various effects not covered by the illness list - from player.cpp
     if(morale_level() >= 100) {
       had_effect = true;
       memorial_file << indent << _("Elated") << "\n";
@@ -2286,12 +2278,6 @@ void player::disp_info()
     std::vector<std::string> effect_name;
     std::vector<std::string> effect_text;
     std::string tmp = "";
-    for (auto &next_illness : illness) {
-        if (dis_name(next_illness).size() > 0) {
-            effect_name.push_back(dis_name(next_illness));
-            effect_text.push_back(dis_description(next_illness));
-        }
-    }
     for( auto &elem : effects ) {
         for( auto &_effect_it : elem.second ) {
             tmp = _effect_it.second.disp_name();
@@ -7123,34 +7109,6 @@ void player::suffer()
                 thirst--;
             }
             mod_healthy_mod(5);
-        }
-    }
-
-    for( auto &elem : illness ) {
-        if( elem.duration <= 0 ) {
-            continue;
-        }
-        dis_effect( *this, elem );
-    }
-
-    // Diseases may remove themselves as part of applying (MA buffs do) so do a
-    // separate loop through the remaining ones for duration, decay, etc..
-    for( auto it = illness.begin(); it != illness.end(); ) {
-        auto &next_illness = *it;
-        if( next_illness.duration < 0 ) {
-            it = illness.erase( it );
-            continue;
-        }
-        if (!next_illness.permanent) {
-            next_illness.duration--;
-        }
-        if (next_illness.decay > 0 && one_in(next_illness.decay)) {
-            next_illness.intensity--;
-        }
-        if (next_illness.duration <= 0 || next_illness.intensity == 0) {
-            it = illness.erase( it );
-        } else {
-            it++;
         }
     }
 
@@ -12903,7 +12861,6 @@ double player::logistic_range(int min, int max, int pos)
 
 void player::environmental_revert_effect()
 {
-    illness.clear();
     addictions.clear();
     morale.clear();
 

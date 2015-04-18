@@ -536,7 +536,6 @@ class game
         void init_mongroups();    // Initializes monster groups
         void init_construction(); // Initializes construction "recipes"
         void init_autosave();     // Initializes autosave parameters
-        void init_diseases();     // Initializes disease lookup table.
         void init_savedata_translation_tables();
         void init_lua();          // Initializes lua interpreter.
         void create_factions(); // Creates new factions (for a new game world)
