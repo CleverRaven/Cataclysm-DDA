@@ -4733,7 +4733,7 @@ dealt_damage_instance player::deal_damage(Creature* source, body_part bp, const 
             }
             damage_instance acidblood_damage;
             acidblood_damage.add_damage(DT_ACID, rng(4,16));
-            if (!one_in(4) {
+            if (!one_in(4)) {
             source->deal_damage(this, bp_arm_l, acidblood_damage);
             source->deal_damage(this, bp_arm_r, acidblood_damage);
             } else {
