@@ -880,7 +880,6 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         // Library functions
         double logistic(double t);
         double logistic_range(int min, int max, int pos);
-        void calculate_portions(int &x, int &y, int &z, int maximum);
 
         /**
          * Global position, expressed in map square coordinate system

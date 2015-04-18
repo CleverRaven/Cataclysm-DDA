@@ -13021,14 +13021,6 @@ double player::logistic_range(int min, int max, int pos)
     return (raw_logistic - LOGI_MIN) / LOGI_RANGE;
 }
 
-// Calculates portions favoring x, then y, then z
-void player::calculate_portions(int &x, int &y, int &z, int maximum)
-{
-    z = std::min(z, std::max(maximum - x - y, 0));
-    y = std::min(y, std::max(maximum - x , 0));
-    x = std::min(x, std::max(maximum, 0));
-}
-
 void player::environmental_revert_effect()
 {
     illness.clear();
