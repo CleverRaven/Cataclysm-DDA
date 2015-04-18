@@ -152,6 +152,9 @@ class ma_buff
         bool is_quiet();
         bool can_melee();
 
+        // The ID of the effect that is used to store this buff
+        std::string get_effect_id() const;
+
         std::string id;
         std::string name;
         std::string description;
@@ -259,6 +262,7 @@ void load_technique(JsonObject &jo);
 void load_martial_art(JsonObject &jo);
 void check_martialarts();
 void clear_techniques_and_martial_arts();
+void finialize_martial_arts();
 
 extern std::map<matype_id, martialart> martialarts;
 extern std::map<mabuff_id, ma_buff> ma_buffs;

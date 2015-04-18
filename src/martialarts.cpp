@@ -224,6 +224,65 @@ void check_martialarts()
     }
 }
 
+/**
+ * This is a wrapper class to get access to the protected members of effect_type, it creates
+ * the @ref effect_type that is used to store a @ref ma_buff in the creatures effect map.
+ * Note: this class must not contain any new members, it will be converted to a plain
+ * effect_type later and that would slice the new members of.
+ */
+class ma_buff_effect_type : public effect_type {
+public:
+    ma_buff_effect_type( const ma_buff &buff ) {
+        // Unused members of effect_type are commented out:
+        id = buff.get_effect_id();
+        max_intensity = buff.max_stacks;
+        // add_effect add the duration to an existing effect, but it must never be
+        // above buff_duration, this keeps the old ma_buff behavior
+        max_duration = buff.buff_duration;
+        dur_add_perc = 1;
+        // each add_effect call increases the intensity by 1
+        int_add_val = 1;
+        // effect intensity increases by -1 each turn.
+        int_decay_step = -1;
+        int_decay_tick = 1;
+//        int int_dur_factor;
+//        bool main_parts_only;
+//        std::string resist_trait;
+//        std::string resist_effect;
+//        std::vector<std::string> removes_effects;
+//        std::vector<std::string> blocks_effects;
+//        std::vector<std::pair<std::string, int>> miss_msgs;
+//        bool pain_sizing;
+//        bool hurt_sizing;
+//        bool harmful_cough;
+//        bool pkill_addict_reduces;
+        name.push_back( buff.name );
+//        std::string speed_mod_name;
+        desc.push_back( buff.description );
+//        std::vector<std::string> reduced_desc;
+//        bool part_descs;
+//        std::vector<std::pair<std::string, game_message_type>> decay_msgs;
+        rating = e_good;
+//        std::string apply_message;
+//        std::string apply_memorial_log;
+//        std::string remove_message;
+//        std::string remove_memorial_log;
+//        std::unordered_map<std::tuple<std::string, bool, std::string, std::string>, double> mod_data;
+    }
+};
+
+void finialize_martial_arts()
+{
+    // This adds an effect type for each ma_buff, so we can later refer to it and don't need a
+    // redundant definition of those effects in json.
+    for( auto &buff : ma_buffs ) {
+        const ma_buff_effect_type new_eff( buff.second );
+        // Note the slicing here: new_eff is converted to a plain effect_type, but this doesn't
+        // bother us because ma_buff_effect_type does not have any members that can be sliced.
+        effect_types[new_eff.id] = new_eff;
+    }
+}
+
 void clear_techniques_and_martial_arts()
 {
     martialarts.clear();
@@ -354,24 +413,14 @@ ma_buff::ma_buff()
 
 }
 
+std::string ma_buff::get_effect_id() const
+{
+    return std::string( "mabuff:" ) + id;
+}
+
 void ma_buff::apply_buff( player &u )
 {
-    auto &dVec = u.illness;
-    for( auto &elem : dVec ) {
-        if( elem.is_mabuff() && elem.buff_id == id ) {
-            elem.duration = buff_duration;
-            elem.intensity++;
-            if( elem.intensity > max_stacks ) {
-                elem.intensity = max_stacks;
-            }
-            return;
-        }
-    }
-    disease d(id);
-    d.duration = buff_duration;
-    d.intensity = 1;
-    d.permanent = false;
-    dVec.push_back(d);
+    u.add_effect( get_effect_id(), buff_duration );
 }
 
 bool ma_buff::is_valid_player(player &u)
