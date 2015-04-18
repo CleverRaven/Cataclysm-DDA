@@ -268,7 +268,8 @@
      [
       ["hotplate", 10],
       ["toolset", 10],
-      ["fire", -1]
+      ["fire", -1],
+      ["char_smoker", 1]
      ],
      [
       [ "swage", -1 ]
@@ -3314,7 +3315,8 @@
     [
       ["hotplate", 2],
       ["toolset", 2],
-      ["fire", -1]
+      ["fire", -1],
+      ["char_smoker", 1]
     ]
   ],
   "components": [
@@ -3336,7 +3338,8 @@
     [
       ["hotplate", 5],
       ["toolset", 5],
-      ["fire", -1]
+      ["fire", -1],
+      ["char_smoker", 1]
     ]
   ],
   "components": [
@@ -3361,7 +3364,8 @@
     [
       ["hotplate", 5],
       ["toolset", 5],
-      ["fire", -1]
+      ["fire", -1],
+      ["char_smoker", 1]
     ]
   ],
   "components": [
@@ -3386,7 +3390,8 @@
     [
       ["hotplate", 3],
       ["toolset", 3],
-      ["fire", -1]
+      ["fire", -1],
+      ["char_smoker", 1 ]
     ]
   ],
   "components": [
@@ -5815,7 +5820,7 @@
   "reversible": false,
   "autolearn": true,
   "tools": [
-    [ ["hotplate", 4], ["toolset", 4], ["fire", -1] ],
+    [ ["hotplate", 4], ["toolset", 4], ["fire", -1], ["char_smoker", 1 ] ],
     [ ["mold_plastic", -1] ]
     ],
   "components": [ [ [ "bag_plastic", 3 ] ] ]
@@ -5989,7 +5994,8 @@
     [
       ["hotplate", 5],
       ["toolset", 5],
-      ["fire", -1]
+      ["fire", -1],
+      ["char_smoker", 1]
     ]
     ],
     "components": [
@@ -6015,7 +6021,8 @@
     [
       ["hotplate", 15],
       ["toolset", 15],
-      ["fire", -1]
+      ["fire", -1],
+      ["char_smoker", 2]
     ]
   ],
   "components": [
@@ -6841,7 +6848,8 @@
     [
       ["hotplate", 10],
       ["toolset", 10],
-      ["fire", -1]
+      ["fire", -1],
+      ["char_smoker", 1]
     ],
     [
       ["sewing_kit", 4],
@@ -6877,7 +6885,8 @@
     [
       ["hotplate", 15],
       ["toolset", 15],
-      ["fire", -1]
+      ["fire", -1],
+      ["char_smoker", 2]
     ],
     [
       ["sewing_kit", 4],

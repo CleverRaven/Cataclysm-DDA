@@ -3656,7 +3656,8 @@
     [
       [ "hotplate", 20 ],
       [ "toolset", 20 ],
-      [ "fire", -1 ]
+      [ "fire", -1 ],
+      [ "char_smoker", 2 ]
     ]
   ],
   "components": [
@@ -3778,7 +3779,8 @@
     [
       [ "toolset", 5],
       [ "hotplate", 5],
-      [ "fire", -1]
+      [ "fire", -1],
+      [ "char_smoker", 1]
     ],
     [
       [ "mold_plastic", -1]
@@ -3817,7 +3819,8 @@
     [
       [ "toolset", 5],
       [ "hotplate", 5],
-      [ "fire", -1]
+      [ "fire", -1],
+      [ "char_smoker", 1]
     ],
     [
       [ "mold_plastic", -1]
@@ -6475,7 +6478,8 @@
     [
       [ "hotplate", 5],
       ["toolset", 5],
-      ["fire", -1]
+      ["fire", -1],
+      ["char_smoker", 1]
     ]
   ],
   "components": [
@@ -6506,7 +6510,8 @@
     [
       [ "hotplate", 5],
       [ "toolset", 5],
-      [ "fire", -1]
+      [ "fire", -1],
+      [ "char_smoker", 1]
     ]
   ],
   "components": [
@@ -6540,7 +6545,8 @@
     [
       [ "hotplate", 5],
       [ "toolset", 5],
-      [ "fire", -1]
+      [ "fire", -1],
+      [ "char_smoker", 1]
     ]
   ],
   "components": [
@@ -6580,7 +6586,8 @@
     [
       [ "hotplate", 5],
       ["toolset", 5],
-      ["fire", -1]
+      ["fire", -1],
+      ["char_smoker", 1 ]
     ]
   ],
   "components": [
