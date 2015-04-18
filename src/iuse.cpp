@@ -7325,8 +7325,29 @@ int iuse::sheath_sword(player *p, item *it, bool, point)
                 p->add_msg_if_player(message.c_str(), p->weapon.tname().c_str());
             }
 
+            // Glow/Glimmer
+            if (p->weapon.has_flag("VORPAL") &&p->weapon.techniques.count("VORPAL") &&
+                  !x_in_y(g->natural_light_level(), 40)) {
+                std::string part = "";
+                int roll = rng(1,3);
+                switch (roll) {
+                case 1:
+                    part = _("snatching claws");
+                    break;
+                case 2:
+                    part = _("snapping teeth");
+                    break;
+                case 3:
+                    part = _("eyes of flame");
+                    break;
+                }
+
+                //~ $1s is a body part, %2$s is the weapon name.
+                p->add_msg_if_player(_("You catch a glimpse of %1$s in the blade of the %2$s"),
+                                      part.c_str(), p->weapon.tname().c_str());
+
             // diamond swords glimmer in the sunlight
-            if (g->is_in_sunlight(p->posx(), p->posy()) && p->weapon.made_of("diamond")) {
+            } else if (g->is_in_sunlight(p->posx(), p->posy()) && p->weapon.made_of("diamond")) {
                 p->add_msg_if_player(_("The %s glimmers magnificently in the sunlight."),
                                      p->weapon.tname().c_str());
             }

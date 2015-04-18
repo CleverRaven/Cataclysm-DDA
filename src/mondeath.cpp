@@ -597,8 +597,9 @@ void mdeath::jabberwock(monster *z)
          ch->weapon.has_flag("VORPAL")) {
         if (!ch->weapon.techniques.count("VORPAL")) {
             if (g->u.sees(*z)) {
-                add_msg(m_info, _("As the flame in the %s's eyes die out, your weapon seems to shine slightly brighter."),
-                        z->name().c_str());
+                //~ %s is the possessive form of the monster's name
+                add_msg(m_info, _("As the flames in %s eyes die out, your weapon seems to shine slightly brighter."),
+                        z->disp_name(true).c_str());
             }
             ch->weapon.techniques.insert("VORPAL");
         }
