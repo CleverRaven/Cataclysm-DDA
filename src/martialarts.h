@@ -8,6 +8,7 @@
 #include <map>
 #include <set>
 
+class effect;
 class player;
 
 struct ma_requirements {
@@ -154,6 +155,8 @@ class ma_buff
 
         // The ID of the effect that is used to store this buff
         std::string get_effect_id() const;
+        // If the effects represents an ma_buff effect, return the ma_buff, otherwise retur null.
+        static ma_buff *from_effect( const effect &eff );
 
         std::string id;
         std::string name;

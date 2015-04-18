@@ -418,6 +418,21 @@ std::string ma_buff::get_effect_id() const
     return std::string( "mabuff:" ) + id;
 }
 
+ma_buff *ma_buff::from_effect( const effect &eff )
+{
+    const std::string &id = eff.get_effect_type()->id;
+    // Same as in get_effect_id!
+    if( id.compare( 0, 7, "mabuff:" ) != 0 ) {
+        return nullptr;
+    }
+    const auto iter = ma_buffs.find( id.substr( 7 ) );
+    if( iter == ma_buffs.end() ) {
+        debugmsg( "could not find ma_buff %s", id.substr( 7 ).c_str() );
+        return nullptr;
+    }
+    return &iter->second;
+}
+
 void ma_buff::apply_buff( player &u )
 {
     u.add_effect( get_effect_id(), buff_duration );
@@ -701,24 +716,14 @@ void player::ma_ongethit_effects()
     martialarts[style_selected].apply_ongethit_buffs(*this);
 }
 
-static ma_buff *disease_to_ma_buff( const disease &d )
-{
-    if( !d.is_mabuff() ) {
-        return nullptr;
-    }
-    auto iter = ma_buffs.find( d.buff_id );
-    if( iter == ma_buffs.end() ) {
-        return nullptr;
-    }
-    return &iter->second;
-}
-
 template<typename C, typename F>
 static void accumulate_ma_buff_effects( const C &container, F f )
 {
     for( auto &elem : container ) {
-        if( auto buff = disease_to_ma_buff( elem ) ) {
-            f( *buff, elem );
+        for( auto &eff : elem.second ) {
+            if( auto buff = ma_buff::from_effect( eff.second ) ) {
+                f( *buff, eff.second );
+            }
         }
     }
 }
@@ -727,9 +732,11 @@ template<typename C, typename F>
 static bool search_ma_buff_effect( const C &container, F f )
 {
     for( auto &elem : container ) {
-        if( auto buff = disease_to_ma_buff( elem ) ) {
-            if( f( *buff, elem ) ) {
-                return true;
+        for( auto &eff : elem.second ) {
+            if( auto buff = ma_buff::from_effect( eff.second ) ) {
+                if( f( *buff, eff.second ) ) {
+                    return true;
+                }
             }
         }
     }
@@ -740,7 +747,7 @@ static bool search_ma_buff_effect( const C &container, F f )
 int player::mabuff_tohit_bonus()
 {
     int ret = 0;
-    accumulate_ma_buff_effects( illness, [&ret, this]( ma_buff &b, const disease & ) {
+    accumulate_ma_buff_effects( effects, [&ret, this]( ma_buff &b, const effect & ) {
         ret += b.hit_bonus( *this );
     } );
     return ret;
@@ -748,107 +755,104 @@ int player::mabuff_tohit_bonus()
 int player::mabuff_dodge_bonus()
 {
     int ret = 0;
-    accumulate_ma_buff_effects( illness, [&ret, this]( ma_buff &b, const disease &d ) {
-        ret += d.intensity * b.dodge_bonus( *this );
+    accumulate_ma_buff_effects( effects, [&ret, this]( ma_buff &b, const effect &d ) {
+        ret += d.get_intensity() * b.dodge_bonus( *this );
     } );
     return ret;
 }
 int player::mabuff_block_bonus()
 {
     int ret = 0;
-    accumulate_ma_buff_effects( illness, [&ret, this]( ma_buff &b, const disease &d ) {
-        ret += d.intensity * b.block_bonus( *this );
+    accumulate_ma_buff_effects( effects, [&ret, this]( ma_buff &b, const effect &d ) {
+        ret += d.get_intensity() * b.block_bonus( *this );
     } );
     return ret;
 }
 int player::mabuff_speed_bonus()
 {
     int ret = 0;
-    accumulate_ma_buff_effects( illness, [&ret, this]( ma_buff &b, const disease &d ) {
-        ret += d.intensity * b.speed_bonus( *this );
+    accumulate_ma_buff_effects( effects, [&ret, this]( ma_buff &b, const effect &d ) {
+        ret += d.get_intensity() * b.speed_bonus( *this );
     } );
     return ret;
 }
 int player::mabuff_arm_bash_bonus()
 {
     int ret = 0;
-    accumulate_ma_buff_effects( illness, [&ret, this]( ma_buff &b, const disease &d ) {
-        ret += d.intensity * b.arm_bash_bonus( *this );
+    accumulate_ma_buff_effects( effects, [&ret, this]( ma_buff &b, const effect &d ) {
+        ret += d.get_intensity() * b.arm_bash_bonus( *this );
     } );
     return ret;
 }
 int player::mabuff_arm_cut_bonus()
 {
     int ret = 0;
-    accumulate_ma_buff_effects( illness, [&ret, this]( ma_buff &b, const disease &d ) {
-        ret += d.intensity * b.arm_cut_bonus( *this );
+    accumulate_ma_buff_effects( effects, [&ret, this]( ma_buff &b, const effect &d ) {
+        ret += d.get_intensity() * b.arm_cut_bonus( *this );
     } );
     return ret;
 }
 float player::mabuff_bash_mult()
 {
     float ret = 1.f;
-    accumulate_ma_buff_effects( illness, [&ret, this]( ma_buff &b, const disease &d ) {
+    accumulate_ma_buff_effects( effects, [&ret, this]( ma_buff &b, const effect &d ) {
         // This is correct, so that a 20% buff (1.2) plus a 20% buff (1.2)
         // becomes 1.4 instead of 2.4 (which would be a 240% buff)
-        ret *= d.intensity * ( b.bash_mult() - 1 ) + 1;
+        ret *= d.get_intensity() * ( b.bash_mult() - 1 ) + 1;
     } );
     return ret;
 }
 int player::mabuff_bash_bonus()
 {
     int ret = 0;
-    accumulate_ma_buff_effects( illness, [&ret, this]( ma_buff &b, const disease &d ) {
-        ret += d.intensity * b.bash_bonus( *this );
+    accumulate_ma_buff_effects( effects, [&ret, this]( ma_buff &b, const effect &d ) {
+        ret += d.get_intensity() * b.bash_bonus( *this );
     } );
     return ret;
 }
 float player::mabuff_cut_mult()
 {
     float ret = 1.f;
-    accumulate_ma_buff_effects( illness, [&ret, this]( ma_buff &b, const disease &d ) {
+    accumulate_ma_buff_effects( effects, [&ret, this]( ma_buff &b, const effect &d ) {
         // This is correct, so that a 20% buff (1.2) plus a 20% buff (1.2)
         // becomes 1.4 instead of 2.4 (which would be a 240% buff)
-        ret *= d.intensity * ( b.cut_mult() - 1 ) + 1;
+        ret *= d.get_intensity() * ( b.cut_mult() - 1 ) + 1;
     } );
     return ret;
 }
 int player::mabuff_cut_bonus()
 {
     int ret = 0;
-    accumulate_ma_buff_effects( illness, [&ret, this]( ma_buff &b, const disease &d ) {
-        ret += d.intensity * b.cut_bonus( *this );
+    accumulate_ma_buff_effects( effects, [&ret, this]( ma_buff &b, const effect &d ) {
+        ret += d.get_intensity() * b.cut_bonus( *this );
     } );
     return ret;
 }
 bool player::is_throw_immune()
 {
-    return search_ma_buff_effect( illness, []( ma_buff &b, const disease & ) {
+    return search_ma_buff_effect( effects, []( ma_buff &b, const effect & ) {
         return b.is_throw_immune();
     } );
 }
 bool player::is_quiet()
 {
-    return search_ma_buff_effect( illness, []( ma_buff &b, const disease & ) {
+    return search_ma_buff_effect( effects, []( ma_buff &b, const effect & ) {
         return b.is_quiet();
     } );
 }
 
 bool player::can_melee()
 {
-    return search_ma_buff_effect( illness, []( ma_buff &b, const disease & ) {
+    return search_ma_buff_effect( effects, []( ma_buff &b, const effect & ) {
         return b.can_melee();
     } );
 }
 
 bool player::has_mabuff(mabuff_id id)
 {
-    for( auto &elem : illness ) {
-        if( elem.is_mabuff() && elem.buff_id == id ) {
-            return true;
-        }
-    }
-    return false;
+    return search_ma_buff_effect( effects, [&id]( ma_buff &b, const effect & ) {
+        return b.id == id;
+    } );
 }
 
 bool player::has_martialart(const matype_id &ma) const
