@@ -64,7 +64,8 @@ monster::monster(mtype *t)
  friendly = 0;
  anger = t->agro;
  morale = t->morale;
-    faction = t->default_faction;
+ last_loaded = 0;
+ faction = t->default_faction;
  mission_id = -1;
  no_extra_death_drops = false;
  dead = false;
@@ -94,7 +95,8 @@ monster::monster(mtype *t, const tripoint &p )
  friendly = 0;
  anger = type->agro;
  morale = type->morale;
-    faction = t->default_faction;
+ faction = t->default_faction;
+ last_loaded = 0;
  mission_id = -1;
  no_extra_death_drops = false;
  dead = false;
@@ -180,12 +182,13 @@ void monster::update_check(){
         return;
     }
 
-    int time_passed = current_day - last_loaded;
+    // We don't start counting until the minimum upgrade time
+    int time_passed = current_day - std::max(last_loaded, upgrade_time);
     add_msg(m_debug, "Time passed: %d", time_passed);
     //radioactive decay function
     //Don't set a half-life more than 700 days otherwise some weirdness may happen
     float elapsed_lives = float(time_passed) / float(type->half_life);
-    float upgrade_chance =1000 * (1- pow(std::max(0.0, 0.5 - type->base_upgrade_chance * elapsed_lives), elapsed_lives));
+    float upgrade_chance = 1000 * (1- pow(std::max(0.0, 0.5 - type->base_upgrade_chance * .01 * elapsed_lives), elapsed_lives));
     add_msg(m_debug, "Upgrade chance: %f", upgrade_chance);
     if (upgrade_chance > rng(0, 999)){
         const auto monsters = MonsterGroupManager::GetMonstersFromGroup(type->upgrade_group);

@@ -1016,7 +1016,7 @@ void monster::load(JsonObject &data)
     data.read("wandy", wandy);
     data.read("wandf", wandf);
     data.read("hp", hp);
-    data.read("last_loaded", last_loaded);
+    last_loaded = data.get_int("last_loaded", 0);
 
     if (data.has_array("sp_timeout")) {
         JsonArray parray = data.get_array("sp_timeout");
