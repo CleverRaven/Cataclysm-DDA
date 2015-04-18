@@ -4505,5 +4505,13 @@
         "valid" : false,
         "description" : "Temperature and weather won't bug you.",
         "threshold" : true
+    },{
+        "type" : "mutation",
+        "id" : "DEBUG_NODMG",
+        "name" : "Debug Invincibility",
+        "points" : 99,
+        "valid" : false,
+        "description" : "Bug repellent forcefield.",
+        "threshold" : true
     }
 ]

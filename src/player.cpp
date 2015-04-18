@@ -457,8 +457,7 @@ void player::process_turn()
     }
     // You *are* a plant.  Unless someone hunts triffids by scent,
     // you don't smell like prey.
-    // Or maybe you're debugging and would rather not be smelled.
-    if (has_trait("CHLOROMORPH") || has_trait("DEBUG_NOSCENT")) {
+    if( has_trait("CHLOROMORPH") ) {
         norm_scent = 0;
     }
 
@@ -4639,6 +4638,10 @@ void player::on_gethit(Creature *source, body_part bp_hit, damage_instance &) {
 
 dealt_damage_instance player::deal_damage(Creature* source, body_part bp, const damage_instance& d)
 {
+    if( has_trait( "DEBUG_NODMG" ) ) {
+        return dealt_damage_instance();
+    }
+
     dealt_damage_instance dealt_dams = Creature::deal_damage(source, bp, d); //damage applied here
     int dam = dealt_dams.total_damage(); //block reduction should be by applied this point
 
@@ -4879,10 +4882,12 @@ void player::mod_pain(int npain) {
  */
 void player::apply_damage(Creature *source, body_part hurt, int dam)
 {
-    if( is_dead_state() ) {
+    if( is_dead_state() || has_trait( "DEBUG_NODMG" ) ) {
         // don't do any more damage if we're already dead
+        // Or if we're debugging and don't want to die
         return;
     }
+
     hp_part hurtpart;
     switch (hurt) {
         case bp_eyes: // Fall through to head damage

@@ -33,7 +33,6 @@ enum season_type {
     SUMMER = 1,
     AUTUMN = 2,
     WINTER = 3
-#define FALL AUTUMN
 };
 
 enum moon_phase {
