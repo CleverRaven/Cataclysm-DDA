@@ -4356,6 +4356,25 @@
         "threshold": true
     },{
         "type" : "mutation",
+        "id" : "ACIDPROOF",
+        "name" : "Acidproof",
+        "points" : 3,
+        "visibility" : 0,
+        "ugliness" : 0,
+        "description" : "Your mutated flesh is immune to the damaging effects of acid.",
+        "threshreq" : ["THRESH_INSECT", "THRESH_CHIMERA", "THRESH_MEDICAL", "THRESH_SLIME"]
+    },{
+        "type" : "mutation",
+        "id" : "ACIDBLOOD",
+        "name" : "Acid Blood",
+        "points" : 4,
+        "visibility" : 0,
+        "ugliness" : 0,
+        "description" : "Your body has developed a wonderful defense mechanism.  Instead of normal blood, you bleed a strong molecular acid which will damage any creature foolish enough to harm you.",
+        "prereqs" : ["ACIDPROOF"],
+        "threshreq" : ["THRESH_INSECT", "THRESH_CHIMERA", "THRESH_MEDICAL", "THRESH_SLIME"]
+    },{
+        "type" : "mutation",
         "id" : "PROF_POLICE",
         "name" : "Police Officer",
         "points" : 0,
@@ -4485,6 +4504,14 @@
         "points" : 99,
         "valid" : false,
         "description" : "Temperature and weather won't bug you.",
+        "threshold" : true
+    },{
+        "type" : "mutation",
+        "id" : "DEBUG_NODMG",
+        "name" : "Debug Invincibility",
+        "points" : 99,
+        "valid" : false,
+        "description" : "Bug repellent forcefield.",
         "threshold" : true
     }
 ]

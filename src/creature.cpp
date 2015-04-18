@@ -187,7 +187,8 @@ bool Creature::sees( const Creature &critter, int &bresenham_slope ) const
 
     const auto p = dynamic_cast< const player* >( &critter );
     if( p != nullptr && p->is_invisible() ) {
-        return false;
+        // Let invisible players see themselves (simplifies drawing)
+        return p == this;
     }
 
     int cx = critter.posx();
@@ -239,6 +240,19 @@ bool Creature::sees( const point t, int &bresenham_slope ) const
     } else {
         return false;
     }
+}
+
+bool Creature::sees( const tripoint &t, int &bresen1, int &bresen2 ) const
+{
+    // TODO: FoV update
+    (void)bresen2;
+    return sees( point( t.x, t.y ), bresen1 );
+}
+
+bool Creature::sees( const tripoint &t ) const
+{
+    // TODO: FoV update
+    return sees( t.x, t.y );
 }
 
 Creature *Creature::auto_find_hostile_target( int range, int &boo_hoo, int area )
@@ -306,7 +320,7 @@ Creature *Creature::auto_find_hostile_target( int range, int &boo_hoo, int area 
             // No shooting stuff on vehicle we're a part of
             continue;
         }
-        if( area_iff > 0 && rl_dist( u.posx(), u.posy(), m->posx(), m->posy() ) <= area ) {
+        if( area_iff && rl_dist( u.posx(), u.posy(), m->posx(), m->posy() ) <= area ) {
             // Player in AoE
             boo_hoo++;
             continue;
@@ -679,6 +693,14 @@ void Creature::deal_damage_handle_type(const damage_unit &du, body_part, int &da
         damage += adjusted_damage;
         pain += adjusted_damage / 6;
         mod_moves(-adjusted_damage * 80);
+        break;
+    case DT_ACID: // ACIDPROOF people don't take acid damage and acid burns are super painful 
+        damage += adjusted_damage;
+        pain += adjusted_damage / 3;
+        if( has_trait ("ACIDPROOF") ) {
+            damage = 0;
+            pain = 0;
+        }
         break;
     default:
         damage += adjusted_damage;
@@ -1431,6 +1453,11 @@ void Creature::draw(WINDOW *w, int player_x, int player_y, bool inverted) const
     } else {
         mvwputch(w, draw_y, draw_x, symbol_color(), symbol() );
     }
+}
+
+void Creature::draw( WINDOW *w, const tripoint &p, bool inverted ) const
+{
+    draw( w, p.x, p.y, inverted );
 }
 
 nc_color Creature::basic_symbol_color() const

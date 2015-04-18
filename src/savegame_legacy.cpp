@@ -497,7 +497,6 @@ original 'structure', which globs game/weather/location & killcount/player data 
 
 void game::load_legacy_future_weather(std::string data)
 {
-    weather_log.clear();
     std::istringstream fin;
     fin.str(data);
     load_legacy_future_weather(fin);
@@ -507,7 +506,6 @@ void game::load_legacy_future_weather(std::string data)
 void game::load_legacy_future_weather(std::istream &fin)
 {
     int tmpnextweather, tmpweather, tmptemp, num_segments;
-    weather_segment new_segment;
 
     fin >> num_segments >> tmpnextweather >> tmpweather >> tmptemp;
 
@@ -518,10 +516,7 @@ void game::load_legacy_future_weather(std::istream &fin)
     for( int i = 0; i < num_segments - 1; ++i)
     {
         fin >> tmpnextweather >> tmpweather >> tmptemp;
-        new_segment.weather = weather_type(tmpweather);
-        new_segment.temperature = tmptemp;
-        new_segment.deadline = tmpnextweather;
-        weather_log[ tmpnextweather ] = new_segment;
+        // Just drop it, it wouldn't be used anyway
     }
 }
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

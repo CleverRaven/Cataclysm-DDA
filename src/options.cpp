@@ -741,6 +741,10 @@ void initOptions()
                                      _("If true, show item health bars instead of reinforced, scratched etc. text."),
                                      true
                                     );
+    OPTIONS["ITEM_SYMBOLS"] = cOpt("interface", _("Show item symbols"),
+                                     _("If true, show item symbols in inventory and pick up menu."),
+                                     false
+                                    );
 
     mOptionsSort["interface"]++;
 
@@ -890,7 +894,7 @@ void initOptions()
                                    );
     OPTIONS["MONSTER_GROUP_DIFFICULTY"] = cOpt("world_default", _("Monster difficulty"),
                                     _("A scaling factor that determines the rate of monster advancement. 0 spawns advanced groups immediately!"),
-                                    0, 100, 1
+                                    0.0, 100, 1.0, 0.01
                                    );
 
     mOptionsSort["world_default"]++;
@@ -921,6 +925,11 @@ void initOptions()
                                     _("Season length, in days."),
                                     14, 127, 14
                                    );
+
+    OPTIONS["CONSTRUCTION_SCALING"] = cOpt("world_default", _("Construction scaling"),
+                                           _(" Multiplies the speed of construction by the given percentage. '0' automatically scales construction to match the world's season length."),
+                                           0, 1000, 100
+                                           );
 
     mOptionsSort["world_default"]++;
 

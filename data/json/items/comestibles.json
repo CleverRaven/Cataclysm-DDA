@@ -7650,6 +7650,8 @@
         "stack_size" : 100,
         "seed_data": {
             "plant_name": "blueberry",
+            "fruit": "blueberries",
+            "byproducts": [ "withered" ],
             "grow" : 91
         }
     },
@@ -7761,6 +7763,89 @@
         "stack_size" : 100,
         "seed_data": {
             "plant_name": "strawberry",
+            "fruit": "strawberries",
+            "byproducts": [ "withered" ],
+            "grow" : 91
+        }
+    },
+    {   "type" : "COMESTIBLE",
+        "id" : "seed_blackberries",
+        "category": "other",
+        "price" : 120,
+        "name" : "blackberry seed",
+        "name_plural" : "blackberry seeds",
+        "symbol" : ".",
+        "color" : "brown",
+        "description" : "Some blackberry seeds.",
+        "material" : "fruit",
+        "comestible_type": "FOOD",
+        "tool" : "null",
+        "addiction_type": "none",
+        "volume" : 1,
+        "weight" : 1,
+        "bashing" : 0,
+        "cutting" : 0,
+        "to_hit" : 0,
+        "charges" : 4,
+        "stack_size" : 100,
+        "seed_data": {
+            "plant_name": "blackberry",
+            "fruit": "blackberries",
+            "byproducts": [ "withered" ],
+            "grow" : 91
+        }
+    },
+    {   "type" : "COMESTIBLE",
+        "id" : "seed_cranberries",
+        "category": "other",
+        "price" : 120,
+        "name" : "cranberry seed",
+        "name_plural" : "cranberry seeds",
+        "symbol" : ".",
+        "color" : "brown",
+        "description" : "Some cranberry seeds.",
+        "material" : "fruit",
+        "comestible_type": "FOOD",
+        "tool" : "null",
+        "addiction_type": "none",
+        "volume" : 1,
+        "weight" : 1,
+        "bashing" : 0,
+        "cutting" : 0,
+        "to_hit" : 0,
+        "charges" : 4,
+        "stack_size" : 100,
+        "seed_data": {
+            "plant_name": "cranberry",
+            "fruit": "cranberries",
+            "byproducts": [ "withered" ],
+            "grow" : 91
+        }
+    },
+    {   "type" : "COMESTIBLE",
+        "id" : "seed_raspberries",
+        "category": "other",
+        "price" : 120,
+        "name" : "raspberry seed",
+        "name_plural" : "raspberry seeds",
+        "symbol" : ".",
+        "color" : "brown",
+        "description" : "Some raspberry seeds.",
+        "material" : "fruit",
+        "comestible_type": "FOOD",
+        "tool" : "null",
+        "addiction_type": "none",
+        "volume" : 1,
+        "weight" : 1,
+        "bashing" : 0,
+        "cutting" : 0,
+        "to_hit" : 0,
+        "charges" : 4,
+        "stack_size" : 100,
+        "seed_data": {
+            "plant_name": "raspberry",
+            "fruit": "raspberries",
+            "byproducts": [ "withered" ],
             "grow" : 91
         }
     },
@@ -7816,6 +7901,8 @@
         "stack_size" : 40,
         "seed_data": {
             "plant_name": "wheat",
+            "fruit": "wheat",
+            "byproducts": [ "straw_pile" ],
             "grow" : 120
         }
     },
@@ -7960,6 +8047,8 @@
         "stack_size" : 8,
         "seed_data": {
             "plant_name": "hops",
+            "fruit": "hops",
+            "byproducts": [ "straw_pile" ],
             "grow" : 120
         }
     },
@@ -8014,6 +8103,8 @@
         "stack_size" : 40,
         "seed_data": {
             "plant_name": "barley",
+            "fruit": "barley",
+            "byproducts": [ "straw_pile" ],
             "grow" : 70
         }
     },
@@ -8067,6 +8158,7 @@
         "stack_size" : 40,
         "seed_data": {
             "plant_name": "sugar beet",
+            "fruit": "sugar_beet",
             "grow" : 90
         }
     },
@@ -8121,6 +8213,8 @@
         "stack_size" : 100,
         "seed_data": {
             "plant_name": "lettuce",
+            "fruit": "lettuce",
+            "byproducts": [ "withered" ],
             "grow" : 85
         }
     },
@@ -8176,6 +8270,8 @@
         "stack_size" : 100,
         "seed_data": {
             "plant_name": "tomato",
+            "fruit": "tomato",
+            "byproducts": [ "withered" ],
             "grow" : 65
         }
     },
@@ -8202,6 +8298,8 @@
         "stack_size" : 40,
         "seed_data": {
             "plant_name": "cotton",
+            "fruit": "cotton_boll",
+            "byproducts": [ "withered" ],
             "grow" : 130
         }
     },
@@ -8319,6 +8417,8 @@
         "stack_size" : 100,
         "seed_data": {
             "plant_name": "broccoli",
+            "fruit": "broccoli",
+            "byproducts": [ "withered" ],
             "grow" : 75
         }
     },
@@ -8374,6 +8474,8 @@
         "stack_size" : 100,
         "seed_data": {
             "plant_name": "zucchini",
+            "fruit": "zucchini",
+            "byproducts": [ "withered" ],
             "grow" : 47
         }
     },
@@ -8429,6 +8531,8 @@
         "stack_size" : 100,
         "seed_data": {
             "plant_name": "onion",
+            "fruit": "onion",
+            "byproducts": [ "withered" ],
             "grow" : 65
         }
     },
@@ -8484,6 +8588,8 @@
         "stack_size" : 100,
         "seed_data": {
             "plant_name": "carrot",
+            "fruit": "carrot",
+            "byproducts": [ "withered" ],
             "grow" : 65
         }
     },
@@ -8540,6 +8646,8 @@
         "stack_size" : 100,
         "seed_data": {
             "plant_name": "corn",
+            "fruit": "corn",
+            "byproducts": [ "withered" ],
             "grow" : 80
         }
     },
@@ -10000,6 +10108,7 @@
         "bashing" : 0,
         "fun" : 30,
         "seed_data": {
+            "fruit": "null", "//": "dummy entry, results are hardcoded",
             "plant_name": "marloss berry",
             "grow" : 91
         }
@@ -10203,6 +10312,8 @@
         "stack_size" : 40,
         "seed_data": {
             "plant_name": "oats",
+            "fruit": "oats",
+            "byproducts": [ "withered" ],
             "grow" : 45
         }
     },
@@ -11150,6 +11261,42 @@
     },
     {
         "type" : "COMESTIBLE",
+        "id" : "raw_beans",
+        "name" : "raw beans",
+        "name_plural" : "raw beans",
+        "weight" : 210,
+        "color" : "brown",
+        "addiction_type" : "none",
+        "spoils_in" : 240,
+        "stim" : 0,
+        "container" : "null",
+        "to_hit" : 0,
+        "comestible_type" : "FOOD",
+        "symbol" : "%",
+        "quench" : 0,
+        "healthy" : -2,
+        "addiction_potential" : 0,
+        "nutrition" : 14,
+        "description" : "Raw, uncooked beans.  They are mildly toxic in this form, but you could cook them to make them tasty. Alternatively, you could plant them.",
+        "price" : 90,
+        "material" : "veggy",
+        "tool" : "null",
+        "volume" : 1,
+        "cutting" : 0,
+        "phase" : "solid",
+        "charges" : 1,
+        "bashing" : 0,
+        "fun" : -1,
+        "seed_data": {
+            "plant_name": "beans",
+            "fruit": "raw_beans",
+            "seeds": false,
+            "byproducts": [ "withered" ],
+            "grow" : 91
+        }
+    },
+    {
+        "type" : "COMESTIBLE",
         "id" : "seed_potato_raw",
         "category": "other",
         "price" : 50,
@@ -11171,6 +11318,8 @@
         "stack_size" : 10,
         "seed_data": {
             "plant_name": "potatoes",
+            "fruit": "potato_raw",
+            "byproducts": [ "withered" ],
             "grow" : 95
         }
     },
@@ -13459,6 +13608,8 @@
         "fun" : 1,
         "seed_data": {
             "plant_name": "cannabis",
+            "fruit": "weed",
+            "byproducts": [ "withered" ],
             "grow" : 91
         }
     },
@@ -15284,6 +15435,7 @@
         "count" : 1,
         "stack_size" : 8,
         "seed_data": {
+            "fruit": "null", "//": "dummy entry, results are hardcoded",
             "plant_name": "fungal flower",
             "grow" : 91
         }
@@ -17383,7 +17535,7 @@
         "healthy" : -2,
         "addiction_potential" : 0,
         "nutrition" : 0,
-        "description" : "Small, dark seeds from the spiny pods of a datura plant.  Full of powerful psychoactive chemicals, these tiny seeds are a potent analgesic and deliriant, and can be deadly in cases of overdose.",
+        "description" : "Small, dark seeds from the spiny pods of a datura plant.  Full of powerful psychoactive chemicals, these tiny seeds are a potent analgesic and deliriant, and can be deadly in cases of overdose. You could probably plant these.",
         "price" : 0,
         "material" : "null",
         "tool" : "null",
@@ -17393,7 +17545,14 @@
         "charges" : 4,
         "stack_size" : 100,
         "bashing" : 0,
-        "fun" : -1
+        "fun" : -1,
+        "seed_data": {
+            "plant_name": "datura",
+            "fruit": "datura_seed",
+            "seeds": false,
+            "byproducts": [ "withered" ],
+            "grow" : 91
+        }
     },
     {
         "type" : "COMESTIBLE",
@@ -17556,6 +17715,8 @@
         "stack_size" : 100,
         "seed_data": {
             "plant_name": "cucumber",
+            "fruit": "cucumber",
+            "byproducts": [ "withered" ],
             "grow" : 60
         }
     },{
@@ -17636,6 +17797,8 @@
         "stack_size" : 100,
         "seed_data": {
             "plant_name": "celery",
+            "fruit": "celery",
+            "byproducts": [ "withered" ],
             "grow" : 130
         }
     },
@@ -18781,6 +18944,7 @@
         "stack_size" : 100,
         "seed_data": {
             "plant_name": "thyme",
+            "fruit": "thyme",
             "grow" : 91
         }
     },{
@@ -18833,6 +18997,8 @@
         "stack_size" : 100,
         "seed_data": {
             "plant_name": "canola",
+            "fruit": "canola",
+            "byproducts": [ "withered" ],
             "grow" : 91
         }
     },{
@@ -18910,6 +19076,8 @@
         "stack_size" : 100,
         "seed_data": {
             "plant_name": "dogbane",
+            "fruit": "dogbane",
+            "byproducts": [ "withered" ],
             "grow" : 91
         }
 },{
@@ -18961,6 +19129,8 @@
         "stack_size" : 100,
         "seed_data": {
             "plant_name": "bee balm",
+            "fruit": "bee_balm",
+            "byproducts": [ "withered" ],
             "grow" : 91
         }
 },{
@@ -19042,6 +19212,7 @@
         "stack_size" : 100,
         "seed_data": {
             "plant_name": "mugwort",
+            "fruit": "mugwort",
             "grow" : 91
         }
 },{   
@@ -19094,6 +19265,8 @@
         "stack_size" : 100,
         "seed_data": {
             "plant_name": "buckwheat",
+            "fruit": "buckwheat",
+            "byproducts": [ "withered" ],
             "grow" : 91
         }
 },{   
@@ -19120,6 +19293,7 @@
         "stack_size" : 100,
         "seed_data": {
             "plant_name": "wild herb",
+            "fruit": "wild_herbs",
             "grow" : 91
         }
 },{   
@@ -19146,6 +19320,8 @@
         "stack_size" : 100,
         "seed_data": {
             "plant_name": "wild vegetable",
+            "fruit": "veggy_wild",
+            "byproducts": [ "withered" ],
             "grow" : 91
         }
 },{   
@@ -19172,6 +19348,7 @@
         "stack_size" : 100,
         "seed_data": {
             "plant_name": "dandelion",
+            "fruit": "raw_dandelion",
             "grow" : 91
         }
 },{   
@@ -19198,6 +19375,8 @@
         "stack_size" : 100,
         "seed_data": {
             "plant_name": "rhubarb",
+            "fruit": "rhubarb",
+            "byproducts": [ "withered" ],
             "grow" : 91
         }
 },{   
@@ -19224,6 +19403,7 @@
         "stack_size" : 100,
         "seed_data": {
             "plant_name": "mushroom",
+            "fruit": "mushroom",
             "grow" : 91
         }
 },{   
@@ -19250,6 +19430,7 @@
         "stack_size" : 100,
         "seed_data": {
             "plant_name": "morel mushroom",
+            "fruit": "mushroom_morel",
             "grow" : 91
         }
 },{   
@@ -19277,6 +19458,7 @@
         "flags" : ["HIDDEN_HALLU"],
         "seed_data": {
             "plant_name": "mushroom",
+            "fruit": "mushroom_magic",
             "grow" : 91
         }
 },{   
@@ -19304,6 +19486,7 @@
         "flags" : ["HIDDEN_POISON"],
         "seed_data": {
             "plant_name": "mushroom",
+            "fruit": "mushroom_poison",
             "grow" : 91
         }
 }
