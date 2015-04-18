@@ -4737,8 +4737,8 @@ dealt_damage_instance player::deal_damage(Creature* source, body_part bp, const 
             source->deal_damage(this, bp_arm_l, acidblood_damage);
             source->deal_damage(this, bp_arm_r, acidblood_damage);
             } else {
-            source->deal_damage(this, torso, acidblood_damage);
-            source->deal_damage(this, head, acidblood_damage);
+            source->deal_damage(this, bp_torso, acidblood_damage);
+            source->deal_damage(this, bp_head, acidblood_damage);
             }
         }
         
