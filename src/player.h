@@ -564,8 +564,6 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         void rem_disease(dis_type type, body_part part = num_bp);
         /** Returns list of rc items in player inventory. **/
         std::list<item *> get_radio_items();
-        /** Returns true if the player has the entered disease */
-        bool has_disease(dis_type type, body_part part = num_bp) const;
         /** Pauses a disease, making it permanent until unpaused */
         bool pause_disease(dis_type type, body_part part = num_bp);
         /** Unpauses a permanent disease, making it wear off when it's timer expires */

@@ -5199,16 +5199,6 @@ void player::rem_disease(dis_type type, body_part part)
     recalc_sight_limits();
 }
 
-bool player::has_disease(dis_type type, body_part part) const
-{
-    for (auto &i : illness) {
-        if (i.duration > 0 && i.type == type && ( part == num_bp || i.bp == part )) {
-            return true;
-        }
-    }
-    return false;
-}
-
 bool player::pause_disease(dis_type type, body_part part)
 {
     for (auto &i : illness) {
