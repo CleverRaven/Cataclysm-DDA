@@ -354,8 +354,9 @@ ma_buff::ma_buff()
 
 }
 
-void ma_buff::apply_buff(std::list<disease> &dVec)
+void ma_buff::apply_buff( player &u )
 {
+    auto &dVec = u.illness;
     for( auto &elem : dVec ) {
         if( elem.is_mabuff() && elem.buff_id == id ) {
             elem.duration = buff_duration;
@@ -466,7 +467,7 @@ martialart::martialart()
 
 // simultaneously check and add all buffs. this is so that buffs that have
 // buff dependencies added by the same event trigger correctly
-void simultaneous_add(player &u, std::vector<ma_buff> &buffs, std::list<disease> &dVec)
+void simultaneous_add(player &u, std::vector<ma_buff> &buffs)
 {
     std::vector<ma_buff> buffer; // hey get it because it's for buffs????
     for( auto &buff : buffs ) {
@@ -475,43 +476,43 @@ void simultaneous_add(player &u, std::vector<ma_buff> &buffs, std::list<disease>
         }
     }
     for( auto &elem : buffer ) {
-        elem.apply_buff( dVec );
+        elem.apply_buff( u );
     }
 }
 
-void martialart::apply_static_buffs(player &u, std::list<disease> &dVec)
+void martialart::apply_static_buffs(player &u)
 {
-    simultaneous_add(u, static_buffs, dVec);
+    simultaneous_add(u, static_buffs);
 }
 
-void martialart::apply_onmove_buffs(player &u, std::list<disease> &dVec)
+void martialart::apply_onmove_buffs(player &u)
 {
-    simultaneous_add(u, onmove_buffs, dVec);
+    simultaneous_add(u, onmove_buffs);
 }
 
-void martialart::apply_onhit_buffs(player &u, std::list<disease> &dVec)
+void martialart::apply_onhit_buffs(player &u)
 {
-    simultaneous_add(u, onhit_buffs, dVec);
+    simultaneous_add(u, onhit_buffs);
 }
 
-void martialart::apply_onattack_buffs(player &u, std::list<disease> &dVec)
+void martialart::apply_onattack_buffs(player &u)
 {
-    simultaneous_add(u, onattack_buffs, dVec);
+    simultaneous_add(u, onattack_buffs);
 }
 
-void martialart::apply_ondodge_buffs(player &u, std::list<disease> &dVec)
+void martialart::apply_ondodge_buffs(player &u)
 {
-    simultaneous_add(u, ondodge_buffs, dVec);
+    simultaneous_add(u, ondodge_buffs);
 }
 
-void martialart::apply_onblock_buffs(player &u, std::list<disease> &dVec)
+void martialart::apply_onblock_buffs(player &u)
 {
-    simultaneous_add(u, onblock_buffs, dVec);
+    simultaneous_add(u, onblock_buffs);
 }
 
-void martialart::apply_ongethit_buffs(player &u, std::list<disease> &dVec)
+void martialart::apply_ongethit_buffs(player &u)
 {
-    simultaneous_add(u, ongethit_buffs, dVec);
+    simultaneous_add(u, ongethit_buffs);
 }
 
 
@@ -624,31 +625,31 @@ bool player::can_limb_block()
 // event handlers
 void player::ma_static_effects()
 {
-    martialarts[style_selected].apply_static_buffs(*this, illness);
+    martialarts[style_selected].apply_static_buffs(*this);
 }
 void player::ma_onmove_effects()
 {
-    martialarts[style_selected].apply_onmove_buffs(*this, illness);
+    martialarts[style_selected].apply_onmove_buffs(*this);
 }
 void player::ma_onhit_effects()
 {
-    martialarts[style_selected].apply_onhit_buffs(*this, illness);
+    martialarts[style_selected].apply_onhit_buffs(*this);
 }
 void player::ma_onattack_effects()
 {
-    martialarts[style_selected].apply_onattack_buffs(*this, illness);
+    martialarts[style_selected].apply_onattack_buffs(*this);
 }
 void player::ma_ondodge_effects()
 {
-    martialarts[style_selected].apply_ondodge_buffs(*this, illness);
+    martialarts[style_selected].apply_ondodge_buffs(*this);
 }
 void player::ma_onblock_effects()
 {
-    martialarts[style_selected].apply_onblock_buffs(*this, illness);
+    martialarts[style_selected].apply_onblock_buffs(*this);
 }
 void player::ma_ongethit_effects()
 {
-    martialarts[style_selected].apply_ongethit_buffs(*this, illness);
+    martialarts[style_selected].apply_ongethit_buffs(*this);
 }
 
 // bonuses

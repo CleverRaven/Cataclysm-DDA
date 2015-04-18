@@ -1080,6 +1080,7 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         void print_encumbrance(WINDOW *win, int min, int max, int line = -1);
 
     protected:
+        friend class ma_buff;
         std::list<disease> illness;
         // The player's position on the local map.
         point position;

@@ -120,7 +120,7 @@ class ma_buff
 
         // utility function so to prevent duplicate buff copies, we use this
         // instead of add_disease (since all buffs have the same distype)
-        void apply_buff(std::list<disease> &dVec);
+        void apply_buff( player &u );
 
         // given a player's state, does this bonus apply to him?
         bool is_valid_player(player &u);
@@ -215,19 +215,19 @@ class martialart
         martialart();
 
         // modifies a player's "current" stats with various types of bonuses
-        void apply_static_buffs(player &u, std::list<disease> &dVec);
+        void apply_static_buffs(player &u);
 
-        void apply_onmove_buffs(player &u, std::list<disease> &dVec);
+        void apply_onmove_buffs(player &u);
 
-        void apply_onhit_buffs(player &u, std::list<disease> &dVec);
+        void apply_onhit_buffs(player &u);
 
-        void apply_onattack_buffs(player &u, std::list<disease> &dVec);
+        void apply_onattack_buffs(player &u);
 
-        void apply_ondodge_buffs(player &u, std::list<disease> &dVec);
+        void apply_ondodge_buffs(player &u);
 
-        void apply_onblock_buffs(player &u, std::list<disease> &dVec);
+        void apply_onblock_buffs(player &u);
 
-        void apply_ongethit_buffs(player &u, std::list<disease> &dVec);
+        void apply_ongethit_buffs(player &u);
 
         // determines if a technique is valid or not for this style
         bool has_technique(player &u, matec_id tech);
