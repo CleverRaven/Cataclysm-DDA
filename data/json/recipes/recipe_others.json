@@ -932,6 +932,23 @@
   ]
 },{
   "type" : "recipe",
+  "result": "crude_firestarter",
+  "category": "CC_ELECTRONIC",
+  "subcategory": "CSC_ELECTRONIC_TOOLS",
+  "skill_used": "electronics",
+  "difficulty": 0,
+  "time": 5000,
+  "reversible": true,
+  "autolearn": true,
+  "qualities":[
+    {"id":"HAMMER","level":2,"amount":1}
+  ],
+  "components": [
+    [ [ "wire", 3 ], [ "cable", 30 ] ],
+    [ [ "scrap", 2 ] ]
+  ]
+},{
+  "type" : "recipe",
   "result": "knitting_needles",
   "category": "CC_OTHER",
   "subcategory": "CSC_OTHER_TOOLS",
