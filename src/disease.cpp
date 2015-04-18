@@ -37,15 +37,6 @@ void dis_effect(player &p, disease &dis)
 
     switch(disType) {
         case DI_MA_BUFF:
-            if (ma_buffs.find(dis.buff_id) != ma_buffs.end()) {
-              ma_buff b = ma_buffs[dis.buff_id];
-              if (b.is_valid_player(p)) {
-                b.apply_player(p);
-              }
-              else {
-                p.rem_disease(dis.type);
-              }
-            }
             break;
         default: // Other diseases don't have any effects. Suppress warning.
             break;

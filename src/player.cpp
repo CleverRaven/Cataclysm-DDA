@@ -5684,6 +5684,14 @@ void player::process_effects() {
 
 void player::hardcoded_effects(effect &it)
 {
+    if( auto buff = ma_buff::from_effect( it ) ) {
+        if( buff->is_valid_player( *this ) ) {
+            buff->apply_player( *this );
+        } else {
+            it.set_duration( 0 ); // removes the effect
+        }
+        return;
+    }
     std::string id = it.get_id();
     int dur = it.get_duration();
     int intense = it.get_intensity();
