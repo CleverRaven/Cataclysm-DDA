@@ -52,6 +52,7 @@
 #include "npc.h"
 #include "scenario.h"
 #include "mission.h"
+#include "compatibility.h"
 
 #include <map>
 #include <set>
@@ -4275,7 +4276,7 @@ void game::debug()
     case 26:
     {
         int time = std::atoi( string_input_popup( _("Set the time to? (One day is 19200)"), 
-                                                  20, std::to_string( (int)calendar::turn ) ).c_str() );
+                                                  20, to_string( (int)calendar::turn ) ).c_str() );
         if( time > 0 ) {
             calendar::turn = time;
         }
