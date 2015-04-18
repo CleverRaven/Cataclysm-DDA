@@ -5188,17 +5188,6 @@ void player::update_health(int base_threshold)
     Creature::update_health(base_threshold);
 }
 
-void player::rem_disease(dis_type type, body_part part)
-{
-    for (auto &next_illness : illness) {
-        if (next_illness.type == type && ( part == num_bp || next_illness.bp == part )) {
-            next_illness.duration = -1;
-        }
-    }
-
-    recalc_sight_limits();
-}
-
 void player::add_addiction(add_type type, int strength)
 {
     if (type == ADD_NULL) {
