@@ -594,12 +594,14 @@ void mdeath::jabberwock(monster *z)
 {
     player *ch = dynamic_cast<player*>( z->get_killer() );
     if (ch->is_player() && rl_dist( z->pos(), g->u.pos() ) <= 1  &&
-         ch->weapon.has_flag("JABBER")) {
-        if (g->u.sees(*z)) {
-            add_msg(m_info, _("As the flame in the %s's eyes die out, your weapon seems to shine slightly brighter."),
-                    z->name().c_str());
+         ch->weapon.has_flag("VORPAL")) {
+        if (!ch->weapon.techniques.count("VORPAL")) {
+            if (g->u.sees(*z)) {
+                add_msg(m_info, _("As the flame in the %s's eyes die out, your weapon seems to shine slightly brighter."),
+                        z->name().c_str());
+            }
+            ch->weapon.techniques.insert("VORPAL");
         }
-        ch->weapon.techniques.insert("VORPAL");
     }
     mdeath::normal(z);
 }

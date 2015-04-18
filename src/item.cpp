@@ -1162,6 +1162,16 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump, bool debug) c
             }
             tec_buffer << tec.name;
         }
+        for( const auto &elem : techniques ) {
+            const ma_technique &tec = ma_techniques[elem];
+            if (tec.name.empty()) {
+                continue;
+            }
+            if (!tec_buffer.str().empty()) {
+                tec_buffer << _(", ");
+            }
+            tec_buffer << tec.name;
+        }
         if (!tec_buffer.str().empty()) {
             dump->push_back(iteminfo("DESCRIPTION", std::string(_("Techniques: ")) + tec_buffer.str()));
         }

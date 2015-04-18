@@ -110,13 +110,13 @@
     },{
         "type" : "technique",
         "id" : "VORPAL",
-        "name" : "Vorpal blow",
+        "name" : "Vorpal Strike",
         "min_unarmed" : 0,
         "unarmed_allowed" : true,
         "melee_allowed" : true,
-        "cut_mult" : 999,
+        "cut_mult" : 99,
         "crit_tec" : true,
-        "weighting" : -100,
+        "weighting" : -250,
         "messages" : [
             "Snicker-snack! You behead %s",
             "Snicker-snack! <npcname> beheads %s"
