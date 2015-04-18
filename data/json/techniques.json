@@ -239,7 +239,7 @@
             "<npcname> throws a perfect counter at %s"
         ],
         "bash_mult" : 1.35,
-        "quick" : true,
+        "speed_mult" : 0.5,
         "stun_dur" : 2
     },{
         "type" : "technique",
@@ -1190,7 +1190,7 @@
       "cut_mult" : 1.1,
       "bash_mult" : 1.1,
       "//" : "Damage bonus plus Quick is severely powerful--generi-Quick takes a damage nerf.",
-      "quick" : true,
+      "speed_mult" : 0.5,
       "//" : "Minimum effective time for a status in combat is two turns, as you have one deducted on the same turn its applied.",
       "stun_dir" : 2
    },{
