@@ -6738,6 +6738,7 @@
     [
       [ "oil_cooker", 1 ]
     ]
+    ]
 },{
   "type" : "recipe",
   "result": "oil_cooker",
