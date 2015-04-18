@@ -4747,7 +4747,6 @@ dealt_damage_instance player::deal_damage(Creature* source, body_part bp, const 
         add_effect("adrenaline", 200);
     }
 
-    int cut_dam = dealt_dams.type_damage(DT_CUT);
     switch (bp) {
     case bp_eyes:
         if (dam > 5 || cut_dam > 0) {
