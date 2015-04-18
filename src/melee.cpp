@@ -1010,6 +1010,11 @@ matec_id player::pick_technique(Creature &t,
             continue;
         }
 
+        // If we have negative weighting then roll to see if it's valid this time
+        if (tec.weighting < 0 && !one_in(abs(tec.weighting))) {
+            continue;
+        }
+
         if (tec.is_valid_player(*this)) {
             possible.push_back(tec.id);
 
