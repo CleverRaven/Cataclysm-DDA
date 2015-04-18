@@ -5088,7 +5088,7 @@ int iuse::granade_act(player *, item *it, bool t, point pos)
         switch (effect_roll) {
             case 1:
                 sounds::sound(pos.x, pos.y, 100, _("BUGFIXES!!"));
-                g->draw_explosion(pos.x, pos.y, explosion_radius, c_ltcyan );
+                g->draw_explosion( tripoint( pos, g->get_levz() ), explosion_radius, c_ltcyan );
                 for (int i = -explosion_radius; i <= explosion_radius; i++) {
                     for (int j = -explosion_radius; j <= explosion_radius; j++) {
                         const int zid = g->mon_at(pos.x + i, pos.y + j);
@@ -5103,7 +5103,7 @@ int iuse::granade_act(player *, item *it, bool t, point pos)
 
             case 2:
                 sounds::sound(pos.x, pos.y, 100, _("BUFFS!!"));
-                g->draw_explosion( pos.x, pos.y, explosion_radius, c_green );
+                g->draw_explosion( tripoint( pos, g->get_levz() ), explosion_radius, c_green );
                 for (int i = -explosion_radius; i <= explosion_radius; i++) {
                     for (int j = -explosion_radius; j <= explosion_radius; j++) {
                         const int mon_hit = g->mon_at(pos.x + i, pos.y + j);
@@ -5137,7 +5137,7 @@ int iuse::granade_act(player *, item *it, bool t, point pos)
 
             case 3:
                 sounds::sound(pos.x, pos.y, 100, _("NERFS!!"));
-                g->draw_explosion(pos.x, pos.y, explosion_radius, c_red);
+                g->draw_explosion( tripoint( pos, g->get_levz() ), explosion_radius, c_red);
                 for (int i = -explosion_radius; i <= explosion_radius; i++) {
                     for (int j = -explosion_radius; j <= explosion_radius; j++) {
                         const int mon_hit = g->mon_at(pos.x + i, pos.y + j);
@@ -5170,7 +5170,7 @@ int iuse::granade_act(player *, item *it, bool t, point pos)
 
             case 4:
                 sounds::sound(pos.x, pos.y, 100, _("REVERTS!!"));
-                g->draw_explosion(pos.x, pos.y, explosion_radius, c_pink);
+                g->draw_explosion( tripoint( pos, g->get_levz() ), explosion_radius, c_pink);
                 for (int i = -explosion_radius; i <= explosion_radius; i++) {
                     for (int j = -explosion_radius; j <= explosion_radius; j++) {
                         const int mon_hit = g->mon_at(pos.x + i, pos.y + j);
@@ -5190,7 +5190,7 @@ int iuse::granade_act(player *, item *it, bool t, point pos)
                 break;
             case 5:
                 sounds::sound(pos.x, pos.y, 100, _("BEES!!"));
-                g->draw_explosion(pos.x, pos.y, explosion_radius, c_yellow);
+                g->draw_explosion( tripoint( pos, g->get_levz() ), explosion_radius, c_yellow);
                 for (int i = -explosion_radius; i <= explosion_radius; i++) {
                     for (int j = -explosion_radius; j <= explosion_radius; j++) {
                         if (one_in(5) && -1 == g->mon_at(pos.x + i, pos.y + j) &&
@@ -9193,8 +9193,8 @@ int iuse::remoteveh(player *p, item *it, bool t, point pos)
         return 0;
     }
 
-    int px = g->u.view_offset_x;
-    int py = g->u.view_offset_y;
+    int px = g->u.view_offset.x;
+    int py = g->u.view_offset.y;
 
     vehicle* veh = pickveh( pos, choice == 2 );
 
@@ -9219,8 +9219,8 @@ int iuse::remoteveh(player *p, item *it, bool t, point pos)
         return 0;
     }
 
-    g->u.view_offset_x = px;
-    g->u.view_offset_y = py;
+    g->u.view_offset.x = px;
+    g->u.view_offset.y = py;
     return it->type->charges_to_use();
 }
 

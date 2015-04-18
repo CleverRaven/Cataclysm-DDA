@@ -261,8 +261,8 @@ void editmap::uphelp (std::string txt1, std::string txt2, std::string title)
 
 point editmap::edit()
 {
-    target.x = g->u.posx() + g->u.view_offset_x;
-    target.y = g->u.posy() + g->u.view_offset_y;
+    target.x = g->u.posx() + g->u.view_offset.x;
+    target.y = g->u.posy() + g->u.view_offset.y;
     input_context ctxt("EDITMAP");
     ctxt.register_directions();
     ctxt.register_action("LEFT_WIDE");
@@ -388,7 +388,7 @@ void editmap::uber_draw_ter( WINDOW *w, map *m )
                     if( critter != nullptr ) {
                         critter->draw( w, center.x, center.y, false );
                     } else {
-                        m->drawsq(w, g->u, x, y, false, draw_itm, center.x, center.y, false, true);
+                        m->drawsq(w, g->u, tripoint( x, y, g->get_levz() ), false, draw_itm, center.x, center.y, false, true);
                     }
                     monster *m = dynamic_cast<monster*>( critter );
                     if( m != nullptr ) {
@@ -400,7 +400,7 @@ void editmap::uber_draw_ter( WINDOW *w, map *m )
                         }
                     }
                 } else {
-                    m->drawsq(w, g->u, x, y, false, draw_itm, center.x, center.y, false, true);
+                    m->drawsq(w, g->u, tripoint( x, y, g->get_levz() ), false, draw_itm, center.x, center.y, false, true);
                 }
             } else {
                 mvwputch(w, sy, sx, col, sym);
@@ -439,14 +439,14 @@ void editmap::update_view(bool update_info)
     if ( uberdraw ) {
         uber_draw_ter( g->w_terrain, &g->m ); // Bypassing the usual draw methods; not versatile enough
     } else {
-        g->draw_ter(target.x, target.y);      // But it's optional
+        g->draw_ter( tripoint( target.x, target.y, g->get_levz() ) ); // But it's optional
     }
 
     // update target point
     if( critter != nullptr ) {
         critter->draw( g->w_terrain, target.x, target.y, true );
     } else {
-        g->m.drawsq(g->w_terrain, g->u, target.x, target.y, true, true, target.x, target.y);
+        g->m.drawsq(g->w_terrain, g->u, tripoint( target, g->get_levz() ), true, true, target.x, target.y);
     }
 
     // hilight target_list points if blink=true (and if it's more than a point )
@@ -1274,7 +1274,7 @@ int editmap::edit_itm()
                             imenu.entries[imenu_width].txt = string_format("width: %d", (int)it->light.width);
                         }
                         werase(g->w_terrain);
-                        g->draw_ter(target.x, target.y);
+                        g->draw_ter( tripoint( target.x, target.y, g->get_levz() ) );
                     }
                     wrefresh(ilmenu.window);
                     wrefresh(imenu.window);
@@ -1618,7 +1618,7 @@ int editmap::mapgen_preview( real_coords &tc, uimenu &gmenu )
             tmpmap.reset_vehicle_cache();
             for(int x = 0; x < 24; x++) {
                 for(int y = 0; y < 24; y++) {
-                    tmpmap.drawsq(w_preview, g->u, x, y, false, true, 12, 12, false, true);
+                    tmpmap.drawsq(w_preview, g->u, tripoint( x, y, g->get_levz() ), false, true, 12, 12, false, true);
                 }
             }
             wrefresh(w_preview);

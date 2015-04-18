@@ -994,22 +994,19 @@ class map_item_stack
         class item_group
         {
             public:
-                int x;
-                int y;
+                tripoint pos;
                 int count;
 
                 //only expected to be used for things like lists and vectors
                 item_group()
                 {
-                    x = 0;
-                    y = 0;
+                    pos = tripoint( 0, 0, 0 );
                     count = 0;
                 }
 
-                item_group(const int arg_x, const int arg_y, const int arg_count)
+                item_group( const tripoint &p, const int arg_count )
                 {
-                    x = arg_x;
-                    y = arg_y;
+                    pos = p;
                     count = arg_count;
                 }
 
@@ -1027,18 +1024,18 @@ class map_item_stack
             totalcount = 0;
         }
 
-        map_item_stack(item *it, const int arg_x, const int arg_y)
+        map_item_stack( item *it, const tripoint &pos )
         {
             example = it;
-            vIG.push_back(item_group(arg_x, arg_y, 1));
+            vIG.push_back(item_group(pos, 1));
             totalcount = 1;
         }
 
         ~map_item_stack() {};
 
-        void addNewPos(const int arg_x, const int arg_y)
+        void addNewPos( const tripoint &pos )
         {
-            vIG.push_back(item_group(arg_x, arg_y, 1));
+            vIG.push_back(item_group(pos, 1));
             totalcount++;
         }
 

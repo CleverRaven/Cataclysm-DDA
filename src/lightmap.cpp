@@ -489,6 +489,20 @@ bool map::pl_sees( const int tx, const int ty, const int max_range )
     return seen_cache[tx][ty];
 }
 
+bool map::pl_sees( const tripoint &t, const int max_range )
+{
+    if( !inbounds( t ) ) {
+        return false;
+    }
+
+    if( max_range >= 0 && square_dist( t, g->u.pos3() ) > max_range ) {
+        return false;    // Out of range!
+    }
+
+    // TODO: FoV update
+    return seen_cache[t.x][t.y];
+}
+
 /**
  * Calculates the Field Of View for the provided map from the given x, y
  * coordinates. Returns a lightmap for a result where the values represent a

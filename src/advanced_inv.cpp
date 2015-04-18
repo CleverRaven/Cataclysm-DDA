@@ -2155,7 +2155,7 @@ void advanced_inventory::draw_minimap()
     // should the player be inverse?
     bool player_invert = false;
     // draw the 3x3 tiles centered around player
-    g->m.draw(minimap, point(g->u.posx(), g->u.posy()));
+    g->m.draw( minimap, g->u.pos3() );
     // get the positions of each pane, and show them
     for(auto &pane : panes) {
         // get reference to current pane's area struct

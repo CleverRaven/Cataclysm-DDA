@@ -75,6 +75,7 @@ public:
 };
 
 struct visibility_variables {
+    bool variables_set; // Is this struct initialized for current z-level
     // cached values for map visibility calculations
     int g_light_level;
     int natural_sight_range;
@@ -161,32 +162,35 @@ class map
      *
      * @param x, y The tile on this map to draw.
      */
-    lit_level apparent_light_at(int x, int y, const visibility_variables &cache);
+    lit_level apparent_light_at( const tripoint &p, const visibility_variables &cache );
     visibility_type get_visibility( const lit_level ll,
                                     const visibility_variables &cache ) const;
 
     bool apply_vision_effects( WINDOW *w, lit_level ll,
                                const visibility_variables &cache ) const;
 
- /** Draw a visible part of the map into `w`.
-  *
-  * This method uses `g->u.posx()/posy()` for visibility calculations, so it can
-  * not be used for anything but the player's viewport. Likewise, only
-  * `g->m` and maps with equivalent coordinates can be used, as other maps
-  * would have coordinate systems incompatible with `g->u.posx()`
-  *
-  * @param center The coordinate of the center of the viewport, this can
-  *               be different from the player coordinate.
-  */
- void draw(WINDOW* w, const point center);
+    /** Draw a visible part of the map into `w`.
+     *
+     * This method uses `g->u.posx()/posy()` for visibility calculations, so it can
+     * not be used for anything but the player's viewport. Likewise, only
+     * `g->m` and maps with equivalent coordinates can be used, as other maps
+     * would have coordinate systems incompatible with `g->u.posx()`
+     *
+     * @param center The coordinate of the center of the viewport, this can
+     *               be different from the player coordinate.
+     */
+    void draw( WINDOW* w, const tripoint &center );
 
  /** Draw the map tile at the given coordinate. Called by `map::draw()`.
   *
   * @param x, y The tile on this map to draw.
   * @param cx, cy The center of the viewport to be rendered, see `center` in `map::draw()`
   */
- void drawsq(WINDOW* w, player &u, const int x, const int y, const bool invert, const bool show_items,
+ void drawsq(WINDOW* w, player &u, const tripoint &p, const bool invert, const bool show_items,
              const int view_center_x = -1, const int view_center_y = -1,
+             const bool low_light = false, const bool bright_level = false, const bool inorder = false);
+ void drawsq(WINDOW* w, player &u, const tripoint &p, const bool invert, const bool show_items,
+             const tripoint &view_center,
              const bool low_light = false, const bool bright_level = false, const bool inorder = false);
 
     /**
@@ -1128,7 +1132,7 @@ private:
     int bash_rating_internal( const int str, const furn_t &furniture,
                               const ter_t &terrain, const vehicle *veh, const int part ) const;
 
- long determine_wall_corner(const int x, const int y) const;
+ long determine_wall_corner( const tripoint &p ) const;
  void cache_seen(const int fx, const int fy, const int tx, const int ty, const int max_range);
  // apply a circular light pattern immediately, however it's best to use...
  void apply_light_source(int x, int y, float luminance, bool trig_brightcalc);
@@ -1199,8 +1203,8 @@ private:
         std::vector< std::vector<tripoint> > traplocs;
 
   public:
-    void update_visibility_cache( visibility_variables &cache );
     lit_level visibility_cache[MAPSIZE*SEEX][MAPSIZE*SEEY];
+    void update_visibility_cache( visibility_variables &cache, int zlev );
 };
 
 std::vector<point> closest_points_first(int radius, point p);

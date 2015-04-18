@@ -2200,15 +2200,15 @@ void complete_vehicle ()
             // Need to call coord_translate() directly since it's a new part.
             veh->coord_translate(dx, dy, gx, gy);
             // Stash offset and set it to the location of the part so look_around will start there.
-            int px = g->u.view_offset_x;
-            int py = g->u.view_offset_y;
-            g->u.view_offset_x = veh->global_x() + gx - g->u.posx();
-            g->u.view_offset_y = veh->global_y() + gy - g->u.posy();
+            int px = g->u.view_offset.x;
+            int py = g->u.view_offset.y;
+            g->u.view_offset.x = veh->global_x() + gx - g->u.posx();
+            g->u.view_offset.y = veh->global_y() + gy - g->u.posy();
             popup(_("Choose a facing direction for the new headlight."));
             point headlight_target = g->look_around();
             // Restore previous view offsets.
-            g->u.view_offset_x = px;
-            g->u.view_offset_y = py;
+            g->u.view_offset.x = px;
+            g->u.view_offset.y = py;
 
             int delta_x = headlight_target.x - (veh->global_x() + gx);
             int delta_y = headlight_target.y - (veh->global_y() + gy);

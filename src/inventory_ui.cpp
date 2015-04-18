@@ -1028,18 +1028,22 @@ std::list<std::pair<int, int>> game::multidrop()
     return dropped_pos_and_qty;
 }
 
-void game::compare(int const iCompareX, int const iCompareY)
+void game::compare()
 {
-    int examx, examy;
+    tripoint dir;
+    int &dirx = dir.x;
+    int &diry = dir.y;
 
-    if (iCompareX != -999 && iCompareY != -999) {
-        examx = u.posx() + iCompareX;
-        examy = u.posy() + iCompareY;
-    } else if (!choose_adjacent(_("Compare where?"), examx, examy)) {
-        return;
+    if( choose_direction(_("Compare where?"), dirx, diry ) ) {
+        compare( tripoint( dirx, diry, 0 ) );
     }
+}
 
-    auto here = m.i_at(examx, examy);
+void game::compare( const tripoint &offset )
+{
+    const tripoint examp = u.pos3() + offset;
+
+    auto here = m.i_at( examp );
     typedef std::vector< std::list<item> > pseudo_inventory;
     pseudo_inventory grounditems;
     indexed_invslice grounditems_slice;
