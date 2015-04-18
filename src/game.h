@@ -363,14 +363,11 @@ class game
         void zoom_out();
 
         weather_generator weatherGen; //A weather engine.
-        bool has_generator = false;
-        unsigned int weatherSeed = 0;
         signed char temperature;              // The air temperature
         int get_temperature();    // Returns outdoor or indoor temperature of current location
         weather_type weather;   // Weather pattern--SEE weather.h
         bool lightning_active;
 
-        std::map<int, weather_segment> weather_log;
         map m;
 
         /**
