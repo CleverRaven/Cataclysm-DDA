@@ -6,6 +6,7 @@
 #include "output.h"
 #include "omdata.h"
 #include "game.h"
+#include "map.h"
 #include "catacharset.h"
 
 #include "json.h"

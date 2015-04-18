@@ -1,6 +1,7 @@
 #include "iuse_actor.h"
 #include "item.h"
 #include "game.h"
+#include "map.h"
 #include "monster.h"
 #include "overmapbuffer.h"
 #include "sounds.h"

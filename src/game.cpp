@@ -44,6 +44,7 @@
 #include "iuse_actor.h"
 #include "mutation.h"
 #include "mtype.h"
+#include "map.h"
 #include "overmap.h"
 #include "omdata.h"
 #include "crafting.h"
@@ -92,8 +93,10 @@ bool is_valid_in_w_terrain(int x, int y)
 
 // This is the main game set-up process.
 game::game() :
+    map_ptr( new map() ),
     new_game(false),
     uquit(QUIT_NO),
+    m( *map_ptr.get() ),
     w_terrain(NULL),
     w_overmap(NULL),
     w_omlegend(NULL),
@@ -7382,7 +7385,7 @@ void game::exam_vehicle(vehicle &veh, const tripoint &p, int cx, int cy)
     refresh_all();
 }
 
-bool game::forced_gate_closing( const tripoint &p, ter_id door_type, int bash_dmg )
+bool game::forced_gate_closing( const tripoint &p, const ter_id door_type, int bash_dmg )
 {
     // TODO: Z
     const int &x = p.x;
@@ -7487,7 +7490,7 @@ bool game::forced_gate_closing( const tripoint &p, ter_id door_type, int bash_dm
         }
     }
 
-    m.ter_set(x, y, door_type);
+    m.ter_set( x, y, door_type );
     if (m.has_flag("NOITEM", x, y)) {
         auto items = m.i_at(x, y);
         while (!items.empty()) {
@@ -7620,7 +7623,7 @@ void game::open_gate( const tripoint &p, const ter_id handle_type )
                             (m.ter(examx + wall_x + gate_x, examy + wall_y + gate_y) == floor_type)) {  //closing the gate...
                             close = true;
                             while (m.ter(cur_x, cur_y) == floor_type) {
-                                forced_gate_closing( tripoint( cur_x, cur_y, p.z ), door_type, bash_dmg);
+                                forced_gate_closing( tripoint( cur_x, cur_y, p.z ), door_type, bash_dmg );
                                 cur_x = cur_x + gate_x;
                                 cur_y = cur_y + gate_y;
                             }

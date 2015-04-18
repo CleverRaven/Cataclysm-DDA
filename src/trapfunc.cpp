@@ -1,4 +1,5 @@
 #include "game.h"
+#include "map.h"
 #include "trap.h"
 #include "rng.h"
 #include "monstergenerator.h"

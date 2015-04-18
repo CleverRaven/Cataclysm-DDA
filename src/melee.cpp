@@ -2,6 +2,7 @@
 #include "bionics.h"
 #include "debug.h"
 #include "game.h"
+#include "rng.h"
 #include "martialarts.h"
 #include "messages.h"
 #include "sounds.h"

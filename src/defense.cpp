@@ -1,5 +1,6 @@
 #include "gamemode.h"
 #include "game.h"
+#include "map.h"
 #include "itype.h"
 #include "mtype.h"
 #include "overmapbuffer.h"

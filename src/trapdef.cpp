@@ -1,6 +1,7 @@
 #include <vector>
 #include <memory>
 #include "game.h"
+#include "map.h"
 
 void trap::load( JsonObject &jo )
 {

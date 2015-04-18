@@ -2,6 +2,7 @@
 
 #include "auto_pickup.h"
 #include "game.h"
+#include "map.h"
 #include "messages.h"
 
 #include <map>

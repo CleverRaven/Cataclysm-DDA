@@ -1,6 +1,8 @@
 #include "mondeath.h"
 #include "monster.h"
 #include "game.h"
+#include "debug.h"
+#include "map.h"
 #include "rng.h"
 #include "line.h"
 #include "bodypart.h"

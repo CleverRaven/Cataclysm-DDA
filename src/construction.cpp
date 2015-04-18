@@ -1,6 +1,7 @@
 #include "construction.h"
 
 #include "game.h"
+#include "map.h"
 #include "output.h"
 #include "player.h"
 #include "inventory.h"

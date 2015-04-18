@@ -1,5 +1,6 @@
 #include "computer.h"
 #include "game.h"
+#include "map.h"
 #include "monster.h"
 #include "overmap.h"
 #include "output.h"

@@ -1,5 +1,6 @@
 #include "player.h"
 #include "game.h"
+#include "map.h"
 #include "rng.h"
 #include "input.h"
 #include "item.h"

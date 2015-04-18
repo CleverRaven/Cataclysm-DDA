@@ -1,6 +1,7 @@
 #ifndef MAPDATA_H
 #define MAPDATA_H
 
+#include "game_constants.h"
 #include "color.h"
 #include "item.h"
 #include "trap.h"
@@ -24,16 +25,6 @@
 
 class game;
 class monster;
-
-//More importantly: SEEX defines the size of a nonant, or grid. Same with SEEY.
-#ifndef SEEX    // SEEX is how far the player can see in the X direction (at
-#define SEEX 12 // least, without scrolling).  All map segments will need to be
-#endif          // at least this wide. The map therefore needs to be 3x as wide.
-
-#ifndef SEEY    // Same as SEEX
-#define SEEY 12 // Requires 2*SEEY+1= 25 vertical squares
-#endif          // Nuts to 80x24 terms. Mostly exists in graphical clients, and
-                // those fatcats can resize.
 
 // mfb(t_flag) converts a flag to a bit for insertion into a bitfield
 #ifndef mfb

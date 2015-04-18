@@ -1,6 +1,7 @@
 #include "activity_handlers.h"
 
 #include "game.h"
+#include "map.h"
 #include "player.h"
 #include "veh_interact.h"
 #include "debug.h"

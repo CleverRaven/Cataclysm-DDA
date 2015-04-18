@@ -6,6 +6,7 @@
 
 #include "cursesdef.h"
 #include "game.h"
+#include "rng.h"
 #include "color.h"
 #include "options.h"
 #include "debug.h"

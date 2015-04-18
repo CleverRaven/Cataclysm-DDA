@@ -6,6 +6,7 @@
 #include "output.h"
 #include "rng.h"
 #include "game.h"
+#include "name.h"
 #include "options.h"
 #include "catacharset.h"
 #include "debug.h"

@@ -1,5 +1,6 @@
 #include "mission.h"
 #include "game.h"
+#include "map.h"
 #include "name.h"
 #include <sstream>
 #include "omdata.h"

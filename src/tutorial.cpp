@@ -1,5 +1,6 @@
 #include "gamemode.h"
 #include "game.h"
+#include "map.h"
 #include "output.h"
 #include "action.h"
 #include "tutorial.h"

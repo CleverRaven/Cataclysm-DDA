@@ -1,5 +1,6 @@
 #include "iuse.h"
 #include "game.h"
+#include "map.h"
 #include "mapdata.h"
 #include "output.h"
 #include "debug.h"
