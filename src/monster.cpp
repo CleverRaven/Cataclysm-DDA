@@ -183,8 +183,9 @@ void monster::update_check(){
     int time_passed = current_day - last_loaded;
     add_msg(m_debug, "Time passed: %d", time_passed);
     //radioactive decay function
-    //Don't set a half-life more than 700 days otherwise some weridness may happen
-    float upgrade_chance =1000 * (1- pow(0.5 , (float(time_passed) / float(type->half_life )))) + type->base_upgrade_chance;
+    //Don't set a half-life more than 700 days otherwise some weirdness may happen
+    float elapsed_lives = float(time_passed) / float(type->half_life);
+    float upgrade_chance =1000 * (1- pow(std::max(0, 0.5 - type->base_upgrade_chance * elapsed_lives), elapsed_lives));
     add_msg(m_debug, "Upgrade chance: %f", upgrade_chance);
     if (upgrade_chance > rng(0, 999)){
         const auto monsters = MonsterGroupManager::GetMonstersFromGroup(type->upgrade_group);

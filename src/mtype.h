@@ -229,10 +229,10 @@ struct mtype {
         // Note that this can be anything, and is not necessarily beneficial to the monster
         mon_action_defend sp_defense;
 
-        int upgrade_min;//upgrade time in days * season factor
-        int half_life;  //radioactive function-one half-life is a 50% chance of upgrading
-        //base upgrade chance so that monsters we don't want upgrading right away i.e spores we can set to 0
-        //and zombies that were present at the beginning of the game can upgrade apon load
+        int upgrade_min; // First day upon which this monster can upgrade
+        int half_life;  // Radioactive decay based upgrade chance half life length
+        // Modifier of the chance of upgrading per half life, i.e. 10 would mean an additional 10% chance to upgrade per half life,
+        // or -10 would mean a -10% chance to upgrade per half life.
         float base_upgrade_chance;
         std::string upgrade_group;
 
