@@ -566,8 +566,6 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         std::list<item *> get_radio_items();
         /** Returns the duration of the entered disease's timer */
         int  disease_duration(dis_type type, bool all = false, body_part part = num_bp) const;
-        /** Returns the intensity level of the entered disease */
-        int  disease_intensity(dis_type type, bool all = false, body_part part = num_bp) const;
 
         /** Adds an addiction to the player */
         void add_addiction(add_type type, int strength);

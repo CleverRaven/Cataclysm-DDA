@@ -5214,21 +5214,6 @@ int player::disease_duration(dis_type type, bool all, body_part part) const
     return tmp;
 }
 
-int player::disease_intensity(dis_type type, bool all, body_part part) const
-{
-    int tmp = 0;
-    for (auto &i : illness) {
-        if (i.type == type && (part ==  num_bp || i.bp == part)) {
-            if (all == false) {
-                return i.intensity;
-            } else {
-                tmp += i.intensity;
-            }
-        }
-    }
-    return tmp;
-}
-
 void player::add_addiction(add_type type, int strength)
 {
     if (type == ADD_NULL) {
