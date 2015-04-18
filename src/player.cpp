@@ -5188,61 +5188,6 @@ void player::update_health(int base_threshold)
     Creature::update_health(base_threshold);
 }
 
-void player::add_disease(dis_type type, int duration, bool permanent,
-                         int intensity, int max_intensity, int decay,
-                         int additive, body_part part, bool main_parts_only)
-{
-    if (duration <= 0) {
-        return;
-    }
-
-    if (part != num_bp && hp_cur[player::bp_to_hp(part)] == 0) {
-        return;
-    }
-
-    if (main_parts_only) {
-        part = mutate_to_main_part(part);
-    }
-
-    bool found = false;
-    for (auto &i : illness) {
-        if (i.type == type) {
-            if ((part == num_bp) ^ (i.bp == num_bp)) {
-                debugmsg("Bodypart missmatch when applying disease %s",
-                         type.c_str());
-                return;
-            }
-            if (i.bp == part) {
-                if (additive > 0) {
-                    i.duration += duration;
-                } else if (additive < 0) {
-                    i.duration -= duration;
-                    if (i.duration <= 0) {
-                        i.duration = 1;
-                    }
-                }
-                i.intensity += intensity;
-                if (max_intensity != -1 && i.intensity > max_intensity) {
-                    i.intensity = max_intensity;
-                }
-                if (permanent) {
-                    i.permanent = true;
-                }
-                i.decay = decay;
-                found = true;
-                // Found it, so no need to keep checking
-                break;
-            }
-        }
-    }
-    if (!found) {
-        disease tmp(type, duration, intensity, part, permanent, decay);
-        illness.push_back(tmp);
-    }
-
-    recalc_sight_limits();
-}
-
 void player::rem_disease(dis_type type, body_part part)
 {
     for (auto &next_illness : illness) {

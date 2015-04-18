@@ -560,13 +560,6 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         void get_sick();
         /** Handles health fluctuations over time, redirects into Creature::update_health */
         void update_health(int base_threshold = 0) override;
-        /** Adds a disease without save chance
-         *  body_part = num_bp indicates that the disease is body part independant
-         *  intensity = -1 indicates that the disease is infinitely stacking */
-        void add_disease(dis_type type, int duration, bool permanent = false,
-                         int intensity = 1, int max_intensity = 1, int decay = 0,
-                         int additive = 1, body_part part = num_bp,
-                         bool main_parts_only = false);
         /** Removes a disease from a player */
         void rem_disease(dis_type type, body_part part = num_bp);
         /** Returns list of rc items in player inventory. **/
