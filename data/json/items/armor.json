@@ -5525,11 +5525,7 @@
         "bashing" : -3,
         "flags" : ["WATER_FRIENDLY","LENS"],
         "coverage" : 75,
-        "material_thickness" : 1,
-        "use_action": {
-            "type": "extended_firestarter",
-            "need_sunlight": true
-        }
+        "material_thickness" : 1
     },
     {
         "type" : "ARMOR",
@@ -5554,7 +5550,11 @@
         "bashing" : -3,
         "flags" : ["WATER_FRIENDLY"],
         "coverage" : 75,
-        "material_thickness" : 1
+        "material_thickness" : 1,
+        "use_action": {
+            "type": "extended_firestarter",
+            "need_sunlight": true
+        }
     },
     {
         "type" : "ARMOR",
