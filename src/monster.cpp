@@ -35,6 +35,7 @@ monster::monster()
  friendly = 0;
  anger = 0;
  morale = 2;
+ last_loaded = 0;
  faction = MonsterGenerator::generator().faction_by_name( "" );
  mission_id = -1;
  no_extra_death_drops = false;
@@ -162,6 +163,37 @@ void monster::poly(mtype *t)
     faction = t->default_faction;
 }
 
+void monster::update_check(){
+    if (type->upgrade_group == "NULL"){
+        return;
+    }
+    int current_day = calendar::turn.get_turn()/ DAYS(1);
+    int upgrade_time = type->upgrade_min * ACTIVE_WORLD_OPTIONS["MONSTER_GROUP_DIFFICULTY"];
+    //g->u.add_msg_if_player(m_debug, "Upgrade group: %s ", type->upgrade_group);
+    add_msg(m_debug, "Current:day: %d", current_day);
+    add_msg(m_debug, "Upgrade time : %d", upgrade_time);
+    add_msg(m_debug, "Last loaded: %d", last_loaded);
+
+    if (current_day == last_loaded || last_loaded < upgrade_time){
+        add_msg(m_debug, "Upgrade time less");
+        last_loaded = current_day;
+        return;
+    }
+
+    int time_passed = current_day - last_loaded;
+    add_msg(m_debug, "Time passed: %d", time_passed);
+    //radioactive decay function
+    //Don't set a half-life more than 700 days otherwise some weridness may happen
+    float upgrade_chance =1000 * (1- pow(0.5 , (float(time_passed) / float(type->half_life )))) + type->base_upgrade_chance;
+    add_msg(m_debug, "Upgrade chance: %f", upgrade_chance);
+    if (upgrade_chance > rng(0, 999)){
+        const auto monsters = MonsterGroupManager::GetMonstersFromGroup(type->upgrade_group);
+        const std::string newtype = monsters[rng(0, monsters.size() - 1)];
+        poly(GetMType(newtype));
+    }
+
+    last_loaded = current_day;
+}
 void monster::spawn(int x, int y)
 {
     spawn( x, y, g->get_levz() );

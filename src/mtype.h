@@ -229,6 +229,13 @@ struct mtype {
         // Note that this can be anything, and is not necessarily beneficial to the monster
         mon_action_defend sp_defense;
 
+        int upgrade_min;//upgrade time in days * season factor
+        int half_life;  //radioactive function-one half-life is a 50% chance of upgrading
+        //base upgrade chance so that monsters we don't want upgrading right away i.e spores we can set to 0
+        //and zombies that were present at the beginning of the game can upgrade apon load
+        float base_upgrade_chance;
+        std::string upgrade_group;
+
         // Default constructor
         mtype ();
         /**
