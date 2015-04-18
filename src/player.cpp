@@ -1239,8 +1239,8 @@ void player::update_bodytemp()
             // Spread the morale bonus in time.
             int mytime = MINUTES( i ) / MINUTES( num_bp );
             if( calendar::turn % MINUTES( 1 ) == mytime &&
-                disease_intensity( "cold", false, (body_part)num_bp ) == 0 &&
-                disease_intensity( "hot", false, (body_part)num_bp ) == 0 &&
+                get_effect_int( "cold", (body_part)num_bp ) == 0 &&
+                get_effect_int( "hot", (body_part)num_bp ) == 0 &&
                 temp_cur[i] > BODYTEMP_COLD && temp_cur[i] <= BODYTEMP_NORM ) {
                 add_morale( MORALE_COMFY, 1, 5, 20, 10, true );
             }
