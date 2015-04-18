@@ -5188,28 +5188,6 @@ void player::update_health(int base_threshold)
     Creature::update_health(base_threshold);
 }
 
-bool player::infect(dis_type type, body_part vector, int strength,
-                     int duration, bool permanent, int intensity,
-                     int max_intensity, int decay, int additive, bool targeted,
-                     bool main_parts_only)
-{
-    if (strength <= 0) {
-        return false;
-    }
-
-    if (dice(strength, 3) > dice(get_env_resist(vector), 3)) {
-        if (targeted) {
-            add_disease(type, duration, permanent, intensity, max_intensity, decay,
-                          additive, vector, main_parts_only);
-        } else {
-            add_disease(type, duration, permanent, intensity, max_intensity, decay, additive);
-        }
-        return true;
-    }
-
-    return false;
-}
-
 void player::add_disease(dis_type type, int duration, bool permanent,
                          int intensity, int max_intensity, int decay,
                          int additive, body_part part, bool main_parts_only)

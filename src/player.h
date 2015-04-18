@@ -560,11 +560,6 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         void get_sick();
         /** Handles health fluctuations over time, redirects into Creature::update_health */
         void update_health(int base_threshold = 0) override;
-        /** Checks against env_resist of the players armor, if they fail then they become infected with the disease */
-        bool infect(dis_type type, body_part vector, int strength,
-                    int duration, bool permanent = false, int intensity = 1,
-                    int max_intensity = 1, int decay = 0, int additive = 1,
-                    bool targeted = false, bool main_parts_only = false);
         /** Adds a disease without save chance
          *  body_part = num_bp indicates that the disease is body part independant
          *  intensity = -1 indicates that the disease is infinitely stacking */
