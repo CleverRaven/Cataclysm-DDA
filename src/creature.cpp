@@ -694,6 +694,14 @@ void Creature::deal_damage_handle_type(const damage_unit &du, body_part, int &da
         pain += adjusted_damage / 6;
         mod_moves(-adjusted_damage * 80);
         break;
+    case DT_ACID: // ACIDPROOF people don't take acid damage and acid burns are super painful 
+        damage += adjusted_damage;
+        pain += adjusted_damage / 3;
+        if( has_trait ("ACIDPROOF") ) {
+            damage = 0;
+            pain = 0;
+        }
+        break;
     default:
         damage += adjusted_damage;
         pain += adjusted_damage / 4;

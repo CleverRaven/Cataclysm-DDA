@@ -1717,7 +1717,7 @@ void mattack::dermatik(monster *z, int index)
     //~ 1$s monster name(dermatic), 2$s bodypart name in accusative.
     foe->add_msg_if_player( m_bad, _("The %1$s sinks its ovipositor into your %2$s!"), z->name().c_str(),
                             body_part_name_accusative(targeted).c_str());
-    if( !foe->has_trait("PARAIMMUNE")) {
+    if ( !foe->has_trait("PARAIMMUNE") || !foe->has_trait("ACIDBLOOD") ) {
         foe->add_effect("dermatik", 1, targeted, true);
         foe->add_memorial_log(pgettext("memorial_male", "Injected with dermatik eggs."),
                               pgettext("memorial_female", "Injected with dermatik eggs."));
