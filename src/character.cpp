@@ -10,6 +10,14 @@ Character::Character()
 
 field_id Character::bloodType() const
 {
+    if (has_trait("ACIDBLOOD"))
+        return fd_acid;
+    if (has_trait("THRESH_PLANT"))
+        return fd_blood_veggy;
+    if (has_trait("THRESH_INSECT") || has_trait("THRESH_SPIDER"))
+        return fd_blood_insect;
+    if (has_trait("THRESH_CEPHALOPOD"))
+        return fd_blood_invertebrate;
     return fd_blood;
 }
 field_id Character::gibType() const

@@ -45,6 +45,19 @@ struct oter_weight_list {
         total_weight += weight;
     }
 
+    void add_or_replace_item(std::string id, int weight) {
+        for(size_t i=0; i<items.size(); i++) {
+            if(items[i].ot_sid == id) {
+                total_weight += (weight - items[i].weight);
+                items[i].weight = weight;
+                return;
+            }
+        }
+
+        // if not found, add to end of list
+        add_item(id, weight);
+    }
+
     void setup() { // populate iid's for faster generation and sanity check.
         for(std::vector<oter_weight>::iterator item_it = items.begin();
             item_it != items.end(); ++item_it ) {
@@ -165,7 +178,7 @@ struct regional_settings {
 
     id_or_id    default_groundcover; // ie, 'grass_or_dirt'
     sid_or_sid *default_groundcover_str = nullptr;
-   
+
     int num_forests           = 250;  // amount of forest groupings per overmap
     int forest_size_min       = 15;   // size range of a forest group
     int forest_size_max       = 40;   // size range of a forest group
@@ -173,11 +186,11 @@ struct regional_settings {
     int swamp_maxsize         = 4;    // SWAMPINESS: Affects the size of a swamp
     int swamp_river_influence = 5;    // voodoo number limiting spread of river through swamp
     int swamp_spread_chance   = 8500; // SWAMPCHANCE: (one in, every forest*forest size) chance of swamp extending past forest
-   
+
     city_settings     city_spec;      // put what where in a city of what kind
     groundcover_extra field_coverage;
     groundcover_extra forest_coverage;
-   
+
     regional_settings() : id("null"), default_oter("field"), default_groundcover(0, 0, 0) { }
     void setup();
 };
@@ -474,12 +487,16 @@ public:
 extern std::unordered_map<std::string,oter_t> otermap;
 extern std::vector<oter_t> oterlist;
 //extern const regional_settings default_region_settings;
-extern std::unordered_map<std::string, regional_settings> region_settings_map;
+typedef std::unordered_map<std::string, regional_settings> t_regional_settings_map;
+typedef t_regional_settings_map::const_iterator t_regional_settings_map_citr;
+extern t_regional_settings_map region_settings_map;
 
 void load_overmap_terrain(JsonObject &jo);
 void reset_overmap_terrain();
 void load_region_settings(JsonObject &jo);
 void reset_region_settings();
+void load_region_overlay(JsonObject &jo);
+void apply_region_overlay(JsonObject &jo, regional_settings &region);
 
 void finalize_overmap_terrain();
 

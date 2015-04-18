@@ -2315,4 +2315,99 @@ void npc_chatbin::add_new_mission( mission *miss )
     missions.push_back( miss );
 }
 
+epilogue::epilogue()
+{
+    id = "NONE";
+    group = "NONE";
+    is_unique = false;
+    lines.push_back("                                                                            ");
+    lines.push_back("                                                                            ");
+    lines.push_back("                                                                            ");
+    lines.push_back("                                                                            ");
+    lines.push_back("                                                                            ");
+    lines.push_back("                                                                            ");
+    lines.push_back("           ###### #### ####   ######    ####    ###   #### ######           ");
+    lines.push_back("            ##  #  ##   ##     ##  #     ##    ## ## ##  # # ## #           ");
+    lines.push_back("            ####   ##   ##     ####      ##    ## ## ####    ##             ");
+    lines.push_back("            ##     ##   ##     ##        ##    ## ##   ###   ##             ");
+    lines.push_back("            ##     ##   ## ##  ## ##     ## ## ## ## #  ##   ##             ");
+    lines.push_back("           ####   #### ###### ######    ######  ###  ####   ####            ");
+    lines.push_back("                                                                            ");
+    lines.push_back("                                                                            ");
+    lines.push_back("                                                                            ");
+    lines.push_back("                                                                            ");
+    lines.push_back("                                                                            ");
+    lines.push_back("                                                                            ");
+    lines.push_back("                                                                            ");
+    lines.push_back("                                                                            ");
+}
+
+epilogue_map epilogue::_all_epilogue;
+
+void epilogue::load_epilogue(JsonObject &jsobj)
+{
+    epilogue base;
+    base.id = jsobj.get_string("id");
+    base.group = jsobj.get_string("group");
+    base.is_unique = jsobj.get_bool("unique", false);
+    base.lines.clear();
+    base.lines.push_back(jsobj.get_string("line_01"));
+    base.lines.push_back(jsobj.get_string("line_02"));
+    base.lines.push_back(jsobj.get_string("line_03"));
+    base.lines.push_back(jsobj.get_string("line_04"));
+    base.lines.push_back(jsobj.get_string("line_05"));
+    base.lines.push_back(jsobj.get_string("line_06"));
+    base.lines.push_back(jsobj.get_string("line_07"));
+    base.lines.push_back(jsobj.get_string("line_08"));
+    base.lines.push_back(jsobj.get_string("line_09"));
+    base.lines.push_back(jsobj.get_string("line_10"));
+    base.lines.push_back(jsobj.get_string("line_11"));
+    base.lines.push_back(jsobj.get_string("line_12"));
+    base.lines.push_back(jsobj.get_string("line_13"));
+    base.lines.push_back(jsobj.get_string("line_14"));
+    base.lines.push_back(jsobj.get_string("line_15"));
+    base.lines.push_back(jsobj.get_string("line_16"));
+    base.lines.push_back(jsobj.get_string("line_17"));
+    base.lines.push_back(jsobj.get_string("line_18"));
+    base.lines.push_back(jsobj.get_string("line_19"));
+    base.lines.push_back(jsobj.get_string("line_20"));
+    _all_epilogue[base.id] = base;
+}
+
+epilogue* epilogue::find_epilogue(std::string ident)
+{
+    epilogue_map::iterator found = _all_epilogue.find(ident);
+    if (found != _all_epilogue.end()){
+        return &(found->second);
+    } else {
+        debugmsg("Tried to get invalid epilogue template: %s", ident.c_str());
+        static epilogue null_epilogue;
+    return &null_epilogue;
+    }
+}
+
+void epilogue::random_by_group(std::string group, std::string name)
+{
+    std::vector<epilogue> v;
+    for( auto epi : _all_epilogue ) {
+        if (epi.second.group == group){
+            v.push_back( epi.second );
+        }
+    }
+    if (v.size() == 0)
+        return;
+    epilogue epi = v.at(rng(0,v.size()-1));
+    id = epi.id;
+    group = epi.group;
+    is_unique = epi.is_unique;
+    lines.clear();
+    lines = epi.lines;
+    for( auto &ln : lines ) {
+        if (!ln.empty() && ln[0]=='*'){
+            ln.replace(0,name.size(),name);
+        }
+    }
+
+}
+
 const tripoint npc::no_goal_point(INT_MIN, INT_MIN, INT_MIN);

@@ -442,6 +442,16 @@ void Item_factory::check_definitions() const
                 msg << string_format("invalid tool property %s", comest->tool.c_str()) << "\n";
             }
         }
+        if( type->seed ) {
+            if( !has_template( type->seed->fruit_id ) ) {
+                msg << string_format( "invalid fruit id %s", type->seed->fruit_id.c_str() ) << "\n";
+            }
+            for( auto & b : type->seed->byproducts ) {
+                if( !has_template( b ) ) {
+                    msg << string_format( "invalid byproduct id %s", b.c_str() ) << "\n";
+                }
+            }
+        }
         if( type->ammo ) {
             check_ammo_type( msg, type->ammo->type );
             if( type->ammo->casing != "NULL" && !has_template( type->ammo->casing ) ) {
@@ -594,9 +604,7 @@ void Item_factory::load( islot_gun &slot, JsonObject &jo )
 {
     slot.ammo = jo.get_string( "ammo" );
     slot.skill_used = Skill::skill( jo.get_string( "skill" ) );
-    // TODO: implement loading this from json (think of a proper name)
-    // Or calculate it automatically, see item::noise and ranged.cpp
-    // slot.loudness = jo.get_string( "loudness", 0 );
+    slot.loudness = jo.get_int( "loudness", 0 );
     slot.damage = jo.get_int( "ranged_damage", 0 );
     slot.range = jo.get_int( "range", 0 );
     slot.dispersion = jo.get_int( "dispersion" );
@@ -770,6 +778,9 @@ void Item_factory::load( islot_seed &slot, JsonObject &jo )
 {
     slot.grow = jo.get_int( "grow" );
     slot.plant_name = _( jo.get_string( "plant_name" ).c_str() );
+    slot.fruit_id = jo.get_string( "fruit" );
+    slot.spawn_seeds = jo.get_bool( "seeds", true );
+    slot.byproducts = jo.get_string_array( "byproducts" );
 }
 
 void Item_factory::load( islot_container &slot, JsonObject &jo )

@@ -102,13 +102,6 @@ void snow       (); //!< Currently snow has no additional effects.
 void snowstorm  (); //!< Currently snowstorms have no additional effects.
 } //namespace weather_effect
 
-// All the weather conditions at some time
-struct weather_segment {
-    signed char temperature;
-    weather_type weather;
-    calendar deadline;
-};
-
 struct weather_datum {
     std::string name;       //!< UI name of weather type.
     nc_color color;         //!< UI color of weather type.

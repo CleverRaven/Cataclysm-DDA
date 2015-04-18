@@ -488,8 +488,10 @@ struct npc_chatbin : public JsonSerializer, public JsonDeserializer
 };
 
 class npc;
+struct epilogue;
 
 typedef std::map<std::string, npc> npc_map;
+typedef std::map<std::string, epilogue> epilogue_map;
 
 class npc : public player
 {
@@ -784,4 +786,19 @@ private:
     bool could_move_onto( point p ) const;
 };
 
+struct epilogue {
+    epilogue();
+
+    std::string id; //Unique name for declaring an ending for a given individual
+    std::string group; //Male/female (dog/cyborg/mutant... whatever you want)
+    bool is_unique; //If true, will not occur in random endings
+    //The lines you with to draw
+    std::vector<std::string> lines;
+
+    static epilogue_map _all_epilogue;
+
+    static void load_epilogue(JsonObject &jsobj);
+    epilogue* find_epilogue(std::string ident);
+    void random_by_group(std::string group, std::string name);
+};
 #endif

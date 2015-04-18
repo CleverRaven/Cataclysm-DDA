@@ -438,7 +438,7 @@ class wish_item_callback: public uimenu_callback
         }
 };
 
-void game::wishitem( player *p, int x, int y)
+void game::wishitem( player *p, int x, int y, int z)
 {
     if ( p == NULL && x <= 0 ) {
         debugmsg("game::wishitem(): invalid parameters");
@@ -481,7 +481,7 @@ void game::wishitem( player *p, int x, int y)
                 }
                 p->invalidate_crafting_inventory();
             } else if ( x >= 0 && y >= 0 ) {
-                m.add_item_or_charges(x, y, granted);
+                m.add_item_or_charges( tripoint( x, y, z ), granted);
                 wmenu.keypress = 'q';
             }
             if ( amount > 0 ) {
