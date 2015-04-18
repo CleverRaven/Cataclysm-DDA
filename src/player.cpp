@@ -5199,21 +5199,6 @@ void player::rem_disease(dis_type type, body_part part)
     recalc_sight_limits();
 }
 
-int player::disease_duration(dis_type type, bool all, body_part part) const
-{
-    int tmp = 0;
-    for (auto &i : illness) {
-        if (i.type == type && (part ==  num_bp || i.bp == part)) {
-            if (all == false) {
-                return i.duration;
-            } else {
-                tmp += i.duration;
-            }
-        }
-    }
-    return tmp;
-}
-
 void player::add_addiction(add_type type, int strength)
 {
     if (type == ADD_NULL) {
