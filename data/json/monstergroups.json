@@ -498,7 +498,7 @@
       { "monster" : "mon_zombie_hazmat", "freq" : 10, "cost_multiplier" : 3 },
       { "monster" : "mon_zombie_fireman", "freq" : 10, "cost_multiplier" : 2 },
       { "monster" : "mon_zombie_grabber", "freq" : 30, "cost_multiplier" : 5 },
-      { "monster" : "mon_zombie_hunter", "freq" : 20, "cost_multiplier" : 5 },
+      { "monster" : "mon_zombie_hunter", "freq" : 10, "cost_multiplier" : 5 },
       { "monster" : "mon_skeleton", "freq" : 30, "cost_multiplier" : 5 },
       { "monster" : "mon_zombie_smoker", "freq" : 10, "cost_multiplier" : 5 },
       { "monster" : "mon_zombie_gasbag", "freq" : 10, "cost_multiplier": 5},
@@ -515,7 +515,9 @@
       { "monster" : "mon_zombie_master", "freq" : 1, "cost_multiplier" : 30 },
       { "monster" : "mon_beekeeper", "freq" : 1, "cost_multiplier" : 5 },
       { "monster" : "mon_zombie_technician", "freq" : 1, "cost_multiplier" : 12},
-      { "monster" : "mon_zombie_brute_shocker", "freq" : 5, "cost_multiplier" : 40 }
+      { "monster" : "mon_zombie_brute_shocker", "freq" : 5, "cost_multiplier" : 40 },
+      { "monster" : "mon_zombie_runner", "freq" : 20, "cost_multiplier" : 5 }
+      
     ],
     "replace_monster_group" : true,
     "new_monster_group_id" : "GROUP_ZOMBIE_MID",
@@ -1219,7 +1221,24 @@
       { "monster" : "mon_zombie_brute", "freq" : 15, "cost_multiplier" : 15 },
       { "monster" : "mon_zombie_hulk", "freq" : 1, "cost_multiplier" : 50 },
       { "monster" : "mon_zombie_master", "freq" : 1, "cost_multiplier" : 30 },
-      { "monster" : "mon_zombie_hollow", "freq" : 2, "cost_multiplier" : 10 }
+      { "monster" : "mon_zombie_hollow", "freq" : 2, "cost_multiplier" : 10 },
+      { "monster" : "mon_zombie_predator", "freq" : 5, "cost_multiplier" : 10 }
+    ]
+  },{
+    "type":"monstergroup",
+    "name" : "GROUP_FERAL_HUNTER",
+    "default" : "mon_null",
+    "//" : "Masters pick from here when upgrading; no dogs, bionics, or profession-types",
+    "monsters" : [
+      { "monster" : "mon_zombie_hunter", "freq" : 20, "cost_multiplier" : 5 }
+    ]
+  },{
+    "type":"monstergroup",
+    "name" : "GROUP_FERAL_PREDATOR",
+    "default" : "mon_null",
+    "//" : "Masters pick from here when upgrading; no dogs, bionics, or profession-types",
+    "monsters" : [
+      { "monster" : "mon_zombie_predator", "freq" : 20, "cost_multiplier" : 5 }
     ]
   },{
     "type":"monstergroup",
@@ -1368,7 +1387,8 @@
       { "monster" : "mon_beekeeper", "freq" : 5, "cost_multiplier" : 1 },
       { "monster" : "mon_zombie_technician", "freq" : 10, "cost_multiplier" : 6},
       { "monster" : "mon_zombie_brute_shocker", "freq" : 10, "cost_multiplier" : 20 },
-      { "monster" : "mon_zombie_hollow", "freq" : 2, "cost_multiplier" : 5 }
+      { "monster" : "mon_zombie_hollow", "freq" : 2, "cost_multiplier" : 5 },
+      { "monster" : "mon_zombie_predator", "freq" : 5, "cost_multiplier" : 10 }
     ]
   }
 ]
