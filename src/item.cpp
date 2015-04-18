@@ -350,6 +350,9 @@ bool item::stacks_with( const item &rhs ) const
     if( item_tags != rhs.item_tags ) {
         return false;
     }
+    if( techniques != rhs.techniques ) {
+        return false;
+    }
     if( item_vars != rhs.item_vars ) {
         return false;
     }
@@ -3720,7 +3723,7 @@ int item::pick_reload_ammo( const player &u, bool interactive )
     if( amenu.ret < 0 || amenu.ret >= ( int )ammo_list.size() ) {
         // invalid selection / escaped from the menu
         return INT_MIN + 2;
-    }    
+    }
     const auto &selected = ammo_list[ amenu.ret ];
     uistate.lastreload[ ammo_type() ] = std::get<0>( selected )->id;
     return std::get<1>( selected );

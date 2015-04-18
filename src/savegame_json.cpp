@@ -301,19 +301,19 @@ void player::load(JsonObject &data)
         const std::string t = pmap.get_string("trap");
         known_traps.insert(trap_map::value_type(p, t));
     }
-    
+
     // Add the earplugs.
     if (has_bionic("bio_ears") && !has_bionic("bio_earplugs")) {
         add_bionic("bio_earplugs");
     }
-    
+
 }
 
 /*
  * Variables common to player (and npc's, should eventually just be players)
  */
 void player::store(JsonOut &json) const
-{   
+{
     Character::store( json );
 
     // assumes already in player object
@@ -1194,12 +1194,14 @@ void item::deserialize(JsonObject &data)
         // There was a bug that set all comestibles active, this reverses that.
         active = false;
     }
+
+    data.read("techniques", techniques);
     // We need item tags here to make sure HOT/COLD food is active
     // and bugged WET towels get reactivated
     data.read("item_tags", item_tags);
 
-    if( !active && 
-        (item_tags.count( "HOT" ) > 0 || item_tags.count( "COLD" ) > 0 || 
+    if( !active &&
+        (item_tags.count( "HOT" ) > 0 || item_tags.count( "COLD" ) > 0 ||
          item_tags.count( "WET" ) > 0) ) {
         // Some hot/cold items from legacy saves may be inactive
         active = true;
@@ -1296,6 +1298,10 @@ void item::serialize(JsonOut &json, bool save_contents) const
     }
     if ( mission_id != -1 ) {
         json.member( "mission_id", mission_id );
+    }
+
+    if ( ! techniques.empty() ) {
+        json.member( "techniques", techniques );
     }
 
     if ( ! item_tags.empty() ) {

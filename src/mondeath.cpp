@@ -599,7 +599,7 @@ void mdeath::jabberwock(monster *z)
             add_msg(m_info, _("As the flame in the %s's eyes die out, your weapon seems to shine slightly brighter."),
                     z->name().c_str());
         }
-        ch->weapon.item_tags.insert("vorpal");
+        ch->weapon.techniques.insert("VORPAL");
     }
     mdeath::normal(z);
 }
