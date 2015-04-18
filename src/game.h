@@ -530,11 +530,7 @@ class game
         void init_npctalk();
         void init_fields();
         void init_morale();
-        void init_skills();
-        void init_professions();
         void init_faction_data();
-        void init_mongroups();    // Initializes monster groups
-        void init_construction(); // Initializes construction "recipes"
         void init_autosave();     // Initializes autosave parameters
         void init_savedata_translation_tables();
         void init_lua();          // Initializes lua interpreter.
