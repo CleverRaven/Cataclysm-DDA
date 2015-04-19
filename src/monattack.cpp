@@ -1682,8 +1682,9 @@ void mattack::impale(monster *z, int index)
     return;
     }
     auto hit = bp_torso;
-    int dam = rng(10, 15);
+    int dam = rng(35, 45);
     dam = target->deal_damage( z, hit, damage_instance( DT_CUT, dam ) ).total_damage();
+    add_msg( _("The dam value is %d!"), dam);
     if( dam > 0 && foe != nullptr ) {
         if( seen ) {
             auto msg_type = foe == &g->u ? m_bad : m_info;
@@ -1694,13 +1695,13 @@ void mattack::impale(monster *z, int index)
                                         z->name().c_str());
         }
         foe->practice( "dodge", z->type->melee_skill );
-        if( one_in( 20 / dam ) ) {
+        if( one_in( 30 / dam ) ) {
             if( foe->has_effect( "infected", hit ) ) {
                 foe->add_effect( "infected", 50, hit, true );
-                foe->apply_damage( z, bp_torso, dam * rng( 2, 3 ) );
+                foe->apply_damage( z, bp_torso, dam * 1.5 );
                 foe->moves -= dam * 20;
             } else {
-                foe->apply_damage( z, bp_torso, dam * rng( 2, 3 ) );
+                foe->apply_damage( z, bp_torso, dam * 2 );
                 foe->moves -= dam * 20;
             }
         }
