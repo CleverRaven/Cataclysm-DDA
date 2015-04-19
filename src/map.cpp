@@ -6018,8 +6018,10 @@ void map::grow_plant( const tripoint &p )
 
     if ( calendar::turn >= seed.bday + plantEpoch ) {
         if (calendar::turn < seed.bday + plantEpoch * 2 ) {
+                i_rem(p, 1);
                 furn_set(p, "f_plant_seedling");
         } else if (calendar::turn < seed.bday + plantEpoch * 3 ) {
+                i_rem(p, 1);
                 furn_set(p, "f_plant_mature");
         } else {
                 furn_set(p, "f_plant_harvest");
