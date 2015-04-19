@@ -1,4 +1,6 @@
 #include "game.h"
+#include "map.h"
+#include "debug.h"
 #include "mapdata.h"
 #include "output.h"
 #include "rng.h"

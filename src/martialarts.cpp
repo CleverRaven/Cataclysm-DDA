@@ -1,5 +1,6 @@
 #include "player.h"
 #include "game.h"
+#include "debug.h"
 #include "martialarts.h"
 #include "json.h"
 #include "translations.h"

@@ -3,6 +3,8 @@
 #include "bionics.h"
 #include "mission.h"
 #include "game.h"
+#include "map.h"
+#include "debug.h"
 #include "disease.h"
 #include "addiction.h"
 #include "moraledata.h"

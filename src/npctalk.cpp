@@ -1,6 +1,7 @@
 #include "npc.h"
 #include "output.h"
 #include "game.h"
+#include "map.h"
 #include "dialogue.h"
 #include "rng.h"
 #include "line.h"

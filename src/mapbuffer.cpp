@@ -9,6 +9,7 @@
 #include "mapdata.h"
 #include "worldfactory.h"
 #include "game.h"
+#include "map.h"
 #include <fstream>
 #include <sstream>
 

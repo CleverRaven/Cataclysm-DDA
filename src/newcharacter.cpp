@@ -6,6 +6,7 @@
 #include "output.h"
 #include "rng.h"
 #include "game.h"
+#include "name.h"
 #include "options.h"
 #include "catacharset.h"
 #include "debug.h"
@@ -15,6 +16,7 @@
 #ifndef _MSC_VER
 #include <unistd.h>
 #endif
+#include <cstring>
 #include <fstream>
 #include <sstream>
 #include <vector>

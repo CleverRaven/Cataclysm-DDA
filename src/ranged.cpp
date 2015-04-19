@@ -1,6 +1,8 @@
 #include <vector>
 #include <string>
 #include "game.h"
+#include "map.h"
+#include "debug.h"
 #include "output.h"
 #include "line.h"
 #include "skill.h"

@@ -7,6 +7,7 @@
 #include "catacharset.h"
 #include "cursesdef.h"
 #include "debug.h"
+#include <cstring>
 #include <vector>
 #include <fstream>
 #include <sstream>
@@ -17,6 +18,8 @@
 #include "init.h"
 #include "path_info.h"
 #include "filesystem.h"
+#include "map.h"
+#include "lightmap.h"
 
 //TODO replace these includes with filesystem.h
 #ifdef _MSC_VER

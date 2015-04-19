@@ -2,6 +2,7 @@
 #include "npc.h"
 #include "rng.h"
 #include "game.h"
+#include "map.h"
 #include "line.h"
 #include "debug.h"
 #include "overmapbuffer.h"

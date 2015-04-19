@@ -1,6 +1,7 @@
 #include "mondeath.h"
 #include "monster.h"
 #include "game.h"
+#include "map.h"
 #include "rng.h"
 #include "line.h"
 #include "monstergenerator.h"

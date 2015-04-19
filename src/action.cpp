@@ -4,6 +4,7 @@
 #include "path_info.h"
 #include "debug.h"
 #include "game.h"
+#include "map.h"
 #include "options.h"
 #include "messages.h"
 #include <istream>

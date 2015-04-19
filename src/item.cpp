@@ -3,6 +3,8 @@
 #include "output.h"
 #include "skill.h"
 #include "game.h"
+#include "map.h"
+#include "debug.h"
 #include "cursesdef.h"
 #include "text_snippets.h"
 #include "material.h"
