@@ -96,7 +96,7 @@ game::game() :
     map_ptr( new map() ),
     new_game(false),
     uquit(QUIT_NO),
-    m( *map_ptr.get() ),
+    m( *map_ptr ),
     w_terrain(NULL),
     w_overmap(NULL),
     w_omlegend(NULL),
