@@ -3,6 +3,7 @@
 #include "mondeath.h"
 #include "output.h"
 #include "game.h"
+#include "debug.h"
 #include "rng.h"
 #include "item.h"
 #include "translations.h"
@@ -35,6 +36,7 @@ monster::monster()
  friendly = 0;
  anger = 0;
  morale = 2;
+ last_loaded = 0;
  faction = MonsterGenerator::generator().faction_by_name( "" );
  mission_id = -1;
  no_extra_death_drops = false;
@@ -63,7 +65,8 @@ monster::monster(mtype *t)
  friendly = 0;
  anger = t->agro;
  morale = t->morale;
-    faction = t->default_faction;
+ last_loaded = 0;
+ faction = t->default_faction;
  mission_id = -1;
  no_extra_death_drops = false;
  dead = false;
@@ -93,7 +96,8 @@ monster::monster(mtype *t, const tripoint &p )
  friendly = 0;
  anger = type->agro;
  morale = type->morale;
-    faction = t->default_faction;
+ faction = t->default_faction;
+ last_loaded = 0;
  mission_id = -1;
  no_extra_death_drops = false;
  dead = false;
@@ -162,6 +166,39 @@ void monster::poly(mtype *t)
     faction = t->default_faction;
 }
 
+void monster::update_check(){
+    if (type->upgrade_group == "NULL"){
+        return;
+    }
+    int current_day = calendar::turn.get_turn()/ DAYS(1);
+    int upgrade_time = type->upgrade_min * ACTIVE_WORLD_OPTIONS["MONSTER_GROUP_DIFFICULTY"];
+    //g->u.add_msg_if_player(m_debug, "Upgrade group: %s ", type->upgrade_group);
+    add_msg(m_debug, "Current:day: %d", current_day);
+    add_msg(m_debug, "Upgrade time : %d", upgrade_time);
+    add_msg(m_debug, "Last loaded: %d", last_loaded);
+
+    if (current_day == last_loaded || current_day < upgrade_time){
+        add_msg(m_debug, "Upgrade time less");
+        last_loaded = current_day;
+        return;
+    }
+
+    // We don't start counting until the minimum upgrade time
+    int time_passed = current_day - std::max(last_loaded, upgrade_time);
+    add_msg(m_debug, "Time passed: %d", time_passed);
+    //radioactive decay function
+    //Don't set a half-life more than 700 days otherwise some weirdness may happen
+    float elapsed_lives = float(time_passed) / float(type->half_life);
+    float upgrade_chance = 1000 * (1- pow(std::max(0.0, 0.5 - type->base_upgrade_chance * .01 * elapsed_lives), elapsed_lives));
+    add_msg(m_debug, "Upgrade chance: %f", upgrade_chance);
+    if (upgrade_chance > rng(0, 999)){
+        const auto monsters = MonsterGroupManager::GetMonstersFromGroup(type->upgrade_group);
+        const std::string newtype = monsters[rng(0, monsters.size() - 1)];
+        poly(GetMType(newtype));
+    }
+
+    last_loaded = current_day;
+}
 void monster::spawn(int x, int y)
 {
     spawn( x, y, g->get_levz() );

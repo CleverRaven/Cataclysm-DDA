@@ -4,7 +4,8 @@
 #Blockhead's Tileset (by Blockhead, Ragamer, Deon, ChunkofMeat, Oakforce, Ruxe)
 #plus MShock's own work (with contibutions from egomassive and Arex)
 #and additions by Chaosvolt
-#Generated from project in Cataclysm DDA Tileset Studio
+#Originally generated from project in Cataclysm DDA Tileset Studio
+#And mucked about with in GIMP
 #Name of the tileset
 NAME: MShock24Modded
 #Viewing (Option) name of the tileset

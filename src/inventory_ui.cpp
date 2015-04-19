@@ -1,4 +1,5 @@
 #include "game.h"
+#include "map.h"
 #include "output.h"
 #include "uistate.h"
 #include "translations.h"
@@ -330,6 +331,9 @@ void inventory_selector::print_column(const itemstack_vector &items, size_t y, s
         item_name = get_drop_icon(dropping.find(cur_entry.item_pos)) + item_name;
         if (it.invlet != 0) {
             mvwputch(w_inv, cur_line, y, invlet_color, it.invlet);
+        }
+        if (OPTIONS["ITEM_SYMBOLS"]) {
+            item_name = string_format("%c %s", it.symbol(), item_name.c_str());
         }
         trim_and_print(w_inv, cur_line, y + 2, w - 2, name_color, "%s", item_name.c_str());
     }
@@ -1025,18 +1029,22 @@ std::list<std::pair<int, int>> game::multidrop()
     return dropped_pos_and_qty;
 }
 
-void game::compare(int const iCompareX, int const iCompareY)
+void game::compare()
 {
-    int examx, examy;
+    tripoint dir;
+    int &dirx = dir.x;
+    int &diry = dir.y;
 
-    if (iCompareX != -999 && iCompareY != -999) {
-        examx = u.posx() + iCompareX;
-        examy = u.posy() + iCompareY;
-    } else if (!choose_adjacent(_("Compare where?"), examx, examy)) {
-        return;
+    if( choose_direction(_("Compare where?"), dirx, diry ) ) {
+        compare( tripoint( dirx, diry, 0 ) );
     }
+}
 
-    auto here = m.i_at(examx, examy);
+void game::compare( const tripoint &offset )
+{
+    const tripoint examp = u.pos3() + offset;
+
+    auto here = m.i_at( examp );
     typedef std::vector< std::list<item> > pseudo_inventory;
     pseudo_inventory grounditems;
     indexed_invslice grounditems_slice;

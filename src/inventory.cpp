@@ -1,6 +1,8 @@
 #include <sstream>
 #include "inventory.h"
 #include "game.h"
+#include "map.h"
+#include "debug.h"
 #include "iuse.h"
 #include "iuse_actor.h"
 
@@ -803,8 +805,9 @@ long inventory::charges_of(itype_id it) const
     return count;
 }
 
-std::list<item> inventory::use_amount(itype_id it, int quantity, bool use_container)
+std::list<item> inventory::use_amount(itype_id it, int _quantity, bool use_container)
 {
+    long quantity = _quantity; // Don't wanny change the function signature right now
     sort();
     std::list<item> ret;
     for (invstack::iterator iter = items.begin(); iter != items.end() && quantity > 0; /* noop */) {

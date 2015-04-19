@@ -1,6 +1,8 @@
 #include <vector>
 #include <string>
 #include "game.h"
+#include "map.h"
+#include "debug.h"
 #include "output.h"
 #include "line.h"
 #include "skill.h"
@@ -17,7 +19,7 @@ int recoil_add(player &p, const item &gun);
 void make_gun_sound_effect(player &p, bool burst, item *weapon);
 extern bool is_valid_in_w_terrain(int, int);
 
-void splatter(std::vector<point> trajectory, int dam, Creature *target = NULL);
+void splatter( const std::vector<tripoint> &trajectory, int dam, const Creature *target = nullptr );
 
 double Creature::projectile_attack(const projectile &proj, int targetx, int targety,
                                    double shot_dispersion)
@@ -80,12 +82,18 @@ double Creature::projectile_attack(const projectile &proj, int sourcex, int sour
         targety += rng(0 - int(sqrt(double(missed_by))), int(sqrt(double(missed_by))));
     }
 
-    std::vector<point> trajectory;
+    // TODO: Z (as a parameter)
+    const int z = g->get_levz();
+    std::vector<tripoint> trajectory;
     int tart = 0;
     if (g->m.sees(sourcex, sourcey, targetx, targety, -1, tart)) {
-        trajectory = line_to(sourcex, sourcey, targetx, targety, tart);
+        trajectory = line_to( tripoint( sourcex, sourcey, z ), 
+                              tripoint( targetx, targety, z ),
+                              tart, 0 );
     } else {
-        trajectory = line_to(sourcex, sourcey, targetx, targety, 0);
+        trajectory = line_to( tripoint( sourcex, sourcey, z ),
+                              tripoint( targetx, targety, z ),
+                              0, 0 );
     }
 
     int dam = proj.impact.total_damage() + proj.payload.total_damage();
@@ -102,9 +110,10 @@ double Creature::projectile_attack(const projectile &proj, int sourcex, int sour
         g->m.veh_at(posx(), posy()) : nullptr;
 
     //Start this now in case we hit something early
-    std::vector<point> blood_traj = std::vector<point>();
+    std::vector<tripoint> blood_traj = std::vector<tripoint>();
     bool stream = proj.proj_effects.count("FLAME") > 0 || proj.proj_effects.count("JET") > 0;
     for( size_t i = 0; i < trajectory.size() && ( dam > 0 || stream ); i++ ) {
+        const tripoint &tp = trajectory[i];
         blood_traj.push_back(trajectory[i]);
         px = tx;
         py = ty;
@@ -115,7 +124,7 @@ double Creature::projectile_attack(const projectile &proj, int sourcex, int sour
         // Drawing the bullet uses player u, and not player p, because it's drawn
         // relative to YOUR position, which may not be the gunman's position.
         if (do_animation) {
-            g->draw_bullet(g->u, tx, ty, (int)i, trajectory, stream ? '#' : '*');
+            g->draw_bullet(g->u, tp, (int)i, trajectory, stream ? '#' : '*');
         }
 
         if( in_veh != nullptr ) {
@@ -936,12 +945,22 @@ static void do_aim( player *p, std::vector <Creature *> &t, int &target,
     }
 }
 
+std::vector<point> to_2d( const std::vector<tripoint> in )
+{
+    std::vector<point> ret;
+    for( const tripoint &p : in ) {
+        ret.push_back( point( p.x, p.y ) );
+    }
+    
+    return ret;
+}
+
 // TODO: Shunt redundant drawing code elsewhere
 std::vector<point> game::target(int &x, int &y, int lowx, int lowy, int hix,
                                 int hiy, std::vector <Creature *> t, int &target,
                                 item *relevant, target_mode mode, point from)
 {
-    std::vector<point> ret;
+    std::vector<tripoint> ret;
     int tarx, tary, junk, tart;
     if( from.x == -1 && from.y == -1 ) {
         from = u.pos();
@@ -1007,9 +1026,9 @@ std::vector<point> game::target(int &x, int &y, int lowx, int lowy, int hix,
 
     do {
         if (m.sees(from.x, from.y, x, y, -1, tart)) {
-            ret = line_to(from.x, from.y, x, y, tart);
+            ret = line_to( tripoint( from.x, from.y, g->get_levz() ), tripoint( x, y, g->get_levz() ), tart, 0 );
         } else {
-            ret = line_to(from.x, from.y, x, y, 0);
+            ret = line_to( tripoint( from.x, from.y, g->get_levz() ), tripoint( x, y, g->get_levz() ), 0, 0 );
         }
 
         // This chunk of code handles shifting the aim point around
@@ -1030,11 +1049,11 @@ std::vector<point> game::target(int &x, int &y, int lowx, int lowy, int hix,
             x = cx;
             y = cy;
         }
-        point center;
+        tripoint center;
         if (snap_to_target) {
-            center = point(x, y);
+            center = tripoint( x, y, u.posz() );
         } else {
-            center = point(u.posx() + u.view_offset_x, u.posy() + u.view_offset_y);
+            center = u.pos3() + u.view_offset;
         }
         // Clear the target window.
         for (int i = 1; i <= getmaxy(w_target) - num_instruction_lines - 2; i++) {
@@ -1062,7 +1081,7 @@ std::vector<point> game::target(int &x, int &y, int lowx, int lowy, int hix,
             // Only draw a highlighted trajectory if we can see the endpoint.
             // Provides feedback to the player, and avoids leaking information
             // about tiles they can't see.
-            draw_line(x, y, center, ret);
+            draw_line( tripoint( x, y, g->get_levz() ), center, ret );
 
             // Print to target window
             if (!relevant) {
@@ -1156,7 +1175,7 @@ std::vector<point> game::target(int &x, int &y, int lowx, int lowy, int hix,
             if( critter != nullptr ) {
                 draw_critter( *critter, center );
             } else if (m.sees(u.posx(), u.posy(), x, y, -1, junk)) {
-                m.drawsq(w_terrain, u, x, y, false, true, center.x, center.y);
+                m.drawsq(w_terrain, u, tripoint( x, y, g->get_levz() ), false, true, center.x, center.y);
             } else {
                 mvwputch(w_terrain, POSY, POSX, c_black, 'X');
             }
@@ -1193,7 +1212,7 @@ std::vector<point> game::target(int &x, int &y, int lowx, int lowy, int hix,
                 u.assign_activity( ACT_AIM, 0, 0 );
                 u.activity.str_values.push_back( "AIM" );
                 ret.clear();
-                return ret;
+                return to_2d(ret);
             }
         } else if( (action == "AIMED_SHOT" || action == "CAREFUL_SHOT" || action == "PRECISE_SHOT") &&
                    target != -1 ) {
@@ -1219,7 +1238,7 @@ std::vector<point> game::target(int &x, int &y, int lowx, int lowy, int hix,
                 wrefresh( w_target );
                 delwin( w_target );
                 w_target = nullptr;
-                return ret;
+                return to_2d(ret);
             } else {
                 // We've run out of moves, set the activity to aim so we'll
                 // automatically re-enter the targeting menu next turn.
@@ -1229,7 +1248,7 @@ std::vector<point> game::target(int &x, int &y, int lowx, int lowy, int hix,
                 u.assign_activity( ACT_AIM, 0, 0 );
                 u.activity.str_values.push_back( action );
                 ret.clear();
-                return ret;
+                return to_2d(ret);
             }
         } else if (action == "FIRE") {
             target = find_target( t, x, y );
@@ -1254,7 +1273,8 @@ std::vector<point> game::target(int &x, int &y, int lowx, int lowy, int hix,
     wrefresh( w_target );
     delwin( w_target );
     w_target = nullptr;
-    return ret;
+    // TODO: Remove this 3d->2d conversion
+    return to_2d(ret);
 }
 
 int time_to_fire(player &p, const itype &firingt)
@@ -1437,14 +1457,14 @@ int recoil_add(player &p, const item &gun)
     return 0;
 }
 
-void splatter( std::vector<point> trajectory, int dam, Creature *target )
+void splatter( const std::vector<tripoint> &trajectory, int dam, const Creature *target )
 {
     if( dam <= 0) {
         return;
     }
     if( !target->is_npc() && !target->is_player() ) {
         //Check if the creature isn't an NPC or the player (so the cast works)
-        monster *mon = dynamic_cast<monster *>(target);
+        const monster *mon = dynamic_cast<const monster *>(target);
         if (mon->is_hallucination() || mon->get_material() != "flesh" ||
             mon->has_flag( MF_VERMIN)) {
             // If it is a hallucanation, not made of flesh, or a vermin creature,
@@ -1467,13 +1487,11 @@ void splatter( std::vector<point> trajectory, int dam, Creature *target )
         distance = 2;
     }
 
-    std::vector<point> spurt = continue_line( trajectory, distance );
+    std::vector<tripoint> spurt = continue_line( trajectory, distance );
 
     for( auto &elem : spurt ) {
-        int tarx = elem.x;
-        int tary = elem.y;
-        g->m.adjust_field_strength( point(tarx, tary), blood, 1 );
-        if( g->m.move_cost(tarx, tary) == 0 ) {
+        g->m.adjust_field_strength( elem, blood, 1 );
+        if( g->m.move_cost( elem ) == 0 ) {
             // Blood splatters stop at walls.
             break;
         }

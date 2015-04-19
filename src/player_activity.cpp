@@ -1,6 +1,7 @@
 #include "player_activity.h"
 
 #include "game.h"
+#include "map.h"
 #include "construction.h"
 #include "player.h"
 #include "translations.h"

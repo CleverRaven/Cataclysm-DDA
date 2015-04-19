@@ -11,11 +11,10 @@
 #include <unordered_map>
 #include <unordered_set>
 
+#include "game_constants.h"
 #include "mapdata.h"
-#include "overmap.h"
 #include "item.h"
 #include "json.h"
-#include "npc.h"
 #include "vehicle.h"
 #include "lightmap.h"
 #include "coordinates.h"
@@ -23,9 +22,6 @@
 #include "active_item_cache.h"
 
 //TODO: include comments about how these variables work. Where are they used. Are they constant etc.
-#ifndef MAPSIZE
-#define MAPSIZE 11
-#endif
 #define CAMPSIZE 1
 #define CAMPCHECK 3
 
@@ -75,6 +71,7 @@ public:
 };
 
 struct visibility_variables {
+    bool variables_set; // Is this struct initialized for current z-level
     // cached values for map visibility calculations
     int g_light_level;
     int natural_sight_range;
@@ -122,7 +119,8 @@ class map
  friend class editmap;
  public:
 // Constructors & Initialization
- map(int mapsize = MAPSIZE);
+ map(int mapsize = MAPSIZE, bool zlev = false);
+ map( bool zlev ) : map( MAPSIZE, zlev ) { }
  ~map();
 
 // Visual Output
@@ -160,33 +158,36 @@ class map
      *
      * @param x, y The tile on this map to draw.
      */
-    lit_level apparent_light_at(int x, int y, const visibility_variables &cache);
+    lit_level apparent_light_at( const tripoint &p, const visibility_variables &cache );
     visibility_type get_visibility( const lit_level ll,
                                     const visibility_variables &cache ) const;
 
-    bool apply_vision_effects( WINDOW *w, const point center, int x, int y, lit_level ll,
+    bool apply_vision_effects( WINDOW *w, lit_level ll,
                                const visibility_variables &cache ) const;
 
- /** Draw a visible part of the map into `w`.
-  *
-  * This method uses `g->u.posx()/posy()` for visibility calculations, so it can
-  * not be used for anything but the player's viewport. Likewise, only
-  * `g->m` and maps with equivalent coordinates can be used, as other maps
-  * would have coordinate systems incompatible with `g->u.posx()`
-  *
-  * @param center The coordinate of the center of the viewport, this can
-  *               be different from the player coordinate.
-  */
- void draw(WINDOW* w, const point center);
+    /** Draw a visible part of the map into `w`.
+     *
+     * This method uses `g->u.posx()/posy()` for visibility calculations, so it can
+     * not be used for anything but the player's viewport. Likewise, only
+     * `g->m` and maps with equivalent coordinates can be used, as other maps
+     * would have coordinate systems incompatible with `g->u.posx()`
+     *
+     * @param center The coordinate of the center of the viewport, this can
+     *               be different from the player coordinate.
+     */
+    void draw( WINDOW* w, const tripoint &center );
 
  /** Draw the map tile at the given coordinate. Called by `map::draw()`.
   *
   * @param x, y The tile on this map to draw.
   * @param cx, cy The center of the viewport to be rendered, see `center` in `map::draw()`
   */
- void drawsq(WINDOW* w, player &u, const int x, const int y, const bool invert, const bool show_items,
+ void drawsq(WINDOW* w, player &u, const tripoint &p, const bool invert, const bool show_items,
              const int view_center_x = -1, const int view_center_y = -1,
-             const bool low_light = false, const bool bright_level = false);
+             const bool low_light = false, const bool bright_level = false, const bool inorder = false);
+ void drawsq(WINDOW* w, player &u, const tripoint &p, const bool invert, const bool show_items,
+             const tripoint &view_center,
+             const bool low_light = false, const bool bright_level = false, const bool inorder = false);
 
     /**
      * Add currently loaded submaps (in @ref grid) to the @ref mapbuffer.
@@ -644,6 +645,8 @@ void add_corpse( const tripoint &p );
     void adjust_radiation( const tripoint &p, const int delta );
     // Overload for mapgen
     void adjust_radiation( const int x, const int y, const int delta );
+    /** Sums radiation from `start` to `end` */
+    int radiation_over( const tripoint &start, const tripoint &end ) const;
 
 // Temperature
     int& temperature( const tripoint &p );    // Temperature for submap
@@ -704,12 +707,26 @@ void add_corpse( const tripoint &p );
     void spawn_an_item( const tripoint &p, item new_item,
                         const long charges, const int damlevel);
 
+    /**
+     * @name Consume items on the map
+     *
+     * The functions here consume accessible items / item charges on the map or in vehicles
+     * around the player (whose positions is given as origin).
+     * They return a list of copies of the consumed items (with the actually consumed charges
+     * in it).
+     * The quantity / amount parameter will be reduced by the number of items/charges removed.
+     * If all required items could be removed from the map, the quantity/amount will be 0,
+     * otherwise it will contain a positive value and the remaining items must be gathered from
+     * somewhere else.
+     */
+    /*@{*/
     std::list<item> use_amount_square( const tripoint &p, const itype_id type,
-                                       int &quantity, const bool use_container );
+                                       long &quantity, const bool use_container );
     std::list<item> use_amount( const tripoint &origin, const int range, const itype_id type,
-                                const int amount, const bool use_container = false );
+                                long &amount, const bool use_container = false );
     std::list<item> use_charges( const tripoint &origin, const int range, const itype_id type,
-                                 const long amount );
+                                 long &amount );
+    /*@}*/
     std::list<std::pair<tripoint, item *> > get_rc_items( int x = -1, int y = -1, int z = -1 );
 
     /**
@@ -768,7 +785,6 @@ void add_corpse( const tripoint &p );
 
 // Fields: 2D overloads that will later be slowly phased out
         const field& field_at( const int x, const int y ) const;
-        int get_field_age( const point p, const field_id t ) const;
         int get_field_strength( const point p, const field_id t ) const;
         int adjust_field_age( const point p, const field_id t, const int offset );
         int adjust_field_strength( const point p, const field_id t, const int offset );
@@ -780,7 +796,8 @@ void add_corpse( const tripoint &p );
         void remove_field( const int x, const int y, const field_id field_to_remove );
 // End of 2D overload block
  bool process_fields(); // See fields.cpp
- bool process_fields_in_submap(submap * const current_submap, const int submap_x, const int submap_y); // See fields.cpp
+ bool process_fields_in_submap( submap * const current_submap, 
+                                const int submap_x, const int submap_y, const int submap_z); // See fields.cpp
         /**
          * Apply field effects to the creature when it's on a square with fields.
          */
@@ -856,6 +873,15 @@ void add_corpse( const tripoint &p );
          */
         void remove_field( const tripoint &p, const field_id field_to_remove );
 // End of 3D field function block
+
+// Scent propagation helpers
+    /**
+     * Build the map of scent-resistant tiles.
+     * Should be way faster than if done in `game.cpp` using public map functions.
+     */
+    void scent_blockers( bool (&blocks_scent)[SEEX * MAPSIZE][SEEY * MAPSIZE],
+                         bool (&reduces_scent)[SEEX * MAPSIZE][SEEY * MAPSIZE],
+                         int minx, int miny, int maxx, int maxy );
 
 // Computers
     computer* computer_at( const tripoint &p );
@@ -946,7 +972,8 @@ void add_corpse( const tripoint &p );
  bool inbounds(const int x, const int y, const int z) const;
  bool inbounds( const tripoint &p ) const;
 
- int getmapsize() { return my_MAPSIZE; };
+ int getmapsize() const { return my_MAPSIZE; };
+ bool has_zlevels() const { return zlevels; }
 
  // Not protected/private for mapgen_functions.cpp access
  void rotate(const int turns);// Rotates the current map 90*turns degress clockwise
@@ -1009,13 +1036,12 @@ protected:
  void build_transparency_cache();
 public:
  void build_outside_cache();
+ void build_seen_cache(const tripoint &origin);
 protected:
  void generate_lightmap();
- void build_seen_cache();
- void castLight( int row, float start, float end, int xx, int xy, int yx, int yy,
-                 const int offsetX, const int offsetY, const int offsetDistance );
 
  int my_MAPSIZE;
+ bool zlevels;
 
  mutable std::list<item> nulitems; // Returned when &i_at() is asked for an OOB value
  mutable ter_id nulter;  // Returned when &ter() is asked for an OOB value
@@ -1040,10 +1066,10 @@ protected:
     void set_abs_sub(const int x, const int y, const int z);
 
 private:
-    field& get_field(const int x, const int y);
-    void spread_gas( field_entry *cur, int x, int y, field_id curtype,
+    field& get_field( const tripoint &p );
+    void spread_gas( field_entry *cur, const tripoint &p, field_id curtype,
                         int percent_spread, int outdoor_age_speedup );
-    void create_hot_air( int x, int y, int density );
+    void create_hot_air( const tripoint &p, int density );
 
  bool transparency_cache_dirty;
  bool outside_cache_dirty;
@@ -1097,12 +1123,12 @@ private:
      * Internal versions of public functions to avoid checking same variables multiple times.
      * They lack safety checks, because their callers already do those.
      */
-    int move_cost_internal(const furn_t &furniture, const ter_t &terrain, 
+    int move_cost_internal(const furn_t &furniture, const ter_t &terrain,
                            const vehicle *veh, const int vpart) const;
-    int bash_rating_internal( const int str, const furn_t &furniture, 
+    int bash_rating_internal( const int str, const furn_t &furniture,
                               const ter_t &terrain, const vehicle *veh, const int part ) const;
 
- long determine_wall_corner(const int x, const int y) const;
+ long determine_wall_corner( const tripoint &p ) const;
  void cache_seen(const int fx, const int fy, const int tx, const int ty, const int max_range);
  // apply a circular light pattern immediately, however it's best to use...
  void apply_light_source(int x, int y, float luminance, bool trig_brightcalc);
@@ -1129,6 +1155,27 @@ private:
      void process_items_in_vehicle( vehicle *cur_veh, submap *current_submap,
                                     T processor, std::string const &signal );
 
+    /** Enum used by functors in `function_over` to control execution. */
+    enum iteration_state {
+        ITER_CONTINUE = 0,  // Keep iterating
+        ITER_SKIP_SUBMAP,   // Skip the rest of this submap
+        ITER_SKIP_ZLEVEL,   // Skip the rest of this z-level
+        ITER_FINISH         // End iteration
+    };
+    /**
+    * Runs a `(tripoint &gp, submap* sm, point &lp) -> void` functor 
+    * over submaps in the area, getting next submap only when the current one "runs out" rather than every time.
+    * @param gp Grid (like `get_submap_at_grid`) coordinate of the submap, 
+    * @param lp Local (submap) coordinate of currently accessed point.
+    * Will silently clip the area to map bounds.
+    */
+    /*@{*/
+    template<typename Functor>
+        void function_over( const tripoint &start, const tripoint &end, Functor fun ) const;
+    template<typename Functor>
+        void function_over( int stx, int sty, int stz, int enx, int eny, int enz, Functor fun ) const;
+    /*@}*/
+
  float lm[MAPSIZE*SEEX][MAPSIZE*SEEY];
  float sm[MAPSIZE*SEEX][MAPSIZE*SEEY];
  // to prevent redundant ray casting into neighbors: precalculate bulk light source positions. This is
@@ -1152,8 +1199,8 @@ private:
         std::vector< std::vector<tripoint> > traplocs;
 
   public:
-    void update_visibility_cache( visibility_variables &cache );
     lit_level visibility_cache[MAPSIZE*SEEX][MAPSIZE*SEEY];
+    void update_visibility_cache( visibility_variables &cache, int zlev );
 };
 
 std::vector<point> closest_points_first(int radius, point p);
@@ -1164,8 +1211,14 @@ class tinymap : public map
 {
 friend class editmap;
 public:
- tinymap(int mapsize = 2);
+ tinymap(int mapsize = 2, bool zlevels = false);
 };
+
+template<int xx, int xy, int yx, int yy>
+    void castLight( bool (&output_cache)[MAPSIZE*SEEX][MAPSIZE*SEEY],
+                    const float (&input_array)[MAPSIZE*SEEX][MAPSIZE*SEEY],
+                    const int offsetX, const int offsetY, const int offsetDistance,
+                    const int row = 1, float start = 1.0f, const float end = 0.0f );
 
 #endif
 

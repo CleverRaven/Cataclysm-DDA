@@ -1,6 +1,9 @@
-#include "game.h"
 #include <fstream>
 #include <vector>
+
+#include "game.h"
+#include "map.h"
+#include "debug.h"
 #include "options.h"
 #include "monstergenerator.h"
 #include "json.h"

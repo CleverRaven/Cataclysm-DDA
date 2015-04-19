@@ -111,10 +111,8 @@ class Creature
         bool sees( int tx, int ty ) const;
         virtual bool sees( point t, int &bresenham_slope ) const;
         bool sees( point t ) const;
-        bool sees( const tripoint &t ) const
-        {
-            return sees( point( t.x, t.y ) );
-        }
+        bool sees( const tripoint &t ) const;
+        bool sees( const tripoint &t, int &bresen1, int &bresen2 ) const;
         /*@}*/
 
         /**
@@ -439,6 +437,7 @@ class Creature
         bool underwater;
 
         void draw(WINDOW *w, int plx, int ply, bool inv) const;
+        void draw(WINDOW *w, const tripoint &plp, bool inv) const;
         /**
          * Write information about this creature.
          * @param w the window to print the text into.

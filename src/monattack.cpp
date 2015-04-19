@@ -1,6 +1,8 @@
 #include "mondeath.h"
 #include "monster.h"
 #include "game.h"
+#include "debug.h"
+#include "map.h"
 #include "rng.h"
 #include "line.h"
 #include "bodypart.h"
@@ -644,7 +646,9 @@ void mattack::science(monster *const z, int const index) // I said SCIENCE again
     size_t const empty_neighbor_count = empty_neighbors.second;
 
     if (empty_neighbor_count) {
-        valid_attacks[valid_attack_count++] = att_manhack;
+        if( z->ammo["bot_manhack"] > 0 ) {
+            valid_attacks[valid_attack_count++] = att_manhack;
+        }
         valid_attacks[valid_attack_count++] = att_acid_pool;
     }
 
@@ -699,6 +703,7 @@ void mattack::science(monster *const z, int const index) // I said SCIENCE again
       } break;
     case att_manhack : {
         z->moves -= att_cost_manhack;
+        z->ammo["bot_manhack"]--;
 
         // if the player can see it
         if (g->u.sees(*z)) {
@@ -1714,7 +1719,7 @@ void mattack::dermatik(monster *z, int index)
     //~ 1$s monster name(dermatic), 2$s bodypart name in accusative.
     foe->add_msg_if_player( m_bad, _("The %1$s sinks its ovipositor into your %2$s!"), z->name().c_str(),
                             body_part_name_accusative(targeted).c_str());
-    if( !foe->has_trait("PARAIMMUNE")) {
+    if ( !foe->has_trait("PARAIMMUNE") || !foe->has_trait("ACIDBLOOD") ) {
         foe->add_effect("dermatik", 1, targeted, true);
         foe->add_memorial_log(pgettext("memorial_male", "Injected with dermatik eggs."),
                               pgettext("memorial_female", "Injected with dermatik eggs."));
@@ -2294,7 +2299,7 @@ void mattack::fear_paralyze(monster *z, int index)
     }
     if (g->u.sees( *z )) {
         z->reset_special(index); // Reset timer
-        if (g->u.has_artifact_with(AEP_PSYSHIELD)) {
+        if (g->u.has_artifact_with(AEP_PSYSHIELD) || (g->u.is_wearing("tinfoil_hat") && one_in(4))) {
             add_msg(_("The %s probes your mind, but is rebuffed!"), z->name().c_str());
         } else if (rng(1, 20) > g->u.int_cur) {
             add_msg(m_bad, _("The terrifying visage of the %s paralyzes you."),

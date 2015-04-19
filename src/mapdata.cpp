@@ -65,13 +65,15 @@ static const std::unordered_map<std::string, ter_bitflags> ter_bitflags_map = { 
     { "DIGGABLE",                 TFLAG_DIGGABLE },       // monmove
     { "SUPPRESS_SMOKE",           TFLAG_SUPPRESS_SMOKE }, // fire
     { "FLAMMABLE_HARD",           TFLAG_FLAMMABLE_HARD }, // fire
+    { "TFLAG_SEALED",             TFLAG_SEALED },         // Fire, acid
+    { "TFLAG_ALLOW_FIELD_EFFECT", TFLAG_ALLOW_FIELD_EFFECT }, // Fire, acid
     { "COLLAPSES",                TFLAG_COLLAPSES },      // building "remodeling"
     { "FLAMMABLE",                TFLAG_FLAMMABLE },      // fire bad! fire SLOW!
     { "REDUCE_SCENT",             TFLAG_REDUCE_SCENT },   // ...and the other half is update_scent
     { "INDOORS",                  TFLAG_INDOORS },        // vehicle gain_moves, weather
     { "SHARP",                    TFLAG_SHARP },          // monmove
     { "SUPPORTS_ROOF",            TFLAG_SUPPORTS_ROOF },  // and by building "remodeling" I mean hulkSMASH
-    { "SWIMMABLE",                TFLAG_SWIMMABLE },      // monmove
+    { "SWIMMABLE",                TFLAG_SWIMMABLE },      // monmove, many fields
     { "TRANSPARENT",              TFLAG_TRANSPARENT },    // map::trans / lightmap
     { "NOITEM",                   TFLAG_NOITEM },         // add/spawn_item*()
     { "FLAMMABLE_ASH",            TFLAG_FLAMMABLE_ASH },  // oh hey fire. again.

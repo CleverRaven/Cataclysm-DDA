@@ -1,6 +1,8 @@
 #include "iuse_actor.h"
 #include "item.h"
 #include "game.h"
+#include "map.h"
+#include "debug.h"
 #include "monster.h"
 #include "overmapbuffer.h"
 #include "sounds.h"
@@ -192,7 +194,7 @@ long explosion_iuse::use(player *p, item *it, bool t, point pos) const
                       explosion_power, explosion_shrapnel, explosion_fire, explosion_blast);
     }
     if (draw_explosion_radius >= 0) {
-        g->draw_explosion(pos.x, pos.y, draw_explosion_radius, draw_explosion_color);
+        g->draw_explosion( tripoint( pos, g->get_levz() ), draw_explosion_radius, draw_explosion_color);
     }
     if (do_flashbang) {
         g->flashbang( tripoint( pos.x, pos.y, g->get_levz() ), flashbang_player_immune);

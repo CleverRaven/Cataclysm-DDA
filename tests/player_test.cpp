@@ -1,12 +1,13 @@
 #include <tap++/tap++.h>
 using namespace TAP;
 
-#include <string>
-
 #include "player.h"
 #include "game.h"
 #include "overmapbuffer.h"
 #include "item_factory.h"
+#include "start_location.h"
+
+#include <string>
 
 // Set the stage for a particular ambient and target temperature and run update_bodytemp() until
 // core body temperature settles.
@@ -46,7 +47,7 @@ void temperature_check( player *p, int ambient_temp, int target_temp, std::strin
 
 void equip_clothing( player *p, std::string clothing )
 {
-    item article = item_controller->create(clothing, 0);
+    item article(clothing, 0);
     p->wear_item( &article );
 }
 
@@ -65,6 +66,8 @@ void test_temperature_spread( player *p, int ambient_temps[], std::string clothi
 
 int main(int argc, char *argv[])
 {
+    (void)argc;
+    (void)argv;
  plan(29);
 
  player dummy;
@@ -80,12 +83,23 @@ int main(int argc, char *argv[])
  load_options();
  initscr();
 
- dummy.name = "dummy";
- g->m = map( &g->traps );
- g->u = dummy;
- g->cur_om = &overmap_buffer.get( 0, 0 );
- g->m.load( g->levx, g->levy, g->levz );
+ g = new game;
+ g->load_static_data();
+ // g->check_all_mod_data();
+ world_generator->set_active_world( world_generator->pick_world( true ) );
+ g->setup();
 
+ dummy.normalize( );
+
+ dummy.name = "dummy";
+ g->u = dummy;
+    const start_location &start_loc = *start_location::find( g->u.start_location );
+    const tripoint omtstart = start_loc.setup();
+    tripoint lev = overmapbuffer::omt_to_sm_copy( omtstart );
+    // The player is centered in the map, but lev[xyz] refers to the top left point of the map
+    lev.x -= MAPSIZE / 2;
+    lev.y -= MAPSIZE / 2;
+    g->load_map( lev );
 
  // See http://personal.cityu.edu.hk/~bsapplec/heat.htm for temperature basis.
  // As we aren't modelling metabolic rate, assume 2 METS when not sleeping.
@@ -154,8 +168,6 @@ int main(int argc, char *argv[])
  }
 
  dummy.worn.clear();
-
- ok( dummy.health == 0 );
 
  return exit_status();
 }
