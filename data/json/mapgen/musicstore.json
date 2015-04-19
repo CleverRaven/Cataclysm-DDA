@@ -38,7 +38,7 @@
           "s_music"
         ],
         "method": "json",
-        "weight": 50, "comment": "<-- Real decent place for a quick morale boost, relatively rare.",
+        "weight": 180, "comment": "<-- Real decent place for a quick morale boost, relatively rare.",
         "object": {
             "rows": [
                 "_s______,______,______s_",
