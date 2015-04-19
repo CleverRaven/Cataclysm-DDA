@@ -5,6 +5,7 @@
 #include "rng.h"
 #include "map.h"
 #include "game.h"
+#include "debug.h"
 #include "bodypart.h"
 #include "skill.h"
 #include "output.h"

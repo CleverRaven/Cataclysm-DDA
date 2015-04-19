@@ -3,6 +3,7 @@
 #include "overmapbuffer.h"
 #include "game.h"
 #include "map.h"
+#include "debug.h"
 #include "monster.h"
 
 #include <fstream>

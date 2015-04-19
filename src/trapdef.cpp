@@ -2,6 +2,7 @@
 #include <memory>
 #include "game.h"
 #include "map.h"
+#include "debug.h"
 
 void trap::load( JsonObject &jo )
 {

@@ -13,10 +13,8 @@
 
 #include "game_constants.h"
 #include "mapdata.h"
-#include "overmap.h"
 #include "item.h"
 #include "json.h"
-#include "npc.h"
 #include "vehicle.h"
 #include "lightmap.h"
 #include "coordinates.h"

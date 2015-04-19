@@ -2,6 +2,7 @@
 #include "item.h"
 #include "game.h"
 #include "map.h"
+#include "debug.h"
 #include "monster.h"
 #include "overmapbuffer.h"
 #include "sounds.h"

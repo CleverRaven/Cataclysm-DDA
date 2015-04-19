@@ -3,6 +3,7 @@
 #include "translations.h"
 #include "game.h"
 #include "map.h"
+#include "debug.h"
 #include "inventory.h"
 #include "output.h"
 #include "itype.h"

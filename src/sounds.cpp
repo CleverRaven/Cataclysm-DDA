@@ -2,6 +2,7 @@
 
 #include "game.h"
 #include "map.h"
+#include "debug.h"
 #include "enums.h"
 #include "overmapbuffer.h"
 

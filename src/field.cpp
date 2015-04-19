@@ -1,5 +1,6 @@
 #include "rng.h"
 #include "map.h"
+#include "debug.h"
 #include "field.h"
 #include "game.h"
 #include "monstergenerator.h"

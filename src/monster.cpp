@@ -3,6 +3,7 @@
 #include "mondeath.h"
 #include "output.h"
 #include "game.h"
+#include "debug.h"
 #include "rng.h"
 #include "item.h"
 #include "translations.h"

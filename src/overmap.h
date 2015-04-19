@@ -7,7 +7,6 @@
 #include "mapdata.h"
 #include "mongroup.h"
 #include "output.h"
-#include "debug.h"
 #include "cursesdef.h"
 #include "name.h"
 #include "input.h"
@@ -58,20 +57,8 @@ struct oter_weight_list {
         add_item(id, weight);
     }
 
-    void setup() { // populate iid's for faster generation and sanity check.
-        for(std::vector<oter_weight>::iterator item_it = items.begin();
-            item_it != items.end(); ++item_it ) {
-            if ( item_it->ot_iid == -1 ) {
-                std::unordered_map<std::string, oter_t>::const_iterator it = obasetermap.find(item_it->ot_sid);
-                if ( it == obasetermap.end() ) {
-                    debugmsg("Bad oter_weight_list entry in region settings: overmap_terrain '%s' not found.", item_it->ot_sid.c_str() );
-                    item_it->ot_iid = 0;
-                } else {
-                    item_it->ot_iid = it->second.loadid;
-                }
-            }
-        }
-    }
+    // populate iid's for faster generation and sanity check.
+    void setup();
 
     size_t pick_ent() {
         int picked = rng(0, total_weight);
