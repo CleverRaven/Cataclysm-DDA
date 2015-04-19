@@ -918,7 +918,7 @@ void add_corpse( const tripoint &p );
  vehicle *add_vehicle(std::string type, const int x, const int y, const int dir,
                       const int init_veh_fuel = -1, const int init_veh_status = -1,
                       const bool merge_wrecks = true);
- void build_map_cache();
+ void build_map_cache( int zlev );
  
 // Light/transparency: 2D
     float light_transparency(const int x, const int y) const;
@@ -1037,9 +1037,9 @@ protected:
                 const oter_id t_above, const int turn, const float density,
                 const int zlevel, const regional_settings * rsettings);
  void add_extra(map_extra type);
- void build_transparency_cache();
+ void build_transparency_cache( int zlev );
 public:
- void build_outside_cache();
+ void build_outside_cache( int zlev );
  void build_seen_cache(const tripoint &origin);
 protected:
  void generate_lightmap();
@@ -1075,6 +1075,7 @@ private:
                         int percent_spread, int outdoor_age_speedup );
     void create_hot_air( const tripoint &p, int density );
 
+ int cached_zlev; // Z-level for which all the caches were calculated
  bool transparency_cache_dirty;
  bool outside_cache_dirty;
 
