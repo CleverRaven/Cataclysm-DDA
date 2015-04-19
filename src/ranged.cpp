@@ -1380,6 +1380,24 @@ void make_gun_sound_effect(player &p, bool burst, item *weapon)
     }
 }
 
+void make_gun_flash(player &p)
+{
+    if(p.weapon->has_gunmod("suppressor","crafted_suppressor","shot_suppressor")){
+        return;
+    const auto &ammo_effects = p.weapon->type->gun->ammo_effects;
+    
+     if( ammo_effects.count("WHIP"))
+     {
+        return;
+     }if( ammo_effects.count("LASER") || ammo_effects.count("PLASMA") ) {
+     
+     } else if( ammo_effects.count("LIGHTNING") ) {
+     
+     }else {
+     
+     }
+}
+
 // Little helper to clean up dispersion calculation methods.
 static int rand_or_max( bool random, int max )
 {
