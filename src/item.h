@@ -309,6 +309,10 @@ public:
      */
     bool reduce_charges( long quantity );
     /**
+     * Muzzle flash falloff for guns. 
+     */
+    void muzzle_flash_falloff();
+    /**
      * Returns true if the item is considered rotten.
      */
     bool rotten() const;
@@ -447,7 +451,6 @@ protected:
     bool process_cable(player *carrier, point pos);
     bool process_tool(player *carrier, point pos);
     bool process_charger_gun(player *carrier, point pos);
-    bool process_muzzle_flash(player *carrier, point pos);
 public:
     /**
      * Helper to bring a cable back to its initial state.

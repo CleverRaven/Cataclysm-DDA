@@ -4032,6 +4032,9 @@ int item::getlight_emit(bool calculate_dimming) const {
             lumint = ( type->light_emission * chargedrop * charges ) / maxcharge;
         }
     }
+    if ( calculate_dimming && is_gun() ) {
+        muzzle_flash_falloff();
+    }
     if ( lumint > 4 && lumint < 10 ) {
         lumint = 10;
     }
@@ -4929,11 +4932,6 @@ bool item::process_charger_gun( player *carrier, point pos )
     return false;
 }
 
-bool process_muzzle_flash(){
-    int flash = type->gun->muzzle_flash;
-    light.luminance > flash / 4 ? light.luminance /= 2 : light.luminance = 0;  
-}
-
 bool item::process( player *carrier, const tripoint &pos, bool activate )
 {
     // TODO: Z
@@ -4958,10 +4956,6 @@ bool item::process( player *carrier, point pos, bool activate )
     if( activate ) {
         it_tool *tmp = dynamic_cast<it_tool *>( type );
         return tmp->invoke( carrier != nullptr ? carrier : &g->u, this, pos );
-    }
-    
-    if (is_gun()){
-        process_muzzle_flash();//muzzle flash falloff for guns
     }
     
     // How this works: it checks what kind of processing has to be done
@@ -5016,6 +5010,12 @@ bool item::reduce_charges( long quantity )
     }
     charges -= quantity;
     return false;
+}
+
+void item::muzzle_flash_falloff(){
+    add_msg(m_debug, "light: %d", light.luminance);
+    int flash = type->gun->muzzle_flash;
+    light.luminance > flash / 4 ? light.luminance /= 2 : light.luminance = 0;  
 }
 
 bool item::has_effect_when_wielded( art_effect_passive effect ) const
