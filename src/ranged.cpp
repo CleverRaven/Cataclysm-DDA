@@ -1387,18 +1387,7 @@ void make_gun_flash(player &p , item *weapon)
     if(p.weapon.has_gunmod("suppressor") >= 0 || p.weapon.has_gunmod("crafted_suppressor") >= 0 || p.weapon.has_gunmod("shot_suppressor") >= 0){    
         return;
     }
-    const auto &ammo_effects = weapon->type->gun->ammo_effects;
-    
-     if( ammo_effects.count("WHIP"))
-     {
-        return;
-     }if( ammo_effects.count("LASER") || ammo_effects.count("PLASMA") ) {
-        p.weapon.light.luminance = 500;
-     } else if( ammo_effects.count("LIGHTNING") ) {
-        p.weapon.light.luminance = 1000;
-     }else {
-        p.weapon.light.luminance = 100; 
-     }
+    p.weapon.light.luminance = weapon->type->gun->muzzle_flash;
 }
 
 // Little helper to clean up dispersion calculation methods.

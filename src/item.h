@@ -447,6 +447,7 @@ protected:
     bool process_cable(player *carrier, point pos);
     bool process_tool(player *carrier, point pos);
     bool process_charger_gun(player *carrier, point pos);
+    bool process_muzzle_flash(player *carrier, point pos);
 public:
     /**
      * Helper to bring a cable back to its initial state.
