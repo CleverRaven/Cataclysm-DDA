@@ -235,7 +235,7 @@ struct mtype {
         // or -10 would mean a -10% chance to upgrade per half life.
         float base_upgrade_chance;
         std::string upgrade_group;
-
+        std::string upgrades_into;
         // Default constructor
         mtype ();
         /**
