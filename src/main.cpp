@@ -15,6 +15,7 @@
 #include "path_info.h"
 #include "mapsharing.h"
 
+#include <cstring>
 #include <ctime>
 #include <map>
 #include <signal.h>
