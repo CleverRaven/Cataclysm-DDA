@@ -116,5 +116,30 @@
         "flags" : ["VARSIZE", "WATERPROOF", "STURDY"],
         "coverage" : 95,
         "material_thickness" : 4
+    },
+    {
+        "type" : "ARMOR",
+        "id" : "leg_warmers_f",
+        "name" : "pair of fur leggings",
+        "name_plural" : "pairs of fur leggings",
+        "weight" : 60,
+        "color" : "light_gray",
+        "covers" : ["LEGS"],
+        "to_hit" : 0,
+        "storage" : 0,
+        "symbol" : "[",
+        "description" : "Snug fur sleeves to keep your legs warm. Simple yet effective since prehistoric times.",
+        "price" : 1500,
+        "material" : ["fur", "null"],
+        "volume" : 2,
+        "cutting" : 0,
+        "warmth" : 40,
+        "phase" : "solid",
+        "environmental_protection" : 0,
+        "encumbrance" : 3,
+        "bashing" : -3,
+        "flags" : ["VARSIZE"],
+        "coverage" : 60,
+        "material_thickness" : 2
     }
 ]
