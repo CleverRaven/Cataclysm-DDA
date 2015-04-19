@@ -216,48 +216,6 @@ int player::hit_roll() const
     return dice(numdice, sides);
 }
 
-void reason_weight_list::add_item(const char *reason, unsigned int weight)
-{
-    // ignore items with zero weight
-    if (weight != 0) {
-        reason_weight new_weight = { reason, weight };
-        items.push_back(new_weight);
-        total_weight += weight;
-    }
-}
-
-unsigned int reason_weight_list::pick_ent()
-{
-    unsigned int picked = rng(0, total_weight);
-    unsigned int accumulated_weight = 0;
-    unsigned int i;
-    for(i = 0; i < items.size(); i++) {
-        accumulated_weight += items[i].weight;
-        if(accumulated_weight >= picked) {
-            break;
-        }
-    }
-    return i;
-}
-
-const char *reason_weight_list::pick()
-{
-    if (total_weight != 0) {
-        return items[ pick_ent() ].reason;
-    } else {
-        // if no items have been added, or only zero-weight items have
-        // been added, don't pick anything
-        return NULL;
-    }
-}
-
-void reason_weight_list::clear()
-{
-    total_weight = 0;
-    items.clear();
-}
-
-
 void player::add_miss_reason(const char *reason, unsigned int weight)
 {
     melee_miss_reasons.add_item(reason, weight);
@@ -269,7 +227,7 @@ void player::clear_miss_reasons()
     melee_miss_reasons.clear();
 }
 
-const char *player::get_miss_reason()
+const char **player::get_miss_reason()
 {
     // everything that lowers accuracy in player::hit_roll()
     // adding it in hit_roll() might not be safe if it's called multiple times
@@ -316,9 +274,9 @@ void player::melee_attack(Creature &t, bool allow_special, matec_id force_techni
         if (is_player()) { // Only display messages if this is the player
 
             if (one_in(2)) {
-                const char* reason_for_miss = get_miss_reason();
+                const char** reason_for_miss = get_miss_reason();
                 if (reason_for_miss != NULL)
-                    add_msg(reason_for_miss);
+                    add_msg(*reason_for_miss);
             }
 
             if (has_miss_recovery_tec())

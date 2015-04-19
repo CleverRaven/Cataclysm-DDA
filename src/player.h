@@ -13,6 +13,7 @@
 #include "messages.h"
 #include "clzones.h"
 #include "artifact.h"
+#include "weighted_list.h"
 
 #include <unordered_set>
 #include <bitset>
@@ -85,25 +86,6 @@ struct stats : public JsonSerializer, public JsonDeserializer {
         jo.read("damage_healed", damage_healed);
         jo.read("headshots", headshots);
     }
-};
-
-// Likelyhood to pick a reason
-struct reason_weight {
-    const char *reason;
-    unsigned int weight;
-};
-
-// Class for picking a reason for a melee miss from a weighted list.
-struct reason_weight_list {
-        reason_weight_list() : total_weight(0) { };
-        void add_item(const char *reason, unsigned int weight);
-        unsigned int pick_ent();
-        const char *pick();
-        void clear();
-
-    private:
-        unsigned int total_weight;
-        std::vector<reason_weight> items;
 };
 
 class player : public Character, public JsonSerializer, public JsonDeserializer
@@ -496,7 +478,7 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         /**
          * Returns an explanation for why the player would miss a melee attack.
          */
-        const char *get_miss_reason();
+        const char **get_miss_reason();
 
         /** Handles the uncanny dodge bionic and effects, returns true if the player successfully dodges */
         bool uncanny_dodge() override;
@@ -1151,7 +1133,7 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         int cached_turn;
         point cached_position;
 
-        struct reason_weight_list melee_miss_reasons;
+        struct weighted_list<const char*> melee_miss_reasons;
 
         int id; // A unique ID number, assigned by the game class private so it cannot be overwritten and cause save game corruptions.
         //NPCs also use this ID value. Values should never be reused.
