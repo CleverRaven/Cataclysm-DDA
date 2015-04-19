@@ -5010,7 +5010,7 @@ bool item::reduce_charges( long quantity )
 }
 
 void item::muzzle_flash_falloff(){
-    add_msg(m_debug, "light: %d", light.luminance);
+   // add_msg(m_debug, "light: %d", light.luminance);
     light.luminance > type->gun->muzzle_flash / 4 ? light.luminance /= 2 : light.luminance = 0;  
 }
 
