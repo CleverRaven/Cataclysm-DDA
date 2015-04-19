@@ -29,7 +29,7 @@
     },{
         "type" : "technique",
         "id" : "DEF_DISARM",
-        "name" : "", "comment": "not imeplemented -> empty name",
+        "name" : "disarm",
         "messages" : [
             "You disarm %s",
             "<npcname> disarms %s"

@@ -9,7 +9,6 @@
 #include "line.h"
 #include "mutation.h"
 #include "player.h"
-#include "disease.h"
 #include "vehicle.h"
 #include "uistate.h"
 #include "action.h"

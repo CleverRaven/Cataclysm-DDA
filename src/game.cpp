@@ -144,7 +144,6 @@ void game::load_static_data()
     init_mapgen_builtin_functions();
     init_fields();
     init_morale();
-    init_diseases();             // Set up disease lookup table
     init_savedata_translation_tables();
     init_npctalk();
     init_artifacts();
