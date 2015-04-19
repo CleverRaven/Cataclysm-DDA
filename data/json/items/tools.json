@@ -124,8 +124,7 @@
    "ammo": "battery",
    "revert_to": "null",
    "use_action": {
-            "type": "firestarter",
-            "moves_cost": 15
+            "type": "extended_firestarter"
     }
   },
   {
