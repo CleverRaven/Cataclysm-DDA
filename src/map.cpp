@@ -6007,8 +6007,6 @@ void map::grow_plant( const tripoint &p )
         return;
     }
 
-    // Erase fertilizer tokens, but keep the seed item
-    i_rem( p, 1 );
     auto seed = items.front();
     if( !seed.is_seed() ) {
         // No seed there anymore, we don't know what kind of plant it was.
