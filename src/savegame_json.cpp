@@ -4,6 +4,7 @@
 #include "bionics.h"
 #include "mission.h"
 #include "game.h"
+#include "rng.h"
 #include "addiction.h"
 #include "moraledata.h"
 #include "inventory.h"
