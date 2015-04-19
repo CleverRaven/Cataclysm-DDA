@@ -4078,11 +4078,10 @@ float player::active_light()
     }
 
     if (!weapon.is_null()) {
-        if ( weapon.active  && weapon.charges > 0) {
-            int lumit = weapon.getlight_emit(true);
-            if ( maxlum < lumit ) {
-                maxlum = lumit;
-            }
+        int lumit = weapon.getlight_emit(true);
+        weapon.light.luminance > 10 ? weapon.light.luminance -= 10 : weapon.light.luminance = 0; //resets muzzle flash (there is probobly a better way to do this)
+        if ( maxlum < lumit ) {
+            maxlum = lumit;
         }
     }
 

@@ -4018,9 +4018,10 @@ bool item::getlight(float & luminance, int & width, int & direction, bool calcul
 int item::getlight_emit(bool calculate_dimming) const {
     const int mult = 10; // woo intmath
     const int chargedrop = 5 * mult; // start dimming at 1/5th charge.
-
+    
     int lumint = type->light_emission * mult;
-
+    lumint += light.luminance * mult;
+    
     if ( lumint == 0 ) {
         return 0;
     }

@@ -17,6 +17,7 @@
 int time_to_fire(player &p, const itype &firing);
 int recoil_add(player &p, const item &gun);
 void make_gun_sound_effect(player &p, bool burst, item *weapon);
+void make_gun_flash(player &p, item *weapon);
 extern bool is_valid_in_w_terrain(int, int);
 
 void splatter( const std::vector<tripoint> &trajectory, int dam, const Creature *target = nullptr );
@@ -520,6 +521,7 @@ void player::fire_gun(int tarx, int tary, bool burst)
         }
 
         make_gun_sound_effect(*this, burst, used_weapon);
+        make_gun_flash(*this, used_weapon);
 
         double total_dispersion = get_weapon_dispersion(used_weapon, true);
         //debugmsg("%f",total_dispersion);
@@ -1380,21 +1382,22 @@ void make_gun_sound_effect(player &p, bool burst, item *weapon)
     }
 }
 
-void make_gun_flash(player &p)
+void make_gun_flash(player &p , item *weapon)
 {
-    if(p.weapon->has_gunmod("suppressor","crafted_suppressor","shot_suppressor")){
+    if(p.weapon.has_gunmod("suppressor") > 0 || p.weapon.has_gunmod("crafted_suppressor") > 0 || p.weapon.has_gunmod("shot_suppressor") > 0){
         return;
-    const auto &ammo_effects = p.weapon->type->gun->ammo_effects;
+    }
+    const auto &ammo_effects = weapon->type->gun->ammo_effects;
     
      if( ammo_effects.count("WHIP"))
      {
         return;
      }if( ammo_effects.count("LASER") || ammo_effects.count("PLASMA") ) {
-     
+        p.weapon.light.luminance = 500;
      } else if( ammo_effects.count("LIGHTNING") ) {
-     
+        p.weapon.light.luminance = 1000;
      }else {
-     
+        p.weapon.light.luminance = 100; 
      }
 }
 
