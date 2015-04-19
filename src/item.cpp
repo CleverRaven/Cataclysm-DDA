@@ -4032,9 +4032,6 @@ int item::getlight_emit(bool calculate_dimming) const {
             lumint = ( type->light_emission * chargedrop * charges ) / maxcharge;
         }
     }
-    if ( calculate_dimming && is_gun() ) {
-        muzzle_flash_falloff();
-    }
     if ( lumint > 4 && lumint < 10 ) {
         lumint = 10;
     }
@@ -5014,8 +5011,7 @@ bool item::reduce_charges( long quantity )
 
 void item::muzzle_flash_falloff(){
     add_msg(m_debug, "light: %d", light.luminance);
-    int flash = type->gun->muzzle_flash;
-    light.luminance > flash / 4 ? light.luminance /= 2 : light.luminance = 0;  
+    light.luminance > type->gun->muzzle_flash / 4 ? light.luminance /= 2 : light.luminance = 0;  
 }
 
 bool item::has_effect_when_wielded( art_effect_passive effect ) const
