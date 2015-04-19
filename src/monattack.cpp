@@ -1684,7 +1684,6 @@ void mattack::impale(monster *z, int index)
     auto hit = bp_torso;
     int dam = rng(35, 45);
     dam = target->deal_damage( z, hit, damage_instance( DT_CUT, dam ) ).total_damage();
-    add_msg( _("The dam value is %d!"), dam);
     if( dam > 0 && foe != nullptr ) {
         if( seen ) {
             auto msg_type = foe == &g->u ? m_bad : m_info;
