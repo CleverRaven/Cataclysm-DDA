@@ -8646,7 +8646,6 @@ point game::look_around(WINDOW *w_info, const point pairCoordsFirst)
     tripoint lp = u.pos3() + u.view_offset;
     int &lx = lp.x;
     int &ly = lp.y;
-    int &lz = lp.z;
 
     if (bSelectZone && bHasFirstPoint) {
         lx = pairCoordsFirst.x;
@@ -8829,7 +8828,8 @@ point game::look_around(WINDOW *w_info, const point pairCoordsFirst)
                 }
 
                 add_msg("levx: %d, levy: %d, levz :%d", get_levx(), get_levy(), new_levz );
-                lz = new_levz;
+                u.view_offset.z = new_levz - u.posz();
+                lp.z = new_levz;
                 refresh_all();
                 draw_ter( lp, true );
             } else if (!ctxt.get_coordinates(w_terrain, lx, ly)) {
@@ -8868,8 +8868,9 @@ point game::look_around(WINDOW *w_info, const point pairCoordsFirst)
         }
     } while (action != "QUIT" && action != "CONFIRM");
 
-    if( m.has_zlevels() && get_levz() != old_levz ) {
-        m.vertical_shift( old_levz );
+    if( m.has_zlevels() && lp.z != old_levz ) {
+        m.build_map_cache( old_levz );
+        u.view_offset.z = 0;
     }
 
     inp_mngr.set_timeout(-1);

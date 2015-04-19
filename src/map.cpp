@@ -5906,14 +5906,17 @@ void map::loadn( const int gridx, const int gridy, const int gridz, const bool u
     set_outside_cache_dirty();
     setsubmap( gridn, tmpsub );
 
+    for( auto it : tmpsub->vehicles ) {
+        // Always fix submap coords for easier z-level-related operations
+        it->smx = gridx;
+        it->smy = gridy;
+    }
+
     // Update vehicle data
     if( update_vehicles ) {
         for( auto it : tmpsub->vehicles ) {
             // Only add if not tracking already.
             if( vehicle_list.find( it ) == vehicle_list.end() ) {
-                // gridx/y not correct. TODO: Fix
-                it->smx = gridx;
-                it->smy = gridy;
                 vehicle_list.insert( it );
                 update_vehicle_cache( it );
             }
@@ -6430,13 +6433,13 @@ void map::build_map_cache( const int zlev )
     build_outside_cache( zlev );
     build_transparency_cache( zlev );
 
-    // Only get vehicles on current z-level until FoV update
+    // Only get vehicles on current z-level for now
     tripoint start( 0, 0, zlev );
     tripoint end( my_MAPSIZE * SEEX, my_MAPSIZE * SEEY, zlev );
     VehicleList vehs = get_vehicles( start, end );
     // Cache all the vehicle stuff in one loop
     for( auto &v : vehs ) {
-        for (size_t part = 0; part < v.v->parts.size(); part++) {
+        for( size_t part = 0; part < v.v->parts.size(); part++ ) {
             int px = v.x + v.v->parts[part].precalc[0].x;
             int py = v.y + v.v->parts[part].precalc[0].y;
             if(INBOUNDS(px, py)) {
