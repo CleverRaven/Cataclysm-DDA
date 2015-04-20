@@ -30,8 +30,6 @@ class npc;
 extern std::unordered_map<std::string, oter_t> obasetermap;
 
 struct oter_weight {
-    oter_weight(std::string id) : ot_sid(id), ot_iid(-1) {}
-
     inline bool operator ==(const oter_weight &other) {
         return this->ot_sid == other.ot_sid;
     }

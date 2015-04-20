@@ -4,7 +4,12 @@
 #include "rng.h"
 #include <vector>
 
-template <typename T> struct weighted_obect {
+template <typename T> struct weighted_object {
+    weighted_object(const T &obj, int weight) {
+        this->obj = obj;
+        this->weight = weight;
+    }
+
     T obj;
     int weight;
 };
@@ -17,10 +22,9 @@ template <typename T> struct weighted_list {
      * @param obj The object that will be added to the list.
      * @param weight The weight of the object.
      */
-    void add_item(T obj, int weight) {
+    void add_item(const T &obj, int weight) {
         if(weight >= 0) {
-            weighted_obect<T> new_weighted = { obj, weight };
-            objects.push_back(new_weighted);
+            objects.emplace_back(obj, weight);
             total_weight += weight;
         }
     }
@@ -32,7 +36,7 @@ template <typename T> struct weighted_list {
      * @param obj The object that will be updated or added to the list.
      * @param weight The new weight of the object.
      */
-    void add_or_replace_item(T obj, int weight) {
+    void add_or_replace_item(const T &obj, int weight) {
         if(weight >= 0) {
             for(auto &itr : objects) {
                 if(itr.obj == obj) {
@@ -88,7 +92,7 @@ template <typename T> struct weighted_list {
 
 private:
     int total_weight;
-    std::vector<weighted_obect<T> > objects;
+    std::vector<weighted_object<T> > objects;
 
     size_t pick_ent() {
         int picked = rng(0, total_weight);

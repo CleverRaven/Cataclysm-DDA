@@ -571,7 +571,7 @@ void load_region_settings( JsonObject &jo )
             for( const auto &key : keys ) {
                 if( key != "//" ) {
                     if( wjo.has_int( key ) ) {
-                        new_region.city_spec.shops.add_item( oter_weight(key), wjo.get_int( key ) );
+                        new_region.city_spec.shops.add_item({key, -1}, wjo.get_int( key ) );
                     }
                 }
             }
@@ -586,7 +586,7 @@ void load_region_settings( JsonObject &jo )
             for( const auto &key : keys ) {
                 if( key != "//" ) {
                     if( wjo.has_int( key ) ) {
-                        new_region.city_spec.parks.add_item( oter_weight(key), wjo.get_int( key ) );
+                        new_region.city_spec.parks.add_item({key, -1}, wjo.get_int( key ) );
                     }
                 }
             }
@@ -718,7 +718,7 @@ void apply_region_overlay(JsonObject &jo, regional_settings &region)
     for( const auto &key : shopkeys ) {
         if( key != "//" ) {
             if( shopsjo.has_int( key ) ) {
-                region.city_spec.shops.add_or_replace_item( oter_weight(key), shopsjo.get_int(key));
+                region.city_spec.shops.add_or_replace_item({key, -1}, shopsjo.get_int(key));
             }
         }
     }
@@ -728,7 +728,7 @@ void apply_region_overlay(JsonObject &jo, regional_settings &region)
     for( const auto &key : parkkeys ) {
         if( key != "//" ) {
             if( parksjo.has_int( key ) ) {
-                region.city_spec.parks.add_or_replace_item( oter_weight(key), parksjo.get_int(key));
+                region.city_spec.parks.add_or_replace_item({key, -1}, parksjo.get_int(key));
             }
         }
     }
