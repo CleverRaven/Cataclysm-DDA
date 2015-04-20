@@ -1227,16 +1227,14 @@
   },{
     "type":"monstergroup",
     "name" : "GROUP_FERAL_HUNTER",
-    "default" : "mon_null",
-    "//" : "Masters pick from here when upgrading; no dogs, bionics, or profession-types",
+    "default" : "mon_zombie_hunter",
     "monsters" : [
       { "monster" : "mon_zombie_hunter", "freq" : 20, "cost_multiplier" : 5 }
     ]
   },{
     "type":"monstergroup",
     "name" : "GROUP_FERAL_PREDATOR",
-    "default" : "mon_null",
-    "//" : "Masters pick from here when upgrading; no dogs, bionics, or profession-types",
+    "default" : "mon_zombie_predator",
     "monsters" : [
       { "monster" : "mon_zombie_predator", "freq" : 20, "cost_multiplier" : 5 }
     ]
