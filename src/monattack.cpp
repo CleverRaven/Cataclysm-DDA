@@ -1663,7 +1663,6 @@ void mattack::impale(monster *z, int index)
     player *foe = dynamic_cast< player* >( target );
     bool seen = g->u.sees( *z );
 
-    z->reset_special(index); // Reset timer
     z->moves -= 80;
     bool uncanny = foe != nullptr && foe->uncanny_dodge();
     if( uncanny || dodge_check(z, target) ){
@@ -1683,9 +1682,8 @@ void mattack::impale(monster *z, int index)
     }
     return;
     }
-    foe->apply_damage( z, bp_torso, rng(15, 20) );
-    foe->moves -= rng(100, 300);
-    if( foe != nullptr ) {
+    int dam = target->deal_damage( z, bp_torso, damage_instance( DT_STAB, 20 ) ).total_damage();
+    if( dam > 0 && foe != nullptr ) {
         if( seen ) {
             auto msg_type = foe == &g->u ? m_bad : m_info;
             //~ 1$s is monster name, 2$s bodypart in accusative
@@ -1698,10 +1696,22 @@ void mattack::impale(monster *z, int index)
         if( one_in( 10 ) ) {
             foe->add_effect( "infected", 250, bp_torso, true );
         }
-        if( one_in( 3 ) ) {
+        if( (dam > 15) || (one_in( 10 )) ) {
             foe->add_effect( "bleed", rng( 75, 125 ), bp_torso, true );
         }
         foe->check_dead_state();
+        if( one_in( 3 ) &&
+        ( foe == nullptr || !foe->is_throw_immune() ||
+          ( !foe->has_trait("LEG_TENT_BRACE") ||
+            foe->footwear_factor() == 1 || ( foe->footwear_factor() == .5 && one_in(2) ) ) ) ) {
+        target->add_effect("downed", 30);
+        }
+        z->moves -=80; //Takes extra time for the creature to pull out the protrusion
+        z->reset_special(index); // Reset timer
+    } else if( foe != nullptr ) {
+         if( seen ) {
+                                         z->name().c_str());
+        }
     } else if( seen ) {
         add_msg( _("The %s impales %s!"), z->name().c_str(), target->disp_name().c_str() );
     }
