@@ -74,19 +74,6 @@ classes = {
                 args = {},
                 rval = "int"
             },
-
-            has_disease = {
-                args = { "string" },
-                rval = "bool"
-            },
-            rem_disease = {
-                args = { "string" },
-                rval = nil
-            },
-            add_disease = {
-                args = { "string", "int", "int", "int" },
-                rval = nil
-            },
             morale_level = {
                 args = { },
                 rval = "int"

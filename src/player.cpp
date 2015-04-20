@@ -5,7 +5,6 @@
 #include "game.h"
 #include "map.h"
 #include "debug.h"
-#include "disease.h"
 #include "addiction.h"
 #include "moraledata.h"
 #include "inventory.h"
@@ -1241,8 +1240,8 @@ void player::update_bodytemp()
             // Spread the morale bonus in time.
             int mytime = MINUTES( i ) / MINUTES( num_bp );
             if( calendar::turn % MINUTES( 1 ) == mytime &&
-                disease_intensity( "cold", false, (body_part)num_bp ) == 0 &&
-                disease_intensity( "hot", false, (body_part)num_bp ) == 0 &&
+                get_effect_int( "cold", (body_part)num_bp ) == 0 &&
+                get_effect_int( "hot", (body_part)num_bp ) == 0 &&
                 temp_cur[i] > BODYTEMP_COLD && temp_cur[i] <= BODYTEMP_NORM ) {
                 add_morale( MORALE_COMFY, 1, 5, 20, 10, true );
             }
@@ -2022,13 +2021,6 @@ void player::memorial( std::ofstream &memorial_file, std::string epitaph )
     //Effects (illnesses)
     memorial_file << _("Ongoing Effects:") << "\n";
     bool had_effect = false;
-    for (auto &next_illness : illness) {
-      if(dis_name(next_illness).size() > 0) {
-        had_effect = true;
-        memorial_file << indent << dis_name(next_illness) << "\n";
-      }
-    }
-    //Various effects not covered by the illness list - from player.cpp
     if(morale_level() >= 100) {
       had_effect = true;
       memorial_file << indent << _("Elated") << "\n";
@@ -2288,12 +2280,6 @@ void player::disp_info()
     std::vector<std::string> effect_name;
     std::vector<std::string> effect_text;
     std::string tmp = "";
-    for (auto &next_illness : illness) {
-        if (dis_name(next_illness).size() > 0) {
-            effect_name.push_back(dis_name(next_illness));
-            effect_text.push_back(dis_description(next_illness));
-        }
-    }
     for( auto &elem : effects ) {
         for( auto &_effect_it : elem.second ) {
             tmp = _effect_it.second.disp_name();
@@ -5189,156 +5175,6 @@ void player::update_health(int base_threshold)
     Creature::update_health(base_threshold);
 }
 
-bool player::infect(dis_type type, body_part vector, int strength,
-                     int duration, bool permanent, int intensity,
-                     int max_intensity, int decay, int additive, bool targeted,
-                     bool main_parts_only)
-{
-    if (strength <= 0) {
-        return false;
-    }
-
-    if (dice(strength, 3) > dice(get_env_resist(vector), 3)) {
-        if (targeted) {
-            add_disease(type, duration, permanent, intensity, max_intensity, decay,
-                          additive, vector, main_parts_only);
-        } else {
-            add_disease(type, duration, permanent, intensity, max_intensity, decay, additive);
-        }
-        return true;
-    }
-
-    return false;
-}
-
-void player::add_disease(dis_type type, int duration, bool permanent,
-                         int intensity, int max_intensity, int decay,
-                         int additive, body_part part, bool main_parts_only)
-{
-    if (duration <= 0) {
-        return;
-    }
-
-    if (part != num_bp && hp_cur[player::bp_to_hp(part)] == 0) {
-        return;
-    }
-
-    if (main_parts_only) {
-        part = mutate_to_main_part(part);
-    }
-
-    bool found = false;
-    for (auto &i : illness) {
-        if (i.type == type) {
-            if ((part == num_bp) ^ (i.bp == num_bp)) {
-                debugmsg("Bodypart missmatch when applying disease %s",
-                         type.c_str());
-                return;
-            }
-            if (i.bp == part) {
-                if (additive > 0) {
-                    i.duration += duration;
-                } else if (additive < 0) {
-                    i.duration -= duration;
-                    if (i.duration <= 0) {
-                        i.duration = 1;
-                    }
-                }
-                i.intensity += intensity;
-                if (max_intensity != -1 && i.intensity > max_intensity) {
-                    i.intensity = max_intensity;
-                }
-                if (permanent) {
-                    i.permanent = true;
-                }
-                i.decay = decay;
-                found = true;
-                // Found it, so no need to keep checking
-                break;
-            }
-        }
-    }
-    if (!found) {
-        disease tmp(type, duration, intensity, part, permanent, decay);
-        illness.push_back(tmp);
-    }
-
-    recalc_sight_limits();
-}
-
-void player::rem_disease(dis_type type, body_part part)
-{
-    for (auto &next_illness : illness) {
-        if (next_illness.type == type && ( part == num_bp || next_illness.bp == part )) {
-            next_illness.duration = -1;
-        }
-    }
-
-    recalc_sight_limits();
-}
-
-bool player::has_disease(dis_type type, body_part part) const
-{
-    for (auto &i : illness) {
-        if (i.duration > 0 && i.type == type && ( part == num_bp || i.bp == part )) {
-            return true;
-        }
-    }
-    return false;
-}
-
-bool player::pause_disease(dis_type type, body_part part)
-{
-    for (auto &i : illness) {
-        if (i.type == type && ( part == num_bp || i.bp == part )) {
-                i.permanent = true;
-                return true;
-        }
-    }
-    return false;
-}
-
-bool player::unpause_disease(dis_type type, body_part part)
-{
-    for (auto &i : illness) {
-        if (i.type == type && ( part == num_bp || i.bp == part )) {
-                i.permanent = false;
-                return true;
-        }
-    }
-    return false;
-}
-
-int player::disease_duration(dis_type type, bool all, body_part part) const
-{
-    int tmp = 0;
-    for (auto &i : illness) {
-        if (i.type == type && (part ==  num_bp || i.bp == part)) {
-            if (all == false) {
-                return i.duration;
-            } else {
-                tmp += i.duration;
-            }
-        }
-    }
-    return tmp;
-}
-
-int player::disease_intensity(dis_type type, bool all, body_part part) const
-{
-    int tmp = 0;
-    for (auto &i : illness) {
-        if (i.type == type && (part ==  num_bp || i.bp == part)) {
-            if (all == false) {
-                return i.intensity;
-            } else {
-                tmp += i.intensity;
-            }
-        }
-    }
-    return tmp;
-}
-
 void player::add_addiction(add_type type, int strength)
 {
     if (type == ADD_NULL) {
@@ -5824,6 +5660,14 @@ void player::process_effects() {
 
 void player::hardcoded_effects(effect &it)
 {
+    if( auto buff = ma_buff::from_effect( it ) ) {
+        if( buff->is_valid_player( *this ) ) {
+            buff->apply_player( *this );
+        } else {
+            it.set_duration( 0 ); // removes the effect
+        }
+        return;
+    }
     std::string id = it.get_id();
     int dur = it.get_duration();
     int intense = it.get_intensity();
@@ -7266,34 +7110,6 @@ void player::suffer()
                 thirst--;
             }
             mod_healthy_mod(5);
-        }
-    }
-
-    for( auto &elem : illness ) {
-        if( elem.duration <= 0 ) {
-            continue;
-        }
-        dis_effect( *this, elem );
-    }
-
-    // Diseases may remove themselves as part of applying (MA buffs do) so do a
-    // separate loop through the remaining ones for duration, decay, etc..
-    for( auto it = illness.begin(); it != illness.end(); ) {
-        auto &next_illness = *it;
-        if( next_illness.duration < 0 ) {
-            it = illness.erase( it );
-            continue;
-        }
-        if (!next_illness.permanent) {
-            next_illness.duration--;
-        }
-        if (next_illness.decay > 0 && one_in(next_illness.decay)) {
-            next_illness.intensity--;
-        }
-        if (next_illness.duration <= 0 || next_illness.intensity == 0) {
-            it = illness.erase( it );
-        } else {
-            it++;
         }
     }
 
@@ -13044,17 +12860,8 @@ double player::logistic_range(int min, int max, int pos)
     return (raw_logistic - LOGI_MIN) / LOGI_RANGE;
 }
 
-// Calculates portions favoring x, then y, then z
-void player::calculate_portions(int &x, int &y, int &z, int maximum)
-{
-    z = std::min(z, std::max(maximum - x - y, 0));
-    y = std::min(y, std::max(maximum - x , 0));
-    x = std::min(x, std::max(maximum, 0));
-}
-
 void player::environmental_revert_effect()
 {
-    illness.clear();
     addictions.clear();
     morale.clear();
 
