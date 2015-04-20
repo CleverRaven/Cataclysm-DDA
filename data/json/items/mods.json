@@ -37,7 +37,7 @@
         "cutting": 0,
         "to_hit": -2,
         "flags": [ "IS_ARMOR", "BELTED" ],
-        "mod_targets": ["rifle", "shotgun", "smg"]
+        "mod_targets": ["rifle", "shotgun", "smg", "crossbow", "launcher"]
     },
     {
         "type" : "GUNMOD",
