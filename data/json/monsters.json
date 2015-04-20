@@ -1523,7 +1523,6 @@
     "armor_cut":0,
     "vision_day":40,
     "vision_night":3,
-    "item_chance":40,
     "death_drops": "default_zombie_death_drops",
     "upgrade_group" : "GROUP_ZOMBIE_UPGRADE",
     "upgrade_min" : 14,
@@ -1559,7 +1558,6 @@
     "armor_cut":3,
     "vision_day":40,
     "vision_night":3,
-    "item_chance":40,
     "death_drops": "default_zombie_death_drops",
     "luminance":0,
     "hp":95,
@@ -1591,7 +1589,6 @@
     "armor_cut":1,
     "vision_day":40,
     "vision_night":3,
-    "item_chance":40,
     "death_drops": "default_zombie_death_drops",
     "luminance":0,
     "hp":100,
@@ -1623,7 +1620,6 @@
     "armor_cut":0,
     "vision_day":10,
     "vision_night":1,
-    "item_chance":40,
     "death_drops": "default_zombie_death_drops",
     "luminance":0,
     "hp":60,
@@ -1655,7 +1651,6 @@
     "armor_cut":4,
     "vision_day":40,
     "vision_night":3,
-    "item_chance":40,
     "death_drops": "mon_zombie_hazmat_death_drops",
     "luminance":0,
     "hp":80,
@@ -1687,7 +1682,6 @@
     "armor_cut":6,
     "vision_day":40,
     "vision_night":3,
-    "item_chance":40,
     "death_drops": "mon_zombie_fireman_death_drops",
     "luminance":0,
     "hp":80,
@@ -1718,7 +1712,6 @@
     "armor_cut":7,
     "vision_day":50,
     "vision_night":3,
-    "item_chance":40,
     "death_drops": "mon_zombie_survivor_death_drops",
     "luminance":0,
     "hp":120,
@@ -1749,7 +1742,6 @@
     "armor_cut":0,
     "vision_day":40,
     "vision_night":3,
-    "item_chance":40,
     "death_drops": "default_zombie_death_drops",
     "luminance":0,
     "hp":55,
@@ -1781,7 +1773,6 @@
     "armor_cut":6,
     "vision_day":30,
     "vision_night":3,
-    "item_chance":40,
     "death_drops": "mon_zombie_cop_death_drops",
     "luminance":0,
     "hp":80,
@@ -1812,7 +1803,6 @@
     "armor_cut":0,
     "vision_day":50,
     "vision_night":4,
-    "item_chance":40,
     "death_drops": "default_zombie_death_drops",
     "luminance":0,
     "hp":60,
@@ -1843,7 +1833,6 @@
     "armor_cut":0,
     "vision_day":40,
     "vision_night":3,
-    "item_chance":10,
     "death_drops": "default_zombie_death_drops",
     "luminance":0,
     "hp":70,
@@ -1874,7 +1863,6 @@
     "armor_cut":0,
     "vision_day":40,
     "vision_night":1,
-    "item_chance":40,
     "death_drops": "default_zombie_death_drops",
     "luminance":1,
     "hp":85,
@@ -2089,7 +2077,6 @@
     "armor_cut":1,
     "vision_day":40,
     "vision_night":4,
-    "item_chance":60,
     "death_drops": "default_zombie_death_drops",
     "luminance":0,
     "hp":120,
@@ -2120,7 +2107,6 @@
     "armor_cut":8,
     "vision_day":50,
     "vision_night":4,
-    "item_chance":80,
     "death_drops": "mon_zombie_hulk_death_drops",
     "luminance":0,
     "hp":480,
@@ -2151,7 +2137,6 @@
     "armor_cut":0,
     "vision_day":30,
     "vision_night":3,
-    "item_chance":20,
     "death_drops": "default_zombie_death_drops",
     "luminance":0,
     "hp":60,
@@ -2182,7 +2167,6 @@
     "armor_cut":0,
     "vision_day":40,
     "vision_night":3,
-    "item_chance":30,
     "death_drops": "default_zombie_items",
     "luminance":0,
     "hp":40,
@@ -2213,7 +2197,6 @@
     "armor_cut":0,
     "vision_day":30,
     "vision_night":3,
-    "item_chance":20,
     "death_drops": "default_zombie_items",
     "luminance":0,
     "hp":30,
@@ -2244,7 +2227,6 @@
     "armor_cut":0,
     "vision_day":40,
     "vision_night":3,
-    "item_chance":30,
     "death_drops": "default_zombie_items",
     "luminance":0,
     "hp":15,
@@ -2305,7 +2287,6 @@
     "armor_cut":0,
     "vision_day":50,
     "vision_night":5,
-    "item_chance":50,
     "death_drops": "default_zombie_death_drops",
     "luminance":0,
     "hp":100,
@@ -2337,7 +2318,6 @@
     "armor_cut":0,
     "vision_day":50,
     "vision_night":3,
-    "item_chance":50,
     "death_drops": "mon_zombie_scientist_death_drops",
     "luminance":0,
     "hp":80,
@@ -2369,7 +2349,6 @@
     "armor_cut":16,
     "vision_day":30,
     "vision_night":3,
-    "item_chance":80,
     "death_drops": "mon_zombie_soldier_death_drops",
     "luminance":0,
     "hp":100,
@@ -2401,7 +2380,6 @@
     "armor_cut":0,
     "vision_day":30,
     "vision_night":3,
-    "item_chance":40,
     "death_drops": "default_zombie_death_drops",
     "luminance":0,
     "hp":95,
@@ -2432,7 +2410,6 @@
     "armor_cut":2,
     "vision_day":50,
     "vision_night":5,
-    "item_chance":60,
     "death_drops": "default_zombie_death_drops",
     "luminance":0,
     "hp":180,
@@ -2462,7 +2439,6 @@
     "dodge":0,
     "armor_bash":6,
     "armor_cut":8,
-    "item_chance":10,
     "death_drops": {
         "subtype": "collection",
         "//": "cloth as any other zombie (always), additional items from group hive (sometimes)",
@@ -2500,7 +2476,6 @@
     "armor_cut":0,
     "vision_day":40,
     "vision_night":5,
-    "item_chance":50,
     "death_drops": "default_zombie_death_drops",
     "luminance":0,
     "hp":90,
@@ -2530,8 +2505,7 @@
     "armor_bash":8,
     "armor_cut":8,
     "vision_day":30,
-    "vision_night":3,
-    "item_chance":80,    
+    "vision_night":3, 
     "luminance":0,
     "hp":100,
     "death_function":"BLOBSPLIT",
@@ -2562,7 +2536,6 @@
     "armor_cut":0,
     "vision_day":30,
     "vision_night":3,
-    "item_chance":20,
     "death_drops": {
         "subtype": "collection",
         "//": "cloth as any other zombie (always), additional items from child_items (sometimes)",
@@ -2630,7 +2603,6 @@
     "armor_cut":4,
     "vision_day":50,
     "vision_night":3,
-    "item_chance":80,
     "death_drops": {
         "groups": [
             [ "vault_wanderer", 3 ]
@@ -2665,7 +2637,6 @@
     "armor_cut":5,
     "vision_day":50,
     "vision_night":3,
-    "item_chance":80,
     "death_drops": {
         "groups": [
             [ "vault_wanderer", 3 ]
@@ -2700,7 +2671,6 @@
     "armor_cut":6,
     "vision_day":50,
     "vision_night":3,
-    "item_chance":80,
     "death_drops": {
         "groups": [
             [ "vault_wanderer", 3 ]
@@ -2735,7 +2705,6 @@
     "armor_cut":8,
     "vision_day":50,
     "vision_night":3,
-    "item_chance":80,
     "death_drops": {
         "groups": [
             [ "vault_wanderer", 3 ]
@@ -2770,7 +2739,6 @@
     "armor_cut":6,
     "vision_day":50,
     "vision_night":3,
-    "item_chance":50,
     "death_drops": {
         "groups": [
             [ "vault_wanderer", 1 ]
@@ -3212,7 +3180,6 @@
     "armor_bash":20,
     "armor_cut":15,
     "luminance":0,
-    "item_chance":40,
     "death_drops": "marloss_yellow_drops",
     "hp":300,
     "death_function":["FUNGUS", "NORMAL"],
@@ -3269,7 +3236,6 @@
     "armor_cut":10,
     "luminance":0,
     "hp":40,
-    "item_chance":0,
     "death_function":"DISINTEGRATE",
     "special_attacks":[["FUNGUS_BRISTLE", 10]],
     "description":"Looking at first glance like a dull gray privet, this \"hedge\" is really a mass of barbed fungal tendrils, defending the fungal tower.",
@@ -3295,7 +3261,6 @@
     "dodge":4,
     "armor_bash":10,
     "armor_cut":4,
-    "item_chance":0,
     "luminance":0,
     "hp":30,
     "death_function":"FUNGUS",
@@ -3323,7 +3288,6 @@
     "dodge":0,
     "armor_bash":4,
     "armor_cut":4,
-    "item_chance":0,
     "luminance":20,
     "hp":30,
     "death_function":"FUNGUS",
@@ -4944,7 +4908,6 @@
     "dodge":1,
     "armor_bash":0,
     "armor_cut":0,
-    "item_chance":10,
     "death_drops": "default_zombie_death_drops",
     "luminance":0,
     "hp":80,
@@ -5055,7 +5018,6 @@
     "dodge":3,
     "armor_bash":8,
     "armor_cut":10,
-    "item_chance":70,
     "death_drops": {
         "groups": [
             [ "robots", 4 ],
@@ -5090,7 +5052,6 @@
     "armor_bash":0,
     "armor_cut":6,
     "vision_day":40,
-    "item_chance":10,
     "revert_to_itype": "bot_manhack",
     "death_drops": {
         "groups": [
@@ -5125,7 +5086,6 @@
     "armor_bash":12,
     "armor_cut":12,
     "vision_day":50,
-    "item_chance":60,
     "death_drops": {
         "groups": [
             [ "robots", 4 ],
@@ -5160,7 +5120,6 @@
     "armor_bash":14,
     "armor_cut":14,
     "vision_day":50,
-    "item_chance":80,
     "death_drops": {
         "groups": [
             [ "robots", 4 ],
@@ -5223,7 +5182,6 @@
     "armor_bash":12,
     "armor_cut":8,
     "vision_day":50,
-    "item_chance":80,
     "death_drops": {
         "groups": [
             [ "robots", 4 ],
@@ -5257,7 +5215,6 @@
     "dodge":0,
     "armor_bash":0,
     "armor_cut":12,
-    "item_chance":80,
     "death_drops": {
         "groups": [
             [ "robots", 4 ],
@@ -5290,7 +5247,6 @@
     "dodge":0,
     "armor_bash":12,
     "armor_cut":8,
-    "item_chance":82,
     "death_drops": {
         "groups": [
             [ "robots", 4 ],
@@ -5325,7 +5281,6 @@
     "armor_bash":18,
     "armor_cut":14,
     "vision_day":50,
-    "item_chance":85,
     "death_drops": {
         "groups": [
             [ "robots", 4 ],
@@ -5361,7 +5316,6 @@
     "armor_bash":24,
     "armor_cut":30,
     "vision_day":50,
-    "item_chance":92,
     "death_drops": {
         "groups": [
             [ "robots", 4 ],
@@ -5396,7 +5350,6 @@
     "dodge":0,
     "armor_bash":14,
     "armor_cut":16,
-    "item_chance":80,
     "revert_to_itype": "bot_turret",
     "death_drops": {
         "groups": [
@@ -5432,7 +5385,6 @@
     "dodge":0,
     "armor_bash":14,
     "armor_cut":16,
-    "item_chance":80,
     "revert_to_itype": "bot_laserturret",
     "death_drops": {
         "groups": [
@@ -5467,7 +5419,6 @@
     "dodge":0,
     "armor_bash":14,
     "armor_cut":16,
-    "item_chance":80,
     "revert_to_itype": "bot_rifleturret",
     "death_drops": {
         "groups": [
@@ -5503,7 +5454,6 @@
     "dodge":0,
     "armor_bash":14,
     "armor_cut":16,
-    "item_chance":80,
     "death_drops": {
         "groups": [
             [ "robots", 9 ],
@@ -5538,7 +5488,6 @@
     "dodge":0,
     "armor_bash":14,
     "armor_cut":16,
-    "item_chance":80,
     "death_drops": {
         "groups": [
             [ "robots", 1 ],
@@ -5992,7 +5941,6 @@
     "armor_cut":18,
     "vision_day":50,
     "vision_night":3,
-    "item_chance":50,
     "death_drops": "mon_zombie_bio_op_death_drops",
     "luminance":1,
     "hp":120,
@@ -6024,7 +5972,6 @@
     "armor_cut":36,
     "vision_day":30,
     "vision_night":3,
-    "item_chance":80,
     "death_drops": "mon_zombie_armored_death_drops",
     "luminance":0,
     "hp":120,
@@ -6114,7 +6061,6 @@
     "armor_cut":2,
     "vision_day":50,
     "vision_night":3,
-    "item_chance":60,
     "death_drops": "jackson_drops",
     "luminance":0,
     "hp":100,
@@ -6145,7 +6091,6 @@
     "armor_cut":8,
     "vision_day":50,
     "vision_night":3,
-    "item_chance":80,
     "death_drops": "mon_zombie_hulk_death_drops",
     "luminance":0,
     "hp":10000,
@@ -6175,7 +6120,6 @@
     "armor_bash":12,
     "armor_cut":8,
     "vision_day":50,
-    "item_chance":80,
     "death_drops": {
         "groups": [
             [ "robots", 4 ],
@@ -6212,7 +6156,6 @@
     "armor_cut":2,
     "vision_day":15,
     "vision_night":2,
-    "item_chance":40,
     "death_drops": "mon_zombie_technician_death_drops",
     "luminance":0,
     "hp":85,
@@ -6243,7 +6186,6 @@
     "armor_cut":1,
     "vision_day":40,
     "vision_night":3,
-    "item_chance":60,
     "death_drops": "default_zombie_death_drops",
     "luminance":2,
     "hp":300,
