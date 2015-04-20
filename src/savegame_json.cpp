@@ -1185,6 +1185,8 @@ void item::deserialize(JsonObject &data)
         // There was a bug that set all comestibles active, this reverses that.
         active = false;
     }
+
+    data.read("techniques", techniques);
     // We need item tags here to make sure HOT/COLD food is active
     // and bugged WET towels get reactivated
     data.read("item_tags", item_tags);
@@ -1287,6 +1289,10 @@ void item::serialize(JsonOut &json, bool save_contents) const
     }
     if ( mission_id != -1 ) {
         json.member( "mission_id", mission_id );
+    }
+
+    if ( ! techniques.empty() ) {
+        json.member( "techniques", techniques );
     }
 
     if ( ! item_tags.empty() ) {
