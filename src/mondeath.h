@@ -30,6 +30,7 @@ void broken         (monster *z); // Broken robot drop
 void ratking        (monster *z); // Cure verminitis
 void darkman        (monster *z); // sight returns to normal
 void gas            (monster *z); // Explodes in toxic gas
+void gas_hallu      (monster *z); // Explodes in hallucinogenic gas
 void kill_breathers (monster *z); // All breathers die
 void smokeburst     (monster *z); // Explode like a huge smoke bomb.
 

@@ -1223,6 +1223,15 @@
     ]
   },{
     "type":"monstergroup",
+    "name" : "GROUP_FAT_ZOMBIE",
+    "default" : "mon_zombie_gasbag",
+    "monsters" : [
+      { "monster" : "mon_zombie_gasbag", "freq" : 40, "cost_multiplier": 5},
+      { "monster" : "mon_zombie_boomer", "freq" : 50, "cost_multiplier" : 5 },
+      { "monster" : "mon_zombie_haluc", "freq" : 10, "cost_multiplier" : 5 }
+    ]
+  },{
+    "type":"monstergroup",
     "name" : "GROUP_SAFE", "_comment" : "used by mongroup::is_safe()",
     "default" : "mon_null",
     "monsters" : [

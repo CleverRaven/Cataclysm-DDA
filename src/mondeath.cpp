@@ -575,6 +575,22 @@ void mdeath::gas(monster *z)
     }
 }
 
+void mdeath::gas_hallu(monster *z)
+{
+    std::string explode = string_format(_("a %s explode!"), z->name().c_str());
+    sounds::sound(z->posx(), z->posy(), 24, explode);
+    for (int i = -2; i <= 2; i++) {
+        for (int j = -2; j <= 2; j++) {
+            g->m.add_field(z->posx() + i, z->posy() + j, fd_hallu_gas, 3);
+            int mondex = g->mon_at(z->posx() + i, z->posy() + j);
+            if (mondex != -1) {
+                g->zombie(mondex).stumble(false);
+                g->zombie(mondex).moves -= 250;
+            }
+        }
+    }
+}
+
 void mdeath::smokeburst(monster *z)
 {
     std::string explode = string_format(_("a %s explode!"), z->name().c_str());

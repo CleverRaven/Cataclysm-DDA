@@ -109,6 +109,12 @@ void game::init_fields()
             {c_white, c_ltgreen, c_green}, {true, false, false},{false, true, true}, MINUTES(90),
             {0,0,0}
         },
+        {
+            "fd_hallu_gas",
+            {_("hazy cloud"),_("hallucinogenic gas"),_("thick hallucinogenic gas")}, '8', 8,
+            {c_white, c_ltgreen, c_green}, {true, false, false},{false, true, true}, MINUTES(60),
+            {0,0,0}
+        },
 
         {
             "fd_tear_gas",
@@ -1740,6 +1746,20 @@ void map::player_in_field( player &u )
                 if( inhaled ) {
                     // player does not know how the npc feels, so no message.
                     u.add_msg_if_player(m_bad, _("You feel sick from inhaling the %s"), cur->name().c_str());
+                }
+            }
+            break;
+
+            case fd_hallu_gas:
+            {
+                bool inhaled = false;
+                if( cur->getFieldDensity() == 2 &&
+                    (!inside || (cur->getFieldDensity() == 3 && inside)) ) {
+                    u.add_effect("hallu", 30);
+                } else if( cur->getFieldDensity() == 3 && !inside ) {
+                    u.add_effect("hallu", 30);
+                } else if( cur->getFieldDensity() == 1 && (!inside) ) {
+                    u.add_effect("hallu", 50);
                 }
             }
             break;
