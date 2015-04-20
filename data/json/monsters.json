@@ -3131,7 +3131,6 @@
     "hp":4,
     "upgrades_into" : "mon_fungaloid",
     "half_life" : 1,
-    "base_upgrade_chance" : 0,
     "death_function":"DISINTEGRATE",
     "special_attacks":[["PLANT", 500]],
     "description":"A mass of spores the size of a balled fist, wafting around in the air.",

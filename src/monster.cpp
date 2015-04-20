@@ -167,17 +167,18 @@ void monster::poly(mtype *t)
 }
 
 void monster::update_check(){
-    if (type->upgrade_group == "NULL" && type->upgrades_into == "NULL"){
+    // No chance of upgrading, abort
+    if ((type->half_life <= 0 && type->base_upgrade_chance <= 0) ||
+        (type->upgrade_group == "NULL" && type->upgrades_into == "NULL")) {
         return;
     }
     int current_day = calendar::turn.get_turn()/ DAYS(1);
     int upgrade_time = type->upgrade_min * ACTIVE_WORLD_OPTIONS["MONSTER_GROUP_DIFFICULTY"];
-    //g->u.add_msg_if_player(m_debug, "Upgrade group: %s ", type->upgrade_group);
     add_msg(m_debug, "Current:day: %d", current_day);
     add_msg(m_debug, "Upgrade time : %d", upgrade_time);
     add_msg(m_debug, "Last loaded: %d", last_loaded);
 
-    if (current_day == last_loaded || current_day < upgrade_time){
+    if (current_day == last_loaded || current_day < upgrade_time) {
         add_msg(m_debug, "Upgrade time less");
         last_loaded = current_day;
         return;
@@ -186,19 +187,31 @@ void monster::update_check(){
     // We don't start counting until the minimum upgrade time
     int time_passed = current_day - std::max(last_loaded, upgrade_time);
     add_msg(m_debug, "Time passed: %d", time_passed);
-    //radioactive decay function
-    //Don't set a half-life more than 700 days otherwise some weirdness may happen
-    float elapsed_lives = float(time_passed) / float(type->half_life);
-    float upgrade_chance = 1000 * (1- pow(std::max(0.0, 0.5 - type->base_upgrade_chance * .01 * elapsed_lives), elapsed_lives));
+
+    float upgrade_chance = 0;
+    // If we have a valid half life use a radioactive decay function. This will become
+    // rapidly inaccurate when half_life > 700, if longer half lives are needed increase
+    // the 1000 here, the 10 in the else, and the rng() range by factors of 10 as necessary.
+    if (type->half_life > 0) {
+        float elapsed_lives = float(time_passed) / float(type->half_life);
+        // (1- (.5 - base%)^lives) = percentage that have upgraded
+        upgrade_chance = 1000 * (1 - pow(std::max(0.0, 0.5 - type->base_upgrade_chance * .01 ),
+                                               elapsed_lives));
+    } else {
+        // Not a valid half life, so just do base_upgrade_chance percent per day
+        // (1 - (1 - base%)^days) = percentage that has upgraded
+        upgrade_chance = 1000 * (1 - pow(1 - type->base_upgrade_chance * .01, time_passed));
+    }
     add_msg(m_debug, "Upgrade chance: %f", upgrade_chance);
     if (upgrade_chance > rng(0, 999)){
+        // Try to upgrade to a single monster first
         if (type->upgrades_into != "NULL"){
             poly(GetMType(type->upgrades_into));
-        } else if(type->upgrade_group != "NULL"){
+        // Else upgrade to the desired group
+        } else {
             const auto monsters = MonsterGroupManager::GetMonstersFromGroup(type->upgrade_group);
             const std::string newtype = monsters[rng(0, monsters.size() - 1)];
             poly(GetMType(newtype));
-
         }
     }
 
