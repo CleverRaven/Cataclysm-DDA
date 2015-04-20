@@ -4952,8 +4952,7 @@ bool item::process( player *carrier, point pos, bool activate )
     if( activate ) {
         it_tool *tmp = dynamic_cast<it_tool *>( type );
         return tmp->invoke( carrier != nullptr ? carrier : &g->u, this, pos );
-    }
-    
+    }    
     // How this works: it checks what kind of processing has to be done
     // (e.g. for food, for drying towels, lit cigars), and if that matches,
     // call the processing function. If that function returns true, the item
@@ -5009,7 +5008,6 @@ bool item::reduce_charges( long quantity )
 }
 
 void item::muzzle_flash_falloff(){
-   // add_msg(m_debug, "light: %d", light.luminance);
     light.luminance > type->gun->muzzle_flash / 4 ? light.luminance /= 2 : light.luminance = 0;  
 }
 
