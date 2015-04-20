@@ -66,6 +66,21 @@ template <typename T> struct weighted_list {
      * and biased by weight. If the weighted list is empty or all items in it
      * have a weight of zero, it will return a NULL pointer.
      */
+    const T* pick() const {
+        if(total_weight > 0) {
+            return &(objects[pick_ent()].obj);
+        }
+        else {
+            return NULL;
+        }
+    }
+
+    /**
+     * This will return a pointer to an object from the list randomly selected
+     * and biased by weight. If the weighted list is empty or all items in it
+     * have a weight of zero, it will return a NULL pointer. This is the
+     * non-const version so that the returned result may be modified.
+     */
     T* pick() {
         if(total_weight > 0) {
             return &(objects[pick_ent()].obj);
@@ -86,7 +101,7 @@ template <typename T> struct weighted_list {
     /**
      * This will return the sum of all the object's weights in the list.
      */
-    int get_weight() {
+    int get_weight() const {
         return total_weight;
     }
 
@@ -94,7 +109,7 @@ private:
     int total_weight;
     std::vector<weighted_object<T> > objects;
 
-    size_t pick_ent() {
+    size_t pick_ent() const {
         int picked = rng(0, total_weight);
         int accumulated_weight = 0;
         size_t i;
