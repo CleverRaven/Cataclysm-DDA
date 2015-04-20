@@ -12210,7 +12210,7 @@ void player::absorb_hit(body_part bp, damage_instance &dam) {
             if( has_trait("THICKSKIN") ) {
                 elem.amount -= 1;
             }
-            if( has_trait("THINSKIN") ) {
+            if( elem.amount > 0 && has_trait("THINSKIN") ) {
                 elem.amount += 1;
             }
             if (has_trait("SCALES")) {
