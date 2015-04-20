@@ -6456,7 +6456,7 @@ void map::build_map_cache( const int zlev )
         }
     }
 
-    build_seen_cache( g->u.pos3() );
+    build_seen_cache( tripoint( g->u.posx(), g->u.posy(), zlev ) );
     generate_lightmap();
 }
 
