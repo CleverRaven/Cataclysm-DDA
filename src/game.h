@@ -2,7 +2,6 @@
 #define GAME_H
 
 #include "game_constants.h"
-#include "map.h"
 #include "player.h"
 #include "faction.h"
 #include "event.h"
@@ -70,6 +69,8 @@ enum target_mode {
     TARGET_MODE_TURRET_MANUAL
 };
 
+typedef int ter_id;
+
 struct special_game;
 struct mtype;
 class mission;
@@ -102,6 +103,9 @@ class game
         void load_data_from_dir(const std::string &path);
         /** Loads core data and mods from the given world. */
         void load_world_modfiles(WORLDPTR world);
+
+        // May be a bit hacky, but it's probably better than the header spaghetti
+        std::unique_ptr<map> map_ptr;
     public:
 
         /** Initializes the UI. */
@@ -139,6 +143,9 @@ class game
         void draw_ter();
         void draw_ter( const tripoint &center, bool looking = false );
         void draw_veh_dir_indicator(void);
+
+        /** Make map a reference here, to avoid map.h in game.h */
+        map &m;
         /**
          * Add an entry to @ref events. For further information see event.h
          * @param type Type of event.
@@ -367,8 +374,6 @@ class game
         weather_type weather;   // Weather pattern--SEE weather.h
         bool lightning_active;
 
-        map m;
-
         /**
          * The top left corner of the reality bubble (in submaps coordinates). This is the same
          * as @ref map::abs_sub of the @ref m map.
@@ -392,7 +397,6 @@ class game
         std::vector<npc *> active_npc;
         std::vector<faction> factions;
         // NEW: Dragging a piece of furniture, with a list of items contained
-        ter_id dragging;
         std::vector<item> items_dragged;
         int weight_dragged; // Computed once, when you start dragging
 
@@ -530,13 +534,8 @@ class game
         void init_npctalk();
         void init_fields();
         void init_morale();
-        void init_skills();
-        void init_professions();
         void init_faction_data();
-        void init_mongroups();    // Initializes monster groups
-        void init_construction(); // Initializes construction "recipes"
         void init_autosave();     // Initializes autosave parameters
-        void init_diseases();     // Initializes disease lookup table.
         void init_savedata_translation_tables();
         void init_lua();          // Initializes lua interpreter.
         void create_factions(); // Creates new factions (for a new game world)
@@ -576,7 +575,7 @@ class game
         // will do so, if bash_dmg is greater than 0, items won't stop the door
         // from closing at all.
         // If the door gets closed the items on the door tile get moved away or destroyed.
-        bool forced_gate_closing( const tripoint &p, ter_id door_type, int bash_dmg );
+        bool forced_gate_closing( const tripoint &p, const ter_id door_type, int bash_dmg );
 
         bool vehicle_near ();
         void handbrake ();

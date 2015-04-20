@@ -3,6 +3,7 @@
 #include "mapbuffer.h"
 #include "output.h"
 #include "game.h"
+#include "map.h"
 #include "item.h"
 #include "item_group.h"
 #include "veh_interact.h"

@@ -10,6 +10,7 @@
 #include "SDL2/SDL_ttf.h"
 
 #include "game.h"
+#include "map.h"
 #include "options.h"
 #include "mapdata.h"
 #include "tile_id_data.h"

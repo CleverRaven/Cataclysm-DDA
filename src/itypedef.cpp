@@ -1,3 +1,4 @@
+#include "debug.h"
 #include "itype.h"
 #include "ammo.h"
 #include "game.h"

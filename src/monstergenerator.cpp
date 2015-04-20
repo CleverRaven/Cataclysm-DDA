@@ -525,6 +525,7 @@ void MonsterGenerator::load_monster(JsonObject &jo)
         newmon->half_life = jo.get_int("half_life", -1);
         newmon->base_upgrade_chance = jo.get_float("base_upgrade_chance", 0);
         newmon->upgrade_group = jo.get_string("upgrade_group", "NULL");
+        newmon->upgrades_into = jo.get_string("upgrades_into", "NULL");
 
         std::set<std::string> flags, anger_trig, placate_trig, fear_trig;
         flags = jo.get_tags("flags");

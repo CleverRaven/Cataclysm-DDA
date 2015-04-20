@@ -2,6 +2,7 @@
 
 #include "monster.h"
 #include "map.h"
+#include "debug.h"
 #include "game.h"
 #include "line.h"
 #include "rng.h"

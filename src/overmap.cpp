@@ -4,13 +4,15 @@
 #include <fstream>
 #include <vector>
 #include <sstream>
+#include <cstring>
+#include <ostream>
+#include <queue>
+
 #include "overmap.h"
 #include "rng.h"
 #include "line.h"
 #include "game.h"
 #include "npc.h"
-#include <cstring>
-#include <ostream>
 #include "debug.h"
 #include "cursesdef.h"
 #include "options.h"
@@ -19,7 +21,6 @@
 #include "action.h"
 #include "input.h"
 #include "json.h"
-#include <queue>
 #include "mapdata.h"
 #include "mapgen.h"
 #include "uistate.h"
@@ -4106,6 +4107,22 @@ void overmap::add_mon_group(const mongroup &group)
         }
     }
     DebugLog( D_ERROR, D_GAME ) << group.type << ": " << group.population << " => " << xpop;
+}
+
+void oter_weight_list::setup()
+{
+    for(std::vector<oter_weight>::iterator item_it = items.begin();
+    item_it != items.end(); ++item_it ) {
+        if ( item_it->ot_iid == -1 ) {
+            std::unordered_map<std::string, oter_t>::const_iterator it = obasetermap.find(item_it->ot_sid);
+            if ( it == obasetermap.end() ) {
+                debugmsg("Bad oter_weight_list entry in region settings: overmap_terrain '%s' not found.", item_it->ot_sid.c_str() );
+                item_it->ot_iid = 0;
+            } else {
+                item_it->ot_iid = it->second.loadid;
+            }
+        }
+    }
 }
 
 const point overmap::invalid_point = point(INT_MIN, INT_MIN);

@@ -6007,8 +6007,6 @@ void map::grow_plant( const tripoint &p )
         return;
     }
 
-    // Erase fertilizer tokens, but keep the seed item
-    i_rem( p, 1 );
     auto seed = items.front();
     if( !seed.is_seed() ) {
         // No seed there anymore, we don't know what kind of plant it was.
@@ -6020,8 +6018,10 @@ void map::grow_plant( const tripoint &p )
 
     if ( calendar::turn >= seed.bday + plantEpoch ) {
         if (calendar::turn < seed.bday + plantEpoch * 2 ) {
+                i_rem(p, 1);
                 furn_set(p, "f_plant_seedling");
         } else if (calendar::turn < seed.bday + plantEpoch * 3 ) {
+                i_rem(p, 1);
                 furn_set(p, "f_plant_mature");
         } else {
                 furn_set(p, "f_plant_harvest");

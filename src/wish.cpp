@@ -1,4 +1,6 @@
 #include "game.h"
+#include "map.h"
+#include "debug.h"
 #include "output.h"
 #include "item_factory.h"
 #include "uistate.h"

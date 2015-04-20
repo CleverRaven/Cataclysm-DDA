@@ -370,6 +370,7 @@ void DynamicDataLoader::finalize_loaded_data()
     MonsterGroupManager::FinalizeMonsterGroups();
     item_controller->finialize_item_blacklist();
     finalize_recipes();
+    finialize_martial_arts();
     check_consistency();
 }
 

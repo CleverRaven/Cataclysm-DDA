@@ -3,6 +3,7 @@
 #include "mondeath.h"
 #include "output.h"
 #include "game.h"
+#include "debug.h"
 #include "rng.h"
 #include "item.h"
 #include "translations.h"
@@ -166,7 +167,7 @@ void monster::poly(mtype *t)
 }
 
 void monster::update_check(){
-    if (type->upgrade_group == "NULL"){
+    if (type->upgrade_group == "NULL" && type->upgrades_into == "NULL"){
         return;
     }
     int current_day = calendar::turn.get_turn()/ DAYS(1);
@@ -191,9 +192,14 @@ void monster::update_check(){
     float upgrade_chance = 1000 * (1- pow(std::max(0.0, 0.5 - type->base_upgrade_chance * .01 * elapsed_lives), elapsed_lives));
     add_msg(m_debug, "Upgrade chance: %f", upgrade_chance);
     if (upgrade_chance > rng(0, 999)){
-        const auto monsters = MonsterGroupManager::GetMonstersFromGroup(type->upgrade_group);
-        const std::string newtype = monsters[rng(0, monsters.size() - 1)];
-        poly(GetMType(newtype));
+        if (type->upgrades_into != "NULL"){
+            poly(GetMType(type->upgrades_into));
+        } else if(type->upgrade_group != "NULL"){
+            const auto monsters = MonsterGroupManager::GetMonstersFromGroup(type->upgrade_group);
+            const std::string newtype = monsters[rng(0, monsters.size() - 1)];
+            poly(GetMType(newtype));
+
+        }
     }
 
     last_loaded = current_day;

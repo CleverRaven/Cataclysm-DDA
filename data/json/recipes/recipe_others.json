@@ -932,6 +932,23 @@
   ]
 },{
   "type" : "recipe",
+  "result": "crude_firestarter",
+  "category": "CC_ELECTRONIC",
+  "subcategory": "CSC_ELECTRONIC_TOOLS",
+  "skill_used": "electronics",
+  "difficulty": 1,
+  "time": 5000,
+  "reversible": true,
+  "autolearn": true,
+  "qualities":[
+    {"id":"HAMMER","level":1,"amount":1}
+  ],
+  "components": [
+    [ [ "wire", 3 ], [ "cable", 30 ] ],
+    [ [ "scrap", 2 ] ]
+  ]
+},{
+  "type" : "recipe",
   "result": "knitting_needles",
   "category": "CC_OTHER",
   "subcategory": "CSC_OTHER_TOOLS",
@@ -6725,8 +6742,8 @@
   "category": "CC_OTHER",
   "subcategory": "CSC_OTHER_TOOLS",
   "skill_used": "fabrication",
-  "difficulty": 4,
-  "time": 10000,
+  "difficulty": 2,
+  "time": 5000,
   "reversible": true,
   "autolearn": true,
   "components": [
@@ -6736,16 +6753,7 @@
       [ "rock_pot", 1 ]
     ],
     [
-      [ "oil_lamp", 1 ]
-    ],
-    [
-      [ "pilot_light", 1 ]
-    ],
-    [
-      [ "scrap", 3 ]
-    ],
-    [
-      [ "duct_tape", 50 ]
+      [ "oil_cooker", 1 ]
     ]
   ]
 },{

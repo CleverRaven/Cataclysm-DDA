@@ -1,4 +1,5 @@
 #include "game.h"
+#include "map.h"
 #include "item.h"
 #include "player_activity.h"
 #include "enums.h"

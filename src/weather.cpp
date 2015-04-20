@@ -1,5 +1,6 @@
 #include "options.h"
 #include "game.h"
+#include "map.h"
 #include "weather.h"
 #include "messages.h"
 #include "overmap.h"

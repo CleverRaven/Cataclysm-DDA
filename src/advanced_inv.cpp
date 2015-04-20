@@ -1,6 +1,7 @@
 #include "game.h"
 #include "output.h"
 #include "map.h"
+#include "debug.h"
 #include "catacharset.h"
 #include "translations.h"
 #include "uistate.h"
