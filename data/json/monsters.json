@@ -5101,16 +5101,16 @@
     "luminance":0.1,
     "hp":10,
     "death_function":"BROKEN",
-    "description":"Automated anti-personnel drone, a fist-sized robot surrounded by whirring blades.",
+    "description":"An automated anti-personnel drone, a fist-sized robot surrounded by whirring blades.",
     "flags":["SEES", "FLIES", "NOHEAD", "ELECTRONIC", "HIT_AND_RUN", "NO_BREATHE"]
     },{
     "type" : "MONSTER",
-    "id" : "mon_suihack",
-    "name": "suicide manhack",
+    "id" : "mon_hack_grenade",
+    "name": "grenade manhack",
     "species":"ROBOT",
     "default_faction":"defense_bot",
     "symbol":"e",
-    "color":"red",
+    "color":"ltgreen",
     "size":"TINY",
     "material":"steel",
     "diff":10,
@@ -5123,19 +5123,23 @@
     "melee_cut":0,
     "dodge":6,
     "armor_bash":0,
-    "armor_cut":6,
+    "armor_cut":4,
     "vision_day":40,
-    "revert_to_itype": "bot_suihack",
+    "revert_to_itype": "bot_hack_grenade",
+    "special_attacks":[["KAMIKAZE_DET", -1], ["KAMIKAZE_ACT", 0]],
+    "starting_ammo": { "grenade": 1},
     "death_drops": {
+        "subtype": "collection",
+        "//": "80% chance of an item from group "robots",
         "groups": [
-            [ "robots", 4 ]
+            [ "robots", 80 ]
         ]
     },
     "luminance":0.1,
-    "hp":10,
+    "hp":5,
     "death_function":"BROKEN",
-    "description":"Automated anti-personnel drone, a fist-sized robot surrounded by whirring blades.",
-    "flags":["SEES", "FLIES", "NOHEAD", "ELECTRONIC", "HIT_AND_RUN", "NO_BREATHE"]
+    "description":"An automated kamikaze drone, this fist-sized robot appears to have a grenade inside.",
+    "flags":["SEES", "FLIES", "NOHEAD", "ELECTRONIC", "NO_BREATHE"]
     },{
     "type" : "MONSTER",
     "id" : "mon_skitterbot",

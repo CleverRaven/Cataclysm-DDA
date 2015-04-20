@@ -5248,7 +5248,7 @@ int iuse::grenade_inc_act(player *p, item *it, bool t, point pos)
         return 0;
     } else {  // blow up
         int num_flames= rng(3,5);
-        for (int current_flame = 0; current_flame < num_flames; current_flame++){
+        for (int current_flame = 0; current_flame < num_flames; current_flame++) {
             std::vector<point> flames = line_to(pos.x, pos.y, pos.x + rng(-5,5), pos.y + rng(-5,5), 0);
             for( auto &flame : flames ) {
                 g->m.add_field( flame.x, flame.y, fd_fire, rng( 0, 2 ) );

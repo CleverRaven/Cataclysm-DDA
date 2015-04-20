@@ -39,6 +39,16 @@ int within_visual_range(monster *z, int max) {
     return dist;
 }
 
+bool within_target_range(monster *z, Creature *target, int range)
+{
+    if( target == nullptr ||
+        rl_dist( z->pos(), target->pos() ) > range ||
+        !z->sees( *target ) ) {
+        return false;
+    }
+    return true;
+}
+
 npc make_fake_npc(monster *z, int str, int dex, int inte, int per) {
     npc tmp;
     tmp.name = _("The ") + z->name();
@@ -4305,9 +4315,35 @@ void mattack::suicide(monster *z, int index)
 {
     (void)index;
     Creature *target = z->attack_target();
-    if( target == nullptr ||
-        rl_dist( z->pos(), target->pos() ) > 2 ||
-        !z->sees( *target ) ) {
+    if (!within_target_range(z, target, 2)) {
+        return;
+    }
+    z->die(z);
+}
+
+void mattack::kamikaze_act(monster *z, int index)
+{
+    Creature *target = z->attack_target();
+    if (!within_target_range(z, target, 2)) {
+        return;
+    }
+    if (z->ammo.empty()) {
+        // We somehow lost our ammo! Toggle this special off so we stop processing
+        z->set_special(index, -1);
+        return;
+    }
+    // Get the bomb type
+    auto bomb_type = item::find_type( z->ammo.begin()->first );
+    // NOTE: This depends on the kamikaze_det special being 1 space to the left
+    // subtraction here so set_special catches the crash if we set things up badly.
+    z->set_special(index - 1, );
+}
+
+void mattack::kamikaze_det(monster *z, int index)
+{
+    (void)index;
+    Creature *target = z->attack_target();
+    if (!within_target_range(z, target, 2)) {
         return;
     }
     z->die(z);

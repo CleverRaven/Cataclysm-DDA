@@ -78,6 +78,9 @@ void riotbot            (monster *z, int index);
 void stretch_attack     (monster *z, int index);
 void stretch_bite       (monster *z, int index);
 
+void kamikaze_act       (monster *z, int index);
+void kamikaze_det       (monster *z, int index);
+
 void taze               (monster *z, Creature *target);
 void rifle              (monster *z, Creature *target); // Automated M4
 void frag               (monster *z, Creature *target); // Automated MGL
