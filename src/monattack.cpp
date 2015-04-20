@@ -1696,7 +1696,7 @@ void mattack::impale(monster *z, int index)
         }
         foe->practice( "dodge", z->type->melee_skill );
         if( one_in( 10 ) ) {
-            foe->add_effect( "infected", 250, bp_torso, true );
+            foe->add_effect( "bite", 250, bp_torso, true );
         }
         if( (dam > 12) || (one_in( 10 )) ) {
             foe->add_effect( "bleed", rng( 75, 125 ), bp_torso, true );
