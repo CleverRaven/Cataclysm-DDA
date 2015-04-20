@@ -1956,11 +1956,17 @@ void npc::load_legacy(std::stringstream & dump) {
 // Special NPC stuff
  int misstmp, flagstmp, tmpatt, agg, bra, col, alt;
  int omx, omy;
- dump >> agg >> bra >> col >> alt >> wandx >> wandy >> wandf >> omx >> omy >>
-         mapz >> mapx >> mapy >> plx >> ply >> goal.x >> goal.y >> goal.z >> misstmp >>
-         flagstmp >> fac_id >> tmpatt;
+ dump >> agg >> bra >> col >> alt >> 
+         wander_pos.x >> wander_pos.y >> wander_time >> 
+         omx >> omy >>
+         mapz >> mapx >> mapy >>
+         last_player_seen_pos.x >> last_player_seen_pos.y >> 
+         goal.x >> goal.y >> goal.z >> 
+         misstmp >> flagstmp >> fac_id >> tmpatt;
  mapx += omx * OMAPX * 2;
  mapy += omy * OMAPY * 2;
+ wander_pos.z = posz();
+ last_player_seen_pos.z = posz();
  personality.aggression = agg;
  personality.bravery = bra;
  personality.collector = col;

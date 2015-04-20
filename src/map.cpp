@@ -1629,8 +1629,8 @@ int map::combined_movecost( const tripoint &from, const tripoint &to,
                             const vehicle *ignored_vehicle, const int modifier ) const
 {
     const int mults[4] = { 0, 50, 71, 100 };
-    int cost1 = move_cost( from, ignored_vehicle );
-    int cost2 = move_cost( to, ignored_vehicle );
+    const int cost1 = move_cost( from, ignored_vehicle );
+    const int cost2 = move_cost( to, ignored_vehicle );
     // Multiply cost depending on the number of differing axes
     // 0 if all axes are equal, 100% if only 1 differs, 141% for 2, 200% for 3
     size_t match = ( from.x != to.x ) + ( from.y != to.y ) + ( from.z != to.z );
@@ -5186,7 +5186,7 @@ void map::drawsq(WINDOW* w, player &u, const tripoint &p, const bool invert_arg,
 // TODO: Implement this function in FoV update
 bool map::sees( const tripoint &F, const tripoint &T, const int range, int &t1, int &t2 ) const
 {
-    (void)t2;
+    t2 = 0;
     return sees( F.x, F.y, T.x, T.y, range, t1 );
 }
 
@@ -5220,6 +5220,7 @@ bool map::sees(const int Fx, const int Fy, const int Tx, const int Ty,
     int st;
 
     if (range >= 0 && range < rl_dist(Fx, Fy, Tx, Ty) ) {
+        bresenham_slope = 0;
         return false; // Out of range!
     }
     if (ax > ay) { // Mostly-horizontal line
@@ -5244,6 +5245,8 @@ bool map::sees(const int Fx, const int Fy, const int Tx, const int Ty,
                 }
             } while ((trans(x, y)) && (INBOUNDS(x,y)));
         }
+        // Zero the slope when returning false - simplifies many if-elses in code
+        bresenham_slope = 0;
         return false;
     } else { // Same as above, for mostly-vertical lines
         st = SGN(ax - (ay / 2));
@@ -5260,12 +5263,14 @@ bool map::sees(const int Fx, const int Fy, const int Tx, const int Ty,
                 t += ax;
                 if (x == Tx && y == Ty) {
                     bresenham_slope *= st;
-     return true;
+                    return true;
                 }
             } while ((trans(x, y)) && (INBOUNDS(x,y)));
         }
+        bresenham_slope = 0;
         return false;
     }
+    bresenham_slope = 0;
     return false; // Shouldn't ever be reached, but there it is.
 }
 
@@ -5366,6 +5371,39 @@ bool map::accessible_furniture( const tripoint &f, const tripoint &t, const int 
     return ( f == t || clear_path( f, t, range, 1, 100 ) );
 }
 
+std::vector<tripoint> map::get_dir_circle( const tripoint &f, const tripoint &t ) const
+{
+    std::vector<tripoint> circle;
+    circle.resize(8);
+
+    const std::vector<tripoint> line = line_to( f, t, 0, 0 );
+    const std::vector<tripoint> spiral = closest_tripoints_first( 1, f );
+    const std::vector<int> pos_index {1,2,4,6,8,7,5,3};
+
+    //  All possible constelations (closest_points_first goes clockwise)
+    //  753  531  312  124  246  468  687  875
+    //  8 1  7 2  5 4  3 6  1 8  2 7  4 5  6 3
+    //  642  864  786  578  357  135  213  421
+
+    size_t pos_offset = 0;
+    for( unsigned int i = 1; i < spiral.size(); i++ ) {
+        if( spiral[i] == line[0] ) {
+            pos_offset = i-1;
+            break;
+        }
+    }
+
+    for( unsigned int i = 1; i < spiral.size(); i++ ) {
+        if( pos_offset >= pos_index.size() ) {
+            pos_offset = 0;
+        }
+
+        circle[pos_index[pos_offset++]-1] = spiral[i];
+    }
+
+    return circle;
+}
+
 std::vector<point> map::getDirCircle(const int Fx, const int Fy, const int Tx, const int Ty) const
 {
     std::vector<point> vCircle;
@@ -5397,6 +5435,24 @@ std::vector<point> map::getDirCircle(const int Fx, const int Fy, const int Tx, c
     }
 
     return vCircle;
+}
+
+std::vector<tripoint> map::route( const tripoint &f, const tripoint &t, const int bash ) const
+{
+    // Just wrap the 2D overload into 3points
+    // Does NOT allow finding 3D paths
+    std::vector<tripoint> ret;
+    if( f.z != t.z ) {
+        return ret;
+    }
+
+    const auto two_dimensional_route = route( f.x, f.y, t.x, t.y, bash );
+    ret.reserve( two_dimensional_route.size() );
+    for( const auto &pt : two_dimensional_route ) {
+        ret.push_back( tripoint( pt, f.z ) );
+    }
+
+    return ret;
 }
 
 struct pair_greater_cmp
