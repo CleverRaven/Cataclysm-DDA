@@ -33,7 +33,7 @@ void map::add_light_from_items( const int x, const int y, std::list<item>::itera
 }
 
 // TODO Consider making this just clear the cache and dynamically fill it in as trans() is called
-void map::build_transparency_cache()
+void map::build_transparency_cache( const int zlev )
 {
     if( !transparency_cache_dirty ) {
         return;
@@ -46,7 +46,7 @@ void map::build_transparency_cache()
     // Traverse the submaps in order
     for( int smx = 0; smx < my_MAPSIZE; ++smx ) {
         for( int smy = 0; smy < my_MAPSIZE; ++smy ) {
-            auto const cur_submap = get_submap_at_grid( smx, smy );
+            auto const cur_submap = get_submap_at_grid( smx, smy, zlev );
 
             for( int sx = 0; sx < SEEX; ++sx ) {
                 for( int sy = 0; sy < SEEY; ++sy ) {
