@@ -1585,7 +1585,7 @@ long musical_instrument_actor::use( player *p, item *it, bool t, point ) const
 
     sounds::ambient_sound( p->posx(), p->posy(), volume, desc );
 
-    if( !p->has_effect( "music" ) && !p->can_hear( p->pos(), volume ) ) {
+    if( !p->has_effect( "music" ) && p->can_hear( p->pos(), volume ) ) {
         p->add_effect( "music", 1 );
         const int sign = morale_effect > 0 ? 1 : -1;
         p->add_morale( MORALE_MUSIC, sign, morale_effect, 5, 2 );
