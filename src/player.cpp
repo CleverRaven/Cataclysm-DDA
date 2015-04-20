@@ -6674,7 +6674,7 @@ void player::hardcoded_effects(effect &it)
         if (!recovered) {
             // Death happens
             if (dur > 14400) {
-                add_msg(m_bad, _("You succumb to the infection."));
+                add_msg_if_player(m_bad, _("You succumb to the infection."));
                 add_memorial_log(pgettext("memorial_male", "Succumbed to the infection."),
                                       pgettext("memorial_female", "Succumbed to the infection."));
                 hurtall(500, nullptr);
@@ -7857,9 +7857,9 @@ void player::vomit()
                      pgettext("memorial_female", "Threw up."));
 
     if (stomach_food != 0 || stomach_water != 0) {
-        add_msg(m_bad, _("You throw up heavily!"));
+        add_msg_player_or_npc( m_bad, _("You throw up heavily!"), _("<npcname> throws up heavily!") );
     } else {
-        add_msg(m_warning, _("You feel nauseous, but your stomach is empty."));
+        add_msg_if_player(m_warning, _("You feel nauseous, but your stomach is empty."));
     }
     int nut_loss = stomach_food;
     int quench_loss = stomach_water;
