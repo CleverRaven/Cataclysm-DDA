@@ -242,8 +242,6 @@
 		<Unit filename="src/dependency_tree.cpp" />
 		<Unit filename="src/dependency_tree.h" />
 		<Unit filename="src/dialogue.h" />
-		<Unit filename="src/disease.cpp" />
-		<Unit filename="src/disease.h" />
 		<Unit filename="src/editmap.cpp" />
 		<Unit filename="src/editmap.h" />
 		<Unit filename="src/effect.cpp" />
