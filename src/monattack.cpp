@@ -1680,9 +1680,11 @@ void mattack::impale(monster *z, int index)
     } else if( seen ) {
         add_msg( _("The %s lunges at %s, but misses!"), z->name().c_str(), target->disp_name().c_str() );
     }
+    z->reset_special(index); // Reset timer
     return;
     }
-    int dam = target->deal_damage( z, bp_torso, damage_instance( DT_STAB, 20 ) ).total_damage();
+    int dam = target->deal_damage( z, bp_torso, damage_instance( DT_STAB, rng(10,20), rng(5,15), .5 ) ).total_damage();
+    add_msg(_("The dam value is %d!"), dam);
     if( dam > 0 && foe != nullptr ) {
         if( seen ) {
             auto msg_type = foe == &g->u ? m_bad : m_info;
@@ -1696,7 +1698,7 @@ void mattack::impale(monster *z, int index)
         if( one_in( 10 ) ) {
             foe->add_effect( "infected", 250, bp_torso, true );
         }
-        if( (dam > 15) || (one_in( 10 )) ) {
+        if( (dam > 12) || (one_in( 10 )) ) {
             foe->add_effect( "bleed", rng( 75, 125 ), bp_torso, true );
         }
         foe->check_dead_state();
@@ -1704,7 +1706,7 @@ void mattack::impale(monster *z, int index)
         ( foe == nullptr || !foe->is_throw_immune() ||
           ( !foe->has_trait("LEG_TENT_BRACE") ||
             foe->footwear_factor() == 1 || ( foe->footwear_factor() == .5 && one_in(2) ) ) ) ) {
-        target->add_effect("downed", 30);
+        target->add_effect("downed", 3);
         }
         z->moves -=80; //Takes extra time for the creature to pull out the protrusion
         z->reset_special(index); // Reset timer
