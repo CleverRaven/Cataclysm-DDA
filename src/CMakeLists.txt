@@ -65,8 +65,6 @@ set(SRCS
 	dependency_tree.cpp
 	dependency_tree.h
 	dialogue.h
-	disease.cpp
-	disease.h
 	editmap.cpp
 	editmap.h
 	effect.cpp
