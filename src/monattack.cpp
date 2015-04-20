@@ -1710,6 +1710,8 @@ void mattack::impale(monster *z, int index)
         z->reset_special(index); // Reset timer
     } else if( foe != nullptr ) {
          if( seen ) {
+             foe->add_msg_player_or_npc( _("The %1$s tries to impale your torso, but fails to penetrate your armor!"),
+                                         _("The %1$s tries to impale <npcname>'s torso, but fails to penetrate their armor!"),
                                          z->name().c_str());
         }
     } else if( seen ) {
