@@ -1683,10 +1683,9 @@ void mattack::impale(monster *z, int index)
     }
     return;
     }
-    auto hit = bp_torso;
-    int dam = rng(35, 45);
-    dam = target->deal_damage( z, hit, damage_instance( DT_CUT, dam ) ).total_damage();
-    if( dam > 0 && foe != nullptr ) {
+    foe->apply_damage( z, bp_torso, rng(15, 20) );
+    foe->moves -= rng(100, 300);
+    if( foe != nullptr ) {
         if( seen ) {
             auto msg_type = foe == &g->u ? m_bad : m_info;
             //~ 1$s is monster name, 2$s bodypart in accusative
@@ -1696,24 +1695,13 @@ void mattack::impale(monster *z, int index)
                                         z->name().c_str());
         }
         foe->practice( "dodge", z->type->melee_skill );
-        if( one_in( 30 / dam ) ) {
-            if( foe->has_effect( "infected", hit ) ) {
-                foe->add_effect( "infected", 50, hit, true );
-                foe->apply_damage( z, bp_torso, dam * 1.5 );
-                foe->moves -= dam * 20;
-            } else {
-                foe->apply_damage( z, bp_torso, dam * 2 );
-                foe->moves -= dam * 20;
-            }
+        if( one_in( 10 ) ) {
+            foe->add_effect( "infected", 250, bp_torso, true );
+        }
+        if( one_in( 3 ) ) {
+            foe->add_effect( "bleed", rng( 75, 125 ), bp_torso, true );
         }
         foe->check_dead_state();
-    } else if( foe != nullptr ) {
-        if( seen ) {
-            foe->add_msg_player_or_npc( _("The %1$s tries to impale your %2$s, but fails to penetrate your armor!"),
-                                        _("The %1$s tries to impale <npcname>'s %2$s, but fails to penetrate their armor!"),
-                                        z->name().c_str(),
-                                        body_part_name_accusative( hit ).c_str() );
-        }
     } else if( seen ) {
         add_msg( _("The %s impales %s!"), z->name().c_str(), target->disp_name().c_str() );
     }
