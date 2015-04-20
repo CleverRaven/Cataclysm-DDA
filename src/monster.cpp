@@ -194,11 +194,13 @@ void monster::update_check(){
     // the 1000 here, the 10 in the else, and the rng() range by factors of 10 as necessary.
     if (type->half_life > 0) {
         float elapsed_lives = float(time_passed) / float(type->half_life);
-        upgrade_chance = 1000 * (1- pow(std::max(0.0, 0.5 - type->base_upgrade_chance * .01 * elapsed_lives),
+        // (1- (.5 - base%)^lives) = percentage that have upgraded
+        upgrade_chance = 1000 * (1 - pow(std::max(0.0, 0.5 - type->base_upgrade_chance * .01 ),
                                                elapsed_lives));
     } else {
-        // Not a valid half life, so just do base_chance% per day
-        upgrade_chance = 10 * type->base_upgrade_chance * time_passed;
+        // Not a valid half life, so just do base_upgrade_chance percent per day
+        // (1 - (1 - base%)^days) = percentage that has upgraded
+        upgrade_chance = 1000 * (1 - pow(1 - type->base_upgrade_chance * .01, time_passed));
     }
     add_msg(m_debug, "Upgrade chance: %f", upgrade_chance);
     if (upgrade_chance > rng(0, 999)){
