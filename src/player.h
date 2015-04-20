@@ -301,7 +301,7 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         bool has_alarm_clock();
         /** Returns true if the player or their vehicle has a watch */
         bool has_watch();
-        
+
         using Creature::sees;
         // see Creature::sees
         bool sees( point c, int &bresenham_slope ) const override;
@@ -478,7 +478,7 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         /**
          * Returns an explanation for why the player would miss a melee attack.
          */
-        const char **get_miss_reason();
+        const char *get_miss_reason();
 
         /** Handles the uncanny dodge bionic and effects, returns true if the player successfully dodges */
         bool uncanny_dodge() override;
@@ -596,7 +596,7 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         int drink_from_hands(item &water);
         /** Used for eating object at pos, returns true if object is removed from inventory (last charge was consumed) */
         bool consume(int pos);
-        /** Used for eating a particular item that doesn't need to be in inventory. 
+        /** Used for eating a particular item that doesn't need to be in inventory.
          *  Returns true if the item is to be removed (doesn't remove). */
         bool consume_item( item &eat );
         /** Used for eating entered comestible, returns true if comestible is successfully eaten */

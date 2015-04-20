@@ -227,7 +227,7 @@ void player::clear_miss_reasons()
     melee_miss_reasons.clear();
 }
 
-const char **player::get_miss_reason()
+const char *player::get_miss_reason()
 {
     // everything that lowers accuracy in player::hit_roll()
     // adding it in hit_roll() might not be safe if it's called multiple times
@@ -242,7 +242,11 @@ const char **player::get_miss_reason()
         _("You can't hit reliably without your glasses."),
         farsightedness);
 
-    return melee_miss_reasons.pick();
+    const char** reason = melee_miss_reasons.pick();
+    if(reason == NULL) {
+        return NULL;
+    }
+    return *reason;
 }
 
 // Melee calculation is in parts. This sets up the attack, then in deal_melee_attack,
@@ -274,9 +278,9 @@ void player::melee_attack(Creature &t, bool allow_special, matec_id force_techni
         if (is_player()) { // Only display messages if this is the player
 
             if (one_in(2)) {
-                const char** reason_for_miss = get_miss_reason();
+                const char* reason_for_miss = get_miss_reason();
                 if (reason_for_miss != NULL)
-                    add_msg(*reason_for_miss);
+                    add_msg(reason_for_miss);
             }
 
             if (has_miss_recovery_tec())
