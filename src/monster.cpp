@@ -168,8 +168,8 @@ void monster::poly(mtype *t)
 
 void monster::update_check(){
     // No chance of upgrading, abort
-    if (type->half_life <= 0 && type->base_upgrade_chance <= 0) ||
-        (type->upgrade_group == "NULL" && type->upgrades_into == "NULL") {
+    if ((type->half_life <= 0 && type->base_upgrade_chance <= 0) ||
+        (type->upgrade_group == "NULL" && type->upgrades_into == "NULL")) {
         return;
     }
     int current_day = calendar::turn.get_turn()/ DAYS(1);
@@ -178,7 +178,7 @@ void monster::update_check(){
     add_msg(m_debug, "Upgrade time : %d", upgrade_time);
     add_msg(m_debug, "Last loaded: %d", last_loaded);
 
-    if (current_day == last_loaded || current_day < upgrade_time){
+    if (current_day == last_loaded || current_day < upgrade_time) {
         add_msg(m_debug, "Upgrade time less");
         last_loaded = current_day;
         return;
