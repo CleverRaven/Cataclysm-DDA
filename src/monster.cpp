@@ -192,15 +192,14 @@ void monster::update_check(){
     float upgrade_chance = 1000 * (1- pow(std::max(0.0, 0.5 - type->base_upgrade_chance * .01 * elapsed_lives), elapsed_lives));
     add_msg(m_debug, "Upgrade chance: %f", upgrade_chance);
     if (upgrade_chance > rng(0, 999)){
-        if (type->upgrade_group != "NULL"){
+        if (type->upgrades_into != "NULL"){
+            poly(GetMType(type->upgrades_into));
+        } else if(type->upgrade_group != "NULL"){
             const auto monsters = MonsterGroupManager::GetMonstersFromGroup(type->upgrade_group);
             const std::string newtype = monsters[rng(0, monsters.size() - 1)];
             poly(GetMType(newtype));
-        } else{
-            poly(GetMType(type->upgrades_into));
+
         }
-
-
     }
 
     last_loaded = current_day;
