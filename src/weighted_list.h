@@ -122,7 +122,7 @@ private:
     std::vector<weighted_object<T> > objects;
 
     size_t pick_ent() const {
-        int picked = rng(0, total_weight);
+        int picked = rng(1, total_weight);
         int accumulated_weight = 0;
         size_t i;
         for(i=0; i<objects.size(); i++) {
