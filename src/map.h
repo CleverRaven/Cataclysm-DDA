@@ -1133,7 +1133,7 @@ private:
       * Internal version of the drawsq. Keeps a cached maptile for less re-getting.
       */
      void draw_maptile( WINDOW* w, player &u, const tripoint &p, const maptile &tile, 
-                        const bool invert, const bool show_items, const bool check_veh,
+                        const bool invert, const bool show_items,
                         const int view_center_x, const int view_center_y,
                         const bool low_light, const bool bright_level, const bool inorder );
 

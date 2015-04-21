@@ -5006,15 +5006,22 @@ void map::draw( WINDOW* w, const tripoint &center )
             x++;
         }
 
-        for( ; x < MAPSIZE * SEEX && x <= center.x + getmaxx(w) / 2; x++ ) {
-            const lit_level lighting = visibility_cache[x][y];
-            if( !apply_vision_effects( w, lighting, cache ) ) {
-                // TODO: Don't re-construct the maptile every time, but every SEEX/SEEY
-                const maptile curr_maptile = maptile_at( p );
-                const bool has_vehs = veh_in_active_range; // TODO: Make it depend on 4 nearest submaps
-                draw_maptile( w, g->u, p, curr_maptile, 
-                              false, true, has_vehs, center.x, center.y,
-                              lighting == LL_LOW, lighting == LL_BRIGHT, true );
+        int lx;
+        int ly;
+        const int maxx = std::min( MAPSIZE * SEEX, center.x + getmaxx(w) / 2 + 1 );
+        while( x < maxx ) {
+            submap *cur_submap = get_submap_at( p, lx, ly );
+            while( lx < SEEX && x < maxx )  {
+                const lit_level lighting = visibility_cache[x][y];
+                if( !apply_vision_effects( w, lighting, cache ) ) {
+                    const maptile curr_maptile = cur_submap->get_maptile( lx, ly );
+                    draw_maptile( w, g->u, p, curr_maptile, 
+                                  false, true, center.x, center.y,
+                                  lighting == LL_LOW, lighting == LL_BRIGHT, true );
+                }
+
+                lx++;
+                x++;
             }
         }
 
@@ -5046,12 +5053,12 @@ void map::drawsq(WINDOW* w, player &u, const tripoint &p, const bool invert_arg,
     const int cy = view_center_y_arg != -1 ? view_center_y_arg : u.posy();
 
     const maptile tile = maptile_at( p );
-    draw_maptile( w, u, p, tile, invert_arg, show_items_arg, true,
+    draw_maptile( w, u, p, tile, invert_arg, show_items_arg,
                   cx, cy, low_light, bright_light, inorder );
 }
 
 void map::draw_maptile( WINDOW* w, player &u, const tripoint &p, const maptile &curr_maptile,
-                        const bool invert_arg, const bool show_items_arg, const bool check_veh,
+                        const bool invert_arg, const bool show_items_arg,
                         const int view_center_x_arg, const int view_center_y_arg,
                         const bool low_light, const bool bright_light, const bool inorder )
 {
@@ -5158,14 +5165,13 @@ void map::draw_maptile( WINDOW* w, player &u, const tripoint &p, const maptile &
         }
     }
 
-    if( check_veh ) {
-        int veh_part = 0;
-        vehicle *veh = veh_at( p, veh_part );
-        if( veh != nullptr ) {
-            sym = special_symbol( veh->face.dir_symbol( veh->part_sym( veh_part ) ) );
-            tercol = veh->part_color( veh_part );
-        }
+    int veh_part = 0;
+    const vehicle *veh = veh_at_internal( p, veh_part );
+    if( veh != nullptr ) {
+        sym = special_symbol( veh->face.dir_symbol( veh->part_sym( veh_part ) ) );
+        tercol = veh->part_color( veh_part );
     }
+
     // If there's graffiti here, change background color
     if( curr_maptile.has_graffiti() ) {
         graf = true;
