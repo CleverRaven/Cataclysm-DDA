@@ -5126,7 +5126,7 @@
     "armor_cut":4,
     "vision_day":40,
     "revert_to_itype": "bot_hack_grenade",
-    "special_attacks":[["KAMIKAZE_DET", -1], ["KAMIKAZE_ACT", 0]],
+    "special_attacks":[["KAMIKAZE_ACT", 0]],
     "starting_ammo": { "grenade": 1},
     "death_drops": {
         "subtype": "collection",

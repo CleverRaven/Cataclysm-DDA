@@ -30,11 +30,11 @@
 #define SKIPLINE(stream) stream.ignore(std::numeric_limits<std::streamsize>::max(), '\n')
 
 // shared utility functions
-int within_visual_range(monster *z, int max) {
+int within_visual_range(monster *z, int max_range) {
     int dist;
 
-    dist = rl_dist( z->pos(), g->u.pos() );
-    if (dist > max || !z->sees( g->u ) ) {
+    dist = rl_dist( z->pos3(), g->u.pos3() );
+    if (dist > max_range || !z->sees( g->u ) ) {
         return -1;    // Out of range
     }
     return dist;
@@ -43,7 +43,7 @@ int within_visual_range(monster *z, int max) {
 bool within_target_range(monster *z, Creature *target, int range)
 {
     if( target == nullptr ||
-        rl_dist( z->pos(), target->pos() ) > range ||
+        rl_dist( z->pos3(), target->pos3() ) > range ||
         !z->sees( *target ) ) {
         return false;
     }
@@ -4322,48 +4322,92 @@ void mattack::suicide(monster *z, int index)
     z->die(z);
 }
 
-void mattack::kamikaze_act(monster *z, int index)
+void mattack::kamikaze(monster *z, int index)
 {
-    Creature *target = z->attack_target();
-    if (!within_target_range(z, target, 2)) {
-        return;
-    }
     if (z->ammo.empty()) {
         // We somehow lost our ammo! Toggle this special off so we stop processing
+        add_msg(m_debug, "Missing ammo in kamikaze special for %s.", z->name().c_str());
         z->set_special(index, -1);
         return;
     }
-    // Get the bomb type
-    auto bomb_type = item::find_type( z->ammo.begin()->first );
-    const iuse_transform *actor = dynamic_cast<const iuse_transform *>( bomb_type->get_use( "transform" )->get_actor_ptr() );
-    if( actor == nullptr ) {
-        // Invalid bomb item, Toggle this special off so we stop processing
-        z->set_special(index, -1);
-        return;
+
+    // Get the bomb type and it's data
+    const auto bomb_type = item::find_type( z->ammo.begin()->first );
+    itype* act_bomb_type;
+    long charges;
+    // Hardcoded data for charge variant items
+    if (z->ammo.begin()->first == "mininuke") {
+        act_bomb_type = item::find_type("mininuke_act");
+        charges = 20;
+    } else if (z->ammo.begin()->first == "c4") {
+        act_bomb_type = item::find_type("c4armed");
+        charges = 9;
+    } else {
+        const iuse_transform *actor = dynamic_cast<const iuse_transform *>( bomb_type->get_use( "transform" )->get_actor_ptr() );
+        if( actor == nullptr ) {
+            // Invalid bomb item, Toggle this special off so we stop processing
+            add_msg(m_debug, "Invalid bomb type in kamikaze special for %s.", z->name().c_str());
+            z->set_special(index, -1);
+            return;
+        }
+        act_bomb_type = item::find_type(actor->target_id);
+        charges = actor->target_charges;
     }
-    // Then get the active bomb type
-    auto act_bomb_type = item::find_type(actor->target_id);
+
     const explosion_iuse *exp_actor = dynamic_cast<const explosion_iuse *>( act_bomb_type->get_use( "explosion" )->get_actor_ptr() );
     if( exp_actor == nullptr ) {
         // Invalid active bomb item, Toggle this special off so we stop processing
+        add_msg(m_debug, "Invalid active bomb type in kamikaze special for %s.", z->name().c_str());
         z->set_special(index, -1);
         return;
     }
 
+    // Get our blast radius
+    int radius = -1;
+    // Extra check here to avoid sqrt if not needed
+    if (exp_actor->explosion_power > -1) {
+        int tmp = int(sqrt(double(exp_actor->explosion_power / 4)));
+        if (tmp > radius) {
+            radius = tmp;
+        }
+    }
+    if (exp_actor->fields_radius > radius) {
+        radius = exp_actor->fields_radius;
+    }
+    if (exp_actor->emp_blast_radius > radius) {
+        radius = exp_actor->emp_blast_radius;
+    }
+    // Flashbangs have a max range of 8
+    if (exp_actor->do_flashbang && radius < 8) {
+        radius = 8;
+    }
+    if (radius <= -1) {
+        // Not a valid explosion size, toggle this special off to stop processing
+        z->set_special(index, -1);
+        return;
+    }
+
+    Creature *target = z->attack_target();
+    // Range is .5 * (radius + distance they expect to gain on you during the countdown)
+    // We halve it because if the player is walking and then start to run their speed doubles
+    int range = std::max(1, int(.5 * (radius + float(z->get_speed()) / target->get_speed() * charges)));
+
+    // Check if we are in range to begin the countdown
+    if (!within_target_range(z, target, range)) {
+        return;
+    }
 
     // NOTE: This depends on the kamikaze_det special being 1 space to the left.
     // Subtraction here so set_special catches the crash if we set things up badly.
-    z->set_special(index - 1, 0);
-}
-
-void mattack::kamikaze_det(monster *z, int index)
-{
-    (void)index;
-    Creature *target = z->attack_target();
-    if (!within_target_range(z, target, 2)) {
-        return;
+    z->set_special(index - 1, charges);
+    item i_explodes = item(act_bomb_type->id);
+    i_explodes.charges = charges;
+    z->add_item(item());
+    if (g->u.sees(z->pos3())) {
+        add_msg(m_bad, _("The %s beeps menacingly."), z->name().c_str() );
     }
-    z->die(z);
+    // Disable this special so that we stop trying to process it
+    z->set_special(index, -1);
 }
 
 void mattack::stretch_attack(monster *z, int index){
