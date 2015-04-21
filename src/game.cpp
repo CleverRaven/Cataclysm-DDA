@@ -4922,7 +4922,8 @@ void game::draw_critter( const Creature &critter, const tripoint &center )
         return;
     }
     if( critter.posz() != center.z ) {
-        return;
+        // Should cancel drawing, but z-levels aren't always properly set yet
+        //return;
     }
     if( u.sees( critter ) || &critter == &u ) {
         critter.draw( w_terrain, center.x, center.y, false );
