@@ -177,17 +177,15 @@ class map
      */
     void draw( WINDOW* w, const tripoint &center );
 
- /** Draw the map tile at the given coordinate. Called by `map::draw()`.
-  *
-  * @param x, y The tile on this map to draw.
-  * @param cx, cy The center of the viewport to be rendered, see `center` in `map::draw()`
-  */
- void drawsq(WINDOW* w, player &u, const tripoint &p, const bool invert, const bool show_items,
-             const int view_center_x = -1, const int view_center_y = -1,
-             const bool low_light = false, const bool bright_level = false, const bool inorder = false);
- void drawsq(WINDOW* w, player &u, const tripoint &p, const bool invert, const bool show_items,
-             const tripoint &view_center,
-             const bool low_light = false, const bool bright_level = false, const bool inorder = false);
+    /** Draw the map tile at the given coordinate. Called by `map::draw()`.
+    *
+    * @param p The tile on this map to draw.
+    * @param view_center_x, view_center_y The center of the viewport to be rendered, 
+    *        see `center` in `map::draw()`
+    */
+    void drawsq( WINDOW* w, player &u, const tripoint &p, const bool invert, const bool show_items,
+                 const int view_center_x = -1, const int view_center_y = -1,
+                 const bool low_light = false, const bool bright_level = false, const bool inorder = false);
 
     /**
      * Add currently loaded submaps (in @ref grid) to the @ref mapbuffer.
@@ -238,6 +236,8 @@ class map
     void spawn_monsters(bool ignore_sight);
  void clear_spawns();
  void clear_traps();
+
+    const maptile maptile_at( const tripoint &p ) const;
 
 // Movement and LOS
 
@@ -1128,6 +1128,14 @@ private:
                            const vehicle *veh, const int vpart) const;
     int bash_rating_internal( const int str, const furn_t &furniture,
                               const ter_t &terrain, const vehicle *veh, const int part ) const;
+                              
+     /**
+      * Internal version of the drawsq. Keeps a cached maptile for less re-getting.
+      */
+     void draw_maptile( WINDOW* w, player &u, const tripoint &p, const maptile &tile, 
+                        const bool invert, const bool show_items, const bool check_veh,
+                        const int view_center_x, const int view_center_y,
+                        const bool low_light, const bool bright_level, const bool inorder );
 
  long determine_wall_corner( const tripoint &p ) const;
  void cache_seen(const int fx, const int fy, const int tx, const int ty, const int max_range);

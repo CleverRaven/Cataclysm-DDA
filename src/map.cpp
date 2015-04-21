@@ -135,6 +135,19 @@ map::~map()
 {
 }
 
+const maptile map::maptile_at( const tripoint &p ) const
+{
+    static const submap null_submap;
+    if( !inbounds( p ) ) {
+        return null_submap.get_maptile( 0, 0 );
+    }
+
+    int lx, ly;
+    submap *const sm = get_submap_at( p, lx, ly );
+
+    return sm->get_maptile( lx, ly );
+}
+
 // Vehicle functions
 
 VehicleList map::get_vehicles(){
@@ -4963,7 +4976,7 @@ bool map::apply_vision_effects( WINDOW *w, lit_level ll,
 void map::draw( WINDOW* w, const tripoint &center )
 {
     // We only need to draw anything if we're not in tiles mode.
-    if(is_draw_tiles_mode()) {
+    if( is_draw_tiles_mode() ) {
         return;
     }
 
@@ -4996,8 +5009,12 @@ void map::draw( WINDOW* w, const tripoint &center )
         for( ; x < MAPSIZE * SEEX && x <= center.x + getmaxx(w) / 2; x++ ) {
             const lit_level lighting = visibility_cache[x][y];
             if( !apply_vision_effects( w, lighting, cache ) ) {
-                drawsq( w, g->u, p, false, true, center.x, center.y,
-                        lighting == LL_LOW, lighting == LL_BRIGHT, true );
+                // TODO: Don't re-construct the maptile every time, but every SEEX/SEEY
+                const maptile curr_maptile = maptile_at( p );
+                const bool has_vehs = veh_in_active_range; // TODO: Make it depend on 4 nearest submaps
+                draw_maptile( w, g->u, p, curr_maptile, 
+                              false, true, has_vehs, center.x, center.y,
+                              lighting == LL_LOW, lighting == LL_BRIGHT, true );
             }
         }
 
@@ -5013,37 +5030,40 @@ void map::draw( WINDOW* w, const tripoint &center )
 }
 
 void map::drawsq(WINDOW* w, player &u, const tripoint &p, const bool invert_arg,
-                 const bool show_items_arg, const tripoint &view_center,
-                 const bool low_light, const bool bright_light, const bool inorder)
-{
-    drawsq( w, u, p, invert_arg, show_items_arg, view_center.x, view_center.y, low_light, bright_light, inorder );
-}
-
-void map::drawsq(WINDOW* w, player &u, const tripoint &p, const bool invert_arg,
                  const bool show_items_arg, const int view_center_x_arg, const int view_center_y_arg,
                  const bool low_light, const bool bright_light, const bool inorder)
 {
     // We only need to draw anything if we're not in tiles mode.
-    if(is_draw_tiles_mode()) {
+    if( is_draw_tiles_mode() ) {
         return;
     }
 
+    if( !inbounds( p ) ) {
+        return;
+    }
+
+    const int cx = view_center_x_arg != -1 ? view_center_x_arg : u.posx();
+    const int cy = view_center_y_arg != -1 ? view_center_y_arg : u.posy();
+
+    const maptile tile = maptile_at( p );
+    draw_maptile( w, u, p, tile, invert_arg, show_items_arg, true,
+                  cx, cy, low_light, bright_light, inorder );
+}
+
+void map::draw_maptile( WINDOW* w, player &u, const tripoint &p, const maptile &curr_maptile,
+                        const bool invert_arg, const bool show_items_arg, const bool check_veh,
+                        const int view_center_x_arg, const int view_center_y_arg,
+                        const bool low_light, const bool bright_light, const bool inorder )
+{
     bool invert = invert_arg;
     bool show_items = show_items_arg;
     int cx = view_center_x_arg;
     int cy = view_center_y_arg;
-    if( !inbounds( p ) )
-        return; // Out of bounds
-    if (cx == -1)
-        cx = u.posx();
-    if (cy == -1)
-        cy = u.posy();
     nc_color tercol;
-    const ter_t &curr_ter = ter_at( p );
-    const furn_t &curr_furn = furn_at( p );
-    const trap &curr_trap = tr_at( p );
-    const field &curr_field = field_at( p );
-    auto curr_items = i_at( p );
+    const ter_t &curr_ter = terlist[ curr_maptile.get_ter() ];
+    const furn_t &curr_furn = furnlist[ curr_maptile.get_furn() ];
+    const trap &curr_trap = *(traplist[ curr_maptile.get_trap() ]);
+    const field &curr_field = curr_maptile.get_field();
     long sym;
     bool hi = false;
     bool graf = false;
@@ -5064,7 +5084,7 @@ void map::drawsq(WINDOW* w, player &u, const tripoint &p, const bool invert_arg,
         }
         tercol = curr_ter.color;
     }
-    if( has_flag( TFLAG_SWIMMABLE, p ) && has_flag( TFLAG_DEEP_WATER, p ) && !u.is_underwater() ) {
+    if( curr_ter.has_flag( TFLAG_SWIMMABLE ) && curr_ter.has_flag( TFLAG_DEEP_WATER ) && !u.is_underwater() ) {
         show_items = false; // Can only see underwater items if WE are underwater
     }
     // If there's a trap here, and we have sufficient perception, draw that instead
@@ -5082,7 +5102,7 @@ void map::drawsq(WINDOW* w, player &u, const tripoint &p, const bool invert_arg,
             sym = curr_trap.sym;
         }
     }
-    if (curr_field.fieldCount() > 0) {
+    if( curr_field.fieldCount() > 0 ) {
         const field_id& fid = curr_field.fieldSymbol();
         const field_entry* fe = curr_field.findField(fid);
         const field_t& f = fieldlist[fid];
@@ -5121,31 +5141,33 @@ void map::drawsq(WINDOW* w, player &u, const tripoint &p, const bool invert_arg,
     }
 
     // If there are items here, draw those instead
-    if( show_items && sees_some_items( p, g->u ) ) {
+    if( show_items && curr_maptile.get_item_count() > 0 && sees_some_items( p, g->u ) ) {
         // if there's furniture/terrain/trap/fields (sym!='.')
         // and we should not override it, then only highlight the square
         if (sym != '.' && sym != '%' && !draw_item_sym) {
             hi = true;
         } else {
             // otherwise override with the symbol of the last item
-            sym = curr_items[curr_items.size() - 1].symbol();
+            sym = curr_maptile.get_last_item().symbol();
             if (!draw_item_sym) {
-                tercol = curr_items[curr_items.size() - 1].color();
+                tercol = curr_maptile.get_last_item().color();
             }
-            if (curr_items.size() > 1) {
+            if( curr_maptile.get_item_count() > 1 ) {
                 invert = !invert;
             }
         }
     }
 
-    int veh_part = 0;
-    vehicle *veh = veh_at( p, veh_part );
-    if (veh) {
-        sym = special_symbol (veh->face.dir_symbol(veh->part_sym(veh_part)));
-        tercol = veh->part_color(veh_part);
+    if( check_veh ) {
+        int veh_part = 0;
+        vehicle *veh = veh_at( p, veh_part );
+        if( veh != nullptr ) {
+            sym = special_symbol( veh->face.dir_symbol( veh->part_sym( veh_part ) ) );
+            tercol = veh->part_color( veh_part );
+        }
     }
     // If there's graffiti here, change background color
-    if( has_graffiti_at( p ) ) {
+    if( curr_maptile.has_graffiti() ) {
         graf = true;
     }
 
