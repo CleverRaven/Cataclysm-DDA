@@ -155,7 +155,8 @@ void player_activity::do_turn( player *p )
                     type = ACT_NULL;
                     break;
                 }
-                g->m.build_map_cache();
+
+                g->m.build_map_cache( g->get_levz() );
                 g->plfire(false);
             }
             break;

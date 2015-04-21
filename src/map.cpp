@@ -5906,14 +5906,17 @@ void map::loadn( const int gridx, const int gridy, const int gridz, const bool u
     set_outside_cache_dirty();
     setsubmap( gridn, tmpsub );
 
+    for( auto it : tmpsub->vehicles ) {
+        // Always fix submap coords for easier z-level-related operations
+        it->smx = gridx;
+        it->smy = gridy;
+    }
+
     // Update vehicle data
     if( update_vehicles ) {
         for( auto it : tmpsub->vehicles ) {
             // Only add if not tracking already.
             if( vehicle_list.find( it ) == vehicle_list.end() ) {
-                // gridx/y not correct. TODO: Fix
-                it->smx = gridx;
-                it->smy = gridy;
                 vehicle_list.insert( it );
                 update_vehicle_cache( it );
             }
@@ -6355,32 +6358,45 @@ long map::determine_wall_corner( const tripoint &p ) const
     }
 }
 
-void map::build_outside_cache()
+void map::build_outside_cache( const int zlev )
 {
-    if (!outside_cache_dirty) {
+    if( !outside_cache_dirty ) {
         return;
     }
 
-    if (abs_sub.z < 0)
+    // Make a bigger cache to avoid bounds checking
+    // We will later copy it to our regular cache
+    const size_t padded_w = ( my_MAPSIZE * SEEX ) + 2;
+    const size_t padded_h = ( my_MAPSIZE * SEEY ) + 2;
+    bool padded_cache[padded_w][padded_h];
+
+    if( zlev < 0 )
     {
-        memset(outside_cache, false, sizeof(outside_cache));
+        std::uninitialized_fill_n(
+            &outside_cache[0][0], ( MAPSIZE * SEEX ) * ( MAPSIZE * SEEY ), false );
         return;
     }
-    memset(outside_cache, true, sizeof(outside_cache));
 
-    for(int x = 0; x < SEEX * my_MAPSIZE; x++)
-    {
-        for(int y = 0; y < SEEY * my_MAPSIZE; y++)
-        {
-            if( has_flag_ter_or_furn(TFLAG_INDOORS, x, y))
-            {
-                for( int dx = -1; dx <= 1; dx++ )
-                {
-                    for( int dy = -1; dy <= 1; dy++ )
-                    {
-                        if(INBOUNDS(x + dx, y + dy))
+    std::uninitialized_fill_n(
+            &padded_cache[0][0], padded_w * padded_h, true );
+
+    for( int smx = 0; smx < my_MAPSIZE; ++smx ) {
+        for( int smy = 0; smy < my_MAPSIZE; ++smy ) {
+            auto const cur_submap = get_submap_at_grid( smx, smy, zlev );
+
+            for( int sx = 0; sx < SEEX; ++sx ) {
+                for( int sy = 0; sy < SEEY; ++sy ) {
+                    if( terlist[ cur_submap->get_ter( sx, sy ) ].has_flag( TFLAG_INDOORS ) || 
+                        furnlist[ cur_submap->get_furn( sx, sy ) ].has_flag( TFLAG_INDOORS ) ) {
+                        const int x = sx + ( smx * SEEX );
+                        const int y = sy + ( smy * SEEY );
+                        // Add 1 to both coords, because we're operating on the padded cache
+                        for( int dx = 0; dx <= 2; dx++ )
                         {
-                            outside_cache[x + dx][y + dy] = false;
+                            for( int dy = 0; dy <= 2; dy++ )
+                            {
+                                padded_cache[x + dx][y + dy] = false;
+                            }
                         }
                     }
                 }
@@ -6388,19 +6404,42 @@ void map::build_outside_cache()
         }
     }
 
+    // Copy the padded cache back to the proper one, but with no padding
+    for( int x = 0; x < my_MAPSIZE * SEEX; x++ ) {
+        std::copy_n( &padded_cache[x + 1][1], my_MAPSIZE * SEEX, &outside_cache[x][0] );
+    }
+
     outside_cache_dirty = false;
 }
 
-void map::build_map_cache()
+void map::build_map_cache( const int zlev )
 {
-    build_outside_cache();
+    if( zlev != cached_zlev ) {
+        clear_vehicle_cache();
+        vehicle_list.clear();
+        set_transparency_cache_dirty();
+        set_outside_cache_dirty();
 
-    build_transparency_cache();
+        for( int gridx = 0; gridx < my_MAPSIZE; gridx++ ) {
+            for( int gridy = 0; gridy < my_MAPSIZE; gridy++ ) {
+                update_vehicle_list( get_submap_at_grid( gridx, gridy, zlev ) );
+            }
+        }
 
+        reset_vehicle_cache();
+        cached_zlev = zlev;
+    }
+    
+    build_outside_cache( zlev );
+    build_transparency_cache( zlev );
+
+    // Only get vehicles on current z-level for now
+    tripoint start( 0, 0, zlev );
+    tripoint end( my_MAPSIZE * SEEX, my_MAPSIZE * SEEY, zlev );
+    VehicleList vehs = get_vehicles( start, end );
     // Cache all the vehicle stuff in one loop
-    VehicleList vehs = get_vehicles();
-    for(auto &v : vehs) {
-        for (size_t part = 0; part < v.v->parts.size(); part++) {
+    for( auto &v : vehs ) {
+        for( size_t part = 0; part < v.v->parts.size(); part++ ) {
             int px = v.x + v.v->parts[part].precalc[0].x;
             int py = v.y + v.v->parts[part].precalc[0].y;
             if(INBOUNDS(px, py)) {
@@ -6408,7 +6447,7 @@ void map::build_map_cache()
                     outside_cache[px][py] = false;
                 }
                 if (v.v->part_flag(part, VPFLAG_OPAQUE) && v.v->parts[part].hp > 0) {
-                    int dpart = v.v->part_with_feature(part , VPFLAG_OPENABLE);
+                    int dpart = v.v->part_with_feature( part, VPFLAG_OPENABLE );
                     if (dpart < 0 || !v.v->parts[dpart].open) {
                         transparency_cache[px][py] = LIGHT_TRANSPARENCY_SOLID;
                     }
@@ -6417,7 +6456,7 @@ void map::build_map_cache()
         }
     }
 
-    build_seen_cache( g->u.pos3() );
+    build_seen_cache( tripoint( g->u.posx(), g->u.posy(), zlev ) );
     generate_lightmap();
 }
 
