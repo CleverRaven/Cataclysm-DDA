@@ -6,7 +6,7 @@
 #include <functional>
 
 template <typename T> struct weighted_object {
-    weighted_object(const T &obj, int weight) {
+    weighted_object(const T &obj, const int weight) {
         this->obj = obj;
         this->weight = weight;
     }
@@ -23,7 +23,7 @@ template <typename T> struct weighted_list {
      * @param obj The object that will be added to the list.
      * @param weight The weight of the object.
      */
-    void add_item(const T &obj, int weight) {
+    void add_item(const T &obj, const int weight) {
         if(weight >= 0) {
             objects.emplace_back(obj, weight);
             total_weight += weight;
@@ -37,7 +37,7 @@ template <typename T> struct weighted_list {
      * @param obj The object that will be updated or added to the list.
      * @param weight The new weight of the object.
      */
-    void add_or_replace_item(const T &obj, int weight) {
+    void add_or_replace_item(const T &obj, const int weight) {
         if(weight >= 0) {
             for(auto &itr : objects) {
                 if(itr.obj == obj) {
