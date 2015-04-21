@@ -1194,11 +1194,12 @@ void player::perform_technique(ma_technique technique, Creature &t, int &bash_da
     }
 
     if (technique.knockback_dist > 0) {
-        int kb_offset = rng(
-                            -technique.knockback_spread,
-                            technique.knockback_spread
-                        );
-        t.knock_back_from(posx() + kb_offset, posy() + kb_offset);
+        const int kb_offset_x = rng( -technique.knockback_spread,
+                                     technique.knockback_spread );
+        const int kb_offset_y = rng( -technique.knockback_spread,
+                                     technique.knockback_spread );
+        tripoint kb_point( posx() + kb_offset_x, posy() + kb_offset_y, posz() );
+        t.knock_back_from( kb_point );
     }
 
     if (technique.pain > 0) {
