@@ -5130,7 +5130,7 @@
     "starting_ammo": { "grenade": 1},
     "death_drops": {
         "subtype": "collection",
-        "//": "80% chance of an item from group "robots",
+        "//": "80% chance of an item from group robots",
         "groups": [
             [ "robots", 80 ]
         ]

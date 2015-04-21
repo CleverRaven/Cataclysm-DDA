@@ -14,6 +14,7 @@
 #include "sounds.h"
 #include "monattack.h"
 #include "mondefense.h"
+#include "iuse_actor.h"
 
 #include <algorithm>
 
@@ -4334,9 +4335,25 @@ void mattack::kamikaze_act(monster *z, int index)
     }
     // Get the bomb type
     auto bomb_type = item::find_type( z->ammo.begin()->first );
-    // NOTE: This depends on the kamikaze_det special being 1 space to the left
-    // subtraction here so set_special catches the crash if we set things up badly.
-    z->set_special(index - 1, );
+    const iuse_transform *actor = dynamic_cast<const iuse_transform *>( bomb_type->get_use( "transform" )->get_actor_ptr() );
+    if( actor == nullptr ) {
+        // Invalid bomb item, Toggle this special off so we stop processing
+        z->set_special(index, -1);
+        return;
+    }
+    // Then get the active bomb type
+    auto act_bomb_type = item::find_type(actor->target_id);
+    const explosion_iuse *exp_actor = dynamic_cast<const explosion_iuse *>( act_bomb_type->get_use( "explosion" )->get_actor_ptr() );
+    if( exp_actor == nullptr ) {
+        // Invalid active bomb item, Toggle this special off so we stop processing
+        z->set_special(index, -1);
+        return;
+    }
+
+
+    // NOTE: This depends on the kamikaze_det special being 1 space to the left.
+    // Subtraction here so set_special catches the crash if we set things up badly.
+    z->set_special(index - 1, 0);
 }
 
 void mattack::kamikaze_det(monster *z, int index)

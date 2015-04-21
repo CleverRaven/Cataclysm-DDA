@@ -2642,7 +2642,7 @@
         "sound_msg": "Tick.",
         "no_deactivate_msg": "You've already pulled the %s's pin, try throwing it instead.",
         "explosion_power": 12,
-        "explosion_shrapnel": 28
+        "explosion_shrapnel": 28,
     }
   },
 
