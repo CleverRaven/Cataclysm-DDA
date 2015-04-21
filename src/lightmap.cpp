@@ -82,6 +82,7 @@ void map::build_transparency_cache()
                         case fd_smoke:
                         case fd_incendiary:
                         case fd_toxic_gas:
+                        case fd_hallu_gas:
                         case fd_tear_gas:
                             if (density == 3) {
                                 value = LIGHT_TRANSPARENCY_SOLID;

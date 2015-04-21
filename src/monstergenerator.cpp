@@ -216,6 +216,7 @@ void MonsterGenerator::init_death()
     death_map["RATKING"] = &mdeath::ratking;// Cure verminitis
     death_map["DARKMAN"] = &mdeath::darkman;// sight returns to normal
     death_map["GAS"] = &mdeath::gas;// Explodes in toxic gas
+    death_map["GAS_HALLU"] = &mdeath::gas_hallu;// Explodes in hallucinogenic gas
     death_map["KILL_BREATHERS"] = &mdeath::kill_breathers;// All breathers die
     death_map["SMOKEBURST"] = &mdeath::smokeburst;// Explode like a huge smoke bomb.
     death_map["GAMEOVER"] = &mdeath::gameover;// Game over!  Defense mode

@@ -1562,8 +1562,8 @@
     "item_chance":40,
     "death_drops": "default_zombie_death_drops",
     "upgrades_group" : "GROUP_FAT_ZOMBIES",
-    "half_life" : 1,
-    "base_upgrade_chance" : 0,
+    "half_life" : 5,
+    "base_upgrade_chance" : 10,
     "luminance":0,
     "hp":95,
     "death_function":["NORMAL"],
@@ -2257,12 +2257,12 @@
     "flags":["SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "POISON", "LEAKSGAS", "NO_BREATHE", "REVIVES", "BONES"]
     },{
     "type" : "MONSTER",
-    "id" : "mon_zombie_haluc",
-    "name": "bloated zombie",
+    "id" : "mon_zombie_halluc",
+    "name": "putrid zombie",
     "species":"ZOMBIE",
     "default_faction":"zombie",
     "symbol":"Z",
-    "color":"magenta_yellow",
+    "color":"ltgray_magenta",
     "size":"LARGE",
     "material":"flesh",
     "diff":8,
@@ -2284,7 +2284,7 @@
     "hp":15,
     "death_function":["GAS_HALLU"],
     "special_attacks":[["SUICIDE", 20]],
-    "description":"With its gray skin swollen to near rupture with putrid gas, this cyst covered zombie looks like it could violently burst under the slightest of disturbances.",
+    "description":"This walking corpse is covered in revolting cysts, and is so swollen with a pink-ish gas it looks ready to burst.",
     "flags":["SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "POISON", "LEAKSHALLUGAS", "NO_BREATHE", "REVIVES", "BONES"]
     },{
     "type" : "MONSTER",

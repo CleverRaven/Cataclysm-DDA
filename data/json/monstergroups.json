@@ -1227,8 +1227,8 @@
     "default" : "mon_zombie_gasbag",
     "monsters" : [
       { "monster" : "mon_zombie_gasbag", "freq" : 40, "cost_multiplier": 5},
-      { "monster" : "mon_zombie_boomer", "freq" : 50, "cost_multiplier" : 5 },
-      { "monster" : "mon_zombie_haluc", "freq" : 10, "cost_multiplier" : 5 }
+      { "monster" : "mon_boomer", "freq" : 50, "cost_multiplier" : 5 },
+      { "monster" : "mon_zombie_halluc", "freq" : 10, "cost_multiplier" : 5 }
     ]
   },{
     "type":"monstergroup",

@@ -924,7 +924,7 @@ int monster::move_to(int x, int y, bool force)
     }
     if (has_flag(MF_LEAKSHALLUGAS)){
         if (one_in(6)){
-        g->m.add_field(posx() + rng(-1,1), posy() + rng(-1, 1), fd_toxic_gas, 3);
+        g->m.add_field(posx() + rng(-1,1), posy() + rng(-1, 1), fd_hallu_gas, 3);
         }
     }
 

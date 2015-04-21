@@ -112,7 +112,7 @@ void game::init_fields()
         {
             "fd_hallu_gas",
             {_("hazy cloud"),_("hallucinogenic gas"),_("thick hallucinogenic gas")}, '8', 8,
-            {c_white, c_ltgreen, c_green}, {true, false, false},{false, true, true}, MINUTES(60),
+            {c_white, c_magenta, c_magenta_yellow}, {true, false, false},{false, true, true}, MINUTES(60),
             {0,0,0}
         },
 
@@ -1084,6 +1084,11 @@ bool map::process_fields_in_submap( submap *const current_submap,
                         spread_gas( cur, p, curtype, 50, 30 );
                         break;
 
+                    case fd_hallu_gas:
+                        dirty_transparency_cache = true;
+                        spread_gas( cur, p, curtype, 80, 30 );
+                        break;
+
                     case fd_cigsmoke:
                         dirty_transparency_cache = true;
                         spread_gas( cur, p, curtype, 250, 65 );
@@ -1398,6 +1403,7 @@ bool map::process_fields_in_submap( submap *const current_submap,
                             curfield.findField( fd_fire ) ||
                             curfield.findField( fd_smoke ) ||
                             curfield.findField( fd_toxic_gas ) ||
+                            curfield.findField( fd_hallu_gas ) ||
                             curfield.findField( fd_tear_gas ) ||
                             curfield.findField( fd_relax_gas ) ||
                             curfield.findField( fd_nuke_gas ) ||
@@ -1752,14 +1758,16 @@ void map::player_in_field( player &u )
 
             case fd_hallu_gas:
             {
-                bool inhaled = false;
-                if( cur->getFieldDensity() == 2 &&
-                    (!inside || (cur->getFieldDensity() == 3 && inside)) ) {
-                    u.add_effect("hallu", 30);
-                } else if( cur->getFieldDensity() == 3 && !inside ) {
-                    u.add_effect("hallu", 30);
-                } else if( cur->getFieldDensity() == 1 && (!inside) ) {
-                    u.add_effect("hallu", 50);
+                if( cur->getFieldDensity() == 1 && !inside ) {
+                    u.add_env_effect("hallu", bp_mouth, 2, 3600);
+                    u.add_env_effect("visuals",bp_mouth, 2, rng(10, 20));
+                } else if( cur->getFieldDensity() == 2 && (!inside ||
+                    one_in( 5 ) )) {
+                    u.add_env_effect("hallu", bp_mouth, 2, 3600);
+                    u.add_env_effect("visuals", bp_mouth, 3, rng(25, 40));
+                } else if( cur->getFieldDensity() == 3 ) {
+                    u.add_env_effect("hallu", bp_mouth, 2, 3600);
+                    u.add_env_effect("visuals", bp_mouth, 5, rng(40, 60));
                 }
             }
             break;
