@@ -3,6 +3,7 @@
 
 #include "rng.h"
 #include <vector>
+#include <functional>
 
 template <typename T> struct weighted_object {
     weighted_object(const T &obj, int weight) {
@@ -55,7 +56,18 @@ template <typename T> struct weighted_list {
      * This will call the given callback function once for every object in the weighted list.
      * @param func The callback function.
      */
-    void apply(void (*func)(T &obj)) {
+    void apply(std::function<void(const T&)> func) const {
+        for(auto &itr : objects) {
+            func(itr.obj);
+        }
+    }
+
+    /**
+     * This will call the given callback function once for every object in the weighted list.
+     * This is the non-const version.
+     * @param func The callback function.
+     */
+    void apply(std::function<void(T&)> func) {
         for(auto &itr : objects) {
             func(itr.obj);
         }
