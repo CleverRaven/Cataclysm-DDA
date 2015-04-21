@@ -5007,8 +5007,15 @@ bool item::reduce_charges( long quantity )
     return false;
 }
 
-void item::muzzle_flash_falloff(){
-    light.luminance > type->gun->muzzle_flash / 4 ? light.luminance /= 2 : light.luminance = 0;  
+void item::muzzle_flash_falloff()
+{
+    if( is_gun() && light.luminance > 0 ) {
+        if( light.luminance > type->gun->muzzle_flash / 4) {
+            light.luminance /= 2;
+        } else {
+            light.luminance = 0;
+        }
+    }
 }
 
 bool item::has_effect_when_wielded( art_effect_passive effect ) const

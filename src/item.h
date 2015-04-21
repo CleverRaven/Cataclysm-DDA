@@ -309,10 +309,6 @@ public:
      */
     bool reduce_charges( long quantity );
     /**
-     * Muzzle flash falloff for guns. 
-     */
-    void muzzle_flash_falloff();
-    /**
      * Returns true if the item is considered rotten.
      */
     bool rotten() const;
@@ -889,6 +885,11 @@ public:
          * for which skill() would return a skill.
          */
         std::string gun_skill() const;
+        /**
+        * Processes muzzle flash falloff for guns. Halves a gun's light.luminance value or zeros it
+        * if light.luminance is below 1/4 of it's muzzle_flash value. 
+        */
+        void muzzle_flash_falloff();
         /*@}*/
 
         /**

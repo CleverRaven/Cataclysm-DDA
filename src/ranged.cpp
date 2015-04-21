@@ -1384,11 +1384,13 @@ void make_gun_sound_effect(player &p, bool burst, item *weapon)
 
 void make_gun_flash(player &p , item *weapon)
 {
-    if(p.weapon.has_gunmod("suppressor") >= 0 || p.weapon.has_gunmod("crafted_suppressor") >= 0 ||
-       p.weapon.has_gunmod("shot_suppressor") >= 0) {
-        return;
+    if( p.weapon.is_gun() ) {
+        if(p.weapon.has_gunmod("suppressor") >= 0 || p.weapon.has_gunmod("crafted_suppressor") >= 0 ||
+           p.weapon.has_gunmod("shot_suppressor") >= 0) {
+            return;
+        }
+        p.weapon.light.luminance = weapon->type->gun->muzzle_flash;
     }
-    p.weapon.light.luminance = weapon->type->gun->muzzle_flash;
 }
 
 // Little helper to clean up dispersion calculation methods.

@@ -4065,7 +4065,9 @@ float player::active_light()
 
     if (!weapon.is_null()) {
         int lumit = weapon.getlight_emit(true);
-        weapon.muzzle_flash_falloff();
+        if ( weapon.is_gun() ) {
+                weapon.muzzle_flash_falloff();
+            }
         if ( maxlum < lumit ) {
             maxlum = lumit;
         }
