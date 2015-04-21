@@ -12999,6 +12999,10 @@ int player::get_hp_max( hp_part bp ) const
 
 int player::get_stamina_max() const
 {
+    if (has_trait("BADCARDIO"))
+        return 750;
+    if (has_trait("GOODCARDIO"))
+        return 1250;
     return 1000;
 }
 
