@@ -253,7 +253,8 @@
   ],
   "tools": [
     [
-      [ "fire", -1 ]
+      [ "fire", -1 ],
+      [ "char_smoker", 1 ]
     ]
   ],
   "components": [
@@ -332,7 +333,8 @@
   ],
   "tools": [
     [
-      [ "fire", -1 ]
+      [ "fire", -1 ],
+      [ "char_smoker", 1 ]
     ]
   ],
   "components": [
@@ -745,9 +747,15 @@
   "reversible": false,
   "autolearn": false,
   "book_learn": [[ "textbook_anarch", 5 ] , [ "adv_chemistry", 6 ] , [ "textbook_chemistry", 6 ]],
+  "qualities":[
+   {"id":"CHEM","level":2,"amount":1}
+  ],
   "tools": [
     [
-      [ "chemistry_set", 25 ]
+      [ "hotplate", 25 ],
+      [ "toolset", 25 ],
+      [ "fire", -1 ],
+      [ "char_smoker", 3 ]
     ]
   ],
   "components": [
@@ -1625,7 +1633,9 @@
   "tools": [
     [
       [ "hotplate", 5 ],
-      [ "toolset", 5 ]
+      [ "toolset", 5 ],
+      [ "fire", -1 ],
+      [ "char_smoker", 1 ]
     ]
   ],
   "components": [
@@ -3894,7 +3904,8 @@
     [
       ["hotplate", 10],
       ["toolset", 10],
-      ["fire", -1]
+      ["fire", -1],
+      ["char_smoker", 1]
     ]
   ],
   "components" : [
@@ -4660,7 +4671,8 @@
     [
       ["hotplate", 10],
       ["toolset", 10],
-      ["fire", -1]
+      ["fire", -1],
+      ["char_smoker", 1 ]
     ]
   ],
   "components" : [ [ ["plastic_chunk", 10] ] ]
@@ -4704,7 +4716,8 @@
      [
       ["hotplate", 10],
       ["toolset", 10],
-      ["fire", -1]
+      ["fire", -1],
+      ["char_smoker", 1 ]
      ],
      [
       [ "soldering_iron", 10 ],
@@ -6529,7 +6542,8 @@
       [
         ["hotplate", 30],
         ["toolset", 30],
-        ["fire", -1]
+        ["fire", -1],
+        ["char_smoker", 3 ]
       ],
       [
         ["soldering_iron", 20],

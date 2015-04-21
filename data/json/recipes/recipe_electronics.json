@@ -20,7 +20,8 @@
      [
       ["hotplate", 10],
       ["toolset", 10],
-      ["fire", -1]
+      ["fire", -1],
+      ["char_smoker", 1]
      ],
      [
       [ "soldering_iron", 10 ],
@@ -56,7 +57,8 @@
     [
       ["hotplate", 12],
       ["toolset", 12],
-      ["fire", -1]
+      ["fire", -1],
+      ["char_smoker", 2]
     ],
     [
       [ "soldering_iron", 12 ],
@@ -90,7 +92,8 @@
     [
       ["hotplate", 10],
       ["toolset", 10],
-      ["fire", -1]
+      ["fire", -1],
+      ["char_smoker", 1]
     ],
     [
       [ "soldering_iron", 10 ],
@@ -227,7 +230,8 @@
     [
       [ "hotplate", 20 ],
       [ "toolset", 20 ],
-      [ "fire", -1 ]
+      [ "fire", -1 ],
+      [ "char_smoker", 2 ]
     ]
   ],
   "components": [
@@ -1770,7 +1774,8 @@
     [
       ["hotplate", 2],
       ["toolset", 2],
-      ["fire", -1]
+      ["fire", -1],
+      ["char_smoker", 1]
     ],
     [
       [ "soldering_iron", 5 ],
@@ -1808,8 +1813,9 @@
     [ ["mold_plastic", -1] ],
     [
       ["hotplate", 5],
-      ["toolset", 15],
-      ["fire", -1]
+      ["toolset", 5],
+      ["fire", -1],
+      ["char_smoker", 1]
     ]
   ],
   "components": [
@@ -1844,7 +1850,8 @@
     [
       ["hotplate", 8],
       ["toolset", 8],
-      ["fire", -1]
+      ["fire", -1],
+      ["char_smoker", 1]
     ]
   ],
   "components": [
@@ -1879,7 +1886,8 @@
     [
       ["hotplate", 12],
       ["toolset", 12],
-      ["fire", -1]
+      ["fire", -1],
+      ["char_smoker", 2]
     ]
   ],
   "components": [

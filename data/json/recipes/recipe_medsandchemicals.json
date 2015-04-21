@@ -42,10 +42,7 @@
   ],
   "components": [
     [
-      [ "water_clean", 1 ]
-    ],
-    [
-      [ "salt", 1 ]
+      [ "salt_water", 1 ]
     ]
   ]
 },{
@@ -64,7 +61,8 @@
     [
       [ "hotplate", 3 ],
       [ "toolset", 3 ],
-      [ "fire", -1 ]
+      [ "fire", -1 ],
+      [ "char_smoker", 1 ]
     ]
   ],
   "components": [
@@ -2961,7 +2959,9 @@
 "tools": [
     [
       [ "hotplate", 50 ],
-      [ "toolset", 50 ]
+      [ "toolset", 50 ],
+      [ "char_smoker", 5 ],
+      [ "fire", -1 ]
     ]
   ],
 "components": [
