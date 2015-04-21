@@ -46,9 +46,9 @@ void map::build_transparency_cache( const int zlev )
         return;
     }
 
-    // Default to fully transparent.
+    // Default to just barely not transparent.
     std::uninitialized_fill_n(
-        &transparency_cache[0][0], MAPSIZE*SEEX * MAPSIZE*SEEY, LIGHT_TRANSPARENCY_CLEAR);
+        &transparency_cache[0][0], MAPSIZE*SEEX * MAPSIZE*SEEY, LIGHT_TRANSPARENCY_OPEN_AIR);
 
     // Traverse the submaps in order
     for( int smx = 0; smx < my_MAPSIZE; ++smx ) {
@@ -509,7 +509,7 @@ bool map::pl_sees( const int tx, const int ty, const int max_range )
         return false;    // Out of range!
     }
 
-    return get_cache( abs_sub.z ).seen_cache[tx][ty];
+    return get_cache( abs_sub.z ).seen_cache[tx][ty] > LIGHT_TRANSPARENCY_SOLID + 0.1;
 }
 
 bool map::pl_sees( const tripoint &t, const int max_range )
@@ -522,7 +522,7 @@ bool map::pl_sees( const tripoint &t, const int max_range )
         return false;    // Out of range!
     }
 
-    return get_cache( t.z ).seen_cache[t.x][t.y];
+    return get_cache( t.z ).seen_cache[t.x][t.y] > LIGHT_TRANSPARENCY_SOLID + 0.1;
 }
 
 /**
@@ -542,10 +542,11 @@ void map::build_seen_cache(const tripoint &origin)
 {
     auto &ch = get_cache( origin.z );
     float (&transparency_cache)[MAPSIZE*SEEX][MAPSIZE*SEEY] = ch.transparency_cache;
-    bool (&seen_cache)[MAPSIZE*SEEX][MAPSIZE*SEEY] = ch.seen_cache;
+    float (&seen_cache)[MAPSIZE*SEEX][MAPSIZE*SEEY] = ch.seen_cache;
 
-    std::memset(seen_cache, false, sizeof(seen_cache));
-    seen_cache[origin.x][origin.y] = true;
+    std::uninitialized_fill_n(
+        &seen_cache[0][0], MAPSIZE*SEEX * MAPSIZE*SEEY, LIGHT_TRANSPARENCY_SOLID);
+    seen_cache[origin.x][origin.y] = LIGHT_TRANSPARENCY_CLEAR;
 
     castLight<0, 1, 1, 0>( seen_cache, transparency_cache, origin.x, origin.y, 0 );
     castLight<1, 0, 0, 1>( seen_cache, transparency_cache, origin.x, origin.y, 0 );
@@ -600,7 +601,7 @@ void map::build_seen_cache(const tripoint &origin)
             } else {
                 offsetDistance = 60 - veh->part_info( mirror ).bonus *
                                       veh->parts[mirror].hp / veh->part_info( mirror ).durability;
-                seen_cache[mirror_pos.x][mirror_pos.y] = true;
+                seen_cache[mirror_pos.x][mirror_pos.y] = LIGHT_TRANSPARENCY_CLEAR;
             }
 
             // @todo: Factor in the mirror facing and only cast in the
@@ -632,10 +633,11 @@ void map::build_seen_cache(const tripoint &origin)
 }
 
 template<int xx, int xy, int yx, int yy>
-void castLight( bool (&output_cache)[MAPSIZE*SEEX][MAPSIZE*SEEY],
+void castLight( float (&output_cache)[MAPSIZE*SEEX][MAPSIZE*SEEY],
                 const float (&input_array)[MAPSIZE*SEEX][MAPSIZE*SEEY],
                 const int offsetX, const int offsetY, const int offsetDistance,
-                const int row, float start, const float end )
+                const int row, float start, const float end,
+                double cumulative_transparency )
 {
     float newStart = 0.0f;
     float radius = 60.0f - offsetDistance;
@@ -667,13 +669,13 @@ void castLight( bool (&output_cache)[MAPSIZE*SEEX][MAPSIZE*SEEY],
             }
 
             //check if it's within the visible area and mark visible if so
-            if( rl_dist(origin, delta) <= radius ) {
-                /*
-                float bright = (float) (1 - (rStrat.radius(delta.x, delta.y) / radius));
-                lightMap[currentX][currentY] = bright;
-                */
-                // TODO: handle circular distance.
-                output_cache[ currentX ][ currentY] = true;
+            const int dist = rl_dist( origin, delta );
+            if( dist <= radius ) {
+                // Beer–Lambert law says attenuation is going to be equal to
+                // 1 / (e^al) where a = coefficient of absorption and l = length.
+                // Factoring out length, we get 1 / (e^((a1*a2*a3*...*an)*l))
+                // We merge all of the absorption values by taking their cumulative average.
+                output_cache[ currentX ][ currentY] = 1 / exp( cumulative_transparency * (float)dist );
             }
 
             float new_transparency = input_array[ currentX ][ currentY ];
@@ -681,9 +683,10 @@ void castLight( bool (&output_cache)[MAPSIZE*SEEX][MAPSIZE*SEEY],
             if( new_transparency != current_transparency ) {
                 // Only cast recursively if previous span was not opaque.
                 if( current_transparency != LIGHT_TRANSPARENCY_SOLID ) {
-                    castLight<xx, xy, yx, yy>( output_cache, input_array,
-                               offsetX, offsetY, offsetDistance, distance + 1, start, leadingEdge);
-                    newStart = trailingEdge;
+                    castLight<xx, xy, yx, yy>( output_cache, input_array, offsetX, offsetY,
+                                               offsetDistance, distance + 1, start, leadingEdge,
+                                               ((distance - 1) * cumulative_transparency +
+                                                current_transparency) / distance );
                 }
                 // We either recursed into a transparent span, or did NOT recurse into an opaque span,
                 // either way the new span starts at the trailing edge of the previous square.
@@ -691,14 +694,16 @@ void castLight( bool (&output_cache)[MAPSIZE*SEEX][MAPSIZE*SEEY],
                     start = newStart;
                 }
                 current_transparency = new_transparency;
-            } else if( current_transparency == LIGHT_TRANSPARENCY_SOLID ) {
-                newStart = trailingEdge;
             }
+            newStart = trailingEdge;
         }
         if( current_transparency == LIGHT_TRANSPARENCY_SOLID ) {
             // If we reach the end of the span with terrain being opaque, we don't iterate further.
             break;
         }
+        // Cumulative average of the transparency values encountered.
+        cumulative_transparency =
+            ((distance - 1) * cumulative_transparency + current_transparency) / distance;
     }
 }
 

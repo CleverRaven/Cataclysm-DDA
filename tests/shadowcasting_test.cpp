@@ -45,7 +45,7 @@ constexpr int DENOMINATOR = 10;
 // The width and height of the area being checked.
 constexpr int DIMENSION = 121;
 
-void oldCastLight( bool (&output_cache)[MAPSIZE*SEEX][MAPSIZE*SEEY],
+void oldCastLight( float (&output_cache)[MAPSIZE*SEEX][MAPSIZE*SEEY],
                    const float (&input_array)[MAPSIZE*SEEX][MAPSIZE*SEEY],
                    const int xx, const int xy, const int yx, const int yy,
                    const int offsetX, const int offsetY, const int offsetDistance,
@@ -80,7 +80,7 @@ void oldCastLight( bool (&output_cache)[MAPSIZE*SEEX][MAPSIZE*SEEY],
                   float bright = (float) (1 - (rStrat.radius(delta.x, delta.y) / radius));
                   lightMap[currentX][currentY] = bright;
                 */
-                output_cache[currentX][currentY] = true;
+                output_cache[currentX][currentY] = LIGHT_TRANSPARENCY_CLEAR;
             }
 
             if( blocked ) {
@@ -117,8 +117,8 @@ TEST_CASE("Regression test against old shadowcasting implementation.") {
     std::uniform_int_distribution<unsigned int> distribution(0, DENOMINATOR);
     auto rng = std::bind ( distribution, generator );
 
-    bool seen_squares_control[MAPSIZE*SEEX][MAPSIZE*SEEY] = {0};
-    bool seen_squares_experiment[MAPSIZE*SEEX][MAPSIZE*SEEY] = {0};
+    float seen_squares_control[MAPSIZE*SEEX][MAPSIZE*SEEY] = {0};
+    float seen_squares_experiment[MAPSIZE*SEEX][MAPSIZE*SEEY] = {0};
     float transparency_cache[MAPSIZE*SEEX][MAPSIZE*SEEY] = {0};
 
     // Initialize the transparency value of each square to a random value.

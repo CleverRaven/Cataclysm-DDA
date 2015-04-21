@@ -611,13 +611,12 @@ void editmap::update_view( bool update_info )
                      );
             off++; // 3
         }
-        mvwprintw( w_info, off, 2, _( "dist: %d u_see: %d light: %d v_in: %d scent: %d" ),
-                   rl_dist( g->u.pos(), target ),
-                   g->u.sees( target ),
-                   g->m.light_at( target ),
-                   veh_in,
-                   g->scent( target ) );
-        off++; // 3-4
+        mvwprintw(w_info, off++, 2, _("dist: %d u_see: %d light: %d v_in: %d scent: %d"),
+                  rl_dist( g->u.pos(), target ), g->u.sees(target), g->m.light_at(target),
+                  veh_in, g->scent( target) );
+        mvwprintw(w_info, off++, 2, _("transparency: %f visibility: %f"),
+                  g->m.get_cache(target.z).transparency_cache[target.x][target.y],
+                  g->m.get_cache(target.z).seen_cache[target.x][target.y] );
 
         std::string extras = "";
         if( veh_in >= 0 ) {
