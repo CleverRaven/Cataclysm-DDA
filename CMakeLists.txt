@@ -57,9 +57,8 @@ IF( ${CMAKE_SYSTEM_NAME} MATCHES Windows )
 		SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -static-libgcc -static-libstdc++")
 		SET(CMAKE_SHARED_LIBRARY_LINK_C_FLAGS "${CMAKE_SHARED_LIBRARY_LINK_C_FLAGS} -static-libgcc -s")
 		SET(CMAKE_SHARED_LIBRARY_LINK_CXX_FLAGS "${CMAKE_SHARED_LIBRARY_LINK_CXX_FLAGS} -static-libgcc -static-libstdc++ -s")
+		SET(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -Wl,-stack,12000000,-subsystem,windows")
 	ENDIF ( NOT DYNAMIC_LINKING )
-	SET(LOCALIZE OFF)
-	MESSAGE(STATUS "Disable internationalization on Windows as it is not supported")
 ENDIF( ${CMAKE_SYSTEM_NAME} MATCHES Windows )
 
 #Sysem specific actions
@@ -225,6 +224,12 @@ ENDIF(LUA)
 
 # Ok. Now create build and install recipes
 IF(LOCALIZE)
+	FIND_PACKAGE(Libintl)
+	IF(NOT LIBINTL_FOUND)
+	MESSAGE(FATAL_ERROR
+		"You need the libintl development library to be able to compile with Localize support.\nSee INSTALL file for details and more info\n"
+	)
+	ENDIF(NOT LIBINTL_FOUND)
 	add_subdirectory(lang)
 	ADD_DEFINITIONS(-DLOCALIZE)
 ENDIF(LOCALIZE)
