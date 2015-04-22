@@ -290,8 +290,13 @@ ADD_CUSTOM_COMMAND (
 
 # Build tiles version if requested
 IF(TILES)
-	ADD_EXECUTABLE(cataclysm-tiles ${CATACLYSM_DDA_SOURCES} ${CATACLYSM_DDA_HEADERS})
-
+	IF(WIN32)
+		ADD_EXECUTABLE(cataclysm-tiles WIN32 ${CATACLYSM_DDA_SOURCES} ${CATACLYSM_DDA_HEADERS})
+		target_link_libraries(cataclysm-tiles winmm.lib)
+		target_link_libraries(cataclysm-tiles gdi32.lib)
+	ELSE(WIN32)
+		ADD_EXECUTABLE(cataclysm-tiles ${CATACLYSM_DDA_SOURCES} ${CATACLYSM_DDA_HEADERS})
+	ENDIF(WIN32)
 
 	ADD_DEPENDENCIES(cataclysm-tiles get_version)
 	IF (LUA)
@@ -331,7 +336,14 @@ ENDIF(TILES)
 
 # Build curses version if requested
 IF(CURSES)
-	ADD_EXECUTABLE(cataclysm ${CATACLYSM_DDA_SOURCES} ${CATACLYSM_DDA_HEADERS})
+	IF(WIN32)
+		ADD_EXECUTABLE(cataclysm WIN32 ${CATACLYSM_DDA_SOURCES} ${CATACLYSM_DDA_HEADERS})
+		target_link_libraries(cataclysm winmm.lib)
+		target_link_libraries(cataclysm gdi32.lib)
+	ELSE(WIN32)
+		ADD_EXECUTABLE(cataclysm ${CATACLYSM_DDA_SOURCES} ${CATACLYSM_DDA_HEADERS})
+	ENDIF(WIN32)
+
 	ADD_DEPENDENCIES(cataclysm get_version)
 	IF (LUA)
 		ADD_DEPENDENCIES(cataclysm lua_bindings)
