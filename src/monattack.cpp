@@ -4441,6 +4441,333 @@ void mattack::kamikaze(monster *z, int index)
     }
 }
 
+void mattack::grenadier(monster *const z, int const index)
+{
+    ////////////////////////////////////////////////////////////////////////////////////////////////
+    // Constants and Configuration
+
+    // attack types
+    enum : int {
+        att_grenade,
+        att_flashbang,
+        att_gasbomb,
+        att_c4,
+        att_enum_size
+    };
+
+    // max distance that hacks can be release towards the target.
+    constexpr auto max_distance = 30;
+
+    // attack movement costs
+    constexpr int att_cost = 60;
+
+    if( !z->can_act() ) {
+        return;
+    }
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////
+    // Look for a valid target...
+    Creature *const target = z->attack_target();
+    if (!target) {
+        return;
+    }
+
+    // too far
+    const int dist = rl_dist(z->pos(), target->pos());
+    if (dist > max_distance) {
+        return;
+    }
+
+    // can't attack what you can't see
+    if (!z->sees(*target)) {
+        return;
+    }
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////
+    // ok, we have a valid target; populate valid attack options...
+    std::array<int, att_enum_size> valid_attacks;
+    size_t valid_attack_count = 0;
+
+    // need an open space for these attacks
+    auto const empty_neighbors = find_empty_neighbors(*z);
+    size_t const empty_neighbor_count = empty_neighbors.second;
+    if (!empty_neighbor_count) {
+        return;
+    }
+
+    if( z->ammo["bot_grenade_hack"] > 0 ) {
+        valid_attacks[valid_attack_count++] = att_grenade;
+    }
+    if( z->ammo["bot_flashbang_hack"] > 0 ) {
+        valid_attacks[valid_attack_count++] = att_flashbang;
+    }
+    if( z->ammo["bot_gasbomb_hack"] > 0 ) {
+        valid_attacks[valid_attack_count++] = att_gasbomb;
+    }
+    // Check this one last, suffers no chance penalty if it's the only one left
+    if( z->ammo["bot_c4_hack"] > 0  && (one_in(4) || valid_attack_count == 0)) {
+        valid_attacks[valid_attack_count++] = att_c4;
+    }
+
+    if (valid_attack_count == 0) {
+        // We've run out of ammo, time to YOLO!
+        z->anger = 100;
+        // Toggle off this special.
+        z->set_special(index, -1);
+        return;
+    }
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////
+    // choose and do a valid attack
+    const int attack_index = get_random_index(valid_attack_count);
+    const point where = empty_neighbors.first[get_random_index(empty_neighbor_count)];
+    switch (valid_attacks[attack_index]) {
+    default :
+        DebugLog(D_WARNING, D_GAME) << "Bad enum value in grenadier.";
+        break;
+    case att_grenade : {
+        z->moves -= att_cost;
+        z->ammo["bot_grenade_hack"]--;
+
+        // if the player can see it
+        if (g->u.sees(*z)) {
+            add_msg(m_warning, _("The %s opens a pouch and a grenade hack flies out!"),
+                z->name().c_str());
+        }
+
+        monster g_hack {GetMType("mon_grenade_hack")};
+        g_hack.spawn(where.x, where.y);
+        g_hack.friendly = z->friendly;
+        g_hack.faction = z->faction;
+        g->add_zombie(g_hack);
+      } break;
+    case att_flashbang : {
+        z->moves -= att_cost;
+        z->ammo["bot_flashbang_hack"]--;
+
+        // if the player can see it
+        if (g->u.sees(*z)) {
+            add_msg(m_warning, _("The %s opens a pouch and a flashbang hack flies out!"),
+                z->name().c_str());
+        }
+
+        monster f_hack {GetMType("mon_flashbang_hack")};
+        f_hack.spawn(where.x, where.y);
+        f_hack.friendly = z->friendly;
+        f_hack.faction = z->faction;
+        g->add_zombie(f_hack);
+      } break;
+    case att_gasbomb : {
+        z->moves -= att_cost;
+        z->ammo["bot_gasbomb_hack"]--;
+
+        // if the player can see it
+        if (g->u.sees(*z)) {
+            add_msg(m_warning, _("The %s opens a pouch and a tear gas hack flies out!"),
+                z->name().c_str());
+        }
+
+        monster t_hack {GetMType("mon_gasbomb_hack")};
+        t_hack.spawn(where.x, where.y);
+        t_hack.friendly = z->friendly;
+        t_hack.faction = z->faction;
+        g->add_zombie(t_hack);
+      } break;
+    case att_c4 : {
+        z->moves -= att_cost;
+        z->ammo["bot_c4_hack"]--;
+
+        // if the player can see it
+        if (g->u.sees(*z)) {
+            add_msg(m_warning, _("The %s cackles and opens a pouch; a C-4 hack flies out!"),
+                z->name().c_str());
+        }
+
+        monster c_hack {GetMType("mon_c4_hack")};
+        c_hack.spawn(where.x, where.y);
+        c_hack.friendly = z->friendly;
+        c_hack.faction = z->faction;
+        g->add_zombie(c_hack);
+      } break;
+    }
+
+    z->reset_special(index); // Reset timer
+}
+
+void mattack::grenadier_elite(monster *const z, int const index)
+{
+    ////////////////////////////////////////////////////////////////////////////////////////////////
+    // Constants and Configuration
+
+    // attack types
+    enum : int {
+        att_grenade,
+        att_flashbang,
+        att_gasbomb,
+        att_c4,
+        att_mininuke,
+        att_enum_size
+    };
+
+    // max distance that hacks can be release towards the target.
+    constexpr auto max_distance = 30;
+
+    // attack movement costs
+    constexpr int att_cost = 60;
+
+    if( !z->can_act() ) {
+        return;
+    }
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////
+    // Look for a valid target...
+    Creature *const target = z->attack_target();
+    if (!target) {
+        return;
+    }
+
+    // too far
+    const int dist = rl_dist(z->pos(), target->pos());
+    if (dist > max_distance) {
+        return;
+    }
+
+    // can't attack what you can't see
+    if (!z->sees(*target)) {
+        return;
+    }
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////
+    // ok, we have a valid target; populate valid attack options...
+    std::array<int, att_enum_size> valid_attacks;
+    size_t valid_attack_count = 0;
+
+    // need an open space for these attacks
+    auto const empty_neighbors = find_empty_neighbors(*z);
+    size_t const empty_neighbor_count = empty_neighbors.second;
+    if (!empty_neighbor_count) {
+        return;
+    }
+
+    if( z->ammo["bot_grenade_hack"] > 0 ) {
+        valid_attacks[valid_attack_count++] = att_grenade;
+    }
+    if( z->ammo["bot_flashbang_hack"] > 0 ) {
+        valid_attacks[valid_attack_count++] = att_flashbang;
+    }
+    if( z->ammo["bot_gasbomb_hack"] > 0 ) {
+        valid_attacks[valid_attack_count++] = att_gasbomb;
+    }
+    // Check this one later, suffers no chance penalty if it and mininukes are the only ones left
+    if( z->ammo["bot_c4_hack"] > 0  && (one_in(2) || valid_attack_count == 0)) {
+        valid_attacks[valid_attack_count++] = att_c4;
+    }
+    // Check this one last, suffers no chance penalty if it's the only one left
+    if( z->ammo["bot_mininuke_hack"] > 0  && (one_in(50) || valid_attack_count == 0)) {
+        valid_attacks[valid_attack_count++] = att_mininuke;
+    }
+
+    if (valid_attack_count == 0) {
+        // We've run out of ammo, time to YOLO!
+        z->anger = 100;
+        // Toggle off this special.
+        z->set_special(index, -1);
+        return;
+    }
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////
+    // choose and do a valid attack
+    const int attack_index = get_random_index(valid_attack_count);
+    const point where = empty_neighbors.first[get_random_index(empty_neighbor_count)];
+    switch (valid_attacks[attack_index]) {
+    default :
+        DebugLog(D_WARNING, D_GAME) << "Bad enum value in grenadier.";
+        break;
+    case att_grenade : {
+        z->moves -= att_cost;
+        z->ammo["bot_grenade_hack"]--;
+
+        // if the player can see it
+        if (g->u.sees(*z)) {
+            add_msg(m_warning, _("The %s opens a pouch and a grenade hack flies out!"),
+                z->name().c_str());
+        }
+
+        monster g_hack {GetMType("mon_grenade_hack")};
+        g_hack.spawn(where.x, where.y);
+        g_hack.friendly = z->friendly;
+        g_hack.faction = z->faction;
+        g->add_zombie(g_hack);
+      } break;
+    case att_flashbang : {
+        z->moves -= att_cost;
+        z->ammo["bot_flashbang_hack"]--;
+
+        // if the player can see it
+        if (g->u.sees(*z)) {
+            add_msg(m_warning, _("The %s opens a pouch and a flashbang hack flies out!"),
+                z->name().c_str());
+        }
+
+        monster f_hack {GetMType("mon_flashbang_hack")};
+        f_hack.spawn(where.x, where.y);
+        f_hack.friendly = z->friendly;
+        f_hack.faction = z->faction;
+        g->add_zombie(f_hack);
+      } break;
+    case att_gasbomb : {
+        z->moves -= att_cost;
+        z->ammo["bot_gasbomb_hack"]--;
+
+        // if the player can see it
+        if (g->u.sees(*z)) {
+            add_msg(m_warning, _("The %s opens a pouch and a tear gas hack flies out!"),
+                z->name().c_str());
+        }
+
+        monster t_hack {GetMType("mon_gasbomb_hack")};
+        t_hack.spawn(where.x, where.y);
+        t_hack.friendly = z->friendly;
+        t_hack.faction = z->faction;
+        g->add_zombie(t_hack);
+      } break;
+    case att_c4 : {
+        z->moves -= att_cost;
+        z->ammo["bot_c4_hack"]--;
+
+        // if the player can see it
+        if (g->u.sees(*z)) {
+            add_msg(m_warning, _("The %s cackles and opens a pouch; a C-4 hack flies out!"),
+                z->name().c_str());
+        }
+
+        monster c_hack {GetMType("mon_c4_hack")};
+        c_hack.spawn(where.x, where.y);
+        c_hack.friendly = z->friendly;
+        c_hack.faction = z->faction;
+        g->add_zombie(c_hack);
+      } break;
+    case att_mininuke : {
+        z->moves -= att_cost;
+        z->ammo["bot_mininuke_hack"]--;
+
+        // if the player can see it
+        if (g->u.sees(*z)) {
+            add_msg(m_warning, _("The %s lets loose an almighty screech and opens its backpack; a mininuke hack floats free!"),
+                z->name().c_str());
+        }
+
+        monster m_hack {GetMType("mon_mininuke_hack")};
+        m_hack.spawn(where.x, where.y);
+        m_hack.friendly = z->friendly;
+        m_hack.faction = z->faction;
+        g->add_zombie(m_hack);
+      } break;
+    }
+
+    z->reset_special(index); // Reset timer
+}
+
 void mattack::stretch_attack(monster *z, int index){
     if( !z->can_act() ) {
         return;

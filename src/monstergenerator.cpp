@@ -297,6 +297,8 @@ void MonsterGenerator::init_attack()
     attack_map["BIO_OP_TAKEDOWN"] = &mattack::bio_op_takedown;
     attack_map["SUICIDE"] = &mattack::suicide;
     attack_map["KAMIKAZE"] = &mattack::kamikaze;
+    attack_map["GRENADIER"] = &mattack::grenadier;
+    attack_map["GRENADIER_ELITE"] = &mattack::grenadier_elite;
     attack_map["RIOTBOT"] = &mattack::riotbot;
     attack_map["STRETCH_ATTACK"] = &mattack::stretch_attack;
     attack_map["STRETCH_BITE"] = &mattack::stretch_bite;
