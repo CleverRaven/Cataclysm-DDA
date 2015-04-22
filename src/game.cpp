@@ -10684,16 +10684,16 @@ void game::plfire(bool burst, int default_target_x, int default_target_y)
             (u.weapon.has_flag("STR12_DRAW") && u.str_cur < 6)) {
             add_msg(m_info, _("You're not strong enough to draw the bow!"));
             return;
-        }else if (reload_pos == INT_MIN + 2) {
-            add_msg(m_info, _("Never mind."));
-            refresh_all();
-            return;
         }
 
-        if (u.weapon.has_flag("RELOAD_AND_SHOOT") && u.weapon.charges == 0) {
+        if( u.weapon.has_flag("RELOAD_AND_SHOOT") && u.weapon.charges == 0 ) {
             const int reload_pos = u.weapon.pick_reload_ammo( u, true );
-            if (reload_pos == INT_MIN) {
+            if( reload_pos == INT_MIN ) {
                 add_msg(m_info, _("Out of ammo!"));
+                return;
+            } else if( reload_pos == INT_MIN + 2 ) {
+                add_msg(m_info, _("Never mind."));
+                refresh_all();
                 return;
             }
 
