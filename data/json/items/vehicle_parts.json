@@ -254,6 +254,22 @@
     },
     {
         "type":"GENERIC",
+        "id" : "motor_enhanced",
+        "name" : "Enhanced electric motor",
+        "description" : "A very powerful and yet lightweight electric motor. Useful for crafting.",
+        "weight" : 18427,
+        "to_hit" : 0,
+        "color" : "light_cyan",
+        "symbol" : ",",
+        "material" : ["superalloy", "null"],
+        "volume" : 12,
+        "bashing" : 4,
+        "cutting" : 0,
+        "category" : "veh_parts",
+        "price" : 68000
+    },
+    {
+        "type":"GENERIC",
         "id" : "motor_large",
         "name" : "large electric motor",
         "description" : "A large and very powerful electric motor.  Useful for crafting.",

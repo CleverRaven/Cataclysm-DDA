@@ -1797,6 +1797,8 @@ void mapgen_parking_lot(map *m, oter_id, mapgendata dat, int turn, float)
                 veh_type = "fire_truck";
             }else if (ra <= 60) {
                 veh_type = "policecar";
+            }else if (ra <=90) {
+                veh_type = "car_sports_electric";
             }else {
                 veh_type = "quad_bike";
             }
