@@ -6541,7 +6541,7 @@
         "storage" : 4,
         "symbol" : "[",
         "description" : "A webbing of strings worn on a helmet, to attach camouflage or other necessary things.",
-        "flags" : ["BELTED"],
+        "flags" : ["BELTED", "WATER_FRIENDLY"],
         "price" : 2000,
         "material" : ["cotton", "null"],
         "volume" : 0,
