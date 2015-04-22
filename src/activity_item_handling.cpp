@@ -339,8 +339,8 @@ static void move_items( point source, point destination,
         if( quantity != 0 ) {
             // Reinserting leftovers happens after item removal to avoid stacking issues.
             int leftover_charges = temp_item->charges - quantity;
-            if (leftover_charges > 0) {
-                leftovers.charges = leftover_charges;
+            leftovers.charges = leftover_charges;
+            if( leftover_charges > 0 ) {
                 temp_item->charges = quantity;
             }
         }
@@ -375,7 +375,7 @@ static void move_items( point source, point destination,
         }
 
         // If we didn't pick up a whole stack, put the remainder back where it came from.
-        if( quantity != 0 ) {
+        if( leftovers.charges > 0 ) {
             bool to_map = veh != nullptr;
             if( !to_map ) {
                 to_map = !veh->add_item( cargo_part, leftovers );
