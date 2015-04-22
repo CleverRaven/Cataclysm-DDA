@@ -4519,8 +4519,8 @@ void mattack::stretch_attack(monster *z, int index){
         } else if( seen ) {
             add_msg( _("The %s's arm pierces %s!"), z->name().c_str(), target->disp_name().c_str() );
         }
-    }
     target->check_dead_state();
+    }
 }
 
 bool mattack::dodge_check(monster *z, Creature *target){
