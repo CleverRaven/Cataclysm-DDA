@@ -4338,10 +4338,10 @@ void mattack::kamikaze(monster *z, int index)
     // Hardcoded data for charge variant items
     if (z->ammo.begin()->first == "mininuke") {
         act_bomb_type = item::find_type("mininuke_act");
-        charges = 20;
+        charges = 10;
     } else if (z->ammo.begin()->first == "c4") {
         act_bomb_type = item::find_type("c4armed");
-        charges = 9;
+        charges = 10;
     } else {
         const iuse_transform *actor = dynamic_cast<const iuse_transform *>( bomb_type->get_use( "transform" )->get_actor_ptr() );
         if( actor == nullptr ) {
