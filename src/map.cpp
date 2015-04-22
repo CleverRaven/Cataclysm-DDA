@@ -3551,18 +3551,19 @@ std::list<item>::iterator map::i_rem( const tripoint &p, std::list<item>::iterat
 
 int map::i_rem(const tripoint &p, const int index)
 {
-    if (index > (int)i_at(p).size() - 1) {
+    if( index < 0 ) {
+        debugmsg( "i_rem called with negative index %d", index );
         return index;
     }
-    auto map_items = i_at(p);
 
-    int i = 0;
-    for( auto iter = map_items.begin(); iter != map_items.end(); iter++, i++ ) {
-        if( i == index) {
-            map_items.erase( iter );
-            return i;
-        }
+    if( index >= (int)i_at( p ).size() ) {
+        return index;
     }
+
+    auto map_items = i_at( p );
+    auto iter = map_items.begin();
+    std::advance( iter, index );
+    map_items.erase( iter );
     return index;
 }
 
