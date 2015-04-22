@@ -40,7 +40,7 @@ ignorable = {
     "MONSTER_WHITELIST",
     "monitems",
     "npc",      # FIXME right now this object is unextractable
-    "epilogue", # FIXME right now this object can't be translaed correctly
+    "epilogue", # FIXME right now this object can't be translated correctly
     "overmap_special",
     "recipe_category",
     "recipe_subcategory",
