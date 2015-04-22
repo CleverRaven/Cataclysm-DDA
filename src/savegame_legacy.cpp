@@ -2059,7 +2059,7 @@ void monster::load_legacy(std::stringstream & dump) {
          >> faction_dummy >> mission_id >> no_extra_death_drops >> dead >> anger >> morale;
 
     wander_pos.z = g->get_levz();
-    position.x = g->get_levz();
+    position.z = g->get_levz();
     // load->int->str->int (possibly shifted)
     type = GetMType( legacy_mon_id[idtmp] );
 
