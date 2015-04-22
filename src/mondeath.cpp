@@ -8,6 +8,7 @@
 #include "messages.h"
 #include "sounds.h"
 #include "mondeath.h"
+#include "iuse_actor.h"
 
 #include <math.h>  // rounding
 #include <sstream>
@@ -622,6 +623,77 @@ void mdeath::kill_breathers(monster *z)
         if (monID == "mon_breather_hub " || monID == "mon_breather") {
             g->zombie(i).die( nullptr );
         }
+    }
+}
+
+void mdeath::detonate(monster *z)
+{
+    // How much ammo do we have left?
+    int ammo_count = 0;
+    for (auto am : z->ammo) {
+        ammo_count += am.second;
+    }
+    std::vector<std::string> pre_dets;
+    if (ammo_count > 0) {
+        // Pick three random ammo
+        for (int i = 0; i < 3; i++) {
+            int roll = rng(0, ammo_count);
+            for (auto am : z->ammo) {
+                roll -= am.second;
+                if (roll <= 0) {
+                    pre_dets.push_back(am.first);
+                    am.second--;
+                    ammo_count--;
+                    break;
+                }
+            }
+        }
+    }
+    // Update any hardcoded explosion equivalencies
+    std::vector<std::string> dets;
+    for (auto bomb_id : pre_dets) {
+        if (bomb_id == "bot_grenade_hack") {
+            dets.push_back("grenade_act");
+        } else if (bomb_id == "bot_flashbang_hack") {
+            dets.push_back("flashbang_act");
+        } else if (bomb_id == "bot_gasbomb_hack") {
+            dets.push_back("gasbomb_act");
+        } else if (bomb_id == "bot_c4_hack") {
+            dets.push_back("c4armed");
+        } else if (bomb_id == "bot_mininuke_hack") {
+            dets.push_back("mininuke_act");
+        } else {
+            // Get the transformation item
+            const iuse_transform *actor = dynamic_cast<const iuse_transform *>(
+                            item::find_type(bomb_id)->get_use( "transform" )->get_actor_ptr() );
+            if( actor == nullptr ) {
+                // Invalid bomb item, move to the next ammo item
+                add_msg(m_debug, "Invalid bomb type in detonate mondeath for %s.", z->name().c_str());
+                continue;
+            }
+            dets.push_back(actor->target_id);
+        }
+    }
+
+
+    if (g->u.sees(*z)) {
+        if (dets.empty()) {
+            //~ %s is the possessive form of the monster's name
+            add_msg(m_info, _("The %s hands fly to its pockets, but are unable to open them."), z->disp_name(true).c_str());
+        } else {
+            //~ %s is the possessive form of the monster's name
+            add_msg(m_bad, _("The %s hands fly to its pockets, opening them!"), z->disp_name(true).c_str());
+        }
+    }
+    point det_point = z->pos();
+    // First die normally
+    mdeath::normal(z);
+    // Then detonate our suicide bombs
+    for (auto bomb_id : dets) {
+        item bomb_item(bomb_id, 0);
+        bomb_item.charges = 0;
+        bomb_item.active = true;
+        bomb_item.process(nullptr, det_point, false);
     }
 }
 

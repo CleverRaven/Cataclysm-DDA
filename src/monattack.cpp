@@ -4467,19 +4467,16 @@ void mattack::grenadier(monster *const z, int const index)
 
     ////////////////////////////////////////////////////////////////////////////////////////////////
     // Look for a valid target...
-    Creature *const target = z->attack_target();
-    if (!target) {
+
+    // Only can actively target the player right now. Once we have the ability to grab targets that we aren't
+    // actively attacking change this to use that instead.
+    Creature *const target = static_cast<Creature *>(&g->u);
+    if (z->attitude_to( *target ) == Creature::A_FRIENDLY) {
         return;
     }
 
-    // too far
-    const int dist = rl_dist(z->pos(), target->pos());
-    if (dist > max_distance) {
-        return;
-    }
-
-    // can't attack what you can't see
-    if (!z->sees(*target)) {
+    // too far or can't target them
+    if (!within_target_range(z, target, max_distance)) {
         return;
     }
 
@@ -4531,7 +4528,7 @@ void mattack::grenadier(monster *const z, int const index)
 
         // if the player can see it
         if (g->u.sees(*z)) {
-            add_msg(m_warning, _("The %s opens a pouch and a grenade hack flies out!"),
+            add_msg(m_warning, _("The %s fumbles open a pouch and a grenade hack flies out!"),
                 z->name().c_str());
         }
 
@@ -4547,7 +4544,7 @@ void mattack::grenadier(monster *const z, int const index)
 
         // if the player can see it
         if (g->u.sees(*z)) {
-            add_msg(m_warning, _("The %s opens a pouch and a flashbang hack flies out!"),
+            add_msg(m_warning, _("The %s fumbles open a pouch and a flashbang hack flies out!"),
                 z->name().c_str());
         }
 
@@ -4563,7 +4560,7 @@ void mattack::grenadier(monster *const z, int const index)
 
         // if the player can see it
         if (g->u.sees(*z)) {
-            add_msg(m_warning, _("The %s opens a pouch and a tear gas hack flies out!"),
+            add_msg(m_warning, _("The %s fumbles open a pouch and a tear gas hack flies out!"),
                 z->name().c_str());
         }
 
@@ -4579,7 +4576,7 @@ void mattack::grenadier(monster *const z, int const index)
 
         // if the player can see it
         if (g->u.sees(*z)) {
-            add_msg(m_warning, _("The %s cackles and opens a pouch; a C-4 hack flies out!"),
+            add_msg(m_warning, _("The %s fumbles open a pouch and a C-4 hack flies out!"),
                 z->name().c_str());
         }
 
@@ -4621,19 +4618,16 @@ void mattack::grenadier_elite(monster *const z, int const index)
 
     ////////////////////////////////////////////////////////////////////////////////////////////////
     // Look for a valid target...
-    Creature *const target = z->attack_target();
-    if (!target) {
+
+    // Only can actively target the player right now. Once we have the ability to grab targets that we aren't
+    // actively attacking change this to use that instead.
+    Creature *const target = static_cast<Creature *>(&g->u);
+    if (z->attitude_to( *target ) == Creature::A_FRIENDLY) {
         return;
     }
 
-    // too far
-    const int dist = rl_dist(z->pos(), target->pos());
-    if (dist > max_distance) {
-        return;
-    }
-
-    // can't attack what you can't see
-    if (!z->sees(*target)) {
+    // too far or can't target them
+    if (!within_target_range(z, target, max_distance)) {
         return;
     }
 
@@ -4753,7 +4747,7 @@ void mattack::grenadier_elite(monster *const z, int const index)
 
         // if the player can see it
         if (g->u.sees(*z)) {
-            add_msg(m_warning, _("The %s lets loose an almighty screech and opens its backpack; a mininuke hack floats free!"),
+            add_msg(m_warning, _("The %s lets loose a screech and opens its MOLLE pack; a mininuke hack floats free!"),
                 z->name().c_str());
         }
 
