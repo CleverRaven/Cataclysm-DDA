@@ -296,17 +296,18 @@ void defense_game::init_map()
     monster generator( GetMType("mon_generator"), 
                        tripoint( g->u.posx() + 1, g->u.posy() + 1, g->u.posz() ) );
     // Find a valid spot to spawn the generator
-    std::vector<point> valid;
+    std::vector<tripoint> valid;
     for (int x = g->u.posx() - 1; x <= g->u.posx() + 1; x++) {
         for (int y = g->u.posy() - 1; y <= g->u.posy() + 1; y++) {
-            if (generator.can_move_to(x, y) && g->is_empty(x, y)) {
-                valid.push_back( point(x, y) );
+            tripoint dest( x, y, g->u.posz() );
+            if (generator.can_move_to( dest ) && g->is_empty( dest )) {
+                valid.push_back( dest );
             }
         }
     }
     if (!valid.empty()) {
-        point p = valid[rng(0, valid.size() - 1)];
-        generator.spawn(p.x, p.y);
+        tripoint p = valid[rng(0, valid.size() - 1)];
+        generator.spawn( p.x, p.y, p.z );
     }
     generator.friendly = -1;
     g->add_zombie(generator);
@@ -1420,8 +1421,7 @@ void defense_game::spawn_wave_monster(mtype *type)
         }
     }
     monster tmp( type, tripoint( pnt, g->get_levz() ) );
-    tmp.wandx = g->u.posx();
-    tmp.wandy = g->u.posy();
+    tmp.wander_pos = g->u.pos3();
     tmp.wandf = 150;
     // We wanna kill!
     tmp.anger = 100;

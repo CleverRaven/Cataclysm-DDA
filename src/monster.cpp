@@ -27,8 +27,6 @@ monster::monster()
  position.x = 20;
  position.y = 10;
  zpos = 0;
- wandx = -1;
- wandy = -1;
  wandf = 0;
  hp = 60;
  moves = 0;
@@ -51,8 +49,6 @@ monster::monster(mtype *t)
 {
  position.x = 20;
  position.y = 10;
- wandx = -1;
- wandy = -1;
  wandf = 0;
  type = t;
  moves = type->speed;
@@ -82,8 +78,6 @@ monster::monster(mtype *t, const tripoint &p )
  position.x = p.x;
  position.y = p.y;
  zpos = p.z;
- wandx = -1;
- wandy = -1;
  wandf = 0;
  type = t;
  moves = type->speed;
@@ -520,18 +514,18 @@ void monster::shift(int sx, int sy)
     }
 
     if( wandf > 0 ) {
-        wandx -= xshift;
-        wandy -= yshift;
+        wander_pos.x -= xshift;
+        wander_pos.y -= yshift;
     }
 }
 
-point monster::move_target()
+tripoint monster::move_target()
 {
-    if (plans.empty()) {
+    if( plans.empty() ) {
         // if we have no plans, pretend it's intentional
-        return pos();
+        return pos3();
     }
-    return point(plans.back().x, plans.back().y);
+    return plans.back();
 }
 
 Creature *monster::attack_target()
@@ -540,12 +534,12 @@ Creature *monster::attack_target()
         return nullptr;
     }
 
-    point target_point = move_target();
-    Creature *target = g->critter_at( target_point.x, target_point.y );
-    if( target == nullptr || attitude_to( *target ) == Creature::A_FRIENDLY ||
-        !sees(*target) ) {
+    Creature *target = g->critter_at( move_target() );
+    if( target == nullptr || target == this ||
+        attitude_to( *target ) == Creature::A_FRIENDLY || !sees(*target) ) {
         return nullptr;
     }
+
     return target;
 }
 

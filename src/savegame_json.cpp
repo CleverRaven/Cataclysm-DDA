@@ -1019,9 +1019,13 @@ void monster::load(JsonObject &data)
         zpos = g->get_levz();
     }
 
-    data.read("wandx", wandx);
-    data.read("wandy", wandy);
     data.read("wandf", wandf);
+    data.read("wandx", wander_pos.x);
+    data.read("wandy", wander_pos.y);
+    if( data.read("wandz", wander_pos.z) ) {
+        wander_pos.z = zpos;
+    }
+
     data.read("hp", hp);
     last_loaded = data.get_int("last_loaded", 0);
 
@@ -1088,8 +1092,9 @@ void monster::store(JsonOut &json) const
     json.member("posx", position.x);
     json.member("posy", position.y);
     json.member("posz", zpos);
-    json.member("wandx", wandx);
-    json.member("wandy", wandy);
+    json.member("wandx", wander_pos.x);
+    json.member("wandy", wander_pos.y);
+    json.member("wandz", wander_pos.z);
     json.member("wandf", wandf);
     json.member("hp", hp);
     json.member("sp_timeout", sp_timeout);

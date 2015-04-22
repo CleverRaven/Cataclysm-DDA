@@ -2060,16 +2060,19 @@ std::istream& operator>>(std::istream& is, SkillLevel& obj) {
 
 void monster::load_legacy(std::stringstream & dump) {
     int idtmp, plansize, speed, faction_dummy;
-    dump >> idtmp >> position.x >> position.y >> wandx >> wandy >> wandf >> moves >> speed >>
-         hp >> sp_timeout[0] >> plansize >> friendly >> faction_dummy >> mission_id >>
-         no_extra_death_drops >> dead >> anger >> morale;
+    dump >> idtmp >> position.x >> position.y >> wander_pos.x >> wander_pos.y >> wandf
+         >> moves >> speed >> hp >> sp_timeout[0] >> plansize >> friendly
+         >> faction_dummy >> mission_id >> no_extra_death_drops >> dead >> anger >> morale;
 
+    wander_pos.z = g->get_levz();
+    zpos = g->get_levz();
     // load->int->str->int (possibly shifted)
     type = GetMType( legacy_mon_id[idtmp] );
 
     Creature::set_speed_base( speed );
 
-    point ptmp;
+    tripoint ptmp;
+    ptmp.z = g->get_levz();
     plans.clear();
     for (int i = 0; i < plansize; i++) {
         dump >> ptmp.x >> ptmp.y;

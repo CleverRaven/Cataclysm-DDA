@@ -6203,7 +6203,7 @@ void map::spawn_monsters( const tripoint &gp, mongroup &group, bool ignore_sight
     const int gy = gp.y;
     const int s_range = std::min(SEEX * (MAPSIZE / 2), g->u.sight_range( g->light_level() ) );
     int pop = group.population;
-    std::vector<point> locations;
+    std::vector<tripoint> locations;
     if( !ignore_sight ) {
         // If the submap is one of the outermost submaps, assume that monsters are
         // invisible there.
@@ -6232,7 +6232,7 @@ void map::spawn_monsters( const tripoint &gp, mongroup &group, bool ignore_sight
             if( has_flag_ter_or_furn( TFLAG_INDOORS, fx, fy ) ) {
                 continue; // monster must spawn outside.
             }
-            locations.push_back( point( fx, fy ) );
+            locations.push_back( tripoint( fx, fy, gp.z ) );
         }
     }
     if( locations.empty() ) {
@@ -6250,11 +6250,11 @@ void map::spawn_monsters( const tripoint &gp, mongroup &group, bool ignore_sight
         for( int i = 0; i < spawn_details.pack_size; i++) {
             for( int tries = 0; tries < 10 && !locations.empty(); tries++ ) {
                 const size_t index = rng( 0, locations.size() - 1 );
-                const point p = locations[index];
-                if( !tmp.can_move_to( p.x, p.y ) ) {
+                const tripoint &p = locations[index];
+                if( !tmp.can_move_to( p ) ) {
                     continue; // target can not contain the monster
                 }
-                tmp.spawn( p.x, p.y );
+                tmp.spawn( p.x, p.y, p.z );
                 g->add_zombie( tmp );
                 locations.erase( locations.begin() + index );
                 break;
@@ -6289,8 +6289,9 @@ void map::spawn_monsters(bool ignore_sight)
                         tmp.friendly = -1;
                     }
                     int fx = mx + gx * SEEX, fy = my + gy * SEEY;
+                    tripoint pos( fx, fy, abs_sub.z );
 
-                    while ((!g->is_empty(fx, fy) || !tmp.can_move_to(fx, fy)) && tries < 10) {
+                    while ((!g->is_empty( pos ) || !tmp.can_move_to( pos )) && tries < 10) {
                         mx = (i.posx + rng(-3, 3)) % SEEX;
                         my = (i.posy + rng(-3, 3)) % SEEY;
                         if (mx < 0) {
@@ -6304,7 +6305,7 @@ void map::spawn_monsters(bool ignore_sight)
                         tries++;
                     }
                     if (tries != 10) {
-                        tmp.spawn(fx, fy);
+                        tmp.spawn( fx, fy, abs_sub.z );
                         g->add_zombie(tmp);
                     }
                 }
