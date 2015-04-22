@@ -23,7 +23,6 @@ enum aim_location {
     AIM_DRAGGED,
     AIM_ALL,
     AIM_CONTAINER,
-    AIM_VEHICLE,
     AIM_WORN,
     NUM_AIM_LOCATIONS
 };
@@ -79,17 +78,20 @@ struct advanced_inv_area {
     }
 
     void init();
-    int free_volume() const;
+    // if you want vehicle cargo, specify so via `in_vehicle'
+    int free_volume(bool in_vehicle = false) const;
     int get_item_count() const;
     // Other area is actually the same item source, e.g. dragged vehicle to the south and AIM_SOUTH
     bool is_same( const advanced_inv_area &other ) const;
+    // does _not_ check vehicle storage, do that with `can_store_in_vehicle()' below
     bool canputitems( const advanced_inv_listitem *advitem = nullptr );
-    item* get_container();
+    // if you want vehicle cargo, specify so via `in_vehicle'
+    item* get_container(bool in_vehicle = false);
     void set_container( const advanced_inv_listitem *advitem );
     bool is_container_valid( const item *it ) const;
     void set_container_position();
     aim_location offset_to_location() const;
-    void set_vehicle(advanced_inv_area &square);
+//    bool set_vehicle(advanced_inv_area &square);
     bool can_store_in_vehicle() const
     {
         return (veh != nullptr && vstor >= 0);
@@ -180,8 +182,28 @@ struct advanced_inv_listitem {
  */
 class advanced_inventory_pane
 {
+    private:
+        aim_location area = NUM_AIM_LOCATIONS;
+        aim_location veh_area = NUM_AIM_LOCATIONS;
+        bool in_veh = false;
     public:
-        aim_location area;
+        aim_location get_area() const
+        {
+            return area;
+        }
+        aim_location get_veh_area() const
+        {
+            return veh_area;
+        }
+        void set_area(aim_location loc)
+        {
+            area = loc;
+        }
+        bool in_vehicle() const
+        {
+            return in_veh;
+        }
+        bool set_vehicle(aim_location loc);
         /**
          * Index of the selected item (index of @ref items),
          */
@@ -203,7 +225,7 @@ class advanced_inventory_pane
          */
         bool redraw;
 
-        void add_items_from_area(advanced_inv_area &square);
+        void add_items_from_area(advanced_inv_area &square, bool vehicle_override = false);
         /**
          * Makes sure the @ref index is valid (if possible).
          */
@@ -261,7 +283,7 @@ class advanced_inventory
          * Refers to the two panels, used as index into @ref panels.
          */
         enum side {
-            left = 0,
+            left  = 0,
             right = 1
         };
         const int head_height;
@@ -305,6 +327,7 @@ class advanced_inventory
          * as index.
          */
         std::array<advanced_inventory_pane, 2> panes;
+        static const advanced_inventory_pane null_pane;
         std::array<advanced_inv_area, NUM_AIM_LOCATIONS> squares;
 
         WINDOW *head;
@@ -351,7 +374,7 @@ class advanced_inventory
          * @param inv_item Pointer-pointer for the inventory's item pointer, if applicable.
          * @return true if adding has been done, false if adding the item failed.
          */
-        bool add_item( aim_location destarea, const item &new_item, item **inv_item = nullptr );
+        bool add_item( aim_location destarea, item &new_item );
         /**
          * Move content of source container into destination container (destination pane = AIM_CONTAINER)
          * @param src_container Source container
@@ -375,12 +398,12 @@ class advanced_inventory
          * @param sitem The item reference that should be removed, along with the
          * source area.
          */
-        void remove_item( advanced_inv_listitem &sitem );
+        bool remove_item( advanced_inv_listitem &sitem );
         void menu_square(uimenu *menu);
 
         // set AIM_VEHICLE to the location given.
-        bool set_vehicle(aim_location sel);
-        void load_veh_data();
+//        bool set_vehicle(advanced_inventory_pane &pane, aim_location sel);
+//        void load_veh_data();
 
         static char get_location_key( aim_location area );
 };
