@@ -1479,6 +1479,7 @@ void advanced_inventory::display()
                 if( !add_item( destarea, new_item ) ) {
                     continue;
                 }
+
                 if( by_charges && amount_to_move < sitem->it->charges ) {
                     sitem->it->charges -= amount_to_move;
                 } else {
@@ -1489,7 +1490,7 @@ void advanced_inventory::display()
                 }
             }
             // This is only reached when at least one item has been moved.
-            g->u.moves -= 100;
+            g->u.moves -= 100; // In pickup/move functions this depends on item stats
             // Just in case the items have moved from/to the inventory
             g->u.inv.sort();
             g->u.inv.restack( &g->u );
@@ -1752,15 +1753,18 @@ bool advanced_inventory::remove_item( advanced_inv_listitem &sitem )
         assert( &cont->contents.front() == sitem.it );
         cont->contents.erase( cont->contents.begin() );
         rc = true;
-    } else if( s.can_store_in_vehicle() && panes[src].in_vehicle() ) {
-        rc = s.veh->remove_item( s.vstor, sitem.it );
     } else if( sitem.area == AIM_WORN ) {
         rc = g->u.takeoff( sitem.it );
-    } else {
-        g->m.i_rem( s.pos, sitem.it );
-        rc = true;
+    } else if( s.can_store_in_vehicle() ) {
+        rc = s.veh->remove_item( s.vstor, sitem.it );
     }
-    return rc;
+
+    if( !rc ) {
+        g->m.i_rem( s.pos, sitem.it );
+        rc = true; // NOT ALWAYS! FIX!
+    }
+
+    return rc; // Always returns true
 }
 
 bool advanced_inventory::add_item( aim_location destarea, item &new_item )
