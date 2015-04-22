@@ -1357,7 +1357,7 @@ void npc::pick_up_item()
     update_path( wanted_item_pos );
 
     if( path.size() > 1 ) {
-        add_msg( m_debug, "Moving; [%d, %d] => [%d, %d]", 
+        add_msg( m_debug, "Moving; [%d, %d, %d] => [%d, %d, %d]", 
                  posx(), posy(), posz(), path[0].x, path[0].y, path[0].z );
         move_to_next();
         return;
