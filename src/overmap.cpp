@@ -168,7 +168,7 @@ bool road_allowed(const oter_id &ter)
 /*
  * Pick an oter_baseid from weightlist and return rotated oter_id
  */
-oter_id shop(int dir, weighted_list<oter_weight> &weightlist )
+oter_id shop(int dir, weighted_int_list<oter_weight> &weightlist )
   // todo: rename to something better than 'shop', make it an oter_weight_list method?
 {
     if ( dir > 3 ) {

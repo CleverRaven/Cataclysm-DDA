@@ -5,17 +5,17 @@
 #include <vector>
 #include <functional>
 
-template <typename T> struct weighted_object {
-    weighted_object(const T &obj, const int weight) {
+template <typename W, typename T> struct weighted_object {
+    weighted_object(const T &obj, const W &weight) {
         this->obj = obj;
         this->weight = weight;
     }
 
     T obj;
-    int weight;
+    W weight;
 };
 
-template <typename T> struct weighted_list {
+template <typename W, typename T> struct weighted_list {
     weighted_list() : total_weight(0) { };
 
     /**
@@ -23,7 +23,7 @@ template <typename T> struct weighted_list {
      * @param obj The object that will be added to the list.
      * @param weight The weight of the object.
      */
-    void add_item(const T &obj, const int weight) {
+    virtual void add_item(const T &obj, const W &weight) {
         if(weight >= 0) {
             objects.emplace_back(obj, weight);
             total_weight += weight;
@@ -37,7 +37,7 @@ template <typename T> struct weighted_list {
      * @param obj The object that will be updated or added to the list.
      * @param weight The new weight of the object.
      */
-    void add_or_replace_item(const T &obj, const int weight) {
+    void add_or_replace_item(const T &obj, const W &weight) {
         if(weight >= 0) {
             for(auto &itr : objects) {
                 if(itr.obj == obj) {
@@ -117,16 +117,23 @@ template <typename T> struct weighted_list {
         return total_weight;
     }
 
-private:
-    int total_weight;
-    std::vector<weighted_object<T> > objects;
+protected:
+    W total_weight;
+    std::vector<weighted_object<W, T> > objects;
 
-    size_t pick_ent() const {
-        int picked = rng(1, total_weight);
+    virtual size_t pick_ent() const =0;
+};
+
+template <typename T> struct weighted_int_list : public weighted_list<int, T> {
+
+protected:
+
+    virtual size_t pick_ent() const {
+        int picked = rng(1, this->total_weight);
         int accumulated_weight = 0;
         size_t i;
-        for(i=0; i<objects.size(); i++) {
-            accumulated_weight += objects[i].weight;
+        for(i=0; i < this->objects.size(); i++) {
+            accumulated_weight += this->objects[i].weight;
             if(accumulated_weight >= picked) {
                 break;
             }
@@ -134,5 +141,24 @@ private:
         return i;
     }
 };
+
+template <typename T> struct weighted_float_list : public weighted_list<double, T> {
+
+protected:
+
+    virtual  size_t pick_ent() const {
+        int picked = rng_float(0, this->total_weight);
+        int accumulated_weight = 0;
+        size_t i;
+        for(i=0; i < this->objects.size(); i++) {
+            accumulated_weight += this->objects[i].weight;
+            if(accumulated_weight >= picked) {
+                break;
+            }
+        }
+        return i;
+    }
+};
+
 
 #endif

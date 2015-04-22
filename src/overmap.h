@@ -47,8 +47,8 @@ struct city_settings {
    city_gen_type zoning_type;
    int shop_radius; // this is not a cut and dry % but rather an inverse voodoo number; rng(0,99) > VOODOO * distance / citysize;
    int park_radius; // in theory, adjusting these can make a town with a few shops and alot of parks + houses......by increasing shop_radius
-   weighted_list<oter_weight> shops;
-   weighted_list<oter_weight> parks;
+   weighted_int_list<oter_weight> shops;
+   weighted_int_list<oter_weight> parks;
    city_settings() : zoning_type(CITY_GEN_RADIAL), shop_radius(80), park_radius(130) { }
 };
 /*
