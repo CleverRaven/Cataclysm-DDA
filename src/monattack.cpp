@@ -4354,6 +4354,20 @@ void mattack::kamikaze(monster *z, int index)
         charges = actor->target_charges;
     }
 
+    // HORRIBLE HACK ALERT! Remove the following code completely once we have working monster inventory processing
+    if (z->has_effect("countdown")) {
+        if (z->get_effect("countdown").get_duration() == 1) {
+            // Timer is out, detonate
+            item i_explodes(act_bomb_type->id, 0);
+            i_explodes.charges = 0;
+            i_explodes.active = true;
+            i_explodes.process(nullptr, z->pos(), false);
+            z->set_special(index, -1);
+        }
+        return;
+    }
+    // END HORRIBLE HACK
+
     const explosion_iuse *exp_actor = dynamic_cast<const explosion_iuse *>( act_bomb_type->get_use( "explosion" )->get_actor_ptr() );
     if( exp_actor == nullptr ) {
         // Invalid active bomb item, Toggle this special off so we stop processing
@@ -4364,6 +4378,12 @@ void mattack::kamikaze(monster *z, int index)
 
     // Get our blast radius
     int radius = -1;
+    if (exp_actor->fields_radius > radius) {
+        radius = exp_actor->fields_radius;
+    }
+    if (exp_actor->emp_blast_radius > radius) {
+        radius = exp_actor->emp_blast_radius;
+    }
     // Extra check here to avoid sqrt if not needed
     if (exp_actor->explosion_power > -1) {
         int tmp = int(sqrt(double(exp_actor->explosion_power / 4)));
@@ -4371,11 +4391,12 @@ void mattack::kamikaze(monster *z, int index)
             radius = tmp;
         }
     }
-    if (exp_actor->fields_radius > radius) {
-        radius = exp_actor->fields_radius;
-    }
-    if (exp_actor->emp_blast_radius > radius) {
-        radius = exp_actor->emp_blast_radius;
+    if (exp_actor->explosion_shrapnel > -1) {
+        // Actual factor is 2 * radius, but figure most pieces of shrapnel will miss
+        int tmp = int(sqrt(double(exp_actor->explosion_power / 4)));
+        if (tmp > radius) {
+            radius = tmp;
+        }
     }
     // Flashbangs have a max range of 8
     if (exp_actor->do_flashbang && radius < 8) {
@@ -4388,26 +4409,36 @@ void mattack::kamikaze(monster *z, int index)
     }
 
     Creature *target = z->attack_target();
-    // Range is .5 * (radius + distance they expect to gain on you during the countdown)
-    // We halve it because if the player is walking and then start to run their speed doubles
-    int range = std::max(1, int(.5 * (radius + float(z->get_speed()) / target->get_speed() * charges)));
+    if (target == nullptr) {
+        return;
+    }
+    // Range is (radius + distance they expect to gain on you during the countdown)
+    // We double target speed because if the player is walking and then start to run their effective speed doubles
+    // .6 factor was determined experimentally to be about the factor required for players to be able to *just barely*
+    // outrun the explosion if they drop everything and run.
+    int range = std::max(1, int(.6 * (radius + float(z->get_speed()) / float(target->get_speed() * 2) * charges)));
 
     // Check if we are in range to begin the countdown
     if (!within_target_range(z, target, range)) {
         return;
     }
 
-    // NOTE: This depends on the kamikaze_det special being 1 space to the left.
-    // Subtraction here so set_special catches the crash if we set things up badly.
-    z->set_special(index - 1, charges);
-    item i_explodes = item(act_bomb_type->id);
+    // HORRIBLE HACK ALERT! Currently uses the amount of ammo as a pseduo-timer.
+    // Once we have proper monster inventory item processing replace the following
+    // line with the code below.
+    z->add_effect("countdown", charges + 1);
+    /* Replacement code here for once we have working monster inventories
+
+    item i_explodes(act_bomb_type->id, 0);
     i_explodes.charges = charges;
-    z->add_item(item());
+    z->add_item(i_explodes);
+    z->set_special(index, -1);
+    */
+    // END HORRIBLE HACK
+
     if (g->u.sees(z->pos3())) {
         add_msg(m_bad, _("The %s beeps menacingly."), z->name().c_str() );
     }
-    // Disable this special so that we stop trying to process it
-    z->set_special(index, -1);
 }
 
 void mattack::stretch_attack(monster *z, int index){

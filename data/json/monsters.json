@@ -5105,8 +5105,8 @@
     "flags":["SEES", "FLIES", "NOHEAD", "ELECTRONIC", "HIT_AND_RUN", "NO_BREATHE"]
     },{
     "type" : "MONSTER",
-    "id" : "mon_hack_grenade",
-    "name": "grenade manhack",
+    "id" : "mon_grenade_hack",
+    "name": "grenade hack",
     "species":"ROBOT",
     "default_faction":"defense_bot",
     "symbol":"e",
@@ -5125,8 +5125,8 @@
     "armor_bash":0,
     "armor_cut":4,
     "vision_day":40,
-    "revert_to_itype": "bot_hack_grenade",
-    "special_attacks":[["KAMIKAZE_ACT", 0]],
+    "revert_to_itype": "bot_grenade_hack",
+    "special_attacks":[["KAMIKAZE", 0]],
     "starting_ammo": { "grenade": 1},
     "death_drops": {
         "subtype": "collection",

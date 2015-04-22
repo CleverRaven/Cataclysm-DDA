@@ -1646,6 +1646,22 @@
     },
     {
         "type":"GENERIC",
+        "id": "broken_grenade_hack",
+        "symbol": ",",
+        "color": "green",
+        "name": "broken grenade hack",
+        "category": "other",
+        "description": "A broken grenade hack.  Much less threatening now that it lies limp on solid ground.  Could be gutted for parts.",
+        "price": 1000,
+        "material": ["aluminum", "plastic"],
+        "weight": 3213,
+        "volume": 3,
+        "bashing": 6,
+        "cutting": 6,
+        "to_hit": -3
+    },
+    {
+        "type":"GENERIC",
         "id": "fan",
         "symbol": ",",
         "color": "light_gray",

@@ -1267,7 +1267,8 @@ void monster::set_special(int index, int time)
         return;
     }
 
-    if (time < 0) {
+    // -1 is used for disabling specials
+    if (time < -1) {
         time = 0;
     }
     sp_timeout[index] = time;
