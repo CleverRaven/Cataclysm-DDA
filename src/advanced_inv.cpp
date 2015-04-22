@@ -1479,17 +1479,15 @@ void advanced_inventory::display()
                 if( !add_item( destarea, new_item ) ) {
                     continue;
                 }
+
                 if( by_charges && amount_to_move < sitem->it->charges ) {
                     sitem->it->charges -= amount_to_move;
                 } else {
-                    if( remove_item( *sitem ) == false ) {
-                        // TODO: do more than just alert?
-                        debugmsg( "unable to remove item! [%s:%d]", __FILE__, __LINE__ );
-                    }
+                    remove_item( *sitem );
                 }
             }
             // This is only reached when at least one item has been moved.
-            g->u.moves -= 100;
+            g->u.moves -= 100; // In pickup/move functions this depends on item stats
             // Just in case the items have moved from/to the inventory
             g->u.inv.sort();
             g->u.inv.restack( &g->u );
@@ -1737,7 +1735,7 @@ bool advanced_inventory::query_destination( aim_location &def )
 }
 
 // make sure you use this responsibly! not guaranteed to remove said item!
-bool advanced_inventory::remove_item( advanced_inv_listitem &sitem )
+void advanced_inventory::remove_item( advanced_inv_listitem &sitem )
 {
     assert( sitem.area != AIM_ALL );        // should be a specific location instead
     assert( sitem.area != AIM_INVENTORY );  // does not work for inventory
@@ -1752,15 +1750,16 @@ bool advanced_inventory::remove_item( advanced_inv_listitem &sitem )
         assert( &cont->contents.front() == sitem.it );
         cont->contents.erase( cont->contents.begin() );
         rc = true;
-    } else if( s.can_store_in_vehicle() && panes[src].in_vehicle() ) {
-        rc = s.veh->remove_item( s.vstor, sitem.it );
     } else if( sitem.area == AIM_WORN ) {
         rc = g->u.takeoff( sitem.it );
-    } else {
-        g->m.i_rem( s.pos, sitem.it );
-        rc = true;
+    } else if( s.can_store_in_vehicle() ) {
+        rc = s.veh->remove_item( s.vstor, sitem.it );
     }
-    return rc;
+
+    if( !rc ) {
+        // TODO: Make this print an error if it fails
+        g->m.i_rem( s.pos, sitem.it );
+    }
 }
 
 bool advanced_inventory::add_item( aim_location destarea, item &new_item )
