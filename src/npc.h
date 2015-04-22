@@ -649,19 +649,19 @@ public:
 
 // Helper functions for ranged combat
  int  confident_range(int position = -1); // >= 50% chance to hit
- bool wont_hit_friend(int tarx, int tary, int position = -1);
+ bool wont_hit_friend(  const tripoint &p , int position = -1 );
  bool can_reload(); // Wielding a gun that is not fully loaded
  bool need_to_reload(); // Wielding a gun that is empty
  bool enough_time_to_reload(int target, item &gun);
 
 // Physical movement from one tile to the next
- void update_path (int x, int y);
- bool can_move_to (int x, int y) const;
- void move_to  (int x, int y);
- void move_to_next (); // Next in <path>
+ void update_path( const tripoint &p );
+ bool can_move_to( const tripoint &p ) const;
+ void move_to    ( const tripoint &p );
+ void move_to_next(); // Next in <path>
  void avoid_friendly_fire(int target); // Maneuver so we won't shoot u
- void move_away_from (int x, int y);
- void move_pause (); // Same as if the player pressed '.'
+ void move_away_from( const tripoint &p );
+ void move_pause(); // Same as if the player pressed '.'
 
 // Item discovery and fetching
  void find_item  (); // Look around and pick an item
@@ -707,7 +707,6 @@ public:
 
  npc_attitude attitude; // What we want to do to the player
  npc_class myclass; // What's our archetype?
- int wandx, wandy, wandf; // Location of heard sound, etc.
  std::string idz; // A temp variable used to inform the game which npc json to use as a template
  int miss_id; // A temp variable used to link to the correct mission
 
@@ -742,20 +741,25 @@ public:
      * This does not change the global position of the NPC.
      */
     tripoint global_square_location() const override;
- int plx, ply, plt;// Where we last saw the player, timeout to forgetting
- int itx, ity; // The square containing an item we want
- int guardx, guardy;  // These are the local coordinates that a guard will return to inside of their goal tripoint
+    tripoint last_player_seen_pos; // Where we last saw the player
+    int last_seen_player_turn; // Timeout to forgetting
+    tripoint wanted_item_pos; // The square containing an item we want
+    tripoint guard_pos;  // These are the local coordinates that a guard will return to inside of their goal tripoint
     /**
      * Global overmap terrain coordinate, where we want to get to
      * if no goal exist, this is no_goal_point.
      */
     tripoint goal;
+
+    tripoint wander_pos; // Not actually used (should be: wander there when you hear a sound)
+    int wander_time;
+
  int restock;
  bool fetching_item;
  bool has_new_items; // If true, we have something new and should re-equip
  int  worst_item_value; // The value of our least-wanted item
 
- std::vector<point> path; // Our movement plans
+ std::vector<tripoint> path; // Our movement plans
 
 // Personality & other defining characteristics
  std::string fac_id; // A temp variable used to inform the game which faction to link
@@ -782,8 +786,8 @@ private:
     bool dead;  // If true, we need to be cleaned up
 
     bool is_dangerous_field( const field_entry &fld ) const;
-    bool sees_dangerous_field( point p ) const;
-    bool could_move_onto( point p ) const;
+    bool sees_dangerous_field( const tripoint &p ) const;
+    bool could_move_onto( const tripoint &p ) const;
 };
 
 struct epilogue {

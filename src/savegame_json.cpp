@@ -804,9 +804,12 @@ void npc::load(JsonObject &data)
 
     data.read("personality", personality);
 
-    data.read("wandx", wandx);
-    data.read("wandy", wandy);
-    data.read("wandf", wandf);
+    data.read( "wandf", wander_time );
+    data.read( "wandx", wander_pos.x );
+    data.read( "wandy", wander_pos.y );
+    if( !data.read( "wandz", wander_pos.z ) ) {
+        wander_pos.z = posz();
+    }
 
     data.read("mapx", mapx);
     data.read("mapy", mapy);
@@ -821,12 +824,19 @@ void npc::load(JsonObject &data)
         mapy += o * OMAPY * 2;
     }
 
-    data.read("plx", plx);
-    data.read("ply", ply);
+    data.read( "plx", last_player_seen_pos.x );
+    data.read( "ply", last_player_seen_pos.y );
+    if( !data.read( "plz", last_player_seen_pos.z ) ) {
+        last_player_seen_pos.z = posz();
+    }
 
-    data.read("goalx", goal.x);
-    data.read("goaly", goal.y);
-    data.read("goalz", goal.z);
+    data.read( "goalx", goal.x );
+    data.read( "goaly", goal.y );
+    data.read( "goalz", goal.z );
+
+    data.read( "guardx", guard_pos.x );
+    data.read( "guardy", guard_pos.y );
+    data.read( "guardz", guard_pos.z );
 
     if ( data.read("mission", misstmp) ) {
         mission = npc_mission( misstmp );
@@ -874,18 +884,26 @@ void npc::store(JsonOut &json) const
     json.member( "myclass", (int)myclass );
 
     json.member( "personality", personality );
-    json.member( "wandx", wandx );
-    json.member( "wandy", wandy );
-    json.member( "wandf", wandf );
+    json.member( "wandf", wander_time );
+    json.member( "wandx", wander_pos.x );
+    json.member( "wandy", wander_pos.y );
+    json.member( "wandz", wander_pos.z );
 
     json.member( "mapx", mapx );
     json.member( "mapy", mapy );
     json.member( "mapz", mapz );
-    json.member( "plx", plx );
-    json.member( "ply", ply );
+
+    json.member( "plx", last_player_seen_pos.x );
+    json.member( "ply", last_player_seen_pos.y );
+    json.member( "plz", last_player_seen_pos.z );
+
     json.member( "goalx", goal.x );
     json.member( "goaly", goal.y );
     json.member( "goalz", goal.z );
+
+    json.member( "guardx", guard_pos.x );
+    json.member( "guardy", guard_pos.y );
+    json.member( "guardz", guard_pos.z );
 
     json.member( "mission", mission ); // todo: stringid
     json.member( "flags", flags );

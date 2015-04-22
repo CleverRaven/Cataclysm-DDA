@@ -285,7 +285,8 @@ class map
     * Returns whether `(Fx, Fy)` sees `(Tx, Ty)` with a view range of `range`.
     *
     * @param bresenham_slope Indicates the Bresenham line used to connect the two points, and may
-    *           subsequently be used to form a path between them
+    *                        subsequently be used to form a path between them.
+    *                        Set to zero if the function returns false.
     */
     bool sees(const int Fx, const int Fy, const int Tx, const int Ty,
               const int range, int &bresenham_slope) const;
@@ -295,8 +296,9 @@ class map
     * Returns whether `F` sees `T` with a view range of `range`.
     *
     * @param t1 Indicates the x/y component of Bresenham line used to connect the two points, and may
-    *           subsequently be used to form a path between them
-    * @param t2 Indicates the horizontal/vertical component of the Bresenham line
+    *           subsequently be used to form a path between them. Set to zero if the function returns false.
+    * @param t2 Indicates the horizontal/vertical component of the Bresenham line. 
+                Set to zero if the function returns false.
     */
     bool sees( const tripoint &F, const tripoint &T, int range, int &t1, int &t2 ) const;
     bool sees( const tripoint &F, const tripoint &T, int range ) const;
@@ -339,7 +341,7 @@ class map
   * This method leads to straighter lines and prevents weird looking movements away from the target.
   */
  std::vector<point> getDirCircle(const int Fx, const int Fy, const int Tx, const int Ty) const;
- std::vector<point> getDirCircle( const tripoint &f, const tripoint &t ) const;
+ std::vector<tripoint> get_dir_circle( const tripoint &f, const tripoint &t ) const;
 
  /**
   * Calculate a best path using A*
@@ -350,7 +352,7 @@ class map
   * @param bash Bashing strength of pathing creature (0 means no bashing through terrain)
   */
  std::vector<point> route(const int Fx, const int Fy, const int Tx, const int Ty, const int bash) const;
- std::vector<point> route( const tripoint &f, const tripoint &t, const int bash ) const;
+ std::vector<tripoint> route( const tripoint &f, const tripoint &t, const int bash ) const;
 
  int coord_to_angle(const int x, const int y, const int tgtx, const int tgty) const;
     // First angle is horizontal, second is vertical

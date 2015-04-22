@@ -32,16 +32,10 @@ npc::npc()
  mapz = 0;
  position.x = -1;
  position.y = -1;
- wandx = 0;
- wandy = 0;
- wandf = 0;
- plx = 999;
- ply = 999;
- plt = 999;
- itx = -1;
- ity = -1;
- guardx = -1;
- guardy = -1;
+ last_player_seen_pos = no_goal_point;
+ last_seen_player_turn = 999;
+ wanted_item_pos = no_goal_point;
+ guard_pos = no_goal_point;
  goal = no_goal_point;
  fatigue = 0;
  hunger = 0;
@@ -2025,8 +2019,11 @@ std::string npc::opinion_text() const
 
 void npc::shift(int sx, int sy)
 {
-    position.x -= sx * SEEX;
-    position.y -= sy * SEEY;
+    const int shiftx = sx * SEEX;
+    const int shifty = sy * SEEY;
+
+    position.x -= shiftx;
+    position.y -= shifty;
     const point pos_om_old = overmapbuffer::sm_to_om_copy( mapx, mapy );
     mapx += sx;
     mapy += sy;
@@ -2044,10 +2041,16 @@ void npc::shift(int sx, int sy)
             debugmsg( "could not find npc %s on its old overmap", name.c_str() );
         }
     }
-    itx -= sx * SEEX;
-    ity -= sy * SEEY;
-    plx -= sx * SEEX;
-    ply -= sy * SEEY;
+
+    if( wanted_item_pos != no_goal_point ) {
+        wanted_item_pos.x -= shiftx;
+        wanted_item_pos.y -= shifty;
+    }
+
+    if( last_player_seen_pos != no_goal_point ) {
+        last_player_seen_pos.x -= shiftx;
+        last_player_seen_pos.y -= shifty;
+    }
     path.clear();
 }
 
@@ -2065,7 +2068,7 @@ void npc::die(Creature* nkiller) {
     dead = true;
     Character::die( nkiller );
     if (in_vehicle) {
-        g->m.unboard_vehicle(posx(), posy());
+        g->m.unboard_vehicle( pos3() );
     }
 
     if (g->u.sees( *this )) {
