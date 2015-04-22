@@ -6,10 +6,7 @@
 #include <functional>
 
 template <typename W, typename T> struct weighted_object {
-    weighted_object(const T &obj, const W &weight) {
-        this->obj = obj;
-        this->weight = weight;
-    }
+    weighted_object(const T &obj, const W &weight) : obj(obj), weight(weight) {}
 
     T obj;
     W weight;
