@@ -260,6 +260,8 @@ void Pickup::pick_one_up( const point &pickup_target, item &newit, vehicle *veh,
         if( leftovers.charges > 0 ) {
             newit.charges = quantity;
         }
+    } else {
+        leftovers.charges = 0;
     }
 
     if( newit.made_of(LIQUID) ) {
