@@ -628,7 +628,7 @@ void game::start_game(std::string worldname)
     lev.y -= MAPSIZE / 2;
     load_map( lev );
 
-    m.build_map_cache();
+    m.build_map_cache( get_levz() );
     // Do this after the map cache has been build!
     start_loc.place_player( u );
     // Start the overmap with out immediate neighborhood visible, this needs to be after place_player
@@ -1504,7 +1504,7 @@ bool game::do_turn()
     sounds::process_sounds();
     // Update vision caches for monsters. If this turns out to be expensive,
     // consider a stripped down cache just for monsters.
-    m.build_map_cache();
+    m.build_map_cache( get_levz() );
     monmove();
     update_stair_monsters();
     u.process_turn();
@@ -4922,7 +4922,8 @@ void game::draw_critter( const Creature &critter, const tripoint &center )
         return;
     }
     if( critter.posz() != center.z ) {
-        return;
+        // Should cancel drawing, but z-levels aren't always properly set yet
+        //return;
     }
     if( u.sees( critter ) || &critter == &u ) {
         critter.draw( w_terrain, center.x, center.y, false );
@@ -4958,7 +4959,7 @@ void game::draw_ter( const tripoint &center, bool looking )
     const int posx = center.x;
     const int posy = center.y;
 
-    m.build_map_cache();
+    m.build_map_cache( center.z );
     m.draw( w_terrain, center );
 
     // Draw monsters
@@ -8645,10 +8646,9 @@ point game::look_around(WINDOW *w_info, const point pairCoordsFirst)
     const int offset_x = (u.posx() + u.view_offset.x) - getmaxx(w_terrain) / 2;
     const int offset_y = (u.posy() + u.view_offset.y) - getmaxy(w_terrain) / 2;
 
-    tripoint lp( u.posx() + u.view_offset.x, u.posy() + u.view_offset.y, u.posz() + 0 );
+    tripoint lp = u.pos3() + u.view_offset;
     int &lx = lp.x;
     int &ly = lp.y;
-    int &lz = lp.z;
 
     if (bSelectZone && bHasFirstPoint) {
         lx = pairCoordsFirst.x;
@@ -8731,7 +8731,7 @@ point game::look_around(WINDOW *w_info, const point pairCoordsFirst)
                             for (int iX = std::min(pairCoordsFirst.x, lx); iX <= std::max(pairCoordsFirst.x, lx); ++iX) {
                                 if (u.sees(iX, iY)) {
                                     m.drawsq(w_terrain, u,
-                                             tripoint( iX, iY, u.posz() + u.view_offset.z ),
+                                             tripoint( iX, iY, lp.z ),
                                              false,
                                              false,
                                              lx,
@@ -8761,7 +8761,7 @@ point game::look_around(WINDOW *w_info, const point pairCoordsFirst)
         } else {
             //Look around
             if (u.sees(lx, ly)) {
-                print_all_tile_info( tripoint(lx, ly, get_levz()), w_info, 1, off, false);
+                print_all_tile_info( lp, w_info, 1, off, false);
 
             } else if (u.sight_impaired() &&
                        m.light_at(lx, ly) == LL_BRIGHT &&
@@ -8823,16 +8823,16 @@ point game::look_around(WINDOW *w_info, const point pairCoordsFirst)
                     continue; // TODO: Make this work in z-level FOV update
                 }
 
-                int new_levz = get_levz() + ( action == "LEVEL_UP" ? 1 : -1 );
+                int new_levz = lp.z + ( action == "LEVEL_UP" ? 1 : -1 );
                 if( new_levz > OVERMAP_HEIGHT ) {
                     new_levz = OVERMAP_HEIGHT;
                 } else if( new_levz < -OVERMAP_DEPTH ) {
                     new_levz = -OVERMAP_DEPTH;
                 }
 
-                add_msg("levx: %d, levy: %d, levz :%d", get_levx(), get_levy(), new_levz);
-                m.vertical_shift( new_levz );
-                lz = get_levz();
+                add_msg("levx: %d, levy: %d, levz :%d", get_levx(), get_levy(), new_levz );
+                u.view_offset.z = new_levz - u.posz();
+                lp.z = new_levz;
                 refresh_all();
                 draw_ter( lp, true );
             } else if (!ctxt.get_coordinates(w_terrain, lx, ly)) {
@@ -8871,8 +8871,9 @@ point game::look_around(WINDOW *w_info, const point pairCoordsFirst)
         }
     } while (action != "QUIT" && action != "CONFIRM");
 
-    if( m.has_zlevels() && get_levz() != old_levz ) {
-        m.vertical_shift( old_levz );
+    if( m.has_zlevels() && lp.z != old_levz ) {
+        m.build_map_cache( old_levz );
+        u.view_offset.z = 0;
     }
 
     inp_mngr.set_timeout(-1);
@@ -13046,7 +13047,7 @@ void game::update_map(int &x, int &y)
     }
 
     // Make sure map cache is consistent since it may have shifted.
-    m.build_map_cache();
+    m.build_map_cache( get_levz() );
 
     // Update what parts of the world map we can see
     update_overmap_seen();

@@ -32,7 +32,8 @@ class uistatedata : public JsonSerializer, public JsonDeserializer
         std::string adv_inv_leftfilter;
         std::string adv_inv_rightfilter;
         bool adv_inv_load_veh;
-        int  adv_inv_veh_location;
+        int  adv_inv_veh_location_src;
+        int  adv_inv_veh_location_dest;
 
         bool editmap_nsa_viewmode;        // true: ignore LOS and lighting
         bool overmap_blinking;            // toggles active blinking of overlays.

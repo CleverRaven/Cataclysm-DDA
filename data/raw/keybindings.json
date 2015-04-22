@@ -2161,22 +2161,6 @@
     },
     {
         "type" : "keybinding",
-        "id": "ITEMS_VEHICLE",
-        "category": "ADVANCED_INVENTORY",
-        "name": "Select items in vehicle storage",
-        "bindings":[
-            {
-                "input_method":"keyboard",
-                "key":"v"
-            },
-            {
-                "input_method":"keyboard",
-                "key":"V"
-            }
-        ]
-    },
-    {
-        "type" : "keybinding",
         "id": "ITEMS_WORN",
         "category": "ADVANCED_INVENTORY",
         "name": "Select items currently worn",
