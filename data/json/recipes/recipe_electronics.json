@@ -223,7 +223,7 @@
   "autolearn": false,
   "book_learn": [[ "manual_electronics", 1 ] , [ "mag_electronics", 1 ] , [ "manual_mechanics", 2] ],
   "tools": [
-    [ ["crucible", -1] ],
+    [ ["crucible", -1], ["crucible_clay", -1] ],
     [
       [ "hotplate", 20 ],
       [ "toolset", 20 ],

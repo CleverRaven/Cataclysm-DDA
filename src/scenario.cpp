@@ -10,6 +10,7 @@
 #include "bionics.h"
 #include "start_location.h"
 #include "game.h"
+#include "map.h"
 
 scenario::scenario()
    : _ident(""), _name_male("null"), _name_female("null"),

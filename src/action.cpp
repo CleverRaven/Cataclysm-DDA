@@ -4,6 +4,7 @@
 #include "path_info.h"
 #include "debug.h"
 #include "game.h"
+#include "map.h"
 #include "options.h"
 #include "messages.h"
 #include <istream>
@@ -795,8 +796,9 @@ bool choose_adjacent_highlight(std::string message, int &x, int &y,
 
             if(can_interact_at(action_to_highlight, x, y)) {
                 highlighted = true;
-                g->m.drawsq(g->w_terrain, g->u, x, y, true, true, g->u.posx() + g->u.view_offset_x,
-                            g->u.posy() + g->u.view_offset_y);
+                g->m.drawsq( g->w_terrain, g->u, tripoint( x, y, g->u.posz() ), 
+                             true, true, g->u.posx() + g->u.view_offset.x,
+                             g->u.posy() + g->u.view_offset.y );
             }
         }
     }

@@ -173,8 +173,9 @@ public:
      * @param u The player whose inventory is used to search for suitable ammo.
      * @param interactive Whether to show a dialog to select the ammo, if false it will select
      * the first suitable ammo.
+     * @retval INT_MIN+2 to indicate the user canceled the menu
      * @retval INT_MIN+1 to indicate reload from spare magazine
-     * @retval INT_MIN to indicate no suitable ammo found or user canceled the menu.
+     * @retval INT_MIN to indicate no suitable ammo found.
      * @retval other the item position (@ref player::i_at) in the players inventory.
      */
     int pick_reload_ammo( const player &u, bool interactive );
@@ -274,7 +275,7 @@ public:
   * container it was in.
   * @param On success all consumed items will be stored here.
   */
- bool use_amount(const itype_id &it, int &quantity, bool use_container, std::list<item> &used);
+ bool use_amount(const itype_id &it, long &quantity, bool use_container, std::list<item> &used);
 /**
  * Fill container with liquid up to its capacity.
  * @param liquid Liquid to fill the container with.
@@ -441,7 +442,6 @@ protected:
     // The interface is the same as for @ref process.
     bool process_food(player *carrier, point pos);
     bool process_corpse(player *carrier, point pos);
-    bool process_artifact(player *carrier, point pos);
     bool process_wet(player *carrier, point pos);
     bool process_litcig(player *carrier, point pos);
     bool process_cable(player *carrier, point pos);
@@ -461,6 +461,15 @@ public:
      * The rate at which an item should be processed, in number of turns between updates.
      */
     int processing_speed() const;
+    /**
+     * Process and apply artifact effects. This should be called exactly once each turn, it may
+     * modify character stats (like speed, strength, ...), so call it after those have been reset.
+     * @return True if the item should be destroyed (it has run out of charges or similar), false
+     * if the item should be kept. Artifacts usually return false as they never get destroyed.
+     * @param carrier The character carrying the artifact, can be null.
+     * @param pos The location of the artifact (should be the player location if carried).
+     */
+    bool process_artifact( player *carrier, point pos );
 
  // umber of mods that can still be installed into the given
  // mod location, for non-guns it returns always 0
@@ -963,6 +972,7 @@ public:
    int irridation;      // Tracks radiation dosage.
  };
  std::set<std::string> item_tags; // generic item specific flags
+ std::set<std::string> techniques; // item specific techniques
  unsigned item_counter; // generic counter to be used with item flags
  int mission_id; // Refers to a mission in game's master list
  int player_id; // Only give a mission to the right player!
@@ -985,22 +995,19 @@ class map_item_stack
         class item_group
         {
             public:
-                int x;
-                int y;
+                tripoint pos;
                 int count;
 
                 //only expected to be used for things like lists and vectors
                 item_group()
                 {
-                    x = 0;
-                    y = 0;
+                    pos = tripoint( 0, 0, 0 );
                     count = 0;
                 }
 
-                item_group(const int arg_x, const int arg_y, const int arg_count)
+                item_group( const tripoint &p, const int arg_count )
                 {
-                    x = arg_x;
-                    y = arg_y;
+                    pos = p;
                     count = arg_count;
                 }
 
@@ -1018,18 +1025,18 @@ class map_item_stack
             totalcount = 0;
         }
 
-        map_item_stack(item *it, const int arg_x, const int arg_y)
+        map_item_stack( item *it, const tripoint &pos )
         {
             example = it;
-            vIG.push_back(item_group(arg_x, arg_y, 1));
+            vIG.push_back(item_group(pos, 1));
             totalcount = 1;
         }
 
         ~map_item_stack() {};
 
-        void addNewPos(const int arg_x, const int arg_y)
+        void addNewPos( const tripoint &pos )
         {
-            vIG.push_back(item_group(arg_x, arg_y, 1));
+            vIG.push_back(item_group(pos, 1));
             totalcount++;
         }
 

@@ -500,31 +500,31 @@ tile_type *cata_tiles::load_tile(JsonObject &entry, const std::string &id, int o
     return curr_subtile;
 }
 
-void cata_tiles::draw_single_tile( int x, int y, lit_level ll,
+void cata_tiles::draw_single_tile( const tripoint &p, lit_level ll,
                                    const visibility_variables &cache ) {
-    if( apply_vision_effects( x, y, g->m.get_visibility(ll, cache) ) ) {
-        const auto critter = g->critter_at( x, y );
+    if( apply_vision_effects( p.x, p.y, g->m.get_visibility( ll, cache ) ) ) {
+        const auto critter = g->critter_at( p );
         if( critter != nullptr && g->u.sees_with_infrared( *critter ) ) {
-            draw_from_id_string( "infrared_creature", C_NONE, empty_string, x, y, 0, 0 );
+            draw_from_id_string( "infrared_creature", C_NONE, empty_string, p.x, p.y, 0, 0 );
         }
         return;
     }
     // light is no longer being considered, for now.
     // Draw Terrain if possible. If not possible then we need to continue on to the next part of loop
-    if (!draw_terrain(x, y)) {
+    if( !draw_terrain(p) ) {
         return;
     }
-    draw_furniture(x, y);
-    draw_trap(x, y);
-    draw_field_or_item(x, y);
-    draw_vpart(x, y);
-    const auto critter = g->critter_at( x, y );
+    draw_furniture( p );
+    draw_trap( p );
+    draw_field_or_item( p );
+    draw_vpart( p );
+    const auto critter = g->critter_at( p );
     if( critter != nullptr ) {
-        draw_entity( *critter, x, y );
+        draw_entity( *critter, p );
     }
 }
 
-void cata_tiles::draw(int destx, int desty, int centerx, int centery, int width, int height)
+void cata_tiles::draw( int destx, int desty, const tripoint &center, int width, int height )
 {
     if (!g) {
         return;
@@ -536,15 +536,15 @@ void cata_tiles::draw(int destx, int desty, int centerx, int centery, int width,
         SDL_RenderSetClipRect(renderer, &clipRect);
     }
 
-    int posx = centerx;
-    int posy = centery;
+    int posx = center.x;
+    int posy = center.y;
 
     int sx, sy;
     get_window_tile_counts(width, height, sx, sy);
 
     init_light();
     visibility_variables cache;
-    g->m.update_visibility_cache(cache);
+    g->m.update_visibility_cache( cache, center.z );
 
     o_x = posx - POSX;
     o_y = posy - POSY;
@@ -554,9 +554,13 @@ void cata_tiles::draw(int destx, int desty, int centerx, int centery, int width,
     screentile_width = (width + tile_width - 1) / tile_width;
     screentile_height = (height + tile_height - 1) / tile_height;
 
-    for( int x = o_x; x <= o_x + sx - 1; x++ ) {
-        for( int y = o_y; y <= o_y + sy - 1; y++ ) {
-            draw_single_tile( x, y, g->m.visibility_cache[x][y], cache );
+    tripoint temp;
+    temp.z = center.z;
+    int &x = temp.x;
+    int &y = temp.y;
+    for( x = o_x; x <= o_x + sx - 1; x++ ) {
+        for( y = o_y; y <= o_y + sy - 1; y++ ) {
+            draw_single_tile( temp, g->m.visibility_cache[x][y], cache );
         }
     }
 
@@ -594,8 +598,8 @@ void cata_tiles::draw(int destx, int desty, int centerx, int centery, int width,
         }
     }
     // check to see if player is located at ter
-    else if (g->u.posx() + g->u.view_offset_x != g->ter_view_x ||
-             g->u.posy() + g->u.view_offset_y != g->ter_view_y) {
+    else if (g->u.posx() + g->u.view_offset.x != g->ter_view_x ||
+             g->u.posy() + g->u.view_offset.y != g->ter_view_y) {
         draw_from_id_string("cursor", C_NONE, empty_string, g->ter_view_x, g->ter_view_y, 0, 0);
     }
 
@@ -888,9 +892,9 @@ bool cata_tiles::apply_vision_effects( const int x, const int y,
     return true;
 }
 
-bool cata_tiles::draw_terrain(int x, int y)
+bool cata_tiles::draw_terrain( const tripoint &p )
 {
-    int t = g->m.ter(x, y); // get the ter_id value at this point
+    int t = g->m.ter( p ); // get the ter_id value at this point
     // check for null, if null return false
     if (t == t_null) {
         return false;
@@ -899,10 +903,10 @@ bool cata_tiles::draw_terrain(int x, int y)
     //char alteration = 0;
     int subtile = 0, rotation = 0;
 
-    if( g->m.ter_at( x, y ).has_flag( TFLAG_CONNECT_TO_WALL ) ) {
-        get_wall_values( x, y, subtile, rotation );
+    if( g->m.ter_at( p ).has_flag( TFLAG_CONNECT_TO_WALL ) ) {
+        get_wall_values( p, subtile, rotation );
     } else {
-        get_terrain_orientation(x, y, rotation, subtile);
+        get_terrain_orientation( p, rotation, subtile );
         // do something to get other terrain orientation values
     }
 
@@ -910,25 +914,25 @@ bool cata_tiles::draw_terrain(int x, int y)
 
     tname = terlist[t].id;
 
-    return draw_from_id_string(tname, C_TERRAIN, empty_string, x, y, subtile, rotation);
+    return draw_from_id_string(tname, C_TERRAIN, empty_string, p.x, p.y, subtile, rotation);
 }
 
-bool cata_tiles::draw_furniture(int x, int y)
+bool cata_tiles::draw_furniture( const tripoint &p )
 {
     // get furniture ID at x,y
-    bool has_furn = g->m.has_furn(x, y);
+    bool has_furn = g->m.has_furn( p );
     if (!has_furn) {
         return false;
     }
 
-    int f_id = g->m.furn(x, y);
+    int f_id = g->m.furn( p );
 
     // for rotation information
     const int neighborhood[4] = {
-        static_cast<int> (g->m.furn(x, y + 1)), // south
-        static_cast<int> (g->m.furn(x + 1, y)), // east
-        static_cast<int> (g->m.furn(x - 1, y)), // west
-        static_cast<int> (g->m.furn(x, y - 1)) // north
+        static_cast<int> (g->m.furn( tripoint( p.x, p.y + 1, p.z ))), // south
+        static_cast<int> (g->m.furn( tripoint( p.x + 1, p.y, p.z ))), // east
+        static_cast<int> (g->m.furn( tripoint( p.x - 1, p.y, p.z ))), // west
+        static_cast<int> (g->m.furn( tripoint( p.x, p.y - 1, p.z ))) // north
     };
 
     int subtile = 0, rotation = 0;
@@ -936,37 +940,37 @@ bool cata_tiles::draw_furniture(int x, int y)
 
     // get the name of this furniture piece
     std::string f_name = furnlist[f_id].id; // replace with furniture names array access
-    bool ret = draw_from_id_string(f_name, C_FURNITURE, empty_string, x, y, subtile, rotation);
-    if (ret && g->m.sees_some_items(tripoint(x, y, g->get_levz()), g->u)) {
-        draw_item_highlight(x, y);
+    bool ret = draw_from_id_string(f_name, C_FURNITURE, empty_string, p.x, p.y, subtile, rotation);
+    if( ret && g->m.sees_some_items( p, g->u ) ) {
+        draw_item_highlight( p.x, p.y );
     }
     return ret;
 }
 
-bool cata_tiles::draw_trap(int x, int y)
+bool cata_tiles::draw_trap( const tripoint &p )
 {
-    const trap &tr = g->m.tr_at(x, y);
-    if( !tr.can_see(tripoint(x, y, g->get_levz()), g->u)) {
+    const trap &tr = g->m.tr_at( p );
+    if( !tr.can_see( p, g->u) ) {
         return false;
     }
 
     const int neighborhood[4] = {
-        static_cast<int> (g->m.tr_at(x, y + 1).loadid), // south
-        static_cast<int> (g->m.tr_at(x + 1, y).loadid), // east
-        static_cast<int> (g->m.tr_at(x - 1, y).loadid), // west
-        static_cast<int> (g->m.tr_at(x, y - 1).loadid) // north
+        static_cast<int> (g->m.tr_at( tripoint( p.x, p.y + 1, p.z ) ).loadid), // south
+        static_cast<int> (g->m.tr_at( tripoint( p.x + 1, p.y, p.z ) ).loadid), // east
+        static_cast<int> (g->m.tr_at( tripoint( p.x - 1, p.y, p.z ) ).loadid), // west
+        static_cast<int> (g->m.tr_at( tripoint( p.x, p.y - 1, p.z ) ).loadid) // north
     };
 
     int subtile = 0, rotation = 0;
     get_tile_values(tr.loadid, neighborhood, subtile, rotation);
 
-    return draw_from_id_string(tr.id, C_TRAP, empty_string, x, y, subtile, rotation);
+    return draw_from_id_string(tr.id, C_TRAP, empty_string, p.x, p.y, subtile, rotation);
 }
 
-bool cata_tiles::draw_field_or_item(int x, int y)
+bool cata_tiles::draw_field_or_item( const tripoint &p )
 {
     // check for field
-    const field &f = g->m.field_at(x, y);
+    const field &f = g->m.field_at( p );
     field_id f_id = f.fieldSymbol();
     bool is_draw_field;
     bool do_item;
@@ -1015,39 +1019,39 @@ bool cata_tiles::draw_field_or_item(int x, int y)
 
         // for rotation inforomation
         const int neighborhood[4] = {
-            static_cast<int> (g->m.field_at(x, y + 1).fieldSymbol()), // south
-            static_cast<int> (g->m.field_at(x + 1, y).fieldSymbol()), // east
-            static_cast<int> (g->m.field_at(x - 1, y).fieldSymbol()), // west
-            static_cast<int> (g->m.field_at(x, y - 1).fieldSymbol()) // north
+            static_cast<int> (g->m.field_at( tripoint( p.x, p.y + 1, p.z ) ).fieldSymbol()), // south
+            static_cast<int> (g->m.field_at( tripoint( p.x + 1, p.y, p.z ) ).fieldSymbol()), // east
+            static_cast<int> (g->m.field_at( tripoint( p.x - 1, p.y, p.z ) ).fieldSymbol()), // west
+            static_cast<int> (g->m.field_at( tripoint( p.x, p.y - 1, p.z ) ).fieldSymbol()) // north
         };
 
         int subtile = 0, rotation = 0;
         get_tile_values(f.fieldSymbol(), neighborhood, subtile, rotation);
 
-        ret_draw_field = draw_from_id_string(fd_name, C_FIELD, empty_string, x, y, subtile, rotation);
+        ret_draw_field = draw_from_id_string(fd_name, C_FIELD, empty_string, p.x, p.y, subtile, rotation);
     }
     if(do_item) {
-        if( !g->m.sees_some_items(tripoint(x, y, g->get_levz()), g->u) ) {
+        if( !g->m.sees_some_items( p, g->u ) ) {
             return false;
         }
-        auto items = g->m.i_at(x, y);
+        auto items = g->m.i_at( p );
         // get the last item in the stack, it will be used for display
         const item &display_item = items[items.size() - 1];
         // get the item's name, as that is the key used to find it in the map
         const std::string &it_name = display_item.type->id;
         const std::string it_category = display_item.type->get_item_type_string();
-        ret_draw_item = draw_from_id_string(it_name, C_ITEM, it_category, x, y, 0, 0);
+        ret_draw_item = draw_from_id_string(it_name, C_ITEM, it_category, p.x, p.y, 0, 0);
         if (ret_draw_item && items.size() > 1) {
-            draw_item_highlight(x, y);
+            draw_item_highlight( p.x, p.y );
         }
     }
     return ret_draw_field && ret_draw_item;
 }
 
-bool cata_tiles::draw_vpart(int x, int y)
+bool cata_tiles::draw_vpart( const tripoint &p )
 {
     int veh_part = 0;
-    vehicle *veh = g->m.veh_at(x, y, veh_part);
+    vehicle *veh = g->m.veh_at( p, veh_part );
 
     if (!veh) {
         return false;
@@ -1081,18 +1085,18 @@ bool cata_tiles::draw_vpart(int x, int y)
     }
     int cargopart = veh->part_with_feature(veh_part, "CARGO");
     bool draw_highlight = (cargopart > 0) && (!veh->get_items(cargopart).empty());
-    bool ret = draw_from_id_string(vpid, C_VEHICLE_PART, subcategory, x, y, subtile, veh_dir);
+    bool ret = draw_from_id_string(vpid, C_VEHICLE_PART, subcategory, p.x, p.y, subtile, veh_dir);
     if (ret && draw_highlight) {
-        draw_item_highlight(x, y);
+        draw_item_highlight( p.x, p.y );
     }
     return ret;
 }
 
-bool cata_tiles::draw_entity( const Creature &critter, const int x, const int y )
+bool cata_tiles::draw_entity( const Creature &critter, const tripoint &p )
 {
     if( !g->u.sees( critter ) ) {
         if( g->u.sees_with_infrared( critter ) ) {
-            return draw_from_id_string( "infrared_creature", C_NONE, empty_string, x, y, 0, 0 );
+            return draw_from_id_string( "infrared_creature", C_NONE, empty_string, p.x, p.y, 0, 0 );
         }
         return false;
     }
@@ -1105,34 +1109,34 @@ bool cata_tiles::draw_entity( const Creature &critter, const int x, const int y 
             ent_subcategory = *m->type->species.begin();
         }
         const int subtile = corner;
-        return draw_from_id_string(ent_name, ent_category, ent_subcategory, x, y, subtile, 0);
+        return draw_from_id_string(ent_name, ent_category, ent_subcategory, p.x, p.y, subtile, 0);
     }
-    const player *p = dynamic_cast<const player*>( &critter );
-    if( p != nullptr ) {
-        draw_entity_with_overlays( *p, x, y );
+    const player *pl = dynamic_cast<const player*>( &critter );
+    if( pl != nullptr ) {
+        draw_entity_with_overlays( *pl, p );
         return true;
     }
     return false;
 }
 
-void cata_tiles::draw_entity_with_overlays( const player &p, const int x, const int y )
+void cata_tiles::draw_entity_with_overlays( const player &pl, const tripoint &p )
 {
     std::string ent_name;
 
-    if( p.is_npc() ) {
-        ent_name = p.male ? "npc_male" : "npc_female";
+    if( pl.is_npc() ) {
+        ent_name = pl.male ? "npc_male" : "npc_female";
     } else {
-        ent_name = p.male ? "player_male" : "player_female";
+        ent_name = pl.male ? "player_male" : "player_female";
     }
         // first draw the character itself(i guess this means a tileset that
         // takes this seriously needs a naked sprite)
-        draw_from_id_string(ent_name, C_NONE, "", x, y, corner, 0);
+        draw_from_id_string(ent_name, C_NONE, "", p.x, p.y, corner, 0);
 
         // next up, draw all the overlays
-        std::vector<std::string> overlays = p.get_overlay_ids();
+        std::vector<std::string> overlays = pl.get_overlay_ids();
         for(const std::string& overlay : overlays) {
             bool exists = true;
-            std::string draw_id = p.male ? "overlay_male_" + overlay : "overlay_female_" + overlay;
+            std::string draw_id = pl.male ? "overlay_male_" + overlay : "overlay_female_" + overlay;
             if (tile_ids.find(draw_id) == tile_ids.end()) {
                 draw_id = "overlay_" + overlay;
                 if(tile_ids.find(draw_id) == tile_ids.end()) {
@@ -1142,7 +1146,7 @@ void cata_tiles::draw_entity_with_overlays( const player &p, const int x, const 
 
             // make sure we don't draw an annoying "unknown" tile when we have nothing to draw
             if (exists) {
-                draw_from_id_string(draw_id, C_NONE, "", x, y, corner, 0);
+                draw_from_id_string(draw_id, C_NONE, "", p.x, p.y, corner, 0);
             }
         }
 }
@@ -1201,33 +1205,34 @@ void cata_tiles::create_default_item_highlight()
 
 /* Animation Functions */
 /* -- Inits */
-void cata_tiles::init_explosion(int x, int y, int radius)
+void cata_tiles::init_explosion( const tripoint &p, int radius )
 {
     do_draw_explosion = true;
-    exp_pos_x = x;
-    exp_pos_y = y;
+    exp_pos_x = p.x;
+    exp_pos_y = p.y;
     exp_rad = radius;
 }
-void cata_tiles::init_draw_bullet(int x, int y, std::string name)
+void cata_tiles::init_draw_bullet( const tripoint &p, std::string name )
 {
     do_draw_bullet = true;
-    bul_pos_x = x;
-    bul_pos_y = y;
+    bul_pos_x = p.x;
+    bul_pos_y = p.y;
     bul_id = std::move(name);
 }
-void cata_tiles::init_draw_hit(int x, int y, std::string name)
+void cata_tiles::init_draw_hit( const tripoint &p, std::string name )
 {
     do_draw_hit = true;
-    hit_pos_x = x;
-    hit_pos_y = y;
+    hit_pos_x = p.x;
+    hit_pos_y = p.y;
     hit_entity_id = std::move(name);
 }
-void cata_tiles::init_draw_line(int x, int y, std::vector<point> trajectory, std::string name, bool target_line)
+void cata_tiles::init_draw_line( const tripoint &p, std::vector<tripoint> trajectory,
+                                 std::string name, bool target_line )
 {
     do_draw_line = true;
     is_target_line = target_line;
-    line_pos_x = x;
-    line_pos_y = y;
+    line_pos_x = p.x;
+    line_pos_y = p.y;
     line_endpoint_id = std::move(name);
     line_trajectory = std::move(trajectory);
 }
@@ -1420,10 +1425,10 @@ void cata_tiles::init_light()
     g->reset_light_level();
 }
 
-void cata_tiles::get_terrain_orientation(int x, int y, int &rota, int &subtile)
+void cata_tiles::get_terrain_orientation( const tripoint &p, int &rota, int &subtile )
 {
     // get terrain at x,y
-    ter_id tid = g->m.ter(x, y);
+    ter_id tid = g->m.ter( p );
     if (tid == t_null) {
         subtile = 0;
         rota = 0;
@@ -1432,10 +1437,10 @@ void cata_tiles::get_terrain_orientation(int x, int y, int &rota, int &subtile)
 
     // get terrain neighborhood
     const ter_id neighborhood[4] = {
-        g->m.ter(x, y + 1), // south
-        g->m.ter(x + 1, y), // east
-        g->m.ter(x - 1, y), // west
-        g->m.ter(x, y - 1) // north
+        g->m.ter( tripoint( p.x, p.y + 1, p.z ) ), // south
+        g->m.ter( tripoint( p.x + 1, p.y, p.z ) ), // east
+        g->m.ter( tripoint( p.x - 1, p.y, p.z ) ), // west
+        g->m.ter( tripoint( p.x, p.y - 1, p.z ) ) // north
     };
 
     bool connects[4];
@@ -1532,13 +1537,13 @@ void cata_tiles::get_rotation_and_subtile(const char val, const int num_connects
     }
 }
 
-void cata_tiles::get_wall_values(const int x, const int y, int &subtile, int &rotation)
+void cata_tiles::get_wall_values( const tripoint &p, int &subtile, int &rotation )
 {
     const bool connects[4] = {
-        g->m.ter_at( x, y + 1 ).has_flag( TFLAG_CONNECT_TO_WALL ),
-        g->m.ter_at( x + 1, y ).has_flag( TFLAG_CONNECT_TO_WALL ),
-        g->m.ter_at( x - 1, y ).has_flag( TFLAG_CONNECT_TO_WALL ),
-        g->m.ter_at( x, y - 1 ).has_flag( TFLAG_CONNECT_TO_WALL )
+        g->m.ter_at( tripoint( p.x, p.y + 1, p.z ) ).has_flag( TFLAG_CONNECT_TO_WALL ),
+        g->m.ter_at( tripoint( p.x + 1, p.y, p.z ) ).has_flag( TFLAG_CONNECT_TO_WALL ),
+        g->m.ter_at( tripoint( p.x - 1, p.y, p.z ) ).has_flag( TFLAG_CONNECT_TO_WALL ),
+        g->m.ter_at( tripoint( p.x, p.y - 1, p.z ) ).has_flag( TFLAG_CONNECT_TO_WALL )
     };
 
     char val = 0;

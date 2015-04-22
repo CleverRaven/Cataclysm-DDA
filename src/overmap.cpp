@@ -4,13 +4,15 @@
 #include <fstream>
 #include <vector>
 #include <sstream>
+#include <cstring>
+#include <ostream>
+#include <queue>
+
 #include "overmap.h"
 #include "rng.h"
 #include "line.h"
 #include "game.h"
 #include "npc.h"
-#include <cstring>
-#include <ostream>
 #include "debug.h"
 #include "cursesdef.h"
 #include "options.h"
@@ -19,7 +21,6 @@
 #include "action.h"
 #include "input.h"
 #include "json.h"
-#include <queue>
 #include "mapdata.h"
 #include "mapgen.h"
 #include "uistate.h"
@@ -70,7 +71,7 @@ std::vector<oter_t> oterlist;
 
 std::unordered_map<std::string, oter_t> obasetermap;
 //const regional_settings default_region_settings;
-std::unordered_map<std::string, regional_settings> region_settings_map;
+t_regional_settings_map region_settings_map;
 
 std::vector<overmap_special> overmap_specials;
 
@@ -451,8 +452,6 @@ void finalize_overmap_terrain( )
     }
 }
 
-
-
 void load_region_settings( JsonObject &jo )
 {
     regional_settings new_region;
@@ -601,6 +600,140 @@ void reset_region_settings()
     region_settings_map.clear();
 }
 
+/*
+    Entry point for parsing "region_overlay" json objects.
+        Will loop through and apply the overlay to each of the overlay's regions.
+*/
+void load_region_overlay(JsonObject &jo)
+{
+    if (jo.has_array("regions")) {
+        JsonArray regions = jo.get_array("regions");
+
+        while (regions.has_more()) {
+            std::string regionid = regions.next_string();
+
+            if(regionid == "all") {
+                if(regions.size() != 1) {
+                    jo.throw_error("regions: More than one region is not allowed when \"all\" is used");
+                }
+
+                for(auto &itr : region_settings_map) {
+                    apply_region_overlay(jo, itr.second);
+                }
+            }
+            else {
+                auto itr = region_settings_map.find(regionid);
+                if(itr == region_settings_map.end()) {
+                    jo.throw_error("region: " + regionid + " not found in region_settings_map");
+                }
+                else {
+                    apply_region_overlay(jo, itr->second);
+                }
+            }
+        }
+    }
+    else {
+        jo.throw_error("\"regions\" is required and must be an array");
+    }
+}
+
+void apply_region_overlay(JsonObject &jo, regional_settings &region)
+{
+    jo.read("default_oter", region.default_oter);
+
+    if (jo.has_object("default_groundcover")) {
+        JsonObject jio = jo.get_object("default_groundcover");
+
+        jio.read("primary", region.default_groundcover_str->primary_str);
+        jio.read("secondary", region.default_groundcover_str->secondary_str);
+        jio.read("ratio", region.default_groundcover.chance);
+    }
+
+    jo.read("num_forests", region.num_forests);
+    jo.read("forest_size_min", region.forest_size_min);
+    jo.read("forest_size_max", region.forest_size_max);
+    jo.read("house_basement_chance", region.house_basement_chance);
+    jo.read("swamp_maxsize", region.swamp_maxsize);
+    jo.read("swamp_river_influence", region.swamp_river_influence);
+    jo.read("swamp_spread_chance", region.swamp_spread_chance);
+
+    JsonObject fieldjo = jo.get_object("field_coverage");
+    double tmpval = 0.0f;
+    if (fieldjo.read("percent_coverage", tmpval)) {
+        region.field_coverage.mpercent_coverage = (int)(tmpval * 10000.0);
+    }
+
+    fieldjo.read("default_ter", region.field_coverage.default_ter_str);
+
+    JsonObject otherjo = fieldjo.get_object("other");
+    std::set<std::string> keys = otherjo.get_member_names();
+    for( const auto &key : keys ) {
+        if( key != "//" ) {
+            if( otherjo.read( key, tmpval ) ) {
+                region.field_coverage.percent_str[key] = tmpval;
+            }
+        }
+    }
+
+    if (fieldjo.read("boost_chance", tmpval)) {
+        region.field_coverage.boost_chance = (int)(tmpval * 10000.0);
+    }
+    if (fieldjo.read("boosted_percent_coverage", tmpval)) {
+        if(region.field_coverage.boost_chance > 0.0f && tmpval == 0.0f) {
+            fieldjo.throw_error("boost_chance > 0 requires boosted_percent_coverage");
+        }
+
+        region.field_coverage.boosted_mpercent_coverage = (int)(tmpval * 10000.0);
+    }
+
+    if (fieldjo.read("boosted_other_percent", tmpval)) {
+        if(region.field_coverage.boost_chance > 0.0f && tmpval == 0.0f) {
+            fieldjo.throw_error("boost_chance > 0 requires boosted_other_percent");
+        }
+
+        region.field_coverage.boosted_other_mpercent = (int)(tmpval * 10000.0);
+    }
+
+    JsonObject boostedjo = fieldjo.get_object("boosted_other");
+    std::set<std::string> boostedkeys = boostedjo.get_member_names();
+    for( const auto &key : boostedkeys ) {
+        if( key != "//" ) {
+            if( boostedjo.read( key, tmpval ) ) {
+                region.field_coverage.boosted_percent_str[key] = tmpval;
+            }
+        }
+    }
+
+    if(region.field_coverage.boost_chance > 0.0f && region.field_coverage.boosted_percent_str.size() == 0) {
+        fieldjo.throw_error("boost_chance > 0 requires boosted_other { ... }");
+    }
+
+    JsonObject cityjo = jo.get_object("city");
+
+    cityjo.read("shop_radius", region.city_spec.shop_radius);
+    cityjo.read("park_radius", region.city_spec.park_radius);
+
+    JsonObject shopsjo = cityjo.get_object("shops");
+    std::set<std::string> shopkeys = shopsjo.get_member_names();
+    for( const auto &key : shopkeys ) {
+        if( key != "//" ) {
+            if( shopsjo.has_int( key ) ) {
+                region.city_spec.shops.add_or_replace_item(key, shopsjo.get_int(key));
+            }
+        }
+    }
+
+    JsonObject parksjo = cityjo.get_object("parks");
+    std::set<std::string> parkkeys = parksjo.get_member_names();
+    for( const auto &key : parkkeys ) {
+        if( key != "//" ) {
+            if( parksjo.has_int( key ) ) {
+                region.city_spec.parks.add_or_replace_item(key, parksjo.get_int(key));
+            }
+        }
+    }
+
+}
 
 // *** BEGIN overmap FUNCTIONS ***
 
@@ -612,8 +745,7 @@ overmap::overmap(int const x, int const y)
     // STUB: need region map:
     // settings = regionmap->calculate_settings( loc );
     const std::string rsettings_id = ACTIVE_WORLD_OPTIONS["DEFAULT_REGION"].getValue();
-    std::unordered_map<std::string, regional_settings>::const_iterator rsit =
-        region_settings_map.find( rsettings_id );
+    t_regional_settings_map_citr rsit = region_settings_map.find( rsettings_id );
 
     if ( rsit == region_settings_map.end() ) {
         debugmsg("overmap(%d,%d): can't find region '%s'", x, y, rsettings_id.c_str() ); // gonna die now =[
@@ -631,7 +763,7 @@ overmap::~overmap()
 void overmap::init_layers()
 {
     for(int z = 0; z < OVERMAP_LAYERS; ++z) {
-        oter_id default_type = (z < OVERMAP_DEPTH) ? "rock" : (z == OVERMAP_DEPTH) ? settings.default_oter :
+        oter_id default_type = (z < OVERMAP_DEPTH) ? "empty_rock" : (z == OVERMAP_DEPTH) ? settings.default_oter :
                                "open_air";
         for(int i = 0; i < OMAPX; ++i) {
             for(int j = 0; j < OMAPY; ++j) {
@@ -1078,7 +1210,7 @@ bool overmap::generate_sub(int const z)
     std::vector<city> mine_points;
     // These are so common that it's worth checking first as int.
     const oter_id skip_above[5] = {
-        oter_id("rock"), oter_id("forest"), oter_id("field"),
+        oter_id("empty_rock"), oter_id("forest"), oter_id("field"),
         oter_id("forest_thick"), oter_id("forest_water")
     };
 
@@ -1125,6 +1257,7 @@ bool overmap::generate_sub(int const z)
                 goo_points.push_back(city(i, j, size));
             } else if (oter_above == "forest_water") {
                 ter(i, j, z) = "cavern";
+                chip_rock( i, j, z );
             } else if (oter_above == "lab_core" ||
                        (z == -1 && oter_above == "lab_stairs")) {
                 lab_points.push_back(city(i, j, rng(1, 5 + z)));
@@ -1361,7 +1494,7 @@ void overmap::draw(WINDOW *w, WINDOW *wbar, const tripoint &center,
     if (data.iZoneIndex != -1) {
         sZoneName = g->u.Zones.vZones[data.iZoneIndex].getName();
         point pOMZone = overmapbuffer::ms_to_omt_copy(g->u.Zones.vZones[data.iZoneIndex].getCenterPoint());
-        tripointZone = tripoint(pOMZone.x, pOMZone.y);
+        tripointZone = tripoint( pOMZone, 0 );
     }
 
     // If we're debugging monster groups, find the monster group we've selected
@@ -1390,7 +1523,7 @@ void overmap::draw(WINDOW *w, WINDOW *wbar, const tripoint &center,
         for (int j = 0; j < om_map_height; ++j) {
             const int omx = i + offset_x;
             const int omy = j + offset_y;
-            
+
             const bool see = overmap_buffer.seen(omx, omy, z);
             if (see) {
                 // Only load terrain if we can actually see it
@@ -1557,7 +1690,7 @@ void overmap::draw(WINDOW *w, WINDOW *wbar, const tripoint &center,
             corner_text.emplace_back(note_text.substr(pos));
         }
     }
-   
+
     for( const auto &npc : overmap_buffer.get_npcs_near_omt(cursx, cursy, z, 0) ) {
         if( !npc->marked_for_death ) {
             corner_text.emplace_back( npc->name );
@@ -2553,6 +2686,7 @@ bool overmap::build_slimepit(int x, int y, int z, int s)
         for (int i = x - n; i <= x + n; i++) {
             for (int j = y - n; j <= y + n; j++) {
                 if (rng(1, s * 2) >= n) {
+                    chip_rock( i, j, z );
                     if (one_in(8) && z > -OVERMAP_DEPTH) {
                         ter(i, j, z) = "slimepit_down";
                         requires_sub = true;
@@ -2578,10 +2712,10 @@ void overmap::build_mine(int x, int y, int z, int s)
         ter(x, y, z) = "mine";
         std::vector<point> next;
         for (int i = -1; i <= 1; i += 2) {
-            if (ter(x, y + i, z) == "rock") {
+            if (ter(x, y + i, z) == "empty_rock") {
                 next.push_back( point(x, y + i) );
             }
-            if (ter(x + i, y, z) == "rock") {
+            if (ter(x + i, y, z) == "empty_rock") {
                 next.push_back( point(x + i, y) );
             }
         }
@@ -2873,6 +3007,26 @@ void overmap::polish(const int z, const std::string &terrain_type)
                 }
             }
         }
+    }
+}
+
+// Changes neighboring empty rock to partial rock
+void overmap::chip_rock(int x, int y, int z)
+{
+    if( ter( x - 1, y, z ) == "empty_rock" ) {
+        ter( x - 1, y, z ) = "rock";
+    }
+
+    if( ter( x + 1, y, z ) == "empty_rock" ) {
+        ter( x + 1, y, z ) = "rock";
+    }
+
+    if( ter( x, y - 1, z ) == "empty_rock" ) {
+        ter( x, y - 1, z ) = "rock";
+    }
+
+    if( ter( x, y + 1, z ) == "empty_rock" ) {
+        ter( x, y + 1, z ) = "rock";
     }
 }
 
@@ -3953,6 +4107,22 @@ void overmap::add_mon_group(const mongroup &group)
         }
     }
     DebugLog( D_ERROR, D_GAME ) << group.type << ": " << group.population << " => " << xpop;
+}
+
+void oter_weight_list::setup()
+{
+    for(std::vector<oter_weight>::iterator item_it = items.begin();
+    item_it != items.end(); ++item_it ) {
+        if ( item_it->ot_iid == -1 ) {
+            std::unordered_map<std::string, oter_t>::const_iterator it = obasetermap.find(item_it->ot_sid);
+            if ( it == obasetermap.end() ) {
+                debugmsg("Bad oter_weight_list entry in region settings: overmap_terrain '%s' not found.", item_it->ot_sid.c_str() );
+                item_it->ot_iid = 0;
+            } else {
+                item_it->ot_iid = it->second.loadid;
+            }
+        }
+    }
 }
 
 const point overmap::invalid_point = point(INT_MIN, INT_MIN);

@@ -144,9 +144,10 @@
     "decomp_learn": 7,
     "autolearn": false,
     "book_learn": [[ "abdul_necro", 5 ]],
+    "qualities":[
+      {"id":"SCREW","level":1,"amount":1} ],
     "tools": [
-      [ [ "screwdriver", -1], [ "toolset", -1] ],
-      [ [ "soldering_iron", 10], [ "toolset", 1] ]
+      [ [ "soldering_iron", 10], [ "toolset", 10] ]
     ],
     "components": [
       [ [ "processor", 1 ] ],
@@ -169,7 +170,7 @@
     "book_learn": [[ "abdul_necro", 4 ]],
     "tools":[
       [ [ "needle_bone", 30 ], [ "needle_wood", 30], [ "sewing_kit", 30], [ "tailors_kit", 30 ] ],
-      [ ["UPS_off", 1] ]
+      [ ["UPS_off", 1], ["adv_UPS_off", 1] ]
     ],
     "components": [
       [ ["slime_scrap", 10] ],
@@ -187,9 +188,10 @@
     "reversible": false,
     "autolearn": false,
     "book_learn": [[ "abdul_necro", 3 ] ],
+    "qualities":[
+      {"id":"CHEM","level":2,"amount":1} ],
     "tools": [
-      [ [ "chemistry_set", 25], [ "hotplate", 25], [ "toolset", 2], [ "fire", -1] ],
-      [ [ "chemistry_set", -1] ],
+      [ [ "char_smoker", 3], [ "hotplate", 25], [ "toolset", 25], [ "fire", -1] ],
       [ [ "vacutainer", -1] ]
     ],
     "components": [

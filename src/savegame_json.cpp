@@ -4,7 +4,7 @@
 #include "bionics.h"
 #include "mission.h"
 #include "game.h"
-#include "disease.h"
+#include "rng.h"
 #include "addiction.h"
 #include "moraledata.h"
 #include "inventory.h"
@@ -20,7 +20,6 @@
 #include "name.h"
 #include "cursesdef.h"
 #include "catacharset.h"
-#include "disease.h"
 #include "crafting.h"
 #include "get_version.h"
 #include "monstergenerator.h"
@@ -285,12 +284,6 @@ void player::load(JsonObject &data)
     }
 
     data.read("ma_styles", ma_styles);
-    // Just too many changes here to maintain compatibility, so older characters get a free
-    // diseases wipe. Since most long lasting diseases are bad, this shouldn't be too bad for them.
-    if(savegame_loading_version >= 23) {
-        data.read("illness", illness);
-    }
-
     data.read( "addictions", addictions );
 
     JsonArray traps = data.get_array("known_traps");
@@ -301,19 +294,19 @@ void player::load(JsonObject &data)
         const std::string t = pmap.get_string("trap");
         known_traps.insert(trap_map::value_type(p, t));
     }
-    
+
     // Add the earplugs.
     if (has_bionic("bio_ears") && !has_bionic("bio_earplugs")) {
         add_bionic("bio_earplugs");
     }
-    
+
 }
 
 /*
  * Variables common to player (and npc's, should eventually just be players)
  */
 void player::store(JsonOut &json) const
-{   
+{
     Character::store( json );
 
     // assumes already in player object
@@ -363,10 +356,6 @@ void player::store(JsonOut &json) const
         ptmpvect.push_back( pv( ma_styles[i] ) );
     }*/
     json.member( "ma_styles", ma_styles );
-
-    // disease
-    json.member( "illness", illness );
-
     // "Looks like I picked the wrong week to quit smoking." - Steve McCroskey
     json.member( "addictions", addictions );
 
@@ -1016,6 +1005,7 @@ void monster::load(JsonObject &data)
     data.read("wandy", wandy);
     data.read("wandf", wandf);
     data.read("hp", hp);
+    last_loaded = data.get_int("last_loaded", 0);
 
     if (data.has_array("sp_timeout")) {
         JsonArray parray = data.get_array("sp_timeout");
@@ -1089,6 +1079,7 @@ void monster::store(JsonOut &json) const
     json.member("faction", faction->name);
     json.member("mission_id", mission_id);
     json.member("no_extra_death_drops", no_extra_death_drops );
+    json.member("last_loaded", last_loaded);
     json.member("dead", dead);
     json.member("anger", anger);
     json.member("morale", morale);
@@ -1194,12 +1185,14 @@ void item::deserialize(JsonObject &data)
         // There was a bug that set all comestibles active, this reverses that.
         active = false;
     }
+
+    data.read("techniques", techniques);
     // We need item tags here to make sure HOT/COLD food is active
     // and bugged WET towels get reactivated
     data.read("item_tags", item_tags);
 
-    if( !active && 
-        (item_tags.count( "HOT" ) > 0 || item_tags.count( "COLD" ) > 0 || 
+    if( !active &&
+        (item_tags.count( "HOT" ) > 0 || item_tags.count( "COLD" ) > 0 ||
          item_tags.count( "WET" ) > 0) ) {
         // Some hot/cold items from legacy saves may be inactive
         active = true;
@@ -1296,6 +1289,10 @@ void item::serialize(JsonOut &json, bool save_contents) const
     }
     if ( mission_id != -1 ) {
         json.member( "mission_id", mission_id );
+    }
+
+    if ( ! techniques.empty() ) {
+        json.member( "techniques", techniques );
     }
 
     if ( ! item_tags.empty() ) {

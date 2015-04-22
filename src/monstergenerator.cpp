@@ -218,6 +218,7 @@ void MonsterGenerator::init_death()
     death_map["GAS"] = &mdeath::gas;// Explodes in toxic gas
     death_map["KILL_BREATHERS"] = &mdeath::kill_breathers;// All breathers die
     death_map["SMOKEBURST"] = &mdeath::smokeburst;// Explode like a huge smoke bomb.
+    death_map["JABBERWOCKY"] = &mdeath::jabberwock; // Snicker-snack!
     death_map["GAMEOVER"] = &mdeath::gameover;// Game over!  Defense mode
 
     /* Currently Unimplemented */
@@ -363,6 +364,7 @@ void MonsterGenerator::init_flags()
     flag_map["ELECTRIC"] = MF_ELECTRIC;
     flag_map["ACIDPROOF"] = MF_ACIDPROOF;
     flag_map["ACIDTRAIL"] = MF_ACIDTRAIL;
+    flag_map["FIREPROOF"] = MF_FIREPROOF;
     flag_map["LEAKSGAS"] = MF_LEAKSGAS;
     flag_map["SLUDGEPROOF"] = MF_SLUDGEPROOF;
     flag_map["SLUDGETRAIL"] = MF_SLUDGETRAIL;
@@ -519,6 +521,11 @@ void MonsterGenerator::load_monster(JsonObject &jo)
         newmon->dies = get_death_functions(jo, "death_function");
         load_special_defense(newmon, jo, "special_when_hit");
         load_special_attacks(newmon, jo, "special_attacks");
+        newmon->upgrade_min = jo.get_int("upgrade_min", -1);
+        newmon->half_life = jo.get_int("half_life", -1);
+        newmon->base_upgrade_chance = jo.get_float("base_upgrade_chance", 0);
+        newmon->upgrade_group = jo.get_string("upgrade_group", "NULL");
+        newmon->upgrades_into = jo.get_string("upgrades_into", "NULL");
 
         std::set<std::string> flags, anger_trig, placate_trig, fear_trig;
         flags = jo.get_tags("flags");

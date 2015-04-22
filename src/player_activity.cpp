@@ -1,6 +1,7 @@
 #include "player_activity.h"
 
 #include "game.h"
+#include "map.h"
 #include "construction.h"
 #include "player.h"
 #include "translations.h"
@@ -154,7 +155,8 @@ void player_activity::do_turn( player *p )
                     type = ACT_NULL;
                     break;
                 }
-                g->m.build_map_cache();
+
+                g->m.build_map_cache( g->get_levz() );
                 g->plfire(false);
             }
             break;
@@ -338,8 +340,10 @@ void player_activity::finish( player *p )
             break;
         case ACT_PICKUP:
         case ACT_MOVE_ITEMS:
-            // Do nothing, the only way this happens is if we set this activity after
-            // entering the advanced inventory menu as an activity, and we want it to play out.
+            // Only do nothing if the item being picked up doesn't need to be equipped.
+            // If it needs to be equipped, our activity_handler::pickup_finish() does so.
+            // This is primarily used by AIM to advance moves while moving items around.
+            activity_handlers::pickup_finish(this, p);
             break;
         case ACT_START_FIRE:
             activity_handlers::start_fire_finish( this, p );

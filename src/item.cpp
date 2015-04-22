@@ -3,6 +3,8 @@
 #include "output.h"
 #include "skill.h"
 #include "game.h"
+#include "map.h"
+#include "debug.h"
 #include "cursesdef.h"
 #include "text_snippets.h"
 #include "material.h"
@@ -11,7 +13,6 @@
 #include "options.h"
 #include "uistate.h"
 #include "messages.h"
-#include "disease.h"
 #include "artifact.h"
 #include "itype.h"
 #include "iuse_actor.h"
@@ -348,6 +349,9 @@ bool item::stacks_with( const item &rhs ) const
         return false;
     }
     if( item_tags != rhs.item_tags ) {
+        return false;
+    }
+    if( techniques != rhs.techniques ) {
         return false;
     }
     if( item_vars != rhs.item_vars ) {
@@ -1153,6 +1157,16 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump, bool debug) c
 
         std::ostringstream tec_buffer;
         for( const auto &elem : type->techniques ) {
+            const ma_technique &tec = ma_techniques[elem];
+            if (tec.name.empty()) {
+                continue;
+            }
+            if (!tec_buffer.str().empty()) {
+                tec_buffer << _(", ");
+            }
+            tec_buffer << tec.name;
+        }
+        for( const auto &elem : techniques ) {
             const ma_technique &tec = ma_techniques[elem];
             if (tec.name.empty()) {
                 continue;
@@ -3428,14 +3442,10 @@ int item::noise() const
     if( gunmod != nullptr ) {
         return gunmod->noise();
     }
-    // TODO: use islot_gun::loudness here.
-    int ret = 0;
+    const islot_gun* gun = type->gun.get();
+    int ret = gun->loudness;
     if( has_curammo() ) {
-        ret = get_curammo()->ammo->damage;
-    }
-    ret *= .8;
-    if (ret >= 5) {
-        ret += 20;
+        ret += get_curammo()->ammo->damage;
     }
     for( auto &elem : contents ) {
         if( elem.is_gunmod() ) {
@@ -3745,7 +3755,7 @@ int item::pick_reload_ammo( const player &u, bool interactive )
     amenu.query();
     if( amenu.ret < 0 || amenu.ret >= ( int )ammo_list.size() ) {
         // invalid selection / escaped from the menu
-        return INT_MIN;
+        return INT_MIN + 2;
     }
     const auto &selected = ammo_list[ amenu.ret ];
     uistate.lastreload[ ammo_type() ] = std::get<0>( selected )->id;
@@ -4162,7 +4172,7 @@ int item::amount_of(const itype_id &it, bool used_as_tool) const
     return count;
 }
 
-bool item::use_amount(const itype_id &it, int &quantity, bool use_container, std::list<item> &used)
+bool item::use_amount(const itype_id &it, long &quantity, bool use_container, std::list<item> &used)
 {
     // First, check contents
     bool used_item_contents = false;
@@ -4595,6 +4605,9 @@ bool item::process_food( player * /*carrier*/, point pos )
 
 bool item::process_artifact( player *carrier, point /*pos*/ )
 {
+    if( !is_artifact() ) {
+        return false;
+    }
     // Artifacts are currently only useful for the player character, the messages
     // don't consider npcs. Also they are not processed when laying on the ground.
     // TODO: change game::process_artifact to work with npcs,
@@ -4982,10 +4995,7 @@ bool item::process( player *carrier, point pos, bool activate )
     // Otherwise processing continues. This allows items that are processed as
     // food and as litcig and as ...
 
-    if( is_artifact() && process_artifact( carrier, pos ) ) {
-        return true;
-    }
-    // Remaining stuff is only done for active items, artifacts are always "active".
+    // Remaining stuff is only done for active items.
     if( !active ) {
         return false;
     }

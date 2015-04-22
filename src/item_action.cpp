@@ -246,14 +246,19 @@ void game::item_action_menu()
     if( kmenu.ret < 0 || kmenu.ret >= (int)iactions.size() ) {
         return;
     }
-    
-    auto iter = iactions.begin();
-    for( int i = 0; i < kmenu.ret; i++) {
-        iter++;
-    }
 
     draw_ter();
-    u.invoke_item( iter->second, iter->first );
+    
+    auto iter = iactions.begin();
+    std::advance( iter, kmenu.ret );
+
+    if( u.invoke_item( iter->second, iter->first ) ) {
+        // Need to remove item
+        u.i_rem( iter->second );
+    }
+
+    u.inv.restack( &u );
+    u.inv.unsort();
 }
 
 std::string use_function::get_type_name() const

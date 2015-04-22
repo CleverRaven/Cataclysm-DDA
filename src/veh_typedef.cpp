@@ -1,5 +1,6 @@
 #include "vehicle.h"
 #include "game.h"
+#include "debug.h"
 #include "item_group.h"
 #include "json.h"
 
