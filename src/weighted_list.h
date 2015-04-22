@@ -20,7 +20,7 @@ template <typename W, typename T> struct weighted_list {
      * @param obj The object that will be added to the list.
      * @param weight The weight of the object.
      */
-    virtual void add(const T &obj, const W &weight) {
+    void add(const T &obj, const W &weight) {
         if(weight >= 0) {
             objects.emplace_back(obj, weight);
             total_weight += weight;
@@ -125,7 +125,7 @@ template <typename T> struct weighted_int_list : public weighted_list<int, T> {
 
 protected:
 
-    virtual size_t pick_ent() const {
+    size_t pick_ent() const override {
         int picked = rng(1, this->total_weight);
         int accumulated_weight = 0;
         size_t i;
@@ -143,7 +143,7 @@ template <typename T> struct weighted_float_list : public weighted_list<double, 
 
 protected:
 
-    virtual  size_t pick_ent() const {
+    size_t pick_ent() const override {
         int picked = rng_float(0, this->total_weight);
         int accumulated_weight = 0;
         size_t i;
