@@ -1,6 +1,7 @@
 #include "mondeath.h"
 #include "monster.h"
 #include "game.h"
+#include "map.h"
 #include "rng.h"
 #include "line.h"
 #include "monstergenerator.h"
@@ -588,6 +589,23 @@ void mdeath::smokeburst(monster *z)
             }
         }
     }
+}
+
+void mdeath::jabberwock(monster *z)
+{
+    player *ch = dynamic_cast<player*>( z->get_killer() );
+    if (ch->is_player() && rl_dist( z->pos(), g->u.pos() ) <= 1  &&
+         ch->weapon.has_flag("VORPAL")) {
+        if (!ch->weapon.techniques.count("VORPAL")) {
+            if (g->u.sees(*z)) {
+                //~ %s is the possessive form of the monster's name
+                add_msg(m_info, _("As the flames in %s eyes die out, your weapon seems to shine slightly brighter."),
+                        z->disp_name(true).c_str());
+            }
+            ch->weapon.techniques.insert("VORPAL");
+        }
+    }
+    mdeath::normal(z);
 }
 
 void mdeath::gameover(monster *z)

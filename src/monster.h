@@ -1,6 +1,7 @@
 #ifndef MONSTER_H
 #define MONSTER_H
 
+#include "input.h"
 #include "creature.h"
 #include "player.h"
 #include "enums.h"
@@ -44,6 +45,7 @@ class monster : public Creature, public JsonSerializer, public JsonDeserializer
         }
 
         void poly(mtype *t);
+        void update_check();
         void spawn( const int x, const int y ); // All this does is moves the monster to x,y,g->levz
         void spawn( const int x, const int y, const int z ); // As above, except with any z
         m_size get_size() const override;
@@ -354,6 +356,7 @@ class monster : public Creature, public JsonSerializer, public JsonDeserializer
         point position;
         // Temporary z-level coord, should later be merged with position
         int zpos;
+        int last_loaded; //time the monster was last loaded
         bool dead;
         /** Attack another monster */
         void hit_monster(monster &other);

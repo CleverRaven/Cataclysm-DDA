@@ -497,7 +497,6 @@ original 'structure', which globs game/weather/location & killcount/player data 
 
 void game::load_legacy_future_weather(std::string data)
 {
-    weather_log.clear();
     std::istringstream fin;
     fin.str(data);
     load_legacy_future_weather(fin);
@@ -507,7 +506,6 @@ void game::load_legacy_future_weather(std::string data)
 void game::load_legacy_future_weather(std::istream &fin)
 {
     int tmpnextweather, tmpweather, tmptemp, num_segments;
-    weather_segment new_segment;
 
     fin >> num_segments >> tmpnextweather >> tmpweather >> tmptemp;
 
@@ -518,10 +516,7 @@ void game::load_legacy_future_weather(std::istream &fin)
     for( int i = 0; i < num_segments - 1; ++i)
     {
         fin >> tmpnextweather >> tmpweather >> tmptemp;
-        new_segment.weather = weather_type(tmpweather);
-        new_segment.temperature = tmptemp;
-        new_segment.deadline = tmpnextweather;
-        weather_log[ tmpnextweather ] = new_segment;
+        // Just drop it, it wouldn't be used anyway
     }
 }
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -1604,14 +1599,12 @@ void player::load_legacy(std::stringstream & dump)
  }
 
  int numill;
- disease illtmp;
  int temp_bpart;
  dump >> numill;
  for (int i = 0; i < numill; i++) {
-     dump >> illtmp.type >> illtmp.duration >> illtmp.intensity
-          >> temp_bpart;
-     illtmp.bp = (body_part)temp_bpart;
-     illness.push_back(illtmp);
+     // Legacy support, just read it and forget it. Diseases are no more, they have ceased to be,
+     // they have expired and gone to meet their maker, ...
+     dump >> temp_bpart >> temp_bpart >> temp_bpart >> temp_bpart;
  }
 
  int numadd = 0;
@@ -1940,11 +1933,8 @@ void npc::load_legacy(std::stringstream & dump) {
  std::string disease_type_tmp;
  int numill;
  dump >> numill;
- disease illtmp;
  for (int i = 0; i < numill; i++) {
-  dump >> disease_type_tmp >> illtmp.duration;
-  illtmp.type = disease_type_tmp;
-  illness.push_back(illtmp);
+  dump >> disease_type_tmp >> typetmp;
  }
  int numadd;
  addiction addtmp;

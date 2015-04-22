@@ -15,7 +15,8 @@
   ],
   "components": [
     [
-      [ "rock", 1 ]
+      [ "rock", 1 ],
+      [ "sharp_rock", 1 ]
     ],
     [
       [ "scrap", 1 ]
@@ -279,7 +280,8 @@
   ], "components": [
     [
       [ "rock", 1 ],
-      [ "ceramic_shard", 1 ]
+      [ "ceramic_shard", 1 ],
+      [ "sharp_rock", 1 ]
     ]
   ]
 },{
@@ -346,7 +348,8 @@
     ],
     [
       [ "rock", 1 ],
-      [ "ceramic_shard", 1 ]
+      [ "ceramic_shard", 1 ],
+      [ "sharp_rock", 1 ]
     ]
   ]
 },{
@@ -418,7 +421,9 @@
      [ "javelin", 4 ]
      ],
      [
-     [ "rock", 2 ]
+     [ "rock", 2 ],
+     [ "ceramic_shard", 2 ],
+     [ "sharp_rock", 2 ]
      ]
     ]
 },{
@@ -530,7 +535,7 @@
   "subcategory": "CSC_OTHER_TOOLS",
   "skill_used": "survival",
   "skills_required": [ "carpentry", 1 ],
-  "difficulty": 3,
+  "difficulty": 4,
   "time": 60000,
   "reversible": false,
   "autolearn": true,
@@ -745,6 +750,7 @@
     ],
     [
       [ "garlic", 3 ],
+      [ "thyme_oil", 1 ],
       [ "wild_herbs", 100 ],
       [ "honey_glassed", 3 ],
       [ "honey_bottled", 6 ]
@@ -753,6 +759,7 @@
 },{
         "type" : "recipe",
   "result": "seasoning_italian",
+  "override": true,
   "category": "CC_FOOD",
   "subcategory": "CSC_FOOD_OTHER",
   "skill_used": "cooking",
@@ -779,13 +786,16 @@
       [ "garlic", 3 ]
     ],
     [
+      [ "thyme", 1 ]
+    ],
+    [
       [ "wild_herbs", 100 ]
     ]
   ]
 },{
   "type" : "recipe",
   "result": "plant_fibre",
-  "id_suffix": "spun",
+  "override": true,
   "category": "CC_OTHER",
   "subcategory": "CSC_OTHER_MATERIALS",
   "skill_used": "survival",
@@ -832,7 +842,8 @@
       [ "vinegar", 1 ]
     ],
     [
-      [ "wild_herbs", 40 ]
+      [ "wild_herbs", 40 ],
+      [ "stomach_large", 1 ]
     ]
   ]
 },{
@@ -850,6 +861,7 @@
   ["manual_survival", 3]],
   "qualities":[
     {"id":"CUT","level":1,"amount":1},
+    {"id":"HAMMER","level":1,"amount":1},
     {"id":"COOK","level":3,"amount":1},
     {"id":"BOIL","level":2,"amount":1},
     {"id":"CONTAIN","level":1,"amount":1}
@@ -921,7 +933,8 @@
     ],
     [
       [ "rock", 1 ],
-      [ "ceramic_shard", 1 ]
+      [ "ceramic_shard", 1 ],
+      [ "sharp_rock", 1 ]
     ],
     [
       [ "string_6", 2 ],
@@ -956,7 +969,8 @@
     ],
     [
       [ "rock", 1 ],
-      [ "ceramic_shard", 1 ]
+      [ "ceramic_shard", 1 ],
+      [ "sharp_rock", 1 ]
     ],
     [
       [ "string_6", 2 ],
@@ -969,6 +983,43 @@
       [ "withered", 2 ]
     ]
   ]
+},{
+    "type" : "recipe",
+    "result": "primitive_adze",
+    "override": true,
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_TOOLS",
+    "skill_used": "fabrication",
+    "skills_required": [ "survival", 2 ],
+    "difficulty": 2,
+    "time": 60000,
+    "reversible": false,
+    "autolearn": true,
+    "qualities":[
+      {"id":"HAMMER","level":2,"amount":1},
+      {"id":"CUT","level":1,"amount":1}
+    ],
+    "components": [
+      [
+        [ "stick", 1 ], 
+        [ "2x4", 1 ]
+      ],
+      [
+        [ "rock", 1 ],
+        [ "ceramic_shard", 1 ],
+        [ "sharp_rock", 1 ]
+      ],
+      [
+        [ "string_6", 2 ],
+        [ "resin_cord", 2 ],
+        [ "duct_tape", 40 ],
+        [ "sinew", 40 ],
+        [ "thread", 40 ],
+        [ "yarn", 40 ],
+        [ "plant_fibre", 40 ],
+        [ "withered", 2 ]
+      ]
+    ]
 },{
   "type" : "recipe",
   "override": true,
@@ -1022,7 +1073,7 @@
   "components": [
     [ [ "glass_shard", 5 ] ],
     [ [ "stick", 1 ], [ "2x4", 1 ] ],
-    [ [ "superglue", 3 ], [ "bone_glue", 4 ] ]
+    [ [ "superglue", 1 ], [ "bone_glue", 2 ] ]
   ]
 },{
   "type" : "recipe",
@@ -1040,9 +1091,101 @@
     {"id":"HAMMER","level":1,"amount":1}
   ],
   "components": [
-    [ [ "rock", 5 ] ],
+    [ [ "rock", 5 ], [ "ceramic_shard", 5 ], [ "sharp_rock", 5 ] ],
     [ [ "stick", 1 ], [ "2x4", 1 ] ],
-    [ [ "superglue", 3 ], [ "bone_glue", 4 ] ]
+    [ [ "superglue", 1 ], [ "bone_glue", 2 ] ]
+  ]
+},{
+  "type" : "recipe",
+  "result": "leather_pouch",
+  "override": true,
+  "category": "CC_ARMOR",
+  "subcategory": "CSC_ARMOR_STORAGE",
+  "skill_used": "tailor",
+  "skills_required": [ "survival", 1 ],
+  "difficulty": 2,
+  "time": 10000,
+  "reversible": false,
+  "autolearn": true,
+  "tools": [
+    [
+      [ "needle_bone", 20 ],
+      [ "needle_wood", 20 ],
+      [ "tailors_kit", 20 ],
+      [ "sewing_kit", 20 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "leather", 6 ],
+      [ "tanned_hide", 1 ],
+      [ "fur", 6 ],
+      [ "tanned_pelt", 1 ]
+    ],
+    [
+      [ "string_36", 1 ],
+      [ "string_6", 6 ],
+      [ "sinew", 20 ],
+      [ "thread", 20 ],
+      [ "plant_fibre", 20 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
+  "result": "leg_warmers_f",
+  "category": "CC_ARMOR",
+  "subcategory": "CSC_ARMOR_LEGS",
+  "skill_used": "tailor",
+  "difficulty": 2,
+  "time": 5000,
+  "reversible": false,
+  "autolearn": true,
+  "tools": [
+    [
+      [ "needle_bone", 10 ],
+      [ "needle_wood", 10 ],
+      [ "tailors_kit", 10 ],
+      [ "sewing_kit", 10 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "fur", 8 ],
+      [ "tanned_pelt", 2 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
+  "result": "sharp_rock",
+  "override": true,
+  "category": "CC_OTHER",
+  "subcategory": "CSC_OTHER_TOOLS",
+  "skill_used": "fabrication",
+  "skills_required": [ "survival", 1 ],
+  "difficulty": 0,
+  "time": 1000,
+  "reversible": false,
+  "autolearn": true,
+  "qualities":[
+    {"id":"HAMMER","level":1,"amount":1}
+  ], "components": [
+    [
+      [ "rock", 1 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
+  "result": "foil_alum",
+  "category": "CC_OTHER",
+  "subcategory": "CSC_OTHER_OTHER",
+  "difficulty": 0,
+  "time": 200,
+  "reversible": false,
+  "autolearn": true,
+  "components": [
+    [
+      [ "aluminum_foil", 3 ]
+    ]
   ]
 }
 ]

@@ -6,8 +6,8 @@
  * Body temperature.
  * Bodytemp is measured on a scale of 0u to 10000u, where 10u = 0.02C and 5000u is 37C
  * Outdoor temperature uses similar numbers, but on a different scale: 2200u = 22C, where 10u = 0.1C.
- * Most values can be changed with no impact on calculations. Because of calculations done in disease.cpp,
- * maximum heat cannot pass 15000u, otherwise the player will vomit to death.
+ * Most values can be changed with no impact on calculations.
+ * Maximum heat cannot pass 15000u, otherwise the player will vomit to death.
  */
 ///@{
 #define BODYTEMP_FREEZING 500   //!< More aggressive cold effects.
@@ -101,13 +101,6 @@ void flurry     (); //!< Currently flurries have no additional effects.
 void snow       (); //!< Currently snow has no additional effects.
 void snowstorm  (); //!< Currently snowstorms have no additional effects.
 } //namespace weather_effect
-
-// All the weather conditions at some time
-struct weather_segment {
-    signed char temperature;
-    weather_type weather;
-    calendar deadline;
-};
 
 struct weather_datum {
     std::string name;       //!< UI name of weather type.

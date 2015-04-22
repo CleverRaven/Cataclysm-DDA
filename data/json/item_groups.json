@@ -332,6 +332,7 @@
     "type" : "item_group",
     "id" : "kitchen",
     "items":[
+      ["aluminum_foil", 25],
       ["chips", 65],
       ["cereal", 50],
       ["cereal2", 60],
@@ -5720,6 +5721,9 @@
       ["seed_tomato", 1],
       ["seed_blueberries", 1],
       ["seed_strawberries", 1],
+      ["seed_blackberries", 1],
+      ["seed_cranberries", 1],
+      ["seed_raspberries", 1],
       ["seed_barley", 1],
       ["seed_sugar_beet", 1],
       ["seed_lettuce", 1],
@@ -5727,6 +5731,7 @@
       ["seed_carrot", 1],
       ["seed_corn", 1],
       ["seed_hops", 1],
+      ["raw_beans", 1],
       ["tomato", 9],
       ["broccoli", 9],
       ["cucumber", 10],
@@ -6783,7 +6788,8 @@
       ["holster", 3],
       ["sholster", 2],
       ["toolbox", 1],
-      ["survnote", 5]
+      ["survnote", 5],
+      ["tinfoil_hat", 1]
     ]
   },{
     "type" : "item_group",
@@ -9149,6 +9155,9 @@
 "items" : [
       ["seed_blueberries", 60],
       ["seed_strawberries", 60],
+      ["seed_blackberries", 60],
+      ["seed_cranberries", 60],
+      ["seed_raspberries", 60],
       ["seed_wheat", 60],
       ["seed_barley", 60],
       ["seed_sugar_beet", 60],
@@ -9163,6 +9172,7 @@
       ["seed_potato_raw", 60],
       ["seed_zucchini", 60],
       ["seed_cotton_boll", 10],
+      ["raw_beans", 60 ],
       ["seed_tomato", 60]
     ]
   },{

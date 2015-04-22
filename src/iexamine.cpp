@@ -1,4 +1,6 @@
 #include "game.h"
+#include "map.h"
+#include "debug.h"
 #include "mapdata.h"
 #include "output.h"
 #include "rng.h"
@@ -178,7 +180,7 @@ private:
         });
 
         if (index == INT_MIN) {
-            add_msg(m_info, _("Nevermind."));
+            add_msg(m_info, _("Never mind."));
             return nullptr; // player canceled
         }
 
@@ -794,14 +796,16 @@ void iexamine::pit(player *p, map *m, int examx, int examy)
         // if both have, then ask to use the one on the map
         if (player_has && map_has) {
             if (query_yn(_("Use the plank at your feet?"))) {
-                m->use_amount( p->pos3(), 1, "2x4", 1, false);
+                long quantity = 1;
+                m->use_amount( p->pos3(), 1, "2x4", quantity, false);
             } else {
                 p->use_amount("2x4", 1);
             }
         } else if (player_has && !map_has) { // only player has plank
             p->use_amount("2x4", 1);
         } else if (!player_has && map_has) { // only map has plank
-            m->use_amount( p->pos3(), 1, "2x4", 1, false);
+            long quantity = 1;
+            m->use_amount( p->pos3(), 1, "2x4", quantity, false);
         }
 
         if( m->ter(examx, examy) == t_pit ) {
@@ -1165,7 +1169,7 @@ void iexamine::door_peephole(player *p, map *m, int examx, int examy) {
                        _("Cancel"), NULL );
     if( choice == 1 ) {
         // Peek
-        g->peek( examx, examy );
+        g->peek( tripoint( examx, examy, p->posz() ) );
         p->add_msg_if_player( _("You peek through the peephole.") );
     } else if( choice == 2 ) {
         m->open_door( tripoint( examx, examy, p->posz() ), true, false);
@@ -1510,12 +1514,14 @@ void iexamine::dirtmound(player *p, map *m, int examx, int examy)
     const auto &seed_id = seed_types[seed_index];
 
     // Actual planting
+    std::list<item> used_seed;
     if( item::count_by_charges( seed_id ) ) {
-        p->use_charges( seed_id, 1 );
+        used_seed = p->use_charges( seed_id, 1 );
     } else {
-        p->use_amount( seed_id, 1 );
+        used_seed = p->use_amount( seed_id, 1 );
     }
-    m->spawn_item(examx, examy, seed_id, 1, 1, calendar::turn);
+    used_seed.front().bday = calendar::turn;
+    m->add_item_or_charges( examx, examy, used_seed.front() );
     m->set(examx, examy, t_dirt, f_plant_seed);
     p->moves -= 500;
     add_msg(_("Planted %s"), seed_names[seed_index].c_str());
@@ -1530,7 +1536,13 @@ void iexamine::aggie_plant(player *p, map *m, int examx, int examy)
             debugmsg("Missing seeds in harvested plant!");
             return;
         }
-        itype_id seedType = m->i_at(examx, examy)[0].typeId();
+        const item &seed = m->i_at( examx, examy )[0];
+        if( !seed.is_seed() ) {
+            debugmsg( "The seed is not a seed!" );
+            return;
+        }
+        const islot_seed &seed_data = *seed.type->seed;
+        const std::string &seedType = seed.typeId();
         if (seedType == "fungal_seeds") {
             fungus(p, m, examx, examy);
             m->i_clear(examx, examy);
@@ -1551,7 +1563,7 @@ void iexamine::aggie_plant(player *p, map *m, int examx, int examy)
                 m->furn_set(examx, examy, f_flower_fungal);
                 add_msg(m_info, _("The seed blossoms into a flower-looking fungus."));
             }
-        } else {
+        } else { // Generic seed, use the seed item data
             m->i_clear(examx, examy);
             m->furn_set(examx, examy, f_null);
 
@@ -1559,19 +1571,29 @@ void iexamine::aggie_plant(player *p, map *m, int examx, int examy)
             int plantCount = rng(skillLevel / 2, skillLevel);
             if (plantCount >= 12) {
                 plantCount = 12;
+            } else if( plantCount <= 0 ) {
+                plantCount = 1;
             }
-            m->spawn_item(examx, examy, seedType.substr(5), plantCount, 0, calendar::turn);
-            if( item::count_by_charges( seedType ) ) {
-                m->spawn_item(examx, examy, seedType, 1, rng(plantCount / 4, plantCount / 2));
-            } else {
-                m->spawn_item(examx, examy, seedType, rng(plantCount / 4, plantCount / 2));
+            item tmp;
+            if( seed_data.spawn_seeds ) {
+                tmp = item( seedType, calendar::turn );
+                const int seedCount = std::max( 1l, rng( plantCount / 4, plantCount / 2 ) );
+                if( tmp.count_by_charges() ) {
+                    tmp.charges = 1;
+                }
+                for( int i = 0; i < seedCount; ++i ) {
+                    m->add_item_or_charges( examx, examy, tmp );
+                }
             }
-
-            if ((seedType == "seed_wheat") || (seedType == "seed_barley") ||
-                (seedType == "seed_hops")) {
-                m->spawn_item(examx, examy, "straw_pile");
-            } else if (seedType != "seed_sugar_beet") {
-                m->spawn_item(examx, examy, "withered");
+            tmp = item( seed_data.fruit_id, calendar::turn );
+            if( tmp.count_by_charges() ) {
+                tmp.charges = 1;
+            }
+            for( int i = 0; i < plantCount; ++i ) {
+                m->add_item_or_charges( examx, examy, tmp );
+            }
+            for( auto &b : seed_data.byproducts ) {
+                m->spawn_item( examx, examy, b, 1, 1, calendar::turn );
             }
             p->moves -= 500;
         }
@@ -2543,7 +2565,7 @@ void iexamine::curtains(player *p, map *m, const int examx, const int examy)
                        _("Cancel"), NULL );
     if( choice == 1 ) {
         // Peek
-        g->peek( examx, examy );
+        g->peek( tripoint( examx, examy, p->posz() ) );
         p->add_msg_if_player( _("You carefully peek through the curtains.") );
     } else if( choice == 2 ) {
         // Mr. Gorbachev, tear down those curtains!

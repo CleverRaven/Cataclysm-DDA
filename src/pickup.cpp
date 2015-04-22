@@ -2,6 +2,7 @@
 
 #include "auto_pickup.h"
 #include "game.h"
+#include "map.h"
 #include "messages.h"
 
 #include <map>
@@ -255,11 +256,12 @@ void Pickup::pick_one_up( const point &pickup_target, item &newit, vehicle *veh,
 
     if( quantity != 0 ) {
         // Reinserting leftovers happens after item removal to avoid stacking issues.
-        int leftover_charges = newit.charges - quantity;
-        if (leftover_charges > 0) {
-            leftovers.charges = leftover_charges;
+        leftovers.charges = newit.charges - quantity;
+        if( leftovers.charges > 0 ) {
             newit.charges = quantity;
         }
+    } else {
+        leftovers.charges = 0;
     }
 
     if( newit.made_of(LIQUID) ) {
@@ -361,7 +363,7 @@ void Pickup::pick_one_up( const point &pickup_target, item &newit, vehicle *veh,
         Pickup::remove_from_map_or_vehicle(pickup_target.x, pickup_target.y,
                                            veh, cargo_part, moves_taken, index);
     }
-    if( quantity != 0 ) {
+    if( leftovers.charges > 0 ) {
         bool to_map = veh == nullptr;
         if( !to_map ) {
             to_map = !veh->add_item( cargo_part, leftovers );
@@ -773,8 +775,12 @@ void Pickup::pick_up(int posx, int posy, int min)
                     } else {
                         wprintw(w_pickup, " - ");
                     }
+                    std::string item_name = here[cur_it].display_name();
+                    if (OPTIONS["ITEM_SYMBOLS"]) {
+                        item_name = string_format("%c %s", here[cur_it].symbol(), item_name.c_str());
+                    }
                     trim_and_print(w_pickup, 1 + (cur_it % maxitems), 6, pickupW - 4, icolor,
-                                   "%s", here[cur_it].display_name().c_str());
+                                   "%s", item_name.c_str());
                 }
             }
 
@@ -852,8 +858,8 @@ void Pickup::pick_up(int posx, int posy, int min)
 int Pickup::handle_quiver_insertion(item &here, int &moves_to_decrement, bool &picked_up)
 {
     //add ammo to quiver
-    int quivered = g->u.add_ammo_to_worn_quiver( here);
-    if(quivered > 0) {
+    int quivered = g->u.add_ammo_to_worn_quiver( here );
+    if( quivered > 0 ) {
         moves_to_decrement = 0; //moves already decremented in player::add_ammo_to_worn_quiver()
         picked_up = true;
         return quivered;

@@ -8,6 +8,7 @@
 #include <map>
 #include <set>
 
+class effect;
 class player;
 
 struct ma_requirements {
@@ -120,7 +121,7 @@ class ma_buff
 
         // utility function so to prevent duplicate buff copies, we use this
         // instead of add_disease (since all buffs have the same distype)
-        void apply_buff(std::list<disease> &dVec);
+        void apply_buff( player &u );
 
         // given a player's state, does this bonus apply to him?
         bool is_valid_player(player &u);
@@ -151,6 +152,11 @@ class ma_buff
         bool is_throw_immune();
         bool is_quiet();
         bool can_melee();
+
+        // The ID of the effect that is used to store this buff
+        std::string get_effect_id() const;
+        // If the effects represents an ma_buff effect, return the ma_buff, otherwise retur null.
+        static ma_buff *from_effect( const effect &eff );
 
         std::string id;
         std::string name;
@@ -215,19 +221,19 @@ class martialart
         martialart();
 
         // modifies a player's "current" stats with various types of bonuses
-        void apply_static_buffs(player &u, std::list<disease> &dVec);
+        void apply_static_buffs(player &u);
 
-        void apply_onmove_buffs(player &u, std::list<disease> &dVec);
+        void apply_onmove_buffs(player &u);
 
-        void apply_onhit_buffs(player &u, std::list<disease> &dVec);
+        void apply_onhit_buffs(player &u);
 
-        void apply_onattack_buffs(player &u, std::list<disease> &dVec);
+        void apply_onattack_buffs(player &u);
 
-        void apply_ondodge_buffs(player &u, std::list<disease> &dVec);
+        void apply_ondodge_buffs(player &u);
 
-        void apply_onblock_buffs(player &u, std::list<disease> &dVec);
+        void apply_onblock_buffs(player &u);
 
-        void apply_ongethit_buffs(player &u, std::list<disease> &dVec);
+        void apply_ongethit_buffs(player &u);
 
         // determines if a technique is valid or not for this style
         bool has_technique(player &u, matec_id tech);
@@ -259,6 +265,7 @@ void load_technique(JsonObject &jo);
 void load_martial_art(JsonObject &jo);
 void check_martialarts();
 void clear_techniques_and_martial_arts();
+void finialize_martial_arts();
 
 extern std::map<matype_id, martialart> martialarts;
 extern std::map<mabuff_id, ma_buff> ma_buffs;

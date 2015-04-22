@@ -33,7 +33,6 @@ set(CATACLYSM_DDA_SOURCES
     ${CMAKE_SOURCE_DIR}/src/rng.cpp
     ${CMAKE_SOURCE_DIR}/src/creature_tracker.cpp
     ${CMAKE_SOURCE_DIR}/src/mapgenformat.cpp
-    ${CMAKE_SOURCE_DIR}/src/disease.cpp
     ${CMAKE_SOURCE_DIR}/src/output.cpp
     ${CMAKE_SOURCE_DIR}/src/construction.cpp
     ${CMAKE_SOURCE_DIR}/src/overmapbuffer.cpp
@@ -269,7 +268,6 @@ SET (CATACLYSM_DDA_HEADERS
     ${CMAKE_SOURCE_DIR}/src/path_info.h
     ${CMAKE_SOURCE_DIR}/src/version.h
     ${CMAKE_SOURCE_DIR}/src/input.h
-    ${CMAKE_SOURCE_DIR}/src/disease.h
     ${CMAKE_SOURCE_DIR}/src/item_stack.h
     ${CMAKE_SOURCE_DIR}/src/moraledata.h
     ${CMAKE_SOURCE_DIR}/src/itype.h

@@ -7,6 +7,7 @@
 #include "catacharset.h"
 #include "cursesdef.h"
 #include "debug.h"
+#include <cstring>
 #include <vector>
 #include <fstream>
 #include <sstream>
@@ -17,6 +18,8 @@
 #include "init.h"
 #include "path_info.h"
 #include "filesystem.h"
+#include "map.h"
+#include "lightmap.h"
 
 //TODO replace these includes with filesystem.h
 #ifdef _MSC_VER
@@ -657,8 +660,7 @@ void curses_drawwindow(WINDOW *win)
         tilecontext->draw(
             win->x * fontwidth,
             win->y * fontheight,
-            g->ter_view_x,
-            g->ter_view_y,
+            tripoint( g->ter_view_x, g->ter_view_y, g->ter_view_z ),
             TERRAIN_WINDOW_TERM_WIDTH * font->fontwidth,
             TERRAIN_WINDOW_TERM_HEIGHT * font->fontheight);
 

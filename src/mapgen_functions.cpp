@@ -7,6 +7,7 @@
 #include "overmap.h"
 #include "options.h"
 #include "game.h"
+#include "debug.h"
 #include "scenario.h"
 #include <array>
 

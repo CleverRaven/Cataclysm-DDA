@@ -15,8 +15,10 @@ constexpr double base_h = 66.0; // Average humidity
 constexpr double base_p = 1015.0; // Average atmospheric pressure
 } //namespace
 
-weather_generator::weather_generator() { }
-weather_generator::weather_generator(unsigned seed) : SEED(seed) { }
+weather_generator::weather_generator()
+{
+    debug_weather = WEATHER_NULL;
+}
 
 w_point weather_generator::get_weather(const tripoint &location, const calendar &t) const
 {
@@ -85,6 +87,11 @@ w_point weather_generator::get_weather(const point &location, const calendar &t)
 
 weather_type weather_generator::get_weather_conditions(const point &location, const calendar &t) const
 {
+    if( debug_weather != WEATHER_NULL ) {
+        // Debug mode weather forcing
+        return debug_weather;
+    }
+
     w_point w(get_weather(location, t));
     weather_type wt = get_weather_conditions(w);
     // Make sure we don't say it's sunny at night! =P
@@ -94,6 +101,11 @@ weather_type weather_generator::get_weather_conditions(const point &location, co
 
 weather_type weather_generator::get_weather_conditions(const w_point &w) const
 {
+    if( debug_weather != WEATHER_NULL ) {
+        // Debug mode weather forcing
+        return debug_weather;
+    }
+
     weather_type r(WEATHER_CLEAR);
     if (w.pressure > 1030 && w.humidity < 70) {
         r = WEATHER_SUNNY;

@@ -560,32 +560,8 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         void get_sick();
         /** Handles health fluctuations over time, redirects into Creature::update_health */
         void update_health(int base_threshold = 0) override;
-        /** Checks against env_resist of the players armor, if they fail then they become infected with the disease */
-        bool infect(dis_type type, body_part vector, int strength,
-                    int duration, bool permanent = false, int intensity = 1,
-                    int max_intensity = 1, int decay = 0, int additive = 1,
-                    bool targeted = false, bool main_parts_only = false);
-        /** Adds a disease without save chance
-         *  body_part = num_bp indicates that the disease is body part independant
-         *  intensity = -1 indicates that the disease is infinitely stacking */
-        void add_disease(dis_type type, int duration, bool permanent = false,
-                         int intensity = 1, int max_intensity = 1, int decay = 0,
-                         int additive = 1, body_part part = num_bp,
-                         bool main_parts_only = false);
-        /** Removes a disease from a player */
-        void rem_disease(dis_type type, body_part part = num_bp);
         /** Returns list of rc items in player inventory. **/
         std::list<item *> get_radio_items();
-        /** Returns true if the player has the entered disease */
-        bool has_disease(dis_type type, body_part part = num_bp) const;
-        /** Pauses a disease, making it permanent until unpaused */
-        bool pause_disease(dis_type type, body_part part = num_bp);
-        /** Unpauses a permanent disease, making it wear off when it's timer expires */
-        bool unpause_disease(dis_type type, body_part part = num_bp);
-        /** Returns the duration of the entered disease's timer */
-        int  disease_duration(dis_type type, bool all = false, body_part part = num_bp) const;
-        /** Returns the intensity level of the entered disease */
-        int  disease_intensity(dis_type type, bool all = false, body_part part = num_bp) const;
 
         /** Adds an addiction to the player */
         void add_addiction(add_type type, int strength);
@@ -885,7 +861,6 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         // Library functions
         double logistic(double t);
         double logistic_range(int min, int max, int pos);
-        void calculate_portions(int &x, int &y, int &z, int maximum);
 
         /**
          * Global position, expressed in map square coordinate system
@@ -932,7 +907,7 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
             position.y = p.y;
             zpos = p.z;
         }
-        int view_offset_x, view_offset_y;
+        tripoint view_offset;
         bool in_vehicle;       // Means player sit inside vehicle on the tile he is now
         bool controlling_vehicle;  // Is currently in control of a vehicle
         // Relative direction of a grab, add to posx, posy to get the coordinates of the grabbed thing.
@@ -1103,7 +1078,6 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         void print_encumbrance(WINDOW *win, int min, int max, int line = -1);
 
     protected:
-        std::list<disease> illness;
         // The player's position on the local map.
         point position;
         // Temporary z-level coord - should later be merged with the above
