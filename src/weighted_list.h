@@ -4,6 +4,7 @@
 #include "rng.h"
 #include <vector>
 #include <functional>
+#include <cmath>
 
 template <typename W, typename T> struct weighted_object {
     weighted_object(const T &obj, const W &weight) : obj(obj), weight(weight) {}
@@ -144,7 +145,7 @@ template <typename T> struct weighted_float_list : public weighted_list<double, 
 protected:
 
     size_t pick_ent() const override {
-        int picked = rng_float(0, this->total_weight);
+        double picked = rng_float(std::nextafter(0.0, 1.0), this->total_weight);
         int accumulated_weight = 0;
         size_t i;
         for(i=0; i < this->objects.size(); i++) {
