@@ -1248,6 +1248,7 @@ void advanced_inventory::display()
     ctxt.register_action( "PAGE_DOWN" );
     ctxt.register_action( "PAGE_UP" );
     ctxt.register_action( "TOGGLE_TAB" );
+    ctxt.register_action( "TOGGLE_VEH" );
     ctxt.register_action( "FILTER" );
     ctxt.register_action( "RESET_FILTER" );
     ctxt.register_action( "EXAMINE" );
@@ -1327,22 +1328,11 @@ void advanced_inventory::display()
             redraw = true;
         } else if( get_square( action, changeSquare ) ) {
             if( panes[left].get_area() == changeSquare || panes[right].get_area() == changeSquare ) {
-                // toggle between vehicle and ground
-                if( squares[spane.get_area()].can_store_in_vehicle() && changeSquare != dpane.get_veh_area() ) {
-                    spane.set_vehicle( ( spane.in_vehicle() ) ? NUM_AIM_LOCATIONS : changeSquare );
-                    spane.set_area( changeSquare );
-                    spane.index = 0;
-                    spane.recalc = true;
-                    if( dpane.get_area() == AIM_ALL ) {
-                        dpane.recalc = true;
-                    }
-                } else {
-                    // Switch left and right pane.
-                    std::swap( panes[left], panes[right] );
-                    // Window pointer must be unchanged!
-                    std::swap( panes[left].window, panes[right].window );
-                    // no recalculation needed, data has not changed
-                }
+                // Switch left and right pane.
+                std::swap( panes[left], panes[right] );
+                // Window pointer must be unchanged!
+                std::swap( panes[left].window, panes[right].window );
+                // No recalculation needed, data has not changed
                 redraw = true;
                 // we need to check the original area if we can place items in vehicle storage
             } else if( squares[changeSquare].canputitems( spane.get_cur_item_ptr() ) ) {
@@ -1602,6 +1592,19 @@ void advanced_inventory::display()
         } else if( action == "TOGGLE_TAB" ) {
             src = dest;
             redraw = true;
+        } else if( action == "TOGGLE_VEH" ){
+            // Toggle between vehicle and ground
+            if( squares[spane.get_area()].can_store_in_vehicle() ) {
+                spane.set_vehicle( ( spane.in_vehicle() ) ? NUM_AIM_LOCATIONS : spane.get_area() );
+                spane.set_area( spane.get_area() );
+                spane.index = 0;
+                spane.recalc = true;
+                if( dpane.get_area() == AIM_ALL ) {
+                    dpane.recalc = true;
+                }
+            } else {
+                popup( _("No vehicle there!") );
+            }
         }
     }
 }
