@@ -218,7 +218,7 @@ int player::hit_roll() const
 
 void player::add_miss_reason(const char *reason, unsigned int weight)
 {
-    melee_miss_reasons.add_item(reason, weight);
+    melee_miss_reasons.add(reason, weight);
 
 }
 

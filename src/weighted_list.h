@@ -23,7 +23,7 @@ template <typename W, typename T> struct weighted_list {
      * @param obj The object that will be added to the list.
      * @param weight The weight of the object.
      */
-    virtual void add_item(const T &obj, const W &weight) {
+    virtual void add(const T &obj, const W &weight) {
         if(weight >= 0) {
             objects.emplace_back(obj, weight);
             total_weight += weight;
@@ -37,7 +37,7 @@ template <typename W, typename T> struct weighted_list {
      * @param obj The object that will be updated or added to the list.
      * @param weight The new weight of the object.
      */
-    void add_or_replace_item(const T &obj, const W &weight) {
+    void add_or_replace(const T &obj, const W &weight) {
         if(weight >= 0) {
             for(auto &itr : objects) {
                 if(itr.obj == obj) {
@@ -48,7 +48,7 @@ template <typename W, typename T> struct weighted_list {
             }
 
             // if not found, add to end of list
-            add_item(obj, weight);
+            add(obj, weight);
         }
     }
 
