@@ -919,33 +919,6 @@ void advanced_inventory_pane::paginate( size_t itemsPerPage )
             }
         }
     }
-    // holds the end result of sorted entries, to replace @ref items when completed
-    std::vector<advanced_inv_listitem> sorted_items;
-    // holds a sorted category, and resets each category
-    std::list<advanced_inv_listitem> sorted_category;
-    for( size_t i = 0; i < items.size(); ++i ) {
-        // skip sorting category headers
-        if( items[i].is_category_header() ) {
-            // run the sort lambda, then add in bulk to `sorted_items'
-            sorted_category.sort( []( const advanced_inv_listitem & lhs, const advanced_inv_listitem & rhs ) {
-                return ( lhs.idx < rhs.idx );
-            } );
-            sorted_items.insert( sorted_items.end(), sorted_category.begin(), sorted_category.end() );
-            // don't forget the header!
-            sorted_items.push_back( items[i] );
-            // reset category specific item list for the next category
-            sorted_category.clear();
-        } else if( items[i].is_item_entry() ) {
-            // add the item to the list, it will be sorted once a category header is hit
-            sorted_category.push_back( items[i] );
-        }
-    }
-    // make sure single and final categories don't go missed, so repeat the sorting and add the result
-    sorted_category.sort( []( const advanced_inv_listitem & lhs, const advanced_inv_listitem & rhs ) {
-        return ( lhs.idx < rhs.idx );
-    } );
-    sorted_items.insert( sorted_items.end(), sorted_category.begin(), sorted_category.end() );
-    items = sorted_items;
 }
 
 void advanced_inventory::recalc_pane( side p )
