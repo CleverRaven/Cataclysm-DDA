@@ -292,12 +292,6 @@ ADD_CUSTOM_COMMAND (
 IF(TILES)
 	IF(WIN32)
 		ADD_EXECUTABLE(cataclysm-tiles WIN32 ${CATACLYSM_DDA_SOURCES} ${CATACLYSM_DDA_HEADERS})
-		target_link_libraries(cataclysm-tiles winmm.lib)
-		target_link_libraries(cataclysm-tiles gdi32.lib)
-		target_link_libraries(cataclysm-tiles imm32.lib)
-		target_link_libraries(cataclysm-tiles ole32.lib)
-		target_link_libraries(cataclysm-tiles oleaut32.lib)
-		target_link_libraries(cataclysm-tiles version.lib)
 	ELSE(WIN32)
 		ADD_EXECUTABLE(cataclysm-tiles ${CATACLYSM_DDA_SOURCES} ${CATACLYSM_DDA_HEADERS})
 	ENDIF(WIN32)
@@ -310,18 +304,31 @@ IF(TILES)
 	ENDIF(LUA)
 
 	IF (LOCALIZE)
-		target_include_directories(cataclysm-tiles PUBLIC ${LIBINTL_INCLUDE_DIR})
-		target_link_libraries(cataclysm-tiles ${LIBINTL_LIBRARIES})
+		target_include_directories(cataclysm-tiles PUBLIC
+			${LIBINTL_INCLUDE_DIR}
+			${ICONV_INCLUDE_DIR}
+		)
+		target_link_libraries(cataclysm-tiles
+			${LIBINTL_LIBRARIES}
+			${ICONV_LIBRARIES}
+		)
 	ENDIF (LOCALIZE)
 
 	target_include_directories(cataclysm-tiles PUBLIC ${SDL2_INCLUDE_DIR})
 	target_link_libraries(cataclysm-tiles ${SDL2_LIBRARY})
 
+	target_include_directories(cataclysm-tiles PUBLIC ${SDL2_IMAGE_INCLUDE_DIRS})
+	target_link_libraries(cataclysm-tiles ${SDL2_IMAGE_LIBRARIES})
+
 	target_include_directories(cataclysm-tiles PUBLIC ${SDL2_TTF_INCLUDE_DIRS})
 	target_link_libraries(cataclysm-tiles ${SDL2_TTF_LIBRARIES})
 
-	target_include_directories(cataclysm-tiles PUBLIC ${SDL2_IMAGE_INCLUDE_DIRS})
-	target_link_libraries(cataclysm-tiles ${SDL2_IMAGE_LIBRARIES})
+	IF (NOT DYNAMIC_LINKING)
+		# freetype is required for static SDL2_TTF build
+		target_include_directories(cataclysm-tiles PUBLIC ${FREETYPE_INCLUDE_DIRS})
+		target_link_libraries(cataclysm-tiles ${FREETYPE_LIBRARIES})
+	ENDIF (NOT DYNAMIC_LINKING)
+
 	IF(SOUND)
 		set_target_properties(cataclysm-tiles PROPERTIES COMPILE_DEFINITIONS
 			"SDLTILES;TILES;SDL_SOUND" )
@@ -338,6 +345,17 @@ IF(TILES)
 		set_target_properties(cataclysm-tiles PROPERTIES COMPILE_DEFINITIONS
 			"SDLTILES;TILES" )
 	ENDIF(SOUND)
+
+	IF(WIN32)
+		# Global settings for Windows targets (at end)
+		target_link_libraries(cataclysm-tiles gdi32.lib)
+		target_link_libraries(cataclysm-tiles winmm.lib)
+		target_link_libraries(cataclysm-tiles imm32.lib)
+		target_link_libraries(cataclysm-tiles ole32.lib)
+		target_link_libraries(cataclysm-tiles oleaut32.lib)
+		target_link_libraries(cataclysm-tiles version.lib)
+	ENDIF(WIN32)
+
 	IF(RELEASE)
 		install(TARGETS cataclysm-tiles DESTINATION ${BIN_PREFIX})
 	ENDIF(RELEASE)
@@ -347,33 +365,42 @@ ENDIF(TILES)
 IF(CURSES)
 	IF(WIN32)
 		ADD_EXECUTABLE(cataclysm WIN32 ${CATACLYSM_DDA_SOURCES} ${CATACLYSM_DDA_HEADERS})
-		target_link_libraries(cataclysm winmm.lib)
-		target_link_libraries(cataclysm gdi32.lib)
-		target_link_libraries(cataclysm imm32.lib)
-		target_link_libraries(cataclysm ole32.lib)
-		target_link_libraries(cataclysm oleaut32.lib)
-		target_link_libraries(cataclysm version.lib)
 	ELSE(WIN32)
 		ADD_EXECUTABLE(cataclysm ${CATACLYSM_DDA_SOURCES} ${CATACLYSM_DDA_HEADERS})
 	ENDIF(WIN32)
 
 	ADD_DEPENDENCIES(cataclysm get_version)
+
 	IF (LUA)
 		ADD_DEPENDENCIES(cataclysm lua_bindings)
 		target_include_directories(cataclysm PUBLIC ${LUA_INCLUDE_DIR})
 		target_link_libraries(cataclysm ${LUA_LIBRARIES})
 	ENDIF(LUA)
+
 	IF (LOCALIZE)
-		target_include_directories(cataclysm PUBLIC ${LIBINTL_INCLUDE_DIR})
-		target_link_libraries(cataclysm ${LIBINTL_LIBRARIES})
+		target_include_directories(cataclysm PUBLIC
+			${LIBINTL_INCLUDE_DIR}
+			${ICONV_INCLUDE_DIR}
+		)
+		target_link_libraries(cataclysm
+			${LIBINTL_LIBRARIES}
+			${ICONV_LIBRARIES}
+		)
 	ENDIF (LOCALIZE)
 
 	target_include_directories(cataclysm PUBLIC ${CURSES_INCLUDE_PATH})
 	target_link_libraries(cataclysm ${CURSES_LIBRARIES})
 
 	IF(WIN32)
-        	target_link_libraries(cataclysm winmm.lib)
+		# Global settings for Windows targets (at end)
+		target_link_libraries(cataclysm gdi32.lib)
+		target_link_libraries(cataclysm winmm.lib)
+		target_link_libraries(cataclysm imm32.lib)
+		target_link_libraries(cataclysm ole32.lib)
+		target_link_libraries(cataclysm oleaut32.lib)
+		target_link_libraries(cataclysm version.lib)
 	ENDIF(WIN32)
+
 	IF(RELEASE)
 		install(TARGETS cataclysm DESTINATION ${BIN_PREFIX})
 	ENDIF(RELEASE)
