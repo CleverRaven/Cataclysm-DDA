@@ -4900,7 +4900,7 @@ bool item::process_charger_gun( player *carrier, point pos )
         // Either on the ground or in the inventory of the player, in both cases:
         // stop charging.
         deactivate_charger_gun();
-        return false;
+        return true;
     }
     if( charges == 8 ) { // Maintaining charge takes less power.
         if( carrier->use_charges_if_avail( "UPS", 4 ) ) {
@@ -4938,7 +4938,7 @@ bool item::process_charger_gun( player *carrier, point pos )
     if( charges <= 0 ) {
         active = false;
     }
-    return false;
+    return true;
 }
 
 bool item::process_gun( player *carrier) {
