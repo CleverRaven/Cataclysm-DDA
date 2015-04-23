@@ -4437,7 +4437,7 @@ void mattack::kamikaze(monster *z, int index)
     // END HORRIBLE HACK
 
     if (g->u.sees(z->pos3())) {
-        add_msg(m_bad, _("The %s beeps menacingly."), z->name().c_str() );
+        add_msg(m_bad, _("The %s lights up menacingly."), z->name().c_str() );
     }
 }
 

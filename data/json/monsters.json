@@ -5171,7 +5171,7 @@
     },
     "luminance":0.1,
     "hp":10,
-    "death_function":"BROKEN",
+    "death_function":"BROKEN_AMMO",
     "description":"An automated kamikaze drone, this fist-sized robot appears to have a grenade inside.",
     "flags":["SEES", "FLIES", "NOHEAD", "ELECTRONIC", "NO_BREATHE", "INTERIOR_AMMO"]
     },{
@@ -5208,7 +5208,7 @@
     },
     "luminance":0.1,
     "hp":20,
-    "death_function":"BROKEN",
+    "death_function":"BROKEN_AMMO",
     "description":"Twice as large as a normal manhack, this flying drone appears to have a mininuke inside.  If this is targeting you...  Run.",
     "flags":["SEES", "FLIES", "NOHEAD", "ELECTRONIC", "NO_BREATHE", "INTERIOR_AMMO"]
     },{
@@ -5245,7 +5245,7 @@
     },
     "luminance":0.1,
     "hp":10,
-    "death_function":"BROKEN",
+    "death_function":"BROKEN_AMMO",
     "description":"An automated kamikaze drone, this fist-sized robot appears to have a tear gas canister inside.",
     "flags":["SEES", "FLIES", "NOHEAD", "ELECTRONIC", "NO_BREATHE", "INTERIOR_AMMO"]
     },{
@@ -5282,7 +5282,7 @@
     },
     "luminance":0.1,
     "hp":10,
-    "death_function":"BROKEN",
+    "death_function":"BROKEN_AMMO",
     "description":"An automated kamikaze drone, this fist-sized robot appears to have an EMP grenade inside.",
     "flags":["SEES", "FLIES", "NOHEAD", "ELECTRONIC", "NO_BREATHE", "INTERIOR_AMMO"]
     },{
@@ -5319,7 +5319,7 @@
     },
     "luminance":0.1,
     "hp":10,
-    "death_function":"BROKEN",
+    "death_function":"BROKEN_AMMO",
     "description":"An automated kamikaze drone, this fist-sized robot appears to have some C-4 inside.",
     "flags":["SEES", "FLIES", "NOHEAD", "ELECTRONIC", "NO_BREATHE", "INTERIOR_AMMO"]
     },{
@@ -5356,7 +5356,7 @@
     },
     "luminance":0.1,
     "hp":10,
-    "death_function":"BROKEN",
+    "death_function":"BROKEN_AMMO",
     "description":"An automated kamikaze drone, this fist-sized robot appears to have a flashbang inside.",
     "flags":["SEES", "FLIES", "NOHEAD", "ELECTRONIC", "NO_BREATHE", "INTERIOR_AMMO"]
     },{

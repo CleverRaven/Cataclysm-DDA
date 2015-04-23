@@ -522,6 +522,9 @@ void mdeath::broken(monster *z) {
     // make "broken_manhack", or "broken_eyebot", ...
     item_id.insert(0, "broken_");
     g->m.spawn_item(z->posx(), z->posy(), item_id, 1, 0, calendar::turn);
+    if (g->u.sees(z->pos())) {
+        add_msg(m_good, _("The %s collapses!"), z->name().c_str());
+    }
 }
 
 void mdeath::ratking(monster *z)
@@ -679,10 +682,10 @@ void mdeath::detonate(monster *z)
     if (g->u.sees(*z)) {
         if (dets.empty()) {
             //~ %s is the possessive form of the monster's name
-            add_msg(m_info, _("The %s hands fly to its pockets, but are unable to open them."), z->disp_name(true).c_str());
+            add_msg(m_info, _("The %s hands fly to its pockets, but there's nothing left in them."), z->disp_name(true).c_str());
         } else {
             //~ %s is the possessive form of the monster's name
-            add_msg(m_bad, _("The %s hands fly to its pockets, opening them!"), z->disp_name(true).c_str());
+            add_msg(m_bad, _("The %s hands fly to its remaining pockets, opening them!"), z->disp_name(true).c_str());
         }
     }
     point det_point = z->pos();
@@ -695,6 +698,16 @@ void mdeath::detonate(monster *z)
         bomb_item.active = true;
         bomb_item.process(nullptr, det_point, false);
     }
+}
+
+void mdeath::broken_ammo(monster *z)
+{
+    if (g->u.sees(z->pos())) {
+        //~ %s is the possessive form of the monster's name
+        add_msg(m_info, _("The %s interior compartment sizzles with destructive energy."),
+                            z->disp_name(true).c_str());
+    }
+    mdeath::broken(z);
 }
 
 void make_gibs(monster *z, int amount)
