@@ -67,9 +67,15 @@
     },
     {
         "type": "effect_type",
-        "id": "allowed_sleep",
-        "name": ["Allowed to Sleep"],
+        "id": "allow_sleep",
+        "name": ["Allow to Sleep"],
         "desc": ["AI tag for telling NPCs to sleep.  This is a bug if you have it."]
+    },
+    {
+        "type": "effect_type",
+        "id": "npc_said",
+        "name": ["Said Something Recently"],
+        "desc": ["AI tag to control NPC verbosity.  This is a bug if you have it."]
     },
     {
         "type": "effect_type",
@@ -1271,7 +1277,8 @@
         "type": "effect_type",
         "id": "lying_down",
         "apply_message": "You lie down to go to sleep...",
-        "rating": "neutral"
+        "rating": "neutral",
+        "max_duration": 3000
     },
     {
         "type": "effect_type",

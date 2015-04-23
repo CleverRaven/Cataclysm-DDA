@@ -147,7 +147,8 @@ namespace talk_function {
     void set_engagement_hit   (npc *);
     void set_engagement_all   (npc *);
 
-    void go_to_sleep          (npc *);
+    void allow_sleep          (npc *);
+    void wake_up              (npc *);
 };
 
 enum talk_trial_type {

@@ -157,7 +157,7 @@ tag_data talk_tags[NUM_STATIC_TAGS] = {
 {"<done_mugging>",  &talk_done_mugging},
 {"<catch_up>",      &talk_catch_up},
 {"<im_leaving_you>",&talk_leaving},
-{"<yawn>",         ,&talk_yawn}
+{"<yawn>",          &talk_yawn}
 };
 
 // Every OWED_VAL that the NPC owes you counts as +1 towards convincing
@@ -591,6 +591,14 @@ void npc::talk_to_u()
         } else if( !d.missions_assigned.empty() ) {
             chatbin.mission_selected = d.missions_assigned.front();
         }
+    }
+
+    // Needs
+    // TODO: Use talk_needs for food and drinks
+    if( has_effect( "sleep" ) || has_effect( "lying_down" ) ) {
+        d.topic_stack.push_back( "TALK_WAKE_UP" );
+    } else if( has_effect( "allow_sleep" ) ) {
+        d.topic_stack.push_back( "TALK_ALLOW_SLEEP" );
     }
 
     if (d.topic_stack.back() == "TALK_NONE") {
@@ -1338,6 +1346,21 @@ std::string dialogue::dynamic_line( const std::string &topic ) const
             info << "  " << string_format(_("Per %d - %d"), per_min, per_min + per_range);
         }
 
+        if( ability >= 100 - ( p->fatigue / 10 ) ) {
+            std::string how_tired;
+            if( p->fatigue > 575 ) {
+                how_tired = _("Exhausted");
+            } else if( p->fatigue > 383) {
+                how_tired = _("Dead tired");
+            } else if( p->fatigue > 191 ) {
+                how_tired = _("Tired");
+            } else {
+                how_tired = _("Not tired");
+            }
+
+            info << std::endl << how_tired;
+        }
+
         return info.str();
 
     } else if( topic == "TALK_LOOK_AT" ) {
@@ -1349,6 +1372,34 @@ std::string dialogue::dynamic_line( const std::string &topic ) const
         std::stringstream opinion;
         opinion << "&" << p->opinion_text();
         return opinion.str();
+
+    } else if( topic == "TALK_ALLOW_SLEEP" ) {
+        // TODO: Factor in stats, stimms etc.
+        if( p->fatigue > 575 ) {
+            return _("...");
+        } else if( p->fatigue > 383) {
+            return _("Finally!");
+        } else if( p->fatigue > 191 ) {
+            return _("Goodnight <name_g>.");
+        } else {
+            return _("I'm not tired yet. I'll go to sleep when I am.");
+        }
+
+    } else if( topic == "TALK_WAKE_UP" ) {
+        if( p->has_effect( "sleep" ) ) {
+            if( p->fatigue > 575 ) {
+                return _("No, just <swear> no...");
+            } else if( p->fatigue > 383) {
+                return _("Just let me sleep, <name_b>!");
+            } else if( p->fatigue > 191 ) {
+                return _("Make it quick, I want to go back to sleep.");
+            } else if( p->fatigue > 100 ) {
+                return _("Just few minutes more...");
+            }
+        } else {
+            return _("Anything to do before I go to sleep?");
+        }
+
     }
 
     return string_format("I don't know what to say for %s. (BUG (npctalk.cpp:dynamic_line))", topic.c_str() );
@@ -2307,6 +2358,14 @@ void dialogue::gen_responses( const std::string &topic )
     } else if( topic == "TALK_SIZE_UP" || topic == "TALK_LOOK_AT" || topic == "TALK_OPINION" ) {
             add_response_none( _("Okay.") );
 
+    } else if( topic == "TALK_ALLOW_SLEEP" ) {
+            add_response( _("Wait, don't to to sleep yet."), "TALK_NONE", &talk_function::wake_up );
+            add_response( _("Goodnight."), "TALK_DONE", &talk_function::allow_sleep );
+
+    } else if( topic == "TALK_WAKE_UP" ) {
+            add_response( _("Wake up!"), "TALK_NONE", &talk_function::wake_up );
+            add_response_done( _("Go back to sleep.") );
+
     }
 
     if (ret.empty()) {
@@ -2661,11 +2720,19 @@ void talk_function::stop_guard(npc *p)
     p->guard_pos = npc::no_goal_point;
 }
 
-void talk_function::go_to_sleep(npc *p)
+void talk_function::allow_sleep(npc *p)
 {
-    add_msg(_("%s goes to sleep."), p->name.c_str());
-    p->add_effect("allowed_sleep", 1800);
+    //add_msg(_("%s goes to sleep."), p->name.c_str());
+    p->add_effect( "allow_sleep", 1800 );
     p->chatbin.first_topic = "TALK_WAKE_UP";
+}
+
+void talk_function::wake_up(npc *p)
+{
+    p->remove_effect( "allow_sleep" );
+    p->remove_effect( "lying_down" );
+    p->remove_effect( "sleep" );
+    // TODO: Get mad at player for waking us up unless we're in danger
 }
 
 void talk_function::reveal_stats (npc *p)
@@ -3524,7 +3591,7 @@ void talk_response::effect_t::load_effect( JsonObject &jo )
             WRAP( drop_weapon ),
             WRAP( player_weapon_away ),
             WRAP( player_weapon_drop ),
-            WRAP( go_to_sleep )
+            WRAP( allow_sleep )
 #undef WRAP
         } };
         const auto iter = static_functions_map.find( type );
