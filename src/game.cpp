@@ -28,6 +28,7 @@
 #include "action.h"
 #include "monstergenerator.h"
 #include "monattack.h"
+#include "mondefense.h"
 #include "worldfactory.h"
 #include "filesystem.h"
 #include "mod_manager.h"
@@ -2239,7 +2240,7 @@ input_context game::get_player_input(std::string &action)
                         if( elem.getStep() > 0 ) {
                             for( size_t i = 0; i < elem.getText().length(); ++i ) {
                                 if( u.sees( elem.getPosX() + i, elem.getPosY() ) ) {
-                                    m.drawsq( w_terrain, u, 
+                                    m.drawsq( w_terrain, u,
                                               tripoint( elem.getPosX() + i, elem.getPosY(), u.posz() + u.view_offset.z ),
                                               false, true, u.pos3() + u.view_offset );
                                 } else {
@@ -4277,7 +4278,7 @@ void game::debug()
     break;
     case 26:
     {
-        int time = std::atoi( string_input_popup( _("Set the time to? (One day is 19200)"), 
+        int time = std::atoi( string_input_popup( _("Set the time to? (One day is 19200)"),
                                                   20, to_string( (int)calendar::turn ) ).c_str() );
         if( time > 0 ) {
             calendar::turn = time;
