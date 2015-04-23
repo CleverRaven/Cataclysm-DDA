@@ -8,7 +8,7 @@
             "That brown '+' next to you is a closed door.  To open it, either simply walk into it, or press 'o' and then a movement key.",
             "You can close an opened door by pressing 'c' and then a movement key. Closing doors behind you can often slow down throngs of monsters greatly.",
             "Most monsters will have to smash their way through a closed door.  If a door is locked or stuck, you can smash it by pressing 's' and then a movement key.",
-            "You can smash through windows by pressing 's' and then a movement key.  A smashed window takes a long time to climb through, and it's possible to hurt yourself on the broken glass, but it's a good last-ditch escape route.  You can smash through other things, too."",
+            "You can smash through windows by pressing 's' and then a movement key.  A smashed window takes a long time to climb through, and it's possible to hurt yourself on the broken glass, but it's a good last-ditch escape route.  You can smash through other things, too.",
             "You just stepped on a space with one or more items.  If you wish to pick it up, press ',' or 'g'.",
             "The nearby { is a display rack, and the blue background indicates that there are items there.  If you examine the square by pressing 'e', you can pick up items without moving to the square.",
             "The Examine command is useful for grabbing items off window frames, around corners, etc.  It's also used for interacting with a few terrain types. Interactive terrain is usually designated with a '6' symbol.",
