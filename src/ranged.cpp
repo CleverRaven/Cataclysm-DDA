@@ -1390,6 +1390,7 @@ void make_gun_flash(player &p , item *weapon)
             return;
         }
         p.weapon.light.luminance = weapon->type->gun->muzzle_flash;
+        p.weapon.active=true;
     }
 }
 

@@ -5026,6 +5026,7 @@ void item::muzzle_flash_falloff()
         if( light.luminance > type->gun->muzzle_flash / 4) {
             light.luminance /= 2;
         } else {
+            active = false;
             light.luminance = 0;
         }
     }

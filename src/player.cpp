@@ -4064,10 +4064,7 @@ float player::active_light()
     }
 
     if (!weapon.is_null()) {
-        int lumit = weapon.getlight_emit(true);
-        if ( weapon.is_gun() ) {
-                weapon.muzzle_flash_falloff();
-            }
+        int lumit = weapon.getlight_emit(true);               
         if ( maxlum < lumit ) {
             maxlum = lumit;
         }
@@ -8315,7 +8312,9 @@ void player::process_active_items()
         ch_UPS_used++;
         weapon.charges++;
     }
-
+    if ( weapon.is_gun() ) {
+        weapon.muzzle_flash_falloff();
+    }
     for( size_t i = 0; i < worn.size() && ch_UPS_used < ch_UPS; ++i ) {
         item& worn_item = worn[i];
 
