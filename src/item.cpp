@@ -4941,7 +4941,7 @@ bool item::process_charger_gun( player *carrier, point pos )
     return false;
 }
 
-bool item::process_gun( player *carrier, point pos ) {
+bool item::process_gun( player *carrier) {
      if( carrier == nullptr || this != &carrier->weapon ) {
         light.luminance = 0;
         active = false;
@@ -5018,7 +5018,7 @@ bool item::process( player *carrier, point pos, bool activate )
     if( is_charger_gun() && process_charger_gun( carrier, pos ) ) {
         return true;
     }
-    if( is_gun() && process_gun( carrier, pos ) ) {
+    if( is_gun() && process_gun( carrier ) ) {
         return true;
     }
     return false;
