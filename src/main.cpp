@@ -355,16 +355,9 @@ int main(int argc, char *argv[])
 
     setupDebug();
 
-#if (defined _WIN32 || defined WINDOWS)
-    // Use the ANSI code page 1252 to work around some language output bugs.
-    if (setlocale(LC_ALL, ".1252") == NULL) {
-        DebugLog(D_WARNING, D_MAIN) << "Error while setlocale(LC_ALL, '.1252').";
-    }
-#else
     if (setlocale(LC_ALL, "") == NULL) {
         DebugLog(D_WARNING, D_MAIN) << "Error while setlocale(LC_ALL, '').";
     }
-#endif
 
     // Options strings loaded with system locale
     initOptions();
