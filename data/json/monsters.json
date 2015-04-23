@@ -4610,7 +4610,7 @@
     "death_function":"NORMAL",
     "special_attacks":[["STARE", 12]],
     "description":"An eyeball the size of an easy chair, covered in rolling blue flames.  It floats through the air, spinning slowly to draw its gaze in every direction.",
-    "flags":["SEES", "WARM", "FLIES", "FIREY", "NO_BREATHE", "NOHEAD", "FAT"]
+    "flags":["SEES", "WARM", "FLIES", "FIREY", "NO_BREATHE", "NOHEAD", "FAT", "HOTAURA"]
     },{
     "type" : "MONSTER",
     "id" : "mon_kreck",
@@ -4747,8 +4747,8 @@
     "death_function":"MELT",
     "special_attacks":[["DISAPPEAR", 20]],
     "special_when_hit":["ZAPBACK", 100],
-    "description":"A strange moving darkness, bringing with it the softest of whispers.",
-    "flags":["SEES", "HEARS", "GOODHEARING", "SMELLS", "NOHEAD", "HARDTOSHOOT", "GRABS", "WEBWALK", "FLIES", "PLASTIC", "SUNDEATH", "ELECTRIC", "ACIDPROOF", "HIT_AND_RUN", "NO_BREATHE", "NOGIB"]
+    "description":"A strange moving darkness, bringing with it the softest of whispers and a chilling cold.",
+    "flags":["SEES", "HEARS", "GOODHEARING", "SMELLS", "NOHEAD", "HARDTOSHOOT", "GRABS", "WEBWALK", "FLIES", "PLASTIC", "SUNDEATH", "ELECTRIC", "ACIDPROOF", "HIT_AND_RUN", "NO_BREATHE", "NOGIB", "COLDAURA"]
     },{
     "type" : "MONSTER",
     "id" : "mon_darkman",

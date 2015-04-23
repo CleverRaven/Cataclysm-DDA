@@ -791,6 +791,8 @@ void player::update_bodytemp()
     const trap &trap_at_pos = g->m.tr_at(posx(), posy());
     const ter_id ter_at_pos = g->m.ter(posx(), posy());
     const furn_id furn_at_pos = g->m.furn(posx(), posy());
+    // Heat felt by surrounding tiles
+    int radiant_heat = g->get_radiant_temperature(posx(), posy());
     // When the player is sleeping, he will use floor items for warmth
     int floor_item_warmth = 0;
     // When the player is sleeping, he will use floor bedding for warmth
@@ -919,7 +921,7 @@ void player::update_bodytemp()
             add_msg(m_bad, _("Your clothing is not providing enough protection from the wind for your %s!"), body_part_name(body_part(i)).c_str());
         }
 
-        // Convergeant temperature is affected by ambient temperature,
+        // Convergent temperature is affected by ambient temperature,
         // clothing warmth, and body wetness.
         temp_conv[i] = BODYTEMP_NORM + adjusted_temp + windchill * 100 + clothing_warmth_adjustement;
         // HUNGER
@@ -928,14 +930,22 @@ void player::update_bodytemp()
         if( !has_effect("sleep") ) {
             temp_conv[i] -= std::max(0.0, 1.5 * fatigue);
         }
-        // CONVECTION HEAT SOURCES (generates body heat, helps fight frostbite)
-        // Bark : lowers blister count to -100; harder to get blisters
-        int blister_count = (has_trait("BARK") ? -100 : 0); // If the counter is high, your skin starts to burn
+        // RADIANT HEAT SOURCES        
+        temp_conv[i] += radiant_heat;
+        // This sort of heat causes blisters
+        // Bark : resistant to blistering
+        int blister_count = (has_trait("BARK") ? -100 : 0);
+        blister_count += radiant_heat / 10000;
+        // This sort of heat reduces frostbite
+        if (frostbite_timer[i] > 0) {
+            frostbite_timer[i] -= radiant_heat / 10000;
+        }
+        // This next chunk is a special case where the player gets as close to fire
+        // as possible to keep warm
         int best_fire = 0;
-        for (int j = -6 ; j <= 6 ; j++) {
-            for (int k = -6 ; k <= 6 ; k++) {
+        for (int j = -1 ; j <= 1 ; j++) {
+            for (int k = -1 ; k <= 1 ; k++) {
                 int heat_intensity = 0;
-
                 int ffire = g->m.get_field_strength( point(posx() + j, posy() + k), fd_fire );
                 if(ffire > 0) {
                     heat_intensity = ffire;
@@ -947,16 +957,42 @@ void player::update_bodytemp()
                     g->m.sees( posx(), posy(), posx() + j, posy() + k, -1, t ) ) {
                     // Ensure fire_dist >= 1 to avoid divide-by-zero errors.
                     int fire_dist = std::max(1, std::max( std::abs( j ), std::abs( k ) ) );
-                    if (frostbite_timer[i] > 0) {
-                        frostbite_timer[i] -= heat_intensity - fire_dist / 2;
-                    }
-                    temp_conv[i] +=  300 * heat_intensity * heat_intensity / (fire_dist * fire_dist);
-                    blister_count += heat_intensity / (fire_dist * fire_dist);
                     if( fire_dist <= 1 ) {
                         // Extend limbs/lean over a single adjacent fire to warm up
                         best_fire = std::max( best_fire, heat_intensity );
                     }
                 }
+            }
+        }
+        int nearby_fire_bonus = 0;
+        if ( best_fire > 0 ) {
+            // Warming up over a fire
+            // Extremities are easier to extend over a fire
+            switch (i) {
+            case bp_head:
+            case bp_torso:
+            case bp_mouth:
+            case bp_leg_l:
+            case bp_leg_r:
+                nearby_fire_bonus = best_fire * best_fire * 150; // Not much
+                break;
+            case bp_arm_l:
+            case bp_arm_r:
+                nearby_fire_bonus = best_fire * 600; // A fair bit
+                break;
+            case bp_foot_l:
+            case bp_foot_r:
+                if( furn_at_pos == f_armchair || furn_at_pos == f_chair || furn_at_pos == f_bench ) {
+                    // Can sit on something to lift feet up to the fire
+                    nearby_fire_bonus = best_fire * 1000;
+                } else {
+                    // Has to stand
+                    nearby_fire_bonus = best_fire * 300;
+                }
+                break;
+            case bp_hand_l:
+            case bp_hand_r:
+                nearby_fire_bonus = best_fire * 1500; // A lot
             }
         }
         // TILES
@@ -1187,34 +1223,7 @@ void player::update_bodytemp()
         if ( in_sleep_state() ) {
             bonus_warmth = floor_bedding_warmth + floor_item_warmth + floor_mut_warmth;
         } else if ( best_fire > 0 ) {
-            // Warming up over a fire
-            // Extremities are easier to extend over a fire
-            switch (i) {
-            case bp_head:
-            case bp_torso:
-            case bp_mouth:
-            case bp_leg_l:
-            case bp_leg_r:
-                bonus_warmth = best_fire * best_fire * 150; // Not much
-                break;
-            case bp_arm_l:
-            case bp_arm_r:
-                bonus_warmth = best_fire * 600; // A fair bit
-                break;
-            case bp_foot_l:
-            case bp_foot_r:
-                if( furn_at_pos == f_armchair || furn_at_pos == f_chair || furn_at_pos == f_bench ) {
-                    // Can sit on something to lift feet up to the fire
-                    bonus_warmth = best_fire * 1000;
-                } else {
-                    // Has to stand
-                    bonus_warmth = best_fire * 300;
-                }
-                break;
-            case bp_hand_l:
-            case bp_hand_r:
-                bonus_warmth = best_fire * 1500; // A lot
-            }
+            bonus_warmth = nearby_fire_bonus;
         }
         if( bonus_warmth > 0 ) {
             // Approximate temp_conv needed to reach comfortable temperature in this very turn

@@ -1709,6 +1709,86 @@ int game::get_temperature()
     return temperature + m.temperature( u.pos3() );
 }
 
+int game::get_radiant_temperature(int posx, int posy)
+{
+    int felt_radiant_temperature = 0;    
+    
+    /**
+    *   Sun energy (distance is constant due to its magnitude)
+    **/
+    
+    if (weather == WEATHER_SUNNY && is_in_sunlight(posx, posy)) {
+        felt_radiant_temperature += 1000;
+    }
+    else if (weather == WEATHER_CLEAR && is_in_sunlight(posx, posy)) {
+        felt_radiant_temperature += 500;
+    }
+    
+    int tile_distance = 1;
+    int t;
+    
+    int fire_temperature_level[3] = {1000, 2000, 4000};
+    int lava_temperature = fire_temperature_level[2];
+    
+    for (int j = -6 ; j <= 6 ; j++) {
+        for (int k = -6 ; k <= 6 ; k++) {
+        
+            // Skip things that can't be seen
+            if (!m.sees(posx, posy, posx + j, posy + k, -1, t)) {
+                continue;
+            }
+        
+            auto &tile_field = m.field_at(posx + j, posy + k);
+            tile_distance = std::max(1, std::max( std::abs( j ), std::abs( k ) ) );
+            int tile_radiant_temperature = 0;
+        
+            /**
+            *   Fire energy
+            **/                  
+        
+            if (tile_field.findField(fd_fire)) {
+                switch (tile_field.findField(fd_fire)->getFieldDensity()) {
+                    case 1:
+                        tile_radiant_temperature += fire_temperature_level[0]; break;
+                    case 2:
+                        tile_radiant_temperature += fire_temperature_level[1]; break;
+                    case 3:
+                        tile_radiant_temperature += fire_temperature_level[2]; break;
+                }
+            }
+            
+            /**
+            *   Lava energy
+            **/
+            
+            if (m.tr_at(posx + j, posy + k) == tr_lava) {
+                tile_radiant_temperature += lava_temperature;
+            }
+        
+            /**
+            *   Monster aura energy
+            **/
+        
+            if (mon_at(posx + j, posy + k) != -1) {
+                monster &z = critter_tracker.find(mon_at(posx + j, posy + k));
+                if (z.has_flag(MF_COLDAURA) && !z.is_hallucination()) {
+                    tile_radiant_temperature -= 20000;
+                }
+                if (z.has_flag(MF_HOTAURA) && !z.is_hallucination()) {
+                    tile_radiant_temperature += 20000;
+                }
+            }
+        
+            /**
+            *   Total felt temperature
+            **/
+        
+            felt_radiant_temperature += tile_radiant_temperature / (tile_distance * tile_distance);
+        }
+    }
+    return felt_radiant_temperature;      
+}
+
 int game::assign_mission_id()
 {
     int ret = next_mission_id;
@@ -8858,7 +8938,6 @@ point game::look_around(WINDOW *w_info, const point pairCoordsFirst)
 
                 lx += dx;
                 ly += dy;
-
                 //Keep cursor inside the reality bubble
                 if (lx < 0) {
                     lx = 0;
