@@ -62,8 +62,6 @@ advanced_inventory::~advanced_inventory()
 {
     auto &pl = panes[left];
     auto &pr = panes[right];
-    // reload our prior vehicle information!
-    uistate.adv_inv_load_veh = true;
     uistate.adv_inv_veh_location_src  = static_cast<int>( panes[src].get_veh_area() );
     uistate.adv_inv_veh_location_dest = static_cast<int>( panes[dest].get_veh_area() );
     uistate.adv_inv_last_coords = g->u.pos3();
@@ -640,35 +638,19 @@ void advanced_inventory::init()
         square.init();
     }
 
-    bool moved = uistate.adv_inv_last_coords != g->u.pos3();
-
     panes[left].sortby  = static_cast<advanced_inv_sortby>( uistate.adv_inv_leftsort );
     panes[right].sortby = static_cast<advanced_inv_sortby>( uistate.adv_inv_rightsort );
-    panes[left].set_area( ( moved == true ) ? AIM_ALL : static_cast<aim_location>
-                          ( uistate.adv_inv_leftarea ) );
-    panes[right].set_area( ( moved == true ) ? AIM_INVENTORY : static_cast<aim_location>
-                           ( uistate.adv_inv_rightarea ) );
+    panes[left].set_area( static_cast<aim_location>( uistate.adv_inv_leftarea ) );
+    panes[right].set_area( static_cast<aim_location>( uistate.adv_inv_rightarea ) );
 
-    if( !moved ) {
-        src  = static_cast<side>( uistate.adv_inv_src );
-        dest = static_cast<side>( uistate.adv_inv_dest );
-        // load our saved data for AIM_VEHICLE (like from an activity re-entry)
-        if( uistate.adv_inv_load_veh ) {
-            panes[src].set_vehicle( static_cast<aim_location>( uistate.adv_inv_veh_location_src ) );
-            panes[dest].set_vehicle( static_cast<aim_location>( uistate.adv_inv_veh_location_dest ) );
-        }
-        // disable loading next time, unless destructor or activity exit sets it
-        uistate.adv_inv_load_veh = false;
-    } else {
-        uistate.adv_inv_load_veh = false;
-    }
+    src  = static_cast<side>( uistate.adv_inv_src );
+    dest = static_cast<side>( uistate.adv_inv_dest );
 
-    if( !moved || panes[left].get_area() == AIM_INVENTORY ) {
-        panes[left].index = uistate.adv_inv_leftindex;
-    }
-    if( !moved || panes[right].get_area() == AIM_INVENTORY ) {
-        panes[right].index = uistate.adv_inv_rightindex;
-    }
+    panes[src].set_vehicle( static_cast<aim_location>( uistate.adv_inv_veh_location_src ) );
+    panes[dest].set_vehicle( static_cast<aim_location>( uistate.adv_inv_veh_location_dest ) );
+
+    panes[left].index = uistate.adv_inv_leftindex;
+    panes[right].index = uistate.adv_inv_rightindex;
 
     for( auto &pane : panes ) {
         if( pane.get_veh_area() < AIM_SOUTHWEST || pane.get_veh_area() > AIM_DRAGGED ) {
@@ -937,21 +919,26 @@ void advanced_inventory::recalc_pane( side p )
             if( s.id < AIM_SOUTHWEST || s.id > AIM_NORTHEAST ) {
                 continue;
             }
-            // deal with squares with ground + vehicle storage
-            if( s.can_store_in_vehicle() ) {
+
+            // To allow the user to transfer all items from all surrounding squares to
+            // a specific square, filter out items that are already on that square.
+            // e.g. left pane AIM_ALL, right pane AIM_NORTH. The user holds the
+            // enter key down in the left square and moves all items to the other side.
+            const bool same = other.is_same( s );
+            const bool there_veh = there.in_vehicle() && other.can_store_in_vehicle();
+
+            // Deal with squares with ground + vehicle storage
+            // Also handle the case when the other tile covers vehicle
+            // or the ground below the vehicle.
+            if( s.can_store_in_vehicle() && !( same && there_veh ) ) {
                 bool do_vehicle = ( there.get_veh_area() == s.id ) ? !there.in_vehicle() : true;
                 pane.add_items_from_area( s, do_vehicle );
                 alls.volume += s.volume;
                 alls.weight += s.weight;
-            } else {
-                // to allow the user to transfer all items from all surrounding squares to
-                // a specific square, filter out items that are already on that square.
-                // e.g. left pane AIM_ALL, right pane AIM_NORTH. The user holds the
-                // enter key down in the left square and moves all items to the other side.
-                if( other.is_same( s ) ) {
-                    continue;
-                }
-                // add map items
+            }
+
+            // Add map items
+            if( !same || there_veh ) {
                 pane.add_items_from_area( s );
                 alls.volume += s.volume;
                 alls.weight += s.weight;
@@ -1249,8 +1236,6 @@ void advanced_inventory::display()
 
     while( !exit ) {
         if( g->u.moves < 0 ) {
-            // tell ourselves to reload the info for AIM_VEHICLE
-            uistate.adv_inv_load_veh = true;
             // save the area that AIM_VEHICLE is pointing to
             uistate.adv_inv_veh_location_src  = static_cast<int>( panes[src].get_veh_area() );
             uistate.adv_inv_veh_location_dest = static_cast<int>( panes[dest].get_veh_area() );
@@ -1352,7 +1337,12 @@ void advanced_inventory::display()
             if( !query_destination( destarea ) ) {
                 continue;
             }
-            if( squares[srcarea].is_same( squares[destarea] ) ) {
+
+            // AIM_ALL should disable same area check and handle it with proper filtering instead.
+            // This is a workaround around the lack of vehicle location info in
+            // either aim_location or advanced_inv_listitem.
+            if( squares[srcarea].is_same( squares[destarea] ) && 
+                spane.get_area() != AIM_ALL && spane.in_vehicle() == dpane.in_vehicle() ) {
                 popup( _( "Source area is the same as destination (%s)." ), squares[destarea].name.c_str() );
                 redraw = true; // popup has messed up the screen
                 continue;
@@ -1901,9 +1891,6 @@ bool advanced_inventory::query_charges( aim_location destarea, const advanced_in
 
 bool advanced_inv_area::is_same( const advanced_inv_area &other ) const
 {
-    if( id == other.id ) {
-        return true;
-    }
     // Inventory and Container are compared by id only, the coordinates are not of concern there.
     // All other locations are compared by the coordinates, e.g. dragged vehicle
     // (to the south) and AIM_SOUTH are the same.
@@ -1911,11 +1898,15 @@ bool advanced_inv_area::is_same( const advanced_inv_area &other ) const
         id != AIM_WORN      && other.id != AIM_WORN      &&
         id != AIM_CONTAINER && other.id != AIM_CONTAINER ) {
 
-        if( pos == other.pos && veh == other.veh ) {
+        if( pos == other.pos ) {
+            if( veh == other.veh ) {
+                return vstor == other.vstor;
+            }
+
             return true;
         }
     }
-    return false;
+    return id == other.id;
 }
 
 bool advanced_inv_area::canputitems( const advanced_inv_listitem *advitem )
