@@ -8312,9 +8312,6 @@ void player::process_active_items()
         ch_UPS_used++;
         weapon.charges++;
     }
-    if ( weapon.is_gun() ) {
-        weapon.muzzle_flash_falloff();
-    }
     for( size_t i = 0; i < worn.size() && ch_UPS_used < ch_UPS; ++i ) {
         item& worn_item = worn[i];
 

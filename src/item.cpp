@@ -4941,6 +4941,23 @@ bool item::process_charger_gun( player *carrier, point pos )
     return false;
 }
 
+bool item::process_gun( player *carrier, point pos ) {
+     if( carrier == nullptr || this != &carrier->weapon ) {
+        light.luminance = 0;
+        active = false;
+        return false; 
+     }
+     if( is_gun() && light.luminance > 0 ) {
+        if( light.luminance > type->gun->muzzle_flash / 4) {
+            light.luminance /= 2;
+        } else {
+            active = false;
+            light.luminance = 0;
+        }
+    }
+    return false; 
+}
+
 bool item::process( player *carrier, const tripoint &pos, bool activate )
 {
     // TODO: Z
@@ -5001,6 +5018,9 @@ bool item::process( player *carrier, point pos, bool activate )
     if( is_charger_gun() && process_charger_gun( carrier, pos ) ) {
         return true;
     }
+    if( is_gun() && process_gun( carrier, pos ) ) {
+        return true;
+    }
     return false;
 }
 
@@ -5018,18 +5038,6 @@ bool item::reduce_charges( long quantity )
     }
     charges -= quantity;
     return false;
-}
-
-void item::muzzle_flash_falloff()
-{
-    if( is_gun() && light.luminance > 0 ) {
-        if( light.luminance > type->gun->muzzle_flash / 4) {
-            light.luminance /= 2;
-        } else {
-            active = false;
-            light.luminance = 0;
-        }
-    }
 }
 
 bool item::has_effect_when_wielded( art_effect_passive effect ) const

@@ -447,6 +447,7 @@ protected:
     bool process_cable(player *carrier, point pos);
     bool process_tool(player *carrier, point pos);
     bool process_charger_gun(player *carrier, point pos);
+    bool process_gun(player *carrier, point pos);
 public:
     /**
      * Helper to bring a cable back to its initial state.
@@ -885,11 +886,6 @@ public:
          * for which skill() would return a skill.
          */
         std::string gun_skill() const;
-        /**
-        * Processes muzzle flash falloff for guns. Halves a gun's light.luminance value or zeros it
-        * if light.luminance is below 1/4 of it's muzzle_flash value. 
-        */
-        void muzzle_flash_falloff();
         /*@}*/
 
         /**
