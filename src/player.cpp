@@ -4064,7 +4064,12 @@ float player::active_light()
     }
 
     if (!weapon.is_null()) {
-        int lumit = weapon.getlight_emit(true);               
+            int lumit = 0; 
+        if ( !weapon.is_charger_gun() ) {
+            lumit = weapon.getlight_emit(true);
+        }else if ( weapon.active && weapon.charges > 0 ) {
+            lumit = weapon.getlight_emit(true);
+        }               
         if ( maxlum < lumit ) {
             maxlum = lumit;
         }
