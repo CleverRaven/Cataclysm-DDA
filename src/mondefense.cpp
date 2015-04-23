@@ -41,3 +41,24 @@ void mdefense::zapback(monster *const m, Creature *const source, projectile cons
     }
     source->check_dead_state();
 }
+
+void mdefense::acidsplash(monster *const m, Creature *const source, projectile const* const proj)
+{
+    // Not a melee attack, attacker lucked out or out of range
+    if( (proj) || (rng(0, 100) > m->def_chance) || (rl_dist(m->pos(), source->pos()) > 1) ) {
+        return;
+    }
+
+    body_part hit1 = random_body_part();
+    body_part hit2 = random_body_part();
+    damage_instance const acid {DT_ACID, static_cast<float>(rng(1, 5))};
+    source->deal_damage(m, hit1, acid);
+    source->deal_damage(m, hit2, acid);
+
+    if( g->u.sees(source->pos()) ) {
+        auto const msg_type = (source == &g->u) ? m_bad : m_info;
+        add_msg(msg_type, _("Acid splashes out of the %s and covers %s!"),
+            m->name().c_str(), source->disp_name().c_str());
+    }
+    source->check_dead_state();
+}

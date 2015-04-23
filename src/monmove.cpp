@@ -922,6 +922,11 @@ int monster::move_to(int x, int y, bool force)
         g->m.add_field(posx() + rng(-1,1), posy() + rng(-1, 1), fd_toxic_gas, 3);
         }
     }
+    if (has_flag(MF_LEAKSACID)){
+        if (one_in(4)){
+        g->m.add_field(posx() + rng(-1,1), posy() + rng(-1, 1), fd_acid, 3);
+        }
+    }
 
     return 1;
 }

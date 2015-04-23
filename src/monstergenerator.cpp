@@ -306,6 +306,7 @@ void MonsterGenerator::init_defense()
 {
     defense_map["NONE"] = &mdefense::none; //No special attack-back
     defense_map["ZAPBACK"] = &mdefense::zapback; //Shock attacker on hit
+    defense_map["ACIDSPLASH"] = &mdefense::acidsplash; //Shock attacker on hit
 }
 
 void MonsterGenerator::init_trigger()
@@ -363,6 +364,7 @@ void MonsterGenerator::init_flags()
     flag_map["SUNDEATH"] = MF_SUNDEATH;
     flag_map["ELECTRIC"] = MF_ELECTRIC;
     flag_map["ACIDPROOF"] = MF_ACIDPROOF;
+    flag_map["LEAKSACID"] = MF_LEAKSACID;
     flag_map["ACIDTRAIL"] = MF_ACIDTRAIL;
     flag_map["FIREPROOF"] = MF_FIREPROOF;
     flag_map["LEAKSGAS"] = MF_LEAKSGAS;
