@@ -67,6 +67,12 @@
     },
     {
         "type": "effect_type",
+        "id": "allowed_sleep",
+        "name": ["Allowed to Sleep"],
+        "desc": ["AI tag for telling NPCs to sleep.  This is a bug if you have it."]
+    },
+    {
+        "type": "effect_type",
         "id": "infection",
         "name": ["Infection"],
         "desc": ["AI tag used for the infected NPC quest.  This is a bug if you have it."],

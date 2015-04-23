@@ -45,6 +45,7 @@ std::string talk_move[10];
 std::string talk_done_mugging[10];
 std::string talk_leaving[10];
 std::string talk_catch_up[10];
+std::string talk_yawn[10];
 
 /**
  * A dynamically generated line, spoken by the NPC.
@@ -127,7 +128,7 @@ public:
 
 static std::map<std::string, json_talk_topic> json_talk_topics;
 
-#define NUM_STATIC_TAGS 26
+#define NUM_STATIC_TAGS 27
 
 tag_data talk_tags[NUM_STATIC_TAGS] = {
 {"<okay>",          &talk_okay},
@@ -155,7 +156,8 @@ tag_data talk_tags[NUM_STATIC_TAGS] = {
 {"<move>",          &talk_move},
 {"<done_mugging>",  &talk_done_mugging},
 {"<catch_up>",      &talk_catch_up},
-{"<im_leaving_you>",&talk_leaving}
+{"<im_leaving_you>",&talk_leaving},
+{"<yawn>",         ,&talk_yawn}
 };
 
 // Every OWED_VAL that the NPC owes you counts as +1 towards convincing
@@ -492,6 +494,20 @@ void game::init_npctalk()
     _("How 'bout picking up the pace!")
     };
     for(int j=0; j<10; j++) {talk_catch_up[j] = tmp_talk_catch_up[j];}
+
+    std::string tmp_talk_yawn[10] = {
+    _("When we sleepin'?"),
+    _("*Yawn*"),
+    _("What time is it?"),
+    _("I'm tired..."),
+    _("I'm <swear> tired."),
+    _("Can we rest for a while, <name_g>?"),
+    _("I <really> need to rest."),
+    _("<ill_die> if we don't stop for a moment."),
+    _("Did you know that lack of rest kills faster than lack of food?"),
+    _("I'll just go to sleep, <okay>?")
+    };
+    for(int j=0; j<10; j++) {talk_yawn[j] = tmp_talk_yawn[j];}
 }
 
 void npc_chatbin::check_missions()
@@ -2119,6 +2135,9 @@ void dialogue::gen_responses( const std::string &topic )
                     SUCCESS ("TALK_FRIEND_UNCOMFORTABLE");
                 }
             }
+            if( p->is_following() && !p->has_effect( "allowed_sleep" ) ) {
+                add_response( _("It's safe here now, you can rest."), "TALK_ALLOW_SLEEP" );
+            }
             add_response( _("I'm going to go my own way for a while."), "TALK_LEAVE" );
             add_response_done( _("Let's go.") );
 
@@ -2640,6 +2659,13 @@ void talk_function::stop_guard(npc *p)
     p->chatbin.first_topic = "TALK_FRIEND";
     p->goal = npc::no_goal_point;
     p->guard_pos = npc::no_goal_point;
+}
+
+void talk_function::go_to_sleep(npc *p)
+{
+    add_msg(_("%s goes to sleep."), p->name.c_str());
+    p->add_effect("allowed_sleep", 1800);
+    p->chatbin.first_topic = "TALK_WAKE_UP";
 }
 
 void talk_function::reveal_stats (npc *p)
@@ -3497,7 +3523,8 @@ void talk_response::effect_t::load_effect( JsonObject &jo )
             WRAP( insult_combat ),
             WRAP( drop_weapon ),
             WRAP( player_weapon_away ),
-            WRAP( player_weapon_drop )
+            WRAP( player_weapon_drop ),
+            WRAP( go_to_sleep )
 #undef WRAP
         } };
         const auto iter = static_functions_map.find( type );
