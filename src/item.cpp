@@ -2675,7 +2675,6 @@ int item::acid_resist() const
     // With the multiplying and dividing in previous code, the following
     // is a coefficient equivalent to the bonuses and maluses hardcoded in
     // previous versions. Adjust to make you happier/sadder.
-    float adjustment = 1.5;
 
     if (is_null()) {
         return resist;
@@ -2691,7 +2690,7 @@ int item::acid_resist() const
     // Average based on number of materials.
     resist /= mat_types.size();
 
-    return std::lround(resist * adjustment);
+    return (resist);
 }
 
 bool item::is_two_handed(player *u)
