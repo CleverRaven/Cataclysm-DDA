@@ -1243,6 +1243,7 @@ bool player::uninstall_bionic(std::string const &b_id)
     }
 
     // removal of bionics adds +2 difficulty over installation
+    ///\xrefitem Stat_Effects_Intelligence "" "" Intelligence increases chance of success removing bionics
     int chance_of_success = bionic_manip_cos(int_cur,
                             skillLevel("electronics"),
                             skillLevel("firstaid"),
@@ -1326,6 +1327,7 @@ bool player::install_bionics(const itype &type)
         }
     }
     const int difficult = type.bionic->difficulty;
+    ///\xrefitem Stat_Effects_Intelligence "" "" Intelligence increases chance of success installing bionics
     int chance_of_success = bionic_manip_cos(int_cur,
                             skillLevel("electronics"),
                             skillLevel("firstaid"),
@@ -1388,6 +1390,7 @@ void bionics_install_failure(player *u, int difficulty, int success)
 
     // it would be better for code reuse just to pass in skill as an argument from install_bionic
     // pl_skill should be calculated the same as in install_bionics
+    ///\xrefitem Stat_Effects_Intelligence "" "" Intelligence randomly decreases severity of bionics installation failure
     int pl_skill = u->int_cur * 4 +
                    u->skillLevel("electronics") * 4 +
                    u->skillLevel("firstaid")    * 3 +

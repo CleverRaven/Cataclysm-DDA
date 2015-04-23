@@ -31,6 +31,8 @@ const std::string &Character::symbol() const
 bool Character::move_effects()
 {
     if (has_effect("downed")) {
+        ///\xrefitem Stat_Effects_Dexterity "" "" Dexterity increases chance to stand up when knocked down
+        ///\xrefitem Stat_Effects_Strength "" "" Strength increases chance to stand up when knocked down
         if (rng(0, 40) > get_dex() + int(get_str() / 2)) {
             add_msg_if_player(_("You struggle to stand."));
         } else {
@@ -41,6 +43,7 @@ bool Character::move_effects()
         return false;
     }
     if (has_effect("webbed")) {
+        ///\xrefitem Stat_Effects_Strength "" "" Strength increases chance to escape webs
         if (x_in_y(get_str(), 6 * get_effect_int("webbed"))) {
             add_msg_player_or_npc(m_good, _("You free yourself from the webs!"),
                                     _("<npcname> frees themselves from the webs!"));
@@ -51,6 +54,7 @@ bool Character::move_effects()
         return false;
     }
     if (has_effect("lightsnare")) {
+        ///\xrefitem Stat_Effects_Strength "" "" Strength increases chance to escape light snare
         if(x_in_y(get_str(), 12) || x_in_y(get_dex(), 8)) {
             remove_effect("lightsnare");
             add_msg_player_or_npc(m_good, _("You free yourself from the light snare!"),
@@ -65,6 +69,8 @@ bool Character::move_effects()
         return false;
     }
     if (has_effect("heavysnare")) {
+        ///\xrefitem Stat_Effects_Strength "" "" Strength increases chance to escape heavy snare
+        ///\xrefitem Stat_Effects_Dexterity "" "" Dexterity increases chance to escape heavy snare
         if(x_in_y(get_str(), 32) || x_in_y(get_dex(), 16)) {
             remove_effect("heavysnare");
             add_msg_player_or_npc(m_good, _("You free yourself from the heavy snare!"),

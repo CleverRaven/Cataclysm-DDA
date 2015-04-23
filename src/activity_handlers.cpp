@@ -513,6 +513,7 @@ void activity_handlers::forage_finish( player_activity *act, player *p )
 
     //Determinate maximum level of skill attained by foraging using ones intelligence score
     int max_forage_skill = 0;
+    ///\xrefitem Stat_Effects_Intelligence "" "" Intelligence caps max forage skill
     if( p->int_cur < 4 ) {
         max_forage_skill = 1;
     } else if( p->int_cur < 6 ) {
