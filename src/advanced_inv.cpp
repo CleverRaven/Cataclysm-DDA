@@ -522,10 +522,11 @@ void advanced_inv_area::init()
             // offset for dragged vehicles is not statically initialized, so get it
             off.x = g->u.grab_point.x;
             off.y = g->u.grab_point.y;
-            // make sure the position is the true position
-            pos += off;
+            off.z = 0;
+            // Reset position because offset changed
+            pos = g->u.pos3() + off;
             veh = g->m.veh_at( pos, vstor );
-            if( veh ) {
+            if( veh != nullptr ) {
                 vstor = veh->part_with_feature( vstor, "CARGO", false );
             }
             if( vstor >= 0 ) {
@@ -651,9 +652,6 @@ void advanced_inventory::init()
     if( !moved ) {
         src  = static_cast<side>( uistate.adv_inv_src );
         dest = static_cast<side>( uistate.adv_inv_dest );
-    }
-
-    if( moved == false ) {
         // load our saved data for AIM_VEHICLE (like from an activity re-entry)
         if( uistate.adv_inv_load_veh ) {
             panes[src].set_vehicle( static_cast<aim_location>( uistate.adv_inv_veh_location_src ) );
@@ -673,7 +671,7 @@ void advanced_inventory::init()
     }
 
     for( auto &pane : panes ) {
-        if( pane.get_veh_area() < AIM_SOUTHWEST || pane.get_veh_area() > AIM_NORTHEAST ) {
+        if( pane.get_veh_area() < AIM_SOUTHWEST || pane.get_veh_area() > AIM_DRAGGED ) {
             // default to NUM_AIM_LOCATIONS to state it is invalid
             pane.set_vehicle( NUM_AIM_LOCATIONS );
         }
