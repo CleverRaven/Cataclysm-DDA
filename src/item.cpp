@@ -2690,7 +2690,7 @@ int item::acid_resist() const
     // Average based on number of materials.
     resist /= mat_types.size();
 
-    return (resist);
+    return std::lround(resist);
 }
 
 bool item::is_two_handed(player *u)
