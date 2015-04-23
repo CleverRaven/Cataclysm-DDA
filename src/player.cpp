@@ -5024,8 +5024,12 @@ int player::hitall(int dam, int vary, Creature *source)
     return damage_taken;
 }
 
-void player::knock_back_from(int x, int y)
+void player::knock_back_from( const tripoint &p )
 {
+    // TODO: Z
+    const int x = p.x;
+    const int y = p.y;
+
     if (x == posx() && y == posy())
         return; // No effect
     point to = pos();
@@ -5049,7 +5053,7 @@ void player::knock_back_from(int x, int y)
         deal_damage( critter, bp_torso, damage_instance( DT_BASH, critter->type->size ) );
         add_effect("stunned", 1);
         if ((str_max - 6) / 4 > critter->type->size) {
-            critter->knock_back_from(posx(), posy()); // Chain reaction!
+            critter->knock_back_from(pos3()); // Chain reaction!
             critter->apply_damage( this, bp_torso, (str_max - 6) / 4);
             critter->add_effect("stunned", 1);
         } else if ((str_max - 6) / 4 == critter->type->size) {
@@ -6675,7 +6679,7 @@ void player::hardcoded_effects(effect &it)
         if (!recovered) {
             // Death happens
             if (dur > 14400) {
-                add_msg(m_bad, _("You succumb to the infection."));
+                add_msg_if_player(m_bad, _("You succumb to the infection."));
                 add_memorial_log(pgettext("memorial_male", "Succumbed to the infection."),
                                       pgettext("memorial_female", "Succumbed to the infection."));
                 hurtall(500, nullptr);
@@ -7858,9 +7862,9 @@ void player::vomit()
                      pgettext("memorial_female", "Threw up."));
 
     if (stomach_food != 0 || stomach_water != 0) {
-        add_msg(m_bad, _("You throw up heavily!"));
+        add_msg_player_or_npc( m_bad, _("You throw up heavily!"), _("<npcname> throws up heavily!") );
     } else {
-        add_msg(m_warning, _("You feel nauseous, but your stomach is empty."));
+        add_msg_if_player(m_warning, _("You feel nauseous, but your stomach is empty."));
     }
     int nut_loss = stomach_food;
     int quench_loss = stomach_water;
@@ -12211,7 +12215,7 @@ void player::absorb_hit(body_part bp, damage_instance &dam) {
             if( has_trait("THICKSKIN") ) {
                 elem.amount -= 1;
             }
-            if( has_trait("THINSKIN") ) {
+            if( elem.amount > 0 && has_trait("THINSKIN") ) {
                 elem.amount += 1;
             }
             if (has_trait("SCALES")) {

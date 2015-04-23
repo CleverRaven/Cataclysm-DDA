@@ -351,6 +351,9 @@ bool item::stacks_with( const item &rhs ) const
     if( item_tags != rhs.item_tags ) {
         return false;
     }
+    if( techniques != rhs.techniques ) {
+        return false;
+    }
     if( item_vars != rhs.item_vars ) {
         return false;
     }
@@ -1151,6 +1154,16 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump, bool debug) c
 
         std::ostringstream tec_buffer;
         for( const auto &elem : type->techniques ) {
+            const ma_technique &tec = ma_techniques[elem];
+            if (tec.name.empty()) {
+                continue;
+            }
+            if (!tec_buffer.str().empty()) {
+                tec_buffer << _(", ");
+            }
+            tec_buffer << tec.name;
+        }
+        for( const auto &elem : techniques ) {
             const ma_technique &tec = ma_techniques[elem];
             if (tec.name.empty()) {
                 continue;
@@ -3721,7 +3734,7 @@ int item::pick_reload_ammo( const player &u, bool interactive )
     if( amenu.ret < 0 || amenu.ret >= ( int )ammo_list.size() ) {
         // invalid selection / escaped from the menu
         return INT_MIN + 2;
-    }    
+    }
     const auto &selected = ammo_list[ amenu.ret ];
     uistate.lastreload[ ammo_type() ] = std::get<0>( selected )->id;
     return std::get<1>( selected );

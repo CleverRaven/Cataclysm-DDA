@@ -2241,7 +2241,7 @@ input_context game::get_player_input(std::string &action)
                                 if( u.sees( elem.getPosX() + i, elem.getPosY() ) ) {
                                     m.drawsq( w_terrain, u, 
                                               tripoint( elem.getPosX() + i, elem.getPosY(), u.posz() + u.view_offset.z ),
-                                              false, true, u.pos3() + u.view_offset );
+                                              false, true, u.posx() + u.view_offset.x, u.posy() + u.view_offset.y );
                                 } else {
                                     const int iDY =
                                         POSY + ( elem.getPosY() - ( u.posy() + u.view_offset.y ) );
@@ -3263,6 +3263,11 @@ int &game::scent(int x, int y)
         return nulscent; // Out-of-bounds - null scent
     }
     return grscent[x][y];
+}
+
+int &game::scent( const tripoint &p ) // A wrapper for now
+{
+    return scent( p.x, p.y );
 }
 
 void game::update_scent()
@@ -4922,7 +4927,8 @@ void game::draw_critter( const Creature &critter, const tripoint &center )
         return;
     }
     if( critter.posz() != center.z ) {
-        return;
+        // Should cancel drawing, but z-levels aren't always properly set yet
+        //return;
     }
     if( u.sees( critter ) || &critter == &u ) {
         critter.draw( w_terrain, center.x, center.y, false );
@@ -5872,7 +5878,7 @@ void game::monmove()
         }
 
         monster &critter = critter_tracker.find(i);
-        while (!critter.is_dead() && !critter.can_move_to(critter.posx(), critter.posy())) {
+        while (!critter.is_dead() && !critter.can_move_to(critter.pos3())) {
             // If we can't move to our current position, assign us to a new one
                 dbg(D_ERROR) << "game:monmove: " << critter.name().c_str()
                              << " can't move to its location! (" << critter.posx()
@@ -5886,8 +5892,9 @@ void game::monmove()
             int starty = critter.posy() - 3 * ydir, endy = critter.posy() + 3 * ydir;
             for (int x = startx; x != endx && !okay; x += xdir) {
                 for (int y = starty; y != endy && !okay; y += ydir) {
-                    if (critter.can_move_to(x, y) && is_empty(x, y)) {
-                        critter.setpos(x, y);
+                    tripoint dest( x, y, get_levz() );
+                    if (critter.can_move_to( dest ) && is_empty( dest )) {
+                        critter.setpos( dest );
                         okay = true;
                     }
                 }
@@ -7778,7 +7785,7 @@ bool pet_menu(monster *z)
             }
 
             int x = z->posx(), y = z->posy(), zpos = z->posz();
-            z->move_to(g->u.posx(), g->u.posy(), true); // TODO: Use player zpos here
+            z->move_to( g->u.pos3(), true);
             g->u.setx( x );
             g->u.sety( y );
             g->u.setz( zpos );
@@ -7810,7 +7817,7 @@ bool pet_menu(monster *z)
 
         int deltax = z->posx() - g->u.posx(), deltay = z->posy() - g->u.posy();
 
-        z->move_to(z->posx() + deltax, z->posy() + deltay);
+        z->move_to( tripoint( z->posx() + deltax, z->posy() + deltay, z->posz() ) );
 
         return true;
     }
@@ -8185,10 +8192,10 @@ void game::print_object_info( const tripoint &lp, WINDOW *w_look, const int colu
         mvwprintw(w_look, line++, column, _("There is a %s there. Parts:"), veh->name.c_str());
         line = veh->print_part_desc(w_look, line, (mouse_hover) ? getmaxx(w_look) : 48, veh_part);
         if (!mouse_hover) {
-            m.drawsq( w_terrain, u, lp, true, true, lp );
+            m.drawsq( w_terrain, u, lp, true, true, lp.x, lp.y );
         }
     } else if (!mouse_hover) {
-        m.drawsq(w_terrain, u, lp, true, true, lp );
+        m.drawsq(w_terrain, u, lp, true, true, lp.x, lp.y );
     }
     handle_multi_item_info( lp, w_look, column, line, mouse_hover );
 }
@@ -8579,7 +8586,8 @@ void game::zones_manager()
                                          tripoint( iX, iY, u.posz() + u.view_offset.z ),
                                          false,
                                          false,
-                                         u.pos3() + u.view_offset );
+                                         u.posx() + u.view_offset.x,
+                                         u.posy() + u.view_offset.y );
                             } else {
                                 if (u.has_effect("boomered")) {
                                     mvwputch(w_terrain, iY - offset_y, iX - offset_x, c_magenta, '#');
@@ -11665,7 +11673,7 @@ bool game::plmove(int dx, int dy)
             if (!query_yn(_("Really attack %s?"), active_npc[npcdex]->name.c_str())) {
                 if (active_npc[npcdex]->is_friend()) {
                     add_msg(_("%s moves out of the way."), active_npc[npcdex]->name.c_str());
-                    active_npc[npcdex]->move_away_from(u.posx(), u.posy());
+                    active_npc[npcdex]->move_away_from( u.pos3() );
                 }
 
                 return false; // Cancel the attack
@@ -12213,8 +12221,7 @@ bool game::plmove(int dx, int dy)
         if (displace) { // We displaced a friendly monster!
             // Immobile monsters can't be displaced.
             monster &critter = zombie(mondex);
-            critter.move_to(u.posx(), u.posy(),
-                            true); // Force the movement even though the player is there right now.
+            critter.move_to(u.pos3(), true); // Force the movement even though the player is there right now.
             add_msg(_("You displace the %s."), critter.name().c_str());
         } // displace == true
 
@@ -13213,8 +13220,9 @@ void game::update_stair_monsters()
                 pushx = rng(-1, 1), pushy = rng(-1, 1);
                 int iposx = mposx + pushx;
                 int iposy = mposy + pushy;
-                if ((pushx != 0 || pushy != 0) && (mon_at(iposx, iposy) == -1) &&
-                    critter.can_move_to(iposx, iposy)) {
+                tripoint pos( iposx, iposy, get_levz() );
+                if ((pushx != 0 || pushy != 0) && (mon_at(pos) == -1) &&
+                    critter.can_move_to( pos )) {
                     bool resiststhrow = (u.is_throw_immune()) ||
                                         (u.has_trait("LEG_TENT_BRACE"));
                     if (resiststhrow && one_in(player_throw_resist_chance)) {
@@ -13271,10 +13279,11 @@ void game::update_stair_monsters()
                 pushy = rng(-1, 1);
                 int iposx = mposx + pushx;
                 int iposy = mposy + pushy;
+                tripoint pos( iposx, iposy, get_levz() );
                 if ((pushx == 0 && pushy == 0) || ((iposx == u.posx()) && (iposy == u.posy()))) {
                     continue;
                 }
-                if ((mon_at(iposx, iposy) == -1) && other.can_move_to(iposx, iposy)) {
+                if ((mon_at(pos) == -1) && other.can_move_to(pos)) {
                     other.setpos( iposx, iposy, get_levz() );
                     other.moves -= 50;
                     std::string msg = "";
