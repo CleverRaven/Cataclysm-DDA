@@ -1389,7 +1389,7 @@ void make_gun_flash(player &p , item *weapon)
            p.weapon.has_gunmod("shot_suppressor") >= 0) {
             return;
         }
-        if( rng(0,3) > 0 ) {
+        if( rng(0,3) < 1  ) {
             p.weapon.light.luminance = weapon->type->gun->muzzle_flash;
             p.weapon.active=true;
         }

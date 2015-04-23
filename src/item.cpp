@@ -4895,12 +4895,12 @@ bool item::update_charger_gun_ammo()
 }
 
 bool item::process_charger_gun( player *carrier, point pos )
-{
+{  
     if( carrier == nullptr || this != &carrier->weapon ) {
         // Either on the ground or in the inventory of the player, in both cases:
         // stop charging.
         deactivate_charger_gun();
-        return true;
+        return false;
     }
     if( charges == 8 ) { // Maintaining charge takes less power.
         if( carrier->use_charges_if_avail( "UPS", 4 ) ) {
@@ -4938,11 +4938,14 @@ bool item::process_charger_gun( player *carrier, point pos )
     if( charges <= 0 ) {
         active = false;
     }
-    return true;
+    return false;
 }
 
 bool item::process_gun( player *carrier) {
-    //process muzzle flash falloff. 
+    if( is_charger_gun() ) {
+        return false;
+    }
+    //process muzzle flash falloff.
      if( carrier == nullptr || this != &carrier->weapon ) {
         light.luminance = 0;
         active = false;
