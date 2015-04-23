@@ -4942,13 +4942,14 @@ bool item::process_charger_gun( player *carrier, point pos )
 }
 
 bool item::process_gun( player *carrier) {
+    //process muzzle flash falloff. 
      if( carrier == nullptr || this != &carrier->weapon ) {
         light.luminance = 0;
         active = false;
         return false; 
      }
      if( is_gun() && light.luminance > 0 ) {
-        if( light.luminance > type->gun->muzzle_flash / 4) {
+        if( light.luminance > type->gun->muzzle_flash / 2) {
             light.luminance /= 2;
         } else {
             active = false;
