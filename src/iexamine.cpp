@@ -685,7 +685,7 @@ void iexamine::crate(player *p, map *m, int examx, int examy)
     // so we'll be making a fake crowbar here
     // Not a problem for now, but if crowbar iuse-s ever get different, this will need a fix
     item fakecrow( "crowbar", 0 );
-    
+
     iuse dummy;
     dummy.crowbar( p, &fakecrow, false, point( examx, examy ) );
 }
@@ -1114,23 +1114,21 @@ void iexamine::pedestal_wyrm(player *p, map *m, int examx, int examy)
     // Send in a few wyrms to start things off.
     g->u.add_memorial_log(pgettext("memorial_male", "Awoke a group of dark wyrms!"),
                          pgettext("memorial_female", "Awoke a group of dark wyrms!"));
-   monster wyrm(GetMType("mon_dark_wyrm"));
-   int num_wyrms = rng(1, 4);
-   for (int i = 0; i < num_wyrms; i++) {
-    int tries = 0;
-    int monx = -1, mony = -1;
-    do {
-     monx = rng(0, SEEX * MAPSIZE);
-     mony = rng(0, SEEY * MAPSIZE);
-     tries++;
-    } while (tries < 10 && !g->is_empty(monx, mony) &&
-             rl_dist(g->u.posx(), g->u.posy(), monx, mony) <= 2);
-      if (tries < 10) {
-          g->m.ter_set(monx, mony, t_rock_floor);
-          wyrm.spawn(monx, mony);
-          g->add_zombie(wyrm);
-      }
-   }
+    int num_wyrms = rng(1, 4);
+    for (int i = 0; i < num_wyrms; i++) {
+        int tries = 0;
+        int monx = -1, mony = -1;
+        do {
+            monx = rng(0, SEEX * MAPSIZE);
+            mony = rng(0, SEEY * MAPSIZE);
+            tries++;
+        } while (tries < 10 && !g->is_empty(monx, mony) &&
+                    rl_dist(g->u.posx(), g->u.posy(), monx, mony) <= 2);
+        if (tries < 10) {
+            g->m.ter_set(monx, mony, t_rock_floor);
+            g->summon_mon("mon_dark_wyrm", tripoint(monx, mony, p->posz()));
+        }
+    }
     add_msg(_("The pedestal sinks into the ground, with an ominous grinding noise..."));
     sounds::sound(examx, examy, 80, (""));
     m->ter_set(examx, examy, t_rock_floor);
@@ -1421,13 +1419,11 @@ void iexamine::egg_sack_generic( player *p, map *m, int examx, int examy,
     m->spawn_item( examx, examy, "spider_egg", rng( 1, 4 ) );
     m->furn_set( examx, examy, f_egg_sacke );
     if( one_in( 2 ) ) {
-        monster spiderling( GetMType( montype ) );
         int monster_count = 0;
         const std::vector<point> points = closest_points_first( 1, point( examx, examy ) );
         for( const auto &point : points ) {
             if( g->is_empty( point.x, point.y ) && one_in( 3 ) ) {
-                spiderling.spawn( point.x, point.y );
-                g->add_zombie( spiderling );
+                g->summon_mon(montype, tripoint(point.x, point.y, p->posz()));
                 monster_count++;
             }
         }
@@ -2244,7 +2240,7 @@ void iexamine::shrub_wildveggies(player *p, map *m, int examx, int examy)
         none(p, m, examx, examy);
         return;
     }
-    
+
     add_msg(_("You forage through the %s."), m->tername(examx, examy).c_str());
     p->assign_activity(ACT_FORAGE, 500 / (p->skillLevel("survival") + 1), 0);
     p->activity.placement = point(examx, examy);

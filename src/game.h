@@ -187,6 +187,8 @@ class game
         Creature *critter_at( const tripoint &p );
         Creature const* critter_at( const tripoint &p ) const;
 
+        /** Summons a brand new monster at the current time. Returns the summoned monster. */
+        monster * summon_mon(const std::string id, const tripoint &p);
         /** Calls the creature_tracker add function. Returns true if successful. */
         bool add_zombie(monster &critter);
         /** Returns the number of creatures through the creature_tracker size() function. */
@@ -237,7 +239,7 @@ class game
                                   int hiy, std::vector <Creature *> t, int &target,
                                   item *relevent, target_mode mode,
                                   point from = point(-1, -1));
-        /** 
+        /**
          * Interface to target(), collects a list of targets & selects default target
          * finally calls target() and returns its result.
          * Used by vehicle::manual_fire_turret()

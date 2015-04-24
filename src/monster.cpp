@@ -160,7 +160,12 @@ void monster::poly(mtype *t)
     faction = t->default_faction;
 }
 
-void monster::update_check(){
+void monster::update_check() {
+    // Hallucinations don't upgrade!
+    if (is_hallucination()) {
+        return;
+    }
+
     // No chance of upgrading, abort
     if ((type->half_life <= 0 && type->base_upgrade_chance <= 0) ||
         (type->upgrade_group == "NULL" && type->upgrades_into == "NULL")) {
@@ -221,6 +226,13 @@ void monster::spawn(const int x, const int y, const int z)
     position.x = x;
     position.y = y;
     zpos = z;
+}
+
+void monster::spawn(const tripoint &p)
+{
+    position.x = p.x;
+    position.y = p.y;
+    zpos = p.z;
 }
 
 std::string monster::name(unsigned int quantity) const
@@ -1636,6 +1648,16 @@ void monster::make_friendly()
 {
  plans.clear();
  friendly = rng(5, 30) + rng(0, 20);
+}
+
+void monster::make_ally(monster *z) {
+    friendly = z->friendly;
+    faction = z->faction;
+}
+
+void monster::reset_last_load()
+{
+    last_loaded = calendar::turn.get_turn() / DAYS(1);
 }
 
 void monster::add_item(item it)

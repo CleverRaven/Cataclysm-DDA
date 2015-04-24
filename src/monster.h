@@ -48,6 +48,7 @@ class monster : public Creature, public JsonSerializer, public JsonDeserializer
         void update_check();
         void spawn( const int x, const int y ); // All this does is moves the monster to x,y,g->levz
         void spawn( const int x, const int y, const int z ); // As above, except with any z
+        void spawn( const tripoint &p); // As above, but takes a tripoint argument
         m_size get_size() const override;
         int get_hp( hp_part ) const override
         {
@@ -278,6 +279,8 @@ class monster : public Creature, public JsonSerializer, public JsonDeserializer
         bool make_fungus();  // Makes this monster into a fungus version
         // Returns false if no such monster exists
         void make_friendly();
+        /** Makes this monster an ally of the given monster. */
+        void make_ally(monster* z);
         void add_item(item it);     // Add an item to inventory
 
         bool is_hallucination() const override;    // true if the monster isn't actually real
@@ -348,6 +351,9 @@ class monster : public Creature, public JsonSerializer, public JsonDeserializer
          * and to reviving monsters that spawn from a corpse.
          */
         void init_from_item( const item &itm );
+
+        /** Sets the last time the monster was loaded to the current turn */
+        void reset_last_load();
 
     private:
         int hp;

@@ -713,11 +713,8 @@ void mattack::science(monster *const z, int const index) // I said SCIENCE again
 
         const point where = empty_neighbors.first[get_random_index(empty_neighbor_count)];
 
-        monster manhack {GetMType("mon_manhack")};
-        manhack.spawn(where.x, where.y);
-        manhack.friendly = z->friendly;
-        manhack.faction = z->faction;
-        g->add_zombie(manhack);
+        monster *manhack = g->summon_mon("mon_manhack", tripoint(where.x, where.y, z->posz()));
+        manhack->make_ally(z);
       } break;
     case att_acid_pool :
         z->moves -= att_cost_acid;
@@ -936,11 +933,9 @@ void mattack::grow_vine(monster *z, int index)
             int xvine = z->posx() + (x + xshift) % 3 - 1,
                 yvine = z->posy() + (y + yshift) % 3 - 1;
             if (g->is_empty(xvine, yvine)) {
-                monster vine(GetMType("mon_creeper_vine"));
-                vine.reset_special(0);
-                vine.spawn(xvine, yvine);
-                vine.faction = z->faction;
-                g->add_zombie(vine);
+                monster *vine = g->summon_mon("mon_creeper_vine", tripoint(xvine, yvine, z->posz()));
+                vine->make_ally(z);
+                vine->reset_special(0);
             }
         }
     }
@@ -948,7 +943,7 @@ void mattack::grow_vine(monster *z, int index)
 
 void mattack::vine(monster *z, int index)
 {
-    std::vector<point> grow;
+    std::vector<tripoint> grow;
     int vine_neighbors = 0;
     z->reset_special(index); // Reset timer
     z->moves -= 100;
@@ -983,7 +978,7 @@ void mattack::vine(monster *z, int index)
                     return;
                 }
             } else if( g->is_empty(x, y) ) {
-                grow.push_back(point(x, y));
+                grow.push_back(tripoint(x, y, z->posz()));
             } else {
                 const int zid = g->mon_at(x, y);
                 if (zid > -1 && g->zombie(zid).type->id == "mon_creeper_vine") {
@@ -1007,11 +1002,9 @@ void mattack::vine(monster *z, int index)
         return;
     }
     int free_index = rng(0, grow.size() - 1);
-    monster vine(GetMType("mon_creeper_vine"));
-    vine.reset_special(0);
-    vine.spawn(grow[free_index].x, grow[free_index].y);
-    vine.faction = z->faction;
-    g->add_zombie(vine);
+    monster *vine = g->summon_mon("mon_creeper_vine", grow[free_index]);
+    vine->make_ally(z);
+    vine->reset_special(0);
 }
 
 void mattack::spit_sap(monster *z, int index)
@@ -1133,10 +1126,8 @@ void mattack::triffid_heartbeat(monster *z, int index)
                 } else if (one_in(3)) {
                     montype = "mon_biollante";
                 }
-                monster plant(GetMType(montype));
-                plant.spawn(x, y);
-                plant.faction = z->faction;
-                g->add_zombie(plant);
+                monster *plant = g->summon_mon(montype, tripoint(x, y, z->posz()));
+                plant->make_ally(z);
             }
         }
 
@@ -1146,9 +1137,8 @@ void mattack::triffid_heartbeat(monster *z, int index)
         for (int x = z->posx() - 1; x <= z->posx() + 1; x++) {
             for (int y = z->posy() - 1; y <= z->posy() + 1; y++) {
                 if (g->is_empty(x, y) && one_in(2)) {
-                    triffid.spawn(x, y);
-                    triffid.faction = z->faction;
-                    g->add_zombie(triffid);
+                    monster *triffid = g->summon_mon("mon_triffid", tripoint(x, y, z->posz()));
+                    triffid->make_ally(z);
                 }
             }
         }
@@ -1225,9 +1215,8 @@ void mattack::fungus(monster *z, int index)
                         add_msg(m_warning, _("You're covered in tiny spores!"));
                     }
                 } else if (one_in(4) && g->num_zombies() <= 1000) { // Spawn a spore
-                    spore.spawn(sporex, sporey);
-                    spore.faction = z->faction;
-                    g->add_zombie(spore);
+                    monster *spore = g->summon_mon("mon_spore", tripoint(sporex, sporey, z->posz()));
+                    spore->make_ally(z);
                 }
             }
         }
@@ -1440,10 +1429,8 @@ void mattack::fungus_sprout(monster *z, int index)
                                    g->u.posy()), rng(10, 50));
             }
             if (g->is_empty(x, y)) {
-                monster wall(GetMType("mon_fungal_wall"));
-                wall.spawn(x, y);
-                wall.faction = z->faction;
-                g->add_zombie(wall);
+                monster *wall = g->summon_mon("mon_fungal_wall", tripoint(x, y, z->posz()));
+                wall->make_ally(z);
             }
         }
     }
@@ -1498,10 +1485,8 @@ void mattack::fungus_fortify(monster *z, int index)
                                    g->u.posy()), rng(10, 50));
             }
             if (g->is_empty(x, y)) {
-                monster wall(GetMType("mon_fungal_hedgerow"));
-                wall.spawn(x, y);
-                wall.faction = z->faction;
-                g->add_zombie(wall);
+                monster *wall = g->summon_mon("mon_fungal_hedgerow", tripoint(x, y, z->posz()));
+                wall->make_ally(z);
                 fortified = true;
             }
         }
@@ -1541,10 +1526,9 @@ void mattack::fungus_fortify(monster *z, int index)
                             add_msg(m_bad, _("A fungal tendril bursts forth from the earth!"));
                         }
                 }
-                monster tendril(GetMType("mon_fungal_tendril"));
-                tendril.spawn(g->u.posx() + i, g->u.posy() + j);
-                tendril.faction = z->faction;
-                g->add_zombie(tendril);
+                monster *tendril = g->summon_mon("mon_fungal_tendril",
+                                         tripoint(g->u.posx() + i, g->u.posy() + j, z->posz()));
+                tendril->make_ally(z);
                 return;
             }
             add_msg(m_warning, _("The %s takes aim, and spears at you with a massive tendril!"), z->name().c_str());
@@ -1813,12 +1797,11 @@ void mattack::formblob(monster *z, int index)
                 // If we're big enough, spawn a baby blob.
                 didit = true;
                 z->mod_speed_bonus( -15 );
-                monster blob(GetMType("mon_blob_small"));
-                blob.spawn(z->posx() + i, z->posy() + j);
-                blob.set_speed_base( blob.get_speed_base() - rng(30, 60) );
-                blob.set_hp( blob.get_speed_base() );
-                blob.faction = z->faction;
-                g->add_zombie(blob);
+                monster *blob = g->summon_mon("mon_blob_small",
+                                  tripoint(z->posx() + i, z->posy() + j, z->posz()));
+                blob->make_ally(z);
+                blob->set_speed_base( blob->get_speed_base() - rng(30, 60) );
+                blob->set_hp( blob->get_speed_base() );
             }
         }
         if (didit) { // We did SOMEthing.

@@ -2239,7 +2239,7 @@ input_context game::get_player_input(std::string &action)
                         if( elem.getStep() > 0 ) {
                             for( size_t i = 0; i < elem.getText().length(); ++i ) {
                                 if( u.sees( elem.getPosX() + i, elem.getPosY() ) ) {
-                                    m.drawsq( w_terrain, u, 
+                                    m.drawsq( w_terrain, u,
                                               tripoint( elem.getPosX() + i, elem.getPosY(), u.posz() + u.view_offset.z ),
                                               false, true, u.posx() + u.view_offset.x, u.posy() + u.view_offset.y );
                                 } else {
@@ -4282,7 +4282,7 @@ void game::debug()
     break;
     case 26:
     {
-        int time = std::atoi( string_input_popup( _("Set the time to? (One day is 19200)"), 
+        int time = std::atoi( string_input_popup( _("Set the time to? (One day is 19200)"),
                                                   20, to_string( (int)calendar::turn ) ).c_str() );
         if( time > 0 ) {
             calendar::turn = time;
@@ -6790,6 +6790,18 @@ Creature *game::critter_at( const tripoint &p )
 Creature const* game::critter_at( const tripoint &p ) const
 {
     return const_cast<game*>(this)->critter_at( p );
+}
+
+monster * game::summon_mon( const std::string id, const tripoint &p )
+{
+    monster mon(GetMType(id));
+    // Set their last upgrade check to the current day.
+    mon.reset_last_load();
+    mon.spawn(p);
+    add_zombie(mon);
+
+    // Return the non-local copy of the monster
+    return &zombie(critter_tracker.mon_at(p));
 }
 
 bool game::add_zombie(monster &critter)

@@ -12,6 +12,7 @@
 #include "sounds.h"
 #include "rng.h"
 #include "mission.h"
+#include "calendar.h"
 
 #include <fstream>
 #include <string>
@@ -1190,9 +1191,7 @@ void computer::activate_failure(computer_failure fail)
             } while (!g->is_empty(mx, my) && tries < 10);
             if (tries != 10) {
                 add_msg(m_warning, _("Manhacks drop from compartments in the ceiling."));
-                monster robot(GetMType("mon_manhack"));
-                robot.spawn(mx, my);
-                g->add_zombie(robot);
+                g->summon_mon("mon_manhack", tripoint(mx, my, g->u.posz()));
             }
         }
     }
@@ -1209,9 +1208,7 @@ void computer::activate_failure(computer_failure fail)
             } while (!g->is_empty(mx, my) && tries < 10);
             if (tries != 10) {
                 add_msg(m_warning, _("Secubots emerge from compartments in the floor."));
-                monster robot(GetMType("mon_secubot"));
-                robot.spawn(mx, my);
-                g->add_zombie(robot);
+                g->summon_mon("mon_secubot", tripoint(mx, my, g->u.posz()));
             }
         }
     }
