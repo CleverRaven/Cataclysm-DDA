@@ -3171,7 +3171,6 @@
     "armor_cut":0,
     "luminance":0,
     "hp":4,
-    "upgrades_into" : "mon_fungaloid",
     "half_life" : 1,
     "death_function":"DISINTEGRATE",
     "special_attacks":[["PLANT", 500]],

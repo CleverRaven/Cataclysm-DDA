@@ -132,6 +132,24 @@ classes = {
         functions = {
         }
     },
+    tripoint = {
+        attributes = {
+            x = {
+                type = "int",
+                writable = true
+            },
+            y = {
+                type = "int",
+                writable = true
+            },
+            z = {
+                type = "int",
+                writable = true
+            }
+        },
+        functions = {
+        }
+    },
     uimenu = {
         attributes = {
             title = {
@@ -269,10 +287,6 @@ classes = {
             name = {
                 args = {},
                 rval = "string"
-            },
-            attack_at = {
-                args = {"int", "int"},
-                rval = "int"
             },
             make_friendly = {
                 args = {},

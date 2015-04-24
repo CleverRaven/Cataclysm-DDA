@@ -394,11 +394,11 @@ class advanced_inventory
         bool query_charges(aim_location destarea, const advanced_inv_listitem &sitem, bool askamount, long &amount );
         /**
          * Remove the item from source area. Must not be used on items with area
-         * AIM_ALL or AIM_INVENTORY!
+         * AIM_ALL or AIM_INVENTORY! (but is... and seems to work)
          * @param sitem The item reference that should be removed, along with the
          * source area.
          */
-        bool remove_item( advanced_inv_listitem &sitem );
+        void remove_item( advanced_inv_listitem &sitem );
         void menu_square(uimenu *menu);
 
         // set AIM_VEHICLE to the location given.

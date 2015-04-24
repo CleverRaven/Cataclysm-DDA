@@ -23,6 +23,7 @@
 #include <list>
 #include <string>
 
+struct maptile;
 class game;
 class monster;
 
@@ -423,6 +424,8 @@ struct submap {
         cosmetics[x][y].erase("SIGNAGE");
     }
 
+    maptile get_maptile( const int x, const int y ) const;
+
     // TODO: make trp private once the horrible hack known as editmap is resolved
     ter_id          ter[SEEX][SEEY];  // Terrain on each square
     furn_id         frn[SEEX][SEEY];  // Furniture on each square
@@ -458,6 +461,79 @@ struct submap {
     ~submap();
     // delete vehicles and clear the vehicles vector
     void delete_vehicles();
+};
+
+/**
+ * A wrapper for a submap point. Allows getting multiple map features
+ * (terrain, furniture etc.) without directly accessing submaps or
+ * doing multiple bounds checks and submap gets.
+ */
+struct maptile {
+private:
+    friend map; // To allow "sliding" the tile in x/y without bounds checks
+    friend submap;
+    const submap *const sm;
+    size_t x;
+    size_t y;
+
+    maptile( const submap *sub, const size_t nx, const size_t ny ) :
+        sm( sub ), x( nx ), y( ny ) { }
+public:
+    inline trap_id get_trap() const
+    {
+        return sm->get_trap( x, y );
+    }
+
+    inline furn_id get_furn() const
+    {
+        return sm->get_furn( x, y );
+    }
+
+    inline ter_id get_ter() const
+    {
+        return sm->get_ter( x, y );
+    }
+
+    inline const field &get_field() const
+    {
+        return sm->fld[x][y];
+    }
+
+    inline int get_radiation() const
+    {
+        return sm->get_radiation( x, y );
+    }
+
+    inline bool has_graffiti() const
+    {
+        return sm->has_graffiti( x, y );
+    }
+
+    inline const std::string &get_graffiti() const
+    {
+        return sm->get_graffiti( x, y );
+    }
+
+    inline bool has_signage() const
+    {
+        return sm->has_signage( x, y );
+    }
+    
+    inline const std::string get_signage() const
+    {
+        return sm->get_signage( x, y );
+    }
+
+    // For map::draw_maptile
+    inline size_t get_item_count() const
+    {
+        return sm->itm[x][y].size();
+    }
+
+    inline const item &get_last_item() const
+    {
+        return sm->itm[x][y].back();
+    }
 };
 
 std::ostream & operator<<(std::ostream &, const submap *);

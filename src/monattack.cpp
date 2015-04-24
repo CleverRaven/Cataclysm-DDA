@@ -1603,8 +1603,8 @@ void mattack::leap(monster *z, int index)
 
     int linet = 0;
     std::vector<point> options;
-    point target = z->move_target();
-    int best = rl_dist( z->pos(), target );
+    tripoint target = z->move_target();
+    int best = rl_dist( z->pos3(), target );
 
     for (int x = z->posx() - 3; x <= z->posx() + 3; x++) {
         for (int y = z->posy() - 3; y <= z->posy() + 3; y++) {
@@ -1640,7 +1640,7 @@ void mattack::leap(monster *z, int index)
     // Go back and remove all options that aren't tied for best
     for (size_t i = 0; i < options.size() && options.size() > 1; i++) {
         point p = options[i];
-        if (rl_dist( target, options[i] ) != best) {
+        if (rl_dist( target.x, target.y, options[i].x, options[i].y ) != best) {
             options.erase(options.begin() + i);
             i--;
         }
@@ -1880,7 +1880,7 @@ void mattack::callblobs(monster *z, int index)
             post = nearby_points[ assigned_spot ];
         }
         int trash = 0;
-        (*ally)->set_dest( post.x, post.y, trash );
+        (*ally)->set_dest( tripoint( post.x, post.y, z->posz() ), trash );
         if (!(*ally)->has_effect("controlled")) {
             (*ally)->add_effect("controlled", 1, num_bp, true);
         }
@@ -1918,7 +1918,7 @@ void mattack::jackson(monster *z, int index)
             converted = true;
         }
         int trash = 0;
-        (*ally)->set_dest( post.x, post.y, trash );
+        (*ally)->set_dest( tripoint( post.x, post.y, z->posz() ), trash );
         if (!(*ally)->has_effect("controlled")) {
             (*ally)->add_effect("controlled", 1, num_bp, true);
         }

@@ -135,6 +135,19 @@ map::~map()
 {
 }
 
+const maptile map::maptile_at( const tripoint &p ) const
+{
+    static const submap null_submap;
+    if( !inbounds( p ) ) {
+        return null_submap.get_maptile( 0, 0 );
+    }
+
+    int lx, ly;
+    submap *const sm = get_submap_at( p, lx, ly );
+
+    return sm->get_maptile( lx, ly );
+}
+
 // Vehicle functions
 
 VehicleList map::get_vehicles(){
@@ -1629,8 +1642,8 @@ int map::combined_movecost( const tripoint &from, const tripoint &to,
                             const vehicle *ignored_vehicle, const int modifier ) const
 {
     const int mults[4] = { 0, 50, 71, 100 };
-    int cost1 = move_cost( from, ignored_vehicle );
-    int cost2 = move_cost( to, ignored_vehicle );
+    const int cost1 = move_cost( from, ignored_vehicle );
+    const int cost2 = move_cost( to, ignored_vehicle );
     // Multiply cost depending on the number of differing axes
     // 0 if all axes are equal, 100% if only 1 differs, 141% for 2, 200% for 3
     size_t match = ( from.x != to.x ) + ( from.y != to.y ) + ( from.z != to.z );
@@ -4964,7 +4977,7 @@ bool map::apply_vision_effects( WINDOW *w, lit_level ll,
 void map::draw( WINDOW* w, const tripoint &center )
 {
     // We only need to draw anything if we're not in tiles mode.
-    if(is_draw_tiles_mode()) {
+    if( is_draw_tiles_mode() ) {
         return;
     }
 
@@ -4994,11 +5007,22 @@ void map::draw( WINDOW* w, const tripoint &center )
             x++;
         }
 
-        for( ; x < MAPSIZE * SEEX && x <= center.x + getmaxx(w) / 2; x++ ) {
-            const lit_level lighting = visibility_cache[x][y];
-            if( !apply_vision_effects( w, lighting, cache ) ) {
-                drawsq( w, g->u, p, false, true, center.x, center.y,
-                        lighting == LL_LOW, lighting == LL_BRIGHT, true );
+        int lx;
+        int ly;
+        const int maxx = std::min( MAPSIZE * SEEX, center.x + getmaxx(w) / 2 + 1 );
+        while( x < maxx ) {
+            submap *cur_submap = get_submap_at( p, lx, ly );
+            while( lx < SEEX && x < maxx )  {
+                const lit_level lighting = visibility_cache[x][y];
+                if( !apply_vision_effects( w, lighting, cache ) ) {
+                    const maptile curr_maptile = cur_submap->get_maptile( lx, ly );
+                    draw_maptile( w, g->u, p, curr_maptile, 
+                                  false, true, center.x, center.y,
+                                  lighting == LL_LOW, lighting == LL_BRIGHT, true );
+                }
+
+                lx++;
+                x++;
             }
         }
 
@@ -5014,37 +5038,40 @@ void map::draw( WINDOW* w, const tripoint &center )
 }
 
 void map::drawsq(WINDOW* w, player &u, const tripoint &p, const bool invert_arg,
-                 const bool show_items_arg, const tripoint &view_center,
-                 const bool low_light, const bool bright_light, const bool inorder)
-{
-    drawsq( w, u, p, invert_arg, show_items_arg, view_center.x, view_center.y, low_light, bright_light, inorder );
-}
-
-void map::drawsq(WINDOW* w, player &u, const tripoint &p, const bool invert_arg,
                  const bool show_items_arg, const int view_center_x_arg, const int view_center_y_arg,
                  const bool low_light, const bool bright_light, const bool inorder)
 {
     // We only need to draw anything if we're not in tiles mode.
-    if(is_draw_tiles_mode()) {
+    if( is_draw_tiles_mode() ) {
         return;
     }
 
+    if( !inbounds( p ) ) {
+        return;
+    }
+
+    const int cx = view_center_x_arg != -1 ? view_center_x_arg : u.posx();
+    const int cy = view_center_y_arg != -1 ? view_center_y_arg : u.posy();
+
+    const maptile tile = maptile_at( p );
+    draw_maptile( w, u, p, tile, invert_arg, show_items_arg,
+                  cx, cy, low_light, bright_light, inorder );
+}
+
+void map::draw_maptile( WINDOW* w, player &u, const tripoint &p, const maptile &curr_maptile,
+                        const bool invert_arg, const bool show_items_arg,
+                        const int view_center_x_arg, const int view_center_y_arg,
+                        const bool low_light, const bool bright_light, const bool inorder )
+{
     bool invert = invert_arg;
     bool show_items = show_items_arg;
     int cx = view_center_x_arg;
     int cy = view_center_y_arg;
-    if( !inbounds( p ) )
-        return; // Out of bounds
-    if (cx == -1)
-        cx = u.posx();
-    if (cy == -1)
-        cy = u.posy();
     nc_color tercol;
-    const ter_t &curr_ter = ter_at( p );
-    const furn_t &curr_furn = furn_at( p );
-    const trap &curr_trap = tr_at( p );
-    const field &curr_field = field_at( p );
-    auto curr_items = i_at( p );
+    const ter_t &curr_ter = terlist[ curr_maptile.get_ter() ];
+    const furn_t &curr_furn = furnlist[ curr_maptile.get_furn() ];
+    const trap &curr_trap = *(traplist[ curr_maptile.get_trap() ]);
+    const field &curr_field = curr_maptile.get_field();
     long sym;
     bool hi = false;
     bool graf = false;
@@ -5065,7 +5092,7 @@ void map::drawsq(WINDOW* w, player &u, const tripoint &p, const bool invert_arg,
         }
         tercol = curr_ter.color;
     }
-    if( has_flag( TFLAG_SWIMMABLE, p ) && has_flag( TFLAG_DEEP_WATER, p ) && !u.is_underwater() ) {
+    if( curr_ter.has_flag( TFLAG_SWIMMABLE ) && curr_ter.has_flag( TFLAG_DEEP_WATER ) && !u.is_underwater() ) {
         show_items = false; // Can only see underwater items if WE are underwater
     }
     // If there's a trap here, and we have sufficient perception, draw that instead
@@ -5083,7 +5110,7 @@ void map::drawsq(WINDOW* w, player &u, const tripoint &p, const bool invert_arg,
             sym = curr_trap.sym;
         }
     }
-    if (curr_field.fieldCount() > 0) {
+    if( curr_field.fieldCount() > 0 ) {
         const field_id& fid = curr_field.fieldSymbol();
         const field_entry* fe = curr_field.findField(fid);
         const field_t& f = fieldlist[fid];
@@ -5122,31 +5149,32 @@ void map::drawsq(WINDOW* w, player &u, const tripoint &p, const bool invert_arg,
     }
 
     // If there are items here, draw those instead
-    if( show_items && sees_some_items( p, g->u ) ) {
+    if( show_items && curr_maptile.get_item_count() > 0 && sees_some_items( p, g->u ) ) {
         // if there's furniture/terrain/trap/fields (sym!='.')
         // and we should not override it, then only highlight the square
         if (sym != '.' && sym != '%' && !draw_item_sym) {
             hi = true;
         } else {
             // otherwise override with the symbol of the last item
-            sym = curr_items[curr_items.size() - 1].symbol();
+            sym = curr_maptile.get_last_item().symbol();
             if (!draw_item_sym) {
-                tercol = curr_items[curr_items.size() - 1].color();
+                tercol = curr_maptile.get_last_item().color();
             }
-            if (curr_items.size() > 1) {
+            if( curr_maptile.get_item_count() > 1 ) {
                 invert = !invert;
             }
         }
     }
 
     int veh_part = 0;
-    vehicle *veh = veh_at( p, veh_part );
-    if (veh) {
-        sym = special_symbol (veh->face.dir_symbol(veh->part_sym(veh_part)));
-        tercol = veh->part_color(veh_part);
+    const vehicle *veh = veh_at_internal( p, veh_part );
+    if( veh != nullptr ) {
+        sym = special_symbol( veh->face.dir_symbol( veh->part_sym( veh_part ) ) );
+        tercol = veh->part_color( veh_part );
     }
+
     // If there's graffiti here, change background color
-    if( has_graffiti_at( p ) ) {
+    if( curr_maptile.has_graffiti() ) {
         graf = true;
     }
 
@@ -5187,7 +5215,7 @@ void map::drawsq(WINDOW* w, player &u, const tripoint &p, const bool invert_arg,
 // TODO: Implement this function in FoV update
 bool map::sees( const tripoint &F, const tripoint &T, const int range, int &t1, int &t2 ) const
 {
-    (void)t2;
+    t2 = 0;
     return sees( F.x, F.y, T.x, T.y, range, t1 );
 }
 
@@ -5221,6 +5249,7 @@ bool map::sees(const int Fx, const int Fy, const int Tx, const int Ty,
     int st;
 
     if (range >= 0 && range < rl_dist(Fx, Fy, Tx, Ty) ) {
+        bresenham_slope = 0;
         return false; // Out of range!
     }
     if (ax > ay) { // Mostly-horizontal line
@@ -5245,6 +5274,8 @@ bool map::sees(const int Fx, const int Fy, const int Tx, const int Ty,
                 }
             } while ((trans(x, y)) && (INBOUNDS(x,y)));
         }
+        // Zero the slope when returning false - simplifies many if-elses in code
+        bresenham_slope = 0;
         return false;
     } else { // Same as above, for mostly-vertical lines
         st = SGN(ax - (ay / 2));
@@ -5261,12 +5292,14 @@ bool map::sees(const int Fx, const int Fy, const int Tx, const int Ty,
                 t += ax;
                 if (x == Tx && y == Ty) {
                     bresenham_slope *= st;
-     return true;
+                    return true;
                 }
             } while ((trans(x, y)) && (INBOUNDS(x,y)));
         }
+        bresenham_slope = 0;
         return false;
     }
+    bresenham_slope = 0;
     return false; // Shouldn't ever be reached, but there it is.
 }
 
@@ -5367,6 +5400,39 @@ bool map::accessible_furniture( const tripoint &f, const tripoint &t, const int 
     return ( f == t || clear_path( f, t, range, 1, 100 ) );
 }
 
+std::vector<tripoint> map::get_dir_circle( const tripoint &f, const tripoint &t ) const
+{
+    std::vector<tripoint> circle;
+    circle.resize(8);
+
+    const std::vector<tripoint> line = line_to( f, t, 0, 0 );
+    const std::vector<tripoint> spiral = closest_tripoints_first( 1, f );
+    const std::vector<int> pos_index {1,2,4,6,8,7,5,3};
+
+    //  All possible constelations (closest_points_first goes clockwise)
+    //  753  531  312  124  246  468  687  875
+    //  8 1  7 2  5 4  3 6  1 8  2 7  4 5  6 3
+    //  642  864  786  578  357  135  213  421
+
+    size_t pos_offset = 0;
+    for( unsigned int i = 1; i < spiral.size(); i++ ) {
+        if( spiral[i] == line[0] ) {
+            pos_offset = i-1;
+            break;
+        }
+    }
+
+    for( unsigned int i = 1; i < spiral.size(); i++ ) {
+        if( pos_offset >= pos_index.size() ) {
+            pos_offset = 0;
+        }
+
+        circle[pos_index[pos_offset++]-1] = spiral[i];
+    }
+
+    return circle;
+}
+
 std::vector<point> map::getDirCircle(const int Fx, const int Fy, const int Tx, const int Ty) const
 {
     std::vector<point> vCircle;
@@ -5398,6 +5464,24 @@ std::vector<point> map::getDirCircle(const int Fx, const int Fy, const int Tx, c
     }
 
     return vCircle;
+}
+
+std::vector<tripoint> map::route( const tripoint &f, const tripoint &t, const int bash ) const
+{
+    // Just wrap the 2D overload into 3points
+    // Does NOT allow finding 3D paths
+    std::vector<tripoint> ret;
+    if( f.z != t.z ) {
+        return ret;
+    }
+
+    const auto two_dimensional_route = route( f.x, f.y, t.x, t.y, bash );
+    ret.reserve( two_dimensional_route.size() );
+    for( const auto &pt : two_dimensional_route ) {
+        ret.push_back( tripoint( pt, f.z ) );
+    }
+
+    return ret;
 }
 
 struct pair_greater_cmp
@@ -6119,7 +6203,7 @@ void map::spawn_monsters( const tripoint &gp, mongroup &group, bool ignore_sight
     const int gy = gp.y;
     const int s_range = std::min(SEEX * (MAPSIZE / 2), g->u.sight_range( g->light_level() ) );
     int pop = group.population;
-    std::vector<point> locations;
+    std::vector<tripoint> locations;
     if( !ignore_sight ) {
         // If the submap is one of the outermost submaps, assume that monsters are
         // invisible there.
@@ -6148,7 +6232,7 @@ void map::spawn_monsters( const tripoint &gp, mongroup &group, bool ignore_sight
             if( has_flag_ter_or_furn( TFLAG_INDOORS, fx, fy ) ) {
                 continue; // monster must spawn outside.
             }
-            locations.push_back( point( fx, fy ) );
+            locations.push_back( tripoint( fx, fy, gp.z ) );
         }
     }
     if( locations.empty() ) {
@@ -6166,11 +6250,11 @@ void map::spawn_monsters( const tripoint &gp, mongroup &group, bool ignore_sight
         for( int i = 0; i < spawn_details.pack_size; i++) {
             for( int tries = 0; tries < 10 && !locations.empty(); tries++ ) {
                 const size_t index = rng( 0, locations.size() - 1 );
-                const point p = locations[index];
-                if( !tmp.can_move_to( p.x, p.y ) ) {
+                const tripoint &p = locations[index];
+                if( !tmp.can_move_to( p ) ) {
                     continue; // target can not contain the monster
                 }
-                tmp.spawn( p.x, p.y );
+                tmp.spawn( p.x, p.y, p.z );
                 g->add_zombie( tmp );
                 locations.erase( locations.begin() + index );
                 break;
@@ -6205,8 +6289,9 @@ void map::spawn_monsters(bool ignore_sight)
                         tmp.friendly = -1;
                     }
                     int fx = mx + gx * SEEX, fy = my + gy * SEEY;
+                    tripoint pos( fx, fy, abs_sub.z );
 
-                    while ((!g->is_empty(fx, fy) || !tmp.can_move_to(fx, fy)) && tries < 10) {
+                    while ((!g->is_empty( pos ) || !tmp.can_move_to( pos )) && tries < 10) {
                         mx = (i.posx + rng(-3, 3)) % SEEX;
                         my = (i.posy + rng(-3, 3)) % SEEY;
                         if (mx < 0) {
@@ -6220,7 +6305,7 @@ void map::spawn_monsters(bool ignore_sight)
                         tries++;
                     }
                     if (tries != 10) {
-                        tmp.spawn(fx, fy);
+                        tmp.spawn( fx, fy, abs_sub.z );
                         g->add_zombie(tmp);
                     }
                 }

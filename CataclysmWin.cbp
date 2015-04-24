@@ -442,6 +442,7 @@
 		<Unit filename="src/weather_data.cpp" />
 		<Unit filename="src/weather_gen.cpp" />
 		<Unit filename="src/weather_gen.h" />
+		<Unit filename="src/weighted_list.h" />
 		<Unit filename="src/wincurse.cpp" />
 		<Unit filename="src/wish.cpp" />
 		<Unit filename="src/worldfactory.cpp" />

@@ -285,6 +285,7 @@ class game
         bool spread_fungus( const tripoint &p );
         std::vector<faction *> factions_at( const tripoint &p );
         int &scent(int x, int y);
+        int &scent( const tripoint &p );
         float ground_natural_light_level() const;
         float natural_light_level() const;
         unsigned char light_level();

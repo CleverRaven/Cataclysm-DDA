@@ -1889,6 +1889,22 @@
     },
     {
         "type" : "keybinding",
+        "id": "TOGGLE_VEH",
+        "category": "ADVANCED_INVENTORY",
+        "name": "Toggle vehicle",
+        "bindings":[
+            {
+                "input_method":"keyboard",
+                "key":"v"
+            },
+            {
+                "input_method":"keyboard",
+                "key":"V"
+            }
+        ]
+    },
+    {
+        "type" : "keybinding",
         "id": "TOGGLE_AUTO_PICKUP",
         "category": "ADVANCED_INVENTORY",
         "name": "Toggle auto-pickup for item",
