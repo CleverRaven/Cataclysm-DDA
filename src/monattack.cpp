@@ -3452,22 +3452,19 @@ void mattack::breathe(monster *z, int index)
         return;
     }
 
-    std::vector<point> valid;
+    std::vector<tripoint> valid;
     for (int x = z->posx() - 1; x <= z->posx() + 1; x++) {
         for (int y = z->posy() - 1; y <= z->posy() + 1; y++) {
             if (g->is_empty(x, y)) {
-                valid.push_back( point(x, y) );
+                valid.push_back( tripoint(x, y, z->posz()) );
             }
         }
     }
 
     if (!valid.empty()) {
-        point place = valid[ rng(0, valid.size() - 1) ];
-        monster spawned(GetMType("mon_breather"));
-        spawned.reset_special(0);
-        spawned.spawn(place.x, place.y);
-        spawned.faction = z->faction;
-        g->add_zombie(spawned);
+        monster *spawned = g->summon_mon("mon_breather", valid[ rng(0, valid.size() - 1) ]);
+        spawned->reset_special(0);
+        spawned->make_ally(z);
     }
 }
 
@@ -3858,23 +3855,23 @@ void mattack::darkman(monster *z, int index)
         return;
     }
     z->reset_special(index); // Reset timer
-    std::vector<point> free;
+    std::vector<tripoint> free;
     for( int x = z->posx() - 1; x <= z->posx() + 1; x++ ) {
         for( int y = z->posy() - 1; y <= z->posy() + 1; y++ ) {
             if( g->is_empty(x, y) ) {
-                free.push_back(point(x, y));
+                free.push_back(tripoint(x, y, z->posz()));
             }
         }
     }
-    int free_index = rng( 0, free.size() - 1 );
-    monster tmp( GetMType("mon_shadow") );
-    z->moves -= 10;
-    tmp.spawn( free[free_index].x, free[free_index].y );
-    tmp.faction = z->faction;
-    g->add_zombie( tmp );
-    if( g->u.sees( *z ) ) {
-        add_msg(m_warning, _("A shadow splits from the %s!"),
-                z->name().c_str() );
+    if (!free.empty()) {
+        int free_index = rng( 0, free.size() - 1 );
+        z->moves -= 10;
+        monster *shadow = g->summon_mon("mon_shadow", free[free_index]);
+        shadow->make_ally(z);
+        if( g->u.sees( *z ) ) {
+            add_msg(m_warning, _("A shadow splits from the %s!"),
+                    z->name().c_str() );
+        }
     }
     if( !z->sees( g->u ) ) {
         return; // Wont do the combat stuff unless it can see you

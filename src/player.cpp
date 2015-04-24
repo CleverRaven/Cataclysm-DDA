@@ -4662,11 +4662,11 @@ dealt_damage_instance player::deal_damage(Creature* source, body_part bp, const 
     // handle snake artifacts
     if (has_artifact_with(AEP_SNAKES) && dam >= 6) {
         int snakes = int(dam / 6);
-        std::vector<point> valid;
+        std::vector<tripoint> valid;
         for (int x = posx() - 1; x <= posx() + 1; x++) {
             for (int y = posy() - 1; y <= posy() + 1; y++) {
                 if (g->is_empty(x, y)) {
-                    valid.push_back( point(x, y) );
+                    valid.push_back( tripoint(x, y, posz()) );
                 }
             }
         }
@@ -4678,24 +4678,21 @@ dealt_damage_instance player::deal_damage(Creature* source, body_part bp, const 
         } else if (snakes >= 2) {
             add_msg(m_warning, _("Some snakes sprout from your body!"));
         }
-        monster snake(GetMType("mon_shadow_snake"));
         for (int i = 0; i < snakes; i++) {
             int index = rng(0, valid.size() - 1);
-            point sp = valid[index];
+            monster *snake = g->summon_mon("mon_shadow_snake", valid[index]);
+            snake->friendly = -1;
             valid.erase(valid.begin() + index);
-            snake.spawn(sp.x, sp.y);
-            snake.friendly = -1;
-            g->add_zombie(snake);
         }
     }
 
     // And slimespawners too
     if ((has_trait("SLIMESPAWNER")) && (dam >= 10) && one_in(20 - dam)) {
-        std::vector<point> valid;
+        std::vector<tripoint> valid;
         for (int x = posx() - 1; x <= posx() + 1; x++) {
             for (int y = posy() - 1; y <= posy() + 1; y++) {
                 if (g->is_empty(x, y)) {
-                    valid.push_back( point(x, y) );
+                    valid.push_back( tripoint(x, y, posz()) );
                 }
             }
         }
@@ -4704,16 +4701,14 @@ dealt_damage_instance player::deal_damage(Creature* source, body_part bp, const 
         monster slime(GetMType("mon_player_blob"));
         for (int i = 0; i < numslime; i++) {
             int index = rng(0, valid.size() - 1);
-            point sp = valid[index];
+            monster *slime = g->summon_mon("mon_player_blob", valid[index]);
+            slime->friendly = -1;
             valid.erase(valid.begin() + index);
-            slime.spawn(sp.x, sp.y);
-            slime.friendly = -1;
-            g->add_zombie(slime);
         }
     }
 
 
-    
+
         //Acid blood effects.
         bool u_see = g->u.sees(*this);
         int cut_dam = dealt_dams.type_damage(DT_CUT);
@@ -4736,7 +4731,7 @@ dealt_damage_instance player::deal_damage(Creature* source, body_part bp, const 
             source->deal_damage(this, bp_head, acidblood_damage);
             }
         }
-        
+
     if (has_trait("ADRENALINE") && !has_effect("adrenaline") &&
         (hp_cur[hp_head] < 25 || hp_cur[hp_torso] < 15)) {
         add_effect("adrenaline", 200);
@@ -5747,7 +5742,6 @@ void player::hardcoded_effects(effect &it)
 
                 moves = -500;
                 int sporex, sporey;
-                monster spore(GetMType("mon_spore"));
                 for (int i = -1; i <= 1; i++) {
                     for (int j = -1; j <= 1; j++) {
                         if (i == 0 && j == 0) {
@@ -5768,8 +5762,7 @@ void player::hardcoded_effects(effect &it)
                                     critter.die( this ); // Counts as kill by player
                                 }
                             } else if (one_in(4) && g->num_zombies() <= 1000){
-                                spore.spawn(sporex, sporey);
-                                g->add_zombie(spore);
+                                g->summon_mon("mon_spore", tripoint(sporex, sporey, posz()));
                             }
                         }
                     }
@@ -6245,7 +6238,6 @@ void player::hardcoded_effects(effect &it)
             // Figure out where they may be placed
             add_msg_player_or_npc( m_bad, _("Your flesh crawls; insects tear through the flesh and begin to emerge!"),
                 _("Insects begin to emerge from <npcname>'s skin!") );
-            monster grub(GetMType("mon_dermatik_larva"));
             for (int i = posx() - 1; i <= posx() + 1; i++) {
                 for (int j = posy() - 1; j <= posy() + 1; j++) {
                     if (num_insects == 0) {
@@ -6254,13 +6246,10 @@ void player::hardcoded_effects(effect &it)
                         continue;
                     }
                     if (g->mon_at(i, j) == -1) {
-                        grub.spawn(i, j);
+                        monster *grub = g->summon_mon("mon_dermatik_larva", tripoint(i, j, posz()));
                         if (one_in(3)) {
-                            grub.friendly = -1;
-                        } else {
-                            grub.friendly = 0;
+                            grub->friendly = -1;
                         }
-                        g->add_zombie(grub);
                         num_insects--;
                     }
                 }
@@ -6329,8 +6318,6 @@ void player::hardcoded_effects(effect &it)
         }
     } else if (id == "attention") {
         if (one_in(100000 / dur) && one_in(100000 / dur) && one_in(250)) {
-            MonsterGroupResult spawn_details = MonsterGroupManager::GetResultFromGroup("GROUP_NETHER");
-            monster beast(GetMType(spawn_details.name));
             int x, y;
             int tries = 0;
             do {
@@ -6342,8 +6329,8 @@ void player::hardcoded_effects(effect &it)
                 if (g->m.move_cost(x, y) == 0) {
                     g->m.make_rubble( tripoint( x, y, posz() ), f_rubble_rock, true);
                 }
-                beast.spawn(x, y);
-                g->add_zombie(beast);
+                MonsterGroupResult spawn_details = MonsterGroupManager::GetResultFromGroup("GROUP_NETHER");
+                g->summon_mon(spawn_details.name, tripoint(x, y, posz()));
                 if (g->u.sees(x, y)) {
                     g->cancel_activity_query(_("A monster appears nearby!"));
                     add_msg_if_player(m_warning, _("A portal opens nearby, and a monster crawls through!"));
@@ -6409,8 +6396,6 @@ void player::hardcoded_effects(effect &it)
         if (dur > 3600) {
             // 12 teles
             if (one_in(4000 - int(.25 * (dur - 3600)))) {
-                MonsterGroupResult spawn_details = MonsterGroupManager::GetResultFromGroup("GROUP_NETHER");
-                monster beast(GetMType(spawn_details.name));
                 int x, y;
                 int tries = 0;
                 do {
@@ -6425,8 +6410,8 @@ void player::hardcoded_effects(effect &it)
                     if (g->m.move_cost(x, y) == 0) {
                         g->m.make_rubble( tripoint( x, y, posz() ), f_rubble_rock, true);
                     }
-                    beast.spawn(x, y);
-                    g->add_zombie(beast);
+                    MonsterGroupResult spawn_details = MonsterGroupManager::GetResultFromGroup("GROUP_NETHER");
+                    g->summon_mon(spawn_details.name, tripoint(x, y, posz()));
                     if (g->u.sees(x, y)) {
                         g->cancel_activity_query(_("A monster appears nearby!"));
                         add_msg(m_warning, _("A portal opens nearby, and a monster crawls through!"));
@@ -9186,23 +9171,20 @@ bool player::eat(item *eaten, it_comest *comest)
         (temp_thirst < capacity && temp_hunger <= (capacity + 10) ) ) {
             add_msg(m_mixed, _("You feel as though you're going to split open!  In a good way??"));
             mod_pain(5);
-            std::vector<point> valid;
+            std::vector<tripoint> valid;
             for (int x = posx() - 1; x <= posx() + 1; x++) {
                 for (int y = posy() - 1; y <= posy() + 1; y++) {
                     if (g->is_empty(x, y)) {
-                        valid.push_back( point(x, y) );
+                        valid.push_back( tripoint(x, y, posz()) );
                     }
                 }
             }
-            monster slime(GetMType("mon_player_blob"));
             int numslime = 1;
             for (int i = 0; i < numslime; i++) {
                 int index = rng(0, valid.size() - 1);
-                point sp = valid[index];
+                monster *slime = g->summon_mon("mon_player_blob", valid[index]);
+                slime->friendly = -1;
                 valid.erase(valid.begin() + index);
-                slime.spawn(sp.x, sp.y);
-                slime.friendly = -1;
-                g->add_zombie(slime);
             }
             hunger += 40;
             thirst += 40;
@@ -13353,7 +13335,6 @@ std::vector<std::string> player::get_overlay_ids() const {
 void player::spores()
 {
     sounds::sound(posx(), posy(), 10, _("Pouf!")); //~spore-release sound
-    monster spore(GetMType("mon_spore"));
     int sporex, sporey;
     int mondex;
     for (int i = -1; i <= 1; i++) {
@@ -13376,9 +13357,8 @@ void player::spores()
                         critter.die( this );
                     }
                 } else if (one_in(3) && g->num_zombies() <= 1000) { // Spawn a spore
-                    spore.spawn(sporex, sporey);
-                    spore.friendly = -1;
-                    g->add_zombie(spore);
+                    monster *spore = g->summon_mon("mon_spore", tripoint(sporex, sporey, posz()));
+                    spore->friendly = -1;
                 }
             }
         }
