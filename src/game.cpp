@@ -5975,6 +5975,10 @@ void game::monmove()
                 add_msg( _( "%s's brain explodes!" ), ( elem )->name.c_str() );
                 ( elem )->die( nullptr );
             }
+
+        if( !elem->is_dead() ) {
+            elem->process_active_items();
+        }
     }
     cleanup_dead();
 }
