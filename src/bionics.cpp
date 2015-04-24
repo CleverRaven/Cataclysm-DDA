@@ -1155,6 +1155,9 @@ void player::process_bionic(int b)
             add_msg( m_warning, _("Your %s has lost connection and is turning off."),
                      bionics[bio.id].name.c_str() );
         }
+    } else if (bio.id == "bio_hydraulics") {
+        // Sound of hissing hydraulic muscle! (not quite as loud as a car horn)
+        sounds::sound(posx(), posy(), 19, _("HISISSS!"));
     }
 }
 
