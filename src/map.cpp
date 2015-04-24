@@ -2427,7 +2427,7 @@ void map::create_spores( const tripoint &p, Creature* source )
                     }
                 } else if (((i == x && j == y) || one_in(4)) &&
                            g->num_zombies() <= 1000) { // Spawn a spore
-                    g->summon_mon("mon_spore", tripoint(i, j, source->posz()));
+                    g->summon_mon("mon_spore", tripoint(i, j, p.z));
                 }
             }
         }
