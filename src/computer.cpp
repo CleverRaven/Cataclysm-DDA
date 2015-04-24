@@ -12,7 +12,6 @@
 #include "sounds.h"
 #include "rng.h"
 #include "mission.h"
-#include "calendar.h"
 
 #include <fstream>
 #include <string>
