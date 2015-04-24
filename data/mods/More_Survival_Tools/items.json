@@ -594,5 +594,24 @@
         "cutting" : 11,
         "price" : 6000,
         "flags": ["NON_STUCK"]
+    },
+    {
+        "id": "foil_alum",
+        "type": "CONTAINER",
+        "symbol": ",",
+        "color": "light_gray",
+        "name": "aluminum foil wrap",
+        "name_plural" : "aluminum foil wraps",
+        "category": "other",
+        "description": "A half crumpled sheet of aluminum foil, used for cooking and baking.",
+        "price": 0,
+        "weight": 5,
+        "volume": 0,
+        "bashing": -8,
+        "cutting": 0,
+        "to_hit": -2,
+        "contains": 10,
+        "material": "aluminum",
+        "qualities": [["COOK", 1]]
     }
 ]
