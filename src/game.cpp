@@ -5975,6 +5975,10 @@ void game::monmove()
                 add_msg( _( "%s's brain explodes!" ), ( elem )->name.c_str() );
                 ( elem )->die( nullptr );
             }
+
+        if( !elem->is_dead() ) {
+            elem->process_active_items();
+        }
     }
     cleanup_dead();
 }
@@ -6025,7 +6029,6 @@ void game::do_blast( const tripoint &p, const int power, const int radius, const
                 n->deal_damage( nullptr, bp_leg_r, damage_instance( DT_BASH, rng( dam / 3, dam ) ) );
                 n->deal_damage( nullptr, bp_arm_l, damage_instance( DT_BASH, rng( dam / 3, dam ) ) );
                 n->deal_damage( nullptr, bp_arm_r, damage_instance( DT_BASH, rng( dam / 3, dam ) ) );
-                n->check_dead_state();
             }
             if (fire) {
                 m.add_field(i, j, fd_fire, dam / 10);
@@ -6093,7 +6096,6 @@ void game::explosion( const tripoint &p, int power, int shrapnel, bool fire, boo
                 monster &critter = critter_tracker.find(zid);
                 dam -= critter.get_armor_cut(bp_torso);
                 critter.apply_damage( nullptr, bp_torso, dam );
-                critter.check_dead_state();
             } else if( npcdex != -1 ) {
                 body_part hit = random_body_part();
                 // TODO: why is this different for NPC vs player character?
@@ -6103,13 +6105,11 @@ void game::explosion( const tripoint &p, int power, int shrapnel, bool fire, boo
                     dam = rng(long(1.5 * dam), 3 * dam);
                 }
                 active_npc[npcdex]->deal_damage( nullptr, hit, damage_instance( DT_CUT, dam ) );
-                active_npc[npcdex]->check_dead_state();
             } else if (tx == u.posx() && ty == u.posy()) {
                 body_part hit = random_body_part();
                 //~ %s is bodypart name in accusative.
                 add_msg(m_bad, _("Shrapnel hits your %s!"), body_part_name_accusative(hit).c_str());
                 u.deal_damage( nullptr, hit, damage_instance( DT_CUT, dam ) );
-                u.check_dead_state();
             } else {
                 std::set<std::string> shrapnel_effects;
                 m.shoot( tripoint( tx, ty, u.posz() ), dam, j == traj.size() - 1, shrapnel_effects);

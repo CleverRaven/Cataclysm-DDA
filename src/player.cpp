@@ -4037,40 +4037,18 @@ void player::charge_power(int amount)
  * item.light.* is -unimplemented- for the moment, as it is a custom override for
  * applying light sources/arcs with specific angle and direction.
  */
-float player::active_light()
+float player::active_light() const
 {
     float lumination = 0;
 
     int maxlum = 0;
-    const invslice & stacks = inv.slice();
-    for( auto &stack : stacks ) {
-        item &itemit = stack->front();
-        item * stack_iter = &itemit;
-        if (stack_iter->active && stack_iter->charges > 0) {
-            int lumit = stack_iter->getlight_emit(true);
-            if ( maxlum < lumit ) {
-                maxlum = lumit;
-            }
+    has_item_with( [&maxlum]( const item &it ) {
+        const int lumit = it.getlight_emit_active();
+        if( maxlum < lumit ) {
+            maxlum = lumit;
         }
-    }
-
-    for( auto &elem : worn ) {
-        if( elem.active && elem.charges > 0 ) {
-            int lumit = elem.getlight_emit( true );
-            if ( maxlum < lumit ) {
-                maxlum = lumit;
-            }
-        }
-    }
-
-    if (!weapon.is_null()) {
-        if ( weapon.active  && weapon.charges > 0) {
-            int lumit = weapon.getlight_emit(true);
-            if ( maxlum < lumit ) {
-                maxlum = lumit;
-            }
-        }
-    }
+        return false; // continue search, otherwise has_item_with would cancel the search
+    } );
 
     lumination = (float)maxlum;
 
