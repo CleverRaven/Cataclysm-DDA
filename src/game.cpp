@@ -4110,7 +4110,8 @@ void game::debug()
             popup(_("No character there."));
         } else {
             player &p = npcdex != -1 ? *active_npc[npcdex] : u;
-            npc *np = active_npc[npcdex];
+            // The NPC is also required for "Add mission", so has to be in this scope
+            npc *np = npcdex != -1 ? active_npc[npcdex] : nullptr;
             uimenu nmenu;
             nmenu.return_invalid = true;
 
@@ -4120,8 +4121,8 @@ void game::debug()
                 data << npc_class_name(np->myclass) << "; " <<
                      npc_attitude_name(np->attitude) << std::endl;
                 if (np->has_destination()) {
-                    data << string_format(_("Destination: %d:%d (%s)"),
-                            np->goal.x, np->goal.y,
+                    data << string_format(_("Destination: %d:%d%d (%s)"),
+                            np->goal.x, np->goal.y, np->goal.z,
                             otermap[overmap_buffer.ter(np->goal)].name.c_str()) << std::endl;
                 } else {
                     data << _("No destination.") << std::endl;
@@ -4151,7 +4152,7 @@ void game::debug()
             nmenu.addentry( D_NEEDS, true, 'n', "%s", _("Set [n]eeds") );
             nmenu.addentry( D_STATUS, true, '@', "%s", _("Status Window [@]") );
             if( p.is_npc() ) {
-                nmenu.addentry( D_MISSION, true, 'm', "%s", _("Add mission") );
+                nmenu.addentry( D_MISSION, true, 'm', "%s", _("Add [m]ission") );
             }
             nmenu.addentry( 999, true, 'q', "%s", _("[q]uit") );
             nmenu.selected = 0;
