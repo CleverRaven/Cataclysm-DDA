@@ -31,7 +31,7 @@
             "very damaged",
             "thoroughly damaged"
         ],
-        "acid_resist" : 1,
+        "acid_resist" : 2,
         "elec_resist" : 1,
         "fire_resist" : 1,
         "density" : 4
@@ -49,7 +49,7 @@
             "very damaged",
             "thoroughly damaged"
         ],
-        "acid_resist" : 1,
+        "acid_resist" : 2,
         "elec_resist" : 1,
         "fire_resist" : 1,
         "density" : 4
@@ -67,7 +67,7 @@
             "very damaged",
             "thoroughly damaged"
         ],
-        "acid_resist" : 0,
+        "acid_resist" : 1,
         "elec_resist" : 1,
         "fire_resist" : 1,
         "density" : 1
@@ -103,7 +103,7 @@
             "very damaged",
             "thoroughly damaged"
         ],
-        "acid_resist" : 1,
+        "acid_resist" : 2,
         "elec_resist" : 1,
         "fire_resist" : 1,
         "density" : 4
@@ -230,7 +230,7 @@
             "shredded",
             "tattered"
         ],
-        "acid_resist" : 1,
+        "acid_resist" : 3,
         "elec_resist" : 2,
         "fire_resist" : 0,
         "density" : 3
@@ -249,7 +249,7 @@
             "shredded",
             "tattered"
         ],
-        "acid_resist" : 1,
+        "acid_resist" : 4,
         "elec_resist" : 2,
         "fire_resist" : 0,
         "density" : 9
@@ -268,7 +268,7 @@
             "shredded",
             "tattered"
         ],
-        "acid_resist" : 1,
+        "acid_resist" : 4,
         "elec_resist" : 2,
         "fire_resist" : 2,
         "density" : 6
@@ -287,7 +287,7 @@
             "scarred",
             "broken"
         ],
-        "acid_resist" : 2,
+        "acid_resist" : 7,
         "elec_resist" : 2,
         "fire_resist" : 3,
         "density" : 10
@@ -305,7 +305,7 @@
             "split",
             "broken"
         ],
-        "acid_resist" : 6,
+        "acid_resist" : 10,
         "elec_resist" : 10,
         "fire_resist" : 10,
         "density" : 8
@@ -324,7 +324,7 @@
             "shredded",
             "tattered"
         ],
-        "acid_resist" : 1,
+        "acid_resist" : 3,
         "elec_resist" : 2,
         "fire_resist" : 1,
         "density" : 9
@@ -342,7 +342,7 @@
             "cracked",
             "shattered"
         ],
-        "acid_resist" : 1,
+        "acid_resist" : 6,
         "elec_resist" : 2,
         "fire_resist" : 2,
         "density" : 10
@@ -360,7 +360,7 @@
             "cracked",
             "shattered"
         ],
-        "acid_resist" : 1,
+        "acid_resist" : 7,
         "elec_resist" : 2,
         "fire_resist" : 1,
         "density" : 7
@@ -378,7 +378,7 @@
             "cracked",
             "shattered"
         ],
-        "acid_resist" : 3,
+        "acid_resist" : 8,
         "elec_resist" : 2,
         "fire_resist" : 3,
         "density" : 17
@@ -416,7 +416,7 @@
             "cracked",
             "splintered"
         ],
-        "acid_resist" : 2,
+        "acid_resist" : 4,
         "elec_resist" : 2,
         "fire_resist" : 1,
         "density" : 4
@@ -435,7 +435,7 @@
             "cracked",
             "shattered"
         ],
-        "acid_resist" : 2,
+        "acid_resist" : 9,
         "elec_resist" : 2,
         "fire_resist" : 1,
         "density" : 8
@@ -453,7 +453,7 @@
             "cracked",
             "shattered"
         ],
-        "acid_resist" : 3,
+        "acid_resist" : 10,
         "elec_resist" : 2,
         "fire_resist" : 3,
         "density" : 14
@@ -471,7 +471,7 @@
             "smashed",
             "shattered"
         ],
-        "acid_resist" : 0,
+        "acid_resist" : 5,
         "elec_resist" : 0,
         "fire_resist" : 3,
         "density" : 52
@@ -489,7 +489,7 @@
             "smashed",
             "shattered"
         ],
-        "acid_resist" : 0,
+        "acid_resist" : 7,
         "elec_resist" : 0,
         "fire_resist" : 3,
         "density" : 30
@@ -507,7 +507,7 @@
             "smashed",
             "shattered"
         ],
-        "acid_resist" : 0,
+        "acid_resist" : 5,
         "elec_resist" : 0,
         "fire_resist" : 3,
         "density" : 26
@@ -525,7 +525,7 @@
             "cracked",
             "shattered"
         ],
-        "acid_resist" : 3,
+        "acid_resist" : 10,
         "elec_resist" : 3,
         "fire_resist" : 3,
         "density" : 14
@@ -543,7 +543,7 @@
             "smashed",
             "shattered"
         ],
-        "acid_resist" : 1,
+        "acid_resist" : 6,
         "elec_resist" : 0,
         "fire_resist" : 3,
         "density" : 40
@@ -561,7 +561,7 @@
             "smashed",
             "shattered"
         ],
-        "acid_resist" : 2,
+        "acid_resist" : 10,
         "elec_resist" : 0,
         "fire_resist" : 3,
         "density" : 70
@@ -580,7 +580,7 @@
             "shredded",
             "tattered"
         ],
-        "acid_resist" : 2,
+        "acid_resist" : 5,
         "elec_resist" : 4,
         "fire_resist" : 20,
         "density" : 4
@@ -598,7 +598,7 @@
             "smashed",
             "shattered"
         ],
-        "acid_resist" : 3,
+        "acid_resist" : 10,
         "elec_resist" : 0,
         "fire_resist" : 3,
         "density" : 130
@@ -616,7 +616,7 @@
             "smashed",
             "shattered"
         ],
-        "acid_resist" : 0,
+        "acid_resist" : 4,
         "elec_resist" : 0,
         "fire_resist" : 2,
         "density" : 10
@@ -634,7 +634,7 @@
             "smashed",
             "shattered"
         ],
-        "acid_resist" : 0,
+        "acid_resist" : 8,
         "elec_resist" : 1,
         "fire_resist" : 3,
         "density" : 100
@@ -652,7 +652,7 @@
             "smashed",
             "crushed"
         ],
-        "acid_resist" : 0,
+        "acid_resist" : 1,
         "elec_resist" : 0,
         "fire_resist" : 1,
         "density" : 3
@@ -670,7 +670,7 @@
             "very damaged",
             "thoroughly damaged"
         ],
-        "acid_resist" : 2,
+        "acid_resist" : 4,
         "elec_resist" : 2,
         "fire_resist" : 3,
         "density" : 4
@@ -688,7 +688,7 @@
             "cracked",
             "shattered"
         ],
-        "acid_resist" : 2,
+        "acid_resist" : 6,
         "elec_resist" : 2,
         "fire_resist" : 3,
         "density" : 8

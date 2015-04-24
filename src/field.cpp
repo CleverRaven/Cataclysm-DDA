@@ -553,7 +553,7 @@ bool map::process_fields_in_submap( submap *const current_submap,
                             int chance = melting->acid_resist();
                             if (chance == 0) {
                                 melting->damage++;
-                            } else if (chance > 0 && chance < 9) {
+                            } else if (chance > 0 && chance <= 9) {
                                 if (one_in(chance)) {
                                     melting->damage++;
                                 }
