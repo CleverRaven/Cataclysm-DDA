@@ -3,6 +3,7 @@
 #include "mondeath.h"
 #include "output.h"
 #include "game.h"
+#include "debug.h"
 #include "rng.h"
 #include "item.h"
 #include "translations.h"
@@ -26,8 +27,6 @@ monster::monster()
  position.x = 20;
  position.y = 10;
  zpos = 0;
- wandx = -1;
- wandy = -1;
  wandf = 0;
  hp = 60;
  moves = 0;
@@ -50,8 +49,6 @@ monster::monster(mtype *t)
 {
  position.x = 20;
  position.y = 10;
- wandx = -1;
- wandy = -1;
  wandf = 0;
  type = t;
  moves = type->speed;
@@ -81,8 +78,6 @@ monster::monster(mtype *t, const tripoint &p )
  position.x = p.x;
  position.y = p.y;
  zpos = p.z;
- wandx = -1;
- wandy = -1;
  wandf = 0;
  type = t;
  moves = type->speed;
@@ -165,18 +160,24 @@ void monster::poly(mtype *t)
     faction = t->default_faction;
 }
 
-void monster::update_check(){
-    if (type->upgrade_group == "NULL"){
+void monster::update_check() {
+    // Hallucinations don't upgrade!
+    if (is_hallucination()) {
+        return;
+    }
+
+    // No chance of upgrading, abort
+    if ((type->half_life <= 0 && type->base_upgrade_chance <= 0) ||
+        (type->upgrade_group == "NULL" && type->upgrades_into == "NULL")) {
         return;
     }
     int current_day = calendar::turn.get_turn()/ DAYS(1);
     int upgrade_time = type->upgrade_min * ACTIVE_WORLD_OPTIONS["MONSTER_GROUP_DIFFICULTY"];
-    //g->u.add_msg_if_player(m_debug, "Upgrade group: %s ", type->upgrade_group);
     add_msg(m_debug, "Current:day: %d", current_day);
     add_msg(m_debug, "Upgrade time : %d", upgrade_time);
     add_msg(m_debug, "Last loaded: %d", last_loaded);
 
-    if (current_day == last_loaded || current_day < upgrade_time){
+    if (current_day == last_loaded || current_day < upgrade_time) {
         add_msg(m_debug, "Upgrade time less");
         last_loaded = current_day;
         return;
@@ -185,15 +186,32 @@ void monster::update_check(){
     // We don't start counting until the minimum upgrade time
     int time_passed = current_day - std::max(last_loaded, upgrade_time);
     add_msg(m_debug, "Time passed: %d", time_passed);
-    //radioactive decay function
-    //Don't set a half-life more than 700 days otherwise some weirdness may happen
-    float elapsed_lives = float(time_passed) / float(type->half_life);
-    float upgrade_chance = 1000 * (1- pow(std::max(0.0, 0.5 - type->base_upgrade_chance * .01 * elapsed_lives), elapsed_lives));
+
+    float upgrade_chance = 0;
+    // If we have a valid half life use a radioactive decay function. This will become
+    // rapidly inaccurate when half_life > 700, if longer half lives are needed increase
+    // the 1000 here, the 10 in the else, and the rng() range by factors of 10 as necessary.
+    if (type->half_life > 0) {
+        float elapsed_lives = float(time_passed) / float(type->half_life);
+        // (1- (.5 - base%)^lives) = percentage that have upgraded
+        upgrade_chance = 1000 * (1 - pow(std::max(0.0, 0.5 - type->base_upgrade_chance * .01 ),
+                                               elapsed_lives));
+    } else {
+        // Not a valid half life, so just do base_upgrade_chance percent per day
+        // (1 - (1 - base%)^days) = percentage that has upgraded
+        upgrade_chance = 1000 * (1 - pow(1 - type->base_upgrade_chance * .01, time_passed));
+    }
     add_msg(m_debug, "Upgrade chance: %f", upgrade_chance);
     if (upgrade_chance > rng(0, 999)){
-        const auto monsters = MonsterGroupManager::GetMonstersFromGroup(type->upgrade_group);
-        const std::string newtype = monsters[rng(0, monsters.size() - 1)];
-        poly(GetMType(newtype));
+        // Try to upgrade to a single monster first
+        if (type->upgrades_into != "NULL"){
+            poly(GetMType(type->upgrades_into));
+        // Else upgrade to the desired group
+        } else {
+            const auto monsters = MonsterGroupManager::GetMonstersFromGroup(type->upgrade_group);
+            const std::string newtype = monsters[rng(0, monsters.size() - 1)];
+            poly(GetMType(newtype));
+        }
     }
 
     last_loaded = current_day;
@@ -208,6 +226,13 @@ void monster::spawn(const int x, const int y, const int z)
     position.x = x;
     position.y = y;
     zpos = z;
+}
+
+void monster::spawn(const tripoint &p)
+{
+    position.x = p.x;
+    position.y = p.y;
+    zpos = p.z;
 }
 
 std::string monster::name(unsigned int quantity) const
@@ -501,18 +526,18 @@ void monster::shift(int sx, int sy)
     }
 
     if( wandf > 0 ) {
-        wandx -= xshift;
-        wandy -= yshift;
+        wander_pos.x -= xshift;
+        wander_pos.y -= yshift;
     }
 }
 
-point monster::move_target()
+tripoint monster::move_target()
 {
-    if (plans.empty()) {
+    if( plans.empty() ) {
         // if we have no plans, pretend it's intentional
-        return pos();
+        return pos3();
     }
-    return point(plans.back().x, plans.back().y);
+    return plans.back();
 }
 
 Creature *monster::attack_target()
@@ -521,12 +546,12 @@ Creature *monster::attack_target()
         return nullptr;
     }
 
-    point target_point = move_target();
-    Creature *target = g->critter_at( target_point.x, target_point.y );
-    if( target == nullptr || attitude_to( *target ) == Creature::A_FRIENDLY ||
-        !sees(*target) ) {
+    Creature *target = g->critter_at( move_target() );
+    if( target == nullptr || target == this ||
+        attitude_to( *target ) == Creature::A_FRIENDLY || !sees(*target) ) {
         return nullptr;
     }
+
     return target;
 }
 
@@ -1261,7 +1286,8 @@ void monster::set_special(int index, int time)
         return;
     }
 
-    if (time < 0) {
+    // -1 is used for disabling specials
+    if (time < -1) {
         time = 0;
     }
     sp_timeout[index] = time;
@@ -1590,7 +1616,8 @@ bool monster::make_fungus()
       tid == "mon_zombie_bio_op" || tid == "mon_zombie_survivor" || tid == "mon_zombie_fireman" ||
       tid == "mon_zombie_cop" || tid == "mon_zombie_fat" || tid == "mon_zombie_rot" ||
       tid == "mon_zombie_swimmer" || tid == "mon_zombie_grabber" || tid == "mon_zombie_technician" ||
-      tid == "mon_zombie_brute_shocker") {
+      tid == "mon_zombie_brute_shocker" || tid == "mon_zombie_grenadier" ||
+      tid == "mon_zombie_grenadier_elite") {
         polypick = 2; // Necro and Master have enough Goo to resist conversion.
         // Firefighter, hazmat, and scarred/beekeeper have the PPG on.
     } else if (tid == "mon_zombie_necro" || tid == "mon_zombie_master" || tid == "mon_zombie_fireman" ||
@@ -1623,6 +1650,16 @@ void monster::make_friendly()
 {
  plans.clear();
  friendly = rng(5, 30) + rng(0, 20);
+}
+
+void monster::make_ally(monster *z) {
+    friendly = z->friendly;
+    faction = z->faction;
+}
+
+void monster::reset_last_load()
+{
+    last_loaded = calendar::turn.get_turn() / DAYS(1);
 }
 
 void monster::add_item(item it)

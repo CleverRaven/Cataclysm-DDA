@@ -3,7 +3,8 @@
 #include "bionics.h"
 #include "mission.h"
 #include "game.h"
-#include "disease.h"
+#include "map.h"
+#include "debug.h"
 #include "addiction.h"
 #include "moraledata.h"
 #include "inventory.h"
@@ -27,6 +28,10 @@
 #include "messages.h"
 #include "sounds.h"
 #include "item_action.h"
+
+#ifdef SDLTILES
+#include "SDL2/SDL.h"
+#endif // SDLTILES
 
 //Used for e^(x) functions
 #include <stdio.h>
@@ -1239,8 +1244,8 @@ void player::update_bodytemp()
             // Spread the morale bonus in time.
             int mytime = MINUTES( i ) / MINUTES( num_bp );
             if( calendar::turn % MINUTES( 1 ) == mytime &&
-                disease_intensity( "cold", false, (body_part)num_bp ) == 0 &&
-                disease_intensity( "hot", false, (body_part)num_bp ) == 0 &&
+                get_effect_int( "cold", (body_part)num_bp ) == 0 &&
+                get_effect_int( "hot", (body_part)num_bp ) == 0 &&
                 temp_cur[i] > BODYTEMP_COLD && temp_cur[i] <= BODYTEMP_NORM ) {
                 add_morale( MORALE_COMFY, 1, 5, 20, 10, true );
             }
@@ -1699,12 +1704,12 @@ int player::run_cost(int base_cost, bool diag)
     // ROOTS3 does slow you down as your roots are probing around for nutrients,
     // whether you want them to or not.  ROOTS1 is just too squiggly without shoes
     // to give you some stability.  Plants are a bit of a slow-mover.  Deal.
-    if (!is_wearing_shoes("left") && !has_trait("PADDED_FEET") && !has_trait("HOOVES") &&
-        !has_trait("TOUGH_FEET") && !has_trait("ROOTS2") ) {
+    const bool mutfeet = has_trait("LEG_TENTACLES") || has_trait("PADDED_FEET") ||
+        has_trait("HOOVES") || has_trait("TOUGH_FEET") || has_trait("ROOTS2");
+    if( !is_wearing_shoes("left") && !mutfeet ) {
         movecost += 8;
     }
-    if (!is_wearing_shoes("right") && !has_trait("PADDED_FEET") && !has_trait("HOOVES") &&
-        !has_trait("TOUGH_FEET") && !has_trait("ROOTS2") ) {
+    if( !is_wearing_shoes("right") && !mutfeet ) {
         movecost += 8;
     }
 
@@ -2020,13 +2025,6 @@ void player::memorial( std::ofstream &memorial_file, std::string epitaph )
     //Effects (illnesses)
     memorial_file << _("Ongoing Effects:") << "\n";
     bool had_effect = false;
-    for (auto &next_illness : illness) {
-      if(dis_name(next_illness).size() > 0) {
-        had_effect = true;
-        memorial_file << indent << dis_name(next_illness) << "\n";
-      }
-    }
-    //Various effects not covered by the illness list - from player.cpp
     if(morale_level() >= 100) {
       had_effect = true;
       memorial_file << indent << _("Elated") << "\n";
@@ -2286,12 +2284,6 @@ void player::disp_info()
     std::vector<std::string> effect_name;
     std::vector<std::string> effect_text;
     std::string tmp = "";
-    for (auto &next_illness : illness) {
-        if (dis_name(next_illness).size() > 0) {
-            effect_name.push_back(dis_name(next_illness));
-            effect_text.push_back(dis_description(next_illness));
-        }
-    }
     for( auto &elem : effects ) {
         for( auto &_effect_it : elem.second ) {
             tmp = _effect_it.second.disp_name();
@@ -4049,40 +4041,18 @@ void player::charge_power(int amount)
  * item.light.* is -unimplemented- for the moment, as it is a custom override for
  * applying light sources/arcs with specific angle and direction.
  */
-float player::active_light()
+float player::active_light() const
 {
     float lumination = 0;
 
     int maxlum = 0;
-    const invslice & stacks = inv.slice();
-    for( auto &stack : stacks ) {
-        item &itemit = stack->front();
-        item * stack_iter = &itemit;
-        if (stack_iter->active && stack_iter->charges > 0) {
-            int lumit = stack_iter->getlight_emit(true);
-            if ( maxlum < lumit ) {
-                maxlum = lumit;
-            }
+    has_item_with( [&maxlum]( const item &it ) {
+        const int lumit = it.getlight_emit_active();
+        if( maxlum < lumit ) {
+            maxlum = lumit;
         }
-    }
-
-    for( auto &elem : worn ) {
-        if( elem.active && elem.charges > 0 ) {
-            int lumit = elem.getlight_emit( true );
-            if ( maxlum < lumit ) {
-                maxlum = lumit;
-            }
-        }
-    }
-
-    if (!weapon.is_null()) {
-        if ( weapon.active  && weapon.charges > 0) {
-            int lumit = weapon.getlight_emit(true);
-            if ( maxlum < lumit ) {
-                maxlum = lumit;
-            }
-        }
-    }
+        return false; // continue search, otherwise has_item_with would cancel the search
+    } );
 
     lumination = (float)maxlum;
 
@@ -4674,11 +4644,11 @@ dealt_damage_instance player::deal_damage(Creature* source, body_part bp, const 
     // handle snake artifacts
     if (has_artifact_with(AEP_SNAKES) && dam >= 6) {
         int snakes = int(dam / 6);
-        std::vector<point> valid;
+        std::vector<tripoint> valid;
         for (int x = posx() - 1; x <= posx() + 1; x++) {
             for (int y = posy() - 1; y <= posy() + 1; y++) {
                 if (g->is_empty(x, y)) {
-                    valid.push_back( point(x, y) );
+                    valid.push_back( tripoint(x, y, posz()) );
                 }
             }
         }
@@ -4690,24 +4660,23 @@ dealt_damage_instance player::deal_damage(Creature* source, body_part bp, const 
         } else if (snakes >= 2) {
             add_msg(m_warning, _("Some snakes sprout from your body!"));
         }
-        monster snake(GetMType("mon_shadow_snake"));
         for (int i = 0; i < snakes; i++) {
             int index = rng(0, valid.size() - 1);
-            point sp = valid[index];
+            if (g->summon_mon("mon_shadow_snake", valid[index])) {
+                monster *snake = g->monster_at(valid[index]);
+                snake->friendly = -1;
+            }
             valid.erase(valid.begin() + index);
-            snake.spawn(sp.x, sp.y);
-            snake.friendly = -1;
-            g->add_zombie(snake);
         }
     }
 
     // And slimespawners too
     if ((has_trait("SLIMESPAWNER")) && (dam >= 10) && one_in(20 - dam)) {
-        std::vector<point> valid;
+        std::vector<tripoint> valid;
         for (int x = posx() - 1; x <= posx() + 1; x++) {
             for (int y = posy() - 1; y <= posy() + 1; y++) {
                 if (g->is_empty(x, y)) {
-                    valid.push_back( point(x, y) );
+                    valid.push_back( tripoint(x, y, posz()) );
                 }
             }
         }
@@ -4716,16 +4685,16 @@ dealt_damage_instance player::deal_damage(Creature* source, body_part bp, const 
         monster slime(GetMType("mon_player_blob"));
         for (int i = 0; i < numslime; i++) {
             int index = rng(0, valid.size() - 1);
-            point sp = valid[index];
+            if (g->summon_mon("mon_player_blob", valid[index])) {
+                monster *slime = g->monster_at(valid[index]);
+                slime->friendly = -1;
+            }
             valid.erase(valid.begin() + index);
-            slime.spawn(sp.x, sp.y);
-            slime.friendly = -1;
-            g->add_zombie(slime);
         }
     }
 
 
-    
+
         //Acid blood effects.
         bool u_see = g->u.sees(*this);
         int cut_dam = dealt_dams.type_damage(DT_CUT);
@@ -4748,7 +4717,7 @@ dealt_damage_instance player::deal_damage(Creature* source, body_part bp, const 
             source->deal_damage(this, bp_head, acidblood_damage);
             }
         }
-        
+
     if (has_trait("ADRENALINE") && !has_effect("adrenaline") &&
         (hp_cur[hp_head] < 25 || hp_cur[hp_torso] < 15)) {
         add_effect("adrenaline", 200);
@@ -5035,8 +5004,12 @@ int player::hitall(int dam, int vary, Creature *source)
     return damage_taken;
 }
 
-void player::knock_back_from(int x, int y)
+void player::knock_back_from( const tripoint &p )
 {
+    // TODO: Z
+    const int x = p.x;
+    const int y = p.y;
+
     if (x == posx() && y == posy())
         return; // No effect
     point to = pos();
@@ -5060,7 +5033,7 @@ void player::knock_back_from(int x, int y)
         deal_damage( critter, bp_torso, damage_instance( DT_BASH, critter->type->size ) );
         add_effect("stunned", 1);
         if ((str_max - 6) / 4 > critter->type->size) {
-            critter->knock_back_from(posx(), posy()); // Chain reaction!
+            critter->knock_back_from(pos3()); // Chain reaction!
             critter->apply_damage( this, bp_torso, (str_max - 6) / 4);
             critter->add_effect("stunned", 1);
         } else if ((str_max - 6) / 4 == critter->type->size) {
@@ -5186,156 +5159,6 @@ void player::update_health(int base_threshold)
         base_threshold += 50;
     }
     Creature::update_health(base_threshold);
-}
-
-bool player::infect(dis_type type, body_part vector, int strength,
-                     int duration, bool permanent, int intensity,
-                     int max_intensity, int decay, int additive, bool targeted,
-                     bool main_parts_only)
-{
-    if (strength <= 0) {
-        return false;
-    }
-
-    if (dice(strength, 3) > dice(get_env_resist(vector), 3)) {
-        if (targeted) {
-            add_disease(type, duration, permanent, intensity, max_intensity, decay,
-                          additive, vector, main_parts_only);
-        } else {
-            add_disease(type, duration, permanent, intensity, max_intensity, decay, additive);
-        }
-        return true;
-    }
-
-    return false;
-}
-
-void player::add_disease(dis_type type, int duration, bool permanent,
-                         int intensity, int max_intensity, int decay,
-                         int additive, body_part part, bool main_parts_only)
-{
-    if (duration <= 0) {
-        return;
-    }
-
-    if (part != num_bp && hp_cur[player::bp_to_hp(part)] == 0) {
-        return;
-    }
-
-    if (main_parts_only) {
-        part = mutate_to_main_part(part);
-    }
-
-    bool found = false;
-    for (auto &i : illness) {
-        if (i.type == type) {
-            if ((part == num_bp) ^ (i.bp == num_bp)) {
-                debugmsg("Bodypart missmatch when applying disease %s",
-                         type.c_str());
-                return;
-            }
-            if (i.bp == part) {
-                if (additive > 0) {
-                    i.duration += duration;
-                } else if (additive < 0) {
-                    i.duration -= duration;
-                    if (i.duration <= 0) {
-                        i.duration = 1;
-                    }
-                }
-                i.intensity += intensity;
-                if (max_intensity != -1 && i.intensity > max_intensity) {
-                    i.intensity = max_intensity;
-                }
-                if (permanent) {
-                    i.permanent = true;
-                }
-                i.decay = decay;
-                found = true;
-                // Found it, so no need to keep checking
-                break;
-            }
-        }
-    }
-    if (!found) {
-        disease tmp(type, duration, intensity, part, permanent, decay);
-        illness.push_back(tmp);
-    }
-
-    recalc_sight_limits();
-}
-
-void player::rem_disease(dis_type type, body_part part)
-{
-    for (auto &next_illness : illness) {
-        if (next_illness.type == type && ( part == num_bp || next_illness.bp == part )) {
-            next_illness.duration = -1;
-        }
-    }
-
-    recalc_sight_limits();
-}
-
-bool player::has_disease(dis_type type, body_part part) const
-{
-    for (auto &i : illness) {
-        if (i.duration > 0 && i.type == type && ( part == num_bp || i.bp == part )) {
-            return true;
-        }
-    }
-    return false;
-}
-
-bool player::pause_disease(dis_type type, body_part part)
-{
-    for (auto &i : illness) {
-        if (i.type == type && ( part == num_bp || i.bp == part )) {
-                i.permanent = true;
-                return true;
-        }
-    }
-    return false;
-}
-
-bool player::unpause_disease(dis_type type, body_part part)
-{
-    for (auto &i : illness) {
-        if (i.type == type && ( part == num_bp || i.bp == part )) {
-                i.permanent = false;
-                return true;
-        }
-    }
-    return false;
-}
-
-int player::disease_duration(dis_type type, bool all, body_part part) const
-{
-    int tmp = 0;
-    for (auto &i : illness) {
-        if (i.type == type && (part ==  num_bp || i.bp == part)) {
-            if (all == false) {
-                return i.duration;
-            } else {
-                tmp += i.duration;
-            }
-        }
-    }
-    return tmp;
-}
-
-int player::disease_intensity(dis_type type, bool all, body_part part) const
-{
-    int tmp = 0;
-    for (auto &i : illness) {
-        if (i.type == type && (part ==  num_bp || i.bp == part)) {
-            if (all == false) {
-                return i.intensity;
-            } else {
-                tmp += i.intensity;
-            }
-        }
-    }
-    return tmp;
 }
 
 void player::add_addiction(add_type type, int strength)
@@ -5823,6 +5646,14 @@ void player::process_effects() {
 
 void player::hardcoded_effects(effect &it)
 {
+    if( auto buff = ma_buff::from_effect( it ) ) {
+        if( buff->is_valid_player( *this ) ) {
+            buff->apply_player( *this );
+        } else {
+            it.set_duration( 0 ); // removes the effect
+        }
+        return;
+    }
     std::string id = it.get_id();
     int dur = it.get_duration();
     int intense = it.get_intensity();
@@ -5897,7 +5728,6 @@ void player::hardcoded_effects(effect &it)
 
                 moves = -500;
                 int sporex, sporey;
-                monster spore(GetMType("mon_spore"));
                 for (int i = -1; i <= 1; i++) {
                     for (int j = -1; j <= 1; j++) {
                         if (i == 0 && j == 0) {
@@ -5918,8 +5748,7 @@ void player::hardcoded_effects(effect &it)
                                     critter.die( this ); // Counts as kill by player
                                 }
                             } else if (one_in(4) && g->num_zombies() <= 1000){
-                                spore.spawn(sporex, sporey);
-                                g->add_zombie(spore);
+                                g->summon_mon("mon_spore", tripoint(sporex, sporey, posz()));
                             }
                         }
                     }
@@ -6395,7 +6224,6 @@ void player::hardcoded_effects(effect &it)
             // Figure out where they may be placed
             add_msg_player_or_npc( m_bad, _("Your flesh crawls; insects tear through the flesh and begin to emerge!"),
                 _("Insects begin to emerge from <npcname>'s skin!") );
-            monster grub(GetMType("mon_dermatik_larva"));
             for (int i = posx() - 1; i <= posx() + 1; i++) {
                 for (int j = posy() - 1; j <= posy() + 1; j++) {
                     if (num_insects == 0) {
@@ -6404,13 +6232,12 @@ void player::hardcoded_effects(effect &it)
                         continue;
                     }
                     if (g->mon_at(i, j) == -1) {
-                        grub.spawn(i, j);
-                        if (one_in(3)) {
-                            grub.friendly = -1;
-                        } else {
-                            grub.friendly = 0;
+                        if (g->summon_mon("mon_dermatik_larva", tripoint(i, j, posz()))) {
+                            monster *grub = g->monster_at(tripoint(i, j, posz()));
+                            if (one_in(3)) {
+                                grub->friendly = -1;
+                            }
                         }
-                        g->add_zombie(grub);
                         num_insects--;
                     }
                 }
@@ -6479,8 +6306,6 @@ void player::hardcoded_effects(effect &it)
         }
     } else if (id == "attention") {
         if (one_in(100000 / dur) && one_in(100000 / dur) && one_in(250)) {
-            MonsterGroupResult spawn_details = MonsterGroupManager::GetResultFromGroup("GROUP_NETHER");
-            monster beast(GetMType(spawn_details.name));
             int x, y;
             int tries = 0;
             do {
@@ -6492,8 +6317,8 @@ void player::hardcoded_effects(effect &it)
                 if (g->m.move_cost(x, y) == 0) {
                     g->m.make_rubble( tripoint( x, y, posz() ), f_rubble_rock, true);
                 }
-                beast.spawn(x, y);
-                g->add_zombie(beast);
+                MonsterGroupResult spawn_details = MonsterGroupManager::GetResultFromGroup("GROUP_NETHER");
+                g->summon_mon(spawn_details.name, tripoint(x, y, posz()));
                 if (g->u.sees(x, y)) {
                     g->cancel_activity_query(_("A monster appears nearby!"));
                     add_msg_if_player(m_warning, _("A portal opens nearby, and a monster crawls through!"));
@@ -6559,8 +6384,6 @@ void player::hardcoded_effects(effect &it)
         if (dur > 3600) {
             // 12 teles
             if (one_in(4000 - int(.25 * (dur - 3600)))) {
-                MonsterGroupResult spawn_details = MonsterGroupManager::GetResultFromGroup("GROUP_NETHER");
-                monster beast(GetMType(spawn_details.name));
                 int x, y;
                 int tries = 0;
                 do {
@@ -6575,8 +6398,8 @@ void player::hardcoded_effects(effect &it)
                     if (g->m.move_cost(x, y) == 0) {
                         g->m.make_rubble( tripoint( x, y, posz() ), f_rubble_rock, true);
                     }
-                    beast.spawn(x, y);
-                    g->add_zombie(beast);
+                    MonsterGroupResult spawn_details = MonsterGroupManager::GetResultFromGroup("GROUP_NETHER");
+                    g->summon_mon(spawn_details.name, tripoint(x, y, posz()));
                     if (g->u.sees(x, y)) {
                         g->cancel_activity_query(_("A monster appears nearby!"));
                         add_msg(m_warning, _("A portal opens nearby, and a monster crawls through!"));
@@ -6828,7 +6651,7 @@ void player::hardcoded_effects(effect &it)
         if (!recovered) {
             // Death happens
             if (dur > 14400) {
-                add_msg(m_bad, _("You succumb to the infection."));
+                add_msg_if_player(m_bad, _("You succumb to the infection."));
                 add_memorial_log(pgettext("memorial_male", "Succumbed to the infection."),
                                       pgettext("memorial_female", "Succumbed to the infection."));
                 hurtall(500, nullptr);
@@ -6874,6 +6697,11 @@ void player::hardcoded_effects(effect &it)
         }
     } else if (id == "sleep") {
         set_moves(0);
+        #ifdef SDLTILES
+        if(int(calendar::turn) % 100 == 0){
+            SDL_PumpEvents();
+        }
+        #endif // SDLTILES
         // Hibernating only kicks in whilst Engorged; separate tracking for hunger/thirst here
         // as a safety catch.  One test subject managed to get two Colds during hibernation;
         // since those add fatigue and dry out the character, the subject went for the full 10 days plus
@@ -7265,34 +7093,6 @@ void player::suffer()
                 thirst--;
             }
             mod_healthy_mod(5);
-        }
-    }
-
-    for( auto &elem : illness ) {
-        if( elem.duration <= 0 ) {
-            continue;
-        }
-        dis_effect( *this, elem );
-    }
-
-    // Diseases may remove themselves as part of applying (MA buffs do) so do a
-    // separate loop through the remaining ones for duration, decay, etc..
-    for( auto it = illness.begin(); it != illness.end(); ) {
-        auto &next_illness = *it;
-        if( next_illness.duration < 0 ) {
-            it = illness.erase( it );
-            continue;
-        }
-        if (!next_illness.permanent) {
-            next_illness.duration--;
-        }
-        if (next_illness.decay > 0 && one_in(next_illness.decay)) {
-            next_illness.intensity--;
-        }
-        if (next_illness.duration <= 0 || next_illness.intensity == 0) {
-            it = illness.erase( it );
-        } else {
-            it++;
         }
     }
 
@@ -8039,9 +7839,9 @@ void player::vomit()
                      pgettext("memorial_female", "Threw up."));
 
     if (stomach_food != 0 || stomach_water != 0) {
-        add_msg(m_bad, _("You throw up heavily!"));
+        add_msg_player_or_npc( m_bad, _("You throw up heavily!"), _("<npcname> throws up heavily!") );
     } else {
-        add_msg(m_warning, _("You feel nauseous, but your stomach is empty."));
+        add_msg_if_player(m_warning, _("You feel nauseous, but your stomach is empty."));
     }
     int nut_loss = stomach_food;
     int quench_loss = stomach_water;
@@ -9364,23 +9164,22 @@ bool player::eat(item *eaten, it_comest *comest)
         (temp_thirst < capacity && temp_hunger <= (capacity + 10) ) ) {
             add_msg(m_mixed, _("You feel as though you're going to split open!  In a good way??"));
             mod_pain(5);
-            std::vector<point> valid;
+            std::vector<tripoint> valid;
             for (int x = posx() - 1; x <= posx() + 1; x++) {
                 for (int y = posy() - 1; y <= posy() + 1; y++) {
                     if (g->is_empty(x, y)) {
-                        valid.push_back( point(x, y) );
+                        valid.push_back( tripoint(x, y, posz()) );
                     }
                 }
             }
-            monster slime(GetMType("mon_player_blob"));
             int numslime = 1;
             for (int i = 0; i < numslime; i++) {
                 int index = rng(0, valid.size() - 1);
-                point sp = valid[index];
+                if (g->summon_mon("mon_player_blob", valid[index])) {
+                    monster *slime = g->monster_at(valid[index]);
+                    slime->friendly = -1;
+                }
                 valid.erase(valid.begin() + index);
-                slime.spawn(sp.x, sp.y);
-                slime.friendly = -1;
-                g->add_zombie(slime);
             }
             hunger += 40;
             thirst += 40;
@@ -11617,13 +11416,16 @@ bool player::can_sleep()
     bool webforce = false;
     bool in_shell = false;
     if (has_addiction(ADD_SLEEP)) {
-        sleepy -= 3;
+        sleepy -= 4;
     }
     if (has_trait("INSOMNIA")) {
-        sleepy -= 8;
+        // 12.5 points is the difference between "tired" and "dead tired"
+        sleepy -= 12;
     }
     if (has_trait("EASYSLEEPER")) {
-        sleepy += 8;
+        // Low fatigue (being rested) has a much stronger effect than high fatigue
+        // so it's OK for the value to be that much higher
+        sleepy += 24;
     }
     if (has_trait("CHLOROMORPH")) {
         plantsleep = true;
@@ -11716,7 +11518,12 @@ bool player::can_sleep()
         sleepy += int((fatigue - 192) / 16);
     }
     sleepy += rng(-8, 8);
-    sleepy -= 2 * stim;
+    if( !has_trait("INSOMNIA") ) {
+        sleepy -= 2 * stim;
+    } else {
+        // Make it harder for insomniac to get around the trait
+        sleepy -= stim;
+    }
     if (sleepy > 0) {
         return true;
     }
@@ -12392,7 +12199,7 @@ void player::absorb_hit(body_part bp, damage_instance &dam) {
             if( has_trait("THICKSKIN") ) {
                 elem.amount -= 1;
             }
-            if( has_trait("THINSKIN") ) {
+            if( elem.amount > 0 && has_trait("THINSKIN") ) {
                 elem.amount += 1;
             }
             if (has_trait("SCALES")) {
@@ -13043,17 +12850,8 @@ double player::logistic_range(int min, int max, int pos)
     return (raw_logistic - LOGI_MIN) / LOGI_RANGE;
 }
 
-// Calculates portions favoring x, then y, then z
-void player::calculate_portions(int &x, int &y, int &z, int maximum)
-{
-    z = std::min(z, std::max(maximum - x - y, 0));
-    y = std::min(y, std::max(maximum - x , 0));
-    x = std::min(x, std::max(maximum, 0));
-}
-
 void player::environmental_revert_effect()
 {
-    illness.clear();
     addictions.clear();
     morale.clear();
 
@@ -13190,6 +12988,10 @@ int player::get_hp_max( hp_part bp ) const
 
 int player::get_stamina_max() const
 {
+    if (has_trait("BADCARDIO"))
+        return 750;
+    if (has_trait("GOODCARDIO"))
+        return 1250;
     return 1000;
 }
 
@@ -13540,7 +13342,6 @@ std::vector<std::string> player::get_overlay_ids() const {
 void player::spores()
 {
     sounds::sound(posx(), posy(), 10, _("Pouf!")); //~spore-release sound
-    monster spore(GetMType("mon_spore"));
     int sporex, sporey;
     int mondex;
     for (int i = -1; i <= 1; i++) {
@@ -13563,9 +13364,10 @@ void player::spores()
                         critter.die( this );
                     }
                 } else if (one_in(3) && g->num_zombies() <= 1000) { // Spawn a spore
-                    spore.spawn(sporex, sporey);
-                    spore.friendly = -1;
-                    g->add_zombie(spore);
+                    if (g->summon_mon("mon_spore", tripoint(sporex, sporey, posz()))) {
+                        monster *spore = g->monster_at(tripoint(sporex, sporey, posz()));
+                        spore->friendly = -1;
+                    }
                 }
             }
         }

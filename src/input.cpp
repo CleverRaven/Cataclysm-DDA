@@ -1,6 +1,7 @@
 #include "action.h"
 #include "cursesdef.h"
 #include "input.h"
+#include "debug.h"
 #include "json.h"
 #include "output.h"
 #include "game.h"

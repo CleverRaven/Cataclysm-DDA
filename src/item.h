@@ -360,9 +360,10 @@ public:
  bool can_revive();      // test if item is a corpse and can be revived
 // light emission, determined by type->light_emission (LIGHT_???) tag (circular),
 // overridden by light.* struct (shaped)
- bool getlight(float & luminance, int & width, int & direction, bool calculate_dimming = true) const;
+ bool getlight(float & luminance, int & width, int & direction) const;
 // for quick iterative loops
- int getlight_emit(bool calculate_dimming = true) const;
+ int getlight_emit() const;
+ int getlight_emit_active() const;
 // Our value as a weapon, given particular skills
  int  weapon_value(player *p) const;
 // As above, but discounts its use as a ranged weapon
@@ -972,6 +973,7 @@ public:
    int irridation;      // Tracks radiation dosage.
  };
  std::set<std::string> item_tags; // generic item specific flags
+ std::set<std::string> techniques; // item specific techniques
  unsigned item_counter; // generic counter to be used with item flags
  int mission_id; // Refers to a mission in game's master list
  int player_id; // Only give a mission to the right player!

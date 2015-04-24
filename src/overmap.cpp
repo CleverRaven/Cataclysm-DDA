@@ -4,13 +4,15 @@
 #include <fstream>
 #include <vector>
 #include <sstream>
+#include <cstring>
+#include <ostream>
+#include <queue>
+
 #include "overmap.h"
 #include "rng.h"
 #include "line.h"
 #include "game.h"
 #include "npc.h"
-#include <cstring>
-#include <ostream>
 #include "debug.h"
 #include "cursesdef.h"
 #include "options.h"
@@ -19,7 +21,6 @@
 #include "action.h"
 #include "input.h"
 #include "json.h"
-#include <queue>
 #include "mapdata.h"
 #include "mapgen.h"
 #include "uistate.h"
@@ -168,7 +169,7 @@ bool road_allowed(const oter_id &ter)
 /*
  * Pick an oter_baseid from weightlist and return rotated oter_id
  */
-oter_id shop(int dir, oter_weight_list &weightlist )
+oter_id shop(int dir, weighted_int_list<oter_weight> &weightlist )
   // todo: rename to something better than 'shop', make it an oter_weight_list method?
 {
     if ( dir > 3 ) {
@@ -180,7 +181,8 @@ oter_id shop(int dir, oter_weight_list &weightlist )
     if (dir < 0) {
         dir += 4;
     }
-    const int ret = weightlist.pick();
+
+    const int ret = weightlist.pick()->ot_iid;
 
     if ( oterlist[ ret ].has_flag(rotates) == false ) {
         return ret;
@@ -570,7 +572,7 @@ void load_region_settings( JsonObject &jo )
             for( const auto &key : keys ) {
                 if( key != "//" ) {
                     if( wjo.has_int( key ) ) {
-                        new_region.city_spec.shops.add_item( key, wjo.get_int( key ) );
+                        new_region.city_spec.shops.add({key, -1}, wjo.get_int( key ) );
                     }
                 }
             }
@@ -585,7 +587,7 @@ void load_region_settings( JsonObject &jo )
             for( const auto &key : keys ) {
                 if( key != "//" ) {
                     if( wjo.has_int( key ) ) {
-                        new_region.city_spec.parks.add_item( key, wjo.get_int( key ) );
+                        new_region.city_spec.parks.add({key, -1}, wjo.get_int( key ) );
                     }
                 }
             }
@@ -717,7 +719,7 @@ void apply_region_overlay(JsonObject &jo, regional_settings &region)
     for( const auto &key : shopkeys ) {
         if( key != "//" ) {
             if( shopsjo.has_int( key ) ) {
-                region.city_spec.shops.add_or_replace_item(key, shopsjo.get_int(key));
+                region.city_spec.shops.add_or_replace({key, -1}, shopsjo.get_int(key));
             }
         }
     }
@@ -727,7 +729,7 @@ void apply_region_overlay(JsonObject &jo, regional_settings &region)
     for( const auto &key : parkkeys ) {
         if( key != "//" ) {
             if( parksjo.has_int( key ) ) {
-                region.city_spec.parks.add_or_replace_item(key, parksjo.get_int(key));
+                region.city_spec.parks.add_or_replace({key, -1}, parksjo.get_int(key));
             }
         }
     }
@@ -4033,10 +4035,22 @@ void regional_settings::setup()
         default_groundcover.primary = terfind(default_groundcover_str->primary_str);
         default_groundcover.secondary = terfind(default_groundcover_str->secondary_str);
         field_coverage.setup();
-        city_spec.shops.setup();
-        city_spec.parks.setup();
+        city_spec.shops.apply(&setup_oter);
+        city_spec.parks.apply(&setup_oter);
         default_groundcover_str = NULL;
         optionsdata.add_value("DEFAULT_REGION", id );
+    }
+}
+
+void regional_settings::setup_oter(oter_weight &oter) {
+    if ( oter.ot_iid == -1 ) {
+        std::unordered_map<std::string, oter_t>::const_iterator it = obasetermap.find(oter.ot_sid);
+        if ( it == obasetermap.end() ) {
+            debugmsg("Bad oter_weight_list entry in region settings: overmap_terrain '%s' not found.", oter.ot_sid.c_str() );
+            oter.ot_iid = 0;
+        } else {
+            oter.ot_iid = it->second.loadid;
+        }
     }
 }
 

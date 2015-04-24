@@ -1,4 +1,6 @@
 #include "game.h"
+#include "map.h"
+#include "debug.h"
 #include "output.h"
 #include "item_factory.h"
 #include "uistate.h"
@@ -372,6 +374,7 @@ void game::wishmonster(int x, int y)
         wmenu.query();
         if ( wmenu.ret >= 0 ) {
             monster mon = monster(GetMType(wmenu.ret));
+            mon.reset_last_load();
             if (cb->friendly) {
                 mon.friendly = -1;
             }
@@ -509,7 +512,7 @@ void game::wishskill(player *p)
     skmenu.text = _("Select a skill to modify");
     skmenu.return_invalid = true;
     skmenu.addentry(0, true, '1', _("Set all skills to..."));
- 
+
     std::vector<int> origskills;
     origskills.reserve(Skill::skills.size());
 

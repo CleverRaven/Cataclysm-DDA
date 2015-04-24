@@ -3,6 +3,7 @@
 #include "mapbuffer.h"
 #include "output.h"
 #include "game.h"
+#include "map.h"
 #include "item.h"
 #include "item_group.h"
 #include "veh_interact.h"
@@ -4437,26 +4438,30 @@ bool vehicle::add_item_at(int part, std::list<item>::iterator index, item itm)
     return true;
 }
 
-void vehicle::remove_item (int part, int itemdex)
+bool vehicle::remove_item (int part, int itemdex)
 {
     if( itemdex < 0 || itemdex >= (int)parts[part].items.size() ) {
-        return;
+        return false;
     }
 
     remove_item( part, std::next(parts[part].items.begin(), itemdex) );
+    return true;
 }
 
-void vehicle::remove_item (int part, item *it)
+bool vehicle::remove_item (int part, item *it)
 {
+    bool rc = false;
     std::list<item>& veh_items = parts[part].items;
 
     for( auto iter = veh_items.begin(); iter != veh_items.end(); iter++ ) {
         //delete the item if the pointer memory addresses are the same
         if( it == &*iter ) {
-            remove_item( part, iter);
+            remove_item(part, iter);
+            rc = true;
             break;
         }
     }
+    return rc;
 }
 
 std::list<item>::iterator vehicle::remove_item( int part, std::list<item>::iterator it )

@@ -687,7 +687,7 @@
         "id": "bio_meteorologist",
         "name": "Weather Reader",
         "act_cost": 25,
-        "description": "A multitude of scientific instruments and sensors collect environmental data. The data is compiled and presented as a simple readout of the current weather."
+        "description": "A multitude of scientific instruments and sensors collect environmental data.  The data is compiled and presented as a simple readout of the current weather."
     },{
         "type": "bionic",
         "id": "bio_remote",

@@ -1,6 +1,7 @@
 #include "npc.h"
 #include "output.h"
 #include "game.h"
+#include "map.h"
 #include "dialogue.h"
 #include "rng.h"
 #include "line.h"
@@ -2637,9 +2638,8 @@ void talk_function::stop_guard(npc *p)
     add_msg(_("%s begins to follow you."), p->name.c_str());
     p->mission = NPC_MISSION_NULL;
     p->chatbin.first_topic = "TALK_FRIEND";
-    p->goal = p->no_goal_point;
-    p->guardx = -1;
-    p->guardy = -1;
+    p->goal = npc::no_goal_point;
+    p->guard_pos = npc::no_goal_point;
 }
 
 void talk_function::reveal_stats (npc *p)

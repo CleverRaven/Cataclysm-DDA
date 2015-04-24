@@ -33,7 +33,7 @@ void map::add_light_from_items( const int x, const int y, std::list<item>::itera
 }
 
 // TODO Consider making this just clear the cache and dynamically fill it in as trans() is called
-void map::build_transparency_cache()
+void map::build_transparency_cache( const int zlev )
 {
     if( !transparency_cache_dirty ) {
         return;
@@ -46,7 +46,7 @@ void map::build_transparency_cache()
     // Traverse the submaps in order
     for( int smx = 0; smx < my_MAPSIZE; ++smx ) {
         for( int smy = 0; smy < my_MAPSIZE; ++smy ) {
-            auto const cur_submap = get_submap_at_grid( smx, smy );
+            auto const cur_submap = get_submap_at_grid( smx, smy, zlev );
 
             for( int sx = 0; sx < SEEX; ++sx ) {
                 for( int sy = 0; sy < SEEY; ++sy ) {
@@ -105,6 +105,14 @@ void map::build_transparency_cache()
     transparency_cache_dirty = false;
 }
 
+void map::apply_character_light( const player &p )
+{
+    float const held_luminance = p.active_light();
+    if( held_luminance > LIGHT_AMBIENT_LOW ) {
+        apply_light_source( p.posx(), p.posy(), held_luminance, trigdist );
+    }
+}
+
 void map::generate_lightmap()
 {
     memset(lm, 0, sizeof(lm));
@@ -125,7 +133,6 @@ void map::generate_lightmap()
     constexpr int dir_d[] = { 180, 270, 0, 90 }; //    [3]
 
     const bool  u_is_inside    = !is_outside(g->u.posx(), g->u.posy());
-    const float held_luminance = g->u.active_light();
     const float natural_light  = g->natural_light_level();
     const float hl             = natural_light / 2;
 
@@ -145,9 +152,9 @@ void map::generate_lightmap()
         }
     }
 
-    // Apply player light sources
-    if (held_luminance > LIGHT_AMBIENT_LOW) {
-        apply_light_source(g->u.posx(), g->u.posy(), held_luminance, trigdist);
+    apply_character_light( g->u );
+    for( auto &n : g->active_npc ) {
+        apply_character_light( *n );
     }
 
     // LIGHTMAP_CACHE_X = MAPSIZE * SEEX

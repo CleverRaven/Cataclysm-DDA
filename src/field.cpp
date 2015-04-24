@@ -1,5 +1,6 @@
 #include "rng.h"
 #include "map.h"
+#include "debug.h"
 #include "field.h"
 #include "game.h"
 #include "monstergenerator.h"
@@ -552,7 +553,7 @@ bool map::process_fields_in_submap( submap *const current_submap,
                             int chance = melting->acid_resist();
                             if (chance == 0) {
                                 melting->damage++;
-                            } else if (chance > 0 && chance < 9) {
+                            } else if (chance > 0 && chance <= 9) {
                                 if (one_in(chance)) {
                                     melting->damage++;
                                 }
@@ -1253,9 +1254,7 @@ bool map::process_fields_in_submap( submap *const current_submap,
                             cur->setFieldDensity(cur->getFieldDensity() + 1);
                         } else if (cur->getFieldDensity() == 3 && one_in(600)) { // Spawn nether creature!
                             std::string type = monids[rng( 0, monids.size() - 1 )];
-                            monster creature(GetMType(type));
-                            creature.spawn( p.x + rng(-3, 3), p.y + rng(-3, 3), p.z );
-                            g->add_zombie(creature);
+                            g->summon_mon(type, p);
                         }
                     }
                         break;

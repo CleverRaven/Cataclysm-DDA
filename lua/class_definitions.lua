@@ -74,19 +74,6 @@ classes = {
                 args = {},
                 rval = "int"
             },
-
-            has_disease = {
-                args = { "string" },
-                rval = "bool"
-            },
-            rem_disease = {
-                args = { "string" },
-                rval = nil
-            },
-            add_disease = {
-                args = { "string", "int", "int", "int" },
-                rval = nil
-            },
             morale_level = {
                 args = { },
                 rval = "int"
@@ -138,6 +125,24 @@ classes = {
                 writable = true
             },
             y = {
+                type = "int",
+                writable = true
+            }
+        },
+        functions = {
+        }
+    },
+    tripoint = {
+        attributes = {
+            x = {
+                type = "int",
+                writable = true
+            },
+            y = {
+                type = "int",
+                writable = true
+            },
+            z = {
                 type = "int",
                 writable = true
             }
@@ -282,10 +287,6 @@ classes = {
             name = {
                 args = {},
                 rval = "string"
-            },
-            attack_at = {
-                args = {"int", "int"},
-                rval = "int"
             },
             make_friendly = {
                 args = {},

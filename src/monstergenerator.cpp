@@ -217,7 +217,10 @@ void MonsterGenerator::init_death()
     death_map["DARKMAN"] = &mdeath::darkman;// sight returns to normal
     death_map["GAS"] = &mdeath::gas;// Explodes in toxic gas
     death_map["KILL_BREATHERS"] = &mdeath::kill_breathers;// All breathers die
+    death_map["BROKEN_AMMO"] = &mdeath::broken_ammo;// Gives a message about destroying ammo and then calls "BROKEN"
     death_map["SMOKEBURST"] = &mdeath::smokeburst;// Explode like a huge smoke bomb.
+    death_map["JABBERWOCKY"] = &mdeath::jabberwock; // Snicker-snack!
+    death_map["DETONATE"] = &mdeath::detonate; // Take them with you
     death_map["GAMEOVER"] = &mdeath::gameover;// Game over!  Defense mode
 
     /* Currently Unimplemented */
@@ -296,6 +299,9 @@ void MonsterGenerator::init_attack()
     attack_map["SLIMESPRING"] = &mattack::slimespring;
     attack_map["BIO_OP_TAKEDOWN"] = &mattack::bio_op_takedown;
     attack_map["SUICIDE"] = &mattack::suicide;
+    attack_map["KAMIKAZE"] = &mattack::kamikaze;
+    attack_map["GRENADIER"] = &mattack::grenadier;
+    attack_map["GRENADIER_ELITE"] = &mattack::grenadier_elite;
     attack_map["RIOTBOT"] = &mattack::riotbot;
     attack_map["STRETCH_ATTACK"] = &mattack::stretch_attack;
     attack_map["STRETCH_BITE"] = &mattack::stretch_bite;
@@ -403,6 +409,7 @@ void MonsterGenerator::init_flags()
     flag_map["CBM_SUBS"] = MF_CBM_SUBS;
     flag_map["SWARMS"] = MF_SWARMS;
     flag_map["GROUP_MORALE"] = MF_GROUP_MORALE;
+    flag_map["INTERIOR_AMMO"] = MF_INTERIOR_AMMO;
 }
 
 void MonsterGenerator::init_hardcoded_factions()
@@ -524,6 +531,7 @@ void MonsterGenerator::load_monster(JsonObject &jo)
         newmon->half_life = jo.get_int("half_life", -1);
         newmon->base_upgrade_chance = jo.get_float("base_upgrade_chance", 0);
         newmon->upgrade_group = jo.get_string("upgrade_group", "NULL");
+        newmon->upgrades_into = jo.get_string("upgrades_into", "NULL");
 
         std::set<std::string> flags, anger_trig, placate_trig, fear_trig;
         flags = jo.get_tags("flags");

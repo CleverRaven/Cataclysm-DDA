@@ -4,7 +4,7 @@
 #include "bionics.h"
 #include "mission.h"
 #include "game.h"
-#include "disease.h"
+#include "rng.h"
 #include "addiction.h"
 #include "moraledata.h"
 #include "inventory.h"
@@ -20,7 +20,6 @@
 #include "name.h"
 #include "cursesdef.h"
 #include "catacharset.h"
-#include "disease.h"
 #include "crafting.h"
 #include "get_version.h"
 #include "monstergenerator.h"
@@ -285,12 +284,6 @@ void player::load(JsonObject &data)
     }
 
     data.read("ma_styles", ma_styles);
-    // Just too many changes here to maintain compatibility, so older characters get a free
-    // diseases wipe. Since most long lasting diseases are bad, this shouldn't be too bad for them.
-    if(savegame_loading_version >= 23) {
-        data.read("illness", illness);
-    }
-
     data.read( "addictions", addictions );
 
     JsonArray traps = data.get_array("known_traps");
@@ -363,10 +356,6 @@ void player::store(JsonOut &json) const
         ptmpvect.push_back( pv( ma_styles[i] ) );
     }*/
     json.member( "ma_styles", ma_styles );
-
-    // disease
-    json.member( "illness", illness );
-
     // "Looks like I picked the wrong week to quit smoking." - Steve McCroskey
     json.member( "addictions", addictions );
 
@@ -815,9 +804,12 @@ void npc::load(JsonObject &data)
 
     data.read("personality", personality);
 
-    data.read("wandx", wandx);
-    data.read("wandy", wandy);
-    data.read("wandf", wandf);
+    data.read( "wandf", wander_time );
+    data.read( "wandx", wander_pos.x );
+    data.read( "wandy", wander_pos.y );
+    if( !data.read( "wandz", wander_pos.z ) ) {
+        wander_pos.z = posz();
+    }
 
     data.read("mapx", mapx);
     data.read("mapy", mapy);
@@ -832,12 +824,19 @@ void npc::load(JsonObject &data)
         mapy += o * OMAPY * 2;
     }
 
-    data.read("plx", plx);
-    data.read("ply", ply);
+    data.read( "plx", last_player_seen_pos.x );
+    data.read( "ply", last_player_seen_pos.y );
+    if( !data.read( "plz", last_player_seen_pos.z ) ) {
+        last_player_seen_pos.z = posz();
+    }
 
-    data.read("goalx", goal.x);
-    data.read("goaly", goal.y);
-    data.read("goalz", goal.z);
+    data.read( "goalx", goal.x );
+    data.read( "goaly", goal.y );
+    data.read( "goalz", goal.z );
+
+    data.read( "guardx", guard_pos.x );
+    data.read( "guardy", guard_pos.y );
+    data.read( "guardz", guard_pos.z );
 
     if ( data.read("mission", misstmp) ) {
         mission = npc_mission( misstmp );
@@ -885,18 +884,26 @@ void npc::store(JsonOut &json) const
     json.member( "myclass", (int)myclass );
 
     json.member( "personality", personality );
-    json.member( "wandx", wandx );
-    json.member( "wandy", wandy );
-    json.member( "wandf", wandf );
+    json.member( "wandf", wander_time );
+    json.member( "wandx", wander_pos.x );
+    json.member( "wandy", wander_pos.y );
+    json.member( "wandz", wander_pos.z );
 
     json.member( "mapx", mapx );
     json.member( "mapy", mapy );
     json.member( "mapz", mapz );
-    json.member( "plx", plx );
-    json.member( "ply", ply );
+
+    json.member( "plx", last_player_seen_pos.x );
+    json.member( "ply", last_player_seen_pos.y );
+    json.member( "plz", last_player_seen_pos.z );
+
     json.member( "goalx", goal.x );
     json.member( "goaly", goal.y );
     json.member( "goalz", goal.z );
+
+    json.member( "guardx", guard_pos.x );
+    json.member( "guardy", guard_pos.y );
+    json.member( "guardz", guard_pos.z );
 
     json.member( "mission", mission ); // todo: stringid
     json.member( "flags", flags );
@@ -1012,9 +1019,13 @@ void monster::load(JsonObject &data)
         zpos = g->get_levz();
     }
 
-    data.read("wandx", wandx);
-    data.read("wandy", wandy);
     data.read("wandf", wandf);
+    data.read("wandx", wander_pos.x);
+    data.read("wandy", wander_pos.y);
+    if( data.read("wandz", wander_pos.z) ) {
+        wander_pos.z = zpos;
+    }
+
     data.read("hp", hp);
     last_loaded = data.get_int("last_loaded", 0);
 
@@ -1081,8 +1092,9 @@ void monster::store(JsonOut &json) const
     json.member("posx", position.x);
     json.member("posy", position.y);
     json.member("posz", zpos);
-    json.member("wandx", wandx);
-    json.member("wandy", wandy);
+    json.member("wandx", wander_pos.x);
+    json.member("wandy", wander_pos.y);
+    json.member("wandz", wander_pos.z);
     json.member("wandf", wandf);
     json.member("hp", hp);
     json.member("sp_timeout", sp_timeout);
@@ -1196,6 +1208,8 @@ void item::deserialize(JsonObject &data)
         // There was a bug that set all comestibles active, this reverses that.
         active = false;
     }
+
+    data.read("techniques", techniques);
     // We need item tags here to make sure HOT/COLD food is active
     // and bugged WET towels get reactivated
     data.read("item_tags", item_tags);
@@ -1298,6 +1312,10 @@ void item::serialize(JsonOut &json, bool save_contents) const
     }
     if ( mission_id != -1 ) {
         json.member( "mission_id", mission_id );
+    }
+
+    if ( ! techniques.empty() ) {
+        json.member( "techniques", techniques );
     }
 
     if ( ! item_tags.empty() ) {

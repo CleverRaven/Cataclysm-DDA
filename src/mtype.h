@@ -132,6 +132,7 @@ enum m_flag {
     MF_GROUP_BASH,          // Monsters that can pile up against obstacles and add their strength together to break them.
     MF_SWARMS,              // Monsters that like to group together and form loose packs
     MF_GROUP_MORALE,        // Monsters that are more courageous when near friends
+    MF_INTERIOR_AMMO,       // Monster contain's its ammo inside itself, no need to load on launch.
     MF_MAX                  // Sets the length of the flags - obviously must be LAST
 };
 
@@ -235,7 +236,7 @@ struct mtype {
         // or -10 would mean a -10% chance to upgrade per half life.
         float base_upgrade_chance;
         std::string upgrade_group;
-
+        std::string upgrades_into;
         // Default constructor
         mtype ();
         /**

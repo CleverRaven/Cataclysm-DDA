@@ -44,6 +44,7 @@
 #include "iuse_actor.h"
 #include "mutation.h"
 #include "mtype.h"
+#include "map.h"
 #include "overmap.h"
 #include "omdata.h"
 #include "crafting.h"
@@ -96,8 +97,10 @@ bool is_valid_in_w_terrain(int x, int y)
 
 // This is the main game set-up process.
 game::game() :
+    map_ptr( new map() ),
     new_game(false),
     uquit(QUIT_NO),
+    m( *map_ptr ),
     w_terrain(NULL),
     w_overmap(NULL),
     w_omlegend(NULL),
@@ -145,7 +148,6 @@ void game::load_static_data()
     init_mapgen_builtin_functions();
     init_fields();
     init_morale();
-    init_diseases();             // Set up disease lookup table
     init_savedata_translation_tables();
     init_npctalk();
     init_artifacts();
@@ -630,7 +632,7 @@ void game::start_game(std::string worldname)
     lev.y -= MAPSIZE / 2;
     load_map( lev );
 
-    m.build_map_cache();
+    m.build_map_cache( get_levz() );
     // Do this after the map cache has been build!
     start_loc.place_player( u );
     // Start the overmap with out immediate neighborhood visible, this needs to be after place_player
@@ -1506,7 +1508,7 @@ bool game::do_turn()
     sounds::process_sounds();
     // Update vision caches for monsters. If this turns out to be expensive,
     // consider a stripped down cache just for monsters.
-    m.build_map_cache();
+    m.build_map_cache( get_levz() );
     monmove();
     update_stair_monsters();
     u.process_turn();
@@ -2241,9 +2243,9 @@ input_context game::get_player_input(std::string &action)
                         if( elem.getStep() > 0 ) {
                             for( size_t i = 0; i < elem.getText().length(); ++i ) {
                                 if( u.sees( elem.getPosX() + i, elem.getPosY() ) ) {
-                                    m.drawsq( w_terrain, u, 
+                                    m.drawsq( w_terrain, u,
                                               tripoint( elem.getPosX() + i, elem.getPosY(), u.posz() + u.view_offset.z ),
-                                              false, true, u.pos3() + u.view_offset );
+                                              false, true, u.posx() + u.view_offset.x, u.posy() + u.view_offset.y );
                                 } else {
                                     const int iDY =
                                         POSY + ( elem.getPosY() - ( u.posy() + u.view_offset.y ) );
@@ -3267,6 +3269,11 @@ int &game::scent(int x, int y)
     return grscent[x][y];
 }
 
+int &game::scent( const tripoint &p ) // A wrapper for now
+{
+    return scent( p.x, p.y );
+}
+
 void game::update_scent()
 {
     static point player_last_position = point(u.posx(), u.posy());
@@ -4279,7 +4286,7 @@ void game::debug()
     break;
     case 26:
     {
-        int time = std::atoi( string_input_popup( _("Set the time to? (One day is 19200)"), 
+        int time = std::atoi( string_input_popup( _("Set the time to? (One day is 19200)"),
                                                   20, to_string( (int)calendar::turn ) ).c_str() );
         if( time > 0 ) {
             calendar::turn = time;
@@ -4924,7 +4931,8 @@ void game::draw_critter( const Creature &critter, const tripoint &center )
         return;
     }
     if( critter.posz() != center.z ) {
-        return;
+        // Should cancel drawing, but z-levels aren't always properly set yet
+        //return;
     }
     if( u.sees( critter ) || &critter == &u ) {
         critter.draw( w_terrain, center.x, center.y, false );
@@ -4960,7 +4968,7 @@ void game::draw_ter( const tripoint &center, bool looking )
     const int posx = center.x;
     const int posy = center.y;
 
-    m.build_map_cache();
+    m.build_map_cache( center.z );
     m.draw( w_terrain, center );
 
     // Draw monsters
@@ -5874,7 +5882,7 @@ void game::monmove()
         }
 
         monster &critter = critter_tracker.find(i);
-        while (!critter.is_dead() && !critter.can_move_to(critter.posx(), critter.posy())) {
+        while (!critter.is_dead() && !critter.can_move_to(critter.pos3())) {
             // If we can't move to our current position, assign us to a new one
                 dbg(D_ERROR) << "game:monmove: " << critter.name().c_str()
                              << " can't move to its location! (" << critter.posx()
@@ -5888,8 +5896,9 @@ void game::monmove()
             int starty = critter.posy() - 3 * ydir, endy = critter.posy() + 3 * ydir;
             for (int x = startx; x != endx && !okay; x += xdir) {
                 for (int y = starty; y != endy && !okay; y += ydir) {
-                    if (critter.can_move_to(x, y) && is_empty(x, y)) {
-                        critter.setpos(x, y);
+                    tripoint dest( x, y, get_levz() );
+                    if (critter.can_move_to( dest ) && is_empty( dest )) {
+                        critter.setpos( dest );
                         okay = true;
                     }
                 }
@@ -5970,6 +5979,10 @@ void game::monmove()
                 add_msg( _( "%s's brain explodes!" ), ( elem )->name.c_str() );
                 ( elem )->die( nullptr );
             }
+
+        if( !elem->is_dead() ) {
+            elem->process_active_items();
+        }
     }
     cleanup_dead();
 }
@@ -6020,7 +6033,6 @@ void game::do_blast( const tripoint &p, const int power, const int radius, const
                 n->deal_damage( nullptr, bp_leg_r, damage_instance( DT_BASH, rng( dam / 3, dam ) ) );
                 n->deal_damage( nullptr, bp_arm_l, damage_instance( DT_BASH, rng( dam / 3, dam ) ) );
                 n->deal_damage( nullptr, bp_arm_r, damage_instance( DT_BASH, rng( dam / 3, dam ) ) );
-                n->check_dead_state();
             }
             if (fire) {
                 m.add_field(i, j, fd_fire, dam / 10);
@@ -6088,7 +6100,6 @@ void game::explosion( const tripoint &p, int power, int shrapnel, bool fire, boo
                 monster &critter = critter_tracker.find(zid);
                 dam -= critter.get_armor_cut(bp_torso);
                 critter.apply_damage( nullptr, bp_torso, dam );
-                critter.check_dead_state();
             } else if( npcdex != -1 ) {
                 body_part hit = random_body_part();
                 // TODO: why is this different for NPC vs player character?
@@ -6098,13 +6109,11 @@ void game::explosion( const tripoint &p, int power, int shrapnel, bool fire, boo
                     dam = rng(long(1.5 * dam), 3 * dam);
                 }
                 active_npc[npcdex]->deal_damage( nullptr, hit, damage_instance( DT_CUT, dam ) );
-                active_npc[npcdex]->check_dead_state();
             } else if (tx == u.posx() && ty == u.posy()) {
                 body_part hit = random_body_part();
                 //~ %s is bodypart name in accusative.
                 add_msg(m_bad, _("Shrapnel hits your %s!"), body_part_name_accusative(hit).c_str());
                 u.deal_damage( nullptr, hit, damage_instance( DT_CUT, dam ) );
-                u.check_dead_state();
             } else {
                 std::set<std::string> shrapnel_effects;
                 m.shoot( tripoint( tx, ty, u.posz() ), dam, j == traj.size() - 1, shrapnel_effects);
@@ -6787,6 +6796,15 @@ Creature const* game::critter_at( const tripoint &p ) const
     return const_cast<game*>(this)->critter_at( p );
 }
 
+bool game::summon_mon( const std::string id, const tripoint &p )
+{
+    monster mon(GetMType(id));
+    // Set their last upgrade check to the current day.
+    mon.reset_last_load();
+    mon.spawn(p);
+    return add_zombie(mon);
+}
+
 bool game::add_zombie(monster &critter)
 {
     if( !m.inbounds( critter.posx(), critter.posy(), critter.posz() ) ) {
@@ -6861,6 +6879,11 @@ int game::mon_at(point p) const
 int game::mon_at( const tripoint &p ) const
 {
     return critter_tracker.mon_at( p );
+}
+
+monster *game::monster_at(const tripoint &p)
+{
+    return &zombie(critter_tracker.mon_at(p));
 }
 
 void game::rebuild_mon_at_cache()
@@ -7386,7 +7409,7 @@ void game::exam_vehicle(vehicle &veh, const tripoint &p, int cx, int cy)
     refresh_all();
 }
 
-bool game::forced_gate_closing( const tripoint &p, ter_id door_type, int bash_dmg )
+bool game::forced_gate_closing( const tripoint &p, const ter_id door_type, int bash_dmg )
 {
     // TODO: Z
     const int &x = p.x;
@@ -7491,7 +7514,7 @@ bool game::forced_gate_closing( const tripoint &p, ter_id door_type, int bash_dm
         }
     }
 
-    m.ter_set(x, y, door_type);
+    m.ter_set( x, y, door_type );
     if (m.has_flag("NOITEM", x, y)) {
         auto items = m.i_at(x, y);
         while (!items.empty()) {
@@ -7624,7 +7647,7 @@ void game::open_gate( const tripoint &p, const ter_id handle_type )
                             (m.ter(examx + wall_x + gate_x, examy + wall_y + gate_y) == floor_type)) {  //closing the gate...
                             close = true;
                             while (m.ter(cur_x, cur_y) == floor_type) {
-                                forced_gate_closing( tripoint( cur_x, cur_y, p.z ), door_type, bash_dmg);
+                                forced_gate_closing( tripoint( cur_x, cur_y, p.z ), door_type, bash_dmg );
                                 cur_x = cur_x + gate_x;
                                 cur_y = cur_y + gate_y;
                             }
@@ -7780,7 +7803,7 @@ bool pet_menu(monster *z)
             }
 
             int x = z->posx(), y = z->posy(), zpos = z->posz();
-            z->move_to(g->u.posx(), g->u.posy(), true); // TODO: Use player zpos here
+            z->move_to( g->u.pos3(), true);
             g->u.setx( x );
             g->u.sety( y );
             g->u.setz( zpos );
@@ -7812,7 +7835,7 @@ bool pet_menu(monster *z)
 
         int deltax = z->posx() - g->u.posx(), deltay = z->posy() - g->u.posy();
 
-        z->move_to(z->posx() + deltax, z->posy() + deltay);
+        z->move_to( tripoint( z->posx() + deltax, z->posy() + deltay, z->posz() ) );
 
         return true;
     }
@@ -8187,10 +8210,10 @@ void game::print_object_info( const tripoint &lp, WINDOW *w_look, const int colu
         mvwprintw(w_look, line++, column, _("There is a %s there. Parts:"), veh->name.c_str());
         line = veh->print_part_desc(w_look, line, (mouse_hover) ? getmaxx(w_look) : 48, veh_part);
         if (!mouse_hover) {
-            m.drawsq( w_terrain, u, lp, true, true, lp );
+            m.drawsq( w_terrain, u, lp, true, true, lp.x, lp.y );
         }
     } else if (!mouse_hover) {
-        m.drawsq(w_terrain, u, lp, true, true, lp );
+        m.drawsq(w_terrain, u, lp, true, true, lp.x, lp.y );
     }
     handle_multi_item_info( lp, w_look, column, line, mouse_hover );
 }
@@ -8581,7 +8604,8 @@ void game::zones_manager()
                                          tripoint( iX, iY, u.posz() + u.view_offset.z ),
                                          false,
                                          false,
-                                         u.pos3() + u.view_offset );
+                                         u.posx() + u.view_offset.x,
+                                         u.posy() + u.view_offset.y );
                             } else {
                                 if (u.has_effect("boomered")) {
                                     mvwputch(w_terrain, iY - offset_y, iX - offset_x, c_magenta, '#');
@@ -8647,10 +8671,9 @@ point game::look_around(WINDOW *w_info, const point pairCoordsFirst)
     const int offset_x = (u.posx() + u.view_offset.x) - getmaxx(w_terrain) / 2;
     const int offset_y = (u.posy() + u.view_offset.y) - getmaxy(w_terrain) / 2;
 
-    tripoint lp( u.posx() + u.view_offset.x, u.posy() + u.view_offset.y, u.posz() + 0 );
+    tripoint lp = u.pos3() + u.view_offset;
     int &lx = lp.x;
     int &ly = lp.y;
-    int &lz = lp.z;
 
     if (bSelectZone && bHasFirstPoint) {
         lx = pairCoordsFirst.x;
@@ -8733,7 +8756,7 @@ point game::look_around(WINDOW *w_info, const point pairCoordsFirst)
                             for (int iX = std::min(pairCoordsFirst.x, lx); iX <= std::max(pairCoordsFirst.x, lx); ++iX) {
                                 if (u.sees(iX, iY)) {
                                     m.drawsq(w_terrain, u,
-                                             tripoint( iX, iY, u.posz() + u.view_offset.z ),
+                                             tripoint( iX, iY, lp.z ),
                                              false,
                                              false,
                                              lx,
@@ -8763,7 +8786,7 @@ point game::look_around(WINDOW *w_info, const point pairCoordsFirst)
         } else {
             //Look around
             if (u.sees(lx, ly)) {
-                print_all_tile_info( tripoint(lx, ly, get_levz()), w_info, 1, off, false);
+                print_all_tile_info( lp, w_info, 1, off, false);
 
             } else if (u.sight_impaired() &&
                        m.light_at(lx, ly) == LL_BRIGHT &&
@@ -8825,16 +8848,16 @@ point game::look_around(WINDOW *w_info, const point pairCoordsFirst)
                     continue; // TODO: Make this work in z-level FOV update
                 }
 
-                int new_levz = get_levz() + ( action == "LEVEL_UP" ? 1 : -1 );
+                int new_levz = lp.z + ( action == "LEVEL_UP" ? 1 : -1 );
                 if( new_levz > OVERMAP_HEIGHT ) {
                     new_levz = OVERMAP_HEIGHT;
                 } else if( new_levz < -OVERMAP_DEPTH ) {
                     new_levz = -OVERMAP_DEPTH;
                 }
 
-                add_msg("levx: %d, levy: %d, levz :%d", get_levx(), get_levy(), new_levz);
-                m.vertical_shift( new_levz );
-                lz = get_levz();
+                add_msg("levx: %d, levy: %d, levz :%d", get_levx(), get_levy(), new_levz );
+                u.view_offset.z = new_levz - u.posz();
+                lp.z = new_levz;
                 refresh_all();
                 draw_ter( lp, true );
             } else if (!ctxt.get_coordinates(w_terrain, lx, ly)) {
@@ -8873,8 +8896,9 @@ point game::look_around(WINDOW *w_info, const point pairCoordsFirst)
         }
     } while (action != "QUIT" && action != "CONFIRM");
 
-    if( m.has_zlevels() && get_levz() != old_levz ) {
-        m.vertical_shift( old_levz );
+    if( m.has_zlevels() && lp.z != old_levz ) {
+        m.build_map_cache( old_levz );
+        u.view_offset.z = 0;
     }
 
     inp_mngr.set_timeout(-1);
@@ -11667,7 +11691,7 @@ bool game::plmove(int dx, int dy)
             if (!query_yn(_("Really attack %s?"), active_npc[npcdex]->name.c_str())) {
                 if (active_npc[npcdex]->is_friend()) {
                     add_msg(_("%s moves out of the way."), active_npc[npcdex]->name.c_str());
-                    active_npc[npcdex]->move_away_from(u.posx(), u.posy());
+                    active_npc[npcdex]->move_away_from( u.pos3() );
                 }
 
                 return false; // Cancel the attack
@@ -12215,8 +12239,7 @@ bool game::plmove(int dx, int dy)
         if (displace) { // We displaced a friendly monster!
             // Immobile monsters can't be displaced.
             monster &critter = zombie(mondex);
-            critter.move_to(u.posx(), u.posy(),
-                            true); // Force the movement even though the player is there right now.
+            critter.move_to(u.pos3(), true); // Force the movement even though the player is there right now.
             add_msg(_("You displace the %s."), critter.name().c_str());
         } // displace == true
 
@@ -13048,7 +13071,7 @@ void game::update_map(int &x, int &y)
     }
 
     // Make sure map cache is consistent since it may have shifted.
-    m.build_map_cache();
+    m.build_map_cache( get_levz() );
 
     // Update what parts of the world map we can see
     update_overmap_seen();
@@ -13215,8 +13238,9 @@ void game::update_stair_monsters()
                 pushx = rng(-1, 1), pushy = rng(-1, 1);
                 int iposx = mposx + pushx;
                 int iposy = mposy + pushy;
-                if ((pushx != 0 || pushy != 0) && (mon_at(iposx, iposy) == -1) &&
-                    critter.can_move_to(iposx, iposy)) {
+                tripoint pos( iposx, iposy, get_levz() );
+                if ((pushx != 0 || pushy != 0) && (mon_at(pos) == -1) &&
+                    critter.can_move_to( pos )) {
                     bool resiststhrow = (u.is_throw_immune()) ||
                                         (u.has_trait("LEG_TENT_BRACE"));
                     if (resiststhrow && one_in(player_throw_resist_chance)) {
@@ -13273,10 +13297,11 @@ void game::update_stair_monsters()
                 pushy = rng(-1, 1);
                 int iposx = mposx + pushx;
                 int iposy = mposy + pushy;
+                tripoint pos( iposx, iposy, get_levz() );
                 if ((pushx == 0 && pushy == 0) || ((iposx == u.posx()) && (iposy == u.posy()))) {
                     continue;
                 }
-                if ((mon_at(iposx, iposy) == -1) && other.can_move_to(iposx, iposy)) {
+                if ((mon_at(pos) == -1) && other.can_move_to(pos)) {
                     other.setpos( iposx, iposy, get_levz() );
                     other.moves -= 50;
                     std::string msg = "";

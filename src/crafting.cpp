@@ -5,6 +5,8 @@
 #include "json.h"
 #include "input.h"
 #include "game.h"
+#include "map.h"
+#include "debug.h"
 #include "options.h"
 #include "output.h"
 #include "crafting.h"

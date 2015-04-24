@@ -1,6 +1,8 @@
 #include <vector>
 #include <string>
 #include "game.h"
+#include "map.h"
+#include "debug.h"
 #include "output.h"
 #include "line.h"
 #include "skill.h"
@@ -1062,7 +1064,7 @@ std::vector<point> game::target(int &x, int &y, int lowx, int lowy, int hix,
         }
         /* Start drawing w_terrain things -- possibly move out to centralized
            draw_terrain_window function as they all should be roughly similar */
-        m.build_map_cache(); // part of the SDLTILES drawing code
+        m.build_map_cache( g->get_levz() ); // part of the SDLTILES drawing code
         m.draw(w_terrain, center); // embedded in SDL drawing code
         // Draw the Monsters
         for (size_t i = 0; i < num_zombies(); i++) {

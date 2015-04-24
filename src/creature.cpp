@@ -2,6 +2,7 @@
 #include "creature.h"
 #include "output.h"
 #include "game.h"
+#include "map.h"
 #include "messages.h"
 #include "rng.h"
 
