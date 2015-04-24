@@ -9023,6 +9023,7 @@
       [ "char_smoker", 1 ],
       [ "toolset", 8 ],
       [ "coffeemaker", 8],
+      [ "atomic_coffeepot", -1 ],
       [ "fire", -1 ]
     ]
   ],
