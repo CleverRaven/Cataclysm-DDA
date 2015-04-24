@@ -378,9 +378,15 @@ bool WinCreate()
     return true;
 }
 
+// forward declaration
+void load_soundset();
+void cleanup_sound();
+
 void WinDestroy()
 {
 #ifdef SDL_SOUND
+    // De-allocate all loaded sound.
+    cleanup_sound();
     Mix_CloseAudio();
 #endif
     if(joystick) {
@@ -1332,9 +1338,6 @@ int projected_window_height(int)
     return OPTIONS["TERMINAL_Y"] * fontheight;
 }
 
-// forward declaration
-void load_soundset();
-
 //Basic Init, create the font, backbuffer, etc
 WINDOW *curses_init(void)
 {
@@ -1930,6 +1933,8 @@ bool is_draw_tiles_mode() {
     return use_tiles;
 }
 
+#ifdef SDL_SOUND
+
 struct music_playlist {
     // list of filenames relative to the soundpack location
     std::vector<std::string> files;
@@ -1947,8 +1952,6 @@ struct sound_effect_entry {
 
 std::map<std::string, music_playlist> playlists;
 std::map<std::string, std::map<std::string, sound_effect_entry> > sound_effects;
-
-#ifdef SDL_SOUND
 
 sound_effect_entry *get_sound_effect(std::string name, std::string variant) {
     if(!sound_effects.count(name)) {
@@ -2099,5 +2102,15 @@ void load_soundset() {
 #endif
 }
 
+void cleanup_sound() {
+#ifdef SDL_SOUND
+    for(auto id_variants_pair : sound_effects) {
+        for(auto variant_soundeffect_pair : id_variants_pair.second) {
+            Mix_FreeChunk(variant_soundeffect_pair.second.chunk);
+        }
+    }
+    sound_effects.clear();
+#endif
+}
 
 #endif // TILES
