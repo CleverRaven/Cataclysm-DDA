@@ -45,6 +45,15 @@
         "cancels" : ["BADKNEES"]
     },{
         "type" : "mutation",
+        "id" : "GOODCARDIO",
+        "name" : "Indefatigable",
+        "points" : 2,
+        "description" : "Whether due to exercise and good diet, or due to a natural propensity to physical endurance, you tire due to physical exertion much less readily than others.  Your maximum stamina is 25% higher than usual.",
+        "starting_trait" : true,
+        "valid" : false,
+        "cancels" : ["BADCARDIO"]
+    },{
+        "type" : "mutation",
         "id" : "QUICK",
         "name" : "Quick",
         "points" : 3,
@@ -478,6 +487,15 @@
         "starting_trait" : true,
         "valid" : false,
         "cancels" : ["PARKOUR"]
+    },{
+        "type" : "mutation",
+        "id" : "BADCARDIO",
+        "name" : "Languorous",
+        "points" : -2,
+        "description" : "Whether due to lack of exercise and poor diet, or due to a natural disinclination to physical endurance, you tire due to physical exertion much more readily than others.  Your maximum stamina is 25% lower than usual.",
+        "starting_trait" : true,
+        "valid" : false,
+        "cancels" : ["GOODCARDIO"]
     },{
         "type" : "mutation",
         "id" : "MYOPIC",
