@@ -949,6 +949,8 @@
       [ "veggy_wild", 2 ],
       [ "plant_sac", 6 ],
       [ "dandelion_cooked", 2 ],
+      [ "cattail_spike", 2],
+      [ "cattail_shoot", 3],
       [ "wild_herbs", 40 ]
     ]
   ]
@@ -1309,6 +1311,34 @@
   "components": [
     [
       [ "veggy_wild", 1 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
+  "result": "cooked_cattail_stalk",
+  "category": "CC_FOOD",
+  "subcategory": "CSC_FOOD_VEGGI",
+  "skill_used": "cooking",
+  "difficulty": 1,
+  "byproducts": "plant_fibre",
+  "skills_required": [ "survival", 1 ],
+  "time": 18000,
+  "reversible": false,
+  "autolearn": true,
+  "qualities":[
+    {"id":"CUT","level":1,"amount":1},
+    {"id":"COOK","level":1,"amount":1}
+  ], "tools": [
+    [
+      [ "hotplate", 5 ],
+      [ "char_smoker", 1 ],
+      [ "toolset", 5 ],
+      [ "fire", -1 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "cattail_stalk", 1 ]
     ]
   ]
 },{
@@ -2407,6 +2437,48 @@
     [
       [ "water", 1 ],
       [ "water_clean", 1 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
+  "result": "starch",
+  "category": "CC_FOOD",
+  "subcategory": "CSC_FOOD_VEGGI",
+  "skill_used": "cooking",
+  "difficulty": 1,
+  "time": 20000,
+  "reversible": false,
+  "autolearn": true,
+  "qualities":[
+    {"id":"HAMMER","level":1,"amount":1},
+    {"id":"CONTAIN","level":1,"amount":1}
+  ], "components": [
+    [
+      [ "dahlia_root", 2 ],
+      [ "potato_raw", 2 ],
+      [ "potato_irradiated", 2 ],
+      [ "cattail_stalk", 4 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
+  "result": "starch",
+  "id_suffix": "from_fibrous_stuff",
+  "byproducts": { "id" : "plant_fibre", "charges_mult" : 5 },
+  "category": "CC_FOOD",
+  "subcategory": "CSC_FOOD_VEGGI",
+  "skill_used": "cooking",
+  "difficulty": 1,
+  "time": 40000,
+  "reversible": false,
+  "autolearn": true,
+  "qualities":[
+    {"id":"HAMMER","level":1,"amount":1},
+    {"id":"CUT","level":1,"amount":1},
+    {"id":"CONTAIN","level":1,"amount":1}
+  ], "components": [
+    [
+      [ "cattail_rhizome", 1 ]
     ]
   ]
 },{
@@ -6842,7 +6914,7 @@
   "reversible": false,
   "autolearn": true,
   "tools": [ [ ["rock_quern", -1], ["clay_quern", -1] ] ],
-  "components": [ [ ["wheat", 2], ["buckwheat", 2], ["barley", 2], ["acorns_cooked", 2], ["oats", 2] ] ]
+  "components": [ [ ["wheat", 2], ["buckwheat", 2], ["barley", 2], ["acorns_cooked", 2], ["oats", 2], ["starch", 2] ] ]
 },{
   "type" : "recipe",
   "result": "cornmeal",
@@ -8614,7 +8686,8 @@
       [ "irradiated_raspberries", 2],
       [ "blackberries", 2],
       [ "irradiated_blackberries", 2],
-      [ "sugar_beet", 2]
+      [ "sugar_beet", 2],
+      [ "cattail_shoot", 3]
     ],
     [
       [ "sugar", 2],

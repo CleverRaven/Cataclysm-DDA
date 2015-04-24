@@ -1392,15 +1392,19 @@ void iexamine::examine_cattails(player *p, map *m, int examx, int examy)
     }
     if (calendar::turn.get_season() == SPRING) {
         add_msg(m_info, _("You harvest some tender leaf shoots."));
-        m->spawn_item( p->posx(), p->posy(), "tanbark", rng( 1, 2 ) );
+        m->spawn_item( p->posx(), p->posy(), "cattail_shoot", rng( 1, 3 ) );
+        m->spawn_item( p->posx(), p->posy(), "cattail_stalk", rng( 1, 4 ) );
     }
     if (calendar::turn.get_season() == SUMMER) {
         add_msg(m_info, _("You harvest some tender green tops."));
-        m->spawn_item( p->posx(), p->posy(), "tanbark", rng( 1, 2 ) );
+        m->spawn_item( p->posx(), p->posy(), "cattail_spike", rng( 1, 2 ) );
+        m->spawn_item( p->posx(), p->posy(), "cattail_stalk", rng( 1, 2 ) );
+    }
+    if (calendar::turn.get_season() == AUTUMN) {
+        m->spawn_item( p->posx(), p->posy(), "cattail_stalk", rng( 1, 2 ) );
     }
     m->furn_set(examx, examy, f_null);
-    m->spawn_item( p->posx(), p->posy(), "tanbark", rng( 1, 2 ) );
-    m->spawn_item( p->posx(), p->posy(), "tanbark", rng( 1, 2 ) );
+    m->spawn_item( p->posx(), p->posy(), "cattail_rhizome", 1 );
 }
 
 void iexamine::flower_marloss(player *p, map *m, int examx, int examy)
