@@ -1033,6 +1033,9 @@ bool player::activate_bionic(int b, bool eff_only)
             }
     }
 
+    // Recalculate stats (strength, mods from pain etc.) that could have been affected
+    reset_stats();
+
     return true;
 }
 
@@ -1095,6 +1098,9 @@ bool player::deactivate_bionic(int b, bool eff_only)
     } else if( bio.id == "bio_tools" ) {
         invalidate_crafting_inventory();
     }
+
+    // Recalculate stats (strength, mods from pain etc.) that could have been affected
+    reset_stats();
 
     return true;
 }
