@@ -358,7 +358,6 @@
   "category": "CC_WEAPON",
   "subcategory": "CSC_WEAPON_PIERCING",
   "skill_used": "fabrication",
-  "skills_required": [ "survival", 2 ],
   "difficulty": 3,
   "time": 2400,
   "reversible": false,
@@ -533,7 +532,7 @@
   "result": "copper_ax",
   "category": "CC_OTHER",
   "subcategory": "CSC_OTHER_TOOLS",
-  "skill_used": "survival",
+  "skill_used": "fabrication",
   "skills_required": [ "carpentry", 1 ],
   "difficulty": 4,
   "time": 60000,
@@ -861,13 +860,20 @@
   ["manual_survival", 3]],
   "qualities":[
     {"id":"CUT","level":1,"amount":1},
-    {"id":"HAMMER","level":1,"amount":1},
     {"id":"COOK","level":3,"amount":1},
     {"id":"BOIL","level":2,"amount":1},
     {"id":"CONTAIN","level":1,"amount":1}
   ],
   "tools": [
-    [ [ "hotplate", 4 ], [ "char_smoker", 1 ], [ "toolset", 8 ], [ "fire", -1 ] ]
+    [
+      [ "hotplate", 4 ],
+      [ "char_smoker", 1 ],
+      [ "toolset", 8 ],
+      [ "fire", -1 ]
+    ],
+    [
+      [ "rag", -1 ]
+    ]
     ],
   "components": [
     [
@@ -1140,6 +1146,9 @@
   "time": 5000,
   "reversible": false,
   "autolearn": true,
+  "qualities" : [
+    {"id":"CUT","level":1,"amount":1}
+  ],
   "tools": [
     [
       [ "needle_bone", 10 ],
@@ -1150,8 +1159,8 @@
   ],
   "components": [
     [
-      [ "fur", 8 ],
-      [ "tanned_pelt", 2 ]
+      [ "fur", 4 ],
+      [ "tanned_pelt", 1 ]
     ]
   ]
 },{
@@ -1171,20 +1180,6 @@
   ], "components": [
     [
       [ "rock", 1 ]
-    ]
-  ]
-},{
-        "type" : "recipe",
-  "result": "foil_alum",
-  "category": "CC_OTHER",
-  "subcategory": "CSC_OTHER_OTHER",
-  "difficulty": 0,
-  "time": 200,
-  "reversible": false,
-  "autolearn": true,
-  "components": [
-    [
-      [ "aluminum_foil", 3 ]
     ]
   ]
 }
