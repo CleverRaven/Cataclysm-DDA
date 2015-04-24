@@ -847,6 +847,62 @@
   ]
 },{
   "type" : "recipe",
+  "result": "milk_curdling2",
+  "category": "CC_FOOD",
+  "subcategory": "CSC_FOOD_OTHER",
+  "skill_used": "cooking",
+  "difficulty": 5,
+  "skills_required": [ "survival", 4 ],
+  "time": 25000,
+  "reversible": false,
+  "autolearn": true,
+  "book_learn": [["survival_book", 3] , ["textbook_survival", 3] ,
+  ["manual_survival", 3]],
+  "components": [
+    [
+      [ "waterskin2", 1 ]
+    ],
+    [
+      [ "milk", 10 ]
+    ],
+    [
+      [ "vinegar", 2 ]
+    ],
+    [
+      [ "wild_herbs", 80 ],
+      [ "stomach_large", 2 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
+  "result": "milk_curdling3",
+  "category": "CC_FOOD",
+  "subcategory": "CSC_FOOD_OTHER",
+  "skill_used": "cooking",
+  "difficulty": 5,
+  "skills_required": [ "survival", 4 ],
+  "time": 30000,
+  "reversible": false,
+  "autolearn": true,
+  "book_learn": [["survival_book", 3] , ["textbook_survival", 3] ,
+  ["manual_survival", 3]],
+  "components": [
+    [
+      [ "waterskin3", 1 ]
+    ],
+    [
+      [ "milk", 15 ]
+    ],
+    [
+      [ "vinegar", 3 ]
+    ],
+    [
+      [ "wild_herbs", 120 ],
+      [ "stomach_large", 3 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
   "result": "cheese_hard",
   "category": "CC_FOOD",
   "subcategory": "CSC_FOOD_SNACK",
