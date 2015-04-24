@@ -15,6 +15,7 @@
 #include "monattack.h"
 #include "mondefense.h"
 #include "iuse_actor.h"
+#include "weighted_list.h"
 
 #include <algorithm>
 
@@ -4492,15 +4493,13 @@ int grenade_helper(monster *const z, Creature *const target, const int dist,
 
     // Hey look! another weighted list!
     // Grab all attacks that pass their chance check and we've spent enough ammo for
-    std::vector<std::string> possible_attacks;
+    weighted_float_list possible_attacks;
     for (auto amm : z->ammo) {
-        std::string tmp = amm.first;
-        if (amm.second > 0 && one_in(data[tmp].chance) && data[tmp].ammo_percentage >= rat) {
-            possible_attacks.push_back(tmp);
+        if (amm.second > 0 && data[amm.first].ammo_percentage >= rat) {
+            possible_attacks.add(amm.first, 1.0 / chance);
         }
     }
-    int roll = rng(0, possible_attacks.size() - 1);
-    std::string att = possible_attacks[roll];
+    std::string att = possible_attacks.pick();
 
     z->moves -= moves;
     z->ammo[att]--;
