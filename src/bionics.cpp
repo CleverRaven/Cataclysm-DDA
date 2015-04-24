@@ -1033,6 +1033,9 @@ bool player::activate_bionic(int b, bool eff_only)
             }
     }
 
+    // Recalculate stats (strength, mods from pain etc.) that could have been affected
+    reset_stats();
+
     return true;
 }
 
@@ -1096,6 +1099,9 @@ bool player::deactivate_bionic(int b, bool eff_only)
         invalidate_crafting_inventory();
     }
 
+    // Recalculate stats (strength, mods from pain etc.) that could have been affected
+    reset_stats();
+
     return true;
 }
 
@@ -1149,6 +1155,9 @@ void player::process_bionic(int b)
             add_msg( m_warning, _("Your %s has lost connection and is turning off."),
                      bionics[bio.id].name.c_str() );
         }
+    } else if (bio.id == "bio_hydraulics") {
+        // Sound of hissing hydraulic muscle! (not quite as loud as a car horn)
+        sounds::sound(posx(), posy(), 19, _("HISISSS!"));
     }
 }
 
