@@ -4493,13 +4493,13 @@ int grenade_helper(monster *const z, Creature *const target, const int dist,
 
     // Hey look! another weighted list!
     // Grab all attacks that pass their chance check and we've spent enough ammo for
-    weighted_float_list possible_attacks;
+    weighted_float_list<std::string> possible_attacks;
     for (auto amm : z->ammo) {
         if (amm.second > 0 && data[amm.first].ammo_percentage >= rat) {
-            possible_attacks.add(amm.first, 1.0 / chance);
+            possible_attacks.add(amm.first, 1.0 / data[amm.first].chance);
         }
     }
-    std::string att = possible_attacks.pick();
+    std::string att = *possible_attacks.pick();
 
     z->moves -= moves;
     z->ammo[att]--;

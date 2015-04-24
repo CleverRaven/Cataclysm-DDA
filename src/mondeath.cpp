@@ -631,27 +631,24 @@ void mdeath::kill_breathers(monster *z)
 
 void mdeath::detonate(monster *z)
 {
-    // How much ammo do we have left?
-    int ammo_count = 0;
-    for (auto am : z->ammo) {
-        ammo_count += am.second;
+    weighted_int_list<std::string> amm_list;
+    for (auto amm : z->ammo) {
+        amm_list.add(amm.first, amm.second);
     }
+
     std::vector<std::string> pre_dets;
-    if (ammo_count > 0) {
-        // Pick three random ammo
-        for (int i = 0; i < 3; i++) {
-            int roll = rng(0, ammo_count);
-            for (auto am : z->ammo) {
-                roll -= am.second;
-                if (roll <= 0) {
-                    pre_dets.push_back(am.first);
-                    am.second--;
-                    ammo_count--;
-                    break;
-                }
-            }
+    for (int i = 0; i < 3; i++) {
+        if (amm_list.get_weight() <= 0) {
+            break;
         }
+        // Grab one item
+        std::string tmp = *amm_list.pick();
+        // and reduce its weight by 1
+        amm_list.add_or_replace(tmp, amm_list.get_specific_weight(tmp) - 1);
+        // and stash it for use
+        pre_dets.push_back(tmp);
     }
+
     // Update any hardcoded explosion equivalencies
     std::vector<std::string> dets;
     for (auto bomb_id : pre_dets) {
