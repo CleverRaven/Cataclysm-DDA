@@ -42,6 +42,24 @@ const use_function *itype::get_use( const std::string &iuse_name ) const
     return nullptr;
 }
 
+long itype::tick( player *p, item *it, const tripoint &pos ) const
+{
+    // Currently just an overload
+    return tick( p, it, point( pos.x, pos.y ) );
+}
+
+long itype::invoke( player *p, item *it, const tripoint &pos ) const
+{
+    // Currently just an overload
+    return invoke( p, it, point( pos.x, pos.y ) );
+}
+
+long itype::invoke( player *p, item *it, const tripoint &pos, const std::string &iuse_name ) const
+{
+    // Currently just an overload
+    return invoke( p, it, point( pos.x, pos.y ), iuse_name );
+}
+
 long itype::tick( player *p, item *it, point pos ) const
 {
     // Note: can go higher than current charge count

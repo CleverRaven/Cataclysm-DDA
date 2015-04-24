@@ -555,6 +555,10 @@ public:
     long invoke( player *p, item *it, point pos, const std::string &iuse_name ) const;
     long tick( player *p, item *it,  point pos ) const;
 
+    long invoke( player *p, item *it, const tripoint &pos ) const; // Picks first method or returns 0
+    long invoke( player *p, item *it, const tripoint &pos, const std::string &iuse_name ) const;
+    long tick( player *p, item *it, const tripoint &pos ) const;
+
     itype() : id("null"), name("none"), name_plural("none") {}
 
     itype(std::string pid, unsigned pprice, std::string pname, std::string pname_plural,

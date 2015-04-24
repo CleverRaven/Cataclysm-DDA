@@ -9628,7 +9628,7 @@ int iuse::cable_attach(player *p, item *it, bool, point)
             it->set_var( "source_x", abspos.x );
             it->set_var( "source_y", abspos.y );
             it->set_var( "source_z", g->get_levz() );
-            it->process( p, p->pos(), false );
+            it->process( p, p->pos3(), false );
         }
         p->moves -= 15;
     }

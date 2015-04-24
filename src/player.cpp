@@ -433,7 +433,7 @@ void player::process_turn()
     }
 
     remove_items_with( [this]( item &itm ) {
-        return itm.process_artifact( this, pos() );
+        return itm.process_artifact( this, pos3() );
     } );
 
     suffer();
@@ -8228,21 +8228,21 @@ void player::rem_morale(morale_type type, itype* item_type)
 
 void player::process_active_items()
 {
-    if( weapon.needs_processing() && weapon.process( this, pos(), false ) ) {
+    if( weapon.needs_processing() && weapon.process( this, pos3(), false ) ) {
         weapon = ret_null;
     }
 
     std::vector<item *> inv_active = inv.active_items();
     for( auto tmp_it : inv_active ) {
 
-        if( tmp_it->process( this, pos(), false ) ) {
+        if( tmp_it->process( this, pos3(), false ) ) {
             inv.remove_item(tmp_it);
         }
     }
 
     // worn items
     for (size_t i = 0; i < worn.size(); i++) {
-        if( worn[i].needs_processing() && worn[i].process( this, pos(), false ) ) {
+        if( worn[i].needs_processing() && worn[i].process( this, pos3(), false ) ) {
             worn.erase(worn.begin() + i);
             i--;
         }
