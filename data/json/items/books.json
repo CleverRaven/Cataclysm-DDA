@@ -687,7 +687,7 @@
         "time" : 30,
         "fun" : 0,
         "skill" : "firstaid",
-        "price" : 8500, "//" : "College-level textbooks are Cheap at $60. Med book is likely more expensive.",
+        "price" : 8500, "//" : "College-level textbooks are Cheap at $60.  Med book is likely more expensive.",
         "required_level" : 3
     },
     {
@@ -2382,7 +2382,7 @@
         "time" : 10,
         "fun" : -5,
         "skill" : "cooking",
-        "price" : 40000, "//" : "Wasn't commercially traded. ('Parody' only covers so much.)  Should get a serious price modifier for non-Cannibals.",
+        "price" : 40000, "//" : "Wasn't commercially traded.  ('Parody' only covers so much.)  Should get a serious price modifier for non-Cannibals.",
         "required_level" : 2
     },
     {
@@ -2750,7 +2750,7 @@
         "time" : 30,
         "fun" : -1,
         "skill" : "barter",
-        "price" : 9800, "//" : "Biz majors can afford it. Surely you're gonna make US$60K/yr out of school, and twice that in five years?",
+        "price" : 9800, "//" : "Biz majors can afford it.  Surely you're gonna make US$60K/yr out of school, and twice that in five years?",
         "required_level" : 3
     },
     {

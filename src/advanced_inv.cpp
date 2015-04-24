@@ -919,33 +919,6 @@ void advanced_inventory_pane::paginate( size_t itemsPerPage )
             }
         }
     }
-    // holds the end result of sorted entries, to replace @ref items when completed
-    std::vector<advanced_inv_listitem> sorted_items;
-    // holds a sorted category, and resets each category
-    std::list<advanced_inv_listitem> sorted_category;
-    for( size_t i = 0; i < items.size(); ++i ) {
-        // skip sorting category headers
-        if( items[i].is_category_header() ) {
-            // run the sort lambda, then add in bulk to `sorted_items'
-            sorted_category.sort( []( const advanced_inv_listitem & lhs, const advanced_inv_listitem & rhs ) {
-                return ( lhs.idx < rhs.idx );
-            } );
-            sorted_items.insert( sorted_items.end(), sorted_category.begin(), sorted_category.end() );
-            // don't forget the header!
-            sorted_items.push_back( items[i] );
-            // reset category specific item list for the next category
-            sorted_category.clear();
-        } else if( items[i].is_item_entry() ) {
-            // add the item to the list, it will be sorted once a category header is hit
-            sorted_category.push_back( items[i] );
-        }
-    }
-    // make sure single and final categories don't go missed, so repeat the sorting and add the result
-    sorted_category.sort( []( const advanced_inv_listitem & lhs, const advanced_inv_listitem & rhs ) {
-        return ( lhs.idx < rhs.idx );
-    } );
-    sorted_items.insert( sorted_items.end(), sorted_category.begin(), sorted_category.end() );
-    items = sorted_items;
 }
 
 void advanced_inventory::recalc_pane( side p )
@@ -1248,6 +1221,7 @@ void advanced_inventory::display()
     ctxt.register_action( "PAGE_DOWN" );
     ctxt.register_action( "PAGE_UP" );
     ctxt.register_action( "TOGGLE_TAB" );
+    ctxt.register_action( "TOGGLE_VEH" );
     ctxt.register_action( "FILTER" );
     ctxt.register_action( "RESET_FILTER" );
     ctxt.register_action( "EXAMINE" );
@@ -1327,22 +1301,11 @@ void advanced_inventory::display()
             redraw = true;
         } else if( get_square( action, changeSquare ) ) {
             if( panes[left].get_area() == changeSquare || panes[right].get_area() == changeSquare ) {
-                // toggle between vehicle and ground
-                if( squares[spane.get_area()].can_store_in_vehicle() && changeSquare != dpane.get_veh_area() ) {
-                    spane.set_vehicle( ( spane.in_vehicle() ) ? NUM_AIM_LOCATIONS : changeSquare );
-                    spane.set_area( changeSquare );
-                    spane.index = 0;
-                    spane.recalc = true;
-                    if( dpane.get_area() == AIM_ALL ) {
-                        dpane.recalc = true;
-                    }
-                } else {
-                    // Switch left and right pane.
-                    std::swap( panes[left], panes[right] );
-                    // Window pointer must be unchanged!
-                    std::swap( panes[left].window, panes[right].window );
-                    // no recalculation needed, data has not changed
-                }
+                // Switch left and right pane.
+                std::swap( panes[left], panes[right] );
+                // Window pointer must be unchanged!
+                std::swap( panes[left].window, panes[right].window );
+                // No recalculation needed, data has not changed
                 redraw = true;
                 // we need to check the original area if we can place items in vehicle storage
             } else if( squares[changeSquare].canputitems( spane.get_cur_item_ptr() ) ) {
@@ -1600,6 +1563,19 @@ void advanced_inventory::display()
         } else if( action == "TOGGLE_TAB" ) {
             src = dest;
             redraw = true;
+        } else if( action == "TOGGLE_VEH" ){
+            // Toggle between vehicle and ground
+            if( squares[spane.get_area()].can_store_in_vehicle() ) {
+                spane.set_vehicle( ( spane.in_vehicle() ) ? NUM_AIM_LOCATIONS : spane.get_area() );
+                spane.set_area( spane.get_area() );
+                spane.index = 0;
+                spane.recalc = true;
+                if( dpane.get_area() == AIM_ALL ) {
+                    dpane.recalc = true;
+                }
+            } else {
+                popup( _("No vehicle there!") );
+            }
         }
     }
 }
