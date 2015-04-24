@@ -827,6 +827,10 @@ void initOptions()
                                    _("Adjust the volume of the music being played in the background."),
                                    0, 200, 100, COPT_CURSES_HIDE
                                   );
+    OPTIONS["SOUND_VOLUME"] = cOpt("graphics", _("Sound Volume"),
+                                   _("Adjust the volume of sound effects being played by the game."),
+                                   0, 200, 0, COPT_CURSES_HIDE
+                                  );
 
     ////////////////////////////DEBUG////////////////////////////
     OPTIONS["DISTANCE_INITIAL_VISIBILITY"] = cOpt("debug", _("Distance initial visibility"),

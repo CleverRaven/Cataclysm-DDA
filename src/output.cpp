@@ -1958,8 +1958,9 @@ void play_music(std::string)
 {
 }
 
-void play_sound(std::string)
+void play_sound_effect(std::string id, std::string variant, int volume)
 {
+    (void)id;(void)variant;(void)volume;
 }
 #endif
 

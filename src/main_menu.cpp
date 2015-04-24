@@ -332,12 +332,14 @@ bool game::opening_screen()
                 } else {
                     sel1 = 8;
                 }
+                play_sound_effect("menu_move", "default", 100);
             } else if (action == "RIGHT") {
                 if (sel1 < 8) {
                     sel1++;
                 } else {
                     sel1 = 0;
                 }
+                play_sound_effect("menu_move", "default", 100);
             }
             if ((action == "UP" || action == "CONFIRM") && sel1 > 0 && sel1 != 7) {
                 if (sel1 == 5) {

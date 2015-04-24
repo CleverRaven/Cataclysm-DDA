@@ -1940,9 +1940,30 @@ struct music_playlist {
     }
 };
 
+struct sound_effect_entry {
+    Mix_Chunk *chunk;
+    unsigned volume;
+};
+
 std::map<std::string, music_playlist> playlists;
+std::map<std::string, std::map<std::string, sound_effect_entry> > sound_effects;
 
 #ifdef SDL_SOUND
+
+sound_effect_entry *get_sound_effect(std::string name, std::string variant) {
+    if(!sound_effects.count(name)) {
+        return NULL;
+    }
+
+    std::map<std::string, sound_effect_entry>& variants = sound_effects[name];
+    if(!variants.count(variant)) {
+        variant = "default";
+    }
+    if(!variants.count(variant)) {
+        return NULL;
+    }
+    return &(variants[variant]);
+};
 
 void musicFinished();
 
@@ -2004,23 +2025,40 @@ void play_music(std::string playlist) {
 #endif
 }
 
+void play_sound_effect(std::string id, std::string variant, int volume) {
+#ifdef SDL_SOUND
+    sound_effect_entry *effect_to_play = get_sound_effect(id, variant);
+    if (!effect_to_play) {
+        return;
+    }
+    Mix_VolumeChunk(effect_to_play->chunk, effect_to_play->volume * OPTIONS["SOUND_VOLUME"] * volume / (100 * 100));
+    if (Mix_PlayChannel(-1, effect_to_play->chunk, 0) == -1) {
+        dbg( D_ERROR ) << "Failed to play sound effect: " << Mix_GetError();
+    }
+#else
+    (void)id;(void)variant;(void)volume;
+#endif
+}
+
 void load_soundset() {
-    std::string location = FILENAMES["datadir"] + "/sound/soundset.json";
+#ifdef SDL_SOUND
+    std::string location = FILENAMES["datadir"] + "/sound/musicset.json";
     std::ifstream jsonstream(location.c_str(), std::ifstream::binary);
     if (jsonstream.good()) {
         JsonIn json(jsonstream);
         JsonObject config = json.get_object();
-        JsonArray playlists_ = config.get_array("playlists");
 
-        for(int i=0; i < (int)playlists_.size(); i++) {
-            JsonObject playlist = playlists_.get_object(i);
+        // Load music playlists.
+        JsonArray playlists_json = config.get_array("playlists");
+        for (unsigned i=0; i < playlists_json.size(); i++) {
+            JsonObject playlist = playlists_json.get_object(i);
 
             std::string playlist_id = playlist.get_string("id");
             music_playlist playlist_to_load;
             playlist_to_load.shuffle = playlist.get_bool("shuffle", false);
 
             JsonArray playlist_files = playlist.get_array("files");
-            for(int j=0; j < (int)playlist_files.size(); j++) {
+            for(unsigned j=0; j < playlist_files.size(); j++) {
                 JsonObject entry = playlist_files.get_object(j);
                 playlist_to_load.files.push_back(entry.get_string("file"));
                 playlist_to_load.volumes.push_back(entry.get_int("volume"));
@@ -2029,6 +2067,37 @@ void load_soundset() {
             playlists[playlist_id] = playlist_to_load;
         }
     }
+
+    // Load sound effects. This loads the sound effect chunks directly
+    // into memory.
+    location = FILENAMES["datadir"] + "/sound/soundset.json";
+    std::ifstream jsonstream2(location.c_str(), std::ifstream::binary);
+    if (jsonstream2.good()) {
+        JsonIn json(jsonstream2);
+        JsonObject config = json.get_object();
+        JsonArray sound_effects_json = config.get_array("sound_effects");
+        for (unsigned i=0; i < sound_effects_json.size(); i++) {
+            JsonObject sound_effect = sound_effects_json.get_object(i);
+
+            std::string sound_effect_id = sound_effect.get_string("id");
+            std::string sound_effect_variant = sound_effect.get_string("variant", "default");
+            sound_effect_entry sfx_to_load;
+
+            const std::string filename = sound_effect.get_string("file");
+            const std::string path = (FILENAMES["datadir"] + "/sound/" + filename);
+            Mix_Chunk *loaded_chunk = Mix_LoadWAV(path.c_str());
+            if (!loaded_chunk) {
+                dbg( D_ERROR ) << "Failed to load audio file " << path << ": " << Mix_GetError();
+            }
+            sfx_to_load.chunk = loaded_chunk;
+            sfx_to_load.volume = sound_effect.get_int("volume", 100);
+
+            sound_effects[sound_effect_id][sound_effect_variant] = sfx_to_load;
+            printf("Loaded sound effect: %s %s %s %d\n", sound_effect_id.c_str(), sound_effect_variant.c_str(), filename.c_str(), sfx_to_load.volume);
+        }
+    }
+#endif
 }
+
 
 #endif // TILES
