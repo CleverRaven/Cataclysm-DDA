@@ -724,7 +724,7 @@ npc_action npc::address_needs(int danger)
             return npc_sleep;
         } else if( g->u.sees( *this ) && !has_effect( "npc_said" ) &&
                    one_in( 10000 / ( fatigue + 1 ) ) ) {
-            say( _("<yawn>") );
+            say( "<yawn>" );
             add_effect( "npc_said", 10 );
         }
     }
