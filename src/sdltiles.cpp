@@ -2031,7 +2031,7 @@ void play_sound_effect(std::string id, std::string variant, int volume) {
     if (!effect_to_play) {
         return;
     }
-    Mix_VolumeChunk(effect_to_play->chunk, effect_to_play->volume * OPTIONS["SOUND_VOLUME"] * volume / (100 * 100));
+    Mix_VolumeChunk(effect_to_play->chunk, effect_to_play->volume * OPTIONS["SOUND_EFFECT_VOLUME"] * volume / (100 * 100));
     if (Mix_PlayChannel(-1, effect_to_play->chunk, 0) == -1) {
         dbg( D_ERROR ) << "Failed to play sound effect: " << Mix_GetError();
     }
