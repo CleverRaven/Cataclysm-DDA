@@ -2070,7 +2070,7 @@ void advanced_inv_area::set_container_position()
     // update the offset of the container based on location
     switch( uistate.adv_inv_container_location ) {
         case AIM_DRAGGED:
-            off = tripoint( g->u.grab_point.x, g->u.grab_point.y, 0 );
+            off = tripoint( g->u.grab_point.x, g->u.grab_point.y, g->u.posz() );
             break;
         case AIM_SOUTHWEST:
             off = tripoint( -1, 1, 0 );
