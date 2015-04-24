@@ -1,7 +1,9 @@
 # Cataclysm DDA client
 cmake_minimum_required(VERSION 2.8.12)
 
-set(CATACLYSM_DDA_SOURCES
+SET(CATACLYSM_DDA_SRCS "")
+
+SET(CATACLYSM_DDA_SOURCES
     ${CMAKE_SOURCE_DIR}/src/veh_interact.cpp
     ${CMAKE_SOURCE_DIR}/src/mondeath.cpp
     ${CMAKE_SOURCE_DIR}/src/path_info.cpp
@@ -282,22 +284,57 @@ ADD_CUSTOM_TARGET(
 
 ADD_CUSTOM_COMMAND (
 	OUTPUT ${CMAKE_SOURCE_DIR}/src/version.h
-	COMMAND ${CMAKE_COMMAND} -D SRC=${CMAKE_SOURCE_DIR}/src/version.h.in
-	-D DST=${CMAKE_SOURCE_DIR}/src/version.h
-	-D GIT_EXECUTABLE=${GIT_EXECUTABLE}
-	-P ${CMAKE_SOURCE_DIR}/src/version.cmake
+	COMMAND ${CMAKE_COMMAND}
+		-D SRC=${CMAKE_SOURCE_DIR}/src/version.h.in
+		-D DST=${CMAKE_SOURCE_DIR}/src/version.h
+		-D GIT_EXECUTABLE=${GIT_EXECUTABLE}
+		-P ${CMAKE_SOURCE_DIR}/src/version.cmake
 	WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
 )
+
+IF(WIN32)
+	IF(RC_COMPILER_PATH)
+		ADD_CUSTOM_TARGET(
+			compile_res
+			DEPENDS ${CMAKE_BINARY_DIR}/resource.rc.o
+			WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
+		)
+		ADD_CUSTOM_COMMAND(
+			OUTPUT ${CMAKE_BINARY_DIR}/resource.rc.o
+			COMMAND	${RC_COMPILER_PATH}
+				${CMAKE_SOURCE_DIR}/src/resource.rc
+				${CMAKE_BINARY_DIR}/resource.rc.o
+			WORKING_DIRECTORY
+				${CMAKE_SOURCE_DIR}/src
+		)
+		SET(CATACLYSM_DDA_SRCS
+			${CMAKE_SOURCE_DIR}/src/main.cpp
+			${CMAKE_BINARY_DIR}/resource.rc.o
+		)
+	ENDIF(RC_COMPILER_PATH)
+ENDIF(WIN32)
 
 # Build tiles version if requested
 IF(TILES)
 	IF(WIN32)
-		ADD_EXECUTABLE(cataclysm-tiles WIN32 ${CATACLYSM_DDA_SOURCES} ${CATACLYSM_DDA_HEADERS})
+		ADD_EXECUTABLE(cataclysm-tiles WIN32
+			${CATACLYSM_DDA_SOURCES}
+			${CATACLYSM_DDA_HEADERS}
+			${CATACLYSM_DDA_SRCS}
+		)
 	ELSE(WIN32)
-		ADD_EXECUTABLE(cataclysm-tiles ${CATACLYSM_DDA_SOURCES} ${CATACLYSM_DDA_HEADERS})
+		ADD_EXECUTABLE(cataclysm-tiles
+			${CATACLYSM_DDA_SOURCES}
+			${CATACLYSM_DDA_HEADERS}
+		)
 	ENDIF(WIN32)
 
+	IF(RC_COMPILER_PATH)
+		ADD_DEPENDENCIES(cataclysm-tiles compile_res)
+	ENDIF(RC_COMPILER_PATH)
+
 	ADD_DEPENDENCIES(cataclysm-tiles get_version)
+
 	IF (LUA)
 		ADD_DEPENDENCIES(cataclysm-tiles lua_bindings)
 		target_include_directories(cataclysm-tiles PUBLIC ${LUA_INCLUDE_DIR})
@@ -365,10 +402,21 @@ ENDIF(TILES)
 # Build curses version if requested
 IF(CURSES)
 	IF(WIN32)
-		ADD_EXECUTABLE(cataclysm WIN32 ${CATACLYSM_DDA_SOURCES} ${CATACLYSM_DDA_HEADERS})
+		ADD_EXECUTABLE(cataclysm WIN32
+			${CATACLYSM_DDA_SOURCES}
+			${CATACLYSM_DDA_HEADERS}
+			${CATACLYSM_DDA_SRCS}
+		)
 	ELSE(WIN32)
-		ADD_EXECUTABLE(cataclysm ${CATACLYSM_DDA_SOURCES} ${CATACLYSM_DDA_HEADERS})
+		ADD_EXECUTABLE(cataclysm
+			${CATACLYSM_DDA_SOURCES}
+			${CATACLYSM_DDA_HEADERS}
+		)
 	ENDIF(WIN32)
+
+	IF(RC_COMPILER_PATH)
+		ADD_DEPENDENCIES(cataclysm compile_res)
+	ENDIF(RC_COMPILER_PATH)
 
 	ADD_DEPENDENCIES(cataclysm get_version)
 
