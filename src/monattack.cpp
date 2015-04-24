@@ -1695,20 +1695,11 @@ void mattack::impale(monster *z, int index)
                                         z->name().c_str());
         }
         foe->practice( "dodge", z->type->melee_skill );
-        if( (dam > 10) && (one_in( 3 )) ) {
-            if( foe->has_effect("bite", bp_torso)) {
-                foe->add_effect("bite", 400, bp_torso, true);
-            } else if( foe->has_effect( "infected", bp_torso ) ) {
-                foe->add_effect( "infected", 250, bp_torso, true );
-            } else {
-                foe->add_effect( "bite", 1, bp_torso, true );
-            }
-        }
-        if( (dam > 10) && (one_in( 2 )) ) {
+        if( one_in( 14 - dam ) ) {
             foe->add_effect( "bleed", rng( 75, 125 ), bp_torso, true );
         }
         foe->check_dead_state();
-        if( dam > 12 &&
+        if( one_in( 16 - dam ) &&
         ( foe == nullptr || !foe->is_throw_immune() ||
           ( !foe->has_trait("LEG_TENT_BRACE") ||
             foe->footwear_factor() == 1 || ( foe->footwear_factor() == .5 && one_in(2) ) ) ) ) {
