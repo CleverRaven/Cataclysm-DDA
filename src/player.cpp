@@ -6729,7 +6729,7 @@ void player::hardcoded_effects(effect &it)
     } else if (id == "sleep") {
         set_moves(0);
         #ifdef SDLTILES
-        if((int(calendar::turn) % 100 == 0)){
+        if(int(calendar::turn) % 100 == 0){
             SDL_PumpEvents();
         }
         #endif // SDLTILES
