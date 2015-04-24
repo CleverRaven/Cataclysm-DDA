@@ -33,6 +33,8 @@ void gas            (monster *z); // Explodes in toxic gas
 void kill_breathers (monster *z); // All breathers die
 void smokeburst     (monster *z); // Explode like a huge smoke bomb.
 void jabberwock     (monster *z); // Snicker-snack!
+void detonate       (monster *z); // Take the enemy with you
+void broken_ammo    (monster *z); // Breaks ammo and then itself
 
 void gameover       (monster *z); // Game over!  Defense mode
 } //namespace mdeath

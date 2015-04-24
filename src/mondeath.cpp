@@ -8,6 +8,7 @@
 #include "messages.h"
 #include "sounds.h"
 #include "mondeath.h"
+#include "iuse_actor.h"
 
 #include <math.h>  // rounding
 #include <sstream>
@@ -521,6 +522,9 @@ void mdeath::broken(monster *z) {
     // make "broken_manhack", or "broken_eyebot", ...
     item_id.insert(0, "broken_");
     g->m.spawn_item(z->posx(), z->posy(), item_id, 1, 0, calendar::turn);
+    if (g->u.sees(z->pos())) {
+        add_msg(m_good, _("The %s collapses!"), z->name().c_str());
+    }
 }
 
 void mdeath::ratking(monster *z)
@@ -623,6 +627,84 @@ void mdeath::kill_breathers(monster *z)
             g->zombie(i).die( nullptr );
         }
     }
+}
+
+void mdeath::detonate(monster *z)
+{
+    weighted_int_list<std::string> amm_list;
+    for (auto amm : z->ammo) {
+        amm_list.add(amm.first, amm.second);
+    }
+
+    std::vector<std::string> pre_dets;
+    for (int i = 0; i < 3; i++) {
+        if (amm_list.get_weight() <= 0) {
+            break;
+        }
+        // Grab one item
+        std::string tmp = *amm_list.pick();
+        // and reduce its weight by 1
+        amm_list.add_or_replace(tmp, amm_list.get_specific_weight(tmp) - 1);
+        // and stash it for use
+        pre_dets.push_back(tmp);
+    }
+
+    // Update any hardcoded explosion equivalencies
+    std::vector<std::string> dets;
+    for (auto bomb_id : pre_dets) {
+        if (bomb_id == "bot_grenade_hack") {
+            dets.push_back("grenade_act");
+        } else if (bomb_id == "bot_flashbang_hack") {
+            dets.push_back("flashbang_act");
+        } else if (bomb_id == "bot_gasbomb_hack") {
+            dets.push_back("gasbomb_act");
+        } else if (bomb_id == "bot_c4_hack") {
+            dets.push_back("c4armed");
+        } else if (bomb_id == "bot_mininuke_hack") {
+            dets.push_back("mininuke_act");
+        } else {
+            // Get the transformation item
+            const iuse_transform *actor = dynamic_cast<const iuse_transform *>(
+                            item::find_type(bomb_id)->get_use( "transform" )->get_actor_ptr() );
+            if( actor == nullptr ) {
+                // Invalid bomb item, move to the next ammo item
+                add_msg(m_debug, "Invalid bomb type in detonate mondeath for %s.", z->name().c_str());
+                continue;
+            }
+            dets.push_back(actor->target_id);
+        }
+    }
+
+
+    if (g->u.sees(*z)) {
+        if (dets.empty()) {
+            //~ %s is the possessive form of the monster's name
+            add_msg(m_info, _("The %s hands fly to its pockets, but there's nothing left in them."), z->disp_name(true).c_str());
+        } else {
+            //~ %s is the possessive form of the monster's name
+            add_msg(m_bad, _("The %s hands fly to its remaining pockets, opening them!"), z->disp_name(true).c_str());
+        }
+    }
+    point det_point = z->pos();
+    // First die normally
+    mdeath::normal(z);
+    // Then detonate our suicide bombs
+    for (auto bomb_id : dets) {
+        item bomb_item(bomb_id, 0);
+        bomb_item.charges = 0;
+        bomb_item.active = true;
+        bomb_item.process(nullptr, det_point, false);
+    }
+}
+
+void mdeath::broken_ammo(monster *z)
+{
+    if (g->u.sees(z->pos())) {
+        //~ %s is the possessive form of the monster's name
+        add_msg(m_info, _("The %s interior compartment sizzles with destructive energy."),
+                            z->disp_name(true).c_str());
+    }
+    mdeath::broken(z);
 }
 
 void make_gibs(monster *z, int amount)

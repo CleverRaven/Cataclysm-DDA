@@ -130,7 +130,35 @@
             ] },
             { "item": "cash_card" }
         ]
-    },{
+    },
+    {
+        "type" : "item_group",
+        "subtype": "collection",
+        "id": "mon_zombie_grenadier",
+        "entries":
+        [
+            { "item": "chestrig", "damage-min": 1, "damage-max": 4 },
+            { "item": "bot_grenade_hack", "count-min": 1, "count-max": 3, "damage-min": 1, "damage-max": 4, "prob": 10},
+            { "item": "bot_flashbang_hack", "damage-min": 1, "damage-max": 4, "prob": 10},
+            { "item": "bot_gasbomb_hack", "damage-min": 1, "damage-max": 4, "prob": 10}
+        ]
+    },
+    {
+        "type" : "item_group",
+        "subtype": "collection",
+        "id": "mon_zombie_grenadier_elite",
+        "entries":
+        [
+            { "item": "chestrig", "damage-min": 1, "damage-max": 4 },
+            { "item": "molle_pack", "damage-min": 1, "damage-max": 4},
+            { "item": "bot_grenade_hack", "count-min": 1, "count-max": 5, "damage-min": 1, "damage-max": 4, "prob": 30},
+            { "item": "bot_flashbang_hack", "count-min": 1, "count-max": 3, "damage-min": 1, "damage-max": 4, "prob": 20},
+            { "item": "bot_gasbomb_hack", "count-min": 1, "count-max": 3, "damage-min": 1, "damage-max": 4, "prob": 20},
+            { "item": "bot_c4_hack", "count-min": 1, "count-max": 2, "damage-min": 1, "damage-max": 4, "prob": 10},
+            { "item": "bot_mininuke_hack", "damage-min": 1, "damage-max": 4, "prob": 1}
+        ]
+    },
+    {
         "type" : "item_group",
         "subtype": "collection",
         "id": "mon_zombie_armored_death_drops",
@@ -312,6 +340,21 @@
             },
             { "item": "hat_hard" },
             { "item": "boots" }
+        ]
+    },
+    {
+        "type" : "item_group",
+        "subtype": "collection",
+        "id": "mon_zombie_cop_death_drops",
+        "entries":
+        [
+            { "group": "cop_shoes", "damage-min": 1, "damage-max": 4 },
+            { "group": "cop_torso", "damage-min": 1, "damage-max": 4 },
+            { "group": "cop_pants", "damage-min": 1, "damage-max": 4 },
+            { "group": "underwear", "damage-min": 1, "damage-max": 4 },
+            { "group": "cop_weapons", "prob": 20 },
+            { "group": "cop_gear", "prob": 40 },
+            { "item": "cash_card" }
         ]
     },
     {

@@ -109,9 +109,22 @@ template <typename W, typename T> struct weighted_list {
     }
 
     /**
+     * This will return the weight of a specific object. If the object is not
+     * in the weighted list it will return 0.
+     */
+     double get_specific_weight(const T &obj) const {
+        for(auto &itr : objects) {
+            if(itr.obj == obj) {
+                return itr.weight;
+            }
+        }
+        return 0;
+     }
+
+    /**
      * This will return the sum of all the object's weights in the list.
      */
-    int get_weight() const {
+    double get_weight() const {
         return total_weight;
     }
 
@@ -146,7 +159,7 @@ protected:
 
     size_t pick_ent() const override {
         double picked = rng_float(std::nextafter(0.0, 1.0), this->total_weight);
-        int accumulated_weight = 0;
+        double accumulated_weight = 0;
         size_t i;
         for(i=0; i < this->objects.size(); i++) {
             accumulated_weight += this->objects[i].weight;
