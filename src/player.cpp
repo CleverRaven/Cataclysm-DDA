@@ -4047,7 +4047,7 @@ float player::active_light()
         item &itemit = stack->front();
         item * stack_iter = &itemit;
         if (stack_iter->active && stack_iter->charges > 0) {
-            int lumit = stack_iter->getlight_emit(true);
+            int lumit = stack_iter->getlight_emit();
             if ( maxlum < lumit ) {
                 maxlum = lumit;
             }
@@ -4056,7 +4056,7 @@ float player::active_light()
 
     for( auto &elem : worn ) {
         if( elem.active && elem.charges > 0 ) {
-            int lumit = elem.getlight_emit( true );
+            int lumit = elem.getlight_emit();
             if ( maxlum < lumit ) {
                 maxlum = lumit;
             }
@@ -4065,7 +4065,7 @@ float player::active_light()
 
     if (!weapon.is_null()) {
         if ( weapon.active  && weapon.charges > 0) {
-            int lumit = weapon.getlight_emit(true);
+            int lumit = weapon.getlight_emit();
             if ( maxlum < lumit ) {
                 maxlum = lumit;
             }

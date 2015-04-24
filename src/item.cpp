@@ -4003,7 +4003,7 @@ itype_id item::typeId() const
     return type->id;
 }
 
-bool item::getlight(float & luminance, int & width, int & direction, bool calculate_dimming ) const {
+bool item::getlight(float & luminance, int & width, int & direction ) const {
     luminance = 0;
     width = 0;
     direction = 0;
@@ -4015,7 +4015,7 @@ bool item::getlight(float & luminance, int & width, int & direction, bool calcul
         }
         return true;
     } else {
-        const int lumint = getlight_emit( calculate_dimming );
+        const int lumint = getlight_emit();
         if ( lumint > 0 ) {
             luminance = (float)lumint;
             return true;
@@ -4027,7 +4027,7 @@ bool item::getlight(float & luminance, int & width, int & direction, bool calcul
 /*
  * Returns just the integer
  */
-int item::getlight_emit(bool calculate_dimming) const {
+int item::getlight_emit() const {
     const int mult = 10; // woo intmath
     const int chargedrop = 5 * mult; // start dimming at 1/5th charge.
 
@@ -4036,7 +4036,7 @@ int item::getlight_emit(bool calculate_dimming) const {
     if ( lumint == 0 ) {
         return 0;
     }
-    if ( calculate_dimming && has_flag("CHARGEDIM") && is_tool() && !has_flag("USE_UPS")) {
+    if ( has_flag("CHARGEDIM") && is_tool() && !has_flag("USE_UPS")) {
         it_tool * tool = dynamic_cast<it_tool *>(type);
         int maxcharge = tool->max_charges;
         if ( maxcharge > 0 ) {
