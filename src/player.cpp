@@ -29,6 +29,10 @@
 #include "sounds.h"
 #include "item_action.h"
 
+#ifdef SDLTILES
+#include "SDL2/SDL.h"
+#endif // SDLTILES
+
 //Used for e^(x) functions
 #include <stdio.h>
 #include <math.h>
@@ -4037,40 +4041,18 @@ void player::charge_power(int amount)
  * item.light.* is -unimplemented- for the moment, as it is a custom override for
  * applying light sources/arcs with specific angle and direction.
  */
-float player::active_light()
+float player::active_light() const
 {
     float lumination = 0;
 
     int maxlum = 0;
-    const invslice & stacks = inv.slice();
-    for( auto &stack : stacks ) {
-        item &itemit = stack->front();
-        item * stack_iter = &itemit;
-        if (stack_iter->active && stack_iter->charges > 0) {
-            int lumit = stack_iter->getlight_emit(true);
-            if ( maxlum < lumit ) {
-                maxlum = lumit;
-            }
+    has_item_with( [&maxlum]( const item &it ) {
+        const int lumit = it.getlight_emit_active();
+        if( maxlum < lumit ) {
+            maxlum = lumit;
         }
-    }
-
-    for( auto &elem : worn ) {
-        if( elem.active && elem.charges > 0 ) {
-            int lumit = elem.getlight_emit( true );
-            if ( maxlum < lumit ) {
-                maxlum = lumit;
-            }
-        }
-    }
-
-    if (!weapon.is_null()) {
-        if ( weapon.active  && weapon.charges > 0) {
-            int lumit = weapon.getlight_emit(true);
-            if ( maxlum < lumit ) {
-                maxlum = lumit;
-            }
-        }
-    }
+        return false; // continue search, otherwise has_item_with would cancel the search
+    } );
 
     lumination = (float)maxlum;
 
@@ -4713,7 +4695,7 @@ dealt_damage_instance player::deal_damage(Creature* source, body_part bp, const 
     }
 
 
-    
+
         //Acid blood effects.
         bool u_see = g->u.sees(*this);
         int cut_dam = dealt_dams.type_damage(DT_CUT);
@@ -4736,7 +4718,7 @@ dealt_damage_instance player::deal_damage(Creature* source, body_part bp, const 
             source->deal_damage(this, bp_head, acidblood_damage);
             }
         }
-        
+
     if (has_trait("ADRENALINE") && !has_effect("adrenaline") &&
         (hp_cur[hp_head] < 25 || hp_cur[hp_torso] < 15)) {
         add_effect("adrenaline", 200);
@@ -6723,6 +6705,11 @@ void player::hardcoded_effects(effect &it)
         }
     } else if (id == "sleep") {
         set_moves(0);
+        #ifdef SDLTILES
+        if(int(calendar::turn) % 100 == 0){
+            SDL_PumpEvents();
+        }
+        #endif // SDLTILES
         // Hibernating only kicks in whilst Engorged; separate tracking for hunger/thirst here
         // as a safety catch.  One test subject managed to get two Colds during hibernation;
         // since those add fatigue and dry out the character, the subject went for the full 10 days plus
@@ -13019,6 +13006,10 @@ int player::get_hp_max( hp_part bp ) const
 
 int player::get_stamina_max() const
 {
+    if (has_trait("BADCARDIO"))
+        return 750;
+    if (has_trait("GOODCARDIO"))
+        return 1250;
     return 1000;
 }
 

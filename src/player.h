@@ -254,7 +254,7 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         /** Returns the bionic with the given invlet, or NULL if no bionic has that invlet */
         bionic *bionic_by_invlet(char ch);
         /** Returns player lumination based on the brightest active item they are carrying */
-        float active_light();
+        float active_light() const;
 
         /** Returns true if the player doesn't have the mutation or a conflicting one and it complies with the force typing */
         bool mutation_ok( const std::string &mutation, bool force_good, bool force_bad ) const;
