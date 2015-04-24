@@ -2096,7 +2096,6 @@ void load_soundset() {
             sfx_to_load.volume = sound_effect.get_int("volume", 100);
 
             sound_effects[sound_effect_id][sound_effect_variant] = sfx_to_load;
-            printf("Loaded sound effect: %s %s %s %d\n", sound_effect_id.c_str(), sound_effect_variant.c_str(), filename.c_str(), sfx_to_load.volume);
         }
     }
 #endif
