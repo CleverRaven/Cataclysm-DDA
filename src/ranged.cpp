@@ -17,6 +17,7 @@
 int time_to_fire(player &p, const itype &firing);
 int recoil_add(player &p, const item &gun);
 void make_gun_sound_effect(player &p, bool burst, item *weapon);
+void make_gun_flash(player &p, item *weapon);
 extern bool is_valid_in_w_terrain(int, int);
 
 void splatter( const std::vector<tripoint> &trajectory, int dam, const Creature *target = nullptr );
@@ -520,6 +521,7 @@ void player::fire_gun(int tarx, int tary, bool burst)
         }
 
         make_gun_sound_effect(*this, burst, used_weapon);
+        make_gun_flash(*this, used_weapon);
 
         double total_dispersion = get_weapon_dispersion(used_weapon, true);
         //debugmsg("%f",total_dispersion);
@@ -1377,6 +1379,20 @@ void make_gun_sound_effect(player &p, bool burst, item *weapon)
     } else if( ammo_used != "bolt" && ammo_used != "arrow" && ammo_used != "pebble" &&
                ammo_used != "fishspear" && ammo_used != "dart" ) {
         sounds::sound(p.posx(), p.posy(), noise, gunsound);
+    }
+}
+
+void make_gun_flash(player &p , item *weapon)
+{
+    if( p.weapon.is_gun()  && !p.weapon.is_charger_gun()) {
+        if(p.weapon.has_gunmod("suppressor") >= 0 || p.weapon.has_gunmod("crafted_suppressor") >= 0 ||
+           p.weapon.has_gunmod("shot_suppressor") >= 0) {
+            return;
+        }
+        if( rng(0,3) < 1  ) {
+            p.weapon.light.luminance = weapon->type->gun->muzzle_flash;
+            p.weapon.active=true;
+        }
     }
 }
 

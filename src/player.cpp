@@ -4064,11 +4064,14 @@ float player::active_light()
     }
 
     if (!weapon.is_null()) {
-        if ( weapon.active  && weapon.charges > 0) {
-            int lumit = weapon.getlight_emit(true);
-            if ( maxlum < lumit ) {
-                maxlum = lumit;
-            }
+            int lumit = 0; 
+        if ( !weapon.is_charger_gun() ) {
+            lumit = weapon.getlight_emit(true);
+        }else if ( weapon.active && weapon.charges > 0 ) {
+            lumit = weapon.getlight_emit(true);
+        }               
+        if ( maxlum < lumit ) {
+            maxlum = lumit;
         }
     }
 
@@ -8314,7 +8317,6 @@ void player::process_active_items()
         ch_UPS_used++;
         weapon.charges++;
     }
-
     for( size_t i = 0; i < worn.size() && ch_UPS_used < ch_UPS; ++i ) {
         item& worn_item = worn[i];
 

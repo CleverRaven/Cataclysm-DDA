@@ -4030,9 +4030,10 @@ bool item::getlight(float & luminance, int & width, int & direction, bool calcul
 int item::getlight_emit(bool calculate_dimming) const {
     const int mult = 10; // woo intmath
     const int chargedrop = 5 * mult; // start dimming at 1/5th charge.
-
+    
     int lumint = type->light_emission * mult;
-
+    lumint += light.luminance * mult;
+    
     if ( lumint == 0 ) {
         return 0;
     }
@@ -4894,7 +4895,7 @@ bool item::update_charger_gun_ammo()
 }
 
 bool item::process_charger_gun( player *carrier, point pos )
-{
+{  
     if( carrier == nullptr || this != &carrier->weapon ) {
         // Either on the ground or in the inventory of the player, in both cases:
         // stop charging.
@@ -4940,6 +4941,27 @@ bool item::process_charger_gun( player *carrier, point pos )
     return false;
 }
 
+bool item::process_gun( player *carrier) {
+    if( is_charger_gun() ) {
+        return false;
+    }
+    //process muzzle flash falloff.
+     if( carrier == nullptr || this != &carrier->weapon ) {
+        light.luminance = 0;
+        active = false;
+        return false; 
+     }
+     if( is_gun() && light.luminance > 0 ) {
+        if( light.luminance > type->gun->muzzle_flash / 2) {
+            light.luminance /= 2;
+        } else {
+            active = false;
+            light.luminance = 0;
+        }
+    }
+    return false; 
+}
+
 bool item::process( player *carrier, const tripoint &pos, bool activate )
 {
     // TODO: Z
@@ -4964,7 +4986,7 @@ bool item::process( player *carrier, point pos, bool activate )
     if( activate ) {
         it_tool *tmp = dynamic_cast<it_tool *>( type );
         return tmp->invoke( carrier != nullptr ? carrier : &g->u, this, pos );
-    }
+    }    
     // How this works: it checks what kind of processing has to be done
     // (e.g. for food, for drying towels, lit cigars), and if that matches,
     // call the processing function. If that function returns true, the item
@@ -4998,6 +5020,9 @@ bool item::process( player *carrier, point pos, bool activate )
         return true;
     }
     if( is_charger_gun() && process_charger_gun( carrier, pos ) ) {
+        return true;
+    }
+    if( is_gun() && process_gun( carrier ) ) {
         return true;
     }
     return false;

@@ -261,6 +261,10 @@ struct islot_gun : common_firing_data {
      */
     int ups_charges = 0;
     /**
+     * Intensity of muzzle flash.
+     */
+    int muzzle_flash = 0;
+    /**
      * Effects that are applied to the ammo when fired.
      */
     std::set<std::string> ammo_effects;
