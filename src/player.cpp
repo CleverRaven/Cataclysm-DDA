@@ -4042,29 +4042,13 @@ float player::active_light()
     float lumination = 0;
 
     int maxlum = 0;
-    const invslice & stacks = inv.slice();
-    for( auto &stack : stacks ) {
-        item &itemit = stack->front();
-        item * stack_iter = &itemit;
-        int lumit = stack_iter->getlight_emit_active();
-        if ( maxlum < lumit ) {
+    has_item_with( [&maxlum]( const item &it ) {
+        const int lumit = it.getlight_emit_active();
+        if( maxlum < lumit ) {
             maxlum = lumit;
         }
-    }
-
-    for( auto &elem : worn ) {
-        int lumit = elem.getlight_emit_active();
-        if ( maxlum < lumit ) {
-            maxlum = lumit;
-        }
-    }
-
-    if (!weapon.is_null()) {
-        int lumit = weapon.getlight_emit_active();
-        if ( maxlum < lumit ) {
-            maxlum = lumit;
-        }
-    }
+        return false; // continue search, otherwise has_item_with would cancel the search
+    } );
 
     lumination = (float)maxlum;
 
