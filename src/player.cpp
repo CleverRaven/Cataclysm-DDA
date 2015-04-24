@@ -29,6 +29,10 @@
 #include "sounds.h"
 #include "item_action.h"
 
+#ifdef SDLTILES
+#include "SDL2/SDL.h"
+#endif // SDLTILES
+
 //Used for e^(x) functions
 #include <stdio.h>
 #include <math.h>
@@ -4691,7 +4695,7 @@ dealt_damage_instance player::deal_damage(Creature* source, body_part bp, const 
     }
 
 
-    
+
         //Acid blood effects.
         bool u_see = g->u.sees(*this);
         int cut_dam = dealt_dams.type_damage(DT_CUT);
@@ -4714,7 +4718,7 @@ dealt_damage_instance player::deal_damage(Creature* source, body_part bp, const 
             source->deal_damage(this, bp_head, acidblood_damage);
             }
         }
-        
+
     if (has_trait("ADRENALINE") && !has_effect("adrenaline") &&
         (hp_cur[hp_head] < 25 || hp_cur[hp_torso] < 15)) {
         add_effect("adrenaline", 200);
@@ -6702,6 +6706,11 @@ void player::hardcoded_effects(effect &it)
         }
     } else if (id == "sleep") {
         set_moves(0);
+        #ifdef SDLTILES
+        if(int(calendar::turn) % 100 == 0){
+            SDL_PumpEvents();
+        }
+        #endif // SDLTILES
         // Hibernating only kicks in whilst Engorged; separate tracking for hunger/thirst here
         // as a safety catch.  One test subject managed to get two Colds during hibernation;
         // since those add fatigue and dry out the character, the subject went for the full 10 days plus
