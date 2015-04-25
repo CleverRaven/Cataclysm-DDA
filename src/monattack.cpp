@@ -4526,11 +4526,10 @@ int grenade_helper(monster *const z, Creature *const target, const int dist,
 
     const point where = empty_neighbors.first[get_random_index(empty_neighbor_count)];
 
-    monster hack {GetMType(actor->mtype_id)};
-    hack.spawn(where.x, where.y);
-    hack.friendly = z->friendly;
-    hack.faction = z->faction;
-    g->add_zombie(hack);
+    if (g->summon_mon(actor->mtype_id, tripoint(where.x, where.y, z->posz()))) {
+        monster *hack = g->mon_at(tripoint(where.x, where.y, z->posz()));
+        hack->make_ally(z);
+    }
     return 1;
 }
 
