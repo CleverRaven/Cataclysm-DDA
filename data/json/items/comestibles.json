@@ -4986,6 +4986,7 @@
         "quench" : 0,
         "healthy" : 1,
         "addiction_potential" : 0,
+        "nutrition" : 32,
         "description" : "Sticky, gooey carbohydrate paste extracted from plants.  Spoils rather quickly if not prepared for storage.",
         "price" : 0,
         "material" : "null",
