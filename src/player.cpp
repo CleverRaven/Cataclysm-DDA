@@ -8899,7 +8899,7 @@ bool player::consume_item( item &target )
             }
             if (comest->has_use()) {
                 //Check special use
-                amount_used = comest->invoke( this, to_eat, pos() );
+                amount_used = comest->invoke( this, to_eat, pos3() );
                 if( amount_used <= 0 ) {
                     return false;
                 }
@@ -9207,7 +9207,7 @@ bool player::eat(item *eaten, it_comest *comest)
     }
 
     if (comest->has_use()) {
-        to_eat = comest->invoke( this, eaten, pos() );
+        to_eat = comest->invoke( this, eaten, pos3() );
         if( to_eat <= 0 ) {
             return false;
         }
@@ -10771,7 +10771,7 @@ bool player::invoke_item( item* used )
     }
 
     if( used->type->use_methods.size() < 2 ) {
-        const long charges_used = used->type->invoke( this, used, pos() );
+        const long charges_used = used->type->invoke( this, used, pos3() );
         return consume_charges( used, charges_used );
     }
 
@@ -10784,7 +10784,7 @@ bool player::invoke_item( item* used )
     umenu.text = string_format( _("What to do with your %s?"), used->tname().c_str() );
     int num_total = 0;
     for( const auto &um : used->type->use_methods ) {
-        bool usable = um.can_call( this, used, false, pos() );
+        bool usable = um.can_call( this, used, false, pos3() );
         const std::string &aname = um.get_name();
         umenu.addentry( num_total, usable, MENU_AUTOASSIGN, aname );
         num_total++;
@@ -10798,7 +10798,7 @@ bool player::invoke_item( item* used )
     }
 
     const std::string &method = used->type->use_methods[choice].get_type_name();
-    long charges_used = used->type->invoke( this, used, pos(), method );
+    long charges_used = used->type->invoke( this, used, pos3(), method );
     return consume_charges( used, charges_used );
 }
 
@@ -10819,7 +10819,7 @@ bool player::invoke_item( item* used, const std::string &method )
         return consume_item( *used );
     }
 
-    long charges_used = actually_used->type->invoke( this, actually_used, pos(), method );
+    long charges_used = actually_used->type->invoke( this, actually_used, pos3(), method );
     return consume_charges( actually_used, charges_used );
 }
 
@@ -11263,7 +11263,7 @@ void player::do_read( item *book )
     }
 
     for( auto &m : reading->use_methods ) {
-        m.call( this, book, false, pos() );
+        m.call( this, book, false, pos3() );
     }
 
     activity.type = ACT_NULL;

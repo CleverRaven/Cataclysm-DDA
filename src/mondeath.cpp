@@ -679,7 +679,7 @@ void mdeath::detonate(monster *z)
             add_msg(m_bad, _("The %s hands fly to its remaining pockets, opening them!"), z->disp_name(true).c_str());
         }
     }
-    point det_point = z->pos();
+    const tripoint det_point = z->pos3();
     // First die normally
     mdeath::normal(z);
     // Then detonate our suicide bombs

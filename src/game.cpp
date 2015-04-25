@@ -7954,7 +7954,7 @@ bool pet_menu(monster *z)
 
             item ball("pheromone", 0);
             iuse pheromone;
-            pheromone.pheromone(&(g->u), &ball, true, g->u.pos());
+            pheromone.pheromone(&(g->u), &ball, true, g->u.pos3());
         }
 
     }
@@ -11368,7 +11368,7 @@ void game::unload(item &it)
         // Tools need to be turned off, especially when they consume charges only every few turns,
         // otherwise they stay active until they would consume the next charge.
         if( weapon->active && weapon->is_tool() ) {
-            weapon->type->invoke( &u, weapon, u.pos() );
+            weapon->type->invoke( &u, weapon, u.pos3() );
         }
     }
 }

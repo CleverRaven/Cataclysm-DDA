@@ -4368,7 +4368,7 @@ void mattack::kamikaze(monster *z, int index)
             item i_explodes(act_bomb_type->id, 0);
             i_explodes.charges = 0;
             i_explodes.active = true;
-            i_explodes.process(nullptr, z->pos(), false);
+            i_explodes.process(nullptr, z->pos3(), false);
             z->set_special(index, -1);
         }
         return;

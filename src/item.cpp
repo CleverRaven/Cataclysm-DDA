@@ -3061,7 +3061,7 @@ bool item::is_tool_reversible() const
     if( source != nullptr && source->revert_to != "null" ) {
         item revert( source->revert_to, 0 );
         npc n;
-        revert.type->invoke( &n, &revert, point(-999, -999) );
+        revert.type->invoke( &n, &revert, tripoint(-999, -999, -999) );
         const it_tool *target = dynamic_cast<const it_tool *>( revert.type );
         if ( target != nullptr ) {
             return ( source->id == target->id );
