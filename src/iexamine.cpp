@@ -1389,10 +1389,10 @@ void iexamine::examine_cattails(player *p, map *m, int examx, int examy)
         return;
     }
     if (calendar::turn.get_season() != WINTER) {
-        m->spawn_item( p->posx(), p->posy(), "cattail_stalk", rng( 1, 4 ) );
+        m->spawn_item( p->pos3(), "cattail_stalk", rng( 1, 4 ), 0, calendar::turn );
     }
     m->furn_set(examx, examy, f_null);
-    m->spawn_item( p->posx(), p->posy(), "cattail_rhizome", 1 );
+    m->spawn_item( p->pos3(), "cattail_rhizome", 1, 0, calendar::turn );
 }
 
 void iexamine::flower_marloss(player *p, map *m, int examx, int examy)
