@@ -1132,11 +1132,24 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump, bool debug) c
         }
     }
 
-    if ( !type->qualities.empty()){
-        for(std::map<std::string, int>::const_iterator quality = type->qualities.begin();
-            quality != type->qualities.end(); ++quality){
-            dump->push_back(iteminfo("QUALITIES", "", string_format(_("Has level %1$d %2$s quality."),
-                            quality->second, quality::get_name(quality->first).c_str())));
+    for( const auto &quality : type->qualities ){
+        const auto desc = string_format( _("Has level %1$d %2$s quality."),
+                                         quality.second, 
+                                         quality::get_name(quality.first).c_str() );
+        dump->push_back( iteminfo( "QUALITIES", "", desc ) );
+    }
+    bool intro = false; // Did we print the "Contains items with qualities" line
+    for( const auto &content : contents ) {
+        for( const auto quality : content.type->qualities ) {
+            if( !intro ) {
+                intro = true;
+                dump->push_back( iteminfo( "QUALITIES", "", _("Contains items with qualities:") ) );
+            }
+
+            const auto desc = string_format( _("  Level %1$d %2$s quality."),
+                                         quality.second, 
+                                         quality::get_name( quality.first ).c_str() );
+            dump->push_back( iteminfo( "QUALITIES", "", desc ) );
         }
     }
 
@@ -2242,17 +2255,21 @@ bool item::has_quality(std::string quality_id) const {
     return has_quality(quality_id, 1);
 }
 
-bool item::has_quality(std::string quality_id, int quality_value) const {
-    bool ret = false;
-    if ( !type->qualities.empty()){
-        for(std::map<std::string, int>::const_iterator quality = type->qualities.begin(); quality != type->qualities.end(); ++quality){
-            if(quality->first == quality_id && quality->second >= quality_value) {
-                ret = true;
-                break;
-            }
+bool item::has_quality(std::string quality_id, int quality_value) const
+{
+    for( const auto &quality : type->qualities ) {
+        if( quality.first == quality_id && quality.second >= quality_value ) {
+            return true;
         }
     }
-    return ret;
+
+    for( const auto &content : contents ) {
+        if( content.has_quality( quality_id, quality_value ) ) {
+            return true;
+        }
+    }
+
+    return false;
 }
 
 bool item::has_technique(matec_id tech)
