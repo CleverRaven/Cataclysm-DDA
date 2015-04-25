@@ -3130,6 +3130,240 @@
   ]
 },{
   "type" : "recipe",
+  "result": "bot_grenade_hack",
+  "category": "CC_OTHER",
+  "subcategory": "CSC_OTHER_OTHER",
+  "skill_used": "mechanics",
+  "skills_required": [[ "electronics", 5 ], [ "computer", 5 ]],
+  "difficulty": 6,
+  "time": 8000,
+  "reversible": true,
+  "decomp_learn": 7,
+  "autolearn": false,
+  "book_learn": [[ "recipe_lab_elec", 6 ] , [ "textbook_robots", 7]],
+  "qualities" : [
+    {"id":"SCREW","level":1,"amount":1}
+  ], "tools": [
+    [
+      [ "soldering_iron", 10 ],
+      [ "toolset", 10 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "grenade", 1 ]
+    ],
+    [
+      [ "processor", 1 ]
+    ],
+    [
+      [ "RAM", 1 ]
+    ],
+    [
+      [ "power_supply", 1 ],
+      [ "plut_cell", 1 ]
+    ],
+    [
+      [ "scrap", 2 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
+  "result": "bot_mininuke_hack",
+  "category": "CC_OTHER",
+  "subcategory": "CSC_OTHER_OTHER",
+  "skill_used": "mechanics",
+  "skills_required": [[ "electronics", 5 ], [ "computer", 5 ]],
+  "difficulty": 7,
+  "time": 16000,
+  "reversible": true,
+  "decomp_learn": 8,
+  "autolearn": false,
+  "book_learn": [[ "recipe_lab_elec", 7 ] , [ "textbook_robots", 8]],
+  "qualities" : [
+    {"id":"SCREW","level":1,"amount":1}
+  ], "tools": [
+    [
+      [ "soldering_iron", 20 ],
+      [ "toolset", 20 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "mininuke", 1 ]
+    ],
+    [
+      [ "processor", 2 ]
+    ],
+    [
+      [ "RAM", 2 ]
+    ],
+    [
+      [ "power_supply", 2 ],
+      [ "plut_cell", 2 ]
+    ],
+    [
+      [ "scrap", 4 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
+  "result": "bot_gasbomb_hack",
+  "category": "CC_OTHER",
+  "subcategory": "CSC_OTHER_OTHER",
+  "skill_used": "mechanics",
+  "skills_required": [[ "electronics", 5 ], [ "computer", 5 ]],
+  "difficulty": 6,
+  "time": 8000,
+  "reversible": true,
+  "decomp_learn": 7,
+  "autolearn": false,
+  "book_learn": [[ "recipe_lab_elec", 6 ] , [ "textbook_robots", 7]],
+  "qualities" : [
+    {"id":"SCREW","level":1,"amount":1}
+  ], "tools": [
+    [
+      [ "soldering_iron", 10 ],
+      [ "toolset", 10 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "gasbomb", 1 ]
+    ],
+    [
+      [ "processor", 1 ]
+    ],
+    [
+      [ "RAM", 1 ]
+    ],
+    [
+      [ "power_supply", 1 ],
+      [ "plut_cell", 1 ]
+    ],
+    [
+      [ "scrap", 2 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
+  "result": "bot_EMP_hack",
+  "category": "CC_OTHER",
+  "subcategory": "CSC_OTHER_OTHER",
+  "skill_used": "mechanics",
+  "skills_required": [[ "electronics", 5 ], [ "computer", 5 ]],
+  "difficulty": 6,
+  "time": 8000,
+  "reversible": true,
+  "decomp_learn": 7,
+  "autolearn": false,
+  "book_learn": [[ "recipe_lab_elec", 6 ] , [ "textbook_robots", 7]],
+  "qualities" : [
+    {"id":"SCREW","level":1,"amount":1}
+  ], "tools": [
+    [
+      [ "soldering_iron", 10 ],
+      [ "toolset", 10 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "EMPbomb", 1 ]
+    ],
+    [
+      [ "processor", 1 ]
+    ],
+    [
+      [ "RAM", 1 ]
+    ],
+    [
+      [ "power_supply", 1 ],
+      [ "plut_cell", 1 ]
+    ],
+    [
+      [ "scrap", 2 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
+  "result": "bot_flashbang_hack",
+  "category": "CC_OTHER",
+  "subcategory": "CSC_OTHER_OTHER",
+  "skill_used": "mechanics",
+  "skills_required": [[ "electronics", 5 ], [ "computer", 5 ]],
+  "difficulty": 6,
+  "time": 8000,
+  "reversible": true,
+  "decomp_learn": 7,
+  "autolearn": false,
+  "book_learn": [[ "recipe_lab_elec", 6 ] , [ "textbook_robots", 7]],
+  "qualities" : [
+    {"id":"SCREW","level":1,"amount":1}
+  ], "tools": [
+    [
+      [ "soldering_iron", 10 ],
+      [ "toolset", 10 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "flashbang", 1 ]
+    ],
+    [
+      [ "processor", 1 ]
+    ],
+    [
+      [ "RAM", 1 ]
+    ],
+    [
+      [ "power_supply", 1 ],
+      [ "plut_cell", 1 ]
+    ],
+    [
+      [ "scrap", 2 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
+  "result": "bot_c4_hack",
+  "category": "CC_OTHER",
+  "subcategory": "CSC_OTHER_OTHER",
+  "skill_used": "mechanics",
+  "skills_required": [[ "electronics", 5 ], [ "computer", 5 ]],
+  "difficulty": 6,
+  "time": 8000,
+  "reversible": true,
+  "decomp_learn": 7,
+  "autolearn": false,
+  "book_learn": [[ "recipe_lab_elec", 6 ] , [ "textbook_robots", 7]],
+  "qualities" : [
+    {"id":"SCREW","level":1,"amount":1}
+  ], "tools": [
+    [
+      [ "soldering_iron", 10 ],
+      [ "toolset", 10 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "c4", 1 ]
+    ],
+    [
+      [ "processor", 1 ]
+    ],
+    [
+      [ "RAM", 1 ]
+    ],
+    [
+      [ "power_supply", 1 ],
+      [ "plut_cell", 1 ]
+    ],
+    [
+      [ "scrap", 2 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
   "result": "bag_bundle_10",
   "category": "CC_OTHER",
   "subcategory": "CSC_OTHER_MATERIALS",
@@ -6960,7 +7194,7 @@
   "reversible": false,
   "autolearn": true,
   "components": [
-    [ [ "dogbane", 1 ] ]
+    [ [ "dogbane", 1 ] , [ "cattail_stalk", 1 ] ]
   ]
 }
 ]

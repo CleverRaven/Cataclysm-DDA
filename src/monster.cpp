@@ -160,7 +160,12 @@ void monster::poly(mtype *t)
     faction = t->default_faction;
 }
 
-void monster::update_check(){
+void monster::update_check() {
+    // Hallucinations don't upgrade!
+    if (is_hallucination()) {
+        return;
+    }
+
     // No chance of upgrading, abort
     if ((type->half_life <= 0 && type->base_upgrade_chance <= 0) ||
         (type->upgrade_group == "NULL" && type->upgrades_into == "NULL")) {
@@ -221,6 +226,13 @@ void monster::spawn(const int x, const int y, const int z)
     position.x = x;
     position.y = y;
     zpos = z;
+}
+
+void monster::spawn(const tripoint &p)
+{
+    position.x = p.x;
+    position.y = p.y;
+    zpos = p.z;
 }
 
 std::string monster::name(unsigned int quantity) const
@@ -1274,7 +1286,8 @@ void monster::set_special(int index, int time)
         return;
     }
 
-    if (time < 0) {
+    // -1 is used for disabling specials
+    if (time < -1) {
         time = 0;
     }
     sp_timeout[index] = time;
@@ -1603,7 +1616,8 @@ bool monster::make_fungus()
       tid == "mon_zombie_bio_op" || tid == "mon_zombie_survivor" || tid == "mon_zombie_fireman" ||
       tid == "mon_zombie_cop" || tid == "mon_zombie_fat" || tid == "mon_zombie_rot" ||
       tid == "mon_zombie_swimmer" || tid == "mon_zombie_grabber" || tid == "mon_zombie_technician" ||
-      tid == "mon_zombie_brute_shocker") {
+      tid == "mon_zombie_brute_shocker" || tid == "mon_zombie_grenadier" ||
+      tid == "mon_zombie_grenadier_elite") {
         polypick = 2; // Necro and Master have enough Goo to resist conversion.
         // Firefighter, hazmat, and scarred/beekeeper have the PPG on.
     } else if (tid == "mon_zombie_necro" || tid == "mon_zombie_master" || tid == "mon_zombie_fireman" ||
@@ -1636,6 +1650,16 @@ void monster::make_friendly()
 {
  plans.clear();
  friendly = rng(5, 30) + rng(0, 20);
+}
+
+void monster::make_ally(monster *z) {
+    friendly = z->friendly;
+    faction = z->faction;
+}
+
+void monster::reset_last_load()
+{
+    last_loaded = calendar::turn.get_turn() / DAYS(1);
 }
 
 void monster::add_item(item it)

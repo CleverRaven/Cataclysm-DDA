@@ -82,7 +82,7 @@ void trapfunc::beartrap(Creature *c, int x, int y)
             d.add_damage( DT_BASH, 12 );
             d.add_damage( DT_CUT, 18 );
             n->deal_damage( nullptr, hit, d );
-            
+
             if ((n->has_trait("INFRESIST")) && (one_in(512))) {
                 n->add_effect("tetanus", 1, num_bp, true);
             }
@@ -1117,7 +1117,6 @@ void trapfunc::shadow(Creature *c, int x, int y)
     // Monsters and npcs are completely ignored here, should they?
     g->u.add_memorial_log(pgettext("memorial_male", "Triggered a shadow trap."),
                           pgettext("memorial_female", "Triggered a shadow trap."));
-    monster spawned(GetMType("mon_shadow"));
     int tries = 0, monx, mony, junk;
     do {
         if (one_in(2)) {
@@ -1131,10 +1130,11 @@ void trapfunc::shadow(Creature *c, int x, int y)
              !g->m.sees(monx, mony, g->u.posx(), g->u.posy(), 10, junk));
 
     if (tries < 5) {
-        add_msg(m_warning, _("A shadow forms nearby."));
-        spawned.reset_special_rng(0);
-        spawned.spawn(monx, mony);
-        g->add_zombie(spawned);
+        if (g->summon_mon("mon_shadow", tripoint(x, y, c->posz()))) {
+            add_msg(m_warning, _("A shadow forms nearby."));
+            monster* spawned = g->monster_at(tripoint(x, y, c->posz()));
+            spawned->reset_special_rng(0);
+        }
         g->m.remove_trap(x, y);
     }
 }
@@ -1168,7 +1168,6 @@ void trapfunc::snake(Creature *c, int x, int y)
                             pgettext("memorial_female", "Triggered a shadow snake trap."));
     }
     if (one_in(3)) {
-        monster spawned(GetMType("mon_shadow_snake"));
         int tries = 0, monx, mony, junk;
         // This spawns snakes only when the player can see them, why?
         do {
@@ -1184,8 +1183,7 @@ void trapfunc::snake(Creature *c, int x, int y)
 
         if (tries < 5) {
             add_msg(m_warning, _("A shadowy snake forms nearby."));
-            spawned.spawn(monx, mony);
-            g->add_zombie(spawned);
+            g->summon_mon("mon_shadow_snake", tripoint(x, y, c->posz()));
             g->m.remove_trap(x, y);
         }
     }

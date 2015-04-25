@@ -624,6 +624,12 @@ Using firearms is the easiest way to kill an enemy, but the sound will attract \
 unwanted attention. Save the guns for emergencies, and melee when you can."));
 
     text.push_back(_("\
+If you need to protect yourself from acid, clothing made of cloth < leather < \
+kevlar < plastic. So while leather and kevlar will protect you from active \
+enemies, a hazmat suit and rubber boots will make you nigh-immune to acid damage. \
+Items made of glass, ceramics, diamond or precious metals will be totally immune to acid."));
+
+    text.push_back(_("\
 Try to keep your inventory as full as possible without being overloaded. You never know when you \
 might need an item, most are good to sell, and you can easily drop unwanted items on the floor."));
 
@@ -636,7 +642,7 @@ of clothing on the floor to sleep on."));
     text.push_back(_("\
 Your clothing can sit in one of four layers on your body: next-to-skin, standard, over, and belted. \
 You can wear one item from each layer on a body part without incurring an encumbrance penalty for \
-too many worn items. Any items beyond the first on each layer add an additional point to the body \
+too many worn items. Any items beyond the first on each layer add an additional 10 points to the body \
 part's encumbrance. (However, you can wear one additional item that would be encumbrance 0 before \
 fitting, and is fitted anyway, without incurring that penalty.)"));
 

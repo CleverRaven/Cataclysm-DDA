@@ -3550,9 +3550,10 @@ C..C..C...|hhh|#########\n\
                     tmpcomp->add_failure(COMPFAIL_SHUTDOWN);
                     if (one_in(2)) {
                         add_spawn("mon_zombie_soldier", rng(1, 4), 12, 12);
-                    }
-                    else if (one_in(5)) {
+                    } else if (one_in(5)) {
                         add_spawn("mon_zombie_bio_op", rng(1, 2), 12, 12);
+                    } else if (one_in(5)) {
+                        add_spawn("mon_zombie_grenadier", rng(1, 2), 12, 12);
                     }
                 } else { //human containment
                     mapf::formatted_set_simple(this, 0, 0,
@@ -4728,6 +4729,12 @@ ff.......|....|WWWWWWWW|\n\
                     spawn_item(rnx, rny, "id_military");
                 } else if (one_in(4)) { // Bionic Op zombie!
                     add_spawn("mon_zombie_bio_op", 1, rnx, rny);
+                } else if (one_in(4)) {
+                    if (one_in(10)) {
+                        add_spawn("mon_zombie_grenadier_elite", 1, rnx, rny);
+                    } else {
+                        add_spawn("mon_zombie_grenadier", 1, rnx, rny);
+                    }
                 } else if (one_in(20)) {
                     rough_circle_furn(this, f_rubble, rnx, rny, rng(3, 6));
                 }
@@ -13294,7 +13301,11 @@ void map::add_extra(map_extra type)
                 if (one_in(10)) {
                     add_spawn("mon_zombie_soldier", 1, x, y);
                 } else if (one_in(25)) {
-                    add_spawn("mon_zombie_bio_op", 1, x, y);
+                    if (one_in(2)) {
+                        add_spawn("mon_zombie_bio_op", 1, x, y);
+                    } else {
+                        add_spawn("mon_zombie_grenadier", 1, x, y);
+                    }
                 } else {
                     place_items("map_extra_military", 100, x, y, x, y, true, 0);
                 }

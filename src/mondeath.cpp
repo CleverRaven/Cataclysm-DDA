@@ -8,6 +8,7 @@
 #include "messages.h"
 #include "sounds.h"
 #include "mondeath.h"
+#include "iuse_actor.h"
 
 #include <math.h>  // rounding
 #include <sstream>
@@ -171,7 +172,6 @@ void mdeath::triffid_heart(monster *z)
 
 void mdeath::fungus(monster *z)
 {
-    monster spore(GetMType("mon_spore"));
     bool fungal = false;
     int mondex = -1;
     int sporex, sporey;
@@ -229,8 +229,10 @@ void mdeath::fungus(monster *z)
                     }
                 } else if (one_in(2) && g->num_zombies() <= 1000) {
                     // Spawn a spore
-                    spore.spawn(sporex, sporey);
-                    g->add_zombie(spore);
+                    if (g->summon_mon("mon_spore", tripoint(sporex, sporey, z->posz()))) {
+                        monster *spore = g->monster_at(tripoint(sporex, sporey, z->posz()));
+                        spore->make_ally(z);
+                    }
                 }
             }
         }
@@ -254,7 +256,7 @@ void mdeath::worm(monster *z)
         }
     }
 
-    std::vector <point> wormspots;
+    std::vector <tripoint> wormspots;
     int wormx, wormy;
     for (int i = -1; i <= 1; i++) {
         for (int j = -1; j <= 1; j++) {
@@ -262,17 +264,15 @@ void mdeath::worm(monster *z)
             wormy = z->posy() + j;
             if (g->m.has_flag("DIGGABLE", wormx, wormy) &&
                 !(g->u.posx() == wormx && g->u.posy() == wormy)) {
-                wormspots.push_back(point(wormx, wormy));
+                wormspots.push_back(tripoint(wormx, wormy, z->posz()));
             }
         }
     }
     int worms = 0;
     while(worms < 2 && !wormspots.empty()) {
-        monster worm(GetMType("mon_halfworm"));
         int rn = rng(0, wormspots.size() - 1);
         if(-1 == g->mon_at(wormspots[rn])) {
-            worm.spawn(wormspots[rn].x, wormspots[rn].y);
-            g->add_zombie(worm);
+            g->summon_mon("mon_halfworm", wormspots[rn]);
             worms++;
         }
         wormspots.erase(wormspots.begin() + rn);
@@ -363,10 +363,6 @@ void mdeath::blobsplit(monster *z)
         }
         return;
     }
-    monster blob(GetMType((speed < 50 ? "mon_blob_small" : "mon_blob")));
-    blob.set_speed_base( speed );
-    // If we're tame, our kids are too
-    blob.friendly = z->friendly;
     if (g->u.sees(*z)) {
         if(z->type->dies.size() == 1) {
             add_msg(m_good, _("The %s splits in two!"), z->name().c_str());
@@ -374,8 +370,7 @@ void mdeath::blobsplit(monster *z)
             add_msg(m_bad, _("Two small blobs slither out of the corpse."), z->name().c_str());
         }
     }
-    blob.set_hp( speed );
-    std::vector <point> valid;
+    std::vector <tripoint> valid;
 
     for (int i = -1; i <= 1; i++) {
         for (int j = -1; j <= 1; j++) {
@@ -383,7 +378,7 @@ void mdeath::blobsplit(monster *z)
             bool monOK = g->mon_at(z->posx() + i, z->posy() + j) == -1;
             bool posOK = (g->u.posx() != z->posx() + i || g->u.posy() != z->posy() + j);
             if (moveOK && monOK && posOK) {
-                valid.push_back(point(z->posx() + i, z->posy() + j));
+                valid.push_back(tripoint(z->posx() + i, z->posy() + j, z->posz()));
             }
         }
     }
@@ -391,8 +386,12 @@ void mdeath::blobsplit(monster *z)
     int rn;
     for (int s = 0; s < 2 && !valid.empty(); s++) {
         rn = rng(0, valid.size() - 1);
-        blob.spawn(valid[rn].x, valid[rn].y);
-        g->add_zombie(blob);
+        if (g->summon_mon(speed < 50 ? "mon_blob_small" : "mon_blob", valid[rn])) {
+            monster *blob = g->monster_at(valid[rn]);
+            blob->make_ally(z);
+            blob->set_speed_base(speed);
+            blob->set_hp(speed);
+        }
         valid.erase(valid.begin() + rn);
     }
 }
@@ -447,9 +446,7 @@ void mdeath::amigara(monster *z)
 
 void mdeath::thing(monster *z)
 {
-    monster thing(GetMType("mon_thing"));
-    thing.spawn(z->posx(), z->posy());
-    g->add_zombie(thing);
+    g->summon_mon("mon_thing", z->pos3());
 }
 
 void mdeath::explode(monster *z)
@@ -521,6 +518,9 @@ void mdeath::broken(monster *z) {
     // make "broken_manhack", or "broken_eyebot", ...
     item_id.insert(0, "broken_");
     g->m.spawn_item(z->posx(), z->posy(), item_id, 1, 0, calendar::turn);
+    if (g->u.sees(z->pos())) {
+        add_msg(m_good, _("The %s collapses!"), z->name().c_str());
+    }
 }
 
 void mdeath::ratking(monster *z)
@@ -530,24 +530,22 @@ void mdeath::ratking(monster *z)
         add_msg(m_warning, _("Rats suddenly swarm into view."));
     }
 
-    std::vector <point> ratspots;
+    std::vector <tripoint> ratspots;
     int ratx, raty;
     for (int i = -1; i <= 1; i++) {
         for (int j = -1; j <= 1; j++) {
             ratx = z->posx() + i;
             raty = z->posy() + j;
             if (g->is_empty(ratx, raty)) {
-                ratspots.push_back(point(ratx, raty));
+                ratspots.push_back(tripoint(ratx, raty, z->posz()));
             }
         }
     }
     monster rat(GetMType("mon_sewer_rat"));
     for (int rats = 0; rats < 7 && !ratspots.empty(); rats++) {
         int rn = rng(0, ratspots.size() - 1);
-        point rp = ratspots[rn];
+        g->summon_mon("mon_sewer_rat", ratspots[rn]);
         ratspots.erase(ratspots.begin() + rn);
-        rat.spawn(rp.x, rp.y);
-        g->add_zombie(rat);
     }
 }
 
@@ -623,6 +621,84 @@ void mdeath::kill_breathers(monster *z)
             g->zombie(i).die( nullptr );
         }
     }
+}
+
+void mdeath::detonate(monster *z)
+{
+    weighted_int_list<std::string> amm_list;
+    for (auto amm : z->ammo) {
+        amm_list.add(amm.first, amm.second);
+    }
+
+    std::vector<std::string> pre_dets;
+    for (int i = 0; i < 3; i++) {
+        if (amm_list.get_weight() <= 0) {
+            break;
+        }
+        // Grab one item
+        std::string tmp = *amm_list.pick();
+        // and reduce its weight by 1
+        amm_list.add_or_replace(tmp, amm_list.get_specific_weight(tmp) - 1);
+        // and stash it for use
+        pre_dets.push_back(tmp);
+    }
+
+    // Update any hardcoded explosion equivalencies
+    std::vector<std::string> dets;
+    for (auto bomb_id : pre_dets) {
+        if (bomb_id == "bot_grenade_hack") {
+            dets.push_back("grenade_act");
+        } else if (bomb_id == "bot_flashbang_hack") {
+            dets.push_back("flashbang_act");
+        } else if (bomb_id == "bot_gasbomb_hack") {
+            dets.push_back("gasbomb_act");
+        } else if (bomb_id == "bot_c4_hack") {
+            dets.push_back("c4armed");
+        } else if (bomb_id == "bot_mininuke_hack") {
+            dets.push_back("mininuke_act");
+        } else {
+            // Get the transformation item
+            const iuse_transform *actor = dynamic_cast<const iuse_transform *>(
+                            item::find_type(bomb_id)->get_use( "transform" )->get_actor_ptr() );
+            if( actor == nullptr ) {
+                // Invalid bomb item, move to the next ammo item
+                add_msg(m_debug, "Invalid bomb type in detonate mondeath for %s.", z->name().c_str());
+                continue;
+            }
+            dets.push_back(actor->target_id);
+        }
+    }
+
+
+    if (g->u.sees(*z)) {
+        if (dets.empty()) {
+            //~ %s is the possessive form of the monster's name
+            add_msg(m_info, _("The %s hands fly to its pockets, but there's nothing left in them."), z->disp_name(true).c_str());
+        } else {
+            //~ %s is the possessive form of the monster's name
+            add_msg(m_bad, _("The %s hands fly to its remaining pockets, opening them!"), z->disp_name(true).c_str());
+        }
+    }
+    point det_point = z->pos();
+    // First die normally
+    mdeath::normal(z);
+    // Then detonate our suicide bombs
+    for (auto bomb_id : dets) {
+        item bomb_item(bomb_id, 0);
+        bomb_item.charges = 0;
+        bomb_item.active = true;
+        bomb_item.process(nullptr, det_point, false);
+    }
+}
+
+void mdeath::broken_ammo(monster *z)
+{
+    if (g->u.sees(z->pos())) {
+        //~ %s is the possessive form of the monster's name
+        add_msg(m_info, _("The %s interior compartment sizzles with destructive energy."),
+                            z->disp_name(true).c_str());
+    }
+    mdeath::broken(z);
 }
 
 void make_gibs(monster *z, int amount)
