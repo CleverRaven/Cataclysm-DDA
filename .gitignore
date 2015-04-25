@@ -23,8 +23,6 @@ CataclysmWin.layout
 WinDepend/
 *.7z
 *.zip
-build/
-dep/
 
 data/font/
 config/
@@ -86,6 +84,3 @@ nbproject/
 # vimdiff backup
 *.orig
 
-# OSX
-Cataclysm.app
-data/osx/AppIcon.icns
