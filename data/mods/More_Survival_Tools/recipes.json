@@ -1238,5 +1238,29 @@
       [ "rock", 1 ]
     ]
   ]
-}
+},{
+  "type" : "recipe",
+  "result": "cu_pipe",
+  "override": true,
+  "category": "CC_OTHER",
+  "subcategory": "CSC_OTHER_MATERIALS",
+  "skill_used": "fabrication",
+  "difficulty": 5,
+  "time": 90000,
+  "reversible": false,
+  "autolearn": true,
+  "qualities":[
+    {"id":"HAMMER","level":3,"amount":1}
+  ],
+  "tools": [
+    [ ["tongs", -1] ],
+    [ ["chisel", -1] ],
+    [ ["anvil", -1] ],
+    [ ["swage", -1] ],
+    [ ["forge", 50], ["char_forge", 10], ["oxy_torch", 10] ]
+  ],
+  "components": [
+     [ [ "copper", 90 ] ]
+  ]
+  }
 ]
