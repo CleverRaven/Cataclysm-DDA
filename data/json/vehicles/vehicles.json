@@ -375,7 +375,7 @@
     },{
         "type" : "vehicle",
         "id" : "car_sports_atomic",
-        "name" : "Batti Trinita",
+        "name" : "Atomic Sports Car",
         "blueprint" : [
             ["o--+-o"],
             ["=>'#'|"],
