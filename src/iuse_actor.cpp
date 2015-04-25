@@ -475,25 +475,27 @@ long place_monster_iuse::use( player *p, item *it, bool, point ) const
     p->moves -= moves;
     newmon.reset_last_load();
     newmon.spawn( target.x, target.y );
-    for( auto & amdef : newmon.ammo ) {
-        item ammo_item( amdef.first, 0 );
-        const int available = p->charges_of( amdef.first );
-        if( available == 0 ) {
-            amdef.second = 0;
-            p->add_msg_if_player( m_info,
-                                  _( "If you had standard factory-built %s bullets, you could load the %s." ),
-                                  ammo_item.type_name( 2 ).c_str(), newmon.name().c_str() );
-            continue;
+    if (!newmon.has_flag(MF_INTERIOR_AMMO)) {
+        for( auto & amdef : newmon.ammo ) {
+            item ammo_item( amdef.first, 0 );
+            const int available = p->charges_of( amdef.first );
+            if( available == 0 ) {
+                amdef.second = 0;
+                p->add_msg_if_player( m_info,
+                                      _( "If you had standard factory-built %s bullets, you could load the %s." ),
+                                      ammo_item.type_name( 2 ).c_str(), newmon.name().c_str() );
+                continue;
+            }
+            // Don't load more than the default from the monster definition.
+            ammo_item.charges = std::min( available, amdef.second );
+            p->use_charges( amdef.first, ammo_item.charges );
+            //~ First %s is the ammo item (with plural form and count included), second is the monster name
+            p->add_msg_if_player( ngettext( "You load %d x %s round into the %s.",
+                                            "You load %d x %s rounds into the %s.", ammo_item.charges ),
+                                  ammo_item.charges, ammo_item.type_name( ammo_item.charges ).c_str(),
+                                  newmon.name().c_str() );
+            amdef.second = ammo_item.charges;
         }
-        // Don't load more than the default from the monster definition.
-        ammo_item.charges = std::min( available, amdef.second );
-        p->use_charges( amdef.first, ammo_item.charges );
-        //~ First %s is the ammo item (with plural form and count included), second is the monster name
-        p->add_msg_if_player( ngettext( "You load %d x %s round into the %s.",
-                                        "You load %d x %s rounds into the %s.", ammo_item.charges ),
-                              ammo_item.charges, ammo_item.type_name( ammo_item.charges ).c_str(),
-                              newmon.name().c_str() );
-        amdef.second = ammo_item.charges;
     }
     newmon.init_from_item( *it );
     if( rng( 0, p->int_cur / 2 ) + p->skillLevel( skill1 ) / 2 + p->skillLevel( skill2 ) <

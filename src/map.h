@@ -1041,6 +1041,7 @@ public:
  void build_seen_cache(const tripoint &origin);
 protected:
  void generate_lightmap();
+ void apply_character_light( const player &p );
 
  int my_MAPSIZE;
  bool zlevels;

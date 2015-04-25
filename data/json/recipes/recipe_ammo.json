@@ -1033,7 +1033,7 @@
       ["oxy_torch", 2]
       ]
     ],
-     "//" : "Extra steel is for stablizers, mass, etc. These are mostly better thanks to the maker's skill, though.",
+     "//" : "Extra steel is for stablizers, mass, etc.  These are mostly better thanks to the maker's skill, though.",
      "components": [
     [
       ["steel_chunk", 2]

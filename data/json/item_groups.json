@@ -6148,6 +6148,9 @@
     "id" : "bots",
     "items":[
       ["bot_manhack", 2],
+      ["bot_grenade_hack", 2],
+      ["bot_flashbang_hack", 2],
+      ["bot_gasbomb_hack", 2],
       ["bot_turret", 2],
       ["bot_rifleturret", 2],
       ["556", 2],
@@ -7223,6 +7226,9 @@
       ["dynamite", 5],
       ["mininuke", 1],
       ["bot_manhack", 1],
+      ["bot_grenade_hack", 1],
+      ["bot_flashbang_hack", 1],
+      ["bot_gasbomb_hack", 1],
       ["UPS_off", 5],
       ["adv_UPS_off", 3],
       ["bio_power_storage", 10],
@@ -7758,7 +7764,9 @@
       ["knife_rm42", 4],
       ["survnote", 1],
       ["rm11b_sniper_rifle", 1],
-      ["shoulder_strap", 16]
+      ["shoulder_strap", 16],
+      ["bot_manhack", 1],
+      ["bot_grenade_hack", 1]
     ]
   },{
     "type" : "item_group",
@@ -7892,8 +7900,10 @@
       ["conversion_sniper", 1],
       ["canister_goo", 8],
       ["mininuke", 1],
+      ["bot_mininuke_hack", 1],
       ["portal", 2],
       ["c4", 5],
+      ["bot_c4_hack", 3],
       ["12mm", 2],
       ["hk_g80", 2],
       ["power_armor_basic", 5],
