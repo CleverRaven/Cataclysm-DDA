@@ -3399,11 +3399,11 @@ C..C..C...|hhh|#########\n\
                     }
                 }
             }
-            ter_set(SEEX - 1, 0, t_dirt);
-            ter_set(SEEX - 1, 1, t_door_metal_locked);
-            ter_set(SEEX    , 0, t_dirt);
-            ter_set(SEEX    , 1, t_door_metal_locked);
-            ter_set(SEEX - 2 + rng(0, 1) * 3, 1, t_card_science);
+            ter_set(SEEX - 1, 0, t_door_metal_locked);
+            ter_set(SEEX - 1, 1, t_floor);
+            ter_set(SEEX    , 0, t_door_metal_locked);
+            ter_set(SEEX    , 1, t_floor);
+            ter_set(SEEX - 2 + rng(0, 1) * 3, 0, t_card_science);
             ter_set(SEEX - 2, SEEY    , t_door_metal_c);
             ter_set(SEEX + 1, SEEY    , t_door_metal_c);
             ter_set(SEEX - 2, SEEY - 1, t_door_metal_c);
