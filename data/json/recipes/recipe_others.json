@@ -7194,7 +7194,7 @@
   "reversible": false,
   "autolearn": true,
   "components": [
-    [ [ "dogbane", 1 ] ]
+    [ [ "dogbane", 1 ] , [ "cattail_stalk", 1 ] ]
   ]
 }
 ]

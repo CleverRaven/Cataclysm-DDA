@@ -1382,6 +1382,19 @@ void iexamine::flower_dandelion(player *p, map *m, int examx, int examy)
     m->spawn_item(examx, examy, "raw_dandelion", rng( 1, 4 ) );
 }
 
+void iexamine::examine_cattails(player *p, map *m, int examx, int examy)
+{
+    if(!query_yn(_("Pick %s?"), m->furnname(examx, examy).c_str())) {
+        none(p, m, examx, examy);
+        return;
+    }
+    if (calendar::turn.get_season() != WINTER) {
+        m->spawn_item( p->posx(), p->posy(), "cattail_stalk", rng( 1, 4 ) );
+    }
+    m->furn_set(examx, examy, f_null);
+    m->spawn_item( p->posx(), p->posy(), "cattail_rhizome", 1 );
+}
+
 void iexamine::flower_marloss(player *p, map *m, int examx, int examy)
 {
     if (calendar::turn.get_season() == WINTER) {
@@ -3203,6 +3216,9 @@ iexamine_function iexamine_function_from_string(std::string const &function_name
     }
     if ("flower_dandelion" == function_name) {
         return &iexamine::flower_dandelion;
+    }
+    if ("examine_cattails" == function_name) {
+        return &iexamine::examine_cattails;
     }
     if ("egg_sackbw" == function_name) {
         return &iexamine::egg_sackbw;
