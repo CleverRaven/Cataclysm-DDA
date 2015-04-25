@@ -187,6 +187,8 @@ class game
         Creature *critter_at( const tripoint &p );
         Creature const* critter_at( const tripoint &p ) const;
 
+        /** Summons a brand new monster at the current time. Returns the summoned monster. */
+        bool summon_mon(const std::string id, const tripoint &p);
         /** Calls the creature_tracker add function. Returns true if successful. */
         bool add_zombie(monster &critter);
         /** Returns the number of creatures through the creature_tracker size() function. */
@@ -207,6 +209,8 @@ class game
         int mon_at(point p) const;
         /** Returns the monster index of the monster at the given tripoint. Returns -1 if no monster is present. */
         int mon_at( const tripoint &p ) const;
+        /** Returns a pointer to the monster at the given tripoint. */
+        monster *monster_at( const tripoint &p);
         /** Returns true if there is no player, NPC, or monster on the tile and move_cost > 0. */
         bool is_empty(const int x, const int y);
         bool is_empty( const tripoint &p );
@@ -237,7 +241,7 @@ class game
                                   int hiy, std::vector <Creature *> t, int &target,
                                   item *relevent, target_mode mode,
                                   point from = point(-1, -1));
-        /** 
+        /**
          * Interface to target(), collects a list of targets & selects default target
          * finally calls target() and returns its result.
          * Used by vehicle::manual_fire_turret()
@@ -285,6 +289,7 @@ class game
         bool spread_fungus( const tripoint &p );
         std::vector<faction *> factions_at( const tripoint &p );
         int &scent(int x, int y);
+        int &scent( const tripoint &p );
         float ground_natural_light_level() const;
         float natural_light_level() const;
         unsigned char light_level();

@@ -219,51 +219,9 @@ int player::hit_roll() const
     return dice(numdice, sides);
 }
 
-void reason_weight_list::add_item(const char *reason, unsigned int weight)
-{
-    // ignore items with zero weight
-    if (weight != 0) {
-        reason_weight new_weight = { reason, weight };
-        items.push_back(new_weight);
-        total_weight += weight;
-    }
-}
-
-unsigned int reason_weight_list::pick_ent()
-{
-    unsigned int picked = rng(0, total_weight);
-    unsigned int accumulated_weight = 0;
-    unsigned int i;
-    for(i = 0; i < items.size(); i++) {
-        accumulated_weight += items[i].weight;
-        if(accumulated_weight >= picked) {
-            break;
-        }
-    }
-    return i;
-}
-
-const char *reason_weight_list::pick()
-{
-    if (total_weight != 0) {
-        return items[ pick_ent() ].reason;
-    } else {
-        // if no items have been added, or only zero-weight items have
-        // been added, don't pick anything
-        return NULL;
-    }
-}
-
-void reason_weight_list::clear()
-{
-    total_weight = 0;
-    items.clear();
-}
-
-
 void player::add_miss_reason(const char *reason, unsigned int weight)
 {
-    melee_miss_reasons.add_item(reason, weight);
+    melee_miss_reasons.add(reason, weight);
 
 }
 
@@ -287,7 +245,11 @@ const char *player::get_miss_reason()
         _("You can't hit reliably without your glasses."),
         farsightedness);
 
-    return melee_miss_reasons.pick();
+    const char** reason = melee_miss_reasons.pick();
+    if(reason == NULL) {
+        return NULL;
+    }
+    return *reason;
 }
 
 // Melee calculation is in parts. This sets up the attack, then in deal_melee_attack,
@@ -1199,11 +1161,12 @@ void player::perform_technique(ma_technique technique, Creature &t, int &bash_da
     }
 
     if (technique.knockback_dist > 0) {
-        int kb_offset = rng(
-                            -technique.knockback_spread,
-                            technique.knockback_spread
-                        );
-        t.knock_back_from(posx() + kb_offset, posy() + kb_offset);
+        const int kb_offset_x = rng( -technique.knockback_spread,
+                                     technique.knockback_spread );
+        const int kb_offset_y = rng( -technique.knockback_spread,
+                                     technique.knockback_spread );
+        tripoint kb_point( posx() + kb_offset_x, posy() + kb_offset_y, posz() );
+        t.knock_back_from( kb_point );
     }
 
     if (technique.pain > 0) {

@@ -69,6 +69,10 @@
 #include <iterator>
 #include <ctime>
 
+#if !(defined _WIN32 || defined WINDOWS || defined TILES)
+#include <langinfo.h>
+#endif
+
 #if (defined _WIN32 || defined __WIN32__)
 #   include "platform_win.h"
 #   include <tchar.h>
@@ -2242,7 +2246,7 @@ input_context game::get_player_input(std::string &action)
                                 if( u.sees( elem.getPosX() + i, elem.getPosY() ) ) {
                                     m.drawsq( w_terrain, u,
                                               tripoint( elem.getPosX() + i, elem.getPosY(), u.posz() + u.view_offset.z ),
-                                              false, true, u.pos3() + u.view_offset );
+                                              false, true, u.posx() + u.view_offset.x, u.posy() + u.view_offset.y );
                                 } else {
                                     const int iDY =
                                         POSY + ( elem.getPosY() - ( u.posy() + u.view_offset.y ) );
@@ -3264,6 +3268,11 @@ int &game::scent(int x, int y)
         return nulscent; // Out-of-bounds - null scent
     }
     return grscent[x][y];
+}
+
+int &game::scent( const tripoint &p ) // A wrapper for now
+{
+    return scent( p.x, p.y );
 }
 
 void game::update_scent()
@@ -4923,7 +4932,8 @@ void game::draw_critter( const Creature &critter, const tripoint &center )
         return;
     }
     if( critter.posz() != center.z ) {
-        return;
+        // Should cancel drawing, but z-levels aren't always properly set yet
+        //return;
     }
     if( u.sees( critter ) || &critter == &u ) {
         critter.draw( w_terrain, center.x, center.y, false );
@@ -5873,7 +5883,7 @@ void game::monmove()
         }
 
         monster &critter = critter_tracker.find(i);
-        while (!critter.is_dead() && !critter.can_move_to(critter.posx(), critter.posy())) {
+        while (!critter.is_dead() && !critter.can_move_to(critter.pos3())) {
             // If we can't move to our current position, assign us to a new one
                 dbg(D_ERROR) << "game:monmove: " << critter.name().c_str()
                              << " can't move to its location! (" << critter.posx()
@@ -5887,8 +5897,9 @@ void game::monmove()
             int starty = critter.posy() - 3 * ydir, endy = critter.posy() + 3 * ydir;
             for (int x = startx; x != endx && !okay; x += xdir) {
                 for (int y = starty; y != endy && !okay; y += ydir) {
-                    if (critter.can_move_to(x, y) && is_empty(x, y)) {
-                        critter.setpos(x, y);
+                    tripoint dest( x, y, get_levz() );
+                    if (critter.can_move_to( dest ) && is_empty( dest )) {
+                        critter.setpos( dest );
                         okay = true;
                     }
                 }
@@ -5969,6 +5980,10 @@ void game::monmove()
                 add_msg( _( "%s's brain explodes!" ), ( elem )->name.c_str() );
                 ( elem )->die( nullptr );
             }
+
+        if( !elem->is_dead() ) {
+            elem->process_active_items();
+        }
     }
     cleanup_dead();
 }
@@ -6019,7 +6034,6 @@ void game::do_blast( const tripoint &p, const int power, const int radius, const
                 n->deal_damage( nullptr, bp_leg_r, damage_instance( DT_BASH, rng( dam / 3, dam ) ) );
                 n->deal_damage( nullptr, bp_arm_l, damage_instance( DT_BASH, rng( dam / 3, dam ) ) );
                 n->deal_damage( nullptr, bp_arm_r, damage_instance( DT_BASH, rng( dam / 3, dam ) ) );
-                n->check_dead_state();
             }
             if (fire) {
                 m.add_field(i, j, fd_fire, dam / 10);
@@ -6087,7 +6101,6 @@ void game::explosion( const tripoint &p, int power, int shrapnel, bool fire, boo
                 monster &critter = critter_tracker.find(zid);
                 dam -= critter.get_armor_cut(bp_torso);
                 critter.apply_damage( nullptr, bp_torso, dam );
-                critter.check_dead_state();
             } else if( npcdex != -1 ) {
                 body_part hit = random_body_part();
                 // TODO: why is this different for NPC vs player character?
@@ -6097,13 +6110,11 @@ void game::explosion( const tripoint &p, int power, int shrapnel, bool fire, boo
                     dam = rng(long(1.5 * dam), 3 * dam);
                 }
                 active_npc[npcdex]->deal_damage( nullptr, hit, damage_instance( DT_CUT, dam ) );
-                active_npc[npcdex]->check_dead_state();
             } else if (tx == u.posx() && ty == u.posy()) {
                 body_part hit = random_body_part();
                 //~ %s is bodypart name in accusative.
                 add_msg(m_bad, _("Shrapnel hits your %s!"), body_part_name_accusative(hit).c_str());
                 u.deal_damage( nullptr, hit, damage_instance( DT_CUT, dam ) );
-                u.check_dead_state();
             } else {
                 std::set<std::string> shrapnel_effects;
                 m.shoot( tripoint( tx, ty, u.posz() ), dam, j == traj.size() - 1, shrapnel_effects);
@@ -6786,6 +6797,15 @@ Creature const* game::critter_at( const tripoint &p ) const
     return const_cast<game*>(this)->critter_at( p );
 }
 
+bool game::summon_mon( const std::string id, const tripoint &p )
+{
+    monster mon(GetMType(id));
+    // Set their last upgrade check to the current day.
+    mon.reset_last_load();
+    mon.spawn(p);
+    return add_zombie(mon);
+}
+
 bool game::add_zombie(monster &critter)
 {
     if( !m.inbounds( critter.posx(), critter.posy(), critter.posz() ) ) {
@@ -6860,6 +6880,11 @@ int game::mon_at(point p) const
 int game::mon_at( const tripoint &p ) const
 {
     return critter_tracker.mon_at( p );
+}
+
+monster *game::monster_at(const tripoint &p)
+{
+    return &zombie(critter_tracker.mon_at(p));
 }
 
 void game::rebuild_mon_at_cache()
@@ -7779,7 +7804,7 @@ bool pet_menu(monster *z)
             }
 
             int x = z->posx(), y = z->posy(), zpos = z->posz();
-            z->move_to(g->u.posx(), g->u.posy(), true); // TODO: Use player zpos here
+            z->move_to( g->u.pos3(), true);
             g->u.setx( x );
             g->u.sety( y );
             g->u.setz( zpos );
@@ -7811,7 +7836,7 @@ bool pet_menu(monster *z)
 
         int deltax = z->posx() - g->u.posx(), deltay = z->posy() - g->u.posy();
 
-        z->move_to(z->posx() + deltax, z->posy() + deltay);
+        z->move_to( tripoint( z->posx() + deltax, z->posy() + deltay, z->posz() ) );
 
         return true;
     }
@@ -8186,10 +8211,10 @@ void game::print_object_info( const tripoint &lp, WINDOW *w_look, const int colu
         mvwprintw(w_look, line++, column, _("There is a %s there. Parts:"), veh->name.c_str());
         line = veh->print_part_desc(w_look, line, (mouse_hover) ? getmaxx(w_look) : 48, veh_part);
         if (!mouse_hover) {
-            m.drawsq( w_terrain, u, lp, true, true, lp );
+            m.drawsq( w_terrain, u, lp, true, true, lp.x, lp.y );
         }
     } else if (!mouse_hover) {
-        m.drawsq(w_terrain, u, lp, true, true, lp );
+        m.drawsq(w_terrain, u, lp, true, true, lp.x, lp.y );
     }
     handle_multi_item_info( lp, w_look, column, line, mouse_hover );
 }
@@ -8580,7 +8605,8 @@ void game::zones_manager()
                                          tripoint( iX, iY, u.posz() + u.view_offset.z ),
                                          false,
                                          false,
-                                         u.pos3() + u.view_offset );
+                                         u.posx() + u.view_offset.x,
+                                         u.posy() + u.view_offset.y );
                             } else {
                                 if (u.has_effect("boomered")) {
                                     mvwputch(w_terrain, iY - offset_y, iX - offset_x, c_magenta, '#');
@@ -11666,7 +11692,7 @@ bool game::plmove(int dx, int dy)
             if (!query_yn(_("Really attack %s?"), active_npc[npcdex]->name.c_str())) {
                 if (active_npc[npcdex]->is_friend()) {
                     add_msg(_("%s moves out of the way."), active_npc[npcdex]->name.c_str());
-                    active_npc[npcdex]->move_away_from(u.posx(), u.posy());
+                    active_npc[npcdex]->move_away_from( u.pos3() );
                 }
 
                 return false; // Cancel the attack
@@ -12214,8 +12240,7 @@ bool game::plmove(int dx, int dy)
         if (displace) { // We displaced a friendly monster!
             // Immobile monsters can't be displaced.
             monster &critter = zombie(mondex);
-            critter.move_to(u.posx(), u.posy(),
-                            true); // Force the movement even though the player is there right now.
+            critter.move_to(u.pos3(), true); // Force the movement even though the player is there right now.
             add_msg(_("You displace the %s."), critter.name().c_str());
         } // displace == true
 
@@ -13214,8 +13239,9 @@ void game::update_stair_monsters()
                 pushx = rng(-1, 1), pushy = rng(-1, 1);
                 int iposx = mposx + pushx;
                 int iposy = mposy + pushy;
-                if ((pushx != 0 || pushy != 0) && (mon_at(iposx, iposy) == -1) &&
-                    critter.can_move_to(iposx, iposy)) {
+                tripoint pos( iposx, iposy, get_levz() );
+                if ((pushx != 0 || pushy != 0) && (mon_at(pos) == -1) &&
+                    critter.can_move_to( pos )) {
                     bool resiststhrow = (u.is_throw_immune()) ||
                                         (u.has_trait("LEG_TENT_BRACE"));
                     if (resiststhrow && one_in(player_throw_resist_chance)) {
@@ -13272,10 +13298,11 @@ void game::update_stair_monsters()
                 pushy = rng(-1, 1);
                 int iposx = mposx + pushx;
                 int iposy = mposy + pushy;
+                tripoint pos( iposx, iposy, get_levz() );
                 if ((pushx == 0 && pushy == 0) || ((iposx == u.posx()) && (iposy == u.posy()))) {
                     continue;
                 }
-                if ((mon_at(iposx, iposy) == -1) && other.can_move_to(iposx, iposy)) {
+                if ((mon_at(pos) == -1) && other.can_move_to(pos)) {
                     other.setpos( iposx, iposy, get_levz() );
                     other.moves -= 50;
                     std::string msg = "";
@@ -13896,36 +13923,12 @@ void intro()
     }
     werase(tmp);
 
-/*                      *** NOTE ***
- * Not all locale are equal! Gentoo Linux, for instance,
- * reports ${LANG} for UTF-8 as "en_US.utf8"! Be aware!
- */
 #if !(defined _WIN32 || defined WINDOWS || defined TILES)
-    // Check if locale has UTF-8 encoding
-    const char *p_locale = setlocale(LC_ALL, NULL);
-    bool not_utf8 = p_locale == NULL ? true : false;
-    if(not_utf8 == false) {
-        std::string locale = p_locale;
-        // convert all to uppercase
-        for(size_t i = 0; i < locale.length(); ++i)
-            locale[i] = toupper(locale[i]);
-        auto index = locale.find("UTF");
-        // were we able to find those three magical letters?
-        not_utf8 = index == std::string::npos ? true : false;
-        if(not_utf8 == false) {
-            // replace entirety of string with important part
-            locale.erase(0, index);
-            // afterwards, it should simply be UTF8
-            index = locale.find('-');
-            if(index != std::string::npos)
-                locale.erase(index, 1);
-            // anything but zero indicates failure
-            not_utf8 = locale.compare("UTF8") != 0;
-        }
-    }
-    if (not_utf8 == true) {
-        const char *unicode_error_msg =
-            _("You don't seem to have a valid Unicode locale. You may see some weird "
+    // Check whether LC_CTYPE supports the UTF-8 encoding
+    // and show a warning if it doesn't
+    if (strcmp(nl_langinfo(CODESET), "UTF-8") != 0) {
+        const char *unicode_error_msg = 
+            _("You don't seem to have a valid Unicode locale. You may see some weird " 
               "characters (e.g. empty boxes or question marks). You have been warned.");
         fold_and_print(tmp, 0, 0, maxx, c_white, unicode_error_msg, minWidth, minHeight, maxx, maxy);
         wrefresh(tmp);

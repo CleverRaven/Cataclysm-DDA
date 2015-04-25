@@ -177,17 +177,15 @@ class map
      */
     void draw( WINDOW* w, const tripoint &center );
 
- /** Draw the map tile at the given coordinate. Called by `map::draw()`.
-  *
-  * @param x, y The tile on this map to draw.
-  * @param cx, cy The center of the viewport to be rendered, see `center` in `map::draw()`
-  */
- void drawsq(WINDOW* w, player &u, const tripoint &p, const bool invert, const bool show_items,
-             const int view_center_x = -1, const int view_center_y = -1,
-             const bool low_light = false, const bool bright_level = false, const bool inorder = false);
- void drawsq(WINDOW* w, player &u, const tripoint &p, const bool invert, const bool show_items,
-             const tripoint &view_center,
-             const bool low_light = false, const bool bright_level = false, const bool inorder = false);
+    /** Draw the map tile at the given coordinate. Called by `map::draw()`.
+    *
+    * @param p The tile on this map to draw.
+    * @param view_center_x, view_center_y The center of the viewport to be rendered, 
+    *        see `center` in `map::draw()`
+    */
+    void drawsq( WINDOW* w, player &u, const tripoint &p, const bool invert, const bool show_items,
+                 const int view_center_x = -1, const int view_center_y = -1,
+                 const bool low_light = false, const bool bright_level = false, const bool inorder = false);
 
     /**
      * Add currently loaded submaps (in @ref grid) to the @ref mapbuffer.
@@ -239,6 +237,8 @@ class map
  void clear_spawns();
  void clear_traps();
 
+    const maptile maptile_at( const tripoint &p ) const;
+
 // Movement and LOS
 
 // Move cost: 2D overloads
@@ -285,7 +285,8 @@ class map
     * Returns whether `(Fx, Fy)` sees `(Tx, Ty)` with a view range of `range`.
     *
     * @param bresenham_slope Indicates the Bresenham line used to connect the two points, and may
-    *           subsequently be used to form a path between them
+    *                        subsequently be used to form a path between them.
+    *                        Set to zero if the function returns false.
     */
     bool sees(const int Fx, const int Fy, const int Tx, const int Ty,
               const int range, int &bresenham_slope) const;
@@ -295,8 +296,9 @@ class map
     * Returns whether `F` sees `T` with a view range of `range`.
     *
     * @param t1 Indicates the x/y component of Bresenham line used to connect the two points, and may
-    *           subsequently be used to form a path between them
-    * @param t2 Indicates the horizontal/vertical component of the Bresenham line
+    *           subsequently be used to form a path between them. Set to zero if the function returns false.
+    * @param t2 Indicates the horizontal/vertical component of the Bresenham line. 
+                Set to zero if the function returns false.
     */
     bool sees( const tripoint &F, const tripoint &T, int range, int &t1, int &t2 ) const;
     bool sees( const tripoint &F, const tripoint &T, int range ) const;
@@ -339,7 +341,7 @@ class map
   * This method leads to straighter lines and prevents weird looking movements away from the target.
   */
  std::vector<point> getDirCircle(const int Fx, const int Fy, const int Tx, const int Ty) const;
- std::vector<point> getDirCircle( const tripoint &f, const tripoint &t ) const;
+ std::vector<tripoint> get_dir_circle( const tripoint &f, const tripoint &t ) const;
 
  /**
   * Calculate a best path using A*
@@ -350,7 +352,7 @@ class map
   * @param bash Bashing strength of pathing creature (0 means no bashing through terrain)
   */
  std::vector<point> route(const int Fx, const int Fy, const int Tx, const int Ty, const int bash) const;
- std::vector<point> route( const tripoint &f, const tripoint &t, const int bash ) const;
+ std::vector<tripoint> route( const tripoint &f, const tripoint &t, const int bash ) const;
 
  int coord_to_angle(const int x, const int y, const int tgtx, const int tgty) const;
     // First angle is horizontal, second is vertical
@@ -1039,6 +1041,7 @@ public:
  void build_seen_cache(const tripoint &origin);
 protected:
  void generate_lightmap();
+ void apply_character_light( const player &p );
 
  int my_MAPSIZE;
  bool zlevels;
@@ -1128,6 +1131,14 @@ private:
                            const vehicle *veh, const int vpart) const;
     int bash_rating_internal( const int str, const furn_t &furniture,
                               const ter_t &terrain, const vehicle *veh, const int part ) const;
+                              
+     /**
+      * Internal version of the drawsq. Keeps a cached maptile for less re-getting.
+      */
+     void draw_maptile( WINDOW* w, player &u, const tripoint &p, const maptile &tile, 
+                        const bool invert, const bool show_items,
+                        const int view_center_x, const int view_center_y,
+                        const bool low_light, const bool bright_level, const bool inorder );
 
  long determine_wall_corner( const tripoint &p ) const;
  void cache_seen(const int fx, const int fy, const int tx, const int ty, const int max_range);

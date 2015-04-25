@@ -395,7 +395,8 @@ void editmap::uber_draw_ter( WINDOW *w, map *m )
                         monster &mon = *m;
                         if ( refresh_mplans == true ) {
                             for( auto &elem : mon.plans ) {
-                                hilights["mplan"].points[elem] = 1;
+                                point temp( elem.x, elem.y );
+                                hilights["mplan"].points[temp] = 1;
                             }
                         }
                     }

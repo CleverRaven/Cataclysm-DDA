@@ -160,7 +160,7 @@ void sounds::process_sounds()
                     int target_y = source.y + rng(-max_error, max_error);
 
                     int wander_turns = volume * (goodhearing ? 6 : 1);
-                    critter.wander_to(target_x, target_y, wander_turns);
+                    critter.wander_to( tripoint( target_x, target_y, g->get_levz() ), wander_turns);
                     critter.process_trigger(MTRIG_SOUND, volume);
                 }
             }

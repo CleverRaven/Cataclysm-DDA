@@ -761,7 +761,7 @@ furn_id f_null,
     f_crate_c, f_crate_o,
     f_large_canvas_wall, f_canvas_wall, f_canvas_door, f_canvas_door_o, f_groundsheet, f_fema_groundsheet, f_large_groundsheet,
     f_large_canvas_door, f_large_canvas_door_o, f_center_groundsheet, f_skin_wall, f_skin_door, f_skin_door_o,  f_skin_groundsheet,
-    f_mutpoppy, f_flower_fungal, f_fungal_mass, f_fungal_clump,f_dahlia,f_datura,f_dandelion,f_bluebell,
+    f_mutpoppy, f_flower_fungal, f_fungal_mass, f_fungal_clump,f_dahlia,f_datura,f_dandelion,f_cattails,f_bluebell,
     f_safe_c, f_safe_l, f_safe_o,
     f_plant_seed, f_plant_seedling, f_plant_mature, f_plant_harvest,
     f_fvat_empty, f_fvat_full,
@@ -844,6 +844,7 @@ void set_furn_ids() {
     f_dahlia=furnfind("f_dahlia");
     f_datura=furnfind("f_datura");
     f_dandelion=furnfind("f_dandelion");
+    f_cattails=furnfind("f_cattails");
     f_safe_c=furnfind("f_safe_c");
     f_safe_l=furnfind("f_safe_l");
     f_safe_o=furnfind("f_safe_o");
@@ -1001,4 +1002,9 @@ void submap::delete_graffiti( int x, int y )
 {
     is_uniform = false;
     cosmetics[x][y].erase( COSMETICS_GRAFFITI );
+}
+
+maptile submap::get_maptile( const int x, const int y ) const
+{
+    return maptile( this, x, y );
 }

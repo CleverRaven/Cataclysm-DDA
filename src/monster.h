@@ -48,6 +48,7 @@ class monster : public Creature, public JsonSerializer, public JsonDeserializer
         void update_check();
         void spawn( const int x, const int y ); // All this does is moves the monster to x,y,g->levz
         void spawn( const int x, const int y, const int z ); // As above, except with any z
+        void spawn( const tripoint &p); // As above, but takes a tripoint argument
         m_size get_size() const override;
         int get_hp( hp_part ) const override
         {
@@ -115,7 +116,7 @@ class monster : public Creature, public JsonSerializer, public JsonDeserializer
 
         void debug(player &u);      // Gives debug info
 
-        point move_target(); // Returns point at the end of the monster's current plans
+        tripoint move_target(); // Returns point at the end of the monster's current plans
         Creature *attack_target(); // Returns the creature at the end of plans (if hostile)
 
         // Movement
@@ -129,12 +130,12 @@ class monster : public Creature, public JsonSerializer, public JsonDeserializer
          * This is used in pathfinding and ONLY checks the terrain. It ignores players
          * and monsters, which might only block this tile temporarily.
          */
-        bool can_move_to(int x, int y) const;
+        bool can_move_to( const tripoint &p ) const;
 
         bool will_reach(int x, int y); // Do we have plans to get to (x, y)?
         int  turns_to_reach(int x, int y); // How long will it take?
 
-        void set_dest(int x, int y, int &t); // Go in a straight line to (x, y)
+        void set_dest( const tripoint &p, int &t ); // Go in a straight line to (x, y)
         // t determines WHICH Bresenham line
 
         /**
@@ -146,7 +147,7 @@ class monster : public Creature, public JsonSerializer, public JsonDeserializer
          * @param f The priority of the destination, as well as how long we should
          *          wander towards there.
          */
-        void wander_to(int x, int y, int f); // Try to get to (x, y), we don't know
+        void wander_to( const tripoint &p, int f ); // Try to get to (x, y), we don't know
         // the route.  Give up after f steps.
 
         // How good of a target is given creature (checks for visibility)
@@ -155,15 +156,15 @@ class monster : public Creature, public JsonSerializer, public JsonDeserializer
         // do not iterate over each other
         void plan(const mfactions &factions);
         void move(); // Actual movement
-        void footsteps(int x, int y); // noise made by movement
+        void footsteps( const tripoint &p ); // noise made by movement
         void friendly_move();
 
-        point scent_move();
-        point wander_next();
-        int calc_movecost(int x1, int y1, int x2, int y2) const;
+        tripoint scent_move();
+        tripoint wander_next();
+        int calc_movecost( const tripoint &f, const tripoint &t ) const;
 
         /**
-         * Attempt to move to (x,y).
+         * Attempt to move to p.
          *
          * If there's something blocking the movement, such as infinite move
          * costs at the target, an existing NPC or monster, this function simply
@@ -172,9 +173,9 @@ class monster : public Creature, public JsonSerializer, public JsonDeserializer
          * @param force If this is set to true, the movement will happen even if
          *              there's currently something blocking the destination.
          *
-         * @return 1 if movement successful, 0 otherwise
+         * @return true if movement successful, false otherwise
          */
-        int move_to(int x, int y, bool force = false);
+        bool move_to( const tripoint &p, bool force = false );
 
         /**
          * Attack any enemies at the given location.
@@ -182,26 +183,26 @@ class monster : public Creature, public JsonSerializer, public JsonDeserializer
          * Attacks only if there is a creature at the given location towards
          * we are hostile.
          *
-         * @return 1 if something was attacked, 0 otherwise
+         * @return true if something was attacked, false otherwise
          */
-        int attack_at(int x, int y);
+        bool attack_at( const tripoint &p );
 
         /**
-         * Try to smash/bash/destroy your way through the terrain at (x, y).
+         * Try to smash/bash/destroy your way through the terrain at p.
          *
-         * @return 1 if we destroyed something, 0 otherwise.
+         * @return true if we destroyed something, false otherwise.
          */
-        int bash_at(int x, int y);
+        bool bash_at( const tripoint &p );
 
         /** Returns innate monster bash skill, without calculating additional from helpers */
         int bash_skill();
         int bash_estimate();
         /** Returns ability of monster and any cooperative helpers to
          * bash the designated target.  **/
-        int group_bash_skill( point target );
+        int group_bash_skill( const tripoint &target );
 
         void stumble(bool moved);
-        void knock_back_from(int posx, int posy) override;
+        void knock_back_from( const tripoint &p ) override;
 
         // Combat
         bool is_fleeing(player &u) const; // True if we're fleeing
@@ -278,6 +279,8 @@ class monster : public Creature, public JsonSerializer, public JsonDeserializer
         bool make_fungus();  // Makes this monster into a fungus version
         // Returns false if no such monster exists
         void make_friendly();
+        /** Makes this monster an ally of the given monster. */
+        void make_ally(monster* z);
         void add_item(item it);     // Add an item to inventory
 
         bool is_hallucination() const override;    // true if the monster isn't actually real
@@ -291,8 +294,8 @@ class monster : public Creature, public JsonSerializer, public JsonDeserializer
         void add_msg_player_or_npc(game_message_type type, const char *, const char *npc_str, ...) const override;
 
         // TEMP VALUES
-        int wandx, wandy; // Wander destination - Just try to move in that direction
-        int wandf;        // Urge to wander - Increased by sound, decrements each move
+        tripoint wander_pos; // Wander destination - Just try to move in that direction
+        int wandf;           // Urge to wander - Increased by sound, decrements each move
         std::vector<item> inv; // Inventory
 
         // DEFINING VALUES
@@ -349,10 +352,13 @@ class monster : public Creature, public JsonSerializer, public JsonDeserializer
          */
         void init_from_item( const item &itm );
 
+        /** Sets the last time the monster was loaded to the current turn */
+        void reset_last_load();
+
     private:
         int hp;
         std::vector<int> sp_timeout;
-        std::vector <point> plans;
+        std::vector <tripoint> plans;
         point position;
         // Temporary z-level coord, should later be merged with position
         int zpos;

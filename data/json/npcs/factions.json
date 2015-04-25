@@ -58,7 +58,7 @@
     "sneak" : 0,
     "crime" : -1,
     "cult" : 0,
-    "description" : "Autonomous bands or individuals who make their living raiding the ruins of the old-world for gear and provisions. "
+    "description" : "Autonomous bands or individuals who make their living raiding the ruins of the old-world for gear and provisions."
   },{
     "type" : "faction",
     "id" : "hells_raiders",
@@ -73,7 +73,7 @@
     "sneak" : 0,
     "crime" : 1,
     "cult" : -1,
-    "description" : "The largest gang of hooligans and bandits that preys upon other survivors.  Even if you have no gear, there is always a need for slaves and fresh meat. "
+    "description" : "The largest gang of hooligans and bandits that preys upon other survivors.  Even if you have no gear, there is always a need for slaves and fresh meat."
   }
 ]
 

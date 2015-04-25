@@ -356,6 +356,11 @@ int main(int argc, char *argv[])
     }
 
     setupDebug();
+
+    if (setlocale(LC_ALL, "") == NULL) {
+        DebugLog(D_WARNING, D_MAIN) << "Error while setlocale(LC_ALL, '').";
+    }
+
     // Options strings loaded with system locale
     initOptions();
     load_options();
