@@ -5,7 +5,8 @@
 #include <map>
 #include <string>
 #include <set>
-#include "enums.h"
+
+struct tripoint;
 
 enum action_id {
     ACTION_NULL = 0,

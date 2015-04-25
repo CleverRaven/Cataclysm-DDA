@@ -4571,8 +4571,6 @@ int item::processing_speed() const
 
 bool item::process_food( player * /*carrier*/, const tripoint &pos )
 {
-    // TODO: this functions (and all the other process functions) should be called with a tripoint
-    // If this gets implemented, don't forget that calc_rot expects an *absolute* position.
     calc_rot( g->m.getabs( pos ) );
     if( item_tags.count( "HOT" ) > 0 ) {
         item_counter--;
