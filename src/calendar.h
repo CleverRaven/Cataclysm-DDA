@@ -25,12 +25,14 @@
 // How much light is provided in full daylight
 #define DAYLIGHT_LEVEL 60
 
+// How long real-life seasons last, in days, for reference
+#define REAL_WORLD_SEASON_LENGTH 91
+
 enum season_type {
     SPRING = 0,
     SUMMER = 1,
     AUTUMN = 2,
     WINTER = 3
-#define FALL AUTUMN
 };
 
 enum moon_phase {
@@ -55,12 +57,15 @@ class calendar
         void sync(); // Synchronize all variables to the turn_number
 
     public:
+        /** Initializers */
         calendar();
         calendar(const calendar &copy) = default;
         calendar(int Minute, int Hour, int Day, season_type Season, int Year);
         calendar(int turn);
+        /** Returns the current turn_number. */
         int get_turn() const;
         operator int() const; // Returns get_turn() for backwards compatibility
+        /** Basic calendar operators. Usually modifies or checks the turn_number of the calendar */
         calendar &operator = (const calendar &rhs) = default;
         calendar &operator = (int rhs);
         calendar &operator -=(const calendar &rhs);
@@ -74,17 +79,24 @@ class calendar
         bool      operator ==(int rhs) const;
         bool      operator ==(const calendar &rhs) const;
 
-        void increment();   // Add one turn / 6 seconds
+        /** Increases turn_number by 1. (6 seconds) */
+        void increment();
 
         // Sunlight and day/night calculations
-        int minutes_past_midnight() const; // Useful for sunrise/set calculations
-        moon_phase moon() const;  // Find phase of moon
-        calendar sunrise() const; // Current time of sunrise
-        calendar sunset() const;  // Current time of sunset
-        bool is_night() const;    // After sunset + TWILIGHT_MINUTES, before sunrise
-        int sunlight() const;     // Current amount of sun/moonlight; uses preceding funcs
+        /** Returns the number of minutes past midnight. Used for sunrise/set calculations. */
+        int minutes_past_midnight() const;
+        /** Returns the current phase of the moon. */
+        moon_phase moon() const;
+        /** Returns the current sunrise time based on the time of year. */
+        calendar sunrise() const;
+        /** Returns the current sunset time based on the time of year. */
+        calendar sunset() const;
+        /** Returns true if it's currently after sunset + TWILIGHT_MINUTES or before sunrise. */
+        bool is_night() const;
+        /** Returns the current sunlight or moonlight level through the preceding functions. */
+        int sunlight() const;
 
-        // Basic accessors
+        /** Basic accessors */
         int seconds() const
         {
             return second;
@@ -110,8 +122,8 @@ class calendar
             return year;
         }
 
-        // Season and year lenght stuff
 
+        // Season and year length stuff
         static int year_turns()
         {
             return DAYS(year_length());
@@ -121,6 +133,11 @@ class calendar
             return season_length() * 4;
         }
         static int season_length(); // In days
+        
+        static float season_ratio() //returns relative length of game season to irl season
+        {
+            return static_cast<float>(season_length()) / REAL_WORLD_SEASON_LENGTH;
+        }
 
         int turn_of_year() const
         {
@@ -131,9 +148,11 @@ class calendar
             return day + season_length() * season;
         }
 
-        // Print-friendly stuff
+        /** Returns the current time in a string according to the options set */
         std::string print_time(bool just_hour = false) const;
-        std::string textify_period(); // "1 second" "2 hours" "two days"
+        /** Returns the period a calendar has been running in word form; i.e. "1 second", "2 days". */
+        std::string textify_period() const;
+        /** Returns the name of the current day of the week */
         std::string day_of_week() const;
 
         static   calendar start;

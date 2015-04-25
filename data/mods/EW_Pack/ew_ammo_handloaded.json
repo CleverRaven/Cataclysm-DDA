@@ -7,7 +7,7 @@
         "name_plural" : "reloaded 6.54x42mm 9N8",
         "symbol" : "=",
         "color" : "dark_gray",
-        "description" : "Inspired by the improved .270, Alexander Sarafanov himself developed the 6.54x42mm rifle cartrige for his new SVS-24 Assault Rifle. This one has been hand-reloaded.",
+        "description" : "Inspired by the improved .270, Alexander Sarafanov himself developed the 6.54x42mm rifle cartridge for his new SVS-24 Assault Rifle. This one has been hand-reloaded.",
         "material" : "steel",
         "volume" : 1,
         "weight" : 6,
@@ -19,8 +19,8 @@
         "damage" : 38,
         "pierce" : 7,
         "range" : 38,
-        "dispersion" : 6,
-        "recoil" : 37,
+        "dispersion" : 90,
+        "recoil" : 555,
         "count" : 30,
         "effects" : ["COOKOFF"]
     },
@@ -44,8 +44,8 @@
         "damage" : 36,
         "pierce" : 5,
         "range" : 37,
-        "dispersion" : 6,
-        "recoil" : 27,
+        "dispersion" : 90,
+        "recoil" : 405,
         "count" : 30,
         "effects" : ["COOKOFF"]
     },
@@ -69,8 +69,8 @@
         "damage" : 31,
         "pierce" : 12,
         "range" : 37,
-        "dispersion" : 6,
-        "recoil" : 27,
+        "dispersion" : 90,
+        "recoil" : 405,
         "count" : 30,
         "effects" : ["COOKOFF"]
     }

@@ -1,6 +1,7 @@
 #include "catalua.h"
 
 #include <sys/stat.h>
+#include <memory>
 
 #include "game.h"
 #include "item_factory.h"
@@ -177,11 +178,11 @@ int lua_mapgen(map *m, std::string terrain_type, mapgendata, int t, float, const
 
 // Custom functions that are to be wrapped from lua.
 // -------------------------------------------------
-static uimenu uimenu_instance;
+static std::unique_ptr<uimenu> uimenu_instance;
 uimenu *create_uimenu()
 {
-    uimenu_instance = uimenu();
-    return &uimenu_instance;
+    uimenu_instance = std::unique_ptr<uimenu>(new uimenu());
+    return uimenu_instance.get();
 }
 
 ter_t *get_terrain_type(int id)
@@ -191,13 +192,13 @@ ter_t *get_terrain_type(int id)
 
 overmap *get_current_overmap()
 {
-    return g->cur_om;
+    return &g->get_cur_om();
 }
 
 /** Create a new monster of the given type. */
 monster *create_monster(std::string mon_type, int x, int y)
 {
-    monster new_monster(GetMType(mon_type), x, y);
+    monster new_monster(GetMType(mon_type), tripoint( x, y, g->get_levz() ) );
     if(!g->add_zombie(new_monster)) {
         return NULL;
     } else {
@@ -212,18 +213,6 @@ it_comest *get_comestible_type(std::string name)
 it_tool *get_tool_type(std::string name)
 {
     return dynamic_cast<it_tool *>(item::find_type(name));
-}
-it_gun *get_gun_type(std::string name)
-{
-    return dynamic_cast<it_gun *>(item::find_type(name));
-}
-it_gunmod *get_gunmod_type(std::string name)
-{
-    return dynamic_cast<it_gunmod *>(item::find_type(name));
-}
-it_armor *get_armor_type(std::string name)
-{
-    return dynamic_cast<it_armor *>(item::find_type(name));
 }
 
 
@@ -287,13 +276,12 @@ static int game_items_at(lua_State *L)
     int x = lua_tointeger(L, 1);
     int y = lua_tointeger(L, 2);
 
-    // This breaks any caching we add to the map for items.
-    std::vector<item> &items = g->m.i_at_mutable(x, y);
-
+    auto items = g->m.i_at(x, y);
     lua_createtable(L, items.size(), 0); // Preallocate enough space for all our items.
 
     // Iterate over the monster list and insert each monster into our returned table.
-    for( size_t i = 0; i < items.size(); ++i ) {
+    int i = 0;
+    for( auto &an_item : items ) {
         // The stack will look like this:
         // 1 - t, table containing item
         // 2 - k, index at which the next item will be inserted
@@ -301,9 +289,9 @@ static int game_items_at(lua_State *L)
         //
         // lua_rawset then does t[k] = v and pops v and k from the stack
 
-        lua_pushnumber(L, i + 1);
+        lua_pushnumber(L, i++ + 1);
         item **item_userdata = (item **) lua_newuserdata(L, sizeof(item *));
-        *item_userdata = &(items[i]);
+        *item_userdata = &an_item;
         luah_setmetatable(L, "item_metatable");
         lua_rawset(L, -3);
     }
@@ -605,7 +593,7 @@ void use_function::operator=(const use_function &other)
 }
 
 // If we're not using lua, need to define Use_function in a way to always call the C++ function
-int use_function::call(player *player_instance, item *item_instance, bool active, point pos) const
+long use_function::call(player *player_instance, item *item_instance, bool active, point pos) const
 {
     if (function_type == USE_FUNCTION_NONE) {
         if (player_instance != NULL && player_instance->is_player()) {

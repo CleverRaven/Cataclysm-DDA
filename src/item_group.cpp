@@ -1,6 +1,5 @@
 #include "item_factory.h"
 #include "item_group.h"
-#include "monstergenerator.h"
 #include "rng.h"
 #include "item.h"
 #include "debug.h"
@@ -39,7 +38,7 @@ item Single_item_creator::create_single(int birthday, RecursionList &rec) const
     item tmp;
     if (type == S_ITEM) {
         if (id == "corpse") {
-            tmp.make_corpse("corpse", GetMType("mon_null"), birthday);
+            tmp.make_corpse( "mon_null", birthday );
         } else {
             tmp = item(id, birthday);
         }
@@ -181,7 +180,7 @@ void Item_modifier::modify(item &new_item) const
         new_item.damage = dm;
     }
     long ch = (charges.first == charges.second) ? charges.first : rng(charges.first, charges.second);
-    const auto g = dynamic_cast<const it_gun *>( new_item.type );
+    const auto g = new_item.type->gun.get();
     it_tool *t = dynamic_cast<it_tool *>(new_item.type);
    
     if(ch != -1) {
@@ -201,12 +200,12 @@ void Item_modifier::modify(item &new_item) const
             // In case there is no explicit ammo item defined, use the default ammo
             const auto ammoid = default_ammo( g->ammo );
             if ( !ammoid.empty() ) {
-                new_item.curammo = dynamic_cast<it_ammo*>( item( ammoid, 0 ).type );
+                new_item.set_curammo( ammoid );
                 new_item.charges = ch;
             }
         } else {
             const item am = ammo->create_single( new_item.bday );
-            new_item.curammo = dynamic_cast<it_ammo *>( am.type );
+            new_item.set_curammo( am );
             // Prefer explicit charges of the gun, else take the charges of the ammo item,
             // Gun charges are easier to define: {"item":"gun","charge":10,"ammo-item":"ammo"}
             if( ch > 0 ) {
@@ -216,7 +215,7 @@ void Item_modifier::modify(item &new_item) const
             }
         }
         // Make sure the item is in a valid state curammo==0 <=> charges==0 and respect clip size
-        if( new_item.curammo == nullptr ) {
+        if( !new_item.has_curammo() ) {
             new_item.charges = 0;
         } else {
             new_item.charges = std::min<long>( new_item.charges, new_item.clip_size() );
@@ -226,8 +225,7 @@ void Item_modifier::modify(item &new_item) const
         item cont = container->create_single(new_item.bday);
         if (!cont.is_null()) {
             if (new_item.made_of(LIQUID)) {
-                LIQUID_FILL_ERROR err;
-                int rc = cont.get_remaining_capacity_for_liquid(new_item, err);
+                int rc = cont.get_remaining_capacity_for_liquid(new_item);
                 if(rc > 0 && (new_item.charges > rc || ch == -1)) {
                     // make sure the container is not over-full.
                     // fill up the container (if using default charges)
@@ -341,9 +339,9 @@ Item_spawn_data::ItemList Item_group::create(int birthday, RecursionList &rec) c
         }
     }
     if (with_ammo && !result.empty()) {
-        it_gun *maybe_gun = dynamic_cast<it_gun *>(result.front().type);
-        if (maybe_gun != NULL) {
-            const std::string ammoid = default_ammo( maybe_gun->ammo );
+        const auto t = result.front().type;
+        if( t->gun ) {
+            const std::string ammoid = default_ammo( t->gun->ammo );
             if ( !ammoid.empty() ) {
                 item ammo( ammoid, birthday );
                 // TODO: change the spawn lists to contain proper references to containers

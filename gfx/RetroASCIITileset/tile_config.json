@@ -13,6 +13,10 @@
     "tiles":
     [
         {
+            "id": "infrared_creature",
+            "fg": 2831
+        },
+        {
             "id":"highlight_item",
             "fg":368,
             "rotates":false

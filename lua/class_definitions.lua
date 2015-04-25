@@ -3,17 +3,6 @@
 classes = {
     player = {
         attributes = {
-            posx = {
-                type = "int",
-                writable = false,
-                desc = "The x position of the player in the reality bubble."
-            },
-            posy = {
-                type = "int",
-                writable = false,
-                desc = "The y position of the player in the reality bubble."
-            },
-
             hunger = {
                 type = "int",
                 writable = true
@@ -77,17 +66,13 @@ classes = {
             }
         },
         functions = {
-            has_disease = {
-                args = { "string" },
-                rval = "bool"
+            posx = {
+                args = {},
+                rval = "int"
             },
-            rem_disease = {
-                args = { "string" },
-                rval = nil
-            },
-            add_disease = {
-                args = { "string", "int", "int", "int" },
-                rval = nil
+            posy = {
+                args = {},
+                rval = "int"
             },
             morale_level = {
                 args = { },
@@ -140,6 +125,24 @@ classes = {
                 writable = true
             },
             y = {
+                type = "int",
+                writable = true
+            }
+        },
+        functions = {
+        }
+    },
+    tripoint = {
+        attributes = {
+            x = {
+                type = "int",
+                writable = true
+            },
+            y = {
+                type = "int",
+                writable = true
+            },
+            z = {
                 type = "int",
                 writable = true
             }
@@ -271,10 +274,6 @@ classes = {
     monster = {
         parent = "Creature",
         attributes = {
-            hp = {
-                type = "int",
-                writable = true
-            },
             moves = {
                 type = "int",
                 writable = true
@@ -289,13 +288,17 @@ classes = {
                 args = {},
                 rval = "string"
             },
-            attack_at = {
-                args = {"int", "int"},
-                rval = "int"
-            },
             make_friendly = {
                 args = {},
                 rval = nil
+            },
+            get_hp = {
+                args = {},
+                rval = "int"
+            },
+            get_hp = {
+                args = {},
+                rval = "int"
             },
             posx = {
                 args = {},
@@ -310,6 +313,10 @@ classes = {
     mtype = {
         attributes = {
             speed = {
+                type = "int",
+                writable = true
+            },
+            hp = {
                 type = "int",
                 writable = true
             },
@@ -357,6 +364,14 @@ classes = {
                 type = "int",
                 writable = true
             },
+            vision_day = {
+                type = "int",
+                writable = true
+            },
+            vision_night = {
+                type = "int",
+                writable = true
+            },
         },
         functions = {
             in_category = {
@@ -367,14 +382,14 @@ classes = {
                 args = {"string"},
                 rval = "bool"
             },
-	    has_flag = {
-	        args = {"string"},
-		rval = "bool"
-	    },
-	    set_flag = {
-	        args = {"string", "bool"},
-		rval = nil
-	    }
+            has_flag = {
+                args = {"string"},
+                rval = "bool"
+            },
+            set_flag = {
+                args = {"string", "bool"},
+                rval = nil
+            }
         }
     },
     mongroup = {
@@ -539,7 +554,7 @@ classes = {
                 cpp_name = "addict",
                 writable = true
             },
-            charges = {
+            def_charges = {
                 type = "int",
                 writable = true
             },
@@ -559,10 +574,6 @@ classes = {
                 type = "int",
                 writable = true
             },
-            container = {
-                type = "string",
-                writable = true
-            },
             tool = {
                 type = "string",
                 writable = true
@@ -576,98 +587,10 @@ classes = {
         functions = {
         }
     },
-    it_gun = {
-        parent = "itype",
-        attributes = {
-            ammo = {
-                type = "string",
-                writable = true
-            },
-            ranged_damage = {
-                type = "int",
-                cpp_name = "dmg_bonus",
-                writable = true
-            },
-            pierce = {
-                type = "int",
-                writable = true
-            },
-            range = {
-                type = "int",
-                writable = true
-            },
-            dispersion = {
-                type = "int",
-                writable = true
-            },
-            recoil = {
-                type = "int",
-                writable = true
-            },
-            durability = {
-                type = "int",
-                writable = true
-            },
-            burst = {
-                type = "int",
-                writable = true
-            },
-            clip = {
-                type = "int",
-                writable = true
-            },
-            reload = {
-                type = "int",
-                cpp_name = "reload_time",
-                writable = true
-            }
-        },
-        functions = {
-        }
-    },
-    it_gunmod = {
-        parent = "itype",
-        attributes = {
-            dispersion = {
-                type = "int",
-                writable = true
-            },
-            damage = {
-                type = "int",
-                writable = true
-            },
-            loudness = {
-                type = "int",
-                writable = true
-            },
-            clip = {
-                type = "int",
-                writable = true
-            },
-            recoil = {
-                type = "int",
-                writable = true
-            },
-            burst = {
-                type = "int",
-                writable = true
-            },
-            newtype = {
-                type = "string",
-                writable = true
-            },
-            location = {
-                type = "string",
-                writable = true
-            }
-        },
-        functions = {
-        }
-    },
     it_tool = {
         parent = "itype",
         attributes = {
-            ammo = {
+            ammo_id = {
                 type = "string",
                 writable = true
             },
@@ -684,40 +607,6 @@ classes = {
                 writable = true
             },
             turns_per_charge = {
-                type = "int",
-                writable = true
-            }
-        },
-        functions = {
-        }
-    },
-    it_armor = {
-        parent = "itype",
-        attributes = {
-            encumberance = {
-                type = "int",
-                cpp_name = "encumber",
-                writable = true
-            },
-            coverage = {
-                type = "int",
-                writable = true
-            },
-            material_thickness = {
-                type = "int",
-                cpp_name = "thickness",
-                writable = true
-            },
-            envirnomental_protection = {
-                type = "int",
-                cpp_name = "env_resist",
-                writable = true
-            },
-            warmth = {
-                type = "int",
-                writable = true
-            },
-            storage = {
                 type = "int",
                 writable = true
             }
@@ -802,25 +691,10 @@ global_functions = {
         args = { "string" },
         rval = "it_comest"
     },
-    get_gun_type = {
-        cpp_name = "get_gun_type",
-        args = { "string" },
-        rval = "it_gun"
-    },
-    get_gunmod_type = {
-        cpp_name = "get_gunmod_type",
-        args = { "string" },
-        rval = "it_gunmod"
-    },
     get_tool_type = {
         cpp_name = "get_tool_type",
         args = { "string" },
         rval = "it_tool"
-    },
-    get_armor_type = {
-        cpp_name = "get_armor_type",
-        args = { "string" },
-        rval = "it_armor"
     },
     create_monster = {
         cpp_name = "create_monster",

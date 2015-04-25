@@ -414,7 +414,14 @@ inline int printstring(WINDOW *win, char *fmt)
             curcell->BG = win->BG;
             addedchar( win );
         }
-        if( dlen == 2 ) {
+        if( dlen == 1 ) {
+            // a wide character was converted to a narrow character leaving a null in the
+            // following cell ~> clear it
+            cursecell *seccell = cur_cell( win );
+            if (seccell && seccell->ch.empty()) {
+                seccell->ch.assign(' ', 1);
+            }
+        } else if( dlen == 2 ) {
             // the second cell, per definition must be empty
             cursecell *seccell = cur_cell( win );
             if( seccell == nullptr ) {
@@ -430,7 +437,7 @@ inline int printstring(WINDOW *win, char *fmt)
             addedchar( win );
             // Have just written a wide-character into the last cell, it would not
             // display correctly if it was the last *cell* of a line
-            if( win->cursorx == 0 ) {
+            if( win->cursorx == 1 ) {
                 // So make that last cell a space, move the width
                 // character in the first cell of the line
                 seccell->ch = curcell->ch;

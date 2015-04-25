@@ -3,6 +3,7 @@
 #include "mondeath.h"
 #include "output.h"
 #include "game.h"
+#include "debug.h"
 #include "rng.h"
 #include "item.h"
 #include "translations.h"
@@ -15,16 +16,17 @@
 #include "monstergenerator.h"
 #include "json.h"
 #include "messages.h"
+#include "mondefense.h"
+#include "mission.h"
 
 #define SGN(a) (((a)<0) ? -1 : 1)
 #define SQR(a) ((a)*(a))
 
 monster::monster()
 {
- _posx = 20;
- _posy = 10;
- wandx = -1;
- wandy = -1;
+ position.x = 20;
+ position.y = 10;
+ zpos = 0;
  wandf = 0;
  hp = 60;
  moves = 0;
@@ -32,7 +34,8 @@ monster::monster()
  friendly = 0;
  anger = 0;
  morale = 2;
- faction_id = -1;
+ last_loaded = 0;
+ faction = MonsterGenerator::generator().faction_by_name( "" );
  mission_id = -1;
  no_extra_death_drops = false;
  dead = false;
@@ -44,10 +47,8 @@ monster::monster()
 
 monster::monster(mtype *t)
 {
- _posx = 20;
- _posy = 10;
- wandx = -1;
- wandy = -1;
+ position.x = 20;
+ position.y = 10;
  wandf = 0;
  type = t;
  moves = type->speed;
@@ -60,7 +61,8 @@ monster::monster(mtype *t)
  friendly = 0;
  anger = t->agro;
  morale = t->morale;
- faction_id = -1;
+ last_loaded = 0;
+ faction = t->default_faction;
  mission_id = -1;
  no_extra_death_drops = false;
  dead = false;
@@ -71,12 +73,11 @@ monster::monster(mtype *t)
  ammo = t->starting_ammo;
 }
 
-monster::monster(mtype *t, int x, int y)
+monster::monster(mtype *t, const tripoint &p )
 {
- _posx = x;
- _posy = y;
- wandx = -1;
- wandy = -1;
+ position.x = p.x;
+ position.y = p.y;
+ zpos = p.z;
  wandf = 0;
  type = t;
  moves = type->speed;
@@ -89,7 +90,8 @@ monster::monster(mtype *t, int x, int y)
  friendly = 0;
  anger = type->agro;
  morale = type->morale;
- faction_id = -1;
+ faction = t->default_faction;
+ last_loaded = 0;
  mission_id = -1;
  no_extra_death_drops = false;
  dead = false;
@@ -104,47 +106,133 @@ monster::~monster()
 {
 }
 
-bool monster::setpos(const int x, const int y, const bool level_change)
+bool monster::setpos(const int x, const int y)
 {
-    if (!level_change && x == _posx && y == _posy) {
-        return true;
-    }
-    bool ret = level_change ? true : g->update_zombie_pos(*this, x, y);
-    _posx = x;
-    _posy = y;
+    bool ret = g->update_zombie_pos( *this, tripoint( x, y, g->get_levz() ) );
+    position.x = x;
+    position.y = y;
+    zpos = g->get_levz();
     return ret;
 }
 
-bool monster::setpos(const point &p, const bool level_change)
+bool monster::setpos(const int x, const int y, const int z, const bool level_change)
 {
-    return setpos(p.x, p.y, level_change);
+    return setpos( tripoint( x, y, z ), level_change );
 }
 
-point monster::pos() const
+bool monster::setpos( const point &p, const bool level_change )
 {
-    return point(_posx, _posy);
+    return setpos( tripoint( p, zpos ), level_change );
+}
+
+bool monster::setpos( const tripoint &p, const bool level_change )
+{
+    if( p == pos3() ) {
+        return true;
+    }
+    bool ret = level_change ? true : g->update_zombie_pos( *this, p );
+    position.x = p.x;
+    position.y = p.y;
+    zpos = p.z;
+
+    return ret;
+}
+
+const point &monster::pos() const
+{
+    return position;
 }
 
 void monster::poly(mtype *t)
 {
- double hp_percentage = double(hp) / double(type->hp);
- type = t;
- moves = 0;
- Creature::set_speed_base(type->speed);
- anger = type->agro;
- morale = type->morale;
- hp = int(hp_percentage * type->hp);
- sp_timeout.clear();
- for( auto &elem : type->sp_freq ) {
-     sp_timeout.push_back( elem );
- }
- def_chance = type->def_chance;
+    double hp_percentage = double(hp) / double(type->hp);
+    type = t;
+    moves = 0;
+    Creature::set_speed_base(type->speed);
+    anger = type->agro;
+    morale = type->morale;
+    hp = int(hp_percentage * type->hp);
+    sp_timeout.clear();
+    for( auto &elem : type->sp_freq ) {
+        sp_timeout.push_back( elem );
+    }
+    def_chance = type->def_chance;
+    faction = t->default_faction;
 }
 
+void monster::update_check() {
+    // Hallucinations don't upgrade!
+    if (is_hallucination()) {
+        return;
+    }
+
+    // No chance of upgrading, abort
+    if ((type->half_life <= 0 && type->base_upgrade_chance <= 0) ||
+        (type->upgrade_group == "NULL" && type->upgrades_into == "NULL")) {
+        return;
+    }
+    int current_day = calendar::turn.get_turn()/ DAYS(1);
+    int upgrade_time = type->upgrade_min * ACTIVE_WORLD_OPTIONS["MONSTER_GROUP_DIFFICULTY"];
+    add_msg(m_debug, "Current:day: %d", current_day);
+    add_msg(m_debug, "Upgrade time : %d", upgrade_time);
+    add_msg(m_debug, "Last loaded: %d", last_loaded);
+
+    if (current_day == last_loaded || current_day < upgrade_time) {
+        add_msg(m_debug, "Upgrade time less");
+        last_loaded = current_day;
+        return;
+    }
+
+    // We don't start counting until the minimum upgrade time
+    int time_passed = current_day - std::max(last_loaded, upgrade_time);
+    add_msg(m_debug, "Time passed: %d", time_passed);
+
+    float upgrade_chance = 0;
+    // If we have a valid half life use a radioactive decay function. This will become
+    // rapidly inaccurate when half_life > 700, if longer half lives are needed increase
+    // the 1000 here, the 10 in the else, and the rng() range by factors of 10 as necessary.
+    if (type->half_life > 0) {
+        float elapsed_lives = float(time_passed) / float(type->half_life);
+        // (1- (.5 - base%)^lives) = percentage that have upgraded
+        upgrade_chance = 1000 * (1 - pow(std::max(0.0, 0.5 - type->base_upgrade_chance * .01 ),
+                                               elapsed_lives));
+    } else {
+        // Not a valid half life, so just do base_upgrade_chance percent per day
+        // (1 - (1 - base%)^days) = percentage that has upgraded
+        upgrade_chance = 1000 * (1 - pow(1 - type->base_upgrade_chance * .01, time_passed));
+    }
+    add_msg(m_debug, "Upgrade chance: %f", upgrade_chance);
+    if (upgrade_chance > rng(0, 999)){
+        // Try to upgrade to a single monster first
+        if (type->upgrades_into != "NULL"){
+            poly(GetMType(type->upgrades_into));
+        // Else upgrade to the desired group
+        } else {
+            const auto monsters = MonsterGroupManager::GetMonstersFromGroup(type->upgrade_group);
+            const std::string newtype = monsters[rng(0, monsters.size() - 1)];
+            poly(GetMType(newtype));
+        }
+    }
+
+    last_loaded = current_day;
+}
 void monster::spawn(int x, int y)
 {
-    _posx = x;
-    _posy = y;
+    spawn( x, y, g->get_levz() );
+}
+
+void monster::spawn(const int x, const int y, const int z)
+{
+    position.x = x;
+    position.y = y;
+    zpos = z;
+}
+
+void monster::spawn(const tripoint &p)
+{
+    position.x = p.x;
+    position.y = p.y;
+    zpos = p.z;
 }
 
 std::string monster::name(unsigned int quantity) const
@@ -194,7 +282,7 @@ std::string monster::skin_name() const {
 
 void monster::get_HP_Bar(nc_color &color, std::string &text) const
 {
-    ::get_HP_Bar(hp, type->hp, color, text, true);
+    std::tie(text, color) = ::get_hp_bar(hp, type->hp, true);
 }
 
 void monster::get_Attitude(nc_color &color, std::string &text) const
@@ -323,6 +411,17 @@ nc_color monster::color_with_effects() const
     return ret;
 }
 
+bool monster::avoid_trap( const tripoint & /* pos */, const trap &tr )
+{
+    // The trap position is not used, monsters are to stupid to remember traps. Actually, they do
+    // not even see them.
+    // Traps are on the ground, digging monsters go below, fliers go above.
+    if( digging() || has_flag( MF_FLIES ) ) {
+        return true;
+    }
+    return dice( 3, type->sk_dodge + 1 ) >= dice( 3, tr.get_avoidance() );
+}
+
 bool monster::has_flag(const m_flag f) const
 {
  return type->has_flag(f);
@@ -352,42 +451,29 @@ bool monster::can_drown() const
 
 bool monster::digging() const
 {
-    return has_flag(MF_DIGS) || (has_flag(MF_CAN_DIG) && g->m.has_flag("DIGGABLE", posx(), posy()));
+    return has_flag(MF_DIGS) || ( has_flag(MF_CAN_DIG) && underwater );
 }
 
-int monster::vision_range(const int x, const int y) const
+bool monster::can_act() const
 {
-    int range = g->light_level();
-    // Set to max possible value if the target is lit brightly
-    if (g->m.light_at(x, y) >= LL_LOW)
-        range = DAYLIGHT_LEVEL;
+    return moves > 0 && !has_flag(MF_IMMOBILE) &&
+        ( effects.empty() ||
+          ( !has_effect("stunned") && !has_effect("downed") && !has_effect("webbed") ) );
+}
 
-    if(has_flag(MF_VIS10)) {
-        range -= 50;
-    } else if(has_flag(MF_VIS20)) {
-        range -= 40;
-    } else if(has_flag(MF_VIS30)) {
-        range -= 30;
-    } else if(has_flag(MF_VIS40)) {
-        range -= 20;
-    } else if(has_flag(MF_VIS50)) {
-        range -= 10;
+
+int monster::sight_range( const int light_level ) const
+{
+    // Non-aquatic monsters can't see much when submerged
+    if( !can_see() || ( underwater && !has_flag( MF_SWIMS ) && !has_flag( MF_AQUATIC ) && !digging() ) ) {
+        return 1;
     }
-    range = std::max(range, 1);
+
+    int range = ( light_level * type->vision_day ) +
+                ( ( DAYLIGHT_LEVEL - light_level ) * type->vision_night );
+    range /= DAYLIGHT_LEVEL;
 
     return range;
-}
-
-bool monster::sees_player(int & tc, player * p) const {
-    if ( p == NULL ) {
-        p = &g->u;
-    }
-    const int range = vision_range(p->posx, p->posy);
-    // * p->visibility() / 100;
-    return (
-        g->m.sees( _posx, _posy, p->posx, p->posy, range, tc ) &&
-        p->is_invisible() == false
-    );
 }
 
 bool monster::made_of(std::string m) const
@@ -423,28 +509,50 @@ void monster::debug(player &u)
     debugmsg("monster::debug %s Moves %d Speed %d HP %d",name().c_str(), moves, get_speed(), hp);
     for (size_t i = 0; i < plans.size(); i++) {
         const int digit = '0' + (i % 10);
-        mvaddch(plans[i].y - SEEY + u.posy, plans[i].x - SEEX + u.posx, digit);
+        mvaddch(plans[i].y - SEEY + u.posy(), plans[i].x - SEEX + u.posx(), digit);
     }
     getch();
 }
 
 void monster::shift(int sx, int sy)
 {
-    _posx -= sx * SEEX;
-    _posy -= sy * SEEY;
+    const int xshift = sx * SEEX;
+    const int yshift = sy * SEEY;
+    position.x -= xshift;
+    position.y -= yshift;
     for (auto &i : plans) {
-        i.x -= sx * SEEX;
-        i.y -= sy * SEEY;
+        i.x -= xshift;
+        i.y -= yshift;
+    }
+
+    if( wandf > 0 ) {
+        wander_pos.x -= xshift;
+        wander_pos.y -= yshift;
     }
 }
 
-point monster::move_target()
+tripoint monster::move_target()
 {
-    if (plans.empty()) {
+    if( plans.empty() ) {
         // if we have no plans, pretend it's intentional
-        return point(_posx, _posy);
+        return pos3();
     }
-    return point(plans.back().x, plans.back().y);
+    return plans.back();
+}
+
+Creature *monster::attack_target()
+{
+    if( plans.empty() ) {
+        return nullptr;
+    }
+
+    Creature *target = g->critter_at( move_target() );
+    if( target == nullptr || target == this ||
+        attitude_to( *target ) == Creature::A_FRIENDLY || !sees(*target) ) {
+        return nullptr;
+    }
+
+    return target;
 }
 
 bool monster::is_fleeing(player &u) const
@@ -453,7 +561,7 @@ bool monster::is_fleeing(player &u) const
   return true;
  monster_attitude att = attitude(&u);
  return (att == MATT_FLEE ||
-         (att == MATT_FOLLOW && rl_dist(_posx, _posy, u.posx, u.posy) <= 4));
+         (att == MATT_FOLLOW && rl_dist( pos(), u.pos() ) <= 4));
 }
 
 Creature::Attitude monster::attitude_to( const Creature &other ) const
@@ -461,14 +569,22 @@ Creature::Attitude monster::attitude_to( const Creature &other ) const
     const auto m = dynamic_cast<const monster *>( &other );
     const auto p = dynamic_cast<const player *>( &other );
     if( m != nullptr ) {
-        if( friendly != 0 && friendly != 0 ) {
-            // Currently friendly means "friendly to the player" (on same side as player),
-            // so if both monsters are friendly (towards the player), they are friendly towards
-            // each other.
+        if( m == this ) {
             return A_FRIENDLY;
         }
-        // For now monsters are neutral (not hostile!) to all other monsters.
-        return A_NEUTRAL;
+        auto faction_att = faction->attitude( m->faction );
+        if( ( friendly != 0 && m->friendly != 0 ) ||
+            ( friendly == 0 && m->friendly == 0 && faction_att == MFA_FRIENDLY ) ) {
+            // Friendly (to player) monsters are friendly to each other
+            // Unfriendly monsters go by faction attitude
+            return A_FRIENDLY;
+        } else if( ( friendly == 0 && m->friendly == 0 && faction_att == MFA_NEUTRAL ) ||
+                     morale < 0 || anger < 10 ) {
+            // Stuff that won't attack is neutral to everything
+            return A_NEUTRAL;
+        } else {
+            return A_HOSTILE;
+        }
     } else if( p != nullptr ) {
         switch( attitude( const_cast<player *>( p ) ) ) {
             case MATT_FRIEND:
@@ -492,11 +608,18 @@ Creature::Attitude monster::attitude_to( const Creature &other ) const
 
 monster_attitude monster::attitude(player *u) const
 {
-    if (friendly != 0 && !(has_effect("docile"))) {
-        return MATT_FRIEND;
-    }
-    if (friendly != 0 ) {
-        return MATT_FPASSIVE;
+    if( friendly != 0 ) {
+        if( has_effect( "docile" ) ) {
+            return MATT_FPASSIVE;
+        }
+        if( u == &g->u ) {
+            return MATT_FRIEND;
+        }
+        // Zombies don't understand not attacking NPCs, but dogs and bots should.
+        npc *np = dynamic_cast< npc* >( u );
+        if( np != nullptr && np->attitude != NPCATT_KILL && !type->in_species( "ZOMBIE" ) ) {
+            return MATT_FRIEND;
+        }
     }
     if (has_effect("run")) {
         return MATT_FLEE;
@@ -559,6 +682,11 @@ monster_attitude monster::attitude(player *u) const
     return MATT_ATTACK;
 }
 
+int monster::hp_percentage() const
+{
+    return ( get_hp( hp_torso ) * 100 ) / get_hp_max();
+}
+
 void monster::process_triggers()
 {
  anger += trigger_sum(&(type->anger));
@@ -602,26 +730,9 @@ int monster::trigger_sum(std::set<monster_trigger> *triggers) const
                 check_meat = true;
                 break;
 
-            case MTRIG_PLAYER_CLOSE:
-                if (rl_dist(_posx, _posy, g->u.posx, g->u.posy) <= 5) {
-                    ret += 5;
-                }
-                for (auto &i : g->active_npc) {
-                    if (rl_dist(_posx, _posy, i->posx, i->posy) <= 5) {
-                        ret += 5;
-                    }
-                }
-                break;
-
             case MTRIG_FIRE:
                 check_terrain = true;
                 check_fire = true;
-                break;
-
-            case MTRIG_PLAYER_WEAK:
-                if (g->u.hp_percentage() <= 70) {
-                    ret += 10 - int(g->u.hp_percentage() / 10);
-                }
                 break;
 
             default:
@@ -630,12 +741,12 @@ int monster::trigger_sum(std::set<monster_trigger> *triggers) const
     }
 
     if (check_terrain) {
-        for (int x = _posx - 3; x <= _posx + 3; x++) {
-            for (int y = _posy - 3; y <= _posy + 3; y++) {
+        for (int x = posx() - 3; x <= posx() + 3; x++) {
+            for (int y = posy() - 3; y <= posy() + 3; y++) {
                 if (check_meat) {
-                    auto &items = g->m.i_at(x, y);
+                    auto items = g->m.i_at(x, y);
                     for( auto &item : items ) {
-                        if( item.type->id == "corpse" || item.type->id == "meat" ||
+                        if( item.is_corpse() || item.type->id == "meat" ||
                             item.type->id == "meat_cooked" || item.type->id == "human_flesh" ) {
                             ret += 3;
                             check_meat = false;
@@ -658,7 +769,7 @@ int monster::trigger_sum(std::set<monster_trigger> *triggers) const
 }
 
 bool monster::is_underwater() const {
-    return can_submerge();
+    return can_submerge() && underwater;
 }
 
 bool monster::is_on_ground() const {
@@ -671,6 +782,12 @@ bool monster::has_weapon() const {
 
 bool monster::is_warm() const {
     return has_flag(MF_WARM);
+}
+
+bool monster::is_elec_immune() const
+{
+    return type->sp_defense == &mdefense::zapback ||
+           has_flag( MF_ELECTRIC );
 }
 
 bool monster::is_dead_state() const {
@@ -701,7 +818,7 @@ void monster::melee_attack(Creature &target, bool, matec_id) {
         add_effect("run", 4);
     }
 
-    bool u_see_me = g->u_see(this);
+    bool u_see_me = g->u.sees(*this);
 
     body_part bp_hit;
     //int highest_hit = 0;
@@ -772,14 +889,17 @@ void monster::melee_attack(Creature &target, bool, matec_id) {
         } else {
             if (u_see_me) {
                 //~ $1s is monster name, %2$s is that monster target name,
-                //~ $3s is target bodypart name in accusative, 4$s is target armor name.
-                add_msg(_("The %1$s hits %2$s %3$s but is stopped by %2$s %4$s."), name().c_str(),
+                //~ $3s is target bodypart name in accusative, $4s is the monster target name,
+                //~ 5$s is target armor name.
+                add_msg(_("The %1$s hits %2$s %3$s but is stopped by %4$s %5$s."), name().c_str(),
                             target.disp_name(true).c_str(),
                             body_part_name_accusative(bp_hit).c_str(),
+                            target.disp_name(true).c_str(),
                             target.skin_name().c_str());
             }
         }
     }
+    target.check_dead_state();
 
     if (is_hallucination()) {
         if(one_in(7)) {
@@ -830,28 +950,31 @@ void monster::hit_monster(monster &other)
  }
 
  if (dice(numdice, 10) <= dice(dodgedice, 10)) {
-  if (g->u_see(this))
+  if (g->u.sees(*this))
    add_msg(_("The %s misses the %s!"), name().c_str(), target->name().c_str());
   return;
  }
- if (g->u_see(this))
+ if (g->u.sees(*this))
   add_msg(_("The %s hits the %s!"), name().c_str(), target->name().c_str());
- int damage = dice(type->melee_dice, type->melee_sides);
- target->apply_damage( this, bp_torso, damage );
+ if (!is_hallucination()) {
+  int damage = dice(type->melee_dice, type->melee_sides);
+  target->apply_damage( this, bp_torso, damage );
+  target->type->sp_defense(target, this, nullptr);
+  target->check_dead_state();
+ }
 }
 
 int monster::deal_melee_attack(Creature *source, int hitroll)
 {
-    mdefense mdf;
     if(!is_hallucination() && source != NULL) {
-        (mdf.*type->sp_defense)(this, NULL);
+        type->sp_defense(this, source, nullptr);
     }
     return Creature::deal_melee_attack(source, hitroll);
 }
 
 int monster::deal_projectile_attack(Creature *source, double missed_by,
                                     const projectile& proj, dealt_damage_instance &dealt_dam) {
-    bool u_see_mon = g->u_see(this);
+    bool u_see_mon = g->u.sees(*this);
     // Maxes out at 50% chance with perfect hit
     if (has_flag(MF_HARDTOSHOOT) && !one_in(10 - 10 * (.8 - missed_by)) && !proj.wide) {
         if (u_see_mon) {
@@ -864,9 +987,9 @@ int monster::deal_projectile_attack(Creature *source, double missed_by,
     if (missed_by < 0.2 && has_flag(MF_NOHEAD)) {
         missed_by = 0.2;
     }
-    mdefense mdf;
+
     if(!is_hallucination() && source != NULL) {
-        (mdf.*type->sp_defense)(this, &proj);
+        type->sp_defense(this, source, &proj);
     }
 
     // whip has a chance to scare wildlife
@@ -921,13 +1044,23 @@ void monster::deal_damage_handle_type(const damage_unit& du, body_part bp, int& 
     Creature::deal_damage_handle_type(du, bp, damage, pain);
 }
 
+void monster::heal( const int delta_hp )
+{
+    hp += delta_hp;
+}
+
+void monster::set_hp( const int hp )
+{
+    this->hp = hp;
+}
+
 void monster::apply_damage(Creature* source, body_part /*bp*/, int dam) {
-    if( dead ) {
+    if( is_dead_state() ) {
         return;
     }
     hp -= dam;
     if( hp < 1 ) {
-        die( source );
+        set_killer( source );
     } else if( dam > 0 ) {
         process_trigger( MTRIG_HURT, 1 + int( dam / 3 ) );
     }
@@ -941,7 +1074,7 @@ void monster::die_in_explosion(Creature* source)
 
 bool monster::move_effects()
 {
-    bool u_see_me = g->u_see(this);
+    bool u_see_me = g->u.sees(*this);
     if (has_effect("tied")) {
         return false;
     }
@@ -964,8 +1097,8 @@ bool monster::move_effects()
     if (has_effect("lightsnare")) {
         if(x_in_y(type->melee_dice * type->melee_sides, 12)) {
             remove_effect("lightsnare");
-            g->m.spawn_item(xpos(), ypos(), "string_36");
-            g->m.spawn_item(xpos(), ypos(), "snare_trigger");
+            g->m.spawn_item(posx(), posy(), "string_36");
+            g->m.spawn_item(posx(), posy(), "snare_trigger");
             if (u_see_me) {
                 add_msg(_("The %s escapes the light snare!"), name().c_str());
             }
@@ -975,9 +1108,9 @@ bool monster::move_effects()
     if (has_effect("heavysnare")) {
         if (type->melee_dice * type->melee_sides >= 7) {
             if(x_in_y(type->melee_dice * type->melee_sides, 32)) {
-                remove_effect("lightsnare");
-                g->m.spawn_item(xpos(), ypos(), "rope_6");
-                g->m.spawn_item(xpos(), ypos(), "snare_trigger");
+                remove_effect("heavysnare");
+                g->m.spawn_item(posx(), posy(), "rope_6");
+                g->m.spawn_item(posx(), posy(), "snare_trigger");
                 if (u_see_me) {
                     add_msg(_("The %s escapes the heavy snare!"), name().c_str());
                 }
@@ -988,8 +1121,8 @@ bool monster::move_effects()
     if (has_effect("beartrap")) {
         if (type->melee_dice * type->melee_sides >= 18) {
             if(x_in_y(type->melee_dice * type->melee_sides, 200)) {
-                remove_effect("lightsnare");
-                g->m.spawn_item(xpos(), ypos(), "beartrap");
+                remove_effect("beartrap");
+                g->m.spawn_item(posx(), posy(), "beartrap");
                 if (u_see_me) {
                     add_msg(_("The %s escapes the bear trap!"), name().c_str());
                 }
@@ -1007,7 +1140,7 @@ bool monster::move_effects()
         }
         return false;
     }
-    
+
     // If we ever get more effects that force movement on success this will need to be reworked to
     // only trigger success effects if /all/ rolls succeed
     if (has_effect("in_pit")) {
@@ -1025,9 +1158,10 @@ bool monster::move_effects()
 
 void monster::add_eff_effects(effect e, bool reduced)
 {
-    if (e.get_amount("HURT", reduced) > 0) {
-        if(e.activated(calendar::turn, "HURT", reduced)) {
-            apply_damage(nullptr, bp_torso, e.get_amount("HURT", reduced));
+    int val = e.get_amount("HURT", reduced);
+    if (val > 0) {
+        if(e.activated(calendar::turn, "HURT", val, reduced)) {
+            apply_damage(nullptr, bp_torso, val);
         }
     }
     Creature::add_eff_effects(e, reduced);
@@ -1152,7 +1286,8 @@ void monster::set_special(int index, int time)
         return;
     }
 
-    if (time < 0) {
+    // -1 is used for disabling specials
+    if (time < -1) {
         time = 0;
     }
     sp_timeout[index] = time;
@@ -1211,8 +1346,8 @@ void monster::explode()
         }
 
         for( int i = 0; i < num_chunks; i++ ) {
-            int tarx = _posx + rng( -3, 3 ), tary = _posy + rng( -3, 3 );
-            std::vector<point> traj = line_to( _posx, _posy, tarx, tary, 0 );
+            int tarx = posx() + rng( -3, 3 ), tary = posy() + rng( -3, 3 );
+            std::vector<point> traj = line_to( posx(), posy(), tarx, tary, 0 );
 
             for( size_t j = 0; j < traj.size(); j++ ) {
                 tarx = traj[j].x;
@@ -1223,7 +1358,7 @@ void monster::explode()
                     g->m.add_field( tarx, tary, type_gib, rng( 1, j + 1 ) );
                 }
                 if( g->m.move_cost( tarx, tary ) == 0 ) {
-                    if( !g->m.bash( tarx, tary, 3 ).second ) {
+                    if( !g->m.bash( tripoint( tarx, tary, posz() ), 3 ).second ) {
                         // Target is obstacle, not destroyed by bashing,
                         // stop trajectory in front of it, if this is the first
                         // point (e.g. wall adjacent to monster) , make it invalid.
@@ -1251,9 +1386,7 @@ void monster::die(Creature* nkiller) {
         return;
     }
     dead = true;
-    if( nkiller != NULL && !nkiller->is_fake() ) {
-        killer = nkiller;
-    }
+    set_killer( nkiller );
     if( hp < -( type->size < MS_MEDIUM ? 1.5 : 3 ) * type->hp ) {
         explode(); // Explode them if it was big overkill
     }
@@ -1265,8 +1398,7 @@ void monster::die(Creature* nkiller) {
     if( !is_hallucination() && ch != nullptr ) {
         if( has_flag( MF_GUILT ) || ( ch->has_trait( "PACIFIST" ) && has_flag( MF_HUMAN ) ) ) {
             // has guilt flag or player is pacifist && monster is humanoid
-            mdeath tmpdeath;
-            tmpdeath.guilt( this );
+            mdeath::guilt(this);
         }
         // TODO: add a kill counter to npcs?
         if( ch->is_player() ) {
@@ -1278,6 +1410,23 @@ void monster::die(Creature* nkiller) {
                                   name().c_str() );
         }
     }
+    // We were tied up at the moment of death, add a short rope to inventory
+    if ( has_effect("tied") ) {
+        item rope_6("rope_6", 0);
+        add_item(rope_6);
+    }
+    if( has_effect( "lightsnare" ) ) {
+        add_item( item( "string_36", 0 ) );
+        add_item( item( "snare_trigger", 0 ) );
+    }
+    if( has_effect( "heavysnare" ) ) {
+        add_item( item( "rope_6", 0 ) );
+        add_item( item( "snare_trigger", 0 ) );
+    }
+    if( has_effect( "beartrap" ) ) {
+        add_item( item( "beartrap", 0 ) );
+    }
+
     if( !is_hallucination() ) {
         for( const auto &it : inv ) {
             g->m.add_item_or_charges( posx(), posy(), it );
@@ -1288,12 +1437,12 @@ void monster::die(Creature* nkiller) {
     if( !is_hallucination() && has_flag( MF_QUEEN ) ) {
         // The submap coordinates of this monster, monster groups coordinates are
         // submap coordinates.
-        const point abssub = overmapbuffer::ms_to_sm_copy( g->m.getabs( _posx, _posy ) );
+        const point abssub = overmapbuffer::ms_to_sm_copy( g->m.getabs( posx(), posy() ) );
         // Do it for overmap above/below too
         for( int z = 1; z >= -1; --z ) {
             for( int x = -MAPSIZE / 2; x <= MAPSIZE / 2; x++ ) {
                 for( int y = -MAPSIZE / 2; y <= MAPSIZE / 2; y++ ) {
-                    std::vector<mongroup*> groups = overmap_buffer.groups_at( abssub.x + x, abssub.y + y, g->levz + z );
+                    std::vector<mongroup*> groups = overmap_buffer.groups_at( abssub.x + x, abssub.y + y, g->get_levz() + z );
                     for( auto &mgp : groups ) {
                         if( MonsterGroupManager::IsMonsterInGroup( mgp->type, type->id ) ) {
                             mgp->dying = true;
@@ -1303,30 +1452,19 @@ void monster::die(Creature* nkiller) {
             }
         }
     }
-    // If we're a mission monster, update the mission
-    if (!is_hallucination() && mission_id != -1) {
-        mission_type *misstype = g->find_mission_type(mission_id);
-        if (misstype->goal == MGOAL_FIND_MONSTER) {
-            g->fail_mission(mission_id);
-        }
-        if (misstype->goal == MGOAL_KILL_MONSTER) {
-            g->mission_step_complete(mission_id, 1);
-        }
-    }
+    mission::on_creature_death( *this );
     // Also, perform our death function
-    mdeath md;
     if(is_hallucination()) {
         //Hallucinations always just disappear
-        md.disappear(this);
+        mdeath::disappear(this);
         return;
     }
+
     //Not a hallucination, go process the death effects.
-    std::vector<void (mdeath::*)(monster *)> deathfunctions = type->dies;
-    void (mdeath::*func)(monster *);
-    for( auto &deathfunction : deathfunctions ) {
-        func = deathfunction;
-        (md.*func)(this);
+    for (auto const &deathfunction : type->dies) {
+        deathfunction(this);
     }
+
     // If our species fears seeing one of our own die, process that
     int anger_adjust = 0, morale_adjust = 0;
     if (type->has_anger_trigger(MTRIG_FRIEND_DIED)){
@@ -1347,7 +1485,7 @@ void monster::die(Creature* nkiller) {
                 continue;
             }
             int t = 0;
-            if( g->m.sees( critter.posx(), critter.posy(), _posx, _posy, light, t ) ) {
+            if( g->m.sees( critter.pos(), pos(), light, t ) ) {
                 critter.morale += morale_adjust;
                 critter.anger += anger_adjust;
             }
@@ -1363,7 +1501,7 @@ void monster::drop_items_on_death()
     if (type->death_drops.empty()) {
         return;
     }
-    g->m.put_items_from_loc( type->death_drops, _posx, _posy, calendar::turn );
+    g->m.put_items_from_loc( type->death_drops, pos3(), calendar::turn );
 }
 
 void monster::process_effects()
@@ -1375,12 +1513,13 @@ void monster::process_effects()
             auto &it = _effect_it.second;
             // Monsters don't get trait-based reduction, but they do get effect based reduction
             bool reduced = has_effect(it.get_resist_effect());
-            
+
             mod_speed_bonus(it.get_mod("SPEED", reduced));
-            
-            if (it.get_mod("HURT", reduced) > 0) {
-                if(it.activated(calendar::turn, "HURT", reduced, mod)) {
-                    apply_damage(nullptr, bp_torso, it.get_mod("HURT", reduced));
+
+            int val = it.get_mod("HURT", reduced);
+            if (val > 0) {
+                if(it.activated(calendar::turn, "HURT", val, reduced, mod)) {
+                    apply_damage(nullptr, bp_torso, val);
                 }
             }
 
@@ -1401,7 +1540,7 @@ void monster::process_effects()
     //If this monster has the ability to heal in combat, do it now.
     if( has_flag( MF_REGENERATES_50 ) ) {
         if( hp < type->hp ) {
-            if( one_in( 2 ) && g->u.sees( this ) ) {
+            if( one_in( 2 ) && g->u.sees( *this ) ) {
                 add_msg( m_warning, _( "The %s is visibly regenerating!" ), name().c_str() );
             }
             hp += 50;
@@ -1412,7 +1551,7 @@ void monster::process_effects()
     }
     if( has_flag( MF_REGENERATES_10 ) ) {
         if( hp < type->hp ) {
-            if( one_in( 2 ) && g->u.sees( this ) ) {
+            if( one_in( 2 ) && g->u.sees( *this ) ) {
                 add_msg( m_warning, _( "The %s seems a little healthier." ), name().c_str() );
             }
             hp += 10;
@@ -1445,10 +1584,10 @@ void monster::process_effects()
 
     // If this critter dies in sunlight, check & assess damage.
     if( has_flag( MF_SUNDEATH ) && g->is_in_sunlight( posx(), posy() ) ) {
-        if( g->u.sees( this ) ) {
+        if( g->u.sees( *this ) ) {
             add_msg( m_good, _( "The %s burns horribly in the sunlight!" ), name().c_str() );
         }
-        hp -= 100;
+        apply_damage( nullptr, bp_torso, 100 );
         if( hp < 0 ) {
             hp = 0;
         }
@@ -1477,7 +1616,8 @@ bool monster::make_fungus()
       tid == "mon_zombie_bio_op" || tid == "mon_zombie_survivor" || tid == "mon_zombie_fireman" ||
       tid == "mon_zombie_cop" || tid == "mon_zombie_fat" || tid == "mon_zombie_rot" ||
       tid == "mon_zombie_swimmer" || tid == "mon_zombie_grabber" || tid == "mon_zombie_technician" ||
-      tid == "mon_zombie_brute_shocker") {
+      tid == "mon_zombie_brute_shocker" || tid == "mon_zombie_grenadier" ||
+      tid == "mon_zombie_grenadier_elite") {
         polypick = 2; // Necro and Master have enough Goo to resist conversion.
         // Firefighter, hazmat, and scarred/beekeeper have the PPG on.
     } else if (tid == "mon_zombie_necro" || tid == "mon_zombie_master" || tid == "mon_zombie_fireman" ||
@@ -1512,6 +1652,16 @@ void monster::make_friendly()
  friendly = rng(5, 30) + rng(0, 20);
 }
 
+void monster::make_ally(monster *z) {
+    friendly = z->friendly;
+    faction = z->faction;
+}
+
+void monster::reset_last_load()
+{
+    last_loaded = calendar::turn.get_turn() / DAYS(1);
+}
+
 void monster::add_item(item it)
 {
  inv.push_back(it);
@@ -1533,20 +1683,13 @@ m_size monster::get_size() const {
     return type->size;
 }
 
+
 void monster::add_msg_if_npc(const char *msg, ...) const
 {
     va_list ap;
     va_start(ap, msg);
     std::string processed_npc_string = vstring_format(msg, ap);
-    // These strings contain the substring <npcname>,
-    // if present replace it with the actual monster name.
-    size_t offset = processed_npc_string.find("<npcname>");
-    if (offset != std::string::npos) {
-        processed_npc_string.replace(offset, 9, disp_name());
-        if (offset == 0 && !processed_npc_string.empty()) {
-            capitalize_letter(processed_npc_string, 0);
-        }
-    }
+    processed_npc_string = replace_with_npc_name(processed_npc_string, disp_name());
     add_msg(processed_npc_string.c_str());
     va_end(ap);
 }
@@ -1555,17 +1698,9 @@ void monster::add_msg_player_or_npc(const char *, const char* npc_str, ...) cons
 {
     va_list ap;
     va_start(ap, npc_str);
-    if (g->u_see(this)) {
+    if (g->u.sees(*this)) {
         std::string processed_npc_string = vstring_format(npc_str, ap);
-        // These strings contain the substring <npcname>,
-        // if present replace it with the actual monster name.
-        size_t offset = processed_npc_string.find("<npcname>");
-        if (offset != std::string::npos) {
-            processed_npc_string.replace(offset, 9, disp_name());
-            if (offset == 0 && !processed_npc_string.empty()) {
-                capitalize_letter(processed_npc_string, 0);
-            }
-        }
+        processed_npc_string = replace_with_npc_name(processed_npc_string, disp_name());
         add_msg(processed_npc_string.c_str());
     }
     va_end(ap);
@@ -1576,15 +1711,7 @@ void monster::add_msg_if_npc(game_message_type type, const char *msg, ...) const
     va_list ap;
     va_start(ap, msg);
     std::string processed_npc_string = vstring_format(msg, ap);
-    // These strings contain the substring <npcname>,
-    // if present replace it with the actual monster name.
-    size_t offset = processed_npc_string.find("<npcname>");
-    if (offset != std::string::npos) {
-        processed_npc_string.replace(offset, 9, disp_name());
-        if (offset == 0 && !processed_npc_string.empty()) {
-            capitalize_letter(processed_npc_string, 0);
-        }
-    }
+    processed_npc_string = replace_with_npc_name(processed_npc_string, disp_name());
     add_msg(type, processed_npc_string.c_str());
     va_end(ap);
 }
@@ -1593,17 +1720,9 @@ void monster::add_msg_player_or_npc(game_message_type type, const char *, const 
 {
     va_list ap;
     va_start(ap, npc_str);
-    if (g->u_see(this)) {
+    if (g->u.sees(*this)) {
         std::string processed_npc_string = vstring_format(npc_str, ap);
-        // These strings contain the substring <npcname>,
-        // if present replace it with the actual monster name.
-        size_t offset = processed_npc_string.find("<npcname>");
-        if (offset != std::string::npos) {
-            processed_npc_string.replace(offset, 9, disp_name());
-            if (offset == 0 && !processed_npc_string.empty()) {
-                capitalize_letter(processed_npc_string, 0);
-            }
-        }
+        processed_npc_string = replace_with_npc_name(processed_npc_string, disp_name());
         add_msg(type, processed_npc_string.c_str());
     }
     va_end(ap);
@@ -1612,6 +1731,24 @@ void monster::add_msg_player_or_npc(game_message_type type, const char *, const 
 bool monster::is_dead() const
 {
     return dead || is_dead_state();
+}
+
+void monster::init_from_item( const item &itm )
+{
+    if( itm.typeId() == "corpse" ) {
+        const int burnt_penalty = itm.burnt;
+        set_speed_base( static_cast<int>( get_speed_base() * 0.8 ) - ( burnt_penalty / 2 ) );
+        hp = static_cast<int>( hp * 0.7 ) - burnt_penalty;
+        if( itm.damage > 0 ) {
+            set_speed_base( speed_base / ( itm.damage + 1 ) );
+            hp /= itm.damage + 1;
+        }
+    } else {
+        // must be a robot
+        const int damfac = 5 - std::max<int>( 0, itm.damage ); // 5 (no damage) ... 1 (max damage)
+        // One hp at least, everything else would be unfair (happens only to monster with *very* low hp),
+        hp = std::max( 1, hp * damfac / 5 );
+    }
 }
 
 item monster::to_item() const
@@ -1624,4 +1761,13 @@ item monster::to_item() const
     const int damfac = std::max( 1, 5 * hp / type->hp ); // 1 ... 5 (or more for some monsters with hp > type->hp)
     result.damage = std::max( 0, 5 - damfac ); // 4 ... 0
     return result;
+}
+
+float monster::power_rating() const
+{
+    float ret = get_size() - 1; // Zed gets 1, cat -1, hulk 3
+    ret += has_flag( MF_ELECTRONIC ) ? 2 : 0; // Robots tend to have guns
+    // Hostile stuff gets a big boost
+    // Neutral moose will still get burned if it comes close
+    return ret;
 }

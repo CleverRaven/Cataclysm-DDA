@@ -13,6 +13,12 @@
     },
     {
         "type" : "ammunition_type",
+        "id" : "pointer_fake_ammo",
+        "name" : "none", 
+        "default" : "pointer_fake_ammo"
+    },
+    {
+        "type" : "ammunition_type",
         "id" : "700nx",
         "name" : ".700 Nitro Express",
         "default" : "700nx"
@@ -235,6 +241,12 @@
     },
     {
         "type" : "ammunition_type",
+        "id" : "reactor_slurry",
+        "name" : "plutonium slurry",
+        "default" : "plut_slurry"
+    },
+    {
+        "type" : "ammunition_type",
         "id" : "muscle",
         "name" : "muscle",
         "default" : ""
@@ -400,5 +412,18 @@
         "id" : "fish_bait",
         "name" : "fish bait",
         "default" : "fish_bait_meat"
+    },
+    {
+        "type" : "ammunition_type",
+        "id" : "homebrew_rocket",
+        "name" : "homebrew rocket",
+        "default" : "spiked_rocket"
+    },
+    {
+        "type" : "ammunition_type",
+        "id" : "unfinished_char",
+        "name" : "semi-charred fuel",
+        "default" : "unfinished_charcoal"
     }
+
 ]

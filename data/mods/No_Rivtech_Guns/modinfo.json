@@ -39,11 +39,13 @@
         "rm99_pistol",
         "rm103a_pistol",
         "needlegun",
+        "needlepistol",
         "rm20",
         "rm120c",
         "rm228",
         "8mm_civilian",
-        "rm298"
+        "rm298",
+        "rm360_carbine"
     ]
 }
 ]

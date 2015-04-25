@@ -27,7 +27,7 @@
         "max_volume": 3000,
         "required_str": -1,
         "flags": ["TRANSPARENT", "UNSTABLE", "ROUGH", "PLACE_ITEM", "MOUNTABLE", "CONTAINER",
-                  "SEALED", "TINY"],
+                  "SEALED", "ALLOW_FIELD_EFFECT", "TINY"],
         "examine_action": "rubble"
     },{
         "type" : "furniture",
@@ -39,7 +39,7 @@
         "max_volume": 3000,
         "required_str": -1,
         "flags": ["TRANSPARENT", "UNSTABLE", "ROUGH", "PLACE_ITEM", "MOUNTABLE", "CONTAINER",
-                  "SEALED", "SHORT"],
+                  "SEALED", "ALLOW_FIELD_EFFECT", "SHORT"],
         "examine_action": "rubble"
     },{
         "type" : "furniture",
@@ -51,7 +51,7 @@
         "max_volume": 3000,
         "required_str": -1,
         "flags": ["TRANSPARENT", "UNSTABLE", "ROUGH", "SHARP", "PLACE_ITEM", "MOUNTABLE",
-                  "CONTAINER", "SEALED", "SHORT"],
+                  "CONTAINER", "SEALED", "ALLOW_FIELD_EFFECT", "SHORT"],
         "examine_action": "rubble"
     },{
         "type" : "furniture",
@@ -179,7 +179,12 @@
             "sound": "smash!",
             "sound_fail": "whump.",
             "items": [
-                { "item": "withered", "amount": 1, "minamount": 0 }
+                { "item": "withered", "amount": 1, "minamount": 0 },
+                { "item": "wrapper", "amount": 1, "minamount": 0 },
+                { "item": "can_drink", "amount": 1, "minamount": 0 },
+                { "item": "bag_plastic", "amount": 1, "minamount": 0 },
+                { "item": "ceramic_shard", "amount": 3, "minamount": 1 },
+                { "item": "cig_butt", "amount": 1, "minamount": 0 }
             ]
         }
     },{
@@ -384,6 +389,8 @@
             "str_min": 6, "str_max": 30,
             "sound": "porcelain breaking!",
             "sound_fail": "whunk!",
+            "sound_vol": 16,
+            "sound_fail_vol": 12,
             "items": [
                 { "item": "cu_pipe", "amount": 3, "minamount": 0 },
                 { "item": "ceramic_shard", "amount": 6, "minamount": 2},
@@ -498,7 +505,7 @@
         "symbol": "#",
         "color": "blue",
         "move_cost_mod": 1,
-        "required_str": 8,
+        "required_str": -1,
         "flags": ["TRANSPARENT", "FLAMMABLE_ASH", "CONTAINER", "PLACE_ITEM", "ORGANIC", "MOUNTABLE"],
         "deconstruct": {
             "items": [
@@ -998,6 +1005,8 @@
             "str_min": 6, "str_max": 20,
             "sound": "glass breaking!",
             "sound_fail": "whack!",
+            "sound_vol": 16,
+            "sound_fail_vol": 12,
             "furn_set": "f_vending_o",
             "items": [
                 { "item": "glass_shard", "amount": 6, "minamount": 3}
@@ -1068,8 +1077,9 @@
         "bgcolor": "brown",
         "move_cost_mod": -1,
         "required_str": 14,
-        "flags": ["TRANSPARENT", "CONTAINER", "SEALED", "FLAMMABLE", "PLACE_ITEM", "ORGANIC",
-                  "MOUNTABLE", "SHORT"],
+        "flags": ["TRANSPARENT", "CONTAINER", "SEALED", "ALLOW_FIELD_EFFECT", "FLAMMABLE", "PLACE_ITEM", 
+                  "ORGANIC", "MOUNTABLE", "SHORT"],
+        "examine_action": "crate",
         "deconstruct": {
             "items": [
                 { "item": "2x4", "amount": 4 },
@@ -1140,7 +1150,7 @@
         "color": "blue",
         "move_cost_mod": -1,
         "required_str": -1,
-        "flags": ["FLAMMABLE_HARD", "NOITEM"],
+        "flags": ["FLAMMABLE_HARD", "NOITEM", "DOOR"],
         "open": "f_canvas_door_o",
         "comment": "No bash info due to special handling"
     },{
@@ -1162,7 +1172,7 @@
         "color": "blue",
         "move_cost_mod": -1,
         "required_str": -1,
-        "flags": ["FLAMMABLE_HARD", "NOITEM"],
+        "flags": ["FLAMMABLE_HARD", "NOITEM", "DOOR"],
         "open": "f_canvas_door_o",
         "comment": "No bash info due to special handling"
     },{
@@ -1299,7 +1309,7 @@
         "bgcolor": "dkgray",
         "move_cost_mod": -10,
         "required_str": -1,
-        "flags": ["CONTAINER", "SEALED", "FLAMMABLE_ASH", "FUNGUS", "MOUNTABLE", "SHORT"],
+        "flags": ["CONTAINER", "SEALED", "ALLOW_FIELD_EFFECT", "FLAMMABLE_ASH", "FUNGUS", "MOUNTABLE", "SHORT"],
         "bash": {
             "str_min": 6, "str_max":30,
             "sound": "poof.",
@@ -1313,7 +1323,7 @@
         "bgcolor": "ltgray",
         "move_cost_mod": 3,
         "required_str": -1,
-        "flags": ["TRANSPARENT", "CONTAINER", "SEALED", "FLAMMABLE_ASH", "FUNGUS", "MOUNTABLE",
+        "flags": ["TRANSPARENT", "CONTAINER", "SEALED", "ALLOW_FIELD_EFFECT", "FLAMMABLE_ASH", "FUNGUS", "MOUNTABLE",
                   "SHORT"],
         "bash": {
             "str_min": 6, "str_max":20,
@@ -1544,7 +1554,7 @@
         "color": "brown",
         "move_cost_mod": -1,
         "required_str": -1,
-        "flags": ["NOITEM", "SEALED", "TRANSPARENT", "FLAMMABLE", "CONTAINER", "LIQUIDCONT"],
+        "flags": ["NOITEM", "SEALED", "ALLOW_FIELD_EFFECT", "TRANSPARENT", "FLAMMABLE", "CONTAINER", "LIQUIDCONT"],
         "examine_action": "keg",
         "bash": {
             "str_min": 12, "str_max": 50,
@@ -1571,7 +1581,12 @@
             "sound": "smash!",
             "sound_fail": "whump.",
             "items": [
-                { "item": "withered", "amount": 1, "minamount": 0 }
+                { "item": "withered", "amount": 1, "minamount": 0 },
+                { "item": "wrapper", "amount": 1, "minamount": 0 },
+                { "item": "can_drink", "amount": 1, "minamount": 0 },
+                { "item": "bag_plastic", "amount": 1, "minamount": 0 },
+                { "item": "ceramic_shard", "amount": 3, "minamount": 1 },
+                { "item": "cig_butt", "amount": 1, "minamount": 0 }
             ]
         }
     },{
@@ -1661,6 +1676,21 @@
         "required_str": -1,
         "flags": ["TRANSPARENT", "TINY", "FLAMMABLE_ASH"],
         "examine_action": "flower_dandelion",
+        "bash": {
+            "str_min": 2, "str_max": 6,
+            "sound": "crunch.",
+            "sound_fail": "whish."
+        }
+    },{
+        "type" : "furniture",
+        "id" : "f_cattails",
+        "name": "cattails",
+        "symbol": "i",
+        "color": "brown",
+        "move_cost_mod": 1,
+        "required_str": -1,
+        "flags": ["TRANSPARENT", "TINY", "FLAMMABLE_ASH"],
+        "examine_action": "examine_cattails",
         "bash": {
             "str_min": 2, "str_max": 6,
             "sound": "crunch.",
@@ -1967,6 +1997,8 @@
             "str_min": 6, "str_max": 20,
             "sound": "glass breaking",
             "sound_fail": "whack!",
+            "sound_vol": 16,
+            "sound_fail_vol": 12,
             "furn_set": "f_displaycase_b",
             "items": [
                 { "item": "glass_shard", "amount": 6, "minamount": 3 }
@@ -1990,5 +2022,275 @@
                 { "item": "splinter", "amount": 4, "minamount": 2 }
             ]
         }
+    },{
+        "type": "furniture",
+        "id": "f_standing_tank",
+        "name": "standing tank",
+        "symbol" : "O",
+        "color": "ltgray",
+        "move_cost_mod" : -1,
+        "required_str": -1,
+        "flags": ["BASHABLE", "CONTAINER", "DECONSTRUCT", "LIQUIDCONT", "NOITEM", "SEALED", "TRANSPARENT"],
+        "deconstruct": {
+            "items": [
+                { "item": "metal_tank", "amount": 4 },
+                { "item": "water_faucet", "amount": 1 }
+            ]
+        },
+        "examine_action": "keg",
+        "bash": {
+            "str_min": 10, "str_max": 20,
+            "sound": "metal screeching!",
+            "sound_fail": "clang!",
+            "items": [
+                { "item": "scrap", "amount": 32, "minamount": 8},
+                { "item": "water_faucet", "amount": 1, "minamount": 0 }
+            ]
+        }
+    },
+    {
+        "type" : "furniture",
+        "id" : "f_floor_canvas",
+        "name": "heavy punching bag",
+        "symbol": "0",
+        "color": "dkgray",
+        "move_cost_mod": -1,
+        "required_str": 10,
+        "flags": ["BASHABLE", "BLOCKSDOOR", "PLACE_ITEM", "ORGANIC"],
+        "bash": {
+            "str_min": 15, "str_max": 20,
+            "sound": "whack!",
+            "sound_fail": "whud.",
+            "items": [
+                { "item": "chain", "amount": 3, "minamount": 1},
+                { "item": "leather", "amount": 12, "minamount": 4},
+                { "item": "rag", "amount": 18, "minamount": 4 }
+            ]
+        }
+    },
+    {
+        "type" : "furniture",
+        "id" : "f_canvas_floor",
+        "name": "canvas floor",
+        "symbol": "#",
+        "color": "white",
+        "move_cost_mod": 0,
+        "required_str": -1,
+        "flags": ["TRANSPARENT", "FLAMMABLE", "PLACE_ITEM"]
+    },{
+        "type" : "furniture",
+        "id" : "f_kiln_empty",
+        "name": "charcoal kiln",
+        "symbol": "U",
+        "color": "brown",
+        "move_cost_mod": -1,
+        "required_str": -1,
+        "examine_action": "kiln_empty",
+        "max_volume": 500,
+        "crafting_pseudo_item": "char_kiln",
+        "flags": ["CONTAINER", "FIRE_CONTAINER", "PLACE_ITEM", "KILN"],
+        "deconstruct": {
+            "items": [
+                { "item": "rock", "amount": 30, "minamount": 30}
+            ]
+        },
+        "bash": {
+            "str_min": 25, "str_max": 180,
+            "sound": "crash!",
+            "sound_fail": "whump!",
+            "items": [
+                { "item": "rock", "amount": 30, "minamount": 15}
+            ]
+        }
+    },{
+        "type" : "furniture",
+        "id" : "f_kiln_full",
+        "name": "filled charcoal kiln",
+        "symbol": "U",
+        "color": "brown_red",
+        "move_cost_mod": -1,
+        "required_str": -1,
+        "examine_action": "kiln_full",
+        "flags": ["NOITEM", "SEALED", "CONTAINER", "FIRE_CONTAINER", "SUPPRESS_SMOKE", "PLACE_ITEM"],
+        "deconstruct": {
+            "items": [
+                { "item": "rock", "amount": 30, "minamount": 30}
+            ]
+        },
+        "bash": {
+            "str_min": 25, "str_max": 180,
+            "sound": "crash!",
+            "sound_fail": "whump!",
+            "items": [
+                { "item": "rock", "amount": 30, "minamount": 15}
+            ]
+        }
+    },{
+        "type" : "furniture",
+        "id" : "f_kiln_metal_empty",
+        "name": "metal charcoal kiln",
+        "symbol": "U",
+        "color": "blue",
+        "move_cost_mod": -1,
+        "required_str": -1,
+        "examine_action": "kiln_empty",
+        "max_volume": 500,
+        "crafting_pseudo_item": "char_kiln",
+        "flags": ["CONTAINER", "FIRE_CONTAINER", "PLACE_ITEM", "KILN"],
+        "deconstruct": {
+            "items": [
+                { "item": "metal_tank", "amount": 4, "minamount": 1 },
+                { "item": "pipe", "amount": 4, "minamount": 2 }
+            ]
+        },
+        "bash": {
+            "str_min": 12, "str_max": 40,
+            "sound": "metal screeching!",
+            "sound_fail": "clang!",
+            "items": [
+                { "item": "scrap", "amount": 4, "minamount": 2},
+                { "item": "steel_chunk", "amount": 3, "minamount": 0},
+                { "item": "pipe", "amount": 4, "minamount": 0}
+            ]
+        }
+    },{
+        "type" : "furniture",
+        "id" : "f_kiln_metal_full",
+        "name": "filled metal charcoal kiln",
+        "symbol": "U",
+        "color": "blue_red",
+        "move_cost_mod": -1,
+        "required_str": -1,
+        "examine_action": "kiln_full",
+        "flags": ["NOITEM", "SEALED", "CONTAINER", "FIRE_CONTAINER", "SUPPRESS_SMOKE", "PLACE_ITEM"],
+        "deconstruct": {
+            "items": [
+                { "item": "metal_tank", "amount": 4, "minamount": 1 },
+                { "item": "pipe", "amount": 4, "minamount": 2 }
+            ]
+        },
+        "bash": {
+            "str_min": 12, "str_max": 40,
+            "sound": "metal screeching!",
+            "sound_fail": "clang!",
+            "items": [
+                { "item": "scrap", "amount": 4, "minamount": 2},
+                { "item": "steel_chunk", "amount": 3, "minamount": 0},
+                { "item": "pipe", "amount": 4, "minamount": 0}
+            ]
+        }
+    },{
+        "type" : "furniture",
+        "id" : "f_robotic_arm",
+        "name": "robotic arm",
+        "symbol": "&",
+        "bgcolor": "yellow",
+        "move_cost_mod": 3,
+        "required_str": 18,
+        "flags": ["TRANSPARENT", "MOUNTABLE"],
+        "deconstruct": {
+            "items": [
+                { "item": "processor", "amount": 1, "chance": 75},
+                { "item": "RAM", "amount": 1, "chance": 80},
+                { "item": "power_supply", "amount": 1, "chance": 70},
+                { "item": "amplifier", "amount": 1, "chance": 90},
+                { "item": "steel_chunk", "amount": 4, "minamount": 1},
+                { "item": "spring", "amount": 1, "chance": 80},
+                { "item": "steel_lump", "amount": 1, "chance": 60},
+                { "item": "sheet_metal", "amount": 1, "chance": 50},
+                { "item": "motor", "amount": 1, "chance": 60}
+            ]
+        },
+        "bash": {
+            "str_min": 8, "str_max": 45,
+            "sound": "smash!",
+            "sound_fail": "thunk.",
+            "items": [
+                { "item": "processor", "amount": 1, "chance": 15},
+                { "item": "RAM", "amount": 1, "chance": 30},
+                { "item": "power_supply", "amount": 1, "chance": 50},
+                { "item": "amplifier", "amount": 1, "chance": 70},
+                { "item": "steel_chunk", "amount": 3, "minamount": 1},
+                { "item": "spring", "amount": 1, "chance": 80},
+                { "item": "steel_lump", "amount": 1, "chance": 50},
+                { "item": "sheet_metal", "amount": 1, "chance": 30},
+                { "item": "scrap", "amount": 5, "minamount": 2},
+                { "item": "motor", "amount": 1, "chance": 30}
+            ]
+        }
+  },{
+    "type" : "furniture",
+    "id" : "f_smoking_rack",
+    "name": "smoking rack",
+    "symbol": "=",
+    "bgcolor": "brown",
+    "move_cost_mod": 2,
+    "required_str": -1,
+    "flags": ["TRANSPARENT", "SEALED", "ALLOW_FIELD_EFFECT", "CONTAINER", "NOITEM"],
+    "crafting_pseudo_item": "char_smoker",
+    "examine_action": "reload_furniture",
+    "deconstruct": {
+      "items": [
+        { "item": "rock", "amount": 8 },
+        { "item": "stick", "amount": 16, "minamount": 16 }
+      ]
+    },
+    "bash": {
+        "str_min": 18, "str_max": 50,
+        "sound": "crunch!",
+        "sound_fail": "whump!",
+        "items": [
+            { "item": "rock", "amount": 8 },
+            { "item": "stick", "amount": 12, "minamount": 8 }
+        ]
     }
+  },{
+    "type" : "furniture",
+    "id" : "f_forge_rock",
+    "name": "rock forge",
+    "symbol": "^",
+    "color": "ltred",
+    "move_cost_mod": -1,
+    "required_str": -1,
+    "crafting_pseudo_item": "char_forge",
+    "flags": ["SEALED", "CONTAINER", "NOITEM"],
+    "deconstruct": {
+      "items": [
+        { "item": "rock", "amount": 40 }
+      ]
+    },
+    "examine_action": "reload_furniture",
+    "bash": {
+      "str_min": 18, "str_max": 50,
+      "sound": "crash!",
+      "sound_fail": "whump.",
+      "items": [
+        { "item": "rock", "amount": 30, "minamount": 20 }
+      ]
+    }
+  },{
+   "type" : "furniture",
+   "id" : "f_clay_kiln",
+   "name": "clay kiln",
+   "symbol": "^",
+   "color": "ltred",
+   "move_cost_mod": -1,
+   "required_str": -1,
+   "crafting_pseudo_item": "brick_kiln",
+   "flags": [ "SEALED", "CONTAINER", "NOITEM"],
+   "deconstruct": {
+     "items": [
+       { "item": "rock", "amount": 40 }
+     ]
+   },
+   "examine_action": "reload_furniture",
+   "bash": {
+     "str_min": 18, "str_max": 50,
+     "sound": "crunch!",
+     "sound_fail": "whump.",
+     "items": [
+       { "item": "rock", "amount": 30, "minamount": 20 }
+     ]
+   }
+}
 ]

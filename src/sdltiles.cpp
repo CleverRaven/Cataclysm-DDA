@@ -7,6 +7,7 @@
 #include "catacharset.h"
 #include "cursesdef.h"
 #include "debug.h"
+#include <cstring>
 #include <vector>
 #include <fstream>
 #include <sstream>
@@ -16,26 +17,26 @@
 #include "get_version.h"
 #include "init.h"
 #include "path_info.h"
-#include "file_wrapper.h"
+#include "filesystem.h"
+#include "map.h"
+#include "lightmap.h"
 
+//TODO replace these includes with filesystem.h
 #ifdef _MSC_VER
-#include "wdirent.h"
-#include <direct.h>
+#   include "wdirent.h"
+#   include <direct.h>
 #else
-#include <dirent.h>
+#   include <dirent.h>
 #endif
 
 #if (defined _WIN32 || defined WINDOWS)
-#ifndef NOMINMAX
-#define NOMINMAX
-#endif
-#include <windows.h>
-#include <shlwapi.h>
-#ifndef strcasecmp
-#define strcasecmp StrCmpI
-#endif
+#   include "platform_win.h"
+#   include <shlwapi.h>
+#   ifndef strcasecmp
+#       define strcasecmp StrCmpI
+#   endif
 #else
-#include <wordexp.h>
+#   include <wordexp.h>
 #endif
 
 #include "SDL2/SDL.h"
@@ -79,7 +80,7 @@ public:
      * Draw character t at (x,y) on the screen,
      * using (curses) color.
      */
-    virtual void OutputChar(const std::string &ch, int x, int y, unsigned char color) = 0;
+    virtual void OutputChar(std::string ch, int x, int y, unsigned char color) = 0;
     virtual void draw_ascii_lines(unsigned char line_id, int drawx, int drawy, int FG) const;
     bool draw_window(WINDOW *win);
     bool draw_window(WINDOW *win, int offsetx, int offsety);
@@ -102,13 +103,28 @@ public:
 
     void clear();
     void load_font(std::string typeface, int fontsize);
-    virtual void OutputChar(const std::string &ch, int x, int y, unsigned char color);
+    virtual void OutputChar(std::string ch, int x, int y, unsigned char color);
 protected:
     SDL_Texture *create_glyph(const std::string &ch, int color);
 
     TTF_Font* font;
     // Maps (character code, color) to SDL_Texture*
-    typedef std::map<std::pair<std::string, unsigned char>, SDL_Texture *> t_glyph_map;
+
+    struct key_t {
+        std::string   codepoints;
+        unsigned char color;
+
+        bool operator<(key_t const &rhs) const noexcept {
+            return (color == rhs.color) ? codepoints < rhs.codepoints : color < rhs.color;
+        }
+    };
+    
+    struct cached_t {
+        SDL_Texture* texture;
+        int          width;
+    };
+
+    typedef std::map<key_t, cached_t> t_glyph_map;
     t_glyph_map glyph_cache_map;
 };
 
@@ -123,7 +139,7 @@ public:
 
     void clear();
     void load_font(const std::string &path);
-    virtual void OutputChar(const std::string &ch, int x, int y, unsigned char color);
+    virtual void OutputChar(std::string ch, int x, int y, unsigned char color);
     void OutputChar(long t, int x, int y, unsigned char color);
     virtual void draw_ascii_lines(unsigned char line_id, int drawx, int drawy, int FG) const;
 protected:
@@ -237,7 +253,7 @@ bool InitSDL()
     atexit(SDL_Quit);
 
     return true;
-};
+}
 
 //Registers, creates, and shows the Window!!
 bool WinCreate()
@@ -360,7 +376,7 @@ bool WinCreate()
 #endif
 
     return true;
-};
+}
 
 void WinDestroy()
 {
@@ -385,7 +401,7 @@ void WinDestroy()
     if(window)
         SDL_DestroyWindow(window);
     window = NULL;
-};
+}
 
 inline void FillRectDIB(SDL_Rect &rect, unsigned char color) {
     if( SDL_SetRenderDrawColor( renderer, windowsPalette[color].r, windowsPalette[color].g,
@@ -406,7 +422,7 @@ inline void VertLineDIB(int x, int y, int y2, int thickness, unsigned char color
     rect.w = thickness;
     rect.h = y2-y;
     FillRectDIB(rect, color);
-};
+}
 inline void HorzLineDIB(int x, int y, int x2, int thickness, unsigned char color)
 {
     SDL_Rect rect;
@@ -415,7 +431,7 @@ inline void HorzLineDIB(int x, int y, int x2, int thickness, unsigned char color
     rect.w = x2-x;
     rect.h = thickness;
     FillRectDIB(rect, color);
-};
+}
 inline void FillRectDIB(int x, int y, int width, int height, unsigned char color)
 {
     SDL_Rect rect;
@@ -424,7 +440,7 @@ inline void FillRectDIB(int x, int y, int width, int height, unsigned char color
     rect.w = width;
     rect.h = height;
     FillRectDIB(rect, color);
-};
+}
 
 
 SDL_Texture *CachedTTFFont::create_glyph(const std::string &ch, int color)
@@ -488,32 +504,31 @@ SDL_Texture *CachedTTFFont::create_glyph(const std::string &ch, int color)
     return glyph;
 }
 
-void CachedTTFFont::OutputChar(const std::string &ch, int x, int y, unsigned char color)
-{
-    color &= 0xf;
-    const t_glyph_map::key_type key( ch, color );
-    auto it = glyph_cache_map.find( key );
-    SDL_Texture *glyph;
-    if( it == glyph_cache_map.end() ) {
-        glyph = glyph_cache_map[key] = create_glyph( ch, color );
+void CachedTTFFont::OutputChar(std::string ch, int const x, int const y, unsigned char const color)
+{   
+    key_t    key {std::move(ch), static_cast<unsigned char>(color & 0xf)};
+    cached_t value;
+
+    auto const it = glyph_cache_map.lower_bound(key);
+    if (it != std::end(glyph_cache_map) && !glyph_cache_map.key_comp()(key, it->first)) {
+        value = it->second;
     } else {
-        glyph = it->second;
+        value.texture = create_glyph(key.codepoints, key.color);
+        value.width = fontwidth * utf8_wrapper(key.codepoints).display_width();
+        glyph_cache_map.insert(it, std::make_pair(std::move(key), value));
     }
-    if (glyph == NULL) {
+
+    if (!value.texture) {
         // Nothing we can do here )-:
         return;
     }
-    SDL_Rect rect;
-    rect.x = x;
-    rect.y = y;
-    rect.w = fontwidth * utf8_wrapper( ch ).display_width();
-    rect.h = fontheight;
-    if( SDL_RenderCopy( renderer, glyph, NULL, &rect ) != 0 ) {
+    SDL_Rect rect {x, y, value.width, fontheight};
+    if (SDL_RenderCopy( renderer, value.texture, nullptr, &rect)) {
         dbg(D_ERROR) << "SDL_RenderCopy failed: " << SDL_GetError();
     }
 }
 
-void BitmapFont::OutputChar(const std::string &ch, int x, int y, unsigned char color)
+void BitmapFont::OutputChar(std::string ch, int x, int y, unsigned char color)
 {
     int len = ch.length();
     const char *s = ch.c_str();
@@ -645,8 +660,7 @@ void curses_drawwindow(WINDOW *win)
         tilecontext->draw(
             win->x * fontwidth,
             win->y * fontheight,
-            g->ter_view_x,
-            g->ter_view_y,
+            tripoint( g->ter_view_x, g->ter_view_y, g->ter_view_z ),
             TERRAIN_WINDOW_TERM_WIDTH * font->fontwidth,
             TERRAIN_WINDOW_TERM_HEIGHT * font->fontheight);
 
@@ -1827,8 +1841,8 @@ void CachedTTFFont::clear()
         font = NULL;
     }
     for (t_glyph_map::iterator a = glyph_cache_map.begin(); a != glyph_cache_map.end(); ++a) {
-        if (a->second != NULL) {
-            SDL_DestroyTexture(a->second);
+        if (a->second.texture) {
+            SDL_DestroyTexture(a->second.texture);
         }
     }
     glyph_cache_map.clear();

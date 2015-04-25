@@ -1,8 +1,7 @@
 #include "worldfactory.h"
-#include "file_finder.h"
+#include "filesystem.h"
 #include "char_validity_check.h"
 #include "mod_manager.h"
-#include "file_wrapper.h"
 #include "path_info.h"
 #include "debug.h"
 #include "mapsharing.h"
@@ -11,15 +10,6 @@
 #include "name.h"
 
 #include <fstream>
-
-// FILE I/O
-#include <sys/stat.h>
-#ifdef _MSC_VER
-#include "wdirent.h"
-#include <direct.h>
-#else
-#include <dirent.h>
-#endif // _MSC_VER
 
 #define WORLD_OPTION_FILE "worldoptions.txt"
 #define SAVE_MASTER "master.gsav"
@@ -211,8 +201,7 @@ WORLDPTR worldfactory::convert_to_world(std::string origin_path)
     // save world as conversion world
     if (save_world(newworld, true)) {
         // move files from origin_path into new world path
-        std::vector<std::string> origin_files = file_finder::get_files_from_path(".", origin_path, false);
-        for( auto &origin_file : origin_files ) {
+        for( auto &origin_file : get_files_from_path(".", origin_path, false) ) {
             std::string filename = origin_file.substr( origin_file.find_last_of( "/\\" ) );
 
             rename( origin_file.c_str(), std::string( newworld->world_path + filename ).c_str() );
@@ -297,63 +286,56 @@ std::map<std::string, WORLDPTR> worldfactory::get_all_worlds()
         all_worldnames.clear();
     }
     // get the master files. These determine the validity of a world
-    std::vector<std::string> world_dirs = file_finder::get_directories_with(qualifiers,
-                                          FILENAMES["savedir"], true);
+    // worlds exist by having an option file
+    // create worlds
+    for( const auto &world_dir : get_directories_with(qualifiers, FILENAMES["savedir"], true) ) {
+        // get the option file again
+        // we can assume that there is only one master.gsav, so just collect the first path
+        bool no_options = true;
+        auto const detected_world_op = get_files_from_path( WORLD_OPTION_FILE, world_dir, false );
+        if ( ! detected_world_op.empty() ) {
+            no_options = false;
+        }
+        // get the save files
+        auto world_sav_files = get_files_from_path( SAVE_EXTENSION, world_dir, false );
+        // split the save file names between the directory and the extension
+        for( auto &world_sav_file : world_sav_files ) {
+            size_t save_index = world_sav_file.find( SAVE_EXTENSION );
+            world_sav_file = world_sav_file.substr( world_dir.size() + 1,
+                                                    save_index - ( world_dir.size() + 1 ) );
+        }
+        // the directory name is the name of the world
+        std::string worldname;
+        unsigned name_index = world_dir.find_last_of( "/\\" );
+        worldname = world_dir.substr( name_index + 1 );
 
-    // check to see if there are >0 world directories found
-    if (!world_dirs.empty()) {
-        // worlds exist by having an option file
-        // create worlds
-        for( auto &world_dir : world_dirs ) {
-            // get the option file again
-            // we can assume that there is only one master.gsav, so just collect the first path
-            bool no_options = true;
-            std::vector<std::string> detected_world_op =
-                file_finder::get_files_from_path( WORLD_OPTION_FILE, world_dir, false );
-            if ( ! detected_world_op.empty() ) {
-                no_options = false;
-            }
-            // get the save files
-            std::vector<std::string> world_sav_files =
-                file_finder::get_files_from_path( SAVE_EXTENSION, world_dir, false );
-            // split the save file names between the directory and the extension
-            for( auto &world_sav_file : world_sav_files ) {
-                size_t save_index = world_sav_file.find( SAVE_EXTENSION );
-                world_sav_file = world_sav_file.substr( world_dir.size() + 1,
-                                                        save_index - ( world_dir.size() + 1 ) );
-            }
-            // the directory name is the name of the world
-            std::string worldname;
-            unsigned name_index = world_dir.find_last_of( "/\\" );
-            worldname = world_dir.substr( name_index + 1 );
+        // create and store the world
+        retworlds[worldname] = new WORLD();
+        // give the world a name
+        retworlds[worldname]->world_name = worldname;
+        all_worldnames.push_back(worldname);
+        // add sav files
+        for( auto &world_sav_file : world_sav_files ) {
+            retworlds[worldname]->world_saves.push_back( world_sav_file );
+        }
+        // set world path
+        retworlds[worldname]->world_path = world_dir;
+        mman->load_mods_list(retworlds[worldname]);
 
-            // create and store the world
-            retworlds[worldname] = new WORLD();
-            // give the world a name
-            retworlds[worldname]->world_name = worldname;
-            all_worldnames.push_back(worldname);
-            // add sav files
-            for( auto &world_sav_file : world_sav_files ) {
-                retworlds[worldname]->world_saves.push_back( world_sav_file );
-            }
-            // set world path
-            retworlds[worldname]->world_path = world_dir;
-            mman->load_mods_list(retworlds[worldname]);
-
-            // load options into the world
-            if ( no_options ) {
-                for( auto &elem : OPTIONS ) {
-                    if( elem.second.getPage() == "world_default" ) {
-                        retworlds[worldname]->world_options[elem.first] = elem.second;
-                    }
+        // load options into the world
+        if ( no_options ) {
+            for( auto &elem : OPTIONS ) {
+                if( elem.second.getPage() == "world_default" ) {
+                    retworlds[worldname]->world_options[elem.first] = elem.second;
                 }
-                retworlds[worldname]->world_options["DELETE_WORLD"].setValue("yes");
-                save_world(retworlds[worldname]);
-            } else {
-                retworlds[worldname]->world_options = get_world_options(detected_world_op[0]);
             }
+            retworlds[worldname]->world_options["DELETE_WORLD"].setValue("yes");
+            save_world(retworlds[worldname]);
+        } else {
+            retworlds[worldname]->world_options = get_world_options(detected_world_op[0]);
         }
     }
+
     // check to see if there exists a worldname "save" which denotes that a world exists in the save
     // directory and not in a sub-world directory
     if (retworlds.find("save") != retworlds.end()) {
@@ -767,12 +749,12 @@ void worldfactory::draw_mod_list( WINDOW *w, int &start, int &cursor, const std:
 int worldfactory::show_worldgen_tab_modselection(WINDOW *win, WORLDPTR world)
 {
     // Use active_mod_order of the world,
-    // saves us from writting 'world->active_mod_order' all the time.
+    // saves us from writing 'world->active_mod_order' all the time.
     std::vector<std::string> &active_mod_order = world->active_mod_order;
     {
         std::vector<std::string> tmp_mod_order;
         // clear active_mod_order and re-add all the mods, his ensures
-        // that changes (like changing depencies) get updated
+        // that changes (like changing dependencies) get updated
         tmp_mod_order.swap(active_mod_order);
         for( auto &elem : tmp_mod_order ) {
             mman_ui->try_add( elem, active_mod_order );
@@ -1044,6 +1026,8 @@ int worldfactory::show_worldgen_tab_confirm(WINDOW *win, WORLDPTR world)
     const int iOffsetX = (TERMX > FULL_SCREEN_WIDTH) ? (TERMX - FULL_SCREEN_WIDTH) / 2 : 0;
     const int iOffsetY = (TERMY > FULL_SCREEN_HEIGHT) ? (TERMY - FULL_SCREEN_HEIGHT) / 2 : 0;
 
+    const char* line_of_32_underscores = "________________________________";
+
     WINDOW *w_confirmation = newwin(iContentHeight, FULL_SCREEN_WIDTH - 2,
                                     iTooltipHeight + 2 + iOffsetY, 1 + iOffsetX);
     WINDOW_PTR w_confirmationptr( w_confirmation );
@@ -1064,7 +1048,7 @@ int worldfactory::show_worldgen_tab_confirm(WINDOW *win, WORLDPTR world)
     std::string worldname = world->world_name;
     do {
         mvwprintz(w_confirmation, namebar_y, 2, c_white, _("World Name:"));
-        mvwprintz(w_confirmation, namebar_y, namebar_x, c_ltgray, "______________________________");
+        mvwprintz(w_confirmation, namebar_y, namebar_x, c_ltgray, line_of_32_underscores);
         fold_and_print(w_confirmation, 3, 2, 76, c_ltgray,
                        _("Press <color_yellow>%s</color> to pick a random name for your world."), ctxt.get_desc("PICK_RANDOM_WORLDNAME").c_str());
         fold_and_print(w_confirmation, FULL_SCREEN_HEIGHT / 2 - 2, 2, 76, c_ltgray, _("\
@@ -1077,7 +1061,7 @@ to continue, or <color_yellow>%s</color> to go back and review your world."), ct
             }
         }
         if (noname) {
-            mvwprintz(w_confirmation, namebar_y, namebar_x, c_ltgray, "______________________________");
+            mvwprintz(w_confirmation, namebar_y, namebar_x, c_ltgray, line_of_32_underscores);
             noname = false;
         }
 
@@ -1088,7 +1072,7 @@ to continue, or <color_yellow>%s</color> to go back and review your world."), ct
         const std::string action = ctxt.handle_input();
         if (action == "NEXT_TAB") {
             if (worldname.empty()) {
-                mvwprintz(w_confirmation, namebar_y, namebar_x, h_ltgray, _("______NO NAME ENTERED!!!!_____"));
+                mvwprintz(w_confirmation, namebar_y, namebar_x, h_ltgray, _("_______NO NAME ENTERED!!!!______"));
                 noname = true;
                 wrefresh(w_confirmation);
                 if (!query_yn(_("Are you SURE you're finished? World name will be randomly generated."))) {
@@ -1110,11 +1094,11 @@ to continue, or <color_yellow>%s</color> to go back and review your world."), ct
             world->world_name = worldname;
             return -1;
         } else if (action == "PICK_RANDOM_WORLDNAME") {
-            mvwprintz(w_confirmation, namebar_y, namebar_x, c_ltgray, "______________________________");
+            mvwprintz(w_confirmation, namebar_y, namebar_x, c_ltgray, line_of_32_underscores);
             world->world_name = worldname = pick_random_name();
         } else if (action == "QUIT") {
-            world->world_name =
-                worldname; // cache the current worldname just in case they say No to the exit query
+            // Cache the current name just in case they say No to the exit query.
+            world->world_name = worldname;
             return -999;
         } else if (action == "ANY_INPUT") {
             const input_event ev = ctxt.get_raw_input();
@@ -1135,14 +1119,12 @@ to continue, or <color_yellow>%s</color> to go back and review your world."), ct
                         worldname.append(tmp);
                     }
                 } else if( !newtext.empty() && is_char_allowed( newtext.at( 0 ) ) ) {
-                    // no emty string, no slash, no backslash, no control sequence
+                    // No empty string, no slash, no backslash, no control sequence
                     wrap.append( newtext );
                     worldname = wrap.str();
                 }
-                mvwprintz(w_confirmation, namebar_y, namebar_x, c_ltgray,
-                          "______________________________ ");
-                mvwprintz(w_confirmation, namebar_y, namebar_x, c_ltgray,
-                          "%s", worldname.c_str());
+                mvwprintz(w_confirmation, namebar_y, namebar_x, c_ltgray, line_of_32_underscores);
+                mvwprintz(w_confirmation, namebar_y, namebar_x, c_ltgray, "%s", worldname.c_str());
                 wprintz(w_confirmation, h_ltgray, "_");
             }
             break;
@@ -1240,11 +1222,11 @@ bool worldfactory::valid_worldname(std::string name, bool automated)
     std::string msg;
 
     if (name == "save" || name == "TUTORIAL" || name == "DEFENSE") {
-        msg = string_format(_("%s is not a valid world name, it is a reserved name"), name.c_str());
+        msg = string_format(_("%s is a reserved name!"), name.c_str());
     } else if (std::find(all_worldnames.begin(), all_worldnames.end(), name) == all_worldnames.end()) {
         return true;
     } else {
-        msg = string_format(_("%s is not a valid world name, already exists!"), name.c_str());
+        msg = string_format(_("A world named %s already exists!"), name.c_str());
     }
     if (!automated) {
         popup(msg, PF_GET_KEY);

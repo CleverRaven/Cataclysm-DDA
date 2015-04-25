@@ -6,7 +6,7 @@
 #include "catacharset.h"
 #include "translations.h"
 #include "path_info.h"
-#include "file_wrapper.h"
+#include "filesystem.h"
 
 #include <stdlib.h>
 #include <fstream>
@@ -34,9 +34,6 @@ void show_auto_pickup()
 
     const int iTotalCols = mapLines.size() - 1;
 
-    WINDOW *w_auto_pickup_options = newwin(FULL_SCREEN_HEIGHT / 2, FULL_SCREEN_WIDTH / 2,
-                                           iOffsetY + (FULL_SCREEN_HEIGHT / 2) / 2, iOffsetX + (FULL_SCREEN_WIDTH / 2) / 2);
-    WINDOW_PTR w_auto_pickup_optionsptr( w_auto_pickup_options );
     WINDOW *w_auto_pickup_help = newwin((FULL_SCREEN_HEIGHT / 2) - 2, FULL_SCREEN_WIDTH * 3 / 4,
                                         7 + iOffsetY + (FULL_SCREEN_HEIGHT / 2) / 2, iOffsetX + 19 / 2);
     WINDOW_PTR w_auto_pickup_helpptr( w_auto_pickup_help );
@@ -233,6 +230,9 @@ void show_auto_pickup()
             if (iCurrentLine > (int)vAutoPickupRules[iCurrentPage].size() - 1) {
                 iCurrentLine--;
             }
+            if(iCurrentLine < 0){
+                iCurrentLine = 0;
+            }
         } else if (action == "COPY_RULE" && currentPageNonEmpty) {
             bStuffChanged = true;
             vAutoPickupRules[iCurrentPage].push_back(cPickupRules(
@@ -340,7 +340,7 @@ void test_pattern(int iCurrentPage, int iCurrentLine)
     }
 
     //Loop through all itemfactory items
-    //TODO: somehow generate damaged, fitting or container items
+    //APU now ignores prefixes, bottled items and suffix combinations still not generated
     for( auto &p : item_controller->get_all_itypes() ) {
         sItemName = p.second->nname(1);
         if (vAutoPickupRules[iCurrentPage][iCurrentLine].bActive &&
@@ -371,7 +371,7 @@ void test_pattern(int iCurrentPage, int iCurrentLine)
               "%s", buf.c_str());
 
     mvwprintz(w_test_rule_border, iContentHeight + 1, 1, red_background(c_white),
-              _("Won't display damaged, fits and can/bottle items"));
+              _("Won't display bottled and suffixes=(fits)"));
 
     wrefresh(w_test_rule_border);
 

@@ -69,8 +69,8 @@
             ",": "t_pavement",
             "_": "t_pavement_y",
             " ": "t_floor",
-            "-": "t_wall_h",
-            "|": "t_wall_v",
+            "-": "t_wall",
+            "|": "t_wall",
             "O": "t_window",
             "L": "t_door_locked",
             "+": "t_door_c",
@@ -120,11 +120,8 @@
             "?": "f_statue",
             "G": "f_oven"
             },
-                "place_specials": [
-                    
-                ],
                 "comment": "randomly picked from a group ---v",
-                "place_groups": [
+                "place_items": [
                  { "item": "bed", "chance": 80,  "x": [3,3 ], "y": [3,3 ] },
                  { "item": "bed", "chance": 80,  "x": [5,5 ], "y": [3,3 ] },
                  { "item": "bed", "chance": 80,  "x": [7,7 ], "y": [3,3 ] },

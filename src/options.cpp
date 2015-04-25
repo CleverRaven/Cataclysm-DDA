@@ -3,11 +3,10 @@
 #include "output.h"
 #include "debug.h"
 #include "translations.h"
-#include "file_finder.h"
+#include "filesystem.h"
 #include "cursesdef.h"
 #include "path_info.h"
 #include "mapsharing.h"
-#include "file_wrapper.h"
 
 #ifdef SDLTILES
 #include "cata_tiles.h"
@@ -244,7 +243,7 @@ std::string cOpt::getValue()
 
     } else if (sType == "float") {
         std::stringstream ssTemp;
-        ssTemp.imbue(std::locale("C"));
+        ssTemp.imbue(std::locale::classic());
         const int precision = (fStep >= 0.09) ? 1 : (fStep >= 0.009) ? 2 : (fStep >= 0.0009) ? 3 : 4;
         ssTemp.precision(precision);
         ssTemp << std::fixed << fSet;
@@ -394,7 +393,7 @@ void cOpt::setValue(std::string sSetIn)
 
     } else if (sType == "float") {
         std::istringstream ssTemp(sSetIn);
-        ssTemp.imbue(std::locale("C"));
+        ssTemp.imbue(std::locale::classic());
         float tmpFloat;
         ssTemp >> tmpFloat;
         if(ssTemp) {
@@ -409,19 +408,36 @@ void cOpt::setValue(std::string sSetIn)
 cOpt::operator float() const
 {
     if (sType == "string") {
-        return (sSet != "" && sSet == sDefault) ? 1.0 : 0.0;
-
+        return (!sSet.empty() && sSet == sDefault) ? 1.0f : 0.0f;
     } else if (sType == "bool") {
-        return (bSet) ? 1.0 : 0.0;
-
+        return (bSet) ? 1.0f : 0.0f;
     } else if (sType == "int") {
-        return (float)iSet;
-
+        return static_cast<float>(iSet);
     } else if (sType == "float") {
         return fSet;
     }
 
-    return 0.0;
+    return 0.0f;
+}
+
+cOpt::operator int() const
+{
+    if (sType == "string") {
+        return (!sSet.empty() && sSet == sDefault) ? 1 : 0;
+    } else if (sType == "bool") {
+        return (bSet) ? 1 : 0;
+    } else if (sType == "int") {
+        return iSet;
+    } else if (sType == "float") {
+        return static_cast<int>(fSet);
+    }
+
+    return 0;
+}
+
+cOpt::operator bool() const
+{
+    return static_cast<float>(*this) != 0.0f;
 }
 
 // if (class == "string")
@@ -469,7 +485,7 @@ void initOptions()
                                  );
 
     OPTIONS["AUTO_PICKUP_ADJACENT"] = cOpt("general", _("Auto pickup adjacent"),
-                                           _("If true will enable to pickup items one tile around to the player. You can assign No Auto Pikcup zones with the Zones Manager 'Y' key for eg. your homebase."),
+                                           _("If true will enable to pickup items one tile around to the player. You can assign No Auto Pickup zones with the Zones Manager 'Y' key for eg. your homebase."),
                                            false
                                           );
 
@@ -567,26 +583,29 @@ void initOptions()
     // TODO: scan for languages like we do for tilesets.
     optionNames[""] = _("System language");
     // Note: language names are in their own language and are *not* translated at all.
-    optionNames["cs"] = "Čeština";
-    optionNames["en"] = "English";
-    optionNames["fi"] = "Suomi";
-    optionNames["fr_FR"] =  "Français (France)";
-    optionNames["de_DE"] = "Deutsch (Deutschland)";
-    optionNames["it"] = "Italiano";
-    optionNames["es_AR"] = "Español (Argentina)";
-    optionNames["es_ES"] = "Español (España)";
-    optionNames["ja"] = "日本語";
-    optionNames["ko"] = "한국어";
-    optionNames["pl"] = "Polski";
-    optionNames["pt_BR"] = "Português (Brasil)";
-    optionNames["pt_PT"] = "Português (Portugal)";
-    optionNames["ru"] = "Русский";
-    optionNames["sr"] = "Srpski";
-    optionNames["vi"] = "Tiếng Việt";
-    optionNames["zh_CN"] = "中文(天朝)";
-    optionNames["zh_TW"] = "中文(台灣)";
+    // Note: Somewhere in github PR was better link to msdn.microsoft.com with language names.
+    // http://en.wikipedia.org/wiki/List_of_language_names
+    optionNames["cs"] = R"(Čeština)";
+    optionNames["en"] = R"(English)";
+    optionNames["fi"] = R"(Suomi)";
+    optionNames["fr"] =  R"(Français)";
+    optionNames["de"] = R"(Deutsch)";
+    optionNames["it_IT"] = R"(Italiano)";
+    optionNames["el"] = R"(Ελληνικά)";
+    optionNames["es_AR"] = R"(Español (Argentina))";
+    optionNames["es_ES"] = R"(Español (España))";
+    optionNames["ja"] = R"(日本語)";
+    optionNames["ko"] = R"(한국어)";
+    optionNames["pl"] = R"(Polski)";
+    optionNames["pt_BR"] = R"(Português (Brasil))";
+    optionNames["pt_PT"] = R"(Português (Portugal))";
+    optionNames["ru"] = R"(Русский)";
+    optionNames["sr"] = R"(Srpski)";
+    optionNames["vi"] = R"(Tiếng Việt)";
+    optionNames["zh_CN"] = R"(中文(天朝))";
+    optionNames["zh_TW"] = R"(中文(台灣))";
     OPTIONS["USE_LANG"] = cOpt("interface", _("Language"), _("Switch Language. Requires restart."),
-                               ",cs,en,fi,fr_FR,de_DE,it,es_AR,es_ES,ja,ko,pl,pt_BR,pt_PT,ru,sr,vi,zh_CN,zh_TW",
+                               ",cs,en,fi,fr,de,it_IT,el,es_AR,es_ES,ja,ko,pl,pt_BR,pt_PT,ru,sr,vi,zh_CN,zh_TW",
                                ""
                               );
 
@@ -712,11 +731,20 @@ void initOptions()
                                            _("Centered or to edge, shift the view toward the selected item if it is outside of your current viewport."),
                                            "false,centered,edge",  "centered"
                                           );
-                                          
+
     OPTIONS["AUTO_INV_ASSIGN"] = cOpt("interface", _("Auto inventory letters"),
                                         _("If false, new inventory items will only get letters assigned if they had one before."),
                                         true
                                        );
+
+    OPTIONS["ITEM_HEALTH_BAR"] = cOpt("interface", _("Show item health bars"),
+                                     _("If true, show item health bars instead of reinforced, scratched etc. text."),
+                                     true
+                                    );
+    OPTIONS["ITEM_SYMBOLS"] = cOpt("interface", _("Show item symbols"),
+                                     _("If true, show item symbols in inventory and pick up menu."),
+                                     false
+                                    );
 
     mOptionsSort["interface"]++;
 
@@ -737,13 +765,6 @@ void initOptions()
                                  );
 
     ////////////////////////////GRAPHICS/////////////////////////
-    OPTIONS["NO_BRIGHT_BACKGROUNDS"] = cOpt("graphics", _("No bright backgrounds"),
-                                            _("If true, bright backgrounds are not used - some consoles are not compatible."),
-                                            false
-                                           );
-
-    mOptionsSort["graphics"]++;
-
     OPTIONS["ANIMATIONS"] = cOpt("graphics", _("Animations"),
                                  _("If true, will display enabled animations."),
                                  true
@@ -785,7 +806,7 @@ void initOptions()
 
     OPTIONS["TILES"] = cOpt("graphics", _("Choose tileset"),
                             _("Choose the tileset you want to use."),
-                            tileset_names, "hoder", COPT_CURSES_HIDE
+                            tileset_names, "ChestHole", COPT_CURSES_HIDE
                            ); // populate the options dynamically
 
     mOptionsSort["graphics"]++;
@@ -867,6 +888,15 @@ void initOptions()
                                      0.01, 10.0, 1.0, 0.01
                                     );
 
+    OPTIONS["NPC_DENSITY"] = cOpt("world_default", _("NPC spawn rate scaling factor"),
+                                    _("A scaling factor that determines density of dynamic NPC spawns."),
+                                    0.0, 100.0, 1.0, 0.01
+                                   );
+    OPTIONS["MONSTER_GROUP_DIFFICULTY"] = cOpt("world_default", _("Monster difficulty"),
+                                    _("A scaling factor that determines the rate of monster advancement. 0 spawns advanced groups immediately!"),
+                                    0.0, 100, 1.0, 0.01
+                                   );
+
     mOptionsSort["world_default"]++;
 
     std::string region_ids("default");
@@ -895,6 +925,11 @@ void initOptions()
                                     _("Season length, in days."),
                                     14, 127, 14
                                    );
+
+    OPTIONS["CONSTRUCTION_SCALING"] = cOpt("world_default", _("Construction scaling"),
+                                           _(" Multiplies the speed of construction by the given percentage. '0' automatically scales construction to match the world's season length."),
+                                           0, 1000, 100
+                                           );
 
     mOptionsSort["world_default"]++;
 
@@ -936,6 +971,12 @@ void initOptions()
                                    _("If true, radiation causes the player to mutate."),
                                    true
                                   );
+
+    mOptionsSort["world_default"]++;
+
+    OPTIONS["ZLEVELS"] = cOpt( "world_default", _("Experimental z-levels"),
+                               _("If true, experimental z-level maps will be enabled. This feature is not finished yet and turning it on will only slow the game down."),
+                               false );
 
     for (unsigned i = 0; i < vPages.size(); ++i) {
         mPageItems[i].resize(mOptionsSort[vPages[i].first]);
@@ -1287,6 +1328,7 @@ void show_options(bool ingame)
             g->init_ui();
             if( ingame ) {
                 g->refresh_all();
+                tilecontext->do_tile_loading_report();
             }
         } catch(std::string err) {
             popup(_("Loading the tileset failed: %s"), err.c_str());
@@ -1410,10 +1452,10 @@ bool use_narrow_sidebar()
 std::string get_tileset_names(std::string dir_path)
 {
     const std::string defaultTilesets = "hoder,deon";
-
-    const std::string filename = "tileset.txt";                             // tileset-info-file
-    std::vector<std::string> files;
-    files = file_finder::get_files_from_path(filename, dir_path, true);     // search it
+    // tileset-info-file
+    const std::string filename = "tileset.txt";
+    // search it
+    auto const files = get_files_from_path(filename, dir_path, true);
 
     std::string tileset_names;
     bool first_tileset_name = true;

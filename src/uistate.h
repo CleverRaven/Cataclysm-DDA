@@ -31,12 +31,15 @@ class uistatedata : public JsonSerializer, public JsonDeserializer
         int ags_pay_gas_selected_pump;
         std::string adv_inv_leftfilter;
         std::string adv_inv_rightfilter;
+        bool adv_inv_load_veh;
+        int  adv_inv_veh_location_src;
+        int  adv_inv_veh_location_dest;
 
         bool editmap_nsa_viewmode;        // true: ignore LOS and lighting
         bool overmap_blinking;            // toggles active blinking of overlays.
         bool overmap_show_overlays;       // whether overlays are shown or not.
         bool debug_ranged;
-        point adv_inv_last_coords;
+        tripoint adv_inv_last_coords;
         int last_inv_start, last_inv_sel;
         int list_item_mon;
         /* to save input history and make accessible via 'up', you don't need to edit this file, just run:
@@ -98,7 +101,7 @@ class uistatedata : public JsonSerializer, public JsonDeserializer
         }
 
         using JsonSerializer::serialize;
-        void serialize(JsonOut &json) const
+        void serialize(JsonOut &json) const override
         {
             const unsigned int input_history_save_max = 25;
             json.start_object();
@@ -144,7 +147,7 @@ class uistatedata : public JsonSerializer, public JsonDeserializer
             json.end_object();
         };
 
-        void deserialize(JsonIn &jsin)
+        void deserialize(JsonIn &jsin) override
         {
             JsonObject jo = jsin.get_object();
             /**** here ****/

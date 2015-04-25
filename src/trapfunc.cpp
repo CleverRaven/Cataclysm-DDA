@@ -1,15 +1,18 @@
 #include "game.h"
+#include "map.h"
+#include "debug.h"
 #include "trap.h"
 #include "rng.h"
 #include "monstergenerator.h"
 #include "messages.h"
+#include "sounds.h"
 
 // A pit becomes less effective as it fills with corpses.
 float pit_effectiveness(int x, int y)
 {
     int corpse_volume = 0;
     for( auto &pit_content : g->m.i_at( x, y ) ) {
-        if( pit_content.type->id == "corpse") {
+        if( pit_content.is_corpse() ) {
             corpse_volume += pit_content.volume();
         }
     }
@@ -31,7 +34,7 @@ void trapfunc::bubble(Creature *c, int x, int y)
         c->add_memorial_log(pgettext("memorial_male", "Stepped on bubble wrap."),
                             pgettext("memorial_female", "Stepped on bubble wrap."));
     }
-    g->sound(x, y, 18, _("Pop!"));
+    sounds::sound(x, y, 18, _("Pop!"));
     g->m.remove_trap(x, y);
 }
 
@@ -51,7 +54,7 @@ void trapfunc::beartrap(Creature *c, int x, int y)
     if (c != NULL && c->get_size() == MS_TINY) {
         return;
     }
-    g->sound(x, y, 8, _("SNAP!"));
+    sounds::sound(x, y, 8, _("SNAP!"));
     g->m.remove_trap(x, y);
     if (c != NULL) {
         // What got hit?
@@ -79,7 +82,7 @@ void trapfunc::beartrap(Creature *c, int x, int y)
             d.add_damage( DT_BASH, 12 );
             d.add_damage( DT_CUT, 18 );
             n->deal_damage( nullptr, hit, d );
-            
+
             if ((n->has_trait("INFRESIST")) && (one_in(512))) {
                 n->add_effect("tetanus", 1, num_bp, true);
             }
@@ -87,6 +90,9 @@ void trapfunc::beartrap(Creature *c, int x, int y)
                     n->add_effect("tetanus", 1, num_bp, true);
             }
         }
+        c->check_dead_state();
+    } else {
+        g->m.spawn_item( x, y, "beartrap" );
     }
 }
 
@@ -117,6 +123,7 @@ void trapfunc::board(Creature *c, int, int)
                       n->add_effect("tetanus", 1, num_bp, true);
               }
         }
+        c->check_dead_state();
     }
 }
 
@@ -140,6 +147,7 @@ void trapfunc::caltrops(Creature *c, int, int)
             c->deal_damage( nullptr, bp_foot_l, damage_instance( DT_CUT, rng( 9, 30 ) ) );
             c->deal_damage( nullptr, bp_foot_r, damage_instance( DT_CUT, rng( 9, 30 ) ) );
         }
+        c->check_dead_state();
     }
 }
 
@@ -174,17 +182,18 @@ void trapfunc::tripwire(Creature *c, int x, int y)
             }
             if (!valid.empty()) {
                 jk = valid[rng(0, valid.size() - 1)];
-                n->posx = jk.x;
-                n->posy = jk.y;
+                n->setx( jk.x );
+                n->sety( jk.y );
             }
             n->moves -= 150;
             if (rng(5, 20) > n->dex_cur) {
-                n->hurtall(rng(1, 4));
+                n->hurtall(rng(1, 4), nullptr);
             }
             if (c == &g->u) {
-                g->update_map(g->u.posx, g->u.posy);
+                g->update_map(&g->u);
             }
         }
+        c->check_dead_state();
     }
 }
 
@@ -238,7 +247,7 @@ void trapfunc::crossbow(Creature *c, int x, int y)
                                          _("<npcname> dodges the shot!"));
             }
         } else if (z != NULL) {
-            bool seen = g->u_see(z);
+            bool seen = g->u.sees(*z);
             int chance = 0;
             // adapted from shotgun code - chance of getting hit depends on size
             switch (z->type->size) {
@@ -268,6 +277,7 @@ void trapfunc::crossbow(Creature *c, int x, int y)
                 add_msg(m_neutral, _("A bolt shoots out, but misses the %s."), z->name().c_str());
             }
         }
+        c->check_dead_state();
     }
     g->m.remove_trap(x, y);
     g->m.spawn_item(x, y, "crossbow");
@@ -279,7 +289,7 @@ void trapfunc::crossbow(Creature *c, int x, int y)
 
 void trapfunc::shotgun(Creature *c, int x, int y)
 {
-    g->sound(x, y, 60, _("Kerblam!"));
+    sounds::sound(x, y, 60, _("Kerblam!"));
     int shots = 1;
     if (c != NULL) {
         c->add_msg_player_or_npc(m_neutral, _("You trigger a shotgun trap!"),
@@ -290,7 +300,7 @@ void trapfunc::shotgun(Creature *c, int x, int y)
         player *n = dynamic_cast<player *>(c);
         if (n != NULL) {
             shots = (one_in(8) || one_in(20 - n->str_max) ? 2 : 1);
-            if (g->m.tr_at(x, y) == tr_shotgun_1) {
+            if (g->m.tr_at(x, y).loadid == tr_shotgun_1) {
                 shots = 1;
             }
             if (rng(5, 50) > n->get_dodge()) {
@@ -331,7 +341,7 @@ void trapfunc::shotgun(Creature *c, int x, int y)
                                          _("<npcname> dodges the shot!"));
             }
         } else if (z != NULL) {
-            bool seen = g->u_see(z);
+            bool seen = g->u.sees(*z);
             int chance = 0;
             switch (z->type->size) {
                 case MS_TINY:
@@ -351,7 +361,7 @@ void trapfunc::shotgun(Creature *c, int x, int y)
                     break;
             }
             shots = (one_in(8) || one_in(chance) ? 2 : 1);
-            if (g->m.tr_at(x, y) == tr_shotgun_1) {
+            if (g->m.tr_at(x, y).loadid == tr_shotgun_1) {
                 shots = 1;
             }
             if (seen) {
@@ -359,8 +369,9 @@ void trapfunc::shotgun(Creature *c, int x, int y)
             }
             z->apply_damage( nullptr, bp_torso, rng(40 * shots, 60 * shots));
         }
+        c->check_dead_state();
     }
-    if (shots == 2 || g->m.tr_at(x, y) == tr_shotgun_1) {
+    if (shots == 2 || g->m.tr_at(x, y).loadid == tr_shotgun_1) {
         g->m.remove_trap(x, y);
         g->m.spawn_item(x, y, "shotgun_sawn");
         g->m.spawn_item(x, y, "string_6");
@@ -391,12 +402,13 @@ void trapfunc::blade(Creature *c, int, int)
             // Creature::hit for player *and* monster
             z->apply_damage( nullptr, bp_torso, bashdam + cutdam);
         }
+        c->check_dead_state();
     }
 }
 
 void trapfunc::snare_light(Creature *c, int x, int y)
 {
-    g->sound(x, y, 2, _("Snap!"));
+    sounds::sound(x, y, 2, _("Snap!"));
     g->m.remove_trap(x, y);
     if (c != NULL) {
         // Determine what gets hit
@@ -418,12 +430,13 @@ void trapfunc::snare_light(Creature *c, int x, int y)
         if (z != NULL && z->type->size == MS_TINY) {
             z->apply_damage( nullptr, one_in( 2 ) ? bp_leg_l : bp_leg_r, 10);
         }
+        c->check_dead_state();
     }
 }
 
 void trapfunc::snare_heavy(Creature *c, int x, int y)
 {
-    g->sound(x, y, 4, _("Snap!"));
+    sounds::sound(x, y, 4, _("Snap!"));
     g->m.remove_trap(x, y);
     if (c != NULL) {
         // Determine waht got hit
@@ -464,6 +477,7 @@ void trapfunc::snare_heavy(Creature *c, int x, int y)
             }
             z->apply_damage( nullptr, hit, damage);
         }
+        c->check_dead_state();
     }
 }
 
@@ -479,7 +493,7 @@ void trapfunc::landmine(Creature *c, int x, int y)
         c->add_memorial_log(pgettext("memorial_male", "Stepped on a land mine."),
                             pgettext("memorial_female", "Stepped on a land mine."));
     }
-    g->explosion(x, y, 10, 8, false);
+    g->explosion( tripoint( x, y, g->get_levz() ), 10, 8, false );
     g->m.remove_trap(x, y);
 }
 
@@ -491,14 +505,14 @@ void trapfunc::boobytrap(Creature *c, int x, int y)
         c->add_memorial_log(pgettext("memorial_male", "Triggered a booby trap."),
                             pgettext("memorial_female", "Triggered a booby trap."));
     }
-    g->explosion(x, y, 18, 12, false);
+    g->explosion( tripoint( x, y, g->get_levz() ), 18, 12, false );
     g->m.remove_trap(x, y);
 }
 
 void trapfunc::telepad(Creature *c, int x, int y)
 {
     //~ the sound of a telepad functioning
-    g->sound(x, y, 6, _("vvrrrRRMM*POP!*"));
+    sounds::sound(x, y, 6, _("vvrrrRRMM*POP!*"));
     if (c != NULL) {
         monster *z = dynamic_cast<monster *>(c);
         // TODO: NPC don't teleport?
@@ -508,7 +522,7 @@ void trapfunc::telepad(Creature *c, int x, int y)
                                 pgettext("memorial_female", "Triggered a teleport trap."));
             g->teleport();
         } else if (z != NULL) {
-            if (g->u_see(z)) {
+            if (g->u.sees(*z)) {
                 add_msg(_("The air shimmers around the %s..."), z->name().c_str());
             }
 
@@ -525,7 +539,7 @@ void trapfunc::telepad(Creature *c, int x, int y)
             } else {
                 int mon_hit = g->mon_at(newposx, newposy);
                 if (mon_hit != -1) {
-                    if (g->u_see(z)) {
+                    if (g->u.sees(*z)) {
                         add_msg(m_good, _("The %s teleports into a %s, killing them both!"),
                                 z->name().c_str(), g->zombie(mon_hit).name().c_str());
                     }
@@ -554,15 +568,16 @@ void trapfunc::goo(Creature *c, int x, int y)
                 n->add_msg_if_player(m_bad, _("The acidic goo eats away at your feet."));
                 n->deal_damage( nullptr, bp_foot_l, damage_instance( DT_CUT, 5 ) );
                 n->deal_damage( nullptr, bp_foot_r, damage_instance( DT_CUT, 5 ) );
+                n->check_dead_state();
             }
         } else if (z != NULL) {
             if (z->type->id == "mon_blob") {
                 z->set_speed_base( z->get_speed_base() + 15 );
-                z->hp = z->get_speed();
+                z->set_hp( z->get_speed() );
             } else {
                 z->poly(GetMType("mon_blob"));
                 z->set_speed_base( z->get_speed_base() - 15 );
-                z->hp = z->get_speed();
+                z->set_hp( z->get_speed() );
             }
         }
     }
@@ -572,7 +587,7 @@ void trapfunc::goo(Creature *c, int x, int y)
 void trapfunc::dissector(Creature *c, int x, int y)
 {
     //~ the sound of a dissector dissecting
-    g->sound(x, y, 10, _("BRZZZAP!"));
+    sounds::sound(x, y, 10, _("BRZZZAP!"));
     if (c != NULL) {
         c->add_msg_player_or_npc(m_bad, _("Electrical beams emit from the floor and slice your flesh!"),
                                  _("Electrical beams emit from the floor and slice <npcname>s flesh!"));
@@ -597,6 +612,7 @@ void trapfunc::dissector(Creature *c, int x, int y)
                 z->explode();
             }
         }
+        c->check_dead_state();
     }
 }
 
@@ -622,7 +638,7 @@ void trapfunc::pit(Creature *c, int x, int y)
                 int damage = eff * rng(10, 20) - rng(dodge, dodge * 5);
                 if (damage > 0) {
                     n->add_msg_if_player(m_bad, _("You hurt yourself!"));
-                    n->hurtall(rng(int(damage / 2), damage));
+                    n->hurtall(rng(int(damage / 2), damage), n); // like the message says \-:
                     n->deal_damage( nullptr, bp_leg_l, damage_instance( DT_BASH, damage ) );
                     n->deal_damage( nullptr, bp_leg_r, damage_instance( DT_BASH, damage ) );
                 } else {
@@ -632,6 +648,7 @@ void trapfunc::pit(Creature *c, int x, int y)
         } else if (z != NULL) {
             z->apply_damage( nullptr, bp_torso, eff * rng(10, 20));
         }
+        c->check_dead_state();
     }
 }
 
@@ -692,13 +709,13 @@ void trapfunc::pit_spikes(Creature *c, int x, int y)
         } else if (z != NULL) {
             z->apply_damage( nullptr, bp_torso, rng(20, 50));
         }
+        c->check_dead_state();
     }
     if (one_in(4)) {
-        if (g->u_see(x, y)) {
+        if (g->u.sees(x, y)) {
             add_msg(_("The spears break!"));
         }
         g->m.ter_set(x, y, t_pit);
-        g->m.add_trap(x, y, tr_pit);
         for (int i = 0; i < 4; i++) { // 4 spears to a pit
             if (one_in(3)) {
                 g->m.spawn_item(x, y, "pointy_stick");
@@ -768,13 +785,13 @@ void trapfunc::pit_glass(Creature *c, int x, int y)
         } else if (z != NULL) {
             z->apply_damage( nullptr, bp_torso, rng(20, 50));
         }
+        c->check_dead_state();
     }
     if (one_in(5)) {
-        if (g->u_see(x, y)) {
+        if (g->u.sees(x, y)) {
             add_msg(_("The shards shatter!"));
         }
         g->m.ter_set(x, y, t_pit);
-        g->m.add_trap(x, y, tr_pit);
         for (int i = 0; i < 20; i++) { // 20 shards in a pit.
             if (one_in(3)) {
                 g->m.spawn_item(x, y, "glass_shard");
@@ -818,19 +835,19 @@ void trapfunc::lava(Creature *c, int x, int y)
             }
             z->apply_damage( nullptr, bp_torso, dam );
         }
+        c->check_dead_state();
     }
 }
 
 // STUB
-void trapfunc::portal(Creature */*c*/, int /*x*/, int /*y*/)
+void trapfunc::portal(Creature * /*c*/, int /*x*/, int /*y*/)
 {
     // TODO: make this do something?
 }
 
-void trapfunc::sinkhole(Creature *c, int /*x*/, int /*y*/)
-{
+void trapfunc::sinkhole(Creature *c, int /*x*/, int /*y*/) {
     if (c != &g->u) {
-        // TODO: make something exciting happen here
+        //TODO: make something exciting happen here
         return;
     }
     g->u.add_msg_if_player(m_bad, _("You step into a sinkhole, and start to sink down!"));
@@ -846,9 +863,9 @@ void trapfunc::sinkhole(Creature *c, int /*x*/, int /*y*/)
                     g->u.skillLevel("unarmed") + g->u.str_cur) > 4) {
                 // Determine safe places for the character to get pulled to
                 std::vector<point> safe;
-                for (int i = g->u.posx - 1; i <= g->u.posx + 1; i++) {
-                    for (int j = g->u.posy - 1; j <= g->u.posy + 1; j++) {
-                        if (g->m.move_cost(i, j) > 0 && g->m.tr_at(i, j) != tr_pit) {
+                for (int i = g->u.posx() - 1; i <= g->u.posx() + 1; i++) {
+                    for (int j = g->u.posy() - 1; j <= g->u.posy() + 1; j++) {
+                        if (g->m.move_cost(i, j) > 0 && g->m.tr_at(i, j).loadid != tr_pit) {
                             safe.push_back(point(i, j));
                         }
                     }
@@ -856,32 +873,32 @@ void trapfunc::sinkhole(Creature *c, int /*x*/, int /*y*/)
                 if (safe.empty()) {
                     add_msg(m_bad, _("There's nowhere to pull yourself to, and you sink!"));
                     g->u.use_amount("grapnel", 1);
-                    g->m.spawn_item(g->u.posx + rng(-1, 1), g->u.posy + rng(-1, 1), "grapnel");
-                    g->m.ter_set(g->u.posx, g->u.posy, t_hole);
+                    g->m.spawn_item(g->u.posx() + rng(-1, 1), g->u.posy() + rng(-1, 1), "grapnel");
+                    g->m.ter_set(g->u.posx(), g->u.posy(), t_hole);
                     g->vertical_move(-1, true);
                 } else {
                     add_msg(m_good, _("You pull yourself to safety!  The sinkhole collapses."));
                     int index = rng(0, safe.size() - 1);
-                    g->m.ter_set(g->u.posx, g->u.posy, t_hole);
-                    g->u.posx = safe[index].x;
-                    g->u.posy = safe[index].y;
-                    g->update_map(g->u.posx, g->u.posy);
+                    g->m.ter_set(g->u.posx(), g->u.posy(), t_hole);
+                    g->u.setx( safe[index].x );
+                    g->u.sety( safe[index].y );
+                    g->update_map(&g->u);
                 }
             } else {
                 add_msg(m_bad, _("You're not strong enough to pull yourself out..."));
                 g->u.moves -= 100;
                 g->u.use_amount("grapnel", 1);
-                g->m.spawn_item(g->u.posx + rng(-1, 1), g->u.posy + rng(-1, 1), "grapnel");
-                g->m.ter_set(g->u.posx, g->u.posy, t_hole);
+                g->m.spawn_item(g->u.posx() + rng(-1, 1), g->u.posy() + rng(-1, 1), "grapnel");
+                g->m.ter_set(g->u.posx(), g->u.posy(), t_hole);
                 g->vertical_move(-1, true);
             }
         } else {
             add_msg(m_bad, _("Your throw misses completely, and you sink!"));
             if (one_in((g->u.str_cur + g->u.dex_cur) / 3)) {
                 g->u.use_amount("grapnel", 1);
-                g->m.spawn_item(g->u.posx + rng(-1, 1), g->u.posy + rng(-1, 1), "grapnel");
+                g->m.spawn_item(g->u.posx() + rng(-1, 1), g->u.posy() + rng(-1, 1), "grapnel");
             }
-            g->m.ter_set(g->u.posx, g->u.posy, t_hole);
+            g->m.ter_set(g->u.posx(), g->u.posy(), t_hole);
             g->vertical_move(-1, true);
         }
     } else if(g->u.has_amount("bullwhip", 1) &&
@@ -891,7 +908,7 @@ void trapfunc::sinkhole(Creature *c, int /*x*/, int /*y*/)
 
             if(whiproll < 8) {
                 add_msg(m_bad, _("Your whip flails uselessly through the air!"));
-                g->m.ter_set(g->u.posx, g->u.posy, t_hole);
+                g->m.ter_set(g->u.posx(), g->u.posy(), t_hole);
                 g->vertical_move(-1, true);
             } else {
                 add_msg(m_good, _("Your whip wraps around something!"));
@@ -899,15 +916,15 @@ void trapfunc::sinkhole(Creature *c, int /*x*/, int /*y*/)
                     add_msg(m_bad, _("But you're too weak to pull yourself out..."));
                     g->u.moves -= 100;
                     g->u.use_amount("bullwhip", 1);
-                    g->m.spawn_item(g->u.posx + rng(-1, 1), g->u.posy + rng(-1, 1), "bullwhip");
-                    g->m.ter_set(g->u.posx, g->u.posy, t_hole);
+                    g->m.spawn_item(g->u.posx() + rng(-1, 1), g->u.posy() + rng(-1, 1), "bullwhip");
+                    g->m.ter_set(g->u.posx(), g->u.posy(), t_hole);
                     g->vertical_move(-1, true);
                 } else {
                     // Determine safe places for the character to get pulled to
                     std::vector<point> safe;
-                    for (int i = g->u.posx - 1; i <= g->u.posx + 1; i++) {
-                        for (int j = g->u.posy - 1; j <= g->u.posy + 1; j++) {
-                            if (g->m.move_cost(i, j) > 0 && g->m.tr_at(i, j) != tr_pit) {
+                    for (int i = g->u.posx() - 1; i <= g->u.posx() + 1; i++) {
+                        for (int j = g->u.posy() - 1; j <= g->u.posy() + 1; j++) {
+                            if (g->m.move_cost(i, j) > 0 && g->m.tr_at(i, j).loadid != tr_pit) {
                                 safe.push_back(point(i, j));
                             }
                         }
@@ -915,16 +932,16 @@ void trapfunc::sinkhole(Creature *c, int /*x*/, int /*y*/)
                     if (safe.empty()) {
                         add_msg(m_bad, _("There's nowhere to pull yourself to, and you sink!"));
                         g->u.use_amount("bullwhip", 1);
-                        g->m.spawn_item(g->u.posx + rng(-1, 1), g->u.posy + rng(-1, 1), "bullwhip");
-                        g->m.ter_set(g->u.posx, g->u.posy, t_hole);
+                        g->m.spawn_item(g->u.posx() + rng(-1, 1), g->u.posy() + rng(-1, 1), "bullwhip");
+                        g->m.ter_set(g->u.posx(), g->u.posy(), t_hole);
                         g->vertical_move(-1, true);
                     } else {
                         add_msg(m_good, _("You pull yourself to safety!  The sinkhole collapses."));
                         int index = rng(0, safe.size() - 1);
-                        g->m.ter_set(g->u.posx, g->u.posy, t_hole);
-                        g->u.posx = safe[index].x;
-                        g->u.posy = safe[index].y;
-                        g->update_map(g->u.posx, g->u.posy);
+                        g->m.ter_set(g->u.posx(), g->u.posy(), t_hole);
+                        g->u.setx( safe[index].x );
+                        g->u.sety( safe[index].y );
+                        g->update_map(&(g->u));
                     }
                 }
             }
@@ -938,9 +955,9 @@ void trapfunc::sinkhole(Creature *c, int /*x*/, int /*y*/)
                     g->u.skillLevel("unarmed") + g->u.str_cur) > 6) {
                 // Determine safe places for the character to get pulled to
                 std::vector<point> safe;
-                for (int i = g->u.posx - 1; i <= g->u.posx + 1; i++) {
-                    for (int j = g->u.posy - 1; j <= g->u.posy + 1; j++) {
-                        if (g->m.move_cost(i, j) > 0 && g->m.tr_at(i, j) != tr_pit) {
+                for (int i = g->u.posx() - 1; i <= g->u.posx() + 1; i++) {
+                    for (int j = g->u.posy() - 1; j <= g->u.posy() + 1; j++) {
+                        if (g->m.move_cost(i, j) > 0 && g->m.tr_at(i, j).loadid != tr_pit) {
                             safe.push_back(point(i, j));
                         }
                     }
@@ -948,37 +965,37 @@ void trapfunc::sinkhole(Creature *c, int /*x*/, int /*y*/)
                 if (safe.empty()) {
                     add_msg(m_bad, _("There's nowhere to pull yourself to, and you sink!"));
                     g->u.use_amount("rope_30", 1);
-                    g->m.spawn_item(g->u.posx + rng(-1, 1), g->u.posy + rng(-1, 1), "rope_30");
-                    g->m.ter_set(g->u.posx, g->u.posy, t_hole);
+                    g->m.spawn_item(g->u.posx() + rng(-1, 1), g->u.posy() + rng(-1, 1), "rope_30");
+                    g->m.ter_set(g->u.posx(), g->u.posy(), t_hole);
                     g->vertical_move(-1, true);
                 } else {
                     add_msg(m_good, _("You pull yourself to safety!  The sinkhole collapses."));
                     int index = rng(0, safe.size() - 1);
-                    g->m.ter_set(g->u.posx, g->u.posy, t_hole);
-                    g->u.posx = safe[index].x;
-                    g->u.posy = safe[index].y;
-                    g->update_map(g->u.posx, g->u.posy);
+                    g->m.ter_set(g->u.posx(), g->u.posy(), t_hole);
+                    g->u.setx( safe[index].x );
+                    g->u.sety( safe[index].y );
+                    g->update_map(&(g->u));
                 }
             } else {
                 add_msg(m_bad, _("You're not strong enough to pull yourself out..."));
                 g->u.moves -= 100;
                 g->u.use_amount("rope_30", 1);
-                g->m.spawn_item(g->u.posx + rng(-1, 1), g->u.posy + rng(-1, 1), "rope_30");
-                g->m.ter_set(g->u.posx, g->u.posy, t_hole);
+                g->m.spawn_item(g->u.posx() + rng(-1, 1), g->u.posy() + rng(-1, 1), "rope_30");
+                g->m.ter_set(g->u.posx(), g->u.posy(), t_hole);
                 g->vertical_move(-1, true);
             }
         } else {
             add_msg(m_bad, _("Your throw misses completely, and you sink!"));
             if (one_in((g->u.str_cur + g->u.dex_cur) / 3)) {
                 g->u.use_amount("rope_30", 1);
-                g->m.spawn_item(g->u.posx + rng(-1, 1), g->u.posy + rng(-1, 1), "rope_30");
+                g->m.spawn_item(g->u.posx() + rng(-1, 1), g->u.posy() + rng(-1, 1), "rope_30");
             }
-            g->m.ter_set(g->u.posx, g->u.posy, t_hole);
+            g->m.ter_set(g->u.posx(), g->u.posy(), t_hole);
             g->vertical_move(-1, true);
         }
     } else {
         add_msg(m_bad, _("You sink into the sinkhole!"));
-        g->m.ter_set(g->u.posx, g->u.posy, t_hole);
+        g->m.ter_set(g->u.posx(), g->u.posy(), t_hole);
         g->vertical_move(-1, true);
     }
 }
@@ -1008,7 +1025,7 @@ void trapfunc::temple_flood(Creature *c, int /*x*/, int /*y*/)
                               pgettext("memorial_female", "Triggered a flood trap."));
         for (int i = 0; i < SEEX * MAPSIZE; i++) {
             for (int j = 0; j < SEEY * MAPSIZE; j++) {
-                if (g->m.tr_at(i, j) == tr_temple_flood) {
+                if (g->m.tr_at(i, j).loadid == tr_temple_flood) {
                     g->m.remove_trap(i, j);
                 }
             }
@@ -1060,7 +1077,7 @@ void trapfunc::glow(Creature *c, int x, int y)
                 n->radiation += rng(10, 30);
             } else if (one_in(4)) {
                 n->add_msg_if_player(m_bad, _("A blinding flash strikes you!"));
-                g->flashbang(x, y);
+                g->flashbang( tripoint( x, y, g->get_levz() ) );
             } else {
                 c->add_msg_if_player(_("Small flashes surround you."));
             }
@@ -1068,10 +1085,11 @@ void trapfunc::glow(Creature *c, int x, int y)
             z->apply_damage( nullptr, bp_torso, rng( 5, 10 ) );
             z->set_speed_base( z->get_speed_base() * 0.9 );
         }
+        c->check_dead_state();
     }
 }
 
-void trapfunc::hum(Creature */*c*/, int x, int y)
+void trapfunc::hum(Creature * /*c*/, int const x, int const y)
 {
     int volume = rng(1, 200);
     std::string sfx;
@@ -1088,7 +1106,7 @@ void trapfunc::hum(Creature */*c*/, int x, int y)
         //~ a very loud humming sound
         sfx = _("VRMMMMMM");
     }
-    g->sound(x, y, volume, sfx);
+    sounds::sound(x, y, volume, sfx);
 }
 
 void trapfunc::shadow(Creature *c, int x, int y)
@@ -1099,24 +1117,24 @@ void trapfunc::shadow(Creature *c, int x, int y)
     // Monsters and npcs are completely ignored here, should they?
     g->u.add_memorial_log(pgettext("memorial_male", "Triggered a shadow trap."),
                           pgettext("memorial_female", "Triggered a shadow trap."));
-    monster spawned(GetMType("mon_shadow"));
     int tries = 0, monx, mony, junk;
     do {
         if (one_in(2)) {
-            monx = rng(g->u.posx - 5, g->u.posx + 5);
-            mony = (one_in(2) ? g->u.posy - 5 : g->u.posy + 5);
+            monx = rng(g->u.posx() - 5, g->u.posx() + 5);
+            mony = (one_in(2) ? g->u.posy() - 5 : g->u.posy() + 5);
         } else {
-            monx = (one_in(2) ? g->u.posx - 5 : g->u.posx + 5);
-            mony = rng(g->u.posy - 5, g->u.posy + 5);
+            monx = (one_in(2) ? g->u.posx() - 5 : g->u.posx() + 5);
+            mony = rng(g->u.posy() - 5, g->u.posy() + 5);
         }
     } while (tries < 5 && !g->is_empty(monx, mony) &&
-             !g->m.sees(monx, mony, g->u.posx, g->u.posy, 10, junk));
+             !g->m.sees(monx, mony, g->u.posx(), g->u.posy(), 10, junk));
 
     if (tries < 5) {
-        add_msg(m_warning, _("A shadow forms nearby."));
-        spawned.reset_special_rng(0);
-        spawned.spawn(monx, mony);
-        g->add_zombie(spawned);
+        if (g->summon_mon("mon_shadow", tripoint(x, y, c->posz()))) {
+            add_msg(m_warning, _("A shadow forms nearby."));
+            monster* spawned = g->monster_at(tripoint(x, y, c->posz()));
+            spawned->reset_special_rng(0);
+        }
         g->m.remove_trap(x, y);
     }
 }
@@ -1130,17 +1148,18 @@ void trapfunc::drain(Creature *c, int, int)
         monster *z = dynamic_cast<monster *>(c);
         player *n = dynamic_cast<player *>(c);
         if (n != NULL) {
-            n->hurtall(1);
+            n->hurtall(1, nullptr);
         } else if (z != NULL) {
             z->apply_damage( nullptr, bp_torso, 1 );
         }
+        c->check_dead_state();
     }
 }
 
 void trapfunc::snake(Creature *c, int x, int y)
 {
     //~ the sound a snake makes
-    g->sound(x, y, 10, _("ssssssss"));
+    sounds::sound(x, y, 10, _("ssssssss"));
     if (one_in(6)) {
         g->m.remove_trap(x, y);
     }
@@ -1149,24 +1168,22 @@ void trapfunc::snake(Creature *c, int x, int y)
                             pgettext("memorial_female", "Triggered a shadow snake trap."));
     }
     if (one_in(3)) {
-        monster spawned(GetMType("mon_shadow_snake"));
         int tries = 0, monx, mony, junk;
         // This spawns snakes only when the player can see them, why?
         do {
             if (one_in(2)) {
-                monx = rng(g->u.posx - 5, g->u.posx + 5);
-                mony = (one_in(2) ? g->u.posy - 5 : g->u.posy + 5);
+                monx = rng(g->u.posx() - 5, g->u.posx() + 5);
+                mony = (one_in(2) ? g->u.posy() - 5 : g->u.posy() + 5);
             } else {
-                monx = (one_in(2) ? g->u.posx - 5 : g->u.posx + 5);
-                mony = rng(g->u.posy - 5, g->u.posy + 5);
+                monx = (one_in(2) ? g->u.posx() - 5 : g->u.posx() + 5);
+                mony = rng(g->u.posy() - 5, g->u.posy() + 5);
             }
         } while (tries < 5 && !g->is_empty(monx, mony) &&
-                 !g->m.sees(monx, mony, g->u.posx, g->u.posy, 10, junk));
+                 !g->m.sees(monx, mony, g->u.posx(), g->u.posy(), 10, junk));
 
         if (tries < 5) {
             add_msg(m_warning, _("A shadowy snake forms nearby."));
-            spawned.spawn(monx, mony);
-            g->add_zombie(spawned);
+            g->summon_mon("mon_shadow_snake", tripoint(x, y, c->posz()));
             g->m.remove_trap(x, y);
         }
     }

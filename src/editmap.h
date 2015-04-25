@@ -2,6 +2,7 @@
 #define EDITMAP_H
 
 #include "game.h"
+#include "map.h"
 #include "line.h"
 #include "options.h"
 #include "omdata.h"
@@ -161,7 +162,7 @@ class editmap
             hilights["mapgentgt"].setup();
 
             oter_special.clear();
-            zlevel = g->levz;
+            zlevel = g->get_levz();
             uberdraw = false;
         };
         ~editmap()

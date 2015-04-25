@@ -1,7 +1,9 @@
 #include "item.h"
 #include "monster.h"
 #include "game.h"
+#include "map.h"
 #include "damage.h"
+#include "rng.h"
 
 damage_instance::damage_instance() { }
 damage_instance damage_instance::physical(float bash, float cut, float stab, int arpen)
@@ -126,23 +128,23 @@ float resistances::get_effective_resist(const damage_unit &du)
 void ammo_effects(int x, int y, const std::set<std::string> &effects)
 {
     if (effects.count("EXPLOSIVE")) {
-        g->explosion(x, y, 24, 0, false);
+        g->explosion( tripoint( x, y, g->get_levz() ), 24, 0, false);
     }
 
     if (effects.count("FRAG")) {
-        g->explosion(x, y, 12, 28, false);
+        g->explosion( tripoint( x, y, g->get_levz() ), 12, 28, false);
     }
 
     if (effects.count("NAPALM")) {
-        g->explosion(x, y, 18, 0, true);
+        g->explosion( tripoint( x, y, g->get_levz() ), 18, 0, true);
     }
 
     if (effects.count("NAPALM_BIG")) {
-        g->explosion(x, y, 72, 0, true);
+        g->explosion( tripoint( x, y, g->get_levz() ), 72, 0, true);
     }
 
     if (effects.count("MININUKE_MOD")) {
-        g->explosion(x, y, 300, 0, false);
+        g->explosion( tripoint( x, y, g->get_levz() ), 450, 0, false);
         int junk;
         for (int i = -6; i <= 6; i++) {
             for (int j = -6; j <= 6; j++) {
@@ -163,11 +165,11 @@ void ammo_effects(int x, int y, const std::set<std::string> &effects)
     }
 
     if (effects.count("EXPLOSIVE_BIG")) {
-        g->explosion(x, y, 40, 0, false);
+        g->explosion( tripoint( x, y, g->get_levz() ), 40, 0, false);
     }
 
     if (effects.count("EXPLOSIVE_HUGE")) {
-        g->explosion(x, y, 80, 0, false);
+        g->explosion( tripoint( x, y, g->get_levz() ), 80, 0, false);
     }
 
     if (effects.count("TEARGAS")) {
@@ -194,12 +196,12 @@ void ammo_effects(int x, int y, const std::set<std::string> &effects)
     }
 
     if (effects.count("FLASHBANG")) {
-        g->flashbang(x, y);
+        g->flashbang( tripoint( x, y, g->get_levz() ) );
     }
 
     // TODO: g->u? Are NPC not allowed to use those weapons, or do they ignored the flag because they are stupid ncps and have no right to use those flags.
     if (!g->u.weapon.has_flag("NO_BOOM") && effects.count("FLAME")) {
-        g->explosion(x, y, 4, 0, true);
+        g->explosion( tripoint( x, y, g->get_levz() ), 4, 0, true);
     }
 
     // TODO: g->u? Are NPC not allowed to use those weapons, or do they ignored the flag because they are stupid ncps and have no right to use those flags.

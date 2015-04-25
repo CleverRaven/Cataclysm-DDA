@@ -5,9 +5,10 @@
 #include "line.h"
 #include "mapgenformat.h"
 #include "overmap.h"
-#include "monstergenerator.h"
 #include "options.h"
 #include "game.h"
+#include "debug.h"
+#include "scenario.h"
 #include <array>
 
 mapgendata::mapgendata(oter_id north, oter_id east, oter_id south, oter_id west, oter_id northeast,
@@ -91,7 +92,6 @@ void init_mapgen_builtin_functions() {
     mapgen_cfunction_map["shelter"] = &mapgen_shelter;
     mapgen_cfunction_map["shelter_under"] = &mapgen_shelter_under;
     mapgen_cfunction_map["lmoe"] = &mapgen_lmoe;
-    mapgen_cfunction_map["lmoe_under"] = &mapgen_lmoe_under;
     mapgen_cfunction_map["basement_generic_layout"] = &mapgen_basement_generic_layout; // empty, not bound
     mapgen_cfunction_map["basement_junk"] = &mapgen_basement_junk;
     mapgen_cfunction_map["basement_guns"] = &mapgen_basement_guns;
@@ -117,10 +117,15 @@ void init_mapgen_builtin_functions() {
     mapgen_cfunction_map["cave"] = &mapgen_cave;
     mapgen_cfunction_map["cave_rat"] = &mapgen_cave_rat;
     mapgen_cfunction_map["cavern"] = &mapgen_cavern;
-    mapgen_cfunction_map["rock"] = &mapgen_rock;
     mapgen_cfunction_map["open_air"] = &mapgen_open_air;
     mapgen_cfunction_map["rift"] = &mapgen_rift;
     mapgen_cfunction_map["hellmouth"] = &mapgen_hellmouth;
+
+    // New rock function - should be default, but isn't yet for compatibility reasons (old overmaps)
+    mapgen_cfunction_map["empty_rock"] = &mapgen_rock;
+    // Old rock behavior, for compatibility and near caverns and slime pits
+    mapgen_cfunction_map["rock"] = &mapgen_rock_partial;
+
     mapgen_cfunction_map["subway_station"] = &mapgen_subway_station;
 
     mapgen_cfunction_map["subway_straight"]    = &mapgen_subway_straight;
@@ -351,7 +356,7 @@ bool mapgendata::is_groundcover(const int iid ) const {
 
 ter_id mapgendata::groundcover() {
     return (ter_id)this->default_groundcover.get();
-};
+}
 
 void mapgen_rotate( map * m, oter_id terrain_type, bool north_is_down ) {
     if ( north_is_down ) {
@@ -398,7 +403,7 @@ void mapgen_crater(map *m, oter_id, mapgendata dat, int, float)
            if (rng(0, dat.w_fac) <= i && rng(0, dat.e_fac) <= SEEX * 2 - 1 - i &&
                rng(0, dat.n_fac) <= j && rng(0, dat.s_fac) <= SEEX * 2 - 1 - j ) {
                m->ter_set(i, j, t_dirt);
-               m->make_rubble(i, j, f_rubble_rock, true);
+               m->make_rubble( tripoint( i,  j, m->get_abs_sub().z ), f_rubble_rock, true);
                m->set_radiation(i, j, rng(0, 4) * rng(0, 2));
            } else {
                m->ter_set(i, j, dat.groundcover());
@@ -469,10 +474,21 @@ void mapgen_dirtlot(map *m, oter_id, mapgendata, int, float)
             }
         }
     }
-    if (one_in(4)) {
-        m->add_vehicle ("pickup", 12, 12, 90, -1, -1);
-    }
-}
+    int num_v = rng(0,1) * rng(0,2); // (0, 0, 0, 0, 1, 2) vehicles
+    for(int v = 0; v < num_v; v++) {
+        int vy = rng(0, 16) + 4;
+        int vx = rng(0, 16) + 4;
+        int theta = rng(0,3)*180 + one_in(3)*rng(0,89);
+        std::string veh_type = "";
+        if (one_in(4)) {
+            veh_type = "quad_bike";
+        } else {
+            veh_type = "pickup";
+        }
+        if (!m->veh_at(vx,vy)) {
+            m->add_vehicle (veh_type, vx, vy, theta, -1, -1);
+        }
+    }}
 // todo: more region_settings for forest biome
 void mapgen_forest_general(map *m, oter_id terrain_type, mapgendata dat, int turn, float)
 {
@@ -618,6 +634,20 @@ void mapgen_forest_general(map *m, oter_id terrain_type, mapgendata dat, int tur
                 if (dat.is_groundcover( m->ter(wx, wy) ) ||
                       m->ter(wx, wy) == t_underbrush) {
                     m->ter_set(wx, wy, t_swater_sh);
+                }
+            }
+            factor = dat.s_fac + (dat.se_fac / 2) + (dat.ne_fac / 2);
+            for (int j = 0; j < factor; j++) {
+                int wx = rng(0, SEEX * 2 - 1), wy = rng(SEEY, SEEY * 2 - 1);
+                if (m->ter(wx, wy) == t_water_sh) {
+                    m->furn_set(wx, wy, f_cattails);
+                }
+            }
+            factor = dat.s_fac + (dat.se_fac / 2) + (dat.sw_fac / 2);
+            for (int j = 0; j < factor; j++) {
+                int wx = rng(0, SEEX * 2 - 1), wy = rng(SEEY, SEEY * 2 - 1);
+                if (m->ter(wx, wy) == t_water_sh) {
+                    m->furn_set(wx, wy, f_cattails);
                 }
             }
             factor = dat.w_fac + (dat.nw_fac / 2) + (dat.sw_fac / 2);
@@ -946,7 +976,7 @@ void mapgen_road_straight(map *m, oter_id terrain_type, mapgendata dat, int turn
 {
     bool sidewalks = false;
     for (int i = 0; i < 8; i++) {
-        if (otermap[dat.t_nesw[i]].sidewalk) {
+        if (otermap[dat.t_nesw[i]].has_flag(has_sidewalk)) {
             sidewalks = true;
         }
     }
@@ -994,7 +1024,7 @@ void mapgen_road_end(map *m, oter_id terrain_type, mapgendata dat, int turn, flo
 {
     bool sidewalks = false;
     for (int i = 0; i < 8; i++) {
-        if (otermap[dat.t_nesw[i]].sidewalk) {
+        if (otermap[dat.t_nesw[i]].has_flag(has_sidewalk)) {
             sidewalks = true;
         }
     }
@@ -1094,7 +1124,7 @@ void mapgen_road_curved(map *m, oter_id terrain_type, mapgendata dat, int turn, 
 {
     bool sidewalks = false;
     for (int i = 0; i < 8; i++) {
-        if (otermap[dat.t_nesw[i]].sidewalk) {
+        if (otermap[dat.t_nesw[i]].has_flag(has_sidewalk)) {
             sidewalks = true;
         }
     }
@@ -1198,7 +1228,7 @@ void mapgen_road_tee(map *m, oter_id terrain_type, mapgendata dat, int turn, flo
 {
     bool sidewalks = false;
     for (int i = 0; i < 8; i++) {
-        if (otermap[dat.t_nesw[i]].sidewalk) {
+        if (otermap[dat.t_nesw[i]].has_flag(has_sidewalk)) {
             sidewalks = true;
         }
     }
@@ -1252,7 +1282,7 @@ void mapgen_road_four_way(map *m, oter_id terrain_type, mapgendata dat, int turn
     }
     bool sidewalks = false;
     for (int i = 0; i < 8; i++) {
-        if (otermap[dat.t_nesw[i]].sidewalk) {
+        if (otermap[dat.t_nesw[i]].has_flag(has_sidewalk)) {
             sidewalks = true;
         }
     }
@@ -1391,7 +1421,7 @@ void mapgen_subway_straight(map *m, oter_id terrain_type, mapgendata dat, int, f
                     m->ter_set(i, j, t_rock);
                 } else if (one_in(90)) {
                     m->ter_set(i, j, t_rock_floor);
-                    m->make_rubble(i, j, f_rubble_rock, true);
+                    m->make_rubble( tripoint( i,  j, m->get_abs_sub().z ), f_rubble_rock, true);
                 } else {
                     m->ter_set(i, j, t_rock_floor);
                 }
@@ -1414,7 +1444,7 @@ void mapgen_subway_curved(map *m, oter_id terrain_type, mapgendata dat, int, flo
                     m->ter_set(i, j, t_rock);
                 } else if (one_in(30)) {
                     m->ter_set(i, j, t_rock_floor);
-                    m->make_rubble(i, j, f_rubble_rock, true);
+                    m->make_rubble( tripoint( i,  j, m->get_abs_sub().z ), f_rubble_rock, true);
                 } else {
                     m->ter_set(i, j, t_rock_floor);
                 }
@@ -1443,7 +1473,7 @@ void mapgen_subway_tee(map *m, oter_id terrain_type, mapgendata dat, int, float)
                     m->ter_set(i, j, t_rock);
                 } else if (one_in(30)) {
                     m->ter_set(i, j, t_rock_floor);
-                    m->make_rubble(i, j, f_rubble_rock, true);
+                    m->make_rubble( tripoint( i,  j, m->get_abs_sub().z ), f_rubble_rock, true);
                 } else {
                     m->ter_set(i, j, t_rock_floor);
                 }
@@ -1474,7 +1504,7 @@ void mapgen_subway_four_way(map *m, oter_id, mapgendata dat, int, float)
                     m->ter_set(i, j, t_rock);
                 } else if (one_in(30)) {
                     m->ter_set(i, j, t_rock_floor);
-                    m->make_rubble(i, j, f_rubble_rock, true);
+                    m->make_rubble( tripoint( i,  j, m->get_abs_sub().z ), f_rubble_rock, true);
                 } else {
                     m->ter_set(i, j, t_rock_floor);
                 }
@@ -1768,74 +1798,78 @@ void mapgen_parking_lot(map *m, oter_id, mapgendata dat, int turn, float)
                 m->ter_set(i, j, dat.groundcover());
         }
     }
-    int vx = rng (0, 3) * 4 + 5;
-    int vy = 4;
-    std::string veh_type = "";
-    int roll = rng(1, 100);
-    if (roll <= 5) { //specials
-        int ra = rng(1, 100);
-        if (ra <= 3) {
-            veh_type = "military_cargo_truck";
-        } else if (ra <= 10) {
-            veh_type = "bubble_car";
-        } else if (ra <= 15) {
-            veh_type = "rv";
-        } else if (ra <= 20) {
-            veh_type = "schoolbus";
-        } else if (ra <= 40) {
-            veh_type = "fire_truck";
-        }else if (ra <= 60) {
-            veh_type = "policecar";
-        }else {
-            veh_type = "quad_bike";
-        }
-    } else if (roll <= 15) { //commercial
-        int rb = rng(1, 100);
-        if (rb <= 25) {
-            veh_type = "truck_trailer";
-        } else if (rb <= 35) {
-            veh_type = "semi_truck";
-        } else if (rb <= 50) {
-            veh_type = "cube_van";
-        } else {
-            veh_type = "flatbed_truck";
-        }
-    } else if (roll < 50) { //commons
-        int rc = rng(1, 100);
-        if (rc <= 4) {
-            veh_type = "golf_cart";
-        } else if (rc <= 11) {
-            veh_type = "scooter";
-        } else if (rc <= 21) {
-            int rd = rng(1, 100);
-            if(rd <= 50) {
-                veh_type = "car_mini";
-            } else {
-                veh_type = "beetle";
+    for(int v = 0; v < rng(1,4); v++) {
+        int vy = rng(0, 4) * 4 + rng(2,4);
+        int vx = rng(0, 1) * 15 + rng(4,5);
+        std::string veh_type = "";
+        int roll = rng(1, 100);
+        if (roll <= 10) { //specials
+            int ra = rng(1, 100);
+            if (ra <= 3) {
+                veh_type = "military_cargo_truck";
+            } else if (ra <= 10) {
+                veh_type = "bubble_car";
+            } else if (ra <= 15) {
+                veh_type = "rv";
+            } else if (ra <= 20) {
+                veh_type = "schoolbus";
+            } else if (ra <= 40) {
+                veh_type = "fire_truck";
+            }else if (ra <= 60) {
+                veh_type = "policecar";
+            }else {
+                veh_type = "quad_bike";
             }
-        } else if (rc <= 50) {
-            veh_type = "car";
-        } else if (rc <= 60) {
-            veh_type = "electric_car";
-        } else if (rc <= 65) {
-            veh_type = "hippie_van";
-        } else if (rc <= 73) {
-            veh_type = "bicycle";
-        } else if (rc <= 75) {
-            veh_type = "rara_x"; //The Solar Car Toyota RaRa X
-        } else if (rc <= 77) {
-            veh_type = "unicycle";
-        } else if (rc <= 82) {
-            veh_type = "bicycle_electric";
-        } else if (rc <= 90) {
-            veh_type = "motorcycle";
+        } else if (roll <= 25) { //commercial
+            int rb = rng(1, 100);
+            if (rb <= 25) {
+                veh_type = "truck_trailer";
+            } else if (rb <= 35) {
+                veh_type = "semi_truck";
+            } else if (rb <= 50) {
+                veh_type = "cube_van";
+            } else {
+                veh_type = "flatbed_truck";
+            }
+        } else if (roll < 90) { //commons
+            int rc = rng(1, 100);
+            if (rc <= 4) {
+                veh_type = "golf_cart";
+            } else if (rc <= 11) {
+                veh_type = "scooter";
+            } else if (rc <= 21) {
+                int rd = rng(1, 100);
+                if(rd <= 50) {
+                    veh_type = "car_mini";
+                } else {
+                    veh_type = "beetle";
+                }
+            } else if (rc <= 50) {
+                veh_type = "car";
+            } else if (rc <= 60) {
+                veh_type = "electric_car";
+            } else if (rc <= 65) {
+                veh_type = "hippie_van";
+            } else if (rc <= 73) {
+                veh_type = "bicycle";
+            } else if (rc <= 75) {
+                veh_type = "rara_x"; //The Solar Car Toyota RaRa X
+            } else if (rc <= 77) {
+                veh_type = "unicycle";
+            } else if (rc <= 82) {
+                veh_type = "bicycle_electric";
+            } else if (rc <= 90) {
+                veh_type = "motorcycle";
+            } else {
+                veh_type = "motorcycle_sidecart";
+            }
         } else {
-            veh_type = "motorcycle_sidecart";
+            veh_type = "shopping_cart";
         }
-    } else {
-        veh_type = "shopping_cart";
+        if (!m->veh_at(vx,vy)) {
+            m->add_vehicle (veh_type, vx, vy, (one_in(2)?0:180) + (one_in(10)*rng(0,179)), -1, -1);
+        }
     }
-    m->add_vehicle (veh_type, vx, vy, one_in(2)? 90 : 270, -1, -1);
 
     m->place_items("road", 8, 0, 0, SEEX * 2 - 1, SEEY * 2 - 1, false, turn);
     for (int i = 1; i < 4; i++) {
@@ -1986,10 +2020,10 @@ void mapgen_gas_station(map *m, oter_id terrain_type, mapgendata dat, int, float
                 m->ter_set(i, j, t_window);
             } else if (((j == top_w || j == bottom_w) && i >= left_w && i <= right_w) ||
                       (j == middle_w && (i >= center_w && i < right_w))) {
-                m->ter_set(i, j, t_wall_h);
+                m->ter_set(i, j, t_wall);
             } else if (((i == left_w || i == right_w) && j > top_w && j < bottom_w) ||
                       (j > middle_w && j < bottom_w && (i == center_w || i == right_w - 2))) {
-                m->ter_set(i, j, t_wall_v);
+                m->ter_set(i, j, t_wall);
             } else if (i == left_w + 1 && j > top_w && j < bottom_w) {
                 m->set(i, j, t_floor, f_glass_fridge);
             } else if (i > left_w + 2 && i < left_w + 12 && i < center_w && i % 2 == 1 &&
@@ -2016,28 +2050,33 @@ void mapgen_gas_station(map *m, oter_id terrain_type, mapgendata dat, int, float
         type2 = "vending_drink";
         type = "vending_food";
     }
-    int vset = rng(1,5);
+    int vset = rng(1,5), vset2 = rng(1,5);
     if(rng(0,1)) {
         vset += left_w;
     } else {
         vset = right_w - vset;
     }
-    m->place_vending(vset,top_w-1, type);
+    m->place_vending(vset, top_w-1, type);
     if(rng(0,1))
     {
-        int vset2 = rng(1,9);
-        if(vset2 >= vset) vset2++;
-        if(vset2 > 5) vset2 = right_w - (vset2 - 5);
-        else vset2 += left_w;
-        m->place_vending(vset2,top_w-1, type2);
+        if(rng(0,1)) {
+            vset2 += left_w;
+        } else {
+            vset2 = right_w - vset2;
+        }
+        if (vset2 != vset) {
+            m->place_vending(vset2, top_w-1, type);
+        }
     }
-    if(rng(0,1)) {
-        //ATM
-        m->ter_set(vset - 1, top_w-1, t_atm);
-    } else {
-        //charging rack
-        m->furn_set(vset - 1, top_w-1, f_rack);
-        m->place_items("gas_charging_rack", 100, vset - 1, top_w-1, vset - 1, top_w-1, false, 0);
+    if (vset2 != vset-1) {
+        if(rng(0,1)) {
+            //ATM
+            m->ter_set(vset - 1, top_w-1, t_atm);
+        } else {
+            //charging rack
+            m->furn_set(vset - 1, top_w-1, f_rack);
+            m->place_items("gas_charging_rack", 100, vset - 1, top_w-1, vset - 1, top_w-1, false, 0);
+        }
     }
     //
     m->ter_set(center_w, rng(middle_w + 1, bottom_w - 1), t_door_c);
@@ -2109,11 +2148,9 @@ void house_room(map *m, room_type type, int x1, int y1, int x2, int y2, mapgenda
 //m->ter(i, j) == t_grass || m->ter(i, j) == t_dirt ||
                 m->ter(i, j) == t_floor) {
                 if (j == y1 || j == y2) {
-                    m->ter_set(i, j, t_wall_h);
-                    m->ter_set(i, j, t_wall_h);
+                    m->ter_set(i, j, t_wall);
                 } else if (i == x1 || i == x2) {
-                    m->ter_set(i, j, t_wall_v);
-                    m->ter_set(i, j, t_wall_v);
+                    m->ter_set(i, j, t_wall);
                 } else {
                     m->ter_set(i, j, t_floor);
                 }
@@ -2121,8 +2158,8 @@ void house_room(map *m, room_type type, int x1, int y1, int x2, int y2, mapgenda
         }
     }
     for (int i = y1 + 1; i <= y2 - 1; i++) {
-        m->ter_set(x1, i, t_wall_v);
-        m->ter_set(x2, i, t_wall_v);
+        m->ter_set(x1, i, t_wall);
+        m->ter_set(x2, i, t_wall);
     }
 
     items_location placed = "none";
@@ -2143,12 +2180,12 @@ void house_room(map *m, room_type type, int x1, int y1, int x2, int y2, mapgenda
             m->furn_set(x1 + 2, y2 - 1, f_desk);
             while (pos_x1 < x2) {
                 pos_x1 += 1;
-                if ((m->ter(pos_x1, pos_y1) == t_wall_h) || (m->ter(pos_x1, pos_y1) == t_wall_v)) {
+                if ((m->ter(pos_x1, pos_y1) == t_wall) || (m->ter(pos_x1, pos_y1) == t_wall)) {
                     break;
                 }
                 m->furn_set(pos_x1, pos_y1, f_bookcase);
                 pos_x1 += 1;
-                if ((m->ter(pos_x1, pos_y1) == t_wall_h) || (m->ter(pos_x1, pos_y1) == t_wall_v)) {
+                if ((m->ter(pos_x1, pos_y1) == t_wall) || (m->ter(pos_x1, pos_y1) == t_wall)) {
                     break;
                 }
                 m->furn_set(pos_x1, pos_y1, f_bookcase);
@@ -2161,12 +2198,12 @@ void house_room(map *m, room_type type, int x1, int y1, int x2, int y2, mapgenda
             m->furn_set(x1 + 2, y2 - 1, f_desk);
             while (pos_x1 > x1) {
                 pos_x1 -= 1;
-                if ((m->ter(pos_x1, pos_y1) == t_wall_h) || (m->ter(pos_x1, pos_y1) == t_wall_v)) {
+                if ((m->ter(pos_x1, pos_y1) == t_wall) || (m->ter(pos_x1, pos_y1) == t_wall)) {
                     break;
                 }
                 m->furn_set(pos_x1, pos_y1, f_bookcase);
                 pos_x1 -= 1;
-                if ((m->ter(pos_x1, pos_y1) == t_wall_h) || (m->ter(pos_x1, pos_y1) == t_wall_v)) {
+                if ((m->ter(pos_x1, pos_y1) == t_wall) || (m->ter(pos_x1, pos_y1) == t_wall)) {
                     break;
                 }
                 m->furn_set(pos_x1, pos_y1, f_bookcase);
@@ -2179,12 +2216,12 @@ void house_room(map *m, room_type type, int x1, int y1, int x2, int y2, mapgenda
             m->furn_set(x1 + 2, y2 - 1, f_desk);
             while (pos_x1 < x2) {
                 pos_x1 += 1;
-                if ((m->ter(pos_x1, pos_y1) == t_wall_h) || (m->ter(pos_x1, pos_y1) == t_wall_v)) {
+                if ((m->ter(pos_x1, pos_y1) == t_wall) || (m->ter(pos_x1, pos_y1) == t_wall)) {
                     break;
                 }
                 m->furn_set(pos_x1, pos_y1, f_bookcase);
                 pos_x1 += 1;
-                if ((m->ter(pos_x1, pos_y1) == t_wall_h) || (m->ter(pos_x1, pos_y1) == t_wall_v)) {
+                if ((m->ter(pos_x1, pos_y1) == t_wall) || (m->ter(pos_x1, pos_y1) == t_wall)) {
                     break;
                 }
                 m->furn_set(pos_x1, pos_y1, f_bookcase);
@@ -2197,12 +2234,12 @@ void house_room(map *m, room_type type, int x1, int y1, int x2, int y2, mapgenda
             m->furn_set(x1 + 2, y2 - 1, f_desk);
             while (pos_x1 > x1) {
                 pos_x1 -= 1;
-                if ((m->ter(pos_x1, pos_y1) == t_wall_h) || (m->ter(pos_x1, pos_y1) == t_wall_v)) {
+                if ((m->ter(pos_x1, pos_y1) == t_wall) || (m->ter(pos_x1, pos_y1) == t_wall)) {
                     break;
                 }
                 m->furn_set(pos_x1, pos_y1, f_bookcase);
                 pos_x1 -= 1;
-                if ((m->ter(pos_x1, pos_y1) == t_wall_h) || (m->ter(pos_x1, pos_y1) == t_wall_v)) {
+                if ((m->ter(pos_x1, pos_y1) == t_wall) || (m->ter(pos_x1, pos_y1) == t_wall)) {
                     break;
                 }
                 m->furn_set(pos_x1, pos_y1, f_bookcase);
@@ -2283,12 +2320,16 @@ void house_room(map *m, room_type type, int x1, int y1, int x2, int y2, mapgenda
         if (one_in(2)) { //dining table in the kitchen
             square_furn(m, f_table, int((x1 + x2) / 2) - 1, int((y1 + y2) / 2) - 1, int((x1 + x2) / 2),
                         int((y1 + y2) / 2) );
+            m->place_items("dining", 20, int((x1 + x2) / 2) - 1, int((y1 + y2) / 2) - 1,
+                           int((x1 + x2) / 2), int((y1 + y2) / 2), false, 0);
         }
         if (one_in(2)) {
             for (int i = 0; i <= 2; i++) {
                 pos_x1 = rng(x1 + 2, x2 - 2);
                 pos_y1 = rng(y1 + 1, y2 - 1);
-                if (m->ter(pos_x1, pos_y1) == t_floor) {
+                if (m->ter(pos_x1, pos_y1) == t_floor && !(m->furn(pos_x1, pos_y1) == f_cupboard ||
+                    m->furn(pos_x1, pos_y1) == f_oven || m->furn(pos_x1, pos_y1) == f_sink ||
+                    m->furn(pos_x1, pos_y1) == f_fridge)) {
                     m->furn_set(pos_x1, pos_y1, f_chair);
                 }
             }
@@ -2369,7 +2410,7 @@ void house_room(map *m, room_type type, int x1, int y1, int x2, int y2, mapgenda
         placed = "softdrugs";
         chance = 72;
         m->furn_set(x2 - 1, y2 - 2, f_bathtub);
-        if (one_in(3) && !((m->ter(x2 - 1, y2 - 3) == t_wall_h) || (m->ter(x2 - 1, y2 - 3) == t_wall_v))) {
+        if (one_in(3) && !((m->ter(x2 - 1, y2 - 3) == t_wall) || (m->ter(x2 - 1, y2 - 3) == t_wall))) {
             m->furn_set(x2 - 1, y2 - 3, f_bathtub);
         }
         if (!((m->furn(x1 + 1, y2 - 2) == f_toilet) || (m->furn(x1 + 1, y2 - 2) == f_bathtub))) {
@@ -2440,11 +2481,11 @@ void mapgen_generic_house(map *m, oter_id terrain_type, mapgendata dat, int turn
                 m->ter_set(i, j, dat.groundcover());
             }
             if (i >= lw && i <= rw && (j == tw || j == bw)) { //placing north and south walls
-                m->ter_set(i, j, t_wall_h);
+                m->ter_set(i, j, t_wall);
             }
             if ((i == lw || i == rw) && j > tw &&
                 j < bw /*actual_house_height*/) { //placing west (lw) and east walls
-                m->ter_set(i, j, t_wall_v);
+                m->ter_set(i, j, t_wall);
             }
         }
     }
@@ -2662,8 +2703,8 @@ void mapgen_generic_house(map *m, oter_id terrain_type, mapgendata dat, int turn
             m->ter_set(mw + 1, tw, t_window_domestic);
         }
         for (int i = tw + 1; i < cw; i++) { // Hallway walls
-            m->ter_set(mw - 2, i, t_wall_v);
-            m->ter_set(mw + 2, i, t_wall_v);
+            m->ter_set(mw - 2, i, t_wall);
+            m->ter_set(mw + 2, i, t_wall);
         }
         if (one_in(2)) { // Front rooms are kitchen or living room
             house_room(m, room_living, lw, tw, mw - 2, cw, dat);
@@ -2797,7 +2838,7 @@ void mapgen_generic_house(map *m, oter_id terrain_type, mapgendata dat, int turn
                 if (m->ter(i, j) == t_window_domestic && !one_in(3)) {
                     m->ter_set(i, j, t_window_frame);
                 }
-                if ((m->ter(i, j) == t_wall_h || m->ter(i, j) == t_wall_v) && one_in(8)) {
+                if ((m->ter(i, j) == t_wall || m->ter(i, j) == t_wall) && one_in(8)) {
                     m->ter_set(i, j, t_paper);
                 }
             }
@@ -2886,7 +2927,7 @@ void mapgen_church_new_england(map *m, oter_id terrain_type, mapgendata dat, int
      ^^    ss    ^^   s \n\
      ^^    ss    ^^   s \n",
        mapf::basic_bind("O 6 ^ . - | # t + = D w T S e o h c d l s", t_column, t_console, t_shrub, t_floor,
-               t_wall_h, t_wall_v, t_floor, t_floor, t_door_c, t_door_locked_alarm, t_door_locked, t_window,
+               t_wall, t_wall, t_floor, t_floor, t_door_c, t_door_locked_alarm, t_door_locked, t_window,
                t_floor,  t_floor, t_floor,  t_floor,    t_floor, t_floor,   t_floor, t_floor,  t_sidewalk),
        mapf::basic_bind("O 6 ^ . - | # t + = D w T S e o h c d l s", f_null,   f_null,    f_null,  f_null,
                f_null,   f_null,   f_bench, f_table, f_null,   f_null,              f_null,        f_null,
@@ -2899,7 +2940,7 @@ void mapgen_church_new_england(map *m, oter_id terrain_type, mapgendata dat, int
     m->place_items("church", 85,  12,  2, 14,  2, false, 0);
     m->place_items("office", 60,  6,  2, 8,  3, false, 0);
     m->place_items("jackets", 85,  7,  18, 8,  18, false, 0);
-    tmpcomp = m->add_computer(11, 2, _("Church Bells 1.2"), 0);
+    tmpcomp = m->add_computer( tripoint( 11, 2, m->get_abs_sub().z ), _("Church Bells 1.2"), 0);
     tmpcomp->add_option(_("Gathering Toll"), COMPACT_TOLL, 0);
     tmpcomp->add_option(_("Wedding Toll"), COMPACT_TOLL, 0);
     tmpcomp->add_option(_("Funeral Toll"), COMPACT_TOLL, 0);
@@ -2937,7 +2978,7 @@ s WWWWW    ss    WWWWW s\n\
 ssssssssssssssssssssssss\n",
        mapf::basic_bind("C V G B W R r 6 $ . - | # t + g T S h c l s", t_floor,   t_window_stained_red,
                t_window_stained_green, t_window_stained_blue, t_rock, t_railing_v, t_railing_h, t_console, t_shrub,
-               t_rock_floor, t_wall_h, t_wall_v, t_rock_floor, t_rock_floor, t_door_c, t_door_glass_c,
+               t_rock_floor, t_wall, t_wall, t_rock_floor, t_rock_floor, t_door_c, t_door_glass_c,
                t_rock_floor, t_rock_floor, t_rock_floor, t_rock_floor, t_rock_floor, t_sidewalk),
        mapf::basic_bind("C V G B W R r 6 $ . - | # t + g T S h c l s", f_crate_c, f_null,
                f_null,                 f_null,                f_null, f_null,      f_null,      f_null,    f_null,
@@ -2951,7 +2992,7 @@ ssssssssssssssssssssssss\n",
     m->place_items("church", 60,  6,  7, 17,  16, false, 0);
     m->place_items("cleaning", 60,  3,  18, 4,  21, false, 0);
     m->place_items("jackets", 85,  14,  18, 16,  18, false, 0);
-    tmpcomp = m->add_computer(19, 20, _("Church Bells 1.2"), 0);
+    tmpcomp = m->add_computer( tripoint( 19, 20, m->get_abs_sub().z ), _("Church Bells 1.2"), 0);
     tmpcomp->add_option(_("Gathering Toll"), COMPACT_TOLL, 0);
     tmpcomp->add_option(_("Wedding Toll"), COMPACT_TOLL, 0);
     tmpcomp->add_option(_("Funeral Toll"), COMPACT_TOLL, 0);
@@ -2986,10 +3027,10 @@ void mapgen_pharm(map *m, oter_id terrain_type, mapgendata dat, int, float densi
                     m->ter_set(i, j, t_door_c);
                 } else if (((j == tw || j == bw) && i >= lw && i <= rw) ||
                            (j == mw && i >= cw && i < rw)) {
-                    m->ter_set(i, j, t_wall_h);
+                    m->ter_set(i, j, t_wall);
                 } else if (((i == lw || i == rw) && j > tw && j < bw) ||
                            (i == cw && j > mw && j < bw)) {
-                    m->ter_set(i, j, t_wall_v);
+                    m->ter_set(i, j, t_wall);
                 } else if (((i == lw + 8 || i == lw + 9 || i == rw - 4 || i == rw - 3) &&
                             j > tw + 3 && j < mw - 2) ||
                            (j == bw - 1 && i > lw + 1 && i < cw - 1)) {
@@ -3080,7 +3121,7 @@ void mapgen_office_cubical(map *m, oter_id terrain_type, mapgendata dat, int, fl
  |-wwww-|  ss  |-wwww-| \n\
            ss           \n",
                                    mapf::basic_bind("x $ ^ . - | # t + = D w T S e o h c d l s n", t_console_broken, t_shrub, t_floor,
-                                           t_floor, t_wall_h, t_wall_v, t_floor, t_floor, t_door_c, t_door_locked_alarm, t_door_locked,
+                                           t_floor, t_wall, t_wall, t_floor, t_floor, t_door_c, t_door_locked_alarm, t_door_locked,
                                            t_window, t_floor,  t_floor, t_floor,  t_floor,    t_floor, t_floor,   t_floor, t_floor,
                                            t_sidewalk, t_floor),
                                    mapf::basic_bind("x $ ^ . - | # t + = D w T S e o h c d l s n", f_null,           f_null,
@@ -3126,10 +3167,10 @@ void mapgen_s_grocery(map *m, oter_id terrain_type, mapgendata dat, int, float d
                     m->ter_set(i, j, t_door_c);
                 } else if (((j == 2 || j == SEEY * 2 - 3) && i > 1 && i < SEEX * 2 - 2) ||
                            (j == 18 && i > 2 && i < 7)) {
-                    m->ter_set(i, j, t_wall_h);
+                    m->ter_set(i, j, t_wall);
                 } else if (((i == 2 || i == SEEX * 2 - 3) && j > 2 && j < SEEY * 2 - 3) ||
                            (i == 6 && j == 19)) {
-                    m->ter_set(i, j, t_wall_v);
+                    m->ter_set(i, j, t_wall);
                 } else if (j > 4 && j < 8) {
                     if (i == 5 || i == 9 || i == 13 || i == 17) {
                         m->set(i, j, t_floor, f_counter);
@@ -3206,11 +3247,11 @@ void mapgen_s_hardware(map *m, oter_id terrain_type, mapgendata dat, int, float 
                 } else if ((j == 3 && i > 1 && i < SEEX * 2 - 2) ||
                            (j == 15 && i > 1 && i < 14) ||
                            (j == SEEY * 2 - 3 && i > 12 && i < SEEX * 2 - 2)) {
-                    m->ter_set(i, j, t_wall_h);
+                    m->ter_set(i, j, t_wall);
                 } else if ((i == 2 && j > 3 && j < 15) ||
                            (i == SEEX * 2 - 3 && j > 3 && j < SEEY * 2 - 3) ||
                            (i == 13 && j > 15 && j < SEEY * 2 - 3)) {
-                    m->ter_set(i, j, t_wall_v);
+                    m->ter_set(i, j, t_wall);
                 } else if ((i > 3 && i < 10 && j == 6) || (i == 9 && j > 3 && j < 7)) {
                     m->set(i, j, t_floor, f_counter);
                 } else if (((i == 3 || i == 6 || i == 7 || i == 10 || i == 11) &&
@@ -3248,8 +3289,8 @@ void mapgen_s_hardware(map *m, oter_id terrain_type, mapgendata dat, int, float 
                     starty = 18;
                 }
                 bool hori = (starty == 18 ? false : true);
-                for (int i = startx; i <= startx + (hori ? 3 : 2); i++) {
-                    for (int j = starty; j <= starty + (hori ? 2 : 3); j++) {
+                for (int i = startx; i < startx + (hori ? 3 : 2); i++) {
+                    for (int j = starty; j < starty + (hori ? 2 : 3); j++) {
                         m->furn_set(i, j, f_dumpster);
                     }
                 }
@@ -3336,10 +3377,10 @@ void mapgen_s_electronics(map *m, oter_id terrain_type, mapgendata dat, int turn
 
         dat.fill_groundcover();
         square(m, t_floor, 4, 4, SEEX * 2 - 4, SEEY * 2 - 4);
-        line(m, t_wall_v, 3, 4, 3, SEEY * 2 - 4);
-        line(m, t_wall_v, SEEX * 2 - 3, 4, SEEX * 2 - 3, SEEY * 2 - 4);
-        line(m, t_wall_h, 3, 3, SEEX * 2 - 3, 3);
-        line(m, t_wall_h, 3, SEEY * 2 - 3, SEEX * 2 - 3, SEEY * 2 - 3);
+        line(m, t_wall, 3, 4, 3, SEEY * 2 - 4);
+        line(m, t_wall, SEEX * 2 - 3, 4, SEEX * 2 - 3, SEEY * 2 - 4);
+        line(m, t_wall, 3, 3, SEEX * 2 - 3, 3);
+        line(m, t_wall, 3, SEEY * 2 - 3, SEEX * 2 - 3, SEEY * 2 - 3);
         m->ter_set(13, 3, t_door_c);
         line(m, t_window, 10, 3, 11, 3);
         line(m, t_window, 16, 3, 18, 3);
@@ -3390,9 +3431,9 @@ void mapgen_s_sports(map *m, oter_id terrain_type, mapgendata dat, int, float de
             for (int j = 0; j < SEEY * 2; j++) {
                 if (((j == tw || j == bw) && i >= lw && i <= rw) ||
                     (j == cw && i > lw && i < rw)) {
-                    m->ter_set(i, j, t_wall_h);
+                    m->ter_set(i, j, t_wall);
                 } else if ((i == lw || i == rw) && j > tw && j < bw) {
-                    m->ter_set(i, j, t_wall_v);
+                    m->ter_set(i, j, t_wall);
                 } else if ((j == cw - 1 && i > lw && i < rw - 4) ||
                            (j < cw - 3 && j > tw && (i == lw + 1 || i == rw - 1))) {
                     m->set(i, j, t_floor, f_rack);
@@ -3466,7 +3507,7 @@ void mapgen_s_liquor(map *m, oter_id terrain_type, mapgendata dat, int, float de
 |   |           &|\n\
 |   |         &&&|\n\
 ------------------\n",
-                                   mapf::basic_bind("- | :", t_wall_h, t_wall_v, t_window),
+                                   mapf::basic_bind("- | :", t_wall, t_wall, t_window),
                                    mapf::basic_bind("# c &", f_rack, f_counter, f_glass_fridge));
         square_furn(m, f_dumpster, 5, 13, 7, 14);
         square_furn(m, f_dumpster, SEEX * 2 - 6, 15, SEEX * 2 - 5, 17);
@@ -3502,7 +3543,7 @@ void mapgen_s_gun(map *m, oter_id terrain_type, mapgendata dat, int, float densi
         for (int i = 0; i < SEEX * 2; i++) {
             for (int j = 0; j < SEEY * 2; j++) {
                 if ((i == 2 || i == SEEX * 2 - 3) && j > 6 && j < SEEY * 2 - 1) {
-                    m->ter_set(i, j, t_wall_v);
+                    m->ter_set(i, j, t_wall);
                 } else if ((i == 8 && j > 6 && j < 13) ||
                            (j == 16 && (i == 5 || i == 8 || i == 11 || i == 14 || i == 17))) {
                     m->set(i, j, t_floor, f_counter);
@@ -3514,7 +3555,7 @@ void mapgen_s_gun(map *m, oter_id terrain_type, mapgendata dat, int, float densi
                     m->ter_set(i, j, t_door_metal_pickable);
                 } else if (((j == 6 || j == SEEY * 2 - 1) && i > 1 && i < SEEX * 2 - 2) ||
                            ((j == 16 || j == 14) && i > 2 && i < SEEX * 2 - 3)) {
-                    m->ter_set(i, j, t_wall_h);
+                    m->ter_set(i, j, t_wall);
                 } else if (((i == 3 || i == SEEX * 2 - 4) && j > 6 && j < 14) ||
                            ((j > 8 && j < 12) && (i == 12 || i == 13 || i == 16)) ||
                            (j == 13 && i > 15 && i < SEEX * 2 - 4)) {
@@ -3553,16 +3594,16 @@ void mapgen_s_clothes(map *m, oter_id terrain_type, mapgendata dat, int, float d
                 if (j == 2 && (i == 11 || i == 12)) {
                     m->ter_set(i, j, t_door_glass_c);
                 } else if (j == 2 && i > 3 && i < SEEX * 2 - 4) {
-                    m->ter_set(i, j, t_wall_glass_h);
+                    m->ter_set(i, j, t_wall_glass);
                 } else if (((j == 2 || j == SEEY * 2 - 2) && i > 1 && i < SEEX * 2 - 2) ||
                            (j == 4 && i > 12 && i < SEEX * 2 - 3) ||
                            (j == 17 && i > 2 && i < 12) ||
                            (j == 20 && i > 2 && i < 11)) {
-                    m->ter_set(i, j, t_wall_h);
+                    m->ter_set(i, j, t_wall);
                 } else if (((i == 2 || i == SEEX * 2 - 3) && j > 1 && j < SEEY * 2 - 1) ||
                            (i == 11 && (j == 18 || j == 20 || j == 21)) ||
                            (j == 21 && (i == 5 || i == 8))) {
-                    m->ter_set(i, j, t_wall_v);
+                    m->ter_set(i, j, t_wall);
                 } else if ((i == 16 && j > 4 && j < 9) ||
                            (j == 8 && (i == 17 || i == 18)) ||
                            (j == 18 && i > 2 && i < 11)) {
@@ -3643,17 +3684,17 @@ void mapgen_s_library(map *m, oter_id terrain_type, mapgendata dat, int, float d
                     } else if (i == 11 || i == 12) {
                         m->ter_set(i, j, t_door_c);
                     } else if (i > 1 && i < SEEX * 2 - 2) {
-                        m->ter_set(i, j, t_wall_h);
+                        m->ter_set(i, j, t_wall);
                     } else {
                         m->ter_set(i, j, dat.groundcover());
                     }
                 } else if (j == 17 && i > 1 && i < SEEX * 2 - 2) {
-                    m->ter_set(i, j, t_wall_h);
+                    m->ter_set(i, j, t_wall);
                 } else if (i == 2) {
                     if (j == 6 || j == 7 || j == 10 || j == 11 || j == 14 || j == 15) {
                         m->ter_set(i, j, t_window_domestic);
                     } else if (j > 1 && j < 17) {
-                        m->ter_set(i, j, t_wall_v);
+                        m->ter_set(i, j, t_wall);
                     } else {
                         m->ter_set(i, j, dat.groundcover());
                     }
@@ -3661,7 +3702,7 @@ void mapgen_s_library(map *m, oter_id terrain_type, mapgendata dat, int, float d
                     if (j == 6 || j == 7) {
                         m->ter_set(i, j, t_window_domestic);
                     } else if (j > 1 && j < 17) {
-                        m->ter_set(i, j, t_wall_v);
+                        m->ter_set(i, j, t_wall);
                     } else {
                         m->ter_set(i, j, dat.groundcover());
                     }
@@ -3715,11 +3756,12 @@ void mapgen_shelter(map *m, oter_id, mapgendata dat, int, float) {
 | b b b    c   |\n\
 |          c  x|\n\
 |----:-++-:----|\n",
-                                   mapf::basic_bind("- | + : 6 x >", t_wall_h, t_wall_v, t_door_c, t_window_domestic,  t_console,
+                                   mapf::basic_bind("- | + : 6 x >", t_wall, t_wall, t_door_c, t_window_domestic,  t_console,
                                            t_console_broken, t_stairs_down),
                                    mapf::basic_bind("b c l", f_bench, f_counter, f_locker));
-        computer * tmpcomp = m->add_computer(SEEX + 6, 5, _("Evac shelter computer"), 0);
+        computer * tmpcomp = m->add_computer( tripoint( SEEX + 6, 5, m->get_abs_sub().z ), _("Evac shelter computer"), 0);
         tmpcomp->add_option(_("Emergency Message"), COMPACT_EMERG_MESS, 0);
+        tmpcomp->add_option(_("Disable External Power"), COMPACT_COMPLETE_MISSION, 0);
         int lx = rng(5 , 8);
         // The shelter does have some useful stuff in case of winter problems!
         m->spawn_item(lx, 5, "jacket_evac");
@@ -3803,69 +3845,6 @@ void mapgen_lmoe(map *m, oter_id, mapgendata dat, int, float) {
         m->ter_set(13, 14, t_tree_young);
 }
 
-void mapgen_lmoe_under(map *m, oter_id, mapgendata dat, int, float) {
-//    } else if (terrain_type == "lmoe_under") {
-
-(void)dat;
-        fill_background(m, t_rock);
-        square(m, t_rock_floor, 3, 3, 20, 20);
-        line(m, t_stairs_up, 11, 20, 12, 20);
-        line(m, t_wall_metal_h, 3, 12, 20, 12);
-        line(m, t_wall_metal_v, 10, 12, 10, 20);
-        line(m, t_wall_metal_v, 13, 12, 13, 20);
-        line(m, t_chainfence_v, 7, 3, 7, 6);
-        line(m, t_chainfence_h, 3, 6, 6, 6);
-        line(m, t_wall_metal_v, 15, 3, 15, 10);
-        line(m, t_wall_metal_h, 15, 9, 20, 9);
-        line(m, t_wall_metal_v, 17, 10, 17, 11);
-        m->ter_set(10, 16, t_door_metal_c);
-        m->ter_set(13, 16, t_door_metal_c);
-        m->ter_set(5, 6, t_chaingate_c);
-        line(m, t_door_metal_c, 11, 12, 12, 12);
-        m->ter_set(17, 11, t_door_metal_c);
-        m->ter_set(15, 6, t_door_metal_c);
-        square_furn(m, f_rubble, 18, 18, 20, 20);
-        line_furn(m, f_rubble, 16, 20, 20, 16);
-        line_furn(m, f_rubble, 17, 20, 20, 17);
-        line(m, t_water_sh, 15, 20, 20, 15);
-        m->furn_set(17, 16, f_woodstove);
-        m->furn_set(14, 13, f_chair);
-        m->furn_set(14, 18, f_chair);
-        square_furn(m, f_crate_c, 18, 13, 20, 14);
-        line_furn(m, f_crate_c, 17, 13, 19, 15);
-        line_furn(m, f_counter, 3, 13, 3, 20);
-        line_furn(m, f_counter, 3, 20, 9, 20);
-        line_furn(m, f_bookcase, 5, 13, 8, 13);
-        square_furn(m, f_table, 5, 15, 6, 17);
-        m->furn_set(7, 16, f_chair);
-        line_furn(m, f_rack, 3, 11, 7, 11);
-        line_furn(m, f_rack, 3, 9, 7, 9);
-        line_furn(m, f_rack, 3, 3, 6, 3);
-        m->ter_set(10, 7, t_column);
-        m->ter_set(13, 7, t_column);
-        line_furn(m, f_bookcase, 16, 3, 16, 5);
-        square_furn(m, f_bed, 19, 3, 20, 4);
-        m->furn_set(19, 7, f_chair);
-        m->furn_set(20, 7, f_desk);
-        line_furn(m, f_rubble, 15, 10, 16, 10);
-        m->furn_set(19, 10, f_sink);
-        m->place_toilet(20, 11);
-        m->place_items("lmoe_guns", 80, 3, 3, 6, 3, false, 0);
-        m->place_items("ammo", 80, 3, 3, 6, 3, false, 0);
-        m->place_items("cannedfood", 90, 3, 9, 7, 9, false, 0);
-        m->place_items("survival_tools", 80, 3, 11, 7, 11, false, 0);
-        m->place_items("bags", 50, 3, 11, 7, 11, false, 0);
-        m->place_items("softdrugs", 50, 3, 11, 7, 11, false, 0);
-        m->place_items("manuals", 60, 5, 13, 8, 13, false, 0);
-        m->place_items("textbooks", 60, 5, 13, 8, 13, false, 0);
-        m->place_items("tools", 90, 5, 15, 6, 17, false, 0);
-        m->place_items("hardware", 70, 3, 13, 3, 20, false, 0);
-        m->place_items("stash_wood", 70, 3, 20, 9, 20, false, 0);
-        m->place_items("shelter", 70, 18, 13, 20, 14, false, 0);
-        m->place_items("novels", 70, 16, 3, 16, 5, false, 0);
-        m->place_items("office", 50, 20, 7, 20, 7, false, 0);
-        m->place_items("bed", 60, 19, 3, 20, 4, false, 0);
-}
 
 
 ///////////////////////////////////////////////////////////
@@ -3978,7 +3957,7 @@ void mapgen_basement_guns(map *m, oter_id terrain_type, mapgendata dat, int turn
     m->place_items("gunxtras", 88, 2, 9, SEEX * 2 - 7, 9, false, 0);
     m->place_items("weapons", 88, SEEX * 2 - 6, 9, SEEX * 2 - 3, 9, false, 0);
     // Chance of zombies in the basement, only appear north of the anteroom the stairs are in.
-    m->place_spawns("GROUP_PREPPER_HOUSE", 4, 1, 1, SEEX * 2 - 1, SEEX * 2 - 5, density);
+    m->place_spawns("GROUP_PREPPER_HOUSE", 2, 1, 1, SEEX * 2 - 1, SEEX * 2 - 5, 0.2f);
 }
 
 void mapgen_basement_survivalist(map *m, oter_id terrain_type, mapgendata dat, int turn, float density)
@@ -4002,7 +3981,7 @@ void mapgen_basement_survivalist(map *m, oter_id terrain_type, mapgendata dat, i
     m->place_items("bed",  60, 1, 1, 1, 2, false, 0);
     m->place_items("bed",  60, SEEX * 2 - 2, 1, SEEX * 2 - 2, 2, false, 0);
     // Chance of zombies in the basement, only appear north of the anteroom the stairs are in.
-    m->place_spawns("GROUP_PREPPER_HOUSE", 4, 1, 1, SEEX * 2 - 1, SEEX * 2 - 5, density);
+    m->place_spawns("GROUP_PREPPER_HOUSE", 2, 1, 1, SEEX * 2 - 1, SEEX * 2 - 5, 0.2f);
 }
 
 void mapgen_basement_chemlab(map *m, oter_id terrain_type, mapgendata dat, int turn, float density)
@@ -4190,20 +4169,20 @@ void mapgen_office_doctor(map *m, oter_id terrain_type, mapgendata dat, int, flo
    |-++--wwww-wwww---|  \n\
      ss                 \n\
      ss                 \n",
-                                   mapf::basic_bind(". - | 6 X # r t + = D w T S e o h c d l s", t_floor, t_wall_h, t_wall_v,
+                                   mapf::basic_bind(". - | 6 X # r t + = D w T S e o h c d l s", t_floor, t_wall, t_wall,
                                            t_console, t_door_metal_locked, t_floor, t_floor,    t_floor, t_door_c, t_door_locked_alarm,
                                            t_door_locked, t_window, t_floor,  t_floor, t_floor,  t_floor,    t_floor, t_floor,   t_floor,
                                            t_floor,  t_sidewalk),
                                    mapf::basic_bind(". - | 6 X # r t + = D w T S e o h c d l s", f_null,  f_null,   f_null,   f_null,
                                            f_null,              f_bench, f_trashcan, f_table, f_null,   f_null,              f_null,
                                            f_null,   f_toilet, f_sink,  f_fridge, f_bookcase, f_chair, f_counter, f_desk,  f_locker, f_null));
-        computer * tmpcomp = m->add_computer(20, 4, _("Medical Supply Access"), 2);
+        computer * tmpcomp = m->add_computer( tripoint( 20, 4, m->get_abs_sub().z ), _("Medical Supply Access"), 2);
         tmpcomp->add_option(_("Lock Door"), COMPACT_LOCK, 2);
         tmpcomp->add_option(_("Unlock Door"), COMPACT_UNLOCK, 2);
         tmpcomp->add_failure(COMPFAIL_SHUTDOWN);
         tmpcomp->add_failure(COMPFAIL_ALARM);
 
-        tmpcomp = m->add_computer(20, 6, _("Medical Supply Access"), 2);
+        tmpcomp = m->add_computer( tripoint( 20, 6, m->get_abs_sub().z ), _("Medical Supply Access"), 2);
         tmpcomp->add_option(_("Unlock Door"), COMPACT_UNLOCK, 2);
         tmpcomp->add_failure(COMPFAIL_SHUTDOWN);
         tmpcomp->add_failure(COMPFAIL_ALARM);
@@ -4344,9 +4323,9 @@ void mapgen_sub_station(map *m, oter_id terrain_type, mapgendata dat, int, float
                 if (j < 9 || j > 12 || i < 4 || i > 19) {
                     m->ter_set(i, j, t_pavement);
                 } else if (j < 12 && j > 8 && (i == 4 || i == 19)) {
-                    m->ter_set(i, j, t_wall_v);
+                    m->ter_set(i, j, t_wall);
                 } else if (i > 3 && i < 20 && j == 12) {
-                    m->ter_set(i, j, t_wall_h);
+                    m->ter_set(i, j, t_wall);
                 } else {
                     m->ter_set(i, j, t_floor);
                 }
@@ -4386,25 +4365,25 @@ void mapgen_s_garage(map *m, oter_id terrain_type, mapgendata dat, int, float)
 {
 
         dat.fill_groundcover();
-        int yard_wdth = 5;
+        int yard_wdth = rng(4,6);
         square(m, t_floor, 0, yard_wdth, SEEX * 2 - 4, SEEY * 2 - 4);
-        line(m, t_wall_v, 0, yard_wdth, 0, SEEY * 2 - 4);
-        line(m, t_wall_v, SEEX * 2 - 3, yard_wdth, SEEX * 2 - 3, SEEY * 2 - 4);
-        line(m, t_wall_h, 0, SEEY * 2 - 4, SEEX * 2 - 3, SEEY * 2 - 4);
+        line(m, t_wall, 0, yard_wdth, 0, SEEY * 2 - 4);
+        line(m, t_wall, SEEX * 2 - 3, yard_wdth, SEEX * 2 - 3, SEEY * 2 - 4);
+        line(m, t_wall, 0, SEEY * 2 - 4, SEEX * 2 - 3, SEEY * 2 - 4);
         line(m, t_window, 0, SEEY * 2 - 4, SEEX * 2 - 14, SEEY * 2 - 4);
-        line(m, t_wall_h, 0, SEEY * 2 - 4, SEEX * 2 - 20, SEEY * 2 - 4);
-        line(m, t_wall_h, 0, yard_wdth, 3, yard_wdth);
-        line(m, t_wall_h, 12, yard_wdth, 13, yard_wdth);
-        line(m, t_wall_h, 20, yard_wdth, 21, yard_wdth);
+        line(m, t_wall, 0, SEEY * 2 - 4, SEEX * 2 - 20, SEEY * 2 - 4);
+        line(m, t_wall, 0, yard_wdth, 3, yard_wdth);
+        line(m, t_wall, 12, yard_wdth, 13, yard_wdth);
+        line(m, t_wall, 20, yard_wdth, 21, yard_wdth);
         line_furn(m, f_counter, 1, yard_wdth + 1, 1, yard_wdth + 7);
-        line(m, t_wall_h, 1, SEEY * 2 - 9, 3, SEEY * 2 - 9);
-        line(m, t_wall_v, 3, SEEY * 2 - 8, 3, SEEY * 2 - 5);
+        line(m, t_wall, 1, SEEY * 2 - 9, 3, SEEY * 2 - 9);
+        line(m, t_wall, 3, SEEY * 2 - 8, 3, SEEY * 2 - 5);
         m->ter_set(3, SEEY * 2 - 7, t_door_frame);
         m->ter_set(21, SEEY * 2 - 7, t_door_c);
         line_furn(m, f_counter, 4, SEEY * 2 - 5, 15, SEEY * 2 - 5);
         //office
-        line(m, t_wall_glass_h, 16, SEEY * 2 - 9 , 20, SEEY * 2 - 9);
-        line(m, t_wall_glass_v, 16, SEEY * 2 - 8, 16, SEEY * 2 - 5);
+        line(m, t_wall_glass, 16, SEEY * 2 - 9 , 20, SEEY * 2 - 9);
+        line(m, t_wall_glass, 16, SEEY * 2 - 8, 16, SEEY * 2 - 5);
         m->ter_set(16, SEEY * 2 - 7, t_door_glass_c);
         line_furn(m, f_bench, SEEX * 2 - 6, SEEY * 2 - 8, SEEX * 2 - 4, SEEY * 2 - 8);
         m->ter_set(SEEX * 2 - 6, SEEY * 2 - 6, t_console_broken);
@@ -4424,39 +4403,45 @@ void mapgen_s_garage(map *m, oter_id terrain_type, mapgendata dat, int, float)
 
         // rotate garage
 
-        int vy = 0, vx = 0, theta = 0;
+        int vy = 0, vx = 0, theta = 0, tdx = 0, tdy = 0, td = 9;
 
         if (terrain_type == "s_garage_north") {
-            vx = 5, vy = yard_wdth + 6;
+            vx = 8, vy = yard_wdth + 6;
             theta = 90;
+            tdx = td;
         } else if (terrain_type == "s_garage_east") {
             m->rotate(1);
-            vx = yard_wdth + 8, vy = 4;
+            vx = yard_wdth + 8, vy = 7;
             theta = 0;
+            tdy = td;
         } else if (terrain_type == "s_garage_south") {
             m->rotate(2);
-            vx = SEEX * 2 - 6, vy = SEEY * 2 - (yard_wdth + 3);
+            vx = SEEX * 2 - 9, vy = SEEY * 2 - (yard_wdth + 6);
             theta = 270;
+            tdx = -td;
         } else if (terrain_type == "s_garage_west") {
             m->rotate(3);
-            vx = SEEX * 2 - yard_wdth - 9, vy = SEEY * 2 - 5;
+            vx = SEEX * 2 - yard_wdth - 10, vy = SEEY * 2 - 8;
             theta = 180;
+            tdy = -td;
         }
 
-        // place vehicle, if any
-        if (one_in(3)) {
-            std::string vt;
-            int vehicle_type = rng(1, 8);
-            if(vehicle_type <= 3) {
-                vt = one_in(2) ? "car" : "car_chassis";
-            } else if(vehicle_type <= 5) {
-                vt = one_in(2) ? "quad_bike" : "quad_bike_chassis";
-            } else if(vehicle_type <= 7) {
-                vt = one_in(2) ? "motorcycle" : "motorcycle_chassis";
-            } else {
-                vt = "welding_cart";
+        // place vehicles, if any
+        for (int v=0; v<=1; v++) {
+            if (one_in(4)) {
+                std::string vt;
+                int vehicle_type = rng(1, 8);
+                if(vehicle_type <= 3) {
+                    vt = one_in(2) ? "car" : "car_chassis";
+                } else if(vehicle_type <= 5) {
+                    vt = one_in(2) ? "quad_bike" : "quad_bike_chassis";
+                } else if(vehicle_type <= 7) {
+                    vt = one_in(2) ? "motorcycle" : "motorcycle_chassis";
+                } else {
+                    vt = "welding_cart";
+                }
+                m->add_vehicle(vt, vx + v * tdx, vy + v * tdy, theta + one_in(3)*rng(-1,1)*30, -1, -1);
             }
-            m->add_vehicle(vt, vx, vy, theta, -1, -1);
         }
 
 
@@ -4497,7 +4482,7 @@ void mapgen_cabin_strange(map *m, oter_id, mapgendata dat, int, float)
   ^                 ^   \n",
                                    mapf::basic_bind("% ^ f F G H u a A b C . - | t + = D w T S e o h c d r s O > L", t_shrub, t_tree,
                                            t_fence_h, t_fence_v, t_fencegate_c, t_floor,   t_floor,    t_floor, t_floor,    t_floor, t_column,
-                                           t_floor, t_wall_h, t_wall_v,  t_floor, t_door_c, t_door_boarded, t_door_locked_interior,
+                                           t_floor, t_wall, t_wall,  t_floor, t_door_c, t_door_boarded, t_door_locked_interior,
                                            t_window_boarded, t_floor,  t_floor, t_floor,  t_floor,    t_floor, t_floor,   t_floor,   t_floor,
                                            t_sidewalk, t_floor, t_stairs_down, t_floor),
                                    mapf::basic_bind("% ^ f F G H u a A b C . - | t + = D w T S e o h c d r s O > L", f_null,  f_null,
@@ -4566,7 +4551,7 @@ void mapgen_cabin_strange_b(map *m, oter_id, mapgendata dat, int, float)
 ##.....#################\n\
 ########################\n",
                                    mapf::basic_bind("G A b C . - | t + = D o h c d r < # T", t_door_bar_locked, t_dirtfloor,
-                                           t_dirtfloor, t_column, t_dirtfloor, t_wall_h, t_wall_v,  t_dirtfloor, t_door_c, t_door_boarded,
+                                           t_dirtfloor, t_column, t_dirtfloor, t_wall, t_wall,  t_dirtfloor, t_door_c, t_door_boarded,
                                            t_door_locked_interior, t_dirtfloor, t_dirtfloor, t_floor,   t_dirtfloor, t_dirtfloor, t_stairs_up,
                                            t_rock, t_dirtfloor),
                                    mapf::basic_bind("G A b C . - | t + = D o h c d r < # T", f_null,            f_armchair,     f_bed,
@@ -4625,8 +4610,8 @@ void mapgen_cabin(map *m, oter_id, mapgendata dat, int, float)
             line(m, t_fencegate_c, 11, 20, 12, 20);
             line_furn(m, f_bench, 4, 17, 7, 17);
             square_furn(m, f_rubble, 19, 18, 20, 19);
-            m->make_rubble(20, 17, f_rubble, true);
-            m->make_rubble(18, 19, f_rubble, true);
+            m->make_rubble( tripoint( 20,  17, m->get_abs_sub().z ), f_rubble, true);
+            m->make_rubble( tripoint( 18,  19, m->get_abs_sub().z ), f_rubble, true);
             line(m, t_door_c, 11, 16, 12, 16); //Interior
             square(m, t_floor, 3, 4, 9, 9);
             square(m, t_floor, 3, 11, 9, 15);
@@ -4645,8 +4630,8 @@ void mapgen_cabin(map *m, oter_id, mapgendata dat, int, float)
             m->ter_set(8, 3, t_curtains); //Windows End
             line(m, t_door_c, 11, 3, 12, 3); //Rear Doors
             square_furn(m, f_rubble, 20, 3, 21, 4);
-            m->make_rubble(19, 3, f_rubble, true);
-            m->make_rubble(21, 5, f_rubble, true);
+            m->make_rubble( tripoint( 19,  3, m->get_abs_sub().z ), f_rubble, true);
+            m->make_rubble( tripoint( 21,  5, m->get_abs_sub().z ), f_rubble, true);
             m->furn_set(6, 4, f_desk);
             m->furn_set(6, 5, f_chair);
             m->furn_set(7, 9, f_locker);
@@ -4769,12 +4754,12 @@ void mapgen_police(map *m, oter_id terrain_type, mapgendata dat, int, float dens
                     (j == 15 && i > 17  && i < SEEX * 2 - 1) ||
                     (j == 17 && i >  0  && i < 17) ||
                     (j == 20)) {
-                    m->ter_set(i, j, t_wall_h);
+                    m->ter_set(i, j, t_wall);
                 } else if (((i == 0 || i == SEEX * 2 - 1) && j > 7 && j < 20) ||
                            ((i == 5 || i == 10 || i == 16 || i == 19) && j > 7 && j < 12) ||
                            ((i == 5 || i ==  9 || i == 13) && j > 14 && j < 17) ||
                            (i == 17 && j > 14 && j < 20)) {
-                    m->ter_set(i, j, t_wall_v);
+                    m->ter_set(i, j, t_wall);
                 } else if (j == 14 && i > 5 && i < 17 && i % 2 == 0) {
                     m->ter_set(i, j, t_bars);
                 } else if ((i > 1 && i < 4 && j > 8 && j < 11) ||
@@ -4798,7 +4783,7 @@ void mapgen_police(map *m, oter_id terrain_type, mapgendata dat, int, float dens
         m->ter_set(rng( 6,  9), 12, t_door_c);
         m->ter_set(rng(11, 15), 12, t_door_c);
         m->ter_set(21, 12, t_door_metal_locked);
-        computer * tmpcomp = m->add_computer(22, 13, _("PolCom OS v1.47"), 3);
+        computer * tmpcomp = m->add_computer( tripoint( 22, 13, m->get_abs_sub().z ), _("PolCom OS v1.47"), 3);
         tmpcomp->add_option(_("Open Supply Room"), COMPACT_OPEN, 3);
         tmpcomp->add_failure(COMPFAIL_SHUTDOWN);
         tmpcomp->add_failure(COMPFAIL_ALARM);
@@ -4808,7 +4793,7 @@ void mapgen_police(map *m, oter_id terrain_type, mapgendata dat, int, float dens
         m->ter_set(15, 14, t_door_c);
         m->ter_set(rng(20, 22), 15, t_door_c);
         m->ter_set(2, 17, t_door_metal_locked);
-        tmpcomp = m->add_computer(22, 13, _("PolCom OS v1.47"), 3);
+        tmpcomp = m->add_computer( tripoint( 22, 13, m->get_abs_sub().z ), _("PolCom OS v1.47"), 3);
         tmpcomp->add_option(_("Open Evidence Locker"), COMPACT_OPEN, 3);
         tmpcomp->add_failure(COMPFAIL_SHUTDOWN);
         tmpcomp->add_failure(COMPFAIL_ALARM);
@@ -4877,25 +4862,25 @@ void mapgen_bank(map *m, oter_id terrain_type, mapgendata dat, int, float)
     dat.fill_groundcover();
     // Basic floorplan
     square(m, t_floor, 1,  1, 22, 22);
-    line(m, t_wall_h,  1,  1, 22,  1);
-    line(m, t_wall_h,  2,  5,  5,  5);
-    line(m, t_wall_h, 16,  5, 19,  5);
-    line(m, t_wall_h,  2,  9, 19,  9);
-    line(m, t_wall_h, 12, 12, 21, 12);
-    line(m, t_wall_h,  2, 14,  6, 14);
-    line(m, t_wall_h, 13, 16, 21, 16);
-    line(m, t_wall_h,  1, 22, 22, 22);
-    line(m, t_wall_v,  1,  2,  1, 21);
-    line(m, t_wall_v, 22,  2, 22, 21);
-    line(m, t_wall_v,  7, 10,  7, 21);
-    line(m, t_wall_v, 12, 12, 12, 21);
-    line(m, t_wall_v, 19, 13, 19, 15);
-    line(m, t_wall_v, 16,  6, 16,  8);
-    line(m, t_wall_v, 19,  6, 19,  8);
-    line(m, t_wall_metal_h,  2, 15,  6, 15);
-    line(m, t_wall_metal_h,  2, 21,  6, 21);
-    line(m, t_wall_metal_v,  2, 16,  2, 20);
-    line(m, t_wall_metal_v,  6, 16,  6, 20);
+    line(m, t_wall,  1,  1, 22,  1);
+    line(m, t_wall,  2,  5,  5,  5);
+    line(m, t_wall, 16,  5, 19,  5);
+    line(m, t_wall,  2,  9, 19,  9);
+    line(m, t_wall, 12, 12, 21, 12);
+    line(m, t_wall,  2, 14,  6, 14);
+    line(m, t_wall, 13, 16, 21, 16);
+    line(m, t_wall,  1, 22, 22, 22);
+    line(m, t_wall,  1,  2,  1, 21);
+    line(m, t_wall, 22,  2, 22, 21);
+    line(m, t_wall,  7, 10,  7, 21);
+    line(m, t_wall, 12, 12, 12, 21);
+    line(m, t_wall, 19, 13, 19, 15);
+    line(m, t_wall, 16,  6, 16,  8);
+    line(m, t_wall, 19,  6, 19,  8);
+    line(m, t_wall_metal,  2, 15,  6, 15);
+    line(m, t_wall_metal,  2, 21,  6, 21);
+    line(m, t_wall_metal,  2, 16,  2, 20);
+    line(m, t_wall_metal,  6, 16,  6, 20);
     //Fixed doors
     line(m, t_door_glass_c, 9, 1, 10, 1);
     m->ter_set( 19,  6, t_door_c);
@@ -4928,8 +4913,8 @@ void mapgen_bank(map *m, oter_id terrain_type, mapgendata dat, int, float)
     //Windows or glass wall front?
     int tmp = 0;
     if (!one_in(3)) {
-        line(m, t_wall_glass_h_alarm, 1, 1, 8, 1);
-        line(m, t_wall_glass_h_alarm, 11, 1, 22, 1);
+        line(m, t_wall_glass_alarm, 1, 1, 8, 1);
+        line(m, t_wall_glass_alarm, 11, 1, 22, 1);
     } else {
         m->ter_set( rng(4,7),  1, t_window_alarm);
         m->ter_set( rng(12,16),  1, t_window_alarm);
@@ -4938,9 +4923,9 @@ void mapgen_bank(map *m, oter_id terrain_type, mapgendata dat, int, float)
     }
     //Windows or glass wall side?
     if (tmp != 1 && one_in(3)) {
-        line(m, t_wall_glass_v_alarm, 22, 1, 22, 8);
+        line(m, t_wall_glass_alarm, 22, 1, 22, 8);
         if (one_in(2)) {
-            line(m, t_wall_glass_v_alarm, 22, 1, 22, 11);
+            line(m, t_wall_glass_alarm, 22, 1, 22, 11);
         }
     } else {
         m->ter_set( 22, rng(3,5), t_window_alarm);
@@ -5020,8 +5005,8 @@ void mapgen_bank(map *m, oter_id terrain_type, mapgendata dat, int, float)
     m->furn_set( 20, 19, f_chair);
     //Conference windows or glass walls?
     if (one_in(4)) {
-        line(m, t_wall_glass_h_alarm, 13, 22, 22, 22);
-        line(m, t_wall_glass_v_alarm, 22, 17, 22, 21);
+        line(m, t_wall_glass_alarm, 13, 22, 22, 22);
+        line(m, t_wall_glass_alarm, 22, 17, 22, 21);
     } else {
         m->ter_set( rng(13,17), 22, t_window_alarm);
         m->ter_set( rng(17,21), 22, t_window_alarm);
@@ -5034,7 +5019,7 @@ void mapgen_bank(map *m, oter_id terrain_type, mapgendata dat, int, float)
         line(m, t_bars, 8, 18, 11, 18);
         line(m, t_door_metal_locked, 9, 18, 10, 18);
     }
-    computer * tmpcomp = m->add_computer(8, 21, _("Consolidated Computerized Bank of the Treasury"), 3);
+    computer * tmpcomp = m->add_computer( tripoint( 8, 21, m->get_abs_sub().z ), _("Consolidated Computerized Bank of the Treasury"), 3);
     tmpcomp->add_option(_("Open Vault"), COMPACT_OPEN, 3);
     tmpcomp->add_failure(COMPFAIL_SHUTDOWN);
     tmpcomp->add_failure(COMPFAIL_ALARM);
@@ -5068,10 +5053,10 @@ void mapgen_pawn(map *m, oter_id terrain_type, mapgendata dat, int, float)
         }
         // Floor and walls
         square(m, t_floor, lw, tw, rw, bw);
-        line(m, t_wall_h, lw, tw, rw, tw);
-        line(m, t_wall_h, lw, bw, rw, bw);
-        line(m, t_wall_v, lw, tw + 1, lw, bw - 1);
-        line(m, t_wall_v, rw, tw + 1, rw, bw - 1);
+        line(m, t_wall, lw, tw, rw, tw);
+        line(m, t_wall, lw, bw, rw, bw);
+        line(m, t_wall, lw, tw + 1, lw, bw - 1);
+        line(m, t_wall, rw, tw + 1, rw, bw - 1);
         // Doors and windows--almost certainly alarmed
         if (one_in(15)) {
             line(m, t_window, lw + 2, tw, lw + 5, tw);
@@ -5111,8 +5096,8 @@ void mapgen_pawn(map *m, oter_id terrain_type, mapgendata dat, int, float)
                         m->furn_set( i, j, t_null );
                     }
                 }
-                line(m, t_wall_h, lw + 1, office_top, office_right, office_top);
-                line(m, t_wall_v, office_right, office_top + 1, office_right, bw - 1);
+                line(m, t_wall, lw + 1, office_top, office_right, office_top);
+                line(m, t_wall, office_right, office_top + 1, office_right, bw - 1);
                 m->ter_set(office_right, rng(office_top + 1, bw - 1), t_door_locked);
                 if (one_in(4)) { // Back door
                     m->ter_set(rng(lw + 1, office_right - 1), bw, t_door_locked_alarm);
@@ -5133,8 +5118,8 @@ void mapgen_pawn(map *m, oter_id terrain_type, mapgendata dat, int, float)
                         m->furn_set( i, j, t_null );
                     }
                 }
-                line(m, t_wall_h, office_left, office_top, rw - 1, office_top);
-                line(m, t_wall_v, office_left, office_top + 1, office_left, bw - 1);
+                line(m, t_wall, office_left, office_top, rw - 1, office_top);
+                line(m, t_wall, office_left, office_top + 1, office_left, bw - 1);
                 m->ter_set(office_left, rng(office_top + 1, bw - 1), t_door_locked);
                 if (one_in(4)) { // Back door
                     m->ter_set(rng(office_left + 1, rw - 1), bw, t_door_locked_alarm);
@@ -5164,10 +5149,10 @@ void mapgen_mil_surplus(map *m, oter_id terrain_type, mapgendata dat, int, float
         int tw = rng(0, 4);
         int bw = SEEY * 2 - rng(3, 8);
         square(m, t_floor, lw, tw, rw, bw);
-        line(m, t_wall_h, lw, tw, rw, tw);
-        line(m, t_wall_h, lw, bw, rw, bw);
-        line(m, t_wall_v, lw, tw + 1, lw, bw - 1);
-        line(m, t_wall_v, rw, tw + 1, rw, bw - 1);
+        line(m, t_wall, lw, tw, rw, tw);
+        line(m, t_wall, lw, bw, rw, bw);
+        line(m, t_wall, lw, tw + 1, lw, bw - 1);
+        line(m, t_wall, rw, tw + 1, rw, bw - 1);
         int rn = rng(4, 7);
         line(m, t_window, lw + 2, tw, lw + rn, tw);
         line(m, t_window, rw - rn, tw, rw - 2, tw);
@@ -5239,7 +5224,7 @@ void mapgen_furniture(map *m, oter_id terrain_type, mapgendata dat, int, float)
 |      D              \n\
 |BBBB  D              \n\
 |------|              \n",
-                                   mapf::basic_bind("g - | + D", t_wall_glass_h, t_wall_h, t_wall_v, t_door_c, t_door_locked),
+                                   mapf::basic_bind("g - | + D", t_wall_glass, t_wall, t_wall, t_door_c, t_door_locked),
                                    mapf::basic_bind("# c & B C O b H h o d e m E", f_table, f_counter, f_fridge, f_rack, f_cupboard,
                                            f_oven, f_bed, f_armchair, f_chair, f_toilet, f_dresser, f_desk, f_sofa, f_bookcase),
                                    true // empty toilets
@@ -5285,7 +5270,7 @@ void mapgen_abstorefront(map *m, oter_id terrain_type, mapgendata dat, int, floa
 |B               |B  |\n\
 |BBBBBBB  BBBBBB |B  D\n\
 |--------------------|\n",
-                                   mapf::basic_bind("x - | + D", t_window_boarded, t_wall_h, t_wall_v, t_door_c, t_door_locked),
+                                   mapf::basic_bind("x - | + D", t_window_boarded, t_wall, t_wall, t_door_c, t_door_locked),
                                    mapf::basic_bind("B c", f_rack, f_counter));
         autorotate(false);
 
@@ -6014,7 +5999,7 @@ void mapgen_cave(map *m, oter_id, mapgendata dat, int turn, float density)
             case 3:
                 // bat corpses
                 for (int i = rng(1, 12); i > 0; i--) {
-                    body.make_corpse("corpse", GetMType("mon_bat"), calendar::turn);
+                    body.make_corpse( "mon_bat", calendar::turn );
                     m->add_item_or_charges(rng(1, SEEX * 2 - 1), rng(1, SEEY * 2 - 1), body);
                 }
                 break;
@@ -6032,7 +6017,7 @@ void mapgen_cave(map *m, oter_id, mapgendata dat, int turn, float density)
                 for (auto &ii : bloodline) {
                     m->add_field(ii.x, ii.y, fd_blood, 2);
                 }
-                body.make_corpse("corpse", GetMType("mon_null"), calendar::turn);
+                body.make_corpse();
                 m->add_item_or_charges(hermx, hermy, body);
                 // This seems verbose.  Maybe a function to spawn from a list of item groups?
                 m->place_items("stash_food", 50, hermx - 1, hermy - 1, hermx + 1, hermy + 1, true, 0);
@@ -6296,7 +6281,7 @@ void mapgen_cavern(map *m, oter_id, mapgendata dat, int, float)
         }
         while (!one_in(3)) {
             for( int i = 0; i < 3; ++i ) {
-                m->put_items_from_loc( "cannedfood", x, y, 0 );
+                m->put_items_from_loc( "cannedfood", tripoint( x, y, m->get_abs_sub().z ), 0 );
             }
         }
     }
@@ -6305,37 +6290,36 @@ void mapgen_cavern(map *m, oter_id, mapgendata dat, int, float)
 
 }
 
-
-void mapgen_rock(map *m, oter_id, mapgendata dat, int, float)
+void mapgen_rock_partial(map *m, oter_id, mapgendata dat, int, float)
 {
-
-    for (int i = 0; i < 4; i++) {
-        if (dat.t_nesw[i] == "cavern" || dat.t_nesw[i] == "slimepit" ||
-            dat.t_nesw[i] == "slimepit_down") {
+    fill_background( m, t_rock );
+    for( int i = 0; i < 4; i++ ) {
+        if( dat.t_nesw[i] == "cavern" || dat.t_nesw[i] == "slimepit" ||
+            dat.t_nesw[i] == "slimepit_down" ) {
             dat.dir(i) = 6;
         } else {
             dat.dir(i) = 0;
         }
     }
 
-    for (int i = 0; i < SEEX * 2; i++) {
-        for (int j = 0; j < SEEY * 2; j++) {
-            if (rng(0, dat.n_fac) > j || rng(0, dat.e_fac) > SEEX * 2 - 1 - i ||
-                rng(0, dat.w_fac) > i || rng(0, dat.s_fac) > SEEY * 2 - 1 - j   ) {
+    for( int i = 0; i < SEEX * 2; i++ ) {
+        for( int j = 0; j < SEEY * 2; j++ ) {
+            if( rng(0, dat.n_fac) > j || rng(0, dat.s_fac) > SEEY * 2 - 1 - j ||
+                rng(0, dat.w_fac) > i || rng(0, dat.e_fac) > SEEX * 2 - 1 - i ) {
                 m->ter_set(i, j, t_rock_floor);
-            } else {
-                m->ter_set(i, j, t_rock);
             }
         }
     }
+}
 
-
-
+void mapgen_rock(map *m, oter_id, mapgendata, int, float)
+{
+    fill_background( m, t_rock );
 }
 
 
 void mapgen_open_air(map *m, oter_id, mapgendata, int, float){
-    fill_background(m, t_open_air);
+    fill_background( m, t_open_air );
 }
 
 
@@ -6783,16 +6767,16 @@ void mapgen_tutorial(map *m, oter_id terrain_type, mapgendata dat, int turn, flo
     for (int i = 0; i < SEEX * 2; i++) {
         for (int j = 0; j < SEEY * 2; j++) {
             if (j == 0 || j == SEEY * 2 - 1) {
-                m->ter_set(i, j, t_wall_h);
+                m->ter_set(i, j, t_wall);
             } else if (i == 0 || i == SEEX * 2 - 1) {
-                m->ter_set(i, j, t_wall_v);
+                m->ter_set(i, j, t_wall);
             } else if (j == SEEY) {
                 if (i % 4 == 2) {
                     m->ter_set(i, j, t_door_c);
                 } else if (i % 5 == 3) {
                     m->ter_set(i, j, t_window_domestic);
                 } else {
-                    m->ter_set(i, j, t_wall_h);
+                    m->ter_set(i, j, t_wall);
                 }
             } else {
                 m->ter_set(i, j, t_floor);

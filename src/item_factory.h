@@ -3,7 +3,9 @@
 
 #include "json.h"
 #include "iuse.h"
+#include "bodypart.h"
 #include <string>
+#include <memory>
 #include <vector>
 #include <map>
 #include <bitset>
@@ -20,6 +22,17 @@ class Item_spawn_data;
 class Item_group;
 class item;
 struct itype;
+struct islot_container;
+struct islot_armor;
+struct islot_book;
+struct islot_gun;
+struct islot_gunmod;
+struct islot_variable_bigness;
+struct islot_bionic;
+struct islot_spawn;
+struct islot_ammo;
+struct islot_seed;
+struct islot_software;
 class item_category;
 
 /**
@@ -56,9 +69,12 @@ class Item_factory
         void register_iuse_lua(const std::string &name, int lua_function);
         /**
          * Get the iuse function function of the given name.
-         * @throw std::exception if no use function of that name is known.
          */
         const use_function *get_iuse( const std::string &id );
+        /**
+         * Gets function ID from its name.
+         */
+        const std::string &inverse_get_iuse( const use_function *fun );
 
 
         /**
@@ -204,7 +220,7 @@ class Item_factory
         GroupMap m_template_groups;
 
         // Checks that ammo is listed in ammo_name(),
-        // That there is at least on instance (it_ammo) of
+        // That there is at least on instance of
         // this ammo type defined.
         // If any of this fails, prints a message to the msg
         // stream.
@@ -221,13 +237,39 @@ class Item_factory
 
         void create_inital_categories();
 
+        /**
+         * Load the data of the slot struct. It creates the slot object (of type SlotType) and
+         * and calls @ref load to do the actual (type specific) loading.
+         */
+        template<typename SlotType>
+        void load_slot( std::unique_ptr<SlotType> &slotptr, JsonObject &jo );
+        /**
+         * Load item the item slot if present in json.
+         * Checks whether the json object has a member of the given name and if so, loads the item
+         * slot from that object. If the member does not exists, nothing is done.
+         */
+        template<typename SlotType>
+        void load_slot_optional( std::unique_ptr<SlotType> &slotptr, JsonObject &jo, const std::string &member );
+
+        void load( islot_container &slot, JsonObject &jo );
+        void load( islot_armor &slot, JsonObject &jo );
+        void load( islot_book &slot, JsonObject &jo );
+        void load( islot_gun &slot, JsonObject &jo );
+        void load( islot_gunmod &slot, JsonObject &jo );
+        void load( islot_variable_bigness &slot, JsonObject &jo );
+        void load( islot_bionic &slot, JsonObject &jo );
+        void load( islot_spawn &slot, JsonObject &jo );
+        void load( islot_ammo &slot, JsonObject &jo );
+        void load( islot_seed &slot, JsonObject &jo );
+        void load( islot_software &slot, JsonObject &jo );
+
         // used to add the default categories
         void add_category(const std::string &id, int sort_rank, const std::string &name);
 
         //json data handlers
-        void set_use_methods_from_json( JsonObject &jo, std::string member, itype *new_item_template );
+        void set_use_methods_from_json( JsonObject &jo, std::string member, std::vector<use_function> &use_methods );
         use_function use_from_string(std::string name);
-        use_function use_from_object(JsonObject obj);
+        void set_uses_from_object(JsonObject obj, std::vector<use_function> &use_methods);
         phase_id phase_from_tag(Item_tag name);
 
         void add_entry(Item_group *sg, JsonObject &obj);
@@ -235,6 +277,7 @@ class Item_factory
         void load_basic_info(JsonObject &jo, itype *new_item);
         void tags_from_json(JsonObject &jo, std::string member, std::set<std::string> &tags);
         void set_qualities_from_json(JsonObject &jo, std::string member, itype *new_item);
+        void set_properties_from_json(JsonObject &jo, std::string member, itype *new_item);
 
         // Currently only used for body part stuff, if used for anything else in the future bitset size may need to be increased.
         std::bitset<num_bp> flags_from_json(JsonObject &jo, const std::string &member,
@@ -250,7 +293,6 @@ class Item_factory
                                 const std::string &flag_type);
         void clear();
         void init();
-        void init_old();
 
         //iuse stuff
         std::map<Item_tag, use_function> iuse_function_list;

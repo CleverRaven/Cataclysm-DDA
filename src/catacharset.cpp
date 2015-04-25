@@ -2,7 +2,7 @@
 #include <string.h>
 #include "debug.h"
 #include "cursesdef.h"
-#include "wcwidth.c"
+#include "wcwidth.h"
 
 //copied from SDL2_ttf code
 unsigned UTF8_getch(const char **src, int *srclen)
@@ -126,18 +126,29 @@ std::string utf32_to_utf8(unsigned ch)
 //Calculate width of a unicode string
 //Latin characters have a width of 1
 //CJK characters have a width of 2, etc
-int utf8_width(const char *s)
+int utf8_width(const char *s, const bool ignore_tags)
 {
     int len = strlen(s);
     const char *ptr = s;
     int w = 0;
+    bool inside_tag = false;
     while(len > 0) {
         unsigned ch = UTF8_getch(&ptr, &len);
-        if(ch != UNKNOWN_UNICODE) {
-            w += mk_wcwidth(ch);
-        } else {
+        if (ch == UNKNOWN_UNICODE) {
             continue;
         }
+        if (ignore_tags) {
+            if (ch == '<') {
+                inside_tag = true;
+            } else if (ch == '>') {
+                inside_tag = false;
+                continue;
+            }
+            if (inside_tag) {
+                continue;
+            }
+        }
+        w += mk_wcwidth(ch);
     }
     return w;
 }
@@ -389,6 +400,19 @@ std::string base64_decode(std::string str)
     delete[] decoded_data;
 
     return ret;
+}
+
+int center_text_pos(const char *text, int start_pos, int end_pos)
+{
+    int full_screen = end_pos - start_pos + 1;
+    int str_len = utf8_width(text);
+    int position = (full_screen - str_len) / 2;
+
+    if (position <= 0) {
+        return start_pos;
+    }
+
+    return start_pos + position;
 }
 
 // In an attempt to maintain compatibility with gcc 4.6, use an initializer function

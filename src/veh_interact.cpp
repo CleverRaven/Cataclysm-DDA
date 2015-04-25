@@ -3,6 +3,7 @@
 #include "vehicle.h"
 #include "overmapbuffer.h"
 #include "game.h"
+#include "map.h"
 #include "output.h"
 #include "catacharset.h"
 #include "crafting.h"
@@ -10,6 +11,8 @@
 #include "debug.h"
 #include "messages.h"
 #include <cmath>
+#include <list>
+#include <functional>
 
 #ifdef _MSC_VER
 #include <math.h>
@@ -17,6 +20,8 @@
 #else
 #define ISNAN std::isnan
 #endif
+
+static const std::string repair_hotkeys("r1234567890");
 
 /**
  * Creates a blank veh_interact window.
@@ -107,13 +112,15 @@ void veh_interact::allocate_windows()
         // +--------+---------+---------+
         // | w_disp | w_parts |  w_list |
         // +--------+---------+---------+
-        // |          w_name            |
+        // |          w_name   w_details|
         // |          w_stats           |
         // +----------------------------+
         //
         // w_disp/w_parts/w_list expand to take up extra height.
         // w_disp, w_parts and w_list share extra width in a 2:1:1 ratio,
         // but w_parts and w_list start with more than w_disp.
+        //
+        // w_details only shows in install view and covers rightmost colums of w_name and w_stats
 
         const int h1 = 4; // 4 lines for msg + mode
         const int h3 = 6; // 6 lines for name + stats
@@ -163,11 +170,14 @@ void veh_interact::allocate_windows()
         // +------------------+---------+
         // |      w_disp      |         |
         // +---------+--------+ w_stats |
-        // | w_parts | w_list |         |
+        // | w_parts | w_list |w_details|
         // +---------+--------+---------+
         // |           w_mode           |
         // |           w_msg            |
         // +----------------------------+
+        //
+        // w_details only shows in install view and covers lower part of w_stats
+
         name_h  = 1;
         name_w  = grid_w;
         mode_h  = 1;
@@ -214,6 +224,7 @@ void veh_interact::allocate_windows()
     w_disp  = newwin(disp_h,  disp_w,  disp_y,  disp_x );
     w_parts = newwin(parts_h, parts_w, parts_y, parts_x);
     w_list  = newwin(list_h,  list_w,  list_y,  list_x );
+    w_details = NULL;  // only pops up when in install menu
     w_stats = newwin(stats_h, stats_w, stats_y, stats_x);
     w_name  = newwin(name_h,  name_w,  name_y,  name_x );
 
@@ -308,6 +319,8 @@ void veh_interact::cache_tool_availability()
     int charges_oxy = charges_per_use( "oxy_torch" );
     int charges_crude = charges_per_use( "welder_crude" );
     has_wrench = crafting_inv.has_items_with_quality( "WRENCH", 1, 1 );
+    has_hammer = crafting_inv.has_items_with_quality( "HAMMER", 1, 1 );
+    has_nailgun = crafting_inv.has_tools("nailgun", 1);
     has_hacksaw = crafting_inv.has_items_with_quality( "SAW_M_FINE", 1, 1 ) ||
                   (crafting_inv.has_tools("circsaw_off", 1) &&
                    crafting_inv.has_charges("circsaw_off", CIRC_SAW_USED)) ||
@@ -330,6 +343,7 @@ void veh_interact::cache_tool_availability()
     has_duct_tape = (crafting_inv.has_charges("duct_tape", DUCT_TAPE_USED) ||
                      (crafting_inv.has_tools("toolbox", 1) &&
                       crafting_inv.has_charges("toolbox", DUCT_TAPE_USED)));
+    has_nails = crafting_inv.has_charges("nail", NAILS_USED);
     has_jack = crafting_inv.has_tools("jack", 1);
     has_siphon = crafting_inv.has_tools("hose", 1);
 
@@ -453,7 +467,7 @@ bool veh_interact::is_drive_conflict(int msg_width){
     bool install_muscle_engine = (sel_vpart_info->fuel_type == "muscle");
     bool has_muscle_engine = veh->has_engine_type("muscle", false);
     bool can_install = !(has_muscle_engine && install_muscle_engine);
-    
+
     if (!can_install) {
         werase (w_msg);
         fold_and_print(w_msg, 0, 1, msg_width - 2, c_ltred,
@@ -464,6 +478,12 @@ bool veh_interact::is_drive_conflict(int msg_width){
 }
 
 bool veh_interact::can_install_part(int msg_width){
+    if( sel_vpart_info == NULL ) {
+        werase (w_msg);
+        wrefresh (w_msg);
+        return false;
+    }
+
     bool is_engine = sel_vpart_info->has_flag("ENGINE");
     bool install_muscle_engine = (sel_vpart_info->fuel_type == "muscle");
     //count current engines, muscle engines don't require higher skill
@@ -471,74 +491,99 @@ bool veh_interact::can_install_part(int msg_width){
     int dif_eng = 0;
     if (is_engine && !install_muscle_engine) {
         for (size_t p = 0; p < veh->parts.size(); p++) {
-            if (veh->part_flag (p, "ENGINE") && 
-                veh->part_info(p).fuel_type != "muscle") 
+            if (veh->part_flag (p, "ENGINE") &&
+                veh->part_info(p).fuel_type != "muscle")
             {
                 engines++;
-                dif_eng = dif_eng / 2 + 12;
+                dif_eng = dif_eng / 2 + 8;
             }
         }
     }
-    
+
     itype_id itm = sel_vpart_info->item;
     bool drive_conflict = is_drive_conflict(msg_width);
-    
+
     bool has_comps = crafting_inv.has_components(itm, 1);
     bool has_skill = g->u.skillLevel("mechanics") >= sel_vpart_info->difficulty;
     bool has_tools = ((has_welder && has_goggles) || has_duct_tape) && has_wrench;
     bool has_skill2 = !is_engine || (g->u.skillLevel("mechanics") >= dif_eng);
     bool is_wrenchable = sel_vpart_info->has_flag("TOOL_WRENCH");
+    bool is_wood = sel_vpart_info->has_flag("NAILABLE");
     bool is_hand_remove = sel_vpart_info->has_flag("TOOL_NONE");
     std::string engine_string = "";
-    if (!drive_conflict){
-        if (engines && is_engine) { // already has engine
-            engine_string = string_format(
-                                _("  You also need level <color_%1$s>%2$d</color> skill in mechanics to install additional engines."),
-                                has_skill2 ? "ltgreen" : "red",
-                                dif_eng);
-        }
-        if (is_wrenchable){
-            werase (w_msg);
-            fold_and_print(w_msg, 0, 1, msg_width - 2, c_ltgray,
-                           _("Needs <color_%1$s>%2$s</color>, a <color_%3$s>wrench</color> and level <color_%4$s>%5$d</color> skill in mechanics.%6$s"),
-                           has_comps ? "ltgreen" : "red",
-                           item::nname( itm ).c_str(),
-                           has_wrench ? "ltgreen" : "red",
-                           has_skill ? "ltgreen" : "red",
-                           sel_vpart_info->difficulty,
-                           engine_string.c_str());
-            wrefresh (w_msg);
-        }
-        else if (is_hand_remove) {
-            werase (w_msg);
-            fold_and_print(w_msg, 0, 1, msg_width - 2, c_ltgray,
-                           _("Needs <color_%1$s>%2$s</color>, and level <color_%3$s>%4$d</color> skill in mechanics.%5$s"),
-                           has_comps ? "ltgreen" : "red",
-                           item::nname( itm ).c_str(),
-                           has_skill ? "ltgreen" : "red",
-                           sel_vpart_info->difficulty,
-                           engine_string.c_str());
-            wrefresh (w_msg);
-        }
-        else {
-            werase (w_msg);
-            fold_and_print(w_msg, 0, 1, msg_width - 2, c_ltgray,
-                           _("Needs <color_%1$s>%2$s</color>, a <color_%3$s>wrench</color>, either a <color_%4$s>powered welder</color> or <color_%5$s>duct tape</color>, and level <color_%6$s>%7$d</color> skill in mechanics.%8$s"),
-                           has_comps ? "ltgreen" : "red",
-                           item::nname( itm ).c_str(),
-                           has_wrench ? "ltgreen" : "red",
-                           (has_welder && has_goggles) ? "ltgreen" : "red",
-                           has_duct_tape ? "ltgreen" : "red",
-                           has_skill ? "ltgreen" : "red",
-                           sel_vpart_info->difficulty,
-                           engine_string.c_str());
-            wrefresh (w_msg);
-        }
-        if (has_comps && (has_tools || (is_wrenchable && has_wrench) || (is_hand_remove)) && has_skill && has_skill2) {
-            return true;
-        }
+
+    if (drive_conflict) {
+        return false; // No, you cannot has twin pedal power
     }
-    return false;
+
+    if (engines && is_engine) { // already has engine
+        engine_string = string_format(
+                            _("  You also need level <color_%1$s>%2$d</color> skill in mechanics to install additional engines."),
+                            has_skill2 ? "ltgreen" : "red",
+                            dif_eng);
+    }
+
+    if (is_hand_remove) {
+        werase (w_msg);
+        fold_and_print(w_msg, 0, 1, msg_width - 2, c_ltgray,
+                        _("Needs <color_%1$s>%2$s</color>, and level <color_%3$s>%4$d</color> skill in mechanics.%5$s"),
+                        has_comps ? "ltgreen" : "red",
+                        item::nname( itm ).c_str(),
+                        has_skill ? "ltgreen" : "red",
+                        sel_vpart_info->difficulty,
+                        engine_string.c_str());
+        wrefresh (w_msg);
+    } else if (is_wrenchable){
+        werase (w_msg);
+        fold_and_print(w_msg, 0, 1, msg_width - 2, c_ltgray,
+                        _("Needs <color_%1$s>%2$s</color>, a <color_%3$s>wrench</color> and level <color_%4$s>%5$d</color> skill in mechanics.%6$s"),
+                        has_comps ? "ltgreen" : "red",
+                        item::nname( itm ).c_str(),
+                        has_wrench ? "ltgreen" : "red",
+                        has_skill ? "ltgreen" : "red",
+                        sel_vpart_info->difficulty,
+                        engine_string.c_str());
+        wrefresh (w_msg);
+    } else if (is_wood) {
+        werase (w_msg);
+        fold_and_print(w_msg, 0, 1, msg_width - 2, c_ltgray,
+                        _("Needs <color_%1$s>%2$s</color>, either <color_%3$s>nails</color> and <color_%4$s>something to drive them</color> or <color_%5$s>duct tape</color>, and level <color_%6$s>%7$d</color> skill in mechanics.%8$s"),
+                        has_comps ? "ltgreen" : "red",
+                        item::nname( itm ).c_str(),
+                        has_nails ? "ltgreen" : "red",
+                        (has_hammer || has_nailgun) ? "ltgreen" : "red",
+                        has_duct_tape ? "ltgreen" : "red",
+                        has_skill ? "ltgreen" : "red",
+                        sel_vpart_info->difficulty,
+                        engine_string.c_str());
+        wrefresh (w_msg);
+    } else {
+        werase (w_msg);
+        fold_and_print(w_msg, 0, 1, msg_width - 2, c_ltgray,
+                        _("Needs <color_%1$s>%2$s</color>, a <color_%3$s>wrench</color>, either a <color_%4$s>powered welder</color> (and <color_%5$s>welding goggles</color>) or <color_%6$s>duct tape</color>, and level <color_%7$s>%8$d</color> skill in mechanics.%9$s"),
+                        has_comps ? "ltgreen" : "red",
+                        item::nname( itm ).c_str(),
+                        has_wrench ? "ltgreen" : "red",
+                        has_welder ? "ltgreen" : "red",
+                        has_goggles ? "ltgreen" : "red",
+                        has_duct_tape ? "ltgreen" : "red",
+                        has_skill ? "ltgreen" : "red",
+                        sel_vpart_info->difficulty,
+                        engine_string.c_str());
+        wrefresh (w_msg);
+    }
+
+    if(!has_comps || !has_skill || !has_skill2) {
+        return false; //Bail early on easy conditions
+    } else if(is_hand_remove) {
+        return true;
+    } else if(is_wrenchable) {
+        return has_wrench;
+    } else if(is_wood) {
+        return has_duct_tape || (has_nails && (has_hammer || has_nailgun));
+    } else {
+        return has_tools;
+    }
 }
 
 /**
@@ -572,37 +617,164 @@ void veh_interact::do_install()
     }
     mvwprintz(w_mode, 0, 1, c_ltgray, _("Choose new part to install here:"));
     wrefresh (w_mode);
-    
+
+    std::array<std::string,7> tab_list = { { pgettext("Vehicle Parts|","All"),
+                                             pgettext("Vehicle Parts|","Cargo"),
+                                             pgettext("Vehicle Parts|","Light"),
+                                             pgettext("Vehicle Parts|","Util"),
+                                             pgettext("Vehicle Parts|","Hull"),
+                                             pgettext("Vehicle Parts|","Internal"),
+                                             pgettext("Vehicle Parts|","Other") } };
+
+    std::array<std::string,7> tab_list_short = { { pgettext("Vehicle Parts|","A"),
+                                                   pgettext("Vehicle Parts|","C"),
+                                                   pgettext("Vehicle Parts|","L"),
+                                                   pgettext("Vehicle Parts|","U"),
+                                                   pgettext("Vehicle Parts|","H"),
+                                                   pgettext("Vehicle Parts|","I"),
+                                                   pgettext("Vehicle Parts|","O") } };
+
+    std::array <std::function<bool(vpart_info)>,7> tab_filters; // filter for each tab, last one
+    tab_filters[0] = [&](vpart_info) { return true; }; // All
+    tab_filters[1] = [&](vpart_info part) { return part.has_flag(VPFLAG_CARGO) && // Cargo
+                                                   !part.has_flag("TURRET"); };
+    tab_filters[2] = [&](vpart_info part) { return part.has_flag(VPFLAG_LIGHT) || // Light
+                                                   part.has_flag(VPFLAG_CONE_LIGHT) ||
+                                                   part.has_flag(VPFLAG_CIRCLE_LIGHT) ||
+                                                   part.has_flag(VPFLAG_DOME_LIGHT) ||
+                                                   part.has_flag(VPFLAG_AISLE_LIGHT) ||
+                                                   part.has_flag(VPFLAG_ATOMIC_LIGHT) ||
+                                                   part.has_flag(VPFLAG_EVENTURN) ||
+                                                   part.has_flag(VPFLAG_ODDTURN); };
+    tab_filters[3] = [&](vpart_info part) { return part.has_flag("TRACK") || //Util
+                                                   part.has_flag(VPFLAG_FRIDGE) ||
+                                                   part.has_flag("KITCHEN") ||
+                                                   part.has_flag("WELDRIG") ||
+                                                   part.has_flag("CRAFTRIG") ||
+                                                   part.has_flag("CHEMLAB") ||
+                                                   part.has_flag("FORGE") ||
+                                                   part.has_flag("HORN") ||
+                                                   part.has_flag(VPFLAG_RECHARGE) ||
+                                                   part.has_flag("VISION") ||
+                                                   part.has_flag("POWER_TRANSFER") ||
+                                                   part.has_flag("FAUCET") ||
+                                                   part.has_flag("STEREO") ||
+                                                   part.has_flag("MUFFLER") ||
+                                                   part.has_flag("REMOTE_CONTROLS") ||
+                                                   part.has_flag("CURTAIN") ||
+                                                   part.has_flag("SEATBELT") ||
+                                                   part.has_flag("SECURITY") ||
+                                                   part.has_flag("SEAT") ||
+                                                   part.has_flag("BED") ||
+                                                   part.has_flag("DOOR_MOTOR"); };
+    tab_filters[4] = [&](vpart_info part) { return(part.has_flag(VPFLAG_OBSTACLE) || // Hull
+                                                   part.has_flag("ROOF") ||
+                                                   part.has_flag(VPFLAG_ARMOR)) &&
+                                                   !part.has_flag("WHEEL") &&
+                                                   !tab_filters[3](part); };
+    tab_filters[5] = [&](vpart_info part) { return part.has_flag(VPFLAG_ENGINE) || // Internals
+                                                   part.has_flag(VPFLAG_ALTERNATOR) ||
+                                                   part.has_flag(VPFLAG_CONTROLS) ||
+                                                   part.location == "fuel_source" ||
+                                                   part.location == "on_battery_mount" ||
+                                                   (part.location.empty() && part.has_flag("FUEL_TANK")); };
+    tab_filters[tab_filters.size()-1] = [&](vpart_info part) { // Other: everything that's not in the other filters
+        for (size_t i=1; i < tab_filters.size()-1; i++ ) {
+            if( tab_filters[i](part) ) return false;
+        }
+        return true; };
+
+    std::vector<vpart_info> tab_vparts = can_mount; // full list of mountable parts, to be filtered according to tab
+
     int pos = 0;
+    size_t tab = 0;
     while (true) {
-        sel_vpart_info = &(can_mount[pos]);
-        display_list (pos, can_mount);
+        display_list(pos, tab_vparts, 2);
+
+        // draw tab menu
+        int tab_x = 0;
+        for( size_t i=0; i < tab_list.size(); i++ ){
+            std::string tab_name = (tab == i) ? tab_list[i] : tab_list_short[i]; // full name for selected tab
+            tab_x += (tab == i); // add a space before selected tab
+            draw_subtab(w_list, tab_x, tab_name, tab == i, false);
+            tab_x += ( 1 + utf8_width(tab_name.c_str()) + (tab == i) ); // one space padding and add a space after selected tab
+        }
+        wrefresh(w_list);
+
+        sel_vpart_info = (tab_vparts.size() > 0) ? &(tab_vparts[pos]) : NULL; // filtered list can be empty
+
+        display_details( sel_vpart_info );
+
         bool can_install = can_install_part(msg_width);
-        
+
         const std::string action = main_context.handle_input();
         if (action == "INSTALL" || action == "CONFIRM"){
             if (can_install) {
-                sel_cmd = 'i';
-                return;
+                std::vector< vpart_info* > shapes = vpart_shapes[sel_vpart_info->name+sel_vpart_info->item];
+                int selected_shape = -1;
+                if ( shapes.size() > 1 ) { // more than one shape available, display selection
+                    std::vector<uimenu_entry> shape_ui_entries;
+                    for ( size_t i = 0; i < shapes.size(); i++ ) {
+                        uimenu_entry entry = uimenu_entry( i, true, UIMENU_INVALID,
+                                                           shapes[i]->name );
+                        entry.extratxt.left = 1;
+                        entry.extratxt.sym = special_symbol( shapes[i]->sym );
+                        entry.extratxt.color = shapes[i]->color;
+                        shape_ui_entries.push_back( entry );
+                    }
+                    selected_shape = uimenu( true, getbegx(w_list), list_w, getbegy(w_list),
+                                             _("Choose shape:"), shape_ui_entries ).ret;
+                } else { // only one shape available, default to first one
+                    selected_shape = 0;
+                }
+                 if( 0 <= selected_shape && (size_t) selected_shape < shapes.size() ) {
+                    sel_vpart_info = shapes[selected_shape];
+                    sel_cmd = 'i';
+                    return;
+                }
             }
         } else if (action == "QUIT") {
+            sel_vpart_info = NULL;
             werase (w_list);
             wrefresh (w_list);
             werase (w_msg);
             wrefresh(w_msg);
             break;
-        } else {
-            move_in_list(pos, action, can_mount.size());
+        } else if (action == "PREV_TAB" || action == "NEXT_TAB") {
+            tab_vparts.clear();
+            pos = 0;
+
+            if(action == "PREV_TAB") {
+                tab = ( tab < 1 ) ? tab_list.size() - 1 : tab - 1;
+            } else {
+                tab = ( tab < tab_list.size() - 1 ) ? tab + 1 : 0;
+            }
+
+            copy_if(can_mount.begin(), can_mount.end(), back_inserter(tab_vparts), tab_filters[tab]);
+        }
+        else {
+            move_in_list(pos, action, tab_vparts.size(), 2);
         }
     }
+
+    //destroy w_details
+    werase(w_details);
+    delwin(w_details);
+    w_details = NULL;
+
+    //restore windows that had been covered by w_details
+    werase(w_stats);
+    display_stats();
+    display_name();
 }
 
-bool veh_interact::move_in_list(int &pos, const std::string &action, const int size) const
+bool veh_interact::move_in_list(int &pos, const std::string &action, const int size, const int header) const
 {
+    int lines_per_page = page_size - header;
     if (action == "PREV_TAB" || action == "LEFT") {
-        pos -= page_size;
+        pos -= lines_per_page;
     } else if (action == "NEXT_TAB" || action == "RIGHT") {
-        pos += page_size;
+        pos += lines_per_page;
     } else if (action == "UP") {
         pos--;
     } else if (action == "DOWN") {
@@ -633,17 +805,21 @@ void veh_interact::do_repair()
     int msg_width = getmaxx(w_msg);
     switch (reason) {
     case LOW_MORALE:
-        mvwprintz(w_msg, 0, 1, c_ltred, _("Your morale is too low to construct..."));
+        mvwprintz(w_msg, 0, 1, c_ltred, _("Your morale is too low to repair..."));
         wrefresh (w_msg);
         return;
     case INVALID_TARGET:
         if(mostDamagedPart != -1) {
             int p = mostDamagedPart; // for convenience
 
-            int xOffset = veh->parts[p].mount_dy + ddy;
-            int yOffset = -(veh->parts[p].mount_dx + ddx);
+            int xOffset = veh->parts[p].mount.x + ddx;
+            int yOffset = veh->parts[p].mount.y + ddy;
 
-            move_cursor(xOffset, yOffset);
+            if (vertical_menu) {
+                move_cursor(yOffset, -xOffset);
+            } else {
+                move_cursor(xOffset, yOffset);
+            }
         } else {
             mvwprintz(w_msg, 0, 1, c_ltred, _("There are no damaged parts on this vehicle."));
             wrefresh (w_msg);
@@ -651,8 +827,9 @@ void veh_interact::do_repair()
         return;
     case LACK_TOOLS:
         fold_and_print(w_msg, 0, 1, msg_width - 2, c_ltgray,
-                       _("You need a <color_%1$s>powered welder and welding goggles</color> or <color_%2$s>duct tape</color> to repair."),
-                       (has_welder && has_goggles) ? "ltgreen" : "red",
+                       _("You need a <color_%1$s>powered welder</color> (and <color_%2$s>welding goggles</color>) or <color_%3$s>duct tape</color> to repair."),
+                       has_welder ? "ltgreen" : "red",
+                       has_goggles ? "ltgreen" : "red",
                        has_duct_tape ? "ltgreen" : "red");
         wrefresh (w_msg);
         return;
@@ -702,6 +879,7 @@ void veh_interact::do_repair()
             veh->print_part_desc (w_parts, 0, parts_w, cpart, -1);
             wrefresh (w_parts);
             werase (w_msg);
+            wrefresh(w_msg);
             break;
         } else {
             move_in_list(pos, action, need_repair.size());
@@ -774,32 +952,32 @@ void veh_interact::do_refill()
 bool veh_interact::can_remove_part(int veh_part_index, int mech_skill, int msg_width){
     werase (w_msg);
     if (veh->can_unmount(veh_part_index)) {
+        bool is_wood = veh->part_flag(veh_part_index, "NAILABLE");
         bool is_wheel = veh->part_flag(veh_part_index, "WHEEL");
-        bool is_wrenchable = veh->part_flag(veh_part_index, "TOOL_WRENCH");
+        bool is_wrenchable = veh->part_flag(veh_part_index, "TOOL_WRENCH") ||
+                                (is_wheel && veh->part_flag(veh_part_index, "NO_JACK"));
         bool is_hand_remove = veh->part_flag(veh_part_index, "TOOL_NONE");
-        
+
         int skill_req;
         if (veh->part_flag(veh_part_index, "DIFFICULTY_REMOVE")) {
             skill_req = veh->part_info(veh_part_index).difficulty;
-        } else if (is_wrenchable ||is_hand_remove) {
+        } else if (is_wrenchable || is_hand_remove || is_wood) {
             skill_req = 1;
         } else {
             skill_req = 2;
         }
-        
+
         bool has_skill = false;
         if (mech_skill >= skill_req) has_skill = true;
-        
+
         //print necessary materials
-        if (is_wheel){
+        if(is_wood) {
             fold_and_print(w_msg, 0, 1, msg_width - 2, c_ltgray,
-                           _("You need a <color_%1$s>wrench</color>, a <color_%2$s>jack</color> and <color_%3$s>level %4$d</color> mechanics skill to remove this part."),
-                           has_wrench ? "ltgreen" : "red",
-                           has_jack ? "ltgreen" : "red",
+                           _("You need a <color_%1$s>hammer</color> and <color_%2$s>level %3$d</color> mechanics skill to remove this part."),
+                           has_hammer ? "ltgreen" : "red",
                            has_skill ? "ltgreen" : "red",
                            skill_req);
-        }
-        else if (is_wrenchable) {
+        } else if (is_wrenchable) {
             fold_and_print(w_msg, 0, 1, msg_width - 2, c_ltgray,
                            _("You need a <color_%1$s>wrench</color> and <color_%2$s>level %3$d</color> mechanics skill to remove this part."),
                            has_wrench ? "ltgreen" : "red",
@@ -810,10 +988,16 @@ bool veh_interact::can_remove_part(int veh_part_index, int mech_skill, int msg_w
                             _("You need <color_%1$s>level %2$d</color> mechanics skill to remove this part."),
                            has_skill ? "ltgreen" : "red",
                            skill_req);
-        } 
-        else {
+        } else if (is_wheel) {
             fold_and_print(w_msg, 0, 1, msg_width - 2, c_ltgray,
-                           _("You need a <color_%1$s>wrench</color> and a <color_%2$s>hacksaw, cutting torch and goggles, or circular saw (off)</color> and <color_%3$s>level %4$d</color> mechanics skill to remove this part."),
+                           _("You need a <color_%1$s>wrench</color>, a <color_%2$s>jack</color> and <color_%3$s>level %4$d</color> mechanics skill to remove this part."),
+                           has_wrench ? "ltgreen" : "red",
+                           has_jack ? "ltgreen" : "red",
+                           has_skill ? "ltgreen" : "red",
+                           skill_req);
+        } else {
+            fold_and_print(w_msg, 0, 1, msg_width - 2, c_ltgray,
+                           _("You need a <color_%1$s>wrench</color> and a <color_%2$s>hacksaw, cutting torch and welding goggles, or circular saw (off)</color> and <color_%3$s>level %4$d</color> mechanics skill to remove this part."),
                            has_wrench ? "ltgreen" : "red",
                            has_hacksaw ? "ltgreen" : "red",
                            has_skill ? "ltgreen" : "red",
@@ -821,9 +1005,10 @@ bool veh_interact::can_remove_part(int veh_part_index, int mech_skill, int msg_w
         }
         wrefresh (w_msg);
         //check if have all necessary materials
-        if (has_skill && ((is_wheel && has_wrench && has_jack) || 
-                            (is_wrenchable && has_wrench) || 
+        if (has_skill && ((is_wheel && has_wrench && has_jack) ||
+                            (is_wrenchable && has_wrench) ||
                             (is_hand_remove) ||
+                            (is_wood && has_hammer) ||
                             ((!is_wheel) && has_wrench && has_hacksaw) )) {
             return true;
         }
@@ -833,7 +1018,7 @@ bool veh_interact::can_remove_part(int veh_part_index, int mech_skill, int msg_w
         wrefresh (w_msg);
     }
     return false;
-    
+
 }
 
 /**
@@ -899,6 +1084,7 @@ void veh_interact::do_remove()
             veh->print_part_desc (w_parts, 0, parts_w, cpart, -1);
             wrefresh (w_parts);
             werase (w_msg);
+            wrefresh(w_msg);
             break;
         } else {
             move_in_list(pos, action, parts_here.size());
@@ -1142,12 +1328,21 @@ void veh_interact::move_cursor (int dx, int dy)
     veh->print_part_desc (w_parts, 0, parts_w, cpart, -1);
     wrefresh (w_parts);
 
+    //Only build the shapes map once
+    if (vpart_shapes.empty()) {
+        for( auto &vpart_type : vehicle_part_types ) {
+                vpart_shapes[vpart_type.second.name+vpart_type.second.item].push_back(&vpart_type.second);
+        }
+    }
+
     can_mount.clear();
     if (!obstruct) {
         int divider_index = 0;
         for( auto &vehicle_part_type : vehicle_part_types ) {
             if( veh->can_mount( vdx, vdy, vehicle_part_type.first ) ) {
                 vpart_info *vpi = &vehicle_part_type.second;
+                if ( vpi->id != vpart_shapes[vpi->name+vpi->item][0]->id )
+                    continue; // only add first shape to install list
                 if (can_currently_install(vpi)) {
                     can_mount.insert( can_mount.begin() + divider_index++, *vpi );
                 } else {
@@ -1172,7 +1367,7 @@ void veh_interact::move_cursor (int dx, int dy)
     has_ptank = false;
     wheel = NULL;
     if (cpart >= 0) {
-        parts_here = veh->parts_at_relative(veh->parts[cpart].mount_dx, veh->parts[cpart].mount_dy);
+        parts_here = veh->parts_at_relative(veh->parts[cpart].mount.x, veh->parts[cpart].mount.y);
         for (size_t i = 0; i < parts_here.size(); i++) {
             int p = parts_here[i];
             if (veh->parts[p].hp < veh->part_info(p).durability) {
@@ -1246,13 +1441,13 @@ void veh_interact::display_veh ()
         long sym = veh->part_sym (p);
         nc_color col = veh->part_color (p);
         if (vertical_menu) {
-            x =   veh->parts[p].mount_dy + ddy;
-            y = -(veh->parts[p].mount_dx + ddx);
+            x =   veh->parts[p].mount.y + ddy;
+            y = -(veh->parts[p].mount.x + ddx);
         } else {
             tileray tdir( 0 );
             sym = tdir.dir_symbol( sym );
-            x = veh->parts[p].mount_dx + ddx;
-            y = veh->parts[p].mount_dy + ddy;
+            x = veh->parts[p].mount.x + ddx;
+            y = veh->parts[p].mount.y + ddy;
         }
         if (x == 0 && y == 0) {
             col = hilite(col);
@@ -1310,11 +1505,6 @@ void veh_interact::display_stats()
         }
     }
 
-    bool isBoat = !veh->all_parts_with_feature(VPFLAG_FLOATS).empty();
-    bool conf;
-
-    conf = veh->valid_wheel_config();
-
     std::string speed_units = OPTIONS["USE_METRIC_SPEEDS"].getValue();
     float speed_factor = 0.01f;
     if (speed_units == "km/h") {
@@ -1343,21 +1533,31 @@ void veh_interact::display_stats()
     x[4] += utf8_width(_("Status: ")) + 1;
     fold_and_print(w_stats, y[4], x[4], w[4], totalDurabilityColor, totalDurabilityText);
 
+    bool isBoat = !veh->all_parts_with_feature(VPFLAG_FLOATS).empty();
+    bool suf, bal;
+    suf = veh->sufficient_wheel_config();
+    bal = veh->balanced_wheel_config();
     if( !isBoat ) {
-        if( conf ) {
-            fold_and_print(w_stats, y[5], x[5], w[5], c_ltgray,
-                           _("Wheels:    <color_ltgreen>enough</color>"));
-        }   else {
+        if( !suf ) {
             fold_and_print(w_stats, y[5], x[5], w[5], c_ltgray,
                            _("Wheels:      <color_ltred>lack</color>"));
+        } else if (!bal) {
+            fold_and_print(w_stats, y[5], x[5], w[5], c_ltgray,
+                           _("Wheels:  <color_ltred>unbalanced</color>"));
+        } else {
+            fold_and_print(w_stats, y[5], x[5], w[5], c_ltgray,
+                           _("Wheels:    <color_ltgreen>enough</color>"));
         }
     }   else {
-        if (conf) {
-            fold_and_print(w_stats, y[5], x[5], w[5], c_ltgray,
-                           _("Boat:    <color_blue>can swim</color>"));
-        }   else {
+        if( !suf ) {
             fold_and_print(w_stats, y[5], x[5], w[5], c_ltgray,
                            _("Boat:  <color_ltred>can't swim</color>"));
+        } else if (!bal) {
+            fold_and_print(w_stats, y[5], x[5], w[5], c_ltgray,
+                           _("Boat:  <color_ltred>unbalanced</color>"));
+        } else {
+            fold_and_print(w_stats, y[5], x[5], w[5], c_ltgray,
+                           _("Boat:    <color_blue>can swim</color>"));
         }
     }
 
@@ -1394,10 +1594,10 @@ void veh_interact::display_stats()
 
     bool first = true;
     int fuel_name_length = 0;
-    for (int i = 0; i < num_fuel_types; ++i) {
-        int fuel_usage = veh->basic_consumption(fuel_types[i]);
+    for( auto & ft : get_fuel_types() ) {
+        int fuel_usage = veh->basic_consumption( ft.id );
         if (fuel_usage > 0) {
-            fuel_name_length = std::max(fuel_name_length, utf8_width(ammo_name(fuel_types[i]).c_str()));
+            fuel_name_length = std::max(fuel_name_length, utf8_width(ammo_name( ft.id ).c_str()));
             fuel_usage = fuel_usage / 100;
             if (fuel_usage < 1) {
                 fuel_usage = 1;
@@ -1405,7 +1605,7 @@ void veh_interact::display_stats()
             if (!first) {
                 mvwprintz(w_stats, y[9], x[9]++, c_ltgray, "/");
             }
-            mvwprintz(w_stats, y[9], x[9]++, fuel_colors[i], "%d", fuel_usage);
+            mvwprintz(w_stats, y[9], x[9]++, ft.color, "%d", fuel_usage);
             if (fuel_usage > 9) {
                 x[9]++;
             }
@@ -1508,17 +1708,156 @@ size_t veh_interact::display_esc(WINDOW *win)
  * @param pos The current cursor position in the list.
  * @param list The list to display parts from.
  */
-void veh_interact::display_list(size_t pos, std::vector<vpart_info> list)
+void veh_interact::display_list(size_t pos, std::vector<vpart_info> list, const int header)
 {
     werase (w_list);
-    size_t page = pos / page_size;
-    for (size_t i = page * page_size; i < (page + 1) * page_size && i < list.size(); i++) {
-        int y = i - page * page_size;
+    int lines_per_page = page_size - header;
+    size_t page = pos / lines_per_page;
+    for (size_t i = page * lines_per_page; i < (page + 1) * lines_per_page && i < list.size(); i++) {
+        int y = i - page * lines_per_page + header;
         nc_color col = can_currently_install(&list[i]) ? c_white : c_dkgray;
         mvwprintz(w_list, y, 3, pos == i ? hilite (col) : col, list[i].name.c_str());
         mvwputch (w_list, y, 1, list[i].color, special_symbol(list[i].sym));
     }
     wrefresh (w_list);
+}
+
+/**
+ * Used when installing parts.
+ * Opens up w_details containing info for part currently selected in w_list.
+ */
+void veh_interact::display_details( const vpart_info *part )
+{
+
+    if (w_details == NULL) { // create details window first if required
+
+        // covers right part of w_name and w_stats in vertical/hybrid, lower block of w_stats in horizontal mode
+        const int details_y = vertical_menu ? getbegy(w_name) : getbegy(w_stats) + stats_h - 7;
+        const int details_x = vertical_menu ? getbegx(w_list) : getbegx(w_stats);
+
+        const int details_h = vertical_menu ? 6 : 7; // 6 lines in vertical/hybrid, 7 lines in horizontal mode
+        const int details_w = getbegx(w_grid) + getmaxx(w_grid) - details_x;
+
+        if (vertical_menu) { // clear rightmost blocks of w_stats in vertical/hybrid mode to avoid overlap
+            int stats_col_2 = 34;
+            int stats_col_3 = 63 + ((TERMX - FULL_SCREEN_WIDTH) / 4);
+            int clear_x = stats_w - details_w + 1 >= stats_col_3 ? stats_col_3 : stats_col_2;
+            for( int i = 0; i < stats_h; i++) {
+                mvwhline(w_stats, i, clear_x, ' ', stats_w - clear_x);
+            }
+        } else { // clear one line above w_details in horizontal mode to make sure it's separated from stats text
+            mvwhline(w_stats, details_y - getbegy(w_stats) - 1, 0, ' ', stats_w);
+        }
+        wrefresh(w_stats);
+
+        w_details = newwin(details_h, details_w, details_y, details_x);
+    }
+    else {
+        werase(w_details);
+   }
+
+    wborder(w_details, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX, LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX);
+
+    if ( part == NULL ) {
+        wrefresh(w_details);
+        return;
+    }
+    int details_w = getmaxx(w_details);
+    int column_width = details_w / 2; // displays data in two columns
+    int col_1 = vertical_menu ? 2 : 1;
+    int col_2 = col_1 + column_width;
+    int line = vertical_menu ? 0 : 0;
+    bool small_mode = column_width < 20 ? true : false;
+
+    // line 0: part name
+    fold_and_print(w_details, line, col_1, details_w, c_ltgreen,
+                   part->name);
+
+    // line 1: (column 1) durability   (column 2) damage mod
+    fold_and_print(w_details, line+1, col_1, column_width, c_white,
+                   "%s: <color_ltgray>%d</color>",
+                   small_mode ? _("Dur") : _("Durability"),
+                   part->durability);
+    fold_and_print(w_details, line+1, col_2, column_width, c_white,
+                   "%s: <color_ltgray>%d%%</color>",
+                   small_mode ? _("Dmg") : _("Damage"),
+                   part->dmg_mod);
+
+    // line 2: (column 1) weight   (column 2) folded volume (if applicable)
+    fold_and_print(w_details, line+2, col_1, column_width, c_white,
+                   "%s: <color_ltgray>%.1f%s</color>",
+                   small_mode ? _("Wgt") : _("Weight"),
+                   g->u.convert_weight(item::find_type( part->item )->weight),
+                   OPTIONS["USE_METRIC_WEIGHTS"].getValue() == "lbs" ? "lb" : "kg");
+    if ( part->folded_volume != 0 ) {
+        fold_and_print(w_details, line+2, col_2, column_width, c_white,
+                       "%s: <color_ltgray>%d</color>",
+                       small_mode ? _("FoldVol") : _("Folded Volume"),
+                       part->folded_volume);
+    }
+
+    // line 3: (column 1) par1,size,bonus,wheel_width (as applicable)    (column 2) epower (if applicable)
+    if ( part->size > 0 ) {
+
+        std::string label;
+        if ( part->has_flag(VPFLAG_CARGO) || part->has_flag(VPFLAG_FUEL_TANK) ) {
+            label = small_mode ? _("Cap") : _("Capacity");
+        } else if ( part->has_flag(VPFLAG_WHEEL) ){
+            label = small_mode ? _("Size") : _("Wheel Size");
+        } else if ( part->has_flag(VPFLAG_SEATBELT) || part->has_flag("MUFFLER") ) {
+            label = small_mode ? _("Str") : _("Strength");
+        } else if ( part->has_flag("HORN") ) {
+            label = _("Noise");
+        } else if ( part->has_flag(VPFLAG_EXTENDS_VISION) ) {
+            label = _("Range");
+        } else if ( part->has_flag(VPFLAG_LIGHT) || part->has_flag(VPFLAG_CONE_LIGHT) ||
+                    part->has_flag(VPFLAG_CIRCLE_LIGHT) || part->has_flag(VPFLAG_DOME_LIGHT) ||
+                    part->has_flag(VPFLAG_AISLE_LIGHT) || part->has_flag(VPFLAG_EVENTURN) ||
+                    part->has_flag(VPFLAG_ODDTURN) || part->has_flag(VPFLAG_ATOMIC_LIGHT)) {
+            label = _("Light");
+        } else {
+            label = small_mode ? _("Cap") : _("Capacity");
+        }
+
+        fold_and_print(w_details, line+3, col_1, column_width, c_white,
+                       (label + ": <color_ltgray>%d</color>").c_str(),
+                       part->size);
+    }
+    if ( part->epower != 0 ) {
+        fold_and_print(w_details, line+3, col_2, column_width, c_white,
+                       "%s: %c<color_ltgray>%d</color>",
+                       small_mode ? _("Bat") : _("Battery"),
+                       part->epower < 0 ? '-' : '+',
+                       abs(part->epower));
+    }
+
+    // line 4 [horizontal]: fuel_type (if applicable)
+    // line 4 [vertical/hybrid]: (column 1) fuel_type (if applicable)    (column 2) power (if applicable)
+    // line 5 [horizontal]: power (if applicable)
+    if ( part->fuel_type != "NULL" ) {
+        fold_and_print( w_details, line+4, col_1, ( vertical_menu ? column_width : details_w ),
+                        c_white, _("Charge: <color_ltgray>%s</color>"),
+                        ammo_name( part->fuel_type ).c_str() );
+    }
+    if ( part->power != 0 ) {
+        fold_and_print(w_details, ( vertical_menu ? line+4 : line+5 ), ( vertical_menu ? col_2 : col_1 ),
+                       ( vertical_menu ? column_width : details_w ), c_white,
+                       _("Power: <color_ltgray>%d</color>"),
+                       part->power);
+    }
+
+    // line 5 [vertical/hybrid] 6 [horizontal]: flags
+    std::vector<std::string> flags = { { "OPAQUE", "OPENABLE", "BOARDABLE" } };
+    std::vector<std::string> flag_labels = { { _("opaque"), _("openable"), _("boardable") } };
+    std::string label;
+    for ( size_t i = 0; i < flags.size(); i++ ) {
+        if ( part->has_flag(flags[i]) ) {
+            label += ( label.empty() ? "" : " " ) + flag_labels[i];
+        }
+    }
+    fold_and_print(w_details, ( vertical_menu ? line+5 : line+6 ), col_1, details_w, c_yellow, label);
+
+    wrefresh(w_details);
 }
 
 void veh_interact::countDurability()
@@ -1614,7 +1953,7 @@ item consume_vpart_item (std::string vpid)
     std::vector<bool> candidates;
     const itype_id itid = vehicle_part_types[vpid].item;
     inventory map_inv;
-    map_inv.form_from_map( point(g->u.posx, g->u.posy), PICKUP_RANGE );
+    map_inv.form_from_map( g->u.pos3(), PICKUP_RANGE );
 
     if( g->u.has_amount( itid, 1 ) ) {
         candidates.push_back( true );
@@ -1653,15 +1992,141 @@ item consume_vpart_item (std::string vpid)
     if( candidates[selection] ) {
         item_used = g->u.use_amount( itid, 1 );
     } else {
-        item_used = g->m.use_amount( point(g->u.posx, g->u.posy), PICKUP_RANGE, itid, 1 );
+        long quantity = 1;
+        item_used = g->m.use_amount( g->u.pos3(), PICKUP_RANGE, itid, quantity );
     }
 
     return item_used.front();
 }
 
+const std::list<vehicle*> find_vehicles_around(const point &location, std::function<bool(vehicle*)> pred) {
+    auto found = std::list<vehicle*>{};
+
+    for(int x = location.x - 1; x <= location.x + 1; x++) {
+        for(int y = location.y - 1; y <= location.y + 1; y++) {
+            auto veh = g->m.veh_at(x, y);
+            if(veh == nullptr) {
+                continue; // Nothing to see here, move along...
+            }
+            add_msg(m_debug, "I has a %s at %d,%d...", veh->name.c_str(), x, y);
+            if(std::find(begin(found), end(found), veh) != end(found)) {
+                add_msg(m_debug, "...but we had it already.");
+                continue; // We have this one already.
+            }
+
+            if(!pred(veh)) {
+                add_msg(m_debug, "...but the predicate doesn't want it.");
+                continue; // Can't put any fuel into this one, ignore it.
+            }
+
+            // Okay, there's a vehicle and it's got room for gas and we haven't seen it before.
+            add_msg(m_debug, "...and I'll keep it!");
+            found.emplace_back(veh);
+        }
+    }
+
+    return found;
+}
+
+void act_vehicle_siphon(vehicle* veh) {
+    std::string fuel = "none";
+
+    if( veh->fuel_left("gasoline") > 0 && veh->fuel_left("diesel") > 0 ) {
+        uimenu smenu;
+        smenu.text = _("Siphon what?");
+        smenu.addentry(_("Gasoline"));
+        smenu.addentry(_("Diesel"));
+        smenu.addentry(_("Never mind"));
+        smenu.query();
+        auto menu_choice = smenu.ret;
+
+        if(menu_choice == 0) {
+            fuel = "gasoline";
+        } else if(menu_choice == 1) {
+            fuel = "diesel";
+        } else {
+            add_msg(m_info, _("Never mind."));
+            return; // Siphon nothing? Okay!!
+        }
+    } else if(veh->fuel_left("gasoline") > 0) {
+        fuel = "gasoline";
+    } else if(veh->fuel_left("diesel") > 0) {
+        fuel = "diesel";
+    } else { // No fuel here, GTFO.
+        add_msg(m_info, _("The vehicle has no fuel left to siphon."));
+        return;
+    }
+
+    const auto foundv = find_vehicles_around(g->u.pos(),
+            [&](vehicle* it) { return it != veh && (it->fuel_capacity(fuel) - it->fuel_left(fuel)) > 0; });
+
+    add_msg(m_debug, "Found %d vehicles carrying %s", foundv.size(), fuel.c_str());
+
+    // No other vehicles around, just siphon into a can.
+    if(foundv.empty()) {
+        g->u.siphon(veh, fuel);
+        return;
+    } else {
+        uimenu fmenu;
+        fmenu.text = _("Fill what?");
+        fmenu.addentry(_("Nearby vehicle (%d)"), foundv.size());
+        fmenu.addentry(_("Container"));
+        fmenu.addentry(_("Never mind"));
+        fmenu.query();
+        auto choice = fmenu.ret;
+
+        // HAX: if choice is 0 ("Nearby vehicle"), we'll fall through to later code.
+        if(choice == 1) {
+            g->u.siphon(veh, fuel);
+            return;
+        } else if(choice == 2) {
+            add_msg(m_info, _("Never mind."));
+            return;
+        }
+    }
+
+    add_msg(m_debug, "Found %d vehicles carrying %s", foundv.size(), fuel.c_str());
+
+    // If we get here, we're doing vehicle-to-vehicle siphoning for sure.
+    vehicle* fillv = nullptr;
+    if(foundv.size() == 1) {
+        fillv = foundv.front();
+    } else {
+        int posx, posy;
+        g->draw_ter();
+        if(choose_adjacent(_("Fill which vehicle?"), posx, posy)) {
+            fillv = g->m.veh_at(posx, posy);
+        } else {
+            add_msg(m_info, _("Never mind."));
+            return; // Bailed out of vehicle selection.
+        }
+    }
+
+    if(fillv == nullptr) { // Ain't nothing there! Go away.
+        add_msg(m_info, _("There's no vehicle there."));
+        return;
+    } else if(fillv == veh) {
+        add_msg(m_info, _("As you bend the hose into a U-shape, you figure out something's not quite right..."));
+        return;
+    }
+
+    auto want = fillv->fuel_capacity(fuel) - fillv->fuel_left(fuel);
+    auto got = veh->drain(fuel, want);
+    fillv->refill(fuel, got);
+    g->u.moves -= 200;
+
+    if(got < want) {
+        add_msg(m_info, _("Siphoned %d units of %s from the %s into the %s, draining the tank."),
+                got, _(fuel.c_str()), veh->name.c_str(), fillv->name.c_str() );
+    } else {
+        add_msg(m_info, _("Siphoned %d units of %s from the %s into the %s, receiving tank is full."),
+                got, _(fuel.c_str()), veh->name.c_str(), fillv->name.c_str() );
+    }
+}
+
 /**
  * Called when the activity timer for installing parts, repairing, etc times
- * out and the the action is complete.
+ * out and the action is complete.
  */
 void complete_vehicle ()
 {
@@ -1696,20 +2161,21 @@ void complete_vehicle ()
     int dd = 2;
     double dmg = 1.0;
 
-    // For siphoning from adjacent vehicles
-    int posx = 0;
-    int posy = 0;
-    std::map<point, vehicle *> foundv;
-    vehicle *fillv = NULL;
-    
+    bool is_wheel = vehicle_part_types[part_id].has_flag("WHEEL");
+    bool is_wood = vehicle_part_types[part_id].has_flag("NAILABLE");
     bool is_wrenchable = vehicle_part_types[part_id].has_flag("TOOL_WRENCH");
     bool is_hand_remove = vehicle_part_types[part_id].has_flag("TOOL_NONE");
 
     // cmd = Install Repair reFill remOve Siphon Drainwater Changetire reName relAbel
     switch (cmd) {
     case 'i':
+        if(is_wood) {
+            tools.push_back(tool_comp("nail", NAILS_USED));
+            tools.push_back(tool_comp("duct_tape", DUCT_TAPE_USED));
+            g->u.consume_tools(tools);
+        }
         // Only parts that use charges
-        if (!is_wrenchable && !is_hand_remove){
+        else if (!is_wrenchable && !is_hand_remove){
             if (has_goggles) {
                 // Need welding goggles to use any of these tools,
                 // without the goggles one _must_ use the duct tape
@@ -1735,15 +2201,15 @@ void complete_vehicle ()
             // Need to call coord_translate() directly since it's a new part.
             veh->coord_translate(dx, dy, gx, gy);
             // Stash offset and set it to the location of the part so look_around will start there.
-            int px = g->u.view_offset_x;
-            int py = g->u.view_offset_y;
-            g->u.view_offset_x = veh->global_x() + gx - g->u.posx;
-            g->u.view_offset_y = veh->global_y() + gy - g->u.posy;
+            int px = g->u.view_offset.x;
+            int py = g->u.view_offset.y;
+            g->u.view_offset.x = veh->global_x() + gx - g->u.posx();
+            g->u.view_offset.y = veh->global_y() + gy - g->u.posy();
             popup(_("Choose a facing direction for the new headlight."));
             point headlight_target = g->look_around();
             // Restore previous view offsets.
-            g->u.view_offset_x = px;
-            g->u.view_offset_y = py;
+            g->u.view_offset.x = px;
+            g->u.view_offset.y = py;
 
             int delta_x = headlight_target.x - (veh->global_x() + gx);
             int delta_y = headlight_target.y - (veh->global_y() + gy);
@@ -1765,13 +2231,13 @@ void complete_vehicle ()
                  vehicle_part_types[part_id].name.c_str(), veh->name.c_str());
         // easy parts don't train
         if (!is_wrenchable && !is_hand_remove) {
-            g->u.practice( "mechanics", vehicle_part_types[part_id].difficulty * 5 + 20 );
+            g->u.practice( "mechanics", vehicle_part_types[part_id].difficulty * 5 + (is_wood ? 10 : 20) );
         }
         break;
     case 'r':
         veh->last_repair_turn = calendar::turn;
         if (veh->parts[vehicle_part].hp <= 0) {
-            veh->break_part_into_pieces(vehicle_part, g->u.posx, g->u.posy);
+            veh->break_part_into_pieces(vehicle_part, g->u.posx(), g->u.posy());
             used_item = consume_vpart_item (veh->parts[vehicle_part].id);
             veh->parts[vehicle_part].bigness = used_item.bigness;
             dd = 0;
@@ -1789,7 +2255,7 @@ void complete_vehicle ()
         }
         tools.push_back(tool_comp("duct_tape", int(DUCT_TAPE_USED * dmg)));
         tools.push_back(tool_comp("toolbox", int(DUCT_TAPE_USED * dmg)));
-        g->u.consume_tools(tools);
+        g->u.consume_tools(tools, 1, repair_hotkeys);
         veh->parts[vehicle_part].hp = veh->part_info(vehicle_part).durability;
         add_msg (m_good, _("You repair the %s's %s."),
                  veh->name.c_str(), veh->part_info(vehicle_part).name.c_str());
@@ -1803,18 +2269,26 @@ void complete_vehicle ()
         break;
     case 'o':
         // Only parts that use charges
-        if (!is_wrenchable && !is_hand_remove){
-            if( !crafting_inv.has_items_with_quality( "SAW_M_FINE", 1, 1 ) ) {
+        if (!is_wrenchable && !is_hand_remove && !is_wheel){
+            if( !crafting_inv.has_items_with_quality( "SAW_M_FINE", 1, 1 ) && (is_wood && !crafting_inv.has_items_with_quality("HAMMER", 1, 1))) {
                 tools.push_back(tool_comp("circsaw_off", 20));
                 tools.push_back(tool_comp("oxy_torch", 10));
                 g->u.consume_tools(tools);
             }
         }
+        // Nails survive if pulled out with pliers or a claw hammer. TODO: implement PLY tool quality and random chance based on skill/quality
+        /*if(is_wood && crafting_inv.has_items_with_quality("HAMMER", 1, 1)) {
+            item return_nails("nail");
+            return_nails.charges = 10;
+            g->m.add_item_or_charges( g->u.posx, g->u.posy, return_nails );
+        }*/ //causes runtime errors. not a critical feature; implement with PLY quality.
         // Dump contents of part at player's feet, if any.
-        for( auto &elem : veh->parts[vehicle_part].items ) {
-            g->m.add_item_or_charges( g->u.posx, g->u.posy, elem );
+        for( auto &elem : veh->get_items(vehicle_part) ) {
+            g->m.add_item_or_charges( g->u.posx(), g->u.posy(), elem );
         }
-        veh->parts[vehicle_part].items.clear();
+        while( !veh->get_items(vehicle_part).empty() ) {
+            veh->get_items(vehicle_part).erase( veh->get_items(vehicle_part).begin() );
+        }
 
         // Power cables must remove parts from the target vehicle, too.
         if (veh->part_flag(vehicle_part, "POWER_TRANSFER")) {
@@ -1824,13 +2298,13 @@ void complete_vehicle ()
         broken = veh->parts[vehicle_part].hp <= 0;
         if (!broken) {
             used_item = veh->parts[vehicle_part].properties_to_item();
-            g->m.add_item_or_charges(g->u.posx, g->u.posy, used_item);
+            g->m.add_item_or_charges(g->u.posx(), g->u.posy(), used_item);
             // simple tasks won't train mechanics
-            if(type != SEL_JACK && !is_wrenchable && !is_hand_remove) { 
-                g->u.practice ( "mechanics", 2 * 5 + 20 );
+            if(type != SEL_JACK && !is_wrenchable && !is_hand_remove) {
+                g->u.practice ("mechanics", is_wood ? 15 : 30);
             }
         } else {
-            veh->break_part_into_pieces(vehicle_part, g->u.posx, g->u.posy);
+            veh->break_part_into_pieces(vehicle_part, g->u.posx(), g->u.posy());
         }
         if (veh->parts.size() < 2) {
             add_msg (_("You completely dismantle the %s."), veh->name.c_str());
@@ -1851,114 +2325,7 @@ void complete_vehicle ()
         }
         break;
     case 's':
-        for (int x = g->u.posx - 1; x < g->u.posx + 2; x++) {
-            for (int y = g->u.posy - 1; y < g->u.posy + 2; y++) {
-                fillv = g->m.veh_at(x, y);
-                if ( fillv != NULL &&
-                     fillv != veh &&
-                     foundv.find( point(fillv->posx, fillv->posy) ) == foundv.end() &&
-                     (fillv->fuel_capacity("gasoline") > 0 || fillv->fuel_capacity("diesel") > 0)) {
-                    foundv[point(fillv->posx, fillv->posy)] = fillv;
-                }
-            }
-        }
-        fillv = NULL;
-        if ( ! foundv.empty() ) {
-            uimenu fmenu;
-            fmenu.text = _("Fill what?");
-            fmenu.addentry(_("Nearby vehicle (%d)"), foundv.size());
-            fmenu.addentry(_("Container"));
-            fmenu.addentry(_("Never mind"));
-            fmenu.query();
-            if ( fmenu.ret == 0 ) {
-                if ( foundv.size() > 1 ) {
-                    if(choose_adjacent(_("Fill which vehicle?"), posx, posy)) {
-                        fillv = g->m.veh_at(posx, posy);
-                    } else {
-                        break;
-                    }
-                } else {
-                    fillv = foundv.begin()->second;
-
-                }
-            } else if ( fmenu.ret != 1 ) {
-                break;
-            }
-        }
-    { // Weird indention to avoid moving this whole block over 4 spaces.
-        int menu_choice = -1;
-        if( veh->fuel_left("gasoline") > 0 && veh->fuel_left("diesel") > 0 ) {
-            uimenu smenu;
-            smenu.text = _("Siphon what?");
-            smenu.addentry(_("Gasoline"));
-            smenu.addentry(_("Diesel"));
-            smenu.addentry(_("Never mind"));
-            smenu.query();
-            menu_choice = smenu.ret;
-        }
-        if( fillv != NULL ) {
-            int want = 0;
-            int got = 0;
-            std::string choice = "none";
-
-            if( menu_choice != -1 ) {
-
-                if ( menu_choice == 0 ) {
-                    choice = "gasoline";
-                    want = fillv->fuel_capacity("gasoline") - fillv->fuel_left("gasoline");
-                    got = veh->drain("gasoline", want);
-                    fillv->refill("gasoline", got);
-                } else if( menu_choice == 1 ) {
-                    choice = "diesel";
-                    want = fillv->fuel_capacity("diesel") - fillv->fuel_left("diesel");
-                    got = veh->drain("diesel", want);
-                    fillv->refill("diesel", got);
-                } else {
-                    choice = "none";
-                    break;
-                }
-                g->u.moves -= 200;
-            } else if( veh->fuel_capacity("diesel") > 0 ) {
-                want = fillv->fuel_capacity("diesel") - fillv->fuel_left("diesel");
-                got = veh->drain("diesel", want);
-                fillv->refill("diesel",got);
-                g->u.moves -= 200;
-            } else if( veh->fuel_capacity("gasoline") > 0 ) {
-                want = fillv->fuel_capacity("gasoline") - fillv->fuel_left("gasoline");
-                got = veh->drain("gasoline", want);
-                fillv->refill("gasoline",got);
-                g->u.moves -= 200;
-            } else {
-                add_msg(_("That vehicle has no fuel to siphon."));
-                break;
-            }
-            // Common message for all cases, no fuel case breaks and avoids it..
-            if( got < want ) {
-                add_msg(_("Siphoned %d units of %s from the %s into the %s, draining the tank."),
-                        got, choice.c_str(), veh->name.c_str(), fillv->name.c_str() );
-            } else {
-                add_msg(_("Siphoned %d units of %s from the %s into the %s, receiving tank is full."),
-                        got, choice.c_str(), veh->name.c_str(), fillv->name.c_str() );
-            }
-        } else {
-            if( menu_choice != -1 ) {
-                if( menu_choice == 0 ) {
-                    g->u.siphon( veh, "gasoline" );
-                } else if( menu_choice == 1 ) {
-                    g->u.siphon( veh, "diesel" );
-                } else {
-                    break;
-                }
-            } else if( veh->fuel_left("diesel") > 0 ) {
-                g->u.siphon( veh, "diesel" );
-            } else if( veh->fuel_left("gasoline") > 0 ) {
-                g->u.siphon( veh, "gasoline" );
-            } else {
-                add_msg(_("That vehicle has no fuel to siphon."));
-                break;
-            }
-        }
-    }
+        act_vehicle_siphon(veh);
     break;
     case 'c':
         parts = veh->parts_at_relative( dx, dy );
@@ -1982,7 +2349,7 @@ void complete_vehicle ()
             }
             // Place the removed wheel on the map last so consume_vpart_item() doesn't pick it.
             if ( !broken ) {
-                g->m.add_item_or_charges( g->u.posx, g->u.posy, removed_wheel );
+                g->m.add_item_or_charges( g->u.posx(), g->u.posy(), removed_wheel );
             }
         }
         break;
@@ -1990,4 +2357,5 @@ void complete_vehicle ()
         g->u.siphon( veh, "water" );
         break;
     }
+    g->u.invalidate_crafting_inventory();
 }

@@ -1,3 +1,4 @@
+#include <algorithm>
 #include "start_location.h"
 #include "output.h"
 #include "debug.h"
@@ -172,25 +173,29 @@ void board_up( map &m, int sx, int sy, int dx, int dy )
         const point bp = get_random_from_vec( boardables );
         m.furn_set( bp.x, bp.y, m.furn( fp.x, fp.y ) );
         m.furn_set( fp.x, fp.y, f_null );
-        m.i_at_mutable( bp.x, bp.y ).swap( m.i_at_mutable( fp.x, fp.y ) );
+        auto destination_items = m.i_at(bp.x, bp.y);
+        for( auto moved_item : m.i_at(fp.x, fp.y) ) {
+            destination_items.push_back( moved_item );
+        }
+        m.i_clear( fp.x, fp.y );
     }
 }
 
 void start_location::prepare_map( tinymap &m ) const
 {
     if( flags().count( "BOARDED" ) > 0 ) {
-        m.build_map_cache();
+        m.build_outside_cache( m.get_abs_sub().z );
         board_up( m, 0, 0, m.getmapsize() * SEEX, m.getmapsize() * SEEY );
     } else {
         m.translate( t_window_domestic, t_curtains );
     }
 }
 
-void start_location::setup( overmap *&cur_om, int &levx, int &levy, int &levz ) const
+tripoint start_location::setup() const
 {
     // We start in the (0,0,0) overmap.
-    cur_om = &overmap_buffer.get( 0, 0 );
-    tripoint omtstart = cur_om->find_random_omt( target() );
+    overmap &initial_overmap = overmap_buffer.get( 0, 0 );
+    tripoint omtstart = initial_overmap.find_random_omt( target() );
     if( omtstart == overmap::invalid_tripoint ) {
         // TODO (maybe): either regenerate the overmap (conflicts with existing characters there,
         // that has to be checked. Or look at the neighboring overmaps, but one has to stop
@@ -202,15 +207,11 @@ void start_location::setup( overmap *&cur_om, int &levx, int &levy, int &levz ) 
     // Now prepare the initial map (change terrain etc.)
     const point player_location = overmapbuffer::omt_to_sm_copy( omtstart.x, omtstart.y );
     tinymap player_start;
-    player_start.load( player_location.x, player_location.y, omtstart.z, false, cur_om );
+    player_start.load( player_location.x, player_location.y, omtstart.z, false );
     prepare_map( player_start );
     player_start.save();
 
-    // Setup game::levx/levy/levz - those are in submap coordinates!
-    // And the player is centered in the map
-    levx = player_location.x - ( MAPSIZE / 2 );
-    levy = player_location.y - ( MAPSIZE / 2 );
-    levz = omtstart.z;
+    return omtstart;
 }
 
 void start_location::place_player( player &u ) const
@@ -218,19 +219,48 @@ void start_location::place_player( player &u ) const
     // Need the "real" map with it's inside/outside cache and the like.
     map &m = g->m;
     // Start us off somewhere in the shelter.
-    u.posx = SEEX * int( MAPSIZE / 2 ) + 5;
-    u.posy = SEEY * int( MAPSIZE / 2 ) + 6;
+    u.setx( SEEX * int( MAPSIZE / 2 ) + 5 );
+    u.sety( SEEY * int( MAPSIZE / 2 ) + 6 );
+    u.setz( g->get_levz() );
 
-    m.build_map_cache();
+    m.build_map_cache( m.get_abs_sub().z );
     int tries = 0;
     const bool must_be_inside = flags().count( "ALLOW_OUTSIDE" ) == 0;
-    while( ( ( must_be_inside && m.is_outside( u.posx, u.posy ) ) ||
-             m.move_cost( u.posx, u.posy ) == 0 ) && tries < 1000 ) {
+    while( ( ( must_be_inside && m.is_outside( u.posx(), u.posy() ) ) ||
+             m.move_cost( u.posx(), u.posy() ) == 0 ) && tries < 1000 ) {
         tries++;
-        u.posx = ( SEEX * int( MAPSIZE / 2 ) ) + rng( 0, SEEX * 2 );
-        u.posy = ( SEEY * int( MAPSIZE / 2 ) ) + rng( 0, SEEY * 2 );
+        u.setx( ( SEEX * int( MAPSIZE / 2 ) ) + rng( 0, SEEX * 2 ) );
+        u.sety( ( SEEY * int( MAPSIZE / 2 ) ) + rng( 0, SEEY * 2 ) );
     }
     if( tries >= 1000 ) {
         debugmsg( "Could not find starting place for character" );
     }
+}
+
+void start_location::burn( const tripoint &omtstart,
+                           const size_t count, const int rad ) const {
+    const tripoint player_location = overmapbuffer::omt_to_sm_copy( omtstart );
+    tinymap m;
+    m.load( player_location.x, player_location.y, player_location.z, false );
+    m.build_outside_cache( m.get_abs_sub().z );
+    const int ux = g->u.posx() % (SEEX * int( MAPSIZE / 2 ));
+    const int uy = g->u.posy() % (SEEY * int( MAPSIZE / 2 ));
+    std::vector<point> valid;
+    for( int x = 0; x < m.getmapsize() * SEEX; x++ ) {
+        for ( int y = 0; y < m.getmapsize() * SEEY; y++ ) {
+            if ( !(m.has_flag_ter("DOOR", x, y) ||
+                   m.has_flag_ter("OPENCLOSE_INSIDE", x, y) ||
+                   m.is_outside(x, y) ||
+                   (x >= ux - rad && x <= ux + rad && y >= uy - rad && y <= uy + rad )) ) {
+                if ( m.has_flag("FLAMMABLE", x, y) || m.has_flag("FLAMMABLE_ASH", x, y) ) {
+                    valid.push_back( point(x, y) );
+                }
+            }
+        }
+    }
+    random_shuffle( valid.begin(), valid.end() );
+    for ( size_t i = 0; i < std::min( count, valid.size() ); i++ ) {
+        m.add_field( valid[i].x, valid[i].y, fd_fire, 3 );
+    }
+    m.save();
 }

@@ -85,26 +85,31 @@ std::vector<uint32_t> NameGenerator::uint32_tsFromFlags(uint32_t searchFlags) co
 std::string NameGenerator::getName(uint32_t searchFlags)
 {
     const std::vector<uint32_t> types = uint32_tsFromFlags(searchFlags);
-    uint32_t type;
     int nTypes = types.size();
 
     if (nTypes == 0) {
         // BUG, no matching name type found.
         return std::string( _("Tom") );
-    } else if (nTypes == 1) {
-        type = types[0];
-    } else {
-        type = types[ rng(0, types.size()-1) ];
     }
 
-    // Choose a random name of this type
-    std::vector<Name> theseNames = names[type];
-    if (theseNames.empty()) {
-        // BUG, no matching name found.
-        return std::string( _("Tom") );
+    // Get number of matching names
+    int nNames = 0;
+    for (uint32_t type : types) {
+        nNames += names[type].size();
     }
 
-    return theseNames[ rng(0, theseNames.size()-1) ].value();
+    // Choose a random name
+    int choice = rng(0, nNames-1);
+    for (uint32_t type : types) {
+        std::vector<Name> &theseNames = names[type];
+        if (choice < int(theseNames.size())) {
+            return theseNames[choice].value();
+        }
+        choice -= theseNames.size();
+    }
+
+    // BUG, no matching name found.
+    return std::string( _("Tom") );
 }
 
 std::string NameGenerator::generateName(bool male)

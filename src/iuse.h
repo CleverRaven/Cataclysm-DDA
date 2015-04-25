@@ -1,14 +1,15 @@
 #ifndef IUSE_H
 #define IUSE_H
 
-#include "monstergenerator.h"
 #include <map>
 #include <string>
 #include <vector>
+#include "enums.h"
 
 class item;
 class player;
 class JsonObject;
+class MonsterGenerator;
 
 // iuse methods returning a bool indicating whether to consume a charge of the item being used.
 class iuse
@@ -48,8 +49,10 @@ public:
     int meth                (player*, item*, bool, point);
     int vitamins            (player*, item*, bool, point);
     int vaccine             (player*, item*, bool, point);
+    int flu_vaccine         (player*, item*, bool, point);
     int poison              (player*, item*, bool, point);
     int fun_hallu           (player*, item*, bool, point);
+    int meditate            (player*, item*, bool, point);
     int thorazine           (player*, item*, bool, point);
     int prozac              (player*, item*, bool, point);
     int sleep               (player*, item*, bool, point);
@@ -73,10 +76,8 @@ public:
     int catfood             (player*, item*, bool, point);
 
 // TOOLS
-    int firestarter         (player *, item *, bool, point);
-    int resolve_firestarter_use(player *p, item *, point);
-    int calculate_time_for_lens_fire (player *p, float light_level);
     int sew                 (player *, item *, bool, point);
+    int sew_advanced        (player *, item *, bool, point);
     int extra_battery       (player *, item *, bool, point);
     int rechargeable_battery(player *, item *, bool, point);
     int scissors            (player *, item *, bool, point);
@@ -91,13 +92,7 @@ public:
     int horn_bicycle        (player *, item *, bool, point);
     int noise_emitter_off   (player *, item *, bool, point);
     int noise_emitter_on    (player *, item *, bool, point);
-    int roadmap             (player *, item *, bool, point);
-    int survivormap         (player *, item *, bool, point);
-    int militarymap         (player *, item *, bool, point);
-    int restaurantmap       (player *, item *, bool, point);
-    int touristmap          (player *, item *, bool, point);
     int ma_manual           (player *, item *, bool, point);
-    int picklock            (player *, item *, bool, point);
     int crowbar             (player *, item *, bool, point);
     int makemound           (player *, item *, bool, point);
     int dig                 (player *, item *, bool, point);
@@ -115,16 +110,6 @@ public:
     int circsaw_on          (player *, item *, bool, point);
     int combatsaw_off       (player *, item *, bool, point);
     int combatsaw_on        (player *, item *, bool, point);
-    int shishkebab_off      (player *, item *, bool, point);
-    int shishkebab_on       (player *, item *, bool, point);
-    int firemachete_off     (player *, item *, bool, point);
-    int firemachete_on      (player *, item *, bool, point);
-    int broadfire_off       (player *, item *, bool, point);
-    int broadfire_on        (player *, item *, bool, point);
-    int firekatana_off      (player *, item *, bool, point);
-    int firekatana_on       (player *, item *, bool, point);
-    int zweifire_off        (player *, item *, bool, point);
-    int zweifire_on         (player *, item *, bool, point);
     int jackhammer          (player *, item *, bool, point);
     int jacqueshammer       (player *, item *, bool, point);
     int pickaxe             (player *, item *, bool, point);
@@ -164,10 +149,7 @@ public:
     int vortex              (player *, item *, bool, point);
     int dog_whistle         (player *, item *, bool, point);
     int vacutainer          (player *, item *, bool, point);
-    static bool valid_to_cut_up(const item *it);
-    static int cut_up(player *p, item *it, item *cut, bool);
-    int knife               (player *, item *, bool, point);
-    static int cut_log_into_planks(player *p, item *it);
+    static void cut_log_into_planks(player *);
     int lumber              (player *, item *, bool, point);
     int oxytorch            (player *, item *, bool, point);
     int hacksaw             (player *, item *, bool, point);
@@ -176,6 +158,7 @@ public:
     int large_tent          (player *, item *, bool, point);
     int shelter             (player *, item *, bool, point);
     int torch_lit           (player *, item *, bool, point);
+    int tinderbox_lit       (player *, item *, bool, point);
     int battletorch_lit     (player *, item *, bool, point);
     int bullet_puller       (player *, item *, bool, point);
     int boltcutters         (player *, item *, bool, point);
@@ -185,13 +168,11 @@ public:
     int LAW                 (player *, item *, bool, point);
     int heatpack            (player *, item *, bool, point);
     int hotplate            (player *, item *, bool, point);
-    int flask_yeast         (player *, item *, bool, point);
-    int tanning_hide        (player *, item *, bool, point);
     int quiver              (player *, item *, bool, point);
     int boots               (player *, item *, bool, point);
     int sheath_sword        (player *, item *, bool, point);
     int sheath_knife        (player *, item *, bool, point);
-    int holster_pistol      (player *, item *, bool, point);
+    int holster_gun         (player *, item *, bool, point);
     int holster_ankle       (player *, item *, bool, point);
     int towel               (player *, item *, bool, point);
     int unfold_generic      (player *, item *, bool, point);
@@ -205,6 +186,7 @@ public:
     int oxygen_bottle       (player *, item *, bool, point);
     int atomic_battery      (player *, item *, bool, point);
     int ups_battery         (player *, item *, bool, point);
+    int radio_mod           (player *, item *, bool, point);
     int remove_all_mods     (player *, item *, bool, point);
     int fishing_rod         (player *, item *, bool, point);
     int fish_trap           (player *, item *, bool, point);
@@ -241,7 +223,7 @@ public:
     int artifact            (player *, item *, bool, point);
 
     // Helper for listening to music, might deserve a better home, but not sure where.
-    static void play_music( player *p, point source, int volume );
+    static void play_music( player *p, point source, int volume, int max_morale );
 
     static void reset_bullet_pulling();
     static void load_bullet_pulling(JsonObject &jo);
@@ -259,8 +241,10 @@ class iuse_actor {
 protected:
     iuse_actor() { }
 public:
+    std::string type;
     virtual ~iuse_actor() { }
     virtual long use(player*, item*, bool, point) const = 0;
+    virtual bool can_use( const player*, const item*, bool, const point& ) const { return true; }
     virtual iuse_actor *clone() const = 0;
 };
 
@@ -302,15 +286,48 @@ public:
 
     ~use_function();
 
-    int call(player*,item*,bool,point) const;
+    long call(player*,item*,bool,point) const;
+
+    iuse_actor *get_actor_ptr() const
+    {
+        if( function_type != USE_FUNCTION_ACTOR_PTR ) {
+            return nullptr;
+        }
+        return actor_ptr;
+    }
+
+    // Gets actor->type or finds own type in item_factory::iuse_function_list
+    std::string get_type_name() const;
+    // Returns translated name of the action
+    std::string get_name() const;
+
+    bool can_call(const player *p, const item *it, bool t, const point &pos) const
+    {
+        auto actor = get_actor_ptr();
+        return actor == nullptr || actor->can_use( p, it, t, pos );
+    }
 
     void operator=(use_function_pointer f);
     void operator=(iuse_actor *f);
     void operator=(const use_function &other);
 
     bool operator==(use_function f) const {
-        return function_type == USE_FUNCTION_CPP && f.function_type == USE_FUNCTION_CPP &&
-        f.cpp_function == cpp_function;
+        if( function_type != f.function_type ) {
+            return false;
+        }
+
+        switch( function_type ) {
+            case USE_FUNCTION_NONE:
+                return true;
+            case USE_FUNCTION_CPP:
+                return f.cpp_function == cpp_function;
+            case USE_FUNCTION_ACTOR_PTR:
+                return f.actor_ptr->type == actor_ptr->type;
+            case USE_FUNCTION_LUA:
+                return f.lua_function == lua_function;
+            default:
+                return false;
+        }
     }
 
     bool operator==(use_function_pointer f) const {

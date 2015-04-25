@@ -72,6 +72,14 @@ List of known flags, used in both terrain.json and furniture.json
 - ```MOUNTABLE``` Suitable for guns with the "MOUNTED_GUN" flag.
 - ```UNSTABLE``` Walking here cause the bouldering effect on the character.
 - ```HARVESTED``` Marks the harvested version of a terrain type (e.g. harvesting an apple tree turns it into a harvested tree, which later becomes an apple tree again).
+- ```AUTO_WALL_SYMBOL``` (only for terrain) The symbol of this terrain will be one of the line drawings (corner, T-intersection, straight line etc.) depending on the adjacent terrains.
+- ```CONNECT_TO_WALL``` (only for terrain) Adjacent terrain that has the `AUTO_WALL_SYMBOL` flag will be shown as a line connecting to this terrain. This applies for example to doors or windows (which are technically embedded in walls). This flag is implied by the `WALL` and the `AUTO_WALL_SYMBOL` flag.
+
+Example: `-` and `|` is terrain with the `CONNECT_TO_WALL` flag, `O` does not have it, `X` and `Y` have the `AUTO_WALL_SYMBOL` flag, `X` terrain will be drawn as a T-intersection (connected to west, south and east), `Y` will be drawn as horizontal line (going from west to east, no connection to south).
+```
+-X-    -Y-
+ |      O
+```
 
 ### Examine actions
 
@@ -171,11 +179,6 @@ Flags used to describe monsters and define their properties and abilities.
 
 - ```NULL``` Source use only.
 - ```SEES``` It can see you (and will run/follow).
-- ```VIS50``` Vision -10
-- ```VIS40``` Vision -20
-- ```VIS30``` Vision -30
-- ```VIS20``` Vision -40
-- ```VIS10``` Vision -50
 - ```HEARS``` It can hear you.
 - ```GOODHEARING``` Pursues sounds more than most monsters.
 - ```SMELLS``` It can smell you.
@@ -188,7 +191,8 @@ Flags used to describe monsters and define their properties and abilities.
 - ```GRABS``` Its attacks may grab you!
 - ```BASHES``` Bashes down doors.
 - ```GROUP_BASH``` Gets help from monsters around it when bashing.
-- ```DESTROYS``` Bashes down walls and more.
+- ```DESTROYS``` Bashes down walls and more. (2.5x bash multiplier, where base is the critter's max melee bashing)
+- ```BORES``` Tunnels through just about anything (15x bash multiplier: dark wyrms' bash skill 12->180)
 - ```POISON``` Poisonous to eat.
 - ```VENOM``` Attack may poison the player.
 - ```BADVENOM``` Attack may **severely** poison the player.
@@ -231,8 +235,8 @@ Flags used to describe monsters and define their properties and abilities.
 - ```CHITIN``` May produce chitin when butchered.
 - ```VERMIN``` Creature is too small for normal combat, butchering etc.
 - ```NOGIB``` Does not leave gibs / meat chunks when killed with huge damage.
-- ```HUNTS_VERMIN``` Creature uses vermin as a food source.
-- ```SMALL_BITER``` Creature can cause a painful, non-damaging bite.
+- ```HUNTS_VERMIN``` Creature uses vermin as a food source. Not implemented.
+- ```SMALL_BITER``` Creature can cause a painful, non-damaging bite. Not implemented.
 - ```ABSORBS``` Consumes objects it moves over.
 - ```LARVA``` Creature is a larva. Currently used for gib and blood handling.
 - ```ARTHROPOD_BLOOD``` Forces monster to bleed hemolymph.
@@ -254,6 +258,7 @@ Some special attacks are also valid use actions for tools and weapons.
 - ```RATTLE``` "a sibilant rattling sound!"
 - ```ACID``` Spit acid.
 - ```SHOCKSTORM``` Shoots bolts of lightning.
+- ```PULL_METAL_WEAPON``` Pull weapon that's made of iron or steel from the player's hand.
 - ```SMOKECLOUD``` Produces a cloud of smoke.
 - ```BOOMER``` Spit bile.
 - ```RESURRECT``` Revives the dead--again.
@@ -426,54 +431,78 @@ These branches are also the valid entries for the categories of `dreams` in `dre
 ## Ammo
 
 ### Ammo type
-The chambering of weapons that this ammo can be loaded into.
+These are handled through ammo_types.json.  You can tag a weapon with these to have it chamber existing ammo,
+or make your own ammo there.  The first column in this list is the tag's "id", the internal identifier DDA uses
+to track the tag, and the second is a brief description of the ammo tagged.  Use the id to search for ammo
+listings, as ids are constant throughout DDA's code.  Happy chambering!  :-)
 
-- ```nail``` Nail
-- ```BB``` BB
-- ```bolt``` Bolt
-- ```arrow``` Arrow
-- ```pebble``` Pebble
-- ```shot``` Shotshell
-- ```22``` .22LR
-- ```9mm``` 9mm Luger
-- ```762x25``` 7.62x25mm
+- ```22``` .22LR (and relatives)
+- ```223``` .223 Remington (and 5.56 NATO)
+- ```300``` .300 WinMag
+- ```3006``` 30.06
+- ```308``` .308 Winchester (and relatives)
+- ```32``` .32 ACP
+- ```36paper``` .36 cap & ball
 - ```38``` .38 Special
 - ```40``` 10mm
 - ```44``` .44 Magnum
-- ```45``` .45 ACP
+- ```44paper``` .44 cap & ball
+- ```45``` .45 ACP (and relatives)
 - ```454``` .454 Casull
+- ```46``` 46mm
+- ```5x50``` 5x50 Dart
+- ```50``` .50 BMG
 - ```500``` .500 Magnum
 - ```57``` 57mm
-- ```46``` 46mm
+- ```700nx``` .700 Nitro Express
+- ```762x25``` 7.62x25mm
 - ```762``` 7.62x39mm
-- ```223``` .223 Remington
-- ```308``` .308 Winchester
-- ```3006``` 30.06
+- ```762R``` 7.62x54mm
+- ```8x40mm``` 8mm Caseless
+- ```9mm``` 9mm Luger (and relatives)
+- ```12mm``` 12mm
+- ```20x66mm``` 20x66mm Shot (and relatives)
 - ```40mm``` 40mm Grenade
 - ```66mm``` 66mm HEAT
-- ```120mm``` 120mm HEAT
 - ```84x246mm``` 84x246mm HE
-- ```m235``` M235 TPA (66mm Incendiary Rocket)
+- ```120mm``` 120mm HEAT
+- ```ammo_flintlock``` Flintlock ammo
+- ```ampoule``` Ampoule
+- ```arrow``` Arrow
 - ```battery``` Battery
+- ```BB``` BB
+- ```blunderbuss``` Blunderbuss
+- ```bolt``` Bolt
+- ```charcoal``` Charcoal
+- ```components``` Components
+- ```dart``` Dart
+- ```diesel``` Diesel
+- ```fish_bait``` Fish bait
+- ```fishspear``` Speargun spear
 - ```fusion``` Laser Pack
-- ```12mm``` 12mm
+- ```gasoline``` Gasoline
+- ```homebrew_rocket``` homebrew rocket
+- ```lamp_oil``` Lamp oil
+- ```laser_capacitor``` Charge
+- ```m235``` M235 TPA (66mm Incendiary Rocket)
+- ```metal_rail``` Rebar Rail
+- ```mininuke_mod``` Mininuke
+- ```money``` Cents
+- ```muscle``` Muscle
+- ```nail``` Nail
+- ```pebble``` Pebble
 - ```plasma``` Plasma
 - ```plutonium``` Plutonium Cell
-- ```gasoline``` Gasoline
-- ```thread``` Thread
-- ```water``` Water
-- ```charcoal``` Charcoal
-- ```8x40mm``` 8mm Caseless
-- ```20x66mm``` 20x66mm Shot
-- ```5x50``` 5x50 Dart
+- ```rebreather_filter``` Rebreather filter
+- ```RPG-7``` RPG-7
 - ```signal_flare``` Signal Flare
-- ```mininuke_mod``` Mininuke
-- ```metal_rail``` Rebar Rail
-- ```UPS``` UPS
-- ```components``` Components
+- ```shot``` Shotshell
+- ```tape``` Duct tape
+- ```thread``` Thread
 - ```thrown``` Thrown
-- ```ampoule``` Ampoule
-- ```50``` .50 BMG
+- ```unfinished_char``` Semi-charred fuel
+- ```UPS``` UPS charges
+- ```water``` Water
 
 ### Effects
 
@@ -537,27 +566,38 @@ Techniques may be used by tools, armors, weapons and anything else that can be w
 ### Flags
 Some armor flags, such as `WATCH` and `ALARMCLOCK` are compatible with other item types. Experiment to find which flags work elsewhere.
 
-- ```VARSIZE``` Can be made to fit via tailoring.
-- ```SKINTIGHT``` Undergarment layer.
-- ```OUTER```  Outer garment layer.
+- ```ALARMCLOCK``` Has an alarm-clock feature.
 - ```BELTED``` Layer for backpacks and things worn over outerwear.
+- ```BLIND``` - Blinds the wearer while worn, and provides nominal protection v. flashbang flashes.
+- ```BOOTS``` - You can store knives in this gear.
+- ```COLLAR``` - This piece of clothing has a wide collar that can keep your mouth warm.
+- ```DEAF``` Makes the player deaf.
+- ```ELECTRIC_IMMUNE``` - This gear completely protects you from electric discharges.
+- ```FANCY``` Wearing this clothing gives a morale bonus if the player has the `Stylish` trait.
+- ```FLOATATION``` Prevents the player from drowning in deep water. Also prevents diving underwater.
+- ```furred``` - This piece of clothing has a fur lining sewn into it to increase its overall warmth.
+- ```HOOD``` Allow this clothing to conditionally cover the head, for additional warmth or water protection., if the player's head isn't encumbered
+- ```kevlar_padded``` - This gear has kevlar inserted into strategic locations to increase protection without increasing encumbrance.
+- ```leather_padded``` - This gear has certain parts padded with leather to increase protection without increasing encumbrance.
+- ```OUTER```  Outer garment layer.
+- ```OVERSIZE``` Can always be worn no matter encumbrance/mutations/bionics/etc., but prevents any other clothing being worn over this.
+- ```PAIRED``` - Item usually comes in two, one for the left side and one for the right side.
+- ```POCKETS``` Increases warmth for hands if the player's hands are cold and the player is wielding nothing.
+- ```RAD_PROOF``` - This piece of clothing completely protects you from radiation.
+- ```RAD_RESIST``` - This piece of clothing partially protects you from radiation.
+- ```RAINPROOF``` Prevents the covered body-part(s) from getting wet in the rain.
+- ```SKINTIGHT``` Undergarment layer.
+- ```STURDY``` This clothing is a lot more resistant to damage than normal.
+- ```SUN_GLASSES``` - Prevents glaring when in sunlight.
+- ```SUPER_FANCY``` Gives an additional moral bonus over `FANCY` if the player has the `Stylish` trait.
+- ```SWIM_GOGGLES``` - Allows you to see much further under water.
+- ```THERMOMETER``` - This gear is equipped with an accurate thermometer.
+- ```VARSIZE``` Can be made to fit via tailoring.
 - ```WAIST``` Layer for belts other things worn on the waist.
+- ```WATCH``` Acts as a watch and allows the player to see actual time.
 - ```WATER_FRIENDLY``` Prevents the covered body part(s) from getting drenched with water.
 - ```WATERPROOF``` Prevents the covered body-part(s) from getting wet in any circumstance.
-- ```RAINPROOF``` Prevents the covered body-part(s) from getting wet in the rain.
-- ```STURDY``` This clothing is a lot more resistant to damage than normal.
-- ```FANCY``` Wearing this clothing gives a morale bonus if the player has the `Stylish` trait.
-- ```SUPER_FANCY``` Gives an additional moral bonus over `FANCY` if the player has the `Stylish` trait.
-- ```POCKETS``` Increases warmth for hands if the player's hands are cold and the player is wielding nothing.
-- ```HOOD``` Allow this clothing to conditionally cover the head, for additional warmth or water protection., if the player's head isn't encumbered
-- ```FLOATATION``` Prevents the player from drowning in deep water. Also prevents diving underwater.
-- ```OVERSIZE``` Can always be worn no matter encumbrance/mutations/bionics/etc., but prevents any other clothing being worn over this.
-- ```WATCH``` Acts as a watch and allows the player to see actual time.
-- ```ALARMCLOCK``` Has an alarm-clock feature.
-- ```DEAF``` Makes the player deaf.
-- ```SWIM_GOGGLES``` - Allows you to see much further under water.
-- ```SUN_GLASSES``` - Prevents glaring when in sunlight.
-- ```PAIRED``` - Item usually comes in two, one for the left side and one for the right side.
+- ```wooled``` - This piece of clothing has a wool lining sewn into it to increase its overall warmth.
 
 ## Comestibles
 
@@ -626,7 +666,6 @@ Some armor flags, such as `WATCH` and `ALARMCLOCK` are compatible with other ite
 - ```EATEN_HOT``` Morale bonus for eating hot.
 - ```USE_EAT_VERB``` "You drink your %s." or "You eat your %s."
 - ```FERTILIZER``` Works as fertilizer for farming.
-- ```SEED``` Plantable seed for farming.
 - ```LENS``` Lens items can make fires via focusing light rays.
 - ```FIRE_DRILL``` Item will start fires in the primitive way.
 - ```MUTAGEN_STRONG``` Chance of mutating several times.
@@ -655,13 +694,6 @@ Some armor flags, such as `WATCH` and `ALARMCLOCK` are compatible with other ite
 - ```BREW``` ... Can be put into fermenting vat.
 - ```HIDDEN_POISON``` ... Food is poisonous, visible only with a certain survival skill level.
 - ```HIDDEN_HALLU``` ... Food causes hallucinations, visible only with a certain survival skill level.
-
-## Containers
-
-- ```RIGID``` Volume of the item does not include volume of the content. Without that flag the volume of the contents are added to the volume of the container.
-- ```WATERTIGHT``` Can hold liquids.
-- ```SEALS``` Can be resealed.
-- ```PRESERVES``` Contents do not spoil.
 
 ## Melee
 
@@ -739,6 +771,10 @@ Those flags are added by the game code to specific items (that specific welder, 
 - ```LITCIG``` Marks a lit smoking item (cigarette, joint etc.).
 - ```WET``` Item is wet and will slowly dry off (e.g. towel).
 - ```REVIVE_SPECIAL``` ... Corpses revives when the player is nearby.
+
+## Books
+
+- ```INSPIRATIONAL```` Reading this book grants bonus morale to characters with the SPIRITUAL trait.
 
 ### Use actions
 

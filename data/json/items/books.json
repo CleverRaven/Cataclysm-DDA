@@ -22,6 +22,31 @@
         "chapters": 4
     },
     {
+        "type" : "GENERIC",
+        "id" : "note",
+        "name" : "note",
+        "description" : "A hand-written paper note.",
+        "weight" : 0,
+        "to_hit" : 0,
+        "color" : "white",
+        "symbol" : "?",
+        "material" : ["paper"],
+        "volume" : 3,
+        "bashing" : 0,
+        "cutting" : 0,
+        "price" : 0,
+        "book_data" : {
+            "max_level" : 0,
+            "intelligence" : 0,
+            "time" : 1,
+            "fun" : 0,
+            "skill" : "none",
+            "required_level" : 0,
+            "chapters": 0,
+            "use_action": "MCG_NOTE"
+        }
+    },
+    {
         "type" : "BOOK",
         "id" : "photo_album",
         "name" : "photo album",
@@ -41,7 +66,8 @@
         "skill" : "none",
         "price" : 3000,
         "required_level" : 0,
-        "chapters": 4
+        "chapters": 4,
+        "flags" : "INSPIRATIONAL"
     },
     {
         "type" : "BOOK",
@@ -661,7 +687,7 @@
         "time" : 30,
         "fun" : 0,
         "skill" : "firstaid",
-        "price" : 8500, "//" : "College-level textbooks are Cheap at $60. Med book is likely more expensive.",
+        "price" : 8500, "//" : "College-level textbooks are Cheap at $60.  Med book is likely more expensive.",
         "required_level" : 3
     },
     {
@@ -2356,7 +2382,7 @@
         "time" : 10,
         "fun" : -5,
         "skill" : "cooking",
-        "price" : 40000, "//" : "Wasn't commercially traded. ('Parody' only covers so much.)  Should get a serious price modifier for non-Cannibals.",
+        "price" : 40000, "//" : "Wasn't commercially traded.  ('Parody' only covers so much.)  Should get a serious price modifier for non-Cannibals.",
         "required_level" : 2
     },
     {
@@ -2724,7 +2750,7 @@
         "time" : 30,
         "fun" : -1,
         "skill" : "barter",
-        "price" : 9800, "//" : "Biz majors can afford it. Surely you're gonna make US$60K/yr out of school, and twice that in five years?",
+        "price" : 9800, "//" : "Biz majors can afford it.  Surely you're gonna make US$60K/yr out of school, and twice that in five years?",
         "required_level" : 3
     },
     {
@@ -2833,6 +2859,28 @@
         "skill" : "cooking",
         "price" : 1950,
         "required_level" : 1
+    },
+    {
+        "type" : "BOOK",
+        "id" : "scots_cookbook",
+        "name" : "Ye Scots Beuk o Cuikery", "//" : "That would translate out to The Scottish Book of Cookery, or The Scottish Cookbook.",
+        "name_plural" : "copies of Ye Scots Beuk o Cuikery",
+        "max_level" : 4,
+        "description" : "A semi-translated cookbook from thirteenth century Scotland.  While a bit difficult to read, as there are a disquieting number of illustrations of people stabbing each other mixed amongst the recipes, it provides insights into medieval Scottish culture and fashion as well as new uses for oatmeal, fish, and sheep liver.",
+        "weight" : 1887,
+        "to_hit" : 1,
+        "color" : "light_gray",
+        "intelligence" : 10,
+        "symbol" : "?",
+        "material" : ["paper", "leather"],
+        "volume" : 5,
+        "bashing" : 5,
+        "cutting" : 0,
+        "time" : 45,
+        "fun" : -1,
+        "skill" : "cooking",
+        "price" : 1950,
+        "required_level" : 2
     },
     {
         "type" : "BOOK",
@@ -3061,7 +3109,7 @@
         "weight" : 340,
         "to_hit" : 1,
         "color" : "light_gray",
-        "intelligence" : 0,
+        "intelligence" : 15,
         "symbol" : "?",
         "material" : ["paper", "null"],
         "volume" : 3,
@@ -3071,7 +3119,8 @@
         "fun" : -1,
         "skill" : "none",
         "price" : 1500,
-        "required_level" : 0
+        "required_level" : 0,
+        "flags" : "INSPIRATIONAL"
     },
     {
         "type" : "BOOK",
@@ -3093,7 +3142,52 @@
         "fun" : 2,
         "skill" : "none",
         "price" : 2900,
+        "required_level" : 0,
+        "flags" : "INSPIRATIONAL"
+    },
+    {
+        "type" : "BOOK",
+        "id" : "necropolis_freq",
+        "name" : "frequency list",
+        "name_plural" : "frequency lists",
+        "max_level" : 0,
+        "description" : "A notepad with a number of frequencies scribbled on it.",
+        "weight" : 1,
+        "to_hit" : 1,
+        "color" : "light_cyan",
+        "intelligence" : 0,
+        "symbol" : "?",
+        "material" : ["paper", "null"],
+        "volume" : 1,
+        "bashing" : 1,
+        "cutting" : 0,
+        "time" : 10,
+        "fun" : 0,
+        "skill" : "none",
+        "price" : 3000,
         "required_level" : 0
+    },
+    {
+        "type" : "BOOK",
+        "id" : "repeater_mod_guide",
+        "name" : "plans for a radio repeater mod",
+        "name_plural" : "plans for a radio repeater mod",
+        "max_level" : 0,
+        "description" : "Instructions on how to create a mod for a radio station terminal which converts the entire system into a repeater.",
+        "weight" : 5,
+        "to_hit" : 1,
+        "color" : "blue",
+        "intelligence" : 10,
+        "symbol" : "?",
+        "material" : ["paper", "null"],
+        "volume" : 1,
+        "bashing" : 1,
+        "cutting" : 0,
+        "time" : 20,
+        "fun" : -1,
+        "skill" : "electronics",
+        "price" : 5000,
+        "required_level" : 2
     },
     {
         "type" : "BOOK",
@@ -3792,7 +3886,8 @@
         "fun" : 1,
         "skill" : "none",
         "price" : 550,
-        "required_level" : 0
+        "required_level" : 0,
+        "flags" : "INSPIRATIONAL"
     },
     {
         "type" : "BOOK",
@@ -3813,7 +3908,8 @@
         "fun" : 1,
         "skill" : "none",
         "price" : 550,
-        "required_level" : 0
+        "required_level" : 0,
+        "flags" : "INSPIRATIONAL"
     },
     {
         "type" : "BOOK",
@@ -3834,7 +3930,8 @@
         "fun" : 1,
         "skill" : "none",
         "price" : 550,
-        "required_level" : 0
+        "required_level" : 0,
+        "flags" : "INSPIRATIONAL"
     },
     {
         "type" : "BOOK",
@@ -3855,7 +3952,8 @@
         "fun" : 1,
         "skill" : "none",
         "price" : 550,
-        "required_level" : 0
+        "required_level" : 0,
+        "flags" : "INSPIRATIONAL"
     },
     {
         "type" : "BOOK",
@@ -3876,7 +3974,8 @@
         "fun" : 1,
         "skill" : "none",
         "price" : 550,
-        "required_level" : 0
+        "required_level" : 0,
+        "flags" : "INSPIRATIONAL"
     },
     {
         "type" : "BOOK",
@@ -3897,7 +3996,8 @@
         "fun" : 1,
         "skill" : "none",
         "price" : 550,
-        "required_level" : 0
+        "required_level" : 0,
+        "flags" : "INSPIRATIONAL"
     },
     {
         "type" : "BOOK",
@@ -3918,7 +4018,8 @@
         "fun" : 1,
         "skill" : "none",
         "price" : 550,
-        "required_level" : 0
+        "required_level" : 0,
+        "flags" : "INSPIRATIONAL"
     },
     {
         "type" : "BOOK",
@@ -3940,7 +4041,8 @@
         "fun" : 1,
         "skill" : "none",
         "price" : 550,
-        "required_level" : 0
+        "required_level" : 0,
+        "flags" : "INSPIRATIONAL"
     },
     {
         "type" : "BOOK",
@@ -3962,7 +4064,8 @@
         "fun" : 1,
         "skill" : "none",
         "price" : 550,
-        "required_level" : 0
+        "required_level" : 0,
+        "flags" : "INSPIRATIONAL"
     },
     {
         "type" : "BOOK",
@@ -3984,7 +4087,8 @@
         "fun" : 1,
         "skill" : "none",
         "price" : 550,
-        "required_level" : 0
+        "required_level" : 0,
+        "flags" : "INSPIRATIONAL"
     },
     {
         "type" : "BOOK",
@@ -4006,7 +4110,8 @@
         "fun" : 1,
         "skill" : "none",
         "price" : 550,
-        "required_level" : 0
+        "required_level" : 0,
+        "flags" : "INSPIRATIONAL"
     },
     {
         "type" : "BOOK",
@@ -4028,7 +4133,8 @@
         "fun" : 1,
         "skill" : "none",
         "price" : 550,
-        "required_level" : 0
+        "required_level" : 0,
+        "flags" : "INSPIRATIONAL"
     },
     {
         "type" : "BOOK",
@@ -4050,7 +4156,8 @@
         "fun" : 1,
         "skill" : "none",
         "price" : 550,
-        "required_level" : 0
+        "required_level" : 0,
+        "flags" : "INSPIRATIONAL"
     },
     {
         "type" : "BOOK",
@@ -4058,7 +4165,7 @@
         "name" : "The Kojiki",
         "name_plural" : "copies of The Kojiki",
         "max_level" : 0,
-        "description" : "The the oldest extant chronicle of Japan's myths and history, the stories contained in the Kojiki are part of the inspiration behind Shinto practices.",
+        "description" : "The oldest extant chronicle of Japan's myths and history, the stories contained in the Kojiki are part of the inspiration behind Shinto practices.",
         "weight" : 368,
         "to_hit" : 0,
         "color" : "dark_gray",
@@ -4072,7 +4179,8 @@
         "fun" : 1,
         "skill" : "none",
         "price" : 550,
-        "required_level" : 0
+        "required_level" : 0,
+        "flags" : "INSPIRATIONAL"
     },
     {
         "type" : "BOOK",
@@ -4094,7 +4202,8 @@
         "fun" : 1,
         "skill" : "none",
         "price" : 550,
-        "required_level" : 0
+        "required_level" : 0,
+        "flags" : "INSPIRATIONAL"
     },
     {
         "type" : "BOOK",
@@ -4116,7 +4225,8 @@
         "fun" : 1,
         "skill" : "none",
         "price" : 550,
-        "required_level" : 0
+        "required_level" : 0,
+        "flags" : "INSPIRATIONAL"
     },
     {
         "type" : "BOOK",
@@ -4138,7 +4248,8 @@
         "fun" : 1,
         "skill" : "none",
         "price" : 550,
-        "required_level" : 0
+        "required_level" : 0,
+        "flags" : "INSPIRATIONAL"
     },
     {
         "type" : "BOOK",
@@ -4160,7 +4271,8 @@
         "fun" : 1,
         "skill" : "none",
         "price" : 550,
-        "required_level" : 0
+        "required_level" : 0,
+        "flags" : "INSPIRATIONAL"
     },
     {
         "type" : "BOOK",

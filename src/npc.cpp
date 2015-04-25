@@ -5,6 +5,7 @@
 #include "rng.h"
 #include "map.h"
 #include "game.h"
+#include "debug.h"
 #include "bodypart.h"
 #include "skill.h"
 #include "output.h"
@@ -14,7 +15,10 @@
 #include "monstergenerator.h"
 #include "overmapbuffer.h"
 #include "messages.h"
+#include "mission.h"
 #include "json.h"
+#include "sounds.h"
+
 #include <algorithm>
 #include <string>
 
@@ -26,18 +30,12 @@ npc::npc()
  mapx = 0;
  mapy = 0;
  mapz = 0;
- posx = -1;
- posy = -1;
- wandx = 0;
- wandy = 0;
- wandf = 0;
- plx = 999;
- ply = 999;
- plt = 999;
- itx = -1;
- ity = -1;
- guardx = -1;
- guardy = -1;
+ position.x = -1;
+ position.y = -1;
+ last_player_seen_pos = no_goal_point;
+ last_seen_player_turn = 999;
+ wanted_item_pos = no_goal_point;
+ guard_pos = no_goal_point;
  goal = no_goal_point;
  fatigue = 0;
  hunger = 0;
@@ -85,7 +83,7 @@ void npc::load_npc(JsonObject &jsobj)
     guy.myclass = npc_class(jsobj.get_int("class"));
     guy.attitude = npc_attitude(jsobj.get_int("attitude"));
     guy.mission = npc_mission(jsobj.get_int("mission"));
-    guy.chatbin.first_topic = talk_topic(jsobj.get_int("chat"));
+    guy.chatbin.first_topic = jsobj.get_string( "chat" );
     if (jsobj.has_int("mission_offered")){
         guy.miss_id = jsobj.get_int("mission_offered");
     } else {
@@ -126,10 +124,8 @@ void npc::load_npc_template(std::string ident)
         attitude = found->second.attitude;
         mission = found->second.mission;
         chatbin.first_topic = found->second.chatbin.first_topic;
-        if (mission_id(found->second.miss_id) != MISSION_NULL){
-            int mission_index = g->reserve_mission(mission_id(found->second.miss_id), getID());
-            if (mission_index != -1)
-                chatbin.missions.push_back(mission_index);
+        if (static_cast<mission_type_id>(found->second.miss_id) != MISSION_NULL){
+            add_new_mission( mission::reserve_new(static_cast<mission_type_id>(found->second.miss_id), getID()) );
         }
         return;
     } else {
@@ -282,6 +278,27 @@ void npc::randomize(npc_class type)
   this->restock = 14400*3;  //Every three days
   break;
 
+ case NC_SOLDIER:
+     for( auto &skill : Skill::skills ) {
+   int level = dice(3, 2) - 3;
+   if (level > 0 && one_in(5))
+   {
+    level--;
+   }
+   set_skill_level( skill, level );
+  }
+  int_max -= rng(0, 2);
+  str_max += rng(0, 2);
+  dex_max += rng(0, 1);
+  boost_skill_level("dodge", rng(1, 2));
+  boost_skill_level("melee", rng(1, 2));
+  boost_skill_level("unarmed", rng(1, 2));
+  boost_skill_level("rifle", rng(3, 5));
+  boost_skill_level("gun", rng(2, 4));
+  personality.aggression += rng(1, 3);
+  personality.bravery += rng(0, 5);
+  break;
+
  case NC_HACKER:
      for( auto &skill : Skill::skills ) {
    int level = 0;
@@ -418,7 +435,7 @@ void npc::randomize(npc_class type)
    set_skill_level( skill, level );
   }
   boost_skill_level("gun", rng(2, 4));
-  boost_skill_level(Skill::random_skill_with_tag("gun"), rng(3, 5));
+  boost_skill_level(Skill::random_skill_with_tag("gun_type"), rng(3, 5));
   personality.aggression += rng(1, 6);
   personality.bravery += rng(0, 5);
   break;
@@ -432,8 +449,8 @@ void npc::randomize(npc_class type)
    }
    set_skill_level( skill, level );
   }
-  str_max -= rng(2, 4);
-  dex_max -= rng(0, 2);
+  str_max += rng(2, 4);
+  dex_max += rng(0, 2);
   boost_skill_level("dodge", rng(1, 3));
   boost_skill_level("melee", rng(2, 4));
   boost_skill_level("unarmed", rng(1, 3));
@@ -460,7 +477,7 @@ void npc::randomize(npc_class type)
   personality.aggression += rng(1, 3);
   personality.bravery += rng(1, 4);
   break;
-  
+
  default:
     //Suppress warnings
     break;
@@ -470,7 +487,7 @@ void npc::randomize(npc_class type)
  //The int boost from trade wasn't active... now that it is, most
  //players will vastly outclass npcs in trade without a little help.
  boost_skill_level("barter", rng(2, 4));
- 
+
  for (int i = 0; i < num_hp_parts; i++) {
   hp_max[i] = 60 + str_max * 3;
   hp_cur[i] = hp_max[i];
@@ -679,9 +696,9 @@ void npc::randomize_from_faction(faction *fac)
   dex_max += rng(0, 3);
   per_max += rng(0, 2);
   int_max += rng(0, 2);
-  for( auto &skill : Skill::skills ) {
+  for( auto const &skill : Skill::skills ) {
    if (one_in(3))
-       boost_skill_level( skill, rng( 2, 4 ) );
+       boost_skill_level( &skill, rng( 2, 4 ) );
   }
  }
  if (fac->has_value(FACVAL_ROBOTS)) {
@@ -800,8 +817,7 @@ std::list<item> starting_inv(npc *me, npc_class type)
 
 // First, if we're wielding a gun, get some ammo for it
  if (me->weapon.is_gun()) {
-  it_gun *gun = dynamic_cast<it_gun*>(me->weapon.type);
-  tmp = default_ammo(gun->ammo);
+  tmp = default_ammo(me->weapon.type->gun->ammo);
   if (tmp == "" || tmp == "UPS"){
     add_msg( m_debug, "Unknown ammo type for spawned NPC: '%s'", tmp.c_str() );
   }else {
@@ -861,8 +877,8 @@ void npc::spawn_at(int x, int y, int z)
     mapx = x;
     mapy = y;
     mapz = z;
-    posx = rng(0, SEEX - 1);
-    posy = rng(0, SEEY - 1);
+    position.x = rng(0, SEEX - 1);
+    position.y = rng(0, SEEY - 1);
     const point pos_om = overmapbuffer::sm_to_om_copy( mapx, mapy );
     overmap &om = overmap_buffer.get( pos_om.x, pos_om.y );
     om.npcs.push_back(this);
@@ -885,44 +901,31 @@ void npc::spawn_at_random_city(overmap *o)
     spawn_at(x, y, 0);
 }
 
-tripoint npc::global_sm_location() const
-{
-    tripoint t = global_square_location();
-    overmapbuffer::ms_to_sm(t.x, t.y);
-    return t;
-}
-
-tripoint npc::global_omt_location() const
-{
-    tripoint t = global_square_location();
-    overmapbuffer::ms_to_omt(t.x, t.y);
-    return t;
-}
-
 tripoint npc::global_square_location() const
 {
-    return tripoint( mapx * SEEX + posx, mapy * SEEY + posy, mapz );
+    return tripoint( mapx * SEEX + posx(), mapy * SEEY + posy(), mapz );
 }
 
 void npc::place_on_map()
 {
     // The global absolute position (in map squares) of the npc is *always*
-    // "mapx * SEEX + posx" (analog for y).
+    // "mapx * SEEX + posx()" (analog for y).
     // The main map assumes that pos[xy] is in its own (local to the main map)
     // coordinate system. We have to change pos[xy] to match that assumption,
     // but also have to change map[xy] to keep the global position of the npc
     // unchanged.
-    const int dmx = mapx - g->get_abs_levx();
-    const int dmy = mapy - g->get_abs_levy();
-    mapx -= dmx; // == g->get_abs_levx()
+    const int dmx = mapx - g->get_levx();
+    const int dmy = mapy - g->get_levy();
+    mapx -= dmx; // == g->get_levx()
     mapy -= dmy;
-    posx += dmx * SEEX; // value of "mapx * SEEX + posx" is unchanged
-    posy += dmy * SEEY;
+    position.x += dmx * SEEX; // value of "mapx * SEEX + posx()" is unchanged
+    position.y += dmy * SEEY;
 
-    //places the npc at the nearest empty spot near (posx, posy). Searches in a spiral pattern for a suitable location.
+    // Places the npc at the nearest empty spot near (posx(), posy()).
+    // Searches in a spiral pattern for a suitable location.
     int x = 0, y = 0, dx = 0, dy = -1;
     int temp;
-    while(!g->is_empty(posx + x, posy + y))
+    while(!g->is_empty(posx() + x, posy() + y))
     {
         if ((x == y) || ((x < 0) && (x == -y)) || ((x > 0) && (x == 1-y)))
         {//change direction
@@ -932,37 +935,54 @@ void npc::place_on_map()
         }
         x += dx;
         y += dy;
-    }//end search, posx + x , posy + y contains a free spot.
+    }//end search, posx() + x , posy() + y contains a free spot.
     //place the npc at the free spot.
-    posx += x;
-    posy += y;
+    position.x += x;
+    position.y += y;
 }
 
-Skill* npc::best_skill()
+const Skill* npc::best_skill() const
 {
- std::vector<Skill*> best_skills;
- int highest = 0;
- for( auto &skill : Skill::skills ) {
-  //Should check to see if the skill has a "combat_skill" tag
-     if( ( skill )->is_combat_skill() ) {
-         if( skillLevel( skill ) > highest ) {
-             highest = skillLevel( skill );
-    best_skills.clear();
-    best_skills.push_back( skill );
-         } else if( skillLevel( skill ) == highest ) {
-             best_skills.push_back( skill );
-   }
-  }
- }
- int index = rng(0, best_skills.size() - 1);
- return best_skills[index];
+    int highest = std::numeric_limits<int>::min();
+    int count   = 0;
+
+    for (auto const &p : _skills) {
+        if (!p.first->is_combat_skill()) {
+            continue; // just combat skills.
+        }
+
+        int const level = p.second;
+        if (level < highest) {
+            continue; // no good.
+        } else if (level > highest) {
+            highest = level;
+            count   = 0;
+        }
+        
+        ++count;
+    }
+
+    if (!count) {
+        return nullptr; // no skills
+    }
+
+    auto n = rng(0, count);
+    for (auto const &p : _skills) {
+        if (p.second == highest && --n < 0) {
+            return p.first;
+        }
+    }
+
+    return nullptr;
 }
 
 void npc::starting_weapon(npc_class type)
 {
-    Skill* best = best_skill();
+    const Skill* best = best_skill();
     item sel_weapon;
-    if (best->ident() == "bashing"){
+    if( best == nullptr ) {
+        // Fall through to random weapon
+    } else if (best->ident() == "bashing"){
         sel_weapon = random_item_from( type, "bashing" );
     } else if (best->ident() == "cutting"){
         sel_weapon = random_item_from( type, "cutting" );
@@ -991,11 +1011,10 @@ void npc::starting_weapon(npc_class type)
 
     if (weapon.is_gun())
     {
-        it_gun* gun = dynamic_cast<it_gun*>(weapon.type);
-        const std::string tmp = default_ammo( gun->ammo );
+        const std::string tmp = default_ammo( weapon.type->gun->ammo );
         if( tmp != "" ) {
-            weapon.charges = gun->clip;
-            weapon.curammo = dynamic_cast<it_ammo*>( item::find_type( tmp ) );
+            weapon.charges = weapon.type->gun->clip;
+            weapon.set_curammo( tmp );
         }
     }
 }
@@ -1051,12 +1070,12 @@ bool npc::wield(item* it)
             i_add( remove_weapon() );
             moves -= 15;
         } else { // No room for weapon, so we drop it
-            g->m.add_item_or_charges( posx, posy, remove_weapon() );
+            g->m.add_item_or_charges( posx(), posy(), remove_weapon() );
         }
     }
     moves -= 15;
     weapon = inv.remove_item(it);
-    if ( g->u_see( posx, posy ) ) {
+    if ( g->u.sees( *this ) ) {
         add_msg( m_info, _( "%1$s wields a %2$s." ), name.c_str(), weapon.tname().c_str() );
     }
     return true;
@@ -1067,13 +1086,13 @@ void npc::perform_mission()
  switch (mission) {
  case NPC_MISSION_RESCUE_U:
   if (int(calendar::turn) % 24 == 0) {
-   if (mapx > g->get_abs_levx())
+   if (mapx > g->get_levx())
     mapx--;
-   else if (mapx < g->get_abs_levx())
+   else if (mapx < g->get_levx())
     mapx++;
-   if (mapy > g->get_abs_levy())
+   if (mapy > g->get_levy())
     mapy--;
-   else if (mapy < g->get_abs_levy())
+   else if (mapy < g->get_levy())
     mapy++;
    attitude = NPCATT_DEFEND;
   }
@@ -1207,25 +1226,25 @@ void npc::form_opinion(player *u)
   attitude = NPCATT_FLEE;
 }
 
-talk_topic npc::pick_talk_topic(player *u)
+std::string npc::pick_talk_topic(player *u)
 {
  //form_opinion(u);
  (void)u;
  if (personality.aggression > 0) {
   if (op_of_u.fear * 2 < personality.bravery && personality.altruism < 0)
-   return TALK_MUG;
+   return "TALK_MUG";
   if (personality.aggression + personality.bravery - op_of_u.fear > 0)
-   return TALK_STRANGER_AGGRESSIVE;
+   return "TALK_STRANGER_AGGRESSIVE";
  }
  if (op_of_u.fear * 2 > personality.altruism + personality.bravery)
-  return TALK_STRANGER_SCARED;
+  return "TALK_STRANGER_SCARED";
  if (op_of_u.fear * 2 > personality.bravery + op_of_u.trust)
-  return TALK_STRANGER_WARY;
+  return "TALK_STRANGER_WARY";
  if (op_of_u.trust - op_of_u.fear +
      (personality.bravery + personality.altruism) / 2 > 0)
-  return TALK_STRANGER_FRIENDLY;
+  return "TALK_STRANGER_FRIENDLY";
 
- return TALK_STRANGER_NEUTRAL;
+ return "TALK_STRANGER_NEUTRAL";
 }
 
 int npc::player_danger(player *u) const
@@ -1273,7 +1292,8 @@ int npc::player_danger(player *u) const
 
 int npc::vehicle_danger(int radius) const
 {
-    VehicleList vehicles = g->m.get_vehicles(posx - radius, posy - radius, posx + radius, posy + radius);
+    VehicleList vehicles = g->m.get_vehicles(posx() - radius, posy() - radius,
+                                             posx() + radius, posy() + radius);
 
  int danger = 0;
 
@@ -1293,10 +1313,10 @@ int npc::vehicle_danger(int radius) const
     * vehicles. This should just count frames instead. Or actually find the
     * size. */
    vehicle_part last_part = vehicles[i].v->parts.back();
-   int size = std::max(last_part.mount_dx, last_part.mount_dy);
+   int size = std::max(last_part.mount.x, last_part.mount.y);
 
    float normal = sqrt((float)((bx - ax) * (bx - ax) + (by - ay) * (by - ay)));
-   int closest = abs((posx - ax) * (by - ay) - (posy - ay) * (bx - ax)) / normal;
+   int closest = abs((posx() - ax) * (by - ay) - (posy() - ay) * (bx - ax)) / normal;
 
    if (size > closest)
     danger = i;
@@ -1342,34 +1362,29 @@ bool npc::wants_to_travel_with(player *p) const
 int npc::assigned_missions_value()
 {
     int ret = 0;
-    for (auto &i : chatbin.missions_assigned) {
-        ret += g->find_mission(i)->value;
+    for( auto &m : chatbin.missions_assigned ) {
+        ret += m->get_value();
     }
     return ret;
 }
 
-std::vector<Skill*> npc::skills_offered_to(player *p)
+std::vector<const Skill*> npc::skills_offered_to(const player &p)
 {
- std::vector<Skill*> ret;
- if (p == NULL)
-  return ret;
- for( auto &skill : Skill::skills ) {
-     if( p->skillLevel( skill ) < skillLevel( skill ) ) {
-         ret.push_back( skill );
-  }
- }
- return ret;
+    std::vector<const Skill*> ret;
+    for (auto const &skill : Skill::skills) {
+        if (p.get_skill_level(skill) < get_skill_level(skill)) {
+            ret.push_back(&skill);
+        }
+    }
+    return ret;
 }
 
-std::vector<itype_id> npc::styles_offered_to(player *p)
+std::vector<itype_id> npc::styles_offered_to(const player &p)
 {
     std::vector<itype_id> ret;
-    if (p == NULL) {
-        return ret;
-    }
     for (auto &i : ma_styles) {
         bool found = false;
-        for (auto &j : p->ma_styles) {
+        for (auto &j : p.ma_styles) {
             if (j == i) {
                 found = true;
                 break;
@@ -1386,7 +1401,7 @@ std::vector<itype_id> npc::styles_offered_to(player *p)
 int npc::minutes_to_u() const
 {
     // TODO: what about different z-levels?
-    int ret = square_dist( mapx, mapy, g->get_abs_levx(), g->get_abs_levy() );
+    int ret = square_dist( mapx, mapy, g->get_levx(), g->get_levy() );
     // TODO: someone should explain this calculation. Is 24 supposed to be SEEX*2?
  ret *= 24;
  ret /= 10;
@@ -1416,8 +1431,7 @@ void npc::decide_needs()
     for( auto &elem : needrank )
         elem = 20;
     if (weapon.is_gun()) {
-        it_gun* gun = dynamic_cast<it_gun*>(weapon.type);
-        needrank[need_ammo] = 5 * has_ammo(gun->ammo).size();
+        needrank[need_ammo] = 5 * get_ammo(weapon.type->gun->ammo).size();
     }
     if (weapon.type->id == "null" && skillLevel("unarmed") < 4) {
         needrank[need_weapon] = 1;
@@ -1474,18 +1488,18 @@ void npc::decide_needs()
 
 void npc::say(std::string line, ...) const
 {
- va_list ap;
- va_start(ap, line);
- line = vstring_format(line, ap);
- va_end(ap);
- parse_tags(line, &(g->u), this);
- if (g->u_see(posx, posy)) {
-  add_msg(_("%1$s says: \"%2$s\""), name.c_str(), line.c_str());
-  g->sound(posx, posy, 16, "");
- } else {
-  std::string sound = string_format(_("%1$s saying \"%2$s\""), name.c_str(), line.c_str());
-  g->sound(posx, posy, 16, sound);
- }
+    va_list ap;
+    va_start(ap, line);
+    line = vstring_format(line, ap);
+    va_end(ap);
+    parse_tags(line, &(g->u), this);
+    if (g->u.sees( *this )) {
+        add_msg(_("%1$s says: \"%2$s\""), name.c_str(), line.c_str());
+        sounds::sound(posx(), posy(), 16, "");
+    } else {
+        std::string sound = string_format(_("%1$s saying \"%2$s\""), name.c_str(), line.c_str());
+        sounds::sound(posx(), posy(), 16, sound);
+    }
 }
 
 void npc::init_selling(std::vector<item*> &items, std::vector<int> &prices)
@@ -1574,8 +1588,8 @@ void npc::update_worst_item_value()
 int npc::value(const item &it)
 {
  int ret = it.price() / 50;
- Skill* best = best_skill();
- if (best->ident() != "unarmed") {
+ const Skill* best = best_skill();
+    if( best != nullptr && best->ident() != "unarmed" ) {
   int weapon_val = it.weapon_value(this) - weapon.weapon_value(this);
   if (weapon_val > 0)
    ret += weapon_val;
@@ -1592,26 +1606,25 @@ int npc::value(const item &it)
  }
 
  if (it.is_ammo()) {
-  it_ammo* ammo = dynamic_cast<it_ammo*>(it.type);
-  it_gun* gun;
   if (weapon.is_gun()) {
-   gun = dynamic_cast<it_gun*>(weapon.type);
-   if (ammo->type == gun->ammo)
+   if( it.ammo_type() == weapon.ammo_type() )
     ret += 14;
   }
-  if (has_gun_for_ammo(ammo->type)) {
+  if (has_gun_for_ammo( it.ammo_type() )) {
    // TODO consider making this cumulative (once was)
    ret += 14;
   }
  }
 
  if (it.is_book()) {
-  it_book* book = dynamic_cast<it_book*>(it.type);
-  if (book->intel <= int_cur) {
-   ret += book->fun;
-   if (skillLevel(book->type) < (int)book->level && skillLevel(book->type) >= (int)book->req)
-    ret += book->level * 3;
-  }
+        auto &book = *it.type->book;
+        if( book.intel <= int_cur ) {
+            ret += book.fun;
+            if( book.skill != nullptr && skillLevel( book.skill ) < book.level &&
+                skillLevel( book.skill ) >= book.req ) {
+                ret += book.level * 3;
+            }
+        }
  }
 
 // TODO: Sometimes we want more than one tool?  Also we don't want EVERY tool.
@@ -1709,9 +1722,8 @@ Creature::Attitude npc::attitude_to( const Creature &other ) const
 int npc::danger_assessment()
 {
     int ret = 0;
-    int sightdist = g->light_level(), junk;
     for (size_t i = 0; i < g->num_zombies(); i++) {
-        if (g->m.sees(posx, posy, g->zombie(i).posx(), g->zombie(i).posy(), sightdist, junk)) {
+        if( sees( g->zombie( i ) ) ) {
             ret += g->zombie(i).type->difficulty;
         }
     }
@@ -1721,19 +1733,19 @@ int npc::danger_assessment()
     }
     // Mod for the player
     if (is_enemy()) {
-        if (rl_dist(posx, posy, g->u.posx, g->u.posy) < 10) {
+        if (rl_dist( pos(), g->u.pos() ) < 10) {
             if (g->u.weapon.is_gun()) {
                 ret += 10;
             } else {
-                ret += 10 - rl_dist(posx, posy, g->u.posx, g->u.posy);
+                ret += 10 - rl_dist( pos(), g->u.pos() );
             }
         }
     } else if (is_friend()) {
-        if (rl_dist(posx, posy, g->u.posx, g->u.posy) < 8) {
+        if (rl_dist( pos(), g->u.pos() ) < 8) {
             if (g->u.weapon.is_gun()) {
                 ret -= 8;
             } else {
-                ret -= 8 - rl_dist(posx, posy, g->u.posx, g->u.posy);
+                ret -= 8 - rl_dist( pos(), g->u.pos() );
             }
         }
     }
@@ -1860,6 +1872,8 @@ nc_color npc::basic_symbol_color() const
 {
     if( attitude == NPCATT_KILL ) {
         return c_red;
+    } else if( attitude == NPCATT_FLEE ) {
+        return c_red;
     } else if( is_friend() ) {
         return c_green;
     } else if( is_following() ) {
@@ -1871,15 +1885,14 @@ nc_color npc::basic_symbol_color() const
 int npc::print_info(WINDOW* w, int line, int vLines, int column) const
 {
     const int last_line = line + vLines;
+    const size_t iWidth = getmaxx(w) - 2;
     // First line of w is the border; the next 4 are terrain info, and after that
     // is a blank line. w is 13 characters tall, and we can't use the last one
     // because it's a border as well; so we have lines 6 through 11.
     // w is also 48 characters wide - 2 characters for border = 46 characters for us
     mvwprintz(w, line++, column, c_white, _("NPC: %s"), name.c_str());
-    if (weapon.type->id == "null") {
-        mvwprintz(w, line++, column, c_red, _("Wielding %s"), weapon.tname().c_str());
-    } else {
-        mvwprintz(w, line++, column, c_red, _("Wielding a %s"), weapon.tname().c_str());
+    if( !weapon.is_null() ) {
+        trim_and_print(w, line++, column, iWidth, c_red, _("Wielding a %s"), weapon.tname().c_str());
     }
     std::string wearing;
     std::stringstream wstr;
@@ -1893,11 +1906,11 @@ int npc::print_info(WINDOW* w, int line, int vLines, int column) const
         }
         wstr << i.tname();
     }
-    wearing = wstr.str();
+    wearing = remove_color_tags( wstr.str() );
     size_t split;
     do {
-        split = (wearing.length() <= 46) ? std::string::npos :
-                                     wearing.find_last_of(' ', 46);
+        split = (wearing.length() <= iWidth) ? std::string::npos :
+                                     wearing.find_last_of(' ', iWidth);
         if (split == std::string::npos) {
             mvwprintz(w, line, column, c_blue, wearing.c_str());
         } else {
@@ -1913,7 +1926,10 @@ int npc::print_info(WINDOW* w, int line, int vLines, int column) const
 std::string npc::short_description() const
 {
     std::stringstream ret;
-    ret << _("Wielding: ") << weapon.tname() << ";   " << _("Wearing: ");
+    if( !weapon.is_null() ) {
+        ret << _("Wielding: ") << weapon.tname() << ";   ";
+    }
+    ret << _("Wearing: ");
     bool first = true;
     for (auto &i : worn) {
         if (!first) {
@@ -2003,8 +2019,11 @@ std::string npc::opinion_text() const
 
 void npc::shift(int sx, int sy)
 {
-    posx -= sx * SEEX;
-    posy -= sy * SEEY;
+    const int shiftx = sx * SEEX;
+    const int shifty = sy * SEEY;
+
+    position.x -= shiftx;
+    position.y -= shifty;
     const point pos_om_old = overmapbuffer::sm_to_om_copy( mapx, mapy );
     mapx += sx;
     mapy += sy;
@@ -2022,10 +2041,16 @@ void npc::shift(int sx, int sy)
             debugmsg( "could not find npc %s on its old overmap", name.c_str() );
         }
     }
-    itx -= sx * SEEX;
-    ity -= sy * SEEY;
-    plx -= sx * SEEX;
-    ply -= sy * SEEY;
+
+    if( wanted_item_pos != no_goal_point ) {
+        wanted_item_pos.x -= shiftx;
+        wanted_item_pos.y -= shifty;
+    }
+
+    if( last_player_seen_pos != no_goal_point ) {
+        last_player_seen_pos.x -= shiftx;
+        last_player_seen_pos.y -= shifty;
+    }
     path.clear();
 }
 
@@ -2041,14 +2066,12 @@ void npc::die(Creature* nkiller) {
         return;
     }
     dead = true;
-    if( nkiller != NULL && !nkiller->is_fake() ) {
-        killer = nkiller;
-    }
+    Character::die( nkiller );
     if (in_vehicle) {
-        g->m.unboard_vehicle(posx, posy);
+        g->m.unboard_vehicle( pos3() );
     }
 
-    if (g->u_see(posx, posy)) {
+    if (g->u.sees( *this )) {
         add_msg(_("%s dies!"), name.c_str());
     }
     if( killer == &g->u ){
@@ -2102,19 +2125,6 @@ void npc::die(Creature* nkiller) {
     }
 
     place_corpse();
-
-    mission_type *type;
-    for (auto &i : g->active_missions) {
-        type = i.type;
-        //complete the mission if you needed killing
-        if (type->goal == MGOAL_ASSASSINATE && i.target_npc_id == getID()) {
-                g->mission_step_complete( i.uid, 1);
-        }
-        //fail the mission if the mission giver dies or the recruit target
-        if (i.npc_id == getID() || (i.target_npc_id == getID() && type->goal == MGOAL_RECRUIT_NPC)) {
-            g->fail_mission( i.uid );
-        }
-    }
 }
 
 std::string npc_attitude_name(npc_attitude att)
@@ -2190,6 +2200,8 @@ std::string npc_class_name_str(npc_class classtype)
         return "NC_SCAVENGER";
     case NC_HUNTER: // Good with bows and rifles
         return "NC_HUNTER";
+    case NC_SOLDIER: // Well equiped and trained combatant, good with rifles and melee
+        return "NC_SOLDIER";
     default:
         //Suppress warnings
         break;
@@ -2228,6 +2240,8 @@ std::string npc_class_name(npc_class classtype)
         return _("Scavenger");
     case NC_HUNTER: // Good with bows and rifles
         return _("Hunter");
+    case NC_SOLDIER: // Well equiped and trained combatant, good with rifles and melee
+        return _("Soldier");
     default:
         //Suppress warnings
         break;
@@ -2241,73 +2255,163 @@ void npc::setID (int i)
 }
 
 //message related stuff
+
+//message related stuff
 void npc::add_msg_if_npc(const char *msg, ...) const
 {
     va_list ap;
     va_start(ap, msg);
     std::string processed_npc_string = vstring_format(msg, ap);
-    // These strings contain the substring <npcname>,
-    // if present replace it with the actual npc name.
-    size_t offset = processed_npc_string.find("<npcname>");
-    if (offset != std::string::npos) {
-        processed_npc_string.replace(offset, 9, name);
-    }
+    processed_npc_string = replace_with_npc_name(processed_npc_string, disp_name());
     add_msg(processed_npc_string.c_str());
 
     va_end(ap);
-};
+}
 void npc::add_msg_player_or_npc(const char *, const char* npc_str, ...) const
 {
     va_list ap;
 
     va_start(ap, npc_str);
 
-    if (g->u_see(this)) {
+    if (g->u.sees(*this)) {
         std::string processed_npc_string = vstring_format(npc_str, ap);
-        // These strings contain the substring <npcname>,
-        // if present replace it with the actual npc name.
-        size_t offset = processed_npc_string.find("<npcname>");
-        if (offset != std::string::npos) {
-            processed_npc_string.replace(offset, 9, disp_name());
-        }
+        processed_npc_string = replace_with_npc_name(processed_npc_string, disp_name());
         add_msg(processed_npc_string.c_str());
     }
 
     va_end(ap);
-};
+}
 void npc::add_msg_if_npc(game_message_type type, const char *msg, ...) const
 {
     va_list ap;
     va_start(ap, msg);
     std::string processed_npc_string = vstring_format(msg, ap);
-    // These strings contain the substring <npcname>,
-    // if present replace it with the actual npc name.
-    size_t offset = processed_npc_string.find("<npcname>");
-    if (offset != std::string::npos) {
-        processed_npc_string.replace(offset, 9, name);
-    }
+    processed_npc_string = replace_with_npc_name(processed_npc_string, disp_name());
     add_msg(type, processed_npc_string.c_str());
 
     va_end(ap);
-};
+}
 void npc::add_msg_player_or_npc(game_message_type type, const char *, const char* npc_str, ...) const
 {
     va_list ap;
 
     va_start(ap, npc_str);
 
-    if (g->u_see(this)) {
+    if (g->u.sees(*this)) {
         std::string processed_npc_string = vstring_format(npc_str, ap);
-        // These strings contain the substring <npcname>,
-        // if present replace it with the actual npc name.
-        size_t offset = processed_npc_string.find("<npcname>");
-        if (offset != std::string::npos) {
-            processed_npc_string.replace(offset, 9, disp_name());
-        }
+        processed_npc_string = replace_with_npc_name(processed_npc_string, disp_name());
         add_msg(type, processed_npc_string.c_str());
     }
 
     va_end(ap);
-};
+}
+
+void npc::add_new_mission( class mission *miss )
+{
+    chatbin.add_new_mission( miss );
+}
+
+void npc_chatbin::add_new_mission( mission *miss )
+{
+    if( miss == nullptr ) {
+        return;
+    }
+    missions.push_back( miss );
+}
+
+epilogue::epilogue()
+{
+    id = "NONE";
+    group = "NONE";
+    is_unique = false;
+    lines.push_back("                                                                            ");
+    lines.push_back("                                                                            ");
+    lines.push_back("                                                                            ");
+    lines.push_back("                                                                            ");
+    lines.push_back("                                                                            ");
+    lines.push_back("                                                                            ");
+    lines.push_back("           ###### #### ####   ######    ####    ###   #### ######           ");
+    lines.push_back("            ##  #  ##   ##     ##  #     ##    ## ## ##  # # ## #           ");
+    lines.push_back("            ####   ##   ##     ####      ##    ## ## ####    ##             ");
+    lines.push_back("            ##     ##   ##     ##        ##    ## ##   ###   ##             ");
+    lines.push_back("            ##     ##   ## ##  ## ##     ## ## ## ## #  ##   ##             ");
+    lines.push_back("           ####   #### ###### ######    ######  ###  ####   ####            ");
+    lines.push_back("                                                                            ");
+    lines.push_back("                                                                            ");
+    lines.push_back("                                                                            ");
+    lines.push_back("                                                                            ");
+    lines.push_back("                                                                            ");
+    lines.push_back("                                                                            ");
+    lines.push_back("                                                                            ");
+    lines.push_back("                                                                            ");
+}
+
+epilogue_map epilogue::_all_epilogue;
+
+void epilogue::load_epilogue(JsonObject &jsobj)
+{
+    epilogue base;
+    base.id = jsobj.get_string("id");
+    base.group = jsobj.get_string("group");
+    base.is_unique = jsobj.get_bool("unique", false);
+    base.lines.clear();
+    base.lines.push_back(jsobj.get_string("line_01"));
+    base.lines.push_back(jsobj.get_string("line_02"));
+    base.lines.push_back(jsobj.get_string("line_03"));
+    base.lines.push_back(jsobj.get_string("line_04"));
+    base.lines.push_back(jsobj.get_string("line_05"));
+    base.lines.push_back(jsobj.get_string("line_06"));
+    base.lines.push_back(jsobj.get_string("line_07"));
+    base.lines.push_back(jsobj.get_string("line_08"));
+    base.lines.push_back(jsobj.get_string("line_09"));
+    base.lines.push_back(jsobj.get_string("line_10"));
+    base.lines.push_back(jsobj.get_string("line_11"));
+    base.lines.push_back(jsobj.get_string("line_12"));
+    base.lines.push_back(jsobj.get_string("line_13"));
+    base.lines.push_back(jsobj.get_string("line_14"));
+    base.lines.push_back(jsobj.get_string("line_15"));
+    base.lines.push_back(jsobj.get_string("line_16"));
+    base.lines.push_back(jsobj.get_string("line_17"));
+    base.lines.push_back(jsobj.get_string("line_18"));
+    base.lines.push_back(jsobj.get_string("line_19"));
+    base.lines.push_back(jsobj.get_string("line_20"));
+    _all_epilogue[base.id] = base;
+}
+
+epilogue* epilogue::find_epilogue(std::string ident)
+{
+    epilogue_map::iterator found = _all_epilogue.find(ident);
+    if (found != _all_epilogue.end()){
+        return &(found->second);
+    } else {
+        debugmsg("Tried to get invalid epilogue template: %s", ident.c_str());
+        static epilogue null_epilogue;
+    return &null_epilogue;
+    }
+}
+
+void epilogue::random_by_group(std::string group, std::string name)
+{
+    std::vector<epilogue> v;
+    for( auto epi : _all_epilogue ) {
+        if (epi.second.group == group){
+            v.push_back( epi.second );
+        }
+    }
+    if (v.size() == 0)
+        return;
+    epilogue epi = v.at(rng(0,v.size()-1));
+    id = epi.id;
+    group = epi.group;
+    is_unique = epi.is_unique;
+    lines.clear();
+    lines = epi.lines;
+    for( auto &ln : lines ) {
+        if (!ln.empty() && ln[0]=='*'){
+            ln.replace(0,name.size(),name);
+        }
+    }
+
+}
 
 const tripoint npc::no_goal_point(INT_MIN, INT_MIN, INT_MIN);

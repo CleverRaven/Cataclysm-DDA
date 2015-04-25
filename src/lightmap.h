@@ -14,9 +14,11 @@
 
 enum lit_level {
     LL_DARK = 0,
-    LL_LOW,    // Hard to see
+    LL_LOW, // Hard to see
     LL_LIT,
-    LL_BRIGHT  // Probably only for light sources
+    LL_BRIGHT_ONLY, // bright but indistinct
+    LL_BRIGHT, // Probably only for light sources
+    LL_BLANK // blank space, not an actual light level
 };
 
 #endif

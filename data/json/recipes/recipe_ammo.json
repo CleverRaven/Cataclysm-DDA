@@ -1,6 +1,6 @@
 [
 {
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "reloaded_shot_he",
   "category": "CC_AMMO",
   "subcategory": "CSC_AMMO_BULLETS",
@@ -26,7 +26,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "40mm_acidbomb",
   "category": "CC_AMMO",
   "subcategory": "CSC_AMMO_BULLETS",
@@ -35,7 +35,7 @@
   "time": 100,
   "reversible": false,
   "autolearn": false,
-  "book_learn": [[ "textbook_gaswarfare", 4 ] , [ "manual_launcher", 4 ]],
+  "book_learn": [[ "textbook_gaswarfare", 4, "" ] , [ "manual_launcher", 4 ]],
   "qualities" : [
     {"id":"SCREW","level":1,"amount":1}
   ], "components": [
@@ -83,7 +83,59 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
+  "result": "plut_slurry_dense",
+  "category": "CC_AMMO",
+  "subcategory": "CSC_AMMO_OTHER",
+  "skill_used": "fabrication",
+  "skills_required": ["electronics",  7],
+  "difficulty": 8,
+  "time": 95000,
+  "reversible": false,
+  "autolearn": false,
+  "book_learn": [[ "recipe_lab_elec", 10 ]],
+  "qualities":[
+    {"id":"SAW_M","level":1,"amount":1},
+    {"id":"SCREW","level":1,"amount":1},
+    {"id":"HAMMER","level":2,"amount":1}
+  ],
+  "components": [
+    [
+      ["plut_cell", 1]
+    ],
+    [
+      [ "water", 10 ],
+      [ "water_clean", 10]
+    ]
+  ]
+},{
+  "type" : "recipe",
+  "result": "plut_slurry",
+  "category": "CC_AMMO",
+  "subcategory": "CSC_AMMO_OTHER",
+  "skill_used": "fabrication",
+  "skills_required": ["electronics",  7],
+  "difficulty": 8,
+  "time": 95000,
+  "reversible": false,
+  "autolearn": false,
+  "book_learn": [[ "recipe_lab_elec", 10 ]],
+  "qualities":[
+    {"id":"SAW_M","level":1,"amount":1},
+    {"id":"SCREW","level":1,"amount":1},
+    {"id":"HAMMER","level":2,"amount":1}
+  ],
+  "components": [
+    [
+      ["plut_slurry_dense", 5]
+    ],
+    [
+      [ "water", 5 ],
+      [ "water_clean", 5]
+    ]
+  ]
+},{
+  "type" : "recipe",
   "result": "dart",
   "category": "CC_AMMO",
   "subcategory": "CSC_AMMO_ARROWS",
@@ -102,7 +154,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "pebble",
   "category": "CC_AMMO",
   "subcategory": "CSC_AMMO_OTHER",
@@ -115,7 +167,8 @@
     {"id":"HAMMER","level":1,"amount":1}
   ], "components": [
     [
-      [ "rock", 1 ]
+      [ "rock", 1 ],
+      [ "sharp_rock", 1 ]
     ]
   ]
 },{
@@ -134,7 +187,8 @@
       ["tongs", -1]
      ],
      [
-      ["crucible", -1]
+      ["crucible", -1],
+      ["crucible_clay", -1]
      ],
      [
       ["forge", 25], ["char_forge", 5]
@@ -164,7 +218,8 @@
       [ "press", -1 ]
     ],
     [
-      ["crucible", -1]
+      ["crucible", -1],
+      ["crucible_clay", -1]
     ],
     [
       ["forge", 100], ["char_forge", 20], [ "oxy_torch", 20]
@@ -181,7 +236,7 @@
       ]
     ]
   },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result" : "shaft_wood",
   "category" : "CC_AMMO",
   "subcategory": "CSC_AMMO_COMPONENTS",
@@ -203,7 +258,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result" : "shaft_wood_heavy",
   "category" : "CC_AMMO",
   "subcategory": "CSC_AMMO_COMPONENTS",
@@ -227,7 +282,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result" : "shaft_metal",
   "category" : "CC_AMMO",
   "subcategory": "CSC_AMMO_COMPONENTS",
@@ -248,7 +303,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result" : "arrowhead",
   "category" : "CC_AMMO",
   "subcategory": "CSC_AMMO_COMPONENTS",
@@ -268,13 +323,13 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result" : "fletching",
   "category" : "CC_AMMO",
   "subcategory": "CSC_AMMO_COMPONENTS",
   "skill_used" : "fabrication",
-  "skills_required": [ "archery", 1 ],
-  "difficulty" : 3,
+  "skills_required": [ "survival", 1 ],
+  "difficulty" : 1,
   "time" : 5000,
   "reversible" : false,
   "autolearn" : true,
@@ -290,16 +345,62 @@
       [ "bottle_plastic", 1 ],
       [ "bottle_plastic_small", 1 ],
       [ "box_small", 1 ],
-      [ "plastic_chunk", 1 ]
+      [ "plastic_chunk", 1 ],
+      [ "aluminum_foil", 1 ]
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
+  "result" : "fletching",
+  "id_suffix": "makeshift",
+  "category" : "CC_AMMO",
+  "subcategory": "CSC_AMMO_COMPONENTS",
+  "skill_used" : "fabrication",
+  "skills_required": [ "survival", 1 ],
+  "difficulty" : 1,
+  "time" : 5000,
+  "reversible" : false,
+  "autolearn" : true,
+  "book_learn" : [[ "recipe_arrows", 1 ], [ "manual_archery", 2 ], [ "book_archery", 2]],
+  "qualities":[
+    {"id":"CUT","level":1,"amount":1}
+  ],
+  "components" : [
+    [ [ "bone_glue", 5 ] ],
+    [
+      [ "rag", 2 ],
+      [ "leather", 2 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
+  "result" : "bone_glue",
+  "category" : "CC_AMMO",
+  "subcategory": "CSC_AMMO_COMPONENTS",
+  "skill_used" : "survival",
+  "skills_required": [ "cooking", 2 ],
+  "difficulty" : 2,
+  "time" : 30000,
+  "reversible" : false,
+  "autolearn" : true,
+  "book_learn" : [[ "recipe_arrows", 1 ], ["textbook_survival", 1], ["survival_book", 1]],
+  "qualities":[
+    {"id":"COOK","level":2,"amount":1}
+  ],
+  "components" : [
+    [ 
+      [ "water", 1 ],
+      [ "water_clean", 1 ]
+    ],
+    [ [ "bone", 10 ], [ "bone_human", 10 ], [ "bone_tainted", 20 ] ]
+    ]
+},{
+  "type" : "recipe",
   "result" : "arrow_fire_hardened",
   "category" : "CC_AMMO",
   "subcategory": "CSC_AMMO_ARROWS",
   "skill_used" : "fabrication",
-  "skills_required": [ "archery", 1 ],
+  "skills_required": [ "survival", 1 ],
   "difficulty" : 0,
   "time" : 5000,
   "reversible" : false,
@@ -318,7 +419,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result" : "arrow_field_point",
   "category" : "CC_AMMO",
   "subcategory": "CSC_AMMO_ARROWS",
@@ -334,24 +435,34 @@
   ],
   "components" : [
     [
+      [ "superglue", 5 ],
+      [ "bone_glue", 5 ],
+      [ "thread", 10, "NO_RECOVER" ],
+      [ "sinew", 10, "NO_RECOVER" ],
+      [ "plant_fibre", 10, "NO_RECOVER" ]
+    ],
+    [
       [ "shaft_wood", 10 ]
     ],
     [
       [ "bone", 5 ],
+      [ "bone_human", 5 ],
+      [ "bone_tainted", 10 ],
       [ "rock", 1 ],
       [ "ceramic_shard", 1 ],
       [ "scrap", 2 ],
-      [ "nail", 10 ]
+      [ "nail", 10 ],
+      [ "sharp_rock", 1 ]
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result" : "arrow_small_game",
   "category" : "CC_AMMO",
   "subcategory": "CSC_AMMO_ARROWS",
   "skill_used" : "fabrication",
-  "skills_required": [ "archery", 1 ],
-  "difficulty" : 2,
+  "skills_required": [ "survival", 1 ],
+  "difficulty" : 1,
   "time" : 2000,
   "reversible" : false,
   "autolearn" : true,
@@ -361,32 +472,49 @@
   ],
   "components" : [
     [
+      [ "superglue", 5 ],
+      [ "bone_glue", 5 ],
+      [ "thread", 10, "NO_RECOVER" ],
+      [ "sinew", 10, "NO_RECOVER" ],
+      [ "plant_fibre", 10, "NO_RECOVER" ]
+    ],
+    [
       [ "shaft_wood", 10 ]
     ],
     [
-      [ "bone", 3 ],
+      [ "bone", 5 ],
+      [ "bone_human", 5 ],
+      [ "bone_tainted", 10 ],
       [ "rock", 1 ],
       [ "ceramic_shard", 1 ],
       [ "scrap", 2 ],
-      [ "nail", 10 ]
+      [ "nail", 10 ],
+      [ "sharp_rock", 1 ]
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result" : "arrow_fire_hardened_fletched",
   "category" : "CC_AMMO",
   "subcategory": "CSC_AMMO_ARROWS",
   "skill_used" : "fabrication",
-  "skills_required": [ "archery", 3 ],
-  "difficulty" : 3,
+  "skills_required": [ "survival", 2 ],
+  "difficulty" : 1,
   "time" : 3000,
-  "reversible" : false,
+  "reversible" : true,
   "autolearn" : true,
   "book_learn" : [[ "recipe_arrows", 2 ] , [ "book_archery", 2]],
   "qualities":[
     {"id":"CUT","level":1,"amount":1}
   ],
   "components" : [
+    [
+      [ "superglue", 5 ],
+      [ "bone_glue", 5 ],
+      [ "thread", 10, "NO_RECOVER" ],
+      [ "sinew", 10, "NO_RECOVER" ],
+      [ "plant_fibre", 10, "NO_RECOVER" ]
+    ],
     [
       [ "arrow_fire_hardened", 10 ]
     ],
@@ -395,21 +523,28 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result" : "arrow_field_point_fletched",
   "category" : "CC_AMMO",
   "subcategory": "CSC_AMMO_ARROWS",
   "skill_used" : "fabrication",
-  "skills_required": [ "archery", 3 ],
+  "skills_required": [ "archery", 2 ],
   "difficulty" : 3,
   "time" : 3000,
-  "reversible" : false,
+  "reversible" : true,
   "autolearn" : true,
   "book_learn" : [[ "recipe_arrows", 1 ] , [ "book_archery", 3]],
   "qualities":[
     {"id":"CUT","level":1,"amount":1}
   ],
   "components" : [
+    [
+      [ "superglue", 5 ],
+      [ "bone_glue", 5 ],
+      [ "thread", 10, "NO_RECOVER" ],
+      [ "sinew", 10, "NO_RECOVER" ],
+      [ "plant_fibre", 10, "NO_RECOVER" ]
+    ],
     [
       [ "arrow_field_point", 10 ]
     ],
@@ -418,7 +553,37 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
+  "result" : "arrow_small_game_fletched",
+  "category" : "CC_AMMO",
+  "subcategory": "CSC_AMMO_ARROWS",
+  "skill_used" : "fabrication",
+  "skills_required": [ "survival", 2 ],
+  "difficulty" : 2,
+  "time" : 3000,
+  "reversible" : true,
+  "autolearn" : true,
+  "book_learn" : [[ "recipe_arrows", 1 ] , [ "pocket_survival", 1], [ "book_archery", 2]],
+  "qualities":[
+    {"id":"CUT","level":1,"amount":1}
+  ],
+  "components" : [
+    [
+      [ "superglue", 5 ],
+      [ "bone_glue", 5 ],
+      [ "thread", 10, "NO_RECOVER" ],
+      [ "sinew", 10, "NO_RECOVER" ],
+      [ "plant_fibre", 10, "NO_RECOVER" ]
+    ],
+    [
+      [ "arrow_small_game", 10 ]
+    ],
+    [
+      [ "fletching", 10 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
   "result" : "flamable_arrow",
   "category" : "CC_AMMO",
   "subcategory": "CSC_AMMO_ARROWS",
@@ -426,7 +591,7 @@
   "skills_required": [ "archery", 3 ],
   "difficulty" : 3,
   "time" : 5000,
-  "reversible" : false,
+  "reversible" : true,
   "autolearn" : false,
   "book_learn" : [[ "recipe_arrows", 5 ]],
   "qualities":[
@@ -443,38 +608,45 @@
       [ "arrow_metal", 5 ]
     ],
     [
-      [ "rag", 1 ]
+      [ "rag", 1, "NO_RECOVER" ]
     ],
     [
-      [ "whiskey", 7 ],
-      [ "single_malt_whiskey", 7 ],
-      [ "vodka", 7 ],
-      [ "rum", 7 ],
-      [ "tequila", 7 ],
-      [ "gin", 7 ],
-      [ "moonshine", 7 ],
-      [ "brandy", 7 ],
-      [ "lamp_oil", 100 ],
-      [ "gasoline", 200 ],
-      [ "diesel", 200 ]
+      [ "whiskey", 7, "NO_RECOVER" ],
+      [ "single_malt_whiskey", 7, "NO_RECOVER" ],
+      [ "vodka", 7, "NO_RECOVER" ],
+      [ "rum", 7, "NO_RECOVER" ],
+      [ "tequila", 7, "NO_RECOVER" ],
+      [ "gin", 7, "NO_RECOVER" ],
+      [ "moonshine", 7, "NO_RECOVER" ],
+      [ "brandy", 7, "NO_RECOVER" ],
+      [ "lamp_oil", 100, "NO_RECOVER" ],
+      [ "gasoline", 200, "NO_RECOVER" ],
+      [ "diesel", 200, "NO_RECOVER" ]
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result" : "arrow_wood",
   "category" : "CC_AMMO",
   "subcategory": "CSC_AMMO_ARROWS",
   "skill_used" : "fabrication",
-  "skills_required": [ "archery", 3 ],
-  "difficulty" : 5,
+  "skills_required": [ "archery", 2 ],
+  "difficulty" : 3,
   "time" : 3000,
-  "reversible" : false,
+  "reversible" : true,
   "autolearn" : true,
   "book_learn" : [[ "recipe_arrows", 3 ]],
   "qualities":[
     {"id":"CUT","level":1,"amount":1}
   ],
   "components" : [
+    [
+      [ "superglue", 10 ],
+      [ "bone_glue", 10 ],
+      [ "thread", 20, "NO_RECOVER" ],
+      [ "sinew", 20, "NO_RECOVER" ],
+      [ "plant_fibre", 20, "NO_RECOVER" ]
+    ],
     [
       [ "arrowhead", 10 ]
     ],
@@ -486,7 +658,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result" : "arrow_metal_sharpened",
   "category" : "CC_AMMO",
   "subcategory": "CSC_AMMO_ARROWS",
@@ -506,8 +678,88 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
+  "result" : "arrow_metal_sharpened_fletched",
+  "category" : "CC_AMMO",
+  "subcategory": "CSC_AMMO_ARROWS",
+  "skill_used" : "fabrication",
+  "skills_required": [ "archery", 3 ],
+  "difficulty" : 4,
+  "time" : 5000,
+  "reversible" : false,
+  "autolearn" : true,
+  "book_learn" : [[ "recipe_arrows", 3 ]],
+  "qualities":[
+    {"id":"HAMMER","level":1,"amount":1},
+    {"id":"SAW_M","level":1,"amount":1}
+  ], "components" : [
+    [
+      [ "superglue", 5 ],
+      [ "bone_glue", 5 ],
+      [ "thread", 10, "NO_RECOVER" ],
+      [ "sinew", 10, "NO_RECOVER" ],
+      [ "plant_fibre", 10, "NO_RECOVER" ]
+    ],
+    [
+      [ "arrow_metal_sharpened", 10 ]
+    ],
+    [
+      [ "fletching", 10 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
+  "result" : "arrow_heavy_fire_hardened",
+  "category" : "CC_AMMO",
+  "subcategory": "CSC_AMMO_ARROWS",
+  "skill_used" : "fabrication",
+  "skills_required": [ "survival", 3 ],
+  "difficulty" : 4,
+  "time" : 5000,
+  "reversible" : false,
+  "autolearn" : true,
+  "qualities":[
+    {"id":"CUT","level":1,"amount":1}
+  ], "tools" : [
+    [
+      [ "fire", -1 ]
+    ]
+  ], "components" : [
+    [
+      [ "shaft_wood_heavy", 10 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
   "result" : "arrow_heavy_fire_hardened_fletched",
+  "category" : "CC_AMMO",
+  "subcategory": "CSC_AMMO_ARROWS",
+  "skill_used" : "fabrication",
+  "skills_required": [ "survival", 3 ],
+  "difficulty" : 4,
+  "time" : 5000,
+  "reversible" : true,
+  "autolearn" : true,
+  "qualities":[
+    {"id":"CUT","level":1,"amount":1}
+  ], "components" : [
+    [
+      [ "superglue", 5 ],
+      [ "bone_glue", 5 ],
+      [ "thread", 10, "NO_RECOVER" ],
+      [ "sinew", 10, "NO_RECOVER" ],
+      [ "plant_fibre", 10, "NO_RECOVER" ]
+    ],
+    [
+      [ "arrow_heavy_fire_hardened", 10 ]
+    ],
+    [
+      [ "fletching", 10 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
+  "result" : "arrow_heavy_field_point",
   "category" : "CC_AMMO",
   "subcategory": "CSC_AMMO_ARROWS",
   "skill_used" : "fabrication",
@@ -517,53 +769,63 @@
   "reversible" : false,
   "autolearn" : true,
   "qualities":[
-    {"id":"CUT","level":1,"amount":1}
-  ],
-  "tools" : [
-    [
-      [ "fire", -1 ]
-    ]
+    {"id":"CUT","level":1,"amount":1},
+    {"id":"HAMMER","level":1,"amount":1}
   ],
   "components" : [
+    [
+      [ "superglue", 5 ],
+      [ "bone_glue", 5 ],
+      [ "thread", 10, "NO_RECOVER" ],
+      [ "sinew", 10, "NO_RECOVER" ],
+      [ "plant_fibre", 10, "NO_RECOVER" ]
+    ],
     [
       [ "shaft_wood_heavy", 10 ]
     ],
     [
-      [ "fletching", 10 ]
+      [ "bone", 5 ],
+      [ "bone_human", 5 ],
+      [ "bone_tainted", 10 ],
+      [ "rock", 1],
+      [ "ceramic_shard", 1 ],
+      [ "scrap", 2 ],
+      [ "nail", 10 ],
+      [ "sharp_rock", 1 ]
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result" : "arrow_heavy_field_point_fletched",
   "category" : "CC_AMMO",
   "subcategory": "CSC_AMMO_ARROWS",
   "skill_used" : "fabrication",
   "skills_required": [ "archery", 3 ],
   "difficulty" : 4,
-  "time" : 5000,
-  "reversible" : false,
-  "autolearn" : false,
+  "time" : 2000,
+  "reversible" : true,
+  "autolearn" : true,
   "book_learn" : [[ "recipe_arrows", 2 ] , [ "pocket_survival", 2]],
   "qualities" : [
     {"id":"CUT","level":1,"amount":1}
   ],
   "components" : [
     [
-      [ "shaft_wood_heavy", 10 ]
+      [ "superglue", 5 ],
+      [ "bone_glue", 5 ],
+      [ "thread", 10, "NO_RECOVER" ],
+      [ "sinew", 10, "NO_RECOVER" ],
+      [ "plant_fibre", 10, "NO_RECOVER" ]
+    ],
+    [
+      [ "arrow_heavy_field_point", 10 ]
     ],
     [
       [ "fletching", 10 ]
-    ],
-    [
-      [ "bone", 5 ],
-      [ "rock", 1 ],
-      [ "ceramic_shard", 1 ],
-      [ "scrap", 2 ],
-      [ "nail", 10 ]
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result" : "arrow_wood_heavy",
   "category" : "CC_AMMO",
   "subcategory": "CSC_AMMO_ARROWS",
@@ -571,13 +833,20 @@
   "skills_required": [ "archery", 5 ],
   "difficulty" : 5,
   "time" : 3000,
-  "reversible" : false,
+  "reversible" : true,
   "autolearn" : true,
   "book_learn" : [[ "recipe_arrows", 3 ]],
   "qualities" : [
     {"id":"CUT","level":1,"amount":1}
   ],
   "components" : [
+    [
+      [ "superglue", 10 ],
+      [ "bone_glue", 10 ],
+      [ "thread", 20, "NO_RECOVER" ],
+      [ "sinew", 20, "NO_RECOVER" ],
+      [ "plant_fibre", 20, "NO_RECOVER" ]
+    ],
     [
       [ "arrowhead", 10 ]
     ],
@@ -589,7 +858,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result" : "arrow_metal",
   "category" : "CC_AMMO",
   "subcategory": "CSC_AMMO_ARROWS",
@@ -607,17 +876,24 @@
     {"id":"SAW_M","level":1,"amount":1}
   ], "components" : [
     [
+      [ "superglue", 10 ],
+      [ "bone_glue", 10 ],
+      [ "thread", 20, "NO_RECOVER" ],
+      [ "sinew", 20, "NO_RECOVER" ],
+      [ "plant_fibre", 20, "NO_RECOVER" ]
+    ],
+    [
       [ "shaft_metal", 10 ]
     ],
     [
-      [ "arrowhead", 10 ]
+      [ "arrowhead", 10, "NO_RECOVER" ]
     ],
     [
       [ "fletching", 10 ]
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result" : "arrow_exploding",
   "category" : "CC_AMMO",
   "subcategory": "CSC_AMMO_ARROWS",
@@ -648,7 +924,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result" : "exploding_arrow_warhead",
   "category" : "CC_AMMO",
   "subcategory": "CSC_AMMO_COMPONENTS",
@@ -690,7 +966,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "bolt_wood",
   "category": "CC_AMMO",
   "subcategory": "CSC_AMMO_ARROWS",
@@ -713,7 +989,7 @@
     ]
   ]
 },{
-         "type" : "recipe",
+  "type" : "recipe",
   "result": "bolt_metal",
   "category": "CC_AMMO",
   "subcategory": "CSC_AMMO_ARROWS",
@@ -734,7 +1010,40 @@
       ]
   ]
 },{
-         "type" : "recipe",
+  "type" : "recipe",
+  "result": "bolt_steel",
+  "category": "CC_AMMO",
+  "subcategory": "CSC_AMMO_ARROWS",
+  "skill_used": "fabrication",
+  "skills_required": ["archery", 5],
+  "difficulty": 5,
+  "time": 10000,
+  "reversible": false,
+  "autolearn": true,
+  "book_learn" : [[ "recipe_arrows", 2 ]],
+  "qualities":[
+    {"id":"HAMMER","level":1,"amount":1}
+  ],
+     "tools": [
+    [
+      ["toolset", 7],
+      ["fire", -1],
+      ["forge", 7],
+      ["char_forge", 2],
+      ["oxy_torch", 2]
+      ]
+    ],
+     "//" : "Extra steel is for stablizers, mass, etc.  These are mostly better thanks to the maker's skill, though.",
+     "components": [
+    [
+      ["steel_chunk", 2]
+    ],
+    [
+      ["scrap", 6]
+    ]
+  ]
+},{
+  "type" : "recipe",
   "result": "bolt_explosive",
   "category": "CC_AMMO",
   "subcategory": "CSC_AMMO_ARROWS",
@@ -767,7 +1076,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "fishspear",
   "category": "CC_AMMO",
   "skill_used": "fabrication",
@@ -791,7 +1100,7 @@
     ]
   ]
 },{
-         "type" : "recipe",
+   "type" : "recipe",
   "result": "m_fishspear",
   "category": "CC_AMMO",
   "skill_used": "fabrication",
@@ -809,7 +1118,7 @@
       ]
   ]
 },{
-         "type" : "recipe",
+   "type" : "recipe",
   "result": "reloaded_9mm",
   "category": "CC_AMMO",
   "subcategory": "CSC_AMMO_BULLETS",
@@ -850,7 +1159,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "reloaded_9mmP",
   "category": "CC_AMMO",
   "subcategory": "CSC_AMMO_BULLETS",
@@ -892,7 +1201,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "reloaded_9mmP2",
   "category": "CC_AMMO",
   "subcategory": "CSC_AMMO_BULLETS",
@@ -934,7 +1243,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "reloaded_38_special",
   "category": "CC_AMMO",
   "subcategory": "CSC_AMMO_BULLETS",
@@ -976,7 +1285,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "reloaded_38_super",
   "category": "CC_AMMO",
   "subcategory": "CSC_AMMO_BULLETS",
@@ -1018,7 +1327,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "reloaded_40sw",
   "category": "CC_AMMO",
   "subcategory": "CSC_AMMO_BULLETS",
@@ -1060,7 +1369,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "reloaded_10mm",
   "category": "CC_AMMO",
   "subcategory": "CSC_AMMO_BULLETS",
@@ -1102,7 +1411,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "reloaded_44magnum",
   "category": "CC_AMMO",
   "subcategory": "CSC_AMMO_BULLETS",
@@ -1273,7 +1582,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "reloaded_454_Casull",
   "category": "CC_AMMO",
   "subcategory": "CSC_AMMO_BULLETS",
@@ -1318,7 +1627,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "reloaded_500_Magnum",
   "category": "CC_AMMO",
   "subcategory": "CSC_AMMO_BULLETS",
@@ -1363,7 +1672,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "reloaded_57mm",
   "category": "CC_AMMO",
   "subcategory": "CSC_AMMO_BULLETS",
@@ -1405,7 +1714,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "reloaded_46mm",
   "category": "CC_AMMO",
   "subcategory": "CSC_AMMO_BULLETS",
@@ -1447,7 +1756,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "reloaded_762_m43",
   "category": "CC_AMMO",
   "subcategory": "CSC_AMMO_BULLETS",
@@ -1492,7 +1801,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "reloaded_762_m87",
   "category": "CC_AMMO",
   "subcategory": "CSC_AMMO_BULLETS",
@@ -1537,7 +1846,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "reloaded_223",
   "category": "CC_AMMO",
   "subcategory": "CSC_AMMO_BULLETS",
@@ -1583,7 +1892,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "reloaded_556",
   "category": "CC_AMMO",
   "subcategory": "CSC_AMMO_BULLETS",
@@ -1629,7 +1938,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "reloaded_556_incendiary",
   "category": "CC_AMMO",
   "subcategory": "CSC_AMMO_BULLETS",
@@ -1669,7 +1978,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "reloaded_270",
   "category": "CC_AMMO",
   "subcategory": "CSC_AMMO_BULLETS",
@@ -1713,7 +2022,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "reloaded_3006",
   "category": "CC_AMMO",
   "subcategory": "CSC_AMMO_BULLETS",
@@ -1758,7 +2067,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "reloaded_50_incendiary",
   "category": "CC_AMMO",
   "subcategory": "CSC_AMMO_BULLETS",
@@ -1806,7 +2115,7 @@
     ]
   ]
  },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "reloaded_50ss",
   "category": "CC_AMMO",
   "subcategory": "CSC_AMMO_BULLETS",
@@ -1845,7 +2154,7 @@
     ]
 ]
   },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "reloaded_50bmg",
   "category": "CC_AMMO",
   "subcategory": "CSC_AMMO_BULLETS",
@@ -1889,7 +2198,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "reloaded_3006_incendiary",
   "category": "CC_AMMO",
   "subcategory": "CSC_AMMO_BULLETS",
@@ -1928,7 +2237,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "reloaded_308",
   "category": "CC_AMMO",
   "subcategory": "CSC_AMMO_BULLETS",
@@ -1973,7 +2282,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "reloaded_762_51",
   "category": "CC_AMMO",
   "subcategory": "CSC_AMMO_BULLETS",
@@ -2018,7 +2327,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "reloaded_762_51_incendiary",
   "category": "CC_AMMO",
   "subcategory": "CSC_AMMO_BULLETS",
@@ -2057,7 +2366,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "reloaded_signal_flare",
   "category": "CC_AMMO",
   "subcategory": "CSC_AMMO_BULLETS",
@@ -2096,7 +2405,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "reloaded_shot_bird",
   "category": "CC_AMMO",
   "subcategory": "CSC_AMMO_BULLETS",
@@ -2138,7 +2447,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "reloaded_shot_00",
   "category": "CC_AMMO",
   "subcategory": "CSC_AMMO_BULLETS",
@@ -2180,7 +2489,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "reloaded_shot_slug",
   "category": "CC_AMMO",
   "subcategory": "CSC_AMMO_BULLETS",
@@ -2221,7 +2530,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "reloaded_shot_flechette",
   "category": "CC_AMMO",
   "subcategory": "CSC_AMMO_BULLETS",
@@ -2241,10 +2550,10 @@
     [ [ "shot_hull", 10 ] ],
     [ [ "shotgun_primer", 10 ] ],
     [ [ "gunpowder", 120 ] ],
-    [ [ "nail", 160 ] ]
+    [ [ "nail", 160 ], [ "combatnail", 160 ] ]
    ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "shot_scrap",
   "category": "CC_AMMO",
   "subcategory": "CSC_AMMO_BULLETS",
@@ -2294,7 +2603,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "shot_scrapslug",
   "category": "CC_AMMO",
   "subcategory": "CSC_AMMO_BULLETS",
@@ -2337,7 +2646,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "blun_shot",
   "category": "CC_AMMO",
   "subcategory": "CSC_AMMO_BULLETS",
@@ -2376,7 +2685,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "blun_slug",
   "category": "CC_AMMO",
   "subcategory": "CSC_AMMO_BULLETS",
@@ -2409,7 +2718,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "blun_flechette",
   "category": "CC_AMMO",
   "subcategory": "CSC_AMMO_BULLETS",
@@ -2435,11 +2744,11 @@
     ],
     [
       [ "glass_shard", 1],
-      [ "nail", 8]
+      [ "nail", 8], [ "combatnail", 8 ]
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "shot_scrapbag",
   "category": "CC_AMMO",
   "subcategory": "CSC_AMMO_BULLETS",
@@ -2479,7 +2788,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "reloaded_shot_beanbag",
   "category": "CC_AMMO",
   "subcategory": "CSC_AMMO_BULLETS",
@@ -2515,7 +2824,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "gunpowder",
   "category": "CC_AMMO",
   "subcategory": "CSC_AMMO_COMPONENTS",
@@ -2530,9 +2839,10 @@
     {"id":"CHEM","level":2,"amount":1}
   ], "tools": [
     [
-      [ "chemistry_set", 50 ],
       [ "hotplate", 50 ],
-      [ "toolset", 50 ]
+      [ "toolset", 50 ],
+      [ "fire", -1 ],
+      [ "char_smoker", 5 ]
     ]
   ],
   "components": [
@@ -2548,7 +2858,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "incendiary",
   "category": "CC_AMMO",
   "subcategory": "CSC_AMMO_COMPONENTS",
@@ -2563,9 +2873,10 @@
     {"id":"CHEM","level":2,"amount":1}
   ], "tools": [
     [
-      [ "chemistry_set", 50 ],
       [ "hotplate", 50 ],
-      [ "toolset", 50 ]
+      [ "toolset", 50 ],
+      [ "fire", -1 ],
+      [ "char_smoker", 5 ]
     ]
   ],
   "components": [
@@ -2580,7 +2891,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "8mm_bootleg",
   "category": "CC_AMMO",
   "subcategory": "CSC_AMMO_BULLETS",
@@ -2595,10 +2906,11 @@
     {"id":"CHEM","level":2,"amount":1}
   ], "tools": [
     [
-      [ "chemistry_set", 50 ],
       [ "press", 50 ],
       [ "hotplate", 50 ],
-      [ "toolset", 50 ]
+      [ "toolset", 50 ],
+      [ "fire", -1 ],
+      [ "char_smoker", 5 ]
     ],
     [
       [ "press", -1 ]
@@ -2627,7 +2939,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "8mm_bootleg_jsp",
   "category": "CC_AMMO",
   "subcategory": "CSC_AMMO_BULLETS",
@@ -2642,10 +2954,11 @@
     {"id":"CHEM","level":2,"amount":1}
   ], "tools": [
     [
-      [ "chemistry_set", 50 ],
       [ "press", 50 ],
       [ "hotplate", 50 ],
-      [ "toolset", 50 ]
+      [ "toolset", 50 ],
+      [ "fire", -1 ],
+      [ "char_smoker", 5 ]
     ],
     [
       [ "press", -1 ]
@@ -2677,7 +2990,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "20x66_bootleg_shot",
   "category": "CC_AMMO",
   "subcategory": "CSC_AMMO_BULLETS",
@@ -2692,10 +3005,11 @@
     {"id":"CHEM","level":2,"amount":1}
   ], "tools": [
     [
-      [ "chemistry_set", 50 ],
       [ "press", 50 ],
       [ "hotplate", 50 ],
-      [ "toolset", 50 ]
+      [ "toolset", 50 ],
+      [ "fire", -1 ],
+      [ "char_smoker", 5 ]
     ],
     [
       [ "press", -1 ]
@@ -2724,7 +3038,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "20x66_bootleg_flechette",
   "category": "CC_AMMO",
   "subcategory": "CSC_AMMO_BULLETS",
@@ -2739,10 +3053,11 @@
     {"id":"CHEM","level":2,"amount":1}
   ], "tools": [
     [
-      [ "chemistry_set", 50 ],
       [ "press", 50 ],
       [ "hotplate", 50 ],
-      [ "toolset", 50 ]
+      [ "toolset", 50 ],
+      [ "fire", -1 ],
+      [ "char_smoker", 5 ]
     ],
     [
       [ "boltcutters", -1 ],
@@ -2766,11 +3081,11 @@
       [ "incendiary", 120 ]
     ],
     [
-      [ "nail", 240 ]
+      [ "nail", 240 ], [ "combatnail", 240 ]
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "20x66_bootleg_slug",
   "category": "CC_AMMO",
   "subcategory": "CSC_AMMO_BULLETS",
@@ -2785,10 +3100,11 @@
     {"id":"CHEM","level":2,"amount":1}
   ], "tools": [
     [
-      [ "chemistry_set", 50 ],
       [ "press", 50 ],
       [ "hotplate", 50 ],
-      [ "toolset", 50 ]
+      [ "toolset", 50 ],
+      [ "fire", -1 ],
+      [ "char_smoker", 5 ]
     ],
     [
       [ "press", -1 ]
@@ -2998,7 +3314,8 @@
       [ "press", -1 ]
      ],
      [
-      ["crucible", -1]
+      ["crucible", -1],
+      ["crucible_clay", -1]
      ],
      [
       ["forge", 50], ["char_forge", 10], [ "oxy_torch", 10]
@@ -3011,7 +3328,7 @@
       ]
     ]
   },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "reloaded_laser_pack",
   "category": "CC_AMMO",
   "subcategory": "CSC_AMMO_OTHER",
@@ -3034,7 +3351,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result" : "shaft_plastic",
   "category" : "CC_AMMO",
   "subcategory": "CSC_AMMO_COMPONENTS",
@@ -3057,7 +3374,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result" : "arrowhead_plastic",
   "category" : "CC_AMMO",
   "subcategory": "CSC_AMMO_COMPONENTS",
@@ -3076,7 +3393,7 @@
   ],
   "components" : [ [ ["plastic_chunk", 1] ] ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result" : "arrow_plastic",
   "category": "CC_AMMO",
   "subcategory": "CSC_AMMO_ARROWS",
@@ -3099,13 +3416,13 @@
     [ ["fletching", 10] ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "rebar_rail",
   "category": "CC_AMMO",
   "subcategory": "CSC_AMMO_OTHER",
   "skill_used": "fabrication",
   "difficulty": 1,
-  "time": 36000,
+  "time": 120000,
   "reversible": false,
   "autolearn": true,
   "qualities":[
@@ -3113,17 +3430,17 @@
     {"id":"SAW_M","level":1,"amount":1}
   ], "components": [
     [
-      ["rebar", 1]
+      ["rebar", 2]
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "steel_rail",
   "category": "CC_AMMO",
   "subcategory": "CSC_AMMO_OTHER",
   "skill_used": "fabrication",
   "difficulty": 2,
-  "time": 30000,
+  "time": 100000,
   "reversible": false,
   "autolearn": true,
   "qualities":[
@@ -3139,17 +3456,19 @@
       ["anvil", -1]
      ],
      [
-      ["crucible", -1]
+      ["crucible", -1],
+      ["crucible_clay", -1]
      ],
      [
-      ["forge", 50], ["char_forge", 10], [ "oxy_torch", 10]
+      ["forge", 200], ["char_forge", 40], [ "oxy_torch", 40]
      ]
     ],
   "components":
     [
      [
-     [ "steel_chunk", 2 ],
-     [ "scrap", 6 ]
+     [ "steel_lump", 4 ],
+     [ "steel_chunk", 16 ],
+     [ "scrap", 48 ]
      ]
     ]
 },{
@@ -3451,7 +3770,7 @@
      [ "gunpowder", 160 ]
     ],
     [
-     [ "nail", 120 ]
+     [ "nail", 120 ], [ "combatnail", 120 ]
     ]
   ]
 },{
@@ -3571,7 +3890,7 @@
         [ "money_bundle", 1 ],
         [ "wrapper", 1],
         [ "bag_plastic", 1 ],
-        [ "paper", 25 ]
+        [ "paper", 20 ]
       ]
     ]
   },{
@@ -3854,8 +4173,10 @@
   "time": 60000,
   "reversible": false,
   "autolearn": false,
-  "book_learn": [["textbook_gaswarfare" , 8 ], ["textbook_anarch" , 7 ], ["recipe_labchem", 6 ]],
-  "tools": [ [ ["chemistry_set", 25]  ] ],
+  "qualities":[
+    {"id":"CHEM","level":2,"amount":1}
+  ], "book_learn": [["textbook_gaswarfare" , 8, "" ], ["textbook_anarch" , 7, "Stuff THE MAN doesn't want you to know" ], ["recipe_labchem", 6 ]],
+  "tools": [ [ ["hotplate", 25], ["toolset", 25], ["fire", -1], ["char_smoker", 3]  ] ],
   "components": [
     [ [ "gasoline", 125 ], [ "diesel", 125 ] ],
     [ [ "plastic_chunk", 4 ] ],
@@ -3863,5 +4184,122 @@
     [ [ "oxy_powder", 15 ] ],
     [ [ "lye_powder", 15 ] ]
   ]
+},
+{
+"type" : "recipe",
+"result": "spiked_rocket",
+"category": "CC_AMMO",
+"subcategory": "CSC_AMMO_OTHER",
+"skill_used": "fabrication",
+"difficulty": 3,
+"time": 8000,
+"reversible": false,
+"autolearn": false,
+"book_learn": [[ "manual_launcher", 4 ]],
+"qualities":[
+{"id":"HAMMER","level":3,"amount":1},
+{"id":"SAW_M","level":1,"amount":1}
+], "tools": [
+[
+[ "oxy_torch", 6 ],
+[ "welder", 30 ],
+[ "welder_crude", 30 ],
+[ "toolset", 30 ]
+],
+[
+[ "hotplate", 50 ],
+[ "toolset", 50 ]
+]
+],
+"components":
+[
+[
+[ "pipe", 2 ]
+],
+[
+[ "spike", 1 ]
+],
+[
+[ "tool_rocket_candy", 3 ],
+[ "chem_rocket_fuel", 75 ]
+],
+[
+[ "scrap", 3 ]
+]
+]
+},
+{
+"type" : "recipe",
+"result": "explosive_hm_rocket",
+"category": "CC_AMMO",
+"subcategory": "CSC_AMMO_OTHER",
+"skill_used": "fabrication",
+"difficulty": 4,
+"time": 30000,
+"reversible": false,
+"autolearn": false,
+"book_learn": [[ "manual_launcher", 5 ]],
+"qualities":[
+{"id":"HAMMER","level":3,"amount":1},
+{"id":"SAW_M","level":1,"amount":1}
+], "tools": [
+[
+[ "hotplate", 50 ],
+[ "toolset", 50 ]
+]
+],
+"components":
+[
+[
+[ "pipe", 2 ]
+],
+[
+[ "chem_black_powder", 25 ]
+],
+[
+[ "tool_rocket_candy", 2 ],
+[ "chem_rocket_fuel", 50 ]
+]
+]
+},
+{
+"type" : "recipe",
+"result": "incendiary_hm_rocket",
+"category": "CC_AMMO",
+"subcategory": "CSC_AMMO_OTHER",
+"skill_used": "fabrication",
+"difficulty": 5,
+"time": 20000,
+"reversible": false,
+"autolearn": false,
+"book_learn": [[ "manual_launcher", 6 ]],
+"qualities":[
+{"id":"HAMMER","level":3,"amount":1},
+{"id":"SAW_M","level":1,"amount":1}
+], "tools": [
+[
+[ "hotplate", 50 ],
+[ "toolset", 50 ]
+]
+],
+"components":
+[
+[
+[ "pipe", 2 ]
+],
+[
+[ "chem_thermite", 50 ]
+],
+[
+[ "plastic_chunk", 5 ]
+],
+[
+[ "tool_rocket_candy", 2 ],
+[ "chem_rocket_fuel", 50 ]
+]
+]
 }
+
+
+
 ]

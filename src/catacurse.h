@@ -2,25 +2,18 @@
 #define CATACURSE_H
 
 #if (defined _WIN32 || defined WINDOWS)
-#ifndef _WIN32_WINNT
-#define _WIN32_WINNT 0x0500
-#endif
-#define WIN32_LEAN_AND_MEAN
-#ifndef NOMINMAX
-#define NOMINMAX
-#endif
-//#define VC_EXTRALEAN
-#include "windows.h"
-#include "mmsystem.h"
+#   include "platform_win.h"
+#   include "mmsystem.h"
 #endif
 #include <stdio.h>
 #include <map>
 #include <vector>
 #include <array>
 #include <string>
+#include <cstdint>
+
 typedef int chtype;
 typedef unsigned short attr_t;
-typedef unsigned int u_int32_t;
 
 //a pair of colors[] indexes, foreground and background
 typedef struct {
@@ -39,29 +32,24 @@ typedef struct {
 //Individual lines, so that we can track changed lines
 struct cursecell {
     std::string ch;
-    char FG;
-    char BG;
-    cursecell(std::string ch) : ch(ch), FG(0), BG(0) { }
-    cursecell() : cursecell(" ") { }
+    char FG = 0;
+    char BG = 0;
+
+    cursecell(std::string ch) : ch(std::move(ch)) { }
+    cursecell() : cursecell(std::string(1, ' ')) { }
 
     bool operator==(const cursecell &b) const {
-        return ch == b.ch && FG == b.FG && BG == b.BG;
-    }
-
-    cursecell& operator=(const cursecell &b) {
-        ch = b.ch;
-        FG = b.FG;
-        BG = b.BG;
-        return *this;
+        return FG == b.FG && BG == b.BG && ch == b.ch;
     }
 };
+
 struct curseline {
     bool touched;
     std::vector<cursecell> chars;
 };
 
 //The curses window struct
-typedef struct {
+struct WINDOW {
     int x;//left side of window
     int y;//top side of window
     int width;//width of the curses window
@@ -73,8 +61,7 @@ typedef struct {
     int cursorx;//x location of the cursor
     int cursory;//y location of the cursor
     std::vector<curseline> line;
-
-} WINDOW;
+};
 
 #define A_NORMAL 0x00000000 /* Added characters are normal.         <---------not used */
 #define A_STANDOUT 0x00000100 /* Added characters are standout.     <---------not used */
@@ -99,7 +86,7 @@ typedef struct {
 #define COLOR_CYAN 0x06        //RGB{0, 170, 200}
 #define COLOR_WHITE 0x07        //RGB{196, 196, 196}
 
-#define COLOR_PAIR(n) ((((u_int32_t)n) << 17) & A_COLOR)
+#define COLOR_PAIR(n) ((static_cast<std::uint32_t>(n) << 17) & A_COLOR)
 //#define PAIR_NUMBER(n) ((((u_int32_t)n) & A_COLOR) >> 17)
 
 #define    KEY_MIN        0x101    /* minimum extended key value */ //<---------not used

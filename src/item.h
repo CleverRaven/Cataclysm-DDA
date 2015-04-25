@@ -14,17 +14,15 @@
 #include "bodypart.h"
 
 class game;
+class Character;
 class player;
 class npc;
 struct itype;
+struct islot_armor;
 class material_type;
 class item_category;
 
-// Thresholds for radiation dosage for the radiation film badge.
-const int rad_dosage_thresholds[] = { 0, 30, 60, 120, 240, 500};
-const std::string rad_threshold_colors[] = { _("green"), _("blue"), _("yellow"),
-                                             _("orange"), _("red"), _("black")
-                                           };
+std::string const& rad_badge_color(int rad);
 
 struct light_emission {
     unsigned short luminance;
@@ -60,11 +58,11 @@ enum LIQUID_FILL_ERROR {L_ERR_NONE, L_ERR_NO_MIX, L_ERR_NOT_CONTAINER, L_ERR_NOT
 
 enum layer_level {
     UNDERWEAR = 0,
-    REGULAR_LAYER,
-    WAIST_LAYER,
-    OUTER_LAYER,
-    BELTED_LAYER,
-    MAX_CLOTHING_LAYER
+    REGULAR_LAYER = 10,
+    WAIST_LAYER = 20,
+    OUTER_LAYER = 30,
+    BELTED_LAYER = 40,
+    MAX_CLOTHING_LAYER = 50
 };
 
 class item_category
@@ -92,8 +90,47 @@ class item : public JsonSerializer, public JsonDeserializer
 public:
  item();
  item(const std::string new_type, unsigned int turn, bool rand = true, handedness handed = NONE);
- void make_corpse(const std::string new_type, mtype* mt, unsigned int turn);
- void make_corpse(const std::string new_type, mtype* mt, unsigned int turn, const std::string &name);
+
+        /**
+         * Make this a corpse of the given monster type.
+         * The monster type must not be null, alternatively the monster type id must be a valid
+         * monster type (see @ref MonsterGenerator::get_mtype).
+         *
+         * The turn parameter sets the birthday of the corpse, in other words: the turn when the
+         * monster died. Because corpses are removed from the map when they reach a certain age,
+         * one has to be careful when placing corpses with a birthday of 0. They might be
+         * removed immediately when the map is loaded without been seen by the player.
+         *
+         * The name parameter can be used to give the corpse item a name. This is
+         * used instead of the monster type name ("corpse of X" instead of "corpse of bear").
+         *
+         * Without any parameters it makes a human corpse, created at the current turn.
+         */
+        /*@{*/
+        void make_corpse( mtype* mt, unsigned int turn );
+        void make_corpse( mtype* mt, unsigned int turn, const std::string &name );
+        void make_corpse( const std::string &mtype_id, unsigned int turn );
+        void make_corpse();
+        /*@}*/
+        /**
+         * @return The monster type associated with this item (@ref corpse). It is usually the
+         * type that this item is made of (e.g. corpse, meat or blood of the monster).
+         * May return a null-pointer.
+         */
+        mtype *get_mtype() const;
+        /**
+         * Sets the monster type associated with this item (@ref corpse). You must not pass a
+         * null pointer.
+         * TODO: change this to take a reference instead.
+         */
+        void set_mtype( mtype *corpse );
+        /**
+         * Whether this is a corpse item. Corpses always have valid monster type (@ref corpse)
+         * associated (@ref get_mtype return a non-null pointer) and have been created
+         * with @ref make_corpse.
+         */
+        bool is_corpse() const;
+
  item(std::string itemdata);
  item(JsonObject &jo);
         item(item &&) = default;
@@ -121,30 +158,38 @@ public:
  // Firearm specifics
  int reload_time(player &u) const;
  int clip_size() const;
- int dispersion() const;
+ // return the appropriate size for a spare magazine
+ inline int spare_mag_size() const
+ {
+    return ((clip_size() < type->gun->clip) ? clip_size() : type->gun->clip);
+ }
  // We use the current aim level to decide which sight to use.
  int sight_dispersion( int aim_threshold ) const;
  int aim_speed( int aim_threshold ) const;
- int gun_damage(bool with_ammo = true) const;
- int gun_pierce(bool with_ammo = true) const;
  int noise() const;
  int burst_size() const;
- int recoil(bool with_ammo = true) const;
- int range(player *p = NULL) const;
  ammotype ammo_type() const;
- int pick_reload_ammo(player &u, bool interactive);
+    /**
+     * @param u The player whose inventory is used to search for suitable ammo.
+     * @param interactive Whether to show a dialog to select the ammo, if false it will select
+     * the first suitable ammo.
+     * @retval INT_MIN+2 to indicate the user canceled the menu
+     * @retval INT_MIN+1 to indicate reload from spare magazine
+     * @retval INT_MIN to indicate no suitable ammo found.
+     * @retval other the item position (@ref player::i_at) in the players inventory.
+     */
+    int pick_reload_ammo( const player &u, bool interactive );
  bool reload(player &u, int pos);
- void next_mode();
  std::string skill() const;
 
     using JsonSerializer::serialize;
     // give the option not to save recursively, but recurse by default
-    void serialize(JsonOut &jsout) const { serialize(jsout, true); }
+    void serialize(JsonOut &jsout) const override { serialize(jsout, true); }
     virtual void serialize(JsonOut &jsout, bool save_contents) const;
     using JsonDeserializer::deserialize;
     // easy deserialization from JsonObject
     virtual void deserialize(JsonObject &jo);
-    void deserialize(JsonIn &jsin) {
+    void deserialize(JsonIn &jsin) override {
         JsonObject jo = jsin.get_object();
         deserialize(jo);
     }
@@ -163,18 +208,6 @@ public:
      * If the item can not be used for butchering it returns INT_MIN.
      */
     int butcher_factor() const;
-
-    /**
-     * Returns true if this item is of the specific type, or
-     * if this functions returns true for any of its contents.
-     */
-    bool is_of_type_or_contains_it(const std::string &type_id) const;
-    /**
-     * Returns true if this item is ammo and has the specifi ammo type,
-     * or if this functions returns true for any of its contents.
-     * This does not check type->id, but it_ammo::type.
-     */
-    bool is_of_ammo_type_or_contains_it(const ammotype &ammo_type_id) const;
 
  bool invlet_is_okay();
         bool stacks_with( const item &rhs ) const;
@@ -242,7 +275,7 @@ public:
   * container it was in.
   * @param On success all consumed items will be stored here.
   */
- bool use_amount(const itype_id &it, int &quantity, bool use_container, std::list<item> &used);
+ bool use_amount(const itype_id &it, long &quantity, bool use_container, std::list<item> &used);
 /**
  * Fill container with liquid up to its capacity.
  * @param liquid Liquid to fill the container with.
@@ -257,11 +290,10 @@ public:
  bool has_technique(std::string t);
  int has_gunmod(itype_id type) const;
  item* active_gunmod();
- item const* inspect_active_gunmod() const;
+ item const* active_gunmod() const;
  bool goes_bad() const;
  bool is_going_bad() const;
  bool count_by_charges() const;
- long max_charges() const;
  bool craft_has_charges();
  long num_charges();
 
@@ -284,9 +316,10 @@ public:
      * Accumulate rot of the item since last rot calculation.
      * This function works for non-rotting stuff, too - it increases the value
      * of rot.
-     * @param p The location of the item to check for temperature.
+     * @param p The absolute, global location (in map square coordinates) of the item to
+     * check for temperature.
      */
-    void calc_rot(const point &p);
+    void calc_rot( const tripoint &p );
     /**
      * Returns whether the item has completely rotten away.
      */
@@ -323,13 +356,14 @@ public:
 
  int brewing_time() const;
  bool ready_to_revive( point pos ); // used for corpses
- void detonate(point p) const;
+ void detonate( const tripoint &p ) const;
  bool can_revive();      // test if item is a corpse and can be revived
 // light emission, determined by type->light_emission (LIGHT_???) tag (circular),
 // overridden by light.* struct (shaped)
- bool getlight(float & luminance, int & width, int & direction, bool calculate_dimming = true) const;
+ bool getlight(float & luminance, int & width, int & direction) const;
 // for quick iterative loops
- int getlight_emit(bool calculate_dimming = true) const;
+ int getlight_emit() const;
+ int getlight_emit_active() const;
 // Our value as a weapon, given particular skills
  int  weapon_value(player *p) const;
 // As above, but discounts its use as a ranged weapon
@@ -354,19 +388,19 @@ public:
   * one item of the passed in set matches any material).
   * @param mat_idents Set of material ids.
   */
- bool made_of_any(std::vector<std::string> &mat_idents) const;
+ bool made_of_any( const std::vector<std::string> &mat_idents ) const;
  /**
   * Check we are made of only the materials (e.g. false if we have
   * one material not in the set).
   * @param mat_idents Set of material ids.
   */
- bool only_made_of(std::vector<std::string> &mat_idents) const;
+ bool only_made_of( const std::vector<std::string> &mat_idents ) const;
  /**
   * Check we are made of this material (e.g. matches at least one
   * in our set.)
   * @param mat_idents Set of material ids.
   */
- bool made_of(std::string mat_ident) const;
+ bool made_of( const std::string &mat_ident ) const;
  /**
   * Are we solid, liquid, gas, plasma?
   * @param phase
@@ -400,6 +434,8 @@ public:
      * should than delete the item wherever it was stored.
      * Returns false if the item is not destroyed.
      */
+    bool process(player *carrier, const tripoint &pos, bool activate);
+    // Overload for the above
     bool process(player *carrier, point pos, bool activate);
 protected:
     // Sub-functions of @ref process, they handle the processing for different
@@ -407,7 +443,6 @@ protected:
     // The interface is the same as for @ref process.
     bool process_food(player *carrier, point pos);
     bool process_corpse(player *carrier, point pos);
-    bool process_artifact(player *carrier, point pos);
     bool process_wet(player *carrier, point pos);
     bool process_litcig(player *carrier, point pos);
     bool process_cable(player *carrier, point pos);
@@ -420,11 +455,22 @@ public:
     void reset_cable(player* carrier);
 
     /**
-     * Whether the item should be processed (by calling @ref process) each turn.
-     * This is only a hint, used by the map to avoid coping the item when it
-     * does not need processing.
+     * Whether the item should be processed (by calling @ref process).
      */
     bool needs_processing() const;
+    /**
+     * The rate at which an item should be processed, in number of turns between updates.
+     */
+    int processing_speed() const;
+    /**
+     * Process and apply artifact effects. This should be called exactly once each turn, it may
+     * modify character stats (like speed, strength, ...), so call it after those have been reset.
+     * @return True if the item should be destroyed (it has run out of charges or similar), false
+     * if the item should be kept. Artifacts usually return false as they never get destroyed.
+     * @param carrier The character carrying the artifact, can be null.
+     * @param pos The location of the artifact (should be the player location if carried).
+     */
+    bool process_artifact( player *carrier, point pos );
 
  // umber of mods that can still be installed into the given
  // mod location, for non-guns it returns always 0
@@ -437,7 +483,6 @@ public:
  bool is_food_container(player const*u) const;  // Ditto
  bool is_food() const;                // Ignoring the ability to eat batteries, etc.
  bool is_food_container() const;      // Ignoring the ability to eat batteries, etc.
- bool is_corpse() const;
  bool is_ammo_container() const;
  bool is_drink() const;
  bool is_weap() const;
@@ -457,10 +502,11 @@ public:
  bool is_container_empty() const;
  bool is_container_full() const;
  bool is_funnel_container(int &bigger_than) const;
+ bool is_emissive() const; //! whether the item emits light
 
  bool is_tool() const;
+ bool is_tool_reversible() const;
  bool is_software() const;
- bool is_macguffin() const;
  bool is_var_veh_part() const;
  bool is_artifact() const;
 
@@ -483,8 +529,8 @@ public:
      */
     void set_snippet( const std::string &snippet_id );
 
- int get_remaining_capacity_for_liquid(const item &liquid, LIQUID_FILL_ERROR &error) const;
- int get_remaining_capacity() const;
+ LIQUID_FILL_ERROR has_valid_capacity_for_liquid(const item &liquid) const;
+ int get_remaining_capacity_for_liquid(const item &liquid) const;
 
  bool operator<(const item& other) const;
     /** List of all @ref components in printable form, empty if this item has
@@ -493,11 +539,41 @@ public:
 
  itype_id typeId() const;
  itype* type;
- mtype*   corpse;
- it_ammo* curammo;
-
  std::vector<item> contents;
 
+        /**
+         * Returns @ref curammo, the ammo that is currently load in this item.
+         * May return a null pointer.
+         * If non-null, the returned itype is quaranted to have an ammo slot:
+         * @code itm.get_curammo()->ammo->damage @endcode will work.
+         */
+        itype* get_curammo() const;
+        /**
+         * Returns the item type id of the currently loaded ammo.
+         * Returns "null" if the item is not loaded.
+         */
+        itype_id get_curammo_id() const;
+        /**
+         * Whether the item is currently loaded (which implies it has some non-null pointer
+         * as @ref curammo).
+         */
+        bool has_curammo() const;
+        /**
+         * Sets the current ammo to nullptr. Note that it does not touch the charges or anything else.
+         */
+        void unset_curammo();
+        /**
+         * Set the current ammo from an item type id (not an ammo type id!). The type must have
+         * an ammo slot (@ref itype::ammo). If the type id is "null", the curammo is unset as by calling
+         * @ref unset_curammo.
+         */
+        void set_curammo( const itype_id &type );
+        /**
+         * Shortcut to set the current ammo to the type of the given item. This is the same as
+         * calling @ref set_curammo with item type id of the ammo item:
+         * \code set_curammo(ammo.typeId()) \endcode
+         */
+        void set_curammo( const item &ammo );
         /**
          * Get a material reference to a random material that this item is made of.
          * This might return the null-material, you may check this with @ref material_type::is_null.
@@ -524,7 +600,7 @@ public:
          * and is called from there. This is not called when the item is added to the inventory
          * from worn vector or weapon slot. The item is considered already carried.
          */
-        void on_pickup( player &p );
+        void on_pickup( Character &p );
         /**
          * Name of the item type (not the item), with proper plural.
          * This is only special when the item itself has a special name ("name" entry in
@@ -535,6 +611,80 @@ public:
          * character tried to wear).
          */
         std::string type_name( unsigned int quantity = 1 ) const;
+
+        /**
+         * Liquids use a different (and type specific) scale for the charges vs volume.
+         * This functions converts them. You can assume that
+         * @code liquid_charges( liquid_units( x ) ) == x @endcode holds true.
+         * For items that are not liquids or otherwise don't use this system, both functions
+         * simply return their input (conversion factor is 1).
+         * One "unit" takes up one container storage capacity, e.g.
+         * A container with @ref islot_container::contains == 2 can store
+         * @code liquid.liquid_charges( 2 ) @endcode charges of the given liquid.
+         * For water this would be 2, for most strong alcohols it's 14, etc.
+         */
+        /*@{*/
+        long liquid_charges( long units ) const;
+        long liquid_units( long charges ) const;
+        /*@}*/
+
+        /**
+         * @name Item variables
+         *
+         * Item variables can be used to store any value in the item. The storage is persistent,
+         * it remains through saving & loading, it is copied when the item is moved etc.
+         * Each item variable is referred to by its name, so make sure you use a name that is not
+         * already used somewhere.
+         * You can directly store integer, floating point and string values. Data of other types
+         * must be converted to one of those to be stored.
+         * The set_var functions override the existing value.
+         * The get_var function return the value (if the variable exists), or the default value
+         * otherwise. The type of the default value determines which get_var function is used:
+         * <code>
+         * auto v = itm.get_var("v", 0); // v will be an int
+         * auto l = itm.get_var("v", 0l); // l will be a long
+         * auto d = itm.get_var("v", 0.0); // d will be a double
+         * auto s = itm.get_var("v", ""); // s will be a std::string
+         * // no default means empty string as default:
+         * auto n = itm.get_var("v"); // v will be a std::string
+         * </code>
+         */
+        /*@{*/
+        void set_var( const std::string &name, int value );
+        int get_var( const std::string &name, int default_value ) const;
+        void set_var( const std::string &name, long value );
+        long get_var( const std::string &name, long default_value ) const;
+        void set_var( const std::string &name, double value );
+        double get_var( const std::string &name, double default_value ) const;
+        void set_var( const std::string &name, const std::string &value );
+        std::string get_var( const std::string &name, const std::string &default_value ) const;
+        /** Get the variable, if it does not exists, returns an empty string. */
+        std::string get_var( const std::string &name ) const;
+        /** Whether the variable is defined at all. */
+        bool has_var( const std::string &name ) const;
+        /** Erase the value of the given variable. */
+        void erase_var( const std::string &name );
+        /*@}*/
+
+        /**
+         * @name Seed data.
+         */
+        /*@{*/
+        /**
+         * Whether this is actually a seed, the seed functions won't be of much use for non-seeds.
+         */
+        bool is_seed() const;
+        /**
+         * Time (in turns) it takes to grow from one stage to another. There are 4 plant stages:
+         * seed, seedling, mature and harvest. Non-seed items return 0.
+         */
+        int get_plant_epoch() const;
+        /**
+         * The name of the plant as it appears in the various informational menus. This should be
+         * translated. Returns an empty string for non-seed items.
+         */
+        std::string get_plant_name() const;
+        /*@}*/
 
         /**
          * @name Armor related functions.
@@ -607,7 +757,149 @@ public:
          * or similar.
          */
         bool is_power_armor() const;
+        /**
+         * If this is an armor item, return its armor data. You should probably not use this function,
+         * use the various functions above (like @ref get_storage) to access armor data directly.
+         */
+        const islot_armor *find_armor_data() const;
         /*@}*/
+
+        /**
+         * Book specific functions, apply to items that are books.
+         */
+        /*@{*/
+        /**
+         * How many chapters the book has (if any). Will be 0 if the item is not a book, or if it
+         * has no chapters at all.
+         * Each reading will "consume" a chapter, if the book has no unread chapters, it's less fun.
+         */
+        int get_chapters() const;
+        /**
+         * Get the number of unread chapters. If the item is no book or has no chapters, it returns 0.
+         * This is a per-character setting, different characters may have different number of
+         * unread chapters.
+         */
+        int get_remaining_chapters( const player &u ) const;
+        /**
+         * Mark one chapter of the book as read by the given player. May do nothing if the book has
+         * no unread chapters. This is a per-character setting, see @ref get_remaining_chapters.
+         */
+        void mark_chapter_as_read( const player &u );
+        /*@}*/
+
+        /**
+         * These functions are used on charger guns. Those items are activated, load over time
+         * (using the wielders UPS), and fire like a normal gun using pseudo ammo.
+         * Each function returns false when called on items that are not charger guns.
+         * Nothing is done in that case, so it's save to call them even when it's unknown whether
+         * the item is a charger gun.
+         * You must all @ref update_charger_ammo before using properties of it as they depend
+         * on the charges of the gun.
+         */
+        /*@{*/
+        /**
+         * Deactivate the gun.
+         */
+        bool deactivate_charger_gun();
+        /**
+         * Activate the gun, it will now load charges over time.
+         * The item must be in the possessions of a player (given as parameter).
+         * The function will show a message regarding the loading status. If the player does not
+         * have a power source, it will not start loading and a different message is displayed.
+         * Can be called on npcs (no messages than).
+         */
+        bool activate_charger_gun( player &u );
+        /**
+         * Update the charges ammo settings. This must be called right before firing the gun because
+         * the properties of the ammo depend on the loading of the gun.
+         * E.g. a gun with many charges provides more ammo effects.
+         */
+        bool update_charger_gun_ammo();
+        /** Whether this is a charger gun. */
+        bool is_charger_gun() const;
+        /*@}*/
+
+        /**
+         * Gun and gun mod functions. Anything stated to apply to guns, applies to auxiliary gunmods
+         * as well (they are some kind of gun). Non-guns are items that are neither gun nor
+         * auxiliary gunmod.
+         */
+        /*@{*/
+        /**
+         * Auxiliary gun mod: a gunmod that can be fired instead of the actual gun.
+         * Example: underslug shotgun.
+         */
+        bool is_auxiliary_gunmod() const;
+        /**
+         * Same as @code get_gun_mode() == "MODE_AUX" @endcode
+         */
+        bool is_in_auxiliary_mode() const;
+        /**
+         * Same as @code set_gun_mode("MODE_AUX") @endcode
+         */
+        void set_auxiliary_mode();
+        /**
+         * Get the gun mode, e.g. BURST, or MODE_AUX, or something else.
+         */
+        std::string get_gun_mode() const;
+        /**
+         * Set the gun mode (see @ref get_gun_mode).
+         */
+        void set_gun_mode( const std::string &mode );
+        /**
+         * If this item is a gun with several firing mods (including auxiliary gunmods), switch
+         * to the next mode. Otherwise, make nothing at all.
+         */
+        void next_mode();
+        /**
+         * The weapons range in map squares. If the item has an active gunmod, it returns the range
+         * of that gunmod, the guns range is returned only when the item has no active gunmod.
+         * This function applies to guns and auxiliary gunmods. For other items, 0 is returned.
+         * It includes the range given by the ammo.
+         * @param u The player that uses the weapon, their strength might affect this.
+         * It's optional and can be null.
+         */
+        int gun_range( const player *u ) const;
+        /**
+         * Summed range value of a gun, including values from mods. Returns 0 on non-gun items.
+         */
+        int gun_range( bool with_ammo = true ) const;
+        /**
+         * Summed recoils value of a gun, including values from mods. Returns 0 on non-gun items.
+         */
+        int gun_recoil( bool with_ammo = true ) const;
+        /**
+         * Summed ranged damage of a gun, including values from mods. Returns 0 on non-gun items.
+         */
+        int gun_damage( bool with_ammo = true ) const;
+        /**
+         * Summed ranged armor-piercing of a gun, including values from mods. Returns 0 on non-gun items.
+         */
+        int gun_pierce( bool with_ammo = true ) const;
+        /**
+         * Summed dispersion of a gun, including values from mods. Returns 0 on non-gun items.
+         */
+        int gun_dispersion( bool with_ammo = true ) const;
+        /**
+         * The skill used to operate the gun. Can be "null" if this is not a gun.
+         * Note that this function is not like @ref skill, it returns "null" for any non-gun (books)
+         * for which skill() would return a skill.
+         */
+        std::string gun_skill() const;
+        /*@}*/
+
+        /**
+         * Returns the pointer to use_function with name use_name assigned to the type of
+         * this item or any of its contents. Checks contents recursively.
+         * Returns nullptr if not found.
+         */
+        const use_function *get_use( const std::string &use_name ) const;
+        /**
+         * Checks this item and its contents (recursively) for types that have
+         * use_function with type use_name. Returns the first item that does have
+         * such type or nullptr if none found.
+         */
+        item *get_usable_item( const std::string &use_name );
 
         /**
          * Recursively check the contents of this item and remove those items
@@ -661,6 +953,10 @@ public:
     private:
         std::string name;
         std::bitset<num_bp> covered_bodyparts;
+        itype* curammo;
+        std::map<std::string, std::string> item_vars;
+        // TODO: make a pointer to const
+        mtype* corpse;
 public:
  char invlet;             // Inventory letter
  long charges;
@@ -668,7 +964,6 @@ public:
  signed char damage;      // How much damage it's sustained; generally, max is 5
  int burnt;               // How badly we're burnt
  int bday;                // The turn on which it was created
- int owned;               // UID of NPC owner; 0 = player, -1 = unowned
  light_emission light;
  union{
    int poison;          // How badly poisoned is it?
@@ -677,20 +972,20 @@ public:
    int note;            // Associated dynamic text snippet.
    int irridation;      // Tracks radiation dosage.
  };
- std::string mode;    // Mode of operation, can be changed by the player.
  std::set<std::string> item_tags; // generic item specific flags
+ std::set<std::string> techniques; // item specific techniques
  unsigned item_counter; // generic counter to be used with item flags
  int mission_id; // Refers to a mission in game's master list
  int player_id; // Only give a mission to the right player!
- std::map<std::string, std::string> item_vars;
  typedef std::vector<item> t_item_vector;
  t_item_vector components;
 
- item clone(bool rand = true);
-
- int add_ammo_to_quiver(player *u, bool isAutoPickup);
+ int quiver_store_arrow(item &arrow);
  int max_charges_from_flag(std::string flagName);
 };
+
+bool item_compare_by_charges( const item& left, const item& right);
+bool item_ptr_compare_by_charges( const item *left, const item *right);
 
 std::ostream &operator<<(std::ostream &, const item &);
 std::ostream &operator<<(std::ostream &, const item *);
@@ -701,52 +996,48 @@ class map_item_stack
         class item_group
         {
             public:
-                int x;
-                int y;
+                tripoint pos;
                 int count;
 
                 //only expected to be used for things like lists and vectors
                 item_group()
                 {
-                    x = 0;
-                    y = 0;
+                    pos = tripoint( 0, 0, 0 );
                     count = 0;
                 }
 
-                item_group(const int arg_x, const int arg_y, const int arg_count)
+                item_group( const tripoint &p, const int arg_count )
                 {
-                    x = arg_x;
-                    y = arg_y;
+                    pos = p;
                     count = arg_count;
                 }
 
                 ~item_group() {};
         };
     public:
-        item example; //an example item for showing stats, etc.
+        item *example; //an example item for showing stats, etc.
         std::vector<item_group> vIG;
         int totalcount;
 
         //only expected to be used for things like lists and vectors
         map_item_stack()
         {
-            example = item();
             vIG.push_back(item_group());
             totalcount = 0;
         }
 
-        map_item_stack(const item it, const int arg_x, const int arg_y)
+        map_item_stack( item *it, const tripoint &pos )
         {
             example = it;
-            vIG.push_back(item_group(arg_x, arg_y, 1));
+            vIG.push_back(item_group(pos, 1));
             totalcount = 1;
         }
 
         ~map_item_stack() {};
 
-        void addNewPos(const int arg_x, const int arg_y)
+        void addNewPos( const tripoint &pos )
         {
-            vIG.push_back(item_group(arg_x, arg_y, 1));
+            vIG.push_back(item_group(pos, 1));
             totalcount++;
         }
 
@@ -757,6 +1048,11 @@ class map_item_stack
                 vIG[iVGsize - 1].count++;
             }
             totalcount++;
+        }
+
+        static bool map_item_stack_sort(const map_item_stack &lhs, const map_item_stack &rhs)
+        {
+            return lhs.example->get_category().sort_rank < rhs.example->get_category().sort_rank;
         }
 };
 

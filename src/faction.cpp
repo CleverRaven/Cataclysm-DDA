@@ -6,6 +6,8 @@
 #include "output.h"
 #include "omdata.h"
 #include "game.h"
+#include "map.h"
+#include "debug.h"
 #include "catacharset.h"
 
 #include "json.h"
@@ -569,9 +571,9 @@ std::string faction::describe()
 
 int faction::response_time()
 {
-    int base = abs(mapx - g->get_abs_levx());
-    if (abs(mapy - g->get_abs_levy()) > base) {
-        base = abs(mapy - g->get_abs_levy());
+    int base = abs(mapx - g->get_levx());
+    if (abs(mapy - g->get_levy()) > base) {
+        base = abs(mapy - g->get_levy());
     }
     if (base > size) { // Out of our sphere of influence
         base *= 2.5;

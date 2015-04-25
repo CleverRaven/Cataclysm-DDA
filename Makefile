@@ -1,5 +1,5 @@
 # Platforms:
-# Linux native
+# Linux/Cygwin native
 #   (don't need to do anything)
 # Linux 64-bit
 #   make NATIVE=linux64
@@ -10,7 +10,7 @@
 #   or make CROSS=i586-mingw32msvc-
 #   or whichever prefix your crosscompiler uses
 #      as long as its name contains mingw32
-# Win32
+# Win32 (non-Cygwin)
 #   Run: make NATIVE=win32
 # OS X
 #   Run: make NATIVE=osx
@@ -31,9 +31,11 @@
 # Compile localization files for specified languages
 #  make LANGUAGES="<lang_id_1>[ lang_id_2][ ...]"
 #  (for example: make LANGUAGES="zh_CN zh_TW" for Chinese)
+# Change mapsize (reality bubble size)
+#  make MAPSIZE=<size>
 # Install to system directories.
 #  make install
-# Enable lua debug support
+# Enable lua support. Required only for full-fledged mods.
 #  make LUA=1
 # Use user's home directory for save files.
 #  make USE_HOME_DIR=1
@@ -75,7 +77,7 @@ endif
 #DEFINES += -DDEBUG_ENABLE_MAP_GEN
 #DEFINES += -DDEBUG_ENABLE_GAME
 
-VERSION = 0.B
+VERSION = 0.C
 
 TARGET = cataclysm
 TILESTARGET = cataclysm-tiles
@@ -122,6 +124,7 @@ ifdef RELEASE
   # Strip symbols, generates smaller executable.
   OTHERS += $(RELEASE_FLAGS)
   DEBUG =
+  DEFINES += -DRELEASE
 endif
 
 ifdef CLANG
@@ -129,8 +132,8 @@ ifdef CLANG
     OTHERS += -stdlib=libc++
   endif
   ifdef CCACHE
-    CXX = CCACHE_CPP2=1 $(CROSS)clang++
-    LD  = CCACHE_CPP2=1 $(CROSS)clang++
+    CXX = CCACHE_CPP2=1 ccache $(CROSS)clang++
+    LD  = CCACHE_CPP2=1 ccache $(CROSS)clang++
   else
     CXX = $(CROSS)clang++
     LD  = $(CROSS)clang++
@@ -152,7 +155,12 @@ W32BINDIST_CMD = cd $(BINDIST_DIR) && zip -r ../$(W32BINDIST) * && cd $(BUILD_DI
 # Check if called without a special build target
 ifeq ($(NATIVE),)
   ifeq ($(CROSS),)
-    TARGETSYSTEM=LINUX
+    ifeq ($(shell sh -c 'uname -o 2>/dev/null || echo not'),Cygwin)
+      DEFINES += -DCATA_NO_CPP11_STRING_CONVERSIONS
+      TARGETSYSTEM=CYGWIN
+    else
+      TARGETSYSTEM=LINUX
+    endif
   endif
 endif
 
@@ -201,6 +209,11 @@ else
   endif
 endif
 
+# Cygwin
+ifeq ($(NATIVE), cygwin)
+  TARGETSYSTEM=CYGWIN
+endif
+
 # MXE cross-compile to win32
 ifneq (,$(findstring mingw32,$(CROSS)))
   DEFINES += -DCROSS_LINUX
@@ -228,6 +241,10 @@ ifeq ($(TARGETSYSTEM),WINDOWS)
   ifeq ($(NATIVE), win64)
     RFLAGS += -F pe-x86-64
   endif
+endif
+
+ifdef MAPSIZE
+    CXXFLAGS += -DMAPSIZE=$(MAPSIZE)
 endif
 
 ifdef SOUND
@@ -330,12 +347,18 @@ else
             CXXFLAGS += $(shell ncursesw5-config --cflags)
         endif
       endif
-      # Work around Cygwin not including gettext support in glibc
-      ifeq ($(shell sh -c 'uname -o 2>/dev/null || echo not'),Cygwin)
-        LDFLAGS += -lintl -liconv
-      endif
     else
       LDFLAGS += -lncurses
+    endif
+  endif
+  
+  ifeq ($(TARGETSYSTEM),CYGWIN)
+    ifeq ($(LOCALIZE),1)
+      LDFLAGS += $(shell ncursesw5-config --libs)
+      CXXFLAGS += $(shell ncursesw5-config --cflags)
+      
+      # Work around Cygwin not including gettext support in glibc
+      LDFLAGS += -lintl -liconv
     endif
   endif
 endif
@@ -353,6 +376,10 @@ ifeq ($(TARGETSYSTEM),LINUX)
   BINDIST_EXTRAS += cataclysm-launcher
 endif
 
+ifeq ($(TARGETSYSTEM),CYGWIN)
+  BINDIST_EXTRAS += cataclysm-launcher
+endif
+
 SOURCES = $(wildcard $(SRC_DIR)/*.cpp)
 HEADERS = $(wildcard $(SRC_DIR)/*.h)
 _OBJS = $(SOURCES:$(SRC_DIR)/%.cpp=%.o)
@@ -367,6 +394,12 @@ ifdef LANGUAGES
 endif
 
 ifeq ($(TARGETSYSTEM), LINUX)
+  ifneq ($(PREFIX),)
+    DEFINES += -DPREFIX="$(PREFIX)"
+  endif
+endif
+
+ifeq ($(TARGETSYSTEM), CYGWIN)
   ifneq ($(PREFIX),)
     DEFINES += -DPREFIX="$(PREFIX)"
   endif
@@ -470,6 +503,87 @@ endif
 	LOCALE_DIR=$(LOCALE_DIR) lang/compile_mo.sh
 endif
 
+ifeq ($(TARGETSYSTEM), CYGWIN)
+DATA_PREFIX=$(PREFIX)/share/cataclysm-dda/
+BIN_PREFIX=$(PREFIX)/bin
+LOCALE_DIR=$(PREFIX)/share/locale
+install: version $(TARGET)
+	mkdir -p $(DATA_PREFIX)
+	mkdir -p $(BIN_PREFIX)
+	install --mode=755 $(TARGET) $(BIN_PREFIX)
+	cp -R --no-preserve=ownership data/font $(DATA_PREFIX)
+	cp -R --no-preserve=ownership data/json $(DATA_PREFIX)
+	cp -R --no-preserve=ownership data/mods $(DATA_PREFIX)
+	cp -R --no-preserve=ownership data/names $(DATA_PREFIX)
+	cp -R --no-preserve=ownership data/raw $(DATA_PREFIX)
+	cp -R --no-preserve=ownership data/recycling $(DATA_PREFIX)
+	cp -R --no-preserve=ownership data/motd $(DATA_PREFIX)
+	cp -R --no-preserve=ownership data/credits $(DATA_PREFIX)
+	cp -R --no-preserve=ownership data/title $(DATA_PREFIX)
+ifdef TILES
+	cp -R --no-preserve=ownership gfx $(DATA_PREFIX)
+endif
+ifdef LUA
+	mkdir -p $(DATA_PREFIX)/lua
+	install --mode=644 lua/autoexec.lua $(DATA_PREFIX)/lua
+	install --mode=644 lua/class_definitions.lua $(DATA_PREFIX)/lua
+endif
+	install --mode=644 data/changelog.txt data/cataicon.ico data/fontdata.json \
+                   README.txt LICENSE.txt -t $(DATA_PREFIX)
+	mkdir -p $(LOCALE_DIR)
+	LOCALE_DIR=$(LOCALE_DIR) lang/compile_mo.sh
+endif
+
+ifdef TILES
+ifeq ($(NATIVE), osx)
+APPTARGETDIR=Cataclysm.app
+APPRESOURCESDIR=$(APPTARGETDIR)/Contents/Resources
+APPDATADIR=$(APPRESOURCESDIR)/data
+ifndef FRAMEWORK
+SDLLIBSDIR=$(shell sdl2-config --libs | sed -n 's/.*-L\([^ ]*\) .*/\1/p')
+endif  # ifndef FRAMEWORK
+
+appclean:
+	rm -rf $(APPTARGETDIR)
+
+data/osx/AppIcon.icns: data/osx/AppIcon.iconset
+	iconutil -c icns $<
+
+app: appclean version data/osx/AppIcon.icns $(TILESTARGET)
+	mkdir -p $(APPTARGETDIR)/Contents
+	cp data/osx/Info.plist $(APPTARGETDIR)/Contents/
+	mkdir -p $(APPTARGETDIR)/Contents/MacOS
+	cp data/osx/Cataclysm.sh $(APPTARGETDIR)/Contents/MacOS/
+	mkdir -p $(APPRESOURCESDIR)
+	cp $(TILESTARGET) $(APPRESOURCESDIR)/
+	cp data/osx/AppIcon.icns $(APPRESOURCESDIR)/
+	mkdir -p $(APPDATADIR)
+	cp data/fontdata.json $(APPDATADIR)
+	cp -R data/font $(APPDATADIR)
+	cp -R data/json $(APPDATADIR)
+	cp -R data/mods $(APPDATADIR)
+	cp -R data/names $(APPDATADIR)
+	cp -R data/raw $(APPDATADIR)
+	cp -R data/recycling $(APPDATADIR)
+	cp -R data/motd $(APPDATADIR)
+	cp -R data/credits $(APPDATADIR)
+	cp -R data/title $(APPDATADIR)
+ifdef SOUND
+	cp -R data/sound $(APPDATADIR)
+endif  # ifdef SOUND
+	cp -R gfx $(APPRESOURCESDIR)/
+ifdef FRAMEWORK
+	cp -R /Library/Frameworks/SDL2.framework $(APPRESOURCESDIR)/
+	cp -R /Library/Frameworks/SDL2_image.framework $(APPRESOURCESDIR)/
+	cp -R /Library/Frameworks/SDL2_ttf.framework $(APPRESOURCESDIR)/
+else # libsdl build
+	cp $(SDLLIBSDIR)/libSDL2.dylib $(APPRESOURCESDIR)/
+	cp $(SDLLIBSDIR)/libSDL2_image.dylib $(APPRESOURCESDIR)/
+	cp $(SDLLIBSDIR)/libSDL2_ttf.dylib $(APPRESOURCESDIR)/
+endif  # ifdef FRAMEWORK
+
+endif  # ifeq ($(NATIVE), osx)
+endif  # ifdef TILES
 
 $(BINDIST): distclean version $(TARGET) $(L10N) $(BINDIST_EXTRAS) $(BINDIST_LOCALE)
 	mkdir -p $(BINDIST_DIR)
@@ -486,7 +600,7 @@ ctags: $(SOURCES) $(HEADERS)
 
 etags: $(SOURCES) $(HEADERS)
 	etags $(SOURCES) $(HEADERS)
-	find data/json -name "*.json" -print0 | xargs -0 -L 50 etags --append
+	find data -name "*.json" -print0 | xargs -0 -L 50 etags --append
 
 tests: $(ODIR) $(DDIR) $(OBJS)
 	$(MAKE) -C tests

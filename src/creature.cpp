@@ -2,7 +2,10 @@
 #include "creature.h"
 #include "output.h"
 #include "game.h"
+#include "map.h"
 #include "messages.h"
+#include "rng.h"
+
 #include <algorithm>
 #include <numeric>
 #include <cmath>
@@ -68,6 +71,7 @@ Creature::Creature()
     pain = 0;
     killer = NULL;
     speed_base = 100;
+    underwater = false;
 
     reset_bonuses();
 
@@ -121,7 +125,7 @@ void Creature::reset_bonuses()
 void Creature::reset_stats()
 {
     // Reset our stats to normal levels
-    // Any persistent buffs/debuffs will take place in disease.h,
+    // Any persistent buffs/debuffs will take place in effects,
     // player::suffer(), etc.
 
     // repopulate the stat fields
@@ -150,6 +154,7 @@ void Creature::process_turn()
     if(is_dead_state()) {
         return;
     }
+    reset_bonuses();
 
     process_effects();
 
@@ -164,6 +169,195 @@ void Creature::process_turn()
 bool Creature::digging() const
 {
     return false;
+}
+
+bool Creature::sees( const Creature &critter ) const
+{
+    int bresenham_slope;
+    return sees( critter, bresenham_slope );
+}
+
+bool Creature::sees( const Creature &critter, int &bresenham_slope ) const
+{
+    if( critter.is_hallucination() ) {
+        // hallucinations are imaginations of the player character, npcs or monsters don't hallucinate.
+        // Invisible hallucinations would be pretty useless (nobody would see them at all), therefor
+        // the player will see them always.
+        return is_player();
+    }
+
+    const auto p = dynamic_cast< const player* >( &critter );
+    if( p != nullptr && p->is_invisible() ) {
+        // Let invisible players see themselves (simplifies drawing)
+        return p == this;
+    }
+
+    int cx = critter.posx();
+    int cy = critter.posy();
+    const int wanted_range = rl_dist( pos(), critter.pos() );
+    if( wanted_range <= 1 ) {
+        return true;
+    } else if( ( wanted_range > 1 && critter.digging() ) ||
+        ( g->m.is_divable( cx, cy ) && critter.is_underwater() && !is_underwater() ) ) {
+        return false;
+    }
+
+    return sees( critter.pos(), bresenham_slope );
+}
+
+bool Creature::sees( const int tx, const int ty ) const
+{
+    int bresenham_slope;
+    return sees( point( tx, ty ), bresenham_slope );
+}
+
+bool Creature::sees( const point t ) const
+{
+    int bresenham_slope;
+    return sees( t, bresenham_slope );
+}
+
+bool Creature::sees( const int tx, const int ty, int &bresenham_slope ) const
+{
+    return sees( point( tx, ty ), bresenham_slope );
+}
+
+bool Creature::sees( const point t, int &bresenham_slope ) const
+{
+    const int range_cur = sight_range( g->light_level() );
+    const int range_day = sight_range( DAYLIGHT_LEVEL );
+    const int range_min = std::min( range_cur, range_day );
+    const int wanted_range = rl_dist( pos(), t );
+    if( wanted_range <= range_min ||
+        ( wanted_range <= range_day &&
+          g->m.ambient_light_at( t.x, t.y ) > g->natural_light_level() ) ) {
+        if( is_player() ) {
+            return g->m.pl_sees( t.x, t.y, wanted_range );
+        } else if( g->m.ambient_light_at( t.x, t.y ) > g->natural_light_level() ) {
+            return g->m.sees( pos(), t, wanted_range, bresenham_slope );
+        } else {
+            return g->m.sees( pos(), t, range_min, bresenham_slope );
+        }
+    } else {
+        return false;
+    }
+}
+
+bool Creature::sees( const tripoint &t, int &bresen1, int &bresen2 ) const
+{
+    // TODO: FoV update
+    (void)bresen2;
+    return sees( point( t.x, t.y ), bresen1 );
+}
+
+bool Creature::sees( const tripoint &t ) const
+{
+    // TODO: FoV update
+    return sees( t.x, t.y );
+}
+
+Creature *Creature::auto_find_hostile_target( int range, int &boo_hoo, int area )
+{
+    Creature *target = nullptr;
+    player &u = g->u; // Could easily protect something that isn't the player
+    constexpr int hostile_adj = 2; // Priority bonus for hostile targets
+    const int iff_dist = ( range + area ) * 3 / 2 + 6; // iff check triggers at this distance
+    int iff_hangle = 15 + area; // iff safety margin (degrees). less accuracy, more paranoia
+    float best_target_rating = -1.0f; // bigger is better
+    int u_angle = 0;         // player angle relative to turret
+    boo_hoo = 0;         // how many targets were passed due to IFF. Tragically.
+    bool area_iff = false;   // Need to check distance from target to player
+    bool angle_iff = true;   // Need to check if player is in a cone between us and target
+    int pldist = rl_dist( pos(), g->u.pos() );
+    int part;
+    vehicle *in_veh = is_fake() ? g->m.veh_at( posx(), posy(), part ) : nullptr;
+    if( pldist < iff_dist && sees( g->u ) ) {
+        area_iff = area > 0;
+        angle_iff = true;
+        // Player inside vehicle won't be hit by shots from the roof,
+        // so we can fire "through" them just fine.
+        if( in_veh && g->m.veh_at( u.posx(), u.posy(), part ) == in_veh && in_veh->is_inside( part ) ) {
+            angle_iff = false; // No angle IFF, but possibly area IFF
+        } else if( pldist < 3 ) {
+            iff_hangle = (pldist == 2 ? 30 : 60);    // granularity increases with proximity
+        }
+        u_angle = g->m.coord_to_angle(posx(), posy(), u.posx(), u.posy());
+    }
+    std::vector<Creature*> targets;
+    for (size_t i = 0; i < g->num_zombies(); i++) {
+        monster &m = g->zombie(i);
+        if( m.friendly != 0 ) {
+            // friendly to the player, not a target for us
+            continue;
+        }
+        targets.push_back( &m );
+    }
+    for( auto &p : g->active_npc ) {
+        if( p->attitude != NPCATT_KILL ) {
+            // friendly to the player, not a target for us
+            continue;
+        }
+        targets.push_back( p );
+    }
+    for( auto &m : targets ) {
+        if( !sees( *m ) ) {
+            // can't see nor sense it
+            continue;
+        }
+        int dist = rl_dist( pos(), m->pos() ) + 1; // rl_dist can be 0
+        if( dist > range || dist < area ) {
+            // Too near or too far
+            continue;
+        }
+        // Prioritize big, armed and hostile stuff
+        float mon_rating = m->power_rating();
+        float target_rating = mon_rating / dist;
+        if( mon_rating + hostile_adj <= 0 ) {
+            // We wouldn't attack it even if it was hostile
+            continue;
+        }
+
+        if( in_veh != nullptr && g->m.veh_at( m->posx(), m->posy(), part ) == in_veh ) {
+            // No shooting stuff on vehicle we're a part of
+            continue;
+        }
+        if( area_iff && rl_dist( u.posx(), u.posy(), m->posx(), m->posy() ) <= area ) {
+            // Player in AoE
+            boo_hoo++;
+            continue;
+        }
+        // Hostility check can be expensive, but we need to inform the player of boo_hoo
+        // only when the target is actually "hostile enough"
+        bool maybe_boo = false;
+        if( angle_iff ) {
+            int tangle = g->m.coord_to_angle(posx(), posy(), m->posx(), m->posy());
+            int diff = abs(u_angle - tangle);
+            // Player is in the angle and not too far behind the target
+            if( ( diff + iff_hangle > 360 || diff < iff_hangle ) &&
+                ( dist * 3 / 2 + 6 > pldist ) ) {
+                maybe_boo = true;
+            }
+        }
+        if( !maybe_boo && ( ( mon_rating + hostile_adj ) / dist <= best_target_rating ) ) {
+            // "Would we skip the target even if it was hostile?"
+            // Helps avoid (possibly expensive) attitude calculation
+            continue;
+        }
+        if( m->attitude_to( u ) == A_HOSTILE ) {
+            target_rating = ( mon_rating + hostile_adj ) / dist;
+            if( maybe_boo ) {
+                boo_hoo++;
+                continue;
+            }
+        }
+        if( target_rating <= best_target_rating || target_rating <= 0 ) {
+            continue; // Handle this late so that boo_hoo++ can happen
+        }
+
+        target = m;
+        best_target_rating = target_rating;
+    }
+    return target;
 }
 
 /*
@@ -246,7 +440,7 @@ void Creature::deal_melee_hit(Creature *source, int hit_spread, bool critical_hi
 int Creature::deal_projectile_attack(Creature *source, double missed_by,
                                      const projectile &proj, dealt_damage_instance &dealt_dam)
 {
-    bool u_see_this = g->u_see(this);
+    bool u_see_this = g->u.sees(*this);
     body_part bp_hit;
 
     // do 10,speed because speed could potentially be > 10000
@@ -397,26 +591,17 @@ int Creature::deal_projectile_attack(Creature *source, double missed_by,
         } else if (source != NULL) {
             if (source->is_player()) {
                 //player hits monster ranged
-                nc_color color;
-                std::string health_bar = "";
-                get_HP_Bar(dealt_dam.total_damage(), this->get_hp_max(), color, health_bar, true);
+                SCT.add(posx(), posy(),
+                        direction_from(0, 0, posx() - source->posx(), posy() - source->posy()),
+                        get_hp_bar(dealt_dam.total_damage(), get_hp_max(), true).first,
+                        m_good, message, gmtSCTcolor);
 
-                SCT.add(this->xpos(),
-                        this->ypos(),
-                        direction_from(0, 0, this->xpos() - source->xpos(), this->ypos() - source->ypos()),
-                        health_bar, m_good,
-                        message, gmtSCTcolor);
-
-                if (this->get_hp() > 0) {
-                    get_HP_Bar(this->get_hp(), this->get_hp_max(), color, health_bar, true);
-
-                    SCT.add(this->xpos(),
-                            this->ypos(),
-                            direction_from(0, 0, this->xpos() - source->xpos(), this->ypos() - source->ypos()),
-                            health_bar, m_good,
+                if (get_hp() > 0) {
+                    SCT.add(posx(), posy(),
+                            direction_from(0, 0, posx() - source->posx(), posy() - source->posy()),
+                            get_hp_bar(get_hp(), get_hp_max(), true).first, m_good,
                             //~ “hit points”, used in scrolling combat text
-                            _("hp"), m_neutral,
-                            "hp");
+                            _("hp"), m_neutral, "hp");
                 } else {
                     SCT.removeCreatureHP();
                 }
@@ -436,15 +621,16 @@ int Creature::deal_projectile_attack(Creature *source, double missed_by,
             }
         }
     }
-    if (this->is_dead_state()) {
-        this->die(source);
-    }
+    check_dead_state();
     return 0;
 }
 
 dealt_damage_instance Creature::deal_damage(Creature *source, body_part bp,
         const damage_instance &dam)
 {
+    if( is_dead_state() ) {
+        return dealt_damage_instance();
+    }
     int total_damage = 0;
     int total_pain = 0;
     damage_instance d = dam; // copy, since we will mutate in absorb_hit
@@ -471,9 +657,6 @@ dealt_damage_instance Creature::deal_damage(Creature *source, body_part bp,
     }
 
     apply_damage(source, bp, total_damage);
-    if( is_dead_state() ) {
-        die( source );
-    }
     return dealt_damage_instance(dealt_dams);
 }
 void Creature::deal_damage_handle_type(const damage_unit &du, body_part, int &damage, int &pain)
@@ -511,6 +694,14 @@ void Creature::deal_damage_handle_type(const damage_unit &du, body_part, int &da
         damage += adjusted_damage;
         pain += adjusted_damage / 6;
         mod_moves(-adjusted_damage * 80);
+        break;
+    case DT_ACID: // ACIDPROOF people don't take acid damage and acid burns are super painful 
+        damage += adjusted_damage;
+        pain += adjusted_damage / 3;
+        if( has_trait ("ACIDPROOF") ) {
+            damage = 0;
+            pain = 0;
+        }
         break;
     default:
         damage += adjusted_damage;
@@ -551,7 +742,7 @@ void Creature::add_eff_effects(effect e, bool reduced)
     (void)reduced;
     return;
 }
- 
+
 void Creature::add_effect(efftype_id eff_id, int dur, body_part bp, bool permanent, int intensity)
 {
     // Mutate to a main (HP'd) body_part if necessary.
@@ -584,7 +775,7 @@ void Creature::add_effect(efftype_id eff_id, int dur, body_part bp, bool permane
             } else if (e.get_int_add_val() != 0) {
                 e.mod_intensity(e.get_int_add_val());
             }
-            
+
             // Bound intensity by [1, max intensity]
             if (e.get_intensity() < 1) {
                 add_msg( m_debug, "Bad intensity, ID: %s", e.get_id().c_str() );
@@ -594,12 +785,27 @@ void Creature::add_effect(efftype_id eff_id, int dur, body_part bp, bool permane
             }
         }
     }
-    
+
     if (found == false) {
         // If we don't already have it then add a new one
+
+        // First make sure it's a valid effect
         if (effect_types.find(eff_id) == effect_types.end()) {
             return;
         }
+        // Then check if the effect is blocked by another
+        for( auto &elem : effects ) {
+            for( auto &_effect_it : elem.second ) {
+                for( const auto blocked_effect : _effect_it.second.get_blocks_effects() ) {
+                    if (blocked_effect == eff_id) {
+                        // The effect is blocked by another, return
+                        return;
+                    }
+                }
+            }
+        }
+
+        // Now we can make the new effect for application
         effect new_eff(&effect_types[eff_id], dur, bp, permanent, intensity);
         effect &e = new_eff;
         // Bound to max duration
@@ -651,7 +857,7 @@ bool Creature::remove_effect(efftype_id eff_id, body_part bp)
         //Effect doesn't exist, so do nothing
         return false;
     }
-    
+
     if (is_player()) {
         // Print the removal message and add the memorial log if needed
         if(effect_types[eff_id].get_remove_message() != "") {
@@ -663,7 +869,7 @@ bool Creature::remove_effect(efftype_id eff_id, body_part bp)
                               pgettext("memorial_female",
                                        effect_types[eff_id].get_remove_memorial_log().c_str()));
     }
-    
+
     // num_bp means remove all of a given effect id
     if (bp == num_bp) {
         effects.erase(eff_id);
@@ -726,20 +932,20 @@ void Creature::process_effects()
     // passed in to this function.
     std::vector<std::string> rem_ids;
     std::vector<body_part> rem_bps;
-    
+
     // Decay/removal of effects
     for( auto &elem : effects ) {
         for( auto &_it : elem.second ) {
             // Add any effects that others remove to the removal list
-            if( _it.second.get_removes_effect() != "" ) {
-                rem_ids.push_back( _it.second.get_removes_effect() );
+            for( const auto removed_effect : _it.second.get_removes_effects() ) {
+                rem_ids.push_back( removed_effect );
                 rem_bps.push_back(num_bp);
             }
-            // Run decay effects
+            // Run decay effects, marking effects for removal as necessary.
             _it.second.decay( rem_ids, rem_bps, calendar::turn, is_player() );
         }
     }
-    
+
     // Actually remove effects. This should be the last thing done in process_effects().
     for (size_t i = 0; i < rem_ids.size(); ++i) {
         remove_effect( rem_ids[i], rem_bps[i] );
@@ -816,6 +1022,15 @@ bool Creature::in_sleep_state() const
 Creature *Creature::get_killer() const
 {
     return killer;
+}
+
+void Creature::set_killer( Creature * const killer )
+{
+    // Only the first killer will be stored, calling set_killer again with a different
+    // killer would mean it's called on a dead creature and therefor ignored.
+    if( killer != nullptr && !killer->is_fake() && this->killer == nullptr ) {
+        this->killer = killer;
+    }
 }
 
 /*
@@ -1230,8 +1445,8 @@ void Creature::on_gethit(Creature *, body_part, damage_instance &)
  */
 void Creature::draw(WINDOW *w, int player_x, int player_y, bool inverted) const
 {
-    int draw_x = getmaxx(w) / 2 + xpos() - player_x;
-    int draw_y = getmaxy(w) / 2 + ypos() - player_y;
+    int draw_x = getmaxx(w) / 2 + posx() - player_x;
+    int draw_y = getmaxy(w) / 2 + posy() - player_y;
     if(inverted) {
         mvwputch_inv(w, draw_y, draw_x, basic_symbol_color(), symbol());
     } else if(is_symbol_highlighted()) {
@@ -1239,6 +1454,11 @@ void Creature::draw(WINDOW *w, int player_x, int player_y, bool inverted) const
     } else {
         mvwputch(w, draw_y, draw_x, symbol_color(), symbol() );
     }
+}
+
+void Creature::draw( WINDOW *w, const tripoint &p, bool inverted ) const
+{
+    draw( w, p.x, p.y, inverted );
 }
 
 nc_color Creature::basic_symbol_color() const
@@ -1330,6 +1550,11 @@ body_part Creature::select_body_part(Creature *source, int hit_roll)
 
 bool Creature::compare_by_dist_to_point::operator()( const Creature* const a, const Creature* const b ) const
 {
-    return rl_dist( a->xpos(), a->ypos(), center.x, center.y ) <
-           rl_dist( b->xpos(), b->ypos(), center.x, center.y );
+    return rl_dist( a->pos(), center ) < rl_dist( b->pos(), center );
+}
+
+void Creature::check_dead_state() {
+    if( is_dead_state() ) {
+        die( nullptr );
+    }
 }

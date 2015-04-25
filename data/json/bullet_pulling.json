@@ -41,6 +41,16 @@
     },
     {
         "type": "BULLET_PULLING",
+        "bullet": "shot_flechette",
+        "items": [
+            ["combatnail", 8],
+            ["shot_hull", 1],
+            ["shotgun_primer", 1],
+            ["gunpowder", 20]
+        ]
+    },
+    {
+        "type": "BULLET_PULLING",
         "bullet": "22_lr",
         "items": [
             ["lead", 2],
@@ -115,6 +125,16 @@
             ["smpistol_primer", 1],
             ["gunpowder", 6],
             ["copper", 4]
+        ]
+    },
+    {
+        "type": "BULLET_PULLING",
+        "bullet": "32_acp",
+        "items": [
+            ["lead", 5],
+            ["38_casing", 1],
+            ["smpistol_primer", 1],
+            ["gunpowder", 4]
         ]
     },
     {

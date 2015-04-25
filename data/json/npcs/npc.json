@@ -7,7 +7,7 @@
     "name+" : ", Representative",
     "comment" : "Class is based on the enum in npc.h.  The important ones are 0=NC_NONE, 2=NC_SHOPKEEP,",
     "comment" : "3=NC_HACKER, 4=NC_DOCTOR, 5=NC_TRADER, 6=NC_NINJA, 7=NC_COWBOY, 8=NC_SCIENTIST,",
-    "comment" : "9=NC_BOUNTY_HUNTER, 10=NC_THUG, 11=NC_SCAVENGER, and 13=NC_HUNTER.",
+    "comment" : "9=NC_BOUNTY_HUNTER, 10=NC_THUG, 11=NC_SCAVENGER, 13=NC_HUNTER, 14=NC_SOLDIER.",
     "class" : 7,
     "comment" : "Attitude is based on the enum in npc.h.  The important ones are 0=NPCATT_NULL, 1=NPCATT_TALK",
     "comment" : "3=NPCATT_FOLLOW, 7=NPCATT_DEFEND, 10=NPCATT_KILL, and 11=NPCATT_FLEE",
@@ -15,11 +15,42 @@
     "comment" : "Mission is based on the enum in npc.h.  The important ones are 0=NPC_MISSION_NUL, 3=NPC_MISSION_SHOPKEEP",
     "comment" : "and 7=NPC_MISSION_GUARD",
     "mission" : 7,
-    "comment" : "Chat is based on the enum talk_topic in npc.h.  Which is going to be a nightmare to update... 1=TALK_DONE",
-    "chat" : 76,
+    "chat" : "TALK_OLD_GUARD_REP",
     "faction" : "old_guard",
     "mission_offered" : 30,
     "comment" : "Mission_offered is based on the enum mission_id in mission.h.  0=MISSION_NULL"
+  },{
+    "type" : "npc",
+    "id" : "old_guard_soldier",
+    "comment" : "Generic guard for the old guard.",
+    "name+" : ", Soldier",
+    "class" : 14,
+    "attitude" : 0,
+    "mission" : 7,
+    "chat" : "TALK_OLD_GUARD_SOLDIER",
+    "faction" : "old_guard"
+  },{
+    "type" : "npc",
+    "id" : "old_guard_necropolis_cpt",
+    "comment" : "Commander in Necropolis",
+    "name+" : ", CPT",
+    "class" : 14,
+    "attitude" : 0,
+    "mission" : 7,
+    "chat" : "TALK_OLD_GUARD_NEC_CPT",
+    "faction" : "old_guard",
+    "mission_offered" : 34
+  },{
+      "type" : "npc",
+    "id" : "old_guard_necropolis_commo",
+    "comment" : "In charge of outside communications in Necropolis",
+    "name+" : ", SFC",
+    "class" : 14,
+    "attitude" : 0,
+    "mission" : 7,
+    "chat" : "TALK_OLD_GUARD_NEC_COMMO",
+    "faction" : "old_guard",
+    "mission_offered" : 36
   },{
     "type" : "npc",
     "id" : "evac_merchant",
@@ -28,7 +59,7 @@
     "class" : 1,
     "attitude" : 0,
     "mission" : 3,
-    "chat" : 17,
+    "chat" : "TALK_EVAC_MERCHANT",
     "mission_offered" : 27,
     "faction" : "free_merchants"
   },{
@@ -39,7 +70,7 @@
     "class" : 9,
     "attitude" : 0,
     "mission" : 7,
-    "chat" : 28,
+    "chat" : "TALK_FREE_MERCHANT_STOCKS",
     "faction" : "free_merchants"
   },{
     "type" : "npc",
@@ -49,7 +80,7 @@
     "class" : 9,
     "attitude" : 0,
     "mission" : 7,
-    "chat" : 42,
+    "chat" : "TALK_EVAC_GUARD1",
     "faction" : "free_merchants"
   },{
     "type" : "npc",
@@ -59,7 +90,7 @@
     "class" : 9,
     "attitude" : 0,
     "mission" : 7,
-    "chat" : 53,
+    "chat" : "TALK_EVAC_GUARD2",
     "faction" : "free_merchants"
   },{
     "type" : "npc",
@@ -69,7 +100,7 @@
     "class" : 9,
     "attitude" : 0,
     "mission" : 7,
-    "chat" : 59,
+    "chat" : "TALK_EVAC_GUARD3",
     "faction" : "free_merchants"
   },{
     "type" : "npc",
@@ -79,7 +110,7 @@
     "class" : 9,
     "attitude" : 0,
     "mission" : 7,
-    "chat" : 2,
+    "chat" : "TALK_GUARD",
     "faction" : "free_merchants"
   },{
     "type" : "npc",
@@ -89,7 +120,7 @@
     "class" : 9,
     "attitude" : 10,
     "mission" : 7,
-    "chat" : 1,
+    "chat" : "TALK_DONE",
     "faction" : "free_merchants"
   },{
     "type" : "npc",
@@ -99,7 +130,7 @@
     "class" : 13,
     "attitude" : 0,
     "mission" : 7,
-    "chat" : 68,
+    "chat" : "TALK_EVAC_HUNTER",
     "faction" : "wasteland_scavengers"
   },{
     "type" : "npc",
@@ -109,7 +140,7 @@
     "class" : 7,
     "attitude" : 0,
     "mission" : 7,
-    "chat" : 93,
+    "chat" : "TALK_SCAVENGER_MERC",
     "faction" : "wasteland_scavengers"
   },{
     "type" : "npc",
@@ -121,7 +152,7 @@
     "class" : 12,
     "attitude" : 0,
     "mission" : 3,
-    "chat" : 84,
+    "chat" : "TALK_ARSONIST",
     "faction" : "wasteland_scavengers"
   },{
     "type" : "npc",
@@ -131,7 +162,7 @@
     "class" : 10,
     "attitude" : 0,
     "mission" : 7,
-    "chat" : 1,
+    "chat" : "TALK_DONE",
     "faction" : "hells_raiders"
   },{
     "type" : "npc",
@@ -141,7 +172,7 @@
     "class" : 11,
     "attitude" : 0,
     "mission" : 7,
-    "chat" : 1,
+    "chat" : "TALK_DONE",
     "faction" : "hells_raiders"
   }
 ]

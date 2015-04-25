@@ -19,9 +19,7 @@ struct break_entry {
 // bitmask backing store of -certian- vpart_info.flags, ones that
 // won't be going away, are involved in core functionality, and are checked frequently
 enum vpart_bitflags {
-    VPFLAG_NONE,
     VPFLAG_ARMOR,
-    VPFLAG_TRANSPARENT,
     VPFLAG_EVENTURN,
     VPFLAG_ODDTURN,
     VPFLAG_CONE_LIGHT,
@@ -36,7 +34,9 @@ enum vpart_bitflags {
     VPFLAG_WHEEL,
     VPFLAG_MOUNTABLE,
     VPFLAG_FLOATS,
-
+    VPFLAG_DOME_LIGHT,
+    VPFLAG_AISLE_LIGHT,
+    VPFLAG_ATOMIC_LIGHT,
     VPFLAG_ALTERNATOR,
     VPFLAG_ENGINE,
     VPFLAG_FRIDGE,
@@ -50,8 +50,9 @@ enum vpart_bitflags {
     VPFLAG_VARIABLE_SIZE,
     VPFLAG_TRACK,
     VPFLAG_RECHARGE,
-    VPFLAG_MIRROR
+    VPFLAG_EXTENDS_VISION,
 
+    NUM_VPFLAGS
 };
 /* Flag info:
  * INTERNAL - Can be mounted inside other parts
@@ -72,7 +73,8 @@ struct vpart_info {
     int durability;         // durability
     int power;              // engine (top spd), solar panel/powered component (% of 1 fuel per turn, can be > 100)
     int epower;             // electrical power in watts (positive values for generation, negative for consumption)
-    int folded_volume;		// volume of a foldable part when folded
+    int folded_volume;      // volume of a foldable part when folded
+    int range;              // turret target finder range
     union {
         int par1;
         int size;       // fuel tank, trunk
@@ -83,9 +85,11 @@ struct vpart_info {
     itype_id item;      // corresponding item
     int difficulty;     // installation difficulty (mechanics requirement)
     std::string location;   //Where in the vehicle this part goes
-    std::set<std::string> flags;    // flags
     std::vector<break_entry> breaks_into;
-    unsigned long bitflags; // flags checked so often that things slow down due to string cmp
+private:
+    std::set<std::string> flags;    // flags
+    std::bitset<NUM_VPFLAGS> bitflags; // flags checked so often that things slow down due to string cmp
+public:
 
     int z_order;        // z-ordering, inferred from location, cached here
     int list_order;     // Display order in vehicle interact display
@@ -96,14 +100,13 @@ struct vpart_info {
     }
     bool has_flag(const vpart_bitflags flag) const
     {
-        return (bitflags & mfb(flag));
+        return bitflags.test( flag );
     }
+    void set_flag( const std::string &flag );
 };
 
 extern std::map<std::string, vpart_info> vehicle_part_types;
 extern const std::string legacy_vpart_id[74];
 extern std::vector<vpart_info> vehicle_part_int_types;
-extern std::map<std::string, vpart_bitflags> vpart_bitflag_map;
-extern void init_vpart_bitflag_map();
 
 #endif
