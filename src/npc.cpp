@@ -879,6 +879,7 @@ void npc::spawn_at(int x, int y, int z)
     mapz = z;
     position.x = rng(0, SEEX - 1);
     position.y = rng(0, SEEY - 1);
+    zpos = z;
     const point pos_om = overmapbuffer::sm_to_om_copy( mapx, mapy );
     overmap &om = overmap_buffer.get( pos_om.x, pos_om.y );
     om.npcs.push_back(this);
