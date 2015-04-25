@@ -611,12 +611,17 @@ void editmap::update_view( bool update_info )
                      );
             off++; // 3
         }
-        mvwprintw(w_info, off++, 2, _("dist: %d u_see: %d light: %d v_in: %d scent: %d"),
-                  rl_dist( g->u.pos(), target ), g->u.sees(target), g->m.light_at(target),
-                  veh_in, g->scent( target) );
-        mvwprintw(w_info, off++, 2, _("transparency: %f visibility: %f"),
+        mvwprintw(w_info, off++, 2, _("dist: %d u_see: %d light: %d v_in: %d scent: %d, sight_range: %d"),
+                  rl_dist( g->u.pos(), target ), g->u.sees( target ), g->m.light_at( target ),
+                  veh_in, g->scent( target ), g->u.sight_range( g->light_level() ) );
+        mvwprintw(w_info, off++, 2,
+                  _("transparency: %f visibility: %f, apparent light: %f, outside: %d"),
                   g->m.get_cache(target.z).transparency_cache[target.x][target.y],
-                  g->m.get_cache(target.z).seen_cache[target.x][target.y] );
+                  g->m.get_cache(target.z).seen_cache[target.x][target.y],
+                  g->m.get_cache(target.z).seen_cache[target.x][target.y] *
+                  g->m.get_cache(target.z).lm[target.x][target.y], g->m.is_outside( target ) );
+        mvwprintw(w_info, off++, 2, _("daylight_sight_range: %d, light_at: %f"),
+                  g->u.sight_range(DAYLIGHT_LEVEL), g->m.get_cache(target.z).lm[target.x][target.y] );
 
         std::string extras = "";
         if( veh_in >= 0 ) {
