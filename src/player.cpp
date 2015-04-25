@@ -6593,6 +6593,11 @@ void player::hardcoded_effects(effect &it)
         dodges_left = 0;
         // Set ourselves up for removal
         it.set_duration(0);
+    } else if (id == "impaled") {
+        blocks_left -= 2;
+        dodges_left = 0;
+        // Set ourselves up for removal
+        it.set_duration(0);
     } else if (id == "bite") {
         bool recovered = false;
         // Recovery chance
