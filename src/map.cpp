@@ -5042,10 +5042,7 @@ void map::update_visibility_cache( visibility_variables &cache, const int zlev )
         for( y = 0; y < MAPSIZE * SEEY; y++ ) {
             lit_level ll = apparent_light_at( p, cache );
             visibility_cache[x][y] = ll;
-            sm_squares_seen[x/SEEX][y/SEEY] += (
-                ll == LL_BRIGHT ||
-                ll == LL_LIT
-            );
+            sm_squares_seen[ x / SEEX ][ y / SEEY ] += (ll == LL_BRIGHT || ll == LL_LIT);
         }
     }
 
@@ -5059,8 +5056,6 @@ void map::update_visibility_cache( visibility_variables &cache, const int zlev )
             }
         }
     }
-
-
 }
 
 lit_level map::apparent_light_at( const tripoint &p, const visibility_variables &cache ) {

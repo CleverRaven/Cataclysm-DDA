@@ -13580,12 +13580,12 @@ bool game::spread_fungus( const tripoint &p )
                 converted = true;
             }
         } else if (m.has_flag("FLAT", x, y)) {
-            if (m.has_flag("INDOORS", x, y)) {
+            if( m.has_flag( TFLAG_INDOORS, x, y ) ) {
                 if (x_in_y(growth * 10, 500)) {
                     m.ter_set(x, y, t_fungus_floor_in);
                     converted = true;
                 }
-            } else if (m.has_flag("SUPPORTS_ROOF", x, y)) {
+            } else if( m.has_flag( TFLAG_SUPPORTS_ROOF, x, y ) ) {
                 if (x_in_y(growth * 10, 1000)) {
                     m.ter_set(x, y, t_fungus_floor_sup);
                     converted = true;
@@ -13650,12 +13650,12 @@ bool game::spread_fungus( const tripoint &p )
                         m.ter_set(i, j, t_fungus);
                         converted = true;
                     } else if (m.has_flag("FLAT", i, j)) {
-                        if (m.has_flag("INDOORS", i, j)) {
+                        if( m.has_flag( TFLAG_INDOORS, i, j ) ) {
                             if (one_in(5)) {
                                 m.ter_set(i, j, t_fungus_floor_in);
                                 converted = true;
                             }
-                        } else if (m.has_flag("SUPPORTS_ROOF", i, j)) {
+                        } else if( m.has_flag( TFLAG_SUPPORTS_ROOF, i, j ) ) {
                             if (one_in(10)) {
                                 m.ter_set(i, j, t_fungus_floor_sup);
                                 converted = true;
