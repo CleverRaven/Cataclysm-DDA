@@ -1990,9 +1990,11 @@ int iuse::marloss(player *p, item *it, bool t, point pos)
                 if (moveOK && monOK && posOK &&
                     one_in(10 + 5 * trig_dist(x, y, p->posx(), p->posy())) &&
                     (spore_spawned == 0 || one_in(spore_spawned * 2))) {
-                    monster *spore = g->summon_mon("mon_spore", tripoint(x, y, p->posz()));
-                    spore->friendly = -1;
-                    spore_spawned++;
+                    if (g->summon_mon("mon_spore", tripoint(x, y, p->posz()))) {
+                        monster *spore = g->mon_at(tripoint(x, y, p->posz()));
+                        spore->friendly = -1;
+                        spore_spawned++;
+                    }
                 }
             }
         }
@@ -2113,9 +2115,11 @@ int iuse::marloss_seed(player *p, item *it, bool t, point pos)
                 if (moveOK && monOK && posOK &&
                     one_in(10 + 5 * trig_dist(x, y, p->posx(), p->posy())) &&
                     (spore_spawned == 0 || one_in(spore_spawned * 2))) {
-                    monster *spore = g->summon_mon("mon_spore", tripoint(x, y, p->posz()));
-                    spore->friendly = -1;
-                    spore_spawned++;
+                    if (g->summon_mon("mon_spore", tripoint(x, y, p->posz()))) {
+                        monster *spore = g->mon_at(tripoint(x, y, p->posz()));
+                        spore->friendly = -1;
+                        spore_spawned++;
+                    }
                 }
             }
         }
@@ -2232,9 +2236,11 @@ int iuse::marloss_gel(player *p, item *it, bool t, point pos)
                 if (moveOK && monOK && posOK &&
                     one_in(10 + 5 * trig_dist(x, y, p->posx(), p->posy())) &&
                     (spore_spawned == 0 || one_in(spore_spawned * 2))) {
-                    monster *spore = g->summon_mon("mon_spore", tripoint(x, y, p->posz()));
-                    spore->friendly = -1;
-                    spore_spawned++;
+                    if (g->summon_mon("mon_spore", tripoint(x, y, p->posz()))) {
+                        monster *spore = g->mon_at(tripoint(x, y, p->posz()));
+                        spore->friendly = -1;
+                        spore_spawned++;
+                    }
                 }
             }
         }
@@ -4982,8 +4988,10 @@ int iuse::can_goo(player *p, item *it, bool, point)
         if (g->u.sees(goox, gooy)) {
             add_msg(_("Living black goo emerges from the canister!"));
         }
-        monster *goo = g->summon_mon("mon_blob", tripoint(goox, gooy, p->posz()));
-        goo->friendly = -1;
+        if (g->summon_mon("mon_blob", tripoint(goox, gooy, p->posz()))) {
+            monster *goo = g->mon_at(tripoint(goox, gooy, p->posz()));
+            goo->friendly = -1;
+        }
     }
     tries = 0;
     while (!one_in(4) && tries < 10) {
@@ -6747,8 +6755,10 @@ int iuse::artifact(player *p, item *it, bool, point)
                         int index_inner = rng(0, empty.size() - 1);
                         tripoint spawnp = empty[index_inner];
                         empty.erase(empty.begin() + index_inner);
-                        monster *b = g->summon_mon(bug, spawnp);
-                        b->friendly = -1;
+                        if (g->summon_mon(bug, spawnp)) {
+                            monster *b = g->mon_at(spawnp);
+                            b->friendly = -1;
+                        }
                     }
                 }
             }
@@ -6866,9 +6876,11 @@ int iuse::artifact(player *p, item *it, bool, point)
                     } while (tries < 5 && !g->is_empty(monx, mony) &&
                              !g->m.sees(monx, mony, p->posx(), p->posy(), 10, junk));
                     if (tries < 5) {
-                        num_spawned++;
-                        monster *spawned = g->summon_mon("mon_shadow", tripoint(monx, mony, p->posz()));
-                        spawned->reset_special_rng(0);
+                        if (g->summon_mon("mon_shadow", tripoint(monx, mony, p->posz()))) {
+                            num_spawned++;
+                            monster *spawned = g->mon_at(tripoint(monx, mony, p->posz()));
+                            spawned->reset_special_rng(0);
+                        }
                     }
                 }
                 if (num_spawned > 1) {
@@ -9286,16 +9298,19 @@ bool multicooker_hallu(player *p)
             if (!one_in(5)) {
                 add_msg(m_warning, _("The multi-cooker runs away!"));
                 const tripoint random_point = points[rng(0, points.size() - 1)];
-
-                monster *m = g->summon_mon("mon_hallu_multicooker", random_point);
-                m->hallucination = true;
-                m->add_effect("run", 1, num_bp, true);
+                if (g->summon_mon("mon_hallu_multicooker", random_point)) {
+                    monster *m = g->mon_at(random_point);
+                    m->hallucination = true;
+                    m->add_effect("run", 1, num_bp, true);
+                }
             } else {
                 add_msg(m_bad, _("You're surrounded by aggressive multi-cookers!"));
 
                 for( auto &point : points ) {
-                    monster *m = g->summon_mon("mon_hallu_multicooker", point);
-                    m->hallucination = true;
+                    if (g->summon_mon("mon_hallu_multicooker", point)) {
+                        monster *m = g->mon_at(random_point);
+                        m->hallucination = true;
+                    }
                 }
             }
             return true;

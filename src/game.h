@@ -188,7 +188,7 @@ class game
         Creature const* critter_at( const tripoint &p ) const;
 
         /** Summons a brand new monster at the current time. Returns the summoned monster. */
-        monster * summon_mon(const std::string id, const tripoint &p);
+        bool summon_mon(const std::string id, const tripoint &p);
         /** Calls the creature_tracker add function. Returns true if successful. */
         bool add_zombie(monster &critter);
         /** Returns the number of creatures through the creature_tracker size() function. */

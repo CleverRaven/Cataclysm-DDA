@@ -392,8 +392,10 @@ void player::activate_mutation( const std::string &mut )
         monster slime(GetMType("mon_player_blob"));
         for (int i = 0; i < numslime; i++) {
             int index = rng(0, valid.size() - 1);
-            monster *slime = g->summon_mon("mon_player_blob", valid[index]);
-            slime->friendly = -1;
+            if (g->summon_mon("mon_player_blob", valid[index])) {
+                monster *slime = g->mon_at(valid[index]);
+                slime->friendly = -1;
+            }
             valid.erase(valid.begin() + index);
         }
         //~ Usual enthusiastic slimespring small voices! :D

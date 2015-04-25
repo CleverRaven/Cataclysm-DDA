@@ -4662,8 +4662,10 @@ dealt_damage_instance player::deal_damage(Creature* source, body_part bp, const 
         }
         for (int i = 0; i < snakes; i++) {
             int index = rng(0, valid.size() - 1);
-            monster *snake = g->summon_mon("mon_shadow_snake", valid[index]);
-            snake->friendly = -1;
+            if (g->summon_mon("mon_shadow_snake", valid[index])) {
+                monster *snake = g->mon_at(valid[index]);
+                snake->friendly = -1;
+            }
             valid.erase(valid.begin() + index);
         }
     }
@@ -4683,8 +4685,10 @@ dealt_damage_instance player::deal_damage(Creature* source, body_part bp, const 
         monster slime(GetMType("mon_player_blob"));
         for (int i = 0; i < numslime; i++) {
             int index = rng(0, valid.size() - 1);
-            monster *slime = g->summon_mon("mon_player_blob", valid[index]);
-            slime->friendly = -1;
+            if (g->summon_mon("mon_player_blob", valid[index])) {
+                monster *slime = g->mon_at(valid[index]);
+                slime->friendly = -1;
+            }
             valid.erase(valid.begin() + index);
         }
     }
@@ -6228,9 +6232,11 @@ void player::hardcoded_effects(effect &it)
                         continue;
                     }
                     if (g->mon_at(i, j) == -1) {
-                        monster *grub = g->summon_mon("mon_dermatik_larva", tripoint(i, j, posz()));
-                        if (one_in(3)) {
-                            grub->friendly = -1;
+                        if (g->summon_mon("mon_dermatik_larva", tripoint(i, j, posz()))) {
+                            monster *grub = g->mon_at(tripoint(i, j, posz()));
+                            if (one_in(3)) {
+                                grub->friendly = -1;
+                            }
                         }
                         num_insects--;
                     }
@@ -9169,8 +9175,10 @@ bool player::eat(item *eaten, it_comest *comest)
             int numslime = 1;
             for (int i = 0; i < numslime; i++) {
                 int index = rng(0, valid.size() - 1);
-                monster *slime = g->summon_mon("mon_player_blob", valid[index]);
-                slime->friendly = -1;
+                if (g->summon_mon("mon_player_blob", valid[index])) {
+                    monster *slime = g->mon_at(valid[index]);
+                    slime->friendly = -1;
+                }
                 valid.erase(valid.begin() + index);
             }
             hunger += 40;
@@ -13356,8 +13364,10 @@ void player::spores()
                         critter.die( this );
                     }
                 } else if (one_in(3) && g->num_zombies() <= 1000) { // Spawn a spore
-                    monster *spore = g->summon_mon("mon_spore", tripoint(sporex, sporey, posz()));
-                    spore->friendly = -1;
+                    if (g->summon_mon("mon_spore", tripoint(sporex, sporey, posz()))) {
+                        monster *spore = mon_at(tripoint(sporex, sporey, posz()));
+                        spore->friendly = -1;
+                    }
                 }
             }
         }

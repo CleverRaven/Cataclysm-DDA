@@ -6792,16 +6792,13 @@ Creature const* game::critter_at( const tripoint &p ) const
     return const_cast<game*>(this)->critter_at( p );
 }
 
-monster * game::summon_mon( const std::string id, const tripoint &p )
+bool game::summon_mon( const std::string id, const tripoint &p )
 {
     monster mon(GetMType(id));
     // Set their last upgrade check to the current day.
     mon.reset_last_load();
     mon.spawn(p);
-    add_zombie(mon);
-
-    // Return the non-local copy of the monster
-    return &zombie(critter_tracker.mon_at(p));
+    return add_zombie(mon);
 }
 
 bool game::add_zombie(monster &critter)
