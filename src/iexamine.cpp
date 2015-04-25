@@ -1390,7 +1390,7 @@ void iexamine::examine_cattails(player *p, map *m, int examx, int examy)
         none(p, m, examx, examy);
         return;
     }
-    if !(calendar::turn.get_season() == WINTER) {
+    if (calendar::turn.get_season() != WINTER) {
         m->spawn_item( p->posx(), p->posy(), "cattail_stalk", rng( 1, 4 ) );
     }
     m->furn_set(examx, examy, f_null);
