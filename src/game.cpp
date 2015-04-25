@@ -3913,7 +3913,7 @@ void game::debug()
                       _("Increase all skills"),    // 11
                       _("Learn all melee styles"), // 12
                       _("Unlock all recipes"),     // 13
-                      _("Check NPC"),              // 14
+                      _("Edit player/NPC"),        // 14
                       _("Spawn Artifact"),         // 15
                       _("Spawn Clairvoyance Artifact"), //16
                       _("Map editor"), // 17
@@ -4110,62 +4110,163 @@ void game::debug()
     case 14: {
         point pos = look_around();
         int npcdex = npc_at(pos.x, pos.y);
-        if (npcdex == -1) {
-            popup(_("No NPC there."));
+        if( npcdex == -1 && pos != u.pos() ) {
+            popup(_("No character there."));
         } else {
-            std::stringstream data;
-            npc *p = active_npc[npcdex];
+            player &p = npcdex != -1 ? *active_npc[npcdex] : u;
+            // The NPC is also required for "Add mission", so has to be in this scope
+            npc *np = npcdex != -1 ? active_npc[npcdex] : nullptr;
             uimenu nmenu;
             nmenu.return_invalid = true;
-            data << p->name << " " << (p->male ? _("Male") : _("Female")) << std::endl;
 
-            data << npc_class_name(p->myclass) << "; " <<
-                 npc_attitude_name(p->attitude) << std::endl;
-            if (p->has_destination()) {
-                data << string_format(_("Destination: %d:%d (%s)"),
-                        p->goal.x, p->goal.y,
-                        otermap[overmap_buffer.ter(p->goal)].name.c_str()) << std::endl;
+            if( p.is_npc() ) {
+                std::stringstream data;
+                data << np->name << " " << ( np->male ? _("Male") : _("Female") ) << std::endl;
+                data << npc_class_name(np->myclass) << "; " <<
+                     npc_attitude_name(np->attitude) << std::endl;
+                if (np->has_destination()) {
+                    data << string_format(_("Destination: %d:%d%d (%s)"),
+                            np->goal.x, np->goal.y, np->goal.z,
+                            otermap[overmap_buffer.ter(np->goal)].name.c_str()) << std::endl;
+                } else {
+                    data << _("No destination.") << std::endl;
+                }
+                data << string_format(_("Trust: %d"), np->op_of_u.trust) << " "
+                     << string_format(_("Fear: %d"), np->op_of_u.fear) << " "
+                     << string_format(_("Value: %d"), np->op_of_u.value) << " "
+                     << string_format(_("Anger: %d"), np->op_of_u.anger) << " "
+                     << string_format(_("Owed: %d"), np->op_of_u.owed) << std::endl;
+
+                data << string_format(_("Aggression: %d"), int(np->personality.aggression)) << " "
+                     << string_format(_("Bravery: %d"), int(np->personality.bravery)) << " "
+                     << string_format(_("Collector: %d"), int(np->personality.collector)) << " "
+                     << string_format(_("Altruism: %d"), int(np->personality.altruism)) << std::endl;
+
+                nmenu.text = data.str();
             } else {
-                data << _("No destination.") << std::endl;
+                nmenu.text = _("Player");
             }
-            data << string_format(_("Trust: %d"), p->op_of_u.trust) << " "
-                 << string_format(_("Fear: %d"), p->op_of_u.fear) << " "
-                 << string_format(_("Value: %d"), p->op_of_u.value) << " "
-                 << string_format(_("Anger: %d"), p->op_of_u.anger) << " "
-                 << string_format(_("Owed: %d"), p->op_of_u.owed) << std::endl;
 
-            data << string_format(_("Aggression: %d"), int(p->personality.aggression)) << " "
-                 << string_format(_("Bravery: %d"), int(p->personality.bravery)) << " "
-                 << string_format(_("Collector: %d"), int(p->personality.collector)) << " "
-                 << string_format(_("Altruism: %d"), int(p->personality.altruism)) << std::endl;
-
-            nmenu.text = data.str();
-            nmenu.addentry(0, true, 's', "%s", _("Edit [s]kills"));
-            nmenu.addentry(1, true, 'i', "%s", _("Grant [i]tems"));
-            nmenu.addentry(2, true, 'h', "%s", _("Cause [h]urt (to torso)"));
-            nmenu.addentry(3, true, 'p', "%s", _("Cause [p]ain"));
-            nmenu.addentry(4, true, '@', "%s", _("Status Window [@]"));
-            nmenu.addentry(5, true, 'm', "%s", _("Add mission"));
-            nmenu.addentry(999, true, 'q', "%s", _("[q]uit"));
+            enum { D_SKILLS, D_STATS, D_ITEMS, D_HURT, D_PAIN, D_NEEDS, D_STATUS, D_MISSION };
+            nmenu.addentry( D_SKILLS, true, 's', "%s", _("Edit [s]kills") );
+            nmenu.addentry( D_STATS, true, 't', "%s", _("Edit s[t]ats") );
+            nmenu.addentry( D_ITEMS, true, 'i', "%s", _("Grant [i]tems"));
+            nmenu.addentry( D_HURT, true, 'h', "%s", _("Cause [h]urt (to torso)") );
+            nmenu.addentry( D_PAIN, true, 'p', "%s", _("Cause [p]ain") );
+            nmenu.addentry( D_NEEDS, true, 'n', "%s", _("Set [n]eeds") );
+            nmenu.addentry( D_STATUS, true, '@', "%s", _("Status Window [@]") );
+            if( p.is_npc() ) {
+                nmenu.addentry( D_MISSION, true, 'm', "%s", _("Add [m]ission") );
+            }
+            nmenu.addentry( 999, true, 'q', "%s", _("[q]uit") );
             nmenu.selected = 0;
             nmenu.query();
             switch (nmenu.ret) {
-            case 0:
-                wishskill(p);
+            case D_SKILLS:
+                wishskill(&p);
                 break;
-            case 1:
-                wishitem(p);
+            case D_STATS:
+            {
+                uimenu smenu;
+                smenu.addentry( 0, true, 's', "%s: %d", _("Current strength"), p.str_cur );
+                smenu.addentry( 1, true, 'd', "%s: %d", _("Current dexterity"), p.dex_cur );
+                smenu.addentry( 2, true, 'i', "%s: %d", _("Current intelligence"), p.int_cur );
+                smenu.addentry( 3, true, 'p', "%s: %d", _("Current perception"), p.per_cur );
+                smenu.addentry( 4, true, 'S', "%s: %d", _("Maximum strength"), p.str_max );
+                smenu.addentry( 5, true, 'D', "%s: %d", _("Maximum dexterity"), p.dex_max );
+                smenu.addentry( 6, true, 'I', "%s: %d", _("Maximum intelligence"), p.int_max );
+                smenu.addentry( 7, true, 'I', "%s: %d", _("Maximum perception"), p.per_max );
+                smenu.addentry( 999, true, 'q', "%s", _("[q]uit") );
+                smenu.selected = 0;
+                smenu.query();
+                int *stat_ptr = nullptr;
+                switch( smenu.ret ) {
+                case 0:
+                    stat_ptr = &p.str_cur;
+                    break;
+                case 1:
+                    stat_ptr = &p.dex_cur;
+                    break;
+                case 2:
+                    stat_ptr = &p.int_cur;
+                    break;
+                case 3:
+                    stat_ptr = &p.per_cur;
+                    break;
+                case 4:
+                    stat_ptr = &p.str_max;
+                    break;
+                case 5:
+                    stat_ptr = &p.dex_max;
+                    break;
+                case 6:
+                    stat_ptr = &p.int_max;
+                    break;
+                case 7:
+                    stat_ptr = &p.per_max;
+                    break;
+                default:
+                    break;
+                }
+
+                if( stat_ptr != nullptr ) {
+                    int value = query_int( "Set the stat to? Currently: %d", *stat_ptr );
+                    if( value >= 0 ) {
+                        *stat_ptr = value;
+                    }
+                }
+            }
                 break;
-            case 2:
-                p->apply_damage( nullptr, bp_torso, 20 );
+            case D_ITEMS:
+                wishitem(&p);
                 break;
-            case 3:
-                p->mod_pain(20);
+            case D_HURT:
+            {
+                int dbg_damage = query_int( "Damage NPC for how much? hp: %d", p.hp_cur[hp_torso] );
+                p.apply_damage( nullptr, bp_torso, dbg_damage );
+            }
                 break;
-            case 4:
-                p->disp_info();
+            case D_PAIN:
+            {
+                int dbg_damage = query_int( "Cause how much pain? pain: %d", p.pain );
+                p.mod_pain(dbg_damage);
+            }
                 break;
-            case 5:
+            case D_NEEDS:
+            {
+                uimenu smenu;
+                smenu.addentry( 0, true, 'h', "%s: %d", _("Hunger"), p.hunger );
+                smenu.addentry( 1, true, 't', "%s: %d", _("Thirst"), p.thirst );
+                smenu.addentry( 2, true, 'f', "%s: %d", _("Fatigue"), p.fatigue );
+                smenu.addentry( 999, true, 'q', "%s", _("[q]uit") );
+                smenu.selected = 0;
+                smenu.query();
+                int *stat_ptr = nullptr;
+                switch( smenu.ret ) {
+                case 0:
+                    stat_ptr = &p.hunger;
+                    break;
+                case 1:
+                    stat_ptr = &p.thirst;
+                    break;
+                case 2:
+                    stat_ptr = &p.fatigue;
+                    break;
+                default:
+                    break;
+                }
+
+                if( stat_ptr != nullptr ) {
+                    int value = query_int( "Set the value to? Currently: %d", *stat_ptr );
+                    // No cancelling here
+                    *stat_ptr = value;
+                }
+            }
+                break;
+            case D_STATUS:
+                p.disp_info();
+                break;
+            case D_MISSION:
                 {
                     uimenu types;
                     types.text = _( "Choose mission type" );
@@ -4175,7 +4276,7 @@ void game::debug()
                     types.addentry( INT_MAX, true, -1, _( "Cancel" ) );
                     types.query();
                     if( types.ret != INT_MAX ) {
-                        p->add_new_mission( mission::reserve_new( static_cast<mission_type_id>( types.ret ), p->getID() ) );
+                        np->add_new_mission( mission::reserve_new( static_cast<mission_type_id>( types.ret ), np->getID() ) );
                     }
                 }
                 break;
@@ -5959,29 +6060,30 @@ void game::monmove()
 
     // Now, do active NPCs.
     for( auto &elem : active_npc ) {
-        if( elem->is_dead() ) {
+        npc &np = *elem;
+        if( np.is_dead() ) {
             continue;
         }
         int turns = 0;
         m.creature_in_field( *elem );
-            ( elem )->process_turn();
-            while( !( elem )->is_dead() && ( elem )->moves > 0 && turns < 10 ) {
-                int moves = ( elem )->moves;
-                ( elem )->move();
-                if( moves == ( elem )->moves ) {
-                    // Count every time we exit npc::move() without spending any moves.
-                    turns++;
-                }
+        np.process_turn();
+        while( !np.is_dead() && !np.in_sleep_state() && np.moves > 0 && turns < 10 ) {
+            int moves = np.moves;
+            np.move();
+            if( moves == np.moves ) {
+                // Count every time we exit npc::move() without spending any moves.
+                turns++;
             }
-            // If we spun too long trying to decide what to do (without spending moves),
-            // Invoke cranial detonation to prevent an infinite loop.
-            if (turns == 10) {
-                add_msg( _( "%s's brain explodes!" ), ( elem )->name.c_str() );
-                ( elem )->die( nullptr );
-            }
+        }
+        // If we spun too long trying to decide what to do (without spending moves),
+        // Invoke cranial detonation to prevent an infinite loop.
+        if( turns == 10 ) {
+            add_msg( _( "%s's brain explodes!" ), np.name.c_str() );
+            np.die( nullptr );
+        }
 
-        if( !elem->is_dead() ) {
-            elem->process_active_items();
+        if( !np.is_dead() ) {
+            np.process_active_items();
         }
     }
     cleanup_dead();

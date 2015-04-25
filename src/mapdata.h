@@ -494,6 +494,21 @@ public:
         return sm->get_ter( x, y );
     }
 
+    inline const trap &get_trap_t() const
+    {
+        return *traplist[ sm->get_trap( x, y ) ];
+    }
+
+    inline const furn_t &get_furn_t() const
+    {
+        return furnlist[ sm->get_furn( x, y ) ];
+    }
+
+    inline const ter_t &get_ter_t() const
+    {
+        return terlist[ sm->get_ter( x, y ) ];
+    }
+
     inline const field &get_field() const
     {
         return sm->fld[x][y];

@@ -6682,13 +6682,12 @@ void player::hardcoded_effects(effect &it)
                                    pgettext("memorial_female", "Entered hibernation."));
                 // 10 days' worth of round-the-clock Snooze.  Cata seasons default to 14 days.
                 fall_asleep(144000);
+                // If you're not fatigued enough for 10 days, you won't sleep the whole thing.
+                // In practice, the fatigue from filling the tank from (no msg) to Time For Bed
+                // will last about 8 days.
             }
-            // If you're not fatigued enough for 10 days, you won't sleep the whole thing.
-            // In practice, the fatigue from filling the tank from (no msg) to Time For Bed
-            // will last about 8 days.
-            if (hunger >= -60) {
-                fall_asleep(6000); //10 hours, default max sleep time.
-            }
+
+            fall_asleep(6000); //10 hours, default max sleep time.
             // Set ourselves up for removal
             it.set_duration(0);
         }
@@ -11408,7 +11407,7 @@ void player::try_to_sleep()
     add_effect("lying_down", 300);
 }
 
-bool player::can_sleep()
+int player::sleep_spot( const tripoint &p ) const
 {
     int sleepy = 0;
     bool plantsleep = false;
@@ -11442,11 +11441,12 @@ bool player::can_sleep()
         in_shell = true;
     }
     int vpart = -1;
-    vehicle *veh = g->m.veh_at(posx(), posy(), vpart);
-    const trap &trap_at_pos = g->m.tr_at(posx(), posy());
-    const ter_id ter_at_pos = g->m.ter(posx(), posy());
-    const furn_id furn_at_pos = g->m.furn(posx(), posy());
-    int web = g->m.get_field_strength( pos(), fd_web );
+    vehicle *veh = g->m.veh_at(p, vpart);
+    const maptile tile = g->m.maptile_at( p );
+    const trap &trap_at_pos = tile.get_trap_t();
+    const ter_id ter_at_pos = tile.get_ter();
+    const furn_id furn_at_pos = tile.get_furn();
+    int web = g->m.get_field_strength( p, fd_web );
     // Plant sleepers use a different method to determine how comfortable something is
     // Web-spinning Arachnids do too
     if (!plantsleep && !webforce) {
@@ -11461,7 +11461,7 @@ bool player::can_sleep()
                 sleepy += 3;
             } else {
                 // Sleeping elsewhere is uncomfortable
-                sleepy -= g->m.move_cost(posx(), posy());
+                sleepy -= g->m.move_cost(p);
             }
         // Not in a vehicle, start checking furniture/terrain/traps at this point in decreasing order
         } else if (furn_at_pos == f_bed) {
@@ -11482,7 +11482,7 @@ bool player::can_sleep()
             sleepy += 1;
         } else {
             // Not a comfortable sleeping spot
-            sleepy -= g->m.move_cost(posx(), posy());
+            sleepy -= g->m.move_cost(p);
         }
     // Has plantsleep
     } else if (plantsleep) {
@@ -11517,13 +11517,21 @@ bool player::can_sleep()
     } else {
         sleepy += int((fatigue - 192) / 16);
     }
-    sleepy += rng(-8, 8);
-    if( !has_trait("INSOMNIA") ) {
+
+    if( stim > 0 || !has_trait("INSOMNIA") ) {
         sleepy -= 2 * stim;
     } else {
         // Make it harder for insomniac to get around the trait
         sleepy -= stim;
     }
+
+    return sleepy;
+}
+
+bool player::can_sleep()
+{
+    int sleepy = sleep_spot( pos3() );
+    sleepy += rng(-8, 8);
     if (sleepy > 0) {
         return true;
     }

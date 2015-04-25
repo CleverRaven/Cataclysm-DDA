@@ -628,6 +628,8 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         bool has_identified( std::string item_id ) const;
         /** Handles sleep attempts by the player, adds "lying_down" */
         void try_to_sleep();
+        /** Rate point's ability to serve as a bed. Takes mutations, fatigue and stimms into account. */
+        int sleep_spot( const tripoint &p ) const;
         /** Checked each turn during "lying_down", returns true if the player falls asleep */
         bool can_sleep();
         /** Adds "sleep" to the player */
