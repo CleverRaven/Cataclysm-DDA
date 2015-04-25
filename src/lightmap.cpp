@@ -84,7 +84,7 @@ void map::build_transparency_cache( const int zlev )
                         case fd_cracksmoke:
                         case fd_methsmoke:
                         case fd_relax_gas:
-                            value *= 0.7;
+                            value *= 5;
                             break;
                         case fd_smoke:
                         case fd_incendiary:
@@ -93,11 +93,11 @@ void map::build_transparency_cache( const int zlev )
                             if (density == 3) {
                                 value = LIGHT_TRANSPARENCY_SOLID;
                             } else if (density == 2) {
-                                value *= 0.5;
+                                value *= 10;
                             }
                             break;
                         case fd_nuke_gas:
-                            value *= 0.5;
+                            value *= 10;
                             break;
                         case fd_fire:
                             value *= 1.0 - ( density * 0.3 );
@@ -147,18 +147,15 @@ void map::generate_lightmap( const int zlev )
 
     const bool  u_is_inside    = !is_outside(g->u.pos());
     const float natural_light  = g->natural_light_level();
-    const float hl             = natural_light / 2;
 
     if (natural_light > LIGHT_SOURCE_BRIGHT) {
         // Apply sunlight, first light source so just assign
-        for (int sx = DAYLIGHT_LEVEL - hl; sx < LIGHTMAP_CACHE_X - hl; ++sx) {
-            for (int sy = DAYLIGHT_LEVEL - hl; sy < LIGHTMAP_CACHE_Y - hl; ++sy) {
+        for (int sx = 0; sx < LIGHTMAP_CACHE_X; ++sx) {
+            for (int sy = 0; sy < LIGHTMAP_CACHE_Y; ++sy) {
                 // In bright light indoor light exists to some degree
                 if (!is_outside(sx, sy)) {
                     lm[sx][sy] = LIGHT_AMBIENT_LOW;
-                } else if (g->u.posx() == sx && g->u.posy() == sy ) {
-                    //Only apply daylight on square where player is standing to avoid flooding
-                    // the lightmap  when in less than total sunlight.
+                } else  {
                     lm[sx][sy] = natural_light;
                 }
             }
@@ -509,7 +506,8 @@ bool map::pl_sees( const int tx, const int ty, const int max_range )
         return false;    // Out of range!
     }
 
-    return get_cache( abs_sub.z ).seen_cache[tx][ty] > LIGHT_TRANSPARENCY_SOLID + 0.1;
+    return get_cache( abs_sub.z ).seen_cache[tx][ty] *
+        get_cache(abs_sub.x).lm[tx][ty] > LIGHT_AMBIENT_LOW;
 }
 
 bool map::pl_sees( const tripoint &t, const int max_range )
@@ -522,7 +520,7 @@ bool map::pl_sees( const tripoint &t, const int max_range )
         return false;    // Out of range!
     }
 
-    return get_cache( t.z ).seen_cache[t.x][t.y] > LIGHT_TRANSPARENCY_SOLID + 0.1;
+    return get_cache( t.z ).seen_cache[t.x][t.y] * get_cache( t.z).lm[t.x][t.y] > LIGHT_AMBIENT_LOW;
 }
 
 /**

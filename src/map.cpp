@@ -5061,65 +5061,32 @@ void map::update_visibility_cache( visibility_variables &cache, const int zlev )
 lit_level map::apparent_light_at( const tripoint &p, const visibility_variables &cache ) {
     const int dist = rl_dist(g->u.posx(), g->u.posy(), p.x, p.y);
 
-    int sight_range = cache.light_sight_range;
-    int low_sight_range = cache.lowlight_sight_range;
-    lit_level lit = light_at( p );
-
-    // While viewing indoor areas use lightmap model
-    if( !is_outside( p ) ) {
-        sight_range = cache.natural_sight_range;
-
-    // Don't display area as shadowy if it's outside and illuminated by natural light
-    // and illuminated by source of light
-    } else if (lit > LL_LOW || dist <= cache.light_sight_range) {
-        low_sight_range = std::max(cache.g_light_level, cache.natural_sight_range);
+    // Clairvoyance overrides everything.
+    if( dist <= cache.u_clairvoyance ) {
+        return LL_BRIGHT;
+        // Blindness overrides everything else.
     }
-
-    int real_max_sight_range = std::max(cache.light_sight_range, cache.max_sight_range);
-    int distance_to_look = DAYLIGHT_LEVEL;
-
-    bool can_see = pl_sees( p, distance_to_look );
-
-    // now we're gonna adjust real_max_sight, to cover some nearby "highlights",
-    // but at the same time changing light-level depending on distance,
-    // to create actual "gradual" stuff
-    // Also we'll try to ALWAYS show LL_BRIGHT stuff independent of where it is...
-    if (lit != LL_BRIGHT) {
-        if (dist > real_max_sight_range) {
-            int intLit = (int)lit - (dist - real_max_sight_range)/2;
-            if (intLit < 0) intLit = LL_DARK;
-            lit = (lit_level)intLit;
-        }
-    }
-
-    // additional case for real_max_sight_range
-    // if both light_sight_range and max_sight_range were small
-    // it means we really have limited visibility (e.g. inside a pit)
-    // and we shouldn't touch that
-    if( lit > LL_DARK && real_max_sight_range > 1 ) {
-        real_max_sight_range = distance_to_look;
-    }
-
-    if ((cache.bio_night_active && dist < 15 && dist > cache.natural_sight_range) || // if bio_night active, blackout 15 tile radius around player
-        dist > real_max_sight_range || // too far away, no matter what
-        (dist > cache.light_sight_range &&
-            (lit == LL_DARK ||
-                (cache.u_sight_impaired && lit != LL_BRIGHT) ||
-                !can_see))) { // blind
+    if( cache.u_sight_impaired ) {
         return LL_DARK;
-    } else if (dist > cache.light_sight_range && cache.u_sight_impaired && lit == LL_BRIGHT) {
-        return LL_BRIGHT_ONLY;
-    } else if (dist <= cache.u_clairvoyance || can_see) {
-        if ( lit == LL_BRIGHT ) {
-            return LL_BRIGHT;
-        } else {
-            if ( (dist > low_sight_range && LL_LIT > lit) || (dist > sight_range && LL_LOW == lit) ) {
-                return LL_LOW;
-            } else {
-                return LL_LIT;
-            }
-        }
     }
+    // Then we just search for the light level in descending order.
+    const float apparent_light = get_cache(p.z).seen_cache[p.x][p.y] * get_cache(p.z).lm[p.x][p.y];
+    if( apparent_light > LIGHT_SOURCE_BRIGHT ) {
+        return LL_BRIGHT;
+    }
+    if( apparent_light > LIGHT_AMBIENT_LIT ) {
+        return LL_LIT;
+    }
+    if( apparent_light > LIGHT_AMBIENT_LOW ) {
+        if( get_cache(p.z).seen_cache[p.x][p.y] <= LIGHT_TRANSPARENCY_SOLID + 0.1 ) {
+            // This represents too hazy to see detail, but enough light getting through to illuminate.
+            return LL_BRIGHT_ONLY;
+        }
+        return LL_LOW;
+    } else {
+        return LL_DARK;
+    }
+    // Is this ever supposed to happen?
     return LL_BLANK;
 }
 
