@@ -373,9 +373,9 @@
             {"x": -2, "y": 2, "part": "wheel"}
         ]
     },{
-                "type" : "vehicle",
+        "type" : "vehicle",
         "id" : "car_sports_atomic",
-        "name" : "Chiavato Atomizzare",
+        "name" : "Batti Trinita",
         "blueprint" : [
             ["o--+-o"],
             ["=>'#'|"],
