@@ -1132,18 +1132,25 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump, bool debug) c
         }
     }
 
-    // Our qualities
-    std::set< std::pair< std::string, int > > q_set( type->qualities.begin(), type->qualities.end() );
-    for( const auto &content : contents ) {
-        // Add qualities from our contents
-        q_set.insert( content.type->qualities.begin(), content.type->qualities.end() );
-    }
-
-    for( const auto &quality : q_set ) {
+    for( const auto &quality : type->qualities ){
         const auto desc = string_format( _("Has level %1$d %2$s quality."),
                                          quality.second, 
                                          quality::get_name(quality.first).c_str() );
         dump->push_back( iteminfo( "QUALITIES", "", desc ) );
+    }
+    bool intro = false; // Did we print the "Contains items with qualities" line
+    for( const auto &content : contents ) {
+        for( const auto quality : content.type->qualities ) {
+            if( !intro ) {
+                intro = true;
+                dump->push_back( iteminfo( "QUALITIES", "", _("Contains items with qualities:") ) );
+            }
+
+            const auto desc = string_format( _("  Level %1$d %2$s quality."),
+                                         quality.second, 
+                                         quality::get_name( quality.first ).c_str() );
+            dump->push_back( iteminfo( "QUALITIES", "", desc ) );
+        }
     }
 
     if ( showtext && !is_null() ) {
