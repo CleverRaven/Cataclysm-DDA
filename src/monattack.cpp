@@ -412,7 +412,7 @@ void mattack::resurrect(monster *z, int index)
         return;    // We can only resurrect so many times!
     }
 
-    std::vector<tripoint> corpse_pos;
+    std::set<tripoint> corpse_pos;
     // Find all corpses that we can see within 4 tiles.
     tripoint p;
     p.z = z->posz();
@@ -424,7 +424,7 @@ void mattack::resurrect(monster *z, int index)
                 for( const auto &i : g->m.i_at( p ) ) {
                     if( i.is_corpse() && i.get_mtype()->has_flag(MF_REVIVES) &&
                           i.get_mtype()->in_species("ZOMBIE") ) {
-                        corpse_pos.push_back( p );
+                        corpse_pos.insert( p );
                         break;
                     }
                 }
@@ -444,7 +444,7 @@ void mattack::resurrect(monster *z, int index)
     int raised = 0;
     for( auto &i : corpse_pos ) {
         for( size_t n = 0; n < g->m.i_at( i ).size(); ) {
-            if( g->m.i_at( i )[n].is_corpse() && one_in(2) && g->revive_corpse( p, n ) ) {
+            if( g->m.i_at( i )[n].is_corpse() && one_in(2) && g->revive_corpse( i, n ) ) {
                 if( z->friendly != 0 ) {
                     g->zombie(g->num_zombies() - 1).friendly = z->friendly;
                 }
