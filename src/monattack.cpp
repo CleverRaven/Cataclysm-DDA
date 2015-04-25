@@ -1684,7 +1684,6 @@ void mattack::impale(monster *z, int index)
     return;
     }
     int dam = target->deal_damage( z, bp_torso, damage_instance( DT_STAB, rng(10,20), rng(5,15), .5 ) ).total_damage();
-    add_msg(_("The dam value is %d!"), dam);
     if( dam > 0 && foe != nullptr ) {
         if( seen ) {
             auto msg_type = foe == &g->u ? m_bad : m_info;
@@ -1695,7 +1694,7 @@ void mattack::impale(monster *z, int index)
                                         z->name().c_str());
         }
         foe->practice( "dodge", z->type->melee_skill );
-        if( one_in( 60 / (dam + 20))  ) {
+        if( one_in( 60 / (dam + 20)) && (dam > 0)  ) {
             foe->add_effect( "bleed", rng( 75, 125 ), bp_torso, true );
         }
         foe->check_dead_state();
