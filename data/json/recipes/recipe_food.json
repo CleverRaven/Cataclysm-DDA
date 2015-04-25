@@ -949,8 +949,6 @@
       [ "veggy_wild", 2 ],
       [ "plant_sac", 6 ],
       [ "dandelion_cooked", 2 ],
-      [ "cattail_spike", 2],
-      [ "cattail_shoot", 3],
       [ "wild_herbs", 40 ]
     ]
   ]
@@ -8686,8 +8684,7 @@
       [ "irradiated_raspberries", 2],
       [ "blackberries", 2],
       [ "irradiated_blackberries", 2],
-      [ "sugar_beet", 2],
-      [ "cattail_shoot", 3]
+      [ "sugar_beet", 2]
     ],
     [
       [ "sugar", 2],
