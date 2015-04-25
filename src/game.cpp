@@ -68,6 +68,10 @@
 #include <iterator>
 #include <ctime>
 
+#if !(defined _WIN32 || defined WINDOWS || defined TILES)
+#include <langinfo.h>
+#endif
+
 #if (defined _WIN32 || defined __WIN32__)
 #   include "platform_win.h"
 #   include <tchar.h>
@@ -2239,7 +2243,7 @@ input_context game::get_player_input(std::string &action)
                         if( elem.getStep() > 0 ) {
                             for( size_t i = 0; i < elem.getText().length(); ++i ) {
                                 if( u.sees( elem.getPosX() + i, elem.getPosY() ) ) {
-                                    m.drawsq( w_terrain, u, 
+                                    m.drawsq( w_terrain, u,
                                               tripoint( elem.getPosX() + i, elem.getPosY(), u.posz() + u.view_offset.z ),
                                               false, true, u.posx() + u.view_offset.x, u.posy() + u.view_offset.y );
                                 } else {
@@ -4282,7 +4286,7 @@ void game::debug()
     break;
     case 26:
     {
-        int time = std::atoi( string_input_popup( _("Set the time to? (One day is 19200)"), 
+        int time = std::atoi( string_input_popup( _("Set the time to? (One day is 19200)"),
                                                   20, to_string( (int)calendar::turn ) ).c_str() );
         if( time > 0 ) {
             calendar::turn = time;
@@ -5975,6 +5979,10 @@ void game::monmove()
                 add_msg( _( "%s's brain explodes!" ), ( elem )->name.c_str() );
                 ( elem )->die( nullptr );
             }
+
+        if( !elem->is_dead() ) {
+            elem->process_active_items();
+        }
     }
     cleanup_dead();
 }
@@ -6025,7 +6033,6 @@ void game::do_blast( const tripoint &p, const int power, const int radius, const
                 n->deal_damage( nullptr, bp_leg_r, damage_instance( DT_BASH, rng( dam / 3, dam ) ) );
                 n->deal_damage( nullptr, bp_arm_l, damage_instance( DT_BASH, rng( dam / 3, dam ) ) );
                 n->deal_damage( nullptr, bp_arm_r, damage_instance( DT_BASH, rng( dam / 3, dam ) ) );
-                n->check_dead_state();
             }
             if (fire) {
                 m.add_field(i, j, fd_fire, dam / 10);
@@ -6093,7 +6100,6 @@ void game::explosion( const tripoint &p, int power, int shrapnel, bool fire, boo
                 monster &critter = critter_tracker.find(zid);
                 dam -= critter.get_armor_cut(bp_torso);
                 critter.apply_damage( nullptr, bp_torso, dam );
-                critter.check_dead_state();
             } else if( npcdex != -1 ) {
                 body_part hit = random_body_part();
                 // TODO: why is this different for NPC vs player character?
@@ -6103,13 +6109,11 @@ void game::explosion( const tripoint &p, int power, int shrapnel, bool fire, boo
                     dam = rng(long(1.5 * dam), 3 * dam);
                 }
                 active_npc[npcdex]->deal_damage( nullptr, hit, damage_instance( DT_CUT, dam ) );
-                active_npc[npcdex]->check_dead_state();
             } else if (tx == u.posx() && ty == u.posy()) {
                 body_part hit = random_body_part();
                 //~ %s is bodypart name in accusative.
                 add_msg(m_bad, _("Shrapnel hits your %s!"), body_part_name_accusative(hit).c_str());
                 u.deal_damage( nullptr, hit, damage_instance( DT_CUT, dam ) );
-                u.check_dead_state();
             } else {
                 std::set<std::string> shrapnel_effects;
                 m.shoot( tripoint( tx, ty, u.posz() ), dam, j == traj.size() - 1, shrapnel_effects);
@@ -6792,6 +6796,15 @@ Creature const* game::critter_at( const tripoint &p ) const
     return const_cast<game*>(this)->critter_at( p );
 }
 
+bool game::summon_mon( const std::string id, const tripoint &p )
+{
+    monster mon(GetMType(id));
+    // Set their last upgrade check to the current day.
+    mon.reset_last_load();
+    mon.spawn(p);
+    return add_zombie(mon);
+}
+
 bool game::add_zombie(monster &critter)
 {
     if( !m.inbounds( critter.posx(), critter.posy(), critter.posz() ) ) {
@@ -6866,6 +6879,11 @@ int game::mon_at(point p) const
 int game::mon_at( const tripoint &p ) const
 {
     return critter_tracker.mon_at( p );
+}
+
+monster *game::monster_at(const tripoint &p)
+{
+    return &zombie(critter_tracker.mon_at(p));
 }
 
 void game::rebuild_mon_at_cache()
@@ -13904,36 +13922,12 @@ void intro()
     }
     werase(tmp);
 
-/*                      *** NOTE ***
- * Not all locale are equal! Gentoo Linux, for instance,
- * reports ${LANG} for UTF-8 as "en_US.utf8"! Be aware!
- */
 #if !(defined _WIN32 || defined WINDOWS || defined TILES)
-    // Check if locale has UTF-8 encoding
-    const char *p_locale = setlocale(LC_ALL, NULL);
-    bool not_utf8 = p_locale == NULL ? true : false;
-    if(not_utf8 == false) {
-        std::string locale = p_locale;
-        // convert all to uppercase
-        for(size_t i = 0; i < locale.length(); ++i)
-            locale[i] = toupper(locale[i]);
-        auto index = locale.find("UTF");
-        // were we able to find those three magical letters?
-        not_utf8 = index == std::string::npos ? true : false;
-        if(not_utf8 == false) {
-            // replace entirety of string with important part
-            locale.erase(0, index);
-            // afterwards, it should simply be UTF8
-            index = locale.find('-');
-            if(index != std::string::npos)
-                locale.erase(index, 1);
-            // anything but zero indicates failure
-            not_utf8 = locale.compare("UTF8") != 0;
-        }
-    }
-    if (not_utf8 == true) {
-        const char *unicode_error_msg =
-            _("You don't seem to have a valid Unicode locale. You may see some weird "
+    // Check whether LC_CTYPE supports the UTF-8 encoding
+    // and show a warning if it doesn't
+    if (strcmp(nl_langinfo(CODESET), "UTF-8") != 0) {
+        const char *unicode_error_msg = 
+            _("You don't seem to have a valid Unicode locale. You may see some weird " 
               "characters (e.g. empty boxes or question marks). You have been warned.");
         fold_and_print(tmp, 0, 0, maxx, c_white, unicode_error_msg, minWidth, minHeight, maxx, maxy);
         wrefresh(tmp);

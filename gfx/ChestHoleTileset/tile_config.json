@@ -10529,7 +10529,7 @@
           "bg": 632,
           "rotates": false
         },
-	{
+        {
           "id": "grapnel",
           "fg": 2772,
           "bg": 632,
@@ -15577,7 +15577,7 @@
         },
         {
           "id": "mon_spider_jumping",
-          "fg": 2813,
+          "fg": 2814,
           "bg": 642,
           "rotates": false
         },

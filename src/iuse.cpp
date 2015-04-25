@@ -1054,7 +1054,6 @@ int iuse::fungicide(player *p, item *it, bool, point)
         p->remove_effect("spores");
         int spore_count = rng(1, 6);
         if (spore_count > 0) {
-            monster spore(GetMType("mon_spore"));
             for (int i = p->posx() - 1; i <= p->posx() + 1; i++) {
                 for (int j = p->posy() - 1; j <= p->posy() + 1; j++) {
                     if (spore_count == 0) {
@@ -1076,8 +1075,7 @@ int iuse::fungicide(player *p, item *it, bool, point)
                                 critter.die( p ); // counts as kill by player
                             }
                         } else {
-                            spore.spawn(i, j);
-                            g->add_zombie(spore);
+                            g->summon_mon("mon_spore", tripoint(i, j, p->posz()));
                         }
                         spore_count--;
                     }
@@ -1979,8 +1977,6 @@ int iuse::marloss(player *p, item *it, bool t, point pos)
         p->add_addiction(ADD_MARLOSS_B, 50);
         p->add_addiction(ADD_MARLOSS_Y, 50);
         p->hunger = -100;
-        monster spore(GetMType("mon_spore"));
-        spore.friendly = -1;
         int spore_spawned = 0;
         for (int x = p->posx() - 4; x <= p->posx() + 4; x++) {
             for (int y = p->posy() - 4; y <= p->posy() + 4; y++) {
@@ -1994,9 +1990,11 @@ int iuse::marloss(player *p, item *it, bool t, point pos)
                 if (moveOK && monOK && posOK &&
                     one_in(10 + 5 * trig_dist(x, y, p->posx(), p->posy())) &&
                     (spore_spawned == 0 || one_in(spore_spawned * 2))) {
-                    spore.spawn(x, y);
-                    g->add_zombie(spore);
-                    spore_spawned++;
+                    if (g->summon_mon("mon_spore", tripoint(x, y, p->posz()))) {
+                        monster *spore = g->monster_at(tripoint(x, y, p->posz()));
+                        spore->friendly = -1;
+                        spore_spawned++;
+                    }
                 }
             }
         }
@@ -2104,8 +2102,6 @@ int iuse::marloss_seed(player *p, item *it, bool t, point pos)
         p->add_addiction(ADD_MARLOSS_R, 50);
         p->add_addiction(ADD_MARLOSS_Y, 50);
         p->hunger = -100;
-        monster spore(GetMType("mon_spore"));
-        spore.friendly = -1;
         int spore_spawned = 0;
         for (int x = p->posx() - 4; x <= p->posx() + 4; x++) {
             for (int y = p->posy() - 4; y <= p->posy() + 4; y++) {
@@ -2119,9 +2115,11 @@ int iuse::marloss_seed(player *p, item *it, bool t, point pos)
                 if (moveOK && monOK && posOK &&
                     one_in(10 + 5 * trig_dist(x, y, p->posx(), p->posy())) &&
                     (spore_spawned == 0 || one_in(spore_spawned * 2))) {
-                    spore.spawn(x, y);
-                    g->add_zombie(spore);
-                    spore_spawned++;
+                    if (g->summon_mon("mon_spore", tripoint(x, y, p->posz()))) {
+                        monster *spore = g->monster_at(tripoint(x, y, p->posz()));
+                        spore->friendly = -1;
+                        spore_spawned++;
+                    }
                 }
             }
         }
@@ -2225,8 +2223,6 @@ int iuse::marloss_gel(player *p, item *it, bool t, point pos)
         p->add_addiction(ADD_MARLOSS_R, 50);
         p->add_addiction(ADD_MARLOSS_B, 50);
         p->hunger = -100;
-        monster spore(GetMType("mon_spore"));
-        spore.friendly = -1;
         int spore_spawned = 0;
         for (int x = p->posx() - 4; x <= p->posx() + 4; x++) {
             for (int y = p->posy() - 4; y <= p->posy() + 4; y++) {
@@ -2240,9 +2236,11 @@ int iuse::marloss_gel(player *p, item *it, bool t, point pos)
                 if (moveOK && monOK && posOK &&
                     one_in(10 + 5 * trig_dist(x, y, p->posx(), p->posy())) &&
                     (spore_spawned == 0 || one_in(spore_spawned * 2))) {
-                    spore.spawn(x, y);
-                    g->add_zombie(spore);
-                    spore_spawned++;
+                    if (g->summon_mon("mon_spore", tripoint(x, y, p->posz()))) {
+                        monster *spore = g->monster_at(tripoint(x, y, p->posz()));
+                        spore->friendly = -1;
+                        spore_spawned++;
+                    }
                 }
             }
         }
@@ -4990,10 +4988,10 @@ int iuse::can_goo(player *p, item *it, bool, point)
         if (g->u.sees(goox, gooy)) {
             add_msg(_("Living black goo emerges from the canister!"));
         }
-        monster goo(GetMType("mon_blob"));
-        goo.friendly = -1;
-        goo.spawn(goox, gooy);
-        g->add_zombie(goo);
+        if (g->summon_mon("mon_blob", tripoint(goox, gooy, p->posz()))) {
+            monster *goo = g->monster_at(tripoint(goox, gooy, p->posz()));
+            goo->friendly = -1;
+        }
     }
     tries = 0;
     while (!one_in(4) && tries < 10) {
@@ -5248,7 +5246,7 @@ int iuse::grenade_inc_act(player *p, item *it, bool t, point pos)
         return 0;
     } else {  // blow up
         int num_flames= rng(3,5);
-        for (int current_flame = 0; current_flame < num_flames; current_flame++){
+        for (int current_flame = 0; current_flame < num_flames; current_flame++) {
             std::vector<point> flames = line_to(pos.x, pos.y, pos.x + rng(-5,5), pos.y + rng(-5,5), 0);
             for( auto &flame : flames ) {
                 g->m.add_field( flame.x, flame.y, fd_fire, rng( 0, 2 ) );
@@ -6729,11 +6727,11 @@ int iuse::artifact(player *p, item *it, bool, point)
                 int roll = rng(1, 10);
                 std::string bug = "mon_null";
                 int num = 0;
-                std::vector<point> empty;
+                std::vector<tripoint> empty;
                 for (int x = p->posx() - 1; x <= p->posx() + 1; x++) {
                     for (int y = p->posy() - 1; y <= p->posy() + 1; y++) {
                         if (g->is_empty(x, y)) {
-                            empty.push_back(point(x, y));
+                            empty.push_back(tripoint(x, y, p->posz()));
                         }
                     }
                 }
@@ -6753,14 +6751,14 @@ int iuse::artifact(player *p, item *it, bool, point)
                     num = rng(1, 2);
                 }
                 if (bug != "mon_null") {
-                    monster spawned(GetMType(bug));
-                    spawned.friendly = -1;
                     for (int j = 0; j < num && !empty.empty(); j++) {
                         int index_inner = rng(0, empty.size() - 1);
-                        point spawnp = empty[index_inner];
+                        tripoint spawnp = empty[index_inner];
                         empty.erase(empty.begin() + index_inner);
-                        spawned.spawn(spawnp.x, spawnp.y);
-                        g->add_zombie(spawned);
+                        if (g->summon_mon(bug, spawnp)) {
+                            monster *b = g->monster_at(spawnp);
+                            b->friendly = -1;
+                        }
                     }
                 }
             }
@@ -6864,7 +6862,6 @@ int iuse::artifact(player *p, item *it, bool, point)
 
             case AEA_SHADOWS: {
                 int num_shadows = rng(4, 8);
-                monster spawned(GetMType("mon_shadow"));
                 int num_spawned = 0;
                 for (int j = 0; j < num_shadows; j++) {
                     int tries = 0, monx, mony, junk;
@@ -6879,10 +6876,11 @@ int iuse::artifact(player *p, item *it, bool, point)
                     } while (tries < 5 && !g->is_empty(monx, mony) &&
                              !g->m.sees(monx, mony, p->posx(), p->posy(), 10, junk));
                     if (tries < 5) {
-                        num_spawned++;
-                        spawned.reset_special_rng(0);
-                        spawned.spawn(monx, mony);
-                        g->add_zombie(spawned);
+                        if (g->summon_mon("mon_shadow", tripoint(monx, mony, p->posz()))) {
+                            num_spawned++;
+                            monster *spawned = g->monster_at(tripoint(monx, mony, p->posz()));
+                            spawned->reset_special_rng(0);
+                        }
                     }
                 }
                 if (num_spawned > 1) {
@@ -9263,7 +9261,7 @@ bool multicooker_hallu(player *p)
 {
     p->moves -= 200;
     const int random_hallu = rng(1, 7);
-    std::vector<point> points;
+    std::vector<tripoint> points;
     switch (random_hallu) {
 
         case 1:
@@ -9293,27 +9291,26 @@ bool multicooker_hallu(player *p)
             for (int x = p->posx() - 1; x <= p->posx() + 1; x++)
                 for (int y = p->posy() - 1; y <= p->posy() + 1; y++) {
                     if (g->is_empty(x, y)) {
-                        points.push_back(point(x, y));
+                        points.push_back(tripoint(x, y, p->posz()));
                     }
                 }
 
             if (!one_in(5)) {
                 add_msg(m_warning, _("The multi-cooker runs away!"));
-                const point random_point = points[rng(0, points.size() - 1)];
-
-                monster m(GetMType("mon_hallu_multicooker"));
-                m.hallucination = true;
-                m.add_effect("run", 1, num_bp, true);
-                m.spawn(random_point.x, random_point.y);
-                g->add_zombie(m);
+                const tripoint random_point = points[rng(0, points.size() - 1)];
+                if (g->summon_mon("mon_hallu_multicooker", random_point)) {
+                    monster *m = g->monster_at(random_point);
+                    m->hallucination = true;
+                    m->add_effect("run", 1, num_bp, true);
+                }
             } else {
                 add_msg(m_bad, _("You're surrounded by aggressive multi-cookers!"));
 
                 for( auto &point : points ) {
-                    monster m(GetMType("mon_hallu_multicooker"));
-                    m.hallucination = true;
-                    m.spawn( point.x, point.y );
-                    g->add_zombie(m);
+                    if (g->summon_mon("mon_hallu_multicooker", point)) {
+                        monster *m = g->monster_at(point);
+                        m->hallucination = true;
+                    }
                 }
             }
             return true;

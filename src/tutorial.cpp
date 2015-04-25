@@ -143,17 +143,14 @@ void tutorial_game::pre_action( action_id &act )
 void tutorial_game::post_action(action_id act)
 {
  switch (act) {
- case ACTION_RELOAD:
-  if (g->u.weapon.is_gun() && !tutorials_seen[LESSON_GUN_FIRE]) {
-   monster tmp(GetMType("mon_zombie"), tripoint( g->u.posx(), g->u.posy() - 6, g->u.posz() ) );
-   g->add_zombie(tmp);
-   tmp.spawn(g->u.posx() + 2, g->u.posy() - 5);
-   g->add_zombie(tmp);
-   tmp.spawn(g->u.posx() - 2, g->u.posy() - 5);
-   g->add_zombie(tmp);
-   add_message(LESSON_GUN_FIRE);
-  }
-  break;
+    case ACTION_RELOAD:
+    if (g->u.weapon.is_gun() && !tutorials_seen[LESSON_GUN_FIRE]) {
+        g->summon_mon("mon_zombie", tripoint(g->u.posx(), g->u.posy() - 6, g->u.posz()));
+        g->summon_mon("mon_zombie", tripoint(g->u.posx() + 2, g->u.posy() - 5, g->u.posz()));
+        g->summon_mon("mon_zombie", tripoint(g->u.posx() - 2, g->u.posy() - 5, g->u.posz()));
+        add_message(LESSON_GUN_FIRE);
+    }
+    break;
 
  case ACTION_OPEN:
   add_message(LESSON_CLOSE);

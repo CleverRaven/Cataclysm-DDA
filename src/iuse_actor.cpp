@@ -190,7 +190,7 @@ long explosion_iuse::use(player *p, item *it, bool t, point pos) const
         return 0;
     }
     if (explosion_power >= 0) {
-        g->explosion( tripoint( pos.x, pos.y, g->get_levz() ), 
+        g->explosion( tripoint( pos.x, pos.y, g->get_levz() ),
                       explosion_power, explosion_shrapnel, explosion_fire, explosion_blast);
     }
     if (draw_explosion_radius >= 0) {
@@ -473,26 +473,29 @@ long place_monster_iuse::use( player *p, item *it, bool, point ) const
         }
     }
     p->moves -= moves;
+    newmon.reset_last_load();
     newmon.spawn( target.x, target.y );
-    for( auto & amdef : newmon.ammo ) {
-        item ammo_item( amdef.first, 0 );
-        const int available = p->charges_of( amdef.first );
-        if( available == 0 ) {
-            amdef.second = 0;
-            p->add_msg_if_player( m_info,
-                                  _( "If you had standard factory-built %s bullets, you could load the %s." ),
-                                  ammo_item.type_name( 2 ).c_str(), newmon.name().c_str() );
-            continue;
+    if (!newmon.has_flag(MF_INTERIOR_AMMO)) {
+        for( auto & amdef : newmon.ammo ) {
+            item ammo_item( amdef.first, 0 );
+            const int available = p->charges_of( amdef.first );
+            if( available == 0 ) {
+                amdef.second = 0;
+                p->add_msg_if_player( m_info,
+                                      _( "If you had standard factory-built %s bullets, you could load the %s." ),
+                                      ammo_item.type_name( 2 ).c_str(), newmon.name().c_str() );
+                continue;
+            }
+            // Don't load more than the default from the monster definition.
+            ammo_item.charges = std::min( available, amdef.second );
+            p->use_charges( amdef.first, ammo_item.charges );
+            //~ First %s is the ammo item (with plural form and count included), second is the monster name
+            p->add_msg_if_player( ngettext( "You load %d x %s round into the %s.",
+                                            "You load %d x %s rounds into the %s.", ammo_item.charges ),
+                                  ammo_item.charges, ammo_item.type_name( ammo_item.charges ).c_str(),
+                                  newmon.name().c_str() );
+            amdef.second = ammo_item.charges;
         }
-        // Don't load more than the default from the monster definition.
-        ammo_item.charges = std::min( available, amdef.second );
-        p->use_charges( amdef.first, ammo_item.charges );
-        //~ First %s is the ammo item (with plural form and count included), second is the monster name
-        p->add_msg_if_player( ngettext( "You load %d x %s round into the %s.",
-                                        "You load %d x %s rounds into the %s.", ammo_item.charges ),
-                              ammo_item.charges, ammo_item.type_name( ammo_item.charges ).c_str(),
-                              newmon.name().c_str() );
-        amdef.second = ammo_item.charges;
     }
     newmon.init_from_item( *it );
     if( rng( 0, p->int_cur / 2 ) + p->skillLevel( skill1 ) / 2 + p->skillLevel( skill2 ) <
@@ -1203,7 +1206,7 @@ long inscribe_actor::use( player *p, item *it, bool t, point ) const
             add_msg( _("You write a message on the ground.") );
             p->moves -= 2 * message.length();
         }
-        
+
         return it->type->charges_to_use();
     }
 
@@ -1227,7 +1230,7 @@ iuse_actor *cauterize_actor::clone() const
     return new cauterize_actor( *this );
 }
 
-extern hp_part use_healing_item(player *p, item *it, int normal_power, 
+extern hp_part use_healing_item(player *p, item *it, int normal_power,
                                        int head_power, int torso_power, int bleed,
                                        int bite, int infect, bool force);
 
@@ -1283,7 +1286,7 @@ long cauterize_actor::use( player *p, item *it, bool t, point ) const
     if( !did_cauterize ) {
         return 0;
     }
-    
+
     if( flame ) {
         p->use_charges("fire", 4);
         return 0;
@@ -1433,7 +1436,7 @@ long fireweapon_off_actor::use( player *p, item *it, bool t, point ) const
     }
 
     p->moves -= moves;
-    if( rng( 0, 10 ) - it->damage > success_chance && 
+    if( rng( 0, 10 ) - it->damage > success_chance &&
           it->charges > 0 && !p->is_underwater() ) {
         if( noise > 0 ) {
             sounds::sound( p->posx(), p->posy(), noise, _(success_message.c_str()) );
@@ -1462,7 +1465,7 @@ void fireweapon_on_actor::load( JsonObject &obj )
     voluntary_extinguish_message    = obj.get_string( "voluntary_extinguish_message", bugmsg );
     charges_extinguish_message      = obj.get_string( "charges_extinguish_message", bugmsg );
     water_extinguish_message        = obj.get_string( "water_extinguish_message", bugmsg );
-    auto_extinguish_message         = obj.get_string( "auto_extinguish_message", bugmsg );    
+    auto_extinguish_message         = obj.get_string( "auto_extinguish_message", bugmsg );
     noise                           = obj.get_int( "noise", 0 );
     noise_chance                    = obj.get_int( "noise_chance", 1 );
     auto_extinguish_chance          = obj.get_int( "auto_extinguish_chance", 0 );
@@ -1487,7 +1490,7 @@ long fireweapon_on_actor::use( player *p, item *it, bool t, point ) const
     } else {
         extinguish = false;
     }
-    
+
     if( extinguish ) {
         it->active = false;
         it_tool *tool = dynamic_cast<it_tool *>( it->type );
