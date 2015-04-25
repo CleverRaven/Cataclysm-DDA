@@ -6877,6 +6877,11 @@ int game::mon_at( const tripoint &p ) const
     return critter_tracker.mon_at( p );
 }
 
+monster *game::monster_at(const tripoint &p)
+{
+    return &zombie(critter_tracker.mon_at(p));
+}
+
 void game::rebuild_mon_at_cache()
 {
     critter_tracker.rebuild_cache();

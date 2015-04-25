@@ -1132,7 +1132,7 @@ void trapfunc::shadow(Creature *c, int x, int y)
     if (tries < 5) {
         if (g->summon_mon("mon_shadow", tripoint(x, y, c->posz()))) {
             add_msg(m_warning, _("A shadow forms nearby."));
-            monster* spawned = g->mon_at(tripoint(x, y, c->posz()));
+            monster* spawned = g->monster_at(tripoint(x, y, c->posz()));
             spawned->reset_special_rng(0);
         }
         g->m.remove_trap(x, y);

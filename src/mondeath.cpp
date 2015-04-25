@@ -230,7 +230,7 @@ void mdeath::fungus(monster *z)
                 } else if (one_in(2) && g->num_zombies() <= 1000) {
                     // Spawn a spore
                     if (g->summon_mon("mon_spore", tripoint(sporex, sporey, z->posz()))) {
-                        monster *spore = g->mon_at(tripoint(sporex, sporey, z->posz()));
+                        monster *spore = g->monster_at(tripoint(sporex, sporey, z->posz()));
                         spore->make_ally(z);
                     }
                 }
@@ -387,7 +387,7 @@ void mdeath::blobsplit(monster *z)
     for (int s = 0; s < 2 && !valid.empty(); s++) {
         rn = rng(0, valid.size() - 1);
         if (g->summon_mon(speed < 50 ? "mon_blob_small" : "mon_blob", valid[rn])) {
-            monster *blob = g->mon_at(valid[rn]);
+            monster *blob = g->monster_at(valid[rn]);
             blob->make_ally(z);
             blob->set_speed_base(speed);
             blob->set_hp(speed);

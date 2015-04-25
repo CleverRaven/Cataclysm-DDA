@@ -1991,7 +1991,7 @@ int iuse::marloss(player *p, item *it, bool t, point pos)
                     one_in(10 + 5 * trig_dist(x, y, p->posx(), p->posy())) &&
                     (spore_spawned == 0 || one_in(spore_spawned * 2))) {
                     if (g->summon_mon("mon_spore", tripoint(x, y, p->posz()))) {
-                        monster *spore = g->mon_at(tripoint(x, y, p->posz()));
+                        monster *spore = g->monster_at(tripoint(x, y, p->posz()));
                         spore->friendly = -1;
                         spore_spawned++;
                     }
@@ -2116,7 +2116,7 @@ int iuse::marloss_seed(player *p, item *it, bool t, point pos)
                     one_in(10 + 5 * trig_dist(x, y, p->posx(), p->posy())) &&
                     (spore_spawned == 0 || one_in(spore_spawned * 2))) {
                     if (g->summon_mon("mon_spore", tripoint(x, y, p->posz()))) {
-                        monster *spore = g->mon_at(tripoint(x, y, p->posz()));
+                        monster *spore = g->monster_at(tripoint(x, y, p->posz()));
                         spore->friendly = -1;
                         spore_spawned++;
                     }
@@ -2237,7 +2237,7 @@ int iuse::marloss_gel(player *p, item *it, bool t, point pos)
                     one_in(10 + 5 * trig_dist(x, y, p->posx(), p->posy())) &&
                     (spore_spawned == 0 || one_in(spore_spawned * 2))) {
                     if (g->summon_mon("mon_spore", tripoint(x, y, p->posz()))) {
-                        monster *spore = g->mon_at(tripoint(x, y, p->posz()));
+                        monster *spore = g->monster_at(tripoint(x, y, p->posz()));
                         spore->friendly = -1;
                         spore_spawned++;
                     }
@@ -4989,7 +4989,7 @@ int iuse::can_goo(player *p, item *it, bool, point)
             add_msg(_("Living black goo emerges from the canister!"));
         }
         if (g->summon_mon("mon_blob", tripoint(goox, gooy, p->posz()))) {
-            monster *goo = g->mon_at(tripoint(goox, gooy, p->posz()));
+            monster *goo = g->monster_at(tripoint(goox, gooy, p->posz()));
             goo->friendly = -1;
         }
     }
@@ -6756,7 +6756,7 @@ int iuse::artifact(player *p, item *it, bool, point)
                         tripoint spawnp = empty[index_inner];
                         empty.erase(empty.begin() + index_inner);
                         if (g->summon_mon(bug, spawnp)) {
-                            monster *b = g->mon_at(spawnp);
+                            monster *b = g->monster_at(spawnp);
                             b->friendly = -1;
                         }
                     }
@@ -6878,7 +6878,7 @@ int iuse::artifact(player *p, item *it, bool, point)
                     if (tries < 5) {
                         if (g->summon_mon("mon_shadow", tripoint(monx, mony, p->posz()))) {
                             num_spawned++;
-                            monster *spawned = g->mon_at(tripoint(monx, mony, p->posz()));
+                            monster *spawned = g->monster_at(tripoint(monx, mony, p->posz()));
                             spawned->reset_special_rng(0);
                         }
                     }
@@ -9299,7 +9299,7 @@ bool multicooker_hallu(player *p)
                 add_msg(m_warning, _("The multi-cooker runs away!"));
                 const tripoint random_point = points[rng(0, points.size() - 1)];
                 if (g->summon_mon("mon_hallu_multicooker", random_point)) {
-                    monster *m = g->mon_at(random_point);
+                    monster *m = g->monster_at(random_point);
                     m->hallucination = true;
                     m->add_effect("run", 1, num_bp, true);
                 }
@@ -9308,7 +9308,7 @@ bool multicooker_hallu(player *p)
 
                 for( auto &point : points ) {
                     if (g->summon_mon("mon_hallu_multicooker", point)) {
-                        monster *m = g->mon_at(random_point);
+                        monster *m = g->monster_at(point);
                         m->hallucination = true;
                     }
                 }
