@@ -158,7 +158,6 @@ public:
     int large_tent          (player *, item *, bool, point);
     int shelter             (player *, item *, bool, point);
     int torch_lit           (player *, item *, bool, point);
-    int tinderbox_lit       (player *, item *, bool, point);
     int battletorch_lit     (player *, item *, bool, point);
     int bullet_puller       (player *, item *, bool, point);
     int boltcutters         (player *, item *, bool, point);
