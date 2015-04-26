@@ -255,7 +255,7 @@
     {
         "type":"GENERIC",
         "id" : "motor_enhanced",
-        "name" : "Enhanced electric motor",
+        "name" : "enhanced electric motor",
         "description" : "A very powerful and yet lightweight electric motor.  Useful for crafting.",
         "weight" : 18427,
         "to_hit" : 0,
