@@ -104,7 +104,7 @@ set(SRCS
 	item_group.h
 	item.h
 	item_stack.h
-	itypedef.cpp
+	itype.cpp
 	itype.h
 	iuse_actor.cpp
 	iuse_actor.h
