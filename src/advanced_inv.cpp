@@ -938,7 +938,7 @@ void advanced_inventory::recalc_pane( side p )
             }
 
             // Add map items
-            if( !same || there_veh ) {
+            if( !same ) {
                 pane.add_items_from_area( s );
                 alls.volume += s.volume;
                 alls.weight += s.weight;
@@ -1901,12 +1901,12 @@ bool advanced_inv_area::is_same( const advanced_inv_area &other ) const
         id != AIM_WORN      && other.id != AIM_WORN      &&
         id != AIM_CONTAINER && other.id != AIM_CONTAINER ) {
 
-        if( veh == other.veh ) {
-            return vstor == other.vstor;
-        }
-
         if( pos == other.pos ) {
             return true;
+        }
+
+        if( veh != nullptr && veh == other.veh ) {
+            return vstor == other.vstor;
         }
     }
     return id == other.id;
