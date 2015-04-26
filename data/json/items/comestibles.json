@@ -19529,7 +19529,7 @@
         "id" : "seed_mushroom_morel",
         "category": "other",
         "price" : 120,
-        "name" : " morel mushroom spores",
+        "name" : "morel mushroom spores",
         "name_plural" : " morel mushroom spores",
         "comestible_type" : "FOOD",
         "tool" : "null",

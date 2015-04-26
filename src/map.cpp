@@ -7062,7 +7062,7 @@ void map::add_road_vehicles(bool city, int facing)
         if (one_in(40)) {
             int vx = rng(8, 16);
             int vy = rng(8, 16);
-            int car_type = rng(1, 27);
+            int car_type = rng(1, 30);
             if (car_type <= 10) {
                 add_vehicle("car", vx, vy, facing, 0, -1);
             } else if (car_type <= 14) {
@@ -7077,6 +7077,8 @@ void map::add_road_vehicles(bool city, int facing)
                 add_vehicle("rara_x", vx, vy, facing, 0, -1);
             } else if (car_type <= 25) {
                 add_vehicle("apc", vx, vy, facing, 0, -1);
+            } else if (car_type <= 28) {
+                add_vehicle("car_sports_electric", vx, vy, facing, 0, -1);
             } else {
                 add_vehicle("armored_car", vx, vy, facing, 0, -1);
             }

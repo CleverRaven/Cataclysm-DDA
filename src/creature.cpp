@@ -173,11 +173,11 @@ bool Creature::digging() const
 
 bool Creature::sees( const Creature &critter ) const
 {
-    int bresenham_slope;
-    return sees( critter, bresenham_slope );
+    int junk1, junk2;
+    return sees( critter, junk1, junk2 );
 }
 
-bool Creature::sees( const Creature &critter, int &bresenham_slope ) const
+bool Creature::sees( const Creature &critter, int &bresen1, int &bresen2 ) const
 {
     if( critter.is_hallucination() ) {
         // hallucinations are imaginations of the player character, npcs or monsters don't hallucinate.
@@ -192,68 +192,70 @@ bool Creature::sees( const Creature &critter, int &bresenham_slope ) const
         return p == this;
     }
 
-    int cx = critter.posx();
-    int cy = critter.posy();
-    const int wanted_range = rl_dist( pos(), critter.pos() );
+    const int wanted_range = rl_dist( pos3(), critter.pos3() );
     if( wanted_range <= 1 ) {
         return true;
     } else if( ( wanted_range > 1 && critter.digging() ) ||
-        ( g->m.is_divable( cx, cy ) && critter.is_underwater() && !is_underwater() ) ) {
+        ( g->m.is_divable( critter.pos3() ) && critter.is_underwater() && !is_underwater() ) ) {
         return false;
     }
 
-    return sees( critter.pos(), bresenham_slope );
+    return sees( critter.pos3(), bresen1, bresen2 );
+}
+
+bool Creature::sees( const Creature &critter, int &bresenham_slope ) const
+{
+    int bresen2;
+    return sees( critter, bresenham_slope, bresen2 );
 }
 
 bool Creature::sees( const int tx, const int ty ) const
 {
-    int bresenham_slope;
-    return sees( point( tx, ty ), bresenham_slope );
+    int bresen1, bresen2;
+    return sees( tripoint( tx, ty, posz() ), bresen1, bresen2 );
 }
 
 bool Creature::sees( const point t ) const
 {
-    int bresenham_slope;
-    return sees( t, bresenham_slope );
+    int bresen1, bresen2;
+    return sees( tripoint( t, posz() ), bresen1, bresen2 );
 }
 
 bool Creature::sees( const int tx, const int ty, int &bresenham_slope ) const
 {
-    return sees( point( tx, ty ), bresenham_slope );
+    int junk;
+    return sees( tripoint( tx, ty, posz() ), bresenham_slope, junk );
 }
 
-bool Creature::sees( const point t, int &bresenham_slope ) const
+bool Creature::sees( const tripoint &t, int &bresen1, int &bresen2 ) const
 {
+    // TODO: FoV update
+    bresen2 = 0;
+
     const int range_cur = sight_range( g->light_level() );
     const int range_day = sight_range( DAYLIGHT_LEVEL );
     const int range_min = std::min( range_cur, range_day );
-    const int wanted_range = rl_dist( pos(), t );
+    const int wanted_range = rl_dist( pos3(), t );
     if( wanted_range <= range_min ||
         ( wanted_range <= range_day &&
-          g->m.ambient_light_at( t.x, t.y ) > g->natural_light_level() ) ) {
+          g->m.ambient_light_at( t ) > g->natural_light_level() ) ) {
         if( is_player() ) {
-            return g->m.pl_sees( t.x, t.y, wanted_range );
-        } else if( g->m.ambient_light_at( t.x, t.y ) > g->natural_light_level() ) {
-            return g->m.sees( pos(), t, wanted_range, bresenham_slope );
+            return g->m.pl_sees( t, wanted_range );
+        } else if( g->m.ambient_light_at( t ) > g->natural_light_level() ) {
+            return g->m.sees( pos3(), t, wanted_range, bresen1, bresen2 );
         } else {
-            return g->m.sees( pos(), t, range_min, bresenham_slope );
+            return g->m.sees( pos3(), t, range_min, bresen1, bresen2 );
         }
     } else {
         return false;
     }
 }
 
-bool Creature::sees( const tripoint &t, int &bresen1, int &bresen2 ) const
-{
-    // TODO: FoV update
-    (void)bresen2;
-    return sees( point( t.x, t.y ), bresen1 );
-}
-
 bool Creature::sees( const tripoint &t ) const
 {
     // TODO: FoV update
-    return sees( t.x, t.y );
+    int junk1, junk2;
+    return sees( t, junk1, junk2 );
 }
 
 Creature *Creature::auto_find_hostile_target( int range, int &boo_hoo, int area )
@@ -268,7 +270,7 @@ Creature *Creature::auto_find_hostile_target( int range, int &boo_hoo, int area 
     boo_hoo = 0;         // how many targets were passed due to IFF. Tragically.
     bool area_iff = false;   // Need to check distance from target to player
     bool angle_iff = true;   // Need to check if player is in a cone between us and target
-    int pldist = rl_dist( pos(), g->u.pos() );
+    int pldist = rl_dist( pos3(), g->u.pos3() );
     int part;
     vehicle *in_veh = is_fake() ? g->m.veh_at( posx(), posy(), part ) : nullptr;
     if( pldist < iff_dist && sees( g->u ) ) {
@@ -304,7 +306,7 @@ Creature *Creature::auto_find_hostile_target( int range, int &boo_hoo, int area 
             // can't see nor sense it
             continue;
         }
-        int dist = rl_dist( pos(), m->pos() ) + 1; // rl_dist can be 0
+        int dist = rl_dist( pos3(), m->pos3() ) + 1; // rl_dist can be 0
         if( dist > range || dist < area ) {
             // Too near or too far
             continue;
@@ -1550,7 +1552,7 @@ body_part Creature::select_body_part(Creature *source, int hit_roll)
 
 bool Creature::compare_by_dist_to_point::operator()( const Creature* const a, const Creature* const b ) const
 {
-    return rl_dist( a->pos(), center ) < rl_dist( b->pos(), center );
+    return rl_dist( a->pos3(), center ) < rl_dist( b->pos3(), center );
 }
 
 void Creature::check_dead_state() {

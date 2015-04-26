@@ -3391,19 +3391,19 @@ C..C..C...|hhh|#########\n\
                 for (int j = 0; j < SEEY * 2; j++) {
                     if (i <= 1 || i >= SEEX * 2 - 2 ||
                         (j > 1 && j < SEEY * 2 - 2 && (i == SEEX - 2 || i == SEEX + 1))) {
-                        ter_set(i, j, t_wall);
+                        ter_set(i, j, t_concrete_wall);
                     } else if (j <= 1 || j >= SEEY * 2 - 2) {
-                        ter_set(i, j, t_wall);
+                        ter_set(i, j, t_concrete_wall);
                     } else {
                         ter_set(i, j, t_floor);
                     }
                 }
             }
-            ter_set(SEEX - 1, 0, t_dirt);
-            ter_set(SEEX - 1, 1, t_door_metal_locked);
-            ter_set(SEEX    , 0, t_dirt);
-            ter_set(SEEX    , 1, t_door_metal_locked);
-            ter_set(SEEX - 2 + rng(0, 1) * 4, 0, t_card_science);
+            ter_set(SEEX - 1, 0, t_door_metal_locked);
+            ter_set(SEEX - 1, 1, t_floor);
+            ter_set(SEEX    , 0, t_door_metal_locked);
+            ter_set(SEEX    , 1, t_floor);
+            ter_set(SEEX - 2 + rng(0, 1) * 3, 0, t_card_science);
             ter_set(SEEX - 2, SEEY    , t_door_metal_c);
             ter_set(SEEX + 1, SEEY    , t_door_metal_c);
             ter_set(SEEX - 2, SEEY - 1, t_door_metal_c);
@@ -12181,7 +12181,7 @@ void science_room(map *m, int x1, int y1, int x2, int y2, int z, int rotate)
 ---\n\
 |c=\n\
 ---\n",
-                                       mapf::basic_bind("- | =", t_wall, t_wall, t_reinforced_glass),
+                                       mapf::basic_bind("- | =", t_concrete_wall, t_concrete_wall, t_reinforced_glass),
                                        mapf::basic_bind("c", f_counter));
             m->place_items("bionics_common", 70, biox, bioy, biox, bioy, false, 0);
 
@@ -12198,7 +12198,7 @@ void science_room(map *m, int x1, int y1, int x2, int y2, int z, int rotate)
 ---\n\
 =c|\n\
 ---\n",
-                                       mapf::basic_bind("- | =", t_wall, t_wall, t_reinforced_glass),
+                                       mapf::basic_bind("- | =", t_concrete_wall, t_concrete_wall, t_reinforced_glass),
                                        mapf::basic_bind("c", f_counter));
             m->place_items("bionics_common", 70, biox, bioy, biox, bioy, false, 0);
 
@@ -12215,7 +12215,7 @@ void science_room(map *m, int x1, int y1, int x2, int y2, int z, int rotate)
 |-|\n\
 |c|\n\
 |=|\n",
-                                       mapf::basic_bind("- | =", t_wall, t_wall, t_reinforced_glass),
+                                       mapf::basic_bind("- | =", t_concrete_wall, t_concrete_wall, t_reinforced_glass),
                                        mapf::basic_bind("c", f_counter));
             m->place_items("bionics_common", 70, biox, bioy, biox, bioy, false, 0);
 
@@ -12232,7 +12232,7 @@ void science_room(map *m, int x1, int y1, int x2, int y2, int z, int rotate)
 |=|\n\
 |c|\n\
 |-|\n",
-                                       mapf::basic_bind("- | =", t_wall, t_wall, t_reinforced_glass),
+                                       mapf::basic_bind("- | =", t_concrete_wall, t_concrete_wall, t_reinforced_glass),
                                        mapf::basic_bind("c", f_counter));
             m->place_items("bionics_common", 70, biox, bioy, biox, bioy, false, 0);
 
@@ -12282,8 +12282,8 @@ void science_room(map *m, int x1, int y1, int x2, int y2, int z, int rotate)
         if (rotate % 2 == 0) {
             int w1 = int((x1 + x2) / 2) - 2, w2 = int((x1 + x2) / 2) + 2;
             for (int y = y1; y <= y2; y++) {
-                m->ter_set(w1, y, t_wall);
-                m->ter_set(w2, y, t_wall);
+                m->ter_set(w1, y, t_concrete_wall);
+                m->ter_set(w2, y, t_concrete_wall);
             }
             m->ter_set(w1, int((y1 + y2) / 2), t_door_metal_c);
             m->ter_set(w2, int((y1 + y2) / 2), t_door_metal_c);
@@ -12292,8 +12292,8 @@ void science_room(map *m, int x1, int y1, int x2, int y2, int z, int rotate)
         } else {
             int w1 = int((y1 + y2) / 2) - 2, w2 = int((y1 + y2) / 2) + 2;
             for (int x = x1; x <= x2; x++) {
-                m->ter_set(x, w1, t_wall);
-                m->ter_set(x, w2, t_wall);
+                m->ter_set(x, w1, t_concrete_wall);
+                m->ter_set(x, w2, t_concrete_wall);
             }
             m->ter_set(int((x1 + x2) / 2), w1, t_door_metal_c);
             m->ter_set(int((x1 + x2) / 2), w2, t_door_metal_c);

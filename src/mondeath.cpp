@@ -592,7 +592,7 @@ void mdeath::smokeburst(monster *z)
 void mdeath::jabberwock(monster *z)
 {
     player *ch = dynamic_cast<player*>( z->get_killer() );
-    if (ch->is_player() && rl_dist( z->pos(), g->u.pos() ) <= 1  &&
+    if( ch != nullptr && ch->is_player() && rl_dist( z->pos(), g->u.pos() ) <= 1  &&
          ch->weapon.has_flag("VORPAL")) {
         if (!ch->weapon.techniques.count("VORPAL")) {
             if (g->u.sees(*z)) {

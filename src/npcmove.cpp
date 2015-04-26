@@ -240,13 +240,40 @@ void npc::execute_action(npc_action action, int target)
     break;
 
     case npc_sleep:
-        /* TODO: Open a dialogue with the player, allowing us to ask if it's alright if
-         * we get some sleep, how long watch shifts should be, etc.
-         */
-        //add_effect("lying_down", 300);
-        if (is_friend() && g->u.sees( *this )) {
-            say(_("I'm going to sleep."));
+    {
+        // TODO: Allow stims when not too tired
+        // Find a nice spot to sleep
+        int best_sleepy = INT_MIN;
+        tripoint best_spot = pos3();
+        const auto points = closest_tripoints_first( 6, pos3() );
+        for( const tripoint &p : points )
+        {
+            if( !could_move_onto( p ) ) {
+                continue;
+            }
+
+            // TODO: Blankets when it's cold
+            const int sleepy = sleep_spot( p );
+            if( sleepy > best_sleepy ) {
+                best_sleepy = sleepy;
+                best_spot = p;
+            }
         }
+
+        update_path( best_spot );
+        // TODO: Handle empty path better
+        if( best_spot == pos3() || path.empty() ) {
+            move_pause();
+            if( !has_effect( "lying_down" ) ) {
+                add_effect( "lying_down", 300, num_bp, false, 1 );
+                if( g->u.sees( *this ) ) {
+                    add_msg( _("%s lies down to sleep."), name.c_str() );
+                }
+            }
+        } else {
+            move_to_next();
+        }
+    }
         break;
 
     case npc_pickup:
@@ -684,6 +711,22 @@ npc_action npc::address_needs(int danger)
     if ((danger <= NPC_DANGER_VERY_LOW && (hunger > 40 || thirst > 40)) ||
         thirst > 80 || hunger > 160) {
         return npc_eat;
+    }
+
+    // TODO: More risky attempts at sleep when exhausted
+    if( danger == 0 && fatigue > 191 ) {
+        if( !is_following() ) {
+            fatigue = 0; // TODO: Make tired NPCs handle sleep offscreen
+            return npc_undecided;
+        }
+
+        if( has_effect( "allow_sleep" ) || fatigue > 1000 ) {
+            return npc_sleep;
+        } else if( g->u.sees( *this ) && !has_effect( "npc_said" ) &&
+                   one_in( 10000 / ( fatigue + 1 ) ) ) {
+            say( "<yawn>" );
+            add_effect( "npc_said", 10 );
+        }
     }
 
     // TODO: Mutation & trait related needs

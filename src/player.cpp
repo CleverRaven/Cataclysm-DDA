@@ -150,12 +150,7 @@ std::string morale_point::name() const
 
 player::player() : Character()
 {
- position.x = 0;
- position.y = 0;
- zpos = 0;
  id = -1; // -1 is invalid
- view_offset.x = 0;
- view_offset.y = 0;
  str_cur = 8;
  str_max = 8;
  dex_cur = 8;
@@ -4067,8 +4062,7 @@ float player::active_light() const
 
 tripoint player::global_square_location() const
 {
-    const auto abs_pos = g->m.getabs( position.x, position.y );
-    return tripoint( abs_pos.x, abs_pos.y, g->get_levz() ); // player is always at levz
+    return g->m.getabs( position );
 }
 
 tripoint player::global_sm_location() const
@@ -4081,7 +4075,7 @@ tripoint player::global_omt_location() const
     return overmapbuffer::ms_to_omt_copy( global_square_location() );
 }
 
-const point &player::pos() const
+const tripoint &player::pos3() const
 {
     return position;
 }
@@ -6593,6 +6587,11 @@ void player::hardcoded_effects(effect &it)
         dodges_left = 0;
         // Set ourselves up for removal
         it.set_duration(0);
+    } else if (id == "impaled") {
+        blocks_left -= 2;
+        dodges_left = 0;
+        // Set ourselves up for removal
+        it.set_duration(0);
     } else if (id == "bite") {
         bool recovered = false;
         // Recovery chance
@@ -6682,13 +6681,12 @@ void player::hardcoded_effects(effect &it)
                                    pgettext("memorial_female", "Entered hibernation."));
                 // 10 days' worth of round-the-clock Snooze.  Cata seasons default to 14 days.
                 fall_asleep(144000);
+                // If you're not fatigued enough for 10 days, you won't sleep the whole thing.
+                // In practice, the fatigue from filling the tank from (no msg) to Time For Bed
+                // will last about 8 days.
             }
-            // If you're not fatigued enough for 10 days, you won't sleep the whole thing.
-            // In practice, the fatigue from filling the tank from (no msg) to Time For Bed
-            // will last about 8 days.
-            if (hunger >= -60) {
-                fall_asleep(6000); //10 hours, default max sleep time.
-            }
+
+            fall_asleep(6000); //10 hours, default max sleep time.
             // Set ourselves up for removal
             it.set_duration(0);
         }
@@ -11408,7 +11406,7 @@ void player::try_to_sleep()
     add_effect("lying_down", 300);
 }
 
-bool player::can_sleep()
+int player::sleep_spot( const tripoint &p ) const
 {
     int sleepy = 0;
     bool plantsleep = false;
@@ -11442,11 +11440,12 @@ bool player::can_sleep()
         in_shell = true;
     }
     int vpart = -1;
-    vehicle *veh = g->m.veh_at(posx(), posy(), vpart);
-    const trap &trap_at_pos = g->m.tr_at(posx(), posy());
-    const ter_id ter_at_pos = g->m.ter(posx(), posy());
-    const furn_id furn_at_pos = g->m.furn(posx(), posy());
-    int web = g->m.get_field_strength( pos(), fd_web );
+    vehicle *veh = g->m.veh_at(p, vpart);
+    const maptile tile = g->m.maptile_at( p );
+    const trap &trap_at_pos = tile.get_trap_t();
+    const ter_id ter_at_pos = tile.get_ter();
+    const furn_id furn_at_pos = tile.get_furn();
+    int web = g->m.get_field_strength( p, fd_web );
     // Plant sleepers use a different method to determine how comfortable something is
     // Web-spinning Arachnids do too
     if (!plantsleep && !webforce) {
@@ -11461,7 +11460,7 @@ bool player::can_sleep()
                 sleepy += 3;
             } else {
                 // Sleeping elsewhere is uncomfortable
-                sleepy -= g->m.move_cost(posx(), posy());
+                sleepy -= g->m.move_cost(p);
             }
         // Not in a vehicle, start checking furniture/terrain/traps at this point in decreasing order
         } else if (furn_at_pos == f_bed) {
@@ -11482,7 +11481,7 @@ bool player::can_sleep()
             sleepy += 1;
         } else {
             // Not a comfortable sleeping spot
-            sleepy -= g->m.move_cost(posx(), posy());
+            sleepy -= g->m.move_cost(p);
         }
     // Has plantsleep
     } else if (plantsleep) {
@@ -11517,13 +11516,21 @@ bool player::can_sleep()
     } else {
         sleepy += int((fatigue - 192) / 16);
     }
-    sleepy += rng(-8, 8);
-    if( !has_trait("INSOMNIA") ) {
+
+    if( stim > 0 || !has_trait("INSOMNIA") ) {
         sleepy -= 2 * stim;
     } else {
         // Make it harder for insomniac to get around the trait
         sleepy -= stim;
     }
+
+    return sleepy;
+}
+
+bool player::can_sleep()
+{
+    int sleepy = sleep_spot( pos3() );
+    sleepy += rng(-8, 8);
     if (sleepy > 0) {
         return true;
     }
@@ -13056,11 +13063,11 @@ Creature::Attitude player::attitude_to( const Creature &other ) const
     return A_NEUTRAL;
 }
 
-bool player::sees( const point t, int &bresenham_slope ) const
+bool player::sees( const tripoint &t, int &bresen1, int &bresen2 ) const
 {
     static const std::string str_bio_night("bio_night");
-    const int wanted_range = rl_dist( pos(), t );
-    bool can_see = Creature::sees( t, bresenham_slope );
+    const int wanted_range = rl_dist( pos3(), t );
+    bool can_see = Creature::sees( t, bresen1, bresen2 );
     // Only check if we need to override if we already came to the opposite conclusion.
     if( can_see && wanted_range < 15 && wanted_range > sight_range(1) &&
         has_active_bionic(str_bio_night) ) {
@@ -13074,10 +13081,10 @@ bool player::sees( const point t, int &bresenham_slope ) const
     return can_see;
 }
 
-bool player::sees( const Creature &critter, int &bresenham_slope ) const
+bool player::sees( const Creature &critter, int &bresen1, int &bresen2 ) const
 {
     // This handles only the player/npc specific stuff (monsters don't have traits or bionics).
-    const int dist = rl_dist( pos(), critter.pos() );
+    const int dist = rl_dist( pos3(), critter.pos3() );
     if (dist <= 3 && has_trait("ANTENNAE")) {
         return true;
     }
@@ -13088,7 +13095,7 @@ bool player::sees( const Creature &critter, int &bresenham_slope ) const
         // to the ground. It also might need a range check.
         return true;
     }
-    return Creature::sees( critter, bresenham_slope );
+    return Creature::sees( critter, bresen1, bresen2 );
 }
 
 bool player::can_pickup(bool print_msg) const

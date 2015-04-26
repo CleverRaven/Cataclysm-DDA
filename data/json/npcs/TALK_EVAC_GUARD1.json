@@ -44,14 +44,14 @@
     {
         "type": "talk_topic",
         "id": "TALK_EVAC_GUARD1_GOVERNMENT",
-        "dynamic_line": "Ha ha ha, no. Though there is Old Guard somewhere around here if you have any questions relating to what the government is up to.",
+        "dynamic_line": "Ha ha ha, no.  Though there is Old Guard somewhere around here if you have any questions relating to what the government is up to.",
         "responses": [
             {
                 "text": "Oh, okay.",
                 "topic": "TALK_EVAC_GUARD1"
             },
             {
-                "text": "Oh, okay. I'll go look for him",
+                "text": "Oh, okay.  I'll go look for him",
                 "topic": "TALK_DONE"
             }
         ]
@@ -59,7 +59,7 @@
     {
         "type": "talk_topic",
         "id": "TALK_EVAC_GUARD1_TRADE",
-        "dynamic_line": "Anything valuable really. If you really want to know, go ask one of the actual traders. I'm just protection.",
+        "dynamic_line": "Anything valuable really.  If you really want to know, go ask one of the actual traders.  I'm just protection.",
         "responses": [
             {
                 "text": "I'll go talk to them later.",
@@ -127,7 +127,7 @@
     {
         "type": "talk_topic",
         "id": "TALK_EVAC_GUARD1_JOB",
-        "dynamic_line": "Uh, not really. Go talk to a merchant if you have anything to sell. Otherwise the Old Guard liaison might have something, if you can find him.",
+        "dynamic_line": "Uh, not really.  Go talk to a merchant if you have anything to sell.  Otherwise the Old Guard liaison might have something, if you can find him.",
         "responses": [
             {
                 "text": "Alright then.",
@@ -146,7 +146,7 @@
     {
         "type": "talk_topic",
         "id": "TALK_EVAC_GUARD1_OLDGUARD",
-        "dynamic_line": "That's just our nickname for them. They're what's left of the federal government.  Don't know how legitimate they are but they are named after some military unit that once protected the president.  Their liaison is usually hanging around here somewhere.",
+        "dynamic_line": "That's just our nickname for them.  They're what's left of the federal government.  Don't know how legitimate they are but they are named after some military unit that once protected the president.  Their liaison is usually hanging around here somewhere.",
         "responses": [
             {
                 "text": "Whatever, I had another question.",
@@ -161,7 +161,7 @@
     {
         "type": "talk_topic",
         "id": "TALK_EVAC_GUARD1_BYE",
-        "dynamic_line": "Stay safe out there. Hate to have to kill you after you've already died.",
+        "dynamic_line": "Stay safe out there.  Hate to have to kill you after you've already died.",
         "responses": [
             {
                 "text": "...",

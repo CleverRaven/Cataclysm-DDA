@@ -1666,6 +1666,74 @@ void mattack::leap(monster *z, int index)
     }
 }
 
+void mattack::impale(monster *z, int index)
+{
+    if( !z->can_act() ) {
+        return;
+    }
+    Creature *target = z->attack_target();
+    if( target == nullptr || rl_dist( z->pos(), target->pos() ) > 1 ) {
+        return;
+    }
+
+    player *foe = dynamic_cast< player* >( target );
+    bool seen = g->u.sees( *z );
+
+    z->moves -= 80;
+    bool uncanny = foe != nullptr && foe->uncanny_dodge();
+    if( uncanny || dodge_check(z, target) ){
+    if( foe != nullptr ) {
+        if( seen ) {
+            auto msg_type = foe == &g->u ? m_warning : m_info;
+            foe->add_msg_player_or_npc( msg_type, _("The %s lunges at you, but you dodge!"),
+                                                _("The %s lunges at <npcname>, but they dodge!"),
+                                            z->name().c_str() );
+        }
+        if( !uncanny ) {
+            foe->practice( "dodge", z->type->melee_skill * 2 );
+            foe->ma_ondodge_effects();
+        }
+    } else if( seen ) {
+        add_msg( _("The %s lunges at %s, but misses!"), z->name().c_str(), target->disp_name().c_str() );
+    }
+    z->reset_special(index); // Reset timer
+    return;
+    }
+    int dam = target->deal_damage( z, bp_torso, damage_instance( DT_STAB, rng(10,20), rng(5,15), .5 ) ).total_damage();
+    if( dam > 0 && foe != nullptr ) {
+        if( seen ) {
+            auto msg_type = foe == &g->u ? m_bad : m_info;
+            //~ 1$s is monster name, 2$s bodypart in accusative
+            foe->add_msg_player_or_npc( msg_type,
+                                        _("The %1$s impales your torso!"),
+                                        _("The %1$s impales <npcname>'s torso!"),
+                                        z->name().c_str());
+        }
+        foe->practice( "dodge", z->type->melee_skill );
+        if( one_in( 60 / (dam + 20)) && (dam > 0)  ) {
+            foe->add_effect( "bleed", rng( 75, 125 ), bp_torso, true );
+        }
+        foe->check_dead_state();
+        if( rng(0, 200 + dam) > 100 &&
+        ( foe == nullptr || !foe->is_throw_immune() ||
+          ( !foe->has_trait("LEG_TENT_BRACE") ||
+            foe->footwear_factor() == 1 || ( foe->footwear_factor() == .5 && one_in(2) ) ) ) ) {
+        target->add_effect("downed", 3);
+        }
+        z->moves -=80; //Takes extra time for the creature to pull out the protrusion
+        z->reset_special(index); // Reset timer
+    } else if( foe != nullptr ) {
+         if( seen ) {
+             foe->add_msg_player_or_npc( _("The %1$s tries to impale your torso, but fails to penetrate your armor!"),
+                                         _("The %1$s tries to impale <npcname>'s torso, but fails to penetrate their armor!"),
+                                         z->name().c_str());
+        }
+    } else if( seen ) {
+        add_msg( _("The %s impales %s!"), z->name().c_str(), target->disp_name().c_str() );
+    }
+    target->check_dead_state();
+}
+
 void mattack::dermatik(monster *z, int index)
 {
     if( !z->can_act() ) {
