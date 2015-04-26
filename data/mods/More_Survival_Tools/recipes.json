@@ -85,10 +85,13 @@
     [
       [ "stick", 1 ],
       [ "2x4", 1 ],
-      [ "skewer", 2 ],
+      [ "skewer", 4 ],
       [ "splinter", 2 ],
+      [ "pine_bough", 1 ],
+      [ "rag", 1 ],
       [ "paper", 5 ],
-      [ "withered", 1 ]
+      [ "rolling_paper", 30 ],
+      [ "withered", 2 ]
     ]
   ]
 },
@@ -616,7 +619,8 @@
       [ "rag", 1 ],
       [ "felt_patch", 1 ],
       [ "leather", 1 ],
-      [ "fur", 1 ]
+      [ "fur", 1 ],
+      [ "bandana", 1 ]
      ],
      [
       [ "hat_boonie", 1 ],

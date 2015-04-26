@@ -99,7 +99,20 @@
     "turns_per_charge": 600,
     "ammo": "tinder",
     "revert_to": "tinderbox",
-    "use_action": "TINDERBOX_LIT"
+    "use_action": [
+        {
+            "type": "firestarter",
+            "moves_cost": 100
+        },
+        {
+            "type": "auto_transform",
+            "msg": "The ember is extinguished.",
+            "when_underwater": "The ember carrier is snuffed out.",
+            "target": "tinderbox",
+            "active": false,
+            "menu_option_text": "Extinguish"
+        }
+    ]
   },
   {
     "id": "bottle_metal",
