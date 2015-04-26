@@ -142,7 +142,6 @@
         "coverage" : 60,
         "material_thickness" : 2
     },
-
     {
         "type" : "ARMOR",
         "id" : "tarp",
