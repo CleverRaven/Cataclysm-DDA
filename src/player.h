@@ -271,7 +271,7 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         /** Removes the mutation's child flag from the player's list */
         void remove_child_flag( const std::string &mut );
 
-        const point &pos() const override;
+        const tripoint &pos3() const override;
         /** Returns the player's sight range */
         int sight_range( int light_level ) const override;
         /** Returns the player maximum vision range factoring in mutations, diseases, and other effects */
@@ -304,9 +304,9 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
 
         using Creature::sees;
         // see Creature::sees
-        bool sees( point c, int &bresenham_slope ) const override;
+        bool sees( const tripoint &c, int &bresen1, int &bresen2 ) const override;
         // see Creature::sees
-        bool sees( const Creature &critter, int &bresenham_slope ) const override;
+        bool sees( const Creature &critter, int &bresen1, int &bresen2 ) const override;
         /**
          * Returns all creatures that this player can see and that are in the given
          * range. This player object itself is never included.
@@ -869,6 +869,10 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         {
             return position.y;
         }
+        inline int posz() const override
+        {
+            return position.z;
+        }
         inline void setx( int x )
         {
             position.x = x;
@@ -877,19 +881,13 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         {
             position.y = y;
         }
-        inline int posz() const override
-        {
-            return zpos;
-        }
         inline void setz( int z )
         {
-            zpos = z;
+            position.z = z;
         }
         inline void setpos( const tripoint &p )
         {
-            position.x = p.x;
-            position.y = p.y;
-            zpos = p.z;
+            position = p;
         }
         tripoint view_offset;
         bool in_vehicle;       // Means player sit inside vehicle on the tile he is now
@@ -1063,9 +1061,7 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
 
     protected:
         // The player's position on the local map.
-        point position;
-        // Temporary z-level coord - should later be merged with the above
-        int zpos;
+        tripoint position;
 
         trap_map known_traps;
 

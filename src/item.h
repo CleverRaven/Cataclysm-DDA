@@ -355,7 +355,7 @@ public:
     int fridge;
 
  int brewing_time() const;
- bool ready_to_revive( point pos ); // used for corpses
+ bool ready_to_revive( const tripoint &pos ); // used for corpses
  void detonate( const tripoint &p ) const;
  bool can_revive();      // test if item is a corpse and can be revived
 // light emission, determined by type->light_emission (LIGHT_???) tag (circular),
@@ -441,13 +441,13 @@ protected:
     // Sub-functions of @ref process, they handle the processing for different
     // processing types, just to make the process function cleaner.
     // The interface is the same as for @ref process.
-    bool process_food(player *carrier, point pos);
-    bool process_corpse(player *carrier, point pos);
-    bool process_wet(player *carrier, point pos);
-    bool process_litcig(player *carrier, point pos);
-    bool process_cable(player *carrier, point pos);
-    bool process_tool(player *carrier, point pos);
-    bool process_charger_gun(player *carrier, point pos);
+    bool process_food(player *carrier, const tripoint &pos);
+    bool process_corpse(player *carrier, const tripoint &pos);
+    bool process_wet(player *carrier, const tripoint &pos);
+    bool process_litcig(player *carrier, const tripoint &pos);
+    bool process_cable(player *carrier, const tripoint &pos);
+    bool process_tool(player *carrier, const tripoint &pos);
+    bool process_charger_gun(player *carrier, const tripoint &pos);
 public:
     /**
      * Helper to bring a cable back to its initial state.
@@ -470,7 +470,7 @@ public:
      * @param carrier The character carrying the artifact, can be null.
      * @param pos The location of the artifact (should be the player location if carried).
      */
-    bool process_artifact( player *carrier, point pos );
+    bool process_artifact( player *carrier, const tripoint &pos );
 
  // umber of mods that can still be installed into the given
  // mod location, for non-guns it returns always 0

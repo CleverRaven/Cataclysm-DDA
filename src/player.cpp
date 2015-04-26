@@ -150,12 +150,7 @@ std::string morale_point::name() const
 
 player::player() : Character()
 {
- position.x = 0;
- position.y = 0;
- zpos = 0;
  id = -1; // -1 is invalid
- view_offset.x = 0;
- view_offset.y = 0;
  str_cur = 8;
  str_max = 8;
  dex_cur = 8;
@@ -437,7 +432,7 @@ void player::process_turn()
     }
 
     remove_items_with( [this]( item &itm ) {
-        return itm.process_artifact( this, pos() );
+        return itm.process_artifact( this, pos3() );
     } );
 
     suffer();
@@ -4067,8 +4062,7 @@ float player::active_light() const
 
 tripoint player::global_square_location() const
 {
-    const auto abs_pos = g->m.getabs( position.x, position.y );
-    return tripoint( abs_pos.x, abs_pos.y, g->get_levz() ); // player is always at levz
+    return g->m.getabs( position );
 }
 
 tripoint player::global_sm_location() const
@@ -4081,7 +4075,7 @@ tripoint player::global_omt_location() const
     return overmapbuffer::ms_to_omt_copy( global_square_location() );
 }
 
-const point &player::pos() const
+const tripoint &player::pos3() const
 {
     return position;
 }
@@ -8210,21 +8204,21 @@ void player::rem_morale(morale_type type, itype* item_type)
 
 void player::process_active_items()
 {
-    if( weapon.needs_processing() && weapon.process( this, pos(), false ) ) {
+    if( weapon.needs_processing() && weapon.process( this, pos3(), false ) ) {
         weapon = ret_null;
     }
 
     std::vector<item *> inv_active = inv.active_items();
     for( auto tmp_it : inv_active ) {
 
-        if( tmp_it->process( this, pos(), false ) ) {
+        if( tmp_it->process( this, pos3(), false ) ) {
             inv.remove_item(tmp_it);
         }
     }
 
     // worn items
     for (size_t i = 0; i < worn.size(); i++) {
-        if( worn[i].needs_processing() && worn[i].process( this, pos(), false ) ) {
+        if( worn[i].needs_processing() && worn[i].process( this, pos3(), false ) ) {
             worn.erase(worn.begin() + i);
             i--;
         }
@@ -8903,7 +8897,7 @@ bool player::consume_item( item &target )
             }
             if (comest->has_use()) {
                 //Check special use
-                amount_used = comest->invoke( this, to_eat, pos() );
+                amount_used = comest->invoke( this, to_eat, pos3() );
                 if( amount_used <= 0 ) {
                     return false;
                 }
@@ -9211,7 +9205,7 @@ bool player::eat(item *eaten, it_comest *comest)
     }
 
     if (comest->has_use()) {
-        to_eat = comest->invoke( this, eaten, pos() );
+        to_eat = comest->invoke( this, eaten, pos3() );
         if( to_eat <= 0 ) {
             return false;
         }
@@ -10775,7 +10769,7 @@ bool player::invoke_item( item* used )
     }
 
     if( used->type->use_methods.size() < 2 ) {
-        const long charges_used = used->type->invoke( this, used, pos() );
+        const long charges_used = used->type->invoke( this, used, pos3() );
         return consume_charges( used, charges_used );
     }
 
@@ -10788,7 +10782,7 @@ bool player::invoke_item( item* used )
     umenu.text = string_format( _("What to do with your %s?"), used->tname().c_str() );
     int num_total = 0;
     for( const auto &um : used->type->use_methods ) {
-        bool usable = um.can_call( this, used, false, pos() );
+        bool usable = um.can_call( this, used, false, pos3() );
         const std::string &aname = um.get_name();
         umenu.addentry( num_total, usable, MENU_AUTOASSIGN, aname );
         num_total++;
@@ -10802,7 +10796,7 @@ bool player::invoke_item( item* used )
     }
 
     const std::string &method = used->type->use_methods[choice].get_type_name();
-    long charges_used = used->type->invoke( this, used, pos(), method );
+    long charges_used = used->type->invoke( this, used, pos3(), method );
     return consume_charges( used, charges_used );
 }
 
@@ -10823,7 +10817,7 @@ bool player::invoke_item( item* used, const std::string &method )
         return consume_item( *used );
     }
 
-    long charges_used = actually_used->type->invoke( this, actually_used, pos(), method );
+    long charges_used = actually_used->type->invoke( this, actually_used, pos3(), method );
     return consume_charges( actually_used, charges_used );
 }
 
@@ -11267,7 +11261,7 @@ void player::do_read( item *book )
     }
 
     for( auto &m : reading->use_methods ) {
-        m.call( this, book, false, pos() );
+        m.call( this, book, false, pos3() );
     }
 
     activity.type = ACT_NULL;
@@ -13069,11 +13063,11 @@ Creature::Attitude player::attitude_to( const Creature &other ) const
     return A_NEUTRAL;
 }
 
-bool player::sees( const point t, int &bresenham_slope ) const
+bool player::sees( const tripoint &t, int &bresen1, int &bresen2 ) const
 {
     static const std::string str_bio_night("bio_night");
-    const int wanted_range = rl_dist( pos(), t );
-    bool can_see = Creature::sees( t, bresenham_slope );
+    const int wanted_range = rl_dist( pos3(), t );
+    bool can_see = Creature::sees( t, bresen1, bresen2 );
     // Only check if we need to override if we already came to the opposite conclusion.
     if( can_see && wanted_range < 15 && wanted_range > sight_range(1) &&
         has_active_bionic(str_bio_night) ) {
@@ -13087,10 +13081,10 @@ bool player::sees( const point t, int &bresenham_slope ) const
     return can_see;
 }
 
-bool player::sees( const Creature &critter, int &bresenham_slope ) const
+bool player::sees( const Creature &critter, int &bresen1, int &bresen2 ) const
 {
     // This handles only the player/npc specific stuff (monsters don't have traits or bionics).
-    const int dist = rl_dist( pos(), critter.pos() );
+    const int dist = rl_dist( pos3(), critter.pos3() );
     if (dist <= 3 && has_trait("ANTENNAE")) {
         return true;
     }
@@ -13101,7 +13095,7 @@ bool player::sees( const Creature &critter, int &bresenham_slope ) const
         // to the ground. It also might need a range check.
         return true;
     }
-    return Creature::sees( critter, bresenham_slope );
+    return Creature::sees( critter, bresen1, bresen2 );
 }
 
 bool player::can_pickup(bool print_msg) const

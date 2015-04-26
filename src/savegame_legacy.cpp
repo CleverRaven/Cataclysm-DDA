@@ -1519,13 +1519,14 @@ void player::load_legacy(std::stringstream & dump)
          underwater >> dodges_left >> blocks_left >> oxygen >> tmpactive_mission >>
          focus_pool >> male >> prof_ident >> healthy >> styletmp;
 
-         // Bionic power scale has been changed.
-         max_power_level *= 25;
-         power_level *= 25;
+    position.z = g->get_levz();
 
- if (power_level < 0) {
-     power_level = 0;
- }
+    // Bionic power scale has been changed.
+    max_power_level *= 25;
+    power_level *= 25;
+    if (power_level < 0) {
+        power_level = 0;
+    }
 
     active_mission = tmpactive_mission == -1 ? nullptr : mission::find( tmpactive_mission );
 
@@ -1959,7 +1960,7 @@ void npc::load_legacy(std::stringstream & dump) {
  dump >> agg >> bra >> col >> alt >> 
          wander_pos.x >> wander_pos.y >> wander_time >> 
          omx >> omy >>
-         mapz >> mapx >> mapy >>
+         position.z >> mapx >> mapy >>
          last_player_seen_pos.x >> last_player_seen_pos.y >> 
          goal.x >> goal.y >> goal.z >> 
          misstmp >> flagstmp >> fac_id >> tmpatt;
@@ -2065,7 +2066,7 @@ void monster::load_legacy(std::stringstream & dump) {
          >> faction_dummy >> mission_id >> no_extra_death_drops >> dead >> anger >> morale;
 
     wander_pos.z = g->get_levz();
-    zpos = g->get_levz();
+    position.z = g->get_levz();
     // load->int->str->int (possibly shifted)
     type = GetMType( legacy_mon_id[idtmp] );
 

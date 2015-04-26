@@ -222,10 +222,10 @@ class game
         /** Returns true if (x, y) is indoors, underground, or in a car. */
         bool is_sheltered(int x, int y);
         bool is_sheltered( const tripoint &p );
-        /** Revives the corpse with position n in the items at (x, y). Returns true if successful. */
-        bool revive_corpse(int x, int y, int n);
-        /** Revives the corpse at (x, y) by item pointer. Caller handles item deletion. */
-        bool revive_corpse(int x, int y, item *it);
+        /** Revives the corpse with position n in the items at p. Returns true if successful. */
+        bool revive_corpse( const tripoint &p, int n );
+        /** Revives the corpse at p by item pointer. Caller handles item deletion. */
+        bool revive_corpse( const tripoint &p, item *it );
         /** Handles player input parts of gun firing (target selection, etc.). Actual firing is done
          *  in player::fire_gun(). This is interactive and should not be used by NPC's. */
         void plfire(bool burst, int default_target_x = -1, int default_target_y = -1);

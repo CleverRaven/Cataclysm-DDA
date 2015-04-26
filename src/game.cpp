@@ -7031,31 +7031,31 @@ bool game::is_sheltered( const tripoint &p )
              ( veh && veh->is_inside(vpart) ) );
 }
 
-bool game::revive_corpse(int x, int y, int n)
+bool game::revive_corpse( const tripoint &p, int n )
 {
-    if ((int)m.i_at(x, y).size() <= n) {
-        debugmsg("Tried to revive a non-existent corpse! (%d, %d), #%d of %d", x, y, n, m.i_at(x,
-                 y).size());
+    if ((int)m.i_at( p ).size() <= n) {
+        debugmsg( "Tried to revive a non-existent corpse! (%d, %d, %d), #%d of %d",
+                  p.x, p.y, p.z, n, m.i_at( p ).size());
         return false;
     }
-    if( !revive_corpse( x, y, &m.i_at(x, y)[n] ) ) {
+    if( !revive_corpse( p, &m.i_at( p )[n] ) ) {
         return false;
     }
-    m.i_rem(x, y, n);
+    m.i_rem( p, n );
     return true;
 }
 
-bool game::revive_corpse(int x, int y, item *it)
+bool game::revive_corpse( const tripoint &p, item *it )
 {
-    if (it == NULL || !it->is_corpse()) {
+    if (it == nullptr || !it->is_corpse()) {
         debugmsg("Tried to revive a non-corpse.");
         return false;
     }
-    if (critter_at(x, y) != NULL) {
+    if( critter_at( p ) != nullptr ) {
         // Someone is in the way, try again later
         return false;
     }
-    monster critter(it->get_mtype(), tripoint( x, y, get_levz() ) );
+    monster critter( it->get_mtype(), p );
     critter.init_from_item( *it );
     critter.no_extra_death_drops = true;
 
@@ -8056,7 +8056,7 @@ bool pet_menu(monster *z)
 
             item ball("pheromone", 0);
             iuse pheromone;
-            pheromone.pheromone(&(g->u), &ball, true, g->u.pos());
+            pheromone.pheromone(&(g->u), &ball, true, g->u.pos3());
         }
 
     }
@@ -11470,7 +11470,7 @@ void game::unload(item &it)
         // Tools need to be turned off, especially when they consume charges only every few turns,
         // otherwise they stay active until they would consume the next charge.
         if( weapon->active && weapon->is_tool() ) {
-            weapon->type->invoke( &u, weapon, u.pos() );
+            weapon->type->invoke( &u, weapon, u.pos3() );
         }
     }
 }

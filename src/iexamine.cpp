@@ -687,7 +687,7 @@ void iexamine::crate(player *p, map *m, int examx, int examy)
     item fakecrow( "crowbar", 0 );
 
     iuse dummy;
-    dummy.crowbar( p, &fakecrow, false, point( examx, examy ) );
+    dummy.crowbar( p, &fakecrow, false, tripoint( examx, examy, p->posz() ) );
 }
 
 

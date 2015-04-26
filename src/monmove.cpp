@@ -90,10 +90,10 @@ void monster::wander_to( const tripoint &p, int f )
     wandf = f;
 }
 
-float monster::rate_target( Creature &c, int &bresenham_slope, float best, bool smart ) const
+float monster::rate_target( Creature &c, int &bresen1, int &bresen2, float best, bool smart ) const
 {
-    const int d = rl_dist( pos(), c.pos() );
-    if( d <= 0 || !sees( c, bresenham_slope ) ) {
+    const int d = rl_dist( pos3(), c.pos3() );
+    if( d <= 0 || !sees( c, bresen1 ) ) {
         return INT_MAX;
     }
     if( !smart ) {
@@ -101,7 +101,7 @@ float monster::rate_target( Creature &c, int &bresenham_slope, float best, bool 
         if( d >= best ) {
             return INT_MAX;
         }
-        if( !sees( c.pos(), bresenham_slope ) ) {
+        if( !sees( c.pos3(), bresen1, bresen2 ) ) {
             return INT_MAX;
         }
         return d;
@@ -112,7 +112,7 @@ float monster::rate_target( Creature &c, int &bresenham_slope, float best, bool 
     if( mon != nullptr && mon->attitude_to( *this ) == Attitude::A_HOSTILE ) {
         power += 2;
     }
-    if( power > 0 && sees( c.pos(), bresenham_slope ) ) {
+    if( power > 0 && sees( c.pos3(), bresen1, bresen2 ) ) {
         return d / power;
     }
     return INT_MAX;
@@ -126,6 +126,7 @@ void monster::plan( const mfactions &factions )
     // 8.6f is rating for tank drone 60 tiles away, moose 16 or boomer 33
     float dist = !electronic ? 1000 : 8.6f;
     int bresenham_slope = 0;
+    int bresen2 = 0; // Unused until FoV update
     int selected_slope = 0;
     bool fleeing = false;
     bool docile = has_flag( MF_VERMIN ) || ( friendly != 0 && has_effect( "docile" ) );
@@ -138,7 +139,7 @@ void monster::plan( const mfactions &factions )
 
     // If we can see the player, move toward them or flee.
     if( friendly == 0 && sees( g->u, bresenham_slope ) ) {
-        dist = rate_target( g->u, bresenham_slope, dist, electronic );
+        dist = rate_target( g->u, bresenham_slope, bresen2, dist, electronic );
         fleeing = fleeing || is_fleeing( g->u );
         target = &g->u;
         selected_slope = bresenham_slope;
@@ -151,7 +152,7 @@ void monster::plan( const mfactions &factions )
         for( int i = 0, numz = g->num_zombies(); i < numz; i++ ) {
             monster &tmp = g->zombie( i );
             if( tmp.friendly == 0 ) {
-                float rating = rate_target( tmp, bresenham_slope, dist, electronic );
+                float rating = rate_target( tmp, bresenham_slope, bresen2, dist, electronic );
                 if( rating < dist ) {
                     target = &tmp;
                     dist = rating;
@@ -164,7 +165,7 @@ void monster::plan( const mfactions &factions )
     if( !docile ) {
         for( size_t i = 0; i < g->active_npc.size(); i++ ) {
             npc *me = g->active_npc[i];
-            float rating = rate_target( *me, bresenham_slope, dist, electronic );
+            float rating = rate_target( *me, bresenham_slope, bresen2, dist, electronic );
             bool fleeing_from = is_fleeing( *me );
             // Switch targets if closer and hostile or scarier than current target
             if( ( rating < dist && fleeing ) ||
@@ -192,7 +193,7 @@ void monster::plan( const mfactions &factions )
 
             for( int i : fac.second ) { // mon indices
                 monster &mon = g->zombie( i );
-                float rating = rate_target( mon, bresenham_slope, dist, electronic );
+                float rating = rate_target( mon, bresenham_slope, bresen2, dist, electronic );
                 if( rating < dist ) {
                     target = &mon;
                     dist = rating;
@@ -220,7 +221,7 @@ void monster::plan( const mfactions &factions )
     if( group_morale || swarms ) {
         for( const int i : myfaction_iter->second ) {
             monster &mon = g->zombie( i );
-            float rating = rate_target( mon, bresenham_slope, dist, electronic );
+            float rating = rate_target( mon, bresenham_slope, bresen2, dist, electronic );
             if( group_morale && rating <= 10 ) {
                 morale += 10 - rating;
             }
@@ -264,7 +265,7 @@ void monster::plan( const mfactions &factions )
         // Grow restless with no targets
         friendly--;
     } else if( friendly < 0 && sees( g->u, bresenham_slope ) ) {
-        if( rl_dist( pos(), g->u.pos() ) > 2 ) {
+        if( rl_dist( pos3(), g->u.pos3() ) > 2 ) {
             set_dest( g->u.pos3(), bresenham_slope );
         } else {
             plans.clear();
@@ -273,8 +274,7 @@ void monster::plan( const mfactions &factions )
     // If we're not adjacent to the start of our plan path, don't act on it.
     // This is to catch when we had pre-existing invalid plans and
     // made it through the function without changing them.
-    if( !plans.empty() && square_dist( pos().x, pos().y,
-                                       plans.front().x, plans.front().y ) > 1 ) {
+    if( !plans.empty() && square_dist( pos3(), plans.front() ) > 1 ) {
         plans.clear();
     }
 }
