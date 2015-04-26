@@ -174,7 +174,7 @@ set(SRCS
 	monster.h
 	moraledata.h
 	morale.h
-	mtypedef.cpp
+	mtype.cpp
 	mtype.h
 	mutation.cpp
 	mutation_data.cpp
