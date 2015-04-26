@@ -1475,6 +1475,8 @@ void overmap::draw(WINDOW *w, WINDOW *wbar, const tripoint &center,
     const int cursy = center.y;
     const int om_map_width  = OVERMAP_WINDOW_WIDTH;
     const int om_map_height = OVERMAP_WINDOW_HEIGHT;
+    const int om_half_width = om_map_width / 2;
+    const int om_half_height = om_map_height / 2;
 
     // Target of current mission
     const point target = g->u.get_active_mission_target();
@@ -1517,8 +1519,8 @@ void overmap::draw(WINDOW *w, WINDOW *wbar, const tripoint &center,
     std::array<std::pair<oter_id, oter_t const*>, cache_size> cache {{}};
     size_t cache_next = 0;
 
-    int const offset_x = cursx - (om_map_width  / 2);
-    int const offset_y = cursy - (om_map_height / 2);
+    int const offset_x = cursx - om_half_width;
+    int const offset_y = cursy - om_half_height;
 
     for (int i = 0; i < om_map_width; ++i) {
         for (int j = 0; j < om_map_height; ++j) {
@@ -1647,32 +1649,32 @@ void overmap::draw(WINDOW *w, WINDOW *wbar, const tripoint &center,
         }
     }
     if (has_target && blink &&
-        (target.x < cursx - om_map_height / 2 ||
-         target.x > cursx + om_map_height / 2  ||
-         target.y < cursy - om_map_width / 2 ||
-         target.y > cursy + om_map_width / 2)) {
+        (target.x < cursx - om_half_height ||
+         target.x > cursx + om_half_height  ||
+         target.y < cursy - om_half_width ||
+         target.y > cursy + om_half_width)) {
         // TODO: mission targets currently have no z-component, are assumed to be on z=0
         switch (direction_from(cursx, cursy, target.x, target.y)) {
         case NORTH:
-            mvwputch(w, 0, om_map_width / 2, c_red, '^');
+            mvwputch(w, 0, om_half_width, c_red, '^');
             break;
         case NORTHEAST:
             mvwputch(w, 0, om_map_width - 1, c_red, LINE_OOXX);
             break;
         case EAST:
-            mvwputch(w, om_map_height / 2, om_map_width - 1, c_red, '>');
+            mvwputch(w, om_half_height, om_map_width - 1, c_red, '>');
             break;
         case SOUTHEAST:
             mvwputch(w, om_map_height, om_map_width - 1, c_red, LINE_XOOX);
             break;
         case SOUTH:
-            mvwputch(w, om_map_height, om_map_height / 2, c_red, 'v');
+            mvwputch(w, om_map_height, om_half_height, c_red, 'v');
             break;
         case SOUTHWEST:
             mvwputch(w, om_map_height, 0, c_red, LINE_XXOO);
             break;
         case WEST:
-            mvwputch(w, om_map_height / 2,  0, c_red, '<');
+            mvwputch(w, om_half_height,  0, c_red, '<');
             break;
         case NORTHWEST:
             mvwputch(w,  0,  0, c_red, LINE_OXXO);
@@ -1809,6 +1811,14 @@ void overmap::draw(WINDOW *w, WINDOW *wbar, const tripoint &center,
     const point om = overmapbuffer::omt_to_om_remain(omt);
     mvwprintz(wbar, getmaxy(wbar) - 1, 1, c_red,
               _("LEVEL %i, %d'%d, %d'%d"), z, om.x, omt.x, om.y, omt.y);
+
+    // draw nice crosshair around the cursor
+    if(blink) {
+        mvwputch(w, om_half_height-1, om_half_width-1, c_ltgray, LINE_OXXO);
+        mvwputch(w, om_half_height-1, om_half_width+1, c_ltgray, LINE_OOXX);
+        mvwputch(w, om_half_height+1, om_half_width-1, c_ltgray, LINE_XXOO);
+        mvwputch(w, om_half_height+1, om_half_width+1, c_ltgray, LINE_XOOX);
+    }
     // Done with all drawing!
     wrefresh(w);
     wrefresh(wbar);

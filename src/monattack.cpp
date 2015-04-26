@@ -411,47 +411,51 @@ void mattack::resurrect(monster *z, int index)
     if( z->get_speed() < z->get_speed_base() / 2) {
         return;    // We can only resurrect so many times!
     }
-    std::vector<point> corpses;
-    int junk;
+
+    std::set<tripoint> corpse_pos;
     // Find all corpses that we can see within 4 tiles.
-    for (int x = z->posx() - 4; x <= z->posx() + 4; x++) {
-        for (int y = z->posy() - 4; y <= z->posy() + 4; y++) {
-            if (g->is_empty(x, y) && g->m.sees(z->posx(), z->posy(), x, y, -1, junk)) {
-                for (auto &i : g->m.i_at(x, y)) {
-                    if (i.is_corpse() && i.get_mtype()->has_flag(MF_REVIVES) &&
-                          i.get_mtype()->in_species("ZOMBIE")) {
-                        corpses.push_back(point(x, y));
+    tripoint p;
+    p.z = z->posz();
+    int &x = p.x;
+    int &y = p.y;
+    for( x = z->posx() - 4; x <= z->posx() + 4; x++ ) {
+        for( y = z->posy() - 4; y <= z->posy() + 4; y++ ) {
+            if( g->is_empty( p ) && g->m.sees( z->pos3(), p, -1) ) {
+                for( const auto &i : g->m.i_at( p ) ) {
+                    if( i.is_corpse() && i.get_mtype()->has_flag(MF_REVIVES) &&
+                          i.get_mtype()->in_species("ZOMBIE") ) {
+                        corpse_pos.insert( p );
                         break;
                     }
                 }
             }
         }
     }
-    if (corpses.empty()) { // No nearby corpses
+    if( corpse_pos.empty() ) { // No nearby corpses
         return;
     }
     z->set_speed_base( (z->get_speed_base() - rng(0, 10)) * 0.8 );
     bool sees_necromancer = g->u.sees(*z);
-    if (sees_necromancer) {
+    if( sees_necromancer ) {
         add_msg(_("The %s throws its arms wide..."), z->name().c_str());
     }
     z->reset_special(index); // Reset timer
     z->moves -= 500;   // It takes a while
     int raised = 0;
-    for (auto &i : corpses) {
-        int x = i.x, y = i.y;
-        for (size_t n = 0; n < g->m.i_at(x, y).size(); n++) {
-            if (g->m.i_at(x, y)[n].is_corpse() && one_in(2)) {
-                if (!g->revive_corpse(x, y, n)) {
-                    continue;
-                }
+    for( auto &i : corpse_pos ) {
+        for( size_t n = 0; n < g->m.i_at( i ).size(); ) {
+            if( g->m.i_at( i )[n].is_corpse() && one_in(2) && g->revive_corpse( i, n ) ) {
                 if( z->friendly != 0 ) {
                     g->zombie(g->num_zombies() - 1).friendly = z->friendly;
                 }
-                if (g->u.sees(x, y)) {
+
+                if( g->u.sees( p ) ) {
                     raised++;
                 }
+
                 break; // Only one body raised per tile
+            } else {
+                n++;
             }
         }
     }
@@ -463,7 +467,7 @@ void mattack::resurrect(monster *z, int index)
         } else {
             add_msg(m_warning, _("Several corpses rise from the dead!"));
         }
-    } else if (sees_necromancer) {
+    } else if( sees_necromancer ) {
         add_msg(_("...but nothing seems to happen."));
     }
 }
@@ -4432,7 +4436,7 @@ void mattack::kamikaze(monster *z, int index)
             item i_explodes(act_bomb_type->id, 0);
             i_explodes.charges = 0;
             i_explodes.active = true;
-            i_explodes.process(nullptr, z->pos(), false);
+            i_explodes.process(nullptr, z->pos3(), false);
             z->set_special(index, -1);
         }
         return;

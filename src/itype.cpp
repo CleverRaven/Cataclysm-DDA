@@ -42,7 +42,7 @@ const use_function *itype::get_use( const std::string &iuse_name ) const
     return nullptr;
 }
 
-long itype::tick( player *p, item *it, point pos ) const
+long itype::tick( player *p, item *it, const tripoint &pos ) const
 {
     // Note: can go higher than current charge count
     // Maybe should move charge decrementing here?
@@ -59,7 +59,7 @@ long itype::tick( player *p, item *it, point pos ) const
     return charges_to_use;
 }
 
-long itype::invoke( player *p, item *it, point pos ) const
+long itype::invoke( player *p, item *it, const tripoint &pos ) const
 {
     if( !has_use() ) {
         return 0;
@@ -68,7 +68,7 @@ long itype::invoke( player *p, item *it, point pos ) const
     return use_methods.front().call( p, it, false, pos );
 }
 
-long itype::invoke( player *p, item *it, point pos, const std::string &iuse_name ) const
+long itype::invoke( player *p, item *it, const tripoint &pos, const std::string &iuse_name ) const
 {
     const use_function *use = get_use( iuse_name );
     if( use == nullptr ) {
