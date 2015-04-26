@@ -510,10 +510,8 @@
       { "monster" : "mon_zombie_necro", "freq" : 5, "cost_multiplier" : 25 },
       { "monster" : "mon_zombie_survivor", "freq" : 1, "cost_multiplier" : 25 },
       { "monster" : "mon_boomer", "freq" : 30, "cost_multiplier" : 5 },
-      { "monster" : "mon_zombie_grenadier", "freq" : 10, "cost_multiplier" : 10 },
       { "monster" : "mon_zombie_brute", "freq" : 10, "cost_multiplier" : 15 },
       { "monster" : "mon_zombie_hulk", "freq" : 1, "cost_multiplier" : 50 },
-      { "monster" : "mon_zombie_grenadier_elite", "freq" : 1, "cost_multiplier" : 30 },
       { "monster" : "mon_zombie_master", "freq" : 1, "cost_multiplier" : 30 },
       { "monster" : "mon_beekeeper", "freq" : 1, "cost_multiplier" : 5 },
       { "monster" : "mon_zombie_technician", "freq" : 1, "cost_multiplier" : 12},
@@ -1165,7 +1163,9 @@
     "name" : "GROUP_MAYBE_MIL", "_comment" : "50% chance military zombie",
     "default" : "mon_null",
     "monsters" : [
-      { "monster" : "mon_zombie_soldier", "freq" : 50, "cost_multiplier" : 0 }
+      { "monster" : "mon_zombie_soldier", "freq" : 35, "cost_multiplier" : 1 },
+      { "monster" : "mon_zombie_grenadier", "freq" : 10, "cost_multiplier" : 50 },
+      { "monster" : "mon_zombie_grenadier_elite", "freq" : 5, "cost_multiplier" : 80 }
     ]
   },{
     "type":"monstergroup",
@@ -1366,9 +1366,7 @@
       { "monster" : "mon_zombie_necro", "freq" : 10, "cost_multiplier" : 10 },
       { "monster" : "mon_zombie_survivor", "freq" : 20, "cost_multiplier" : 5 },
       { "monster" : "mon_boomer", "freq" : 30, "cost_multiplier" : 5 },
-      { "monster" : "mon_zombie_grenadier", "freq" : 30, "cost_multiplier" : 10 },
       { "monster" : "mon_zombie_brute", "freq" : 30, "cost_multiplier" : 10 },
-      { "monster" : "mon_zombie_grenadier_elite", "freq" : 10, "cost_multiplier" : 15 },
       { "monster" : "mon_zombie_hulk", "freq" : 10, "cost_multiplier" : 25 },
       { "monster" : "mon_zombie_armored", "freq" : 10, "cost_multiplier" : 25 },
       { "monster" : "mon_zombie_master", "freq" : 10, "cost_multiplier" : 15 },
