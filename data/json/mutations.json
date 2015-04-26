@@ -448,7 +448,7 @@
         "points": 3,
         "description": "You have practiced fighting with weapons.  You start with your choice of Eskrima, Fencing, or Pentjak Silat.",
         "starting_trait" : true,
-        "initial_ma_styles" : [ "style_eskrima", "style_fencing", "style_silat" ],
+        "initial_ma_styles" : [ "style_eskrima", "style_fencing", "style_silat", "style_hema" ],
         "valid" : false
     },{
         "type" : "mutation",

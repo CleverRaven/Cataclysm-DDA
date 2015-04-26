@@ -678,6 +678,7 @@
             "<npcname> delivers a perfect stop thrust to %s"
         ]
     },{
+	
         "type" : "technique",
         "id" : "tec_eskrima_round",
         "name" : "Round strike",
@@ -1220,5 +1221,61 @@
           "You feint at %s",
           "<npcname> feints at %s"
         ]
-    }
+    },{
+	    "type" : "technique",
+		"id" : "tec_hema_closein",
+		"name" : "Close in",
+		"min_melee" : 2,
+		"speed_mult" : 0,
+		"req_buffs" : [
+		    "hema_move_buff"
+		],
+	    "messages" : [
+		    "You strike as you close in on %s",
+			"<npcname> closes in and strikes at %s"
+		]
+    },{
+	    "type" : "technique",
+		"id" : "tec_hema_strike",
+		"name" : "Quick strike",
+		"min_melee" : 2,
+        "speed_mult" : 0.8,
+		"req_buffs" : [
+		    "hema_hit_buff"
+		],
+        "messages" : [
+            "You strike at %s, flowing smoothly into the next move",
+            "<npcname> strikes smoothly at %s"
+		]
+	},{
+	    "type" : "technique",
+		"id" : "tec_hema_powerstrike",
+		"name" : "Power strike",
+		"min_melee" : 2,
+        "cut_mult" : 1.2,
+		"bash_mult" : 1.2,
+		"crit_tec" : true,
+		"req_buffs" : [
+		    "hema_hit_buff"
+		],
+        "messages" : [
+            "You strike at %s with great force",
+            "<npcname> strikes at %s with great force"
+		]
+	},{
+	    "type" : "technique",
+		"id" : "tec_hema_masterstrike",
+		"name" : "Master strike",
+		"min_melee" : 4,
+        "cut_mult" : 1.5,
+		"bash_mult" : 1.5,
+		"crit_tec" : true,
+		"req_buffs" : [
+		    "hema_hit_buff"
+		],
+	    "messages" : [
+            "You strike at %s with devastating force",
+            "<npcname> strikes at %s with devastating force"
+		]
+	}
 ]

@@ -365,6 +365,47 @@
         ]
     },{
         "type" : "martial_art",
+        "id" : "style_fencing",
+        "name" : "Fencing",
+        "description": "The noble art of fencing is taught with flexible competition blades, but the techniques are derived from (and applicable to) more functional examples. Skilled fencers can take advantage of advances and retreats to deliver accurate strikes.", 
+        "arm_block" : 99,
+        "leg_block" : 99,
+        "onmove_buffs" : [
+            {
+                "id" : "fencing_move_buff",
+                "name" : "Fencing Footwork",
+                "description" : "+2 stab and +1 acc per stack",
+                "unarmed_allowed" : true,
+                "min_melee" : 2,
+                "buff_duration" : 2,
+                "max_stacks" : 2,
+                "stab" : 2,
+                "hit" : 1
+            }
+        ],
+        "techniques" : [
+            "tec_feint",
+            "tec_fencing_lunge",
+            "tec_fencing_stop_thrust",
+            "tec_fencing_thrust"
+        ],
+        "weapons" : [
+            "broadsword",
+            "diamond_broadsword",
+            "broadfire_off",
+            "broadfire_on",
+            "sword_forged",
+            "rapier",
+            "diamond_rapier",
+            "fencing_foil",
+            "fencing_sabre",
+            "fencing_epee",
+            "umbrella",
+            "cane",
+            "cudgel"
+        ]
+	},{
+        "type" : "martial_art",
         "id" : "style_silat",
         "name" : "Silat",
         "description": "Pentjak Silat, of Indonesian origin, is a fighting style that covers the use of short blades and bludgeons. Fighters stay low and mobile to avoid attacks, then unleash deadly critical hits.", 
@@ -449,47 +490,6 @@
             "knife_rambo",
             "knife_rm42",
             "switchblade"
-        ]
-    },{
-        "type" : "martial_art",
-        "id" : "style_fencing",
-        "name" : "Fencing",
-        "description": "The noble art of fencing is taught with flexible competition blades, but the techniques are derived from (and applicable to) more functional examples. Skilled fencers can take advantage of advances and retreats to deliver accurate strikes.", 
-        "arm_block" : 99,
-        "leg_block" : 99,
-        "onmove_buffs" : [
-            {
-                "id" : "fencing_move_buff",
-                "name" : "Fencing Footwork",
-                "description" : "+2 stab and +1 acc per stack",
-                "unarmed_allowed" : true,
-                "min_melee" : 2,
-                "buff_duration" : 2,
-                "max_stacks" : 2,
-                "stab" : 2,
-                "hit" : 1
-            }
-        ],
-        "techniques" : [
-            "tec_feint",
-            "tec_fencing_lunge",
-            "tec_fencing_stop_thrust",
-            "tec_fencing_thrust"
-        ],
-        "weapons" : [
-            "broadsword",
-            "diamond_broadsword",
-            "broadfire_off",
-            "broadfire_on",
-            "sword_forged",
-            "rapier",
-            "diamond_rapier",
-            "fencing_foil",
-            "fencing_sabre",
-            "fencing_epee",
-            "umbrella",
-            "cane",
-            "cudgel"
         ]
     },{
         "type" : "martial_art",
@@ -935,6 +935,69 @@
             "tec_venom_snake_break",
             "tec_venom_snake_bite",
             "tec_venom_snake_strike"
+        ]
+    },{
+        "type" : "martial_art",
+        "id" : "style_hema",
+        "name" : "Historical European Fencing",
+        "description": "The modern recreation of European fencing, based off the manuals of Medieval and Renaissance fencing masters. It emphasises quick footwork and aggressive striking. Skilled fencers can apply their techniques to make lightning fast attacks and devastating combos, while maintaining their defense.", 
+        "arm_block" : 99,
+        "leg_block" : 99,
+        "onmove_buffs" : [
+            {
+                "id" : "hema_move_buff",
+                "name" : "Quick Footwork",
+                "description" : "You keep your distance from the enemy, giving you +1 bonus dodge and +2 to your dodge skill, as long as you keep moving",
+                "unarmed_allowed" : true,
+                "min_melee" : 2,
+                "buff_duration" : 2,
+                "max_stacks" : 1,
+                "bonus_dodge" : 1,
+                "dodge" : 2
+            }
+        ],
+		"onhit_buffs" : [ 
+		    {
+			    "id" : "hema_hit_buff",
+				"name" : "Aggressive Striking",
+				"description" : "You unleash a flurry of blows on the enemy, increasing your damage and the number of blocks you can make, as long as you keep hitting",
+				"min_melee" : 2,
+				"buff_duration" : 2,
+				"max_stacks" : 1,
+				"cut_mult" : 1.1,
+				"bash_mult" : 1.1,
+				"bonus_blocks" : 1
+			}
+		],
+        "techniques" : [
+			"tec_hema_closein",
+			"tec_hema_strike",
+			"tec_hema_powerstrike",
+			"tec_hema_masterstrike"
+        ],
+        "weapons" : [
+            "broadsword",
+            "diamond_broadsword",
+            "broadfire_off",
+            "broadfire_on",
+            "sword_forged",
+            "cane",
+            "cudgel",
+			"q_staff",
+			"i_staff",
+			"spear_rebar",
+			"pointy_stick",
+			"spear_wood",
+			"spear_forked",
+			"spear_steel",
+			"spear_survivor",
+			"pool_cue",
+			"sword_wood",
+			"diamond_zweihander",
+			"zweihander",
+			"spear_knife",
+			"pike"
+			
         ]
     }
 ]
