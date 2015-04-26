@@ -336,7 +336,7 @@ static void move_items( point source, point destination,
         }
         item leftovers = *temp_item;
 
-        if( quantity != 0 ) {
+        if( quantity != 0 && temp_item->count_by_charges() ) {
             // Reinserting leftovers happens after item removal to avoid stacking issues.
             leftovers.charges = temp_item->charges - quantity;
             if( leftovers.charges > 0 ) {

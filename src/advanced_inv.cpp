@@ -1901,7 +1901,7 @@ bool advanced_inv_area::is_same( const advanced_inv_area &other ) const
         id != AIM_WORN      && other.id != AIM_WORN      &&
         id != AIM_CONTAINER && other.id != AIM_CONTAINER ) {
 
-        if( veh == other.veh ) {
+        if( veh != nullptr && veh == other.veh ) {
             return vstor == other.vstor;
         }
 
