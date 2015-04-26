@@ -104,7 +104,7 @@ set(SRCS
 	item_group.h
 	item.h
 	item_stack.h
-	itype.cpp
+	itypedef.cpp
 	itype.h
 	iuse_actor.cpp
 	iuse_actor.h
@@ -174,7 +174,7 @@ set(SRCS
 	monster.h
 	moraledata.h
 	morale.h
-	mtype.cpp
+	mtypedef.cpp
 	mtype.h
 	mutation.cpp
 	mutation_data.cpp

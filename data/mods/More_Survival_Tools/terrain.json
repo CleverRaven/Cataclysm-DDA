@@ -10,9 +10,10 @@
             "TRANSPARENT", "CONTAINER", "FLAMMABLE_ASH", "THIN_OBSTACLE", "REDUCE_SCENT", "INDOORS", "MOUNTABLE"
         ],
         "deconstruct": {
-            "ter_set": "t_tree_pine",
+            "ter_set": "t_tree_deadpine",
             "items": [
-                { "item": "stick", "amount": 6 }
+                { "item": "stick", "amount": 6 },
+                { "item": "pine_bough", "amount": 12, "minamount": 2 }
             ]
         },
         "bash": {
@@ -23,7 +24,7 @@
             "items": [
                 { "item": "stick", "amount": 7, "minamount": 2 },
                 { "item": "splinter", "amount": 20, "minamount": 8 },
-                { "item": "pine_bough", "amount": 2, "minamount": 0}
+                { "item": "pine_bough", "amount": 2, "minamount": 0 }
             ]
         }
     }

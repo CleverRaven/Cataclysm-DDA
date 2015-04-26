@@ -105,15 +105,14 @@ class Creature
          * the other monster is visible.
          */
         /*@{*/
-        virtual bool sees( const Creature &critter, int &bresen1, int &bresen2 ) const;
-        bool sees( const Creature &critter, int &bresenham_slope ) const;
+        virtual bool sees( const Creature &critter, int &bresenham_slope ) const;
         bool sees( const Creature &critter ) const;
         bool sees( int cx, int cy, int &bresenham_slope ) const;
         bool sees( int tx, int ty ) const;
-        virtual bool sees( const tripoint &t, int &bresen1, int &bresen2 ) const;
-        bool sees( const tripoint &t, int &bresen1 ) const;
-        bool sees( const tripoint &t ) const;
+        virtual bool sees( point t, int &bresenham_slope ) const;
         bool sees( point t ) const;
+        bool sees( const tripoint &t ) const;
+        bool sees( const tripoint &t, int &bresen1, int &bresen2 ) const;
         /*@}*/
 
         /**
@@ -230,14 +229,14 @@ class Creature
         virtual int posx() const = 0;
         virtual int posy() const = 0;
         virtual int posz() const = 0;
-        virtual const tripoint &pos3() const = 0;
-        virtual const point pos() const
-        {
-            return point( posx(), posy() );
+        virtual const point &pos() const = 0;
+        // This should eventually replace the regular pos() above
+        virtual const tripoint pos3() const  {
+            return tripoint( pos(), posz() );
         }
 
         struct compare_by_dist_to_point {
-            tripoint center;
+            point center;
             // Compare the two creatures a and b by their distance to a fixed center point.
             // The nearer creature is considered smaller and sorted first.
             bool operator()( const Creature *a, const Creature *b ) const;
