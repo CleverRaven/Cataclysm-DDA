@@ -352,7 +352,7 @@
 		<Unit filename="src/morale.h" />
 		<Unit filename="src/moraledata.h" />
 		<Unit filename="src/mtype.h" />
-		<Unit filename="src/mtypedef.cpp" />
+		<Unit filename="src/mtype.cpp" />
 		<Unit filename="src/mutation.cpp" />
 		<Unit filename="src/mutation.h" />
 		<Unit filename="src/mutation_data.cpp" />
