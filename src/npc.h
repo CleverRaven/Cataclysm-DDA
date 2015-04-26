@@ -515,7 +515,7 @@ public:
  void randomize_from_faction(faction *fac);
  void set_fac(std::string fac_name);
     /**
-     * Set @ref mapx and @ref mapx and @ref mapz.
+     * Set @ref mapx and @ref mapx and @ref pos.
      * @param mx,my,mz are global submap coordinates.
      * This function also adds the npc object to the overmap.
      */
@@ -719,7 +719,7 @@ private:
      * overmap if needed.
      * (mapx,mapy) defines the overmap the npc is stored on.
      */
-    int mapx, mapy, mapz;
+    int mapx, mapy;
 public:
 
     static npc_map _all_npc;
@@ -731,7 +731,7 @@ public:
      * point(
      *     mapx * SEEX + posx,
      *     mapy * SEEY + posy,
-     *     mapz)
+     *     pos.z)
      * (Expressed in map squares, the system that @ref map uses.)
      * Any of om, map, pos can be in any range.
      * For active NPCs pos would be in the valid range required by
