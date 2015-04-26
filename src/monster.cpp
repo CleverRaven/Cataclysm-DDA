@@ -26,7 +26,7 @@ monster::monster()
 {
  position.x = 20;
  position.y = 10;
- position.z = -500; // Some random number that will cause debugmsgs
+ position.z = -500; // Some arbitrary number that will cause debugmsgs
  wandf = 0;
  hp = 60;
  moves = 0;
@@ -49,7 +49,7 @@ monster::monster(mtype *t)
 {
  position.x = 20;
  position.y = 10;
- position.z = -500; // Some random number that will cause debugmsgs
+ position.z = -500; // Some arbitrary number that will cause debugmsgs
  wandf = 0;
  type = t;
  moves = type->speed;

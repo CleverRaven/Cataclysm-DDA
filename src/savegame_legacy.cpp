@@ -1520,7 +1520,7 @@ void player::load_legacy(std::stringstream & dump)
          focus_pool >> male >> prof_ident >> healthy >> styletmp;
 
     position.z = g->get_levz();
- 
+
     // Bionic power scale has been changed.
     max_power_level *= 25;
     power_level *= 25;

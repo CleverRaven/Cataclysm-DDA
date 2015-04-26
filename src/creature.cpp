@@ -211,14 +211,14 @@ bool Creature::sees( const Creature &critter, int &bresenham_slope ) const
 
 bool Creature::sees( const int tx, const int ty ) const
 {
-    int bresenham_slope;
-    return sees( point( tx, ty ), bresenham_slope );
+    int bresen1, bresen2;
+    return sees( tripoint( tx, ty, posz() ), bresen1, bresen2 );
 }
 
 bool Creature::sees( const point t ) const
 {
-    int bresenham_slope;
-    return sees( t, bresenham_slope );
+    int bresen1, bresen2;
+    return sees( tripoint( t, posz() ), bresen1, bresen2 );
 }
 
 bool Creature::sees( const int tx, const int ty, int &bresenham_slope ) const
@@ -227,17 +227,11 @@ bool Creature::sees( const int tx, const int ty, int &bresenham_slope ) const
     return sees( tripoint( tx, ty, posz() ), bresenham_slope, junk );
 }
 
-bool Creature::sees( const point t, int &bresenham_slope ) const
-{
-    int junk;
-    return sees( tripoint( t, posz() ), bresenham_slope, junk );
-}
-
 bool Creature::sees( const tripoint &t, int &bresen1, int &bresen2 ) const
 {
     // TODO: FoV update
     bresen2 = 0;
-    
+
     const int range_cur = sight_range( g->light_level() );
     const int range_day = sight_range( DAYLIGHT_LEVEL );
     const int range_min = std::min( range_cur, range_day );

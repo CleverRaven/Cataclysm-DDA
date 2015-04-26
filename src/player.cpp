@@ -13063,11 +13063,11 @@ Creature::Attitude player::attitude_to( const Creature &other ) const
     return A_NEUTRAL;
 }
 
-bool player::sees( const point t, int &bresenham_slope ) const
+bool player::sees( const tripoint &t, int &bresen1, int &bresen2 ) const
 {
     static const std::string str_bio_night("bio_night");
-    const int wanted_range = rl_dist( pos(), t );
-    bool can_see = Creature::sees( t, bresenham_slope );
+    const int wanted_range = rl_dist( pos3(), t );
+    bool can_see = Creature::sees( t, bresen1, bresen2 );
     // Only check if we need to override if we already came to the opposite conclusion.
     if( can_see && wanted_range < 15 && wanted_range > sight_range(1) &&
         has_active_bionic(str_bio_night) ) {
@@ -13081,10 +13081,10 @@ bool player::sees( const point t, int &bresenham_slope ) const
     return can_see;
 }
 
-bool player::sees( const Creature &critter, int &bresenham_slope ) const
+bool player::sees( const Creature &critter, int &bresen1, int &bresen2 ) const
 {
     // This handles only the player/npc specific stuff (monsters don't have traits or bionics).
-    const int dist = rl_dist( pos(), critter.pos() );
+    const int dist = rl_dist( pos3(), critter.pos3() );
     if (dist <= 3 && has_trait("ANTENNAE")) {
         return true;
     }
@@ -13095,7 +13095,7 @@ bool player::sees( const Creature &critter, int &bresenham_slope ) const
         // to the ground. It also might need a range check.
         return true;
     }
-    return Creature::sees( critter, bresenham_slope );
+    return Creature::sees( critter, bresen1, bresen2 );
 }
 
 bool player::can_pickup(bool print_msg) const

@@ -105,15 +105,15 @@ class Creature
          * the other monster is visible.
          */
         /*@{*/
-        virtual bool sees( const Creature &critter, int &bresenham_slope ) const;
         virtual bool sees( const Creature &critter, int &bresen1, int &bresen2 ) const;
+        bool sees( const Creature &critter, int &bresenham_slope ) const;
         bool sees( const Creature &critter ) const;
         bool sees( int cx, int cy, int &bresenham_slope ) const;
         bool sees( int tx, int ty ) const;
-        virtual bool sees( point t, int &bresenham_slope ) const;
-        bool sees( point t ) const;
+        virtual bool sees( const tripoint &t, int &bresen1, int &bresen2 ) const;
+        bool sees( const tripoint &t, int &bresen1 ) const;
         bool sees( const tripoint &t ) const;
-        bool sees( const tripoint &t, int &bresen1, int &bresen2 ) const;
+        bool sees( point t ) const;
         /*@}*/
 
         /**

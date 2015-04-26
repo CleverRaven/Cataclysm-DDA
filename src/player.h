@@ -304,9 +304,9 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
 
         using Creature::sees;
         // see Creature::sees
-        bool sees( point c, int &bresenham_slope ) const override;
+        bool sees( const tripoint &c, int &bresen1, int &bresen2 ) const override;
         // see Creature::sees
-        bool sees( const Creature &critter, int &bresenham_slope ) const override;
+        bool sees( const Creature &critter, int &bresen1, int &bresen2 ) const override;
         /**
          * Returns all creatures that this player can see and that are in the given
          * range. This player object itself is never included.
