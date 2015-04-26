@@ -694,5 +694,21 @@
         "contains": 10,
         "material": "aluminum",
         "qualities": [["COOK", 1]]
-    }
+    },
+  {
+    "type" : "GENERIC",
+    "id" : "fishing_hook_bone",
+    "sub": "fishing_hook_basic",
+    "symbol" : ",",
+    "color" : "white",
+    "name" : "bone fishing hook",
+    "description" : "An improvised fishing hook carved from bone.",
+    "price" : 25,
+    "material" : "bone",
+    "weight" : 1,
+    "volume" : 0,
+    "bashing" : -3,
+    "cutting" : 3,
+    "to_hit" : 0
+  }
 ]

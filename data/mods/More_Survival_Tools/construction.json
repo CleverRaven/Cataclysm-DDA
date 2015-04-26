@@ -2,7 +2,7 @@
     {
         "type" : "construction",
         "skill" : "survival",
-        "description" : "Build Lean-To",
+        "description" : "Build Pine Lean-To",
         "category" : "CONSTRUCT",
         "difficulty" : 2,
         "time" : 90,

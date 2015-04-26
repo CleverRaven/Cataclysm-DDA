@@ -1266,5 +1266,24 @@
   "components": [
      [ [ "copper", 90 ] ]
   ]
+  },
+  {
+    "type" : "recipe",
+    "result": "fishing_hook_bone",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_TOOLS",
+    "skill_used": "fabrication",
+    "skills_required": [ "survival", 1 ],
+    "difficulty": 1,
+    "time": 2000,
+    "reversible": false,
+    "autolearn": true,
+    "qualities":[
+    {"id":"CUT","level":1,"amount":1}
+  ], "components": [
+      [
+      [ "bone", 1 ], ["bone_human", 1]
+      ]
+    ]
   }
 ]
