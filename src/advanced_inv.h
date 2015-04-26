@@ -91,9 +91,12 @@ struct advanced_inv_area {
     bool is_container_valid( const item *it ) const;
     void set_container_position();
     aim_location offset_to_location() const;
-//    bool set_vehicle(advanced_inv_area &square);
     bool can_store_in_vehicle() const
     {
+        // disallow for non-valid vehicle locations
+        if(id > AIM_DRAGGED || id < AIM_SOUTHWEST) {
+            return false;
+        }
         return (veh != nullptr && vstor >= 0);
     }
 };
@@ -184,26 +187,32 @@ class advanced_inventory_pane
 {
     private:
         aim_location area = NUM_AIM_LOCATIONS;
-        aim_location veh_area = NUM_AIM_LOCATIONS;
+        // pointer to the square this pane is pointing to
+        advanced_inv_area *square = nullptr;
         bool in_veh = false;
     public:
         aim_location get_area() const
         {
             return area;
         }
-        aim_location get_veh_area() const
+        void set_area(aim_location loc, bool in_vehicle_cargo = false, 
+                advanced_inv_area *square = nullptr)
         {
-            return veh_area;
-        }
-        void set_area(aim_location loc)
-        {
+            if(loc == NUM_AIM_LOCATIONS) {
+                // reset whether we are in a vehicle, but keep same location
+                in_veh = false;
+                return;
+            }
             area = loc;
+            in_veh = (in_vehicle_cargo && 
+                    square != nullptr && 
+                    square->can_store_in_vehicle());
+            this->square = square;
         }
         bool in_vehicle() const
         {
             return in_veh;
         }
-        bool set_vehicle(aim_location loc);
         /**
          * Index of the selected item (index of @ref items),
          */
@@ -284,7 +293,8 @@ class advanced_inventory
          */
         enum side {
             left  = 0,
-            right = 1
+            right = 1,
+            NUM_PANES = 2
         };
         const int head_height;
         const int min_w_height;
@@ -326,7 +336,7 @@ class advanced_inventory
          * Two panels (left and right) showing the items, use a value of @ref side
          * as index.
          */
-        std::array<advanced_inventory_pane, 2> panes;
+        std::array<advanced_inventory_pane, NUM_PANES> panes;
         static const advanced_inventory_pane null_pane;
         std::array<advanced_inv_area, NUM_AIM_LOCATIONS> squares;
 
@@ -335,6 +345,10 @@ class advanced_inventory
         WINDOW *right_window;
 
         bool exit;
+
+        // store/load settings (such as index, filter, etc)
+        void save_settings(bool only_panes = false);
+        void load_settings();
 
         static std::string get_sortname(advanced_inv_sortby sortby);
         bool move_all_items();
@@ -400,10 +414,6 @@ class advanced_inventory
          */
         void remove_item( advanced_inv_listitem &sitem );
         void menu_square(uimenu *menu);
-
-        // set AIM_VEHICLE to the location given.
-//        bool set_vehicle(advanced_inventory_pane &pane, aim_location sel);
-//        void load_veh_data();
 
         static char get_location_key( aim_location area );
 };
