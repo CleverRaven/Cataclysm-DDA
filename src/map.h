@@ -607,7 +607,7 @@ void add_corpse( const tripoint &p );
     int collapse_check( const tripoint &p );
     /** Causes a collapse at (x, y), such as from destroying a wall */
     void collapse_at( const tripoint &p );
-    /** Tries to smash the items at the given tripoint. */
+    /** Tries to smash the items at the given tripoint. Used by the explosion code */
     void smash_items( const tripoint &p, const int power );
     /** Returns a pair where first is whether something was smashed and second is if it was a success */
     std::pair<bool, bool> bash( const tripoint &p, const int str, bool silent = false,

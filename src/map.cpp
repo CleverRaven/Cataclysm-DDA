@@ -13,6 +13,7 @@
 #include "debug.h"
 #include "messages.h"
 #include "mapsharing.h"
+#include "iuse_actor.h"
 
 #include <cmath>
 #include <stdlib.h>
@@ -2495,6 +2496,17 @@ void map::smash_items(const tripoint &p, const int power)
 {
     auto items = g->m.i_at(p);
     for (auto i = items.begin(); i != items.end();) {
+        if (i->active == true) {
+            // Get the explosion item actor
+            const explosion_iuse *actor = dynamic_cast<const explosion_iuse *>(
+                            i->type->get_use( "explosion" )->get_actor_ptr() );
+            if( actor != nullptr ) {
+                // If we're looking at another bomb, don't blow it up early for now.
+                // i++ here because we aren't iterating in the loop header.
+                i++;
+                continue;
+            }
+        }
         // The volume check here pretty much only influences corpses and very large items
         int damage_chance = std::max(1, int(power / (float(i->volume()) / 40.0)));
         // These are in descending order because the weakest part of an item
