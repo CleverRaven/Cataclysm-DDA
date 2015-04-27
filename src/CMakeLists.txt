@@ -14,7 +14,7 @@ SET(CATACLYSM_DDA_SOURCES
     ${CMAKE_SOURCE_DIR}/src/basecamp.cpp
     ${CMAKE_SOURCE_DIR}/src/tileray.cpp
     ${CMAKE_SOURCE_DIR}/src/npcmove.cpp
-    ${CMAKE_SOURCE_DIR}/src/itypedef.cpp
+    ${CMAKE_SOURCE_DIR}/src/itype.cpp
     ${CMAKE_SOURCE_DIR}/src/options.cpp
     ${CMAKE_SOURCE_DIR}/src/field.cpp
     ${CMAKE_SOURCE_DIR}/src/main_menu.cpp
@@ -74,7 +74,7 @@ SET(CATACLYSM_DDA_SOURCES
     ${CMAKE_SOURCE_DIR}/src/cursesport.cpp
     ${CMAKE_SOURCE_DIR}/src/sdltiles.cpp
     ${CMAKE_SOURCE_DIR}/src/artifact.cpp
-    ${CMAKE_SOURCE_DIR}/src/mtypedef.cpp
+    ${CMAKE_SOURCE_DIR}/src/mtype.cpp
     ${CMAKE_SOURCE_DIR}/src/input.cpp
     ${CMAKE_SOURCE_DIR}/src/speech.cpp
     ${CMAKE_SOURCE_DIR}/src/mod_manager_ui.cpp

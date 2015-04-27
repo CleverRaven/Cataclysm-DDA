@@ -105,14 +105,15 @@ class Creature
          * the other monster is visible.
          */
         /*@{*/
-        virtual bool sees( const Creature &critter, int &bresenham_slope ) const;
+        virtual bool sees( const Creature &critter, int &bresen1, int &bresen2 ) const;
+        bool sees( const Creature &critter, int &bresenham_slope ) const;
         bool sees( const Creature &critter ) const;
         bool sees( int cx, int cy, int &bresenham_slope ) const;
         bool sees( int tx, int ty ) const;
-        virtual bool sees( point t, int &bresenham_slope ) const;
-        bool sees( point t ) const;
+        virtual bool sees( const tripoint &t, int &bresen1, int &bresen2 ) const;
+        bool sees( const tripoint &t, int &bresen1 ) const;
         bool sees( const tripoint &t ) const;
-        bool sees( const tripoint &t, int &bresen1, int &bresen2 ) const;
+        bool sees( point t ) const;
         /*@}*/
 
         /**
@@ -169,7 +170,7 @@ class Creature
         virtual void absorb_hit(body_part bp, damage_instance &dam) = 0;
 
         // TODO: this is just a shim so knockbacks work
-        virtual void knock_back_from(int posx, int posy) = 0;
+        virtual void knock_back_from( const tripoint &p ) = 0;
 
         // begins a melee attack against the creature
         // returns hit - dodge (>=0 = hit, <0 = miss)
@@ -229,14 +230,14 @@ class Creature
         virtual int posx() const = 0;
         virtual int posy() const = 0;
         virtual int posz() const = 0;
-        virtual const point &pos() const = 0;
-        // This should eventually replace the regular pos() above
-        virtual const tripoint pos3() const  {
-            return tripoint( pos(), posz() );
+        virtual const tripoint &pos3() const = 0;
+        virtual const point pos() const
+        {
+            return point( posx(), posy() );
         }
 
         struct compare_by_dist_to_point {
-            point center;
+            tripoint center;
             // Compare the two creatures a and b by their distance to a fixed center point.
             // The nearer creature is considered smaller and sorted first.
             bool operator()( const Creature *a, const Creature *b ) const;

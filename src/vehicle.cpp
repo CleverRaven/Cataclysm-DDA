@@ -1421,7 +1421,7 @@ void vehicle::play_music()
             stereo_on = false;
             return;
         }
-        const auto radio_pos = global_pos() + parts[p].precalc[0];
+        const auto radio_pos = tripoint( global_pos() + parts[p].precalc[0], g->get_levz() ); // TODO: Z
         iuse::play_music( &g->u, radio_pos, 15, 50 );
     }
 }

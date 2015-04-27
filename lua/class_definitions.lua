@@ -132,6 +132,24 @@ classes = {
         functions = {
         }
     },
+    tripoint = {
+        attributes = {
+            x = {
+                type = "int",
+                writable = true
+            },
+            y = {
+                type = "int",
+                writable = true
+            },
+            z = {
+                type = "int",
+                writable = true
+            }
+        },
+        functions = {
+        }
+    },
     uimenu = {
         attributes = {
             title = {
@@ -269,10 +287,6 @@ classes = {
             name = {
                 args = {},
                 rval = "string"
-            },
-            attack_at = {
-                args = {"int", "int"},
-                rval = "int"
             },
             make_friendly = {
                 args = {},
@@ -609,13 +623,6 @@ global_functions = {
         argnames = { "message" },
         rval = nil,
         desc = "Write a message to the game's standard message window."
-    },
-    revive_corpse = {
-        cpp_name = "g->revive_corpse",
-        args     = { "int", "int", "int" },
-        argnames = { "x", "y", "index" },
-        rval = nil,
-        desc = "Revive the corpse at the specified location. The index parameter specifies the index within the item stack that the corpse is located at."
     },
     popup = {
         cpp_name = "popup_wrapper",

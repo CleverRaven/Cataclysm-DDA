@@ -3,33 +3,13 @@
     "type" : "item_group",
     "id" : "kitchen",
     "items":[
-      ["cheese_hard", 5],
-      ["foil_alum", 25],
-      ["fish_cooked", 2],
-      ["meat_cooked", 4],
-      ["morel_cooked", 1],
-      ["buckwheat_cooked", 1],
-      ["cooked_burrito", 5],
-      ["potato_baked", 5]
-    ]
-  },{
-    "type" : "item_group",
-    "id" : "dining",
-    "items":[
-      ["foil_alum", 25]
+      ["cheese_hard", 5]
     ]
   },{
     "type" : "item_group",
     "id" : "fridge",
     "items":[
-      ["cheese_hard", 5],
-      ["foil_alum", 5]
-    ]
-  },{
-    "type" : "item_group",
-    "id" : "oven",
-    "items":[
-      ["foil_alum", 10]
+      ["cheese_hard", 5]
     ]
   },{
     "type" : "item_group",
@@ -51,8 +31,7 @@
     "items":[
       ["flint_steel", 10],
       ["tinderbox", 5],
-      ["bottle_metal", 5],
-      ["foil_alum", 1]
+      ["bottle_metal", 5]
     ]
   },{
     "type" : "item_group",
@@ -65,8 +44,7 @@
     "type" : "item_group",
     "id" : "trash",
     "items":[
-      ["tinder", 1],
-      ["foil_alum", 20]
+      ["tinder", 1]
     ]
   },{
     "type" : "item_group",
@@ -78,12 +56,6 @@
       ["tinderbox", 1],
       ["bottle_metal", 1],
       ["boxer_briefs", 20]
-    ]
-  },{
-    "type" : "item_group",
-    "id" : "cop_evidence",
-    "items":[
-      ["human_cooked", 1]
     ]
   },{
     "type" : "item_group",
@@ -111,15 +83,13 @@
     "id" : "subway",
     "items":[
       ["tinder", 1],
-      ["hobo_stove", 1],
-      ["foil_alum", 20]
+      ["hobo_stove", 1]
     ]
   },{
     "type" : "item_group",
     "id" : "trash_forest",
     "items":[
-      ["tinder", 1],
-      ["foil_alum", 3]
+      ["tinder", 1]
     ]
   },{
     "type" : "item_group",

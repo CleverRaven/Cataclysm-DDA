@@ -1313,6 +1313,34 @@
   ]
 },{
   "type" : "recipe",
+  "result": "cooked_cattail_stalk",
+  "category": "CC_FOOD",
+  "subcategory": "CSC_FOOD_VEGGI",
+  "skill_used": "cooking",
+  "difficulty": 1,
+  "byproducts": "plant_fibre",
+  "skills_required": [ "survival", 1 ],
+  "time": 18000,
+  "reversible": false,
+  "autolearn": true,
+  "qualities":[
+    {"id":"CUT","level":1,"amount":1},
+    {"id":"COOK","level":1,"amount":1}
+  ], "tools": [
+    [
+      [ "hotplate", 5 ],
+      [ "char_smoker", 1 ],
+      [ "toolset", 5 ],
+      [ "fire", -1 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "cattail_stalk", 1 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
   "result": "morel_cooked",
   "category": "CC_FOOD",
   "subcategory": "CSC_FOOD_OTHER",
@@ -2411,6 +2439,48 @@
   ]
 },{
   "type" : "recipe",
+  "result": "starch",
+  "category": "CC_FOOD",
+  "subcategory": "CSC_FOOD_VEGGI",
+  "skill_used": "cooking",
+  "difficulty": 1,
+  "time": 20000,
+  "reversible": false,
+  "autolearn": true,
+  "qualities":[
+    {"id":"HAMMER","level":1,"amount":1},
+    {"id":"CONTAIN","level":1,"amount":1}
+  ], "components": [
+    [
+      [ "dahlia_root", 2 ],
+      [ "potato_raw", 2 ],
+      [ "potato_irradiated", 2 ],
+      [ "cattail_stalk", 4 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
+  "result": "starch",
+  "id_suffix": "from_fibrous_stuff",
+  "byproducts": { "id" : "plant_fibre", "charges_mult" : 5 },
+  "category": "CC_FOOD",
+  "subcategory": "CSC_FOOD_VEGGI",
+  "skill_used": "cooking",
+  "difficulty": 1,
+  "time": 40000,
+  "reversible": false,
+  "autolearn": true,
+  "qualities":[
+    {"id":"HAMMER","level":1,"amount":1},
+    {"id":"CUT","level":1,"amount":1},
+    {"id":"CONTAIN","level":1,"amount":1}
+  ], "components": [
+    [
+      [ "cattail_rhizome", 1 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
   "result": "oj",
   "byproducts": "juice_pulp",
   "category": "CC_FOOD",
@@ -2662,7 +2732,7 @@
   "category": "CC_FOOD",
   "subcategory": "CSC_FOOD_VEGGI",
   "skill_used": "cooking",
-  "difficulty": 5, "//": "Gelatin from bones is just boiling them long enough. Gelatin from pectin is harder. Instead of duping the ingredients, *1.5 them for aforementioned pectin.",
+  "difficulty": 5, "//": "Gelatin from bones is just boiling them long enough.  Gelatin from pectin is harder.  Instead of duping the ingredients, *1.5 them for aforementioned pectin.",
   "time": 40000,
   "reversible": false,
   "autolearn": true,
@@ -6842,7 +6912,7 @@
   "reversible": false,
   "autolearn": true,
   "tools": [ [ ["rock_quern", -1], ["clay_quern", -1] ] ],
-  "components": [ [ ["wheat", 2], ["buckwheat", 2], ["barley", 2], ["acorns_cooked", 2], ["oats", 2] ] ]
+  "components": [ [ ["wheat", 2], ["buckwheat", 2], ["barley", 2], ["acorns_cooked", 2], ["oats", 2], ["starch", 2] ] ]
 },{
   "type" : "recipe",
   "result": "cornmeal",
@@ -9023,6 +9093,7 @@
       [ "char_smoker", 1 ],
       [ "toolset", 8 ],
       [ "coffeemaker", 8],
+      [ "atomic_coffeepot", -1 ],
       [ "fire", -1 ]
     ]
   ],

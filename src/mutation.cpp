@@ -326,7 +326,7 @@ void player::activate_mutation( const std::string &mut )
             fatigue += cost;
         }
         tdata.powered = true;
-        
+
         // Handle stat changes from activation
         apply_mods(mut, true);
     }
@@ -373,11 +373,11 @@ void player::activate_mutation( const std::string &mut )
         tdata.powered = false;
         return; // handled when the activity finishes
     } else if (mut == "SLIMESPAWNER") {
-        std::vector<point> valid;
+        std::vector<tripoint> valid;
         for (int x = posx() - 1; x <= posx() + 1; x++) {
             for (int y = posy() - 1; y <= posy() + 1; y++) {
                 if (g->is_empty(x, y)) {
-                    valid.push_back( point(x, y) );
+                    valid.push_back( tripoint(x, y, posz()) );
                 }
             }
         }
@@ -392,11 +392,11 @@ void player::activate_mutation( const std::string &mut )
         monster slime(GetMType("mon_player_blob"));
         for (int i = 0; i < numslime; i++) {
             int index = rng(0, valid.size() - 1);
-            point sp = valid[index];
+            if (g->summon_mon("mon_player_blob", valid[index])) {
+                monster *slime = g->monster_at(valid[index]);
+                slime->friendly = -1;
+            }
             valid.erase(valid.begin() + index);
-            slime.spawn(sp.x, sp.y);
-            slime.friendly = -1;
-            g->add_zombie(slime);
         }
         //~ Usual enthusiastic slimespring small voices! :D
         if (one_in(3)) {
@@ -453,7 +453,7 @@ void player::activate_mutation( const std::string &mut )
 void player::deactivate_mutation( const std::string &mut )
 {
     my_mutations[mut].powered = false;
-    
+
     // Handle stat changes from deactivation
     apply_mods(mut, false);
 }

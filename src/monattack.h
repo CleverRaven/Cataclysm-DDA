@@ -32,6 +32,7 @@ void fungus_growth      (monster *z, int index); // Sporeling -> fungaloid
 void fungus_sprout      (monster *z, int index); // Grow fungal walls
 void fungus_fortify     (monster *z, int index); // Grow fungal hedgerows
 void leap               (monster *z, int index);
+void impale             (monster *z, int index);
 void dermatik           (monster *z, int index);
 void dermatik_growth    (monster *z, int index);
 void plant              (monster *z, int index);
@@ -77,6 +78,9 @@ bool thrown_by_judo     (monster *z, int index); //handles zombie getting thrown
 void riotbot            (monster *z, int index);
 void stretch_attack     (monster *z, int index);
 void stretch_bite       (monster *z, int index);
+void kamikaze           (monster *z, int index);
+void grenadier          (monster *z, int index);
+void grenadier_elite    (monster *z, int index);
 
 void taze               (monster *z, Creature *target);
 void rifle              (monster *z, Creature *target); // Automated M4

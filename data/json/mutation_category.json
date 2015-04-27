@@ -29,7 +29,7 @@
         "name" : "Slime",
         "category" : "SLIME",
         "mutagen_message" : "Your body loses all rigidity for a moment.",
-        "iv_message" :"This stuff takes you back. Downright primordial!",
+        "iv_message" :"This stuff takes you back.  Downright primordial!",
         "memorial_message" : "Gave up on rigid human norms.",
         "junkie_message" : "Maybe if you drank enough, you'd become mutagen..."
     },{
@@ -80,7 +80,7 @@
         "id" : "mutation_wolf",
         "name" : "Wolf",
         "category" : "LUPINE",
-        "mutagen_message" : "You feel an urge to mark your territory. But then it passes.",
+        "mutagen_message" : "You feel an urge to mark your territory.  But then it passes.",
         "iv_message" : "As the mutagen hits you, your ears twitch and you stifle a yipe.",
         "memorial_message" : "Wolfed out."
     },{
@@ -88,7 +88,7 @@
         "id" : "mutation_cattle",
         "name" : "Cattle", "//" : "~rBGH is a bovine growth hormone, unpopular with consumers",
         "category" : "CATTLE",
-        "mutagen_message" : "Your mind and body slow down. You feel peaceful.",
+        "mutagen_message" : "Your mind and body slow down.  You feel peaceful.",
         "iv_message" : "You wonder if this is what rBGH feels like...",
         "memorial_message" : "Stopped worrying and learned to love the cowbell."
     },{
@@ -96,8 +96,8 @@
         "id" : "mutation_cephalopod",
         "name" : "Cephalopod", "//" : "~Zork reference, but it's talking about your blood vessels",
         "category" : "CEPHALOPOD",
-        "mutagen_message" : "Your mind is overcome by images of eldritch horrors...and then they pass.",
-        "iv_message" : "You watch the mutagen flow through a maze of little twisty passages. All the same.",
+        "mutagen_message" : "Your mind is overcome by images of eldritch horrors... and then they pass.",
+        "iv_message" : "You watch the mutagen flow through a maze of little twisty passages.  All the same.",
         "memorial_message" : "Began living the dreams."
     },{
         "type" : "mutation_category",
@@ -153,7 +153,7 @@
         "iv_pain" : 3,
         "iv_fatigue" : 5,
         "memorial_message" : "Resumed clinical trials.",
-        "junkie_message" : "Ahh, there it is. You can feel the mutagen again."
+        "junkie_message" : "Ahh, there it is.  You can feel the mutagen again."
     },{
         "type" : "mutation_category",
         "id" : "mutation_chimera",

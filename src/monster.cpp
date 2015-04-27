@@ -26,9 +26,7 @@ monster::monster()
 {
  position.x = 20;
  position.y = 10;
- zpos = 0;
- wandx = -1;
- wandy = -1;
+ position.z = -500; // Some arbitrary number that will cause debugmsgs
  wandf = 0;
  hp = 60;
  moves = 0;
@@ -51,8 +49,7 @@ monster::monster(mtype *t)
 {
  position.x = 20;
  position.y = 10;
- wandx = -1;
- wandy = -1;
+ position.z = -500; // Some arbitrary number that will cause debugmsgs
  wandf = 0;
  type = t;
  moves = type->speed;
@@ -79,11 +76,7 @@ monster::monster(mtype *t)
 
 monster::monster(mtype *t, const tripoint &p )
 {
- position.x = p.x;
- position.y = p.y;
- zpos = p.z;
- wandx = -1;
- wandy = -1;
+ position = p;
  wandf = 0;
  type = t;
  moves = type->speed;
@@ -117,7 +110,7 @@ bool monster::setpos(const int x, const int y)
     bool ret = g->update_zombie_pos( *this, tripoint( x, y, g->get_levz() ) );
     position.x = x;
     position.y = y;
-    zpos = g->get_levz();
+    position.z = g->get_levz();
     return ret;
 }
 
@@ -128,7 +121,7 @@ bool monster::setpos(const int x, const int y, const int z, const bool level_cha
 
 bool monster::setpos( const point &p, const bool level_change )
 {
-    return setpos( tripoint( p, zpos ), level_change );
+    return setpos( tripoint( p, position.z ), level_change );
 }
 
 bool monster::setpos( const tripoint &p, const bool level_change )
@@ -137,14 +130,12 @@ bool monster::setpos( const tripoint &p, const bool level_change )
         return true;
     }
     bool ret = level_change ? true : g->update_zombie_pos( *this, p );
-    position.x = p.x;
-    position.y = p.y;
-    zpos = p.z;
+    position = p;
 
     return ret;
 }
 
-const point &monster::pos() const
+const tripoint &monster::pos3() const
 {
     return position;
 }
@@ -166,7 +157,12 @@ void monster::poly(mtype *t)
     faction = t->default_faction;
 }
 
-void monster::update_check(){
+void monster::update_check() {
+    // Hallucinations don't upgrade!
+    if (is_hallucination()) {
+        return;
+    }
+
     // No chance of upgrading, abort
     if ((type->half_life <= 0 && type->base_upgrade_chance <= 0) ||
         (type->upgrade_group == "NULL" && type->upgrades_into == "NULL")) {
@@ -226,7 +222,12 @@ void monster::spawn(const int x, const int y, const int z)
 {
     position.x = x;
     position.y = y;
-    zpos = z;
+    position.z = z;
+}
+
+void monster::spawn(const tripoint &p)
+{
+    position = p;
 }
 
 std::string monster::name(unsigned int quantity) const
@@ -520,18 +521,18 @@ void monster::shift(int sx, int sy)
     }
 
     if( wandf > 0 ) {
-        wandx -= xshift;
-        wandy -= yshift;
+        wander_pos.x -= xshift;
+        wander_pos.y -= yshift;
     }
 }
 
-point monster::move_target()
+tripoint monster::move_target()
 {
-    if (plans.empty()) {
+    if( plans.empty() ) {
         // if we have no plans, pretend it's intentional
-        return pos();
+        return pos3();
     }
-    return point(plans.back().x, plans.back().y);
+    return plans.back();
 }
 
 Creature *monster::attack_target()
@@ -540,12 +541,12 @@ Creature *monster::attack_target()
         return nullptr;
     }
 
-    point target_point = move_target();
-    Creature *target = g->critter_at( target_point.x, target_point.y );
-    if( target == nullptr || attitude_to( *target ) == Creature::A_FRIENDLY ||
-        !sees(*target) ) {
+    Creature *target = g->critter_at( move_target() );
+    if( target == nullptr || target == this ||
+        attitude_to( *target ) == Creature::A_FRIENDLY || !sees(*target) ) {
         return nullptr;
     }
+
     return target;
 }
 
@@ -555,7 +556,7 @@ bool monster::is_fleeing(player &u) const
   return true;
  monster_attitude att = attitude(&u);
  return (att == MATT_FLEE ||
-         (att == MATT_FOLLOW && rl_dist( pos(), u.pos() ) <= 4));
+         (att == MATT_FOLLOW && rl_dist( pos3(), u.pos3() ) <= 4));
 }
 
 Creature::Attitude monster::attitude_to( const Creature &other ) const
@@ -1280,7 +1281,8 @@ void monster::set_special(int index, int time)
         return;
     }
 
-    if (time < 0) {
+    // -1 is used for disabling specials
+    if (time < -1) {
         time = 0;
     }
     sp_timeout[index] = time;
@@ -1477,8 +1479,8 @@ void monster::die(Creature* nkiller) {
             if( !critter.type->same_species( *type ) ) {
                 continue;
             }
-            int t = 0;
-            if( g->m.sees( critter.pos(), pos(), light, t ) ) {
+
+            if( g->m.sees( critter.pos3(), pos3(), light ) ) {
                 critter.morale += morale_adjust;
                 critter.anger += anger_adjust;
             }
@@ -1609,7 +1611,8 @@ bool monster::make_fungus()
       tid == "mon_zombie_bio_op" || tid == "mon_zombie_survivor" || tid == "mon_zombie_fireman" ||
       tid == "mon_zombie_cop" || tid == "mon_zombie_fat" || tid == "mon_zombie_rot" ||
       tid == "mon_zombie_swimmer" || tid == "mon_zombie_grabber" || tid == "mon_zombie_technician" ||
-      tid == "mon_zombie_brute_shocker") {
+      tid == "mon_zombie_brute_shocker" || tid == "mon_zombie_grenadier" ||
+      tid == "mon_zombie_grenadier_elite") {
         polypick = 2; // Necro and Master have enough Goo to resist conversion.
         // Firefighter, hazmat, and scarred/beekeeper have the PPG on.
     } else if (tid == "mon_zombie_necro" || tid == "mon_zombie_master" || tid == "mon_zombie_fireman" ||
@@ -1642,6 +1645,16 @@ void monster::make_friendly()
 {
  plans.clear();
  friendly = rng(5, 30) + rng(0, 20);
+}
+
+void monster::make_ally(monster *z) {
+    friendly = z->friendly;
+    faction = z->faction;
+}
+
+void monster::reset_last_load()
+{
+    last_loaded = calendar::turn.get_turn() / DAYS(1);
 }
 
 void monster::add_item(item it)

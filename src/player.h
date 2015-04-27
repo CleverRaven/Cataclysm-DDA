@@ -13,6 +13,7 @@
 #include "messages.h"
 #include "clzones.h"
 #include "artifact.h"
+#include "weighted_list.h"
 
 #include <unordered_set>
 #include <bitset>
@@ -85,25 +86,6 @@ struct stats : public JsonSerializer, public JsonDeserializer {
         jo.read("damage_healed", damage_healed);
         jo.read("headshots", headshots);
     }
-};
-
-// Likelyhood to pick a reason
-struct reason_weight {
-    const char *reason;
-    unsigned int weight;
-};
-
-// Class for picking a reason for a melee miss from a weighted list.
-struct reason_weight_list {
-        reason_weight_list() : total_weight(0) { };
-        void add_item(const char *reason, unsigned int weight);
-        unsigned int pick_ent();
-        const char *pick();
-        void clear();
-
-    private:
-        unsigned int total_weight;
-        std::vector<reason_weight> items;
 };
 
 class player : public Character, public JsonSerializer, public JsonDeserializer
@@ -272,7 +254,7 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         /** Returns the bionic with the given invlet, or NULL if no bionic has that invlet */
         bionic *bionic_by_invlet(char ch);
         /** Returns player lumination based on the brightest active item they are carrying */
-        float active_light();
+        float active_light() const;
 
         /** Returns true if the player doesn't have the mutation or a conflicting one and it complies with the force typing */
         bool mutation_ok( const std::string &mutation, bool force_good, bool force_bad ) const;
@@ -289,7 +271,7 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         /** Removes the mutation's child flag from the player's list */
         void remove_child_flag( const std::string &mut );
 
-        const point &pos() const override;
+        const tripoint &pos3() const override;
         /** Returns the player's sight range */
         int sight_range( int light_level ) const override;
         /** Returns the player maximum vision range factoring in mutations, diseases, and other effects */
@@ -319,12 +301,12 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         bool has_alarm_clock();
         /** Returns true if the player or their vehicle has a watch */
         bool has_watch();
-        
+
         using Creature::sees;
         // see Creature::sees
-        bool sees( point c, int &bresenham_slope ) const override;
+        bool sees( const tripoint &c, int &bresen1, int &bresen2 ) const override;
         // see Creature::sees
-        bool sees( const Creature &critter, int &bresenham_slope ) const override;
+        bool sees( const Creature &critter, int &bresen1, int &bresen2 ) const override;
         /**
          * Returns all creatures that this player can see and that are in the given
          * range. This player object itself is never included.
@@ -546,7 +528,7 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         /** Harms all body parts for dam, with armor reduction. If vary > 0 damage to parts are random within vary % (1-100) */
         int hitall(int dam, int vary, Creature *source);
         /** Knocks the player back one square from a tile */
-        void knock_back_from(int x, int y) override;
+        void knock_back_from( const tripoint &p ) override;
 
         /** Converts a body_part to an hp_part */
         static hp_part bp_to_hp(body_part bp);
@@ -590,7 +572,7 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         int drink_from_hands(item &water);
         /** Used for eating object at pos, returns true if object is removed from inventory (last charge was consumed) */
         bool consume(int pos);
-        /** Used for eating a particular item that doesn't need to be in inventory. 
+        /** Used for eating a particular item that doesn't need to be in inventory.
          *  Returns true if the item is to be removed (doesn't remove). */
         bool consume_item( item &eat );
         /** Used for eating entered comestible, returns true if comestible is successfully eaten */
@@ -646,6 +628,8 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         bool has_identified( std::string item_id ) const;
         /** Handles sleep attempts by the player, adds "lying_down" */
         void try_to_sleep();
+        /** Rate point's ability to serve as a bed. Takes mutations, fatigue and stimms into account. */
+        int sleep_spot( const tripoint &p ) const;
         /** Checked each turn during "lying_down", returns true if the player falls asleep */
         bool can_sleep();
         /** Adds "sleep" to the player */
@@ -885,6 +869,10 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         {
             return position.y;
         }
+        inline int posz() const override
+        {
+            return position.z;
+        }
         inline void setx( int x )
         {
             position.x = x;
@@ -893,19 +881,13 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         {
             position.y = y;
         }
-        inline int posz() const override
-        {
-            return zpos;
-        }
         inline void setz( int z )
         {
-            zpos = z;
+            position.z = z;
         }
         inline void setpos( const tripoint &p )
         {
-            position.x = p.x;
-            position.y = p.y;
-            zpos = p.z;
+            position = p;
         }
         tripoint view_offset;
         bool in_vehicle;       // Means player sit inside vehicle on the tile he is now
@@ -1079,9 +1061,7 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
 
     protected:
         // The player's position on the local map.
-        point position;
-        // Temporary z-level coord - should later be merged with the above
-        int zpos;
+        tripoint position;
 
         trap_map known_traps;
 
@@ -1125,7 +1105,7 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         int cached_turn;
         point cached_position;
 
-        struct reason_weight_list melee_miss_reasons;
+        struct weighted_int_list<const char*> melee_miss_reasons;
 
         int id; // A unique ID number, assigned by the game class private so it cannot be overwritten and cause save game corruptions.
         //NPCs also use this ID value. Values should never be reused.
