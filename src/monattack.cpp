@@ -4489,9 +4489,10 @@ void mattack::kamikaze(monster *z, int index)
     }
     // Range is (radius + distance they expect to gain on you during the countdown)
     // We double target speed because if the player is walking and then start to run their effective speed doubles
-    // .6 factor was determined experimentally to be about the factor required for players to be able to *just barely*
+    // .65 factor was determined experimentally to be about the factor required for players to be able to *just barely*
     // outrun the explosion if they drop everything and run.
-    int range = std::max(1, int(.6 * (radius + float(z->get_speed()) / float(target->get_speed() * 2) * charges)));
+    float factor = float(z->get_speed()) / float(target->get_speed() * 2);
+    int range = std::max(1, int(.65 * (radius + factor * charges)));
 
     // Check if we are in range to begin the countdown
     if (!within_target_range(z, target, range)) {
