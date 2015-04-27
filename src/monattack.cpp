@@ -4432,12 +4432,12 @@ void mattack::kamikaze(monster *z, int index)
     // HORRIBLE HACK ALERT! Remove the following code completely once we have working monster inventory processing
     if (z->has_effect("countdown")) {
         if (z->get_effect("countdown").get_duration() == 1) {
+            z->die(nullptr);
             // Timer is out, detonate
             item i_explodes(act_bomb_type->id, 0);
             i_explodes.charges = 0;
             i_explodes.active = true;
             i_explodes.process(nullptr, z->pos3(), false);
-            z->set_special(index, -1);
         }
         return;
     }
