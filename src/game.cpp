@@ -1615,13 +1615,13 @@ void game::process_activity()
     }
 }
 
-void game::catch_a_monster(std::vector<monster*> &catchables, int posx, int posy, player *p, int catch_duration) // catching function
+void game::catch_a_monster(std::vector<monster*> &catchables, const tripoint &pos, player *p, int catch_duration) // catching function
 {
     int index = rng(1, catchables.size()) - 1; //get a random monster from the vector
     //spawn the corpse, rotten by a part of the duration
     item fish;
     fish.make_corpse( catchables[index]->type, calendar::turn + int(rng(0, catch_duration)) );
-    m.add_item_or_charges(posx, posy, fish);
+    m.add_item_or_charges( pos, fish );
     u.add_msg_if_player(m_good, _("You caught a %s."), catchables[index]->type->nname().c_str());
     //quietly kill the catched
     catchables[index]->no_corpse_quiet = true;
@@ -2447,7 +2447,7 @@ bool game::handle_action()
                 if (action == "SELECT") {
                     bool new_destination = true;
                     if (!destination_preview.empty()) {
-                        point final_destination = destination_preview.back();
+                        auto &final_destination = destination_preview.back();
                         if (final_destination.x == mx && final_destination.y == my) {
                             // Second click
                             new_destination = false;
@@ -2463,7 +2463,7 @@ bool game::handle_action()
                     }
 
                     if (new_destination) {
-                        destination_preview = m.route( u.posx(), u.posy(), mx, my, 0 );
+                        destination_preview = m.route( u.pos3(), tripoint( mx, my, u.posz() ), 0 );
                         return false;
                     }
                 } else if (action == "SEC_SELECT") {
@@ -2896,11 +2896,11 @@ bool game::handle_action()
 
         case ACTION_FIRE:
             // Shell-users may fire a *single-handed* weapon out a port, if need be.
-            plfire(false, mouse_action_x, mouse_action_y);
+            plfire( false, tripoint( mouse_action_x, mouse_action_y, u.posz() ) );
             break;
 
         case ACTION_FIRE_BURST:
-            plfire(true, mouse_action_x, mouse_action_y);
+            plfire( true, tripoint( mouse_action_x, mouse_action_y, u.posz() ) );
             break;
 
         case ACTION_SELECT_FIRE_MODE:
@@ -3199,6 +3199,7 @@ bool game::handle_action()
                 break;    //don't do anything when sharing and not debugger
             }
             debug();
+            continue_auto_move = true; // A small hack to help with route testing
             refresh_all();
             break;
 
@@ -3926,6 +3927,7 @@ void game::debug()
                       _("Lua Command"), // 24
                       _("Display weather"), // 25
                       _("Change time"), // 26
+                      _("Set automove route"), // 27
                       _("Cancel"),
                       NULL);
     int veh_num;
@@ -3942,9 +3944,8 @@ void game::debug()
         }
 
         auto pt = look_around();
-        if( pt.x != -1 && pt.y != -1 ) {
-            u.setx( pt.x );
-            u.sety( pt.y );
+        if( pt != tripoint_min ) {
+            u.setpos( pt );
             update_map( &u );
             add_msg( _("You teleport to point (%d,%d,%d)"), u.posx(), u.posy(), u.posz() );
         }
@@ -4108,9 +4109,9 @@ void game::debug()
     break;
 
     case 14: {
-        point pos = look_around();
-        int npcdex = npc_at(pos.x, pos.y);
-        if( npcdex == -1 && pos != u.pos() ) {
+        tripoint pos = look_around();
+        int npcdex = npc_at( pos );
+        if( npcdex == -1 && pos != u.pos3() ) {
             popup(_("No character there."));
         } else {
             player &p = npcdex != -1 ? *active_npc[npcdex] : u;
@@ -4125,7 +4126,7 @@ void game::debug()
                 data << npc_class_name(np->myclass) << "; " <<
                      npc_attitude_name(np->attitude) << std::endl;
                 if (np->has_destination()) {
-                    data << string_format(_("Destination: %d:%d%d (%s)"),
+                    data << string_format(_("Destination: %d:%d:%d (%s)"),
                             np->goal.x, np->goal.y, np->goal.z,
                             otermap[overmap_buffer.ter(np->goal)].name.c_str()) << std::endl;
                 } else {
@@ -4286,11 +4287,13 @@ void game::debug()
     break;
 
     case 15: {
-        tripoint center( look_around(), get_levz() );
-        artifact_natural_property prop =
-            artifact_natural_property(rng(ARTPROP_NULL + 1, ARTPROP_MAX - 1));
-        m.create_anomaly( center, prop );
-        m.spawn_natural_artifact( center, prop );
+        auto center = look_around();
+        if( center != tripoint_min ) {
+            artifact_natural_property prop =
+                artifact_natural_property(rng(ARTPROP_NULL + 1, ARTPROP_MAX - 1));
+            m.create_anomaly( center, prop );
+            m.spawn_natural_artifact( center, prop );
+        }
     }
     break;
 
@@ -4391,6 +4394,20 @@ void game::debug()
                                                   20, to_string( (int)calendar::turn ) ).c_str() );
         if( time > 0 ) {
             calendar::turn = time;
+        }
+    }
+    break;
+    case 27:
+    {
+        tripoint dest = look_around();
+        if( dest == tripoint_min || dest == u.pos3() ) {
+            break;
+        }
+
+        auto rt = m.route( u.pos3(), dest, 0 );
+        u.set_destination( rt );
+        if( !u.has_destination() ) {
+            popup( "Couldn't find path" );
         }
     }
     break;
@@ -4876,10 +4893,15 @@ void game::list_missions()
 }
 
 // A little helper to draw footstep glyphs.
-static void draw_footsteps( WINDOW *window, point offset )
+static void draw_footsteps( WINDOW *window, const tripoint &offset )
 {
     for( const auto &footstep : sounds::get_footstep_markers() ) {
-        mvwputch( window, offset.y + footstep.y, offset.x + footstep.x, c_yellow, '?' );
+        char glyph = '?';
+        if( footstep.z != offset.z ) { // Here z isn't an offset, but a coordinate
+            glyph = footstep.z > offset.z ? '^' : 'v';
+        }
+
+        mvwputch( window, offset.y + footstep.y, offset.x + footstep.x, c_yellow, glyph );
     }
 }
 
@@ -4889,8 +4911,10 @@ void game::draw()
     werase(w_terrain);
     draw_ter();
     if( !is_draw_tiles_mode() ) {
-        draw_footsteps( w_terrain, { POSX - (u.posx() + u.view_offset.x),
-                    POSY - (u.posy() + u.view_offset.y) } );
+        draw_footsteps( w_terrain,
+                        { POSX - (u.posx() + u.view_offset.x),
+                          POSY - (u.posy() + u.view_offset.y),
+                          u.posz() + u.view_offset.z } );
         wrefresh(w_terrain);
     }
     draw_sidebar();
@@ -5045,17 +5069,6 @@ void game::draw_critter( const Creature &critter, const tripoint &center )
     }
 }
 
-std::vector<tripoint> to_vec_tri( const std::vector<point> in, const int z )
-{
-    std::vector<tripoint> ret;
-    ret.reserve( in.size() );
-    for( const point &p : in ) {
-        ret.push_back( tripoint( p.x, p.y, z ) );
-    }
-
-    return ret;
-}
-
 void game::draw_ter()
 {
     draw_ter( u.pos3() + u.view_offset, false );
@@ -5103,10 +5116,9 @@ void game::draw_ter( const tripoint &center, bool looking )
 
     if( !destination_preview.empty() && u.view_offset.z == 0 ) {
         // Draw auto-move preview trail
-        point final_destination = destination_preview.back();
+        const tripoint &final_destination = destination_preview.back();
         tripoint line_center = u.pos3() + u.view_offset;
-        auto tri_preview = to_vec_tri( destination_preview, get_levz() );
-        draw_line( tripoint( final_destination, u.posz() ), line_center, tri_preview );
+        draw_line( final_destination, line_center, destination_preview );
         mvwputch(w_terrain, POSY + (final_destination.y - (u.posy() + u.view_offset.y)),
                  POSX + (final_destination.x - (u.posx() + u.view_offset.x)), c_white, 'X');
     }
@@ -8468,17 +8480,17 @@ void game::zones_manager()
             mvwprintz(w_zones_info, 3, 2, c_white, _("Select first point."));
             wrefresh(w_zones_info);
 
-            point pFirst = look_around(w_zones_info, point(-999, -999));
-            point pSecond = point(-1, -1);
+            tripoint pFirst = look_around( w_zones_info, u.pos3() + u.view_offset, false, true );
+            tripoint pSecond = tripoint( -1, -1, INT_MIN );
 
-            if (pFirst.x != -1 && pFirst.y != -1) {
+            if( pFirst != tripoint_min ) {
                 mvwprintz(w_zones_info, 3, 2, c_white, _("Select second point."));
                 wrefresh(w_zones_info);
 
-                pSecond = look_around(w_zones_info, pFirst);
+                pSecond = look_around( w_zones_info, pFirst, true, true );
             }
 
-            if (pSecond.x != -1 && pSecond.y != -1) {
+            if( pSecond != tripoint_min ) {
                 werase(w_zones_info);
                 wrefresh(w_zones_info);
 
@@ -8761,14 +8773,17 @@ void game::zones_manager()
     refresh_all();
 }
 
-point game::look_around(WINDOW *w_info, const point pairCoordsFirst)
+tripoint game::look_around()
+{
+    return look_around( nullptr, u.pos3() + u.view_offset, false, false );
+}
+
+tripoint game::look_around( WINDOW *w_info, const tripoint &start_point,
+                            bool has_first_point, bool select_zone )
 {
     bVMonsterLookFire = false;
 
     temp_exit_fullscreen();
-
-    bool bSelectZone = (pairCoordsFirst.x != -1 && pairCoordsFirst.y != -1);
-    bool bHasFirstPoint = (pairCoordsFirst.x != -999 && pairCoordsFirst.y != -999);
 
     const int offset_x = (u.posx() + u.view_offset.x) - getmaxx(w_terrain) / 2;
     const int offset_y = (u.posy() + u.view_offset.y) - getmaxy(w_terrain) / 2;
@@ -8777,13 +8792,12 @@ point game::look_around(WINDOW *w_info, const point pairCoordsFirst)
     int &lx = lp.x;
     int &ly = lp.y;
 
-    if (bSelectZone && bHasFirstPoint) {
-        lx = pairCoordsFirst.x;
-        ly = pairCoordsFirst.y;
+    if( select_zone && has_first_point ) {
+        lp = start_point;
     }
 
     draw_ter( lp );
-    draw_footsteps( w_terrain, {POSX - lx, POSY - ly} );
+    draw_footsteps( w_terrain, {POSX - lx, POSY - ly, lp.z} );
 
     int soffset = (int)OPTIONS["MOVE_VIEW_OFFSET"];
     bool fast_scroll = false;
@@ -8819,7 +8833,7 @@ point game::look_around(WINDOW *w_info, const point pairCoordsFirst)
             werase(w_info);
             draw_border(w_info);
 
-            if (!bSelectZone) {
+            if (!select_zone) {
                 mvwprintz(w_info, getmaxy(w_info)-1, 2, c_white, _("Press"));
                 wprintz(w_info, c_ltgreen, " %s ", ctxt.press_x("LIST_ITEMS", "", "").c_str());
                 wprintz(w_info, c_white, _("to list items and monsters"));
@@ -8829,13 +8843,13 @@ point game::look_around(WINDOW *w_info, const point pairCoordsFirst)
         int junk;
         int off = 1;
 
-        if (bSelectZone) {
+        if (select_zone) {
             //Select Zone
-            if (bHasFirstPoint) {
+            if (has_first_point) {
                 bBlink = !bBlink;
 
-                const int dx = pairCoordsFirst.x - offset_x + u.posx() - lx;
-                const int dy = pairCoordsFirst.y - offset_y + u.posy() - ly;
+                const int dx = start_point.x - offset_x + u.posx() - lx;
+                const int dy = start_point.y - offset_y + u.posy() - ly;
 
                 if (bBlink) {
                     const point pStart = point(std::min(dx, POSX), std::min(dy, POSY));
@@ -8854,8 +8868,8 @@ point game::look_around(WINDOW *w_info, const point pairCoordsFirst)
 #ifdef TILES
                     if (!use_tiles) {
 #endif
-                        for (int iY = std::min(pairCoordsFirst.y, ly); iY <= std::max(pairCoordsFirst.y, ly); ++iY) {
-                            for (int iX = std::min(pairCoordsFirst.x, lx); iX <= std::max(pairCoordsFirst.x, lx); ++iX) {
+                        for (int iY = std::min(start_point.y, ly); iY <= std::max(start_point.y, ly); ++iY) {
+                            for (int iX = std::min(start_point.x, lx); iX <= std::max(start_point.x, lx); ++iX) {
                                 if (u.sees(iX, iY)) {
                                     m.drawsq(w_terrain, u,
                                              tripoint( iX, iY, lp.z ),
@@ -8920,7 +8934,7 @@ point game::look_around(WINDOW *w_info, const point pairCoordsFirst)
                 mvwprintw(w_info, ++off + 1, 1, _("Graffiti: %s"), m.graffiti_at( lp ).c_str() );
             }
 
-            auto this_sound = sounds::sound_at( {lx, ly} );
+            auto this_sound = sounds::sound_at( lp );
             if( !this_sound.empty() ) {
                 mvwprintw( w_info, ++off, 1, _("You heard %s from here."), this_sound.c_str() );
             }
@@ -8930,7 +8944,7 @@ point game::look_around(WINDOW *w_info, const point pairCoordsFirst)
 
         wrefresh(w_terrain);
 
-        if (bSelectZone && bHasFirstPoint) {
+        if (select_zone && has_first_point) {
             inp_mngr.set_timeout(BLINK_SPEED);
         }
 
@@ -8939,7 +8953,7 @@ point game::look_around(WINDOW *w_info, const point pairCoordsFirst)
             // Our coordinates will either be determined by coordinate input(mouse),
             // by a direction key, or by the previous value.
 
-            if (action == "LIST_ITEMS" && !bSelectZone) {
+            if (action == "LIST_ITEMS" && !select_zone) {
                 list_items_monsters();
                 draw_ter( lp, true );
 
@@ -8993,7 +9007,7 @@ point game::look_around(WINDOW *w_info, const point pairCoordsFirst)
                 }
 
                 draw_ter( lp, true );
-                draw_footsteps( w_terrain, {POSX - lx, POSY - ly} );
+                draw_footsteps( w_terrain, {POSX - lx, POSY - ly, lp.z} );
             }
         }
     } while (action != "QUIT" && action != "CONFIRM");
@@ -9012,14 +9026,11 @@ point game::look_around(WINDOW *w_info, const point pairCoordsFirst)
     reenter_fullscreen();
     bVMonsterLookFire = true;
 
-    if (action == "CONFIRM") {
-        if (bSelectZone) {
-            return point(lx, ly);
-        }
-        return point(lx, ly);
+    if( action == "CONFIRM" ) {
+        return lp;
     }
 
-    return point(-1, -1);
+    return tripoint( INT_MIN, INT_MIN, INT_MIN );
 }
 
 bool lcmatch(const std::string &str, const std::string &findstr); // ui.cpp
@@ -9866,7 +9877,7 @@ int game::list_monsters(const int iLastState)
     const int iMaxRows = TERMY - iInfoHeight - 2 - VIEW_OFFSET_Y * 2 - 1;
     int iStartPos = 0;
     tripoint iActivePos;
-    tripoint iLastActivePos( -1, -1, INT_MIN );
+    tripoint iLastActivePos = tripoint_min;
     Creature *cCurMon = nullptr;
 
     for (int i = 1; i < TERMX; i++) {
@@ -9921,9 +9932,8 @@ int game::list_monsters(const int iLastState)
                 u.view_offset = stored_view_offset;
                 return 1;
             } else if (action == "look") {
-                point recentered = look_around();
-                iLastActivePos.x = recentered.x;
-                iLastActivePos.y = recentered.y;
+                tripoint recentered = look_around();
+                iLastActivePos = recentered;
             } else if (action == "fire") {
                 if( cCurMon != nullptr &&
                     rl_dist( u.pos(), cCurMon->pos() ) <= iWeaponRange) {
@@ -10581,11 +10591,10 @@ void game::plthrow(int pos)
     temp_exit_fullscreen();
     m.draw( w_terrain, u.pos3() );
 
-    int x = u.posx();
-    int y = u.posy();
+    tripoint targ = u.pos3();
 
     // pl_target_ui() sets x and y, or returns empty vector if we canceled (by pressing Esc)
-    std::vector <point> trajectory = pl_target_ui(x, y, range, &thrown, TARGET_MODE_THROW);
+    std::vector<tripoint> trajectory = pl_target_ui( targ, range, &thrown, TARGET_MODE_THROW );
     if (trajectory.empty()) {
         return;
     }
@@ -10625,7 +10634,7 @@ void game::plthrow(int pos)
     int stamina_cost = ( (thrown.weight() / 100 ) + 20) * -1;
     u.mod_stat("stamina", stamina_cost);
 
-    throw_item(u, x, y, thrown, trajectory);
+    throw_item( u, targ, thrown, trajectory );
     reenter_fullscreen();
 }
 
@@ -10648,11 +10657,11 @@ bool compare_by_dist_attitude::operator()(Creature *a, Creature *b) const
     return rl_dist( a->pos(), u.pos() ) < rl_dist( b->pos(), u.pos() );
 }
 
-std::vector<point> game::pl_target_ui(int &x, int &y, int range, item *relevant, target_mode mode,
-                                      int default_target_x, int default_target_y)
+std::vector<tripoint> game::pl_target_ui( tripoint &p, int range, item *relevant, target_mode mode,
+                                          const tripoint &default_target )
 {
     // Populate a list of targets with the zombies in range and visible
-    const Creature *last_target_critter = NULL;
+    const Creature *last_target_critter = nullptr;
     if (last_target >= 0 && !last_target_was_npc && size_t(last_target) < num_zombies()) {
         last_target_critter = &zombie(last_target);
     } else if (last_target >= 0 && last_target_was_npc && size_t(last_target) < active_npc.size()) {
@@ -10663,31 +10672,31 @@ std::vector<point> game::pl_target_ui(int &x, int &y, int range, item *relevant,
     int passtarget = -1;
     for (size_t i = 0; i < mon_targets.size(); i++) {
         Creature &critter = *mon_targets[i];
-        critter.draw(w_terrain, u.posx(), u.posy(), true);
+        critter.draw(w_terrain, u.pos3(), true);
         // no default target, but found the last target
-        if (default_target_x == -1 && last_target_critter == &critter) {
+        if( default_target == tripoint_min && last_target_critter == &critter ) {
             passtarget = i;
             break;
         }
-        if (default_target_x == critter.posx() && default_target_y == critter.posy()) {
+        if( default_target == critter.pos3() ) {
             passtarget = i;
             break;
         }
     }
     // target() sets x and y, and returns an empty vector if we canceled (Esc)
-    std::vector <point> trajectory = target(x, y, u.posx() - range, u.posy() - range,
-                                            u.posx() + range, u.posy() + range,
-                                            mon_targets, passtarget, relevant, mode);
+    const tripoint range_point( range, range, range );
+    std::vector<tripoint> trajectory = target( p, u.pos3() - range_point, u.pos3() + range_point,
+                                               mon_targets, passtarget, relevant, mode );
 
-    if (passtarget != -1) { // We picked a real live target
+    if( passtarget != -1 ) { // We picked a real live target
         // Make it our default for next time
-        int id = npc_at(x, y);
+        int id = npc_at( p );
         if (id >= 0) {
             last_target = id;
             last_target_was_npc = true;
             if(!active_npc[id]->is_enemy()){
                 if (!query_yn(_("Really attack %s?"), active_npc[id]->name.c_str())) {
-                    std::vector <point> trajectory_blank;
+                    std::vector<tripoint> trajectory_blank;
                     return trajectory_blank; // Cancel the attack
                 } else {
                     //The NPC knows we started the fight, used for morale penalty.
@@ -10696,7 +10705,7 @@ std::vector<point> game::pl_target_ui(int &x, int &y, int range, item *relevant,
             }
             active_npc[id]->make_angry();
         } else {
-            id = mon_at(x, y);
+            id = mon_at( p );
             if (id >= 0) {
                 last_target = id;
                 last_target_was_npc = false;
@@ -10707,7 +10716,7 @@ std::vector<point> game::pl_target_ui(int &x, int &y, int range, item *relevant,
     return trajectory;
 }
 
-void game::plfire(bool burst, int default_target_x, int default_target_y)
+void game::plfire( bool burst, const tripoint &default_target )
 {
     if( u.has_effect("relax_gas") ) {
         if( one_in(5) ) {
@@ -10722,7 +10731,7 @@ void game::plfire(bool burst, int default_target_x, int default_target_y)
     if( !u.is_armed() ) {
         // Vehicle turret first, if on our tile
         int part = -1;
-        vehicle *veh = m.veh_at( u.posx(), u.posy(), part );
+        vehicle *veh = m.veh_at( u.pos3(), part );
         if( veh != nullptr ) {
             int vpturret = veh->part_with_feature( part, "TURRET", true );
             int vpcontrols = veh->part_with_feature( part, "CONTROLS", true );
@@ -10784,7 +10793,7 @@ void game::plfire(bool burst, int default_target_x, int default_target_y)
         return;
     }
 
-    vehicle *veh = m.veh_at(u.posx(), u.posy());
+    vehicle *veh = m.veh_at(u.pos3());
     if (veh && veh->player_in_control(u) && u.weapon.is_two_handed(&u)) {
         add_msg(m_info, _("You need a free arm to drive!"));
         return;
@@ -10877,7 +10886,7 @@ void game::plfire(bool burst, int default_target_x, int default_target_y)
 
     if (u.weapon.has_flag("MOUNTED_GUN")) {
         int vpart = -1;
-        vehicle *veh = m.veh_at(u.posx(), u.posy(), vpart);
+        vehicle *veh = m.veh_at(u.pos3(), vpart);
         if (!m.has_flag_ter_or_furn("MOUNTABLE", u.posx(), u.posy()) &&
             (veh == NULL || veh->part_with_feature(vpart, "MOUNTABLE") < 0)) {
             add_msg(m_info,
@@ -10891,11 +10900,10 @@ void game::plfire(bool burst, int default_target_x, int default_target_y)
     temp_exit_fullscreen();
     m.draw( w_terrain, u.pos3() );
 
-    int x = u.posx();
-    int y = u.posy();
+    tripoint p = u.pos3();
 
-    std::vector<point> trajectory = pl_target_ui(x, y, range, &u.weapon, TARGET_MODE_FIRE,
-                                                 default_target_x, default_target_y);
+    std::vector<tripoint> trajectory = pl_target_ui( p, range, &u.weapon, TARGET_MODE_FIRE,
+                                                     default_target );
 
     if (trajectory.empty()) {
         if( u.weapon.has_flag("RELOAD_AND_SHOOT") && u.activity.type != ACT_AIM ) {
@@ -10913,7 +10921,7 @@ void game::plfire(bool burst, int default_target_x, int default_target_y)
         burst = true;
     }
 
-    u.fire_gun(x, y, burst);
+    u.fire_gun( p, burst );
     reenter_fullscreen();
     //fire(u, x, y, trajectory, burst);
 }
@@ -11827,7 +11835,7 @@ bool game::plmove(int dx, int dy)
     int movecost_modifier =
         0;       // pulling moves furniture into our origin square, so this changes to subtract it.
 
-    if (u.grab_point.x != 0 || u.grab_point.y) {
+    if( u.grab_point.x != 0 || u.grab_point.y != 0 ) {
         if (u.grab_type == OBJECT_VEHICLE) { // default; assume OBJECT_VEHICLE
             vehicle *grabbed_vehicle = m.veh_at(u.posx() + u.grab_point.x, u.posy() + u.grab_point.y);
             // If we're pushing a vehicle, the vehicle tile we'd be "stepping onto" is
@@ -12099,7 +12107,7 @@ bool game::plmove(int dx, int dy)
                 if ( ! m.has_furn( fpos.x, fpos.y ) ) {
                     // where'd it go? We're grabbing thin air so reset.
                     add_msg(m_info, _("No furniture at grabbed point.") );
-                    u.grab_point = point(0, 0);
+                    u.grab_point = {0, 0, 0};
                     u.grab_type = OBJECT_NONE;
                 } else {
                     point fdest( fpos.x + dx, fpos.y + dy ); // intended destination of furniture.
@@ -12212,11 +12220,10 @@ bool game::plmove(int dx, int dy)
 
                     if ( shifting_furniture ) { // we didn't move
                         if ( abs( u.grab_point.x + dx ) < 2 && abs( u.grab_point.y + dy ) < 2 ) {
-                            u.grab_point = point ( u.grab_point.x + dx ,
-                                                   u.grab_point.y + dy ); // furniture moved relative to us
+                            u.grab_point = {u.grab_point.x + dx, u.grab_point.y + dy, 0}; // furniture moved relative to us
                         } else { // we pushed furniture out of reach
                             add_msg( _("You let go of the %s"), furntype.name.c_str() );
-                            u.grab_point = point (0, 0);
+                            u.grab_point = {0, 0, 0};
                             u.grab_type = OBJECT_NONE;
                         }
                         return false; // We moved furniture but stayed still.
@@ -12224,7 +12231,7 @@ bool game::plmove(int dx, int dy)
                                 m.move_cost(x, y) <= 0 ) { // Not sure how that chair got into a wall, but don't let player follow.
                         add_msg( _("You let go of the %s as it slides past %s"),
                                  furntype.name.c_str(), m.ter_at(x, y).name.c_str() );
-                        u.grab_point = point (0, 0);
+                        u.grab_point = {0, 0, 0};
                         u.grab_type = OBJECT_NONE;
                     }
                 }

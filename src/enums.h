@@ -1,6 +1,7 @@
 #ifndef ENUMS_H
 #define ENUMS_H
 
+#include <climits>
 #include "json.h" // (de)serialization for points
 
 #ifndef sgn
@@ -326,5 +327,7 @@ inline bool operator<(const tripoint &a, const tripoint &b)
     }
     return false;
 }
+
+static const tripoint tripoint_min { INT_MIN, INT_MIN, INT_MIN };
 
 #endif
