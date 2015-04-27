@@ -15,5 +15,64 @@
         ],
         "pre_terrain" : "t_tree_pine",
         "post_terrain" : "t_leanto"
+    },
+    {
+        "type" : "construction",
+        "skill" : "survival",
+        "description" : "Build Tarp Lean-To",
+        "category" : "CONSTRUCT",
+        "difficulty" : 1,
+        "time" : 50,
+        "qualities": [ [
+            { "id": "HAMMER", "level": 1 }
+        ] ],
+        "components" : [
+            [ [ "stick", 2 ], [ "2x4", 2 ] ],
+            [ [ "string_36", 1 ], [ "string_6", 4 ] ],
+            [ [ "spike", 2 ] ],
+            [ [ "tarp", 1 ] ]
+        ],
+        "pre_flags" : [ "DIGGABLE", "FLAT" ],
+        "post_terrain" : "t_tarptent1"
+    },
+    {
+        "type" : "construction",
+        "skill" : "survival",
+        "description" : "Build Tarp Lean-To",
+        "category" : "CONSTRUCT",
+        "difficulty" : 2,
+        "time" : 60,
+        "qualities": [ [
+            { "id": "HAMMER", "level": 1 }
+        ] ],
+        "components" : [
+            [ [ "stick", 2 ], [ "2x4", 2 ] ],
+            [ [ "string_36", 1 ], [ "string_6", 4 ] ],
+            [ [ "pebble", 2 ] ],
+            [ [ "spike", 2 ] ],
+            [ [ "emer_blanket", 1 ], [ "emer_blanket_on", 1 ] ]
+        ],
+        "pre_flags" : [ "DIGGABLE", "FLAT" ],
+        "post_terrain" : "t_tarptent2"
+    },
+    {
+        "type" : "construction",
+        "skill" : "survival",
+        "description" : "Build Tarp Lean-To",
+        "category" : "CONSTRUCT",
+        "difficulty" : 2,
+        "time" : 60,
+        "qualities": [ [
+            { "id": "HAMMER", "level": 1 }
+        ] ],
+        "components" : [
+            [ [ "stick", 2 ], [ "2x4", 2 ] ],
+            [ [ "string_36", 1 ], [ "string_6", 4 ] ],
+            [ [ "pebble", 2 ] ],
+            [ [ "spike", 2 ] ],
+            [ [ "folding_poncho", 1 ], [ "folding_poncho_on", 1 ] ]
+        ],
+        "pre_flags" : [ "DIGGABLE", "FLAT" ],
+        "post_terrain" : "t_tarptent3"
     }
   ]
