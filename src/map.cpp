@@ -6918,7 +6918,13 @@ void map::add_road_vehicles(bool city, int facing)
                 int vx = rng(0, 19);
                 int vy = rng(0, 19);
                 int car_type = rng(1, 100);
-                if (car_type <= 25) {
+                if(car_type <= 4) {
+                    add_vehicle("suv", vx, vy, facing, -1, 1);
+                } else if(car_type <= 6) {
+                    add_vehicle("suv_electric", vx, vy, facing, -1, 1);
+                } else if(car_type <= 10) {
+                    add_vehicle("pickup", vx, vy, facing, -1, 1);
+                }else if (car_type <= 25) {
                     add_vehicle("car", vx, vy, facing, -1, 1);
                 } else if (car_type <= 30) {
                     add_vehicle("policecar", vx, vy, facing, -1, 1);
@@ -6976,7 +6982,17 @@ void map::add_road_vehicles(bool city, int facing)
                 veh_y = rng(4, 16);
             }
             int veh_type = rng(0, 100);
-            if(veh_type <= 67) {
+            if(veh_type <= 6) {
+                add_vehicle("suv", veh_x, veh_y, facing, -1, 1);
+            } else if(veh_type <= 10) {
+                add_vehicle("suv_electric", veh_x, veh_y, facing, -1, 1);
+            } else if(veh_type <= 14) {
+                add_vehicle("pickup", veh_x, veh_y, facing, -1, 1);
+            } else if(veh_type <= 18) {
+                add_vehicle("car_mini", veh_x, veh_y, facing, -1, 1);
+            } else if(veh_type <= 20) {
+                add_vehicle("truck_swat", veh_x, veh_y, facing, -1, 1);
+            } else if(veh_type <= 67) {
                 add_vehicle("car", veh_x, veh_y, facing, -1, 1);
             } else if(veh_type <= 89) {
                 add_vehicle("electric_car", veh_x, veh_y, facing, -1, 1);
@@ -7073,6 +7089,8 @@ void map::add_road_vehicles(bool city, int facing)
                 add_vehicle("semi_truck", vx, vy, facing, 0, -1);
             } else if (car_type <= 20) {
                 add_vehicle("humvee", vx, vy, facing, 0, -1);
+            } else if (car_type <= 21) {
+                add_vehicle("car_fbi", vx, vy, facing, 0, -1);
             } else if (car_type <= 24) {
                 add_vehicle("rara_x", vx, vy, facing, 0, -1);
             } else if (car_type <= 25) {
