@@ -254,7 +254,7 @@ void Pickup::pick_one_up( const point &pickup_target, item &newit, vehicle *veh,
         newit.invlet = '\0';
     }
 
-    if( quantity != 0 ) {
+    if( quantity != 0 && newit.count_by_charges() ) {
         // Reinserting leftovers happens after item removal to avoid stacking issues.
         leftovers.charges = newit.charges - quantity;
         if( leftovers.charges > 0 ) {

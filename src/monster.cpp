@@ -26,7 +26,7 @@ monster::monster()
 {
  position.x = 20;
  position.y = 10;
- zpos = 0;
+ position.z = -500; // Some arbitrary number that will cause debugmsgs
  wandf = 0;
  hp = 60;
  moves = 0;
@@ -49,6 +49,7 @@ monster::monster(mtype *t)
 {
  position.x = 20;
  position.y = 10;
+ position.z = -500; // Some arbitrary number that will cause debugmsgs
  wandf = 0;
  type = t;
  moves = type->speed;
@@ -75,9 +76,7 @@ monster::monster(mtype *t)
 
 monster::monster(mtype *t, const tripoint &p )
 {
- position.x = p.x;
- position.y = p.y;
- zpos = p.z;
+ position = p;
  wandf = 0;
  type = t;
  moves = type->speed;
@@ -111,7 +110,7 @@ bool monster::setpos(const int x, const int y)
     bool ret = g->update_zombie_pos( *this, tripoint( x, y, g->get_levz() ) );
     position.x = x;
     position.y = y;
-    zpos = g->get_levz();
+    position.z = g->get_levz();
     return ret;
 }
 
@@ -122,7 +121,7 @@ bool monster::setpos(const int x, const int y, const int z, const bool level_cha
 
 bool monster::setpos( const point &p, const bool level_change )
 {
-    return setpos( tripoint( p, zpos ), level_change );
+    return setpos( tripoint( p, position.z ), level_change );
 }
 
 bool monster::setpos( const tripoint &p, const bool level_change )
@@ -131,14 +130,12 @@ bool monster::setpos( const tripoint &p, const bool level_change )
         return true;
     }
     bool ret = level_change ? true : g->update_zombie_pos( *this, p );
-    position.x = p.x;
-    position.y = p.y;
-    zpos = p.z;
+    position = p;
 
     return ret;
 }
 
-const point &monster::pos() const
+const tripoint &monster::pos3() const
 {
     return position;
 }
@@ -225,14 +222,12 @@ void monster::spawn(const int x, const int y, const int z)
 {
     position.x = x;
     position.y = y;
-    zpos = z;
+    position.z = z;
 }
 
 void monster::spawn(const tripoint &p)
 {
-    position.x = p.x;
-    position.y = p.y;
-    zpos = p.z;
+    position = p;
 }
 
 std::string monster::name(unsigned int quantity) const
@@ -561,7 +556,7 @@ bool monster::is_fleeing(player &u) const
   return true;
  monster_attitude att = attitude(&u);
  return (att == MATT_FLEE ||
-         (att == MATT_FOLLOW && rl_dist( pos(), u.pos() ) <= 4));
+         (att == MATT_FOLLOW && rl_dist( pos3(), u.pos3() ) <= 4));
 }
 
 Creature::Attitude monster::attitude_to( const Creature &other ) const
@@ -1484,8 +1479,8 @@ void monster::die(Creature* nkiller) {
             if( !critter.type->same_species( *type ) ) {
                 continue;
             }
-            int t = 0;
-            if( g->m.sees( critter.pos(), pos(), light, t ) ) {
+
+            if( g->m.sees( critter.pos3(), pos3(), light ) ) {
                 critter.morale += morale_adjust;
                 critter.anger += anger_adjust;
             }

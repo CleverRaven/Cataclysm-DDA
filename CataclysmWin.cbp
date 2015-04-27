@@ -282,7 +282,7 @@
 		<Unit filename="src/item_group.h" />
 		<Unit filename="src/item_stack.h" />
 		<Unit filename="src/itype.h" />
-		<Unit filename="src/itypedef.cpp" />
+		<Unit filename="src/itype.cpp" />
 		<Unit filename="src/iuse.cpp" />
 		<Unit filename="src/iuse.h" />
 		<Unit filename="src/iuse_actor.cpp" />
@@ -352,7 +352,7 @@
 		<Unit filename="src/morale.h" />
 		<Unit filename="src/moraledata.h" />
 		<Unit filename="src/mtype.h" />
-		<Unit filename="src/mtypedef.cpp" />
+		<Unit filename="src/mtype.cpp" />
 		<Unit filename="src/mutation.cpp" />
 		<Unit filename="src/mutation.h" />
 		<Unit filename="src/mutation_data.cpp" />

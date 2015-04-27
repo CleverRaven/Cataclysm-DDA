@@ -592,7 +592,7 @@ void mdeath::smokeburst(monster *z)
 void mdeath::jabberwock(monster *z)
 {
     player *ch = dynamic_cast<player*>( z->get_killer() );
-    if (ch->is_player() && rl_dist( z->pos(), g->u.pos() ) <= 1  &&
+    if( ch != nullptr && ch->is_player() && rl_dist( z->pos(), g->u.pos() ) <= 1  &&
          ch->weapon.has_flag("VORPAL")) {
         if (!ch->weapon.techniques.count("VORPAL")) {
             if (g->u.sees(*z)) {
@@ -679,7 +679,7 @@ void mdeath::detonate(monster *z)
             add_msg(m_bad, _("The %s hands fly to its remaining pockets, opening them!"), z->disp_name(true).c_str());
         }
     }
-    point det_point = z->pos();
+    const tripoint det_point = z->pos3();
     // First die normally
     mdeath::normal(z);
     // Then detonate our suicide bombs

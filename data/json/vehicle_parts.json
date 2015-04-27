@@ -2588,6 +2588,29 @@
         ]
     },{
         "type" : "vehicle_part",
+        "id" : "engine_electric_enhanced",
+        "name" : "enhanced electric motor",
+        "symbol" : "*",
+        "color" : "yellow",
+        "broken_symbol" : "#",
+        "broken_color" : "red",
+        "damage_modifier" : 80,
+        "durability" : 200,
+        "power" : 400,
+        "epower" : -160000,
+        "fuel_type" : "battery",
+        "item" : "motor_enhanced",
+        "difficulty" : 4,
+        "location" : "engine_block",
+        "flags" : ["ENGINE"],
+        "breaks_into" : [
+            {"item": "steel_lump", "min": 3, "max": 5},
+            {"item": "steel_chunk", "min": 3, "max": 5},
+            {"item": "scrap", "min": 3, "max": 5},
+            {"item": "cable", "min": 10, "max": 15}
+        ]
+    },{
+        "type" : "vehicle_part",
         "id" : "engine_electric_large",
         "name" : "large electric motor",
         "symbol" : "*",

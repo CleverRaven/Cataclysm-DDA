@@ -3150,16 +3150,6 @@
           "rotates": false
         },
         {
-          "id": "legrig",
-          "bg": 505,
-          "rotates": false
-        },
-        {
-          "id": "lsurvivor_suit",
-          "bg": 505,
-          "rotates": false
-        },
-        {
           "id": "1cyl_combustion",
           "fg": 2339,
           "bg": 505,

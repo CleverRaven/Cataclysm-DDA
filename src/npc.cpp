@@ -29,9 +29,9 @@ npc::npc()
 {
  mapx = 0;
  mapy = 0;
- mapz = 0;
  position.x = -1;
  position.y = -1;
+ position.z = 500;
  last_player_seen_pos = no_goal_point;
  last_seen_player_turn = 999;
  wanted_item_pos = no_goal_point;
@@ -876,9 +876,9 @@ void npc::spawn_at(int x, int y, int z)
 {
     mapx = x;
     mapy = y;
-    mapz = z;
     position.x = rng(0, SEEX - 1);
     position.y = rng(0, SEEY - 1);
+    position.z = z;
     const point pos_om = overmapbuffer::sm_to_om_copy( mapx, mapy );
     overmap &om = overmap_buffer.get( pos_om.x, pos_om.y );
     om.npcs.push_back(this);
@@ -903,7 +903,7 @@ void npc::spawn_at_random_city(overmap *o)
 
 tripoint npc::global_square_location() const
 {
-    return tripoint( mapx * SEEX + posx(), mapy * SEEY + posy(), mapz );
+    return tripoint( mapx * SEEX + posx(), mapy * SEEY + posy(), position.z );
 }
 
 void npc::place_on_map()

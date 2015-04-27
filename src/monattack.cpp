@@ -411,47 +411,51 @@ void mattack::resurrect(monster *z, int index)
     if( z->get_speed() < z->get_speed_base() / 2) {
         return;    // We can only resurrect so many times!
     }
-    std::vector<point> corpses;
-    int junk;
+
+    std::set<tripoint> corpse_pos;
     // Find all corpses that we can see within 4 tiles.
-    for (int x = z->posx() - 4; x <= z->posx() + 4; x++) {
-        for (int y = z->posy() - 4; y <= z->posy() + 4; y++) {
-            if (g->is_empty(x, y) && g->m.sees(z->posx(), z->posy(), x, y, -1, junk)) {
-                for (auto &i : g->m.i_at(x, y)) {
-                    if (i.is_corpse() && i.get_mtype()->has_flag(MF_REVIVES) &&
-                          i.get_mtype()->in_species("ZOMBIE")) {
-                        corpses.push_back(point(x, y));
+    tripoint p;
+    p.z = z->posz();
+    int &x = p.x;
+    int &y = p.y;
+    for( x = z->posx() - 4; x <= z->posx() + 4; x++ ) {
+        for( y = z->posy() - 4; y <= z->posy() + 4; y++ ) {
+            if( g->is_empty( p ) && g->m.sees( z->pos3(), p, -1) ) {
+                for( const auto &i : g->m.i_at( p ) ) {
+                    if( i.is_corpse() && i.get_mtype()->has_flag(MF_REVIVES) &&
+                          i.get_mtype()->in_species("ZOMBIE") ) {
+                        corpse_pos.insert( p );
                         break;
                     }
                 }
             }
         }
     }
-    if (corpses.empty()) { // No nearby corpses
+    if( corpse_pos.empty() ) { // No nearby corpses
         return;
     }
     z->set_speed_base( (z->get_speed_base() - rng(0, 10)) * 0.8 );
     bool sees_necromancer = g->u.sees(*z);
-    if (sees_necromancer) {
+    if( sees_necromancer ) {
         add_msg(_("The %s throws its arms wide..."), z->name().c_str());
     }
     z->reset_special(index); // Reset timer
     z->moves -= 500;   // It takes a while
     int raised = 0;
-    for (auto &i : corpses) {
-        int x = i.x, y = i.y;
-        for (size_t n = 0; n < g->m.i_at(x, y).size(); n++) {
-            if (g->m.i_at(x, y)[n].is_corpse() && one_in(2)) {
-                if (!g->revive_corpse(x, y, n)) {
-                    continue;
-                }
+    for( auto &i : corpse_pos ) {
+        for( size_t n = 0; n < g->m.i_at( i ).size(); ) {
+            if( g->m.i_at( i )[n].is_corpse() && one_in(2) && g->revive_corpse( i, n ) ) {
                 if( z->friendly != 0 ) {
                     g->zombie(g->num_zombies() - 1).friendly = z->friendly;
                 }
-                if (g->u.sees(x, y)) {
+
+                if( g->u.sees( p ) ) {
                     raised++;
                 }
+
                 break; // Only one body raised per tile
+            } else {
+                n++;
             }
         }
     }
@@ -463,7 +467,7 @@ void mattack::resurrect(monster *z, int index)
         } else {
             add_msg(m_warning, _("Several corpses rise from the dead!"));
         }
-    } else if (sees_necromancer) {
+    } else if( sees_necromancer ) {
         add_msg(_("...but nothing seems to happen."));
     }
 }
@@ -1660,6 +1664,74 @@ void mattack::leap(monster *z, int index)
     if (seen) {
         add_msg(_("The %s leaps!"), z->name().c_str());
     }
+}
+
+void mattack::impale(monster *z, int index)
+{
+    if( !z->can_act() ) {
+        return;
+    }
+    Creature *target = z->attack_target();
+    if( target == nullptr || rl_dist( z->pos(), target->pos() ) > 1 ) {
+        return;
+    }
+
+    player *foe = dynamic_cast< player* >( target );
+    bool seen = g->u.sees( *z );
+
+    z->moves -= 80;
+    bool uncanny = foe != nullptr && foe->uncanny_dodge();
+    if( uncanny || dodge_check(z, target) ){
+    if( foe != nullptr ) {
+        if( seen ) {
+            auto msg_type = foe == &g->u ? m_warning : m_info;
+            foe->add_msg_player_or_npc( msg_type, _("The %s lunges at you, but you dodge!"),
+                                                _("The %s lunges at <npcname>, but they dodge!"),
+                                            z->name().c_str() );
+        }
+        if( !uncanny ) {
+            foe->practice( "dodge", z->type->melee_skill * 2 );
+            foe->ma_ondodge_effects();
+        }
+    } else if( seen ) {
+        add_msg( _("The %s lunges at %s, but misses!"), z->name().c_str(), target->disp_name().c_str() );
+    }
+    z->reset_special(index); // Reset timer
+    return;
+    }
+    int dam = target->deal_damage( z, bp_torso, damage_instance( DT_STAB, rng(10,20), rng(5,15), .5 ) ).total_damage();
+    if( dam > 0 && foe != nullptr ) {
+        if( seen ) {
+            auto msg_type = foe == &g->u ? m_bad : m_info;
+            //~ 1$s is monster name, 2$s bodypart in accusative
+            foe->add_msg_player_or_npc( msg_type,
+                                        _("The %1$s impales your torso!"),
+                                        _("The %1$s impales <npcname>'s torso!"),
+                                        z->name().c_str());
+        }
+        foe->practice( "dodge", z->type->melee_skill );
+        if( one_in( 60 / (dam + 20)) && (dam > 0)  ) {
+            foe->add_effect( "bleed", rng( 75, 125 ), bp_torso, true );
+        }
+        foe->check_dead_state();
+        if( rng(0, 200 + dam) > 100 &&
+        ( foe == nullptr || !foe->is_throw_immune() ||
+          ( !foe->has_trait("LEG_TENT_BRACE") ||
+            foe->footwear_factor() == 1 || ( foe->footwear_factor() == .5 && one_in(2) ) ) ) ) {
+        target->add_effect("downed", 3);
+        }
+        z->moves -=80; //Takes extra time for the creature to pull out the protrusion
+        z->reset_special(index); // Reset timer
+    } else if( foe != nullptr ) {
+         if( seen ) {
+             foe->add_msg_player_or_npc( _("The %1$s tries to impale your torso, but fails to penetrate your armor!"),
+                                         _("The %1$s tries to impale <npcname>'s torso, but fails to penetrate their armor!"),
+                                         z->name().c_str());
+        }
+    } else if( seen ) {
+        add_msg( _("The %s impales %s!"), z->name().c_str(), target->disp_name().c_str() );
+    }
+    target->check_dead_state();
 }
 
 void mattack::dermatik(monster *z, int index)
@@ -4364,7 +4436,7 @@ void mattack::kamikaze(monster *z, int index)
             item i_explodes(act_bomb_type->id, 0);
             i_explodes.charges = 0;
             i_explodes.active = true;
-            i_explodes.process(nullptr, z->pos(), false);
+            i_explodes.process(nullptr, z->pos3(), false);
             z->set_special(index, -1);
         }
         return;

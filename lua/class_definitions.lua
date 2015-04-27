@@ -624,13 +624,6 @@ global_functions = {
         rval = nil,
         desc = "Write a message to the game's standard message window."
     },
-    revive_corpse = {
-        cpp_name = "g->revive_corpse",
-        args     = { "int", "int", "int" },
-        argnames = { "x", "y", "index" },
-        rval = nil,
-        desc = "Revive the corpse at the specified location. The index parameter specifies the index within the item stack that the corpse is located at."
-    },
     popup = {
         cpp_name = "popup_wrapper",
         args = { "string" },

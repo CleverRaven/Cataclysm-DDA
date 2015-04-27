@@ -427,7 +427,7 @@ void activity_handlers::firstaid_finish( player_activity *act, player *p )
 {
     item &it = p->i_at(act->position);
     iuse tmp;
-    tmp.completefirstaid(p, &it, false, p->pos());
+    tmp.completefirstaid( p, &it, false, p->pos3() );
     p->reduce_charges(act->position, 1);
     // Erase activity and values.
     act->type = ACT_NULL;
@@ -919,7 +919,7 @@ void activity_handlers::reload_finish( player_activity *act, player *p )
 void activity_handlers::start_fire_finish( player_activity *act, player *p )
 {
     item &it = p->i_at(act->position);
-    firestarter_actor::resolve_firestarter_use(p, &it, act->placement);
+    firestarter_actor::resolve_firestarter_use( p, &it, tripoint( act->placement, p->posz() ) );
     act->type = ACT_NULL;
 }
 
