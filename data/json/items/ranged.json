@@ -685,7 +685,7 @@
     "price": 69000,
     "material": ["plastic", "steel"],
     "skill": "pistol",
-    "ammo": "40sw",
+    "ammo": "40",
     "weight": 650,
     "volume": 2,
     "bashing": 8,
