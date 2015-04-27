@@ -329,6 +329,13 @@ IF(TILES)
 		)
 	ENDIF(WIN32)
 
+	IF (NOT DYNAMIC_LINKING)
+		set_target_properties(cataclysm-tiles PROPERTIES
+			LINK_SEARCH_START_STATIC 1)
+		set_target_properties(cataclysm-tiles PROPERTIES
+			LINK_SEARCH_END_STATIC 1)
+	ENDIF (NOT DYNAMIC_LINKING)
+
 	IF(RC_COMPILER_PATH)
 		ADD_DEPENDENCIES(cataclysm-tiles compile_res)
 	ENDIF(RC_COMPILER_PATH)
@@ -362,9 +369,21 @@ IF(TILES)
 	target_link_libraries(cataclysm-tiles ${SDL2_TTF_LIBRARIES})
 
 	IF (NOT DYNAMIC_LINKING)
-		# freetype is required for static SDL2_TTF build
-		target_include_directories(cataclysm-tiles PUBLIC ${FREETYPE_INCLUDE_DIRS})
-		target_link_libraries(cataclysm-tiles ${FREETYPE_LIBRARIES})
+		# SDL, SDL_Image, SDL_ttf deps are required for static build
+		target_include_directories(cataclysm-tiles PUBLIC 
+			${FREETYPE_INCLUDE_DIRS}
+			${PNG_INCLUDE_DIRS}
+			${JPEG_INCLUDE_DIR}
+			${ZLIB_INCLUDE_DIRS}
+			${BZIP2_INCLUDE_DIR}
+		)
+		target_link_libraries(cataclysm-tiles
+			${FREETYPE_LIBRARIES}
+			${PNG_LIBRARIES}
+			${JPEG_LIBRARIES}
+			${ZLIB_LIBRARIES}
+			${BZIP2_LIBRARIES}
+		)
 	ENDIF (NOT DYNAMIC_LINKING)
 
 	IF(SOUND)
@@ -413,6 +432,13 @@ IF(CURSES)
 			${CATACLYSM_DDA_HEADERS}
 		)
 	ENDIF(WIN32)
+
+	IF (NOT DYNAMIC_LINKING)
+		set_target_properties(cataclysm PROPERTIES
+			LINK_SEARCH_START_STATIC 1)
+		set_target_properties(cataclysm PROPERTIES
+			LINK_SEARCH_END_STATIC 1)
+	ENDIF (NOT DYNAMIC_LINKING)
 
 	IF(RC_COMPILER_PATH)
 		ADD_DEPENDENCIES(cataclysm compile_res)

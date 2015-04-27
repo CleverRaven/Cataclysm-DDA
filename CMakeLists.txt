@@ -60,7 +60,8 @@ IF(${CMAKE_SYSTEM_NAME} MATCHES Windows)
 		SET(CMAKE_SHARED_LIBRARY_LINK_C_FLAGS "${CMAKE_SHARED_LIBRARY_LINK_C_FLAGS} -static-libgcc -static")
 		SET(CMAKE_SHARED_LIBRARY_LINK_CXX_FLAGS "${CMAKE_SHARED_LIBRARY_LINK_CXX_FLAGS} -static-libgcc -static-libstdc++ -static")
 		SET(CMAKE_FIND_LIBRARY_SUFFIXES ".a")
-		set(CMAKE_EXE_LINKER_FLAGS "-static-libgcc -static-libstdc++ -static")
+		SET(BUILD_SHARED_LIBRARIES OFF)
+		SET(CMAKE_EXE_LINKER_FLAGS "-static-libgcc -static-libstdc++ -static")
 	ENDIF (NOT DYNAMIC_LINKING)
 	SET(RC_COMPILER_FILENAME "windres.exe")
 	FIND_FILE(RC_COMPILER_PATH ${RC_COMPILER_FILENAME})
@@ -129,7 +130,7 @@ ENDIF (GIT_BINARY)
 
 # Set build types and display info
 IF(${CMAKE_SYSTEM_NAME} MATCHES Windows)
-	MESSAGE(STATUS "STATIC_BUILD                  : ${STATIC_BUILD}\n")
+	MESSAGE(STATUS "DYNAMIC_LINKING               : ${DYNAMIC_LINKING}\n")
 ENDIF(${CMAKE_SYSTEM_NAME} MATCHES Windows)
 IF(RELEASE)
 	MESSAGE(STATUS "CMAKE_INSTALL_PREFIX          : ${CMAKE_INSTALL_PREFIX}")
@@ -200,14 +201,13 @@ IF(TILES)
 	ENDIF(NOT SDL2_FOUND)
 
 	IF (NOT DYNAMIC_LINKING)
-		# Freetype is required for static SDL2_TTF library
-		MESSAGE(STATUS "Searching for freetype library --\n")
-		FIND_PACKAGE(Freetype)
-		IF(NOT FREETYPE_FOUND)
-			MESSAGE(FATAL_ERROR
-			"This project requires freetype to be installed to be compiled in graphical mode. Please install the freetype development libraries, or try compiling without the -DTILES=1 for a text only compilation.\nSee INSTALL file for details and moreinfo\n"
-			)
-		ENDIF(NOT FREETYPE_FOUND)
+		# SDL, SDL_Image, SDL_ttf deps are required for static build
+		MESSAGE(STATUS "Searching for SDL deps libraries --\n")
+		FIND_PACKAGE(Freetype REQUIRED)
+		FIND_PACKAGE(PNG REQUIRED)
+		FIND_PACKAGE(JPEG REQUIRED)
+		FIND_PACKAGE(ZLIB REQUIRED)
+		FIND_PACKAGE(BZip2 REQUIRED)
 	ENDIF (NOT DYNAMIC_LINKING)
 
 	MESSAGE(STATUS "Searching for SDL2_image library --\n")
