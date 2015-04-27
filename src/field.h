@@ -52,6 +52,7 @@ enum field_id {
  fd_rubble,
  fd_smoke,
  fd_toxic_gas,
+ fd_hallu_gas,
  fd_tear_gas,
  fd_nuke_gas,
  fd_gas_vent,

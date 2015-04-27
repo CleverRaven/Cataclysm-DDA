@@ -216,6 +216,7 @@ void MonsterGenerator::init_death()
     death_map["RATKING"] = &mdeath::ratking;// Cure verminitis
     death_map["DARKMAN"] = &mdeath::darkman;// sight returns to normal
     death_map["GAS"] = &mdeath::gas;// Explodes in toxic gas
+    death_map["GAS_HALLU"] = &mdeath::gas_hallu;// Explodes in hallucinogenic gas
     death_map["KILL_BREATHERS"] = &mdeath::kill_breathers;// All breathers die
     death_map["BROKEN_AMMO"] = &mdeath::broken_ammo;// Gives a message about destroying ammo and then calls "BROKEN"
     death_map["SMOKEBURST"] = &mdeath::smokeburst;// Explode like a huge smoke bomb.
@@ -372,6 +373,7 @@ void MonsterGenerator::init_flags()
     flag_map["ACIDTRAIL"] = MF_ACIDTRAIL;
     flag_map["FIREPROOF"] = MF_FIREPROOF;
     flag_map["LEAKSGAS"] = MF_LEAKSGAS;
+    flag_map["LEAKSHALLUGAS"] = MF_LEAKSHALLUGAS;
     flag_map["SLUDGEPROOF"] = MF_SLUDGEPROOF;
     flag_map["SLUDGETRAIL"] = MF_SLUDGETRAIL;
     flag_map["FIREY"] = MF_FIREY;
