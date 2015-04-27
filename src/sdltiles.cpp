@@ -1675,6 +1675,7 @@ bool input_context::get_coordinates(WINDOW* capture_win, int& x, int& y) {
     if (use_tiles && capture_win == g->w_terrain) {
         fw = tilecontext->get_tile_width();
         fh = tilecontext->get_tile_height();
+        // add_msg( m_info, "tile map fw %d fh %d", fw, fh);
     } else
 #endif
     if (map_font != NULL && capture_win == g->w_terrain) {
@@ -1690,16 +1691,30 @@ bool input_context::get_coordinates(WINDOW* capture_win, int& x, int& y) {
     // But the size of the window is in the font dimensions of the window.
     const int win_right = win_left + (capture_win->width * fw);
     const int win_bottom = win_top + (capture_win->height * fh);
+    // add_msg( m_info, "win_ left %d top %d right %d bottom %d", win_left,win_top,win_right,win_bottom);
+    // add_msg( m_info, "coordinate_ x %d y %d", coordinate_x, coordinate_y);
     // Check if click is within bounds of the window we care about
     if( coordinate_x < win_left || coordinate_x > win_right ||
         coordinate_y < win_top || coordinate_y > win_bottom ) {
+        // add_msg( m_info, "out of bounds");
         return false;
     }
-    const int selected_column = (coordinate_x - win_left) / fw;
-    const int selected_row = (coordinate_y - win_top) / fh;
 
-    x = g->ter_view_x - ((capture_win->width / 2) - selected_column);
-    y = g->ter_view_y - ((capture_win->height / 2) - selected_row);
+    if (tilecontext->tile_iso) {
+        const int selected_column = (coordinate_x - win_left)/fw - (coordinate_y - win_top - fh - (capture_win->height * fh)/2)/(fw/2);
+        const int selected_row = (coordinate_x - win_left)/fw + (coordinate_y - win_top - fh - (capture_win->height * fh)/2)/(fw/2);
+        // add_msg( m_info, "c %d r %d", selected_column, selected_row );
+        x = g->ter_view_x - ((capture_win->width / 2) - selected_column);
+        y = g->ter_view_y - ((capture_win->height / 2) - selected_row);
+        // add_msg( m_info, "gtvx %d gtvy %d x %d y %d", g->ter_view_x, g->ter_view_y, x, y );
+
+    } else {
+        const int selected_column = (coordinate_x - win_left) / fw;
+        const int selected_row = (coordinate_y - win_top) / fh;
+
+        x = g->ter_view_x - ((capture_win->width / 2) - selected_column);
+        y = g->ter_view_y - ((capture_win->height / 2) - selected_row);
+    }
 
     return true;
 }

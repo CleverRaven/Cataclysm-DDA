@@ -267,6 +267,7 @@ void cata_tiles::load_tilejson_from_file(std::ifstream &f, const std::string &im
         JsonObject curr_info = info.next_object();
         tile_height = curr_info.get_int("height");
         tile_width = curr_info.get_int("width");
+        tile_iso = curr_info.get_bool("iso", false);
 
         default_tile_width = tile_width;
         default_tile_height = tile_height;
@@ -275,11 +276,11 @@ void cata_tiles::load_tilejson_from_file(std::ifstream &f, const std::string &im
     set_draw_scale(16);
 
     /** 2) Load tile information if available */
+    int offset = 0;
     if (config.has_array("tiles-new")) {
         // new system, several entries
         // When loading multiple tileset images this defines where
         // the tiles from the most recently loaded image start from.
-        int offset = 0;
         JsonArray tiles_new = config.get_array("tiles-new");
         while (tiles_new.has_more()) {
             JsonObject tile_part_def = tiles_new.next_object();
@@ -311,14 +312,22 @@ void cata_tiles::load_tilejson_from_file(std::ifstream &f, const std::string &im
         const int newsize = load_tileset(image_path, -1, -1, -1);
         load_tilejson_from_file(config, 0, newsize);
     }
+    // offset should be the total number of sprites loaded from every tileset image
+    // eliminate any sprite references that are too high to exist
+    // also eliminate negative sprite references
+    for( auto& tile_id : tile_ids ) {
+        tile_id.second->fg.erase(std::remove_if(tile_id.second->fg.begin(), tile_id.second->fg.end(), 
+                               [&](int i) { return i >= offset || i < 0; }), tile_id.second->fg.end());
+        tile_id.second->bg.erase(std::remove_if(tile_id.second->bg.begin(), tile_id.second->bg.end(), 
+                               [&](int i) { return i >= offset || i < 0; }), tile_id.second->bg.end());
+    }
 }
 
 void cata_tiles::add_ascii_subtile(tile_type *curr_tile, const std::string &t_id, int fg, const std::string &s_id)
 {
     const std::string m_id = t_id + "_" + s_id;
     tile_type *curr_subtile = new tile_type();
-    curr_subtile->fg = fg;
-    curr_subtile->bg = -1;
+    curr_subtile->fg.push_back(fg);
     curr_subtile->rotates = true;
     tile_ids[m_id] = curr_subtile;
     curr_tile->available_subtiles.push_back(s_id);
@@ -390,41 +399,40 @@ void cata_tiles::load_ascii_set(JsonObject &entry, int offset, int size)
         id[7] = static_cast<char>(FG);
         id[8] = static_cast<char>(-1);
         tile_type *curr_tile = new tile_type();
-        curr_tile->fg = index_in_image + offset;
-        curr_tile->bg = 0;
+        curr_tile->fg.push_back(index_in_image + offset);
         switch(ascii_char) {
         case LINE_OXOX_C://box bottom/top side (horizontal line)
-            curr_tile->fg = 205 + base_offset;
+            curr_tile->fg[0] = 205 + base_offset;
             break;
         case LINE_XOXO_C://box left/right side (vertical line)
-            curr_tile->fg = 186 + base_offset;
+            curr_tile->fg[0] = 186 + base_offset;
             break;
         case LINE_OXXO_C://box top left
-            curr_tile->fg = 201 + base_offset;
+            curr_tile->fg[0] = 201 + base_offset;
             break;
         case LINE_OOXX_C://box top right
-            curr_tile->fg = 187 + base_offset;
+            curr_tile->fg[0] = 187 + base_offset;
             break;
         case LINE_XOOX_C://box bottom right
-            curr_tile->fg = 188 + base_offset;
+            curr_tile->fg[0] = 188 + base_offset;
             break;
         case LINE_XXOO_C://box bottom left
-            curr_tile->fg = 200 + base_offset;
+            curr_tile->fg[0] = 200 + base_offset;
             break;
         case LINE_XXOX_C://box bottom north T (left, right, up)
-            curr_tile->fg = 202 + base_offset;
+            curr_tile->fg[0] = 202 + base_offset;
             break;
         case LINE_XXXO_C://box bottom east T (up, right, down)
-            curr_tile->fg = 208 + base_offset;
+            curr_tile->fg[0] = 208 + base_offset;
             break;
         case LINE_OXXX_C://box bottom south T (left, right, down)
-            curr_tile->fg = 203 + base_offset;
+            curr_tile->fg[0] = 203 + base_offset;
             break;
         case LINE_XXXX_C://box X (left down up right)
-            curr_tile->fg = 206 + base_offset;
+            curr_tile->fg[0] = 206 + base_offset;
             break;
         case LINE_XOXX_C://box bottom east T (left, down, up)
-            curr_tile->fg = 184 + base_offset;
+            curr_tile->fg[0] = 184 + base_offset;
             break;
         }
         tile_ids[id] = curr_tile;
@@ -477,26 +485,50 @@ void cata_tiles::load_tilejson_from_file(JsonObject &config, int offset, int siz
 
 tile_type *cata_tiles::load_tile(JsonObject &entry, const std::string &id, int offset, int size)
 {
-    int fg = entry.get_int("fg", -1);
-    int bg = entry.get_int("bg", -1);
-    if (fg == -1) {
-        // OK, keep this value, indicates "doesn't have a foreground"
-    } else if (fg < 0 || fg >= size) {
-        entry.throw_error("invalid value for fg (out of range)", "fg");
-    } else {
-        fg += offset;
-    }
-    if (bg == -1) {
-        // OK, keep this value, indicates "doesn't have a background"
-    } else if (bg < 0 || bg >= size) {
-        entry.throw_error("invalid value for bg (out of range)", "bg");
-    } else {
-        bg += offset;
-    }
     tile_type *curr_subtile = new tile_type();
-    curr_subtile->fg = fg;
-    curr_subtile->bg = bg;
+
+    if ( entry.has_array("fg") ) {
+        JsonArray fg_array = entry.get_array("fg");
+        while (fg_array.has_more()) {
+            const int fg = fg_array.next_int();
+            if ( fg >= 0 ) {
+                curr_subtile->fg.push_back(fg);
+            }
+        }
+    } else if (entry.has_int("fg") && entry.get_int("fg") >= 0) {
+        curr_subtile->fg.push_back(entry.get_int("fg"));
+    }
+
+    if ( entry.has_array("bg") ) {
+        JsonArray bg_array = entry.get_array("bg");
+        while (bg_array.has_more()) {
+            const int bg = bg_array.next_int();
+            if ( bg >= 0 ) {
+                curr_subtile->bg.push_back(bg);
+            }
+        }
+    } else if (entry.has_int("bg") && entry.get_int("bg") >= 0) {
+        curr_subtile->bg.push_back(entry.get_int("bg"));
+    }
+
+    for (auto& fg : curr_subtile->fg) {
+        if (fg < 0 || fg >= size) {
+            entry.throw_error("invalid value for fg (out of range)", "fg");
+        } else {
+            fg += offset;
+        }
+    }
+
+    for (auto& bg : curr_subtile->bg) {
+        if (bg < 0 || bg >= size) {
+            entry.throw_error("invalid value for bg (out of range)", "bg");
+        } else {
+            bg += offset;
+        }
+    }
+
     tile_ids[id] = curr_subtile;
+
     return curr_subtile;
 }
 
@@ -554,12 +586,21 @@ void cata_tiles::draw( int destx, int desty, const tripoint &center, int width, 
     screentile_width = (width + tile_width - 1) / tile_width;
     screentile_height = (height + tile_height - 1) / tile_height;
 
+    // in isometric mode, render the whole reality bubble
+    // TODO: make this smarter
+    const int min_x = tile_iso ? MAPSIZE*SEEX : o_x;
+    const int max_x = tile_iso ? 0 : sx + o_x;
+    const int dx = tile_iso ? -1 : 1; // iso mode renders right to left, for overlap reasons
+    const int min_y = tile_iso ? 0 : o_y;
+    const int max_y = tile_iso ? MAPSIZE*SEEX : sy + o_y;
+    const int dy = 1;
+
     tripoint temp;
     temp.z = center.z;
     int &x = temp.x;
     int &y = temp.y;
-    for( x = o_x; x <= o_x + sx - 1; x++ ) {
-        for( y = o_y; y <= o_y + sy - 1; y++ ) {
+    for( y = min_y; y * dy < max_y * dy; y += dy) {
+        for( x = min_x; x * dx < max_x * dx; x += dx) {
             draw_single_tile( temp, g->m.visibility_cache[x][y], cache );
         }
     }
@@ -633,8 +674,10 @@ bool cata_tiles::draw_from_id_string(std::string id, TILE_CATEGORY category,
 
     // check to make sure that we are drawing within a valid area
     // [0->width|height / tile_width|height]
-    if( x - o_x < 0 || x - o_x >= screentile_width ||
-        y - o_y < 0 || y - o_y >= screentile_height ) {
+    if( !tile_iso && 
+        ( x - o_x < 0 || x - o_x >= screentile_width ||
+          y - o_y < 0 || y - o_y >= screentile_height )
+      ) {
         return false;
     }
 
@@ -774,8 +817,8 @@ bool cata_tiles::draw_from_id_string(std::string id, TILE_CATEGORY category,
         return draw_from_id_string("unknown", x, y, subtile, rota);
     }
 
-    // if both bg and fg are -1 then return unknown tile
-    if (display_tile->bg == -1 && display_tile->fg == -1) {
+    // if both bg and fg are both missing then return unknown tile
+    if (display_tile->bg.empty() && display_tile->fg.empty()) {
         return draw_from_id_string("unknown", x, y, subtile, rota);
     }
 
@@ -796,8 +839,19 @@ bool cata_tiles::draw_from_id_string(std::string id, TILE_CATEGORY category,
     }
 
     // translate from player-relative to screen relative tile position
-    const int screen_x = (x - o_x) * tile_width + op_x;
-    const int screen_y = (y - o_y) * tile_height + op_y;
+    int screen_x, screen_y;
+    if (tile_iso) {
+        screen_x = ((x-o_x) - (o_y-y)) * tile_width / 2 +
+            op_x;
+        // y uses tile_width because width is definitive for iso tiles
+        // tile footprints are half as tall as wide, aribtrarily tall
+        screen_y = ((y-o_y) - (x-o_x)) * tile_width / 4 +
+            screentile_height * tile_height / 2 + // TODO: more obvious centering math
+            op_y;
+    } else {
+        screen_x = (x - o_x) * tile_width + op_x;
+        screen_y = (y - o_y) * tile_height + op_y;
+    }
 
     //draw it!
     draw_tile_at(display_tile, screen_x, screen_y, rota);
@@ -805,60 +859,75 @@ bool cata_tiles::draw_from_id_string(std::string id, TILE_CATEGORY category,
     return true;
 }
 
-bool cata_tiles::draw_tile_at(tile_type *tile, int x, int y, int rota)
-{
-    // don't need to check for tile existance, should always exist if it gets this far
-    const int fg = tile->fg;
-    const int bg = tile->bg;
-
+bool cata_tiles::draw_sprite_at(std::vector<int>& spritelist, int x, int y, int rota) {
     SDL_Rect destination;
     destination.x = x;
     destination.y = y;
     destination.w = tile_width;
     destination.h = tile_height;
 
-    // blit background first : always non-rotated
-    if( bg >= 0 && static_cast<size_t>( bg ) < tile_values.size() ) {
-        SDL_Texture *bg_tex = tile_values[bg];
-        if( SDL_RenderCopyEx( renderer, bg_tex, NULL, &destination, 0, NULL, SDL_FLIP_NONE ) != 0 ) {
-            dbg( D_ERROR ) << "SDL_RenderCopyEx(bg) failed: " << SDL_GetError();
-        }
-    }
-
     int ret = 0;
     // blit foreground based on rotation
-    if (rota == 0) {
-        if (fg >= 0 && static_cast<size_t>( fg ) < tile_values.size()) {
-            SDL_Texture *fg_tex = tile_values[fg];
-            ret = SDL_RenderCopyEx( renderer, fg_tex, NULL, &destination, 0, NULL, SDL_FLIP_NONE );
-        }
+    int rotate_sprite, sprite_num;
+    if ( spritelist.empty() ) { 
+        // render nothing
     } else {
-        if (fg >= 0 && static_cast<size_t>( fg ) < tile_values.size()) {
-            SDL_Texture *fg_tex = tile_values[fg];
+        if ( spritelist.size() == 1 ) {
+            // just one tile, apply SDL sprite rotation if not in isometric mode
+            rotate_sprite = !tile_iso;
+            sprite_num = 0;
+        } else {
+            // multiple rotated tiles defined, don't apply sprite rotation after picking one
+            rotate_sprite = false;
+            // two tiles, tile 0 is N/S, tile 1 is E/W
+            // four tiles, 0=N, 1=E, 2=S, 3=W
+            // extending this to more than 4 rotated tiles will require changing rota to degrees
+            sprite_num = rota % spritelist.size();
+        }
 
-            if(rota == 1) {
+        SDL_Texture *sprite_tex = tile_values[spritelist[sprite_num]];
+        if ( rotate_sprite ) {
+            switch ( rota ) {
+                default:
+                case 0: // unrotated (and 180, with just two sprites)
+                    ret = SDL_RenderCopyEx( renderer, sprite_tex, NULL, &destination,
+                        0, NULL, SDL_FLIP_NONE );
+                    break;
+                case 1: // 90 degrees (and 270, with just two sprites)
 #if (defined _WIN32 || defined WINDOWS)
-                destination.y -= 1;
+                    destination.y -= 1;
 #endif
-                ret = SDL_RenderCopyEx( renderer, fg_tex, NULL, &destination,
-                    -90, NULL, SDL_FLIP_NONE );
-            } else if(rota == 2) {
-                //flip rather then rotate here
-                ret = SDL_RenderCopyEx( renderer, fg_tex, NULL, &destination,
-                    0, NULL, static_cast<SDL_RendererFlip>( SDL_FLIP_HORIZONTAL | SDL_FLIP_VERTICAL ) );
-            } else { //rota == 3
+                    ret = SDL_RenderCopyEx( renderer, sprite_tex, NULL, &destination,
+                        -90, NULL, SDL_FLIP_NONE );
+                    break;
+                case 2: // 180 degrees, implemented with flips instead of rotation
+                    ret = SDL_RenderCopyEx( renderer, sprite_tex, NULL, &destination,
+                        0, NULL, static_cast<SDL_RendererFlip>( SDL_FLIP_HORIZONTAL | SDL_FLIP_VERTICAL ) );
+                    break;
+                case 3: // 270 degrees
 #if (defined _WIN32 || defined WINDOWS)
-                destination.x -= 1;
+                    destination.x -= 1;
 #endif
-                ret = SDL_RenderCopyEx( renderer, fg_tex, NULL, &destination,
-                    90, NULL, SDL_FLIP_NONE );
+                    ret = SDL_RenderCopyEx( renderer, sprite_tex, NULL, &destination,
+                        90, NULL, SDL_FLIP_NONE );
+                    break;
             }
+        } else { // don't rotate, same as case 0 above
+            ret = SDL_RenderCopyEx( renderer, sprite_tex, NULL, &destination,
+                0, NULL, SDL_FLIP_NONE );
+        }
+
+        if( ret != 0 ) {
+            dbg( D_ERROR ) << "SDL_RenderCopyEx() failed: " << SDL_GetError();
         }
     }
-    if( ret != 0 ) {
-        dbg( D_ERROR ) << "SDL_RenderCopyEx(fg) failed: " << SDL_GetError();
-    }
+    return true;
+}
 
+bool cata_tiles::draw_tile_at(tile_type *tile, int x, int y, int rota)
+{
+    draw_sprite_at(tile->bg, x, y, (tile->bg.size()<2)?0:rota);
+    draw_sprite_at(tile->fg, x, y, rota);
     return true;
 }
 
@@ -1197,8 +1266,7 @@ void cata_tiles::create_default_item_highlight()
     if( texture != nullptr ) {
     tile_values.push_back(texture);
     tile_type *type = new tile_type;
-    type->fg = index;
-    type->bg = -1;
+    type->fg.push_back(index);
     tile_ids[key] = type;
     }
 }
