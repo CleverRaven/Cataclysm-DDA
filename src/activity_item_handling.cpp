@@ -395,9 +395,9 @@ static void move_items( tripoint source, bool from_vehicle,
 
         // If we didn't pick up a whole stack, put the remainder back where it came from.
         if( leftovers.charges > 0 ) {
-            bool to_map = !to_vehicle;
+            bool to_map = !from_vehicle;
             if( !to_map ) {
-                to_map = !d_veh->add_item(d_cargo, leftovers);
+                to_map = !s_veh->add_item(s_cargo, leftovers);
             }
             if( to_map ){
                 g->m.add_item_or_charges(source, leftovers);

@@ -1030,7 +1030,7 @@ void advanced_inventory::redraw_pane( side p )
     wrefresh( w );
 }
 
-bool advanced_inventory::move_all_items()
+int advanced_inventory::move_all_items()
 {
     auto &spane = panes[src];
     auto &dpane = panes[dest];
@@ -1141,53 +1141,58 @@ bool advanced_inventory::move_all_items()
             end = g->m.i_at( sarea.pos ).end();
         }
 
-//        if(spane.get_area() == AIM_ALL) { // make activity values from pane's items
-//            // rebuild the lists if there are none first and foremost
-//            if(veh_items.empty() && map_items.empty()) {
-//                aim_all_location = AIM_SOUTHWEST;
-//                // iterate through all locations to gather all the items we need to move
-//                for(int location = AIM_SOUTHWEST; location <= AIM_NORTHEAST; ++location) {
-//                    auto &sq = squares[location];
-//                    if(sq.can_store_in_vehicle()) {
-//                        auto stack = sq.veh->get_items(sq.vstor);
-//                        veh_items[location] = std::list<item>(stack.begin(), stack.end());
-//                    }
-//                    auto stack = g->m.i_at(sq.pos);
-//                    map_items[location] = std::list<item>(stack.begin(), stack.end());
-//                }
-//            }
-//            std::list<item> *list;
-//            // continue with any prior lists, or newly made ones
-//            if(veh_items.empty() == false) { // have vehicle items leftover
-//                // make sure we let whatever activity know we are doing a vehicle tx
-//                g->u.activity.values.insert(g->u.activity.values.begin(), true);
-//                list = &veh_items[aim_all_location];
-//            } else if(map_items.empty() == false) { // have map items leftover
-//                // let activity know we are doing map tx
-//                g->u.activity.values.insert(g->u.activity.values.begin(), false);
-//                list = &map_items[aim_all_location];
-//            }
-//            // set up placement according to current location iteration
-//            g->u.activity.placement = squares[aim_all_location].off.as_point();
-//            // now handle setting up activity values
-//            int index = 0;
-//            for(auto iter = list->begin(); iter != list->end(); ++iter, ++index) {
-//                if(spane.is_filtered(&(*iter))) {
-//                    continue;
-//                }
-//                g->u.activity.values.push_back(index);
-//                g->u.activity.values.push_back(1);
-//            }
-//        } else { // looking in vehicle storage or a dragged vehicle?
-//            std::list<item>::iterator begin, end;
-//            if( panes[src].in_vehicle() ) {
-//                begin = sarea.veh->get_items( sarea.vstor ).begin();
-//                end = sarea.veh->get_items( sarea.vstor ).end();
-//            } else {
-//                begin = g->m.i_at( sarea.pos ).begin();
-//                end = g->m.i_at( sarea.pos ).end();
-//            }
-//
+        // mostly needed for AIM_ALL to signify to skip activity setup
+        bool have_items_to_transfer = true;
+
+        // everything has a beginning and an end!
+        std::list<item>::iterator begin, end;
+        if(spane.get_area() == AIM_ALL) { // make activity values from pane's items
+            // reset maps if we are finished, or haven't started jic :-)
+            if(aim_all_location < AIM_SOUTHWEST || aim_all_location > AIM_NORTHEAST) {
+                veh_items.clear();
+                map_items.clear();
+            }
+            // rebuild the lists if there are none first and foremost
+            if(veh_items.empty() && map_items.empty()) {
+                aim_all_location = AIM_SOUTHWEST;
+                // iterate through all locations to gather all the items we need to move
+                for(int location = AIM_SOUTHWEST; location <= AIM_NORTHEAST; ++location) {
+                    auto &sq = squares[location];
+                    if(sq.can_store_in_vehicle()) {
+                        const auto &stack = sq.veh->get_items(sq.vstor);
+                        veh_items[location] = std::list<item>(stack.begin(), stack.end());
+                    }
+                    const auto &stack = g->m.i_at(sq.pos);
+                    map_items[location] = std::list<item>(stack.begin(), stack.end());
+                }
+            }
+            // continue with any prior lists, or newly made ones
+            if(veh_items.empty() == false) { // have vehicle items leftover
+                // make sure we let whatever activity know we are doing a vehicle tx
+                g->u.activity.values.insert(g->u.activity.values.begin(), true);
+                begin = veh_items[aim_all_location].begin();
+                end = veh_items[aim_all_location].end();
+            } else if(map_items.empty() == false) { // have map items leftover
+                // let activity know we are doing map tx
+                g->u.activity.values.insert(g->u.activity.values.begin(), false);
+                begin = map_items[aim_all_location].begin();
+                end = map_items[aim_all_location].end();
+            } else {
+                have_items_to_transfer = false;
+            }
+            // set up placement according to current location iteration, and iterate location
+            g->u.activity.placement = squares[aim_all_location++].off.as_point();
+        } else { // looking in vehicle storage or a dragged vehicle?
+            if( panes[src].in_vehicle() ) {
+                begin = sarea.veh->get_items( sarea.vstor ).begin();
+                end = sarea.veh->get_items( sarea.vstor ).end();
+            } else {
+                begin = g->m.i_at( sarea.pos ).begin();
+                end = g->m.i_at( sarea.pos ).end();
+            }
+        }
+        if(have_items_to_transfer) {
+            // push back indices and item count[s] for [begin => end)
             int index = 0;
             for( auto item_it = begin; item_it != end; ++item_it, ++index ) {
                 if( spane.is_filtered( &( *item_it ) ) ) {
@@ -1198,7 +1203,8 @@ bool advanced_inventory::move_all_items()
             }
         }
     }
-    return true; // passed, so let's continue
+    // return true unless AIM_ALL source tx needs to finish
+    return (spane.get_area() == AIM_ALL && aim_all_location <= AIM_NORTHWEST) ?  -1 : true;
 }
 
 bool advanced_inventory::show_sort_menu( advanced_inventory_pane &pane )
@@ -1491,9 +1497,10 @@ void advanced_inventory::display()
             g->u.inv.sort();
             g->u.inv.restack( &g->u );
         } else if( action == "MOVE_ALL_ITEMS" ) {
-            if( move_all_items() ) {
-                exit = true;
-            }
+            int rc = -1;
+            // repeat item transfer if source == AIM_ALL
+            do { rc = move_all_items(); } while(rc == -1);
+            exit = (rc != -1) ? static_cast<bool>(rc) : exit;
             recalc = true;
         } else if( action == "SORT" ) {
             if( show_sort_menu( spane ) ) {
@@ -1598,8 +1605,7 @@ void advanced_inventory::display()
         } else if( action == "TOGGLE_VEH" ){
             if( squares[spane.get_area()].can_store_in_vehicle() ) {
                 // swap the panes if going vehicle will show the same tile
-                if(spane.get_area() == dpane.get_area() && 
-                        spane.in_vehicle() != dpane.in_vehicle()) {
+                if(spane.get_area() == dpane.get_area() && spane.in_vehicle() != dpane.in_vehicle()) {
                     swap_panes();
                 } else {
                     // Toggle between vehicle and ground
