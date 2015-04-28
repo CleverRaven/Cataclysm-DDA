@@ -3501,25 +3501,36 @@ void mattack::upgrade(monster *z, int index)
     std::vector<int> targets;
     for (size_t i = 0; i < g->num_zombies(); i++) {
         monster &zed = g->zombie(i);
-        if( zed.type->id == "mon_zombie" &&
-            rl_dist( z->pos(), zed.pos() ) <= 5 &&
-            z->attitude_to( zed ) != Creature::Attitude::A_HOSTILE ) {
-            targets.push_back(i);
+        // Check this first because it is a cheap check
+        if( zed.type->upgrade_group != "NULL" || zed.type->upgrades_into != "NULL" ) {
+            // Then do the more expensive ones
+            if ( z->attitude_to( zed ) != Creature::Attitude::A_HOSTILE &&
+                targets.push_back(i);
+            }
         }
     }
     if (targets.empty()) {
+        // Nobody to upgrade, get MAD!
+        z->anger = 100;
         return;
+    } else {
+        // We've got people to upgrade now, calm down again
+        z->anger = 5;
     }
+
     z->reset_special(index); // Reset timer
     z->moves -= 150;   // It takes a while
 
     monster *target = &( g->zombie( targets[ rng(0, targets.size() - 1) ] ) );
 
-    const auto monsters = MonsterGroupManager::GetMonstersFromGroup("GROUP_ZOMBIE_UPGRADE");
-    const std::string newtype = monsters[rng(0, monsters.size() - 1)];
-
     const auto could_see = g->u.sees( *target );
-    target->poly(GetMType(newtype));
+    // Try to upgrade to a single monster first
+    if (target->type->upgrades_into != "NULL"){
+    // Else upgrade to the desired group
+    } else {
+        const auto monsters = MonsterGroupManager::GetMonstersFromGroup(target->type->upgrade_group);
+        const std::string newtype = monsters[rng(0, monsters.size() - 1)];
+    }
     const auto can_now_see = g->u.sees( *target );
     if (g->u.sees( *z )) {
         add_msg(m_warning, _("The black mist around the %s grows..."), z->name().c_str());
