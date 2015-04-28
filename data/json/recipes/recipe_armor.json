@@ -7528,7 +7528,7 @@
   "type" : "recipe",
   "result": "kilt",
   "category": "CC_ARMOR",
-  "subcategory": "CSC_ARMOR_HANDS",
+  "subcategory": "CSC_ARMOR_LEGS",
   "skill_used": "tailor",
   "difficulty": 4,
   "time": 90000,
