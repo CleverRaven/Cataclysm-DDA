@@ -426,7 +426,7 @@ public:
      * @param carrier The player / npc that carries the item. This can be null when
      * the item is not carried by anyone (laying on ground)!
      * @param pos The location of the item on the map, same system as
-     * @ref player::pos used. If the item is carried, it should be the
+     * @ref player::pos3 used. If the item is carried, it should be the
      * location of the carrier.
      * @param passive Whether the item should be activated (true), or
      * processed as an active item.
@@ -435,8 +435,6 @@ public:
      * Returns false if the item is not destroyed.
      */
     bool process(player *carrier, const tripoint &pos, bool activate);
-    // Overload for the above
-    bool process(player *carrier, point pos, bool activate);
 protected:
     // Sub-functions of @ref process, they handle the processing for different
     // processing types, just to make the process function cleaner.

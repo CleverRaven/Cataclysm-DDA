@@ -781,8 +781,45 @@ bool monster::is_warm() const {
 
 bool monster::is_elec_immune() const
 {
-    return type->sp_defense == &mdefense::zapback ||
+    return is_immune_damage( DT_ELECTRIC );
+}
+
+bool monster::is_immune_effect( const efftype_id &effect ) const
+{
+    if( effect == "onfire" ) {
+        return is_immune_damage( DT_HEAT );
+    }
+
+    return false;
+}
+
+bool monster::is_immune_damage( const damage_type dt ) const
+{
+    switch( dt ) {
+    case DT_NULL:
+        return true;
+    case DT_TRUE:
+        return false;
+    case DT_BIOLOGICAL: // NOTE: Unused
+        return false;
+    case DT_BASH:
+        return false;
+    case DT_CUT:
+        return false;
+    case DT_ACID:
+        return has_flag( MF_ACIDPROOF );
+    case DT_STAB:
+        return false;
+    case DT_HEAT:
+        return made_of("steel") || made_of("stone"); // Ugly hardcode - remove later
+    case DT_COLD:
+        return false;
+    case DT_ELECTRIC:
+        return type->sp_defense == &mdefense::zapback ||
            has_flag( MF_ELECTRIC );
+    default:
+        return true;
+    }
 }
 
 bool monster::is_dead_state() const {
@@ -1161,10 +1198,11 @@ void monster::add_eff_effects(effect e, bool reduced)
     }
     Creature::add_eff_effects(e, reduced);
 }
-void monster::add_effect(efftype_id eff_id, int dur, body_part bp, bool permanent, int intensity)
+void monster::add_effect( efftype_id eff_id, int dur, body_part bp,
+                          bool permanent, int intensity, bool force )
 {
     bp = num_bp;
-    Creature::add_effect(eff_id, dur, bp, permanent, intensity);
+    Creature::add_effect( eff_id, dur, bp, permanent, intensity, force );
 }
 
 int monster::get_armor_cut(body_part bp) const

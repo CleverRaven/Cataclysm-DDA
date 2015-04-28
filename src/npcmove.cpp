@@ -1101,11 +1101,8 @@ void npc::move_to( const tripoint &pt )
     if( rl_dist( pos3(), p ) > 1) {
         int linet1, linet2;
         std::vector<tripoint> newpath;
-        if( g->m.sees( pos3(), p, -1, linet1, linet2 ) ) {
-            newpath = line_to( pos3(), p, linet1, linet2 );
-        } else {
-            newpath = line_to( pos3(), p, 0, 0 );
-        }
+        g->m.sees( pos3(), p, -1, linet1, linet2 );
+        newpath = line_to( pos3(), p, linet1, linet2 );
 
         p = newpath[0];
     }
@@ -1702,16 +1699,13 @@ void npc::alt_attack(int target)
         activate_item(weapon_index);
     } else { // We are throwing it!
 
-        std::vector<point> trajectory;
-        int linet, light = g->light_level();
+        std::vector<tripoint> trajectory;
+        int linet1, linet2, light = g->light_level();
 
         if (dist <= confident_range(weapon_index) && wont_hit_friend( tar, weapon_index )) {
 
-            if (g->m.sees(posx(), posy(), tar.x, tar.y, light, linet)) {
-                trajectory = line_to(posx(), posy(), tar.x, tar.y, linet);
-            } else {
-                trajectory = line_to(posx(), posy(), tar.x, tar.y, 0);
-            }
+            g->m.sees( pos3(), tar, light, linet1, linet2 );
+            trajectory = line_to( pos3(), tar, linet1, linet2);
             moves -= 125;
             if (g->u.sees( *this )) {
                 add_msg(_("%s throws a %s."),
@@ -1723,7 +1717,7 @@ void npc::alt_attack(int target)
                 stack_size = used->charges;
                 used->charges = 1;
             }
-            g->throw_item(*this, tar.x, tar.y, *used, trajectory);
+            g->throw_item(*this, tar, *used, trajectory);
             // Throw a single charge of a stacking object.
             if( stack_size == -1 || stack_size == 1 ) {
                 i_rem(weapon_index);
@@ -1772,11 +1766,8 @@ void npc::alt_attack(int target)
                  * should be equal to the original location of our target, and risking friendly
                  * fire is better than holding on to a live grenade / whatever.
                  */
-                if (g->m.sees(posx(), posy(), tar.x, tar.y, light, linet)) {
-                    trajectory = line_to(posx(), posy(), tar.x, tar.y, linet);
-                } else {
-                    trajectory = line_to(posx(), posy(), tar.x, tar.y, 0);
-                }
+                g->m.sees( pos3(), tar, light, linet1, linet2 );
+                trajectory = line_to( pos3(), tar, linet1, linet2 );
                 moves -= 125;
                 if (g->u.sees( *this )) {
                     add_msg(_("%s throws a %s."), name.c_str(),
@@ -1788,7 +1779,7 @@ void npc::alt_attack(int target)
                     stack_size = used->charges;
                     used->charges = 1;
                 }
-                g->throw_item(*this, tar.x, tar.y, *used, trajectory);
+                g->throw_item(*this, tar, *used, trajectory);
 
                 // Throw a single charge of a stacking object.
                 if( stack_size == -1 || stack_size == 1 ) {

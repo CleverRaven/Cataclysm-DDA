@@ -5190,24 +5190,23 @@ bool vehicle::aim_turrets()
     auto tmpammo = pointer.get_curammo()->ammo.get();
     tmpammo->range = range;
 
-    int x = upos.x;
-    int y = upos.y;
     target_mode tmode = TARGET_MODE_TURRET; // We can't aim here yet
-    auto trajectory = g->pl_target_ui( x, y, range, &pointer, tmode );
+    tripoint player_pos = g->u.pos3();
+    auto trajectory = g->pl_target_ui( player_pos, range, &pointer, tmode );
     if( trajectory.empty() ) {
         add_msg( m_info, _("Clearing targets") );
         return false;
     }
 
-    const point &targ = trajectory.back();
+    const tripoint &targ = trajectory.back();
     for( int turret_index : turrets ) {
         int turrange = get_turret_range( turret_index, true );
-        point tpos( global_pos() + parts[turret_index].precalc[0] );
+        tripoint tpos( global_pos() + parts[turret_index].precalc[0], g->u.posz() );
         if( turrange < rl_dist( tpos, targ ) ) {
             continue;
         }
 
-        parts[turret_index].target.second = targ;
+        parts[turret_index].target.second = {targ.x, targ.y};
     }
 
     if( turret_mode == turret_mode_off ) {
@@ -5664,18 +5663,16 @@ bool vehicle::manual_fire_turret( int p, player &shooter, const itype &guntype,
     const int range = shooter.weapon.gun_range( &shooter );
     auto mons = shooter.get_visible_creatures( range );
     constexpr target_mode tmode = TARGET_MODE_TURRET_MANUAL; // No aiming yet!
-    int tx = shooter.posx();
-    int ty = shooter.posy();
-    auto trajectory = g->pl_target_ui( tx, ty, range, &shooter.weapon, tmode );
-    const bool burst = abs( parts[p].mode ) > 1;
+    tripoint shooter_pos = shooter.pos3();
+    auto trajectory = g->pl_target_ui( shooter_pos, range, &shooter.weapon, tmode );
     if( !trajectory.empty() ) {
         // Need to redraw before shooting
         g->draw_ter();
-        const point &targ = trajectory.back();
+        const tripoint &targ = trajectory.back();
         // Put our shooter on the roof of the vehicle
         shooter.add_effect( "on_roof", 1 );
         // TODO (maybe): Less recoil? We're using a mounted, stabilized turret
-        shooter.fire_gun( targ.x, targ.y, burst );
+        shooter.fire_gun( targ, abs( parts[p].mode ) );
         // And now back - we don't want to get any weird behavior
         shooter.remove_effect( "on_roof" );
     }

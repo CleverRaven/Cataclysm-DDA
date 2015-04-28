@@ -153,9 +153,10 @@ bool Character::move_effects()
     }
     return Creature::move_effects();
 }
-void Character::add_effect(efftype_id eff_id, int dur, body_part bp, bool permanent, int intensity)
+void Character::add_effect( efftype_id eff_id, int dur, body_part bp, 
+                            bool permanent, int intensity, bool force )
 {
-    Creature::add_effect(eff_id, dur, bp, permanent, intensity);
+    Creature::add_effect( eff_id, dur, bp, permanent, intensity, force );
 }
 
 void Character::recalc_hp()
