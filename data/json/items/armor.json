@@ -12357,7 +12357,7 @@
         "bashing" : 0,
         "flags" : ["VARSIZE", "WATERPROOF"],
         "coverage" : 95,
-        "material_thickness" : 4
+        "material_thickness" : 3
     },
     {
         "type" : "ARMOR",
@@ -12381,7 +12381,7 @@
         "bashing" : -5,
         "flags" : ["VARSIZE", "POCKETS", "WATERPROOF"],
         "coverage" : 95,
-        "material_thickness" : 8
+        "material_thickness" : 6
     },
     {
         "type" : "ARMOR",
@@ -12405,7 +12405,7 @@
         "bashing" : 0,
         "flags" : ["VARSIZE", "STURDY", "WATERPROOF", "SUN_GLASSES"],
         "coverage" : 100,
-        "material_thickness" : 6
+        "material_thickness" : 4
     },
     {
         "type" : "ARMOR",
