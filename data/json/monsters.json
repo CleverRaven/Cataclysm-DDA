@@ -2560,7 +2560,7 @@
     "hp":70,
     "death_function":["NORMAL"],
     "special_attacks":[ ["BITE", 5]],
-    "description":"This recently-risen body moves quickly, darting its head back and forth and knawing at its hands.",
+    "description":"This recently-risen body moves quickly, darting its head back and forth and gnawing at its hands.",
     "flags":["SEES", "HEARS", "SMELLS", "WARM", "BASHES", "POISON", "NO_BREATHE", "REVIVES", "BONES"]
     },{
     "type" : "MONSTER",
