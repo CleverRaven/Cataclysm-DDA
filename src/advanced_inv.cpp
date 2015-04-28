@@ -1949,15 +1949,15 @@ bool advanced_inventory::query_charges( aim_location destarea, const advanced_in
 
 bool advanced_inv_area::is_same( const advanced_inv_area &other ) const
 {
-    // Inventory and Container are compared by id only, the coordinates are not of concern there.
-    // All other locations are compared by the coordinates, e.g. dragged vehicle
-    // (to the south) and AIM_SOUTH are the same.
+    // All locations (sans the below) are compared by the coordinates, 
+    // e.g. dragged vehicle (to the south) and AIM_SOUTH are the same.
     if( id != AIM_INVENTORY && other.id != AIM_INVENTORY && 
         id != AIM_WORN      && other.id != AIM_WORN      &&
         id != AIM_CONTAINER && other.id != AIM_CONTAINER ) {
-        //      have a vehicle?        do the cargo index and pos match?...      ...do positions?
+        //     have a vehicle?...     ...do the cargo index and pos match?...    ...at least pos?
         return (veh == other.veh) ? (pos == other.pos && vstor == other.vstor) : pos == other.pos;
     }
+    //      ...is the id?
     return id == other.id;
 }
 
