@@ -698,7 +698,6 @@
   {
     "type" : "GENERIC",
     "id" : "fishing_hook_bone",
-    "sub": "fishing_hook_basic",
     "symbol" : ",",
     "color" : "white",
     "name" : "bone fishing hook",

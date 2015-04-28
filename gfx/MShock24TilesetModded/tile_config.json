@@ -19280,46 +19280,34 @@
           "rotates": false
         },
         {
-          "id": "t_tarptent1",
+          "id": "t_tarptent",
           "fg": 2514,
           "bg": 513,
           "rotates": false
         },
         {
-          "id": "t_tarptent2",
-          "fg": 2515,
-          "bg": 513,
-          "rotates": false
-        },
-        {
-          "id": "t_tarptent3",
-          "fg": 2516,
-          "bg": 513,
-          "rotates": false
-        },
-        {
           "id": "fishing_rod_basic",
-          "fg": 2517,
+          "fg": 2515,
           "rotates": false
         },
         {
           "id": "fishing_rod_professional",
-          "fg": 2518,
+          "fg": 2516,
           "rotates": false
         },
         {
           "id": "fishing_hook_basic",
-          "fg": 2519,
+          "fg": 2517,
           "rotates": false
         }
         {
           "id": "fishing_hook_bone",
-          "fg": 2519,
+          "fg": 2517,
           "rotates": false
         },
         {
           "id": "tarp",
-          "fg": 2520,
+          "fg": 2518,
           "rotates": false
         }
       ]

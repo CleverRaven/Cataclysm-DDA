@@ -4,7 +4,7 @@
         "id" : "t_leanto",
         "name": "pine lean-to",
         "symbol": "#",
-        "color": "green",
+        "color": "brown_green",
         "move_cost": 2,
         "flags": [
             "TRANSPARENT", "CONTAINER", "FLAMMABLE_ASH", "THIN_OBSTACLE", "REDUCE_SCENT", "INDOORS", "MOUNTABLE"
@@ -30,10 +30,10 @@
     },
     {
         "type" : "terrain",
-        "id" : "t_tarptent1",
+        "id" : "t_tarptent",
         "name": "tarp lean-to",
         "symbol": "#",
-        "color": "blue",
+        "color": "ltblue",
         "move_cost": 2,
         "flags": [
             "TRANSPARENT", "FLAMMABLE", "THIN_OBSTACLE", "INDOORS", "MOUNTABLE"
@@ -41,9 +41,8 @@
         "deconstruct": {
             "ter_set": "t_dirt",
             "items": [
-                { "item": "stick", "amount": 2 },
+                { "item": "pointy_stick", "amount": 4 },
                 { "item": "string_6", "amount": 4 },
-                { "item": "spike", "amount": 2 },
                 { "item": "tarp", "amount": 1 }
             ]
         },
@@ -56,70 +55,6 @@
                 { "item": "stick", "amount": 1, "minamount": 0 },
                 { "item": "splinter", "amount": 3, "minamount": 1 },
                 { "item": "plastic_chunk", "amount": 8, "minamount": 4 }
-            ]
-        }
-    },
-    {
-        "type" : "terrain",
-        "id" : "t_tarptent2",
-        "name": "tarp lean-to",
-        "symbol": "#",
-        "color": "light_gray",
-        "move_cost": 2,
-        "flags": [
-            "TRANSPARENT", "FLAMMABLE", "THIN_OBSTACLE", "INDOORS", "MOUNTABLE"
-        ],
-        "deconstruct": {
-            "ter_set": "t_dirt",
-            "items": [
-                { "item": "stick", "amount": 2 },
-                { "item": "string_6", "amount": 4 },
-                { "item": "spike", "amount": 2 },
-                { "item": "pebble", "amount": 2 },
-                { "item": "emer_blanket_on", "amount": 1 }
-            ]
-        },
-        "bash": {
-            "str_min": 6, "str_max": 12,
-            "sound": "crash!",
-            "sound_fail": "whack!",
-            "ter_set": "t_dirt",
-            "items": [
-                { "item": "stick", "amount": 1, "minamount": 0 },
-                { "item": "splinter", "amount": 3, "minamount": 1 },
-                { "item": "plastic_chunk", "amount": 6, "minamount": 3 }
-            ]
-        }
-    },
-    {
-        "type" : "terrain",
-        "id" : "t_tarptent3",
-        "name": "tarp lean-to",
-        "symbol": "#",
-        "color": "yellow",
-        "move_cost": 2,
-        "flags": [
-            "TRANSPARENT", "FLAMMABLE", "THIN_OBSTACLE", "INDOORS", "MOUNTABLE"
-        ],
-        "deconstruct": {
-            "ter_set": "t_dirt",
-            "items": [
-                { "item": "stick", "amount": 2 },
-                { "item": "string_6", "amount": 4 },
-                { "item": "spike", "amount": 2 },
-                { "item": "pebble", "amount": 2 },
-                { "item": "folding_poncho_on", "amount": 1 }
-            ]
-        },
-        "bash": {
-            "str_min": 6, "str_max": 12,
-            "sound": "crash!",
-            "sound_fail": "whack!",
-            "ter_set": "t_dirt",
-            "items": [
-                { "item": "stick", "amount": 1, "minamount": 0 },
-                { "item": "splinter", "amount": 3, "minamount": 1 },
-                { "item": "plastic_chunk", "amount": 4, "minamount": 2 }
             ]
         }
     }
