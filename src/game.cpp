@@ -10166,7 +10166,14 @@ int game::calculate_drop_cost(std::vector<item> &dropped, const std::vector<item
 }
 
 void game::drop(std::vector<item> &dropped, std::vector<item> &dropped_worn,
-                int freed_volume_capacity, int dirx, int diry)
+                int freed_volume_capacity, int dirx, int diry, bool to_vehicle)
+{
+    drop(dropped, dropped_worn, freed_volume_capacity, 
+            tripoint(dirx, diry, g->get_levz()), to_vehicle);
+}
+
+void game::drop(std::vector<item> &dropped, std::vector<item> &dropped_worn,
+                int freed_volume_capacity, tripoint dir, bool to_vehicle)
 {
     if (dropped.empty() && dropped_worn.empty()) {
         add_msg(_("Never mind."));
@@ -10180,13 +10187,16 @@ void game::drop(std::vector<item> &dropped, std::vector<item> &dropped_worn,
 
     int veh_part = 0;
     bool to_veh = false;
-    vehicle *veh = m.veh_at(dirx, diry, veh_part);
-    if (veh) {
-        veh_part = veh->part_with_feature(veh_part, "CARGO");
-        to_veh = veh_part >= 0;
+    vehicle *veh = nullptr;
+    if(to_vehicle) {
+        veh = m.veh_at(dir, veh_part);
+        if (veh != nullptr) {
+            veh_part = veh->part_with_feature(veh_part, "CARGO");
+            to_veh = veh_part >= 0;
+        }
     }
 
-    bool can_move_there = m.move_cost(dirx, diry) != 0;
+    bool can_move_there = m.move_cost(dir) != 0;
 
     itype_id first = itype_id(dropped[0].type->id);
     bool same = true;
@@ -10211,12 +10221,12 @@ void game::drop(std::vector<item> &dropped, std::vector<item> &dropped_worn,
             add_msg(ngettext("You drop your %s on the %s.",
                              "You drop your %s on the %s.", dropcount),
                     dropped[0].tname(dropcount).c_str(),
-                    m.name(dirx, diry).c_str());
+                    m.name(dir).c_str());
         } else {
             add_msg(ngettext("You put your %s in the %s.",
                              "You put your %s in the %s.", dropcount),
                     dropped[0].tname(dropcount).c_str(),
-                    m.name(dirx, diry).c_str());
+                    m.name(dir).c_str());
         }
     } else {
         if (to_veh) {
@@ -10224,10 +10234,10 @@ void game::drop(std::vector<item> &dropped, std::vector<item> &dropped_worn,
                     veh->name.c_str(), veh->part_info(veh_part).name.c_str());
         } else if (can_move_there) {
             add_msg(_("You drop several items on the %s."),
-                    m.name(dirx, diry).c_str());
+                    m.name(dir).c_str());
         } else {
             add_msg(_("You put several items in the %s."),
-                    m.name(dirx, diry).c_str());
+                    m.name(dir).c_str());
         }
     }
 
@@ -10236,7 +10246,7 @@ void game::drop(std::vector<item> &dropped, std::vector<item> &dropped_worn,
         for( auto &elem : dropped ) {
             vh_overflow = vh_overflow || !veh->add_item( veh_part, elem );
             if (vh_overflow) {
-                m.add_item_or_charges( dirx, diry, elem, 1 );
+                m.add_item_or_charges( dir, elem, 1 );
             }
         }
         if (vh_overflow) {
@@ -10244,7 +10254,7 @@ void game::drop(std::vector<item> &dropped, std::vector<item> &dropped_worn,
         }
     } else {
         for( auto &elem : dropped ) {
-            m.add_item_or_charges( dirx, diry, elem, 2 );
+            m.add_item_or_charges( dir, elem, 2 );
         }
     }
     u.moves -= drop_move_cost;
