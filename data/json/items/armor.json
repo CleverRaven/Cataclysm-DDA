@@ -12377,7 +12377,7 @@
         "warmth" : 40,
         "phase" : "solid",
         "environmental_protection" : 1,
-        "encumbrance" : 15,
+        "encumbrance" : 20,
         "bashing" : -5,
         "flags" : ["VARSIZE", "POCKETS", "WATERPROOF"],
         "coverage" : 95,
