@@ -290,7 +290,31 @@ struct tripoint : public JsonSerializer, public JsonDeserializer {
     {
         return tripoint( -x, -y, -z );
     }
-
+    /*** some point operators and functions ***/
+    point as_point() const
+    {
+        return point(x, y);
+    }
+    tripoint operator+(const point &rhs) const
+    {
+        return tripoint(x + rhs.x, y + rhs.y, z);
+    }
+    tripoint operator-(const point &rhs) const
+    {
+        return tripoint(x - rhs.x, y - rhs.y, z);
+    }
+    tripoint &operator+=(const point &rhs)
+    {
+        x += rhs.x;
+        y += rhs.y;
+        return *this;
+    }
+    tripoint &operator-=(const point &rhs)
+    {
+        x -= rhs.x;
+        y -= rhs.y;
+        return *this;
+    }
     tripoint operator+( const point &off )
     {
         return tripoint( x + off.x, y + off.y, z );
