@@ -4506,7 +4506,7 @@ void mattack::kamikaze(monster *z, int index)
     // .65 factor was determined experimentally to be about the factor required for players to be able to *just barely*
     // outrun the explosion if they drop everything and run.
     float factor = float(z->get_speed()) / float(target->get_speed() * 2);
-    int range = std::max(1, int(.65 * (radius + factor * charges)));
+    int range = std::max(1, int(.65 * (radius + 1 + factor * charges)));
 
     // Check if we are in range to begin the countdown
     if (!within_target_range(z, target, range)) {
