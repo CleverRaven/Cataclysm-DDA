@@ -212,9 +212,15 @@ class Creature
         virtual bool is_warm() const; // is this creature warm, for IR vision, heat drain, etc
         virtual bool has_weapon() const = 0;
         virtual bool is_hallucination() const = 0;
-        virtual bool is_elec_immune() const = 0;
         // returns true if health is zero or otherwise should be dead
         virtual bool is_dead_state() const = 0;
+
+        // Resistances
+        bool is_immune( const std::string &type ) const;
+        virtual bool is_elec_immune() const = 0;
+        virtual bool is_immune_effect( const std::string &type ) const = 0;
+        virtual bool is_immune_damage( const damage_type type ) const = 0;
+        
         /**
          * This function checks the creatures @ref is_dead_state and (if true) calls @ref die.
          * You can either call this function after hitting this creature, or let the game

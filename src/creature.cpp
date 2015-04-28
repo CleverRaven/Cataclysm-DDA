@@ -389,7 +389,7 @@ void Creature::deal_melee_hit(Creature *source, int hit_spread, bool critical_hi
     block_hit(source, bp_hit, d);
 
     // Bashing crit
-    if (critical_hit) {
+    if( critical_hit && !is_immune_effect( "stunned" ) ) {
         int turns_stunned = (d.type_damage(DT_BASH) + hit_spread) / 20;
         if (turns_stunned > 6) {
             turns_stunned = 6;
@@ -404,7 +404,7 @@ void Creature::deal_melee_hit(Creature *source, int hit_spread, bool critical_hi
     if (critical_hit) {
         stab_moves *= 1.5;
     }
-    if (stab_moves >= 150) {
+    if( stab_moves >= 150 && !is_immune_effect( "downed" ) ) {
         if (is_player() && (!g->u.has_trait("LEG_TENT_BRACE") || g->u.footwear_factor() == 1 ||
                             (g->u.footwear_factor() == .5 && one_in(2))) ) {
             // can the player force their self to the ground? probably not.
@@ -663,6 +663,10 @@ dealt_damage_instance Creature::deal_damage(Creature *source, body_part bp,
 }
 void Creature::deal_damage_handle_type(const damage_unit &du, body_part, int &damage, int &pain)
 {
+    if( is_immune_damage( du.type ) ) {
+        return;
+    }
+
     // Apply damage multiplier from critical hits or grazes after all other modifications.
     const int adjusted_damage = du.amount * du.damage_multiplier;
     switch (du.type) {
@@ -1016,6 +1020,16 @@ void Creature::set_moves(int nmoves)
 bool Creature::in_sleep_state() const
 {
     return has_effect("sleep") || has_effect("lying_down");
+}
+
+bool Creature::is_immune( const std::string &type ) const
+{
+    damage_type dt = dt_by_name( type );
+    if( dt != DT_NULL ) {
+        return is_immune_damage( dt );
+    }
+
+    return is_immune_effect( type );
 }
 
 /*

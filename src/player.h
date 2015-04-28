@@ -344,46 +344,50 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         void ma_ongethit_effects();
 
         /** Returns true if the player has any martial arts buffs attached */
-        bool has_mabuff(mabuff_id buff_id);
+        bool has_mabuff(mabuff_id buff_id) const;
         /** Returns true if the player has access to the entered martial art */
         bool has_martialart(const matype_id &ma_id) const;
         /** Adds the entered martial art to the player's list */
         void add_martialart(const matype_id &ma_id);
 
         /** Returns the to hit bonus from martial arts buffs */
-        int mabuff_tohit_bonus();
+        int mabuff_tohit_bonus() const;
         /** Returns the dodge bonus from martial arts buffs */
-        int mabuff_dodge_bonus();
+        int mabuff_dodge_bonus() const;
         /** Returns the block bonus from martial arts buffs */
-        int mabuff_block_bonus();
+        int mabuff_block_bonus() const;
         /** Returns the speed bonus from martial arts buffs */
-        int mabuff_speed_bonus();
+        int mabuff_speed_bonus() const;
         /** Returns the bash armor bonus from martial arts buffs */
-        int mabuff_arm_bash_bonus();
+        int mabuff_arm_bash_bonus() const;
         /** Returns the cut armor bonus from martial arts buffs */
-        int mabuff_arm_cut_bonus();
+        int mabuff_arm_cut_bonus() const;
         /** Returns the bash damage multiplier from martial arts buffs */
-        float mabuff_bash_mult();
+        float mabuff_bash_mult() const;
         /** Returns the bash damage bonus from martial arts buffs, applied after the multiplier */
-        int mabuff_bash_bonus();
+        int mabuff_bash_bonus() const;
         /** Returns the cut damage multiplier from martial arts buffs */
-        float mabuff_cut_mult();
+        float mabuff_cut_mult() const;
         /** Returns the cut damage bonus from martial arts buffs, applied after the multiplier */
-        int mabuff_cut_bonus();
+        int mabuff_cut_bonus() const;
         /** Returns true if the player is immune to throws */
-        bool is_throw_immune();
+        bool is_throw_immune() const;
         /** Returns true if the player has quiet melee attacks */
-        bool is_quiet();
+        bool is_quiet() const;
         /** Returns true if the current martial art works with the player's current weapon */
-        bool can_melee();
+        bool can_melee() const;
         /** Always returns false, since players can't dig currently */
         bool digging() const override;
         /** Returns true if the player is knocked over or has broken legs */
         bool is_on_ground() const override;
-        /** Returns true is the player is protected from electric shocks */
-        bool is_elec_immune() const override;
         /** Returns true if the player should be dead */
         bool is_dead_state() const override;
+        /** Returns true is the player is protected from electric shocks */
+        bool is_elec_immune() const override;
+        /** Returns true if the player is immune to this kind of effect */
+        bool is_immune_effect( const std::string& ) const override;
+        /** Returns true if the player is immune to this kind of damage */
+        bool is_immune_damage( const damage_type ) const override;
 
         /** Returns true if the player has technique-based miss recovery */
         bool has_miss_recovery_tec();

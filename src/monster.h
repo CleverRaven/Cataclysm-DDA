@@ -217,8 +217,10 @@ class monster : public Creature, public JsonSerializer, public JsonDeserializer
         bool is_on_ground() const override;
         bool is_warm() const override;
         bool has_weapon() const override;
-        bool is_elec_immune() const override;
         bool is_dead_state() const override; // check if we should be dead or not
+        bool is_elec_immune() const override;
+        bool is_immune_effect( const std::string& ) const override;
+        bool is_immune_damage( const damage_type ) const override;
 
         void absorb_hit(body_part bp, damage_instance &dam) override;
         void dodge_hit(Creature *source, int hit_spread) override;

@@ -1792,9 +1792,48 @@ bool player::is_on_ground() const
 
 bool player::is_elec_immune() const
 {
-    return has_active_bionic( "bio_faraday" ) ||
-           worn_with_flag( "ELECTRIC_IMMUNE" ) ||
-           has_artifact_with( AEP_RESIST_ELECTRICITY );
+    return is_immune_damage( DT_ELECTRIC );
+}
+
+bool player::is_immune_effect( const std::string &effect ) const
+{
+    if( effect == "downed" ) {
+        return is_throw_immune() || ( has_trait("LEG_TENT_BRACE") && footwear_factor() == 0 );
+    } else if( effect == "onfire" ) {
+        return is_immune_damage( DT_HEAT );
+    }
+
+    return false;
+}
+
+bool player::is_immune_damage( const damage_type dt ) const
+{
+    switch( dt ) {
+    case DT_NULL:
+        return true;
+    case DT_TRUE:
+        return false;
+    case DT_BIOLOGICAL:
+        return false;
+    case DT_BASH:
+        return false;
+    case DT_CUT:
+        return false;
+    case DT_ACID:
+        return has_trait( "ACIDBLOOD" );
+    case DT_STAB:
+        return false;
+    case DT_HEAT:
+        return has_trait("M_SKIN2");
+    case DT_COLD:
+        return false;
+    case DT_ELECTRIC:
+        return has_active_bionic( "bio_faraday" ) ||
+               worn_with_flag( "ELECTRIC_IMMUNE" ) ||
+               has_artifact_with( AEP_RESIST_ELECTRICITY );
+    default:
+        return true;
+    }
 }
 
 bool player::is_underwater() const
