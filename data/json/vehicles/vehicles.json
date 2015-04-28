@@ -144,6 +144,9 @@
             {"x": 0, "y": 1, "part": "seat"},
             {"x": 1, "y": 1, "part": "frame_handle"},
             {"x": 1, "y": 1, "part": "box"}
+        ],
+        "items" : [
+            {"x": 0, "y": 1, "chance": 33, "items": "helmet_motor"}
         ]
     },{
         "type" : "vehicle",
@@ -176,6 +179,9 @@
             {"x": -1, "y": -1, "part": "wheel_motorbike"},
             {"x": -1, "y": 1, "part": "frame_horizontal"},
             {"x": -1, "y": 1, "part": "wheel_motorbike"}
+        ],
+        "items" : [
+            {"x": -1, "y": 0, "chance": 10, "items": "helmet_motor"}
         ]
     },{
         "type" : "vehicle",
@@ -456,7 +462,11 @@
             {"x": -3, "y": 2, "part": "frame_horizontal"},
             {"x": -3, "y": 2, "part": "halfboard_se"},
             {"x": -3, "y": 2, "part": "wheel"}
-      ]
+        ],
+        "items" : [
+            {"x": 0, "y": 0, "chance": 16, "items": ["coke"]},
+            {"x": 0, "y": 1, "chance": 5, "item_groups": ["female_underwear"]}
+        ]
     },{
         "type" : "vehicle",
         "id" : "car_chassis",
@@ -689,8 +699,12 @@
             {"x": -4, "y": 2, "part": "roof"}
         ],
         "items" : [
-            {"x": -1, "y": 0, "chance": 2, "items": ["weed", "rolling_paper"]},
-            {"x": -2, "y": 0, "chance": 2, "items": ["weed", "rolling_paper"]}
+            {"x": 0, "y": 0, "chance": 3, "items": ["sunglasses"]},
+            {"x": 0, "y": 1, "chance": 10, "items": ["fancy_sunglasses"]},
+            {"x": -1, "y": 0, "chance": 5, "items": ["weed", "rolling_paper"]},
+            {"x": -2, "y": 0, "chance": 2, "items": ["weed", "rolling_paper"]},
+            {"x": -3, "y": 0, "chance": 5, "items": ["acoustic_guitar"]},
+            {"x": -3, "y": 1, "chance": 8, "items": ["joint_roach"]}
         ]
     },{
         "type" : "vehicle",
@@ -908,6 +922,16 @@
             {"x": -4, "y": 3, "part": "board_se"},
             {"x": -4, "y": 3, "part": "wheel_wide"},
             {"x": -4, "y": 3, "part": "roof"}
+        ],
+        "items" : [
+            {"x": -2, "y": 0, "chance": 15, "items": ["2x4"]},
+            {"x": -2, "y": 1, "chance": 12, "items": ["2x4"]},
+            {"x": -2, "y": 1, "chance": 9, "items": ["2x4"]},
+            {"x": -2, "y": 2, "chance": 14, "items": ["2x4"]},
+            {"x": -2, "y": 0, "chance": 15, "items": ["2x4"]},
+            {"x": -3, "y": 0, "chance": 2, "item_groups": ["bigtools"]},
+            {"x": -3, "y": 1, "chance": 10, "item_groups": ["mischw"]},
+            {"x": -3, "y": 2, "chance": 5, "item_groups": ["tools"]}
         ]
     },{
         "type" : "vehicle",
@@ -1027,6 +1051,11 @@
             {"x": -4, "y": 3, "part": "board_se"},
             {"x": -4, "y": 3, "part": "wheel_wide"},
             {"x": -4, "y": 3, "part": "roof"}
+        ],
+        "items" : [
+            {"x": -2, "y": 0, "chance": 5, "item_groups": ["tools"]},
+            {"x": -2, "y": 2, "chance": 5, "item_groups": ["tools"]},
+            {"x": -3, "y": 2, "chance": 2, "item_groups": ["bigtools"]}
         ]
     },{
         "type" : "vehicle",
@@ -1579,11 +1608,16 @@
             {"x": 1, "y": 1, "part": "halfboard_ne"},
             {"x": 1, "y": 1, "part": "wheel_small"},
             {"x": -1, "y": 0, "part": "frame_sw"},
-            {"x": -1, "y": 0, "part": "halfboard_sw"},
+            {"x": -1, "y": 0, "part": "box"},
             {"x": -1, "y": 0, "part": "wheel_small"},
             {"x": -1, "y": 1, "part": "frame_se"},
-            {"x": -1, "y": 1, "part": "halfboard_se"},
+            {"x": -1, "y": 1, "part": "box"},
             {"x": -1, "y": 1, "part": "wheel_small"}
+        ],
+        "items" : [
+            {"x": -1, "y": 0, "chance": 5, "items": "towel"},
+            {"x": -1, "y": 0, "chance": 10, "items": "golf_club"},
+            {"x": -1, "y": 1, "chance": 8, "items": "golf_club"}
         ]
     },{
         "type" : "vehicle",
@@ -1929,6 +1963,22 @@
             {"x": -8, "y": 2, "part": "windshield"},
             {"x": -8, "y": 3, "part": "frame_horizontal"},
             {"x": -8, "y": 3, "part": "windshield"}
+        ],
+        "items" : [
+            {"x": -1, "y": 0, "chance": 7, "item_groups": "child_items"},
+            {"x": -1, "y": 2, "chance": 6, "item_groups": "child_items"},
+            {"x": -2, "y": 0, "chance": 5, "item_groups": "child_items"},
+            {"x": -2, "y": 2, "chance": 11, "item_groups": "child_items"},
+            {"x": -3, "y": 0, "chance": 8, "item_groups": "child_items"},
+            {"x": -3, "y": 2, "chance": 5, "item_groups": "child_items"},
+            {"x": -4, "y": 0, "chance": 6, "item_groups": "school"},
+            {"x": -4, "y": 2, "chance": 10, "item_groups": "child_items"},
+            {"x": -5, "y": 0, "chance": 6, "item_groups": "child_items"},
+            {"x": -5, "y": 2, "chance": 11, "item_groups": "child_items"},
+            {"x": -6, "y": 0, "chance": 7, "item_groups": "child_items"},
+            {"x": -6, "y": 2, "chance": 9, "item_groups": ["school", "child_items"]},
+            {"x": -7, "y": 0, "chance": 8, "item_groups": "child_items"},
+            {"x": -7, "y": 2, "chance": 7, "item_groups": "child_items"}
         ]
     },{
         "type" : "vehicle",
@@ -3245,50 +3295,41 @@
         ],
         "items" : [
             {"x": 0, "y": 0, "chance": 100, "items": ["porkpie"]},
-            {"x": -2, "y": 0, "chance": 25, "items": ["dayquil"]},
+            {"x": -2, "y": 0, "chance": 30, "items": ["dayquil"]},
+            {"x": -2, "y": 0, "chance": 8, "items": ["dayquil"]},
             {"x": -2, "y": 0, "chance": 5, "items": ["dayquil"]},
             {"x": -2, "y": 0, "chance": 5, "items": ["dayquil"]},
             {"x": -2, "y": 0, "chance": 1, "items": ["dayquil"]},
             {"x": -2, "y": 0, "chance": 1, "items": ["dayquil"]},
-            {"x": -2, "y": 0, "chance": 1, "items": ["dayquil"]},
-            {"x": -2, "y": 0, "chance": 1, "items": ["dayquil"]},
-            {"x": -2, "y": 0, "chance": 1, "items": ["dayquil"]},
-            {"x": -2, "y": 0, "chance": 1, "items": ["dayquil"]},
-            {"x": -2, "y": 0, "chance": 1, "items": ["dayquil"]},
-            {"x": -2, "y": 2, "chance": 25, "items": ["aspirin"]},
-            {"x": -2, "y": 2, "chance": 5, "items": ["aspirin"]},
-            {"x": -2, "y": 2, "chance": 5, "items": ["aspirin"]},
-            {"x": -2, "y": 2, "chance": 5, "items": ["aspirin"]},
+            {"x": -2, "y": 0, "chance": 5, "item_groups": ["methlab"]},
+            {"x": -2, "y": 2, "chance": 30, "items": ["aspirin"]},
+            {"x": -2, "y": 2, "chance": 10, "items": ["aspirin"]},
+            {"x": -2, "y": 2, "chance": 10, "items": ["aspirin"]},
+            {"x": -2, "y": 2, "chance": 8, "items": ["aspirin"]},
             {"x": -2, "y": 2, "chance": 5, "items": ["aspirin"]},
             {"x": -2, "y": 2, "chance": 5, "items": ["aspirin"]},
             {"x": -2, "y": 2, "chance": 5, "items": ["aspirin"]},
             {"x": -2, "y": 2, "chance": 1, "items": ["aspirin"]},
-            {"x": -2, "y": 2, "chance": 1, "items": ["aspirin"]},
-            {"x": -2, "y": 2, "chance": 1, "items": ["aspirin"]},
-            {"x": -2, "y": 2, "chance": 1, "items": ["aspirin"]},
-            {"x": -2, "y": 2, "chance": 1, "items": ["aspirin"]},
+            {"x": -2, "y": 2, "chance": 5, "item_groups": ["methlab"]},
             {"x": -3, "y": 0, "chance": 25, "items": ["meth"]},
+            {"x": -3, "y": 0, "chance": 8, "items": ["meth"]},
             {"x": -3, "y": 0, "chance": 5, "items": ["meth"]},
             {"x": -3, "y": 0, "chance": 5, "items": ["meth"]},
+            {"x": -3, "y": 0, "chance": 3, "items": ["meth"]},
             {"x": -3, "y": 0, "chance": 1, "items": ["meth"]},
             {"x": -3, "y": 0, "chance": 1, "items": ["meth"]},
-            {"x": -3, "y": 0, "chance": 1, "items": ["meth"]},
-            {"x": -3, "y": 0, "chance": 1, "items": ["meth"]},
-            {"x": -3, "y": 0, "chance": 1, "items": ["meth"]},
-            {"x": -3, "y": 0, "chance": 1, "items": ["meth"]},
-            {"x": -3, "y": 0, "chance": 1, "items": ["meth"]},
+            {"x": -3, "y": 0, "chance": 7, "item_groups": ["methlab"]},
             {"x": -3, "y": 2, "chance": 25, "items": ["adderall"]},
+            {"x": -3, "y": 2, "chance": 10, "items": ["adderall"]},
+            {"x": -3, "y": 2, "chance": 8, "items": ["adderall"]},
+            {"x": -3, "y": 2, "chance": 8, "items": ["adderall"]},
             {"x": -3, "y": 2, "chance": 5, "items": ["adderall"]},
             {"x": -3, "y": 2, "chance": 5, "items": ["adderall"]},
-            {"x": -3, "y": 2, "chance": 5, "items": ["adderall"]},
-            {"x": -3, "y": 2, "chance": 5, "items": ["adderall"]},
-            {"x": -3, "y": 2, "chance": 5, "items": ["adderall"]},
-            {"x": -3, "y": 2, "chance": 5, "items": ["adderall"]},
+            {"x": -3, "y": 2, "chance": 3, "items": ["adderall"]},
             {"x": -3, "y": 2, "chance": 1, "items": ["adderall"]},
-            {"x": -3, "y": 2, "chance": 1, "items": ["adderall"]},
-            {"x": -3, "y": 2, "chance": 1, "items": ["adderall"]},
-            {"x": -3, "y": 2, "chance": 1, "items": ["adderall"]},
-            {"x": -3, "y": 2, "chance": 1, "items": ["adderall"]}
+            {"x": -4, "y": 0, "chance": 7, "item_groups": ["methlab"]},
+            {"x": -4, "y": 2, "chance": 7, "item_groups": ["methlab"]},
+            {"x": -5, "y": 2, "chance": 9, "item_groups": ["methlab"]}
         ]
     },{
         "type" : "vehicle",
@@ -3898,8 +3939,8 @@
         "items" : [
             {"x": 0, "y": 0, "chance": 5, "items": ["remington_870"]},
             {"x": 0, "y": 0, "chance": 5, "items": ["shot_slug"]},
-            {"x": 0, "y": 0, "chance": 5, "items": ["shot_slug"]},
-            {"x": 0, "y": 0, "chance": 5, "items": ["shot_slug"]}
+            {"x": -2, "y": 0, "chance": 5, "item_groups": ["cop_gear"]},
+            {"x": -2, "y": 1, "chance": 3, "item_groups": ["cop_weapons"]}
         ]
     },{
         "type" : "vehicle",
@@ -4445,7 +4486,10 @@
             {"x": 2, "y": 1, "part": "roller_drum"},
             {"x": -3, "y": 2, "part": "roller_drum"},
             {"x": 2, "y": 2, "part": "roller_drum"}
-    ]
+        ],
+        "items" : [
+            {"x": 0, "y": 0, "chance": 5, "items": ["hat_hard"]}
+        ]
     },{
         "type" : "vehicle",
         "id" : "autosweeper",
