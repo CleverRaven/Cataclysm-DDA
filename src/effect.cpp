@@ -1055,7 +1055,7 @@ std::string effect::get_speed_name() const
 {
     // USes the speed_mod_name if one exists, else defaults to the first entry in "name".
     if (eff_type->speed_mod_name == "") {
-        return eff_type->name[0];
+        return eff_type->name[intensity-1];
     } else {
         return eff_type->speed_mod_name;
     }
