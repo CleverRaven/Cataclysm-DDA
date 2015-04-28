@@ -45,6 +45,9 @@ void mdefense::zapback(monster *const m, Creature *const source, projectile cons
 
 void mdefense::acidsplash(monster *const m, Creature *const source, projectile const* const proj)
 {
+    if( (proj) && ((rng(0, 40) > m->def_chance) || (rl_dist(m->pos(), source->pos()) > 1)) ) {
+        return; //Less likely for a projectile to deliver enough force
+    }
 
 if (one_in(2)){
         for (int i = 0; i < rng(3,5); i++) {
