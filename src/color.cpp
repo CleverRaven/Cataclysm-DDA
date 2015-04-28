@@ -22,7 +22,7 @@ std::unordered_map<std::string, note_color> color_by_string_map;
 
 void color_manager::finalize()
 {
-    static const std::array<std::string, NUM_HL> hilights = {
+    static const std::array<std::string, NUM_HL> hilights = {{
         "",
         "red",
         "white",
@@ -30,7 +30,7 @@ void color_manager::finalize()
         "yellow",
         "magenta",
         "cyan"
-    };
+    }};
 
     for( size_t i = 0; i < color_array.size(); i++ ) {
         color_struct &entry = color_array[i];
