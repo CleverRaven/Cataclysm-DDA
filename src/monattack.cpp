@@ -4418,7 +4418,14 @@ void mattack::kamikaze(monster *z, int index)
         act_bomb_type = item::find_type("c4armed");
         charges = 10;
     } else {
-        const iuse_transform *actor = dynamic_cast<const iuse_transform *>( bomb_type->get_use( "transform" )->get_actor_ptr() );
+        auto usage = bomb_type->get_use( "transform" );
+        if ( usage == nullptr ) {
+            // Invalid item usage, Toggle this special off so we stop processing
+            add_msg(m_debug, "Invalid bomb transform use in kamikaze special for %s.", z->name().c_str());
+            z->set_special(index, -1);
+            return;
+        }
+        const iuse_transform *actor = dynamic_cast<const iuse_transform *>( usage->get_actor_ptr() );
         if( actor == nullptr ) {
             // Invalid bomb item, Toggle this special off so we stop processing
             add_msg(m_debug, "Invalid bomb type in kamikaze special for %s.", z->name().c_str());
@@ -4432,18 +4439,25 @@ void mattack::kamikaze(monster *z, int index)
     // HORRIBLE HACK ALERT! Remove the following code completely once we have working monster inventory processing
     if (z->has_effect("countdown")) {
         if (z->get_effect("countdown").get_duration() == 1) {
+            z->die(nullptr);
             // Timer is out, detonate
             item i_explodes(act_bomb_type->id, 0);
             i_explodes.charges = 0;
             i_explodes.active = true;
             i_explodes.process(nullptr, z->pos3(), false);
-            z->set_special(index, -1);
         }
         return;
     }
     // END HORRIBLE HACK
 
-    const explosion_iuse *exp_actor = dynamic_cast<const explosion_iuse *>( act_bomb_type->get_use( "explosion" )->get_actor_ptr() );
+    auto use = act_bomb_type->get_use( "explosion" );
+    if (use == nullptr ) {
+        // Invalid active bomb item usage, Toggle this special off so we stop processing
+        add_msg(m_debug, "Invalid active bomb explosion use in kamikaze special for %s.", z->name().c_str());
+        z->set_special(index, -1);
+        return;
+    }
+    const explosion_iuse *exp_actor = dynamic_cast<const explosion_iuse *>( use->get_actor_ptr() );
     if( exp_actor == nullptr ) {
         // Invalid active bomb item, Toggle this special off so we stop processing
         add_msg(m_debug, "Invalid active bomb type in kamikaze special for %s.", z->name().c_str());
@@ -4489,9 +4503,10 @@ void mattack::kamikaze(monster *z, int index)
     }
     // Range is (radius + distance they expect to gain on you during the countdown)
     // We double target speed because if the player is walking and then start to run their effective speed doubles
-    // .6 factor was determined experimentally to be about the factor required for players to be able to *just barely*
+    // .65 factor was determined experimentally to be about the factor required for players to be able to *just barely*
     // outrun the explosion if they drop everything and run.
-    int range = std::max(1, int(.6 * (radius + float(z->get_speed()) / float(target->get_speed() * 2) * charges)));
+    float factor = float(z->get_speed()) / float(target->get_speed() * 2);
+    int range = std::max(1, int(.65 * (radius + 1 + factor * charges)));
 
     // Check if we are in range to begin the countdown
     if (!within_target_range(z, target, range)) {
@@ -4589,7 +4604,13 @@ int grenade_helper(monster *const z, Creature *const target, const int dist,
 
     // Get our monster type
     auto bomb_type = item::find_type(att);
-    auto *actor = dynamic_cast<const place_monster_iuse *>( bomb_type->get_use( "place_monster" )->get_actor_ptr() );
+    auto usage = bomb_type->get_use( "place_monster" );
+    if (usage == nullptr ) {
+        // Invalid bomb item usage, Toggle this special off so we stop processing
+        add_msg(m_debug, "Invalid bomb item usage in grenadier special for %s.", z->name().c_str());
+        return -1;
+    }
+    auto *actor = dynamic_cast<const place_monster_iuse *>( usage->get_actor_ptr() );
     if( actor == nullptr ) {
         // Invalid bomb item, Toggle this special off so we stop processing
         add_msg(m_debug, "Invalid bomb type in grenadier special for %s.", z->name().c_str());
@@ -4625,7 +4646,7 @@ void mattack::grenadier(monster *const z, int const index)
     if (z->attitude_to( *target ) == Creature::A_FRIENDLY) {
         return;
     }
-    int ret = grenade_helper(z, target,30, 60, grenades);
+    int ret = grenade_helper(z, target, 30, 60, grenades);
     if (ret == 1) {
         // The special worked, reset our special countdown
         z->reset_special(index);
@@ -4660,7 +4681,7 @@ void mattack::grenadier_elite(monster *const z, int const index)
     if (z->attitude_to( *target ) == Creature::A_FRIENDLY) {
         return;
     }
-    int ret = grenade_helper(z, target,30, 60, grenades);
+    int ret = grenade_helper(z, target, 30, 60, grenades);
     if (ret == 1) {
         // The special worked, reset our special countdown
         z->reset_special(index);

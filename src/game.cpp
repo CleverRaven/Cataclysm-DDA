@@ -6105,6 +6105,7 @@ void game::do_blast( const tripoint &p, const int power, const int radius, const
             } else {
                 dam = 3 * power / (rl_dist(x, y, i, j));
             }
+            m.smash_items(t, dam);
             m.bash( t, dam );
             m.bash( t, dam ); // Double up for tough doors, etc.
 
@@ -7062,6 +7063,12 @@ bool game::revive_corpse( const tripoint &p, item *it )
     if (it->get_var( "zlave" ) == "zlave"){
         critter.add_effect("pacified", 1, num_bp, true);
         critter.add_effect("pet", 1, num_bp, true);
+    }
+
+    if (it->get_var("no_ammo") == "no_ammo") {
+        for (auto &ammo : critter.ammo) {
+            ammo.second = 0;
+        }
     }
 
     add_zombie(critter);
@@ -14028,8 +14035,8 @@ void intro()
     // Check whether LC_CTYPE supports the UTF-8 encoding
     // and show a warning if it doesn't
     if (strcmp(nl_langinfo(CODESET), "UTF-8") != 0) {
-        const char *unicode_error_msg = 
-            _("You don't seem to have a valid Unicode locale. You may see some weird " 
+        const char *unicode_error_msg =
+            _("You don't seem to have a valid Unicode locale. You may see some weird "
               "characters (e.g. empty boxes or question marks). You have been warned.");
         fold_and_print(tmp, 0, 0, maxx, c_white, unicode_error_msg, minWidth, minHeight, maxx, maxy);
         wrefresh(tmp);
