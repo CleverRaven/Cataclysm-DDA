@@ -179,6 +179,7 @@ public:
     int airhorn             ( player*, item*, bool, const tripoint& );
     int adrenaline_injector ( player*, item*, bool, const tripoint& );
     int jet_injector        ( player*, item*, bool, const tripoint& );
+    int stimpack            ( player*, item*, bool, const tripoint& );
     int contacts            ( player*, item*, bool, const tripoint& );
     int talking_doll        ( player*, item*, bool, const tripoint& );
     int bell                ( player*, item*, bool, const tripoint& );
