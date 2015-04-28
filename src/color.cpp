@@ -12,8 +12,6 @@
 #include <iostream>
 #include <fstream>
 
-#define HILIGHT COLOR_BLUE
-
 color_manager &get_all_colors()
 {
     static color_manager single_instance;
@@ -37,38 +35,32 @@ void color_manager::finalize()
     for( size_t i = 0; i < color_array.size(); i++ ) {
         color_struct &entry = color_array[i];
 
-        const std::string my_name = get_name( entry.color );
-DebugLog(D_ERROR, DC_ALL) << "finalizing: " << i << " name: " << my_name;
-
         entry.invert = get( entry.invert_id );
 
         if( !entry.name_custom.empty() ) {
-            entry.custom = name_to_color( entry.name_custom );
-DebugLog(D_ERROR, DC_ALL) << " name_custom: " << entry.name_custom;
+            // Not using name_to_color because we want default color of this name
+            auto const id = name_to_id( entry.name_custom );
+            auto &other = color_array[id];
+            entry.custom = other.color;
         }
 
         if( !entry.name_invert_custom.empty() ) {
-            entry.invert_custom = name_to_color( entry.name_invert_custom );
-DebugLog(D_ERROR, DC_ALL) << " name_invert_custom: " << entry.name_custom;
-        }
-
-        //const std::string my_name = get_name( entry.color );
-        for( size_t j = 0; j < NUM_HL; j++ ) {
-            entry.highlight[j] = highlight_from_names( my_name, hilights[j] );
-            
-            std::string hi_name;
-
-            if( hilights[j].empty() ) {  //c_black -> h_black
-                hi_name = "h_" + my_name.substr(2, my_name.length() - 2);
-            } else {
-                hi_name = my_name + "_" + hilights[j];
-            }
-            
-DebugLog(D_ERROR, DC_ALL) << " hl nr." << j << ": " << entry.highlight[j] << " name: " << hi_name;
+            auto const id = name_to_id( entry.name_invert_custom );
+            auto &other = color_array[id];
+            entry.custom = other.color;
         }
 
         inverted_map[entry.color] = entry.col_id;
         inverted_map[entry.invert] = entry.invert_id;
+    }
+
+    // Highlights in a next run, to make sure custom colors are set
+    for( size_t i = 0; i < color_array.size(); i++ ) {
+        color_struct &entry = color_array[i];
+        const std::string my_name = get_name( entry.color );
+        for( size_t j = 0; j < NUM_HL; j++ ) {
+            entry.highlight[j] = highlight_from_names( my_name, hilights[j] );
+        }
     }
 }
 
@@ -111,6 +103,7 @@ color_id color_manager::color_to_id( const nc_color color ) const
     // Optimally this shouldn't happen, but allow for now
     for( size_t i = 0; i < color_array.size(); i++ ) {
         if( color_array[i].color == color ) {
+debugmsg( "Couldn't find color %d, but got id: %s", color, get_name( color ).c_str() );
             return color_array[i].col_id;
         }
     }
@@ -377,14 +370,14 @@ void init_colors()
     init_pair(14, COLOR_BLACK,      COLOR_YELLOW );
 
     // Highlighted - blue background
-    init_pair(15, COLOR_WHITE,      HILIGHT);
-    init_pair(16, COLOR_RED,        HILIGHT);
-    init_pair(17, COLOR_GREEN,      HILIGHT);
-    init_pair(18, COLOR_BLUE,       HILIGHT);
-    init_pair(19, COLOR_CYAN,       HILIGHT);
-    init_pair(20, COLOR_BLACK,      HILIGHT);
-    init_pair(21, COLOR_MAGENTA,    HILIGHT);
-    init_pair(22, COLOR_YELLOW,     HILIGHT);
+    init_pair(15, COLOR_WHITE,      COLOR_BLUE);
+    init_pair(16, COLOR_RED,        COLOR_BLUE);
+    init_pair(17, COLOR_GREEN,      COLOR_BLUE);
+    init_pair(18, COLOR_BLUE,       COLOR_BLUE);
+    init_pair(19, COLOR_CYAN,       COLOR_BLUE);
+    init_pair(20, COLOR_BLACK,      COLOR_BLUE);
+    init_pair(21, COLOR_MAGENTA,    COLOR_BLUE);
+    init_pair(22, COLOR_YELLOW,     COLOR_BLUE);
 
     // Red background - for monsters on fire
     init_pair(23, COLOR_WHITE,      COLOR_RED);
@@ -626,8 +619,6 @@ void color_manager::clear()
     name_map.clear();
     inverted_map.clear();
     for( auto &entry : color_array ) {
-        entry.custom = 0;
-        entry.invert_custom = 0;
         entry.name_custom = "";
         entry.name_invert_custom = "";
     }
@@ -907,6 +898,10 @@ void color_manager::show_gui()
 
         finalize();
         save_custom();
+
+        clear();
+        load_default();
+        load_custom();
     }
 }
 
