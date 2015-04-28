@@ -680,6 +680,9 @@ void mdeath::detonate(monster *z)
         }
     }
     const tripoint det_point = z->pos3();
+    // HACK, used to stop them from having ammo on respawn
+    z->add_effect("no_ammo", 1, num_bp, true);
+
     // First die normally
     mdeath::normal(z);
     // Then detonate our suicide bombs
@@ -742,6 +745,10 @@ void make_mon_corpse(monster *z, int damageLvl)
     if( z->has_effect("pacified") && z->type->in_species("ZOMBIE") ) {
         // Pacified corpses have a chance of becoming un-pacified when regenerating.
         corpse.set_var( "zlave", one_in(2) ? "zlave" : "mutilated" );
+    }
+    if (z->has_effect("no_ammo")) {
+        add_msg("true");
+        corpse.set_var("no_ammo", "no_ammo");
     }
     g->m.add_item_or_charges(z->posx(), z->posy(), corpse);
 }

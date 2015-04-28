@@ -7065,6 +7065,12 @@ bool game::revive_corpse( const tripoint &p, item *it )
         critter.add_effect("pet", 1, num_bp, true);
     }
 
+    if (it->get_var("no_ammo") == "no_ammo") {
+        for (auto &ammo : critter.ammo) {
+            ammo.second = 0;
+        }
+    }
+
     add_zombie(critter);
     return true;
 }

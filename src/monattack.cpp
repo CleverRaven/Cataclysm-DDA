@@ -4626,7 +4626,7 @@ void mattack::grenadier(monster *const z, int const index)
     if (z->attitude_to( *target ) == Creature::A_FRIENDLY) {
         return;
     }
-    int ret = grenade_helper(z, target,30, 60, grenades);
+    int ret = grenade_helper(z, target, 30, 60, grenades);
     if (ret == 1) {
         // The special worked, reset our special countdown
         z->reset_special(index);
@@ -4661,7 +4661,7 @@ void mattack::grenadier_elite(monster *const z, int const index)
     if (z->attitude_to( *target ) == Creature::A_FRIENDLY) {
         return;
     }
-    int ret = grenade_helper(z, target,30, 60, grenades);
+    int ret = grenade_helper(z, target, 30, 60, grenades);
     if (ret == 1) {
         // The special worked, reset our special countdown
         z->reset_special(index);
