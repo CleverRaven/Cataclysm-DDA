@@ -1716,7 +1716,7 @@ void mattack::impale(monster *z, int index)
         }
 
         foe->check_dead_state();
-        if( rng(0, 200 + dam) > 100 && !target->is_immune_effect( "downed" ) ) {
+        if( rng(0, 200 + dam) > 100 ) {
             target->add_effect("downed", 3);
         }
         z->moves -=80; //Takes extra time for the creature to pull out the protrusion
@@ -3237,7 +3237,7 @@ void mattack::flame( monster *z, Creature *target )
         }
         g->m.add_field(i.x, i.y, fd_fire, 1);
     }
-    if( !target->uncanny_dodge() && !target->is_immune_effect( "onfire" ) ) {
+    if( !target->uncanny_dodge() ) {
         target->add_effect("onfire", 8);
     }
 }
@@ -3794,7 +3794,7 @@ void mattack::flesh_golem(monster *z, int index)
     int dam = rng(5, 10);
     //~ 1$s is bodypart name, 2$d is damage value.
     target->deal_damage( z, hit, damage_instance( DT_BASH, dam ) );
-    if( one_in( 6 ) && !target->is_immune_effect( "downed" ) ) {
+    if( one_in( 6 ) ) {
         target->add_effect("downed", 30);
     }
     if( foe != nullptr ) {
@@ -3857,7 +3857,7 @@ void mattack::lunge(monster *z, int index)
     int dam = rng(3, 7);
 
     target->deal_damage( z, hit, damage_instance( DT_BASH, dam ) );
-    if( one_in( 6 ) && !target->is_immune_effect( "downed" ) ) {
+    if( one_in( 6 ) ) {
         target->add_effect("downed", 3);
     }
     if( foe != nullptr ) {

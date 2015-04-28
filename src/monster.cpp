@@ -784,7 +784,7 @@ bool monster::is_elec_immune() const
     return is_immune_damage( DT_ELECTRIC );
 }
 
-bool monster::is_immune_effect( const std::string &effect ) const
+bool monster::is_immune_effect( const efftype_id &effect ) const
 {
     if( effect == "onfire" ) {
         return is_immune_damage( DT_HEAT );
@@ -1198,10 +1198,11 @@ void monster::add_eff_effects(effect e, bool reduced)
     }
     Creature::add_eff_effects(e, reduced);
 }
-void monster::add_effect(efftype_id eff_id, int dur, body_part bp, bool permanent, int intensity)
+void monster::add_effect( efftype_id eff_id, int dur, body_part bp,
+                          bool permanent, int intensity, bool force )
 {
     bp = num_bp;
-    Creature::add_effect(eff_id, dur, bp, permanent, intensity);
+    Creature::add_effect( eff_id, dur, bp, permanent, intensity, force );
 }
 
 int monster::get_armor_cut(body_part bp) const

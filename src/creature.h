@@ -257,11 +257,12 @@ class Creature
 
         /** Adds or modifies an effect. If intensity is given it will set the effect intensity
             to the given value, or as close as max_intensity values permit. */
-        virtual void add_effect(efftype_id eff_id, int dur, body_part bp = num_bp, bool permanent = false,
-                                int intensity = 0);
+        virtual void add_effect( efftype_id eff_id, int dur, body_part bp = num_bp, bool permanent = false,
+                                 int intensity = 0, bool force = false );
         /** Gives chance to save via environmental resist, returns false if resistance was successful. */
-        bool add_env_effect(efftype_id eff_id, body_part vector, int strength, int dur,
-                            body_part bp = num_bp, bool permanent = false, int intensity = 1);
+        bool add_env_effect( efftype_id eff_id, body_part vector, int strength, int dur,
+                             body_part bp = num_bp, bool permanent = false, int intensity = 1,
+                             bool force = false );
         /** Removes a listed effect, adding the removal memorial log if needed. bp = num_bp means to remove
          *  all effects of a given type, targeted or untargeted. Returns true if anything was removed. */
         bool remove_effect(efftype_id eff_id, body_part bp = num_bp);

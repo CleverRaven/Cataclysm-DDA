@@ -385,7 +385,7 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         /** Returns true is the player is protected from electric shocks */
         bool is_elec_immune() const override;
         /** Returns true if the player is immune to this kind of effect */
-        bool is_immune_effect( const std::string& ) const override;
+        bool is_immune_effect( const efftype_id& ) const override;
         /** Returns true if the player is immune to this kind of damage */
         bool is_immune_damage( const damage_type ) const override;
 
