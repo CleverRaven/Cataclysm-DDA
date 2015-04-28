@@ -3505,6 +3505,7 @@ void mattack::upgrade(monster *z, int index)
         if( zed.type->upgrade_group != "NULL" || zed.type->upgrades_into != "NULL" ) {
             // Then do the more expensive ones
             if ( z->attitude_to( zed ) != Creature::Attitude::A_HOSTILE &&
+                 within_target_range(z, &zed, 10) ) {
                 targets.push_back(i);
             }
         }
@@ -3526,10 +3527,12 @@ void mattack::upgrade(monster *z, int index)
     const auto could_see = g->u.sees( *target );
     // Try to upgrade to a single monster first
     if (target->type->upgrades_into != "NULL"){
+        target->poly(GetMType(target->type->upgrades_into));
     // Else upgrade to the desired group
     } else {
         const auto monsters = MonsterGroupManager::GetMonstersFromGroup(target->type->upgrade_group);
         const std::string newtype = monsters[rng(0, monsters.size() - 1)];
+        target->poly(GetMType(newtype));
     }
     const auto can_now_see = g->u.sees( *target );
     if (g->u.sees( *z )) {
