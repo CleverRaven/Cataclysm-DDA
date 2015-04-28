@@ -4418,7 +4418,14 @@ void mattack::kamikaze(monster *z, int index)
         act_bomb_type = item::find_type("c4armed");
         charges = 10;
     } else {
-        const iuse_transform *actor = dynamic_cast<const iuse_transform *>( bomb_type->get_use( "transform" )->get_actor_ptr() );
+        auto usage = bomb_type->get_use( "transform" );
+        if ( usage == nullptr ) {
+            // Invalid item usage, Toggle this special off so we stop processing
+            add_msg(m_debug, "Invalid bomb transform use in kamikaze special for %s.", z->name().c_str());
+            z->set_special(index, -1);
+            return;
+        }
+        const iuse_transform *actor = dynamic_cast<const iuse_transform *>( usage->get_actor_ptr() );
         if( actor == nullptr ) {
             // Invalid bomb item, Toggle this special off so we stop processing
             add_msg(m_debug, "Invalid bomb type in kamikaze special for %s.", z->name().c_str());
@@ -4443,7 +4450,14 @@ void mattack::kamikaze(monster *z, int index)
     }
     // END HORRIBLE HACK
 
-    const explosion_iuse *exp_actor = dynamic_cast<const explosion_iuse *>( act_bomb_type->get_use( "explosion" )->get_actor_ptr() );
+    auto use = act_bomb_type->get_use( "explosion" );
+    if (use == nullptr ) {
+        // Invalid active bomb item usage, Toggle this special off so we stop processing
+        add_msg(m_debug, "Invalid active bomb explosion use in kamikaze special for %s.", z->name().c_str());
+        z->set_special(index, -1);
+        return;
+    }
+    const explosion_iuse *exp_actor = dynamic_cast<const explosion_iuse *>( use->get_actor_ptr() );
     if( exp_actor == nullptr ) {
         // Invalid active bomb item, Toggle this special off so we stop processing
         add_msg(m_debug, "Invalid active bomb type in kamikaze special for %s.", z->name().c_str());
@@ -4590,7 +4604,13 @@ int grenade_helper(monster *const z, Creature *const target, const int dist,
 
     // Get our monster type
     auto bomb_type = item::find_type(att);
-    auto *actor = dynamic_cast<const place_monster_iuse *>( bomb_type->get_use( "place_monster" )->get_actor_ptr() );
+    auto usage = bomb_type->get_use( "place_monster" );
+    if (usage == nullptr ) {
+        // Invalid bomb item usage, Toggle this special off so we stop processing
+        add_msg(m_debug, "Invalid bomb item usage in grenadier special for %s.", z->name().c_str());
+        return -1;
+    }
+    auto *actor = dynamic_cast<const place_monster_iuse *>( usage->get_actor_ptr() );
     if( actor == nullptr ) {
         // Invalid bomb item, Toggle this special off so we stop processing
         add_msg(m_debug, "Invalid bomb type in grenadier special for %s.", z->name().c_str());
