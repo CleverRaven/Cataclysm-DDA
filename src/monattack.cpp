@@ -409,7 +409,9 @@ void mattack::boomer(monster *z, int index)
 void mattack::resurrect(monster *z, int index)
 {
     if( z->get_speed() < z->get_speed_base() / 2) {
-        return;    // We can only resurrect so many times!
+        // We can only resurrect so many times and we're out, get angry
+        z->anger = 100;
+        return;
     }
 
     std::set<tripoint> corpse_pos;
@@ -432,7 +434,29 @@ void mattack::resurrect(monster *z, int index)
         }
     }
     if( corpse_pos.empty() ) { // No nearby corpses
+        // Check to see if there are any nearby living zombies to see if we should get angry
+        bool allies = false;
+        for (size_t i = 0; i < g->num_zombies(); i++) {
+            monster &zed = g->zombie(i);
+            // Check this first because it is a cheap check
+            if( zed->type->has_flag(MF_REVIVES) && zed->type->in_species("ZOMBIE") &&
+                  z->attitude_to(zed) == Creature::Attitude::A_FRIENDLY ) {
+                allies = true;
+                break;
+            }
+        }
+        if (!allies) {
+            // Nobody around who we could revive, get angry
+            z->anger = 100;
+        } else {
+            // Someone is around who might die and we could revive,
+            // calm down.
+            z->anger = 5;
+        }
         return;
+    } else {
+        // We're reviving someone, calm down.
+        z->anger = 5;
     }
     z->set_speed_base( (z->get_speed_base() - rng(0, 10)) * 0.8 );
     bool sees_necromancer = g->u.sees(*z);
