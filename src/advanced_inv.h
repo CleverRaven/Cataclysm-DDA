@@ -1,6 +1,8 @@
 #ifndef ADVANCED_INV_H
 #define ADVANCED_INV_H
+
 #include "output.h"
+
 #include <string>
 #include <array>
 
@@ -153,6 +155,10 @@ struct advanced_inv_listitem {
      */
     const item_category *cat;
     /**
+     * Is the item stored in a vehicle?
+     */
+    bool from_vehicle;
+    /**
      * Whether this is a category header entry, which does *not* have a reference
      * to an item, only @ref cat is valid.
      */
@@ -176,8 +182,10 @@ struct advanced_inv_listitem {
      * @param index The index, stored in @ref idx.
      * @param count The stack size, stored in @ref stacks.
      * @param area The source area, stored in @ref area. Must not be AIM_ALL.
+     * @param from_vehicle Is the item from a vehicle cargo space?
      */
-    advanced_inv_listitem(item *an_item, int index, int count, aim_location area);
+    advanced_inv_listitem(item *an_item, int index, int count, 
+            aim_location area, bool from_vehicle);
 };
 
 /**
@@ -188,30 +196,21 @@ class advanced_inventory_pane
     private:
         aim_location area = NUM_AIM_LOCATIONS;
         // pointer to the square this pane is pointing to
-        advanced_inv_area *square = nullptr;
-        bool in_veh = false;
+        bool viewing_cargo = false;
     public:
+        // set the pane's area via its square, and whether it is viewing a vehicle's cargo
+        void set_area(advanced_inv_area &square, bool in_vehicle_cargo = false)
+        {
+            area = square.id;
+            viewing_cargo = square.can_store_in_vehicle() && in_vehicle_cargo;
+        }
         aim_location get_area() const
         {
             return area;
         }
-        void set_area(aim_location loc, bool in_vehicle_cargo = false, 
-                advanced_inv_area *square = nullptr)
-        {
-            if(loc == NUM_AIM_LOCATIONS) {
-                // reset whether we are in a vehicle, but keep same location
-                in_veh = false;
-                return;
-            }
-            area = loc;
-            in_veh = (in_vehicle_cargo && 
-                    square != nullptr && 
-                    square->can_store_in_vehicle());
-            this->square = square;
-        }
         bool in_vehicle() const
         {
-            return in_veh;
+            return viewing_cargo;
         }
         /**
          * Index of the selected item (index of @ref items),
@@ -288,6 +287,12 @@ class advanced_inventory
 
         void display();
     private:
+        // current location of AIM_ALL move_all_items() transfer
+        int aim_all_location;
+        // stores items from both map and vehicle for AIM_ALL transfers
+        std::map<int, std::list<item>> veh_items, map_items;
+        // swap the panes and WINDOW pointers via std::swap()
+        void swap_panes();
         /**
          * Refers to the two panels, used as index into @ref panels.
          */
