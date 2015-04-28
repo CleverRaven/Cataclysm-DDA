@@ -923,8 +923,8 @@
         "type": "effect_type",
         "id": "stimpack",
         "name": [
-            "RX11 Stimulant Rush",
-            "RX11 Stimulant Comedown"
+            "RX11 Stimulant Comedown",
+            "RX11 Stimulant Rush"
         ],
         "desc": [
             "You feel sluggish and slow.",
