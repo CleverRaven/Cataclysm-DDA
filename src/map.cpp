@@ -2498,13 +2498,15 @@ void map::smash_items(const tripoint &p, const int power)
     for (auto i = items.begin(); i != items.end();) {
         if (i->active == true) {
             // Get the explosion item actor
-            const explosion_iuse *actor = dynamic_cast<const explosion_iuse *>(
-                            i->type->get_use( "explosion" )->get_actor_ptr() );
-            if( actor != nullptr ) {
-                // If we're looking at another bomb, don't blow it up early for now.
-                // i++ here because we aren't iterating in the loop header.
-                i++;
-                continue;
+            if (i->type->get_use( "explosion" ) != nullptr) {
+                const explosion_iuse *actor = dynamic_cast<const explosion_iuse *>(
+                                i->type->get_use( "explosion" )->get_actor_ptr() );
+                if( actor != nullptr ) {
+                    // If we're looking at another bomb, don't blow it up early for now.
+                    // i++ here because we aren't iterating in the loop header.
+                    i++;
+                    continue;
+                }
             }
         }
         // The volume check here pretty much only influences corpses and very large items
