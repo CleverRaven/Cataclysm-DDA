@@ -119,4 +119,6 @@ void ammo_effects(int x, int y, const std::set<std::string> &effects);
 void ammo_effects( const tripoint &p, const std::set<std::string> &effects );
 int aoe_size( const std::set<std::string> &effects );
 
+damage_type dt_by_name( const std::string &name );
+
 #endif

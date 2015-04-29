@@ -36,6 +36,12 @@
     },
     {
         "type": "effect_type",
+        "id": "no_ammo",
+        "name": ["No ammo"],
+        "desc": ["AI tag used to stop a monster reviving with ammo.  This is a bug if you have it."]
+    },
+    {
+        "type": "effect_type",
         "id": "asked_to_lead",
         "name": ["Asked to Lead"],
         "desc": ["AI tag for asking to lead NPCs.  This is a bug if you have it."]

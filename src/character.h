@@ -22,8 +22,8 @@ class Character : public Creature
          *  Returns false if movement is stopped. */
         virtual bool move_effects() override;
         /** Performs any Character-specific modifications to the arguments before passing to Creature::add_effect(). */
-        virtual void add_effect(efftype_id eff_id, int dur, body_part bp = num_bp, bool permanent = false,
-                                int intensity = 0) override;
+        virtual void add_effect( efftype_id eff_id, int dur, body_part bp = num_bp, bool permanent = false,
+                                 int intensity = 0, bool force = false ) override;
         
         /** Recalculates HP after a change to max strength */
         void recalc_hp();

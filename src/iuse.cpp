@@ -1614,7 +1614,7 @@ int iuse::mutagen(player *p, item *it, bool, const tripoint& )
             p->thirst += 10;
             if (one_in(4)) {
                 p->add_msg_if_player(m_bad, _("You suddenly feel dizzy, and collapse to the ground."));
-                p->add_effect("downed", 1);
+                p->add_effect("downed", 1, num_bp, false, 0, true );
             }
         }
         if (one_in(2)) {
@@ -1639,7 +1639,7 @@ int iuse::mutagen(player *p, item *it, bool, const tripoint& )
             p->thirst += 10;
             if (one_in(4)) {
                 p->add_msg_if_player(m_bad, _("You suddenly feel dizzy, and collapse to the ground."));
-                p->add_effect("downed", 1);
+                p->add_effect("downed", 1, num_bp, false, 0, true );
             }
         }
     } else {
@@ -1660,7 +1660,7 @@ int iuse::mutagen(player *p, item *it, bool, const tripoint& )
         // Yep, orals take a bit out of you too
         if (one_in(4)) {
             p->add_msg_if_player(m_bad, _("You suddenly feel dizzy, and collapse to the ground."));
-            p->add_effect("downed", 1);
+            p->add_effect("downed", 1, num_bp, false, 0, true );
         }
     }
     return it->type->charges_to_use();
@@ -1730,7 +1730,7 @@ int iuse::mut_iv(player *p, item *it, bool, const tripoint& )
             p->fatigue += 5;
             p->thirst += 10;
             p->add_msg_if_player(m_bad, _("You writhe and collapse to the ground."));
-            p->add_effect("downed", rng(1, 4));
+            p->add_effect("downed", rng( 1, 4 ), num_bp, false, 0, true );
         }
         if (!one_in(3)) {
             //Jackpot! ...kinda, don't wanna go unconscious in dangerous territory
@@ -3388,7 +3388,7 @@ int iuse::fish_trap(player *p, item *it, bool t, const tripoint &pos)
             for (int i = 0; i < fishes; i++) {
                 p->practice("survival", rng(3, 10));
                 if (fishables.size() > 1){
-                    g->catch_a_monster(fishables, pos.x, pos.y, p, 180000); //catch the fish! 180000 is the time spent fishing.
+                    g->catch_a_monster(fishables, pos, p, 180000); //catch the fish! 180000 is the time spent fishing.
                 } else {
                     //there will always be a chance that the player will get lucky and catch a fish
                     //not existing in the fishables vector. (maybe it was in range, but wandered off)
@@ -3402,7 +3402,7 @@ int iuse::fish_trap(player *p, item *it, bool t, const tripoint &pos)
                         //and then get fishes via activation of the item,
                         //but it's not as comfortable as if you just put fishes in the same tile with the trap.
                         //Also: corpses and comestibles do not rot in containers like this, but on the ground they will rot.
-                        g->m.add_item_or_charges(pos.x, pos.y, fish);
+                        g->m.add_item_or_charges( pos, fish );
                         break; //this can happen only once
                     }
                 }
@@ -6625,9 +6625,9 @@ int iuse::artifact(player *p, item *it, bool, const tripoint& )
             break;
 
             case AEA_FIREBALL: {
-                point fireball = g->look_around();
-                if (fireball.x != -1 && fireball.y != -1) {
-                    g->explosion( tripoint( fireball.x, fireball.y, g->get_levz() ), 8, 0, true );
+                tripoint fireball = g->look_around();
+                if( fireball != tripoint_min ) {
+                    g->explosion( fireball, 8, 0, true );
                 }
             }
             break;
@@ -6672,11 +6672,11 @@ int iuse::artifact(player *p, item *it, bool, const tripoint& )
             break;
 
             case AEA_ACIDBALL: {
-                point acidball = g->look_around();
-                if (acidball.x != -1 && acidball.y != -1) {
+                tripoint acidball = g->look_around();
+                if( acidball != tripoint_min ) {
                     for (int x = acidball.x - 1; x <= acidball.x + 1; x++) {
                         for (int y = acidball.y - 1; y <= acidball.y + 1; y++) {
-                            g->m.add_field(x, y, fd_acid, rng(2, 3));
+                            g->m.add_field( tripoint( x, y, acidball.z ), fd_acid, rng(2, 3), 0 );
                         }
                     }
                 }
@@ -8530,9 +8530,10 @@ int iuse::camera(player *p, item *it, bool, const tripoint& )
 
     if (c_shot == choice) {
 
-        point aim_point = g->look_around();
+        tripoint look_point = g->look_around();
+        point aim_point = {look_point.x, look_point.y}; // TODO: Fix
 
-        if (aim_point.x == -1 || aim_point.y == -1) {
+        if( look_point == tripoint_min ) {
             p->add_msg_if_player(_("Never mind."));
             return 0;
         }

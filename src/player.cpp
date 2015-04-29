@@ -194,8 +194,7 @@ player::player() : Character()
  active_mission = nullptr;
  in_vehicle = false;
  controlling_vehicle = false;
- grab_point.x = 0;
- grab_point.y = 0;
+ grab_point = {0, 0, 0};
  grab_type = OBJECT_NONE;
  move_mode = "walk";
  style_selected = "style_none";
@@ -207,8 +206,7 @@ player::player() : Character()
  sight_boost_cap = 0;
  last_batch = 0;
  lastconsumed = itype_id("null");
- next_expected_position.x = -1;
- next_expected_position.y = -1;
+ next_expected_position = tripoint_min;
 
  empty_traits();
 
@@ -1792,9 +1790,48 @@ bool player::is_on_ground() const
 
 bool player::is_elec_immune() const
 {
-    return has_active_bionic( "bio_faraday" ) ||
-           worn_with_flag( "ELECTRIC_IMMUNE" ) ||
-           has_artifact_with( AEP_RESIST_ELECTRICITY );
+    return is_immune_damage( DT_ELECTRIC );
+}
+
+bool player::is_immune_effect( const efftype_id &effect ) const
+{
+    if( effect == "downed" ) {
+        return is_throw_immune() || ( has_trait("LEG_TENT_BRACE") && footwear_factor() == 0 );
+    } else if( effect == "onfire" ) {
+        return is_immune_damage( DT_HEAT );
+    }
+
+    return false;
+}
+
+bool player::is_immune_damage( const damage_type dt ) const
+{
+    switch( dt ) {
+    case DT_NULL:
+        return true;
+    case DT_TRUE:
+        return false;
+    case DT_BIOLOGICAL:
+        return false;
+    case DT_BASH:
+        return false;
+    case DT_CUT:
+        return false;
+    case DT_ACID:
+        return has_trait( "ACIDBLOOD" );
+    case DT_STAB:
+        return false;
+    case DT_HEAT:
+        return has_trait("M_SKIN2");
+    case DT_COLD:
+        return false;
+    case DT_ELECTRIC:
+        return has_active_bionic( "bio_faraday" ) ||
+               worn_with_flag( "ELECTRIC_IMMUNE" ) ||
+               has_artifact_with( AEP_RESIST_ELECTRICITY );
+    default:
+        return true;
+    }
 }
 
 bool player::is_underwater() const
@@ -3426,7 +3463,7 @@ void player::print_recoil( WINDOW *w ) const
     }
 }
 
-int player::draw_turret_aim( WINDOW *w, int line_number, const point &targ ) const
+int player::draw_turret_aim( WINDOW *w, int line_number, const tripoint &targ ) const
 {
     vehicle *veh = g->m.veh_at( pos3() );
     if( veh == nullptr ) {
@@ -4109,21 +4146,22 @@ int player::unimpaired_range()
  return ret;
 }
 
-bool player::overmap_los(int omtx, int omty, int sight_points)
+bool player::overmap_los( const tripoint &omt, int sight_points )
 {
     const tripoint ompos = global_omt_location();
-    if (omtx < ompos.x - sight_points || omtx > ompos.x + sight_points ||
-        omty < ompos.y - sight_points || omty > ompos.y + sight_points) {
+    if( omt.x < ompos.x - sight_points || omt.x > ompos.x + sight_points ||
+        omt.y < ompos.y - sight_points || omt.y > ompos.y + sight_points ) {
         // Outside maximum sight range
         return false;
     }
 
-    const std::vector<point> line = line_to(ompos.x, ompos.y, omtx, omty, 0);
-    for (size_t i = 0; i < line.size() && sight_points >= 0; i++) {
-        const oter_id &ter = overmap_buffer.ter(line[i].x, line[i].y, ompos.z);
+    const std::vector<tripoint> line = line_to( ompos, omt, 0, 0 );
+    for( size_t i = 0; i < line.size() && sight_points >= 0; i++ ) {
+        const tripoint &pt = line[i];
+        const oter_id &ter = overmap_buffer.ter( pt );
         const int cost = otermap[ter].see_cost;
         sight_points -= cost;
-        if (sight_points < 0)
+        if( sight_points < 0 )
             return false;
     }
     return true;
@@ -6516,7 +6554,7 @@ void player::hardcoded_effects(effect &it)
             add_miss_reason(_("Your muscles are locking up and you can't fight effectively."), 4);
             if (one_in(512)) {
                 add_msg_if_player(m_bad, _("Your muscles spasm."));
-                add_effect("downed",rng(1,4));
+                add_effect("downed", rng( 1,4 ), num_bp, false, 0, true );
                 add_effect("stunned",rng(1,4));
                 if (one_in(10)) {
                     mod_pain(rng(1, 10));
@@ -6548,7 +6586,7 @@ void player::hardcoded_effects(effect &it)
             if (dur > 8000 && one_in(16)) {
                 add_msg_if_player(m_bad, _("You're experiencing loss of basic motor skills and blurred vision.  Your mind recoils in horror, unable to communicate with your spinal column."));
                 add_msg_if_player(m_bad, _("You stagger and fall!"));
-                add_effect("downed",rng(1,4));
+                add_effect("downed", rng( 1, 4 ), num_bp, false, 0, true );
                 if (one_in(8) || x_in_y(vomit_mod(), 10)) {
                     vomit();
                 }
@@ -7106,13 +7144,10 @@ void player::suffer()
             }
         }
         if (weight_carried() > 4 * weight_capacity()) {
-            if (has_trait("LEG_TENT_BRACE")){
-                add_msg_if_player(m_bad, _("Your tentacles buckle under the weight!"));
-            }
             if (has_effect("downed")) {
-                add_effect("downed", 1);
+                add_effect("downed", 1, num_bp, false, 0, true );
             } else {
-                add_effect("downed", 2);
+                add_effect("downed", 2, num_bp, false, 0, true );
             }
         }
         int timer = -3600;
@@ -7694,7 +7729,7 @@ void player::suffer()
         add_msg(m_bad, _("Your malfunctioning bionic causes you to spasm and fall to the floor!"));
         mod_pain(1);
         add_effect("stunned", 1);
-        add_effect("downed", 1);
+        add_effect("downed", 1, num_bp, false, 0, true );
     }
     if (has_bionic("bio_shakes") && power_level > 24 && one_in(1200)) {
         add_msg(m_bad, _("Your bionics short-circuit, causing you to tremble and shiver."));
@@ -12759,7 +12794,7 @@ bool player::uncanny_dodge()
     bool is_u = this == &g->u;
     bool seen = g->u.sees( *this );
     if( this->power_level < 74 || !this->has_active_bionic("bio_uncanny_dodge") ) { return false; }
-    point adjacent = adjacent_tile();
+    tripoint adjacent = adjacent_tile();
     charge_power(-75);
     if( adjacent.x != posx() || adjacent.y != posy()) {
         position.x = adjacent.x;
@@ -12781,38 +12816,45 @@ bool player::uncanny_dodge()
 }
 
 // adjacent_tile() returns a safe, unoccupied adjacent tile. If there are no such tiles, returns player position instead.
-point player::adjacent_tile()
+tripoint player::adjacent_tile()
 {
-    std::vector<point> ret;
+    std::vector<tripoint> ret;
     int dangerous_fields;
-    for( int i = posx() - 1; i <= posx() + 1; i++ ) {
-        for( int j = posy() - 1; j <= posy() + 1; j++ ) {
-            if( i == posx() && j == posy() ) {
+    tripoint p;
+    p.z = posz();
+    int &i = p.x;
+    int &j = p.y;
+    for( i = posx() - 1; i <= posx() + 1; i++ ) {
+        for( j = posy() - 1; j <= posy() + 1; j++ ) {
+            if( p == pos3() ) {
                 // don't consider player position
                 continue;
             }
-            const trap &curtrap = g->m.tr_at(i, j);
-            if( g->mon_at(i, j) == -1 && g->npc_at(i, j) == -1 && g->m.move_cost(i, j) > 0 &&
+            const trap &curtrap = g->m.tr_at( p );
+            if( g->mon_at( p ) == -1 && g->npc_at( p ) == -1 && g->m.move_cost( p ) > 0 &&
                 (curtrap.is_null() || curtrap.is_benign()) ) {
                 // only consider tile if unoccupied, passable and has no traps
                 dangerous_fields = 0;
-                auto &tmpfld = g->m.field_at(i, j);
+                auto &tmpfld = g->m.field_at( p );
                 for( auto &fld : tmpfld ) {
                     const field_entry &cur = fld.second;
                     if( cur.is_dangerous() ) {
                         dangerous_fields++;
                     }
                 }
-                if (dangerous_fields == 0) {
-                    ret.push_back(point(i, j));
+
+                if( dangerous_fields == 0 ) {
+                    ret.push_back( p );
                 }
             }
         }
     }
-    if( ret.size() ) {
+
+    if( !ret.empty() ) {
         return ret[ rng( 0, ret.size() - 1 ) ];   // return a random valid adjacent tile
     }
-    return pos(); // or return player position if no valid adjacent tiles
+
+    return pos3(); // or return player position if no valid adjacent tiles
 }
 
 // --- Library functions ---
@@ -12899,7 +12941,7 @@ int player::visibility( bool, int ) const { // 0-100 %
     return 100;
 }
 
-void player::set_destination(const std::vector<point> &route)
+void player::set_destination(const std::vector<tripoint> &route)
 {
     auto_move_route = route;
 }
@@ -12907,8 +12949,7 @@ void player::set_destination(const std::vector<point> &route)
 void player::clear_destination()
 {
     auto_move_route.clear();
-    next_expected_position.x = -1;
-    next_expected_position.y = -1;
+    next_expected_position = tripoint_min;
 }
 
 bool player::has_destination() const
@@ -12916,7 +12957,7 @@ bool player::has_destination() const
     return !auto_move_route.empty();
 }
 
-std::vector<point> &player::get_auto_move_route()
+std::vector<tripoint> &player::get_auto_move_route()
 {
     return auto_move_route;
 }
@@ -12927,8 +12968,8 @@ action_id player::get_next_auto_move_direction()
         return ACTION_NULL;
     }
 
-    if (next_expected_position.x != -1) {
-        if (posx() != next_expected_position.x || posy() != next_expected_position.y) {
+    if (next_expected_position != tripoint_min ) {
+        if( pos3() != next_expected_position ) {
             // We're off course, possibly stumbling or stuck, cancel auto move
             return ACTION_NULL;
         }
@@ -12937,20 +12978,22 @@ action_id player::get_next_auto_move_direction()
     next_expected_position = auto_move_route.front();
     auto_move_route.erase(auto_move_route.begin());
 
-    int dx = next_expected_position.x - posx();
-    int dy = next_expected_position.y - posy();
+    tripoint dp = next_expected_position - pos3();
 
-    if (abs(dx) > 1 || abs(dy) > 1) {
+    // Make sure the direction is just one step and that
+    // all diagonal moves have 0 z component
+    if( abs( dp.x ) > 1 || abs( dp.y ) > 1 || abs( dp.z ) > 1 ||
+        ( abs( dp.z ) != 0 && ( abs( dp.x ) != 0 || abs( dp.y ) != 0 ) ) ) {
         // Should never happen, but check just in case
         return ACTION_NULL;
     }
 
-    return get_movement_direction_from_delta(dx, dy);
+    return get_movement_direction_from_delta( dp.x, dp.y, dp.z );
 }
 
 void player::shift_destination(int shiftx, int shifty)
 {
-    if (next_expected_position.x != -1) {
+    if( next_expected_position != tripoint_min ) {
         next_expected_position.x += shiftx;
         next_expected_position.y += shifty;
     }

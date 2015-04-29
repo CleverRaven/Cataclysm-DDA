@@ -42,8 +42,8 @@ struct ma_requirements {
         min_cutting_damage = 0;
     }
 
-    bool is_valid_player(player &u);
-    bool is_valid_weapon(item &i);
+    bool is_valid_player( const player &u ) const;
+    bool is_valid_weapon( const item &i ) const;
 };
 
 class ma_technique
@@ -57,7 +57,7 @@ class ma_technique
         std::string goal; // the melee goal this achieves
 
         // given a player's state, does this bonus apply to him?
-        bool is_valid_player(player &u);
+        bool is_valid_player( const player &u ) const;
 
         std::set<std::string> flags;
 
@@ -124,24 +124,24 @@ class ma_buff
         void apply_buff( player &u );
 
         // given a player's state, does this bonus apply to him?
-        bool is_valid_player(player &u);
+        bool is_valid_player( const player &u ) const;
 
         // apply static bonuses to a player
         void apply_player(player &u);
 
         // returns the stat bonus for the on-hit stat (for rolls)
-        int hit_bonus(player &u);
-        int dodge_bonus(player &u);
-        int speed_bonus(player &u);
-        int block_bonus(player &u);
+        int hit_bonus( const player &u ) const;
+        int dodge_bonus( const player &u ) const;
+        int speed_bonus( const player &u ) const;
+        int block_bonus( const player &u ) const;
 
         // returns the armor bonus for various armor stats (equivalent to armor)
-        int arm_bash_bonus(player &u);
-        int arm_cut_bonus(player &u);
+        int arm_bash_bonus( const player &u ) const;
+        int arm_cut_bonus( const player &u ) const;
 
         // returns the stat bonus for the various damage stats (for rolls)
-        int bash_bonus(player &u);
-        int cut_bonus(player &u);
+        int bash_bonus( const player &u ) const;
+        int cut_bonus( const player &u ) const;
 
         // returns damage multipliers for the various damage stats (applied after
         // bonuses)
@@ -236,11 +236,11 @@ class martialart
         void apply_ongethit_buffs(player &u);
 
         // determines if a technique is valid or not for this style
-        bool has_technique(player &u, matec_id tech);
+        bool has_technique( const player &u, matec_id tech );
         // determines if a weapon is valid for this style
         bool has_weapon(std::string item) const;
         // gets custom melee string for a technique under this style
-        std::string melee_verb(matec_id tech, player &u);
+        std::string melee_verb(matec_id tech,  const player &u );
 
         std::string id;
         std::string name;
