@@ -1320,7 +1320,7 @@
     "hp":25,
     "death_function":"NORMAL",
     "description":"A tremendous housefly the size of a small dog, predictably accompanied by a loud, incessant buzzing sound.",
-    "flags":["SEED", "SMELLS", "FLIES", "STUMBLES", "HIT_AND_RUN", "CHITIN", "FAT"],
+    "flags":["SEES", "SMELLS", "FLIES", "STUMBLES", "HIT_AND_RUN", "CHITIN", "FAT"],
     "fear_triggers":["PLAYER_CLOSE"]
     },{
     "type" : "MONSTER",

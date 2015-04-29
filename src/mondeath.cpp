@@ -644,18 +644,18 @@ void mdeath::detonate(monster *z)
     }
 
     // Update any hardcoded explosion equivalencies
-    std::vector<std::string> dets;
+    std::vector<std::pair<std::string, long>> dets;
     for (auto bomb_id : pre_dets) {
         if (bomb_id == "bot_grenade_hack") {
-            dets.push_back("grenade_act");
+            dets.push_back(std::make_pair("grenade_act", 5));
         } else if (bomb_id == "bot_flashbang_hack") {
-            dets.push_back("flashbang_act");
+            dets.push_back(std::make_pair("flashbang_act", 5));
         } else if (bomb_id == "bot_gasbomb_hack") {
-            dets.push_back("gasbomb_act");
+            dets.push_back(std::make_pair("gasbomb_act", 20));
         } else if (bomb_id == "bot_c4_hack") {
-            dets.push_back("c4armed");
+            dets.push_back(std::make_pair("c4armed", 10));
         } else if (bomb_id == "bot_mininuke_hack") {
-            dets.push_back("mininuke_act");
+            dets.push_back(std::make_pair("mininuke_act", 20));
         } else {
             // Get the transformation item
             const iuse_transform *actor = dynamic_cast<const iuse_transform *>(
@@ -665,7 +665,7 @@ void mdeath::detonate(monster *z)
                 add_msg(m_debug, "Invalid bomb type in detonate mondeath for %s.", z->name().c_str());
                 continue;
             }
-            dets.push_back(actor->target_id);
+            dets.push_back(std::make_pair(actor->target_id, actor->target_charges));
         }
     }
 
@@ -680,14 +680,17 @@ void mdeath::detonate(monster *z)
         }
     }
     const tripoint det_point = z->pos3();
+    // HACK, used to stop them from having ammo on respawn
+    z->add_effect("no_ammo", 1, num_bp, true);
+
     // First die normally
     mdeath::normal(z);
     // Then detonate our suicide bombs
-    for (auto bomb_id : dets) {
-        item bomb_item(bomb_id, 0);
-        bomb_item.charges = 0;
+    for (auto bombs : dets) {
+        item bomb_item(bombs.first, 0);
+        bomb_item.charges = bombs.second;
         bomb_item.active = true;
-        bomb_item.process(nullptr, det_point, false);
+        g->m.add_item_or_charges(z->posx(), z->posy(), bomb_item);
     }
 }
 
@@ -742,6 +745,9 @@ void make_mon_corpse(monster *z, int damageLvl)
     if( z->has_effect("pacified") && z->type->in_species("ZOMBIE") ) {
         // Pacified corpses have a chance of becoming un-pacified when regenerating.
         corpse.set_var( "zlave", one_in(2) ? "zlave" : "mutilated" );
+    }
+    if (z->has_effect("no_ammo")) {
+        corpse.set_var("no_ammo", "no_ammo");
     }
     g->m.add_item_or_charges(z->posx(), z->posy(), corpse);
 }

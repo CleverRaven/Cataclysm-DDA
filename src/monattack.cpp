@@ -1709,16 +1709,15 @@ void mattack::impale(monster *z, int index)
                                         _("The %1$s impales <npcname>'s torso!"),
                                         z->name().c_str());
         }
+
         foe->practice( "dodge", z->type->melee_skill );
         if( one_in( 60 / (dam + 20)) && (dam > 0)  ) {
             foe->add_effect( "bleed", rng( 75, 125 ), bp_torso, true );
         }
+
         foe->check_dead_state();
-        if( rng(0, 200 + dam) > 100 &&
-        ( foe == nullptr || !foe->is_throw_immune() ||
-          ( !foe->has_trait("LEG_TENT_BRACE") ||
-            foe->footwear_factor() == 1 || ( foe->footwear_factor() == .5 && one_in(2) ) ) ) ) {
-        target->add_effect("downed", 3);
+        if( rng(0, 200 + dam) > 100 ) {
+            target->add_effect("downed", 3);
         }
         z->moves -=80; //Takes extra time for the creature to pull out the protrusion
         z->reset_special(index); // Reset timer
@@ -2251,15 +2250,11 @@ void mattack::vortex(monster *z, int index)
 
             if (g->u.posx() == x && g->u.posy() == y) { // Throw... the player?! D:
                 bool immune = false;
-                if (g->u.has_trait("LEG_TENT_BRACE") && (!g->u.footwear_factor() ||
-                        (g->u.footwear_factor() == .5 && one_in(2)))) {
-                    add_msg(_("You secure yourself using your tentacles!"));
-                    immune = true;
-                }
-                if (g->u.is_throw_immune()) {
+                if( g->u.is_immune_effect( "downed" ) ) {
                     add_msg(_("You deftly maintain your footing!"));
                     immune = true;
                 }
+
                 if (!g->u.uncanny_dodge() && !immune) {
                     std::vector<tripoint> traj = continue_line(from_monster, rng(2, 3));
                     add_msg(m_bad, _("You're thrown by winds!"));
@@ -3242,7 +3237,7 @@ void mattack::flame( monster *z, Creature *target )
         }
         g->m.add_field(i.x, i.y, fd_fire, 1);
     }
-    if( !target->uncanny_dodge() && !target->has_trait("M_SKIN2")) {
+    if( !target->uncanny_dodge() ) {
         target->add_effect("onfire", 8);
     }
 }
@@ -3799,10 +3794,7 @@ void mattack::flesh_golem(monster *z, int index)
     int dam = rng(5, 10);
     //~ 1$s is bodypart name, 2$d is damage value.
     target->deal_damage( z, hit, damage_instance( DT_BASH, dam ) );
-    if( one_in( 6 ) &&
-        ( foe == nullptr || !foe->is_throw_immune() ||
-          ( !foe->has_trait("LEG_TENT_BRACE") ||
-            foe->footwear_factor() == 1 || ( foe->footwear_factor() == .5 && one_in(2) ) ) ) ) {
+    if( one_in( 6 ) ) {
         target->add_effect("downed", 30);
     }
     if( foe != nullptr ) {
@@ -3865,10 +3857,7 @@ void mattack::lunge(monster *z, int index)
     int dam = rng(3, 7);
 
     target->deal_damage( z, hit, damage_instance( DT_BASH, dam ) );
-    if( one_in( 6 ) &&
-        ( foe == nullptr || !foe->is_throw_immune() ||
-          ( !foe->has_trait("LEG_TENT_BRACE") ||
-            foe->footwear_factor() == 1 || ( foe->footwear_factor() == .5 && one_in(2) ) ) ) ) {
+    if( one_in( 6 ) ) {
         target->add_effect("downed", 3);
     }
     if( foe != nullptr ) {
@@ -4361,8 +4350,7 @@ void mattack::bio_op_takedown(monster *z, int index)
     foe->deal_damage( z, hit, damage_instance( DT_BASH, dam ) );
     // At this point, Judo or Tentacle Bracing can make this much less painful
     if ( !foe->is_throw_immune()) {
-        if( !foe->has_trait("LEG_TENT_BRACE") && (foe->footwear_factor() == 1 ||
-                (foe->footwear_factor() == .5 && one_in(2))) ) {
+        if( !target->is_immune_effect( "downed" ) ) {
             if (one_in(4)) {
                 hit = bp_head;
                 dam = rng(9, 21); // 50% damage buff for the headshot.
@@ -4418,7 +4406,14 @@ void mattack::kamikaze(monster *z, int index)
         act_bomb_type = item::find_type("c4armed");
         charges = 10;
     } else {
-        const iuse_transform *actor = dynamic_cast<const iuse_transform *>( bomb_type->get_use( "transform" )->get_actor_ptr() );
+        auto usage = bomb_type->get_use( "transform" );
+        if ( usage == nullptr ) {
+            // Invalid item usage, Toggle this special off so we stop processing
+            add_msg(m_debug, "Invalid bomb transform use in kamikaze special for %s.", z->name().c_str());
+            z->set_special(index, -1);
+            return;
+        }
+        const iuse_transform *actor = dynamic_cast<const iuse_transform *>( usage->get_actor_ptr() );
         if( actor == nullptr ) {
             // Invalid bomb item, Toggle this special off so we stop processing
             add_msg(m_debug, "Invalid bomb type in kamikaze special for %s.", z->name().c_str());
@@ -4432,18 +4427,25 @@ void mattack::kamikaze(monster *z, int index)
     // HORRIBLE HACK ALERT! Remove the following code completely once we have working monster inventory processing
     if (z->has_effect("countdown")) {
         if (z->get_effect("countdown").get_duration() == 1) {
+            z->die(nullptr);
             // Timer is out, detonate
             item i_explodes(act_bomb_type->id, 0);
             i_explodes.charges = 0;
             i_explodes.active = true;
             i_explodes.process(nullptr, z->pos3(), false);
-            z->set_special(index, -1);
         }
         return;
     }
     // END HORRIBLE HACK
 
-    const explosion_iuse *exp_actor = dynamic_cast<const explosion_iuse *>( act_bomb_type->get_use( "explosion" )->get_actor_ptr() );
+    auto use = act_bomb_type->get_use( "explosion" );
+    if (use == nullptr ) {
+        // Invalid active bomb item usage, Toggle this special off so we stop processing
+        add_msg(m_debug, "Invalid active bomb explosion use in kamikaze special for %s.", z->name().c_str());
+        z->set_special(index, -1);
+        return;
+    }
+    const explosion_iuse *exp_actor = dynamic_cast<const explosion_iuse *>( use->get_actor_ptr() );
     if( exp_actor == nullptr ) {
         // Invalid active bomb item, Toggle this special off so we stop processing
         add_msg(m_debug, "Invalid active bomb type in kamikaze special for %s.", z->name().c_str());
@@ -4489,9 +4491,10 @@ void mattack::kamikaze(monster *z, int index)
     }
     // Range is (radius + distance they expect to gain on you during the countdown)
     // We double target speed because if the player is walking and then start to run their effective speed doubles
-    // .6 factor was determined experimentally to be about the factor required for players to be able to *just barely*
+    // .65 factor was determined experimentally to be about the factor required for players to be able to *just barely*
     // outrun the explosion if they drop everything and run.
-    int range = std::max(1, int(.6 * (radius + float(z->get_speed()) / float(target->get_speed() * 2) * charges)));
+    float factor = float(z->get_speed()) / float(target->get_speed() * 2);
+    int range = std::max(1, int(.65 * (radius + 1 + factor * charges)));
 
     // Check if we are in range to begin the countdown
     if (!within_target_range(z, target, range)) {
@@ -4589,7 +4592,13 @@ int grenade_helper(monster *const z, Creature *const target, const int dist,
 
     // Get our monster type
     auto bomb_type = item::find_type(att);
-    auto *actor = dynamic_cast<const place_monster_iuse *>( bomb_type->get_use( "place_monster" )->get_actor_ptr() );
+    auto usage = bomb_type->get_use( "place_monster" );
+    if (usage == nullptr ) {
+        // Invalid bomb item usage, Toggle this special off so we stop processing
+        add_msg(m_debug, "Invalid bomb item usage in grenadier special for %s.", z->name().c_str());
+        return -1;
+    }
+    auto *actor = dynamic_cast<const place_monster_iuse *>( usage->get_actor_ptr() );
     if( actor == nullptr ) {
         // Invalid bomb item, Toggle this special off so we stop processing
         add_msg(m_debug, "Invalid bomb type in grenadier special for %s.", z->name().c_str());
@@ -4625,7 +4634,7 @@ void mattack::grenadier(monster *const z, int const index)
     if (z->attitude_to( *target ) == Creature::A_FRIENDLY) {
         return;
     }
-    int ret = grenade_helper(z, target,30, 60, grenades);
+    int ret = grenade_helper(z, target, 30, 60, grenades);
     if (ret == 1) {
         // The special worked, reset our special countdown
         z->reset_special(index);
@@ -4660,7 +4669,7 @@ void mattack::grenadier_elite(monster *const z, int const index)
     if (z->attitude_to( *target ) == Creature::A_FRIENDLY) {
         return;
     }
-    int ret = grenade_helper(z, target,30, 60, grenades);
+    int ret = grenade_helper(z, target, 30, 60, grenades);
     if (ret == 1) {
         // The special worked, reset our special countdown
         z->reset_special(index);

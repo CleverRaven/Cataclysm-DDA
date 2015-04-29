@@ -4,6 +4,7 @@
 #include "map.h"
 #include "damage.h"
 #include "rng.h"
+#include <map>
 
 damage_instance::damage_instance() { }
 damage_instance damage_instance::physical(float bash, float cut, float stab, int arpen)
@@ -229,4 +230,26 @@ void ammo_effects(int x, int y, const std::set<std::string> &effects)
 
 }
 
+static const std::map<std::string, damage_type> dt_map =
+{
+    { "true", DT_TRUE },
+    { "biological", DT_BIOLOGICAL },
+    { "bash", DT_BASH },
+    { "cut", DT_CUT },
+    { "acid", DT_ACID },
+    { "stab", DT_STAB },
+    { "heat", DT_HEAT },
+    { "cold", DT_COLD },
+    { "electric", DT_ELECTRIC }
+};
+
+damage_type dt_by_name( const std::string &name )
+{
+    const auto &iter = dt_map.find( name );
+    if( iter == dt_map.end() ) {
+        return DT_NULL;
+    }
+
+    return iter->second;
+}
 

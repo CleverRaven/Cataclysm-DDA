@@ -389,7 +389,7 @@ void Creature::deal_melee_hit(Creature *source, int hit_spread, bool critical_hi
     block_hit(source, bp_hit, d);
 
     // Bashing crit
-    if (critical_hit) {
+    if( critical_hit && !is_immune_effect( "stunned" ) ) {
         int turns_stunned = (d.type_damage(DT_BASH) + hit_spread) / 20;
         if (turns_stunned > 6) {
             turns_stunned = 6;
@@ -404,21 +404,17 @@ void Creature::deal_melee_hit(Creature *source, int hit_spread, bool critical_hi
     if (critical_hit) {
         stab_moves *= 1.5;
     }
-    if (stab_moves >= 150) {
-        if (is_player() && (!g->u.has_trait("LEG_TENT_BRACE") || g->u.footwear_factor() == 1 ||
-                            (g->u.footwear_factor() == .5 && one_in(2))) ) {
-            // can the player force their self to the ground? probably not.
+    if( stab_moves >= 150 && !is_immune_effect( "downed" ) ) {
+        if( is_player() ) {
             source->add_msg_if_npc( m_bad, _("<npcname> forces you to the ground!"));
         } else {
             source->add_msg_player_or_npc( m_good, _("You force %s to the ground!"),
                                            _("<npcname> forces %s to the ground!"),
                                            disp_name().c_str() );
         }
-        if (!g->u.has_trait("LEG_TENT_BRACE") || g->u.footwear_factor() == 1 ||
-            (g->u.footwear_factor() == .5 && one_in(2))) {
-            add_effect("downed", 1);
-            mod_moves(-stab_moves / 2);
-        }
+
+        add_effect("downed", 1);
+        mod_moves(-stab_moves / 2);
     } else {
         mod_moves(-stab_moves);
     }
@@ -663,6 +659,10 @@ dealt_damage_instance Creature::deal_damage(Creature *source, body_part bp,
 }
 void Creature::deal_damage_handle_type(const damage_unit &du, body_part, int &damage, int &pain)
 {
+    if( is_immune_damage( du.type ) ) {
+        return;
+    }
+
     // Apply damage multiplier from critical hits or grazes after all other modifications.
     const int adjusted_damage = du.amount * du.damage_multiplier;
     switch (du.type) {
@@ -745,8 +745,14 @@ void Creature::add_eff_effects(effect e, bool reduced)
     return;
 }
 
-void Creature::add_effect(efftype_id eff_id, int dur, body_part bp, bool permanent, int intensity)
+void Creature::add_effect( efftype_id eff_id, int dur, body_part bp, 
+                           bool permanent, int intensity, bool force )
 {
+    // Check our innate immunity
+    if( !force && is_immune_effect( eff_id ) ) {
+        return;
+    }
+
     // Mutate to a main (HP'd) body_part if necessary.
     if (effect_types[eff_id].get_main_parts()) {
         bp = mutate_to_main_part(bp);
@@ -788,7 +794,7 @@ void Creature::add_effect(efftype_id eff_id, int dur, body_part bp, bool permane
         }
     }
 
-    if (found == false) {
+    if( found == false ) {
         // If we don't already have it then add a new one
 
         // First make sure it's a valid effect
@@ -838,12 +844,17 @@ void Creature::add_effect(efftype_id eff_id, int dur, body_part bp, bool permane
         add_eff_effects(e, reduced);
     }
 }
-bool Creature::add_env_effect(efftype_id eff_id, body_part vector, int strength, int dur,
-                              body_part bp, bool permanent, int intensity)
+bool Creature::add_env_effect( efftype_id eff_id, body_part vector, int strength, int dur,
+                               body_part bp, bool permanent, int intensity, bool force )
 {
+    if( !force && is_immune_effect( eff_id ) ) {
+        return false;
+    }
+
     if (dice(strength, 3) > dice(get_env_resist(vector), 3)) {
         // Only add the effect if we fail the resist roll
-        add_effect(eff_id, dur, bp, permanent, intensity);
+        // Don't check immunity (force == true), because we did check above
+        add_effect( eff_id, dur, bp, permanent, intensity, true );
         return true;
     } else {
         return false;
@@ -1016,6 +1027,16 @@ void Creature::set_moves(int nmoves)
 bool Creature::in_sleep_state() const
 {
     return has_effect("sleep") || has_effect("lying_down");
+}
+
+bool Creature::is_immune( const std::string &type ) const
+{
+    damage_type dt = dt_by_name( type );
+    if( dt != DT_NULL ) {
+        return is_immune_damage( dt );
+    }
+
+    return is_immune_effect( type );
 }
 
 /*

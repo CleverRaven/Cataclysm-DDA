@@ -285,6 +285,12 @@ bool player::handle_gun_damage( const itype &firingt, const std::set<std::string
     return true;
 }
 
+void player::fire_gun( const tripoint &targ, long burst_size )
+{
+    // Currently just an overload
+    fire_gun( targ.x, targ.y, burst_size > 1 );
+}
+
 void player::fire_gun(int tarx, int tary, bool burst)
 {
     item *gunmod = weapon.active_gunmod();
@@ -591,9 +597,12 @@ void player::fire_gun(int tarx, int tary, bool burst)
     }
 }
 
-void game::throw_item(player &p, int tarx, int tary, item &thrown,
-                      std::vector<point> &trajectory)
+void game::throw_item( player &p, const tripoint &target, item &thrown,
+                       std::vector<tripoint> &trajectory )
 {
+    //TODO: Z
+    int tarx = target.x;
+    int tary = target.y;
     int deviation = 0;
     int trange = 1.5 * rl_dist(p.posx(), p.posy(), tarx, tary);
     std::set<std::string> no_effects;
@@ -631,7 +640,7 @@ void game::throw_item(player &p, int tarx, int tary, item &thrown,
 
     double missed_by = .01 * deviation * trange;
     bool missed = false;
-    int tart;
+    int tart1, tart2;
     bool do_railgun = (p.has_active_bionic("bio_railgun") &&
             (thrown.made_of("iron") || thrown.made_of("steel")));
 
@@ -644,11 +653,8 @@ void game::throw_item(player &p, int tarx, int tary, item &thrown,
 
         tarx += rng(0 - int(sqrt(missed_by)), int(sqrt(missed_by)));
         tary += rng(0 - int(sqrt(missed_by)), int(sqrt(missed_by)));
-        if (m.sees(p.posx(), p.posy(), tarx, tary, -1, tart)) {
-            trajectory = line_to(p.posx(), p.posy(), tarx, tary, tart);
-        } else {
-            trajectory = line_to(p.posx(), p.posy(), tarx, tary, 0);
-        }
+        m.sees( p.pos3(), target, -1, tart1, tart2 ); // For the tart1/2
+        trajectory = line_to( p.pos3(), target, tart1, tart2 );
         missed = true;
         p.add_msg_if_player(_("You miss!"));
     } else if (missed_by >= .6) {
@@ -912,10 +918,10 @@ static int draw_targeting_window( WINDOW *w_target, item *relevant, player &p, t
     return lines_used;
 }
 
-static int find_target( std::vector <Creature *> &t, int x, int y ) {
+static int find_target( std::vector <Creature *> &t, const tripoint &tpos ) {
     int target = -1;
     for( int i = 0; i < (int)t.size(); i++ ) {
-        if( t[i]->posx() == x && t[i]->posy() == y ) {
+        if( t[i]->pos3() == tpos ) {
             target = i;
             break;
         }
@@ -924,11 +930,11 @@ static int find_target( std::vector <Creature *> &t, int x, int y ) {
 }
 
 static void do_aim( player *p, std::vector <Creature *> &t, int &target,
-                    item *relevant, const int x, const int y )
+                    item *relevant, const tripoint &tpos )
 {
     // If we've changed targets, reset aim, unless it's above the minimum.
-    if( t[target]->posx() != x || t[target]->posy() != y ) {
-        target = find_target( t, x, y );
+    if( t[target]->pos3() != tpos ) {
+        target = find_target( t, tpos );
         // TODO: find radial offset between targets and
         // spend move points swinging the gun around.
         p->recoil = std::max(MIN_RECOIL, p->recoil);
@@ -956,23 +962,31 @@ std::vector<point> to_2d( const std::vector<tripoint> in )
 }
 
 // TODO: Shunt redundant drawing code elsewhere
-std::vector<point> game::target(int &x, int &y, int lowx, int lowy, int hix,
-                                int hiy, std::vector <Creature *> t, int &target,
-                                item *relevant, target_mode mode, point from)
+std::vector<tripoint> game::target( tripoint &p, const tripoint &low, const tripoint &high,
+                                    std::vector<Creature *> t, int &target,
+                                    item *relevant, target_mode mode,
+                                    const tripoint &from_arg )
 {
+    int &x = p.x;
+    int &y = p.y;
+    const int lowx = low.x;
+    const int lowy = low.y;
+    const int hix = high.x;
+    const int hiy = high.y;
+
     std::vector<tripoint> ret;
-    int tarx, tary, junk, tart;
-    if( from.x == -1 && from.y == -1 ) {
-        from = u.pos();
+    int tarx, tary, junk, tart1, tart2;
+    tripoint from = from_arg;
+    if( from == tripoint_min ) {
+        from = u.pos3();
     }
     int range = ( hix - from.x );
     // First, decide on a target among the monsters, if there are any in range
-    if (!t.empty()) {
+    if( !t.empty() ) {
         if( static_cast<size_t>( target ) >= t.size() ) {
             target = 0;
         }
-        x = t[target]->posx();
-        y = t[target]->posy();
+        p = t[target]->pos3();
     } else {
         target = -1; // No monsters in range, don't use target, reset to -1
     }
@@ -1025,33 +1039,27 @@ std::vector<point> game::target(int &x, int &y, int lowx, int lowy, int hix,
     }
 
     do {
-        if (m.sees(from.x, from.y, x, y, -1, tart)) {
-            ret = line_to( tripoint( from.x, from.y, g->get_levz() ), tripoint( x, y, g->get_levz() ), tart, 0 );
-        } else {
-            ret = line_to( tripoint( from.x, from.y, g->get_levz() ), tripoint( x, y, g->get_levz() ), 0, 0 );
-        }
+        m.sees( from, p, -1, tart1, tart2 ); // For tart1/2
+        ret = line_to( from, p, tart1, tart2 );
 
         // This chunk of code handles shifting the aim point around
         // at maximum range when using circular distance.
-        if(trigdist && trig_dist(from.x, from.y, x, y) > range) {
+        if(trigdist && trig_dist( from, p ) > range) {
             bool cont = true;
-            int cx = x;
-            int cy = y;
+            tripoint cp = p;
             for (size_t i = 0; i < ret.size() && cont; i++) {
-                if(trig_dist(from.x, from.y, ret[i].x, ret[i].y) > range) {
+                if( trig_dist( from, ret[i] ) > range ) {
                     ret.resize(i);
                     cont = false;
                 } else {
-                    cx = 0 + ret[i].x;
-                    cy = 0 + ret[i].y;
+                    cp = ret[i];
                 }
             }
-            x = cx;
-            y = cy;
+            p = cp;
         }
         tripoint center;
         if (snap_to_target) {
-            center = tripoint( x, y, u.posz() );
+            center = p;
         } else {
             center = u.pos3() + u.view_offset;
         }
@@ -1128,10 +1136,10 @@ std::vector<point> game::target(int &x, int &y, int lowx, int lowy, int hix,
             mvwprintw(w_target, line_number++, 1, _("Range: %d, %s"), range, enemiesmsg.c_str());
         }
 
-        if( mode == TARGET_MODE_FIRE && critter_at( x, y ) ) {
-            line_number = u.print_aim_bars( w_target, line_number, relevant, critter_at( x, y ) );
+        if( mode == TARGET_MODE_FIRE && critter_at( p ) ) {
+            line_number = u.print_aim_bars( w_target, line_number, relevant, critter_at( p ) );
         } else if( mode == TARGET_MODE_TURRET ) {
-            line_number = u.draw_turret_aim( w_target, line_number, point( x, y ) );
+            line_number = u.draw_turret_aim( w_target, line_number, p );
         }
 
         wrefresh(w_target);
@@ -1192,27 +1200,27 @@ std::vector<point> game::target(int &x, int &y, int lowx, int lowy, int hix,
                 y = hiy;
             }
         } else if ((action == "PREV_TARGET") && (target != -1)) {
-            int newtarget = find_target( t, x, y ) - 1;
+            int newtarget = find_target( t, p ) - 1;
             if( newtarget < 0 ) {
                 newtarget = t.size() - 1;
             }
             x = t[newtarget]->posx();
             y = t[newtarget]->posy();
         } else if ((action == "NEXT_TARGET") && (target != -1)) {
-            int newtarget = find_target( t, x, y ) + 1;
+            int newtarget = find_target( t, p ) + 1;
             if( newtarget == (int)t.size() ) {
                 newtarget = 0;
             }
             x = t[newtarget]->posx();
             y = t[newtarget]->posy();
         } else if ((action == "AIM") && target != -1) {
-            do_aim( &u, t, target, relevant, x, y );
+            do_aim( &u, t, target, relevant, p );
             if(u.moves <= 0) {
                 // We've run out of moves, clear target vector, but leave target selected.
                 u.assign_activity( ACT_AIM, 0, 0 );
                 u.activity.str_values.push_back( "AIM" );
                 ret.clear();
-                return to_2d(ret);
+                return ret;
             }
         } else if( (action == "AIMED_SHOT" || action == "CAREFUL_SHOT" || action == "PRECISE_SHOT") &&
                    target != -1 ) {
@@ -1223,7 +1231,7 @@ std::vector<point> game::target(int &x, int &y, int lowx, int lowy, int hix,
                 aim_threshold = 0;
             }
             do {
-                do_aim( &u, t, target, relevant, x, y );
+                do_aim( &u, t, target, relevant, p );
             } while( target != -1 && u.moves > 0 && u.recoil > aim_threshold &&
                      u.recoil - u.weapon.sight_dispersion( -1 ) > 0 );
             if( target == -1 ) {
@@ -1238,7 +1246,7 @@ std::vector<point> game::target(int &x, int &y, int lowx, int lowy, int hix,
                 wrefresh( w_target );
                 delwin( w_target );
                 w_target = nullptr;
-                return to_2d(ret);
+                return ret;
             } else {
                 // We've run out of moves, set the activity to aim so we'll
                 // automatically re-enter the targeting menu next turn.
@@ -1248,10 +1256,10 @@ std::vector<point> game::target(int &x, int &y, int lowx, int lowy, int hix,
                 u.assign_activity( ACT_AIM, 0, 0 );
                 u.activity.str_values.push_back( action );
                 ret.clear();
-                return to_2d(ret);
+                return ret;
             }
         } else if (action == "FIRE") {
-            target = find_target( t, x, y );
+            target = find_target( t, p );
             if (from.x == x && from.y == y) {
                 ret.clear();
             }
@@ -1273,8 +1281,7 @@ std::vector<point> game::target(int &x, int &y, int lowx, int lowy, int hix,
     wrefresh( w_target );
     delwin( w_target );
     w_target = nullptr;
-    // TODO: Remove this 3d->2d conversion
-    return to_2d(ret);
+    return ret;
 }
 
 int time_to_fire(player &p, const itype &firingt)

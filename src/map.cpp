@@ -13,6 +13,7 @@
 #include "debug.h"
 #include "messages.h"
 #include "mapsharing.h"
+#include "iuse_actor.h"
 
 #include <cmath>
 #include <stdlib.h>
@@ -2487,6 +2488,88 @@ void map::collapse_at( const tripoint &p )
                 crush( t );
                 make_rubble( t );
             }
+        }
+    }
+}
+
+void map::smash_items(const tripoint &p, const int power)
+{
+    auto items = g->m.i_at(p);
+    for (auto i = items.begin(); i != items.end();) {
+        if (i->active == true) {
+            // Get the explosion item actor
+            if (i->type->get_use( "explosion" ) != nullptr) {
+                const explosion_iuse *actor = dynamic_cast<const explosion_iuse *>(
+                                i->type->get_use( "explosion" )->get_actor_ptr() );
+                if( actor != nullptr ) {
+                    // If we're looking at another bomb, don't blow it up early for now.
+                    // i++ here because we aren't iterating in the loop header.
+                    i++;
+                    continue;
+                }
+            }
+        }
+        // The volume check here pretty much only influences corpses and very large items
+        int damage_chance = std::max(1, int(power / (float(i->volume()) / 40.0)));
+        // These are in descending order because the weakest part of an item
+        // determines when it will start to break first. Default chance is 1 in 2
+        // for the first roll
+        int material_factor = 2;
+        if (i->made_of("superalloy") || i->made_of("diamond")){
+            material_factor = 200;
+        }
+        if (i->made_of("ceramic")) {
+            material_factor = 80;
+        }
+        if (i->made_of("hardsteel")) {
+            material_factor = 24;
+        }
+        if (i->made_of("steel") ) {
+            material_factor = 20;
+        }
+        if (i->made_of("iron") || i->made_of("kevlar") || i->made_of("aluminum")) {
+            material_factor = 16;
+        }
+        if (i->made_of("stone") || i->made_of("silver") || i->made_of("gold") || i->made_of("lead")) {
+            material_factor = 12;
+        }
+        if (i->made_of("bone") || i->made_of("chitin") || i->made_of("wood")) {
+            material_factor = 8;
+        }
+        if (i->made_of("leather")) {
+            material_factor = 6;
+        }
+        if (i->made_of("plastic")) {
+            material_factor = 4;
+        }
+
+        // An item's current state of damage can make it more susceptible to being damaged
+        // 20% less resistance for each point of damage (or 20% more for reinforced)
+        material_factor *= 1 - (i->damage * .2);
+
+        field_id type_blood = fd_null;
+        if (i->is_corpse()) {
+            type_blood = i->get_mtype()->bloodType();
+        }
+        // See if they were damaged
+        while(x_in_y(damage_chance, material_factor) && i->damage < 4) {
+            i->damage++;
+            if (type_blood != fd_null) {
+                for (int x = p.x - 1; x <= p.x + 1; x++ ) {
+                    for (int y = p.y - 1; y <= p.y + 1; y++ ) {
+                        if( !one_in(damage_chance) ) {
+                            g->m.add_field(x, y, type_blood, 1);
+                        }
+                    }
+                }
+            }
+            damage_chance -= material_factor;
+        }
+        // Remove them if they were damaged too much
+        if (i->damage >= 4) {
+            i = i_rem(p, i);
+        } else {
+            i++;
         }
     }
 }
