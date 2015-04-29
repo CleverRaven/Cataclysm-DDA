@@ -5112,14 +5112,22 @@ int iuse::granade_act(player *, item *it, bool t, const tripoint &pos)
                         } else if (g->npc_at(pos.x + i, pos.y + j) != -1) {
                             int npc_hit = g->npc_at(pos.x + i, pos.y + j);
                             g->active_npc[npc_hit]->str_max += rng(0, g->active_npc[npc_hit]->str_max / 2);
+                            g->active_npc[npc_hit]->str_max = std::min(15, g->active_npc[npc_hit]->str_max);
                             g->active_npc[npc_hit]->dex_max += rng(0, g->active_npc[npc_hit]->dex_max / 2);
+                            g->active_npc[npc_hit]->dex_max = std::min(15, g->active_npc[npc_hit]->dex_max);
                             g->active_npc[npc_hit]->int_max += rng(0, g->active_npc[npc_hit]->int_max / 2);
+                            g->active_npc[npc_hit]->int_max = std::min(15, g->active_npc[npc_hit]->int_max);
                             g->active_npc[npc_hit]->per_max += rng(0, g->active_npc[npc_hit]->per_max / 2);
+                            g->active_npc[npc_hit]->per_max = std::min(15, g->active_npc[npc_hit]->per_max);
                         } else if (g->u.posx() == pos.x + i && g->u.posy() == pos.y + j) {
                             g->u.str_max += rng(0, g->u.str_max / 2);
+                            g->u.str_max = std::min(15, g->u.str_max);
                             g->u.dex_max += rng(0, g->u.dex_max / 2);
+                            g->u.dex_max = std::min(15, g->u.dex_max);
                             g->u.int_max += rng(0, g->u.int_max / 2);
+                            g->u.int_max = std::min(15, g->u.int_max);
                             g->u.per_max += rng(0, g->u.per_max / 2);
+                            g->u.per_max = std::min(15, g->u.per_max);
                             g->u.recalc_hp();
                             for (int part = 0; part < num_hp_parts; part++) {
                                 g->u.hp_cur[part] *= 1 + rng(0, 20) * .1;
