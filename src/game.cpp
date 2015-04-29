@@ -7041,7 +7041,6 @@ bool game::revive_corpse( const tripoint &p, int n )
     if( !revive_corpse( p, &m.i_at( p )[n] ) ) {
         return false;
     }
-    m.i_rem( p, n );
     return true;
 }
 
@@ -7065,6 +7064,7 @@ bool game::revive_corpse( const tripoint &p, item *it )
     }
 
     add_zombie(critter);
+    m.i_rem(p, it);
     return true;
 }
 
@@ -14028,8 +14028,8 @@ void intro()
     // Check whether LC_CTYPE supports the UTF-8 encoding
     // and show a warning if it doesn't
     if (strcmp(nl_langinfo(CODESET), "UTF-8") != 0) {
-        const char *unicode_error_msg = 
-            _("You don't seem to have a valid Unicode locale. You may see some weird " 
+        const char *unicode_error_msg =
+            _("You don't seem to have a valid Unicode locale. You may see some weird "
               "characters (e.g. empty boxes or question marks). You have been warned.");
         fold_and_print(tmp, 0, 0, maxx, c_white, unicode_error_msg, minWidth, minHeight, maxx, maxy);
         wrefresh(tmp);

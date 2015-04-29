@@ -408,39 +408,47 @@ void mattack::boomer(monster *z, int index)
 
 void mattack::resurrect(monster *z, int index)
 {
-    if( z->get_speed() < z->get_speed_base() / 2) {
-        // We can only resurrect so many times and we're out, get angry
-        z->anger = 100;
-        return;
+    // Chance to recover some of our missing speed (yes this will regain
+    // loses from being revived ourselves as well).
+    // Multiplying by (current base speed / max speed) means that the
+    // rate of speed regaining is unaffected by what our current speed is, i.e.
+    // we will regain the same amount per minute at speed 50 as speed 200.
+    if (one_in(int(10 * double(z->get_speed_base()) / double(z->type->speed)))) {
+        // Restore 10% of our current speed, capping at our type maximum
+        z->set_speed_base(std::max(z->type->speed, int(z->get_speed_base() + .1 * z->type->speed)));
     }
 
-    std::set<tripoint> corpse_pos;
-    // Find all corpses that we can see within 4 tiles.
-    tripoint p;
-    p.z = z->posz();
-    int &x = p.x;
-    int &y = p.y;
-    for( x = z->posx() - 4; x <= z->posx() + 4; x++ ) {
-        for( y = z->posy() - 4; y <= z->posy() + 4; y++ ) {
-            if( g->is_empty( p ) && g->m.sees( z->pos3(), p, -1) ) {
-                for( const auto &i : g->m.i_at( p ) ) {
+    std::vector<std::pair<tripoint, item*>> corpses;
+    // Find all corpses that we can see within 10 tiles.
+    int range = 10;
+    tripoint tmp = z->pos3();
+    int x = tmp.x;
+    int y = tmp.y;
+    for (int i = x - range; i < x + range; i++) {
+        for (int j = y - range; j < y + range; j++) {
+            tmp.x = i;
+            tmp.y = j;
+            if (g->is_empty(tmp) && g->m.sees(z->pos3(), tmp, -1)) {
+                for( auto &i : g->m.i_at( tmp ) ) {
                     if( i.is_corpse() && i.get_mtype()->has_flag(MF_REVIVES) &&
                           i.get_mtype()->in_species("ZOMBIE") ) {
-                        corpse_pos.insert( p );
+                        corpses.push_back( std::make_pair(tmp, &i) );
                         break;
                     }
                 }
             }
         }
     }
-    if( corpse_pos.empty() ) { // No nearby corpses
+
+    if( corpses.empty() ) { // No nearby corpses
         // Check to see if there are any nearby living zombies to see if we should get angry
         bool allies = false;
         for (size_t i = 0; i < g->num_zombies(); i++) {
             monster &zed = g->zombie(i);
             // Check this first because it is a cheap check
-            if( zed->type->has_flag(MF_REVIVES) && zed->type->in_species("ZOMBIE") &&
-                  z->attitude_to(zed) == Creature::Attitude::A_FRIENDLY ) {
+            if( zed.type->has_flag(MF_REVIVES) && zed.type->in_species("ZOMBIE") &&
+                  z->attitude_to(zed) == Creature::Attitude::A_FRIENDLY  &&
+                  within_target_range(z, &zed, 10)) {
                 allies = true;
                 break;
             }
@@ -455,44 +463,35 @@ void mattack::resurrect(monster *z, int index)
         }
         return;
     } else {
-        // We're reviving someone, calm down.
+        // We're reviving someone/could revive someone, calm down.
         z->anger = 5;
     }
-    z->set_speed_base( (z->get_speed_base() - rng(0, 10)) * 0.8 );
-    bool sees_necromancer = g->u.sees(*z);
-    if( sees_necromancer ) {
-        add_msg(_("The %s throws its arms wide..."), z->name().c_str());
-    }
-    z->reset_special(index); // Reset timer
-    z->moves -= 500;   // It takes a while
-    int raised = 0;
-    for( auto &i : corpse_pos ) {
-        for( size_t n = 0; n < g->m.i_at( i ).size(); ) {
-            if( g->m.i_at( i )[n].is_corpse() && one_in(2) && g->revive_corpse( i, n ) ) {
-                if( z->friendly != 0 ) {
-                    g->zombie(g->num_zombies() - 1).friendly = z->friendly;
-                }
 
-                if( g->u.sees( p ) ) {
-                    raised++;
-                }
-
-                break; // Only one body raised per tile
-            } else {
-                n++;
-            }
-        }
+    if( z->get_speed() <= z->get_speed_base() / 2) {
+        // We can only resurrect so many times in a time period
+        // and we're currently out
+        return;
     }
-    if (raised > 0) {
-        if (raised == 1) {
-            add_msg(m_warning, _("A nearby corpse rises from the dead!"));
-        } else if (raised < 4) {
-            add_msg(m_warning, _("A few corpses rise from the dead!"));
-        } else {
-            add_msg(m_warning, _("Several corpses rise from the dead!"));
+
+    std::pair<tripoint, item*> raised = corpses[rng(0, corpses.size() - 1)];
+    // Did we successfully raise something?
+    if (g->revive_corpse(raised.first, raised.second)) {
+        bool sees_necromancer = g->u.sees(*z);
+        if( sees_necromancer ) {
+            add_msg(_("The %s throws its arms wide..."), z->name().c_str());
         }
-    } else if( sees_necromancer ) {
-        add_msg(_("...but nothing seems to happen."));
+        z->reset_special(index); // Reset timer
+        z->moves -= 100;
+        // Lose 20% of our maximum speed
+        z->set_speed_base(z->get_speed_base() - .2 * z->type->speed);
+        monster *zed = &g->zombie(g->mon_at(raised.first));
+        zed->make_ally(z);
+        if (g->u.sees(*zed)) {
+            add_msg(m_warning, _("...a nearby %s rises from the dead!"), zed->name().c_str());
+        } else if (sees_necromancer) {
+            // We saw the necromancer but not the revival
+            add_msg(m_info, _("...but nothing seems to happen."));
+        }
     }
 }
 
@@ -3539,7 +3538,7 @@ void mattack::upgrade(monster *z, int index)
         z->anger = 100;
         return;
     } else {
-        // We've got people to upgrade now, calm down again
+        // We've got zombies to upgrade now, calm down again
         z->anger = 5;
     }
 
