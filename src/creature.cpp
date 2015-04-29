@@ -272,13 +272,13 @@ Creature *Creature::auto_find_hostile_target( int range, int &boo_hoo, int area 
     bool angle_iff = true;   // Need to check if player is in a cone between us and target
     int pldist = rl_dist( pos3(), g->u.pos3() );
     int part;
-    vehicle *in_veh = is_fake() ? g->m.veh_at( posx(), posy(), part ) : nullptr;
+    vehicle *in_veh = is_fake() ? g->m.veh_at( pos3(), part ) : nullptr;
     if( pldist < iff_dist && sees( g->u ) ) {
         area_iff = area > 0;
         angle_iff = true;
         // Player inside vehicle won't be hit by shots from the roof,
         // so we can fire "through" them just fine.
-        if( in_veh && g->m.veh_at( u.posx(), u.posy(), part ) == in_veh && in_veh->is_inside( part ) ) {
+        if( in_veh && g->m.veh_at( u.pos3(), part ) == in_veh && in_veh->is_inside( part ) ) {
             angle_iff = false; // No angle IFF, but possibly area IFF
         } else if( pldist < 3 ) {
             iff_hangle = (pldist == 2 ? 30 : 60);    // granularity increases with proximity
@@ -286,6 +286,7 @@ Creature *Creature::auto_find_hostile_target( int range, int &boo_hoo, int area 
         u_angle = g->m.coord_to_angle(posx(), posy(), u.posx(), u.posy());
     }
     std::vector<Creature*> targets;
+    targets.reserve( g->num_zombies() + g->active_npc.size() );
     for (size_t i = 0; i < g->num_zombies(); i++) {
         monster &m = g->zombie(i);
         if( m.friendly != 0 ) {
@@ -319,11 +320,11 @@ Creature *Creature::auto_find_hostile_target( int range, int &boo_hoo, int area 
             continue;
         }
 
-        if( in_veh != nullptr && g->m.veh_at( m->posx(), m->posy(), part ) == in_veh ) {
+        if( in_veh != nullptr && g->m.veh_at( m->pos3(), part ) == in_veh ) {
             // No shooting stuff on vehicle we're a part of
             continue;
         }
-        if( area_iff && rl_dist( u.posx(), u.posy(), m->posx(), m->posy() ) <= area ) {
+        if( area_iff && rl_dist( u.pos3(), m->pos3() ) <= area ) {
             // Player in AoE
             boo_hoo++;
             continue;

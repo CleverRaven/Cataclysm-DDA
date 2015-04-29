@@ -3434,7 +3434,7 @@ int player::draw_turret_aim( WINDOW *w, int line_number, const point &targ ) con
         return line_number;
     }
 
-    const auto turret_state = veh->turrets_can_shoot( targ );
+    const auto turret_state = veh->turrets_can_shoot( tripoint( targ, posz() ) );
     int num_ok = 0;
     for( const auto &pr : turret_state ) {
         if( pr.second == turret_all_ok ) {

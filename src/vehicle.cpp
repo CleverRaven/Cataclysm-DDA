@@ -2664,9 +2664,19 @@ point vehicle::global_pos() const
     return point( smx * SEEX + posx, smy * SEEY + posy );
 }
 
+tripoint vehicle::global_pos3() const
+{
+    return tripoint( smx * SEEX + posx, smy * SEEY + posy, smz );
+}
+
 point vehicle::real_global_pos() const
 {
     return g->m.getabs( global_x(), global_y() );
+}
+
+tripoint vehicle::real_global_pos3() const
+{
+    return g->m.getabs( tripoint( global_x(), global_y(), smz ) );
 }
 
 void vehicle::set_submap_moved( int x, int y )
@@ -2885,7 +2895,7 @@ int vehicle::total_power(bool const fueled) const
     return pwr;
 }
 
-int vehicle::solar_epower(tripoint sm_loc) const
+int vehicle::solar_epower( const tripoint &sm_loc ) const
 {
     // this will obviosuly be wrong for vehicles spanning z-levels, when
     // that gets possible...
@@ -2899,13 +2909,13 @@ int vehicle::solar_epower(tripoint sm_loc) const
             int px = posx + parts[elem].precalc[0].x; // veh. origin submap relative
             int py = posy + parts[elem].precalc[0].y; // as above
             //debugmsg("raw coords: sm %d,%d  sm-rel %d,%d", sm_loc.x, sm_loc.y, px, py);
-            point pg = overmapbuffer::sm_to_ms_copy(sm_loc.x, sm_loc.y);
+            tripoint pg = overmapbuffer::sm_to_ms_copy( sm_loc );
             pg.x += px;
             pg.y += py;
-            point psm = overmapbuffer::ms_to_sm_remain(pg);
+            point psm = overmapbuffer::ms_to_sm_remain( pg.x, pg.y );
             // now psm points to proper submap, and pg gives the submap relative coords
             //debugmsg("fixed coords: sm %d,%d, sm-rel %d,%d", psm.x, psm.y, pg.x, pg.y);
-            auto sm = MAPBUFFER.lookup_submap(psm.x, psm.y, sm_loc.z);
+            auto sm = MAPBUFFER.lookup_submap( psm.x, psm.y, sm_loc.z );
             if( sm == nullptr ) {
                 debugmsg("solar_epower(): couldn't find submap");
                 continue;
@@ -3315,7 +3325,7 @@ void vehicle::consume_fuel( double load = 1.0 )
     }
 }
 
-void vehicle::power_parts (tripoint sm_loc)//TODO: more categories of powered part!
+void vehicle::power_parts( const tripoint &sm_loc )//TODO: more categories of powered part!
 {
     int epower = 0;
 
@@ -3337,13 +3347,13 @@ void vehicle::power_parts (tripoint sm_loc)//TODO: more categories of powered pa
     if(tracking_on) epower += tracking_epower;
     if(fridge_on) epower += fridge_epower;
     if(recharger_on) epower += recharger_epower;
-    if (is_alarm_on) epower += alarm_epower;
+    if( is_alarm_on ) epower += alarm_epower;
     if( camera_on ) epower += camera_epower;
     if(dome_lights_on) epower += dome_lights_epower;
     if(aisle_lights_on) epower += aisle_lights_epower;
 
     // Producers of epower
-    epower += solar_epower(sm_loc);
+    epower += solar_epower( sm_loc );
 
     if(engine_on) {
         // Plasma engines generate epower if turned on
@@ -3464,31 +3474,31 @@ void vehicle::power_parts (tripoint sm_loc)//TODO: more categories of powered pa
     }
 }
 
-vehicle* vehicle::find_vehicle(point const &where)
+vehicle* vehicle::find_vehicle( const tripoint &where )
 {
     // Is it in the reality bubble?
-    point veh_local = g->m.getlocal(where);
-    vehicle* veh = g->m.veh_at(veh_local.x, veh_local.y);
+    tripoint veh_local = g->m.getlocal( where );
+    vehicle* veh = g->m.veh_at( veh_local );
 
-    if (veh != nullptr) {
+    if( veh != nullptr ) {
         return veh;
     }
 
     // Nope. Load up its submap...
-    point veh_in_sm = where;
-    point veh_sm = overmapbuffer::ms_to_sm_remain(veh_in_sm);
+    point veh_in_sm = point( where.x, where.y );
+    point veh_sm = overmapbuffer::ms_to_sm_remain( veh_in_sm );
 
-    auto sm = MAPBUFFER.lookup_submap(veh_sm.x, veh_sm.y, g->get_levz());
-    if(sm == nullptr) {
+    auto sm = MAPBUFFER.lookup_submap( veh_sm.x, veh_sm.y, where.z );
+    if( sm == nullptr ) {
         return nullptr;
     }
 
     // ...find the right vehicle inside it...
     for( auto &elem : sm->vehicles ) {
         vehicle *found_veh = elem;
-        point veh_location(found_veh->posx, found_veh->posy);
+        point veh_location( found_veh->posx, found_veh->posy );
 
-        if(veh_in_sm == veh_location) {
+        if( veh_in_sm == veh_location ) {
             veh = found_veh;
             break;
         }
@@ -4245,7 +4255,7 @@ veh_collision vehicle::part_collision (int part, int x, int y, bool just_detect)
     return ret;
 }
 
-void vehicle::handle_trap (int x, int y, int part)
+void vehicle::handle_trap( int x, int y, int part )
 {
     int pwh = part_with_feature (part, VPFLAG_WHEEL);
     if (pwh < 0) {
@@ -4693,14 +4703,14 @@ void vehicle::remove_remote_part(int part_num) {
 
     // If the target vehicle is still there, ask it to remove its part
     if (veh != nullptr) {
-        auto pos = global_pos() + parts[part_num].precalc[0];
-        point local_abs = g->m.getabs(pos.x, pos.y);
+        auto pos = global_pos3() + parts[part_num].precalc[0];
+        tripoint local_abs = g->m.getabs( pos );
 
         for( size_t j = 0; j < veh->loose_parts.size(); j++) {
             int remote_partnum = veh->loose_parts[j];
             auto remote_part = &veh->parts[remote_partnum];
 
-            if (veh->part_flag(remote_partnum, "POWER_TRANSFER") && remote_part->target.first == local_abs) {
+            if( veh->part_flag(remote_partnum, "POWER_TRANSFER") && remote_part->target.first == local_abs) {
                 veh->remove_part(remote_partnum);
                 return;
             }
@@ -5105,7 +5115,7 @@ int vehicle::get_turret_range( int p, bool manual )
     return gun_data.range + ( ammo != nullptr ? ammo->range : 0 );
 }
 
-turret_fire_ability vehicle::turret_can_shoot( const int p, const point &pos )
+turret_fire_ability vehicle::turret_can_shoot( const int p, const tripoint &pos )
 {
     if( part_flag( p, "MANUAL" ) ) {
         return turret_wont_aim;
@@ -5120,7 +5130,7 @@ turret_fire_ability vehicle::turret_can_shoot( const int p, const point &pos )
     }
 
     const int turrange = get_turret_range( p, true );
-    point tpos( global_pos() + parts[p].precalc[0] );
+    tripoint tpos( global_pos3() + parts[p].precalc[0] );
     if( rl_dist( tpos, pos ) > turrange ) {
         return turret_out_of_range;
     }
@@ -5128,7 +5138,7 @@ turret_fire_ability vehicle::turret_can_shoot( const int p, const point &pos )
     return turret_all_ok;
 }
 
-std::map< int, turret_fire_ability > vehicle::turrets_can_shoot( const point &pos )
+std::map< int, turret_fire_ability > vehicle::turrets_can_shoot( const tripoint &pos )
 {
     std::vector< int > turrets = all_parts_with_feature( "TURRET", true );
     std::map< int, turret_fire_ability > ret;
@@ -5155,7 +5165,7 @@ bool vehicle::aim_turrets()
     // Find the radius of a circle (centered at u) that encompasses points turrets can aim at
     // Each turret range circle is represented by 4 points
     // Maybe extend to 8 (diagonals) for better accuracy with circular?
-    std::vector< point > bounds;
+    std::vector< tripoint > bounds;
     bounds.reserve( 4 * turrets.size() );
     for( const int turret_index : turrets ) {
         const int turrange = get_turret_range( turret_index, true );
@@ -5163,17 +5173,17 @@ bool vehicle::aim_turrets()
             continue;
         }
         
-        point tpos( global_pos() + parts[turret_index].precalc[0] );
-        bounds.push_back( point( tpos.x + turrange, tpos.y ) );
-        bounds.push_back( point( tpos.x - turrange, tpos.y ) );
-        bounds.push_back( point( tpos.x, tpos.y + turrange ) );
-        bounds.push_back( point( tpos.x, tpos.y - turrange ) );
+        tripoint tpos = global_pos3() + parts[turret_index].precalc[0];
+        bounds.push_back( { tpos.x + turrange, tpos.y, tpos.z } );
+        bounds.push_back( { tpos.x - turrange, tpos.y, tpos.z } );
+        bounds.push_back( { tpos.x, tpos.y + turrange, tpos.z } );
+        bounds.push_back( { tpos.x, tpos.y - turrange, tpos.z } );
         // Reset turrets
         parts[turret_index].target.first = tpos;
         parts[turret_index].target.second = tpos;
     }
 
-    const point &upos = g->u.pos();
+    const tripoint &upos = g->u.pos3();
     int range = 0;
     for( auto &bnd : bounds ) {
         int dist = rl_dist( upos, bnd );
@@ -5207,7 +5217,7 @@ bool vehicle::aim_turrets()
             continue;
         }
 
-        parts[turret_index].target.second = targ;
+        parts[turret_index].target.second = tripoint( targ, g->u.posz() );
     }
 
     if( turret_mode == turret_mode_off ) {
@@ -5412,7 +5422,7 @@ bool vehicle::fire_turret( int p, bool manual )
         return false;
     }
 
-    std::pair< point, point > &target = parts[p].target;
+    auto &target = parts[p].target;
     // Don't let manual-only turrets aim
     if( !manual && part_flag( p, "MANUAL" ) ) {
         return false;
@@ -5524,33 +5534,12 @@ bool vehicle::fire_turret( int p, bool manual )
     return !manual || success;
 }
 
-// Ammo/weapon tags to area of effect
-// Maybe move to ranged.cpp and let player/NPCs see it?
-int aoe_size( std::set< std::string > tags )
-{
-    if( tags.count( "NAPALM_BIG" ) ||
-        tags.count( "EXPLOSIVE_HUGE" ) ) {
-        return 4;
-    } else if( tags.count( "NAPALM" ) ||
-               tags.count( "EXPLOSIVE_BIG") ) {
-        return 3;
-    } else if( tags.count( "EXPLOSIVE" ) ||
-               tags.count( "FRAG" ) ) {
-        return 2;
-    } else if( tags.count( "ACIDBOMB" ) ||
-               tags.count( "FLAME" ) ) {
-        return 1;
-    }
-
-    return 0;
-}
-
 bool vehicle::automatic_fire_turret( int p, const itype &gun, const itype &ammo, long &charges )
 {
-    int x = global_x() + parts[p].precalc[0].x;
-    int y = global_y() + parts[p].precalc[0].y;
+    tripoint pos = global_pos3();
+    pos.x += parts[p].precalc[0].x;
+    pos.y += parts[p].precalc[0].y;
     int range = part_info( p ).range;
-    bool burst = abs( parts[p].mode ) > 1;
 
     npc tmp;
     tmp.set_fake( true );
@@ -5558,8 +5547,7 @@ bool vehicle::automatic_fire_turret( int p, const itype &gun, const itype &ammo,
     tmp.skillLevel(gun.gun->skill_used).level(8);
     tmp.skillLevel("gun").level(4);
     tmp.recoil = abs(velocity) / 100 / 4;
-    tmp.setx( x );
-    tmp.sety( y );
+    tmp.setpos( pos );
     tmp.str_cur = 16;
     tmp.dex_cur = 8;
     tmp.per_cur = 12;
@@ -5575,35 +5563,33 @@ bool vehicle::automatic_fire_turret( int p, const itype &gun, const itype &ammo,
         area += area == 1 ? 1 : 2; // Pad a bit for less friendly fire
     }
 
-    int xtarg;
-    int ytarg;
-    std::pair< point, point > &target = parts[p].target;
+    tripoint targ = pos;
+    auto &target = parts[p].target;
     if( target.first == target.second && !part_flag( p, "MANUAL" ) ) {
         // Manual target not set, find one automatically
-        const bool u_see = g->u.sees(x, y);
+        const bool u_see = g->u.sees( pos );
         int boo_hoo;
         Creature *auto_target = tmp.auto_find_hostile_target( range, boo_hoo, area );
         if( auto_target == nullptr ) {
-            if (u_see && boo_hoo) {
-                add_msg(m_warning, ngettext("%s points in your direction and emits an IFF warning beep.",
-                                            "%s points in your direction and emits %d annoyed sounding beeps.",
-                                             boo_hoo),
-                           tmp.name.c_str(), boo_hoo);
+            if( u_see && boo_hoo ) {
+                add_msg( m_warning, ngettext( "%s points in your direction and emits an IFF warning beep.",
+                                              "%s points in your direction and emits %d annoyed sounding beeps.",
+                                              boo_hoo),
+                            tmp.name.c_str(), boo_hoo);
             }
             return false;
         }
-        xtarg = auto_target->posx();
-        ytarg = auto_target->posy();
+
+        targ = auto_target->pos3();
     } else if( target.first != target.second ) {
         // Target set manually
         // Make sure we didn't move between aiming and firing (it's a bug if we did)
-        if( x != target.first.x || y != target.first.y ) {
+        if( targ != target.first ) {
             target.second = target.first;
             return false;
         }
 
-        xtarg = target.second.x;
-        ytarg = target.second.y;
+        targ = target.second;
         // Remove the target
         target.second = target.first;
     } else {
@@ -5614,10 +5600,10 @@ bool vehicle::automatic_fire_turret( int p, const itype &gun, const itype &ammo,
 
     // Move the charger gun "whoosh" here - no need to pass it from above
     if( tmp.weapon.is_charger_gun() && charges > 20 ) {
-        sounds::sound( x, y, 20, _("whoosh!") );
+        sounds::sound( targ.x, targ.y, 20, _("whoosh!") );
     }
     // notify player if player can see the shot
-    if( g->u.sees(x, y) ) {
+    if( g->u.sees( pos ) ) {
         add_msg(_("The %s fires its %s!"), name.c_str(), part_info(p).name.c_str());
     }
     // Spawn a fake UPS to power any turreted weapons that need electricity.
@@ -5625,7 +5611,7 @@ bool vehicle::automatic_fire_turret( int p, const itype &gun, const itype &ammo,
     // Drain a ton of power
     tmp_ups.charges = drain( fuel_type_battery, 1000 );
     tmp.worn.insert( tmp.worn.end(), tmp_ups );
-    tmp.fire_gun( xtarg, ytarg, burst );
+    tmp.fire_gun( targ, abs( parts[p].mode ) );
     // Return whatever is left.
     refill( fuel_type_battery, tmp.worn.back().charges );
     charges = tmp.weapon.charges; // Return real ammo, in case of burst ending early
@@ -5953,14 +5939,14 @@ item vehicle_part::properties_to_item() const
     // Cables get special handling: their target coordinates need to remain
     // stored, and if a cable actually drops, it should be half-connected.
     if( tmp.has_flag("CABLE_SPOOL") ) {
-        point local_pos = g->m.getlocal(target.first);
-        if(g->m.veh_at(local_pos.x, local_pos.y) == nullptr) {
+        tripoint local_pos = g->m.getlocal(target.first);
+        if(g->m.veh_at( local_pos ) == nullptr) {
             tmp.item_tags.insert("NO_DROP"); // That vehicle ain't there no more.
         }
 
         tmp.set_var( "source_x", target.first.x );
         tmp.set_var( "source_y", target.first.y );
-        tmp.set_var( "source_z", g->get_levz() );
+        tmp.set_var( "source_z", target.first.z );
         tmp.set_var( "state", "pay_out_cable" );
         tmp.active = true;
     }

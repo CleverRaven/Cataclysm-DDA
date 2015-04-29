@@ -78,6 +78,7 @@ class mapbuffer
          * submap object, don't delete it on your own.
          */
         submap *lookup_submap(int x, int y, int z);
+        submap *lookup_submap( const tripoint &p );
 
     private:
         typedef std::map<tripoint, submap *, pointcomp> submap_map_t;
