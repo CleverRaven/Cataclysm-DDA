@@ -444,11 +444,11 @@ void mattack::resurrect(monster *z, int index)
         // Check to see if there are any nearby living zombies to see if we should get angry
         bool allies = false;
         for (size_t i = 0; i < g->num_zombies(); i++) {
-            monster &zed = g->zombie(i);
+            monster *zed = &g->zombie(i);
             // Check this first because it is a cheap check
-            if( zed.type->has_flag(MF_REVIVES) && zed.type->in_species("ZOMBIE") &&
-                  z->attitude_to(zed) == Creature::Attitude::A_FRIENDLY  &&
-                  within_target_range(z, &zed, 10)) {
+            if( zed != z && zed->type->has_flag(MF_REVIVES) && zed->type->in_species("ZOMBIE") &&
+                  z->attitude_to(*zed) == Creature::Attitude::A_FRIENDLY  &&
+                  within_target_range(z, zed, 10)) {
                 allies = true;
                 break;
             }
