@@ -389,15 +389,6 @@ void vehicle::init_state(int init_veh_fuel, int init_veh_status)
         }
     }
 
-    // Reactor should always start out activated if present
-    std::vector<int> fuel_tanks = all_parts_with_feature(VPFLAG_FUEL_TANK);
-    for( auto &fuel_tank : fuel_tanks ) {
-        if( part_info( fuel_tank ).fuel_type == fuel_type_plutonium ) {
-            reactor_on = true;
-            break;
-        }
-    }
-
     bool blood_inside_set = false;
     int blood_inside_x = 0;
     int blood_inside_y = 0;
@@ -410,6 +401,11 @@ void vehicle::init_state(int init_veh_fuel, int init_veh_status)
             }
             parts[p].bigness = consistent_bignesses[parts[p].id];
         }
+        if( part_flag( p, "REACTOR" ) ) {
+            // De-hardcoded reactors. Should always start active
+            reactor_on = true;
+        }
+
         if( part_flag(p, "FUEL_TANK") ) {   // set fuel status
             parts[p].amount = part_info(p).size * veh_fuel_mult / 100;
         }
@@ -851,8 +847,7 @@ void vehicle::use_controls()
         else if (part_flag(p, "STEREO")) {
             has_stereo = true;
         }
-        else if (part_flag(p, VPFLAG_FUEL_TANK) &&
-                 part_info(p).fuel_type == fuel_type_plutonium) {
+        else if( part_flag( p, "REACTOR" ) ) {
             has_reactor = true;
         }
         else if (part_flag(p, "ENGINE")) {
@@ -956,7 +951,7 @@ void vehicle::use_controls()
     }
 
     // Turn the reactor on/off
-    if (has_reactor) {
+    if( has_reactor ) {
         menu.addentry( toggle_reactor, true, 'k', reactor_on ? _("Turn off reactor") : _("Turn on reactor") );
     }
     // Toggle doors remotely
@@ -1026,47 +1021,9 @@ void vehicle::use_controls()
         }
         break;
     case toggle_stereo:
-        if((stereo_on || fuel_left(fuel_type_battery, true))) {
+        if( ( stereo_on || fuel_left( fuel_type_battery, true ) ) ) {
             stereo_on = !stereo_on;
-            int music_index = 0;
-            std::vector<const item*> cd_inv = g->u.all_items_with_flag( "CD" );
-            std::vector<itype_id> music_types;
-            std::vector<std::string> music_names;
-            add_msg((stereo_on) ? _("Loading...") : _("Ejecting..."));
-            if( cd_inv.empty() && stereo_on ) {
-                add_msg(_("You don't have anything to play!"));
-                stereo_on = false;
-            } else if (stereo_on == false) {
-                item cd( music_id, 0 );
-                add_msg(_("Ejected the %s"), cd.tname().c_str());
-                g->u.i_add(cd);
-            } else {
-                for( auto &cd : cd_inv ) {
-                    if( std::find( music_types.begin(), music_types.end(), cd->typeId() ) ==
-                        music_types.end() ) {
-                        music_types.push_back( cd->typeId() );
-                        music_names.push_back( cd->tname() );
-                    }
-                }
-            if (music_types.size() > 1) {
-                music_names.push_back(_("Cancel"));
-                music_index = menu_vec(false, _("Use which item?"), music_names) - 1;
-            if (music_index == (int)music_names.size() - 1)
-            music_index = -1;
-            } else {
-                music_index = 0;
-            }
-
-            if (music_index < 0) {
-                add_msg(_("You decided not to play anything"));
-                stereo_on = false;
-                return;
-            } else {
-                add_msg(_("Inserted the %s"), music_names[music_index].c_str());
-                g->u.use_amount( music_types[music_index], 1 );
-                music_id = music_types[music_index];
-            }
-            }
+            add_msg( stereo_on ? _("Turned on music") : _("Turned off music") );
         } else {
                 add_msg(_("The stereo won't come on!"));
         }
@@ -1111,7 +1068,18 @@ void vehicle::use_controls()
         }
         break;
     case toggle_reactor:
-        if(!reactor_on || fuel_left(fuel_type_plutonium)) {
+    {
+        bool can_toggle = reactor_on;
+        if( !can_toggle ) {
+            for( int p : reactors ) {
+                if( parts[p].hp > 0 && parts[p].amount > 0 ) {
+                    can_toggle = true;
+                    break;
+                }
+            }
+        }
+
+        if( can_toggle ) {
             reactor_on = !reactor_on;
             add_msg((reactor_on) ? _("Reactor turned on") :
                        _("Reactor turned off"));
@@ -1119,6 +1087,7 @@ void vehicle::use_controls()
         else {
             add_msg(_("The reactor won't turn on!"));
         }
+    }
         break;
     case toggle_engine:
         if( g->u.controlling_vehicle || ( remotely_controlled && engine_on ) ) {
@@ -2858,12 +2827,14 @@ int vehicle::basic_consumption(const ammotype &ftype) const
     int fcon = 0;
     for( size_t e = 0; e < engines.size(); ++e ) {
         if(is_engine_type_on(e, ftype)) {
-            if(part_info(engines[e]).fuel_type == fuel_type_battery) {
-                // electric engine - use epower instead
-                fcon += abs(epower_to_power(part_epower(engines[e])));
-            }
-            else if (!is_engine_type(e, fuel_type_muscle)) {
-                fcon += part_power(engines[e]);
+            // Allow (modded) engines with negative consumption
+            // But don't handle them here, so that basic_consumption
+            // can be assumed to be non-negative
+            if( part_info( engines[e] ).fuel_type == fuel_type_battery ) {
+                // Electric engine - use epower instead
+                fcon -= epower_to_power( part_epower( engines[e] ) );
+            } else if( !is_engine_type( e, fuel_type_muscle ) ) {
+                fcon += part_power( engines[e] );
             }
         }
     }
@@ -3330,43 +3301,33 @@ void vehicle::power_parts( const tripoint &sm_loc )//TODO: more categories of po
     int epower = 0;
 
     // Consumers of epower
-    int gas_epower = 0;
-    if(engine_on) {
-        // Gas engines require epower to run for ignition system, ECU, etc.
-        for( size_t e = 0; e < engines.size(); ++e ) {
-            if(is_engine_type_on(e, fuel_type_gasoline) ||
-               is_engine_type_on(e, fuel_type_diesel)) {
-                gas_epower += part_info(engines[e]).epower;
-            }
-        }
-        epower += gas_epower;
-    }
-
-    if(lights_on) epower += lights_epower;
-    if(overhead_lights_on) epower += overhead_epower;
-    if(tracking_on) epower += tracking_epower;
-    if(fridge_on) epower += fridge_epower;
-    if(recharger_on) epower += recharger_epower;
+    if( lights_on ) epower += lights_epower;
+    if( overhead_lights_on ) epower += overhead_epower;
+    if( tracking_on ) epower += tracking_epower;
+    if( fridge_on ) epower += fridge_epower;
+    if( recharger_on ) epower += recharger_epower;
     if( is_alarm_on ) epower += alarm_epower;
     if( camera_on ) epower += camera_epower;
-    if(dome_lights_on) epower += dome_lights_epower;
-    if(aisle_lights_on) epower += aisle_lights_epower;
+    if( dome_lights_on ) epower += dome_lights_epower;
+    if( aisle_lights_on ) epower += aisle_lights_epower;
+
+    // Engines: can both produce (plasma) or consume (gas, diesel)
+    // Gas engines require epower to run for ignition system, ECU, etc.
+    int engine_epower = 0;
+    if( engine_on ) {
+        for( size_t e = 0; e < engines.size(); ++e ) {
+            // Electric engines consume power when actually used, not passively
+            if( !is_engine_type_on(e, fuel_type_battery) ) {
+                engine_epower += part_epower( engines[e] );
+            }
+        }
+
+        epower += engine_epower;
+    }
 
     // Producers of epower
     epower += solar_epower( sm_loc );
 
-    if(engine_on) {
-        // Plasma engines generate epower if turned on
-        int plasma_epower = 0;
-        for( size_t e = 0; e < engines.size(); ++e ) {
-            if(is_engine_type_on(e, fuel_type_plasma)) {
-                plasma_epower += part_info(engines[e]).epower;
-            }
-        }
-        epower += plasma_epower;
-    }
-
-    int battery_discharge = power_to_epower(fuel_capacity(fuel_type_battery) - fuel_left(fuel_type_battery));
     if(engine_on) {
         // If the engine is on, the alternators are working.
         int alternators_epower = 0;
@@ -3383,60 +3344,42 @@ void vehicle::power_parts( const tripoint &sm_loc )//TODO: more categories of po
         }
     }
 
-    if(reactor_on && battery_discharge - epower > 0) {
+    int epower_capacity_left = power_to_epower(fuel_capacity(fuel_type_battery) - fuel_left(fuel_type_battery));
+    if( reactor_on && epower_capacity_left - epower > 0 ) {
         // Still not enough surplus epower to fully charge battery
         // Produce additional epower from any reactors
-        int reactors_epower = 0;
-        int reactors_fuel_epower = 0;
+        bool reactor_working = false;
         for( auto &elem : reactors ) {
-            if( parts[elem].hp > 0 ) {
-                reactors_epower += part_info( elem ).epower;
-                reactors_fuel_epower += power_to_epower( parts[elem].amount );
-            }
-        }
-        // check if enough fuel for full reactor output
-        if(reactors_fuel_epower < reactors_epower) {
-            // partial reactor output
-            reactors_epower = reactors_fuel_epower;
-        }
-        if(reactors_epower > 0) {
-            int reactors_output;
-            if (battery_discharge - epower > reactors_epower) {
-                reactors_output = reactors_epower;
-            }
-            else {
-                reactors_output = battery_discharge - epower;
-            }
-            // calculate battery-equivalent fuel consumption
-            int battery_consumed = epower_to_power(reactors_output);
-            // 1 plutonium == 100 battery - divide consumption by 100
-            int plutonium_consumed = battery_consumed / 100;
-            // battery remainder results in chance at additional plutonium consumption
-            if (x_in_y(battery_consumed % 100, 100)) {
-                plutonium_consumed += 1;
-            }
-            for(auto &p : reactors) {
-                int avail_plutonium = parts[p].amount;
-                if(avail_plutonium < plutonium_consumed) {
-                    plutonium_consumed -= avail_plutonium;
-                    parts[p].amount = 0;
-                    if (avail_plutonium <= 0) {
-                        break;
-                    }
+            if( parts[elem].hp > 0 && parts[elem].amount > 0 ) {
+                // Efficiency: one unit of fuel is this many units of battery
+                // Note: One battery is roughtly 373 units of epower
+                const int efficiency = part_info( elem ).power;
+                const int avail_fuel = parts[elem].amount * efficiency;
+
+                const int elem_epower = std::min( part_epower( elem ), power_to_epower( avail_fuel ) );
+                // Cap output at what we can achieve and utilize
+                const int reactors_output = std::min( elem_epower, epower_capacity_left - epower );
+                // Units of fuel consumed before adjustment for efficiency
+                const int battery_consumed = epower_to_power( reactors_output );
+                // Fuel consumed in actual units of the resource
+                int fuel_consumed = battery_consumed / efficiency;
+                // Remainder has a chance of resulting in more fuel consumption
+                if( x_in_y( battery_consumed % efficiency, efficiency ) ) {
+                    fuel_consumed++;
                 }
-                else {
-                    parts[p].amount -= plutonium_consumed;
-                    plutonium_consumed = 0;
-                    break;
-                }
+
+                parts[elem].amount -= fuel_consumed;
+                reactor_working = true;
+
+                epower += reactors_output;
             }
-            epower += reactors_output;
         }
-        else {
-            // all reactors out of fuel or destroyed
+
+        if( !reactor_working ) {
+            // All reactors out of fuel or destroyed
             reactor_on = false;
-            if(player_in_control(g->u) || g->u.sees( global_pos() )) {
-                add_msg(_("The %s's reactor dies!"), name.c_str());
+            if( player_in_control(g->u) || g->u.sees( global_pos3() ) ) {
+                add_msg( _("The %s's reactor dies!"), name.c_str() );
             }
         }
     }
@@ -3450,7 +3393,7 @@ void vehicle::power_parts( const tripoint &sm_loc )//TODO: more categories of po
         battery_deficit = discharge_battery(abs(epower_to_power(epower)));
     }
 
-    if(battery_deficit) {
+    if( battery_deficit != 0 ) {
         is_alarm_on = false;
         lights_on = false;
         tracking_on = false;
@@ -3461,14 +3404,14 @@ void vehicle::power_parts( const tripoint &sm_loc )//TODO: more categories of po
         camera_on = false;
         dome_lights_on = false;
         aisle_lights_on = false;
-        if(player_in_control(g->u) || g->u.sees( global_pos() )) {
-            add_msg(_("The %s's battery dies!"),name.c_str());
+        if( player_in_control( g->u ) || g->u.sees( global_pos3() ) ) {
+            add_msg( _("The %s's battery dies!"), name.c_str() );
         }
-        if(gas_epower < 0) {
+        if( engine_epower < 0 ) {
             // Not enough epower to run gas engine ignition system
             engine_on = false;
-            if(player_in_control(g->u) || g->u.sees( global_pos() )) {
-                add_msg(_("The %s's engine dies!"),name.c_str());
+            if( player_in_control( g->u ) || g->u.sees( global_pos3() ) ) {
+                add_msg( _("The %s's engine dies!"), name.c_str() );
             }
         }
     }
@@ -4668,7 +4611,7 @@ void vehicle::refresh()
         if( vpi.has_flag(VPFLAG_ENGINE) ) {
             engines.push_back( p );
         }
-        if( vpi.has_flag(VPFLAG_FUEL_TANK) && vpi.fuel_type == fuel_type_plutonium ) {
+        if( vpi.has_flag("REACTOR") ) {
             reactors.push_back( p );
         }
         if( vpi.has_flag(VPFLAG_SOLAR_PANEL) ) {
@@ -5216,7 +5159,7 @@ bool vehicle::aim_turrets()
             continue;
         }
 
-        parts[turret_index].target.second = tripoint( targ, g->u.posz() );
+        parts[turret_index].target.second = targ;
     }
 
     if( turret_mode == turret_mode_off ) {

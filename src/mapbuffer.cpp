@@ -94,7 +94,7 @@ submap *mapbuffer::lookup_submap( const tripoint &p )
         return NULL;
     }
 
-    return *iter;
+    return iter->second;
 }
 
 void mapbuffer::save( bool delete_after_save )

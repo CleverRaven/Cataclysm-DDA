@@ -215,14 +215,12 @@ void ammo_effects( const tripoint &p, const std::set<std::string> &effects )
         g->flashbang( p );
     }
 
-    // TODO: g->u? Are NPC not allowed to use those weapons, or do they ignored the flag because they are stupid ncps and have no right to use those flags.
     if( effects.count( "NO_BOOM" ) == 0 && effects.count( "FLAME" ) > 0 ) {
         g->explosion( p, 4, 0, true );
     }
 
-    // TODO: g->u? Are NPC not allowed to use those weapons, or do they ignored the flag because they are stupid ncps and have no right to use those flags.
     if( effects.count( "FLARE" ) > 0 ) {
-        g->m.add_field( p, fd_fire, 1 );
+        g->m.add_field( p, fd_fire, 1, 0 );
     }
 
     if( effects.count( "LIGHTNING" ) > 0 ) {
