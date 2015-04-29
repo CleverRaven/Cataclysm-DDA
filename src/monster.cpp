@@ -169,7 +169,13 @@ void monster::update_check() {
         return;
     }
     int current_day = calendar::turn.get_turn()/ DAYS(1);
-    int upgrade_time = type->upgrade_min / ACTIVE_WORLD_OPTIONS["MONSTER_GROUP_DIFFICULTY"];
+    int upgrade_time = 0;
+    if (ACTIVE_WORLD_OPTIONS["MONSTER_GROUP_DIFFICULTY"] > 0) {
+        upgrade_time = type->upgrade_min / ACTIVE_WORLD_OPTIONS["MONSTER_GROUP_DIFFICULTY"];
+    } else {
+        // Should ensure that the monsters never upgrade
+        upgrade_time = current_day + 1;
+    }
     add_msg(m_debug, "Current:day: %d", current_day);
     add_msg(m_debug, "Upgrade time : %d", upgrade_time);
     add_msg(m_debug, "Last loaded: %d", last_loaded);
