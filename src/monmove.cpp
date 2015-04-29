@@ -921,11 +921,6 @@ bool monster::move_to( const tripoint &p, bool force )
             g->m.add_field( dest, fd_toxic_gas, 3, 0 );
         }
     }
-    if (has_flag(MF_LEAKSACID)){
-        if (one_in(4)){
-        g->m.add_field(posx() + rng(-1,1), posy() + rng(-1, 1), fd_acid, 3);
-        }
-    }
 
     return true;
 }

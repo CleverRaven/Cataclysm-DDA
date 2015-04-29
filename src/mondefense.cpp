@@ -7,7 +7,6 @@
 #include "line.h"
 #include "bodypart.h"
 #include "messages.h"
-#include "map.h"
 
 void mdefense::none(monster *, Creature *, const projectile *)
 {
@@ -45,19 +44,19 @@ void mdefense::zapback(monster *const m, Creature *const source, projectile cons
 
 void mdefense::acidsplash(monster *const m, Creature *const source, projectile const* const proj)
 {
-    if( (proj) && ((rng(0, 40) > m->def_chance) || (rl_dist(m->pos(), source->pos()) > 1)) ) {
-        return; //Less likely for a projectile to deliver enough force
+    // Not a melee attack, attacker lucked out or out of range
+    if( (proj) || (rng(0, 100) > m->def_chance) || (rl_dist(m->pos(), source->pos()) > 1) || one_in(3) ) {
+        return;
     }
+    body_part bp = random_body_part();
+    damage_instance const acid {DT_ACID, static_cast<float>(rng(1, 5))};
+    source->deal_damage(m, bp, acid);
+    source->deal_damage(m, bp, acid);
 
-if (one_in(2)){
-        for (int i = 0; i < rng(3,5); i++) {
-        g->m.add_field(m->posx() + rng(-1,1), m->posy() + rng(-1, 1), fd_acid, rng(2,3));
-        }
     if( g->u.sees(source->pos()) ) {
         auto const msg_type = (source == &g->u) ? m_bad : m_info;
-        add_msg(msg_type, _("Acid flies out of the %s as it is hit!"),
-        m->name().c_str(), source->disp_name().c_str());
-        }
+        add_msg(msg_type, _("Striking the %s covers %s in acid!"),
+            m->name().c_str(), source->disp_name().c_str());
     }
     source->check_dead_state();
 }

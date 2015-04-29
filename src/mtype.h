@@ -92,7 +92,6 @@ enum m_flag {
     MF_ACIDTRAIL,           // Leaves a trail of acid
     MF_FIREPROOF,           //Immune to fire
     MF_SLUDGEPROOF,         // Ignores the effect of sludge trails
-    MF_LEAKSACID,           // Occationally splashes acid around its body
     MF_SLUDGETRAIL,         // Causes monster to leave a sludge trap trail when moving
     MF_LEAKSGAS,            // Occasionally leaks gas when moving
     MF_FIREY,               // Burns stuff and is immune to fire

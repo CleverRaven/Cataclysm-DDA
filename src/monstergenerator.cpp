@@ -237,6 +237,7 @@ void MonsterGenerator::init_attack()
     attack_map["RATTLE"] = &mattack::rattle;
     attack_map["HOWL"] = &mattack::howl;
     attack_map["ACID"] = &mattack::acid;
+    attack_map["ACID_BARF"] = &mattack::acid_barf;
     attack_map["SHOCKSTORM"] = &mattack::shockstorm;
     attack_map["PULL_METAL_WEAPON"] = &mattack::pull_metal_weapon;
     attack_map["SMOKECLOUD"] = &mattack::smokecloud;
@@ -370,7 +371,6 @@ void MonsterGenerator::init_flags()
     flag_map["SUNDEATH"] = MF_SUNDEATH;
     flag_map["ELECTRIC"] = MF_ELECTRIC;
     flag_map["ACIDPROOF"] = MF_ACIDPROOF;
-    flag_map["LEAKSACID"] = MF_LEAKSACID;
     flag_map["ACIDTRAIL"] = MF_ACIDTRAIL;
     flag_map["FIREPROOF"] = MF_FIREPROOF;
     flag_map["LEAKSGAS"] = MF_LEAKSGAS;
