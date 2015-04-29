@@ -445,7 +445,6 @@ void mattack::resurrect(monster *z, int index)
         bool allies = false;
         for (size_t i = 0; i < g->num_zombies(); i++) {
             monster *zed = &g->zombie(i);
-            // Check this first because it is a cheap check
             if( zed != z && zed->type->has_flag(MF_REVIVES) && zed->type->in_species("ZOMBIE") &&
                   z->attitude_to(*zed) == Creature::Attitude::A_FRIENDLY  &&
                   within_target_range(z, zed, 10)) {
@@ -478,7 +477,7 @@ void mattack::resurrect(monster *z, int index)
     if (g->revive_corpse(raised.first, raised.second)) {
         bool sees_necromancer = g->u.sees(*z);
         if( sees_necromancer ) {
-            add_msg(_("The %s throws its arms wide..."), z->name().c_str());
+            add_msg(m_info, _("The %s throws its arms wide."), z->name().c_str());
         }
         z->reset_special(index); // Reset timer
         z->moves -= z->type->speed; // Takes one turn
@@ -487,10 +486,10 @@ void mattack::resurrect(monster *z, int index)
         monster *zed = &g->zombie(g->mon_at(raised.first));
         zed->make_ally(z);
         if (g->u.sees(*zed)) {
-            add_msg(m_warning, _("...a nearby %s rises from the dead!"), zed->name().c_str());
+            add_msg(m_warning, _("A nearby %s rises from the dead!"), zed->name().c_str());
         } else if (sees_necromancer) {
             // We saw the necromancer but not the revival
-            add_msg(m_info, _("...but nothing seems to happen."));
+            add_msg(m_info, _("But nothing seems to happen."));
         }
     }
 }
@@ -3558,10 +3557,10 @@ void mattack::upgrade(monster *z, int index)
     if (g->u.sees( *z )) {
         if (could_see) {
             //~ %1$s is the name of the zombie upgrading the other, %2$s is the zombie being upgraded.
-            add_msg(m_warning, _("A black mist floats from the %1$s around the %2$s"),
+            add_msg(m_warning, _("A black mist floats from the %1$s around the %2$s."),
                      z->name().c_str(), old_name.c_str());
         } else {
-            add_msg(m_warning, _("A black mist floats from the %s"), z->name().c_str());
+            add_msg(m_warning, _("A black mist floats from the %s."), z->name().c_str());
         }
     }
     if (target->name() != old_name) {
