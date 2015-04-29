@@ -1799,6 +1799,8 @@ bool player::is_immune_effect( const efftype_id &effect ) const
         return is_throw_immune() || ( has_trait("LEG_TENT_BRACE") && footwear_factor() == 0 );
     } else if( effect == "onfire" ) {
         return is_immune_damage( DT_HEAT );
+    } else if( effect == "deaf" ) {
+        return worn_with_flag("DEAF") || has_bionic("bio_ears") || is_wearing("rm13_armor_on");
     }
 
     return false;
@@ -1818,7 +1820,7 @@ bool player::is_immune_damage( const damage_type dt ) const
     case DT_CUT:
         return false;
     case DT_ACID:
-        return has_trait( "ACIDBLOOD" );
+        return has_trait( "ACIDPROOF" );
     case DT_STAB:
         return false;
     case DT_HEAT:
@@ -7476,7 +7478,7 @@ void player::suffer()
     if (has_trait("PER_SLIME")) {
         if (one_in(600) && !has_effect("deaf")) {
             add_msg(m_bad, _("Suddenly, you can't hear anything!"));
-            add_effect("deaf", 20 * rng (2, 6)) ;
+            add_effect("deaf", 100 * rng (2, 6)) ;
         }
         if (one_in(600) && !(has_effect("blind"))) {
             add_msg(m_bad, _("Suddenly, your eyes stop working!"));
@@ -13245,7 +13247,7 @@ void player::add_known_trap( const tripoint &pos, const std::string &t)
 
 bool player::is_deaf() const
 {
-    return has_effect("deaf") || worn_with_flag("DEAF") ||
+    return get_effect_int( "deaf" ) > 2 || worn_with_flag("DEAF") ||
            (has_active_bionic("bio_earplugs") && !has_active_bionic("bio_ears"));
 }
 
@@ -13259,7 +13261,6 @@ bool player::can_hear( const point source, const int volume ) const
     return volume * volume_multiplier >= dist;
 }
 
-// This method intentionally does not factor in deafness.
 float player::hearing_ability() const
 {
     float volume_multiplier = 1.0;
@@ -13289,6 +13290,12 @@ float player::hearing_ability() const
     if( has_trait("LUPINE_EARS") ) {
         volume_multiplier *= 1.75;
     }
+
+    if( has_effect( "deaf" ) ) {
+        // Scale linearly up to 300
+        volume_multiplier *= ( 300.0 - get_effect_dur( "deaf" ) ) / 300.0;
+    }
+
     return volume_multiplier;
 }
 

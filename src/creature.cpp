@@ -390,17 +390,14 @@ void Creature::deal_melee_hit(Creature *source, int hit_spread, bool critical_hi
 
     // Bashing crit
     if( critical_hit && !is_immune_effect( "stunned" ) ) {
-        int turns_stunned = (d.type_damage(DT_BASH) + hit_spread) / 20;
-        if (turns_stunned > 6) {
-            turns_stunned = 6;
-        }
-        if (turns_stunned > 0) {
-            add_effect("stunned", turns_stunned);
+        if( d.type_damage(DT_BASH) * hit_spread > get_hp_max() ) {
+            add_effect( "stunned", 1 ); // 1 turn is enough
         }
     }
 
     // Stabbing effects
-    int stab_moves = rng(d.type_damage(DT_STAB) / 2, d.type_damage(DT_STAB) * 1.5);
+    int stab_moves = rng( d.type_damage(DT_STAB) / 2,
+                          d.type_damage(DT_STAB) * 1.5 );
     if (critical_hit) {
         stab_moves *= 1.5;
     }
@@ -659,6 +656,7 @@ dealt_damage_instance Creature::deal_damage(Creature *source, body_part bp,
 }
 void Creature::deal_damage_handle_type(const damage_unit &du, body_part, int &damage, int &pain)
 {
+    // Handles ACIDPROOF, electric immunity etc.
     if( is_immune_damage( du.type ) ) {
         return;
     }
@@ -697,13 +695,9 @@ void Creature::deal_damage_handle_type(const damage_unit &du, body_part, int &da
         pain += adjusted_damage / 6;
         mod_moves(-adjusted_damage * 80);
         break;
-    case DT_ACID: // ACIDPROOF people don't take acid damage and acid burns are super painful 
+    case DT_ACID: // Acid damage and acid burns are super painful
         damage += adjusted_damage;
         pain += adjusted_damage / 3;
-        if( has_trait ("ACIDPROOF") ) {
-            damage = 0;
-            pain = 0;
-        }
         break;
     default:
         damage += adjusted_damage;
