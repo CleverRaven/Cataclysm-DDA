@@ -481,7 +481,7 @@ void mattack::resurrect(monster *z, int index)
             add_msg(_("The %s throws its arms wide..."), z->name().c_str());
         }
         z->reset_special(index); // Reset timer
-        z->moves -= 100;
+        z->moves -= z->type->speed; // Takes one turn
         // Lose 20% of our maximum speed
         z->set_speed_base(z->get_speed_base() - .2 * z->type->speed);
         monster *zed = &g->zombie(g->mon_at(raised.first));
@@ -3543,7 +3543,7 @@ void mattack::upgrade(monster *z, int index)
     }
 
     z->reset_special(index); // Reset timer
-    z->moves -= 150;   // It takes a while
+    z->moves -= z->type->speed; // Takes one turn
 
     monster *target = &( g->zombie( targets[ rng(0, targets.size() - 1) ] ) );
 
