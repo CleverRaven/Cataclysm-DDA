@@ -413,9 +413,9 @@ void mattack::resurrect(monster *z, int index)
     // Multiplying by (current base speed / max speed) means that the
     // rate of speed regaining is unaffected by what our current speed is, i.e.
     // we will regain the same amount per minute at speed 50 as speed 200.
-    if (one_in(int(10 * double(z->get_speed_base()) / double(z->type->speed)))) {
+    if (one_in(int(15 * double(z->get_speed_base()) / double(z->type->speed)))) {
         // Restore 10% of our current speed, capping at our type maximum
-        z->set_speed_base(std::max(z->type->speed, int(z->get_speed_base() + .1 * z->type->speed)));
+        z->set_speed_base(std::min(z->type->speed, int(z->get_speed_base() + .1 * z->type->speed)));
     }
 
     std::vector<std::pair<tripoint, item*>> corpses;
@@ -467,7 +467,7 @@ void mattack::resurrect(monster *z, int index)
         z->anger = 5;
     }
 
-    if( z->get_speed() <= z->get_speed_base() / 2) {
+    if( z->get_speed_base() <= z->type->speed / 2) {
         // We can only resurrect so many times in a time period
         // and we're currently out
         return;
