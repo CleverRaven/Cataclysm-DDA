@@ -2827,10 +2827,8 @@ int vehicle::basic_consumption(const ammotype &ftype) const
     int fcon = 0;
     for( size_t e = 0; e < engines.size(); ++e ) {
         if(is_engine_type_on(e, ftype)) {
-            // Allow (modded) engines with negative consumption
-            // But don't handle them here, so that basic_consumption
-            // can be assumed to be non-negative
-            if( part_info( engines[e] ).fuel_type == fuel_type_battery ) {
+            if( part_info( engines[e] ).fuel_type == fuel_type_battery &&
+                part_epower( engines[e] ) >= 0 ) {
                 // Electric engine - use epower instead
                 fcon -= epower_to_power( part_epower( engines[e] ) );
             } else if( !is_engine_type( e, fuel_type_muscle ) ) {
@@ -4668,9 +4666,9 @@ void vehicle::shed_loose_parts() {
         }
 
         auto part = &parts[elem];
-        auto pos = global_pos() + part->precalc[0];
+        auto pos = global_pos3() + part->precalc[0];
         item drop = part->properties_to_item();
-        g->m.add_item_or_charges(pos.x, pos.y, drop);
+        g->m.add_item_or_charges( pos, drop );
 
         remove_part( elem );
     }
