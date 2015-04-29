@@ -351,8 +351,12 @@ class monster : public Creature, public JsonSerializer, public JsonDeserializer
          * and to reviving monsters that spawn from a corpse.
          */
         void init_from_item( const item &itm );
+        /** Gets the last time the monster was loaded. */
+        int get_last_load();
+        /** Sets the last time the monster was loaded to the given day. */
+        void set_last_load(int day);
 
-        /** Sets the last time the monster was loaded to the current turn */
+        /** Sets the last time the monster was loaded to the current day */
         void reset_last_load();
 
     private:

@@ -3522,10 +3522,12 @@ void mattack::generator(monster *z, int index)
 void mattack::upgrade(monster *z, int index)
 {
     std::vector<int> targets;
+    int day = calendar::turn / DAYS(1);
     for (size_t i = 0; i < g->num_zombies(); i++) {
         monster &zed = g->zombie(i);
         // Check this first because it is a cheap check
-        if( zed.type->upgrade_group != "NULL" || zed.type->upgrades_into != "NULL" ) {
+        if( zed.type->upgrade_min < day &&
+           (zed.type->upgrade_group != "NULL" || zed.type->upgrades_into != "NULL" )) {
             // Then do the more expensive ones
             if ( z->attitude_to( zed ) != Creature::Attitude::A_HOSTILE &&
                  within_target_range(z, &zed, 10) ) {
@@ -3547,26 +3549,30 @@ void mattack::upgrade(monster *z, int index)
 
     monster *target = &( g->zombie( targets[ rng(0, targets.size() - 1) ] ) );
 
+    std::string old_name = target->name();
     const auto could_see = g->u.sees( *target );
-    // Try to upgrade to a single monster first
-    if (target->type->upgrades_into != "NULL"){
-        target->poly(GetMType(target->type->upgrades_into));
-    // Else upgrade to the desired group
-    } else {
-        const auto monsters = MonsterGroupManager::GetMonstersFromGroup(target->type->upgrade_group);
-        const std::string newtype = monsters[rng(0, monsters.size() - 1)];
-        target->poly(GetMType(newtype));
-    }
-    const auto can_now_see = g->u.sees( *target );
+    // Currently gives zombies the equivalent of two weeks of upgrade time
+    target->set_last_load(target->get_last_load() - 14);
+    target->update_check();
+    const auto can_see = g->u.sees( *target );
     if (g->u.sees( *z )) {
-        add_msg(m_warning, _("The black mist around the %s grows..."), z->name().c_str());
+        if (could_see) {
+            //~ %1$s is the name of the zombie upgrading the other, %2$s is the zombie being upgraded.
+            add_msg(m_warning, _("A black mist floats from the %1$s around the %2$s"),
+                     z->name().c_str(), old_name.c_str());
+        } else {
+            add_msg(m_warning, _("A black mist floats from the %s"), z->name().c_str());
+        }
     }
-    if( could_see && can_now_see ) {
-        add_msg(m_warning, _("...a zombie becomes a %s!"), target->name().c_str());
-    } else if( could_see ) {
-        add_msg( m_warning, _( "...a zombie vanishes!" ) );
-    } else if( can_now_see ) {
-        add_msg( m_warning, _( "...a %s appears!"), target->name().c_str() );
+    if (target->name() != old_name) {
+        if( could_see && can_see ) {
+            //~ %1$s is the pre-upgrade monster, %2$s is the post-upgrade monster.
+            add_msg(m_warning, _("The %1$s becomes a %2$s!"), target->name().c_str());
+        } else if( could_see ) {
+            add_msg( m_warning, _( "The %s vanishes!" ), old_name.c_str() );
+        } else if( can_see ) {
+            add_msg( m_warning, _( "A %s appears!"), target->name().c_str() );
+        }
     }
 }
 

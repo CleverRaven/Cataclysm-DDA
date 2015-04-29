@@ -1652,6 +1652,16 @@ void monster::make_ally(monster *z) {
     faction = z->faction;
 }
 
+int monster::get_last_load()
+{
+    return last_loaded;
+}
+
+void monster::set_last_load(int day)
+{
+    last_loaded = day;
+}
+
 void monster::reset_last_load()
 {
     last_loaded = calendar::turn.get_turn() / DAYS(1);
