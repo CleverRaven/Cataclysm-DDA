@@ -1139,279 +1139,9 @@ bool game::do_turn()
         m.spawn_monsters( false );
     }
 
-    // Recover some stamina every turn.
-    if( u.stamina < u.get_stamina_max() && !u.has_effect("winded") ) {
-        // But mouth encumberance interferes.
-        u.stamina += std::max( 1, 10 - (u.encumb(bp_mouth) / 10) );
-        // TODO: recovering stamina causes hunger/thirst/fatigue.
-    }
-
-    // Check if we've overdosed... in any deadly way.
-    if (u.stim > 250) {
-        add_msg(m_bad, _("You have a sudden heart attack!"));
-        u.add_memorial_log(pgettext("memorial_male", "Died of a drug overdose."),
-                           pgettext("memorial_female", "Died of a drug overdose."));
-        u.hp_cur[hp_torso] = 0;
-    } else if (u.stim < -200 || u.pkill > 240) {
-        add_msg(m_bad, _("Your breathing stops completely."));
-        u.add_memorial_log(pgettext("memorial_male", "Died of a drug overdose."),
-                           pgettext("memorial_female", "Died of a drug overdose."));
-        u.hp_cur[hp_torso] = 0;
-    } else if (u.has_effect("jetinjector")) {
-            if (u.get_effect_dur("jetinjector") > 400) {
-                if (!(u.has_trait("NOPAIN"))) {
-                    add_msg(m_bad, _("Your heart spasms painfully and stops."));
-                } else {
-                    add_msg(_("Your heart spasms and stops."));
-                }
-                u.add_memorial_log(pgettext("memorial_male", "Died of a healing stimulant overdose."),
-                                   pgettext("memorial_female", "Died of a healing stimulant overdose."));
-                u.hp_cur[hp_torso] = 0;
-            }
-    } else if (u.has_effect("datura") && u.get_effect_dur("datura") > 14000 && one_in(512)) {
-        if (!(u.has_trait("NOPAIN"))) {
-            add_msg(m_bad, _("Your heart spasms painfully and stops, dragging you back to reality as you die."));
-        } else {
-            add_msg(_("You dissolve into beautiful paroxysms of energy.  Life fades from your nebulae and you are no more."));
-        }
-        u.add_memorial_log(pgettext("memorial_male", "Died of datura overdose."),
-                           pgettext("memorial_female", "Died of datura overdose."));
-        u.hp_cur[hp_torso] = 0;
-    }
-    // Check if we're starving or have starved
-    if (u.hunger >= 3000) {
-        if (u.hunger >= 6000) {
-            add_msg(m_bad, _("You have starved to death."));
-            u.add_memorial_log(pgettext("memorial_male", "Died of starvation."),
-                               pgettext("memorial_female", "Died of starvation."));
-            u.hp_cur[hp_torso] = 0;
-        } else if (u.hunger >= 5000 && calendar::turn % 20 == 0) {
-            add_msg(m_warning, _("Food..."));
-        } else if (u.hunger >= 4000 && calendar::turn % 20 == 0) {
-            add_msg(m_warning, _("You are STARVING!"));
-        } else if (calendar::turn % 20 == 0) {
-            add_msg(m_warning, _("Your stomach feels so empty..."));
-        }
-    }
-
-    // Check if we're dying of thirst
-    if (u.thirst >= 600) {
-        if (u.thirst >= 1200) {
-            add_msg(m_bad, _("You have died of dehydration."));
-            u.add_memorial_log(pgettext("memorial_male", "Died of thirst."),
-                               pgettext("memorial_female", "Died of thirst."));
-            u.hp_cur[hp_torso] = 0;
-        } else if (u.thirst >= 1000 && calendar::turn % 20 == 0) {
-            add_msg(m_warning, _("Even your eyes feel dry..."));
-        } else if (u.thirst >= 800 && calendar::turn % 20 == 0) {
-            add_msg(m_warning, _("You are THIRSTY!"));
-        } else if (calendar::turn % 20 == 0) {
-            add_msg(m_warning, _("Your mouth feels so dry..."));
-        }
-    }
-
-    // Check if we're falling asleep, unless we're sleeping
-    if (u.fatigue >= 600 && !u.in_sleep_state()) {
-        if (u.fatigue >= 1000) {
-            add_msg(m_bad, _("Survivor sleep now."));
-            u.add_memorial_log(pgettext("memorial_male", "Succumbed to lack of sleep."),
-                               pgettext("memorial_female", "Succumbed to lack of sleep."));
-            u.fatigue -= 10;
-            u.try_to_sleep();
-        } else if (u.fatigue >= 800 && calendar::turn % 10 == 0) {
-            add_msg(m_warning, _("Anywhere would be a good place to sleep..."));
-        } else if (calendar::turn % 50 == 0) {
-            add_msg(m_warning, _("You feel like you haven't slept in days."));
-        }
-    }
-
-    // Even if we're not Exhausted, we really should be feeling lack/sleep earlier
-    // Penalties start at Dead Tired and go from there
-    if (u.fatigue >= 383 && !u.in_sleep_state()) {
-        if (u.fatigue >= 700) {
-            if (calendar::turn % 50 == 0) {
-                add_msg(m_warning, _("You're too tired to stop yawning."));
-                u.add_effect("lack_sleep", 50);
-            }
-            if (one_in(50 + u.int_cur)) {
-                // Rivet's idea: look out for microsleeps!
-                u.fall_asleep(5);
-            }
-        } else if (u.fatigue >= 575) {
-            if (calendar::turn % 50 == 0) {
-                add_msg(m_warning, _("How much longer until bedtime?"));
-                u.add_effect("lack_sleep", 50);
-            }
-            if (one_in(100 + u.int_cur)) {
-                u.fall_asleep(5);
-            }
-        } else if (u.fatigue >= 383 && calendar::turn % 50 == 0) {
-            add_msg(m_warning, _("*yawn* You should really get some sleep."));
-            u.add_effect("lack_sleep", 50);
-        }
-    }
-
-    if (calendar::turn % 50 == 0) { // Hunger, thirst, & fatigue up every 5 minutes
-        if ((!u.has_trait("LIGHTEATER") || !one_in(3)) &&
-            (!u.has_bionic("bio_recycler") || calendar::turn % 300 == 0) &&
-            !(u.has_trait("DEBUG_LS"))) {
-            u.hunger++;
-            if (u.has_trait("HUNGER")) {
-                if (one_in(2)) {
-                    u.hunger++;
-                }
-            }
-            if (u.has_trait("MET_RAT")) {
-                if (!one_in(3)) {
-                    u.hunger++;
-                }
-            }
-            if (u.has_trait("HUNGER2")) {
-                u.hunger++;
-            }
-            if (u.has_trait("HUNGER3")) {
-                u.hunger += 2;
-            }
-        }
-        if ((!u.has_bionic("bio_recycler") || calendar::turn % 100 == 0) &&
-            (!u.has_trait("PLANTSKIN") || !one_in(5)) &&
-            (!u.has_trait("DEBUG_LS")) ) {
-            u.thirst++;
-            if (u.has_trait("THIRST")) {
-                if (one_in(2)) {
-                    u.thirst++;
-                }
-            }
-            if (u.has_trait("THIRST2")) {
-                u.thirst++;
-            }
-            if (u.has_trait("THIRST3")) {
-                u.thirst += 2;
-            }
-        }
-        // Sanity check for negative fatigue value.
-        if (u.fatigue < -1000) {
-            u.fatigue = -1000;
-            }
-        // Don't increase fatigue if sleeping or trying to sleep or if we're at the cap.
-        if (u.fatigue < 1050 && !u.in_sleep_state() && !u.has_trait("DEBUG_LS") ) {
-            u.fatigue++;
-            // Wakeful folks don't always gain fatigue!
-            if (u.has_trait("WAKEFUL")) {
-                if (one_in(6)) {
-                    u.fatigue--;
-                }
-            }
-            if (u.has_trait("WAKEFUL2")) {
-                if (one_in(4)) {
-                    u.fatigue--;
-                }
-            }
-            // You're looking at over 24 hours to hit Tired here
-            if (u.has_trait("WAKEFUL3")) {
-                if (one_in(2)) {
-                    u.fatigue--;
-                }
-            }
-            // Sleepy folks gain fatigue faster; Very Sleepy is twice as fast as typical
-            if (u.has_trait("SLEEPY")) {
-                if (one_in(3)) {
-                    u.fatigue++;
-                }
-            }
-            if (u.has_trait("MET_RAT")) {
-                if (one_in(2)) {
-                    u.fatigue++;
-                }
-            }
-            if (u.has_trait("SLEEPY2")) {
-                u.fatigue++;
-            }
-        }
-        if (u.fatigue == 192 && !u.in_sleep_state()) {
-            if (u.activity.type == ACT_NULL) {
-                add_msg(m_warning, _("You're feeling tired.  %s to lie down for sleep."),
-                        press_x(ACTION_SLEEP).c_str());
-            } else {
-                cancel_activity_query(_("You're feeling tired."));
-            }
-        }
-        if (u.stim < 0) {
-            u.stim++;
-        }
-        if (u.stim > 0) {
-            u.stim--;
-        }
-        if (u.pkill > 0) {
-            u.pkill--;
-        }
-        if (u.pkill < 0) {
-            u.pkill++;
-        }
-        if (u.has_bionic("bio_solar") && is_in_sunlight(u.posx(), u.posy())) {
-            u.charge_power(25);
-        }
-        // Huge folks take penalties for cramming themselves in vehicles
-        if ((u.has_trait("HUGE") || u.has_trait("HUGE_OK")) && u.in_vehicle) {
-            add_msg(m_bad, _("You're cramping up from stuffing yourself in this vehicle."));
-            u.pain += 2 * rng(2, 3);
-            u.focus_pool -= 1;
-        }
-
-        int dec_stom_food = u.stomach_food * 0.2;
-        int dec_stom_water = u.stomach_water * 0.2;
-        dec_stom_food = dec_stom_food < 10 ? 10 : dec_stom_food;
-        dec_stom_water = dec_stom_water < 10 ? 10 : dec_stom_water;
-        u.stomach_food -= dec_stom_food;
-        u.stomach_water -= dec_stom_water;
-        u.stomach_food = u.stomach_food < 0 ? 0 : u.stomach_food;
-        u.stomach_water = u.stomach_water < 0 ? 0 : u.stomach_water;
-    }
-
-    if (calendar::turn % 300 == 0) { // Pain up/down every 30 minutes
-        if (u.pain > 0) {
-            u.pain -= 1 + int(u.pain / 10);
-        } else if (u.pain < 0) {
-            u.pain = 0;
-        }
-        // Mutation healing effects
-        if (u.has_trait("FASTHEALER2") && one_in(5)) {
-            u.healall(1);
-        }
-        if (u.has_trait("REGEN") && one_in(2)) {
-            u.healall(1);
-        }
-        if (u.has_trait("ROT2") && one_in(5)) {
-            u.hurtall(1, nullptr);
-        }
-        if (u.has_trait("ROT3") && one_in(2)) {
-            u.hurtall(1, nullptr);
-        }
-
-        if (u.radiation > 0 && one_in(3)) {
-            u.radiation--;
-        }
-        u.get_sick();
-        // Freakishly Huge folks tire quicker
-        if (u.has_trait("HUGE") && !u.in_sleep_state()) {
-            add_msg(m_info, _("<whew> You catch your breath."));
-            u.fatigue++;
-        }
-    }
-    // auto-learning. This is here because skill-increases happens all over the place:
-    // SkillLevel::readBook (has no connection to the skill or the player),
-    // player::read, player::practice, ...
-    if( u.skillLevel( "unarmed" ) >= 2 ) {
-        if( std::find( u.ma_styles.begin(), u.ma_styles.end(), "style_brawling" ) == u.ma_styles.end() ) {
-            u.ma_styles.push_back( "style_brawling" );
-            add_msg( m_info, _( "You learned a new style." ) );
-        }
-    }
-
-    if (calendar::turn % 3600 == 0)
-    {
-        u.update_health();
-    }
+    u.update_needs();
+    u.regen();
+    u.update_stamina();
 
     // Auto-save if autosave is enabled
     if (OPTIONS["AUTOSAVE"] &&
@@ -4120,7 +3850,7 @@ void game::debug()
             uimenu nmenu;
             nmenu.return_invalid = true;
 
-            if( p.is_npc() ) {
+            if( np != nullptr ) {
                 std::stringstream data;
                 data << np->name << " " << ( np->male ? _("Male") : _("Female") ) << std::endl;
                 data << npc_class_name(np->myclass) << "; " <<
@@ -4148,14 +3878,15 @@ void game::debug()
                 nmenu.text = _("Player");
             }
 
-            enum { D_SKILLS, D_STATS, D_ITEMS, D_HURT, D_PAIN, D_NEEDS, D_STATUS, D_MISSION };
+            enum { D_SKILLS, D_STATS, D_ITEMS, D_HP, D_PAIN, D_NEEDS, D_STATUS, D_MISSION, D_TELE };
             nmenu.addentry( D_SKILLS, true, 's', "%s", _("Edit [s]kills") );
             nmenu.addentry( D_STATS, true, 't', "%s", _("Edit s[t]ats") );
             nmenu.addentry( D_ITEMS, true, 'i', "%s", _("Grant [i]tems"));
-            nmenu.addentry( D_HURT, true, 'h', "%s", _("Cause [h]urt (to torso)") );
+            nmenu.addentry( D_HP, true, 'h', "%s", _("Set [h]it points") );
             nmenu.addentry( D_PAIN, true, 'p', "%s", _("Cause [p]ain") );
             nmenu.addentry( D_NEEDS, true, 'n', "%s", _("Set [n]eeds") );
             nmenu.addentry( D_STATUS, true, '@', "%s", _("Status Window [@]") );
+            nmenu.addentry( D_TELE, true, 't', "%s", _("[t]eleport") );
             if( p.is_npc() ) {
                 nmenu.addentry( D_MISSION, true, 'm', "%s", _("Add [m]ission") );
             }
@@ -4169,51 +3900,36 @@ void game::debug()
             case D_STATS:
             {
                 uimenu smenu;
-                smenu.addentry( 0, true, 's', "%s: %d", _("Current strength"), p.str_cur );
-                smenu.addentry( 1, true, 'd', "%s: %d", _("Current dexterity"), p.dex_cur );
-                smenu.addentry( 2, true, 'i', "%s: %d", _("Current intelligence"), p.int_cur );
-                smenu.addentry( 3, true, 'p', "%s: %d", _("Current perception"), p.per_cur );
-                smenu.addentry( 4, true, 'S', "%s: %d", _("Maximum strength"), p.str_max );
-                smenu.addentry( 5, true, 'D', "%s: %d", _("Maximum dexterity"), p.dex_max );
-                smenu.addentry( 6, true, 'I', "%s: %d", _("Maximum intelligence"), p.int_max );
-                smenu.addentry( 7, true, 'I', "%s: %d", _("Maximum perception"), p.per_max );
+                smenu.addentry( 0, true, 'S', "%s: %d", _("Maximum strength"), p.str_max );
+                smenu.addentry( 1, true, 'D', "%s: %d", _("Maximum dexterity"), p.dex_max );
+                smenu.addentry( 2, true, 'I', "%s: %d", _("Maximum intelligence"), p.int_max );
+                smenu.addentry( 3, true, 'I', "%s: %d", _("Maximum perception"), p.per_max );
                 smenu.addentry( 999, true, 'q', "%s", _("[q]uit") );
                 smenu.selected = 0;
                 smenu.query();
-                int *stat_ptr = nullptr;
+                int *bp_ptr = nullptr;
                 switch( smenu.ret ) {
                 case 0:
-                    stat_ptr = &p.str_cur;
+                    bp_ptr = &p.str_max;
                     break;
                 case 1:
-                    stat_ptr = &p.dex_cur;
+                    bp_ptr = &p.dex_max;
                     break;
                 case 2:
-                    stat_ptr = &p.int_cur;
+                    bp_ptr = &p.int_max;
                     break;
                 case 3:
-                    stat_ptr = &p.per_cur;
-                    break;
-                case 4:
-                    stat_ptr = &p.str_max;
-                    break;
-                case 5:
-                    stat_ptr = &p.dex_max;
-                    break;
-                case 6:
-                    stat_ptr = &p.int_max;
-                    break;
-                case 7:
-                    stat_ptr = &p.per_max;
+                    bp_ptr = &p.per_max;
                     break;
                 default:
                     break;
                 }
 
-                if( stat_ptr != nullptr ) {
-                    int value = query_int( "Set the stat to? Currently: %d", *stat_ptr );
+                if( bp_ptr != nullptr ) {
+                    int value = query_int( "Set the stat to? Currently: %d", *bp_ptr );
                     if( value >= 0 ) {
-                        *stat_ptr = value;
+                        *bp_ptr = value;
+                        p.reset_stats();
                     }
                 }
             }
@@ -4221,10 +3937,49 @@ void game::debug()
             case D_ITEMS:
                 wishitem(&p);
                 break;
-            case D_HURT:
+            case D_HP:
             {
-                int dbg_damage = query_int( "Damage NPC for how much? hp: %d", p.hp_cur[hp_torso] );
-                p.apply_damage( nullptr, bp_torso, dbg_damage );
+                uimenu smenu;
+                smenu.addentry( 0, true, 'q', "%s: %d", _("Torso"), p.hp_cur[hp_torso] );
+                smenu.addentry( 1, true, 'w', "%s: %d", _("Head"), p.hp_cur[hp_head] );
+                smenu.addentry( 2, true, 'a', "%s: %d", _("Left arm"), p.hp_cur[hp_arm_l] );
+                smenu.addentry( 3, true, 's', "%s: %d", _("Right arm"), p.hp_cur[hp_arm_r] );
+                smenu.addentry( 4, true, 'z', "%s: %d", _("Left leg"), p.hp_cur[hp_leg_l] );
+                smenu.addentry( 5, true, 'x', "%s: %d", _("Right leg"), p.hp_cur[hp_leg_r] );
+                smenu.addentry( 999, true, 'q', "%s", _("[q]uit") );
+                smenu.selected = 0;
+                smenu.query();
+                int *bp_ptr = nullptr;
+                switch( smenu.ret ) {
+                case 0:
+                    bp_ptr = &p.hp_cur[hp_torso];
+                    break;
+                case 1:
+                    bp_ptr = &p.hp_cur[hp_head];
+                    break;
+                case 2:
+                    bp_ptr = &p.hp_cur[hp_arm_l];
+                    break;
+                case 3:
+                    bp_ptr = &p.hp_cur[hp_arm_r];
+                    break;
+                case 4:
+                    bp_ptr = &p.hp_cur[hp_leg_l];
+                    break;
+                case 5:
+                    bp_ptr = &p.hp_cur[hp_leg_r];
+                    break;
+                default:
+                    break;
+                }
+
+                if( bp_ptr != nullptr ) {
+                    int value = query_int( "Set the hitpoints to? Currently: %d", *bp_ptr );
+                    if( value >= 0 ) {
+                        *bp_ptr = value;
+                        p.reset_stats();
+                    }
+                }
             }
                 break;
             case D_PAIN:
@@ -4242,25 +3997,25 @@ void game::debug()
                 smenu.addentry( 999, true, 'q', "%s", _("[q]uit") );
                 smenu.selected = 0;
                 smenu.query();
-                int *stat_ptr = nullptr;
+                int *bp_ptr = nullptr;
                 switch( smenu.ret ) {
                 case 0:
-                    stat_ptr = &p.hunger;
+                    bp_ptr = &p.hunger;
                     break;
                 case 1:
-                    stat_ptr = &p.thirst;
+                    bp_ptr = &p.thirst;
                     break;
                 case 2:
-                    stat_ptr = &p.fatigue;
+                    bp_ptr = &p.fatigue;
                     break;
                 default:
                     break;
                 }
 
-                if( stat_ptr != nullptr ) {
-                    int value = query_int( "Set the value to? Currently: %d", *stat_ptr );
+                if( bp_ptr != nullptr ) {
+                    int value = query_int( "Set the value to? Currently: %d", *bp_ptr );
                     // No cancelling here
-                    *stat_ptr = value;
+                    *bp_ptr = value;
                 }
             }
                 break;
@@ -4281,6 +4036,16 @@ void game::debug()
                     }
                 }
                 break;
+            case D_TELE:
+                {
+                    tripoint newpos = look_around();
+                    if( newpos != tripoint_min ) {
+                        p.setpos( newpos );
+                        if( p.is_player() ) {
+                            update_map( &u );
+                        }
+                    }
+                }
             }
         }
     }
@@ -6096,6 +5861,9 @@ void game::monmove()
 
         if( !np.is_dead() ) {
             np.process_active_items();
+            np.update_needs();
+            np.regen();
+            np.update_stamina();
         }
     }
     cleanup_dead();
@@ -11745,6 +11513,7 @@ bool game::plmove(int dx, int dy)
         u.moves -= 100;
         return false;
     }
+
     int x = 0;
     int y = 0;
     if (u.has_effect("stunned")) {
@@ -11801,20 +11570,21 @@ bool game::plmove(int dx, int dy)
         }
     }
     // If not a monster, maybe there's an NPC there
-    int npcdex = npc_at(x, y);
+    int npcdex = npc_at( dest_loc );
     if (npcdex != -1) {
+        npc &np = *active_npc[npcdex];
         bool force_attack = false;
-        if (!active_npc[npcdex]->is_enemy()) {
-            if (!query_yn(_("Really attack %s?"), active_npc[npcdex]->name.c_str())) {
-                if (active_npc[npcdex]->is_friend()) {
-                    add_msg(_("%s moves out of the way."), active_npc[npcdex]->name.c_str());
-                    active_npc[npcdex]->move_away_from( u.pos3() );
+        if( !np.is_enemy() ) {
+            if( !query_yn( _("Really attack %s?"), np.name.c_str() ) ) {
+                if( np.is_friend() && !np.in_sleep_state() ) {
+                    add_msg(_("%s moves out of the way."), np.name.c_str());
+                    np.move_away_from( u.pos3() );
                 }
 
                 return false; // Cancel the attack
             } else {
                 //The NPC knows we started the fight, used for morale penalty.
-                active_npc[npcdex]->hit_by_player = true;
+                np.hit_by_player = true;
                 force_attack = true;
             }
         }
@@ -11826,8 +11596,8 @@ bool game::plmove(int dx, int dy)
             return false;
         }
 
-        u.melee_attack(*active_npc[npcdex], true);
-        active_npc[npcdex]->make_angry();
+        u.melee_attack( np, true );
+        np.make_angry();
         return false;
     }
 
@@ -14146,8 +13916,10 @@ void game::process_artifact(item *it, player *p)
 
         case AEP_SMOKE:
             if (one_in(10)) {
-                int x = p->posx() + rng(-1, 1), y = p->posy() + rng(-1, 1);
-                if (m.add_field(x, y, fd_smoke, rng(1, 3))) {
+                tripoint pt( p->posx() + rng(-1, 1),
+                             p->posy() + rng(-1, 1),
+                             p->posz() );
+                if( m.add_field( pt, fd_smoke, rng(1, 3), 0 ) ) {
                     add_msg(_("The %s emits some smoke."),
                             it->tname().c_str());
                 }
@@ -14160,7 +13932,7 @@ void game::process_artifact(item *it, player *p)
         case AEP_EXTINGUISH:
             for (int x = p->posx() - 1; x <= p->posx() + 1; x++) {
                 for (int y = p->posy() - 1; y <= p->posy() + 1; y++) {
-                    m.adjust_field_age(point(x, y), fd_fire, -1);
+                    m.adjust_field_age( tripoint( x, y, p->posz() ), fd_fire, -1);
                 }
             }
 

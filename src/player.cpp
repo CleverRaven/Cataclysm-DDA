@@ -475,6 +475,15 @@ void player::process_turn()
         dodges_left = get_num_dodges();
     }
 
+    // auto-learning. This is here because skill-increases happens all over the place:
+    // SkillLevel::readBook (has no connection to the skill or the player),
+    // player::read, player::practice, ...
+    if( skillLevel( "unarmed" ) >= 2 ) {
+        if( std::find( ma_styles.begin(), ma_styles.end(), "style_brawling" ) == ma_styles.end() ) {
+            ma_styles.push_back( "style_brawling" );
+            add_msg_if_player( m_info, _( "You learned a new style." ) );
+        }
+    }
 }
 
 void player::action_taken()
@@ -5191,6 +5200,282 @@ void player::update_health(int base_threshold)
         base_threshold += 50;
     }
     Creature::update_health(base_threshold);
+}
+
+void player::update_needs()
+{
+    // Check if we've overdosed... in any deadly way.
+    if (stim > 250) {
+        add_msg_if_player(m_bad, _("You have a sudden heart attack!"));
+        add_memorial_log(pgettext("memorial_male", "Died of a drug overdose."),
+                           pgettext("memorial_female", "Died of a drug overdose."));
+        hp_cur[hp_torso] = 0;
+    } else if (stim < -200 || pkill > 240) {
+        add_msg_if_player(m_bad, _("Your breathing stops completely."));
+        add_memorial_log(pgettext("memorial_male", "Died of a drug overdose."),
+                           pgettext("memorial_female", "Died of a drug overdose."));
+        hp_cur[hp_torso] = 0;
+    } else if (has_effect("jetinjector")) {
+            if (get_effect_dur("jetinjector") > 400) {
+                if (!(has_trait("NOPAIN"))) {
+                    add_msg_if_player(m_bad, _("Your heart spasms painfully and stops."));
+                } else {
+                    add_msg_if_player(_("Your heart spasms and stops."));
+                }
+                add_memorial_log(pgettext("memorial_male", "Died of a healing stimulant overdose."),
+                                   pgettext("memorial_female", "Died of a healing stimulant overdose."));
+                hp_cur[hp_torso] = 0;
+            }
+    } else if (has_effect("datura") && get_effect_dur("datura") > 14000 && one_in(512)) {
+        if (!(has_trait("NOPAIN"))) {
+            add_msg_if_player(m_bad, _("Your heart spasms painfully and stops, dragging you back to reality as you die."));
+        } else {
+            add_msg_if_player(_("You dissolve into beautiful paroxysms of energy.  Life fades from your nebulae and you are no more."));
+        }
+        add_memorial_log(pgettext("memorial_male", "Died of datura overdose."),
+                           pgettext("memorial_female", "Died of datura overdose."));
+        hp_cur[hp_torso] = 0;
+    }
+    // Check if we're starving or have starved
+    if (hunger >= 3000) {
+        if (hunger >= 6000) {
+            add_msg_if_player(m_bad, _("You have starved to death."));
+            add_memorial_log(pgettext("memorial_male", "Died of starvation."),
+                               pgettext("memorial_female", "Died of starvation."));
+            hp_cur[hp_torso] = 0;
+        } else if (hunger >= 5000 && calendar::turn % 20 == 0) {
+            add_msg_if_player(m_warning, _("Food..."));
+        } else if (hunger >= 4000 && calendar::turn % 20 == 0) {
+            add_msg_if_player(m_warning, _("You are STARVING!"));
+        } else if (calendar::turn % 20 == 0) {
+            add_msg_if_player(m_warning, _("Your stomach feels so empty..."));
+        }
+    }
+
+    // Check if we're dying of thirst
+    if (thirst >= 600) {
+        if (thirst >= 1200) {
+            add_msg_if_player(m_bad, _("You have died of dehydration."));
+            add_memorial_log(pgettext("memorial_male", "Died of thirst."),
+                               pgettext("memorial_female", "Died of thirst."));
+            hp_cur[hp_torso] = 0;
+        } else if (thirst >= 1000 && calendar::turn % 20 == 0) {
+            add_msg_if_player(m_warning, _("Even your eyes feel dry..."));
+        } else if (thirst >= 800 && calendar::turn % 20 == 0) {
+            add_msg_if_player(m_warning, _("You are THIRSTY!"));
+        } else if (calendar::turn % 20 == 0) {
+            add_msg_if_player(m_warning, _("Your mouth feels so dry..."));
+        }
+    }
+
+    // Check if we're falling asleep, unless we're sleeping
+    if (fatigue >= 600 && !in_sleep_state()) {
+        if (fatigue >= 1000) {
+            add_msg_if_player(m_bad, _("Survivor sleep now."));
+            add_memorial_log(pgettext("memorial_male", "Succumbed to lack of sleep."),
+                               pgettext("memorial_female", "Succumbed to lack of sleep."));
+            fatigue -= 10;
+            try_to_sleep();
+        } else if (fatigue >= 800 && calendar::turn % 10 == 0) {
+            add_msg_if_player(m_warning, _("Anywhere would be a good place to sleep..."));
+        } else if (calendar::turn % 50 == 0) {
+            add_msg_if_player(m_warning, _("You feel like you haven't slept in days."));
+        }
+    }
+
+    // Even if we're not Exhausted, we really should be feeling lack/sleep earlier
+    // Penalties start at Dead Tired and go from there
+    if (fatigue >= 383 && !in_sleep_state()) {
+        if (fatigue >= 700) {
+            if (calendar::turn % 50 == 0) {
+                add_msg_if_player(m_warning, _("You're too tired to stop yawning."));
+                add_effect("lack_sleep", 50);
+            }
+            if (one_in(50 + int_cur)) {
+                // Rivet's idea: look out for microsleeps!
+                fall_asleep(5);
+            }
+        } else if (fatigue >= 575) {
+            if (calendar::turn % 50 == 0) {
+                add_msg_if_player(m_warning, _("How much longer until bedtime?"));
+                add_effect("lack_sleep", 50);
+            }
+            if (one_in(100 + int_cur)) {
+                fall_asleep(5);
+            }
+        } else if (fatigue >= 383 && calendar::turn % 50 == 0) {
+            add_msg_if_player(m_warning, _("*yawn* You should really get some sleep."));
+            add_effect("lack_sleep", 50);
+        }
+    }
+
+    if (calendar::turn % 50 == 0) { // Hunger, thirst, & fatigue up every 5 minutes
+        if ((!has_trait("LIGHTEATER") || !one_in(3)) &&
+            (!has_bionic("bio_recycler") || calendar::turn % 300 == 0) &&
+            !(has_trait("DEBUG_LS"))) {
+            hunger++;
+            if (has_trait("HUNGER")) {
+                if (one_in(2)) {
+                    hunger++;
+                }
+            }
+            if (has_trait("MET_RAT")) {
+                if (!one_in(3)) {
+                    hunger++;
+                }
+            }
+            if (has_trait("HUNGER2")) {
+                hunger++;
+            }
+            if (has_trait("HUNGER3")) {
+                hunger += 2;
+            }
+        }
+        if ((!has_bionic("bio_recycler") || calendar::turn % 100 == 0) &&
+            (!has_trait("PLANTSKIN") || !one_in(5)) &&
+            (!has_trait("DEBUG_LS")) ) {
+            thirst++;
+            if (has_trait("THIRST")) {
+                if (one_in(2)) {
+                    thirst++;
+                }
+            }
+            if (has_trait("THIRST2")) {
+                thirst++;
+            }
+            if (has_trait("THIRST3")) {
+                thirst += 2;
+            }
+        }
+        // Sanity check for negative fatigue value.
+        if (fatigue < -1000) {
+            fatigue = -1000;
+        }
+
+        const bool wasnt_fatigued = fatigue < 192;
+        // Don't increase fatigue if sleeping or trying to sleep or if we're at the cap.
+        if (fatigue < 1050 && !in_sleep_state() && !has_trait("DEBUG_LS") ) {
+            fatigue++;
+            // Wakeful folks don't always gain fatigue!
+            if (has_trait("WAKEFUL")) {
+                if (one_in(6)) {
+                    fatigue--;
+                }
+            }
+            if (has_trait("WAKEFUL2")) {
+                if (one_in(4)) {
+                    fatigue--;
+                }
+            }
+            // You're looking at over 24 hours to hit Tired here
+            if (has_trait("WAKEFUL3")) {
+                if (one_in(2)) {
+                    fatigue--;
+                }
+            }
+            // Sleepy folks gain fatigue faster; Very Sleepy is twice as fast as typical
+            if (has_trait("SLEEPY")) {
+                if (one_in(3)) {
+                    fatigue++;
+                }
+            }
+            if (has_trait("MET_RAT")) {
+                if (one_in(2)) {
+                    fatigue++;
+                }
+            }
+            if (has_trait("SLEEPY2")) {
+                fatigue++;
+            }
+        }
+        if( is_player() && wasnt_fatigued && fatigue >= 192 && !in_sleep_state() ) {
+            if (activity.type == ACT_NULL) {
+                add_msg_if_player(m_warning, _("You're feeling tired.  %s to lie down for sleep."),
+                        press_x(ACTION_SLEEP).c_str());
+            } else {
+                g->cancel_activity_query(_("You're feeling tired."));
+            }
+        }
+        if (stim < 0) {
+            stim++;
+        }
+        if (stim > 0) {
+            stim--;
+        }
+        if (pkill > 0) {
+            pkill--;
+        }
+        if (pkill < 0) {
+            pkill++;
+        }
+        if( has_bionic("bio_solar") && g->is_in_sunlight( pos3() ) ) {
+            charge_power(25);
+        }
+        // Huge folks take penalties for cramming themselves in vehicles
+        if ((has_trait("HUGE") || has_trait("HUGE_OK")) && in_vehicle) {
+            add_msg_if_player(m_bad, _("You're cramping up from stuffing yourself in this vehicle."));
+            pain += 2 * rng(2, 3);
+            focus_pool -= 1;
+        }
+
+        int dec_stom_food = stomach_food * 0.2;
+        int dec_stom_water = stomach_water * 0.2;
+        dec_stom_food = dec_stom_food < 10 ? 10 : dec_stom_food;
+        dec_stom_water = dec_stom_water < 10 ? 10 : dec_stom_water;
+        stomach_food -= dec_stom_food;
+        stomach_water -= dec_stom_water;
+        stomach_food = stomach_food < 0 ? 0 : stomach_food;
+        stomach_water = stomach_water < 0 ? 0 : stomach_water;
+    }
+}
+
+void player::regen()
+{
+    if (calendar::turn % 300 == 0) { // Pain up/down every 30 minutes
+        if (pain > 0) {
+            pain -= 1 + int(pain / 10);
+        } else if (pain < 0) {
+            pain = 0;
+        }
+        // Mutation healing effects
+        if (has_trait("FASTHEALER2") && one_in(5)) {
+            healall(1);
+        }
+        if (has_trait("REGEN") && one_in(2)) {
+            healall(1);
+        }
+        if (has_trait("ROT2") && one_in(5)) {
+            hurtall(1, nullptr);
+        }
+        if (has_trait("ROT3") && one_in(2)) {
+            hurtall(1, nullptr);
+        }
+
+        if (radiation > 0 && one_in(3)) {
+            radiation--;
+        }
+        get_sick();
+        // Freakishly Huge folks tire quicker
+        if( is_player() && has_trait("HUGE") && !in_sleep_state() ) {
+            add_msg_if_player(m_info, _("<whew> You catch your breath."));
+            fatigue++;
+        }
+    }
+
+    if (calendar::turn % 3600 == 0)
+    {
+        update_health();
+    }
+}
+
+void player::update_stamina()
+{
+    // Recover some stamina every turn.
+    if( stamina < get_stamina_max() && !has_effect("winded") ) {
+        // But mouth encumberance interferes.
+        stamina += std::max( 1, 10 - (encumb(bp_mouth) / 10) );
+        // TODO: recovering stamina causes hunger/thirst/fatigue.
+    }
 }
 
 void player::add_addiction(add_type type, int strength)
