@@ -4160,26 +4160,39 @@ int player::sight_range(int light_level) const
         light_level = std::min(light_level + sight_boost, sight_boost_cap);
     }
 
+    /* Via Beer-Lambert we have:
+     * light_level * (1 / exp( LIGHT_TRANSPARENCY_OPEN_AIR * distance) ) <= LIGHT_AMBIENT_LOW
+     * Solving for distance:
+     * 1 / exp( LIGHT_TRANSPARENCY_OPEN_AIR * distance ) <= LIGHT_AMBIENT_LOW / light_level
+     * 1 <= exp( LIGHT_TRANSPARENCY_OPEN_AIR * distance ) * LIGHT_AMBIENT_LOW / light_level
+     * light_level <= exp( LIGHT_TRANSPARENCY_OPEN_AIR * distance ) * LIGHT_AMBIENT_LOW
+     * log(light_level) <= LIGHT_TRANSPARENCY_OPEN_AIR * distance + log(LIGHT_AMBIENT_LOW)
+     * log(light_level) - log(LIGHT_AMBIENT_LOW) <= LIGHT_TRANSPARENCY_OPEN_AIR * distance
+     * log(LIGHT_AMBIENT_LOW / light_level) <= LIGHT_TRANSPARENCY_OPEN_AIR * distance
+     * log(LIGHT_AMBIENT_LOW / light_level) * (1 / LIGHT_TRANSPARENCY_OPEN_AIR) <= distance
+     */
+    int range = -log( LIGHT_AMBIENT_LOW / (float)light_level ) * (1.0 / LIGHT_TRANSPARENCY_OPEN_AIR);
+    // int range = log(light_level * LIGHT_AMBIENT_LOW) / LIGHT_TRANSPARENCY_OPEN_AIR;
+
     // Clamp to sight_max.
-    return std::min(light_level, sight_max);
+    return std::min(range, sight_max);
 }
 
-int player::unimpaired_range()
-{
- int ret = DAYLIGHT_LEVEL;
- if (has_trait("PER_SLIME")) {
-    ret = 6;
- }
- if (has_active_mutation("SHELL2")) {
-    ret = 2;
- }
- if (has_effect("in_pit")) {
-    ret = 1;
-  }
- if (has_effect("blind") || worn_with_flag("BLIND")) {
-    ret = 0;
-  }
- return ret;
+int player::unimpaired_range() {
+    int ret = DAYLIGHT_LEVEL;
+    if( has_trait("PER_SLIME") ) {
+        ret = 6;
+    }
+    if( has_active_mutation("SHELL2") ) {
+        ret = 2;
+    }
+    if( has_effect("in_pit") ) {
+        ret = 1;
+    }
+    if( has_effect("blind") || worn_with_flag("BLIND") ) {
+        ret = 0;
+    }
+    return ret;
 }
 
 bool player::overmap_los( const tripoint &omt, int sight_points )
