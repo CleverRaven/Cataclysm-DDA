@@ -3,19 +3,12 @@
         "type" : "terrain",
         "id" : "t_leanto",
         "name": "pine lean-to",
-        "symbol": "#",
-        "color": "brown_green",
+        "symbol": ";",
+        "color": "brown",
         "move_cost": 2,
         "flags": [
             "TRANSPARENT", "CONTAINER", "FLAMMABLE_ASH", "THIN_OBSTACLE", "REDUCE_SCENT", "INDOORS", "MOUNTABLE"
         ],
-        "deconstruct": {
-            "ter_set": "t_tree_deadpine",
-            "items": [
-                { "item": "stick", "amount": 6 },
-                { "item": "pine_bough", "amount": 12, "minamount": 2 }
-            ]
-        },
         "bash": {
             "str_min": 40, "str_max": 90,
             "sound": "crunch!",
@@ -32,7 +25,7 @@
         "type" : "terrain",
         "id" : "t_tarptent",
         "name": "tarp lean-to",
-        "symbol": "#",
+        "symbol": ";",
         "color": "ltblue",
         "move_cost": 2,
         "flags": [

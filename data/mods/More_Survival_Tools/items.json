@@ -87,7 +87,6 @@
     "description": "This is a small container for holding tinder, with holes punched in it to provide a controlled airflow.  An ember is smoldering inside it, and can be used to start a campfire.",
     "price": 1000,
     "material": "iron",
-    "flags": ["FIRE", "FLAMING", "REFILLABLE_LIGHTER"],
     "weight": 500,
     "volume": 1,
     "bashing": 0,
