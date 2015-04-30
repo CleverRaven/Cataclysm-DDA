@@ -21,6 +21,7 @@
 #include <vector>
 #include <cassert>
 #include <cstdlib>
+#include <cstring>
 
 advanced_inventory::advanced_inventory()
     : head_height( 5 )
@@ -405,7 +406,7 @@ void advanced_inventory::menu_square( uimenu *menu )
         char bracket[3] = "[]";
         bool in_vehicle = squares[i].can_store_in_vehicle();
         if( in_vehicle ) {
-            strcpy( bracket, "<>" );
+            std::strcpy( bracket, "<>" );
         }
         // always show storage option for vehicle storage, if applicable
         bool canputitems = menu->entries[i - 1].enabled &&
@@ -623,9 +624,9 @@ void advanced_inv_area::init()
 
 std::string center_text( const char *str, int width )
 {
-    return std::string( ( ( width - strlen( str ) ) / 2 ), ' ' ) + str;
+    return std::string( ( ( width - std::strlen( str ) ) / 2 ), ' ' ) + str;
     //    std::string spaces;
-    //    int numSpaces = width - strlen( str );
+    //    int numSpaces = width - std::strlen( str );
     //    for( int i = 0; i < numSpaces / 2; i++ ) {
     //        spaces += " ";
     //    }
@@ -1041,10 +1042,10 @@ void advanced_inventory::redraw_pane( side p )
         wattroff( w, c_white );
     }
     if( ! filter_edit && !pane.filter.empty() ) {
-        mvwprintz( w, getmaxy( w ) - 1, 6 + strlen( fprefix ), c_white, "%s",
+        mvwprintz( w, getmaxy( w ) - 1, 6 + std::strlen( fprefix ), c_white, "%s",
                    pane.filter.c_str() );
         mvwprintz( w, getmaxy( w ) - 1,
-                   getmaxx( w ) - strlen( fsuffix ) - 2, c_white, "%s", fsuffix );
+                   getmaxx( w ) - std::strlen( fsuffix ) - 2, c_white, "%s", fsuffix );
     }
     wrefresh( w );
 }
