@@ -7,6 +7,7 @@
 #include "game.h"
 #include "path_info.h"
 #include "filesystem.h"
+#include "translations.h"
 #include <fstream>
 #include <sstream>
 #include <stdexcept>

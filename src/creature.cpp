@@ -5,6 +5,7 @@
 #include "map.h"
 #include "messages.h"
 #include "rng.h"
+#include "translations.h"
 
 #include <algorithm>
 #include <numeric>

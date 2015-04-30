@@ -5,6 +5,7 @@
 #include "game.h"
 #include "monstergenerator.h"
 #include "messages.h"
+#include "translations.h"
 
 #define INBOUNDS(x, y) \
  (x >= 0 && x < SEEX * my_MAPSIZE && y >= 0 && y < SEEY * my_MAPSIZE)

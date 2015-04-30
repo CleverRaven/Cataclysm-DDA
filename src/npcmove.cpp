@@ -7,6 +7,7 @@
 #include "debug.h"
 #include "overmapbuffer.h"
 #include "messages.h"
+#include "translations.h"
 
 #define dbg(x) DebugLog((DebugLevel)(x),D_NPC) << __FILE__ << ":" << __LINE__ << ": "
 #define TARGET_PLAYER -2

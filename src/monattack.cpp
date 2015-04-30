@@ -17,6 +17,7 @@
 #include "iuse_actor.h"
 #include "weighted_list.h"
 #include "mongroup.h"
+#include "translations.h"
 
 #include <algorithm>
 

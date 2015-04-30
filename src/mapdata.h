@@ -12,7 +12,6 @@
 #include "basecamp.h"
 #include "iexamine.h"
 #include "field.h"
-#include "translations.h"
 #include "item_stack.h"
 #include "rng.h"
 

@@ -18,6 +18,7 @@
 #include "iuse_actor.h"
 #include "compatibility.h"
 #include "monstergenerator.h"
+#include "translations.h"
 
 #include <cmath> // floor
 #include <sstream>

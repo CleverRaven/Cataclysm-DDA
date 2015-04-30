@@ -4,6 +4,7 @@
 #include "debug.h"
 #include "output.h"
 #include "mapsharing.h"
+#include "translations.h"
 #include <iostream>
 #include <fstream>
 

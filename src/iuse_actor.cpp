@@ -7,6 +7,7 @@
 #include "overmapbuffer.h"
 #include "sounds.h"
 #include "monstergenerator.h"
+#include "translations.h"
 #include <sstream>
 #include <algorithm>
 

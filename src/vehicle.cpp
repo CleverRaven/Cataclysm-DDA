@@ -14,6 +14,7 @@
 #include "ui.h"
 #include "debug.h"
 #include "sounds.h"
+#include "translations.h"
 
 #include <fstream>
 #include <sstream>

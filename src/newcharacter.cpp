@@ -13,6 +13,7 @@
 #include "char_validity_check.h"
 #include "path_info.h"
 #include "mapsharing.h"
+#include "translations.h"
 #ifndef _MSC_VER
 #include <unistd.h>
 #endif

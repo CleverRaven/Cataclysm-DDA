@@ -5,6 +5,7 @@
 #include "debug.h"
 #include "enums.h"
 #include "overmapbuffer.h"
+#include "translations.h"
 
 struct sound_event {
     int volume;

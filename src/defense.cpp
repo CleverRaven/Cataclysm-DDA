@@ -11,6 +11,7 @@
 #include "messages.h"
 #include "rng.h"
 #include "mongroup.h"
+#include "translations.h"
 
 #include <string>
 #include <vector>

@@ -28,6 +28,7 @@
 #include "sounds.h"
 #include "item_action.h"
 #include "mongroup.h"
+#include "translations.h"
 
 #ifdef SDLTILES
 #include "SDL2/SDL.h"

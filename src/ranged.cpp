@@ -13,6 +13,7 @@
 #include "input.h"
 #include "messages.h"
 #include "sounds.h"
+#include "translations.h"
 
 int time_to_fire(player &p, const itype &firing);
 int recoil_add(player &p, const item &gun);

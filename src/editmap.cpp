@@ -16,6 +16,7 @@
 #include "mapdata.h"
 #include "overmapbuffer.h"
 #include "compatibility.h"
+#include "translations.h"
 
 #include <fstream>
 #include <sstream>

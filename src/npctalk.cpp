@@ -12,6 +12,7 @@
 #include "ammo.h"
 #include "overmapbuffer.h"
 #include "json.h"
+#include "translations.h"
 
 #include <vector>
 #include <string>

@@ -2,6 +2,7 @@
 #include "rng.h"
 #include "output.h"
 #include "player.h"
+#include "translations.h"
 #include <map>
 #include <sstream>
 

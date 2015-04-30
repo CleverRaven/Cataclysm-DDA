@@ -2,6 +2,7 @@
 #include "game.h"
 #include "debug.h"
 #include "overmapbuffer.h"
+#include "translations.h"
 
 #include <fstream>
 #include <sstream>

@@ -6,6 +6,7 @@
 #include "json.h"
 #include "mapsharing.h"
 #include "rng.h"
+#include "translations.h"
 
 #include <sstream>
 #include <fstream>

@@ -6,6 +6,7 @@
 #include "json.h"
 #include "output.h"
 #include "calendar.h"
+#include "translations.h"
 
 #include <deque>
 #include <iterator>

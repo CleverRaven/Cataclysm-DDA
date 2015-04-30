@@ -15,6 +15,7 @@
 #include "monstergenerator.h"
 #include "mongroup.h"
 #include "mapgen.h"
+#include "translations.h"
 #include <algorithm>
 #include <cassert>
 #include <list>

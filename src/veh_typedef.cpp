@@ -3,6 +3,7 @@
 #include "debug.h"
 #include "item_group.h"
 #include "json.h"
+#include "translations.h"
 
 #include <unordered_map>
 

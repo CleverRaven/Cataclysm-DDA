@@ -6,6 +6,7 @@
 #include "uistate.h"
 #include "monstergenerator.h"
 #include "compatibility.h"
+#include "translations.h"
 
 #include <sstream>
 

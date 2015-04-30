@@ -11,6 +11,7 @@
 #include "messages.h"
 #include "overmapbuffer.h"
 #include "sounds.h"
+#include "translations.h"
 
 #include <math.h>    //sqrt
 #include <algorithm> //std::min
