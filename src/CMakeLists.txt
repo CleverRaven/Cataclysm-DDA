@@ -329,12 +329,12 @@ IF(TILES)
 		)
 	ENDIF(WIN32)
 
-	IF (NOT DYNAMIC_LINKING)
-		set_target_properties(cataclysm-tiles PROPERTIES
-			LINK_SEARCH_START_STATIC 1)
-		set_target_properties(cataclysm-tiles PROPERTIES
-			LINK_SEARCH_END_STATIC 1)
-	ENDIF (NOT DYNAMIC_LINKING)
+	IF (NOT DYNAMIC_LINKING OR WIN32)
+		#	set_target_properties(cataclysm-tiles PROPERTIES
+		#	LINK_SEARCH_START_STATIC 1)
+		#set_target_properties(cataclysm-tiles PROPERTIES
+		#	LINK_SEARCH_END_STATIC 1)
+	ENDIF (NOT DYNAMIC_LINKING OR WIN32)
 
 	IF(RC_COMPILER_PATH)
 		ADD_DEPENDENCIES(cataclysm-tiles compile_res)
@@ -433,12 +433,13 @@ IF(CURSES)
 		)
 	ENDIF(WIN32)
 
-	IF (NOT DYNAMIC_LINKING)
-		set_target_properties(cataclysm PROPERTIES
-			LINK_SEARCH_START_STATIC 1)
-		set_target_properties(cataclysm PROPERTIES
-			LINK_SEARCH_END_STATIC 1)
-	ENDIF (NOT DYNAMIC_LINKING)
+	IF (NOT DYNAMIC_LINKING OR WIN32)
+		#MESSAGE(STATUS "WOOOOOOOOOOOOOOOT")
+		#set_target_properties(cataclysm PROPERTIES
+		#		LINK_SEARCH_START_STATIC 1)
+		#set_target_properties(cataclysm PROPERTIES
+		#		LINK_SEARCH_END_STATIC 1)
+	ENDIF (NOT DYNAMIC_LINKING OR WIN32)
 
 	IF(RC_COMPILER_PATH)
 		ADD_DEPENDENCIES(cataclysm compile_res)
