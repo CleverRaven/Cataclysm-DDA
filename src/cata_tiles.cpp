@@ -10,6 +10,7 @@
 #include "filesystem.h"
 #include "sounds.h"
 #include "map.h"
+#include "options.h"
 
 #include <algorithm>
 #include <fstream>

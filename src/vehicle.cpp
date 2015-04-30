@@ -15,6 +15,7 @@
 #include "debug.h"
 #include "sounds.h"
 #include "translations.h"
+#include "options.h"
 
 #include <fstream>
 #include <sstream>
