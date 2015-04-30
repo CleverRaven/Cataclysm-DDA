@@ -4882,7 +4882,7 @@ int iuse::set_trap(player *p, item *it, bool, const tripoint& )
     p->practice("traps", practice);
     g->m.add_trap( tr_loc, type );
     if( !tr->can_see( tr_loc, *p ) ) {
-        p->add_known_trap( tr_loc, tr->id );
+        p->add_known_trap( tr_loc, *tr );
     }
     p->moves -= 100 + practice * 25;
     if (type == tr_engine) {

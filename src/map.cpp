@@ -4663,7 +4663,7 @@ void map::remove_trap( const tripoint &p )
     trap_id t = current_submap->get_trap(lx, ly);
     if (t != tr_null) {
         if( g != nullptr && this == &g->m ) {
-            g->u.add_known_trap( p, "tr_null");
+            g->u.add_known_trap( p, *traplist[tr_null] );
         }
 
         current_submap->set_trap(lx, ly, tr_null);
