@@ -25,6 +25,7 @@
 #include "mapgen.h"
 #include "uistate.h"
 #include "mongroup.h"
+#include "name.h"
 #define dbg(x) DebugLog((DebugLevel)(x),D_MAP_GEN) << __FILE__ << ":" << __LINE__ << ": "
 
 #define STREETCHANCE 2
@@ -75,6 +76,14 @@ std::unordered_map<std::string, oter_t> obasetermap;
 t_regional_settings_map region_settings_map;
 
 std::vector<overmap_special> overmap_specials;
+
+city::city( int const X, int const Y, int const S)
+: x (X)
+, y (Y)
+, s (S)
+, name( Name::get( nameIsTownName ) )
+{
+}
 
 void load_overmap_specials(JsonObject &jo)
 {

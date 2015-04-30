@@ -7,7 +7,6 @@
 #include "mapdata.h"
 #include "output.h"
 #include "cursesdef.h"
-#include "name.h"
 #include "input.h"
 #include "json.h"
 #include "weighted_list.h"
@@ -136,10 +135,7 @@ struct city {
  int y;
  int s;
  std::string name;
- city(int X = -1, int Y = -1, int S = -1) : x (X), y (Y), s (S)
- {
-     name = Name::get(nameIsTownName);
- }
+ city(int X = -1, int Y = -1, int S = -1);
 };
 
 struct om_note {
