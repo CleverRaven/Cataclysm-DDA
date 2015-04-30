@@ -12,6 +12,7 @@
 #include "input.h"
 #include "json.h"
 #include "weighted_list.h"
+#include "game_constants.h"
 #include <vector>
 #include <iosfwd>
 #include <string>
@@ -20,10 +21,6 @@
 
 class overmapbuffer;
 class npc;
-
-#define OVERMAP_DEPTH 10
-#define OVERMAP_HEIGHT 10
-#define OVERMAP_LAYERS (1 + OVERMAP_DEPTH + OVERMAP_HEIGHT)
 
 // base oters: exactly what's defined in json before things are split up into blah_east or roadtype_ns, etc
 extern std::unordered_map<std::string, oter_t> obasetermap;
