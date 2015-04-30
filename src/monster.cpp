@@ -18,6 +18,7 @@
 #include "messages.h"
 #include "mondefense.h"
 #include "mission.h"
+#include "mongroup.h"
 
 #define SGN(a) (((a)<0) ? -1 : 1)
 #define SQR(a) ((a)*(a))

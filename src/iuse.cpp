@@ -21,6 +21,7 @@
 #include "sounds.h"
 #include "monattack.h"
 #include "iuse_actor.h" // For firestarter
+#include "mongroup.h"
 
 #include <vector>
 #include <sstream>

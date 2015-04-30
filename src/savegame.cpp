@@ -17,6 +17,7 @@
 #include "messages.h"
 #include "mapdata.h"
 #include "translations.h"
+#include "mongroup.h"
 #include <map>
 #include <set>
 #include <algorithm>

@@ -16,6 +16,7 @@
 #include "mondefense.h"
 #include "iuse_actor.h"
 #include "weighted_list.h"
+#include "mongroup.h"
 
 #include <algorithm>
 

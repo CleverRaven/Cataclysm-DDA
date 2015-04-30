@@ -29,7 +29,7 @@
 #include "skill.h"
 #include "vehicle.h"
 #include "filesystem.h"
-
+#include "mongroup.h"
 #include "mission.h"
 #include "faction.h"
 #include "savegame.h"

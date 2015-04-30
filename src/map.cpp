@@ -14,6 +14,7 @@
 #include "messages.h"
 #include "mapsharing.h"
 #include "iuse_actor.h"
+#include "mongroup.h"
 
 #include <cmath>
 #include <stdlib.h>

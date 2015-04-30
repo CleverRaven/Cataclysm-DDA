@@ -10,6 +10,7 @@
 #include "construction.h"
 #include "messages.h"
 #include "rng.h"
+#include "mongroup.h"
 
 #include <string>
 #include <vector>

@@ -55,6 +55,7 @@
 #include "scenario.h"
 #include "mission.h"
 #include "compatibility.h"
+#include "mongroup.h"
 
 #include <map>
 #include <set>

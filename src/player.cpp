@@ -27,6 +27,7 @@
 #include "messages.h"
 #include "sounds.h"
 #include "item_action.h"
+#include "mongroup.h"
 
 #ifdef SDLTILES
 #include "SDL2/SDL.h"

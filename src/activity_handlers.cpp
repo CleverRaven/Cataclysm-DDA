@@ -10,6 +10,7 @@
 #include "monstergenerator.h"
 #include "iuse_actor.h"
 #include "rng.h"
+#include "mongroup.h"
 
 #include <sstream>
 

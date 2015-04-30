@@ -5,6 +5,7 @@
 #include "map.h"
 #include "debug.h"
 #include "monster.h"
+#include "mongroup.h"
 
 #include <fstream>
 #include <sstream>

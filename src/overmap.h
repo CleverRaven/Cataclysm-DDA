@@ -5,7 +5,6 @@
 #include "string.h"
 #include "omdata.h"
 #include "mapdata.h"
-#include "mongroup.h"
 #include "output.h"
 #include "cursesdef.h"
 #include "name.h"
@@ -21,6 +20,7 @@
 
 class overmapbuffer;
 class npc;
+struct mongroup;
 
 // base oters: exactly what's defined in json before things are split up into blah_east or roadtype_ns, etc
 extern std::unordered_map<std::string, oter_t> obasetermap;
@@ -301,7 +301,7 @@ class overmap
 
      return settings;
   }
-    void clear_mon_groups() { zg.clear(); }
+    void clear_mon_groups();
 private:
     std::multimap<tripoint, mongroup> zg;
 public:
