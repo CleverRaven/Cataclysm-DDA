@@ -1,25 +1,21 @@
 #ifndef OVERMAP_H
 #define OVERMAP_H
 
-#include "enums.h"
-#include "string.h"
 #include "omdata.h"
 #include "mapdata.h"
-#include "output.h"
-#include "cursesdef.h"
-#include "input.h"
-#include "json.h"
 #include "weighted_list.h"
 #include "game_constants.h"
 #include <vector>
 #include <iosfwd>
 #include <string>
-#include <stdlib.h>
 #include <array>
+#include <map>
+#include <unordered_map>
 
 class overmapbuffer;
 class npc;
 struct mongroup;
+class JsonObject;
 
 // base oters: exactly what's defined in json before things are split up into blah_east or roadtype_ns, etc
 extern std::unordered_map<std::string, oter_t> obasetermap;
