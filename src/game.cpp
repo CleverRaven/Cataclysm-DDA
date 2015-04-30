@@ -1146,10 +1146,10 @@ bool game::do_turn()
         // TODO: recovering stamina causes hunger/thirst/fatigue.
     }
     
-    // 3d4 bonus stamina from active stimpack stamina-boost.
+    // 2d4 bonus stamina from active stimpack stamina-boost.
     if( u.stamina < u.get_stamina_max() && u.has_effect("stimpack") && 
         u.get_effect_dur("stimpack") > 50 ) {
-        u.stamina += std::max( 3, 12 );
+        u.stamina += rng( 2, 8 );
     }
 
     // Check if we've overdosed... in any deadly way.
