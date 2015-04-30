@@ -5018,15 +5018,9 @@ void map::debug()
 void map::update_visibility_cache( visibility_variables &cache, const int zlev ) {
     cache.variables_set = true; // Not used yet
     cache.g_light_level = (int)g->light_level();
-    cache.natural_sight_range = g->u.sight_range(1);
-    cache.light_sight_range = g->u.sight_range(cache.g_light_level);
-    cache.lowlight_sight_range = std::max(cache.g_light_level / 2,
-                                          cache.natural_sight_range);
-    cache.max_sight_range = g->u.unimpaired_range();
+
     cache.u_clairvoyance = g->u.clairvoyance();
     cache.u_sight_impaired = g->u.sight_impaired();
-    cache.bio_night_active = g->u.has_active_bionic("bio_night");
-
     cache.u_is_boomered = g->u.has_effect("boomered");
 
     int sm_squares_seen[my_MAPSIZE][my_MAPSIZE];
