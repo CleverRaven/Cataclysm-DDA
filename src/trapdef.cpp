@@ -5,6 +5,12 @@
 #include "debug.h"
 #include "translations.h"
 
+static std::vector<const trap*> funnel_traps;
+const std::vector<const trap*> trap::get_funnels()
+{
+    return funnel_traps;
+}
+
 void trap::load( JsonObject &jo )
 {
     std::unique_ptr<trap> trap_ptr( new trap() );
@@ -35,6 +41,9 @@ void trap::load( JsonObject &jo )
     trapmap[t.id] = t.loadid;
     traplist.push_back( &t );
     trap_ptr.release();
+    if( t.is_funnel() ) {
+        funnel_traps.push_back( &t );
+    }
 }
 
 void trap::reset()
@@ -44,6 +53,7 @@ void trap::reset()
     }
     traplist.clear();
     trapmap.clear();
+    funnel_traps.clear();
 }
 
 std::vector <trap *> traplist;

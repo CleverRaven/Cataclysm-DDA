@@ -155,6 +155,11 @@ struct trap {
          */
         bool is_funnel() const;
         double funnel_turns_per_charge( double rain_depth_mm_per_hour ) const;
+        /**
+         * Returns all trap objects that are actually funnels (is_funnel returns true for all
+         * of them).
+         */
+        static const std::vector<const trap*> get_funnels();
         /*@}*/
 
         /*@{*/
