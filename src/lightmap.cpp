@@ -665,15 +665,12 @@ void castLight( float (&output_cache)[MAPSIZE*SEEX][MAPSIZE*SEEY],
                 current_transparency = input_array[ currentX ][ currentY ];
             }
 
-            //check if it's within the visible area and mark visible if so
             const int dist = rl_dist( origin, delta );
-            if( dist <= radius ) {
-                // Beer–Lambert law says attenuation is going to be equal to
-                // 1 / (e^al) where a = coefficient of absorption and l = length.
-                // Factoring out length, we get 1 / (e^((a1*a2*a3*...*an)*l))
-                // We merge all of the absorption values by taking their cumulative average.
-                output_cache[ currentX ][ currentY] = 1 / exp( cumulative_transparency * (float)dist );
-            }
+            // Beer–Lambert law says attenuation is going to be equal to
+            // 1 / (e^al) where a = coefficient of absorption and l = length.
+            // Factoring out length, we get 1 / (e^((a1*a2*a3*...*an)*l))
+            // We merge all of the absorption values by taking their cumulative average.
+            output_cache[ currentX ][ currentY] = 1 / exp( cumulative_transparency * (float)dist );
 
             float new_transparency = input_array[ currentX ][ currentY ];
 
