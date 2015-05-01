@@ -345,21 +345,6 @@
     {
         "type" : "item_group",
         "subtype": "collection",
-        "id": "mon_zombie_cop_death_drops",
-        "entries":
-        [
-            { "group": "cop_shoes", "damage-min": 1, "damage-max": 4 },
-            { "group": "cop_torso", "damage-min": 1, "damage-max": 4 },
-            { "group": "cop_pants", "damage-min": 1, "damage-max": 4 },
-            { "group": "underwear", "damage-min": 1, "damage-max": 4 },
-            { "group": "cop_weapons", "prob": 20 },
-            { "group": "cop_gear", "prob": 40 },
-            { "item": "cash_card" }
-        ]
-    },
-    {
-        "type" : "item_group",
-        "subtype": "collection",
         "id": "marloss_yellow_drops",
         "entries":
         [
