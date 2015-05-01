@@ -406,6 +406,54 @@ void mattack::boomer(monster *z, int index)
     }
 }
 
+void mattack::boomer_glow(monster *z, int index)
+{
+    if( !z->can_act() ) {
+        return;
+    }
+
+    int t;
+    Creature *target = z->attack_target();
+    if( target == nullptr ||
+        rl_dist( z->pos(), target->pos() ) > 3 ||
+        !z->sees( *target, t ) ) {
+        return;
+    }
+
+    player *foe = dynamic_cast< player* >( target );
+    std::vector<point> line = line_to( z->pos(), target->pos(), t );
+    z->reset_special(index); // Reset timer
+    z->moves -= 250;   // It takes a while
+    bool u_see = g->u.sees( *z );
+    if( u_see ) {
+        add_msg(m_warning, _("The %s spews bile!"), z->name().c_str());
+    }
+    for (auto &i : line) {
+        g->m.add_field(i.x, i.y, fd_bile, 1);
+        // If bile hit a solid tile, return.
+        if (g->m.move_cost(i.x, i.y) == 0) {
+            g->m.add_field(i.x, i.y, fd_bile, 3);
+            if (g->u.sees( i ))
+                add_msg(_("Bile splatters on the %s!"),
+                        g->m.tername(i.x, i.y).c_str());
+            return;
+        }
+    }
+    if( !target->uncanny_dodge() ) {
+        if (rng(0, 10) > target->get_dodge() || one_in( target->get_dodge() ) ) {
+            target->add_env_effect("boomered", bp_eyes, 3, 12);
+                target->add_env_effect("glowing", bp_torso, 3, 40);
+        } else if( u_see ) {
+            target->add_msg_player_or_npc( _("You dodge it!"),
+                                           _("<npcname> dodges it!") );
+        }
+        if( foe != nullptr ) {
+            foe->practice( "dodge", 10 );
+            foe->ma_ondodge_effects();
+        }
+    }
+}
+
 void mattack::resurrect(monster *z, int index)
 {
     if( z->get_speed() < z->get_speed_base() / 2) {
