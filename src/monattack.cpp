@@ -304,6 +304,57 @@ void mattack::acid_barf(monster *z, int index)
     target->check_dead_state();
 }
 
+void mattack::acid_accurate(monster *z, int index)
+{
+    if( !z->can_act() ) {
+        return;
+    }
+
+    Creature *target = z->attack_target();
+    if( target == nullptr ) {
+        return;
+    }
+
+    int junk = 0;
+    if( !z->sees( *target ) ||
+        !g->m.clear_path( z->posx(), z->posy(), target->posx(), target->posy(), 10, 1, 100, junk ) ) {
+        return; // Can't see/reach target, no attack
+    }
+    z->moves -= 50;
+    z->reset_special(index); // Reset timer
+    sounds::sound(z->posx(), z->posy(), 6, _("a spitting noise."));
+    int hitx = target->posx() + rng(-1, 1);
+    int hity = target->posy() + rng(-1, 1);
+    std::vector<point> line = line_to(z->posx(), z->posy(), hitx, hity, junk);
+    for (auto &i : line) {
+        // TODO: Z
+        if (g->m.hit_with_acid( tripoint( i.x, i.y, z->posz() ) )) {
+            if (g->u.sees( i )) {
+                add_msg(_("A glob of acid hits the %s!"),
+                        g->m.tername(i.x, i.y).c_str());
+            }
+            return;
+        }
+    }
+    if (((hitx == target->posx()) && (hitx == target->posy())) || ((rl_dist(z->posx(), z->posy(), target->posx(), target->posy())) + rng(-5, 5) < 10 ) ){
+            body_part hit = random_body_part();
+            int dam = rng(5, 10);
+            dam = target->deal_damage( z, hit, damage_instance( DT_ACID, dam ) ).total_damage();
+
+            auto msg_type = target == &g->u ? m_bad : m_info;
+            target->add_msg_player_or_npc( msg_type, _("Your %s is hit by a bolt of acid!"),
+                                                _("<npcname>'s %s is hit by a bolt of acid!"),
+                                        body_part_name_accusative( hit ).c_str() );
+
+            if( hit == bp_eyes && dam > 0 ) {
+                target->add_effect("blind", rng(5, 25));
+            }
+            g->m.add_field(target->posx(), target->posy(), fd_acid, 1);
+            return;
+        }
+        g->m.add_field(hitx, hity, fd_acid, 1);
+}
+
 void mattack::shockstorm(monster *z, int index)
 {
     if( !z->can_act() ) {
