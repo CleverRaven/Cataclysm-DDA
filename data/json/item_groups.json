@@ -2506,6 +2506,15 @@
     ]
   },{
     "type" : "item_group",
+    "id" : "wines_worthy",
+    "items":[
+      ["wine_riesling", 20],
+      ["wine_chardonnay", 30],
+      ["wine_cabernet", 30],
+      ["wine_noir", 20]
+    ]
+  },{
+    "type" : "item_group",
     "id" : "pool_table",
     "items":[
       ["pool_cue", 4],
