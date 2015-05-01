@@ -944,6 +944,10 @@ bool player::activate_bionic(int b, bool eff_only)
     } else if(bio.id == "bio_lockpick") {
         tmp_item = item( "pseuso_bio_picklock", 0 );
         if( invoke_item( &tmp_item ) == 0 ) {
+            if (tmp_item.charges > 0) {
+                // restore the energy since CBM wasn't used
+                charge_power(bionics[bio.id].power_activate);
+            }
             return true;
         }
         if( tmp_item.damage > 0 ) {

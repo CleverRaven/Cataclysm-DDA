@@ -5476,6 +5476,12 @@ void player::update_stamina()
         stamina += std::max( 1, 10 - (encumb(bp_mouth) / 10) );
         // TODO: recovering stamina causes hunger/thirst/fatigue.
     }
+
+    // 2d4 bonus stamina from active stimpack stamina-boost.
+    if( stamina < get_stamina_max() && has_effect("stimpack") && 
+        get_effect_dur("stimpack") > 50 ) {
+        stamina += rng( 2, 8 );
+    }
 }
 
 void player::add_addiction(add_type type, int strength)
@@ -8767,8 +8773,6 @@ bool player::has_fire(const int quantity) const
         return true;
     } else if (has_charges("torch_lit", 1)) {
         return true;
-    } else if (has_charges("tinderbox_lit", 1)) {
-        return true;
     } else if (has_charges("battletorch_lit", quantity)) {
         return true;
     } else if (has_charges("handflare_lit", 1)) {
@@ -8822,8 +8826,6 @@ void player::use_fire(const int quantity)
     if( g->m.has_nearby_fire( pos3() ) ) {
         return;
     } else if (has_charges("torch_lit", 1)) {
-        return;
-    } else if (has_charges("tinderbox_lit", 1)) {
         return;
     } else if (has_charges("battletorch_lit", 1)) {
         return;
