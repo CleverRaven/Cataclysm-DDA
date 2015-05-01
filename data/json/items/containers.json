@@ -112,7 +112,10 @@
         "to_hit":-1,
         "material":"steel",
         "contains":1,
-        "rigid": true
+        "rigid": true,
+        "watertight": true,
+        "seals": true,
+        "qualities": [["CONTAIN", 1]]
     },
     {
         "id": "can_food",
