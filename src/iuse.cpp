@@ -7563,6 +7563,27 @@ int iuse::jet_injector(player *p, item *it, bool, const tripoint& )
     return it->type->charges_to_use();
 }
 
+int iuse::stimpack(player *p, item *it, bool, const tripoint& )
+{
+    if (p->get_item_position(it) >= -1) {
+        p->add_msg_if_player(m_info,
+                             _("You must wear the stimulant delivery system before you can activate it."));
+        return 0;
+    }     if (it->charges < it->type->charges_to_use()) {
+        p->add_msg_if_player(m_info, _("The stimulant delivery system is empty."), it->tname().c_str());
+        return 0;
+    } else {
+        p->add_msg_if_player(_("You inject yourself with the stimulants."));
+        // Intensity is 2 here because intensity = 1 is the comedown
+        p->add_effect("stimpack", 250, num_bp, false, 2);
+        p->pkill += 2;
+        p->stim += 20;
+        p->fatigue -= 100;
+        p->stamina = p->get_stamina_max();
+    }
+    return it->type->charges_to_use();
+}
+
 int iuse::radglove(player *p, item *it, bool, const tripoint& )
 {
     if (p->get_item_position(it) >= -1) {

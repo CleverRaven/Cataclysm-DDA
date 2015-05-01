@@ -284,6 +284,7 @@ void Item_factory::init()
     iuse_function_list["UNFOLD_GENERIC"] = &iuse::unfold_generic;
     iuse_function_list["ADRENALINE_INJECTOR"] = &iuse::adrenaline_injector;
     iuse_function_list["JET_INJECTOR"] = &iuse::jet_injector;
+    iuse_function_list["STIMPACK"] = &iuse::stimpack;
     iuse_function_list["CONTACTS"] = &iuse::contacts;
     iuse_function_list["AIRHORN"] = &iuse::airhorn;
     iuse_function_list["HOTPLATE"] = &iuse::hotplate;

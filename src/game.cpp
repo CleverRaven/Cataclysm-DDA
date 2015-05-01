@@ -1141,9 +1141,15 @@ bool game::do_turn()
 
     // Recover some stamina every turn.
     if( u.stamina < u.get_stamina_max() && !u.has_effect("winded") ) {
-        // But mouth encumberance interferes.
+        // But mouth encumbrance interferes.
         u.stamina += std::max( 1, 10 - (u.encumb(bp_mouth) / 10) );
         // TODO: recovering stamina causes hunger/thirst/fatigue.
+    }
+    
+    // 2d4 bonus stamina from active stimpack stamina-boost.
+    if( u.stamina < u.get_stamina_max() && u.has_effect("stimpack") && 
+        u.get_effect_dur("stimpack") > 50 ) {
+        u.stamina += rng( 2, 8 );
     }
 
     // Check if we've overdosed... in any deadly way.
