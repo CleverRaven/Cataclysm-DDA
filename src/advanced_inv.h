@@ -288,9 +288,9 @@ class advanced_inventory
         void display();
     private:
         // current location of AIM_ALL move_all_items() transfer
-        int aim_all_location = 0;
+//        int aim_all_location = 0;
         // stores items from both map and vehicle for AIM_ALL transfers
-        std::map<int, std::list<item>> veh_items, map_items;
+//        std::map<int, std::list<item>> veh_items, map_items;
         // swap the panes and WINDOW pointers via std::swap()
         void swap_panes();
         /**
@@ -354,10 +354,11 @@ class advanced_inventory
         // store/load settings (such as index, filter, etc)
         void save_settings(bool only_panes = false);
         void load_settings();
+        void do_return_entry();
 
         static std::string get_sortname(advanced_inv_sortby sortby);
-        // returns true or false as before, however -1 means to re-enter
-        int move_all_items();
+        // if called with default arg, will exit after first completion (if not AIM_ALL)
+        bool move_all_items();
         void print_items(advanced_inventory_pane &pane, bool active);
         void recalc_pane(side p);
         void redraw_pane(side p);

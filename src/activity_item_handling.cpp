@@ -418,10 +418,10 @@ void activity_on_turn_move_items()
     bool to_vehicle = g->u.activity.values[3];
     std::list<int> indices;
     std::list<int> quantities;
-    // Note i = 2, skipping first few elements.
+    // Note i = 4, skipping first few elements.
     for( size_t i = 4; i < g->u.activity.values.size(); i += 2 ) {
         indices.push_back( g->u.activity.values[i] );
-        quantities.push_back( g->u.activity.values[ i + 1 ] );
+        quantities.push_back( g->u.activity.values[i + 1] );
     }
     // Nuke the current activity, leaving the backlog alone.
     g->u.activity = player_activity();

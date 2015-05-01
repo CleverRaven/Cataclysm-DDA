@@ -2,6 +2,7 @@
 #define UISTATE_H
 
 #include <typeinfo>
+#include <list>
 
 #include "json.h"
 #include "enums.h"
@@ -10,6 +11,7 @@
 #include <vector>
 #include <string>
 
+class item;
 
 /*
   centralized depot for trivial ui data such as sorting, string_input_popup history, etc.
@@ -39,8 +41,13 @@ class uistatedata : public JsonSerializer, public JsonDeserializer
         int adv_inv_last_popup_dest = 0;
         int adv_inv_container_location = -1;
         int adv_inv_container_index = 0;
+        bool adv_inv_container_in_vehicle = 0;
         itype_id adv_inv_container_type = "null";
         itype_id adv_inv_container_content_type = "null";
+        bool adv_inv_re_enter_move_all = false;
+        int adv_inv_aim_all_location = 0;
+        std::map<int, std::list<item>> adv_inv_veh_items, adv_inv_map_items;
+
         int ags_pay_gas_selected_pump = 0;
 
         bool editmap_nsa_viewmode = false;      // true: ignore LOS and lighting
@@ -103,6 +110,7 @@ class uistatedata : public JsonSerializer, public JsonDeserializer
             json.member("adv_inv_last_popup_dest", adv_inv_last_popup_dest);
             json.member("adv_inv_container_location", adv_inv_container_location);
             json.member("adv_inv_container_index", adv_inv_container_index);
+            json.member("adv_inv_container_in_vehicle", adv_inv_container_in_vehicle);
             json.member("adv_inv_container_type", adv_inv_container_type);
             json.member("adv_inv_container_content_type", adv_inv_container_content_type);
             json.member("editmap_nsa_viewmode", editmap_nsa_viewmode);
@@ -178,6 +186,7 @@ class uistatedata : public JsonSerializer, public JsonDeserializer
             jo.read("adv_inv_last_popup_dest", adv_inv_last_popup_dest);
             jo.read("adv_inv_container_location", adv_inv_container_location);
             jo.read("adv_inv_container_index", adv_inv_container_index);
+            jo.read("adv_inv_container_in_vehicle", adv_inv_container_in_vehicle);
             jo.read("adv_inv_container_type", adv_inv_container_type);
             jo.read("adv_inv_container_content_type", adv_inv_container_content_type);
             jo.read("overmap_blinking", overmap_blinking);
