@@ -243,7 +243,7 @@ void mattack::acid_barf(monster *z, int index)
 
     // Let it be used on non-player creatures
     Creature *target = z->attack_target();
-    if( target == nullptr || rl_dist( z->pos(), target->pos() ) > 1 ) {
+    if( target == nullptr || rl_dist( z->pos3(), target->pos3() ) > 1 ) {
         return;
     }
 
@@ -288,7 +288,7 @@ void mattack::acid_barf(monster *z, int index)
         }
         foe->practice( "dodge", z->type->melee_skill );
         if( hit == bp_eyes ) {
-            foe->add_effect("blind", 15, hit, true);
+            foe->add_env_effect("blind", bp_eyes, 3, 10);
         }
         foe->check_dead_state();
     } else if( foe != nullptr ) {
@@ -310,49 +310,76 @@ void mattack::acid_accurate(monster *z, int index)
         return;
     }
 
+    int t;
+    int dist;
     Creature *target = z->attack_target();
-    if( target == nullptr ) {
+    if( target == nullptr ||
+        ( dist = rl_dist( z->pos3(), target->pos3() ) ) > 12 ||
+        !z->sees( *target, t ) ) {
         return;
     }
 
-    int junk = 0;
-    if( !z->sees( *target ) ||
-        !g->m.clear_path( z->posx(), z->posy(), target->posx(), target->posy(), 10, 1, 100, junk ) ) {
-        return; // Can't see/reach target, no attack
-    }
+    auto msg_type = target == &g->u ? m_bad : m_neutral;
+
     z->moves -= 50;
     z->reset_special(index); // Reset timer
-    sounds::sound(z->posx(), z->posy(), 6, _("a spitting noise."));
-    int hitx = target->posx() + rng(-1, 1);
-    int hity = target->posy() + rng(-1, 1);
-    std::vector<point> line = line_to(z->posx(), z->posy(), hitx, hity, junk);
-    for (auto &i : line) {
-        // TODO: Z
-        if (g->m.hit_with_acid( tripoint( i.x, i.y, z->posz() ) )) {
-            if (g->u.sees( i )) {
-                add_msg(_("A glob of acid hits the %s!"),
-                        g->m.tername(i.x, i.y).c_str());
+
+    int deviation = rng(1, 10);
+    double missed_by = (.0325 * deviation * dist);
+    std::set<std::string> no_effects;
+
+    if (missed_by > 1.) {
+        if( g->u.sees( *z ) ) {
+            add_msg(_("The %s spits acid, but misses %s."), z->name().c_str(), target->disp_name().c_str() );
+        }
+        tripoint hitp( target->posx() + rng(0 - int(missed_by), int(missed_by)),
+                       target->posy() + rng(0 - int(missed_by), int(missed_by)),
+                       target->posz() );
+        std::vector<tripoint> line = line_to( z->pos3(), hitp, 0, 0 );
+        int dam = rng(5,10);
+        for( auto &i : line ) {
+            g->m.shoot( i, dam, false, no_effects);
+            if (dam == 0 && g->u.sees( i )) {
+                add_msg(_("A bolt of acid hits the %s!"),
+                        g->m.tername( i ).c_str());
+                return;
             }
+            if (dam <= 0) {
+                break;
+            }
+        }
+        g->m.add_field( hitp, fd_acid, 1, 0 );
+        return;
+    }
+
+    if( g->u.sees( *z ) ) {
+        add_msg(_("The %s spits acid!"), z->name().c_str());
+    }
+    g->m.sees( z->pos(), target->pos(), 60, t);
+    std::vector<tripoint> line = line_to( z->pos3(), target->pos3(), t, 0 );
+    int dam = rng(5,10);
+    body_part bp = random_body_part();
+    for (auto &i : line) {
+        g->m.shoot( i, dam, false, no_effects );
+        if (dam == 0 && g->u.sees( i )) {
+            add_msg(_("A bolt of acid hits the %s!"), g->m.tername( i ).c_str());
             return;
         }
     }
-    if (((hitx == target->posx()) && (hitx == target->posy())) || ((rl_dist(z->posx(), z->posy(), target->posx(), target->posy())) + rng(-5, 5) < 10 ) ){
-            body_part hit = random_body_part();
-            int dam = rng(5, 10);
-            dam = target->deal_damage( z, hit, damage_instance( DT_ACID, dam ) ).total_damage();
-
-            auto msg_type = target == &g->u ? m_bad : m_info;
-            target->add_msg_player_or_npc( msg_type, _("Your %s is hit by a bolt of acid!"),
-                                                _("<npcname>'s %s is hit by a bolt of acid!"),
-                                        body_part_name_accusative( hit ).c_str() );
-
-            if( hit == bp_eyes && dam > 0 ) {
-                target->add_effect("blind", rng(5, 25));
-            }
-            g->m.add_field(target->posx(), target->posy(), fd_acid, 1);
-            return;
-        }
-        g->m.add_field(hitx, hity, fd_acid, 1);
+    if (dam <= 0) {
+        return;
+    }
+    if( target->uncanny_dodge() ) {
+        return;
+    }
+    if( g->u.sees( *target ) ) {
+        add_msg( msg_type, _("A bolt of acid hits %1$s's %2$s!"), target->disp_name().c_str(), body_part_name_accusative( bp ).c_str() );
+    }
+    target->deal_damage( z, bp, damage_instance( DT_ACID, dam ) );
+    if (bp == bp_eyes){
+        target->add_env_effect("blind", bp_eyes, 3, 10);
+    }
+    target->check_dead_state();
 }
 
 void mattack::shockstorm(monster *z, int index)

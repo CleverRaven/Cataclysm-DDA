@@ -43,33 +43,36 @@ void mdefense::zapback(monster *const m, Creature *const source, projectile cons
     source->check_dead_state();
 }
 
+static int posp(int posc ) //Determines orientation of target from the source
+{
+    if (posc > 0){
+        return 1;
+    }
+    if (posc < 0){
+        return -1;
+    }
+    else {
+        return 0;
+    }
+}
+
 void mdefense::acidsplash(monster *const m, Creature *const source, projectile const* const proj)
 {
     if( (proj) && ((rng(0, 40) > m->def_chance)) ) {
         return; //Less likely for a projectile to deliver enough force
     }
-if (proj){ //change where the acid is coming from, based on attack
+    int dx = posp( source->posx() - m->posx() );
+    int dy = posp( source->posy() - m->posy() );
     if (one_in(2)){
         for (int i = 0; i < rng(3,5); i++) {
             if (one_in(2)){
-                g->m.add_field(m->posx() + rng(-2,2), m->posy() + rng(-2, 2), fd_acid, rng(2,3));
+                g->m.add_field(m->posx() + dx * rng(0, 3),m->posy() + dy * rng(0, 3), fd_acid, rng(2,3));
             }else{
-                g->m.add_field(m->posx() + rng(-1,1), m->posy() + rng(-1, 1), fd_acid, rng(2,3));
+                g->m.add_field(m->posx() + dx * rng(0, 2),m->posy() + dy * rng(0, 2), fd_acid, rng(2,3));
             }
         }
     }
-}else if (one_in(2)){
-        for (int i = 0; i < rng(3,5); i++) {
-            if (one_in(2)){
-                g->m.add_field(source->posx() + rng(-2,2), source->posy() + rng(-2, 2), fd_acid, rng(2,3));
-            }else{
-                g->m.add_field(source->posx() + rng(-1,1), source->posy() + rng(-1, 1), fd_acid, rng(2,3));
-            }
-        }
-} else {
-    return;
-    }
-    if( g->u.sees(source->pos()) ) {
+    if( g->u.sees(source->pos3()) ) {
         auto const msg_type = (source == &g->u) ? m_bad : m_info;
         add_msg(msg_type, _("Acid sprays out of the %s as it is hit!"),
         m->name().c_str(), source->disp_name().c_str());
