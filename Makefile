@@ -187,6 +187,7 @@ ifeq ($(NATIVE), osx)
   ifeq ($(LOCALIZE), 1)
     LDFLAGS += -lintl
     ifeq ($(MACPORTS), 1)
+      CXXFLAGS += -I$(shell ncursesw5-config --includedir)
       LDFLAGS += -L$(shell ncursesw5-config --libdir)
     endif
   endif
