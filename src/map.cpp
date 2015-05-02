@@ -224,10 +224,18 @@ void map::update_vehicle_list( submap *const to )
 
 void map::destroy_vehicle (vehicle *veh)
 {
-    if (!veh) {
+    if( !veh ) {
         debugmsg("map::destroy_vehicle was passed NULL");
         return;
     }
+
+    if( veh->smz < -OVERMAP_DEPTH && veh->smz > OVERMAP_HEIGHT ) {
+        debugmsg( "destroy_vehicle got a vehicle outside allowed z-level range! name=%s, submap:%d,%d,%d",
+                  veh->name.c_str(), veh->smx, veh->smy, veh->smz );
+        // Try to fix by moving the vehicle here
+        veh->smz = abs_sub.z;
+    }
+
     submap * const current_submap = get_submap_at_grid(veh->smx, veh->smy, veh->smz);
     for (size_t i = 0; i < current_submap->vehicles.size(); i++) {
         if (current_submap->vehicles[i] == veh) {
