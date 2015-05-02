@@ -9635,19 +9635,20 @@ int iuse::cable_attach(player *p, item *it, bool, const tripoint& )
             return 0;
         }
 
-        int posx, posy;
-        if(!choose_adjacent(_("Attach cable to vehicle where?"),posx,posy)) {
+        tripoint vpos;
+        if(!choose_adjacent(_("Attach cable to vehicle where?"), vpos)) {
             return 0;
         }
-        auto target_veh = g->m.veh_at(posx, posy);
+        auto target_veh = g->m.veh_at( vpos);
         if (target_veh == nullptr) {
             p->add_msg_if_player(_("There's no vehicle there."));
             return 0;
         } else {
-            point source_global(it->get_var( "source_x", 0 ),
-                                it->get_var( "source_y", 0 ));
-            point source_local = g->m.getlocal(source_global);
-            auto source_veh = g->m.veh_at(source_local.x, source_local.y);
+            tripoint source_global( it->get_var( "source_x", 0 ),
+                                    it->get_var( "source_y", 0 ),
+                                    it->get_var( "source_z", 0 ) );
+            tripoint source_local = g->m.getlocal(source_global);
+            auto source_veh = g->m.veh_at( source_local );
 
             if(source_veh == target_veh) {
                 if (p != nullptr && p->has_item(it)) {
@@ -9657,8 +9658,8 @@ int iuse::cable_attach(player *p, item *it, bool, const tripoint& )
                 return 0;
             }
 
-            point target_global = g->m.getabs(posx, posy);
-            point target_local(posx, posy);
+            tripoint target_global = g->m.getabs( vpos );
+            tripoint target_local = vpos;
 
             if(source_veh == nullptr) {
                 if( p != nullptr && p->has_item(it) ) {
@@ -9668,16 +9669,16 @@ int iuse::cable_attach(player *p, item *it, bool, const tripoint& )
                 return 0;
             }
 
-            point vcoords = g->m.veh_part_coordinates(source_local.x, source_local.y);
+            point vcoords = g->m.veh_part_coordinates( source_local.x, source_local.y );
             vehicle_part source_part(it->typeId(), vcoords.x, vcoords.y, it);
             source_part.target.first = target_global;
-            source_part.target.second = target_veh->real_global_pos();
+            source_part.target.second = target_veh->real_global_pos3();
             source_veh->install_part(vcoords.x, vcoords.y, source_part);
 
             vcoords = g->m.veh_part_coordinates(target_local.x, target_local.y);
             vehicle_part target_part(it->typeId(), vcoords.x, vcoords.y, it);
             target_part.target.first = source_global;
-            target_part.target.second = source_veh->real_global_pos();
+            target_part.target.second = source_veh->real_global_pos3();
             target_veh->install_part(vcoords.x, vcoords.y, target_part);
 
             if( p != nullptr && p->has_item(it) ) {

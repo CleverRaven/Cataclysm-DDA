@@ -75,21 +75,26 @@ void mapbuffer::remove_submap( tripoint addr )
 
 submap *mapbuffer::lookup_submap(int x, int y, int z)
 {
-    dbg(D_INFO) << "mapbuffer::lookup_submap( x[" << x << "], y[" << y << "], z[" << z << "])";
+    return lookup_submap( tripoint( x, y, z ) );
+}
 
-    const tripoint p(x, y, z);
-    if (submaps.count(p) == 0) {
+submap *mapbuffer::lookup_submap( const tripoint &p )
+{
+    dbg(D_INFO) << "mapbuffer::lookup_submap( x[" << p.x << "], y[" << p.y << "], z[" << p.z << "])";
+
+    auto iter = submaps.find( p );
+    if( iter == submaps.end() ) {
         try {
             return unserialize_submaps( p );
         } catch (std::string &err) {
-            debugmsg("Failed to load submap (%d,%d,%d): %s", x, y, z, err.c_str());
+            debugmsg("Failed to load submap (%d,%d,%d): %s", p.x, p.y, p.z, err.c_str());
         } catch (const std::exception &err) {
-            debugmsg("Failed to load submap (%d,%d,%d): %s", x, y, z, err.what());
+            debugmsg("Failed to load submap (%d,%d,%d): %s", p.x, p.y, p.z, err.what());
         }
         return NULL;
     }
 
-    return submaps[p];
+    return iter->second;
 }
 
 void mapbuffer::save( bool delete_after_save )

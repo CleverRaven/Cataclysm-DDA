@@ -228,7 +228,7 @@ void map::destroy_vehicle (vehicle *veh)
         debugmsg("map::destroy_vehicle was passed NULL");
         return;
     }
-    submap * const current_submap = get_submap_at_grid(veh->smx, veh->smy);
+    submap * const current_submap = get_submap_at_grid(veh->smx, veh->smy, veh->smz);
     for (size_t i = 0; i < current_submap->vehicles.size(); i++) {
         if (current_submap->vehicles[i] == veh) {
             vehicle_list.erase(veh);
@@ -238,7 +238,7 @@ void map::destroy_vehicle (vehicle *veh)
             return;
         }
     }
-    debugmsg ("destroy_vehicle can't find it! name=%s, x=%d, y=%d", veh->name.c_str(), veh->smx, veh->smy);
+    debugmsg( "destroy_vehicle can't find it! name=%s, submap:%d,%d,%d", veh->name.c_str(), veh->smx, veh->smy, veh->smz );
 }
 
 void map::on_vehicle_moved() {
@@ -6077,6 +6077,7 @@ void map::loadn( const int gridx, const int gridy, const int gridz, const bool u
         // Always fix submap coords for easier z-level-related operations
         it->smx = gridx;
         it->smy = gridy;
+        it->smz = gridz;
     }
 
     // Update vehicle data

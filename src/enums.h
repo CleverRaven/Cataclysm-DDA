@@ -290,6 +290,11 @@ struct tripoint : public JsonSerializer, public JsonDeserializer {
     {
         return tripoint( -x, -y, -z );
     }
+
+    tripoint operator+( const point &off )
+    {
+        return tripoint( x + off.x, y + off.y, z );
+    }
 };
 
 // Make tripoint hashable so it can be used as an unordered_set or unordered_map key,
