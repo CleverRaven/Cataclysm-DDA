@@ -1210,11 +1210,11 @@
   },{
     "type":"monstergroup",
     "name" : "GROUP_ZOMBIE_FAT",
-    "default" : "mon_gasbag",
+    "default" : "mon_zombie_gasbag",
     "monsters" : [
-      { "monster" : "mon_zombie_gasbag", "freq" : 20, "cost_multiplier": 0,},
-      { "monster" : "mon_boomer", "freq" : 40, "cost_multiplier": 2,},
-      { "monster" : "mon_boomer_glowing", "freq" : 40, "cost_multiplier": 3,},
+      { "monster" : "mon_zombie_gasbag", "freq" : 20, "cost_multiplier": 0},
+      { "monster" : "mon_boomer", "freq" : 40, "cost_multiplier": 2},
+      { "monster" : "mon_boomer_glowing", "freq" : 40, "cost_multiplier": 3}
     ]
   },{
     "type":"monstergroup",

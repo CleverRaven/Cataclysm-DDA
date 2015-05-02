@@ -430,19 +430,17 @@ void mattack::boomer_glow(monster *z, int index)
     }
     for (auto &i : line) {
         g->m.add_field(i.x, i.y, fd_bile, 1);
-        // If bile hit a solid tile, return.
         if (g->m.move_cost(i.x, i.y) == 0) {
             g->m.add_field(i.x, i.y, fd_bile, 3);
             if (g->u.sees( i ))
-                add_msg(_("Bile splatters on the %s!"),
-                        g->m.tername(i.x, i.y).c_str());
+                add_msg(_("Bile splatters on the %s!"), g->m.tername(i.x, i.y).c_str());
             return;
         }
     }
     if( !target->uncanny_dodge() ) {
         if (rng(0, 10) > target->get_dodge() || one_in( target->get_dodge() ) ) {
             target->add_env_effect("boomered", bp_eyes, 3, 12);
-                target->add_env_effect("glowing", bp_torso, 3, 40);
+            target->add_env_effect("glowing", bp_torso, 3, 40);
         } else if( u_see ) {
             target->add_msg_player_or_npc( _("You dodge it!"),
                                            _("<npcname> dodges it!") );
