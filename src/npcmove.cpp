@@ -362,11 +362,11 @@ void npc::execute_action(npc_action action, int target)
         break;
 
     case npc_shoot:
-        fire_gun( tar.x, tar.y, false );
+        fire_gun( tar, false );
         break;
 
     case npc_shoot_burst:
-        fire_gun( tar.x, tar.y, true );
+        fire_gun( tar, true );
         break;
 
     case npc_alt_attack:
