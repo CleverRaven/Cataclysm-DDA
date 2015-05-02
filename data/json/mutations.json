@@ -503,7 +503,7 @@
         "points" : -2,
         "description" : "Without your glasses, your seeing radius is severely reduced!  However, while wearing glasses this trait has no effect, and you are guaranteed to start with a pair.",
         "starting_trait" : true,
-        "cancels" : ["URSINE_EYE"],
+        "cancels" : ["URSINE_EYE", "EAGLEEYED"],
         "category" : ["MUTCAT_BEAST", "MUTCAT_TROGLOBITE"]
     },{
         "type" : "mutation",
