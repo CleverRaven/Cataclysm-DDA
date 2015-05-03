@@ -33,6 +33,7 @@
 #include "vehicle.h"
 #include "trap.h"
 #include "mutation.h"
+#include "ui.h"
 
 #ifdef SDLTILES
 #include "SDL2/SDL.h"

@@ -1,10 +1,11 @@
 #ifndef MUTATION_H
 #define MUTATION_H
 
-#include "pldata.h"
 #include "json.h"
 #include "enums.h" // tripoint
-#include "ui.h"
+#include "bodypart.h"
+#include "color.h"
+#include <string>
 #include <vector>
 #include <map>
 #include <unordered_map>

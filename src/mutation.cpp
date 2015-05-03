@@ -1,5 +1,5 @@
-#include "player.h"
 #include "mutation.h"
+#include "player.h"
 #include "game.h"
 #include "map.h"
 #include "translations.h"
