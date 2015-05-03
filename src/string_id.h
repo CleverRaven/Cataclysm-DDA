@@ -111,12 +111,6 @@ class string_id {
          * Returns whether this id is valid, that means whether it refers to an existing object.
          */
         bool is_valid() const;
-        /**
-         * Converts this to the matching integer based id, see @ref id().
-         */
-        operator int_id<T>() const {
-            return id();
-        }
     private:
         std::string _id;
 };
