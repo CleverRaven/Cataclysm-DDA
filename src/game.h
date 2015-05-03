@@ -83,6 +83,8 @@ typedef WORLD *WORLDPTR;
 class overmap;
 struct event;
 enum event_type : int;
+struct vehicle_part;
+struct vehicle_prototype;
 
 class game
 {

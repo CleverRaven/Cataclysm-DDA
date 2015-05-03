@@ -5,7 +5,6 @@
 #include "color.h"
 #include "item.h"
 #include "line.h"
-#include "veh_type.h"
 #include "item_stack.h"
 #include "active_item_cache.h"
 
@@ -19,6 +18,8 @@
 class map;
 class player;
 class vehicle;
+struct vpart_info;
+enum vpart_bitflags : int;
 
 //collision factor for vehicle-vehicle collision; delta_v in mph
 float get_collision_factor(float delta_v);

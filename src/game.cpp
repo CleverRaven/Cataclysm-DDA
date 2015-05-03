@@ -6,6 +6,7 @@
 #include "line.h"
 #include "computer.h"
 #include "veh_interact.h"
+#include "veh_type.h"
 #include "options.h"
 #include "auto_pickup.h"
 #include "gamemode.h"

@@ -14,7 +14,7 @@ struct break_entry {
 
 // bitmask backing store of -certian- vpart_info.flags, ones that
 // won't be going away, are involved in core functionality, and are checked frequently
-enum vpart_bitflags {
+enum vpart_bitflags : int {
     VPFLAG_ARMOR,
     VPFLAG_EVENTURN,
     VPFLAG_ODDTURN,

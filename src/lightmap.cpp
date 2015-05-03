@@ -3,6 +3,9 @@
 #include "game.h"
 #include "lightmap.h"
 #include "options.h"
+#include "npc.h"
+#include "monster.h"
+#include "veh_type.h"
 
 #include <cmath>
 #include <cstring>

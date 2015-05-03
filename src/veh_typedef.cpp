@@ -1,3 +1,4 @@
+#include "veh_type.h"
 #include "vehicle.h"
 #include "game.h"
 #include "debug.h"

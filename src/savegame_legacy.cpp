@@ -36,6 +36,7 @@
 #include "morale.h"
 #include "worldfactory.h"
 #include "crafting.h"
+#include "veh_type.h"
 
 #if !defined(_MSC_VER)
 #include <unistd.h>

@@ -17,6 +17,9 @@
 #include "translations.h"
 #include "options.h"
 #include "material.h"
+#include "monster.h"
+#include "npc.h"
+#include "veh_type.h"
 
 #include <fstream>
 #include <sstream>
