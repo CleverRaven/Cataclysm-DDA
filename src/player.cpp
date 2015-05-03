@@ -4319,8 +4319,9 @@ void player::pause()
     for (auto &v : vehs) {
         veh = v.v;
         if (veh && veh->velocity != 0 && veh->player_in_control(*this)) {
-            if (one_in(10)) {
-                practice( "driving", 1 );
+            if (one_in(8)) {
+                practice( "driving", int ( pow( (veh->total_mass() / 500 ), 1.8) +
+                                           pow( abs(veh->velocity / 2500 ), 2.3) + 1 ) );
             }
             break;
         }
