@@ -6,6 +6,7 @@
 #include "mapsharing.h"
 #include "translations.h"
 #include "worldfactory.h"
+#include "catacharset.h"
 #include <iostream>
 #include <fstream>
 

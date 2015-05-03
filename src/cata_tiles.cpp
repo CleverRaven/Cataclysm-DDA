@@ -11,6 +11,7 @@
 #include "sounds.h"
 #include "map.h"
 #include "options.h"
+#include "catacharset.h"
 
 #include <algorithm>
 #include <fstream>

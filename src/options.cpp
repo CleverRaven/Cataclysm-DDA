@@ -9,6 +9,7 @@
 #include "mapsharing.h"
 #include "input.h"
 #include "worldfactory.h"
+#include "catacharset.h"
 
 #ifdef SDLTILES
 #include "cata_tiles.h"

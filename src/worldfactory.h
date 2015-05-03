@@ -3,8 +3,6 @@
 
 #include "options.h"
 #include "output.h"
-#include "cursesdef.h"
-#include "catacharset.h"
 #include "enums.h"
 
 #include <map>

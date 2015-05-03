@@ -8,6 +8,8 @@
 #include "gamemode.h"
 #include "translations.h"
 #include "input.h"
+#include "cursesdef.h"
+#include "catacharset.h"
 
 #include "name.h"
 

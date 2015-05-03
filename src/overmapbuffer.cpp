@@ -7,6 +7,7 @@
 #include "monster.h"
 #include "mongroup.h"
 #include "worldfactory.h"
+#include "catacharset.h"
 
 #include <fstream>
 #include <sstream>

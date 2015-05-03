@@ -12,6 +12,7 @@
 #include "overmapbuffer.h"
 #include "sounds.h"
 #include "translations.h"
+#include "catacharset.h"
 #include "input.h"
 
 #include <math.h>    //sqrt

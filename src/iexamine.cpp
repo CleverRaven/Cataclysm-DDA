@@ -15,6 +15,7 @@
 #include "worldfactory.h"
 #include "input.h"
 #include "event.h"
+#include "catacharset.h"
 
 #include <sstream>
 #include <algorithm>
