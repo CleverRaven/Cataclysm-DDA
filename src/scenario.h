@@ -6,7 +6,6 @@
 #include <map>
 #include "pldata.h"
 #include "addiction.h"
-#include "start_location.h"
 #include "skill.h"
 #include "profession.h"
 #include "json.h"
