@@ -58,6 +58,7 @@
 #include "mongroup.h"
 #include "morale.h"
 #include "worldfactory.h"
+#include "material.h"
 
 #include <map>
 #include <set>

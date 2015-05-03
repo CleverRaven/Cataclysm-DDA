@@ -3,7 +3,6 @@
 // SEE ALSO: monitemsdef.cpp, which defines data on which items any given
 // monster may carry.
 
-#include "material.h"
 #include "enums.h"
 #include "color.h"
 #include "field.h"

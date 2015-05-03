@@ -16,6 +16,7 @@
 #include "sounds.h"
 #include "translations.h"
 #include "options.h"
+#include "material.h"
 
 #include <fstream>
 #include <sstream>

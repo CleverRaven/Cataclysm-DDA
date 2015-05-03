@@ -10,6 +10,7 @@
 #include "translations.h"
 #include "morale.h"
 #include "messages.h"
+#include "material.h"
 #include <sstream>
 #include <algorithm>
 
