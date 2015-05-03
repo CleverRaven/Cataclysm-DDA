@@ -8,13 +8,20 @@
 #include "weighted_list.h"
 
 typedef std::string Vehicle_tag;
+typedef std::vector<int> vehicle_facings;
 
+/**
+ * Entry for a vehicle in a vehicle spawn group.
+ */
 struct Vehicle_spawn_data {
     Vehicle_spawn_data(const std::string &type) : type(type) {}
 
     std::string type; //vehicle type id
 };
 
+/**
+ * A weighted group of vehicles.
+ */
 class Vehicle_Group {
 
     public:
@@ -25,7 +32,9 @@ class Vehicle_Group {
         weighted_int_list<Vehicle_spawn_data> vehicles;
 };
 
-typedef std::vector<int> vehicle_facings;
+/**
+ * The location and facing data needed to place a vehicle onto the map.
+ */
 struct Vehicle_Location {
     Vehicle_Location(const jmapgen_int &x, const jmapgen_int &y, const vehicle_facings &facings) : x(x), y(y), facings(facings) {}
 
@@ -34,6 +43,9 @@ struct Vehicle_Location {
     vehicle_facings facings;
 };
 
+/**
+ * A list of vehicle locations which are valid for spawning new vehicles.
+ */
 struct Vehicle_Placement {
     void add(const jmapgen_int &x, const jmapgen_int &y, const vehicle_facings &facings);
     const Vehicle_Location* pick() const;
@@ -42,6 +54,11 @@ struct Vehicle_Placement {
     vehicle_locations locations;
 };
 
+/**
+ * Vehicle placment management class.
+ *
+ * You usually use the single global instance @ref vehicle_controller.
+ */
 class Vehicle_Factory {
 
     public:
