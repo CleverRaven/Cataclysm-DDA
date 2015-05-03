@@ -1961,7 +1961,7 @@ void play_music(std::string)
 {
 }
 
-void play_sound(std::string)
+void play_sound_effect(std::string, std::string, int)
 {
 }
 #endif
