@@ -9,6 +9,7 @@
 #include "messages.h"
 #include "translations.h"
 #include "input.h"
+#include "crafting.h"
 #include <istream>
 #include <sstream>
 #include <fstream>

@@ -19,6 +19,9 @@
 #include "compatibility.h"
 #include "monstergenerator.h"
 #include "translations.h"
+#include "crafting.h"
+#include "martialarts.h"
+#include "npc.h"
 
 #include <cmath> // floor
 #include <sstream>

@@ -35,6 +35,7 @@
 #include "savegame.h"
 #include "morale.h"
 #include "worldfactory.h"
+#include "crafting.h"
 
 #if !defined(_MSC_VER)
 #include <unistd.h>

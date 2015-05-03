@@ -5,7 +5,6 @@
 #include "item.h"
 #include "trap.h"
 #include "mutation.h"
-#include "crafting.h"
 #include "vehicle.h"
 #include "player_activity.h"
 #include "clzones.h"
@@ -29,6 +28,9 @@ class morale_point;
 enum game_message_type : int;
 class ma_technique;
 class martialart;
+struct recipe;
+struct item_comp;
+struct tool_comp;
 
 struct special_attack {
     std::string text;

@@ -3,6 +3,7 @@
 #include "debug.h"
 #include "overmapbuffer.h"
 #include "translations.h"
+#include "requirements.h"
 
 #include <fstream>
 #include <sstream>

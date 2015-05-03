@@ -12,6 +12,7 @@
 #include "messages.h"
 #include "material.h"
 #include "event.h"
+#include "crafting.h"
 #include <sstream>
 #include <algorithm>
 
