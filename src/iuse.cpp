@@ -4861,7 +4861,7 @@ int iuse::set_trap(player *p, item *it, bool, const tripoint& )
         p->add_msg_if_player(_("Tried to set a trap.  But got confused! %s"), it->tname().c_str());
     }
 
-    trap *tr = traplist[type];
+    const trap *tr = &type.obj();
     if (dirx == p->posx() && diry == p->posy() && !tr->is_benign()) {
         p->add_msg_if_player(m_info, _("Yeah.  Place the %s at your feet."), it->tname().c_str());
         p->add_msg_if_player(m_info, _("Real damn smart move."));

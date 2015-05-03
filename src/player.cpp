@@ -13540,7 +13540,8 @@ void player::add_known_trap( const tripoint &pos, const trap &t)
     if( t.is_null() ) {
         known_traps.erase( p );
     } else {
-        known_traps[p] = t.id;
+        // TODO: known_traps should map to a trap_str_id
+        known_traps[p] = t.id.str();
     }
 }
 

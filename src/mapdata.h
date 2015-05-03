@@ -494,7 +494,7 @@ public:
 
     inline const trap &get_trap_t() const
     {
-        return *traplist[ sm->get_trap( x, y ) ];
+        return sm->get_trap( x, y ).obj();
     }
 
     inline const furn_t &get_furn_t() const

@@ -4,16 +4,17 @@
 #include "color.h"
 #include "itype.h"
 #include "json.h"
+#include "string_id.h"
+#include "int_id.h"
 #include <string>
 
 class Creature;
 class item;
 
-typedef int trap_id;
-/** map trap ids to index into <B>traps</B> */
-extern std::map<std::string, int> trapmap;
-
 struct trap;
+
+using trap_id = int_id<trap>;
+using trap_str_id = string_id<trap>;
 
 struct trapfunc {
     // creature is the creature that triggered the trap,
@@ -55,8 +56,10 @@ struct trapfunc {
 typedef void (trapfunc::*trap_function)( Creature *, int x, int y );
 
 struct trap {
-        std::string id;
-        int loadid;
+        // TODO: make both private and const
+        trap_str_id id;
+        trap_id loadid;
+
         long sym;
         nc_color color;
         std::string name;
@@ -188,10 +191,8 @@ struct trap {
          */
         static void check_consistency();
         /*@}*/
+        static size_t count();
 };
-
-/** list of all trap types */
-extern std::vector<trap *> traplist;
 
 trap_function trap_function_from_string(std::string function_name);
 
