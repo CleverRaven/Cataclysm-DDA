@@ -1,11 +1,13 @@
 #ifndef MAPBUFFER_H
 #define MAPBUFFER_H
 
-#include "line.h"
 #include <map>
 #include <list>
 #include <memory>
+#include <string>
 
+struct point;
+struct tripoint;
 struct submap;
 
 /**
