@@ -5,7 +5,6 @@
 #include "output.h"
 #include "cursesdef.h"
 #include "catacharset.h"
-#include "input.h"
 #include "enums.h"
 
 #include <map>
@@ -30,6 +29,7 @@ struct WORLD {
 
 class mod_manager;
 class mod_ui;
+class input_context;
 
 typedef WORLD *WORLDPTR;
 

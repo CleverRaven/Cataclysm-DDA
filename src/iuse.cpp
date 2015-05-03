@@ -24,6 +24,7 @@
 #include "mongroup.h"
 #include "translations.h"
 #include "morale.h"
+#include "input.h"
 
 #include <vector>
 #include <sstream>

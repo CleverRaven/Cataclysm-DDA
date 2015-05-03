@@ -11,6 +11,7 @@
 #include "item_action.h"
 #include "iuse_actor.h"
 #include "translations.h"
+#include "input.h"
 #include <istream>
 #include <sstream>
 #include <fstream>

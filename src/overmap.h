@@ -17,6 +17,7 @@ class overmapbuffer;
 class npc;
 struct mongroup;
 class JsonObject;
+class input_context;
 
 // base oters: exactly what's defined in json before things are split up into blah_east or roadtype_ns, etc
 extern std::unordered_map<std::string, oter_t> obasetermap;

@@ -13,6 +13,7 @@
 #include "compatibility.h"
 #include "sounds.h"
 #include "worldfactory.h"
+#include "input.h"
 
 #include <sstream>
 #include <algorithm>

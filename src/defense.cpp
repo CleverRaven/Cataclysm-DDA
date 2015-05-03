@@ -12,6 +12,7 @@
 #include "rng.h"
 #include "mongroup.h"
 #include "translations.h"
+#include "input.h"
 
 #include <string>
 #include <vector>

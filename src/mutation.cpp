@@ -9,6 +9,8 @@
 #include "overmapbuffer.h"
 #include "sounds.h"
 #include "options.h"
+#include "catacharset.h"
+#include "input.h"
 
 #include <math.h>    //sqrt
 #include <algorithm> //std::min

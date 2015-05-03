@@ -8,6 +8,7 @@
 #include "options.h"
 #include "messages.h"
 #include "translations.h"
+#include "input.h"
 #include <istream>
 #include <sstream>
 #include <fstream>
