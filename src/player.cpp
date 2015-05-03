@@ -4320,8 +4320,12 @@ void player::pause()
         veh = v.v;
         if (veh && veh->velocity != 0 && veh->player_in_control(*this)) {
             if (one_in(8)) {
-                practice( "driving", int ( pow( (veh->total_mass() / 500 ), 1.8) +
-                                           pow( abs(veh->velocity / 2500 ), 2.3) + 1 ) );
+                double exp_temp = 1 + veh->total_mass() / 400.0 + abs (veh->velocity / 3200.0);
+                int experience = static_cast<int>( floorf( exp_temp ) );
+                if( exp_temp - experience > 0 && x_in_y( exp_temp - experience, 1.0 ) ) {
+                    experience++;
+                }
+                practice( "driving", experience );
             }
             break;
         }
