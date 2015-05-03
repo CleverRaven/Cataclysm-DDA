@@ -3,7 +3,6 @@
 // SEE ALSO: monitemsdef.cpp, which defines data on which items any given
 // monster may carry.
 
-#include "material.h"
 #include "enums.h"
 #include "color.h"
 #include "field.h"
@@ -15,6 +14,9 @@
 #include <math.h>
 
 class Creature;
+class monster;
+struct projectile;
+enum body_part : int;
 
 using mon_action_death  = void (*)(monster*);
 using mon_action_attack = void (*)(monster*, int);

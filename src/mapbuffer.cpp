@@ -110,7 +110,7 @@ void mapbuffer::save( bool delete_after_save )
     const bool map_has_zlevels = g != nullptr && g->m.has_zlevels();
 
     // A set of already-saved submaps, in global overmap coordinates.
-    std::set<tripoint, pointcomp> saved_submaps;
+    std::set<tripoint> saved_submaps;
     std::list<tripoint> submaps_to_delete;
     for( auto &elem : submaps ) {
         if (num_total_submaps > 100 && num_saved_submaps % 100 == 0) {

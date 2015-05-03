@@ -8,6 +8,7 @@
 #include "translations.h"
 #include "monstergenerator.h"
 #include "profession.h"
+#include "overmap.h"
 
 std::vector<std::string> tut_text;
 

@@ -2,7 +2,6 @@
 #define VEH_TYPE_H
 
 #include "color.h"
-#include "itype.h"
 
 /**
  * Represents an entry in the breaks_into list.
@@ -13,12 +12,9 @@ struct break_entry {
     int max;
 };
 
-#ifndef mfb
-#define mfb(n) static_cast <unsigned long> (1 << (n))
-#endif
 // bitmask backing store of -certian- vpart_info.flags, ones that
 // won't be going away, are involved in core functionality, and are checked frequently
-enum vpart_bitflags {
+enum vpart_bitflags : int {
     VPFLAG_ARMOR,
     VPFLAG_EVENTURN,
     VPFLAG_ODDTURN,
@@ -62,6 +58,7 @@ enum vpart_bitflags {
  * MOUNTABLE - Usable as a point to fire a mountable weapon from.
  * Other flags are self-explanatory in their names. */
 struct vpart_info {
+    using itype_id = std::string;
     std::string id;         // unique identifier for this part
     int loadid;             // # of loaded order, non-saved runtime optimization
     std::string name;       // part name, user-visible

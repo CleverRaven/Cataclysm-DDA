@@ -4,6 +4,7 @@
 #include "map.h"
 #include "damage.h"
 #include "rng.h"
+#include "monster.h"
 #include <map>
 
 damage_instance::damage_instance() { }

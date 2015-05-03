@@ -14,10 +14,18 @@
 #include "messages.h"
 #include "mapsharing.h"
 #include "iuse_actor.h"
+#include "mongroup.h"
+#include "npc.h"
+#include "event.h"
+#include "monster.h"
+#include "veh_type.h"
+#include "artifact.h"
+#include "omdata.h"
 
 #include <cmath>
 #include <stdlib.h>
 #include <fstream>
+#include <cstring>
 
 extern bool is_valid_in_w_terrain(int,int);
 
@@ -128,7 +136,7 @@ map::map( int mapsize, bool zlev )
     veh_in_active_range = true;
     transparency_cache_dirty = true;
     outside_cache_dirty = true;
-    memset(veh_exists_at, 0, sizeof(veh_exists_at));
+    std::memset(veh_exists_at, 0, sizeof(veh_exists_at));
     traplocs.resize( traplist.size() );
 }
 
@@ -4910,7 +4918,7 @@ void map::update_visibility_cache( visibility_variables &cache, const int zlev )
     cache.u_is_boomered = g->u.has_effect("boomered");
 
     int sm_squares_seen[my_MAPSIZE][my_MAPSIZE];
-    memset(sm_squares_seen, 0, sizeof(sm_squares_seen));
+    std::memset(sm_squares_seen, 0, sizeof(sm_squares_seen));
 
     tripoint p;
     p.z = zlev;

@@ -6,7 +6,6 @@
 #include "game.h"
 #include "rng.h"
 #include "addiction.h"
-#include "moraledata.h"
 #include "inventory.h"
 #include "artifact.h"
 #include "options.h"
@@ -24,6 +23,11 @@
 #include "get_version.h"
 #include "monstergenerator.h"
 #include "scenario.h"
+#include "monster.h"
+#include "morale.h"
+#include "veh_type.h"
+#include "vehicle.h"
+#include "mutation.h"
 
 #include "savegame.h"
 #include "tile_id_data.h" // for monster::json_save

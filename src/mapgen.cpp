@@ -15,11 +15,14 @@
 #include "monstergenerator.h"
 #include "mongroup.h"
 #include "mapgen.h"
+#include "translations.h"
 #include <algorithm>
 #include <cassert>
 #include <list>
 #include <sstream>
 #include "json.h"
+#include "coordinates.h"
+#include "npc.h"
 #ifdef LUA
 #include "catalua.h"
 #endif

@@ -3,6 +3,8 @@
 #include "map.h"
 #include "debug.h"
 #include "mission.h"
+#include "translations.h"
+#include "options.h"
 
 Character::Character()
 {

@@ -10,6 +10,10 @@
 #include "filesystem.h"
 #include "sounds.h"
 #include "map.h"
+#include "options.h"
+#include "catacharset.h"
+#include "monster.h"
+#include "npc.h"
 
 #include <algorithm>
 #include <fstream>

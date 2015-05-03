@@ -1,7 +1,6 @@
 #ifndef MONSTER_H
 #define MONSTER_H
 
-#include "input.h"
 #include "creature.h"
 #include "player.h"
 #include "enums.h"

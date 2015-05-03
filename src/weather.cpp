@@ -6,6 +6,7 @@
 #include "overmap.h"
 #include "overmapbuffer.h"
 #include "math.h"
+#include "translations.h"
 
 #include <vector>
 #include <sstream>

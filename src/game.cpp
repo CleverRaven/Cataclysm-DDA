@@ -6,6 +6,7 @@
 #include "line.h"
 #include "computer.h"
 #include "veh_interact.h"
+#include "veh_type.h"
 #include "options.h"
 #include "auto_pickup.h"
 #include "gamemode.h"
@@ -55,6 +56,13 @@
 #include "scenario.h"
 #include "mission.h"
 #include "compatibility.h"
+#include "mongroup.h"
+#include "morale.h"
+#include "worldfactory.h"
+#include "material.h"
+#include "martialarts.h"
+#include "event.h"
+#include "coordinates.h"
 
 #include <map>
 #include <set>
@@ -68,6 +76,7 @@
 #include <cassert>
 #include <iterator>
 #include <ctime>
+#include <cstring>
 
 #if !(defined _WIN32 || defined WINDOWS || defined TILES)
 #include <langinfo.h>
@@ -14048,7 +14057,7 @@ void intro()
 #if !(defined _WIN32 || defined WINDOWS || defined TILES)
     // Check whether LC_CTYPE supports the UTF-8 encoding
     // and show a warning if it doesn't
-    if (strcmp(nl_langinfo(CODESET), "UTF-8") != 0) {
+    if (std::strcmp(nl_langinfo(CODESET), "UTF-8") != 0) {
         const char *unicode_error_msg =
             _("You don't seem to have a valid Unicode locale. You may see some weird "
               "characters (e.g. empty boxes or question marks). You have been warned.");

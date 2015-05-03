@@ -8,6 +8,7 @@
 #include "bodypart.h"
 #include "messages.h"
 #include "map.h"
+#include "translations.h"
 
 void mdefense::none(monster *, Creature *, const projectile *)
 {

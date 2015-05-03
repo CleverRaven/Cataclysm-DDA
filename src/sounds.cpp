@@ -5,6 +5,9 @@
 #include "debug.h"
 #include "enums.h"
 #include "overmapbuffer.h"
+#include "translations.h"
+#include "messages.h"
+#include "monster.h"
 
 struct sound_event {
     int volume;

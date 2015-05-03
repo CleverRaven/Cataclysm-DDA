@@ -18,6 +18,11 @@
 #include "iuse_actor.h"
 #include "compatibility.h"
 #include "monstergenerator.h"
+#include "translations.h"
+#include "crafting.h"
+#include "martialarts.h"
+#include "npc.h"
+#include "ui.h"
 
 #include <cmath> // floor
 #include <sstream>
@@ -3278,6 +3283,18 @@ void item::next_mode()
         if( i == contents.size() ) {
             set_gun_mode( "NULL" );
         }
+    }
+}
+
+int item::spare_mag_size() const
+{
+    if( !type->gun ) {
+        return 0;
+    }
+    if( clip_size() < type->gun->clip ) {
+        return clip_size();
+    } else {
+        return type->gun->clip;
     }
 }
 

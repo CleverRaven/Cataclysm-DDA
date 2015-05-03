@@ -11,6 +11,7 @@
 #include <functional>
 
 class map;
+class npc;
 
 const extern std::string inv_chars;
 

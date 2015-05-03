@@ -7,6 +7,8 @@
 #include "omdata.h"
 #include "overmapbuffer.h"
 #include "messages.h"
+#include "translations.h"
+#include "overmap.h"
 /* These functions are responsible for making changes to the game at the moment
  * the mission is accepted by the player.  They are also responsible for
  * updating *miss with the target and any other important information.

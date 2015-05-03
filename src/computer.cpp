@@ -12,6 +12,9 @@
 #include "sounds.h"
 #include "rng.h"
 #include "mission.h"
+#include "translations.h"
+#include "monster.h"
+#include "event.h"
 
 #include <fstream>
 #include <string>

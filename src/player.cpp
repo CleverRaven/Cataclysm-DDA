@@ -6,11 +6,8 @@
 #include "map.h"
 #include "debug.h"
 #include "addiction.h"
-#include "moraledata.h"
 #include "inventory.h"
 #include "options.h"
-#include <sstream>
-#include <stdlib.h>
 #include "weather.h"
 #include "item.h"
 #include "material.h"
@@ -28,6 +25,15 @@
 #include "messages.h"
 #include "sounds.h"
 #include "item_action.h"
+#include "mongroup.h"
+#include "morale.h"
+#include "input.h"
+#include "veh_type.h"
+#include "overmap.h"
+#include "vehicle.h"
+#include "trap.h"
+#include "mutation.h"
+#include "ui.h"
 
 #ifdef SDLTILES
 #include "SDL2/SDL.h"
@@ -44,7 +50,8 @@
 #include <memory>
 #include <array>
 #include <bitset>
-
+#include <sstream>
+#include <stdlib.h>
 #include <fstream>
 
 // use this instead of having to type out 26 spaces like before
@@ -61,7 +68,7 @@ static const itype_id OPTICAL_CLOAK_ITEM_ID( "optical_cloak" );
 void game::init_morale()
 {
     std::string tmp_morale_data[NUM_MORALE_TYPES] = {
-    "This is a bug (moraledata.h:moraledata)",
+    "This is a bug (player.cpp:moraledata)",
     _("Enjoyed %i"),
     _("Enjoyed a hot meal"),
     _("Music"),

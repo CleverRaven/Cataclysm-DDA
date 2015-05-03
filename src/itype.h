@@ -6,7 +6,6 @@
 #include "iuse.h" // use_function
 #include "pldata.h" // add_type
 #include "bodypart.h" // body_part::num_bp
-#include "translations.h"
 
 #include <string>
 #include <vector>
@@ -509,10 +508,7 @@ public:
 
     // Returns the name of the item type in the correct language and with respect to its grammatical number,
     // based on quantity (example: item type “anvil”, nname(4) would return “anvils” (as in “4 anvils”).
-    virtual std::string nname(unsigned int quantity) const
-    {
-        return ngettext(name.c_str(), name_plural.c_str(), quantity);
-    }
+    virtual std::string nname(unsigned int quantity) const;
 
     virtual bool is_food() const
     {

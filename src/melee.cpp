@@ -8,6 +8,9 @@
 #include "martialarts.h"
 #include "messages.h"
 #include "sounds.h"
+#include "translations.h"
+#include "monster.h"
+#include "npc.h"
 
 #include <sstream>
 #include <stdlib.h>

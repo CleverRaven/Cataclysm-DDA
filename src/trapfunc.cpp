@@ -6,6 +6,10 @@
 #include "monstergenerator.h"
 #include "messages.h"
 #include "sounds.h"
+#include "translations.h"
+#include "event.h"
+#include "npc.h"
+#include "monster.h"
 
 // A pit becomes less effective as it fills with corpses.
 float pit_effectiveness(int x, int y)

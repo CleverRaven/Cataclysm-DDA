@@ -7,6 +7,13 @@
 #include "overmapbuffer.h"
 #include "sounds.h"
 #include "monstergenerator.h"
+#include "translations.h"
+#include "morale.h"
+#include "messages.h"
+#include "material.h"
+#include "event.h"
+#include "crafting.h"
+#include "ui.h"
 #include <sstream>
 #include <algorithm>
 

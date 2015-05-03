@@ -17,7 +17,6 @@
 #include "json.h"
 #include "vehicle.h"
 #include "lightmap.h"
-#include "coordinates.h"
 #include "item_stack.h"
 #include "active_item_cache.h"
 
@@ -31,6 +30,9 @@ class item;
 struct itype;
 struct mapgendata;
 struct trap;
+struct oter_id;
+struct regional_settings;
+struct mongroup;
 // TODO: This should be const& but almost no functions are const
 struct wrapped_vehicle{
  int x;

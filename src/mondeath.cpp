@@ -9,6 +9,9 @@
 #include "sounds.h"
 #include "mondeath.h"
 #include "iuse_actor.h"
+#include "translations.h"
+#include "morale.h"
+#include "event.h"
 
 #include <math.h>  // rounding
 #include <sstream>

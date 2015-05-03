@@ -9,6 +9,8 @@
 #include "path_info.h"
 #include "mapsharing.h"
 #include "filesystem.h"
+#include "ui.h"
+#include "translations.h"
 #include <iostream>
 #include <fstream>
 

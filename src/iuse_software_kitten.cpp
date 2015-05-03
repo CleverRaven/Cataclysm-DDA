@@ -14,6 +14,7 @@
 #include "debug.h"
 #include "posix_time.h"
 #include "iuse_software_kitten.h"
+#include "translations.h"
 
 #include <iostream>
 
