@@ -13,6 +13,7 @@
 #include "overmapbuffer.h"
 #include "json.h"
 #include "translations.h"
+#include "martialarts.h"
 
 #include <vector>
 #include <string>

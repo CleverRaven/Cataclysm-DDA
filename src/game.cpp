@@ -59,6 +59,7 @@
 #include "morale.h"
 #include "worldfactory.h"
 #include "material.h"
+#include "martialarts.h"
 
 #include <map>
 #include <set>

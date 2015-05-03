@@ -41,6 +41,7 @@
 #include "item_action.h"
 #include "dialogue.h"
 #include "mongroup.h"
+#include "martialarts.h"
 
 #include <string>
 #include <vector>

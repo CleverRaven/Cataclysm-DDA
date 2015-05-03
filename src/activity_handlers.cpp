@@ -13,6 +13,7 @@
 #include "mongroup.h"
 #include "morale.h"
 #include "messages.h"
+#include "martialarts.h"
 
 #include <sstream>
 

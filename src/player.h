@@ -7,7 +7,6 @@
 #include "mutation.h"
 #include "crafting.h"
 #include "vehicle.h"
-#include "martialarts.h"
 #include "player_activity.h"
 #include "clzones.h"
 #include "artifact.h"
@@ -28,6 +27,8 @@ nc_color encumb_color(int level);
 enum morale_type : int;
 class morale_point;
 enum game_message_type : int;
+class ma_technique;
+class martialart;
 
 struct special_attack {
     std::string text;
