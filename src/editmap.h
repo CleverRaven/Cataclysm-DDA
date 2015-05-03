@@ -10,6 +10,8 @@
 #include <list>
 #include <stdarg.h>
 
+struct real_coords;
+
 enum shapetype {
     editmap_rect, editmap_rect_filled, editmap_line, editmap_circle,
 };

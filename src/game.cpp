@@ -61,6 +61,7 @@
 #include "material.h"
 #include "martialarts.h"
 #include "event.h"
+#include "coordinates.h"
 
 #include <map>
 #include <set>

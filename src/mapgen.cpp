@@ -21,6 +21,7 @@
 #include <list>
 #include <sstream>
 #include "json.h"
+#include "coordinates.h"
 #ifdef LUA
 #include "catalua.h"
 #endif
