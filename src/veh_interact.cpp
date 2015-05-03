@@ -11,6 +11,7 @@
 #include "debug.h"
 #include "messages.h"
 #include "translations.h"
+#include "morale.h"
 #include <cmath>
 #include <list>
 #include <functional>

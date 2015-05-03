@@ -17,6 +17,7 @@
 #include "overmapbuffer.h"
 #include "compatibility.h"
 #include "translations.h"
+#include "morale.h"
 
 #include <fstream>
 #include <sstream>

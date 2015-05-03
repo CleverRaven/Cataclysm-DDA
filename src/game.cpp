@@ -56,6 +56,7 @@
 #include "mission.h"
 #include "compatibility.h"
 #include "mongroup.h"
+#include "morale.h"
 
 #include <map>
 #include <set>

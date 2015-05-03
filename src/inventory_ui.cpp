@@ -5,6 +5,7 @@
 #include "translations.h"
 #include "options.h"
 #include "messages.h"
+#include "morale.h"
 #include <string>
 #include <vector>
 #include <map>

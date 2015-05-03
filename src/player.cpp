@@ -29,6 +29,7 @@
 #include "item_action.h"
 #include "mongroup.h"
 #include "translations.h"
+#include "morale.h"
 
 #ifdef SDLTILES
 #include "SDL2/SDL.h"

@@ -18,6 +18,7 @@
 #include "weighted_list.h"
 #include "mongroup.h"
 #include "translations.h"
+#include "morale.h"
 
 #include <algorithm>
 

@@ -23,6 +23,7 @@
 #include "iuse_actor.h" // For firestarter
 #include "mongroup.h"
 #include "translations.h"
+#include "morale.h"
 
 #include <vector>
 #include <sstream>

@@ -4,7 +4,6 @@
 #include "character.h"
 #include "item.h"
 #include "trap.h"
-#include "morale.h"
 #include "mutation.h"
 #include "crafting.h"
 #include "vehicle.h"
@@ -27,6 +26,8 @@ struct trap;
 class mission;
 class profession;
 nc_color encumb_color(int level);
+enum morale_type : int;
+class morale_point;
 
 struct special_attack {
     std::string text;

@@ -12,6 +12,9 @@
 #include "construction.h"
 #include "text_snippets.h"
 #include "ui.h"
+#include "skill.h"
+#include "martialarts.h"
+#include "bionics.h"
 #include <algorithm>
 #include <sstream>
 

@@ -18,6 +18,7 @@
 #include "mission.h"
 #include "json.h"
 #include "sounds.h"
+#include "morale.h"
 
 #include <algorithm>
 #include <string>

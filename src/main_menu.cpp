@@ -13,6 +13,7 @@
 #include "filesystem.h"
 #include "path_info.h"
 #include "mapsharing.h"
+#include "morale.h"
 
 #include <fstream>
 

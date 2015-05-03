@@ -33,6 +33,7 @@
 #include "mission.h"
 #include "faction.h"
 #include "savegame.h"
+#include "morale.h"
 
 #if !defined(_MSC_VER)
 #include <unistd.h>
