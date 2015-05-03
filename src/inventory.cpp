@@ -5,6 +5,7 @@
 #include "debug.h"
 #include "iuse.h"
 #include "iuse_actor.h"
+#include "options.h"
 
 const std::string inv_chars =
     "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ!\"#&()*+./:;=@[\\]^_{|}";

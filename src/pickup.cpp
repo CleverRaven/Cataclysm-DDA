@@ -5,6 +5,8 @@
 #include "map.h"
 #include "messages.h"
 #include "translations.h"
+#include "input.h"
+#include "options.h"
 
 #include <map>
 #include <vector>

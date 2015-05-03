@@ -57,6 +57,7 @@
 #include "compatibility.h"
 #include "mongroup.h"
 #include "morale.h"
+#include "worldfactory.h"
 
 #include <map>
 #include <set>

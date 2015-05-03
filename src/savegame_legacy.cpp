@@ -34,6 +34,7 @@
 #include "faction.h"
 #include "savegame.h"
 #include "morale.h"
+#include "worldfactory.h"
 
 #if !defined(_MSC_VER)
 #include <unistd.h>

@@ -6,6 +6,7 @@
 #include "debug.h"
 #include "monster.h"
 #include "mongroup.h"
+#include "worldfactory.h"
 
 #include <fstream>
 #include <sstream>

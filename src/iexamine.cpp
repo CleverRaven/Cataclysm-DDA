@@ -12,6 +12,7 @@
 #include "messages.h"
 #include "compatibility.h"
 #include "sounds.h"
+#include "worldfactory.h"
 
 #include <sstream>
 #include <algorithm>

@@ -8,6 +8,7 @@
 #include "monstergenerator.h"
 #include "overmapbuffer.h"
 #include "sounds.h"
+#include "options.h"
 
 #include <math.h>    //sqrt
 #include <algorithm> //std::min

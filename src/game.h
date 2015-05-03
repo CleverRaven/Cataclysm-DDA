@@ -10,7 +10,6 @@
 #include "construction.h"
 #include "calendar.h"
 #include "posix_time.h"
-#include "worldfactory.h"
 #include "creature_tracker.h"
 #include "weather.h"
 #include "weather_gen.h"
@@ -82,6 +81,9 @@ class calendar;
 class scenario;
 class DynamicDataLoader;
 class salvage_actor;
+class input_context;
+struct WORLD;
+typedef WORLD *WORLDPTR;
 
 class game
 {

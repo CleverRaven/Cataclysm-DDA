@@ -5,6 +5,7 @@
 #include "output.h"
 #include "mapsharing.h"
 #include "translations.h"
+#include "worldfactory.h"
 #include <iostream>
 #include <fstream>
 

@@ -8,6 +8,8 @@
 #include "path_info.h"
 #include "filesystem.h"
 #include "translations.h"
+#include "catacharset.h"
+#include "options.h"
 #include <fstream>
 #include <sstream>
 #include <stdexcept>

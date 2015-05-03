@@ -11,6 +11,8 @@
 #include "advanced_inv.h"
 #include "compatibility.h"
 #include "enums.h"
+#include "input.h"
+#include "options.h"
 
 #include <map>
 #include <set>

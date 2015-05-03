@@ -7,6 +7,8 @@
 #include "cursesdef.h"
 #include "path_info.h"
 #include "mapsharing.h"
+#include "input.h"
+#include "worldfactory.h"
 
 #ifdef SDLTILES
 #include "cata_tiles.h"

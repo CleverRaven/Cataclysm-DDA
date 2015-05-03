@@ -7,6 +7,8 @@
 #include "translations.h"
 #include "path_info.h"
 #include "filesystem.h"
+#include "input.h"
+#include "worldfactory.h"
 
 #include <stdlib.h>
 #include <fstream>
