@@ -60,6 +60,7 @@
 #include "worldfactory.h"
 #include "material.h"
 #include "martialarts.h"
+#include "event.h"
 
 #include <map>
 #include <set>

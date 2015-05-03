@@ -19,6 +19,7 @@
 #include "mongroup.h"
 #include "translations.h"
 #include "morale.h"
+#include "event.h"
 
 #include <algorithm>
 

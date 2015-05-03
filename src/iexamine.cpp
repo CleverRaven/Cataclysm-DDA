@@ -14,6 +14,7 @@
 #include "sounds.h"
 #include "worldfactory.h"
 #include "input.h"
+#include "event.h"
 
 #include <sstream>
 #include <algorithm>

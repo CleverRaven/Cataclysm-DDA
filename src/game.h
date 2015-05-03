@@ -4,8 +4,6 @@
 #include "game_constants.h"
 #include "player.h"
 #include "faction.h"
-#include "event.h"
-#include "weather.h"
 #include "construction.h"
 #include "calendar.h"
 #include "posix_time.h"
@@ -84,6 +82,8 @@ class input_context;
 struct WORLD;
 typedef WORLD *WORLDPTR;
 class overmap;
+struct event;
+enum event_type : int;
 
 class game
 {

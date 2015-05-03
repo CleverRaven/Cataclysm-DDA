@@ -25,6 +25,7 @@
 #include "translations.h"
 #include "morale.h"
 #include "input.h"
+#include "event.h"
 
 #include <vector>
 #include <sstream>

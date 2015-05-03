@@ -11,6 +11,7 @@
 #include "morale.h"
 #include "messages.h"
 #include "material.h"
+#include "event.h"
 #include <sstream>
 #include <algorithm>
 
