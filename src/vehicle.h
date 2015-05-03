@@ -174,15 +174,7 @@ struct vehicle_part : public JsonSerializer, public JsonDeserializer
 private:
     std::list<item> items; // inventory
 public:
-    bool setid(const std::string str) {
-        std::map<std::string, vpart_info>::const_iterator vpit = vehicle_part_types.find(str);
-        if ( vpit == vehicle_part_types.end() ) {
-            return false;
-        }
-        id = str;
-        iid = vpit->second.loadid;
-        return true;
-    }
+    bool setid( const std::string & str );
 
     // json saving/loading
     using JsonSerializer::serialize;

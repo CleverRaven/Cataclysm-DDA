@@ -5839,6 +5839,16 @@ int vehicle::obstacle_at_part( int p ) const
 /*-----------------------------------------------------------------------------
  *                              VEHICLE_PART
  *-----------------------------------------------------------------------------*/
+bool vehicle_part::setid( const std::string & str )
+{
+    auto const vpit = vehicle_part_types.find( str );
+    if( vpit == vehicle_part_types.end() ) {
+        return false;
+    }
+    id = str;
+    iid = vpit->second.loadid;
+    return true;
+}
 
 void vehicle_part::properties_from_item( const item &used_item )
 {
