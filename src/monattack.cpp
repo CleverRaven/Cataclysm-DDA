@@ -235,6 +235,154 @@ void mattack::acid(monster *z, int index)
     }
 }
 
+void mattack::acid_barf(monster *z, int index)
+{
+    if( !z->can_act() ) {
+        return;
+    }
+
+    // Let it be used on non-player creatures
+    Creature *target = z->attack_target();
+    if( target == nullptr || rl_dist( z->pos3(), target->pos3() ) > 1 ) {
+        return;
+    }
+
+    player *foe = dynamic_cast< player* >( target );
+    bool seen = g->u.sees( *z );
+
+    z->reset_special(index); // Reset timer
+    z->moves -= 80;
+    bool uncanny = foe != nullptr && foe->uncanny_dodge();
+    // Can we dodge the attack? Uses player dodge function % chance (melee.cpp)
+    if( uncanny || dodge_check(z, target) ){
+        if( foe != nullptr ) {
+            if( seen ) {
+                auto msg_type = foe == &g->u ? m_warning : m_info;
+                foe->add_msg_player_or_npc( msg_type, _("The %s barfs acid at you, but you dodge!"),
+                                                      _("The %s barfs acid at <npcname>, but they dodge!"),
+                                            z->name().c_str() );
+            }
+            if( !uncanny ) {
+                foe->practice( "dodge", z->type->melee_skill * 2 );
+                foe->ma_ondodge_effects();
+            }
+        } else if( seen ) {
+            add_msg( _("The %s barfs acid at %s, but misses!"), z->name().c_str(), target->disp_name().c_str() );
+        }
+        return;
+    }
+
+    body_part hit = random_body_part();
+    int dam = rng(10, 15);
+    dam = target->deal_damage( z, hit, damage_instance( DT_ACID, dam ) ).total_damage();
+    g->m.add_field( target->pos3(), fd_acid, 1, 0 );
+
+    if( dam > 0 && foe != nullptr ) {
+        if( seen ) {
+            auto msg_type = foe == &g->u ? m_bad : m_info;
+            //~ 1$s is monster name, 2$s bodypart in accusative
+            foe->add_msg_player_or_npc( msg_type,
+                                        _("The %1$s barfs acid on your %2$s!"),
+                                        _("The %1$s barfs acid on <npcname>'s %2$s!"),
+                                        z->name().c_str(),
+                                        body_part_name_accusative( hit ).c_str() );
+        }
+        foe->practice( "dodge", z->type->melee_skill );
+        if( hit == bp_eyes ) {
+            foe->add_env_effect("blind", bp_eyes, 3, 10);
+        }
+        foe->check_dead_state();
+    } else if( foe != nullptr ) {
+        if( seen ) {
+            foe->add_msg_player_or_npc( _("The %1$s barfs acid on your %2$s, but it washes off the armor!"),
+                                        _("The %1$s bites <npcname>'s %2$s, but it washes off the armor!"),
+                                        z->name().c_str(),
+                                        body_part_name_accusative( hit ).c_str() );
+        }
+    } else if( seen ) {
+        add_msg( _("The %s barfs acid on %s!"), z->name().c_str(), target->disp_name().c_str() );
+    }
+    target->check_dead_state();
+}
+
+void mattack::acid_accurate(monster *z, int index)
+{
+    if( !z->can_act() ) {
+        return;
+    }
+
+    int t;
+    int dist;
+    Creature *target = z->attack_target();
+    if( target == nullptr ||
+        ( dist = rl_dist( z->pos3(), target->pos3() ) ) > 12 ||
+        !z->sees( *target, t ) ) {
+        return;
+    }
+
+    auto msg_type = target == &g->u ? m_bad : m_neutral;
+
+    z->moves -= 50;
+    z->reset_special(index); // Reset timer
+
+    int deviation = rng(1, 10);
+    double missed_by = (.0325 * deviation * dist);
+    std::set<std::string> no_effects;
+
+    if (missed_by > 1.) {
+        if( g->u.sees( *z ) ) {
+            add_msg(_("The %s spits acid, but misses %s."), z->name().c_str(), target->disp_name().c_str() );
+        }
+        tripoint hitp( target->posx() + rng(0 - int(missed_by), int(missed_by)),
+                       target->posy() + rng(0 - int(missed_by), int(missed_by)),
+                       target->posz() );
+        std::vector<tripoint> line = line_to( z->pos3(), hitp, 0, 0 );
+        int dam = rng(5,10);
+        for( auto &i : line ) {
+            g->m.shoot( i, dam, false, no_effects);
+            if (dam == 0 && g->u.sees( i )) {
+                add_msg(_("A bolt of acid hits the %s!"),
+                        g->m.tername( i ).c_str());
+                return;
+            }
+            if (dam <= 0) {
+                break;
+            }
+        }
+        g->m.add_field( hitp, fd_acid, 1, 0 );
+        return;
+    }
+
+    if( g->u.sees( *z ) ) {
+        add_msg(_("The %s spits acid!"), z->name().c_str());
+    }
+    g->m.sees( z->pos(), target->pos(), 60, t);
+    std::vector<tripoint> line = line_to( z->pos3(), target->pos3(), t, 0 );
+    int dam = rng(5,10);
+    body_part bp = random_body_part();
+    for (auto &i : line) {
+        g->m.shoot( i, dam, false, no_effects );
+        if (dam == 0 && g->u.sees( i )) {
+            add_msg(_("A bolt of acid hits the %s!"), g->m.tername( i ).c_str());
+            return;
+        }
+    }
+    if (dam <= 0) {
+        return;
+    }
+    if( target->uncanny_dodge() ) {
+        return;
+    }
+    if( g->u.sees( *target ) ) {
+        add_msg( msg_type, _("A bolt of acid hits %1$s's %2$s!"), target->disp_name().c_str(), body_part_name_accusative( bp ).c_str() );
+    }
+    target->deal_damage( z, bp, damage_instance( DT_ACID, dam ) );
+    if (bp == bp_eyes){
+        target->add_env_effect("blind", bp_eyes, 3, 10);
+    }
+    target->check_dead_state();
+}
+
 void mattack::shockstorm(monster *z, int index)
 {
     if( !z->can_act() ) {

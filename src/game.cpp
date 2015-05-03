@@ -28,6 +28,7 @@
 #include "action.h"
 #include "monstergenerator.h"
 #include "monattack.h"
+#include "mondefense.h"
 #include "worldfactory.h"
 #include "filesystem.h"
 #include "mod_manager.h"
