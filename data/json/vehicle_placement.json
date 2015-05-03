@@ -1,0 +1,107 @@
+[
+    {
+        "type" : "vehicle_placement",
+        "id" : "road_straight_wrecks",
+        "locations" : [
+            { "x": [0,19], "y": [0,19], "facing" : [90,270] }
+        ]
+    },{
+        "type" : "vehicle_placement",
+        "id" : "road_end_wrecks",
+        "locations" : [
+            { "x": [0,19], "y": [0,19], "facing" : [0,90,180,270] }
+        ]
+    },{
+        "type" : "vehicle_placement",
+        "id" : "road_curved_wrecks",
+        "locations" : [
+            { "x": [0,19], "y": [0,19], "facing" : [90,180] }
+        ]
+    },{
+        "type" : "vehicle_placement",
+        "id" : "road_tee_wrecks",
+        "locations" : [
+            { "x": [0,19], "y": [0,19], "facing" : [90,180] }
+        ]
+    },{
+        "type" : "vehicle_placement",
+        "id" : "road_four_way_wrecks",
+        "locations" : [
+            { "x": [0,19], "y": [0,19], "facing" : [90,180] }
+        ]
+    },{
+
+        "type" : "vehicle_placement",
+        "id" : "road_straight_parked",
+        "locations" : [
+            { "x": 6, "y": [4,16], "facing" : 90 },
+            { "x": 17, "y": [4,16], "facing" : 270 }
+        ]
+    },{
+        "type" : "vehicle_placement",
+        "id" : "road_end_parked",
+        "locations" : [
+            { "x": [4,16], "y": 17, "facing" : 0 },
+            { "x": 6, "y": [4,16], "facing" : 90 },
+            { "x": [4,16], "y": 6, "facing" : 180 },
+            { "x": 17, "y": [4,16], "facing" : 270 }
+        ]
+    },{
+        "type" : "vehicle_placement",
+        "id" : "road_curved_parked",
+        "locations" : [
+            { "x": 6, "y": [4,16], "facing" : 90 },
+            { "x": [4,16], "y": 6, "facing" : 180 }
+        ]
+    },{
+        "type" : "vehicle_placement",
+        "id" : "road_tee_parked",
+        "locations" : [
+            { "x": 6, "y": [4,16], "facing" : 90 },
+            { "x": [4,16], "y": 6, "facing" : 180 }
+        ]
+    },{
+        "type" : "vehicle_placement",
+        "id" : "road_four_way_parked",
+        "locations" : [
+            { "x": 6, "y": [4,16], "facing" : 90 },
+            { "x": [4,16], "y": 6, "facing" : 180 }
+        ]
+    },{
+        "type" : "vehicle_placement",
+        "id" : "road_straight_highway",
+        "locations" : [
+            { "x": [8,16], "y": [8,16], "facing" : [90,270] }
+        ]
+    },{
+        "type" : "vehicle_placement",
+        "id" : "road_end_highway",
+        "locations" : [
+            { "x": [8,16], "y": [8,16], "facing" : [0,90,180,270] }
+        ]
+    },{
+        "type" : "vehicle_placement",
+        "id" : "road_curved_highway",
+        "locations" : [
+            { "x": [8,16], "y": [8,16], "facing" : [90,180] }
+        ]
+    },{
+        "type" : "vehicle_placement",
+        "id" : "road_tee_highway",
+        "locations" : [
+            { "x": [8,16], "y": [8,16], "facing" : [90,180] }
+        ]
+    },{
+        "type" : "vehicle_placement",
+        "id" : "road_four_way_highway",
+        "locations" : [
+            { "x": [8,16], "y": [8,16], "facing" : [90,180] }
+        ]
+    },{
+        "type" : "vehicle_placement",
+        "id" : "pileup",
+        "locations" : [
+            { "x": [4,16], "y": [4,16], "facing" : [0,90,180,270] }
+        ]
+    }
+]
