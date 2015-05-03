@@ -17,6 +17,7 @@
 #include "rng.h"
 #include "translations.h"
 #include "morale.h"
+#include "npc.h"
 
 #include <queue>
 #include <math.h>    //sqrt

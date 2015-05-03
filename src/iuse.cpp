@@ -25,6 +25,7 @@
 #include "translations.h"
 #include "morale.h"
 #include "input.h"
+#include "npc.h"
 #include "event.h"
 #include "artifact.h"
 #include "overmap.h"

@@ -6,6 +6,8 @@
 #include "messages.h"
 #include "rng.h"
 #include "translations.h"
+#include "monster.h"
+#include "npc.h"
 
 #include <algorithm>
 #include <numeric>

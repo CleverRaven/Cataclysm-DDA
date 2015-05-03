@@ -14,6 +14,7 @@
 #include "sounds.h"
 #include "worldfactory.h"
 #include "input.h"
+#include "monster.h"
 #include "event.h"
 #include "catacharset.h"
 #include "ui.h"

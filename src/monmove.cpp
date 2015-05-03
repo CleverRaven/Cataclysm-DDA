@@ -13,6 +13,7 @@
 #include "monattack.h"
 #include "monstergenerator.h"
 #include "translations.h"
+#include "npc.h"
 
 #include <stdlib.h>
 //Used for e^(x) functions

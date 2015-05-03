@@ -15,6 +15,7 @@
 #include "mapsharing.h"
 #include "iuse_actor.h"
 #include "mongroup.h"
+#include "npc.h"
 #include "event.h"
 #include "monster.h"
 #include "veh_type.h"

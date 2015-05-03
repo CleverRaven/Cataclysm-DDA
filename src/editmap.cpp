@@ -19,6 +19,7 @@
 #include "translations.h"
 #include "morale.h"
 #include "coordinates.h"
+#include "npc.h"
 
 #include <fstream>
 #include <sstream>

@@ -7,6 +7,8 @@
 #include "messages.h"
 #include "translations.h"
 #include "material.h"
+#include "monster.h"
+#include "npc.h"
 
 #define INBOUNDS(x, y) \
  (x >= 0 && x < SEEX * my_MAPSIZE && y >= 0 && y < SEEY * my_MAPSIZE)

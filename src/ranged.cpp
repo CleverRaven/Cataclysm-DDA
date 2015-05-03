@@ -14,6 +14,8 @@
 #include "messages.h"
 #include "sounds.h"
 #include "translations.h"
+#include "monster.h"
+#include "npc.h"
 
 int time_to_fire(player &p, const itype &firing);
 int recoil_add(player &p, const item &gun);

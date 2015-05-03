@@ -14,6 +14,9 @@
 #include <math.h>
 
 class Creature;
+class monster;
+struct projectile;
+enum body_part : int;
 
 using mon_action_death  = void (*)(monster*);
 using mon_action_attack = void (*)(monster*, int);

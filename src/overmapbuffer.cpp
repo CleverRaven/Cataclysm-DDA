@@ -9,6 +9,7 @@
 #include "mongroup.h"
 #include "worldfactory.h"
 #include "catacharset.h"
+#include "npc.h"
 
 #include <fstream>
 #include <sstream>
