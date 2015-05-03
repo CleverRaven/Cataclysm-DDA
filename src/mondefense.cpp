@@ -66,9 +66,9 @@ void mdefense::acidsplash(monster *const m, Creature *const source, projectile c
     if (one_in(2)){
         for (int i = 0; i < rng(3,5); i++) {
             if (one_in(2)){
-                g->m.add_field(m->posx() + dx * rng(0, 3),m->posy() + dy * rng(0, 3), fd_acid, rng(2,3));
+                g->m.add_field(m->posx() + dx + rng(-1, 2),m->posy() + dy * rng(-1, 2), fd_acid, rng(2,3));
             }else{
-                g->m.add_field(m->posx() + dx * rng(0, 2),m->posy() + dy * rng(0, 2), fd_acid, rng(2,3));
+                g->m.add_field(m->posx() + dx * rng(-1, 1),m->posy() + dy * rng(-1, 1), fd_acid, rng(2,3));
             }
         }
     }

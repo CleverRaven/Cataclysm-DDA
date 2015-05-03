@@ -275,6 +275,7 @@ void mattack::acid_barf(monster *z, int index)
     body_part hit = random_body_part();
     int dam = rng(10, 15);
     dam = target->deal_damage( z, hit, damage_instance( DT_ACID, dam ) ).total_damage();
+    g->m.add_field( foe->pos3(), fd_acid, 1, 0 );
 
     if( dam > 0 && foe != nullptr ) {
         if( seen ) {
