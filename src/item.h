@@ -158,11 +158,6 @@ public:
  // Firearm specifics
  int reload_time(player &u) const;
  int clip_size() const;
- // return the appropriate size for a spare magazine
- inline int spare_mag_size() const
- {
-    return ((clip_size() < type->gun->clip) ? clip_size() : type->gun->clip);
- }
  // We use the current aim level to decide which sight to use.
  int sight_dispersion( int aim_threshold ) const;
  int aim_speed( int aim_threshold ) const;
@@ -884,6 +879,11 @@ public:
          * for which skill() would return a skill.
          */
         std::string gun_skill() const;
+        /**
+         * Returns the appropriate size for a spare magazine used with this gun. If this is not a gun,
+         * it returns 0.
+         */
+        int spare_mag_size() const;
         /*@}*/
 
         /**

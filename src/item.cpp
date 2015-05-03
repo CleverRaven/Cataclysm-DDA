@@ -3285,6 +3285,18 @@ void item::next_mode()
     }
 }
 
+int item::spare_mag_size() const
+{
+    if( !type->gun ) {
+        return 0;
+    }
+    if( clip_size() < type->gun->clip ) {
+        return clip_size();
+    } else {
+        return type->gun->clip;
+    }
+}
+
 std::string item::gun_skill() const
 {
     if( !is_gun() ) {
