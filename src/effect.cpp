@@ -3,6 +3,7 @@
 #include "output.h"
 #include "player.h"
 #include "translations.h"
+#include "messages.h"
 #include <map>
 #include <sstream>
 

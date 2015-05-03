@@ -12,6 +12,7 @@
 #include "rng.h"
 #include "mongroup.h"
 #include "morale.h"
+#include "messages.h"
 
 #include <sstream>
 

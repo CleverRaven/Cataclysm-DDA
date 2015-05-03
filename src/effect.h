@@ -3,7 +3,6 @@
 
 #include "pldata.h"
 #include "json.h"
-#include "messages.h"
 #include "enums.h"
 #include <unordered_map>
 #include <tuple>
@@ -11,6 +10,7 @@
 class effect_type;
 class Creature;
 class player;
+enum game_message_type : int;
 
 extern std::map<std::string, effect_type> effect_types;
 

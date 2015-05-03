@@ -9,6 +9,7 @@
 #include "monstergenerator.h"
 #include "translations.h"
 #include "morale.h"
+#include "messages.h"
 #include <sstream>
 #include <algorithm>
 

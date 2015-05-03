@@ -9,7 +9,6 @@
 #include "vehicle.h"
 #include "martialarts.h"
 #include "player_activity.h"
-#include "messages.h"
 #include "clzones.h"
 #include "artifact.h"
 #include "weighted_list.h"
@@ -28,6 +27,7 @@ class profession;
 nc_color encumb_color(int level);
 enum morale_type : int;
 class morale_point;
+enum game_message_type : int;
 
 struct special_attack {
     std::string text;
