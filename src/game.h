@@ -4,7 +4,6 @@
 #include "game_constants.h"
 #include "player.h"
 #include "faction.h"
-#include "construction.h"
 #include "calendar.h"
 #include "posix_time.h"
 #include "creature_tracker.h"
