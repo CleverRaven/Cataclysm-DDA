@@ -5,7 +5,6 @@
 #include "player.h"
 #include "faction.h"
 #include "event.h"
-#include "mission.h"
 #include "weather.h"
 #include "construction.h"
 #include "calendar.h"
@@ -84,6 +83,7 @@ class salvage_actor;
 class input_context;
 struct WORLD;
 typedef WORLD *WORLDPTR;
+class overmap;
 
 class game
 {
