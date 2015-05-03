@@ -18,6 +18,7 @@
 
 #ifdef LUA
 extern "C" {
+#include "mongroup.h"
 #include "lua.h"
 #include "lualib.h"
 #include "lauxlib.h"

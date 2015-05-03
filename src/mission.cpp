@@ -4,6 +4,7 @@
 #include "overmapbuffer.h"
 #include "translations.h"
 #include "requirements.h"
+#include "overmap.h"
 
 #include <fstream>
 #include <sstream>

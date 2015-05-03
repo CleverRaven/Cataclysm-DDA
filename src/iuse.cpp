@@ -27,6 +27,7 @@
 #include "input.h"
 #include "event.h"
 #include "artifact.h"
+#include "overmap.h"
 
 #include <vector>
 #include <sstream>

@@ -14,6 +14,8 @@
 #include "translations.h"
 #include "catacharset.h"
 #include "input.h"
+#include "monster.h"
+#include "overmap.h"
 
 #include <math.h>    //sqrt
 #include <algorithm> //std::min

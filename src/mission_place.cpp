@@ -1,5 +1,6 @@
 #include "mission.h"
 #include "overmapbuffer.h"
+#include "overmap.h"
 
 // Input position is in global overmap terrain coordinates!
 

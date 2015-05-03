@@ -29,6 +29,8 @@
 #include "debug.h"
 #include "weather.h"
 #include "mapsharing.h"
+#include "monster.h"
+#include "overmap.h"
 
 #include "savegame.h"
 #include "tile_id_data.h"

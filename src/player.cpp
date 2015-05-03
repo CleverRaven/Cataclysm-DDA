@@ -32,6 +32,7 @@
 #include "morale.h"
 #include "input.h"
 #include "veh_type.h"
+#include "overmap.h"
 
 #ifdef SDLTILES
 #include "SDL2/SDL.h"

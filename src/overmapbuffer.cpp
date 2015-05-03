@@ -1,6 +1,7 @@
 #include <stdlib.h>
 
 #include "overmapbuffer.h"
+#include "overmap.h"
 #include "game.h"
 #include "map.h"
 #include "debug.h"

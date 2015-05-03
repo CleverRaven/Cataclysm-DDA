@@ -16,8 +16,10 @@
 #include "iuse_actor.h"
 #include "mongroup.h"
 #include "event.h"
+#include "monster.h"
 #include "veh_type.h"
 #include "artifact.h"
+#include "omdata.h"
 
 #include <cmath>
 #include <stdlib.h>

@@ -19,6 +19,7 @@
 #include "json.h"
 #include "sounds.h"
 #include "morale.h"
+#include "overmap.h"
 
 #include <algorithm>
 #include <string>
