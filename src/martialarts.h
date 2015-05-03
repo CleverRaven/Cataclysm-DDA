@@ -10,6 +10,7 @@
 
 class effect;
 class player;
+class item;
 
 struct ma_requirements {
     bool unarmed_allowed; // does this bonus work when unarmed?
