@@ -14,6 +14,8 @@
 #include "path_info.h"
 #include "mapsharing.h"
 #include "translations.h"
+#include "martialarts.h"
+#include "addiction.h"
 #ifndef _MSC_VER
 #include <unistd.h>
 #endif
