@@ -19,7 +19,7 @@ class Vehicle_Group {
 
     public:
         void add_vehicle_entry(const std::string &type, const int &probability);
-        const Vehicle_spawn_data* pick();
+        const Vehicle_spawn_data* pick() const;
 
     private:
         weighted_int_list<Vehicle_spawn_data> m_vehicles;
