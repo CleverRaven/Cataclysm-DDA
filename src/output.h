@@ -2,14 +2,14 @@
 #define OUTPUT_H
 
 #include "color.h"
-#include "line.h"
+#include "cursesdef.h"
 #include <cstdarg>
 #include <string>
 #include <vector>
 #include <memory>
 
-#include "item.h"
-#include "ui.h"
+struct iteminfo;
+enum direction : int;
 
 //      LINE_NESW  - X for on, O for off
 #define LINE_XOXO 4194424 // '|'   Vertical line. ncurses: ACS_VLINE; Unicode: U+2502

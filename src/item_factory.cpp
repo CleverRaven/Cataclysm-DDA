@@ -11,6 +11,7 @@
 #include "debug.h"
 #include "construction.h"
 #include "text_snippets.h"
+#include "ui.h"
 #include <algorithm>
 #include <sstream>
 
