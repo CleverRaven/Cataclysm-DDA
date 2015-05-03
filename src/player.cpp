@@ -6,7 +6,6 @@
 #include "map.h"
 #include "debug.h"
 #include "addiction.h"
-#include "moraledata.h"
 #include "inventory.h"
 #include "options.h"
 #include <sstream>
@@ -61,7 +60,7 @@ static const itype_id OPTICAL_CLOAK_ITEM_ID( "optical_cloak" );
 void game::init_morale()
 {
     std::string tmp_morale_data[NUM_MORALE_TYPES] = {
-    "This is a bug (moraledata.h:moraledata)",
+    "This is a bug (player.cpp:moraledata)",
     _("Enjoyed %i"),
     _("Enjoyed a hot meal"),
     _("Music"),
