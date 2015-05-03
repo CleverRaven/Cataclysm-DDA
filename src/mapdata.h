@@ -5,7 +5,6 @@
 #include "color.h"
 #include "item.h"
 #include "trap.h"
-#include "monster.h"
 #include "enums.h"
 #include "computer.h"
 #include "vehicle.h"

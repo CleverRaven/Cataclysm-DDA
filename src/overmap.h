@@ -5,6 +5,7 @@
 #include "mapdata.h"
 #include "weighted_list.h"
 #include "game_constants.h"
+#include "monster.h"
 #include <vector>
 #include <iosfwd>
 #include <string>
