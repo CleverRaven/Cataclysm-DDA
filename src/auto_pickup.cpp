@@ -9,6 +9,7 @@
 #include "filesystem.h"
 #include "input.h"
 #include "worldfactory.h"
+#include "itype.h"
 
 #include <stdlib.h>
 #include <fstream>

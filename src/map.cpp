@@ -17,6 +17,7 @@
 #include "mongroup.h"
 #include "event.h"
 #include "veh_type.h"
+#include "artifact.h"
 
 #include <cmath>
 #include <stdlib.h>

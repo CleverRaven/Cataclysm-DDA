@@ -4,6 +4,7 @@
 #include "martialarts.h"
 #include "json.h"
 #include "translations.h"
+#include "itype.h"
 #include <map>
 #include <string>
 #include <algorithm>

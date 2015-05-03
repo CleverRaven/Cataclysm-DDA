@@ -8,9 +8,9 @@
 #include <bitset>
 #include <unordered_set>
 #include <set>
-#include "artifact.h"
-#include "itype.h"
-#include "mtype.h"
+#include "enums.h"
+#include "json.h"
+#include "color.h"
 #include "bodypart.h"
 
 class game;
@@ -18,9 +18,13 @@ class Character;
 class player;
 class npc;
 struct itype;
+struct mtype;
 struct islot_armor;
+struct use_function;
 class material_type;
 class item_category;
+using ammotype = std::string;
+using itype_id = std::string;
 
 std::string const& rad_badge_color(int rad);
 

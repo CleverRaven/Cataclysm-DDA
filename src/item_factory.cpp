@@ -16,6 +16,7 @@
 #include "martialarts.h"
 #include "bionics.h"
 #include "material.h"
+#include "artifact.h"
 #include <algorithm>
 #include <sstream>
 

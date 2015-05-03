@@ -26,6 +26,7 @@
 #include "morale.h"
 #include "input.h"
 #include "event.h"
+#include "artifact.h"
 
 #include <vector>
 #include <sstream>
