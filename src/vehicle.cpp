@@ -3315,7 +3315,7 @@ void vehicle::power_parts( const tripoint &sm_loc )//TODO: more categories of po
     if( engine_on ) {
         for( size_t e = 0; e < engines.size(); ++e ) {
             // Electric engines consume power when actually used, not passively
-            if( !is_engine_type_on(e, fuel_type_battery) ) {
+            if( is_engine_on( e ) && !is_engine_type(e, fuel_type_battery) ) {
                 engine_epower += part_epower( engines[e] );
             }
         }
