@@ -7,6 +7,7 @@
 #include "translations.h"
 #include "input.h"
 #include "options.h"
+#include "ui.h"
 
 #include <map>
 #include <vector>

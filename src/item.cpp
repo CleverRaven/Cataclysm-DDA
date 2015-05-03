@@ -22,6 +22,7 @@
 #include "crafting.h"
 #include "martialarts.h"
 #include "npc.h"
+#include "ui.h"
 
 #include <cmath> // floor
 #include <sstream>

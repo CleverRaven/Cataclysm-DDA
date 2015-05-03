@@ -20,6 +20,7 @@
 #include "translations.h"
 #include "morale.h"
 #include "event.h"
+#include "ui.h"
 
 #include <algorithm>
 

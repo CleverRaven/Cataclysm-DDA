@@ -13,6 +13,7 @@
 #include "translations.h"
 #include "input.h"
 #include "itype.h"
+#include "ui.h"
 #include <istream>
 #include <sstream>
 #include <fstream>

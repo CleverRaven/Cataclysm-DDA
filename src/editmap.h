@@ -5,6 +5,7 @@
 #include "map.h"
 #include "line.h"
 #include "omdata.h"
+#include "ui.h"
 #include <vector>
 #include <map>
 #include <list>

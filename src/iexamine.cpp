@@ -16,6 +16,7 @@
 #include "input.h"
 #include "event.h"
 #include "catacharset.h"
+#include "ui.h"
 
 #include <sstream>
 #include <algorithm>

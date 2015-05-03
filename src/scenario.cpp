@@ -16,6 +16,7 @@
 #include "addiction.h"
 #include "skill.h"
 #include "profession.h"
+#include "mutation.h"
 
 scenario::scenario()
    : _ident(""), _name_male("null"), _name_female("null"),

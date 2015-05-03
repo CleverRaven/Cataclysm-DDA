@@ -7,6 +7,7 @@
 #include "translations.h"
 #include "worldfactory.h"
 #include "catacharset.h"
+#include "ui.h"
 #include <iostream>
 #include <fstream>
 

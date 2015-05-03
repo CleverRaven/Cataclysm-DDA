@@ -8,6 +8,9 @@
 #include "compatibility.h"
 #include "translations.h"
 #include "input.h"
+#include "monster.h"
+#include "ui.h"
+#include "mutation.h"
 
 #include <sstream>
 

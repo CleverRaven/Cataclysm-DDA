@@ -27,6 +27,7 @@
 #include "morale.h"
 #include "veh_type.h"
 #include "vehicle.h"
+#include "mutation.h"
 
 #include "savegame.h"
 #include "tile_id_data.h" // for monster::json_save

@@ -16,6 +16,8 @@
 #include "translations.h"
 #include "martialarts.h"
 #include "addiction.h"
+#include "ui.h"
+#include "mutation.h"
 #ifndef _MSC_VER
 #include <unistd.h>
 #endif

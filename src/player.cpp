@@ -8,8 +8,6 @@
 #include "addiction.h"
 #include "inventory.h"
 #include "options.h"
-#include <sstream>
-#include <stdlib.h>
 #include "weather.h"
 #include "item.h"
 #include "material.h"
@@ -28,11 +26,13 @@
 #include "sounds.h"
 #include "item_action.h"
 #include "mongroup.h"
-#include "translations.h"
 #include "morale.h"
 #include "input.h"
 #include "veh_type.h"
 #include "overmap.h"
+#include "vehicle.h"
+#include "trap.h"
+#include "mutation.h"
 
 #ifdef SDLTILES
 #include "SDL2/SDL.h"
@@ -49,7 +49,8 @@
 #include <memory>
 #include <array>
 #include <bitset>
-
+#include <sstream>
+#include <stdlib.h>
 #include <fstream>
 
 // use this instead of having to type out 26 spaces like before

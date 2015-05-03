@@ -28,6 +28,7 @@
 #include "event.h"
 #include "artifact.h"
 #include "overmap.h"
+#include "ui.h"
 
 #include <vector>
 #include <sstream>

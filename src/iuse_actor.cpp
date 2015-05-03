@@ -13,6 +13,7 @@
 #include "material.h"
 #include "event.h"
 #include "crafting.h"
+#include "ui.h"
 #include <sstream>
 #include <algorithm>
 

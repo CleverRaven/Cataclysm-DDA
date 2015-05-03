@@ -3,12 +3,8 @@
 
 #include "character.h"
 #include "item.h"
-#include "trap.h"
-#include "mutation.h"
-#include "vehicle.h"
 #include "player_activity.h"
 #include "clzones.h"
-#include "artifact.h"
 #include "weighted_list.h"
 
 #include <unordered_set>
@@ -31,6 +27,8 @@ class martialart;
 struct recipe;
 struct item_comp;
 struct tool_comp;
+class vehicle;
+struct it_comest;
 
 struct special_attack {
     std::string text;
