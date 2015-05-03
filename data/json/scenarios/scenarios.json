@@ -6,7 +6,7 @@
     "points" : 0,
     "description": "You have survived the initial wave of panic, and have achieved (relative) safety in one of the many government evac shelters.",
     "allowed_locs": ["shelter"],
-    "start_name": "Anywhere"
+    "start_name": "Evac Shelter"
   },{
     "type": "scenario",
     "ident": "missed",
