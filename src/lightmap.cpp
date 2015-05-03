@@ -146,7 +146,8 @@ void map::generate_lightmap( const int zlev )
     constexpr int dir_d[] = { 90, 0, 180, 270 }; //    [3]
 
     const float natural_light  = g->natural_light_level();
-    const float inside_light = (natural_light > LIGHT_SOURCE_BRIGHT) ? LIGHT_AMBIENT_LOW : 0.0;
+    const float inside_light = (natural_light > LIGHT_SOURCE_BRIGHT) ?
+        LIGHT_AMBIENT_LOW + 1.0 : 0.0;
     // Apply sunlight, first light source so just assign
     for( int sx = 0; sx < LIGHTMAP_CACHE_X; ++sx ) {
         for( int sy = 0; sy < LIGHTMAP_CACHE_Y; ++sy ) {
