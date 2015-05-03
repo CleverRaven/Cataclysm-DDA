@@ -5551,7 +5551,7 @@ bool vehicle::automatic_fire_turret( int p, const itype &gun, const itype &ammo,
     // Drain a ton of power
     tmp_ups.charges = drain( fuel_type_battery, 1000 );
     tmp.worn.insert( tmp.worn.end(), tmp_ups );
-    tmp.fire_gun( targ, abs( parts[p].mode ) );
+    tmp.fire_gun( targ, (long)abs( parts[p].mode ) );
     // Return whatever is left.
     refill( fuel_type_battery, tmp.worn.back().charges );
     charges = tmp.weapon.charges; // Return real ammo, in case of burst ending early
@@ -5599,7 +5599,7 @@ bool vehicle::manual_fire_turret( int p, player &shooter, const itype &guntype,
         // Put our shooter on the roof of the vehicle
         shooter.add_effect( "on_roof", 1 );
         // TODO (maybe): Less recoil? We're using a mounted, stabilized turret
-        shooter.fire_gun( targ, abs( parts[p].mode ) );
+        shooter.fire_gun( targ, (long)abs( parts[p].mode ) );
         // And now back - we don't want to get any weird behavior
         shooter.remove_effect( "on_roof" );
     }

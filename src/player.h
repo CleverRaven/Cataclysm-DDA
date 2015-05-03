@@ -412,7 +412,7 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         /** Returns true if a gun misfires, jams, or has other problems, else returns false */
         bool handle_gun_damage( const itype &firing, const std::set<std::string> &curammo_effects );
         /** Handles gun firing effects and functions */
-        void fire_gun(int targetx, int targety, bool burst);
+        void fire_gun( const tripoint &target, bool burst );
         void fire_gun( const tripoint &target, long burst_size );
 
         /** Activates any on-dodge effects and checks for dodge counter techniques */
