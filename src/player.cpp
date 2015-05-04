@@ -1941,7 +1941,7 @@ void player::memorial( std::ofstream &memorial_file, std::string epitaph )
 
     //Were they in a town, or out in the wilderness?
     const auto global_sm_pos = global_sm_location();
-    const auto closest_city = overmap_buffer.closest_city( point( global_sm_pos.x, global_sm_pos.y ) );
+    const auto closest_city = overmap_buffer.closest_city( global_sm_pos );
     std::string kill_place;
     if( !closest_city ) {
         //~ First parameter is a pronoun ("He"/"She"), second parameter is a terrain name.
@@ -13257,14 +13257,19 @@ bool player::is_deaf() const
            (has_active_bionic("bio_earplugs") && !has_active_bionic("bio_ears"));
 }
 
-bool player::can_hear( const point source, const int volume ) const
+bool player::can_hear( const tripoint &source, const int volume ) const
 {
     if( is_deaf() ) {
         return false;
     }
-    const int dist = rl_dist( source, pos() );
+    const int dist = rl_dist( source, pos3() );
     const float volume_multiplier = hearing_ability();
     return volume * volume_multiplier >= dist;
+}
+
+bool player::can_hear( const point &source, const int volume ) const
+{
+    return can_hear( tripoint( source, posz() ), volume );
 }
 
 // This method intentionally does not factor in deafness.
@@ -13559,10 +13564,10 @@ mission *player::get_active_mission() const
     return active_mission;
 }
 
-point player::get_active_mission_target() const
+tripoint player::get_active_mission_target() const
 {
     if( active_mission == nullptr ) {
-        return overmap::invalid_point;
+        return overmap::invalid_tripoint;
     }
     return active_mission->get_target();
 }

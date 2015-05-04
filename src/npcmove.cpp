@@ -2268,10 +2268,8 @@ void npc::set_destination()
     std::string dest_type = options[rng(0, options.size() - 1)];
 
     int dist = 0;
-    const point p = overmap_buffer.find_closest(global_omt_location(), dest_type, dist, false);
-    goal.x = p.x;
-    goal.y = p.y;
-    goal.z = g->get_levz();
+    const tripoint p = overmap_buffer.find_closest(global_omt_location(), dest_type, dist, false);
+    goal = p;
 }
 
 void npc::go_to_destination()

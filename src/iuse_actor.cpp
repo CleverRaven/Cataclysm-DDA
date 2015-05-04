@@ -707,7 +707,7 @@ void reveal_map_actor::reveal_targets( tripoint const & center, const std::strin
 {
     const auto places = overmap_buffer.find_all( center, target, radius, false );
     for( auto & place : places ) {
-        overmap_buffer.reveal( place, reveal_distance, g->get_levz() );
+        overmap_buffer.reveal( place, reveal_distance );
     }
 }
 
