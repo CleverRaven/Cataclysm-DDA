@@ -58,8 +58,10 @@ tripoint random_house_in_closest_city()
 tripoint target_om_ter( const std::string &omter, int reveal_rad, mission *miss, bool must_see )
 {
     int dist = 0;
-    const tripoint place = overmap_buffer.find_closest(
-                            g->u.global_omt_location(), omter, dist, must_see );
+    // The missions are coded to work on z-level 0, so we have to check for locations there
+    tripoint surface_loc = g->u.global_omt_location();
+    surface_loc.z = 0;
+    const tripoint place = overmap_buffer.find_closest( surface_loc, omter, dist, must_see );
     if( place != overmap::invalid_tripoint && reveal_rad >= 0 ) {
         overmap_buffer.reveal( place, reveal_rad );
     }
@@ -85,7 +87,7 @@ tripoint target_om_ter_random( const std::string &omter, int reveal_rad, mission
     }
 
     const tripoint place = places_om[rng( 0, places_om.size() - 1 )];
-    if( place != overmap::invalid_tripoint && reveal_rad >= 0 ) {
+    if( reveal_rad >= 0 ) {
         overmap_buffer.reveal( place, reveal_rad );
     }
     miss->set_target( place );
@@ -546,7 +548,7 @@ void mission_start::find_safety( mission *miss )
                         break;
                 }
                 if( overmap_buffer.is_safe( check ) ) {
-                    miss->target = tripoint( check );
+                    miss->target = check;
                     return;
                 }
             }

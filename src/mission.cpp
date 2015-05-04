@@ -180,8 +180,7 @@ void mission::set_target_to_mission_giver()
 {
     const auto giver = g->find_npc( npc_id );
     if( giver != nullptr ) {
-        tripoint t = giver->global_omt_location();
-        target = t;
+        target = giver->global_omt_location();
     } else {
         target = overmap::invalid_tripoint;
     }

@@ -2884,8 +2884,7 @@ void talk_function::lead_to_safety(npc *p)
 {
     const auto mission = mission::reserve_new( MISSION_REACH_SAFETY, -1 );
     mission->assign( g->u );
-    const tripoint target = mission->get_target();
-    p->goal = target;
+    p->goal = mission->get_target();
     p->attitude = NPCATT_LEAD;
 }
 
