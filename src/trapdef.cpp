@@ -3,6 +3,7 @@
 #include "game.h"
 #include "map.h"
 #include "debug.h"
+#include "translations.h"
 
 void trap::load( JsonObject &jo )
 {

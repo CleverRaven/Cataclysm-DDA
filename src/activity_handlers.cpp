@@ -10,6 +10,10 @@
 #include "monstergenerator.h"
 #include "iuse_actor.h"
 #include "rng.h"
+#include "mongroup.h"
+#include "morale.h"
+#include "messages.h"
+#include "martialarts.h"
 
 #include <sstream>
 
@@ -427,7 +431,7 @@ void activity_handlers::firstaid_finish( player_activity *act, player *p )
 {
     item &it = p->i_at(act->position);
     iuse tmp;
-    tmp.completefirstaid(p, &it, false, p->pos());
+    tmp.completefirstaid( p, &it, false, p->pos3() );
     p->reduce_charges(act->position, 1);
     // Erase activity and values.
     act->type = ACT_NULL;
@@ -452,7 +456,7 @@ static void rod_fish( player *p, int sSkillLevel, int fishChance )
                 p->add_msg_if_player(_("You didn't catch anything."));
             }
         } else {
-            g->catch_a_monster(fishables, p->posx(), p->posy(), p, 30000);
+            g->catch_a_monster(fishables, p->pos3(), p, 30000);
         }
 
     } else {
@@ -919,7 +923,7 @@ void activity_handlers::reload_finish( player_activity *act, player *p )
 void activity_handlers::start_fire_finish( player_activity *act, player *p )
 {
     item &it = p->i_at(act->position);
-    firestarter_actor::resolve_firestarter_use(p, &it, act->placement);
+    firestarter_actor::resolve_firestarter_use( p, &it, tripoint( act->placement, p->posz() ) );
     act->type = ACT_NULL;
 }
 

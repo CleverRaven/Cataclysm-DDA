@@ -4,13 +4,14 @@
 #include <string>
 #include <vector>
 #include <map>
-#include "pldata.h"
-#include "addiction.h"
-#include "skill.h"
-#include "json.h"
+#include <set>
 
 class profession;
 class player;
+class JsonArray;
+class JsonObject;
+class addiction;
+enum add_type : int;
 
 typedef std::map<std::string, profession> profmap;
 

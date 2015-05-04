@@ -21,6 +21,9 @@
 #include "uistate.h"
 #include "translations.h"
 #include "path_info.h"
+#include "ui.h"
+#include "item.h"
+#include "line.h"
 
 // Display data
 int TERMX;
@@ -1958,7 +1961,7 @@ void play_music(std::string)
 {
 }
 
-void play_sound(std::string)
+void play_sound_effect(std::string, std::string, int)
 {
 }
 #endif

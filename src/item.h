@@ -8,9 +8,9 @@
 #include <bitset>
 #include <unordered_set>
 #include <set>
-#include "artifact.h"
-#include "itype.h"
-#include "mtype.h"
+#include "enums.h"
+#include "json.h"
+#include "color.h"
 #include "bodypart.h"
 
 class game;
@@ -18,9 +18,13 @@ class Character;
 class player;
 class npc;
 struct itype;
+struct mtype;
 struct islot_armor;
+struct use_function;
 class material_type;
 class item_category;
+using ammotype = std::string;
+using itype_id = std::string;
 
 std::string const& rad_badge_color(int rad);
 
@@ -158,11 +162,6 @@ public:
  // Firearm specifics
  int reload_time(player &u) const;
  int clip_size() const;
- // return the appropriate size for a spare magazine
- inline int spare_mag_size() const
- {
-    return ((clip_size() < type->gun->clip) ? clip_size() : type->gun->clip);
- }
  // We use the current aim level to decide which sight to use.
  int sight_dispersion( int aim_threshold ) const;
  int aim_speed( int aim_threshold ) const;
@@ -355,14 +354,15 @@ public:
     int fridge;
 
  int brewing_time() const;
- bool ready_to_revive( point pos ); // used for corpses
+ bool ready_to_revive( const tripoint &pos ); // used for corpses
  void detonate( const tripoint &p ) const;
  bool can_revive();      // test if item is a corpse and can be revived
 // light emission, determined by type->light_emission (LIGHT_???) tag (circular),
 // overridden by light.* struct (shaped)
- bool getlight(float & luminance, int & width, int & direction, bool calculate_dimming = true) const;
+ bool getlight(float & luminance, int & width, int & direction) const;
 // for quick iterative loops
- int getlight_emit(bool calculate_dimming = true) const;
+ int getlight_emit() const;
+ int getlight_emit_active() const;
 // Our value as a weapon, given particular skills
  int  weapon_value(player *p) const;
 // As above, but discounts its use as a ranged weapon
@@ -425,7 +425,7 @@ public:
      * @param carrier The player / npc that carries the item. This can be null when
      * the item is not carried by anyone (laying on ground)!
      * @param pos The location of the item on the map, same system as
-     * @ref player::pos used. If the item is carried, it should be the
+     * @ref player::pos3 used. If the item is carried, it should be the
      * location of the carrier.
      * @param passive Whether the item should be activated (true), or
      * processed as an active item.
@@ -434,19 +434,17 @@ public:
      * Returns false if the item is not destroyed.
      */
     bool process(player *carrier, const tripoint &pos, bool activate);
-    // Overload for the above
-    bool process(player *carrier, point pos, bool activate);
 protected:
     // Sub-functions of @ref process, they handle the processing for different
     // processing types, just to make the process function cleaner.
     // The interface is the same as for @ref process.
-    bool process_food(player *carrier, point pos);
-    bool process_corpse(player *carrier, point pos);
-    bool process_wet(player *carrier, point pos);
-    bool process_litcig(player *carrier, point pos);
-    bool process_cable(player *carrier, point pos);
-    bool process_tool(player *carrier, point pos);
-    bool process_charger_gun(player *carrier, point pos);
+    bool process_food(player *carrier, const tripoint &pos);
+    bool process_corpse(player *carrier, const tripoint &pos);
+    bool process_wet(player *carrier, const tripoint &pos);
+    bool process_litcig(player *carrier, const tripoint &pos);
+    bool process_cable(player *carrier, const tripoint &pos);
+    bool process_tool(player *carrier, const tripoint &pos);
+    bool process_charger_gun(player *carrier, const tripoint &pos);
 public:
     /**
      * Helper to bring a cable back to its initial state.
@@ -469,7 +467,7 @@ public:
      * @param carrier The character carrying the artifact, can be null.
      * @param pos The location of the artifact (should be the player location if carried).
      */
-    bool process_artifact( player *carrier, point pos );
+    bool process_artifact( player *carrier, const tripoint &pos );
 
  // umber of mods that can still be installed into the given
  // mod location, for non-guns it returns always 0
@@ -885,6 +883,11 @@ public:
          * for which skill() would return a skill.
          */
         std::string gun_skill() const;
+        /**
+         * Returns the appropriate size for a spare magazine used with this gun. If this is not a gun,
+         * it returns 0.
+         */
+        int spare_mag_size() const;
         /*@}*/
 
         /**

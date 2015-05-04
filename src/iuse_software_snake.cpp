@@ -16,6 +16,7 @@
 #include "options.h"
 #include "debug.h"
 #include "iuse_software_snake.h"
+#include "translations.h"
 
 snake_game::snake_game()
 {

@@ -15,6 +15,7 @@ class JsonObject;
 class Skill;
 class inventory;
 class player;
+struct recipe;
 
 enum body_part : int; // From bodypart.h
 typedef int nc_color; // From color.h

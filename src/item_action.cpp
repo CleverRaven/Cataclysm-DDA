@@ -10,6 +10,10 @@
 #include "item_factory.h"
 #include "item_action.h"
 #include "iuse_actor.h"
+#include "translations.h"
+#include "input.h"
+#include "itype.h"
+#include "ui.h"
 #include <istream>
 #include <sstream>
 #include <fstream>
@@ -109,7 +113,7 @@ item_action_map item_action_generator::map_actions_to_items( player &p ) const
             // Can't just test for charges_per_use > charges, because charges can be -1
             if( ufunc == nullptr ||
                 ( ufunc->get_actor_ptr() != nullptr && 
-                    !ufunc->get_actor_ptr()->can_use( &p, actual_item, false, p.pos() ) ) ||
+                    !ufunc->get_actor_ptr()->can_use( &p, actual_item, false, p.pos3() ) ) ||
                 ( tool != nullptr && tool->charges_per_use > 0 && 
                     tool->charges_per_use > actual_item->charges ) ) {
                 continue;

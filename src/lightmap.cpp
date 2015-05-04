@@ -3,8 +3,12 @@
 #include "game.h"
 #include "lightmap.h"
 #include "options.h"
+#include "npc.h"
+#include "monster.h"
+#include "veh_type.h"
 
 #include <cmath>
+#include <cstring>
 
 #define INBOUNDS(x, y) \
     (x >= 0 && x < SEEX * MAPSIZE && y >= 0 && y < SEEY * MAPSIZE)
@@ -105,10 +109,18 @@ void map::build_transparency_cache( const int zlev )
     transparency_cache_dirty = false;
 }
 
+void map::apply_character_light( const player &p )
+{
+    float const held_luminance = p.active_light();
+    if( held_luminance > LIGHT_AMBIENT_LOW ) {
+        apply_light_source( p.posx(), p.posy(), held_luminance, trigdist );
+    }
+}
+
 void map::generate_lightmap()
 {
-    memset(lm, 0, sizeof(lm));
-    memset(sm, 0, sizeof(sm));
+    std::memset(lm, 0, sizeof(lm));
+    std::memset(sm, 0, sizeof(sm));
 
     /* Bulk light sources wastefully cast rays into neighbors; a burning hospital can produce
          significant slowdown, so for stuff like fire and lava:
@@ -118,14 +130,13 @@ void map::generate_lightmap()
          directions
      * Step 3: Profit!
      */
-    memset(light_source_buffer, 0, sizeof(light_source_buffer));
+    std::memset(light_source_buffer, 0, sizeof(light_source_buffer));
 
     constexpr int dir_x[] = {  0, -1 , 1, 0 };   //    [0]
     constexpr int dir_y[] = { -1,  0 , 0, 1 };   // [1][X][2]
     constexpr int dir_d[] = { 180, 270, 0, 90 }; //    [3]
 
     const bool  u_is_inside    = !is_outside(g->u.posx(), g->u.posy());
-    const float held_luminance = g->u.active_light();
     const float natural_light  = g->natural_light_level();
     const float hl             = natural_light / 2;
 
@@ -145,9 +156,9 @@ void map::generate_lightmap()
         }
     }
 
-    // Apply player light sources
-    if (held_luminance > LIGHT_AMBIENT_LOW) {
-        apply_light_source(g->u.posx(), g->u.posy(), held_luminance, trigdist);
+    apply_character_light( g->u );
+    for( auto &n : g->active_npc ) {
+        apply_character_light( *n );
     }
 
     // LIGHTMAP_CACHE_X = MAPSIZE * SEEX
@@ -518,7 +529,7 @@ bool map::pl_sees( const tripoint &t, const int max_range )
  */
 void map::build_seen_cache(const tripoint &origin)
 {
-    memset(seen_cache, false, sizeof(seen_cache));
+    std::memset(seen_cache, false, sizeof(seen_cache));
     seen_cache[origin.x][origin.y] = true;
 
     castLight<0, 1, 1, 0>( seen_cache, transparency_cache, origin.x, origin.y, 0 );

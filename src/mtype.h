@@ -3,7 +3,6 @@
 // SEE ALSO: monitemsdef.cpp, which defines data on which items any given
 // monster may carry.
 
-#include "material.h"
 #include "enums.h"
 #include "color.h"
 #include "field.h"
@@ -15,6 +14,9 @@
 #include <math.h>
 
 class Creature;
+class monster;
+struct projectile;
+enum body_part : int;
 
 using mon_action_death  = void (*)(monster*);
 using mon_action_attack = void (*)(monster*, int);
@@ -132,6 +134,7 @@ enum m_flag {
     MF_GROUP_BASH,          // Monsters that can pile up against obstacles and add their strength together to break them.
     MF_SWARMS,              // Monsters that like to group together and form loose packs
     MF_GROUP_MORALE,        // Monsters that are more courageous when near friends
+    MF_INTERIOR_AMMO,       // Monster contain's its ammo inside itself, no need to load on launch.
     MF_MAX                  // Sets the length of the flags - obviously must be LAST
 };
 

@@ -1,6 +1,7 @@
 #ifndef ENUMS_H
 #define ENUMS_H
 
+#include <climits>
 #include "json.h" // (de)serialization for points
 
 #ifndef sgn
@@ -289,6 +290,11 @@ struct tripoint : public JsonSerializer, public JsonDeserializer {
     {
         return tripoint( -x, -y, -z );
     }
+
+    tripoint operator+( const point &off )
+    {
+        return tripoint( x + off.x, y + off.y, z );
+    }
 };
 
 // Make tripoint hashable so it can be used as an unordered_set or unordered_map key,
@@ -326,5 +332,7 @@ inline bool operator<(const tripoint &a, const tripoint &b)
     }
     return false;
 }
+
+static const tripoint tripoint_min { INT_MIN, INT_MIN, INT_MIN };
 
 #endif

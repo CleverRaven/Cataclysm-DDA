@@ -1,92 +1,35 @@
 #ifndef OVERMAP_H
 #define OVERMAP_H
 
-#include "enums.h"
-#include "string.h"
 #include "omdata.h"
 #include "mapdata.h"
-#include "mongroup.h"
-#include "output.h"
-#include "cursesdef.h"
-#include "name.h"
-#include "input.h"
-#include "json.h"
+#include "weighted_list.h"
+#include "game_constants.h"
+#include "monster.h"
 #include <vector>
 #include <iosfwd>
 #include <string>
-#include <stdlib.h>
 #include <array>
+#include <map>
+#include <unordered_map>
 
 class overmapbuffer;
 class npc;
-
-#define OVERMAP_DEPTH 10
-#define OVERMAP_HEIGHT 10
-#define OVERMAP_LAYERS (1 + OVERMAP_DEPTH + OVERMAP_HEIGHT)
+struct mongroup;
+class JsonObject;
+class input_context;
 
 // base oters: exactly what's defined in json before things are split up into blah_east or roadtype_ns, etc
 extern std::unordered_map<std::string, oter_t> obasetermap;
 
-// Likelihood to pick a specific overmap terrain.
 struct oter_weight {
+    inline bool operator ==(const oter_weight &other) const {
+        return ot_sid == other.ot_sid;
+    }
+
     std::string ot_sid;
     int ot_iid;
-    int weight;
 };
-
-// Local class for picking overmap terrain from a weighted list.
-struct oter_weight_list {
-    oter_weight_list() : total_weight(0) { };
-
-    void add_item(std::string id, int weight) {
-        oter_weight new_weight = { id, -1, weight };
-        items.push_back(new_weight);
-        total_weight += weight;
-    }
-
-    void add_or_replace_item(std::string id, int weight) {
-        for(size_t i=0; i<items.size(); i++) {
-            if(items[i].ot_sid == id) {
-                total_weight += (weight - items[i].weight);
-                items[i].weight = weight;
-                return;
-            }
-        }
-
-        // if not found, add to end of list
-        add_item(id, weight);
-    }
-
-    // populate iid's for faster generation and sanity check.
-    void setup();
-
-    size_t pick_ent() {
-        int picked = rng(0, total_weight);
-        int accumulated_weight = 0;
-        size_t i;
-        for(i=0; i<items.size(); i++) {
-            accumulated_weight += items[i].weight;
-            if(accumulated_weight >= picked) {
-                break;
-            }
-        }
-        return i;
-    }
-
-    std::string pickstr() {
-        return items[ pick_ent() ].ot_sid;
-    }
-
-    int pick() {
-        return items[ pick_ent() ].ot_iid;
-    }
-
-private:
-    int total_weight;
-    std::vector<oter_weight> items;
-};
-
-
 
 enum city_gen_type {
    CITY_GEN_RADIAL, // default/small/oldschol; shops constitute core, then parks, then residential
@@ -97,8 +40,8 @@ struct city_settings {
    city_gen_type zoning_type;
    int shop_radius; // this is not a cut and dry % but rather an inverse voodoo number; rng(0,99) > VOODOO * distance / citysize;
    int park_radius; // in theory, adjusting these can make a town with a few shops and alot of parks + houses......by increasing shop_radius
-   oter_weight_list shops;
-   oter_weight_list parks;
+   weighted_int_list<oter_weight> shops;
+   weighted_int_list<oter_weight> parks;
    city_settings() : zoning_type(CITY_GEN_RADIAL), shop_radius(80), park_radius(130) { }
 };
 /*
@@ -180,6 +123,7 @@ struct regional_settings {
 
     regional_settings() : id("null"), default_oter("field"), default_groundcover(0, 0, 0) { }
     void setup();
+    static void setup_oter(oter_weight &oter);
 };
 
 
@@ -189,10 +133,7 @@ struct city {
  int y;
  int s;
  std::string name;
- city(int X = -1, int Y = -1, int S = -1) : x (X), y (Y), s (S)
- {
-     name = Name::get(nameIsTownName);
- }
+ city(int X = -1, int Y = -1, int S = -1);
 };
 
 struct om_note {
@@ -354,7 +295,7 @@ class overmap
 
      return settings;
   }
-    void clear_mon_groups() { zg.clear(); }
+    void clear_mon_groups();
 private:
     std::multimap<tripoint, mongroup> zg;
 public:

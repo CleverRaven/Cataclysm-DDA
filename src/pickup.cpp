@@ -4,9 +4,14 @@
 #include "game.h"
 #include "map.h"
 #include "messages.h"
+#include "translations.h"
+#include "input.h"
+#include "options.h"
+#include "ui.h"
 
 #include <map>
 #include <vector>
+#include <cstring>
 
 // Handles interactions with a vehicle in the examine menu.
 // Returns the part number that will accept items if any, or -1 to indicate no cargo part.
@@ -254,13 +259,14 @@ void Pickup::pick_one_up( const point &pickup_target, item &newit, vehicle *veh,
         newit.invlet = '\0';
     }
 
-    if( quantity != 0 ) {
+    if( quantity != 0 && newit.count_by_charges() ) {
         // Reinserting leftovers happens after item removal to avoid stacking issues.
-        int leftover_charges = newit.charges - quantity;
-        if (leftover_charges > 0) {
-            leftovers.charges = leftover_charges;
+        leftovers.charges = newit.charges - quantity;
+        if( leftovers.charges > 0 ) {
             newit.charges = quantity;
         }
+    } else {
+        leftovers.charges = 0;
     }
 
     if( newit.made_of(LIQUID) ) {
@@ -362,7 +368,7 @@ void Pickup::pick_one_up( const point &pickup_target, item &newit, vehicle *veh,
         Pickup::remove_from_map_or_vehicle(pickup_target.x, pickup_target.y,
                                            veh, cargo_part, moves_taken, index);
     }
-    if( quantity != 0 ) {
+    if( leftovers.charges > 0 ) {
         bool to_map = veh == nullptr;
         if( !to_map ) {
             to_map = !veh->add_item( cargo_part, leftovers );
@@ -788,14 +794,14 @@ void Pickup::pick_up(int posx, int posy, int min)
             const char *scroll = _("[up/dn] Scroll");
             const char *mark   = _("[right] Mark");
             mvwprintw(w_pickup, maxitems + 1, 0,                         unmark);
-            mvwprintw(w_pickup, maxitems + 1, (pw - strlen(scroll)) / 2, scroll);
-            mvwprintw(w_pickup, maxitems + 1,  pw - strlen(mark),        mark);
+            mvwprintw(w_pickup, maxitems + 1, (pw - std::strlen(scroll)) / 2, scroll);
+            mvwprintw(w_pickup, maxitems + 1,  pw - std::strlen(mark),        mark);
             const char *prev = _("[pgup] Prev");
             const char *all = _("[,] All");
             const char *next   = _("[pgdn] Next");
             mvwprintw(w_pickup, maxitems + 2, 0, prev);
-            mvwprintw(w_pickup, maxitems + 2, (pw - strlen(all)) / 2, all);
-            mvwprintw(w_pickup, maxitems + 2, pw - strlen(next), next);
+            mvwprintw(w_pickup, maxitems + 2, (pw - std::strlen(all)) / 2, all);
+            mvwprintw(w_pickup, maxitems + 2, pw - std::strlen(next), next);
 
             if (update) { // Update weight & volume information
                 update = false;
@@ -857,8 +863,8 @@ void Pickup::pick_up(int posx, int posy, int min)
 int Pickup::handle_quiver_insertion(item &here, int &moves_to_decrement, bool &picked_up)
 {
     //add ammo to quiver
-    int quivered = g->u.add_ammo_to_worn_quiver( here);
-    if(quivered > 0) {
+    int quivered = g->u.add_ammo_to_worn_quiver( here );
+    if( quivered > 0 ) {
         moves_to_decrement = 0; //moves already decremented in player::add_ammo_to_worn_quiver()
         picked_up = true;
         return quivered;

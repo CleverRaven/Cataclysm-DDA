@@ -4,7 +4,6 @@
 #include "player.h"
 #include "output.h"
 #include "npc.h"
-#include "mission.h"
 #include "color.h"
 #include <vector>
 #include <string>
@@ -12,6 +11,7 @@
 
 class martialart;
 class JsonObject;
+class mission;
 
 struct talk_response;
 struct dialogue {
@@ -146,6 +146,9 @@ namespace talk_function {
     void set_engagement_weak  (npc *);
     void set_engagement_hit   (npc *);
     void set_engagement_all   (npc *);
+
+    void allow_sleep          (npc *);
+    void wake_up              (npc *);
 };
 
 enum talk_trial_type {

@@ -5,6 +5,9 @@
 #include "map.h"
 #include "game.h"
 #include "overmapbuffer.h"
+#include "enums.h"
+#include "json.h"
+#include "overmap.h"
 
 static location_map _locations;
 

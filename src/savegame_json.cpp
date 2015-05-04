@@ -6,7 +6,6 @@
 #include "game.h"
 #include "rng.h"
 #include "addiction.h"
-#include "moraledata.h"
 #include "inventory.h"
 #include "artifact.h"
 #include "options.h"
@@ -24,6 +23,11 @@
 #include "get_version.h"
 #include "monstergenerator.h"
 #include "scenario.h"
+#include "monster.h"
+#include "morale.h"
+#include "veh_type.h"
+#include "vehicle.h"
+#include "mutation.h"
 
 #include "savegame.h"
 #include "tile_id_data.h" // for monster::json_save
@@ -248,8 +252,8 @@ void player::load(JsonObject &data)
         debugmsg("BAD PLAYER/NPC JSON: no 'posx'?");
     }
     data.read("posy", position.y);
-    if( !data.read("posz", zpos) && g != nullptr ) {
-      zpos = g->get_levz();
+    if( !data.read("posz", position.z) && g != nullptr ) {
+      position.z = g->get_levz();
     }
     data.read("hunger", hunger);
     data.read("thirst", thirst);
@@ -313,7 +317,7 @@ void player::store(JsonOut &json) const
     // positional data
     json.member( "posx", position.x );
     json.member( "posy", position.y );
-    json.member( "posz", zpos );
+    json.member( "posz", position.z );
 
     // om-noms or lack thereof
     json.member( "hunger", hunger );
@@ -804,14 +808,17 @@ void npc::load(JsonObject &data)
 
     data.read("personality", personality);
 
-    data.read("wandx", wandx);
-    data.read("wandy", wandy);
-    data.read("wandf", wandf);
+    data.read( "wandf", wander_time );
+    data.read( "wandx", wander_pos.x );
+    data.read( "wandy", wander_pos.y );
+    if( !data.read( "wandz", wander_pos.z ) ) {
+        wander_pos.z = posz();
+    }
 
     data.read("mapx", mapx);
     data.read("mapy", mapy);
-    if(!data.read("mapz", mapz)) {
-        data.read("omz", mapz); // was renamed to match mapx,mapy
+    if(!data.read("mapz", position.z)) {
+        data.read("omz", position.z); // omz/mapz got moved to position.z
     }
     int o;
     if(data.read("omx", o)) {
@@ -821,12 +828,19 @@ void npc::load(JsonObject &data)
         mapy += o * OMAPY * 2;
     }
 
-    data.read("plx", plx);
-    data.read("ply", ply);
+    data.read( "plx", last_player_seen_pos.x );
+    data.read( "ply", last_player_seen_pos.y );
+    if( !data.read( "plz", last_player_seen_pos.z ) ) {
+        last_player_seen_pos.z = posz();
+    }
 
-    data.read("goalx", goal.x);
-    data.read("goaly", goal.y);
-    data.read("goalz", goal.z);
+    data.read( "goalx", goal.x );
+    data.read( "goaly", goal.y );
+    data.read( "goalz", goal.z );
+
+    data.read( "guardx", guard_pos.x );
+    data.read( "guardy", guard_pos.y );
+    data.read( "guardz", guard_pos.z );
 
     if ( data.read("mission", misstmp) ) {
         mission = npc_mission( misstmp );
@@ -874,18 +888,25 @@ void npc::store(JsonOut &json) const
     json.member( "myclass", (int)myclass );
 
     json.member( "personality", personality );
-    json.member( "wandx", wandx );
-    json.member( "wandy", wandy );
-    json.member( "wandf", wandf );
+    json.member( "wandf", wander_time );
+    json.member( "wandx", wander_pos.x );
+    json.member( "wandy", wander_pos.y );
+    json.member( "wandz", wander_pos.z );
 
     json.member( "mapx", mapx );
     json.member( "mapy", mapy );
-    json.member( "mapz", mapz );
-    json.member( "plx", plx );
-    json.member( "ply", ply );
+
+    json.member( "plx", last_player_seen_pos.x );
+    json.member( "ply", last_player_seen_pos.y );
+    json.member( "plz", last_player_seen_pos.z );
+
     json.member( "goalx", goal.x );
     json.member( "goaly", goal.y );
     json.member( "goalz", goal.z );
+
+    json.member( "guardx", guard_pos.x );
+    json.member( "guardy", guard_pos.y );
+    json.member( "guardz", guard_pos.z );
 
     json.member( "mission", mission ); // todo: stringid
     json.member( "flags", flags );
@@ -997,13 +1018,17 @@ void monster::load(JsonObject &data)
     data.read( "unique_name", unique_name );
     data.read("posx", position.x);
     data.read("posy", position.y);
-    if( !data.read("posz", zpos) ) {
-        zpos = g->get_levz();
+    if( !data.read("posz", position.z) ) {
+        position.z = g->get_levz();
     }
 
-    data.read("wandx", wandx);
-    data.read("wandy", wandy);
     data.read("wandf", wandf);
+    data.read("wandx", wander_pos.x);
+    data.read("wandy", wander_pos.y);
+    if( data.read("wandz", wander_pos.z) ) {
+        wander_pos.z = position.z;
+    }
+
     data.read("hp", hp);
     last_loaded = data.get_int("last_loaded", 0);
 
@@ -1069,9 +1094,10 @@ void monster::store(JsonOut &json) const
     json.member( "unique_name", unique_name );
     json.member("posx", position.x);
     json.member("posy", position.y);
-    json.member("posz", zpos);
-    json.member("wandx", wandx);
-    json.member("wandy", wandy);
+    json.member("posz", position.z);
+    json.member("wandx", wander_pos.x);
+    json.member("wandy", wander_pos.y);
+    json.member("wandz", wander_pos.z);
     json.member("wandf", wandf);
     json.member("hp", hp);
     json.member("sp_timeout", sp_timeout);
@@ -1370,8 +1396,10 @@ void vehicle_part::deserialize(JsonIn &jsin)
     data.read("items", items);
     data.read("target_first_x", target.first.x);
     data.read("target_first_y", target.first.y);
+    data.read("target_first_z", target.first.z);
     data.read("target_second_x", target.second.x);
     data.read("target_second_y", target.second.y);
+    data.read("target_second_z", target.second.z);
 }
 
 void vehicle_part::serialize(JsonOut &json) const
@@ -1390,8 +1418,10 @@ void vehicle_part::serialize(JsonOut &json) const
     json.member("items", items);
     json.member("target_first_x", target.first.x);
     json.member("target_first_y", target.first.y);
+    json.member("target_first_z", target.first.z);
     json.member("target_second_x", target.second.x);
     json.member("target_second_y", target.second.y);
+    json.member("target_second_z", target.second.z);
     json.end_object();
 }
 
@@ -1433,7 +1463,6 @@ void vehicle::deserialize(JsonIn &jsin)
     data.read("turn_dir", turn_dir);
     data.read("velocity", velocity);
     data.read("cruise_velocity", cruise_velocity);
-    data.read("music_id", music_id);
     data.read("cruise_on", cruise_on);
     data.read("engine_on", engine_on);
     data.read("tracking_on", tracking_on);
@@ -1506,7 +1535,6 @@ void vehicle::serialize(JsonOut &json) const
     json.member( "turn_dir", turn_dir );
     json.member( "velocity", velocity );
     json.member( "cruise_velocity", cruise_velocity );
-    json.member( "music_id", music_id);
     json.member( "cruise_on", cruise_on );
     json.member( "engine_on", engine_on );
     json.member( "tracking_on", tracking_on );

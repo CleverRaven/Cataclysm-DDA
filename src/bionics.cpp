@@ -11,6 +11,11 @@
 #include "messages.h"
 #include "overmapbuffer.h"
 #include "sounds.h"
+#include "translations.h"
+#include "catacharset.h"
+#include "input.h"
+#include "monster.h"
+#include "overmap.h"
 
 #include <math.h>    //sqrt
 #include <algorithm> //std::min
@@ -944,7 +949,10 @@ bool player::activate_bionic(int b, bool eff_only)
     } else if(bio.id == "bio_lockpick") {
         tmp_item = item( "pseuso_bio_picklock", 0 );
         if( invoke_item( &tmp_item ) == 0 ) {
-            charge_power(bionics["bio_lockpick"].power_activate);
+            if (tmp_item.charges > 0) {
+                // restore the energy since CBM wasn't used
+                charge_power(bionics[bio.id].power_activate);
+            }
             return true;
         }
         if( tmp_item.damage > 0 ) {
@@ -1033,6 +1041,9 @@ bool player::activate_bionic(int b, bool eff_only)
             }
     }
 
+    // Recalculate stats (strength, mods from pain etc.) that could have been affected
+    reset_stats();
+
     return true;
 }
 
@@ -1096,6 +1107,9 @@ bool player::deactivate_bionic(int b, bool eff_only)
         invalidate_crafting_inventory();
     }
 
+    // Recalculate stats (strength, mods from pain etc.) that could have been affected
+    reset_stats();
+
     return true;
 }
 
@@ -1149,6 +1163,9 @@ void player::process_bionic(int b)
             add_msg( m_warning, _("Your %s has lost connection and is turning off."),
                      bionics[bio.id].name.c_str() );
         }
+    } else if (bio.id == "bio_hydraulics") {
+        // Sound of hissing hydraulic muscle! (not quite as loud as a car horn)
+        sounds::sound(posx(), posy(), 19, _("HISISSS!"));
     }
 }
 

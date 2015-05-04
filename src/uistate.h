@@ -2,6 +2,11 @@
 #define UISTATE_H
 
 #include "json.h"
+#include "enums.h"
+
+#include <map>
+#include <vector>
+#include <string>
 
 /*
   centralized depot for trivial ui data such as sorting, string_input_popup history, etc.
@@ -10,6 +15,7 @@
 class uistatedata : public JsonSerializer, public JsonDeserializer
 {
     public:
+        using itype_id = std::string;
         /**** declare your variable here. It can be anything, really *****/
         int wishitem_selected;
         int wishmutate_selected;
@@ -32,7 +38,8 @@ class uistatedata : public JsonSerializer, public JsonDeserializer
         std::string adv_inv_leftfilter;
         std::string adv_inv_rightfilter;
         bool adv_inv_load_veh;
-        int  adv_inv_veh_location;
+        int  adv_inv_veh_location_src;
+        int  adv_inv_veh_location_dest;
 
         bool editmap_nsa_viewmode;        // true: ignore LOS and lighting
         bool overmap_blinking;            // toggles active blinking of overlays.

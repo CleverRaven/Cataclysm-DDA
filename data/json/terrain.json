@@ -2571,7 +2571,7 @@
         "id" : "t_shrub_blueberry",
         "name": "blueberry bush",
         "symbol": "#",
-        "color": "ltgreen",
+        "color": "ltblue_green",
         "move_cost": 8,
         "flags": ["TRANSPARENT", "CONTAINER", "FLAMMABLE_ASH", "THIN_OBSTACLE", "SHRUB", "SHORT"],
         "harvest_season": "SUMMER",
@@ -2589,7 +2589,7 @@
         "id" : "t_shrub_blueberry_harvested",
         "name": "blueberry bush",
         "symbol": "#",
-        "color": "green",
+        "color": "blue_green",
         "move_cost": 8,
         "flags": ["TRANSPARENT", "CONTAINER", "FLAMMABLE_ASH", "THIN_OBSTACLE", "SHRUB", "SHORT", "HARVESTED"],
         "harvest_season": "SUMMER",
@@ -2607,7 +2607,7 @@
         "id" : "t_shrub_strawberry",
         "name": "strawberry bush",
         "symbol": "#",
-        "color": "ltgreen",
+        "color": "ltred_green",
         "move_cost": 8,
         "flags": ["TRANSPARENT", "CONTAINER", "FLAMMABLE_ASH", "THIN_OBSTACLE", "SHRUB", "SHORT"],
         "harvest_season": "SUMMER",
@@ -2625,7 +2625,7 @@
         "id" : "t_shrub_strawberry_harvested",
         "name": "strawberry bush",
         "symbol": "#",
-        "color": "green",
+        "color": "red_green",
         "move_cost": 8,
         "flags": ["TRANSPARENT", "CONTAINER", "FLAMMABLE_ASH", "THIN_OBSTACLE", "SHRUB", "SHORT", "HARVESTED"],
         "harvest_season": "SUMMER",
@@ -3261,6 +3261,32 @@
                 { "item": "scrap", "amount": 1}
             ]
         }
+    },{
+        "type" : "terrain",
+        "id" : "t_gas_tank",
+        "name": "tank with gasoline",
+        "symbol": "Q",
+        "color": "brown_red",
+        "move_cost": 0,
+        "flags": ["TRANSPARENT", "FLAMMABLE", "NOITEM", "SEALED", "CONTAINER", "REDUCE_SCENT"]
+    },{
+        "type" : "terrain",
+        "id" : "t_little_column",
+        "name": "little column",
+        "symbol": "1",
+        "color": "ltgray",
+        "move_cost": 0,
+        "flags": ["WALL", "TRANSPARENT"]
+    },{
+        "type" : "terrain",
+        "id" : "t_gas_pump_a",
+        "name": "gasoline pump",
+        "comment": "clone of t_gas_pump, but other color, must be clone every time",
+        "symbol": "&",
+        "color": "yellow_red",
+        "move_cost": 0,
+        "flags": ["TRANSPARENT", "FLAMMABLE", "NOITEM", "SEALED", "CONTAINER", "REDUCE_SCENT"],
+        "examine_action": "gaspump"
     },{
         "type" : "terrain",
         "id" : "t_gas_pump_smashed",

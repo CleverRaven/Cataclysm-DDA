@@ -5,6 +5,9 @@
 #include "map.h"
 #include "messages.h"
 #include "rng.h"
+#include "translations.h"
+#include "monster.h"
+#include "npc.h"
 
 #include <algorithm>
 #include <numeric>
@@ -173,11 +176,11 @@ bool Creature::digging() const
 
 bool Creature::sees( const Creature &critter ) const
 {
-    int bresenham_slope;
-    return sees( critter, bresenham_slope );
+    int junk1, junk2;
+    return sees( critter, junk1, junk2 );
 }
 
-bool Creature::sees( const Creature &critter, int &bresenham_slope ) const
+bool Creature::sees( const Creature &critter, int &bresen1, int &bresen2 ) const
 {
     if( critter.is_hallucination() ) {
         // hallucinations are imaginations of the player character, npcs or monsters don't hallucinate.
@@ -192,68 +195,70 @@ bool Creature::sees( const Creature &critter, int &bresenham_slope ) const
         return p == this;
     }
 
-    int cx = critter.posx();
-    int cy = critter.posy();
-    const int wanted_range = rl_dist( pos(), critter.pos() );
+    const int wanted_range = rl_dist( pos3(), critter.pos3() );
     if( wanted_range <= 1 ) {
         return true;
     } else if( ( wanted_range > 1 && critter.digging() ) ||
-        ( g->m.is_divable( cx, cy ) && critter.is_underwater() && !is_underwater() ) ) {
+        ( g->m.is_divable( critter.pos3() ) && critter.is_underwater() && !is_underwater() ) ) {
         return false;
     }
 
-    return sees( critter.pos(), bresenham_slope );
+    return sees( critter.pos3(), bresen1, bresen2 );
+}
+
+bool Creature::sees( const Creature &critter, int &bresenham_slope ) const
+{
+    int bresen2;
+    return sees( critter, bresenham_slope, bresen2 );
 }
 
 bool Creature::sees( const int tx, const int ty ) const
 {
-    int bresenham_slope;
-    return sees( point( tx, ty ), bresenham_slope );
+    int bresen1, bresen2;
+    return sees( tripoint( tx, ty, posz() ), bresen1, bresen2 );
 }
 
 bool Creature::sees( const point t ) const
 {
-    int bresenham_slope;
-    return sees( t, bresenham_slope );
+    int bresen1, bresen2;
+    return sees( tripoint( t, posz() ), bresen1, bresen2 );
 }
 
 bool Creature::sees( const int tx, const int ty, int &bresenham_slope ) const
 {
-    return sees( point( tx, ty ), bresenham_slope );
+    int junk;
+    return sees( tripoint( tx, ty, posz() ), bresenham_slope, junk );
 }
 
-bool Creature::sees( const point t, int &bresenham_slope ) const
+bool Creature::sees( const tripoint &t, int &bresen1, int &bresen2 ) const
 {
+    // TODO: FoV update
+    bresen2 = 0;
+
     const int range_cur = sight_range( g->light_level() );
     const int range_day = sight_range( DAYLIGHT_LEVEL );
     const int range_min = std::min( range_cur, range_day );
-    const int wanted_range = rl_dist( pos(), t );
+    const int wanted_range = rl_dist( pos3(), t );
     if( wanted_range <= range_min ||
         ( wanted_range <= range_day &&
-          g->m.ambient_light_at( t.x, t.y ) > g->natural_light_level() ) ) {
+          g->m.ambient_light_at( t ) > g->natural_light_level() ) ) {
         if( is_player() ) {
-            return g->m.pl_sees( t.x, t.y, wanted_range );
-        } else if( g->m.ambient_light_at( t.x, t.y ) > g->natural_light_level() ) {
-            return g->m.sees( pos(), t, wanted_range, bresenham_slope );
+            return g->m.pl_sees( t, wanted_range );
+        } else if( g->m.ambient_light_at( t ) > g->natural_light_level() ) {
+            return g->m.sees( pos3(), t, wanted_range, bresen1, bresen2 );
         } else {
-            return g->m.sees( pos(), t, range_min, bresenham_slope );
+            return g->m.sees( pos3(), t, range_min, bresen1, bresen2 );
         }
     } else {
         return false;
     }
 }
 
-bool Creature::sees( const tripoint &t, int &bresen1, int &bresen2 ) const
-{
-    // TODO: FoV update
-    (void)bresen2;
-    return sees( point( t.x, t.y ), bresen1 );
-}
-
 bool Creature::sees( const tripoint &t ) const
 {
     // TODO: FoV update
-    return sees( t.x, t.y );
+    int junk1, junk2;
+    return sees( t, junk1, junk2 );
 }
 
 Creature *Creature::auto_find_hostile_target( int range, int &boo_hoo, int area )
@@ -268,15 +273,15 @@ Creature *Creature::auto_find_hostile_target( int range, int &boo_hoo, int area 
     boo_hoo = 0;         // how many targets were passed due to IFF. Tragically.
     bool area_iff = false;   // Need to check distance from target to player
     bool angle_iff = true;   // Need to check if player is in a cone between us and target
-    int pldist = rl_dist( pos(), g->u.pos() );
+    int pldist = rl_dist( pos3(), g->u.pos3() );
     int part;
-    vehicle *in_veh = is_fake() ? g->m.veh_at( posx(), posy(), part ) : nullptr;
+    vehicle *in_veh = is_fake() ? g->m.veh_at( pos3(), part ) : nullptr;
     if( pldist < iff_dist && sees( g->u ) ) {
         area_iff = area > 0;
         angle_iff = true;
         // Player inside vehicle won't be hit by shots from the roof,
         // so we can fire "through" them just fine.
-        if( in_veh && g->m.veh_at( u.posx(), u.posy(), part ) == in_veh && in_veh->is_inside( part ) ) {
+        if( in_veh && g->m.veh_at( u.pos3(), part ) == in_veh && in_veh->is_inside( part ) ) {
             angle_iff = false; // No angle IFF, but possibly area IFF
         } else if( pldist < 3 ) {
             iff_hangle = (pldist == 2 ? 30 : 60);    // granularity increases with proximity
@@ -284,6 +289,7 @@ Creature *Creature::auto_find_hostile_target( int range, int &boo_hoo, int area 
         u_angle = g->m.coord_to_angle(posx(), posy(), u.posx(), u.posy());
     }
     std::vector<Creature*> targets;
+    targets.reserve( g->num_zombies() + g->active_npc.size() );
     for (size_t i = 0; i < g->num_zombies(); i++) {
         monster &m = g->zombie(i);
         if( m.friendly != 0 ) {
@@ -304,7 +310,7 @@ Creature *Creature::auto_find_hostile_target( int range, int &boo_hoo, int area 
             // can't see nor sense it
             continue;
         }
-        int dist = rl_dist( pos(), m->pos() ) + 1; // rl_dist can be 0
+        int dist = rl_dist( pos3(), m->pos3() ) + 1; // rl_dist can be 0
         if( dist > range || dist < area ) {
             // Too near or too far
             continue;
@@ -317,11 +323,11 @@ Creature *Creature::auto_find_hostile_target( int range, int &boo_hoo, int area 
             continue;
         }
 
-        if( in_veh != nullptr && g->m.veh_at( m->posx(), m->posy(), part ) == in_veh ) {
+        if( in_veh != nullptr && g->m.veh_at( m->pos3(), part ) == in_veh ) {
             // No shooting stuff on vehicle we're a part of
             continue;
         }
-        if( area_iff && rl_dist( u.posx(), u.posy(), m->posx(), m->posy() ) <= area ) {
+        if( area_iff && rl_dist( u.pos3(), m->pos3() ) <= area ) {
             // Player in AoE
             boo_hoo++;
             continue;
@@ -387,36 +393,29 @@ void Creature::deal_melee_hit(Creature *source, int hit_spread, bool critical_hi
     block_hit(source, bp_hit, d);
 
     // Bashing crit
-    if (critical_hit) {
-        int turns_stunned = (d.type_damage(DT_BASH) + hit_spread) / 20;
-        if (turns_stunned > 6) {
-            turns_stunned = 6;
-        }
-        if (turns_stunned > 0) {
-            add_effect("stunned", turns_stunned);
+    if( critical_hit && !is_immune_effect( "stunned" ) ) {
+        if( d.type_damage(DT_BASH) * hit_spread > get_hp_max() ) {
+            add_effect( "stunned", 1 ); // 1 turn is enough
         }
     }
 
     // Stabbing effects
-    int stab_moves = rng(d.type_damage(DT_STAB) / 2, d.type_damage(DT_STAB) * 1.5);
+    int stab_moves = rng( d.type_damage(DT_STAB) / 2,
+                          d.type_damage(DT_STAB) * 1.5 );
     if (critical_hit) {
         stab_moves *= 1.5;
     }
-    if (stab_moves >= 150) {
-        if (is_player() && (!g->u.has_trait("LEG_TENT_BRACE") || g->u.footwear_factor() == 1 ||
-                            (g->u.footwear_factor() == .5 && one_in(2))) ) {
-            // can the player force their self to the ground? probably not.
+    if( stab_moves >= 150 && !is_immune_effect( "downed" ) ) {
+        if( is_player() ) {
             source->add_msg_if_npc( m_bad, _("<npcname> forces you to the ground!"));
         } else {
             source->add_msg_player_or_npc( m_good, _("You force %s to the ground!"),
                                            _("<npcname> forces %s to the ground!"),
                                            disp_name().c_str() );
         }
-        if (!g->u.has_trait("LEG_TENT_BRACE") || g->u.footwear_factor() == 1 ||
-            (g->u.footwear_factor() == .5 && one_in(2))) {
-            add_effect("downed", 1);
-            mod_moves(-stab_moves / 2);
-        }
+
+        add_effect("downed", 1);
+        mod_moves(-stab_moves / 2);
     } else {
         mod_moves(-stab_moves);
     }
@@ -661,6 +660,11 @@ dealt_damage_instance Creature::deal_damage(Creature *source, body_part bp,
 }
 void Creature::deal_damage_handle_type(const damage_unit &du, body_part, int &damage, int &pain)
 {
+    // Handles ACIDPROOF, electric immunity etc.
+    if( is_immune_damage( du.type ) ) {
+        return;
+    }
+
     // Apply damage multiplier from critical hits or grazes after all other modifications.
     const int adjusted_damage = du.amount * du.damage_multiplier;
     switch (du.type) {
@@ -695,13 +699,9 @@ void Creature::deal_damage_handle_type(const damage_unit &du, body_part, int &da
         pain += adjusted_damage / 6;
         mod_moves(-adjusted_damage * 80);
         break;
-    case DT_ACID: // ACIDPROOF people don't take acid damage and acid burns are super painful 
+    case DT_ACID: // Acid damage and acid burns are super painful
         damage += adjusted_damage;
         pain += adjusted_damage / 3;
-        if( has_trait ("ACIDPROOF") ) {
-            damage = 0;
-            pain = 0;
-        }
         break;
     default:
         damage += adjusted_damage;
@@ -743,8 +743,14 @@ void Creature::add_eff_effects(effect e, bool reduced)
     return;
 }
 
-void Creature::add_effect(efftype_id eff_id, int dur, body_part bp, bool permanent, int intensity)
+void Creature::add_effect( efftype_id eff_id, int dur, body_part bp, 
+                           bool permanent, int intensity, bool force )
 {
+    // Check our innate immunity
+    if( !force && is_immune_effect( eff_id ) ) {
+        return;
+    }
+
     // Mutate to a main (HP'd) body_part if necessary.
     if (effect_types[eff_id].get_main_parts()) {
         bp = mutate_to_main_part(bp);
@@ -786,7 +792,7 @@ void Creature::add_effect(efftype_id eff_id, int dur, body_part bp, bool permane
         }
     }
 
-    if (found == false) {
+    if( found == false ) {
         // If we don't already have it then add a new one
 
         // First make sure it's a valid effect
@@ -836,12 +842,17 @@ void Creature::add_effect(efftype_id eff_id, int dur, body_part bp, bool permane
         add_eff_effects(e, reduced);
     }
 }
-bool Creature::add_env_effect(efftype_id eff_id, body_part vector, int strength, int dur,
-                              body_part bp, bool permanent, int intensity)
+bool Creature::add_env_effect( efftype_id eff_id, body_part vector, int strength, int dur,
+                               body_part bp, bool permanent, int intensity, bool force )
 {
+    if( !force && is_immune_effect( eff_id ) ) {
+        return false;
+    }
+
     if (dice(strength, 3) > dice(get_env_resist(vector), 3)) {
         // Only add the effect if we fail the resist roll
-        add_effect(eff_id, dur, bp, permanent, intensity);
+        // Don't check immunity (force == true), because we did check above
+        add_effect( eff_id, dur, bp, permanent, intensity, true );
         return true;
     } else {
         return false;
@@ -1014,6 +1025,16 @@ void Creature::set_moves(int nmoves)
 bool Creature::in_sleep_state() const
 {
     return has_effect("sleep") || has_effect("lying_down");
+}
+
+bool Creature::is_immune( const std::string &type ) const
+{
+    damage_type dt = dt_by_name( type );
+    if( dt != DT_NULL ) {
+        return is_immune_damage( dt );
+    }
+
+    return is_immune_effect( type );
 }
 
 /*
@@ -1550,7 +1571,7 @@ body_part Creature::select_body_part(Creature *source, int hit_roll)
 
 bool Creature::compare_by_dist_to_point::operator()( const Creature* const a, const Creature* const b ) const
 {
-    return rl_dist( a->pos(), center ) < rl_dist( b->pos(), center );
+    return rl_dist( a->pos3(), center ) < rl_dist( b->pos3(), center );
 }
 
 void Creature::check_dead_state() {

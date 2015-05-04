@@ -9,6 +9,7 @@
 #include "game.h"
 #include "debug.h"
 #include "scenario.h"
+#include "translations.h"
 #include <array>
 
 mapgendata::mapgendata(oter_id north, oter_id east, oter_id south, oter_id west, oter_id northeast,
@@ -634,6 +635,20 @@ void mapgen_forest_general(map *m, oter_id terrain_type, mapgendata dat, int tur
                 if (dat.is_groundcover( m->ter(wx, wy) ) ||
                       m->ter(wx, wy) == t_underbrush) {
                     m->ter_set(wx, wy, t_swater_sh);
+                }
+            }
+            factor = dat.s_fac + (dat.se_fac / 2) + (dat.ne_fac / 2);
+            for (int j = 0; j < factor; j++) {
+                int wx = rng(0, SEEX * 2 - 1), wy = rng(SEEY, SEEY * 2 - 1);
+                if (m->ter(wx, wy) == t_water_sh) {
+                    m->furn_set(wx, wy, f_cattails);
+                }
+            }
+            factor = dat.s_fac + (dat.se_fac / 2) + (dat.sw_fac / 2);
+            for (int j = 0; j < factor; j++) {
+                int wx = rng(0, SEEX * 2 - 1), wy = rng(SEEY, SEEY * 2 - 1);
+                if (m->ter(wx, wy) == t_water_sh) {
+                    m->furn_set(wx, wy, f_cattails);
                 }
             }
             factor = dat.w_fac + (dat.nw_fac / 2) + (dat.sw_fac / 2);
@@ -1803,6 +1818,8 @@ void mapgen_parking_lot(map *m, oter_id, mapgendata dat, int turn, float)
                 veh_type = "fire_truck";
             }else if (ra <= 60) {
                 veh_type = "policecar";
+            }else if (ra <=90) {
+                veh_type = "car_sports_electric";
             }else {
                 veh_type = "quad_bike";
             }

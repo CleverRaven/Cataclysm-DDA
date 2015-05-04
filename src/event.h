@@ -7,7 +7,7 @@
 
 class game;
 
-enum event_type {
+enum event_type : int {
     EVENT_NULL,
     EVENT_HELP,
     EVENT_WANTED,

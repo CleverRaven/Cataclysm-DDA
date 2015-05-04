@@ -65,8 +65,6 @@ set(SRCS
 	dependency_tree.cpp
 	dependency_tree.h
 	dialogue.h
-	disease.cpp
-	disease.h
 	editmap.cpp
 	editmap.h
 	effect.cpp
@@ -106,7 +104,7 @@ set(SRCS
 	item_group.h
 	item.h
 	item_stack.h
-	itypedef.cpp
+	itype.cpp
 	itype.h
 	iuse_actor.cpp
 	iuse_actor.h
@@ -176,7 +174,7 @@ set(SRCS
 	monster.h
 	moraledata.h
 	morale.h
-	mtypedef.cpp
+	mtype.cpp
 	mtype.h
 	mutation.cpp
 	mutation_data.cpp

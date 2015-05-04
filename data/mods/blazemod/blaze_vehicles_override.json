@@ -1,0 +1,60 @@
+[
+{
+        "type" : "vehicle",
+        "id" : "apc",
+        "name" : "Armored Personnel Carrier",
+        "parts" : [
+            {"x": 3, "y": 0, "part": "turretframe"}
+        ],
+        "items" : []
+    },
+	{
+        "type" : "vehicle",
+        "id" : "apc-gl",
+        "name" : "Armored Personnel Carrier",
+        "parts" : [
+            {"x": 3, "y": 0, "part": "turretframe"}
+        ],
+        "items" : []
+    },{
+        "type" : "vehicle",
+        "id" : "aapc-mg",
+        "name" : "Mechanized Infantry Carrier",
+        "parts" : [
+            {"x": 3, "y": 0, "part": "turretframe"}
+        ],
+        "items" : []
+    },{
+        "type" : "vehicle",
+        "id" : "aapc-gl",
+        "name" : "Mechanized Infantry Carrier",
+        "parts" : [
+            {"x": 3, "y": 0, "part": "turretframe"}
+        ],
+        "items" : []
+    },{
+        "type" : "vehicle",
+        "id" : "armored_car",
+        "name" : "Armored Car",
+        "parts" : [
+            {"x": 2, "y": 1, "part": "turretframe"},
+            {"x": -3, "y": 1, "part": "turretframe"}
+        ]
+    },{
+        "type" : "vehicle",
+        "id" : "humvee_gl",
+        "name" : "Humvee",
+        "parts" : [
+            {"x": -1, "y": 1, "part": "turretframe"}
+        ],
+        "items" : []
+    },{
+        "type" : "vehicle",
+        "id" : "humvee",
+        "name" : "Humvee",
+        "parts" : [
+            {"x": -1, "y": 1, "part": "turretframe"}
+        ],
+        "items" : []
+    }
+]

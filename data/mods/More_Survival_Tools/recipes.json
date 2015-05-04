@@ -85,10 +85,13 @@
     [
       [ "stick", 1 ],
       [ "2x4", 1 ],
-      [ "skewer", 2 ],
+      [ "skewer", 4 ],
       [ "splinter", 2 ],
+      [ "pine_bough", 1 ],
+      [ "rag", 1 ],
       [ "paper", 5 ],
-      [ "withered", 1 ]
+      [ "rolling_paper", 30 ],
+      [ "withered", 2 ]
     ]
   ]
 },
@@ -358,7 +361,6 @@
   "category": "CC_WEAPON",
   "subcategory": "CSC_WEAPON_PIERCING",
   "skill_used": "fabrication",
-  "skills_required": [ "survival", 2 ],
   "difficulty": 3,
   "time": 2400,
   "reversible": false,
@@ -533,7 +535,7 @@
   "result": "copper_ax",
   "category": "CC_OTHER",
   "subcategory": "CSC_OTHER_TOOLS",
-  "skill_used": "survival",
+  "skill_used": "fabrication",
   "skills_required": [ "carpentry", 1 ],
   "difficulty": 4,
   "time": 60000,
@@ -617,7 +619,8 @@
       [ "rag", 1 ],
       [ "felt_patch", 1 ],
       [ "leather", 1 ],
-      [ "fur", 1 ]
+      [ "fur", 1 ],
+      [ "bandana", 1 ]
      ],
      [
       [ "hat_boonie", 1 ],
@@ -848,6 +851,62 @@
   ]
 },{
   "type" : "recipe",
+  "result": "milk_curdling2",
+  "category": "CC_FOOD",
+  "subcategory": "CSC_FOOD_OTHER",
+  "skill_used": "cooking",
+  "difficulty": 5,
+  "skills_required": [ "survival", 4 ],
+  "time": 25000,
+  "reversible": false,
+  "autolearn": true,
+  "book_learn": [["survival_book", 3] , ["textbook_survival", 3] ,
+  ["manual_survival", 3]],
+  "components": [
+    [
+      [ "waterskin2", 1 ]
+    ],
+    [
+      [ "milk", 10 ]
+    ],
+    [
+      [ "vinegar", 2 ]
+    ],
+    [
+      [ "wild_herbs", 80 ],
+      [ "stomach_large", 2 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
+  "result": "milk_curdling3",
+  "category": "CC_FOOD",
+  "subcategory": "CSC_FOOD_OTHER",
+  "skill_used": "cooking",
+  "difficulty": 5,
+  "skills_required": [ "survival", 4 ],
+  "time": 30000,
+  "reversible": false,
+  "autolearn": true,
+  "book_learn": [["survival_book", 3] , ["textbook_survival", 3] ,
+  ["manual_survival", 3]],
+  "components": [
+    [
+      [ "waterskin3", 1 ]
+    ],
+    [
+      [ "milk", 15 ]
+    ],
+    [
+      [ "vinegar", 3 ]
+    ],
+    [
+      [ "wild_herbs", 120 ],
+      [ "stomach_large", 3 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
   "result": "cheese_hard",
   "category": "CC_FOOD",
   "subcategory": "CSC_FOOD_SNACK",
@@ -861,13 +920,20 @@
   ["manual_survival", 3]],
   "qualities":[
     {"id":"CUT","level":1,"amount":1},
-    {"id":"HAMMER","level":1,"amount":1},
     {"id":"COOK","level":3,"amount":1},
     {"id":"BOIL","level":2,"amount":1},
     {"id":"CONTAIN","level":1,"amount":1}
   ],
   "tools": [
-    [ [ "hotplate", 4 ], [ "char_smoker", 1 ], [ "toolset", 8 ], [ "fire", -1 ] ]
+    [
+      [ "hotplate", 4 ],
+      [ "char_smoker", 1 ],
+      [ "toolset", 8 ],
+      [ "fire", -1 ]
+    ],
+    [
+      [ "rag", -1 ]
+    ]
     ],
   "components": [
     [
@@ -1140,6 +1206,9 @@
   "time": 5000,
   "reversible": false,
   "autolearn": true,
+  "qualities" : [
+    {"id":"CUT","level":1,"amount":1}
+  ],
   "tools": [
     [
       [ "needle_bone", 10 ],
@@ -1150,8 +1219,8 @@
   ],
   "components": [
     [
-      [ "fur", 8 ],
-      [ "tanned_pelt", 2 ]
+      [ "fur", 4 ],
+      [ "tanned_pelt", 1 ]
     ]
   ]
 },{
@@ -1174,18 +1243,97 @@
     ]
   ]
 },{
-        "type" : "recipe",
-  "result": "foil_alum",
+  "type" : "recipe",
+  "result": "cu_pipe",
+  "override": true,
   "category": "CC_OTHER",
-  "subcategory": "CSC_OTHER_OTHER",
-  "difficulty": 0,
-  "time": 200,
+  "subcategory": "CSC_OTHER_MATERIALS",
+  "skill_used": "fabrication",
+  "difficulty": 5,
+  "time": 90000,
   "reversible": false,
   "autolearn": true,
+  "qualities":[
+    {"id":"HAMMER","level":3,"amount":1}
+  ],
+  "tools": [
+    [ ["tongs", -1] ],
+    [ ["chisel", -1] ],
+    [ ["anvil", -1] ],
+    [ ["swage", -1] ],
+    [ ["forge", 50], ["char_forge", 10], ["oxy_torch", 10] ]
+  ],
+  "components": [
+     [ [ "copper", 90 ] ]
+  ]
+  },
+  {
+    "type" : "recipe",
+    "result": "fishing_hook_bone",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_TOOLS",
+    "skill_used": "fabrication",
+    "skills_required": [ "survival", 1 ],
+    "difficulty": 1,
+    "time": 2000,
+    "reversible": false,
+    "autolearn": true,
+    "qualities":[
+    {"id":"CUT","level":1,"amount":1}
+  ], "components": [
+      [
+      [ "bone", 1 ], ["bone_human", 1]
+      ]
+    ]
+},{
+  "type" : "recipe",
+  "result": "tarp",
+  "category": "CC_OTHER",
+  "subcategory": "CSC_OTHER_MATERIALS",
+  "skill_used": "fabrication",
+  "skills_required": [ "survival", 1 ],
+  "difficulty": 1,
+  "time": 10000,
+  "reversible": false,
+  "autolearn": true,
+  "qualities" : [
+    {"id":"CUT","level":1,"amount":1}
+  ],
   "components": [
     [
-      [ "aluminum_foil", 3 ]
+      [ "folding_poncho", 1 ],
+      [ "folding_poncho_on", 1 ],
+      [ "emer_blanket", 1 ],
+      [ "emer_blanket_on", 1 ]
+    ],
+    [
+      [ "duct_tape", 20 ]
     ]
   ]
-}
+},
+  {
+    "type" : "recipe",
+    "result": "fishing_rod_basic",
+    "override": true,
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_TOOLS",
+    "skill_used": "survival",
+    "difficulty": 0,
+    "time": 1000,
+    "reversible": true,
+    "autolearn": true,
+    "tools": [ ],
+    "components": [
+      [
+        [ "stick", 1 ]
+      ],
+      [
+        [ "string_36", 6 ]
+      ],
+      [
+        [ "fishing_hook_basic", 1 ],
+        [ "fishing_hook_bone", 1 ]
+      ]
+    ]
+  }
 ]
