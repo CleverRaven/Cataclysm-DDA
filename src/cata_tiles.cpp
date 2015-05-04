@@ -315,6 +315,7 @@ void cata_tiles::load_tilejson_from_file(std::ifstream &f, const std::string &im
         dbg( D_INFO ) << "Attempting to Load Tileset file " << image_path;
         const int newsize = load_tileset(image_path, -1, -1, -1);
         load_tilejson_from_file(config, 0, newsize);
+        offset = newsize;
     }
     // offset should be the total number of sprites loaded from every tileset image
     // eliminate any sprite references that are too high to exist
