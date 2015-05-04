@@ -119,7 +119,7 @@ void map::apply_character_light( const player &p )
 {
     float const held_luminance = p.active_light();
     if( held_luminance > LIGHT_AMBIENT_LOW ) {
-        apply_light_source( p.posx(), p.posy(), held_luminance, trigdist );
+        apply_light_source( p.posx(), p.posy(), held_luminance );
     }
 }
 
@@ -231,8 +231,8 @@ void map::generate_lightmap( const int zlev )
                             } else if (2 == cur->getFieldDensity()) {
                                 add_light_source(x, y, 1);
                             } else {
-                                apply_light_source(x, y, LIGHT_SOURCE_LOCAL,
-                                                   trigdist);    // kinda a hack as the square will still get marked
+                                // Kinda a hack as the square will still get marked.
+                                apply_light_source( x, y, LIGHT_SOURCE_LOCAL );
                             }
                             break;
                         case fd_incendiary:
@@ -245,7 +245,7 @@ void map::generate_lightmap( const int zlev )
                             }
                             break;
                         case fd_laser:
-                            apply_light_source(x, y, 1, trigdist);
+                            apply_light_source(x, y, 1);
                             break;
                         case fd_spotlight:
                             add_light_source(x, y, 20);
@@ -272,13 +272,13 @@ void map::generate_lightmap( const int zlev )
         int my = critter.posy();
         if( INBOUNDS(mx, my) && critter.posz() == zlev ) {
             if (critter.has_effect("onfire")) {
-                apply_light_source(mx, my, 3, trigdist);
+                apply_light_source(mx, my, 3);
             }
             // TODO: [lightmap] Attach natural light brightness to creatures
             // TODO: [lightmap] Allow creatures to have light attacks (ie: eyebot)
             // TODO: [lightmap] Allow creatures to have facing and arc lights
             if (critter.type->luminance > 0) {
-                apply_light_source(mx, my, critter.type->luminance, trigdist);
+                apply_light_source(mx, my, critter.type->luminance);
             }
         }
     }
@@ -377,8 +377,7 @@ void map::generate_lightmap( const int zlev )
     for(int sx = 0; sx < LIGHTMAP_CACHE_X; ++sx) {
         for(int sy = 0; sy < LIGHTMAP_CACHE_Y; ++sy) {
             if ( light_source_buffer[sx][sy] > 0. ) {
-                apply_light_source(sx, sy, light_source_buffer[sx][sy],
-                                   ( trigdist && light_source_buffer[sx][sy] > 3. ) );
+                apply_light_source(sx, sy, light_source_buffer[sx][sy]);
             }
         }
     }
@@ -700,7 +699,7 @@ void castLight( float (&output_cache)[MAPSIZE*SEEX][MAPSIZE*SEEY],
     }
 }
 
-void map::apply_light_source(int x, int y, float luminance, bool )
+void map::apply_light_source(int x, int y, float luminance)
 {
     auto &lm = get_cache( abs_sub.z ).lm;
     auto &sm = get_cache( abs_sub.z ).sm;
@@ -780,7 +779,7 @@ void map::apply_light_arc(int x, int y, int angle, float luminance, int wideangl
 
     bool lit[LIGHTMAP_CACHE_X][LIGHTMAP_CACHE_Y] {};
 
-    apply_light_source(x, y, LIGHT_SOURCE_LOCAL, trigdist);
+    apply_light_source(x, y, LIGHT_SOURCE_LOCAL);
 
     // Normalise (should work with negative values too)
     const double wangle = wideangle / 2.0;
@@ -791,7 +790,7 @@ void map::apply_light_arc(int x, int y, int angle, float luminance, int wideangl
     double rad = PI * (double)nangle / 180;
     int range = LIGHT_RANGE(luminance);
     calc_ray_end(nangle, range, x, y, &endx, &endy);
-    apply_light_ray(lit, x, y, endx, endy , luminance, trigdist);
+    apply_light_ray(lit, x, y, endx, endy , luminance);
 
     int testx, testy;
     calc_ray_end(wangle + nangle, range, x, y, &testx, &testy);
@@ -804,22 +803,22 @@ void map::apply_light_arc(int x, int y, int angle, float luminance, int wideangl
     // attempt to determine beam density required to cover all squares
     const double wstep = ( wangle / ( wdist * SQRT_2 ) );
 
-    for (double ao = wstep; ao <= wangle; ao += wstep) {
-        if ( trigdist ) {
+    for( double ao = wstep; ao <= wangle; ao += wstep ) {
+        if( trigdist ) {
             double fdist = (ao * HALFPI) / wangle;
             double orad = ( PI * ao / 180.0 );
             endx = int( x + ( (double)range - fdist * 2.0) * cos(rad + orad) );
             endy = int( y + ( (double)range - fdist * 2.0) * sin(rad + orad) );
-            apply_light_ray(lit, x, y, endx, endy , luminance, true);
+            apply_light_ray( lit, x, y, endx, endy , luminance );
 
             endx = int( x + ( (double)range - fdist * 2.0) * cos(rad - orad) );
             endy = int( y + ( (double)range - fdist * 2.0) * sin(rad - orad) );
-            apply_light_ray(lit, x, y, endx, endy , luminance, true);
+            apply_light_ray( lit, x, y, endx, endy , luminance );
         } else {
-            calc_ray_end(nangle + ao, range, x, y, &endx, &endy);
-            apply_light_ray(lit, x, y, endx, endy , luminance, false);
-            calc_ray_end(nangle - ao, range, x, y, &endx, &endy);
-            apply_light_ray(lit, x, y, endx, endy , luminance, false);
+            calc_ray_end( nangle + ao, range, x, y, &endx, &endy );
+            apply_light_ray( lit, x, y, endx, endy , luminance );
+            calc_ray_end( nangle - ao, range, x, y, &endx, &endy );
+            apply_light_ray( lit, x, y, endx, endy , luminance );
         }
     }
 }
@@ -849,7 +848,7 @@ void map::calc_ray_end(int angle, int range, int x, int y, int *outx, int *outy)
 }
 
 void map::apply_light_ray(bool lit[LIGHTMAP_CACHE_X][LIGHTMAP_CACHE_Y],
-                          int sx, int sy, int ex, int ey, float luminance, bool)
+                          int sx, int sy, int ex, int ey, float luminance)
 {
     int ax = abs(ex - sx) * 2;
     int ay = abs(ey - sy) * 2;

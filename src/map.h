@@ -1183,13 +1183,13 @@ private:
  long determine_wall_corner( const tripoint &p ) const;
  void cache_seen(const int fx, const int fy, const int tx, const int ty, const int max_range);
  // apply a circular light pattern immediately, however it's best to use...
- void apply_light_source(int x, int y, float luminance, bool trig_brightcalc);
+ void apply_light_source(int x, int y, float luminance);
  // ...this, which will apply the light after at the end of generate_lightmap, and prevent redundant
  // light rays from causing massive slowdowns, if there's a huge amount of light.
  void add_light_source(int x, int y, float luminance);
  void apply_light_arc(int x, int y, int angle, float luminance, int wideangle = 30 );
  void apply_light_ray(bool lit[MAPSIZE*SEEX][MAPSIZE*SEEY],
-                      int sx, int sy, int ex, int ey, float luminance, bool trig_brightcalc = true);
+                      int sx, int sy, int ex, int ey, float luminance);
  void add_light_from_items( const int x, const int y, std::list<item>::iterator begin,
                             std::list<item>::iterator end );
  void calc_ray_end(int angle, int range, int x, int y, int* outx, int* outy) const;
