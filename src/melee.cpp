@@ -397,7 +397,7 @@ void player::melee_attack(Creature &t, bool allow_special, matec_id force_techni
     }
 
     int melee = get_skill_level("melee");
-    int mod_sta = ( (weapon.weight() / 100 ) - melee + 20) * -1;
+    int mod_sta = ( (weapon.weight() / (10 * str_cur) ) - melee + 20) * -1;
     mod_stat("stamina", mod_sta);
     int sta_percent = (100 * stamina) / get_stamina_max();
     int mod_mc = ( (sta_percent < 25) ? ((25 - sta_percent) * 2) : 0 );
