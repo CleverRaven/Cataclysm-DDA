@@ -251,7 +251,7 @@ void cata_tiles::load_tilejson(std::string path, const std::string &image_path)
 
         load_tilejson_from_file( config_file, image_path );
         if (tile_ids.count("unknown") == 0) {
-            debugmsg("The tileset you're using has no 'unknown' tile defined!");
+            dbg( D_ERROR ) << "the tileset you're using has no 'unknown' tile defined!";
         }
 }
 
