@@ -83,6 +83,7 @@
     },
     {
         "type" : "TOOL_ARMOR",
+        "category" : "clothing",
         "id" : "fedora",
         "name" : "fedora",
         "weight" : 350,
