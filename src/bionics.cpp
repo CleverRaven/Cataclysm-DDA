@@ -1042,7 +1042,7 @@ bool player::activate_bionic(int b, bool eff_only)
     }
 
     // Recalculate stats (strength, mods from pain etc.) that could have been affected
-    reset_stats();
+    reset();
 
     return true;
 }
@@ -1108,7 +1108,7 @@ bool player::deactivate_bionic(int b, bool eff_only)
     }
 
     // Recalculate stats (strength, mods from pain etc.) that could have been affected
-    reset_stats();
+    reset();
 
     return true;
 }
