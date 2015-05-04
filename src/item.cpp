@@ -1706,6 +1706,19 @@ void item::on_wield( player &p  )
     if( &p == &g->u && art != nullptr ) {
         g->add_artifact_messages( art->effects_wielded );
     }
+
+    if (is_gun() && has_gunmod("folding_stock") != -1) {
+        int const lvl = p.skillLevel(gun_skill());
+
+        std::string msg;
+        if      (lvl <  2) msg = _("You clumsily unfold the stock on your %s.");
+        else if (lvl >= 7) msg = _("You deftly unfold the stock on your %s.");
+        else               msg = _("You unfold the stock on your %s.");
+
+        // consider only the base size of the gun (without mods)
+        p.moves -= (get_var("volume", (int) type->volume) * 32) / (lvl == 0 ? 1 : lvl);
+        p.add_msg_if_player(msg.c_str(), tname().c_str());
+   }
 }
 
 void item::on_pickup( Character &p  )
@@ -2146,6 +2159,21 @@ int item::volume(bool unit_value, bool precise_value ) const
     if (is_gun()) {
         for( auto &elem : contents ) {
             ret += elem.volume( false, precise_value );
+        }
+
+        int folding_stock = has_gunmod("folding_stock");
+        if (folding_stock != -1) {
+            // deduct volume of folding stock mod
+            ret -= contents[folding_stock].volume();
+
+            // consider only the base size of the gun (without mods)
+            int tmpvol = get_var( "volume", (int) type->volume);
+            if      (tmpvol <=  3) ; // intentional NOP
+            else if (tmpvol <=  5) ret -= precise_value ? 1000 : 1;
+            else if (tmpvol <=  6) ret -= precise_value ? 2000 : 2;
+            else if (tmpvol <=  8) ret -= precise_value ? 3000 : 3;
+            else if (tmpvol <= 11) ret -= precise_value ? 4000 : 4;
+            else                   ret -= precise_value ? 5000 : 5;
         }
     }
 
