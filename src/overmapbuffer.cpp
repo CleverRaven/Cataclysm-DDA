@@ -309,7 +309,6 @@ void overmapbuffer::signal_hordes( const tripoint &center, const int sig_power )
     const auto radius = sig_power;
     for( auto &om : get_overmaps_near( center, radius ) ) {
         const point abs_pos_om = om_to_sm_copy( om->pos() );
-        // TODO: Z
         const tripoint rel_pos( center.x - abs_pos_om.x, center.y - abs_pos_om.y, center.z );
         // overmap::signal_hordes expects a coordinate relative to the overmap, this is easier
         // for processing as the monster group stores is location as relative coordinates, too.
@@ -684,8 +683,8 @@ city_reference overmapbuffer::closest_city( const tripoint &center )
         const auto abs_pos_om = om_to_sm_copy( om->pos() );
         for( auto &city : om->cities ) {
             const auto rel_pos_city = omt_to_sm_copy( point( city.x, city.y ) );
+            // TODO: Z-level cities. This 0 has to be here until mapgen understands non-0 zlev cities
             const auto abs_pos_city = tripoint( abs_pos_om + rel_pos_city, 0 );
-            // TODO: Z-level cities
             const auto distance = rl_dist( abs_pos_city, center );
             const city_reference cr{ om, &city, abs_pos_city, distance };
             if( distance < result.distance ) {

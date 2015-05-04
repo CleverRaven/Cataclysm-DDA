@@ -1555,7 +1555,6 @@ void overmap::draw(WINDOW *w, WINDOW *wbar, const tripoint &center,
             } else if( data.debug_weather && get_weather_glyph( point( omx, omy ), ter_color, ter_sym ) ) {
                 // ter_color and ter_sym have been set by get_weather_glyph
             } else if( blink && has_target && omx == target.x && omy == target.y ) {
-                // TODO: mission targets currently have no z-component, are assumed to be on z=0
                 // Mission target, display always, player should know where it is anyway.
                 ter_color = c_red;
                 ter_sym   = '*';
@@ -1665,34 +1664,33 @@ void overmap::draw(WINDOW *w, WINDOW *wbar, const tripoint &center,
     }
     if (has_target && blink &&
         (target.x < cursx - om_half_width ||
-         target.x > cursx + om_half_width  ||
+         target.x >= cursx + om_half_width  ||
          target.y < cursy - om_half_height ||
-         target.y > cursy + om_half_height)) {
-        // TODO: mission targets currently have no z-component, are assumed to be on z=0
+         target.y >= cursy + om_half_height)) {
         switch (direction_from(cursx, cursy, target.x, target.y)) {
         case NORTH:
-            mvwputch(w, 0, om_half_width, c_red, '^');
+            mvwputch(w, 0,                  om_half_width - 1,  c_red, '^');
             break;
         case NORTHEAST:
-            mvwputch(w, 0, om_map_width - 1, c_red, LINE_OOXX);
+            mvwputch(w, 0,                  om_map_width - 1,   c_red, LINE_OOXX);
             break;
         case EAST:
-            mvwputch(w, om_half_height, om_map_width - 1, c_red, '>');
+            mvwputch(w, om_half_height - 1, om_map_width - 1,   c_red, '>');
             break;
         case SOUTHEAST:
-            mvwputch(w, om_map_height, om_map_width - 1, c_red, LINE_XOOX);
+            mvwputch(w, om_map_height - 1,  om_map_width - 1,   c_red, LINE_XOOX);
             break;
         case SOUTH:
-            mvwputch(w, om_map_height, om_half_height, c_red, 'v');
+            mvwputch(w, om_map_height - 1,  om_half_width - 1,  c_red, 'v');
             break;
         case SOUTHWEST:
-            mvwputch(w, om_map_height, 0, c_red, LINE_XXOO);
+            mvwputch(w, om_map_height - 1,  0,                  c_red, LINE_XXOO);
             break;
         case WEST:
-            mvwputch(w, om_half_height,  0, c_red, '<');
+            mvwputch(w, om_half_height - 1, 0,                  c_red, '<');
             break;
         case NORTHWEST:
-            mvwputch(w,  0,  0, c_red, LINE_OXXO);
+            mvwputch(w, 0,                  0,                  c_red, LINE_OXXO);
             break;
         default:
             break; //Do nothing
@@ -1795,8 +1793,8 @@ void overmap::draw(WINDOW *w, WINDOW *wbar, const tripoint &center,
     }
 
     if (has_target) {
-        // TODO: mission targets currently have no z-component, are assumed to be on z=0
-        int distance = rl_dist(orig.x, orig.y, target.x, target.y);
+        // TODO: Add a note that the target is above/below us
+        int distance = rl_dist( orig, target );
         mvwprintz(wbar, 3, 1, c_white, _("Distance to target: %d"), distance);
     }
     mvwprintz(wbar, 14, 1, c_magenta, _("Use movement keys to pan."));
