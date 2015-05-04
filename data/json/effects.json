@@ -212,11 +212,30 @@
     {
         "type": "effect_type",
         "id": "deaf",
-        "name": ["Deaf"],
-        "desc": ["Sounds will not be reported.  You cannot talk with NPCs."],
-        "apply_message": "You're deafened!",
+        "name": [
+            "Impaired hearing",
+            "Ringing ears",
+            "Deaf"
+        ],
+        "desc": [
+            "Your hearing is impaired.",
+            "You can barely hear anything and your ears hurt.",
+            "You can't hear anything and your head aches from all the noise. You can't converse with NPCs."
+        ],
+        "apply_message": "Your ears ring!",
         "remove_message": "You can hear again!",
-        "rating": "bad"
+        "rating": "bad",
+        "max_intensity": 3,
+        "int_dur_factor": 100,
+        "base_mods": {
+            "pain_min": [1],
+            "pain_chance": [-50],
+            "pain_chance_bot": [1000]
+        },
+        "scaling_mods": {
+            "pain_max_val": [5],
+            "pain_chance": [150]
+        }
     },
     {
         "type": "effect_type",
