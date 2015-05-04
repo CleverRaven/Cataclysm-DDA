@@ -592,6 +592,9 @@
             {"x": -2, "y": 2, "part": "xlframe_horizontal"},
             {"x": -2, "y": 2, "part": "xlhalfboard_se"},
             {"x": -2, "y": 2, "part": "wheel"}
+        ],
+        "items" : [
+            {"x": -1, "y": 0, "chance": 8, "items": ["sm_extinguisher"]}
         ]
     },{
         "type" : "vehicle",
@@ -1027,6 +1030,7 @@
             {"x": -3, "y": 3, "part": "wheel_wide"}
         ],
         "items" : [
+            {"x": 0, "y": 0, "chance": 1, "items": "roadmap"},
             {"x": 0, "y": 0, "chance": 2, "items": ["beer", "beer", "beer", "beer", "beer", "beer"]},
             {"x": -2, "y": 0, "chance": 2, "item_groups": "bigtools"}
         ]
@@ -1436,6 +1440,14 @@
             {"x": 3, "y": 4, "part": "halfboard_ne"},
             {"x": 3, "y": -1, "part": "hdframe_nw"},
             {"x": 3, "y": -1, "part": "halfboard_nw"}
+        ],
+        "items" : [
+            {"x": 0, "y": 0, "chance": 20, "items": ["hat_ball"]},
+            {"x": 0, "y": 0, "chance": 10, "items": ["cig"]},
+            {"x": 0, "y": 0, "chance": 5, "items": ["choco_coffee_beans"]},
+            {"x": 0, "y": 1, "chance": 5, "items": ["colamdew"]},
+            {"x": -4, "y": 0, "chance": 12, "item_groups": ["tools"]},
+            {"x": -4, "y": 0, "chance": 10, "item_groups": ["tools"]}
         ]
     },{
         "type" : "vehicle",
@@ -1610,6 +1622,40 @@
             {"x": 5, "y": 2, "part": "board_ne"},
             {"x": 5, "y": -3, "part": "hdframe_nw"},
             {"x": 5, "y": -3, "part": "board_nw"}
+        ],
+         "items" : [
+            {"x": 4, "y": -2, "chance": 2, "items": ["bubblewrap"]},
+            {"x": 4, "y": -1, "chance": 3, "items": ["bubblewrap"]},
+            {"x": 4, "y": 0, "chance": 5, "items": ["rope_30"]},
+            {"x": 4, "y": 1, "chance": 3, "items": ["bubblewrap"]},
+            {"x": 3, "y": -2, "chance": 4, "items": ["bubblewrap"]},
+            {"x": 3, "y": -1, "chance": 3, "items": ["bubblewrap"]},
+            {"x": 3, "y": 0, "chance": 2, "items": ["rope_30"]},
+            {"x": 3, "y": 1, "chance": 3, "items": ["bubblewrap"]},
+            {"x": 2, "y": -2, "chance": 2, "items": ["bubblewrap"]},
+            {"x": 2, "y": -1, "chance": 1, "items": ["bubblewrap"]},
+            {"x": 2, "y": 0, "chance": 4, "items": ["bubblewrap"]},
+            {"x": 2, "y": 1, "chance": 3, "items": ["bubblewrap"]},
+            {"x": 1, "y": -2, "chance": 2, "items": ["bubblewrap"]},
+            {"x": 1, "y": -1, "chance": 5, "items": ["bubblewrap"]},
+            {"x": 1, "y": 0, "chance": 3, "items": ["rope_30"]},
+            {"x": 1, "y": 1, "chance": 3, "items": ["bubblewrap"]},
+            {"x": 0, "y": -2, "chance": 1, "items": ["bubblewrap"]},
+            {"x": 0, "y": -1, "chance": 3, "items": ["bubblewrap"]},
+            {"x": 0, "y": 0, "chance": 3, "items": ["bubblewrap"]},
+            {"x": 0, "y": 1, "chance": 2, "items": ["bubblewrap"]},
+            {"x": -1, "y": -2, "chance": 3, "items": ["bubblewrap"]},
+            {"x": -1, "y": -1, "chance": 3, "items": ["bubblewrap"]},
+            {"x": -1, "y": 0, "chance": 3, "items": ["bubblewrap"]},
+            {"x": -1, "y": 1, "chance": 1, "items": ["bubblewrap"]},
+            {"x": -2, "y": -2, "chance": 3, "items": ["rope_6"]},
+            {"x": -2, "y": -1, "chance": 1, "items": ["bubblewrap"]},
+            {"x": -2, "y": 0, "chance": 2, "items": ["bubblewrap"]},
+            {"x": -2, "y": 1, "chance": 3, "items": ["bubblewrap"]},
+            {"x": -3, "y": -2, "chance": 1, "items": ["bubblewrap"]},
+            {"x": -3, "y": -1, "chance": 3, "items": ["bubblewrap"]},
+            {"x": -3, "y": 0, "chance": 2, "items": ["bubblewrap"]},
+            {"x": -3, "y": 1, "chance": 5, "items": ["bubblewrap"]}
         ]
     },{
         "type" : "vehicle",
@@ -1849,6 +1895,9 @@
             {"x": -1, "y": 2, "part": "gas_tank_small"},
             {"x": -1, "y": 2, "part": "halfboard_se"},
             {"x": -1, "y": 2, "part": "wheel"}
+        ],
+         "items" : [
+            {"x": -1, "y": 0, "chance": 5, "items": ["mag_glam"]}
         ]
     },{
         "type" : "vehicle",
@@ -2577,6 +2626,7 @@
             {"x": -7, "y": 2, "chance": 15, "item_groups": ["bed"]},
             {"x": -8, "y": 0, "chance": 15, "item_groups": ["bed"]},
             {"x": -8, "y": 2, "chance": 15, "item_groups": ["bed"]},
+            {"x": -6, "y": 3, "chance": 5, "items": "brazier"},
             {"x": -7, "y": 3, "chance": 12, "items": "extinguisher"},
             {"x": -7, "y": 3, "chance": 15, "items": ["jack", "wheel_wide"]}
         ]
@@ -4720,13 +4770,13 @@
             {"x": -1, "y": 3, "part": "board_se"},
             {"x": -1, "y": 3, "part": "gas_tank"},
             {"x": -2, "y": 0, "part": "frame_vertical"},
-            {"x": -2, "y": 0, "part": "aisle_vertical"},
+            {"x": -2, "y": 0, "part": "box"},
             {"x": -2, "y": 0, "part": "roof"},
             {"x": -2, "y": 1, "part": "frame_vertical"},
-            {"x": -2, "y": 1, "part": "aisle_vertical"},
+            {"x": -2, "y": 1, "part": "reclining_seat"},
             {"x": -2, "y": 1, "part": "roof"},
             {"x": -2, "y": 2, "part": "frame_vertical"},
-            {"x": -2, "y": 2, "part": "aisle_vertical"},
+            {"x": -2, "y": 2, "part": "lit_aisle_vertical"},
             {"x": -2, "y": 2, "part": "roof"},
             {"x": -2, "y": -1, "part": "frame_vertical"},
             {"x": -2, "y": -1, "part": "board_vertical"},
@@ -4735,7 +4785,7 @@
             {"x": -2, "y": 3, "part": "door_opaque"},
             {"x": -2, "y": 3, "part": "roof"},
             {"x": -3, "y": 0, "part": "frame_vertical"},
-            {"x": -3, "y": 0, "part": "aisle_vertical"},
+            {"x": -3, "y": 0, "part": "box"},
             {"x": -3, "y": 0, "part": "roof"},
             {"x": -3, "y": 1, "part": "frame_vertical"},
             {"x": -3, "y": 1, "part": "bed"},
@@ -4750,7 +4800,7 @@
             {"x": -3, "y": 3, "part": "board_vertical"},
             {"x": -3, "y": 3, "part": "roof"},
             {"x": -4, "y": 0, "part": "frame_vertical"},
-            {"x": -4, "y": 0, "part": "aisle_vertical"},
+            {"x": -4, "y": 0, "part": "box"},
             {"x": -4, "y": 0, "part": "roof"},
             {"x": -4, "y": 1, "part": "frame_vertical"},
             {"x": -4, "y": 1, "part": "aisle_vertical"},
@@ -4785,10 +4835,21 @@
             {"x": -5, "y": 3, "part": "roof"}
         ],
         "items" : [
-            {"x": -3, "y": 1, "chance": 50, "items": ["bandages"]},
-            {"x": -3, "y": 1, "chance": 15, "items": ["bandages"]},
-            {"x": -3, "y": 1, "chance": 5, "items": ["1st_aid"]},
-            {"x": -3, "y": 1, "chance": 25, "items": ["quikclot"]}
+            {"x": -2, "y": 0, "chance": 20, "items": ["bandages"]},
+            {"x": -2, "y": 0, "chance": 15, "items": ["aspirin"]},
+            {"x": -2, "y": 0, "chance": 15, "items": ["disinfectant"]},
+            {"x": -2, "y": 0, "chance": 5, "items": ["codeine"]},
+            {"x": -3, "y": 0, "chance": 15, "items": ["bandages"]},
+            {"x": -3, "y": 0, "chance": 15, "items": ["1st_aid"]},
+            {"x": -3, "y": 0, "chance": 10, "items": ["adrenaline_injector"]},
+            {"x": -3, "y": 0, "chance": 5, "items": ["oxycodone"]},
+            {"x": -3, "y": 0, "chance": 5, "items": ["tramadol"]},
+            {"x": -4, "y": 0, "chance": 5, "items": ["morphine"]},
+            {"x": -4, "y": 0, "chance": 12, "items": ["antibiotics"]},
+            {"x": -4, "y": 0, "chance": 5, "items": ["thorazine"]},
+            {"x": -4, "y": 0, "chance": 15, "items": ["disinfectant"]},
+            {"x": -4, "y": 0, "chance": 5, "items": ["tramadol"]},
+            {"x": -4, "y": 0, "chance": 8, "items": ["quikclot"]}
         ]
     },{
         "type":"vehicle",
@@ -5085,6 +5146,7 @@
             {"x": 0, "y": 1, "chance": 5, "item_groups": "fast_food"},
             {"x": -2, "y": 1, "chance": 5, "items": "screwdriver"},
             {"x": -2, "y": 0, "chance": 2, "items": "scissors"},
+            {"x": -2, "y": 0, "chance": 5, "item_groups": "farming_tools"},
             {"x": -2, "y": 1, "chance": 5, "items": "crowbar"},
             {"x": -2, "y": 1, "chance": 15, "items": ["jack", "wheel"]},
             {"x": -2, "y": 1, "chance": 3, "items": "ax"}
@@ -5404,6 +5466,7 @@
         ],
         "items" : [
             {"x": -4, "y": -1, "chance": 40, "items": "firehelmet"},
+            {"x": -4, "y": -1, "chance": 20, "item_groups": "fireman_mask"},
             {"x": -4, "y": -1, "chance": 40, "items": "bunker_coat"},
             {"x": -4, "y": -1, "chance": 40, "items": "bunker_pants"},
             {"x": -4, "y": -1, "chance": 40, "items": "boots_bunker"},
@@ -5420,6 +5483,7 @@
             {"x": -4, "y": 0, "chance": 20, "items": "nomex_hood"},
             {"x": -4, "y": 0, "chance": 40, "items": "nomex_gloves"},
             {"x": -4, "y": 1, "chance": 40, "items": "firehelmet"},
+            {"x": -4, "y": 1, "chance": 20, "item_groups": "fireman_mask"},
             {"x": -4, "y": 1, "chance": 40, "items": "bunker_coat"},
             {"x": -4, "y": 1, "chance": 40, "items": "bunker_pants"},
             {"x": -4, "y": 1, "chance": 40, "items": "boots_bunker"},
@@ -5428,13 +5492,14 @@
             {"x": -4, "y": 1, "chance": 20, "items": "nomex_hood"},
             {"x": -4, "y": 1, "chance": 40, "items": "nomex_gloves"},
             {"x": -2, "y": -1, "chance": 40, "items": "firehelmet"},
+            {"x": -2, "y": -1, "chance": 20, "item_groups": "fireman_gear"},
             {"x": -2, "y": -1, "chance": 40, "items": "bunker_coat"},
             {"x": -2, "y": -1, "chance": 40, "items": "bunker_pants"},
             {"x": -2, "y": -1, "chance": 40, "items": "boots_bunker"},
             {"x": -2, "y": -1, "chance": 40, "items": "fireman_belt"},
             {"x": -2, "y": -1, "chance": 20, "items": "nomex_suit"},
             {"x": -2, "y": -1, "chance": 20, "items": "nomex_hood"},
-            {"x": -2, "y": -1, "chance": 40, "items": "nomex_gloves"},
+            {"x": -2, "y": -1, "chance": 40, "item_groups": "fireman_gloves"},
             {"x": -2, "y": 0, "chance": 40, "items": "firehelmet"},
             {"x": -2, "y": 0, "chance": 40, "items": "bunker_coat"},
             {"x": -2, "y": 0, "chance": 40, "items": "bunker_pants"},
@@ -5445,12 +5510,12 @@
             {"x": -2, "y": 0, "chance": 40, "items": "nomex_gloves"},
             {"x": -2, "y": 1, "chance": 40, "items": "firehelmet"},
             {"x": -2, "y": 1, "chance": 40, "items": "bunker_coat"},
-            {"x": -2, "y": 1, "chance": 40, "items": "bunker_pants"},
             {"x": -2, "y": 1, "chance": 40, "items": "boots_bunker"},
             {"x": -2, "y": 1, "chance": 40, "items": "fireman_belt"},
-            {"x": -2, "y": 1, "chance": 20, "items": "nomex_suit"},
-            {"x": -2, "y": 1, "chance": 20, "items": "nomex_hood"},
-            {"x": -2, "y": 1, "chance": 40, "items": "nomex_gloves"}
+            {"x": -2, "y": 1, "chance": 40, "item_groups": "fireman_pants"},
+            {"x": -2, "y": 1, "chance": 20, "item_groups": "fireman_torso"},
+            {"x": -2, "y": 1, "chance": 20, "item_groups": "fireman_head"},
+            {"x": -2, "y": 1, "chance": 40, "item_groups": "fireman_gloves"}
         ]
     }
 ]
