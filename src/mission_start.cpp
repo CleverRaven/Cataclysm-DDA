@@ -47,7 +47,7 @@ tripoint random_house_in_closest_city()
     const auto cref = overmap_buffer.closest_city( center );
     if( !cref ) {
         debugmsg( "could not find closest city" );
-        return overmap::invalid_tripoint;
+        return g->u.global_omt_location();
     }
     return random_house_in_city( cref );
 }
@@ -77,7 +77,7 @@ tripoint target_om_ter_random( const std::string &omter, int reveal_rad, mission
     auto places = overmap_buffer.find_all( g->u.global_omt_location(), omter, dist, must_see );
     if( places.size() == 0 ) {
         debugmsg( "Couldn't find %s", omter.c_str() );
-        return overmap::invalid_tripoint;
+        return g->u.global_omt_location();
     }
     const auto &cur_om = g->get_cur_om();
     std::vector<tripoint> places_om;
@@ -458,6 +458,12 @@ void mission_start::place_deposit_box( mission *miss )
     if( site == overmap::invalid_tripoint ) {
         site = overmap_buffer.find_closest( p->global_omt_location(), "office_tower_1", dist, false );
     }
+
+    if( site == overmap::invalid_tripoint ) {
+        site = p->global_omt_location();
+        debugmsg( "Couldn't find a place for deposit box" );
+    }
+
     miss->target = site;
     overmap_buffer.reveal( site, 2 );
 
