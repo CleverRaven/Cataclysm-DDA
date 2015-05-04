@@ -1554,14 +1554,14 @@ void overmap::draw(WINDOW *w, WINDOW *wbar, const tripoint &center,
                 ter_sym   = '@';
             } else if( data.debug_weather && get_weather_glyph( point( omx, omy ), ter_color, ter_sym ) ) {
                 // ter_color and ter_sym have been set by get_weather_glyph
-            } else if (blink && has_target && omx == target.x && omy == target.y && z == 0) {
+            } else if( blink && has_target && omx == target.x && omy == target.y ) {
                 // TODO: mission targets currently have no z-component, are assumed to be on z=0
                 // Mission target, display always, player should know where it is anyway.
                 ter_color = c_red;
                 ter_sym   = '*';
-                if( target.z > g->u.posz() ) {
+                if( target.z > z ) {
                     ter_sym = '^';
-                } else if( target.z < g->u.posz() ) {
+                } else if( target.z < z ) {
                     ter_sym = 'v';
                 }
             } else if (blink && overmap_buffer.has_note(cur_pos)) {
@@ -1664,10 +1664,10 @@ void overmap::draw(WINDOW *w, WINDOW *wbar, const tripoint &center,
         }
     }
     if (has_target && blink &&
-        (target.x < cursx - om_half_height ||
-         target.x > cursx + om_half_height  ||
-         target.y < cursy - om_half_width ||
-         target.y > cursy + om_half_width)) {
+        (target.x < cursx - om_half_width ||
+         target.x > cursx + om_half_width  ||
+         target.y < cursy - om_half_height ||
+         target.y > cursy + om_half_height)) {
         // TODO: mission targets currently have no z-component, are assumed to be on z=0
         switch (direction_from(cursx, cursy, target.x, target.y)) {
         case NORTH:
