@@ -281,7 +281,7 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         /** Removes the mutation's child flag from the player's list */
         void remove_child_flag( const std::string &mut );
 
-        const tripoint &pos3() const override;
+        const tripoint &pos() const override;
         /** Returns the player's sight range */
         int sight_range( int light_level ) const override;
         /** Returns the player maximum vision range factoring in mutations, diseases, and other effects */
@@ -1118,7 +1118,7 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         inventory cached_crafting_inventory;
         int cached_moves;
         int cached_turn;
-        point cached_position;
+        tripoint cached_position;
 
         struct weighted_int_list<const char*> melee_miss_reasons;
 
