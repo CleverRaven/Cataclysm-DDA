@@ -9,7 +9,7 @@
 
 #define LIGHT_TRANSPARENCY_SOLID 0
 // Calculated to run out at 60 squares.
-#define LIGHT_TRANSPARENCY_OPEN_AIR 0.0383
+#define LIGHT_TRANSPARENCY_OPEN_AIR 0.047359693228
 #define LIGHT_TRANSPARENCY_CLEAR 1
 
 #define LIGHT_RANGE(b) static_cast<int>( -log(LIGHT_AMBIENT_LOW / (float)b) * (1.0 / LIGHT_TRANSPARENCY_OPEN_AIR) )
