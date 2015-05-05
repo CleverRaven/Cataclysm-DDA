@@ -137,7 +137,7 @@ bool monster::setpos( const tripoint &p, const bool level_change )
     return ret;
 }
 
-const tripoint &monster::pos3() const
+const tripoint &monster::pos() const
 {
     return position;
 }

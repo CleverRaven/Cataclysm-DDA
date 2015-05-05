@@ -7834,7 +7834,7 @@ bool pet_menu(monster *z)
             return true;
         }
 
-        bool success = g->make_drop_activity( ACT_STASH, z->pos() );
+        bool success = g->make_drop_activity( ACT_STASH, z->pos2() );
         if( success ) {
             z->add_effect("controlled", 5);
         }
@@ -10139,7 +10139,7 @@ int game::move_liquid(item &liquid)
 void game::drop(int pos)
 {
     if (pos == INT_MIN) {
-        make_drop_activity( ACT_DROP, u.pos() );
+        make_drop_activity( ACT_DROP, u.pos2() );
     } else if (pos == -1 && u.weapon.has_flag("NO_UNWIELD")) {
         add_msg(m_info, _("You cannot drop your %s."), u.weapon.tname().c_str());
         return;

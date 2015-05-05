@@ -4130,7 +4130,7 @@ tripoint player::global_omt_location() const
     return overmapbuffer::ms_to_omt_copy( global_square_location() );
 }
 
-const tripoint &player::pos3() const
+const tripoint &player::pos() const
 {
     return position;
 }
@@ -5067,7 +5067,7 @@ void player::knock_back_from( const tripoint &p )
 
     if (x == posx() && y == posy())
         return; // No effect
-    point to = pos();
+    tripoint to = pos();
     if (x < posx()) {
         to.x++;
     }
@@ -7302,7 +7302,7 @@ void player::hardcoded_effects(effect &it)
                     }
                 } else {
                     sounds::sound(posx(), posy(), 12, _("beep-beep-beep!"));
-                    if( !can_hear( pos(), 12 ) ) {
+                    if( !can_hear( pos2(), 12 ) ) {
                         // 10 minute automatic snooze
                         it.mod_duration(100);
                     } else {
@@ -13555,7 +13555,7 @@ bool player::can_hear( const point source, const int volume ) const
     if( is_deaf() ) {
         return false;
     }
-    const int dist = rl_dist( source, pos() );
+    const int dist = rl_dist( source, pos2() );
     const float volume_multiplier = hearing_ability();
     return volume * volume_multiplier >= dist;
 }

@@ -236,8 +236,14 @@ class Creature
         virtual int posx() const = 0;
         virtual int posy() const = 0;
         virtual int posz() const = 0;
-        virtual const tripoint &pos3() const = 0;
-        virtual const point pos() const
+        virtual const tripoint &pos() const = 0;
+
+        virtual const tripoint &pos3() const
+        {
+            return pos();
+        }
+
+        const point pos2() const
         {
             return point( posx(), posy() );
         }

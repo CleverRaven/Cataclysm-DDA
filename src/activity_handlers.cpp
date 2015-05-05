@@ -1057,7 +1057,7 @@ void activity_handlers::start_engines_finish( player_activity *act, player *p )
     // Find the vehicle by looking for a remote vehicle first, then by player relative coords
     vehicle *veh = g->remoteveh();
     if( !veh ) {
-        const point pos = act->placement + g->u.pos();
+        const point pos = act->placement + g->u.pos2();
         veh = g->m.veh_at( pos.x, pos.y );
         if( !veh ) { return; }
     }

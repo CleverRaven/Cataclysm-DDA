@@ -214,7 +214,7 @@ bool vehicle::remote_controlled(player const &p) const
 
     auto remote = all_parts_with_feature( "REMOTE_CONTROLS", true );
     for( int part : remote ) {
-        if( rl_dist( p.pos(), global_pos() + parts[part].precalc[0] ) <= 40 ) {
+        if( rl_dist( p.pos2(), global_pos() + parts[part].precalc[0] ) <= 40 ) {
             return true;
         }
     }
@@ -1340,7 +1340,7 @@ void vehicle::start_engines( const bool take_control )
     }
 
     g->u.assign_activity( ACT_START_ENGINES, start_time );
-    g->u.activity.placement = global_pos() - g->u.pos();
+    g->u.activity.placement = global_pos() - g->u.pos2();
     g->u.activity.values.push_back( take_control );
 }
 
@@ -5572,7 +5572,7 @@ bool vehicle::manual_fire_turret( int p, player &shooter, const itype &guntype,
     int y = global_y() + parts[p].precalc[0].y;
 
     // Place the shooter at the turret
-    const point &oldpos = shooter.pos();
+    const tripoint &oldpos = shooter.pos();
     shooter.setx( x );
     shooter.sety( y );
 
@@ -5629,8 +5629,7 @@ bool vehicle::manual_fire_turret( int p, player &shooter, const itype &guntype,
     charges = shooter.weapon.charges;
 
     // Place the shooter back where we took them from
-    shooter.setx( oldpos.x );
-    shooter.sety( oldpos.y );
+    shooter.setpos( oldpos );
     // Give back old weapon
     shooter.weapon = old_weapon;
 
