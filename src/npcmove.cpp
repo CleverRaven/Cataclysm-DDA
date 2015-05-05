@@ -10,6 +10,7 @@
 #include "translations.h"
 #include "veh_type.h"
 #include "monster.h"
+#include "itype.h"
 
 #define dbg(x) DebugLog((DebugLevel)(x),D_NPC) << __FILE__ << ":" << __LINE__ << ": "
 #define TARGET_PLAYER -2

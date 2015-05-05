@@ -6,6 +6,7 @@
 #include "line.h"
 #include "omdata.h"
 #include "ui.h"
+#include "trap.h"
 #include <vector>
 #include <map>
 #include <list>

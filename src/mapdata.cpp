@@ -4,6 +4,7 @@
 #include "game_constants.h"
 #include "debug.h"
 #include "translations.h"
+#include "trap.h"
 #include <ostream>
 #include <unordered_map>
 #include <memory>

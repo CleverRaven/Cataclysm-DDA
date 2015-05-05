@@ -11,6 +11,7 @@
 #include "monstergenerator.h"
 #include "sounds.h"
 #include "debug.h"
+#include "trap.h"
 #include "messages.h"
 #include "mapsharing.h"
 #include "iuse_actor.h"

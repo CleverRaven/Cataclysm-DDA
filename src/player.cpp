@@ -34,6 +34,7 @@
 #include "trap.h"
 #include "mutation.h"
 #include "ui.h"
+#include "trap.h"
 
 #ifdef SDLTILES
 #include "SDL2/SDL.h"

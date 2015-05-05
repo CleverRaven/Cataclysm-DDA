@@ -15,6 +15,7 @@
 #include "translations.h"
 #include "monster.h"
 #include "event.h"
+#include "trap.h"
 
 #include <fstream>
 #include <string>

@@ -14,6 +14,7 @@
 #include "veh_interact.h"
 #include "messages.h"
 #include "rng.h"
+#include "trap.h"
 #include "overmapbuffer.h"
 #include "options.h"
 #include "npc.h"

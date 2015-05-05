@@ -20,6 +20,7 @@
 #include "crafting.h"
 #include "sounds.h"
 #include "monattack.h"
+#include "trap.h"
 #include "iuse_actor.h" // For firestarter
 #include "mongroup.h"
 #include "translations.h"

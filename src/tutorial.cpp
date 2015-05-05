@@ -9,6 +9,7 @@
 #include "monstergenerator.h"
 #include "profession.h"
 #include "overmap.h"
+#include "trap.h"
 
 std::vector<std::string> tut_text;
 

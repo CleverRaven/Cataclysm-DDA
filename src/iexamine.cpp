@@ -18,6 +18,7 @@
 #include "event.h"
 #include "catacharset.h"
 #include "ui.h"
+#include "trap.h"
 
 #include <sstream>
 #include <algorithm>

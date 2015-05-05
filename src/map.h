@@ -27,6 +27,7 @@
 class player;
 class monster;
 class item;
+class Creature;
 struct itype;
 struct mapgendata;
 struct trap;

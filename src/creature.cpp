@@ -8,6 +8,7 @@
 #include "translations.h"
 #include "monster.h"
 #include "npc.h"
+#include "itype.h"
 
 #include <algorithm>
 #include <numeric>

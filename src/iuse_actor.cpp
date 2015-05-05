@@ -14,6 +14,7 @@
 #include "event.h"
 #include "crafting.h"
 #include "ui.h"
+#include "itype.h"
 #include <sstream>
 #include <algorithm>
 

@@ -16,6 +16,7 @@
 #include "mongroup.h"
 #include "mapgen.h"
 #include "translations.h"
+#include "trap.h"
 #include <algorithm>
 #include <cassert>
 #include <list>

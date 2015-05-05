@@ -8,6 +8,7 @@
 #include "input.h"
 #include "options.h"
 #include "ui.h"
+#include "itype.h"
 
 #include <map>
 #include <vector>

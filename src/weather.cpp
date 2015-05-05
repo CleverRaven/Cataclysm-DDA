@@ -5,6 +5,7 @@
 #include "messages.h"
 #include "overmap.h"
 #include "overmapbuffer.h"
+#include "trap.h"
 #include "math.h"
 #include "translations.h"
 
