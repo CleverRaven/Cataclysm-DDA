@@ -10104,7 +10104,7 @@ void player::pick_style() // Style selection menu
 
     uimenu kmenu;
     kmenu.text = _("Select a style (press ? for more info)");
-    std::auto_ptr<ma_style_callback> ma_style_info(new ma_style_callback());
+    std::unique_ptr<ma_style_callback> ma_style_info(new ma_style_callback());
     kmenu.callback = ma_style_info.get();
     kmenu.desc_enabled = true;
     kmenu.addentry( 0, true, 'c', _("Cancel") );
