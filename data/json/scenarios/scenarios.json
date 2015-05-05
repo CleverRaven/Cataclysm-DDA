@@ -5,8 +5,8 @@
     "name": "Evacuee",
     "points" : 0,
     "description": "You have survived the initial wave of panic, and have achieved (relative) safety in one of the many government evac shelters.",
-    "allowed_locs": ["shelter","house","s_grocery","s_gun","s_garage","pawn","bank","mil_surplus","furniture","s_library","cabin","lmoe"],
-    "start_name": "Anywhere"
+    "allowed_locs": ["shelter"],
+    "start_name": "Evac Shelter"
   },{
     "type": "scenario",
     "ident": "missed",
@@ -134,7 +134,7 @@
     "points" : 0,
     "description": "You find yourself amongst trees.  The screaming and the moaning is fainter this far from civilization, but you'd better know what you're doing out here.",
     "start_name": "Forest",
-    "professions" : ["unemployed", "survivalist", "naturalist", "bow_hunter", "lumberjack", "jr_survivalist"],
+    "professions" : ["unemployed", "survivalist", "naturalist", "bow_hunter", "lumberjack", "jr_survivalist", "fisher"],
     "allowed_locs" : ["forest"]
     }
 ]

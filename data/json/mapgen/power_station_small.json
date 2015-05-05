@@ -64,8 +64,8 @@
             "B": "t_oil_circ_brkr_l",
             "S": "t_switchgear_l",
             "s": "t_switchgear_s",
-            "w": "t_wall_h",
-            "v": "t_wall_v",
+            "w": "t_wall",
+            "v": "t_wall",
             "d": "t_door_locked",
             "C": "t_console_broken",
             "*": "t_floor",
@@ -79,7 +79,7 @@
             "furniture": {
             "c": "f_counter"
             },
-              "place_groups": [
+              "place_items": [
                 { "item": "pwr_equipment",  "x": 16, "y": 7, "chance": 40 },
                 { "item": "pwr_supplies",   "x": 16, "y": 7, "chance": 60 },
                 

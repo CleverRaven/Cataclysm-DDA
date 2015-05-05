@@ -5,10 +5,17 @@
 #include "debug.h"
 #include "json.h"
 #include "mapsharing.h"
+#include "rng.h"
+#include "translations.h"
 
 #include <sstream>
 #include <fstream>
 #include <bitset>
+
+// mfb(t_flag) converts a flag to a bit for insertion into a bitfield
+#ifndef mfb
+#define mfb(n) static_cast <unsigned long> (1 << (n))
+#endif
 
 std::vector<art_effect_passive> fill_good_passive();
 std::vector<art_effect_passive> fill_bad_passive();
@@ -238,7 +245,7 @@ std::string artifact_name(std::string type);
 it_artifact_tool::it_artifact_tool() : it_tool()
 {
     id = item_controller->create_artifact_id();
-    ammo = "NULL";
+    ammo_id = "NULL";
     price = 0;
     def_charges = 0;
     charges_per_use = 1;
@@ -1120,7 +1127,7 @@ void it_artifact_tool::deserialize(JsonObject &jo)
     name = jo.get_string("name");
     description = jo.get_string("description");
     sym = jo.get_int("sym");
-    color = int_to_color(jo.get_int("color"));
+    color = jo.get_int("color");
     price = jo.get_int("price");
     // LEGACY: Since it seems artifacts get serialized out to disk, and they're
     // dynamic, we need to allow for them to be read from disk for, oh, I guess
@@ -1136,7 +1143,7 @@ void it_artifact_tool::deserialize(JsonObject &jo)
     // a materials array in our serialized objects at the same time.
     if (jo.has_array("materials")) {
         JsonArray jarr = jo.get_array("materials");
-        for (int i = 0; i < jarr.size(); ++i) {
+        for( size_t i = 0; i < jarr.size(); ++i) {
             materials.push_back(jarr.get_string(i));
         }
     }
@@ -1152,7 +1159,7 @@ void it_artifact_tool::deserialize(JsonObject &jo)
 
     charges_per_use = jo.get_int("charges_per_use");
     turns_per_charge = jo.get_int("turns_per_charge");
-    ammo = jo.get_string("ammo");
+    ammo_id = jo.get_string("ammo");
     revert_to = jo.get_string("revert_to");
 
     charge_type = (art_charge)jo.get_int("charge_type");
@@ -1186,7 +1193,7 @@ void it_artifact_armor::deserialize(JsonObject &jo)
     name = jo.get_string("name");
     description = jo.get_string("description");
     sym = jo.get_int("sym");
-    color = int_to_color(jo.get_int("color"));
+    color = jo.get_int("color");
     price = jo.get_int("price");
     // LEGACY: Since it seems artifacts get serialized out to disk, and they're
     // dynamic, we need to allow for them to be read from disk for, oh, I guess
@@ -1202,7 +1209,7 @@ void it_artifact_armor::deserialize(JsonObject &jo)
     // a materials array in our serialized objects at the same time.
     if (jo.has_array("materials")) {
         JsonArray jarr = jo.get_array("materials");
-        for (int i = 0; i < jarr.size(); ++i) {
+        for( size_t i = 0; i < jarr.size(); ++i) {
             materials.push_back(jarr.get_string(i));
         }
     }
@@ -1279,7 +1286,7 @@ void it_artifact_tool::serialize(JsonOut &json) const
     json.member("name", name);
     json.member("description", description);
     json.member("sym", sym);
-    json.member("color", color_to_int(color));
+    json.member("color", color);
     json.member("price", price);
     json.member("materials");
     json.start_array();
@@ -1297,7 +1304,7 @@ void it_artifact_tool::serialize(JsonOut &json) const
     json.member("techniques", techniques);
 
     // tool data
-    json.member("ammo", ammo);
+    json.member("ammo", ammo_id);
     json.member("max_charges", max_charges);
     json.member("def_charges", def_charges);
     json.member("charges_per_use", charges_per_use);
@@ -1324,7 +1331,7 @@ void it_artifact_armor::serialize(JsonOut &json) const
     json.member("name", name);
     json.member("description", description);
     json.member("sym", sym);
-    json.member("color", color_to_int(color));
+    json.member("color", color);
     json.member("price", price);
     json.member("materials");
     json.start_array();

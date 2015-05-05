@@ -1,36 +1,29 @@
 #ifndef MAPDATA_H
 #define MAPDATA_H
 
+#include "game_constants.h"
 #include "color.h"
 #include "item.h"
 #include "trap.h"
-#include "monster.h"
 #include "enums.h"
 #include "computer.h"
 #include "vehicle.h"
 #include "basecamp.h"
 #include "iexamine.h"
 #include "field.h"
-#include "translations.h"
 #include "item_stack.h"
+#include "rng.h"
+
 #include <iosfwd>
+#include <bitset>
 #include <unordered_set>
 #include <vector>
 #include <list>
 #include <string>
 
+struct maptile;
 class game;
 class monster;
-
-//More importantly: SEEX defines the size of a nonant, or grid. Same with SEEY.
-#ifndef SEEX    // SEEX is how far the player can see in the X direction (at
-#define SEEX 12 // least, without scrolling).  All map segments will need to be
-#endif          // at least this wide. The map therefore needs to be 3x as wide.
-
-#ifndef SEEY    // Same as SEEX
-#define SEEY 12 // Requires 2*SEEY+1= 25 vertical squares
-#endif          // Nuts to 80x24 terms. Mostly exists in graphical clients, and
-                // those fatcats can resize.
 
 // mfb(t_flag) converts a flag to a bit for insertion into a bitfield
 #ifndef mfb
@@ -136,7 +129,6 @@ struct map_deconstruct_info {
  * Order does not matter.
  */
 enum ter_bitflags {
-    TFLAG_NONE,
     TFLAG_TRANSPARENT,
     TFLAG_FLAMMABLE,
     TFLAG_REDUCE_SCENT,
@@ -144,6 +136,7 @@ enum ter_bitflags {
     TFLAG_SUPPORTS_ROOF,
     TFLAG_NOITEM,
     TFLAG_SEALED,
+    TFLAG_ALLOW_FIELD_EFFECT,
     TFLAG_LIQUID,
     TFLAG_COLLAPSES,
     TFLAG_FLAMMABLE_ASH,
@@ -161,66 +154,71 @@ enum ter_bitflags {
     TFLAG_WALL,
     TFLAG_DEEP_WATER,
     TFLAG_HARVESTED,
-    TFLAG_PERMEABLE
+    TFLAG_PERMEABLE,
+    TFLAG_AUTO_WALL_SYMBOL,
+    TFLAG_CONNECT_TO_WALL,
+
+    NUM_TERFLAGS
 };
-extern std::map<std::string, ter_bitflags> ter_bitflags_map;
-void init_ter_bitflags_map();
 
 typedef int ter_id;
 typedef int furn_id;
+
+struct map_data_common_t {
+    std::string id;    // The terrain's ID. Must be set, must be unique.
+    std::string name;  // The plaintext name of the terrain type the user would see (i.e. dirt)
+    std::string open;  // Open action: transform into terrain with matching id
+    std::string close; // Close action: transform into terrain with matching id
+
+    map_bash_info        bash;
+    map_deconstruct_info deconstruct;
+
+private:
+    std::set<std::string> flags;    // string flags which possibly refer to what's documented above.
+    std::bitset<NUM_TERFLAGS> bitflags; // bitfield of -certian- string flags which are heavily checked
+public:
+
+    /*
+    * The symbol drawn on the screen for the terrain. Please note that there are extensive rules
+    * as to which possible object/field/entity in a single square gets drawn and that some symbols
+    * are "reserved" such as * and % to do programmatic behavior.
+    */
+    long sym;
+
+    int loadid;     // This is akin to the old ter_id, however it is set at runtime.
+    int movecost;   // The amount of movement points required to pass this terrain by default.
+    int max_volume; // Maximal volume of items that can be stored in/on this furniture
+
+    nc_color color; //The color the sym will draw in on the GUI.
+
+    iexamine_function examine; //What happens when the terrain is examined
+
+    bool transparent;
+
+    bool has_flag(const std::string & flag) const {
+        return flags.count(flag) > 0;
+    }
+
+    bool has_flag(const ter_bitflags flag) const {
+        return bitflags.test( flag );
+    }
+
+    void set_flag( const std::string &flag );
+};
+
 /*
-Struct ter_t:
-Short for terrain type. This struct defines all of the metadata for a given terrain id (an enum below).
-
+* Struct ter_t:
+* Short for terrain type. This struct defines all of the metadata for a given terrain id (an enum below).
 */
-struct ter_t {
- std::string id;   // The terrain's ID. Must be set, must be unique.
- int loadid;       // This is akin to the old ter_id, however it is set at runtime.
- std::string name; // The plaintext name of the terrain type the user would see (IE: dirt)
+struct ter_t : map_data_common_t {
+    std::string trap_id_str;     // String storing the id string of the trap.
+    std::string harvestable;     // What will be harvested from this terrain?
+    std::string transforms_into; // Transform into what terrain?
 
- /*
- The symbol drawn on the screen for the terrain. Please note that there are extensive rules as to which
- possible object/field/entity in a single square gets drawn and that some symbols are "reserved" such as * and % to do programmatic behavior.
- */
- long sym;
+    trap_id trap; // The id of the trap located at this terrain. Limit one trap per tile currently.
 
- nc_color color; //The color the sym will draw in on the GUI.
- unsigned char movecost; //The amount of movement points required to pass this terrain by default.
- trap_id trap; //The id of the trap located at this terrain. Limit one trap per tile currently.
- std::string trap_id_str; //String storing the id string of the trap.
- std::set<std::string> flags;// string flags which may or may not refer to what's documented above.
- unsigned long bitflags; // bitfield of -certian- string flags which are heavily checked
- iexamine_function examine; //What happens when the terrain is examined
- std::string harvestable; //what will be harvested from this terrain?
- std::string transforms_into; // transform into what terrain?
- int harvest_season; // when will this terrain get harvested?
- int bloom_season; // when does this terrain bloom?
- std::string open; //open action: transform into terrain with matching id
- std::string close; //close action: transform into terrain with matching id
-
- map_bash_info bash;
- map_deconstruct_info deconstruct;
- // Maximal volume of items that can be stored in/on this furniture
- int max_volume;
-
- bool has_flag(const std::string & flag) const {
-     return flags.count(flag) != 0;
- }
-
- bool has_flag(const ter_bitflags flag) const {
-     return (bitflags & mfb(flag));
- }
-
- void set_flag(std::string flag) {
-     flags.insert(flag);
-     if("TRANSPARENT" == flag) {
-         transparent = true;
-     }
-     if ( ter_bitflags_map.find( flag ) != ter_bitflags_map.end() ) {
-         bitflags |= mfb ( ter_bitflags_map.find( flag )->second );
-     }
- }
- bool transparent;
+    int harvest_season; // When will this terrain get harvested?
+    int bloom_season;   // When does this terrain bloom?
 };
 
 void set_ter_ids();
@@ -233,50 +231,15 @@ extern std::vector<ter_t> terlist;
 extern std::map<std::string, ter_t> termap;
 ter_id terfind(const std::string & id); // lookup, carp and return null on error
 
+struct furn_t : map_data_common_t {
+    std::string crafting_pseudo_item;
 
-struct furn_t {
- std::string id;
- int loadid;
- std::string name;
- long sym;
- nc_color color;
- int movecost; // Penalty to terrain
- int move_str_req; //The amount of strength required to move through this terrain easily.
- std::set<std::string> flags;// string flags which may or may not refer to what's documented above.
- unsigned long bitflags; // bitfield of -certian- string flags which are heavily checked
- iexamine_function examine;
- std::string open;
- std::string close;
- // Maximal volume of items that can be stored in/on this furniture
- int max_volume;
+    int move_str_req; //The amount of strength required to move through this terrain easily.
 
- map_bash_info bash;
- map_deconstruct_info deconstruct;
-
- std::string crafting_pseudo_item;
- // May return NULL
- itype *crafting_pseudo_item_type() const;
- // May return NULL
- itype *crafting_ammo_item_type() const;
-
- bool has_flag(const std::string & flag) const {
-     return flags.count(flag) != 0;
- }
-
- bool has_flag(const ter_bitflags flag) const {
-     return (bitflags & mfb(flag));
- }
-
- void set_flag(std::string flag) {
-     flags.insert(flag);
-     if("TRANSPARENT" == flag) {
-         transparent = true;
-     }
-     if ( ter_bitflags_map.find( flag ) != ter_bitflags_map.end() ) {
-         bitflags |= mfb ( ter_bitflags_map.find( flag )->second );
-     }
- }
- bool transparent;
+    // May return NULL
+    itype *crafting_pseudo_item_type() const;
+    // May return NULL
+    itype *crafting_ammo_item_type() const;
 };
 
 
@@ -354,32 +317,70 @@ struct spawn_point {
 };
 
 struct submap {
-    inline trap_id get_trap(int x, int y) const {
+    inline trap_id get_trap( const int x, const int y ) const {
         return trp[x][y];
     }
 
-    inline void set_trap(int x, int y, trap_id trap) {
+    inline void set_trap( const int x, const int y, trap_id trap ) {
+        is_uniform = false;
         trp[x][y] = trap;
     }
 
-    inline furn_id get_furn(int x, int y) const {
+    inline furn_id get_furn( const int x, const int y ) const {
         return frn[x][y];
     }
 
-    inline void set_furn(int x, int y, furn_id furn) {
+    inline void set_furn( const int x, const int y, furn_id furn ) {
+        is_uniform = false;
         frn[x][y] = furn;
     }
 
-    inline void set_ter(int x, int y, ter_id terr) {
+    inline ter_id get_ter( const int x, const int y ) const {
+        return ter[x][y];
+    }
+
+    inline void set_ter( const int x, const int y, ter_id terr ) {
+        is_uniform = false;
         ter[x][y] = terr;
     }
 
-    int get_radiation(int x, int y) {
+    inline int get_radiation( const int x, const int y ) const {
         return rad[x][y];
     }
 
-    void set_radiation(int x, int y, int radiation) {
+    void set_radiation( const int x, const int y, const int radiation ) {
+        is_uniform = false;
         rad[x][y] = radiation;
+    }
+
+    void update_lum_add( item const &i, int const x, int const y ) {
+        is_uniform = false;
+        if (i.is_emissive() && lum[x][y] < 255) {
+            lum[x][y]++;
+        }
+    }
+
+    void update_lum_rem( item const &i, int const x, int const y ) {
+        is_uniform = false;
+        if (!i.is_emissive()) {
+            return;
+        } else if (lum[x][y] && lum[x][y] < 255) {
+            lum[x][y]--;
+            return;
+        }
+
+        // Have to scan through all items to be sure removing i will actally lower
+        // the count below 255.
+        int count = 0;
+        for (auto const &it : itm[x][y]) {
+            if (it.is_emissive()) {
+                count++;
+            }
+        }
+
+        if (count <= 256) {
+            lum[x][y] = static_cast<uint8_t>(count - 1);
+        }
     }
 
     bool has_graffiti( int x, int y ) const;
@@ -390,49 +391,65 @@ struct submap {
     // Signage is a pretend union between furniture on a square and stored
     // writing on the square. When both are present, we have signage.
     // Its effect is meant to be cosmetic and atmospheric only.
-    inline bool has_signage(int x, int y) {
+    inline bool has_signage( const int x, const int y) const {
         furn_id f = frn[x][y];
-        if (furnlist[f].id == "f_sign") {
+        if( furnlist[f].id == "f_sign" ) {
             return cosmetics[x][y].find("SIGNAGE") != cosmetics[x][y].end();
         }
+
         return false;
     }
     // Dependent on furniture + cosmetics.
-    inline const std::string get_signage(int x, int y) {
-        if (has_signage(x, y)) {
-            return cosmetics[x][y]["SIGNAGE"];
+    inline const std::string get_signage( const int x, const int y ) const {
+        furn_id f = frn[x][y];
+        if( furnlist[f].id == "f_sign" ) {
+            auto iter = cosmetics[x][y].find("SIGNAGE");
+            if( iter != cosmetics[x][y].end() ) {
+                return iter->second;
+            }
         }
+
         return "";
     }
     // Can be used anytime (prevents code from needing to place sign first.)
-    inline void set_signage(int x, int y, std::string s) {
+    inline void set_signage( const int x, const int y, std::string s) {
+        is_uniform = false;
         cosmetics[x][y]["SIGNAGE"] = s;
     }
     // Can be used anytime (prevents code from needing to place sign first.)
-    inline void delete_signage(int x, int y) {
+    inline void delete_signage( const int x, const int y) {
+        is_uniform = false;
         cosmetics[x][y].erase("SIGNAGE");
     }
 
-    ter_id             ter[SEEX][SEEY];  // Terrain on each square
-    std::list<item>    itm[SEEX][SEEY];  // Items on each square
-    furn_id            frn[SEEX][SEEY];  // Furniture on each square
+    maptile get_maptile( const int x, const int y ) const;
 
     // TODO: make trp private once the horrible hack known as editmap is resolved
-    trap_id            trp[SEEX][SEEY];  // Trap on each square
-    field              fld[SEEX][SEEY];  // Field on each square
-    int                rad[SEEX][SEEY];  // Irradiation of each square
+    ter_id          ter[SEEX][SEEY];  // Terrain on each square
+    furn_id         frn[SEEX][SEEY];  // Furniture on each square
+    std::uint8_t    lum[SEEX][SEEY];  // Number of items emitting light on each square
+    std::list<item> itm[SEEX][SEEY];  // Items on each square
+    field           fld[SEEX][SEEY];  // Field on each square
+    trap_id         trp[SEEX][SEEY];  // Trap on each square
+    int             rad[SEEX][SEEY];  // Irradiation of each square
+
+    // If is_uniform is true, this submap is a solid block of terrain
+    // Uniform submaps aren't saved/loaded, because regenerating them is faster
+    bool is_uniform;
+
     std::map<std::string, std::string> cosmetics[SEEX][SEEY]; // Textual "visuals" for each square.
 
     active_item_cache active_items;
 
-    int field_count;
-    int turn_last_touched;
-    int temperature;
+    int field_count = 0;
+    int turn_last_touched = 0;
+    int temperature = 0;
     std::vector<spawn_point> spawns;
     /**
      * Vehicles on this submap (their (0,0) point is on this submap).
-     * This vehicle objects are deletes by this submap when it gets
+     * This vehicle objects are deleted by this submap when it gets
      * deleted.
+     * TODO: submap owns these pointers, they ought to be unique_ptrs.
      */
     std::vector<vehicle*> vehicles;
     computer comp;
@@ -442,6 +459,94 @@ struct submap {
     ~submap();
     // delete vehicles and clear the vehicles vector
     void delete_vehicles();
+};
+
+/**
+ * A wrapper for a submap point. Allows getting multiple map features
+ * (terrain, furniture etc.) without directly accessing submaps or
+ * doing multiple bounds checks and submap gets.
+ */
+struct maptile {
+private:
+    friend map; // To allow "sliding" the tile in x/y without bounds checks
+    friend submap;
+    const submap *const sm;
+    size_t x;
+    size_t y;
+
+    maptile( const submap *sub, const size_t nx, const size_t ny ) :
+        sm( sub ), x( nx ), y( ny ) { }
+public:
+    inline trap_id get_trap() const
+    {
+        return sm->get_trap( x, y );
+    }
+
+    inline furn_id get_furn() const
+    {
+        return sm->get_furn( x, y );
+    }
+
+    inline ter_id get_ter() const
+    {
+        return sm->get_ter( x, y );
+    }
+
+    inline const trap &get_trap_t() const
+    {
+        return *traplist[ sm->get_trap( x, y ) ];
+    }
+
+    inline const furn_t &get_furn_t() const
+    {
+        return furnlist[ sm->get_furn( x, y ) ];
+    }
+
+    inline const ter_t &get_ter_t() const
+    {
+        return terlist[ sm->get_ter( x, y ) ];
+    }
+
+    inline const field &get_field() const
+    {
+        return sm->fld[x][y];
+    }
+
+    inline int get_radiation() const
+    {
+        return sm->get_radiation( x, y );
+    }
+
+    inline bool has_graffiti() const
+    {
+        return sm->has_graffiti( x, y );
+    }
+
+    inline const std::string &get_graffiti() const
+    {
+        return sm->get_graffiti( x, y );
+    }
+
+    inline bool has_signage() const
+    {
+        return sm->has_signage( x, y );
+    }
+    
+    inline const std::string get_signage() const
+    {
+        return sm->get_signage( x, y );
+    }
+
+    // For map::draw_maptile
+    inline size_t get_item_count() const
+    {
+        return sm->itm[x][y].size();
+    }
+
+    inline const item &get_last_item() const
+    {
+        return sm->itm[x][y].back();
+    }
 };
 
 std::ostream & operator<<(std::ostream &, const submap *);
@@ -522,11 +627,11 @@ extern ter_id t_null,
     // Walls
     t_wall_log_half, t_wall_log, t_wall_log_chipped, t_wall_log_broken, t_palisade, t_palisade_gate, t_palisade_gate_o,
     t_wall_half, t_wall_wood, t_wall_wood_chipped, t_wall_wood_broken,
-    t_wall_v, t_wall_h, t_concrete_v, t_concrete_h,
-    t_wall_metal_v, t_wall_metal_h,
-    t_wall_glass_v, t_wall_glass_h,
-    t_wall_glass_v_alarm, t_wall_glass_h_alarm,
-    t_reinforced_glass_v, t_reinforced_glass_h,
+    t_wall, t_concrete_wall,
+    t_wall_metal,
+    t_wall_glass,
+    t_wall_glass_alarm,
+    t_reinforced_glass,
     t_bars,
     t_door_c, t_door_c_peep, t_door_b, t_door_b_peep, t_door_o, t_door_o_peep,
     t_door_locked_interior, t_door_locked, t_door_locked_peep, t_door_locked_alarm, t_door_frame,
@@ -552,8 +657,8 @@ extern ter_id t_null,
     t_fence_post, t_fence_wire, t_fence_barbed, t_fence_rope,
     t_railing_v, t_railing_h,
     // Nether
-    t_marloss, t_fungus_floor_in, t_fungus_floor_sup, t_fungus_floor_out, t_fungus_wall, t_fungus_wall_v,
-    t_fungus_wall_h, t_fungus_mound, t_fungus, t_shrub_fungal, t_tree_fungal, t_tree_fungal_young, t_marloss_tree,
+    t_marloss, t_fungus_floor_in, t_fungus_floor_sup, t_fungus_floor_out, t_fungus_wall,
+    t_fungus_mound, t_fungus, t_shrub_fungal, t_tree_fungal, t_tree_fungal_young, t_marloss_tree,
     // Water, lava, etc.
     t_water_sh, t_swater_sh, t_water_dp, t_swater_dp, t_water_pool, t_sewage,
     t_lava,
@@ -566,12 +671,15 @@ extern ter_id t_null,
     t_missile, t_missile_exploded,
     t_radio_tower, t_radio_controls,
     t_console_broken, t_console, t_gates_mech_control, t_gates_control_concrete, t_barndoor, t_palisade_pulley,
+    t_gates_control_metal,
     t_sewage_pipe, t_sewage_pump,
     t_centrifuge,
     t_column,
     t_vat,
     t_cvdbody, t_cvdmachine,
-    t_water_pump, t_improvised_shelter,
+    t_water_pump,
+    t_conveyor, t_machinery_light, t_machinery_heavy, t_machinery_old, t_machinery_electronic,
+    t_improvised_shelter,
     // Staircases etc.
     t_stairs_down, t_stairs_up, t_manhole, t_ladder_up, t_ladder_down, t_slope_down,
      t_slope_up, t_rope_up,
@@ -595,7 +703,7 @@ furn_id refers to a position in the furnlist[] where the furn_t struct is stored
 about ter_id above.
 */
 extern furn_id f_null,
-    f_hay,
+    f_hay, f_cattails,
     f_rubble, f_rubble_rock, f_wreckage, f_ash,
     f_barricade_road, f_sandbag_half, f_sandbag_wall,
     f_bulletin,
@@ -619,7 +727,8 @@ extern furn_id f_null,
     f_wood_keg, f_egg_sackbw, f_egg_sackws, f_egg_sacke,
     f_flower_marloss,
     f_tatami,
-    f_kiln_empty, f_kiln_full, f_kiln_metal_empty, f_kiln_metal_full;
+    f_kiln_empty, f_kiln_full, f_kiln_metal_empty, f_kiln_metal_full,
+    f_robotic_arm;
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //// These are on their way OUT and only used in certain switch statements until they are rewritten.

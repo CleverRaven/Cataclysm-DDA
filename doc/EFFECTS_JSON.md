@@ -183,13 +183,21 @@ These fields are used to determine if an effect is being resisted or not. If the
 matching trait or effect then they are "resisting" the effect, which changes its effects and description.
 Effects can only have one "resist_trait" and one "resist_effect" at a time.
 
-### Removes effect
+### Removes effects
 ```C++
-    "removes_effect": "bite"
+    "removes_effects": ["bite", "flu"]
 ```
-This field will cause an effect to automatically remove any other copies of the listed effect if it is present.
-In the example above the placed effect would automatically cure any bite wounds the player had. An effect can only
-have one "removes_effect" field at a time.
+This field will cause an effect to automatically remove any other copies of the listed effects if they are present.
+In the example above the placed effect would automatically cure any bite wounds or flu the player had. Any values here
+automatically count for "blocks_effects" as well, no need to duplicate them there.
+
+### Blocks effects
+```C++
+    "blocks_effects": ["cold", "flu"]
+```
+This field will cause an effect to prevent the placement of the listed effects. In the example above the effect would
+prevent the player from catching the cold or the flu (BUT WOULD NOT CURE ANY ONGOING COLDS OR FLUS). Any effects present
+in "removes_effects" are automatically added to "blocks_effects", no need for manual duplication.
 
 ### Effect limiters
 ```C++

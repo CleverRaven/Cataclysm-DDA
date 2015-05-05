@@ -2,13 +2,16 @@
 #define EDITMAP_H
 
 #include "game.h"
+#include "map.h"
 #include "line.h"
-#include "options.h"
 #include "omdata.h"
+#include "ui.h"
 #include <vector>
 #include <map>
 #include <list>
 #include <stdarg.h>
+
+struct real_coords;
 
 enum shapetype {
     editmap_rect, editmap_rect_filled, editmap_line, editmap_circle,
@@ -161,7 +164,7 @@ class editmap
             hilights["mapgentgt"].setup();
 
             oter_special.clear();
-            zlevel = g->levz;
+            zlevel = g->get_levz();
             uberdraw = false;
         };
         ~editmap()

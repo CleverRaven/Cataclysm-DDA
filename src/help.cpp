@@ -40,9 +40,9 @@ void help_draw_dir(WINDOW *win, int line_y)
 void help_main(WINDOW *win)
 {
     werase(win);
-    int y = fold_and_print(win, 1, 1, getmaxx(win) - 2, c_white, _("\
+    int y = fold_and_print(win, 0, 1, getmaxx(win) - 2, c_white, _("\
 Please press one of the following for help on that topic:\n\
-Press q or ESC to return to the game.")) + 2;
+Press q or ESC to return to the game.")) + 1;
 
     std::vector<std::string> headers;
     headers.push_back(_("a: Introduction"));
@@ -76,10 +76,11 @@ Press q or ESC to return to the game.")) + 2;
     headers.push_back(_("1: List of all commands (you can change key commands here)"));
     headers.push_back(_("2: List of all options  (you can change options here)"));
     headers.push_back(_("3: Auto pickup manager  (you can change pickup rules here)"));
-    headers.push_back(_("4: List of item types and data"));
-    headers.push_back(_("5: Description of map symbols"));
-    headers.push_back(_("6: Description of gun types"));
-    headers.push_back(_("7: Frequently Asked Questions (Some spoilers!)"));
+    headers.push_back(_("4: Color manager        (you can change all colors here)"));
+    headers.push_back(_("5: List of item types and data"));
+    headers.push_back(_("6: Description of map symbols"));
+    headers.push_back(_("7: Description of gun types"));
+    headers.push_back(_("8: Frequently Asked Questions (Some spoilers!)"));
     headers.push_back(_(" "));
     headers.push_back(_("q: Return to game"));
 
@@ -623,6 +624,12 @@ Using firearms is the easiest way to kill an enemy, but the sound will attract \
 unwanted attention. Save the guns for emergencies, and melee when you can."));
 
     text.push_back(_("\
+If you need to protect yourself from acid, clothing made of cloth < leather < \
+kevlar < plastic. So while leather and kevlar will protect you from active \
+enemies, a hazmat suit and rubber boots will make you nigh-immune to acid damage. \
+Items made of glass, ceramics, diamond or precious metals will be totally immune to acid."));
+
+    text.push_back(_("\
 Try to keep your inventory as full as possible without being overloaded. You never know when you \
 might need an item, most are good to sell, and you can easily drop unwanted items on the floor."));
 
@@ -635,7 +642,7 @@ of clothing on the floor to sleep on."));
     text.push_back(_("\
 Your clothing can sit in one of four layers on your body: next-to-skin, standard, over, and belted. \
 You can wear one item from each layer on a body part without incurring an encumbrance penalty for \
-too many worn items. Any items beyond the first on each layer add an additional point to the body \
+too many worn items. Any items beyond the first on each layer add an additional 10 points to the body \
 part's encumbrance. (However, you can wear one additional item that would be encumbrance 0 before \
 fitting, and is fitted anyway, without incurring that penalty.)"));
 
@@ -775,23 +782,23 @@ O           Parking lot - Empty lot, few items. Mostly useless."));
 ^>v<        Man-made buildings - The pointed side indicates the front door."));
     mvwprintz(win, 19, 0, c_ltgray, _("\
             There are many others out there... search for them!"));
-    mvwprintz(win, 21, 0,  c_ltgray,  _("            Note colors: "));
-    mvwprintz(win, 21, 27, c_ltgray,  _(",   ,   ,  ,  ,  ,  ,  ,  ,  ,  ,  ,  ,"));
-    mvwprintz(win, 21, 25, c_brown,   _("br"));
-    mvwprintz(win, 21, 29, c_ltgray,  _("lg"));
-    mvwprintz(win, 21, 33, c_dkgray,  _("dg"));
-    mvwprintz(win, 21, 37, c_ltred,   _("r"));
-    mvwprintz(win, 21, 40, c_red,     _("R"));
-    mvwprintz(win, 21, 43, c_ltgreen, _("g"));
-    mvwprintz(win, 21, 46, c_green,   _("G"));
-    mvwprintz(win, 21, 49, c_ltblue,  _("b"));
-    mvwprintz(win, 21, 52, c_blue,    _("B"));
-    mvwprintz(win, 21, 55, c_white,   _("W"));
-    mvwprintz(win, 21, 58, c_ltcyan,  _("c"));
-    mvwprintz(win, 21, 61, c_cyan,    _("C"));
-    mvwprintz(win, 21, 64, c_pink,    _("P"));
-    mvwprintz(win, 21, 67, c_magenta, _("m"));
+    mvwprintz(win, 20, 0,  c_ltgray,  _("Note colors: "));
+    int row = 20;
+    int column = utf8_width(_("Note colors: "));
+    for( auto color_pair : get_note_color_names() ) {
+        // The color index is not translatable, but the name is.
+        std::string color_description = string_format("%s:%s, ", color_pair.first.c_str(),
+                                                      _(color_pair.second.c_str()));
+        int pair_width = utf8_width( color_description.c_str() );
 
+        if( column + pair_width > getmaxx(win) ) {
+            column = 0;
+            row++;
+        }
+        mvwprintz(win, row, column, get_note_color(color_pair.first),
+                  color_description.c_str());
+        column += pair_width;
+    }
     wrefresh(win);
     refresh();
     getch();
@@ -1091,18 +1098,23 @@ void display_help()
             break;
 
         case '4':
-            multipage(w_help, text_types(), _("Item types:"));
+            all_colors.show_gui();
+            werase(w_help);
             break;
 
         case '5':
-            help_map(w_help);
+            multipage(w_help, text_types(), _("Item types:"));
             break;
 
         case '6':
-            multipage(w_help, text_guns(), _("Gun types:"));
+            help_map(w_help);
             break;
 
         case '7':
+            multipage(w_help, text_guns(), _("Gun types:"));
+            break;
+
+        case '8':
             multipage(w_help, text_faq());
             break;
 

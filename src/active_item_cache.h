@@ -4,6 +4,7 @@
 #include "enums.h"
 #include "item.h"
 #include <list>
+#include <unordered_map>
 #include <unordered_set>
 
 // A struct used to uniquely identify an item within a submap or vehicle.
@@ -27,7 +28,7 @@ public:
     void add( std::list<item>::iterator it, point location );
     bool has( std::list<item>::iterator it, point ) const;
     // Use this one if there's a chance that the item being referenced has been invalidated.
-    bool has( item_reference &itm ) const;
+    bool has( item_reference const &itm ) const;
     bool empty() const;
     std::list<item_reference> get();
 };

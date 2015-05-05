@@ -2,14 +2,14 @@
 #define OUTPUT_H
 
 #include "color.h"
-#include "line.h"
+#include "cursesdef.h"
 #include <cstdarg>
 #include <string>
 #include <vector>
 #include <memory>
 
-#include "item.h"
-#include "ui.h"
+struct iteminfo;
+enum direction : int;
 
 //      LINE_NESW  - X for on, O for off
 #define LINE_XOXO 4194424 // '|'   Vertical line. ncurses: ACS_VLINE; Unicode: U+2502
@@ -74,7 +74,7 @@ struct delwin_functor {
  */
 typedef std::unique_ptr<WINDOW, delwin_functor> WINDOW_PTR;
 
-enum game_message_type {
+enum game_message_type : int {
     m_good,    /* something good happened to the player character, eg. health boost, increasing in skill */
     m_bad,      /* something bad happened to the player character, eg. damage, decreasing in skill */
     m_mixed,   /* something happened to the player character which is mixed (has good and bad parts),
@@ -127,6 +127,8 @@ int fold_and_print_from(WINDOW *w, int begin_y, int begin_x, int width, int begi
                         nc_color color, const char *mes, ...);
 int fold_and_print_from(WINDOW *w, int begin_y, int begin_x, int width, int begin_line,
                         nc_color color, const std::string &text);
+void trim_and_print(WINDOW *w, int begin_y, int begin_x, int width, nc_color base_color,
+                    const char *mes, ...);
 void center_print(WINDOW *w, int y, nc_color FG, const char *mes, ...);
 void display_table(WINDOW *w, const std::string &title, int columns,
                    const std::vector<std::string> &data);
@@ -158,6 +160,7 @@ void draw_tabs(WINDOW *w, int active_tab, ...);
 std::string word_rewrap (const std::string &ins, int width);
 std::vector<size_t> get_tag_positions(const std::string &s);
 std::vector<std::string> split_by_color(const std::string &s);
+std::string remove_color_tags(const std::string &s);
 
 bool query_yn(const char *mes, ...);
 int  query_int(const char *mes, ...);
@@ -173,7 +176,8 @@ std::string string_input_win (WINDOW *w, std::string input, int max_length, int 
 
 long popup_getkey(const char *mes, ...);
 // for the next two functions, if cancelable is true, esc returns the last option
-int  menu_vec(bool cancelable, const char *mes, std::vector<std::string> options);
+int  menu_vec(bool cancelable, const char *mes, const std::vector<std::string> options);
+int  menu_vec(bool cancelable, const char *mes, const std::vector<std::string> &options, const std::string &hotkeys_override);
 int  menu(bool cancelable, const char *mes, ...);
 void popup_top(const char *mes, ...); // Displayed at the top of the screen
 void popup(const char *mes, ...);
@@ -200,14 +204,13 @@ int draw_item_info(const int iLeft, int iWidth, const int iTop, const int iHeigh
 char rand_char();
 long special_symbol (long sym);
 
-// TODO: move these elsewhere
-// string manipulations.
-std::string from_sentence_case (const std::string &kingston);
-
 std::string string_format(const char *pattern, ...);
 std::string vstring_format(const char *pattern, va_list argptr);
-std::string string_format(const std::string pattern, ...);
-std::string vstring_format(const std::string pattern, va_list argptr);
+std::string string_format(std::string pattern, ...);
+std::string vstring_format(std::string const &pattern, va_list argptr);
+
+// TODO: move these elsewhere
+// string manipulations.
 
 std::string &capitalize_letter(std::string &pattern, size_t n = 0);
 std::string rm_prefix(std::string str, char c1 = '<', char c2 = '>');
@@ -219,8 +222,10 @@ size_t shortcut_print(WINDOW *w, nc_color color, nc_color colork, const std::str
 // short visual animation (player, monster, ...) (hit, dodge, ...)
 // cTile is a UTF-8 strings, and must be a single cell wide!
 void hit_animation(int iX, int iY, nc_color cColor, const std::string &cTile);
-void get_HP_Bar(const int current_hp, const int max_hp, nc_color &color,
-                std::string &health_bar, const bool bMonster = false);
+
+std::pair<std::string, nc_color> const& get_hp_bar(int cur_hp, int max_hp, bool is_mon = false);
+std::pair<std::string, nc_color> const& get_item_hp_bar(int dmg);
+
 void draw_tab(WINDOW *w, int iOffsetX, std::string sText, bool bSelected);
 void draw_subtab(WINDOW *w, int iOffsetX, std::string sText, bool bSelected, bool bDecorate = true);
 void draw_scrollbar(WINDOW *window, const int iCurrentLine, const int iContentHeight,
@@ -232,13 +237,10 @@ void clear_window(WINDOW *w);
 
 class scrollingcombattext
 {
-    private:
-
     public:
-        const int iMaxSteps;
+        enum : int { iMaxSteps = 8 };
 
-        scrollingcombattext() : iMaxSteps(8) {};
-        ~scrollingcombattext() {};
+        scrollingcombattext() = default;
 
         class cSCT
         {
@@ -261,13 +263,12 @@ class scrollingcombattext
                      const std::string p_sText, const game_message_type p_gmt,
                      const std::string p_sText2 = "", const game_message_type p_gmt2 = m_neutral,
                      const std::string p_sType = "");
-                ~cSCT() {};
 
-                int getStep()
+                int getStep() const
                 {
                     return iStep;
                 }
-                int getStepOffset()
+                int getStepOffset() const
                 {
                     return iStepOffset;
                 }
@@ -279,26 +280,26 @@ class scrollingcombattext
                 {
                     return ++iStepOffset;
                 }
-                int getPosX();
-                int getPosY();
-                direction getDirecton()
+                int getPosX() const;
+                int getPosY() const;
+                direction getDirecton() const
                 {
                     return oDir;
                 }
-                int getInitPosX()
+                int getInitPosX() const
                 {
                     return iPosX;
                 }
-                int getInitPosY()
+                int getInitPosY() const
                 {
                     return iPosY;
                 }
-                std::string getType()
+                std::string getType() const
                 {
                     return sType;
                 }
-                std::string getText(std::string sType = "full");
-                game_message_type getMsgType(std::string sType = "first");
+                std::string getText(std::string const &type = "full") const;
+                game_message_type getMsgType(std::string const &type = "first") const;
         };
 
         std::vector<cSCT> vSCT;
@@ -339,6 +340,6 @@ int get_terminal_height();
 bool is_draw_tiles_mode();
 
 void play_music(std::string playlist);
-void play_sound(std::string identifier);
+void play_sound_effect(std::string id, std::string variant, int volume);
 
 #endif

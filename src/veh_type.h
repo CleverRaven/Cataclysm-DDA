@@ -2,7 +2,6 @@
 #define VEH_TYPE_H
 
 #include "color.h"
-#include "itype.h"
 
 /**
  * Represents an entry in the breaks_into list.
@@ -13,15 +12,10 @@ struct break_entry {
     int max;
 };
 
-#ifndef mfb
-#define mfb(n) static_cast <unsigned long> (1 << (n))
-#endif
 // bitmask backing store of -certian- vpart_info.flags, ones that
 // won't be going away, are involved in core functionality, and are checked frequently
-enum vpart_bitflags {
-    VPFLAG_NONE,
+enum vpart_bitflags : int {
     VPFLAG_ARMOR,
-    VPFLAG_TRANSPARENT,
     VPFLAG_EVENTURN,
     VPFLAG_ODDTURN,
     VPFLAG_CONE_LIGHT,
@@ -38,7 +32,7 @@ enum vpart_bitflags {
     VPFLAG_FLOATS,
     VPFLAG_DOME_LIGHT,
     VPFLAG_AISLE_LIGHT,
-
+    VPFLAG_ATOMIC_LIGHT,
     VPFLAG_ALTERNATOR,
     VPFLAG_ENGINE,
     VPFLAG_FRIDGE,
@@ -52,7 +46,9 @@ enum vpart_bitflags {
     VPFLAG_VARIABLE_SIZE,
     VPFLAG_TRACK,
     VPFLAG_RECHARGE,
-    VPFLAG_EXTENDS_VISION
+    VPFLAG_EXTENDS_VISION,
+
+    NUM_VPFLAGS
 };
 /* Flag info:
  * INTERNAL - Can be mounted inside other parts
@@ -62,6 +58,7 @@ enum vpart_bitflags {
  * MOUNTABLE - Usable as a point to fire a mountable weapon from.
  * Other flags are self-explanatory in their names. */
 struct vpart_info {
+    using itype_id = std::string;
     std::string id;         // unique identifier for this part
     int loadid;             // # of loaded order, non-saved runtime optimization
     std::string name;       // part name, user-visible
@@ -85,9 +82,11 @@ struct vpart_info {
     itype_id item;      // corresponding item
     int difficulty;     // installation difficulty (mechanics requirement)
     std::string location;   //Where in the vehicle this part goes
-    std::set<std::string> flags;    // flags
     std::vector<break_entry> breaks_into;
-    unsigned long bitflags; // flags checked so often that things slow down due to string cmp
+private:
+    std::set<std::string> flags;    // flags
+    std::bitset<NUM_VPFLAGS> bitflags; // flags checked so often that things slow down due to string cmp
+public:
 
     int z_order;        // z-ordering, inferred from location, cached here
     int list_order;     // Display order in vehicle interact display
@@ -98,14 +97,13 @@ struct vpart_info {
     }
     bool has_flag(const vpart_bitflags flag) const
     {
-        return (bitflags & mfb(flag));
+        return bitflags.test( flag );
     }
+    void set_flag( const std::string &flag );
 };
 
 extern std::map<std::string, vpart_info> vehicle_part_types;
 extern const std::string legacy_vpart_id[74];
 extern std::vector<vpart_info> vehicle_part_int_types;
-extern std::map<std::string, vpart_bitflags> vpart_bitflag_map;
-extern void init_vpart_bitflag_map();
 
 #endif

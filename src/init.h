@@ -22,11 +22,11 @@ class StaticFunctionAccessor : public TFunctor
         void (*_fptr)(JsonObject &jo);
 
     public:
-        virtual void operator()(JsonObject &jo)
+        virtual void operator()(JsonObject &jo) override
         {
             (*_fptr)(jo);
         }
-        virtual void Call(JsonObject &jo)
+        virtual void Call(JsonObject &jo) override
         {
             (*_fptr)(jo);
         }
@@ -48,11 +48,11 @@ template <class TClass> class ClassFunctionAccessor : public TFunctor
         TClass *ptr_to_obj;
 
     public:
-        virtual void operator()(JsonObject &jo)
+        virtual void operator()(JsonObject &jo) override
         {
             (*ptr_to_obj.*_fptr)(jo);
         }
-        virtual void Call(JsonObject &jo)
+        virtual void Call(JsonObject &jo) override
         {
             (*ptr_to_obj.*_fptr)(jo);
         }

@@ -1,6 +1,7 @@
 #include "catalua.h"
 
 #include <sys/stat.h>
+#include <memory>
 
 #include "game.h"
 #include "item_factory.h"
@@ -13,9 +14,12 @@
 #include "monstergenerator.h"
 #include "messages.h"
 #include "debug.h"
+#include "translations.h"
 
 #ifdef LUA
 extern "C" {
+#include "ui.h"
+#include "mongroup.h"
 #include "lua.h"
 #include "lualib.h"
 #include "lauxlib.h"
@@ -177,11 +181,11 @@ int lua_mapgen(map *m, std::string terrain_type, mapgendata, int t, float, const
 
 // Custom functions that are to be wrapped from lua.
 // -------------------------------------------------
-static uimenu uimenu_instance;
+static std::unique_ptr<uimenu> uimenu_instance;
 uimenu *create_uimenu()
 {
-    uimenu_instance = uimenu();
-    return &uimenu_instance;
+    uimenu_instance = std::unique_ptr<uimenu>(new uimenu());
+    return uimenu_instance.get();
 }
 
 ter_t *get_terrain_type(int id)
@@ -191,13 +195,13 @@ ter_t *get_terrain_type(int id)
 
 overmap *get_current_overmap()
 {
-    return g->cur_om;
+    return &g->get_cur_om();
 }
 
 /** Create a new monster of the given type. */
 monster *create_monster(std::string mon_type, int x, int y)
 {
-    monster new_monster(GetMType(mon_type), x, y);
+    monster new_monster(GetMType(mon_type), tripoint( x, y, g->get_levz() ) );
     if(!g->add_zombie(new_monster)) {
         return NULL;
     } else {
@@ -592,7 +596,7 @@ void use_function::operator=(const use_function &other)
 }
 
 // If we're not using lua, need to define Use_function in a way to always call the C++ function
-int use_function::call(player *player_instance, item *item_instance, bool active, point pos) const
+long use_function::call( player *player_instance, item *item_instance, bool active, const tripoint &pos ) const
 {
     if (function_type == USE_FUNCTION_NONE) {
         if (player_instance != NULL && player_instance->is_player()) {

@@ -38,8 +38,8 @@
                 "_": "t_pavement",
                 ",": "t_pavement_y",
                 " ": "t_floor",
-                "-": "t_wall_h",
-                "|": "t_wall_v",
+                "-": "t_wall",
+                "|": "t_wall",
                 "O": "t_window",
                 "L": "t_door_locked_alarm",
                 "+": "t_door_c",
@@ -85,13 +85,15 @@
                 "F": "f_fridge",
                 "@": "f_bed",
                 ":": "f_dresser",
-                "T": "f_toilet",
                 "l": "f_vending_c",
                 "S": "f_null",
                 "G": "f_desk",
                 "f": "f_glass_fridge"
             },
-            "place_groups": [
+            "toilets": {
+                "T": { }
+            },
+            "place_items": [
                 { "item": "harddrugs", "chance": 75, "x": [ 10,22 ], "y": [ 19,19 ] },
                 { "item": "softdrugs", "chance": 95, "x": [ 10,22 ], "y": [ 19,19 ] },
                 { "item": "behindcounter", "chance": 50, "x": [ 1,3 ], "y": [ 7,12 ] },

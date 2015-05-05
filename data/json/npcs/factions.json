@@ -20,7 +20,7 @@
     "name" : "The Old Guard",
     "likes_u" : 15,
     "respects_u" : 15,
-    "known_by_u" : true,
+    "known_by_u" : false,
     "size" : 999,
     "power" : 100,
     "good" : 1,
@@ -35,7 +35,7 @@
     "name" : "The Free Merchants",
     "likes_u" : 30,
     "respects_u" : 30,
-    "known_by_u" : true,
+    "known_by_u" : false,
     "size" : 999,
     "power" : 100,
     "good" : 1,
@@ -50,7 +50,7 @@
     "name" : "The Wasteland Scavengers",
     "likes_u" : 0,
     "respects_u" : 0,
-    "known_by_u" : true,
+    "known_by_u" : false,
     "size" : 999,
     "power" : 100,
     "good" : 0,
@@ -58,14 +58,14 @@
     "sneak" : 0,
     "crime" : -1,
     "cult" : 0,
-    "description" : "Autonomous bands or individuals who make their living raiding the ruins of the old-world for gear and provisions. "
+    "description" : "Autonomous bands or individuals who make their living raiding the ruins of the old-world for gear and provisions."
   },{
     "type" : "faction",
     "id" : "hells_raiders",
     "name" : "Hell's Raiders",
     "likes_u" : -25,
     "respects_u" : -25,
-    "known_by_u" : true,
+    "known_by_u" : false,
     "size" : 999,
     "power" : 100,
     "good" : -1,
@@ -73,7 +73,7 @@
     "sneak" : 0,
     "crime" : 1,
     "cult" : -1,
-    "description" : "The largest gang of hooligans and bandits that preys upon other survivors.  Even if you have no gear, there is always a need for slaves and fresh meat. "
+    "description" : "The largest gang of hooligans and bandits that preys upon other survivors.  Even if you have no gear, there is always a need for slaves and fresh meat."
   }
 ]
 

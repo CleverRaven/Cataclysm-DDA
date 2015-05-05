@@ -195,6 +195,10 @@ The syntax listed here is still valid.
 "override": false,           // Optional (default: false). If false and the ident of the recipe is already used by another recipe, loading of recipes fails. If true and a recipe with the ident is already defined, the existing recipe is replaced by the new recipe.
 "skill_used": "fabrication", // Skill trained and used for success checks
 "requires_skills": [["survival", 1], ["throw", 2]], // Skills required to unlock recipe
+"book_learn": [              // (optional) Array of books that this recipe can be learned from. Each entry contains the id of the book and the skill level at which it can be learned.
+    [ "textbook_anarch", 7, "something" ], // The optional third entry defines a name for the recipe as it should appear in the books description (default is the name of resulting item of the recipe)
+    [ "textbook_gaswarfare", 8, "" ] // If the name is empty, the recipe is hidden, it will not be shown in the description of the book.
+],
 "difficulty": 3,             // Difficulty of success check
 "time": 5000,                // Time to perform recipe (where 1000 ~= 10 turns ~= 1 minute game time)
 "reversible": false,         // Can be disassembled.
@@ -247,6 +251,7 @@ The syntax listed here is still valid.
 "points": 2,         // Point cost of the trait. Positive values cost points and negative values give points
 "visibility": 0,     // Visibility of the trait for purposes of NPC interaction (default: 0)
 "ugliness": 0,       // Ugliness of the trait for purposes of NPC interaction (default: 0)
+"initial_ma_styles": [ "style_crane" ], // (optional) A list of ids of martial art styles of which the player can choose one when starting a game.
 "mixed_effect": false, // Wheather the trait has both positive and negative effects. This is purely declarative and is only used for the user interface. (default: false)
 "description": "Nothing gets you down!" // In-game description
 "starting_trait": true, // Can be selected at character creation (default: false)
@@ -279,6 +284,9 @@ The syntax listed here is still valid.
 "fuel_type": "NULL",          // (Optional, default = "NULL") Type of fuel/ammo the part consumes, as an item id
 "item": "wheel",              // The item used to install this part, and the item obtained when removing this part
 "difficulty": 4,              // Your mechanics skill must be at least this level to install this part
+"breaks_into" : [             // When the vehicle part is destroyed, items from this list will be spawned around the part on the ground.
+  {"item": "scrap", "min": 0, "max": 5} // item is the item id, min/max is the amount of items to spawn, if item is counted by charges (like nails), it will create that many charges.
+],
 "flags": [                    // Flags associated with the part
      "EXTERNAL", "MOUNT_OVER", "WHEEL", "MOUNT_POINT", "VARIABLE_SIZE"
 ]
@@ -447,8 +455,6 @@ Never use `yellow` and `red`, those colors are reserved for sounds and infrared 
 "stack_size" : 8,     // (Optional) How many uses are in the above-defined volume. If omitted, is the same as 'charges'
 "bashing" : 0,        // Bashing damage caused by using it as a melee weapon
 "fun" : 50,            // Morale effects when used
-"grow" : 91           // Time it takes for a plant to fully mature. Based around a 91 day season length (roughly a real world season) to give better accuracy for longer season lengths
-                      // Note that growing time is later converted based upon the season_length option, basing it around 91 is just for accuracy purposes
 ```
 ###CONTAINERS
 ```C++
@@ -551,6 +557,30 @@ Every item type can have optional spawn data:
     "container": "can"  // The id of a container item, new item will be put into that container (optional, default: no container)
 }
 ```
+
+###SEED DATA
+Every item type can have optional seed data, if the item has seed data, it's considered a seed and can be planted:
+```
+"seed_data" : {
+    "fruits": "weed", // The item id of the fruits that this seed will produce.
+    "seeds": false, // (optional, default is true). If true, harvesting the plant will spawn seeds (the same type as the item used to plant). If false only the fruits are spawned, no seeds.
+    "byproducts": ["withered", "straw_pile"], // A list of further items that should spawn upon harvest.
+    "plant_name": "sunflower", // The name of the plant that grows from this seed. This is only used as information displayed to the user.
+    "grow" : 91 // Time it takes for a plant to fully mature. Based around a 91 day season length (roughly a real world season) to give better accuracy for longer season lengths
+                // Note that growing time is later converted based upon the season_length option, basing it around 91 is just for accuracy purposes
+                // A value 91 means 3 full seasons, a value of 30 would mean 1 season.
+}
+```
+
+###SOFTWARE DATA
+Every item type can have software data, it does not have any behavior:
+```
+"software_data" : {
+    "type": "USELESS", // unused
+    "power" : 91 // unused
+}
+```
+
 ###USE ACTIONS
 The contents of use_action fields can either be a string indicating a built-in function to call when the item is activated (defined in iuse.cpp), or one of several special definitions that invoke a more structured function.
 ```C++
@@ -699,7 +729,7 @@ The format also support snippet ids like above.
 "symbol": "0",             //Symbol used
 "color": "ltred",          //Color of the symbol
 "move_cost": 10,           //Move cost to move through. 2 = normal speed, 0 = impassable
-"trap": "spike_pit",       //(OPTIONAL) trap_id minus the tr_ prefix of the trap type.
+"trap": "spike_pit",       //(OPTIONAL) trap_id of the trap type.
                            //If omitted, defaults to tr_null.
 "flags": ["TRANSPARENT", "DIGGABLE"],   //Terrain flags
 "examine_action": "pit"    //(OPTIONAL) Function called when examined, see iexamine.cpp.
