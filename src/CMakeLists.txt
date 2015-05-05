@@ -271,7 +271,6 @@ SET (CATACLYSM_DDA_HEADERS
     ${CMAKE_SOURCE_DIR}/src/version.h
     ${CMAKE_SOURCE_DIR}/src/input.h
     ${CMAKE_SOURCE_DIR}/src/item_stack.h
-    ${CMAKE_SOURCE_DIR}/src/moraledata.h
     ${CMAKE_SOURCE_DIR}/src/itype.h
 )
 

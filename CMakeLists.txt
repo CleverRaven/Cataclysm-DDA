@@ -301,18 +301,20 @@ ENDIF(LUA)
 
 # Ok. Now create build and install recipes
 IF(LOCALIZE)
-	FIND_PACKAGE(Libintl)
-	IF(NOT LIBINTL_FOUND)
-	MESSAGE(FATAL_ERROR
-		"You need the libintl development library to be able to compile with Localize support.\nSee INSTALL file for details and more info\n"
-	)
-	ENDIF(NOT LIBINTL_FOUND)
-	FIND_PACKAGE(Iconv)
-	IF(NOT ICONV_FOUND)
-	MESSAGE(FATAL_ERROR
-		"You need the iconv development library to be able to compile with Localize support.\nSee INSTALL file for details and more info\n"
-	)
-	ENDIF(NOT ICONV_FOUND)
+	IF(WIN32)
+		FIND_PACKAGE(Libintl)
+		IF(NOT LIBINTL_FOUND)
+		MESSAGE(FATAL_ERROR
+			"You need the libintl development library to be able to compile with Localize support.\nSee INSTALL file for details and more info\n"
+		)
+		ENDIF(NOT LIBINTL_FOUND)
+		FIND_PACKAGE(Iconv)
+		IF(NOT ICONV_FOUND)
+		MESSAGE(FATAL_ERROR
+			"You need the iconv development library to be able to compile with Localize support.\nSee INSTALL file for details and more info\n"
+		)
+		ENDIF(NOT ICONV_FOUND)
+	ENDIF(WIN32)
 	add_subdirectory(lang)
 	ADD_DEFINITIONS(-DLOCALIZE)
 ENDIF(LOCALIZE)
