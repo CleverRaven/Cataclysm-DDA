@@ -53,46 +53,41 @@ IF(${CMAKE_SYSTEM_NAME} MATCHES Darwin)
 ENDIF(${CMAKE_SYSTEM_NAME} MATCHES Darwin)
 
 include(CheckCXXCompilerFlag)
-include(CheckCCompilerFlag)
 
-IF(MINGW)
-	# Avoid depending on MinGW runtime DLLs
-	#check_cxx_compiler_flag (-static-libgcc HAVE_STATIC_LIBGCC_FLAG)
-	#IF(HAVE_STATIC_LIBGCC_FLAG)
-	#		SET(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -static-libgcc -lpthread")
-	#	SET(CMAKE_SHARED_LINKER_FLAGS "${CMAKE_SHARED_LINKER_FLAGS} -static-libgcc -lpthread")
-	#	SET(CMAKE_MODULE_LINKER_FLAGS "${CMAKE_MODULE_LINKER_FLAGS} -static-libgcc -lpthread")
-	#ENDIF(HAVE_STATIC_LIBGCC_FLAG)
-	#check_cxx_compiler_flag (-static-libstdc++ HAVE_STATIC_LIBSTDCXX_FLAG)
-	#IF(HAVE_STATIC_LIBSTDCXX_FLAG)
-	#	SET(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -static-libstdc++ -lpthread")
-	#	SET(CMAKE_SHARED_LINKER_FLAGS "${CMAKE_SHARED_LINKER_FLAGS} -static-libstdc++ -lpthread")
-	#	SET(CMAKE_MODULE_LINKER_FLAGS "${CMAKE_MODULE_LINKER_FLAGS} -static-libstdc++ -lpthread")
-	#ENDIF(HAVE_STATIC_LIBSTDCXX_FLAG)
+IF (NOT DYNAMIC_LINKING)
+	SET(CMAKE_FIND_LIBRARY_SUFFIXES ".a;.dll.a")
 	SET(BUILD_SHARED_LIBRARIES OFF)
-	SET(CMAKE_FIND_LIBRARY_SUFFIXES ".a")
-	SET(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -mwindows -m32 -static-libgcc -static-libstdc++ -lpthread -Wl,-stack,12000000,--subsystem,windows")
-		#-mwindows -m32 -static-libgcc -static-libstdc++
-		#-Wl,-stack,12000000,--subsystem,windows"
-		#)
-ENDIF(MINGW)
+	#FIXME: m64 for 64 bit?
+	SET(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -m32")
+	SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -m32")
+	check_cxx_compiler_flag (-static HAVE_STATIC_FLAG)
+	IF(HAVE_STATIC_FLAG)
+		SET(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -static")
+	ENDIF(HAVE_STATIC_FLAG)
+	# Workaround for cmake link library guesser
+	SET(CMAKE_EXE_LINK_DYNAMIC_C_FLAGS)       # remove -Wl,-Bdynamic
+	SET(CMAKE_EXE_LINK_DYNAMIC_CXX_FLAGS)
+	SET(CMAKE_SHARED_LIBRARY_C_FLAGS)         # remove -fPIC
+	SET(CMAKE_SHARED_LIBRARY_CXX_FLAGS)
+	SET(CMAKE_SHARED_LIBRARY_LINK_C_FLAGS)    # remove -rdynamic
+	SET(CMAKE_SHARED_LIBRARY_LINK_CXX_FLAGS)
+ELSE (NOT DYNAMIC_LINKING)
+	IF(MINGW)
+		# Avoid depending on MinGW runtime DLLs
+		check_cxx_compiler_flag (-static-libgcc HAVE_STATIC_LIBGCC_FLAG)
+		IF(HAVE_STATIC_LIBGCC_FLAG)
+			SET(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -static-libgcc")
+		ENDIF(HAVE_STATIC_LIBGCC_FLAG)
+		check_cxx_compiler_flag (-static-libstdc++ HAVE_STATIC_LIBSTDCXX_FLAG)
+		IF(HAVE_STATIC_LIBSTDCXX_FLAG)
+			SET(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -static-libstdc++")
+		ENDIF(HAVE_STATIC_LIBSTDCXX_FLAG)
+	ENDIF(MINGW)
+ENDIF (NOT DYNAMIC_LINKING)
 
 IF(${CMAKE_SYSTEM_NAME} MATCHES Windows)
 	SET(_OS_WINDOWS_ 1)
-#	SET(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -static-libgcc")
-#	SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -static-libgcc -static-libstdc++")
-#	SET(CMAKE_SHARED_LIBRARY_LINK_C_FLAGS "${CMAKE_SHARED_LIBRARY_LINK_C_FLAGS} -static-libgcc")
-#	SET(CMAKE_SHARED_LIBRARY_LINK_CXX_FLAGS "${CMAKE_SHARED_LIBRARY_LINK_CXX_FLAGS} -static-libgcc -static-libstdc++")
-#	SET(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -static-libgcc -static-libstdc++")
-#	IF (NOT DYNAMIC_LINKING)
-#		SET(CMAKE_C_FLAGS "-static ${CMAKE_C_FLAGS}")
-#		SET(CMAKE_CXX_FLAGS "-static ${CMAKE_CXX_FLAGS}")
-#		SET(CMAKE_SHARED_LIBRARY_LINK_C_FLAGS "-static ${CMAKE_SHARED_LIBRARY_LINK_C_FLAGS}")
-#		SET(CMAKE_SHARED_LIBRARY_LINK_CXX_FLAGS "-static ${CMAKE_SHARED_LIBRARY_LINK_CXX_FLAGS}")
-#		SET(CMAKE_FIND_LIBRARY_SUFFIXES ".a")
-#		SET(BUILD_SHARED_LIBRARIES OFF)
-#		SET(CMAKE_EXE_LINKER_FLAGS "-static ${CMAKE_EXE_LINKER_FLAGS}")
-#	ENDIF (NOT DYNAMIC_LINKING)
+	GET_FILENAME_COMPONENT(MINGW_BIN_DIRECTORY ${CMAKE_CXX_COMPILER} PATH)
 	SET(RC_COMPILER_FILENAME "windres.exe")
 	FIND_FILE(RC_COMPILER_PATH ${RC_COMPILER_FILENAME})
 	IF(RC_COMPILER_PATH)
@@ -183,6 +178,9 @@ ELSE (RELEASE)
 	MESSAGE(STATUS "Binaries will be located in: " ${CMAKE_SOURCE_DIR})
 	SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -MMD -Wall -Wextra")
 	SET(CMAKE_BUILD_TYPE DEBUG)
+	IF(NOT CYGWIN)
+		SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -D_GLIBCXX_DEBUG")
+	ENDIF(NOT CYGWIN)
 	SET(CMAKE_VERBOSE_MAKEFILE ON)
 	# Since CataclusmDDA does not respect PREFIX for development builds
 	# and has funny path handlers, we should create resulting Binaries
@@ -191,6 +189,7 @@ ELSE (RELEASE)
 		${CMAKE_SOURCE_DIR}
 		CACHE PATH "Single Directory for all Executables."
 	)
+	SET(BIN_PREFIX ${CMAKE_SOURCE_DIR})
 ENDIF (RELEASE)
 
 	MESSAGE(STATUS "LUA                           : ${LUA}")
@@ -216,6 +215,8 @@ IF(${CMAKE_SOURCE_DIR} STREQUAL ${CMAKE_BINARY_DIR})
 		"This project requires an out of source build. Remove the file 'CMakeCache.txt' found in this directory before continuing, create a separate build directory and run 'cmake [options] <srcs>' from there.\nSee INSTALL file for details and more info\n"
 	)
 ENDIF(${CMAKE_SOURCE_DIR} STREQUAL ${CMAKE_BINARY_DIR})
+
+FIND_PACKAGE(Threads REQUIRED)
 
 # Check for build types and libraries
 IF(TILES)
@@ -328,4 +329,15 @@ ENDIF(LUA)
 add_subdirectory(src)
 add_subdirectory(data)
 add_subdirectory(src/chkjson)
+
+CONFIGURE_FILE(
+	"${CMAKE_CURRENT_SOURCE_DIR}/cmake_uninstall.cmake.in"
+	"${CMAKE_CURRENT_BINARY_DIR}/cmake_uninstall.cmake"
+	IMMEDIATE @ONLY
+)
+
+ADD_CUSTOM_TARGET(uninstall
+	"${CMAKE_COMMAND}"
+	-P "${CMAKE_CURRENT_BINARY_DIR}/cmake_uninstall.cmake"
+)
 

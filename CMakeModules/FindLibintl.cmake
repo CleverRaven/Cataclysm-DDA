@@ -1,4 +1,3 @@
-
 # Try to find Libintl functionality
 # Once done this will define
 #
@@ -16,9 +15,9 @@
 #
 # Redistribution and use is allowed according to the terms of the BSD license.
 # For details see the accompanying COPYING-CMAKE-SCRIPTS file.
- 
+
 if(LIBINTL_INCLUDE_DIR AND LIBINTL_LIB_FOUND)
-  set(Libintl_FIND_QUIETLY TRUE)
+	set(Libintl_FIND_QUIETLY TRUE)
 endif(LIBINTL_INCLUDE_DIR AND LIBINTL_LIB_FOUND)
  
 find_path(LIBINTL_INCLUDE_DIR libintl.h)
@@ -26,22 +25,21 @@ find_path(LIBINTL_INCLUDE_DIR libintl.h)
 set(LIBINTL_LIB_FOUND FALSE)
  
 if(LIBINTL_INCLUDE_DIR)
-  include(CheckFunctionExists)
-  check_function_exists(dgettext LIBINTL_LIBC_HAS_DGETTEXT)
- 
-  if (LIBINTL_LIBC_HAS_DGETTEXT)
-    set(LIBINTL_LIBRARIES)
-    set(LIBINTL_LIB_FOUND TRUE)
-  else (LIBINTL_LIBC_HAS_DGETTEXT)
-    find_library(LIBINTL_LIBRARIES NAMES intl libintl libintl-8 )
-    if(LIBINTL_LIBRARIES)
-      set(LIBINTL_LIB_FOUND TRUE)
-    endif(LIBINTL_LIBRARIES)
-  endif (LIBINTL_LIBC_HAS_DGETTEXT)
- 
+	include(CheckFunctionExists)
+	check_function_exists(dgettext LIBINTL_LIBC_HAS_DGETTEXT)
+
+	if (LIBINTL_LIBC_HAS_DGETTEXT)
+		set(LIBINTL_LIBRARIES)
+		set(LIBINTL_LIB_FOUND TRUE)
+	else (LIBINTL_LIBC_HAS_DGETTEXT)
+		find_library(LIBINTL_LIBRARIES intl libintl libintl-8)
+		if(LIBINTL_LIBRARIES)
+			set(LIBINTL_LIB_FOUND TRUE)
+		endif(LIBINTL_LIBRARIES)
+	endif (LIBINTL_LIBC_HAS_DGETTEXT)
 endif(LIBINTL_INCLUDE_DIR)
- 
+
 include(FindPackageHandleStandardArgs)
-find_package_handle_standard_args(Libintl  DEFAULT_MSG  LIBINTL_INCLUDE_DIR  LIBINTL_LIB_FOUND)
- 
-mark_as_advanced(LIBINTL_INCLUDE_DIR  LIBINTL_LIBRARIES  LIBINTL_LIBC_HAS_DGETTEXT  LIBINTL_LIB_FOUND)
+find_package_handle_standard_args(Libintl DEFAULT_MSG LIBINTL_LIBRARIES LIBINTL_INCLUDE_DIR)
+
+mark_as_advanced(LIBINTL_INCLUDE_DIR LIBINTL_LIBRARIES LIBINTL_LIBC_HAS_DGETTEXT LIBINTL_LIB_FOUND)
