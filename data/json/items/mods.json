@@ -1105,10 +1105,10 @@
         "symbol" : ":",
         "material" : ["plastic", "steel"],
         "mod_targets" : ["smg", "rifle", "shotgun"],
-        "volume" : 2,
+        "volume" : 1,
         "bashing" : 0,
         "cutting" : 0,
-        "flags" : ["SLOW_WIELD"],
+        "flags" : ["SLOW_WIELD", "COLLAPSIBLE_STOCK"],
         "price" : 42000,
         "skill_required": 2
     },

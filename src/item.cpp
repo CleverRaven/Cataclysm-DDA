@@ -2157,19 +2157,16 @@ int item::volume(bool unit_value, bool precise_value ) const
             ret += elem.volume( false, precise_value );
         }
 
-        int folding_stock = has_gunmod("folding_stock");
-        if (folding_stock != -1) {
-            // deduct volume of folding stock mod
-            ret -= contents[folding_stock].volume();
-
+        if (has_flag("COLLAPSIBLE_STOCK")) {
             // consider only the base size of the gun (without mods)
             int tmpvol = get_var( "volume", (int) type->volume);
             if      (tmpvol <=  3) ; // intentional NOP
-            else if (tmpvol <=  5) ret -= precise_value ? 1000 : 1;
-            else if (tmpvol <=  6) ret -= precise_value ? 2000 : 2;
-            else if (tmpvol <=  8) ret -= precise_value ? 3000 : 3;
-            else if (tmpvol <= 11) ret -= precise_value ? 4000 : 4;
-            else                   ret -= precise_value ? 5000 : 5;
+            else if (tmpvol <=  5) ret -= precise_value ? 2000 : 2;
+            else if (tmpvol <=  6) ret -= precise_value ? 3000 : 3;
+            else if (tmpvol <=  8) ret -= precise_value ? 4000 : 4;
+            else if (tmpvol <= 11) ret -= precise_value ? 5000 : 5;
+            else if (tmpvol <= 16) ret -= precise_value ? 6000 : 6;
+            else                   ret -= precise_value ? 7000 : 7;
         }
     }
 
