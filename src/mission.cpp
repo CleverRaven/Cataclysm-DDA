@@ -138,7 +138,7 @@ void mission::on_creature_death( Creature &poor_dead_dude )
     }
 }
 
-mission* mission::reserve_random( const mission_origin origin, const tripoint p, const int npc_id )
+mission* mission::reserve_random( const mission_origin origin, const tripoint &p, const int npc_id )
 {
     const auto type = mission_type::get_random_id( origin, p );
     if( type == MISSION_NULL ) {
@@ -180,11 +180,9 @@ void mission::set_target_to_mission_giver()
 {
     const auto giver = g->find_npc( npc_id );
     if( giver != nullptr ) {
-        tripoint t = giver->global_omt_location();
-        target.x = t.x;
-        target.y = t.y;
+        target = giver->global_omt_location();
     } else {
-        target = overmap::invalid_point;
+        target = overmap::invalid_tripoint;
     }
 }
 
@@ -239,9 +237,8 @@ bool mission::is_complete( const int _npc_id ) const
     switch( type->goal ) {
         case MGOAL_GO_TO:
             {
-                // TODO: target does not contain a z-component, targets are assume to be on z=0
                 const tripoint cur_pos = g->u.global_omt_location();
-                return ( rl_dist( cur_pos.x, cur_pos.y, target.x, target.y ) <= 1 );
+                return ( rl_dist( cur_pos, target ) <= 1 );
             }
             break;
 
@@ -333,10 +330,10 @@ std::string mission::get_description() const
 
 bool mission::has_target() const
 {
-    return target != overmap::invalid_point;
+    return target != overmap::invalid_tripoint;
 }
 
-point mission::get_target() const
+const tripoint &mission::get_target() const
 {
     return target;
 }
@@ -381,7 +378,7 @@ int mission::get_npc_id() const
     return npc_id;
 }
 
-void mission::set_target( const point new_target )
+void mission::set_target( const tripoint &new_target )
 {
     target = new_target;
 }
@@ -421,6 +418,7 @@ void mission::load_info(std::istream &data)
     data >> failed >> value >> rewtype >> reward_id >> rew_item >> rew_skill >>
          uid >> target.x >> target.y >> itemid >> item_num >> deadline >> npc_id >>
          good_fac_id >> bad_fac_id >> step >> tmpfollow >> target_npc_id;
+    target.z = 0;
     follow_up = mission_type_id(tmpfollow);
     reward.type = npc_favor_type(reward_id);
     reward.item_id = itype_id( rew_item );

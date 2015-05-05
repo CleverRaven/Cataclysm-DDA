@@ -5,7 +5,7 @@
 #include <list>
 #include <memory>
 #include <string>
-
+#include "enums.h" 
 struct point;
 struct tripoint;
 struct submap;

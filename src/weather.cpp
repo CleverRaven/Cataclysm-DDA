@@ -480,7 +480,7 @@ std::string weather_forecast( point const &abs_sm_pos )
 {
     std::ostringstream weather_report;
     // Local conditions
-    const auto cref = overmap_buffer.closest_city( abs_sm_pos );
+    const auto cref = overmap_buffer.closest_city( tripoint( abs_sm_pos, 0 ) );
     const std::string city_name = cref ? cref.city->name : std::string( _( "middle of nowhere" ) );
     // Current time
     weather_report << string_format(

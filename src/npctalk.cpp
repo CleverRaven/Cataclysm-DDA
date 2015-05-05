@@ -2884,12 +2884,8 @@ void talk_function::lead_to_safety(npc *p)
 {
     const auto mission = mission::reserve_new( MISSION_REACH_SAFETY, -1 );
     mission->assign( g->u );
-    const point target = mission->get_target();
- // TODO: the target has no z-component
- p->goal.x = target.x;
- p->goal.y = target.y;
- p->goal.z = g->get_levz();
- p->attitude = NPCATT_LEAD;
+    p->goal = mission->get_target();
+    p->attitude = NPCATT_LEAD;
 }
 
 void talk_function::toggle_use_guns(npc *p)
