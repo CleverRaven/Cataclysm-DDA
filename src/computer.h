@@ -133,6 +133,8 @@ class computer
         // ...but we can also choose a specific failure.
         void activate_failure       (computer_failure fail);
 
+        void remove_option( computer_action action );
+
         // OUTPUT/INPUT:
 
         // Reset to a blank terminal (e.g. at start of usage loop)

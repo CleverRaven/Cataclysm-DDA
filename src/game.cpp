@@ -7834,7 +7834,7 @@ bool pet_menu(monster *z)
             return true;
         }
 
-        bool success = g->make_drop_activity( ACT_STASH, z->pos() );
+        bool success = g->make_drop_activity( ACT_STASH, z->pos2() );
         if( success ) {
             z->add_effect("controlled", 5);
         }
@@ -10139,7 +10139,7 @@ int game::move_liquid(item &liquid)
 void game::drop(int pos)
 {
     if (pos == INT_MIN) {
-        make_drop_activity( ACT_DROP, u.pos() );
+        make_drop_activity( ACT_DROP, u.pos2() );
     } else if (pos == -1 && u.weapon.has_flag("NO_UNWIELD")) {
         add_msg(m_info, _("You cannot drop your %s."), u.weapon.tname().c_str());
         return;
@@ -11532,6 +11532,29 @@ bool game::plmove(int dx, int dy)
     } else {
         x = u.posx() + dx;
         y = u.posy() + dy;
+    }
+
+    if( u.has_effect( "amigara" ) ) {
+        int curdist = INT_MAX;
+        int newdist = INT_MAX;
+        for( int cx = 0; cx < SEEX * MAPSIZE; cx++ ) {
+            for( int cy = 0; cy < SEEY * MAPSIZE; cy++ ) {
+                if( m.ter( cx, cy ) == t_fault ) {
+                    int dist = rl_dist( cx, cy, u.posx(), u.posy() );
+                    if( dist < curdist ) {
+                        curdist = dist;
+                    }
+                    dist = rl_dist( cx, cy, x, y );
+                    if( dist < newdist ) {
+                        newdist = dist;
+                    }
+                }
+            }
+        }
+        if( newdist > curdist ) {
+            add_msg( m_info, _( "You cannot pull yourself away from the faultline..." ) );
+            return false;
+        }
     }
 
     const tripoint dest_loc( x, y, u.posz() );

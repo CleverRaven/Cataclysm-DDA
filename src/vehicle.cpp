@@ -214,7 +214,7 @@ bool vehicle::remote_controlled(player const &p) const
 
     auto remote = all_parts_with_feature( "REMOTE_CONTROLS", true );
     for( int part : remote ) {
-        if( rl_dist( p.pos(), global_pos() + parts[part].precalc[0] ) <= 40 ) {
+        if( rl_dist( p.pos2(), global_pos() + parts[part].precalc[0] ) <= 40 ) {
             return true;
         }
     }
@@ -913,7 +913,7 @@ void vehicle::use_controls()
    }
 
 
-    if (has_dome_lights) {
+    if (has_dome_lights && fuel_left( fuel_type_battery, true ) ) {
         menu.addentry( toggle_dome_lights, true, 'D', dome_lights_on ?
                        _("Turn off dome lights") : _("Turn on dome lights") );
     }
@@ -1340,7 +1340,7 @@ void vehicle::start_engines( const bool take_control )
     }
 
     g->u.assign_activity( ACT_START_ENGINES, start_time );
-    g->u.activity.placement = global_pos() - g->u.pos();
+    g->u.activity.placement = global_pos() - g->u.pos2();
     g->u.activity.values.push_back( take_control );
 }
 
@@ -2113,7 +2113,7 @@ std::string const& vehicle::get_label(int const x, int const y) const
         static std::string const fallback;
         return fallback;
     }
-    
+
     return it->text;
 }
 
@@ -2524,7 +2524,7 @@ void vehicle::print_fuel_indicator (void *w, int y, int x, bool fullsize, bool v
             // Get color of the default item of this type
             f_color = item::find_type( default_ammo( f ) )->color;
         }
-        
+
         if( cap > 0 && ( basic_consumption( f ) > 0 || fullsize ) ) {
             if( cur_gauge++ >= max_gauge ) {
                 wprintz(win, c_ltgray, "...", ammo_name( f ).c_str() );
@@ -3069,14 +3069,14 @@ void vehicle::noise_and_smoke( double load, double time )
         }
     }
 
-    if( (exhaust_part != -1) && engine_on && 
+    if( (exhaust_part != -1) && engine_on &&
         has_engine_type_not(fuel_type_muscle, true)) { // No engine, no smoke
         spew_smoke( mufflesmoke, exhaust_part );
     }
     // Even a vehicle with engines off will make noise traveling at high speeds
     noise = std::max( noise, double(fabs(velocity/500.0)) );
     int lvl = 0;
-    if( one_in(4) && rng(0, 30) < noise && 
+    if( one_in(4) && rng(0, 30) < noise &&
         has_engine_type_not(fuel_type_muscle, true)) {
        while( noise > sound_levels[lvl] ) {
            lvl++;
@@ -4955,8 +4955,8 @@ int vehicle::damage_direct (int p, int dmg, int type)
                     g->u.add_memorial_log(pgettext("memorial_male","The fuel tank of the %s exploded!"),
                         pgettext("memorial_female", "The fuel tank of the %s exploded!"),
                         name.c_str());
-                    g->explosion( tripoint( global_x() + parts[p].precalc[0].x, 
-                                            global_y() + parts[p].precalc[0].y, 
+                    g->explosion( tripoint( global_x() + parts[p].precalc[0].x,
+                                            global_y() + parts[p].precalc[0].y,
                                             g->get_levz() ),
                                   pow, 0, (ft == fuel_type_gasoline || ft == fuel_type_diesel));
                     parts[p].hp = 0;
@@ -5081,7 +5081,7 @@ turret_fire_ability vehicle::turret_can_shoot( const int p, const tripoint &pos 
     if( rl_dist( tpos, pos ) > turrange ) {
         return turret_out_of_range;
     }
-    
+
     return turret_all_ok;
 }
 
@@ -5119,7 +5119,7 @@ bool vehicle::aim_turrets()
         if( turrange <= 0 ) {
             continue;
         }
-        
+
         tripoint tpos = global_pos3() + parts[turret_index].precalc[0];
         bounds.push_back( { tpos.x + turrange, tpos.y, tpos.z } );
         bounds.push_back( { tpos.x - turrange, tpos.y, tpos.z } );
@@ -5180,7 +5180,7 @@ void vehicle::control_turrets() {
     std::vector< int > all_turrets = all_parts_with_feature( "TURRET", true );
     std::vector< int > turrets;
     std::vector< point > locations;
-    
+
     uimenu pmenu;
     for( int p : all_turrets ) {
         if( !part_flag( p, "MANUAL" ) ) {
@@ -5223,7 +5223,7 @@ void vehicle::control_turrets() {
 
         pmenu.addentry( turrets.size(), true, 'q', _("Finish") );
         pmenu.w_y = 0; // Move the menu so that we can see our vehicle
-        
+
         pmenu.selected = selected;
         pmenu.fselected = selected;
         pmenu.query();
@@ -5248,7 +5248,7 @@ void vehicle::cycle_turret_mode( int p, bool only_manual_modes )
         debugmsg( "vehicle::cycle_turret_mode tried to pick a non-turret part" );
         return;
     }
-    
+
     const item gun( part_info( p ).item, 0 );
     if( gun.type->gun == nullptr ) {
         debugmsg( "vehicle::cycle_turret_mode tried to pick a non-turret part" );
@@ -5393,7 +5393,7 @@ bool vehicle::fire_turret( int p, bool manual )
 
     // turret_mode_manual means the turrets are globally off, but some are aimed
     // target.first == target.second means the turret isn't aimed
-    if( !manual && ( turret_mode == turret_mode_manual || parts[p].mode < 0 ) && 
+    if( !manual && ( turret_mode == turret_mode_manual || parts[p].mode < 0 ) &&
         target.first == target.second ) {
         return false;
     }
@@ -5430,7 +5430,7 @@ bool vehicle::fire_turret( int p, bool manual )
         }
 
         charges = std::min( charges, turret_has_ammo( p ) );
-    
+
         itype *am_type = item::find_type( default_ammo( amt ) );
         if( !am_type->ammo ) {
             debugmsg( "vehicle::fire_turret tried to use %s (which isn't an ammo type) as ammo for %s",
@@ -5439,7 +5439,7 @@ bool vehicle::fire_turret( int p, bool manual )
         }
         long charges_left = charges;
         // TODO sometime: change that g->u to a parameter, so that NPCs can shoot too
-        success = manual ? 
+        success = manual ?
             manual_fire_turret( p, g->u, *gun.type, *am_type, charges_left ) :
             automatic_fire_turret( p, *gun.type, *am_type, charges_left );
         if( success ) {
@@ -5461,7 +5461,7 @@ bool vehicle::fire_turret( int p, bool manual )
         auto items = get_items( p );
         itype *am_type = items.front().type;
         long charges_left = charges;
-        success = manual ? 
+        success = manual ?
             manual_fire_turret( p, g->u, *gun.type, *am_type, charges_left ) :
             automatic_fire_turret( p, *gun.type, *am_type, charges_left );
         if( success ) {
@@ -5561,18 +5561,18 @@ bool vehicle::automatic_fire_turret( int p, const itype &gun, const itype &ammo,
     // Return whatever is left.
     refill( fuel_type_battery, tmp.worn.back().charges );
     charges = tmp.weapon.charges; // Return real ammo, in case of burst ending early
-    
+
     return true;
 }
 
-bool vehicle::manual_fire_turret( int p, player &shooter, const itype &guntype, 
+bool vehicle::manual_fire_turret( int p, player &shooter, const itype &guntype,
                                   const itype &ammotype, long &charges )
 {
     int x = global_x() + parts[p].precalc[0].x;
     int y = global_y() + parts[p].precalc[0].y;
 
     // Place the shooter at the turret
-    const point &oldpos = shooter.pos();
+    const tripoint &oldpos = shooter.pos();
     shooter.setx( x );
     shooter.sety( y );
 
@@ -5629,8 +5629,7 @@ bool vehicle::manual_fire_turret( int p, player &shooter, const itype &guntype,
     charges = shooter.weapon.charges;
 
     // Place the shooter back where we took them from
-    shooter.setx( oldpos.x );
-    shooter.sety( oldpos.y );
+    shooter.setpos( oldpos );
     // Give back old weapon
     shooter.weapon = old_weapon;
 

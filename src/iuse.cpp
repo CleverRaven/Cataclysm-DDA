@@ -7843,9 +7843,9 @@ int iuse::robotcontrol(player *p, item *it, bool, const tripoint& )
                     point seen_loc;
                     // Show locations of seen robots, center on player if robot is not seen
                     if( p->sees( candidate ) ) {
-                        seen_loc = candidate.pos();
+                        seen_loc = candidate.pos2();
                     } else {
-                        seen_loc = p->pos();
+                        seen_loc = p->pos2();
                     }
                     locations.push_back( seen_loc );
                 }
@@ -8544,7 +8544,7 @@ int iuse::camera(player *p, item *it, bool, const tripoint& )
             return 0;
         }
 
-        std::vector <point> trajectory = line_to( p->pos(), aim_point, 0 );
+        std::vector <point> trajectory = line_to( p->pos2(), aim_point, 0 );
         trajectory.push_back(aim_point);
 
         p->moves -= 50;
@@ -8558,7 +8558,7 @@ int iuse::camera(player *p, item *it, bool, const tripoint& )
             int npcID = g->npc_at(tx, ty);
 
             if (zid != -1 || npcID != -1) {
-                int dist = rl_dist( p->pos(), i );
+                int dist = rl_dist( p->pos2(), i );
 
                 int camera_bonus = it->has_flag("CAMERA_PRO") ? 10 : 0;
                 int photo_quality = 20 - rng(dist, dist * 2) * 2 + rng(camera_bonus / 2, camera_bonus);
