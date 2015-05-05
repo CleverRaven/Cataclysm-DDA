@@ -651,7 +651,7 @@ void place_construction(const std::string &desc)
 
     construction *con = valid[choice];
     g->u.assign_activity(ACT_BUILD, con->adjusted_time(), con->id);
-    g->u.activity.placement = point( choice.x, choice.y );
+    g->u.activity.placement =  choice;
 }
 
 void complete_construction()

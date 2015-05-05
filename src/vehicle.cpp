@@ -546,7 +546,7 @@ void vehicle::smash() {
 void vehicle::control_doors() {
     std::vector< int > door_motors = all_parts_with_feature( "DOOR_MOTOR", true );
     std::vector< int > doors_with_motors; // Indices of doors
-    std::vector< point > locations; // Locations used to display the doors
+    std::vector< tripoint > locations; // Locations used to display the doors
     doors_with_motors.reserve( door_motors.size() );
     locations.reserve( door_motors.size() );
     if( door_motors.empty() ) {
@@ -564,7 +564,7 @@ void vehicle::control_doors() {
 
         int val = doors_with_motors.size();
         doors_with_motors.push_back( door );
-        locations.push_back( global_pos() + parts[p].precalc[0] );
+        locations.push_back( tripoint( global_pos() + parts[p].precalc[0], smz ) );
         const char *actname = parts[door].open ? _("Close") : _("Open");
         pmenu.addentry( val, true, MENU_AUTOASSIGN, "%s %s", actname, part_info( door ).name.c_str() );
     }
@@ -1340,7 +1340,7 @@ void vehicle::start_engines( const bool take_control )
     }
 
     g->u.assign_activity( ACT_START_ENGINES, start_time );
-    g->u.activity.placement = global_pos() - g->u.pos2();
+    g->u.activity.placement = global_pos3() - g->u.pos();
     g->u.activity.values.push_back( take_control );
 }
 
@@ -5179,13 +5179,13 @@ bool vehicle::aim_turrets()
 void vehicle::control_turrets() {
     std::vector< int > all_turrets = all_parts_with_feature( "TURRET", true );
     std::vector< int > turrets;
-    std::vector< point > locations;
+    std::vector< tripoint > locations;
 
     uimenu pmenu;
     for( int p : all_turrets ) {
         if( !part_flag( p, "MANUAL" ) ) {
             turrets.push_back( p );
-            locations.push_back( global_pos() + parts[p].precalc[0] );
+            locations.push_back( tripoint( global_pos() + parts[p].precalc[0], smz ) );
         }
     }
 
