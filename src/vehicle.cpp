@@ -2935,11 +2935,12 @@ bool vehicle::do_environmental_effects()
     // check for smoking parts
     for( size_t p = 0; p < parts.size(); p++ ) {
         auto part_pos = global_pos() + parts[p].precalc[0];
+        const tripoint part_tri = tripoint( part_pos, smz );
 
         /* Only lower blood level if:
          * - The part is outside.
          * - The weather is any effect that would cause the player to be wet. */
-        if( parts[p].blood > 0 && g->m.is_outside(part_pos.x, part_pos.y) && g->get_levz() >= 0 ) {
+        if( parts[p].blood > 0 && g->m.is_outside( part_tri ) && g->get_levz() >= 0 ) {
             needed = true;
             if( g->weather >= WEATHER_DRIZZLE && g->weather <= WEATHER_ACID_RAIN ) {
                 parts[p].blood--;
@@ -3895,9 +3896,10 @@ bool vehicle::collision( std::vector<veh_collision> &veh_veh_colls,
 
 veh_collision vehicle::part_collision (int part, int x, int y, bool just_detect)
 {
+    const tripoint p{ x, y, smz };
     bool pl_ctrl = player_in_control (g->u);
-    int mondex = g->mon_at(x, y);
-    int npcind = g->npc_at(x, y);
+    int mondex = g->mon_at( p );
+    int npcind = g->npc_at( p );
     bool u_here = x == g->u.posx() && y == g->u.posy() && !g->u.in_vehicle;
     monster *z = mondex >= 0? &g->zombie(mondex) : NULL;
     player *ph = (npcind >= 0? g->active_npc[npcind] : (u_here? &g->u : 0));
@@ -5014,15 +5016,13 @@ std::string aim_type( const vehicle_part &part )
         return _("Unseen");
     }
 
-    int lx = target.first.x;
-    int ly = target.first.y;
-    const Creature *critter = g->critter_at( lx, ly );
+    const Creature *critter = g->critter_at( target.first );
     if( critter != nullptr && g->u.sees( *critter ) ) {
         return critter->disp_name();
-    } else if( g->m.has_furn( lx, ly ) ) {
-        return g->m.furn_at( lx, ly ).name;
+    } else if( g->m.has_furn( target.first ) ) {
+        return g->m.furn_at( target.first ).name;
     } else {
-        return g->m.tername( lx, ly );
+        return g->m.tername( target.first );
     }
 }
 

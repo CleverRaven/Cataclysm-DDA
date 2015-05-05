@@ -707,11 +707,12 @@ void complete_construction()
     built.post_special(point(terx, tery));
 }
 
-bool construct::check_empty(point p)
+bool construct::check_empty(point p_arg)
 {
-    return (g->m.has_flag("FLAT", p.x, p.y) && !g->m.has_furn(p.x, p.y) &&
-            g->is_empty(p.x, p.y) && g->m.tr_at(p.x, p.y).is_null() &&
-            g->m.i_at(p.x, p.y).empty() && g->m.veh_at(p.x, p.y) == NULL);
+    tripoint p( p_arg, g->u.posz() );
+    return (g->m.has_flag( "FLAT", p ) && !g->m.has_furn( p ) &&
+            g->is_empty( p ) && g->m.tr_at( p ).is_null() &&
+            g->m.i_at( p ).empty() && g->m.veh_at( p ) == NULL);
 }
 
 bool construct::check_support(point p)

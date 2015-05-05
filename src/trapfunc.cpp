@@ -174,11 +174,12 @@ void trapfunc::tripwire(Creature *c, int x, int y)
                 z->apply_damage( nullptr, bp_torso, rng(1, 4));
             }
         } else if (n != NULL) {
-            std::vector<point> valid;
-            point jk;
+            std::vector<tripoint> valid;
+            tripoint jk;
+            jk.z = g->get_levz();
             for (jk.x = x - 1; jk.x <= x + 1; jk.x++) {
                 for (jk.y = y - 1; jk.y <= y + 1; jk.y++) {
-                    if (g->is_empty(jk.x, jk.y)) {
+                    if (g->is_empty( jk )) {
                         // No monster, NPC, or player, plus valid for movement
                         valid.push_back(jk);
                     }
@@ -186,8 +187,7 @@ void trapfunc::tripwire(Creature *c, int x, int y)
             }
             if (!valid.empty()) {
                 jk = valid[rng(0, valid.size() - 1)];
-                n->setx( jk.x );
-                n->sety( jk.y );
+                n->setpos( jk );
             }
             n->moves -= 150;
             if (rng(5, 20) > n->dex_cur) {
@@ -541,7 +541,7 @@ void trapfunc::telepad(Creature *c, int x, int y)
             if (tries == 10) {
                 z->die_in_explosion( nullptr );
             } else {
-                int mon_hit = g->mon_at(newposx, newposy);
+                int mon_hit = g->mon_at({newposx, newposy, g->get_levz()});
                 if (mon_hit != -1) {
                     if (g->u.sees(*z)) {
                         add_msg(m_good, _("The %s teleports into a %s, killing them both!"),
@@ -1130,7 +1130,7 @@ void trapfunc::shadow(Creature *c, int x, int y)
             monx = (one_in(2) ? g->u.posx() - 5 : g->u.posx() + 5);
             mony = rng(g->u.posy() - 5, g->u.posy() + 5);
         }
-    } while (tries < 5 && !g->is_empty(monx, mony) &&
+    } while (tries < 5 && !g->is_empty({monx, mony, g->get_levz()}) &&
              !g->m.sees(monx, mony, g->u.posx(), g->u.posy(), 10, junk));
 
     if (tries < 5) {
@@ -1182,7 +1182,7 @@ void trapfunc::snake(Creature *c, int x, int y)
                 monx = (one_in(2) ? g->u.posx() - 5 : g->u.posx() + 5);
                 mony = rng(g->u.posy() - 5, g->u.posy() + 5);
             }
-        } while (tries < 5 && !g->is_empty(monx, mony) &&
+        } while (tries < 5 && !g->is_empty({monx, mony, g->get_levz()}) &&
                  !g->m.sees(monx, mony, g->u.posx(), g->u.posy(), 10, junk));
 
         if (tries < 5) {

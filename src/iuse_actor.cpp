@@ -456,8 +456,9 @@ long place_monster_iuse::use( player *p, item *it, bool, const tripoint &pos ) c
         std::vector<tripoint> valid;
         for( int x = p->posx() - 1; x <= p->posx() + 1; x++ ) {
             for( int y = p->posy() - 1; y <= p->posy() + 1; y++ ) {
-                if( g->is_empty( x, y ) ) {
-                    valid.push_back( tripoint( x, y, pos.z ) );
+                tripoint dest( x, y, pos.z );
+                if( g->is_empty( dest ) ) {
+                    valid.push_back( dest );
                 }
             }
         }
@@ -469,10 +470,10 @@ long place_monster_iuse::use( player *p, item *it, bool, const tripoint &pos ) c
         target = valid[rng( 0, valid.size() - 1 )];
     } else {
         const std::string query = string_format( _( "Place the %s where?" ), newmon.name().c_str() );
-        if( !choose_adjacent( query, target.x, target.y ) ) {
+        if( !choose_adjacent( query, target ) ) {
             return 0;
         }
-        if( !g->is_empty( target.x, target.y ) ) {
+        if( !g->is_empty( target ) ) {
             p->add_msg_if_player( m_info, _( "You cannot place a %s there." ), newmon.name().c_str() );
             return 0;
         }
@@ -521,7 +522,7 @@ long place_monster_iuse::use( player *p, item *it, bool, const tripoint &pos ) c
         newmon.friendly = -1;
     }
     // TODO: add a flag instead of monster id or something?
-    if( newmon.type->id == "mon_laserturret" && !g->is_in_sunlight( newmon.posx(), newmon.posy() ) ) {
+    if( newmon.type->id == "mon_laserturret" && !g->is_in_sunlight( newmon.pos() ) ) {
         p->add_msg_if_player( _( "A flashing LED on the laser turret appears to indicate low light." ) );
     }
     g->add_zombie( newmon );
@@ -609,16 +610,16 @@ long pick_lock_actor::use( player *p, item *it, bool, const tripoint& ) const
     if( p == nullptr || p->is_npc() ) {
         return 0;
     }
-    int dirx, diry;
-    if( !choose_adjacent( _( "Use your pick lock where?" ), dirx, diry ) ) {
+    tripoint dirp;
+    if( !choose_adjacent( _( "Use your pick lock where?" ), dirp ) ) {
         return 0;
     }
-    if( dirx == p->posx() && diry == p->posy() ) {
+    if( dirp == p->pos() ) {
         p->add_msg_if_player( m_info, _( "You pick your nose and your sinuses swing open." ) );
         return 0;
     }
-    const ter_id type = g->m.ter( dirx, diry );
-    const int npcdex = g->npc_at( dirx, diry );
+    const ter_id type = g->m.ter( dirp );
+    const int npcdex = g->npc_at( dirp );
     if( npcdex != -1 ) {
         p->add_msg_if_player( m_info,
                               _( "You can pick your friends, and you can\npick your nose, but you can't pick\nyour friend's nose" ) );
@@ -659,7 +660,7 @@ long pick_lock_actor::use( player *p, item *it, bool, const tripoint& ) const
     if( pick_roll >= door_roll ) {
         p->practice( "mechanics", 1 );
         p->add_msg_if_player( m_good, "%s", open_message.c_str() );
-        g->m.ter_set( dirx, diry, new_type );
+        g->m.ter_set( dirp, new_type );
     } else if( door_roll > ( 1.5 * pick_roll ) && it->damage < 100 ) {
         it->damage++;
         if( it->damage >= 5 ) {
@@ -672,7 +673,7 @@ long pick_lock_actor::use( player *p, item *it, bool, const tripoint& ) const
     }
     if( type == t_door_locked_alarm && ( door_roll + dice( 1, 30 ) ) > pick_roll &&
         it->damage < 100 ) {
-        sounds::sound( p->posx(), p->posy(), 40, _( "An alarm sounds!" ) );
+        sounds::sound( p->pos(), 40, _( "An alarm sounds!" ) );
         if( !g->event_queued( EVENT_WANTED ) ) {
             g->add_event( EVENT_WANTED, int( calendar::turn ) + 300, 0, p->global_sm_location() );
         }
@@ -891,7 +892,7 @@ bool extended_firestarter_actor::can_use( const player* p, const item* it, bool 
 
     if( need_sunlight ) {
         return ( g->weather == WEATHER_CLEAR || g->weather == WEATHER_SUNNY ) &&
-                 g->natural_light_level() >= 60 && !g->m.has_flag( "INDOORS", pos.x, pos.y );
+                 g->natural_light_level() >= 60 && !g->m.has_flag( "INDOORS", pos );
     }
 
     return true;

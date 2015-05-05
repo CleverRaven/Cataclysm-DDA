@@ -1107,7 +1107,7 @@ bool monster::will_reach( int x, int y )
     }
 
     if( has_flag( MF_SMELLS ) && g->scent( pos3() ) > 0 &&
-        g->scent( x, y ) > g->scent( pos3() ) ) {
+        g->scent( { x, y, posz() } ) > g->scent( pos3() ) ) {
         return true;
     }
 
