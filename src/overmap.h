@@ -336,8 +336,8 @@ public:
   void generate(const overmap* north, const overmap* east, const overmap* south, const overmap* west);
   bool generate_sub(int const z);
 
-    int dist_from_city(point p);
-    void signal_hordes( int x, int y, int sig_power );
+    int dist_from_city( const tripoint &p );
+    void signal_hordes( const tripoint &p, int sig_power );
     void process_mongroups();
     void move_hordes();
 

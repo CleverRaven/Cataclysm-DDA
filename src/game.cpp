@@ -5066,8 +5066,8 @@ void game::draw_minimap()
     const tripoint curs = u.global_omt_location();
     const int cursx = curs.x;
     const int cursy = curs.y;
-    const point targ = u.get_active_mission_target();
-    bool drew_mission = targ == overmap::invalid_point;
+    const tripoint targ = u.get_active_mission_target();
+    bool drew_mission = targ == overmap::invalid_tripoint;
 
     for (int i = -2; i <= 2; i++) {
         for (int j = -2; j <= 2; j++) {
@@ -5204,7 +5204,7 @@ void game::draw_minimap()
             if (!drew_mission && targ.x == omx && targ.y == omy) {
                 // If there is a mission target, and it's not on the same
                 // overmap terrain as the player character, mark it.
-                // TODO: target does not contain a z-component, targets are assume to be on z=0
+                // TODO: Inform player if the mission is above or below
                 drew_mission = true;
                 if (i != 0 || j != 0) {
                     ter_color = red_background(ter_color);
@@ -5251,7 +5251,14 @@ void game::draw_minimap()
                     arrowy = 6;
                 }
             }
-            mvwputch(w_minimap, arrowy, arrowx, c_red, '*');
+            char glyph = '*';
+            if( targ.z > u.posz() ) {
+                glyph = '^';
+            } else if( targ.z < u.posz() ) {
+                glyph = 'v';
+            }
+
+            mvwputch( w_minimap, arrowy, arrowx, c_red, glyph );
         }
     }
     wrefresh(w_minimap);
