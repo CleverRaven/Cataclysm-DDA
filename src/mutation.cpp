@@ -1,5 +1,5 @@
-#include "player.h"
 #include "mutation.h"
+#include "player.h"
 #include "game.h"
 #include "map.h"
 #include "translations.h"
@@ -8,6 +8,9 @@
 #include "monstergenerator.h"
 #include "overmapbuffer.h"
 #include "sounds.h"
+#include "options.h"
+#include "catacharset.h"
+#include "input.h"
 
 #include <math.h>    //sqrt
 #include <algorithm> //std::min

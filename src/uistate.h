@@ -2,6 +2,11 @@
 #define UISTATE_H
 
 #include "json.h"
+#include "enums.h"
+
+#include <map>
+#include <vector>
+#include <string>
 
 /*
   centralized depot for trivial ui data such as sorting, string_input_popup history, etc.
@@ -10,6 +15,7 @@
 class uistatedata : public JsonSerializer, public JsonDeserializer
 {
     public:
+        using itype_id = std::string;
         /**** declare your variable here. It can be anything, really *****/
         int wishitem_selected;
         int wishmutate_selected;

@@ -18,6 +18,11 @@
 #include "iuse_actor.h"
 #include "compatibility.h"
 #include "monstergenerator.h"
+#include "translations.h"
+#include "crafting.h"
+#include "martialarts.h"
+#include "npc.h"
+#include "ui.h"
 
 #include <cmath> // floor
 #include <sstream>
@@ -3281,6 +3286,18 @@ void item::next_mode()
     }
 }
 
+int item::spare_mag_size() const
+{
+    if( !type->gun ) {
+        return 0;
+    }
+    if( clip_size() < type->gun->clip ) {
+        return clip_size();
+    } else {
+        return type->gun->clip;
+    }
+}
+
 std::string item::gun_skill() const
 {
     if( !is_gun() ) {
@@ -4936,8 +4953,8 @@ bool item::process_charger_gun( player *carrier, const tripoint &pos )
                                        pgettext( "memorial_female", "Accidental discharge of %s." ),
                                        tname().c_str() );
             carrier->add_msg_player_or_npc( m_bad, _( "Your %s discharges!" ), _( "<npcname>'s %s discharges!" ), tname().c_str() );
-            point target( pos.x + rng( -12, 12 ), pos.y + rng( -12, 12 ) );
-            carrier->fire_gun( target.x, target.y, false );
+            tripoint target( pos.x + rng( -12, 12 ), pos.y + rng( -12, 12 ), pos.z );
+            carrier->fire_gun( target, false );
         } else {
             carrier->add_msg_player_or_npc( m_warning, _( "Your %s beeps alarmingly." ), _( "<npcname>'s %s beeps alarmingly." ), tname().c_str() );
         }

@@ -2,13 +2,21 @@
 #define OVERMAPBUFFER_H
 
 #include "enums.h"
-#include "overmap.h"
 #include <set>
 #include <list>
 #include <memory>
+#include <vector>
 #include <unordered_map>
 
 class monster;
+class overmap;
+struct radio_tower;
+struct oter_id;
+struct regional_settings;
+class vehicle;
+class npc;
+struct om_vehicle;
+struct mongroup;
 
 struct radio_tower_reference {
     /** Overmap the radio tower is on. */

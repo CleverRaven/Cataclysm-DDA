@@ -16,6 +16,12 @@
 #include "mondefense.h"
 #include "iuse_actor.h"
 #include "weighted_list.h"
+#include "mongroup.h"
+#include "translations.h"
+#include "morale.h"
+#include "npc.h"
+#include "event.h"
+#include "ui.h"
 
 #include <algorithm>
 
@@ -235,6 +241,154 @@ void mattack::acid(monster *z, int index)
     }
 }
 
+void mattack::acid_barf(monster *z, int index)
+{
+    if( !z->can_act() ) {
+        return;
+    }
+
+    // Let it be used on non-player creatures
+    Creature *target = z->attack_target();
+    if( target == nullptr || rl_dist( z->pos3(), target->pos3() ) > 1 ) {
+        return;
+    }
+
+    player *foe = dynamic_cast< player* >( target );
+    bool seen = g->u.sees( *z );
+
+    z->reset_special(index); // Reset timer
+    z->moves -= 80;
+    bool uncanny = foe != nullptr && foe->uncanny_dodge();
+    // Can we dodge the attack? Uses player dodge function % chance (melee.cpp)
+    if( uncanny || dodge_check(z, target) ){
+        if( foe != nullptr ) {
+            if( seen ) {
+                auto msg_type = foe == &g->u ? m_warning : m_info;
+                foe->add_msg_player_or_npc( msg_type, _("The %s barfs acid at you, but you dodge!"),
+                                                      _("The %s barfs acid at <npcname>, but they dodge!"),
+                                            z->name().c_str() );
+            }
+            if( !uncanny ) {
+                foe->practice( "dodge", z->type->melee_skill * 2 );
+                foe->ma_ondodge_effects();
+            }
+        } else if( seen ) {
+            add_msg( _("The %s barfs acid at %s, but misses!"), z->name().c_str(), target->disp_name().c_str() );
+        }
+        return;
+    }
+
+    body_part hit = random_body_part();
+    int dam = rng(10, 15);
+    dam = target->deal_damage( z, hit, damage_instance( DT_ACID, dam ) ).total_damage();
+    g->m.add_field( target->pos3(), fd_acid, 1, 0 );
+
+    if( dam > 0 && foe != nullptr ) {
+        if( seen ) {
+            auto msg_type = foe == &g->u ? m_bad : m_info;
+            //~ 1$s is monster name, 2$s bodypart in accusative
+            foe->add_msg_player_or_npc( msg_type,
+                                        _("The %1$s barfs acid on your %2$s!"),
+                                        _("The %1$s barfs acid on <npcname>'s %2$s!"),
+                                        z->name().c_str(),
+                                        body_part_name_accusative( hit ).c_str() );
+        }
+        foe->practice( "dodge", z->type->melee_skill );
+        if( hit == bp_eyes ) {
+            foe->add_env_effect("blind", bp_eyes, 3, 10);
+        }
+        foe->check_dead_state();
+    } else if( foe != nullptr ) {
+        if( seen ) {
+            foe->add_msg_player_or_npc( _("The %1$s barfs acid on your %2$s, but it washes off the armor!"),
+                                        _("The %1$s bites <npcname>'s %2$s, but it washes off the armor!"),
+                                        z->name().c_str(),
+                                        body_part_name_accusative( hit ).c_str() );
+        }
+    } else if( seen ) {
+        add_msg( _("The %s barfs acid on %s!"), z->name().c_str(), target->disp_name().c_str() );
+    }
+    target->check_dead_state();
+}
+
+void mattack::acid_accurate(monster *z, int index)
+{
+    if( !z->can_act() ) {
+        return;
+    }
+
+    int t1, t2;
+    int dist;
+    Creature *target = z->attack_target();
+    if( target == nullptr ||
+        ( dist = rl_dist( z->pos3(), target->pos3() ) ) > 12 ||
+        !z->sees( *target, t1 ) ) {
+        return;
+    }
+
+    auto msg_type = target == &g->u ? m_bad : m_neutral;
+
+    z->moves -= 50;
+    z->reset_special(index); // Reset timer
+
+    int deviation = rng(1, 10);
+    double missed_by = (.0325 * deviation * dist);
+    std::set<std::string> no_effects;
+
+    if (missed_by > 1.) {
+        if( g->u.sees( *z ) ) {
+            add_msg(_("The %s spits acid, but misses %s."), z->name().c_str(), target->disp_name().c_str() );
+        }
+        tripoint hitp( target->posx() + rng(0 - int(missed_by), int(missed_by)),
+                       target->posy() + rng(0 - int(missed_by), int(missed_by)),
+                       target->posz() );
+        std::vector<tripoint> line = line_to( z->pos3(), hitp, 0, 0 );
+        int dam = rng(5,10);
+        for( auto &i : line ) {
+            g->m.shoot( i, dam, false, no_effects);
+            if (dam == 0 && g->u.sees( i )) {
+                add_msg(_("A bolt of acid hits the %s!"),
+                        g->m.tername( i ).c_str());
+                return;
+            }
+            if (dam <= 0) {
+                break;
+            }
+        }
+        g->m.add_field( hitp, fd_acid, 1, 0 );
+        return;
+    }
+
+    if( g->u.sees( *z ) ) {
+        add_msg(_("The %s spits acid!"), z->name().c_str());
+    }
+    g->m.sees( z->pos(), target->pos(), 60, t1, t2 );
+    std::vector<tripoint> line = line_to( z->pos3(), target->pos3(), t1, t2 );
+    int dam = rng(5,10);
+    body_part bp = random_body_part();
+    for (auto &i : line) {
+        g->m.shoot( i, dam, false, no_effects );
+        if (dam == 0 && g->u.sees( i )) {
+            add_msg(_("A bolt of acid hits the %s!"), g->m.tername( i ).c_str());
+            return;
+        }
+    }
+    if (dam <= 0) {
+        return;
+    }
+    if( target->uncanny_dodge() ) {
+        return;
+    }
+    if( g->u.sees( *target ) ) {
+        add_msg( msg_type, _("A bolt of acid hits %1$s's %2$s!"), target->disp_name().c_str(), body_part_name_accusative( bp ).c_str() );
+    }
+    target->deal_damage( z, bp, damage_instance( DT_ACID, dam ) );
+    if (bp == bp_eyes){
+        target->add_env_effect("blind", bp_eyes, 3, 10);
+    }
+    target->check_dead_state();
+}
+
 void mattack::shockstorm(monster *z, int index)
 {
     if( !z->can_act() ) {
@@ -374,7 +528,7 @@ void mattack::boomer(monster *z, int index)
     }
 
     player *foe = dynamic_cast< player* >( target );
-    std::vector<point> line = line_to( z->pos(), target->pos(), t );
+    std::vector<tripoint> line = line_to( z->pos(), target->pos(), t, 0 );
     z->reset_special(index); // Reset timer
     z->moves -= 250;   // It takes a while
     bool u_see = g->u.sees( *z );
@@ -521,12 +675,12 @@ void mattack::smash(monster *z, int index)
 /**
  * Find empty spaces around origin within a radius of N.
  *
- * @returns a pair with first  = array<point, area>; area = (2*N + 1)^2.
+ * @returns a pair with first  = array<tripoint, area>; area = (2*N + 1)^2.
  *                      second = the number of empty spaces found.
  */
 template <size_t N = 1>
-std::pair<std::array<point, (2*N + 1)*(2*N + 1)>, size_t>
-find_empty_neighbors(point const origin) {
+std::pair<std::array<tripoint, (2*N + 1)*(2*N + 1)>, size_t>
+find_empty_neighbors( const tripoint &origin ) {
     constexpr auto r = static_cast<int>(N);
 
     const int x_min = origin.x - r;
@@ -534,12 +688,14 @@ find_empty_neighbors(point const origin) {
     const int y_min = origin.y - r;
     const int y_max = origin.y + r;
 
-    std::pair<std::array<point, (2*N + 1)*(2*N + 1)>, size_t> result;
+    std::pair<std::array<tripoint, (2*N + 1)*(2*N + 1)>, size_t> result;
 
-    for (auto x = x_min; x <= x_max; ++x) {
-        for (auto y = y_min; y <= y_max; ++y) {
-            if (g->is_empty(x, y)) {
-                result.first[result.second++] = point {x, y};
+    tripoint tmp;
+    tmp.z = origin.z;
+    for( tmp.x = x_min; tmp.x <= x_max; ++tmp.x ) {
+        for( tmp.y = y_min; tmp.y <= y_max; ++tmp.y ) {
+            if (g->is_empty( tmp )) {
+                result.first[result.second++] = tmp;
             }
         }
     }
@@ -554,7 +710,7 @@ find_empty_neighbors(point const origin) {
  * @see find_empty_neighbors
  */
  template <size_t N = 1>
-std::pair<std::array<point, (2*N + 1)*(2*N + 1)>, size_t>
+std::pair<std::array<tripoint, (2*N + 1)*(2*N + 1)>, size_t>
 find_empty_neighbors(Creature const &c) {
     return find_empty_neighbors<N>(c.pos());
 }
@@ -727,9 +883,9 @@ void mattack::science(monster *const z, int const index) // I said SCIENCE again
                 z->name().c_str());
         }
 
-        const point where = empty_neighbors.first[get_random_index(empty_neighbor_count)];
-        if (g->summon_mon("mon_manhack", tripoint(where.x, where.y, z->posz()))) {
-            monster *manhack = g->monster_at(tripoint(where.x, where.y, z->posz()));
+        const tripoint where = empty_neighbors.first[get_random_index(empty_neighbor_count)];
+        if( g->summon_mon( "mon_manhack", where ) ) {
+            monster *manhack = g->monster_at( where );
             manhack->make_ally(z);
         }
       } break;
@@ -743,8 +899,8 @@ void mattack::science(monster *const z, int const index) // I said SCIENCE again
 
         // fill empty tiles with acid
         for (size_t i = 0; i < empty_neighbor_count; ++i) {
-            const point &p = empty_neighbors.first[i];
-            g->m.add_field(p.x, p.y, fd_acid, att_acid_density);
+            const tripoint &p = empty_neighbors.first[i];
+            g->m.add_field( p, fd_acid, att_acid_density, 0 );
         }
 
         break;
@@ -1034,12 +1190,12 @@ void mattack::spit_sap(monster *z, int index)
         return;
     }
 
-    int t;
+    int t1, t2;
     int dist;
     Creature *target = z->attack_target();
     if( target == nullptr ||
         ( dist = rl_dist( z->pos(), target->pos() ) ) > 12 ||
-        !z->sees( *target, t ) ) {
+        !z->sees( *target, t1, t2 ) ) {
         return;
     }
 
@@ -1082,8 +1238,8 @@ void mattack::spit_sap(monster *z, int index)
     if( g->u.sees( *z ) ) {
         add_msg(_("The %s spits sap!"), z->name().c_str());
     }
-    g->m.sees( z->pos(), target->pos(), 60, t);
-    std::vector<tripoint> line = line_to( z->pos3(), target->pos3(), t, 0 );
+    g->m.sees( z->pos(), target->pos(), 60, t1, t2 );
+    std::vector<tripoint> line = line_to( z->pos3(), target->pos3(), t1, t2 );
     int dam = 5;
     for (auto &i : line) {
         g->m.shoot( i, dam, false, no_effects );
@@ -1120,7 +1276,7 @@ void mattack::triffid_heartbeat(monster *z, int index)
         return;
         // TODO: when friendly: open a way to the stairs, don't spawn monsters
     }
-    if (rl_dist( z->posx(), g->u.pos() ) > 5 &&
+    if (rl_dist( z->pos(), g->u.pos() ) > 5 &&
         !g->m.route( g->u.posx(), g->u.posy(), z->posx(), z->posy(), 10 ).empty()) {
         add_msg(m_warning, _("The root walls creak around you."));
         for (int x = g->u.posx(); x <= z->posx() - 3; x++) {
@@ -1709,16 +1865,15 @@ void mattack::impale(monster *z, int index)
                                         _("The %1$s impales <npcname>'s torso!"),
                                         z->name().c_str());
         }
+
         foe->practice( "dodge", z->type->melee_skill );
         if( one_in( 60 / (dam + 20)) && (dam > 0)  ) {
             foe->add_effect( "bleed", rng( 75, 125 ), bp_torso, true );
         }
+
         foe->check_dead_state();
-        if( rng(0, 200 + dam) > 100 &&
-        ( foe == nullptr || !foe->is_throw_immune() ||
-          ( !foe->has_trait("LEG_TENT_BRACE") ||
-            foe->footwear_factor() == 1 || ( foe->footwear_factor() == .5 && one_in(2) ) ) ) ) {
-        target->add_effect("downed", 3);
+        if( rng(0, 200 + dam) > 100 ) {
+            target->add_effect("downed", 3);
         }
         z->moves -=80; //Takes extra time for the creature to pull out the protrusion
         z->reset_special(index); // Reset timer
@@ -1931,7 +2086,7 @@ void mattack::callblobs(monster *z, int index)
     // and keep the rest near the brain blob for protection.
     point enemy( g->u.posx(), g->u.posy() );
     std::list<monster *> allies;
-    std::vector<point> nearby_points = closest_points_first( 3, z->pos() );
+    std::vector<point> nearby_points = closest_points_first( 3, z->pos2() );
     // Iterate using horrible creature_tracker API.
     for( size_t i = 0; i < g->num_zombies(); i++ ) {
         monster *candidate = &g->zombie( i );
@@ -1966,7 +2121,7 @@ void mattack::jackson(monster *z, int index)
 {
     // Jackson draws nearby zombies into the dance.
     std::list<monster *> allies;
-    std::vector<point> nearby_points = closest_points_first( 3, z->pos() );
+    std::vector<point> nearby_points = closest_points_first( 3, z->pos2() );
     // Iterate using horrible creature_tracker API.
     for( size_t i = 0; i < g->num_zombies(); i++ ) {
         monster *candidate = &g->zombie( i );
@@ -1980,7 +2135,7 @@ void mattack::jackson(monster *z, int index)
     int dancers = 0;
     bool converted = false;
     for( auto ally = allies.begin(); ally != allies.end(); ++ally, ++dancers ) {
-        point post = z->pos();
+        point post = z->pos2();
         if( dancers < num_dancers ) {
             // Each dancer is assigned a spot in the nearby_points vector based on their order.
             int assigned_spot = (nearby_points.size() * dancers) / num_dancers;
@@ -2251,15 +2406,11 @@ void mattack::vortex(monster *z, int index)
 
             if (g->u.posx() == x && g->u.posy() == y) { // Throw... the player?! D:
                 bool immune = false;
-                if (g->u.has_trait("LEG_TENT_BRACE") && (!g->u.footwear_factor() ||
-                        (g->u.footwear_factor() == .5 && one_in(2)))) {
-                    add_msg(_("You secure yourself using your tentacles!"));
-                    immune = true;
-                }
-                if (g->u.is_throw_immune()) {
+                if( g->u.is_immune_effect( "downed" ) ) {
                     add_msg(_("You deftly maintain your footing!"));
                     immune = true;
                 }
+
                 if (!g->u.uncanny_dodge() && !immune) {
                     std::vector<tripoint> traj = continue_line(from_monster, rng(2, 3));
                     add_msg(m_bad, _("You're thrown by winds!"));
@@ -2641,7 +2792,7 @@ void mattack::smg(monster *z, int index)
     tmp.weapon.set_curammo( ammo_type );
     tmp.weapon.charges = std::max(z->ammo[ammo_type], 10);
     z->ammo[ammo_type] -= tmp.weapon.charges;
-    tmp.fire_gun(target->posx(), target->posy(), true);
+    tmp.fire_gun( target->pos3(), true );
     z->ammo[ammo_type] += tmp.weapon.charges;
     if (target == &g->u) {
         z->add_effect("targeted", 3);
@@ -2705,7 +2856,7 @@ void mattack::laser(monster *z, int index)
     tmp.weapon = item("cerberus_laser", 0);
     tmp.weapon.set_curammo( "laser_capacitor" );
     tmp.weapon.charges = 100;
-    tmp.fire_gun(target->posx(), target->posy(), true);
+    tmp.fire_gun( target->pos3(), true );
     if (target == &g->u) {
         z->add_effect("targeted", 3);
     }
@@ -2785,7 +2936,7 @@ void mattack::rifle( monster *z, Creature *target )
     tmp.weapon.set_curammo( ammo_type );
     tmp.weapon.charges = std::max(z->ammo[ammo_type], 30);
     z->ammo[ammo_type] -= tmp.weapon.charges;
-    tmp.fire_gun(target->posx(), target->posy(), true);
+    tmp.fire_gun( target->pos3(), true );
     z->ammo[ammo_type] += tmp.weapon.charges;
     if (target == &g->u) {
         z->add_effect("targeted", 3);
@@ -2834,7 +2985,7 @@ void mattack::frag( monster *z, Creature *target ) // This is for the bots, not 
     tmp.weapon.set_curammo( ammo_type );
     tmp.weapon.charges = std::max(z->ammo[ammo_type], 30);
     z->ammo[ammo_type] -= tmp.weapon.charges;
-    tmp.fire_gun(target->posx(), target->posy(), true);
+    tmp.fire_gun( target->pos3(), true );
     z->ammo[ammo_type] += tmp.weapon.charges;
     if (target == &g->u) {
         z->add_effect("targeted", 3);
@@ -2910,7 +3061,7 @@ void mattack::bmg_tur(monster *z, int index)
     tmp.weapon.set_curammo( ammo_type );
     tmp.weapon.charges = std::max(z->ammo[ammo_type], 30);
     z->ammo[ammo_type] -= tmp.weapon.charges;
-    tmp.fire_gun(target->posx(), target->posy(), false);
+    tmp.fire_gun( target->pos3(), false );
     z->ammo[ammo_type] += tmp.weapon.charges;
     if (target == &g->u) {
         z->add_effect("targeted", 3);
@@ -2926,9 +3077,9 @@ void mattack::tankgun( monster *z, Creature *target )
         z->ammo[ammo_type] = 40;
     }
 
-    point aim_point;
+    tripoint aim_point;
     int dist = rl_dist( z->pos(), target->pos() );
-    aim_point = target->pos();
+    aim_point = target->pos3();
     if( dist > 50 ) {
         return;
     }
@@ -2946,10 +3097,12 @@ void mattack::tankgun( monster *z, Creature *target )
         return;
     }
     // Target the vehicle itself instead if there is one.
-    vehicle *veh = g->m.veh_at( target->posx(), target->posy() );
+    vehicle *veh = g->m.veh_at( target->pos3() );
     if( veh != nullptr ) {
         veh->center_of_mass( aim_point.x, aim_point.y );
-        aim_point += veh->global_pos();
+        point vpos = veh->global_pos();
+        aim_point.x += vpos.x;
+        aim_point.y += vpos.y;
     }
     // kevingranade KA101: yes, but make it really inaccurate
     // Sure thing.
@@ -2973,7 +3126,7 @@ void mattack::tankgun( monster *z, Creature *target )
     tmp.weapon.set_curammo( ammo_type );
     tmp.weapon.charges = std::max(z->ammo[ammo_type], 5);
     z->ammo[ammo_type] -= tmp.weapon.charges;
-    tmp.fire_gun( aim_point.x, aim_point.y, false );
+    tmp.fire_gun( aim_point, false );
     z->ammo[ammo_type] += tmp.weapon.charges;
 }
 
@@ -3197,17 +3350,16 @@ void mattack::flamethrower(monster *z, int index)
 
 void mattack::flame( monster *z, Creature *target )
 {
-    int bres = 0;
+    int bres1, bres2;
     int dist = rl_dist( z->pos(), target->pos() );
     if( target != &g->u ) {
       // friendly
       z->moves -= 500;   // It takes a while
-      int bres = 0;
-      if( !g->m.sees( z->pos(), target->pos(), dist, bres ) ) {
+      if( !g->m.sees( z->pos(), target->pos(), dist, bres1, bres2 ) ) {
         // shouldn't happen
         debugmsg( "mattack::flame invoked on invisible target" );
       }
-      std::vector<tripoint> traj = line_to( z->pos3(), target->pos3(), bres, 0 );
+      std::vector<tripoint> traj = line_to( z->pos3(), target->pos3(), bres1, bres2 );
 
       for (auto &i : traj) {
           // break out of attack if flame hits a wall
@@ -3226,11 +3378,11 @@ void mattack::flame( monster *z, Creature *target )
     }
 
     z->moves -= 500;   // It takes a while
-    if( !g->m.sees( z->pos(), target->pos(), dist + 1, bres ) ) {
+    if( !g->m.sees( z->pos(), target->pos(), dist + 1, bres1, bres2 ) ) {
         // shouldn't happen
         debugmsg( "mattack::flame invoked on invisible target" );
     }
-    std::vector<tripoint> traj = line_to( z->pos3(), target->pos3(), bres, 0 );
+    std::vector<tripoint> traj = line_to( z->pos3(), target->pos3(), bres1, bres2 );
 
     for (auto &i : traj) {
         // break out of attack if flame hits a wall
@@ -3242,7 +3394,7 @@ void mattack::flame( monster *z, Creature *target )
         }
         g->m.add_field(i.x, i.y, fd_fire, 1);
     }
-    if( !target->uncanny_dodge() && !target->has_trait("M_SKIN2")) {
+    if( !target->uncanny_dodge() ) {
         target->add_effect("onfire", 8);
     }
 }
@@ -3663,7 +3815,7 @@ void mattack::stretch_bite(monster *z, int index)
     }
 
     player *foe = dynamic_cast< player* >( target );
-    std::vector<point> line = line_to( z->pos(), target->pos(), t );
+    std::vector<point> line = line_to( z->pos2(), target->pos2(), t );
     bool seen = g->u.sees( *z );
 
     z->reset_special(index); // Reset timer
@@ -3799,10 +3951,7 @@ void mattack::flesh_golem(monster *z, int index)
     int dam = rng(5, 10);
     //~ 1$s is bodypart name, 2$d is damage value.
     target->deal_damage( z, hit, damage_instance( DT_BASH, dam ) );
-    if( one_in( 6 ) &&
-        ( foe == nullptr || !foe->is_throw_immune() ||
-          ( !foe->has_trait("LEG_TENT_BRACE") ||
-            foe->footwear_factor() == 1 || ( foe->footwear_factor() == .5 && one_in(2) ) ) ) ) {
+    if( one_in( 6 ) ) {
         target->add_effect("downed", 30);
     }
     if( foe != nullptr ) {
@@ -3865,10 +4014,7 @@ void mattack::lunge(monster *z, int index)
     int dam = rng(3, 7);
 
     target->deal_damage( z, hit, damage_instance( DT_BASH, dam ) );
-    if( one_in( 6 ) &&
-        ( foe == nullptr || !foe->is_throw_immune() ||
-          ( !foe->has_trait("LEG_TENT_BRACE") ||
-            foe->footwear_factor() == 1 || ( foe->footwear_factor() == .5 && one_in(2) ) ) ) ) {
+    if( one_in( 6 ) ) {
         target->add_effect("downed", 3);
     }
     if( foe != nullptr ) {
@@ -4361,8 +4507,7 @@ void mattack::bio_op_takedown(monster *z, int index)
     foe->deal_damage( z, hit, damage_instance( DT_BASH, dam ) );
     // At this point, Judo or Tentacle Bracing can make this much less painful
     if ( !foe->is_throw_immune()) {
-        if( !foe->has_trait("LEG_TENT_BRACE") && (foe->footwear_factor() == 1 ||
-                (foe->footwear_factor() == .5 && one_in(2))) ) {
+        if( !target->is_immune_effect( "downed" ) ) {
             if (one_in(4)) {
                 hit = bp_head;
                 dam = rng(9, 21); // 50% damage buff for the headshot.
@@ -4418,7 +4563,14 @@ void mattack::kamikaze(monster *z, int index)
         act_bomb_type = item::find_type("c4armed");
         charges = 10;
     } else {
-        const iuse_transform *actor = dynamic_cast<const iuse_transform *>( bomb_type->get_use( "transform" )->get_actor_ptr() );
+        auto usage = bomb_type->get_use( "transform" );
+        if ( usage == nullptr ) {
+            // Invalid item usage, Toggle this special off so we stop processing
+            add_msg(m_debug, "Invalid bomb transform use in kamikaze special for %s.", z->name().c_str());
+            z->set_special(index, -1);
+            return;
+        }
+        const iuse_transform *actor = dynamic_cast<const iuse_transform *>( usage->get_actor_ptr() );
         if( actor == nullptr ) {
             // Invalid bomb item, Toggle this special off so we stop processing
             add_msg(m_debug, "Invalid bomb type in kamikaze special for %s.", z->name().c_str());
@@ -4432,18 +4584,25 @@ void mattack::kamikaze(monster *z, int index)
     // HORRIBLE HACK ALERT! Remove the following code completely once we have working monster inventory processing
     if (z->has_effect("countdown")) {
         if (z->get_effect("countdown").get_duration() == 1) {
+            z->die(nullptr);
             // Timer is out, detonate
             item i_explodes(act_bomb_type->id, 0);
             i_explodes.charges = 0;
             i_explodes.active = true;
             i_explodes.process(nullptr, z->pos3(), false);
-            z->set_special(index, -1);
         }
         return;
     }
     // END HORRIBLE HACK
 
-    const explosion_iuse *exp_actor = dynamic_cast<const explosion_iuse *>( act_bomb_type->get_use( "explosion" )->get_actor_ptr() );
+    auto use = act_bomb_type->get_use( "explosion" );
+    if (use == nullptr ) {
+        // Invalid active bomb item usage, Toggle this special off so we stop processing
+        add_msg(m_debug, "Invalid active bomb explosion use in kamikaze special for %s.", z->name().c_str());
+        z->set_special(index, -1);
+        return;
+    }
+    const explosion_iuse *exp_actor = dynamic_cast<const explosion_iuse *>( use->get_actor_ptr() );
     if( exp_actor == nullptr ) {
         // Invalid active bomb item, Toggle this special off so we stop processing
         add_msg(m_debug, "Invalid active bomb type in kamikaze special for %s.", z->name().c_str());
@@ -4489,9 +4648,10 @@ void mattack::kamikaze(monster *z, int index)
     }
     // Range is (radius + distance they expect to gain on you during the countdown)
     // We double target speed because if the player is walking and then start to run their effective speed doubles
-    // .6 factor was determined experimentally to be about the factor required for players to be able to *just barely*
+    // .65 factor was determined experimentally to be about the factor required for players to be able to *just barely*
     // outrun the explosion if they drop everything and run.
-    int range = std::max(1, int(.6 * (radius + float(z->get_speed()) / float(target->get_speed() * 2) * charges)));
+    float factor = float(z->get_speed()) / float(target->get_speed() * 2);
+    int range = std::max(1, int(.65 * (radius + 1 + factor * charges)));
 
     // Check if we are in range to begin the countdown
     if (!within_target_range(z, target, range)) {
@@ -4589,17 +4749,23 @@ int grenade_helper(monster *const z, Creature *const target, const int dist,
 
     // Get our monster type
     auto bomb_type = item::find_type(att);
-    auto *actor = dynamic_cast<const place_monster_iuse *>( bomb_type->get_use( "place_monster" )->get_actor_ptr() );
+    auto usage = bomb_type->get_use( "place_monster" );
+    if (usage == nullptr ) {
+        // Invalid bomb item usage, Toggle this special off so we stop processing
+        add_msg(m_debug, "Invalid bomb item usage in grenadier special for %s.", z->name().c_str());
+        return -1;
+    }
+    auto *actor = dynamic_cast<const place_monster_iuse *>( usage->get_actor_ptr() );
     if( actor == nullptr ) {
         // Invalid bomb item, Toggle this special off so we stop processing
         add_msg(m_debug, "Invalid bomb type in grenadier special for %s.", z->name().c_str());
         return -1;
     }
 
-    const point where = empty_neighbors.first[get_random_index(empty_neighbor_count)];
+    const tripoint where = empty_neighbors.first[get_random_index(empty_neighbor_count)];
 
-    if (g->summon_mon(actor->mtype_id, tripoint(where.x, where.y, z->posz()))) {
-        monster *hack = g->monster_at(tripoint(where.x, where.y, z->posz()));
+    if( g->summon_mon(actor->mtype_id, where ) ) {
+        monster *hack = g->monster_at( where );
         hack->make_ally(z);
     }
     return 1;
@@ -4625,7 +4791,7 @@ void mattack::grenadier(monster *const z, int const index)
     if (z->attitude_to( *target ) == Creature::A_FRIENDLY) {
         return;
     }
-    int ret = grenade_helper(z, target,30, 60, grenades);
+    int ret = grenade_helper(z, target, 30, 60, grenades);
     if (ret == 1) {
         // The special worked, reset our special countdown
         z->reset_special(index);
@@ -4660,7 +4826,7 @@ void mattack::grenadier_elite(monster *const z, int const index)
     if (z->attitude_to( *target ) == Creature::A_FRIENDLY) {
         return;
     }
-    int ret = grenade_helper(z, target,30, 60, grenades);
+    int ret = grenade_helper(z, target, 30, 60, grenades);
     if (ret == 1) {
         // The special worked, reset our special countdown
         z->reset_special(index);
@@ -4684,7 +4850,7 @@ void mattack::stretch_attack(monster *z, int index){
     int distance = rl_dist(z->pos(), target->pos());
     player *foe = dynamic_cast< player* >( target );
     bool seen = g->u.sees( *z );
-    std::vector<point> line = line_to( z->pos(), target->pos(), t );
+    std::vector<point> line = line_to( z->pos2(), target->pos2(), t );
     int dam = rng(5, 10);
     if (distance >= 2 && distance <= 3){
         z->moves -=100;

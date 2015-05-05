@@ -58,7 +58,7 @@
     "price": 1000,
     "material": "steel",
     "weight": 500,
-    "volume": 2,
+    "volume": 1,
     "bashing": 0,
     "cutting": 0,
     "to_hit": 0,
@@ -84,12 +84,11 @@
     "color": "light_gray",
     "name": "ember carrier (lit)",
     "name_plural": "ember carriers (lit)",
-    "description": "This is a small container for holding tinder, with holes punched in it to provide a controlled airflow.  An ember is smoldering inside it, and can be used to light a fire.",
+    "description": "This is a small container for holding tinder, with holes punched in it to provide a controlled airflow.  An ember is smoldering inside it, and can be used to start a campfire.",
     "price": 1000,
     "material": "iron",
-    "flags": ["FIRE", "FLAMING", "REFILLABLE_LIGHTER"],
     "weight": 500,
-    "volume": 2,
+    "volume": 1,
     "bashing": 0,
     "cutting": 0,
     "to_hit": 0,
@@ -99,7 +98,20 @@
     "turns_per_charge": 600,
     "ammo": "tinder",
     "revert_to": "tinderbox",
-    "use_action": "TINDERBOX_LIT"
+    "use_action": [
+        {
+            "type": "firestarter",
+            "moves_cost": 100
+        },
+        {
+            "type": "auto_transform",
+            "msg": "The ember is extinguished.",
+            "when_underwater": "The ember carrier is snuffed out.",
+            "target": "tinderbox",
+            "active": false,
+            "menu_option_text": "Extinguish"
+        }
+    ]
   },
   {
     "id": "bottle_metal",
@@ -681,5 +693,20 @@
         "contains": 10,
         "material": "aluminum",
         "qualities": [["COOK", 1]]
-    }
+    },
+  {
+    "type" : "GENERIC",
+    "id" : "fishing_hook_bone",
+    "symbol" : ",",
+    "color" : "white",
+    "name" : "bone fishing hook",
+    "description" : "An improvised fishing hook carved from bone.",
+    "price" : 25,
+    "material" : "bone",
+    "weight" : 1,
+    "volume" : 0,
+    "bashing" : -3,
+    "cutting" : 3,
+    "to_hit" : 0
+  }
 ]

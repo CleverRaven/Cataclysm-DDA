@@ -1,9 +1,6 @@
 #ifndef START_LOCATION_H
 #define START_LOCATION_H
 
-#include "enums.h"
-#include "json.h"
-
 #include <string>
 #include <map>
 #include <set>
@@ -11,6 +8,7 @@
 class overmap;
 class tinymap;
 class player;
+class JsonObject;
 struct tripoint;
 
 typedef std::map<std::string, class start_location> location_map;

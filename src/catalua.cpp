@@ -14,9 +14,12 @@
 #include "monstergenerator.h"
 #include "messages.h"
 #include "debug.h"
+#include "translations.h"
 
 #ifdef LUA
 extern "C" {
+#include "ui.h"
+#include "mongroup.h"
 #include "lua.h"
 #include "lualib.h"
 #include "lauxlib.h"

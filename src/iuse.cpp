@@ -21,6 +21,15 @@
 #include "sounds.h"
 #include "monattack.h"
 #include "iuse_actor.h" // For firestarter
+#include "mongroup.h"
+#include "translations.h"
+#include "morale.h"
+#include "input.h"
+#include "npc.h"
+#include "event.h"
+#include "artifact.h"
+#include "overmap.h"
+#include "ui.h"
 
 #include <vector>
 #include <sstream>
@@ -1614,7 +1623,7 @@ int iuse::mutagen(player *p, item *it, bool, const tripoint& )
             p->thirst += 10;
             if (one_in(4)) {
                 p->add_msg_if_player(m_bad, _("You suddenly feel dizzy, and collapse to the ground."));
-                p->add_effect("downed", 1);
+                p->add_effect("downed", 1, num_bp, false, 0, true );
             }
         }
         if (one_in(2)) {
@@ -1639,7 +1648,7 @@ int iuse::mutagen(player *p, item *it, bool, const tripoint& )
             p->thirst += 10;
             if (one_in(4)) {
                 p->add_msg_if_player(m_bad, _("You suddenly feel dizzy, and collapse to the ground."));
-                p->add_effect("downed", 1);
+                p->add_effect("downed", 1, num_bp, false, 0, true );
             }
         }
     } else {
@@ -1660,7 +1669,7 @@ int iuse::mutagen(player *p, item *it, bool, const tripoint& )
         // Yep, orals take a bit out of you too
         if (one_in(4)) {
             p->add_msg_if_player(m_bad, _("You suddenly feel dizzy, and collapse to the ground."));
-            p->add_effect("downed", 1);
+            p->add_effect("downed", 1, num_bp, false, 0, true );
         }
     }
     return it->type->charges_to_use();
@@ -1730,7 +1739,7 @@ int iuse::mut_iv(player *p, item *it, bool, const tripoint& )
             p->fatigue += 5;
             p->thirst += 10;
             p->add_msg_if_player(m_bad, _("You writhe and collapse to the ground."));
-            p->add_effect("downed", rng(1, 4));
+            p->add_effect("downed", rng( 1, 4 ), num_bp, false, 0, true );
         }
         if (!one_in(3)) {
             //Jackpot! ...kinda, don't wanna go unconscious in dangerous territory
@@ -3388,7 +3397,7 @@ int iuse::fish_trap(player *p, item *it, bool t, const tripoint &pos)
             for (int i = 0; i < fishes; i++) {
                 p->practice("survival", rng(3, 10));
                 if (fishables.size() > 1){
-                    g->catch_a_monster(fishables, pos.x, pos.y, p, 180000); //catch the fish! 180000 is the time spent fishing.
+                    g->catch_a_monster(fishables, pos, p, 180000); //catch the fish! 180000 is the time spent fishing.
                 } else {
                     //there will always be a chance that the player will get lucky and catch a fish
                     //not existing in the fishables vector. (maybe it was in range, but wandered off)
@@ -3402,7 +3411,7 @@ int iuse::fish_trap(player *p, item *it, bool t, const tripoint &pos)
                         //and then get fishes via activation of the item,
                         //but it's not as comfortable as if you just put fishes in the same tile with the trap.
                         //Also: corpses and comestibles do not rot in containers like this, but on the ground they will rot.
-                        g->m.add_item_or_charges(pos.x, pos.y, fish);
+                        g->m.add_item_or_charges( pos, fish );
                         break; //this can happen only once
                     }
                 }
@@ -5082,6 +5091,10 @@ int iuse::granade_act(player *, item *it, bool t, const tripoint &pos)
     } else { // When that timer runs down...
         int explosion_radius = 3;
         int effect_roll = rng(1, 5);
+        auto buff_stat = [&](int &current_stat, int modify_by) {
+          auto modified_stat = current_stat + modify_by;
+          current_stat = std::max(current_stat, std::min(15, modified_stat));
+        };
         switch (effect_roll) {
             case 1:
                 sounds::sound(pos.x, pos.y, 100, _("BUGFIXES!!"));
@@ -5111,15 +5124,15 @@ int iuse::granade_act(player *, item *it, bool t, const tripoint &pos)
                             critter.set_hp( critter.get_hp() * rng_float( 1.1, 2.0 ) );
                         } else if (g->npc_at(pos.x + i, pos.y + j) != -1) {
                             int npc_hit = g->npc_at(pos.x + i, pos.y + j);
-                            g->active_npc[npc_hit]->str_max += rng(0, g->active_npc[npc_hit]->str_max / 2);
-                            g->active_npc[npc_hit]->dex_max += rng(0, g->active_npc[npc_hit]->dex_max / 2);
-                            g->active_npc[npc_hit]->int_max += rng(0, g->active_npc[npc_hit]->int_max / 2);
-                            g->active_npc[npc_hit]->per_max += rng(0, g->active_npc[npc_hit]->per_max / 2);
+                            buff_stat(g->active_npc[npc_hit]->str_max, rng(0, g->active_npc[npc_hit]->str_max / 2));
+                            buff_stat(g->active_npc[npc_hit]->dex_max, rng(0, g->active_npc[npc_hit]->dex_max / 2));
+                            buff_stat(g->active_npc[npc_hit]->int_max, rng(0, g->active_npc[npc_hit]->int_max / 2));
+                            buff_stat(g->active_npc[npc_hit]->per_max, rng(0, g->active_npc[npc_hit]->per_max / 2));
                         } else if (g->u.posx() == pos.x + i && g->u.posy() == pos.y + j) {
-                            g->u.str_max += rng(0, g->u.str_max / 2);
-                            g->u.dex_max += rng(0, g->u.dex_max / 2);
-                            g->u.int_max += rng(0, g->u.int_max / 2);
-                            g->u.per_max += rng(0, g->u.per_max / 2);
+                            buff_stat(g->u.str_max, rng(0, g->u.str_max / 2));
+                            buff_stat(g->u.dex_max, rng(0, g->u.dex_max / 2));
+                            buff_stat(g->u.int_max, rng(0, g->u.int_max / 2));
+                            buff_stat(g->u.per_max, rng(0, g->u.per_max / 2));
                             g->u.recalc_hp();
                             for (int part = 0; part < num_hp_parts; part++) {
                                 g->u.hp_cur[part] *= 1 + rng(0, 20) * .1;
@@ -6319,47 +6332,6 @@ int iuse::torch_lit(player *p, item *it, bool t, const tripoint &pos)
     return it->type->charges_to_use();
 }
 
-int iuse::tinderbox_lit(player *p, item *it, bool t, const tripoint &pos)
-{
-    if (p->is_underwater()) {
-        p->add_msg_if_player(_("The ember carrier is snuffed out."));
-        it->make("tinderbox");
-        it->active = false;
-        return 0;
-    }
-    if (t) {
-        if (it->charges < it->type->charges_to_use()) {
-            p->add_msg_if_player(_("The ember dies out."));
-            it->make("tinderbox");
-            it->active = false;
-        }
-    } else if (it->charges <= 0) {
-        p->add_msg_if_player(_("The %s dies out"), it->tname().c_str());
-    } else { // Turning it off
-        int choice = menu(true, _("ember carrier (lit)"), _("extinguish"),
-                          _("light something"), _("cancel"), NULL);
-        switch (choice) {
-            case 1: {
-                p->add_msg_if_player(_("The ember is extinguished"));
-                it->charges -= 1;
-                it->make("tinderbox");
-                it->active = false;
-                return 0;
-            }
-            break;
-            case 2: {
-                tripoint temp = pos;
-                if( firestarter_actor::prep_firestarter_use(p, it, temp) ) {
-                    p->moves -= 5;
-                    firestarter_actor::resolve_firestarter_use(p, it, temp);
-                    return it->type->charges_to_use();
-                }
-            }
-        }
-    }
-    return it->type->charges_to_use();
-}
-
 int iuse::battletorch_lit(player *p, item *it, bool t, const tripoint &pos)
 {
     if (p->is_underwater()) {
@@ -6625,9 +6597,9 @@ int iuse::artifact(player *p, item *it, bool, const tripoint& )
             break;
 
             case AEA_FIREBALL: {
-                point fireball = g->look_around();
-                if (fireball.x != -1 && fireball.y != -1) {
-                    g->explosion( tripoint( fireball.x, fireball.y, g->get_levz() ), 8, 0, true );
+                tripoint fireball = g->look_around();
+                if( fireball != tripoint_min ) {
+                    g->explosion( fireball, 8, 0, true );
                 }
             }
             break;
@@ -6672,11 +6644,11 @@ int iuse::artifact(player *p, item *it, bool, const tripoint& )
             break;
 
             case AEA_ACIDBALL: {
-                point acidball = g->look_around();
-                if (acidball.x != -1 && acidball.y != -1) {
+                tripoint acidball = g->look_around();
+                if( acidball != tripoint_min ) {
                     for (int x = acidball.x - 1; x <= acidball.x + 1; x++) {
                         for (int y = acidball.y - 1; y <= acidball.y + 1; y++) {
-                            g->m.add_field(x, y, fd_acid, rng(2, 3));
+                            g->m.add_field( tripoint( x, y, acidball.z ), fd_acid, rng(2, 3), 0 );
                         }
                     }
                 }
@@ -7604,6 +7576,27 @@ int iuse::jet_injector(player *p, item *it, bool, const tripoint& )
     return it->type->charges_to_use();
 }
 
+int iuse::stimpack(player *p, item *it, bool, const tripoint& )
+{
+    if (p->get_item_position(it) >= -1) {
+        p->add_msg_if_player(m_info,
+                             _("You must wear the stimulant delivery system before you can activate it."));
+        return 0;
+    }     if (it->charges < it->type->charges_to_use()) {
+        p->add_msg_if_player(m_info, _("The stimulant delivery system is empty."), it->tname().c_str());
+        return 0;
+    } else {
+        p->add_msg_if_player(_("You inject yourself with the stimulants."));
+        // Intensity is 2 here because intensity = 1 is the comedown
+        p->add_effect("stimpack", 250, num_bp, false, 2);
+        p->pkill += 2;
+        p->stim += 20;
+        p->fatigue -= 100;
+        p->stamina = p->get_stamina_max();
+    }
+    return it->type->charges_to_use();
+}
+
 int iuse::radglove(player *p, item *it, bool, const tripoint& )
 {
     if (p->get_item_position(it) >= -1) {
@@ -7850,9 +7843,9 @@ int iuse::robotcontrol(player *p, item *it, bool, const tripoint& )
                     point seen_loc;
                     // Show locations of seen robots, center on player if robot is not seen
                     if( p->sees( candidate ) ) {
-                        seen_loc = candidate.pos();
+                        seen_loc = candidate.pos2();
                     } else {
-                        seen_loc = p->pos();
+                        seen_loc = p->pos2();
                     }
                     locations.push_back( seen_loc );
                 }
@@ -8530,9 +8523,10 @@ int iuse::camera(player *p, item *it, bool, const tripoint& )
 
     if (c_shot == choice) {
 
-        point aim_point = g->look_around();
+        tripoint look_point = g->look_around();
+        point aim_point = {look_point.x, look_point.y}; // TODO: Fix
 
-        if (aim_point.x == -1 || aim_point.y == -1) {
+        if( look_point == tripoint_min ) {
             p->add_msg_if_player(_("Never mind."));
             return 0;
         }
@@ -8550,7 +8544,7 @@ int iuse::camera(player *p, item *it, bool, const tripoint& )
             return 0;
         }
 
-        std::vector <point> trajectory = line_to( p->pos(), aim_point, 0 );
+        std::vector <point> trajectory = line_to( p->pos2(), aim_point, 0 );
         trajectory.push_back(aim_point);
 
         p->moves -= 50;
@@ -8564,7 +8558,7 @@ int iuse::camera(player *p, item *it, bool, const tripoint& )
             int npcID = g->npc_at(tx, ty);
 
             if (zid != -1 || npcID != -1) {
-                int dist = rl_dist( p->pos(), i );
+                int dist = rl_dist( p->pos2(), i );
 
                 int camera_bonus = it->has_flag("CAMERA_PRO") ? 10 : 0;
                 int photo_quality = 20 - rng(dist, dist * 2) * 2 + rng(camera_bonus / 2, camera_bonus);
@@ -9650,19 +9644,20 @@ int iuse::cable_attach(player *p, item *it, bool, const tripoint& )
             return 0;
         }
 
-        int posx, posy;
-        if(!choose_adjacent(_("Attach cable to vehicle where?"),posx,posy)) {
+        tripoint vpos;
+        if(!choose_adjacent(_("Attach cable to vehicle where?"), vpos)) {
             return 0;
         }
-        auto target_veh = g->m.veh_at(posx, posy);
+        auto target_veh = g->m.veh_at( vpos);
         if (target_veh == nullptr) {
             p->add_msg_if_player(_("There's no vehicle there."));
             return 0;
         } else {
-            point source_global(it->get_var( "source_x", 0 ),
-                                it->get_var( "source_y", 0 ));
-            point source_local = g->m.getlocal(source_global);
-            auto source_veh = g->m.veh_at(source_local.x, source_local.y);
+            tripoint source_global( it->get_var( "source_x", 0 ),
+                                    it->get_var( "source_y", 0 ),
+                                    it->get_var( "source_z", 0 ) );
+            tripoint source_local = g->m.getlocal(source_global);
+            auto source_veh = g->m.veh_at( source_local );
 
             if(source_veh == target_veh) {
                 if (p != nullptr && p->has_item(it)) {
@@ -9672,8 +9667,8 @@ int iuse::cable_attach(player *p, item *it, bool, const tripoint& )
                 return 0;
             }
 
-            point target_global = g->m.getabs(posx, posy);
-            point target_local(posx, posy);
+            tripoint target_global = g->m.getabs( vpos );
+            tripoint target_local = vpos;
 
             if(source_veh == nullptr) {
                 if( p != nullptr && p->has_item(it) ) {
@@ -9683,16 +9678,16 @@ int iuse::cable_attach(player *p, item *it, bool, const tripoint& )
                 return 0;
             }
 
-            point vcoords = g->m.veh_part_coordinates(source_local.x, source_local.y);
+            point vcoords = g->m.veh_part_coordinates( source_local.x, source_local.y );
             vehicle_part source_part(it->typeId(), vcoords.x, vcoords.y, it);
             source_part.target.first = target_global;
-            source_part.target.second = target_veh->real_global_pos();
+            source_part.target.second = target_veh->real_global_pos3();
             source_veh->install_part(vcoords.x, vcoords.y, source_part);
 
             vcoords = g->m.veh_part_coordinates(target_local.x, target_local.y);
             vehicle_part target_part(it->typeId(), vcoords.x, vcoords.y, it);
             target_part.target.first = source_global;
-            target_part.target.second = source_veh->real_global_pos();
+            target_part.target.second = source_veh->real_global_pos3();
             target_veh->install_part(vcoords.x, vcoords.y, target_part);
 
             if( p != nullptr && p->has_item(it) ) {

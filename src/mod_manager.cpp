@@ -4,6 +4,7 @@
 #include "output.h"
 #include "worldfactory.h"
 #include "path_info.h"
+#include "translations.h"
 
 #include <math.h>
 #include <queue>

@@ -5941,7 +5941,7 @@
 
     {
         "id": "pseuso_bio_picklock",
-        "type": "GENERIC",
+        "type": "TOOL",
         "symbol": ";",
         "color": "light_gray",
         "name": "bio lockpick",
@@ -5952,6 +5952,12 @@
         "bashing": 0,
         "cutting": 0,
         "to_hit": 0,
+        "max_charges": 1,
+        "initial_charges": 1,
+        "charges_per_use": 1,
+        "turns_per_charge": 0,
+        "ammo": "NULL",
+        "revert_to": "null",
         "use_action": {
             "type": "picklock",
             "pick_quality": 40

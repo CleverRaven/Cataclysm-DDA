@@ -7,6 +7,8 @@
 #include "line.h"
 #include "bodypart.h"
 #include "messages.h"
+#include "map.h"
+#include "translations.h"
 
 void mdefense::none(monster *, Creature *, const projectile *)
 {
@@ -39,5 +41,42 @@ void mdefense::zapback(monster *const m, Creature *const source, projectile cons
         add_msg(msg_type, _("Striking the %s shocks %s!"),
             m->name().c_str(), source->disp_name().c_str());
     }
+    source->check_dead_state();
+}
+
+static int posp(int posc ) //Determines orientation of target from the source
+{
+    if (posc > 0){
+        return 1;
+    }
+    if (posc < 0){
+        return -1;
+    }
+    else {
+        return 0;
+    }
+}
+
+void mdefense::acidsplash(monster *const m, Creature *const source, projectile const* const proj)
+{
+    if( (proj) && ((rng(0, 40) > m->def_chance)) ) {
+        return; //Less likely for a projectile to deliver enough force
+    }
+    int dx = posp( source->posx() - m->posx() );
+    int dy = posp( source->posy() - m->posy() );
+    if (one_in(2)){
+        for (int i = 0; i < rng(3,5); i++) {
+            if (one_in(2)){
+                g->m.add_field(m->posx() + (dx * 2) + rng(-1, 1),m->posy() + (dy * 2) + rng(-1, 1), fd_acid, rng(2,3));
+            }else{
+                g->m.add_field(m->posx() + dx + rng(-1, 1),m->posy() + dy + rng(-1, 1), fd_acid, rng(2,3));
+            }
+        }
+    }
+    if( g->u.sees(source->pos3()) ) {
+        auto const msg_type = (source == &g->u) ? m_bad : m_info;
+        add_msg(msg_type, _("Acid sprays out of the %s as it is hit!"),
+        m->name().c_str(), source->disp_name().c_str());
+        }
     source->check_dead_state();
 }

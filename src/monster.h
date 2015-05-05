@@ -1,7 +1,6 @@
 #ifndef MONSTER_H
 #define MONSTER_H
 
-#include "input.h"
 #include "creature.h"
 #include "player.h"
 #include "enums.h"
@@ -217,8 +216,10 @@ class monster : public Creature, public JsonSerializer, public JsonDeserializer
         bool is_on_ground() const override;
         bool is_warm() const override;
         bool has_weapon() const override;
-        bool is_elec_immune() const override;
         bool is_dead_state() const override; // check if we should be dead or not
+        bool is_elec_immune() const override;
+        bool is_immune_effect( const efftype_id& ) const override;
+        bool is_immune_damage( const damage_type ) const override;
 
         void absorb_hit(body_part bp, damage_instance &dam) override;
         void dodge_hit(Creature *source, int hit_spread) override;
@@ -251,8 +252,8 @@ class monster : public Creature, public JsonSerializer, public JsonDeserializer
         /** Handles any monster-specific effect application effects before calling Creature::add_eff_effects(). */
         virtual void add_eff_effects(effect e, bool reduced) override;
         /** Performs any monster-specific modifications to the arguments before passing to Creature::add_effect(). */
-        virtual void add_effect(efftype_id eff_id, int dur, body_part bp = num_bp, bool permanent = false,
-                                int intensity = 0) override;
+        virtual void add_effect( efftype_id eff_id, int dur, body_part bp = num_bp, bool permanent = false,
+                                 int intensity = 0, bool force = false ) override;
 
         virtual float power_rating() const override;
 
@@ -317,7 +318,7 @@ class monster : public Creature, public JsonSerializer, public JsonDeserializer
         bool setpos( const int x, const int y, const int z, const bool level_change = false );
         bool setpos( const point &p, const bool level_change = false );
         bool setpos( const tripoint &p, const bool level_change = false );
-        const tripoint &pos3() const override;
+        const tripoint &pos() const override;
         inline int posx() const override
         {
             return position.x;

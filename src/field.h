@@ -1,8 +1,11 @@
 #ifndef FIELD_H
 #define FIELD_H
 
+#include "color.h"
+
 #include <vector>
 #include <string>
+#include <map>
 #include <iosfwd>
 
 /*

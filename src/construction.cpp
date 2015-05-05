@@ -15,6 +15,8 @@
 #include "messages.h"
 #include "rng.h"
 #include "overmapbuffer.h"
+#include "options.h"
+#include "npc.h"
 
 #include <algorithm>
 #include <map>

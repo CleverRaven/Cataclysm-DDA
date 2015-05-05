@@ -5,6 +5,9 @@
 #include "map.h"
 #include "messages.h"
 #include "rng.h"
+#include "translations.h"
+#include "monster.h"
+#include "npc.h"
 
 #include <algorithm>
 #include <numeric>
@@ -272,13 +275,13 @@ Creature *Creature::auto_find_hostile_target( int range, int &boo_hoo, int area 
     bool angle_iff = true;   // Need to check if player is in a cone between us and target
     int pldist = rl_dist( pos3(), g->u.pos3() );
     int part;
-    vehicle *in_veh = is_fake() ? g->m.veh_at( posx(), posy(), part ) : nullptr;
+    vehicle *in_veh = is_fake() ? g->m.veh_at( pos3(), part ) : nullptr;
     if( pldist < iff_dist && sees( g->u ) ) {
         area_iff = area > 0;
         angle_iff = true;
         // Player inside vehicle won't be hit by shots from the roof,
         // so we can fire "through" them just fine.
-        if( in_veh && g->m.veh_at( u.posx(), u.posy(), part ) == in_veh && in_veh->is_inside( part ) ) {
+        if( in_veh && g->m.veh_at( u.pos3(), part ) == in_veh && in_veh->is_inside( part ) ) {
             angle_iff = false; // No angle IFF, but possibly area IFF
         } else if( pldist < 3 ) {
             iff_hangle = (pldist == 2 ? 30 : 60);    // granularity increases with proximity
@@ -286,6 +289,7 @@ Creature *Creature::auto_find_hostile_target( int range, int &boo_hoo, int area 
         u_angle = g->m.coord_to_angle(posx(), posy(), u.posx(), u.posy());
     }
     std::vector<Creature*> targets;
+    targets.reserve( g->num_zombies() + g->active_npc.size() );
     for (size_t i = 0; i < g->num_zombies(); i++) {
         monster &m = g->zombie(i);
         if( m.friendly != 0 ) {
@@ -319,11 +323,11 @@ Creature *Creature::auto_find_hostile_target( int range, int &boo_hoo, int area 
             continue;
         }
 
-        if( in_veh != nullptr && g->m.veh_at( m->posx(), m->posy(), part ) == in_veh ) {
+        if( in_veh != nullptr && g->m.veh_at( m->pos3(), part ) == in_veh ) {
             // No shooting stuff on vehicle we're a part of
             continue;
         }
-        if( area_iff && rl_dist( u.posx(), u.posy(), m->posx(), m->posy() ) <= area ) {
+        if( area_iff && rl_dist( u.pos3(), m->pos3() ) <= area ) {
             // Player in AoE
             boo_hoo++;
             continue;
@@ -389,36 +393,29 @@ void Creature::deal_melee_hit(Creature *source, int hit_spread, bool critical_hi
     block_hit(source, bp_hit, d);
 
     // Bashing crit
-    if (critical_hit) {
-        int turns_stunned = (d.type_damage(DT_BASH) + hit_spread) / 20;
-        if (turns_stunned > 6) {
-            turns_stunned = 6;
-        }
-        if (turns_stunned > 0) {
-            add_effect("stunned", turns_stunned);
+    if( critical_hit && !is_immune_effect( "stunned" ) ) {
+        if( d.type_damage(DT_BASH) * hit_spread > get_hp_max() ) {
+            add_effect( "stunned", 1 ); // 1 turn is enough
         }
     }
 
     // Stabbing effects
-    int stab_moves = rng(d.type_damage(DT_STAB) / 2, d.type_damage(DT_STAB) * 1.5);
+    int stab_moves = rng( d.type_damage(DT_STAB) / 2,
+                          d.type_damage(DT_STAB) * 1.5 );
     if (critical_hit) {
         stab_moves *= 1.5;
     }
-    if (stab_moves >= 150) {
-        if (is_player() && (!g->u.has_trait("LEG_TENT_BRACE") || g->u.footwear_factor() == 1 ||
-                            (g->u.footwear_factor() == .5 && one_in(2))) ) {
-            // can the player force their self to the ground? probably not.
+    if( stab_moves >= 150 && !is_immune_effect( "downed" ) ) {
+        if( is_player() ) {
             source->add_msg_if_npc( m_bad, _("<npcname> forces you to the ground!"));
         } else {
             source->add_msg_player_or_npc( m_good, _("You force %s to the ground!"),
                                            _("<npcname> forces %s to the ground!"),
                                            disp_name().c_str() );
         }
-        if (!g->u.has_trait("LEG_TENT_BRACE") || g->u.footwear_factor() == 1 ||
-            (g->u.footwear_factor() == .5 && one_in(2))) {
-            add_effect("downed", 1);
-            mod_moves(-stab_moves / 2);
-        }
+
+        add_effect("downed", 1);
+        mod_moves(-stab_moves / 2);
     } else {
         mod_moves(-stab_moves);
     }
@@ -663,6 +660,11 @@ dealt_damage_instance Creature::deal_damage(Creature *source, body_part bp,
 }
 void Creature::deal_damage_handle_type(const damage_unit &du, body_part, int &damage, int &pain)
 {
+    // Handles ACIDPROOF, electric immunity etc.
+    if( is_immune_damage( du.type ) ) {
+        return;
+    }
+
     // Apply damage multiplier from critical hits or grazes after all other modifications.
     const int adjusted_damage = du.amount * du.damage_multiplier;
     switch (du.type) {
@@ -697,13 +699,9 @@ void Creature::deal_damage_handle_type(const damage_unit &du, body_part, int &da
         pain += adjusted_damage / 6;
         mod_moves(-adjusted_damage * 80);
         break;
-    case DT_ACID: // ACIDPROOF people don't take acid damage and acid burns are super painful 
+    case DT_ACID: // Acid damage and acid burns are super painful
         damage += adjusted_damage;
         pain += adjusted_damage / 3;
-        if( has_trait ("ACIDPROOF") ) {
-            damage = 0;
-            pain = 0;
-        }
         break;
     default:
         damage += adjusted_damage;
@@ -745,8 +743,14 @@ void Creature::add_eff_effects(effect e, bool reduced)
     return;
 }
 
-void Creature::add_effect(efftype_id eff_id, int dur, body_part bp, bool permanent, int intensity)
+void Creature::add_effect( efftype_id eff_id, int dur, body_part bp, 
+                           bool permanent, int intensity, bool force )
 {
+    // Check our innate immunity
+    if( !force && is_immune_effect( eff_id ) ) {
+        return;
+    }
+
     // Mutate to a main (HP'd) body_part if necessary.
     if (effect_types[eff_id].get_main_parts()) {
         bp = mutate_to_main_part(bp);
@@ -788,7 +792,7 @@ void Creature::add_effect(efftype_id eff_id, int dur, body_part bp, bool permane
         }
     }
 
-    if (found == false) {
+    if( found == false ) {
         // If we don't already have it then add a new one
 
         // First make sure it's a valid effect
@@ -838,12 +842,17 @@ void Creature::add_effect(efftype_id eff_id, int dur, body_part bp, bool permane
         add_eff_effects(e, reduced);
     }
 }
-bool Creature::add_env_effect(efftype_id eff_id, body_part vector, int strength, int dur,
-                              body_part bp, bool permanent, int intensity)
+bool Creature::add_env_effect( efftype_id eff_id, body_part vector, int strength, int dur,
+                               body_part bp, bool permanent, int intensity, bool force )
 {
+    if( !force && is_immune_effect( eff_id ) ) {
+        return false;
+    }
+
     if (dice(strength, 3) > dice(get_env_resist(vector), 3)) {
         // Only add the effect if we fail the resist roll
-        add_effect(eff_id, dur, bp, permanent, intensity);
+        // Don't check immunity (force == true), because we did check above
+        add_effect( eff_id, dur, bp, permanent, intensity, true );
         return true;
     } else {
         return false;
@@ -1016,6 +1025,16 @@ void Creature::set_moves(int nmoves)
 bool Creature::in_sleep_state() const
 {
     return has_effect("sleep") || has_effect("lying_down");
+}
+
+bool Creature::is_immune( const std::string &type ) const
+{
+    damage_type dt = dt_by_name( type );
+    if( dt != DT_NULL ) {
+        return is_immune_damage( dt );
+    }
+
+    return is_immune_effect( type );
 }
 
 /*

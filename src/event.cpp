@@ -10,6 +10,7 @@
 #include "overmapbuffer.h"
 #include "messages.h"
 #include "sounds.h"
+#include "morale.h"
 #include <climits>
 
 event::event( event_type e_t, int t, int f_id, tripoint p )

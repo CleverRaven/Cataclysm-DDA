@@ -24,6 +24,9 @@
 #include "mapdata.h"
 #include "mapgen.h"
 #include "uistate.h"
+#include "mongroup.h"
+#include "name.h"
+#include "translations.h"
 #define dbg(x) DebugLog((DebugLevel)(x),D_MAP_GEN) << __FILE__ << ":" << __LINE__ << ": "
 
 #define STREETCHANCE 2
@@ -74,6 +77,14 @@ std::unordered_map<std::string, oter_t> obasetermap;
 t_regional_settings_map region_settings_map;
 
 std::vector<overmap_special> overmap_specials;
+
+city::city( int const X, int const Y, int const S)
+: x (X)
+, y (Y)
+, s (S)
+, name( Name::get( nameIsTownName ) )
+{
+}
 
 void load_overmap_specials(JsonObject &jo)
 {
@@ -1533,10 +1544,9 @@ void overmap::draw(WINDOW *w, WINDOW *wbar, const tripoint &center,
                 cur_ter = overmap_buffer.ter(omx, omy, z);
             }
 
-            // Check if location is within player line-of-sight
-            const bool los = see && g->u.overmap_los(omx, omy, sight_points);
-
             tripoint const cur_pos {omx, omy, z};
+            // Check if location is within player line-of-sight
+            const bool los = see && g->u.overmap_los( cur_pos, sight_points );
 
             if (blink && cur_pos == orig) {
                 // Display player pos, should always be visible
@@ -2074,6 +2084,11 @@ void overmap::process_mongroups()
             ++it;
         }
     }
+}
+
+void overmap::clear_mon_groups()
+{
+    zg.clear();
 }
 
 void mongroup::wander()

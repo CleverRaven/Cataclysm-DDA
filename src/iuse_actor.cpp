@@ -7,6 +7,13 @@
 #include "overmapbuffer.h"
 #include "sounds.h"
 #include "monstergenerator.h"
+#include "translations.h"
+#include "morale.h"
+#include "messages.h"
+#include "material.h"
+#include "event.h"
+#include "crafting.h"
+#include "ui.h"
 #include <sstream>
 #include <algorithm>
 
@@ -1588,7 +1595,7 @@ long musical_instrument_actor::use( player *p, item *it, bool t, const tripoint&
 
     sounds::ambient_sound( p->posx(), p->posy(), volume, desc );
 
-    if( !p->has_effect( "music" ) && p->can_hear( p->pos(), volume ) ) {
+    if( !p->has_effect( "music" ) && p->can_hear( p->pos2(), volume ) ) {
         p->add_effect( "music", 1 );
         const int sign = morale_effect > 0 ? 1 : -1;
         p->add_morale( MORALE_MUSIC, sign, morale_effect, 5, 2 );

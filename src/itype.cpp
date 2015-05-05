@@ -4,8 +4,14 @@
 #include "game.h"
 #include "monstergenerator.h"
 #include "item_factory.h"
+#include "translations.h"
 #include <fstream>
 #include <stdexcept>
+
+std::string itype::nname( unsigned int const quantity ) const
+{
+    return ngettext( name.c_str(), name_plural.c_str(), quantity );
+}
 
 // Members of iuse struct, which is slowly morphing into a class.
 bool itype::has_use() const

@@ -19,6 +19,12 @@
     ]
   },{
     "type" : "item_group",
+    "id" : "mischw",
+    "items":[
+      ["tarp", 15]
+    ]
+  },{
+    "type" : "item_group",
     "id" : "medieval",
     "items":[
       ["tinderbox", 4],
@@ -31,14 +37,17 @@
     "items":[
       ["flint_steel", 10],
       ["tinderbox", 5],
-      ["bottle_metal", 5]
+      ["bottle_metal", 5],
+      ["tarp", 10]
     ]
   },{
     "type" : "item_group",
     "id" : "allsporting",
     "items":[
       ["flint_steel", 10],
-      ["tinderbox", 5]
+      ["tinderbox", 5],
+      ["bottle_metal", 5],
+      ["tarp", 10]
     ]
   },{
     "type" : "item_group",
@@ -66,7 +75,8 @@
       ["tinder", 3],
       ["tinderbox", 2],
       ["bottle_metal", 2],
-      ["cheese_hard", 5]
+      ["cheese_hard", 5],
+      ["tarp", 15]
     ]
   },{
     "type" : "item_group",

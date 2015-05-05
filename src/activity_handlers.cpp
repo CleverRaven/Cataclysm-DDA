@@ -10,6 +10,10 @@
 #include "monstergenerator.h"
 #include "iuse_actor.h"
 #include "rng.h"
+#include "mongroup.h"
+#include "morale.h"
+#include "messages.h"
+#include "martialarts.h"
 
 #include <sstream>
 
@@ -452,7 +456,7 @@ static void rod_fish( player *p, int sSkillLevel, int fishChance )
                 p->add_msg_if_player(_("You didn't catch anything."));
             }
         } else {
-            g->catch_a_monster(fishables, p->posx(), p->posy(), p, 30000);
+            g->catch_a_monster(fishables, p->pos3(), p, 30000);
         }
 
     } else {
@@ -1053,7 +1057,7 @@ void activity_handlers::start_engines_finish( player_activity *act, player *p )
     // Find the vehicle by looking for a remote vehicle first, then by player relative coords
     vehicle *veh = g->remoteveh();
     if( !veh ) {
-        const point pos = act->placement + g->u.pos();
+        const point pos = act->placement + g->u.pos2();
         veh = g->m.veh_at( pos.x, pos.y );
         if( !veh ) { return; }
     }

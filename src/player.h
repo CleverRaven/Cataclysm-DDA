@@ -3,16 +3,8 @@
 
 #include "character.h"
 #include "item.h"
-#include "trap.h"
-#include "morale.h"
-#include "mutation.h"
-#include "crafting.h"
-#include "vehicle.h"
-#include "martialarts.h"
 #include "player_activity.h"
-#include "messages.h"
 #include "clzones.h"
-#include "artifact.h"
 #include "weighted_list.h"
 
 #include <unordered_set>
@@ -27,6 +19,16 @@ struct trap;
 class mission;
 class profession;
 nc_color encumb_color(int level);
+enum morale_type : int;
+class morale_point;
+enum game_message_type : int;
+class ma_technique;
+class martialart;
+struct recipe;
+struct item_comp;
+struct tool_comp;
+class vehicle;
+struct it_comest;
 
 struct special_attack {
     std::string text;
@@ -162,7 +164,7 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         /** Print just the colored recoil indicator. **/
         void print_recoil( WINDOW *w ) const;
         /** Displays indicator informing which turrets can fire at `targ`.**/
-        int draw_turret_aim( WINDOW *w, int line_number, const point &targ ) const;
+        int draw_turret_aim( WINDOW *w, int line_number, const tripoint &targ ) const;
 
         /** Print the player's stamina bar. **/
         void print_stamina_bar( WINDOW *w ) const;
@@ -195,6 +197,14 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         int  swim_speed();
         /** Maintains body wetness and handles the rate at which the player dries */
         void update_body_wetness();
+        /** Increases hunger, thirst, fatigue, stimms wearing off, dying from hunger and dying from overdose */
+        void update_needs();
+        /** Handles passive regeneration of pain and maybe hp, except sleep regeneration. 
+          * Updates health and checks for sickness.
+          */
+        void regen();
+        /** Regenerates stamina */
+        void update_stamina();
 
         /** Returns true if the player has a conflicting trait to the entered trait
          *  Uses has_opposite_trait(), has_lower_trait(), and has_higher_trait() to determine conflicts.
@@ -271,13 +281,13 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         /** Removes the mutation's child flag from the player's list */
         void remove_child_flag( const std::string &mut );
 
-        const tripoint &pos3() const override;
+        const tripoint &pos() const override;
         /** Returns the player's sight range */
         int sight_range( int light_level ) const override;
         /** Returns the player maximum vision range factoring in mutations, diseases, and other effects */
         int  unimpaired_range();
         /** Returns true if overmap tile is within player line-of-sight */
-        bool overmap_los(int x, int y, int sight_points);
+        bool overmap_los( const tripoint &omt, int sight_points );
         /** Returns the distance the player can see on the overmap */
         int  overmap_sight_range(int light_level);
         /** Returns the distance the player can see through walls */
@@ -344,46 +354,50 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         void ma_ongethit_effects();
 
         /** Returns true if the player has any martial arts buffs attached */
-        bool has_mabuff(mabuff_id buff_id);
+        bool has_mabuff(mabuff_id buff_id) const;
         /** Returns true if the player has access to the entered martial art */
         bool has_martialart(const matype_id &ma_id) const;
         /** Adds the entered martial art to the player's list */
         void add_martialart(const matype_id &ma_id);
 
         /** Returns the to hit bonus from martial arts buffs */
-        int mabuff_tohit_bonus();
+        int mabuff_tohit_bonus() const;
         /** Returns the dodge bonus from martial arts buffs */
-        int mabuff_dodge_bonus();
+        int mabuff_dodge_bonus() const;
         /** Returns the block bonus from martial arts buffs */
-        int mabuff_block_bonus();
+        int mabuff_block_bonus() const;
         /** Returns the speed bonus from martial arts buffs */
-        int mabuff_speed_bonus();
+        int mabuff_speed_bonus() const;
         /** Returns the bash armor bonus from martial arts buffs */
-        int mabuff_arm_bash_bonus();
+        int mabuff_arm_bash_bonus() const;
         /** Returns the cut armor bonus from martial arts buffs */
-        int mabuff_arm_cut_bonus();
+        int mabuff_arm_cut_bonus() const;
         /** Returns the bash damage multiplier from martial arts buffs */
-        float mabuff_bash_mult();
+        float mabuff_bash_mult() const;
         /** Returns the bash damage bonus from martial arts buffs, applied after the multiplier */
-        int mabuff_bash_bonus();
+        int mabuff_bash_bonus() const;
         /** Returns the cut damage multiplier from martial arts buffs */
-        float mabuff_cut_mult();
+        float mabuff_cut_mult() const;
         /** Returns the cut damage bonus from martial arts buffs, applied after the multiplier */
-        int mabuff_cut_bonus();
+        int mabuff_cut_bonus() const;
         /** Returns true if the player is immune to throws */
-        bool is_throw_immune();
+        bool is_throw_immune() const;
         /** Returns true if the player has quiet melee attacks */
-        bool is_quiet();
+        bool is_quiet() const;
         /** Returns true if the current martial art works with the player's current weapon */
-        bool can_melee();
+        bool can_melee() const;
         /** Always returns false, since players can't dig currently */
         bool digging() const override;
         /** Returns true if the player is knocked over or has broken legs */
         bool is_on_ground() const override;
-        /** Returns true is the player is protected from electric shocks */
-        bool is_elec_immune() const override;
         /** Returns true if the player should be dead */
         bool is_dead_state() const override;
+        /** Returns true is the player is protected from electric shocks */
+        bool is_elec_immune() const override;
+        /** Returns true if the player is immune to this kind of effect */
+        bool is_immune_effect( const efftype_id& ) const override;
+        /** Returns true if the player is immune to this kind of damage */
+        bool is_immune_damage( const damage_type ) const override;
 
         /** Returns true if the player has technique-based miss recovery */
         bool has_miss_recovery_tec();
@@ -408,7 +422,8 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         /** Returns true if a gun misfires, jams, or has other problems, else returns false */
         bool handle_gun_damage( const itype &firing, const std::set<std::string> &curammo_effects );
         /** Handles gun firing effects and functions */
-        void fire_gun(int targetx, int targety, bool burst);
+        void fire_gun( const tripoint &target, bool burst );
+        void fire_gun( const tripoint &target, long burst_size );
 
         /** Activates any on-dodge effects and checks for dodge counter techniques */
         void dodge_hit(Creature *source, int hit_spread) override;
@@ -483,7 +498,7 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         /** Handles the uncanny dodge bionic and effects, returns true if the player successfully dodges */
         bool uncanny_dodge() override;
         /** ReReturns an unoccupied, safe adjacent point. If none exists, returns player position. */
-        point adjacent_tile();
+        tripoint adjacent_tile();
 
         // ranged.cpp
         /** Returns the throw range of the item at the entered inventory position. -1 = ERR, 0 = Can't throw */
@@ -835,10 +850,10 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         void consume_tools(const std::vector<tool_comp> &tools, int batch = 1, const std::string &hotkeys = DEFAULT_HOTKEYS);
 
         // Auto move methods
-        void set_destination(const std::vector<point> &route);
+        void set_destination(const std::vector<tripoint> &route);
         void clear_destination();
         bool has_destination() const;
-        std::vector<point> &get_auto_move_route();
+        std::vector<tripoint> &get_auto_move_route();
         action_id get_next_auto_move_direction();
         void shift_destination(int shiftx, int shifty);
 
@@ -893,7 +908,7 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         bool in_vehicle;       // Means player sit inside vehicle on the tile he is now
         bool controlling_vehicle;  // Is currently in control of a vehicle
         // Relative direction of a grab, add to posx, posy to get the coordinates of the grabbed thing.
-        point grab_point;
+        tripoint grab_point;
         object_type grab_type;
         player_activity activity;
         std::list<player_activity> backlog;
@@ -1096,14 +1111,14 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         bool can_study_recipe(const itype &book);
         bool try_study_recipe(const itype &book);
 
-        std::vector<point> auto_move_route;
+        std::vector<tripoint> auto_move_route;
         // Used to make sure auto move is canceled if we stumble off course
-        point next_expected_position;
+        tripoint next_expected_position;
 
         inventory cached_crafting_inventory;
         int cached_moves;
         int cached_turn;
-        point cached_position;
+        tripoint cached_position;
 
         struct weighted_int_list<const char*> melee_miss_reasons;
 

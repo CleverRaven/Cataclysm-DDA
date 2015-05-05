@@ -11,6 +11,11 @@
 #include "mutation.h"
 #include "text_snippets.h"
 #include "rng.h"
+#include "translations.h"
+#include "skill.h"
+#include "addiction.h"
+#include "pldata.h"
+#include "itype.h"
 
 profession::profession()
     : _ident(""), _name_male("null"), _name_female("null"),

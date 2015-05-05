@@ -3,6 +3,7 @@
 #include "init.h"
 #include "game_constants.h"
 #include "debug.h"
+#include "translations.h"
 #include <ostream>
 #include <unordered_map>
 #include <memory>

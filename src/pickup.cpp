@@ -4,9 +4,14 @@
 #include "game.h"
 #include "map.h"
 #include "messages.h"
+#include "translations.h"
+#include "input.h"
+#include "options.h"
+#include "ui.h"
 
 #include <map>
 #include <vector>
+#include <cstring>
 
 // Handles interactions with a vehicle in the examine menu.
 // Returns the part number that will accept items if any, or -1 to indicate no cargo part.
@@ -789,14 +794,14 @@ void Pickup::pick_up(int posx, int posy, int min)
             const char *scroll = _("[up/dn] Scroll");
             const char *mark   = _("[right] Mark");
             mvwprintw(w_pickup, maxitems + 1, 0,                         unmark);
-            mvwprintw(w_pickup, maxitems + 1, (pw - strlen(scroll)) / 2, scroll);
-            mvwprintw(w_pickup, maxitems + 1,  pw - strlen(mark),        mark);
+            mvwprintw(w_pickup, maxitems + 1, (pw - std::strlen(scroll)) / 2, scroll);
+            mvwprintw(w_pickup, maxitems + 1,  pw - std::strlen(mark),        mark);
             const char *prev = _("[pgup] Prev");
             const char *all = _("[,] All");
             const char *next   = _("[pgdn] Next");
             mvwprintw(w_pickup, maxitems + 2, 0, prev);
-            mvwprintw(w_pickup, maxitems + 2, (pw - strlen(all)) / 2, all);
-            mvwprintw(w_pickup, maxitems + 2, pw - strlen(next), next);
+            mvwprintw(w_pickup, maxitems + 2, (pw - std::strlen(all)) / 2, all);
+            mvwprintw(w_pickup, maxitems + 2, pw - std::strlen(next), next);
 
             if (update) { // Update weight & volume information
                 update = false;

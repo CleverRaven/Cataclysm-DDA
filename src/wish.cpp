@@ -6,6 +6,11 @@
 #include "uistate.h"
 #include "monstergenerator.h"
 #include "compatibility.h"
+#include "translations.h"
+#include "input.h"
+#include "monster.h"
+#include "ui.h"
+#include "mutation.h"
 
 #include <sstream>
 
@@ -347,7 +352,7 @@ class wish_monster_callback: public uimenu_callback
         }
 };
 
-void game::wishmonster(int x, int y)
+void game::wishmonster( const tripoint &p )
 {
     const std::map<std::string, mtype *> montypes = MonsterGenerator::generator().get_all_mtypes();
 
@@ -381,11 +386,11 @@ void game::wishmonster(int x, int y)
             if (cb->hallucination) {
                 mon.hallucination = true;
             }
-            point spawn = ( x == -1 && y == -1 ? look_around() : point ( x, y ) );
-            if (spawn.x != -1) {
-                std::vector<point> spawn_points = closest_points_first( cb->group, spawn );
+            tripoint spawn = ( p == tripoint_min ? look_around() : p );
+            if( spawn != tripoint_min ) {
+                std::vector<tripoint> spawn_points = closest_tripoints_first( cb->group, spawn );
                 for( auto spawn_point : spawn_points ) {
-                    mon.spawn(spawn_point.x, spawn_point.y);
+                    mon.spawn( spawn_point );
                     add_zombie(mon);
                 }
                 cb->msg = _("Monster spawned, choose another or 'q' to quit.");
