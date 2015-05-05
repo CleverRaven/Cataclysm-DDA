@@ -351,6 +351,15 @@ IF(TILES)
 		)
 	ENDIF (LOCALIZE)
 
+	IF(CMAKE_USE_PTHREADS_INIT)
+		set_property(TARGET cataclysm-tiles PROPERTY COMPILE_OPTIONS "-pthread")
+		set_property(TARGET cataclysm-tiles PROPERTY INTERFACE_COMPILE_OPTIONS "-pthread")
+	ENDIF(CMAKE_USE_PTHREADS_INIT)
+
+	IF(CMAKE_THREAD_LIBS_INIT)
+		target_link_libraries(cataclysm-tiles ${CMAKE_THREAD_LIBS_INIT})
+	ENDIF(CMAKE_THREAD_LIBS_INIT)
+
 	IF (NOT DYNAMIC_LINKING)
 		# SDL, SDL_Image, SDL_ttf deps are required for static build
 		target_include_directories(cataclysm-tiles PUBLIC 
@@ -453,14 +462,14 @@ IF(CURSES)
 	target_include_directories(cataclysm PUBLIC ${CURSES_INCLUDE_PATH})
 	target_link_libraries(cataclysm ${CURSES_LIBRARIES})
 
-	IF(THREADS_HAVE_PTHREAD_ARG)
+	IF(CMAKE_USE_PTHREADS_INIT)
 		set_property(TARGET cataclysm PROPERTY COMPILE_OPTIONS "-pthread")
 		set_property(TARGET cataclysm PROPERTY INTERFACE_COMPILE_OPTIONS "-pthread")
-	ENDIF(THREADS_HAVE_PTHREAD_ARG)
+	ENDIF(CMAKE_USE_PTHREADS_INIT)
 
-	IF(CMAKE_THREAD_LIBS_INIT OR CMAKE_USE_WIN32_THREADS_INIT)
+	IF(CMAKE_THREAD_LIBS_INIT)
 		target_link_libraries(cataclysm ${CMAKE_THREAD_LIBS_INIT})
-	ENDIF(CMAKE_THREAD_LIBS_INIT OR CMAKE_USE_WIN32_THREADS_INIT)
+	ENDIF(CMAKE_THREAD_LIBS_INIT)
 
 	IF(WIN32)
 		# Global settings for Windows targets (at end)
