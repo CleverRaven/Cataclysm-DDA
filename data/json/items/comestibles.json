@@ -12518,7 +12518,7 @@
         "type" : "COMESTIBLE",
         "id" : "meat_canned",
         "name" : "canned meat",
-        "weight" : 202,
+        "weight" : 502,
         "color" : "red",
         "addiction_type" : "none",
         "spoils_in" : 40,
