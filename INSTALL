@@ -59,15 +59,24 @@ The following build systems are fully supported for compiling CataclysmDDA on Li
  2. Install CataclysmDDA build deps:
  
  	pacman -S mingw-w64-i686-toolchain msys/git \
-	          mingw32/mingw-w64-i686-cmake \
-	          mingw32/mingw-w64-i686-SDL2_{image,mixer,ttf} \
-		  mingw32/mingw-w64-i686-lua51 \
+	          mingw-w64-i686-cmake \
+	          mingw-w64-i686-SDL2_{image,mixer,ttf} \
+		  mingw-w64-i686-lua51 \
 		  msys/ncurses-devel \
 		  msys/gettext-devel
 
  This should get your environment set up to build console and tiles version of windows. 
- NOTE: This is only for 32bit builds. 64bit requires the x64_86 instead of the i686
-       packages listed above.
+
+ NOTE: This is only for 32bit builds. 64bit requires the x86_64 instead of the i686
+       packages listed above:
+
+	pacman -S mingw-w64-x86_64-toolchain msys/git \
+	          mingw-w64-x86_64-cmake \
+	          mingw-w64-x86_64-SDL2_{image,mixer,ttf} \
+		  mingw-w64-x86_64-lua51 \
+		  msys/ncurses-devel \
+		  msys/gettext-devel
+
 
  NOTE: If you're trying to test with Jetbrains CLion, point to the cmake version in the
        msys32/mingw32 path instead of using the built in. This will let cmake detect the
