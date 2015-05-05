@@ -2018,8 +2018,6 @@ input_context game::get_player_input(std::string &action)
                         const int dex = mon_at( tmp );
 
                         if (dex != -1 && u.sees(zombie(dex))) {
-                            tmp.x = iter->getPosX() - 1;
-
                             int iPos = iter->getStep() + iter->getStepOffset();
                             for (auto iter2 = iter; iter2 != SCT.vSCT.rend(); ++iter2) {
                                 if (iter2->getDirecton() == oCurDir &&
@@ -6661,7 +6659,7 @@ Creature *game::critter_at( const tripoint &p )
     if( nindex != -1 ) {
         return active_npc[nindex];
     }
-    return NULL;
+    return nullptr;
 }
 
 Creature const* game::critter_at( const tripoint &p ) const
