@@ -1,0 +1,186 @@
+
+
+WARNING: CMake build is NOT official and should be used for dev purposes ONLY.
+
+         For official way to build CataclysmDDA See:
+         <http://www.wiki.cataclysmdda.com/index.php?title=How_to_compile>. 
+
+
+Contents
+========
+
+  1. Prerequisites
+  2. Build Environment
+  2.1 UNIX Environment
+  2.2 Windows Environment (MSYS32)
+  3. CMake Build
+  3.1 CMake Build Mingw,MSYS,MSYS2
+  4. Build Options
+
+
+1. Prerequisites
+================
+
+You'll need to have these libraries and their development headers installed in
+order to build Wesnoth:
+
+ * SDL libraries:
+   * SDL                       >= 2.0.0
+   * SDL_image                 >= 2.0.0 (with PNG and JPEG support)
+   * SDL_mixer                 >= 2.0.0 (with Ogg Vorbis support)
+   * SDL_ttf                   >= 2.0.0
+ * Vorbisfile
+ * libbz2
+ * libz
+ * libintl
+ * iconv
+
+
+ 2. Build Environment
+ ====================
+
+You can obtain the source code tarball for the latest version from git:
+<https://github.com/CleverRaven/Cataclysm-DDA>.
+
+
+ 2.1 UNIX Environment
+ =====================
+
+The following build systems are fully supported for compiling CataclysmDDA on Linux,
+*BSD, and other Unix-like platforms:
+
+ * CMake >= 2.6.11
+
+
+ 2.2 Windows Environment (MSYS2)
+ =======================
+
+ 1. Follow steps from here: https://msys2.github.io/
+ 2. Install CataclysmDDA build deps:
+ 
+ 	pacman -S mingw-w64-i686-toolchain msys/git \
+	          mingw32/mingw-w64-i686-cmake \
+	          mingw32/mingw-w64-i686-SDL2_{image,mixer,ttf} \
+		  mingw32/mingw-w64-i686-lua51 \
+		  msys/ncurses-devel \
+		  msys/gettext-devel
+
+ This should get your environment set up to build console and tiles version of windows. 
+ NOTE: This is only for 32bit builds. 64bit requires the x64_86 instead of the i686
+       packages listed above.
+
+ NOTE: If you're trying to test with Jetbrains CLion, point to the cmake version in the
+       msys32/mingw32 path instead of using the built in. This will let cmake detect the
+       installed packages.
+
+
+ 3. CMake Build
+ ==============
+
+ CMake has separate configuration and build steps. Configuration
+ is done using CMake itself, and the actual build is done using `make`.
+
+ There are two ways to build Wesnoth with CMake: inside the source tree or
+ outside of it. Out-of-source builds have the advantage that you can have
+ multiple builds with different options from one source directory.
+
+ WARNING: Inside the source tree build is _NOT_ supported.
+
+ To build CataclysmDDA out of source:
+
+	$ mkdir build && cd build
+	$ cmake .. -DCMAKE_BUILD_TYPE=Release
+	$ make
+
+ To install Wesnoth after building (as root using su or sudo if necessary):
+
+	# make install
+
+ To change build options, you can either pass the options on the command line:
+
+	$ cmake .. -DOPTION_NAME=option_value
+
+ Or use either the `ccmake` or `cmake-gui` front-ends, which display all options
+ and their cached values on a console and graphical UI, respectively.
+
+	$ ccmake ..
+	$ cmake-gui ..
+
+ 3.1 CMake Build Mingw,MSYS,MSYS2
+ ================================
+
+ For Mingw,MSYS,MSYS2 you should set Makefiles generator:
+ <http://www.cmake.org/cmake/help/cmake-2.6.html>
+
+ Valid choices for MINGW/MSYS are:
+	
+	* MSYS Makefiles
+	* MinGW Makefiles
+
+ Example:
+
+	# cd <Path-to-CataclysmDDA-Sources>
+	# mkdir build
+	# cd build
+	$ cmake -G "MSYS Makefiles" \
+		-D CMAKE_MAKE_PROGRAM=mingw32-make\
+		-D CMAKE_CXX_COMPILER=i686-w64-mingw32-g++\
+		-DCMAKE_SYSTEM_PREFIX_PATH=/c/msys32/mingw32\
+		..
+
+ 5. Build Options
+ ================
+
+ A full list of options supported by CMake, you may either run the `ccmake`
+ or `cmake-gui` front-ends, or run `cmake` and open the generated CMakeCache.txt
+ from the build directory in a text editor.
+
+	$ cmake -DOPTION_NAME1=option_value1 [-DOPTION_NAME2=option_value2 [...]]
+
+ Some of the most important options follow:
+
+
+ * CMAKE_BUILD_TYPE=<build type>               (CMake)
+
+ Selects a specific build configuration when compiling. `release` produces
+ the default, optimized (-O2) build for regular use. `debug` produces a
+ slower and larger unoptimized (-O0) build with full debug symbols, which is
+ often needed for obtaining detailed backtraces when reporting bugs.
+
+ NOTE: By default, CMake will produce `debug` builds unless a different
+       configuration option is passed in the command line.
+
+
+ * CMAKE_INSTALL_PREFIX=<full path>            (CMake)
+
+ Installation prefix for binaries, resources, and documentation files.
+
+
+ * CURSES=<boolean>                            (CataclysmDDA)
+
+ Build curses version.
+
+
+ * TILES=<boolean>                             (CataclysmDDA)
+
+ Build graphical tileset version.
+
+
+ * SOUND=<boolean>                             (CataclysmDDA)
+
+ Support for in-game sounds & music.
+
+
+ * USE_HOME_DIR=<boolean>                      (CataclysmDDA)
+
+ Use user's home directory for save files.
+
+
+ * LOCALIZE=<boolean>                          (CataclysmDDA)
+
+ Support for language localizations. Also enable UTF support.
+
+
+ * DYNAMIC_LINKING=<boolean>                   (CataclysmDDA)
+
+ Use dynamic linking. Or use static to remove MinGW dependency instead.
