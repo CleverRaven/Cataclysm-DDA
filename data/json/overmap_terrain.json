@@ -6048,7 +6048,7 @@
     {
         "type" : "overmap_terrain",
         "id" : "hdwr_large_entrance",
-        "name" : "Home Improvment Superstore Entrance",
+        "name" : "home improvement superstore entrance",
         "sym" : 72,
         "color" : "ltgreen_yellow",
         "see_cost" : 5,
@@ -6056,7 +6056,7 @@
     },{
         "type" : "overmap_terrain",
         "id" : "hdwr_large_SW",
-        "name" : "Home Improvment Superstore",
+        "name" : "home improvement superstore",
         "sym" : 72,
         "color" : "ltgreen_yellow",
         "see_cost" : 5,
@@ -6064,7 +6064,7 @@
     },{
         "type" : "overmap_terrain",
         "id" : "hdwr_large_NW",
-        "name" : "Home Improvment Superstore",
+        "name" : "home improvement superstore",
         "sym" : 72,
         "color" : "ltgreen_yellow",
         "see_cost" : 5,
@@ -6072,7 +6072,7 @@
     },{
         "type" : "overmap_terrain",
         "id" : "hdwr_large_NE",
-        "name" : "Home Improvment Superstore",
+        "name" : "home improvement superstore",
         "sym" : 72,
         "color" : "ltgreen_yellow",
         "see_cost" : 5,
@@ -6080,7 +6080,7 @@
     },{
         "type" : "overmap_terrain",
         "id" : "hdwr_large_backroom",
-        "name" : "Home Improvment Superstore",
+        "name" : "home improvement superstore",
         "sym" : 72,
         "color" : "ltgreen_yellow",
         "see_cost" : 5,
@@ -6088,7 +6088,7 @@
     },{
         "type" : "overmap_terrain",
         "id" : "hdwr_large_loadingbay",
-        "name" : "Home Improvment Superstore",
+        "name" : "home improvment superstore",
         "sym" : 72,
         "color" : "ltgreen_yellow",
         "see_cost" : 5,
