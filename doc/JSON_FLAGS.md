@@ -940,6 +940,7 @@ Those flags are added by the game code to specific items (that specific welder, 
 - ```DURABLE_MELEE``` ... Item is made to hit stuff and it does it well, so it's considered to be a lot tougher than other weapons made of the same materials.
 - ```RAIN_PROTECT``` ... Protects from sunlight and from rain, when wielded.
 - ```NO_PICKUP``` ... Character can not pickup anything while wielding this item (e.g. bionic claws).
+- ```SLOW_WIELD``` ... Has an additional time penalty upon wielding. For melee weapons and guns this is offset by the relevant skill.
 
 ## Skills
 

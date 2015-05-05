@@ -1108,6 +1108,7 @@
         "volume" : 2,
         "bashing" : 0,
         "cutting" : 0,
+        "flags" : ["SLOW_WIELD"],
         "price" : 42000,
         "skill_required": 2
     },

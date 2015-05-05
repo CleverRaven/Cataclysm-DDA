@@ -1707,18 +1707,14 @@ void item::on_wield( player &p  )
         g->add_artifact_messages( art->effects_wielded );
     }
 
-    if (is_gun() && has_gunmod("folding_stock") != -1) {
-        int const lvl = p.skillLevel(gun_skill());
+    if (has_flag("SLOW_WIELD") && (! is_gunmod())) {
+        int lvl = 0;
+        if      (is_gun())  lvl = p.skillLevel(gun_skill());
+        else if (is_weap()) lvl = p.skillLevel(weap_skill());
 
-        std::string msg;
-        if      (lvl <  2) msg = _("You clumsily unfold the stock on your %s.");
-        else if (lvl >= 7) msg = _("You deftly unfold the stock on your %s.");
-        else               msg = _("You unfold the stock on your %s.");
-
-        // consider only the base size of the gun (without mods)
         p.moves -= (get_var("volume", (int) type->volume) * 32) / (lvl == 0 ? 1 : lvl);
-        p.add_msg_if_player(msg.c_str(), tname().c_str());
-   }
+        p.add_msg_if_player(_("It takes you longer than usual to wield %s."), tname().c_str());
+    }
 }
 
 void item::on_pickup( Character &p  )
@@ -3332,6 +3328,15 @@ std::string item::gun_skill() const
         return "null";
     }
     return type->gun->skill_used->ident();
+}
+
+std::string item::weap_skill() const
+{
+    if (! is_weap()) return "null";
+
+    if (type->melee_dam >= type->melee_cut) return "bashing";
+    if (has_flag("STAB")) return "stabbing";
+    return "cutting";
 }
 
 std::string item::skill() const
