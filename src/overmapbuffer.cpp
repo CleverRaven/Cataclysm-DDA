@@ -459,12 +459,12 @@ bool overmapbuffer::check_ot_type(const std::string& type, int x, int y, int z)
     return om.check_ot_type(type, x, y, z);
 }
 
-tripoint overmapbuffer::find_closest(const tripoint& origin, const std::string& type, int& dist, bool must_be_seen)
+tripoint overmapbuffer::find_closest(const tripoint& origin, const std::string& type, int const radius, bool must_be_seen)
 {
-    int max = (dist == 0 ? OMAPX : dist);
+    int max = (radius == 0 ? OMAPX : radius);
     const int z = origin.z;
     // expanding box
-    for (dist = 0; dist <= max; dist++) {
+    for( int dist = 0; dist <= max; dist++) {
         // each edge length is 2*dist-2, because corners belong to one edge
         // south is +y, north is -y
         for (int i = 0; i < dist*2-1; i++) {
@@ -505,7 +505,6 @@ tripoint overmapbuffer::find_closest(const tripoint& origin, const std::string& 
             }
         }
     }
-    dist = -1;
     return overmap::invalid_tripoint;
 }
 
