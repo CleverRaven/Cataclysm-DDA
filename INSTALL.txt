@@ -131,10 +131,24 @@ The following build systems are fully supported for compiling CataclysmDDA on Li
 	# cd <Path-to-CataclysmDDA-Sources>
 	# mkdir build
 	# cd build
+
+ For MinGW32:
+
 	$ cmake -G "MSYS Makefiles" \
-		-D CMAKE_MAKE_PROGRAM=mingw32-make\
-		-D CMAKE_CXX_COMPILER=i686-w64-mingw32-g++\
+		-DCMAKE_MAKE_PROGRAM=mingw32-make\
+		-DCMAKE_C_COMPILER=i686-w64-mingw32-gcc\
+		-DCMAKE_CXX_COMPILER=i686-w64-mingw32-g++\
 		-DCMAKE_SYSTEM_PREFIX_PATH=/c/msys32/mingw32\
+		..
+	$ mingw32-make
+
+ For MinGW64:
+
+        $ cmake -G "MSYS Makefiles" \
+		-DCMAKE_MAKE_PROGRAM=mingw32-make\
+		-DCMAKE_C_COMPILER=x86_64-w64-mingw32-gcc\
+		-DCMAKE_CXX_COMPILER=x86_64-w64-mingw32-g++\
+		-DCMAKE_SYSTEM_PREFIX_PATH=/c/msys64/mingw64\
 		..
 	$ mingw32-make
 
