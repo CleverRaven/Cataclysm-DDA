@@ -1677,13 +1677,12 @@ void mattack::fungus_fortify(monster *z, int index)
 
     bool fortified = false;
     z->reset_special(index); // Reset timer
+    bool push_player = false; // To avoid map shift weirdness
     for (int x = z->posx() - 1; x <= z->posx() + 1; x++) {
         for (int y = z->posy() - 1; y <= z->posy() + 1; y++) {
             tripoint dest( x, y, z->posz() );
-            if (g->u.posx() == x && g->u.posy() == y) {
-                add_msg(m_bad, _("You're shoved away as a fungal hedgerow grows!"));
-                g->fling_creature( &g->u, g->m.coord_to_angle(z->posx(), z->posy(), g->u.posx(),
-                                   g->u.posy()), rng(10, 50));
+            if (g->u.pos() == dest) {
+                push_player = true;
             }
             if (g->is_empty(dest)) {
                 if (g->summon_mon("mon_fungal_hedgerow", dest)) {
@@ -1693,6 +1692,11 @@ void mattack::fungus_fortify(monster *z, int index)
                 fortified = true;
             }
         }
+    }
+    if( push_player ) {
+        add_msg(m_bad, _("You're shoved away as a fungal hedgerow grows!"));
+        g->fling_creature( &g->u, g->m.coord_to_angle(z->posx(), z->posy(), g->u.posx(),
+                           g->u.posy()), rng(10, 50));
     }
     if( !fortified && !(mycus || peaceful) ) {
         if (rl_dist( z->pos(), g->u.pos() ) < 12) {
