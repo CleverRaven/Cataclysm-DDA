@@ -127,7 +127,63 @@ The following build systems are fully supported for compiling CataclysmDDA on Li
 		-D CMAKE_CXX_COMPILER=i686-w64-mingw32-g++\
 		-DCMAKE_SYSTEM_PREFIX_PATH=/c/msys32/mingw32\
 		..
+	$ mingw32-make
 
+ Shared libraries:
+ 
+ If you got 'libgcc_s_dw2-1.dll not found' error you need to copy shared libraries
+ to directory with CataclysmDDA executables.
+
+ NOTE: For -DRELEASE=OFF development builds, You can automate copy process with:
+ 	
+	$ mingw32-make install
+
+ However, it likely will fail b/c you have different build environment setup :)
+
+ Currently known depends (Maybe outdated use ldd.exe to correct it for Your system)
+
+ MINGW deps:
+	libwinpthread-1.dll
+	libgcc_s_dw2-1.dll
+	libstdc++-6.dll
+
+ LOCALIZE deps:
+	libintl-8.dll
+	libiconv-2.dll
+
+ LUA deps:
+	lua51.dll
+
+ TILES deps:
+	SDL2.dll
+	SDL2_ttf.dll
+	libfreetype-6.dll
+	libbz2-1.dll
+	libharfbuzz-0.dll
+	SDL2_image.dll
+	libpng16-16.dll
+	libjpeg-8.dll
+	libtiff-5.dll
+	libjbig-0.dll
+	liblzma-5.dll
+	libwebp-5.dll
+	zlib1.dll
+	libglib-2.0-0.dll
+
+ SOUND deps:
+	SDL2_mixer.dll
+	libFLAC-8.dll
+	libogg-0.dll
+	libfluidsynth-1.dll
+	libportaudio-2.dll
+	libsndfile-1.dll
+	libvorbis-0.dll
+	libvorbisenc-2.dll
+	libmodplug-1.dll
+	smpeg2.dll
+	libvorbisfile-3.dll
+
+ 
  5. Build Options
  ================
 
