@@ -2,7 +2,6 @@
 #define TRAP_H
 
 #include "color.h"
-#include "itype.h"
 #include "json.h"
 #include "string_id.h"
 #include "int_id.h"
@@ -10,8 +9,9 @@
 
 class Creature;
 class item;
-
+class player;
 struct trap;
+struct tripoint;
 
 using trap_id = int_id<trap>;
 using trap_str_id = string_id<trap>;
@@ -56,6 +56,7 @@ struct trapfunc {
 typedef void (trapfunc::*trap_function)( Creature *, int x, int y );
 
 struct trap {
+        using itype_id = std::string;
         // TODO: make both private and const
         trap_str_id id;
         trap_id loadid;

@@ -21,6 +21,7 @@
 #include "npc.h"
 #include "veh_type.h"
 #include "trap.h"
+#include "itype.h"
 
 #include <fstream>
 #include <sstream>

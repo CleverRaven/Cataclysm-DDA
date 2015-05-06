@@ -15,6 +15,7 @@
 #include "options.h"
 #include "ui.h"
 #include "trap.h"
+#include "itype.h"
 
 #include <map>
 #include <set>

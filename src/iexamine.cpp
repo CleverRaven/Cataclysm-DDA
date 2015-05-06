@@ -19,6 +19,7 @@
 #include "catacharset.h"
 #include "ui.h"
 #include "trap.h"
+#include "itype.h"
 
 #include <sstream>
 #include <algorithm>
