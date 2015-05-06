@@ -2013,11 +2013,12 @@ input_context game::get_player_input(std::string &action)
                 for (auto iter = SCT.vSCT.rbegin(); iter != SCT.vSCT.rend(); ++iter) {
                     const direction oCurDir = iter->getDirecton();
 
-                    tripoint tmp( iter->getPosX(), iter->getPosY(), get_levz() );
-                    for( tmp.x = iter->getPosX(); tmp.x < iter->getPosX() + (int)iter->getText().length(); ++tmp.x ) {
-                        const int dex = mon_at( tmp );
+                    for (int i = 0; i < (int)iter->getText().length(); ++i) {
+                        tripoint tmp( iter->getPosX() + i, iter->getPosY(), get_levz() );
+                        const Creature *critter = critter_at( tmp );
 
-                        if (dex != -1 && u.sees(zombie(dex))) {
+                        if( critter != nullptr && u.sees( *critter ) ) {
+                            i = -1;
                             int iPos = iter->getStep() + iter->getStepOffset();
                             for (auto iter2 = iter; iter2 != SCT.vSCT.rend(); ++iter2) {
                                 if (iter2->getDirecton() == oCurDir &&
