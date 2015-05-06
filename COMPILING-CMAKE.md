@@ -1,6 +1,6 @@
 #Disclaimer
 
-WARNING: CMake build is **NOT** official and should be used for dev purposes ONLY.
+**WARNING**: CMake build is **NOT** official and should be used for *dev purposes ONLY*.
 
 For official way to build CataclysmDDA See:
   * The latest instructions on how to compile can be found on [our wiki](http://www.wiki.cataclysmdda.com/index.php?title=How_to_compile). 
@@ -67,12 +67,12 @@ The following build systems are fully supported for compiling CataclysmDDA on Li
  2. Install CataclysmDDA build deps:
  
  ```
- 	pacman -S mingw-w64-i686-toolchain msys/git \
-	          mingw-w64-i686-cmake \
-	          mingw-w64-i686-SDL2_{image,mixer,ttf} \
-                  mingw-w64-i686-lua51 \
-                  ncurses-devel \
-                  gettext-devel
+	pacman -S mingw-w64-i686-toolchain msys/git \
+		  mingw-w64-i686-cmake \
+		  mingw-w64-i686-SDL2_{image,mixer,ttf} \
+		  mingw-w64-i686-lua51 \
+		  ncurses-devel \
+		  gettext-devel
  ```
 
  This should get your environment set up to build console and tiles version of windows. 
@@ -82,11 +82,11 @@ The following build systems are fully supported for compiling CataclysmDDA on Li
 
  ```
 	pacman -S mingw-w64-x86_64-toolchain msys/git \
-	          mingw-w64-x86_64-cmake \
-	          mingw-w64-x86_64-SDL2_{image,mixer,ttf} \
-                  mingw-w64-x86_64-lua51 \
-                  ncurses-devel \
-                  gettext-devel
+		  mingw-w64-x86_64-cmake \
+		  mingw-w64-x86_64-SDL2_{image,mixer,ttf} \
+		  mingw-w64-x86_64-lua51 \
+		  ncurses-devel \
+		  gettext-devel
  ```
 
  **NOTE**: If you're trying to test with Jetbrains CLion, point to the cmake version in the
@@ -190,46 +190,46 @@ The following build systems are fully supported for compiling CataclysmDDA on Li
 
  Currently known depends (Maybe outdated use ldd.exe to correct it for Your system)
 
- MINGW deps:
- * `libwinpthread-1.dll`
- * `libgcc_s_dw2-1.dll`
- * `libstdc++-6.dll`
+ * MINGW deps:
+   * `libwinpthread-1.dll`
+   * `libgcc_s_dw2-1.dll`
+   * `libstdc++-6.dll`
 
- LOCALIZE deps:
- * `libintl-8.dll`
- * `libiconv-2.dll`
+ * LOCALIZE deps:
+   * `libintl-8.dll`
+   * `libiconv-2.dll`
 
- LUA deps:
- * `lua51.dll`
+ * LUA deps:
+   * `lua51.dll`
 
- TILES deps:
- * `SDL2.dll`
- * `SDL2_ttf.dll`
- * `libfreetype-6.dll`
- * `libbz2-1.dll`
- * `libharfbuzz-0.dll`
- * `SDL2_image.dll`
- * `libpng16-16.dll`
- * `libjpeg-8.dll`
- * `libtiff-5.dll`
- * `libjbig-0.dll`
- * `liblzma-5.dll`
- * `libwebp-5.dll`
- * `zlib1.dll`
- * `libglib-2.0-0.dll`
+ * TILES deps:
+   * `SDL2.dll`
+   * `SDL2_ttf.dll`
+   * `libfreetype-6.dll`
+   * `libbz2-1.dll`
+   * `libharfbuzz-0.dll`
+   * `SDL2_image.dll`
+   * `libpng16-16.dll`
+   * `libjpeg-8.dll`
+   * `libtiff-5.dll`
+   * `libjbig-0.dll`
+   * `liblzma-5.dll`
+   * `libwebp-5.dll`
+   * `zlib1.dll`
+   * `libglib-2.0-0.dll`
 
- SOUND deps:
- * `SDL2_mixer.dll`
- * `libFLAC-8.dll`
- * `libogg-0.dll`
- * `libfluidsynth-1.dll`
- * `libportaudio-2.dll`
- * `libsndfile-1.dll`
- * `libvorbis-0.dll`
- * `libvorbisenc-2.dll`
- * `libmodplug-1.dll`
- * `smpeg2.dll`
- * `libvorbisfile-3.dll`
+ * SOUND deps:
+   * `SDL2_mixer.dll`
+   * `libFLAC-8.dll`
+   * `libogg-0.dll`
+   * `libfluidsynth-1.dll`
+   * `libportaudio-2.dll`
+   * `libsndfile-1.dll`
+   * `libvorbis-0.dll`
+   * `libvorbisenc-2.dll`
+   * `libmodplug-1.dll`
+   * `smpeg2.dll`
+   * `libvorbisfile-3.dll`
 
  
 # Build Options
@@ -245,7 +245,7 @@ The following build systems are fully supported for compiling CataclysmDDA on Li
 
 ## CMake specific options 
 
- * CMAKE_BUILD_TYPE=<build type>
+ * CMAKE_BUILD_TYPE=`<build type>`
 
  Selects a specific build configuration when compiling. `release` produces
  the default, optimized (-O2) build for regular use. `debug` produces a
@@ -256,38 +256,38 @@ The following build systems are fully supported for compiling CataclysmDDA on Li
        configuration option is passed in the command line.
 
 
- * CMAKE_INSTALL_PREFIX=<full path>
+ * CMAKE_INSTALL_PREFIX=`<full path>`
 
  Installation prefix for binaries, resources, and documentation files.
 
  
 ## CataclysmDDA specific options
 
- * CURSES=<boolean>
+ * CURSES=`<boolean>`
 
  Build curses version.
 
 
- * TILES=<boolean>
+ * TILES=`<boolean>`
 
  Build graphical tileset version.
 
 
- * SOUND=<boolean>
+ * SOUND=`<boolean>`
 
  Support for in-game sounds & music.
 
 
- * USE_HOME_DIR=<boolean>
+ * USE_HOME_DIR=`<boolean>`
 
  Use user's home directory for save files.
 
 
- * LOCALIZE=<boolean>
+ * LOCALIZE=`<boolean>`
 
  Support for language localizations. Also enable UTF support.
 
 
- * DYNAMIC_LINKING=<boolean>
+ * DYNAMIC_LINKING=`<boolean>`
 
  Use dynamic linking. Or use static to remove MinGW dependency instead.
