@@ -12,27 +12,41 @@ For official way to build CataclysmDDA See:
   1. Prerequisites
   2. Build Environment
     * UNIX Environment
-    * Windows Environment (MSYS32)
+    * Windows Environment
   3. CMake Build
-  4. CMake Build Mingw,MSYS,MSYS2
+    * MinGW,MSYS,MSYS2
   5. Build Options
 
 
 #1. Prerequisites
 
 You'll need to have these libraries and their development headers installed in
-order to build Wesnoth:
+order to build CataclysmDDA:
 
- * SDL libraries:
-   * SDL                       >= 2.0.0
-   * SDL_image                 >= 2.0.0 (with PNG and JPEG support)
-   * SDL_mixer                 >= 2.0.0 (with Ogg Vorbis support)
-   * SDL_ttf                   >= 2.0.0
- * Vorbisfile
- * libbz2
- * libz
- * libintl
- * iconv
+ * General
+   * `cmake`                     >= 2.6.11
+   * `gcc-libs`
+   * `glibc`
+   * `zlib`
+   * `bzip2`
+ * Optiotal
+   * `lua51`
+   * `gettext`
+   * lintl`
+ * Curses
+   * `ncurses`
+ * Tiles
+   * `SDL`                       >= 2.0.0
+   * `SDL_image`                 >= 2.0.0 (with PNG and JPEG support)
+   * `SDL_mixer`                 >= 2.0.0 (with Ogg Vorbis support)
+   * `SDL_ttf`                   >= 2.0.0
+   * `freetype`
+ * Sound
+   * `vorbis`
+   * `libbz2`
+   * `libz`
+   * `libintl`
+   * `iconv`
 
 
 #2. Build Environment
@@ -44,7 +58,7 @@ You can obtain the source code tarball for the latest version from [git](https:/
 
 The following build systems are fully supported for compiling CataclysmDDA on Linux, BSD, and other Unix-like platforms:
 
- * CMake >= 2.6.11
+ * `CMake` >= 2.6.11
 
 
 ## Windows Environment (MSYS2)
@@ -56,9 +70,9 @@ The following build systems are fully supported for compiling CataclysmDDA on Li
  	pacman -S mingw-w64-i686-toolchain msys/git \
 	          mingw-w64-i686-cmake \
 	          mingw-w64-i686-SDL2_{image,mixer,ttf} \
-		  mingw-w64-i686-lua51 \
-		  msys/ncurses-devel \
-		  msys/gettext-devel
+                  mingw-w64-i686-lua51 \
+                  ncurses-devel \
+                  gettext-devel
  ```
 
  This should get your environment set up to build console and tiles version of windows. 
@@ -70,9 +84,9 @@ The following build systems are fully supported for compiling CataclysmDDA on Li
 	pacman -S mingw-w64-x86_64-toolchain msys/git \
 	          mingw-w64-x86_64-cmake \
 	          mingw-w64-x86_64-SDL2_{image,mixer,ttf} \
-		  mingw-w64-x86_64-lua51 \
-		  msys/ncurses-devel \
-		  msys/gettext-devel
+                  mingw-w64-x86_64-lua51 \
+                  ncurses-devel \
+                  gettext-devel
  ```
 
  **NOTE**: If you're trying to test with Jetbrains CLion, point to the cmake version in the
@@ -85,11 +99,11 @@ The following build systems are fully supported for compiling CataclysmDDA on Li
  CMake has separate configuration and build steps. Configuration
  is done using CMake itself, and the actual build is done using `make`.
 
- There are two ways to build Wesnoth with CMake: inside the source tree or
+ There are two ways to build CataclysmDDA with CMake: inside the source tree or
  outside of it. Out-of-source builds have the advantage that you can have
  multiple builds with different options from one source directory.
 
- WARNING: Inside the source tree build is _NOT_ supported.
+ **WARNING**: Inside the source tree build is **NOT** supported.
 
  To build CataclysmDDA out of source:
 
@@ -99,7 +113,7 @@ The following build systems are fully supported for compiling CataclysmDDA on Li
 	$ make
  ```
 
- To install Wesnoth after building (as root using su or sudo if necessary):
+ To install CataclysmDDA after building (as root using su or sudo if necessary):
 
  ```
 	# make install
@@ -122,12 +136,12 @@ The following build systems are fully supported for compiling CataclysmDDA on Li
 
 ## CMake Build Mingw,MSYS,MSYS2
 
- For Mingw,MSYS,MSYS2 you should set [Makefiles generator](http://www.cmake.org/cmake/help/cmake-2.6.html)
+ For Mingw,MSYS,MSYS2 you should set [Makefiles generator](http://www.cmake.org/cmake/help/cmake-2.6.html#section_Generators)
 
  Valid choices for MINGW/MSYS are:
 	
-	* MSYS Makefiles
-	* MinGW Makefiles
+ * MSYS Makefiles
+ * MinGW Makefiles
 
  Example:
 
@@ -163,10 +177,10 @@ The following build systems are fully supported for compiling CataclysmDDA on Li
 
  Shared libraries:
  
- If you got 'libgcc_s_dw2-1.dll not found' error you need to copy shared libraries
+ If you got `libgcc_s_dw2-1.dll not found` error you need to copy shared libraries
  to directory with CataclysmDDA executables.
 
- **NOTE**: For -DRELEASE=OFF development builds, You can automate copy process with:
+ **NOTE**: For `-DRELEASE=OFF` development builds, You can automate copy process with:
  
  ```
 	$ mingw32-make install
@@ -177,45 +191,45 @@ The following build systems are fully supported for compiling CataclysmDDA on Li
  Currently known depends (Maybe outdated use ldd.exe to correct it for Your system)
 
  MINGW deps:
-	* libwinpthread-1.dll
-	* libgcc_s_dw2-1.dll
-	* libstdc++-6.dll
+ * `libwinpthread-1.dll`
+ * `libgcc_s_dw2-1.dll`
+ * `libstdc++-6.dll`
 
  LOCALIZE deps:
-	* libintl-8.dll
-	* libiconv-2.dll
+ * `libintl-8.dll`
+ * `libiconv-2.dll`
 
  LUA deps:
-	* lua51.dll
+ * `lua51.dll`
 
  TILES deps:
-	* SDL2.dll
-	* SDL2_ttf.dll
-	* libfreetype-6.dll
-	* libbz2-1.dll
-	* libharfbuzz-0.dll
-	* SDL2_image.dll
-	* libpng16-16.dll
-	* libjpeg-8.dll
-	* libtiff-5.dll
-	* libjbig-0.dll
-	* liblzma-5.dll
-	* libwebp-5.dll
-	* zlib1.dll
-	* libglib-2.0-0.dll
+ * `SDL2.dll`
+ * `SDL2_ttf.dll`
+ * `libfreetype-6.dll`
+ * `libbz2-1.dll`
+ * `libharfbuzz-0.dll`
+ * `SDL2_image.dll`
+ * `libpng16-16.dll`
+ * `libjpeg-8.dll`
+ * `libtiff-5.dll`
+ * `libjbig-0.dll`
+ * `liblzma-5.dll`
+ * `libwebp-5.dll`
+ * `zlib1.dll`
+ * `libglib-2.0-0.dll`
 
  SOUND deps:
-	* SDL2_mixer.dll
-	* libFLAC-8.dll
-	* libogg-0.dll
-	* libfluidsynth-1.dll
-	* libportaudio-2.dll
-	* libsndfile-1.dll
-	* libvorbis-0.dll
-	* libvorbisenc-2.dll
-	* libmodplug-1.dll
-	* smpeg2.dll
-	* libvorbisfile-3.dll
+ * `SDL2_mixer.dll`
+ * `libFLAC-8.dll`
+ * `libogg-0.dll`
+ * `libfluidsynth-1.dll`
+ * `libportaudio-2.dll`
+ * `libsndfile-1.dll`
+ * `libvorbis-0.dll`
+ * `libvorbisenc-2.dll`
+ * `libmodplug-1.dll`
+ * `smpeg2.dll`
+ * `libvorbisfile-3.dll`
 
  
 # Build Options
@@ -228,10 +242,10 @@ The following build systems are fully supported for compiling CataclysmDDA on Li
 	$ cmake -DOPTION_NAME1=option_value1 [-DOPTION_NAME2=option_value2 [...]]
  ```
 
- Some of the most important options follow:
 
+## CMake specific options 
 
- * CMAKE_BUILD_TYPE=<build type>               (CMake)
+ * CMAKE_BUILD_TYPE=<build type>
 
  Selects a specific build configuration when compiling. `release` produces
  the default, optimized (-O2) build for regular use. `debug` produces a
@@ -242,36 +256,38 @@ The following build systems are fully supported for compiling CataclysmDDA on Li
        configuration option is passed in the command line.
 
 
- * CMAKE_INSTALL_PREFIX=<full path>            (CMake)
+ * CMAKE_INSTALL_PREFIX=<full path>
 
  Installation prefix for binaries, resources, and documentation files.
 
+ 
+## CataclysmDDA specific options
 
- * CURSES=<boolean>                            (CataclysmDDA)
+ * CURSES=<boolean>
 
  Build curses version.
 
 
- * TILES=<boolean>                             (CataclysmDDA)
+ * TILES=<boolean>
 
  Build graphical tileset version.
 
 
- * SOUND=<boolean>                             (CataclysmDDA)
+ * SOUND=<boolean>
 
  Support for in-game sounds & music.
 
 
- * USE_HOME_DIR=<boolean>                      (CataclysmDDA)
+ * USE_HOME_DIR=<boolean>
 
  Use user's home directory for save files.
 
 
- * LOCALIZE=<boolean>                          (CataclysmDDA)
+ * LOCALIZE=<boolean>
 
  Support for language localizations. Also enable UTF support.
 
 
- * DYNAMIC_LINKING=<boolean>                   (CataclysmDDA)
+ * DYNAMIC_LINKING=<boolean>
 
  Use dynamic linking. Or use static to remove MinGW dependency instead.
