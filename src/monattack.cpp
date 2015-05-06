@@ -583,17 +583,16 @@ void mattack::boomer_glow(monster *z, int index)
         add_msg(m_warning, _("The %s spews bile!"), z->name().c_str());
     }
     for (auto &i : line) {
-        g->m.add_field(i.x, i.y, fd_bile, 1);
-        if (g->m.move_cost(i.x, i.y) == 0) {
-            g->m.add_field(i.x, i.y, fd_bile, 3);
+        g->m.add_field(i, fd_bile, 1, 0);
+        if (g->m.move_cost(i) == 0) {
+            g->m.add_field(i, fd_bile, 3, 0);
             if (g->u.sees( i ))
-                add_msg(_("Bile splatters on the %s!"), g->m.tername(i.x, i.y).c_str());
+                add_msg(_("Bile splatters on the %s!"), g->m.tername(i).c_str());
             return;
         }
     }
     if( !target->uncanny_dodge() ) {
         if (rng(0, 10) > target->get_dodge() || one_in( target->get_dodge() ) ) {
-            target->add_env_effect("boomered", bp_eyes, 3, 12);
             for (int i = 0; i < rng(2,4); i++){
                 body_part bp = random_body_part();
                 g->u.add_env_effect("glowing", bp, 3, 40);

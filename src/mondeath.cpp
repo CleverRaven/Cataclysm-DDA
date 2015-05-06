@@ -100,20 +100,21 @@ void mdeath::boomer(monster *z)
 void mdeath::boomer_glow(monster *z)
 {
     std::string explode = string_format(_("a %s explode!"), z->name().c_str());
-    sounds::sound(z->posx(), z->posy(), 24, explode);
+    sounds::sound(tripoint(z->posx(), z->posy(), z->posz()), 24, explode);
     for (int i = -1; i <= 1; i++) {
         for (int j = -1; j <= 1; j++) {
-            g->m.bash( tripoint( z->posx() + i, z->posy() + j, z->posz() ), 10 );
-            g->m.add_field(z->posx() + i, z->posy() + j, fd_bile, 1);
-            int mondex = g->mon_at(z->posx() + i, z->posy() + j);
-            if (mondex != -1) {
-                g->zombie(mondex).stumble(false);
-                g->zombie(mondex).moves -= 250;
+            for (int k = -1; k <= 1; k++){
+                g->m.bash( tripoint( z->posx() + i, z->posy() + j, z->posz() + k ), 10 );
+                g->m.add_field(tripoint(z->posx() + i, z->posy() + j, z->posz() + k), fd_bile, 1, 0);
+                int mondex = g->mon_at(tripoint(z->posx() + i, z->posy() + j, z->posz() + k));
+                if (mondex != -1) {
+                    g->zombie(mondex).stumble(false);
+                    g->zombie(mondex).moves -= 250;
+                }
             }
         }
     }
     if (rl_dist( z->pos(), g->u.pos() ) == 1) {
-        g->u.add_env_effect("boomered", bp_eyes, 2, 24);
         for (int i = 0; i < rng(2,4); i++){
                 body_part bp = random_body_part();
                 g->u.add_env_effect("glowing", bp, 3, 40);
