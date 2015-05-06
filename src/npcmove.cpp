@@ -1738,7 +1738,7 @@ void npc::alt_attack(int target)
                 for (int dist = 2; dist <= conf; dist++) {
                     for (int x = posx() - dist; x <= posx() + dist; x++) {
                         for (int y = posy() - dist; y <= posy() + dist; y++) {
-                            int newtarget = g->mon_at(x, y);
+                            int newtarget = g->mon_at( { x, y, posz() } );
                             int newdist = rl_dist(posx(), posy(), x, y);
                             // TODO: Change "newdist >= 2" to "newdist >= safe_distance(used)"
                             // Molotovs are safe at 2 tiles, grenades at 4, mininukes at 8ish

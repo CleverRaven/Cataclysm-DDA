@@ -975,7 +975,7 @@ void map::unboard_vehicle( const tripoint &p )
         if( g->u.pos3() == p ) {
             passenger = &(g->u);
         } else {
-            int npcdex = g->npc_at( p.x, p.y );
+            int npcdex = g->npc_at( p );
             if( npcdex != -1 ) {
                 passenger = g->active_npc[npcdex];
             }
@@ -2220,10 +2220,12 @@ bool map::moppable_items_at( const tripoint &p )
 void map::decay_fields_and_scent( const int amount )
 {
     // Decay scent separately, so that later we can use field count to skip empty submaps
-    for( int x = 0; x < my_MAPSIZE * SEEX; x++ ) {
-        for( int y = 0; y < my_MAPSIZE * SEEY; y++ ) {
-            if( g->scent( x, y ) > 0 ) {
-                g->scent( x, y )--;
+    tripoint tmp;
+    tmp.z = abs_sub.z; // TODO: Make this happen on all z-levels
+    for( tmp.x = 0; tmp.x < my_MAPSIZE * SEEX; tmp.x++ ) {
+        for( tmp.y = 0; tmp.y < my_MAPSIZE * SEEY; tmp.y++ ) {
+            if( g->scent( tmp ) > 0 ) {
+                g->scent( tmp )--;
             }
         }
     }
@@ -2404,12 +2406,15 @@ void map::create_spores( const tripoint &p, Creature* source )
     // TODO: Infect NPCs?
     monster spore(GetMType("mon_spore"));
     int mondex;
-    for (int i = x - 1; i <= x + 1; i++) {
-        for (int j = y - 1; j <= y + 1; j++) {
-            mondex = g->mon_at(i, j);
-            if (move_cost(i, j) > 0 || (i == x && j == y)) {
+    tripoint tmp = p;
+    int &i = tmp.x;
+    int &j = tmp.y;
+    for( i = x - 1; i <= x + 1; i++ ) {
+        for( j = y - 1; j <= y + 1; j++ ) {
+            mondex = g->mon_at( tmp );
+            if (move_cost( tmp ) > 0 || (i == x && j == y)) {
                 if (mondex != -1) { // Spores hit a monster
-                    if (g->u.sees(i, j) &&
+                    if (g->u.sees( tmp ) &&
                         !g->zombie(mondex).type->in_species("FUNGUS")) {
                         add_msg(_("The %s is covered in tiny spores!"),
                                 g->zombie(mondex).name().c_str());
@@ -2930,7 +2935,7 @@ void map::crush( const tripoint &p )
     int veh_part;
     player *crushed_player = nullptr;
     //The index of the NPC at (x,y), or -1 if there isn't one
-    int npc_index = g->npc_at(x, y);
+    int npc_index = g->npc_at( p );
     if( g->u.posx() == x && g->u.posy() == y ) {
         crushed_player = &(g->u);
     } else if( npc_index != -1 ) {
@@ -2970,9 +2975,9 @@ void map::crush( const tripoint &p )
         }
     }
 
-    //The index of the monster at (x,y), or -1 if there isn't one
-    int mon = g->mon_at(x, y);
-    if (mon != -1 && size_t(mon) < g->num_zombies()) {  //If there's a monster at (x,y)...
+    //The index of the monster at p, or -1 if there isn't one
+    int mon = g->mon_at( p );
+    if (mon != -1 && size_t(mon) < g->num_zombies()) {  //If there's a monster at p...
         monster* monhit = &(g->zombie(mon));
         // 25 ~= 60 * .45 (torso)
         monhit->deal_damage(nullptr, bp_torso, damage_instance(DT_BASH, rng(0,25)));
@@ -6318,20 +6323,23 @@ void map::spawn_monsters( const tripoint &gp, mongroup &group, bool ignore_sight
         for( int y = 0; y < SEEY; ++y ) {
             int fx = x + SEEX * gx;
             int fy = y + SEEY * gy;
-            if( g->critter_at( fx, fy ) != nullptr ) {
+            tripoint fp{ fx, fy, gp.z };
+            if( g->critter_at( fp ) != nullptr ) {
                 continue; // there is already some creature
             }
-            if( move_cost( fx, fy ) == 0 ) {
+
+            if( move_cost( fp ) == 0 ) {
                 continue; // solid area, impassable
             }
-            int t;
-            if( !ignore_sight && sees( g->u.posx(), g->u.posy(), fx, fy, s_range, t ) ) {
+
+            if( !ignore_sight && sees( g->u.pos(), fp, s_range ) ) {
                 continue; // monster must spawn outside the viewing range of the player
             }
-            if( has_flag_ter_or_furn( TFLAG_INDOORS, fx, fy ) ) {
+
+            if( has_flag_ter_or_furn( TFLAG_INDOORS, fp ) ) {
                 continue; // monster must spawn outside.
             }
-            locations.push_back( tripoint( fx, fy, gp.z ) );
+            locations.push_back( fp );
         }
     }
     if( locations.empty() ) {

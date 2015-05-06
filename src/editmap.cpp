@@ -154,9 +154,10 @@ void editmap_hilight::draw( editmap * hm, bool update ) {
         for( auto &elem : points ) {
             int x = elem.first.x;
             int y = elem.first.y;
+            const tripoint p( x, y, g->get_levz() );
             int vpart = 0;
             // but only if there's no vehicles/mobs/npcs on a point
-            if ( ! g->m.veh_at(x, y, vpart) && ( g->mon_at(x, y) == -1 ) && ( g->npc_at(x, y) == -1 ) ) {
+            if ( ! g->m.veh_at(x, y, vpart) && ( g->mon_at( p ) == -1 ) && ( g->npc_at( p ) == -1 ) ) {
                 char t_sym = terlist[g->m.ter(x, y)].sym;
                 nc_color t_col = terlist[g->m.ter(x, y)].color;
 
@@ -319,10 +320,11 @@ point editmap::edit()
         } else if (action == "EDITMAP_SHOW_ALL") {
             uberdraw = !uberdraw;
         } else if (action == "EDIT_MONSTER") {
-            int mon_index = g->mon_at(target.x, target.y);
-            int npc_index = g->npc_at(target.x, target.y);
+            const tripoint p( target, g->get_levz() );
+            int mon_index = g->mon_at( p );
+            int npc_index = g->npc_at( p );
             int veh_part = -1;
-            vehicle *veh = g->m.veh_at(target.x, target.y, veh_part);
+            vehicle *veh = g->m.veh_at( p, veh_part );
           if(mon_index >= 0) {
             edit_mon();
           } else if (npc_index >= 0) {
@@ -385,15 +387,16 @@ void editmap::uber_draw_ter( WINDOW *w, map *m )
     }
     for (int x = start.x, sx = 0; x <= end.x; x++, sx++) {
         for (int y = start.y, sy = 0; y <= end.y; y++, sy++) {
+            tripoint p{ x, y, g->get_levz() };
             nc_color col = c_dkgray;
             long sym = ( game_map ? '%' : ' ' );
             if ( x >= 0 && x < msize && y >= 0 && y < msize ) {
                 if ( game_map ) {
-                    Creature *critter = g->critter_at( x, y );
+                    Creature *critter = g->critter_at( p );
                     if( critter != nullptr ) {
                         critter->draw( w, center.x, center.y, false );
                     } else {
-                        m->drawsq(w, g->u, tripoint( x, y, g->get_levz() ), false, draw_itm, center.x, center.y, false, true);
+                        m->drawsq(w, g->u, p, false, draw_itm, center.x, center.y, false, true);
                     }
                     monster *m = dynamic_cast<monster*>( critter );
                     if( m != nullptr ) {
@@ -406,7 +409,7 @@ void editmap::uber_draw_ter( WINDOW *w, map *m )
                         }
                     }
                 } else {
-                    m->drawsq(w, g->u, tripoint( x, y, g->get_levz() ), false, draw_itm, center.x, center.y, false, true);
+                    m->drawsq(w, g->u, p, false, draw_itm, center.x, center.y, false, true);
                 }
             } else {
                 mvwputch(w, sy, sx, col, sym);
@@ -421,23 +424,24 @@ void editmap::uber_draw_ter( WINDOW *w, map *m )
 ///// redraw map and info (or not)
 void editmap::update_view(bool update_info)
 {
+    const tripoint target_tri( target, g->get_levz() );
     // Debug helper 2, child of debug helper
     // Gather useful data
     int veh_part = 0;
-    vehicle *veh = g->m.veh_at(target.x, target.y, veh_part);
+    vehicle *veh = g->m.veh_at( target_tri, veh_part );
     int veh_in = -1;
     if(veh) {
         veh_in = veh->is_inside(veh_part);
     }
 
-    target_ter = g->m.ter(target.x, target.y);
+    target_ter = g->m.ter( target_tri );
     ter_t terrain_type = terlist[target_ter];
-    target_frn = g->m.furn(target.x, target.y);
+    target_frn = g->m.furn( target_tri );
     furn_t furniture_type = furnlist[target_frn];
 
-    cur_field = &g->m.get_field( tripoint( target.x, target.y, g->get_levz() ) );
-    cur_trap = g->m.tr_at(target.x, target.y).loadid;
-    const Creature *critter = g->critter_at( target.x, target.y );
+    cur_field = &g->m.get_field( target_tri );
+    cur_trap = g->m.tr_at( target_tri ).loadid;
+    const Creature *critter = g->critter_at( target_tri );
 
     // update map always
     werase(g->w_terrain);
@@ -445,7 +449,7 @@ void editmap::update_view(bool update_info)
     if ( uberdraw ) {
         uber_draw_ter( g->w_terrain, &g->m ); // Bypassing the usual draw methods; not versatile enough
     } else {
-        g->draw_ter( tripoint( target.x, target.y, g->get_levz() ) ); // But it's optional
+        g->draw_ter( target_tri ); // But it's optional
     }
 
     // update target point
@@ -460,9 +464,10 @@ void editmap::update_view(bool update_info)
         for( auto &elem : target_list ) {
             int x = elem.x;
             int y = elem.y;
+            const tripoint p( x, y, g->get_levz() );
             int vpart = 0;
             // but only if there's no vehicles/mobs/npcs on a point
-            if ( ! g->m.veh_at(x, y, vpart) && ( g->mon_at(x, y) == -1 ) && ( g->npc_at(x, y) == -1 ) ) {
+            if ( ! g->m.veh_at(x, y, vpart) && ( g->mon_at( p ) == -1 ) && ( g->npc_at( p ) == -1 ) ) {
                 char t_sym = terlist[g->m.ter(x, y)].sym;
                 nc_color t_col = terlist[g->m.ter(x, y)].color;
 
@@ -531,7 +536,7 @@ void editmap::update_view(bool update_info)
                      );
             off++; // 3
         }
-        mvwprintw(w_info, off, 2, _("dist: %d u_see: %d light: %d v_in: %d scent: %d"), rl_dist( g->u.pos2(), target ), g->u.sees(target), g->m.light_at(target.x, target.y), veh_in, g->scent(target.x, target.y) );
+        mvwprintw(w_info, off, 2, _("dist: %d u_see: %d light: %d v_in: %d scent: %d"), rl_dist( g->u.pos2(), target ), g->u.sees(target), g->m.light_at(target.x, target.y), veh_in, g->scent({target.x, target.y, g->get_levz()}) );
         off++; // 3-4
 
         std::string extras = "";
@@ -1316,7 +1321,7 @@ int editmap::edit_itm()
 int editmap::edit_mon()
 {
     int ret = 0;
-    int mon_index = g->mon_at(target.x, target.y);
+    int mon_index = g->mon_at( { target.x, target.y, g->get_levz() } );
     monster * it=&g->zombie(mon_index);
     edit_json(it);
     return ret;
@@ -1434,7 +1439,7 @@ bool editmap::move_target( const std::string &action, int moveorigin )
 int editmap::edit_npc()
 {
     int ret = 0;
-    int npc_index = g->npc_at(target.x, target.y);
+    int npc_index = g->npc_at( { target.x, target.y, g->get_levz() } );
     npc * it=g->active_npc[npc_index];
     edit_json(it);
     return ret;

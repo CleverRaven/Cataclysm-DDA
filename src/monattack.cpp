@@ -82,19 +82,20 @@ void mattack::none(monster *, int)
 
 void mattack::antqueen(monster *z, int index)
 {
-    std::vector<point> egg_points;
+    std::vector<tripoint> egg_points;
     std::vector<int> ants;
     z->reset_special(index); // Reset timer
     // Count up all adjacent tiles the contain at least one egg.
     for (int x = z->posx() - 2; x <= z->posx() + 2; x++) {
         for (int y = z->posy() - 2; y <= z->posy() + 2; y++) {
-            for (auto &i : g->m.i_at(x, y)) {
+            tripoint dest( x, y, z->posz() );
+            for (auto &i : g->m.i_at( dest )) {
                 // is_empty() because we can't hatch an ant under the player, a monster, etc.
-                if (i.type->id == "ant_egg" && g->is_empty(x, y)) {
-                    egg_points.push_back(point(x, y));
+                if (i.type->id == "ant_egg" && g->is_empty( dest )) {
+                    egg_points.push_back( dest );
                     break; // Done looking at this tile
                 }
-                int mondex = g->mon_at(x, y);
+                int mondex = g->mon_at( dest );
                 if (mondex != -1 && (g->zombie(mondex).type->id == "mon_ant_larva" ||
                                      g->zombie(mondex).type->id == "mon_ant"         )) {
                     ants.push_back(mondex);
@@ -941,7 +942,7 @@ void mattack::growplants(monster *z, int index)
                 g->m.ter_set(z->posx() + i, z->posy() + j, t_dirtmound);
             } else {
                 if (one_in(4)) { // 1 in 4 chance to grow a tree
-                    int mondex = g->mon_at(z->posx() + i, z->posy() + j);
+                    int mondex = g->mon_at( p );
                     if (mondex != -1) {
                         if (g->u.sees(z->posx() + i, z->posy() + j))
                             add_msg(m_warning, _("A tree bursts forth from the earth and pierces the %s!"),
@@ -978,7 +979,7 @@ void mattack::growplants(monster *z, int index)
                             g->u.check_dead_state();
                         }
                     } else {
-                        int npcdex = g->npc_at(z->posx() + i, z->posy() + j);
+                        int npcdex = g->npc_at(p);
                         if (npcdex != -1) { // An NPC got hit
                             // TODO: combine this with the player character code above
                             body_part hit = num_bp;
@@ -1017,11 +1018,12 @@ void mattack::growplants(monster *z, int index)
         for (int i = -5; i <= 5; i++) {
             for (int j = -5; j <= 5; j++) {
                 if (i != 0 || j != 0) {
+                    tripoint p( z->posx() + i, z->posy() + j, z->posz() );
                     if (g->m.ter(z->posx() + i, z->posy() + j) == t_tree_young) {
                         g->m.ter_set(z->posx() + i, z->posy() + j, t_tree);    // Young tree => tree
                     } else if (g->m.ter(z->posx() + i, z->posy() + j) == t_underbrush) {
                         // Underbrush => young tree
-                        int mondex = g->mon_at(z->posx() + i, z->posy() + j);
+                        int mondex = g->mon_at(p);
                         if (mondex != -1) {
                             if (g->u.sees(z->posx() + i, z->posy() + j))
                                 add_msg(m_warning, _("Underbrush forms into a tree, and it pierces the %s!"),
@@ -1057,7 +1059,7 @@ void mattack::growplants(monster *z, int index)
                                 g->u.check_dead_state();
                             }
                         } else {
-                            int npcdex = g->npc_at(z->posx() + i, z->posy() + j);
+                            int npcdex = g->npc_at(p);
                             if (npcdex != -1) {
                                 // TODO: combine with player character code above
                                 body_part hit = num_bp;
@@ -1104,11 +1106,12 @@ void mattack::grow_vine(monster *z, int index)
     int xshift = rng(0, 2), yshift = rng(0, 2);
     for (int x = 0; x < 3; x++) {
         for (int y = 0; y < 3; y++) {
-            int xvine = z->posx() + (x + xshift) % 3 - 1,
-                yvine = z->posy() + (y + yshift) % 3 - 1;
-            if (g->is_empty(xvine, yvine)) {
-                if (g->summon_mon("mon_creeper_vine", tripoint(xvine, yvine, z->posz()))) {
-                    monster *vine = g->monster_at(tripoint(xvine, yvine, z->posz()));
+            tripoint dest( z->posx() + (x + xshift) % 3 - 1,
+                           z->posy() + (y + yshift) % 3 - 1,
+                           z->posz() );
+            if (g->is_empty(dest)) {
+                if (g->summon_mon("mon_creeper_vine", dest)) {
+                    monster *vine = g->monster_at(dest);
                     vine->make_ally(z);
                     vine->reset_special(0);
                 }
@@ -1125,7 +1128,8 @@ void mattack::vine(monster *z, int index)
     z->moves -= 100;
     for (int x = z->posx() - 1; x <= z->posx() + 1; x++) {
         for (int y = z->posy() - 1; y <= z->posy() + 1; y++) {
-            Creature *critter = g->critter_at( x, y );
+            tripoint dest( x, y, z->posz() );
+            Creature *critter = g->critter_at( dest );
             if( critter != nullptr && z->attitude_to( *critter ) == Creature::Attitude::A_HOSTILE ) {
                 if ( critter->uncanny_dodge() ) {
                     return;
@@ -1153,10 +1157,10 @@ void mattack::vine(monster *z, int index)
                     z->moves -= 100;
                     return;
                 }
-            } else if( g->is_empty(x, y) ) {
-                grow.push_back(tripoint(x, y, z->posz()));
+            } else if( g->is_empty(dest) ) {
+                grow.push_back(dest);
             } else {
-                const int zid = g->mon_at(x, y);
+                const int zid = g->mon_at(dest);
                 if (zid > -1 && g->zombie(zid).type->id == "mon_creeper_vine") {
                     vine_neighbors++;
                 }
@@ -1282,10 +1286,11 @@ void mattack::triffid_heartbeat(monster *z, int index)
         add_msg(m_warning, _("The root walls creak around you."));
         for (int x = g->u.posx(); x <= z->posx() - 3; x++) {
             for (int y = g->u.posy(); y <= z->posy() - 3; y++) {
-                if (g->is_empty(x, y) && one_in(4)) {
-                    g->m.ter_set(x, y, t_root_wall);
-                } else if (g->m.ter(x, y) == t_root_wall && one_in(10)) {
-                    g->m.ter_set(x, y, t_dirt);
+                tripoint dest( x, y, z->posz() );
+                if (g->is_empty(dest) && one_in(4)) {
+                    g->m.ter_set(dest, t_root_wall);
+                } else if (g->m.ter(dest) == t_root_wall && one_in(10)) {
+                    g->m.ter_set(dest, t_dirt);
                 }
             }
         }
@@ -1294,18 +1299,19 @@ void mattack::triffid_heartbeat(monster *z, int index)
         while (g->m.route( g->u.posx(), g->u.posy(), z->posx(), z->posy(), 10 ).empty() &&
                tries < 20) {
             int x = rng(g->u.posx(), z->posx() - 3), y = rng(g->u.posy(), z->posy() - 3);
+            tripoint dest( x, y, z->posz() );
             tries++;
             g->m.ter_set(x, y, t_dirt);
             if (rl_dist(x, y, g->u.posx(), g->u.posy()) > 3 && g->num_zombies() < 30 &&
-                g->mon_at(x, y) == -1 && one_in(20)) { // Spawn an extra monster
+                g->mon_at( dest ) == -1 && one_in(20)) { // Spawn an extra monster
                 std::string montype = "mon_triffid";
                 if (one_in(4)) {
                     montype = "mon_creeper_hub";
                 } else if (one_in(3)) {
                     montype = "mon_biollante";
                 }
-                if (g->summon_mon(montype, tripoint(x, y, z->posz()))) {
-                    monster *plant = g->monster_at(tripoint(x, y, z->posz()));
+                if (g->summon_mon(montype, dest)) {
+                    monster *plant = g->monster_at(dest);
                     plant->make_ally(z);
                 }
             }
@@ -1316,9 +1322,10 @@ void mattack::triffid_heartbeat(monster *z, int index)
         monster triffid(GetMType("mon_triffid"));
         for (int x = z->posx() - 1; x <= z->posx() + 1; x++) {
             for (int y = z->posy() - 1; y <= z->posy() + 1; y++) {
-                if (g->is_empty(x, y) && one_in(2)) {
-                    if (g->summon_mon("mon_triffid", tripoint(x, y, z->posz()))) {
-                        monster *triffid = g->monster_at(tripoint(x, y, z->posz()));
+                tripoint dest( x, y, z->posz() );
+                if (g->is_empty(dest) && one_in(2)) {
+                    if (g->summon_mon("mon_triffid", dest)) {
+                        monster *triffid = g->monster_at(dest);
                         triffid->make_ally(z);
                     }
                 }
@@ -1351,7 +1358,8 @@ void mattack::fungus(monster *z, int index)
             }
             sporex = z->posx() + i;
             sporey = z->posy() + j;
-            mondex = g->mon_at(sporex, sporey);
+            tripoint sporep( sporex, sporey, z->posz() );
+            mondex = g->mon_at(sporep);
             if (g->m.move_cost(sporex, sporey) > 0) {
                 if (mondex != -1) { // Spores hit a monster
                     if (g->u.sees(sporex, sporey) &&
@@ -1605,20 +1613,26 @@ void mattack::fungus_growth(monster *z, int index)
 void mattack::fungus_sprout(monster *z, int index)
 {
     z->reset_special(index); // Reset timer
+    bool push_player = false; // To avoid map shift weirdness
     for (int x = z->posx() - 1; x <= z->posx() + 1; x++) {
         for (int y = z->posy() - 1; y <= z->posy() + 1; y++) {
-            if (g->u.posx() == x && g->u.posy() == y) {
-                add_msg(m_bad, _("You're shoved away as a fungal wall grows!"));
-                g->fling_creature( &g->u, g->m.coord_to_angle(z->posx(), z->posy(), g->u.posx(),
-                                   g->u.posy()), rng(10, 50));
+            tripoint dest( x, y, z->posz() );
+            if( g->u.pos() == dest ) {
+                push_player = true;
             }
-            if (g->is_empty(x, y)) {
-                if (g->summon_mon("mon_fungal_wall", tripoint(x, y, z->posz()))) {
-                    monster *wall = g->monster_at(tripoint(x, y, z->posz()));
+            if( g->is_empty(dest) ) {
+                if (g->summon_mon("mon_fungal_wall", dest)) {
+                    monster *wall = g->monster_at(dest);
                     wall->make_ally(z);
                 }
             }
         }
+    }
+
+    if( push_player ) {
+        const int angle = g->m.coord_to_angle(z->posx(), z->posy(), g->u.posx(), g->u.posy());
+        add_msg(m_bad, _("You're shoved away as a fungal wall grows!"));
+        g->fling_creature( &g->u, angle, rng(10, 50) );
     }
 }
 
@@ -1663,21 +1677,26 @@ void mattack::fungus_fortify(monster *z, int index)
 
     bool fortified = false;
     z->reset_special(index); // Reset timer
+    bool push_player = false; // To avoid map shift weirdness
     for (int x = z->posx() - 1; x <= z->posx() + 1; x++) {
         for (int y = z->posy() - 1; y <= z->posy() + 1; y++) {
-            if (g->u.posx() == x && g->u.posy() == y) {
-                add_msg(m_bad, _("You're shoved away as a fungal hedgerow grows!"));
-                g->fling_creature( &g->u, g->m.coord_to_angle(z->posx(), z->posy(), g->u.posx(),
-                                   g->u.posy()), rng(10, 50));
+            tripoint dest( x, y, z->posz() );
+            if (g->u.pos() == dest) {
+                push_player = true;
             }
-            if (g->is_empty(x, y)) {
-                if (g->summon_mon("mon_fungal_hedgerow", tripoint(x, y, z->posz()))) {
-                    monster *wall = g->monster_at(tripoint(x, y, z->posz()));
+            if (g->is_empty(dest)) {
+                if (g->summon_mon("mon_fungal_hedgerow", dest)) {
+                    monster *wall = g->monster_at(dest);
                     wall->make_ally(z);
                 }
                 fortified = true;
             }
         }
+    }
+    if( push_player ) {
+        add_msg(m_bad, _("You're shoved away as a fungal hedgerow grows!"));
+        g->fling_creature( &g->u, g->m.coord_to_angle(z->posx(), z->posy(), g->u.posx(),
+                           g->u.posy()), rng(10, 50));
     }
     if( !fortified && !(mycus || peaceful) ) {
         if (rl_dist( z->pos(), g->u.pos() ) < 12) {
@@ -2012,7 +2031,8 @@ void mattack::formblob(monster *z, int index)
     int thatmon = -1;
     for (int i = -1; i <= 1; i++) {
         for (int j = -1; j <= 1; j++) {
-            thatmon = g->mon_at(z->posx() + i, z->posy() + j);
+            tripoint dest( z->posx() + i, z->posy() + j, z->posz() );
+            thatmon = g->mon_at(dest);
             if (g->u.posx() == z->posx() + i && g->u.posy() == z->posy() + i) {
                 // If we hit the player, cover them with slime
                 didit = true;
@@ -2292,8 +2312,8 @@ void mattack::vortex(monster *z, int index)
             if (x == z->posx() && y == z->posy()) { // Don't throw us!
                 y++;
             }
-            // TODO: Z
-            std::vector<tripoint> from_monster = line_to( z->pos3(), tripoint( x, y, z->posz() ), 0, 0 );
+            tripoint dest( x, y, z->posz() );
+            std::vector<tripoint> from_monster = line_to( z->pos3(), dest, 0, 0 );
             while (!g->m.i_at(x, y).empty()) {
                 item thrown = g->m.i_at(x, y)[index];
                 g->m.i_rem(x, y, 0);
@@ -2341,7 +2361,7 @@ void mattack::vortex(monster *z, int index)
                 } // Done throwing item
             } // Done getting items
             // Throw monsters
-            int mondex = g->mon_at(x, y);
+            int mondex = g->mon_at( dest );
             if (mondex != -1) {
                 int distance = 0, damage = 0;
                 monster *thrown = &(g->zombie(mondex));
@@ -2376,7 +2396,7 @@ void mattack::vortex(monster *z, int index)
                     std::vector<tripoint> traj = continue_line(from_monster, distance);
                     bool hit_wall = false;
                     for (size_t i = 0; i < traj.size() && !hit_wall; i++) {
-                        int monhit = g->mon_at(traj[i].x, traj[i].y);
+                        int monhit = g->mon_at(traj[i]);
                         if (i > 0 && monhit != -1 && !g->zombie(monhit).digging()) {
                             if (g->u.sees( traj[i] ))
                                 add_msg(_("The %s hits a %s!"), thrown->name().c_str(),
@@ -2418,7 +2438,7 @@ void mattack::vortex(monster *z, int index)
                     bool hit_wall = false;
                     int damage = rng(5, 10);
                     for (size_t i = 0; i < traj.size() && !hit_wall; i++) {
-                        int monhit = g->mon_at(traj[i].x, traj[i].y);
+                        int monhit = g->mon_at(traj[i]);
                         if (i > 0 && monhit != -1 && !g->zombie(monhit).digging()) {
                             if (g->u.sees( traj[i] )) {
                                 add_msg(m_bad, _("You hit a %s!"), g->zombie(monhit).name().c_str());
@@ -2802,7 +2822,7 @@ void mattack::smg(monster *z, int index)
 
 void mattack::laser(monster *z, int index)
 {
-    bool sunlight = g->is_in_sunlight(z->posx(), z->posy());
+    bool sunlight = g->is_in_sunlight(z->pos());
 
     z->reset_special(index); // Reset timer
     Creature *target = nullptr;
@@ -3161,7 +3181,8 @@ void mattack::searchlight(monster *z, int index)
 
             for (int x = zposx - 24; x < zposx + 24; x++)
                 for (int y = zposy - 24; y < zposy + 24; y++) {
-                    if (g->mon_at(x, y) != -1 && g->zombie(g->mon_at(x, y)).type->id == "mon_turret_searchlight") {
+                    tripoint dest( x, y, z->posz() );
+                    if (g->mon_at( dest ) != -1 && g->zombie(g->mon_at( dest )).type->id == "mon_turret_searchlight") {
                         if (x < zposx) {
                             settings.set_var( "SL_PREFER_LEFT", "FALSE" );
                         }
@@ -3695,7 +3716,8 @@ void mattack::breathe(monster *z, int index)
     if (!able) {
         for (int x = z->posx() - 3; x <= z->posx() + 3 && !able; x++) {
             for (int y = z->posy() - 3; y <= z->posy() + 3 && !able; y++) {
-                int mondex = g->mon_at(x, y);
+                tripoint dest( x, y, z->posz() );
+                int mondex = g->mon_at(dest);
                 if (mondex != -1 && g->zombie(mondex).type->id == "mon_breather_hub") {
                     able = true;
                 }
@@ -3709,8 +3731,9 @@ void mattack::breathe(monster *z, int index)
     std::vector<tripoint> valid;
     for (int x = z->posx() - 1; x <= z->posx() + 1; x++) {
         for (int y = z->posy() - 1; y <= z->posy() + 1; y++) {
-            if (g->is_empty(x, y)) {
-                valid.push_back( tripoint(x, y, z->posz()) );
+            tripoint dest( x, y, z->posz() );
+            if (g->is_empty(dest)) {
+                valid.push_back( dest );
             }
         }
     }
@@ -4109,8 +4132,9 @@ void mattack::darkman(monster *z, int index)
     std::vector<tripoint> free;
     for( int x = z->posx() - 1; x <= z->posx() + 1; x++ ) {
         for( int y = z->posy() - 1; y <= z->posy() + 1; y++ ) {
-            if( g->is_empty(x, y) ) {
-                free.push_back(tripoint(x, y, z->posz()));
+            tripoint dest( x, y, z->posz() );
+            if( g->is_empty(dest) ) {
+                free.push_back(dest);
             }
         }
     }

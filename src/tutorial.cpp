@@ -22,7 +22,7 @@ bool tutorial_game::init()
 // Set the scent map to 0
  for (int i = 0; i < SEEX * MAPSIZE; i++) {
   for (int j = 0; j < SEEX * MAPSIZE; j++)
-   g->scent(i, j) = 0;
+   g->scent( { i, j, g->get_levz() } ) = 0;
  }
  g->temperature = 65;
 // We use a Z-factor of 10 so that we don't plop down tutorial rooms in the

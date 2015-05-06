@@ -794,7 +794,7 @@ void player::update_bodytemp()
     }
     const oter_id &cur_om_ter = overmap_buffer.ter( global_omt_location() );
     std::string omtername = otermap[cur_om_ter].name;
-    bool sheltered = g->is_sheltered(posx(), posy());
+    bool sheltered = g->is_sheltered(pos());
     int total_windpower = get_local_windpower(weather.windpower + vehwindspeed, omtername, sheltered);
     // Temperature norms
     // Ambient normal temperature is lower while asleep
@@ -1041,10 +1041,10 @@ void player::update_bodytemp()
             break;
         }
         // WEATHER
-        if( g->weather == WEATHER_SUNNY && g->is_in_sunlight(posx(), posy()) ) {
+        if( g->weather == WEATHER_SUNNY && g->is_in_sunlight(pos()) ) {
             temp_conv[i] += 1000;
         }
-        if( g->weather == WEATHER_CLEAR && g->is_in_sunlight(posx(), posy()) ) {
+        if( g->weather == WEATHER_CLEAR && g->is_in_sunlight(pos()) ) {
             temp_conv[i] += 500;
         }
         // DISEASES
@@ -1553,7 +1553,7 @@ void player::recalc_speed_bonus()
     // Ectothermic/COLDBLOOD4 is intended to buff folks in the Summer
     // Threshold-crossing has its charms ;-)
     if (g != NULL) {
-        if (has_trait("SUNLIGHT_DEPENDENT") && !g->is_in_sunlight(posx(), posy())) {
+        if (has_trait("SUNLIGHT_DEPENDENT") && !g->is_in_sunlight(pos())) {
             mod_speed_bonus(-(g->light_level() >= 12 ? 5 : 10));
         }
         if ((has_trait("COLDBLOOD4")) && g->get_temperature() > 60) {
@@ -2412,18 +2412,18 @@ void player::disp_info()
         effect_text.push_back(stim_text.str());
     }
 
-    if ((has_trait("TROGLO") && g->is_in_sunlight(posx(), posy()) &&
+    if ((has_trait("TROGLO") && g->is_in_sunlight(pos()) &&
          g->weather == WEATHER_SUNNY) ||
-        (has_trait("TROGLO2") && g->is_in_sunlight(posx(), posy()) &&
+        (has_trait("TROGLO2") && g->is_in_sunlight(pos()) &&
          g->weather != WEATHER_SUNNY)) {
         effect_name.push_back(_("In Sunlight"));
         effect_text.push_back(_("The sunlight irritates you.\n\
 Strength - 1;    Dexterity - 1;    Intelligence - 1;    Perception - 1"));
-    } else if (has_trait("TROGLO2") && g->is_in_sunlight(posx(), posy())) {
+    } else if (has_trait("TROGLO2") && g->is_in_sunlight(pos())) {
         effect_name.push_back(_("In Sunlight"));
         effect_text.push_back(_("The sunlight irritates you badly.\n\
 Strength - 2;    Dexterity - 2;    Intelligence - 2;    Perception - 2"));
-    } else if (has_trait("TROGLO3") && g->is_in_sunlight(posx(), posy())) {
+    } else if (has_trait("TROGLO3") && g->is_in_sunlight(pos())) {
         effect_name.push_back(_("In Sunlight"));
         effect_text.push_back(_("The sunlight irritates you terribly.\n\
 Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4"));
@@ -2809,7 +2809,7 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4"));
                   (pen < 10 ? " " : ""), pen);
         line++;
     }
-    if (has_trait("SUNLIGHT_DEPENDENT") && !g->is_in_sunlight(posx(), posy())) {
+    if (has_trait("SUNLIGHT_DEPENDENT") && !g->is_in_sunlight(pos())) {
         pen = (g->light_level() >= 12 ? 5 : 10);
         mvwprintz(w_speed, line, 1, c_red, _("Out of Sunlight     -%s%d%%"),
                   (pen < 10 ? " " : ""), pen);
@@ -4702,8 +4702,9 @@ dealt_damage_instance player::deal_damage(Creature* source, body_part bp, const 
         std::vector<tripoint> valid;
         for (int x = posx() - 1; x <= posx() + 1; x++) {
             for (int y = posy() - 1; y <= posy() + 1; y++) {
-                if (g->is_empty(x, y)) {
-                    valid.push_back( tripoint(x, y, posz()) );
+                tripoint dest(x, y, posz());
+                if (g->is_empty( dest )) {
+                    valid.push_back( dest );
                 }
             }
         }
@@ -4730,8 +4731,9 @@ dealt_damage_instance player::deal_damage(Creature* source, body_part bp, const 
         std::vector<tripoint> valid;
         for (int x = posx() - 1; x <= posx() + 1; x++) {
             for (int y = posy() - 1; y <= posy() + 1; y++) {
-                if (g->is_empty(x, y)) {
-                    valid.push_back( tripoint(x, y, posz()) );
+                tripoint dest(x, y, posz());
+                if (g->is_empty(dest)) {
+                    valid.push_back( dest );
                 }
             }
         }
@@ -5082,7 +5084,7 @@ void player::knock_back_from( const tripoint &p )
     }
 
 // First, see if we hit a monster
-    int mondex = g->mon_at(to.x, to.y);
+    int mondex = g->mon_at( to );
     if (mondex != -1) {
         monster *critter = &(g->zombie(mondex));
         deal_damage( critter, bp_torso, damage_instance( DT_BASH, critter->type->size ) );
@@ -5102,7 +5104,7 @@ void player::knock_back_from( const tripoint &p )
         return;
     }
 
-    int npcdex = g->npc_at(to.x, to.y);
+    int npcdex = g->npc_at( to );
     if (npcdex != -1) {
         npc *p = g->active_npc[npcdex];
         deal_damage( p, bp_torso, damage_instance( DT_BASH, p->get_size() ) );
@@ -5750,7 +5752,7 @@ void player::add_eff_effects(effect e, bool reduced)
 
 void player::process_effects() {
     //Special Removals
-    if (has_effect("darkness") && g->is_in_sunlight(posx(), posy())) {
+    if (has_effect("darkness") && g->is_in_sunlight(pos())) {
         remove_effect("darkness");
     }
     if (has_trait("M_IMMUNE") && has_effect("fungus")) {
@@ -6072,8 +6074,9 @@ void player::hardcoded_effects(effect &it)
                         }
                         sporex = posx() + i;
                         sporey = posy() + j;
+                        tripoint sporep( sporex, sporey, posz() );
                         if (g->m.move_cost(sporex, sporey) > 0) {
-                            const int zid = g->mon_at(sporex, sporey);
+                            const int zid = g->mon_at( sporep );
                             if (zid >= 0) {  // Spores hit a monster
                                 if (g->u.sees(sporex, sporey) &&
                                       !g->zombie(zid).type->in_species("FUNGUS")) {
@@ -6568,9 +6571,10 @@ void player::hardcoded_effects(effect &it)
                     } else if (i == 0 && j == 0) {
                         continue;
                     }
-                    if (g->mon_at(i, j) == -1) {
-                        if (g->summon_mon("mon_dermatik_larva", tripoint(i, j, posz()))) {
-                            monster *grub = g->monster_at(tripoint(i, j, posz()));
+                    tripoint dest( i, j, posz() );
+                    if (g->mon_at( dest ) == -1) {
+                        if (g->summon_mon("mon_dermatik_larva", dest)) {
+                            monster *grub = g->monster_at(dest);
                             if (one_in(3)) {
                                 grub->friendly = -1;
                             }
@@ -6643,20 +6647,20 @@ void player::hardcoded_effects(effect &it)
         }
     } else if (id == "attention") {
         if (one_in(100000 / dur) && one_in(100000 / dur) && one_in(250)) {
-            int x, y;
+            tripoint dest( 0, 0, posz() );
             int tries = 0;
             do {
-                x = posx() + rng(-4, 4);
-                y = posy() + rng(-4, 4);
+                dest.x = posx() + rng(-4, 4);
+                dest.y = posy() + rng(-4, 4);
                 tries++;
-            } while (((x == posx() && y == posy()) || g->mon_at(x, y) != -1) && tries < 10);
+            } while ((dest == pos() || g->mon_at(dest) != -1) && tries < 10);
             if (tries < 10) {
-                if (g->m.move_cost(x, y) == 0) {
-                    g->m.make_rubble( tripoint( x, y, posz() ), f_rubble_rock, true);
+                if (g->m.move_cost( dest ) == 0) {
+                    g->m.make_rubble( dest, f_rubble_rock, true);
                 }
                 MonsterGroupResult spawn_details = MonsterGroupManager::GetResultFromGroup("GROUP_NETHER");
-                g->summon_mon(spawn_details.name, tripoint(x, y, posz()));
-                if (g->u.sees(x, y)) {
+                g->summon_mon(spawn_details.name, dest);
+                if (g->u.sees( dest )) {
                     g->cancel_activity_query(_("A monster appears nearby!"));
                     add_msg_if_player(m_warning, _("A portal opens nearby, and a monster crawls through!"));
                 }
@@ -6721,7 +6725,9 @@ void player::hardcoded_effects(effect &it)
         if (dur > 3600) {
             // 12 teles
             if (one_in(4000 - int(.25 * (dur - 3600)))) {
-                int x, y;
+                tripoint dest( 0, 0, posz() );
+                int &x = dest.x;
+                int &y = dest.y;
                 int tries = 0;
                 do {
                     x = posx() + rng(-4, 4);
@@ -6730,13 +6736,13 @@ void player::hardcoded_effects(effect &it)
                     if (tries >= 10) {
                         break;
                     }
-                } while (((x == posx() && y == posy()) || g->mon_at(x, y) != -1));
+                } while (((x == posx() && y == posy()) || g->mon_at( dest ) != -1));
                 if (tries < 10) {
                     if (g->m.move_cost(x, y) == 0) {
                         g->m.make_rubble( tripoint( x, y, posz() ), f_rubble_rock, true);
                     }
                     MonsterGroupResult spawn_details = MonsterGroupManager::GetResultFromGroup("GROUP_NETHER");
-                    g->summon_mon(spawn_details.name, tripoint(x, y, posz()));
+                    g->summon_mon( spawn_details.name, dest );
                     if (g->u.sees(x, y)) {
                         g->cancel_activity_query(_("A monster appears nearby!"));
                         add_msg(m_warning, _("A portal opens nearby, and a monster crawls through!"));
@@ -7174,7 +7180,7 @@ void player::hardcoded_effects(effect &it)
         }
 
         if (int(calendar::turn) % 100 == 0 && has_trait("CHLOROMORPH") &&
-        g->is_in_sunlight(posx(), posy()) ) {
+        g->is_in_sunlight(pos()) ) {
             // Hunger and thirst fall before your Chloromorphic physiology!
             if (hunger >= -30) {
                 hunger -= 5;
@@ -7682,7 +7688,7 @@ void player::suffer()
         }
     }
 
-    if (has_trait("LEAVES") && g->is_in_sunlight(posx(), posy()) && one_in(600)) {
+    if (has_trait("LEAVES") && g->is_in_sunlight(pos()) && one_in(600)) {
         hunger--;
     }
 
@@ -7699,7 +7705,7 @@ void player::suffer()
     }
 
     if( (has_trait("ALBINO") || has_effect("datura")) &&
-        g->is_in_sunlight(posx(), posy()) && one_in(10) ) {
+        g->is_in_sunlight(pos()) && one_in(10) ) {
         // Umbrellas and rain gear can also keep the sun off!
         // (No, really, I know someone who uses an umbrella when it's sunny out.)
         if (!((worn_with_flag("RAINPROOF")) || (weapon.has_flag("RAIN_PROTECT"))) ) {
@@ -7714,7 +7720,7 @@ void player::suffer()
         }
     }
 
-    if (has_trait("SUNBURN") && g->is_in_sunlight(posx(), posy()) && one_in(10)) {
+    if (has_trait("SUNBURN") && g->is_in_sunlight(pos()) && one_in(10)) {
         if (!((worn_with_flag("RAINPROOF")) || (weapon.has_flag("RAIN_PROTECT"))) ) {
         add_msg(m_bad, _("The sunlight burns your skin!"));
         if (in_sleep_state()) {
@@ -7726,21 +7732,21 @@ void player::suffer()
     }
 
     if ((has_trait("TROGLO") || has_trait("TROGLO2")) &&
-        g->is_in_sunlight(posx(), posy()) && g->weather == WEATHER_SUNNY) {
+        g->is_in_sunlight(pos()) && g->weather == WEATHER_SUNNY) {
         mod_str_bonus(-1);
         mod_dex_bonus(-1);
         add_miss_reason(_("The sunlight distracts you."), 1);
         mod_int_bonus(-1);
         mod_per_bonus(-1);
     }
-    if (has_trait("TROGLO2") && g->is_in_sunlight(posx(), posy())) {
+    if (has_trait("TROGLO2") && g->is_in_sunlight(pos())) {
         mod_str_bonus(-1);
         mod_dex_bonus(-1);
         add_miss_reason(_("The sunlight distracts you."), 1);
         mod_int_bonus(-1);
         mod_per_bonus(-1);
     }
-    if (has_trait("TROGLO3") && g->is_in_sunlight(posx(), posy())) {
+    if (has_trait("TROGLO3") && g->is_in_sunlight(pos())) {
         mod_str_bonus(-4);
         mod_dex_bonus(-4);
         add_miss_reason(_("You can't stand the sunlight!"), 4);
@@ -9501,8 +9507,9 @@ bool player::eat(item *eaten, it_comest *comest)
             std::vector<tripoint> valid;
             for (int x = posx() - 1; x <= posx() + 1; x++) {
                 for (int y = posy() - 1; y <= posy() + 1; y++) {
-                    if (g->is_empty(x, y)) {
-                        valid.push_back( tripoint(x, y, posz()) );
+                    tripoint dest(x, y, posz());
+                    if (g->is_empty( dest )) {
+                        valid.push_back( dest );
                     }
                 }
             }
@@ -13711,7 +13718,8 @@ void player::spores()
             }
             sporex = posx() + i;
             sporey = posy() + j;
-            mondex = g->mon_at(sporex, sporey);
+            tripoint sporep( sporex, sporey, posz() );
+            mondex = g->mon_at( sporep );
             if (g->m.move_cost(sporex, sporey) > 0) {
                 if (mondex != -1) { // Spores hit a monster
                     if (g->u.sees(sporex, sporey) &&
@@ -13724,8 +13732,8 @@ void player::spores()
                         critter.die( this );
                     }
                 } else if (one_in(3) && g->num_zombies() <= 1000) { // Spawn a spore
-                    if (g->summon_mon("mon_spore", tripoint(sporex, sporey, posz()))) {
-                        monster *spore = g->monster_at(tripoint(sporex, sporey, posz()));
+                    if (g->summon_mon( "mon_spore", sporep )) {
+                        monster *spore = g->monster_at( sporep );
                         spore->friendly = -1;
                     }
                 }
