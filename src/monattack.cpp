@@ -2265,6 +2265,64 @@ void mattack::tentacle(monster *z, int index)
     g->u.check_dead_state();
 }
 
+void mattack::pull(monster *z, int index)
+{
+    int t;
+    Creature *target = z->attack_target();
+    if( target == nullptr || rl_dist( z->pos(), target->pos() ) > 3
+            || !z->sees(*target, t)) {
+        return;
+    }
+
+    player *foe = dynamic_cast< player* >( target );
+    std::vector<point> line = line_to( z->pos2(), target->pos2(), t );
+    bool seen = g->u.sees( *z );
+
+    z->reset_special(index); // Reset timer
+    z->moves -= 150;
+
+    ter_t terrain;
+    for (auto &i : line){
+        terrain = g->m.ter_at(i.x, i.y);
+        //Player can't be pulled though bars
+        if (terrain.movecost == 0 ){
+            z->add_effect("stunned", 6);
+            add_msg( _("The %s stretches its head at you, but bounces off the %s"), z->name().c_str(), terrain.name.c_str() );
+            return;
+        }
+    }
+    bool uncanny = foe != nullptr && foe->uncanny_dodge();
+
+    if( uncanny || dodge_check(z, target) ) {
+        z->moves -=200;
+        z->add_effect("stunned", 3);
+        if( foe != nullptr ) {
+            if( seen ) {
+                auto msg_type = foe == &g->u ? m_warning : m_info;
+                foe->add_msg_player_or_npc( msg_type, _("The %s's head extends to bite you, but you dodge and the head sails past!"),
+                                                      _("The %s's head extends to bite <npcname>, but they dodge and the head sails past!"),
+                                            z->name().c_str() );
+            }
+            if( !uncanny ) {
+                foe->practice( "dodge", z->type->melee_skill * 2 );
+                foe->ma_ondodge_effects();
+            }
+        } else if( seen ) {
+            add_msg( _("The %s's head extends at %s, but misses and sails past!"), z->name().c_str(), target->disp_name().c_str() );
+        }
+        return;
+    }
+
+    foe->setx( z->pos(x)+1 );
+    foe->sety( z->pos(y)+1 );
+
+                       if( !z->can_act() ) {
+    }
+    if( seen ) {
+        add_msg( _("The %s's teeth sink into %s!"), z->name().c_str(), target->disp_name().c_str() );
+    }
+}
+
 void mattack::vortex(monster *z, int index)
 {
     // Make sure that the player's butchering is interrupted!
