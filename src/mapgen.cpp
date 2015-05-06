@@ -716,16 +716,24 @@ class jmapgen_vehicle : public jmapgen_piece {
 public:
     std::string type;
     jmapgen_int chance;
-    int rotation;
+    std::vector<int> rotation;
     int fuel;
     int status;
     jmapgen_vehicle( JsonObject &jsi ) : jmapgen_piece()
     , type( jsi.get_string( "vehicle" ) )
     , chance( jsi, "chance", 1, 1 )
-    , rotation( jsi.get_int( "rotation", 0 ) )
+    //, rotation( jsi.get_int( "rotation", 0 ) ) // unless there is a way for the json parser to
+        // return a single int as a list, we have to manually check this in the constructor below
     , fuel( jsi.get_int( "fuel", -1 ) )
     , status( jsi.get_int( "status", -1 ) )
     {
+        if(jsi.has_array("rotation")) {
+            rotation = jsi.get_int_array("rotation");
+        }
+        else {
+            rotation.push_back(jsi.get_int( "rotation", 0 ));
+        }
+
         if( g->vtypes.count( type ) == 0 ) {
             jsi.throw_error( "no such vehicle type", "vehicle" );
         }
@@ -735,7 +743,7 @@ public:
         if( !x_in_y( chance.get(), 100 ) ) {
             return;
         }
-        m.add_vehicle( type, x, y, rotation, fuel, status );
+        m.add_vehicle( type, x, y, rotation[rng(0, rotation.size()-1)], fuel, status );
     }
 };
 /**
