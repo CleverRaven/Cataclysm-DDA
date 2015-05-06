@@ -277,17 +277,6 @@ void map::generate_lightmap()
                 apply_light_source(mx, my, critter.type->luminance, trigdist);
             }
         }
-        if (INBOUNDS(mx, my)) {
-            if (critter.has_effect("glowing")) {
-                apply_light_source(mx, my, 10, trigdist);
-            }
-            // TODO: [lightmap] Attach natural light brightness to creatures
-            // TODO: [lightmap] Allow creatures to have light attacks (ie: eyebot)
-            // TODO: [lightmap] Allow creatures to have facing and arc lights
-            if (critter.type->luminance > 0) {
-                apply_light_source(mx, my, critter.type->luminance, trigdist);
-            }
-        }
     }
 
     // Apply any vehicle light sources

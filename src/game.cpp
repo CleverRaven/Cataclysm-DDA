@@ -12402,7 +12402,7 @@ void game::plswim(int x, int y)
         add_msg(_("The water puts out the flames!"));
         u.remove_effect("onfire");
     }
-    if (u.has_effect("onfire")) {
+    if (u.has_effect("glowing")) {
         add_msg(_("The water washes off the glowing goo!"));
         u.remove_effect("glowing");
     }

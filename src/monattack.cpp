@@ -575,7 +575,7 @@ void mattack::boomer_glow(monster *z, int index)
     }
 
     player *foe = dynamic_cast< player* >( target );
-    std::vector<point> line = line_to( z->pos(), target->pos(), t );
+    std::vector<tripoint> line = line_to( z->pos(), target->pos(), t, 0 );
     z->reset_special(index); // Reset timer
     z->moves -= 250;   // It takes a while
     bool u_see = g->u.sees( *z );
