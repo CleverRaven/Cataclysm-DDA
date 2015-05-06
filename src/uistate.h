@@ -25,7 +25,6 @@ class uistatedata : public JsonSerializer, public JsonDeserializer
         typedef std::string itype_id;
         enum side { left  = 0, right = 1, NUM_PANES = 2 };
     public:
-        using itype_id = std::string;
         /**** declare your variable here. It can be anything, really *****/
         int wishitem_selected = 0;
         int wishmutate_selected = 0;

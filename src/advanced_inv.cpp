@@ -547,7 +547,7 @@ void advanced_inv_area::init()
                 break;
             }
             // offset for dragged vehicles is not statically initialized, so get it
-            off = tripoint(g->u.grab_point, 0);
+            off = g->u.grab_point;
             // Reset position because offset changed
             pos = g->u.pos3() + off;
             veh = g->m.veh_at( pos, vstor );
@@ -2096,7 +2096,7 @@ void advanced_inv_area::set_container_position()
     // update the offset of the container based on location
     switch( uistate.adv_inv_container_location ) {
         case AIM_DRAGGED:
-            off = tripoint( g->u.grab_point, g->u.posz() );
+            off = g->u.grab_point;
             break;
         case AIM_SOUTHWEST:
             off = tripoint( -1, 1, 0 );
