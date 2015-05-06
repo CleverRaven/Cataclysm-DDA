@@ -3007,7 +3007,7 @@ bool outside_scent_radius( const tripoint &p ) {
            p.y < (SEEY * MAPSIZE / 2) - SCENT_RADIUS || p.y >= (SEEY * MAPSIZE / 2) + SCENT_RADIUS;
 }
 
-int &game::scent( const tripoint &p ) // A wrapper for now
+int &game::scent( const tripoint &p )
 {
     if( outside_scent_radius( p ) ) {
         nulscent = 0;
@@ -12239,10 +12239,10 @@ bool game::plmove(int dx, int dy)
 
     } else if( u.has_active_bionic("bio_probability_travel") && u.power_level >= 250 ) {
         //probability travel through walls but not water
-        int tunneldist = 0;
+        tripoint dest( x, y, u.posz() );
         // tile is impassable
-        tripoint dest( x + tunneldist * (x - u.posx()), y + tunneldist * (y - u.posy()), u.posz() );
-        while( ( m.move_cost(dest) == 0 || mon_at(dest) != -1 || npc_at(dest) != -1 ) && tunneldist > 0 ) {
+        int tunneldist = 0;
+        do {
             //add 1 to tunnel distance for each impassable tile in the line
             tunneldist += 1;
             if (tunneldist * 250 > u.power_level) { //oops, not enough energy! Tunneling costs 250 bionic power per impassable tile
@@ -12255,7 +12255,9 @@ bool game::plmove(int dx, int dy)
                 tunneldist = 0;
                 break;    //limit maximum tunneling distance
             }
-        }
+
+            dest = tripoint( x + tunneldist * (x - u.posx()), y + tunneldist * (y - u.posy()), u.posz() );
+        } while( ( m.move_cost(dest) == 0 || mon_at(dest) != -1 || npc_at(dest) != -1 ) && tunneldist > 0 );
         if (tunneldist) { //you tunneled
             if (u.in_vehicle) {
                 m.unboard_vehicle(u.pos());
