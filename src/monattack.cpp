@@ -2265,6 +2265,19 @@ void mattack::tentacle(monster *z, int index)
     g->u.check_dead_state();
 }
 
+static int posp(int posc ) //Determines orientation of target from the source
+{
+    if (posc > 0){
+        return 1;
+    }
+    if (posc < 0){
+        return -1;
+    }
+    else {
+        return 0;
+    }
+}
+
 void mattack::pull(monster *z, int index)
 {
     int t;
@@ -2287,7 +2300,7 @@ void mattack::pull(monster *z, int index)
         //Player can't be pulled though bars
         if (terrain.movecost == 0 ){
             z->add_effect("stunned", 6);
-            add_msg( _("The %s stretches its head at you, but bounces off the %s"), z->name().c_str(), terrain.name.c_str() );
+            add_msg( _("The %s flings its arms at you, but they bounce off the %s"), z->name().c_str(), terrain.name.c_str() );
             return;
         }
     }
@@ -2299,8 +2312,8 @@ void mattack::pull(monster *z, int index)
         if( foe != nullptr ) {
             if( seen ) {
                 auto msg_type = foe == &g->u ? m_warning : m_info;
-                foe->add_msg_player_or_npc( msg_type, _("The %s's head extends to bite you, but you dodge and the head sails past!"),
-                                                      _("The %s's head extends to bite <npcname>, but they dodge and the head sails past!"),
+                foe->add_msg_player_or_npc( msg_type, _("The %s's arms fly out at you, but you dodge!"),
+                                                      _("The %s's arms fly out at <npcname>, but they dodge!"),
                                             z->name().c_str() );
             }
             if( !uncanny ) {
@@ -2308,18 +2321,27 @@ void mattack::pull(monster *z, int index)
                 foe->ma_ondodge_effects();
             }
         } else if( seen ) {
-            add_msg( _("The %s's head extends at %s, but misses and sails past!"), z->name().c_str(), target->disp_name().c_str() );
+            add_msg( _("The %s's arms fly out at %s, but they miss and sail past!"), z->name().c_str(), target->disp_name().c_str() );
         }
         return;
     }
+    int dx = posp( target->posx() - z->posx() );
+    int dy = posp( target->posy() - z->posy() );
 
-    foe->setx( z->pos(x)+1 );
-    foe->sety( z->pos(y)+1 );
+    foe->setx( z->posx()+ dx );
+    foe->sety( z->posy()+ dy );
+    foe->setz( z->posz());
 
-                       if( !z->can_act() ) {
+    if( !target->is_immune_effect( "downed" ) && one_in(3) ){
+        target->add_effect("downed", 3);
     }
+
+    if (foe->in_vehicle) {
+        g->m.unboard_vehicle(foe->posx(), foe->posy());
+        }
+
     if( seen ) {
-        add_msg( _("The %s's teeth sink into %s!"), z->name().c_str(), target->disp_name().c_str() );
+        add_msg( _("The %s's arms grab you, and pull %s back!"), z->name().c_str(), target->disp_name().c_str() );
     }
 }
 
