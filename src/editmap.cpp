@@ -562,10 +562,9 @@ void editmap::update_view(bool update_info)
         }
 
 
-        if (cur_trap != tr_null) {
-            mvwprintz(w_info, off, 1, traplist[cur_trap]->color, _("trap: %s (%d)"),
-                      traplist[cur_trap]->name.c_str(), cur_trap
-                     );
+        if( cur_trap != tr_null ) {
+            auto &t = cur_trap.obj();
+            mvwprintz( w_info, off, 1, t.color, _("trap: %s (%d)"), t.name.c_str(), cur_trap.to_i() );
             off++; // 6
         }
 
@@ -1108,7 +1107,7 @@ int editmap::edit_trp()
     if ( trsel == -1 ) {
         trsel = cur_trap;
     }
-    int num_trap_types = trapmap.size();
+    int num_trap_types = trap::count();
     do {
         uphelp(pgettext("map editor: traps shortkeys","[s/tab] shape select, [m]ove, [v] showall"),
                pgettext("map editor: traps shortkeys","[enter] change, [t] change/quit, [q]uit"),
@@ -1123,18 +1122,18 @@ int editmap::edit_trp()
         for ( int t = tshift; t <= tshift + tmax; t++ ) {
             mvwprintz(w_picktrap, t + 1 - tshift, 1, c_white, "%s", padding.c_str());
             if ( t < num_trap_types ) {
+                auto &tr = trap_id( t ).obj();
                 if ( t == 0 ) {
                    tnam = _("-clear-");
                 } else {
-                   if( traplist[t]->name.length() > 0 ) {
+                   if( tr.name.length() > 0 ) {
                        //~ trap editor list entry. 1st string is display name, 2nd string is internal name of trap
-                       tnam = string_format(_("%s (%s)"),
-                                            traplist[t]->name.c_str(), traplist[t]->id.c_str());
+                       tnam = string_format( _("%s (%s)"), tr.name.c_str(), tr.id.c_str() );
                    } else {
-                       tnam = traplist[t]->id;
+                       tnam = tr.id.str();
                    }
                 }
-                mvwputch(w_picktrap, t + 1 - tshift, 2, traplist[t]->color, traplist[t]->sym);
+                mvwputch(w_picktrap, t + 1 - tshift, 2, tr.color, tr.sym);
                 mvwprintz(w_picktrap, t + 1 - tshift, 4, (trsel == t ? h_white : ( cur_trap == t ? c_green : c_ltgray ) ), "%d %s", t, tnam.c_str() );
             }
         }

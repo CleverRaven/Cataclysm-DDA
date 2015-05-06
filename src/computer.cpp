@@ -15,6 +15,7 @@
 #include "translations.h"
 #include "monster.h"
 #include "event.h"
+#include "trap.h"
 
 #include <fstream>
 #include <string>
@@ -403,7 +404,7 @@ void computer::activate_function(computer_action action, char ch)
                     }
                 }
                 if (numtowers == 4) {
-                    if (g->m.tr_at(i, j).id == "tr_portal") {
+                    if (g->m.tr_at(i, j).id == trap_str_id( "tr_portal" )) {
                         g->m.remove_trap(i, j);
                     } else {
                         g->m.add_trap(i, j, tr_portal);

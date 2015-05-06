@@ -11,6 +11,7 @@
 #include "translations.h"
 #include "monster.h"
 #include "npc.h"
+#include "itype.h"
 
 #include <sstream>
 #include <stdlib.h>

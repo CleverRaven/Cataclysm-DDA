@@ -20,6 +20,7 @@
 #include "crafting.h"
 #include "sounds.h"
 #include "monattack.h"
+#include "trap.h"
 #include "iuse_actor.h" // For firestarter
 #include "mongroup.h"
 #include "translations.h"
@@ -4865,7 +4866,7 @@ int iuse::set_trap(player *p, item *it, bool, const tripoint& )
         p->add_msg_if_player(_("Tried to set a trap.  But got confused! %s"), it->tname().c_str());
     }
 
-    trap *tr = traplist[type];
+    const trap *tr = &type.obj();
     if (dirx == p->posx() && diry == p->posy() && !tr->is_benign()) {
         p->add_msg_if_player(m_info, _("Yeah.  Place the %s at your feet."), it->tname().c_str());
         p->add_msg_if_player(m_info, _("Real damn smart move."));
@@ -4886,7 +4887,7 @@ int iuse::set_trap(player *p, item *it, bool, const tripoint& )
     p->practice("traps", practice);
     g->m.add_trap( tr_loc, type );
     if( !tr->can_see( tr_loc, *p ) ) {
-        p->add_known_trap( tr_loc, tr->id );
+        p->add_known_trap( tr_loc, *tr );
     }
     p->moves -= 100 + practice * 25;
     if (type == tr_engine) {

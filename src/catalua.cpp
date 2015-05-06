@@ -17,9 +17,10 @@
 #include "translations.h"
 
 #ifdef LUA
-extern "C" {
 #include "ui.h"
 #include "mongroup.h"
+#include "itype.h"
+extern "C" {
 #include "lua.h"
 #include "lualib.h"
 #include "lauxlib.h"

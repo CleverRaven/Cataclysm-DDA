@@ -11,6 +11,7 @@
 #include "monstergenerator.h"
 #include "sounds.h"
 #include "debug.h"
+#include "trap.h"
 #include "messages.h"
 #include "mapsharing.h"
 #include "iuse_actor.h"
@@ -137,7 +138,7 @@ map::map( int mapsize, bool zlev )
     transparency_cache_dirty = true;
     outside_cache_dirty = true;
     std::memset(veh_exists_at, 0, sizeof(veh_exists_at));
-    traplocs.resize( traplist.size() );
+    traplocs.resize( trap::count() );
 }
 
 map::~map()
@@ -4522,20 +4523,6 @@ item *map::item_from( vehicle *veh, int cargo_part, size_t index ) {
 }
 
 // Traps: 2D
-void map::trap_set(const int x, const int y, const std::string & sid)
-{
-    trap_set( tripoint( x, y, abs_sub.z ), sid );
-}
-
-void map::trap_set( const tripoint &p, const std::string & sid)
-{
-    if( trapmap.find( sid ) == trapmap.end() ) {
-        return;
-    }
-
-    add_trap( p, (trap_id)trapmap[sid] );
-}
-
 void map::trap_set(const int x, const int y, const trap_id id)
 {
     trap_set( tripoint( x, y, abs_sub.z ), id );
@@ -4555,17 +4542,17 @@ const trap &map::tr_at( const int x, const int y ) const
 const trap &map::tr_at( const tripoint &p ) const
 {
     if( !inbounds( p.x, p.y, p.z ) ) {
-        return *traplist[tr_null];
+        return tr_null.obj();
     }
 
     int lx, ly;
     submap * const current_submap = get_submap_at( p, lx, ly );
 
     if (terlist[ current_submap->get_ter( lx, ly ) ].trap != tr_null) {
-        return *traplist[terlist[ current_submap->get_ter( lx, ly ) ].trap];
+        return terlist[ current_submap->get_ter( lx, ly ) ].trap.obj();
     }
 
-    return *traplist[current_submap->get_trap( lx, ly )];
+    return current_submap->get_trap( lx, ly ).obj();
 }
 
 void map::add_trap(const int x, const int y, const trap_id t)
@@ -4585,7 +4572,7 @@ void map::add_trap( const tripoint &p, const trap_id t)
     const ter_t &ter = terlist[ current_submap->get_ter( lx, ly ) ];
     if( ter.trap != tr_null ) {
         debugmsg( "set trap %s on top of terrain %s which already has a builit-in trap",
-                  traplist[t]->name.c_str(), ter.name.c_str() );
+                  t.obj().name.c_str(), ter.name.c_str() );
         return;
     }
 
@@ -4668,7 +4655,7 @@ void map::remove_trap( const tripoint &p )
     trap_id t = current_submap->get_trap(lx, ly);
     if (t != tr_null) {
         if( g != nullptr && this == &g->m ) {
-            g->u.add_known_trap( p, "tr_null");
+            g->u.add_known_trap( p, tr_null.obj() );
         }
 
         current_submap->set_trap(lx, ly, tr_null);
@@ -5173,7 +5160,7 @@ void map::draw_maptile( WINDOW* w, player &u, const tripoint &p, const maptile &
     nc_color tercol;
     const ter_t &curr_ter = terlist[ curr_maptile.get_ter() ];
     const furn_t &curr_furn = furnlist[ curr_maptile.get_furn() ];
-    const trap &curr_trap = *(traplist[ curr_maptile.get_trap() ]);
+    const trap &curr_trap = curr_maptile.get_trap().obj();
     const field &curr_field = curr_maptile.get_field();
     long sym;
     bool hi = false;

@@ -14,6 +14,7 @@
 #include "morale.h"
 #include "messages.h"
 #include "martialarts.h"
+#include "itype.h"
 
 #include <sstream>
 

@@ -22,6 +22,7 @@
 #include "npc.h"
 #include "event.h"
 #include "ui.h"
+#include "itype.h"
 
 #include <algorithm>
 

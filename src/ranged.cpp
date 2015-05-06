@@ -16,6 +16,8 @@
 #include "translations.h"
 #include "monster.h"
 #include "npc.h"
+#include "trap.h"
+#include "itype.h"
 
 int time_to_fire(player &p, const itype &firing);
 int recoil_add(player &p, const item &gun);

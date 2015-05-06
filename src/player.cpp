@@ -34,6 +34,7 @@
 #include "trap.h"
 #include "mutation.h"
 #include "ui.h"
+#include "trap.h"
 
 #ifdef SDLTILES
 #include "SDL2/SDL.h"
@@ -4400,7 +4401,7 @@ void player::search_surroundings()
                     add_msg_if_player(_("You've spotted a %s to the %s!"),
                                       tr.name.c_str(), direction.c_str());
                 }
-                add_known_trap( tripoint( x, y, z ), tr.id);
+                add_known_trap( tripoint( x, y, z ), tr);
             }
         }
     }
@@ -13541,13 +13542,14 @@ bool player::knows_trap( const tripoint &pos ) const
     return known_traps.count( p ) > 0;
 }
 
-void player::add_known_trap( const tripoint &pos, const std::string &t)
+void player::add_known_trap( const tripoint &pos, const trap &t)
 {
     const tripoint p = g->m.getabs( pos );
-    if( t == "tr_null" ) {
+    if( t.is_null() ) {
         known_traps.erase( p );
     } else {
-        known_traps[p] = t;
+        // TODO: known_traps should map to a trap_str_id
+        known_traps[p] = t.id.str();
     }
 }
 

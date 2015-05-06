@@ -14,6 +14,7 @@
 #include "morale.h"
 #include "veh_type.h"
 #include "ui.h"
+#include "itype.h"
 #include <cmath>
 #include <list>
 #include <functional>
