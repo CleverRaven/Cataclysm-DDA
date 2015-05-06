@@ -4111,7 +4111,14 @@ float player::active_light() const
     } else if ( lumination < 25 && has_artifact_with(AEP_GLOW) ) {
         lumination = 25;
     } else if ( lumination < 15 && has_effect("glowing")){
-        lumination = 20;
+        if (has_effect("glowing", bp_torso)){
+            lumination = 20;
+        } else if (has_effect("glowing", bp_arm_l) || has_effect("glowing", bp_arm_r) ||
+                   has_effect("glowing", bp_leg_l) || has_effect("glowing", bp_leg_r)){
+            lumination = 10;
+        } else {
+            lumination = 5;
+        }
     }
 
     return lumination;

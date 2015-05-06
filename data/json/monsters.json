@@ -1561,7 +1561,7 @@
     "death_drops": "default_zombie_death_drops",
     "upgrade_group" : "GROUP_ZOMBIE_FAT",
     "upgrade_min" : 4,
-    "half_life" : 4,
+    "half_life" : 6,
     "base_upgrade_chance" : 15,
     "luminance":0,
     "hp":95,
@@ -1846,7 +1846,7 @@
     "hp":65,
     "special_attacks":[["ACID_BARF", 10]],
     "death_function":["ACID", "NORMAL"],
-    "description":"A sickly-looking dead one. Its skin looks especially thin, with a sticky, yellow fluid flowing through the clearly visable veins.",
+    "description":"A sickly-looking dead one. Its skin looks especially thin, with a sticky, yellow fluid flowing through the clearly visible veins.",
     "flags":["SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "GROUP_BASH", "POISON", "ACIDPROOF", "ACID_BLOOD", "NO_BREATHE", "REVIVES", "BONES"]
     },{
     "type" : "MONSTER",
