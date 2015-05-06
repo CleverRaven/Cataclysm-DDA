@@ -12242,7 +12242,8 @@ bool game::plmove(int dx, int dy)
         tripoint dest( x, y, u.posz() );
         // tile is impassable
         int tunneldist = 0;
-        do {
+        while( m.move_cost(dest) == 0 || 
+               ( ( mon_at(dest) != -1 || npc_at(dest) != -1 ) && tunneldist > 0 ) ) {
             //add 1 to tunnel distance for each impassable tile in the line
             tunneldist += 1;
             if (tunneldist * 250 > u.power_level) { //oops, not enough energy! Tunneling costs 250 bionic power per impassable tile
@@ -12257,7 +12258,7 @@ bool game::plmove(int dx, int dy)
             }
 
             dest = tripoint( x + tunneldist * (x - u.posx()), y + tunneldist * (y - u.posy()), u.posz() );
-        } while( ( m.move_cost(dest) == 0 || mon_at(dest) != -1 || npc_at(dest) != -1 ) && tunneldist > 0 );
+        }
         if (tunneldist) { //you tunneled
             if (u.in_vehicle) {
                 m.unboard_vehicle(u.pos());
