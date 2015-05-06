@@ -2269,8 +2269,7 @@ void npc::set_destination()
 
     std::string dest_type = options[rng(0, options.size() - 1)];
 
-    int dist = 0;
-    goal = overmap_buffer.find_closest(global_omt_location(), dest_type, dist, false);
+    goal = overmap_buffer.find_closest(global_omt_location(), dest_type, 0, false);
 }
 
 void npc::go_to_destination()
