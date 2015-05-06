@@ -4675,7 +4675,7 @@ int iuse::pickaxe(player *p, item *it, bool, const tripoint& )
         return 0;
     }
     p->assign_activity(ACT_PICKAXE, turns, -1, p->get_item_position(it));
-    p->activity.placement = point(dirx, diry);
+    p->activity.placement = tripoint(dirx, diry, p->posz()); // TODO: Z
     p->add_msg_if_player(_("You attack the %s with your %s."),
                          g->m.tername(dirx, diry).c_str(), it->tname().c_str());
     return 0; // handled when the activity finishes
@@ -5260,15 +5260,16 @@ int iuse::grenade_inc_act(player *p, item *it, bool t, const tripoint &pos)
     } else {  // blow up
         int num_flames= rng(3,5);
         for (int current_flame = 0; current_flame < num_flames; current_flame++) {
-            std::vector<point> flames = line_to(pos.x, pos.y, pos.x + rng(-5,5), pos.y + rng(-5,5), 0);
+            tripoint dest( pos.x + rng( -5, 5 ), pos.y + rng( -5, 5 ), pos.z );
+            std::vector<tripoint> flames = line_to( pos, dest, 0, 0 );
             for( auto &flame : flames ) {
-                g->m.add_field( flame.x, flame.y, fd_fire, rng( 0, 2 ) );
+                g->m.add_field( flame, fd_fire, rng( 0, 2 ), 0 );
             }
         }
         g->explosion( pos, 8, 0, true );
         for (int i = -2; i <= 2; i++) {
             for (int j = -2; j <= 2; j++) {
-                g->m.add_field(pos.x + i, pos.y + j, fd_incendiary, 3);
+                g->m.add_field( { pos.x + i, pos.y + j, pos.z }, fd_incendiary, 3, 0 );
             }
         }
 
@@ -6160,7 +6161,7 @@ int iuse::oxytorch(player *p, item *it, bool, const tripoint& )
 
     // placing ter here makes resuming tasks work better
     p->assign_activity( ACT_OXYTORCH, moves, (int)ter, p->get_item_position( it ) );
-    p->activity.placement = point( dirx, diry );
+    p->activity.placement = tripoint( dirx, diry, 0 );
     p->activity.values.push_back( charges );
 
     // charges will be consumed in oxytorch_do_turn, not here
@@ -6789,7 +6790,7 @@ int iuse::artifact(player *p, item *it, bool, const tripoint& )
 
             case AEA_FIRESTORM: {
                 p->add_msg_if_player(m_bad, _("Fire rains down around you!"));
-                std::vector<point> ps = closest_points_first(3, p->posx(), p->posy());
+                std::vector<tripoint> ps = closest_tripoints_first( 3, p->pos() );
                 for (auto p_it : ps) {
                     if (!one_in(3)) {
                         g->m.add_field(p_it, fd_fire, 1 + rng(0, 1) * rng(0, 1), 30);
@@ -7832,7 +7833,7 @@ int iuse::robotcontrol(player *p, item *it, bool, const tripoint& )
             pick_robot.text = _("Choose an endpoint to hack.");
             // Build a list of all unfriendly robots in range.
             std::vector< monster* > mons;
-            std::vector< point > locations;
+            std::vector< tripoint > locations;
             int entry_num = 0;
             for( size_t i = 0; i < g->num_zombies(); ++i ) {
                 monster &candidate = g->zombie( i );
@@ -7840,12 +7841,12 @@ int iuse::robotcontrol(player *p, item *it, bool, const tripoint& )
                     rl_dist( p->pos3(), candidate.pos3() ) <= 10 ) {
                     mons.push_back( &candidate );
                     pick_robot.addentry( entry_num++, true, MENU_AUTOASSIGN, candidate.name() );
-                    point seen_loc;
+                    tripoint seen_loc;
                     // Show locations of seen robots, center on player if robot is not seen
                     if( p->sees( candidate ) ) {
-                        seen_loc = candidate.pos2();
+                        seen_loc = candidate.pos();
                     } else {
-                        seen_loc = p->pos2();
+                        seen_loc = p->pos();
                     }
                     locations.push_back( seen_loc );
                 }
@@ -8523,42 +8524,39 @@ int iuse::camera(player *p, item *it, bool, const tripoint& )
 
     if (c_shot == choice) {
 
-        tripoint look_point = g->look_around();
-        point aim_point = {look_point.x, look_point.y}; // TODO: Fix
+        tripoint aim_point = g->look_around();
 
-        if( look_point == tripoint_min ) {
+        if( aim_point == tripoint_min ) {
             p->add_msg_if_player(_("Never mind."));
             return 0;
         }
 
-        if (aim_point.x == p->posx() && aim_point.y == p->posy()) {
+        if( aim_point == p->pos() ) {
             p->add_msg_if_player(_("You decide not to flash yourself."));
             return 0;
         }
 
-        const int sel_zid = g->mon_at(aim_point.x, aim_point.y);
-        const int sel_npcID = g->npc_at(aim_point.x, aim_point.y);
+        const int sel_zid = g->mon_at( aim_point );
+        const int sel_npcID = g->npc_at( aim_point );
 
         if (sel_zid == -1 && sel_npcID == -1) {
             p->add_msg_if_player(_("There's nothing particularly interesting there."));
             return 0;
         }
 
-        std::vector <point> trajectory = line_to( p->pos2(), aim_point, 0 );
+        std::vector<tripoint> trajectory = line_to( p->pos(), aim_point, 0, 0 );
         trajectory.push_back(aim_point);
 
         p->moves -= 50;
-        sounds::sound(p->posx(), p->posy(), 8, _("Click."));
+        sounds::sound( p->pos(), 8, _("Click.") );
 
         for (auto &i : trajectory) {
-            int tx = i.x;
-            int ty = i.y;
 
-            int zid = g->mon_at(tx, ty);
-            int npcID = g->npc_at(tx, ty);
+            int zid = g->mon_at(i);
+            int npcID = g->npc_at(i);
 
             if (zid != -1 || npcID != -1) {
-                int dist = rl_dist( p->pos2(), i );
+                int dist = rl_dist( p->pos(), i );
 
                 int camera_bonus = it->has_flag("CAMERA_PRO") ? 10 : 0;
                 int photo_quality = 20 - rng(dist, dist * 2) * 2 + rng(camera_bonus / 2, camera_bonus);
@@ -9160,10 +9158,10 @@ vehicle *pickveh( const tripoint& center, bool advanced )
             vehs.push_back( v );
         }
     }
-    std::vector< point > locations;
+    std::vector<tripoint> locations;
     for( int i = 0; i < (int)vehs.size(); i++ ) {
         auto veh = vehs[i];
-        locations.push_back( veh->global_pos() );
+        locations.push_back( veh->global_pos3() );
         pmenu.addentry( i, true, MENU_AUTOASSIGN, veh->name.c_str() );
     }
 

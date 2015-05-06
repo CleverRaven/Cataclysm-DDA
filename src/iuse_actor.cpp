@@ -849,7 +849,7 @@ long extended_firestarter_actor::use( player *p, item *it, bool, const tripoint 
                 p->assign_activity( ACT_START_FIRE, turns, -1, p->get_item_position(it), it->tname() );
                 // Keep natural_light_level for comparing throughout the activity.
                 p->activity.values.push_back( g->natural_light_level() );
-                p->activity.placement = point( pos.x, pos.y ); // TODO: Z
+                p->activity.placement = pos;
                 p->practice("survival", 5);
             }
         } else {
@@ -874,7 +874,7 @@ long extended_firestarter_actor::use( player *p, item *it, bool, const tripoint 
             const int turns = int( moves_base * moves_modifier );
             p->add_msg_if_player(m_info, _("At your skill level, it will take around %d minutes to light a fire."), turns / 1000);
             p->assign_activity(ACT_START_FIRE, turns, -1, p->get_item_position(it), it->tname());
-            p->activity.placement = point( pos.x, pos.y ); // TODO: Z
+            p->activity.placement = pos;
             p->practice("survival", 10);
             it->charges -= it->type->charges_to_use() * round(moves_modifier);
             return 0;

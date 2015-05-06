@@ -2523,7 +2523,7 @@ bool game::handle_action()
             break;
 
         case ACTION_PICKUP:
-            Pickup::pick_up(u.posx(), u.posy(), 1);
+            Pickup::pick_up( u.pos(), 1 );
             break;
 
         case ACTION_GRAB:
@@ -7053,29 +7053,29 @@ void game::smash()
     const int move_cost = int(u.weapon.is_null() ? 80 : u.weapon.attack_time() * 0.8);
     bool didit = false;
     int smashskill = int(u.str_cur + u.weapon.type->melee_dam);
-    int smashx, smashy;
+    tripoint smashp;
 
-    if (!choose_adjacent(_("Smash where?"), smashx, smashy)) {
+    if (!choose_adjacent(_("Smash where?"), smashp)) {
         return;
     }
 
-    if( m.get_field( point( smashx, smashy ), fd_web ) != nullptr ) {
-        m.remove_field( smashx, smashy, fd_web );
-        sounds::sound( smashx, smashy, 2, "" );
+    if( m.get_field( smashp, fd_web ) != nullptr ) {
+        m.remove_field( smashp, fd_web );
+        sounds::sound( smashp, 2, "" );
         add_msg( m_info, _( "You brush aside some webs." ) );
         u.moves -= 100;
         return;
     }
     static const int full_pulp_threshold = 4;
-    for (auto it = m.i_at(smashx, smashy).begin(); it != m.i_at(smashx, smashy).end(); ++it) {
+    for (auto it = m.i_at(smashp).begin(); it != m.i_at(smashp).end(); ++it) {
         if (it->is_corpse() && it->damage < full_pulp_threshold) {
             // do activity forever. ACT_PULP stops itself
             u.assign_activity(ACT_PULP, INT_MAX, 0);
-            u.activity.placement = point(smashx, smashy);
+            u.activity.placement = smashp;
             return; // don't smash terrain if we've smashed a corpse
         }
     }
-    didit = m.bash( tripoint( smashx, smashy, u.posz() ), smashskill).first;
+    didit = m.bash( smashp, smashskill).first;
     if (didit) {
         u.handle_melee_wear();
         u.moves -= move_cost;
@@ -7089,7 +7089,7 @@ void game::smash()
             rng(0, u.weapon.volume() + 3) < u.weapon.volume()) {
             add_msg(m_bad, _("Your %s shatters!"), u.weapon.tname().c_str());
             for( auto &elem : u.weapon.contents ) {
-                m.add_item_or_charges( u.posx(), u.posy(), elem );
+                m.add_item_or_charges( u.pos(), elem );
             }
             sounds::sound(u.posx(), u.posy(), 24, "");
             u.deal_damage( nullptr, bp_hand_r, damage_instance( DT_CUT, rng( 0, u.weapon.volume() ) ) );
@@ -7100,13 +7100,13 @@ void game::smash()
             u.remove_weapon();
             u.check_dead_state();
         }
-        if (smashskill < m.bash_resistance(smashx, smashy) && one_in(10)) {
-            if (m.has_furn(smashx, smashy) && m.furn_at(smashx, smashy).bash.str_min != -1) {
+        if (smashskill < m.bash_resistance(smashp) && one_in(10)) {
+            if (m.has_furn(smashp) && m.furn_at(smashp).bash.str_min != -1) {
                 // %s is the smashed furniture
-                add_msg(m_neutral, _("You don't seem to be damaging the %s."), m.furnname(smashx, smashy).c_str());
+                add_msg(m_neutral, _("You don't seem to be damaging the %s."), m.furnname(smashp).c_str());
             } else {
                 // %s is the smashed terrain
-                add_msg(m_neutral, _("You don't seem to be damaging the %s."), m.tername(smashx, smashy).c_str());
+                add_msg(m_neutral, _("You don't seem to be damaging the %s."), m.tername(smashp).c_str());
             }
         }
     } else {
@@ -7136,11 +7136,10 @@ void game::use_wielded_item()
 
 bool game::vehicle_near()
 {
-    for (int dx = -1; dx <= 1; dx++) {
-        for (int dy = -1; dy <= 1; dy++) {
-            if (m.veh_at(u.posx() + dx, u.posy() + dy)) {
-                return true;
-            }
+    auto pts = closest_tripoints_first( 1, u.pos() );
+    for( const auto &p : pts ) {
+        if( m.veh_at( p ) ) {
+            return true;
         }
     }
     return false;
@@ -7239,7 +7238,7 @@ bool game::pl_refill_vehicle(vehicle &veh, int part, bool test)
 
 void game::handbrake()
 {
-    vehicle *veh = m.veh_at(u.posx(), u.posy());
+    vehicle *veh = m.veh_at(u.pos());
     if (!veh) {
         return;
     }
@@ -7576,7 +7575,7 @@ void game::open_gate( const tripoint &p, const ter_id handle_type )
 void game::moving_vehicle_dismount(int tox, int toy)
 {
     int vpart;
-    vehicle *veh = m.veh_at(u.posx(), u.posy(), vpart);
+    vehicle *veh = m.veh_at(u.pos(), vpart);
     if (!veh) {
         debugmsg("Tried to exit non-existent vehicle.");
         return;
@@ -7588,12 +7587,12 @@ void game::moving_vehicle_dismount(int tox, int toy)
     tileray ray( tox - u.posx(), toy - u.posy() );
     const int d = ray.dir(); // TODO:: make dir() const correct!
     add_msg(_("You dive from the %s."), veh->name.c_str());
-    m.unboard_vehicle(u.posx(), u.posy());
+    m.unboard_vehicle(u.pos());
     u.moves -= 200;
     // Dive three tiles in the direction of tox and toy
     fling_creature( &u, d, 30, true );
     // Hit the ground according to vehicle speed
-    if (!m.has_flag("SWIMMABLE", u.posx(), u.posy())) {
+    if (!m.has_flag("SWIMMABLE", u.pos())) {
         if (veh->velocity > 0) {
             fling_creature(&u, veh->face.dir(), veh->velocity / (float)100);
         } else {
@@ -7608,7 +7607,7 @@ void game::control_vehicle()
     int veh_part = -1;
     vehicle *veh = remoteveh();
     if( veh == nullptr ) {
-        veh = m.veh_at(u.posx(), u.posy(), veh_part);
+        veh = m.veh_at(u.pos(), veh_part);
     }
 
     if( veh != nullptr && veh->player_in_control( u ) ) {
@@ -7708,11 +7707,9 @@ bool pet_menu(monster *z)
                 z->remove_effect("tied");
             }
 
-            int x = z->posx(), y = z->posy(), zpos = z->posz();
-            z->move_to( g->u.pos3(), true);
-            g->u.setx( x );
-            g->u.sety( y );
-            g->u.setz( zpos );
+            tripoint zp = z->pos();
+            z->move_to( g->u.pos(), true);
+            g->u.setpos( zp );
 
             if (t) {
                 z->add_effect("tied", 1, num_bp, true);
@@ -7793,7 +7790,7 @@ bool pet_menu(monster *z)
     if (drop_all == choice) {
         for (std::vector<item>::iterator it = z->inv.begin();
              it != z->inv.end(); ++it) {
-            g->m.add_item_or_charges(z->posx(), z->posy(), *it);
+            g->m.add_item_or_charges(z->pos(), *it);
         }
 
         z->inv.clear();
@@ -7841,7 +7838,7 @@ bool pet_menu(monster *z)
             return true;
         }
 
-        bool success = g->make_drop_activity( ACT_STASH, z->pos2() );
+        bool success = g->make_drop_activity( ACT_STASH, z->pos() );
         if( success ) {
             z->add_effect("controlled", 5);
         }
@@ -7898,7 +7895,7 @@ void game::examine( const tripoint &p )
     if (examx == -1) {
         // if we are driving a vehicle, examine the
         // current tile without asking.
-        veh = m.veh_at(u.posx(), u.posy(), veh_part);
+        veh = m.veh_at(u.pos(), veh_part);
         if (veh && veh->player_in_control(u)) {
             examx = u.posx();
             examy = u.posy();
@@ -7920,7 +7917,7 @@ void game::examine( const tripoint &p )
         if( (vpcargo >= 0 && !veh->get_items(vpcargo).empty()) || vpkitchen >= 0 ||
             vpfaucet >= 0 || vpweldrig >= 0 || vpcraftrig >= 0 || vpchemlab >= 0 ||
             vpcontrols >= 0 || !here_ground.empty() ) {
-            Pickup::pick_up(examx, examy, 0);
+            Pickup::pick_up( {examx, examy, u.posz()}, 0);
         } else if (u.controlling_vehicle) {
             add_msg(m_info, _("You can't do that while driving."));
         } else if (abs(veh->velocity) > 0) {
@@ -7988,7 +7985,7 @@ void game::examine( const tripoint &p )
             m.has_flag("CONTAINER", examx, examy) && none) {
             add_msg(_("It is empty."));
         } else if (!veh) {
-            Pickup::pick_up(examx, examy, 0);
+            Pickup::pick_up( {examx, examy, u.posz()}, 0);
         }
     }
 
@@ -7997,7 +7994,7 @@ void game::examine( const tripoint &p )
     if( !m.tr_at( trap_pos ).is_null() ) {
         iexamine::trap(&u, &m, examx, examy);
         if( m.tr_at( trap_pos ).is_null() ) {
-            Pickup::pick_up(examx, examy, 0);    // After disarming a trap, pick it up.
+            Pickup::pick_up( {examx, examy, u.posz()}, 0);    // After disarming a trap, pick it up.
         }
     }
 }
@@ -9909,12 +9906,12 @@ bool game::handle_liquid(item &liquid, bool from_ground, bool infinite, item *so
 
     if( (liquid.type->id == "gasoline" || liquid.type->id == "diesel") &&
          vehicle_near() && query_yn(_("Refill vehicle?")) ) {
-        int vx = u.posx(), vy = u.posy();
+        tripoint vp;
         refresh_all();
-        if (!choose_adjacent(_("Refill vehicle where?"), vx, vy)) {
+        if (!choose_adjacent(_("Refill vehicle where?"), vp)) {
             return false;
         }
-        vehicle *veh = m.veh_at(vx, vy);
+        vehicle *veh = m.veh_at(vp);
         if (veh == NULL) {
             add_msg(m_info, _("There isn't any vehicle there."));
             return false;
@@ -9932,7 +9929,7 @@ bool game::handle_liquid(item &liquid, bool from_ground, bool infinite, item *so
             return false;
         } else if (from_ground && query_yn(_("Pump until full?"))) {
             u.assign_activity(ACT_REFILL_VEHICLE, 2 * (fuel_cap - fuel_amnt));
-            u.activity.placement = point(vx, vy);
+            u.activity.placement = vp;
             return false; // Liquid is not handled by this function, but by the activity!
         }
         const int amt = infinite ? INT_MAX : liquid.charges;
@@ -10146,7 +10143,7 @@ int game::move_liquid(item &liquid)
 void game::drop(int pos)
 {
     if (pos == INT_MIN) {
-        make_drop_activity( ACT_DROP, u.pos2() );
+        make_drop_activity( ACT_DROP, u.pos() );
     } else if (pos == -1 && u.weapon.has_flag("NO_UNWIELD")) {
         add_msg(m_info, _("You cannot drop your %s."), u.weapon.tname().c_str());
         return;
@@ -10167,17 +10164,17 @@ void game::drop(int pos)
 
 void game::drop_in_direction()
 {
-    int dirx, diry;
-    if (!choose_adjacent(_("Drop where?"), dirx, diry)) {
+    tripoint dirp;
+    if (!choose_adjacent(_("Drop where?"), dirp)) {
         return;
     }
 
-    if (!m.can_put_items(dirx, diry)) {
+    if (!m.can_put_items(dirp)) {
         add_msg(m_info, _("You can't place items there!"));
         return;
     }
 
-    make_drop_activity( ACT_DROP, point(dirx, diry) );
+    make_drop_activity( ACT_DROP, dirp );
 }
 
 bool compare_items_by_lesser_volume(const item &a, const item &b)
@@ -10751,7 +10748,7 @@ void game::butcher()
     bool has_item = false;
     // indices of corpses / items that can be disassembled
     std::vector<int> corpses;
-    auto items = m.i_at(u.posx(), u.posy());
+    auto items = m.i_at(u.pos());
     const inventory &crafting_inv = u.crafting_inventory();
 
     // TODO: Properly handle different material whitelists
@@ -10916,14 +10913,14 @@ void game::butcher()
 void game::eat(int pos)
 {
     if ((u.has_active_mutation("RUMINANT") || u.has_active_mutation("GRAZER")) &&
-        m.ter(u.posx(), u.posy()) == t_underbrush && query_yn(_("Eat underbrush?"))) {
+        m.ter(u.pos()) == t_underbrush && query_yn(_("Eat underbrush?"))) {
         u.moves -= 400;
         u.hunger -= 10;
-        m.ter_set(u.posx(), u.posy(), t_grass);
+        m.ter_set(u.pos(), t_grass);
         add_msg(_("You eat the underbrush."));
         return;
     }
-    if (u.has_active_mutation("GRAZER") && m.ter(u.posx(), u.posy()) == t_grass &&
+    if (u.has_active_mutation("GRAZER") && m.ter(u.pos()) == t_grass &&
         query_yn(_("Graze?"))) {
         u.moves -= 400;
         if ((u.hunger < 10) || one_in(20 - u.int_cur)) {
@@ -10932,7 +10929,7 @@ void game::eat(int pos)
         } else {
             add_msg(_("You eat the grass."));
             u.hunger -= 5;
-            m.ter_set(u.posx(), u.posy(), t_dirt);
+            m.ter_set(u.pos(), t_dirt);
         }
         return;
     }
@@ -11144,10 +11141,10 @@ bool add_or_drop_with_msg( player &u, item &it )
     if( !u.can_pickVolume( it.volume() ) ) {
         add_msg( _( "There's no room in your inventory for the %s, so you drop it." ),
                  it.tname().c_str() );
-        g->m.add_item_or_charges( u.posx(), u.posy(), it );
+        g->m.add_item_or_charges( u.pos(), it );
     } else if( !u.can_pickWeight( it.weight(), !OPTIONS["DANGEROUS_PICKUPS"] ) ) {
         add_msg( _( "The %s is too heavy to carry, so you drop it." ), it.tname().c_str() );
-        g->m.add_item_or_charges( u.posx(), u.posy(), it );
+        g->m.add_item_or_charges( u.pos(), it );
     } else {
         auto &ni = u.i_add( it );
         add_msg( _( "You put the %s in your inventory." ), ni.tname().c_str() );
@@ -11377,7 +11374,7 @@ void game::pldrive(int x, int y)
     bool remote = true;
     int part = -1;
     if( !veh ) {
-        veh = m.veh_at(u.posx(), u.posy(), part);
+        veh = m.veh_at(u.pos(), part);
         remote = false;
     }
     if (!veh) {
@@ -11643,7 +11640,7 @@ bool game::plmove(int dx, int dy)
 
     // GRAB: pre-action checking.
     int vpart0 = -1, vpart1 = -1, dpart = -1;
-    vehicle *veh0 = m.veh_at(u.posx(), u.posy(), vpart0);
+    vehicle *veh0 = m.veh_at(u.pos(), vpart0);
     vehicle *veh1 = m.veh_at(x, y, vpart1);
     bool pushing_furniture = false;  // moving -into- furniture tile; skip check for move_cost > 0
     bool pulling_furniture = false;  // moving -away- from furniture tile; check for move_cost > 0
@@ -11701,8 +11698,8 @@ bool game::plmove(int dx, int dy)
 
     bool toSwimmable = m.has_flag("SWIMMABLE", x, y);
     bool toDeepWater = m.has_flag(TFLAG_DEEP_WATER, x, y);
-    bool fromSwimmable = m.has_flag("SWIMMABLE", u.posx(), u.posy());
-    bool fromDeepWater = m.has_flag(TFLAG_DEEP_WATER, u.posx(), u.posy());
+    bool fromSwimmable = m.has_flag("SWIMMABLE", u.pos());
+    bool fromDeepWater = m.has_flag(TFLAG_DEEP_WATER, u.pos());
     bool fromBoat = veh0 && veh0->all_parts_with_feature(VPFLAG_FLOATS).size() > 0;
     bool toBoat = veh1 && veh1->all_parts_with_feature(VPFLAG_FLOATS).size() > 0;
 
@@ -12154,7 +12151,7 @@ bool game::plmove(int dx, int dy)
             }
         }
         if (one_in(20) && u.has_artifact_with(AEP_MOVEMENT_NOISE)) {
-            sounds::sound(u.posx(), u.posy(), 40, _("You emit a rattling sound."));
+            sounds::sound(u.pos(), 40, _("You emit a rattling sound."));
         }
         // If we moved out of the nonant, we need update our map data
         if (m.has_flag("SWIMMABLE", x, y) && u.has_effect("onfire")) {
@@ -12177,7 +12174,7 @@ bool game::plmove(int dx, int dy)
 
         // If the player is in a vehicle, unboard them from the current part
         if (u.in_vehicle) {
-            m.unboard_vehicle(u.posx(), u.posy());
+            m.unboard_vehicle(u.pos());
         }
 
         // Move the player
@@ -12189,13 +12186,13 @@ bool game::plmove(int dx, int dy)
 
         //Autopickup
         if (OPTIONS["AUTO_PICKUP"] && (!OPTIONS["AUTO_PICKUP_SAFEMODE"] || mostseen == 0) &&
-            ((m.i_at(u.posx(), u.posy())).size() || OPTIONS["AUTO_PICKUP_ADJACENT"])) {
-            Pickup::pick_up(u.posx(), u.posy(), -1);
+            ((m.i_at(u.pos())).size() || OPTIONS["AUTO_PICKUP_ADJACENT"])) {
+            Pickup::pick_up(u.pos(), -1);
         }
 
         // If the new tile is a boardable part, board it
         if (veh1 && veh1->part_with_feature(vpart1, "BOARDABLE") >= 0) {
-            m.board_vehicle(u.posx(), u.posy(), &u);
+            m.board_vehicle(u.pos(), &u);
         }
 
         // Traps!
@@ -12320,7 +12317,7 @@ bool game::plmove(int dx, int dy)
         }
         if (tunneldist) { //you tunneled
             if (u.in_vehicle) {
-                m.unboard_vehicle(u.posx(), u.posy());
+                m.unboard_vehicle(u.pos());
             }
             u.charge_power(-(tunneldist * 250)); //tunneling costs 250 bionic power per impassable tile
             u.moves -= 100; //tunneling costs 100 moves
@@ -12328,9 +12325,9 @@ bool game::plmove(int dx, int dy)
             u.setx( u.posx() + (tunneldist + 1) * (x - u.posx()) );
             u.sety( u.posy() + (tunneldist + 1) * (y - u.posy()) ); //ditto for y
             add_msg(_("You quantum tunnel through the %d-tile wide barrier!"), tunneldist);
-            if (m.veh_at(u.posx(), u.posy(), vpart1) &&
-                m.veh_at(u.posx(), u.posy(), vpart1)->part_with_feature(vpart1, "BOARDABLE") >= 0) {
-                m.board_vehicle(u.posx(), u.posy(), &u);
+            if (m.veh_at(u.pos(), vpart1) &&
+                m.veh_at(u.pos(), vpart1)->part_with_feature(vpart1, "BOARDABLE") >= 0) {
+                m.board_vehicle(u.pos(), &u);
             }
         } else { //or you couldn't tunnel due to lack of energy
             u.charge_power(-250); //failure is expensive!
@@ -12422,15 +12419,15 @@ void game::plswim(int x, int y)
     }
     bool diagonal = (x != u.posx() && y != u.posy());
     if( u.in_vehicle ) {
-        m.unboard_vehicle( u.posx(), u.posy() );
+        m.unboard_vehicle( u.pos() );
     }
     u.setx( x );
     u.sety( y );
     {
         int part;
-        const auto veh = m.veh_at( u.posx(), u.posy(), part );
+        const auto veh = m.veh_at( u.pos(), part );
         if( veh != nullptr && veh->part_with_feature( part, VPFLAG_BOARDABLE ) >= 0 ) {
-            m.board_vehicle( u.posx(), u.posy(), &u );
+            m.board_vehicle( u.pos(), &u );
         }
     }
     u.moves -= (movecost > 200 ? 200 : movecost)  * (trigdist && diagonal ? 1.41 : 1);
@@ -12467,18 +12464,17 @@ void game::fling_creature(Creature *c, const int &dir, float flvel, bool control
 
     tileray tdir(dir);
     int range = flvel / 10;
-    int x = c->posx();
-    int y = c->posy();
+    tripoint pt = c->pos();
     while (range > 0) {
         c->underwater = false;
         bool seen = is_u || u.sees( *c ); // To avoid redrawing when not seen
         tdir.advance();
-        x = c->posx() + tdir.dx();
-        y = c->posy() + tdir.dy();
+        pt.x = c->posx() + tdir.dx();
+        pt.y = c->posy() + tdir.dy();
         std::string dname;
         bool thru = true;
         bool slam = false;
-        int mondex = mon_at(x, y);
+        int mondex = mon_at( pt );
         float previous_velocity = flvel;
         monster *critter = nullptr;
 
@@ -12496,14 +12492,14 @@ void game::fling_creature(Creature *c, const int &dir, float flvel, bool control
             if( !critter->is_dead() ) {
                 thru = false;
             }
-        } else if (m.move_cost(x, y) == 0) {
+        } else if (m.move_cost( pt ) == 0) {
             slam = true;
             int vpart;
-            vehicle *veh = m.veh_at(x, y, vpart);
-            dname = veh ? veh->part_info(vpart).name : m.tername(x, y).c_str();
-            if (m.is_bashable(x, y)) {
+            vehicle *veh = m.veh_at( pt, vpart );
+            dname = veh ? veh->part_info(vpart).name : m.tername( pt ).c_str();
+            if (m.is_bashable( pt )) {
                 // Only go through if we successfully destroy what we hit
-                thru = m.bash( tripoint( x, y, c->posz() ), flvel).second;
+                thru = m.bash( pt, flvel ).second;
             } else {
                 thru = false;
             }
@@ -12536,17 +12532,16 @@ void game::fling_creature(Creature *c, const int &dir, float flvel, bool control
         if( thru ) {
             if( p != nullptr ) {
                 // If we're flinging the player around, make sure the map stays centered on them.
-                if( is_u && ( x < SEEX * int(MAPSIZE / 2) || y < SEEY * int(MAPSIZE / 2) ||
-                    x >= SEEX * (1 + int(MAPSIZE / 2)) || y >= SEEY * (1 + int(MAPSIZE / 2)) ) ) {
-                    update_map( x, y );
+                if( is_u && ( pt.x < SEEX * int(MAPSIZE / 2) || pt.y < SEEY * int(MAPSIZE / 2) ||
+                    pt.x >= SEEX * (1 + int(MAPSIZE / 2)) || pt.y >= SEEY * (1 + int(MAPSIZE / 2)) ) ) {
+                    update_map( pt.x, pt.y );
                 }
                 if (p->in_vehicle) {
-                    m.unboard_vehicle(p->posx(), p->posy());
+                    m.unboard_vehicle(p->pos());
                 }
-                p->setx( x );
-                p->sety( y );
+                p->setpos( pt );
             } else {
-                zz->setpos(x, y);
+                zz->setpos( pt );
             }
         } else {
             break;
@@ -12558,7 +12553,7 @@ void game::fling_creature(Creature *c, const int &dir, float flvel, bool control
         }
     }
 
-    if (!m.has_flag("SWIMMABLE", x, y)) {
+    if (!m.has_flag("SWIMMABLE", pt)) {
         // fall on ground
         dam1 = rng( flvel, flvel * 2.0 ) / 6;
         if (controlled) {

@@ -513,7 +513,7 @@ class game
         // dropped onto the ground.
         void drop(std::vector<item> &dropped, std::vector<item> &dropped_worn,
                   int freed_volume_capacity, int dirx, int diry);
-        bool make_drop_activity( enum activity_type act, point target );
+        bool make_drop_activity( enum activity_type act, const tripoint &target );
     private:
         // Game-start procedures
         void print_menu(WINDOW *w_open, int iSel, const int iMenuOffsetX, int iMenuOffsetY,

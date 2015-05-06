@@ -370,7 +370,7 @@ void player::activate_mutation( const std::string &mut )
             return;
         }
         g->u.assign_activity(ACT_BURROW, turns, -1, 0);
-        g->u.activity.placement = point(dirx, diry);
+        g->u.activity.placement = tripoint(dirx, diry,0);
         add_msg_if_player(_("You tear into the %s with your teeth and claws."),
                           g->m.tername(dirx, diry).c_str());
         tdata.powered = false;

@@ -217,25 +217,25 @@ void mattack::acid(monster *z, int index)
     z->moves -= 300;   // It takes a while
     z->reset_special(index); // Reset timer
     sounds::sound(z->posx(), z->posy(), 4, _("a spitting noise."));
-    int hitx = target->posx() + rng(-2, 2);
-    int hity = target->posy() + rng(-2, 2);
-    std::vector<point> line = line_to(z->posx(), z->posy(), hitx, hity, junk);
+    tripoint hitp( target->posx() + rng(-2, 2), target->posy() + rng(-2, 2), target->posz() );
+    std::vector<tripoint> line = line_to( z->pos(), hitp, junk, 0 );
     for (auto &i : line) {
         // TODO: Z
-        if (g->m.hit_with_acid( tripoint( i.x, i.y, z->posz() ) )) {
+        if (g->m.hit_with_acid( i )) {
             if (g->u.sees( i )) {
                 add_msg(_("A glob of acid hits the %s!"),
-                        g->m.tername(i.x, i.y).c_str());
+                        g->m.tername( i ).c_str());
             }
             return;
         }
     }
     for (int i = -3; i <= 3; i++) {
         for (int j = -3; j <= 3; j++) {
-            if (g->m.move_cost(hitx + i, hity + j) > 0 &&
-                g->m.sees(hitx + i, hity + j, hitx, hity, 6, junk) &&
+            tripoint dest = hitp + tripoint( i, j, 0 );
+            if (g->m.move_cost( dest ) > 0 &&
+                g->m.sees( dest, hitp, 6 ) &&
                 ((one_in(abs(j)) && one_in(abs(i))) || (i == 0 && j == 0))) {
-                g->m.add_field(hitx + i, hity + j, fd_acid, 2);
+                g->m.add_field( dest, fd_acid, 2, 0 );
             }
         }
     }
@@ -413,19 +413,20 @@ void mattack::shockstorm(monster *z, int index)
         auto msg_type = target == &g->u ? m_bad : m_neutral;
         add_msg( msg_type, _("A bolt of electricity arcs towards %s!"), target->disp_name().c_str() );
     }
-    int tarx = target->posx() + rng(-1, 1) + rng(-1, 1);// 3 in 9 chance of direct hit,
-    int tary = target->posy() + rng(-1, 1) + rng(-1, 1);// 4 in 9 chance of near hit
-    std::vector<point> bolt = line_to(z->posx(), z->posy(), tarx, tary, junk);
+    tripoint tarp( target->posx() + rng(-1, 1) + rng(-1, 1),
+                   target->posy() + rng(-1, 1) + rng(-1, 1),
+                   target->posz() );
+    std::vector<tripoint> bolt = line_to( z->pos(), tarp, junk, 0 );
     for (auto &i : bolt) { // Fill the LOS with electricity
         if (!one_in(4)) {
             g->m.add_field(i.x, i.y, fd_electricity, rng(1, 3));
         }
     }
     // 5x5 cloud of electricity at the square hit
-    for (int i = tarx - 2; i <= tarx + 2; i++) {
-        for (int j = tary - 2; j <= tary + 2; j++) {
+    for (int i = tarp.x - 2; i <= tarp.x + 2; i++) {
+        for (int j = tarp.y - 2; j <= tarp.y + 2; j++) {
             if (!one_in(4) || (i == 0 && j == 0)) {
-                g->m.add_field(i, j, fd_electricity, rng(1, 3));
+                g->m.add_field( { i, j, tarp.z }, fd_electricity, rng(1, 3), 0 );
             }
         }
     }
@@ -1762,37 +1763,38 @@ void mattack::leap(monster *z, int index)
         return;
     }
 
-    int linet = 0;
-    std::vector<point> options;
+    int t1 = 0, t2 = 0;
+    std::vector<tripoint> options;
     tripoint target = z->move_target();
     int best = rl_dist( z->pos3(), target );
 
     for (int x = z->posx() - 3; x <= z->posx() + 3; x++) {
         for (int y = z->posy() - 3; y <= z->posy() + 3; y++) {
-            if (x == z->posx() && y == z->posy()) {
+            tripoint dest{ x, y, z->posz() };
+            if( dest == z->pos() ) {
                 continue;
             }
-            if( !z->sees( x, y, linet ) ) {
+            if( !z->sees( dest, t1, t2 ) ) {
                 continue;
             }
-            if (!g->is_empty(x, y)) {
+            if (!g->is_empty( dest )) {
                 continue;
             }
-            if (rl_dist(target.x, target.y, x, y) > best) {
+            if (rl_dist( target, dest ) > best) {
                 continue;
             }
             bool blocked_path = false;
             // check if monster has a clear path to the proposed point
-            std::vector<point> line = line_to(z->posx(), z->posy(), x, y, linet);
+            std::vector<tripoint> line = line_to( z->pos(), dest, t1, t2 );
             for (auto &i : line) {
-                if (g->m.move_cost(i.x, i.y) == 0) {
+                if (g->m.move_cost( i ) == 0) {
                     blocked_path = true;
                     break;
                 }
             }
             if (!blocked_path) {
-                options.push_back( point(x, y) );
-                best = rl_dist(target.x, target.y, x, y);
+                options.push_back( dest );
+                best = rl_dist( target, dest );
             }
 
         }
@@ -1800,8 +1802,7 @@ void mattack::leap(monster *z, int index)
 
     // Go back and remove all options that aren't tied for best
     for (size_t i = 0; i < options.size() && options.size() > 1; i++) {
-        point p = options[i];
-        if (rl_dist( target.x, target.y, options[i].x, options[i].y ) != best) {
+        if (rl_dist( target, options[i] ) != best) {
             options.erase(options.begin() + i);
             i--;
         }
@@ -1813,7 +1814,7 @@ void mattack::leap(monster *z, int index)
 
     z->moves -= 150;
     z->reset_special(index); // Reset timer
-    point chosen = options[rng(0, options.size() - 1)];
+    tripoint chosen = options[rng(0, options.size() - 1)];
     bool seen = g->u.sees(*z); // We can see them jump...
     z->setpos(chosen);
     seen |= g->u.sees(*z); // ... or we can see them land
@@ -2084,9 +2085,9 @@ void mattack::callblobs(monster *z, int index)
     // if we want to deal with NPCS and friendly monsters as well.
     // The strategy is to send about 1/3 of the available blobs after the player,
     // and keep the rest near the brain blob for protection.
-    point enemy( g->u.posx(), g->u.posy() );
+    tripoint enemy = g->u.pos();
     std::list<monster *> allies;
-    std::vector<point> nearby_points = closest_points_first( 3, z->pos2() );
+    std::vector<tripoint> nearby_points = closest_tripoints_first( 3, z->pos() );
     // Iterate using horrible creature_tracker API.
     for( size_t i = 0; i < g->num_zombies(); i++ ) {
         monster *candidate = &g->zombie( i );
@@ -2101,14 +2102,14 @@ void mattack::callblobs(monster *z, int index)
     int guards = 0;
     for( std::list<monster *>::iterator ally = allies.begin();
          ally != allies.end(); ++ally, ++guards ) {
-        point post = enemy;
+        tripoint post = enemy;
         if( guards < num_guards ) {
             // Each guard is assigned a spot in the nearby_points vector based on their order.
             int assigned_spot = (nearby_points.size() * guards) / num_guards;
             post = nearby_points[ assigned_spot ];
         }
         int trash = 0;
-        (*ally)->set_dest( tripoint( post.x, post.y, z->posz() ), trash );
+        (*ally)->set_dest( post, trash );
         if (!(*ally)->has_effect("controlled")) {
             (*ally)->add_effect("controlled", 1, num_bp, true);
         }
@@ -2121,7 +2122,7 @@ void mattack::jackson(monster *z, int index)
 {
     // Jackson draws nearby zombies into the dance.
     std::list<monster *> allies;
-    std::vector<point> nearby_points = closest_points_first( 3, z->pos2() );
+    std::vector<tripoint> nearby_points = closest_tripoints_first( 3, z->pos() );
     // Iterate using horrible creature_tracker API.
     for( size_t i = 0; i < g->num_zombies(); i++ ) {
         monster *candidate = &g->zombie( i );
@@ -2135,7 +2136,7 @@ void mattack::jackson(monster *z, int index)
     int dancers = 0;
     bool converted = false;
     for( auto ally = allies.begin(); ally != allies.end(); ++ally, ++dancers ) {
-        point post = z->pos2();
+        tripoint post = z->pos();
         if( dancers < num_dancers ) {
             // Each dancer is assigned a spot in the nearby_points vector based on their order.
             int assigned_spot = (nearby_points.size() * dancers) / num_dancers;
@@ -2146,7 +2147,7 @@ void mattack::jackson(monster *z, int index)
             converted = true;
         }
         int trash = 0;
-        (*ally)->set_dest( tripoint( post.x, post.y, z->posz() ), trash );
+        (*ally)->set_dest( post, trash );
         if (!(*ally)->has_effect("controlled")) {
             (*ally)->add_effect("controlled", 1, num_bp, true);
         }
@@ -3815,7 +3816,7 @@ void mattack::stretch_bite(monster *z, int index)
     }
 
     player *foe = dynamic_cast< player* >( target );
-    std::vector<point> line = line_to( z->pos2(), target->pos2(), t );
+    std::vector<tripoint> line = line_to( z->pos(), target->pos(), t, 0 );
     bool seen = g->u.sees( *z );
 
     z->reset_special(index); // Reset timer
@@ -3823,7 +3824,7 @@ void mattack::stretch_bite(monster *z, int index)
 
     ter_t terrain;
     for (auto &i : line){
-        terrain = g->m.ter_at(i.x, i.y);
+        terrain = g->m.ter_at( i );
         //head's not going to fit through the bars
         if (terrain.movecost == 0 ){
             z->add_effect("stunned", 6);
@@ -4841,23 +4842,23 @@ void mattack::stretch_attack(monster *z, int index){
         return;
     }
 
-    int t;
+    int t1, t2;
     Creature *target = z->attack_target();
 
-    if (target == nullptr || rl_dist(z->pos(), target->pos()) > 3 || !z->sees(*target, t)){
+    if (target == nullptr || rl_dist(z->pos(), target->pos()) > 3 || !z->sees(*target, t1, t2)){
         return;
     }
-    int distance = rl_dist(z->pos(), target->pos());
+    int distance = rl_dist( z->pos(), target->pos() );
     player *foe = dynamic_cast< player* >( target );
     bool seen = g->u.sees( *z );
-    std::vector<point> line = line_to( z->pos2(), target->pos2(), t );
+    std::vector<tripoint> line = line_to( z->pos(), target->pos(), t1, t2 );
     int dam = rng(5, 10);
     if (distance >= 2 && distance <= 3){
         z->moves -=100;
         z->reset_special(index);
         ter_t terrain;
         for (auto &i : line){
-                terrain = g->m.ter_at(i.x, i.y);
+                terrain = g->m.ter_at( i );
                 if (!(terrain.id == "t_bars") && terrain.movecost == 0 ){
                     add_msg( _("The %s thrusts its arm at you but bounces off the %s"), z->name().c_str(), terrain.name.c_str() );
                     return;
