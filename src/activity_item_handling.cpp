@@ -444,3 +444,18 @@ void activity_on_turn_move_items()
         }
     }
 }
+
+/*      values explanation
+ *      0: items from vehicle?
+ *      1: source x coordinate
+ *      2: source y coordinate
+ *      3: items to a vehicle?
+ *      4: index <-+
+ *      5: amount  |
+ *      n: ^-------+
+ *    n+1:
+ */
+void activity_on_turn_move_all_items()
+{
+}
+
