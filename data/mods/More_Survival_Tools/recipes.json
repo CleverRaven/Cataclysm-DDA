@@ -85,10 +85,13 @@
     [
       [ "stick", 1 ],
       [ "2x4", 1 ],
-      [ "skewer", 2 ],
+      [ "skewer", 4 ],
       [ "splinter", 2 ],
+      [ "pine_bough", 1 ],
+      [ "rag", 1 ],
       [ "paper", 5 ],
-      [ "withered", 1 ]
+      [ "rolling_paper", 30 ],
+      [ "withered", 2 ]
     ]
   ]
 },
@@ -616,7 +619,8 @@
       [ "rag", 1 ],
       [ "felt_patch", 1 ],
       [ "leather", 1 ],
-      [ "fur", 1 ]
+      [ "fur", 1 ],
+      [ "bandana", 1 ]
      ],
      [
       [ "hat_boonie", 1 ],
@@ -1262,5 +1266,74 @@
   "components": [
      [ [ "copper", 90 ] ]
   ]
+  },
+  {
+    "type" : "recipe",
+    "result": "fishing_hook_bone",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_TOOLS",
+    "skill_used": "fabrication",
+    "skills_required": [ "survival", 1 ],
+    "difficulty": 1,
+    "time": 2000,
+    "reversible": false,
+    "autolearn": true,
+    "qualities":[
+    {"id":"CUT","level":1,"amount":1}
+  ], "components": [
+      [
+      [ "bone", 1 ], ["bone_human", 1]
+      ]
+    ]
+},{
+  "type" : "recipe",
+  "result": "tarp",
+  "category": "CC_OTHER",
+  "subcategory": "CSC_OTHER_MATERIALS",
+  "skill_used": "fabrication",
+  "skills_required": [ "survival", 1 ],
+  "difficulty": 1,
+  "time": 10000,
+  "reversible": false,
+  "autolearn": true,
+  "qualities" : [
+    {"id":"CUT","level":1,"amount":1}
+  ],
+  "components": [
+    [
+      [ "folding_poncho", 1 ],
+      [ "folding_poncho_on", 1 ],
+      [ "emer_blanket", 1 ],
+      [ "emer_blanket_on", 1 ]
+    ],
+    [
+      [ "duct_tape", 20 ]
+    ]
+  ]
+},
+  {
+    "type" : "recipe",
+    "result": "fishing_rod_basic",
+    "override": true,
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_TOOLS",
+    "skill_used": "survival",
+    "difficulty": 0,
+    "time": 1000,
+    "reversible": true,
+    "autolearn": true,
+    "tools": [ ],
+    "components": [
+      [
+        [ "stick", 1 ]
+      ],
+      [
+        [ "string_36", 6 ]
+      ],
+      [
+        [ "fishing_hook_basic", 1 ],
+        [ "fishing_hook_bone", 1 ]
+      ]
+    ]
   }
 ]

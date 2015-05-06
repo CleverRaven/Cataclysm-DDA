@@ -5,7 +5,6 @@
 #include "color.h"
 #include "item.h"
 #include "line.h"
-#include "veh_type.h"
 #include "item_stack.h"
 #include "active_item_cache.h"
 
@@ -19,6 +18,8 @@
 class map;
 class player;
 class vehicle;
+struct vpart_info;
+enum vpart_bitflags : int;
 
 //collision factor for vehicle-vehicle collision; delta_v in mph
 float get_collision_factor(float delta_v);
@@ -167,22 +168,14 @@ struct vehicle_part : public JsonSerializer, public JsonDeserializer
         int mode;      // turret mode
     };
 
-    // coordinates for some kind of target; jumper cables use this
+    // Coordinates for some kind of target; jumper cables and turrets use this
     // Two coord pairs are stored: actual target point, and target vehicle center.
     // Both cases use absolute coordinates (relative to world origin)
-    std::pair<point, point> target;  
+    std::pair<tripoint, tripoint> target;  
 private:
     std::list<item> items; // inventory
 public:
-    bool setid(const std::string str) {
-        std::map<std::string, vpart_info>::const_iterator vpit = vehicle_part_types.find(str);
-        if ( vpit == vehicle_part_types.end() ) {
-            return false;
-        }
-        id = str;
-        iid = vpit->second.loadid;
-        return true;
-    }
+    bool setid( const std::string & str );
 
     // json saving/loading
     using JsonSerializer::serialize;
@@ -343,7 +336,7 @@ private:
      * give it the coordinates of the origin tile of a target vehicle.
      * @param where Location of the other vehicle's origin tile.
      */
-    static vehicle* find_vehicle(point const &where);
+    static vehicle* find_vehicle( const tripoint &where );
 
     /**
      * Traverses the graph of connected vehicles, starting from start_veh, and continuing
@@ -488,9 +481,10 @@ public:
     void coord_translate (int dir, int reldx, int reldy, int &dx, int &dy) const;
 
     // Seek a vehicle part which obstructs tile with given coords relative to vehicle position
-    int part_at (int dx, int dy) const;
-    int global_part_at (int x, int y) const;
-    int part_displayed_at(int local_x, int local_y) const;
+    int part_at( int dx, int dy ) const;
+    int global_part_at( int x, int y ) const;
+    int global_part_at( const tripoint &p ) const;
+    int part_displayed_at( int local_x, int local_y ) const;
 
     // Given a part, finds its index in the vehicle
     int index_of_part(vehicle_part *part, bool check_removed = false) const;
@@ -529,11 +523,13 @@ public:
     int global_x() const;
     int global_y() const;
     point global_pos() const;
+    tripoint global_pos3() const;
     /**
      * Really global absolute coordinates in map squares.
      * This includes the overmap, the submap, and the map square.
      */
     point real_global_pos() const;
+    tripoint real_global_pos3() const;
 
     // Checks how much certain fuel left in tanks.
     int fuel_left (const std::string &ftype, bool recurse = false) const;
@@ -552,7 +548,7 @@ public:
 
     void consume_fuel( double load );
 
-    void power_parts (tripoint sm_loc);
+    void power_parts( const tripoint &sm_loc );
 
     /**
      * Try to charge our (and, optionally, connected vehicles') batteries by the given amount.
@@ -577,7 +573,7 @@ public:
     int total_power (bool fueled = true) const;
 
     // Get combined epower of solar panels
-    int solar_epower (tripoint sm_loc) const;
+    int solar_epower( const tripoint &sm_loc ) const;
 
     // Get acceleration gained by combined power of all engines. If fueled == true, then only engines which
     // vehicle have fuel for are accounted
@@ -721,8 +717,8 @@ public:
     bool aim_turrets();
 
     // Maps turret ids to an enum describing their ability to shoot `pos`
-    std::map< int, turret_fire_ability > turrets_can_shoot( const point &pos );
-    turret_fire_ability turret_can_shoot( const int p, const point &pos );
+    std::map< int, turret_fire_ability > turrets_can_shoot( const tripoint &pos );
+    turret_fire_ability turret_can_shoot( const int p, const tripoint &pos );
 
     // Cycle mode for this turret
     // If `from_controls` is false, only manual modes are allowed 
@@ -846,7 +842,7 @@ public:
      * is loaded into the map the values are directly set. The vehicles position does
      * not change therefor no call to set_submap_moved is required.
      */
-    int smx, smy;
+    int smx, smy, smz;
 
     int init_veh_fuel;
     int init_veh_status;

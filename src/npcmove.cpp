@@ -7,6 +7,9 @@
 #include "debug.h"
 #include "overmapbuffer.h"
 #include "messages.h"
+#include "translations.h"
+#include "veh_type.h"
+#include "monster.h"
 
 #define dbg(x) DebugLog((DebugLevel)(x),D_NPC) << __FILE__ << ":" << __LINE__ << ": "
 #define TARGET_PLAYER -2
@@ -362,11 +365,11 @@ void npc::execute_action(npc_action action, int target)
         break;
 
     case npc_shoot:
-        fire_gun( tar.x, tar.y, false );
+        fire_gun( tar, false );
         break;
 
     case npc_shoot_burst:
-        fire_gun( tar.x, tar.y, true );
+        fire_gun( tar, true );
         break;
 
     case npc_alt_attack:
@@ -566,8 +569,8 @@ npc_action npc::method_of_fleeing(int enemy)
 {
     int speed = (enemy == TARGET_PLAYER ? g->u.get_speed() :
                  g->zombie(enemy).get_speed());
-    point enemy_loc = (enemy == TARGET_PLAYER ? point(g->u.posx(), g->u.posy()) :
-                       point(g->zombie(enemy).posx(), g->zombie(enemy).posy()));
+    tripoint enemy_loc = enemy == TARGET_PLAYER ?
+        g->u.pos3() : g->zombie(enemy).pos3();
     int distance = rl_dist(pos(), enemy_loc);
 
     if (choose_escape_item() != INT_MIN) { // We have an escape item!
@@ -710,7 +713,9 @@ npc_action npc::address_needs(int danger)
 
     if ((danger <= NPC_DANGER_VERY_LOW && (hunger > 40 || thirst > 40)) ||
         thirst > 80 || hunger > 160) {
-        return npc_eat;
+        //return npc_eat; // TODO: Make eating work when then NPC doesn't have enough food
+        hunger = 0;
+        thirst = 0;
     }
 
     // TODO: More risky attempts at sleep when exhausted
@@ -2265,10 +2270,7 @@ void npc::set_destination()
     std::string dest_type = options[rng(0, options.size() - 1)];
 
     int dist = 0;
-    const point p = overmap_buffer.find_closest(global_omt_location(), dest_type, dist, false);
-    goal.x = p.x;
-    goal.y = p.y;
-    goal.z = g->get_levz();
+    goal = overmap_buffer.find_closest(global_omt_location(), dest_type, dist, false);
 }
 
 void npc::go_to_destination()

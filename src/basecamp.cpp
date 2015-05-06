@@ -3,6 +3,7 @@
 
 #include "basecamp.h"
 #include "output.h"
+#include "translations.h"
 
 basecamp::basecamp()
     : name(), posx(0), posy(0)

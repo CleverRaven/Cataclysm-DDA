@@ -6,11 +6,8 @@
 #include "map.h"
 #include "debug.h"
 #include "addiction.h"
-#include "moraledata.h"
 #include "inventory.h"
 #include "options.h"
-#include <sstream>
-#include <stdlib.h>
 #include "weather.h"
 #include "item.h"
 #include "material.h"
@@ -28,6 +25,15 @@
 #include "messages.h"
 #include "sounds.h"
 #include "item_action.h"
+#include "mongroup.h"
+#include "morale.h"
+#include "input.h"
+#include "veh_type.h"
+#include "overmap.h"
+#include "vehicle.h"
+#include "trap.h"
+#include "mutation.h"
+#include "ui.h"
 
 #ifdef SDLTILES
 #include "SDL2/SDL.h"
@@ -44,7 +50,8 @@
 #include <memory>
 #include <array>
 #include <bitset>
-
+#include <sstream>
+#include <stdlib.h>
 #include <fstream>
 
 // use this instead of having to type out 26 spaces like before
@@ -61,7 +68,7 @@ static const itype_id OPTICAL_CLOAK_ITEM_ID( "optical_cloak" );
 void game::init_morale()
 {
     std::string tmp_morale_data[NUM_MORALE_TYPES] = {
-    "This is a bug (moraledata.h:moraledata)",
+    "This is a bug (player.cpp:moraledata)",
     _("Enjoyed %i"),
     _("Enjoyed a hot meal"),
     _("Music"),
@@ -475,6 +482,15 @@ void player::process_turn()
         dodges_left = get_num_dodges();
     }
 
+    // auto-learning. This is here because skill-increases happens all over the place:
+    // SkillLevel::readBook (has no connection to the skill or the player),
+    // player::read, player::practice, ...
+    if( skillLevel( "unarmed" ) >= 2 ) {
+        if( std::find( ma_styles.begin(), ma_styles.end(), "style_brawling" ) == ma_styles.end() ) {
+            ma_styles.push_back( "style_brawling" );
+            add_msg_if_player( m_info, _( "You learned a new style." ) );
+        }
+    }
 }
 
 void player::action_taken()
@@ -1799,6 +1815,8 @@ bool player::is_immune_effect( const efftype_id &effect ) const
         return is_throw_immune() || ( has_trait("LEG_TENT_BRACE") && footwear_factor() == 0 );
     } else if( effect == "onfire" ) {
         return is_immune_damage( DT_HEAT );
+    } else if( effect == "deaf" ) {
+        return worn_with_flag("DEAF") || has_bionic("bio_ears") || is_wearing("rm13_armor_on");
     }
 
     return false;
@@ -1818,7 +1836,7 @@ bool player::is_immune_damage( const damage_type dt ) const
     case DT_CUT:
         return false;
     case DT_ACID:
-        return has_trait( "ACIDBLOOD" );
+        return has_trait( "ACIDPROOF" );
     case DT_STAB:
         return false;
     case DT_HEAT:
@@ -1934,7 +1952,7 @@ void player::memorial( std::ofstream &memorial_file, std::string epitaph )
 
     //Were they in a town, or out in the wilderness?
     const auto global_sm_pos = global_sm_location();
-    const auto closest_city = overmap_buffer.closest_city( point( global_sm_pos.x, global_sm_pos.y ) );
+    const auto closest_city = overmap_buffer.closest_city( global_sm_pos );
     std::string kill_place;
     if( !closest_city ) {
         //~ First parameter is a pronoun ("He"/"She"), second parameter is a terrain name.
@@ -3471,7 +3489,7 @@ int player::draw_turret_aim( WINDOW *w, int line_number, const tripoint &targ ) 
         return line_number;
     }
 
-    const auto turret_state = veh->turrets_can_shoot( {targ.x, targ.y} );
+    const auto turret_state = veh->turrets_can_shoot( targ );
     int num_ok = 0;
     for( const auto &pr : turret_state ) {
         if( pr.second == turret_all_ok ) {
@@ -4112,7 +4130,7 @@ tripoint player::global_omt_location() const
     return overmapbuffer::ms_to_omt_copy( global_square_location() );
 }
 
-const tripoint &player::pos3() const
+const tripoint &player::pos() const
 {
     return position;
 }
@@ -4319,8 +4337,13 @@ void player::pause()
     for (auto &v : vehs) {
         veh = v.v;
         if (veh && veh->velocity != 0 && veh->player_in_control(*this)) {
-            if (one_in(10)) {
-                practice( "driving", 1 );
+            if (one_in(8)) {
+                double exp_temp = 1 + veh->total_mass() / 400.0 + std::abs (veh->velocity / 3200.0);
+                int experience = static_cast<int>( floorf( exp_temp ) );
+                if( exp_temp - experience > 0 && x_in_y( exp_temp - experience, 1.0 ) ) {
+                    experience++;
+                }
+                practice( "driving", experience );
             }
             break;
         }
@@ -5044,7 +5067,7 @@ void player::knock_back_from( const tripoint &p )
 
     if (x == posx() && y == posy())
         return; // No effect
-    point to = pos();
+    tripoint to = pos();
     if (x < posx()) {
         to.x++;
     }
@@ -5191,6 +5214,288 @@ void player::update_health(int base_threshold)
         base_threshold += 50;
     }
     Creature::update_health(base_threshold);
+}
+
+void player::update_needs()
+{
+    // Check if we've overdosed... in any deadly way.
+    if (stim > 250) {
+        add_msg_if_player(m_bad, _("You have a sudden heart attack!"));
+        add_memorial_log(pgettext("memorial_male", "Died of a drug overdose."),
+                           pgettext("memorial_female", "Died of a drug overdose."));
+        hp_cur[hp_torso] = 0;
+    } else if (stim < -200 || pkill > 240) {
+        add_msg_if_player(m_bad, _("Your breathing stops completely."));
+        add_memorial_log(pgettext("memorial_male", "Died of a drug overdose."),
+                           pgettext("memorial_female", "Died of a drug overdose."));
+        hp_cur[hp_torso] = 0;
+    } else if (has_effect("jetinjector")) {
+            if (get_effect_dur("jetinjector") > 400) {
+                if (!(has_trait("NOPAIN"))) {
+                    add_msg_if_player(m_bad, _("Your heart spasms painfully and stops."));
+                } else {
+                    add_msg_if_player(_("Your heart spasms and stops."));
+                }
+                add_memorial_log(pgettext("memorial_male", "Died of a healing stimulant overdose."),
+                                   pgettext("memorial_female", "Died of a healing stimulant overdose."));
+                hp_cur[hp_torso] = 0;
+            }
+    } else if (has_effect("datura") && get_effect_dur("datura") > 14000 && one_in(512)) {
+        if (!(has_trait("NOPAIN"))) {
+            add_msg_if_player(m_bad, _("Your heart spasms painfully and stops, dragging you back to reality as you die."));
+        } else {
+            add_msg_if_player(_("You dissolve into beautiful paroxysms of energy.  Life fades from your nebulae and you are no more."));
+        }
+        add_memorial_log(pgettext("memorial_male", "Died of datura overdose."),
+                           pgettext("memorial_female", "Died of datura overdose."));
+        hp_cur[hp_torso] = 0;
+    }
+    // Check if we're starving or have starved
+    if (hunger >= 3000) {
+        if (hunger >= 6000) {
+            add_msg_if_player(m_bad, _("You have starved to death."));
+            add_memorial_log(pgettext("memorial_male", "Died of starvation."),
+                               pgettext("memorial_female", "Died of starvation."));
+            hp_cur[hp_torso] = 0;
+        } else if (hunger >= 5000 && calendar::turn % 20 == 0) {
+            add_msg_if_player(m_warning, _("Food..."));
+        } else if (hunger >= 4000 && calendar::turn % 20 == 0) {
+            add_msg_if_player(m_warning, _("You are STARVING!"));
+        } else if (calendar::turn % 20 == 0) {
+            add_msg_if_player(m_warning, _("Your stomach feels so empty..."));
+        }
+    }
+
+    // Check if we're dying of thirst
+    if (thirst >= 600) {
+        if (thirst >= 1200) {
+            add_msg_if_player(m_bad, _("You have died of dehydration."));
+            add_memorial_log(pgettext("memorial_male", "Died of thirst."),
+                               pgettext("memorial_female", "Died of thirst."));
+            hp_cur[hp_torso] = 0;
+        } else if (thirst >= 1000 && calendar::turn % 20 == 0) {
+            add_msg_if_player(m_warning, _("Even your eyes feel dry..."));
+        } else if (thirst >= 800 && calendar::turn % 20 == 0) {
+            add_msg_if_player(m_warning, _("You are THIRSTY!"));
+        } else if (calendar::turn % 20 == 0) {
+            add_msg_if_player(m_warning, _("Your mouth feels so dry..."));
+        }
+    }
+
+    // Check if we're falling asleep, unless we're sleeping
+    if (fatigue >= 600 && !in_sleep_state()) {
+        if (fatigue >= 1000) {
+            add_msg_if_player(m_bad, _("Survivor sleep now."));
+            add_memorial_log(pgettext("memorial_male", "Succumbed to lack of sleep."),
+                               pgettext("memorial_female", "Succumbed to lack of sleep."));
+            fatigue -= 10;
+            try_to_sleep();
+        } else if (fatigue >= 800 && calendar::turn % 10 == 0) {
+            add_msg_if_player(m_warning, _("Anywhere would be a good place to sleep..."));
+        } else if (calendar::turn % 50 == 0) {
+            add_msg_if_player(m_warning, _("You feel like you haven't slept in days."));
+        }
+    }
+
+    // Even if we're not Exhausted, we really should be feeling lack/sleep earlier
+    // Penalties start at Dead Tired and go from there
+    if (fatigue >= 383 && !in_sleep_state()) {
+        if (fatigue >= 700) {
+            if (calendar::turn % 50 == 0) {
+                add_msg_if_player(m_warning, _("You're too tired to stop yawning."));
+                add_effect("lack_sleep", 50);
+            }
+            if (one_in(50 + int_cur)) {
+                // Rivet's idea: look out for microsleeps!
+                fall_asleep(5);
+            }
+        } else if (fatigue >= 575) {
+            if (calendar::turn % 50 == 0) {
+                add_msg_if_player(m_warning, _("How much longer until bedtime?"));
+                add_effect("lack_sleep", 50);
+            }
+            if (one_in(100 + int_cur)) {
+                fall_asleep(5);
+            }
+        } else if (fatigue >= 383 && calendar::turn % 50 == 0) {
+            add_msg_if_player(m_warning, _("*yawn* You should really get some sleep."));
+            add_effect("lack_sleep", 50);
+        }
+    }
+
+    if (calendar::turn % 50 == 0) { // Hunger, thirst, & fatigue up every 5 minutes
+        if ((!has_trait("LIGHTEATER") || !one_in(3)) &&
+            (!has_bionic("bio_recycler") || calendar::turn % 300 == 0) &&
+            !(has_trait("DEBUG_LS"))) {
+            hunger++;
+            if (has_trait("HUNGER")) {
+                if (one_in(2)) {
+                    hunger++;
+                }
+            }
+            if (has_trait("MET_RAT")) {
+                if (!one_in(3)) {
+                    hunger++;
+                }
+            }
+            if (has_trait("HUNGER2")) {
+                hunger++;
+            }
+            if (has_trait("HUNGER3")) {
+                hunger += 2;
+            }
+        }
+        if ((!has_bionic("bio_recycler") || calendar::turn % 100 == 0) &&
+            (!has_trait("PLANTSKIN") || !one_in(5)) &&
+            (!has_trait("DEBUG_LS")) ) {
+            thirst++;
+            if (has_trait("THIRST")) {
+                if (one_in(2)) {
+                    thirst++;
+                }
+            }
+            if (has_trait("THIRST2")) {
+                thirst++;
+            }
+            if (has_trait("THIRST3")) {
+                thirst += 2;
+            }
+        }
+        // Sanity check for negative fatigue value.
+        if (fatigue < -1000) {
+            fatigue = -1000;
+        }
+
+        const bool wasnt_fatigued = fatigue < 192;
+        // Don't increase fatigue if sleeping or trying to sleep or if we're at the cap.
+        if (fatigue < 1050 && !in_sleep_state() && !has_trait("DEBUG_LS") ) {
+            fatigue++;
+            // Wakeful folks don't always gain fatigue!
+            if (has_trait("WAKEFUL")) {
+                if (one_in(6)) {
+                    fatigue--;
+                }
+            }
+            if (has_trait("WAKEFUL2")) {
+                if (one_in(4)) {
+                    fatigue--;
+                }
+            }
+            // You're looking at over 24 hours to hit Tired here
+            if (has_trait("WAKEFUL3")) {
+                if (one_in(2)) {
+                    fatigue--;
+                }
+            }
+            // Sleepy folks gain fatigue faster; Very Sleepy is twice as fast as typical
+            if (has_trait("SLEEPY")) {
+                if (one_in(3)) {
+                    fatigue++;
+                }
+            }
+            if (has_trait("MET_RAT")) {
+                if (one_in(2)) {
+                    fatigue++;
+                }
+            }
+            if (has_trait("SLEEPY2")) {
+                fatigue++;
+            }
+        }
+        if( is_player() && wasnt_fatigued && fatigue >= 192 && !in_sleep_state() ) {
+            if (activity.type == ACT_NULL) {
+                add_msg_if_player(m_warning, _("You're feeling tired.  %s to lie down for sleep."),
+                        press_x(ACTION_SLEEP).c_str());
+            } else {
+                g->cancel_activity_query(_("You're feeling tired."));
+            }
+        }
+        if (stim < 0) {
+            stim++;
+        }
+        if (stim > 0) {
+            stim--;
+        }
+        if (pkill > 0) {
+            pkill--;
+        }
+        if (pkill < 0) {
+            pkill++;
+        }
+        if( has_bionic("bio_solar") && g->is_in_sunlight( pos3() ) ) {
+            charge_power(25);
+        }
+        // Huge folks take penalties for cramming themselves in vehicles
+        if ((has_trait("HUGE") || has_trait("HUGE_OK")) && in_vehicle) {
+            add_msg_if_player(m_bad, _("You're cramping up from stuffing yourself in this vehicle."));
+            pain += 2 * rng(2, 3);
+            focus_pool -= 1;
+        }
+
+        int dec_stom_food = stomach_food * 0.2;
+        int dec_stom_water = stomach_water * 0.2;
+        dec_stom_food = dec_stom_food < 10 ? 10 : dec_stom_food;
+        dec_stom_water = dec_stom_water < 10 ? 10 : dec_stom_water;
+        stomach_food -= dec_stom_food;
+        stomach_water -= dec_stom_water;
+        stomach_food = stomach_food < 0 ? 0 : stomach_food;
+        stomach_water = stomach_water < 0 ? 0 : stomach_water;
+    }
+}
+
+void player::regen()
+{
+    if (calendar::turn % 300 == 0) { // Pain up/down every 30 minutes
+        if (pain > 0) {
+            pain -= 1 + int(pain / 10);
+        } else if (pain < 0) {
+            pain = 0;
+        }
+        // Mutation healing effects
+        if (has_trait("FASTHEALER2") && one_in(5)) {
+            healall(1);
+        }
+        if (has_trait("REGEN") && one_in(2)) {
+            healall(1);
+        }
+        if (has_trait("ROT2") && one_in(5)) {
+            hurtall(1, nullptr);
+        }
+        if (has_trait("ROT3") && one_in(2)) {
+            hurtall(1, nullptr);
+        }
+
+        if (radiation > 0 && one_in(3)) {
+            radiation--;
+        }
+        get_sick();
+        // Freakishly Huge folks tire quicker
+        if( is_player() && has_trait("HUGE") && !in_sleep_state() ) {
+            add_msg_if_player(m_info, _("<whew> You catch your breath."));
+            fatigue++;
+        }
+    }
+
+    if (calendar::turn % 3600 == 0)
+    {
+        update_health();
+    }
+}
+
+void player::update_stamina()
+{
+    // Recover some stamina every turn.
+    if( stamina < get_stamina_max() && !has_effect("winded") ) {
+        // But mouth encumberance interferes.
+        stamina += std::max( 1, 10 - (encumb(bp_mouth) / 10) );
+        // TODO: recovering stamina causes hunger/thirst/fatigue.
+    }
+
+    // 2d4 bonus stamina from active stimpack stamina-boost.
+    if( stamina < get_stamina_max() && has_effect("stimpack") && 
+        get_effect_dur("stimpack") > 50 ) {
+        stamina += rng( 2, 8 );
+    }
 }
 
 void player::add_addiction(add_type type, int strength)
@@ -6997,7 +7302,7 @@ void player::hardcoded_effects(effect &it)
                     }
                 } else {
                     sounds::sound(posx(), posy(), 12, _("beep-beep-beep!"));
-                    if( !can_hear( pos(), 12 ) ) {
+                    if( !can_hear( pos2(), 12 ) ) {
                         // 10 minute automatic snooze
                         it.mod_duration(100);
                     } else {
@@ -7476,7 +7781,7 @@ void player::suffer()
     if (has_trait("PER_SLIME")) {
         if (one_in(600) && !has_effect("deaf")) {
             add_msg(m_bad, _("Suddenly, you can't hear anything!"));
-            add_effect("deaf", 20 * rng (2, 6)) ;
+            add_effect("deaf", 100 * rng (2, 6)) ;
         }
         if (one_in(600) && !(has_effect("blind"))) {
             add_msg(m_bad, _("Suddenly, your eyes stop working!"));
@@ -8482,8 +8787,6 @@ bool player::has_fire(const int quantity) const
         return true;
     } else if (has_charges("torch_lit", 1)) {
         return true;
-    } else if (has_charges("tinderbox_lit", 1)) {
-        return true;
     } else if (has_charges("battletorch_lit", quantity)) {
         return true;
     } else if (has_charges("handflare_lit", 1)) {
@@ -8537,8 +8840,6 @@ void player::use_fire(const int quantity)
     if( g->m.has_nearby_fire( pos3() ) ) {
         return;
     } else if (has_charges("torch_lit", 1)) {
-        return;
-    } else if (has_charges("tinderbox_lit", 1)) {
         return;
     } else if (has_charges("battletorch_lit", 1)) {
         return;
@@ -13245,21 +13546,24 @@ void player::add_known_trap( const tripoint &pos, const std::string &t)
 
 bool player::is_deaf() const
 {
-    return has_effect("deaf") || worn_with_flag("DEAF") ||
+    return get_effect_int( "deaf" ) > 2 || worn_with_flag("DEAF") ||
            (has_active_bionic("bio_earplugs") && !has_active_bionic("bio_ears"));
 }
 
-bool player::can_hear( const point source, const int volume ) const
+bool player::can_hear( const tripoint &source, const int volume ) const
 {
     if( is_deaf() ) {
         return false;
     }
-    const int dist = rl_dist( source, pos() );
+    const int dist = rl_dist( source, pos3() );
     const float volume_multiplier = hearing_ability();
     return volume * volume_multiplier >= dist;
 }
 
-// This method intentionally does not factor in deafness.
+bool player::can_hear( const point &source, const int volume ) const
+{
+    return can_hear( tripoint( source, posz() ), volume );
+}
 float player::hearing_ability() const
 {
     float volume_multiplier = 1.0;
@@ -13289,6 +13593,12 @@ float player::hearing_ability() const
     if( has_trait("LUPINE_EARS") ) {
         volume_multiplier *= 1.75;
     }
+
+    if( has_effect( "deaf" ) ) {
+        // Scale linearly up to 300
+        volume_multiplier *= ( 300.0 - get_effect_dur( "deaf" ) ) / 300.0;
+    }
+
     return volume_multiplier;
 }
 
@@ -13551,10 +13861,10 @@ mission *player::get_active_mission() const
     return active_mission;
 }
 
-point player::get_active_mission_target() const
+tripoint player::get_active_mission_target() const
 {
     if( active_mission == nullptr ) {
-        return overmap::invalid_point;
+        return overmap::invalid_tripoint;
     }
     return active_mission->get_target();
 }

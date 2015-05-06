@@ -11,6 +11,8 @@ void shriek             (monster *z, int index);
 void howl               (monster *z, int index);
 void rattle             (monster *z, int index);
 void acid               (monster *z, int index);
+void acid_accurate      (monster *z, int index);
+void acid_barf          (monster *z, int index);
 void shockstorm         (monster *z, int index);
 void pull_metal_weapon  (monster *z, int index);
 void smokecloud         (monster *z, int index);

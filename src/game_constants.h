@@ -39,4 +39,11 @@
                 // Nuts to 80x24 terms. Mostly exists in graphical clients, and
                 // those fatcats can resize.
 
+/** Number of z-levels below 0 (not including 0). */
+#define OVERMAP_DEPTH 10
+/** Number of z-levels above 0 (not including 0). */
+#define OVERMAP_HEIGHT 10
+/** Total number of z-levels */
+#define OVERMAP_LAYERS (1 + OVERMAP_DEPTH + OVERMAP_HEIGHT)
+
 #endif

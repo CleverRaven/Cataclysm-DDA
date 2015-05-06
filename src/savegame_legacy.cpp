@@ -29,10 +29,15 @@
 #include "skill.h"
 #include "vehicle.h"
 #include "filesystem.h"
-
+#include "mongroup.h"
 #include "mission.h"
 #include "faction.h"
 #include "savegame.h"
+#include "morale.h"
+#include "worldfactory.h"
+#include "crafting.h"
+#include "veh_type.h"
+#include "mutation.h"
 
 #if !defined(_MSC_VER)
 #include <unistd.h>

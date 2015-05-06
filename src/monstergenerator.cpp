@@ -238,6 +238,8 @@ void MonsterGenerator::init_attack()
     attack_map["RATTLE"] = &mattack::rattle;
     attack_map["HOWL"] = &mattack::howl;
     attack_map["ACID"] = &mattack::acid;
+    attack_map["ACID_BARF"] = &mattack::acid_barf;
+    attack_map["ACID_ACCURATE"] = &mattack::acid_accurate;
     attack_map["SHOCKSTORM"] = &mattack::shockstorm;
     attack_map["PULL_METAL_WEAPON"] = &mattack::pull_metal_weapon;
     attack_map["SMOKECLOUD"] = &mattack::smokecloud;
@@ -314,6 +316,7 @@ void MonsterGenerator::init_defense()
 {
     defense_map["NONE"] = &mdefense::none; //No special attack-back
     defense_map["ZAPBACK"] = &mdefense::zapback; //Shock attacker on hit
+    defense_map["ACIDSPLASH"] = &mdefense::acidsplash; //Shock attacker on hit
 }
 
 void MonsterGenerator::init_trigger()

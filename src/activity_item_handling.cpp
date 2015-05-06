@@ -5,6 +5,8 @@
 #include "enums.h"
 #include "creature.h"
 #include "pickup.h"
+#include "translations.h"
+#include "monster.h"
 #include <list>
 #include <vector>
 #include <cassert>

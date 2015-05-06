@@ -86,15 +86,15 @@ enum mission_goal {
 
 struct mission_place {
     // Return true if the place (global overmap terrain coordinate) is valid for starting a mission
-    bool never( tripoint )
+    bool never( const tripoint& )
     {
         return false;
     }
-    bool always( tripoint )
+    bool always( const tripoint& )
     {
         return true;
     }
-    bool near_town( tripoint );
+    bool near_town( const tripoint& );
 };
 
 /* mission_start functions are first run when a mission is accepted; this
@@ -166,14 +166,14 @@ struct mission_type {
     oter_id target_id;
     mission_type_id follow_up;
 
-    bool (mission_place::*place)(tripoint);
+    bool (mission_place::*place)( const tripoint& );
     void (mission_start::*start)(mission *);
     void (mission_end  ::*end  )(mission *);
     void (mission_fail ::*fail )(mission *);
 
     mission_type(mission_type_id ID, std::string NAME, mission_goal GOAL, int DIF, int VAL,
                  bool URGENT,
-                 bool (mission_place::*PLACE)(tripoint),
+                 bool (mission_place::*PLACE)( const tripoint& ),
                  void (mission_start::*START)(mission *),
                  void (mission_end  ::*END  )(mission *),
                  void (mission_fail ::*FAIL )(mission *)) :
@@ -203,7 +203,7 @@ struct mission_type {
      * around tripoint p, see @ref mission_start.
      * Returns @ref MISSION_NULL if no suitable type could be found.
      */
-    static mission_type_id get_random_id( mission_origin origin, tripoint p );
+    static mission_type_id get_random_id( mission_origin origin, const tripoint &p );
     /**
      * Get all mission types at once.
      */
@@ -235,7 +235,7 @@ private:
         int uid;                // Unique ID number, used for referencing elsewhere
         // Marked on the player's map. (INT_MIN, INT_MIN) for none,
         // global overmap terrain coordinates.
-        point target;
+        tripoint target;
         itype_id item_id;       // Item that needs to be found (or whatever)
         int item_count;         // The number of above items needed
         oter_id target_id;      // Destination type to be reached
@@ -265,7 +265,7 @@ public:
             failed = false;
             value = 0;
             uid = -1;
-            target = point(INT_MIN, INT_MIN);
+            target = tripoint(INT_MIN, INT_MIN, INT_MIN);
             item_id = "null";
             item_count = 1;
             target_id = 0;
@@ -288,7 +288,7 @@ public:
     calendar get_deadline() const;
     std::string get_description() const;
     bool has_target() const;
-    point get_target() const;
+    const tripoint &get_target() const;
     const mission_type &get_type() const;
     bool has_follow_up() const;
     mission_type_id get_follow_up() const;
@@ -311,7 +311,7 @@ public:
     /**
      * Simple setters, no checking if the values is performed. */
     /*@{*/
-    void set_target( point target );
+    void set_target( const tripoint &target );
     /*@}*/
 
 
@@ -334,7 +334,7 @@ public:
      * Returns the new mission.
      */
     static mission* reserve_new( mission_type_id type, int npc_id );
-    static mission* reserve_random( mission_origin origin, tripoint p, int npc_id );
+    static mission* reserve_random( mission_origin origin, const tripoint &p, int npc_id );
     /**
      * Returns the mission with the matching id (@ref uid). Returns NULL if no mission with that
      * id exists.

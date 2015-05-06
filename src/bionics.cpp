@@ -11,6 +11,11 @@
 #include "messages.h"
 #include "overmapbuffer.h"
 #include "sounds.h"
+#include "translations.h"
+#include "catacharset.h"
+#include "input.h"
+#include "monster.h"
+#include "overmap.h"
 
 #include <math.h>    //sqrt
 #include <algorithm> //std::min
@@ -944,6 +949,10 @@ bool player::activate_bionic(int b, bool eff_only)
     } else if(bio.id == "bio_lockpick") {
         tmp_item = item( "pseuso_bio_picklock", 0 );
         if( invoke_item( &tmp_item ) == 0 ) {
+            if (tmp_item.charges > 0) {
+                // restore the energy since CBM wasn't used
+                charge_power(bionics[bio.id].power_activate);
+            }
             return true;
         }
         if( tmp_item.damage > 0 ) {
@@ -1033,7 +1042,7 @@ bool player::activate_bionic(int b, bool eff_only)
     }
 
     // Recalculate stats (strength, mods from pain etc.) that could have been affected
-    reset_stats();
+    reset();
 
     return true;
 }
@@ -1099,7 +1108,7 @@ bool player::deactivate_bionic(int b, bool eff_only)
     }
 
     // Recalculate stats (strength, mods from pain etc.) that could have been affected
-    reset_stats();
+    reset();
 
     return true;
 }

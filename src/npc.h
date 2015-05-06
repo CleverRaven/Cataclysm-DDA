@@ -1,7 +1,6 @@
 #ifndef NPC_H
 #define NPC_H
 
-#include "messages.h"
 #include "player.h"
 #include "faction.h"
 #include "json.h"
@@ -20,6 +19,7 @@ class item;
 class overmap;
 class player;
 class field_entry;
+enum game_message_type : int;
 
 void parse_tags(std::string &phrase, const player *u, const npc *me);
 

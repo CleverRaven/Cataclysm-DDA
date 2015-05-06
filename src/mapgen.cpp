@@ -15,11 +15,14 @@
 #include "monstergenerator.h"
 #include "mongroup.h"
 #include "mapgen.h"
+#include "translations.h"
 #include <algorithm>
 #include <cassert>
 #include <list>
 #include <sstream>
 #include "json.h"
+#include "coordinates.h"
+#include "npc.h"
 #ifdef LUA
 #include "catalua.h"
 #endif
@@ -11544,6 +11547,7 @@ vehicle *map::add_vehicle(std::string type, const int x, const int y, const int 
     veh->posy = y % SEEY;
     veh->smx = smx;
     veh->smy = smy;
+    veh->smz = abs_sub.z;
     veh->place_spawn_items();
     veh->face.init( dir );
     veh->turn_dir = dir;
@@ -11554,7 +11558,7 @@ vehicle *map::add_vehicle(std::string type, const int x, const int y, const int 
     vehicle *placed_vehicle = add_vehicle_to_map(veh, merge_wrecks);
 
     if(placed_vehicle != NULL) {
-        submap *place_on_submap = get_submap_at_grid(placed_vehicle->smx, placed_vehicle->smy);
+        submap *place_on_submap = get_submap_at_grid( placed_vehicle->smx, placed_vehicle->smy, placed_vehicle->smz );
         place_on_submap->vehicles.push_back(placed_vehicle);
 
         vehicle_list.insert(placed_vehicle);
@@ -11618,6 +11622,7 @@ vehicle *map::add_vehicle_to_map(vehicle *veh, const bool merge_wrecks)
             wreckage->posy = other_veh->posy;
             wreckage->smx = other_veh->smx;
             wreckage->smy = other_veh->smy;
+            wreckage->smz = other_veh->smz;
 
             //Where are we on the global scale?
             const int global_x = wreckage->smx * SEEX + wreckage->posx;

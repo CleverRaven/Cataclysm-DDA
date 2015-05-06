@@ -3,6 +3,7 @@
 #include "game.h"
 #include "map.h"
 #include "debug.h"
+#include "translations.h"
 
 void trap::load( JsonObject &jo )
 {
@@ -76,7 +77,7 @@ bool trap::detect_trap( const tripoint &pos, const player &p ) const
            // ...malus if we are tired...
            (p.has_effect("lack_sleep") ? rng(1, 5) : 0) -
            // ...malus farther we are from trap...
-           rl_dist( p.pos(), point( pos.x, pos.y) ) +
+           rl_dist( p.pos(), pos ) +
            // Police are trained to notice Something Wrong.
            (p.has_trait("PROF_POLICE") ? 1 : 0) +
            (p.has_trait("PROF_PD_DET") ? 2 : 0) >

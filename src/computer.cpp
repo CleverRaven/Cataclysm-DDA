@@ -12,6 +12,9 @@
 #include "sounds.h"
 #include "rng.h"
 #include "mission.h"
+#include "translations.h"
+#include "monster.h"
+#include "event.h"
 
 #include <fstream>
 #include <string>
@@ -705,6 +708,9 @@ INITIATING STANDARD TREMOR TEST..."));
         if (!g->u.has_artifact_with(AEP_PSYSHIELD)) {
             g->u.add_effect("amigara", 20);
         }
+        // Disable this action to prevent further amigara events, which would lead to
+        // further amigara monster, which would lead to further artifacts.
+        remove_option( COMPACT_AMIGARA_START );
         break;
 
     case COMPACT_STEMCELL_TREATMENT:
@@ -1275,6 +1281,7 @@ void computer::activate_failure(computer_failure fail)
         g->u.add_effect("amigara", 20);
         g->explosion( tripoint( rng(0, SEEX * MAPSIZE), rng(0, SEEY * MAPSIZE), g->get_levz() ), 10, 10, false );
         g->explosion( tripoint( rng(0, SEEX * MAPSIZE), rng(0, SEEY * MAPSIZE), g->get_levz() ), 10, 10, false );
+        remove_option( COMPACT_AMIGARA_START );
         break;
 
     case COMPFAIL_DESTROY_BLOOD:
@@ -1326,6 +1333,16 @@ void computer::activate_failure(computer_failure fail)
         break;
 
     }// switch (fail)
+}
+
+void computer::remove_option( computer_action const action )
+{
+    for( auto it = options.begin(); it != options.end(); ++it ) {
+        if( it->action == action ) {
+            options.erase( it );
+            break;
+        }
+    }
 }
 
 bool computer::query_bool(const char *mes, ...)

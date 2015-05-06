@@ -13,6 +13,9 @@
 #include "input.h"
 #include "messages.h"
 #include "sounds.h"
+#include "translations.h"
+#include "monster.h"
+#include "npc.h"
 
 int time_to_fire(player &p, const itype &firing);
 int recoil_add(player &p, const item &gun);
@@ -288,11 +291,15 @@ bool player::handle_gun_damage( const itype &firingt, const std::set<std::string
 void player::fire_gun( const tripoint &targ, long burst_size )
 {
     // Currently just an overload
-    fire_gun( targ.x, targ.y, burst_size > 1 );
+    fire_gun( targ, burst_size > 1 );
 }
 
-void player::fire_gun(int tarx, int tary, bool burst)
+void player::fire_gun( const tripoint &targ, bool burst )
 {
+    int tarx = targ.x;
+    int tary = targ.y;
+    // TODO: Z
+
     item *gunmod = weapon.active_gunmod();
     itype *curammo = NULL;
     item *used_weapon = NULL;

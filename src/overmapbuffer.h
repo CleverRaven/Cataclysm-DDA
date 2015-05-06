@@ -2,13 +2,21 @@
 #define OVERMAPBUFFER_H
 
 #include "enums.h"
-#include "overmap.h"
 #include <set>
 #include <list>
 #include <memory>
+#include <vector>
 #include <unordered_map>
 
 class monster;
+class overmap;
+struct radio_tower;
+struct oter_id;
+struct regional_settings;
+class vehicle;
+class npc;
+struct om_vehicle;
+struct mongroup;
 
 struct radio_tower_reference {
     /** Overmap the radio tower is on. */
@@ -30,7 +38,7 @@ struct city_reference {
     /** The city itself, points into @ref overmap::cities */
     struct city *city;
     /** The global absolute position of the city (in submap coordinates!) */
-    point abs_sm_pos;
+    tripoint abs_sm_pos;
     /** Distance to center of the search */
     int distance;
     operator bool() const {
@@ -198,7 +206,7 @@ public:
      * @param must_be_seen If true, only terrain seen by the player
      * should be searched.
      */
-    std::vector<point> find_all(const tripoint& origin, const std::string& type,
+    std::vector<tripoint> find_all(const tripoint& origin, const std::string& type,
         int dist, bool must_be_seen);
 
     /**
@@ -211,6 +219,7 @@ public:
      * @return true if something has actually been revealed.
      */
     bool reveal(const point &center, int radius, int z);
+    bool reveal( const tripoint &center, int radius );
     /**
      * Returns the closest point of terrain type.
      * This function may greate a new overmap if needed.
@@ -225,7 +234,7 @@ public:
      * @param must_be_seen If true, only terrain seen by the player
      * should be searched.
      */
-    point find_closest(const tripoint& origin, const std::string& type, int& dist, bool must_be_seen);
+    tripoint find_closest(const tripoint& origin, const std::string& type, int& dist, bool must_be_seen);
 
     /* These 4 functions return the overmap that contains the given
      * overmap terrain coordinate.
@@ -238,8 +247,10 @@ public:
      */
     overmap* get_existing_om_global(int& x, int& y);
     overmap* get_existing_om_global(const point& p);
+    overmap* get_existing_om_global( const tripoint& p );
     overmap& get_om_global(int& x, int& y);
     overmap& get_om_global(const point& p);
+    overmap& get_om_global( const tripoint& p );
     /**
      * (x,y) are global overmap coordinates (same as @ref get).
      * @returns true if the buffer has a overmap with
@@ -268,7 +279,7 @@ public:
      * to there. In global submap coordinates.
      * @param sig_power The signal strength, higher values means it visible farther away.
      */
-    void signal_hordes( tripoint center, int sig_power );
+    void signal_hordes( const tripoint &center, int sig_power );
     /**
      * Process nearby monstergroups (dying mostly).
      */
@@ -313,7 +324,7 @@ public:
      * @param center The center of the search, the distance for determining the closest city is
      * calculated as distance to this point. In global submap coordinates!
      */
-    city_reference closest_city( point center );
+    city_reference closest_city( const tripoint &center );
 
     // overmap terrain to overmap
     static point omt_to_om_copy(int x, int y);
@@ -420,8 +431,8 @@ private:
      * Retrieve overmaps that overlap the bounding box defined by the location and radius.
      * The location is in absolute submap coordinates, the radius is in the same system.
      */
-    std::vector<overmap *> get_overmaps_near( point location, int radius );
-    std::vector<overmap *> get_overmaps_near( tripoint location, int radius );
+    std::vector<overmap *> get_overmaps_near( const point &location, int radius );
+    std::vector<overmap *> get_overmaps_near( const tripoint &location, int radius );
 };
 
 extern overmapbuffer overmap_buffer;

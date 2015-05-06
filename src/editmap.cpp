@@ -16,6 +16,10 @@
 #include "mapdata.h"
 #include "overmapbuffer.h"
 #include "compatibility.h"
+#include "translations.h"
+#include "morale.h"
+#include "coordinates.h"
+#include "npc.h"
 
 #include <fstream>
 #include <sstream>
@@ -26,6 +30,7 @@
 #include <math.h>
 #include <vector>
 #include <cstdlib>
+#include <cstring>
 #include "debug.h"
 
 #define dbg(x) DebugLog((DebugLevel)(x),D_GAME) << __FILE__ << ":" << __LINE__ << ": "
@@ -526,7 +531,7 @@ void editmap::update_view(bool update_info)
                      );
             off++; // 3
         }
-        mvwprintw(w_info, off, 2, _("dist: %d u_see: %d light: %d v_in: %d scent: %d"), rl_dist( g->u.pos(), target ), g->u.sees(target), g->m.light_at(target.x, target.y), veh_in, g->scent(target.x, target.y) );
+        mvwprintw(w_info, off, 2, _("dist: %d u_see: %d light: %d v_in: %d scent: %d"), rl_dist( g->u.pos2(), target ), g->u.sees(target), g->m.light_at(target.x, target.y), veh_in, g->scent(target.x, target.y) );
         off++; // 3-4
 
         std::string extras = "";
@@ -1687,11 +1692,11 @@ int editmap::mapgen_preview( real_coords &tc, uimenu &gmenu )
                             }
                             destsm->field_count = srcsm->field_count; // and count
 
-                            memcpy( *destsm->ter, srcsm->ter, sizeof(srcsm->ter) ); // terrain
-                            memcpy( *destsm->frn, srcsm->frn, sizeof(srcsm->frn) ); // furniture
-                            memcpy( *destsm->trp, srcsm->trp, sizeof(srcsm->trp) ); // traps
-                            memcpy( *destsm->rad, srcsm->rad, sizeof(srcsm->rad) ); // radiation
-                            memcpy( *destsm->lum, srcsm->lum, sizeof(srcsm->lum) ); // emissive items
+                            std::memcpy( *destsm->ter, srcsm->ter, sizeof(srcsm->ter) ); // terrain
+                            std::memcpy( *destsm->frn, srcsm->frn, sizeof(srcsm->frn) ); // furniture
+                            std::memcpy( *destsm->trp, srcsm->trp, sizeof(srcsm->trp) ); // traps
+                            std::memcpy( *destsm->rad, srcsm->rad, sizeof(srcsm->rad) ); // radiation
+                            std::memcpy( *destsm->lum, srcsm->lum, sizeof(srcsm->lum) ); // emissive items
                             for (int x = 0; x < SEEX; ++x) {
                                 for (int y = 0; y < SEEY; ++y) {
                                     destsm->itm[x][y].swap( srcsm->itm[x][y] );
@@ -1885,7 +1890,7 @@ void editmap::cleartmpmap( tinymap & tmpmap ) {
         delete smap;
     }
 
-    memset(tmpmap.veh_exists_at, 0, sizeof(tmpmap.veh_exists_at));
+    std::memset(tmpmap.veh_exists_at, 0, sizeof(tmpmap.veh_exists_at));
     tmpmap.veh_cached_parts.clear();
     tmpmap.vehicle_list.clear();
 }

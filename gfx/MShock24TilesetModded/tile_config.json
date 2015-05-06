@@ -19023,12 +19023,12 @@
           "rotates": false
         },
         {
-          "id": "foil_alum",
+          "id": "aluminum_foil",
           "fg": 2495,
           "rotates": false
         },
         {
-          "id": "hat_alum",
+          "id": "tinfoil_hat",
           "fg": 2496,
           "rotates": false
         },
@@ -19277,6 +19277,37 @@
           "id": "t_machinery_old",
           "fg": 2513,
           "bg": 534,
+          "rotates": false
+        },
+        {
+          "id": "t_tarptent",
+          "fg": 2514,
+          "bg": 513,
+          "rotates": false
+        },
+        {
+          "id": "fishing_rod_basic",
+          "fg": 2515,
+          "rotates": false
+        },
+        {
+          "id": "fishing_rod_professional",
+          "fg": 2516,
+          "rotates": false
+        },
+        {
+          "id": "fishing_hook_basic",
+          "fg": 2517,
+          "rotates": false
+        },
+        {
+          "id": "fishing_hook_bone",
+          "fg": 2517,
+          "rotates": false
+        },
+        {
+          "id": "tarp",
+          "fg": 2518,
           "rotates": false
         }
       ]

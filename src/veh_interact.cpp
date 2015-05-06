@@ -10,6 +10,10 @@
 #include "options.h"
 #include "debug.h"
 #include "messages.h"
+#include "translations.h"
+#include "morale.h"
+#include "veh_type.h"
+#include "ui.h"
 #include <cmath>
 #include <list>
 #include <functional>
@@ -2057,7 +2061,7 @@ void act_vehicle_siphon(vehicle* veh) {
         return;
     }
 
-    const auto foundv = find_vehicles_around(g->u.pos(),
+    const auto foundv = find_vehicles_around(g->u.pos2(),
             [&](vehicle* it) { return it != veh && (it->fuel_capacity(fuel) - it->fuel_left(fuel)) > 0; });
 
     add_msg(m_debug, "Found %d vehicles carrying %s", foundv.size(), fuel.c_str());

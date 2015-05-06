@@ -14,10 +14,18 @@
 #include "messages.h"
 #include "mapsharing.h"
 #include "iuse_actor.h"
+#include "mongroup.h"
+#include "npc.h"
+#include "event.h"
+#include "monster.h"
+#include "veh_type.h"
+#include "artifact.h"
+#include "omdata.h"
 
 #include <cmath>
 #include <stdlib.h>
 #include <fstream>
+#include <cstring>
 
 extern bool is_valid_in_w_terrain(int,int);
 
@@ -128,7 +136,7 @@ map::map( int mapsize, bool zlev )
     veh_in_active_range = true;
     transparency_cache_dirty = true;
     outside_cache_dirty = true;
-    memset(veh_exists_at, 0, sizeof(veh_exists_at));
+    std::memset(veh_exists_at, 0, sizeof(veh_exists_at));
     traplocs.resize( traplist.size() );
 }
 
@@ -224,11 +232,19 @@ void map::update_vehicle_list( submap *const to )
 
 void map::destroy_vehicle (vehicle *veh)
 {
-    if (!veh) {
+    if( !veh ) {
         debugmsg("map::destroy_vehicle was passed NULL");
         return;
     }
-    submap * const current_submap = get_submap_at_grid(veh->smx, veh->smy);
+
+    if( veh->smz < -OVERMAP_DEPTH && veh->smz > OVERMAP_HEIGHT ) {
+        debugmsg( "destroy_vehicle got a vehicle outside allowed z-level range! name=%s, submap:%d,%d,%d",
+                  veh->name.c_str(), veh->smx, veh->smy, veh->smz );
+        // Try to fix by moving the vehicle here
+        veh->smz = abs_sub.z;
+    }
+
+    submap * const current_submap = get_submap_at_grid(veh->smx, veh->smy, veh->smz);
     for (size_t i = 0; i < current_submap->vehicles.size(); i++) {
         if (current_submap->vehicles[i] == veh) {
             vehicle_list.erase(veh);
@@ -238,7 +254,7 @@ void map::destroy_vehicle (vehicle *veh)
             return;
         }
     }
-    debugmsg ("destroy_vehicle can't find it! name=%s, x=%d, y=%d", veh->name.c_str(), veh->smx, veh->smy);
+    debugmsg( "destroy_vehicle can't find it! name=%s, submap:%d,%d,%d", veh->name.c_str(), veh->smx, veh->smy, veh->smz );
 }
 
 void map::on_vehicle_moved() {
@@ -4902,7 +4918,7 @@ void map::update_visibility_cache( visibility_variables &cache, const int zlev )
     cache.u_is_boomered = g->u.has_effect("boomered");
 
     int sm_squares_seen[my_MAPSIZE][my_MAPSIZE];
-    memset(sm_squares_seen, 0, sizeof(sm_squares_seen));
+    std::memset(sm_squares_seen, 0, sizeof(sm_squares_seen));
 
     tripoint p;
     p.z = zlev;
@@ -6077,6 +6093,7 @@ void map::loadn( const int gridx, const int gridy, const int gridz, const bool u
         // Always fix submap coords for easier z-level-related operations
         it->smx = gridx;
         it->smy = gridy;
+        it->smz = gridz;
     }
 
     // Update vehicle data
@@ -7001,7 +7018,13 @@ void map::add_road_vehicles(bool city, int facing)
                 int vx = rng(0, 19);
                 int vy = rng(0, 19);
                 int car_type = rng(1, 100);
-                if (car_type <= 25) {
+                if(car_type <= 4) {
+                    add_vehicle("suv", vx, vy, facing, -1, 1);
+                } else if(car_type <= 6) {
+                    add_vehicle("suv_electric", vx, vy, facing, -1, 1);
+                } else if(car_type <= 10) {
+                    add_vehicle("pickup", vx, vy, facing, -1, 1);
+                }else if (car_type <= 25) {
                     add_vehicle("car", vx, vy, facing, -1, 1);
                 } else if (car_type <= 30) {
                     add_vehicle("policecar", vx, vy, facing, -1, 1);
@@ -7059,7 +7082,17 @@ void map::add_road_vehicles(bool city, int facing)
                 veh_y = rng(4, 16);
             }
             int veh_type = rng(0, 100);
-            if(veh_type <= 67) {
+            if(veh_type <= 6) {
+                add_vehicle("suv", veh_x, veh_y, facing, -1, 1);
+            } else if(veh_type <= 10) {
+                add_vehicle("suv_electric", veh_x, veh_y, facing, -1, 1);
+            } else if(veh_type <= 14) {
+                add_vehicle("pickup", veh_x, veh_y, facing, -1, 1);
+            } else if(veh_type <= 18) {
+                add_vehicle("car_mini", veh_x, veh_y, facing, -1, 1);
+            } else if(veh_type <= 20) {
+                add_vehicle("truck_swat", veh_x, veh_y, facing, -1, 1);
+            } else if(veh_type <= 67) {
                 add_vehicle("car", veh_x, veh_y, facing, -1, 1);
             } else if(veh_type <= 89) {
                 add_vehicle("electric_car", veh_x, veh_y, facing, -1, 1);
@@ -7156,6 +7189,8 @@ void map::add_road_vehicles(bool city, int facing)
                 add_vehicle("semi_truck", vx, vy, facing, 0, -1);
             } else if (car_type <= 20) {
                 add_vehicle("humvee", vx, vy, facing, 0, -1);
+            } else if (car_type <= 21) {
+                add_vehicle("car_fbi", vx, vy, facing, 0, -1);
             } else if (car_type <= 24) {
                 add_vehicle("rara_x", vx, vy, facing, 0, -1);
             } else if (car_type <= 25) {

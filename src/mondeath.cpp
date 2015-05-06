@@ -9,6 +9,9 @@
 #include "sounds.h"
 #include "mondeath.h"
 #include "iuse_actor.h"
+#include "translations.h"
+#include "morale.h"
+#include "event.h"
 
 #include <math.h>  // rounding
 #include <sstream>
@@ -455,17 +458,16 @@ void mdeath::amigara(monster *z)
     if (!g->u.has_effect("amigara")) {
         return;
     }
-    int count = 0;
     for (size_t i = 0; i < g->num_zombies(); i++) {
-        if (g->zombie(i).type->id == "mon_amigara_horror") {
-            count++;
+        const monster &critter = g->zombie( i );
+        if( critter.type == z->type && !critter.is_dead() ) {
+            return;
         }
     }
-    if (count <= 1) { // We're the last!
+    // We were the last!
         g->u.remove_effect("amigara");
         add_msg(_("Your obsession with the fault fades away..."));
         g->m.spawn_artifact( z->pos3() );
-    }
 }
 
 void mdeath::thing(monster *z)

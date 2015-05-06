@@ -1,7 +1,6 @@
 #ifndef MONSTER_H
 #define MONSTER_H
 
-#include "input.h"
 #include "creature.h"
 #include "player.h"
 #include "enums.h"
@@ -319,7 +318,7 @@ class monster : public Creature, public JsonSerializer, public JsonDeserializer
         bool setpos( const int x, const int y, const int z, const bool level_change = false );
         bool setpos( const point &p, const bool level_change = false );
         bool setpos( const tripoint &p, const bool level_change = false );
-        const tripoint &pos3() const override;
+        const tripoint &pos() const override;
         inline int posx() const override
         {
             return position.x;

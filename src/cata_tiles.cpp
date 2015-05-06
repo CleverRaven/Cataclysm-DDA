@@ -10,6 +10,10 @@
 #include "filesystem.h"
 #include "sounds.h"
 #include "map.h"
+#include "options.h"
+#include "catacharset.h"
+#include "monster.h"
+#include "npc.h"
 
 #include <algorithm>
 #include <fstream>
@@ -247,7 +251,7 @@ void cata_tiles::load_tilejson(std::string path, const std::string &image_path)
 
         load_tilejson_from_file( config_file, image_path );
         if (tile_ids.count("unknown") == 0) {
-            debugmsg("The tileset you're using has no 'unknown' tile defined!");
+            dbg( D_ERROR ) << "the tileset you're using has no 'unknown' tile defined!";
         }
 }
 
@@ -311,15 +315,24 @@ void cata_tiles::load_tilejson_from_file(std::ifstream &f, const std::string &im
         dbg( D_INFO ) << "Attempting to Load Tileset file " << image_path;
         const int newsize = load_tileset(image_path, -1, -1, -1);
         load_tilejson_from_file(config, 0, newsize);
+        offset = newsize;
     }
     // offset should be the total number of sprites loaded from every tileset image
     // eliminate any sprite references that are too high to exist
     // also eliminate negative sprite references
-    for( auto& tile_id : tile_ids ) {
-        tile_id.second->fg.erase(std::remove_if(tile_id.second->fg.begin(), tile_id.second->fg.end(), 
-                               [&](int i) { return i >= offset || i < 0; }), tile_id.second->fg.end());
-        tile_id.second->bg.erase(std::remove_if(tile_id.second->bg.begin(), tile_id.second->bg.end(), 
-                               [&](int i) { return i >= offset || i < 0; }), tile_id.second->bg.end());
+    for( auto it = tile_ids.begin(); it != tile_ids.end(); ) {
+        auto &td = *it->second;
+        td.fg.erase(std::remove_if(td.fg.begin(), td.fg.end(),
+                               [&](int i) { return i >= offset || i < 0; }), td.fg.end());
+        td.bg.erase(std::remove_if(td.bg.begin(), td.bg.end(),
+                               [&](int i) { return i >= offset || i < 0; }), td.bg.end());
+        // All tiles need at least foreground or background data, otherwise they are useless.
+        if( td.bg.empty() && td.fg.empty() ) {
+            dbg( D_ERROR ) << "tile " << it->first << " has no (valid) foreground nor background";
+            tile_ids.erase( it++ );
+        } else {
+            ++it;
+        }
     }
 }
 
@@ -812,16 +825,6 @@ bool cata_tiles::draw_from_id_string(std::string id, TILE_CATEGORY category,
     }
 
     tile_type *display_tile = it->second;
-    // if found id does not have a valid tile_type then return unknown tile
-    if (!display_tile) {
-        return draw_from_id_string("unknown", x, y, subtile, rota);
-    }
-
-    // if both bg and fg are both missing then return unknown tile
-    if (display_tile->bg.empty() && display_tile->fg.empty()) {
-        return draw_from_id_string("unknown", x, y, subtile, rota);
-    }
-
     // check to see if the display_tile is multitile, and if so if it has the key related to subtile
     if (subtile != -1 && display_tile->multitile) {
         auto const &display_subtiles = display_tile->available_subtiles;

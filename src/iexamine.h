@@ -8,6 +8,8 @@
 #ifndef IEXAMINE_H
 #define IEXAMINE_H
 
+#include <string>
+
 class game;
 class item;
 class player;

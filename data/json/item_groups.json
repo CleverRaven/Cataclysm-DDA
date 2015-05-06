@@ -2506,6 +2506,15 @@
     ]
   },{
     "type" : "item_group",
+    "id" : "wines_worthy",
+    "items":[
+      ["wine_riesling", 20],
+      ["wine_chardonnay", 30],
+      ["wine_cabernet", 30],
+      ["wine_noir", 20]
+    ]
+  },{
+    "type" : "item_group",
     "id" : "pool_table",
     "items":[
       ["pool_cue", 4],
@@ -3878,6 +3887,8 @@
       ["rope_30", 10],
       ["rx12_injector", 1],
       ["ampoule", 5],
+      ["rx11_stimpack", 1],
+      ["stimpack_ammo", 5],
       ["flaregun", 5],
       ["signal_flare", 5],
       ["handflare", 20],
@@ -3907,6 +3918,47 @@
       ["jack", 2],
       ["throw_extinguisher", 1],
       ["smoxygen_tank", 10]
+    ]
+   },{
+    "type" : "item_group",
+    "id" : "swat_gear",
+    "subtype": "distribution",
+    "items":[
+      ["swat_armor", 20],
+      ["kevlar", 40],
+      ["mgl", 10],
+      ["40mm_concussive", 5],
+      ["40mm_flashbang", 5],
+      ["40mm_teargas", 15],
+      ["40mm_smoke", 15],
+      ["holster", 20],
+      ["suppressor", 20],
+      ["holo_sight", 20],
+      ["clip", 20],
+      ["spare_mag", 20],
+      ["knife_combat", 5],
+      ["m9", 30],
+      ["hk_ump45", 15],
+      ["m4a1", 15],
+      ["m1014", 20],
+      ["remington_700", 5],
+      ["hk_mp7", 20],
+      ["smokebomb", 40],
+      ["gasbomb", 40],
+      ["flashbang", 40],
+      ["9mm", 70],
+      ["45_acp", 40],
+      ["pants_army", 20],
+      ["crowbar", 40],
+      ["1st_aid", 40],
+      ["556", 20],
+      ["shot_00", 50],
+      ["shot_slug", 50],
+      ["46mm", 15],
+      ["boots_combat", 20],
+      ["tac_helmet", 20],
+      ["goggles_nv", 5],
+      ["UPS_off", 10]
     ]
   },{
     "type" : "item_group",
@@ -6448,6 +6500,8 @@
       ["fungicide", 5],
       ["rx12_injector", 8],
       ["ampoule", 12],
+      ["rx11_stimpack", 8],
+      ["stimpack_ammo", 12],
       ["oxygen_tank", 10],
       ["smoxygen_tank", 20],
       ["bfipowder", 15],
@@ -7751,6 +7805,8 @@
       ["bfipowder", 20],
       ["rx12_injector", 5],
       ["ampoule", 10],
+      ["rx11_stimpack", 5],
+      ["stimpack_ammo", 10],
       ["optical_cloak", 1],
       ["halligan", 10],
       ["fire_ax", 5],
@@ -7928,6 +7984,8 @@
       ["pur_tablets", 20],
       ["rx12_injector", 5],
       ["ampoule", 10],
+      ["rx11_stimpack", 5],
+      ["stimpack_ammo", 10],
       ["optical_cloak", 2],
       ["antifungal", 1],
       ["antiparasitic", 2],
@@ -8499,6 +8557,8 @@
       ["rope_30", 10],
       ["rx12_injector", 1],
       ["ampoule", 5],
+      ["rx11_stimpack", 1],
+      ["stimpack_ammo", 5],
       ["flaregun", 5],
       ["signal_flare", 5],
       ["flamethrower", 1],

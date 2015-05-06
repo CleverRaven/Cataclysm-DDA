@@ -5,6 +5,9 @@
 #include "debug.h"
 #include "enums.h"
 #include "overmapbuffer.h"
+#include "translations.h"
+#include "messages.h"
+#include "monster.h"
 
 struct sound_event {
     int volume;
@@ -197,6 +200,7 @@ void sounds::process_sound_markers( player *p )
 
     for( const auto &sound_event_pair : sounds_since_last_turn ) {
         const int volume = sound_event_pair.second.volume * volume_multiplier;
+        const int max_volume = std::max( volume, sound_event_pair.second.volume ); // For deafness checks
         int dist = rl_dist( p->pos3(), sound_event_pair.first );
         bool ambient = sound_event_pair.second.ambient;
 
@@ -207,10 +211,16 @@ void sounds::process_sound_markers( player *p )
 
         if( is_deaf ) {
             // Has to be here as well to work for stacking deafness (loud noises prolong deafness)
-            if( !(p->has_bionic("bio_ears") || p->worn_with_flag("DEAF") ||
-                  p->is_wearing("rm13_armor_on")) && rng((volume - dist) / 2, (volume - dist)) >= 150) {
-                int duration = std::min(40, (volume - dist - 130) / 4);
-                p->add_effect("deaf", duration);
+            if( !p->is_immune_effect( "deaf" ) && rng((max_volume - dist) / 2, (max_volume - dist)) >= 150 ) {
+                // Prolong deafness, but not as much as if it was freshly applied
+                int duration = std::min(40, (max_volume - dist - 130) / 8);
+                p->add_effect( "deaf", duration );
+                if( !p->has_trait( "DEADENED" ) ) {
+                    p->add_msg_if_player( m_bad, _("Your eardrums suddenly ache!") );
+                    if( p->pain < 10 ) {
+                        p->mod_pain( rng( 0, 2 ) );
+                    }
+                }
             }
             // We're deaf, skip rest of processing.
             continue;
@@ -223,9 +233,8 @@ void sounds::process_sound_markers( player *p )
         }
 
         // Check for deafness
-        if( !p->has_bionic("bio_ears") && !p->is_wearing("rm13_armor_on") &&
-            rng((volume - dist) / 2, (volume - dist)) >= 150 ) {
-            int duration = (volume - dist - 130) / 4;
+        if( !p->is_immune_effect( "deaf" ) && rng((max_volume - dist) / 2, (max_volume - dist)) >= 150 ) {
+            int duration = (max_volume - dist - 130) / 4;
             p->add_effect("deaf", duration);
             is_deaf = true;
             continue;

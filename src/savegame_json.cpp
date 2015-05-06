@@ -6,7 +6,6 @@
 #include "game.h"
 #include "rng.h"
 #include "addiction.h"
-#include "moraledata.h"
 #include "inventory.h"
 #include "artifact.h"
 #include "options.h"
@@ -24,6 +23,11 @@
 #include "get_version.h"
 #include "monstergenerator.h"
 #include "scenario.h"
+#include "monster.h"
+#include "morale.h"
+#include "veh_type.h"
+#include "vehicle.h"
+#include "mutation.h"
 
 #include "savegame.h"
 #include "tile_id_data.h" // for monster::json_save
@@ -1392,8 +1396,10 @@ void vehicle_part::deserialize(JsonIn &jsin)
     data.read("items", items);
     data.read("target_first_x", target.first.x);
     data.read("target_first_y", target.first.y);
+    data.read("target_first_z", target.first.z);
     data.read("target_second_x", target.second.x);
     data.read("target_second_y", target.second.y);
+    data.read("target_second_z", target.second.z);
 }
 
 void vehicle_part::serialize(JsonOut &json) const
@@ -1412,8 +1418,10 @@ void vehicle_part::serialize(JsonOut &json) const
     json.member("items", items);
     json.member("target_first_x", target.first.x);
     json.member("target_first_y", target.first.y);
+    json.member("target_first_z", target.first.z);
     json.member("target_second_x", target.second.x);
     json.member("target_second_y", target.second.y);
+    json.member("target_second_z", target.second.z);
     json.end_object();
 }
 
@@ -1455,7 +1463,6 @@ void vehicle::deserialize(JsonIn &jsin)
     data.read("turn_dir", turn_dir);
     data.read("velocity", velocity);
     data.read("cruise_velocity", cruise_velocity);
-    data.read("music_id", music_id);
     data.read("cruise_on", cruise_on);
     data.read("engine_on", engine_on);
     data.read("tracking_on", tracking_on);
@@ -1528,7 +1535,6 @@ void vehicle::serialize(JsonOut &json) const
     json.member( "turn_dir", turn_dir );
     json.member( "velocity", velocity );
     json.member( "cruise_velocity", cruise_velocity );
-    json.member( "music_id", music_id);
     json.member( "cruise_on", cruise_on );
     json.member( "engine_on", engine_on );
     json.member( "tracking_on", tracking_on );
@@ -1568,7 +1574,11 @@ void mission::deserialize(JsonIn &jsin)
     jo.read("reward", reward);
     jo.read("uid", uid );
     JsonArray ja = jo.get_array("target");
-    if (ja.size() == 2) {
+    if( ja.size() == 3 ) {
+        target.x = ja.get_int(0);
+        target.y = ja.get_int(1);
+        target.z = ja.get_int(2);
+    } else if( ja.size() == 2 ) {
         target.x = ja.get_int(0);
         target.y = ja.get_int(1);
     }
@@ -1608,6 +1618,7 @@ void mission::serialize(JsonOut &json) const
     json.start_array();
     json.write(target.x);
     json.write(target.y);
+    json.write(target.z);
     json.end_array();
 
     json.member("item_id", item_id);

@@ -18,6 +18,8 @@
 #include "messages.h"
 #include "mondefense.h"
 #include "mission.h"
+#include "mongroup.h"
+#include "options.h"
 
 #define SGN(a) (((a)<0) ? -1 : 1)
 #define SQR(a) ((a)*(a))
@@ -135,7 +137,7 @@ bool monster::setpos( const tripoint &p, const bool level_change )
     return ret;
 }
 
-const tripoint &monster::pos3() const
+const tripoint &monster::pos() const
 {
     return position;
 }

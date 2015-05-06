@@ -3,6 +3,8 @@
 #include "map.h"
 #include "debug.h"
 #include "mission.h"
+#include "translations.h"
+#include "options.h"
 
 Character::Character()
 {
@@ -115,27 +117,6 @@ bool Character::move_effects()
             add_msg_if_player(m_bad, _("You try to free yourself from the rubble, but can't get loose!"));
         }
         return false;
-    }
-    if (has_effect("amigara")) {
-        int curdist = 999, newdist = 999;
-        for (int cx = 0; cx < SEEX * MAPSIZE; cx++) {
-            for (int cy = 0; cy < SEEY * MAPSIZE; cy++) {
-                if (g->m.ter(cx, cy) == t_fault) {
-                    int dist = rl_dist(cx, cy, posx(), posy());
-                    if (dist < curdist) {
-                        curdist = dist;
-                    }
-                    dist = rl_dist(cx, cy, posx(), posy());
-                    if (dist < newdist) {
-                        newdist = dist;
-                    }
-                }
-            }
-        }
-        if (newdist > curdist) {
-            add_msg_if_player(m_info, _("You cannot pull yourself away from the faultline..."));
-            return false;
-        }
     }
     // Below this point are things that allow for movement if they succeed
 

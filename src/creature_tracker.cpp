@@ -1,6 +1,6 @@
 #include "creature_tracker.h"
+#include "monster.h"
 #include "mongroup.h"
-#include "output.h"
 #include "debug.h"
 
 Creature_tracker::Creature_tracker()

@@ -1,6 +1,8 @@
 #ifndef SOFTWARE_SNAKE_H
 #define SOFTWARE_SNAKE_H
 
+#include "cursesdef.h"
+
 class snake_game
 {
     public:
