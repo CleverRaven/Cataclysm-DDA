@@ -848,8 +848,7 @@ void activity_handlers::refill_vehicle_do_turn( player_activity *act, player *p 
         return;
     }
     bool fuel_pumped = false;
-    const auto around = closest_tripoints_first( 1, act->placement );
-    tripoint pos = act->placement;
+    const auto around = closest_tripoints_first( 1, p->pos() );
     for( const auto &p : around ) {
         if( g->m.ter( p ) == t_gas_pump ||
             g->m.ter_at( p ).id == "t_gas_pump_a" ||
