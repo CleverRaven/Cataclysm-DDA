@@ -16,7 +16,8 @@ For official way to build CataclysmDDA See:
   3. CMake Build
     * MinGW,MSYS,MSYS2
   5. Build Options
-
+    * CMake specific options
+    * CataclysmDDA specific options
 
 #1. Prerequisites
 
@@ -278,6 +279,11 @@ The following build systems are fully supported for compiling CataclysmDDA on Li
  Support for in-game sounds & music.
 
 
+ * LUA=`<boolean>`
+
+ This enables Lua support. Needed only for full-fledged mods.
+
+
  * USE_HOME_DIR=`<boolean>`
 
  Use user's home directory for save files.
@@ -291,3 +297,21 @@ The following build systems are fully supported for compiling CataclysmDDA on Li
  * DYNAMIC_LINKING=`<boolean>`
 
  Use dynamic linking. Or use static to remove MinGW dependency instead.
+
+
+ * LANGUAGES=`<str>`
+
+ Compile localization files for specified languages. Example:
+ ```
+ -DLANGUAGES="cs;de;el;es_AR;es_ES"
+ ```
+
+
+ * LUA_BINARY=`<str>`
+
+ Override default Lua binary name or path. You can try use luajit for extra speed
+
+
+ * GIT_BINARY=`<str>`
+
+ Override default Git binary name or path.
