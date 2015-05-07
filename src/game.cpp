@@ -12440,7 +12440,7 @@ void game::fling_creature(Creature *c, const int &dir, float flvel, bool control
             slam = true;
             int vpart;
             vehicle *veh = m.veh_at( pt, vpart );
-            dname = veh ? veh->part_info(vpart).name : m.tername( pt ).c_str();
+            dname = veh ? veh->part_info(vpart).name : m.tername( pt );
             if (m.is_bashable( pt )) {
                 // Only go through if we successfully destroy what we hit
                 thru = m.bash( pt, flvel ).second;
