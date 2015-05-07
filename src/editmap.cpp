@@ -1431,13 +1431,13 @@ tripoint editmap::recalc_target( shapetype shape )
 
 /*
  * Shift 'var' (ie, part of a coordinate plane) by 'shift'.
- * If the result is not >= 0 and < 'max', constrain the result and adjust 'shift',
+ * If the result is not >= min and < 'max', constrain the result and adjust 'shift',
  * so it can adjust subsequent points of a set consistently.
  */
 int limited_shift( int var, int &shift, int min, int max )
 {
     if( var + shift < min ) {
-        shift = shift - ( var + shift );
+        shift = min - var;
     } else if( var + shift >= max ) {
         shift = shift + ( max - 1 - ( var + shift ) );
     }
@@ -1456,7 +1456,7 @@ bool editmap::move_target( const std::string &action, int moveorigin )
     if( eget_direction( mp, action ) ) {
         target.x = limited_shift( target.x, mp.x, 0, maplim );
         target.y = limited_shift( target.y, mp.y, 0, maplim );
-        target.z = limited_shift( target.z, mp.z, -OVERMAP_DEPTH, OVERMAP_HEIGHT );
+        target.z = limited_shift( target.z, mp.z, -OVERMAP_DEPTH, OVERMAP_HEIGHT + 1 );
         if( move_origin ) {
             origin += mp;
         }
