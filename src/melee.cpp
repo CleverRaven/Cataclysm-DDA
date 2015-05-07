@@ -831,7 +831,7 @@ void player::roll_stab_damage( bool crit, damage_instance &di )
 // Weapons can have a "low_stick" flag indicating they
 // Have a feature to prevent sticking, such as a spear with a crossbar,
 // Or a stabbing blade designed to resist sticking.
-int player::roll_stuck_penalty(bool stabbing, ma_technique &tec)
+int player::roll_stuck_penalty(bool stabbing, const ma_technique &tec)
 {
     (void)tec;
     // The cost of the weapon getting stuck, in units of move points.
@@ -983,14 +983,14 @@ matec_id player::pick_technique(Creature &t,
     return possible[ rng(0, possible.size() - 1) ];
 }
 
-bool player::valid_aoe_technique( Creature &t, ma_technique &technique )
+bool player::valid_aoe_technique( Creature &t, const ma_technique &technique )
 {
     std::vector<int> dummy_mon_targets;
     std::vector<int> dummy_npc_targets;
     return valid_aoe_technique( t, technique, dummy_mon_targets, dummy_npc_targets );
 }
 
-bool player::valid_aoe_technique( Creature &t, ma_technique &technique,
+bool player::valid_aoe_technique( Creature &t, const ma_technique &technique,
                                   std::vector<int> &mon_targets, std::vector<int> &npc_targets )
 {
     if (technique.aoe.length() == 0) {
@@ -1122,7 +1122,7 @@ damage_unit &get_damage_unit( std::vector<damage_unit> &di, const damage_type dt
     return nullunit;
 }
 
-void player::perform_technique(ma_technique technique, Creature &t, damage_instance &di, int &move_cost)
+void player::perform_technique(const ma_technique &technique, Creature &t, damage_instance &di, int &move_cost)
 {
     auto bash = get_damage_unit( di.damage_units, DT_BASH );
     auto cut  = get_damage_unit( di.damage_units, DT_CUT );
@@ -1464,7 +1464,7 @@ void player::perform_special_attacks(Creature &t)
  }
 }
 
-std::string player::melee_special_effects(Creature &t, damage_instance &d, ma_technique &tec)
+std::string player::melee_special_effects(Creature &t, damage_instance &d, const ma_technique &tec)
 {
     std::stringstream dump;
 
