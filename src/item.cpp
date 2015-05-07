@@ -2306,9 +2306,21 @@ bool item::has_quality(std::string quality_id, int quality_value) const
     return false;
 }
 
-bool item::has_technique(matec_id tech)
+bool item::has_technique( const matec_id & tech ) const
 {
-    return type->techniques.count(tech);
+    return type->techniques.count( tech ) > 0 || techniques.count( tech ) > 0;
+}
+
+void item::add_technique( const matec_id & tech )
+{
+    techniques.insert( tech );
+}
+
+std::set<matec_id> item::get_techniques() const
+{
+    std::set<matec_id> result = type->techniques;
+    result.insert( techniques.begin(), techniques.end() );
+    return result;
 }
 
 int item::has_gunmod(itype_id mod_type) const

@@ -620,9 +620,8 @@ std::vector<matec_id> player::get_all_techniques()
 {
     std::vector<matec_id> tecs;
     // Grab individual item techniques
-    tecs.insert(tecs.end(), weapon.techniques.begin(), weapon.techniques.end());
-    // as well as weapon type techniques
-    tecs.insert(tecs.end(), weapon.type->techniques.begin(), weapon.type->techniques.end());
+    const auto &weapon_techs = weapon.get_techniques();
+    tecs.insert( tecs.end(), weapon_techs.begin(), weapon_techs.end() );
     // and martial art techniques
     tecs.insert(tecs.end(), martialarts[style_selected].techniques.begin(),
                 martialarts[style_selected].techniques.end());

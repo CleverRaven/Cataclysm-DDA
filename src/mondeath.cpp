@@ -600,13 +600,13 @@ void mdeath::jabberwock(monster *z)
     player *ch = dynamic_cast<player*>( z->get_killer() );
     if( ch != nullptr && ch->is_player() && rl_dist( z->pos(), g->u.pos() ) <= 1  &&
          ch->weapon.has_flag("VORPAL")) {
-        if (!ch->weapon.techniques.count("VORPAL")) {
+        if (!ch->weapon.has_technique("VORPAL")) {
             if (g->u.sees(*z)) {
                 //~ %s is the possessive form of the monster's name
                 add_msg(m_info, _("As the flames in %s eyes die out, your weapon seems to shine slightly brighter."),
                         z->disp_name(true).c_str());
             }
-            ch->weapon.techniques.insert("VORPAL");
+            ch->weapon.add_technique("VORPAL");
         }
     }
     mdeath::normal(z);

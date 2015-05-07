@@ -7327,7 +7327,7 @@ int iuse::sheath_sword(player *p, item *it, bool, const tripoint& )
             }
 
             // Glow/Glimmer
-            if (p->weapon.has_flag("VORPAL") &&p->weapon.techniques.count("VORPAL") &&
+            if (p->weapon.has_flag("VORPAL") &&p->weapon.has_technique( "VORPAL" ) &&
                   !x_in_y(g->natural_light_level(), 40)) {
                 std::string part = "";
                 int roll = rng(1,3);
