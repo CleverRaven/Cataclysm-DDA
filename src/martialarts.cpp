@@ -17,7 +17,7 @@ void load_technique(JsonObject &jo)
 {
     ma_technique tec;
 
-    tec.id = jo.get_string("id");
+    tec.id = matec_id( jo.get_string("id") );
     tec.name = jo.get_string("name", "");
     if (!tec.name.empty()) {
         tec.name = _(tec.name.c_str());
@@ -74,6 +74,27 @@ void load_technique(JsonObject &jo)
     tec.flags = jo.get_tags("flags");
 
     ma_techniques[tec.id] = tec;
+}
+
+// Not implemented on purpose (martialart objects have no integer id)
+// int_id<T> string_id<mabuff>::id() const;
+
+template<>
+const ma_technique &string_id<ma_technique>::obj() const
+{
+    const auto iter = ma_techniques.find( *this );
+    if( iter == ma_techniques.end() ) {
+        debugmsg( "invalid martial art technique id %s", _id.c_str() );
+        static const ma_technique dummy;
+        return dummy;
+    }
+    return iter->second;
+}
+
+template<>
+bool string_id<ma_technique>::is_valid() const
+{
+    return ma_techniques.count( *this ) > 0;
 }
 
 ma_buff load_buff(JsonObject &jo)
@@ -219,7 +240,9 @@ void load_martial_art(JsonObject &jo)
         ma.onblock_buffs.push_back(load_buff(jsobj));
     }
 
-    ma.techniques = jo.get_tags("techniques");
+    for( auto & s :jo.get_tags( "techniques" ) ) {
+        ma.techniques.insert( matec_id( s ) );
+    }
     ma.weapons = jo.get_tags("weapons");
 
     ma.leg_block = jo.get_int("leg_block", 99);
@@ -266,7 +289,7 @@ void check_martialarts()
     for( auto style = martialarts.cbegin(); style != martialarts.cend(); ++style ) {
         for( auto technique = style->second.techniques.cbegin();
              technique != style->second.techniques.cend(); ++technique ) {
-            if( ma_techniques.find( *technique ) == ma_techniques.end() ) {
+            if( !technique->is_valid() ) {
                 debugmsg( "Technique with id %s in style %s doesn't exist.",
                           technique->c_str(), style->second.name.c_str() );
             }
@@ -635,7 +658,7 @@ void martialart::apply_ongethit_buffs(player &u) const
 bool martialart::has_technique( const player &u , matec_id tec_id) const
 {
     for( const auto &elem : techniques ) {
-        ma_technique tec = ma_techniques[elem];
+        const ma_technique &tec = elem.obj();
         if (tec.is_valid_player(u) && tec.id == tec_id) {
             return true;
         }
@@ -651,7 +674,7 @@ bool martialart::has_weapon(itype_id item) const
 std::string martialart::melee_verb(matec_id tec_id,  const player &u )
 {
     for( const auto &elem : techniques ) {
-        ma_technique tec = ma_techniques[elem];
+        const ma_technique &tec = elem.obj();
         if (tec.id == tec_id) {
             if (u.is_npc()) {
                 return tec.messages[1];
@@ -682,9 +705,8 @@ std::vector<matec_id> player::get_all_techniques() const
 // defensive technique-related
 bool player::has_miss_recovery_tec() const
 {
-    std::vector<matec_id> techniques = get_all_techniques();
-    for( auto &technique : techniques ) {
-        if( ma_techniques[technique].miss_recovery == true ) {
+    for( auto &technique : get_all_techniques() ) {
+        if( technique.obj().miss_recovery ) {
             return true;
         }
     }
@@ -693,9 +715,8 @@ bool player::has_miss_recovery_tec() const
 
 bool player::has_grab_break_tec() const
 {
-    std::vector<matec_id> techniques = get_all_techniques();
-    for( auto &technique : techniques ) {
-        if( ma_techniques[technique].grab_break == true ) {
+    for( auto &technique : get_all_techniques() ) {
+        if( technique.obj().grab_break ) {
             return true;
         }
     }

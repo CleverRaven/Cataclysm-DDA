@@ -12,6 +12,7 @@
 #include "json.h"
 #include "color.h"
 #include "bodypart.h"
+#include "string_id.h"
 
 class game;
 class Character;
@@ -25,7 +26,8 @@ class material_type;
 class item_category;
 using ammotype = std::string;
 using itype_id = std::string;
-using matec_id = std::string;
+class ma_technique;
+using matec_id = string_id<ma_technique>;
 
 std::string const& rad_badge_color(int rad);
 

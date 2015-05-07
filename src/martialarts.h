@@ -16,6 +16,8 @@ class martialart;
 using matype_id = string_id<martialart>;
 class ma_buff;
 using mabuff_id = string_id<ma_buff>;
+class ma_technique;
+using matec_id = string_id<ma_technique>;
 
 struct ma_requirements {
     bool unarmed_allowed; // does this bonus work when unarmed?
@@ -57,7 +59,7 @@ class ma_technique
     public:
         ma_technique();
 
-        std::string id;
+        matec_id id;
         std::string name;
 
         std::string goal; // the melee goal this achieves
@@ -273,6 +275,5 @@ void clear_techniques_and_martial_arts();
 void finialize_martial_arts();
 
 std::vector<matype_id> all_martialart_types();
-extern std::map<matec_id, ma_technique> ma_techniques;
 
 #endif

@@ -1172,7 +1172,7 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump, bool debug) c
 
         std::ostringstream tec_buffer;
         for( const auto &elem : type->techniques ) {
-            const ma_technique &tec = ma_techniques[elem];
+            const ma_technique &tec = elem.obj();
             if (tec.name.empty()) {
                 continue;
             }
@@ -1182,7 +1182,7 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump, bool debug) c
             tec_buffer << tec.name;
         }
         for( const auto &elem : techniques ) {
-            const ma_technique &tec = ma_techniques[elem];
+            const ma_technique &tec = elem.obj();
             if (tec.name.empty()) {
                 continue;
             }

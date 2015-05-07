@@ -10053,7 +10053,7 @@ public:
                 buffer << ngettext( "Technique:", "Techniques:", ma.techniques.size() ) << " ";
                 for( auto technique = ma.techniques.cbegin();
                      technique != ma.techniques.cend(); ++technique ) {
-                    buffer << ma_techniques[*technique].name;
+                    buffer << technique->obj().name;
                     if( ma.techniques.size() > 1 && technique == ----ma.techniques.cend() ) {
                         //~ Seperators that comes before last element of a list.
                         buffer << _(" and ");

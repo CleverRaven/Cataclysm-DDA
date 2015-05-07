@@ -264,6 +264,7 @@ const char *player::get_miss_reason()
 // Melee calculation is in parts. This sets up the attack, then in deal_melee_attack,
 // we calculate if we would hit. In Creature::deal_melee_hit, we calculate if the target dodges.
 void player::melee_attack(Creature &t, bool allow_special, const matec_id &force_technique) {
+    const bool has_force_technique = !force_technique.str().empty();
     bool is_u = (this == &(g->u)); // Affects how we'll display messages
     if (!t.is_player()) {
         // @todo Per-NPC tracking? Right now monster hit by either npc or player will draw aggro...
@@ -277,13 +278,15 @@ void player::melee_attack(Creature &t, bool allow_special, const matec_id &force
     bool critical_hit = scored_crit(t.dodge_roll());
 
     // Pick one or more special attacks
-    ma_technique technique;
-    if (allow_special && force_technique == "") {
-        technique = ma_techniques[pick_technique(t, critical_hit, false, false)];
-    } else if (allow_special && force_technique != "") {
-        technique = ma_techniques[force_technique];
-    } else
-        technique = ma_techniques[tec_none];
+    matec_id technique_id;
+    if( allow_special && !has_force_technique ) {
+        technique_id = pick_technique(t, critical_hit, false, false);
+    } else if (allow_special && has_force_technique) {
+        technique_id = force_technique;
+    } else {
+        technique_id = tec_none;
+    }
+    const ma_technique &technique = technique_id.obj();
     int hit_spread = t.deal_melee_attack(this, hit_roll());
     if (hit_spread < 0) {
         int stumble_pen = stumble(*this);
@@ -917,9 +920,8 @@ matec_id player::pick_technique(Creature &t,
     bool downed = t.has_effect("downed");
 
     // first add non-aoe tecs
-    for (std::vector<matec_id>::const_iterator it = all.begin();
-         it != all.end(); ++it) {
-        ma_technique tec = ma_techniques[*it];
+    for( auto & tec_id : all ) {
+        const ma_technique &tec = tec_id.obj();
 
         // ignore "dummy" techniques like WBLOCK_1
         if (tec.dummy) {
@@ -2085,13 +2087,14 @@ std::string melee_message(matec_id tec_id, player &p, const dealt_damage_instanc
     const int cut_dam  = ddi.type_damage( DT_CUT );
     const int stab_dam = ddi.type_damage( DT_STAB );
 
-    if (ma_techniques.find(tec_id) != ma_techniques.end()) {
-        if (ma_techniques[tec_id].messages.size() < 2) {
+    if( tec_id.is_valid() ) {
+        const auto &tec = tec_id.obj();
+        if (tec.messages.size() < 2) {
             return "The bugs nibble %s";
         } else if (p.is_npc()) {
-            return ma_techniques[tec_id].messages[1];
+            return tec.messages[1];
         } else {
-            return ma_techniques[tec_id].messages[0];
+            return tec.messages[0];
         }
     }
 

@@ -13,7 +13,8 @@ using matype_id = string_id<martialart>;
 class ma_buff;
 using mabuff_id = string_id<ma_buff>;
 
-typedef std::string matec_id;
+class ma_technique;
+using matec_id = string_id<ma_technique>;
 
 typedef std::string efftype_id;
 
