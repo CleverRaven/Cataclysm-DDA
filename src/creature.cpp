@@ -240,6 +240,9 @@ bool Creature::sees( const tripoint &t, int &bresen1, int &bresen2 ) const
 {
     // TODO: FoV update
     bresen2 = 0;
+    if( posz() != t.z ) {
+        return false;
+    }
 
     const int range_cur = sight_range( g->light_level() );
     const int range_day = sight_range( DAYLIGHT_LEVEL );
