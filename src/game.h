@@ -302,7 +302,7 @@ class game
 
         void peek();
         void peek( const tripoint &p );
-        point look_debug();
+        tripoint look_debug();
 
         bool checkZone(const std::string p_sType, const int p_iX, const int p_iY);
         void zones_manager();

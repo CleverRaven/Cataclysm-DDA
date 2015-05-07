@@ -4904,14 +4904,13 @@ int iuse::set_trap(player *p, item *it, bool, const tripoint& )
 
 int iuse::geiger(player *p, item *it, bool t, const tripoint &pos)
 {
-    const tripoint &pos3 = pos;
     if (t) { // Every-turn use when it's on
-        const int rads = g->m.get_radiation( pos3 );
+        const int rads = g->m.get_radiation( pos );
         if (rads == 0) {
             return it->type->charges_to_use();
         }
-        sounds::sound( pos.x, pos.y, 6, "" );
-        if( !p->can_hear( point( pos.x, pos.y ), 6 ) ) {
+        sounds::sound( pos, 6, "" );
+        if( !p->can_hear( pos, 6 ) ) {
             // can not hear it, but may have alarmed other creatures
             return it->type->charges_to_use();
         }
@@ -5844,7 +5843,7 @@ void iuse::play_music( player * const p, const tripoint &source, int const volum
 {
     // TODO: what about other "player", e.g. when a NPC is listening or when the PC is listening,
     // the other characters around should be able to profit as well.
-    bool const do_effects = !p->has_effect( "music" ) && p->can_hear( point( source.x, source.y ), volume );
+    bool const do_effects = !p->has_effect( "music" ) && p->can_hear( source, volume );
     int morale_bonus = 0;
     std::string sound;
     if( int(calendar::turn) % 50 == 0 ) {
@@ -5858,7 +5857,7 @@ void iuse::play_music( player * const p, const tripoint &source, int const volum
             morale_bonus += music.morale_bonus;
         }
     }
-    sounds::ambient_sound( source.x, source.y, volume, sound );
+    sounds::ambient_sound( source, volume, sound );
     if( do_effects ) {
         p->add_effect("music", 1);
         p->add_morale(MORALE_MUSIC, 1, max_morale + morale_bonus, 5, 2);
