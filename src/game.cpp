@@ -5976,8 +5976,8 @@ void game::explosion( const tripoint &p, int power, int shrapnel, bool fire, boo
     int t1, t2;
     std::vector<tripoint> traj;
     for (int i = 0; i < shrapnel; i++) {
-        tripoint sp{ rng( p.x - 2 * radius, p.x + 2 * radius ),
-                     rng( p.y - 2 * radius, p.y + 2 * radius ),
+        tripoint sp{ static_cast<int> (rng( p.x - 2 * radius, p.x + 2 * radius )),
+                     static_cast<int> (rng( p.y - 2 * radius, p.y + 2 * radius )),
                      p.z };
         m.sees( p, sp, 50, t1, t2 ); // To set bresenhams
         traj = line_to( p, sp, t1, t2 );
@@ -6725,7 +6725,7 @@ bool game::spawn_hallucination()
 {
     monster phantasm(MonsterGenerator::generator().get_valid_hallucination());
     phantasm.hallucination = true;
-    phantasm.spawn({u.posx() + rng(-10, 10), u.posy() + rng(-10, 10), u.posz()});
+    phantasm.spawn({u.posx() + static_cast<int>(rng(-10, 10)), u.posy() + static_cast<int>(rng(-10, 10)), u.posz()});
 
     //Don't attempt to place phantasms inside of other monsters
     if (mon_at(phantasm.pos()) == -1) {
