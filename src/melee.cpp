@@ -2087,7 +2087,7 @@ std::string melee_message(matec_id tec_id, player &p, const dealt_damage_instanc
     const int cut_dam  = ddi.type_damage( DT_CUT );
     const int stab_dam = ddi.type_damage( DT_STAB );
 
-    if( tec_id.is_valid() ) {
+    if( tec_id != tec_none ) {
         const auto &tec = tec_id.obj();
         if (tec.messages.size() < 2) {
             return "The bugs nibble %s";
