@@ -400,9 +400,9 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         bool is_immune_damage( const damage_type ) const override;
 
         /** Returns true if the player has technique-based miss recovery */
-        bool has_miss_recovery_tec();
+        bool has_miss_recovery_tec() const;
         /** Returns true if the player has a grab breaking technique available */
-        bool has_grab_break_tec();
+        bool has_grab_break_tec() const;
         /** Returns true if the player has the leg block technique available */
         bool can_leg_block();
         /** Returns true if the player has the arm block technique available */
@@ -456,10 +456,10 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         void roll_stab_damage( bool crit, damage_instance &di );
         /** Returns the number of moves unsticking a weapon will penalize for */
         int roll_stuck_penalty(bool stabbing, ma_technique &tec);
-        std::vector<matec_id> get_all_techniques();
+        std::vector<matec_id> get_all_techniques() const;
 
         /** Returns true if the player has a weapon or martial arts skill available with the entered technique */
-        bool has_technique(matec_id tec);
+        bool has_technique( const matec_id & tec ) const;
         /** Returns a random valid technique */
         matec_id pick_technique(Creature &t,
                                 bool crit, bool dodge_counter, bool block_counter);

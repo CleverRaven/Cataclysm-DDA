@@ -122,13 +122,13 @@ class ma_buff
 
         // utility function so to prevent duplicate buff copies, we use this
         // instead of add_disease (since all buffs have the same distype)
-        void apply_buff( player &u );
+        void apply_buff( player &u ) const;
 
         // given a player's state, does this bonus apply to him?
         bool is_valid_player( const player &u ) const;
 
         // apply static bonuses to a player
-        void apply_player(player &u);
+        void apply_player(player &u) const;
 
         // returns the stat bonus for the on-hit stat (for rolls)
         int hit_bonus( const player &u ) const;
@@ -146,18 +146,18 @@ class ma_buff
 
         // returns damage multipliers for the various damage stats (applied after
         // bonuses)
-        float bash_mult();
-        float cut_mult();
+        float bash_mult() const;
+        float cut_mult() const;
 
         // returns various boolean flags
-        bool is_throw_immune();
-        bool is_quiet();
-        bool can_melee();
+        bool is_throw_immune() const;
+        bool is_quiet() const;
+        bool can_melee() const;
 
         // The ID of the effect that is used to store this buff
         std::string get_effect_id() const;
         // If the effects represents an ma_buff effect, return the ma_buff, otherwise retur null.
-        static ma_buff *from_effect( const effect &eff );
+        static const ma_buff *from_effect( const effect &eff );
 
         std::string id;
         std::string name;
@@ -222,22 +222,22 @@ class martialart
         martialart();
 
         // modifies a player's "current" stats with various types of bonuses
-        void apply_static_buffs(player &u);
+        void apply_static_buffs(player &u) const;
 
-        void apply_onmove_buffs(player &u);
+        void apply_onmove_buffs(player &u) const;
 
-        void apply_onhit_buffs(player &u);
+        void apply_onhit_buffs(player &u) const;
 
-        void apply_onattack_buffs(player &u);
+        void apply_onattack_buffs(player &u) const;
 
-        void apply_ondodge_buffs(player &u);
+        void apply_ondodge_buffs(player &u) const;
 
-        void apply_onblock_buffs(player &u);
+        void apply_onblock_buffs(player &u) const;
 
-        void apply_ongethit_buffs(player &u);
+        void apply_ongethit_buffs(player &u) const;
 
         // determines if a technique is valid or not for this style
-        bool has_technique( const player &u, matec_id tech );
+        bool has_technique( const player &u, matec_id tech ) const;
         // determines if a weapon is valid for this style
         bool has_weapon(std::string item) const;
         // gets custom melee string for a technique under this style

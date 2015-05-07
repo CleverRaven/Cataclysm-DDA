@@ -1104,9 +1104,10 @@ bool player::valid_aoe_technique( Creature &t, ma_technique &technique,
     return false;
 }
 
-bool player::has_technique(matec_id id) {
-  return weapon.has_technique(id) ||
-    martialarts[style_selected].has_technique(*this, id);
+bool player::has_technique( const matec_id &id ) const
+{
+    return weapon.has_technique( id ) ||
+           martialarts[style_selected].has_technique( *this, id );
 }
 
 damage_unit &get_damage_unit( std::vector<damage_unit> &di, const damage_type dt )

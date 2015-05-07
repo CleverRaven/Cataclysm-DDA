@@ -420,7 +420,7 @@ std::string ma_buff::get_effect_id() const
     return std::string( "mabuff:" ) + id;
 }
 
-ma_buff *ma_buff::from_effect( const effect &eff )
+const ma_buff *ma_buff::from_effect( const effect &eff )
 {
     const std::string &id = eff.get_effect_type()->id;
     // Same as in get_effect_id!
@@ -435,7 +435,7 @@ ma_buff *ma_buff::from_effect( const effect &eff )
     return &iter->second;
 }
 
-void ma_buff::apply_buff( player &u )
+void ma_buff::apply_buff( player &u ) const
 {
     u.add_effect( get_effect_id(), buff_duration );
 }
@@ -445,7 +445,7 @@ bool ma_buff::is_valid_player( const player &u ) const
     return reqs.is_valid_player(u);
 }
 
-void ma_buff::apply_player(player &u)
+void ma_buff::apply_player(player &u) const
 {
     u.dodges_left += dodges_bonus;
     u.blocks_left += blocks_bonus;
@@ -487,7 +487,7 @@ int ma_buff::arm_cut_bonus( const player &u ) const
     (void)u; //unused
     return arm_cut;
 }
-float ma_buff::bash_mult()
+float ma_buff::bash_mult() const
 {
     return bash_stat_mult;
 }
@@ -498,7 +498,7 @@ int ma_buff::bash_bonus( const player &u ) const
            u.int_cur * bash_int +
            u.per_cur * bash_per;
 }
-float ma_buff::cut_mult()
+float ma_buff::cut_mult() const
 {
     return cut_stat_mult;
 }
@@ -509,16 +509,16 @@ int ma_buff::cut_bonus( const player &u ) const
            u.int_cur * cut_int +
            u.per_cur * cut_per;
 }
-bool ma_buff::is_throw_immune()
+bool ma_buff::is_throw_immune() const
 {
     return throw_immune;
 }
-bool ma_buff::is_quiet()
+bool ma_buff::is_quiet() const
 {
     return quiet;
 }
 
-bool ma_buff::can_melee()
+bool ma_buff::can_melee() const
 {
     return melee_allowed;
 }
@@ -533,9 +533,9 @@ martialart::martialart()
 
 // simultaneously check and add all buffs. this is so that buffs that have
 // buff dependencies added by the same event trigger correctly
-void simultaneous_add(player &u, std::vector<ma_buff> &buffs)
+void simultaneous_add(player &u, const std::vector<ma_buff> &buffs)
 {
-    std::vector<ma_buff*> buffer; // hey get it because it's for buffs????
+    std::vector<const ma_buff*> buffer; // hey get it because it's for buffs????
     for( auto &buff : buffs ) {
         if( buff.is_valid_player( u ) ) {
             buffer.push_back( &buff );
@@ -546,43 +546,43 @@ void simultaneous_add(player &u, std::vector<ma_buff> &buffs)
     }
 }
 
-void martialart::apply_static_buffs(player &u)
+void martialart::apply_static_buffs(player &u) const
 {
     simultaneous_add(u, static_buffs);
 }
 
-void martialart::apply_onmove_buffs(player &u)
+void martialart::apply_onmove_buffs(player &u) const
 {
     simultaneous_add(u, onmove_buffs);
 }
 
-void martialart::apply_onhit_buffs(player &u)
+void martialart::apply_onhit_buffs(player &u) const
 {
     simultaneous_add(u, onhit_buffs);
 }
 
-void martialart::apply_onattack_buffs(player &u)
+void martialart::apply_onattack_buffs(player &u) const
 {
     simultaneous_add(u, onattack_buffs);
 }
 
-void martialart::apply_ondodge_buffs(player &u)
+void martialart::apply_ondodge_buffs(player &u) const
 {
     simultaneous_add(u, ondodge_buffs);
 }
 
-void martialart::apply_onblock_buffs(player &u)
+void martialart::apply_onblock_buffs(player &u) const
 {
     simultaneous_add(u, onblock_buffs);
 }
 
-void martialart::apply_ongethit_buffs(player &u)
+void martialart::apply_ongethit_buffs(player &u) const
 {
     simultaneous_add(u, ongethit_buffs);
 }
 
 
-bool martialart::has_technique( const player &u , matec_id tec_id)
+bool martialart::has_technique( const player &u , matec_id tec_id) const
 {
     for( const auto &elem : techniques ) {
         ma_technique tec = ma_techniques[elem];
@@ -616,7 +616,7 @@ std::string martialart::melee_verb(matec_id tec_id,  const player &u )
 // Player stuff
 
 // technique
-std::vector<matec_id> player::get_all_techniques()
+std::vector<matec_id> player::get_all_techniques() const
 {
     std::vector<matec_id> tecs;
     // Grab individual item techniques
@@ -630,7 +630,7 @@ std::vector<matec_id> player::get_all_techniques()
 }
 
 // defensive technique-related
-bool player::has_miss_recovery_tec()
+bool player::has_miss_recovery_tec() const
 {
     std::vector<matec_id> techniques = get_all_techniques();
     for( auto &technique : techniques ) {
@@ -641,7 +641,7 @@ bool player::has_miss_recovery_tec()
     return false;
 }
 
-bool player::has_grab_break_tec()
+bool player::has_grab_break_tec() const
 {
     std::vector<matec_id> techniques = get_all_techniques();
     for( auto &technique : techniques ) {
@@ -752,7 +752,7 @@ static bool search_ma_buff_effect( const C &container, F f )
 int player::mabuff_tohit_bonus() const
 {
     int ret = 0;
-    accumulate_ma_buff_effects( effects, [&ret, this]( ma_buff &b, const effect & ) {
+    accumulate_ma_buff_effects( effects, [&ret, this]( const ma_buff &b, const effect & ) {
         ret += b.hit_bonus( *this );
     } );
     return ret;
@@ -760,7 +760,7 @@ int player::mabuff_tohit_bonus() const
 int player::mabuff_dodge_bonus() const
 {
     int ret = 0;
-    accumulate_ma_buff_effects( effects, [&ret, this]( ma_buff &b, const effect &d ) {
+    accumulate_ma_buff_effects( effects, [&ret, this]( const ma_buff &b, const effect &d ) {
         ret += d.get_intensity() * b.dodge_bonus( *this );
     } );
     return ret;
@@ -768,7 +768,7 @@ int player::mabuff_dodge_bonus() const
 int player::mabuff_block_bonus() const
 {
     int ret = 0;
-    accumulate_ma_buff_effects( effects, [&ret, this]( ma_buff &b, const effect &d ) {
+    accumulate_ma_buff_effects( effects, [&ret, this]( const ma_buff &b, const effect &d ) {
         ret += d.get_intensity() * b.block_bonus( *this );
     } );
     return ret;
@@ -776,7 +776,7 @@ int player::mabuff_block_bonus() const
 int player::mabuff_speed_bonus() const
 {
     int ret = 0;
-    accumulate_ma_buff_effects( effects, [&ret, this]( ma_buff &b, const effect &d ) {
+    accumulate_ma_buff_effects( effects, [&ret, this]( const ma_buff &b, const effect &d ) {
         ret += d.get_intensity() * b.speed_bonus( *this );
     } );
     return ret;
@@ -784,7 +784,7 @@ int player::mabuff_speed_bonus() const
 int player::mabuff_arm_bash_bonus() const
 {
     int ret = 0;
-    accumulate_ma_buff_effects( effects, [&ret, this]( ma_buff &b, const effect &d ) {
+    accumulate_ma_buff_effects( effects, [&ret, this]( const ma_buff &b, const effect &d ) {
         ret += d.get_intensity() * b.arm_bash_bonus( *this );
     } );
     return ret;
@@ -792,7 +792,7 @@ int player::mabuff_arm_bash_bonus() const
 int player::mabuff_arm_cut_bonus() const
 {
     int ret = 0;
-    accumulate_ma_buff_effects( effects, [&ret, this]( ma_buff &b, const effect &d ) {
+    accumulate_ma_buff_effects( effects, [&ret, this]( const ma_buff &b, const effect &d ) {
         ret += d.get_intensity() * b.arm_cut_bonus( *this );
     } );
     return ret;
@@ -800,7 +800,7 @@ int player::mabuff_arm_cut_bonus() const
 float player::mabuff_bash_mult() const
 {
     float ret = 1.f;
-    accumulate_ma_buff_effects( effects, [&ret, this]( ma_buff &b, const effect &d ) {
+    accumulate_ma_buff_effects( effects, [&ret, this]( const ma_buff &b, const effect &d ) {
         // This is correct, so that a 20% buff (1.2) plus a 20% buff (1.2)
         // becomes 1.4 instead of 2.4 (which would be a 240% buff)
         ret *= d.get_intensity() * ( b.bash_mult() - 1 ) + 1;
@@ -810,7 +810,7 @@ float player::mabuff_bash_mult() const
 int player::mabuff_bash_bonus() const
 {
     int ret = 0;
-    accumulate_ma_buff_effects( effects, [&ret, this]( ma_buff &b, const effect &d ) {
+    accumulate_ma_buff_effects( effects, [&ret, this]( const ma_buff &b, const effect &d ) {
         ret += d.get_intensity() * b.bash_bonus( *this );
     } );
     return ret;
@@ -818,7 +818,7 @@ int player::mabuff_bash_bonus() const
 float player::mabuff_cut_mult() const
 {
     float ret = 1.f;
-    accumulate_ma_buff_effects( effects, [&ret, this]( ma_buff &b, const effect &d ) {
+    accumulate_ma_buff_effects( effects, [&ret, this]( const ma_buff &b, const effect &d ) {
         // This is correct, so that a 20% buff (1.2) plus a 20% buff (1.2)
         // becomes 1.4 instead of 2.4 (which would be a 240% buff)
         ret *= d.get_intensity() * ( b.cut_mult() - 1 ) + 1;
@@ -828,34 +828,34 @@ float player::mabuff_cut_mult() const
 int player::mabuff_cut_bonus() const
 {
     int ret = 0;
-    accumulate_ma_buff_effects( effects, [&ret, this]( ma_buff &b, const effect &d ) {
+    accumulate_ma_buff_effects( effects, [&ret, this]( const ma_buff &b, const effect &d ) {
         ret += d.get_intensity() * b.cut_bonus( *this );
     } );
     return ret;
 }
 bool player::is_throw_immune() const
 {
-    return search_ma_buff_effect( effects, []( ma_buff &b, const effect & ) {
+    return search_ma_buff_effect( effects, []( const ma_buff &b, const effect & ) {
         return b.is_throw_immune();
     } );
 }
 bool player::is_quiet() const
 {
-    return search_ma_buff_effect( effects, []( ma_buff &b, const effect & ) {
+    return search_ma_buff_effect( effects, []( const ma_buff &b, const effect & ) {
         return b.is_quiet();
     } );
 }
 
 bool player::can_melee() const
 {
-    return search_ma_buff_effect( effects, []( ma_buff &b, const effect & ) {
+    return search_ma_buff_effect( effects, []( const ma_buff &b, const effect & ) {
         return b.can_melee();
     } );
 }
 
 bool player::has_mabuff(mabuff_id id) const
 {
-    return search_ma_buff_effect( effects, [&id]( ma_buff &b, const effect & ) {
+    return search_ma_buff_effect( effects, [&id]( const ma_buff &b, const effect & ) {
         return b.id == id;
     } );
 }
