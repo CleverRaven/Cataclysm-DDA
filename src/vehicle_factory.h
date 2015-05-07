@@ -13,8 +13,8 @@ typedef std::vector<int> vehicle_facings;
 /**
  * Entry for a vehicle in a vehicle spawn group.
  */
-struct Vehicle_spawn_data {
-    Vehicle_spawn_data(const std::string &type) : type(type) {}
+struct Vehicle_group_choice {
+    Vehicle_group_choice(const std::string &type) : type(type) {}
 
     std::string type; //vehicle type id
 };
@@ -26,10 +26,10 @@ class Vehicle_Group {
 
     public:
         void add_vehicle_entry(const std::string &type, const int &probability);
-        const Vehicle_spawn_data* pick() const;
+        const Vehicle_group_choice* pick() const;
 
     private:
-        weighted_int_list<Vehicle_spawn_data> vehicles;
+        weighted_int_list<Vehicle_group_choice> vehicles;
 };
 
 /**

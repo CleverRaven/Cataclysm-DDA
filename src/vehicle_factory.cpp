@@ -8,7 +8,7 @@ void Vehicle_Group::add_vehicle_entry(const std::string &type, const int &probab
     vehicles.add({type}, probability);
 }
 
-const Vehicle_spawn_data* Vehicle_Group::pick() const
+const Vehicle_group_choice* Vehicle_Group::pick() const
 {
     return vehicles.pick();
 }
