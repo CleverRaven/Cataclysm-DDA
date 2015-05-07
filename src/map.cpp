@@ -2786,7 +2786,7 @@ std::pair<bool, bool> map::bash( const tripoint &p, const int str,
                     }
                     // Never found tent center, bail out
                     if( tentp == tripoint_min ) {
-                        std::pair<bool, bool>( true, false );
+                        return std::pair<bool, bool>( true, false );
                     }
                     // Take the tent down
                     for( i = tentp.x-1; i <= tentp.x+1; i++ ) {
@@ -2838,7 +2838,7 @@ std::pair<bool, bool> map::bash( const tripoint &p, const int str,
                     }
                     // Never found tent center, bail out
                     if( tentp == tripoint_min ) {
-                        std::pair<bool, bool>( true, false );
+                        return std::pair<bool, bool>( true, false );
                     }
                     // Take the tent down
                     for( i = tentp.x-1; i <= tentp.x+1; i++ ) {
