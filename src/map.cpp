@@ -2776,7 +2776,7 @@ std::pair<bool, bool> map::bash( const tripoint &p, const int str,
                     int &i = tmp.x;
                     int &j = tmp.y;
                     for( i = p.x - 1; i <= p.x + 1; i++ ) {
-                        for( j = p.x - 1; j <= p.x + 1; j++ ) {
+                        for( j = p.y - 1; j <= p.y + 1; j++ ) {
                             const auto f_at = furn( tmp );
                             if( f_at == f_groundsheet ||
                                 f_at == f_fema_groundsheet ||
@@ -2788,11 +2788,11 @@ std::pair<bool, bool> map::bash( const tripoint &p, const int str,
                     }
                     // Never found tent center, bail out
                     if( tentp == tripoint_min ) {
-                        smashed_something = true;
+                        std::pair<bool, bool>( true, false );
                     }
                     // Take the tent down
-                    for( i = p.x-1; i <= p.x+1; i++ ) {
-                        for( j = p.x-1; j <= p.x+1; j++ ) {
+                    for( i = tentp.x-1; i <= tentp.x+1; i++ ) {
+                        for( j = tentp.y-1; j <= tentp.y+1; j++ ) {
                             if (furn(tmp) == f_groundsheet) {
                                 spawn_item(tmp, "broketent");
                             }
@@ -2831,7 +2831,7 @@ std::pair<bool, bool> map::bash( const tripoint &p, const int str,
                     int &i = tmp.x;
                     int &j = tmp.y;
                     for( i = p.x - 2; i <= p.x + 2; i++ ) {
-                        for( j = p.x - 2; j <= p.x + 2; j++ ) {
+                        for( j = p.y - 2; j <= p.y + 2; j++ ) {
                             if( furn(tmp) == f_center_groundsheet ){
                                 tentp = tmp;
                                 break;
@@ -2840,11 +2840,11 @@ std::pair<bool, bool> map::bash( const tripoint &p, const int str,
                     }
                     // Never found tent center, bail out
                     if( tentp == tripoint_min ) {
-                        smashed_something = true;
+                        std::pair<bool, bool>( true, false );
                     }
                     // Take the tent down
-                    for( i = p.x-1; i <= p.x+1; i++ ) {
-                        for( j = p.x-1; j <= p.x+1; j++ ) {
+                    for( i = tentp.x-1; i <= tentp.x+1; i++ ) {
+                        for( j = tentp.y-1; j <= tentp.y+1; j++ ) {
                              if (furn(tmp) == f_center_groundsheet) {
                              spawn_item(tmp, "largebroketent");
                             }
