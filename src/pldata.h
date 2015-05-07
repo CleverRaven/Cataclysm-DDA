@@ -10,7 +10,8 @@
 class martialart;
 using matype_id = string_id<martialart>;
 
-typedef std::string mabuff_id;
+class ma_buff;
+using mabuff_id = string_id<ma_buff>;
 
 typedef std::string matec_id;
 

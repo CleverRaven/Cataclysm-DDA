@@ -40,7 +40,9 @@ void load_technique(JsonObject &jo)
     tec.reqs.min_bashing_damage = jo.get_int("min_bashing_damage", 0);
     tec.reqs.min_cutting_damage = jo.get_int("min_cutting_damage", 0);
 
-    tec.reqs.req_buffs = jo.get_tags("req_buffs");
+    for( auto & s :jo.get_tags( "req_buffs" ) ) {
+        tec.reqs.req_buffs.insert( mabuff_id( s ) );
+    }
     tec.reqs.req_flags = jo.get_tags("req_flags");
 
     tec.crit_tec = jo.get_bool("crit_tec", false);
@@ -78,7 +80,7 @@ ma_buff load_buff(JsonObject &jo)
 {
     ma_buff buff;
 
-    buff.id = jo.get_string("id");
+    buff.id = mabuff_id( jo.get_string("id") );
 
     buff.name = _(jo.get_string("name").c_str());
     buff.description = _(jo.get_string("description").c_str());
@@ -136,11 +138,34 @@ ma_buff load_buff(JsonObject &jo)
     buff.quiet = jo.get_bool("quiet", false);
     buff.throw_immune = jo.get_bool("throw_immune", false);
 
-    buff.reqs.req_buffs = jo.get_tags("req_buffs");
+    for( auto & s :jo.get_tags( "req_buffs" ) ) {
+        buff.reqs.req_buffs.insert( mabuff_id( s ) );
+    }
 
     ma_buffs[buff.id] = buff;
 
     return buff;
+}
+
+// Not implemented on purpose (martialart objects have no integer id)
+// int_id<T> string_id<mabuff>::id() const;
+
+template<>
+const ma_buff &string_id<ma_buff>::obj() const
+{
+    const auto iter = ma_buffs.find( *this );
+    if( iter == ma_buffs.end() ) {
+        debugmsg( "invalid martial art buff id %s", _id.c_str() );
+        static const ma_buff dummy;
+        return dummy;
+    }
+    return iter->second;
+}
+
+template<>
+bool string_id<ma_buff>::is_valid() const
+{
+    return ma_buffs.count( *this ) > 0;
 }
 
 void load_martial_art(JsonObject &jo)
@@ -447,7 +472,7 @@ ma_buff::ma_buff()
 
 std::string ma_buff::get_effect_id() const
 {
-    return std::string( "mabuff:" ) + id;
+    return std::string( "mabuff:" ) + id.str();
 }
 
 const ma_buff *ma_buff::from_effect( const effect &eff )
@@ -457,12 +482,7 @@ const ma_buff *ma_buff::from_effect( const effect &eff )
     if( id.compare( 0, 7, "mabuff:" ) != 0 ) {
         return nullptr;
     }
-    const auto iter = ma_buffs.find( id.substr( 7 ) );
-    if( iter == ma_buffs.end() ) {
-        debugmsg( "could not find ma_buff %s", id.substr( 7 ).c_str() );
-        return nullptr;
-    }
-    return &iter->second;
+    return &mabuff_id( id.substr( 7 ) ).obj();
 }
 
 void ma_buff::apply_buff( player &u ) const
