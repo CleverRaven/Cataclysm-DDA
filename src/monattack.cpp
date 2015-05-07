@@ -155,6 +155,23 @@ void mattack::shriek(monster *z, int index)
     sounds::sound(z->posx(), z->posy(), 50, _("a terrible shriek!"));
 }
 
+void mattack::shriek_loud(monster *z, int index)
+{
+    Creature *target = z->attack_target();
+    int dist = rl_dist( z->posx(), z->posy(), target->posx(), target->posy() );
+    if( target == nullptr || dist > 5 || !z->sees( *target ) ) {
+        return;
+    }
+
+    z->moves -= 250;   // It takes a while
+    z->reset_special(index); // Reset timer
+    sounds::sound(z->posx(), z->posy(), 300, _("a piercing wail!"));
+
+    if (dist < 3 && one_in(3)){
+        target->add_effect("stunned", rng(3,5) / dist);
+    }
+}
+
 void mattack::howl(monster *z, int index)
 {
     Creature *target = z->attack_target();

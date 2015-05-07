@@ -8,6 +8,7 @@ namespace mattack {
 void none               (monster *z, int index);
 void antqueen           (monster *z, int index);
 void shriek             (monster *z, int index);
+void shriek_loud        (monster *z, int index);
 void howl               (monster *z, int index);
 void rattle             (monster *z, int index);
 void acid               (monster *z, int index);
