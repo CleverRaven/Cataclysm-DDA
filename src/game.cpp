@@ -4078,7 +4078,7 @@ void game::debug()
         break;
 
     case 17: {
-        point coord = look_debug();
+        tripoint coord = look_debug();
     }
     break;
 
@@ -7971,13 +7971,13 @@ void game::peek( const tripoint &p )
     draw_ter();
 }
 ////////////////////////////////////////////////////////////////////////////////////////////
-point game::look_debug()
+tripoint game::look_debug()
 {
     editmap *edit = new editmap();
     tripoint ret = edit->edit();
     delete edit;
     edit = 0;
-    return { ret.x, ret.y };
+    return ret;
 }
 ////////////////////////////////////////////////////////////////////////////////////////////
 

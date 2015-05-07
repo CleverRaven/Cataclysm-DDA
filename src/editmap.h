@@ -44,7 +44,7 @@ class editmap
         void uphelp( std::string txt1 = "", std::string txt2 = "", std::string title = "" );
         tripoint pos2screen( const tripoint &p );
         tripoint screen2pos( const tripoint &p );
-        bool eget_direction( int &x, int &y, const std::string &action ) const;
+        bool eget_direction( tripoint &p, const std::string &action ) const;
         tripoint edit();
         void uber_draw_ter( WINDOW *w, map *m );
         void update_view( bool update_info = false );
@@ -110,7 +110,6 @@ class editmap
         bool altblink;
         int tmaxx;
         int tmaxy;
-        int zlevel;
         bool uberdraw;
         std::map<oter_id, int> oter_special;
         editmap()
@@ -165,7 +164,6 @@ class editmap
             hilights["mapgentgt"].setup();
 
             oter_special.clear();
-            zlevel = g->get_levz();
             uberdraw = false;
         };
         ~editmap()
