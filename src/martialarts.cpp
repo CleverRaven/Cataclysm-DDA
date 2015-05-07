@@ -535,14 +535,14 @@ martialart::martialart()
 // buff dependencies added by the same event trigger correctly
 void simultaneous_add(player &u, std::vector<ma_buff> &buffs)
 {
-    std::vector<ma_buff> buffer; // hey get it because it's for buffs????
+    std::vector<ma_buff*> buffer; // hey get it because it's for buffs????
     for( auto &buff : buffs ) {
         if( buff.is_valid_player( u ) ) {
-            buffer.push_back( buff );
+            buffer.push_back( &buff );
         }
     }
     for( auto &elem : buffer ) {
-        elem.apply_buff( u );
+        elem->apply_buff( u );
     }
 }
 
