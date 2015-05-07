@@ -1113,7 +1113,7 @@ bool player::valid_aoe_technique( Creature &t, const ma_technique &technique,
 bool player::has_technique( const matec_id &id ) const
 {
     return weapon.has_technique( id ) ||
-           martialarts[style_selected].has_technique( *this, id );
+           style_selected.obj().has_technique( *this, id );
 }
 
 damage_unit &get_damage_unit( std::vector<damage_unit> &di, const damage_type dt )
@@ -1246,7 +1246,7 @@ void player::perform_technique(const ma_technique &technique, Creature &t, damag
         if (one_in(1400 - (get_int() * 50))) {
             ma_styles.push_back(style_selected);
             add_msg_if_player(m_good, _("You have learnt %s from extensive practice with the CQB Bionic."),
-                       martialarts[style_selected].name.c_str());
+                       style_selected.obj().name.c_str());
         }
     }
 }

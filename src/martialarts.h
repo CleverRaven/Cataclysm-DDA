@@ -3,6 +3,7 @@
 
 #include "pldata.h"
 #include "json.h"
+#include "string_id.h"
 #include <string>
 #include <vector>
 #include <map>
@@ -11,6 +12,8 @@
 class effect;
 class player;
 class item;
+class martialart;
+using matype_id = string_id<martialart>;
 
 struct ma_requirements {
     bool unarmed_allowed; // does this bonus work when unarmed?
@@ -243,7 +246,7 @@ class martialart
         // gets custom melee string for a technique under this style
         std::string melee_verb(matec_id tech,  const player &u );
 
-        std::string id;
+        matype_id id;
         std::string name;
         std::string description;
         int arm_block;
@@ -259,7 +262,6 @@ class martialart
         std::vector<ma_buff> ondodge_buffs;
         std::vector<ma_buff> onblock_buffs;
         std::vector<ma_buff> ongethit_buffs;
-
 };
 
 void load_technique(JsonObject &jo);
@@ -268,7 +270,7 @@ void check_martialarts();
 void clear_techniques_and_martial_arts();
 void finialize_martial_arts();
 
-extern std::map<matype_id, martialart> martialarts;
+std::vector<matype_id> all_martialart_types();
 extern std::map<mabuff_id, ma_buff> ma_buffs;
 extern std::map<matec_id, ma_technique> ma_techniques;
 

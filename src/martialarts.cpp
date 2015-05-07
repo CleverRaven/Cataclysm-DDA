@@ -148,7 +148,7 @@ void load_martial_art(JsonObject &jo)
     martialart ma;
     JsonArray jsarr;
 
-    ma.id = jo.get_string("id");
+    ma.id = matype_id( jo.get_string("id") );
     ma.name = _(jo.get_string("name").c_str());
     ma.description = _(jo.get_string("description").c_str());
 
@@ -204,6 +204,36 @@ void load_martial_art(JsonObject &jo)
     ma.leg_block_with_bio_armor_legs = jo.get_bool("leg_block_with_bio_armor_legs", false);
 
     martialarts[ma.id] = ma;
+}
+
+// Not implemented on purpose (martialart objects have no integer id)
+// int_id<T> string_id<martialart>::id() const;
+
+template<>
+const martialart &string_id<martialart>::obj() const
+{
+    const auto iter = martialarts.find( *this );
+    if( iter == martialarts.end() ) {
+        debugmsg( "invalid martial art id %s", _id.c_str() );
+        static const martialart dummy;
+        return dummy;
+    }
+    return iter->second;
+}
+
+template<>
+bool string_id<martialart>::is_valid() const
+{
+    return martialarts.count( *this ) > 0;
+}
+
+std::vector<matype_id> all_martialart_types()
+{
+    std::vector<matype_id> result;
+    for( auto & e : martialarts ) {
+        result.push_back( e.first );
+    }
+    return result;
 }
 
 void check_martialarts()
@@ -623,8 +653,8 @@ std::vector<matec_id> player::get_all_techniques() const
     const auto &weapon_techs = weapon.get_techniques();
     tecs.insert( tecs.end(), weapon_techs.begin(), weapon_techs.end() );
     // and martial art techniques
-    tecs.insert(tecs.end(), martialarts[style_selected].techniques.begin(),
-                martialarts[style_selected].techniques.end());
+    const auto &style = style_selected.obj();
+    tecs.insert( tecs.end(), style.techniques.begin(), style.techniques.end() );
 
     return tecs;
 }
@@ -654,7 +684,7 @@ bool player::has_grab_break_tec() const
 
 bool player::can_leg_block()
 {
-    martialart ma = martialarts[style_selected];
+    const martialart &ma = style_selected.obj();
     int unarmed_skill = has_active_bionic("bio_cqb") ? 5 : (int)skillLevel("unarmed");
 
     // Success conditions.
@@ -671,7 +701,7 @@ bool player::can_leg_block()
 
 bool player::can_arm_block()
 {
-    martialart ma = martialarts[style_selected];
+    const martialart &ma = style_selected.obj();
     int unarmed_skill = has_active_bionic("bio_cqb") ? 5 : (int)skillLevel("unarmed");
 
     // Success conditions.
@@ -694,31 +724,31 @@ bool player::can_limb_block()
 // event handlers
 void player::ma_static_effects()
 {
-    martialarts[style_selected].apply_static_buffs(*this);
+    style_selected.obj().apply_static_buffs(*this);
 }
 void player::ma_onmove_effects()
 {
-    martialarts[style_selected].apply_onmove_buffs(*this);
+    style_selected.obj().apply_onmove_buffs(*this);
 }
 void player::ma_onhit_effects()
 {
-    martialarts[style_selected].apply_onhit_buffs(*this);
+    style_selected.obj().apply_onhit_buffs(*this);
 }
 void player::ma_onattack_effects()
 {
-    martialarts[style_selected].apply_onattack_buffs(*this);
+    style_selected.obj().apply_onattack_buffs(*this);
 }
 void player::ma_ondodge_effects()
 {
-    martialarts[style_selected].apply_ondodge_buffs(*this);
+    style_selected.obj().apply_ondodge_buffs(*this);
 }
 void player::ma_onblock_effects()
 {
-    martialarts[style_selected].apply_onblock_buffs(*this);
+    style_selected.obj().apply_onblock_buffs(*this);
 }
 void player::ma_ongethit_effects()
 {
-    martialarts[style_selected].apply_ongethit_buffs(*this);
+    style_selected.obj().apply_ongethit_buffs(*this);
 }
 
 template<typename C, typename F>

@@ -3,10 +3,12 @@
 
 #include "json.h"
 #include "bodypart.h"
+#include "string_id.h"
 #include <map>
 #include <string>
 
-typedef std::string matype_id;
+class martialart;
+using matype_id = string_id<martialart>;
 
 typedef std::string mabuff_id;
 
