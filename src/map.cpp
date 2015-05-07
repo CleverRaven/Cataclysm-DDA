@@ -885,6 +885,10 @@ const vehicle* map::veh_at_internal( const tripoint &p, int &part_num ) const
         return nullptr; // Clear cache indicates no vehicle. This should optimize a great deal.
     }
 
+    if( p.z != abs_sub.z ) {
+        return nullptr; // Veh cache doesn't understand vehicles outside this z-level
+    }
+
     const auto it = veh_cached_parts.find( point( p.x, p.y ) );
     if( it != veh_cached_parts.end() ) {
         part_num = it->second.second;
@@ -2038,27 +2042,24 @@ int map::bash_rating( const int str, const tripoint &p ) const
 
 void map::make_rubble( const tripoint &p, furn_id rubble_type, bool items, ter_id floor_type, bool overwrite)
 {
-    // TODO: Z
-    const int x = p.x;
-    const int y = p.y;
     if (overwrite) {
-        ter_set(x, y, floor_type);
-        furn_set(x, y, rubble_type);
+        ter_set(p, floor_type);
+        furn_set(p, rubble_type);
     } else {
         // First see if there is existing furniture to destroy
-        if (is_bashable_furn(x, y)) {
+        if (is_bashable_furn(p)) {
             destroy_furn( p, true );
         }
         // Leave the terrain alone unless it interferes with furniture placement
-        if (move_cost(x, y) <= 0 && is_bashable_ter(x, y)) {
+        if (move_cost(p) <= 0 && is_bashable_ter(p)) {
             destroy( p, true );
         }
         // Check again for new terrain after potential destruction
-        if (move_cost(x, y) <= 0) {
-            ter_set(x, y, floor_type);
+        if (move_cost(p) <= 0) {
+            ter_set(p, floor_type);
         }
 
-        furn_set(x, y, rubble_type);
+        furn_set(p, rubble_type);
     }
     if (items) {
         //Still hardcoded, but a step up from the old stuff due to being in only one place
@@ -2067,17 +2068,17 @@ void map::make_rubble( const tripoint &p, furn_id rubble_type, bool items, ter_i
             item scrap("scrap", calendar::turn);
             item pipe("pipe", calendar::turn);
             item wire("wire", calendar::turn);
-            add_item_or_charges(x, y, chunk);
-            add_item_or_charges(x, y, scrap);
+            add_item_or_charges(p, chunk);
+            add_item_or_charges(p, scrap);
             if (one_in(5)) {
-                add_item_or_charges(x, y, pipe);
-                add_item_or_charges(x, y, wire);
+                add_item_or_charges(p, pipe);
+                add_item_or_charges(p, wire);
             }
         } else if (rubble_type == f_rubble_rock) {
             item rock("rock", calendar::turn);
             int rock_count = rng(1, 3);
             for (int i = 0; i < rock_count; i++) {
-                add_item_or_charges(x, y, rock);
+                add_item_or_charges(p, rock);
             }
         } else if (rubble_type == f_rubble) {
             item splinter("splinter", calendar::turn);
@@ -2085,10 +2086,10 @@ void map::make_rubble( const tripoint &p, furn_id rubble_type, bool items, ter_i
             int splinter_count = rng(2, 8);
             int nail_count = rng(5, 10);
             for (int i = 0; i < splinter_count; i++) {
-                add_item_or_charges(x, y, splinter);
+                add_item_or_charges(p, splinter);
             }
             for (int i = 0; i < nail_count; i++) {
-                add_item_or_charges(x, y, nail);
+                add_item_or_charges(p, nail);
             }
         }
     }
@@ -2489,17 +2490,14 @@ int map::collapse_check( const tripoint &p )
 
 void map::collapse_at( const tripoint &p )
 {
-    // TODO: Z
-    const int x = p.x;
-    const int y = p.y;
     destroy ( p, false );
     crush( p );
     make_rubble( p );
-    tripoint t( p );
+    tripoint t = p;
     int &i = t.x;
     int &j = t.y;
-    for( i = x - 1; i <= x + 1; i++ ) {
-        for( j = y - 1; j <= y + 1; j++ ) {
+    for( i = p.x - 1; i <= p.x + 1; i++ ) {
+        for( j = p.y - 1; j <= p.y + 1; j++ ) {
             if( p == t ) {
                 continue;
             }
@@ -2788,7 +2786,7 @@ std::pair<bool, bool> map::bash( const tripoint &p, const int str,
                     }
                     // Never found tent center, bail out
                     if( tentp == tripoint_min ) {
-                        std::pair<bool, bool>( true, false );
+                        return std::pair<bool, bool>( true, false );
                     }
                     // Take the tent down
                     for( i = tentp.x-1; i <= tentp.x+1; i++ ) {
@@ -2840,7 +2838,7 @@ std::pair<bool, bool> map::bash( const tripoint &p, const int str,
                     }
                     // Never found tent center, bail out
                     if( tentp == tripoint_min ) {
-                        std::pair<bool, bool>( true, false );
+                        return std::pair<bool, bool>( true, false );
                     }
                     // Take the tent down
                     for( i = tentp.x-1; i <= tentp.x+1; i++ ) {
@@ -2927,14 +2925,10 @@ void map::destroy_furn( const tripoint &p, const bool silent )
 
 void map::crush( const tripoint &p )
 {
-    // TODO: Z
-    const int x = p.x;
-    const int y = p.y;
     int veh_part;
     player *crushed_player = nullptr;
-    //The index of the NPC at (x,y), or -1 if there isn't one
     int npc_index = g->npc_at( p );
-    if( g->u.posx() == x && g->u.posy() == y ) {
+    if( g->u.pos() == p ) {
         crushed_player = &(g->u);
     } else if( npc_index != -1 ) {
         crushed_player = static_cast<player *>(g->active_npc[npc_index]);
@@ -2943,14 +2937,15 @@ void map::crush( const tripoint &p )
     if( crushed_player != nullptr ) {
         bool player_inside = false;
         if( crushed_player->in_vehicle ) {
-            vehicle *veh = veh_at(x, y, veh_part);
-            player_inside = (veh && veh->is_inside(veh_part));
+            vehicle *veh = veh_at(p, veh_part);
+            player_inside = veh != nullptr && veh->is_inside(veh_part);
         }
-        if (!player_inside) { //If there's a player at (x,y) and he's not in a covered vehicle...
+        if (!player_inside) { //If there's a player at p and he's not in a covered vehicle...
             //This is the roof coming down on top of us, no chance to dodge
             crushed_player->add_msg_player_or_npc( m_bad, _("You are crushed by the falling debris!"),
                                                    _("<npcname> is crushed by the falling debris!") );
-            int dam = rng(0, 40);
+            // TODO: Make this depend on the ceiling material
+            const int dam = rng(0, 40);
             // Torso and head take the brunt of the blow
             body_part hit = bp_head;
             crushed_player->deal_damage( nullptr, hit, damage_instance( DT_BASH, dam * .25 ) );
@@ -2973,9 +2968,8 @@ void map::crush( const tripoint &p )
         }
     }
 
-    //The index of the monster at p, or -1 if there isn't one
     int mon = g->mon_at( p );
-    if (mon != -1 && size_t(mon) < g->num_zombies()) {  //If there's a monster at p...
+    if( mon != -1 ) {
         monster* monhit = &(g->zombie(mon));
         // 25 ~= 60 * .45 (torso)
         monhit->deal_damage(nullptr, bp_torso, damage_instance(DT_BASH, rng(0,25)));
@@ -2985,7 +2979,7 @@ void map::crush( const tripoint &p )
         monhit->check_dead_state();
     }
 
-    vehicle *veh = veh_at(x, y, veh_part);
+    vehicle *veh = veh_at(p, veh_part);
     if (veh) {
         veh->damage(veh_part, rng(0, veh->parts[veh_part].hp), 1, false);
     }
@@ -2994,23 +2988,20 @@ void map::crush( const tripoint &p )
 void map::shoot( const tripoint &p, int &dam,
                  const bool hit_items, const std::set<std::string>& ammo_effects )
 {
-    // TODO: Z
-    const int x = p.x;
-    const int y = p.y;
     if (dam < 0)
     {
         return;
     }
 
-    if (has_flag("ALARMED", x, y) && !g->event_queued(EVENT_WANTED))
+    if (has_flag("ALARMED", p) && !g->event_queued(EVENT_WANTED))
     {
-        sounds::sound(x, y, 30, _("An alarm sounds!"));
-        const point abs = overmapbuffer::ms_to_sm_copy( getabs( x, y ) );
+        sounds::sound(p, 30, _("An alarm sounds!"));
+        const point abs = overmapbuffer::ms_to_sm_copy( getabs( p.x, p.y ) );
         g->add_event(EVENT_WANTED, int(calendar::turn) + 300, 0, tripoint( abs.x, abs.y, abs_sub.z ) );
     }
 
     int vpart;
-    vehicle *veh = veh_at(x, y, vpart);
+    vehicle *veh = veh_at(p, vpart);
     if (veh)
     {
         const bool inc = (ammo_effects.count("INCENDIARY") || ammo_effects.count("FLAME"));
@@ -3024,8 +3015,8 @@ void map::shoot( const tripoint &p, int &dam,
         if (hit_items || one_in(8)) { // 1 in 8 chance of hitting the door
             dam -= rng(20, 40);
             if (dam > 0) {
-                sounds::sound(x, y, 10, _("crash!"));
-                ter_set(x, y, t_dirt);
+                sounds::sound(p, 10, _("crash!"));
+                ter_set(p, t_dirt);
             }
         }
         else {
@@ -3037,8 +3028,8 @@ void map::shoot( const tripoint &p, int &dam,
                terrain == t_door_locked_alarm ) {
         dam -= rng(15, 30);
         if (dam > 0) {
-            sounds::sound(x, y, 10, _("smash!"));
-            ter_set(x, y, t_door_b);
+            sounds::sound(p, 10, _("smash!"));
+            ter_set(p, t_door_b);
         }
     } else if( terrain == t_door_boarded ||
                terrain == t_door_boarded_damaged ||
@@ -3046,8 +3037,8 @@ void map::shoot( const tripoint &p, int &dam,
                terrain == t_rdoor_boarded_damaged ) {
         dam -= rng(15, 35);
         if (dam > 0) {
-            sounds::sound(x, y, 10, _("crash!"));
-            ter_set(x, y, t_door_b);
+            sounds::sound(p, 10, _("crash!"));
+            ter_set(p, t_door_b);
         }
     } else if( terrain == t_window_domestic_taped ||
                terrain == t_curtains ) {
@@ -3059,11 +3050,11 @@ void map::shoot( const tripoint &p, int &dam,
         } else {
             dam -= rng(1,3);
             if (dam > 0) {
-                sounds::sound(x, y, 16, _("glass breaking!"));
-                ter_set(x, y, t_window_frame);
-                spawn_item(x, y, "sheet", 1);
-                spawn_item(x, y, "stick");
-                spawn_item(x, y, "string_36");
+                sounds::sound(p, 16, _("glass breaking!"));
+                ter_set(p, t_window_frame);
+                spawn_item(p, "sheet", 1);
+                spawn_item(p, "stick");
+                spawn_item(p, "string_36");
             }
         }
     } else if( terrain == t_window_domestic ) {
@@ -3072,11 +3063,11 @@ void map::shoot( const tripoint &p, int &dam,
         } else {
             dam -= rng(1,3);
             if (dam > 0) {
-                sounds::sound(x, y, 16, _("glass breaking!"));
-                ter_set(x, y, t_window_frame);
-                spawn_item(x, y, "sheet", 1);
-                spawn_item(x, y, "stick");
-                spawn_item(x, y, "string_36");
+                sounds::sound(p, 16, _("glass breaking!"));
+                ter_set(p, t_window_frame);
+                spawn_item(p, "sheet", 1);
+                spawn_item(p, "stick");
+                spawn_item(p, "string_36");
             }
         }
     } else if( terrain == t_window_taped ||
@@ -3089,8 +3080,8 @@ void map::shoot( const tripoint &p, int &dam,
         } else {
             dam -= rng(1,3);
             if (dam > 0) {
-                sounds::sound(x, y, 16, _("glass breaking!"));
-                ter_set(x, y, t_window_frame);
+                sounds::sound(p, 16, _("glass breaking!"));
+                ter_set(p, t_window_frame);
             }
         }
     } else if( terrain == t_window ||
@@ -3100,15 +3091,15 @@ void map::shoot( const tripoint &p, int &dam,
         } else {
             dam -= rng(1,3);
             if (dam > 0) {
-                sounds::sound(x, y, 16, _("glass breaking!"));
-                ter_set(x, y, t_window_frame);
+                sounds::sound(p, 16, _("glass breaking!"));
+                ter_set(p, t_window_frame);
             }
         }
     } else if( terrain == t_window_boarded ) {
         dam -= rng(10, 30);
         if (dam > 0) {
-            sounds::sound(x, y, 16, _("glass breaking!"));
-            ter_set(x, y, t_window_frame);
+            sounds::sound(p, 16, _("glass breaking!"));
+            ter_set(p, t_window_frame);
         }
     } else if( terrain == t_wall_glass  ||
                terrain == t_wall_glass_alarm ||
@@ -3118,8 +3109,8 @@ void map::shoot( const tripoint &p, int &dam,
         } else {
             dam -= rng(1,8);
             if (dam > 0) {
-                sounds::sound(x, y, 20, _("glass breaking!"));
-                ter_set(x, y, t_floor);
+                sounds::sound(p, 20, _("glass breaking!"));
+                ter_set(p, t_floor);
             }
         }
     } else if( terrain == t_reinforced_glass ) {
@@ -3135,47 +3126,50 @@ void map::shoot( const tripoint &p, int &dam,
             } else if (dam >= 40) {
                 //high powered bullets penetrate the glass, but only extremely strong
                 // ones (80 before reduction) actually destroy the glass itself.
-                sounds::sound(x, y, 20, _("glass breaking!"));
-                ter_set(x, y, t_floor);
+                sounds::sound(p, 20, _("glass breaking!"));
+                ter_set(p, t_floor);
             }
         }
     } else if( terrain == t_paper ) {
         dam -= rng(4, 16);
         if (dam > 0) {
-            sounds::sound(x, y, 8, _("rrrrip!"));
-            ter_set(x, y, t_dirt);
+            sounds::sound(p, 8, _("rrrrip!"));
+            ter_set(p, t_dirt);
         }
         if (ammo_effects.count("INCENDIARY")) {
-            add_field(x, y, fd_fire, 1);
+            add_field(p, fd_fire, 1, 0);
         }
     } else if( terrain == t_gas_pump ) {
         if (hit_items || one_in(3)) {
             if (dam > 15) {
                 if (ammo_effects.count("INCENDIARY") || ammo_effects.count("FLAME")) {
-                    g->explosion( tripoint( x, y, abs_sub.z ), 40, 0, true);
+                    g->explosion( p, 40, 0, true);
                 } else {
-                    for (int i = x - 2; i <= x + 2; i++) {
-                        for (int j = y - 2; j <= y + 2; j++) {
+                    tripoint tmp = p;
+                    int &i = tmp.x;
+                    int &j = tmp.y;
+                    for( i = p.x - 2; i <= p.x + 2; i++ ) {
+                        for( j = p.y - 2; j <= p.y + 2; j++ ) {
                             if (move_cost(i, j) > 0 && one_in(3)) {
-                                    spawn_item(i, j, "gasoline");
+                                    spawn_item( tmp, "gasoline" );
                             }
                         }
                     }
-                    sounds::sound(x, y, 10, _("smash!"));
+                    sounds::sound(p, 10, _("smash!"));
                 }
-                ter_set(x, y, t_gas_pump_smashed);
+                ter_set(p, t_gas_pump_smashed);
             }
             dam -= 60;
         }
     } else if( terrain == t_vat ) {
         if (dam >= 10) {
-            sounds::sound(x, y, 20, _("ke-rash!"));
-            ter_set(x, y, t_floor);
+            sounds::sound(p, 20, _("ke-rash!"));
+            ter_set(p, t_floor);
         } else {
             dam = 0;
         }
     } else {
-        if (move_cost(x, y) == 0 && !trans(x, y)) {
+        if (move_cost(p) == 0 && !trans(p)) {
             dam = 0; // TODO: Bullets can go through some walls?
         } else {
             dam -= (rng(0, 1) * rng(0, 1) * rng(0, 1));
@@ -3183,27 +3177,27 @@ void map::shoot( const tripoint &p, int &dam,
     }
 
     if (ammo_effects.count("TRAIL") && !one_in(4)) {
-        add_field(x, y, fd_smoke, rng(1, 2));
+        add_field(p, fd_smoke, rng(1, 2), 0 );
     }
 
     if (ammo_effects.count("STREAM") && !one_in(3)) {
-        add_field(x, y, fd_fire, rng(1, 2));
+        add_field(p, fd_fire, rng(1, 2), 0 );
     }
 
     if (ammo_effects.count("STREAM_BIG") && !one_in(4)) {
-        add_field(x, y, fd_fire, 2);
+        add_field(p, fd_fire, 2, 0 );
     }
 
     if (ammo_effects.count("LIGHTNING")) {
-        add_field(x, y, fd_electricity, rng(2, 3));
+        add_field(p, fd_electricity, rng(2, 3), 0 );
     }
 
     if (ammo_effects.count("PLASMA") && one_in(2)) {
-        add_field(x, y, fd_plasma, rng(1, 2));
+        add_field(p, fd_plasma, rng(1, 2), 0 );
     }
 
     if (ammo_effects.count("LASER")) {
-        add_field(x, y, fd_laser, 2);
+        add_field(p, fd_laser, 2, 0 );
     }
 
     // Set damage to 0 if it's less
@@ -3212,23 +3206,23 @@ void map::shoot( const tripoint &p, int &dam,
     }
 
     // Check fields?
-    const field_entry *fieldhit = get_field( point( x, y ), fd_web );
+    const field_entry *fieldhit = get_field( p, fd_web );
     if( fieldhit != nullptr ) {
         if (ammo_effects.count("INCENDIARY") || ammo_effects.count("FLAME")) {
-            add_field(x, y, fd_fire, fieldhit->getFieldDensity() - 1);
+            add_field( p, fd_fire, fieldhit->getFieldDensity() - 1, 0 );
         } else if (dam > 5 + fieldhit->getFieldDensity() * 5 &&
                    one_in(5 - fieldhit->getFieldDensity())) {
             dam -= rng(1, 2 + fieldhit->getFieldDensity() * 2);
-            remove_field(x, y,fd_web);
+            remove_field(p,fd_web);
         }
     }
 
     // Now, destroy items on that tile.
-    if ((move_cost(x, y) == 2 && !hit_items) || !INBOUNDS(x, y)) {
+    if ((move_cost(p) == 2 && !hit_items) || !inbounds(p)) {
         return; // Items on floor-type spaces won't be shot up.
     }
 
-    auto target_items = i_at(x, y);
+    auto target_items = i_at(p);
     for( auto target_item = target_items.begin(); target_item != target_items.end(); ) {
         bool destroyed = false;
         int chance = ( target_item->volume() > 0 ? target_item->volume() : 1);
@@ -3242,7 +3236,7 @@ void map::shoot( const tripoint &p, int &dam,
         }
 
         if (destroyed) {
-            spawn_items( x, y, target_item->contents );
+            spawn_items( p, target_item->contents );
             target_item = target_items.erase( target_item );
         } else {
             ++target_item;
@@ -4034,20 +4028,23 @@ void map::process_active_items()
 template<typename T>
 void map::process_items( bool const active, T processor, std::string const &signal )
 {
-    // TODO: Z
-    const int gz = abs_sub.z;
-    tripoint gp( 0, 0, gz );
+    const int minz = zlevels ? -OVERMAP_DEPTH : abs_sub.z;
+    const int maxz = zlevels ? OVERMAP_HEIGHT : abs_sub.z;
+    tripoint gp( 0, 0, 0 );
     int &gx = gp.x;
     int &gy = gp.y;
-    for( gx = 0; gx < my_MAPSIZE; ++gx ) {
-        for( gy = 0; gy < my_MAPSIZE; ++gy ) {
-            submap *const current_submap = get_submap_at_grid( gp );
-            // Vehicles first in case they get blown up and drop active items on the map.
-            if( !current_submap->vehicles.empty() ) {
-                process_items_in_vehicles(current_submap, processor, signal);
-            }
-            if( !active || !current_submap->active_items.empty() ) {
-                process_items_in_submap(current_submap, gp, processor, signal);
+    int &gz = gp.z;
+    for( gz = minz; gz <= maxz; ++gz ) {
+        for( gx = 0; gx < my_MAPSIZE; ++gx ) {
+            for( gy = 0; gy < my_MAPSIZE; ++gy ) {
+                submap *const current_submap = get_submap_at_grid( gp );
+                // Vehicles first in case they get blown up and drop active items on the map.
+                if( !current_submap->vehicles.empty() ) {
+                    process_items_in_vehicles(current_submap, processor, signal);
+                }
+                if( !active || !current_submap->active_items.empty() ) {
+                    process_items_in_submap(current_submap, gp, processor, signal);
+                }
             }
         }
     }

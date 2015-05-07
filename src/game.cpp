@@ -5894,33 +5894,31 @@ void game::monmove()
 
 void game::do_blast( const tripoint &p, const int power, const int radius, const bool fire )
 {
-    // TODO: Z
-    int x = p.x;
-    int y = p.y;
     int dam;
-    tripoint t( 0, 0, p.z );
+    tripoint t = p;
     int &i = t.x;
     int &j = t.y;
-    for( i = x - radius; i <= x + radius; i++ ) {
-        for( j = y - radius; j <= y + radius; j++ ) {
-            if (i == x && j == y) {
+    for( i = p.x - radius; i <= p.x + radius; i++ ) {
+        for( j = p.y - radius; j <= p.y + radius; j++ ) {
+            if( t == p ) {
                 dam = 3 * power;
             } else {
-                dam = 3 * power / (rl_dist(x, y, i, j));
+                dam = 3 * power / rl_dist( p, t );
             }
             m.smash_items(t, dam);
             m.bash( t, dam );
             m.bash( t, dam ); // Double up for tough doors, etc.
 
-            int mon_hit = mon_at(t), npc_hit = npc_at(t);
+            int mon_hit = mon_at(t);
+            int npc_hit = npc_at(t);
             if (mon_hit != -1) {
-                monster &critter = critter_tracker.find(mon_hit);
-                critter.apply_damage( nullptr, bp_torso, rng( dam / 2, long( dam * 1.5 ) ) ); // TODO: player's fault?
-                critter.check_dead_state();
+                monster &mon = critter_tracker.find(mon_hit);
+                mon.apply_damage( nullptr, bp_torso, rng( dam / 2, long( dam * 1.5 ) ) ); // TODO: player's fault?
+                mon.check_dead_state();
             }
 
             int vpart;
-            vehicle *veh = m.veh_at(i, j, vpart);
+            vehicle *veh = m.veh_at( t, vpart );
             if (veh) {
                 veh->damage(vpart, dam, fire ? 2 : 1, false);
             }
@@ -5928,7 +5926,7 @@ void game::do_blast( const tripoint &p, const int power, const int radius, const
             player *n = nullptr;
             if (npc_hit != -1) {
                 n = active_npc[npc_hit];
-            } else if( u.posx() == i && u.posy() == j ) {
+            } else if( u.pos() == t ) {
                 add_msg(m_bad, _("You're caught in the explosion!"));
                 n = &u;
             }
@@ -5941,7 +5939,7 @@ void game::do_blast( const tripoint &p, const int power, const int radius, const
                 n->deal_damage( nullptr, bp_arm_r, damage_instance( DT_BASH, rng( dam / 3, dam ) ) );
             }
             if (fire) {
-                m.add_field(i, j, fd_fire, dam / 10);
+                m.add_field( t, fd_fire, dam / 10, 0 );
             }
         }
     }
@@ -5949,24 +5947,23 @@ void game::do_blast( const tripoint &p, const int power, const int radius, const
 
 void game::explosion( const tripoint &p, int power, int shrapnel, bool fire, bool blast )
 {
-    // TODO: Z
-    const int x = p.x;
-    const int y = p.y;
     const int radius = int(sqrt(double(power / 4)));
     const int noise = power * (fire ? 2 : 10);
     int dam;
 
     if (power >= 30) {
-        sounds::sound(x, y, noise, _("a huge explosion!"));
+        sounds::sound( p, noise, _("a huge explosion!") );
     } else if (power >= 4) {
-        sounds::sound(x, y, noise, _("an explosion!"));
+        sounds::sound( p, noise, _("an explosion!") );
     } else {
-        sounds::sound(x, y, 3, _("a loud pop!"));
+        sounds::sound( p, 3, _("a loud pop!") );
     }
     if (blast) {
         do_blast( p, power, radius, fire );
         // Draw the explosion
-        draw_explosion(p, radius, c_red);
+        if( p.z == u.posz() ) {
+            draw_explosion(p, radius, c_red);
+        }
     }
 
     // The rest of the function is shrapnel
@@ -5974,21 +5971,19 @@ void game::explosion( const tripoint &p, int power, int shrapnel, bool fire, boo
         return;
     }
 
-    bool const do_animation = OPTIONS["ANIMATIONS"];
+    bool const do_animation = p.z == u.posz() && OPTIONS["ANIMATIONS"];
 
-    int sx, sy, t;
+    int t1, t2;
     std::vector<tripoint> traj;
     for (int i = 0; i < shrapnel; i++) {
-        sx = rng(x - 2 * radius, x + 2 * radius);
-        sy = rng(y - 2 * radius, y + 2 * radius);
-        if (m.sees(x, y, sx, sy, 50, t)) {
-            traj = line_to( p, tripoint(sx, sy, get_levz()), t, 0 );
-        } else {
-            traj = line_to( p, tripoint(sx, sy, get_levz()), 0, 0 );
-        }
+        tripoint sp{ rng( p.x - 2 * radius, p.x + 2 * radius ),
+                     rng( p.y - 2 * radius, p.y + 2 * radius ),
+                     p.z };
+        m.sees( p, sp, 50, t1, t2 ); // To set bresenhams
+        traj = line_to( p, sp, t1, t2 );
         // If the randomly chosen spot is the origin, it already points there.
         // Otherwise line_to excludes the origin, so add it.
-        if( sx !=x || sy != y ) {
+        if( sp != p ) {
             traj.insert( traj.begin(), p );
         }
         for (size_t j = 0; j < traj.size(); j++) {
@@ -13236,7 +13231,7 @@ void game::shift_monsters( const int shiftx, const int shifty, const int shiftz 
             critter.shift( shiftx, shifty );
         }
 
-        if( shiftz != 0 && m.has_zlevels() && m.inbounds( critter.pos() ) ) {
+        if( shiftz == 0 || ( m.has_zlevels() && m.inbounds( critter.pos() ) ) ) {
             i++;
             // We're inbounds, so don't despawn after all.
             // No need to shift z coords, they are absolute
