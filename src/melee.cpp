@@ -29,7 +29,7 @@ void player_hit_message(player* attacker, std::string message,
 void melee_practice( player &u, bool hit, bool unarmed, bool bashing, bool cutting, bool stabbing);
 int  attack_speed(player &u);
 int  stumble(player &u);
-std::string melee_message( matec_id tech, player &p, const dealt_damage_instance &ddi );
+std::string melee_message( const ma_technique &tech, player &p, const dealt_damage_instance &ddi );
 
 /* Melee Functions!
  * These all belong to class player.
@@ -378,7 +378,7 @@ void player::melee_attack(Creature &t, bool allow_special, const matec_id &force
             healall( rng(dam / 10, dam / 5) );
         }
 
-        message = melee_message( technique.id, *this, dealt_dam );
+        message = melee_message( technique, *this, dealt_dam );
         player_hit_message(this, message, t, dam, critical_hit);
 
         if (!specialmsg.empty()) {
@@ -2081,14 +2081,13 @@ std::vector<special_attack> player::mutation_attacks(Creature &t)
     return ret;
 }
 
-std::string melee_message(matec_id tec_id, player &p, const dealt_damage_instance &ddi )
+std::string melee_message( const ma_technique &tec, player &p, const dealt_damage_instance &ddi )
 {
     const int bash_dam = ddi.type_damage( DT_BASH );
     const int cut_dam  = ddi.type_damage( DT_CUT );
     const int stab_dam = ddi.type_damage( DT_STAB );
 
-    if( tec_id != tec_none ) {
-        const auto &tec = tec_id.obj();
+    if( tec.id != tec_none ) {
         if (tec.messages.size() < 2) {
             return "The bugs nibble %s";
         } else if (p.is_npc()) {
