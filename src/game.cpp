@@ -13231,7 +13231,7 @@ void game::shift_monsters( const int shiftx, const int shifty, const int shiftz 
             critter.shift( shiftx, shifty );
         }
 
-        if( m.has_zlevels() && m.inbounds( critter.pos() ) ) {
+        if( shiftz == 0 || ( m.has_zlevels() && m.inbounds( critter.pos() ) ) ) {
             i++;
             // We're inbounds, so don't despawn after all.
             // No need to shift z coords, they are absolute
