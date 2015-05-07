@@ -12787,6 +12787,8 @@ void game::vertical_move(int movez, bool force)
                 i++;
             }
         }
+
+        shift_monsters( 0, 0, movez );
     }
 
     // Clear current scents.
@@ -13224,9 +13226,8 @@ void game::despawn_monster(int mondex)
 
 void game::shift_monsters( const int shiftx, const int shifty, const int shiftz )
 {
-    (void)shiftz;
     // If either shift argument is non-zero, we're shifting.
-    if( shiftx == 0 && shifty == 0 ) {
+    if( shiftx == 0 && shifty == 0 && shiftz == 0 ) {
         return;
     }
     for( unsigned int i = 0; i < num_zombies(); ) {
@@ -13235,7 +13236,7 @@ void game::shift_monsters( const int shiftx, const int shifty, const int shiftz 
             critter.shift( shiftx, shifty );
         }
 
-        if( m.inbounds( critter.pos() ) ) {
+        if( shiftz != 0 && m.has_zlevels() && m.inbounds( critter.pos() ) ) {
             i++;
             // We're inbounds, so don't despawn after all.
             // No need to shift z coords, they are absolute
