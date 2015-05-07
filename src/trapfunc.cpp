@@ -549,7 +549,7 @@ void trapfunc::telepad(Creature *c, int x, int y)
                     }
                     g->zombie( mon_hit ).die_in_explosion( z );
                 } else {
-                    z->setpos(newposx, newposy);
+                    z->setpos({newposx, newposy,z->posz()});
                 }
             }
         }

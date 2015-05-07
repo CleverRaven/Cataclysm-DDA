@@ -108,25 +108,6 @@ monster::~monster()
 {
 }
 
-bool monster::setpos(const int x, const int y)
-{
-    bool ret = g->update_zombie_pos( *this, tripoint( x, y, g->get_levz() ) );
-    position.x = x;
-    position.y = y;
-    position.z = g->get_levz();
-    return ret;
-}
-
-bool monster::setpos(const int x, const int y, const int z, const bool level_change)
-{
-    return setpos( tripoint( x, y, z ), level_change );
-}
-
-bool monster::setpos( const point &p, const bool level_change )
-{
-    return setpos( tripoint( p, position.z ), level_change );
-}
-
 bool monster::setpos( const tripoint &p, const bool level_change )
 {
     if( p == pos3() ) {
@@ -215,17 +196,6 @@ void monster::update_check() {
     }
 
     last_loaded = current_day;
-}
-void monster::spawn(int x, int y)
-{
-    spawn( x, y, g->get_levz() );
-}
-
-void monster::spawn(const int x, const int y, const int z)
-{
-    position.x = x;
-    position.y = y;
-    position.z = z;
 }
 
 void monster::spawn(const tripoint &p)
