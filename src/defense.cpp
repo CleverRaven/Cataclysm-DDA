@@ -311,7 +311,7 @@ void defense_game::init_map()
     }
     if (!valid.empty()) {
         tripoint p = valid[rng(0, valid.size() - 1)];
-        generator.spawn( p.x, p.y, p.z );
+        generator.spawn( p );
     }
     generator.friendly = -1;
     g->add_zombie(generator);

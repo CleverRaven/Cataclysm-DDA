@@ -1664,7 +1664,7 @@ int map::combined_movecost( const tripoint &from, const tripoint &to,
     const int cost2 = move_cost( to, ignored_vehicle );
     // Multiply cost depending on the number of differing axes
     // 0 if all axes are equal, 100% if only 1 differs, 141% for 2, 200% for 3
-    size_t match = ( from.x != to.x ) + ( from.y != to.y ) + ( from.z != to.z );
+    size_t match = trigdist ? ( from.x != to.x ) + ( from.y != to.y ) + ( from.z != to.z ) : 1;
     return (cost1 + cost2 + modifier) * mults[match] / 2;
 }
 
@@ -2599,21 +2599,18 @@ void map::smash_items(const tripoint &p, const int power)
 std::pair<bool, bool> map::bash( const tripoint &p, const int str,
                                  bool silent, bool destroy, vehicle *bashing_vehicle )
 {
-    // TODO: Z
-    const int x = p.x;
-    const int y = p.y;
     bool success = false;
     int sound_volume = 0;
     std::string sound;
     bool smashed_something = false;
-    if( get_field( point( x, y ), fd_web ) != nullptr ) {
+    if( get_field( p, fd_web ) != nullptr ) {
         smashed_something = true;
-        remove_field(x, y, fd_web);
+        remove_field( p, fd_web );
     }
 
     // Destroy glass items, spilling their contents.
     std::vector<item> smashed_contents;
-    auto bashed_items = i_at(x, y);
+    auto bashed_items = i_at( p );
     for( auto bashed_item = bashed_items.begin(); bashed_item != bashed_items.end(); ) {
         // the check for active supresses molotovs smashing themselves with their own explosion
         if (bashed_item->made_of("glass") && !bashed_item->active && one_in(2)) {
@@ -2629,11 +2626,11 @@ std::pair<bool, bool> map::bash( const tripoint &p, const int str,
         }
     }
     // Now plunk in the contents of the smashed items.
-    spawn_items( x, y, smashed_contents );
+    spawn_items( p, smashed_contents );
 
     // Smash vehicle if present
     int vpart;
-    vehicle *veh = veh_at(x, y, vpart);
+    vehicle *veh = veh_at(p, vpart);
     if (veh && veh != bashing_vehicle) {
         veh->damage (vpart, str, 1);
         sound = _("crash!");
@@ -2646,21 +2643,21 @@ std::pair<bool, bool> map::bash( const tripoint &p, const int str,
         bool smash_ter = false;
         map_bash_info *bash = NULL;
 
-        if ( has_furn(x, y) && furn_at(x, y).bash.str_max != -1 ) {
-            bash = &(furn_at(x,y).bash);
+        if ( has_furn(p) && furn_at(p).bash.str_max != -1 ) {
+            bash = &(furn_at(p).bash);
             smash_furn = true;
-        } else if ( ter_at(x, y).bash.str_max != -1 ) {
-            bash = &(ter_at(x,y).bash);
+        } else if ( ter_at(p).bash.str_max != -1 ) {
+            bash = &(ter_at(p).bash);
             smash_ter = true;
         }
         // TODO: what if silent is true?
-        if (has_flag("ALARMED", x, y) && !g->event_queued(EVENT_WANTED)) {
-            sounds::sound(x, y, 40, _("an alarm go off!"));
-            // if the player is nearby blame him/her
-            if( rl_dist( g->u.posx(), g->u.posy(), x, y ) <= 3 ) {
+        if (has_flag("ALARMED", p) && !g->event_queued(EVENT_WANTED)) {
+            sounds::sound(p, 40, _("an alarm go off!"));
+            // Blame nearby player
+            if( rl_dist( g->u.pos(), p ) <= 3 ) {
                 g->u.add_memorial_log(pgettext("memorial_male", "Set off an alarm."),
                                       pgettext("memorial_female", "Set off an alarm."));
-                const point abs = overmapbuffer::ms_to_sm_copy( getabs( x, y ) );
+                const point abs = overmapbuffer::ms_to_sm_copy( getabs( p.x, p.y ) );
                 g->add_event(EVENT_WANTED, int(calendar::turn) + 300, 0, tripoint( abs.x, abs.y, abs_sub.z ) );
             }
         }
@@ -2690,8 +2687,8 @@ std::pair<bool, bool> map::bash( const tripoint &p, const int str,
 
             if (success || destroy) {
                 // Clear out any partially grown seeds
-                if (has_flag_ter_or_furn("PLANT", x, y)) {
-                    i_clear( x, y );
+                if (has_flag_ter_or_furn("PLANT", p)) {
+                    i_clear( p );
                 }
 
                 if (smash_furn) {
@@ -2715,10 +2712,10 @@ std::pair<bool, bool> map::bash( const tripoint &p, const int str,
                 }
                 sound = _(bash->sound.c_str());
                 // Set this now in case the ter_set below changes this
-                bool collapses = has_flag("COLLAPSES", x, y) && smash_ter;
-                bool supports = has_flag("SUPPORTS_ROOF", x, y) && smash_ter;
+                bool collapses = has_flag("COLLAPSES", p) && smash_ter;
+                bool supports = has_flag("SUPPORTS_ROOF", p) && smash_ter;
                 if (smash_furn == true) {
-                    furn_set(x, y, bash->furn_set);
+                    furn_set(p, bash->furn_set);
                     // Hack alert.
                     // Signs have cosmetics associated with them on the submap since
                     // furniture can't store dynamic data to disk. To prevent writing
@@ -2726,15 +2723,15 @@ std::pair<bool, bool> map::bash( const tripoint &p, const int str,
                     // writing from the submap.
                     delete_signage( p );
                 } else if (smash_ter == true) {
-                    ter_set(x, y, bash->ter_set);
+                    ter_set(p, bash->ter_set);
                 } else {
                     debugmsg( "data/json/terrain.json does not have %s.bash.ter_set set!",
-                              ter_at(x,y).id.c_str() );
+                              ter_at(p).id.c_str() );
                 }
 
                 spawn_item_list( bash->items, p );
                 if (bash->explosive > 0) {
-                    g->explosion( tripoint( x, y, abs_sub.z ), bash->explosive, 0, false);
+                    g->explosion( p, bash->explosive, 0, false);
                 }
 
                 if (collapses) {
@@ -2742,11 +2739,11 @@ std::pair<bool, bool> map::bash( const tripoint &p, const int str,
                 }
                 // Check the flag again to ensure the new terrain doesn't support anything
                 if (supports && !has_flag( "SUPPORTS_ROOF", p) ) {
-                    tripoint t( p );
+                    tripoint t = p;
                     int &i = t.x;
                     int &j = t.y;
-                    for( i = x - 1; i <= x + 1; i++ ) {
-                        for( j = y - 1; j <= y + 1; j++ ) {
+                    for( i = p.x - 1; i <= p.x + 1; i++ ) {
+                        for( j = p.y - 1; j <= p.y + 1; j++ ) {
                             if( p == t || !has_flag("COLLAPSES", t) ) {
                                 continue;
                             }
@@ -2767,45 +2764,48 @@ std::pair<bool, bool> map::bash( const tripoint &p, const int str,
                 smashed_something = true;
             }
         } else {
-            furn_id furnid = furn(x, y);
+            furn_id furnid = furn(p);
             if ( furnid == f_skin_wall || furnid == f_skin_door || furnid == f_skin_door_o ||
                  furnid == f_skin_groundsheet || furnid == f_canvas_wall || furnid == f_canvas_door ||
                  furnid == f_canvas_door_o || furnid == f_groundsheet || furnid == f_fema_groundsheet) {
                 if (str >= rng(0, 6) || destroy) {
                     // Special code to collapse the tent if destroyed
-                    int tentx = -1, tenty = -1;
+                    tripoint tentp = tripoint_min;
                     // Find the center of the tent
-                    for (int i = -1; i <= 1; i++) {
-                        for (int j = -1; j <= 1; j++) {
-                            if (furn(x + i, y + j) == f_groundsheet ||
-                                furn(x + i, y + j) == f_fema_groundsheet ||
-                                furn(x + i, y + j) == f_skin_groundsheet){
-                                tentx = x + i;
-                                tenty = y + j;
+                    tripoint tmp = p;
+                    int &i = tmp.x;
+                    int &j = tmp.y;
+                    for( i = p.x - 1; i <= p.x + 1; i++ ) {
+                        for( j = p.y - 1; j <= p.y + 1; j++ ) {
+                            const auto f_at = furn( tmp );
+                            if( f_at == f_groundsheet ||
+                                f_at == f_fema_groundsheet ||
+                                f_at == f_skin_groundsheet){
+                                tentp = tmp;
                                 break;
                             }
                         }
                     }
                     // Never found tent center, bail out
-                    if (tentx == -1 && tenty == -1) {
-                        smashed_something = true;
+                    if( tentp == tripoint_min ) {
+                        std::pair<bool, bool>( true, false );
                     }
                     // Take the tent down
-                    for (int i = -1; i <= 1; i++) {
-                        for (int j = -1; j <= 1; j++) {
-                            if (furn(tentx + i, tenty + j) == f_groundsheet) {
-                                spawn_item(tentx + i, tenty + j, "broketent");
+                    for( i = tentp.x-1; i <= tentp.x+1; i++ ) {
+                        for( j = tentp.y-1; j <= tentp.y+1; j++ ) {
+                            if (furn(tmp) == f_groundsheet) {
+                                spawn_item(tmp, "broketent");
                             }
-                            if (furn(tentx + i, tenty + j) == f_skin_groundsheet) {
-                                spawn_item(tentx + i, tenty + j, "damaged_shelter_kit");
+                            if (furn(tmp) == f_skin_groundsheet) {
+                                spawn_item(tmp, "damaged_shelter_kit");
                             }
-                            furn_id check_furn = furn(tentx + i, tenty + j);
+                            furn_id check_furn = furn(tmp);
                             if (check_furn == f_skin_wall || check_furn == f_skin_door ||
                                   check_furn == f_skin_door_o || check_furn == f_skin_groundsheet ||
                                   check_furn == f_canvas_wall || check_furn == f_canvas_door ||
                                   check_furn == f_canvas_door_o || check_furn == f_groundsheet ||
                                   check_furn == f_fema_groundsheet) {
-                                furn_set(tentx + i, tenty + j, f_null);
+                                furn_set(tmp, f_null);
                             }
                         }
                     }
@@ -2825,28 +2825,30 @@ std::pair<bool, bool> map::bash( const tripoint &p, const int str,
                      furnid == f_large_canvas_door_o) {
                 if (str >= rng(0, 6) || destroy) {
                     // Special code to collapse the tent if destroyed
-                    int tentx = -1, tenty = -1;
+                    tripoint tentp = tripoint_min;
                     // Find the center of the tent
-                    for (int i = -2; i <= 2; i++) {
-                        for (int j = -2; j <= 2; j++) {
-                            if (furn(x + i, y + j) == f_center_groundsheet){
-                                tentx = x + i;
-                                tenty = y + j;
+                    tripoint tmp = p;
+                    int &i = tmp.x;
+                    int &j = tmp.y;
+                    for( i = p.x - 2; i <= p.x + 2; i++ ) {
+                        for( j = p.y - 2; j <= p.y + 2; j++ ) {
+                            if( furn(tmp) == f_center_groundsheet ){
+                                tentp = tmp;
                                 break;
                             }
                         }
                     }
                     // Never found tent center, bail out
-                    if (tentx == -1 && tenty == -1) {
-                        smashed_something = true;
+                    if( tentp == tripoint_min ) {
+                        std::pair<bool, bool>( true, false );
                     }
                     // Take the tent down
-                    for (int i = -2; i <= 2; i++) {
-                        for (int j = -2; j <= 2; j++) {
-                             if (furn(tentx + i, tenty + j) == f_center_groundsheet) {
-                             spawn_item(tentx + i, tenty + j, "largebroketent");
+                    for( i = tentp.x-1; i <= tentp.x+1; i++ ) {
+                        for( j = tentp.y-1; j <= tentp.y+1; j++ ) {
+                             if (furn(tmp) == f_center_groundsheet) {
+                             spawn_item(tmp, "largebroketent");
                             }
-                            furn_set(tentx + i, tenty + j, f_null);
+                            furn_set(tmp, f_null);
                         }
                     }
                     sound_volume = 8;
@@ -2861,21 +2863,18 @@ std::pair<bool, bool> map::bash( const tripoint &p, const int str,
             }
         }
     }
-    if( move_cost(x, y) <= 0  && !smashed_something ) {
+    if( move_cost(p) <= 0  && !smashed_something ) {
         sound = _("thump!");
         sound_volume = 18;
         smashed_something = true;
     }
     if( !sound.empty() && !silent) {
-        sounds::sound( x, y, sound_volume, sound);
+        sounds::sound( p, sound_volume, sound);
     }
     return std::pair<bool, bool> (smashed_something, success);
 }
 
 void map::spawn_item_list( const std::vector<map_bash_item_drop> &items, const tripoint &p ) {
-    // TODO: Z
-    const int x = p.x;
-    const int y = p.y;
     for( auto &items_i : items ) {
         const map_bash_item_drop &drop = items_i;
         int chance = drop.chance;
@@ -2886,7 +2885,6 @@ void map::spawn_item_list( const std::vector<map_bash_item_drop> &items, const t
                 numitems = rng( drop.minamount, drop.amount );
             }
             if ( numitems > 0 ) {
-                // spawn_item(x,y, drop.itemtype, numitems); // doesn't abstract amount || charges
                 item new_item(drop.itemtype, calendar::turn);
                 if ( new_item.count_by_charges() ) {
                     new_item.charges = numitems;
@@ -2900,7 +2898,7 @@ void map::spawn_item_list( const std::vector<map_bash_item_drop> &items, const t
                         // might have been added previously
                         new_item.item_tags.erase( "FIT" );
                     }
-                    add_item_or_charges(x, y, new_item);
+                    add_item_or_charges(p, new_item);
                 }
             }
         }
@@ -2912,7 +2910,6 @@ void map::destroy( const tripoint &p, const bool silent )
     // Break if it takes more than 25 destructions to remove to prevent infinite loops
     // Example: A bashes to B, B bashes to A leads to A->B->A->...
     int count = 0;
-    // TODO: Z
     while( count <= 25 && bash( p, 999, silent, true ).second ) {
         count++;
     }
@@ -6348,7 +6345,7 @@ void map::spawn_monsters( const tripoint &gp, mongroup &group, bool ignore_sight
                 if( !tmp.can_move_to( p ) ) {
                     continue; // target can not contain the monster
                 }
-                tmp.spawn( p.x, p.y, p.z );
+                tmp.spawn( p );
                 g->add_zombie( tmp );
                 locations.erase( locations.begin() + index );
                 break;
@@ -6361,51 +6358,55 @@ void map::spawn_monsters( const tripoint &gp, mongroup &group, bool ignore_sight
 
 void map::spawn_monsters(bool ignore_sight)
 {
-    for (int gx = 0; gx < my_MAPSIZE; gx++) {
-        for (int gy = 0; gy < my_MAPSIZE; gy++) {
-            auto groups = overmap_buffer.groups_at( abs_sub.x + gx, abs_sub.y + gy, abs_sub.z );
-            for( auto &mgp : groups ) {
-                // TODO: Z
-                spawn_monsters( tripoint( gx, gy, abs_sub.z ), *mgp, ignore_sight );
-            }
+    const int zmin = zlevels ? -OVERMAP_DEPTH : abs_sub.z;
+    const int zmax = zlevels ? OVERMAP_HEIGHT : abs_sub.z;
+    for( int gz = zmin; gz <= zmax; gz++ ) {
+        for (int gx = 0; gx < my_MAPSIZE; gx++) {
+            for (int gy = 0; gy < my_MAPSIZE; gy++) {
+                auto groups = overmap_buffer.groups_at( abs_sub.x + gx, abs_sub.y + gy, gz );
+                for( auto &mgp : groups ) {
+                    // TODO: Z
+                    spawn_monsters( tripoint( gx, gy, gz ), *mgp, ignore_sight );
+                }
 
-            submap * const current_submap = get_submap_at_grid(gx, gy);
-            for (auto &i : current_submap->spawns) {
-                for (int j = 0; j < i.count; j++) {
-                    int tries = 0;
-                    int mx = i.posx, my = i.posy;
-                    monster tmp(GetMType(i.type));
-                    tmp.mission_id = i.mission_id;
-                    if (i.name != "NONE") {
-                        tmp.unique_name = i.name;
-                    }
-                    if (i.friendly) {
-                        tmp.friendly = -1;
-                    }
-                    int fx = mx + gx * SEEX, fy = my + gy * SEEY;
-                    tripoint pos( fx, fy, abs_sub.z );
+                submap * const current_submap = get_submap_at_grid(gx, gy);
+                for (auto &i : current_submap->spawns) {
+                    for (int j = 0; j < i.count; j++) {
+                        int tries = 0;
+                        int mx = i.posx, my = i.posy;
+                        monster tmp(GetMType(i.type));
+                        tmp.mission_id = i.mission_id;
+                        if (i.name != "NONE") {
+                            tmp.unique_name = i.name;
+                        }
+                        if (i.friendly) {
+                            tmp.friendly = -1;
+                        }
+                        int fx = mx + gx * SEEX, fy = my + gy * SEEY;
+                        tripoint pos( fx, fy, gz );
 
-                    while ((!g->is_empty( pos ) || !tmp.can_move_to( pos )) && tries < 10) {
-                        mx = (i.posx + rng(-3, 3)) % SEEX;
-                        my = (i.posy + rng(-3, 3)) % SEEY;
-                        if (mx < 0) {
-                            mx += SEEX;
+                        while ((!g->is_empty( pos ) || !tmp.can_move_to( pos )) && tries < 10) {
+                            mx = (i.posx + rng(-3, 3)) % SEEX;
+                            my = (i.posy + rng(-3, 3)) % SEEY;
+                            if (mx < 0) {
+                                mx += SEEX;
+                            }
+                            if (my < 0) {
+                                my += SEEY;
+                            }
+                            fx = mx + gx * SEEX;
+                            fy = my + gy * SEEY;
+                            tries++;
                         }
-                        if (my < 0) {
-                            my += SEEY;
+                        if (tries != 10) {
+                            tmp.spawn( pos );
+                            g->add_zombie(tmp);
                         }
-                        fx = mx + gx * SEEX;
-                        fy = my + gy * SEEY;
-                        tries++;
-                    }
-                    if (tries != 10) {
-                        tmp.spawn( fx, fy, abs_sub.z );
-                        g->add_zombie(tmp);
                     }
                 }
+                current_submap->spawns.clear();
+                overmap_buffer.spawn_monster( abs_sub.x + gx, abs_sub.y + gy, gz );
             }
-            current_submap->spawns.clear();
-            overmap_buffer.spawn_monster( abs_sub.x + gx, abs_sub.y + gy, abs_sub.z );
         }
     }
 }
