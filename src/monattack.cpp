@@ -2265,20 +2265,7 @@ void mattack::tentacle(monster *z, int index)
     g->u.check_dead_state();
 }
 
-static int posp(int posc ) //Determines orientation of target from the source
-{
-    if (posc > 0){
-        return 1;
-    }
-    if (posc < 0){
-        return -1;
-    }
-    else {
-        return 0;
-    }
-}
-
-void mattack::pull(monster *z, int index)
+void mattack::pull_enemy(monster *z, int index)
 {
     int t;
     Creature *target = z->attack_target();
@@ -2325,23 +2312,24 @@ void mattack::pull(monster *z, int index)
         }
         return;
     }
-    int dx = posp( target->posx() - z->posx() );
-    int dy = posp( target->posy() - z->posy() );
+    if (rl_dist( z->pos(), target->pos() ) <= 1){
+        if( !target->is_immune_effect( "downed" )){
+            target->add_effect("downed", 3);
 
-    foe->setx( z->posx()+ dx );
-    foe->sety( z->posy()+ dy );
-    foe->setz( z->posz());
-
+        if( seen ) {
+            add_msg( _("The %s's arms pin %s to the ground!"), z->name().c_str(), target->disp_name().c_str() );
+        }
+        return;
+        }
+    }
+    g->fling_creature( target, g->m.coord_to_angle( target->posx(), target->posy(), z->posx(), z->posy() ),
+                       z->type->melee_sides * z->type->melee_dice );
     if( !target->is_immune_effect( "downed" ) && one_in(3) ){
         target->add_effect("downed", 3);
     }
 
-    if (foe->in_vehicle) {
-        g->m.unboard_vehicle(foe->posx(), foe->posy());
-        }
-
     if( seen ) {
-        add_msg( _("The %s's arms grab you, and pull %s back!"), z->name().c_str(), target->disp_name().c_str() );
+        add_msg( _("The %s's arms fly out and pull %s back!"), z->name().c_str(), target->disp_name().c_str() );
     }
 }
 

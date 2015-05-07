@@ -2525,8 +2525,8 @@
     "vision_night":3,
     "death_drops": "default_zombie_death_drops",
     "upgrades_into" : "mon_zombie_grappler",
-    "upgrade_min" : 3,
-    "half_life" : 5,
+    "upgrade_min" : 6,
+    "half_life" : 7,
     "base_upgrade_chance" : 20,
     "luminance":0,
     "hp":95,
@@ -2561,7 +2561,7 @@
     "luminance":0,
     "hp":110,
     "death_function":["NORMAL"],
-    "special_attacks":[["BITE", 5], ["PULL", 20]],
+    "special_attacks":[["BITE", 5], ["PULL_ENEMY", 20]],
     "description":"An undead humanoid, its elongated arms drag along the ground as it moves. It looks to almost have a hunch from the swollen back and shoulder muscles tearing though its skin.",
     "flags":["SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "GROUP_BASH", "POISON", "BLEED", "GRABS", "NO_BREATHE", "REVIVES", "BONES"]
     },{
