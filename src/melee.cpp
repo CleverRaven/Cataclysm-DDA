@@ -19,6 +19,11 @@
 
 #include "cursesdef.h"
 
+static const matec_id tec_none( "tec_none" );
+static const matec_id WBLOCK_1( "WBLOCK_1" );
+static const matec_id WBLOCK_2( "WBLOCK_2" );
+static const matec_id WBLOCK_3( "WBLOCK_3" );
+
 void player_hit_message(player* attacker, std::string message,
                         Creature &t, int dam, bool crit);
 void melee_practice( player &u, bool hit, bool unarmed, bool bashing, bool cutting, bool stabbing);
@@ -278,7 +283,7 @@ void player::melee_attack(Creature &t, bool allow_special, const matec_id &force
     } else if (allow_special && force_technique != "") {
         technique = ma_techniques[force_technique];
     } else
-        technique = ma_techniques["tec_none"];
+        technique = ma_techniques[tec_none];
     int hit_spread = t.deal_melee_attack(this, hit_roll());
     if (hit_spread < 0) {
         int stumble_pen = stumble(*this);
@@ -321,8 +326,9 @@ void player::melee_attack(Creature &t, bool allow_special, const matec_id &force
         roll_stab_damage( critical_hit, d );
 
         // Handles effects as well; not done in melee_affect_*
-        if (technique.id != "tec_none" && technique.id != "")
+        if( technique.id != tec_none ) {
             perform_technique(technique, t, d, move_cost);
+        }
 
         // Handles speed penalties to monster & us, etc
         std::string specialmsg = melee_special_effects(t, d, technique);
@@ -977,7 +983,7 @@ matec_id player::pick_technique(Creature &t,
     }
 
     if (possible.empty()) {
-        return "tec_none";
+        return tec_none;
     }
 
     return possible[ rng(0, possible.size() - 1) ];
@@ -1248,9 +1254,9 @@ void player::perform_technique(const ma_technique &technique, Creature &t, damag
 // this would be i2amroy's fix, but it's kinda handy
 bool player::can_weapon_block()
 {
-    return (weapon.has_technique("WBLOCK_1") ||
-            weapon.has_technique("WBLOCK_2") ||
-            weapon.has_technique("WBLOCK_3"));
+    return (weapon.has_technique( WBLOCK_1 ) ||
+            weapon.has_technique( WBLOCK_2 ) ||
+            weapon.has_technique( WBLOCK_3 ));
 }
 
 void player::dodge_hit(Creature *source, int) {
@@ -1267,7 +1273,7 @@ void player::dodge_hit(Creature *source, int) {
     // check if we have any dodge counters
     matec_id tec = pick_technique(*source, false, true, false);
 
-    if (tec != "tec_none") {
+    if( tec != tec_none ) {
         melee_attack(*source, true, tec);
     }
 }
@@ -1295,11 +1301,11 @@ bool player::block_hit(Creature *source, body_part &bp_hit, damage_instance &dam
     int block_score = 1;
     if (can_weapon_block()) {
         int block_bonus = 2;
-        if (weapon.has_technique("WBLOCK_3")) {
+        if (weapon.has_technique( WBLOCK_3 )) {
             block_bonus = 10;
-        } else if (weapon.has_technique("WBLOCK_2")) {
+        } else if (weapon.has_technique( WBLOCK_2 )) {
             block_bonus = 6;
-        } else if (weapon.has_technique("WBLOCK_1")) {
+        } else if (weapon.has_technique( WBLOCK_1 )) {
             block_bonus = 4;
         }
         block_score = str_cur + block_bonus + (int)get_skill_level("melee");
@@ -1420,7 +1426,7 @@ bool player::block_hit(Creature *source, body_part &bp_hit, damage_instance &dam
     // check if we have any dodge counters
     matec_id tec = pick_technique(*source, false, false, true);
 
-    if (tec != "tec_none") {
+    if( tec != tec_none ) {
         melee_attack(*source, true, tec);
     }
 
