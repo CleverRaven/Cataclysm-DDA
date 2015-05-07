@@ -7974,10 +7974,10 @@ void game::peek( const tripoint &p )
 point game::look_debug()
 {
     editmap *edit = new editmap();
-    point ret = edit->edit();
+    tripoint ret = edit->edit();
     delete edit;
     edit = 0;
-    return ret;
+    return { ret.x, ret.y };
 }
 ////////////////////////////////////////////////////////////////////////////////////////////
 

@@ -7309,7 +7309,7 @@ void player::hardcoded_effects(effect &it)
                     }
                 } else {
                     sounds::sound(posx(), posy(), 12, _("beep-beep-beep!"));
-                    if( !can_hear( pos2(), 12 ) ) {
+                    if( !can_hear( pos(), 12 ) ) {
                         // 10 minute automatic snooze
                         it.mod_duration(100);
                     } else {
@@ -13569,10 +13569,6 @@ bool player::can_hear( const tripoint &source, const int volume ) const
     return volume * volume_multiplier >= dist;
 }
 
-bool player::can_hear( const point &source, const int volume ) const
-{
-    return can_hear( tripoint( source, posz() ), volume );
-}
 float player::hearing_ability() const
 {
     float volume_multiplier = 1.0;

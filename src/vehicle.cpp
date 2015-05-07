@@ -216,7 +216,7 @@ bool vehicle::remote_controlled(player const &p) const
 
     auto remote = all_parts_with_feature( "REMOTE_CONTROLS", true );
     for( int part : remote ) {
-        if( rl_dist( p.pos2(), global_pos() + parts[part].precalc[0] ) <= 40 ) {
+        if( rl_dist( p.pos(), tripoint( global_pos() + parts[part].precalc[0], p.posz() ) ) <= 40 ) {
             return true;
         }
     }

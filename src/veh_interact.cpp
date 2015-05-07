@@ -2004,12 +2004,15 @@ item consume_vpart_item (std::string vpid)
     return item_used.front();
 }
 
-const std::list<vehicle*> find_vehicles_around(const point &location, std::function<bool(vehicle*)> pred) {
+const std::list<vehicle*> find_vehicles_around(const tripoint &location, std::function<bool(vehicle*)> pred) {
     auto found = std::list<vehicle*>{};
 
-    for(int x = location.x - 1; x <= location.x + 1; x++) {
-        for(int y = location.y - 1; y <= location.y + 1; y++) {
-            auto veh = g->m.veh_at(x, y);
+    tripoint p = location;
+    int &x = p.x;
+    int &y = p.y;
+    for( x = location.x - 1; x <= location.x + 1; x++ ) {
+        for( y = location.y - 1; y <= location.y + 1; y++ ) {
+            auto veh = g->m.veh_at( p );
             if(veh == nullptr) {
                 continue; // Nothing to see here, move along...
             }
@@ -2062,7 +2065,7 @@ void act_vehicle_siphon(vehicle* veh) {
         return;
     }
 
-    const auto foundv = find_vehicles_around(g->u.pos2(),
+    const auto foundv = find_vehicles_around(g->u.pos(),
             [&](vehicle* it) { return it != veh && (it->fuel_capacity(fuel) - it->fuel_left(fuel)) > 0; });
 
     add_msg(m_debug, "Found %d vehicles carrying %s", foundv.size(), fuel.c_str());
