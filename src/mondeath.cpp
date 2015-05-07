@@ -100,7 +100,7 @@ void mdeath::boomer(monster *z)
 void mdeath::boomer_glow(monster *z)
 {
     std::string explode = string_format(_("a %s explode!"), z->name().c_str());
-    sounds::sound(tripoint(z->posx(), z->posy(), z->posz()), 24, explode);
+    sounds::sound(z->pos(), 24, explode);
 
 
     for (int i = -1; i <= 1; i++) {
