@@ -403,6 +403,12 @@ Creature *Creature::auto_find_hostile_target( int range, int &boo_hoo, int area 
     return target;
 }
 
+void Creature::melee_attack(Creature &t, bool allow_special)
+{
+    static const matec_id no_technique_id( "" );
+    melee_attack( t, allow_special, no_technique_id );
+}
+
 /*
  * Damage-related functions
  */

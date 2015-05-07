@@ -413,8 +413,9 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         // melee.cpp
         /** Returns true if the player has a weapon with a block technique */
         bool can_weapon_block();
+        using Creature::melee_attack;
         /** Sets up a melee attack and handles melee attack function calls */
-        void melee_attack(Creature &t, bool allow_special, matec_id technique = "") override;
+        void melee_attack(Creature &t, bool allow_special, const matec_id &technique) override;
         /** Returns the player's dispersion modifier based on skill. **/
         int skill_dispersion( item *weapon, bool random ) const;
         /** Returns a weapon's modified dispersion value */

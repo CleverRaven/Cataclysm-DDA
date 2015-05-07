@@ -142,7 +142,11 @@ class Creature
         /** Make a single melee attack with the currently equipped weapon against the targeted
          *  creature. Should always be overwritten by the appropriate player/NPC/monster function. */
         virtual void melee_attack(Creature &t, bool allow_special,
-                                  matec_id technique) = 0;
+                                  const matec_id & technique) = 0;
+        /**
+         * Calls the tother melee_attack function without any technique.
+         */
+        void melee_attack(Creature &t, bool allow_special);
 
         /** Fires a projectile at the target point from the source point with total_dispersion
          *  dispersion. Returns the rolled dispersion of the shot. */

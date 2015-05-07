@@ -258,7 +258,7 @@ const char *player::get_miss_reason()
 
 // Melee calculation is in parts. This sets up the attack, then in deal_melee_attack,
 // we calculate if we would hit. In Creature::deal_melee_hit, we calculate if the target dodges.
-void player::melee_attack(Creature &t, bool allow_special, matec_id force_technique) {
+void player::melee_attack(Creature &t, bool allow_special, const matec_id &force_technique) {
     bool is_u = (this == &(g->u)); // Affects how we'll display messages
     if (!t.is_player()) {
         // @todo Per-NPC tracking? Right now monster hit by either npc or player will draw aggro...
