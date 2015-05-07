@@ -6285,7 +6285,7 @@ void game::knockback( std::vector<tripoint> &traj, int force, int stun, int dam_
                                          force_remaining),
                                 targ->name.c_str(), force_remaining);
                     }
-                    targ->add_effect("effectstunned", force_remaining);
+                    targ->add_effect("stunned", force_remaining);
                 }
                 traj.erase(traj.begin(), traj.begin() + i);
                 if (mon_at(traj.front()) != -1) {
