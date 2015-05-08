@@ -593,12 +593,15 @@ void mattack::boomer_glow(monster *z, int index)
     }
     if( !target->uncanny_dodge() ) {
         if (rng(0, 10) > target->get_dodge() || one_in( target->get_dodge() ) ) {
-            g->u.add_env_effect("boomered", bp_eyes, 5, 40);
+            g->u.add_env_effect("boomered", bp_eyes, 5, 25);
             for (int i = 0; i < rng(2,4); i++){
                 body_part bp = random_body_part();
                 g->u.add_env_effect("glowing", bp, 4, 40);
+                if (foe->has_effect("glowing")){
+                    break;
+                }
             }
-    }
+        }
         } else if( u_see ) {
             target->add_msg_player_or_npc( _("You dodge it!"),
                                            _("<npcname> dodges it!") );

@@ -99,6 +99,7 @@ void mdeath::boomer(monster *z)
 
 void mdeath::boomer_glow(monster *z)
 {
+    player *ch = dynamic_cast<player*>( z->get_killer() );
     std::string explode = string_format(_("a %s explode!"), z->name().c_str());
     sounds::sound(z->pos(), 24, explode);
 
@@ -116,10 +117,13 @@ void mdeath::boomer_glow(monster *z)
         }
     }
     if (rl_dist( z->pos(), g->u.pos() ) == 1) {
-        g->u.add_env_effect("boomered", bp_eyes, 5, 40);
+        g->u.add_env_effect("boomered", bp_eyes, 5, 25);
         for (int i = 0; i < rng(2,4); i++){
                 body_part bp = random_body_part();
                 g->u.add_env_effect("glowing", bp, 4, 40);
+                if (ch->has_effect("glowing")){
+                    break;
+                }
             }
     }
 }
