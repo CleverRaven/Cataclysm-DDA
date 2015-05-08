@@ -429,7 +429,7 @@ bool map::process_fields_in_submap( submap *const current_submap,
                                     const int submap_x, const int submap_y, const int submap_z )
 {
     const auto get_neighs = [this]( const tripoint &pt ) {
-        return std::array< maptile, 8 > {
+        return std::array< maptile, 8 > { {
             maptile_at( {pt.x - 1, pt.y - 1, pt.z} ),
             maptile_at( {pt.x, pt.y - 1, pt.z} ),
             maptile_at( {pt.x + 1, pt.y - 1, pt.z} ),
@@ -438,7 +438,7 @@ bool map::process_fields_in_submap( submap *const current_submap,
             maptile_at( {pt.x - 1, pt.y + 1, pt.z} ),
             maptile_at( {pt.x, pt.y + 1, pt.z} ),
             maptile_at( {pt.x + 1, pt.y + 1, pt.z} ),
-        };
+        } };
     };
 
     const auto spread_gas = [this, &get_neighs] (
