@@ -395,5 +395,10 @@ std::string sounds::sound_at( const tripoint &location )
     if( this_sound == sound_markers.end() ) {
         return std::string();
     }
-    return this_sound->second.description;
+
+    if( !this_sound->second.description.empty() ) {
+        return this_sound->second.description;
+    }
+
+    return _("a sound");
 }
