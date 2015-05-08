@@ -4690,10 +4690,6 @@ void game::draw()
     werase(w_terrain);
     draw_ter();
     if( !is_draw_tiles_mode() ) {
-        draw_footsteps( w_terrain,
-                        { POSX - (u.posx() + u.view_offset.x),
-                          POSY - (u.posy() + u.view_offset.y),
-                          u.posz() + u.view_offset.z } );
         wrefresh(w_terrain);
     }
     draw_sidebar();
@@ -4847,12 +4843,12 @@ void game::draw_critter( const Creature &critter, const tripoint &center )
     }
 }
 
-void game::draw_ter()
+void game::draw_ter( const bool draw_sounds )
 {
-    draw_ter( u.pos3() + u.view_offset, false );
+    draw_ter( u.pos3() + u.view_offset, false, draw_sounds );
 }
 
-void game::draw_ter( const tripoint &center, bool looking )
+void game::draw_ter( const tripoint &center, const bool looking, const bool draw_sounds )
 {
     ter_view_x = center.x;
     ter_view_y = center.y;
@@ -4862,6 +4858,10 @@ void game::draw_ter( const tripoint &center, bool looking )
 
     m.build_map_cache( center.z );
     m.draw( w_terrain, center );
+
+    if( draw_sounds ) {
+        draw_footsteps( w_terrain, {POSX - center.x, POSY - center.y, center.z} );
+    }
 
     // Draw monsters
     for( size_t i = 0; i < num_zombies(); i++ ) {
@@ -8529,7 +8529,6 @@ tripoint game::look_around( WINDOW *w_info, const tripoint &start_point,
     }
 
     draw_ter( lp );
-    draw_footsteps( w_terrain, {POSX - lx, POSY - ly, lp.z} );
 
     int soffset = (int)OPTIONS["MOVE_VIEW_OFFSET"];
     bool fast_scroll = false;
@@ -8668,6 +8667,21 @@ tripoint game::look_around( WINDOW *w_info, const tripoint &start_point,
             auto this_sound = sounds::sound_at( lp );
             if( !this_sound.empty() ) {
                 mvwprintw( w_info, ++off, 1, _("You heard %s from here."), this_sound.c_str() );
+            } else {
+                // Check other z-levels
+                tripoint tmp = lp;
+                for( tmp.z = -OVERMAP_DEPTH; tmp.z <= OVERMAP_HEIGHT; tmp.z++ ) {
+                    if( tmp.z == lp.z ) {
+                        continue;
+                    }
+
+                    auto zlev_sound = sounds::sound_at( tmp );
+                    if( !zlev_sound.empty() ) {
+                        mvwprintw( w_info, ++off, 1, 
+                                   tmp.z > lp.z ?  _("You heard %s from above.") : _("You heard %s from below."),
+                                   zlev_sound.c_str() );
+                    }
+                }
             }
 
             wrefresh(w_info);
@@ -8738,7 +8752,6 @@ tripoint game::look_around( WINDOW *w_info, const tripoint &start_point,
                 }
 
                 draw_ter( lp, true );
-                draw_footsteps( w_terrain, {POSX - lx, POSY - ly, lp.z} );
             }
         }
     } while (action != "QUIT" && action != "CONFIRM");
