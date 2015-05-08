@@ -2290,7 +2290,7 @@ void mattack::tentacle(monster *z, int index)
 void mattack::pull_enemy(monster *z, int index)
 {
     int t;
-    int t2;
+    int t2 = 0;
     player *p = dynamic_cast<player*>(z);
     Creature *target = z->attack_target();
     if( target == nullptr || rl_dist( z->pos(), target->pos() ) > 3
@@ -2341,24 +2341,27 @@ void mattack::pull_enemy(monster *z, int index)
         return;
 
     }
-    const int dir = g->m.coord_to_angle( foe->posx(), foe->posy(), z->posx(), z->posy() );
+    const int dir = g->m.coord_to_angle( target->posx(), target->posy(), z->posx(), z->posy() );
     tileray tdir(dir);
-    int x = z->posx() + tdir.dx();
-    int y = z->posy() + tdir.dy();
+    int range = (z->type->melee_sides * z->type->melee_dice) / 10;
+    tripoint pt = target->pos();
+    while (range > 0) {
+    pt.x = z->posx() + tdir.dx();
+    pt.y = z->posy() + tdir.dy();
 
-    if( ( x < SEEX * int(MAPSIZE / 2) || y < SEEY * int(MAPSIZE / 2) ||
-                    x >= SEEX * (1 + int(MAPSIZE / 2)) || y >= SEEY * (1 + int(MAPSIZE / 2)) ) ) {
-                    g->update_map( x, y );
+    if( ( pt.x < SEEX * int(MAPSIZE / 2) || pt.y < SEEY * int(MAPSIZE / 2) ||
+                    pt.x >= SEEX * (1 + int(MAPSIZE / 2)) || pt.y >= SEEY * (1 + int(MAPSIZE / 2)) ) ) {
+                    g->update_map( pt.x, pt.y );
                 }
                 if (p->in_vehicle) {
                     g->m.unboard_vehicle(p->posx(), p->posy());
                 }
-                foe->setx( x );
-                foe->sety( y );
+                foe->setpos( pt );
+                range--;
                 g->draw();
-
+    }
     if(one_in(3) ){
-        target->add_effect("grabbed", 3);
+        foe->add_effect("grabbed", 3);
     }
 
     if( seen ) {
