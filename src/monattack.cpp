@@ -4261,9 +4261,9 @@ bool mattack::thrown_by_judo(monster *z, int index)
                 foe->check_dead_state();
             }
             // Monster is down,
-            z->add_effect("downed", 2);
-            // Here, have a crit!
-            const auto damage = foe->roll_bash_damage( true ) + 3; // Bonus for the takedown.
+            z->add_effect("downed", 5);
+            // Deal moderate damage
+            const auto damage = rng( 10, 20 );
             z->apply_damage( foe, bp_torso, damage );
             z->check_dead_state();
         } else {

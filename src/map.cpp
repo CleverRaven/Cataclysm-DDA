@@ -6339,6 +6339,7 @@ void map::spawn_monsters( const tripoint &gp, mongroup &group, bool ignore_sight
             for( int tries = 0; tries < 10 && !locations.empty(); tries++ ) {
                 const size_t index = rng( 0, locations.size() - 1 );
                 const tripoint &p = locations[index];
+                tmp.spawn( p ); // So can_move_to works correctly
                 if( !tmp.can_move_to( p ) ) {
                     continue; // target can not contain the monster
                 }
@@ -6366,7 +6367,7 @@ void map::spawn_monsters(bool ignore_sight)
                     spawn_monsters( tripoint( gx, gy, gz ), *mgp, ignore_sight );
                 }
 
-                submap * const current_submap = get_submap_at_grid(gx, gy);
+                submap * const current_submap = get_submap_at_grid( tripoint( gx, gy, gz ) );
                 for (auto &i : current_submap->spawns) {
                     for (int j = 0; j < i.count; j++) {
                         int tries = 0;
@@ -6382,6 +6383,7 @@ void map::spawn_monsters(bool ignore_sight)
                         int fx = mx + gx * SEEX, fy = my + gy * SEEY;
                         tripoint pos( fx, fy, gz );
 
+                        tmp.spawn( pos ); // initializing it here so the can_move_to works correctly
                         while ((!g->is_empty( pos ) || !tmp.can_move_to( pos )) && tries < 10) {
                             mx = (i.posx + rng(-3, 3)) % SEEX;
                             my = (i.posy + rng(-3, 3)) % SEEY;
@@ -6394,6 +6396,7 @@ void map::spawn_monsters(bool ignore_sight)
                             fx = mx + gx * SEEX;
                             fy = my + gy * SEEY;
                             tries++;
+                            pos = tripoint( fx, fy, gz );
                         }
                         if (tries != 10) {
                             tmp.spawn( pos );

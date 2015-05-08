@@ -674,7 +674,7 @@ void Creature::deal_damage_handle_type(const damage_unit &du, body_part, int &da
         return;
     }
 
-    // Apply damage multiplier from critical hits or grazes after all other modifications.
+    // Apply damage multiplier from skill, critical hits or grazes after all other modifications.
     const int adjusted_damage = du.amount * du.damage_multiplier;
     switch (du.type) {
     case DT_BASH:
