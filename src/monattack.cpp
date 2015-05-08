@@ -2268,6 +2268,8 @@ void mattack::tentacle(monster *z, int index)
 void mattack::pull_enemy(monster *z, int index)
 {
     int t;
+    int t2;
+    player *p = dynamic_cast<player*>(z);
     Creature *target = z->attack_target();
     if( target == nullptr || rl_dist( z->pos(), target->pos() ) > 3
             || !z->sees(*target, t)) {
@@ -2275,18 +2277,16 @@ void mattack::pull_enemy(monster *z, int index)
     }
 
     player *foe = dynamic_cast< player* >( target );
-    std::vector<point> line = line_to( z->pos2(), target->pos2(), t );
+    std::vector<tripoint> line = line_to( z->pos(), target->pos(), t, t2 );
     bool seen = g->u.sees( *z );
 
     z->reset_special(index); // Reset timer
     z->moves -= 150;
 
-    ter_t terrain;
     for (auto &i : line){
-        terrain = g->m.ter_at(i.x, i.y);
+        const ter_t &terrain = g->m.ter_at(i);
         //Player can't be pulled though bars
         if (terrain.movecost == 0 ){
-            z->add_effect("stunned", 6);
             add_msg( _("The %s flings its arms at you, but they bounce off the %s"), z->name().c_str(), terrain.name.c_str() );
             return;
         }
@@ -2295,7 +2295,6 @@ void mattack::pull_enemy(monster *z, int index)
 
     if( uncanny || dodge_check(z, target) ) {
         z->moves -=200;
-        z->add_effect("stunned", 3);
         if( foe != nullptr ) {
             if( seen ) {
                 auto msg_type = foe == &g->u ? m_warning : m_info;
@@ -2313,19 +2312,31 @@ void mattack::pull_enemy(monster *z, int index)
         return;
     }
     if (rl_dist( z->pos(), target->pos() ) <= 1){
-        if( !target->is_immune_effect( "downed" )){
             target->add_effect("downed", 3);
-
         if( seen ) {
             add_msg( _("The %s's arms pin %s to the ground!"), z->name().c_str(), target->disp_name().c_str() );
         }
         return;
-        }
+
     }
-    g->fling_creature( target, g->m.coord_to_angle( target->posx(), target->posy(), z->posx(), z->posy() ),
-                       z->type->melee_sides * z->type->melee_dice );
-    if( !target->is_immune_effect( "downed" ) && one_in(3) ){
-        target->add_effect("downed", 3);
+    const int dir = g->m.coord_to_angle( foe->posx(), foe->posy(), z->posx(), z->posy() );
+    tileray tdir(dir);
+    int x = z->posx() + tdir.dx();
+    int y = z->posy() + tdir.dy();
+
+    if( ( x < SEEX * int(MAPSIZE / 2) || y < SEEY * int(MAPSIZE / 2) ||
+                    x >= SEEX * (1 + int(MAPSIZE / 2)) || y >= SEEY * (1 + int(MAPSIZE / 2)) ) ) {
+                    g->update_map( x, y );
+                }
+                if (p->in_vehicle) {
+                    g->m.unboard_vehicle(p->posx(), p->posy());
+                }
+                foe->setx( x );
+                foe->sety( y );
+                g->draw();
+
+    if(one_in(3) ){
+        target->add_effect("grabbed", 3);
     }
 
     if( seen ) {
