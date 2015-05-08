@@ -284,6 +284,15 @@ std::vector<matype_id> all_martialart_types()
     return result;
 }
 
+void check( const ma_requirements & req, const std::string &display_text )
+{
+    for( auto & r : req.req_buffs ) {
+        if( !r.is_valid() ) {
+            debugmsg( "ma buff %s of %s does not exist", r.c_str(), display_text.c_str() );
+        }
+    }
+}
+
 void check_martialarts()
 {
     for( auto style = martialarts.cbegin(); style != martialarts.cend(); ++style ) {
@@ -301,6 +310,12 @@ void check_martialarts()
                           weapon->c_str(), style->second.name.c_str() );
             }
         }
+    }
+    for( auto & t : ma_techniques ) {
+        ::check( t.second.reqs, string_format( "technique %s", t.first.c_str() ) );
+    }
+    for( auto & b : ma_buffs ) {
+        ::check( b.second.reqs, string_format( "buff %s", b.first.c_str() ) );
     }
 }
 
