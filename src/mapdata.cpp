@@ -1005,8 +1005,3 @@ void submap::delete_graffiti( int x, int y )
     is_uniform = false;
     cosmetics[x][y].erase( COSMETICS_GRAFFITI );
 }
-
-maptile submap::get_maptile( const int x, const int y ) const
-{
-    return maptile( this, x, y );
-}
