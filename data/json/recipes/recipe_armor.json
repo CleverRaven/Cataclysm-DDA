@@ -8913,6 +8913,22 @@
       [ "felt_patch", 42 ]
     ]
   ]
+},
+{
+  "type" : "recipe",
+  "result": "sockmitts",
+  "category": "CC_ARMOR",
+  "subcategory": "CSC_ARMOR_HANDS",
+  "skill_used": "survival",
+  "difficulty": 0,
+  "time": 1000,
+  "reversible": false,
+  "autolearn": true,
+  "components": [
+    [
+      [ "socks", 1 ]
+    ]
+  ]
 },{
   "type" : "recipe",
   "result": "mask_ski",
