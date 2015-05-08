@@ -688,20 +688,5 @@ global_functions = {
         cpp_name = "get_tool_type",
         args = { "string" },
         rval = "it_tool"
-    },
-    create_monster = {
-        cpp_name = "create_monster",
-        args = { "string", "int", "int" },
-        argnames = { "monster_type", "x", "y" },
-        rval = "monster",
-        desc = "Spawns a monster of the given type at the given location within the current reality bubble. Returns nil if something is blocking that location."
-    },
-    is_empty = {
-        cpp_name = "g->is_empty",
-        args = { "int", "int" },
-        argnames = { "x", "y" },
-        rval = "bool",
-        desc = "Check if the given location in the current reality bubble is empty."
     }
-
 }

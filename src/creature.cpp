@@ -8,6 +8,7 @@
 #include "translations.h"
 #include "monster.h"
 #include "npc.h"
+#include "itype.h"
 
 #include <algorithm>
 #include <numeric>
@@ -180,6 +181,7 @@ bool Creature::sees( const Creature &critter ) const
     return sees( critter, junk1, junk2 );
 }
 
+extern bool debug_mode;
 bool Creature::sees( const Creature &critter, int &bresen1, int &bresen2 ) const
 {
     if( critter.is_hallucination() ) {
@@ -193,6 +195,10 @@ bool Creature::sees( const Creature &critter, int &bresen1, int &bresen2 ) const
     if( p != nullptr && p->is_invisible() ) {
         // Let invisible players see themselves (simplifies drawing)
         return p == this;
+    }
+
+    if( posz() != critter.posz() && !debug_mode ) {
+        return false; // TODO: Remove this
     }
 
     const int wanted_range = rl_dist( pos3(), critter.pos3() );
@@ -665,7 +671,7 @@ void Creature::deal_damage_handle_type(const damage_unit &du, body_part, int &da
         return;
     }
 
-    // Apply damage multiplier from critical hits or grazes after all other modifications.
+    // Apply damage multiplier from skill, critical hits or grazes after all other modifications.
     const int adjusted_damage = du.amount * du.damage_multiplier;
     switch (du.type) {
     case DT_BASH:

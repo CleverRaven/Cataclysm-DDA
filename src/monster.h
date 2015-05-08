@@ -45,9 +45,7 @@ class monster : public Creature, public JsonSerializer, public JsonDeserializer
 
         void poly(mtype *t);
         void update_check();
-        void spawn( const int x, const int y ); // All this does is moves the monster to x,y,g->levz
-        void spawn( const int x, const int y, const int z ); // As above, except with any z
-        void spawn( const tripoint &p); // As above, but takes a tripoint argument
+        void spawn( const tripoint &p); // All this does is moves the monster to p
         m_size get_size() const override;
         int get_hp( hp_part ) const override
         {
@@ -314,9 +312,6 @@ class monster : public Creature, public JsonSerializer, public JsonDeserializer
         bool hallucination;
 
         // level_change == true means "monster isn't spawned yet, don't update position in tracker"
-        bool setpos( const int x, const int y );
-        bool setpos( const int x, const int y, const int z, const bool level_change = false );
-        bool setpos( const point &p, const bool level_change = false );
         bool setpos( const tripoint &p, const bool level_change = false );
         const tripoint &pos() const override;
         inline int posx() const override

@@ -884,7 +884,7 @@ std::pair< int, item* > game::inv_map_splice( item_filter inv_filter, item_filte
     u.inv.sort();
     const indexed_invslice stacks = u.inv.slice_filter_by( inv_filter );
 
-    inventory_selector inv_s(false, true, title);
+    inventory_selector inv_s(false, false, title);
     inv_s.make_item_list(stacks);
     inv_s.make_item_list(grounditems_slice, &category_on_ground);
     inv_s.prepare_paging();

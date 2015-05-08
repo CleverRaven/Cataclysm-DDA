@@ -10,10 +10,11 @@
 #include "filesystem.h"
 #include "sounds.h"
 #include "map.h"
+#include "trap.h"
+#include "monster.h"
 #include "options.h"
 #include "catacharset.h"
-#include "monster.h"
-#include "npc.h"
+#include "itype.h"
 
 #include <algorithm>
 #include <fstream>
@@ -747,10 +748,11 @@ bool cata_tiles::draw_from_id_string(std::string id, TILE_CATEGORY category,
             // TODO: field density?
             col = fieldlist[fid].color[0];
         } else if (category == C_TRAP) {
-            if (trapmap.count(id) > 0) {
-                const trap *t = traplist[trapmap[id]];
-                sym = t->sym;
-                col = t->color;
+            const trap_str_id tmp( id );
+            if( tmp.is_valid() ) {
+                const trap &t = tmp.obj();
+                sym = t.sym;
+                col = t.color;
             }
         } else if (category == C_ITEM) {
             const auto tmp = item( id, 0 );
@@ -1036,7 +1038,7 @@ bool cata_tiles::draw_trap( const tripoint &p )
     int subtile = 0, rotation = 0;
     get_tile_values(tr.loadid, neighborhood, subtile, rotation);
 
-    return draw_from_id_string(tr.id, C_TRAP, empty_string, p.x, p.y, subtile, rotation);
+    return draw_from_id_string(tr.id.str(), C_TRAP, empty_string, p.x, p.y, subtile, rotation);
 }
 
 bool cata_tiles::draw_field_or_item( const tripoint &p )
@@ -1654,7 +1656,7 @@ void cata_tiles::do_tile_loading_report() {
     tile_loading_report(item_controller->get_all_itypes(), "Items", "");
     tile_loading_report(MonsterGenerator::generator().get_all_mtypes(), "Monsters", "");
     tile_loading_report(vehicle_part_types, "Vehicle Parts", "vp_");
-    tile_loading_report(trapmap, "Traps", "");
+    tile_loading_report<trap>(trap::count(), "Traps", "");
     tile_loading_report(fieldlist, num_fields, "Fields", "");
 
     // needed until DebugLog ostream::flush bugfix lands
@@ -1670,6 +1672,24 @@ void cata_tiles::tile_loading_report(maptype const & tiletypemap, std::string co
         if (tile_ids.count(prefix+i.first) == 0) {
             missing++;
             missing_list.append(i.first+" ");
+        } else {
+            present++;
+        }
+    }
+    DebugLog( D_INFO, DC_ALL ) << "Missing " << label << ": " << missing_list;
+}
+
+template <typename base_type>
+void cata_tiles::tile_loading_report(size_t const count, std::string const & label, std::string const & prefix) {
+    int missing=0, present=0;
+    std::string missing_list;
+    for( size_t i = 0; i < count; ++i ) {
+        const int_id<base_type> iid( i );
+        const string_id<base_type> sid = iid.id();
+        const std::string &s = sid.str();
+        if (tile_ids.count(prefix+s) == 0) {
+            missing++;
+            missing_list.append(s+" ");
         } else {
             present++;
         }

@@ -178,14 +178,10 @@ class game
         void scrambler_blast( const tripoint &p );
         /** Triggers an emp blast at p. */
         void emp_blast( const tripoint &p );
-        /** Returns the NPC index of the npc at (x, y). Returns -1 if no NPC is present. */
-        int  npc_at(const int x, const int y) const;
+        /** Returns the NPC index of the npc at p. Returns -1 if no NPC is present. */
         int  npc_at( const tripoint &p ) const;
         /** Returns the NPC index of the npc with a matching ID. Returns -1 if no NPC is present. */
         int  npc_by_id(const int id) const;
-        /** Returns the Creature at (x, y). */
-        Creature *critter_at(int x, int y);
-        Creature const* critter_at(int x, int y) const;
         /** Returns the Creature at tripoint p */
         Creature *critter_at( const tripoint &p );
         Creature const* critter_at( const tripoint &p ) const;
@@ -206,24 +202,17 @@ class game
         /** Spawns a hallucination close to the player. */
         bool spawn_hallucination();
 
-        /** Returns the monster index of the monster at (x, y). Returns -1 if no monster is present. */
-        int mon_at(const int x, const int y) const;
-        /** Returns the monster index of the monster at the given point. Returns -1 if no monster is present. */
-        int mon_at(point p) const;
         /** Returns the monster index of the monster at the given tripoint. Returns -1 if no monster is present. */
         int mon_at( const tripoint &p ) const;
         /** Returns a pointer to the monster at the given tripoint. */
         monster *monster_at( const tripoint &p);
         /** Returns true if there is no player, NPC, or monster on the tile and move_cost > 0. */
-        bool is_empty(const int x, const int y);
         bool is_empty( const tripoint &p );
         /** Returns true if the value of test is between down and up. */
         bool isBetween(int test, int down, int up);
-        /** Returns true if (x, y) is outdoors and it is sunny. */
-        bool is_in_sunlight(int x, int y);
+        /** Returns true if p is outdoors and it is sunny. */
         bool is_in_sunlight( const tripoint &p );
-        /** Returns true if (x, y) is indoors, underground, or in a car. */
-        bool is_sheltered(int x, int y);
+        /** Returns true if p is indoors, underground, or in a car. */
         bool is_sheltered( const tripoint &p );
         /** Revives the corpse with position n in the items at p. Returns true if successful. */
         bool revive_corpse( const tripoint &p, int n );
@@ -291,7 +280,6 @@ class game
         void nuke( const tripoint &p );
         bool spread_fungus( const tripoint &p );
         std::vector<faction *> factions_at( const tripoint &p );
-        int &scent(int x, int y);
         int &scent( const tripoint &p );
         float ground_natural_light_level() const;
         float natural_light_level() const;
@@ -314,7 +302,7 @@ class game
 
         void peek();
         void peek( const tripoint &p );
-        point look_debug();
+        tripoint look_debug();
 
         bool checkZone(const std::string p_sType, const int p_iX, const int p_iY);
         void zones_manager();
@@ -513,7 +501,7 @@ class game
         // dropped onto the ground.
         void drop(std::vector<item> &dropped, std::vector<item> &dropped_worn,
                   int freed_volume_capacity, int dirx, int diry);
-        bool make_drop_activity( enum activity_type act, point target );
+        bool make_drop_activity( enum activity_type act, const tripoint &target );
     private:
         // Game-start procedures
         void print_menu(WINDOW *w_open, int iSel, const int iMenuOffsetX, int iMenuOffsetY,

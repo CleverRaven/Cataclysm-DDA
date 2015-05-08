@@ -222,19 +222,15 @@ public:
     bool reveal( const tripoint &center, int radius );
     /**
      * Returns the closest point of terrain type.
-     * This function may greate a new overmap if needed.
-     * @param dist This gets set to the distance between the origin
-     * and the returned point.
-     * You can give dist an initial value, which will be used as
-     * the maximum distance for point to be searched.
-     * A value of 0 will search an entire overmap area.
-     * @returns If no matching tile can be found,
-     * overmap::invalid_point is returned.
+     * This function may create new overmaps if needed.
+     * @param radius The maximal radius of the area to search for the desired terrain.
+     * A value of 0 will search an area equal to 4 entire overmaps.
+     * @returns If no matching tile can be found @ref overmap::invalid_tripoint is returned.
      * @param origin uses overmap terrain coordinates.
      * @param must_be_seen If true, only terrain seen by the player
      * should be searched.
      */
-    tripoint find_closest(const tripoint& origin, const std::string& type, int& dist, bool must_be_seen);
+    tripoint find_closest(const tripoint& origin, const std::string& type, int radius, bool must_be_seen);
 
     /* These 4 functions return the overmap that contains the given
      * overmap terrain coordinate.

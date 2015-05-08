@@ -10,6 +10,7 @@
 #include "worldfactory.h"
 #include "game.h"
 #include "map.h"
+#include "trap.h"
 #include <fstream>
 #include <sstream>
 
@@ -299,7 +300,8 @@ void mapbuffer::save_quad( const std::string &dirname, const std::string &filena
                     jsout.start_array();
                     jsout.write( i );
                     jsout.write( j );
-                    jsout.write( traplist[ sm->get_trap( i, j ) ]->id );
+                    // TODO: jsout should support writting an id like jsout.write( trap_id )
+                    jsout.write( sm->get_trap( i, j ).id().str() );
                     jsout.end_array();
                 }
             }
@@ -521,7 +523,8 @@ submap *mapbuffer::unserialize_submaps( const tripoint &p )
                     jsin.start_array();
                     int i = jsin.get_int();
                     int j = jsin.get_int();
-                    sm->trp[i][j] = trapmap[ jsin.get_string() ];
+                    // TODO: jsin should support returning an id like jsin.get_id<trap>()
+                    sm->trp[i][j] = trap_str_id( jsin.get_string() );
                     jsin.end_array();
                 }
             } else if( submap_member_name == "fields" ) {

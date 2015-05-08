@@ -16,6 +16,7 @@
 #include "input.h"
 #include "monster.h"
 #include "overmap.h"
+#include "itype.h"
 
 #include <math.h>    //sqrt
 #include <algorithm> //std::min
@@ -917,7 +918,7 @@ bool player::activate_bionic(int b, bool eff_only)
                         g->m.i_rem(i, j, k);
                         std::vector<point>::iterator it;
                         for (it = traj.begin(); it != traj.end(); ++it) {
-                            int index = g->mon_at(it->x, it->y);
+                            int index = g->mon_at({it->x, it->y, posz()});
                             if (index != -1) {
                                 g->zombie(index).apply_damage( this, bp_torso, tmp_item.weight() / 225 );
                                 g->zombie(index).check_dead_state();
@@ -973,10 +974,10 @@ bool player::activate_bionic(int b, bool eff_only)
         }
         const oter_id &cur_om_ter = overmap_buffer.ter( global_omt_location() );
         std::string omtername = otermap[cur_om_ter].name;
-        int windpower = get_local_windpower(weatherPoint.windpower + vehwindspeed, omtername, g->is_sheltered(g->u.posx(), g->u.posy()));
+        int windpower = get_local_windpower(weatherPoint.windpower + vehwindspeed, omtername, g->is_sheltered(g->u.pos()));
 
         add_msg_if_player(m_info, _("Temperature: %s."), print_temperature(g->get_temperature()).c_str());
-        add_msg_if_player(m_info, _("Relative Humidity: %s."), print_humidity(get_local_humidity(weatherPoint.humidity, g->weather, g->is_sheltered(g->u.posx(), g->u.posy()))).c_str());
+        add_msg_if_player(m_info, _("Relative Humidity: %s."), print_humidity(get_local_humidity(weatherPoint.humidity, g->weather, g->is_sheltered(g->u.pos()))).c_str());
         add_msg_if_player(m_info, _("Pressure: %s."), print_pressure((int)weatherPoint.pressure).c_str());
         add_msg_if_player(m_info, _("Wind Speed: %s."), print_windspeed((float)windpower).c_str());
         add_msg_if_player(m_info, _("Feels Like: %s."), print_temperature(get_local_windchill(weatherPoint.temperature, weatherPoint.humidity, windpower) + g->get_temperature()).c_str());

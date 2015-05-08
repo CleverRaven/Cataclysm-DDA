@@ -4,7 +4,7 @@
 #include "game_constants.h"
 #include "color.h"
 #include "item.h"
-#include "trap.h"
+//#include "monster.h"
 #include "enums.h"
 #include "computer.h"
 #include "vehicle.h"
@@ -12,6 +12,8 @@
 #include "iexamine.h"
 #include "field.h"
 #include "item_stack.h"
+#include "int_id.h"
+#include "string_id.h"
 #include "rng.h"
 
 #include <iosfwd>
@@ -24,6 +26,10 @@
 struct maptile;
 class game;
 class monster;
+struct trap;
+
+using trap_id = int_id<trap>;
+using trap_str_id = string_id<trap>;
 
 // mfb(t_flag) converts a flag to a bit for insertion into a bitfield
 #ifndef mfb
@@ -494,7 +500,7 @@ public:
 
     inline const trap &get_trap_t() const
     {
-        return *traplist[ sm->get_trap( x, y ) ];
+        return sm->get_trap( x, y ).obj();
     }
 
     inline const furn_t &get_furn_t() const

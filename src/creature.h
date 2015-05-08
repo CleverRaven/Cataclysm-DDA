@@ -243,11 +243,6 @@ class Creature
             return pos();
         }
 
-        const point pos2() const
-        {
-            return point( posx(), posy() );
-        }
-
         struct compare_by_dist_to_point {
             tripoint center;
             // Compare the two creatures a and b by their distance to a fixed center point.

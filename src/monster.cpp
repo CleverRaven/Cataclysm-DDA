@@ -20,6 +20,7 @@
 #include "mission.h"
 #include "mongroup.h"
 #include "options.h"
+#include "trap.h"
 
 #define SGN(a) (((a)<0) ? -1 : 1)
 #define SQR(a) ((a)*(a))
@@ -105,25 +106,6 @@ monster::monster(mtype *t, const tripoint &p )
 
 monster::~monster()
 {
-}
-
-bool monster::setpos(const int x, const int y)
-{
-    bool ret = g->update_zombie_pos( *this, tripoint( x, y, g->get_levz() ) );
-    position.x = x;
-    position.y = y;
-    position.z = g->get_levz();
-    return ret;
-}
-
-bool monster::setpos(const int x, const int y, const int z, const bool level_change)
-{
-    return setpos( tripoint( x, y, z ), level_change );
-}
-
-bool monster::setpos( const point &p, const bool level_change )
-{
-    return setpos( tripoint( p, position.z ), level_change );
 }
 
 bool monster::setpos( const tripoint &p, const bool level_change )
@@ -214,17 +196,6 @@ void monster::update_check() {
     }
 
     last_loaded = current_day;
-}
-void monster::spawn(int x, int y)
-{
-    spawn( x, y, g->get_levz() );
-}
-
-void monster::spawn(const int x, const int y, const int z)
-{
-    position.x = x;
-    position.y = y;
-    position.z = z;
 }
 
 void monster::spawn(const tripoint &p)
@@ -1618,7 +1589,7 @@ void monster::process_effects()
     }
 
     // If this critter dies in sunlight, check & assess damage.
-    if( has_flag( MF_SUNDEATH ) && g->is_in_sunlight( posx(), posy() ) ) {
+    if( has_flag( MF_SUNDEATH ) && g->is_in_sunlight( pos() ) ) {
         if( g->u.sees( *this ) ) {
             add_msg( m_good, _( "The %s burns horribly in the sunlight!" ), name().c_str() );
         }

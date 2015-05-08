@@ -884,6 +884,11 @@ public:
          */
         std::string gun_skill() const;
         /**
+         * The most relevant skill used with this melee weapon. Can be "null" if this is not a weapon.
+         * Note this function returns null if the item is a gun for which you can use gun_skill() instead.
+         */
+        std::string weap_skill() const;
+        /**
          * Returns the appropriate size for a spare magazine used with this gun. If this is not a gun,
          * it returns 0.
          */

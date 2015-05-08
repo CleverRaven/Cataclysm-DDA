@@ -32,6 +32,9 @@ bool monster::can_move_to( const tripoint &p ) const
     if( g->m.move_cost( p ) == 0 ) {
         return false;
     }
+    if( posz() != p.z ) {
+        return false; // TODO: Remove this
+    }
     if( !can_submerge() && g->m.has_flag( TFLAG_DEEP_WATER, p ) ) {
         return false;
     }
@@ -95,28 +98,34 @@ void monster::wander_to( const tripoint &p, int f )
 float monster::rate_target( Creature &c, int &bresen1, int &bresen2, float best, bool smart ) const
 {
     const int d = rl_dist( pos3(), c.pos3() );
-    if( d <= 0 || !sees( c, bresen1 ) ) {
+    if( d <= 0 ) {
         return INT_MAX;
     }
+
+    const bool sees_c = sees( c, bresen1, bresen2 );
+    if( !sees_c ) {
+        return INT_MAX;
+    }
+
     if( !smart ) {
-        // Do the range comparison first, it's cheaper.
         if( d >= best ) {
             return INT_MAX;
         }
-        if( !sees( c.pos3(), bresen1, bresen2 ) ) {
-            return INT_MAX;
-        }
+
         return d;
     }
+
     float power = c.power_rating();
     monster *mon = dynamic_cast< monster * >( &c );
     // Their attitude to us and not ours to them, so that bobcats won't get gunned down
     if( mon != nullptr && mon->attitude_to( *this ) == Attitude::A_HOSTILE ) {
         power += 2;
     }
-    if( power > 0 && sees( c.pos3(), bresen1, bresen2 ) ) {
+
+    if( power > 0 ) {
         return d / power;
     }
+
     return INT_MAX;
 }
 
@@ -303,7 +312,7 @@ void monster::move()
 
     //The monster can consume objects it stands on. Check if there are any.
     //If there are. Consume them.
-    if( !is_hallucination() && has_flag( MF_ABSORBS ) && !g->m.has_flag( "SEALED", posx(), posy() ) ) {
+    if( !is_hallucination() && has_flag( MF_ABSORBS ) && !g->m.has_flag( "SEALED", pos() ) ) {
         if( !g->m.i_at( pos3() ).empty() ) {
             add_msg( _( "The %s flows around the objects on the floor and they are quickly dissolved!" ),
                      name().c_str() );
@@ -454,8 +463,8 @@ void monster::footsteps( const tripoint &p )
         default:
             break;
     }
-    int dist = rl_dist( p.x, p.y, g->u.posx(), g->u.posy() );
-    sounds::add_footstep( p.x, p.y, volume, dist, this );
+    int dist = rl_dist( p, g->u.pos() );
+    sounds::add_footstep( p, volume, dist, this );
     return;
 }
 
@@ -675,6 +684,9 @@ std::vector<tripoint> get_bashing_zone( const tripoint &bashee, const tripoint &
 
 bool monster::bash_at( const tripoint &p )
 {
+    if( p.z != posz() ) {
+        return false; // TODO: Remove this
+    }
 
     if( has_effect( "pacified" ) ) {
         return false;
@@ -762,7 +774,9 @@ int monster::group_bash_skill( const tripoint &target )
 
 bool monster::attack_at( const tripoint &p )
 {
-
+    if( p.z != posz() ) {
+        return false; // TODO: Remove this
+    }
     if( has_effect( "pacified" ) ) {
         return false;
     }
@@ -1107,7 +1121,7 @@ bool monster::will_reach( int x, int y )
     }
 
     if( has_flag( MF_SMELLS ) && g->scent( pos3() ) > 0 &&
-        g->scent( x, y ) > g->scent( pos3() ) ) {
+        g->scent( { x, y, posz() } ) > g->scent( pos3() ) ) {
         return true;
     }
 

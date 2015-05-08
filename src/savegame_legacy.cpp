@@ -1062,15 +1062,8 @@ static bool unserialize_legacy(std::ifstream & fin ) {
 
         // it's a...
         std::map<int, int> trap_key;
-        std::string trstr;
         for (int i = 0; i < num_legacy_trap; i++) {
-           trstr = legacy_trap_id[ i ];
-           if ( trapmap.find( trstr ) == trapmap.end() ) {
-              debugmsg("Can't find trap '%s' (%d)",trstr.c_str(), i );
-              trap_key[i] = trapmap["tr_null"];
-           } else {
-              trap_key[i] = trapmap[trstr];
-           }
+            trap_key[i] = trap_str_id( legacy_trap_id[ i ] ).id();
         }
 
 
@@ -1267,12 +1260,7 @@ static int unserialize_keys( std::ifstream &fin, std::map<int, int> &ter_key,
             int i = 0;
             jsin.start_array();
             while (!jsin.end_array()) {
-                std::string trstr = jsin.get_string();
-                if ( trapmap.find(trstr) == trapmap.end() ) {
-                    debugmsg("Can't find trap '%s' (%d)", trstr.c_str(), i);
-                } else {
-                    trap_key[i] = trapmap[trstr];
-                }
+                trap_key[i] = trap_str_id( jsin.get_string() ).id();
                 ++i;
             }
         } else {
@@ -1283,13 +1271,7 @@ static int unserialize_keys( std::ifstream &fin, std::map<int, int> &ter_key,
 
     if (trap_key.empty()) { // old, snip when this moves to legacy
         for (int i = 0; i < num_legacy_trap; i++) {
-            std::string trstr = legacy_trap_id[i];
-            if ( trapmap.find( trstr ) == trapmap.end() ) {
-                debugmsg("Can't find trap '%s' (%d)", trstr.c_str(), i);
-                trap_key[i] = trapmap["tr_null"];
-            } else {
-                trap_key[i] = trapmap[trstr];
-            }
+            trap_key[i] = trap_str_id( legacy_trap_id[ i ] ).id();
         }
     }
     return num_submaps;

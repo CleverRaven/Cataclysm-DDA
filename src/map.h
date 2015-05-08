@@ -27,6 +27,7 @@
 class player;
 class monster;
 class item;
+class Creature;
 struct itype;
 struct mapgendata;
 struct trap;
@@ -772,7 +773,6 @@ void add_corpse( const tripoint &p );
  item *item_from( vehicle *veh, const int cargo_part, const size_t index );
 
 // Traps: 2D overloads
- void trap_set(const int x, const int y, const std::string & sid);
  void trap_set(const int x, const int y, const trap_id id);
 
     const trap & tr_at( const int x, const int y ) const;
@@ -780,7 +780,6 @@ void add_corpse( const tripoint &p );
  void disarm_trap( const int x, const int y);
  void remove_trap(const int x, const int y);
 // Traps: 3D
- void trap_set( const tripoint &p, const std::string & sid);
  void trap_set( const tripoint &p, const trap_id id);
 
     const trap & tr_at( const tripoint &p ) const;

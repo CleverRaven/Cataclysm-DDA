@@ -16,6 +16,8 @@
 #include "translations.h"
 #include "monster.h"
 #include "npc.h"
+#include "trap.h"
+#include "itype.h"
 
 int time_to_fire(player &p, const itype &firing);
 int recoil_add(player &p, const item &gun);
@@ -143,7 +145,7 @@ double Creature::projectile_attack(const projectile &proj, int sourcex, int sour
         }
         */
 
-        Creature *critter = g->critter_at(tx, ty);
+        Creature *critter = g->critter_at( tp );
         monster *mon = dynamic_cast<monster *>(critter);
         // ignore non-point-blank digging targets (since they are underground)
         if (mon != NULL && mon->digging() &&
@@ -416,7 +418,7 @@ void player::fire_gun( const tripoint &targ, bool burst )
 
     // chance to disarm an NPC with a whip if skill is high enough
     if(proj.proj_effects.count("WHIP") && (this->skillLevel("melee") > 5) && one_in(3)) {
-        int npcdex = g->npc_at(tarx, tary);
+        int npcdex = g->npc_at(targ);
         if(npcdex != -1) {
             npc *p = g->active_npc[npcdex];
             if(!p->weapon.is_null()) {
@@ -431,7 +433,7 @@ void player::fire_gun( const tripoint &targ, bool burst )
     const bool trigger_happy = has_trait( "TRIGGERHAPPY" );
     for (int curshot = 0; curshot < num_shots; curshot++) {
         // Burst-fire weapons allow us to pick a new target after killing the first
-        const auto critter = g->critter_at( tarx, tary );
+        const auto critter = g->critter_at( targ );
         if ( curshot > 0 && ( critter == nullptr || critter->is_dead_state() ) ) {
             const int near_range = std::min( 2 + skillLevel( "gun" ), weaponrange );
             auto new_targets = get_visible_creatures( weaponrange );
@@ -696,10 +698,11 @@ void game::throw_item( player &p, const tripoint &target, item &thrown,
         double goodhit = missed_by;
         tx = trajectory[i].x;
         ty = trajectory[i].y;
+        const tripoint &tp = trajectory[i];
 
         bool hit_something = false;
-        const int zid = mon_at(tx, ty);
-        const int npcID = npc_at(tx, ty);
+        const int zid = mon_at( tp );
+        const int npcID = npc_at( tp );
 
         monster *z = nullptr;
         npc *guy = nullptr;
@@ -1131,7 +1134,7 @@ std::vector<tripoint> game::target( tripoint &p, const tripoint &low, const trip
                           rl_dist(from.x, from.y, x, y), range, enemiesmsg.c_str());
             }
 
-            const Creature *critter = critter_at( x, y );
+            const Creature *critter = critter_at( p );
             if( critter != nullptr && u.sees( *critter ) ) {
                 // The 4 is 2 for the border and 2 for aim bars.
                 int available_lines = height - num_instruction_lines - line_number - 4;
@@ -1186,11 +1189,11 @@ std::vector<tripoint> game::target( tripoint &p, const tripoint &low, const trip
 
         /* More drawing to terrain */
         if (tarx != 0 || tary != 0) {
-            const Creature *critter = critter_at( x, y );
+            const Creature *critter = critter_at( p );
             if( critter != nullptr ) {
                 draw_critter( *critter, center );
             } else if (m.sees(u.posx(), u.posy(), x, y, -1, junk)) {
-                m.drawsq(w_terrain, u, tripoint( x, y, g->get_levz() ), false, true, center.x, center.y);
+                m.drawsq(w_terrain, u, p, false, true, center.x, center.y);
             } else {
                 mvwputch(w_terrain, POSY, POSX, c_black, 'X');
             }

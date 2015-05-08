@@ -9,6 +9,8 @@
 #include "material.h"
 #include "monster.h"
 #include "npc.h"
+#include "trap.h"
+#include "itype.h"
 
 #define INBOUNDS(x, y) \
  (x >= 0 && x < SEEX * my_MAPSIZE && y >= 0 && y < SEEY * my_MAPSIZE)
@@ -345,9 +347,11 @@ void map::spread_gas( field_entry *cur, const tripoint &p, field_id curtype,
                         int percent_spread, int outdoor_age_speedup )
 {
     // Reset nearby scents to zero
-    for (int i = -1; i <= 1; i++) {
-        for (int j = -1; j <= 1; j++) {
-            g->scent( p.x + i, p.y + j ) = 0;
+    tripoint tmp;
+    tmp.z = p.z;
+    for( tmp.x = p.x - 1; tmp.x <= p.x + 1; tmp.x++ ) {
+        for( tmp.y = p.y - 1; tmp.y <= p.y + 1; tmp.y++ ) {
+            g->scent( tmp ) = 0;
         }
     }
     // Dissapate faster outdoors.
@@ -586,8 +590,8 @@ bool map::process_fields_in_submap( submap *const current_submap,
                     case fd_sludge:
                         break;
                     case fd_slime:
-                        if( g->scent( p.x, p.y ) < cur->getFieldDensity() * 10 ) {
-                            g->scent( p.x, p.y ) = cur->getFieldDensity() * 10;
+                        if( g->scent( p ) < cur->getFieldDensity() * 10 ) {
+                            g->scent( p ) = cur->getFieldDensity() * 10;
                         }
                         break;
                     case fd_plasma:
@@ -2095,17 +2099,17 @@ void map::monster_in_field( monster &z )
             if (rng(0, 2) < cur->getFieldDensity()) {
                 dam += cur->getFieldDensity();
                 int tries = 0;
-                int newposx, newposy;
+                tripoint newpos = z.pos();
                 do {
-                    newposx = rng(z.posx() - SEEX, z.posx() + SEEX);
-                    newposy = rng(z.posy() - SEEY, z.posy() + SEEY);
+                    newpos.x = rng(z.posx() - SEEX, z.posx() + SEEX);
+                    newpos.y = rng(z.posy() - SEEY, z.posy() + SEEY);
                     tries++;
-                } while (move_cost(newposx, newposy) == 0 && tries != 10);
+                } while (move_cost(newpos) == 0 && tries != 10);
 
                 if (tries == 10) {
                     z.die_in_explosion( nullptr );
                 } else {
-                    int mon_hit = g->mon_at(newposx, newposy);
+                    int mon_hit = g->mon_at(newpos);
                     if (mon_hit != -1) {
                         if (g->u.sees(z)) {
                             add_msg(_("The %s teleports into a %s, killing them both!"),
@@ -2113,7 +2117,7 @@ void map::monster_in_field( monster &z )
                         }
                         g->zombie( mon_hit ).die_in_explosion( &z );
                     } else {
-                        z.setpos(newposx, newposy);
+                        z.setpos(newpos);
                     }
                 }
             }

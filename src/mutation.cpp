@@ -370,7 +370,7 @@ void player::activate_mutation( const std::string &mut )
             return;
         }
         g->u.assign_activity(ACT_BURROW, turns, -1, 0);
-        g->u.activity.placement = point(dirx, diry);
+        g->u.activity.placement = tripoint(dirx, diry,0);
         add_msg_if_player(_("You tear into the %s with your teeth and claws."),
                           g->m.tername(dirx, diry).c_str());
         tdata.powered = false;
@@ -379,8 +379,9 @@ void player::activate_mutation( const std::string &mut )
         std::vector<tripoint> valid;
         for (int x = posx() - 1; x <= posx() + 1; x++) {
             for (int y = posy() - 1; y <= posy() + 1; y++) {
-                if (g->is_empty(x, y)) {
-                    valid.push_back( tripoint(x, y, posz()) );
+                tripoint dest(x, y, posz());
+                if (g->is_empty(dest)) {
+                    valid.push_back( dest );
                 }
             }
         }
