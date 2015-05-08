@@ -2688,14 +2688,14 @@ int iuse::sew_advanced(player *p, item *it, bool, const tripoint& )
     }
     if (mod->made_of("kevlar")) {
         repair_items.push_back("kevlar_plate");
-        plurals.push_back(rm_prefix(_("<plural>kevlar")));
+        plurals.push_back(rm_prefix(_("<plural>Kevlar")));
     }
     if (mod->made_of("wool")) {
         repair_items.push_back("felt_patch");
         plurals.push_back(rm_prefix(_("<plural>wool")));
     }
     if (repair_items.empty()) {
-        p->add_msg_if_player(m_info, _("Your %s is not made of fabric, leather, fur, kevlar, wool or plastic."),
+        p->add_msg_if_player(m_info, _("Your %s is not made of fabric, leather, fur, Kevlar, wool or plastic."),
                              mod->tname().c_str());
         return 0;
     }
@@ -2705,7 +2705,7 @@ int iuse::sew_advanced(player *p, item *it, bool, const tripoint& )
         return 0;
     }
     int choice = menu(true, _("How do you want to modify it?"), _("Line it with wool"),_("Line it with fur"),
-                      _("Pad with leather"), _("Line with kevlar"), _("Repair clothing"),
+                      _("Pad with leather"), _("Line with Kevlar"), _("Repair clothing"),
                       _("Cancel"), NULL);
 
     if( (choice == 1 || choice == 2 || choice == 3 || choice == 4) && mod->item_tags.count("wooled") +
@@ -2942,7 +2942,7 @@ int iuse::sew_advanced(player *p, item *it, bool, const tripoint& )
     }
     case 4: {
         if(mod->item_tags.count("kevlar_padded")) {
-            p->add_msg_if_player(m_info,_("This is already lined with kevlar."));
+            p->add_msg_if_player(m_info,_("This is already lined with Kevlar."));
             return 0;
         }
         itype_id repair_item = "none";
@@ -2951,7 +2951,7 @@ int iuse::sew_advanced(player *p, item *it, bool, const tripoint& )
         std::string plural = "";
 
         repair_items.push_back("kevlar_plate");
-        plurals.push_back(rm_prefix(_("<plural>kevlar plates")));
+        plurals.push_back(rm_prefix(_("<plural>Kevlar plates")));
 
 
         int items_needed = (((mod->volume()) / 3) +1 );
@@ -2989,7 +2989,7 @@ int iuse::sew_advanced(player *p, item *it, bool, const tripoint& )
         }
 
         if (rn <= 8) {
-            p->add_msg_if_player(m_bad, _("You damage your %s further trying to line it with kevlar!"),
+            p->add_msg_if_player(m_bad, _("You damage your %s further trying to line it with Kevlar!"),
                                  mod->tname().c_str());
             mod->damage++;
             if (mod->damage >= 5) {
@@ -2997,18 +2997,18 @@ int iuse::sew_advanced(player *p, item *it, bool, const tripoint& )
                 p->i_rem_keep_contents( pos );
             }
         } else if (rn <= 10) {
-            p->add_msg_if_player(m_bad, _("You fail to line your %s with kevlar, and you waste a lot of thread and kevlar."),
+            p->add_msg_if_player(m_bad, _("You fail to line your %s with Kevlar, and you waste a lot of thread and Kevlar."),
                                  mod->tname().c_str());
             thread_used = rng(5, 14);
             p->consume_items(comps);
         } else if (rn <= 14) {
-            p->add_msg_if_player(m_mixed, _("You line your %s with kevlar, but waste a lot of thread."),
+            p->add_msg_if_player(m_mixed, _("You line your %s with Kevlar, but waste a lot of thread."),
                                  mod->tname().c_str());
             p->consume_items(comps);
             mod->item_tags.insert("kevlar_padded");
             thread_used = rng(5, 14 + (rng(1, 3)));
         } else {
-            p->add_msg_if_player(m_good, _("You line your %s with kevlar!"), mod->tname().c_str());
+            p->add_msg_if_player(m_good, _("You line your %s with Kevlar!"), mod->tname().c_str());
             mod->item_tags.insert("kevlar_padded");
             p->consume_items(comps);
 
@@ -3617,12 +3617,12 @@ int iuse::solder_weld(player *p, item *it, bool, const tripoint& )
     // One does not check for open wounds with a soldering iron.
     if ((p->has_effect("bite") || p->has_effect("bleed")) && !p->is_underwater()) {
         choice = menu(true, _("Using soldering item:"), _("Cauterize wound"),
-                      _("Repair plastic/metal/kevlar item"), _("Cancel"), NULL);
+                      _("Repair plastic/metal/Kevlar item"), _("Cancel"), NULL);
     } else if (p->has_trait("MASOCHIST") || p->has_trait("MASOCHIST_MED") ||
                p->has_trait("CENOBITE")) {
         // Masochists might be wounded too, let's not ask twice.
         choice = menu(true, _("Using soldering item:"), _("Cauterize yourself for fun"),
-                      _("Repair plastic/metal/kevlar item"), _("Cancel"), NULL);
+                      _("Repair plastic/metal/Kevlar item"), _("Cancel"), NULL);
     }
 
     switch (choice) {
@@ -3660,7 +3660,7 @@ int iuse::solder_weld(player *p, item *it, bool, const tripoint& )
             std::vector<itype_id> repair_items;
             if (fix->made_of("kevlar")) {
                 repair_items.push_back("kevlar_plate");
-                repairitem_names.push_back(_("kevlar plates"));
+                repairitem_names.push_back(_("Kevlar plates"));
             }
             if (fix->made_of("plastic")) {
                 repair_items.push_back("plastic_chunk");
@@ -3671,7 +3671,7 @@ int iuse::solder_weld(player *p, item *it, bool, const tripoint& )
                 repairitem_names.push_back(_("scrap metal"));
             }
             if (repair_items.empty()) {
-                p->add_msg_if_player(m_info, _("Your %s is not made of plastic, metal, or kevlar."),
+                p->add_msg_if_player(m_info, _("Your %s is not made of plastic, metal, or Kevlar."),
                                      fix->tname().c_str());
                 return 0;
             }
