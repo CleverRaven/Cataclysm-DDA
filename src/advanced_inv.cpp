@@ -986,17 +986,14 @@ void advanced_inventory::redraw_pane( side p )
     print_items( pane, active );
 
     auto itm = pane.get_cur_item_ptr();
-    int width;
-    if( itm == nullptr ) {
-        width = print_header( pane, pane.get_area() );
-    } else {
-        width = print_header( pane, itm->area );
-    }
+    int width = print_header(pane, (itm != nullptr) ? itm->area : pane.get_area());
+    bool same_as_dragged = ((square.id >= AIM_SOUTHWEST && square.id <= AIM_NORTHEAST) &&
+            square.off == squares[AIM_DRAGGED].off);
+    auto name = utf8_truncate((same_as_dragged) ? squares[AIM_DRAGGED].name : square.name, width);
+    auto desc = utf8_truncate((same_as_dragged) ? squares[AIM_DRAGGED].desc : square.desc, width);
     width -= 2 + 1; // starts at offset 2, plus space between the header and the text
-    mvwprintz( w, 1, 2, active ? c_green  : c_ltgray, "%s", utf8_truncate( square.name,
-               width ).c_str() );
-    mvwprintz( w, 2, 2, active ? c_ltblue : c_dkgray, "%s", utf8_truncate( square.desc,
-               width ).c_str() );
+    mvwprintz( w, 1, 2, active ? c_green  : c_ltgray, "%s", name.c_str() );
+    mvwprintz( w, 2, 2, active ? c_ltblue : c_dkgray, "%s", desc.c_str() );
     trim_and_print( w, 3, 2, width, active ? c_cyan : c_dkgray, square.flags.c_str() );
 
     const int max_page = ( pane.items.size() + itemsPerPage - 1 ) / itemsPerPage;
@@ -1753,7 +1750,7 @@ void advanced_inventory::remove_item( advanced_inv_listitem &sitem )
         rc = true;
     } else if( sitem.area == AIM_WORN ) {
         rc = g->u.takeoff( sitem.it );
-    } else if( panes[src].in_vehicle() ) {
+    } else if( sitem.from_vehicle ) {
         rc = s.veh->remove_item( s.vstor, sitem.it );
     }
 
