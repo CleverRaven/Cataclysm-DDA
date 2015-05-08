@@ -137,6 +137,8 @@ The following build systems are fully supported for compiling CataclysmDDA on Li
 
 ## CMake Build Mingw,MSYS,MSYS2
 
+ **NOTE**: For development purposes it is preferred to use `MinGW Win64 Shell` or `MinGW Win32 Shell` instead of `MSYS2 Shell`. In other case, you will need to set `PATH` variable manually.
+
  For Mingw,MSYS,MSYS2 you should set [Makefiles generator](http://www.cmake.org/cmake/help/cmake-2.6.html#section_Generators)
 
  Valid choices for MINGW/MSYS are:
