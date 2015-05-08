@@ -10,6 +10,7 @@
 #include "monattack.h"
 #include "mondefense.h"
 #include "mondeath.h"
+#include "mongroup.h"
 #include <queue>
 
 MonsterGenerator::MonsterGenerator()
@@ -813,6 +814,19 @@ void MonsterGenerator::check_monster_definitions() const
         if( !mon->revert_to_itype.empty() && !item::type_is_defined( mon->revert_to_itype ) ) {
             debugmsg("monster %s has unknown revert_to_itype: %s", mon->id.c_str(),
                      mon->revert_to_itype.c_str());
+        }
+        for( auto & s : mon->starting_ammo ) {
+            if( !item::type_is_defined( s.first ) ) {
+                debugmsg( "starting ammo %s of monster %s is unknown", s.first.c_str(), mon->id.c_str() );
+            }
+        }
+        if( mon->upgrade_group != "NULL" && !MonsterGroupManager::isValidMonsterGroup( mon->upgrade_group ) ) {
+            debugmsg( "upgrade_group %s of monster %s is not a valid monster group",
+                      mon->upgrade_group.c_str(), mon->id.c_str() );
+        }
+        if( mon->upgrades_into != "NULL" && !has_mtype( mon->upgrades_into ) ) {
+            debugmsg( "upgrades_into %s of monster %s is not a valid monster id",
+                      mon->upgrades_into.c_str(), mon->id.c_str() );
         }
     }
 }
