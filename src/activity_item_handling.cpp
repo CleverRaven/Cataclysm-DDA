@@ -211,7 +211,7 @@ static void place_item_activity( std::list<item *> &selected_items, std::list<in
         // Drop handles move cost.
         g->drop(dropped_items, dropped_worn_items, g->u.volume_capacity() - prev_volume, drop_target, to_vehicle);
     } else { // Stashing on a pet.
-        stash_on_pet( dropped_items, dropped_worn_items, drop_target.as_point() );
+        stash_on_pet( dropped_items, dropped_worn_items, drop_target );
     }
 }
 
@@ -306,12 +306,12 @@ void activity_on_turn_pickup()
 
 // I'd love to have this not duplicate so much code from Pickup::pick_one_up(),
 // but I don't see a clean way to do that.
-static void move_items( tripoint source, bool from_vehicle, 
-                        tripoint destination, bool to_vehicle,
+static void move_items( const tripoint &src, bool from_vehicle, 
+                        const tripoint &dest, bool to_vehicle,
                         std::list<int> &indices, std::list<int> &quantities )
 {
-    source += g->u.pos();
-    destination += g->u.pos();
+    tripoint source = src + g->u.pos();
+    tripoint destination = dest + g->u.pos();
 
     int s_cargo, d_cargo;   // oui oui, mon frere
     s_cargo = d_cargo = -1;
@@ -408,18 +408,25 @@ static void move_items( tripoint source, bool from_vehicle,
     }
 }
 
+/*      values explanation
+ *      0: items from vehicle?
+ *      1: items to a vehicle?
+ *      2: index <-+
+ *      3: amount  |
+ *      n: ^-------+
+ */
 void activity_on_turn_move_items()
 {
     // Move activity has source square, target square,
     // indices of items on map, and quantities of same.
-    tripoint source = g->u.activity.placement;
+    const tripoint source = g->u.activity.placement;
+    const tripoint destination = g->u.activity.coords[0];
     bool from_vehicle = g->u.activity.values[0];
-    tripoint destination = tripoint( g->u.activity.values[1], g->u.activity.values[2], g->u.posz() );
-    bool to_vehicle = g->u.activity.values[3];
+    bool to_vehicle = g->u.activity.values[1];
     std::list<int> indices;
     std::list<int> quantities;
     // Note i = 4, skipping first few elements.
-    for( size_t i = 4; i < g->u.activity.values.size(); i += 2 ) {
+    for( size_t i = 2; i < g->u.activity.values.size(); i += 2 ) {
         indices.push_back( g->u.activity.values[i] );
         quantities.push_back( g->u.activity.values[i + 1] );
     }
@@ -431,10 +438,9 @@ void activity_on_turn_move_items()
 
     if( !indices.empty() ) {
         g->u.assign_activity( ACT_MOVE_ITEMS, 0 );
-        g->u.activity.placement = source.as_point();
+        g->u.activity.placement = source;
+        g->u.activity.coords.push_back(destination);
         g->u.activity.values.push_back(from_vehicle);
-        g->u.activity.values.push_back(destination.x);
-        g->u.activity.values.push_back(destination.y);
         g->u.activity.values.push_back(to_vehicle);
         while( !indices.empty() ) {
             g->u.activity.values.push_back( indices.front() );
@@ -446,14 +452,13 @@ void activity_on_turn_move_items()
 }
 
 /*      values explanation
- *      0: items from vehicle?
- *      1: source x coordinate
- *      2: source y coordinate
- *      3: items to a vehicle?
- *      4: index <-+
- *      5: amount  |
- *      n: ^-------+
- *    n+1:
+ *      2: count of following index/amount counts
+ *      0: items from vehicle?  ^
+ *      1: items to a vehicle?  |
+ *      3: index <-+            |
+ *      4: amount  |            |
+ *      n:   ^-----+            |
+ *    n+1: ^--------------------+
  */
 void activity_on_turn_move_all_items()
 {

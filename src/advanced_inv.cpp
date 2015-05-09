@@ -94,7 +94,7 @@ advanced_inventory::~advanced_inventory()
 void advanced_inventory::save_settings(bool only_panes)
 {
     if(only_panes == false) {
-        uistate.adv_inv_last_coords = g->u.pos3();
+        uistate.adv_inv_last_coords = g->u.pos();
         uistate.adv_inv_src = src;
         uistate.adv_inv_dest = dest;
     }
@@ -108,7 +108,7 @@ void advanced_inventory::save_settings(bool only_panes)
 
 void advanced_inventory::load_settings()
 {
-    bool moved = uistate.adv_inv_last_coords != g->u.pos3();
+    bool moved = uistate.adv_inv_last_coords != g->u.pos();
     static const std::array<aim_location, NUM_PANES> default_areas = {
         {AIM_ALL, AIM_INVENTORY}
     };
@@ -530,7 +530,7 @@ int advanced_inv_area::get_item_count() const
 
 void advanced_inv_area::init()
 {
-    pos = g->u.pos3() + off;
+    pos = g->u.pos() + off;
     veh = nullptr;
     vstor = -1;
     volume = 0; // must update in main function
@@ -549,7 +549,7 @@ void advanced_inv_area::init()
             // offset for dragged vehicles is not statically initialized, so get it
             off = g->u.grab_point;
             // Reset position because offset changed
-            pos = g->u.pos3() + off;
+            pos = g->u.pos() + off;
             veh = g->m.veh_at( pos, vstor );
             if( veh != nullptr ) {
                 vstor = veh->part_with_feature( vstor, "CARGO", false );
@@ -1158,11 +1158,10 @@ bool advanced_inventory::move_all_items()
             g->u.assign_activity( ACT_MOVE_ITEMS, 0 );
             // store whether the source is from a vehicle (first entry)
             g->u.activity.values.push_back(spane.in_vehicle());
-            // Stash the destination afterwards
-            g->u.activity.values.push_back( darea.off.x );
-            g->u.activity.values.push_back( darea.off.y );
             // store whether the destination is a vehicle
             g->u.activity.values.push_back(dpane.in_vehicle());
+            // Stash the destination
+            g->u.activity.coords.push_back(darea.off);
         }
         g->u.activity.placement = sarea.off;
 
@@ -1738,8 +1737,7 @@ void advanced_inventory::remove_item( advanced_inv_listitem &sitem )
     assert( sitem.area != AIM_WORN );       // yeah what he said
     assert( sitem.it != nullptr );
     bool rc = false;
-//    bool in_vehicle_cargo = (sitem.area == panes[src].area) ? 
-//        panes[src].in_vehicle() : panes[dest].in_vehicle();
+
     auto &s = squares[sitem.area];
     if( s.id == AIM_CONTAINER ) {
         const auto cont = s.get_container( panes[src].in_vehicle() );
@@ -2124,7 +2122,7 @@ void advanced_inv_area::set_container_position()
             break;
     }
     // update the absolute position
-    pos = g->u.pos3() + off;
+    pos = g->u.pos() + off;
     // update vehicle information
     vstor = -1;
     veh = g->m.veh_at( pos, vstor );
@@ -2165,7 +2163,7 @@ void advanced_inventory::draw_minimap()
     // should the player be inverse?
     bool player_invert = false;
     // draw the 3x3 tiles centered around player
-    g->m.draw( minimap, g->u.pos3() );
+    g->m.draw( minimap, g->u.pos() );
     // get the positions of each pane, and show them
     for( auto &pane : panes ) {
         // get reference to current pane's area struct
