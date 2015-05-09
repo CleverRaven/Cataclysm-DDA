@@ -453,48 +453,47 @@ bool map::process_fields_in_submap( submap *const current_submap,
             }
         }
 
-        maptile map_tile = maptile_at( p );
-        const auto &ter = terlist[map_tile.get_ter()];
-        const auto &frn = furnlist[map_tile.get_furn()];
-        // Dissapate faster outdoors.
+        const int current_density = cur->getFieldDensity();
+        const int current_age = cur->getFieldAge();
+        // Dissipate faster outdoors.
         if( is_outside( p ) ) {
-            cur->setFieldAge( cur->getFieldAge() + outdoor_age_speedup );
+            cur->setFieldAge( current_age + outdoor_age_speedup );
         }
 
-        // Bail out if we don't meet the spread chance.
-        if( rng( 1, 100 ) > percent_spread ) {
+        // Bail out if we don't meet the spread chance or required density.
+        if( current_density <= 1 || rng( 1, 100 ) > percent_spread ) {
             return;
         }
 
         auto neighs = get_neighs( p );
         const size_t end_it = (size_t)rng( 0, neighs.size() - 1 );
         std::vector<size_t> spread;
+        spread.reserve( 8 );
         // Start at end_it + 1, then wrap around until i == end_it
         for( size_t i = ( end_it + 1 ) % neighs.size() ;
-             i != end_it && cur->getFieldAge() < 0;
+             i != end_it;
              i = ( i + 1 ) % neighs.size() ) {
-            const field_entry* tmpfld = neighs[i].get_field().findField( curtype );
+            const auto &neigh = neighs[i];
+            const field_entry* tmpfld = neigh.get_field().findField( curtype );
+            const auto &ter = terlist[neigh.get_ter()];
+            const auto &frn = furnlist[neigh.get_furn()];
             // Candidates are existing weaker fields or navigable/flagged tiles with no field.
             if( ( ter_furn_movecost( ter, frn ) > 0 || ter_furn_has_flag( ter, frn, TFLAG_PERMEABLE ) ) &&
-                ( ( tmpfld && tmpfld->getFieldDensity() < cur->getFieldDensity() ) ||
-                    !tmpfld ) ) {
+                ( tmpfld == nullptr || tmpfld->getFieldDensity() < cur->getFieldDensity() ) ) {
                 spread.push_back( i );
             }
         }
         // Then, spread to a nearby point.
-        const int current_density = cur->getFieldDensity();
-        const int current_age = cur->getFieldAge();
-        if( current_density > 1 && current_age > 0 && !spread.empty() ) {
+        if( !spread.empty() ) {
             // Construct the destination from offset and p
             const int n_index = spread[ rng( 0, spread.size() - 1 ) ];
             auto &dst = neighs[ n_index ];
             field_entry *candidate_field = dst.find_field( curtype );
-            int candidate_density = candidate_field != nullptr ? candidate_field->getFieldDensity() : 0;
             // Nearby gas grows thicker, and ages are shared.
             int age_fraction = 0.5 + current_age / current_density;
             if ( candidate_field != nullptr ) {
-                candidate_field->setFieldDensity(candidate_density + 1);
-                cur->setFieldDensity(current_density - 1);
+                candidate_field->setFieldDensity( candidate_field->getFieldDensity() + 1 );
+                cur->setFieldDensity( current_density - 1 );
                 candidate_field->setFieldAge(candidate_field->getFieldAge() + age_fraction);
                 cur->setFieldAge(current_age - age_fraction);
             // Or, just create a new field.
