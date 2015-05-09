@@ -2996,8 +2996,8 @@ void map::shoot( const tripoint &p, int &dam,
     if (has_flag("ALARMED", p) && !g->event_queued(EVENT_WANTED))
     {
         sounds::sound(p, 30, _("An alarm sounds!"));
-        const point abs = overmapbuffer::ms_to_sm_copy( getabs( p.x, p.y ) );
-        g->add_event(EVENT_WANTED, int(calendar::turn) + 300, 0, tripoint( abs.x, abs.y, abs_sub.z ) );
+        const tripoint abs = overmapbuffer::ms_to_sm_copy( getabs( p ) );
+        g->add_event(EVENT_WANTED, int(calendar::turn) + 300, 0, abs );
     }
 
     int vpart;
@@ -3150,7 +3150,7 @@ void map::shoot( const tripoint &p, int &dam,
                     int &j = tmp.y;
                     for( i = p.x - 2; i <= p.x + 2; i++ ) {
                         for( j = p.y - 2; j <= p.y + 2; j++ ) {
-                            if (move_cost(i, j) > 0 && one_in(3)) {
+                            if (move_cost( tmp ) > 0 && one_in(3)) {
                                     spawn_item( tmp, "gasoline" );
                             }
                         }

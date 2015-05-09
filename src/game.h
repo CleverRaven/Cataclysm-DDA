@@ -143,8 +143,8 @@ class game
         /** MAIN GAME LOOP. Returns true if game is over (death, saved, quit, etc.). */
         bool do_turn();
         void draw();
-        void draw_ter();
-        void draw_ter( const tripoint &center, bool looking = false );
+        void draw_ter( bool draw_sounds = true );
+        void draw_ter( const tripoint &center, bool looking = false, bool draw_sounds = true );
         void draw_veh_dir_indicator(void);
 
         /** Make map a reference here, to avoid map.h in game.h */

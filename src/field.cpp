@@ -443,14 +443,16 @@ void map::create_hot_air( const tripoint &p, int density )
 bool map::process_fields()
 {
     bool dirty_transparency_cache = false;
-    // TODO: Z
-    const int z = abs_sub.z;
-    for( int x = 0; x < my_MAPSIZE; x++ ) {
-        for( int y = 0; y < my_MAPSIZE; y++ ) {
-            submap * const current_submap = get_submap_at_grid( x, y, z );
-            if( current_submap->field_count > 0 ) {
-                bool cur_dirty = process_fields_in_submap( current_submap, x, y, z );
-                dirty_transparency_cache |= cur_dirty;
+    const int minz = zlevels ? -OVERMAP_DEPTH : abs_sub.z;
+    const int maxz = zlevels ? OVERMAP_HEIGHT : abs_sub.z;
+    for( int z = minz; z <= maxz; z++ ) {
+        for( int x = 0; x < my_MAPSIZE; x++ ) {
+            for( int y = 0; y < my_MAPSIZE; y++ ) {
+                submap * const current_submap = get_submap_at_grid( x, y, z );
+                if( current_submap->field_count > 0 ) {
+                    bool cur_dirty = process_fields_in_submap( current_submap, x, y, z );
+                    dirty_transparency_cache |= cur_dirty;
+                }
             }
         }
     }
@@ -697,7 +699,7 @@ bool map::process_fields_in_submap( submap *const current_submap,
                                                       true, false, false );
                                     } else if( special ) {
                                         // If it has a special effect just trigger it.
-                                        ammo_effects( p.x, p.y, ammo_type->ammo_effects );
+                                        ammo_effects( p, ammo_type->ammo_effects );
                                     }
                                 }
                                 charges_remaining -= rounds_exploded;
@@ -934,7 +936,7 @@ bool map::process_fields_in_submap( submap *const current_submap,
                                     int &j = pnt.y;
                                     for( i = p.x - 1; i <= p.x + 1; i++ ) {
                                         for( j = p.y - 1; j <= p.y + 1; j++ ) {
-                                            if( i == 0 && j == 0 ) {
+                                            if( pnt == p ) {
                                                 continue;
                                             }
 
