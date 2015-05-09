@@ -2365,6 +2365,76 @@ void mattack::pull_enemy(monster *z, int index)
     }
 }
 
+static int posp(int posc ) //Determines orientation of target from the source
+{
+    if (posc > 0){
+        return 1;
+    }
+    if (posc < 0){
+        return -1;
+    }
+    else {
+        return 0;
+    }
+}
+
+void mattack::grab_pull(monster *z, int index)
+{
+    if( !z->can_act() ) {
+        return;
+    }
+    Creature *target = z->attack_target();
+    if( target == nullptr || rl_dist( z->pos(), target->pos() ) > 1 ) {
+        return;
+    }
+
+    player *foe = dynamic_cast< player* >( target );
+    bool seen = g->u.sees( *z );
+
+    z->reset_special(index); // Reset timer
+    z->moves -= 40;
+    bool uncanny = foe != nullptr && foe->uncanny_dodge();
+    if( uncanny || dodge_check(z, target) ){
+        if( foe != nullptr ) {
+            if( seen ) {
+                auto msg_type = foe == &g->u ? m_warning : m_info;
+                foe->add_msg_player_or_npc( msg_type, _("The %s lunges at you, but you dodge!"),
+                                                      _("The %s lunges at <npcname>, but they dodge!"),
+                                            z->name().c_str() );
+            }
+            if( !uncanny ) {
+                foe->practice( "dodge", z->type->melee_skill * 2 );
+                foe->ma_ondodge_effects();
+            }
+        } else if( seen ) {
+            add_msg( _("The %s lunges at %s, but misses!"), z->name().c_str(), target->disp_name().c_str() );
+        }
+        return;
+    }
+    if (!(foe->has_effect("grabbed"))){
+        foe->add_msg_player_or_npc(m_bad, _("%s grabs you!"), _("%s grabs <npcname>!"),
+                                    z->disp_name().c_str());
+        if (foe->has_grab_break_tec() && foe->get_grab_resist() > 0 && foe->get_dex() > foe->get_str() ?
+            dice(foe->get_dex(), 10) : dice(foe->get_str(), 10) > dice(30, 10)) {
+            foe->add_msg_player_or_npc(m_good, _("You break the grab!"),
+                                        _("<npcname> breaks the grab!"));
+        } else {
+            target->add_effect("grabbed", 20);
+        }
+    }
+    else{
+        int dx = posp( target->posx() - z->posx() );
+        int dy = posp( target->posy() - z->posy() );
+
+        tripoint target_square = z->pos() - (target->pos() - z->pos());
+        if (z->can_move_to(target_square) ) {
+        tripoint my_old_location = z->pos();
+        z->move_to(target_square);
+        foe->setpos(my_old_location);
+        }
+    }
+}
+
 void mattack::vortex(monster *z, int index)
 {
     // Make sure that the player's butchering is interrupted!

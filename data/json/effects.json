@@ -1316,7 +1316,7 @@
         "apply_message": "You have been grabbed.",
         "rating": "bad",
         "base_mods": {
-            "speed_mod": [-25]
+            "speed_mod": [-95]
         }
     },
     {

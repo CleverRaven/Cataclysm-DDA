@@ -2561,9 +2561,9 @@
     "luminance":0,
     "hp":110,
     "death_function":["NORMAL"],
-    "special_attacks":[["BITE", 5], ["PULL_ENEMY", 20]],
+    "special_attacks":[["BITE", 5], ["PULL_ENEMY", 20], ["GRAB_PULL", 5]],
     "description":"An undead humanoid, its elongated arms drag along the ground as it moves. It looks to almost have a hunch from the swollen back and shoulder muscles tearing though its skin.",
-    "flags":["SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "GROUP_BASH", "POISON", "BLEED", "GRABS", "NO_BREATHE", "REVIVES", "BONES"]
+    "flags":["SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "GROUP_BASH", "POISON", "BLEED", "NO_BREATHE", "REVIVES", "BONES"]
     },{
     "type" : "MONSTER",
     "id" : "mon_zombie_master",
