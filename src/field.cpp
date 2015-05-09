@@ -428,7 +428,7 @@ If you need to insert a new field behavior per unit time add a case statement in
 bool map::process_fields_in_submap( submap *const current_submap,
                                     const int submap_x, const int submap_y, const int submap_z )
 {
-    const auto get_neighs = [this]( const tripoint &pt ) {
+    const auto get_neighbors = [this]( const tripoint &pt ) {
         return std::array< maptile, 8 > { {
             maptile_at( {pt.x - 1, pt.y - 1, pt.z} ),
             maptile_at( {pt.x, pt.y - 1, pt.z} ),
@@ -441,7 +441,7 @@ bool map::process_fields_in_submap( submap *const current_submap,
         } };
     };
 
-    const auto spread_gas = [this, &get_neighs] (
+    const auto spread_gas = [this, &get_neighbors] (
         field_entry *cur, const tripoint &p,field_id curtype,
         int percent_spread, int outdoor_age_speedup ) {
         // Reset nearby scents to zero
@@ -465,7 +465,7 @@ bool map::process_fields_in_submap( submap *const current_submap,
             return;
         }
 
-        auto neighs = get_neighs( p );
+        auto neighs = get_neighbors( p );
         const size_t end_it = (size_t)rng( 0, neighs.size() - 1 );
         std::vector<size_t> spread;
         spread.reserve( 8 );
@@ -956,7 +956,7 @@ bool map::process_fields_in_submap( submap *const current_submap,
 
                         // Below we will access our nearest 8 neighbors, so let's cache them now
                         // This should probably be done more globally, because large fires will re-do it a lot
-                        auto neighs = get_neighs( p );
+                        auto neighs = get_neighbors( p );
 
                         // If the flames are in a pit, it can't spread to non-pit
                         const bool in_pit = terid == t_pit;
