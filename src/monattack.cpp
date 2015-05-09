@@ -2291,10 +2291,10 @@ void mattack::pull_enemy(monster *z, int index)
 {
     int t;
     int t2 = 0;
-    player *p = dynamic_cast<player*>(z);
     Creature *target = z->attack_target();
+    monster *zz = dynamic_cast<monster*>(target);
     if( target == nullptr || rl_dist( z->pos(), target->pos() ) > 3
-            || !z->sees(*target, t)) {
+            || rl_dist( z->pos(), target->pos() ) <= 1 || !z->sees(*target, t)) {
         return;
     }
 
@@ -2333,37 +2333,33 @@ void mattack::pull_enemy(monster *z, int index)
         }
         return;
     }
-    if (rl_dist( z->pos(), target->pos() ) <= 1){
-            target->add_effect("downed", 3);
-        if( seen ) {
-            add_msg( _("The %s's arms pin %s to the ground!"), z->name().c_str(), target->disp_name().c_str() );
-        }
-        return;
 
-    }
-    const int dir = g->m.coord_to_angle( target->posx(), target->posy(), z->posx(), z->posy() );
+    const int dir = g->m.coord_to_angle( z->posx(), z->posy(), target->posx(), target->posy() ); //Orientation of where you'll end up
     tileray tdir(dir);
     int range = (z->type->melee_sides * z->type->melee_dice) / 10;
     tripoint pt = target->pos();
     while (range > 0) {
-    pt.x = z->posx() + tdir.dx();
-    pt.y = z->posy() + tdir.dy();
-
-    if( ( pt.x < SEEX * int(MAPSIZE / 2) || pt.y < SEEY * int(MAPSIZE / 2) ||
-                    pt.x >= SEEX * (1 + int(MAPSIZE / 2)) || pt.y >= SEEY * (1 + int(MAPSIZE / 2)) ) ) {
-                    g->update_map( pt.x, pt.y );
-                }
-                if (p->in_vehicle) {
-                    g->m.unboard_vehicle(p->posx(), p->posy());
-                }
-                foe->setpos( pt );
-                range--;
-                g->draw();
+        if( foe != nullptr ) {
+        tdir.advance();
+        pt.x = z->posx() + tdir.dx();
+        pt.y = z->posy() + tdir.dy();
+        if( target->is_player() && ( pt.x < SEEX * int(MAPSIZE / 2) || pt.y < SEEY * int(MAPSIZE / 2) ||
+            pt.x >= SEEX * (1 + int(MAPSIZE / 2)) || pt.y >= SEEY * (1 + int(MAPSIZE / 2)) ) ) {
+            g->update_map( pt.x, pt.y );
+        }
+        if (foe->in_vehicle) {
+            g->m.unboard_vehicle(foe->posx(), foe->posy());
+        }
+        foe->setpos( pt );
     }
-    if(one_in(3) ){
-        foe->add_effect("grabbed", 3);
+    else {
+        zz->setpos( pt );
     }
-
+        range--;
+        if( seen ) {
+            g->draw();
+        }
+    }
     if( seen ) {
         add_msg( _("The %s's arms fly out and pull %s back!"), z->name().c_str(), target->disp_name().c_str() );
     }
