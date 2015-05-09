@@ -49,7 +49,6 @@ enum activity_type {    // expanded this enum for readability
 };
 
 class player;
-class tripoint;
 
 class player_activity : public JsonSerializer, public JsonDeserializer
 {
