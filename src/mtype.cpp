@@ -30,6 +30,7 @@ mtype::mtype ()
     upgrade_min = -1;
     half_life = -1;
     base_upgrade_chance = 0;
+    upgrades_into = "NULL";
     upgrade_group = "NULL";
     dies.push_back(&mdeath::normal);
     sp_attack.push_back(nullptr);
