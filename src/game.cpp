@@ -12426,7 +12426,7 @@ void game::fling_creature(Creature *c, const int &dir, float flvel, bool control
         if (controlled) {
             dam1 = std::max((dam1 / 2) - 5, 0);
         }
-        if (mondex >= 0) {
+        if( mondex >= 0 ) {
             critter = &zombie(mondex);
             slam = true;
             dname = critter->name();
@@ -12435,6 +12435,9 @@ void game::fling_creature(Creature *c, const int &dir, float flvel, bool control
             critter->check_dead_state();
             if( !critter->is_dead() ) {
                 thru = false;
+                // NOTE: The inverse is not true!
+                // Even if we killed the former occupant of the tile,
+                // it isn't necessarily free (due to creature-spawning mondeath).
             }
         } else if (m.move_cost( pt ) == 0) {
             slam = true;
@@ -12484,8 +12487,14 @@ void game::fling_creature(Creature *c, const int &dir, float flvel, bool control
                     m.unboard_vehicle(p->pos());
                 }
                 p->setpos( pt );
-            } else {
+            } else if( mon_at( pt ) < 0 ) {
+                // We have to handle the rare case where monster lands on a fungus/blob
+                // and can't occupy the new location because the dead parent spawned
+                // new monsters that occupy it.
                 zz->setpos( pt );
+            } else {
+                // TODO: Handle it nicely (retry) instead of bailing out
+                break;
             }
         } else {
             break;
