@@ -492,7 +492,7 @@ class game
         void drop(std::vector<item> &dropped, std::vector<item> &dropped_worn,
                   int freed_volume_capacity, int dirx, int diry,
                   bool to_vehicle = true); // emulate old behaviour normally
-        bool make_drop_activity(enum activity_type act, tripoint target, bool to_vehicle = true);
+        bool make_drop_activity(enum activity_type act, const tripoint &target, bool to_vehicle = true);
     private:
         // Game-start procedures
         void print_menu(WINDOW *w_open, int iSel, const int iMenuOffsetX, int iMenuOffsetY,
