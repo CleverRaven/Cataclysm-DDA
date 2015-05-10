@@ -2465,7 +2465,7 @@ static int repair_clothing(player *p, item *it, item *fix, int pos) {
     }
     if (fix->made_of("nomex")) {
         repair_items.push_back("nomex");
-        plurals.push_back(rm_prefix(_("<plural>nomex")));
+        plurals.push_back(rm_prefix(_("<plural>Nomex")));
     }
     if (fix->made_of("wool")) {
         repair_items.push_back("felt_patch");
@@ -2680,7 +2680,7 @@ int iuse::sew_advanced(player *p, item *it, bool, const tripoint& )
     }
     if (mod->made_of("nomex")) {
         repair_items.push_back("nomex");
-        plurals.push_back(rm_prefix(_("<plural>nomex")));
+        plurals.push_back(rm_prefix(_("<plural>Nomex")));
     }
     if (mod->made_of("plastic")) {
         repair_items.push_back("plastic_chunk");
