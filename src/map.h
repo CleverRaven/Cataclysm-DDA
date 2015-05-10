@@ -241,6 +241,7 @@ class map
  void clear_traps();
 
     const maptile maptile_at( const tripoint &p ) const;
+    maptile maptile_at( const tripoint &p );
 
 // Movement and LOS
 
@@ -393,6 +394,7 @@ class map
     */
     vehicle* veh_at( const tripoint &p, int &part_num );
     const vehicle* veh_at( const tripoint &p, int &part_num ) const;
+    vehicle* veh_at_internal( const tripoint &p, int &part_num );
     const vehicle* veh_at_internal( const tripoint &p, int &part_num ) const;
     /**
     * Same as `veh_at(const int, const int, int)`, but doesn't return part number.
@@ -1073,9 +1075,6 @@ protected:
 
 private:
     field& get_field( const tripoint &p );
-    void spread_gas( field_entry *cur, const tripoint &p, field_id curtype,
-                        int percent_spread, int outdoor_age_speedup );
-    void create_hot_air( const tripoint &p, int density );
 
  int cached_zlev; // Z-level for which all the caches were calculated
  bool transparency_cache_dirty;

@@ -145,17 +145,30 @@ map::~map()
 {
 }
 
+static submap null_submap;
+
 const maptile map::maptile_at( const tripoint &p ) const
 {
-    static const submap null_submap;
     if( !inbounds( p ) ) {
-        return null_submap.get_maptile( 0, 0 );
+        return maptile( &null_submap, 0, 0 );
     }
 
     int lx, ly;
     submap *const sm = get_submap_at( p, lx, ly );
 
-    return sm->get_maptile( lx, ly );
+    return maptile( sm, lx, ly );
+}
+
+maptile map::maptile_at( const tripoint &p )
+{
+    if( !inbounds( p ) ) {
+        return maptile( &null_submap, 0, 0 );
+    }
+
+    int lx, ly;
+    submap *const sm = get_submap_at( p, lx, ly );
+
+    return maptile( sm, lx, ly );
 }
 
 // Vehicle functions
@@ -762,19 +775,7 @@ const vehicle* map::veh_at(const int x, const int y, int &part_num) const
 
 const vehicle* map::veh_at_internal( const int x, const int y, int &part_num) const
 {
-    // This function is called A LOT. Move as much out of here as possible.
-    if( !veh_in_active_range || !veh_exists_at[x][y] ) {
-        return nullptr; // Clear cache indicates no vehicle. This should optimize a great deal.
-    }
-
-    const auto it = veh_cached_parts.find( point( x, y ) );
-    if( it != veh_cached_parts.end() ) {
-        part_num = it->second.second;
-        return it->second.first;
-    }
-
-    debugmsg( "vehicle part cache indicated vehicle not found: %d %d", x, y );
-    return nullptr;
+    return veh_at_internal( tripoint( x, y, abs_sub.z ), part_num );
 }
 
 vehicle* map::veh_at(const int x, const int y)
@@ -865,8 +866,7 @@ vehicle* map::veh_at( const tripoint &p, int &part_num )
         return nullptr; // Out-of-bounds - null vehicle
     }
 
-    // Apparently this is a proper coding practice and not an ugly hack
-    return const_cast<vehicle *>( veh_at_internal( p, part_num ) );
+    return veh_at_internal( p, part_num );
 }
 
 const vehicle* map::veh_at( const tripoint &p, int &part_num ) const
@@ -882,10 +882,12 @@ const vehicle* map::veh_at_internal( const tripoint &p, int &part_num ) const
 {
     // This function is called A LOT. Move as much out of here as possible.
     if( !veh_in_active_range || !veh_exists_at[p.x][p.y] ) {
+        part_num = 0;
         return nullptr; // Clear cache indicates no vehicle. This should optimize a great deal.
     }
 
     if( p.z != abs_sub.z ) {
+        part_num = 0;
         return nullptr; // Veh cache doesn't understand vehicles outside this z-level
     }
 
@@ -896,7 +898,13 @@ const vehicle* map::veh_at_internal( const tripoint &p, int &part_num ) const
     }
 
     debugmsg( "vehicle part cache indicated vehicle not found: %d %d %d", p.x, p.y, p.z );
+    part_num = 0;
     return nullptr;
+}
+
+vehicle* map::veh_at_internal( const tripoint &p, int &part_num )
+{
+    return const_cast<vehicle *>( const_cast<const map*>(this)->veh_at_internal( p, part_num ) );
 }
 
 vehicle* map::veh_at( const tripoint &p )
@@ -913,7 +921,7 @@ const vehicle* map::veh_at( const tripoint &p ) const
 
 point map::veh_part_coordinates( const tripoint &p )
 {
-    int part_num;
+    int part_num = 0;
     vehicle* veh = veh_at( p, part_num );
 
     if(veh == nullptr) {
@@ -2232,7 +2240,8 @@ void map::decay_fields_and_scent( const int amount )
         }
     }
 
-    const int amount_liquid = amount / 3; // Decay washable fields (blood, guts etc.) by this
+    const int amount_fire = amount / 3; // Decay fire by this much
+    const int amount_liquid = amount / 2; // Decay washable fields (blood, guts etc.) by this
     const int amount_gas = amount / 5; // Decay gas type fields by this
     // Coord code copied from lightmap calculations
     for( int smx = 0; smx < my_MAPSIZE; ++smx ) {
@@ -2272,7 +2281,7 @@ void map::decay_fields_and_scent( const int amount )
                         const field_id type = cur.getFieldType();
                         switch( type ) {
                             case fd_fire:
-                                cur.setFieldAge( cur.getFieldAge() + amount );
+                                cur.setFieldAge( cur.getFieldAge() + amount_fire );
                                 break;
                             case fd_blood:
                             case fd_bile:
@@ -5099,7 +5108,7 @@ void map::draw( WINDOW* w, const tripoint &center )
             while( lx < SEEX && x < maxx )  {
                 const lit_level lighting = visibility_cache[x][y];
                 if( !apply_vision_effects( w, lighting, cache ) ) {
-                    const maptile curr_maptile = cur_submap->get_maptile( lx, ly );
+                    const maptile curr_maptile = maptile( cur_submap, lx, ly );
                     draw_maptile( w, g->u, p, curr_maptile,
                                   false, true, center.x, center.y,
                                   lighting == LL_LOW, lighting == LL_BRIGHT, true );
