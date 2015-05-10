@@ -33,6 +33,7 @@
         "mon_zombie_master",
         "mon_zombie_brute_shocker",
         "mon_zombie_grabber",
+        "mon_zombie_grappler",
         "mon_zombie_swimmer"
     ]
 }

@@ -2365,19 +2365,6 @@ void mattack::pull_enemy(monster *z, int index)
     }
 }
 
-static int posp(int posc ) //Determines orientation of target from the source
-{
-    if (posc > 0){
-        return 1;
-    }
-    if (posc < 0){
-        return -1;
-    }
-    else {
-        return 0;
-    }
-}
-
 void mattack::grab_pull(monster *z, int index)
 {
     if( !z->can_act() ) {
@@ -2415,22 +2402,19 @@ void mattack::grab_pull(monster *z, int index)
         foe->add_msg_player_or_npc(m_bad, _("%s grabs you!"), _("%s grabs <npcname>!"),
                                     z->disp_name().c_str());
         if (foe->has_grab_break_tec() && foe->get_grab_resist() > 0 && foe->get_dex() > foe->get_str() ?
-            dice(foe->get_dex(), 10) : dice(foe->get_str(), 10) > dice(30, 10)) {
+            dice(foe->get_dex(), 10) : dice(foe->get_str(), 10) > dice(10, 10)) {
             foe->add_msg_player_or_npc(m_good, _("You break the grab!"),
                                         _("<npcname> breaks the grab!"));
         } else {
-            target->add_effect("grabbed", 20);
+            target->add_effect("grabbed", 7);
         }
     }
     else{
-        int dx = posp( target->posx() - z->posx() );
-        int dy = posp( target->posy() - z->posy() );
-
         tripoint target_square = z->pos() - (target->pos() - z->pos());
         if (z->can_move_to(target_square) ) {
-        tripoint my_old_location = z->pos();
-        z->move_to(target_square);
-        foe->setpos(my_old_location);
+            tripoint my_old_location = z->pos();
+            z->move_to(target_square);
+            foe->setpos(my_old_location);
         }
     }
 }

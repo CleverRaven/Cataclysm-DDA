@@ -5495,7 +5495,7 @@ void player::update_stamina()
     }
 
     // 2d4 bonus stamina from active stimpack stamina-boost.
-    if( stamina < get_stamina_max() && has_effect("stimpack") && 
+    if( stamina < get_stamina_max() && has_effect("stimpack") &&
         get_effect_dur("stimpack") > 50 ) {
         stamina += rng( 2, 8 );
     }
@@ -6935,8 +6935,6 @@ void player::hardcoded_effects(effect &it)
     } else if (id == "grabbed") {
         blocks_left -= 1;
         dodges_left = 0;
-        // Set ourselves up for removal
-        it.set_duration(0);
     } else if (id == "impaled") {
         blocks_left -= 2;
         dodges_left = 0;
