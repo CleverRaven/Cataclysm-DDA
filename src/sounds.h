@@ -22,7 +22,7 @@ namespace sounds {
      * If true, activities continue.
      * @returns true if the player could hear the sound.
      */
-    void sound( const tripoint &p, int vol, std::string description, bool ambient = false );
+    void sound( const tripoint &p, int vol, std::string description, bool ambient = false, std::string id = "", std::string variant = "default" );
     /** Functions identical to sound(..., true). */
     void ambient_sound( const tripoint &p, int vol, std::string description );
     /** Creates a list of coordinates at which to draw footsteps. */

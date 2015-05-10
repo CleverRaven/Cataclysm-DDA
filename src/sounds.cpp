@@ -14,6 +14,8 @@ struct sound_event {
     std::string description;
     bool ambient;
     bool footstep;
+    std::string id;
+    std::string variant;
 };
 
 struct centroid
@@ -39,7 +41,7 @@ void sounds::ambient_sound( const tripoint &p, int vol, std::string description 
     sound( p, vol, description, true );
 }
 
-void sounds::sound( const tripoint &p, int vol, std::string description, bool ambient )
+void sounds::sound( const tripoint &p, int vol, std::string description, bool ambient, std::string id, std::string variant )
 {
     if( vol < 0 ) {
         // Bail out if no volume.
@@ -48,13 +50,13 @@ void sounds::sound( const tripoint &p, int vol, std::string description, bool am
     }
     recent_sounds.emplace_back( std::make_pair( p, vol ) );
     sounds_since_last_turn.emplace_back(
-        std::make_pair( p, sound_event{vol, description, ambient, false} ) );
+        std::make_pair( p, sound_event{vol, description, ambient, false, id, variant} ) );
 }
 
 void sounds::add_footstep( const tripoint &p, int volume, int, monster * )
 {
     sounds_since_last_turn.emplace_back(
-        std::make_pair( p, sound_event{volume, "", false, true} ) );
+        std::make_pair( p, sound_event{volume, "", false, true, "", ""} ) );
 }
 
 template <typename C>
@@ -185,6 +187,8 @@ void sounds::process_sound_markers( player *p )
 
     for( const auto &sound_event_pair : sounds_since_last_turn ) {
         const int volume = sound_event_pair.second.volume * volume_multiplier;
+        const std::string sfx_id = sound_event_pair.second.id;
+        const std::string sfx_variant = sound_event_pair.second.variant;
         const int max_volume = std::max( volume, sound_event_pair.second.volume ); // For deafness checks
         int dist = rl_dist( p->pos3(), sound_event_pair.first );
         bool ambient = sound_event_pair.second.ambient;
@@ -281,6 +285,15 @@ void sounds::process_sound_markers( player *p )
                 std::string direction = direction_name( direction_from( p->pos3(), pos ) );
                 add_msg(m_warning, _("From the %s you hear %s"), direction.c_str(), description.c_str());
             }
+        }
+
+        // Play the sound effect, if any.
+        if(!sfx_id.empty()) {
+            int heard_volume = volume - dist;
+            // for our sfx API, 100 is "normal" volume, so scale accordingly
+            heard_volume *= 10;
+            add_msg("Playing sound effect %s, %s, %d", sfx_id.c_str(), sfx_variant.c_str(), heard_volume);
+            play_sound_effect(sfx_id, sfx_variant, heard_volume);
         }
 
         // If Z coord is different, draw even when you can see the source

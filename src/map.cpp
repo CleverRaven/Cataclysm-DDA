@@ -3374,7 +3374,8 @@ bool map::open_door( const tripoint &p, const bool inside, const bool check_only
         }
 
         if(!check_only) {
-            ter_set( p, ter.open );
+            sounds::sound(x, y, 10, "", true, "open_door", ter.id);
+            ter_set(p, ter.open );
         }
 
         return true;
@@ -3389,6 +3390,7 @@ bool map::open_door( const tripoint &p, const bool inside, const bool check_only
         }
 
         if(!check_only) {
+            sounds::sound(x, y, 10, "", true, "open_door", furn.id);
             furn_set(p, furn.open );
         }
 
@@ -3470,6 +3472,7 @@ bool map::close_door( const tripoint &p, const bool inside, const bool check_onl
          return false;
      }
      if (!check_only) {
+        sounds::sound(p, 10, "", true, "close_door", ter.id);
         ter_set(p, ter.close );
      }
      return true;
@@ -3482,6 +3485,7 @@ bool map::close_door( const tripoint &p, const bool inside, const bool check_onl
          return false;
      }
      if (!check_only) {
+         sounds::sound(p, 10, "", true, "close_door", furn.id);
          furn_set(p, furn.close );
      }
      return true;

@@ -12097,13 +12097,13 @@ bool game::plmove(int dx, int dy)
         if (!u.has_artifact_with(AEP_STEALTH) && !u.has_trait("LEG_TENTACLES") &&
             !u.has_trait("DEBUG_SILENT")) {
             if (u.has_trait("LIGHTSTEP") || u.is_wearing("rm13_armor_on")) {
-                sounds::sound(dest_loc, 2, "");    // Sound of footsteps may awaken nearby monsters
+                sounds::sound(dest_loc, 2, "", true, "footstep", "light");    // Sound of footsteps may awaken nearby monsters
             } else if (u.has_trait("CLUMSY")) {
-                sounds::sound(dest_loc, 10, "");
+                sounds::sound(dest_loc, 10, "", true, "footstep", "clumsy");
             } else if (u.has_bionic("bio_ankles")) {
-                sounds::sound(dest_loc, 12, "");
+                sounds::sound(dest_loc, 12, "", true, "footstep", "bionics");
             } else {
-                sounds::sound(dest_loc, 6, "");
+                sounds::sound(dest_loc, 6, "", true, "footstep");
             }
         }
         if (one_in(20) && u.has_artifact_with(AEP_MOVEMENT_NOISE)) {
