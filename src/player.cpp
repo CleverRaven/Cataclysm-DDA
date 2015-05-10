@@ -13643,7 +13643,8 @@ bool player::sees( const tripoint &t, int &bresen1, int &bresen2 ) const
 {
     static const std::string str_bio_night("bio_night");
     const int wanted_range = rl_dist( pos3(), t );
-    bool can_see = Creature::sees( t, bresen1, bresen2 );
+    bool can_see = is_player() ? g->m.pl_sees( t, wanted_range ) :
+        Creature::sees( t, bresen1, bresen2 );;
     // Only check if we need to override if we already came to the opposite conclusion.
     if( can_see && wanted_range < 15 && wanted_range > sight_range(1) &&
         has_active_bionic(str_bio_night) ) {
@@ -13909,13 +13910,8 @@ bool player::sees_with_infrared( const Creature &critter ) const
     if( !has_ir || !critter.is_warm() ) {
         return false;
     }
-    const auto range = sight_range( DAYLIGHT_LEVEL );
-    if( is_player() ) {
-        return g->m.pl_sees(critter.posx(), critter.posy(), range );
-    } else {
-        int bresenham_slope;
-        return g->m.sees(critter.posx(), critter.posy(), range, bresenham_slope );
-    }
+    int bresenham_slope;
+    return g->m.sees(critter.posx(), critter.posy(), sight_range(DAYLIGHT_LEVEL), bresenham_slope );
 }
 
 std::vector<std::string> player::get_overlay_ids() const {

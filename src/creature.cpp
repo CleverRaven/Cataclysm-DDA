@@ -252,9 +252,7 @@ bool Creature::sees( const tripoint &t, int &bresen1, int &bresen2 ) const
     if( wanted_range <= range_min ||
         ( wanted_range <= range_day &&
           g->m.ambient_light_at( t ) > g->natural_light_level() ) ) {
-        if( is_player() ) {
-            return g->m.pl_sees( t, wanted_range );
-        } else if( g->m.ambient_light_at( t ) > g->natural_light_level() ) {
+        if( g->m.ambient_light_at( t ) > g->natural_light_level() ) {
             return g->m.sees( pos3(), t, wanted_range, bresen1, bresen2 );
         } else {
             return g->m.sees( pos3(), t, range_min, bresen1, bresen2 );
