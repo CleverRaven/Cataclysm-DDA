@@ -98,7 +98,7 @@ mf_attitude monfaction::attitude( const mfaction_id &other ) const
         return found->second;
     }
 
-    if( other >= 0 ) {
+    if( other != other.obj().base_faction ) {
         return attitude( other.obj().base_faction );
     }
 
@@ -149,7 +149,11 @@ void monfactions::finalize_monfactions()
     for( auto &faction : faction_list ) {
         if( faction.base_faction < 0 ) {
             faction.base_faction = root;
-            child_map.insert( std::make_pair( faction.base_faction, faction.id ) );
+            // If it is the (new) root, connecting it to own parent (self) would create a cycle.
+            // So only try to connect it to the parent if it isn't own parent.
+            if( faction.base_faction != faction.id ) {
+                child_map.insert( std::make_pair( faction.base_faction, faction.id ) );
+            }
         }
     }
 
