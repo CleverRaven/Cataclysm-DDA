@@ -332,6 +332,7 @@ void player::activate_mutation( const std::string &mut )
 
         // Handle stat changes from activation
         apply_mods(mut, true);
+        recalc_sight_limits();
     }
 
     if( mut == "WEB_WEAVER" ) {
