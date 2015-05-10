@@ -14,10 +14,10 @@ const Vehicle_group_choice* Vehicle_Group::pick() const
 }
 
 int Vehicle_Location::pick_facing() const {
-    return facings[rng(0, facings.size()-1)];
+    return facings.pick();
 }
 
-void Vehicle_Placement::add(const jmapgen_int &x, const jmapgen_int &y, const vehicle_facings &facings)
+void Vehicle_Placement::add(const jmapgen_int &x, const jmapgen_int &y, const Vehicle_Facings &facings)
 {
     locations.emplace_back(x, y, facings);
 }
@@ -37,20 +37,9 @@ Vehicle_Function_json::Vehicle_Function_json(JsonObject &jo)
         placement = jo.get_string("placement");
     }
     else {
-        vehicle_facings facings;
-        if(jo.has_array("facing")) {
-            JsonArray jpos = jo.get_array("facing");
-
-            while (jpos.has_more()) {
-                facings.push_back(jpos.next_int());
-            }
-        }
-        else {
-            facings.push_back(jo.get_int("facing"));
-        }
-
         //location = std::make_unique<Vehicle_Location>(jmapgen_int(jo, "x"), jmapgen_int(jo, "y"), facings);
         // that would be better, but it won't exist until c++14, so for now we do this:
+        Vehicle_Facings facings(jo, "facing");
         std::unique_ptr<Vehicle_Location> ploc(new Vehicle_Location(jmapgen_int(jo, "x"), jmapgen_int(jo, "y"), facings));
         location = std::move(ploc);
     }
@@ -79,6 +68,25 @@ void Vehicle_Function_json::apply(map* m, std::string terrain_name)
     else {
         m->add_vehicle(vehicle_controller->pick_vehicle(vehicle), location->x.get(), location->y.get(), location->pick_facing(), fuel, status);
     }
+}
+
+Vehicle_Facings::Vehicle_Facings(JsonObject &jo, std::string key)
+{
+    if(jo.has_array(key)) {
+        JsonArray jpos = jo.get_array(key);
+
+        while (jpos.has_more()) {
+            values.push_back(jpos.next_int());
+        }
+    }
+    else {
+        values.push_back(jo.get_int(key));
+    }
+}
+
+int Vehicle_Facings::pick() const
+{
+    return values[rng(0, values.size()-1)];
 }
 
 const Vehicle_Location* Vehicle_Placement::pick() const
@@ -117,19 +125,7 @@ void Vehicle_Factory::load_vehicle_placement(JsonObject &jo)
     while (locations.has_more()) {
         JsonObject jloc = locations.next_object();
 
-        vehicle_facings facings;
-        if(jloc.has_array("facing")) {
-            JsonArray jpos = jloc.get_array("facing");
-
-            while (jpos.has_more()) {
-                facings.push_back(jpos.next_int());
-            }
-        }
-        else {
-            facings.push_back(jloc.get_int("facing"));
-        }
-
-        placement.add(jmapgen_int(jloc, "x"), jmapgen_int(jloc, "y"), facings);
+        placement.add(jmapgen_int(jloc, "x"), jmapgen_int(jloc, "y"), Vehicle_Facings(jloc, "facing"));
     }
 }
 

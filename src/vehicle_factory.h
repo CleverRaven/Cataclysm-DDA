@@ -8,7 +8,6 @@
 #include "weighted_list.h"
 
 typedef std::string Vehicle_tag;
-typedef std::vector<int> vehicle_facings;
 typedef void (*vehicle_gen_pointer)(map *m, std::string terrainid);
 
 /**
@@ -33,23 +32,30 @@ class Vehicle_Group {
         weighted_int_list<Vehicle_group_choice> vehicles;
 };
 
+struct Vehicle_Facings {
+    Vehicle_Facings(JsonObject &jo, std::string key);
+
+    int pick() const;
+    std::vector<int> values;
+};
+
 /**
  * The location and facing data needed to place a vehicle onto the map.
  */
 struct Vehicle_Location {
-    Vehicle_Location(const jmapgen_int &x, const jmapgen_int &y, const vehicle_facings &facings) : x(x), y(y), facings(facings) {}
+    Vehicle_Location(const jmapgen_int &x, const jmapgen_int &y, const Vehicle_Facings &facings) : x(x), y(y), facings(facings) {}
     int pick_facing() const;
 
     jmapgen_int x;
     jmapgen_int y;
-    vehicle_facings facings;
+    Vehicle_Facings facings;
 };
 
 /**
  * A list of vehicle locations which are valid for spawning new vehicles.
  */
 struct Vehicle_Placement {
-    void add(const jmapgen_int &x, const jmapgen_int &y, const vehicle_facings &facings);
+    void add(const jmapgen_int &x, const jmapgen_int &y, const Vehicle_Facings &facings);
     const Vehicle_Location* pick() const;
 
     typedef std::vector<Vehicle_Location> vehicle_locations;
