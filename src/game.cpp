@@ -5763,14 +5763,13 @@ void game::monmove()
     tripoint cached_lev = m.get_abs_sub() + tripoint( 1, 0, 0 );
 
     mfactions monster_factions;
-
+    const auto &playerfaction = mfaction_str_id( "player" );
     for (size_t i = 0; i < num_zombies(); i++) {
         // The first time through, and any time the map has been shifted,
         // recalculate monster factions.
         if( cached_lev != m.get_abs_sub() ) {
             // monster::plan() needs to know about all monsters on the same team as the monster.
             monster_factions.clear();
-            const auto &playerfaction = mfaction_str_id( "player" );
             for( int i = 0, numz = num_zombies(); i < numz; i++ ) {
                 monster &critter = zombie( i );
                 if( critter.friendly == 0 ) {
