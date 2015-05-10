@@ -3,16 +3,6 @@
 
 std::unique_ptr<Vehicle_Factory> vehicle_controller( new Vehicle_Factory() );
 
-void Vehicle_Group::add_vehicle_entry(const std::string &type, const int &probability)
-{
-    vehicles.add({type}, probability);
-}
-
-const Vehicle_group_choice* Vehicle_Group::pick() const
-{
-    return vehicles.pick();
-}
-
 int Vehicle_Location::pick_facing() const {
     return facings.pick();
 }
@@ -111,8 +101,7 @@ void Vehicle_Factory::load_vehicle_group(JsonObject &jo)
 
     while (vehicles.has_more()) {
         JsonArray pair = vehicles.next_array();
-        Vehicle_Group &group = groups[group_id];
-        group.add_vehicle_entry(pair.get_string(0), pair.get_int(1));
+        groups[group_id].add_vehicle(pair.get_string(0), pair.get_int(1));
     }
 }
 
@@ -179,7 +168,7 @@ void Vehicle_Factory::vehicle_spawn(std::string spawn_id, map* m, std::string te
 
 void Vehicle_Factory::add_vehicle(map* m, const std::string &vehicle_id, const int x, const int y, const int facing, const int fuel, const int status, const bool mergewrecks)
 {
-    m->add_vehicle(groups.count(vehicle_id) > 0 ? groups[vehicle_id].pick()->type : vehicle_id,
+    m->add_vehicle(groups.count(vehicle_id) > 0 ? *(groups[vehicle_id].pick()) : vehicle_id,
         x, y, facing, fuel, status, mergewrecks);
 }
 

@@ -8,40 +8,36 @@
 #include "weighted_list.h"
 
 typedef std::string Vehicle_tag;
-typedef void (*vehicle_gen_pointer)(map *m, std::string terrainid);
 
 /**
- * Entry for a vehicle in a vehicle spawn group.
+ * This class is used to group vehicles together into groups in much the same was as
+ *  item groups work.
  */
-struct Vehicle_group_choice {
-    Vehicle_group_choice(const std::string &type) : type(type) {}
-
-    std::string type; //vehicle type id
-};
-
-/**
- * A weighted group of vehicles.
- */
-class Vehicle_Group {
+class VehicleGroup {
 
     public:
-        void add_vehicle_entry(const std::string &type, const int &probability);
-        const Vehicle_group_choice* pick() const;
+        inline void add_vehicle(const std::string &type, const int &probability) {
+            vehicles.add(type, probability);
+        }
+
+        inline const std::string* pick() const {
+            return vehicles.pick();
+        }
 
     private:
-        weighted_int_list<Vehicle_group_choice> vehicles;
+        weighted_int_list<std::string> vehicles;
 };
 
-struct Vehicle_Facings {
+/**
+ * The location and facing data needed to place a vehicle onto the map.
+ */
+ struct Vehicle_Facings {
     Vehicle_Facings(JsonObject &jo, std::string key);
 
     int pick() const;
     std::vector<int> values;
 };
 
-/**
- * The location and facing data needed to place a vehicle onto the map.
- */
 struct Vehicle_Location {
     Vehicle_Location(const jmapgen_int &x, const jmapgen_int &y, const Vehicle_Facings &facings) : x(x), y(y), facings(facings) {}
     int pick_facing() const;
@@ -62,12 +58,19 @@ struct Vehicle_Placement {
     vehicle_locations locations;
 };
 
+/**
+ * These classes are used to wrap around a set of vehicle spawning functions. There are
+ * currently two methods that can be used to spawn a vehicle. The first is by using a
+ * c++ function. The second is by using data loaded from json.
+ */
+
 class Vehicle_Function {
 public:
     virtual ~Vehicle_Function() { }
     virtual void apply(map* m, std::string terrainid) = 0;
 };
 
+typedef void (*vehicle_gen_pointer)(map *m, std::string terrainid);
 class Vehicle_Function_builtin : public Vehicle_Function {
 public:
     Vehicle_Function_builtin(const vehicle_gen_pointer &func) : func(func) {}
@@ -95,6 +98,10 @@ public:
     std::unique_ptr<Vehicle_Location> location;
 };
 
+/**
+ * This class handles a weighted list of different spawn functions, allowing a single
+ * vehicle_spawn to have multiple possibilities.
+ */
 struct Vehicle_SpawnType {
     std::string description;
     std::shared_ptr<Vehicle_Function> func;
@@ -148,7 +155,7 @@ class Vehicle_Factory {
         static void builtin_no_vehicles(map* m, std::string terrainid);
         static void builtin_jackknifed_semi(map* m, std::string terrainid);
 
-        typedef std::map<Vehicle_tag, Vehicle_Group> GroupMap;
+        typedef std::map<Vehicle_tag, VehicleGroup> GroupMap;
         GroupMap groups;
 
         typedef std::map<std::string, Vehicle_Placement> PlacementMap;
