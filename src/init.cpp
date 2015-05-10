@@ -133,6 +133,8 @@ void DynamicDataLoader::initialize()
             &Vehicle_Factory::load_vehicle_group);
     type_function_map["vehicle_placement"] = new ClassFunctionAccessor<Vehicle_Factory>(vehicle_controller,
             &Vehicle_Factory::load_vehicle_placement);
+    type_function_map["vehicle_spawn"] = new ClassFunctionAccessor<Vehicle_Factory>(vehicle_controller,
+            &Vehicle_Factory::load_vehicle_spawn);
 
     type_function_map["trap"] = new StaticFunctionAccessor(&trap::load);
     type_function_map["AMMO"] = new ClassFunctionAccessor<Item_factory>(item_controller,

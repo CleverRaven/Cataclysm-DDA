@@ -9,6 +9,7 @@
 
 typedef std::string Vehicle_tag;
 typedef std::vector<int> vehicle_facings;
+typedef void (*vehicle_gen_pointer)(map *m, std::string terrainid);
 
 /**
  * Entry for a vehicle in a vehicle spawn group.
@@ -37,6 +38,7 @@ class Vehicle_Group {
  */
 struct Vehicle_Location {
     Vehicle_Location(const jmapgen_int &x, const jmapgen_int &y, const vehicle_facings &facings) : x(x), y(y), facings(facings) {}
+    int pick_facing() const;
 
     jmapgen_int x;
     jmapgen_int y;
@@ -52,6 +54,53 @@ struct Vehicle_Placement {
 
     typedef std::vector<Vehicle_Location> vehicle_locations;
     vehicle_locations locations;
+};
+
+class Vehicle_Function {
+public:
+    virtual ~Vehicle_Function() { }
+    virtual void apply(map* m, std::string terrainid) = 0;
+};
+
+class Vehicle_Function_builtin : public Vehicle_Function {
+public:
+    Vehicle_Function_builtin(const vehicle_gen_pointer &func) : func(func) {}
+    ~Vehicle_Function_builtin() { }
+
+    void apply(map* m, std::string terrainid) override;
+
+private:
+    vehicle_gen_pointer func;
+};
+
+class Vehicle_Function_json : public Vehicle_Function {
+public:
+    Vehicle_Function_json(JsonObject &jo);
+    ~Vehicle_Function_json() { }
+
+    void apply(map* m, std::string terrainid) override;
+
+    std::string vehicle;
+    jmapgen_int number;
+    int fuel;
+    int status;
+
+    std::string placement;
+    std::unique_ptr<Vehicle_Location> location;
+};
+
+struct Vehicle_SpawnType {
+    std::string description;
+    std::shared_ptr<Vehicle_Function> func;
+};
+
+class Vehicle_Spawn {
+public:
+    void add(const double &weight, const std::string &description, const std::shared_ptr<Vehicle_Function> &func);
+    const Vehicle_SpawnType* pick() const;
+
+private:
+    weighted_float_list<Vehicle_SpawnType> types;
 };
 
 /**
@@ -70,18 +119,40 @@ class Vehicle_Factory {
         void load_vehicle_group(JsonObject &jo);
 
         /**
-         * Callback for the init system (@ref DynamicDataLoader), loads a vehicle group definitions.
+         * Callback for the init system (@ref DynamicDataLoader), loads a vehicle placement definitions.
          * @param jsobj The json object to load from.
          * @throw std::string if the json object contains invalid data.
          */
         void load_vehicle_placement(JsonObject &jo);
 
+        /**
+         * Callback for the init system (@ref DynamicDataLoader), loads a vehicle spawn definitions.
+         * @param jsobj The json object to load from.
+         * @throw std::string if the json object contains invalid data.
+         */
+        void load_vehicle_spawn(JsonObject &jo);
+
+        const Vehicle_Placement* get_placement(const std::string &id) const;
+
     private:
+        // builtin functions
+        static void builtin_no_vehicles(map* m, std::string terrainid);
+        static void builtin_jackknifed_semi(map* m, std::string terrainid);
+
         typedef std::map<Vehicle_tag, Vehicle_Group> GroupMap;
         GroupMap groups;
 
         typedef std::map<std::string, Vehicle_Placement> PlacementMap;
         PlacementMap placements;
+
+        typedef std::map<std::string, Vehicle_Spawn> VehicleSpawnsMap;
+        VehicleSpawnsMap spawns;
+
+        typedef std::map<std::string, std::shared_ptr<Vehicle_Function>> FunctionMap;
+        FunctionMap builtin_functions {
+            { "no_vehicles", std::make_shared<Vehicle_Function_builtin>(builtin_no_vehicles) },
+            { "jack-knifed_semi", std::make_shared<Vehicle_Function_builtin>(builtin_jackknifed_semi) }
+        };
 };
 
 extern std::unique_ptr<Vehicle_Factory> vehicle_controller;

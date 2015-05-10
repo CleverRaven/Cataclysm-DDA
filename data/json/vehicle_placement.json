@@ -69,6 +69,43 @@
         ]
     },{
         "type" : "vehicle_placement",
+        "id" : "road_straight_semi",
+        "locations" : [
+            { "x": [0,8], "y": [4,15], "facing" : 90 },
+            { "x": [12,20], "y": [5,16], "facing" : 270 }
+        ]
+    },{
+        "type" : "vehicle_placement",
+        "id" : "road_end_semi",
+        "locations" : [
+            { "x": [0,16], "y": [14,16], "facing" : 0 },
+            { "x": [0,8], "y": [4,15], "facing" : 90 },
+            { "x": [4,16], "y": [4,6], "facing" : 180 },
+            { "x": [12,20], "y": [5,16], "facing" : 270 }
+        ]
+    },{
+        "type" : "vehicle_placement",
+        "id" : "road_curved_semi",
+        "locations" : [
+            { "x": [0,8], "y": [4,15], "facing" : 90 },
+            { "x": [4,16], "y": [4,6], "facing" : 180 }
+        ]
+    },{
+        "type" : "vehicle_placement",
+        "id" : "road_tee_semi",
+        "locations" : [
+            { "x": [0,8], "y": [4,15], "facing" : 90 },
+            { "x": [4,16], "y": [4,6], "facing" : 180 }
+        ]
+    },{
+        "type" : "vehicle_placement",
+        "id" : "road_four_way_semi",
+        "locations" : [
+            { "x": [0,8], "y": [4,15], "facing" : 90 },
+            { "x": [4,16], "y": [4,6], "facing" : 180 }
+        ]
+    },{
+        "type" : "vehicle_placement",
         "id" : "road_straight_highway",
         "locations" : [
             { "x": [8,16], "y": [8,16], "facing" : [90,270] }
