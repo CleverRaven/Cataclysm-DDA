@@ -270,6 +270,24 @@ bool Creature::sees( const tripoint &t ) const
     return sees( t, junk1, junk2 );
 }
 
+// Helper function to check if potential area of effect of a weapon overlaps vehicle
+// Maybe TODO: If this is too slow, precalculate a bounding box and clip the tested area to it
+bool overlaps_vehicle( const std::set<tripoint> &veh_area, const tripoint &pos, const int area )
+{
+    tripoint tmp = pos;
+    int &x = tmp.x;
+    int &y = tmp.y;
+    for( x = pos.x - area; x < pos.x + area; x++ ) {
+        for( y = pos.y - area; y < pos.y + area; y++ ) {
+            if( veh_area.count( tmp ) > 0 ) {
+                return true;
+            }
+        }
+    }
+
+    return false;
+}
+
 Creature *Creature::auto_find_hostile_target( int range, int &boo_hoo, int area )
 {
     Creature *target = nullptr;
@@ -280,23 +298,29 @@ Creature *Creature::auto_find_hostile_target( int range, int &boo_hoo, int area 
     float best_target_rating = -1.0f; // bigger is better
     int u_angle = 0;         // player angle relative to turret
     boo_hoo = 0;         // how many targets were passed due to IFF. Tragically.
-    bool area_iff = false;   // Need to check distance from target to player
-    bool angle_iff = true;   // Need to check if player is in a cone between us and target
-    int pldist = rl_dist( pos3(), g->u.pos3() );
+    bool self_area_iff = false; // Need to check if the target is near the vehicle we're a part of
+    bool area_iff = false;      // Need to check distance from target to player
+    bool angle_iff = true;      // Need to check if player is in a cone between us and target
+    int pldist = rl_dist( pos(), g->u.pos() );
     int part;
-    vehicle *in_veh = is_fake() ? g->m.veh_at( pos3(), part ) : nullptr;
+    vehicle *in_veh = is_fake() ? g->m.veh_at( pos(), part ) : nullptr;
     if( pldist < iff_dist && sees( g->u ) ) {
         area_iff = area > 0;
         angle_iff = true;
         // Player inside vehicle won't be hit by shots from the roof,
         // so we can fire "through" them just fine.
-        if( in_veh && g->m.veh_at( u.pos3(), part ) == in_veh && in_veh->is_inside( part ) ) {
+        if( in_veh && g->m.veh_at( u.pos(), part ) == in_veh && in_veh->is_inside( part ) ) {
             angle_iff = false; // No angle IFF, but possibly area IFF
         } else if( pldist < 3 ) {
             iff_hangle = (pldist == 2 ? 30 : 60);    // granularity increases with proximity
         }
         u_angle = g->m.coord_to_angle(posx(), posy(), u.posx(), u.posy());
     }
+
+    if( area > 0 && in_veh != nullptr ) {
+        self_area_iff = true;
+    }
+
     std::vector<Creature*> targets;
     targets.reserve( g->num_zombies() + g->active_npc.size() );
     for (size_t i = 0; i < g->num_zombies(); i++) {
@@ -319,8 +343,8 @@ Creature *Creature::auto_find_hostile_target( int range, int &boo_hoo, int area 
             // can't see nor sense it
             continue;
         }
-        int dist = rl_dist( pos3(), m->pos3() ) + 1; // rl_dist can be 0
-        if( dist > range || dist < area ) {
+        int dist = rl_dist( pos(), m->pos() ) + 1; // rl_dist can be 0
+        if( dist > range + 1 || dist < area ) {
             // Too near or too far
             continue;
         }
@@ -336,7 +360,7 @@ Creature *Creature::auto_find_hostile_target( int range, int &boo_hoo, int area 
             // No shooting stuff on vehicle we're a part of
             continue;
         }
-        if( area_iff && rl_dist( u.pos3(), m->pos3() ) <= area ) {
+        if( area_iff && rl_dist( u.pos(), m->pos() ) <= area ) {
             // Player in AoE
             boo_hoo++;
             continue;
@@ -367,6 +391,10 @@ Creature *Creature::auto_find_hostile_target( int range, int &boo_hoo, int area 
         }
         if( target_rating <= best_target_rating || target_rating <= 0 ) {
             continue; // Handle this late so that boo_hoo++ can happen
+        }
+        // Expensive check for proximity to vehicle
+        if( self_area_iff && overlaps_vehicle( in_veh->get_points(), m->pos(), area ) ) {
+            continue;
         }
 
         target = m;
