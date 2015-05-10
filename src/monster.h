@@ -11,7 +11,9 @@ class game;
 class item;
 class monfaction;
 
-typedef std::map< const monfaction*, std::set< int > > mfactions;
+using mfaction_id = int_id<monfaction>;
+
+typedef std::map< mfaction_id, std::set< int > > mfactions;
 
 enum monster_attitude {
     MATT_NULL = 0,
@@ -301,7 +303,7 @@ class monster : public Creature, public JsonSerializer, public JsonDeserializer
         int def_chance;
         int friendly;
         int anger, morale;
-        const monfaction *faction; // Our faction (species, for most monsters)
+        mfaction_id faction; // Our faction (species, for most monsters)
         int mission_id; // If we're related to a mission
         mtype *type;
         bool no_extra_death_drops;    // if true, don't spawn loot items as part of death

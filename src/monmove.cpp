@@ -12,6 +12,7 @@
 #include "sounds.h"
 #include "monattack.h"
 #include "monstergenerator.h"
+#include "monfaction.h"
 #include "translations.h"
 #include "npc.h"
 
@@ -197,7 +198,7 @@ void monster::plan( const mfactions &factions )
     fleeing = fleeing || ( mood == MATT_FLEE );
     if( friendly == 0 && !docile ) {
         for( const auto &fac : factions ) {
-            auto faction_att = faction->attitude( fac.first );
+            auto faction_att = faction.obj().attitude( fac.first );
             if( faction_att == MFA_NEUTRAL || faction_att == MFA_FRIENDLY ) {
                 continue;
             }
@@ -220,11 +221,11 @@ void monster::plan( const mfactions &factions )
 
     // Friendly monsters here
     // Avoid for hordes of same-faction stuff or it could get expensive
-    const monfaction *actual_faction = friendly == 0 ? faction : GetMFact( "player" );
+    const auto actual_faction = friendly == 0 ? faction : mfaction_str_id( "player" );
     auto const &myfaction_iter = factions.find( actual_faction );
     if( myfaction_iter == factions.end() ) {
-        DebugLog( D_ERROR, D_GAME ) << disp_name() << " tried to find faction " <<
-                                    ( friendly == 0 ? faction->name : "player" ) << " which wasn't loaded in game::monmove";
+        DebugLog( D_ERROR, D_GAME ) << disp_name() << " tried to find faction "
+                                    << actual_faction.id().str() << " which wasn't loaded in game::monmove";
         swarms = false;
         group_morale = false;
     }
