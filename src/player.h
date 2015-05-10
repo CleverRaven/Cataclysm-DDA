@@ -413,6 +413,10 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         // melee.cpp
         /** Returns true if the player has a weapon with a block technique */
         bool can_weapon_block();
+        /** Returns the player's block bonus from shield or 0 if none*/
+        int get_shield_armor();
+        /** Returns the name of the player's most effective shield*/
+        std::string get_shield_name();
         /** Sets up a melee attack and handles melee attack function calls */
         void melee_attack(Creature &t, bool allow_special, matec_id technique = "") override;
         /** Returns the player's dispersion modifier based on skill. **/

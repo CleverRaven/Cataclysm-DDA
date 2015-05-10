@@ -8953,5 +8953,30 @@
       [ "felt_patch", 8 ]
     ]
   ]
- }
+ },{
+  "type" : "recipe",
+  "result": "shield_wood",
+  "category": "CC_ARMOR",
+  "subcategory": "CSC_ARMOR_OTHER",
+  "skill_used": "fabrication",
+  "difficulty": 1,
+  "time": 5000,
+  "reversible": false,
+  "autolearn": true,
+  "qualities":[
+    {"id":"HAMMER","level":1,"amount":1},
+    {"id":"SAW_M","level":1,"amount":1}
+    ],
+  "components": [
+    [
+      [ "nail", 6 ]
+    ],
+    [
+      [ "2x4", 1 ]
+    ],
+    [
+      [ "rope_6", 1 ]
+    ]
+  ]
+  }
 ]
