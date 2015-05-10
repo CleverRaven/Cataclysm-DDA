@@ -110,18 +110,19 @@ void mdeath::boomer_glow(monster *z)
             g->m.bash(dest , 10 );
             g->m.add_field(dest , fd_bile, 1, 0);
             int mondex = g->mon_at(dest);
+            Creature *critter = g->critter_at(dest);
             if (mondex != -1) {
                 g->zombie(mondex).stumble(false);
                 g->zombie(mondex).moves -= 250;
             }
-        }
-        if (rl_dist( z->pos(), g->u.pos() ) == 1) {
-            g->u.add_env_effect("boomered", bp_eyes, 5, 25);
-            for (int i = 0; i < rng(2,4); i++){
-                body_part bp = random_body_part();
-                g->u.add_env_effect("glowing", bp, 4, 40);
-                if (ch->has_effect("glowing")){
-                    break;
+            if (critter != nullptr){
+                critter->add_env_effect("boomered", bp_eyes, 5, 25);
+                for (int i = 0; i < rng(2,4); i++){
+                    body_part bp = random_body_part();
+                    critter->add_env_effect("glowing", bp, 4, 40);
+                    if (ch != nullptr && ch->has_effect("glowing")){
+                        break;
+                    }
                 }
             }
         }
