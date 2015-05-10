@@ -4081,7 +4081,7 @@ void mattack::riotbot(monster *z, int index)
         sounds::sound( z->pos(), 15, _("Please stay in place, citizen, do not make any movements!") );
 
         //we need to come closer and arrest
-        if ( !is_adjacent( z, foe, false ) > 1) {
+        if ( !is_adjacent( z, foe, false ) ) {
             return;
         }
 
