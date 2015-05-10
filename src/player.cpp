@@ -214,8 +214,6 @@ player::player() : Character()
  focus_pool = 100;
  last_item = itype_id("null");
  sight_max = 9999;
- sight_boost = 0;
- sight_boost_cap = 0;
  last_batch = 0;
  lastconsumed = itype_id("null");
  next_expected_position = tripoint_min;
@@ -4155,11 +4153,6 @@ const tripoint &player::pos() const
 
 int player::sight_range(int light_level) const
 {
-    // Apply the sight boost (night vision).
-    if (light_level < sight_boost_cap) {
-        light_level = std::min(light_level + sight_boost, sight_boost_cap);
-    }
-
     /* Via Beer-Lambert we have:
      * light_level * (1 / exp( LIGHT_TRANSPARENCY_OPEN_AIR * distance) ) <= LIGHT_AMBIENT_LOW
      * Solving for distance:
@@ -4171,7 +4164,8 @@ int player::sight_range(int light_level) const
      * log(LIGHT_AMBIENT_LOW / light_level) <= LIGHT_TRANSPARENCY_OPEN_AIR * distance
      * log(LIGHT_AMBIENT_LOW / light_level) * (1 / LIGHT_TRANSPARENCY_OPEN_AIR) <= distance
      */
-    int range = -log( LIGHT_AMBIENT_LOW / (float)light_level ) * (1.0 / LIGHT_TRANSPARENCY_OPEN_AIR);
+    int range = -log( get_vision_threshold( g->m.ambient_light_at(pos3()) ) / (float)light_level ) *
+        (1.0 / LIGHT_TRANSPARENCY_OPEN_AIR);
     // int range = log(light_level * LIGHT_AMBIENT_LOW) / LIGHT_TRANSPARENCY_OPEN_AIR;
 
     // Clamp to sight_max.

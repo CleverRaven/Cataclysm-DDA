@@ -5018,6 +5018,8 @@ void map::debug()
 void map::update_visibility_cache( visibility_variables &cache, const int zlev ) {
     cache.variables_set = true; // Not used yet
     cache.g_light_level = (int)g->light_level();
+    cache.vision_threshold = g->u.get_vision_threshold(
+        get_cache( g->u.posz() ).lm[g->u.posx()][g->u.posy()]);
 
     cache.u_clairvoyance = g->u.clairvoyance();
     cache.u_sight_impaired = g->u.sight_impaired();
@@ -5076,7 +5078,7 @@ lit_level map::apparent_light_at( const tripoint &p, const visibility_variables 
     if( apparent_light > LIGHT_AMBIENT_LIT ) {
         return LL_LIT;
     }
-    if( apparent_light > LIGHT_AMBIENT_LOW ) {
+    if( apparent_light > cache.vision_threshold ) {
         return LL_LOW;
     } else {
         return LL_BLANK;

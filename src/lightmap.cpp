@@ -503,8 +503,8 @@ bool map::pl_sees( const int tx, const int ty, const int max_range )
         return false;    // Out of range!
     }
 
-    return get_cache( abs_sub.z ).seen_cache[tx][ty] *
-        get_cache(abs_sub.x).lm[tx][ty] > LIGHT_AMBIENT_LOW;
+    return get_cache( abs_sub.z ).seen_cache[tx][ty] * get_cache( abs_sub.z ).lm[tx][ty] >
+        g->u.get_vision_threshold( get_cache( g->u.posz() ).lm[g->u.posx()][g->u.posy()] );
 }
 
 bool map::pl_sees( const tripoint &t, const int max_range )
@@ -517,7 +517,8 @@ bool map::pl_sees( const tripoint &t, const int max_range )
         return false;    // Out of range!
     }
 
-    return get_cache( t.z ).seen_cache[t.x][t.y] * get_cache( t.z).lm[t.x][t.y] > LIGHT_AMBIENT_LOW;
+    return get_cache( t.z ).seen_cache[t.x][t.y] * get_cache( t.z ).lm[t.x][t.y] >
+        g->u.get_vision_threshold( get_cache( g->u.posz() ).lm[g->u.posx()][g->u.posy()] );
 }
 
 /**

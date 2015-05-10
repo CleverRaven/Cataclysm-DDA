@@ -88,6 +88,7 @@ struct visibility_variables {
     int u_clairvoyance;
     bool u_sight_impaired;
     bool u_is_boomered;
+    float vision_threshold;
 };
 
 enum visibility_type {
