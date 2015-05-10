@@ -5,7 +5,7 @@
 #include "int_id.h"
 #include <unordered_map>
 
-struct monfaction;
+class monfaction;
 class JsonObject;
 
 using mfaction_id = int_id<monfaction>;
@@ -26,7 +26,7 @@ void load_monster_faction(JsonObject &jo);
 mfaction_id get_or_add_faction( const std::string &name );
 }
 
-struct monfaction {
+class monfaction {
     public:
         mfaction_id id;
         mfaction_id base_faction;

@@ -16,8 +16,8 @@
 
 class Creature;
 class monster;
+class monfaction;
 struct projectile;
-struct monfaction;
 enum body_part : int;
 
 using mon_action_death  = void (*)(monster*);
