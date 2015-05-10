@@ -98,8 +98,9 @@ mf_attitude monfaction::attitude( const mfaction_id &other ) const
         return found->second;
     }
 
-    if( other != other.obj().base_faction ) {
-        return attitude( other.obj().base_faction );
+    const auto base = other.obj().base_faction;
+    if( other != base ) {
+        return attitude( base );
     }
 
     // Shouldn't happen

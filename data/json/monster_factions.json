@@ -2,6 +2,7 @@
     {
         "type" : "MONSTER_FACTION",
         "name" : "",
+        "base_faction" : "",
         "by_mood" : [""],
         "neutral" : ["vermin"]
     },{
