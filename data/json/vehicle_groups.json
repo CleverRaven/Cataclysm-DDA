@@ -24,7 +24,7 @@
             ["lux_rv", 100],
             ["meth_lab", 200],
             ["apc", 100],
-            ["motorcycle_sidcart", 100]
+            ["motorcycle_sidecart", 100]
         ]
     },{
         "type" : "vehicle_group",
