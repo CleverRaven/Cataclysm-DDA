@@ -138,9 +138,10 @@ class Vehicle_Factory {
          */
         void load_vehicle_spawn(JsonObject &jo);
 
-        std::string pick_vehicle(const std::string groupid);
         const Vehicle_Placement* get_placement(const std::string &id) const;
         void vehicle_spawn(std::string spawn_id, map* m, std::string terrain_name);
+
+        void add_vehicle(map* m, const std::string &vehicle_id, const int x, const int y, const int facing, const int fuel, const int status, const bool mergewrecks = true);
 
     private:
         // builtin functions

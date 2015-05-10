@@ -63,10 +63,10 @@ void Vehicle_Function_json::apply(map* m, std::string terrain_name)
             return;
         }
 
-        m->add_vehicle(vehicle_controller->pick_vehicle(vehicle), ploc->x.get(), ploc->y.get(), ploc->pick_facing(), fuel, status);
+        vehicle_controller->add_vehicle(m, vehicle, ploc->x.get(), ploc->y.get(), ploc->pick_facing(), fuel, status);
     }
     else {
-        m->add_vehicle(vehicle_controller->pick_vehicle(vehicle), location->x.get(), location->y.get(), location->pick_facing(), fuel, status);
+        vehicle_controller->add_vehicle(m, vehicle, location->x.get(), location->y.get(), location->pick_facing(), fuel, status);
     }
 }
 
@@ -162,15 +162,6 @@ void Vehicle_Factory::load_vehicle_spawn(JsonObject &jo)
     spawns[spawn_id] = spawn;
 }
 
-std::string Vehicle_Factory::pick_vehicle(const std::string groupid)
-{
-    if(groups.count(groupid) == 0) {
-        return groupid;
-    }
-
-    return groups[groupid].pick()->type;
-}
-
 const Vehicle_Placement* Vehicle_Factory::get_placement(const std::string &id) const
 {
     if(placements.count(id) == 0) {
@@ -184,6 +175,12 @@ const Vehicle_Placement* Vehicle_Factory::get_placement(const std::string &id) c
 void Vehicle_Factory::vehicle_spawn(std::string spawn_id, map* m, std::string terrain_name)
 {
     spawns[spawn_id].pick()->func->apply(m, terrain_name);
+}
+
+void Vehicle_Factory::add_vehicle(map* m, const std::string &vehicle_id, const int x, const int y, const int facing, const int fuel, const int status, const bool mergewrecks)
+{
+    m->add_vehicle(groups.count(vehicle_id) > 0 ? groups[vehicle_id].pick()->type : vehicle_id,
+        x, y, facing, fuel, status, mergewrecks);
 }
 
 void Vehicle_Factory::builtin_no_vehicles(map*, std::string)
@@ -217,6 +214,6 @@ void Vehicle_Factory::builtin_jackknifed_semi(map* m, std::string terrainid)
         trailer_y = semi_y - 1;
     }
 
-    m->add_vehicle("semi_truck", semi_x, semi_y, (facing + 135) % 360, -1, 1);
-    m->add_vehicle("truck_trailer", trailer_x, trailer_y, (facing + 90) % 360, -1, 1);
+    vehicle_controller->add_vehicle(m, "semi_truck", semi_x, semi_y, (facing + 135) % 360, -1, 1);
+    vehicle_controller->add_vehicle(m, "truck_trailer", trailer_x, trailer_y, (facing + 90) % 360, -1, 1);
 }
