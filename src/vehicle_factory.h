@@ -78,7 +78,7 @@ public:
     Vehicle_Function_json(JsonObject &jo);
     ~Vehicle_Function_json() { }
 
-    void apply(map* m, std::string terrainid) override;
+    void apply(map* m, std::string terrain_name) override;
 
     std::string vehicle;
     jmapgen_int number;
@@ -132,7 +132,9 @@ class Vehicle_Factory {
          */
         void load_vehicle_spawn(JsonObject &jo);
 
+        std::string pick_vehicle(const std::string groupid);
         const Vehicle_Placement* get_placement(const std::string &id) const;
+        void vehicle_spawn(std::string spawn_id, map* m, std::string terrain_name);
 
     private:
         // builtin functions

@@ -10,6 +10,7 @@
 #include "debug.h"
 #include "scenario.h"
 #include <array>
+#include "vehicle_factory.h"
 
 mapgendata::mapgendata(oter_id north, oter_id east, oter_id south, oter_id west, oter_id northeast,
                        oter_id northwest, oter_id southeast, oter_id southwest, oter_id up, int z, const regional_settings * rsettings, map * mp) :
@@ -981,14 +982,7 @@ void mapgen_road_straight(map *m, oter_id terrain_type, mapgendata dat, int turn
         }
     }
 
-    int veh_spawn_heading;
-    if (terrain_type == "road_ew") {
-        veh_spawn_heading = (one_in(2)? 0 : 180);
-    } else {
-        veh_spawn_heading = (one_in(2)? 270 : 90);
-    }
-
-    m->add_road_vehicles(sidewalks, veh_spawn_heading);
+    vehicle_controller->vehicle_spawn((sidewalks) ? "default_city" : "default_country", m, "road_straight");
 
     for (int i = 0; i < SEEX * 2; i++) {
         for (int j = 0; j < SEEY * 2; j++) {
@@ -1029,7 +1023,7 @@ void mapgen_road_end(map *m, oter_id terrain_type, mapgendata dat, int turn, flo
         }
     }
 
-    m->add_road_vehicles(sidewalks, rng(0,3)*90);
+    vehicle_controller->vehicle_spawn((sidewalks) ? "default_city" : "default_country", m, "road_end");
 
     bool turning_cycle;
     if (sidewalks) {
@@ -1129,7 +1123,8 @@ void mapgen_road_curved(map *m, oter_id terrain_type, mapgendata dat, int turn, 
         }
     }
 
-    m->add_road_vehicles(sidewalks, one_in(2) ? 90 : 180);
+    vehicle_controller->vehicle_spawn((sidewalks) ? "default_city" : "default_country", m, "road_curved");
+
     if (sidewalks) { //this crossroad has sidewalk => this crossroad is in the city
         for (int i=0; i< SEEX * 2; i++) {
             for (int j=0; j< SEEY*2; j++) {
@@ -1233,7 +1228,7 @@ void mapgen_road_tee(map *m, oter_id terrain_type, mapgendata dat, int turn, flo
         }
     }
 
-    m->add_road_vehicles(sidewalks, one_in(2) ? 90 : 180);
+    vehicle_controller->vehicle_spawn((sidewalks) ? "default_city" : "default_country", m, "road_tee");
 
     for (int i = 0; i < SEEX * 2; i++) {
         for (int j = 0; j < SEEY * 2; j++) {
@@ -1289,7 +1284,7 @@ void mapgen_road_four_way(map *m, oter_id terrain_type, mapgendata dat, int turn
 
     // spawn city car wrecks
     if (sidewalks) {
-        m->add_road_vehicles(true, one_in(2) ? 90 : 180);
+        vehicle_controller->vehicle_spawn("default_city", m, "road_four_way");
     }
 
     for (int i = 0; i < SEEX * 2; i++) {

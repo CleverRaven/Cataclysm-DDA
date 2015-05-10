@@ -56,7 +56,7 @@ Vehicle_Function_json::Vehicle_Function_json(JsonObject &jo)
     }
 }
 
-void Vehicle_Function_json::apply(map* m, std::string terrainid)
+void Vehicle_Function_json::apply(map* m, std::string terrain_name)
 {
     if(! location) {
         const Vehicle_Location* ploc = NULL;
@@ -66,7 +66,7 @@ void Vehicle_Function_json::apply(map* m, std::string terrainid)
             ploc = vehicle_controller->get_placement(placement)->pick();
         }
         else {
-            ploc = vehicle_controller->get_placement(placement.substr(0,replace) + terrainid + placement.substr(replace+2))->pick();
+            ploc = vehicle_controller->get_placement(placement.substr(0,replace) + terrain_name + placement.substr(replace+2))->pick();
         }
 
         if(!ploc) {
@@ -74,10 +74,10 @@ void Vehicle_Function_json::apply(map* m, std::string terrainid)
             return;
         }
 
-        m->add_vehicle(vehicle, ploc->x.get(), ploc->y.get(), ploc->pick_facing(), fuel, status);
+        m->add_vehicle(vehicle_controller->pick_vehicle(vehicle), ploc->x.get(), ploc->y.get(), ploc->pick_facing(), fuel, status);
     }
     else {
-        m->add_vehicle(vehicle, location->x.get(), location->y.get(), location->pick_facing(), fuel, status);
+        m->add_vehicle(vehicle_controller->pick_vehicle(vehicle), location->x.get(), location->y.get(), location->pick_facing(), fuel, status);
     }
 }
 
@@ -166,6 +166,15 @@ void Vehicle_Factory::load_vehicle_spawn(JsonObject &jo)
     spawns[spawn_id] = spawn;
 }
 
+std::string Vehicle_Factory::pick_vehicle(const std::string groupid)
+{
+    if(groups.count(groupid) == 0) {
+        return groupid;
+    }
+
+    return groups[groupid].pick()->type;
+}
+
 const Vehicle_Placement* Vehicle_Factory::get_placement(const std::string &id) const
 {
     if(placements.count(id) == 0) {
@@ -174,6 +183,11 @@ const Vehicle_Placement* Vehicle_Factory::get_placement(const std::string &id) c
     }
 
     return &(placements.find(id)->second);
+}
+
+void Vehicle_Factory::vehicle_spawn(std::string spawn_id, map* m, std::string terrain_name)
+{
+    spawns[spawn_id].pick()->func->apply(m, terrain_name);
 }
 
 void Vehicle_Factory::builtin_no_vehicles(map*, std::string)
