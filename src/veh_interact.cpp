@@ -125,7 +125,7 @@ void veh_interact::allocate_windows()
         // w_disp, w_parts and w_list share extra width in a 2:1:1 ratio,
         // but w_parts and w_list start with more than w_disp.
         //
-        // w_details only shows in install view and covers rightmost colums of w_name and w_stats
+        // w_details only shows in install view and covers rightmost columns of w_name and w_stats
 
         const int h1 = 4; // 4 lines for msg + mode
         const int h3 = 7; // 7 lines for name + stats
@@ -1743,12 +1743,12 @@ void veh_interact::display_details( const vpart_info *part )
         const int details_y = vertical_menu ? getbegy(w_name) : getbegy(w_stats) + stats_h - 7;
         const int details_x = vertical_menu ? getbegx(w_list) : getbegx(w_stats);
 
-        const int details_h = vertical_menu ? 6 : 7; // 6 lines in vertical/hybrid, 7 lines in horizontal mode
+        const int details_h = 7;
         const int details_w = getbegx(w_grid) + getmaxx(w_grid) - details_x;
 
         if (vertical_menu) { // clear rightmost blocks of w_stats in vertical/hybrid mode to avoid overlap
-            int stats_col_2 = 34;
-            int stats_col_3 = 63 + ((TERMX - FULL_SCREEN_WIDTH) / 4);
+            int stats_col_2 = 33;
+            int stats_col_3 = 65 + ((TERMX - FULL_SCREEN_WIDTH) / 4);
             int clear_x = stats_w - details_w + 1 >= stats_col_3 ? stats_col_3 : stats_col_2;
             for( int i = 0; i < stats_h; i++) {
                 mvwhline(w_stats, i, clear_x, ' ', stats_w - clear_x);
