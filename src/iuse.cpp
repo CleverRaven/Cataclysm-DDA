@@ -2465,7 +2465,7 @@ static int repair_clothing(player *p, item *it, item *fix, int pos) {
     }
     if (fix->made_of("nomex")) {
         repair_items.push_back("nomex");
-        plurals.push_back(rm_prefix(_("<plural>nomex")));
+        plurals.push_back(rm_prefix(_("<plural>Nomex")));
     }
     if (fix->made_of("wool")) {
         repair_items.push_back("felt_patch");
@@ -2680,7 +2680,7 @@ int iuse::sew_advanced(player *p, item *it, bool, const tripoint& )
     }
     if (mod->made_of("nomex")) {
         repair_items.push_back("nomex");
-        plurals.push_back(rm_prefix(_("<plural>nomex")));
+        plurals.push_back(rm_prefix(_("<plural>Nomex")));
     }
     if (mod->made_of("plastic")) {
         repair_items.push_back("plastic_chunk");
@@ -4052,7 +4052,7 @@ int iuse::airhorn(player *p, item *it, bool, const tripoint &pos)
         p->add_msg_if_player(_("You depress the button but no sound comes out."));
     } else {
         p->add_msg_if_player(_("You honk your airhorn."));
-        sounds::sound(pos.x, pos.y, 50, _("HOOOOONK!"));
+        sounds::sound(pos, 50, _("HOOOOONK!"));
     }
     return it->type->charges_to_use();
 }
@@ -4068,7 +4068,7 @@ int iuse::noise_emitter_on(player *p, item *it, bool t, const tripoint &pos)
 {
     if (t) { // Normal use
         //~ the sound of a noise emitter when turned on
-        sounds::ambient_sound(pos.x, pos.y, 30, _("KXSHHHHRRCRKLKKK!"));
+        sounds::ambient_sound(pos, 30, _("KXSHHHHRRCRKLKKK!"));
     } else { // Turning it off
         p->add_msg_if_player(_("The infernal racket dies as the noise emitter turns off."));
         it->make("noise_emitter");

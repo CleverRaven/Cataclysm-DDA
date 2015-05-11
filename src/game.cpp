@@ -4691,10 +4691,6 @@ void game::draw()
     werase(w_terrain);
     draw_ter();
     if( !is_draw_tiles_mode() ) {
-        draw_footsteps( w_terrain,
-                        { POSX - (u.posx() + u.view_offset.x),
-                          POSY - (u.posy() + u.view_offset.y),
-                          u.posz() + u.view_offset.z } );
         wrefresh(w_terrain);
     }
     draw_sidebar();
@@ -4848,12 +4844,12 @@ void game::draw_critter( const Creature &critter, const tripoint &center )
     }
 }
 
-void game::draw_ter()
+void game::draw_ter( const bool draw_sounds )
 {
-    draw_ter( u.pos3() + u.view_offset, false );
+    draw_ter( u.pos3() + u.view_offset, false, draw_sounds );
 }
 
-void game::draw_ter( const tripoint &center, bool looking )
+void game::draw_ter( const tripoint &center, const bool looking, const bool draw_sounds )
 {
     ter_view_x = center.x;
     ter_view_y = center.y;
@@ -4863,6 +4859,10 @@ void game::draw_ter( const tripoint &center, bool looking )
 
     m.build_map_cache( center.z );
     m.draw( w_terrain, center );
+
+    if( draw_sounds ) {
+        draw_footsteps( w_terrain, {POSX - center.x, POSY - center.y, center.z} );
+    }
 
     // Draw monsters
     for( size_t i = 0; i < num_zombies(); i++ ) {
@@ -8529,7 +8529,6 @@ tripoint game::look_around( WINDOW *w_info, const tripoint &start_point,
     }
 
     draw_ter( lp );
-    draw_footsteps( w_terrain, {POSX - lx, POSY - ly, lp.z} );
 
     int soffset = (int)OPTIONS["MOVE_VIEW_OFFSET"];
     bool fast_scroll = false;
@@ -8668,6 +8667,21 @@ tripoint game::look_around( WINDOW *w_info, const tripoint &start_point,
             auto this_sound = sounds::sound_at( lp );
             if( !this_sound.empty() ) {
                 mvwprintw( w_info, ++off, 1, _("You heard %s from here."), this_sound.c_str() );
+            } else {
+                // Check other z-levels
+                tripoint tmp = lp;
+                for( tmp.z = -OVERMAP_DEPTH; tmp.z <= OVERMAP_HEIGHT; tmp.z++ ) {
+                    if( tmp.z == lp.z ) {
+                        continue;
+                    }
+
+                    auto zlev_sound = sounds::sound_at( tmp );
+                    if( !zlev_sound.empty() ) {
+                        mvwprintw( w_info, ++off, 1, 
+                                   tmp.z > lp.z ?  _("You heard %s from above.") : _("You heard %s from below."),
+                                   zlev_sound.c_str() );
+                    }
+                }
             }
 
             wrefresh(w_info);
@@ -8738,7 +8752,6 @@ tripoint game::look_around( WINDOW *w_info, const tripoint &start_point,
                 }
 
                 draw_ter( lp, true );
-                draw_footsteps( w_terrain, {POSX - lx, POSY - ly, lp.z} );
             }
         }
     } while (action != "QUIT" && action != "CONFIRM");
@@ -8824,7 +8837,7 @@ std::vector<map_item_stack> game::find_nearby_items(int iRadius)
 {
     std::map<std::string, map_item_stack> temp_items;
     std::vector<map_item_stack> ret;
-    std::vector<std::string> vOrder;
+    std::vector<std::string> item_order;
 
     if (u.has_effect("blind") || u.worn_with_flag("BLIND")) {
         return ret;
@@ -8832,27 +8845,25 @@ std::vector<map_item_stack> game::find_nearby_items(int iRadius)
 
     std::vector<tripoint> points = closest_tripoints_first( iRadius, u.pos3() );
 
-    tripoint iLastP;
+    tripoint last_pos;
 
-    // TODO: Z-levels
     for( auto &points_p_it : points ) {
         if( points_p_it.y >= u.posy() - iRadius && points_p_it.y <= u.posy() + iRadius &&
-            u.sees( points_p_it ) && u.posz() == points_p_it.z &&
+            u.sees( points_p_it ) &&
             m.sees_some_items( points_p_it, u ) ) {
 
             for( auto &elem : m.i_at( points_p_it ) ) {
                 const std::string name = elem.tname();
 
-                if( temp_items.find( name ) == temp_items.end() ||
-                    ( iLastP != points_p_it ) ) {
-                    iLastP = points_p_it;
+                if( temp_items.find( name ) == temp_items.end() || last_pos != points_p_it ) {
+                    last_pos = points_p_it;
+                    const tripoint relative_pos = points_p_it - u.pos();
 
-                    if (std::find(vOrder.begin(), vOrder.end(), name) == vOrder.end()) {
-                        vOrder.push_back(name);
-                        temp_items[name] =
-                            map_item_stack( &elem, points_p_it - u.pos3() );
+                    if (std::find(item_order.begin(), item_order.end(), name) == item_order.end()) {
+                        item_order.push_back(name);
+                        temp_items[name] = map_item_stack( &elem, relative_pos );
                     } else {
-                        temp_items[name].addNewPos( points_p_it - u.pos3() );
+                        temp_items[name].addNewPos( relative_pos );
                     }
 
                 } else {
@@ -8862,7 +8873,7 @@ std::vector<map_item_stack> game::find_nearby_items(int iRadius)
         }
     }
 
-    for( auto &elem : vOrder ) {
+    for( auto &elem : item_order ) {
         ret.push_back( temp_items[elem] );
     }
 
@@ -8963,9 +8974,9 @@ void game::draw_trail_to_square( const tripoint &t, bool bDrawX )
     draw_line( u.pos3() + t, center, pts );
     if (bDrawX) {
         char sym = 'X';
-        if( t.z > center.z ) {
+        if( t.z > 0 ) {
             sym = '^';
-        } else if( t.z < center.z ) {
+        } else if( t.z < 0 ) {
             sym = 'v';
         }
         if (pts.empty()) {
@@ -9089,13 +9100,13 @@ int game::list_filter_low_priority(std::vector<map_item_stack> &stack, int start
     return id;
 }
 
-void centerlistview( const tripoint &iActivePos )
+void centerlistview( const tripoint &active_item_position )
 {
     player &u = g->u;
     if (OPTIONS["SHIFT_LIST_ITEM_VIEW"] != "false") {
-        u.view_offset.z = u.posz() + iActivePos.z;
-        int xpos = POSX + iActivePos.x;
-        int ypos = POSY + iActivePos.y;
+        u.view_offset.z = active_item_position.z;
+        int xpos = POSX + active_item_position.x;
+        int ypos = POSY + active_item_position.y;
         if (OPTIONS["SHIFT_LIST_ITEM_VIEW"] == "centered") {
             int xOffset = TERRAIN_WINDOW_WIDTH / 2;
             int yOffset = TERRAIN_WINDOW_HEIGHT / 2;
@@ -9197,7 +9208,6 @@ void game::list_items_monsters()
 
 int game::list_items(const int iLastState)
 {
-    const static tripoint TRIPOINT_MIN( INT_MIN, INT_MIN, INT_MIN );
     int iInfoHeight = std::min(25, TERMY / 2);
     const int width = use_narrow_sidebar() ? 45 : 55;
     WINDOW *w_items = newwin(TERMY - 2 - iInfoHeight - VIEW_OFFSET_Y * 2, width - 2, VIEW_OFFSET_Y + 1,
@@ -9216,7 +9226,7 @@ int game::list_items(const int iLastState)
     //Area to search +- of players position.
     const int iRadius = 12 + (u.per_cur * 2);
 
-    bool bRadiusSort = true;
+    bool sort_radius = true;
 
     //this stores the items found, along with the coordinates
     std::vector<map_item_stack> ground_items_radius = find_nearby_items(iRadius);
@@ -9234,20 +9244,18 @@ int game::list_items(const int iLastState)
 
     const tripoint stored_view_offset = u.view_offset;
 
-    u.view_offset.x = 0;
-    u.view_offset.y = 0;
-    u.view_offset.z = 0;
+    u.view_offset = {0, 0, 0};
 
     int iReturn = -1;
     int iActive = 0; // Item index that we're looking at
     const int iMaxRows = TERMY - iInfoHeight - 2 - VIEW_OFFSET_Y * 2;
     int iStartPos = 0;
-    tripoint iActivePos;
-    tripoint iLastActive( TRIPOINT_MIN );
+    tripoint active_pos;
+    tripoint iLastActive = tripoint_min;
     bool reset = true;
     bool refilter = true;
     bool addcategory = false;
-    int iPage = 0;
+    int page_num = 0;
     int iCatSortNum = 0;
     map_item_stack *activeItem = NULL;
     std::map<int, std::string> mSortCategory;
@@ -9273,7 +9281,7 @@ int game::list_items(const int iLastState)
     do {
         if (!ground_items.empty() || iLastState == 1) {
             if (action == "COMPARE") {
-                compare( iActivePos );
+                compare( active_pos );
                 reset = true;
                 refresh_all();
             } else if (action == "FILTER") {
@@ -9282,14 +9290,14 @@ int game::list_items(const int iLastState)
                                 _("UP: history, CTRL-U clear line, ESC: abort, ENTER: save"), "item_filter", 256);
                 reset = true;
                 refilter = true;
-                addcategory = !bRadiusSort;
+                addcategory = !sort_radius;
             } else if (action == "RESET_FILTER") {
                 sFilter = "";
                 filtered_items = ground_items;
-                iLastActive = TRIPOINT_MIN;
+                iLastActive = tripoint_min;
                 reset = true;
                 refilter = true;
-                addcategory = !bRadiusSort;
+                addcategory = !sort_radius;
             } else if (action == "EXAMINE" && filtered_items.size()) {
                 std::vector<iteminfo> vThisItem, vDummy;
 
@@ -9298,28 +9306,28 @@ int game::list_items(const int iLastState)
                                activeItem->example->tname(), vThisItem, vDummy);
                 // wait until the user presses a key to wipe the screen
 
-                iLastActive = TRIPOINT_MIN;
+                iLastActive = tripoint_min;
                 reset = true;
             } else if (action == "PRIORITY_INCREASE") {
                 std::string temp = ask_item_priority_high(w_item_info, iInfoHeight);
                 list_item_upvote = temp;
                 refilter = true;
                 reset = true;
-                addcategory = !bRadiusSort;
+                addcategory = !sort_radius;
             } else if (action == "PRIORITY_DECREASE") {
                 std::string temp = ask_item_priority_low(w_item_info, iInfoHeight);
                 list_item_downvote = temp;
                 refilter = true;
                 reset = true;
-                addcategory = !bRadiusSort;
+                addcategory = !sort_radius;
             } else if (action == "SORT") {
-                if ( bRadiusSort ) {
-                    bRadiusSort = false;
+                if ( sort_radius ) {
+                    sort_radius = false;
                     addcategory = true;
                     std::sort( ground_items.begin(), ground_items.end(), map_item_stack::map_item_stack_sort );
 
                 } else {
-                    bRadiusSort = true;
+                    sort_radius = true;
 
                     ground_items = ground_items_radius;
                 }
@@ -9340,8 +9348,8 @@ int game::list_items(const int iLastState)
                 highPEnd = list_filter_high_priority(filtered_items, list_item_upvote);
                 lowPStart = list_filter_low_priority(filtered_items, highPEnd, list_item_downvote);
                 iActive = 0;
-                iPage = 0;
-                iLastActive = TRIPOINT_MIN;
+                page_num = 0;
+                iLastActive = tripoint_min;
                 iItemNum = filtered_items.size();
             }
 
@@ -9381,7 +9389,7 @@ int game::list_items(const int iLastState)
             }
 
             if (reset) {
-                reset_item_list_state(w_items_border, iInfoHeight, bRadiusSort);
+                reset_item_list_state(w_items_border, iInfoHeight, sort_radius);
                 reset = false;
             }
 
@@ -9390,7 +9398,7 @@ int game::list_items(const int iLastState)
                     iActive--;
                 } while(mSortCategory[iActive] != "");
 
-                iPage = 0;
+                page_num = 0;
                 if (iActive < 0) {
                     iActive = iItemNum - 1;
                 }
@@ -9399,19 +9407,19 @@ int game::list_items(const int iLastState)
                     iActive++;
                 } while(mSortCategory[iActive] != "");
 
-                iPage = 0;
+                page_num = 0;
                 if (iActive >= iItemNum) {
                     iActive = (mSortCategory[0] != "") ? 1 : 0;
                 }
             } else if (action == "RIGHT") {
-                iPage++;
-                if (!filtered_items.empty() && iPage >= (int)activeItem->vIG.size()) {
-                    iPage = activeItem->vIG.size() - 1;
+                page_num++;
+                if (!filtered_items.empty() && page_num >= (int)activeItem->vIG.size()) {
+                    page_num = activeItem->vIG.size() - 1;
                 }
             } else if (action == "LEFT") {
-                iPage--;
-                if (iPage < 0) {
-                    iPage = 0;
+                page_num--;
+                if (page_num < 0) {
+                    page_num = 0;
                 }
             } else if (action == "NEXT_TAB" || action == "PREV_TAB") {
                 u.view_offset = stored_view_offset;
@@ -9419,7 +9427,7 @@ int game::list_items(const int iLastState)
             }
 
             if (ground_items.empty() && iLastState == 1) {
-                reset_item_list_state(w_items_border, iInfoHeight, bRadiusSort);
+                reset_item_list_state(w_items_border, iInfoHeight, sort_radius);
                 wrefresh(w_items_border);
                 mvwprintz(w_items, 10, 2, c_white, _("You don't see any items around you!"));
             } else {
@@ -9428,8 +9436,7 @@ int game::list_items(const int iLastState)
                 calcStartPos(iStartPos, iActive, iMaxRows, iItemNum);
 
                 int iNum = 0;
-                iActivePos.x = 0;
-                iActivePos.y = 0;
+                active_pos = {0, 0, 0};
                 std::stringstream sText;
                 bool high = true;
                 bool low = false;
@@ -9466,9 +9473,9 @@ int game::list_items(const int iLastState)
 
                         } else {
                             if (iNum == iActive) {
-                                iThisPage = iPage;
+                                iThisPage = page_num;
 
-                                iActivePos = iter->vIG[iThisPage].pos;
+                                active_pos = iter->vIG[iThisPage].pos;
 
                                 activeItem = &(*iter);
                             }
@@ -9526,10 +9533,10 @@ int game::list_items(const int iLastState)
                     draw_item_info(w_item_info, "", vThisItem, vDummy, 0, true, true);
 
                     //Only redraw trail/terrain if x/y position changed
-                    if( iActivePos != iLastActive ) {
-                        iLastActive = iActivePos;
-                        centerlistview( iActivePos );
-                        draw_trail_to_square( iActivePos, true);
+                    if( active_pos != iLastActive ) {
+                        iLastActive = active_pos;
+                        centerlistview( active_pos );
+                        draw_trail_to_square( active_pos, true );
                     }
                 }
 
@@ -9599,10 +9606,7 @@ int game::list_monsters(const int iLastState)
     const int iWeaponRange = u.weapon.gun_range(&u);
 
     const tripoint stored_view_offset = u.view_offset;
-
-    u.view_offset.x = 0;
-    u.view_offset.y = 0;
-    u.view_offset.z = 0;
+    u.view_offset = {0, 0, 0};
 
     int iActive = 0; // monster index that we're looking at
     const int iMaxRows = TERMY - iInfoHeight - 2 - VIEW_OFFSET_Y * 2 - 1;
@@ -13231,7 +13235,7 @@ void game::shift_monsters( const int shiftx, const int shifty, const int shiftz 
             critter.shift( shiftx, shifty );
         }
 
-        if( shiftz == 0 || ( m.has_zlevels() && m.inbounds( critter.pos() ) ) ) {
+        if( m.inbounds( critter.pos() ) && ( shiftz == 0 || m.has_zlevels() ) ) {
             i++;
             // We're inbounds, so don't despawn after all.
             // No need to shift z coords, they are absolute

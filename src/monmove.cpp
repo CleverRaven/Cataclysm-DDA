@@ -33,9 +33,6 @@ bool monster::can_move_to( const tripoint &p ) const
     if( g->m.move_cost( p ) == 0 ) {
         return false;
     }
-    if( posz() != p.z ) {
-        return false; // TODO: Remove this
-    }
     if( !can_submerge() && g->m.has_flag( TFLAG_DEEP_WATER, p ) ) {
         return false;
     }
@@ -382,6 +379,16 @@ void monster::move()
         return;
     }
 
+    // Fix possibly invalid plans
+    // Also make sure the monster won't act across z-levels when it shouldn't.
+    // Don't do it in plan(), because the mon can still use ranged special attacks using
+    // the plans that are not valid for travel/melee.
+    if( !plans.empty() && 
+        ( rl_dist( pos(), plans[0] ) > 1 ||
+          !g->m.valid_move( pos(), plans[0] ) ) ) {
+        plans.clear();
+    }
+
     int mondex = !plans.empty() ? g->mon_at( plans[0] ) : -1;
     auto mon_att = mondex != -1 ? attitude_to( g->zombie( mondex ) ) : A_HOSTILE;
 
@@ -542,6 +549,9 @@ tripoint monster::scent_move()
         int nextsq = rng( 0, smoves.size() - 1 );
         return smoves[nextsq];
     }
+    // TODO: Remove this when scentmaps get 3D
+    next.z = posz();
+
     return next;
 }
 
