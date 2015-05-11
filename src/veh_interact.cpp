@@ -1958,7 +1958,7 @@ std::string veh_interact::getDurabilityDescription(const int &dur)
  * @param vpid The id of the vpart type to look for.
  * @return The item that was consumed.
  */
-item consume_vpart_item (std::string vpid)
+item consume_vpart_item( const vpart_str_id &vpid )
 {
     std::vector<bool> candidates;
     const itype_id itid = vehicle_part_types[vpid].item;
@@ -2157,7 +2157,7 @@ void complete_vehicle ()
     int dy = g->u.activity.values[5];
     int vehicle_part = g->u.activity.values[6];
     int type = g->u.activity.values[7];
-    std::string part_id = g->u.activity.str_values[0];
+    const vpart_str_id part_id( g->u.activity.str_values[0] );
     std::vector<tool_comp> tools;
     int welder_charges = charges_per_use( "welder" );
     int welder_oxy_charges = charges_per_use( "oxy_torch" );

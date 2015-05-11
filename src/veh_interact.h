@@ -11,6 +11,9 @@
 #define CIRC_SAW_USED 20
 #define OXY_CUTTING 10
 
+using vpart_id = int;
+using vpart_str_id = std::string;
+
 enum sel_types {
     SEL_NULL, SEL_JACK
 };

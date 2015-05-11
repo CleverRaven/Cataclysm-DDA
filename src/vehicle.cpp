@@ -304,7 +304,7 @@ void vehicle::init_state(int init_veh_fuel, int init_veh_status)
     bool has_no_key = false;
     bool destroyAlarm = false;
 
-    std::map<std::string, int> consistent_bignesses;
+    std::map<vpart_str_id, int> consistent_bignesses;
 
     // veh_fuel_multiplier is percentage of fuel
     // 0 is empty, 100 is full tank, -1 is random 1% to 7%
@@ -1498,7 +1498,7 @@ bool vehicle::has_structural_part(int const dx, int const dy) const
  * @param id The id of the part to install.
  * @return true if the part can be mounted, false if not.
  */
-bool vehicle::can_mount(int const dx, int const dy, std::string const &id) const
+bool vehicle::can_mount(int const dx, int const dy, const vpart_str_id &id) const
 {
     //The part has to actually exist.
     if(vehicle_part_types.count(id) == 0) {
@@ -1850,7 +1850,7 @@ bool vehicle::is_connected(vehicle_part const &to, vehicle_part const &from, veh
  *              false if illegal part installation should fail.
  * @return false if the part could not be installed, true otherwise.
  */
-int vehicle::install_part (int dx, int dy, std::string id, int hp, bool force)
+int vehicle::install_part (int dx, int dy, const vpart_str_id &id, int hp, bool force)
 {
     if (!force && !can_mount (dx, dy, id)) {
         return -1;  // no money -- no ski!
@@ -1863,7 +1863,7 @@ int vehicle::install_part (int dx, int dy, std::string id, int hp, bool force)
     return install_part(dx, dy, new_part);
 }
 
-int vehicle::install_part (int dx, int dy, const std::string &id, const item &used_item)
+int vehicle::install_part (int dx, int dy, const vpart_str_id &id, const item &used_item)
 {
     if (!can_mount (dx, dy, id)) {
         return -1;  // no money -- no ski!
@@ -2347,16 +2347,16 @@ char vehicle::part_sym(int const p) const
 
 // similar to part_sym(int p) but for use when drawing SDL tiles. Called only by cata_tiles during draw_vpart
 // vector returns at least 1 element, max of 2 elements. If 2 elements the second denotes if it is open or damaged
-std::string vehicle::part_id_string(int const p, char &part_mod) const
+const vpart_str_id &vehicle::part_id_string(int const p, char &part_mod) const
 {
     part_mod = 0;
-    std::string idinfo;
     if( p < 0 || p >= (int)parts.size() || parts[p].removed ) {
-        return "";
+        static const vpart_str_id dummy;
+        return dummy;
     }
 
     int displayed_part = part_displayed_at(parts[p].mount.x, parts[p].mount.y);
-    idinfo = parts[displayed_part].get_id();
+    const vpart_str_id &idinfo = parts[displayed_part].get_id();
 
     if (part_flag (displayed_part, VPFLAG_OPENABLE) && parts[displayed_part].open) {
         part_mod = 1; // open
@@ -5865,7 +5865,7 @@ vehicle_part::vehicle_part( int const dx, int const dy )
 {
 }
 
-vehicle_part::vehicle_part( const std::string &sid, int const dx, int const dy,
+vehicle_part::vehicle_part( const vpart_str_id &sid, int const dx, int const dy,
                             const item *const it )
 : vehicle_part( dx, dy )
 {
@@ -5877,7 +5877,7 @@ vehicle_part::vehicle_part( const std::string &sid, int const dx, int const dy,
     }
 }
 
-void vehicle_part::set_id( const std::string & str )
+void vehicle_part::set_id( const vpart_str_id & str )
 {
     auto const vpit = vehicle_part_types.find( str );
     if( vpit == vehicle_part_types.end() ) {
@@ -5888,7 +5888,7 @@ void vehicle_part::set_id( const std::string & str )
     iid = vpit->second.loadid;
 }
 
-const std::string &vehicle_part::get_id() const
+const vpart_str_id &vehicle_part::get_id() const
 {
     return id;
 }
