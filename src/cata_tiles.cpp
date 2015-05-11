@@ -1685,7 +1685,7 @@ void cata_tiles::tile_loading_report(size_t const count, std::string const & lab
     std::string missing_list;
     for( size_t i = 0; i < count; ++i ) {
         const int_id<base_type> iid( i );
-        const string_id<base_type> sid = iid.id();
+        const string_id<base_type> &sid = iid.id();
         const std::string &s = sid.str();
         if (tile_ids.count(prefix+s) == 0) {
             missing++;
