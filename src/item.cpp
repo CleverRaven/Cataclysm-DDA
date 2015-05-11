@@ -4031,7 +4031,7 @@ int item::getlight_emit() const {
         it_tool * tool = dynamic_cast<it_tool *>(type);
         int maxcharge = tool->max_charges;
         // Falloff starts at 1/5 total charge and scales linearly from there to 0.
-        if( maxcharge > 0 && maxcharge / charges > 5 ) {
+        if( maxcharge > 0 && charges > 0 && maxcharge / charges > 5 ) {
             lumint *= charges * 5 / maxcharge;
         }
     }
