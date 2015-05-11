@@ -291,6 +291,11 @@ MISSION(_("Find Flag"), MGOAL_FIND_ITEM, 2, 100000, false,
   ORIGINS(ORIGIN_SECONDARY);
   FOLLOWUP(MISSION_OLD_GUARD_NEC_COMMO_4);
 
+ MISSION(_("Install Repeater Mod"), MGOAL_COMPUTER_TOGGLE, 2, 350000, false,
+         &mission_place::always, &mission_start::standard,
+         &mission_end::standard, &mission_fail::standard);
+  ORIGINS(ORIGIN_SECONDARY);
+  FOLLOWUP(MISSION_OLD_GUARD_NEC_COMMO_4);
  ////Tacoma Commune
  MISSION(_("Cut 200 2x4's"), MGOAL_FIND_ITEM, 5, 50000, false,
          &mission_place::always, &mission_start::standard,
