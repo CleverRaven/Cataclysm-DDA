@@ -19,6 +19,7 @@
 #include "lightmap.h"
 #include "item_stack.h"
 #include "active_item_cache.h"
+#include "map_iterator.h"
 
 //TODO: include comments about how these variables work. Where are they used. Are they constant etc.
 #define CAMPSIZE 1
@@ -1215,6 +1216,10 @@ private:
   public:
     lit_level visibility_cache[MAPSIZE*SEEX][MAPSIZE*SEEY];
     void update_visibility_cache( visibility_variables &cache, int zlev );
+
+    // Clips the area to map bounds
+    tripoint_range points_in_rectangle( const tripoint &from, const tripoint &to ) const;
+    tripoint_range points_in_radius( const tripoint &center, size_t radius, size_t radiusz = 0 ) const;
 };
 
 std::vector<point> closest_points_first(int radius, point p);

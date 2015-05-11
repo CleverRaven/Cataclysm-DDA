@@ -7399,3 +7399,25 @@ void map::scent_blockers( bool (&blocks_scent)[SEEX * MAPSIZE][SEEY * MAPSIZE],
         }
     }
 }
+
+tripoint_range map::points_in_rectangle( const tripoint &from, const tripoint &to ) const
+{
+    const int minx = std::max( 0, std::min( from.x, to.x ) );
+    const int miny = std::max( 0, std::min( from.y, to.y ) );
+    const int minz = std::max( -OVERMAP_DEPTH, std::min( from.z, to.z ) );
+    const int maxx = std::min( SEEX * my_MAPSIZE, std::max( from.x, to.x ) );
+    const int maxy = std::min( SEEX * my_MAPSIZE, std::max( from.y, to.y ) );
+    const int maxz = std::min( OVERMAP_HEIGHT, std::max( from.z, to.z ) );
+    return tripoint_range( minx, miny, minz, maxx, maxy, maxz );
+}
+
+tripoint_range map::points_in_radius( const tripoint &center, size_t radius, size_t radiusz ) const
+{
+    const int minx = std::max<int>( 0, center.x - radius );
+    const int miny = std::max<int>( 0, center.y - radius );
+    const int minz = std::max<int>( -OVERMAP_DEPTH, center.z - radiusz );
+    const int maxx = std::min<int>( SEEX * my_MAPSIZE, center.x + radius );
+    const int maxy = std::min<int>( SEEX * my_MAPSIZE, center.y + radius );
+    const int maxz = std::min<int>( OVERMAP_HEIGHT, center.z + radiusz );
+    return tripoint_range( minx, miny, minz, maxx, maxy, maxz );
+}
