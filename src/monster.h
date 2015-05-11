@@ -265,6 +265,14 @@ class monster : public Creature, public JsonSerializer, public JsonDeserializer
         int  dodge_roll() override;  // For the purposes of comparing to player::hit_roll()
         int  fall_damage() const; // How much a fall hurts us
 
+        // We just dodged an attack from something
+        void on_dodge( Creature *source, int difficulty = INT_MIN ) override;
+        // Something hit us (possibly null source)
+        void on_hit( Creature *source, body_part bp_hit = num_bp,
+                     int difficulty = INT_MIN, projectile const* const proj = nullptr ) override;
+        // Get torso - monsters don't have body parts (yet?)
+        body_part get_random_body_part( bool main ) const override;
+
         /** Resets a given special to its monster type cooldown value, an index of -1 does nothing. */
         void reset_special(int index);
         /** Resets a given special to a value between 0 and its monster type cooldown value.

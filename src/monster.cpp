@@ -938,44 +938,55 @@ void monster::melee_attack(Creature &target, bool, matec_id) {
 
 void monster::hit_monster(monster &other)
 {
- monster* target = &other;
- moves -= 100;
+    // TODO: Unify this with the function above
+    moves -= 100;
 
- if (this == target) {
-  return;
- }
+    if( this == &other ) {
+        return;
+    }
 
- int numdice = type->melee_skill;
- int dodgedice = target->get_dodge() * 2;
- switch (target->type->size) {
-  case MS_TINY:  dodgedice += 6; break;
-  case MS_SMALL: dodgedice += 3; break;
-  case MS_MEDIUM: break;
-  case MS_LARGE: dodgedice -= 2; break;
-  case MS_HUGE:  dodgedice -= 4; break;
- }
+    damage_instance damage;
+    if( !is_hallucination() ) {
+        if( type->melee_dice > 0 ) {
+            damage.add_damage( DT_BASH, dice( type->melee_dice, type->melee_sides ) );
+        }
 
- if (dice(numdice, 10) <= dice(dodgedice, 10)) {
-  if (g->u.sees(*this))
-   add_msg(_("The %s misses the %s!"), name().c_str(), target->name().c_str());
-  return;
- }
- if (g->u.sees(*this))
-  add_msg(_("The %s hits the %s!"), name().c_str(), target->name().c_str());
- if (!is_hallucination()) {
-  int damage = dice(type->melee_dice, type->melee_sides);
-  target->apply_damage( this, bp_torso, damage );
-  target->type->sp_defense(target, this, nullptr);
-  target->check_dead_state();
- }
+        if( type->melee_cut > 0 ) {
+            damage.add_damage( DT_CUT, type->melee_cut );
+        }
+    }
+
+    dealt_damage_instance dealt_dam;
+    int hitspread = other.deal_melee_attack( this, hit_roll() );
+    if( hitspread >= 0 ) {
+        other.deal_melee_hit( this, hitspread, false, damage, dealt_dam );
+        if( g->u.sees(*this) ) {
+            add_msg(_("The %s hits the %s!"), name().c_str(), other.name().c_str());
+        }
+    } else {
+        if( g->u.sees( *this ) ) {
+            add_msg(_("The %s misses the %s!"), name().c_str(), other.name().c_str());
+        }
+
+        if( !is_hallucination() ) {
+            other.on_dodge( this );
+        }
+    }
 }
 
 int monster::deal_melee_attack(Creature *source, int hitroll)
 {
-    if(!is_hallucination() && source != NULL) {
-        type->sp_defense(this, source, nullptr);
+    int roll = Creature::deal_melee_attack(source, hitroll);
+    if( is_hallucination() ) {
+        return roll;
     }
-    return Creature::deal_melee_attack(source, hitroll);
+
+    if( roll < 0 ) {
+        // on_hit is in deal_melee_hit
+        on_dodge( source );
+    }
+
+    return roll;
 }
 
 int monster::deal_projectile_attack(Creature *source, double missed_by,
@@ -994,16 +1005,18 @@ int monster::deal_projectile_attack(Creature *source, double missed_by,
         missed_by = 0.2;
     }
 
-    if(!is_hallucination() && source != NULL) {
-        type->sp_defense(this, source, &proj);
-    }
-
     // whip has a chance to scare wildlife
     if(proj.proj_effects.count("WHIP") && type->in_category("WILDLIFE") && one_in(3)) {
         add_effect("run", rng(3, 5));
     }
 
-    return Creature::deal_projectile_attack(source, missed_by, proj, dealt_dam);
+    int went_past = Creature::deal_projectile_attack(source, missed_by, proj, dealt_dam);
+    if( !is_hallucination() && !went_past ) {
+        // Maybe TODO: Get difficulty from projectile speed/size/missed_by
+        on_hit( source, bp_torso, INT_MIN, &proj );
+    }
+
+    return went_past;
 }
 
 void monster::deal_damage_handle_type(const damage_unit& du, body_part bp, int& damage, int& pain) {
@@ -1777,4 +1790,22 @@ float monster::power_rating() const
     // Hostile stuff gets a big boost
     // Neutral moose will still get burned if it comes close
     return ret;
+}
+
+void monster::on_dodge( Creature*, int )
+{
+    // Currently does nothing, later should handle faction relations
+}
+
+void monster::on_hit( Creature *source, body_part,
+                      int, projectile const* const proj )
+{
+    type->sp_defense( this, source, proj );
+    check_dead_state();
+    // TODO: Faction relations
+}
+
+body_part monster::get_random_body_part( bool ) const
+{
+    return bp_torso;
 }

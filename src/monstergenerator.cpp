@@ -203,7 +203,6 @@ void MonsterGenerator::init_attack()
     attack_map["DANCE"] = &mattack::dance;
     attack_map["DOGTHING"] = &mattack::dogthing;
     attack_map["TENTACLE"] = &mattack::tentacle;
-    attack_map["VORTEX"] = &mattack::vortex;
     attack_map["GENE_STING"] = &mattack::gene_sting;
     attack_map["PARA_STING"] = &mattack::para_sting;
     attack_map["TRIFFID_GROWTH"] = &mattack::triffid_growth;
