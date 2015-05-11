@@ -1384,7 +1384,7 @@ void vehicle_part::deserialize(JsonIn &jsin)
             throw (std::string)"bad vehicle part, id: %s" + pid;
         }
     }
-    setid(pid);
+    set_id(pid);
     data.read("mount_dx", mount.x);
     data.read("mount_dy", mount.y);
     data.read("hp", hp );

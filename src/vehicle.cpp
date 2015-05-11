@@ -269,7 +269,7 @@ void vehicle::add_missing_frames()
             if(!found) {
                 //No frame here! Install one.
                 vehicle_part new_part;
-                new_part.setid("frame_vertical");
+                new_part.set_id("frame_vertical");
                 new_part.mount.x = next_x;
                 new_part.mount.y = next_y;
                 new_part.hp = vehicle_part_types["frame_vertical"].durability;
@@ -5870,14 +5870,14 @@ vehicle_part::vehicle_part( const std::string &sid, int const dx, int const dy,
 : vehicle_part( dx, dy )
 {
     if( !sid.empty() ) {
-        setid( sid );
+        set_id( sid );
     }
     if( it != nullptr ) {
         properties_from_item( *it );
     }
 }
 
-void vehicle_part::setid( const std::string & str )
+void vehicle_part::set_id( const std::string & str )
 {
     auto const vpit = vehicle_part_types.find( str );
     if( vpit == vehicle_part_types.end() ) {

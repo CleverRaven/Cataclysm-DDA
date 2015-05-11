@@ -2168,7 +2168,7 @@ void vehicle::load_legacy(std::ifstream &stin) {
         stin >> pid >> pdx >> pdy >> php >> pam >> pbld >> pbig >> pflag >> pass >> pnit;
         getline(stin, databuff); // Clear EoL
         vehicle_part new_part;
-        new_part.setid(legacy_vpart_id[ pid ]);
+        new_part.set_id(legacy_vpart_id[ pid ]);
         new_part.mount.x = pdx;
         new_part.mount.y = pdy;
         new_part.hp = php;
