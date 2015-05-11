@@ -21,6 +21,9 @@
 #include "uistate.h"
 #include "translations.h"
 #include "path_info.h"
+#include "ui.h"
+#include "item.h"
+#include "line.h"
 
 // Display data
 int TERMX;
@@ -1738,6 +1741,12 @@ scrollingcombattext::cSCT::cSCT(const int p_iPosX, const int p_iPosY, const dire
     iDirX = pairDirXY.x;
     iDirY = pairDirXY.y;
 
+    if( iDirX == 0 && iDirY == 0 ) {
+        // This would cause infinite loop otherwise
+        oDir = WEST;
+        iDirX = -1;
+    }
+
     iStep = 0;
     iStepOffset = 0;
 
@@ -1958,8 +1967,8 @@ void play_music(std::string)
 {
 }
 
-void play_sound(std::string)
+void play_sound_effect(std::string, std::string, int)
 {
 }
-
 #endif
+

@@ -1,9 +1,15 @@
 #include "game.h"
+#include "map.h"
+#include "debug.h"
 #include "trap.h"
 #include "rng.h"
 #include "monstergenerator.h"
 #include "messages.h"
 #include "sounds.h"
+#include "translations.h"
+#include "event.h"
+#include "npc.h"
+#include "monster.h"
 
 // A pit becomes less effective as it fills with corpses.
 float pit_effectiveness(int x, int y)
@@ -80,7 +86,7 @@ void trapfunc::beartrap(Creature *c, int x, int y)
             d.add_damage( DT_BASH, 12 );
             d.add_damage( DT_CUT, 18 );
             n->deal_damage( nullptr, hit, d );
-            
+
             if ((n->has_trait("INFRESIST")) && (one_in(512))) {
                 n->add_effect("tetanus", 1, num_bp, true);
             }
@@ -168,11 +174,12 @@ void trapfunc::tripwire(Creature *c, int x, int y)
                 z->apply_damage( nullptr, bp_torso, rng(1, 4));
             }
         } else if (n != NULL) {
-            std::vector<point> valid;
-            point jk;
+            std::vector<tripoint> valid;
+            tripoint jk;
+            jk.z = g->get_levz();
             for (jk.x = x - 1; jk.x <= x + 1; jk.x++) {
                 for (jk.y = y - 1; jk.y <= y + 1; jk.y++) {
-                    if (g->is_empty(jk.x, jk.y)) {
+                    if (g->is_empty( jk )) {
                         // No monster, NPC, or player, plus valid for movement
                         valid.push_back(jk);
                     }
@@ -180,8 +187,7 @@ void trapfunc::tripwire(Creature *c, int x, int y)
             }
             if (!valid.empty()) {
                 jk = valid[rng(0, valid.size() - 1)];
-                n->setx( jk.x );
-                n->sety( jk.y );
+                n->setpos( jk );
             }
             n->moves -= 150;
             if (rng(5, 20) > n->dex_cur) {
@@ -535,7 +541,7 @@ void trapfunc::telepad(Creature *c, int x, int y)
             if (tries == 10) {
                 z->die_in_explosion( nullptr );
             } else {
-                int mon_hit = g->mon_at(newposx, newposy);
+                int mon_hit = g->mon_at({newposx, newposy, g->get_levz()});
                 if (mon_hit != -1) {
                     if (g->u.sees(*z)) {
                         add_msg(m_good, _("The %s teleports into a %s, killing them both!"),
@@ -543,7 +549,7 @@ void trapfunc::telepad(Creature *c, int x, int y)
                     }
                     g->zombie( mon_hit ).die_in_explosion( z );
                 } else {
-                    z->setpos(newposx, newposy);
+                    z->setpos({newposx, newposy,z->posz()});
                 }
             }
         }
@@ -1115,7 +1121,6 @@ void trapfunc::shadow(Creature *c, int x, int y)
     // Monsters and npcs are completely ignored here, should they?
     g->u.add_memorial_log(pgettext("memorial_male", "Triggered a shadow trap."),
                           pgettext("memorial_female", "Triggered a shadow trap."));
-    monster spawned(GetMType("mon_shadow"));
     int tries = 0, monx, mony, junk;
     do {
         if (one_in(2)) {
@@ -1125,14 +1130,15 @@ void trapfunc::shadow(Creature *c, int x, int y)
             monx = (one_in(2) ? g->u.posx() - 5 : g->u.posx() + 5);
             mony = rng(g->u.posy() - 5, g->u.posy() + 5);
         }
-    } while (tries < 5 && !g->is_empty(monx, mony) &&
+    } while (tries < 5 && !g->is_empty({monx, mony, g->get_levz()}) &&
              !g->m.sees(monx, mony, g->u.posx(), g->u.posy(), 10, junk));
 
     if (tries < 5) {
-        add_msg(m_warning, _("A shadow forms nearby."));
-        spawned.reset_special_rng(0);
-        spawned.spawn(monx, mony);
-        g->add_zombie(spawned);
+        if (g->summon_mon("mon_shadow", tripoint(x, y, c->posz()))) {
+            add_msg(m_warning, _("A shadow forms nearby."));
+            monster* spawned = g->monster_at(tripoint(x, y, c->posz()));
+            spawned->reset_special_rng(0);
+        }
         g->m.remove_trap(x, y);
     }
 }
@@ -1166,7 +1172,6 @@ void trapfunc::snake(Creature *c, int x, int y)
                             pgettext("memorial_female", "Triggered a shadow snake trap."));
     }
     if (one_in(3)) {
-        monster spawned(GetMType("mon_shadow_snake"));
         int tries = 0, monx, mony, junk;
         // This spawns snakes only when the player can see them, why?
         do {
@@ -1177,13 +1182,12 @@ void trapfunc::snake(Creature *c, int x, int y)
                 monx = (one_in(2) ? g->u.posx() - 5 : g->u.posx() + 5);
                 mony = rng(g->u.posy() - 5, g->u.posy() + 5);
             }
-        } while (tries < 5 && !g->is_empty(monx, mony) &&
+        } while (tries < 5 && !g->is_empty({monx, mony, g->get_levz()}) &&
                  !g->m.sees(monx, mony, g->u.posx(), g->u.posy(), 10, junk));
 
         if (tries < 5) {
             add_msg(m_warning, _("A shadowy snake forms nearby."));
-            spawned.spawn(monx, mony);
-            g->add_zombie(spawned);
+            g->summon_mon("mon_shadow_snake", tripoint(x, y, c->posz()));
             g->m.remove_trap(x, y);
         }
     }

@@ -1797,7 +1797,15 @@
         "allow_road" : true
     },{
         "type" : "overmap_terrain",
-        "id" : "rock",
+        "id" : "rock", "//" : "This is old rock type, new one (below) will replace it in new overmaps",
+        "name" : "solid rock",
+        "sym" : 37,
+        "color" : "dark_gray",
+        "see_cost" : 5,
+        "allow_road" : true
+    },{
+        "type" : "overmap_terrain",
+        "id" : "empty_rock",
         "name" : "solid rock",
         "sym" : 37,
         "color" : "dark_gray",
@@ -6036,5 +6044,54 @@
         "see_cost" : 5,
         "mondensity" : 2,
         "sidewalk" : true
+    },
+    {
+        "type" : "overmap_terrain",
+        "id" : "hdwr_large_entrance",
+        "name" : "home improvement superstore entrance",
+        "sym" : 72,
+        "color" : "ltgreen_yellow",
+        "see_cost" : 5,
+        "extras" : "field"
+    },{
+        "type" : "overmap_terrain",
+        "id" : "hdwr_large_SW",
+        "name" : "home improvement superstore",
+        "sym" : 72,
+        "color" : "ltgreen_yellow",
+        "see_cost" : 5,
+        "extras" : "field"
+    },{
+        "type" : "overmap_terrain",
+        "id" : "hdwr_large_NW",
+        "name" : "home improvement superstore",
+        "sym" : 72,
+        "color" : "ltgreen_yellow",
+        "see_cost" : 5,
+        "extras" : "field"
+    },{
+        "type" : "overmap_terrain",
+        "id" : "hdwr_large_NE",
+        "name" : "home improvement superstore",
+        "sym" : 72,
+        "color" : "ltgreen_yellow",
+        "see_cost" : 5,
+        "extras" : "field"
+    },{
+        "type" : "overmap_terrain",
+        "id" : "hdwr_large_backroom",
+        "name" : "home improvement superstore",
+        "sym" : 72,
+        "color" : "ltgreen_yellow",
+        "see_cost" : 5,
+        "extras" : "field"
+    },{
+        "type" : "overmap_terrain",
+        "id" : "hdwr_large_loadingbay",
+        "name" : "home improvment superstore",
+        "sym" : 72,
+        "color" : "ltgreen_yellow",
+        "see_cost" : 5,
+        "extras" : "field"
     }
 ]

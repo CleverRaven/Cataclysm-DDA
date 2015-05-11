@@ -3,6 +3,8 @@
 #include "output.h"
 #include "skill.h"
 #include "game.h"
+#include "map.h"
+#include "debug.h"
 #include "cursesdef.h"
 #include "text_snippets.h"
 #include "material.h"
@@ -11,12 +13,16 @@
 #include "options.h"
 #include "uistate.h"
 #include "messages.h"
-#include "disease.h"
 #include "artifact.h"
 #include "itype.h"
 #include "iuse_actor.h"
 #include "compatibility.h"
 #include "monstergenerator.h"
+#include "translations.h"
+#include "crafting.h"
+#include "martialarts.h"
+#include "npc.h"
+#include "ui.h"
 
 #include <cmath> // floor
 #include <sstream>
@@ -348,6 +354,9 @@ bool item::stacks_with( const item &rhs ) const
         return false;
     }
     if( item_tags != rhs.item_tags ) {
+        return false;
+    }
+    if( techniques != rhs.techniques ) {
         return false;
     }
     if( item_vars != rhs.item_vars ) {
@@ -940,18 +949,18 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump, bool debug) c
         temp1.str("");
         temp1 << _("Layer: ");
         if (has_flag("SKINTIGHT")) {
-				temp1 << _("Close to skin. ");
-		} else if (has_flag("BELTED")) {
-			temp1 << _("Strapped. ");
-		} else if (has_flag("OUTER")) {
-			temp1 << _("Outer. ");
-		} else if (has_flag("WAIST")) {
-			temp1 << _("Waist. ");
-		} else {
-			temp1 << _("Normal. ");
-		}
+            temp1 << _("Close to skin. ");
+        } else if (has_flag("BELTED")) {
+            temp1 << _("Strapped. ");
+        } else if (has_flag("OUTER")) {
+            temp1 << _("Outer. ");
+        } else if (has_flag("WAIST")) {
+            temp1 << _("Waist. ");
+        } else {
+            temp1 << _("Normal. ");
+        }
 
-		dump->push_back(iteminfo("ARMOR", temp1.str()));
+        dump->push_back(iteminfo("ARMOR", temp1.str()));
 
         dump->push_back(iteminfo("ARMOR", _("Coverage: "), "<num>% ", get_coverage(), true, "", false));
         dump->push_back(iteminfo("ARMOR", _("Warmth: "), "", get_warmth()));
@@ -1128,11 +1137,24 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump, bool debug) c
         }
     }
 
-    if ( !type->qualities.empty()){
-        for(std::map<std::string, int>::const_iterator quality = type->qualities.begin();
-            quality != type->qualities.end(); ++quality){
-            dump->push_back(iteminfo("QUALITIES", "", string_format(_("Has level %1$d %2$s quality."),
-                            quality->second, quality::get_name(quality->first).c_str())));
+    for( const auto &quality : type->qualities ){
+        const auto desc = string_format( _("Has level %1$d %2$s quality."),
+                                         quality.second, 
+                                         quality::get_name(quality.first).c_str() );
+        dump->push_back( iteminfo( "QUALITIES", "", desc ) );
+    }
+    bool intro = false; // Did we print the "Contains items with qualities" line
+    for( const auto &content : contents ) {
+        for( const auto quality : content.type->qualities ) {
+            if( !intro ) {
+                intro = true;
+                dump->push_back( iteminfo( "QUALITIES", "", _("Contains items with qualities:") ) );
+            }
+
+            const auto desc = string_format( _("  Level %1$d %2$s quality."),
+                                         quality.second, 
+                                         quality::get_name( quality.first ).c_str() );
+            dump->push_back( iteminfo( "QUALITIES", "", desc ) );
         }
     }
 
@@ -1150,6 +1172,16 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump, bool debug) c
 
         std::ostringstream tec_buffer;
         for( const auto &elem : type->techniques ) {
+            const ma_technique &tec = ma_techniques[elem];
+            if (tec.name.empty()) {
+                continue;
+            }
+            if (!tec_buffer.str().empty()) {
+                tec_buffer << _(", ");
+            }
+            tec_buffer << tec.name;
+        }
+        for( const auto &elem : techniques ) {
             const ma_technique &tec = ma_techniques[elem];
             if (tec.name.empty()) {
                 continue;
@@ -1281,7 +1313,7 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump, bool debug) c
         if (is_armor() && item_tags.count("kevlar_padded")) {
             dump->push_back(iteminfo("DESCRIPTION", "--"));
             dump->push_back(iteminfo("DESCRIPTION",
-                _("This gear has kevlar inserted into strategic locations to increase protection with minimal increase to encumbrance.")));
+                _("This gear has Kevlar inserted into strategic locations to increase protection with minimal increase to encumbrance.")));
         }
         if (is_armor() && has_flag("FLOATATION")) {
             dump->push_back(iteminfo("DESCRIPTION", "--"));
@@ -1357,6 +1389,30 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump, bool debug) c
         if (is_tool() && has_flag("USE_UPS")) {
             dump->push_back(iteminfo("DESCRIPTION",
                 _("This tool has been modified to use a universal power supply and is not compatible with standard batteries.")));
+        }
+        if( is_tool() && has_flag("RADIO_ACTIVATION") ) {
+            if( has_flag( "RADIO_MOD" ) ) {
+                dump->push_back(iteminfo("DESCRIPTION",
+                    _("This item has been modified to listen to radio signals. It can still be activated manually.")));
+            } else {
+                dump->push_back(iteminfo("DESCRIPTION",
+                    _("This item can only be activated by a radio signal.")));
+            }
+
+            if( has_flag("RADIOSIGNAL_1") ) {
+                dump->push_back(iteminfo("DESCRIPTION", _("It will be activated by \"Red\" radio signal.")));
+            } else if( has_flag("RADIOSIGNAL_2") ) {
+                dump->push_back(iteminfo("DESCRIPTION", _("It will be activated by \"Blue\" radio signal.")));
+            } else if( has_flag("RADIOSIGNAL_3") ) {
+                dump->push_back(iteminfo("DESCRIPTION", _("It will be activated by \"Green\" radio signal.")));
+            } else {
+                dump->push_back(iteminfo("DESCRIPTION", _("It is bugged and does not actually listen to radio signals.")));
+            }
+
+            if( has_flag( "RADIO_INVOKE_PROC" ) ) {
+                dump->push_back(iteminfo("DESCRIPTION",
+                    _("Activating this item with a radio signal will detonate it immediately.")));
+            }
         }
 
         if (has_flag("LEAK_DAM") && has_flag("RADIOACTIVE") && damage > 0) {
@@ -1650,6 +1706,23 @@ void item::on_wield( player &p  )
     if( &p == &g->u && art != nullptr ) {
         g->add_artifact_messages( art->effects_wielded );
     }
+
+     if (has_flag("SLOW_WIELD") && (! is_gunmod())) {
+         int d = 32; // arbitrary linear scaling factor
+         if      (is_gun())  d /= std::max((int) p.skillLevel(gun_skill()),  1);
+         else if (is_weap()) d /= std::max((int) p.skillLevel(weap_skill()), 1);
+
+         int const penalty = get_var("volume", (int) type->volume) * d;
+         if (penalty > 50) {
+             std::string msg;
+             if      (penalty > 250) msg = _("It takes you much longer than usual to wield your %s.");
+             else if (penalty > 100) msg = _("It takes you longer than usual to wield your %s.");
+             else                    msg = _("It takes you slightly longer than usual to wield your %s.");
+
+             p.add_msg_if_player(msg.c_str(), tname().c_str());
+             p.moves -= penalty;
+         }
+     }
 }
 
 void item::on_pickup( Character &p  )
@@ -1676,11 +1749,11 @@ std::string item::tname( unsigned int quantity, bool with_prefix ) const
         if( damage < 0 )  {
             if( damage < -1 ) {
                 damtext = rm_prefix(_("<dam_adj>bugged "));
-            } else if (is_gun())  {
-                damtext = rm_prefix(_("<dam_adj>accurized "));
             } else if ( OPTIONS["ITEM_HEALTH_BAR"] ) {
                 auto const &nc_text = get_item_hp_bar(damage);
                 damtext = "<color_" + string_from_color(nc_text.second) + ">" + nc_text.first + " </color>";
+            } else if (is_gun())  {
+                damtext = rm_prefix(_("<dam_adj>accurized "));
             } else {
                 damtext = rm_prefix(_("<dam_adj>reinforced "));
             }
@@ -1810,6 +1883,18 @@ std::string item::tname( unsigned int quantity, bool with_prefix ) const
     }
     if (is_tool() && has_flag("USE_UPS")){
         ret << _(" (UPS)");
+    }
+    if (is_tool() && has_flag("RADIO_MOD")){
+        ret << _(" (radio:");
+        if( has_flag( "RADIOSIGNAL_1" ) ) {
+            ret << _("R)");
+        } else if( has_flag( "RADIOSIGNAL_2" ) ) {
+            ret << _("B)");
+        } else if( has_flag( "RADIOSIGNAL_3" ) ) {
+            ret << _("G)");
+        } else {
+            ret << _("Bug");
+        }
     }
     if (item_tags.count("wooled") > 0 ){
         ret << _(" (W)");
@@ -2079,6 +2164,18 @@ int item::volume(bool unit_value, bool precise_value ) const
         for( auto &elem : contents ) {
             ret += elem.volume( false, precise_value );
         }
+
+        if (has_flag("COLLAPSIBLE_STOCK")) {
+            // consider only the base size of the gun (without mods)
+            int tmpvol = get_var( "volume", (int) type->volume);
+            if      (tmpvol <=  3) ; // intentional NOP
+            else if (tmpvol <=  5) ret -= precise_value ? 2000 : 2;
+            else if (tmpvol <=  6) ret -= precise_value ? 3000 : 3;
+            else if (tmpvol <=  8) ret -= precise_value ? 4000 : 4;
+            else if (tmpvol <= 11) ret -= precise_value ? 5000 : 5;
+            else if (tmpvol <= 16) ret -= precise_value ? 6000 : 6;
+            else                   ret -= precise_value ? 7000 : 7;
+        }
     }
 
 // tool mods also add volume
@@ -2192,17 +2289,21 @@ bool item::has_quality(std::string quality_id) const {
     return has_quality(quality_id, 1);
 }
 
-bool item::has_quality(std::string quality_id, int quality_value) const {
-    bool ret = false;
-    if ( !type->qualities.empty()){
-        for(std::map<std::string, int>::const_iterator quality = type->qualities.begin(); quality != type->qualities.end(); ++quality){
-            if(quality->first == quality_id && quality->second >= quality_value) {
-                ret = true;
-                break;
-            }
+bool item::has_quality(std::string quality_id, int quality_value) const
+{
+    for( const auto &quality : type->qualities ) {
+        if( quality.first == quality_id && quality.second >= quality_value ) {
+            return true;
         }
     }
-    return ret;
+
+    for( const auto &content : contents ) {
+        if( content.has_quality( quality_id, quality_value ) ) {
+            return true;
+        }
+    }
+
+    return false;
 }
 
 bool item::has_technique(matec_id tech)
@@ -2417,7 +2518,7 @@ bool item::can_revive()
     return false;
 }
 
-bool item::ready_to_revive( point pos )
+bool item::ready_to_revive( const tripoint &pos )
 {
     if(can_revive() == false) {
         return false;
@@ -2432,7 +2533,7 @@ bool item::ready_to_revive( point pos )
         // If we're a special revival zombie, wait to get up until the player is nearby.
         const bool isReviveSpecial = has_flag("REVIVE_SPECIAL");
         if( isReviveSpecial ) {
-            const int distance = rl_dist( pos, g->u.pos() );
+            const int distance = rl_dist( pos, g->u.pos3() );
             if (distance > 3) {
                 return false;
             }
@@ -2625,7 +2726,6 @@ int item::acid_resist() const
     // With the multiplying and dividing in previous code, the following
     // is a coefficient equivalent to the bonuses and maluses hardcoded in
     // previous versions. Adjust to make you happier/sadder.
-    float adjustment = 1.5;
 
     if (is_null()) {
         return resist;
@@ -2641,7 +2741,7 @@ int item::acid_resist() const
     // Average based on number of materials.
     resist /= mat_types.size();
 
-    return std::lround(resist * adjustment);
+    return std::lround(resist);
 }
 
 bool item::is_two_handed(player *u)
@@ -3012,7 +3112,7 @@ bool item::is_tool_reversible() const
     if( source != nullptr && source->revert_to != "null" ) {
         item revert( source->revert_to, 0 );
         npc n;
-        revert.type->invoke( &n, &revert, point(-999, -999) );
+        revert.type->invoke( &n, &revert, tripoint(-999, -999, -999) );
         const it_tool *target = dynamic_cast<const it_tool *>( revert.type );
         if ( target != nullptr ) {
             return ( source->id == target->id );
@@ -3215,12 +3315,33 @@ void item::next_mode()
     }
 }
 
+int item::spare_mag_size() const
+{
+    if( !type->gun ) {
+        return 0;
+    }
+    if( clip_size() < type->gun->clip ) {
+        return clip_size();
+    } else {
+        return type->gun->clip;
+    }
+}
+
 std::string item::gun_skill() const
 {
     if( !is_gun() ) {
         return "null";
     }
     return type->gun->skill_used->ident();
+}
+
+std::string item::weap_skill() const
+{
+    if (! is_weap()) return "null";
+
+    if (type->melee_dam >= type->melee_cut) return "bashing";
+    if (has_flag("STAB")) return "stabbing";
+    return "cutting";
 }
 
 std::string item::skill() const
@@ -3314,11 +3435,11 @@ int item::aim_speed( int aim_threshold ) const
         if( elem.is_gunmod() ) {
             const auto mod = elem.type->gunmod.get();
             if( mod->sight_dispersion != -1 && mod->aim_speed != -1 &&
-		((aim_threshold == -1 && mod->sight_dispersion < best_dispersion ) ||
-		 (mod->sight_dispersion <= aim_threshold &&
-		  mod->aim_speed < best_aim_speed)) ) {
-	        best_aim_speed = mod->aim_speed;
-		best_dispersion = mod->sight_dispersion;
+                ((aim_threshold == -1 && mod->sight_dispersion < best_dispersion ) ||
+                 (mod->sight_dispersion <= aim_threshold &&
+                  mod->aim_speed < best_aim_speed)) ) {
+                best_aim_speed = mod->aim_speed;
+                best_dispersion = mod->sight_dispersion;
             }
         }
     }
@@ -3370,14 +3491,10 @@ int item::noise() const
     if( gunmod != nullptr ) {
         return gunmod->noise();
     }
-    // TODO: use islot_gun::loudness here.
-    int ret = 0;
+    const islot_gun* gun = type->gun.get();
+    int ret = gun->loudness;
     if( has_curammo() ) {
-        ret = get_curammo()->ammo->damage;
-    }
-    ret *= .8;
-    if (ret >= 5) {
-        ret += 20;
+        ret += get_curammo()->ammo->damage;
     }
     for( auto &elem : contents ) {
         if( elem.is_gunmod() ) {
@@ -3687,7 +3804,7 @@ int item::pick_reload_ammo( const player &u, bool interactive )
     amenu.query();
     if( amenu.ret < 0 || amenu.ret >= ( int )ammo_list.size() ) {
         // invalid selection / escaped from the menu
-        return INT_MIN;
+        return INT_MIN + 2;
     }
     const auto &selected = ammo_list[ amenu.ret ];
     uistate.lastreload[ ammo_type() ] = std::get<0>( selected )->id;
@@ -3927,14 +4044,6 @@ bool item::flammable() const
         return true;
     }
 
-    if( is_ammo() && ammo_type() != "water" && ammo_type() != "battery" &&
-        ammo_type() != "nail" && ammo_type() != "BB" &&
-        ammo_type() != "bolt" && ammo_type() != "arrow" &&
-        ammo_type() != "pebble" && ammo_type() != "fishspear" &&
-        ammo_type() != "NULL") {
-        return true;
-    }
-
     return false;
 }
 
@@ -3965,7 +4074,7 @@ itype_id item::typeId() const
     return type->id;
 }
 
-bool item::getlight(float & luminance, int & width, int & direction, bool calculate_dimming ) const {
+bool item::getlight(float & luminance, int & width, int & direction ) const {
     luminance = 0;
     width = 0;
     direction = 0;
@@ -3977,7 +4086,7 @@ bool item::getlight(float & luminance, int & width, int & direction, bool calcul
         }
         return true;
     } else {
-        const int lumint = getlight_emit( calculate_dimming );
+        const int lumint = getlight_emit();
         if ( lumint > 0 ) {
             luminance = (float)lumint;
             return true;
@@ -3989,7 +4098,7 @@ bool item::getlight(float & luminance, int & width, int & direction, bool calcul
 /*
  * Returns just the integer
  */
-int item::getlight_emit(bool calculate_dimming) const {
+int item::getlight_emit() const {
     const int mult = 10; // woo intmath
     const int chargedrop = 5 * mult; // start dimming at 1/5th charge.
 
@@ -3998,7 +4107,7 @@ int item::getlight_emit(bool calculate_dimming) const {
     if ( lumint == 0 ) {
         return 0;
     }
-    if ( calculate_dimming && has_flag("CHARGEDIM") && is_tool() && !has_flag("USE_UPS")) {
+    if ( has_flag("CHARGEDIM") && is_tool() && !has_flag("USE_UPS")) {
         it_tool * tool = dynamic_cast<it_tool *>(type);
         int maxcharge = tool->max_charges;
         if ( maxcharge > 0 ) {
@@ -4009,6 +4118,14 @@ int item::getlight_emit(bool calculate_dimming) const {
         lumint = 10;
     }
     return lumint / 10;
+}
+
+int item::getlight_emit_active() const
+{
+    if( active && charges > 0 ) {
+        return getlight_emit();
+    }
+    return 0;
 }
 
 // How much more of this liquid can be put in this container
@@ -4112,7 +4229,7 @@ int item::amount_of(const itype_id &it, bool used_as_tool) const
     return count;
 }
 
-bool item::use_amount(const itype_id &it, int &quantity, bool use_container, std::list<item> &used)
+bool item::use_amount(const itype_id &it, long &quantity, bool use_container, std::list<item> &used)
 {
     // First, check contents
     bool used_item_contents = false;
@@ -4302,7 +4419,7 @@ void item::detonate( const tripoint &p ) const
     if (type == NULL || type->explosion_on_fire_data.power < 0) {
         return;
     }
-    g->explosion( p.x, type->explosion_on_fire_data.power, type->explosion_on_fire_data.shrapnel, type->explosion_on_fire_data.fire, type->explosion_on_fire_data.blast);
+    g->explosion( p, type->explosion_on_fire_data.power, type->explosion_on_fire_data.shrapnel, type->explosion_on_fire_data.fire, type->explosion_on_fire_data.blast);
 }
 
 bool item_ptr_compare_by_charges( const item *left, const item *right)
@@ -4524,11 +4641,9 @@ int item::processing_speed() const
     return 1;
 }
 
-bool item::process_food( player * /*carrier*/, point pos )
+bool item::process_food( player * /*carrier*/, const tripoint &pos )
 {
-    // TODO: this functions (and all the other process functions) should be called with a tripoint
-    // If this gets implemented, don't forget that calc_rot expects an *absolute* position.
-    calc_rot( tripoint( g->m.getabs( pos ), g->get_levz() ) );
+    calc_rot( g->m.getabs( pos ) );
     if( item_tags.count( "HOT" ) > 0 ) {
         item_counter--;
         if( item_counter == 0 ) {
@@ -4543,8 +4658,11 @@ bool item::process_food( player * /*carrier*/, point pos )
     return false;
 }
 
-bool item::process_artifact( player *carrier, point /*pos*/ )
+bool item::process_artifact( player *carrier, const tripoint & /*pos*/ )
 {
+    if( !is_artifact() ) {
+        return false;
+    }
     // Artifacts are currently only useful for the player character, the messages
     // don't consider npcs. Also they are not processed when laying on the ground.
     // TODO: change game::process_artifact to work with npcs,
@@ -4556,7 +4674,7 @@ bool item::process_artifact( player *carrier, point /*pos*/ )
     return false;
 }
 
-bool item::process_corpse( player *carrier, point pos )
+bool item::process_corpse( player *carrier, const tripoint &pos )
 {
     // some corpses rez over time
     if( corpse == nullptr ) {
@@ -4565,7 +4683,7 @@ bool item::process_corpse( player *carrier, point pos )
     if( !ready_to_revive( pos ) ) {
         return false;
     }
-    if( rng( 0, volume() ) > burnt && g->revive_corpse( pos.x, pos.y, this ) ) {
+    if( rng( 0, volume() ) > burnt && g->revive_corpse( pos, this ) ) {
         if( carrier == nullptr ) {
             if( g->u.sees( pos ) ) {
                 if( corpse->in_species( "ROBOT" ) ) {
@@ -4593,7 +4711,7 @@ bool item::process_corpse( player *carrier, point pos )
     return false;
 }
 
-bool item::process_litcig( player *carrier, point pos )
+bool item::process_litcig( player *carrier, const tripoint &pos )
 {
     field_id smoke_type;
     if( has_flag( "TOBACCO" ) ) {
@@ -4617,7 +4735,7 @@ bool item::process_litcig( player *carrier, point pos )
             } else {
                 carrier->add_effect( "weed_high", duration / 2 );
             }
-            g->m.add_field( pos.x + rng( -1, 1 ), pos.y + rng( -1, 1 ), smoke_type, 2 );
+            g->m.add_field( tripoint( pos.x + rng( -1, 1 ), pos.y + rng( -1, 1 ), pos.z ), smoke_type, 2, 0 );
             carrier->moves -= 15;
         }
 
@@ -4625,19 +4743,19 @@ bool item::process_litcig( player *carrier, point pos )
             ( carrier->has_trait( "JITTERY" ) && one_in( 200 ) ) ) {
             carrier->add_msg_if_player( m_bad, _( "Your shaking hand causes you to drop your %s." ),
                                         tname().c_str() );
-            g->m.add_item_or_charges( pos.x + rng( -1, 1 ), pos.y + rng( -1, 1 ), *this, 2 );
+            g->m.add_item_or_charges( tripoint( pos.x + rng( -1, 1 ), pos.y + rng( -1, 1 ), pos.z ), *this, 2 );
             return true; // removes the item that has just been added to the map
         }
     } else {
         // If not carried by someone, but laying on the ground:
         // release some smoke every five ticks
         if( item_counter % 5 == 0 ) {
-            g->m.add_field( pos.x + rng( -2, 2 ), pos.y + rng( -2, 2 ), smoke_type, 1 );
+            g->m.add_field( tripoint( pos.x + rng( -2, 2 ), pos.y + rng( -2, 2 ), pos.z ), smoke_type, 1, 0 );
             // lit cigarette can start fires
-            if( g->m.flammable_items_at( pos.x, pos.y ) ||
-                g->m.has_flag( "FLAMMABLE", pos.x, pos.y ) ||
-                g->m.has_flag( "FLAMMABLE_ASH", pos.x, pos.y ) ) {
-                g->m.add_field( pos.x, pos.y, fd_fire, 1 );
+            if( g->m.flammable_items_at( pos ) ||
+                g->m.has_flag( "FLAMMABLE", pos ) ||
+                g->m.has_flag( "FLAMMABLE_ASH", pos ) ) {
+                g->m.add_field( pos, fd_fire, 1, 0 );
             }
         }
     }
@@ -4656,7 +4774,7 @@ bool item::process_litcig( player *carrier, point pos )
             make( "joint_roach" );
             if( carrier != nullptr ) {
                 carrier->add_effect( "weed_high", 10 ); // one last puff
-                g->m.add_field( pos.x + rng( -1, 1 ), pos.y + rng( -1, 1 ), fd_weedsmoke, 2 );
+                g->m.add_field( tripoint( pos.x + rng( -1, 1 ), pos.y + rng( -1, 1 ), pos.z ), fd_weedsmoke, 2, 0 );
                 weed_msg( carrier );
             }
         }
@@ -4666,7 +4784,7 @@ bool item::process_litcig( player *carrier, point pos )
     return false;
 }
 
-bool item::process_cable( player *p, point pos )
+bool item::process_cable( player *p, const tripoint &pos )
 {
     if( get_var( "state" ) != "pay_out_cable" ) {
         return false;
@@ -4675,9 +4793,10 @@ bool item::process_cable( player *p, point pos )
     int source_x = get_var( "source_x", 0 );
     int source_y = get_var( "source_y", 0 );
     int source_z = get_var( "source_z", 0 );
+    tripoint source( source_x, source_y, source_z );
 
-    point relpos= g->m.getlocal(source_x, source_y);
-    auto veh = g->m.veh_at(relpos.x, relpos.y);
+    tripoint relpos = g->m.getlocal( source );
+    auto veh = g->m.veh_at( relpos );
     if( veh == nullptr || source_z != g->get_levz() ) {
         if( p != nullptr && p->has_item(this) ) {
             p->add_msg_if_player(m_bad, _("You notice the cable has come loose!"));
@@ -4686,9 +4805,9 @@ bool item::process_cable( player *p, point pos )
         return false;
     }
 
-    point abspos = g->m.getabs(pos.x, pos.y);
+    tripoint abspos = g->m.getabs( pos );
 
-    int distance = rl_dist(abspos.x, abspos.y, source_x, source_y);
+    int distance = rl_dist( abspos, source );
     int max_charges = type->maximum_charges();
     charges = max_charges - distance;
 
@@ -4716,7 +4835,7 @@ void item::reset_cable( player* p )
     }
 }
 
-bool item::process_wet( player * /*carrier*/, point /*pos*/ )
+bool item::process_wet( player * /*carrier*/, const tripoint & /*pos*/ )
 {
     item_counter--;
     if( item_counter == 0 ) {
@@ -4734,7 +4853,7 @@ bool item::process_wet( player * /*carrier*/, point /*pos*/ )
     return true;
 }
 
-bool item::process_tool( player *carrier, point pos )
+bool item::process_tool( player *carrier, const tripoint &pos )
 {
     it_tool *tmp = dynamic_cast<it_tool *>( type );
     long charges_used = 0;
@@ -4852,7 +4971,7 @@ bool item::update_charger_gun_ammo()
     return true;
 }
 
-bool item::process_charger_gun( player *carrier, point pos )
+bool item::process_charger_gun( player *carrier, const tripoint &pos )
 {
     if( carrier == nullptr || this != &carrier->weapon ) {
         // Either on the ground or in the inventory of the player, in both cases:
@@ -4872,8 +4991,8 @@ bool item::process_charger_gun( player *carrier, point pos )
                                        pgettext( "memorial_female", "Accidental discharge of %s." ),
                                        tname().c_str() );
             carrier->add_msg_player_or_npc( m_bad, _( "Your %s discharges!" ), _( "<npcname>'s %s discharges!" ), tname().c_str() );
-            point target( pos.x + rng( -12, 12 ), pos.y + rng( -12, 12 ) );
-            carrier->fire_gun( target.x, target.y, false );
+            tripoint target( pos.x + rng( -12, 12 ), pos.y + rng( -12, 12 ), pos.z );
+            carrier->fire_gun( target, false );
         } else {
             carrier->add_msg_player_or_npc( m_warning, _( "Your %s beeps alarmingly." ), _( "<npcname>'s %s beeps alarmingly." ), tname().c_str() );
         }
@@ -4899,7 +5018,7 @@ bool item::process_charger_gun( player *carrier, point pos )
     return false;
 }
 
-bool item::process( player *carrier, point pos, bool activate )
+bool item::process( player *carrier, const tripoint &pos, bool activate )
 {
     const bool preserves = type->container && type->container->preserves;
     for( auto it = contents.begin(); it != contents.end(); ) {
@@ -4916,7 +5035,7 @@ bool item::process( player *carrier, point pos, bool activate )
     }
     if( activate ) {
         it_tool *tmp = dynamic_cast<it_tool *>( type );
-        return tmp->tick( carrier != nullptr ? carrier : &g->u, this, pos );
+        return tmp->invoke( carrier != nullptr ? carrier : &g->u, this, pos );
     }
     // How this works: it checks what kind of processing has to be done
     // (e.g. for food, for drying towels, lit cigars), and if that matches,
@@ -4926,10 +5045,7 @@ bool item::process( player *carrier, point pos, bool activate )
     // Otherwise processing continues. This allows items that are processed as
     // food and as litcig and as ...
 
-    if( is_artifact() && process_artifact( carrier, pos ) ) {
-        return true;
-    }
-    // Remaining stuff is only done for active items, artifacts are always "active".
+    // Remaining stuff is only done for active items.
     if( !active ) {
         return false;
     }

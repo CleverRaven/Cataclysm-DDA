@@ -17,6 +17,7 @@
 #include "messages.h"
 #include "mapdata.h"
 #include "translations.h"
+#include "mongroup.h"
 #include <map>
 #include <set>
 #include <algorithm>
@@ -28,6 +29,8 @@
 #include "debug.h"
 #include "weather.h"
 #include "mapsharing.h"
+#include "monster.h"
+#include "overmap.h"
 
 #include "savegame.h"
 #include "tile_id_data.h"
@@ -296,14 +299,14 @@ void game::load_weather(std::ifstream & fin) {
         int seed(0);
         std::stringstream liness(line);
         liness >> label >> seed;
-        weatherSeed = seed;
+        weatherGen.set_seed( seed );
     }
 }
 
 void game::save_weather(std::ofstream & fout) {
     fout << "# version " << savegame_version << std::endl;
     fout << "lightning: " << (lightning_active ? "1" : "0") << std::endl;
-    fout << "seed: " << weatherSeed;
+    fout << "seed: " << weatherGen.get_seed();
 }
 ///// overmap
 void overmap::unserialize(std::ifstream & fin, std::string const & plrfilename,
@@ -469,8 +472,7 @@ void overmap::unserialize(std::ifstream & fin, std::string const & plrfilename,
 
                     if ( data.read("region_id",tmpstr) ) { // temporary, until option DEFAULT_REGION becomes start_scenario.region_id
                         if ( settings.id != tmpstr ) {
-                            std::unordered_map<std::string, regional_settings>::const_iterator rit =
-                                region_settings_map.find( tmpstr );
+                            t_regional_settings_map_citr rit = region_settings_map.find( tmpstr );
                             if ( rit != region_settings_map.end() ) {
                                 // temporary; user changed option, this overmap should remain whatever it was set to.
                                 settings = rit->second; // todo optimize

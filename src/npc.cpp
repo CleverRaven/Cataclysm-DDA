@@ -5,6 +5,7 @@
 #include "rng.h"
 #include "map.h"
 #include "game.h"
+#include "debug.h"
 #include "bodypart.h"
 #include "skill.h"
 #include "output.h"
@@ -17,6 +18,8 @@
 #include "mission.h"
 #include "json.h"
 #include "sounds.h"
+#include "morale.h"
+#include "overmap.h"
 
 #include <algorithm>
 #include <string>
@@ -28,19 +31,13 @@ npc::npc()
 {
  mapx = 0;
  mapy = 0;
- mapz = 0;
  position.x = -1;
  position.y = -1;
- wandx = 0;
- wandy = 0;
- wandf = 0;
- plx = 999;
- ply = 999;
- plt = 999;
- itx = -1;
- ity = -1;
- guardx = -1;
- guardy = -1;
+ position.z = 500;
+ last_player_seen_pos = no_goal_point;
+ last_seen_player_turn = 999;
+ wanted_item_pos = no_goal_point;
+ guard_pos = no_goal_point;
  goal = no_goal_point;
  fatigue = 0;
  hunger = 0;
@@ -88,7 +85,7 @@ void npc::load_npc(JsonObject &jsobj)
     guy.myclass = npc_class(jsobj.get_int("class"));
     guy.attitude = npc_attitude(jsobj.get_int("attitude"));
     guy.mission = npc_mission(jsobj.get_int("mission"));
-    guy.chatbin.first_topic = talk_topic(jsobj.get_int("chat"));
+    guy.chatbin.first_topic = jsobj.get_string( "chat" );
     if (jsobj.has_int("mission_offered")){
         guy.miss_id = jsobj.get_int("mission_offered");
     } else {
@@ -881,9 +878,9 @@ void npc::spawn_at(int x, int y, int z)
 {
     mapx = x;
     mapy = y;
-    mapz = z;
     position.x = rng(0, SEEX - 1);
     position.y = rng(0, SEEY - 1);
+    position.z = z;
     const point pos_om = overmapbuffer::sm_to_om_copy( mapx, mapy );
     overmap &om = overmap_buffer.get( pos_om.x, pos_om.y );
     om.npcs.push_back(this);
@@ -908,7 +905,7 @@ void npc::spawn_at_random_city(overmap *o)
 
 tripoint npc::global_square_location() const
 {
-    return tripoint( mapx * SEEX + posx(), mapy * SEEY + posy(), mapz );
+    return tripoint( mapx * SEEX + posx(), mapy * SEEY + posy(), position.z );
 }
 
 void npc::place_on_map()
@@ -930,7 +927,7 @@ void npc::place_on_map()
     // Searches in a spiral pattern for a suitable location.
     int x = 0, y = 0, dx = 0, dy = -1;
     int temp;
-    while(!g->is_empty(posx() + x, posy() + y))
+    while( !g->is_empty( { posx() + x, posy() + y, posz() } ) )
     {
         if ((x == y) || ((x < 0) && (x == -y)) || ((x > 0) && (x == 1-y)))
         {//change direction
@@ -1231,25 +1228,25 @@ void npc::form_opinion(player *u)
   attitude = NPCATT_FLEE;
 }
 
-talk_topic npc::pick_talk_topic(player *u)
+std::string npc::pick_talk_topic(player *u)
 {
  //form_opinion(u);
  (void)u;
  if (personality.aggression > 0) {
   if (op_of_u.fear * 2 < personality.bravery && personality.altruism < 0)
-   return TALK_MUG;
+   return "TALK_MUG";
   if (personality.aggression + personality.bravery - op_of_u.fear > 0)
-   return TALK_STRANGER_AGGRESSIVE;
+   return "TALK_STRANGER_AGGRESSIVE";
  }
  if (op_of_u.fear * 2 > personality.altruism + personality.bravery)
-  return TALK_STRANGER_SCARED;
+  return "TALK_STRANGER_SCARED";
  if (op_of_u.fear * 2 > personality.bravery + op_of_u.trust)
-  return TALK_STRANGER_WARY;
+  return "TALK_STRANGER_WARY";
  if (op_of_u.trust - op_of_u.fear +
      (personality.bravery + personality.altruism) / 2 > 0)
-  return TALK_STRANGER_FRIENDLY;
+  return "TALK_STRANGER_FRIENDLY";
 
- return TALK_STRANGER_NEUTRAL;
+ return "TALK_STRANGER_NEUTRAL";
 }
 
 int npc::player_danger(player *u) const
@@ -2024,8 +2021,11 @@ std::string npc::opinion_text() const
 
 void npc::shift(int sx, int sy)
 {
-    position.x -= sx * SEEX;
-    position.y -= sy * SEEY;
+    const int shiftx = sx * SEEX;
+    const int shifty = sy * SEEY;
+
+    position.x -= shiftx;
+    position.y -= shifty;
     const point pos_om_old = overmapbuffer::sm_to_om_copy( mapx, mapy );
     mapx += sx;
     mapy += sy;
@@ -2043,10 +2043,16 @@ void npc::shift(int sx, int sy)
             debugmsg( "could not find npc %s on its old overmap", name.c_str() );
         }
     }
-    itx -= sx * SEEX;
-    ity -= sy * SEEY;
-    plx -= sx * SEEX;
-    ply -= sy * SEEY;
+
+    if( wanted_item_pos != no_goal_point ) {
+        wanted_item_pos.x -= shiftx;
+        wanted_item_pos.y -= shifty;
+    }
+
+    if( last_player_seen_pos != no_goal_point ) {
+        last_player_seen_pos.x -= shiftx;
+        last_player_seen_pos.y -= shifty;
+    }
     path.clear();
 }
 
@@ -2064,7 +2070,7 @@ void npc::die(Creature* nkiller) {
     dead = true;
     Character::die( nkiller );
     if (in_vehicle) {
-        g->m.unboard_vehicle(posx(), posy());
+        g->m.unboard_vehicle( pos3() );
     }
 
     if (g->u.sees( *this )) {
@@ -2313,6 +2319,101 @@ void npc_chatbin::add_new_mission( mission *miss )
         return;
     }
     missions.push_back( miss );
+}
+
+epilogue::epilogue()
+{
+    id = "NONE";
+    group = "NONE";
+    is_unique = false;
+    lines.push_back("                                                                            ");
+    lines.push_back("                                                                            ");
+    lines.push_back("                                                                            ");
+    lines.push_back("                                                                            ");
+    lines.push_back("                                                                            ");
+    lines.push_back("                                                                            ");
+    lines.push_back("           ###### #### ####   ######    ####    ###   #### ######           ");
+    lines.push_back("            ##  #  ##   ##     ##  #     ##    ## ## ##  # # ## #           ");
+    lines.push_back("            ####   ##   ##     ####      ##    ## ## ####    ##             ");
+    lines.push_back("            ##     ##   ##     ##        ##    ## ##   ###   ##             ");
+    lines.push_back("            ##     ##   ## ##  ## ##     ## ## ## ## #  ##   ##             ");
+    lines.push_back("           ####   #### ###### ######    ######  ###  ####   ####            ");
+    lines.push_back("                                                                            ");
+    lines.push_back("                                                                            ");
+    lines.push_back("                                                                            ");
+    lines.push_back("                                                                            ");
+    lines.push_back("                                                                            ");
+    lines.push_back("                                                                            ");
+    lines.push_back("                                                                            ");
+    lines.push_back("                                                                            ");
+}
+
+epilogue_map epilogue::_all_epilogue;
+
+void epilogue::load_epilogue(JsonObject &jsobj)
+{
+    epilogue base;
+    base.id = jsobj.get_string("id");
+    base.group = jsobj.get_string("group");
+    base.is_unique = jsobj.get_bool("unique", false);
+    base.lines.clear();
+    base.lines.push_back(jsobj.get_string("line_01"));
+    base.lines.push_back(jsobj.get_string("line_02"));
+    base.lines.push_back(jsobj.get_string("line_03"));
+    base.lines.push_back(jsobj.get_string("line_04"));
+    base.lines.push_back(jsobj.get_string("line_05"));
+    base.lines.push_back(jsobj.get_string("line_06"));
+    base.lines.push_back(jsobj.get_string("line_07"));
+    base.lines.push_back(jsobj.get_string("line_08"));
+    base.lines.push_back(jsobj.get_string("line_09"));
+    base.lines.push_back(jsobj.get_string("line_10"));
+    base.lines.push_back(jsobj.get_string("line_11"));
+    base.lines.push_back(jsobj.get_string("line_12"));
+    base.lines.push_back(jsobj.get_string("line_13"));
+    base.lines.push_back(jsobj.get_string("line_14"));
+    base.lines.push_back(jsobj.get_string("line_15"));
+    base.lines.push_back(jsobj.get_string("line_16"));
+    base.lines.push_back(jsobj.get_string("line_17"));
+    base.lines.push_back(jsobj.get_string("line_18"));
+    base.lines.push_back(jsobj.get_string("line_19"));
+    base.lines.push_back(jsobj.get_string("line_20"));
+    _all_epilogue[base.id] = base;
+}
+
+epilogue* epilogue::find_epilogue(std::string ident)
+{
+    epilogue_map::iterator found = _all_epilogue.find(ident);
+    if (found != _all_epilogue.end()){
+        return &(found->second);
+    } else {
+        debugmsg("Tried to get invalid epilogue template: %s", ident.c_str());
+        static epilogue null_epilogue;
+    return &null_epilogue;
+    }
+}
+
+void epilogue::random_by_group(std::string group, std::string name)
+{
+    std::vector<epilogue> v;
+    for( auto epi : _all_epilogue ) {
+        if (epi.second.group == group){
+            v.push_back( epi.second );
+        }
+    }
+    if (v.size() == 0)
+        return;
+    epilogue epi = v.at(rng(0,v.size()-1));
+    id = epi.id;
+    group = epi.group;
+    is_unique = epi.is_unique;
+    lines.clear();
+    lines = epi.lines;
+    for( auto &ln : lines ) {
+        if (!ln.empty() && ln[0]=='*'){
+            ln.replace(0,name.size(),name);
+        }
+    }
+
 }
 
 const tripoint npc::no_goal_point(INT_MIN, INT_MIN, INT_MIN);

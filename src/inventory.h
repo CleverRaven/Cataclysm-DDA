@@ -8,8 +8,10 @@
 #include <string>
 #include <utility>
 #include <vector>
+#include <functional>
 
 class map;
+class npc;
 
 const extern std::string inv_chars;
 
@@ -17,7 +19,7 @@ typedef std::list< std::list<item> > invstack;
 typedef std::vector< std::list<item>* > invslice;
 typedef std::vector< const std::list<item>* > const_invslice;
 typedef std::vector< std::pair<std::list<item>*, int> > indexed_invslice;
-typedef bool (*item_filter)( const item & );
+typedef std::function<bool(const item &)> item_filter;
 
 class salvage_actor;
 
@@ -46,12 +48,10 @@ class inventory
         inventory  operator+  (const std::list<item> &rhs);
 
         static bool has_activation(const item &it, const player &u);
-        static bool has_category(const item &it, item_cat cat, const player &u);
         static bool has_capacity_for_liquid(const item &it, const item &liquid);
 
         indexed_invslice slice_filter();  // unfiltered, but useful for a consistent interface.
         indexed_invslice slice_filter_by_activation(const player &u);
-        indexed_invslice slice_filter_by_category(item_cat cat, const player &u);
         indexed_invslice slice_filter_by_capacity_for_liquid(const item &liquid);
         indexed_invslice slice_filter_by_flag(const std::string flag);
         indexed_invslice slice_filter_by_salvageability(const salvage_actor &actor);
@@ -62,8 +62,8 @@ class inventory
         void add_stack(std::list<item> newits);
         void clone_stack(const std::list<item> &rhs);
         void push_back(std::list<item> newits);
-        item &add_item (item newit, bool keep_invlet = false,
-                        bool assign_invlet = true); //returns a ref to the added item
+        // returns a reference to the added item
+        item &add_item (item newit, bool keep_invlet = false, bool assign_invlet = true);
         void add_item_keep_invlet(item newit);
         void push_back(item newit);
 
@@ -73,7 +73,7 @@ class inventory
          */
         void restack(player *p = NULL);
 
-        void form_from_map(point origin, int distance, bool assign_invlet = true);
+        void form_from_map( const tripoint &origin, int distance, bool assign_invlet = true );
 
         /**
          * Remove a specific item from the inventory. The item is compared

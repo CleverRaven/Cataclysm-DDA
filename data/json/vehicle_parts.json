@@ -46,7 +46,7 @@
         "damage_modifier" : 60,
         "durability" : 100,
         "item" : "seat",
-        "difficulty" : 3,
+        "difficulty" : 2,
         "size" : 25,
         "location" : "center",
         "flags" : [
@@ -69,7 +69,7 @@
         "damage_modifier": 10,
         "durability": 20,
         "item": "veh_tracker",
-        "difficulty": 3,
+        "difficulty": 2,
         "epower": -63,
         "folded_volume": 2,
         "flags": [
@@ -111,7 +111,7 @@
         "durability" : 20,
         "item" : "sheet",
         "folded_volume": 10,
-        "difficulty" : 3,
+        "difficulty" : 2,
         "location" : "anywhere",
         "flags" : [
             "SEAT", "BOARDABLE", "FOLDABLE"
@@ -349,7 +349,7 @@
         "broken_color" : "light_gray",
         "durability" : 50,
         "folded_volume": 10,
-        "difficulty" : 3,
+        "difficulty" : 2,
         "item" : "foldframe",
         "location" : "structure",
         "flags" : ["MOUNTABLE", "FOLDABLE"],
@@ -1884,7 +1884,7 @@
         "durability" : 200,
         "size" : 250,
         "item" : "sheet_metal",
-        "difficulty" : 3,
+        "difficulty" : 2,
         "location" : "center",
         "flags" : ["OBSTACLE", "OPAQUE", "CARGO", "COVERED"]
     },{
@@ -1898,7 +1898,7 @@
         "durability" : 200,
         "size" : 250,
         "item" : "sheet_metal",
-        "difficulty" : 3,
+        "difficulty" : 2,
         "location" : "center",
         "flags" : ["OBSTACLE", "OPAQUE", "CARGO", "COVERED"]
     },{
@@ -2045,7 +2045,7 @@
         "durability" : 360,
         "size" : 150,
         "item" : "hdframe",
-        "difficulty" : 4,
+        "difficulty" : 3,
         "location" : "center",
         "flags" : ["CARGO", "OBSTACLE", "OPENABLE", "MULTISQUARE", "BOARDABLE", "COVERED"],
         "breaks_into" : [
@@ -2127,7 +2127,7 @@
         "durability" : 200,
         "wheel_width" : 9,
         "item" : "wheel",
-        "difficulty" : 4,
+        "difficulty" : 3,
         "location" : "under",
         "flags" : ["WHEEL", "VARIABLE_SIZE"],
         "breaks_into" : [
@@ -2147,7 +2147,7 @@
         "durability" : 400,
         "wheel_width" : 14,
         "item" : "wheel_wide",
-        "difficulty" : 5,
+        "difficulty" : 4,
         "location" : "under",
         "flags" : ["WHEEL", "VARIABLE_SIZE"],
         "breaks_into" : [
@@ -2167,7 +2167,7 @@
         "durability" : 800,
         "wheel_width" : 20,
         "item" : "wheel_armor",
-        "difficulty" : 6,
+        "difficulty" : 4,
         "location" : "under",
         "flags" : ["WHEEL", "VARIABLE_SIZE"],
         "breaks_into" : [
@@ -2187,7 +2187,7 @@
         "durability" : 7500,
         "wheel_width" : 60,
         "item" : "hd_steel_drum",
-        "difficulty" : 7,
+        "difficulty" : 5,
         "location" : "center",
         "flags" : ["OBSTACLE", "WHEEL", "VARIABLE_SIZE"],
         "breaks_into" : [
@@ -2429,7 +2429,7 @@
         "epower" : -100,
         "fuel_type" : "gasoline",
         "item" : "i4_combustion",
-        "difficulty" : 3,
+        "difficulty" : 2,
         "location" : "engine_block",
         "flags" : ["ENGINE", "VARIABLE_SIZE"],
         "breaks_into" : [
@@ -2450,7 +2450,7 @@
         "epower" : -150,
         "fuel_type" : "gasoline",
         "item" : "v6_combustion",
-        "difficulty" : 4,
+        "difficulty" : 3,
         "location" : "engine_block",
         "flags" : ["ENGINE", "VARIABLE_SIZE"],
         "breaks_into" : [
@@ -2471,7 +2471,7 @@
         "epower" : -200,
         "fuel_type" : "gasoline",
         "item" : "v8_combustion",
-        "difficulty" : 4,
+        "difficulty" : 3,
         "location" : "engine_block",
         "flags" : ["ENGINE", "VARIABLE_SIZE"],
         "breaks_into" : [
@@ -2492,7 +2492,7 @@
         "epower" : -350,
         "fuel_type" : "gasoline",
         "item" : "v12_combustion",
-        "difficulty" : 8,
+        "difficulty" : 6,
         "location" : "engine_block",
         "flags" : ["ENGINE", "VARIABLE_SIZE"],
         "breaks_into" : [
@@ -2513,7 +2513,7 @@
         "epower" : -200,
         "fuel_type" : "diesel",
         "item" : "v6_diesel",
-        "difficulty" : 5,
+        "difficulty" : 4,
         "location" : "engine_block",
         "flags" : ["ENGINE", "VARIABLE_SIZE"],
         "breaks_into" : [
@@ -2534,7 +2534,7 @@
         "epower" : -400,
         "fuel_type" : "diesel",
         "item" : "v8_diesel",
-        "difficulty" : 5,
+        "difficulty" : 4,
         "location" : "engine_block",
         "flags" : ["ENGINE", "VARIABLE_SIZE"],
         "breaks_into" : [
@@ -2555,7 +2555,7 @@
         "epower" : -300,
         "fuel_type" : "diesel",
         "item" : "i6_diesel",
-        "difficulty" : 5,
+        "difficulty" : 4,
         "location" : "engine_block",
         "flags" : ["ENGINE", "VARIABLE_SIZE"],
         "breaks_into" : [
@@ -2577,7 +2577,30 @@
         "epower" : -29000,
         "fuel_type" : "battery",
         "item" : "motor",
-        "difficulty" : 3,
+        "difficulty" : 2,
+        "location" : "engine_block",
+        "flags" : ["ENGINE"],
+        "breaks_into" : [
+            {"item": "steel_lump", "min": 3, "max": 5},
+            {"item": "steel_chunk", "min": 3, "max": 5},
+            {"item": "scrap", "min": 3, "max": 5},
+            {"item": "cable", "min": 10, "max": 15}
+        ]
+    },{
+        "type" : "vehicle_part",
+        "id" : "engine_electric_enhanced",
+        "name" : "enhanced electric motor",
+        "symbol" : "*",
+        "color" : "yellow",
+        "broken_symbol" : "#",
+        "broken_color" : "red",
+        "damage_modifier" : 80,
+        "durability" : 200,
+        "power" : 400,
+        "epower" : -160000,
+        "fuel_type" : "battery",
+        "item" : "motor_enhanced",
+        "difficulty" : 4,
         "location" : "engine_block",
         "flags" : ["ENGINE"],
         "breaks_into" : [
@@ -2600,7 +2623,7 @@
         "epower" : -137000,
         "fuel_type" : "battery",
         "item" : "motor_large",
-        "difficulty" : 4,
+        "difficulty" : 3,
         "location" : "engine_block",
         "flags" : ["ENGINE"],
         "breaks_into" : [
@@ -2646,7 +2669,7 @@
         "epower" : 2238,
         "fuel_type" : "plasma",
         "item" : "plasma_engine",
-        "difficulty" : 6,
+        "difficulty" : 8,
         "location" : "engine_block",
         "flags" : ["ENGINE"],
         "breaks_into" : [
@@ -2766,7 +2789,7 @@
         "broken_color" : "red",
         "damage_modifier" : 80,
         "durability" : 160,
-        "size" : 110000,
+        "size" : 165000,
         "fuel_type" : "gasoline",
         "item" : "55gal_drum",
         "difficulty" : 1,
@@ -2843,7 +2866,7 @@
         "broken_color" : "red",
         "damage_modifier" : 80,
         "durability" : 160,
-        "size" : 110000,
+        "size" : 165000,
         "fuel_type" : "diesel",
         "item" : "55gal_drum",
         "difficulty" : 1,
@@ -2901,7 +2924,7 @@
         "damage_modifier" : 80,
         "durability" : 300,
         "item" : "it_battery_mount",
-        "difficulty" : 3,
+        "difficulty" : 2,
         "location" : "fuel_source",
         "flags" : ["BATTERY_MOUNT"],
         "breaks_into" : [
@@ -2962,12 +2985,13 @@
         "damage_modifier" : 80,
         "durability" : 580,
         "size" : 10000,
+        "power" : 100, "//" : "Here it is a multiplier on power efficiency - 1 unit of plutonium is 100 units of battery",
         "epower" : 149200,
         "fuel_type" : "plutonium",
         "item" : "minireactor",
-        "difficulty" : 7,
+        "difficulty" : 8,
         "location" : "fuel_source",
-        "flags" : ["FUEL_TANK"],
+        "flags" : ["FUEL_TANK", "REACTOR"],
         "breaks_into" : [
             {"item": "steel_lump", "min": 6, "max": 11},
             {"item": "steel_chunk", "min": 6, "max": 11},
@@ -3218,7 +3242,7 @@
         "epower": -25,
         "folded_volume": 6,
         "item" : "vehicle_controls",
-        "difficulty" : 3,
+        "difficulty" : 2,
         "flags" : ["CONTROLS", "FOLDABLE", "DOME_LIGHT"],
         "breaks_into" : [
             {"item": "steel_lump", "min": 1, "max": 1},
@@ -3277,7 +3301,7 @@
         "epower" : -300,
         "bonus" : 25,
         "item" : "processor",
-        "difficulty" : 8,
+        "difficulty" : 6,
         "location" : "on_controls",
         "flags" : ["ON_CONTROLS", "DIFFICULTY_REMOVE", "SECURITY"],
         "breaks_into" : [
@@ -3330,7 +3354,7 @@
         "durability" : 20,
         "epower" : 111,
         "item" : "solar_panel",
-        "difficulty" : 6,
+        "difficulty" : 4,
         "location" : "on_roof",
         "flags" : ["SOLAR_PANEL"],
         "breaks_into" : [
@@ -3351,7 +3375,7 @@
         "durability" : 300,
         "epower" : 105,
         "item" : "reinforced_solar_panel",
-        "difficulty" : 6,
+        "difficulty" : 4,
         "location" : "on_roof",
         "flags" : ["SOLAR_PANEL"],
         "breaks_into" : [
@@ -3372,7 +3396,7 @@
         "durability" : 20,
         "epower" : 222,
         "item" : "solar_panel_v2",
-        "difficulty" : 8,
+        "difficulty" : 6,
         "location" : "on_roof",
         "flags" : ["SOLAR_PANEL"],
         "breaks_into" : [
@@ -3393,7 +3417,7 @@
         "durability" : 300,
         "epower" : 210,
         "item" : "reinforced_solar_panel_v2",
-        "difficulty" : 9,
+        "difficulty" : 6,
         "location" : "on_roof",
         "flags" : ["SOLAR_PANEL"],
         "breaks_into" : [
@@ -3414,7 +3438,7 @@
         "durability" : 30,
         "epower" : 555,
         "item" : "solar_panel_v3",
-        "difficulty" : 12,
+        "difficulty" : 8,
         "location" : "on_roof",
         "flags" : ["SOLAR_PANEL"],
         "breaks_into" : [
@@ -3451,7 +3475,7 @@
         "durability" : 80,
         "size" : 400,
         "item" : "kitchen_unit",
-        "difficulty" : 4,
+        "difficulty" : 3,
         "location" : "center",
         "flags" : ["CARGO", "OBSTACLE", "KITCHEN", "COVERED"],
         "breaks_into" : [
@@ -3473,7 +3497,7 @@
         "durability" : 95,
         "size" : 400,
         "item" : "weldrig",
-        "difficulty" : 4,
+        "difficulty" : 3,
         "location" : "center",
         "flags" : ["CARGO", "OBSTACLE", "WELDRIG", "COVERED"],
         "breaks_into" : [
@@ -3494,7 +3518,7 @@
         "durability" : 80,
         "size" : 400,
         "item" : "craftrig",
-        "difficulty" : 4,
+        "difficulty" : 3,
         "location" : "center",
         "flags" : ["CARGO", "OBSTACLE", "CRAFTRIG", "COVERED"],
         "breaks_into" : [
@@ -3520,7 +3544,7 @@
         "durability" : 65,
         "size" : 400,
         "item" : "chemlab",
-        "difficulty" : 4,
+        "difficulty" : 3,
         "location" : "center",
         "flags" : ["CARGO", "OBSTACLE", "CHEMLAB", "COVERED"],
         "breaks_into" : [
@@ -3563,7 +3587,7 @@
         "fuel_type" : "223",
         "item" : "m249",
         "size" : 40,
-        "difficulty" : 6,
+        "difficulty" : 4,
         "location" : "on_roof",
         "flags" : ["TURRET", "CARGO"],
         "breaks_into" : [
@@ -3582,7 +3606,7 @@
         "range" : 5,
         "fuel_type" : "gasoline",
         "item" : "flamethrower",
-        "difficulty" : 7,
+        "difficulty" : 5,
         "location" : "on_roof",
         "flags" : ["TURRET"],
         "breaks_into" : [
@@ -3601,7 +3625,7 @@
         "range" : 12,
         "fuel_type" : "plasma",
         "item" : "plasma_rifle",
-        "difficulty" : 7,
+        "difficulty" : 8,
         "location" : "on_roof",
         "flags" : ["TURRET"],
         "breaks_into" : [
@@ -3620,7 +3644,7 @@
         "range" : 12,
         "fuel_type" : "fusion",
         "item" : "ftk93",
-        "difficulty" : 7,
+        "difficulty" : 8,
         "size" : 10,
         "location" : "on_roof",
         "flags" : ["TURRET", "CARGO"],
@@ -3640,7 +3664,7 @@
         "range" : 12,
         "fuel_type" : "battery",
         "item" : "nx17",
-        "difficulty" : 7,
+        "difficulty" : 8,
         "location" : "on_roof",
         "flags" : ["TURRET"],
         "breaks_into" : [
@@ -3659,7 +3683,7 @@
         "range" : 12,
         "fuel_type" : "50",
         "item" : "m2browning",
-        "difficulty" : 6,
+        "difficulty" : 5,
         "size" : 1600,
         "location" : "on_roof",
         "flags" : ["TURRET", "CARGO"],
@@ -3679,7 +3703,7 @@
         "range" : 12,
         "fuel_type" : "40mm",
         "item" : "mark19",
-        "difficulty" : 6,
+        "difficulty" : 5,
         "size" : 480,
         "location" : "on_roof",
         "flags" : ["TURRET", "CARGO"],
@@ -3696,7 +3720,7 @@
         "broken_color" : "brown",
         "durability" : 300,
         "item" : "wood_plate",
-        "difficulty" : 3,
+        "difficulty" : 2,
         "location" : "armor",
         "flags" : ["ARMOR", "NAILABLE"],
         "breaks_into" : [
@@ -3712,7 +3736,7 @@
         "broken_color" : "light_cyan",
         "durability" : 1000,
         "item" : "steel_plate",
-        "difficulty" : 3,
+        "difficulty" : 2,
         "location" : "armor",
         "flags" : ["ARMOR"],
         "breaks_into" : [
@@ -3843,7 +3867,7 @@
         "damage_modifier" : 80,
         "durability" : 250,
         "item" : "reinforced_glass_sheet",
-        "difficulty" : 6,
+        "difficulty" : 4,
         "location" : "center",
         "flags" : ["OBSTACLE", "WINDOW"],
         "breaks_into" : [
@@ -3880,7 +3904,7 @@
         "durability" : 100,
         "bonus" : 30,
         "item" : "horn_car",
-        "difficulty" : 3,
+        "difficulty" : 2,
         "flags" : ["HORN"],
         "breaks_into" : [
             {"item": "scrap", "min": 0, "max": 2}
@@ -3897,7 +3921,7 @@
         "durability" : 125,
         "bonus" : 45,
         "item" : "horn_big",
-        "difficulty" : 3,
+        "difficulty" : 2,
         "flags" : ["HORN"],
         "breaks_into" : [
             {"item": "steel_chunk", "min": 0, "max": 1}
@@ -3978,7 +4002,7 @@
         "epower" : 746,
         "fuel_type" : "battery",
         "item" : "alternator_motorbike",
-        "difficulty" : 3,
+        "difficulty" : 2,
         "flags" : ["ALTERNATOR", "FOLDABLE"],
         "folded_volume" : 5,
         "breaks_into" : [
@@ -3999,7 +4023,7 @@
         "power" : -7,
         "epower" : 1492,
         "item" : "alternator_car",
-        "difficulty" : 3,
+        "difficulty" : 2,
         "flags" : ["ALTERNATOR"],
         "breaks_into" : [
             {"item": "steel_lump", "min": 3, "max": 6},
@@ -4019,7 +4043,7 @@
         "power" : -10,
         "epower" : 2238,
         "item" : "alternator_truck",
-        "difficulty" : 3,
+        "difficulty" : 2,
         "flags" : ["ALTERNATOR"],
         "breaks_into" : [
             {"item": "steel_lump", "min": 4, "max": 7},
@@ -4056,7 +4080,7 @@
         "damage_modifier" : 80,
         "durability" : 95,
         "item" : "sheet_metal",
-        "difficulty" : 3,
+        "difficulty" : 2,
         "location" : "center",
         "flags" : ["OPAQUE", "OBSTACLE", "OPENABLE", "MULTISQUARE", "BOARDABLE"],
         "breaks_into" : [
@@ -4428,7 +4452,7 @@
         "broken_color" : "light_gray",
         "durability" : 480,
         "item" : "chitin_plate",
-        "difficulty" : 3,
+        "difficulty" : 2,
         "location" : "armor",
         "flags" : ["ARMOR"],
         "breaks_into" : [
@@ -4445,7 +4469,7 @@
         "broken_color" : "light_gray",
         "durability" : 400,
         "item" : "bone_plate",
-        "difficulty" : 3,
+        "difficulty" : 2,
         "location" : "armor",
         "flags" : ["ARMOR"],
         "breaks_into" : [
@@ -4485,7 +4509,7 @@
         "range" : 12,
         "fuel_type" : "8x40mm",
         "item" : "rm614_lmg",
-        "difficulty" : 8,
+        "difficulty" : 6,
         "size" : 600,
         "location" : "on_roof",
         "flags" : ["TURRET", "CARGO"],
@@ -4506,7 +4530,7 @@
         "range" : 12,
         "fuel_type" : "8x40mm",
         "item" : "rm298",
-        "difficulty" : 9,
+        "difficulty" : 6,
         "size" : 1800,
         "location" : "on_roof",
         "flags" : ["TURRET", "CARGO"],
@@ -4525,7 +4549,7 @@
         "damage_modifier" : 10,
         "durability" : 50,
         "item" : "motor_small",
-        "difficulty" : 3,
+        "difficulty" : 2,
         "folded_volume": 1,
         "flags" : ["DOOR_MOTOR", "UNMOUNT_ON_DAMAGE", "FOLDABLE"],
         "breaks_into" : [
@@ -4564,7 +4588,7 @@
         "folded_volume": 10,
         "item" : "camera_control",
         "epower": -100,
-        "difficulty" : 4,
+        "difficulty" : 3,
         "flags" : [ "VISION", "CAMERA", "CAMERA_CONTROL" ],
         "breaks_into" : [
             {"item": "e_scrap", "min": 4, "max": 10},
@@ -4585,7 +4609,7 @@
         "bonus" : 24,
         "item" : "omnicamera",
         "epower": -75,
-        "difficulty" : 5,
+        "difficulty" : 4,
         "location" : "on_roof",
         "flags" : [ "VISION", "CAMERA" ],
         "breaks_into" : [
@@ -4623,7 +4647,7 @@
         "damage_modifier" : 10,
         "durability" : 300,
         "item" : "robot_controls",
-        "difficulty" : 6,
+        "difficulty" : 4,
         "folded_volume": 5,
         "location" : "center",
         "flags" : ["REMOTE_CONTROLS", "OBSTACLE", "FOLDABLE"],

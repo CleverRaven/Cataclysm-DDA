@@ -4,6 +4,7 @@
 #include "creature.h"
 #include "action.h"
 #include "inventory.h"
+#include "bionics.h"
 
 #include <map>
 
@@ -21,8 +22,8 @@ class Character : public Creature
          *  Returns false if movement is stopped. */
         virtual bool move_effects() override;
         /** Performs any Character-specific modifications to the arguments before passing to Creature::add_effect(). */
-        virtual void add_effect(efftype_id eff_id, int dur, body_part bp = num_bp, bool permanent = false,
-                                int intensity = 0) override;
+        virtual void add_effect( efftype_id eff_id, int dur, body_part bp = num_bp, bool permanent = false,
+                                 int intensity = 0, bool force = false ) override;
         
         /** Recalculates HP after a change to max strength */
         void recalc_hp();
@@ -61,8 +62,8 @@ class Character : public Creature
         /** Retrieves a stat mod of a mutation. */
         int get_mod(std::string mut, std::string arg) const;
  protected:
-	/** Applies stat mods to character. */
-	void apply_mods(const std::string &mut, bool add_remove);
+        /** Applies stat mods to character. */
+        void apply_mods(const std::string &mut, bool add_remove);
  public:
         /** Handles things like destruction of armor, etc. */
         void mutation_effect(std::string mut);
@@ -73,9 +74,9 @@ class Character : public Creature
         
         // --------------- Bionic Stuff ---------------
         /** Returns true if the player has the entered bionic id */
-        bool has_bionic(const bionic_id &b) const;
+        bool has_bionic(const std::string &b) const;
         /** Returns true if the player has the entered bionic id and it is powered on */
-        bool has_active_bionic(const bionic_id &b) const;
+        bool has_active_bionic(const std::string &b) const;
         
         // --------------- Generic Item Stuff ---------------
 

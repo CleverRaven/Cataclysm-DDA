@@ -25,7 +25,8 @@ not_json = {
 
 # don't parse this files. Full related path.
 ignore_files = {
-    "data/mods/obsolete-mods.json"
+    "data/mods/obsolete-mods.json",
+    "data/raw/color_templates/no_bright_background.json"
 }
 
 # these objects have no translatable strings
@@ -38,11 +39,13 @@ ignorable = {
     "MONSTER_FACTION",
     "MONSTER_WHITELIST",
     "monitems",
-    "npc", # FIXME right now this object is unextractable
+    "npc",      # FIXME right now this object is unextractable
+    "epilogue", # FIXME right now this object can't be translated correctly
     "overmap_special",
     "recipe_category",
     "recipe_subcategory",
     "region_settings",
+    "region_overlay",
     "BULLET_PULLING",
     "SPECIES"
 }
@@ -207,6 +210,40 @@ def extract_recipes(item):
             if len(arr) >= 3 and len(arr[2]) > 0:
                 writestr(outfile, arr[2])
 
+def extract_dynamic_line_optional(line, member, outfile):
+    if member in line:
+        extract_dynamic_line(line[member], outfile)
+
+def extract_dynamic_line(line, outfile):
+    if type(line) == list:
+        for l in line:
+            extract_dynamic_line(l, outfile)
+    elif type(line) == dict:
+        extract_dynamic_line_optional(line, "u_male", outfile)
+        extract_dynamic_line_optional(line, "u_female", outfile)
+        extract_dynamic_line_optional(line, "npc_male", outfile)
+        extract_dynamic_line_optional(line, "npc_female", outfile)
+        extract_dynamic_line_optional(line, "yes", outfile)
+        extract_dynamic_line_optional(line, "no", outfile)
+    else:
+        writestr(outfile, line)
+
+def extract_talk_response(response, outfile):
+    if "text" in response:
+        writestr(outfile, response["text"])
+    if "success" in response:
+        extract_talk_response(response["success"], outfile)
+    if "failure" in response:
+        extract_talk_response(response["failure"], outfile)
+
+def extract_talk_topic(item):
+    outfile = get_outfile("talk_topic")
+    if "dynamic_line" in item:
+        extract_dynamic_line(item["dynamic_line"], outfile)
+    for r in item["responses"]:
+        extract_talk_response(r, outfile)
+
+
 def extract_mutation(item):
     outfile = get_outfile("mutation_category")
 
@@ -244,6 +281,7 @@ extract_specials = {
     "recipe": extract_recipes,
     "scenario": extract_scenarios,
     "mapgen": extract_mapgen,
+    "talk_topic": extract_talk_topic,
     "mutation_category":extract_mutation
 }
 
@@ -457,16 +495,6 @@ def add_fake_types():
     outfile = os.path.join(to_dir, "faketypes.py")
 
     # fake item types
-    writestr(outfile, "corpse", "corpses")
-    writestr(outfile, "nearby fire")
-    writestr(outfile, "cvd machine")
-    writestr(outfile, "integrated toolset")
-    writestr(outfile, "a smoking device and a source of flame")
-    writestr(outfile, "note", "notes")
-    writestr(outfile, "misc software")
-    writestr(outfile, "MediSoft")
-    writestr(outfile, "infection data")
-    writestr(outfile, "hackPRO")
 
     # fake monster types
     writestr(outfile, "human", "humans")

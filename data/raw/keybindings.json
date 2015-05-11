@@ -1001,7 +1001,7 @@
             }
         ]
     },
-	{
+    {
         "type" : "keybinding",
         "id": "REROLL_CHARACTER",
         "category": "NEW_CHAR_DESCRIPTION",
@@ -1889,6 +1889,22 @@
     },
     {
         "type" : "keybinding",
+        "id": "TOGGLE_VEH",
+        "category": "ADVANCED_INVENTORY",
+        "name": "Toggle vehicle",
+        "bindings":[
+            {
+                "input_method":"keyboard",
+                "key":"v"
+            },
+            {
+                "input_method":"keyboard",
+                "key":"V"
+            }
+        ]
+    },
+    {
+        "type" : "keybinding",
         "id": "TOGGLE_AUTO_PICKUP",
         "category": "ADVANCED_INVENTORY",
         "name": "Toggle auto-pickup for item",
@@ -2156,6 +2172,22 @@
             {
                 "input_method":"keyboard",
                 "key":"C"
+            }
+        ]
+    },
+    {
+        "type" : "keybinding",
+        "id": "ITEMS_WORN",
+        "category": "ADVANCED_INVENTORY",
+        "name": "Select items currently worn",
+        "bindings":[
+            {
+                "input_method":"keyboard",
+                "key":"w"
+            },
+            {
+                "input_method":"keyboard",
+                "key":"W"
             }
         ]
     },

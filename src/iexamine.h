@@ -8,6 +8,8 @@
 #ifndef IEXAMINE_H
 #define IEXAMINE_H
 
+#include <string>
+
 class game;
 class item;
 class player;
@@ -60,6 +62,7 @@ void flower_dahlia (player *p, map *m, int examx, int examy);
 void flower_datura (player *p, map *m, int examx, int examy);
 void flower_marloss (player *p, map *m, int examx, int examy);
 void flower_dandelion (player *p, map *m, int examx, int examy);
+void examine_cattails (player *p, map *m, int examx, int examy);
 void egg_sackbw(player *p, map *m, int examx, int examy);
 void egg_sackws(player *p, map *m, int examx, int examy);
 void fungus (player *p, map *m, int examx, int examy);
@@ -75,7 +78,6 @@ void recycler (player *p, map *m, int examx, int examy);
 void trap(player *p, map *m, int examx, int examy);
 void water_source (player *p, map *m, int examx, int examy);
 void swater_source (player *p, map *m, int examx, int examy);
-void acid_source (player *p, map *m, int examx, int examy);
 void kiln_empty (player *p, map *m, int examx, int examy);
 void kiln_full (player *p, map *m, int examx, int examy);
 void fvat_empty (player *p, map *m, int examx, int examy);

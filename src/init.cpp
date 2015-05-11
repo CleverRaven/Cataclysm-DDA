@@ -39,6 +39,9 @@
 #include "faction.h"
 #include "npc.h"
 #include "item_action.h"
+#include "dialogue.h"
+#include "mongroup.h"
+#include "martialarts.h"
 
 #include <string>
 #include <vector>
@@ -180,6 +183,7 @@ void DynamicDataLoader::initialize()
         new StaticFunctionAccessor(&load_overmap_specials);
 
     type_function_map["region_settings"] = new StaticFunctionAccessor(&load_region_settings);
+    type_function_map["region_overlay"] = new StaticFunctionAccessor(&load_region_overlay);
     type_function_map["ITEM_BLACKLIST"] = new ClassFunctionAccessor<Item_factory>(item_controller,
             &Item_factory::load_item_blacklist);
     type_function_map["ITEM_WHITELIST"] = new ClassFunctionAccessor<Item_factory>(item_controller,
@@ -197,6 +201,10 @@ void DynamicDataLoader::initialize()
         &faction::load_faction);
     type_function_map["npc"] = new StaticFunctionAccessor(
         &npc::load_npc);
+    type_function_map["talk_topic"] = new StaticFunctionAccessor(
+        &load_talk_topic);
+    type_function_map["epilogue"] = new StaticFunctionAccessor(
+        &epilogue::load_epilogue);
 
 }
 
@@ -342,6 +350,7 @@ void DynamicDataLoader::unload_data()
     iuse::reset_bullet_pulling();
     clear_overmap_specials();
     ammunition_type::reset();
+    unload_talk_topics();
 
     // TODO:
     //    NameGenerator::generator().clear_names();
@@ -363,6 +372,7 @@ void DynamicDataLoader::finalize_loaded_data()
     MonsterGroupManager::FinalizeMonsterGroups();
     item_controller->finialize_item_blacklist();
     finalize_recipes();
+    finialize_martial_arts();
     check_consistency();
 }
 

@@ -332,6 +332,7 @@
     "type" : "item_group",
     "id" : "kitchen",
     "items":[
+      ["aluminum_foil", 25],
       ["chips", 65],
       ["cereal", 50],
       ["cereal2", 60],
@@ -1011,6 +1012,7 @@
       ["grip", 12],
       ["pistol_grip", 12],
       ["adjustable_stock", 12],
+      ["folding_stock", 12],
       ["recoil_stock", 12],
       ["pistol_stock", 6],
       ["clip", 8],
@@ -1875,6 +1877,22 @@
       ["chem_thermite", 10]
     ]
   },{
+    "type"  : "item_group",
+    "id"    : "hardware_bulk",
+    "items" : [
+      ["2x4", 100],
+      ["rock", 70],
+      ["coal", 20],
+      ["material_shrd_limestone", 70],
+      ["fertilizer_commercial", 100],
+      ["material_quicklime", 70],
+      ["material_sand", 100],
+      ["concrete", 70],
+      ["rebar", 40],
+      ["brick", 40],
+      ["pipe", 40]
+    ]
+  },{
     "type" : "item_group",
     "id" : "tools",
     "items":[
@@ -2489,6 +2507,15 @@
     ]
   },{
     "type" : "item_group",
+    "id" : "wines_worthy",
+    "items":[
+      ["wine_riesling", 20],
+      ["wine_chardonnay", 30],
+      ["wine_cabernet", 30],
+      ["wine_noir", 20]
+    ]
+  },{
+    "type" : "item_group",
     "id" : "pool_table",
     "items":[
       ["pool_cue", 4],
@@ -2862,6 +2889,7 @@
       ["grip", 12],
       ["pistol_grip", 12],
       ["adjustable_stock", 12],
+      ["folding_stock", 12],
       ["recoil_stock", 12],
       ["pistol_stock", 12],
       ["barrel_big", 10],
@@ -3011,6 +3039,7 @@
       ["grip", 24],
       ["pistol_grip", 24],
       ["adjustable_stock", 24],
+      ["folding_stock", 24],
       ["pistol_stock", 12],
       ["barrel_big", 20],
       ["barrel_small", 12],
@@ -3861,6 +3890,8 @@
       ["rope_30", 10],
       ["rx12_injector", 1],
       ["ampoule", 5],
+      ["rx11_stimpack", 1],
+      ["stimpack_ammo", 5],
       ["flaregun", 5],
       ["signal_flare", 5],
       ["handflare", 20],
@@ -3890,6 +3921,47 @@
       ["jack", 2],
       ["throw_extinguisher", 1],
       ["smoxygen_tank", 10]
+    ]
+   },{
+    "type" : "item_group",
+    "id" : "swat_gear",
+    "subtype": "distribution",
+    "items":[
+      ["swat_armor", 20],
+      ["kevlar", 40],
+      ["mgl", 10],
+      ["40mm_concussive", 5],
+      ["40mm_flashbang", 5],
+      ["40mm_teargas", 15],
+      ["40mm_smoke", 15],
+      ["holster", 20],
+      ["suppressor", 20],
+      ["holo_sight", 20],
+      ["clip", 20],
+      ["spare_mag", 20],
+      ["knife_combat", 5],
+      ["m9", 30],
+      ["hk_ump45", 15],
+      ["m4a1", 15],
+      ["m1014", 20],
+      ["remington_700", 5],
+      ["hk_mp7", 20],
+      ["smokebomb", 40],
+      ["gasbomb", 40],
+      ["flashbang", 40],
+      ["9mm", 70],
+      ["45_acp", 40],
+      ["pants_army", 20],
+      ["crowbar", 40],
+      ["1st_aid", 40],
+      ["556", 20],
+      ["shot_00", 50],
+      ["shot_slug", 50],
+      ["46mm", 15],
+      ["boots_combat", 20],
+      ["tac_helmet", 20],
+      ["goggles_nv", 5],
+      ["UPS_off", 10]
     ]
   },{
     "type" : "item_group",
@@ -5152,7 +5224,7 @@
       ["chainmail_legs", 2],
       ["motorbike_armor", 2],
       ["motorbike_pants", 2],
-	  ["motorbike_boots", 2],
+      ["motorbike_boots", 2],
       ["kittel", 1],
       ["kippah", 3],
       ["thawb", 2],
@@ -5704,6 +5776,9 @@
       ["seed_tomato", 1],
       ["seed_blueberries", 1],
       ["seed_strawberries", 1],
+      ["seed_blackberries", 1],
+      ["seed_cranberries", 1],
+      ["seed_raspberries", 1],
       ["seed_barley", 1],
       ["seed_sugar_beet", 1],
       ["seed_lettuce", 1],
@@ -5711,6 +5786,7 @@
       ["seed_carrot", 1],
       ["seed_corn", 1],
       ["seed_hops", 1],
+      ["raw_beans", 1],
       ["tomato", 9],
       ["broccoli", 9],
       ["cucumber", 10],
@@ -6056,7 +6132,7 @@
     "type" : "item_group",
     "id" : "bionics_sci",
     "subtype": "distribution",
-    "note" : "High-tech bionics, handy for the harried researcher. They get access to classified toys too.",
+    "note" : "High-tech bionics, handy for the harried researcher.  They get access to classified toys too.",
     "items":[
       ["bio_solar", 5],
       ["bio_batteries", 20],
@@ -6127,6 +6203,9 @@
     "id" : "bots",
     "items":[
       ["bot_manhack", 2],
+      ["bot_grenade_hack", 2],
+      ["bot_flashbang_hack", 2],
+      ["bot_gasbomb_hack", 2],
       ["bot_turret", 2],
       ["bot_rifleturret", 2],
       ["556", 2],
@@ -6424,6 +6503,8 @@
       ["fungicide", 5],
       ["rx12_injector", 8],
       ["ampoule", 12],
+      ["rx11_stimpack", 8],
+      ["stimpack_ammo", 12],
       ["oxygen_tank", 10],
       ["smoxygen_tank", 20],
       ["bfipowder", 15],
@@ -6767,7 +6848,8 @@
       ["holster", 3],
       ["sholster", 2],
       ["toolbox", 1],
-      ["survnote", 5]
+      ["survnote", 5],
+      ["tinfoil_hat", 1]
     ]
   },{
     "type" : "item_group",
@@ -7201,6 +7283,9 @@
       ["dynamite", 5],
       ["mininuke", 1],
       ["bot_manhack", 1],
+      ["bot_grenade_hack", 1],
+      ["bot_flashbang_hack", 1],
+      ["bot_gasbomb_hack", 1],
       ["UPS_off", 5],
       ["adv_UPS_off", 3],
       ["bio_power_storage", 10],
@@ -7723,6 +7808,8 @@
       ["bfipowder", 20],
       ["rx12_injector", 5],
       ["ampoule", 10],
+      ["rx11_stimpack", 5],
+      ["stimpack_ammo", 10],
       ["optical_cloak", 1],
       ["halligan", 10],
       ["fire_ax", 5],
@@ -7736,7 +7823,9 @@
       ["knife_rm42", 4],
       ["survnote", 1],
       ["rm11b_sniper_rifle", 1],
-      ["shoulder_strap", 16]
+      ["shoulder_strap", 16],
+      ["bot_manhack", 1],
+      ["bot_grenade_hack", 1]
     ]
   },{
     "type" : "item_group",
@@ -7870,8 +7959,10 @@
       ["conversion_sniper", 1],
       ["canister_goo", 8],
       ["mininuke", 1],
+      ["bot_mininuke_hack", 1],
       ["portal", 2],
       ["c4", 5],
+      ["bot_c4_hack", 3],
       ["12mm", 2],
       ["hk_g80", 2],
       ["power_armor_basic", 5],
@@ -7896,6 +7987,8 @@
       ["pur_tablets", 20],
       ["rx12_injector", 5],
       ["ampoule", 10],
+      ["rx11_stimpack", 5],
+      ["stimpack_ammo", 10],
       ["optical_cloak", 2],
       ["antifungal", 1],
       ["antiparasitic", 2],
@@ -8467,6 +8560,8 @@
       ["rope_30", 10],
       ["rx12_injector", 1],
       ["ampoule", 5],
+      ["rx11_stimpack", 1],
+      ["stimpack_ammo", 5],
       ["flaregun", 5],
       ["signal_flare", 5],
       ["flamethrower", 1],
@@ -9133,6 +9228,9 @@
 "items" : [
       ["seed_blueberries", 60],
       ["seed_strawberries", 60],
+      ["seed_blackberries", 60],
+      ["seed_cranberries", 60],
+      ["seed_raspberries", 60],
       ["seed_wheat", 60],
       ["seed_barley", 60],
       ["seed_sugar_beet", 60],
@@ -9147,6 +9245,7 @@
       ["seed_potato_raw", 60],
       ["seed_zucchini", 60],
       ["seed_cotton_boll", 10],
+      ["raw_beans", 60 ],
       ["seed_tomato", 60]
     ]
   },{
@@ -9282,7 +9381,9 @@
       { "item": "wild_herbs", "prob": 10 },
       { "item": "thyme", "prob": 5, "count-min": 1, "count-max": 2 },
       { "item": "canola", "prob": 5, "count-min": 1, "count-max": 2 },
-      { "item": "dogbane", "prob": 5, "count-min": 1, "count-max": 2 }
+      { "item": "dogbane", "prob": 5, "count-min": 1, "count-max": 2 },
+      { "item": "bee_balm", "prob": 5, "count-min": 1, "count-max": 2 },
+      { "item": "mugwort", "prob": 5, "count-min": 1, "count-max": 2 }
     ]
   },{
 "type" : "item_group",
@@ -9298,7 +9399,9 @@
       { "item": "buckwheat", "prob": 5, "count-min": 1, "count-max": 4 },
       { "item": "thyme", "prob": 5, "count-min": 1, "count-max": 3 },
       { "item": "canola", "prob": 10, "count-min": 1, "count-max": 3 },
-      { "item": "dogbane", "prob": 10, "count-min": 1, "count-max": 3 }
+      { "item": "dogbane", "prob": 10, "count-min": 1, "count-max": 3 },
+      { "item": "bee_balm", "prob": 10, "count-min": 1, "count-max": 3 },
+      { "item": "mugwort", "prob": 10, "count-min": 1, "count-max": 3 }
     ]
   },{
 "type" : "item_group",
@@ -9311,7 +9414,9 @@
       { "item": "buckwheat", "prob": 15, "count-min": 2, "count-max": 4 },
       { "item": "thyme", "prob": 5, "count-min": 1, "count-max": 3 },
       { "item": "canola", "prob": 5, "count-min": 1, "count-max": 3 },
-      { "item": "dogbane", "prob": 5, "count-min": 1, "count-max": 3 }
+      { "item": "dogbane", "prob": 5, "count-min": 1, "count-max": 3 },
+      { "item": "bee_balm", "prob": 5, "count-min": 1, "count-max": 3 },
+      { "item": "mugwort", "prob": 5, "count-min": 1, "count-max": 3 }
     ]
   },{
 "type" : "item_group",

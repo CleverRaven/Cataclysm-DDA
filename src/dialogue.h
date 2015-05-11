@@ -4,15 +4,16 @@
 #include "player.h"
 #include "output.h"
 #include "npc.h"
-#include "mission.h"
 #include "color.h"
 #include <vector>
 #include <string>
+#include <functional>
 
 class martialart;
+class JsonObject;
+class mission;
 
 struct talk_response;
-struct talk_function;
 struct dialogue {
     /**
      * The player character that speaks (always g->u).
@@ -36,23 +37,22 @@ struct dialogue {
      * This will be displayed in the dialog window and should already be translated.
      */
     std::vector<std::string> history;
-    std::vector<talk_topic> topic_stack;
+    std::vector<std::string> topic_stack;
 
     /** Missions that have been assigned by this npc to the player they currently speak to. */
     std::vector<mission*> missions_assigned;
 
-    int opt(std::string challenge, ...);
-    talk_topic opt(talk_topic topic);
+    std::string opt( const std::string &topic );
 
     dialogue() = default;
 
-    std::string dynamic_line( talk_topic topic ) const;
+    std::string dynamic_line( const std::string &topic ) const;
 
     /**
      * Possible responses from the player character, filled in @ref gen_responses.
      */
-    mutable std::vector<talk_response> responses;
-    void gen_responses( talk_topic topic ) const;
+    std::vector<talk_response> responses;
+    void gen_responses( const std::string &topic );
 
 private:
     void clear_window_texts();
@@ -66,40 +66,40 @@ private:
     /**
      * Add a simple response that switches the topic to the new one.
      */
-    talk_response &add_response( const std::string &text, talk_topic r ) const;
+    talk_response &add_response( const std::string &text, const std::string &r );
     /**
      * Add a response with the result TALK_DONE.
      */
-    talk_response &add_response_done( const std::string &text ) const;
+    talk_response &add_response_done( const std::string &text );
     /**
      * Add a response with the result TALK_NONE.
      */
-    talk_response &add_response_none( const std::string &text ) const;
+    talk_response &add_response_none( const std::string &text );
     /**
      * Add a simple response that switches the topic to the new one and executes the given
      * action. The response always succeeds.
      */
-    talk_response &add_response( const std::string &text, talk_topic r,
-                                 void (talk_function::*effect_success)(npc *) ) const;
+    talk_response &add_response( const std::string &text, const std::string &r,
+                                 std::function<void(npc*)> effect_success );
     /**
      * Add a simple response that switches the topic to the new one and sets the currently
      * talked about mission to the given one. The mission pointer must be valid.
      */
-    talk_response &add_response( const std::string &text, talk_topic r, mission *miss ) const;
+    talk_response &add_response( const std::string &text, const std::string &r, mission *miss );
     /**
      * Add a simple response that switches the topic to the new one and sets the currently
      * talked about skill to the given one. The skill pointer must be valid.
      */
-    talk_response &add_response( const std::string &text, talk_topic r, const Skill *skill ) const;
+    talk_response &add_response( const std::string &text, const std::string &r, const Skill *skill );
     /**
      * Add a simple response that switches the topic to the new one and sets the currently
      * talked about martial art style to the given one.
      */
-    talk_response &add_response( const std::string &text, talk_topic r, const martialart &style ) const;
+    talk_response &add_response( const std::string &text, const std::string &r, const martialart &style );
 };
 
-struct talk_function {
-    void nothing              (npc *) {};
+namespace talk_function {
+    void nothing              (npc *);
     void assign_mission       (npc *);
     void mission_success      (npc *);
     void mission_failure      (npc *);
@@ -123,7 +123,6 @@ struct talk_function {
     void deny_equipment       (npc *); // p gets "asked_for_item"
     void deny_train           (npc *); // p gets "asked_to_train"
     void deny_personal_info   (npc *); // p gets "asked_personal_info"
-    void enslave              (npc *) {}; // p becomes slave of u
     void hostile              (npc *); // p turns hostile to u
     void flee                 (npc *);
     void leave                (npc *); // p becomes indifferant
@@ -147,6 +146,9 @@ struct talk_function {
     void set_engagement_weak  (npc *);
     void set_engagement_hit   (npc *);
     void set_engagement_all   (npc *);
+
+    void allow_sleep          (npc *);
+    void wake_up              (npc *);
 };
 
 enum talk_trial_type {
@@ -180,6 +182,9 @@ struct talk_trial {
      * Roll for success or failure of this trial.
      */
     bool roll( dialogue &d ) const;
+
+    talk_trial() = default;
+    talk_trial( JsonObject );
 };
 
 /**
@@ -198,7 +203,6 @@ struct talk_response {
      * new mission.
      */
     mission *mission_selected = nullptr;
-    mission_type_id miss = MISSION_NULL; // If it generates a new mission
     const Skill* skill = nullptr;
     matype_id style;
     /**
@@ -213,13 +217,17 @@ struct talk_response {
         /**
          * Function that is called when the response is chosen.
          */
-        void (talk_function::*effect)(npc *) = &talk_function::nothing;
+        std::function<void(npc*)> effect = &talk_function::nothing;
         /**
          * Topic to switch to. TALK_DONE ends the talking, TALK_NONE keeps the current topic.
          */
-        talk_topic topic = TALK_NONE;
+        std::string topic = "TALK_NONE";
 
-        talk_topic apply( dialogue &d ) const;
+        std::string apply( dialogue &d ) const;
+        void load_effect( JsonObject &jo );
+
+        effect_t() = default;
+        effect_t( JsonObject );
     };
     effect_t success;
     effect_t failure;
@@ -234,12 +242,7 @@ struct talk_response {
     void do_formatting( const dialogue &d, char letter );
 
     talk_response() = default;
-};
-
-struct talk_response_list {
-    std::vector<talk_response> none(npc *);
-    std::vector<talk_response> shelter(npc *);
-    std::vector<talk_response> shopkeep(npc *);
+    talk_response( JsonObject );
 };
 
 /* There is a array of tag_data, "tags", at the bottom of this file.
@@ -252,5 +255,8 @@ struct tag_data {
     std::string tag;
     std::string (*replacement)[10];
 };
+
+void unload_talk_topics();
+void load_talk_topic( JsonObject &jo );
 
 #endif

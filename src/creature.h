@@ -4,7 +4,6 @@
 #include "damage.h"
 #include "pldata.h"
 #include "skill.h"
-#include "bionics.h"
 #include "json.h"
 #include "effect.h"
 #include "bodypart.h"
@@ -106,11 +105,14 @@ class Creature
          * the other monster is visible.
          */
         /*@{*/
-        virtual bool sees( const Creature &critter, int &bresenham_slope ) const;
+        virtual bool sees( const Creature &critter, int &bresen1, int &bresen2 ) const;
+        bool sees( const Creature &critter, int &bresenham_slope ) const;
         bool sees( const Creature &critter ) const;
         bool sees( int cx, int cy, int &bresenham_slope ) const;
         bool sees( int tx, int ty ) const;
-        virtual bool sees( point t, int &bresenham_slope ) const;
+        virtual bool sees( const tripoint &t, int &bresen1, int &bresen2 ) const;
+        bool sees( const tripoint &t, int &bresen1 ) const;
+        bool sees( const tripoint &t ) const;
         bool sees( point t ) const;
         /*@}*/
 
@@ -168,7 +170,7 @@ class Creature
         virtual void absorb_hit(body_part bp, damage_instance &dam) = 0;
 
         // TODO: this is just a shim so knockbacks work
-        virtual void knock_back_from(int posx, int posy) = 0;
+        virtual void knock_back_from( const tripoint &p ) = 0;
 
         // begins a melee attack against the creature
         // returns hit - dodge (>=0 = hit, <0 = miss)
@@ -212,6 +214,13 @@ class Creature
         virtual bool is_hallucination() const = 0;
         // returns true if health is zero or otherwise should be dead
         virtual bool is_dead_state() const = 0;
+
+        // Resistances
+        bool is_immune( const std::string &type ) const;
+        virtual bool is_elec_immune() const = 0;
+        virtual bool is_immune_effect( const std::string &type ) const = 0;
+        virtual bool is_immune_damage( const damage_type type ) const = 0;
+        
         /**
          * This function checks the creatures @ref is_dead_state and (if true) calls @ref die.
          * You can either call this function after hitting this creature, or let the game
@@ -227,14 +236,15 @@ class Creature
         virtual int posx() const = 0;
         virtual int posy() const = 0;
         virtual int posz() const = 0;
-        virtual const point &pos() const = 0;
-        // This should eventually replace the regular pos() above
-        virtual const tripoint pos3() const  {
-            return tripoint( pos(), posz() );
+        virtual const tripoint &pos() const = 0;
+
+        virtual const tripoint &pos3() const
+        {
+            return pos();
         }
 
         struct compare_by_dist_to_point {
-            point center;
+            tripoint center;
             // Compare the two creatures a and b by their distance to a fixed center point.
             // The nearer creature is considered smaller and sorted first.
             bool operator()( const Creature *a, const Creature *b ) const;
@@ -248,11 +258,12 @@ class Creature
 
         /** Adds or modifies an effect. If intensity is given it will set the effect intensity
             to the given value, or as close as max_intensity values permit. */
-        virtual void add_effect(efftype_id eff_id, int dur, body_part bp = num_bp, bool permanent = false,
-                                int intensity = 0);
+        virtual void add_effect( efftype_id eff_id, int dur, body_part bp = num_bp, bool permanent = false,
+                                 int intensity = 0, bool force = false );
         /** Gives chance to save via environmental resist, returns false if resistance was successful. */
-        bool add_env_effect(efftype_id eff_id, body_part vector, int strength, int dur,
-                            body_part bp = num_bp, bool permanent = false, int intensity = 1);
+        bool add_env_effect( efftype_id eff_id, body_part vector, int strength, int dur,
+                             body_part bp = num_bp, bool permanent = false, int intensity = 1,
+                             bool force = false );
         /** Removes a listed effect, adding the removal memorial log if needed. bp = num_bp means to remove
          *  all effects of a given type, targeted or untargeted. Returns true if anything was removed. */
         bool remove_effect(efftype_id eff_id, body_part bp = num_bp);
@@ -435,6 +446,7 @@ class Creature
         bool underwater;
 
         void draw(WINDOW *w, int plx, int ply, bool inv) const;
+        void draw(WINDOW *w, const tripoint &plp, bool inv) const;
         /**
          * Write information about this creature.
          * @param w the window to print the text into.

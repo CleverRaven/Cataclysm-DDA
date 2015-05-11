@@ -8,9 +8,9 @@
 #include <bitset>
 #include <unordered_set>
 #include <set>
-#include "artifact.h"
-#include "itype.h"
-#include "mtype.h"
+#include "enums.h"
+#include "json.h"
+#include "color.h"
 #include "bodypart.h"
 
 class game;
@@ -18,9 +18,13 @@ class Character;
 class player;
 class npc;
 struct itype;
+struct mtype;
 struct islot_armor;
+struct use_function;
 class material_type;
 class item_category;
+using ammotype = std::string;
+using itype_id = std::string;
 
 std::string const& rad_badge_color(int rad);
 
@@ -158,11 +162,6 @@ public:
  // Firearm specifics
  int reload_time(player &u) const;
  int clip_size() const;
- // return the appropriate size for a spare magazine
- inline int spare_mag_size() const
- {
-    return ((clip_size() < type->gun->clip) ? clip_size() : type->gun->clip);
- }
  // We use the current aim level to decide which sight to use.
  int sight_dispersion( int aim_threshold ) const;
  int aim_speed( int aim_threshold ) const;
@@ -173,8 +172,9 @@ public:
      * @param u The player whose inventory is used to search for suitable ammo.
      * @param interactive Whether to show a dialog to select the ammo, if false it will select
      * the first suitable ammo.
+     * @retval INT_MIN+2 to indicate the user canceled the menu
      * @retval INT_MIN+1 to indicate reload from spare magazine
-     * @retval INT_MIN to indicate no suitable ammo found or user canceled the menu.
+     * @retval INT_MIN to indicate no suitable ammo found.
      * @retval other the item position (@ref player::i_at) in the players inventory.
      */
     int pick_reload_ammo( const player &u, bool interactive );
@@ -274,7 +274,7 @@ public:
   * container it was in.
   * @param On success all consumed items will be stored here.
   */
- bool use_amount(const itype_id &it, int &quantity, bool use_container, std::list<item> &used);
+ bool use_amount(const itype_id &it, long &quantity, bool use_container, std::list<item> &used);
 /**
  * Fill container with liquid up to its capacity.
  * @param liquid Liquid to fill the container with.
@@ -354,14 +354,15 @@ public:
     int fridge;
 
  int brewing_time() const;
- bool ready_to_revive( point pos ); // used for corpses
+ bool ready_to_revive( const tripoint &pos ); // used for corpses
  void detonate( const tripoint &p ) const;
  bool can_revive();      // test if item is a corpse and can be revived
 // light emission, determined by type->light_emission (LIGHT_???) tag (circular),
 // overridden by light.* struct (shaped)
- bool getlight(float & luminance, int & width, int & direction, bool calculate_dimming = true) const;
+ bool getlight(float & luminance, int & width, int & direction) const;
 // for quick iterative loops
- int getlight_emit(bool calculate_dimming = true) const;
+ int getlight_emit() const;
+ int getlight_emit_active() const;
 // Our value as a weapon, given particular skills
  int  weapon_value(player *p) const;
 // As above, but discounts its use as a ranged weapon
@@ -424,7 +425,7 @@ public:
      * @param carrier The player / npc that carries the item. This can be null when
      * the item is not carried by anyone (laying on ground)!
      * @param pos The location of the item on the map, same system as
-     * @ref player::pos used. If the item is carried, it should be the
+     * @ref player::pos3 used. If the item is carried, it should be the
      * location of the carrier.
      * @param passive Whether the item should be activated (true), or
      * processed as an active item.
@@ -432,19 +433,18 @@ public:
      * should than delete the item wherever it was stored.
      * Returns false if the item is not destroyed.
      */
-    bool process(player *carrier, point pos, bool activate);
+    bool process(player *carrier, const tripoint &pos, bool activate);
 protected:
     // Sub-functions of @ref process, they handle the processing for different
     // processing types, just to make the process function cleaner.
     // The interface is the same as for @ref process.
-    bool process_food(player *carrier, point pos);
-    bool process_corpse(player *carrier, point pos);
-    bool process_artifact(player *carrier, point pos);
-    bool process_wet(player *carrier, point pos);
-    bool process_litcig(player *carrier, point pos);
-    bool process_cable(player *carrier, point pos);
-    bool process_tool(player *carrier, point pos);
-    bool process_charger_gun(player *carrier, point pos);
+    bool process_food(player *carrier, const tripoint &pos);
+    bool process_corpse(player *carrier, const tripoint &pos);
+    bool process_wet(player *carrier, const tripoint &pos);
+    bool process_litcig(player *carrier, const tripoint &pos);
+    bool process_cable(player *carrier, const tripoint &pos);
+    bool process_tool(player *carrier, const tripoint &pos);
+    bool process_charger_gun(player *carrier, const tripoint &pos);
 public:
     /**
      * Helper to bring a cable back to its initial state.
@@ -459,6 +459,15 @@ public:
      * The rate at which an item should be processed, in number of turns between updates.
      */
     int processing_speed() const;
+    /**
+     * Process and apply artifact effects. This should be called exactly once each turn, it may
+     * modify character stats (like speed, strength, ...), so call it after those have been reset.
+     * @return True if the item should be destroyed (it has run out of charges or similar), false
+     * if the item should be kept. Artifacts usually return false as they never get destroyed.
+     * @param carrier The character carrying the artifact, can be null.
+     * @param pos The location of the artifact (should be the player location if carried).
+     */
+    bool process_artifact( player *carrier, const tripoint &pos );
 
  // umber of mods that can still be installed into the given
  // mod location, for non-guns it returns always 0
@@ -874,6 +883,16 @@ public:
          * for which skill() would return a skill.
          */
         std::string gun_skill() const;
+        /**
+         * The most relevant skill used with this melee weapon. Can be "null" if this is not a weapon.
+         * Note this function returns null if the item is a gun for which you can use gun_skill() instead.
+         */
+        std::string weap_skill() const;
+        /**
+         * Returns the appropriate size for a spare magazine used with this gun. If this is not a gun,
+         * it returns 0.
+         */
+        int spare_mag_size() const;
         /*@}*/
 
         /**
@@ -961,6 +980,7 @@ public:
    int irridation;      // Tracks radiation dosage.
  };
  std::set<std::string> item_tags; // generic item specific flags
+ std::set<std::string> techniques; // item specific techniques
  unsigned item_counter; // generic counter to be used with item flags
  int mission_id; // Refers to a mission in game's master list
  int player_id; // Only give a mission to the right player!
@@ -983,22 +1003,19 @@ class map_item_stack
         class item_group
         {
             public:
-                int x;
-                int y;
+                tripoint pos;
                 int count;
 
                 //only expected to be used for things like lists and vectors
                 item_group()
                 {
-                    x = 0;
-                    y = 0;
+                    pos = tripoint( 0, 0, 0 );
                     count = 0;
                 }
 
-                item_group(const int arg_x, const int arg_y, const int arg_count)
+                item_group( const tripoint &p, const int arg_count )
                 {
-                    x = arg_x;
-                    y = arg_y;
+                    pos = p;
                     count = arg_count;
                 }
 
@@ -1016,18 +1033,18 @@ class map_item_stack
             totalcount = 0;
         }
 
-        map_item_stack(item *it, const int arg_x, const int arg_y)
+        map_item_stack( item *it, const tripoint &pos )
         {
             example = it;
-            vIG.push_back(item_group(arg_x, arg_y, 1));
+            vIG.push_back(item_group(pos, 1));
             totalcount = 1;
         }
 
         ~map_item_stack() {};
 
-        void addNewPos(const int arg_x, const int arg_y)
+        void addNewPos( const tripoint &pos )
         {
-            vIG.push_back(item_group(arg_x, arg_y, 1));
+            vIG.push_back(item_group(pos, 1));
             totalcount++;
         }
 

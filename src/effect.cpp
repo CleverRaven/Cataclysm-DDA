@@ -2,6 +2,8 @@
 #include "rng.h"
 #include "output.h"
 #include "player.h"
+#include "translations.h"
+#include "messages.h"
 #include <map>
 #include <sstream>
 
@@ -42,7 +44,7 @@ void weed_msg(player *p) {
             if(p->has_amount("money_bundle", 1)) { // Half Baked
                 p->add_msg_if_player(_("You ever see the back of a twenty dollar bill... on weed?"));
                 if(one_in(2)) {
-                    p->add_msg_if_player(_("Oh, there's some crazy shit, man. There's a dude in the bushes. Has he got a gun? I dunno!"));
+                    p->add_msg_if_player(_("Oh, there's some crazy shit, man.  There's a dude in the bushes.  Has he got a gun?  I dunno!"));
                     if(one_in(3)) {
                         p->add_msg_if_player(_("RED TEAM GO, RED TEAM GO!"));
                     }
@@ -747,6 +749,12 @@ const std::vector<std::string> &effect::get_removes_effects() const
 {
     return eff_type->removes_effects;
 }
+const std::vector<std::string> effect::get_blocks_effects() const
+{
+    std::vector<std::string> ret = eff_type->removes_effects;
+    ret.insert(ret.end(), eff_type->blocks_effects.begin(), eff_type->blocks_effects.end());
+    return ret;
+}
 
 int effect::get_mod(std::string arg, bool reduced) const
 {
@@ -1048,10 +1056,15 @@ std::vector<std::pair<std::string, int>> effect::get_miss_msgs() const
 std::string effect::get_speed_name() const
 {
     // USes the speed_mod_name if one exists, else defaults to the first entry in "name".
-    if (eff_type->speed_mod_name == "") {
+    // But make sure the name for this intensity actually exists!
+    if( eff_type->speed_mod_name != "" ) {
+        return eff_type->speed_mod_name;
+    } else if( eff_type->use_name_ints() ) {
+        return eff_type->name[intensity-1];
+    } else if( !eff_type->name.empty() ) {
         return eff_type->name[0];
     } else {
-        return eff_type->speed_mod_name;
+        return "";
     }
 }
 
@@ -1122,6 +1135,7 @@ void load_effect_type(JsonObject &jo)
     new_etype.resist_trait = jo.get_string("resist_trait", "");
     new_etype.resist_effect = jo.get_string("resist_effect", "");
     new_etype.removes_effects = jo.get_string_array("removes_effects");
+    new_etype.blocks_effects = jo.get_string_array("blocks_effects");
 
     new_etype.max_intensity = jo.get_int("max_intensity", 1);
     new_etype.max_duration = jo.get_int("max_duration", 0);

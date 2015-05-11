@@ -72,6 +72,14 @@ List of known flags, used in both terrain.json and furniture.json
 - ```MOUNTABLE``` Suitable for guns with the "MOUNTED_GUN" flag.
 - ```UNSTABLE``` Walking here cause the bouldering effect on the character.
 - ```HARVESTED``` Marks the harvested version of a terrain type (e.g. harvesting an apple tree turns it into a harvested tree, which later becomes an apple tree again).
+- ```AUTO_WALL_SYMBOL``` (only for terrain) The symbol of this terrain will be one of the line drawings (corner, T-intersection, straight line etc.) depending on the adjacent terrains.
+- ```CONNECT_TO_WALL``` (only for terrain) Adjacent terrain that has the `AUTO_WALL_SYMBOL` flag will be shown as a line connecting to this terrain. This applies for example to doors or windows (which are technically embedded in walls). This flag is implied by the `WALL` and the `AUTO_WALL_SYMBOL` flag.
+
+Example: `-` and `|` is terrain with the `CONNECT_TO_WALL` flag, `O` does not have it, `X` and `Y` have the `AUTO_WALL_SYMBOL` flag, `X` terrain will be drawn as a T-intersection (connected to west, south and east), `Y` will be drawn as horizontal line (going from west to east, no connection to south).
+```
+-X-    -Y-
+ |      O
+```
 
 ### Examine actions
 
@@ -727,6 +735,7 @@ Some armor flags, such as `WATCH` and `ALARMCLOCK` are compatible with other ite
 - ```WATERPROOF_GUN``` Gun does not rust and can be used underwater.
 - ```UNDERWATER_GUN``` Gun is optimized for usage underwater, does perform badly outside of water.
 - ```NEVER_JAMS``` Never malfunctions.
+- ```COLLAPSIBLE_STOCK``` Reduces weapon volume proportional to the base size of the gun excluding any mods (see also SLOW_WIELD)
 
 ## Tools
 
@@ -932,6 +941,7 @@ Those flags are added by the game code to specific items (that specific welder, 
 - ```DURABLE_MELEE``` ... Item is made to hit stuff and it does it well, so it's considered to be a lot tougher than other weapons made of the same materials.
 - ```RAIN_PROTECT``` ... Protects from sunlight and from rain, when wielded.
 - ```NO_PICKUP``` ... Character can not pickup anything while wielding this item (e.g. bionic claws).
+- ```SLOW_WIELD``` ... Has an additional time penalty upon wielding. For melee weapons and guns this is offset by the relevant skill.
 
 ## Skills
 

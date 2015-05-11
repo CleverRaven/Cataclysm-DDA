@@ -1,10 +1,13 @@
 #include "options.h"
 #include "game.h"
+#include "map.h"
 #include "weather.h"
 #include "messages.h"
 #include "overmap.h"
 #include "overmapbuffer.h"
+#include "trap.h"
 #include "math.h"
+#include "translations.h"
 
 #include <vector>
 #include <sstream>
@@ -24,7 +27,7 @@
  */
 void weather_effect::glare()
 {
-    if (PLAYER_OUTSIDE && g->is_in_sunlight(g->u.posx(), g->u.posy()) &&
+    if (PLAYER_OUTSIDE && g->is_in_sunlight(g->u.pos()) &&
         !g->u.worn_with_flag("SUN_GLASSES") && !g->u.has_bionic("bio_sunglasses")) {
         if(!g->u.has_effect("glare")) {
             if (g->u.has_trait("CEPH_VISION")) {
@@ -87,9 +90,10 @@ std::pair<int, int> rain_or_acid_level( const int wt )
  * Determine what a funnel has filled out of game, using funnelcontainer.bday as a starting point.
  */
 void retroactively_fill_from_funnel( item &it, const trap &tr, const calendar &endturn,
-                                     const point &location )
+                                     const tripoint &location )
 {
     const calendar startturn = calendar( it.bday > 0 ? it.bday - 1 : 0 );
+
     if ( startturn > endturn || !tr.is_funnel() ) {
         return;
     }
@@ -98,8 +102,9 @@ void retroactively_fill_from_funnel( item &it, const trap &tr, const calendar &e
     int acid_amount = 0;
     int rain_turns = 0;
     int acid_turns = 0;
-    for( calendar turn(startturn); turn >= endturn; turn += 10) {
-        switch(g->weatherGen.get_weather_conditions(location, turn)) {
+    for( calendar turn(startturn); turn < endturn; turn += 10) {
+        // TODO: Z-level weather
+        switch(g->weatherGen.get_weather_conditions(point(location.x, location.y), turn)) {
         case WEATHER_DRIZZLE:
             rain_amount += 4;
             rain_turns++;
@@ -122,10 +127,17 @@ void retroactively_fill_from_funnel( item &it, const trap &tr, const calendar &e
             break;
         }
     }
-    int rain = rain_turns / tr.funnel_turns_per_charge( rain_amount );
-    int acid = acid_turns / tr.funnel_turns_per_charge( acid_amount );
-    it.add_rain_to_container( false, rain );
-    it.add_rain_to_container( true, acid );
+
+    // Technically 0.0 division is OK, but it will be cleaner without it
+    if( rain_amount > 0 ) {
+        int rain = rain_turns / tr.funnel_turns_per_charge( rain_amount );
+        it.add_rain_to_container( false, rain );
+    }
+
+    if( acid_amount > 0 ) {
+        int acid = acid_turns / tr.funnel_turns_per_charge( acid_amount );
+        it.add_rain_to_container( true, acid );
+    }
 }
 
 /**
@@ -224,7 +236,7 @@ void fill_funnels(int rain_depth_mm_per_hour, bool acid, const trap &tr)
     const auto &funnel_locs = g->m.trap_locations( tr.loadid );
     for( auto loc : funnel_locs ) {
         int maxcontains = 0;
-        auto items = g->m.i_at( loc.x, loc.y );
+        auto items = g->m.i_at( loc );
         if (one_in(turns_per_charge)) { // todo; fixme. todo; fixme
             //add_msg("%d mm/h %d tps %.4f: fill",int(calendar::turn),rain_depth_mm_per_hour,turns_per_charge);
             // This funnel has collected some rain! Put the rain in the largest
@@ -252,12 +264,8 @@ void fill_funnels(int rain_depth_mm_per_hour, bool acid, const trap &tr)
  */
 void fill_water_collectors(int mmPerHour, bool acid)
 {
-    for( auto &e : traplist ) {
-        const trap &tr = *e;
-        if( !tr.is_funnel() ) {
-            continue;
-        }
-        fill_funnels( mmPerHour, acid, tr );
+    for( auto &e : trap::get_funnels() ) {
+        fill_funnels( mmPerHour, acid, *e );
     }
 }
 
@@ -469,7 +477,7 @@ std::string weather_forecast( point const &abs_sm_pos )
 {
     std::ostringstream weather_report;
     // Local conditions
-    const auto cref = overmap_buffer.closest_city( abs_sm_pos );
+    const auto cref = overmap_buffer.closest_city( tripoint( abs_sm_pos, 0 ) );
     const std::string city_name = cref ? cref.city->name : std::string( _( "middle of nowhere" ) );
     // Current time
     weather_report << string_format(

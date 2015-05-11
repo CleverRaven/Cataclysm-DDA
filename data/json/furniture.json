@@ -27,7 +27,7 @@
         "max_volume": 3000,
         "required_str": -1,
         "flags": ["TRANSPARENT", "UNSTABLE", "ROUGH", "PLACE_ITEM", "MOUNTABLE", "CONTAINER",
-                  "SEALED", "TINY"],
+                  "SEALED", "ALLOW_FIELD_EFFECT", "TINY"],
         "examine_action": "rubble"
     },{
         "type" : "furniture",
@@ -39,7 +39,7 @@
         "max_volume": 3000,
         "required_str": -1,
         "flags": ["TRANSPARENT", "UNSTABLE", "ROUGH", "PLACE_ITEM", "MOUNTABLE", "CONTAINER",
-                  "SEALED", "SHORT"],
+                  "SEALED", "ALLOW_FIELD_EFFECT", "SHORT"],
         "examine_action": "rubble"
     },{
         "type" : "furniture",
@@ -51,7 +51,7 @@
         "max_volume": 3000,
         "required_str": -1,
         "flags": ["TRANSPARENT", "UNSTABLE", "ROUGH", "SHARP", "PLACE_ITEM", "MOUNTABLE",
-                  "CONTAINER", "SEALED", "SHORT"],
+                  "CONTAINER", "SEALED", "ALLOW_FIELD_EFFECT", "SHORT"],
         "examine_action": "rubble"
     },{
         "type" : "furniture",
@@ -1077,8 +1077,8 @@
         "bgcolor": "brown",
         "move_cost_mod": -1,
         "required_str": 14,
-        "flags": ["TRANSPARENT", "CONTAINER", "SEALED", "FLAMMABLE", "PLACE_ITEM", "ORGANIC",
-                  "MOUNTABLE", "SHORT"],
+        "flags": ["TRANSPARENT", "CONTAINER", "SEALED", "ALLOW_FIELD_EFFECT", "FLAMMABLE", "PLACE_ITEM", 
+                  "ORGANIC", "MOUNTABLE", "SHORT"],
         "examine_action": "crate",
         "deconstruct": {
             "items": [
@@ -1309,7 +1309,7 @@
         "bgcolor": "dkgray",
         "move_cost_mod": -10,
         "required_str": -1,
-        "flags": ["CONTAINER", "SEALED", "FLAMMABLE_ASH", "FUNGUS", "MOUNTABLE", "SHORT"],
+        "flags": ["CONTAINER", "SEALED", "ALLOW_FIELD_EFFECT", "FLAMMABLE_ASH", "FUNGUS", "MOUNTABLE", "SHORT"],
         "bash": {
             "str_min": 6, "str_max":30,
             "sound": "poof.",
@@ -1323,7 +1323,7 @@
         "bgcolor": "ltgray",
         "move_cost_mod": 3,
         "required_str": -1,
-        "flags": ["TRANSPARENT", "CONTAINER", "SEALED", "FLAMMABLE_ASH", "FUNGUS", "MOUNTABLE",
+        "flags": ["TRANSPARENT", "CONTAINER", "SEALED", "ALLOW_FIELD_EFFECT", "FLAMMABLE_ASH", "FUNGUS", "MOUNTABLE",
                   "SHORT"],
         "bash": {
             "str_min": 6, "str_max":20,
@@ -1554,7 +1554,7 @@
         "color": "brown",
         "move_cost_mod": -1,
         "required_str": -1,
-        "flags": ["NOITEM", "SEALED", "TRANSPARENT", "FLAMMABLE", "CONTAINER", "LIQUIDCONT"],
+        "flags": ["NOITEM", "SEALED", "ALLOW_FIELD_EFFECT", "TRANSPARENT", "FLAMMABLE", "CONTAINER", "LIQUIDCONT"],
         "examine_action": "keg",
         "bash": {
             "str_min": 12, "str_max": 50,
@@ -1676,6 +1676,21 @@
         "required_str": -1,
         "flags": ["TRANSPARENT", "TINY", "FLAMMABLE_ASH"],
         "examine_action": "flower_dandelion",
+        "bash": {
+            "str_min": 2, "str_max": 6,
+            "sound": "crunch.",
+            "sound_fail": "whish."
+        }
+    },{
+        "type" : "furniture",
+        "id" : "f_cattails",
+        "name": "cattails",
+        "symbol": "i",
+        "color": "brown",
+        "move_cost_mod": 1,
+        "required_str": -1,
+        "flags": ["TRANSPARENT", "TINY", "FLAMMABLE_ASH"],
+        "examine_action": "examine_cattails",
         "bash": {
             "str_min": 2, "str_max": 6,
             "sound": "crunch.",
@@ -2203,7 +2218,43 @@
                 { "item": "motor", "amount": 1, "chance": 30}
             ]
         }
-  },{
+    },{
+        "type" : "furniture",
+        "id" : "f_aut_gas_console",
+        "name": "automated gas console",
+        "symbol": "9",
+        "color": "blue",
+        "move_cost_mod": -1,
+        "required_str": 25,
+        "flags": ["SEALED", "ALARMED", "BLOCKSDOOR"],
+        "examine_action": "pay_gas",
+        "bash": {
+            "str_min": 7, "str_max": 30,
+            "sound": "glass breaking!",
+            "sound_fail": "whack!",
+            "furn_set": "f_aut_gas_console_o"
+        }
+    },{
+        "type" : "furniture",
+        "id" : "f_aut_gas_console_o",
+        "name": "broken automated gas console",
+        "symbol": "9",
+        "color": "dkgray",
+        "move_cost_mod": -1,
+        "required_str": 20,
+        "flags": ["BLOCKSDOOR"],
+        "bash": {
+            "str_min": 5, "str_max": 45,
+            "sound": "metal screeching!",
+            "sound_fail": "clang!",
+            "items": [
+                { "item": "scrap", "amount": 8, "minamount": 2},
+                { "item": "steel_chunk", "amount": 3, "minamount": 0},
+                { "item": "hose", "amount": 1},
+                { "item": "cu_pipe", "amount": 5, "minamount": 2 }
+            ]
+        }
+    },{
     "type" : "furniture",
     "id" : "f_smoking_rack",
     "name": "smoking rack",
@@ -2211,7 +2262,7 @@
     "bgcolor": "brown",
     "move_cost_mod": 2,
     "required_str": -1,
-    "flags": ["TRANSPARENT", "SEALED", "CONTAINER", "NOITEM"],
+    "flags": ["TRANSPARENT", "SEALED", "ALLOW_FIELD_EFFECT", "CONTAINER", "NOITEM"],
     "crafting_pseudo_item": "char_smoker",
     "examine_action": "reload_furniture",
     "deconstruct": {

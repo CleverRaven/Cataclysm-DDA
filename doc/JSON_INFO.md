@@ -562,12 +562,25 @@ Every item type can have optional spawn data:
 Every item type can have optional seed data, if the item has seed data, it's considered a seed and can be planted:
 ```
 "seed_data" : {
+    "fruits": "weed", // The item id of the fruits that this seed will produce.
+    "seeds": false, // (optional, default is true). If true, harvesting the plant will spawn seeds (the same type as the item used to plant). If false only the fruits are spawned, no seeds.
+    "byproducts": ["withered", "straw_pile"], // A list of further items that should spawn upon harvest.
     "plant_name": "sunflower", // The name of the plant that grows from this seed. This is only used as information displayed to the user.
     "grow" : 91 // Time it takes for a plant to fully mature. Based around a 91 day season length (roughly a real world season) to give better accuracy for longer season lengths
                 // Note that growing time is later converted based upon the season_length option, basing it around 91 is just for accuracy purposes
                 // A value 91 means 3 full seasons, a value of 30 would mean 1 season.
 }
 ```
+
+###SOFTWARE DATA
+Every item type can have software data, it does not have any behavior:
+```
+"software_data" : {
+    "type": "USELESS", // unused
+    "power" : 91 // unused
+}
+```
+
 ###USE ACTIONS
 The contents of use_action fields can either be a string indicating a built-in function to call when the item is activated (defined in iuse.cpp), or one of several special definitions that invoke a more structured function.
 ```C++
@@ -716,7 +729,7 @@ The format also support snippet ids like above.
 "symbol": "0",             //Symbol used
 "color": "ltred",          //Color of the symbol
 "move_cost": 10,           //Move cost to move through. 2 = normal speed, 0 = impassable
-"trap": "spike_pit",       //(OPTIONAL) trap_id minus the tr_ prefix of the trap type.
+"trap": "spike_pit",       //(OPTIONAL) trap_id of the trap type.
                            //If omitted, defaults to tr_null.
 "flags": ["TRANSPARENT", "DIGGABLE"],   //Terrain flags
 "examine_action": "pit"    //(OPTIONAL) Function called when examined, see iexamine.cpp.

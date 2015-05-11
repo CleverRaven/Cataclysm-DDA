@@ -4,6 +4,10 @@
 #include "debug.h"
 #include "output.h"
 #include "mapsharing.h"
+#include "translations.h"
+#include "worldfactory.h"
+#include "catacharset.h"
+#include "ui.h"
 #include <iostream>
 #include <fstream>
 

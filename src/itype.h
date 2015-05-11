@@ -6,7 +6,6 @@
 #include "iuse.h" // use_function
 #include "pldata.h" // add_type
 #include "bodypart.h" // body_part::num_bp
-#include "translations.h"
 
 #include <string>
 #include <vector>
@@ -25,14 +24,6 @@ class item;
 
 typedef std::string itype_id;
 typedef std::string ammotype;
-
-enum software_type : int {
-    SW_USELESS,
-    SW_HACKING,
-    SW_MEDICAL,
-    SW_SCIENCE,
-    SW_DATA
-};
 
 enum bigness_property_aspect : int {
     BIGNESS_ENGINE_DISPLACEMENT, // combustion engine CC displacement
@@ -239,7 +230,7 @@ struct common_firing_data : common_ranged_data {
      */
     int clip = 0;
     /**
-     * TODO: document me
+     * loudness for guns/gunmods
      */
     int loudness = 0;
 };
@@ -351,7 +342,7 @@ struct islot_ammo : common_ranged_data {
      */
     std::set<std::string> ammo_effects;
 
-    islot_ammo() : casing {"NULL"} { }
+    islot_ammo() : casing ("NULL") { }
 };
 
 struct islot_variable_bigness {
@@ -382,9 +373,13 @@ struct islot_bionic {
 
 struct islot_software {
     /**
-     * Type of software, see enum.
+     * Type of software, not used by anything at all.
      */
-    software_type swtype = SW_USELESS;
+    std::string type = "USELESS";
+    /**
+     * No used, but it's there is the original data.
+     */
+    int power;
 };
 
 struct islot_seed {
@@ -396,6 +391,18 @@ struct islot_seed {
      * Name of the plant, already translated.
      */
     std::string plant_name;
+    /**
+     * Type id of the fruit item.
+     */
+    std::string fruit_id;
+    /**
+     * Whether to spawn seed items additionally to the fruit items.
+     */
+    bool spawn_seeds = true;
+    /**
+     * Additionally items (a list of their item ids) that will spawn when harvesting the plant.
+     */
+    std::vector<std::string> byproducts;
 
     islot_seed() { }
 };
@@ -406,7 +413,7 @@ struct islot_spawn {
     std::string default_container; // The container it comes in
     std::vector<long> rand_charges;
 
-    islot_spawn() : default_container {"null"} { }
+    islot_spawn() : default_container ("null") { }
 };
 
 struct itype {
@@ -453,7 +460,7 @@ public:
 
     std::set<std::string> item_tags;
     std::set<std::string> techniques;
-    
+
     // Explosion that happens when the item is set on fire
     explosion_data explosion_on_fire_data;
 
@@ -501,10 +508,7 @@ public:
 
     // Returns the name of the item type in the correct language and with respect to its grammatical number,
     // based on quantity (example: item type “anvil”, nname(4) would return “anvils” (as in “4 anvils”).
-    virtual std::string nname(unsigned int quantity) const
-    {
-        return ngettext(name.c_str(), name_plural.c_str(), quantity);
-    }
+    virtual std::string nname(unsigned int quantity) const;
 
     virtual bool is_food() const
     {
@@ -547,6 +551,10 @@ public:
     long invoke( player *p, item *it, point pos, const std::string &iuse_name ) const;
     long tick( player *p, item *it,  point pos ) const;
 
+    long invoke( player *p, item *it, const tripoint &pos ) const; // Picks first method or returns 0
+    long invoke( player *p, item *it, const tripoint &pos, const std::string &iuse_name ) const;
+    long tick( player *p, item *it, const tripoint &pos ) const;
+
     itype() : id("null"), name("none"), name_plural("none") {}
 
     itype(std::string pid, unsigned pprice, std::string pname, std::string pname_plural,
@@ -579,7 +587,7 @@ struct it_comest : itype {
     int      healthy  = 0;
     unsigned brewtime = 0; // How long it takes for a brew to ferment.
     int      fun      = 0; // How fun its use is
-    
+
     add_type add = ADD_NULL; // Effects of addiction
 
     it_comest() = default;

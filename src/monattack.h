@@ -11,6 +11,8 @@ void shriek             (monster *z, int index);
 void howl               (monster *z, int index);
 void rattle             (monster *z, int index);
 void acid               (monster *z, int index);
+void acid_accurate      (monster *z, int index);
+void acid_barf          (monster *z, int index);
 void shockstorm         (monster *z, int index);
 void pull_metal_weapon  (monster *z, int index);
 void smokecloud         (monster *z, int index);
@@ -32,6 +34,7 @@ void fungus_growth      (monster *z, int index); // Sporeling -> fungaloid
 void fungus_sprout      (monster *z, int index); // Grow fungal walls
 void fungus_fortify     (monster *z, int index); // Grow fungal hedgerows
 void leap               (monster *z, int index);
+void impale             (monster *z, int index);
 void dermatik           (monster *z, int index);
 void dermatik_growth    (monster *z, int index);
 void plant              (monster *z, int index);
@@ -77,12 +80,17 @@ bool thrown_by_judo     (monster *z, int index); //handles zombie getting thrown
 void riotbot            (monster *z, int index);
 void stretch_attack     (monster *z, int index);
 void stretch_bite       (monster *z, int index);
+void kamikaze           (monster *z, int index);
+void grenadier          (monster *z, int index);
+void grenadier_elite    (monster *z, int index);
 
 void taze               (monster *z, Creature *target);
 void rifle              (monster *z, Creature *target); // Automated M4
 void frag               (monster *z, Creature *target); // Automated MGL
 void tankgun            (monster *z, Creature *target); // Tankbot primary.
 void flame              (monster *z, Creature *target);
+
+bool dodge_check        (monster *z, Creature *target);
 } //namespace mattack
 
 #endif

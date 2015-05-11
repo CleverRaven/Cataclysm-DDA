@@ -1,5 +1,7 @@
 #include "computer.h"
 #include "game.h"
+#include "map.h"
+#include "debug.h"
 #include "monster.h"
 #include "overmap.h"
 #include "output.h"
@@ -10,6 +12,10 @@
 #include "sounds.h"
 #include "rng.h"
 #include "mission.h"
+#include "translations.h"
+#include "monster.h"
+#include "event.h"
+#include "trap.h"
 
 #include <fstream>
 #include <string>
@@ -287,7 +293,7 @@ void computer::activate_function(computer_action action, char ch)
         break;
 
     case COMPACT_OPEN:
-        g->m.translate_radius(t_door_metal_locked, t_floor, 25.0, g->u.posx(), g->u.posy());
+        g->m.translate_radius(t_door_metal_locked, t_floor, 25.0, g->u.pos3());
         query_any(_("Doors opened.  Press any key..."));
         break;
 
@@ -297,12 +303,12 @@ void computer::activate_function(computer_action action, char ch)
     //Simply uses translate_radius which take a given radius and
     // player position to determine which terrain tiles to edit.
     case COMPACT_LOCK:
-        g->m.translate_radius(t_door_metal_c, t_door_metal_locked, 8.0, g->u.posx(), g->u.posy());
+        g->m.translate_radius(t_door_metal_c, t_door_metal_locked, 8.0, g->u.pos3());
         query_any(_("Lock enabled.  Press any key..."));
         break;
 
     case COMPACT_UNLOCK:
-        g->m.translate_radius(t_door_metal_locked, t_door_metal_c, 8.0, g->u.posx(), g->u.posy());
+        g->m.translate_radius(t_door_metal_locked, t_door_metal_c, 8.0, g->u.pos3());
         query_any(_("Lock disabled.  Press any key..."));
         break;
 
@@ -355,15 +361,13 @@ void computer::activate_function(computer_action action, char ch)
         g->u.add_memorial_log(pgettext("memorial_male", "Released subspace specimens."),
                               pgettext("memorial_female", "Released subspace specimens."));
         sounds::sound(g->u.posx(), g->u.posy(), 40, _("An alarm sounds!"));
-        g->m.translate_radius(t_reinforced_glass_h, t_floor, 25.0, g->u.posx(), g->u.posy());
-        g->m.translate_radius(t_reinforced_glass_v, t_floor, 25.0, g->u.posx(), g->u.posy());
+        g->m.translate_radius(t_reinforced_glass, t_floor, 25.0, g->u.pos3());
         query_any(_("Containment shields opened.  Press any key..."));
         break;
 
     case COMPACT_RELEASE_BIONICS:
         sounds::sound(g->u.posx(), g->u.posy(), 40, _("An alarm sounds!"));
-        g->m.translate_radius(t_reinforced_glass_h, t_floor, 2.0, g->u.posx(), g->u.posy());
-        g->m.translate_radius(t_reinforced_glass_v, t_floor, 2.0, g->u.posx(), g->u.posy());
+        g->m.translate_radius(t_reinforced_glass, t_floor, 2.0, g->u.pos3());
         query_any(_("Containment shields opened.  Press any key..."));
         break;
 
@@ -372,12 +376,13 @@ void computer::activate_function(computer_action action, char ch)
                               pgettext("memorial_female", "Terminated subspace specimens."));
         for (int x = 0; x < SEEX * MAPSIZE; x++) {
             for (int y = 0; y < SEEY * MAPSIZE; y++) {
-                int mondex = g->mon_at(x, y);
+                tripoint p( x, y, g->u.posz() );
+                int mondex = g->mon_at( p );
                 if (mondex != -1 &&
-                    ((g->m.ter(x, y - 1) == t_reinforced_glass_h &&
-                      g->m.ter(x, y + 1) == t_concrete_h) ||
-                     (g->m.ter(x, y + 1) == t_reinforced_glass_h &&
-                      g->m.ter(x, y - 1) == t_concrete_h))) {
+                    ((g->m.ter(x, y - 1) == t_reinforced_glass &&
+                      g->m.ter(x, y + 1) == t_concrete_wall) ||
+                     (g->m.ter(x, y + 1) == t_reinforced_glass &&
+                      g->m.ter(x, y - 1) == t_concrete_wall))) {
                     g->zombie( mondex ).die( &g->u );
                 }
             }
@@ -399,7 +404,7 @@ void computer::activate_function(computer_action action, char ch)
                     }
                 }
                 if (numtowers == 4) {
-                    if (g->m.tr_at(i, j).id == "tr_portal") {
+                    if (g->m.tr_at(i, j).id == trap_str_id( "tr_portal" )) {
                         g->m.remove_trap(i, j);
                     } else {
                         g->m.add_trap(i, j, tr_portal);
@@ -705,6 +710,9 @@ INITIATING STANDARD TREMOR TEST..."));
         if (!g->u.has_artifact_with(AEP_PSYSHIELD)) {
             g->u.add_effect("amigara", 20);
         }
+        // Disable this action to prevent further amigara events, which would lead to
+        // further amigara monster, which would lead to further artifacts.
+        remove_option( COMPACT_AMIGARA_START );
         break;
 
     case COMPACT_STEMCELL_TREATMENT:
@@ -1087,19 +1095,20 @@ SHORTLY. TO ENSURE YOUR SAFETY PLEASE FOLLOW THE BELOW STEPS. \n\
         add_msg(m_warning, _("Evacuate Immediately!"));
         for (int x = 0; x < SEEX * MAPSIZE; x++) {
             for (int y = 0; y < SEEY * MAPSIZE; y++) {
+                tripoint p( x, y, g->get_levz() );
                 if (g->m.ter(x, y) == t_elevator || g->m.ter(x, y) == t_vat) {
-                    g->m.make_rubble(x, y, f_rubble_rock, true);
-                    g->explosion( tripoint( x, y, g->get_levz() ), 40, 0, true);
+                    g->m.make_rubble( p, f_rubble_rock, true);
+                    g->explosion( p, 40, 0, true );
                 }
-                if (g->m.ter(x, y) == t_wall_glass_h || g->m.ter(x, y) == t_wall_glass_v) {
-                    g->m.make_rubble(x, y, f_rubble_rock, true);
+                if (g->m.ter(x, y) == t_wall_glass) {
+                    g->m.make_rubble( p, f_rubble_rock, true );
                 }
                 if (g->m.ter(x, y) == t_sewage_pipe || g->m.ter(x, y) == t_sewage || g->m.ter(x, y) == t_grate) {
-                    g->m.make_rubble(x, y, f_rubble_rock, true);
+                    g->m.make_rubble( p, f_rubble_rock, true );
                 }
                 if (g->m.ter(x, y) == t_sewage_pump) {
-                    g->m.make_rubble(x, y, f_rubble_rock, true);
-                    g->explosion( tripoint( x, y, g->get_levz() ), 50, 0, true);
+                    g->m.make_rubble( p, f_rubble_rock, true );
+                    g->explosion( p, 50, 0, true);
                 }
             }
         }
@@ -1181,17 +1190,16 @@ void computer::activate_failure(computer_failure fail)
     case COMPFAIL_MANHACKS: {
         int num_robots = rng(4, 8);
         for (int i = 0; i < num_robots; i++) {
-            int mx, my, tries = 0;
+            tripoint mp( 0, 0, g->u.posz() );
+            int tries = 0;
             do {
-                mx = rng(g->u.posx() - 3, g->u.posx() + 3);
-                my = rng(g->u.posy() - 3, g->u.posy() + 3);
+                mp.x = rng(g->u.posx() - 3, g->u.posx() + 3);
+                mp.y = rng(g->u.posy() - 3, g->u.posy() + 3);
                 tries++;
-            } while (!g->is_empty(mx, my) && tries < 10);
+            } while (!g->is_empty( mp ) && tries < 10);
             if (tries != 10) {
                 add_msg(m_warning, _("Manhacks drop from compartments in the ceiling."));
-                monster robot(GetMType("mon_manhack"));
-                robot.spawn(mx, my);
-                g->add_zombie(robot);
+                g->summon_mon( "mon_manhack", mp );
             }
         }
     }
@@ -1200,17 +1208,16 @@ void computer::activate_failure(computer_failure fail)
     case COMPFAIL_SECUBOTS: {
         int num_robots = 1;
         for (int i = 0; i < num_robots; i++) {
-            int mx, my, tries = 0;
+            tripoint mp( 0, 0, g->u.posz() );
+            int tries = 0;
             do {
-                mx = rng(g->u.posx() - 3, g->u.posx() + 3);
-                my = rng(g->u.posy() - 3, g->u.posy() + 3);
+                mp.x = rng(g->u.posx() - 3, g->u.posx() + 3);
+                mp.y = rng(g->u.posy() - 3, g->u.posy() + 3);
                 tries++;
-            } while (!g->is_empty(mx, my) && tries < 10);
+            } while (!g->is_empty(mp) && tries < 10);
             if (tries != 10) {
                 add_msg(m_warning, _("Secubots emerge from compartments in the floor."));
-                monster robot(GetMType("mon_secubot"));
-                robot.spawn(mx, my);
-                g->add_zombie(robot);
+                g->summon_mon("mon_secubot", mp);
             }
         }
     }
@@ -1218,11 +1225,8 @@ void computer::activate_failure(computer_failure fail)
 
     case COMPFAIL_DAMAGE:
         add_msg(m_neutral, _("The console electrocutes you."));
-        if (g->u.has_artifact_with(AEP_RESIST_ELECTRICITY) ||
-            g->u.has_active_bionic("bio_faraday")) { //Artifact or bionic stops electricity.
-            add_msg(m_neutral, _("The electricity flows around you."));
-        } else if (g->u.worn_with_flag("ELECTRIC_IMMUNE")) { //Armor stops electricity.
-            add_msg(m_neutral, _("Your armor safely grounds the electrical discharge."));
+        if( g->u.is_elec_immune() ) {
+            add_msg( m_good, _("You're protected from electric shocks.") );
         } else {
             add_msg(m_bad, _("Your body is damaged by the electric shock!"));
             g->u.hurtall(rng(1, 10), nullptr);
@@ -1234,8 +1238,9 @@ void computer::activate_failure(computer_failure fail)
         for (int x = 0; x < SEEX * MAPSIZE; x++) {
             for (int y = 0; y < SEEY * MAPSIZE; y++) {
                 if (g->m.ter(x, y) == t_sewage_pump) {
-                    g->m.make_rubble(x, y);
-                    g->explosion( tripoint( x, y, g->get_levz() ), 10, 0, false);
+                    tripoint p( x, y, g->get_levz() );
+                    g->m.make_rubble( p );
+                    g->explosion( p, 10, 0, false);
                 }
             }
         }
@@ -1280,6 +1285,7 @@ void computer::activate_failure(computer_failure fail)
         g->u.add_effect("amigara", 20);
         g->explosion( tripoint( rng(0, SEEX * MAPSIZE), rng(0, SEEY * MAPSIZE), g->get_levz() ), 10, 10, false );
         g->explosion( tripoint( rng(0, SEEX * MAPSIZE), rng(0, SEEY * MAPSIZE), g->get_levz() ), 10, 10, false );
+        remove_option( COMPACT_AMIGARA_START );
         break;
 
     case COMPFAIL_DESTROY_BLOOD:
@@ -1331,6 +1337,16 @@ void computer::activate_failure(computer_failure fail)
         break;
 
     }// switch (fail)
+}
+
+void computer::remove_option( computer_action const action )
+{
+    for( auto it = options.begin(); it != options.end(); ++it ) {
+        if( it->action == action ) {
+            options.erase( it );
+            break;
+        }
+    }
 }
 
 bool computer::query_bool(const char *mes, ...)

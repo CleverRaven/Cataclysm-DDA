@@ -1,5 +1,6 @@
 #include "line.h"
 #include "game.h"
+#include "translations.h"
 #include <stdlib.h>
 
 #define SGN(a) (((a)<0) ? -1 : 1)
@@ -75,8 +76,7 @@ std::vector <tripoint> line_to(const tripoint &loc1, const tripoint &loc2, int t
     // Preallocate the number of cells we need instead of allocating them piecewise.
     const int numCells = square_dist(loc1, loc2);
     ret.reserve(numCells);
-    tripoint cur;
-    cur = loc1;
+    tripoint cur( loc1 );
     const int dx = loc2.x - loc1.x;
     const int dy = loc2.y - loc1.y;
     const int dz = loc2.z - loc1.z;
@@ -266,10 +266,8 @@ std::vector<tripoint> continue_line(const std::vector<tripoint> &line, const int
 {
     // May want to optimize this, but it's called fairly infrequently as part of specific attack
     // routines, erring on the side of readability.
-    tripoint start;
-    tripoint end;
-    start = line.back();
-    end = line.back();
+    tripoint start( line.back() );
+    tripoint end( line.back() );
     // slope <<x,y>,z>
     std::pair<std::pair<double, double>, double> slope;
     slope = slope_of(line);
@@ -291,7 +289,8 @@ direction direction_from(int const x1, int const y1, int const x2, int const y2)
 
 direction direction_from(tripoint const &p, tripoint const &q)
 {
-    return direction_from(q.x - p.x, q.y - p.y, q.z - p.z);
+    // Note: Z coord has to be inverted either here or in direction defintions
+    return direction_from(q.x - p.x, q.y - p.y, -(q.z - p.z) );
 }
 
 point direction_XY(direction const dir)
@@ -344,9 +343,9 @@ std::string const& direction_name_impl(direction const dir, bool const short_nam
         result[BELOWSOUTHWEST] = pair_t {_("DN_SW"), _("southwest and below")};
         result[BELOWWEST]      = pair_t {_("DN_W "), _("west and below")};
         result[BELOWNORTHWEST] = pair_t {_("DN_NW"), _("northwest and below")};
-        result[ABOVECENTER]    = pair_t {_("UP_CE"), _("center and above")};
+        result[ABOVECENTER]    = pair_t {_("UP_CE"), _("above")};
         result[CENTER]         = pair_t {_("CE   "), _("center")};
-        result[BELOWCENTER]    = pair_t {_("DN_CE"), _("center and below")};
+        result[BELOWCENTER]    = pair_t {_("DN_CE"), _("below")};
 
         result[size] = pair_t {"BUG. (line.cpp:direction_name)", "BUG. (line.cpp:direction_name)"};
         return result;

@@ -193,7 +193,6 @@
 		<Unit filename="src/ammo.h" />
 		<Unit filename="src/animation.cpp" />
 		<Unit filename="src/armor_layers.cpp" />
-		<Unit filename="src/armor_layers.h" />
 		<Unit filename="src/artifact.cpp" />
 		<Unit filename="src/artifact.h" />
 		<Unit filename="src/auto_pickup.cpp" />
@@ -243,8 +242,6 @@
 		<Unit filename="src/dependency_tree.cpp" />
 		<Unit filename="src/dependency_tree.h" />
 		<Unit filename="src/dialogue.h" />
-		<Unit filename="src/disease.cpp" />
-		<Unit filename="src/disease.h" />
 		<Unit filename="src/editmap.cpp" />
 		<Unit filename="src/editmap.h" />
 		<Unit filename="src/effect.cpp" />
@@ -285,7 +282,7 @@
 		<Unit filename="src/item_group.h" />
 		<Unit filename="src/item_stack.h" />
 		<Unit filename="src/itype.h" />
-		<Unit filename="src/itypedef.cpp" />
+		<Unit filename="src/itype.cpp" />
 		<Unit filename="src/iuse.cpp" />
 		<Unit filename="src/iuse.h" />
 		<Unit filename="src/iuse_actor.cpp" />
@@ -355,7 +352,7 @@
 		<Unit filename="src/morale.h" />
 		<Unit filename="src/moraledata.h" />
 		<Unit filename="src/mtype.h" />
-		<Unit filename="src/mtypedef.cpp" />
+		<Unit filename="src/mtype.cpp" />
 		<Unit filename="src/mutation.cpp" />
 		<Unit filename="src/mutation.h" />
 		<Unit filename="src/mutation_data.cpp" />
@@ -438,12 +435,14 @@
 		<Unit filename="src/vehicle.cpp" />
 		<Unit filename="src/vehicle.h" />
 		<Unit filename="src/version.cpp" />
+		<Unit filename="src/wcwidth.h" />
 		<Unit filename="src/wdirent.h" />
 		<Unit filename="src/weather.cpp" />
 		<Unit filename="src/weather.h" />
 		<Unit filename="src/weather_data.cpp" />
 		<Unit filename="src/weather_gen.cpp" />
 		<Unit filename="src/weather_gen.h" />
+		<Unit filename="src/weighted_list.h" />
 		<Unit filename="src/wincurse.cpp" />
 		<Unit filename="src/wish.cpp" />
 		<Unit filename="src/worldfactory.cpp" />

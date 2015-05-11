@@ -11,32 +11,34 @@
 #include <unordered_map>
 #include <unordered_set>
 
+#include "game_constants.h"
 #include "mapdata.h"
-#include "overmap.h"
 #include "item.h"
 #include "json.h"
-#include "npc.h"
 #include "vehicle.h"
 #include "lightmap.h"
-#include "coordinates.h"
 #include "item_stack.h"
 #include "active_item_cache.h"
 
 //TODO: include comments about how these variables work. Where are they used. Are they constant etc.
-#define MAPSIZE 11
 #define CAMPSIZE 1
 #define CAMPCHECK 3
 
 class player;
 class monster;
 class item;
+class Creature;
 struct itype;
 struct mapgendata;
 struct trap;
+struct oter_id;
+struct regional_settings;
+struct mongroup;
 // TODO: This should be const& but almost no functions are const
 struct wrapped_vehicle{
  int x;
  int y;
+ int z;
  int i; // submap col
  int j; // submap row
  vehicle* v;
@@ -49,10 +51,10 @@ typedef std::string items_location;
 class map_stack : public item_stack {
 private:
     std::list<item> *mystack;
-    point location;
+    tripoint location;
     map *myorigin;
 public:
-    map_stack( std::list<item> *newstack, point newloc, map *neworigin ) :
+    map_stack( std::list<item> *newstack, tripoint newloc, map *neworigin ) :
     mystack(newstack), location(newloc), myorigin(neworigin) {};
     size_t size() const override;
     bool empty() const override;
@@ -69,6 +71,29 @@ public:
     std::list<item>::const_reverse_iterator rend() const;
     item &front() override;
     item &operator[]( size_t index ) override;
+};
+
+struct visibility_variables {
+    bool variables_set; // Is this struct initialized for current z-level
+    // cached values for map visibility calculations
+    int g_light_level;
+    int natural_sight_range;
+    int light_sight_range;
+    int lowlight_sight_range;
+    int max_sight_range;
+    int u_clairvoyance;
+    bool u_sight_impaired;
+    bool bio_night_active;
+    bool u_is_boomered;
+};
+
+enum visibility_type {
+  VIS_HIDDEN,
+  VIS_CLEAR,
+  VIS_LIT,
+  VIS_BOOMER,
+  VIS_DARK,
+  VIS_BOOMER_DARK
 };
 
 /**
@@ -97,7 +122,8 @@ class map
  friend class editmap;
  public:
 // Constructors & Initialization
- map(int mapsize = MAPSIZE);
+ map(int mapsize = MAPSIZE, bool zlev = false);
+ map( bool zlev ) : map( MAPSIZE, zlev ) { }
  ~map();
 
 // Visual Output
@@ -130,26 +156,39 @@ class map
   */
  void on_vehicle_moved();
 
- /** Draw a visible part of the map into `w`.
-  *
-  * This method uses `g->u.posx()/posy()` for visibility calculations, so it can
-  * not be used for anything but the player's viewport. Likewise, only
-  * `g->m` and maps with equivalent coordinates can be used, as other maps
-  * would have coordinate systems incompatible with `g->u.posx()`
-  *
-  * @param center The coordinate of the center of the viewport, this can
-  *               be different from the player coordinate.
-  */
- void draw(WINDOW* w, const point center);
+    /** Determine the visible light level for a tile, based on light_at
+     * for the tile, vision distance, etc
+     *
+     * @param x, y The tile on this map to draw.
+     */
+    lit_level apparent_light_at( const tripoint &p, const visibility_variables &cache );
+    visibility_type get_visibility( const lit_level ll,
+                                    const visibility_variables &cache ) const;
 
- /** Draw the map tile at the given coordinate. Called by `map::draw()`.
-  *
-  * @param x, y The tile on this map to draw.
-  * @param cx, cy The center of the viewport to be rendered, see `center` in `map::draw()`
-  */
- void drawsq(WINDOW* w, player &u, const int x, const int y, const bool invert, const bool show_items,
-             const int view_center_x = -1, const int view_center_y = -1,
-             const bool low_light = false, const bool bright_level = false);
+    bool apply_vision_effects( WINDOW *w, lit_level ll,
+                               const visibility_variables &cache ) const;
+
+    /** Draw a visible part of the map into `w`.
+     *
+     * This method uses `g->u.posx()/posy()` for visibility calculations, so it can
+     * not be used for anything but the player's viewport. Likewise, only
+     * `g->m` and maps with equivalent coordinates can be used, as other maps
+     * would have coordinate systems incompatible with `g->u.posx()`
+     *
+     * @param center The coordinate of the center of the viewport, this can
+     *               be different from the player coordinate.
+     */
+    void draw( WINDOW* w, const tripoint &center );
+
+    /** Draw the map tile at the given coordinate. Called by `map::draw()`.
+    *
+    * @param p The tile on this map to draw.
+    * @param view_center_x, view_center_y The center of the viewport to be rendered,
+    *        see `center` in `map::draw()`
+    */
+    void drawsq( WINDOW* w, player &u, const tripoint &p, const bool invert, const bool show_items,
+                 const int view_center_x = -1, const int view_center_y = -1,
+                 const bool low_light = false, const bool bright_level = false, const bool inorder = false);
 
     /**
      * Add currently loaded submaps (in @ref grid) to the @ref mapbuffer.
@@ -201,6 +240,9 @@ class map
  void clear_spawns();
  void clear_traps();
 
+    const maptile maptile_at( const tripoint &p ) const;
+    maptile maptile_at( const tripoint &p );
+
 // Movement and LOS
 
 // Move cost: 2D overloads
@@ -247,7 +289,8 @@ class map
     * Returns whether `(Fx, Fy)` sees `(Tx, Ty)` with a view range of `range`.
     *
     * @param bresenham_slope Indicates the Bresenham line used to connect the two points, and may
-    *           subsequently be used to form a path between them
+    *                        subsequently be used to form a path between them.
+    *                        Set to zero if the function returns false.
     */
     bool sees(const int Fx, const int Fy, const int Tx, const int Ty,
               const int range, int &bresenham_slope) const;
@@ -257,8 +300,9 @@ class map
     * Returns whether `F` sees `T` with a view range of `range`.
     *
     * @param t1 Indicates the x/y component of Bresenham line used to connect the two points, and may
-    *           subsequently be used to form a path between them
-    * @param t2 Indicates the horizontal/vertical component of the Bresenham line
+    *           subsequently be used to form a path between them. Set to zero if the function returns false.
+    * @param t2 Indicates the horizontal/vertical component of the Bresenham line.
+                Set to zero if the function returns false.
     */
     bool sees( const tripoint &F, const tripoint &T, int range, int &t1, int &t2 ) const;
     bool sees( const tripoint &F, const tripoint &T, int range ) const;
@@ -274,22 +318,26 @@ class map
   */
  bool clear_path(const int Fx, const int Fy, const int Tx, const int Ty,
                  const int range, const int cost_min, const int cost_max, int &bresenham_slope) const;
+    bool clear_path( const tripoint &f, const tripoint &t, const int range,
+                     const int cost_min, const int cost_max, int &bres1, int &bres2 ) const;
+    bool clear_path( const tripoint &f, const tripoint &t, const int range,
+                     const int cost_min, const int cost_max ) const;
 
 
- /**
-  * Check whether items in the target square are accessible from the source square
-  * `(Fx, Fy)` and `(Tx, Ty)`.
-  *
-  * Checks two things:
-  * 1. The `sees()` algorithm between `(Fx, Fy)` and `(Tx, Ty)` OR origin and target match.
-  * 2. That the target location isn't sealed.
-  */
- bool accessible_items(const int Fx, const int Fy, const int Tx, const int Ty, const int range) const;
- /**
-  * Like @ref accessible_items but checks for accessible furniture.
-  * It ignores the furniture flags of the target square (ignores if target is SEALED).
-  */
- bool accessible_furniture(const int Fx, const int Fy, const int Tx, const int Ty, const int range) const;
+    /**
+     * Check whether items in the target square are accessible from the source square
+     * `f` and `t`.
+     *
+     * Checks two things:
+     * 1. The `sees()` algorithm between `f` and `t` OR origin and target match.
+     * 2. That the target location isn't sealed.
+     */
+    bool accessible_items( const tripoint &f, const tripoint &t, const int range ) const;
+    /**
+     * Like @ref accessible_items but checks for accessible furniture.
+     * It ignores the furniture flags of the target square (ignores if target is SEALED).
+     */
+    bool accessible_furniture( const tripoint &f, const tripoint &t, const int range ) const;
 
  /**
   * Calculate next search points surrounding the current position.
@@ -297,6 +345,7 @@ class map
   * This method leads to straighter lines and prevents weird looking movements away from the target.
   */
  std::vector<point> getDirCircle(const int Fx, const int Fy, const int Tx, const int Ty) const;
+ std::vector<tripoint> get_dir_circle( const tripoint &f, const tripoint &t ) const;
 
  /**
   * Calculate a best path using A*
@@ -307,8 +356,11 @@ class map
   * @param bash Bashing strength of pathing creature (0 means no bashing through terrain)
   */
  std::vector<point> route(const int Fx, const int Fy, const int Tx, const int Ty, const int bash) const;
+ std::vector<tripoint> route( const tripoint &f, const tripoint &t, const int bash ) const;
 
- int coord_to_angle (const int x, const int y, const int tgtx, const int tgty) const;
+ int coord_to_angle(const int x, const int y, const int tgtx, const int tgty) const;
+    // First angle is horizontal, second is vertical
+    point coords_to_angles( const tripoint &a, const tripoint &b ) const;
 // Vehicles: Common to 2D and 3D
     VehicleList get_vehicles();
     void update_vehicle_cache(vehicle *, const bool brand_new = false);
@@ -342,6 +394,7 @@ class map
     */
     vehicle* veh_at( const tripoint &p, int &part_num );
     const vehicle* veh_at( const tripoint &p, int &part_num ) const;
+    vehicle* veh_at_internal( const tripoint &p, int &part_num );
     const vehicle* veh_at_internal( const tripoint &p, int &part_num ) const;
     /**
     * Same as `veh_at(const int, const int, int)`, but doesn't return part number.
@@ -421,25 +474,25 @@ class map
 
     std::string tername( const tripoint &p ) const;
 
- // Check for terrain/furniture/field that provide a
- // "fire" item to be used for example when crafting or when
- // a iuse function needs fire.
- bool has_nearby_fire(int x, int y, int radius = 1);
- /**
-  * Check if player can see some items at (x,y). Includes:
-  * - check for items at this location (!i_at().empty())
-  * - check for SEALED flag (sealed furniture/terrain makes
-  * items not visible under any circumstances).
-  * - check for CONTAINER flag (makes items only visible when
-  * the player is at (x,y) or at an adjacent square).
-  */
- bool sees_some_items(int x, int y, const player &u);
- /**
-  * Check if the player could see items at (x,y) if there were
-  * any items. This is similar to @ref sees_some_items, but it
-  * does not check that there are actually any items.
-  */
- bool could_see_items(int x, int y, const player &u) const;
+    // Check for terrain/furniture/field that provide a
+    // "fire" item to be used for example when crafting or when
+    // a iuse function needs fire.
+    bool has_nearby_fire( const tripoint &p, int radius = 1);
+    /**
+     * Check if player can see some items at p. Includes:
+     * - check for items at this location (!i_at().empty())
+     * - check for SEALED flag (sealed furniture/terrain makes
+     * items not visible under any circumstances).
+     * - check for CONTAINER flag (makes items only visible when
+     * the player is at p or at an adjacent square).
+     */
+    bool sees_some_items( const tripoint &p, const player &u );
+    /**
+     * Check if the player could see items at p if there were
+     * any items. This is similar to @ref sees_some_items, but it
+     * does not check that there are actually any items.
+     */
+    bool could_see_items( const tripoint &p, const player &u ) const;
 
 // Flags: 2D overloads
     std::string features(const int x, const int y); // Words relevant to terrain (sharp, etc)
@@ -495,10 +548,12 @@ class map
     *  Values roughly correspond to 10% increment chances of success on a given bash, rounded down. -1 means the square is not bashable */
     int bash_rating( const int str, const tripoint &p ) const;
 
- /** Generates rubble at the given location, if overwrite is true it just writes on top of what currently exists
-  *  floor_type is only used if there is a non-bashable wall at the location or with overwrite = true */
- void make_rubble(const int x, const int y, furn_id rubble_type = f_rubble, bool items = false,
-                    ter_id floor_type = t_dirt, bool overwrite = false);
+    /** Generates rubble at the given location, if overwrite is true it just writes on top of what currently exists
+     *  floor_type is only used if there is a non-bashable wall at the location or with overwrite = true */
+    void make_rubble( const tripoint &p, furn_id rubble_type = f_rubble, bool items = false,
+                      ter_id floor_type = t_dirt, bool overwrite = false);
+    void make_rubble( int, int, furn_id rubble_type = f_rubble, bool items = false,
+                      ter_id floor_type = t_dirt, bool overwrite = false) = delete;
 
  bool is_divable(const int x, const int y) const;
  bool is_outside(const int x, const int y) const;
@@ -511,8 +566,8 @@ class map
   *  all terrain is floor and the last terrain is a wall */
  bool is_last_ter_wall(const bool no_furn, const int x, const int y,
                        const int xmax, const int ymax, const direction dir) const;
- bool flammable_items_at(const int x, const int y);
- bool moppable_items_at(const int x, const int y);
+    bool flammable_items_at( const tripoint &p );
+    bool moppable_items_at( const tripoint &p );
  point random_outdoor_tile();
 // mapgen
 
@@ -536,50 +591,56 @@ void draw_rough_circle(std::string type, int x, int y, int rad);
 void draw_rough_circle_furn(furn_id type, int x, int y, int rad);
 void draw_rough_circle_furn(std::string type, int x, int y, int rad);
 
-void add_corpse(int x, int y);
+void add_corpse( const tripoint &p );
 
 
-//
- void translate(const std::string terfrom, const std::string terto); // Change all instances of $from->$to
- void translate_radius(const std::string terfrom, const std::string terto, const float radi, const int uX, const int uY);
- void translate(const ter_id from, const ter_id to); // Change all instances of $from->$to
- void translate_radius(const ter_id from, const ter_id to, const float radi, const int uX, const int uY);
- bool close_door(const int x, const int y, const bool inside, const bool check_only);
- bool open_door(const int x, const int y, const bool inside, const bool check_only = false);
- /** Makes spores at the respective x and y. source is used for kill counting */
- void create_spores(const int x, const int y, Creature* source = NULL);
- /** Checks if a square should collapse, returns the X for the one_in(X) collapse chance */
- int collapse_check(const int x, const int y);
- /** Causes a collapse at (x, y), such as from destroying a wall */
- void collapse_at(const int x, const int y);
- /** Returns a pair where first is whether something was smashed and second is if it was a success */
- std::pair<bool, bool> bash(const int x, const int y, const int str, bool silent = false,
-                            bool destroy = false, vehicle *bashing_vehicle = nullptr);
- // spawn items from the list, see map_bash_item_drop
- void spawn_item_list(const std::vector<map_bash_item_drop> &items, int x, int y);
- /** Keeps bashing a square until it can't be bashed anymore */
- void destroy(const int x, const int y, const bool silent = false);
+// Terrain changing functions
+    void translate( const ter_id from, const ter_id to ); // Change all instances of $from->$to
+    void translate_radius( const ter_id from, const ter_id to, const float radi, const tripoint &p );
+    bool close_door( const tripoint &p, const bool inside, const bool check_only );
+    bool open_door( const tripoint &p, const bool inside, const bool check_only = false );
+// Destruction
+     /** Keeps bashing a square until it can't be bashed anymore */
     void destroy( const tripoint &p, const bool silent = false);
- /** Keeps bashing a square until there is no more furniture */
- void destroy_furn(const int x, const int y, const bool silent = false);
- void crush(const int x, const int y);
- void shoot(const int x, const int y, int &dam, const bool hit_items,
-            const std::set<std::string>& ammo_effects);
- bool hit_with_acid(const int x, const int y);
- bool hit_with_fire(const int x, const int y);
- bool marlossify(const int x, const int y);
- bool has_adjacent_furniture(const int x, const int y);
- void mop_spills(const int x, const int y);
- /** 
-  * Moved here from weather.cpp for speed. Decays fire, washable fields and scent.
-  * Washable fields are decayed only by 1/3 of the amount fire is.
-  */
- void decay_fields_and_scent( const int amount );
+    void destroy( int, int ) = delete;
+    /** Keeps bashing a square until there is no more furniture */
+    void destroy_furn( const tripoint &p, const bool silent = false );
+    void crush( const tripoint &p );
+    void shoot( const tripoint &p, int &dam, const bool hit_items,
+                const std::set<std::string>& ammo_effects );
+    /** Checks if a square should collapse, returns the X for the one_in(X) collapse chance */
+    int collapse_check( const tripoint &p );
+    /** Causes a collapse at (x, y), such as from destroying a wall */
+    void collapse_at( const tripoint &p );
+    /** Tries to smash the items at the given tripoint. Used by the explosion code */
+    void smash_items( const tripoint &p, const int power );
+    /** Returns a pair where first is whether something was smashed and second is if it was a success */
+    std::pair<bool, bool> bash( const tripoint &p, const int str, bool silent = false,
+                                bool destroy = false, vehicle *bashing_vehicle = nullptr );
+    std::pair<bool, bool> bash( int, int, const int, bool silent = false,
+                                bool destroy = false, vehicle *bashing_vehicle = nullptr ) = delete;
+    /** Spawn items from the list, see map_bash_item_drop */
+    void spawn_item_list( const std::vector<map_bash_item_drop> &items, const tripoint &p );
 
- // Signs
- const std::string get_signage(const int x, const int y) const;
- void set_signage(const int x, const int y, std::string message) const;
- void delete_signage(const int x, const int y) const;
+// Effects of attacks/items
+    bool hit_with_acid( const tripoint &p );
+    bool hit_with_fire( const tripoint &p );
+    bool marlossify( const tripoint &p );
+    /** Makes spores at the respective x and y. source is used for kill counting */
+    void create_spores( const tripoint &p, Creature* source = nullptr );
+
+    bool has_adjacent_furniture( const tripoint &p );
+    void mop_spills( const tripoint &p );
+    /**
+    * Moved here from weather.cpp for speed. Decays fire, washable fields and scent.
+    * Washable fields are decayed only by 1/3 of the amount fire is.
+    */
+    void decay_fields_and_scent( const int amount );
+
+// Signs
+    const std::string get_signage( const tripoint &p ) const;
+    void set_signage( const tripoint &p, std::string message ) const;
+    void delete_signage( const tripoint &p ) const;
 
 // Radiation
     int get_radiation( const tripoint &p ) const; // Amount of radiation at (x, y);
@@ -593,6 +654,8 @@ void add_corpse(int x, int y);
     void adjust_radiation( const tripoint &p, const int delta );
     // Overload for mapgen
     void adjust_radiation( const int x, const int y, const int delta );
+    /** Sums radiation from `start` to `end` */
+    int radiation_over( const tripoint &start, const tripoint &end ) const;
 
 // Temperature
     int& temperature( const tripoint &p );    // Temperature for submap
@@ -601,46 +664,110 @@ void add_corpse(int x, int y);
     void set_temperature( const int x, const int y, const int temperature );
 
 // Items
- // Accessor that returns a wrapped reference to an item stack for safe modification.
- map_stack i_at(int x, int y);
- item water_from(const int x, const int y);
- item swater_from(const int x, const int y);
- item acid_from(const int x, const int y);
- void i_clear(const int x, const int y);
- // i_rem() methods that return values act like conatiner::erase(),
- // returning an iterator to the next item after removal.
- std::list<item>::iterator i_rem( const point location, std::list<item>::iterator it );
- int i_rem(const int x, const int y, const int index);
- void i_rem(const int x, const int y, item* it);
- void spawn_artifact( const int x, const int y );
- void spawn_natural_artifact( const int x, const int y, const artifact_natural_property prop );
- void spawn_item(const int x, const int y, const std::string &itype_id,
-                 const unsigned quantity=1, const long charges=0,
-                 const unsigned birthday=0, const int damlevel=0, const bool rand = true);
- int max_volume(const int x, const int y);
- int free_volume(const int x, const int y);
- int stored_volume(const int x, const int y);
- bool is_full(const int x, const int y, const int addvolume = -1, const int addnumber = -1 );
- bool add_item_or_charges(const int x, const int y, item new_item, int overflow_radius = 2);
- void add_item_at(const int x, const int y, std::list<item>::iterator index, item new_item);
- void add_item(const int x, const int y, item new_item);
- void process_active_items();
+    void process_active_items();
+    void trigger_rc_items( std::string signal );
 
- std::list<item> use_amount_square( const int x, const int y, const itype_id type,
-                                    int &quantity, const bool use_container );
- std::list<item> use_amount( const point origin, const int range, const itype_id type,
-                             const int amount, const bool use_container = false );
- std::list<item> use_charges( const point origin, const int range, const itype_id type,
-                              const long amount );
+// Items: 2D
+    map_stack i_at(int x, int y);
+    void i_clear(const int x, const int y);
+    std::list<item>::iterator i_rem( const point location, std::list<item>::iterator it );
+    int i_rem(const int x, const int y, const int index);
+    void i_rem(const int x, const int y, item* it);
+    void spawn_item(const int x, const int y, const std::string &itype_id,
+                    const unsigned quantity=1, const long charges=0,
+                    const unsigned birthday=0, const int damlevel=0, const bool rand = true);
+    int max_volume(const int x, const int y);
+    int free_volume(const int x, const int y);
+    int stored_volume(const int x, const int y);
+    bool add_item_or_charges(const int x, const int y, item new_item, int overflow_radius = 2);
+    void add_item(const int x, const int y, item new_item);
+    void spawn_an_item( const int x, const int y, item new_item,
+                        const long charges, const int damlevel );
+    int place_items(items_location loc, const int chance, const int x1, const int y1,
+                  const int x2, const int y2, bool ongrass, const int turn, bool rand = true);
+    void spawn_items(const int x, const int y, const std::vector<item> &new_items);
+    void create_anomaly(const int cx, const int cy, artifact_natural_property prop);
+// Items: 3D
+    // Accessor that returns a wrapped reference to an item stack for safe modification.
+    map_stack i_at( const tripoint &p );
+    item water_from( const tripoint &p );
+    item swater_from( const tripoint &p );
+    void i_clear( const tripoint &p );
+    // i_rem() methods that return values act like conatiner::erase(),
+    // returning an iterator to the next item after removal.
+    std::list<item>::iterator i_rem( const tripoint &p, std::list<item>::iterator it );
+    int i_rem( const tripoint &p, const int index );
+    void i_rem( const tripoint &p, item* it );
+    void spawn_artifact( const tripoint &p );
+    void spawn_natural_artifact( const tripoint &p, const artifact_natural_property prop );
+    // Note: Passing the first argument by value, because some compilers don't warn about
+    // implicit cast of reference to int. Reference here could result in calling the
+    // 2D overload above instead with pointer to p as first param
+    void spawn_item( const tripoint &p, const std::string &itype_id,
+                     const unsigned quantity=1, const long charges=0,
+                     const unsigned birthday=0, const int damlevel=0, const bool rand = true);
+    int max_volume( const tripoint &p );
+    int free_volume( const tripoint &p );
+    int stored_volume( const tripoint &p );
+    bool is_full( const tripoint &p, const int addvolume = -1, const int addnumber = -1 );
+    bool add_item_or_charges( const tripoint &p, item new_item, int overflow_radius = 2 );
+    void add_item_at( const tripoint &p, std::list<item>::iterator index, item new_item );
+    void add_item( const tripoint &p, item new_item );
+    void spawn_an_item( const tripoint &p, item new_item,
+                        const long charges, const int damlevel);
 
- std::list<std::pair<tripoint, item *> > get_rc_items( int x = -1, int y = -1, int z = -1 );
+    /**
+     * @name Consume items on the map
+     *
+     * The functions here consume accessible items / item charges on the map or in vehicles
+     * around the player (whose positions is given as origin).
+     * They return a list of copies of the consumed items (with the actually consumed charges
+     * in it).
+     * The quantity / amount parameter will be reduced by the number of items/charges removed.
+     * If all required items could be removed from the map, the quantity/amount will be 0,
+     * otherwise it will contain a positive value and the remaining items must be gathered from
+     * somewhere else.
+     */
+    /*@{*/
+    std::list<item> use_amount_square( const tripoint &p, const itype_id type,
+                                       long &quantity, const bool use_container );
+    std::list<item> use_amount( const tripoint &origin, const int range, const itype_id type,
+                                long &amount, const bool use_container = false );
+    std::list<item> use_charges( const tripoint &origin, const int range, const itype_id type,
+                                 long &amount );
+    /*@}*/
+    std::list<std::pair<tripoint, item *> > get_rc_items( int x = -1, int y = -1, int z = -1 );
 
- void trigger_rc_items( std::string signal );
+    /**
+    * Place items from item group in the rectangle f - t. Several items may be spawned
+    * on different places. Several items may spawn at once (at one place) when the item group says
+    * so (uses @ref item_group::items_from which may return several items at once).
+    * @param chance Chance for more items. A chance of 100 creates 1 item all the time, otherwise
+    * it's the chance that more items will be created (place items until the random roll with that
+    * chance fails). The chance is used for the first item as well, so it may not spawn an item at
+    * all. Values <= 0 or > 100 are invalid.
+    * @param ongrass If false the items won't spawn on flat terrain (grass, floor, ...).
+    * @param turn The birthday that the created items shall have.
+    * @return The number of placed items.
+    */
+    int place_items( items_location loc, const int chance, const tripoint &f,
+                     const tripoint &t, bool ongrass, const int turn, bool rand = true );
+    /**
+    * Place items from an item group at (x,y). Places as much items as the item group says.
+    * (Most item groups are distributions and will only create one item.)
+    * @param turn The birthday that the created items shall have.
+    * @return The number of placed items.
+    */
+    int put_items_from_loc( items_location loc, const tripoint &p, const int turn = 0 );
+
+    // Similar to spawn_an_item, but spawns a list of items, or nothing if the list is empty.
+    void spawn_items( const tripoint &p, const std::vector<item> &new_items );
+    void create_anomaly( const tripoint &p, artifact_natural_property prop );
 
  /**
   * Fetch an item from this map location, with sanity checks to ensure it still exists.
   */
- item *item_from( const point& pos, const size_t index );
+ item *item_from( const tripoint &pos, const size_t index );
 
  /**
   * Fetch an item from this vehicle, with sanity checks to ensure it still exists.
@@ -648,7 +775,6 @@ void add_corpse(int x, int y);
  item *item_from( vehicle *veh, const int cargo_part, const size_t index );
 
 // Traps: 2D overloads
- void trap_set(const int x, const int y, const std::string & sid);
  void trap_set(const int x, const int y, const trap_id id);
 
     const trap & tr_at( const int x, const int y ) const;
@@ -656,7 +782,6 @@ void add_corpse(int x, int y);
  void disarm_trap( const int x, const int y);
  void remove_trap(const int x, const int y);
 // Traps: 3D
- void trap_set( const tripoint &p, const std::string & sid);
  void trap_set( const tripoint &p, const trap_id id);
 
     const trap & tr_at( const tripoint &p ) const;
@@ -667,7 +792,6 @@ void add_corpse(int x, int y);
 
 // Fields: 2D overloads that will later be slowly phased out
         const field& field_at( const int x, const int y ) const;
-        int get_field_age( const point p, const field_id t ) const;
         int get_field_strength( const point p, const field_id t ) const;
         int adjust_field_age( const point p, const field_id t, const int offset );
         int adjust_field_strength( const point p, const field_id t, const int offset );
@@ -679,7 +803,8 @@ void add_corpse(int x, int y);
         void remove_field( const int x, const int y, const field_id field_to_remove );
 // End of 2D overload block
  bool process_fields(); // See fields.cpp
- bool process_fields_in_submap(submap * const current_submap, const int submap_x, const int submap_y); // See fields.cpp
+ bool process_fields_in_submap( submap * const current_submap,
+                                const int submap_x, const int submap_y, const int submap_z); // See fields.cpp
         /**
          * Apply field effects to the creature when it's on a square with fields.
          */
@@ -756,9 +881,18 @@ void add_corpse(int x, int y);
         void remove_field( const tripoint &p, const field_id field_to_remove );
 // End of 3D field function block
 
+// Scent propagation helpers
+    /**
+     * Build the map of scent-resistant tiles.
+     * Should be way faster than if done in `game.cpp` using public map functions.
+     */
+    void scent_blockers( bool (&blocks_scent)[SEEX * MAPSIZE][SEEY * MAPSIZE],
+                         bool (&reduces_scent)[SEEX * MAPSIZE][SEEY * MAPSIZE],
+                         int minx, int miny, int maxx, int maxy );
+
 // Computers
     computer* computer_at( const tripoint &p );
-    computer* add_computer(const int x, const int y, std::string name, const int security);
+    computer* add_computer( const tripoint &p, std::string name, const int security );
 
  // Camps
     bool allow_camp( const tripoint &p, const int radius = CAMPCHECK);
@@ -780,40 +914,15 @@ void add_corpse(int x, int y);
  void place_toilet(const int x, const int y, const int charges = 6 * 4); // 6 liters at 250 ml per charge
  void place_vending(int x, int y, std::string type);
  int place_npc(int x, int y, std::string type);
- /**
-  * Place items from item group in the rectangle (x1,y1) - (x2,y2). Several items may be spawned
-  * on different places. Several items may spawn at once (at one place) when the item group says
-  * so (uses @ref item_group::items_from which may return several items at once).
-  * @param chance Chance for more items. A chance of 100 creates 1 item all the time, otherwise
-  * it's the chance that more items will be created (place items until the random roll with that
-  * chance fails). The chance is used for the first item as well, so it may not spawn an item at
-  * all. Values <= 0 or > 100 are invalid.
-  * @param ongrass If false the items won't spawn on flat terrain (grass, floor, ...).
-  * @param turn The birthday that the created items shall have.
-  * @return The number of placed items.
-  */
- int place_items(items_location loc, const int chance, const int x1, const int y1,
-                  const int x2, const int y2, bool ongrass, const int turn, bool rand = true);
- /**
-  * Place items from an item group at (x,y). Places as much items as the item group says.
-  * (Most item groups are distributions and will only create one item.)
-  * @param turn The birthday that the created items shall have.
-  * @return The number of placed items.
-  */
- int put_items_from_loc(items_location loc, const int x, const int y, const int turn = 0);
- void spawn_an_item(const int x, const int y, item new_item,
-                    const long charges, const int damlevel);
- // Similar to spawn_an_item, but spawns a list of items, or nothing if the list is empty.
- void spawn_items(const int x, const int y, const std::vector<item> &new_items);
+
  void add_spawn(std::string type, const int count, const int x, const int y, bool friendly = false,
                 const int faction_id = -1, const int mission_id = -1,
                 std::string name = "NONE");
- void create_anomaly(const int cx, const int cy, artifact_natural_property prop);
  vehicle *add_vehicle(std::string type, const int x, const int y, const int dir,
                       const int init_veh_fuel = -1, const int init_veh_status = -1,
                       const bool merge_wrecks = true);
- void build_map_cache();
- 
+ void build_map_cache( int zlev );
+
 // Light/transparency: 2D
     float light_transparency(const int x, const int y) const;
     lit_level light_at(int dx, int dy); // Assumes 0,0 is light map center
@@ -836,8 +945,9 @@ void add_corpse(int x, int y);
          * Ignored if smaller than 0.
          */
         bool pl_sees( int tx, int ty, int max_range );
- std::set<vehicle*> vehicle_list;
- std::set<vehicle*> dirty_vehicle_list;
+        bool pl_sees( const tripoint &t, int max_range );
+    std::set<vehicle*> vehicle_list;
+    std::set<vehicle*> dirty_vehicle_list;
 
  std::map< point, std::pair<vehicle*,int> > veh_cached_parts;
  bool veh_exists_at [SEEX * MAPSIZE][SEEY * MAPSIZE];
@@ -869,7 +979,8 @@ void add_corpse(int x, int y);
  bool inbounds(const int x, const int y, const int z) const;
  bool inbounds( const tripoint &p ) const;
 
- int getmapsize() { return my_MAPSIZE; };
+ int getmapsize() const { return my_MAPSIZE; };
+ bool has_zlevels() const { return zlevels; }
 
  // Not protected/private for mapgen_functions.cpp access
  void rotate(const int turns);// Rotates the current map 90*turns degress clockwise
@@ -898,22 +1009,22 @@ protected:
          * @param pnt The point on this map where the items are, used for rot calculation.
          */
         template <typename Container>
-        void remove_rotten_items( Container &items, const point &pnt );
+        void remove_rotten_items( Container &items, const tripoint &p );
         /**
          * Try to fill funnel based items here.
          * @param pnt The location in this map where to fill funnels.
          */
-        void fill_funnels( const point pnt );
+        void fill_funnels( const tripoint &p );
         /**
          * Try to grow a harvestable plant to the next stage(s).
          */
-        void grow_plant( const point pnt );
+        void grow_plant( const tripoint &p );
         /**
          * Try to grow fruits on static plants (not planted by the player)
          * @param time_since_last_actualize Time (in turns) since this function has been
          * called the last time.
          */
-        void restock_fruits( const point pnt, int time_since_last_actualize );
+        void restock_fruits( const tripoint &p, int time_since_last_actualize );
         void player_in_field( player &u );
         void monster_in_field( monster &z );
         /**
@@ -929,16 +1040,16 @@ protected:
                 const oter_id t_above, const int turn, const float density,
                 const int zlevel, const regional_settings * rsettings);
  void add_extra(map_extra type);
- void build_transparency_cache();
+ void build_transparency_cache( int zlev );
 public:
- void build_outside_cache();
+ void build_outside_cache( int zlev );
+ void build_seen_cache(const tripoint &origin);
 protected:
  void generate_lightmap();
- void build_seen_cache();
- void castLight( int row, float start, float end, int xx, int xy, int yx, int yy,
-                 const int offsetX, const int offsetY, const int offsetDistance );
+ void apply_character_light( const player &p );
 
  int my_MAPSIZE;
+ bool zlevels;
 
  mutable std::list<item> nulitems; // Returned when &i_at() is asked for an OOB value
  mutable ter_id nulter;  // Returned when &ter() is asked for an OOB value
@@ -963,11 +1074,9 @@ protected:
     void set_abs_sub(const int x, const int y, const int z);
 
 private:
-    field& get_field(const int x, const int y);
-    void spread_gas( field_entry *cur, int x, int y, field_id curtype,
-                        int percent_spread, int outdoor_age_speedup );
-    void create_hot_air( int x, int y, int density );
+    field& get_field( const tripoint &p );
 
+ int cached_zlev; // Z-level for which all the caches were calculated
  bool transparency_cache_dirty;
  bool outside_cache_dirty;
 
@@ -989,15 +1098,17 @@ private:
          * offset_z would always be 0, so it is not used here
          */
         submap *get_submap_at( const int x, const int y, int& offset_x, int& offset_y ) const;
-        submap *get_submap_at( const int x, const int y, const int z, 
+        submap *get_submap_at( const int x, const int y, const int z,
                                int &offset_x, int &offset_y ) const;
         submap *get_submap_at( const tripoint &p, int &offset_x, int &offset_y ) const;
         /**
          * Get submap pointer in the grid at given grid coordinates. Grid coordinates must
          * be valid: 0 <= x < my_MAPSIZE, same for y.
+         * z must be between -OVERMAP_DEPTH and OVERMAP_HEIGHT
          */
         submap *get_submap_at_grid( int gridx, int gridy ) const;
         submap *get_submap_at_grid( int gridx, int gridy, int gridz ) const;
+        submap *get_submap_at_grid( const tripoint &gridp ) const;
         /**
          * Get the index of a submap pointer in the grid given by grid coordinates. The grid
          * coordinates must be valid: 0 <= x < my_MAPSIZE, same for y.
@@ -1012,18 +1123,26 @@ private:
          */
         void setsubmap( size_t grididx, submap *smap );
 
-    void spawn_monsters( int gx, int gy, mongroup &group, bool ignore_sight );
+    void spawn_monsters( const tripoint &gp, mongroup &group, bool ignore_sight );
 
     /**
      * Internal versions of public functions to avoid checking same variables multiple times.
      * They lack safety checks, because their callers already do those.
      */
-    int move_cost_internal(const furn_t &furniture, const ter_t &terrain, 
+    int move_cost_internal(const furn_t &furniture, const ter_t &terrain,
                            const vehicle *veh, const int vpart) const;
-    int bash_rating_internal( const int str, const furn_t &furniture, 
+    int bash_rating_internal( const int str, const furn_t &furniture,
                               const ter_t &terrain, const vehicle *veh, const int part ) const;
 
- long determine_wall_corner(const int x, const int y, const long orig_sym) const;
+     /**
+      * Internal version of the drawsq. Keeps a cached maptile for less re-getting.
+      */
+     void draw_maptile( WINDOW* w, player &u, const tripoint &p, const maptile &tile,
+                        const bool invert, const bool show_items,
+                        const int view_center_x, const int view_center_y,
+                        const bool low_light, const bool bright_level, const bool inorder );
+
+ long determine_wall_corner( const tripoint &p ) const;
  void cache_seen(const int fx, const int fy, const int tx, const int ty, const int max_range);
  // apply a circular light pattern immediately, however it's best to use...
  void apply_light_source(int x, int y, float luminance, bool trig_brightcalc);
@@ -1042,13 +1161,34 @@ private:
  template<typename T>
      void process_items( bool active, T processor, std::string const &signal );
  template<typename T>
-     void process_items_in_submap( submap * current_submap, int gridx, int gridy,
+     void process_items_in_submap( submap * current_submap, const tripoint &gridp,
                                    T processor, std::string const &signal );
  template<typename T>
      void process_items_in_vehicles( submap *current_submap, T processor, std::string const &signal);
  template<typename T>
      void process_items_in_vehicle( vehicle *cur_veh, submap *current_submap,
                                     T processor, std::string const &signal );
+
+    /** Enum used by functors in `function_over` to control execution. */
+    enum iteration_state {
+        ITER_CONTINUE = 0,  // Keep iterating
+        ITER_SKIP_SUBMAP,   // Skip the rest of this submap
+        ITER_SKIP_ZLEVEL,   // Skip the rest of this z-level
+        ITER_FINISH         // End iteration
+    };
+    /**
+    * Runs a `(tripoint &gp, submap* sm, point &lp) -> void` functor
+    * over submaps in the area, getting next submap only when the current one "runs out" rather than every time.
+    * @param gp Grid (like `get_submap_at_grid`) coordinate of the submap,
+    * @param lp Local (submap) coordinate of currently accessed point.
+    * Will silently clip the area to map bounds.
+    */
+    /*@{*/
+    template<typename Functor>
+        void function_over( const tripoint &start, const tripoint &end, Functor fun ) const;
+    template<typename Functor>
+        void function_over( int stx, int sty, int stz, int enx, int eny, int enz, Functor fun ) const;
+    /*@}*/
 
  float lm[MAPSIZE*SEEX][MAPSIZE*SEEY];
  float sm[MAPSIZE*SEEX][MAPSIZE*SEEY];
@@ -1071,16 +1211,28 @@ private:
          * tr_null trap.
          */
         std::vector< std::vector<tripoint> > traplocs;
+
+  public:
+    lit_level visibility_cache[MAPSIZE*SEEX][MAPSIZE*SEEY];
+    void update_visibility_cache( visibility_variables &cache, int zlev );
 };
 
 std::vector<point> closest_points_first(int radius, point p);
 std::vector<point> closest_points_first(int radius,int x,int y);
+// Does not build "piles" - does the same as above functions, except in tripoints
+std::vector<tripoint> closest_tripoints_first(int radius, const tripoint &p);
 class tinymap : public map
 {
 friend class editmap;
 public:
- tinymap(int mapsize = 2);
+ tinymap(int mapsize = 2, bool zlevels = false);
 };
+
+template<int xx, int xy, int yx, int yy>
+    void castLight( bool (&output_cache)[MAPSIZE*SEEX][MAPSIZE*SEEY],
+                    const float (&input_array)[MAPSIZE*SEEX][MAPSIZE*SEEY],
+                    const int offsetX, const int offsetY, const int offsetDistance,
+                    const int row = 1, float start = 1.0f, const float end = 0.0f );
 
 #endif
 

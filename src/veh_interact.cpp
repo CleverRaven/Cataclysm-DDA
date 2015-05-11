@@ -3,12 +3,18 @@
 #include "vehicle.h"
 #include "overmapbuffer.h"
 #include "game.h"
+#include "map.h"
 #include "output.h"
 #include "catacharset.h"
 #include "crafting.h"
 #include "options.h"
 #include "debug.h"
 #include "messages.h"
+#include "translations.h"
+#include "morale.h"
+#include "veh_type.h"
+#include "ui.h"
+#include "itype.h"
 #include <cmath>
 #include <list>
 #include <functional>
@@ -494,7 +500,7 @@ bool veh_interact::can_install_part(int msg_width){
                 veh->part_info(p).fuel_type != "muscle")
             {
                 engines++;
-                dif_eng = dif_eng / 2 + 12;
+                dif_eng = dif_eng / 2 + 8;
             }
         }
     }
@@ -559,11 +565,12 @@ bool veh_interact::can_install_part(int msg_width){
     } else {
         werase (w_msg);
         fold_and_print(w_msg, 0, 1, msg_width - 2, c_ltgray,
-                        _("Needs <color_%1$s>%2$s</color>, a <color_%3$s>wrench</color>, either a <color_%4$s>powered welder</color> or <color_%5$s>duct tape</color>, and level <color_%6$s>%7$d</color> skill in mechanics.%8$s"),
+                        _("Needs <color_%1$s>%2$s</color>, a <color_%3$s>wrench</color>, either a <color_%4$s>powered welder</color> (and <color_%5$s>welding goggles</color>) or <color_%6$s>duct tape</color>, and level <color_%7$s>%8$d</color> skill in mechanics.%9$s"),
                         has_comps ? "ltgreen" : "red",
                         item::nname( itm ).c_str(),
                         has_wrench ? "ltgreen" : "red",
-                        (has_welder && has_goggles) ? "ltgreen" : "red",
+                        has_welder ? "ltgreen" : "red",
+                        has_goggles ? "ltgreen" : "red",
                         has_duct_tape ? "ltgreen" : "red",
                         has_skill ? "ltgreen" : "red",
                         sel_vpart_info->difficulty,
@@ -825,8 +832,9 @@ void veh_interact::do_repair()
         return;
     case LACK_TOOLS:
         fold_and_print(w_msg, 0, 1, msg_width - 2, c_ltgray,
-                       _("You need a <color_%1$s>powered welder and welding goggles</color> or <color_%2$s>duct tape</color> to repair."),
-                       (has_welder && has_goggles) ? "ltgreen" : "red",
+                       _("You need a <color_%1$s>powered welder</color> (and <color_%2$s>welding goggles</color>) or <color_%3$s>duct tape</color> to repair."),
+                       has_welder ? "ltgreen" : "red",
+                       has_goggles ? "ltgreen" : "red",
                        has_duct_tape ? "ltgreen" : "red");
         wrefresh (w_msg);
         return;
@@ -994,7 +1002,7 @@ bool veh_interact::can_remove_part(int veh_part_index, int mech_skill, int msg_w
                            skill_req);
         } else {
             fold_and_print(w_msg, 0, 1, msg_width - 2, c_ltgray,
-                           _("You need a <color_%1$s>wrench</color> and a <color_%2$s>hacksaw, cutting torch and goggles, or circular saw (off)</color> and <color_%3$s>level %4$d</color> mechanics skill to remove this part."),
+                           _("You need a <color_%1$s>wrench</color> and a <color_%2$s>hacksaw, cutting torch and welding goggles, or circular saw (off)</color> and <color_%3$s>level %4$d</color> mechanics skill to remove this part."),
                            has_wrench ? "ltgreen" : "red",
                            has_hacksaw ? "ltgreen" : "red",
                            has_skill ? "ltgreen" : "red",
@@ -1950,7 +1958,7 @@ item consume_vpart_item (std::string vpid)
     std::vector<bool> candidates;
     const itype_id itid = vehicle_part_types[vpid].item;
     inventory map_inv;
-    map_inv.form_from_map( point(g->u.posx(), g->u.posy()), PICKUP_RANGE );
+    map_inv.form_from_map( g->u.pos3(), PICKUP_RANGE );
 
     if( g->u.has_amount( itid, 1 ) ) {
         candidates.push_back( true );
@@ -1989,18 +1997,22 @@ item consume_vpart_item (std::string vpid)
     if( candidates[selection] ) {
         item_used = g->u.use_amount( itid, 1 );
     } else {
-        item_used = g->m.use_amount( point(g->u.posx(), g->u.posy()), PICKUP_RANGE, itid, 1 );
+        long quantity = 1;
+        item_used = g->m.use_amount( g->u.pos3(), PICKUP_RANGE, itid, quantity );
     }
 
     return item_used.front();
 }
 
-const std::list<vehicle*> find_vehicles_around(const point &location, std::function<bool(vehicle*)> pred) {
+const std::list<vehicle*> find_vehicles_around(const tripoint &location, std::function<bool(vehicle*)> pred) {
     auto found = std::list<vehicle*>{};
 
-    for(int x = location.x - 1; x <= location.x + 1; x++) {
-        for(int y = location.y - 1; y <= location.y + 1; y++) {
-            auto veh = g->m.veh_at(x, y);
+    tripoint p = location;
+    int &x = p.x;
+    int &y = p.y;
+    for( x = location.x - 1; x <= location.x + 1; x++ ) {
+        for( y = location.y - 1; y <= location.y + 1; y++ ) {
+            auto veh = g->m.veh_at( p );
             if(veh == nullptr) {
                 continue; // Nothing to see here, move along...
             }
@@ -2197,15 +2209,15 @@ void complete_vehicle ()
             // Need to call coord_translate() directly since it's a new part.
             veh->coord_translate(dx, dy, gx, gy);
             // Stash offset and set it to the location of the part so look_around will start there.
-            int px = g->u.view_offset_x;
-            int py = g->u.view_offset_y;
-            g->u.view_offset_x = veh->global_x() + gx - g->u.posx();
-            g->u.view_offset_y = veh->global_y() + gy - g->u.posy();
+            int px = g->u.view_offset.x;
+            int py = g->u.view_offset.y;
+            g->u.view_offset.x = veh->global_x() + gx - g->u.posx();
+            g->u.view_offset.y = veh->global_y() + gy - g->u.posy();
             popup(_("Choose a facing direction for the new headlight."));
-            point headlight_target = g->look_around();
+            tripoint headlight_target = g->look_around(); // Note: no way to cancel
             // Restore previous view offsets.
-            g->u.view_offset_x = px;
-            g->u.view_offset_y = py;
+            g->u.view_offset.x = px;
+            g->u.view_offset.y = py;
 
             int delta_x = headlight_target.x - (veh->global_x() + gx);
             int delta_y = headlight_target.y - (veh->global_y() + gy);

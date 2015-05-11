@@ -10,6 +10,7 @@
 #include "monattack.h"
 #include "mondefense.h"
 #include "mondeath.h"
+#include "mongroup.h"
 #include <queue>
 
 MonsterGenerator::MonsterGenerator()
@@ -217,7 +218,10 @@ void MonsterGenerator::init_death()
     death_map["DARKMAN"] = &mdeath::darkman;// sight returns to normal
     death_map["GAS"] = &mdeath::gas;// Explodes in toxic gas
     death_map["KILL_BREATHERS"] = &mdeath::kill_breathers;// All breathers die
+    death_map["BROKEN_AMMO"] = &mdeath::broken_ammo;// Gives a message about destroying ammo and then calls "BROKEN"
     death_map["SMOKEBURST"] = &mdeath::smokeburst;// Explode like a huge smoke bomb.
+    death_map["JABBERWOCKY"] = &mdeath::jabberwock; // Snicker-snack!
+    death_map["DETONATE"] = &mdeath::detonate; // Take them with you
     death_map["GAMEOVER"] = &mdeath::gameover;// Game over!  Defense mode
 
     /* Currently Unimplemented */
@@ -234,6 +238,8 @@ void MonsterGenerator::init_attack()
     attack_map["RATTLE"] = &mattack::rattle;
     attack_map["HOWL"] = &mattack::howl;
     attack_map["ACID"] = &mattack::acid;
+    attack_map["ACID_BARF"] = &mattack::acid_barf;
+    attack_map["ACID_ACCURATE"] = &mattack::acid_accurate;
     attack_map["SHOCKSTORM"] = &mattack::shockstorm;
     attack_map["PULL_METAL_WEAPON"] = &mattack::pull_metal_weapon;
     attack_map["SMOKECLOUD"] = &mattack::smokecloud;
@@ -287,6 +293,7 @@ void MonsterGenerator::init_attack()
     attack_map["UPGRADE"] = &mattack::upgrade;
     attack_map["BREATHE"] = &mattack::breathe;
     attack_map["BITE"] = &mattack::bite;
+    attack_map["IMPALE"] = &mattack::impale;
     attack_map["BRANDISH"] = &mattack::brandish;
     attack_map["FLESH_GOLEM"] = &mattack::flesh_golem;
     attack_map["LUNGE"] = &mattack::lunge;
@@ -296,6 +303,9 @@ void MonsterGenerator::init_attack()
     attack_map["SLIMESPRING"] = &mattack::slimespring;
     attack_map["BIO_OP_TAKEDOWN"] = &mattack::bio_op_takedown;
     attack_map["SUICIDE"] = &mattack::suicide;
+    attack_map["KAMIKAZE"] = &mattack::kamikaze;
+    attack_map["GRENADIER"] = &mattack::grenadier;
+    attack_map["GRENADIER_ELITE"] = &mattack::grenadier_elite;
     attack_map["RIOTBOT"] = &mattack::riotbot;
     attack_map["STRETCH_ATTACK"] = &mattack::stretch_attack;
     attack_map["STRETCH_BITE"] = &mattack::stretch_bite;
@@ -305,6 +315,7 @@ void MonsterGenerator::init_defense()
 {
     defense_map["NONE"] = &mdefense::none; //No special attack-back
     defense_map["ZAPBACK"] = &mdefense::zapback; //Shock attacker on hit
+    defense_map["ACIDSPLASH"] = &mdefense::acidsplash; //Shock attacker on hit
 }
 
 void MonsterGenerator::init_trigger()
@@ -363,6 +374,7 @@ void MonsterGenerator::init_flags()
     flag_map["ELECTRIC"] = MF_ELECTRIC;
     flag_map["ACIDPROOF"] = MF_ACIDPROOF;
     flag_map["ACIDTRAIL"] = MF_ACIDTRAIL;
+    flag_map["FIREPROOF"] = MF_FIREPROOF;
     flag_map["LEAKSGAS"] = MF_LEAKSGAS;
     flag_map["SLUDGEPROOF"] = MF_SLUDGEPROOF;
     flag_map["SLUDGETRAIL"] = MF_SLUDGETRAIL;
@@ -402,6 +414,7 @@ void MonsterGenerator::init_flags()
     flag_map["CBM_SUBS"] = MF_CBM_SUBS;
     flag_map["SWARMS"] = MF_SWARMS;
     flag_map["GROUP_MORALE"] = MF_GROUP_MORALE;
+    flag_map["INTERIOR_AMMO"] = MF_INTERIOR_AMMO;
 }
 
 void MonsterGenerator::init_hardcoded_factions()
@@ -519,6 +532,11 @@ void MonsterGenerator::load_monster(JsonObject &jo)
         newmon->dies = get_death_functions(jo, "death_function");
         load_special_defense(newmon, jo, "special_when_hit");
         load_special_attacks(newmon, jo, "special_attacks");
+        newmon->upgrade_min = jo.get_int("upgrade_min", -1);
+        newmon->half_life = jo.get_int("half_life", -1);
+        newmon->base_upgrade_chance = jo.get_float("base_upgrade_chance", 0);
+        newmon->upgrade_group = jo.get_string("upgrade_group", "NULL");
+        newmon->upgrades_into = jo.get_string("upgrades_into", "NULL");
 
         std::set<std::string> flags, anger_trig, placate_trig, fear_trig;
         flags = jo.get_tags("flags");
@@ -796,6 +814,19 @@ void MonsterGenerator::check_monster_definitions() const
         if( !mon->revert_to_itype.empty() && !item::type_is_defined( mon->revert_to_itype ) ) {
             debugmsg("monster %s has unknown revert_to_itype: %s", mon->id.c_str(),
                      mon->revert_to_itype.c_str());
+        }
+        for( auto & s : mon->starting_ammo ) {
+            if( !item::type_is_defined( s.first ) ) {
+                debugmsg( "starting ammo %s of monster %s is unknown", s.first.c_str(), mon->id.c_str() );
+            }
+        }
+        if( mon->upgrade_group != "NULL" && !MonsterGroupManager::isValidMonsterGroup( mon->upgrade_group ) ) {
+            debugmsg( "upgrade_group %s of monster %s is not a valid monster group",
+                      mon->upgrade_group.c_str(), mon->id.c_str() );
+        }
+        if( mon->upgrades_into != "NULL" && !has_mtype( mon->upgrades_into ) ) {
+            debugmsg( "upgrades_into %s of monster %s is not a valid monster id",
+                      mon->upgrades_into.c_str(), mon->id.c_str() );
         }
     }
 }

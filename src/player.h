@@ -3,16 +3,9 @@
 
 #include "character.h"
 #include "item.h"
-#include "trap.h"
-#include "morale.h"
-#include "mutation.h"
-#include "crafting.h"
-#include "vehicle.h"
-#include "martialarts.h"
 #include "player_activity.h"
-#include "messages.h"
 #include "clzones.h"
-#include "artifact.h"
+#include "weighted_list.h"
 
 #include <unordered_set>
 #include <bitset>
@@ -26,6 +19,16 @@ struct trap;
 class mission;
 class profession;
 nc_color encumb_color(int level);
+enum morale_type : int;
+class morale_point;
+enum game_message_type : int;
+class ma_technique;
+class martialart;
+struct recipe;
+struct item_comp;
+struct tool_comp;
+class vehicle;
+struct it_comest;
 
 struct special_attack {
     std::string text;
@@ -85,25 +88,6 @@ struct stats : public JsonSerializer, public JsonDeserializer {
         jo.read("damage_healed", damage_healed);
         jo.read("headshots", headshots);
     }
-};
-
-// Likelyhood to pick a reason
-struct reason_weight {
-    const char *reason;
-    unsigned int weight;
-};
-
-// Class for picking a reason for a melee miss from a weighted list.
-struct reason_weight_list {
-        reason_weight_list() : total_weight(0) { };
-        void add_item(const char *reason, unsigned int weight);
-        unsigned int pick_ent();
-        const char *pick();
-        void clear();
-
-    private:
-        unsigned int total_weight;
-        std::vector<reason_weight> items;
 };
 
 class player : public Character, public JsonSerializer, public JsonDeserializer
@@ -180,7 +164,7 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         /** Print just the colored recoil indicator. **/
         void print_recoil( WINDOW *w ) const;
         /** Displays indicator informing which turrets can fire at `targ`.**/
-        int draw_turret_aim( WINDOW *w, int line_number, const point &targ ) const;
+        int draw_turret_aim( WINDOW *w, int line_number, const tripoint &targ ) const;
 
         /** Print the player's stamina bar. **/
         void print_stamina_bar( WINDOW *w ) const;
@@ -213,6 +197,14 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         int  swim_speed();
         /** Maintains body wetness and handles the rate at which the player dries */
         void update_body_wetness();
+        /** Increases hunger, thirst, fatigue, stimms wearing off, dying from hunger and dying from overdose */
+        void update_needs();
+        /** Handles passive regeneration of pain and maybe hp, except sleep regeneration. 
+          * Updates health and checks for sickness.
+          */
+        void regen();
+        /** Regenerates stamina */
+        void update_stamina();
 
         /** Returns true if the player has a conflicting trait to the entered trait
          *  Uses has_opposite_trait(), has_lower_trait(), and has_higher_trait() to determine conflicts.
@@ -247,11 +239,11 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         /** Returns true if the player is wearing an active optical cloak */
         bool has_active_optcloak() const;
         /** Adds a bionic to my_bionics[] */
-        void add_bionic(bionic_id b);
+        void add_bionic(std::string const &b);
         /** Removes a bionic from my_bionics[] */
-        void remove_bionic(bionic_id b);
+        void remove_bionic(std::string const &b);
         /** Used by the player to perform surgery to remove bionics and possibly retrieve parts */
-        bool uninstall_bionic(bionic_id b_id);
+        bool uninstall_bionic(std::string const &b_id);
         /** Adds the entered amount to the player's bionic power_level */
         void charge_power(int amount);
         /** Generates and handles the UI for player interaction with installed bionics */
@@ -272,7 +264,7 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         /** Returns the bionic with the given invlet, or NULL if no bionic has that invlet */
         bionic *bionic_by_invlet(char ch);
         /** Returns player lumination based on the brightest active item they are carrying */
-        float active_light();
+        float active_light() const;
 
         /** Returns true if the player doesn't have the mutation or a conflicting one and it complies with the force typing */
         bool mutation_ok( const std::string &mutation, bool force_good, bool force_bad ) const;
@@ -289,13 +281,13 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         /** Removes the mutation's child flag from the player's list */
         void remove_child_flag( const std::string &mut );
 
-        const point &pos() const override;
+        const tripoint &pos() const override;
         /** Returns the player's sight range */
         int sight_range( int light_level ) const override;
         /** Returns the player maximum vision range factoring in mutations, diseases, and other effects */
         int  unimpaired_range();
         /** Returns true if overmap tile is within player line-of-sight */
-        bool overmap_los(int x, int y, int sight_points);
+        bool overmap_los( const tripoint &omt, int sight_points );
         /** Returns the distance the player can see on the overmap */
         int  overmap_sight_range(int light_level);
         /** Returns the distance the player can see through walls */
@@ -319,12 +311,12 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         bool has_alarm_clock();
         /** Returns true if the player or their vehicle has a watch */
         bool has_watch();
-        
+
         using Creature::sees;
         // see Creature::sees
-        bool sees( point c, int &bresenham_slope ) const override;
+        bool sees( const tripoint &c, int &bresen1, int &bresen2 ) const override;
         // see Creature::sees
-        bool sees( const Creature &critter, int &bresenham_slope ) const override;
+        bool sees( const Creature &critter, int &bresen1, int &bresen2 ) const override;
         /**
          * Returns all creatures that this player can see and that are in the given
          * range. This player object itself is never included.
@@ -362,44 +354,50 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         void ma_ongethit_effects();
 
         /** Returns true if the player has any martial arts buffs attached */
-        bool has_mabuff(mabuff_id buff_id);
+        bool has_mabuff(mabuff_id buff_id) const;
         /** Returns true if the player has access to the entered martial art */
         bool has_martialart(const matype_id &ma_id) const;
         /** Adds the entered martial art to the player's list */
         void add_martialart(const matype_id &ma_id);
 
         /** Returns the to hit bonus from martial arts buffs */
-        int mabuff_tohit_bonus();
+        int mabuff_tohit_bonus() const;
         /** Returns the dodge bonus from martial arts buffs */
-        int mabuff_dodge_bonus();
+        int mabuff_dodge_bonus() const;
         /** Returns the block bonus from martial arts buffs */
-        int mabuff_block_bonus();
+        int mabuff_block_bonus() const;
         /** Returns the speed bonus from martial arts buffs */
-        int mabuff_speed_bonus();
+        int mabuff_speed_bonus() const;
         /** Returns the bash armor bonus from martial arts buffs */
-        int mabuff_arm_bash_bonus();
+        int mabuff_arm_bash_bonus() const;
         /** Returns the cut armor bonus from martial arts buffs */
-        int mabuff_arm_cut_bonus();
+        int mabuff_arm_cut_bonus() const;
         /** Returns the bash damage multiplier from martial arts buffs */
-        float mabuff_bash_mult();
+        float mabuff_bash_mult() const;
         /** Returns the bash damage bonus from martial arts buffs, applied after the multiplier */
-        int mabuff_bash_bonus();
+        int mabuff_bash_bonus() const;
         /** Returns the cut damage multiplier from martial arts buffs */
-        float mabuff_cut_mult();
+        float mabuff_cut_mult() const;
         /** Returns the cut damage bonus from martial arts buffs, applied after the multiplier */
-        int mabuff_cut_bonus();
+        int mabuff_cut_bonus() const;
         /** Returns true if the player is immune to throws */
-        bool is_throw_immune();
+        bool is_throw_immune() const;
         /** Returns true if the player has quiet melee attacks */
-        bool is_quiet();
+        bool is_quiet() const;
         /** Returns true if the current martial art works with the player's current weapon */
-        bool can_melee();
+        bool can_melee() const;
         /** Always returns false, since players can't dig currently */
         bool digging() const override;
         /** Returns true if the player is knocked over or has broken legs */
         bool is_on_ground() const override;
         /** Returns true if the player should be dead */
         bool is_dead_state() const override;
+        /** Returns true is the player is protected from electric shocks */
+        bool is_elec_immune() const override;
+        /** Returns true if the player is immune to this kind of effect */
+        bool is_immune_effect( const efftype_id& ) const override;
+        /** Returns true if the player is immune to this kind of damage */
+        bool is_immune_damage( const damage_type ) const override;
 
         /** Returns true if the player has technique-based miss recovery */
         bool has_miss_recovery_tec();
@@ -424,7 +422,8 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         /** Returns true if a gun misfires, jams, or has other problems, else returns false */
         bool handle_gun_damage( const itype &firing, const std::set<std::string> &curammo_effects );
         /** Handles gun firing effects and functions */
-        void fire_gun(int targetx, int targety, bool burst);
+        void fire_gun( const tripoint &target, bool burst );
+        void fire_gun( const tripoint &target, long burst_size );
 
         /** Activates any on-dodge effects and checks for dodge counter techniques */
         void dodge_hit(Creature *source, int hit_spread) override;
@@ -448,12 +447,12 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         /** Returns true if the player scores a critical hit */
         bool scored_crit(int target_dodge = 0);
 
-        /** Returns the player's total bash damage roll */
-        int roll_bash_damage(bool crit);
-        /** Returns the player's total cut damage roll */
-        int roll_cut_damage(bool crit);
-        /** Returns the player's total stab damage roll */
-        int roll_stab_damage(bool crit);
+        /** Adds player's total bash damage to the damage instance */
+        void roll_bash_damage( bool crit, damage_instance &di );
+        /** Adds player's total cut damage to the damage instance */
+        void roll_cut_damage( bool crit, damage_instance &di );
+        /** Adds player's total stab damage to the damage instance */
+        void roll_stab_damage( bool crit, damage_instance &di );
         /** Returns the number of moves unsticking a weapon will penalize for */
         int roll_stuck_penalty(bool stabbing, ma_technique &tec);
         std::vector<matec_id> get_all_techniques();
@@ -463,8 +462,7 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         /** Returns a random valid technique */
         matec_id pick_technique(Creature &t,
                                 bool crit, bool dodge_counter, bool block_counter);
-        void perform_technique(ma_technique technique, Creature &t, int &bash_dam, int &cut_dam,
-                               int &stab_dam, int &move_cost);
+        void perform_technique(ma_technique technique, Creature &t, damage_instance &di, int &move_cost);
         /** Performs special attacks and their effects (poisonous, stinger, etc.) */
         void perform_special_attacks(Creature &t);
 
@@ -499,7 +497,7 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         /** Handles the uncanny dodge bionic and effects, returns true if the player successfully dodges */
         bool uncanny_dodge() override;
         /** ReReturns an unoccupied, safe adjacent point. If none exists, returns player position. */
-        point adjacent_tile();
+        tripoint adjacent_tile();
 
         // ranged.cpp
         /** Returns the throw range of the item at the entered inventory position. -1 = ERR, 0 = Can't throw */
@@ -544,7 +542,7 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         /** Harms all body parts for dam, with armor reduction. If vary > 0 damage to parts are random within vary % (1-100) */
         int hitall(int dam, int vary, Creature *source);
         /** Knocks the player back one square from a tile */
-        void knock_back_from(int x, int y) override;
+        void knock_back_from( const tripoint &p ) override;
 
         /** Converts a body_part to an hp_part */
         static hp_part bp_to_hp(body_part bp);
@@ -558,32 +556,8 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         void get_sick();
         /** Handles health fluctuations over time, redirects into Creature::update_health */
         void update_health(int base_threshold = 0) override;
-        /** Checks against env_resist of the players armor, if they fail then they become infected with the disease */
-        bool infect(dis_type type, body_part vector, int strength,
-                    int duration, bool permanent = false, int intensity = 1,
-                    int max_intensity = 1, int decay = 0, int additive = 1,
-                    bool targeted = false, bool main_parts_only = false);
-        /** Adds a disease without save chance
-         *  body_part = num_bp indicates that the disease is body part independant
-         *  intensity = -1 indicates that the disease is infinitely stacking */
-        void add_disease(dis_type type, int duration, bool permanent = false,
-                         int intensity = 1, int max_intensity = 1, int decay = 0,
-                         int additive = 1, body_part part = num_bp,
-                         bool main_parts_only = false);
-        /** Removes a disease from a player */
-        void rem_disease(dis_type type, body_part part = num_bp);
         /** Returns list of rc items in player inventory. **/
         std::list<item *> get_radio_items();
-        /** Returns true if the player has the entered disease */
-        bool has_disease(dis_type type, body_part part = num_bp) const;
-        /** Pauses a disease, making it permanent until unpaused */
-        bool pause_disease(dis_type type, body_part part = num_bp);
-        /** Unpauses a permanent disease, making it wear off when it's timer expires */
-        bool unpause_disease(dis_type type, body_part part = num_bp);
-        /** Returns the duration of the entered disease's timer */
-        int  disease_duration(dis_type type, bool all = false, body_part part = num_bp) const;
-        /** Returns the intensity level of the entered disease */
-        int  disease_intensity(dis_type type, bool all = false, body_part part = num_bp) const;
 
         /** Adds an addiction to the player */
         void add_addiction(add_type type, int strength);
@@ -610,8 +584,11 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
 
         /** used for drinking from hands, returns how many charges were consumed */
         int drink_from_hands(item &water);
-        /** Used for eating object at pos, returns true if object is successfully eaten */
+        /** Used for eating object at pos, returns true if object is removed from inventory (last charge was consumed) */
         bool consume(int pos);
+        /** Used for eating a particular item that doesn't need to be in inventory.
+         *  Returns true if the item is to be removed (doesn't remove). */
+        bool consume_item( item &eat );
         /** Used for eating entered comestible, returns true if comestible is successfully eaten */
         bool eat(item *eat, it_comest *comest);
         /** Handles the nutrition value for a comestible **/
@@ -665,6 +642,8 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         bool has_identified( std::string item_id ) const;
         /** Handles sleep attempts by the player, adds "lying_down" */
         void try_to_sleep();
+        /** Rate point's ability to serve as a bed. Takes mutations, fatigue and stimms into account. */
+        int sleep_spot( const tripoint &p ) const;
         /** Checked each turn during "lying_down", returns true if the player falls asleep */
         bool can_sleep();
         /** Adds "sleep" to the player */
@@ -870,17 +849,16 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         void consume_tools(const std::vector<tool_comp> &tools, int batch = 1, const std::string &hotkeys = DEFAULT_HOTKEYS);
 
         // Auto move methods
-        void set_destination(const std::vector<point> &route);
+        void set_destination(const std::vector<tripoint> &route);
         void clear_destination();
         bool has_destination() const;
-        std::vector<point> &get_auto_move_route();
+        std::vector<tripoint> &get_auto_move_route();
         action_id get_next_auto_move_direction();
         void shift_destination(int shiftx, int shifty);
 
         // Library functions
         double logistic(double t);
         double logistic_range(int min, int max, int pos);
-        void calculate_portions(int &x, int &y, int &z, int maximum);
 
         /**
          * Global position, expressed in map square coordinate system
@@ -905,6 +883,10 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         {
             return position.y;
         }
+        inline int posz() const override
+        {
+            return position.z;
+        }
         inline void setx( int x )
         {
             position.x = x;
@@ -913,25 +895,19 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         {
             position.y = y;
         }
-        inline int posz() const override
-        {
-            return zpos;
-        }
         inline void setz( int z )
         {
-            zpos = z;
+            position.z = z;
         }
         inline void setpos( const tripoint &p )
         {
-            position.x = p.x;
-            position.y = p.y;
-            zpos = p.z;
+            position = p;
         }
-        int view_offset_x, view_offset_y;
+        tripoint view_offset;
         bool in_vehicle;       // Means player sit inside vehicle on the tile he is now
         bool controlling_vehicle;  // Is currently in control of a vehicle
         // Relative direction of a grab, add to posx, posy to get the coordinates of the grabbed thing.
-        point grab_point;
+        tripoint grab_point;
         object_type grab_type;
         player_activity activity;
         std::list<player_activity> backlog;
@@ -1020,7 +996,7 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         bool is_invisible() const;
         bool is_deaf() const;
         // Checks whether a player can hear a sound at a given volume and location.
-        bool can_hear( const point source, const int volume ) const;
+        bool can_hear( const tripoint &source, const int volume ) const;
         // Returns a multiplier indicating the keeness of a player's hearing.
         float hearing_ability() const;
         int visibility( bool check_color = false,
@@ -1043,7 +1019,7 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
 
         typedef std::map<tripoint, std::string> trap_map;
         bool knows_trap( const tripoint &pos ) const;
-        void add_known_trap( const tripoint &pos, const std::string &t );
+        void add_known_trap( const tripoint &pos, const trap &t );
         /** Search surrounding squares for traps (and maybe other things in the future). */
         void search_surroundings();
 
@@ -1079,7 +1055,7 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
          * Returns the target of the active mission or @ref overmap::invalid_point if there is
          * no active mission.
          */
-        point get_active_mission_target() const;
+        tripoint get_active_mission_target() const;
         /**
          * Set which mission is active. The mission must be listed in @ref active_missions.
          */
@@ -1094,12 +1070,12 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
          */
         void on_mission_finished( mission &mission );
 
+        // formats and prints encumbrance info to specified window
+        void print_encumbrance(WINDOW *win, int min, int max, int line = -1);
+
     protected:
-        std::list<disease> illness;
         // The player's position on the local map.
-        point position;
-        // Temporary z-level coord - should later be merged with the above
-        int zpos;
+        tripoint position;
 
         trap_map known_traps;
 
@@ -1134,16 +1110,16 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         bool can_study_recipe(const itype &book);
         bool try_study_recipe(const itype &book);
 
-        std::vector<point> auto_move_route;
+        std::vector<tripoint> auto_move_route;
         // Used to make sure auto move is canceled if we stumble off course
-        point next_expected_position;
+        tripoint next_expected_position;
 
         inventory cached_crafting_inventory;
         int cached_moves;
         int cached_turn;
-        point cached_position;
+        tripoint cached_position;
 
-        struct reason_weight_list melee_miss_reasons;
+        struct weighted_int_list<const char*> melee_miss_reasons;
 
         int id; // A unique ID number, assigned by the game class private so it cannot be overwritten and cause save game corruptions.
         //NPCs also use this ID value. Values should never be reused.

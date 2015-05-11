@@ -5,6 +5,7 @@
 #include "bodypart.h"
 #include "debug.h"
 #include "martialarts.h"
+#include "translations.h"
 
 #include <vector>
 #include <map>

@@ -1,10 +1,20 @@
 #include "iuse_actor.h"
 #include "item.h"
 #include "game.h"
+#include "map.h"
+#include "debug.h"
 #include "monster.h"
 #include "overmapbuffer.h"
 #include "sounds.h"
 #include "monstergenerator.h"
+#include "translations.h"
+#include "morale.h"
+#include "messages.h"
+#include "material.h"
+#include "event.h"
+#include "crafting.h"
+#include "ui.h"
+#include "itype.h"
 #include <sstream>
 #include <algorithm>
 
@@ -34,7 +44,7 @@ void iuse_transform::load( JsonObject &obj )
     obj.read( "menu_option_text", menu_option_text );
 }
 
-long iuse_transform::use(player *p, item *it, bool t, point /*pos*/) const
+long iuse_transform::use(player *p, item *it, bool t, const tripoint &/*pos*/) const
 {
     if( t ) {
         // Invoked from active item processing, do nothing.
@@ -108,7 +118,7 @@ void auto_iuse_transform::load( JsonObject &obj )
     obj.read( "non_interactive_msg", non_interactive_msg );
 }
 
-long auto_iuse_transform::use(player *p, item *it, bool t, point pos) const
+long auto_iuse_transform::use(player *p, item *it, bool t, const tripoint &pos) const
 {
     if (t) {
         if (!when_underwater.empty() && p != NULL && p->is_underwater()) {
@@ -143,7 +153,7 @@ iuse_actor *explosion_iuse::clone() const
 }
 
 // defined in iuse.cpp
-extern std::vector<point> points_for_gas_cloud(const point &center, int radius);
+extern std::vector<point> points_for_gas_cloud(const tripoint &center, int radius);
 
 void explosion_iuse::load( JsonObject &obj )
 {
@@ -170,7 +180,7 @@ void explosion_iuse::load( JsonObject &obj )
     obj.read( "no_deactivate_msg", no_deactivate_msg );
 }
 
-long explosion_iuse::use(player *p, item *it, bool t, point pos) const
+long explosion_iuse::use(player *p, item *it, bool t, const tripoint &pos) const
 {
     if (t) {
         if (sound_volume >= 0) {
@@ -188,34 +198,32 @@ long explosion_iuse::use(player *p, item *it, bool t, point pos) const
         return 0;
     }
     if (explosion_power >= 0) {
-        g->explosion( tripoint( pos.x, pos.y, g->get_levz() ), 
-                      explosion_power, explosion_shrapnel, explosion_fire, explosion_blast);
+        g->explosion( pos, explosion_power, explosion_shrapnel, explosion_fire, explosion_blast);
     }
     if (draw_explosion_radius >= 0) {
-        g->draw_explosion(pos.x, pos.y, draw_explosion_radius, draw_explosion_color);
+        g->draw_explosion( pos, draw_explosion_radius, draw_explosion_color);
     }
     if (do_flashbang) {
-        g->flashbang( tripoint( pos.x, pos.y, g->get_levz() ), flashbang_player_immune);
+        g->flashbang( pos, flashbang_player_immune);
     }
     if (fields_radius >= 0 && fields_type != fd_null) {
         std::vector<point> gas_sources = points_for_gas_cloud(pos, fields_radius);
         for( auto &gas_source : gas_sources ) {
-            const point &p = gas_source;
             const int dens = rng(fields_min_density, fields_max_density);
-            g->m.add_field(p.x, p.y, fields_type, dens);
+            g->m.add_field( gas_source, fields_type, dens, 1 );
         }
     }
     if (scrambler_blast_radius >= 0) {
         for (int x = pos.x - scrambler_blast_radius; x <= pos.x + scrambler_blast_radius; x++) {
             for (int y = pos.y - scrambler_blast_radius; y <= pos.y + scrambler_blast_radius; y++) {
-                g->scrambler_blast( tripoint( x, y, g->get_levz() ) );
+                g->scrambler_blast( tripoint( x, y, pos.z ) );
             }
         }
     }
     if (emp_blast_radius >= 0) {
         for (int x = pos.x - emp_blast_radius; x <= pos.x + emp_blast_radius; x++) {
             for (int y = pos.y - emp_blast_radius; y <= pos.y + emp_blast_radius; y++) {
-                g->emp_blast( tripoint( x, y, g->get_levz() ) );
+                g->emp_blast( tripoint( x, y, pos.z ) );
             }
         }
     }
@@ -241,7 +249,7 @@ void unfold_vehicle_iuse::load( JsonObject &obj )
     obj.read( "tools_needed", tools_needed );
 }
 
-long unfold_vehicle_iuse::use(player *p, item *it, bool /*t*/, point /*pos*/) const
+long unfold_vehicle_iuse::use(player *p, item *it, bool /*t*/, const tripoint &/*pos*/) const
 {
     if (p->is_underwater()) {
         p->add_msg_if_player(m_info, _("You can't do that while underwater."));
@@ -336,7 +344,7 @@ void consume_drug_iuse::load( JsonObject &obj )
     obj.read( "fields_produced", fields_produced );
 }
 
-long consume_drug_iuse::use(player *p, item *it, bool, point) const
+long consume_drug_iuse::use(player *p, item *it, bool, const tripoint& ) const
 {
     // Check prerequisites first.
     for( auto tool = tools_needed.cbegin(); tool != tools_needed.cend(); ++tool ) {
@@ -413,7 +421,7 @@ int delayed_transform_iuse::time_to_do( const item &it ) const
     return it.bday + transform_age - calendar::turn.get_turn();
 }
 
-long delayed_transform_iuse::use( player *p, item *it, bool t, point pos ) const
+long delayed_transform_iuse::use( player *p, item *it, bool t, const tripoint &pos ) const
 {
     if( time_to_do( *it ) > 0 ) {
         p->add_msg_if_player( m_info, _( not_ready_msg.c_str() ) );
@@ -441,16 +449,17 @@ void place_monster_iuse::load( JsonObject &obj )
     obj.read( "skill2", skill2 );
 }
 
-long place_monster_iuse::use( player *p, item *it, bool, point ) const
+long place_monster_iuse::use( player *p, item *it, bool, const tripoint &pos ) const
 {
     monster newmon( GetMType( mtype_id ) );
-    point target;
+    tripoint target;
     if( place_randomly ) {
-        std::vector<point> valid;
+        std::vector<tripoint> valid;
         for( int x = p->posx() - 1; x <= p->posx() + 1; x++ ) {
             for( int y = p->posy() - 1; y <= p->posy() + 1; y++ ) {
-                if( g->is_empty( x, y ) ) {
-                    valid.push_back( point( x, y ) );
+                tripoint dest( x, y, pos.z );
+                if( g->is_empty( dest ) ) {
+                    valid.push_back( dest );
                 }
             }
         }
@@ -462,35 +471,38 @@ long place_monster_iuse::use( player *p, item *it, bool, point ) const
         target = valid[rng( 0, valid.size() - 1 )];
     } else {
         const std::string query = string_format( _( "Place the %s where?" ), newmon.name().c_str() );
-        if( !choose_adjacent( query, target.x, target.y ) ) {
+        if( !choose_adjacent( query, target ) ) {
             return 0;
         }
-        if( !g->is_empty( target.x, target.y ) ) {
+        if( !g->is_empty( target ) ) {
             p->add_msg_if_player( m_info, _( "You cannot place a %s there." ), newmon.name().c_str() );
             return 0;
         }
     }
     p->moves -= moves;
-    newmon.spawn( target.x, target.y );
-    for( auto & amdef : newmon.ammo ) {
-        item ammo_item( amdef.first, 0 );
-        const int available = p->charges_of( amdef.first );
-        if( available == 0 ) {
-            amdef.second = 0;
-            p->add_msg_if_player( m_info,
-                                  _( "If you had standard factory-built %s bullets, you could load the %s." ),
-                                  ammo_item.type_name( 2 ).c_str(), newmon.name().c_str() );
-            continue;
+    newmon.reset_last_load();
+    newmon.spawn( target );
+    if (!newmon.has_flag(MF_INTERIOR_AMMO)) {
+        for( auto & amdef : newmon.ammo ) {
+            item ammo_item( amdef.first, 0 );
+            const int available = p->charges_of( amdef.first );
+            if( available == 0 ) {
+                amdef.second = 0;
+                p->add_msg_if_player( m_info,
+                                      _( "If you had standard factory-built %s bullets, you could load the %s." ),
+                                      ammo_item.type_name( 2 ).c_str(), newmon.name().c_str() );
+                continue;
+            }
+            // Don't load more than the default from the monster definition.
+            ammo_item.charges = std::min( available, amdef.second );
+            p->use_charges( amdef.first, ammo_item.charges );
+            //~ First %s is the ammo item (with plural form and count included), second is the monster name
+            p->add_msg_if_player( ngettext( "You load %d x %s round into the %s.",
+                                            "You load %d x %s rounds into the %s.", ammo_item.charges ),
+                                  ammo_item.charges, ammo_item.type_name( ammo_item.charges ).c_str(),
+                                  newmon.name().c_str() );
+            amdef.second = ammo_item.charges;
         }
-        // Don't load more than the default from the monster definition.
-        ammo_item.charges = std::min( available, amdef.second );
-        p->use_charges( amdef.first, ammo_item.charges );
-        //~ First %s is the ammo item (with plural form and count included), second is the monster name
-        p->add_msg_if_player( ngettext( "You load %d x %s round into the %s.",
-                                        "You load %d x %s rounds into the %s.", ammo_item.charges ),
-                              ammo_item.charges, ammo_item.type_name( ammo_item.charges ).c_str(),
-                              newmon.name().c_str() );
-        amdef.second = ammo_item.charges;
     }
     newmon.init_from_item( *it );
     if( rng( 0, p->int_cur / 2 ) + p->skillLevel( skill1 ) / 2 + p->skillLevel( skill2 ) <
@@ -511,7 +523,7 @@ long place_monster_iuse::use( player *p, item *it, bool, point ) const
         newmon.friendly = -1;
     }
     // TODO: add a flag instead of monster id or something?
-    if( newmon.type->id == "mon_laserturret" && !g->is_in_sunlight( newmon.posx(), newmon.posy() ) ) {
+    if( newmon.type->id == "mon_laserturret" && !g->is_in_sunlight( newmon.pos() ) ) {
         p->add_msg_if_player( _( "A flashing LED on the laser turret appears to indicate low light." ) );
     }
     g->add_zombie( newmon );
@@ -544,7 +556,7 @@ bool has_powersource(const item &i, const player &p) {
     return p.has_charges( "UPS", 1 );
 }
 
-long ups_based_armor_actor::use( player *p, item *it, bool t, point ) const
+long ups_based_armor_actor::use( player *p, item *it, bool t, const tripoint& ) const
 {
     if( p == nullptr ) {
         return 0;
@@ -594,21 +606,21 @@ void pick_lock_actor::load( JsonObject &obj )
     pick_quality = obj.get_int( "pick_quality" );
 }
 
-long pick_lock_actor::use( player *p, item *it, bool, point ) const
+long pick_lock_actor::use( player *p, item *it, bool, const tripoint& ) const
 {
     if( p == nullptr || p->is_npc() ) {
         return 0;
     }
-    int dirx, diry;
-    if( !choose_adjacent( _( "Use your pick lock where?" ), dirx, diry ) ) {
+    tripoint dirp;
+    if( !choose_adjacent( _( "Use your pick lock where?" ), dirp ) ) {
         return 0;
     }
-    if( dirx == p->posx() && diry == p->posy() ) {
+    if( dirp == p->pos() ) {
         p->add_msg_if_player( m_info, _( "You pick your nose and your sinuses swing open." ) );
         return 0;
     }
-    const ter_id type = g->m.ter( dirx, diry );
-    const int npcdex = g->npc_at( dirx, diry );
+    const ter_id type = g->m.ter( dirp );
+    const int npcdex = g->npc_at( dirp );
     if( npcdex != -1 ) {
         p->add_msg_if_player( m_info,
                               _( "You can pick your friends, and you can\npick your nose, but you can't pick\nyour friend's nose" ) );
@@ -649,7 +661,7 @@ long pick_lock_actor::use( player *p, item *it, bool, point ) const
     if( pick_roll >= door_roll ) {
         p->practice( "mechanics", 1 );
         p->add_msg_if_player( m_good, "%s", open_message.c_str() );
-        g->m.ter_set( dirx, diry, new_type );
+        g->m.ter_set( dirp, new_type );
     } else if( door_roll > ( 1.5 * pick_roll ) && it->damage < 100 ) {
         it->damage++;
         if( it->damage >= 5 ) {
@@ -662,7 +674,7 @@ long pick_lock_actor::use( player *p, item *it, bool, point ) const
     }
     if( type == t_door_locked_alarm && ( door_roll + dice( 1, 30 ) ) > pick_roll &&
         it->damage < 100 ) {
-        sounds::sound( p->posx(), p->posy(), 40, _( "An alarm sounds!" ) );
+        sounds::sound( p->pos(), 40, _( "An alarm sounds!" ) );
         if( !g->event_queued( EVENT_WANTED ) ) {
             g->add_event( EVENT_WANTED, int( calendar::turn ) + 300, 0, p->global_sm_location() );
         }
@@ -697,11 +709,11 @@ void reveal_map_actor::reveal_targets( tripoint const & center, const std::strin
 {
     const auto places = overmap_buffer.find_all( center, target, radius, false );
     for( auto & place : places ) {
-        overmap_buffer.reveal( place, reveal_distance, g->get_levz() );
+        overmap_buffer.reveal( place, reveal_distance );
     }
 }
 
-long reveal_map_actor::use( player *p, item *it, bool, point ) const
+long reveal_map_actor::use( player *p, item *it, bool, const tripoint& ) const
 {
     if( it->already_used_by_player( *p ) ) {
         p->add_msg_if_player( _( "There isn't anything new on the %s." ), it->tname().c_str() );
@@ -732,7 +744,7 @@ iuse_actor *firestarter_actor::clone() const
     return new firestarter_actor( *this );
 }
 
-bool firestarter_actor::prep_firestarter_use( const player *p, const item *it, point &pos )
+bool firestarter_actor::prep_firestarter_use( const player *p, const item *it, tripoint &pos )
 {
     if( (it->charges == 0) && (!it->has_flag("LENS"))){ // lenses do not need charges
         return false;
@@ -741,10 +753,10 @@ bool firestarter_actor::prep_firestarter_use( const player *p, const item *it, p
         p->add_msg_if_player(m_info, _("You can't do that while underwater."));
         return false;
     }
-    if( !choose_adjacent(_("Light where?"), pos.x, pos.y) ) {
+    if( !choose_adjacent(_("Light where?"), pos ) ) {
         return false;
     }
-    if( pos.x == p->posx() && pos.y == p->posy() ) {
+    if( pos == p->pos3() ) {
         p->add_msg_if_player(m_info, _("You would set yourself on fire."));
         p->add_msg_if_player(_("But you're already smokin' hot."));
         return false;
@@ -754,9 +766,9 @@ bool firestarter_actor::prep_firestarter_use( const player *p, const item *it, p
         p->add_msg_if_player(m_info, _("There is already a fire."));
         return false;
     }
-    if( g->m.flammable_items_at(pos.x, pos.y) ||
-        g->m.has_flag("FLAMMABLE", pos.x, pos.y) || g->m.has_flag("FLAMMABLE_ASH", pos.x, pos.y) ||
-        g->m.get_field_strength( tripoint( pos, p->posz() ), fd_web ) > 0 ) {
+    if( g->m.flammable_items_at( pos ) ||
+        g->m.has_flag( "FLAMMABLE", pos ) || g->m.has_flag( "FLAMMABLE_ASH", pos ) ||
+        g->m.get_field_strength( pos, fd_web ) > 0 ) {
         return true;
     } else {
         p->add_msg_if_player(m_info, _("There's nothing to light there."));
@@ -764,7 +776,7 @@ bool firestarter_actor::prep_firestarter_use( const player *p, const item *it, p
     }
 }
 
-void firestarter_actor::resolve_firestarter_use( const player *p, const item *, const point &pos )
+void firestarter_actor::resolve_firestarter_use( const player *p, const item *, const tripoint &pos )
 {
     if( g->m.add_field( pos, fd_fire, 1, 100 ) ) {
         p->add_msg_if_player(_("You successfully light a fire."));
@@ -772,22 +784,23 @@ void firestarter_actor::resolve_firestarter_use( const player *p, const item *, 
 }
 
 // TODO: Move prep_firestarter_use here
-long firestarter_actor::use( player *p, item *it, bool t, point pos ) const
+long firestarter_actor::use( player *p, item *it, bool t, const tripoint &pos ) const
 {
     if( t ) {
         return 0;
     }
 
-    if( prep_firestarter_use(p, it, pos) ) {
+    tripoint tmp = pos;
+    if( prep_firestarter_use(p, it, tmp) ) {
         p->moves -= moves_cost;
-        resolve_firestarter_use( p, it, pos );
+        resolve_firestarter_use( p, it, tmp );
         return it->type->charges_to_use();
     }
 
     return 0;
 }
 
-bool firestarter_actor::can_use( const player* p, const item*, bool, const point& ) const
+bool firestarter_actor::can_use( const player* p, const item*, bool, const tripoint& ) const
 {
     if( p->is_underwater() ) {
         return false;
@@ -821,12 +834,13 @@ int extended_firestarter_actor::calculate_time_for_lens_fire( const player *p, f
     return int(moves_base * moves_modifier);
 }
 
-long extended_firestarter_actor::use( player *p, item *it, bool, point pos ) const
+long extended_firestarter_actor::use( player *p, item *it, bool, const tripoint &spos ) const
 {
+    tripoint pos = spos;
     if( need_sunlight ) {
         // Needs the correct weather, light and to be outside.
         if( (g->weather == WEATHER_CLEAR || g->weather == WEATHER_SUNNY) &&
-            g->natural_light_level() >= 60 && !g->m.has_flag("INDOORS", pos.x, pos.y) ) {
+            g->natural_light_level() >= 60 && !g->m.has_flag( "INDOORS", pos ) ) {
             if( prep_firestarter_use(p, it, pos ) ) {
                 // turns needed for activity.
                 const int turns = calculate_time_for_lens_fire( p, g->natural_light_level() );
@@ -871,7 +885,7 @@ long extended_firestarter_actor::use( player *p, item *it, bool, point pos ) con
     return 0;
 }
 
-bool extended_firestarter_actor::can_use( const player* p, const item* it, bool t, const point& pos ) const
+bool extended_firestarter_actor::can_use( const player* p, const item* it, bool t, const tripoint& pos ) const
 {
     if( !firestarter_actor::can_use( p, it, t, pos ) ) {
         return false;
@@ -879,7 +893,7 @@ bool extended_firestarter_actor::can_use( const player* p, const item* it, bool 
 
     if( need_sunlight ) {
         return ( g->weather == WEATHER_CLEAR || g->weather == WEATHER_SUNNY ) &&
-                 g->natural_light_level() >= 60 && !g->m.has_flag( "INDOORS", pos.x, pos.y );
+                 g->natural_light_level() >= 60 && !g->m.has_flag( "INDOORS", pos );
     }
 
     return true;
@@ -912,7 +926,7 @@ iuse_actor *salvage_actor::clone() const
     return new salvage_actor( *this );
 }
 
-long salvage_actor::use( player *p, item *it, bool t, point ) const
+long salvage_actor::use( player *p, item *it, bool t, const tripoint& ) const
 {
     if( t ) {
         return 0;
@@ -1167,7 +1181,7 @@ bool inscribe_actor::item_inscription( item *cut, std::string verb, std::string 
 }
 
 
-long inscribe_actor::use( player *p, item *it, bool t, point ) const
+long inscribe_actor::use( player *p, item *it, bool t, const tripoint& ) const
 {
     if( t ) {
         return 0;
@@ -1201,7 +1215,7 @@ long inscribe_actor::use( player *p, item *it, bool t, point ) const
             add_msg( _("You write a message on the ground.") );
             p->moves -= 2 * message.length();
         }
-        
+
         return it->type->charges_to_use();
     }
 
@@ -1225,7 +1239,7 @@ iuse_actor *cauterize_actor::clone() const
     return new cauterize_actor( *this );
 }
 
-extern hp_part use_healing_item(player *p, item *it, int normal_power, 
+extern hp_part use_healing_item(player *p, item *it, int normal_power,
                                        int head_power, int torso_power, int bleed,
                                        int bite, int infect, bool force);
 
@@ -1250,7 +1264,7 @@ bool cauterize_actor::cauterize_effect( player *p, item *it, bool force ) const
     return 0;
 }
 
-long cauterize_actor::use( player *p, item *it, bool t, point ) const
+long cauterize_actor::use( player *p, item *it, bool t, const tripoint& ) const
 {
     if( t ) {
         return 0;
@@ -1281,7 +1295,7 @@ long cauterize_actor::use( player *p, item *it, bool t, point ) const
     if( !did_cauterize ) {
         return 0;
     }
-    
+
     if( flame ) {
         p->use_charges("fire", 4);
         return 0;
@@ -1299,7 +1313,7 @@ iuse_actor *enzlave_actor::clone() const
     return new enzlave_actor( *this );
 }
 
-long enzlave_actor::use( player *p, item *it, bool t, point ) const
+long enzlave_actor::use( player *p, item *it, bool t, const tripoint& ) const
 {
     if( t ) {
         return 0;
@@ -1403,7 +1417,7 @@ long enzlave_actor::use( player *p, item *it, bool t, point ) const
     return it->type->charges_to_use();
 }
 
-bool enzlave_actor::can_use( const player *p, const item*, bool, const point& ) const
+bool enzlave_actor::can_use( const player *p, const item*, bool, const tripoint& ) const
 {
     return p->get_skill_level( "survival" ) > 1 && p->get_skill_level( "firstaid" ) > 1;
 }
@@ -1424,14 +1438,14 @@ iuse_actor *fireweapon_off_actor::clone() const
     return new fireweapon_off_actor( *this );
 }
 
-long fireweapon_off_actor::use( player *p, item *it, bool t, point ) const
+long fireweapon_off_actor::use( player *p, item *it, bool t, const tripoint& ) const
 {
     if( t ) {
         return 0;
     }
 
     p->moves -= moves;
-    if( rng( 0, 10 ) - it->damage > success_chance && 
+    if( rng( 0, 10 ) - it->damage > success_chance &&
           it->charges > 0 && !p->is_underwater() ) {
         if( noise > 0 ) {
             sounds::sound( p->posx(), p->posy(), noise, _(success_message.c_str()) );
@@ -1448,7 +1462,7 @@ long fireweapon_off_actor::use( player *p, item *it, bool t, point ) const
     return it->type->charges_to_use();
 }
 
-bool fireweapon_off_actor::can_use( const player *p, const item *it, bool, const point& ) const
+bool fireweapon_off_actor::can_use( const player *p, const item *it, bool, const tripoint& ) const
 {
     return it->charges > it->type->charges_to_use() && !p->is_underwater();
 }
@@ -1460,7 +1474,7 @@ void fireweapon_on_actor::load( JsonObject &obj )
     voluntary_extinguish_message    = obj.get_string( "voluntary_extinguish_message", bugmsg );
     charges_extinguish_message      = obj.get_string( "charges_extinguish_message", bugmsg );
     water_extinguish_message        = obj.get_string( "water_extinguish_message", bugmsg );
-    auto_extinguish_message         = obj.get_string( "auto_extinguish_message", bugmsg );    
+    auto_extinguish_message         = obj.get_string( "auto_extinguish_message", bugmsg );
     noise                           = obj.get_int( "noise", 0 );
     noise_chance                    = obj.get_int( "noise_chance", 1 );
     auto_extinguish_chance          = obj.get_int( "auto_extinguish_chance", 0 );
@@ -1471,7 +1485,7 @@ iuse_actor *fireweapon_on_actor::clone() const
     return new fireweapon_on_actor( *this );
 }
 
-long fireweapon_on_actor::use( player *p, item *it, bool t, point ) const
+long fireweapon_on_actor::use( player *p, item *it, bool t, const tripoint& ) const
 {
     bool extinguish = true;
     if( it->charges == 0 ) {
@@ -1485,7 +1499,7 @@ long fireweapon_on_actor::use( player *p, item *it, bool t, point ) const
     } else {
         extinguish = false;
     }
-    
+
     if( extinguish ) {
         it->active = false;
         it_tool *tool = dynamic_cast<it_tool *>( it->type );
@@ -1521,7 +1535,7 @@ void musical_instrument_actor::load( JsonObject &obj )
     descriptions = obj.get_string_array( "descriptions" );
 }
 
-long musical_instrument_actor::use( player *p, item *it, bool t, point ) const
+long musical_instrument_actor::use( player *p, item *it, bool t, const tripoint& ) const
 {
     if( p == nullptr ) {
         // No haunted pianos here!
@@ -1583,7 +1597,7 @@ long musical_instrument_actor::use( player *p, item *it, bool t, point ) const
 
     sounds::ambient_sound( p->posx(), p->posy(), volume, desc );
 
-    if( !p->has_effect( "music" ) && !p->can_hear( p->pos(), volume ) ) {
+    if( !p->has_effect( "music" ) && p->can_hear( p->pos(), volume ) ) {
         p->add_effect( "music", 1 );
         const int sign = morale_effect > 0 ? 1 : -1;
         p->add_morale( MORALE_MUSIC, sign, morale_effect, 5, 2 );
@@ -1592,7 +1606,7 @@ long musical_instrument_actor::use( player *p, item *it, bool t, point ) const
     return 0;
 }
 
-bool musical_instrument_actor::can_use( const player *p, const item*, bool, const point& ) const
+bool musical_instrument_actor::can_use( const player *p, const item*, bool, const tripoint& ) const
 {
     // TODO (maybe): Mouth encumbrance? Smoke? Lack of arms? Hand encumbrance?
     if( p->is_underwater() ) {

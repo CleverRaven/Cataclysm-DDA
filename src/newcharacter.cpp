@@ -6,15 +6,22 @@
 #include "output.h"
 #include "rng.h"
 #include "game.h"
+#include "name.h"
 #include "options.h"
 #include "catacharset.h"
 #include "debug.h"
 #include "char_validity_check.h"
 #include "path_info.h"
 #include "mapsharing.h"
+#include "translations.h"
+#include "martialarts.h"
+#include "addiction.h"
+#include "ui.h"
+#include "mutation.h"
 #ifndef _MSC_VER
 #include <unistd.h>
 #endif
+#include <cstring>
 #include <fstream>
 #include <sstream>
 #include <vector>
@@ -1173,20 +1180,22 @@ int set_profession(WINDOW *w, player *u, int &points)
 
         // Profession bionics, active bionics shown first
         auto prof_CBMs = sorted_profs[cur_id]->CBMs();
-        std::sort(prof_CBMs.begin(), prof_CBMs.end(),
-            [=](std::string a, std::string b) {return bionics[a]->activated && !bionics[b]->activated;}
-        );
+        std::sort(begin(prof_CBMs), end(prof_CBMs), [](std::string const &a, std::string const &b) {
+            return bionic_info(a).activated && !bionic_info(b).activated;
+        });
         buffer << "<color_ltblue>" << _( "Profession bionics:" ) << "</color>\n";
         if( prof_CBMs.empty() ) {
             buffer << pgettext( "set_profession_bionic", "None" ) << "\n";
         } else {
             for( const auto &b : prof_CBMs ) {
-                if (bionics[b]->activated && bionics[b]->toggled) {
-                    buffer << bionics[b]->name << " (" << _("toggled") << ")\n";
-                } else if (bionics[b]->activated) {
-                    buffer << bionics[b]->name << " (" << _("activated") << ")\n";
+                auto const &cbm = bionic_info(b);
+
+                if (cbm.activated && cbm.toggled) {
+                    buffer << cbm.name << " (" << _("toggled") << ")\n";
+                } else if (cbm.activated) {
+                    buffer << cbm.name << " (" << _("activated") << ")\n";
                 } else {
-                    buffer << bionics[b]->name << "\n";
+                    buffer << cbm.name << "\n";
                 }
             }
         }

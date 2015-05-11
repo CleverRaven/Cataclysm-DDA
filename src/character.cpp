@@ -1,6 +1,10 @@
 #include "character.h"
 #include "game.h"
+#include "map.h"
+#include "debug.h"
 #include "mission.h"
+#include "translations.h"
+#include "options.h"
 
 Character::Character()
 {
@@ -10,6 +14,14 @@ Character::Character()
 
 field_id Character::bloodType() const
 {
+    if (has_trait("ACIDBLOOD"))
+        return fd_acid;
+    if (has_trait("THRESH_PLANT"))
+        return fd_blood_veggy;
+    if (has_trait("THRESH_INSECT") || has_trait("THRESH_SPIDER"))
+        return fd_blood_insect;
+    if (has_trait("THRESH_CEPHALOPOD"))
+        return fd_blood_invertebrate;
     return fd_blood;
 }
 field_id Character::gibType() const
@@ -106,27 +118,6 @@ bool Character::move_effects()
         }
         return false;
     }
-    if (has_effect("amigara")) {
-        int curdist = 999, newdist = 999;
-        for (int cx = 0; cx < SEEX * MAPSIZE; cx++) {
-            for (int cy = 0; cy < SEEY * MAPSIZE; cy++) {
-                if (g->m.ter(cx, cy) == t_fault) {
-                    int dist = rl_dist(cx, cy, posx(), posy());
-                    if (dist < curdist) {
-                        curdist = dist;
-                    }
-                    dist = rl_dist(cx, cy, posx(), posy());
-                    if (dist < newdist) {
-                        newdist = dist;
-                    }
-                }
-            }
-        }
-        if (newdist > curdist) {
-            add_msg_if_player(m_info, _("You cannot pull yourself away from the faultline..."));
-            return false;
-        }
-    }
     // Below this point are things that allow for movement if they succeed
 
     // Currently we only have one thing that forces movement if you succeed, should we get more
@@ -143,9 +134,10 @@ bool Character::move_effects()
     }
     return Creature::move_effects();
 }
-void Character::add_effect(efftype_id eff_id, int dur, body_part bp, bool permanent, int intensity)
+void Character::add_effect( efftype_id eff_id, int dur, body_part bp, 
+                            bool permanent, int intensity, bool force )
 {
-    Creature::add_effect(eff_id, dur, bp, permanent, intensity);
+    Creature::add_effect( eff_id, dur, bp, permanent, intensity, force );
 }
 
 void Character::recalc_hp()
@@ -270,7 +262,7 @@ void Character::recalc_sight_limits()
     }
 }
 
-bool Character::has_bionic(const bionic_id & b) const
+bool Character::has_bionic(const std::string & b) const
 {
     for (auto &i : my_bionics) {
         if (i.id == b) {
@@ -280,7 +272,7 @@ bool Character::has_bionic(const bionic_id & b) const
     return false;
 }
 
-bool Character::has_active_bionic(const bionic_id & b) const
+bool Character::has_active_bionic(const std::string & b) const
 {
     for (auto &i : my_bionics) {
         if (i.id == b) {

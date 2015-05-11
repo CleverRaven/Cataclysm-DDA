@@ -29,10 +29,15 @@
 #include "skill.h"
 #include "vehicle.h"
 #include "filesystem.h"
-
+#include "mongroup.h"
 #include "mission.h"
 #include "faction.h"
 #include "savegame.h"
+#include "morale.h"
+#include "worldfactory.h"
+#include "crafting.h"
+#include "veh_type.h"
+#include "mutation.h"
 
 #if !defined(_MSC_VER)
 #include <unistd.h>
@@ -497,7 +502,6 @@ original 'structure', which globs game/weather/location & killcount/player data 
 
 void game::load_legacy_future_weather(std::string data)
 {
-    weather_log.clear();
     std::istringstream fin;
     fin.str(data);
     load_legacy_future_weather(fin);
@@ -507,7 +511,6 @@ void game::load_legacy_future_weather(std::string data)
 void game::load_legacy_future_weather(std::istream &fin)
 {
     int tmpnextweather, tmpweather, tmptemp, num_segments;
-    weather_segment new_segment;
 
     fin >> num_segments >> tmpnextweather >> tmpweather >> tmptemp;
 
@@ -518,10 +521,7 @@ void game::load_legacy_future_weather(std::istream &fin)
     for( int i = 0; i < num_segments - 1; ++i)
     {
         fin >> tmpnextweather >> tmpweather >> tmptemp;
-        new_segment.weather = weather_type(tmpweather);
-        new_segment.temperature = tmptemp;
-        new_segment.deadline = tmpnextweather;
-        weather_log[ tmpnextweather ] = new_segment;
+        // Just drop it, it wouldn't be used anyway
     }
 }
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -1046,7 +1046,6 @@ static bool unserialize_legacy(std::ifstream & fin ) {
         std::string tstr;
         for(int i=0; i < num_legacy_ter; i++) {
             tstr = legacy_ter_id[i];
-            if ( termap.find(tstr) == termap.end() ) {
                 if (tstr == "t_rubble") {
                     ter_key[i] = termap["t_dirt"].loadid;
                     furn_key[i] = furnmap["f_rubble"].loadid;
@@ -1057,25 +1056,14 @@ static bool unserialize_legacy(std::ifstream & fin ) {
                     ter_key[i] = termap["t_dirt"].loadid;
                     furn_key[i] = furnmap["f_ash"].loadid;
                 } else {
-                    debugmsg("Can't find terrain '%s' (%d)",tstr.c_str(), i );
-                    ter_key[i] = termap["t_null"].loadid;
+                    ter_key[i] = terfind( tstr );
                 }
-            } else {
-                ter_key[i] = termap[tstr].loadid;
-            }
         }
 
         // it's a...
         std::map<int, int> trap_key;
-        std::string trstr;
         for (int i = 0; i < num_legacy_trap; i++) {
-           trstr = legacy_trap_id[ i ];
-           if ( trapmap.find( trstr ) == trapmap.end() ) {
-              debugmsg("Can't find trap '%s' (%d)",trstr.c_str(), i );
-              trap_key[i] = trapmap["tr_null"];
-           } else {
-              trap_key[i] = trapmap[trstr];
-           }
+            trap_key[i] = trap_str_id( legacy_trap_id[ i ] ).id();
         }
 
 
@@ -1247,17 +1235,13 @@ static int unserialize_keys( std::ifstream &fin, std::map<int, int> &ter_key,
             jsin.start_array();
             while (!jsin.end_array()) {
                 std::string tstr = jsin.get_string();
-                if ( termap.find(tstr) == termap.end() ) {
                     if (tstr == "t_rubble" || tstr == "t_wreckage" || tstr == "t_ash" ||
                           tstr == "t_metal" || tstr == "t_skylight" || tstr == "t_emergency_light" ||
                           tstr == "t_emergency_light_flicker") {
                         ter_key[i] = termap["t_dirt"].loadid;
                     } else {
-                        debugmsg("Can't find terrain '%s' (%d)", tstr.c_str(), i);
+                        ter_key[i] = terfind( tstr );
                     }
-                } else {
-                    ter_key[i] = termap[tstr].loadid;
-                }
                 ++i;
             }
         } else if (name == "furniture_key") {
@@ -1276,12 +1260,7 @@ static int unserialize_keys( std::ifstream &fin, std::map<int, int> &ter_key,
             int i = 0;
             jsin.start_array();
             while (!jsin.end_array()) {
-                std::string trstr = jsin.get_string();
-                if ( trapmap.find(trstr) == trapmap.end() ) {
-                    debugmsg("Can't find trap '%s' (%d)", trstr.c_str(), i);
-                } else {
-                    trap_key[i] = trapmap[trstr];
-                }
+                trap_key[i] = trap_str_id( jsin.get_string() ).id();
                 ++i;
             }
         } else {
@@ -1292,13 +1271,7 @@ static int unserialize_keys( std::ifstream &fin, std::map<int, int> &ter_key,
 
     if (trap_key.empty()) { // old, snip when this moves to legacy
         for (int i = 0; i < num_legacy_trap; i++) {
-            std::string trstr = legacy_trap_id[i];
-            if ( trapmap.find( trstr ) == trapmap.end() ) {
-                debugmsg("Can't find trap '%s' (%d)", trstr.c_str(), i);
-                trap_key[i] = trapmap["tr_null"];
-            } else {
-                trap_key[i] = trapmap[trstr];
-            }
+            trap_key[i] = trap_str_id( legacy_trap_id[ i ] ).id();
         }
     }
     return num_submaps;
@@ -1533,13 +1506,14 @@ void player::load_legacy(std::stringstream & dump)
          underwater >> dodges_left >> blocks_left >> oxygen >> tmpactive_mission >>
          focus_pool >> male >> prof_ident >> healthy >> styletmp;
 
-         // Bionic power scale has been changed.
-         max_power_level *= 25;
-         power_level *= 25;
+    position.z = g->get_levz();
 
- if (power_level < 0) {
-     power_level = 0;
- }
+    // Bionic power scale has been changed.
+    max_power_level *= 25;
+    power_level *= 25;
+    if (power_level < 0) {
+        power_level = 0;
+    }
 
     active_mission = tmpactive_mission == -1 ? nullptr : mission::find( tmpactive_mission );
 
@@ -1613,14 +1587,12 @@ void player::load_legacy(std::stringstream & dump)
  }
 
  int numill;
- disease illtmp;
  int temp_bpart;
  dump >> numill;
  for (int i = 0; i < numill; i++) {
-     dump >> illtmp.type >> illtmp.duration >> illtmp.intensity
-          >> temp_bpart;
-     illtmp.bp = (body_part)temp_bpart;
-     illness.push_back(illtmp);
+     // Legacy support, just read it and forget it. Diseases are no more, they have ceased to be,
+     // they have expired and gone to meet their maker, ...
+     dump >> temp_bpart >> temp_bpart >> temp_bpart >> temp_bpart;
  }
 
  int numadd = 0;
@@ -1634,7 +1606,7 @@ void player::load_legacy(std::stringstream & dump)
  }
 
  int numbio = 0;
- bionic_id biotype;
+ std::string biotype;
  bionic biotmp;
  dump >> numbio;
  for (int i = 0; i < numbio; i++) {
@@ -1721,6 +1693,171 @@ void player::load_legacy(std::stringstream & dump)
   }
  }
 
+namespace std {
+  template <>
+  struct hash<talk_topic_enum> {
+      std::size_t operator()(const talk_topic_enum& k) const {
+          return k; // the most trivial hash of them all
+      }
+  };
+}
+
+std::string convert_talk_topic( talk_topic_enum const old_value )
+{
+    static const std::unordered_map<talk_topic_enum, std::string> talk_topic_enum_mapping = { {
+// This macro creates the appropriate new names (as string) for each enum value, so one does not
+// have to repeat so much (e.g. 'WRAP(TALK_ARSONIST)' instead of '{ TALK_ARSONIST, "TALK_ARSONIST" }')
+// It also ensures that each name is exactly as the name of the enum value.
+#define WRAP(value) { value, #value }
+ WRAP(TALK_NONE),
+ WRAP(TALK_DONE),
+ WRAP(TALK_GUARD),
+ WRAP(TALK_MISSION_LIST),
+ WRAP(TALK_MISSION_LIST_ASSIGNED),
+ WRAP(TALK_MISSION_DESCRIBE),
+ WRAP(TALK_MISSION_OFFER),
+ WRAP(TALK_MISSION_ACCEPTED),
+ WRAP(TALK_MISSION_REJECTED),
+ WRAP(TALK_MISSION_ADVICE),
+ WRAP(TALK_MISSION_INQUIRE),
+ WRAP(TALK_MISSION_SUCCESS),
+ WRAP(TALK_MISSION_SUCCESS_LIE),
+ WRAP(TALK_MISSION_FAILURE),
+ WRAP(TALK_MISSION_REWARD),
+ WRAP(TALK_EVAC_MERCHANT),
+ WRAP(TALK_EVAC_MERCHANT_NEW),
+ WRAP(TALK_EVAC_MERCHANT_PLANS),
+ WRAP(TALK_EVAC_MERCHANT_PLANS2),
+ WRAP(TALK_EVAC_MERCHANT_PLANS3),
+ WRAP(TALK_EVAC_MERCHANT_WORLD),
+ WRAP(TALK_EVAC_MERCHANT_HORDES),
+ WRAP(TALK_EVAC_MERCHANT_PRIME_LOOT),
+ WRAP(TALK_EVAC_MERCHANT_ASK_JOIN),
+ WRAP(TALK_EVAC_MERCHANT_NO),
+ WRAP(TALK_EVAC_MERCHANT_HELL_NO),
+ WRAP(TALK_FREE_MERCHANT_STOCKS),
+ WRAP(TALK_FREE_MERCHANT_STOCKS_NEW),
+ WRAP(TALK_FREE_MERCHANT_STOCKS_WHY),
+ WRAP(TALK_FREE_MERCHANT_STOCKS_ALL),
+ WRAP(TALK_FREE_MERCHANT_STOCKS_JERKY),
+ WRAP(TALK_FREE_MERCHANT_STOCKS_CORNMEAL),
+ WRAP(TALK_FREE_MERCHANT_STOCKS_FLOUR),
+ WRAP(TALK_FREE_MERCHANT_STOCKS_SUGAR),
+ WRAP(TALK_FREE_MERCHANT_STOCKS_WINE),
+ WRAP(TALK_FREE_MERCHANT_STOCKS_BEER),
+ WRAP(TALK_FREE_MERCHANT_STOCKS_SMMEAT),
+ WRAP(TALK_FREE_MERCHANT_STOCKS_SMFISH),
+ WRAP(TALK_FREE_MERCHANT_STOCKS_OIL),
+ WRAP(TALK_FREE_MERCHANT_STOCKS_DELIVERED),
+ WRAP(TALK_EVAC_GUARD1),
+ WRAP(TALK_EVAC_GUARD1_PLACE),
+ WRAP(TALK_EVAC_GUARD1_GOVERNMENT),
+ WRAP(TALK_EVAC_GUARD1_TRADE),
+ WRAP(TALK_EVAC_GUARD1_JOIN),
+ WRAP(TALK_EVAC_GUARD1_JOIN2),
+ WRAP(TALK_EVAC_GUARD1_JOIN3),
+ WRAP(TALK_EVAC_GUARD1_ATTITUDE),
+ WRAP(TALK_EVAC_GUARD1_JOB),
+ WRAP(TALK_EVAC_GUARD1_OLDGUARD),
+ WRAP(TALK_EVAC_GUARD1_BYE),
+ WRAP(TALK_EVAC_GUARD2),
+ WRAP(TALK_EVAC_GUARD2_NEW),
+ WRAP(TALK_EVAC_GUARD2_RULES),
+ WRAP(TALK_EVAC_GUARD2_RULES_BASEMENT),
+ WRAP(TALK_EVAC_GUARD2_WHO),
+ WRAP(TALK_EVAC_GUARD2_TRADE),
+ WRAP(TALK_EVAC_GUARD3),
+ WRAP(TALK_EVAC_GUARD3_NEW),
+ WRAP(TALK_EVAC_GUARD3_RULES),
+ WRAP(TALK_EVAC_GUARD3_HIDE1),
+ WRAP(TALK_EVAC_GUARD3_HIDE2),
+ WRAP(TALK_EVAC_GUARD3_WASTE),
+ WRAP(TALK_EVAC_GUARD3_DEAD),
+ WRAP(TALK_EVAC_GUARD3_HOSTILE),
+ WRAP(TALK_EVAC_GUARD3_INSULT),
+ WRAP(TALK_EVAC_HUNTER),
+ WRAP(TALK_EVAC_HUNTER_SMELL),
+ WRAP(TALK_EVAC_HUNTER_DO),
+ WRAP(TALK_EVAC_HUNTER_LIFE),
+ WRAP(TALK_EVAC_HUNTER_HUNT),
+ WRAP(TALK_EVAC_HUNTER_SALE),
+ WRAP(TALK_EVAC_HUNTER_ADVICE),
+ WRAP(TALK_EVAC_HUNTER_BYE),
+ WRAP(TALK_OLD_GUARD_REP),
+ WRAP(TALK_OLD_GUARD_REP_NEW),
+ WRAP(TALK_OLD_GUARD_REP_NEW_DOING),
+ WRAP(TALK_OLD_GUARD_REP_NEW_DOWNSIDE),
+ WRAP(TALK_OLD_GUARD_REP_WORLD),
+ WRAP(TALK_OLD_GUARD_REP_WORLD_2NDFLEET),
+ WRAP(TALK_OLD_GUARD_REP_WORLD_FOOTHOLDS),
+ WRAP(TALK_OLD_GUARD_REP_ASK_JOIN),
+ WRAP(TALK_ARSONIST),
+ WRAP(TALK_ARSONIST_NEW),
+ WRAP(TALK_ARSONIST_DOING),
+ WRAP(TALK_ARSONIST_DOING_REBAR),
+ WRAP(TALK_ARSONIST_WORLD),
+ WRAP(TALK_ARSONIST_WORLD_OPTIMISTIC),
+ WRAP(TALK_ARSONIST_JOIN),
+ WRAP(TALK_ARSONIST_MUTATION),
+ WRAP(TALK_ARSONIST_MUTATION_INSULT),
+ WRAP(TALK_SCAVENGER_MERC),
+ WRAP(TALK_SCAVENGER_MERC_NEW),
+ WRAP(TALK_SCAVENGER_MERC_TIPS),
+ WRAP(TALK_SCAVENGER_MERC_HIRE),
+ WRAP(TALK_SCAVENGER_MERC_HIRE_SUCCESS),
+ WRAP(TALK_OLD_GUARD_SOLDIER),
+ WRAP(TALK_OLD_GUARD_NEC_CPT),
+ WRAP(TALK_OLD_GUARD_NEC_CPT_GOAL),
+ WRAP(TALK_OLD_GUARD_NEC_CPT_VAULT),
+ WRAP(TALK_OLD_GUARD_NEC_COMMO),
+ WRAP(TALK_OLD_GUARD_NEC_COMMO_GOAL),
+ WRAP(TALK_OLD_GUARD_NEC_COMMO_FREQ),
+ WRAP(TALK_SHELTER),
+ WRAP(TALK_SHELTER_PLANS),
+ WRAP(TALK_SHARE_EQUIPMENT),
+ WRAP(TALK_GIVE_EQUIPMENT),
+ WRAP(TALK_DENY_EQUIPMENT),
+ WRAP(TALK_TRAIN),
+ WRAP(TALK_TRAIN_START),
+ WRAP(TALK_TRAIN_FORCE),
+ WRAP(TALK_SUGGEST_FOLLOW),
+ WRAP(TALK_AGREE_FOLLOW),
+ WRAP(TALK_DENY_FOLLOW),
+ WRAP(TALK_SHOPKEEP),
+ WRAP(TALK_LEADER),
+ WRAP(TALK_LEAVE),
+ WRAP(TALK_PLAYER_LEADS),
+ WRAP(TALK_LEADER_STAYS),
+ WRAP(TALK_HOW_MUCH_FURTHER),
+ WRAP(TALK_FRIEND),
+ WRAP(TALK_FRIEND_GUARD),
+ WRAP(TALK_DENY_GUARD),
+ WRAP(TALK_DENY_TRAIN),
+ WRAP(TALK_DENY_PERSONAL),
+ WRAP(TALK_FRIEND_UNCOMFORTABLE),
+ WRAP(TALK_COMBAT_COMMANDS),
+ WRAP(TALK_COMBAT_ENGAGEMENT),
+ WRAP(TALK_STRANGER_NEUTRAL),
+ WRAP(TALK_STRANGER_WARY),
+ WRAP(TALK_STRANGER_SCARED),
+ WRAP(TALK_STRANGER_FRIENDLY),
+ WRAP(TALK_STRANGER_AGGRESSIVE),
+ WRAP(TALK_MUG),
+ WRAP(TALK_DESCRIBE_MISSION),
+ WRAP(TALK_WEAPON_DROPPED),
+ WRAP(TALK_DEMAND_LEAVE),
+ WRAP(TALK_SIZE_UP),
+ WRAP(TALK_LOOK_AT),
+ WRAP(TALK_OPINION)
+} };
+#undef WRAP
+    auto const iter = talk_topic_enum_mapping.find( old_value );
+    if( iter == talk_topic_enum_mapping.end() ) {
+        debugmsg( "could not convert %d to new talk topic string", static_cast<int>( old_value ) );
+        return "TALK_NONE";
+    }
+    return iter->second;
+}
 
 ///// npc.h
 void npc::load_legacy(std::stringstream & dump) {
@@ -1784,11 +1921,8 @@ void npc::load_legacy(std::stringstream & dump) {
  std::string disease_type_tmp;
  int numill;
  dump >> numill;
- disease illtmp;
  for (int i = 0; i < numill; i++) {
-  dump >> disease_type_tmp >> illtmp.duration;
-  illtmp.type = disease_type_tmp;
-  illness.push_back(illtmp);
+  dump >> disease_type_tmp >> typetmp;
  }
  int numadd;
  addiction addtmp;
@@ -1798,23 +1932,29 @@ void npc::load_legacy(std::stringstream & dump) {
   addtmp.type = add_type(typetmp);
   addictions.push_back(addtmp);
  }
- bionic_id tmpbionic;
+ std::string tmpbionic;
  int numbio;
  bionic biotmp;
  dump >> numbio;
  for (int i = 0; i < numbio; i++) {
   dump >> tmpbionic >> biotmp.invlet >> biotmp.powered >> biotmp.charge;
-  biotmp.id = bionic_id(tmpbionic);
+  biotmp.id = std::string(tmpbionic);
   my_bionics.push_back(biotmp);
  }
 // Special NPC stuff
  int misstmp, flagstmp, tmpatt, agg, bra, col, alt;
  int omx, omy;
- dump >> agg >> bra >> col >> alt >> wandx >> wandy >> wandf >> omx >> omy >>
-         mapz >> mapx >> mapy >> plx >> ply >> goal.x >> goal.y >> goal.z >> misstmp >>
-         flagstmp >> fac_id >> tmpatt;
+ dump >> agg >> bra >> col >> alt >> 
+         wander_pos.x >> wander_pos.y >> wander_time >> 
+         omx >> omy >>
+         position.z >> mapx >> mapy >>
+         last_player_seen_pos.x >> last_player_seen_pos.y >> 
+         goal.x >> goal.y >> goal.z >> 
+         misstmp >> flagstmp >> fac_id >> tmpatt;
  mapx += omx * OMAPX * 2;
  mapy += omy * OMAPY * 2;
+ wander_pos.z = posz();
+ last_player_seen_pos.z = posz();
  personality.aggression = agg;
  personality.bravery = bra;
  personality.collector = col;
@@ -1858,7 +1998,7 @@ void npc::load_legacy(std::stringstream & dump) {
   info >> tmptopic >> tmpmission_selected >> tempvalue >> skill_ident >>
           tmpsize_miss >> tmpsize_assigned;
     mission_selected = nullptr; // player can re-select which mision to talk about in the dialog
-  first_topic = talk_topic(tmptopic);
+  first_topic = convert_talk_topic( talk_topic_enum(tmptopic) );
   skill = skill_ident == "none" ? NULL : Skill::skill(skill_ident);
   for (int i = 0; i < tmpsize_miss; i++) {
    int tmpmiss;
@@ -1908,16 +2048,19 @@ std::istream& operator>>(std::istream& is, SkillLevel& obj) {
 
 void monster::load_legacy(std::stringstream & dump) {
     int idtmp, plansize, speed, faction_dummy;
-    dump >> idtmp >> position.x >> position.y >> wandx >> wandy >> wandf >> moves >> speed >>
-         hp >> sp_timeout[0] >> plansize >> friendly >> faction_dummy >> mission_id >>
-         no_extra_death_drops >> dead >> anger >> morale;
+    dump >> idtmp >> position.x >> position.y >> wander_pos.x >> wander_pos.y >> wandf
+         >> moves >> speed >> hp >> sp_timeout[0] >> plansize >> friendly
+         >> faction_dummy >> mission_id >> no_extra_death_drops >> dead >> anger >> morale;
 
+    wander_pos.z = g->get_levz();
+    position.z = g->get_levz();
     // load->int->str->int (possibly shifted)
     type = GetMType( legacy_mon_id[idtmp] );
 
     Creature::set_speed_base( speed );
 
-    point ptmp;
+    tripoint ptmp;
+    ptmp.z = g->get_levz();
     plans.clear();
     for (int i = 0; i < plansize; i++) {
         dump >> ptmp.x >> ptmp.y;
@@ -1932,7 +2075,7 @@ void item::load_legacy(std::stringstream & dump) {
     clear();
     std::string idtmp, ammotmp, item_tag, mode;
     int lettmp, damtmp, acttmp, corp, tag_count;
-	int owned; // Ignoring an obsolete member. 
+    int owned; // Ignoring an obsolete member. 
     dump >> lettmp >> idtmp >> charges >> damtmp >> tag_count;
     for( int i = 0; i < tag_count; ++i )
     {

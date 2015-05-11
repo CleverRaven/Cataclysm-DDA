@@ -5,6 +5,9 @@
 #include "map.h"
 #include "game.h"
 #include "overmapbuffer.h"
+#include "enums.h"
+#include "json.h"
+#include "overmap.h"
 
 static location_map _locations;
 
@@ -184,7 +187,7 @@ void board_up( map &m, int sx, int sy, int dx, int dy )
 void start_location::prepare_map( tinymap &m ) const
 {
     if( flags().count( "BOARDED" ) > 0 ) {
-        m.build_outside_cache();
+        m.build_outside_cache( m.get_abs_sub().z );
         board_up( m, 0, 0, m.getmapsize() * SEEX, m.getmapsize() * SEEY );
     } else {
         m.translate( t_window_domestic, t_curtains );
@@ -223,7 +226,7 @@ void start_location::place_player( player &u ) const
     u.sety( SEEY * int( MAPSIZE / 2 ) + 6 );
     u.setz( g->get_levz() );
 
-    m.build_map_cache();
+    m.build_map_cache( m.get_abs_sub().z );
     int tries = 0;
     const bool must_be_inside = flags().count( "ALLOW_OUTSIDE" ) == 0;
     while( ( ( must_be_inside && m.is_outside( u.posx(), u.posy() ) ) ||
@@ -242,7 +245,7 @@ void start_location::burn( const tripoint &omtstart,
     const tripoint player_location = overmapbuffer::omt_to_sm_copy( omtstart );
     tinymap m;
     m.load( player_location.x, player_location.y, player_location.z, false );
-    m.build_outside_cache();
+    m.build_outside_cache( m.get_abs_sub().z );
     const int ux = g->u.posx() % (SEEX * int( MAPSIZE / 2 ));
     const int uy = g->u.posy() % (SEEY * int( MAPSIZE / 2 ));
     std::vector<point> valid;

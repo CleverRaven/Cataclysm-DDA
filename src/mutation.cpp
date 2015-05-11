@@ -1,12 +1,16 @@
-#include "player.h"
 #include "mutation.h"
+#include "player.h"
 #include "game.h"
+#include "map.h"
 #include "translations.h"
 #include "messages.h"
 #include "monster.h"
 #include "monstergenerator.h"
 #include "overmapbuffer.h"
 #include "sounds.h"
+#include "options.h"
+#include "catacharset.h"
+#include "input.h"
 
 #include <math.h>    //sqrt
 #include <algorithm> //std::min
@@ -325,7 +329,7 @@ void player::activate_mutation( const std::string &mut )
             fatigue += cost;
         }
         tdata.powered = true;
-        
+
         // Handle stat changes from activation
         apply_mods(mut, true);
     }
@@ -366,17 +370,18 @@ void player::activate_mutation( const std::string &mut )
             return;
         }
         g->u.assign_activity(ACT_BURROW, turns, -1, 0);
-        g->u.activity.placement = point(dirx, diry);
+        g->u.activity.placement = tripoint(dirx, diry,0);
         add_msg_if_player(_("You tear into the %s with your teeth and claws."),
                           g->m.tername(dirx, diry).c_str());
         tdata.powered = false;
         return; // handled when the activity finishes
     } else if (mut == "SLIMESPAWNER") {
-        std::vector<point> valid;
+        std::vector<tripoint> valid;
         for (int x = posx() - 1; x <= posx() + 1; x++) {
             for (int y = posy() - 1; y <= posy() + 1; y++) {
-                if (g->is_empty(x, y)) {
-                    valid.push_back( point(x, y) );
+                tripoint dest(x, y, posz());
+                if (g->is_empty(dest)) {
+                    valid.push_back( dest );
                 }
             }
         }
@@ -391,11 +396,11 @@ void player::activate_mutation( const std::string &mut )
         monster slime(GetMType("mon_player_blob"));
         for (int i = 0; i < numslime; i++) {
             int index = rng(0, valid.size() - 1);
-            point sp = valid[index];
+            if (g->summon_mon("mon_player_blob", valid[index])) {
+                monster *slime = g->monster_at(valid[index]);
+                slime->friendly = -1;
+            }
             valid.erase(valid.begin() + index);
-            slime.spawn(sp.x, sp.y);
-            slime.friendly = -1;
-            g->add_zombie(slime);
         }
         //~ Usual enthusiastic slimespring small voices! :D
         if (one_in(3)) {
@@ -452,7 +457,7 @@ void player::activate_mutation( const std::string &mut )
 void player::deactivate_mutation( const std::string &mut )
 {
     my_mutations[mut].powered = false;
-    
+
     // Handle stat changes from deactivation
     apply_mods(mut, false);
 }

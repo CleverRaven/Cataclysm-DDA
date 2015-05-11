@@ -5,11 +5,12 @@
 #include <array>
 
 class uimenu;
+class vehicle;
 
 typedef std::vector< std::pair<item *, int> > itemslice;
 
 enum aim_location {
-    AIM_INVENTORY,
+    AIM_INVENTORY = 0,
     AIM_SOUTHWEST,
     AIM_SOUTH,
     AIM_SOUTHEAST,
@@ -19,9 +20,11 @@ enum aim_location {
     AIM_NORTHWEST,
     AIM_NORTH,
     AIM_NORTHEAST,
-    AIM_ALL,
     AIM_DRAGGED,
-    AIM_CONTAINER
+    AIM_ALL,
+    AIM_CONTAINER,
+    AIM_WORN,
+    NUM_AIM_LOCATIONS
 };
 
 enum advanced_inv_sortby {
@@ -42,26 +45,23 @@ struct advanced_inv_listitem;
 struct advanced_inv_area {
     const aim_location id;
     // Used for the small overview 3x3 grid
-    const int hscreenx;
-    const int hscreeny;
+    const int hscreenx = 0;
+    const int hscreeny = 0;
     // relative (to the player) position of the map point
-    const int offx;
-    const int offy;
+    tripoint off;
     /** Long name, displayed, translated */
-    const std::string name;
+    const std::string name = "fake";
     /** Shorter name (2 letters) */
-    const std::string shortname;
+    const std::string shortname = "FK"; // FK in my coffee
     // absolute position of the map point.
-    int x;
-    int y;
-    /** Can we put items there? Only checks if location is valid, not if selected container in pane is.
-        For full check use canputitems()
-    */
+    tripoint pos;
+    /** Can we put items there? Only checks if location is valid, not if
+        selected container in pane is. For full check use canputitems() **/
     bool canputitemsloc;
     // vehicle pointer and cargo part index
     vehicle *veh;
     int vstor;
-    // description, e.g. vehicle name or storage label
+    // description, e.g. vehicle name, label, or terrain
     std::string desc;
     // flags, e.g. FIRE, TRAP, WATER
     std::string flags;
@@ -70,23 +70,32 @@ struct advanced_inv_area {
     // maximal count / volume of items there.
     int max_size, max_volume;
 
-    advanced_inv_area( aim_location id, int hscreenx, int hscreeny, int offx, int offy, std::string name, std::string shortname ) :
-        id( id ), hscreenx( hscreenx ), hscreeny( hscreeny ), offx( offx ), offy( offy ), name( name ), shortname( shortname ),
-        x( 0 ), y( 0 ), canputitemsloc( false ), veh( nullptr ), vstor( -1 ), desc( "" ), volume( 0 ), weight( 0 ), max_size( 0 ), max_volume( 0 )
+    advanced_inv_area( aim_location id ) : id( id ) {}
+    advanced_inv_area( aim_location id, int hscreenx, int hscreeny, tripoint off, std::string name, std::string shortname ) :
+        id( id ), hscreenx( hscreenx ), hscreeny( hscreeny ), off( off ), name( name ), shortname( shortname ),
+        pos(0, 0, 0), canputitemsloc( false ), veh( nullptr ), vstor( -1 ), desc( "" ), volume( 0 ), weight( 0 ), max_size( 0 ), max_volume( 0 )
     {
     }
 
     void init();
-    int free_volume() const;
+    // if you want vehicle cargo, specify so via `in_vehicle'
+    int free_volume(bool in_vehicle = false) const;
     int get_item_count() const;
-    // Other area is actually the same item source, e.g. dragged vehicle to the south
-    // and AIM_SOUTH
+    // Other area is actually the same item source, e.g. dragged vehicle to the south and AIM_SOUTH
     bool is_same( const advanced_inv_area &other ) const;
+    // does _not_ check vehicle storage, do that with `can_store_in_vehicle()' below
     bool canputitems( const advanced_inv_listitem *advitem = nullptr );
-    item* get_container();
+    // if you want vehicle cargo, specify so via `in_vehicle'
+    item* get_container(bool in_vehicle = false);
     void set_container( const advanced_inv_listitem *advitem );
     bool is_container_valid( const item *it ) const;
     void set_container_position();
+    aim_location offset_to_location() const;
+//    bool set_vehicle(advanced_inv_area &square);
+    bool can_store_in_vehicle() const
+    {
+        return (veh != nullptr && vstor >= 0);
+    }
 };
 
 // see item_factory.h
@@ -173,8 +182,28 @@ struct advanced_inv_listitem {
  */
 class advanced_inventory_pane
 {
+    private:
+        aim_location area = NUM_AIM_LOCATIONS;
+        aim_location veh_area = NUM_AIM_LOCATIONS;
+        bool in_veh = false;
     public:
-        aim_location area;
+        aim_location get_area() const
+        {
+            return area;
+        }
+        aim_location get_veh_area() const
+        {
+            return veh_area;
+        }
+        void set_area(aim_location loc)
+        {
+            area = loc;
+        }
+        bool in_vehicle() const
+        {
+            return in_veh;
+        }
+        bool set_vehicle(aim_location loc);
         /**
          * Index of the selected item (index of @ref items),
          */
@@ -196,7 +225,7 @@ class advanced_inventory_pane
          */
         bool redraw;
 
-        void add_items_from_area(advanced_inv_area &square);
+        void add_items_from_area(advanced_inv_area &square, bool vehicle_override = false);
         /**
          * Makes sure the @ref index is valid (if possible).
          */
@@ -254,7 +283,7 @@ class advanced_inventory
          * Refers to the two panels, used as index into @ref panels.
          */
         enum side {
-            left = 0,
+            left  = 0,
             right = 1
         };
         const int head_height;
@@ -298,7 +327,8 @@ class advanced_inventory
          * as index.
          */
         std::array<advanced_inventory_pane, 2> panes;
-        std::array<advanced_inv_area, 13> squares;
+        static const advanced_inventory_pane null_pane;
+        std::array<advanced_inv_area, NUM_AIM_LOCATIONS> squares;
 
         WINDOW *head;
         WINDOW *left_window;
@@ -341,9 +371,10 @@ class advanced_inventory
          * Add the item to the destination area.
          * @param destarea Where add the item to. This must not be AIM_ALL.
          * @param new_item The item to add.
+         * @param inv_item Pointer-pointer for the inventory's item pointer, if applicable.
          * @return true if adding has been done, false if adding the item failed.
          */
-        bool add_item( aim_location destarea, const item &new_item );
+        bool add_item( aim_location destarea, item &new_item );
         /**
          * Move content of source container into destination container (destination pane = AIM_CONTAINER)
          * @param src_container Source container
@@ -363,12 +394,16 @@ class advanced_inventory
         bool query_charges(aim_location destarea, const advanced_inv_listitem &sitem, bool askamount, long &amount );
         /**
          * Remove the item from source area. Must not be used on items with area
-         * AIM_ALL or AIM_INVENTORY!
+         * AIM_ALL or AIM_INVENTORY! (but is... and seems to work)
          * @param sitem The item reference that should be removed, along with the
          * source area.
          */
         void remove_item( advanced_inv_listitem &sitem );
         void menu_square(uimenu *menu);
+
+        // set AIM_VEHICLE to the location given.
+//        bool set_vehicle(advanced_inventory_pane &pane, aim_location sel);
+//        void load_veh_data();
 
         static char get_location_key( aim_location area );
 };

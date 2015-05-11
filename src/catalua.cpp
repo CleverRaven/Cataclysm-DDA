@@ -14,8 +14,12 @@
 #include "monstergenerator.h"
 #include "messages.h"
 #include "debug.h"
+#include "translations.h"
 
 #ifdef LUA
+#include "ui.h"
+#include "mongroup.h"
+#include "itype.h"
 extern "C" {
 #include "lua.h"
 #include "lualib.h"
@@ -196,13 +200,13 @@ overmap *get_current_overmap()
 }
 
 /** Create a new monster of the given type. */
-monster *create_monster(std::string mon_type, int x, int y)
+monster *create_monster( std::string mon_type, tripoint p )
 {
-    monster new_monster(GetMType(mon_type), tripoint( x, y, g->get_levz() ) );
+    monster new_monster(GetMType(mon_type), p );
     if(!g->add_zombie(new_monster)) {
         return NULL;
     } else {
-        return &(g->zombie(g->mon_at(x, y)));
+        return &(g->zombie(g->mon_at( p )));
     }
 }
 
@@ -347,12 +351,13 @@ static int game_get_monster_types(lua_State *L)
     return 1; // 1 return values
 }
 
-// monster = game.monster_at(x, y)
+// monster = game.monster_at(p)
 static int game_monster_at(lua_State *L)
 {
     int parameter1 = (int) lua_tonumber(L, 1);
     int parameter2 = (int) lua_tonumber(L, 2);
-    int monster_idx = g->mon_at(parameter1, parameter2);
+    int parameter3 = (int) lua_tonumber(L, 3);
+    int monster_idx = g->mon_at( {parameter1, parameter2, parameter3} );
 
     monster &mon_ref = g->zombie(monster_idx);
     monster **monster_userdata = (monster **) lua_newuserdata(L, sizeof(monster *));
@@ -593,7 +598,7 @@ void use_function::operator=(const use_function &other)
 }
 
 // If we're not using lua, need to define Use_function in a way to always call the C++ function
-long use_function::call(player *player_instance, item *item_instance, bool active, point pos) const
+long use_function::call( player *player_instance, item *item_instance, bool active, const tripoint &pos ) const
 {
     if (function_type == USE_FUNCTION_NONE) {
         if (player_instance != NULL && player_instance->is_player()) {

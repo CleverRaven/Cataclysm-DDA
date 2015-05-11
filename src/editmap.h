@@ -2,13 +2,17 @@
 #define EDITMAP_H
 
 #include "game.h"
+#include "map.h"
 #include "line.h"
-#include "options.h"
 #include "omdata.h"
+#include "ui.h"
+#include "trap.h"
 #include <vector>
 #include <map>
 #include <list>
 #include <stdarg.h>
+
+struct real_coords;
 
 enum shapetype {
     editmap_rect, editmap_rect_filled, editmap_line, editmap_circle,
@@ -19,8 +23,8 @@ struct editmap_hilight {
     std::vector<bool> blink_interval;
     int cur_blink;
     nc_color color;
-    std::map<point, char> points;
-    nc_color(*getbg)(nc_color);
+    std::map<tripoint, char> points;
+    nc_color( *getbg )( nc_color );
     void setup()
     {
         getbg = ( color == c_red ? &red_background :
@@ -31,19 +35,19 @@ struct editmap_hilight {
                   )
                 );
     };
-    void draw(editmap *em, bool update = false);
+    void draw( editmap *em, bool update = false );
 };
 
 class editmap
 {
     public:
-        void uphelp(std::string txt1 = "", std::string txt2 = "", std::string title = "" );
-        point pos2screen( const int x, const int y );
-        point screen2pos( const int i, const int j );
-        bool eget_direction ( int &x, int &y, const std::string &action ) const;
-        point edit();
+        void uphelp( std::string txt1 = "", std::string txt2 = "", std::string title = "" );
+        tripoint pos2screen( const tripoint &p );
+        tripoint screen2pos( const tripoint &p );
+        bool eget_direction( tripoint &p, const std::string &action ) const;
+        tripoint edit();
         void uber_draw_ter( WINDOW *w, map *m );
-        void update_view(bool update_info = false);
+        void update_view( bool update_info = false );
         int edit_ter();
 
         int edit_fld();
@@ -54,13 +58,13 @@ class editmap
         int edit_veh();
         int edit_mapgen();
         void cleartmpmap( tinymap &tmpmap );
-        int mapgen_preview(real_coords &tc, uimenu &gmenu);
+        int mapgen_preview( real_coords &tc, uimenu &gmenu );
         int mapgen_retarget();
-        int select_shape(shapetype shape, int mode = -1 );
+        int select_shape( shapetype shape, int mode = -1 );
 
-        void update_fmenu_entry(uimenu *fmenu, field *field, int idx);
-        void setup_fmenu(uimenu *fmenu);
-        bool change_fld(std::vector<point> coords, field_id fid, int density);
+        void update_fmenu_entry( uimenu *fmenu, field *field, int idx );
+        void setup_fmenu( uimenu *fmenu );
+        bool change_fld( std::vector<tripoint> coords, field_id fid, int density );
         WINDOW *w_info;
         WINDOW *w_help;
         int width;
@@ -73,7 +77,7 @@ class editmap
         int sel_frn;
         int target_frn;
 
-        point recalc_target(shapetype shape);
+        tripoint recalc_target( shapetype shape );
         bool move_target( const std::string &action, int moveorigin = -1 );
         field *cur_field;
 
@@ -90,8 +94,8 @@ class editmap
         int trsel;
         int trset;
 
-        point target;
-        point origin;
+        tripoint target;
+        tripoint origin;
         bool moveall;
         bool refresh_mplans;
         shapetype editshape;
@@ -100,13 +104,12 @@ class editmap
 
         std::string fids[num_fields];
 
-        std::vector<point> target_list;
+        std::vector<tripoint> target_list;
         std::map<std::string, editmap_hilight> hilights;
         bool blink;
         bool altblink;
         int tmaxx;
         int tmaxy;
-        int zlevel;
         bool uberdraw;
         std::map<oter_id, int> oter_special;
         editmap()
@@ -131,15 +134,15 @@ class editmap
             trset = -1;
             w_info = 0;
             w_help = 0;
-            padding = std::string(width - 2, ' ');
+            padding = std::string( width - 2, ' ' );
             blink = false;
             altblink = false;
             moveall = false;
             editshape = editmap_rect;
             refresh_mplans = true;
 
-            tmaxx = getmaxx(g->w_terrain);
-            tmaxy = getmaxy(g->w_terrain);
+            tmaxx = getmaxx( g->w_terrain );
+            tmaxy = getmaxy( g->w_terrain );
             fids[0] = "-clear-";
             fids[fd_fire_vent] = "fire_vent";
             fids[fd_push_items] = "push_items";
@@ -147,27 +150,26 @@ class editmap
             fids[fd_acid_vent] = "acid_vent";
             target_list.clear();
             hilights.clear();
-            hilights["mplan"].blink_interval.push_back(true);
-            hilights["mplan"].blink_interval.push_back(false);
+            hilights["mplan"].blink_interval.push_back( true );
+            hilights["mplan"].blink_interval.push_back( false );
             hilights["mplan"].cur_blink = 0;
             hilights["mplan"].color = c_red;
             hilights["mplan"].setup();
 
-            hilights["mapgentgt"].blink_interval.push_back(true);
-            hilights["mapgentgt"].blink_interval.push_back(false);
-            hilights["mapgentgt"].blink_interval.push_back(false);
+            hilights["mapgentgt"].blink_interval.push_back( true );
+            hilights["mapgentgt"].blink_interval.push_back( false );
+            hilights["mapgentgt"].blink_interval.push_back( false );
             hilights["mapgentgt"].cur_blink = 0;
             hilights["mapgentgt"].color = c_cyan;
             hilights["mapgentgt"].setup();
 
             oter_special.clear();
-            zlevel = g->get_levz();
             uberdraw = false;
         };
         ~editmap()
         {
-            delwin(w_info);
-            delwin(w_help);
+            delwin( w_info );
+            delwin( w_help );
         }
 };
 

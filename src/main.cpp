@@ -6,6 +6,7 @@
 
 #include "cursesdef.h"
 #include "game.h"
+#include "rng.h"
 #include "color.h"
 #include "options.h"
 #include "debug.h"
@@ -14,6 +15,7 @@
 #include "path_info.h"
 #include "mapsharing.h"
 
+#include <cstring>
 #include <ctime>
 #include <map>
 #include <signal.h>
@@ -354,6 +356,11 @@ int main(int argc, char *argv[])
     }
 
     setupDebug();
+
+    if (setlocale(LC_ALL, "") == NULL) {
+        DebugLog(D_WARNING, D_MAIN) << "Error while setlocale(LC_ALL, '').";
+    }
+
     // Options strings loaded with system locale
     initOptions();
     load_options();

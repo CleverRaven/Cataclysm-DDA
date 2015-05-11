@@ -2221,6 +2221,707 @@
   ]
 },{
   "type" : "recipe",
+  "result": "adjustable_stock",
+  "category": "CC_WEAPON",
+  "subcategory": "CSC_WEAPON_MODS",
+  "skill_used": "fabrication",
+  "skills_required": [[ "gun", 3 ]],
+  "difficulty": 5,
+  "time": 25000,
+  "reversible": false,
+  "autolearn": true,
+  "book_learn": [[ "manual_fabrication", 3 ] , [ "manual_shotgun", 4] , [ "manual_smg", 4] , [ "manual_rifle", 4] , [ "manual_launcher", 4]],
+  "qualities":[
+    {"id":"HAMMER_FINE","level":1,"amount":1},
+    {"id":"SAW_M_FINE","level":1,"amount":1},
+    {"id":"SCREW_FINE","level":1,"amount":1}
+  ],
+  "tools": [
+    [
+      [ "goggles_welding", -1 ]
+    ],
+    [
+      [ "oxy_torch", 3 ],
+      [ "welder", 15 ],
+      [ "welder_crude", 25 ],
+      [ "toolset", 25 ],
+      [ "small_repairkit", 15 ],
+      [ "large_repairkit", 15 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "scrap", 6 ],
+      [ "pipe", 1 ],
+      [ "steel_chunk", 2 ]
+    ],
+    [
+      [ "plastic_chunk", 3 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
+  "result": "folding_stock",
+  "category": "CC_WEAPON",
+  "subcategory": "CSC_WEAPON_MODS",
+  "skill_used": "fabrication",
+  "skills_required": [[ "gun", 3 ]],
+  "difficulty": 4,
+  "time": 25000,
+  "reversible": false,
+  "autolearn": true,
+  "book_learn": [[ "manual_fabrication", 3 ] , [ "manual_shotgun", 4] , [ "manual_smg", 4] , [ "manual_rifle", 4]],
+  "qualities":[
+    {"id":"HAMMER_FINE","level":1,"amount":1},
+    {"id":"SAW_M_FINE","level":1,"amount":1},
+    {"id":"SCREW_FINE","level":1,"amount":1}
+  ],
+  "tools": [
+    [
+      [ "goggles_welding", -1 ]
+    ],
+    [
+      [ "oxy_torch", 3 ],
+      [ "welder", 15 ],
+      [ "welder_crude", 25 ],
+      [ "toolset", 25 ],
+      [ "small_repairkit", 15 ],
+      [ "large_repairkit", 15 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "scrap", 6 ],
+      [ "pipe", 1 ],
+      [ "steel_chunk", 2 ]
+    ],
+    [
+      [ "spring", 1 ]
+    ],
+    [
+      [ "plastic_chunk", 3 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
+  "result": "barrel_ported",
+  "category": "CC_WEAPON",
+  "subcategory": "CSC_WEAPON_MODS",
+  "skill_used": "mechanics",
+  "skills_required": [[ "gun", 3 ]],
+  "difficulty": 6,
+  "time": 30000,
+  "reversible": false,
+  "autolearn": false,
+  "book_learn": [[ "textbook_mechanics", 3 ] , [ "manual_pistol", 4] , [ "manual_shotgun", 4] , [ "manual_smg", 4] , [ "manual_rifle", 4]],
+  "tools": [
+    [
+      [ "large_repairkit", 75 ]
+    ],
+    [
+      [ "swage", -1 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "pipe", 1 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
+  "result": "bipod",
+  "category": "CC_WEAPON",
+  "subcategory": "CSC_WEAPON_MODS",
+  "skill_used": "fabrication",
+  "skills_required": [[ "gun", 2 ]],
+  "difficulty": 4,
+  "time": 20000,
+  "reversible": false,
+  "autolearn": true,
+  "book_learn": [[ "manual_fabrication", 2 ] , [ "manual_rifle", 3] , [ "manual_launcher", 3]],
+  "qualities":[
+    {"id":"HAMMER_FINE","level":1,"amount":1},
+    {"id":"SAW_M_FINE","level":1,"amount":1},
+    {"id":"SCREW_FINE","level":1,"amount":1}
+  ],
+  "tools": [
+    [
+      [ "goggles_welding", -1 ]
+    ],
+    [
+      [ "oxy_torch", 2 ],
+      [ "welder", 10 ],
+      [ "welder_crude", 20 ],
+      [ "toolset", 20 ],
+      [ "small_repairkit", 10 ],
+      [ "large_repairkit", 10 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "scrap", 6 ],
+      [ "pipe", 1 ],
+      [ "steel_chunk", 2 ]
+    ],
+    [
+      [ "plastic_chunk", 3 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
+  "result": "blowback",
+  "category": "CC_WEAPON",
+  "subcategory": "CSC_WEAPON_MODS",
+  "skill_used": "mechanics",
+  "skills_required": [[ "gun", 4 ]],
+  "difficulty": 8,
+  "time": 20000,
+  "reversible": false,
+  "autolearn": false,
+  "book_learn": [[ "book_icef", 4 ] , [ "textbook_mechanics", 4] , [ "manual_pistol", 6] , [ "manual_smg", 5] , [ "manual_rifle", 5]],
+  "tools": [
+    [
+      [ "large_repairkit", 50 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "scrap", 3 ],
+      [ "steel_chunk", 1 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
+  "result": "clip",
+  "category": "CC_WEAPON",
+  "subcategory": "CSC_WEAPON_MODS",
+  "skill_used": "mechanics",
+  "skills_required": [[ "gun", 3 ]],
+  "difficulty": 6,
+  "time": 20000,
+  "reversible": false,
+  "autolearn": true,
+  "book_learn": [[ "manual_mechanics", 2 ] , [ "manual_pistol", 3] , [ "manual_shotgun", 4] , [ "manual_shotgun", 3] , [ "manual_smg", 3] , [ "manual_rifle", 3]],
+  "qualities":[
+    {"id":"HAMMER_FINE","level":1,"amount":1},
+    {"id":"SCREW_FINE","level":1,"amount":1}
+  ],
+  "tools": [
+    [
+      [ "large_repairkit", 20 ],
+      [ "small_repairkit", 60 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "scrap", 3 ],
+      [ "steel_chunk", 1 ]
+    ],
+    [
+      [ "spring", 1 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
+  "result": "clip2",
+  "category": "CC_WEAPON",
+  "subcategory": "CSC_WEAPON_MODS",
+  "skill_used": "mechanics",
+  "skills_required": [[ "gun", 4 ]],
+  "difficulty": 7,
+  "time": 45000,
+  "reversible": false,
+  "autolearn": true,
+  "book_learn": [[ "manual_mechanics", 4 ] , [ "manual_pistol", 5] , [ "manual_shotgun", 6] , [ "manual_smg", 5] , [ "manual_rifle", 5]],
+  "qualities":[
+    {"id":"HAMMER_FINE","level":1,"amount":1},
+    {"id":"SCREW_FINE","level":1,"amount":1}
+  ],
+  "tools": [
+    [
+      [ "large_repairkit", 50 ],
+      [ "small_repairkit", 140 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "scrap", 6 ],
+      [ "steel_chunk", 2 ]
+    ],
+    [
+      [ "spring", 2 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
+  "result": "grip",
+  "category": "CC_WEAPON",
+  "subcategory": "CSC_WEAPON_MODS",
+  "skill_used": "fabrication",
+  "skills_required": [[ "gun", 3 ]],
+  "difficulty": 5,
+  "time": 15000,
+  "reversible": false,
+  "autolearn": true,
+  "book_learn": [[ "manual_fabrication", 3 ] , [ "manual_pistol", 3] , [ "manual_shotgun", 4] , [ "manual_smg", 4] , [ "manual_rifle", 4] , [ "manual_launcher", 4]],
+  "qualities":[
+    {"id":"HAMMER_FINE","level":1,"amount":1},
+    {"id":"SAW_M_FINE","level":1,"amount":1},
+    {"id":"SCREW_FINE","level":1,"amount":1}
+  ],
+  "tools": [
+    [
+      [ "soldering_iron", 10 ],
+      [ "toolset", 10 ],
+      [ "small_repairkit", 10 ],
+      [ "large_repairkit", 10 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "scrap", 3 ],
+      [ "steel_chunk", 1 ]
+    ],
+    [
+      [ "plastic_chunk", 2 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
+  "result": "improve_sights",
+  "category": "CC_WEAPON",
+  "subcategory": "CSC_WEAPON_MODS",
+  "skill_used": "fabrication",
+  "skills_required": [[ "gun", 1 ]],
+  "difficulty": 2,
+  "time": 5000,
+  "reversible": false,
+  "autolearn": true,
+  "book_learn": [[ "mag_guns", 1 ] , [ "mag_pistol", 1] , [ "mag_shotgun", 1] , [ "mag_smg", 1] , [ "mag_rifle", 1] , [ "manual_gun", 1 ] , [ "manual_pistol", 1] , [ "manual_shotgun", 1] , [ "manual_smg", 1] , [ "manual_rifle", 1]],
+  "qualities":[
+    {"id":"HAMMER_FINE","level":1,"amount":1},
+    {"id":"SAW_M_FINE","level":1,"amount":1}
+  ],
+  "tools": [
+    [
+      [ "large_repairkit", 5 ],
+      [ "small_repairkit", 15 ],
+      [ "soldering_iron", 15 ],
+      [ "toolset", 15 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "scrap", 1 ]
+    ],
+    [
+      [ "plastic_chunk", 1 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
+  "result": "laser_sight",
+  "category": "CC_WEAPON",
+  "subcategory": "CSC_WEAPON_MODS",
+  "skill_used": "electronics",
+  "difficulty": 4,
+  "time": 15000,
+  "reversible": false,
+  "autolearn": false,
+  "book_learn": [[ "manual_electronics", 2 ] , [ "textbook_electronics", 2 ]],
+  "qualities" : [
+    {"id":"SCREW_FINE","level":1,"amount":1}
+  ], "tools": [
+    [
+      [ "soldering_iron", 10 ],
+      [ "toolset", 10 ]
+    ]
+  ],
+    "components": [
+    [
+      [ "amplifier", 1 ]
+    ],
+    [
+      [ "power_supply", 1 ]
+    ],
+    [
+      [ "lens", 2 ]
+    ],
+    [
+      [ "battery", 100 ],
+      [ "plut_cell", 1 ]
+    ],
+    [
+      [ "scrap", 1 ],
+      [ "can_drink", 1 ],
+      [ "can_food", 1 ],
+      [ "canister_empty", 1 ],
+      [ "plastic_chunk", 1 ]
+    ],
+    [
+      [ "cable", 5 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
+  "result": "muzzle_brake",
+  "category": "CC_WEAPON",
+  "subcategory": "CSC_WEAPON_MODS",
+  "skill_used": "mechanics",
+  "skills_required": [[ "gun", 4 ]],
+  "difficulty": 8,
+  "time": 60000,
+  "reversible": false,
+  "autolearn": false,
+  "book_learn": [[ "textbook_mechanics", 4 ] , [ "manual_shotgun", 5] , [ "manual_rifle", 5]],
+  "tools": [
+    [
+      [ "large_repairkit", 150 ]
+    ],
+    [
+      [ "swage", -1 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "pipe", 1 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
+  "result": "pistol_grip",
+  "category": "CC_WEAPON",
+  "subcategory": "CSC_WEAPON_MODS",
+  "skill_used": "fabrication",
+  "skills_required": [[ "gun", 3 ]],
+  "difficulty": 6,
+  "time": 15000,
+  "reversible": false,
+  "autolearn": true,
+  "book_learn": [[ "textbook_mechanics", 3 ] , [ "manual_pistol", 4] , [ "manual_shotgun", 4] , [ "manual_smg", 4] , [ "manual_rifle", 4]],
+  "qualities":[
+    {"id":"HAMMER_FINE","level":1,"amount":1},
+    {"id":"SCREW_FINE","level":1,"amount":1}
+  ],
+  "tools": [
+    [
+      [ "soldering_iron", 10 ],
+      [ "toolset", 10 ],
+      [ "small_repairkit", 10 ],
+      [ "large_repairkit", 10 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "scrap", 1 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
+  "result": "pistol_stock",
+  "category": "CC_WEAPON",
+  "subcategory": "CSC_WEAPON_MODS",
+  "skill_used": "fabrication",
+  "skills_required": [[ "gun", 3 ]],
+  "difficulty": 6,
+  "time": 30000,
+  "reversible": false,
+  "autolearn": true,
+  "book_learn": [[ "manual_fabrication", 3 ] , [ "manual_pistol", 4]],
+  "qualities":[
+    {"id":"HAMMER_FINE","level":1,"amount":1},
+    {"id":"SAW_M_FINE","level":1,"amount":1},
+    {"id":"SCREW_FINE","level":1,"amount":1}
+  ],
+  "tools": [
+    [
+      [ "goggles_welding", -1 ]
+    ],
+    [
+      [ "oxy_torch", 3 ],
+      [ "welder", 15 ],
+      [ "welder_crude", 25 ],
+      [ "toolset", 25 ],
+      [ "small_repairkit", 15 ],
+      [ "large_repairkit", 15 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "scrap", 6 ],
+      [ "pipe", 1 ],
+      [ "steel_chunk", 3 ]
+    ],
+    [
+      [ "plastic_chunk", 3 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
+  "result": "rail_laser_sight",
+  "category": "CC_WEAPON",
+  "subcategory": "CSC_WEAPON_MODS",
+  "skill_used": "electronics",
+  "difficulty": 4,
+  "time": 15000,
+  "reversible": false,
+  "autolearn": false,
+  "book_learn": [[ "manual_electronics", 2 ] , [ "textbook_electronics", 2 ]],
+  "qualities" : [
+    {"id":"SCREW_FINE","level":1,"amount":1}
+  ], "tools": [
+    [
+      [ "soldering_iron", 10 ],
+      [ "toolset", 10 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "amplifier", 1 ]
+    ],
+    [
+      [ "power_supply", 1 ]
+    ],
+    [
+      [ "lens", 2 ]
+    ],
+    [
+      [ "battery", 100 ],
+      [ "plut_cell", 1 ]
+    ],
+    [
+      [ "scrap", 1 ],
+      [ "can_drink", 1 ],
+      [ "can_food", 1 ],
+      [ "canister_empty", 1 ],
+      [ "plastic_chunk", 1 ]
+    ],
+    [
+      [ "cable", 5 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
+  "result": "recoil_stock",
+  "category": "CC_WEAPON",
+  "subcategory": "CSC_WEAPON_MODS",
+  "skill_used": "fabrication",
+  "skills_required": [[ "gun", 3 ]],
+  "difficulty": 6,
+  "time": 30000,
+  "reversible": false,
+  "autolearn": true,
+  "book_learn": [[ "manual_fabrication", 3 ] , [ "manual_shotgun", 4] , [ "manual_smg", 4] , [ "manual_rifle", 4] , [ "manual_launcher", 4]],
+  "qualities":[
+    {"id":"HAMMER_FINE","level":1,"amount":1},
+    {"id":"SAW_M_FINE","level":1,"amount":1},
+    {"id":"SCREW_FINE","level":1,"amount":1}
+  ],
+  "tools": [
+    [
+      [ "goggles_welding", -1 ]
+    ],
+    [
+      [ "oxy_torch", 3 ],
+      [ "welder", 15 ],
+      [ "welder_crude", 25 ],
+      [ "toolset", 15 ],
+      [ "small_repairkit", 15 ],
+      [ "large_repairkit", 15 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "scrap", 6 ],
+      [ "pipe", 1 ],
+      [ "steel_chunk", 2 ]
+    ],
+    [
+      [ "plastic_chunk", 3 ]
+    ],
+    [
+      [ "spring", 2 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
+  "result": "spare_mag",
+  "category": "CC_WEAPON",
+  "subcategory": "CSC_WEAPON_MODS",
+  "skill_used": "fabrication",
+  "skills_required": [[ "gun", 2 ]],
+  "difficulty": 4,
+  "time": 15000,
+  "reversible": false,
+  "autolearn": true,
+  "book_learn": [[ "manual_fabrication", 2 ] , [ "manual_pistol", 3] , [ "manual_shotgun", 4] , [ "manual_smg", 3] , [ "manual_rifle", 3]],
+  "qualities":[
+    {"id":"HAMMER_FINE","level":1,"amount":1},
+    {"id":"SCREW_FINE","level":1,"amount":1}
+  ],
+  "tools": [
+    [
+      [ "large_repairkit", 20 ],
+      [ "small_repairkit", 60 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "scrap", 3 ],
+      [ "steel_chunk", 1 ]
+    ],
+    [
+      [ "spring", 1 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
+  "result": "waterproof_gunmod",
+  "category": "CC_WEAPON",
+  "subcategory": "CSC_WEAPON_MODS",
+  "skill_used": "mechanics",
+  "skills_required": [[ "gun", 3 ]],
+  "difficulty": 6,
+  "time": 20000,
+  "reversible": false,
+  "autolearn": true,
+  "book_learn": [[ "textbook_mechanics", 3 ] , [ "manual_pistol", 4] , [ "manual_shotgun", 4] , [ "manual_smg", 4] , [ "manual_rifle", 4]],
+  "qualities":[
+    {"id":"CUT","level":1,"amount":1}
+  ],
+  "tools": [
+    [
+      [ "soldering_iron", 15 ],
+      [ "toolset", 15 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "plastic_chunk", 3 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
+  "result": "bow_sight",
+  "category": "CC_WEAPON",
+  "subcategory": "CSC_WEAPON_MODS",
+  "skill_used": "fabrication",
+  "skills_required": [[ "archery", 2 ]],
+  "difficulty": 3,
+  "time": 10000,
+  "reversible": false,
+  "autolearn": true,
+  "book_learn": [[ "manual_gun", 3 ] , [ "mag_archery", 2] , [ "manual_archery", 1]],
+  "qualities":[
+    {"id":"HAMMER_FINE","level":1,"amount":1},
+    {"id":"SAW_M_FINE","level":1,"amount":1}
+  ],
+  "tools": [
+    [
+      [ "soldering_iron", 10 ],
+      [ "toolset", 10 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "scrap", 1 ]
+    ],
+    [
+      [ "plastic_chunk", 1 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
+  "result": "bow_stabilizer",
+  "category": "CC_WEAPON",
+  "subcategory": "CSC_WEAPON_MODS",
+  "skill_used": "fabrication",
+  "skills_required": [[ "archery", 3 ]],
+  "difficulty": 3,
+  "time": 5000,
+  "reversible": false,
+  "autolearn": true,
+  "book_learn": [[ "mag_archery", 3] , [ "manual_archery", 2]],
+  "qualities":[
+    {"id":"CUT","level":1,"amount":1}
+  ],
+  "tools": [
+    [
+      [ "soldering_iron", 10 ],
+      [ "toolset", 10 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "plastic_chunk", 2 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
+  "result": "arrowrest",
+  "category": "CC_WEAPON",
+  "subcategory": "CSC_WEAPON_MODS",
+  "skill_used": "fabrication",
+  "skills_required": [[ "archery", 1 ]],
+  "difficulty": 2,
+  "time": 5000,
+  "reversible": false,
+  "autolearn": true,
+  "book_learn": [[ "mag_archery", 2] , [ "manual_archery", 1]],
+  "qualities":[
+    {"id":"CUT","level":1,"amount":1}
+  ],
+  "tools": [
+    [
+      [ "soldering_iron", 5 ],
+      [ "toolset", 5 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "plastic_chunk", 1 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
+  "result": "gun_crossbow",
+  "category": "CC_WEAPON",
+  "subcategory": "CSC_WEAPON_MODS",
+  "skill_used": "mechanics",
+  "skills_required": [ "archery", 3 ],
+  "difficulty": 4,
+  "time": 35000,
+  "reversible": false,
+  "autolearn": false,
+  "book_learn" : [[ "recipe_bows", 3 ] , [ "manual_archery", 5] , [ "book_archery", 4]],
+  "qualities":[
+    {"id":"CUT","level":1,"amount":1},
+    {"id":"HAMMER","level":2,"amount":1},
+    {"id":"SCREW","level":1,"amount":1},
+    {"id":"WRENCH","level":1,"amount":1}
+  ], "components": [
+    [
+      [ "2x4", 1 ],
+      [ "stick", 2 ]
+    ],
+    [
+      [ "string_6", 1 ]
+    ],
+    [
+      [ "spring", 1 ]
+    ],
+    [
+      [ "scrap", 4 ]
+    ],
+    [
+      [ "nail", 10 ]
+    ],
+    [
+      [ "plastic_chunk", 2 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
    "result": "sword_wood",
    "category": "CC_WEAPON",
   "subcategory": "CSC_WEAPON_CUTTING",
@@ -3724,7 +4425,8 @@
       ["anvil", -1]
      ],
      [
-      ["crucible", -1]
+      ["crucible", -1],
+      ["crucible_clay", -1]
      ],
      [
       ["forge", 150], ["char_forge", 30], [ "oxy_torch", 30]
@@ -3762,7 +4464,8 @@
       ["anvil", -1]
      ],
      [
-      ["crucible", -1]
+      ["crucible", -1],
+      ["crucible_clay", -1]
      ],
      [
       ["forge", 400], ["char_forge", 80], [ "oxy_torch", 80]
@@ -3800,7 +4503,8 @@
       ["anvil", -1]
      ],
      [
-      ["crucible", -1]
+      ["crucible", -1],
+      ["crucible_clay", -1]
      ],
      [
       ["forge", 450], ["char_forge", 90], [ "oxy_torch", 90]
@@ -5566,64 +6270,64 @@
   ]
 },
 {
-	"type" : "recipe",
-	"result": "diamond_bayonet",
-	"category": "CC_WEAPON",
-	"subcategory": "CSC_WEAPON_MODS",
-	"skill_used": "fabrication",
-	"difficulty": 1,
-	"time": 500,
-	"reversible": true,
-	"autolearn": false,
+    "type" : "recipe",
+    "result": "diamond_bayonet",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_MODS",
+    "skill_used": "fabrication",
+    "difficulty": 1,
+    "time": 500,
+    "reversible": true,
+    "autolearn": false,
         "book_learn": [[ "recipe_lab_cvd", 9 ]],
-	"components": [
-		[
-			[ "diamond_knife", 1 ]
-		],
-		[
-			[ "string_36", 1 ]
-		]
-	]
+    "components": [
+        [
+            [ "diamond_knife", 1 ]
+        ],
+        [
+            [ "string_36", 1 ]
+        ]
+    ]
 },
 {
-	"type" : "recipe",
-	"result": "diamond_sword_bayonet",
-	"category": "CC_WEAPON",
-	"subcategory": "CSC_WEAPON_MODS",
-	"skill_used": "fabrication",
-	"difficulty": 1,
-	"time": 500,
-	"reversible": true,
-	"autolearn": false,
+    "type" : "recipe",
+    "result": "diamond_sword_bayonet",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_MODS",
+    "skill_used": "fabrication",
+    "difficulty": 1,
+    "time": 500,
+    "reversible": true,
+    "autolearn": false,
         "book_learn": [[ "recipe_lab_cvd", 9 ]],
-	"components": [
-		[
-			[ "diamond_machete", 1 ]
-		],
-		[
-			[ "string_36", 1 ]
-		]
-	]
+    "components": [
+        [
+            [ "diamond_machete", 1 ]
+        ],
+        [
+            [ "string_36", 1 ]
+        ]
+    ]
 },
 {
-	"type" : "recipe",
-	"result": "diamond_pistol_bayonet",
-	"category": "CC_WEAPON",
-	"subcategory": "CSC_WEAPON_MODS",
-	"skill_used": "fabrication",
-	"difficulty": 1,
-	"time": 500,
-	"reversible": true,
-	"autolearn": false,
+    "type" : "recipe",
+    "result": "diamond_pistol_bayonet",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_MODS",
+    "skill_used": "fabrication",
+    "difficulty": 1,
+    "time": 500,
+    "reversible": true,
+    "autolearn": false,
         "book_learn": [[ "recipe_lab_cvd", 9 ]],
-	"components": [
-		[
-			[ "diamond_knife", 1 ]
-		],
-		[
-			[ "string_6", 2 ]
-		]
-	]
+    "components": [
+        [
+            [ "diamond_knife", 1 ]
+        ],
+        [
+            [ "string_6", 2 ]
+        ]
+    ]
 },
 {
 "type" : "recipe",
@@ -5842,7 +6546,8 @@
         ["anvil", -1]
       ],
       [
-        ["crucible", -1]
+        ["crucible", -1],
+        ["crucible_clay", -1]
       ],
       [
         ["swage", -1]
