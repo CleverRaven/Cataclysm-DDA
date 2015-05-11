@@ -19309,6 +19309,173 @@
           "id": "tarp",
           "fg": 2518,
           "rotates": false
+        },
+        {
+          "id": "mon_bear_smoky",
+          "fg": 2519,
+          "bg": 515,
+          "rotates": false
+        },
+        {
+          "id": "mon_zombie_armored",
+          "fg": 2520,
+          "bg": 515,
+          "rotates": false
+        },
+        {
+          "id": "mon_player_blob",
+          "fg": 2521,
+          "bg": 515,
+          "rotates": false
+        },
+        {
+          "id": "multi_cooker",
+          "fg": 2522,
+          "rotates": false
+        },
+        {
+          "id": "mon_hallu_multicooker",
+          "fg": 2522,
+          "bg": 515,
+          "rotates": false
+        },
+        {
+          "id": "mon_zombie_jackson",
+          "fg": 2523,
+          "bg": 515,
+          "rotates": false
+        },
+        {
+          "id": "mon_zombie_dancer",
+          "fg": 2524,
+          "bg": 515,
+          "rotates": false
+        },
+        {
+          "id": "mon_zombie_acidic",
+          "fg": 2525,
+          "bg": 515,
+          "rotates": false
+        },
+        {
+          "id": "mon_zombie_corrosive",
+          "fg": 2526,
+          "bg": 515,
+          "rotates": false
+        },
+        {
+          "id": "mon_zombie_grenadier",
+          "fg": 2527,
+          "bg": 515,
+          "rotates": false
+        },
+        {
+          "id": "mon_zombie_grenadier_elite",
+          "fg": 2528,
+          "bg": 515,
+          "rotates": false
+        },
+        {
+          "id": "mon_zombie_runner",
+          "fg": 2529,
+          "bg": 515,
+          "rotates": false
+        },
+        {
+          "id": "mon_zombie_predator",
+          "fg": 2530,
+          "bg": 515,
+          "rotates": false
+        },
+        {
+          "id": "mon_zombie_hollow",
+          "fg": 2531,
+          "bg": 515,
+          "rotates": false
+        },
+        {
+          "id": "mon_fungaloid_seeder",
+          "fg": 2532,
+          "bg": 515,
+          "rotates": false
+        },
+        {
+          "id": "mon_fungal_blossom",
+          "fg": 2533,
+          "bg": 515,
+          "rotates": false
+        },
+        {
+          "id": "mon_fungaloid_tower",
+          "fg": 2534,
+          "bg": 515,
+          "rotates": false
+        },
+        {
+          "id": "mon_fungal_hedgerow",
+          "fg": 2535,
+          "bg": 515,
+          "rotates": false
+        },
+        {
+          "id": "mon_fungal_tendril",
+          "fg": 2536,
+          "bg": 515,
+          "rotates": false
+        },
+        {
+          "id": "mon_blob_brain",
+          "fg": 2537,
+          "bg": 515,
+          "rotates": false
+        },
+        {
+          "id": "mon_darkman",
+          "fg": 2538,
+          "bg": 515,
+          "rotates": false
+        },
+        {
+          "id": "mon_emp_hack",
+          "fg": 2539,
+          "bg": 515,
+          "rotates": false
+        },
+        {
+          "id": "mon_gasbomb_hack",
+          "fg": 2540,
+          "bg": 515,
+          "rotates": false
+        },
+        {
+          "id": "mon_grenade_hack",
+          "fg": 2541,
+          "bg": 515,
+          "rotates": false
+        },
+        {
+          "id": "mon_mininuke_hack",
+          "fg": 2542,
+          "bg": 515,
+          "rotates": false
+        },
+        {
+          "id": "mon_c4_hack",
+          "fg": 2543,
+          "bg": 515,
+          "rotates": false
+        },
+        {
+          "id": "mon_flashbang_hack",
+          "fg": 2544,
+          "bg": 515,
+          "rotates": false
+        },
+        {
+          "id": "mon_charred_nightmare",
+          "fg": 2545,
+          "bg": 515,
+          "rotates": false
         }
       ]
     },

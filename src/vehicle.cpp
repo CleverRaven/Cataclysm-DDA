@@ -5504,6 +5504,7 @@ bool vehicle::automatic_fire_turret( int p, const itype &gun, const itype &ammo,
     tmp.weapon = item(gun.id, 0);
     tmp.weapon.set_curammo( ammo.id );
     tmp.weapon.charges = charges;
+    tmp.weapon.update_charger_gun_ammo();
 
     int area = std::max( aoe_size( tmp.weapon.get_curammo()->ammo->ammo_effects ),
                          aoe_size( tmp.weapon.type->gun->ammo_effects ) );
@@ -5570,13 +5571,11 @@ bool vehicle::automatic_fire_turret( int p, const itype &gun, const itype &ammo,
 bool vehicle::manual_fire_turret( int p, player &shooter, const itype &guntype,
                                   const itype &ammotype, long &charges )
 {
-    int x = global_x() + parts[p].precalc[0].x;
-    int y = global_y() + parts[p].precalc[0].y;
+    tripoint pos = global_pos3() + tripoint( parts[p].precalc[0], 0 );
 
     // Place the shooter at the turret
     const tripoint &oldpos = shooter.pos();
-    shooter.setx( x );
-    shooter.sety( y );
+    shooter.setpos( pos );
 
     // Create a fake gun
     // TODO: Damage the gun based on part hp
@@ -5838,6 +5837,21 @@ int vehicle::obstacle_at_part( int p ) const
     }
 
     return part;
+}
+
+std::set<tripoint> &vehicle::get_points()
+{
+    if( occupied_cache_turn != calendar::turn ) {
+        occupied_cache_turn = calendar::turn;
+        occupied_points.clear();
+        tripoint pos = global_pos3();
+        for( const auto &p : parts ) {
+            const auto &pt = p.precalc[0];
+            occupied_points.insert( tripoint( pos.x + pt.x, pos.y + pt.y, pos.z ) );
+        }
+    }
+
+    return occupied_points;
 }
 
 /*-----------------------------------------------------------------------------

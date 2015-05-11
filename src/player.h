@@ -304,6 +304,8 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         bool unarmed_attack() const;
         /** Called when a player triggers a trap, returns true if they don't set it off */
         bool avoid_trap( const tripoint &pos, const trap &tr ) override;
+        /** Picks a random body part, adjusting for mutations, broken body parts etc. */
+        body_part get_random_body_part( bool main ) const override;
 
         /** Returns true if the player has a pda */
         bool has_pda();
@@ -435,8 +437,11 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         void armor_absorb(damage_unit &du, item &armor);
         /** Runs through all bionics and armor on a part and reduces damage through their armor_absorb */
         void absorb_hit(body_part bp, damage_instance &dam) override;
-        /** Handles return on-hit effects (spines, electric shields, etc.) */
-        void on_gethit(Creature *source, body_part bp_hit, damage_instance &dam) override;
+        /** Handles dodged attacks (training dodge) and ma_ondodge */
+        void on_dodge( Creature *source, int difficulty = INT_MIN ) override;
+        /** Handles special defenses from an attack that hit us (source can be null) */
+        void on_hit( Creature *source, body_part bp_hit = num_bp,
+                     int difficulty = INT_MIN, projectile const* const proj = nullptr ) override;
 
         /** Returns the base damage the player deals based on their stats */
         int base_damage(bool real_life = true, int stat = -999);

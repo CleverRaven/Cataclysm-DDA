@@ -964,7 +964,7 @@ void player::update_bodytemp()
                     if (frostbite_timer[i] > 0) {
                         frostbite_timer[i] -= heat_intensity - fire_dist / 2;
                     }
-                    temp_conv[i] +=  300 * heat_intensity * heat_intensity / (fire_dist * fire_dist);
+                    temp_conv[i] +=  300 * heat_intensity * heat_intensity / (fire_dist);
                     blister_count += heat_intensity / (fire_dist * fire_dist);
                     if( fire_dist <= 1 ) {
                         // Extend limbs/lean over a single adjacent fire to warm up
@@ -4289,6 +4289,12 @@ bool player::avoid_trap( const tripoint &pos, const trap &tr )
     return myroll >= traproll;
 }
 
+body_part player::get_random_body_part( bool main ) const
+{
+    // TODO: Refuse broken limbs, adjust for mutations
+    return random_body_part( main );
+}
+
 bool player::has_pda()
 {
     static bool pda = false;
@@ -4606,68 +4612,93 @@ bool player::is_dead_state() const {
     return hp_cur[hp_head] <= 0 || hp_cur[hp_torso] <= 0;
 }
 
-void player::on_gethit(Creature *source, body_part bp_hit, damage_instance &) {
-    bool u_see = g->u.sees(*this);
-    if (source != NULL) {
-        if (has_active_bionic("bio_ods")) {
-            if (is_player()) {
-                add_msg(m_good, _("Your offensive defense system shocks %s in mid-attack!"),
-                                source->disp_name().c_str());
-            } else if (u_see) {
-                add_msg(_("%s's offensive defense system shocks %s in mid-attack!"),
-                            disp_name().c_str(),
+void player::on_dodge( Creature *source, int difficulty )
+{
+    if( difficulty == INT_MIN && source != nullptr ) {
+        difficulty = source->get_melee();
+    }
+
+    if( difficulty > 0 ) {
+        practice( "dodge", difficulty );
+    }
+
+    ma_ondodge_effects();
+}
+
+void player::on_hit( Creature *source, body_part bp_hit,
+                     int difficulty, projectile const* const proj ) {
+    check_dead_state();
+    bool u_see = g->u.sees( *this );
+    if( source == nullptr || proj != nullptr ) {
+        return;
+    }
+
+    if( difficulty == INT_MIN ) {
+        difficulty = source->get_melee();
+    }
+
+    if( difficulty > 0 ) {
+        practice( "dodge", difficulty );
+    }
+
+    if (has_active_bionic("bio_ods")) {
+        if (is_player()) {
+            add_msg(m_good, _("Your offensive defense system shocks %s in mid-attack!"),
+                            source->disp_name().c_str());
+        } else if (u_see) {
+            add_msg(_("%s's offensive defense system shocks %s in mid-attack!"),
+                        disp_name().c_str(),
+                        source->disp_name().c_str());
+        }
+        damage_instance ods_shock_damage;
+        ods_shock_damage.add_damage(DT_ELECTRIC, rng(10,40));
+        source->deal_damage(this, bp_torso, ods_shock_damage);
+    }
+    if ((!(wearing_something_on(bp_hit))) && (has_trait("SPINES") || has_trait("QUILLS"))) {
+        int spine = rng(1, (has_trait("QUILLS") ? 20 : 8));
+        if (!is_player()) {
+            if( u_see ) {
+                add_msg(_("%1$s's %2$s puncture %s in mid-attack!"), name.c_str(),
+                            (has_trait("QUILLS") ? _("quills") : _("spines")),
                             source->disp_name().c_str());
             }
-            damage_instance ods_shock_damage;
-            ods_shock_damage.add_damage(DT_ELECTRIC, rng(10,40));
-            source->deal_damage(this, bp_torso, ods_shock_damage);
+        } else {
+            add_msg(m_good, _("Your %s puncture %s in mid-attack!"),
+                            (has_trait("QUILLS") ? _("quills") : _("spines")),
+                            source->disp_name().c_str());
         }
-        if ((!(wearing_something_on(bp_hit))) && (has_trait("SPINES") || has_trait("QUILLS"))) {
-            int spine = rng(1, (has_trait("QUILLS") ? 20 : 8));
-            if (!is_player()) {
-                if( u_see ) {
-                    add_msg(_("%1$s's %2$s puncture %s in mid-attack!"), name.c_str(),
-                                (has_trait("QUILLS") ? _("quills") : _("spines")),
-                                source->disp_name().c_str());
-                }
-            } else {
-                add_msg(m_good, _("Your %s puncture %s in mid-attack!"),
-                                (has_trait("QUILLS") ? _("quills") : _("spines")),
-                                source->disp_name().c_str());
+        damage_instance spine_damage;
+        spine_damage.add_damage(DT_STAB, spine);
+        source->deal_damage(this, bp_torso, spine_damage);
+    }
+    if ((!(wearing_something_on(bp_hit))) && (has_trait("THORNS")) && (!(source->has_weapon()))) {
+        if (!is_player()) {
+            if( u_see ) {
+                add_msg(_("%1$s's %2$s scrape %s in mid-attack!"), name.c_str(),
+                            _("thorns"), source->disp_name().c_str());
             }
-            damage_instance spine_damage;
-            spine_damage.add_damage(DT_STAB, spine);
-            source->deal_damage(this, bp_torso, spine_damage);
+        } else {
+            add_msg(m_good, _("Your thorns scrape %s in mid-attack!"), source->disp_name().c_str());
         }
-        if ((!(wearing_something_on(bp_hit))) && (has_trait("THORNS")) && (!(source->has_weapon()))) {
-            if (!is_player()) {
-                if( u_see ) {
-                    add_msg(_("%1$s's %2$s scrape %s in mid-attack!"), name.c_str(),
-                                _("thorns"), source->disp_name().c_str());
-                }
-            } else {
-                add_msg(m_good, _("Your thorns scrape %s in mid-attack!"), source->disp_name().c_str());
+        int thorn = rng(1, 4);
+        damage_instance thorn_damage;
+        thorn_damage.add_damage(DT_CUT, thorn);
+        // In general, critters don't have separate limbs
+        // so safer to target the torso
+        source->deal_damage(this, bp_torso, thorn_damage);
+    }
+    if ((!(wearing_something_on(bp_hit))) && (has_trait("CF_HAIR"))) {
+        if (!is_player()) {
+            if( u_see ) {
+                add_msg(_("%1$s gets a load of %2$s's %s stuck in!"), source->disp_name().c_str(),
+                  name.c_str(), (_("hair")));
             }
-            int thorn = rng(1, 4);
-            damage_instance thorn_damage;
-            thorn_damage.add_damage(DT_CUT, thorn);
-            // In general, critters don't have separate limbs
-            // so safer to target the torso
-            source->deal_damage(this, bp_torso, thorn_damage);
+        } else {
+            add_msg(m_good, _("Your hairs detach into %s!"), source->disp_name().c_str());
         }
-        if ((!(wearing_something_on(bp_hit))) && (has_trait("CF_HAIR"))) {
-            if (!is_player()) {
-                if( u_see ) {
-                    add_msg(_("%1$s gets a load of %2$s's %s stuck in!"), source->disp_name().c_str(),
-                      name.c_str(), (_("hair")));
-                }
-            } else {
-                add_msg(m_good, _("Your hairs detach into %s!"), source->disp_name().c_str());
-            }
-            source->add_effect("stunned", 2);
-            if (one_in(3)) { // In the eyes!
-                source->add_effect("blind", 2);
-            }
+        source->add_effect("stunned", 2);
+        if (one_in(3)) { // In the eyes!
+            source->add_effect("blind", 2);
         }
     }
 }
@@ -10112,7 +10143,7 @@ void player::pick_style() // Style selection menu
 
     uimenu kmenu;
     kmenu.text = _("Select a style (press ? for more info)");
-    std::auto_ptr<ma_style_callback> ma_style_info(new ma_style_callback());
+    std::unique_ptr<ma_style_callback> ma_style_info(new ma_style_callback());
     kmenu.callback = ma_style_info.get();
     kmenu.desc_enabled = true;
     kmenu.addentry( 0, true, 'c', _("Cancel") );

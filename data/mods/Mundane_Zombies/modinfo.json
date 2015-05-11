@@ -25,6 +25,8 @@
         "mon_zombie_gasbag",
         "mon_zombie_shrieker",
         "mon_zombie_spitter",
+        "mon_zombie_corrosive",
+        "mon_zombie_acidic",
         "mon_zombie_electric",
         "mon_zombie_necro",
         "mon_boomer",

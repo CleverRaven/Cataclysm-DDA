@@ -145,17 +145,30 @@ map::~map()
 {
 }
 
+static submap null_submap;
+
 const maptile map::maptile_at( const tripoint &p ) const
 {
-    static const submap null_submap;
     if( !inbounds( p ) ) {
-        return null_submap.get_maptile( 0, 0 );
+        return maptile( &null_submap, 0, 0 );
     }
 
     int lx, ly;
     submap *const sm = get_submap_at( p, lx, ly );
 
-    return sm->get_maptile( lx, ly );
+    return maptile( sm, lx, ly );
+}
+
+maptile map::maptile_at( const tripoint &p )
+{
+    if( !inbounds( p ) ) {
+        return maptile( &null_submap, 0, 0 );
+    }
+
+    int lx, ly;
+    submap *const sm = get_submap_at( p, lx, ly );
+
+    return maptile( sm, lx, ly );
 }
 
 // Vehicle functions
@@ -762,19 +775,7 @@ const vehicle* map::veh_at(const int x, const int y, int &part_num) const
 
 const vehicle* map::veh_at_internal( const int x, const int y, int &part_num) const
 {
-    // This function is called A LOT. Move as much out of here as possible.
-    if( !veh_in_active_range || !veh_exists_at[x][y] ) {
-        return nullptr; // Clear cache indicates no vehicle. This should optimize a great deal.
-    }
-
-    const auto it = veh_cached_parts.find( point( x, y ) );
-    if( it != veh_cached_parts.end() ) {
-        part_num = it->second.second;
-        return it->second.first;
-    }
-
-    debugmsg( "vehicle part cache indicated vehicle not found: %d %d", x, y );
-    return nullptr;
+    return veh_at_internal( tripoint( x, y, abs_sub.z ), part_num );
 }
 
 vehicle* map::veh_at(const int x, const int y)
@@ -865,8 +866,7 @@ vehicle* map::veh_at( const tripoint &p, int &part_num )
         return nullptr; // Out-of-bounds - null vehicle
     }
 
-    // Apparently this is a proper coding practice and not an ugly hack
-    return const_cast<vehicle *>( veh_at_internal( p, part_num ) );
+    return veh_at_internal( p, part_num );
 }
 
 const vehicle* map::veh_at( const tripoint &p, int &part_num ) const
@@ -882,10 +882,12 @@ const vehicle* map::veh_at_internal( const tripoint &p, int &part_num ) const
 {
     // This function is called A LOT. Move as much out of here as possible.
     if( !veh_in_active_range || !veh_exists_at[p.x][p.y] ) {
+        part_num = 0;
         return nullptr; // Clear cache indicates no vehicle. This should optimize a great deal.
     }
 
     if( p.z != abs_sub.z ) {
+        part_num = 0;
         return nullptr; // Veh cache doesn't understand vehicles outside this z-level
     }
 
@@ -896,7 +898,13 @@ const vehicle* map::veh_at_internal( const tripoint &p, int &part_num ) const
     }
 
     debugmsg( "vehicle part cache indicated vehicle not found: %d %d %d", p.x, p.y, p.z );
+    part_num = 0;
     return nullptr;
+}
+
+vehicle* map::veh_at_internal( const tripoint &p, int &part_num )
+{
+    return const_cast<vehicle *>( const_cast<const map*>(this)->veh_at_internal( p, part_num ) );
 }
 
 vehicle* map::veh_at( const tripoint &p )
@@ -913,7 +921,7 @@ const vehicle* map::veh_at( const tripoint &p ) const
 
 point map::veh_part_coordinates( const tripoint &p )
 {
-    int part_num;
+    int part_num = 0;
     vehicle* veh = veh_at( p, part_num );
 
     if(veh == nullptr) {
@@ -1607,17 +1615,6 @@ int map::move_cost_ter_furn(const int x, const int y) const
     return cost > 0 ? cost : 0;
 }
 
-int map::combined_movecost(const int x1, const int y1,
-                           const int x2, const int y2,
-                           const vehicle *ignored_vehicle, const int modifier) const
-{
-    int cost1 = move_cost(x1, y1, ignored_vehicle);
-    int cost2 = move_cost(x2, y2, ignored_vehicle);
-    // 50 moves taken per move_cost (70.71.. diagonally)
-    int mult = (trigdist && x1 != x2 && y1 != y2 ? 71 : 50);
-    return (cost1 + cost2 + modifier) * mult / 2;
-}
-
 // Move cost: 3D
 
 int map::move_cost( const tripoint &p, const vehicle *ignored_vehicle ) const
@@ -1661,7 +1658,8 @@ int map::move_cost_ter_furn( const tripoint &p ) const
 }
 
 int map::combined_movecost( const tripoint &from, const tripoint &to,
-                            const vehicle *ignored_vehicle, const int modifier ) const
+                            const vehicle *ignored_vehicle,
+                            const int modifier, const bool flying ) const
 {
     const int mults[4] = { 0, 50, 71, 100 };
     const int cost1 = move_cost( from, ignored_vehicle );
@@ -1669,7 +1667,52 @@ int map::combined_movecost( const tripoint &from, const tripoint &to,
     // Multiply cost depending on the number of differing axes
     // 0 if all axes are equal, 100% if only 1 differs, 141% for 2, 200% for 3
     size_t match = trigdist ? ( from.x != to.x ) + ( from.y != to.y ) + ( from.z != to.z ) : 1;
+    if( flying || from.z == to.z ) {
+        return (cost1 + cost2 + modifier) * mults[match] / 2;
+    }
+
+    // Inter-z-level movement by foot (not flying)
+    if( !valid_move( from, to, false ) ) {
+        return 0;
+    }
+
+    // TODO: Penalize for using stairs
     return (cost1 + cost2 + modifier) * mults[match] / 2;
+}
+
+bool map::valid_move( const tripoint &from, const tripoint &to, const bool flying ) const
+{
+    if( rl_dist( from, to ) != 1 ) {
+        return false;
+    }
+
+    if( move_cost( from ) <= 0 || move_cost( to ) <= 0 ) {
+        return false;
+    }
+
+    if( from.z == to.z ) {
+        return true;
+    }
+
+    const bool going_up = from.z < to.z;
+    const tripoint &up = going_up ? to : from;
+    const tripoint &down = going_up ? from : to;
+
+    // Lower tile has ceiling or upper tile has floor
+    // Not even flying can help here
+    if( has_flag( TFLAG_INDOORS, down ) || ter( up ) != t_open_air ) {
+        return false;
+    }
+
+    if( flying ) {
+        return true;
+    }
+
+    if( has_flag( "GOES_DOWN", up ) && has_flag( "GOES_UP", down ) ) {
+        return true;
+    }
+
+    return false;
 }
 
 // End of move cost
@@ -2232,7 +2275,8 @@ void map::decay_fields_and_scent( const int amount )
         }
     }
 
-    const int amount_liquid = amount / 3; // Decay washable fields (blood, guts etc.) by this
+    const int amount_fire = amount / 3; // Decay fire by this much
+    const int amount_liquid = amount / 2; // Decay washable fields (blood, guts etc.) by this
     const int amount_gas = amount / 5; // Decay gas type fields by this
     // Coord code copied from lightmap calculations
     for( int smx = 0; smx < my_MAPSIZE; ++smx ) {
@@ -2272,7 +2316,7 @@ void map::decay_fields_and_scent( const int amount )
                         const field_id type = cur.getFieldType();
                         switch( type ) {
                             case fd_fire:
-                                cur.setFieldAge( cur.getFieldAge() + amount );
+                                cur.setFieldAge( cur.getFieldAge() + amount_fire );
                                 break;
                             case fd_blood:
                             case fd_bile:
@@ -2996,8 +3040,8 @@ void map::shoot( const tripoint &p, int &dam,
     if (has_flag("ALARMED", p) && !g->event_queued(EVENT_WANTED))
     {
         sounds::sound(p, 30, _("An alarm sounds!"));
-        const point abs = overmapbuffer::ms_to_sm_copy( getabs( p.x, p.y ) );
-        g->add_event(EVENT_WANTED, int(calendar::turn) + 300, 0, tripoint( abs.x, abs.y, abs_sub.z ) );
+        const tripoint abs = overmapbuffer::ms_to_sm_copy( getabs( p ) );
+        g->add_event(EVENT_WANTED, int(calendar::turn) + 300, 0, abs );
     }
 
     int vpart;
@@ -3150,7 +3194,7 @@ void map::shoot( const tripoint &p, int &dam,
                     int &j = tmp.y;
                     for( i = p.x - 2; i <= p.x + 2; i++ ) {
                         for( j = p.y - 2; j <= p.y + 2; j++ ) {
-                            if (move_cost(i, j) > 0 && one_in(3)) {
+                            if (move_cost( tmp ) > 0 && one_in(3)) {
                                     spawn_item( tmp, "gasoline" );
                             }
                         }
@@ -5099,7 +5143,7 @@ void map::draw( WINDOW* w, const tripoint &center )
             while( lx < SEEX && x < maxx )  {
                 const lit_level lighting = visibility_cache[x][y];
                 if( !apply_vision_effects( w, lighting, cache ) ) {
-                    const maptile curr_maptile = cur_submap->get_maptile( lx, ly );
+                    const maptile curr_maptile = maptile( cur_submap, lx, ly );
                     draw_maptile( w, g->u, p, curr_maptile,
                                   false, true, center.x, center.y,
                                   lighting == LL_LOW, lighting == LL_BRIGHT, true );
@@ -6281,9 +6325,8 @@ void map::copy_grid( const point to, const point from )
     }
 }
 
-void map::spawn_monsters( const tripoint &gp, mongroup &group, bool ignore_sight )
+void map::spawn_monsters_submap_group( const tripoint &gp, mongroup &group, bool ignore_sight )
 {
-    // TODO: Z
     const int gx = gp.x;
     const int gy = gp.y;
     const int s_range = std::min(SEEX * (MAPSIZE / 2), g->u.sight_range( g->light_level() ) );
@@ -6339,7 +6382,6 @@ void map::spawn_monsters( const tripoint &gp, mongroup &group, bool ignore_sight
             for( int tries = 0; tries < 10 && !locations.empty(); tries++ ) {
                 const size_t index = rng( 0, locations.size() - 1 );
                 const tripoint &p = locations[index];
-                tmp.spawn( p ); // So can_move_to works correctly
                 if( !tmp.can_move_to( p ) ) {
                     continue; // target can not contain the monster
                 }
@@ -6354,58 +6396,68 @@ void map::spawn_monsters( const tripoint &gp, mongroup &group, bool ignore_sight
     group.population = 0;
 }
 
+void map::spawn_monsters_submap( const tripoint &gp, bool ignore_sight )
+{
+    auto groups = overmap_buffer.groups_at( abs_sub.x + gp.x, abs_sub.y + gp.y, gp.z );
+    for( auto &mgp : groups ) {
+        spawn_monsters_submap_group( gp, *mgp, ignore_sight );
+    }
+
+    submap * const current_submap = get_submap_at_grid( gp );
+    for (auto &i : current_submap->spawns) {
+        for (int j = 0; j < i.count; j++) {
+            int tries = 0;
+            int mx = i.posx;
+            int my = i.posy;
+            monster tmp(GetMType(i.type));
+            tmp.mission_id = i.mission_id;
+            if (i.name != "NONE") {
+                tmp.unique_name = i.name;
+            }
+            if (i.friendly) {
+                tmp.friendly = -1;
+            }
+            int fx = mx + gp.x * SEEX;
+            int fy = my + gp.y * SEEY;
+            tripoint pos( fx, fy, gp.z );
+
+            while( ( !g->is_empty( pos ) || !tmp.can_move_to( pos ) ) && tries < 10 ) {
+                mx = (i.posx + rng(-3, 3)) % SEEX;
+                my = (i.posy + rng(-3, 3)) % SEEY;
+                if (mx < 0) {
+                    mx += SEEX;
+                }
+                if (my < 0) {
+                    my += SEEY;
+                }
+                fx = mx + gp.x * SEEX;
+                fy = my + gp.y * SEEY;
+                tries++;
+                pos = tripoint( fx, fy, gp.z );
+            }
+            if (tries != 10) {
+                tmp.spawn( pos );
+                g->add_zombie(tmp);
+            }
+else debugmsg( "tried to spawn %s, but 10 tries. last pos %d,%d,%d", tmp.disp_name().c_str(), pos.x, pos.y, pos.z );
+        }
+    }
+    current_submap->spawns.clear();
+    overmap_buffer.spawn_monster( abs_sub.x + gp.x, abs_sub.y + gp.y, gp.z );
+}
+
 void map::spawn_monsters(bool ignore_sight)
 {
     const int zmin = zlevels ? -OVERMAP_DEPTH : abs_sub.z;
     const int zmax = zlevels ? OVERMAP_HEIGHT : abs_sub.z;
-    for( int gz = zmin; gz <= zmax; gz++ ) {
-        for (int gx = 0; gx < my_MAPSIZE; gx++) {
-            for (int gy = 0; gy < my_MAPSIZE; gy++) {
-                auto groups = overmap_buffer.groups_at( abs_sub.x + gx, abs_sub.y + gy, gz );
-                for( auto &mgp : groups ) {
-                    // TODO: Z
-                    spawn_monsters( tripoint( gx, gy, gz ), *mgp, ignore_sight );
-                }
-
-                submap * const current_submap = get_submap_at_grid( tripoint( gx, gy, gz ) );
-                for (auto &i : current_submap->spawns) {
-                    for (int j = 0; j < i.count; j++) {
-                        int tries = 0;
-                        int mx = i.posx, my = i.posy;
-                        monster tmp(GetMType(i.type));
-                        tmp.mission_id = i.mission_id;
-                        if (i.name != "NONE") {
-                            tmp.unique_name = i.name;
-                        }
-                        if (i.friendly) {
-                            tmp.friendly = -1;
-                        }
-                        int fx = mx + gx * SEEX, fy = my + gy * SEEY;
-                        tripoint pos( fx, fy, gz );
-
-                        tmp.spawn( pos ); // initializing it here so the can_move_to works correctly
-                        while ((!g->is_empty( pos ) || !tmp.can_move_to( pos )) && tries < 10) {
-                            mx = (i.posx + rng(-3, 3)) % SEEX;
-                            my = (i.posy + rng(-3, 3)) % SEEY;
-                            if (mx < 0) {
-                                mx += SEEX;
-                            }
-                            if (my < 0) {
-                                my += SEEY;
-                            }
-                            fx = mx + gx * SEEX;
-                            fy = my + gy * SEEY;
-                            tries++;
-                            pos = tripoint( fx, fy, gz );
-                        }
-                        if (tries != 10) {
-                            tmp.spawn( pos );
-                            g->add_zombie(tmp);
-                        }
-                    }
-                }
-                current_submap->spawns.clear();
-                overmap_buffer.spawn_monster( abs_sub.x + gx, abs_sub.y + gy, gz );
+    tripoint gp;
+    int &gx = gp.x;
+    int &gy = gp.y;
+    int &gz = gp.z;
+    for( gz = zmin; gz <= zmax; gz++ ) {
+        for( gx = 0; gx < my_MAPSIZE; gx++ ) {
+            for( gy = 0; gy < my_MAPSIZE; gy++ ) {
+                spawn_monsters_submap( gp, ignore_sight );
             }
         }
     }

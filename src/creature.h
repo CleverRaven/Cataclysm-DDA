@@ -207,6 +207,18 @@ class Creature
         // increase pain, apply effects, etc
         virtual void apply_damage(Creature *source, body_part bp, int amount) = 0;
 
+        /**
+         * This creature just dodged an attack - possibly special/ranged attack - from source.
+         * Players should train dodge, monsters may use some special defenses.
+         */
+        virtual void on_dodge( Creature *source, int difficulty = INT_MIN ) = 0;
+        /**
+         * This creature just got hit by an attack - possibly special/ranged attack - from source.
+         * Players should train dodge, possibly counter-attack somehow.
+         */
+        virtual void on_hit( Creature *source, body_part bp_hit = num_bp,
+                             int difficulty = INT_MIN, projectile const* const proj = nullptr ) = 0;
+
         virtual bool digging() const;      // MF_DIGS or MF_CAN_DIG and diggable terrain
         virtual bool is_on_ground() const = 0;
         virtual bool is_underwater() const = 0;
@@ -367,6 +379,8 @@ class Creature
             return false;
         };
 
+        virtual body_part get_random_body_part( bool main = false ) const = 0;
+
         virtual int get_speed_base() const;
         virtual int get_dodge_base() const;
         virtual int get_hit_base() const;
@@ -430,13 +444,6 @@ class Creature
         virtual void set_throw_resist(int nthrowres);
 
         virtual int weight_capacity() const;
-
-        /*
-         * Event handlers
-         */
-
-        virtual void on_gethit(Creature *source, body_part bp_hit,
-                               damage_instance &dam);
 
         // innate stats, slowly move these to protected as we rewrite more of
         // the codebase

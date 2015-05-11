@@ -1142,7 +1142,7 @@ int editmap::edit_trp()
             mvwprintz( w_picktrap, t + 1 - tshift, 1, c_white, "%s", padding.c_str() );
             if( t < num_trap_types ) {
                 auto &tr = trap_id( t ).obj();
-                if( t == 0 ) {
+                if ( tr.is_null() ) {
                     tnam = _( "-clear-" );
                 } else {
                     if( tr.name.length() > 0 ) {

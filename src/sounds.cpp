@@ -298,8 +298,10 @@ void sounds::process_sound_markers( player *p )
             }
         }
 
+        // If Z coord is different, draw even when you can see the source
+        const bool diff_z = pos.z != p->posz();
         // Place footstep markers.
-        if( ( pos == p->pos3() ) || p->sees( pos ) ) {
+        if( pos == p->pos3() || p->sees( pos ) ) {
             // If we are or can see the source, don't draw a marker.
             continue;
         }
@@ -314,12 +316,15 @@ void sounds::process_sound_markers( player *p )
         }
 
         // Enumerate the valid points the player *cannot* see.
+        // Unless the source is on a different z-level, then any point is fine
         std::vector<tripoint> unseen_points;
-        for( int newx = pos.x - err_offset; newx <= pos.x + err_offset; newx++) {
-            for ( int newy = pos.y - err_offset; newy <= pos.y + err_offset; newy++) {
-                if( !p->sees( newx, newy) ) {
-                    // TODO: Z
-                    unseen_points.emplace_back( newx, newy, pos.z );
+        tripoint newp = pos;
+        int &newx = newp.x;
+        int &newy = newp.y;
+        for( newx = pos.x - err_offset; newx <= pos.x + err_offset; newx++ ) {
+            for ( newy = pos.y - err_offset; newy <= pos.y + err_offset; newy++ ) {
+                if( diff_z || !p->sees( newp ) ) {
+                    unseen_points.emplace_back( newp );
                 }
             }
         }
@@ -390,5 +395,10 @@ std::string sounds::sound_at( const tripoint &location )
     if( this_sound == sound_markers.end() ) {
         return std::string();
     }
-    return this_sound->second.description;
+
+    if( !this_sound->second.description.empty() ) {
+        return this_sound->second.description;
+    }
+
+    return _("a sound");
 }

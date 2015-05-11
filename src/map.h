@@ -229,26 +229,18 @@ class map
      *  after 3D migration is complete.
      */
     void vertical_shift( const int newz );
-    /**
-     * Spawn monsters from submap spawn points and from the overmap.
-     * @param ignore_sight If true, monsters may spawn in the view of the player
-     * character (useful when the whole map has been loaded instead, e.g.
-     * when starting a new game, or after teleportation or after moving vertically).
-     * If false, monsters are not spawned in view of of player character.
-     */
-    void spawn_monsters(bool ignore_sight);
+
  void clear_spawns();
  void clear_traps();
 
     const maptile maptile_at( const tripoint &p ) const;
+    maptile maptile_at( const tripoint &p );
 
 // Movement and LOS
 
 // Move cost: 2D overloads
     int move_cost(const int x, const int y, const vehicle *ignored_vehicle = nullptr) const;
     int move_cost_ter_furn(const int x, const int y) const;
-    int combined_movecost(const int x1, const int y1, const int x2, const int y2,
-                          const vehicle *ignored_vehicle = nullptr, const int modifier = 0) const;
 
 // Move cost: 3D
 
@@ -280,7 +272,15 @@ class map
     * @return The cost in turns to move out of tripoint `from` and into `to`
     */
     int combined_movecost( const tripoint &from, const tripoint &to,
-                           const vehicle *ignored_vehicle = nullptr, const int modifier = 0) const;
+                           const vehicle *ignored_vehicle = nullptr,
+                           const int modifier = 0, const bool flying = false ) const;
+
+    /**
+     * Returns true if a creature could walk from `from` to `to` in one step.
+     * That is, if the tiles are adjacent and either on the same z-level or connected
+     * by stairs or (in case of flying monsters) open air with no floors.
+     */
+    bool valid_move( const tripoint &from, const tripoint &to, const bool flying = false ) const;
 
 
 // 2D Sees:
@@ -393,6 +393,7 @@ class map
     */
     vehicle* veh_at( const tripoint &p, int &part_num );
     const vehicle* veh_at( const tripoint &p, int &part_num ) const;
+    vehicle* veh_at_internal( const tripoint &p, int &part_num );
     const vehicle* veh_at_internal( const tripoint &p, int &part_num ) const;
     /**
     * Same as `veh_at(const int, const int, int)`, but doesn't return part number.
@@ -985,6 +986,22 @@ void add_corpse( const tripoint &p );
                               // Useful for houses, shops, etc
  void add_road_vehicles(bool city, int facing);
 
+// Monster spawning:
+public:
+    /**
+     * Spawn monsters from submap spawn points and from the overmap.
+     * @param ignore_sight If true, monsters may spawn in the view of the player
+     * character (useful when the whole map has been loaded instead, e.g.
+     * when starting a new game, or after teleportation or after moving vertically).
+     * If false, monsters are not spawned in view of of player character.
+     */
+    void spawn_monsters( bool ignore_sight );
+private:
+    // Helper #1 - spawns monsters on one submap
+    void spawn_monsters_submap( const tripoint &gp, bool ignore_sight );
+    // Helper #2 - spawns monsters on one submap and from one group on this submap
+    void spawn_monsters_submap_group( const tripoint &gp, mongroup &group, bool ignore_sight );
+
 protected:
         void saven( int gridx, int gridy, int gridz );
         void loadn( int gridx, int gridy, bool update_vehicles );
@@ -1073,9 +1090,6 @@ protected:
 
 private:
     field& get_field( const tripoint &p );
-    void spread_gas( field_entry *cur, const tripoint &p, field_id curtype,
-                        int percent_spread, int outdoor_age_speedup );
-    void create_hot_air( const tripoint &p, int density );
 
  int cached_zlev; // Z-level for which all the caches were calculated
  bool transparency_cache_dirty;
@@ -1123,8 +1137,6 @@ private:
          * The given submap pointer must not be null.
          */
         void setsubmap( size_t grididx, submap *smap );
-
-    void spawn_monsters( const tripoint &gp, mongroup &group, bool ignore_sight );
 
     /**
      * Internal versions of public functions to avoid checking same variables multiple times.

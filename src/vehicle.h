@@ -1,6 +1,7 @@
 #ifndef VEHICLE_H
 #define VEHICLE_H
 
+#include "calendar.h"
 #include "tileray.h"
 #include "color.h"
 #include "item.h"
@@ -743,6 +744,9 @@ public:
     bool manual_fire_turret( int p, player &shooter, const itype &guntype, 
                              const itype &ammotype, long &charges );
 
+    // Update the set of occupied points and return a reference to it
+    std::set<tripoint> &get_points();
+
     // opens/closes doors or multipart doors
     void open(int part_index);
     void close(int part_index);
@@ -847,7 +851,11 @@ public:
     int init_veh_fuel;
     int init_veh_status;
     float alternator_load;
-    int last_repair_turn = -1; // Turn it was last repaired, used to make consecutive repairs faster.
+    calendar last_repair_turn = -1; // Turn it was last repaired, used to make consecutive repairs faster.
+
+    // Points occupied by the vehicle
+    std::set<tripoint> occupied_points;
+    calendar occupied_cache_turn = -1; // Turn occupied points were calculated
 
     // save values
     /**
