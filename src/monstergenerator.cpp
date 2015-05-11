@@ -12,7 +12,6 @@
 #include "mondeath.h"
 #include "monfaction.h"
 #include "mongroup.h"
-#include <queue>
 
 MonsterGenerator::MonsterGenerator()
 {
@@ -393,7 +392,7 @@ void MonsterGenerator::load_monster(JsonObject &jo)
 
         // See monfaction.cpp
         newmon->default_faction =
-            monfactions::get_or_add_faction( jo.get_string("default_faction") );
+            monfactions::get_or_add_faction( mfaction_str_id( jo.get_string("default_faction") ) );
 
         newmon->sym = jo.get_string("symbol");
         if( utf8_wrapper( newmon->sym ).display_width() != 1 ) {

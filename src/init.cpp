@@ -371,7 +371,7 @@ void DynamicDataLoader::finalize_loaded_data()
     calculate_mapgen_weights();
     MonsterGenerator::generator().finalize_mtypes();
     MonsterGroupManager::FinalizeMonsterGroups();
-    monfactions::finalize_monfactions();
+    monfactions::finalize();
     item_controller->finialize_item_blacklist();
     finalize_recipes();
     finialize_martial_arts();

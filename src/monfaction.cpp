@@ -4,8 +4,6 @@
 #include <vector>
 #include <queue>
 
-std::map<std::string, mf_attitude> mf_attitude_map;
-
 std::unordered_map< mfaction_str_id, mfaction_id > faction_map;
 std::vector< monfaction > faction_list;
 
@@ -28,7 +26,7 @@ const monfaction &int_id<monfaction>::obj() const
 template<>
 string_id<monfaction> int_id<monfaction>::id() const
 {
-    return obj().name;
+    return obj().id;
 }
 
 template<>
@@ -60,21 +58,20 @@ int_id<monfaction>::int_id( const string_id<monfaction> &id )
 {
 }
 
-mfaction_id monfactions::get_or_add_faction( const std::string &name_arg )
+mfaction_id monfactions::get_or_add_faction( const mfaction_str_id &name )
 {
-    const mfaction_str_id name( name_arg );
     auto found = faction_map.find( name );
     if( found == faction_map.end() ) {
         monfaction mfact;
-        mfact.name = name;
-        mfact.id = mfaction_id( faction_map.size() );
+        mfact.id = name;
+        mfact.loadid = mfaction_id( faction_map.size() );
         // -1 base faction marks this faction as not initialized.
         // If it is not changed before validation, it will become a child of
         // the root of the faction tree.
         mfact.base_faction = mfaction_id( -1 );
-        faction_map[mfact.name] = mfact.id;
+        faction_map[mfact.id] = mfact.loadid;
         faction_list.push_back( mfact );
-        found = faction_map.find( mfact.name );
+        found = faction_map.find( mfact.id );
     }
 
     return found->second;
@@ -105,11 +102,11 @@ mf_attitude monfaction::attitude( const mfaction_id &other ) const
 
     // Shouldn't happen
     debugmsg( "Invalid faction relations (no relation found): %s -> %s",
-              name.c_str(), other.obj().name.c_str() );
+              id.c_str(), other.obj().id.c_str() );
     return MFA_FRIENDLY;
 }
 
-void monfactions::finalize_monfactions()
+void monfactions::finalize()
 {
     if( faction_list.empty() ) {
         debugmsg( "No monster factions found." );
@@ -121,21 +118,21 @@ void monfactions::finalize_monfactions()
     std::set< mfaction_id > unloaded; // To check if cycles exist
     std::queue< mfaction_id > queue;
     for( auto &faction : faction_list ) {
-        unloaded.insert( faction.id );
-        if( faction.id == faction.base_faction ) {
+        unloaded.insert( faction.loadid );
+        if( faction.loadid == faction.base_faction ) {
             // No parent = root of the (a?) tree
-            queue.push( faction.id );
+            queue.push( faction.loadid );
             continue;
         }
 
         // Point parent to children
         if( faction.base_faction >= 0 ) {
-            child_map.insert( std::make_pair( faction.base_faction, faction.id ) );
+            child_map.insert( std::make_pair( faction.base_faction, faction.loadid ) );
         }
 
         // Set faction as friendly to itself if not explicitly set to anything
-        if( faction.attitude_map.count( faction.id ) == 0 ) {
-            faction.attitude_map[faction.id] = MFA_FRIENDLY;
+        if( faction.attitude_map.count( faction.loadid ) == 0 ) {
+            faction.attitude_map[faction.loadid] = MFA_FRIENDLY;
         }
     }
 
@@ -152,8 +149,8 @@ void monfactions::finalize_monfactions()
             faction.base_faction = root;
             // If it is the (new) root, connecting it to own parent (self) would create a cycle.
             // So only try to connect it to the parent if it isn't own parent.
-            if( faction.base_faction != faction.id ) {
-                child_map.insert( std::make_pair( faction.base_faction, faction.id ) );
+            if( faction.base_faction != faction.loadid ) {
+                child_map.insert( std::make_pair( faction.base_faction, faction.loadid ) );
             }
         }
     }
@@ -165,7 +162,7 @@ void monfactions::finalize_monfactions()
         if( unloaded.count( cur ) != 0 ) {
             unloaded.erase( cur );
         } else {
-            debugmsg( "Tried to load monster faction %s more than once", cur.obj().name.c_str() );
+            debugmsg( "Tried to load monster faction %s more than once", cur.obj().id.c_str() );
             continue;
         }
         auto children = child_map.equal_range( cur );
@@ -195,7 +192,7 @@ void add_to_attitude_map( const std::set< std::string > &keys, mfaction_att_map 
                                             mf_attitude value )
 {
     for( const auto &k : keys ) {
-        const auto &faction = monfactions::get_or_add_faction( k );
+        const auto &faction = monfactions::get_or_add_faction( mfaction_str_id( k ) );
         map[faction] = value;
     }
 }
@@ -204,9 +201,9 @@ void monfactions::load_monster_faction(JsonObject &jo)
 {
     // Factions inherit values from their parent factions - this is set during finalization
     std::string name = jo.get_string( "name" );
-    monfaction &faction = faction_list[get_or_add_faction( name )];
+    monfaction &faction = faction_list[get_or_add_faction( mfaction_str_id( name ) )];
     std::string base_faction = jo.get_string( "base_faction", "" );
-    faction.base_faction = get_or_add_faction( base_faction );
+    faction.base_faction = get_or_add_faction( mfaction_str_id( base_faction ) );
     std::set< std::string > by_mood, neutral, friendly;
     by_mood = jo.get_tags( "by_mood" );
     neutral = jo.get_tags( "neutral" );
