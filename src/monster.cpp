@@ -19,6 +19,7 @@
 #include "mondefense.h"
 #include "mission.h"
 #include "mongroup.h"
+#include "monfaction.h"
 #include "options.h"
 #include "trap.h"
 
@@ -38,7 +39,7 @@ monster::monster()
  anger = 0;
  morale = 2;
  last_loaded = 0;
- faction = MonsterGenerator::generator().faction_by_name( "" );
+ faction = mfaction_id( 0 );
  mission_id = -1;
  no_extra_death_drops = false;
  dead = false;
@@ -540,7 +541,7 @@ Creature::Attitude monster::attitude_to( const Creature &other ) const
         if( m == this ) {
             return A_FRIENDLY;
         }
-        auto faction_att = faction->attitude( m->faction );
+        auto faction_att = faction.obj().attitude( m->faction );
         if( ( friendly != 0 && m->friendly != 0 ) ||
             ( friendly == 0 && m->friendly == 0 && faction_att == MFA_FRIENDLY ) ) {
             // Friendly (to player) monsters are friendly to each other

@@ -24,6 +24,7 @@
 #include "monstergenerator.h"
 #include "scenario.h"
 #include "monster.h"
+#include "monfaction.h"
 #include "morale.h"
 #include "veh_type.h"
 #include "vehicle.h"
@@ -1065,9 +1066,9 @@ void monster::load(JsonObject &data)
     } else {
         data.read("ammo", ammo);
     }
-    std::string fac = data.get_string( "faction", "" );
-    const monfaction *monfac = GetMFact( fac );
-    if( monfac->id == 0 ) {
+
+    mfaction_str_id monfac = mfaction_str_id( data.get_string( "faction", "" ) );
+    if( !monfac.is_valid() || monfac.id() == mfaction_id( 0 ) ) {
         // Legacy saves
         faction = type->default_faction;
     } else {
@@ -1102,7 +1103,7 @@ void monster::store(JsonOut &json) const
     json.member("hp", hp);
     json.member("sp_timeout", sp_timeout);
     json.member("friendly", friendly);
-    json.member("faction", faction->name);
+    json.member("faction", faction.id().str());
     json.member("mission_id", mission_id);
     json.member("no_extra_death_drops", no_extra_death_drops );
     json.member("last_loaded", last_loaded);
