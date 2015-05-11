@@ -11,7 +11,9 @@ class game;
 class item;
 class monfaction;
 
-typedef std::map< const monfaction*, std::set< int > > mfactions;
+using mfaction_id = int_id<monfaction>;
+
+typedef std::map< mfaction_id, std::set< int > > mfactions;
 
 enum monster_attitude {
     MATT_NULL = 0,
@@ -45,9 +47,7 @@ class monster : public Creature, public JsonSerializer, public JsonDeserializer
 
         void poly(mtype *t);
         void update_check();
-        void spawn( const int x, const int y ); // All this does is moves the monster to x,y,g->levz
-        void spawn( const int x, const int y, const int z ); // As above, except with any z
-        void spawn( const tripoint &p); // As above, but takes a tripoint argument
+        void spawn( const tripoint &p); // All this does is moves the monster to p
         m_size get_size() const override;
         int get_hp( hp_part ) const override
         {
@@ -265,6 +265,14 @@ class monster : public Creature, public JsonSerializer, public JsonDeserializer
         int  dodge_roll() override;  // For the purposes of comparing to player::hit_roll()
         int  fall_damage() const; // How much a fall hurts us
 
+        // We just dodged an attack from something
+        void on_dodge( Creature *source, int difficulty = INT_MIN ) override;
+        // Something hit us (possibly null source)
+        void on_hit( Creature *source, body_part bp_hit = num_bp,
+                     int difficulty = INT_MIN, projectile const* const proj = nullptr ) override;
+        // Get torso - monsters don't have body parts (yet?)
+        body_part get_random_body_part( bool main ) const override;
+
         /** Resets a given special to its monster type cooldown value, an index of -1 does nothing. */
         void reset_special(int index);
         /** Resets a given special to a value between 0 and its monster type cooldown value.
@@ -303,7 +311,7 @@ class monster : public Creature, public JsonSerializer, public JsonDeserializer
         int def_chance;
         int friendly;
         int anger, morale;
-        const monfaction *faction; // Our faction (species, for most monsters)
+        mfaction_id faction; // Our faction (species, for most monsters)
         int mission_id; // If we're related to a mission
         mtype *type;
         bool no_extra_death_drops;    // if true, don't spawn loot items as part of death
@@ -314,9 +322,6 @@ class monster : public Creature, public JsonSerializer, public JsonDeserializer
         bool hallucination;
 
         // level_change == true means "monster isn't spawned yet, don't update position in tracker"
-        bool setpos( const int x, const int y );
-        bool setpos( const int x, const int y, const int z, const bool level_change = false );
-        bool setpos( const point &p, const bool level_change = false );
         bool setpos( const tripoint &p, const bool level_change = false );
         const tripoint &pos() const override;
         inline int posx() const override

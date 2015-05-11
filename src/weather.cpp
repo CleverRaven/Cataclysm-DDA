@@ -5,6 +5,7 @@
 #include "messages.h"
 #include "overmap.h"
 #include "overmapbuffer.h"
+#include "trap.h"
 #include "math.h"
 #include "translations.h"
 
@@ -26,7 +27,7 @@
  */
 void weather_effect::glare()
 {
-    if (PLAYER_OUTSIDE && g->is_in_sunlight(g->u.posx(), g->u.posy()) &&
+    if (PLAYER_OUTSIDE && g->is_in_sunlight(g->u.pos()) &&
         !g->u.worn_with_flag("SUN_GLASSES") && !g->u.has_bionic("bio_sunglasses")) {
         if(!g->u.has_effect("glare")) {
             if (g->u.has_trait("CEPH_VISION")) {
@@ -263,12 +264,8 @@ void fill_funnels(int rain_depth_mm_per_hour, bool acid, const trap &tr)
  */
 void fill_water_collectors(int mmPerHour, bool acid)
 {
-    for( auto &e : traplist ) {
-        const trap &tr = *e;
-        if( !tr.is_funnel() ) {
-            continue;
-        }
-        fill_funnels( mmPerHour, acid, tr );
+    for( auto &e : trap::get_funnels() ) {
+        fill_funnels( mmPerHour, acid, *e );
     }
 }
 

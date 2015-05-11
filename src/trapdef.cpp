@@ -1,9 +1,74 @@
+#include "trap.h"
+#include "debug.h"
+
 #include <vector>
 #include <memory>
+
+std::vector< trap* > traplist;
+std::unordered_map< trap_str_id, trap_id > trapmap;
+
+template<>
+const trap &int_id<trap>::obj() const
+{
+    if( static_cast<size_t>( _id ) >= traplist.size() ) {
+        debugmsg( "invalid trap id %d", _id );
+        static const trap dummy{};
+        return dummy;
+    }
+    return *traplist[_id];
+}
+
+template<>
+string_id<trap> int_id<trap>::id() const
+{
+    return obj().id;
+}
+
+template<>
+int_id<trap> string_id<trap>::id() const
+{
+    const auto iter = trapmap.find( *this );
+    if( iter == trapmap.end() ) {
+        debugmsg( "invalid trap id %s", c_str() );
+        return trap_id();
+    }
+    return iter->second;
+}
+
+template<>
+const trap &string_id<trap>::obj() const
+{
+    return id().obj();
+}
+
+template<>
+bool string_id<trap>::is_valid() const
+{
+    return trapmap.count( *this ) > 0;
+}
+
+template<>
+int_id<trap>::int_id( const string_id<trap> &id )
+: _id( id.id() )
+{
+}
+
 #include "game.h"
+// Map must be included after the above template specializations
 #include "map.h"
 #include "debug.h"
 #include "translations.h"
+
+static std::vector<const trap*> funnel_traps;
+const std::vector<const trap*> trap::get_funnels()
+{
+    return funnel_traps;
+}
+
+size_t trap::count()
+{
+    return trapmap.size();
+}
 
 void trap::load( JsonObject &jo )
 {
@@ -20,8 +85,8 @@ void trap::load( JsonObject &jo )
     if( !t.name.empty() ) {
         t.name = _( t.name.c_str() );
     }
-    t.id = jo.get_string( "id" );
-    t.loadid = traplist.size();
+    t.id = trap_str_id( jo.get_string( "id" ) );
+    t.loadid = trap_id( traplist.size() );
     t.color = color_from_string( jo.get_string( "color" ) );
     t.sym = jo.get_string( "symbol" ).at( 0 );
     t.visibility = jo.get_int( "visibility" );
@@ -35,6 +100,9 @@ void trap::load( JsonObject &jo )
     trapmap[t.id] = t.loadid;
     traplist.push_back( &t );
     trap_ptr.release();
+    if( t.is_funnel() ) {
+        funnel_traps.push_back( &t );
+    }
 }
 
 void trap::reset()
@@ -44,18 +112,7 @@ void trap::reset()
     }
     traplist.clear();
     trapmap.clear();
-}
-
-std::vector <trap *> traplist;
-std::map<std::string, int> trapmap;
-
-trap_id trapfind(const std::string id)
-{
-    if( trapmap.find(id) == trapmap.end() ) {
-        popup("Can't find trap %s", id.c_str());
-        return 0;
-    }
-    return traplist[trapmap[id]]->loadid;
+    funnel_traps.clear();
 }
 
 bool trap::detect_trap( const tripoint &pos, const player &p ) const
@@ -121,7 +178,7 @@ bool trap::is_funnel() const
 bool trap::is_3x3_trap() const
 {
     // TODO make this a json flag, implement more 3x3 traps.
-    return id == "tr_engine";
+    return id == trap_str_id( "tr_engine" );
 }
 
 void trap::on_disarmed( const tripoint &p ) const
@@ -131,7 +188,7 @@ void trap::on_disarmed( const tripoint &p ) const
         m.spawn_item( p.x, p.y, i, 1, 1 );
     }
     // TODO: make this a flag, or include it into the components.
-    if( id == "tr_shotgun_1" || id == "tr_shotgun_2" ) {
+    if( id == trap_str_id( "tr_shotgun_1" ) || id == trap_str_id( "tr_shotgun_2" ) ) {
         m.spawn_item( p.x, p.y, "shot_00", 1, 2 );
     }
     if( is_3x3_trap() ) {
@@ -203,6 +260,9 @@ void trap::check_consistency()
 
 void trap::finalize()
 {
+    const auto trapfind = []( const char *id ) {
+        return trap_str_id( id ).id();
+    };
     tr_null = trapfind("tr_null");
     tr_bubblewrap = trapfind("tr_bubblewrap");
     tr_cot = trapfind("tr_cot");
@@ -250,7 +310,7 @@ void trap::finalize()
         if( elem.trap_id_str.empty() ) {
             elem.trap = tr_null;
         } else {
-            elem.trap = trapfind( elem.trap_id_str );
+            elem.trap = trap_str_id( elem.trap_id_str );
         }
     }
 }

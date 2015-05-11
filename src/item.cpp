@@ -1313,7 +1313,7 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump, bool debug) c
         if (is_armor() && item_tags.count("kevlar_padded")) {
             dump->push_back(iteminfo("DESCRIPTION", "--"));
             dump->push_back(iteminfo("DESCRIPTION",
-                _("This gear has kevlar inserted into strategic locations to increase protection with minimal increase to encumbrance.")));
+                _("This gear has Kevlar inserted into strategic locations to increase protection with minimal increase to encumbrance.")));
         }
         if (is_armor() && has_flag("FLOATATION")) {
             dump->push_back(iteminfo("DESCRIPTION", "--"));
@@ -1706,6 +1706,23 @@ void item::on_wield( player &p  )
     if( &p == &g->u && art != nullptr ) {
         g->add_artifact_messages( art->effects_wielded );
     }
+
+     if (has_flag("SLOW_WIELD") && (! is_gunmod())) {
+         int d = 32; // arbitrary linear scaling factor
+         if      (is_gun())  d /= std::max((int) p.skillLevel(gun_skill()),  1);
+         else if (is_weap()) d /= std::max((int) p.skillLevel(weap_skill()), 1);
+
+         int const penalty = get_var("volume", (int) type->volume) * d;
+         if (penalty > 50) {
+             std::string msg;
+             if      (penalty > 250) msg = _("It takes you much longer than usual to wield your %s.");
+             else if (penalty > 100) msg = _("It takes you longer than usual to wield your %s.");
+             else                    msg = _("It takes you slightly longer than usual to wield your %s.");
+
+             p.add_msg_if_player(msg.c_str(), tname().c_str());
+             p.moves -= penalty;
+         }
+     }
 }
 
 void item::on_pickup( Character &p  )
@@ -2146,6 +2163,18 @@ int item::volume(bool unit_value, bool precise_value ) const
     if (is_gun()) {
         for( auto &elem : contents ) {
             ret += elem.volume( false, precise_value );
+        }
+
+        if (has_flag("COLLAPSIBLE_STOCK")) {
+            // consider only the base size of the gun (without mods)
+            int tmpvol = get_var( "volume", (int) type->volume);
+            if      (tmpvol <=  3) ; // intentional NOP
+            else if (tmpvol <=  5) ret -= precise_value ? 2000 : 2;
+            else if (tmpvol <=  6) ret -= precise_value ? 3000 : 3;
+            else if (tmpvol <=  8) ret -= precise_value ? 4000 : 4;
+            else if (tmpvol <= 11) ret -= precise_value ? 5000 : 5;
+            else if (tmpvol <= 16) ret -= precise_value ? 6000 : 6;
+            else                   ret -= precise_value ? 7000 : 7;
         }
     }
 
@@ -3304,6 +3333,15 @@ std::string item::gun_skill() const
         return "null";
     }
     return type->gun->skill_used->ident();
+}
+
+std::string item::weap_skill() const
+{
+    if (! is_weap()) return "null";
+
+    if (type->melee_dam >= type->melee_cut) return "bashing";
+    if (has_flag("STAB")) return "stabbing";
+    return "cutting";
 }
 
 std::string item::skill() const

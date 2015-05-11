@@ -16,6 +16,7 @@
 #include "mongroup.h"
 #include "mapgen.h"
 #include "translations.h"
+#include "trap.h"
 #include <algorithm>
 #include <cassert>
 #include <list>
@@ -452,10 +453,11 @@ void mapgen_function_json::setup_setmap( JsonArray &parray ) {
                     tmp_i.val = furnmap[ tmpid ].loadid;
                 } break;
                 case JMAPGEN_SETMAP_TRAP: {
-                    if ( trapmap.find( tmpid ) == trapmap.end() ) {
+                    const trap_str_id sid( tmpid );
+                    if( !sid.is_valid() ) {
                         err = string_format("set %s: no such trap '%s'",tmpval.c_str(), tmpid.c_str() ); throw err;
                     }
-                    tmp_i.val = trapmap[ tmpid ];
+                    tmp_i.val = sid.id().to_i();
                 } break;
 
                 default:
@@ -779,20 +781,20 @@ public:
     jmapgen_trap( JsonObject &jsi ) : jmapgen_piece()
     , id( 0 )
     {
-        const auto iter = trapmap.find( jsi.get_string( "trap" ) );
-        if( iter == trapmap.end() ) {
+        const trap_str_id sid( jsi.get_string( "trap" ) );
+        if( !sid.is_valid() ) {
             jsi.throw_error( "no such trap", "trap" );
         }
-        id = iter->second;
+        id = sid.id();
     }
     jmapgen_trap( const std::string &tid ) : jmapgen_piece()
     , id( 0 )
     {
-        const auto iter = trapmap.find( tid );
-        if( iter == trapmap.end() ) {
+        const trap_str_id sid( tid );
+        if( !sid.is_valid() ) {
             throw std::string( "unknown trap type" );
         }
-        id = iter->second;
+        id = sid.id();
     }
     void apply( map &m, const size_t x, const size_t y, const float /*mdensity*/ ) const override
     {
@@ -1230,7 +1232,7 @@ bool jmapgen_setmap::apply( map *m ) {
                     m->furn_set( x.get(), y.get(), val.get() );
                 } break;
                 case JMAPGEN_SETMAP_TRAP: {
-                    m->trap_set( x.get(), y.get(), val.get() );
+                    m->trap_set( x.get(), y.get(), trap_id( val.get() ) );
                 } break;
                 case JMAPGEN_SETMAP_RADIATION: {
                     m->set_radiation( x.get(), y.get(), val.get());
@@ -1248,7 +1250,7 @@ bool jmapgen_setmap::apply( map *m ) {
                 case JMAPGEN_SETMAP_LINE_TRAP: {
                     const std::vector<point> line = line_to(x.get(), y.get(), x2.get(), y2.get(), 0);
                     for (auto &i : line) {
-                        m->trap_set( i.x, i.y, (trap_id)val.get() );
+                        m->trap_set( i.x, i.y, trap_id( val.get() ) );
                     }
                 } break;
                 case JMAPGEN_SETMAP_LINE_RADIATION: {
@@ -1272,7 +1274,7 @@ bool jmapgen_setmap::apply( map *m ) {
                     const int cy2 = y2.get();
                     for (int tx = cx; tx <= cx2; tx++) {
                        for (int ty = cy; ty <= cy2; ty++) {
-                           m->trap_set( tx, ty, (trap_id)val.get() );
+                           m->trap_set( tx, ty, trap_id( val.get() ) );
                        }
                     }
                 } break;

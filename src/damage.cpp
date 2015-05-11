@@ -4,7 +4,7 @@
 #include "map.h"
 #include "damage.h"
 #include "rng.h"
-#include "monster.h"
+#include "debug.h"
 #include <map>
 
 damage_instance::damage_instance() { }
@@ -16,14 +16,14 @@ damage_instance damage_instance::physical( float bash, float cut, float stab, in
     d.add_damage( DT_STAB, stab, arpen );
     return d;
 }
-damage_instance::damage_instance( damage_type dt, float a, int rp, float rm )
+damage_instance::damage_instance( damage_type dt, float a, int rp, float rm, float mul )
 {
-    add_damage( dt, a, rp, rm );
+    add_damage( dt, a, rp, rm, mul );
 }
 
-void damage_instance::add_damage( damage_type dt, float a, int rp, float rm )
+void damage_instance::add_damage( damage_type dt, float a, int rp, float rm, float mul )
 {
-    damage_unit du( dt, a, rp, rm );
+    damage_unit du( dt, a, rp, rm, mul );
     damage_units.push_back( du );
 }
 void damage_instance::add_effect( std::string effect )
@@ -62,16 +62,31 @@ void damage_instance::clear()
     effects.clear();
 }
 
-dealt_damage_instance::dealt_damage_instance() : dealt_dams( NUM_DT, 0 ) { }
-//TODO: add check to ensure length
-dealt_damage_instance::dealt_damage_instance( std::vector<int> &dealt ) : dealt_dams( dealt ) { }
+dealt_damage_instance::dealt_damage_instance() : dealt_dams( NUM_DT, 0 )
+{
+    dealt_dams.resize( NUM_DT );
+}
+
+dealt_damage_instance::dealt_damage_instance( std::vector<int> &dealt ) : dealt_dams( dealt )
+{
+    dealt_dams.resize( NUM_DT );
+}
 void dealt_damage_instance::set_damage( damage_type dt, int amount )
 {
+    if( dt < 0 || dt >= NUM_DT ) {
+        debugmsg( "Tried to set invalid damage type %d. NUM_DT is %d", dt, NUM_DT );
+        return;
+    }
+
     dealt_dams[dt] = amount;
 }
 int dealt_damage_instance::type_damage( damage_type dt ) const
 {
-    return dealt_dams[dt];
+    if( dealt_dams.size() < (size_t)dt ) {
+        return dealt_dams[dt];
+    }
+
+    return 0;
 }
 int dealt_damage_instance::total_damage() const
 {

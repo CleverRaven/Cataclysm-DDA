@@ -14,6 +14,8 @@
 #include "input.h"
 #include "options.h"
 #include "ui.h"
+#include "trap.h"
+#include "itype.h"
 
 #include <map>
 #include <set>
@@ -1098,7 +1100,7 @@ bool advanced_inventory::move_all_items()
 
     if( spane.get_area() == AIM_INVENTORY || spane.get_area() == AIM_WORN ) {
         g->u.assign_activity( ACT_DROP, 0 );
-        g->u.activity.placement = point( darea.off.x, darea.off.y );
+        g->u.activity.placement = darea.off;
     }
     if( spane.get_area() == AIM_INVENTORY ) {
         for( size_t index = 0; index < g->u.inv.size(); ++index ) {
@@ -1144,7 +1146,7 @@ bool advanced_inventory::move_all_items()
             g->u.activity.values.push_back( darea.off.x );
             g->u.activity.values.push_back( darea.off.y );
         }
-        g->u.activity.placement = point( sarea.off.x, sarea.off.y );
+        g->u.activity.placement = sarea.off;
 
         std::list<item>::iterator begin;
         std::list<item>::iterator end;

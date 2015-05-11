@@ -103,7 +103,7 @@
         "symbol":")",
         "name":"pewter bowl",
         "category": "other",
-        "description":"A pewter bowl.  Can be used as a container or as a tool.  Holds 250 ml of liquid.",
+        "description":"A pewter bowl without a lid.  Can be used as a container or as a tool.  Holds 250 ml of liquid.",
         "cutting":0,
         "price": 400,
         "weight":50,
@@ -112,7 +112,8 @@
         "to_hit":-1,
         "material":"steel",
         "contains":1,
-        "rigid": true
+        "rigid": true,
+        "qualities": [["CONTAIN", 1]]
     },
     {
         "id": "can_food",

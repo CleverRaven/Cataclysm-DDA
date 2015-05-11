@@ -927,7 +927,7 @@ void npc::place_on_map()
     // Searches in a spiral pattern for a suitable location.
     int x = 0, y = 0, dx = 0, dy = -1;
     int temp;
-    while(!g->is_empty(posx() + x, posy() + y))
+    while( !g->is_empty( { posx() + x, posy() + y, posz() } ) )
     {
         if ((x == y) || ((x < 0) && (x == -y)) || ((x > 0) && (x == 1-y)))
         {//change direction

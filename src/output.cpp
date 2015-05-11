@@ -1741,6 +1741,12 @@ scrollingcombattext::cSCT::cSCT(const int p_iPosX, const int p_iPosY, const dire
     iDirX = pairDirXY.x;
     iDirY = pairDirXY.y;
 
+    if( iDirX == 0 && iDirY == 0 ) {
+        // This would cause infinite loop otherwise
+        oDir = WEST;
+        iDirX = -1;
+    }
+
     iStep = 0;
     iStepOffset = 0;
 

@@ -304,6 +304,8 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         bool unarmed_attack() const;
         /** Called when a player triggers a trap, returns true if they don't set it off */
         bool avoid_trap( const tripoint &pos, const trap &tr ) override;
+        /** Picks a random body part, adjusting for mutations, broken body parts etc. */
+        body_part get_random_body_part( bool main ) const override;
 
         /** Returns true if the player has a pda */
         bool has_pda();
@@ -433,8 +435,11 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         void armor_absorb(damage_unit &du, item &armor);
         /** Runs through all bionics and armor on a part and reduces damage through their armor_absorb */
         void absorb_hit(body_part bp, damage_instance &dam) override;
-        /** Handles return on-hit effects (spines, electric shields, etc.) */
-        void on_gethit(Creature *source, body_part bp_hit, damage_instance &dam) override;
+        /** Handles dodged attacks (training dodge) and ma_ondodge */
+        void on_dodge( Creature *source, int difficulty = INT_MIN ) override;
+        /** Handles special defenses from an attack that hit us (source can be null) */
+        void on_hit( Creature *source, body_part bp_hit = num_bp,
+                     int difficulty = INT_MIN, projectile const* const proj = nullptr ) override;
 
         /** Returns the base damage the player deals based on their stats */
         int base_damage(bool real_life = true, int stat = -999);
@@ -447,12 +452,12 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         /** Returns true if the player scores a critical hit */
         bool scored_crit(int target_dodge = 0);
 
-        /** Returns the player's total bash damage roll */
-        int roll_bash_damage(bool crit);
-        /** Returns the player's total cut damage roll */
-        int roll_cut_damage(bool crit);
-        /** Returns the player's total stab damage roll */
-        int roll_stab_damage(bool crit);
+        /** Adds player's total bash damage to the damage instance */
+        void roll_bash_damage( bool crit, damage_instance &di );
+        /** Adds player's total cut damage to the damage instance */
+        void roll_cut_damage( bool crit, damage_instance &di );
+        /** Adds player's total stab damage to the damage instance */
+        void roll_stab_damage( bool crit, damage_instance &di );
         /** Returns the number of moves unsticking a weapon will penalize for */
         int roll_stuck_penalty(bool stabbing, ma_technique &tec);
         std::vector<matec_id> get_all_techniques();
@@ -462,8 +467,7 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         /** Returns a random valid technique */
         matec_id pick_technique(Creature &t,
                                 bool crit, bool dodge_counter, bool block_counter);
-        void perform_technique(ma_technique technique, Creature &t, int &bash_dam, int &cut_dam,
-                               int &stab_dam, int &move_cost);
+        void perform_technique(ma_technique technique, Creature &t, damage_instance &di, int &move_cost);
         /** Performs special attacks and their effects (poisonous, stinger, etc.) */
         void perform_special_attacks(Creature &t);
 
@@ -998,7 +1002,6 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         bool is_deaf() const;
         // Checks whether a player can hear a sound at a given volume and location.
         bool can_hear( const tripoint &source, const int volume ) const;
-        bool can_hear( const point &source, const int volume ) const;
         // Returns a multiplier indicating the keeness of a player's hearing.
         float hearing_ability() const;
         int visibility( bool check_color = false,
@@ -1021,7 +1024,7 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
 
         typedef std::map<tripoint, std::string> trap_map;
         bool knows_trap( const tripoint &pos ) const;
-        void add_known_trap( const tripoint &pos, const std::string &t );
+        void add_known_trap( const tripoint &pos, const trap &t );
         /** Search surrounding squares for traps (and maybe other things in the future). */
         void search_surroundings();
 

@@ -4,7 +4,7 @@
 #include "game_constants.h"
 #include "color.h"
 #include "item.h"
-#include "trap.h"
+//#include "monster.h"
 #include "enums.h"
 #include "computer.h"
 #include "vehicle.h"
@@ -12,6 +12,8 @@
 #include "iexamine.h"
 #include "field.h"
 #include "item_stack.h"
+#include "int_id.h"
+#include "string_id.h"
 #include "rng.h"
 
 #include <iosfwd>
@@ -24,6 +26,10 @@
 struct maptile;
 class game;
 class monster;
+struct trap;
+
+using trap_id = int_id<trap>;
+using trap_str_id = string_id<trap>;
 
 // mfb(t_flag) converts a flag to a bit for insertion into a bitfield
 #ifndef mfb
@@ -422,8 +428,6 @@ struct submap {
         cosmetics[x][y].erase("SIGNAGE");
     }
 
-    maptile get_maptile( const int x, const int y ) const;
-
     // TODO: make trp private once the horrible hack known as editmap is resolved
     ter_id          ter[SEEX][SEEY];  // Terrain on each square
     furn_id         frn[SEEX][SEEY];  // Furniture on each square
@@ -470,11 +474,11 @@ struct maptile {
 private:
     friend map; // To allow "sliding" the tile in x/y without bounds checks
     friend submap;
-    const submap *const sm;
+    submap *const sm;
     size_t x;
     size_t y;
 
-    maptile( const submap *sub, const size_t nx, const size_t ny ) :
+    maptile( submap *sub, const size_t nx, const size_t ny ) :
         sm( sub ), x( nx ), y( ny ) { }
 public:
     inline trap_id get_trap() const
@@ -494,7 +498,7 @@ public:
 
     inline const trap &get_trap_t() const
     {
-        return *traplist[ sm->get_trap( x, y ) ];
+        return sm->get_trap( x, y ).obj();
     }
 
     inline const furn_t &get_furn_t() const
@@ -510,6 +514,21 @@ public:
     inline const field &get_field() const
     {
         return sm->fld[x][y];
+    }
+
+    inline field_entry* find_field( const field_id field_to_find )
+    {
+        return sm->fld[x][y].findField( field_to_find );
+    }
+
+    inline bool add_field( const field_id field_to_add, const int new_density, const int new_age )
+    {
+        const bool ret = sm->fld[x][y].addField( field_to_add, new_density, new_age );
+        if( ret ) {
+            sm->field_count++;
+        }
+
+        return ret;
     }
 
     inline int get_radiation() const

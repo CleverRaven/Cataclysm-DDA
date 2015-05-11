@@ -9,6 +9,7 @@
 #include "messages.h"
 #include "translations.h"
 #include "overmap.h"
+#include "trap.h"
 /* These functions are responsible for making changes to the game at the moment
  * the mission is accepted by the player.  They are also responsible for
  * updating *miss with the target and any other important information.
@@ -58,11 +59,10 @@ tripoint random_house_in_closest_city()
  */
 tripoint target_om_ter( const std::string &omter, int reveal_rad, mission *miss, bool must_see )
 {
-    int dist = 0;
     // The missions are coded to work on z-level 0, so we have to check for locations there
     tripoint surface_loc = g->u.global_omt_location();
     surface_loc.z = 0;
-    const tripoint place = overmap_buffer.find_closest( surface_loc, omter, dist, must_see );
+    const tripoint place = overmap_buffer.find_closest( surface_loc, omter, 0, must_see );
     if( place != overmap::invalid_tripoint && reveal_rad >= 0 ) {
         overmap_buffer.reveal( place, reveal_rad );
     }
@@ -304,17 +304,17 @@ void mission_start::kill_horde_master( mission *miss )
 {
     npc *p = g->find_npc( miss->npc_id );
     p->attitude = NPCATT_FOLLOW;//npc joins you
-    int dist = 0;//pick one of the below locations for the horde to haunt
+    //pick one of the below locations for the horde to haunt
     const auto center = p->global_omt_location();
-    tripoint site = overmap_buffer.find_closest( center, "office_tower_1", dist, false );
+    tripoint site = overmap_buffer.find_closest( center, "office_tower_1", 0, false );
     if( site == overmap::invalid_tripoint ) {
-        site = overmap_buffer.find_closest( center, "hotel_tower_1_8", dist, false );
+        site = overmap_buffer.find_closest( center, "hotel_tower_1_8", 0, false );
     }
     if( site == overmap::invalid_tripoint ) {
-        site = overmap_buffer.find_closest( center, "school_5", dist, false );
+        site = overmap_buffer.find_closest( center, "school_5", 0, false );
     }
     if( site == overmap::invalid_tripoint ) {
-        site = overmap_buffer.find_closest( center, "forest_thick", dist, false );
+        site = overmap_buffer.find_closest( center, "forest_thick", 0, false );
     }
     miss->target = site;
     overmap_buffer.reveal( site, 6 );
@@ -364,12 +364,11 @@ void mission_start::place_npc_software( mission *miss )
             miss->item_id = "software_useless";
     }
 
-    int dist = 0;
     tripoint place;
     if( type == "house" ) {
         place = random_house_in_closest_city();
     } else {
-        place = overmap_buffer.find_closest( dev->global_omt_location(), type, dist, false );
+        place = overmap_buffer.find_closest( dev->global_omt_location(), type, 0, false );
     }
     miss->target = place;
     overmap_buffer.reveal( place, 6 );
@@ -453,10 +452,9 @@ void mission_start::place_deposit_box( mission *miss )
 {
     npc *p = g->find_npc( miss->npc_id );
     p->attitude = NPCATT_FOLLOW;//npc joins you
-    int dist = 0;
-    tripoint site = overmap_buffer.find_closest( p->global_omt_location(), "bank", dist, false );
+    tripoint site = overmap_buffer.find_closest( p->global_omt_location(), "bank", 0, false );
     if( site == overmap::invalid_tripoint ) {
-        site = overmap_buffer.find_closest( p->global_omt_location(), "office_tower_1", dist, false );
+        site = overmap_buffer.find_closest( p->global_omt_location(), "office_tower_1", 0, false );
     }
 
     if( site == overmap::invalid_tripoint ) {

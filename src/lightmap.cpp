@@ -96,6 +96,9 @@ void map::build_transparency_cache( const int zlev )
                         case fd_nuke_gas:
                             value *= 0.5;
                             break;
+                        case fd_fire:
+                            value *= 1.0 - ( density * 0.3 );
+                            break;
                         default:
                             value = LIGHT_TRANSPARENCY_SOLID;
                             break;

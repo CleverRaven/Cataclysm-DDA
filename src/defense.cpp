@@ -311,7 +311,7 @@ void defense_game::init_map()
     }
     if (!valid.empty()) {
         tripoint p = valid[rng(0, valid.size() - 1)];
-        generator.spawn( p.x, p.y, p.z );
+        generator.spawn( p );
     }
     generator.friendly = -1;
     g->add_zombie(generator);
@@ -1416,7 +1416,7 @@ void defense_game::spawn_wave_monster(mtype *type)
                 pnt = point( SEEX * MAPSIZE - 1 - pnt.x, pnt.y );
             }
         }
-        if( g->is_empty( pnt.x, pnt.y ) ) {
+        if( g->is_empty( { pnt.x, pnt.y, g->get_levz() } ) ) {
             break;
         }
         if( tries++ == 1000 ) {

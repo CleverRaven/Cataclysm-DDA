@@ -20,6 +20,8 @@
 #include "monster.h"
 #include "npc.h"
 #include "veh_type.h"
+#include "trap.h"
+#include "itype.h"
 
 #include <fstream>
 #include <sstream>
@@ -214,7 +216,7 @@ bool vehicle::remote_controlled(player const &p) const
 
     auto remote = all_parts_with_feature( "REMOTE_CONTROLS", true );
     for( int part : remote ) {
-        if( rl_dist( p.pos2(), global_pos() + parts[part].precalc[0] ) <= 40 ) {
+        if( rl_dist( p.pos(), tripoint( global_pos() + parts[part].precalc[0], p.posz() ) ) <= 40 ) {
             return true;
         }
     }
@@ -546,7 +548,7 @@ void vehicle::smash() {
 void vehicle::control_doors() {
     std::vector< int > door_motors = all_parts_with_feature( "DOOR_MOTOR", true );
     std::vector< int > doors_with_motors; // Indices of doors
-    std::vector< point > locations; // Locations used to display the doors
+    std::vector< tripoint > locations; // Locations used to display the doors
     doors_with_motors.reserve( door_motors.size() );
     locations.reserve( door_motors.size() );
     if( door_motors.empty() ) {
@@ -564,7 +566,7 @@ void vehicle::control_doors() {
 
         int val = doors_with_motors.size();
         doors_with_motors.push_back( door );
-        locations.push_back( global_pos() + parts[p].precalc[0] );
+        locations.push_back( tripoint( global_pos() + parts[p].precalc[0], smz ) );
         const char *actname = parts[door].open ? _("Close") : _("Open");
         pmenu.addentry( val, true, MENU_AUTOASSIGN, "%s %s", actname, part_info( door ).name.c_str() );
     }
@@ -1340,7 +1342,7 @@ void vehicle::start_engines( const bool take_control )
     }
 
     g->u.assign_activity( ACT_START_ENGINES, start_time );
-    g->u.activity.placement = global_pos() - g->u.pos2();
+    g->u.activity.placement = global_pos3() - g->u.pos();
     g->u.activity.values.push_back( take_control );
 }
 
@@ -2935,11 +2937,12 @@ bool vehicle::do_environmental_effects()
     // check for smoking parts
     for( size_t p = 0; p < parts.size(); p++ ) {
         auto part_pos = global_pos() + parts[p].precalc[0];
+        const tripoint part_tri = tripoint( part_pos, smz );
 
         /* Only lower blood level if:
          * - The part is outside.
          * - The weather is any effect that would cause the player to be wet. */
-        if( parts[p].blood > 0 && g->m.is_outside(part_pos.x, part_pos.y) && g->get_levz() >= 0 ) {
+        if( parts[p].blood > 0 && g->m.is_outside( part_tri ) && g->get_levz() >= 0 ) {
             needed = true;
             if( g->weather >= WEATHER_DRIZZLE && g->weather <= WEATHER_ACID_RAIN ) {
                 parts[p].blood--;
@@ -3895,9 +3898,10 @@ bool vehicle::collision( std::vector<veh_collision> &veh_veh_colls,
 
 veh_collision vehicle::part_collision (int part, int x, int y, bool just_detect)
 {
+    const tripoint p{ x, y, smz };
     bool pl_ctrl = player_in_control (g->u);
-    int mondex = g->mon_at(x, y);
-    int npcind = g->npc_at(x, y);
+    int mondex = g->mon_at( p );
+    int npcind = g->npc_at( p );
     bool u_here = x == g->u.posx() && y == g->u.posy() && !g->u.in_vehicle;
     monster *z = mondex >= 0? &g->zombie(mondex) : NULL;
     player *ph = (npcind >= 0? g->active_npc[npcind] : (u_here? &g->u : 0));
@@ -5014,15 +5018,13 @@ std::string aim_type( const vehicle_part &part )
         return _("Unseen");
     }
 
-    int lx = target.first.x;
-    int ly = target.first.y;
-    const Creature *critter = g->critter_at( lx, ly );
+    const Creature *critter = g->critter_at( target.first );
     if( critter != nullptr && g->u.sees( *critter ) ) {
         return critter->disp_name();
-    } else if( g->m.has_furn( lx, ly ) ) {
-        return g->m.furn_at( lx, ly ).name;
+    } else if( g->m.has_furn( target.first ) ) {
+        return g->m.furn_at( target.first ).name;
     } else {
-        return g->m.tername( lx, ly );
+        return g->m.tername( target.first );
     }
 }
 
@@ -5179,13 +5181,13 @@ bool vehicle::aim_turrets()
 void vehicle::control_turrets() {
     std::vector< int > all_turrets = all_parts_with_feature( "TURRET", true );
     std::vector< int > turrets;
-    std::vector< point > locations;
+    std::vector< tripoint > locations;
 
     uimenu pmenu;
     for( int p : all_turrets ) {
         if( !part_flag( p, "MANUAL" ) ) {
             turrets.push_back( p );
-            locations.push_back( global_pos() + parts[p].precalc[0] );
+            locations.push_back( tripoint( global_pos() + parts[p].precalc[0], smz ) );
         }
     }
 
@@ -5502,6 +5504,7 @@ bool vehicle::automatic_fire_turret( int p, const itype &gun, const itype &ammo,
     tmp.weapon = item(gun.id, 0);
     tmp.weapon.set_curammo( ammo.id );
     tmp.weapon.charges = charges;
+    tmp.weapon.update_charger_gun_ammo();
 
     int area = std::max( aoe_size( tmp.weapon.get_curammo()->ammo->ammo_effects ),
                          aoe_size( tmp.weapon.type->gun->ammo_effects ) );
@@ -5568,13 +5571,11 @@ bool vehicle::automatic_fire_turret( int p, const itype &gun, const itype &ammo,
 bool vehicle::manual_fire_turret( int p, player &shooter, const itype &guntype,
                                   const itype &ammotype, long &charges )
 {
-    int x = global_x() + parts[p].precalc[0].x;
-    int y = global_y() + parts[p].precalc[0].y;
+    tripoint pos = global_pos3() + tripoint( parts[p].precalc[0], 0 );
 
     // Place the shooter at the turret
     const tripoint &oldpos = shooter.pos();
-    shooter.setx( x );
-    shooter.sety( y );
+    shooter.setpos( pos );
 
     // Create a fake gun
     // TODO: Damage the gun based on part hp
@@ -5836,6 +5837,21 @@ int vehicle::obstacle_at_part( int p ) const
     }
 
     return part;
+}
+
+std::set<tripoint> &vehicle::get_points()
+{
+    if( occupied_cache_turn != calendar::turn ) {
+        occupied_cache_turn = calendar::turn;
+        occupied_points.clear();
+        tripoint pos = global_pos3();
+        for( const auto &p : parts ) {
+            const auto &pt = p.precalc[0];
+            occupied_points.insert( tripoint( pos.x + pt.x, pos.y + pt.y, pos.z ) );
+        }
+    }
+
+    return occupied_points;
 }
 
 /*-----------------------------------------------------------------------------
