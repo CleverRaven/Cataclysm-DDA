@@ -79,7 +79,7 @@ struct VehiclePlacement {
 class VehicleFunction {
 public:
     virtual ~VehicleFunction() { }
-    virtual void apply(map* m, const std::string &terrainid) = 0;
+    virtual void apply(map* m, const std::string &terrainid) const = 0;
 };
 
 typedef void (*vehicle_gen_pointer)(map *m, const std::string &terrainid);
@@ -89,7 +89,7 @@ public:
     VehicleFunction_builtin(const vehicle_gen_pointer &func) : func(func) {}
     ~VehicleFunction_builtin() { }
 
-    inline void apply(map* m, const std::string &terrainid) override {
+    inline void apply(map* m, const std::string &terrainid) const override {
         func(m, terrainid);
     }
 
@@ -102,7 +102,7 @@ public:
     VehicleFunction_json(JsonObject &jo);
     ~VehicleFunction_json() { }
 
-    void apply(map* m, const std::string &terrain_name) override;
+    void apply(map* m, const std::string &terrain_name) const override;
 
     std::string vehicle;
     jmapgen_int number;
@@ -117,18 +117,18 @@ public:
  * This class handles a weighted list of different spawn functions, allowing a single
  * vehicle_spawn to have multiple possibilities.
  */
-struct Vehicle_SpawnType {
-    std::string description;
-    std::shared_ptr<VehicleFunction> func;
-};
-
-class Vehicle_Spawn {
+class VehicleSpawn {
 public:
-    void add(const double &weight, const std::string &description, const std::shared_ptr<VehicleFunction> &func);
-    const Vehicle_SpawnType* pick() const;
+    inline void add(const double &weight, const std::shared_ptr<VehicleFunction> &func) {
+        types.add(func, weight);
+    }
+
+    inline const VehicleFunction* pick() const {
+        return types.pick()->get();
+    }
 
 private:
-    weighted_float_list<Vehicle_SpawnType> types;
+    weighted_float_list<std::shared_ptr<VehicleFunction>> types;
 };
 
 /**
@@ -176,13 +176,13 @@ class Vehicle_Factory {
         typedef std::map<std::string, VehiclePlacement> PlacementMap;
         PlacementMap placements;
 
-        typedef std::map<std::string, Vehicle_Spawn> VehicleSpawnsMap;
+        typedef std::map<std::string, VehicleSpawn> VehicleSpawnsMap;
         VehicleSpawnsMap spawns;
 
-        typedef std::map<std::string, std::shared_ptr<VehicleFunction>> FunctionMap;
+        typedef std::map<std::string, vehicle_gen_pointer> FunctionMap;
         FunctionMap builtin_functions {
-            { "no_vehicles", std::make_shared<VehicleFunction_builtin>(builtin_no_vehicles) },
-            { "jack-knifed_semi", std::make_shared<VehicleFunction_builtin>(builtin_jackknifed_semi) }
+            { "no_vehicles", builtin_no_vehicles },
+            { "jack-knifed_semi", builtin_jackknifed_semi }
         };
 };
 

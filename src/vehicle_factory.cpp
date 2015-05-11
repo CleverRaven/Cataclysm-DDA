@@ -35,7 +35,7 @@ VehicleFunction_json::VehicleFunction_json(JsonObject &jo)
     }
 }
 
-void VehicleFunction_json::apply(map* m, const std::string &terrain_name)
+void VehicleFunction_json::apply(map* m, const std::string &terrain_name) const
 {
     if(! location) {
         size_t replace = placement.find("%t");
@@ -47,16 +47,6 @@ void VehicleFunction_json::apply(map* m, const std::string &terrain_name)
     else {
         vehicle_controller->add_vehicle(m, vehicle, location->x.get(), location->y.get(), location->pick_facing(), fuel, status);
     }
-}
-
-void Vehicle_Spawn::add(const double &weight, const std::string &description, const std::shared_ptr<VehicleFunction> &func)
-{
-    types.add({description, func}, weight);
-}
-
-const Vehicle_SpawnType* Vehicle_Spawn::pick() const
-{
-    return types.pick();
 }
 
 void Vehicle_Factory::load_vehicle_group(JsonObject &jo)
@@ -86,31 +76,30 @@ void Vehicle_Factory::load_vehicle_placement(JsonObject &jo)
 void Vehicle_Factory::load_vehicle_spawn(JsonObject &jo)
 {
     const std::string spawn_id = jo.get_string("id");
-    Vehicle_Spawn spawn;
+    VehicleSpawn spawn;
 
     JsonArray types = jo.get_array("spawn_types");
 
     while (types.has_more()) {
         JsonObject type = types.next_object();
-        std::shared_ptr<VehicleFunction> func;
 
         if(type.has_object("vehicle_json")) {
             JsonObject vjo = type.get_object("vehicle_json");
-            func = std::make_shared<VehicleFunction_json>(vjo);
+            spawn.add(type.get_float("weight"), std::make_shared<VehicleFunction_json>(vjo));
         }
         else if(type.has_string("vehicle_function")) {
-            func = builtin_functions[type.get_string("vehicle_function")];
-            if(! func) {
+            if(builtin_functions.count(type.get_string("vehicle_function")) == 0) {
                 debugmsg("load_vehicle_spawn: unable to find builtin function %s", type.get_string("vehicle_function").c_str());
                 continue;
             }
+
+            spawn.add(type.get_float("weight"), std::make_shared<VehicleFunction_builtin>(
+                builtin_functions[type.get_string("vehicle_function")]));
         }
         else {
             debugmsg("load_vehicle_spawn: missing required vehicle_json (object) or vehicle_function (string).");
             continue;
         }
-
-        spawn.add(type.get_float("weight"), type.get_string("description"), func);
     }
 
     spawns[spawn_id] = spawn;
@@ -128,7 +117,7 @@ const VehiclePlacement* Vehicle_Factory::get_placement(const std::string &id) co
 
 void Vehicle_Factory::vehicle_spawn(std::string spawn_id, map* m, std::string terrain_name)
 {
-    spawns[spawn_id].pick()->func->apply(m, terrain_name);
+    spawns[spawn_id].pick()->apply(m, terrain_name);
 }
 
 void Vehicle_Factory::add_vehicle(map* m, const std::string &vehicle_id, const int x, const int y, const int facing, const int fuel, const int status, const bool mergewrecks)
