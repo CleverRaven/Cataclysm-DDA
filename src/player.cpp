@@ -1823,6 +1823,16 @@ bool player::is_immune_effect( const efftype_id &effect ) const
     return false;
 }
 
+bool player::drag_check() const
+{
+    if (get_str() + (get_per() / 3) + (get_dex() / 4) > rng(4, 15) || is_throw_immune()){
+        return false;
+    }
+    else {
+        return true;
+    }
+}
+
 bool player::is_immune_damage( const damage_type dt ) const
 {
     switch( dt ) {
@@ -4870,11 +4880,11 @@ dealt_damage_instance player::deal_damage(Creature* source, body_part bp, const 
             add_msg_player_or_npc(m_bad, _("%s grabs you!"), _("%s grabs <npcname>!"),
                                   source->disp_name().c_str());
             if (has_grab_break_tec() && get_grab_resist() > 0 && get_dex() > get_str() ?
-                dice(get_dex(), 10) : dice(get_str(), 10) > dice(source->get_dex(), 10)) {
+                dice(get_dex(), 10) : dice(get_str(), 10) > dice(8, 10)) {
                 add_msg_player_or_npc(m_good, _("You break the grab!"),
                                       _("<npcname> breaks the grab!"));
             } else {
-                add_effect("grabbed", 1);
+                add_effect("grabbed", 2);
             }
         }
     }

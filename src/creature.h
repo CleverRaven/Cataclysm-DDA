@@ -56,7 +56,7 @@ class Creature
         virtual void reset_bonuses();
         /** Resets creature stats to normal levels for the start of each turn. Should be idempotent. */
         virtual void reset_stats();
-        
+
         /** Empty function. Should always be overwritten by the appropriate player/NPC/monster version. */
         virtual void die(Creature *killer) = 0;
 
@@ -114,6 +114,7 @@ class Creature
         bool sees( const tripoint &t, int &bresen1 ) const;
         bool sees( const tripoint &t ) const;
         bool sees( point t ) const;
+
         /*@}*/
 
         /**
@@ -220,7 +221,7 @@ class Creature
         virtual bool is_elec_immune() const = 0;
         virtual bool is_immune_effect( const std::string &type ) const = 0;
         virtual bool is_immune_damage( const damage_type type ) const = 0;
-        
+
         /**
          * This function checks the creatures @ref is_dead_state and (if true) calls @ref die.
          * You can either call this function after hitting this creature, or let the game

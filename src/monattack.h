@@ -76,6 +76,7 @@ void darkman            (monster *z, int index);
 void slimespring        (monster *z, int index);
 void bio_op_takedown    (monster *z, int index);
 void pull_enemy         (monster *z, int index);
+void grab               (monster *z, int index);
 void grab_pull          (monster *z, int index);
 void suicide            (monster *z, int index);
 bool thrown_by_judo     (monster *z, int index); //handles zombie getting thrown when u.is_throw_immune()

@@ -199,7 +199,7 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         void update_body_wetness();
         /** Increases hunger, thirst, fatigue, stimms wearing off, dying from hunger and dying from overdose */
         void update_needs();
-        /** Handles passive regeneration of pain and maybe hp, except sleep regeneration. 
+        /** Handles passive regeneration of pain and maybe hp, except sleep regeneration.
           * Updates health and checks for sickness.
           */
         void regen();
@@ -382,6 +382,8 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         int mabuff_cut_bonus() const;
         /** Returns true if the player is immune to throws */
         bool is_throw_immune() const;
+        /** Returns false if the player can't be dragged */
+        bool drag_check() const;
         /** Returns true if the player has quiet melee attacks */
         bool is_quiet() const;
         /** Returns true if the current martial art works with the player's current weapon */

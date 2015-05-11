@@ -749,7 +749,7 @@ void Creature::add_eff_effects(effect e, bool reduced)
     return;
 }
 
-void Creature::add_effect( efftype_id eff_id, int dur, body_part bp, 
+void Creature::add_effect( efftype_id eff_id, int dur, body_part bp,
                            bool permanent, int intensity, bool force )
 {
     // Check our innate immunity

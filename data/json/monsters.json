@@ -1531,7 +1531,7 @@
     "luminance":0,
     "hp":80,
     "death_function":"NORMAL",
-    "special_attacks":[["BITE", 5]],
+    "special_attacks":[["BITE", 5], ["GRAB", 7]],
     "description":"A human body, swaying as it moves, an unstoppable rage is visible in its oily black eyes.",
     "flags":["SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "GROUP_BASH", "POISON", "BLEED", "NO_BREATHE", "REVIVES", "BONES"],
     "categories":["CLASSIC"]
@@ -1593,7 +1593,7 @@
     "luminance":0,
     "hp":100,
     "death_function":["NORMAL"],
-    "special_attacks":[["BITE", 5]],
+    "special_attacks":[["BITE", 5], ["GRAB", 7]],
     "description":"Once an athletic human, now a brutal monster.  Its facial features are twisted into an expression of pure rage.",
     "flags":["SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "GROUP_BASH", "POISON", "BLEED", "NO_BREATHE", "REVIVES", "BONES"],
     "categories":["CLASSIC"]
@@ -1655,7 +1655,7 @@
     "luminance":0,
     "hp":80,
     "death_function":["NORMAL"],
-    "special_attacks":[["BITE", 5]],
+    "special_attacks":[["GRAB", 7]],
     "description":"This zombie's face and body is completely covered by a protective suit.  It wanders around, unsteadily.",
     "flags":["SEES", "HEARS", "STUMBLES", "WARM", "BASHES", "GROUP_BASH", "POISON", "BLEED", "ACIDPROOF", "NO_BREATHE", "REVIVES", "BONES"],
     "categories":["CLASSIC"]
@@ -1686,6 +1686,7 @@
     "luminance":0,
     "hp":80,
     "death_function":["NORMAL"],
+    "special_attacks":[["GRAB", 7]],
     "description":"A decaying human body clad in tattered firefighting gear.  It staggers aimlessly, reeking of smoke and decay.",
     "flags":["SEES", "HEARS", "STUMBLES", "WARM", "BASHES", "GROUP_BASH", "POISON", "BLEED", "ACIDPROOF", "NO_BREATHE", "REVIVES", "BONES"],
     "categories":["CLASSIC"]
@@ -1716,7 +1717,7 @@
     "luminance":0,
     "hp":120,
     "death_function":["NORMAL"],
-    "special_attacks":[["SHRIEK", 20], ["BITE", 5]],
+    "special_attacks":[["SHRIEK", 20], ["BITE", 5], ["GRAB", 7]],
     "description":"Still wearing the tattered remnants of improvised armor and weaponry, it is plain to see that this zombie was once a survivor like you.",
     "flags":["SEES", "HEARS", "SMELLS", "WARM", "BASHES", "GROUP_BASH", "POISON", "NO_BREATHE", "REVIVES", "BONES"]
     },{
@@ -1746,7 +1747,7 @@
     "luminance":0,
     "hp":55,
     "death_function":["NORMAL"],
-    "special_attacks":[["BITE", 2]],
+    "special_attacks":[["BITE", 2], ["GRAB", 7]],
     "description":"A once-dead human corpse.  Its discolored swollen flesh is riddled with festering wounds and open sores.",
     "flags":["SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "GROUP_BASH", "POISON", "BLEED", "NO_BREATHE", "REVIVES", "BONES"],
     "categories":["CLASSIC"]
@@ -1777,6 +1778,7 @@
     "luminance":0,
     "hp":80,
     "death_function":["NORMAL"],
+    "special_attacks":[["GRAB", 7]],
     "description":"A human body covered by a weather-beaten and badly damaged set of riot gear.",
     "flags":["SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "GROUP_BASH", "POISON", "BLEED", "NO_BREATHE", "REVIVES", "BONES"],
     "categories":["CLASSIC"]
@@ -1807,7 +1809,7 @@
     "luminance":0,
     "hp":60,
     "death_function":["NORMAL"],
-    "special_attacks":[["SHRIEK", 10]],
+    "special_attacks":[["SHRIEK", 10], ["GRAB", 7]],
     "description":"An elongated human body with a swollen chest and a gaping hole where its jaw used to be.",
     "flags":["SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "GROUP_BASH", "POISON", "NO_BREATHE", "REVIVES", "BONES"]
     },{
@@ -1996,7 +1998,7 @@
     "luminance":0,
     "hp":70,
     "death_function":["NORMAL"],
-    "special_attacks":[["BITE", 5]],
+    "special_attacks":[["BITE", 5], ["GRAB", 7]],
     "description":"A slick and glistening human body.  Its hands and feet are webbed, and it is clad in swimwear.",
     "flags":["SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "GROUP_BASH", "POISON", "NO_BREATHE", "BLEED", "SWIMS", "REVIVES", "BONES"]
     },{
@@ -2150,7 +2152,7 @@
     "luminance":0,
     "hp":120,
     "death_function":["NORMAL"],
-    "special_attacks":[["SMASH", 30]],
+    "special_attacks":[["SMASH", 30], ["GRAB", 7]],
     "description":"Its entire body bulges with distended muscles and swollen, festering wounds.",
     "flags":["SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "GROUP_BASH", "POISON", "NO_BREATHE", "REVIVES", "BONES"]
     },{
@@ -2561,7 +2563,7 @@
     "luminance":0,
     "hp":110,
     "death_function":["NORMAL"],
-    "special_attacks":[["BITE", 5], ["PULL_ENEMY", 20], ["GRAB_PULL", 5]],
+    "special_attacks":[["BITE", 5], ["PULL_ENEMY", 20], ["GRAB_PULL", 2]],
     "description":"An undead humanoid, its elongated arms drag along the ground as it moves. It looks to almost have a hunch from the swollen back and shoulder muscles tearing though its skin.",
     "flags":["SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "GROUP_BASH", "POISON", "BLEED", "NO_BREATHE", "REVIVES", "BONES"]
     },{
