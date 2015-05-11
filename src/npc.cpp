@@ -235,6 +235,40 @@ void npc::randomize(npc_class type)
   this->restock = 14400*3;  //Every three days
   break;
 
+ case NC_BARTENDER:
+     for( auto &skill : Skill::skills ) {
+   int level = 0;
+   if (one_in(3))
+   {
+    level = dice(2, 2) - 2 + (rng(0, 1) * rng(0, 1));
+   }
+   set_skill_level( skill, level );
+  }
+  boost_skill_level("speech", rng(1, 5));
+  boost_skill_level("barter", rng(2, 4));
+  per_max += rng(0, 1) * rng(0, 1);
+  personality.collector += rng(1, 5);
+  cash = 10000 * rng(1, 10)+ rng(1, 10000);
+  this->restock = 14400*3;  //Every three days
+  break;
+
+ case NC_JUNK_SHOPKEEP:
+     for( auto &skill : Skill::skills ) {
+   int level = 0;
+   if (one_in(3))
+   {
+    level = dice(2, 2) - 2 + (rng(0, 1) * rng(0, 1));
+   }
+   set_skill_level( skill, level );
+  }
+  boost_skill_level("speech", rng(1, 5));
+  boost_skill_level("barter", rng(2, 4));
+  per_max += rng(0, 1) * rng(0, 1);
+  personality.collector += rng(1, 5);
+  cash = 25000 * rng(1, 10)+ rng(1, 100000);
+  this->restock = 14400*3;  //Every three days
+  break;
+
  case NC_ARSONIST:
      for( auto &skill : Skill::skills ) {
    int level = dice(3, 2) - rng(0, 4);
@@ -851,7 +885,7 @@ std::list<item> starting_inv(npc *me, npc_class type)
  }
 
  while (total_space > 0 && !one_in(stopChance)) {
-    tmpitem = random_item_from( type, "_misc" );
+    tmpitem = random_item_from( type, "misc" );
     if( tmpitem.is_null() ) {
         continue;
     }
@@ -1551,6 +1585,12 @@ void npc::shop_restock(){
         case NC_HUNTER:
             from = "NC_HUNTER_misc";
             this-> cash = 15000 * rng(1, 10)+ rng(1, 1000);
+        case NC_BARTENDER:
+            from = "NC_BARTENDER_misc";
+            this-> cash = 25000 * rng(1, 10)+ rng(1, 1000);;
+        case NC_JUNK_SHOPKEEP:
+            from = "NC_JUNK_SHOPKEEP_misc";
+            this-> cash = 25000 * rng(1, 10)+ rng(1, 1000);
         default:
             //Suppress warnings
             break;
@@ -2176,34 +2216,38 @@ std::string npc_class_name_str(npc_class classtype)
     switch(classtype) {
     case NC_NONE:
         return "NC_NONE";
-    case NC_EVAC_SHOPKEEP: // Found in the evacuation center.
+    case NC_EVAC_SHOPKEEP:  // Found in the evacuation center.
         return "NC_EVAC_SHOPKEEP";
-    case NC_ARSONIST: // Found in the evacuation center.
+    case NC_ARSONIST:       // Found in the evacuation center.
         return "NC_ARSONIST";
-    case NC_SHOPKEEP: // Found in towns.  Stays in his shop mostly.
+    case NC_SHOPKEEP:       // Found in towns.  Stays in his shop mostly.
         return "NC_SHOPKEEP";
-    case NC_HACKER: // Weak in combat but has hacking skills and equipment
+    case NC_HACKER:         // Weak in combat but has hacking skills and equipment
         return "NC_HACKER";
-    case NC_DOCTOR: // Found in towns, or roaming.  Stays in the clinic.
+    case NC_DOCTOR:         // Found in towns, or roaming.  Stays in the clinic.
         return "NC_DOCTOR";
-    case NC_TRADER: // Roaming trader, journeying between towns.
+    case NC_TRADER:         // Roaming trader, journeying between towns.
         return "NC_TRADER";
-    case NC_NINJA: // Specializes in unarmed combat, carries few items
+    case NC_NINJA:          // Specializes in unarmed combat, carries few items
         return "NC_NINJA";
-    case NC_COWBOY: // Gunslinger and survivalist
+    case NC_COWBOY:         // Gunslinger and survivalist
         return "NC_COWBOY";
-    case NC_SCIENTIST: // Uses intelligence-based skills and high-tech items
+    case NC_SCIENTIST:      // Uses intelligence-based skills and high-tech items
         return "NC_SCIENTIST";
-    case NC_BOUNTY_HUNTER: // Resourceful and well-armored
+    case NC_BOUNTY_HUNTER:  // Resourceful and well-armored
         return "NC_BOUNTY_HUNTER";
-    case NC_THUG:   // Moderate melee skills and poor equipment
+    case NC_THUG:           // Moderate melee skills and poor equipment
         return "NC_THUG";
-    case NC_SCAVENGER: // Good with pistols light weapons
+    case NC_SCAVENGER:      // Good with pistols light weapons
         return "NC_SCAVENGER";
-    case NC_HUNTER: // Good with bows and rifles
+    case NC_HUNTER:         // Good with bows and rifles
         return "NC_HUNTER";
-    case NC_SOLDIER: // Well equiped and trained combatant, good with rifles and melee
+    case NC_SOLDIER:        // Well equiped and trained combatant, good with rifles and melee
         return "NC_SOLDIER";
+    case NC_BARTENDER:      // Stocks alcohol
+        return "NC_BARTENDER";
+    case NC_JUNK_SHOPKEEP:  // Stocks wide range of items...
+        return "NC_JUNK_SHOPKEEP";
     default:
         //Suppress warnings
         break;
@@ -2216,34 +2260,38 @@ std::string npc_class_name(npc_class classtype)
     switch(classtype) {
     case NC_NONE:
         return _("No class");
-    case NC_EVAC_SHOPKEEP: // Found in the evacuation center.
+    case NC_EVAC_SHOPKEEP:  // Found in the evacuation center.
         return _("Merchant");
-    case NC_ARSONIST: // Found in the evacuation center.
+    case NC_ARSONIST:       // Found in the evacuation center.
         return _("Arsonist");
-    case NC_SHOPKEEP: // Found in towns.  Stays in his shop mostly.
+    case NC_SHOPKEEP:       // Found in towns.  Stays in his shop mostly.
         return _("Shopkeep");
-    case NC_HACKER: // Weak in combat but has hacking skills and equipment
+    case NC_HACKER:         // Weak in combat but has hacking skills and equipment
         return _("Hacker");
-    case NC_DOCTOR: // Found in towns, or roaming.  Stays in the clinic.
+    case NC_DOCTOR:         // Found in towns, or roaming.  Stays in the clinic.
         return _("Doctor");
-    case NC_TRADER: // Roaming trader, journeying between towns.
+    case NC_TRADER:         // Roaming trader, journeying between towns.
         return _("Trader");
-    case NC_NINJA: // Specializes in unarmed combat, carries few items
+    case NC_NINJA:          // Specializes in unarmed combat, carries few items
         return _("Ninja");
-    case NC_COWBOY: // Gunslinger and survivalist
+    case NC_COWBOY:         // Gunslinger and survivalist
         return _("Cowboy");
-    case NC_SCIENTIST: // Uses intelligence-based skills and high-tech items
+    case NC_SCIENTIST:      // Uses intelligence-based skills and high-tech items
         return _("Scientist");
-    case NC_BOUNTY_HUNTER: // Resourceful and well-armored
+    case NC_BOUNTY_HUNTER:  // Resourceful and well-armored
         return _("Bounty Hunter");
-    case NC_THUG:   // Moderate melee skills and poor equipment
+    case NC_THUG:           // Moderate melee skills and poor equipment
         return _("Thug");
-    case NC_SCAVENGER: // Good with pistols light weapons
+    case NC_SCAVENGER:      // Good with pistols light weapons
         return _("Scavenger");
-    case NC_HUNTER: // Good with bows and rifles
+    case NC_HUNTER:         // Good with bows and rifles
         return _("Hunter");
-    case NC_SOLDIER: // Well equiped and trained combatant, good with rifles and melee
+    case NC_SOLDIER:        // Well equiped and trained combatant, good with rifles and melee
         return _("Soldier");
+    case NC_BARTENDER:      // Stocks alcohol
+        return _("Bartender");
+    case NC_JUNK_SHOPKEEP:  // Stocks wide range of items...
+        return _("Shopkeep");
     default:
         //Suppress warnings
         break;
