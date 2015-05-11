@@ -1555,96 +1555,86 @@ Before we get into a major fight just make sure we have the gear we need, boss."
         break;
 
     case MISSION_RANCH_FOREMAN_1:
-        switch (state) {
-        case TALK_MISSION_DESCRIBE:
+        if( state == "TALK_MISSION_DESCRIBE" ) {
             return _("We need help...");
-        case TALK_MISSION_OFFER:
+        } else if( state == "TALK_MISSION_OFFER" ) {
             return _("Our first project is to enclose the barn so that new refugees have a safe place "
                      "to sleep.  Before we can begin serious improvements we need lumber to work with.  "
                      "Enclosing the four barn entrances will take nearly 400 2x4's... if you could "
                      "provide half of that we should be able to take care of the other half and "
                      "construction.  If you don't have a truck, I'd make finding one your first priority.  ");
-        case TALK_MISSION_ACCEPTED:
+        } else if( state == "TALK_MISSION_ACCEPTED" ) {
             return _("The more men we can bring to the camp the quicker improvements can be made.");
-        case TALK_MISSION_REJECTED:
+        } else if( state == "TALK_MISSION_REJECTED" ) {
             return _("Come back when you get a chance, we need skilled survivors.");
-        case TALK_MISSION_ADVICE:
+        } else if( state == "TALK_MISSION_ADVICE" ) {
             return _("Avoid destroying the furniture, we'll be needing it.");
-        case TALK_MISSION_INQUIRE:
+        } else if( state == "TALK_MISSION_INQUIRE" ) {
             return _("Do you have them?");
-        case TALK_MISSION_SUCCESS:
+        } else if( state == "TALK_MISSION_SUCCESS" ) {
             return _("Great, I'll send word that we could use another set of hands or two to help out here.");
-        case TALK_MISSION_SUCCESS_LIE:
+        } else if( state == "TALK_MISSION_SUCCESS_LIE" ) {
             return _("What good does this do us?");
-        case TALK_MISSION_FAILURE:
+        } else if( state == "TALK_MISSION_FAILURE" ) {
             return _("It was a lost cause anyways...");
-        default: // It's a bug.
-            return "";
         }
         break;
 
     case MISSION_RANCH_FOREMAN_2:
-        switch (state) {
-        case TALK_MISSION_DESCRIBE:
+        if( state == "TALK_MISSION_DESCRIBE" ) {
             return _("We need help...");
-        case TALK_MISSION_OFFER:
+        } else if( state == "TALK_MISSION_OFFER" ) {
             return _("With the barn entrances enclosed the refugees moving into there should feel safer but the "
                      "weather can be bitter here.  We're going to need to build makeshift beds in the stalls to "
                      "ward off disease and frostbite.  We can take care of the frames but will need your help "
                      "looting blankets.  We'd need 25 blankets to provide the most basic sleeping accommodations.");
-        case TALK_MISSION_ACCEPTED:
+        } else if( state == "TALK_MISSION_ACCEPTED" ) {
             return _("I'd start with looting hotels or you could sew them together... but that would be a last resort.");
-        case TALK_MISSION_REJECTED:
+        } else if( state == "TALK_MISSION_REJECTED" ) {
             return _("Come back when you get a chance, we need skilled survivors.");
-        case TALK_MISSION_ADVICE:
+        } else if( state == "TALK_MISSION_ADVICE" ) {
             return _("Avoid destroying the furniture here, we'll be needing it.");
-        case TALK_MISSION_INQUIRE:
+        } else if( state == "TALK_MISSION_INQUIRE" ) {
             return _("Do you have them?");
-        case TALK_MISSION_SUCCESS:
+        } else if( state == "TALK_MISSION_SUCCESS" ) {
             return _("Your assistance is always appreciated.");
-        case TALK_MISSION_SUCCESS_LIE:
+        } else if( state == "TALK_MISSION_SUCCESS_LIE" ) {
             return _("What good does this do us?");
-        case TALK_MISSION_FAILURE:
+        } else if( state == "TALK_MISSION_FAILURE" ) {
             return _("It was a lost cause anyways...");
-        default: // It's a bug.
-            return "";
         }
         break;
 
     case MISSION_RANCH_FOREMAN_3:
-        switch (state) {
-        case TALK_MISSION_DESCRIBE:
+        if( state == "TALK_MISSION_DESCRIBE" ) {
             return _("We need help...");
-        case TALK_MISSION_OFFER:
+        } else if( state == "TALK_MISSION_OFFER" ) {
             return _("Our supply of nails has been depleted.  I'm going to have to ask you to get us a few more "
                      "boxes.  Hardware stores should have a few if they haven't been looted.  I suppose you may "
                      "be able to find handfuls of them in building rubble.  We'd need 2500 to have enough that we "
                      "won't be sending you back out too soon.");
-        case TALK_MISSION_ACCEPTED:
+        } else if( state == "TALK_MISSION_ACCEPTED" ) {
             return _("Deconstructing furniture isn't going to be efficient, try looking for boxes or grabbing any "
                      "sitting on top of rubble piles.");
-        case TALK_MISSION_REJECTED:
+        } else if( state == "TALK_MISSION_REJECTED" ) {
             return _("Come back when you get a chance, we need skilled survivors.");
-        case TALK_MISSION_ADVICE:
+        } else if( state == "TALK_MISSION_ADVICE" ) {
             return _("Avoid destroying the furniture here, we'll be needing it.");
-        case TALK_MISSION_INQUIRE:
+        } else if( state == "TALK_MISSION_INQUIRE" ) {
             return _("Do you have them?");
-        case TALK_MISSION_SUCCESS:
+        } else if( state == "TALK_MISSION_SUCCESS" ) {
             return _("Your assistance is always appreciated.");
-        case TALK_MISSION_SUCCESS_LIE:
+        } else if( state == "TALK_MISSION_SUCCESS_LIE" ) {
             return _("What good does this do us?");
-        case TALK_MISSION_FAILURE:
+        } else if( state == "TALK_MISSION_FAILURE" ) {
             return _("It was a lost cause anyways...");
-        default: // It's a bug.
-            return "";
         }
         break;
 
     case MISSION_RANCH_FOREMAN_4:
-        switch (state) {
-        case TALK_MISSION_DESCRIBE:
+        if( state == "TALK_MISSION_DESCRIBE" ) {
             return _("We need help...");
-        case TALK_MISSION_OFFER:
+        } else if( state == "TALK_MISSION_OFFER" ) {
             return _("I'm sure you've noticed the new workers that have started trickling in.  The Free Merchant "
                      "counsel is demanding that we immediately begin projects to become self-sufficient due to "
                      "limited supplies.  We are going to need to rapidly setup an agricultural industry before "
@@ -1652,61 +1642,55 @@ Before we get into a major fight just make sure we have the gear we need, boss."
                      "shovels and a couple of bags of seeds, we are going to have to trade for it.  I've already "
                      "got the deal lined up but the only thing they are willing to trade it for is salt.  I "
                      "negotiated them down from 500 units to 300... we were hoping you might have access to a source.");
-        case TALK_MISSION_ACCEPTED:
+        } else if( state == "TALK_MISSION_ACCEPTED" ) {
             return _("Salt is key to preserving meat and other perishables... without any excess food it wouldn't "
                      "do us much good now but I imagine we'll need to send you out to get more in the future.  ");
-        case TALK_MISSION_REJECTED:
+        } else if( state == "TALK_MISSION_REJECTED" ) {
             return _("Come back when you get a chance, we need skilled survivors.");
-        case TALK_MISSION_ADVICE:
+        } else if( state == "TALK_MISSION_ADVICE" ) {
             return _("If you can find a source of salt water you should be able to boil it down.");
-        case TALK_MISSION_INQUIRE:
+        } else if( state == "TALK_MISSION_INQUIRE" ) {
             return _("Do you have the salt?");
-        case TALK_MISSION_SUCCESS:
+        } else if( state == "TALK_MISSION_SUCCESS" ) {
             return _("We are going to begin preparing our fields immediately.");
-        case TALK_MISSION_SUCCESS_LIE:
+        } else if( state == "TALK_MISSION_SUCCESS_LIE" ) {
             return _("What good does this do us?");
-        case TALK_MISSION_FAILURE:
+        } else if( state == "TALK_MISSION_FAILURE" ) {
             return _("It was a lost cause anyways...");
-        default: // It's a bug.
-            return "";
         }
         break;
 
     case MISSION_RANCH_FOREMAN_5:
-        switch (state) {
-        case TALK_MISSION_DESCRIBE:
+        if( state == "TALK_MISSION_DESCRIBE" ) {
             return _("We need help...");
-        case TALK_MISSION_OFFER:
+        } else if( state == "TALK_MISSION_OFFER" ) {
             return _("Well, our first crop will be planted shortly but I'm starting to suspect that our profit "
                      "margin is going to be much smaller than we expect.  With limited seed for our original crop "
                      "our next course of action is to increase the soil's fertility.  Is there any way you could "
                      "find or produce a basic liquid fertilizer for us?  We'd need at least 30 units to make a "
                      "significant improvement in our output. ");
-        case TALK_MISSION_ACCEPTED:
+        } else if( state == "TALK_MISSION_ACCEPTED" ) {
             return _("I don't know the exact recipie but I'm sure you could make it from a comercial fertilizer or "
                      "produce it from bonemeal.");
-        case TALK_MISSION_REJECTED:
+        } else if( state == "TALK_MISSION_REJECTED" ) {
             return _("Come back when you get a chance, we need skilled survivors.");
-        case TALK_MISSION_ADVICE:
+        } else if( state == "TALK_MISSION_ADVICE" ) {
             return _("I'd look through a few basic chemistry books to find a simple recipe.");
-        case TALK_MISSION_INQUIRE:
+        } else if( state == "TALK_MISSION_INQUIRE" ) {
             return _("Do you have the liquid fertilizer?");
-        case TALK_MISSION_SUCCESS:
+        } else if( state == "TALK_MISSION_SUCCESS" ) {
             return _("This really should make the first winter easier to survive.");
-        case TALK_MISSION_SUCCESS_LIE:
+        } else if( state == "TALK_MISSION_SUCCESS_LIE" ) {
             return _("What good does this do us?");
-        case TALK_MISSION_FAILURE:
+        } else if( state == "TALK_MISSION_FAILURE" ) {
             return _("It was a lost cause anyways...");
-        default: // It's a bug.
-            return "";
         }
         break;
 
     case MISSION_RANCH_FOREMAN_6:
-        switch (state) {
-        case TALK_MISSION_DESCRIBE:
+        if( state == "TALK_MISSION_DESCRIBE" ) {
             return _("We need help...");
-        case TALK_MISSION_OFFER:
+        } else if( state == "TALK_MISSION_OFFER" ) {
             return _("Our current assessment for survivability has increased significantly thanks to your efforts.  "
                      "The next priority issue is securing a cleaner water source.  Drinking from the pond on the "
                      "back end of the ranch has led to an outbreak of dysentery.  As quickly as possible we need to "
@@ -1714,160 +1698,145 @@ Before we get into a major fight just make sure we have the gear we need, boss."
                      "construct stone fireplaces in the barn for the migrants to boil water.  We are going to need "
                      "at least 75 large stones from you if we hope to accomplish the task before we all get sick.  "
                      "After we have them installed you will have free access to them, guaranteed. ");
-        case TALK_MISSION_ACCEPTED:
+        } else if( state == "TALK_MISSION_ACCEPTED" ) {
             return _("If you take a shovel to a pile of rubble you should be able to pull out structural grade stone.");
-        case TALK_MISSION_REJECTED:
+        } else if( state == "TALK_MISSION_REJECTED" ) {
             return _("Come back when you get a chance, we need skilled survivors.");
-        case TALK_MISSION_ADVICE:
+        } else if( state == "TALK_MISSION_ADVICE" ) {
             return _("Mining would always be an option if you had the resources.");
-        case TALK_MISSION_INQUIRE:
+        } else if( state == "TALK_MISSION_INQUIRE" ) {
             return _("Do you have the stone?");
-        case TALK_MISSION_SUCCESS:
+        } else if( state == "TALK_MISSION_SUCCESS" ) {
             return _("I appreciate the work you do.");
-        case TALK_MISSION_SUCCESS_LIE:
+        } else if( state == "TALK_MISSION_SUCCESS_LIE" ) {
             return _("What good does this do us?");
-        case TALK_MISSION_FAILURE:
+        } else if( state == "TALK_MISSION_FAILURE" ) {
             return _("It was a lost cause anyways...");
-        default: // It's a bug.
-            return "";
         }
         break;
 
     case MISSION_RANCH_FOREMAN_7:
-        switch (state) {
-        case TALK_MISSION_DESCRIBE:
+        if( state == "TALK_MISSION_DESCRIBE" ) {
             return _("We need help...");
-        case TALK_MISSION_OFFER:
+        } else if( state == "TALK_MISSION_OFFER" ) {
             return _("To fabricate the well's hand pump and construct components for several other projects we are going to need to find or "
                      "fabricate a number of steel pipes.  Plumbing is a distant possibility for now but some form of irrigation will eventually "
                      "become desirable.  You could assist us with procuring 50 steel pipes, if you so have the chance.");
-        case TALK_MISSION_ACCEPTED:
+        } else if( state == "TALK_MISSION_ACCEPTED" ) {
             return _("Hopefully we will be able to assign new migrants to help fulfill our needs in the future.");
-        case TALK_MISSION_REJECTED:
+        } else if( state == "TALK_MISSION_REJECTED" ) {
             return _("Come back when you get a chance, we need skilled survivors.");
-        case TALK_MISSION_ADVICE:
+        } else if( state == "TALK_MISSION_ADVICE" ) {
             return _("Pipes are used in numerous metal constructions.  Smashing abandoned furniture may provide the material we need.");
-        case TALK_MISSION_INQUIRE:
+        } else if( state == "TALK_MISSION_INQUIRE" ) {
             return _("Do you have the motors?");
-        case TALK_MISSION_SUCCESS:
+        } else if( state == "TALK_MISSION_SUCCESS" ) {
             return _("I appreciate the work you do.");
-        case TALK_MISSION_SUCCESS_LIE:
+        } else if( state == "TALK_MISSION_SUCCESS_LIE" ) {
             return _("What good does this do us?");
-        case TALK_MISSION_FAILURE:
+        } else if( state == "TALK_MISSION_FAILURE" ) {
             return _("It was a lost cause anyways...");
-        default: // It's a bug.
-            return "";
         }
         break;
 
     case MISSION_RANCH_FOREMAN_8:
-        switch (state) {
-        case TALK_MISSION_DESCRIBE:
+        if( state == "TALK_MISSION_DESCRIBE" ) {
             return _("We need help...");
-        case TALK_MISSION_OFFER:
+        } else if( state == "TALK_MISSION_OFFER" ) {
             return _("With the well's completion we are rapidly closing the sustainability gap.  In order to expand "
                      "from here we will need massive quantities of lumber to construct fortifications and new buildings.  "
                      "We have already begun work on a manually operated sawmill but we will need two motors to control "
                      "the actual blades.  We were hoping you might be able to secure the motors for us.");
-        case TALK_MISSION_ACCEPTED:
+        } else if( state == "TALK_MISSION_ACCEPTED" ) {
             return _("Power for the motors will be provided by a salvaged truck battery, you need not bring additional mechanical components.  ");
-        case TALK_MISSION_REJECTED:
+        } else if( state == "TALK_MISSION_REJECTED" ) {
             return _("Come back when you get a chance, we need skilled survivors.");
-        case TALK_MISSION_ADVICE:
+        } else if( state == "TALK_MISSION_ADVICE" ) {
             return _("Mining would always be an option if you had the resources.");
-        case TALK_MISSION_INQUIRE:
+        } else if( state == "TALK_MISSION_INQUIRE" ) {
             return _("Do you have the motors?");
-        case TALK_MISSION_SUCCESS:
+        } else if( state == "TALK_MISSION_SUCCESS" ) {
             return _("I appreciate the work you do.");
-        case TALK_MISSION_SUCCESS_LIE:
+        } else if( state == "TALK_MISSION_SUCCESS_LIE" ) {
             return _("What good does this do us?");
-        case TALK_MISSION_FAILURE:
+        } else if( state == "TALK_MISSION_FAILURE" ) {
             return _("It was a lost cause anyways...");
-        default: // It's a bug.
-            return "";
         }
         break;
 
     case MISSION_RANCH_FOREMAN_9:
-        switch (state) {
-        case TALK_MISSION_DESCRIBE:
+        if( state == "TALK_MISSION_DESCRIBE" ) {
             return _("We need help...");
-        case TALK_MISSION_OFFER:
+        } else if( state == "TALK_MISSION_OFFER" ) {
             return _("Disease and infection remains a persistent problem among the refugees.  Without dedicated medical "
                      "personnel and facilities I doubt everyone will be willing to stick around when the next outbreak "
                      "happens.  Until we can get a former medic or nurse I'm just going to have to improvise.  "
                      "Sterilization would be the first step I imagine.  Bring me five gallons of bleach so we can get "
                      "started.");
-        case TALK_MISSION_ACCEPTED:
+        } else if( state == "TALK_MISSION_ACCEPTED" ) {
             return _("I'm sure you can find bleach in most homes...");
-        case TALK_MISSION_REJECTED:
+        } else if( state == "TALK_MISSION_REJECTED" ) {
             return _("Come back when you get a chance, we need skilled survivors.");
-        case TALK_MISSION_ADVICE:
+        } else if( state == "TALK_MISSION_ADVICE" ) {
             return _("If you can't find a large supply I'd recommend checking hospitals or research labs.");
-        case TALK_MISSION_INQUIRE:
+        } else if( state == "TALK_MISSION_INQUIRE" ) {
             return _("Do you have the bleach?");
-        case TALK_MISSION_SUCCESS:
+        } else if( state == "TALK_MISSION_SUCCESS" ) {
             return _("I appreciate it.");
-        case TALK_MISSION_SUCCESS_LIE:
+        } else if( state == "TALK_MISSION_SUCCESS_LIE" ) {
             return _("What good does this do us?");
-        case TALK_MISSION_FAILURE:
+        } else if( state == "TALK_MISSION_FAILURE" ) {
             return _("It was a lost cause anyways...");
-        default: // It's a bug.
-            return "";
         }
         break;
 
     case MISSION_RANCH_FOREMAN_10:
-        switch (state) {
-        case TALK_MISSION_DESCRIBE:
+        if( state == "TALK_MISSION_DESCRIBE" ) {
             return _("We need help...");
-        case TALK_MISSION_OFFER:
+        } else if( state == "TALK_MISSION_OFFER" ) {
             return _("We've started planning a medical clinic but we are going to need a lot more supplies if we hope to "
                      "warrant sending one of the few people with medical experience from the refugee center to our "
                      "outpost.  I know first aid kits are rare but they have all the basic supplies that I'm uncertain "
                      "of.  If you could bring in 3 full kits I'm sure we could supplement them to make them last a bit "
                      "longer.");
-        case TALK_MISSION_ACCEPTED:
+        } else if( state == "TALK_MISSION_ACCEPTED" ) {
             return _("We'll do our best to make them last...");
-        case TALK_MISSION_REJECTED:
+        } else if( state == "TALK_MISSION_REJECTED" ) {
             return _("Come back when you get a chance, we need skilled survivors.");
-        case TALK_MISSION_ADVICE:
+        } else if( state == "TALK_MISSION_ADVICE" ) {
             return _("Homes, hospitals, labs, and doctor offices would be where I'd check.");
-        case TALK_MISSION_INQUIRE:
+        } else if( state == "TALK_MISSION_INQUIRE" ) {
             return _("Do you have the first aid kits?");
-        case TALK_MISSION_SUCCESS:
+        } else if( state == "TALK_MISSION_SUCCESS" ) {
             return _("I appreciate it.");
-        case TALK_MISSION_SUCCESS_LIE:
+        } else if( state == "TALK_MISSION_SUCCESS_LIE" ) {
             return _("What good does this do us?");
-        case TALK_MISSION_FAILURE:
+        } else if( state == "TALK_MISSION_FAILURE" ) {
             return _("It was a lost cause anyways...");
-        default: // It's a bug.
-            return "";
         }
         break;
 
     case MISSION_RANCH_FOREMAN_11:
-        switch (state) {
-        case TALK_MISSION_DESCRIBE:
+        if( state == "TALK_MISSION_DESCRIBE" ) {
             return _("We need help...");
-        case TALK_MISSION_OFFER:
+        } else if( state == "TALK_MISSION_OFFER" ) {
             return _("The work you have done has swayed the leaders at the refugee center to send someone out to assist "
                      "with our medical needs.  The next step is for us to get a sort of chop-shop setup so that we can "
                      "begin using scrap metal to build fortifications and equipment.  We are going to need a pair of "
                      "electric welders for our mechanics to use.");
-        case TALK_MISSION_ACCEPTED:
+        } else if( state == "TALK_MISSION_ACCEPTED" ) {
             return _("With two, we should be able to repair one if it breaks.");
-        case TALK_MISSION_REJECTED:
+        } else if( state == "TALK_MISSION_REJECTED" ) {
             return _("Come back when you get a chance, we need skilled survivors.");
-        case TALK_MISSION_ADVICE:
+        } else if( state == "TALK_MISSION_ADVICE" ) {
             return _("The only place I've seen them is garages but I imagine you could find them in some stores.");
-        case TALK_MISSION_INQUIRE:
+        } else if( state == "TALK_MISSION_INQUIRE" ) {
             return _("Do you have the welders?");
-        case TALK_MISSION_SUCCESS:
+        } else if( state == "TALK_MISSION_SUCCESS" ) {
             return _("I appreciate it.");
-        case TALK_MISSION_SUCCESS_LIE:
+        } else if( state == "TALK_MISSION_SUCCESS_LIE" ) {
             return _("What good does this do us?");
-        case TALK_MISSION_FAILURE:
+        } else if( state == "TALK_MISSION_FAILURE" ) {
             return _("It was a lost cause anyways...");
         default: // It's a bug.
             return "";
@@ -1875,95 +1844,85 @@ Before we get into a major fight just make sure we have the gear we need, boss."
         break;
 
     case MISSION_RANCH_FOREMAN_12:
-        switch (state) {
-        case TALK_MISSION_DESCRIBE:
+        if( state == "TALK_MISSION_DESCRIBE" ) {
             return _("We need help...");
-        case TALK_MISSION_OFFER:
+        } else if( state == "TALK_MISSION_OFFER" ) {
             return _("We have the basic equipment that we need but without a functioning power grid we are forced to rely "
                      "on the readily available vehicle batteries.  This is going to be a chore but I'll need twelve car "
                      "batteries to swap between charging and powering our equipment.  The good news is that they don't need "
                      "to be charged, we can take care of that.");
-        case TALK_MISSION_ACCEPTED:
+        } else if( state == "TALK_MISSION_ACCEPTED" ) {
             return _("I'm counting on you.");
-        case TALK_MISSION_REJECTED:
+        } else if( state == "TALK_MISSION_REJECTED" ) {
             return _("Come back when you get a chance, we need skilled survivors.");
-        case TALK_MISSION_ADVICE:
+        } else if( state == "TALK_MISSION_ADVICE" ) {
             return _("Cars can be found in traffic jams along roads or in parking lots... I'm sure you can find a few.");
-        case TALK_MISSION_INQUIRE:
+        } else if( state == "TALK_MISSION_INQUIRE" ) {
             return _("Do you have the car batteries?");
-        case TALK_MISSION_SUCCESS:
+        } else if( state == "TALK_MISSION_SUCCESS" ) {
             return _("I'm impressed with your abilities.");
-        case TALK_MISSION_SUCCESS_LIE:
+        } else if( state == "TALK_MISSION_SUCCESS_LIE" ) {
             return _("What good does this do us?");
-        case TALK_MISSION_FAILURE:
+        } else if( state == "TALK_MISSION_FAILURE" ) {
             return _("It was a lost cause anyways...");
-        default: // It's a bug.
-            return "";
         }
         break;
 
     case MISSION_RANCH_FOREMAN_13:
-        switch (state) {
-        case TALK_MISSION_DESCRIBE:
+        if( state == "TALK_MISSION_DESCRIBE" ) {
             return _("We need help...");
-        case TALK_MISSION_OFFER:
+        } else if( state == "TALK_MISSION_OFFER" ) {
             return _("Check with the nurse when you get a chance, I know she will need help setting up our clinic.  On "
                      "the construction front, we are going to need to get dedicated scavenger teams setup to bring in "
                      "the miscellaneous supplies that we use in small quantities.  We are going to start setting up a "
                      "junk shop for them in the North end of the outpost so we could use your help with that.  "
                      "Communication is the biggest obstacle for the teams... could you bring in a pair two two-way radios?");
-        case TALK_MISSION_ACCEPTED:
+        } else if( state == "TALK_MISSION_ACCEPTED" ) {
             return _("Organizing the scavenging missions is difficult enough without communication.");
-        case TALK_MISSION_REJECTED:
+        } else if( state == "TALK_MISSION_REJECTED" ) {
             return _("Come back when you get a chance, we need skilled survivors.");
-        case TALK_MISSION_ADVICE:
+        } else if( state == "TALK_MISSION_ADVICE" ) {
             return _("You should be able to find them in electronics stores or at a police station.");
-        case TALK_MISSION_INQUIRE:
+        } else if( state == "TALK_MISSION_INQUIRE" ) {
             return _("Do you have the two-way radios?");
-        case TALK_MISSION_SUCCESS:
+        } else if( state == "TALK_MISSION_SUCCESS" ) {
             return _("I'm sure the scavengers will find these useful.");
-        case TALK_MISSION_SUCCESS_LIE:
+        } else if( state == "TALK_MISSION_SUCCESS_LIE" ) {
             return _("What good does this do us?");
-        case TALK_MISSION_FAILURE:
+        } else if( state == "TALK_MISSION_FAILURE" ) {
             return _("It was a lost cause anyways...");
-        default: // It's a bug.
-            return "";
         }
         break;
 
     case MISSION_RANCH_FOREMAN_14:
-        switch (state) {
-        case TALK_MISSION_DESCRIBE:
+        if( state == "TALK_MISSION_DESCRIBE" ) {
             return _("We need help...");
-        case TALK_MISSION_OFFER:
+        } else if( state == "TALK_MISSION_OFFER" ) {
             return _("The volunteers for the scavenging teams will need to be issued some basic equipment.  When the boss "
                      "sets up shop in the junk shed you should ask him what else he needs for his teams.  In the meantime "
                      "we can provide a few backpacks to get them started.  Could you find five backpacks to give to the "
                      "initial team?");
-        case TALK_MISSION_ACCEPTED:
+        } else if( state == "TALK_MISSION_ACCEPTED" ) {
             return _("I'm counting on you.");
-        case TALK_MISSION_REJECTED:
+        } else if( state == "TALK_MISSION_REJECTED" ) {
             return _("Come back when you get a chance, we need skilled survivors.");
-        case TALK_MISSION_ADVICE:
+        } else if( state == "TALK_MISSION_ADVICE" ) {
             return _("It may be easier to make them if you can't find a school or something.");
-        case TALK_MISSION_INQUIRE:
+        } else if( state == "TALK_MISSION_INQUIRE" ) {
             return _("Do you have the backpacks?");
-        case TALK_MISSION_SUCCESS:
+        } else if( state == "TALK_MISSION_SUCCESS" ) {
             return _("Having at least basic equipment greatly increases survivability.  Thanks.");
-        case TALK_MISSION_SUCCESS_LIE:
+        } else if( state == "TALK_MISSION_SUCCESS_LIE" ) {
             return _("What good does this do us?");
-        case TALK_MISSION_FAILURE:
+        } else if( state == "TALK_MISSION_FAILURE" ) {
             return _("It was a lost cause anyways...");
-        default: // It's a bug.
-            return "";
         }
         break;
 
     case MISSION_RANCH_FOREMAN_15:
-        switch (state) {
-        case TALK_MISSION_DESCRIBE:
+        if( state == "TALK_MISSION_DESCRIBE" ) {
             return _("We need help...");
-        case TALK_MISSION_OFFER:
+        } else if( state == "TALK_MISSION_OFFER" ) {
             return _("Growth has lately begun to stall, we have individuals passing through the outpost but the prospect "
                      "of hard labor just to eek out an existence is driving them away.  We've asked around and decided "
                      "that, despite our pressing needs, building a bar ought to draw some of the less committed "
@@ -1971,80 +1930,72 @@ Before we get into a major fight just make sure we have the gear we need, boss."
                      "produce... at least in the long term.  Unfortunately, no one here has brewed alcoholic drinks "
                      "before so we are going to need you to find a book called the 'Homebrewer's Bible' or something "
                      "along those lines.");
-        case TALK_MISSION_ACCEPTED:
+        } else if( state == "TALK_MISSION_ACCEPTED" ) {
             return _("I'm counting on you.");
-        case TALK_MISSION_REJECTED:
+        } else if( state == "TALK_MISSION_REJECTED" ) {
             return _("Come back when you get a chance, we need skilled survivors.");
-        case TALK_MISSION_ADVICE:
+        } else if( state == "TALK_MISSION_ADVICE" ) {
             return _("I guess you should search homes or libraries?");
-        case TALK_MISSION_INQUIRE:
+        } else if( state == "TALK_MISSION_INQUIRE" ) {
             return _("Do you have the book?");
-        case TALK_MISSION_SUCCESS:
+        } else if( state == "TALK_MISSION_SUCCESS" ) {
             return _("I guarantee we will toast to your name when the bar is finished.");
-        case TALK_MISSION_SUCCESS_LIE:
+        } else if( state == "TALK_MISSION_SUCCESS_LIE" ) {
             return _("What good does this do us?");
-        case TALK_MISSION_FAILURE:
+        } else if( state == "TALK_MISSION_FAILURE" ) {
             return _("It was a lost cause anyways...");
-        default: // It's a bug.
-            return "";
         }
         break;
 
     case MISSION_RANCH_FOREMAN_16:
-        switch (state) {
-        case TALK_MISSION_DESCRIBE:
+        if( state == "TALK_MISSION_DESCRIBE" ) {
             return _("We need help...");
-        case TALK_MISSION_OFFER:
+        } else if( state == "TALK_MISSION_OFFER" ) {
             return _("Just flipping through the book I can tell that one ingredient in most of the alcoholic drinks "
                      "that we don't have a large supply of is sugar.  What alcohol we have been able to loot isn't "
                      "going to last us long so starting our first large batch is a priority.  Could you bring in 80 "
                      "units of sugar?  That should last us until we can start producing our own supply.");
-        case TALK_MISSION_ACCEPTED:
+        } else if( state == "TALK_MISSION_ACCEPTED" ) {
             return _("I'm counting on you.");
-        case TALK_MISSION_REJECTED:
+        } else if( state == "TALK_MISSION_REJECTED" ) {
             return _("Come back when you get a chance, we need skilled survivors.");
-        case TALK_MISSION_ADVICE:
+        } else if( state == "TALK_MISSION_ADVICE" ) {
             return _("You might get lucky finding it but you could always boil it out of fruit if you are familiar "
                      "with the process.");
-        case TALK_MISSION_INQUIRE:
+        } else if( state == "TALK_MISSION_INQUIRE" ) {
             return _("Do you have the sugar?");
-        case TALK_MISSION_SUCCESS:
+        } else if( state == "TALK_MISSION_SUCCESS" ) {
             return _("There is a large group of thirsty individuals in our outpost that are truly thankful for your work.");
-        case TALK_MISSION_SUCCESS_LIE:
+        } else if( state == "TALK_MISSION_SUCCESS_LIE" ) {
             return _("What good does this do us?");
-        case TALK_MISSION_FAILURE:
+        } else if( state == "ALK_MISSION_FAILURE" ) {
             return _("It was a lost cause anyways...");
-        default: // It's a bug.
-            return "";
         }
         break;
 
     case MISSION_RANCH_FOREMAN_17:
-        switch (state) {
-        case TALK_MISSION_DESCRIBE:
+        if( state == "TALK_MISSION_DESCRIBE" ) {
             return _("We need help...");
-        case TALK_MISSION_OFFER:
+        } else if( state == "TALK_MISSION_OFFER" ) {
             return _("Although we are an agricultural outpost, we are restricted to growing plants that are compatible "
                      "with the New England climate during the warmer months.  The easiest way to work around that is to "
                      "build green houses to supplement our external fields.  There isn't going to be an easy way to "
                      "build these, we are going to need a massive number of glass sheets to enclose the frames.  The "
                      "first house will need 20 sheets of glass if you are still interested.");
-        case TALK_MISSION_ACCEPTED:
+        } else if( state == "TALK_MISSION_ACCEPTED" ) {
             return _("I'm counting on you.");
-        case TALK_MISSION_REJECTED:
+        } else if( state == "TALK_MISSION_REJECTED" ) {
             return _("Come back when you get a chance, we need skilled survivors.");
-        case TALK_MISSION_ADVICE:
+        } else if( state == "TALK_MISSION_ADVICE" ) {
             return _("Deconstructing existing windows is the only way I know of to keep the sheets intact.");
-        case TALK_MISSION_INQUIRE:
+        } else if( state == "TALK_MISSION_INQUIRE" ) {
             return _("Do you have the glass sheets?");
-        case TALK_MISSION_SUCCESS:
+        } else if( state == "TALK_MISSION_SUCCESS" ) {
             return _("We'll begin planting our first seeds as soon as we can get these installed.");
-        case TALK_MISSION_SUCCESS_LIE:
+        } else if( state == "TALK_MISSION_SUCCESS_LIE" ) {
             return _("What good does this do us?");
-        case TALK_MISSION_FAILURE:
+        } else if( state == "TALK_MISSION_FAILURE" ) {
             return _("It was a lost cause anyways...");
-        default: // It's a bug.
-            return "";
         }
         break;
 
