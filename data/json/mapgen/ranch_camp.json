@@ -33,8 +33,8 @@
 				"..%....................."
 			],
 			"terrain": {
-				"|": "t_wall_v",
-				"-": "t_wall_h",
+				"|": "t_wall",
+				"-": "t_wall",
 				".": [ "t_grass","t_grass","t_grass","t_grass","t_grass","t_grass","t_grass","t_grass",
 					"t_grass","t_grass","t_grass","t_grass","t_dirt","t_dirt","t_dirt","t_dirt","t_dirt",
 					"t_grass","t_grass","t_grass","t_grass","t_dirt","t_dirt","t_dirt","t_dirt","t_dirt",
@@ -137,8 +137,8 @@
 				"........................"
 			],
 			"terrain": {
-				"|": "t_wall_v",
-				"-": "t_wall_h",
+				"|": "t_wall",
+				"-": "t_wall",
 				".": [ "t_grass","t_grass","t_grass","t_grass","t_grass","t_grass","t_grass","t_grass",
 					"t_grass","t_grass","t_grass","t_grass","t_dirt","t_dirt","t_dirt","t_dirt","t_dirt",
 					"t_grass","t_grass","t_grass","t_grass","t_dirt","t_dirt","t_dirt","t_dirt","t_dirt",
@@ -241,8 +241,8 @@
 				"........................"
 			],
 			"terrain": {
-				"|": "t_wall_v",
-				"-": "t_wall_h",
+				"|": "t_wall",
+				"-": "t_wall",
 				".": [ "t_grass","t_grass","t_grass","t_grass","t_grass","t_grass","t_grass","t_grass",
 					"t_grass","t_grass","t_grass","t_grass","t_dirt","t_dirt","t_dirt","t_dirt","t_dirt",
 					"t_grass","t_grass","t_grass","t_grass","t_dirt","t_dirt","t_dirt","t_dirt","t_dirt",
@@ -345,8 +345,8 @@
 				"........................"
 			],
 			"terrain": {
-				"|": "t_wall_v",
-				"-": "t_wall_h",
+				"|": "t_wall",
+				"-": "t_wall",
 				".": [ "t_grass","t_grass","t_grass","t_grass","t_grass","t_grass","t_grass","t_grass",
 					"t_grass","t_grass","t_grass","t_grass","t_dirt","t_dirt","t_dirt","t_dirt","t_dirt",
 					"t_grass","t_grass","t_grass","t_grass","t_dirt","t_dirt","t_dirt","t_dirt","t_dirt",
@@ -449,8 +449,8 @@
 				"........................"
 			],
 			"terrain": {
-				"|": "t_wall_v",
-				"-": "t_wall_h",
+				"|": "t_wall",
+				"-": "t_wall",
 				".": [ "t_grass","t_grass","t_grass","t_grass","t_grass","t_grass","t_grass","t_grass",
 					"t_grass","t_grass","t_grass","t_grass","t_dirt","t_dirt","t_dirt","t_dirt","t_dirt",
 					"t_grass","t_grass","t_grass","t_grass","t_dirt","t_dirt","t_dirt","t_dirt","t_dirt",
@@ -553,8 +553,8 @@
 				"........................"
 			],
 			"terrain": {
-				"|": "t_wall_v",
-				"-": "t_wall_h",
+				"|": "t_wall",
+				"-": "t_wall",
 				".": [ "t_grass","t_grass","t_grass","t_grass","t_grass","t_grass","t_grass","t_grass",
 					"t_grass","t_grass","t_grass","t_grass","t_dirt","t_dirt","t_dirt","t_dirt","t_dirt",
 					"t_grass","t_grass","t_grass","t_grass","t_dirt","t_dirt","t_dirt","t_dirt","t_dirt",
@@ -657,8 +657,8 @@
 				"........................"
 			],
 			"terrain": {
-				"|": "t_wall_v",
-				"-": "t_wall_h",
+				"|": "t_wall",
+				"-": "t_wall",
 				".": [ "t_grass","t_grass","t_grass","t_grass","t_grass","t_grass","t_grass","t_grass",
 					"t_grass","t_grass","t_grass","t_grass","t_dirt","t_dirt","t_dirt","t_dirt","t_dirt",
 					"t_grass","t_grass","t_grass","t_grass","t_dirt","t_dirt","t_dirt","t_dirt","t_dirt",
@@ -761,8 +761,8 @@
 				"........................"
 			],
 			"terrain": {
-				"|": "t_wall_v",
-				"-": "t_wall_h",
+				"|": "t_wall",
+				"-": "t_wall",
 				".": [ "t_grass","t_grass","t_grass","t_grass","t_grass","t_grass","t_grass","t_grass",
 					"t_grass","t_grass","t_grass","t_grass","t_dirt","t_dirt","t_dirt","t_dirt","t_dirt",
 					"t_grass","t_grass","t_grass","t_grass","t_dirt","t_dirt","t_dirt","t_dirt","t_dirt",
@@ -865,8 +865,8 @@
 				".....................%.."
 			],
 			"terrain": {
-				"|": "t_wall_v",
-				"-": "t_wall_h",
+				"|": "t_wall",
+				"-": "t_wall",
 				".": [ "t_grass","t_grass","t_grass","t_grass","t_grass","t_grass","t_grass","t_grass",
 					"t_grass","t_grass","t_grass","t_grass","t_dirt","t_dirt","t_dirt","t_dirt","t_dirt",
 					"t_grass","t_grass","t_grass","t_grass","t_dirt","t_dirt","t_dirt","t_dirt","t_dirt",
@@ -969,8 +969,8 @@
 				"..%....................."
 			],
 			"terrain": {
-				"|": "t_wall_v",
-				"-": "t_wall_h",
+				"|": "t_wall",
+				"-": "t_wall",
 				".": [ "t_grass","t_grass","t_grass","t_grass","t_grass","t_grass","t_grass","t_grass",
 					"t_grass","t_grass","t_grass","t_grass","t_dirt","t_dirt","t_dirt","t_dirt","t_dirt",
 					"t_grass","t_grass","t_grass","t_grass","t_dirt","t_dirt","t_dirt","t_dirt","t_dirt",
@@ -1073,8 +1073,8 @@
 				"........................"
 			],
 			"terrain": {
-				"|": "t_wall_v",
-				"-": "t_wall_h",
+				"|": "t_wall",
+				"-": "t_wall",
 				".": [ "t_grass","t_grass","t_grass","t_grass","t_grass","t_grass","t_grass","t_grass",
 					"t_grass","t_grass","t_grass","t_grass","t_dirt","t_dirt","t_dirt","t_dirt","t_dirt",
 					"t_grass","t_grass","t_grass","t_grass","t_dirt","t_dirt","t_dirt","t_dirt","t_dirt",
@@ -1177,8 +1177,8 @@
 				"........................"
 			],
 			"terrain": {
-				"|": "t_wall_v",
-				"-": "t_wall_h",
+				"|": "t_wall",
+				"-": "t_wall",
 				".": [ "t_grass","t_grass","t_grass","t_grass","t_grass","t_grass","t_grass","t_grass",
 					"t_grass","t_grass","t_grass","t_grass","t_dirt","t_dirt","t_dirt","t_dirt","t_dirt",
 					"t_grass","t_grass","t_grass","t_grass","t_dirt","t_dirt","t_dirt","t_dirt","t_dirt",
@@ -1281,8 +1281,8 @@
 				"........................"
 			],
 			"terrain": {
-				"|": "t_wall_v",
-				"-": "t_wall_h",
+				"|": "t_wall",
+				"-": "t_wall",
 				".": [ "t_grass","t_grass","t_grass","t_grass","t_grass","t_grass","t_grass","t_grass",
 					"t_grass","t_grass","t_grass","t_grass","t_dirt","t_dirt","t_dirt","t_dirt","t_dirt",
 					"t_grass","t_grass","t_grass","t_grass","t_dirt","t_dirt","t_dirt","t_dirt","t_dirt",
@@ -1385,8 +1385,8 @@
 				"........................"
 			],
 			"terrain": {
-				"|": "t_wall_v",
-				"-": "t_wall_h",
+				"|": "t_wall",
+				"-": "t_wall",
 				".": [ "t_grass","t_grass","t_grass","t_grass","t_grass","t_grass","t_grass","t_grass",
 					"t_grass","t_grass","t_grass","t_grass","t_dirt","t_dirt","t_dirt","t_dirt","t_dirt",
 					"t_grass","t_grass","t_grass","t_grass","t_dirt","t_dirt","t_dirt","t_dirt","t_dirt",
@@ -1489,8 +1489,8 @@
 				"........................"
 			],
 			"terrain": {
-				"|": "t_wall_v",
-				"-": "t_wall_h",
+				"|": "t_wall",
+				"-": "t_wall",
 				".": [ "t_grass","t_grass","t_grass","t_grass","t_grass","t_grass","t_grass","t_grass",
 					"t_grass","t_grass","t_grass","t_grass","t_dirt","t_dirt","t_dirt","t_dirt","t_dirt",
 					"t_grass","t_grass","t_grass","t_grass","t_dirt","t_dirt","t_dirt","t_dirt","t_dirt",
@@ -1593,8 +1593,8 @@
 				"........................"
 			],
 			"terrain": {
-				"|": "t_wall_v",
-				"-": "t_wall_h",
+				"|": "t_wall",
+				"-": "t_wall",
 				".": [ "t_grass","t_grass","t_grass","t_grass","t_grass","t_grass","t_grass","t_grass",
 					"t_grass","t_grass","t_grass","t_grass","t_dirt","t_dirt","t_dirt","t_dirt","t_dirt",
 					"t_grass","t_grass","t_grass","t_grass","t_dirt","t_dirt","t_dirt","t_dirt","t_dirt",
@@ -1697,8 +1697,8 @@
 				"....../////............."
 			],
 			"terrain": {
-				"|": "t_wall_v",
-				"-": "t_wall_h",
+				"|": "t_wall",
+				"-": "t_wall",
 				".": [ "t_grass","t_grass","t_grass","t_grass","t_grass","t_grass","t_grass","t_grass",
 					"t_grass","t_grass","t_grass","t_grass","t_dirt","t_dirt","t_dirt","t_dirt","t_dirt",
 					"t_grass","t_grass","t_grass","t_grass","t_dirt","t_dirt","t_dirt","t_dirt","t_dirt",
@@ -1801,8 +1801,8 @@
 				".....................%.."
 			],
 			"terrain": {
-				"|": "t_wall_v",
-				"-": "t_wall_h",
+				"|": "t_wall",
+				"-": "t_wall",
 				".": [ "t_grass","t_grass","t_grass","t_grass","t_grass","t_grass","t_grass","t_grass",
 					"t_grass","t_grass","t_grass","t_grass","t_dirt","t_dirt","t_dirt","t_dirt","t_dirt",
 					"t_grass","t_grass","t_grass","t_grass","t_dirt","t_dirt","t_dirt","t_dirt","t_dirt",
@@ -1905,8 +1905,8 @@
 				"..%....................."
 			],
 			"terrain": {
-				"|": "t_wall_v",
-				"-": "t_wall_h",
+				"|": "t_wall",
+				"-": "t_wall",
 				".": [ "t_grass","t_grass","t_grass","t_grass","t_grass","t_grass","t_grass","t_grass",
 					"t_grass","t_grass","t_grass","t_grass","t_dirt","t_dirt","t_dirt","t_dirt","t_dirt",
 					"t_grass","t_grass","t_grass","t_grass","t_dirt","t_dirt","t_dirt","t_dirt","t_dirt",
@@ -2009,8 +2009,8 @@
 				"........................"
 			],
 			"terrain": {
-				"|": "t_wall_v",
-				"-": "t_wall_h",
+				"|": "t_wall",
+				"-": "t_wall",
 				".": [ "t_grass","t_grass","t_grass","t_grass","t_grass","t_grass","t_grass","t_grass",
 					"t_grass","t_grass","t_grass","t_grass","t_dirt","t_dirt","t_dirt","t_dirt","t_dirt",
 					"t_grass","t_grass","t_grass","t_grass","t_dirt","t_dirt","t_dirt","t_dirt","t_dirt",
@@ -2113,8 +2113,8 @@
 				"........................"
 			],
 			"terrain": {
-				"|": "t_wall_v",
-				"-": "t_wall_h",
+				"|": "t_wall",
+				"-": "t_wall",
 				".": [ "t_grass","t_grass","t_grass","t_grass","t_grass","t_grass","t_grass","t_grass",
 					"t_grass","t_grass","t_grass","t_grass","t_dirt","t_dirt","t_dirt","t_dirt","t_dirt",
 					"t_grass","t_grass","t_grass","t_grass","t_dirt","t_dirt","t_dirt","t_dirt","t_dirt",
@@ -2217,8 +2217,8 @@
 				"........................"
 			],
 			"terrain": {
-				"|": "t_wall_v",
-				"-": "t_wall_h",
+				"|": "t_wall",
+				"-": "t_wall",
 				".": [ "t_grass","t_grass","t_grass","t_grass","t_grass","t_grass","t_grass","t_grass",
 					"t_grass","t_grass","t_grass","t_grass","t_dirt","t_dirt","t_dirt","t_dirt","t_dirt",
 					"t_grass","t_grass","t_grass","t_grass","t_dirt","t_dirt","t_dirt","t_dirt","t_dirt",
@@ -2321,8 +2321,8 @@
 				"........................"
 			],
 			"terrain": {
-				"|": "t_wall_v",
-				"-": "t_wall_h",
+				"|": "t_wall",
+				"-": "t_wall",
 				".": [ "t_grass","t_grass","t_grass","t_grass","t_grass","t_grass","t_grass","t_grass",
 					"t_grass","t_grass","t_grass","t_grass","t_dirt","t_dirt","t_dirt","t_dirt","t_dirt",
 					"t_grass","t_grass","t_grass","t_grass","t_dirt","t_dirt","t_dirt","t_dirt","t_dirt",
@@ -2425,8 +2425,8 @@
 				"........................"
 			],
 			"terrain": {
-				"|": "t_wall_v",
-				"-": "t_wall_h",
+				"|": "t_wall",
+				"-": "t_wall",
 				".": [ "t_grass","t_grass","t_grass","t_grass","t_grass","t_grass","t_grass","t_grass",
 					"t_grass","t_grass","t_grass","t_grass","t_dirt","t_dirt","t_dirt","t_dirt","t_dirt",
 					"t_grass","t_grass","t_grass","t_grass","t_dirt","t_dirt","t_dirt","t_dirt","t_dirt",
@@ -2529,8 +2529,8 @@
 				"........................"
 			],
 			"terrain": {
-				"|": "t_wall_v",
-				"-": "t_wall_h",
+				"|": "t_wall",
+				"-": "t_wall",
 				".": [ "t_grass","t_grass","t_grass","t_grass","t_grass","t_grass","t_grass","t_grass",
 					"t_grass","t_grass","t_grass","t_grass","t_dirt","t_dirt","t_dirt","t_dirt","t_dirt",
 					"t_grass","t_grass","t_grass","t_grass","t_dirt","t_dirt","t_dirt","t_dirt","t_dirt",
@@ -2633,8 +2633,8 @@
 				"........................"
 			],
 			"terrain": {
-				"|": "t_wall_v",
-				"-": "t_wall_h",
+				"|": "t_wall",
+				"-": "t_wall",
 				".": [ "t_grass","t_grass","t_grass","t_grass","t_grass","t_grass","t_grass","t_grass",
 					"t_grass","t_grass","t_grass","t_grass","t_dirt","t_dirt","t_dirt","t_dirt","t_dirt",
 					"t_grass","t_grass","t_grass","t_grass","t_dirt","t_dirt","t_dirt","t_dirt","t_dirt",
@@ -2737,8 +2737,8 @@
 				".....................%.."
 			],
 			"terrain": {
-				"|": "t_wall_v",
-				"-": "t_wall_h",
+				"|": "t_wall",
+				"-": "t_wall",
 				".": [ "t_grass","t_grass","t_grass","t_grass","t_grass","t_grass","t_grass","t_grass",
 					"t_grass","t_grass","t_grass","t_grass","t_dirt","t_dirt","t_dirt","t_dirt","t_dirt",
 					"t_grass","t_grass","t_grass","t_grass","t_dirt","t_dirt","t_dirt","t_dirt","t_dirt",
@@ -2841,8 +2841,8 @@
 				"..%....................."
 			],
 			"terrain": {
-				"|": "t_wall_v",
-				"-": "t_wall_h",
+				"|": "t_wall",
+				"-": "t_wall",
 				".": [ "t_grass","t_grass","t_grass","t_grass","t_grass","t_grass","t_grass","t_grass",
 					"t_grass","t_grass","t_grass","t_grass","t_dirt","t_dirt","t_dirt","t_dirt","t_dirt",
 					"t_grass","t_grass","t_grass","t_grass","t_dirt","t_dirt","t_dirt","t_dirt","t_dirt",
@@ -2945,8 +2945,8 @@
 				"........................"
 			],
 			"terrain": {
-				"|": "t_wall_v",
-				"-": "t_wall_h",
+				"|": "t_wall",
+				"-": "t_wall",
 				".": [ "t_grass","t_grass","t_grass","t_grass","t_grass","t_grass","t_grass","t_grass",
 					"t_grass","t_grass","t_grass","t_grass","t_dirt","t_dirt","t_dirt","t_dirt","t_dirt",
 					"t_grass","t_grass","t_grass","t_grass","t_dirt","t_dirt","t_dirt","t_dirt","t_dirt",
@@ -3049,8 +3049,8 @@
 				"........................"
 			],
 			"terrain": {
-				"|": "t_wall_v",
-				"-": "t_wall_h",
+				"|": "t_wall",
+				"-": "t_wall",
 				".": [ "t_grass","t_grass","t_grass","t_grass","t_grass","t_grass","t_grass","t_grass",
 					"t_grass","t_grass","t_grass","t_grass","t_dirt","t_dirt","t_dirt","t_dirt","t_dirt",
 					"t_grass","t_grass","t_grass","t_grass","t_dirt","t_dirt","t_dirt","t_dirt","t_dirt",
@@ -3153,8 +3153,8 @@
 				"........................"
 			],
 			"terrain": {
-				"|": "t_wall_v",
-				"-": "t_wall_h",
+				"|": "t_wall",
+				"-": "t_wall",
 				".": [ "t_grass","t_grass","t_grass","t_grass","t_grass","t_grass","t_grass","t_grass",
 					"t_grass","t_grass","t_grass","t_grass","t_dirt","t_dirt","t_dirt","t_dirt","t_dirt",
 					"t_grass","t_grass","t_grass","t_grass","t_dirt","t_dirt","t_dirt","t_dirt","t_dirt",
@@ -3257,8 +3257,8 @@
 				"........................"
 			],
 			"terrain": {
-				"|": "t_wall_v",
-				"-": "t_wall_h",
+				"|": "t_wall",
+				"-": "t_wall",
 				".": [ "t_grass","t_grass","t_grass","t_grass","t_grass","t_grass","t_grass","t_grass",
 					"t_grass","t_grass","t_grass","t_grass","t_dirt","t_dirt","t_dirt","t_dirt","t_dirt",
 					"t_grass","t_grass","t_grass","t_grass","t_dirt","t_dirt","t_dirt","t_dirt","t_dirt",
@@ -3361,8 +3361,8 @@
 				"........................"
 			],
 			"terrain": {
-				"|": "t_wall_v",
-				"-": "t_wall_h",
+				"|": "t_wall",
+				"-": "t_wall",
 				".": [ "t_grass","t_grass","t_grass","t_grass","t_grass","t_grass","t_grass","t_grass",
 					"t_grass","t_grass","t_grass","t_grass","t_dirt","t_dirt","t_dirt","t_dirt","t_dirt",
 					"t_grass","t_grass","t_grass","t_grass","t_dirt","t_dirt","t_dirt","t_dirt","t_dirt",
@@ -3465,8 +3465,8 @@
 				"........................"
 			],
 			"terrain": {
-				"|": "t_wall_v",
-				"-": "t_wall_h",
+				"|": "t_wall",
+				"-": "t_wall",
 				".": [ "t_grass","t_grass","t_grass","t_grass","t_grass","t_grass","t_grass","t_grass",
 					"t_grass","t_grass","t_grass","t_grass","t_dirt","t_dirt","t_dirt","t_dirt","t_dirt",
 					"t_grass","t_grass","t_grass","t_grass","t_dirt","t_dirt","t_dirt","t_dirt","t_dirt",
@@ -3569,8 +3569,8 @@
 				"........................"
 			],
 			"terrain": {
-				"|": "t_wall_v",
-				"-": "t_wall_h",
+				"|": "t_wall",
+				"-": "t_wall",
 				".": [ "t_grass","t_grass","t_grass","t_grass","t_grass","t_grass","t_grass","t_grass",
 					"t_grass","t_grass","t_grass","t_grass","t_dirt","t_dirt","t_dirt","t_dirt","t_dirt",
 					"t_grass","t_grass","t_grass","t_grass","t_dirt","t_dirt","t_dirt","t_dirt","t_dirt",
@@ -3673,8 +3673,8 @@
 				".....................%.."
 			],
 			"terrain": {
-				"|": "t_wall_v",
-				"-": "t_wall_h",
+				"|": "t_wall",
+				"-": "t_wall",
 				".": [ "t_grass","t_grass","t_grass","t_grass","t_grass","t_grass","t_grass","t_grass",
 					"t_grass","t_grass","t_grass","t_grass","t_dirt","t_dirt","t_dirt","t_dirt","t_dirt",
 					"t_grass","t_grass","t_grass","t_grass","t_dirt","t_dirt","t_dirt","t_dirt","t_dirt",
@@ -3777,8 +3777,8 @@
 				"..%....................."
 			],
 			"terrain": {
-				"|": "t_wall_v",
-				"-": "t_wall_h",
+				"|": "t_wall",
+				"-": "t_wall",
 				".": [ "t_grass","t_grass","t_grass","t_grass","t_grass","t_grass","t_grass","t_grass",
 					"t_grass","t_grass","t_grass","t_grass","t_dirt","t_dirt","t_dirt","t_dirt","t_dirt",
 					"t_grass","t_grass","t_grass","t_grass","t_dirt","t_dirt","t_dirt","t_dirt","t_dirt",
@@ -3881,8 +3881,8 @@
 				"........................"
 			],
 			"terrain": {
-				"|": "t_wall_v",
-				"-": "t_wall_h",
+				"|": "t_wall",
+				"-": "t_wall",
 				".": [ "t_grass","t_grass","t_grass","t_grass","t_grass","t_grass","t_grass","t_grass",
 					"t_grass","t_grass","t_grass","t_grass","t_dirt","t_dirt","t_dirt","t_dirt","t_dirt",
 					"t_grass","t_grass","t_grass","t_grass","t_dirt","t_dirt","t_dirt","t_dirt","t_dirt",
@@ -3985,8 +3985,8 @@
 				"........................"
 			],
 			"terrain": {
-				"|": "t_wall_v",
-				"-": "t_wall_h",
+				"|": "t_wall",
+				"-": "t_wall",
 				".": [ "t_grass","t_grass","t_grass","t_grass","t_grass","t_grass","t_grass","t_grass",
 					"t_grass","t_grass","t_grass","t_grass","t_dirt","t_dirt","t_dirt","t_dirt","t_dirt",
 					"t_grass","t_grass","t_grass","t_grass","t_dirt","t_dirt","t_dirt","t_dirt","t_dirt",
@@ -4089,8 +4089,8 @@
 				"........................"
 			],
 			"terrain": {
-				"|": "t_wall_v",
-				"-": "t_wall_h",
+				"|": "t_wall",
+				"-": "t_wall",
 				".": [ "t_grass","t_grass","t_grass","t_grass","t_grass","t_grass","t_grass","t_grass",
 					"t_grass","t_grass","t_grass","t_grass","t_dirt","t_dirt","t_dirt","t_dirt","t_dirt",
 					"t_grass","t_grass","t_grass","t_grass","t_dirt","t_dirt","t_dirt","t_dirt","t_dirt",
@@ -4193,8 +4193,8 @@
 				"........................"
 			],
 			"terrain": {
-				"|": "t_wall_v",
-				"-": "t_wall_h",
+				"|": "t_wall",
+				"-": "t_wall",
 				".": [ "t_grass","t_grass","t_grass","t_grass","t_grass","t_grass","t_grass","t_grass",
 					"t_grass","t_grass","t_grass","t_grass","t_dirt","t_dirt","t_dirt","t_dirt","t_dirt",
 					"t_grass","t_grass","t_grass","t_grass","t_dirt","t_dirt","t_dirt","t_dirt","t_dirt",
@@ -4297,8 +4297,8 @@
 				"........................"
 			],
 			"terrain": {
-				"|": "t_wall_v",
-				"-": "t_wall_h",
+				"|": "t_wall",
+				"-": "t_wall",
 				".": [ "t_grass","t_grass","t_grass","t_grass","t_grass","t_grass","t_grass","t_grass",
 					"t_grass","t_grass","t_grass","t_grass","t_dirt","t_dirt","t_dirt","t_dirt","t_dirt",
 					"t_grass","t_grass","t_grass","t_grass","t_dirt","t_dirt","t_dirt","t_dirt","t_dirt",
@@ -4401,8 +4401,8 @@
 				"........................"
 			],
 			"terrain": {
-				"|": "t_wall_v",
-				"-": "t_wall_h",
+				"|": "t_wall",
+				"-": "t_wall",
 				".": [ "t_grass","t_grass","t_grass","t_grass","t_grass","t_grass","t_grass","t_grass",
 					"t_grass","t_grass","t_grass","t_grass","t_dirt","t_dirt","t_dirt","t_dirt","t_dirt",
 					"t_grass","t_grass","t_grass","t_grass","t_dirt","t_dirt","t_dirt","t_dirt","t_dirt",
@@ -4505,8 +4505,8 @@
 				"........................"
 			],
 			"terrain": {
-				"|": "t_wall_v",
-				"-": "t_wall_h",
+				"|": "t_wall",
+				"-": "t_wall",
 				".": [ "t_grass","t_grass","t_grass","t_grass","t_grass","t_grass","t_grass","t_grass",
 					"t_grass","t_grass","t_grass","t_grass","t_dirt","t_dirt","t_dirt","t_dirt","t_dirt",
 					"t_grass","t_grass","t_grass","t_grass","t_dirt","t_dirt","t_dirt","t_dirt","t_dirt",
@@ -4609,8 +4609,8 @@
 				".....................%.."
 			],
 			"terrain": {
-				"|": "t_wall_v",
-				"-": "t_wall_h",
+				"|": "t_wall",
+				"-": "t_wall",
 				".": [ "t_grass","t_grass","t_grass","t_grass","t_grass","t_grass","t_grass","t_grass",
 					"t_grass","t_grass","t_grass","t_grass","t_dirt","t_dirt","t_dirt","t_dirt","t_dirt",
 					"t_grass","t_grass","t_grass","t_grass","t_dirt","t_dirt","t_dirt","t_dirt","t_dirt",
@@ -4713,8 +4713,8 @@
 				"..%....................."
 			],
 			"terrain": {
-				"|": "t_wall_v",
-				"-": "t_wall_h",
+				"|": "t_wall",
+				"-": "t_wall",
 				".": [ "t_grass","t_grass","t_grass","t_grass","t_grass","t_grass","t_grass","t_grass",
 					"t_grass","t_grass","t_grass","t_grass","t_dirt","t_dirt","t_dirt","t_dirt","t_dirt",
 					"t_grass","t_grass","t_grass","t_grass","t_dirt","t_dirt","t_dirt","t_dirt","t_dirt",
@@ -4817,8 +4817,8 @@
 				"........................"
 			],
 			"terrain": {
-				"|": "t_wall_v",
-				"-": "t_wall_h",
+				"|": "t_wall",
+				"-": "t_wall",
 				".": [ "t_grass","t_grass","t_grass","t_grass","t_grass","t_grass","t_grass","t_grass",
 					"t_grass","t_grass","t_grass","t_grass","t_dirt","t_dirt","t_dirt","t_dirt","t_dirt",
 					"t_grass","t_grass","t_grass","t_grass","t_dirt","t_dirt","t_dirt","t_dirt","t_dirt",
@@ -4921,8 +4921,8 @@
 				"........................"
 			],
 			"terrain": {
-				"|": "t_wall_v",
-				"-": "t_wall_h",
+				"|": "t_wall",
+				"-": "t_wall",
 				".": [ "t_grass","t_grass","t_grass","t_grass","t_grass","t_grass","t_grass","t_grass",
 					"t_grass","t_grass","t_grass","t_grass","t_dirt","t_dirt","t_dirt","t_dirt","t_dirt",
 					"t_grass","t_grass","t_grass","t_grass","t_dirt","t_dirt","t_dirt","t_dirt","t_dirt",
@@ -5025,8 +5025,8 @@
 				"........xxxxxxx........."
 			],
 			"terrain": {
-				"|": "t_wall_v",
-				"-": "t_wall_h",
+				"|": "t_wall",
+				"-": "t_wall",
 				".": [ "t_grass","t_grass","t_grass","t_grass","t_grass","t_grass","t_grass","t_grass",
 					"t_grass","t_grass","t_grass","t_grass","t_dirt","t_dirt","t_dirt","t_dirt","t_dirt",
 					"t_grass","t_grass","t_grass","t_grass","t_dirt","t_dirt","t_dirt","t_dirt","t_dirt",
@@ -5129,8 +5129,8 @@
 				"........................"
 			],
 			"terrain": {
-				"|": "t_wall_v",
-				"-": "t_wall_h",
+				"|": "t_wall",
+				"-": "t_wall",
 				".": [ "t_grass","t_grass","t_grass","t_grass","t_grass","t_grass","t_grass","t_grass",
 					"t_grass","t_grass","t_grass","t_grass","t_dirt","t_dirt","t_dirt","t_dirt","t_dirt",
 					"t_grass","t_grass","t_grass","t_grass","t_dirt","t_dirt","t_dirt","t_dirt","t_dirt",
@@ -5233,8 +5233,8 @@
 				"x.............x........."
 			],
 			"terrain": {
-				"|": "t_wall_v",
-				"-": "t_wall_h",
+				"|": "t_wall",
+				"-": "t_wall",
 				".": [ "t_grass","t_grass","t_grass","t_grass","t_grass","t_grass","t_grass","t_grass",
 					"t_grass","t_grass","t_grass","t_grass","t_dirt","t_dirt","t_dirt","t_dirt","t_dirt",
 					"t_grass","t_grass","t_grass","t_grass","t_dirt","t_dirt","t_dirt","t_dirt","t_dirt",
@@ -5337,8 +5337,8 @@
 				"........................"
 			],
 			"terrain": {
-				"|": "t_wall_v",
-				"-": "t_wall_h",
+				"|": "t_wall",
+				"-": "t_wall",
 				".": [ "t_grass","t_grass","t_grass","t_grass","t_grass","t_grass","t_grass","t_grass",
 					"t_grass","t_grass","t_grass","t_grass","t_dirt","t_dirt","t_dirt","t_dirt","t_dirt",
 					"t_grass","t_grass","t_grass","t_grass","t_dirt","t_dirt","t_dirt","t_dirt","t_dirt",
@@ -5441,8 +5441,8 @@
 				"........................"
 			],
 			"terrain": {
-				"|": "t_wall_v",
-				"-": "t_wall_h",
+				"|": "t_wall",
+				"-": "t_wall",
 				".": [ "t_grass","t_grass","t_grass","t_grass","t_grass","t_grass","t_grass","t_grass",
 					"t_grass","t_grass","t_grass","t_grass","t_dirt","t_dirt","t_dirt","t_dirt","t_dirt",
 					"t_grass","t_grass","t_grass","t_grass","t_dirt","t_dirt","t_dirt","t_dirt","t_dirt",
@@ -5545,8 +5545,8 @@
 				".....................%.."
 			],
 			"terrain": {
-				"|": "t_wall_v",
-				"-": "t_wall_h",
+				"|": "t_wall",
+				"-": "t_wall",
 				".": [ "t_grass","t_grass","t_grass","t_grass","t_grass","t_grass","t_grass","t_grass",
 					"t_grass","t_grass","t_grass","t_grass","t_dirt","t_dirt","t_dirt","t_dirt","t_dirt",
 					"t_grass","t_grass","t_grass","t_grass","t_dirt","t_dirt","t_dirt","t_dirt","t_dirt",
@@ -5649,8 +5649,8 @@
 				"..%....................."
 			],
 			"terrain": {
-				"|": "t_wall_v",
-				"-": "t_wall_h",
+				"|": "t_wall",
+				"-": "t_wall",
 				".": [ "t_grass","t_grass","t_grass","t_grass","t_grass","t_grass","t_grass","t_grass",
 					"t_grass","t_grass","t_grass","t_grass","t_dirt","t_dirt","t_dirt","t_dirt","t_dirt",
 					"t_grass","t_grass","t_grass","t_grass","t_dirt","t_dirt","t_dirt","t_dirt","t_dirt",
@@ -5753,8 +5753,8 @@
 				".................///////"
 			],
 			"terrain": {
-				"|": "t_wall_v",
-				"-": "t_wall_h",
+				"|": "t_wall",
+				"-": "t_wall",
 				".": [ "t_grass","t_grass","t_grass","t_grass","t_grass","t_grass","t_grass","t_grass",
 					"t_grass","t_grass","t_grass","t_grass","t_dirt","t_dirt","t_dirt","t_dirt","t_dirt",
 					"t_grass","t_grass","t_grass","t_grass","t_dirt","t_dirt","t_dirt","t_dirt","t_dirt",
@@ -5857,8 +5857,8 @@
 				"//////////////////////%%"
 			],
 			"terrain": {
-				"|": "t_wall_metal_v",
-				"-": "t_wall_metal_h",
+				"|": "t_wall_metal",
+				"-": "t_wall_metal",
 				".": [ "t_grass","t_grass","t_grass","t_grass","t_grass","t_grass","t_grass","t_grass",
 					"t_grass","t_grass","t_grass","t_grass","t_dirt","t_dirt","t_dirt","t_dirt","t_dirt",
 					"t_grass","t_grass","t_grass","t_grass","t_dirt","t_dirt","t_dirt","t_dirt","t_dirt",
@@ -5962,8 +5962,8 @@
 				"%%%%%%%%%%%%%%%%%%%%%%%%"
 			],
 			"terrain": {
-				"|": "t_wall_v",
-				"-": "t_wall_h",
+				"|": "t_wall",
+				"-": "t_wall",
 				".": [ "t_grass","t_grass","t_grass","t_grass","t_grass","t_grass","t_grass","t_grass",
 					"t_grass","t_grass","t_grass","t_grass","t_dirt","t_dirt","t_dirt","t_dirt","t_dirt",
 					"t_grass","t_grass","t_grass","t_grass","t_dirt","t_dirt","t_dirt","t_dirt","t_dirt",
@@ -6066,8 +6066,8 @@
 				"%%%%%%%%%%%%%%%%%%%%%%%%"
 			],
 			"terrain": {
-				"|": "t_wall_v",
-				"-": "t_wall_h",
+				"|": "t_wall",
+				"-": "t_wall",
 				".": [ "t_grass","t_grass","t_grass","t_grass","t_grass","t_grass","t_grass","t_grass",
 					"t_grass","t_grass","t_grass","t_grass","t_dirt","t_dirt","t_dirt","t_dirt","t_dirt",
 					"t_grass","t_grass","t_grass","t_grass","t_dirt","t_dirt","t_dirt","t_dirt","t_dirt",
@@ -6170,8 +6170,8 @@
 				"%%%....................."
 			],
 			"terrain": {
-				"|": "t_wall_v",
-				"-": "t_wall_h",
+				"|": "t_wall",
+				"-": "t_wall",
 				".": [ "t_grass","t_grass","t_grass","t_grass","t_grass","t_grass","t_grass","t_grass",
 					"t_grass","t_grass","t_grass","t_grass","t_dirt","t_dirt","t_dirt","t_dirt","t_dirt",
 					"t_grass","t_grass","t_grass","t_grass","t_dirt","t_dirt","t_dirt","t_dirt","t_dirt",
@@ -6274,8 +6274,8 @@
 				"........................"
 			],
 			"terrain": {
-				"|": "t_wall_v",
-				"-": "t_wall_h",
+				"|": "t_wall",
+				"-": "t_wall",
 				".": [ "t_grass","t_grass","t_grass","t_grass","t_grass","t_grass","t_grass","t_grass",
 					"t_grass","t_grass","t_grass","t_grass","t_dirt","t_dirt","t_dirt","t_dirt","t_dirt",
 					"t_grass","t_grass","t_grass","t_grass","t_dirt","t_dirt","t_dirt","t_dirt","t_dirt",
@@ -6378,8 +6378,8 @@
 				"........................"
 			],
 			"terrain": {
-				"|": "t_wall_v",
-				"-": "t_wall_h",
+				"|": "t_wall",
+				"-": "t_wall",
 				".": [ "t_grass","t_grass","t_grass","t_grass","t_grass","t_grass","t_grass","t_grass",
 					"t_grass","t_grass","t_grass","t_grass","t_dirt","t_dirt","t_dirt","t_dirt","t_dirt",
 					"t_grass","t_grass","t_grass","t_grass","t_dirt","t_dirt","t_dirt","t_dirt","t_dirt",
@@ -6482,8 +6482,8 @@
 				".....................%.."
 			],
 			"terrain": {
-				"|": "t_wall_v",
-				"-": "t_wall_h",
+				"|": "t_wall",
+				"-": "t_wall",
 				".": [ "t_grass","t_grass","t_grass","t_grass","t_grass","t_grass","t_grass","t_grass",
 					"t_grass","t_grass","t_grass","t_grass","t_dirt","t_dirt","t_dirt","t_dirt","t_dirt",
 					"t_grass","t_grass","t_grass","t_grass","t_dirt","t_dirt","t_dirt","t_dirt","t_dirt",
@@ -6586,8 +6586,8 @@
 				"..%....................."
 			],
 			"terrain": {
-				"|": "t_wall_v",
-				"-": "t_wall_h",
+				"|": "t_wall",
+				"-": "t_wall",
 				".": [ "t_grass","t_grass","t_grass","t_grass","t_grass","t_grass","t_grass","t_grass",
 					"t_grass","t_grass","t_grass","t_grass","t_dirt","t_dirt","t_dirt","t_dirt","t_dirt",
 					"t_grass","t_grass","t_grass","t_grass","t_dirt","t_dirt","t_dirt","t_dirt","t_dirt",
@@ -6690,8 +6690,8 @@
 				".............../W;;;;W;;"
 			],
 			"terrain": {
-				"|": "t_wall_v",
-				"-": "t_wall_h",
+				"|": "t_wall",
+				"-": "t_wall",
 				".": [ "t_grass","t_grass","t_grass","t_grass","t_grass","t_grass","t_grass","t_grass",
 					"t_grass","t_grass","t_grass","t_grass","t_dirt","t_dirt","t_dirt","t_dirt","t_dirt",
 					"t_grass","t_grass","t_grass","t_grass","t_dirt","t_dirt","t_dirt","t_dirt","t_dirt",
@@ -6794,8 +6794,8 @@
 				";;W;;;;W;;;;W;;;;W;;;;W."
 			],
 			"terrain": {
-				"|": "t_wall_v",
-				"-": "t_wall_h",
+				"|": "t_wall",
+				"-": "t_wall",
 				".": [ "t_grass","t_grass","t_grass","t_grass","t_grass","t_grass","t_grass","t_grass",
 					"t_grass","t_grass","t_grass","t_grass","t_dirt","t_dirt","t_dirt","t_dirt","t_dirt",
 					"t_grass","t_grass","t_grass","t_grass","t_dirt","t_dirt","t_dirt","t_dirt","t_dirt",
@@ -6898,8 +6898,8 @@
 				"....//////////////5....."
             ],
 			"terrain": {
-				"|": "t_wall_v",
-				"-": "t_wall_h",
+				"|": "t_wall",
+				"-": "t_wall",
 				".": [ "t_grass","t_grass","t_grass","t_grass","t_grass","t_grass","t_grass","t_grass",
 					"t_grass","t_grass","t_grass","t_grass","t_dirt","t_dirt","t_dirt","t_dirt","t_dirt",
 					"t_grass","t_grass","t_grass","t_grass","t_dirt","t_dirt","t_dirt","t_dirt","t_dirt",
@@ -7002,8 +7002,8 @@
 				"........................"
 			],
 			"terrain": {
-				"|": "t_wall_v",
-				"-": "t_wall_h",
+				"|": "t_wall",
+				"-": "t_wall",
 				".": [ "t_grass","t_grass","t_grass","t_grass","t_grass","t_grass","t_grass","t_grass",
 					"t_grass","t_grass","t_grass","t_grass","t_dirt","t_dirt","t_dirt","t_dirt","t_dirt",
 					"t_grass","t_grass","t_grass","t_grass","t_dirt","t_dirt","t_dirt","t_dirt","t_dirt",
@@ -7106,8 +7106,8 @@
 				"..%....................."
 			],
 			"terrain": {
-				"|": "t_wall_v",
-				"-": "t_wall_h",
+				"|": "t_wall",
+				"-": "t_wall",
 				".": [ "t_grass","t_grass","t_grass","t_grass","t_grass","t_grass","t_grass","t_grass",
 					"t_grass","t_grass","t_grass","t_grass","t_dirt","t_dirt","t_dirt","t_dirt","t_dirt",
 					"t_grass","t_grass","t_grass","t_grass","t_dirt","t_dirt","t_dirt","t_dirt","t_dirt",
@@ -7210,8 +7210,8 @@
 				"........................"
 			],
 			"terrain": {
-				"|": "t_wall_v",
-				"-": "t_wall_h",
+				"|": "t_wall",
+				"-": "t_wall",
 				".": [ "t_grass","t_grass","t_grass","t_grass","t_grass","t_grass","t_grass","t_grass",
 					"t_grass","t_grass","t_grass","t_grass","t_dirt","t_dirt","t_dirt","t_dirt","t_dirt",
 					"t_grass","t_grass","t_grass","t_grass","t_dirt","t_dirt","t_dirt","t_dirt","t_dirt",
@@ -7314,8 +7314,8 @@
 				"........................"
 			],
 			"terrain": {
-				"|": "t_wall_v",
-				"-": "t_wall_h",
+				"|": "t_wall",
+				"-": "t_wall",
 				".": [ "t_grass","t_grass","t_grass","t_grass","t_grass","t_grass","t_grass","t_grass",
 					"t_grass","t_grass","t_grass","t_grass","t_dirt","t_dirt","t_dirt","t_dirt","t_dirt",
 					"t_grass","t_grass","t_grass","t_grass","t_dirt","t_dirt","t_dirt","t_dirt","t_dirt",
@@ -7418,8 +7418,8 @@
 				".....................%.."
 			],
 			"terrain": {
-				"|": "t_wall_v",
-				"-": "t_wall_h",
+				"|": "t_wall",
+				"-": "t_wall",
 				".": [ "t_grass","t_grass","t_grass","t_grass","t_grass","t_grass","t_grass","t_grass",
 					"t_grass","t_grass","t_grass","t_grass","t_dirt","t_dirt","t_dirt","t_dirt","t_dirt",
 					"t_grass","t_grass","t_grass","t_grass","t_dirt","t_dirt","t_dirt","t_dirt","t_dirt",
@@ -7522,8 +7522,8 @@
 				"........................"
 			],
 			"terrain": {
-				"|": "t_wall_v",
-				"-": "t_wall_h",
+				"|": "t_wall",
+				"-": "t_wall",
 				".": [ "t_grass","t_grass","t_grass","t_grass","t_grass","t_grass","t_grass","t_grass",
 					"t_grass","t_grass","t_grass","t_grass","t_dirt","t_dirt","t_dirt","t_dirt","t_dirt",
 					"t_grass","t_grass","t_grass","t_grass","t_dirt","t_dirt","t_dirt","t_dirt","t_dirt",
@@ -7626,8 +7626,8 @@
 				"........................"
 			],
 			"terrain": {
-				"|": "t_wall_v",
-				"-": "t_wall_h",
+				"|": "t_wall",
+				"-": "t_wall",
 				".": [ "t_grass","t_grass","t_grass","t_grass","t_grass","t_grass","t_grass","t_grass",
 					"t_grass","t_grass","t_grass","t_grass","t_dirt","t_dirt","t_dirt","t_dirt","t_dirt",
 					"t_grass","t_grass","t_grass","t_grass","t_dirt","t_dirt","t_dirt","t_dirt","t_dirt",
@@ -7730,8 +7730,8 @@
 				"........................"
 			],
 			"terrain": {
-				"|": "t_wall_v",
-				"-": "t_wall_h",
+				"|": "t_wall",
+				"-": "t_wall",
 				".": [ "t_grass","t_grass","t_grass","t_grass","t_grass","t_grass","t_grass","t_grass",
 					"t_grass","t_grass","t_grass","t_grass","t_dirt","t_dirt","t_dirt","t_dirt","t_dirt",
 					"t_grass","t_grass","t_grass","t_grass","t_dirt","t_dirt","t_dirt","t_dirt","t_dirt",
@@ -7835,8 +7835,8 @@
 				"........................"
 			],
 			"terrain": {
-				"|": "t_wall_v",
-				"-": "t_wall_h",
+				"|": "t_wall",
+				"-": "t_wall",
 				".": [ "t_grass","t_grass","t_grass","t_grass","t_grass","t_grass","t_grass","t_grass",
 					"t_grass","t_grass","t_grass","t_grass","t_dirt","t_dirt","t_dirt","t_dirt","t_dirt",
 					"t_grass","t_grass","t_grass","t_grass","t_dirt","t_dirt","t_dirt","t_dirt","t_dirt",
@@ -7939,8 +7939,8 @@
 				"...__________________..."
 			],
 			"terrain": {
-				"|": "t_wall_v",
-				"-": "t_wall_h",
+				"|": "t_wall",
+				"-": "t_wall",
 				".": [ "t_grass","t_grass","t_grass","t_grass","t_grass","t_grass","t_grass","t_grass",
 					"t_grass","t_grass","t_grass","t_grass","t_dirt","t_dirt","t_dirt","t_dirt","t_dirt",
 					"t_grass","t_grass","t_grass","t_grass","t_dirt","t_dirt","t_dirt","t_dirt","t_dirt",
@@ -8043,8 +8043,8 @@
 				"........................"
 			],
 			"terrain": {
-				"|": "t_wall_v",
-				"-": "t_wall_h",
+				"|": "t_wall",
+				"-": "t_wall",
 				".": [ "t_grass","t_grass","t_grass","t_grass","t_grass","t_grass","t_grass","t_grass",
 					"t_grass","t_grass","t_grass","t_grass","t_dirt","t_dirt","t_dirt","t_dirt","t_dirt",
 					"t_grass","t_grass","t_grass","t_grass","t_dirt","t_dirt","t_dirt","t_dirt","t_dirt",
@@ -8148,8 +8148,8 @@
 				"........................"
 			],
 			"terrain": {
-				"|": "t_wall_v",
-				"-": "t_wall_h",
+				"|": "t_wall",
+				"-": "t_wall",
 				".": [ "t_grass","t_grass","t_grass","t_grass","t_grass","t_grass","t_grass","t_grass",
 					"t_grass","t_grass","t_grass","t_grass","t_dirt","t_dirt","t_dirt","t_dirt","t_dirt",
 					"t_grass","t_grass","t_grass","t_grass","t_dirt","t_dirt","t_dirt","t_dirt","t_dirt",
@@ -8252,8 +8252,8 @@
 				"........................"
 			],
 			"terrain": {
-				"|": "t_wall_v",
-				"-": "t_wall_h",
+				"|": "t_wall",
+				"-": "t_wall",
 				".": [ "t_grass","t_grass","t_grass","t_grass","t_grass","t_grass","t_grass","t_grass",
 					"t_grass","t_grass","t_grass","t_grass","t_dirt","t_dirt","t_dirt","t_dirt","t_dirt",
 					"t_grass","t_grass","t_grass","t_grass","t_dirt","t_dirt","t_dirt","t_dirt","t_dirt",
@@ -8356,8 +8356,8 @@
 				"........................"
 			],
 			"terrain": {
-				"|": "t_wall_v",
-				"-": "t_wall_h",
+				"|": "t_wall",
+				"-": "t_wall",
 				".": [ "t_grass","t_grass","t_grass","t_grass","t_grass","t_grass","t_grass","t_grass",
 					"t_grass","t_grass","t_grass","t_grass","t_dirt","t_dirt","t_dirt","t_dirt","t_dirt",
 					"t_grass","t_grass","t_grass","t_grass","t_dirt","t_dirt","t_dirt","t_dirt","t_dirt",
