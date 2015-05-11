@@ -144,7 +144,8 @@ class Creature
         virtual void melee_attack(Creature &t, bool allow_special,
                                   const matec_id & technique) = 0;
         /**
-         * Calls the tother melee_attack function without any technique.
+         * Calls the to other melee_attack function with an empty technique id (meaning no specific
+         * technique should be used).
          */
         void melee_attack(Creature &t, bool allow_special);
 
