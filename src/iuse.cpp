@@ -7099,6 +7099,12 @@ int iuse::holster_gun(player *p, item *it, bool, const tripoint& )
             return 0;
         }
 
+        // make sure we're not holstering bows / crossbows
+        if (put.skill() == "archery") {
+            p->add_msg_if_player(m_info, _("You can't holster your %s!"), put.tname().c_str());
+            return 0;
+        }
+
         // only allow guns smaller than a certain size
         if (put.volume() > maxvol) {
             p->add_msg_if_player(m_info, _("That holster is too small to hold your %s!"),
