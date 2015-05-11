@@ -222,6 +222,13 @@ MISSION(_("Find Flag"), MGOAL_FIND_ITEM, 2, 100000, false,
   ORIGINS(ORIGIN_SECONDARY);
   FOLLOWUP(MISSION_FREE_MERCHANTS_EVAC_3);
 
+ MISSION(_("Retrieve Prospectus"), MGOAL_FIND_ITEM, 5, 50000, false,
+         &mission_place::always, &mission_start::start_commune,
+         &mission_end::standard, &mission_fail::standard);
+  ORIGINS(ORIGIN_SECONDARY);
+  ITEM("commune_prospectus");
+  FOLLOWUP(MISSION_FREE_MERCHANTS_EVAC_4);
+
  MISSION(_("Find 25 Plutonium Cells"), MGOAL_FIND_ITEM, 5, 400000, false,
          &mission_place::always, &mission_start::standard,
          &mission_end::standard, &mission_fail::standard);
@@ -284,11 +291,143 @@ MISSION(_("Find Flag"), MGOAL_FIND_ITEM, 2, 100000, false,
   ORIGINS(ORIGIN_SECONDARY);
   FOLLOWUP(MISSION_OLD_GUARD_NEC_COMMO_4);
 
- MISSION(_("Install Repeater Mod"), MGOAL_COMPUTER_TOGGLE, 2, 350000, false,
+ ////Tacoma Commune
+ MISSION(_("Cut 200 2x4's"), MGOAL_FIND_ITEM, 5, 50000, false,
          &mission_place::always, &mission_start::standard,
          &mission_end::standard, &mission_fail::standard);
   ORIGINS(ORIGIN_SECONDARY);
-  FOLLOWUP(MISSION_OLD_GUARD_NEC_COMMO_4);
+  ITEM("2x4");
+  COUNT(200);
+  FOLLOWUP(MISSION_RANCH_FOREMAN_2);
+
+ MISSION(_("Find 25 Blankets"), MGOAL_FIND_ITEM, 5, 50000, false,
+         &mission_place::always, &mission_start::ranch_construct_1,
+         &mission_end::standard, &mission_fail::standard);
+  ORIGINS(ORIGIN_SECONDARY);
+  ITEM("blanket");
+  COUNT(25);
+  FOLLOWUP(MISSION_RANCH_FOREMAN_3);
+
+ MISSION(_("Gather 2500 Nails"), MGOAL_FIND_ITEM, 5, 50000, false,
+         &mission_place::always, &mission_start::ranch_construct_2,
+         &mission_end::standard, &mission_fail::standard);
+  ORIGINS(ORIGIN_SECONDARY);
+  ITEM("nail");
+  COUNT(2500);
+  FOLLOWUP(MISSION_RANCH_FOREMAN_4);
+
+ MISSION(_("Gather 300 Salt"), MGOAL_FIND_ITEM, 5, 50000, false,
+         &mission_place::always, &mission_start::ranch_construct_3,
+         &mission_end::standard, &mission_fail::standard);
+  ORIGINS(ORIGIN_SECONDARY);
+  ITEM("salt");
+  COUNT(300);
+  FOLLOWUP(MISSION_RANCH_FOREMAN_5);
+
+ MISSION(_("30 Liquid Fertilizer"), MGOAL_FIND_ITEM, 5, 50000, false,
+         &mission_place::always, &mission_start::ranch_construct_4,
+         &mission_end::standard, &mission_fail::standard);
+  ORIGINS(ORIGIN_SECONDARY);
+  ITEM("fertilizer_liquid");
+  COUNT(30);
+  FOLLOWUP(MISSION_RANCH_FOREMAN_6);
+
+
+ MISSION(_("Gather 75 Stones"), MGOAL_FIND_ITEM, 5, 50000, false,
+         &mission_place::always, &mission_start::ranch_construct_5,
+         &mission_end::standard, &mission_fail::standard);
+  ORIGINS(ORIGIN_SECONDARY);
+  ITEM("rock");
+  COUNT(75);
+  FOLLOWUP(MISSION_RANCH_FOREMAN_7);
+
+ MISSION(_("Gather 50 Pipes"), MGOAL_FIND_ITEM, 5, 50000, false,
+         &mission_place::always, &mission_start::ranch_construct_6,
+         &mission_end::standard, &mission_fail::standard);
+  ORIGINS(ORIGIN_SECONDARY);
+  ITEM("pipe");
+  COUNT(50);
+  FOLLOWUP(MISSION_RANCH_FOREMAN_8);
+
+ MISSION(_("Gather 2 Motors"), MGOAL_FIND_ITEM, 5, 50000, false,
+         &mission_place::always, &mission_start::ranch_construct_7,
+         &mission_end::standard, &mission_fail::standard);
+  ORIGINS(ORIGIN_SECONDARY);
+  ITEM("motor");
+  COUNT(2);
+  FOLLOWUP(MISSION_RANCH_FOREMAN_9);
+
+ MISSION(_("Gather 150 Bleach"), MGOAL_FIND_ITEM, 5, 50000, false,
+         &mission_place::always, &mission_start::ranch_construct_8,
+         &mission_end::standard, &mission_fail::standard);
+  ORIGINS(ORIGIN_SECONDARY);
+  ITEM("bleach");
+  COUNT(150);
+  FOLLOWUP(MISSION_RANCH_FOREMAN_10);
+
+ MISSION(_("Gather 6 First Aid Kits"), MGOAL_FIND_ITEM, 5, 50000, false,
+         &mission_place::always, &mission_start::ranch_construct_9,
+         &mission_end::standard, &mission_fail::standard);
+  ORIGINS(ORIGIN_SECONDARY);
+  ITEM("1st_aid");
+  COUNT(6);
+  FOLLOWUP(MISSION_RANCH_FOREMAN_11);
+
+ MISSION(_("Find 2 Electric Welders"), MGOAL_FIND_ITEM, 5, 50000, false,
+         &mission_place::always, &mission_start::ranch_construct_10,
+         &mission_end::standard, &mission_fail::standard);
+  ORIGINS(ORIGIN_SECONDARY);
+  ITEM("welder");
+  COUNT(2);
+  FOLLOWUP(MISSION_RANCH_FOREMAN_12);
+
+ MISSION(_("Find 12 Car Batteries"), MGOAL_FIND_ITEM, 5, 50000, false,
+         &mission_place::always, &mission_start::ranch_construct_11,
+         &mission_end::standard, &mission_fail::standard);
+  ORIGINS(ORIGIN_SECONDARY);
+  ITEM("battery_car");
+  COUNT(12);
+  FOLLOWUP(MISSION_RANCH_FOREMAN_13);
+
+ MISSION(_("Find 2 Two-Way Radios"), MGOAL_FIND_ITEM, 5, 50000, false,
+         &mission_place::always, &mission_start::ranch_construct_12,
+         &mission_end::standard, &mission_fail::standard);
+  ORIGINS(ORIGIN_SECONDARY);
+  ITEM("two_way_radio");
+  COUNT(2);
+  FOLLOWUP(MISSION_RANCH_FOREMAN_14);
+
+ MISSION(_("Gather 5 Backpacks"), MGOAL_FIND_ITEM, 5, 50000, false,
+         &mission_place::always, &mission_start::ranch_construct_13,
+         &mission_end::standard, &mission_fail::standard);
+  ORIGINS(ORIGIN_SECONDARY);
+  ITEM("backpack");
+  COUNT(5);
+  FOLLOWUP(MISSION_RANCH_FOREMAN_15);
+
+ MISSION(_("Find Homebrewer's Bible"), MGOAL_FIND_ITEM, 5, 50000, false,
+         &mission_place::always, &mission_start::ranch_construct_14,
+         &mission_end::standard, &mission_fail::standard);
+  ORIGINS(ORIGIN_SECONDARY);
+  ITEM("brewing_cookbook");
+  COUNT(1);
+  FOLLOWUP(MISSION_RANCH_FOREMAN_16);
+
+ MISSION(_("Gather 80 Sugar"), MGOAL_FIND_ITEM, 5, 50000, false,
+         &mission_place::always, &mission_start::ranch_construct_15,
+         &mission_end::standard, &mission_fail::standard);
+  ORIGINS(ORIGIN_SECONDARY);
+  ITEM("sugar");
+  COUNT(80);
+  FOLLOWUP(MISSION_RANCH_FOREMAN_17);
+
+ MISSION(_("Collect 30 Glass Sheets"), MGOAL_FIND_ITEM, 5, 50000, false,
+         &mission_place::always, &mission_start::ranch_construct_16,
+         &mission_end::standard, &mission_fail::standard);
+  ORIGINS(ORIGIN_SECONDARY);
+  ITEM("glass_sheet");
+  COUNT(20);
+  FOLLOWUP(MISSION_RANCH_FOREMAN_17);
 
  MISSION(_("Find a Book"), MGOAL_FIND_ANY_ITEM, 2, 800, false,
          &mission_place::always, &mission_start::place_book,
