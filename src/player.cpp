@@ -80,6 +80,8 @@ void game::init_morale()
     _("Good Feeling"),
     _("Supported"),
     _("Looked at photos"),
+    _("Got a Haircut"),
+    _("Freshly Shaven"),
 
     _("Nicotine Craving"),
     _("Caffeine Craving"),
