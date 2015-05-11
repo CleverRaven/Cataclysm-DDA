@@ -108,6 +108,16 @@ namespace talk_function {
     void mission_reward_cash  (npc *);
     void mission_favor        (npc *);
     void give_equipment       (npc *);
+    void give_aid             (npc *);
+    void give_all_aid         (npc *);
+    void construction_tips    (npc *);
+    void buy_beer             (npc *);
+    void buy_whiskey          (npc *);
+    void buy_haircut          (npc *);
+    void buy_shave            (npc *);
+    void buy_10_logs          (npc *);
+    void buy_100_logs         (npc *);
+    void give_equipment       (npc *);
     void start_trade          (npc *);
     std::string bulk_trade_inquire   (npc *, itype_id);
     void bulk_trade_accept    (npc *, itype_id);
