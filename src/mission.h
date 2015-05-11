@@ -54,7 +54,7 @@ enum mission_type_id {
     MISSION_OLD_GUARD_NEC_COMMO_2,         //Disable external power connection
     MISSION_OLD_GUARD_NEC_COMMO_3,         //Install repeater mod in local radio station
     MISSION_OLD_GUARD_NEC_COMMO_4,         //Cyclical mission to install repeater mods
-    MISSION_RANCH_FOREMAN_1,               //40 Rebuild civilization one 2x4 at a time
+    MISSION_RANCH_FOREMAN_1,               //Rebuild civilization one 2x4 at a time
     MISSION_RANCH_FOREMAN_2,               //Beds need blankets to make
     MISSION_RANCH_FOREMAN_3,               //You can never have enough nails!
     MISSION_RANCH_FOREMAN_4,               //Need salt to trade for seed
@@ -317,7 +317,7 @@ public:
             was_started = false;
         }
 
-    /** Getters, they mostly return the member directly, mostly. */ 
+    /** Getters, they mostly return the member directly, mostly. */
     /*@{*/
     bool has_deadline() const;
     calendar get_deadline() const;
