@@ -39,7 +39,9 @@ tripoint_range::point_generator tripoint_range::begin() const
 
 tripoint_range::point_generator tripoint_range::end() const
 {
-    return point_generator( tripoint( maxx, maxy, maxz ), *this );
+    // Return the point AFTER the last one
+    // That is, point under (in z-levels) the first one, but one z-level below the last one
+    return point_generator( tripoint( minx, miny, maxz + 1 ), *this );
 }
 
 tripoint_range::tripoint_range( int _minx, int _miny, int _minz, int _maxx, int _maxy, int _maxz )
