@@ -349,6 +349,7 @@
         "category" : "spare_parts",
         "price" : 6000,
         "name" : "nail",
+        "name_plural" : "nails",
         "symbol" : "=",
         "color" : "cyan",
         "description" : "A box of nails, mainly useful with a hammer.",
