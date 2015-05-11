@@ -544,17 +544,22 @@ void map::build_seen_cache(const tripoint &origin)
         &seen_cache[0][0], MAPSIZE*SEEX * MAPSIZE*SEEY, LIGHT_TRANSPARENCY_SOLID);
     seen_cache[origin.x][origin.y] = LIGHT_TRANSPARENCY_CLEAR;
 
-    castLight<0, 1, 1, 0>( seen_cache, transparency_cache, origin.x, origin.y, 0 );
-    castLight<1, 0, 0, 1>( seen_cache, transparency_cache, origin.x, origin.y, 0 );
+    std::function<void(float &, const float, const int)> assign =
+        []( float &target, const float value, const int /*distance*/ ) {
+        target = value;
+    };
 
-    castLight<0, -1, 1, 0>( seen_cache, transparency_cache, origin.x, origin.y, 0 );
-    castLight<-1, 0, 0, 1>( seen_cache, transparency_cache, origin.x, origin.y, 0 );
+    castLight<0, 1, 1, 0>( seen_cache, transparency_cache, assign, origin.x, origin.y, 0 );
+    castLight<1, 0, 0, 1>( seen_cache, transparency_cache, assign, origin.x, origin.y, 0 );
 
-    castLight<0, 1, -1, 0>( seen_cache, transparency_cache, origin.x, origin.y, 0 );
-    castLight<1, 0, 0, -1>( seen_cache, transparency_cache, origin.x, origin.y, 0 );
+    castLight<0, -1, 1, 0>( seen_cache, transparency_cache, assign, origin.x, origin.y, 0 );
+    castLight<-1, 0, 0, 1>( seen_cache, transparency_cache, assign, origin.x, origin.y, 0 );
 
-    castLight<0, -1, -1, 0>( seen_cache, transparency_cache, origin.x, origin.y, 0 );
-    castLight<-1, 0, 0, -1>( seen_cache, transparency_cache, origin.x, origin.y, 0 );
+    castLight<0, 1, -1, 0>( seen_cache, transparency_cache, assign, origin.x, origin.y, 0 );
+    castLight<1, 0, 0, -1>( seen_cache, transparency_cache, assign, origin.x, origin.y, 0 );
+
+    castLight<0, -1, -1, 0>( seen_cache, transparency_cache, assign, origin.x, origin.y, 0 );
+    castLight<-1, 0, 0, -1>( seen_cache, transparency_cache, assign, origin.x, origin.y, 0 );
 
     int part;
     if ( vehicle *veh = veh_at( origin, part ) ) {
@@ -605,24 +610,24 @@ void map::build_seen_cache(const tripoint &origin)
             //
             // The naive solution of making the mirrors act like a second player
             // at an offset appears to give reasonable results though.
-            castLight<0, 1, 1, 0>( seen_cache, transparency_cache,
+            castLight<0, 1, 1, 0>( seen_cache, transparency_cache, assign,
                                    mirror_pos.x, mirror_pos.y, offsetDistance );
-            castLight<1, 0, 0, 1>( seen_cache, transparency_cache,
+            castLight<1, 0, 0, 1>( seen_cache, transparency_cache, assign,
                                    mirror_pos.x, mirror_pos.y, offsetDistance );
 
-            castLight<0, -1, 1, 0>( seen_cache, transparency_cache,
+            castLight<0, -1, 1, 0>( seen_cache, transparency_cache, assign,
                                     mirror_pos.x, mirror_pos.y, offsetDistance );
-            castLight<-1, 0, 0, 1>( seen_cache, transparency_cache,
-                                    mirror_pos.x, mirror_pos.y, offsetDistance );
-
-            castLight<0, 1, -1, 0>( seen_cache, transparency_cache,
-                                    mirror_pos.x, mirror_pos.y, offsetDistance );
-            castLight<1, 0, 0, -1>( seen_cache, transparency_cache,
+            castLight<-1, 0, 0, 1>( seen_cache, transparency_cache, assign,
                                     mirror_pos.x, mirror_pos.y, offsetDistance );
 
-            castLight<0, -1, -1, 0>( seen_cache, transparency_cache,
+            castLight<0, 1, -1, 0>( seen_cache, transparency_cache, assign,
+                                    mirror_pos.x, mirror_pos.y, offsetDistance );
+            castLight<1, 0, 0, -1>( seen_cache, transparency_cache, assign,
+                                    mirror_pos.x, mirror_pos.y, offsetDistance );
+
+            castLight<0, -1, -1, 0>( seen_cache, transparency_cache, assign,
                                      mirror_pos.x, mirror_pos.y, offsetDistance );
-            castLight<-1, 0, 0, -1>( seen_cache, transparency_cache,
+            castLight<-1, 0, 0, -1>( seen_cache, transparency_cache, assign,
                                      mirror_pos.x, mirror_pos.y, offsetDistance );
         }
     }
@@ -631,9 +636,9 @@ void map::build_seen_cache(const tripoint &origin)
 template<int xx, int xy, int yx, int yy>
 void castLight( float (&output_cache)[MAPSIZE*SEEX][MAPSIZE*SEEY],
                 const float (&input_array)[MAPSIZE*SEEX][MAPSIZE*SEEY],
-                const int offsetX, const int offsetY, const int offsetDistance,
-                const float numerator, const int row, float start, const float end,
-                double cumulative_transparency )
+                const std::function<void(float &, const float, const int)> &assign,
+                const int offsetX, const int offsetY, const int offsetDistance, const float numerator,
+                const int row, float start, const float end, double cumulative_transparency )
 {
     float newStart = 0.0f;
     float radius = 60.0f - offsetDistance;
@@ -669,16 +674,15 @@ void castLight( float (&output_cache)[MAPSIZE*SEEX][MAPSIZE*SEEY],
             // 1 / (e^al) where a = coefficient of absorption and l = length.
             // Factoring out length, we get 1 / (e^((a1*a2*a3*...*an)*l))
             // We merge all of the absorption values by taking their cumulative average.
-            output_cache[ currentX ][ currentY] = std::max(
-                output_cache[ currentX ][ currentY],
-                numerator / (float)exp( cumulative_transparency * dist ) );
+            assign( output_cache[ currentX ][ currentY ],
+                    numerator / (float)exp( cumulative_transparency * dist ), dist );
 
             float new_transparency = input_array[ currentX ][ currentY ];
 
             if( new_transparency != current_transparency ) {
                 // Only cast recursively if previous span was not opaque.
                 if( current_transparency != LIGHT_TRANSPARENCY_SOLID ) {
-                    castLight<xx, xy, yx, yy>( output_cache, input_array, offsetX, offsetY,
+                    castLight<xx, xy, yx, yy>( output_cache, input_array, assign, offsetX, offsetY,
                                                offsetDistance, numerator, distance + 1,
                                                start, leadingEdge,
                                                ((distance - 1) * cumulative_transparency +
@@ -743,24 +747,30 @@ void map::apply_light_source(int x, int y, float luminance)
     bool east = (x != peer_inbounds && light_source_buffer[x + 1][y] < luminance );
     bool west = (x != 0 && light_source_buffer[x - 1][y] < luminance );
 
+    std::function<void(float &, const float, const int)> assign =
+        []( float &target, const float value, const int distance ) {
+        // Light needs inverse square falloff in addition to attenuation.
+        target = std::max( target, value / distance );
+    };
+
     if( north ) {
-        castLight<1, 0, 0, -1>( lm, transparency_cache, x, y, 0, luminance );
-        castLight<-1, 0, 0, -1>( lm, transparency_cache, x, y, 0, luminance );
+        castLight<1, 0, 0, -1>( lm, transparency_cache, assign, x, y, 0, luminance );
+        castLight<-1, 0, 0, -1>( lm, transparency_cache, assign, x, y, 0, luminance );
     }
 
     if( east ) {
-        castLight<0, 1, 1, 0>( lm, transparency_cache, x, y, 0, luminance );
-        castLight<0, -1, 1, 0>( lm, transparency_cache, x, y, 0, luminance );
+        castLight<0, 1, 1, 0>( lm, transparency_cache, assign, x, y, 0, luminance );
+        castLight<0, -1, 1, 0>( lm, transparency_cache, assign, x, y, 0, luminance );
     }
 
     if( south ) {
-        castLight<1, 0, 0, 1>( lm, transparency_cache, x, y, 0, luminance );
-        castLight<-1, 0, 0, 1>( lm, transparency_cache, x, y, 0, luminance );
+        castLight<1, 0, 0, 1>( lm, transparency_cache, assign, x, y, 0, luminance );
+        castLight<-1, 0, 0, 1>( lm, transparency_cache, assign, x, y, 0, luminance );
     }
 
     if( west ) {
-        castLight<0, 1, -1, 0>( lm, transparency_cache, x, y, 0, luminance );
-        castLight<0, -1, -1, 0>( lm, transparency_cache, x, y, 0, luminance );
+        castLight<0, 1, -1, 0>( lm, transparency_cache, assign, x, y, 0, luminance );
+        castLight<0, -1, -1, 0>( lm, transparency_cache, assign, x, y, 0, luminance );
     }
 }
 
@@ -878,7 +888,8 @@ void map::apply_light_ray(bool lit[LIGHTMAP_CACHE_X][LIGHTMAP_CACHE_Y],
                 if (!lit[x][y]) {
                     // Multiple rays will pass through the same squares so we need to record that
                     lit[x][y] = true;
-                    lm[x][y] = std::max(lm[x][y], luminance / (float)exp( transparency * distance ));
+                    lm[x][y] = std::max( lm[x][y],
+                                         luminance / ((float)exp( transparency * distance ) * distance) );
                 }
                 float current_transparency = light_transparency(x, y);
                 if(current_transparency == LIGHT_TRANSPARENCY_SOLID) {
@@ -907,7 +918,8 @@ void map::apply_light_ray(bool lit[LIGHTMAP_CACHE_X][LIGHTMAP_CACHE_Y],
                 if(!lit[x][y]) {
                     // Multiple rays will pass through the same squares so we need to record that
                     lit[x][y] = true;
-                    lm[x][y] = std::max(lm[x][y], luminance / (float)exp( transparency * distance ));
+                    lm[x][y] = std::max(lm[x][y],
+                                        luminance / ((float)exp( transparency * distance ) * distance) );
                 }
                 float current_transparency = light_transparency(x, y);
                 if(current_transparency == LIGHT_TRANSPARENCY_SOLID) {
