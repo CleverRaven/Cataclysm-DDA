@@ -164,7 +164,7 @@ struct vehicle_part : public JsonSerializer, public JsonDeserializer
 private:
     std::list<item> items; // inventory
 public:
-    bool setid( const std::string & str );
+    void setid( const std::string & str );
 
     // json saving/loading
     using JsonSerializer::serialize;

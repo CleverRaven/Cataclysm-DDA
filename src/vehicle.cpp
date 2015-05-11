@@ -5877,15 +5877,15 @@ vehicle_part::vehicle_part( const std::string &sid, int const dx, int const dy,
     }
 }
 
-bool vehicle_part::setid( const std::string & str )
+void vehicle_part::setid( const std::string & str )
 {
     auto const vpit = vehicle_part_types.find( str );
     if( vpit == vehicle_part_types.end() ) {
-        return false;
+        debugmsg( "invalid vehicle part id %s", str.c_str() );
+        return;
     }
     id = str;
     iid = vpit->second.loadid;
-    return true;
 }
 
 void vehicle_part::properties_from_item( const item &used_item )
