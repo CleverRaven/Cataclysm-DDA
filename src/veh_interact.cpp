@@ -639,11 +639,13 @@ void veh_interact::do_install()
                                                    pgettext("Vehicle Parts|","I"),
                                                    pgettext("Vehicle Parts|","O") } };
 
-    std::array <std::function<bool(vpart_info)>,7> tab_filters; // filter for each tab, last one
-    tab_filters[0] = [&](vpart_info) { return true; }; // All
-    tab_filters[1] = [&](vpart_info part) { return part.has_flag(VPFLAG_CARGO) && // Cargo
+    std::array <std::function<bool(const vpart_info*)>,7> tab_filters; // filter for each tab, last one
+    tab_filters[0] = [&](const vpart_info *) { return true; }; // All
+    tab_filters[1] = [&](const vpart_info *p) { auto &part = *p;
+                                                   return part.has_flag(VPFLAG_CARGO) && // Cargo
                                                    !part.has_flag("TURRET"); };
-    tab_filters[2] = [&](vpart_info part) { return part.has_flag(VPFLAG_LIGHT) || // Light
+    tab_filters[2] = [&](const vpart_info *p) { auto &part = *p;
+                                                   return part.has_flag(VPFLAG_LIGHT) || // Light
                                                    part.has_flag(VPFLAG_CONE_LIGHT) ||
                                                    part.has_flag(VPFLAG_CIRCLE_LIGHT) ||
                                                    part.has_flag(VPFLAG_DOME_LIGHT) ||
@@ -651,7 +653,8 @@ void veh_interact::do_install()
                                                    part.has_flag(VPFLAG_ATOMIC_LIGHT) ||
                                                    part.has_flag(VPFLAG_EVENTURN) ||
                                                    part.has_flag(VPFLAG_ODDTURN); };
-    tab_filters[3] = [&](vpart_info part) { return part.has_flag("TRACK") || //Util
+    tab_filters[3] = [&](const vpart_info *p) { auto &part = *p;
+                                                   return part.has_flag("TRACK") || //Util
                                                    part.has_flag(VPFLAG_FRIDGE) ||
                                                    part.has_flag("KITCHEN") ||
                                                    part.has_flag("WELDRIG") ||
@@ -672,24 +675,26 @@ void veh_interact::do_install()
                                                    part.has_flag("SEAT") ||
                                                    part.has_flag("BED") ||
                                                    part.has_flag("DOOR_MOTOR"); };
-    tab_filters[4] = [&](vpart_info part) { return(part.has_flag(VPFLAG_OBSTACLE) || // Hull
+    tab_filters[4] = [&](const vpart_info *p) { auto &part = *p;
+                                                   return(part.has_flag(VPFLAG_OBSTACLE) || // Hull
                                                    part.has_flag("ROOF") ||
                                                    part.has_flag(VPFLAG_ARMOR)) &&
                                                    !part.has_flag("WHEEL") &&
-                                                   !tab_filters[3](part); };
-    tab_filters[5] = [&](vpart_info part) { return part.has_flag(VPFLAG_ENGINE) || // Internals
+                                                   !tab_filters[3](p); };
+    tab_filters[5] = [&](const vpart_info *p) { auto &part = *p;
+                                                   return part.has_flag(VPFLAG_ENGINE) || // Internals
                                                    part.has_flag(VPFLAG_ALTERNATOR) ||
                                                    part.has_flag(VPFLAG_CONTROLS) ||
                                                    part.location == "fuel_source" ||
                                                    part.location == "on_battery_mount" ||
                                                    (part.location.empty() && part.has_flag("FUEL_TANK")); };
-    tab_filters[tab_filters.size()-1] = [&](vpart_info part) { // Other: everything that's not in the other filters
+    tab_filters[tab_filters.size()-1] = [&](const vpart_info *part) { // Other: everything that's not in the other filters
         for (size_t i=1; i < tab_filters.size()-1; i++ ) {
             if( tab_filters[i](part) ) return false;
         }
         return true; };
 
-    std::vector<vpart_info> tab_vparts = can_mount; // full list of mountable parts, to be filtered according to tab
+    std::vector<const vpart_info*> tab_vparts = can_mount; // full list of mountable parts, to be filtered according to tab
 
     int pos = 0;
     size_t tab = 0;
@@ -706,7 +711,7 @@ void veh_interact::do_install()
         }
         wrefresh(w_list);
 
-        sel_vpart_info = (tab_vparts.size() > 0) ? &(tab_vparts[pos]) : NULL; // filtered list can be empty
+        sel_vpart_info = (tab_vparts.size() > 0) ? tab_vparts[pos] : NULL; // filtered list can be empty
 
         display_details( sel_vpart_info );
 
@@ -715,7 +720,7 @@ void veh_interact::do_install()
         const std::string action = main_context.handle_input();
         if (action == "INSTALL" || action == "CONFIRM"){
             if (can_install) {
-                std::vector< vpart_info* > shapes = vpart_shapes[sel_vpart_info->name+sel_vpart_info->item];
+                const auto &shapes = vpart_shapes[sel_vpart_info->name+sel_vpart_info->item];
                 int selected_shape = -1;
                 if ( shapes.size() > 1 ) { // more than one shape available, display selection
                     std::vector<uimenu_entry> shape_ui_entries;
@@ -1164,7 +1169,7 @@ void veh_interact::do_tirechange()
     wrefresh (w_mode);
     int pos = 0;
     while (true) {
-        sel_vpart_info = &(wheel_types[pos]);
+        sel_vpart_info = wheel_types[pos];
         bool is_wheel = sel_vpart_info->has_flag("WHEEL");
         display_list (pos, wheel_types);
         itype_id itm = sel_vpart_info->item;
@@ -1281,11 +1286,11 @@ int veh_interact::part_at (int dx, int dy)
  * Affects coloring in display_list() and is also used to
  * sort can_mount so installable parts come first.
  */
-bool veh_interact::can_currently_install(vpart_info *vpart)
+bool veh_interact::can_currently_install(const vpart_info &vpart)
 {
-    bool has_comps = crafting_inv.has_components(vpart->item, 1);
-    bool has_skill = g->u.skillLevel("mechanics") >= vpart->difficulty;
-    bool is_wheel = vpart->has_flag("WHEEL");
+    bool has_comps = crafting_inv.has_components(vpart.item, 1);
+    bool has_skill = g->u.skillLevel("mechanics") >= vpart.difficulty;
+    bool is_wheel = vpart.has_flag("WHEEL");
     return (has_comps && (has_skill || is_wheel));
 }
 
@@ -1346,13 +1351,13 @@ void veh_interact::move_cursor (int dx, int dy)
         int divider_index = 0;
         for( auto &vehicle_part_type : vehicle_part_types ) {
             if( veh->can_mount( vdx, vdy, vehicle_part_type.first ) ) {
-                vpart_info *vpi = &vehicle_part_type.second;
-                if ( vpi->id != vpart_shapes[vpi->name+vpi->item][0]->id )
+                const vpart_info &vpi = vehicle_part_type.second;
+                if ( vpi.id != vpart_shapes[vpi.name+vpi.item][0]->id )
                     continue; // only add first shape to install list
                 if (can_currently_install(vpi)) {
-                    can_mount.insert( can_mount.begin() + divider_index++, *vpi );
+                    can_mount.insert( can_mount.begin() + divider_index++, &vpi );
                 } else {
-                    can_mount.push_back( *vpi );
+                    can_mount.push_back( &vpi );
                 }
             }
         }
@@ -1362,7 +1367,7 @@ void veh_interact::move_cursor (int dx, int dy)
     if (wheel_types.empty()) {
         for( auto &vehicle_part_type : vehicle_part_types ) {
             if( vehicle_part_type.second.has_flag( "WHEEL" ) ) {
-                wheel_types.push_back( vehicle_part_type.second );
+                wheel_types.push_back( &vehicle_part_type.second );
             }
         }
     }
@@ -1376,10 +1381,11 @@ void veh_interact::move_cursor (int dx, int dy)
         parts_here = veh->parts_at_relative(veh->parts[cpart].mount.x, veh->parts[cpart].mount.y);
         for (size_t i = 0; i < parts_here.size(); i++) {
             int p = parts_here[i];
-            if (veh->parts[p].hp < veh->part_info(p).durability) {
+            const vpart_info &vpinfo = veh->part_info( p );
+            if (veh->parts[p].hp < vpinfo.durability) {
                 need_repair.push_back (i);
             }
-            if (veh->part_flag(p, "FUEL_TANK") && veh->parts[p].amount < veh->part_info(p).size) {
+            if (veh->part_flag(p, "FUEL_TANK") && veh->parts[p].amount < vpinfo.size) {
                 ptanks.push_back(&veh->parts[p]);
                 has_ptank = true;
             }
@@ -1717,16 +1723,17 @@ size_t veh_interact::display_esc(WINDOW *win)
  * @param pos The current cursor position in the list.
  * @param list The list to display parts from.
  */
-void veh_interact::display_list(size_t pos, std::vector<vpart_info> list, const int header)
+void veh_interact::display_list(size_t pos, std::vector<const vpart_info*> list, const int header)
 {
     werase (w_list);
     int lines_per_page = page_size - header;
     size_t page = pos / lines_per_page;
     for (size_t i = page * lines_per_page; i < (page + 1) * lines_per_page && i < list.size(); i++) {
+        const vpart_info &info = *list[i];
         int y = i - page * lines_per_page + header;
-        nc_color col = can_currently_install(&list[i]) ? c_white : c_dkgray;
-        mvwprintz(w_list, y, 3, pos == i ? hilite (col) : col, list[i].name.c_str());
-        mvwputch (w_list, y, 1, list[i].color, special_symbol(list[i].sym));
+        nc_color col = can_currently_install( info ) ? c_white : c_dkgray;
+        mvwprintz(w_list, y, 3, pos == i ? hilite (col) : col, info.name.c_str());
+        mvwputch (w_list, y, 1, info.color, special_symbol(info.sym));
     }
     wrefresh (w_list);
 }
@@ -1986,12 +1993,13 @@ item consume_vpart_item( const vpart_str_id &vpid )
         // popup menu!?
         std::vector<std::string> options;
         for( const auto &candidate : candidates ) {
+            const vpart_info &info = vehicle_part_types[vpid];
             if( candidate ) {
                 // In inventory.
-                options.push_back(vehicle_part_types[vpid].name);
+                options.push_back(info.name);
             } else {
                 // Nearby.
-                options.push_back(vehicle_part_types[vpid].name + _(" (nearby)"));
+                options.push_back(info.name + _(" (nearby)"));
             }
         }
         selection = menu_vec(false, _("Use which gizmo?"), options);
@@ -2174,10 +2182,11 @@ void complete_vehicle ()
     int dd = 2;
     double dmg = 1.0;
 
-    bool is_wheel = vehicle_part_types[part_id].has_flag("WHEEL");
-    bool is_wood = vehicle_part_types[part_id].has_flag("NAILABLE");
-    bool is_wrenchable = vehicle_part_types[part_id].has_flag("TOOL_WRENCH");
-    bool is_hand_remove = vehicle_part_types[part_id].has_flag("TOOL_NONE");
+    const vpart_info &vpinfo = vehicle_part_types[part_id];
+    bool is_wheel = vpinfo.has_flag("WHEEL");
+    bool is_wood = vpinfo.has_flag("NAILABLE");
+    bool is_wrenchable = vpinfo.has_flag("TOOL_WRENCH");
+    bool is_hand_remove = vpinfo.has_flag("TOOL_NONE");
 
     // cmd = Install Repair reFill remOve Siphon Drainwater Changetire reName relAbel
     switch (cmd) {
@@ -2208,7 +2217,7 @@ void complete_vehicle ()
             debugmsg ("complete_vehicle install part fails dx=%d dy=%d id=%d", dx, dy, part_id.c_str());
         }
 
-        if ( vehicle_part_types[part_id].has_flag("CONE_LIGHT") ) {
+        if ( vpinfo.has_flag("CONE_LIGHT") ) {
             // Need map-relative coordinates to compare to output of look_around.
             int gx, gy;
             // Need to call coord_translate() directly since it's a new part.
@@ -2241,10 +2250,10 @@ void complete_vehicle ()
         }
 
         add_msg (m_good, _("You install a %s into the %s."),
-                 vehicle_part_types[part_id].name.c_str(), veh->name.c_str());
+                 vpinfo.name.c_str(), veh->name.c_str());
         // easy parts don't train
         if (!is_wrenchable && !is_hand_remove) {
-            g->u.practice( "mechanics", vehicle_part_types[part_id].difficulty * 5 + (is_wood ? 10 : 20) );
+            g->u.practice( "mechanics", vpinfo.difficulty * 5 + (is_wood ? 10 : 20) );
         }
         break;
     case 'r':
@@ -2354,7 +2363,7 @@ void complete_vehicle ()
             veh->remove_part( replaced_wheel );
             veh->part_removal_cleanup();
             add_msg( _("You replace one of the %s's tires with a %s."),
-                     veh->name.c_str(), vehicle_part_types[part_id].name.c_str() );
+                     veh->name.c_str(), vpinfo.name.c_str() );
             used_item = consume_vpart_item( part_id );
             partnum = veh->install_part( dx, dy, part_id, used_item );
             if( partnum < 0 ) {

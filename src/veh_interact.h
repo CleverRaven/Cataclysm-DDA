@@ -11,6 +11,7 @@
 #define CIRC_SAW_USED 20
 #define OXY_CUTTING 10
 
+struct vpart_info;
 using vpart_id = int;
 using vpart_str_id = std::string;
 
@@ -89,7 +90,7 @@ class veh_interact
         int part_at(int dx, int dy);
         void move_cursor(int dx, int dy);
         task_reason cant_do(char mode);
-        bool can_currently_install(vpart_info *vpart);
+        bool can_currently_install(const vpart_info &vpart);
         /** Move index (parameter pos) according to input action:
          * (up or down, single step or whole page).
          * @param pos index to change.
@@ -115,7 +116,7 @@ class veh_interact
         void display_stats();
         void display_name();
         void display_mode(char mode);
-        void display_list(size_t pos, std::vector<vpart_info> list, const int header = 0);
+        void display_list(size_t pos, std::vector<const vpart_info*> list, const int header = 0);
         void display_details(const vpart_info *part);
         size_t display_esc (WINDOW *w);
 
@@ -147,15 +148,15 @@ class veh_interact
         /* Vector of all vpart TYPES that can be mounted in the current square.
          * Can be converted to a vector<vpart_info>.
          * Updated whenever the cursor moves. */
-        std::vector<vpart_info> can_mount;
+        std::vector<const vpart_info*> can_mount;
 
         /* Maps part names to vparts representing different shapes of a part.
          * Used to slim down installable parts list. Only built once. */
-        std::map< std::string, std::vector<vpart_info*> > vpart_shapes;
+        std::map< std::string, std::vector<const vpart_info*> > vpart_shapes;
 
         /* Vector of all wheel types. Used for changing wheels, so it only needs
          * to be built once. */
-        std::vector<vpart_info> wheel_types;
+        std::vector<const vpart_info*> wheel_types;
 
         /* Vector of vparts in the current square that can be repaired. Strictly a
          * subset of parts_here.

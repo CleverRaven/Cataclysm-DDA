@@ -482,7 +482,7 @@ public:
     int part_displayed_at( int local_x, int local_y ) const;
 
     // Given a part, finds its index in the vehicle
-    int index_of_part(vehicle_part *part, bool check_removed = false) const;
+    int index_of_part(const vehicle_part *part, bool check_removed = false) const;
 
     // get symbol for map
     char part_sym (int p) const;
