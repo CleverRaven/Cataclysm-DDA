@@ -1615,17 +1615,6 @@ int map::move_cost_ter_furn(const int x, const int y) const
     return cost > 0 ? cost : 0;
 }
 
-int map::combined_movecost(const int x1, const int y1,
-                           const int x2, const int y2,
-                           const vehicle *ignored_vehicle, const int modifier) const
-{
-    int cost1 = move_cost(x1, y1, ignored_vehicle);
-    int cost2 = move_cost(x2, y2, ignored_vehicle);
-    // 50 moves taken per move_cost (70.71.. diagonally)
-    int mult = (trigdist && x1 != x2 && y1 != y2 ? 71 : 50);
-    return (cost1 + cost2 + modifier) * mult / 2;
-}
-
 // Move cost: 3D
 
 int map::move_cost( const tripoint &p, const vehicle *ignored_vehicle ) const
@@ -1669,7 +1658,8 @@ int map::move_cost_ter_furn( const tripoint &p ) const
 }
 
 int map::combined_movecost( const tripoint &from, const tripoint &to,
-                            const vehicle *ignored_vehicle, const int modifier ) const
+                            const vehicle *ignored_vehicle,
+                            const int modifier, const bool flying ) const
 {
     const int mults[4] = { 0, 50, 71, 100 };
     const int cost1 = move_cost( from, ignored_vehicle );
@@ -1677,7 +1667,52 @@ int map::combined_movecost( const tripoint &from, const tripoint &to,
     // Multiply cost depending on the number of differing axes
     // 0 if all axes are equal, 100% if only 1 differs, 141% for 2, 200% for 3
     size_t match = trigdist ? ( from.x != to.x ) + ( from.y != to.y ) + ( from.z != to.z ) : 1;
+    if( flying || from.z == to.z ) {
+        return (cost1 + cost2 + modifier) * mults[match] / 2;
+    }
+
+    // Inter-z-level movement by foot (not flying)
+    if( !valid_move( from, to, false ) ) {
+        return 0;
+    }
+
+    // TODO: Penalize for using stairs
     return (cost1 + cost2 + modifier) * mults[match] / 2;
+}
+
+bool map::valid_move( const tripoint &from, const tripoint &to, const bool flying ) const
+{
+    if( rl_dist( from, to ) != 1 ) {
+        return false;
+    }
+
+    if( move_cost( from ) <= 0 || move_cost( to ) <= 0 ) {
+        return false;
+    }
+
+    if( from.z == to.z ) {
+        return true;
+    }
+
+    const bool going_up = from.z < to.z;
+    const tripoint &up = going_up ? to : from;
+    const tripoint &down = going_up ? from : to;
+
+    // Lower tile has ceiling or upper tile has floor
+    // Not even flying can help here
+    if( has_flag( TFLAG_INDOORS, down ) || ter( up ) != t_open_air ) {
+        return false;
+    }
+
+    if( flying ) {
+        return true;
+    }
+
+    if( has_flag( "GOES_DOWN", up ) && has_flag( "GOES_UP", down ) ) {
+        return true;
+    }
+
+    return false;
 }
 
 // End of move cost
@@ -6290,9 +6325,8 @@ void map::copy_grid( const point to, const point from )
     }
 }
 
-void map::spawn_monsters( const tripoint &gp, mongroup &group, bool ignore_sight )
+void map::spawn_monsters_submap_group( const tripoint &gp, mongroup &group, bool ignore_sight )
 {
-    // TODO: Z
     const int gx = gp.x;
     const int gy = gp.y;
     const int s_range = std::min(SEEX * (MAPSIZE / 2), g->u.sight_range( g->light_level() ) );
@@ -6348,7 +6382,6 @@ void map::spawn_monsters( const tripoint &gp, mongroup &group, bool ignore_sight
             for( int tries = 0; tries < 10 && !locations.empty(); tries++ ) {
                 const size_t index = rng( 0, locations.size() - 1 );
                 const tripoint &p = locations[index];
-                tmp.spawn( p ); // So can_move_to works correctly
                 if( !tmp.can_move_to( p ) ) {
                     continue; // target can not contain the monster
                 }
@@ -6363,58 +6396,68 @@ void map::spawn_monsters( const tripoint &gp, mongroup &group, bool ignore_sight
     group.population = 0;
 }
 
+void map::spawn_monsters_submap( const tripoint &gp, bool ignore_sight )
+{
+    auto groups = overmap_buffer.groups_at( abs_sub.x + gp.x, abs_sub.y + gp.y, gp.z );
+    for( auto &mgp : groups ) {
+        spawn_monsters_submap_group( gp, *mgp, ignore_sight );
+    }
+
+    submap * const current_submap = get_submap_at_grid( gp );
+    for (auto &i : current_submap->spawns) {
+        for (int j = 0; j < i.count; j++) {
+            int tries = 0;
+            int mx = i.posx;
+            int my = i.posy;
+            monster tmp(GetMType(i.type));
+            tmp.mission_id = i.mission_id;
+            if (i.name != "NONE") {
+                tmp.unique_name = i.name;
+            }
+            if (i.friendly) {
+                tmp.friendly = -1;
+            }
+            int fx = mx + gp.x * SEEX;
+            int fy = my + gp.y * SEEY;
+            tripoint pos( fx, fy, gp.z );
+
+            while( ( !g->is_empty( pos ) || !tmp.can_move_to( pos ) ) && tries < 10 ) {
+                mx = (i.posx + rng(-3, 3)) % SEEX;
+                my = (i.posy + rng(-3, 3)) % SEEY;
+                if (mx < 0) {
+                    mx += SEEX;
+                }
+                if (my < 0) {
+                    my += SEEY;
+                }
+                fx = mx + gp.x * SEEX;
+                fy = my + gp.y * SEEY;
+                tries++;
+                pos = tripoint( fx, fy, gp.z );
+            }
+            if (tries != 10) {
+                tmp.spawn( pos );
+                g->add_zombie(tmp);
+            }
+else debugmsg( "tried to spawn %s, but 10 tries. last pos %d,%d,%d", tmp.disp_name().c_str(), pos.x, pos.y, pos.z );
+        }
+    }
+    current_submap->spawns.clear();
+    overmap_buffer.spawn_monster( abs_sub.x + gp.x, abs_sub.y + gp.y, gp.z );
+}
+
 void map::spawn_monsters(bool ignore_sight)
 {
     const int zmin = zlevels ? -OVERMAP_DEPTH : abs_sub.z;
     const int zmax = zlevels ? OVERMAP_HEIGHT : abs_sub.z;
-    for( int gz = zmin; gz <= zmax; gz++ ) {
-        for (int gx = 0; gx < my_MAPSIZE; gx++) {
-            for (int gy = 0; gy < my_MAPSIZE; gy++) {
-                auto groups = overmap_buffer.groups_at( abs_sub.x + gx, abs_sub.y + gy, gz );
-                for( auto &mgp : groups ) {
-                    // TODO: Z
-                    spawn_monsters( tripoint( gx, gy, gz ), *mgp, ignore_sight );
-                }
-
-                submap * const current_submap = get_submap_at_grid( tripoint( gx, gy, gz ) );
-                for (auto &i : current_submap->spawns) {
-                    for (int j = 0; j < i.count; j++) {
-                        int tries = 0;
-                        int mx = i.posx, my = i.posy;
-                        monster tmp(GetMType(i.type));
-                        tmp.mission_id = i.mission_id;
-                        if (i.name != "NONE") {
-                            tmp.unique_name = i.name;
-                        }
-                        if (i.friendly) {
-                            tmp.friendly = -1;
-                        }
-                        int fx = mx + gx * SEEX, fy = my + gy * SEEY;
-                        tripoint pos( fx, fy, gz );
-
-                        tmp.spawn( pos ); // initializing it here so the can_move_to works correctly
-                        while ((!g->is_empty( pos ) || !tmp.can_move_to( pos )) && tries < 10) {
-                            mx = (i.posx + rng(-3, 3)) % SEEX;
-                            my = (i.posy + rng(-3, 3)) % SEEY;
-                            if (mx < 0) {
-                                mx += SEEX;
-                            }
-                            if (my < 0) {
-                                my += SEEY;
-                            }
-                            fx = mx + gx * SEEX;
-                            fy = my + gy * SEEY;
-                            tries++;
-                            pos = tripoint( fx, fy, gz );
-                        }
-                        if (tries != 10) {
-                            tmp.spawn( pos );
-                            g->add_zombie(tmp);
-                        }
-                    }
-                }
-                current_submap->spawns.clear();
-                overmap_buffer.spawn_monster( abs_sub.x + gx, abs_sub.y + gy, gz );
+    tripoint gp;
+    int &gx = gp.x;
+    int &gy = gp.y;
+    int &gz = gp.z;
+    for( gz = zmin; gz <= zmax; gz++ ) {
+        for( gx = 0; gx < my_MAPSIZE; gx++ ) {
+            for( gy = 0; gy < my_MAPSIZE; gy++ ) {
+                spawn_monsters_submap( gp, ignore_sight );
             }
         }
     }
