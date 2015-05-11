@@ -9,6 +9,7 @@
 #include "catacharset.h"
 #include "messages.h"
 #include "mission.h"
+#include "morale.h"
 #include "ammo.h"
 #include "overmapbuffer.h"
 #include "json.h"
@@ -1224,7 +1225,7 @@ std::string dialogue::dynamic_line( const std::string &topic ) const
              return _("That's the best I can do on short notice...");
 
     } else if( topic == "TALK_RANCH_STOCKS_BANDAGES" ) {
-             return effect.bulk_trade_inquire(p, "bandages");
+             return talk_function::bulk_trade_inquire(p, "bandages");
 
     } else if( topic == "TALK_RANCH_SCRAPPER" ) {
              return _("Don't mind me.");
@@ -1293,7 +1294,7 @@ std::string dialogue::dynamic_line( const std::string &topic ) const
             case 4: return _("We could look for one of those farms out here. They can provide plenty of food and aren't close to the cities.");
             case 5: return _("We should probably stay away from those cities, even if there's plenty of useful stuff there.");
         }
-            
+
     } else if( topic == "TALK_SHARE_EQUIPMENT" ) {
         if (p->has_effect(_("asked_for_item"))) {
             return _("You just asked me for stuff; ask later.");
@@ -2132,8 +2133,8 @@ void dialogue::gen_responses( const std::string &topic )
     } else if( topic == "TALK_FREE_MERCHANT_STOCKS_DELIVERED" ) {
             add_response( _("You might be seeing more of me..."), "TALK_FREE_MERCHANT_STOCKS" );
     } else if( topic == "TALK_RANCH_FOREMAN" ) {
-            for (size_t i = 0; i <  g->u.active_missions.size(); i++) {
-                if (g->find_mission(g->u.active_missions[i])->name() == "Retrieve Prospectus"){
+            for( auto miss : g->u.get_active_missions() ) {
+                if( miss->name() == "Retrieve Prospectus"){
                     add_response( _("[MISSION] The merchant at the Refugee Center sent me to get a prospectus from you."), "TALK_RANCH_FOREMAN_PROSPECTUS" );
                 }
             }
@@ -2166,8 +2167,8 @@ void dialogue::gen_responses( const std::string &topic )
             add_response( _("..."), "TALK_RANCH_CONSTRUCTION_2" );
     } else if( topic == "TALK_RANCH_CONSTRUCTION_2_HIRE" ) {
             if (g->u.cash >= 2000 && !p->has_effect(_("currently_busy"))){
-                SUCCESS_ACTION(&talk_function::construction_tips);
                 add_response( _("[$20,1h] Sure, I could use a bit of help..."), "TALK_DONE" );
+                SUCCESS_ACTION(&talk_function::construction_tips);
             }
             add_response( _("Sorry, I don't have the time."), "TALK_RANCH_CONSTRUCTION_2" );
     } else if( topic == "TALK_RANCH_WOODCUTTER" ) {
@@ -2179,12 +2180,12 @@ void dialogue::gen_responses( const std::string &topic )
     } else if( topic == "TALK_RANCH_WOODCUTTER_HIRE" ) {
             if (!p->has_effect(_("currently_busy"))){
                 if (g->u.cash >= 200000){
-                    SUCCESS_ACTION(&talk_function::buy_10_logs);
                     add_response( _("[$2000,1d] 10 logs"), "TALK_DONE" );
+                    SUCCESS_ACTION(&talk_function::buy_10_logs);
                 }
                 if (g->u.cash >= 1200000){
-                    SUCCESS_ACTION(&talk_function::buy_100_logs);
                     add_response( _("[$12000,7d] 100 logs"), "TALK_DONE" );
+                    SUCCESS_ACTION(&talk_function::buy_100_logs);
                 }
                 add_response( _("Maybe later..."), "TALK_RANCH_WOODCUTTER" );
             } else {
@@ -2250,16 +2251,16 @@ void dialogue::gen_responses( const std::string &topic )
             }
             add_response( _("..."), "TALK_RANCH_NURSE" );
     } else if( topic == "TALK_RANCH_STOCKS_BANDAGES" ) {
-            effect.bulk_trade_accept(p, "bandages");
+            talk_function::bulk_trade_accept(p, "bandages");
             add_response( _("Works for me."), "TALK_RANCH_NURSE" );
     } else if( topic == "TALK_RANCH_NURSE_AID" ) {
             if (g->u.cash >= 20000 && !p->has_effect(_("currently_busy")) ){
-                SUCCESS_ACTION(&talk_function::give_aid);
                 add_response( _("[$200, 30m] I need you to patch me up..."), "TALK_RANCH_NURSE_AID_DONE" );
+                SUCCESS_ACTION(&talk_function::give_aid);
             }
             if (g->u.cash >= 50000 && !p->has_effect(_("currently_busy")) ){
-                SUCCESS_ACTION(&talk_function::give_all_aid);
                 add_response( _("[$500, 1h] Could you look at me and my companions?"), "TALK_RANCH_NURSE_AID_DONE" );
+                SUCCESS_ACTION(&talk_function::give_all_aid);
             }
             add_response( _("I should be fine..."), "TALK_RANCH_NURSE" );
     } else if( topic == "TALK_RANCH_NURSE_AID_DONE" ) {
@@ -3242,7 +3243,7 @@ void talk_function::construction_tips(npc *p)
 {
     g->u.cash -= 2000;
     g->u.practice("carpentry", 30);
-    g->u.moves -= 600;
+    g->u.assign_activity(ACT_WAIT, 600);
     p->add_effect("currently_busy", 600);
 }
 
@@ -3272,6 +3273,7 @@ void talk_function::buy_haircut(npc *p)
 {
     g->u.add_morale(MORALE_HAIRCUT, 5, 5, 7200, 30);
     g->u.cash -= 1000;
+    g->u.assign_activity(ACT_WAIT, 300);
     add_msg(m_good, _("%s gives you a decent haircut..."), p->name.c_str());
 }
 
@@ -3279,25 +3281,26 @@ void talk_function::buy_shave(npc *p)
 {
     g->u.add_morale(MORALE_SHAVE, 10, 10, 3600, 30);
     g->u.cash -= 500;
+    g->u.assign_activity(ACT_WAIT, 100);
     add_msg(m_good, _("%s gives you a decent shave..."), p->name.c_str());
 }
 
 void talk_function::buy_10_logs(npc *p)
 {
-    std::vector<point> places = overmap_buffer.find_all(
-        g->global_omt_location(), "ranch_camp_67", 1, false);
+    std::vector<tripoint> places = overmap_buffer.find_all(
+        g->u.global_omt_location(), "ranch_camp_67", 1, false);
     if (places.size() == 0){
         debugmsg("Couldn't find %s", "ranch_camp_67");
         return;
     }
     const auto &cur_om = g->get_cur_om();
-    std::vector<point> places_om;
+    std::vector<tripoint> places_om;
     for (auto &i : places) {
         if (&cur_om == overmap_buffer.get_existing_om_global(i))
             places_om.push_back(i);
     }
 
-    const point site = places_om[rng(0,places_om.size()-1)];
+    const tripoint site = places_om[rng(0,places_om.size()-1)];
     tinymap bay;
     bay.load(site.x * 2, site.y * 2, g->get_levz(), false);
     bay.spawn_item( 7, 15, "log", 10);
@@ -3310,20 +3313,20 @@ void talk_function::buy_10_logs(npc *p)
 
 void talk_function::buy_100_logs(npc *p)
 {
-    std::vector<point> places = overmap_buffer.find_all(
-        g->global_omt_location(), "ranch_camp_67", 1, false);
+    std::vector<tripoint> places = overmap_buffer.find_all(
+        g->u.global_omt_location(), "ranch_camp_67", 1, false);
     if (places.size() == 0){
         debugmsg("Couldn't find %s", "ranch_camp_67");
         return;
     }
     const auto &cur_om = g->get_cur_om();
-    std::vector<point> places_om;
+    std::vector<tripoint> places_om;
     for (auto &i : places) {
         if (&cur_om == overmap_buffer.get_existing_om_global(i))
             places_om.push_back(i);
     }
 
-    const point site = places_om[rng(0,places_om.size()-1)];
+    const tripoint site = places_om[rng(0,places_om.size()-1)];
     tinymap bay;
     bay.load(site.x * 2, site.y * 2, g->get_levz(), false);
     bay.spawn_item( 7, 15, "log", 100);
