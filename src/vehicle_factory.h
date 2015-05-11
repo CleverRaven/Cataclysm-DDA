@@ -31,31 +31,43 @@ class VehicleGroup {
 /**
  * The location and facing data needed to place a vehicle onto the map.
  */
- struct Vehicle_Facings {
-    Vehicle_Facings(JsonObject &jo, std::string key);
+ struct VehicleFacings {
+    VehicleFacings(JsonObject &jo, const std::string &key);
 
-    int pick() const;
+    inline int pick() const {
+        return values[rng(0, values.size()-1)];
+    }
+
     std::vector<int> values;
 };
 
-struct Vehicle_Location {
-    Vehicle_Location(const jmapgen_int &x, const jmapgen_int &y, const Vehicle_Facings &facings) : x(x), y(y), facings(facings) {}
-    int pick_facing() const;
+struct VehicleLocation {
+    VehicleLocation(const jmapgen_int &x, const jmapgen_int &y, const VehicleFacings &facings)
+        : x(x), y(y), facings(facings) {}
+
+    inline int pick_facing() const {
+        return facings.pick();
+    }
 
     jmapgen_int x;
     jmapgen_int y;
-    Vehicle_Facings facings;
+    VehicleFacings facings;
 };
 
 /**
  * A list of vehicle locations which are valid for spawning new vehicles.
  */
-struct Vehicle_Placement {
-    void add(const jmapgen_int &x, const jmapgen_int &y, const Vehicle_Facings &facings);
-    const Vehicle_Location* pick() const;
+struct VehiclePlacement {
+    inline void add(const jmapgen_int &x, const jmapgen_int &y, const VehicleFacings &facings) {
+        locations.emplace_back(x, y, facings);
+    }
 
-    typedef std::vector<Vehicle_Location> vehicle_locations;
-    vehicle_locations locations;
+    inline const VehicleLocation &pick() const {
+        return locations[rng(0, locations.size()-1)];
+    }
+
+    typedef std::vector<VehicleLocation> LocationMap;
+    LocationMap locations;
 };
 
 /**
@@ -95,7 +107,7 @@ public:
     int status;
 
     std::string placement;
-    std::unique_ptr<Vehicle_Location> location;
+    std::unique_ptr<VehicleLocation> location;
 };
 
 /**
@@ -145,7 +157,7 @@ class Vehicle_Factory {
          */
         void load_vehicle_spawn(JsonObject &jo);
 
-        const Vehicle_Placement* get_placement(const std::string &id) const;
+        const VehiclePlacement* get_placement(const std::string &id) const;
         void vehicle_spawn(std::string spawn_id, map* m, std::string terrain_name);
 
         void add_vehicle(map* m, const std::string &vehicle_id, const int x, const int y, const int facing, const int fuel, const int status, const bool mergewrecks = true);
@@ -158,7 +170,7 @@ class Vehicle_Factory {
         typedef std::map<Vehicle_tag, VehicleGroup> GroupMap;
         GroupMap groups;
 
-        typedef std::map<std::string, Vehicle_Placement> PlacementMap;
+        typedef std::map<std::string, VehiclePlacement> PlacementMap;
         PlacementMap placements;
 
         typedef std::map<std::string, Vehicle_Spawn> VehicleSpawnsMap;
