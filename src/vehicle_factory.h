@@ -76,30 +76,33 @@ struct VehiclePlacement {
  * c++ function. The second is by using data loaded from json.
  */
 
-class Vehicle_Function {
+class VehicleFunction {
 public:
-    virtual ~Vehicle_Function() { }
-    virtual void apply(map* m, std::string terrainid) = 0;
+    virtual ~VehicleFunction() { }
+    virtual void apply(map* m, const std::string &terrainid) = 0;
 };
 
-typedef void (*vehicle_gen_pointer)(map *m, std::string terrainid);
-class Vehicle_Function_builtin : public Vehicle_Function {
-public:
-    Vehicle_Function_builtin(const vehicle_gen_pointer &func) : func(func) {}
-    ~Vehicle_Function_builtin() { }
+typedef void (*vehicle_gen_pointer)(map *m, const std::string &terrainid);
 
-    void apply(map* m, std::string terrainid) override;
+class VehicleFunction_builtin : public VehicleFunction {
+public:
+    VehicleFunction_builtin(const vehicle_gen_pointer &func) : func(func) {}
+    ~VehicleFunction_builtin() { }
+
+    inline void apply(map* m, const std::string &terrainid) override {
+        func(m, terrainid);
+    }
 
 private:
     vehicle_gen_pointer func;
 };
 
-class Vehicle_Function_json : public Vehicle_Function {
+class VehicleFunction_json : public VehicleFunction {
 public:
-    Vehicle_Function_json(JsonObject &jo);
-    ~Vehicle_Function_json() { }
+    VehicleFunction_json(JsonObject &jo);
+    ~VehicleFunction_json() { }
 
-    void apply(map* m, std::string terrain_name) override;
+    void apply(map* m, const std::string &terrain_name) override;
 
     std::string vehicle;
     jmapgen_int number;
@@ -116,12 +119,12 @@ public:
  */
 struct Vehicle_SpawnType {
     std::string description;
-    std::shared_ptr<Vehicle_Function> func;
+    std::shared_ptr<VehicleFunction> func;
 };
 
 class Vehicle_Spawn {
 public:
-    void add(const double &weight, const std::string &description, const std::shared_ptr<Vehicle_Function> &func);
+    void add(const double &weight, const std::string &description, const std::shared_ptr<VehicleFunction> &func);
     const Vehicle_SpawnType* pick() const;
 
 private:
@@ -164,8 +167,8 @@ class Vehicle_Factory {
 
     private:
         // builtin functions
-        static void builtin_no_vehicles(map* m, std::string terrainid);
-        static void builtin_jackknifed_semi(map* m, std::string terrainid);
+        static void builtin_no_vehicles(map* m, const std::string &terrainid);
+        static void builtin_jackknifed_semi(map* m, const std::string &terrainid);
 
         typedef std::map<Vehicle_tag, VehicleGroup> GroupMap;
         GroupMap groups;
@@ -176,10 +179,10 @@ class Vehicle_Factory {
         typedef std::map<std::string, Vehicle_Spawn> VehicleSpawnsMap;
         VehicleSpawnsMap spawns;
 
-        typedef std::map<std::string, std::shared_ptr<Vehicle_Function>> FunctionMap;
+        typedef std::map<std::string, std::shared_ptr<VehicleFunction>> FunctionMap;
         FunctionMap builtin_functions {
-            { "no_vehicles", std::make_shared<Vehicle_Function_builtin>(builtin_no_vehicles) },
-            { "jack-knifed_semi", std::make_shared<Vehicle_Function_builtin>(builtin_jackknifed_semi) }
+            { "no_vehicles", std::make_shared<VehicleFunction_builtin>(builtin_no_vehicles) },
+            { "jack-knifed_semi", std::make_shared<VehicleFunction_builtin>(builtin_jackknifed_semi) }
         };
 };
 

@@ -17,12 +17,7 @@ VehicleFacings::VehicleFacings(JsonObject &jo, const std::string &key)
     }
 }
 
-void Vehicle_Function_builtin::apply(map* m, std::string terrainid)
-{
-    func(m, terrainid);
-}
-
-Vehicle_Function_json::Vehicle_Function_json(JsonObject &jo)
+VehicleFunction_json::VehicleFunction_json(JsonObject &jo)
     : vehicle(jo.get_string("vehicle")),
     number(jo, "number"),
     fuel(jo.get_int("fuel")),
@@ -40,12 +35,12 @@ Vehicle_Function_json::Vehicle_Function_json(JsonObject &jo)
     }
 }
 
-void Vehicle_Function_json::apply(map* m, std::string terrain_name)
+void VehicleFunction_json::apply(map* m, const std::string &terrain_name)
 {
     if(! location) {
         size_t replace = placement.find("%t");
         const VehicleLocation &loc = vehicle_controller->get_placement(
-            replace >= 0 ? placement.substr(0,replace) + terrain_name + placement.substr(replace+2) : placement)->pick();
+            replace != std::string::npos ? placement.substr(0,replace) + terrain_name + placement.substr(replace+2) : placement)->pick();
 
         vehicle_controller->add_vehicle(m, vehicle, loc.x.get(), loc.y.get(), loc.pick_facing(), fuel, status);
     }
@@ -54,7 +49,7 @@ void Vehicle_Function_json::apply(map* m, std::string terrain_name)
     }
 }
 
-void Vehicle_Spawn::add(const double &weight, const std::string &description, const std::shared_ptr<Vehicle_Function> &func)
+void Vehicle_Spawn::add(const double &weight, const std::string &description, const std::shared_ptr<VehicleFunction> &func)
 {
     types.add({description, func}, weight);
 }
@@ -97,11 +92,11 @@ void Vehicle_Factory::load_vehicle_spawn(JsonObject &jo)
 
     while (types.has_more()) {
         JsonObject type = types.next_object();
-        std::shared_ptr<Vehicle_Function> func;
+        std::shared_ptr<VehicleFunction> func;
 
         if(type.has_object("vehicle_json")) {
             JsonObject vjo = type.get_object("vehicle_json");
-            func = std::make_shared<Vehicle_Function_json>(vjo);
+            func = std::make_shared<VehicleFunction_json>(vjo);
         }
         else if(type.has_string("vehicle_function")) {
             func = builtin_functions[type.get_string("vehicle_function")];
@@ -142,10 +137,10 @@ void Vehicle_Factory::add_vehicle(map* m, const std::string &vehicle_id, const i
         x, y, facing, fuel, status, mergewrecks);
 }
 
-void Vehicle_Factory::builtin_no_vehicles(map*, std::string)
+void Vehicle_Factory::builtin_no_vehicles(map*, const std::string&)
 {}
 
-void Vehicle_Factory::builtin_jackknifed_semi(map* m, std::string terrainid)
+void Vehicle_Factory::builtin_jackknifed_semi(map* m, const std::string &terrainid)
 {
     const VehiclePlacement* placement = vehicle_controller->get_placement(terrainid+"_semi");
     if(! placement) {
