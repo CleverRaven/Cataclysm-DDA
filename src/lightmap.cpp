@@ -632,7 +632,7 @@ template<int xx, int xy, int yx, int yy>
 void castLight( float (&output_cache)[MAPSIZE*SEEX][MAPSIZE*SEEY],
                 const float (&input_array)[MAPSIZE*SEEX][MAPSIZE*SEEY],
                 const int offsetX, const int offsetY, const int offsetDistance,
-                const int row, float start, const float end,
+                const float numerator, const int row, float start, const float end,
                 double cumulative_transparency )
 {
     float newStart = 0.0f;
@@ -669,7 +669,9 @@ void castLight( float (&output_cache)[MAPSIZE*SEEX][MAPSIZE*SEEY],
             // 1 / (e^al) where a = coefficient of absorption and l = length.
             // Factoring out length, we get 1 / (e^((a1*a2*a3*...*an)*l))
             // We merge all of the absorption values by taking their cumulative average.
-            output_cache[ currentX ][ currentY] = 1 / exp( cumulative_transparency * (float)dist );
+            output_cache[ currentX ][ currentY] = std::max(
+                output_cache[ currentX ][ currentY],
+                numerator / (float)exp( cumulative_transparency * dist ) );
 
             float new_transparency = input_array[ currentX ][ currentY ];
 
@@ -677,7 +679,8 @@ void castLight( float (&output_cache)[MAPSIZE*SEEX][MAPSIZE*SEEY],
                 // Only cast recursively if previous span was not opaque.
                 if( current_transparency != LIGHT_TRANSPARENCY_SOLID ) {
                     castLight<xx, xy, yx, yy>( output_cache, input_array, offsetX, offsetY,
-                                               offsetDistance, distance + 1, start, leadingEdge,
+                                               offsetDistance, numerator, distance + 1,
+                                               start, leadingEdge,
                                                ((distance - 1) * cumulative_transparency +
                                                 current_transparency) / distance );
                 }
@@ -717,11 +720,6 @@ void map::apply_light_source(int x, int y, float luminance)
         return;
     }
 
-    bool lit[LIGHTMAP_CACHE_X][LIGHTMAP_CACHE_Y] {};
-    if (INBOUNDS(x, y)) {
-        lit[x][y] = true;
-    }
-
     /* If we're a 5 luminance fire , we skip casting rays into ey && sx if we have
          neighboring fires to the north and west that were applied via light_source_buffer
        If there's a 1 luminance candle east in buffer, we still cast rays into ex since it's smaller
@@ -745,29 +743,24 @@ void map::apply_light_source(int x, int y, float luminance)
     bool east = (x != peer_inbounds && light_source_buffer[x + 1][y] < luminance );
     bool west = (x != 0 && light_source_buffer[x - 1][y] < luminance );
 
-    int range = LIGHT_RANGE(luminance);
-    int sx = x - range;
-    int ex = x + range;
-    int sy = y - range;
-    int ey = y + range;
-
-    for(int off = sx; off <= ex; ++off) {
-        if ( south ) {
-            apply_light_ray(lit, x, y, off, sy, luminance);
-        }
-        if ( north ) {
-            apply_light_ray(lit, x, y, off, ey, luminance);
-        }
+    if( north ) {
+        castLight<1, 0, 0, -1>( lm, transparency_cache, x, y, 0, luminance );
+        castLight<-1, 0, 0, -1>( lm, transparency_cache, x, y, 0, luminance );
     }
 
-    // Skip corners with + 1 and < as they were done
-    for(int off = sy + 1; off < ey; ++off) {
-        if ( west ) {
-            apply_light_ray(lit, x, y, sx, off, luminance);
-        }
-        if ( east ) {
-            apply_light_ray(lit, x, y, ex, off, luminance);
-        }
+    if( east ) {
+        castLight<0, 1, 1, 0>( lm, transparency_cache, x, y, 0, luminance );
+        castLight<0, -1, 1, 0>( lm, transparency_cache, x, y, 0, luminance );
+    }
+
+    if( south ) {
+        castLight<1, 0, 0, 1>( lm, transparency_cache, x, y, 0, luminance );
+        castLight<-1, 0, 0, 1>( lm, transparency_cache, x, y, 0, luminance );
+    }
+
+    if( west ) {
+        castLight<0, 1, -1, 0>( lm, transparency_cache, x, y, 0, luminance );
+        castLight<0, -1, -1, 0>( lm, transparency_cache, x, y, 0, luminance );
     }
 }
 

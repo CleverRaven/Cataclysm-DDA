@@ -1290,6 +1290,7 @@ template<int xx, int xy, int yx, int yy>
     void castLight( float (&output_cache)[MAPSIZE*SEEX][MAPSIZE*SEEY],
                     const float (&input_array)[MAPSIZE*SEEX][MAPSIZE*SEEY],
                     const int offsetX, const int offsetY, const int offsetDistance,
+                    const float numerator = 1.0,
                     const int row = 1, float start = 1.0f, const float end = 0.0f,
                     double cumulative_transparency = LIGHT_TRANSPARENCY_OPEN_AIR );
 
