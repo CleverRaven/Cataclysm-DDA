@@ -72,6 +72,12 @@
     },
     {
         "type": "effect_type",
+        "id": "currently_busy",
+        "name": ["Currently Busy"],
+        "desc": ["AI tag for asking NPCs for items.  This is a bug if you have it."]
+    },
+    {
+        "type": "effect_type",
         "id": "catch_up",
         "name": ["Catch Up"],
         "desc": ["AI tag for telling NPCs to catch up.  This is a bug if you have it."],
