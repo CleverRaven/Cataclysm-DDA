@@ -1071,6 +1071,214 @@ std::string dialogue::dynamic_line( const std::string &topic ) const
     } else if( topic == "TALK_FREE_MERCHANT_STOCKS_DELIVERED" ) {
          return _("Thank you for your business!");
 
+    } else if( topic == "TALK_RANCH_FOREMAN" ) {
+            if (g->u.has_trait("PROF_FED")) {
+                return _("Can I help you marshal?");
+            }
+            if (g->u.male)
+                    return _("Morning sir, how can I help you?");
+            return _("Morning ma'am, how can I help you?");
+
+    } else if( topic == "TALK_RANCH_FOREMAN_PROSPECTUS" ) {
+            return _("I was starting to wonder if they were really interested in the "
+                     "project or were just trying to get rid of me.");
+
+    } else if( topic == "TALK_RANCH_FOREMAN_OUTPOST" ) {
+            return _("Ya, that representative from the Old Guard asked the two "
+                     "of us to come out here and begin fortifying this place as "
+                     "a refugee camp.  I'm not sure how fast he expects the two "
+                     "of us to get setup but we were assured additional men were "
+                     "coming out here to assist us. ");
+
+    } else if( topic == "TALK_RANCH_FOREMAN_REFUGEES" ) {
+            return _("Could easily be hundreds as far as I know.  They chose this "
+                     "ranch because of its rather remote location, decent fence, "
+                     "and huge cleared field.  With as much land as we have fenced "
+                     "off we could build a village if we had the materials.  We "
+                     "would have tried to secure a small town or something but the "
+                     "lack of good farmland and number of undead makes it more "
+                     "practical for us to build from scratch.  The refugee center I "
+                     "came from is constantly facing starvation and undead assaults.");
+
+    } else if( topic == "TALK_RANCH_FOREMAN_JOB" ) {
+            return _("I'm the engineer in charge of turning this place into a working "
+                     "camp.  This is going to be an uphill battle, we used most of our "
+                     "initial supplies getting here and boarding up the windows.  I've "
+                     "got a huge list of tasks that need to get done so if you could "
+                     "help us keep supplied I'd appreciate it.  If you have material to "
+                     "drop off you can just back your vehicle into here and dump it on "
+                     "the ground, we'll sort it.");
+
+    } else if( topic == "TALK_RANCH_CONSTRUCTION_1" ) {
+             return _("My partner is in charge of fortifying this place, you should ask him about what needs to be done.");
+
+    } else if( topic == "TALK_RANCH_CONSTRUCTION_2" ) {
+             return _("Howdy.");
+
+    } else if( topic == "TALK_RANCH_CONSTRUCTION_2_JOB" ) {
+             return _("I was among one of the first groups of immigrants sent here to fortify the outpost.  I might "
+                      "have exaggerated my construction skills to get the hell out of the refugee center.  Unless you "
+                      "are a trader there isn't much work there and food was really becoming scarce when I left.");
+
+    } else if( topic == "TALK_RANCH_CONSTRUCTION_2_HIRE" ) {
+             if (p->has_effect(_("currently_busy"))){
+                return _("Come back later, I need to take care of a few things first.");
+             } else {
+                return _("I'm tasked out to the construction party but I might be able to show you a few pointers that "
+                      "I've picked up.");
+             }
+
+    } else if( topic == "TALK_RANCH_WOODCUTTER" ) {
+             return _("You need something?");
+
+    } else if( topic == "TALK_RANCH_WOODCUTTER_JOB" ) {
+             return _("I'm one of the migrants that got diverted to this outpost when I arrived at the refugee "
+                      "center.  They said I was big enough to swing an ax so my profession became lumberjack"
+                      "... didn't have any say in it.  If I want to eat then I'll be cutting wood from now till "
+                      "kingdom come.");
+
+    } else if( topic == "TALK_RANCH_WOODCUTTER_HIRE" ) {
+             if (p->has_effect(_("currently_busy"))){
+                return _("Come back later, I need to take care of a few things first.");
+             } else {
+                return _("The rate is a bit steep but I still have my quotas that I need to fulfill.  The logs will "
+                      "be dropped off in the garage at the entrance to the camp.  I'll need a bit of time before "
+                      "I can deliver another load.");
+             }
+
+    } else if( topic == "TALK_RANCH_WOODCUTTER_2" ) {
+             return _("Don't have much time to talk.");
+
+    } else if( topic == "TALK_RANCH_WOODCUTTER_2_JOB" ) {
+             return _("I turn the logs that laborers bring in into lumber to expand the outpost.  Maintaining the "
+                      "saw is a chore but breaks the monotony.");
+
+    } else if( topic == "TALK_RANCH_WOODCUTTER_2_HIRE" ) {
+             return _("Bringing in logs is one of the few tasks we can give to the unskilled so I'd be hurting "
+                      "them if I outsourced it.  Ask around though, I'm sure most people could use a hand.");
+
+    } else if( topic == "TALK_RANCH_FARMER_1" ) {
+             return _("...");
+
+    } else if( topic == "TALK_RANCH_FARMER_1_JOB" ) {
+             return _("I was sent here to assist in setting-up the farm.  Most of us have no real skills that "
+                      "transfer from before the cataclysm so things are a bit of trial and error.");
+
+    } else if( topic == "TALK_RANCH_FARMER_1_HIRE" ) {
+             return _("I'm sorry, I don't have anything to trade.  The work program here splits what we produce "
+                      "between the refugee center, the farm, and ourselves.  If you are a skilled laborer then "
+                      "you can trade your time for a bit of extra income on the side.  Not much I can do to assist "
+                      "you as a farmer though.");
+
+    } else if( topic == "TALK_RANCH_FARMER_2" ) {
+             return _("You mind?");
+
+    } else if( topic == "TALK_RANCH_FARMER_2_JOB" ) {
+             return _("I'm just a lucky guy that went from being chased by the undead to the noble life of a dirt "
+                      "farmer.  We get room and board but won't see a share of our labor unless the crop is a success.");
+
+    } else if( topic == "TALK_RANCH_FARMER_2_HIRE" ) {
+             return _("I've got no time for you.  If you want to make a trade or need a job look for the foreman or crop overseer.");
+
+    } else if( topic == "TALK_RANCH_CROP_OVERSEER" ) {
+             return _("I hope you are here to do business.");
+
+    } else if( topic == "TALK_RANCH_CROP_OVERSEER_JOB" ) {
+             return _("My job is to manage our outpost's agricultural production.  I'm constantly searching for trade "
+                      "partners and investors to increase our capacity.  If you are interested I typically have tasks "
+                      "that I need assistance with.");
+
+    } else if( topic == "TALK_RANCH_ILL_1" ) {
+             return _("Please leave me alone...");
+
+    } else if( topic == "TALK_RANCH_ILL_1_JOB" ) {
+             return _("I was just a laborer till they could find me something a bit more permanent but being "
+                      "constantly sick has prevented me from doing much of anything.");
+
+    } else if( topic == "TALK_RANCH_ILL_1_HIRE" ) {
+             return _("I don't know what you could do.  I've tried everything.  Just give me time...");
+
+    } else if( topic == "TALK_RANCH_ILL_1_SICK" ) {
+             return _("I keep getting sick!  At first I thought it was something I ate but now it seems like I can't "
+                      "keep anything down...");
+
+    } else if( topic == "TALK_RANCH_NURSE" ) {
+             return _("How can I help you?");
+
+    } else if( topic == "TALK_RANCH_NURSE_JOB" ) {
+             return _("I was a practicing nurse so I've taken over the medical responsibilities of the outpost "
+                      "till we can locate a physician.");
+
+    } else if( topic == "TALK_RANCH_NURSE_HIRE" ) {
+             return _("I'm willing to pay a premium for medical supplies that you might be able to scavenge up.  "
+                      "I also have a few miscellaneous jobs from time to time.");
+
+    } else if( topic == "TALK_RANCH_NURSE_AID" ) {
+             if (p->has_effect(_("currently_busy"))){
+                return _("Come back later, I need to take care of a few things first.");
+             } else {
+                return _("I can take a look at you or your companions if you are injured.");
+             }
+
+    } else if( topic == "TALK_RANCH_NURSE_AID_DONE" ) {
+             return _("That's the best I can do on short notice...");
+
+    } else if( topic == "TALK_RANCH_STOCKS_BANDAGES" ) {
+             return effect.bulk_trade_inquire(p, "bandages");
+
+    } else if( topic == "TALK_RANCH_SCRAPPER" ) {
+             return _("Don't mind me.");
+
+    } else if( topic == "TALK_RANCH_SCRAPPER_JOB" ) {
+             return _("I chop up useless vehicles for spare parts and raw materials.  If we can't use a "
+                      "vehicle immediately we haul it into the ring we are building to surround the outpost... "
+                      "it provides a measure of defense in the event that we get attacked.");
+
+    } else if( topic == "TALK_RANCH_SCRAPPER_HIRE" ) {
+             return _("I don't personally, the teams we send out to recover the vehicles usually need a hand "
+                      "but can be hard to catch since they spend most of their time outside the outpost.");
+
+    } else if( topic == "TALK_RANCH_SCAVENGER_1" ) {
+             return _("Welcome to the junk shop...");
+
+    } else if( topic == "TALK_RANCH_SCAVENGER_1_JOB" ) {
+             return _("I organize scavenging runs to bring in supplies that we can't produce ourselves.  I "
+                      "try and provide incentives to get migrants to join one of the teams... its dangerous "
+                      "work but keeps our outpost alive.  Selling anything we can't use helps keep us afloat "
+                      "with the traders.  If you wanted to drop off a companion or two to assist in one of "
+                      "the runs, I'd appreciate it.");
+
+    } else if( topic == "TALK_RANCH_SCAVENGER_1_HIRE" ) {
+             return _("Are you interested in the scavenging runs or one of the other tasks that I might have for you?");
+
+    } else if( topic == "TALK_RANCH_BARKEEP" ) {
+             return _("Want a drink?");
+
+    } else if( topic == "TALK_RANCH_BARKEEP_JOB" ) {
+             return _("If it isn't obvious, I oversee the bar here.  The scavengers bring in old world alcohol that we "
+                      "sell for special occasions.  For most that come through here though, the drinks we brew "
+                      "ourselves are the only thing they can afford.");
+
+    } else if( topic == "TALK_RANCH_BARKEEP_INFORMATION" ) {
+             return _("We have a policy of keeping information to ourselves.  Ask the patrons if you want to hear "
+                      "rumors or news.");
+
+    } else if( topic == "TALK_RANCH_BARKEEP_TAP" ) {
+             return _("Our selection is a bit limited at the moment.");
+
+    } else if( topic == "TALK_RANCH_BARBER" ) {
+             return _("Can I interest you in a trim?");
+
+    } else if( topic == "TALK_RANCH_BARBER_JOB" ) {
+             return _("What?  I'm a barber... I cut hair.  There's demand for cheap cuts and a shave out here.");
+
+    } else if( topic == "TALK_RANCH_BARBER_HIRE" ) {
+             return _("I can't imagine what I'd need your assistance with.");
+
+    } else if( topic == "TALK_RANCH_BARBER_CUT" ) {
+             return _("Stand still while I get my clippers...");
+
+
     } else if( topic == "TALK_SHELTER" ) {
         switch (rng(1, 2)) {
             case 1: return _("Well, I guess it's just us.");
@@ -1923,6 +2131,198 @@ void dialogue::gen_responses( const std::string &topic )
             add_response( _("Interesting..."), "TALK_FREE_MERCHANT_STOCKS" );
     } else if( topic == "TALK_FREE_MERCHANT_STOCKS_DELIVERED" ) {
             add_response( _("You might be seeing more of me..."), "TALK_FREE_MERCHANT_STOCKS" );
+    } else if( topic == "TALK_RANCH_FOREMAN" ) {
+            for (size_t i = 0; i <  g->u.active_missions.size(); i++) {
+                if (g->find_mission(g->u.active_missions[i])->name() == "Retrieve Prospectus"){
+                    add_response( _("[MISSION] The merchant at the Refugee Center sent me to get a prospectus from you."), "TALK_RANCH_FOREMAN_PROSPECTUS" );
+                }
+            }
+            add_response( _("I heard you were setting up an outpost out here..."), "TALK_RANCH_FOREMAN_OUTPOST" );
+            add_response( _("What's your job here?"), "TALK_RANCH_FOREMAN_JOB" );
+            add_response( _("What do you need done?"), "TALK_MISSION_LIST" );
+            if (p->chatbin.missions_assigned.size() == 1) {
+                add_response( _("About that job..."), "TALK_MISSION_INQUIRE" );
+            } else if (p->chatbin.missions_assigned.size() >= 2) {
+                add_response( _("About one of those jobs..."), "TALK_MISSION_LIST_ASSIGNED" );
+            }
+            add_response( _("I've got to go..."), "TALK_DONE" );
+    } else if( topic == "TALK_RANCH_FOREMAN_PROSPECTUS" ) {
+            popup(_("%s gives you a %s"), p->name.c_str(), item("commune_prospectus", 0).tname().c_str());
+            g->u.i_add( item("commune_prospectus", 0) );
+            add_response( _("Thanks."), "TALK_RANCH_FOREMAN" );
+    } else if( topic == "TALK_RANCH_FOREMAN_OUTPOST" ) {
+            add_response( _("How many refugees are you expecting?"), "TALK_RANCH_FOREMAN_REFUGEES" );
+    } else if( topic == "TALK_RANCH_FOREMAN_REFUGEES" ) {
+            add_response( _("Hopefully moving out here was worth it..."), "TALK_RANCH_FOREMAN" );
+    } else if( topic == "TALK_RANCH_FOREMAN_JOB" ) {
+            add_response( _("I'll keep that in mind."), "TALK_RANCH_FOREMAN" );
+    } else if( topic == "TALK_RANCH_CONSTRUCTION_1" ) {
+            add_response( _("I'll talk to him then..."), "TALK_DONE" );
+    } else if( topic == "TALK_RANCH_CONSTRUCTION_2" ) {
+            add_response( _("What are you doing here?"), "TALK_RANCH_CONSTRUCTION_2_JOB" );
+            add_response( _("I'd like to hire your services."), "TALK_RANCH_CONSTRUCTION_2_HIRE" );
+            add_response( _("I've got to go..."), "TALK_DONE" );
+    } else if( topic == "TALK_RANCH_CONSTRUCTION_2_JOB" ) {
+            add_response( _("..."), "TALK_RANCH_CONSTRUCTION_2" );
+    } else if( topic == "TALK_RANCH_CONSTRUCTION_2_HIRE" ) {
+            if (g->u.cash >= 2000 && !p->has_effect(_("currently_busy"))){
+                SUCCESS_ACTION(&talk_function::construction_tips);
+                add_response( _("[$20,1h] Sure, I could use a bit of help..."), "TALK_DONE" );
+            }
+            add_response( _("Sorry, I don't have the time."), "TALK_RANCH_CONSTRUCTION_2" );
+    } else if( topic == "TALK_RANCH_WOODCUTTER" ) {
+            add_response( _("What are you doing here?"), "TALK_RANCH_WOODCUTTER_JOB" );
+            add_response( _("I'd like to hire your services."), "TALK_RANCH_WOODCUTTER_HIRE" );
+            add_response( _("I've got to go..."), "TALK_DONE" );
+    } else if( topic == "TALK_RANCH_WOODCUTTER_JOB" ) {
+            add_response( _("..."), "TALK_RANCH_WOODCUTTER" );
+    } else if( topic == "TALK_RANCH_WOODCUTTER_HIRE" ) {
+            if (!p->has_effect(_("currently_busy"))){
+                if (g->u.cash >= 200000){
+                    SUCCESS_ACTION(&talk_function::buy_10_logs);
+                    add_response( _("[$2000,1d] 10 logs"), "TALK_DONE" );
+                }
+                if (g->u.cash >= 1200000){
+                    SUCCESS_ACTION(&talk_function::buy_100_logs);
+                    add_response( _("[$12000,7d] 100 logs"), "TALK_DONE" );
+                }
+                add_response( _("Maybe later..."), "TALK_RANCH_WOODCUTTER" );
+            } else {
+                add_response( _("I'll be back later..."), "TALK_RANCH_WOODCUTTER" );
+            }
+    } else if( topic == "TALK_RANCH_WOODCUTTER_2" ) {
+            add_response( _("What is your job here?"), "TALK_RANCH_WOODCUTTER_2_JOB" );
+            add_response( _("Do you need any help?"), "TALK_RANCH_WOODCUTTER_2_HIRE" );
+            add_response( _("I've got to go..."), "TALK_DONE" );
+    } else if( topic == "TALK_RANCH_WOODCUTTER_2_JOB" ) {
+            add_response( _("..."), "TALK_RANCH_WOODCUTTER_2" );
+    } else if( topic == "TALK_RANCH_WOODCUTTER_2_HIRE" ) {
+            add_response( _("..."), "TALK_RANCH_WOODCUTTER_2" );
+    } else if( topic == "TALK_RANCH_FARMER_1" ) {
+            add_response( _("What are you doing here?"), "TALK_RANCH_FARMER_1_JOB" );
+            add_response( _("I'd like to hire your services."), "TALK_RANCH_FARMER_1_HIRE" );
+            add_response( _("I've got to go..."), "TALK_DONE" );
+    } else if( topic == "TALK_RANCH_FARMER_1_JOB" ) {
+            add_response( _("..."), "TALK_RANCH_FARMER_1" );
+    } else if( topic == "TALK_RANCH_FARMER_1_HIRE" ) {
+            add_response( _("..."), "TALK_RANCH_FARMER_1" );
+    } else if( topic == "TALK_RANCH_FARMER_2" ) {
+            add_response( _("What are you doing here?"), "TALK_RANCH_FARMER_2_JOB" );
+            add_response( _("I'd like to hire your services."), "TALK_RANCH_FARMER_2_HIRE" );
+            add_response( _("I've got to go..."), "TALK_DONE" );
+    } else if( topic == "TALK_RANCH_FARMER_2_JOB" ) {
+            add_response( _("It could be worse..."), "TALK_RANCH_FARMER_2" );
+    } else if( topic == "TALK_RANCH_FARMER_2_HIRE" ) {
+            add_response( _("I'll talk with them then..."), "TALK_RANCH_FARMER_2" );
+    } else if( topic == "TALK_RANCH_CROP_OVERSEER" ) {
+            add_response( _("What are you doing here?"), "TALK_RANCH_CROP_OVERSEER_JOB" );
+            add_response( _("What do you need done?"), "TALK_MISSION_LIST" );
+            if (p->chatbin.missions_assigned.size() == 1) {
+                add_response( _("About that job..."), "TALK_MISSION_INQUIRE" );
+            } else if (p->chatbin.missions_assigned.size() >= 2) {
+                add_response( _("About one of those jobs..."), "TALK_MISSION_LIST_ASSIGNED" );
+            }
+            add_response( _("I've got to go..."), "TALK_DONE" );
+    } else if( topic == "TALK_RANCH_CROP_OVERSEER_JOB" ) {
+            add_response( _("I'll keep that in mind."), "TALK_RANCH_CROP_OVERSEER" );
+    } else if( topic == "TALK_RANCH_ILL_1" ) {
+            add_response( _("What is your job here?"), "TALK_RANCH_ILL_1_JOB" );
+            add_response( _("Do you need any help?"), "TALK_RANCH_ILL_1_HIRE" );
+            add_response( _("What's wrong?"), "TALK_RANCH_ILL_1_SICK" );
+            add_response( _("I've got to go..."), "TALK_DONE" );
+    } else if( topic == "TALK_RANCH_ILL_1_JOB" ) {
+            add_response( _("..."), "TALK_RANCH_ILL_1" );
+    } else if( topic == "TALK_RANCH_ILL_1_HIRE" ) {
+            add_response( _("..."), "TALK_RANCH_ILL_1" );
+    } else if( topic == "TALK_RANCH_ILL_1_SICK" ) {
+            add_response( _("..."), "TALK_RANCH_ILL_1" );
+    } else if( topic == "TALK_RANCH_NURSE" ) {
+            add_response( _("What is your job here?"), "TALK_RANCH_NURSE_JOB" );
+            add_response( _("Do you need any help?"), "TALK_RANCH_NURSE_HIRE" );
+            add_response( _("I could use your medical assistance..."), "TALK_RANCH_NURSE_AID" );
+            add_response( _("I've got to go..."), "TALK_DONE" );
+    } else if( topic == "TALK_RANCH_NURSE_JOB" ) {
+            add_response( _("..."), "TALK_RANCH_NURSE" );
+    } else if( topic == "TALK_RANCH_NURSE_HIRE" ) {
+            add_response( _("What kind of jobs do you have for me?"), "TALK_MISSION_LIST" );
+            if (g->u.charges_of("bandages") > 0){
+                add_response( _("Delivering bandages."), "TALK_RANCH_STOCKS_BANDAGES" );
+            }
+            add_response( _("..."), "TALK_RANCH_NURSE" );
+    } else if( topic == "TALK_RANCH_STOCKS_BANDAGES" ) {
+            effect.bulk_trade_accept(p, "bandages");
+            add_response( _("Works for me."), "TALK_RANCH_NURSE" );
+    } else if( topic == "TALK_RANCH_NURSE_AID" ) {
+            if (g->u.cash >= 20000 && !p->has_effect(_("currently_busy")) ){
+                SUCCESS_ACTION(&talk_function::give_aid);
+                add_response( _("[$200, 30m] I need you to patch me up..."), "TALK_RANCH_NURSE_AID_DONE" );
+            }
+            if (g->u.cash >= 50000 && !p->has_effect(_("currently_busy")) ){
+                SUCCESS_ACTION(&talk_function::give_all_aid);
+                add_response( _("[$500, 1h] Could you look at me and my companions?"), "TALK_RANCH_NURSE_AID_DONE" );
+            }
+            add_response( _("I should be fine..."), "TALK_RANCH_NURSE" );
+    } else if( topic == "TALK_RANCH_NURSE_AID_DONE" ) {
+            add_response( _("..."), "TALK_DONE" );
+    } else if( topic == "TALK_RANCH_SCRAPPER" ) {
+            add_response( _("What is your job here?"), "TALK_RANCH_SCRAPPER_JOB" );
+            add_response( _("Do you need any help?"), "TALK_RANCH_SCRAPPER_HIRE" );
+            add_response( _("I've got to go..."), "TALK_DONE" );
+    } else if( topic == "TALK_RANCH_SCRAPPER_JOB" ) {
+            add_response( _("..."), "TALK_RANCH_SCRAPPER" );
+    } else if( topic == "TALK_RANCH_SCRAPPER_HIRE" ) {
+            add_response( _("..."), "TALK_RANCH_SCRAPPER" );
+    } else if( topic == "TALK_RANCH_SCAVENGER_1" ) {
+            add_response( _("What is your job here?"), "TALK_RANCH_SCAVENGER_1_JOB" );
+            add_response( _("Do you need any help?"), "TALK_RANCH_SCAVENGER_1_HIRE" );
+            add_response( _("Let's see what you've managed to find..."), "TALK_RANCH_SCAVENGER_1" );
+                SUCCESS_ACTION(&talk_function::start_trade);
+            add_response( _("I've got to go..."), "TALK_DONE" );
+    } else if( topic == "TALK_RANCH_SCAVENGER_1_JOB" ) {
+            add_response( _("..."), "TALK_RANCH_SCAVENGER_1" );
+    } else if( topic == "TALK_RANCH_SCAVENGER_1_HIRE" ) {
+            add_response( _("What kind of tasks do you have for me?"), "TALK_MISSION_LIST" );
+            add_response( _("..."), "TALK_RANCH_SCAVENGER_1" );
+    } else if( topic == "TALK_RANCH_BARKEEP" ) {
+            add_response( _("What is your job here?"), "TALK_RANCH_BARKEEP_JOB" );
+            add_response( _("I'm looking for information..."), "TALK_RANCH_BARKEEP_INFORMATION" );
+            add_response( _("Do you need any help?"), "TALK_MISSION_LIST" );
+            add_response( _("Let me see what you keep behind the counter..."), "TALK_RANCH_BARKEEP" );
+                SUCCESS_ACTION(&talk_function::start_trade);
+            add_response( _("What do you have on tap?"), "TALK_RANCH_BARKEEP_TAP" );
+            add_response( _("I'll be going..."), "TALK_DONE" );
+    } else if( topic == "TALK_RANCH_BARKEEP_TAP" ) {
+            if (g->u.cash >= 800){
+                add_response( _("[$8] I'll take a beer"), "TALK_DONE" );
+                SUCCESS_ACTION(&talk_function::buy_beer);
+            }
+            if (g->u.cash >= 1000){
+                add_response( _("[$10] I'll take a shot of whiskey"), "TALK_DONE" );
+                SUCCESS_ACTION(&talk_function::buy_whiskey);
+            }
+            add_response( _("Never mind."), "TALK_RANCH_BARKEEP" );
+    } else if( topic == "TALK_RANCH_BARKEEP_JOB" ) {
+            add_response( _("..."), "TALK_RANCH_BARKEEP" );
+    } else if( topic == "TALK_RANCH_BARKEEP_INFORMATION" ) {
+            add_response( _("..."), "TALK_RANCH_BARKEEP" );
+    } else if( topic == "TALK_RANCH_BARBER" ) {
+            add_response( _("What is your job here?"), "TALK_RANCH_BARBER_JOB" );
+            add_response( _("I'm looking for information..."), "TALK_RANCH_BARBER_HIRE" );
+            if (g->u.cash >= 500){
+                add_response( _("[$5] I'll have a shave"), "TALK_RANCH_BARBER_CUT" );
+                SUCCESS_ACTION(&talk_function::buy_shave);
+            }
+            if (g->u.cash >= 1000){
+                add_response( _("[$10] I'll get a haircut"), "TALK_RANCH_BARBER_CUT" );
+                SUCCESS_ACTION(&talk_function::buy_haircut);
+            }
+            add_response( _("Maybe another time..."), "TALK_DONE" );
+    } else if( topic == "TALK_RANCH_BARBER_JOB" ) {
+            add_response( _("..."), "TALK_RANCH_BARBER" );
+    } else if( topic == "TALK_RANCH_BARBER_HIRE" ) {
+            add_response( _("..."), "TALK_RANCH_BARBER" );
+    } else if( topic == "TALK_RANCH_BARBER_CUT" ) {
+            add_response( _("Thanks..."), "TALK_DONE" );
     } else if( topic == "TALK_SHELTER" ) {
             add_response( _("What should we do now?"), "TALK_SHELTER_PLANS" );
             add_response( _("Can I do anything for you?"), "TALK_MISSION_LIST" );
@@ -2670,9 +3070,9 @@ std::string talk_function::bulk_trade_inquire(npc *p, itype_id it)
  int total_cost = tmp.price();
  p->add_msg_if_player(m_good, _("Let's see what you've got..."));
  std::stringstream response;
- response << string_format(ngettext("I'm willing to pay $%.2f per serving. You have "
+ response << string_format(ngettext("I'm willing to pay $%.2f per batch. You have "
                                     "%d serving for a total of $%.2f. No questions asked, here is your cash.",
-                                    "I'm willing to pay $%.2f per serving. You have "
+                                    "I'm willing to pay $%.2f per batch. You have "
                                     "%d servings for a total of $%.2f. No questions asked, here is your cash.",
                             you_have)
                             ,(double)item_cost/100 ,you_have, (double)total_cost/100);
@@ -2791,6 +3191,149 @@ void talk_function::give_equipment(npc *p)
     p->op_of_u.owed -= prices[chosen];
     p->add_effect("asked_for_item", 1800);
 }
+
+void talk_function::give_aid(npc *p)
+{
+    g->u.cash -= 20000;
+    p->add_effect("currently_busy", 300);
+    body_part bp_healed;
+    for (int i = 0; i < num_hp_parts; i++) {
+        bp_healed = player::hp_to_bp( hp_part(i) );
+        g->u.heal(hp_part(i), 5*rng(2,5));
+        if (g->u.has_effect("bite", bp_healed)) {
+            g->u.remove_effect("bite", bp_healed);
+        }
+        if (g->u.has_effect("bleed", bp_healed)) {
+            g->u.remove_effect("bleed", bp_healed);
+        }
+        if (g->u.has_effect("infected", bp_healed)) {
+            g->u.remove_effect("infected", bp_healed);
+        }
+    }
+    g->u.assign_activity(ACT_WAIT, 10000);
+}
+
+void talk_function::give_all_aid(npc *p)
+{
+    g->u.cash -= 30000;
+    p->add_effect("currently_busy", 300);
+    give_aid(p);
+    body_part bp_healed;
+    for( auto &elem : g->active_npc ) {
+        if (rl_dist( elem->pos(), g->u.pos() ) < PICKUP_RANGE && elem->is_friend()){
+            for (int i = 0; i < num_hp_parts; i++) {
+                bp_healed = player::hp_to_bp( hp_part(i) );
+                elem->heal(hp_part(i), 5*rng(2,5));
+                if (elem->has_effect("bite", bp_healed)) {
+                    elem->remove_effect("bite", bp_healed);
+                }
+                if (elem->has_effect("bleed", bp_healed)) {
+                    elem->remove_effect("bleed", bp_healed);
+                }
+                if (elem->has_effect("infected", bp_healed)) {
+                    elem->remove_effect("infected", bp_healed);
+                }
+            }
+        }
+    }
+}
+
+void talk_function::construction_tips(npc *p)
+{
+    g->u.cash -= 2000;
+    g->u.practice("carpentry", 30);
+    g->u.moves -= 600;
+    p->add_effect("currently_busy", 600);
+}
+
+void talk_function::buy_beer(npc *p)
+{
+    item cont = item("bottle_glass", 0, false);
+    item liq = item("beer", 0);
+    liq.charges = 3;
+    g->handle_liquid(liq,false,false,NULL,&cont);
+    g->u.i_add( cont );
+    g->u.cash -= 800;
+    add_msg(m_good, _("%s gave you a beer..."), p->name.c_str());
+}
+
+void talk_function::buy_whiskey(npc *p)
+{
+    item cont = item("bottle_glass", 0, false);
+    item liq = item("whiskey", 0);
+    liq.charges = 1;
+    g->handle_liquid(liq,false,false,NULL,&cont);
+    g->u.i_add( cont );
+    g->u.cash -= 1000;
+    add_msg(m_good, _("%s gave you a shot of whiskey..."), p->name.c_str());
+}
+
+void talk_function::buy_haircut(npc *p)
+{
+    g->u.add_morale(MORALE_HAIRCUT, 5, 5, 7200, 30);
+    g->u.cash -= 1000;
+    add_msg(m_good, _("%s gives you a decent haircut..."), p->name.c_str());
+}
+
+void talk_function::buy_shave(npc *p)
+{
+    g->u.add_morale(MORALE_SHAVE, 10, 10, 3600, 30);
+    g->u.cash -= 500;
+    add_msg(m_good, _("%s gives you a decent shave..."), p->name.c_str());
+}
+
+void talk_function::buy_10_logs(npc *p)
+{
+    std::vector<point> places = overmap_buffer.find_all(
+        g->global_omt_location(), "ranch_camp_67", 1, false);
+    if (places.size() == 0){
+        debugmsg("Couldn't find %s", "ranch_camp_67");
+        return;
+    }
+    const auto &cur_om = g->get_cur_om();
+    std::vector<point> places_om;
+    for (auto &i : places) {
+        if (&cur_om == overmap_buffer.get_existing_om_global(i))
+            places_om.push_back(i);
+    }
+
+    const point site = places_om[rng(0,places_om.size()-1)];
+    tinymap bay;
+    bay.load(site.x * 2, site.y * 2, g->get_levz(), false);
+    bay.spawn_item( 7, 15, "log", 10);
+    bay.save();
+
+    p->add_effect("currently_busy", 14400);
+    g->u.cash -= 200000;
+    add_msg(m_good, _("%s drops the logs off in the garage..."), p->name.c_str());
+}
+
+void talk_function::buy_100_logs(npc *p)
+{
+    std::vector<point> places = overmap_buffer.find_all(
+        g->global_omt_location(), "ranch_camp_67", 1, false);
+    if (places.size() == 0){
+        debugmsg("Couldn't find %s", "ranch_camp_67");
+        return;
+    }
+    const auto &cur_om = g->get_cur_om();
+    std::vector<point> places_om;
+    for (auto &i : places) {
+        if (&cur_om == overmap_buffer.get_existing_om_global(i))
+            places_om.push_back(i);
+    }
+
+    const point site = places_om[rng(0,places_om.size()-1)];
+    tinymap bay;
+    bay.load(site.x * 2, site.y * 2, g->get_levz(), false);
+    bay.spawn_item( 7, 15, "log", 100);
+    bay.save();
+
+    p->add_effect("currently_busy", 100800);
+    g->u.cash -= 1200000;
+    add_msg(m_good, _("%s drops the logs off in the garage..."), p->name.c_str());
+}
+
 
 void talk_function::follow(npc *p)
 {
