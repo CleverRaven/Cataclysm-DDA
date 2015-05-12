@@ -1262,6 +1262,180 @@ void mission_start::ranch_construct_16(mission *miss)
  site = target_om_ter_random("ranch_camp_67", 1, miss, false);
 }
 
+void mission_start::ranch_nurse_1(mission *miss)
+{
+ //Improvements to clinic...
+ tripoint site = target_om_ter_random("ranch_camp_59", 1, miss, false);
+ tinymap bay;
+ bay.load(site.x * 2, site.y * 2, g->get_levz(), false);
+ bay.draw_square_furn(f_rack, 16, 9, 17, 9);
+ bay.spawn_item( 16, 9, "bandages", rng(1,3));
+ bay.spawn_item( 17, 9, "aspirin", rng(1,2));
+ bay.save();
+}
+
+void mission_start::ranch_nurse_2(mission *miss)
+{
+ //Improvements to clinic...
+ tripoint site = target_om_ter_random("ranch_camp_59", 1, miss, false);
+ tinymap bay;
+ bay.load(site.x * 2, site.y * 2, g->get_levz(), false);
+ bay.draw_square_furn(f_counter, 3, 7, 5, 7);
+ bay.draw_square_furn(f_rack, 8, 4, 8, 5);
+ bay.spawn_item( 8, 4, "manual_first_aid");
+ bay.save();
+}
+
+void mission_start::ranch_nurse_3(mission *miss)
+{
+ //Improvements to clinic...
+ tripoint site = target_om_ter_random("ranch_camp_50", 1, miss, false);
+ tinymap bay;
+ bay.load(site.x * 2, site.y * 2, g->get_levz(), false);
+ bay.draw_square_ter(t_dirt, 2, 16, 9, 23);
+ bay.draw_square_ter(t_dirt, 13, 16, 20, 23);
+ bay.draw_square_ter(t_dirt, 10, 17, 12, 23);
+ bay.save();
+
+ site = target_om_ter_random("ranch_camp_59", 1, miss, false);
+ bay.load(site.x * 2, site.y * 2, g->get_levz(), false);
+ bay.draw_square_ter(t_dirt, 2, 0, 20, 2);
+ bay.draw_square_ter(t_dirt, 10, 3, 12, 4);
+ bay.save();
+}
+
+void mission_start::ranch_nurse_4(mission *miss)
+{
+ //Improvements to clinic...
+ tripoint site = target_om_ter_random("ranch_camp_50", 1, miss, false);
+ tinymap bay;
+ bay.load(site.x * 2, site.y * 2, g->get_levz(), false);
+ bay.draw_square_ter(t_wall_half, 2, 16, 9, 23);
+ bay.draw_square_ter(t_dirt, 3, 17, 8, 22);
+ bay.draw_square_ter(t_wall_half, 13, 16, 20, 23);
+ bay.draw_square_ter(t_dirt, 14, 17, 19, 22);
+ bay.draw_square_ter(t_wall_half, 10, 17, 12, 23);
+ bay.draw_square_ter(t_dirt, 10, 18, 12, 23);
+ bay.ter_set( 9, 19, t_door_frame);
+ bay.ter_set( 13, 19, t_door_frame);
+ bay.save();
+
+ site = target_om_ter_random("ranch_camp_59", 1, miss, false);
+ bay.load(site.x * 2, site.y * 2, g->get_levz(), false);
+ bay.draw_square_ter(t_wall_half, 4, 0, 18, 2);
+ bay.draw_square_ter(t_wall_half, 10, 3, 12, 4);
+ bay.draw_square_ter(t_dirt, 5, 0, 8, 2);
+ bay.draw_square_ter(t_dirt, 10, 0, 12, 4);
+ bay.draw_square_ter(t_dirt, 14, 0, 17, 2);
+ bay.ter_set( 9, 1, t_door_frame);
+ bay.ter_set( 13, 1, t_door_frame);
+ bay.save();
+}
+
+void mission_start::ranch_nurse_5(mission *miss)
+{
+ //Improvements to clinic...
+ tripoint site = target_om_ter_random("ranch_camp_50", 1, miss, false);
+ tinymap bay;
+ bay.load(site.x * 2, site.y * 2, g->get_levz(), false);
+ bay.translate(t_wall_half, t_wall_wood);
+ bay.ter_set( 2, 21, t_window_frame);
+ bay.ter_set( 2, 18, t_window_frame);
+ bay.ter_set( 20, 18, t_window_frame);
+ bay.ter_set( 20, 21, t_window_frame);
+ bay.ter_set( 11, 17, t_window_frame);
+ bay.save();
+
+ site = target_om_ter_random("ranch_camp_59", 1, miss, false);
+ bay.load(site.x * 2, site.y * 2, g->get_levz(), false);
+ bay.translate(t_wall_half, t_wall_wood);
+ bay.draw_square_ter(t_dirt, 10, 0, 12, 4);
+ bay.save();
+}
+
+void mission_start::ranch_nurse_6(mission *miss)
+{
+ //Improvements to clinic...
+ tripoint site = target_om_ter_random("ranch_camp_50", 1, miss, false);
+ tinymap bay;
+ bay.load(site.x * 2, site.y * 2, g->get_levz(), false);
+ bay.translate(t_window_frame, t_window_boarded_noglass);
+ bay.translate(t_door_frame, t_door_c);
+ bay.draw_square_ter(t_dirtfloor, 3, 17, 8, 22);
+ bay.draw_square_ter(t_dirtfloor, 14, 17, 19, 22);
+ bay.draw_square_ter(t_dirtfloor, 10, 18, 12, 23);
+ bay.save();
+
+ site = target_om_ter_random("ranch_camp_59", 1, miss, false);
+ bay.load(site.x * 2, site.y * 2, g->get_levz(), false);
+ bay.translate(t_door_frame, t_door_c);
+ bay.draw_square_ter(t_dirtfloor, 5, 0, 8, 2);
+ bay.draw_square_ter(t_dirtfloor, 10, 0, 12, 4);
+ bay.draw_square_ter(t_dirtfloor, 14, 0, 17, 2);
+ bay.save();
+}
+
+void mission_start::ranch_nurse_7(mission *miss)
+{
+ //Improvements to clinic...
+ tripoint site = target_om_ter_random("ranch_camp_50", 1, miss, false);
+ tinymap bay;
+ bay.load(site.x * 2, site.y * 2, g->get_levz(), false);
+ bay.translate(t_dirtfloor, t_floor);
+ bay.save();
+
+ site = target_om_ter_random("ranch_camp_59", 1, miss, false);
+ bay.load(site.x * 2, site.y * 2, g->get_levz(), false);
+ bay.translate(t_dirtfloor, t_floor);
+ bay.draw_square_ter(t_floor, 10, 5, 12, 5);
+ bay.draw_square_furn(f_rack, 17, 0, 17, 2);
+ bay.save();
+}
+
+void mission_start::ranch_nurse_8(mission *miss)
+{
+ //Improvements to clinic...
+ tripoint site = target_om_ter_random("ranch_camp_50", 1, miss, false);
+ tinymap bay;
+ bay.load(site.x * 2, site.y * 2, g->get_levz(), false);
+ bay.draw_square_furn(f_makeshift_bed, 4, 21, 4, 22);
+ bay.draw_square_furn(f_makeshift_bed, 7, 21, 7, 22);
+ bay.draw_square_furn(f_makeshift_bed, 15, 21, 15, 22);
+ bay.draw_square_furn(f_makeshift_bed, 18, 21, 18, 22);
+ bay.draw_square_furn(f_makeshift_bed, 4, 17, 4, 18);
+ bay.draw_square_furn(f_makeshift_bed, 7, 17, 7, 18);
+ bay.draw_square_furn(f_makeshift_bed, 15, 17, 15, 18);
+ bay.draw_square_furn(f_makeshift_bed, 18, 17, 18, 18);
+ bay.save();
+
+ site = target_om_ter_random("ranch_camp_59", 1, miss, false);
+ bay.load(site.x * 2, site.y * 2, g->get_levz(), false);
+ bay.translate(t_dirtfloor, t_floor);
+ bay.place_items( "cleaning", 75, 17, 0, 17, 2, true, 0 );
+ bay.place_items( "surgery", 75, 15, 4, 18, 4, true, 0 );
+ bay.save();
+}
+
+void mission_start::ranch_nurse_9(mission *miss)
+{
+ //Improvements to clinic...
+ tripoint site = target_om_ter_random("ranch_camp_50", 1, miss, false);
+ tinymap bay;
+ bay.load(site.x * 2, site.y * 2, g->get_levz(), false);
+ bay.furn_set(3, 22, f_dresser);
+ bay.furn_set(8, 22, f_dresser);
+ bay.furn_set(14, 22, f_dresser);
+ bay.furn_set(19, 22, f_dresser);
+ bay.furn_set(3, 17, f_dresser);
+ bay.furn_set(8, 17, f_dresser);
+ bay.furn_set(14, 17, f_dresser);
+ bay.furn_set(19, 17, f_dresser);
+ bay.place_npc( 16, 19, "ranch_doctor");
+ bay.save();
+
+ site = target_om_ter_random("ranch_camp_59", 1, miss, false);
+}
+
 void mission_start::place_book( mission *)
 {
 }
