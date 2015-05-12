@@ -7084,7 +7084,7 @@ int iuse::holster_gun(player *p, item *it, bool, const tripoint& )
         int minvol = maxvol / 3;
 
         auto filter = [maxvol, minvol]( const item &it ) {
-            return it.is_gun() && it.volume() <= maxvol && it.volume() >= minvol;
+            return it.is_gun() && it.volume() <= maxvol && it.volume() >= minvol && (it.skill() != "archery");
         };
         int const inventory_index = g->inv_for_filter( _("Holster what?"), filter );
         item &put = p->i_at( inventory_index );
@@ -7096,6 +7096,12 @@ int iuse::holster_gun(player *p, item *it, bool, const tripoint& )
         // make sure we're holstering a pistol
         if (!put.is_gun()) {
             p->add_msg_if_player(m_info, _("That isn't a gun!"), put.tname().c_str());
+            return 0;
+        }
+
+        // make sure we're not holstering bows / crossbows
+        if (put.skill() == "archery") {
+            p->add_msg_if_player(m_info, _("You can't holster your %s!"), put.tname().c_str());
             return 0;
         }
 
