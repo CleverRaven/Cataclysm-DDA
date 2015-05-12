@@ -47,6 +47,14 @@ veh_interact::veh_interact ()
     durabilityPercent = 100;
     mostDamagedPart = -1;
 
+    // Only build the shapes map and the wheel list once
+    for( auto vp : vpart_info::get_all() ) {
+        vpart_shapes[vp->name+vp->item].push_back( vp );
+        if( vp->has_flag( "WHEEL" ) ) {
+            wheel_types.push_back( vp );
+        }
+    }
+
     main_context.register_directions();
     main_context.register_action("QUIT");
     main_context.register_action("INSTALL");
@@ -1339,13 +1347,6 @@ void veh_interact::move_cursor (int dx, int dy)
     veh->print_part_desc (w_parts, 0, parts_w, cpart, -1);
     wrefresh (w_parts);
 
-    //Only build the shapes map once
-    if (vpart_shapes.empty()) {
-        for( auto vp : vpart_info::get_all() ) {
-            vpart_shapes[vp->name+vp->item].push_back( vp );
-        }
-    }
-
     can_mount.clear();
     if (!obstruct) {
         int divider_index = 0;
@@ -1359,15 +1360,6 @@ void veh_interact::move_cursor (int dx, int dy)
                 } else {
                     can_mount.push_back( &vpi );
                 }
-            }
-        }
-    }
-
-    //Only build the wheel list once
-    if (wheel_types.empty()) {
-        for( auto vp : vpart_info::get_all() ) {
-            if( vp->has_flag( "WHEEL" ) ) {
-                wheel_types.push_back( vp );
             }
         }
     }
