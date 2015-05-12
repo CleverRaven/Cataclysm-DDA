@@ -663,7 +663,7 @@ void mapgen_forest_general(map *m, oter_id terrain_type, mapgendata dat, int tur
         for (int i = 0; i < rn; i++) {
             x = rng(0, SEEX * 2 - 1);
             y = rng(0, SEEY * 2 - 1);
-            m->add_trap(x, y, tr_pit);
+            m->add_trap(x, y, t_pit);
             if (m->ter(x, y) != t_swater_sh && m->ter(x, y) != t_water_sh) {
                 m->ter_set(x, y, dat.groundcover());
             }
@@ -881,7 +881,7 @@ void mapgen_spider_pit(map *m, oter_id, mapgendata dat, int turn, float)
             m->ter_set(x, y, t_slope_down);
         else {
             m->ter_set(x, y, t_dirt);
-            m->add_trap(x, y, tr_pit);
+            m->add_trap(x, y, t_pit);
         }
         for (int x1 = x - 3; x1 <= x + 3; x1++) {
             for (int y1 = y - 3; y1 <= y + 3; y1++) {
