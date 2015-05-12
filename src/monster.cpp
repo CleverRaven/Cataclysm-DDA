@@ -170,8 +170,8 @@ void monster::update_check() {
     }
     int current_day = calendar::turn.get_turn()/ DAYS(1);
     int upgrade_time = 0;
-    if (ACTIVE_WORLD_OPTIONS["MONSTER_GROUP_DIFFICULTY"] > 0) {
-        upgrade_time = type->upgrade_min / ACTIVE_WORLD_OPTIONS["MONSTER_GROUP_DIFFICULTY"];
+    if (ACTIVE_WORLD_OPTIONS["MONSTER_UPGRADE_FACTOR"] > 0) {
+        upgrade_time = type->upgrade_min / ACTIVE_WORLD_OPTIONS["MONSTER_UPGRADE_FACTOR"];
     } else {
         // Should ensure that the monsters never upgrade
         upgrade_time = current_day + 1;

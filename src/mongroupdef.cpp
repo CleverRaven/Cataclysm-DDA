@@ -26,8 +26,8 @@ MonsterGroupResult MonsterGroupManager::GetResultFromGroup(
     std::string group_name, int *quantity, int turn ){
     int spawn_chance = rng(1, 1000);
     auto *groupptr = &GetMonsterGroup( group_name );
-    if (ACTIVE_WORLD_OPTIONS["MONSTER_GROUP_DIFFICULTY"] > 0) {
-        int replace_time = DAYS(groupptr->monster_group_time / ACTIVE_WORLD_OPTIONS["MONSTER_GROUP_DIFFICULTY"]) * (calendar::turn.season_length() / 14);
+    if (ACTIVE_WORLD_OPTIONS["MONSTER_UPGRADE_FACTOR"] > 0) {
+        int replace_time = DAYS(groupptr->monster_group_time / ACTIVE_WORLD_OPTIONS["MONSTER_UPGRADE_FACTOR"]) * (calendar::turn.season_length() / 14);
         while (groupptr->replace_monster_group && calendar::turn.get_turn() > replace_time){
             groupptr = &GetMonsterGroup(groupptr->new_monster_group);
         }
@@ -300,16 +300,16 @@ void MonsterGroupManager::LoadMonsterGroup(JsonObject &jo)
             int starts = 0;
             int ends = 0;
             if(mon.has_member("starts")) {
-                if (ACTIVE_WORLD_OPTIONS["MONSTER_GROUP_DIFFICULTY"] > 0) {
-                    starts = mon.get_int("starts") / ACTIVE_WORLD_OPTIONS["MONSTER_GROUP_DIFFICULTY"];
+                if (ACTIVE_WORLD_OPTIONS["MONSTER_UPGRADE_FACTOR"] > 0) {
+                    starts = mon.get_int("starts") / ACTIVE_WORLD_OPTIONS["MONSTER_UPGRADE_FACTOR"];
                 } else {
                     // Catch divide by zero here
                     starts = mon.get_int("starts") / .01;
                 }
             }
             if(mon.has_member("ends")) {
-                if (ACTIVE_WORLD_OPTIONS["MONSTER_GROUP_DIFFICULTY"] > 0) {
-                    ends = mon.get_int("ends") / ACTIVE_WORLD_OPTIONS["MONSTER_GROUP_DIFFICULTY"];
+                if (ACTIVE_WORLD_OPTIONS["MONSTER_UPGRADE_FACTOR"] > 0) {
+                    ends = mon.get_int("ends") / ACTIVE_WORLD_OPTIONS["MONSTER_UPGRADE_FACTOR"];
                 } else {
                     // Catch divide by zero here
                     ends = mon.get_int("ends") / .01;
