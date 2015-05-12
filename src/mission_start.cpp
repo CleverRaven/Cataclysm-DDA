@@ -182,9 +182,9 @@ void mission_start::place_caravan_ambush( mission *miss )
     bay.spawn_item( SEEX - 1, SEEY - 5, "rock" );
     bay.spawn_item( SEEX, SEEY - 5, "rock" );
     bay.spawn_item( SEEX + 1, SEEY - 5, "rock" );
-    bay.trap_set( SEEX + 3, SEEY - 5, tr_rollmat );
-    bay.trap_set( SEEX, SEEY - 7, tr_rollmat );
-    bay.trap_set( SEEX - 3, SEEY - 4, tr_fur_rollmat );
+    bay.trap_set( {SEEX + 3, SEEY - 5, site.z}, tr_rollmat );
+    bay.trap_set( {SEEX, SEEY - 7, site.z}, tr_rollmat );
+    bay.trap_set( {SEEX - 3, SEEY - 4, site.z}, tr_fur_rollmat );
     bay.spawn_item( SEEX + rng( -6, 6 ), SEEY + rng( -9, 3 ), "can_beans" );
     bay.spawn_item( SEEX + rng( -6, 6 ), SEEY + rng( -9, 3 ), "beer" );
     bay.spawn_item( SEEX + rng( -6, 6 ), SEEY + rng( -9, 3 ), "beer" );
@@ -218,10 +218,10 @@ void mission_start::place_bandit_cabin( mission *miss )
     tripoint site = target_om_ter_random( "bandit_cabin", 1, miss, false );
     tinymap cabin;
     cabin.load( site.x * 2, site.y * 2, site.z, false );
-    cabin.trap_set( SEEX - 5, SEEY - 6, tr_landmine_buried );
-    cabin.trap_set( SEEX - 7, SEEY - 7, tr_landmine_buried );
-    cabin.trap_set( SEEX - 4, SEEY - 7, tr_landmine_buried );
-    cabin.trap_set( SEEX - 12, SEEY - 1, tr_landmine_buried );
+    cabin.trap_set( {SEEX - 5, SEEY - 6, site.z}, tr_landmine_buried );
+    cabin.trap_set( {SEEX - 7, SEEY - 7, site.z}, tr_landmine_buried );
+    cabin.trap_set( {SEEX - 4, SEEY - 7, site.z}, tr_landmine_buried );
+    cabin.trap_set( {SEEX - 12, SEEY - 1, site.z}, tr_landmine_buried );
     miss->target_npc_id = cabin.place_npc( SEEX, SEEY, "bandit" );
     cabin.save();
 }

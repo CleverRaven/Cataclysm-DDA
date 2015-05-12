@@ -7395,11 +7395,12 @@ void player::suffer()
         }
     }
 
+    // TODO: Move oxygen capacity calculation to a function
     if( underwater || get_effect_int( "sinking" ) >= 3 ) {
         oxygen--;
         if( ( has_trait("GILLS") || has_trait("GILLS_CEPH") ) && ( underwater || one_in( 8 ) ) ) {
             // Gills help a lot under water, but not so much in the mud
-            oxygen = std::max( oxygen + 2, 30 );
+            oxygen = std::min( oxygen + 2, 30 + 2 * get_str() );
         }
         if( oxygen < 12 && worn_with_flag("REBREATHER") ) {
             oxygen += 12;
@@ -7408,13 +7409,17 @@ void player::suffer()
         // but they will waste more power on filtering oxygen out of mud
         if( oxygen < 0 ) {
             if( has_bionic("bio_gills") && power_level >= 25 ) {
-                oxygen += underwater ? 5 : 2;
+                oxygen += underwater ? 5 : 1;
                 charge_power(-25);
             } else {
                 add_msg(m_bad, _("You're drowning!"));
                 apply_damage( nullptr, bp_torso, rng( 1, 4 ) );
             }
         }
+    } else {
+        // TODO: Involve stamina and also make it affect stamina
+        // TODO: Asthma (also both ways)
+        oxygen = std::min( oxygen + 5, 30 + 2 * get_str() );
     }
 
     if(has_active_mutation("WINGS_INSECT")){

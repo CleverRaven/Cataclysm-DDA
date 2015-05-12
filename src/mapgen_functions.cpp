@@ -666,7 +666,7 @@ void mapgen_forest_general(map *m, oter_id terrain_type, mapgendata dat, int tur
                 }
             }
         }
-        int rn = rng(0, 2) * rng(0, 1) * (rng(0, 1) + rng(0, 1));// Good chance of 0
+        int rn = rng(0, 2) * rng(0, 1) + rng(0, 1);// Good chance of 0
         for (int i = 0; i < rn; i++) {
             x = rng(0, SEEX * 2 - 1);
             y = rng(0, SEEY * 2 - 1);

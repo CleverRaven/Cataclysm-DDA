@@ -908,15 +908,14 @@ void trapfunc::sinkhole( Creature *c, const tripoint &p )
         }
     };
 
-    pl->add_msg_if_player( m_bad, _( "You step into a sinkhole, and start to sink down!" ) );
     pl->add_memorial_log( pgettext( "memorial_male", "Stepped into a sinkhole." ),
                            pgettext( "memorial_female", "Stepped into a sinkhole." ) );
     bool success = false;
-    if( query_for_item( pl, "grapnel", _( "You step into a sinkhole! Throw your grappling hook out to try to catch something?" ) ) ) {
+    if( query_for_item( pl, "grapnel", _( "You step into a sinkhole!  Throw your grappling hook out to try to catch something?" ) ) ) {
         success = safety_roll( "grapnel", 6 );
-    } else if( query_for_item( pl, "bullwhip", _( "You step into a sinkhole! Throw your whip out to try and snag something?" ) ) ) {
+    } else if( query_for_item( pl, "bullwhip", _( "You step into a sinkhole!  Throw your whip out to try and snag something?" ) ) ) {
         success = safety_roll( "bullwhip", 8 );
-    } else if( query_for_item( pl, "rope_30", _( "You step into a sinkhole! Throw your rope out to try to catch something?" ) ) ) {
+    } else if( query_for_item( pl, "rope_30", _( "You step into a sinkhole!  Throw your rope out to try to catch something?" ) ) ) {
         success = safety_roll( "rope_30", 12 );
     }
 
@@ -926,9 +925,19 @@ void trapfunc::sinkhole( Creature *c, const tripoint &p )
 
     pl->moves -= 100;
     // Starting duration depends on equipment weight, but shouldn't put player's head below the mud instantly
-    const int start_duration = std::min( 1000, pl->weight_carried() / 200 );
+    const int start_duration = std::min( 1000, pl->weight_carried() / 50 );
     pl->add_effect( "sinking", start_duration );
     g->m.ter_set( p, t_water_sh );
+    const int sink_roll = pl->get_str() / 2 + 2 * pl->get_skill_level( "survival" );
+    if( pl->is_player() && sink_roll < 16 ) {
+        // Warn the player with a popup - sinking into a sinkhole can be very dangerous
+        popup( _("You are stuck in a sinkhole!  Trying to escape can make you sink deeper in.  Alternatively you can slowly wiggle your way out by using the wait command.") );
+    } else if( pl->is_player() ) {
+        // Don't popup if it's easy to escape
+        add_msg( m_bad, _("You are stuck in a sinkhole.  It shouldn't be hard to escape, though") );
+    }
+
+    // TODO: Don't timeout the sinking while sleeping/crafting/reading
 }
 
 void trapfunc::ledge( Creature *c, const tripoint& )
