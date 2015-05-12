@@ -5960,11 +5960,11 @@ void game::explosion( const tripoint &p, int power, int shrapnel, bool fire, boo
     int dam;
 
     if (power >= 30) {
-        sounds::sound( p, noise, _("a huge explosion!") );
+        sounds::sound( p, noise, _("a huge explosion!"), false, "explosion", "huge" );
     } else if (power >= 4) {
-        sounds::sound( p, noise, _("an explosion!") );
+        sounds::sound( p, noise, _("an explosion!"), false, "explosion" );
     } else {
-        sounds::sound( p, 3, _("a loud pop!") );
+        sounds::sound( p, 3, _("a loud pop!"), false, "explosion", "small" );
     }
     if (blast) {
         do_blast( p, power, radius, fire );
