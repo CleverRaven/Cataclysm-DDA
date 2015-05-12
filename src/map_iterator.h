@@ -20,7 +20,7 @@ private:
 
         // Incement x, then if it goes outside range, "wrap around" and increment y
         // Same for y and z
-        point_generator &operator++() 
+        inline point_generator &operator++() 
         {
             p.x++;
             if( p.x <= range.maxp.x ) {
@@ -38,12 +38,12 @@ private:
             return *this;
         }
 
-        const tripoint &operator*() const 
+        inline const tripoint &operator*() const 
         {
             return p;
         }
 
-        bool operator!=( const point_generator &other ) const {
+        inline bool operator!=( const point_generator &other ) const {
             // Reverse coord order, because it will usually only be compared with endpoint
             // which will always differ in z, except for the very last comparison
             const tripoint &pt = other.p;
