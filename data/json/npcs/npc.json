@@ -223,6 +223,17 @@
     "attitude" : 0,
     "mission" : 7,
     "chat" : "TALK_RANCH_NURSE",
+    "mission_offered" : 58,
+    "faction" : "tacoma_commune"
+  },{
+    "type" : "npc",
+    "id" : "ranch_doctor",
+    "comment" : "Provides advanced medical attention.",
+    "name+" : ", Doctor",
+    "class" : 4,
+    "attitude" : 0,
+    "mission" : 7,
+    "chat" : "TALK_RANCH_DOCTOR",
     "faction" : "tacoma_commune"
   },{
     "type" : "npc",
@@ -243,6 +254,7 @@
     "attitude" : 0,
     "mission" : 3,
     "chat" : "TALK_RANCH_SCAVENGER_1",
+    "mission_offered" : 69,
     "faction" : "tacoma_commune"
   },{
     "type" : "npc",
