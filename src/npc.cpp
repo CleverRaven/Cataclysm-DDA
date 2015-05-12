@@ -1381,24 +1381,16 @@ std::vector<const Skill*> npc::skills_offered_to(const player &p)
     return ret;
 }
 
-std::vector<itype_id> npc::styles_offered_to(const player &p)
+std::vector<matype_id> npc::styles_offered_to( const player &p ) const
 {
-    std::vector<itype_id> ret;
-    for (auto &i : ma_styles) {
-        bool found = false;
-        for (auto &j : p.ma_styles) {
-            if (j == i) {
-                found = true;
-                break;
-            }
-        }
-        if (!found) {
+    std::vector<matype_id> ret;
+    for( auto & i : ma_styles ) {
+        if( !p.has_martialart( i ) ) {
             ret.push_back( i );
         }
     }
     return ret;
 }
-
 
 int npc::minutes_to_u() const
 {

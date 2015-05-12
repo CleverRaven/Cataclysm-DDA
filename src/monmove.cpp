@@ -793,7 +793,7 @@ bool monster::attack_at( const tripoint &p )
     }
 
     if( p == g->u.pos3() ) {
-        melee_attack( g->u );
+        melee_attack( g->u, true );
         return true;
     }
 
@@ -836,7 +836,7 @@ bool monster::attack_at( const tripoint &p )
         // For now we're always attacking NPCs that are getting into our
         // way. This is consistent with how it worked previously, but
         // later on not hitting allied NPCs would be cool.
-        melee_attack( *g->active_npc[npcdex] );
+        melee_attack( *g->active_npc[npcdex], true );
         return true;
     }
 

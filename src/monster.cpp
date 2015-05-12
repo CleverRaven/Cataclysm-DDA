@@ -813,7 +813,7 @@ void monster::absorb_hit(body_part, damage_instance &dam) {
     }
 }
 
-void monster::melee_attack(Creature &target, bool, matec_id) {
+void monster::melee_attack(Creature &target, bool, const matec_id&) {
     mod_moves(-100);
     if (type->melee_dice == 0) { // We don't attack, so just return
         return;
