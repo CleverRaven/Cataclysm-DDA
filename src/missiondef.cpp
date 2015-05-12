@@ -434,6 +434,124 @@ MISSION(_("Find Flag"), MGOAL_FIND_ITEM, 2, 100000, false,
   COUNT(20);
   FOLLOWUP(MISSION_RANCH_FOREMAN_17);
 
+//Commune nurse missions
+ MISSION(_("Collect 100 Aspirin"), MGOAL_FIND_ITEM, 5, 50000, false,
+         &mission_place::always, &mission_start::standard,
+         &mission_end::standard, &mission_fail::standard);
+  ORIGINS(ORIGIN_SECONDARY);
+  ITEM("aspirin");
+  COUNT(100);
+  FOLLOWUP(MISSION_RANCH_NURSE_2);
+
+ MISSION(_("Collect 3 Hotplates"), MGOAL_FIND_ITEM, 5, 50000, false,
+         &mission_place::always, &mission_start::ranch_nurse_1,
+         &mission_end::standard, &mission_fail::standard);
+  ORIGINS(ORIGIN_SECONDARY);
+  ITEM("hotplate");
+  COUNT(3);
+  FOLLOWUP(MISSION_RANCH_NURSE_3);
+
+ MISSION(_("Collect 200 Vitamins"), MGOAL_FIND_ITEM, 5, 50000, false,
+         &mission_place::always, &mission_start::ranch_nurse_2,
+         &mission_end::standard, &mission_fail::standard);
+  ORIGINS(ORIGIN_SECONDARY);
+  ITEM("vitamins");
+  COUNT(200);
+  FOLLOWUP(MISSION_RANCH_NURSE_4);
+
+ MISSION(_("Make 4 Charcoal Purifiers"), MGOAL_FIND_ITEM, 5, 50000, false,
+         &mission_place::always, &mission_start::ranch_nurse_3,
+         &mission_end::standard, &mission_fail::standard);
+  ORIGINS(ORIGIN_SECONDARY);
+  ITEM("char_purifier");
+  COUNT(4);
+  FOLLOWUP(MISSION_RANCH_NURSE_5);
+
+ MISSION(_("Find a Chemistry Sets"), MGOAL_FIND_ITEM, 5, 50000, false,
+         &mission_place::always, &mission_start::ranch_nurse_4,
+         &mission_end::standard, &mission_fail::standard);
+  ORIGINS(ORIGIN_SECONDARY);
+  ITEM("chemistry_set");
+  FOLLOWUP(MISSION_RANCH_NURSE_6);
+
+ MISSION(_("Find 10 Filter Masks"), MGOAL_FIND_ITEM, 5, 50000, false,
+         &mission_place::always, &mission_start::ranch_nurse_5,
+         &mission_end::standard, &mission_fail::standard);
+  ORIGINS(ORIGIN_SECONDARY);
+  ITEM("mask_filter");
+  COUNT(10);
+  FOLLOWUP(MISSION_RANCH_NURSE_7);
+
+ MISSION(_("Find 4 Pairs of Rubber Gloves"), MGOAL_FIND_ITEM, 5, 50000, false,
+         &mission_place::always, &mission_start::ranch_nurse_6,
+         &mission_end::standard, &mission_fail::standard);
+  ORIGINS(ORIGIN_SECONDARY);
+  ITEM("gloves_rubber");
+  COUNT(4);
+  FOLLOWUP(MISSION_RANCH_NURSE_8);
+
+ MISSION(_("Find 2 Scalpels"), MGOAL_FIND_ITEM, 5, 50000, false,
+         &mission_place::always, &mission_start::ranch_nurse_7,
+         &mission_end::standard, &mission_fail::standard);
+  ORIGINS(ORIGIN_SECONDARY);
+  ITEM("scalpel");
+  COUNT(2);
+  FOLLOWUP(MISSION_RANCH_NURSE_9);
+
+ MISSION(_("Find Advanced Emergency Care"), MGOAL_FIND_ITEM, 5, 50000, false,
+         &mission_place::always, &mission_start::ranch_nurse_8,
+         &mission_end::standard, &mission_fail::standard);
+  ORIGINS(ORIGIN_SECONDARY);
+  ITEM("emergency_book");
+  FOLLOWUP(MISSION_RANCH_NURSE_10);
+
+ MISSION(_("Find a Flu Shot"), MGOAL_FIND_ITEM, 5, 50000, false,
+         &mission_place::always, &mission_start::ranch_nurse_9,
+         &mission_end::standard, &mission_fail::standard);
+  ORIGINS(ORIGIN_SECONDARY);
+  ITEM("flu_shot");
+  FOLLOWUP(MISSION_RANCH_NURSE_11);
+
+ MISSION(_("Find 10 Syringes"), MGOAL_FIND_ITEM, 5, 50000, false,
+         &mission_place::always, &mission_start::standard,
+         &mission_end::standard, &mission_fail::standard);
+  ORIGINS(ORIGIN_SECONDARY);
+  ITEM("syringe");
+  COUNT(3);
+  FOLLOWUP(MISSION_RANCH_NURSE_11);
+
+ MISSION(_("Make 10 Knife Spears"), MGOAL_FIND_ITEM, 5, 50000, false,
+         &mission_place::always, &mission_start::standard,
+         &mission_end::standard, &mission_fail::standard);
+  ORIGINS(ORIGIN_SECONDARY);
+  ITEM("spear_knife");
+  COUNT(12);
+  FOLLOWUP(MISSION_RANCH_SCAVENGER_2);
+
+ MISSION(_("Make 5 Wearable Flashlights"), MGOAL_FIND_ITEM, 5, 50000, false,
+         &mission_place::always, &mission_start::standard,
+         &mission_end::standard, &mission_fail::standard);
+  ORIGINS(ORIGIN_SECONDARY);
+  ITEM("wearable_light");
+  COUNT(5);
+  FOLLOWUP(MISSION_RANCH_SCAVENGER_3);
+
+ MISSION(_("Make 3 Leather Body Armor"), MGOAL_FIND_ITEM, 5, 50000, false,
+         &mission_place::always, &mission_start::standard,
+         &mission_end::standard, &mission_fail::standard);
+  ORIGINS(ORIGIN_SECONDARY);
+  ITEM("armor_larmor");
+  COUNT(3);
+  FOLLOWUP(MISSION_RANCH_SCAVENGER_4);
+
+ MISSION(_("Make 12 Molotov Cocktails"), MGOAL_FIND_ITEM, 5, 50000, false,
+         &mission_place::always, &mission_start::standard,
+         &mission_end::standard, &mission_fail::standard);
+  ORIGINS(ORIGIN_SECONDARY);
+  ITEM("molotov");
+  COUNT(12);
+  FOLLOWUP(MISSION_RANCH_SCAVENGER_4);
+
  MISSION(_("Find a Book"), MGOAL_FIND_ANY_ITEM, 2, 800, false,
          &mission_place::always, &mission_start::place_book,
          &mission_end::standard, &mission_fail::standard);
