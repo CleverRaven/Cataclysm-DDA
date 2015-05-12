@@ -15,6 +15,9 @@
 
 std::string fac_ranking_text(int val);
 std::string fac_respect_text(int val);
+std::string fac_wealth_text(int val, int size);
+std::string fac_food_supply_text(int val, int size);
+std::string fac_combat_ability_text(int val);
 
 class game;
 
@@ -142,6 +145,9 @@ class faction : public JsonSerializer, public JsonDeserializer
         int mapx, mapy;
         int size; // How big is our sphere of influence?
         int power; // General measure of our power
+        int combat_ability;  //Combat multiplier for abstracted combat
+        int food_supply;  //Total nutritional value held
+        int wealth;  //Total trade currency
 };
 
 #endif
