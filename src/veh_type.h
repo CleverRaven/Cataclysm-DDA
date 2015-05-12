@@ -116,6 +116,12 @@ public:
     static void reset();
 
     static const std::vector<const vpart_info*> &get_all();
+    /**
+     * The id of the null-part. The part should not actually be used, but its id can be used like
+     * a null-pointer. Note that the null-part is still a completely valid part, getting the
+     * vpart_info object of this id will not issue a debug message.
+     */
+    static const vpart_str_id null;
 };
 
 extern const vpart_str_id legacy_vpart_id[74];

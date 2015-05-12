@@ -351,6 +351,7 @@ void game::reset_vehicles()
     vtypes.clear();
 }
 
+const vpart_str_id vpart_info::null( "null" );
 
 /**
  *Works through cached vehicle definitions and creates vehicle objects from them.

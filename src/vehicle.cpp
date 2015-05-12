@@ -1412,9 +1412,7 @@ const vpart_info& vehicle::part_info (int index, bool include_removed) const
             return parts[index].info();
         }
     }
-    // TODO: move this static object into the vpart_info class.
-    static const vpart_str_id null_vpart_id( "null" );
-    return null_vpart_id.obj();
+    return vpart_info::null.obj();
 }
 
 // engines & alternators all have power.
@@ -2354,8 +2352,7 @@ const vpart_str_id &vehicle::part_id_string(int const p, char &part_mod) const
 {
     part_mod = 0;
     if( p < 0 || p >= (int)parts.size() || parts[p].removed ) {
-        static const vpart_str_id dummy;
-        return dummy;
+        return vpart_info::null;
     }
 
     int displayed_part = part_displayed_at(parts[p].mount.x, parts[p].mount.y);
@@ -5861,7 +5858,7 @@ std::set<tripoint> &vehicle::get_points()
  *                              VEHICLE_PART
  *-----------------------------------------------------------------------------*/
 vehicle_part::vehicle_part( int const dx, int const dy )
-: id( vpart_str_id( "null" ) ) // TODO: move this as static object into vpart_info
+: id( vpart_info::null )
 , mount( dx, dy )
 , precalc( { { point( -1, -1 ), point( -1, -1 ) } } )
 , amount( 0 )

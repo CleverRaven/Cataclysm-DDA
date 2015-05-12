@@ -7250,7 +7250,7 @@ void game::exam_vehicle(vehicle &veh, const tripoint &p, int cx, int cy)
         if (vehint.sel_vpart_info != NULL) {
             u.activity.str_values.push_back(vehint.sel_vpart_info->id.str());
         } else {
-            u.activity.str_values.push_back("null"); // TODO Use a static value from vpart_info
+            u.activity.str_values.push_back(vpart_info::null.str());
         }
         u.moves = 0;
     }
