@@ -29,9 +29,6 @@
 // vehicle_parts.json
 // If you use wrong config, installation of part will fail
 
-std::map<std::string, vpart_info> vehicle_part_types;
-std::vector<vpart_info> vehicle_part_int_types; // rapid lookup, for part_info etc
-
 static const std::unordered_map<std::string, vpart_bitflags> vpart_bitflag_map = {
     { "ARMOR", VPFLAG_ARMOR },
     { "EVENTURN", VPFLAG_EVENTURN },
@@ -66,6 +63,58 @@ static const std::unordered_map<std::string, vpart_bitflags> vpart_bitflag_map =
     { "VISION", VPFLAG_EXTENDS_VISION }
 };
 
+std::map<vpart_str_id, vpart_info> vehicle_part_types;
+// Contains pointer into the vehicle_part_types map. It is an implicit mapping of int ids
+// to the matching vpart_info object. To store the object only once, it is in the map and only
+// linked to. Pointers here are always valid.
+std::vector<const vpart_info*> vehicle_part_int_types;
+
+template<>
+const vpart_info &int_id<vpart_info>::obj() const
+{
+    if( static_cast<size_t>( _id ) >= vehicle_part_int_types.size() ) {
+        debugmsg( "invalid vehicle part id %d", _id );
+        static const vpart_info dummy{};
+        return dummy;
+    }
+    return *vehicle_part_int_types[_id];
+}
+
+template<>
+const string_id<vpart_info> &int_id<vpart_info>::id() const
+{
+    return obj().id;
+}
+
+template<>
+int_id<vpart_info> string_id<vpart_info>::id() const
+{
+    const auto iter = vehicle_part_types.find( *this );
+    if( iter == vehicle_part_types.end() ) {
+        debugmsg( "invalid vehicle part id %s", c_str() );
+        return vpart_id();
+    }
+    return iter->second.loadid;
+}
+
+template<>
+const vpart_info &string_id<vpart_info>::obj() const
+{
+    return id().obj();
+}
+
+template<>
+bool string_id<vpart_info>::is_valid() const
+{
+    return vehicle_part_types.count( *this ) > 0;
+}
+
+template<>
+int_id<vpart_info>::int_id( const string_id<vpart_info> &id )
+: _id( id.id() )
+{
+}
+
 // Note on the 'symbol' flag in vehicle parts -
 // the following symbols will be translated:
 // y, u, n, b to NW, NE, SE, SW lines correspondingly
@@ -77,7 +126,7 @@ void vpart_info::load( JsonObject &jo )
 {
     vpart_info next_part;
 
-    next_part.id = jo.get_string("id");
+    next_part.id = vpart_str_id( jo.get_string( "id" ) );
     next_part.name = _(jo.get_string("name").c_str());
     next_part.sym = jo.get_string("symbol")[0];
     next_part.color = color_from_string(jo.get_string("color"));
@@ -187,14 +236,19 @@ void vpart_info::load( JsonObject &jo )
         next_part.list_order = 5;
     }
 
-    if (vehicle_part_types.count(next_part.id) > 0) {
-        next_part.loadid = vehicle_part_types[next_part.id].loadid;
-        vehicle_part_int_types[next_part.loadid] = next_part;
+    auto const iter = vehicle_part_types.find( next_part.id );
+    if( iter != vehicle_part_types.end() ) {
+        // Entry in the map already exists, so the pointer in the vector is already correct
+        // and does not need to be changed, only the int-id needs to be taken from the old entry.
+        next_part.loadid = iter->second.loadid;
+        iter->second = next_part;
     } else {
-        next_part.loadid = vehicle_part_int_types.size();
-        vehicle_part_int_types.push_back(next_part);
+        // The entry is new, "generate" a new int-id and link the new entry from the vector.
+        next_part.loadid = vpart_id( vehicle_part_int_types.size() );
+        vpart_info &new_entry = vehicle_part_types[next_part.id];
+        new_entry = next_part;
+        vehicle_part_int_types.push_back( &new_entry );
     }
-    vehicle_part_types[next_part.id] = next_part;
 }
 
 void vpart_info::set_flag( const std::string &flag )
@@ -208,7 +262,8 @@ void vpart_info::set_flag( const std::string &flag )
 
 void vpart_info::check()
 {
-    for( auto &part : vehicle_part_int_types ) {
+    for( auto &part_ptr : vehicle_part_int_types ) {
+        auto &part = *part_ptr;
         for( auto &component : part.breaks_into ) {
             if( !item::type_is_defined( component.item_id ) ) {
                 debugmsg( "Vehicle part %s breaks into non-existent part %s.",
@@ -227,6 +282,11 @@ void vpart_info::reset()
     vehicle_part_int_types.clear();
 }
 
+const std::vector<const vpart_info*> &vpart_info::get_all()
+{
+    return vehicle_part_int_types;
+}
+
 /**
  *Caches a vehicle definition from a JsonObject to be loaded after itypes is initialized.
  */
@@ -240,12 +300,11 @@ void game::load_vehicle(JsonObject &jo)
 
     JsonArray parts = jo.get_array("parts");
     point pxy;
-    std::string pid;
     while (parts.has_more()) {
         JsonObject part = parts.next_object();
         pxy = point(part.get_int("x"), part.get_int("y"));
-        pid = part.get_string("part");
-        vproto->parts.push_back(std::pair<point, std::string>(pxy, pid));
+        const vpart_str_id pid( part.get_string( "part" ) );
+        vproto->parts.emplace_back( pxy, pid );
     }
 
     JsonArray items = jo.get_array("items");
@@ -299,7 +358,6 @@ void game::reset_vehicles()
 void game::finalize_vehicles()
 {
     int part_x = 0, part_y = 0;
-    std::string part_id = "";
     vehicle *next_vehicle;
 
     std::map<point, bool> cargo_spots;
@@ -317,8 +375,8 @@ void game::finalize_vehicles()
             part_x = p.x;
             part_y = p.y;
 
-            part_id = proto->parts[i].second;
-            if (vehicle_part_types.count(part_id) == 0) {
+            const vpart_str_id &part_id = proto->parts[i].second;
+            if( !part_id.is_valid() ) {
                 debugmsg("unknown vehicle part %s in %s", part_id.c_str(), proto->id.c_str());
                 continue;
             }
@@ -328,7 +386,7 @@ void game::finalize_vehicles()
                          next_vehicle->name.c_str(), part_id.c_str(),
                          next_vehicle->parts.size(), part_x, part_y);
             }
-            if ( vehicle_part_types[part_id].has_flag("CARGO") ) {
+            if( part_id.obj().has_flag("CARGO") ) {
                 cargo_spots[p] = true;
             }
         }

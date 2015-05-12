@@ -8,6 +8,8 @@
 #include "line.h"
 #include "item_stack.h"
 #include "active_item_cache.h"
+#include "string_id.h"
+#include "int_id.h"
 
 #include <vector>
 #include <array>
@@ -21,8 +23,8 @@ class player;
 class vehicle;
 struct vpart_info;
 enum vpart_bitflags : int;
-using vpart_id = int;
-using vpart_str_id = std::string;
+using vpart_id = int_id<vpart_info>;
+using vpart_str_id = string_id<vpart_info>;
 
 //collision factor for vehicle-vehicle collision; delta_v in mph
 float get_collision_factor(float delta_v);
@@ -93,7 +95,7 @@ struct vehicle_item_spawn
 struct vehicle_prototype
 {
     std::string id, name;
-    std::vector<std::pair<point, std::string> > parts;
+    std::vector<std::pair<point, vpart_str_id> > parts;
     std::vector<vehicle_item_spawn> item_spawns;
 };
 
@@ -139,8 +141,7 @@ struct vehicle_part : public JsonSerializer, public JsonDeserializer
     int  remove_flag(int const flag)    noexcept { return flags &= ~flag; }
 
 private:
-    vpart_str_id id;               // id in map of parts (vehicle_part_types key)
-    vpart_id iid          = 0;         // same as above, for lookup via int
+    vpart_id id;         // id in map of parts (vehicle_part_types key)
 public:
     point mount;                  // mount point: x is on the forward/backward axis, y is on the left/right axis
     std::array<point, 2> precalc; // mount translated to face.dir [0] and turn_dir [1]

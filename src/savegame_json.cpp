@@ -1370,18 +1370,18 @@ void vehicle_part::deserialize(JsonIn &jsin)
 {
     JsonObject data = jsin.get_object();
     int intpid;
-    std::string pid;
+    vpart_str_id pid;
     if ( data.read("id_enum", intpid) && intpid < 74 ) {
         pid = legacy_vpart_id[intpid];
     } else {
         data.read("id", pid);
     }
     // if we don't know what type of part it is, it'll cause problems later.
-    if (vehicle_part_types.find(pid) == vehicle_part_types.end()) {
-        if (pid == "wheel_underbody") {
-            pid = "wheel_wide";
+    if( !pid.is_valid() ) {
+        if( pid.str() == "wheel_underbody" ) {
+            pid = vpart_str_id( "wheel_wide" );
         } else {
-            throw (std::string)"bad vehicle part, id: %s" + pid;
+            throw (std::string)"bad vehicle part, id: %s" + pid.str();
         }
     }
     set_id(pid);
@@ -1406,7 +1406,8 @@ void vehicle_part::deserialize(JsonIn &jsin)
 void vehicle_part::serialize(JsonOut &json) const
 {
     json.start_object();
-    json.member("id", id);
+    // TODO: the json classes should automatically convert the int-id to the string-id and the inverse
+    json.member("id", id.id().str());
     json.member("mount_dx", mount.x);
     json.member("mount_dy", mount.y);
     json.member("hp", hp);

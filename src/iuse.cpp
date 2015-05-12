@@ -9698,14 +9698,18 @@ int iuse::cable_attach(player *p, item *it, bool, const tripoint& )
                 return 0;
             }
 
+            // TODO: make sure there is always a matching vpart id here. Maybe transform this into
+            // a iuse_actor class, or add a check in item_factory.
+            const vpart_str_id vpid( it->typeId() );
+
             point vcoords = g->m.veh_part_coordinates( source_local.x, source_local.y );
-            vehicle_part source_part(it->typeId(), vcoords.x, vcoords.y, it);
+            vehicle_part source_part(vpid, vcoords.x, vcoords.y, it);
             source_part.target.first = target_global;
             source_part.target.second = target_veh->real_global_pos3();
             source_veh->install_part(vcoords.x, vcoords.y, source_part);
 
             vcoords = g->m.veh_part_coordinates(target_local.x, target_local.y);
-            vehicle_part target_part(it->typeId(), vcoords.x, vcoords.y, it);
+            vehicle_part target_part(vpid, vcoords.x, vcoords.y, it);
             target_part.target.first = source_global;
             target_part.target.second = source_veh->real_global_pos3();
             target_veh->install_part(vcoords.x, vcoords.y, target_part);

@@ -5,6 +5,8 @@
 #include "output.h"
 #include "inventory.h"
 #include "input.h"
+#include "string_id.h"
+#include "int_id.h"
 
 #define DUCT_TAPE_USED 100
 #define NAILS_USED 10
@@ -12,8 +14,8 @@
 #define OXY_CUTTING 10
 
 struct vpart_info;
-using vpart_id = int;
-using vpart_str_id = std::string;
+using vpart_id = int_id<vpart_info>;
+using vpart_str_id = string_id<vpart_info>;
 
 enum sel_types {
     SEL_NULL, SEL_JACK

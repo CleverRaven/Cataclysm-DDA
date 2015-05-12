@@ -1341,17 +1341,17 @@ void veh_interact::move_cursor (int dx, int dy)
 
     //Only build the shapes map once
     if (vpart_shapes.empty()) {
-        for( auto &vpart_type : vehicle_part_types ) {
-                vpart_shapes[vpart_type.second.name+vpart_type.second.item].push_back(&vpart_type.second);
+        for( auto vp : vpart_info::get_all() ) {
+            vpart_shapes[vp->name+vp->item].push_back( vp );
         }
     }
 
     can_mount.clear();
     if (!obstruct) {
         int divider_index = 0;
-        for( auto &vehicle_part_type : vehicle_part_types ) {
-            if( veh->can_mount( vdx, vdy, vehicle_part_type.first ) ) {
-                const vpart_info &vpi = vehicle_part_type.second;
+        for( auto vp : vpart_info::get_all() ) {
+            if( veh->can_mount( vdx, vdy, vp->id ) ) {
+                const vpart_info &vpi = *vp;
                 if ( vpi.id != vpart_shapes[vpi.name+vpi.item][0]->id )
                     continue; // only add first shape to install list
                 if (can_currently_install(vpi)) {
@@ -1365,9 +1365,9 @@ void veh_interact::move_cursor (int dx, int dy)
 
     //Only build the wheel list once
     if (wheel_types.empty()) {
-        for( auto &vehicle_part_type : vehicle_part_types ) {
-            if( vehicle_part_type.second.has_flag( "WHEEL" ) ) {
-                wheel_types.push_back( &vehicle_part_type.second );
+        for( auto vp : vpart_info::get_all() ) {
+            if( vp->has_flag( "WHEEL" ) ) {
+                wheel_types.push_back( vp );
             }
         }
     }
@@ -1968,7 +1968,7 @@ std::string veh_interact::getDurabilityDescription(const int &dur)
 item consume_vpart_item( const vpart_str_id &vpid )
 {
     std::vector<bool> candidates;
-    const itype_id itid = vehicle_part_types[vpid].item;
+    const itype_id itid = vpid.obj().item;
     inventory map_inv;
     map_inv.form_from_map( g->u.pos3(), PICKUP_RANGE );
 
@@ -1993,7 +1993,7 @@ item consume_vpart_item( const vpart_str_id &vpid )
         // popup menu!?
         std::vector<std::string> options;
         for( const auto &candidate : candidates ) {
-            const vpart_info &info = vehicle_part_types[vpid];
+            const vpart_info &info = vpid.obj();
             if( candidate ) {
                 // In inventory.
                 options.push_back(info.name);
@@ -2182,7 +2182,7 @@ void complete_vehicle ()
     int dd = 2;
     double dmg = 1.0;
 
-    const vpart_info &vpinfo = vehicle_part_types[part_id];
+    const vpart_info &vpinfo = part_id.obj();
     bool is_wheel = vpinfo.has_flag("WHEEL");
     bool is_wood = vpinfo.has_flag("NAILABLE");
     bool is_wrenchable = vpinfo.has_flag("TOOL_WRENCH");

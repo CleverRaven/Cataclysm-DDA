@@ -805,17 +805,17 @@ void construct::done_vehicle(point p)
     veh->name = name;
 
     if (g->u.lastconsumed == "hdframe") {
-        veh->install_part (0, 0, "hdframe_vertical_2");
+        veh->install_part (0, 0, vpart_str_id( "hdframe_vertical_2" ) );
     } else if (g->u.lastconsumed == "frame_wood") {
-        veh->install_part (0, 0, "frame_wood_vertical_2");
+        veh->install_part (0, 0, vpart_str_id( "frame_wood_vertical_2" ) );
     } else if (g->u.lastconsumed == "xlframe") {
-        veh->install_part (0, 0, "xlframe_vertical_2");
+        veh->install_part (0, 0, vpart_str_id( "xlframe_vertical_2" ) );
     } else if (g->u.lastconsumed == "frame_wood_light") {
-        veh->install_part (0, 0, "frame_wood_light_vertical_2");
+        veh->install_part (0, 0, vpart_str_id( "frame_wood_light_vertical_2" ) );
     } else if (g->u.lastconsumed == "foldframe") {
-        veh->install_part (0, 0, "folding_frame");
+        veh->install_part (0, 0, vpart_str_id( "folding_frame" ) );
     } else {
-        veh->install_part (0, 0, "frame_vertical_2");
+        veh->install_part (0, 0, vpart_str_id( "frame_vertical_2" ) );
     }
 
     // Update the vehicle cache immediately,

@@ -250,7 +250,8 @@ void vehicle::load (std::ifstream &stin)
  * loading from a game saved before the vehicle construction rules overhaul). */
 void vehicle::add_missing_frames()
 {
-    const vpart_info &frame_part = vehicle_part_types["frame_vertical"];
+    static const vpart_str_id frame_id( "frame_vertical" );
+    const vpart_info &frame_part = frame_id.obj(); // NOT static, could be different each time
     //No need to check the same (x, y) spot more than once
     std::set< std::pair<int, int> > locations_checked;
     for (auto &i : parts) {
@@ -1365,7 +1366,7 @@ void vehicle::honk_horn()
         }
         //Only bicycle horn doesn't need electricity to work
         const vpart_info &horn_type = part_info( p );
-        if( ( horn_type.id != "horn_bicycle" ) && no_power ) {
+        if( ( horn_type.id != vpart_str_id( "horn_bicycle" ) ) && no_power ) {
             continue;
         }
         if( ! honked ) {
@@ -1411,7 +1412,9 @@ const vpart_info& vehicle::part_info (int index, bool include_removed) const
             return parts[index].info();
         }
     }
-    return vehicle_part_int_types[0];//"null"];
+    // TODO: move this static object into the vpart_info class.
+    static const vpart_str_id null_vpart_id( "null" );
+    return null_vpart_id.obj();
 }
 
 // engines & alternators all have power.
@@ -1501,12 +1504,12 @@ bool vehicle::has_structural_part(int const dx, int const dy) const
 bool vehicle::can_mount(int const dx, int const dy, const vpart_str_id &id) const
 {
     //The part has to actually exist.
-    if(vehicle_part_types.count(id) == 0) {
+    if( !id.is_valid() ) {
         return false;
     }
 
     //It also has to be a real part, not the null part
-    const vpart_info &part = vehicle_part_types[id];
+    const vpart_info &part = id.obj();
     if(part.has_flag("NOINSTALL")) {
         return false;
     }
@@ -1855,7 +1858,7 @@ int vehicle::install_part (int dx, int dy, const vpart_str_id &id, int hp, bool 
     if (!force && !can_mount (dx, dy, id)) {
         return -1;  // no money -- no ski!
     }
-    item tmp(vehicle_part_types[id].item, 0);
+    item tmp(id.obj().item, 0);
     vehicle_part new_part(id, dx, dy, &tmp);
     if (hp >= 0) {
         new_part.hp = hp;
@@ -5858,7 +5861,7 @@ std::set<tripoint> &vehicle::get_points()
  *                              VEHICLE_PART
  *-----------------------------------------------------------------------------*/
 vehicle_part::vehicle_part( int const dx, int const dy )
-: id( "null" )
+: id( vpart_str_id( "null" ) ) // TODO: move this as static object into vpart_info
 , mount( dx, dy )
 , precalc( { { point( -1, -1 ), point( -1, -1 ) } } )
 , amount( 0 )
@@ -5869,7 +5872,9 @@ vehicle_part::vehicle_part( const vpart_str_id &sid, int const dx, int const dy,
                             const item *const it )
 : vehicle_part( dx, dy )
 {
-    if( !sid.empty() ) {
+    // TODO: check whether this can actually be empty, consider either another function without this
+    // parameter (if it can be empty) or removing this check and assuming it will never be empty.
+    if( !sid.str().empty() ) {
         set_id( sid );
     }
     if( it != nullptr ) {
@@ -5879,18 +5884,12 @@ vehicle_part::vehicle_part( const vpart_str_id &sid, int const dx, int const dy,
 
 void vehicle_part::set_id( const vpart_str_id & str )
 {
-    auto const vpit = vehicle_part_types.find( str );
-    if( vpit == vehicle_part_types.end() ) {
-        debugmsg( "invalid vehicle part id %s", str.c_str() );
-        return;
-    }
     id = str;
-    iid = vpit->second.loadid;
 }
 
 const vpart_str_id &vehicle_part::get_id() const
 {
-    return id;
+    return id.id();
 }
 
 void vehicle_part::properties_from_item( const item &used_item )
@@ -5968,5 +5967,5 @@ item vehicle_part::properties_to_item() const
 
 const vpart_info &vehicle_part::info() const
 {
-    return vehicle_part_int_types[iid];
+    return id.obj();
 }
