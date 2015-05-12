@@ -19,8 +19,8 @@ public:
         vehicles.add(type, probability);
     }
 
-    inline const std::string* pick() const {
-        return vehicles.pick();
+    inline const std::string &pick() const {
+        return *(vehicles.pick());
     }
 
 private:

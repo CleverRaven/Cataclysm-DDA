@@ -71,7 +71,7 @@ void VehicleFactory::vehicle_spawn(map* m, const std::string &spawn_id, const st
 
 void VehicleFactory::add_vehicle(map* m, const std::string &vehicle_id, const int x, const int y, const int facing, const int fuel, const int status, const bool mergewrecks)
 {
-    m->add_vehicle(groups.count(vehicle_id) > 0 ? *(groups[vehicle_id].pick()) : vehicle_id,
+    m->add_vehicle(groups.count(vehicle_id) > 0 ? groups[vehicle_id].pick() : vehicle_id,
         x, y, facing, fuel, status, mergewrecks);
 }
 
