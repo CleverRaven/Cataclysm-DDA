@@ -465,10 +465,7 @@ class game
         void draw_critter( const Creature &critter, const tripoint &center );
 
         // Vehicle related JSON loaders and variables
-        void load_vehiclepart(JsonObject &jo);
-        void check_vehicleparts();
         void load_vehicle(JsonObject &jo);
-        void reset_vehicleparts();
         void reset_vehicles();
         void finalize_vehicles();
 

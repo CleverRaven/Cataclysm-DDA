@@ -3,6 +3,8 @@
 
 #include "color.h"
 
+class JsonObject;
+
 /**
  * Represents an entry in the breaks_into list.
  */
@@ -100,6 +102,10 @@ public:
         return bitflags.test( flag );
     }
     void set_flag( const std::string &flag );
+
+    static void load( JsonObject &jo );
+    static void check();
+    static void reset();
 };
 
 extern std::map<std::string, vpart_info> vehicle_part_types;

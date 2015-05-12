@@ -73,7 +73,7 @@ static const std::unordered_map<std::string, vpart_bitflags> vpart_bitflag_map =
 /**
  * Reads in a vehicle part from a JsonObject.
  */
-void game::load_vehiclepart(JsonObject &jo)
+void vpart_info::load( JsonObject &jo )
 {
     vpart_info next_part;
 
@@ -206,7 +206,7 @@ void vpart_info::set_flag( const std::string &flag )
     }
 }
 
-void game::check_vehicleparts()
+void vpart_info::check()
 {
     for( auto &part : vehicle_part_int_types ) {
         for( auto &component : part.breaks_into ) {
@@ -221,7 +221,7 @@ void game::check_vehicleparts()
     }
 }
 
-void game::reset_vehicleparts()
+void vpart_info::reset()
 {
     vehicle_part_types.clear();
     vehicle_part_int_types.clear();
