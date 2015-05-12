@@ -1227,6 +1227,9 @@ std::string dialogue::dynamic_line( const std::string &topic ) const
     } else if( topic == "TALK_RANCH_STOCKS_BANDAGES" ) {
              return talk_function::bulk_trade_inquire(p, "bandages");
 
+    } else if( topic == "TALK_RANCH_DOCTOR" ) {
+             return _("I'm sorry, I don't have time to see you at the moment.");
+
     } else if( topic == "TALK_RANCH_SCRAPPER" ) {
              return _("Don't mind me.");
 
@@ -2265,6 +2268,8 @@ void dialogue::gen_responses( const std::string &topic )
             add_response( _("I should be fine..."), "TALK_RANCH_NURSE" );
     } else if( topic == "TALK_RANCH_NURSE_AID_DONE" ) {
             add_response( _("..."), "TALK_DONE" );
+    } else if( topic == "TALK_RANCH_DOCTOR" ) {
+            add_response( _("..."), "TALK_DONE" );
     } else if( topic == "TALK_RANCH_SCRAPPER" ) {
             add_response( _("What is your job here?"), "TALK_RANCH_SCRAPPER_JOB" );
             add_response( _("Do you need any help?"), "TALK_RANCH_SCRAPPER_HIRE" );
@@ -3250,9 +3255,9 @@ void talk_function::construction_tips(npc *p)
 void talk_function::buy_beer(npc *p)
 {
     item cont = item("bottle_glass", 0, false);
-    item liq = item("beer", 0);
+    item liq = item("hb_beer", 0);
     liq.charges = 3;
-    g->handle_liquid(liq,false,false,NULL,&cont);
+    cont.put_in( liq );
     g->u.i_add( cont );
     g->u.cash -= 800;
     add_msg(m_good, _("%s gave you a beer..."), p->name.c_str());
@@ -3263,7 +3268,7 @@ void talk_function::buy_whiskey(npc *p)
     item cont = item("bottle_glass", 0, false);
     item liq = item("whiskey", 0);
     liq.charges = 1;
-    g->handle_liquid(liq,false,false,NULL,&cont);
+    cont.put_in( liq );
     g->u.i_add( cont );
     g->u.cash -= 1000;
     add_msg(m_good, _("%s gave you a shot of whiskey..."), p->name.c_str());
