@@ -5857,6 +5857,26 @@ std::set<tripoint> &vehicle::get_points()
 /*-----------------------------------------------------------------------------
  *                              VEHICLE_PART
  *-----------------------------------------------------------------------------*/
+vehicle_part::vehicle_part( int const dx, int const dy )
+: id( "null" )
+, mount( dx, dy )
+, precalc( { { point( -1, -1 ), point( -1, -1 ) } } )
+, amount( 0 )
+{
+}
+
+vehicle_part::vehicle_part( const std::string &sid, int const dx, int const dy,
+                            const item *const it )
+: vehicle_part( dx, dy )
+{
+    if( !sid.empty() ) {
+        setid( sid );
+    }
+    if( it != nullptr ) {
+        properties_from_item( *it );
+    }
+}
+
 bool vehicle_part::setid( const std::string & str )
 {
     auto const vpit = vehicle_part_types.find( str );

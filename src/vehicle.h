@@ -129,20 +129,8 @@ struct vehicle_part : public JsonSerializer, public JsonDeserializer
     friend vehicle;
     enum : int { passenger_flag = 1 };
 
-    vehicle_part(int dx = 0, int dy = 0)
-      : id("null"), mount(dx, dy), precalc({{point(-1, -1), point(-1, -1)}}), amount(0) {}
-
-    vehicle_part(const std::string &sid, int dx = 0, int dy = 0, const item *it = nullptr)
-      : vehicle_part(dx, dy)
-    {
-        if (!sid.empty()) {
-            setid(sid);
-        }
-
-        if (it) {
-            properties_from_item(*it);
-        }
-    }
+    vehicle_part( int dx = 0, int dy = 0 );
+    vehicle_part( const std::string &sid, int dx = 0, int dy = 0, const item *it = nullptr );
 
     bool has_flag(int const flag) const noexcept { return flag & flags; }
     int  set_flag(int const flag)       noexcept { return flags |= flag; }
