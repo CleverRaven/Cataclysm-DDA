@@ -349,6 +349,8 @@
 		<Unit filename="src/monster.h" />
 		<Unit filename="src/monstergenerator.cpp" />
 		<Unit filename="src/monstergenerator.h" />
+		<Unit filename="src/monfaction.cpp" />
+		<Unit filename="src/monfaction.h" />
 		<Unit filename="src/morale.h" />
 		<Unit filename="src/moraledata.h" />
 		<Unit filename="src/mtype.h" />
