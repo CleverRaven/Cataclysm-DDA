@@ -46,19 +46,21 @@ VehicleFunction_json::VehicleFunction_json(JsonObject &jo)
 
 void VehicleFunction_json::apply(map* m, const std::string &terrain_name) const
 {
-    if(! location) {
-        size_t replace = placement.find("%t");
-        const VehicleLocation* loc = vehicle_controller->pick_location(
-            replace != std::string::npos ? placement.substr(0,replace) + terrain_name + placement.substr(replace+2) : placement);
+    for(auto i = number.get(); i > 0; i--) {
+        if(! location) {
+            size_t replace = placement.find("%t");
+            const VehicleLocation* loc = vehicle_controller->pick_location(
+                replace != std::string::npos ? placement.substr(0,replace) + terrain_name + placement.substr(replace+2) : placement);
 
-        if(! loc) {
-            debugmsg("vehiclefunction_json: unable to get location to place vehicle.");
-            return;
+            if(! loc) {
+                debugmsg("vehiclefunction_json: unable to get location to place vehicle.");
+                return;
+            }
+            vehicle_controller->add_vehicle(m, vehicle, loc->x.get(), loc->y.get(), loc->pick_facing(), fuel, status);
         }
-        vehicle_controller->add_vehicle(m, vehicle, loc->x.get(), loc->y.get(), loc->pick_facing(), fuel, status);
-    }
-    else {
-        vehicle_controller->add_vehicle(m, vehicle, location->x.get(), location->y.get(), location->pick_facing(), fuel, status);
+        else {
+            vehicle_controller->add_vehicle(m, vehicle, location->x.get(), location->y.get(), location->pick_facing(), fuel, status);
+        }
     }
 }
 
