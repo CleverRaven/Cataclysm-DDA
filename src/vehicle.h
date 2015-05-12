@@ -136,8 +136,10 @@ struct vehicle_part : public JsonSerializer, public JsonDeserializer
     int  set_flag(int const flag)       noexcept { return flags |= flag; }
     int  remove_flag(int const flag)    noexcept { return flags &= ~flag; }
 
+private:
     std::string id;               // id in map of parts (vehicle_part_types key)
     int iid          = 0;         // same as above, for lookup via int
+public:
     point mount;                  // mount point: x is on the forward/backward axis, y is on the left/right axis
     std::array<point, 2> precalc; // mount translated to face.dir [0] and turn_dir [1]
     int hp           = 0;         // current durability, if 0, then broken
@@ -165,6 +167,8 @@ private:
     std::list<item> items; // inventory
 public:
     void set_id( const std::string & str );
+    const std::string &get_id() const;
+    const vpart_info &info() const;
 
     // json saving/loading
     using JsonSerializer::serialize;
@@ -389,7 +393,7 @@ public:
     void play_music();
 
     // get vpart type info for part number (part at given vector index)
-    vpart_info& part_info (int index, bool include_removed = false) const;
+    const vpart_info& part_info (int index, bool include_removed = false) const;
 
     // check if certain part can be mounted at certain position (not accounting frame direction)
     bool can_mount (int dx, int dy, std::string const &id) const;

@@ -35,8 +35,8 @@ class veh_interact
     public:
         int ddx;
         int ddy;
-        struct vpart_info *sel_vpart_info;
-        struct vehicle_part *sel_vehicle_part;
+        const struct vpart_info *sel_vpart_info;
+        const struct vehicle_part *sel_vehicle_part;
         char sel_cmd; //Command currently being run by the player
         int sel_type;
     private:

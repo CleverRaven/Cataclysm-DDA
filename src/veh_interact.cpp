@@ -851,7 +851,7 @@ void veh_interact::do_repair()
     int pos = 0;
     while (true) {
         sel_vehicle_part = &veh->parts[parts_here[need_repair[pos]]];
-        sel_vpart_info = &(vehicle_part_types[sel_vehicle_part->id]);
+        sel_vpart_info = &sel_vehicle_part->info();
         werase (w_parts);
         veh->print_part_desc(w_parts, 0, parts_w, cpart, need_repair[pos]);
         wrefresh (w_parts);
@@ -937,9 +937,10 @@ void veh_interact::do_refill()
         uimenu fuel_choose;
         fuel_choose.text = _("What to refill:");
         for( entry_num = 0; entry_num < ptanks.size(); entry_num++) {
+            const vpart_info &vpinfo = ptanks[entry_num]->info();
             fuel_choose.addentry(entry_num, true, -1, "%s -> %s",
-                                 ammo_name(vehicle_part_types[ptanks[entry_num]->id].fuel_type).c_str(),
-                                 vehicle_part_types[ptanks[entry_num]->id].name.c_str());
+                                 ammo_name(vpinfo.fuel_type).c_str(),
+                                 vpinfo.name.c_str());
         }
         fuel_choose.addentry(entry_num, true, 'q', _("Cancel"));
         fuel_choose.query();
@@ -1073,7 +1074,7 @@ void veh_interact::do_remove()
     while (true) {
         //these variables seem to fetch the vehicle parts at specified position
         sel_vehicle_part = &veh->parts[parts_here[pos]];
-        sel_vpart_info = &(vehicle_part_types[sel_vehicle_part->id]);
+        sel_vpart_info = &sel_vehicle_part->info();
         //redraw list of parts
         werase (w_parts);
         veh->print_part_desc (w_parts, 0, parts_w, cpart, pos);
@@ -1573,11 +1574,11 @@ void veh_interact::display_stats()
         const auto iw = utf8_width(_("Most damaged:")) + 1;
         x[6] += iw;
         w[6] -= iw;
-        std::string partID = veh->parts[mostDamagedPart].id;
+        const vpart_info &info = veh->parts[mostDamagedPart].info();
         vehicle_part part = veh->parts[mostDamagedPart];
-        int damagepercent = 100 * part.hp / vehicle_part_types[part.id].durability;
+        int damagepercent = 100 * part.hp / info.durability;
         nc_color damagecolor = getDurabilityColor(damagepercent);
-        partName = vehicle_part_types[partID].name;
+        partName = info.name;
         const auto hoff = fold_and_print(w_stats, y[6], x[6], w[6], damagecolor, partName);
         // If fold_and_print did write on the next line(s), shift the following entries,
         // hoff == 1 is already implied and expected - one line is consumed at least.
@@ -1878,8 +1879,9 @@ void veh_interact::countDurability()
         if (veh->parts[it].removed) {
             continue;
         }
-        vehicle_part part = veh->parts[it];
-        int part_dur = vehicle_part_types[part.id].durability;
+        const vehicle_part &part = veh->parts[it];
+        const vpart_info &info = part.info();
+        const int part_dur = info.durability;
 
         sum += part.hp;
         max += part_dur;
@@ -2249,7 +2251,7 @@ void complete_vehicle ()
         veh->last_repair_turn = calendar::turn;
         if (veh->parts[vehicle_part].hp <= 0) {
             veh->break_part_into_pieces(vehicle_part, g->u.posx(), g->u.posy());
-            used_item = consume_vpart_item (veh->parts[vehicle_part].id);
+            used_item = consume_vpart_item (veh->parts[vehicle_part].get_id());
             veh->parts[vehicle_part].bigness = used_item.bigness;
             dd = 0;
             veh->insides_dirty = true;
