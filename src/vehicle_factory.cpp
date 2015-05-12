@@ -1,7 +1,7 @@
 #include "vehicle_factory.h"
 #include "debug.h"
 
-std::unique_ptr<Vehicle_Factory> vehicle_controller( new Vehicle_Factory() );
+std::unique_ptr<VehicleFactory> vehicle_controller( new VehicleFactory() );
 
 VehicleFacings::VehicleFacings(JsonObject &jo, const std::string &key)
 {
@@ -15,6 +15,15 @@ VehicleFacings::VehicleFacings(JsonObject &jo, const std::string &key)
     else {
         values.push_back(jo.get_int(key));
     }
+}
+
+const VehicleLocation* VehiclePlacement::pick() const {
+    if(locations.size() == 0) {
+        debugmsg("vehicleplacement has no locations");
+        return NULL;
+    }
+
+    return &(locations[rng(0, locations.size()-1)]);
 }
 
 VehicleFunction_json::VehicleFunction_json(JsonObject &jo)
@@ -39,17 +48,42 @@ void VehicleFunction_json::apply(map* m, const std::string &terrain_name) const
 {
     if(! location) {
         size_t replace = placement.find("%t");
-        const VehicleLocation &loc = vehicle_controller->get_placement(
-            replace != std::string::npos ? placement.substr(0,replace) + terrain_name + placement.substr(replace+2) : placement)->pick();
+        const VehicleLocation* loc = vehicle_controller->pick_location(
+            replace != std::string::npos ? placement.substr(0,replace) + terrain_name + placement.substr(replace+2) : placement);
 
-        vehicle_controller->add_vehicle(m, vehicle, loc.x.get(), loc.y.get(), loc.pick_facing(), fuel, status);
+        if(! loc) {
+            debugmsg("vehiclefunction_json: unable to get location to place vehicle.");
+            return;
+        }
+        vehicle_controller->add_vehicle(m, vehicle, loc->x.get(), loc->y.get(), loc->pick_facing(), fuel, status);
     }
     else {
         vehicle_controller->add_vehicle(m, vehicle, location->x.get(), location->y.get(), location->pick_facing(), fuel, status);
     }
 }
 
-void Vehicle_Factory::load_vehicle_group(JsonObject &jo)
+void VehicleFactory::vehicle_spawn(map* m, const std::string &spawn_id, const std::string &terrain_name)
+{
+    spawns[spawn_id].pick()->apply(m, terrain_name);
+}
+
+void VehicleFactory::add_vehicle(map* m, const std::string &vehicle_id, const int x, const int y, const int facing, const int fuel, const int status, const bool mergewrecks)
+{
+    m->add_vehicle(groups.count(vehicle_id) > 0 ? *(groups[vehicle_id].pick()) : vehicle_id,
+        x, y, facing, fuel, status, mergewrecks);
+}
+
+const VehicleLocation* VehicleFactory::pick_location(const std::string &placement_id) const
+{
+    if(placements.count(placement_id) == 0) {
+        debugmsg("vehiclefactory unknown placement %s", placement_id.c_str());
+        return NULL;
+    }
+
+    return placements.find(placement_id)->second.pick();
+}
+
+void VehicleFactory::load_vehicle_group(JsonObject &jo)
 {
     const Vehicle_tag group_id = jo.get_string("id");
     JsonArray vehicles = jo.get_array("vehicles");
@@ -60,7 +94,7 @@ void Vehicle_Factory::load_vehicle_group(JsonObject &jo)
     }
 }
 
-void Vehicle_Factory::load_vehicle_placement(JsonObject &jo)
+void VehicleFactory::load_vehicle_placement(JsonObject &jo)
 {
     const std::string placement_id = jo.get_string("id");
     VehiclePlacement &placement = placements[placement_id];
@@ -73,7 +107,7 @@ void Vehicle_Factory::load_vehicle_placement(JsonObject &jo)
     }
 }
 
-void Vehicle_Factory::load_vehicle_spawn(JsonObject &jo)
+void VehicleFactory::load_vehicle_spawn(JsonObject &jo)
 {
     const std::string spawn_id = jo.get_string("id");
     VehicleSpawn spawn;
@@ -105,43 +139,20 @@ void Vehicle_Factory::load_vehicle_spawn(JsonObject &jo)
     spawns[spawn_id] = spawn;
 }
 
-const VehiclePlacement* Vehicle_Factory::get_placement(const std::string &id) const
-{
-    if(placements.count(id) == 0) {
-        debugmsg("vehicle_factory unknown placement %s", id.c_str());
-        return NULL;
-    }
-
-    return &(placements.find(id)->second);
-}
-
-void Vehicle_Factory::vehicle_spawn(std::string spawn_id, map* m, std::string terrain_name)
-{
-    spawns[spawn_id].pick()->apply(m, terrain_name);
-}
-
-void Vehicle_Factory::add_vehicle(map* m, const std::string &vehicle_id, const int x, const int y, const int facing, const int fuel, const int status, const bool mergewrecks)
-{
-    m->add_vehicle(groups.count(vehicle_id) > 0 ? *(groups[vehicle_id].pick()) : vehicle_id,
-        x, y, facing, fuel, status, mergewrecks);
-}
-
-void Vehicle_Factory::builtin_no_vehicles(map*, const std::string&)
+void VehicleFactory::builtin_no_vehicles(map*, const std::string&)
 {}
 
-void Vehicle_Factory::builtin_jackknifed_semi(map* m, const std::string &terrainid)
+void VehicleFactory::builtin_jackknifed_semi(map* m, const std::string &terrainid)
 {
-    const VehiclePlacement* placement = vehicle_controller->get_placement(terrainid+"_semi");
-    if(! placement) {
-        debugmsg("builtin_jackknifed_semi cannot find placement %s", (terrainid+"_semi").c_str());
+    const VehicleLocation* location = vehicle_controller->pick_location(terrainid+"_semi");
+    if(! location) {
+        debugmsg("builtin_jackknifed_semi unable to get location to place vehicle. placement %s", (terrainid+"_semi").c_str());
         return;
     }
 
-    const VehicleLocation &location = placement->pick();
-
-    int facing = location.pick_facing();
-    int semi_x = location.x.get();
-    int semi_y = location.y.get();
+    int facing = location->pick_facing();
+    int semi_x = location->x.get();
+    int semi_y = location->y.get();
     int trailer_x = 0;
     int trailer_y = 0;
 

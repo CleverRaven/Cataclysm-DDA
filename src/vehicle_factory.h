@@ -14,18 +14,17 @@ typedef std::string Vehicle_tag;
  *  item groups work.
  */
 class VehicleGroup {
+public:
+    inline void add_vehicle(const std::string &type, const int &probability) {
+        vehicles.add(type, probability);
+    }
 
-    public:
-        inline void add_vehicle(const std::string &type, const int &probability) {
-            vehicles.add(type, probability);
-        }
+    inline const std::string* pick() const {
+        return vehicles.pick();
+    }
 
-        inline const std::string* pick() const {
-            return vehicles.pick();
-        }
-
-    private:
-        weighted_int_list<std::string> vehicles;
+private:
+    weighted_int_list<std::string> vehicles;
 };
 
 /**
@@ -62,9 +61,7 @@ struct VehiclePlacement {
         locations.emplace_back(x, y, facings);
     }
 
-    inline const VehicleLocation &pick() const {
-        return locations[rng(0, locations.size()-1)];
-    }
+    const VehicleLocation* pick() const;
 
     typedef std::vector<VehicleLocation> LocationMap;
     LocationMap locations;
@@ -104,6 +101,7 @@ public:
 
     void apply(map* m, const std::string &terrain_name) const override;
 
+private:
     std::string vehicle;
     jmapgen_int number;
     int fuel;
@@ -136,56 +134,78 @@ private:
  *
  * You usually use the single global instance @ref vehicle_controller.
  */
-class Vehicle_Factory {
+class VehicleFactory {
+public:
 
-    public:
-        /**
-         * Callback for the init system (@ref DynamicDataLoader), loads a vehicle group definitions.
-         * @param jsobj The json object to load from.
-         * @throw std::string if the json object contains invalid data.
-         */
-        void load_vehicle_group(JsonObject &jo);
+    /**
+     * This will invoke the given vehicle spawn on the map.
+     * @param spawn_id The id of the vehicle spawn to invoke.
+     * @param m The map on which to add the vehicle.
+     */
+    void vehicle_spawn(map* m, const std::string &spawn_id, const std::string &terrain_name);
 
-        /**
-         * Callback for the init system (@ref DynamicDataLoader), loads a vehicle placement definitions.
-         * @param jsobj The json object to load from.
-         * @throw std::string if the json object contains invalid data.
-         */
-        void load_vehicle_placement(JsonObject &jo);
+    /**
+     * This is a wrapper for map->add_vehicle that will handle vehicle groups.
+     * @param m The map on which to add the vehicle.
+     * @param vehicle_id This can be the id of a vehicle or a vehicle group.
+     * @param x The x position of the vehicle.
+     * @param y The y position of the vehicle.
+     * @param facing The facing of the vehicle.
+     * @param fuel The vehicle's fuel.
+     * @param status The vehicle's status.
+     * @param mergewreck optional.
+    */
+    void add_vehicle(map* m, const std::string &vehicle_id, const int x, const int y, const int facing, const int fuel, const int status, const bool mergewrecks = true);
 
-        /**
-         * Callback for the init system (@ref DynamicDataLoader), loads a vehicle spawn definitions.
-         * @param jsobj The json object to load from.
-         * @throw std::string if the json object contains invalid data.
-         */
-        void load_vehicle_spawn(JsonObject &jo);
+    /**
+     * This will randomly select one of the locations from a vehicle placement
+     * @param placement_id The id of the placement from which to select a location.
+     * @return either null, if there is no placement with that id or that placement has no locations. Else one of the locations of that placement chosen at random.
+     */
+    const VehicleLocation* pick_location(const std::string &placement_id) const;
 
-        const VehiclePlacement* get_placement(const std::string &id) const;
-        void vehicle_spawn(std::string spawn_id, map* m, std::string terrain_name);
+    /**
+     * Callback for the init system (@ref DynamicDataLoader), loads a vehicle group definitions.
+     * @param jsobj The json object to load from.
+     * @throw std::string if the json object contains invalid data.
+     */
+    void load_vehicle_group(JsonObject &jo);
 
-        void add_vehicle(map* m, const std::string &vehicle_id, const int x, const int y, const int facing, const int fuel, const int status, const bool mergewrecks = true);
+    /**
+     * Callback for the init system (@ref DynamicDataLoader), loads a vehicle placement definitions.
+     * @param jsobj The json object to load from.
+     * @throw std::string if the json object contains invalid data.
+     */
+    void load_vehicle_placement(JsonObject &jo);
 
-    private:
-        // builtin functions
-        static void builtin_no_vehicles(map* m, const std::string &terrainid);
-        static void builtin_jackknifed_semi(map* m, const std::string &terrainid);
+    /**
+     * Callback for the init system (@ref DynamicDataLoader), loads a vehicle spawn definitions.
+     * @param jsobj The json object to load from.
+     * @throw std::string if the json object contains invalid data.
+     */
+    void load_vehicle_spawn(JsonObject &jo);
 
-        typedef std::map<Vehicle_tag, VehicleGroup> GroupMap;
-        GroupMap groups;
+private:
+    // builtin functions
+    static void builtin_no_vehicles(map* m, const std::string &terrainid);
+    static void builtin_jackknifed_semi(map* m, const std::string &terrainid);
 
-        typedef std::map<std::string, VehiclePlacement> PlacementMap;
-        PlacementMap placements;
+    typedef std::map<Vehicle_tag, VehicleGroup> GroupMap;
+    GroupMap groups;
 
-        typedef std::map<std::string, VehicleSpawn> VehicleSpawnsMap;
-        VehicleSpawnsMap spawns;
+    typedef std::map<std::string, VehiclePlacement> PlacementMap;
+    PlacementMap placements;
 
-        typedef std::map<std::string, vehicle_gen_pointer> FunctionMap;
-        FunctionMap builtin_functions {
-            { "no_vehicles", builtin_no_vehicles },
-            { "jack-knifed_semi", builtin_jackknifed_semi }
-        };
+    typedef std::map<std::string, VehicleSpawn> VehicleSpawnsMap;
+    VehicleSpawnsMap spawns;
+
+    typedef std::map<std::string, vehicle_gen_pointer> FunctionMap;
+    FunctionMap builtin_functions {
+        { "no_vehicles", builtin_no_vehicles },
+        { "jack-knifed_semi", builtin_jackknifed_semi }
+    };
 };
 
-extern std::unique_ptr<Vehicle_Factory> vehicle_controller;
+extern std::unique_ptr<VehicleFactory> vehicle_controller;
 
 #endif

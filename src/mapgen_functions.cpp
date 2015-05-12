@@ -982,7 +982,7 @@ void mapgen_road_straight(map *m, oter_id terrain_type, mapgendata dat, int turn
         }
     }
 
-    vehicle_controller->vehicle_spawn((sidewalks) ? "default_city" : "default_country", m, "road_straight");
+    vehicle_controller->vehicle_spawn(m, (sidewalks) ? "default_city" : "default_country", "road_straight");
 
     for (int i = 0; i < SEEX * 2; i++) {
         for (int j = 0; j < SEEY * 2; j++) {
@@ -1023,7 +1023,7 @@ void mapgen_road_end(map *m, oter_id terrain_type, mapgendata dat, int turn, flo
         }
     }
 
-    vehicle_controller->vehicle_spawn((sidewalks) ? "default_city" : "default_country", m, "road_end");
+    vehicle_controller->vehicle_spawn(m, (sidewalks) ? "default_city" : "default_country", "road_end");
 
     bool turning_cycle;
     if (sidewalks) {
@@ -1123,7 +1123,7 @@ void mapgen_road_curved(map *m, oter_id terrain_type, mapgendata dat, int turn, 
         }
     }
 
-    vehicle_controller->vehicle_spawn((sidewalks) ? "default_city" : "default_country", m, "road_curved");
+    vehicle_controller->vehicle_spawn(m, (sidewalks) ? "default_city" : "default_country", "road_curved");
 
     if (sidewalks) { //this crossroad has sidewalk => this crossroad is in the city
         for (int i=0; i< SEEX * 2; i++) {
@@ -1228,7 +1228,7 @@ void mapgen_road_tee(map *m, oter_id terrain_type, mapgendata dat, int turn, flo
         }
     }
 
-    vehicle_controller->vehicle_spawn((sidewalks) ? "default_city" : "default_country", m, "road_tee");
+    vehicle_controller->vehicle_spawn(m, (sidewalks) ? "default_city" : "default_country", "road_tee");
 
     for (int i = 0; i < SEEX * 2; i++) {
         for (int j = 0; j < SEEY * 2; j++) {
@@ -1284,7 +1284,7 @@ void mapgen_road_four_way(map *m, oter_id terrain_type, mapgendata dat, int turn
 
     // spawn city car wrecks
     if (sidewalks) {
-        vehicle_controller->vehicle_spawn("default_city", m, "road_four_way");
+        vehicle_controller->vehicle_spawn(m, "default_city", "road_four_way");
     }
 
     for (int i = 0; i < SEEX * 2; i++) {
