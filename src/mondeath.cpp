@@ -31,7 +31,7 @@ void mdeath::normal(monster *z)
     if (!z->has_flag(MF_VERMIN)) {
         field_id type_blood = z->bloodType();
         if (type_blood != fd_null) {
-            g->m.add_field(z->posx(), z->posy(), type_blood, 1);
+            g->m.add_field(z->pos(), type_blood, 1, 0);
         }
     }
 
@@ -697,7 +697,7 @@ void mdeath::detonate(monster *z)
         item bomb_item(bombs.first, 0);
         bomb_item.charges = bombs.second;
         bomb_item.active = true;
-        g->m.add_item_or_charges(z->posx(), z->posy(), bomb_item);
+        g->m.add_item_or_charges(z->pos(), bomb_item);
     }
 }
 
@@ -716,28 +716,26 @@ void make_gibs(monster *z, int amount)
     if (amount <= 0) {
         return;
     }
-    const int zposx = z->posx();
-    const int zposy = z->posy();
     field_id type_blood = z->bloodType();
+    tripoint gib_pos = z->pos();
 
-    for (int i = 0; i < amount; i++) {
+    for( int i = 0; i < amount; i++ ) {
         // leave gibs, if there are any
-        const int gibX = rng(zposx - 1, zposx + 1);
-        const int gibY = rng(zposy - 1, zposy + 1);
+        gib_pos.x = rng( z->posx() - 1, z->posx() + 1 );
+        gib_pos.y = rng( z->posy() - 1, z->posy() + 1 );
         const int gibDensity = rng(1, i + 1);
-        int junk;
         if( z->gibType() != fd_null ) {
-            if(  g->m.clear_path( zposx, zposy, gibX, gibY, 2, 1, 100, junk ) ) {
+            if(  g->m.clear_path( z->pos(), gib_pos, 2, 1, 100 ) ) {
                 // Only place gib if there's a clear path for it to get there.
-                g->m.add_field( gibX, gibY, z->gibType(), gibDensity );
+                g->m.add_field( gib_pos, z->gibType(), gibDensity, 0 );
             }
         }
         if( type_blood != fd_null ) {
-            const int bloodX = rng(zposx - 1, zposx + 1);
-            const int bloodY = rng(zposy - 1, zposy + 1);
-            if( g->m.clear_path( zposx, zposy, bloodX, bloodY, 2, 1, 100, junk ) ) {
+            gib_pos.x = rng( z->posx() - 1, z->posx() + 1);
+            gib_pos.y = rng( z->posy() - 1, z->posy() + 1);
+            if( g->m.clear_path( z->pos(), gib_pos, 2, 1, 100 ) ) {
                 // Only place blood if there's a clear path for it to get there.
-                g->m.add_field(bloodX, bloodY, type_blood, 1);
+                g->m.add_field( gib_pos, type_blood, 1, 0 );
             }
         }
     }
@@ -756,5 +754,5 @@ void make_mon_corpse(monster *z, int damageLvl)
     if (z->has_effect("no_ammo")) {
         corpse.set_var("no_ammo", "no_ammo");
     }
-    g->m.add_item_or_charges(z->posx(), z->posy(), corpse);
+    g->m.add_item_or_charges(z->pos(), corpse);
 }

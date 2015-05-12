@@ -485,16 +485,15 @@ void player::fire_gun( const tripoint &targ, bool burst )
                 if( used_weapon->has_gunmod("brass_catcher") != -1 ) {
                     i_add( casing );
                 } else {
-                    int x = 0;
-                    int y = 0;
+                    tripoint candidate_pos = pos();
                     int count = 0;
                     do {
-                        x = posx() - 1 + rng(0, 2);
-                        y = posy() - 1 + rng(0, 2);
+                        candidate_pos.x = posx() - 1 + rng(0, 2);
+                        candidate_pos.y = posy() - 1 + rng(0, 2);
                         count++;
                         // Try not to drop the casing on a wall if at all possible.
-                    } while( g->m.move_cost( x, y ) == 0 && count < 10 );
-                    g->m.add_item_or_charges(x, y, casing);
+                    } while( g->m.move_cost( candidate_pos ) == 0 && count < 10 );
+                    g->m.add_item_or_charges( candidate_pos, casing );
                 }
             }
         }
