@@ -3920,6 +3920,12 @@
             {"x": 0, "y": 0, "part": "xlframe_vertical_2"},
             {"x": 0, "y": 0, "part": "wheel_caster"},
             {"x": 0, "y": 0, "part": "trunk"}
+        ],
+        "items" : [
+            {"x": 0, "y": 0, "chance": 6, "item_groups": ["bags_trip", "jackets", "shirts", "male_underwear_bottom", "male_underwear", "male_underwear", "male_underwear"]},
+            {"x": 0, "y": 0, "chance": 6, "item_groups": ["bags_trip", "beauty", "dresses", "dresses", "female_underwear_bottom", "female_underwear_top", "female_underwear", "female_underwear"]},
+            {"x": 0, "y": 0, "chance": 3, "item_groups": ["bags_trip", "jackets", "shirts", "child_items", "underwear"]},
+            {"x": 0, "y": 0, "chance": 2, "item_groups": ["bags_trip", "traveler", "dresser", "glasses", "shoes", "underwear", "underwear"]}
         ]
     },{
         "type" : "vehicle",
