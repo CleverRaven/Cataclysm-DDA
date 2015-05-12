@@ -71,6 +71,21 @@ enum mission_type_id {
     MISSION_RANCH_FOREMAN_15,              //Need Homebrewer's Bible for Bar
     MISSION_RANCH_FOREMAN_16,              //Need Sugar for Bar
     MISSION_RANCH_FOREMAN_17,              //Need glass sheets for 1st green house
+    MISSION_RANCH_NURSE_1,                 //Need asprin
+    MISSION_RANCH_NURSE_2,                 //Need hotplates
+    MISSION_RANCH_NURSE_3,                 //Need vitamins
+    MISSION_RANCH_NURSE_4,                 //Need charcoal water filters
+    MISSION_RANCH_NURSE_5,                 //Need chemistry set
+    MISSION_RANCH_NURSE_6,                 //Need filter masks
+    MISSION_RANCH_NURSE_7,                 //Need rubber gloves
+    MISSION_RANCH_NURSE_8,                 //Need X-acto
+    MISSION_RANCH_NURSE_9,                 //Need Guide to Advanced Emergency Care
+    MISSION_RANCH_NURSE_10,                //Need flu shot
+    MISSION_RANCH_NURSE_11,                //Need empty syringes
+    MISSION_RANCH_SCAVENGER_1,             //Need knife spears
+    MISSION_RANCH_SCAVENGER_2,             //Need wearable flashlights
+    MISSION_RANCH_SCAVENGER_3,             //Need leather body armor
+    MISSION_RANCH_SCAVENGER_4,             //Need Molotov cocktails
     NUM_MISSION_IDS
 };
 
@@ -165,6 +180,16 @@ struct mission_start {
     void ranch_construct_14 ( mission *); // Finish junk shop, starts bar
     void ranch_construct_15 ( mission *); // Continues bar
     void ranch_construct_16 ( mission *); // Finish bar, start green shouse
+    void ranch_nurse_1      ( mission *); // Need asprin
+    void ranch_nurse_2      ( mission *); // Need hotplates
+    void ranch_nurse_3      ( mission *); // Need vitamins
+    void ranch_nurse_4      ( mission *); // Need charcoal water filters
+    void ranch_nurse_5      ( mission *); // Need chemistry set
+    void ranch_nurse_6      ( mission *); // Need filter masks
+    void ranch_nurse_7      ( mission *); // Need rubber gloves
+    void ranch_nurse_8      ( mission *); // Need X-acto
+    void ranch_nurse_9      ( mission *); // Need Guide to Advanced Emergency Care
+    void ranch_nurse_10     ( mission *); // Need flu shot
     void place_book         ( mission *); // Place a book to retrieve
 };
 
