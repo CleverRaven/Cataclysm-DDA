@@ -250,7 +250,7 @@
                 { "item": "magazines", "chance": 60, "x": [12,13], "y": 8, "repeat": [1,2] },
                 { "item": "snacks", "chance": 60, "x": [10,11], "y": 8, "repeat": [1,2] },
                 { "item": "laundromat_containers", "chance": 60, "x": [9,12], "y": 15, "repeat": [1,2] },
-                { "item": "laundromat_bleach", "chance": 75, "x": [6,12], "y": [19,20], "repeat": [1,2] },
+                { "item": "laundromat_bleach", "chance": 30, "x": [6,12], "y": [19,20], "repeat": [4,8] },
                 { "item": "vending_drink", "chance": 75, "x": 2, "y": 20 },
                 { "item": "vending_food", "chance": 75, "x": 2, "y": 21 }
                             ]
