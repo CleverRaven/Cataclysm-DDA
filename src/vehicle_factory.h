@@ -10,7 +10,7 @@
 typedef std::string Vehicle_tag;
 
 /**
- * This class is used to group vehicles together into groups in much the same was as
+ * This class is used to group vehicles together into groups in much the same way as
  *  item groups work.
  */
 class VehicleGroup {
