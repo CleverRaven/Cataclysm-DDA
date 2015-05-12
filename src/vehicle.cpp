@@ -305,7 +305,7 @@ void vehicle::init_state(int init_veh_fuel, int init_veh_status)
     bool has_no_key = false;
     bool destroyAlarm = false;
 
-    std::map<vpart_str_id, int> consistent_bignesses;
+    std::map<vpart_id, int> consistent_bignesses;
 
     // veh_fuel_multiplier is percentage of fuel
     // 0 is empty, 100 is full tank, -1 is random 1% to 7%
@@ -404,12 +404,13 @@ void vehicle::init_state(int init_veh_fuel, int init_veh_status)
     int blood_inside_y = 0;
     for( size_t p = 0; p < parts.size(); p++ ) {
         if( part_flag(p, "VARIABLE_SIZE") ) { // generate its bigness attribute.?
-            if( consistent_bignesses.count(parts[p].get_id()) < 1 ) {
+            const vpart_info &vpinfo = parts[p].info();
+            if( consistent_bignesses.count( vpinfo.id ) < 1 ) {
                 //generate an item for this type, & cache its bigness
-                item tmp (part_info(p).item, 0);
-                consistent_bignesses[parts[p].get_id()] = tmp.bigness;
+                item tmp (vpinfo.item, 0);
+                consistent_bignesses[vpinfo.id] = tmp.bigness;
             }
-            parts[p].bigness = consistent_bignesses[parts[p].get_id()];
+            parts[p].bigness = consistent_bignesses[vpinfo.id];
         }
         if( part_flag( p, "REACTOR" ) ) {
             // De-hardcoded reactors. Should always start active
