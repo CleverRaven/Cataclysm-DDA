@@ -5869,11 +5869,7 @@ vehicle_part::vehicle_part( const vpart_str_id &sid, int const dx, int const dy,
                             const item *const it )
 : vehicle_part( dx, dy )
 {
-    // TODO: check whether this can actually be empty, consider either another function without this
-    // parameter (if it can be empty) or removing this check and assuming it will never be empty.
-    if( !sid.str().empty() ) {
-        set_id( sid );
-    }
+    set_id( sid );
     if( it != nullptr ) {
         properties_from_item( *it );
     }
