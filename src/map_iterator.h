@@ -20,22 +20,59 @@ private:
 
         // Incement x, then if it goes outside range, "wrap around" and increment y
         // Same for y and z
-        point_generator &operator++();
-        const tripoint &operator*() const;
-        bool operator!=( const point_generator &other ) const;
+        point_generator &operator++() 
+        {
+            p.x++;
+            if( p.x <= range.maxp.x ) {
+                return *this;
+            }
+            
+            p.y++;
+            p.x = range.minp.x;
+            if( p.y <= range.maxp.y ) {
+                return *this;
+            }
+
+            p.z++;
+            p.y = range.minp.y;
+            return *this;
+        }
+
+        const tripoint &operator*() const 
+        {
+            return p;
+        }
+
+        bool operator!=( const point_generator &other ) const {
+            // Reverse coord order, because it will usually only be compared with endpoint
+            // which will always differ in z, except for the very last comparison
+            const tripoint &pt = other.p;
+            return p.z != pt.z || p.y != pt.y || p.x != pt.x;
+        }
     };
 
-    int minx;
-    int miny;
-    int minz;
-    int maxx;
-    int maxy;
-    int maxz;
+    tripoint minp;
+    tripoint maxp;
 public:
-    tripoint_range( int minx, int miny, int minz, int maxx, int maxy, int maxz );
+    tripoint_range( const tripoint &_minp, const tripoint &_maxp ) :
+        minp( _minp ), maxp( _maxp )
+    { }
 
-    point_generator begin() const;
-    point_generator end() const;
+    tripoint_range( tripoint&& _minp, tripoint&& _maxp ) :
+        minp( _minp ), maxp( _maxp )
+    { }
+
+    point_generator begin() const
+    {
+        return point_generator( minp, *this );
+    }
+
+    point_generator end() const
+    {
+        // Return the point AFTER the last one
+        // That is, point under (in z-levels) the first one, but one z-level below the last one
+        return point_generator( tripoint( minp.x, minp.y, maxp.z + 1 ), *this );
+    }
 };
 
 #endif

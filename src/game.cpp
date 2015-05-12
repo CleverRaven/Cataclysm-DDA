@@ -47,6 +47,7 @@
 #include "mutation.h"
 #include "mtype.h"
 #include "map.h"
+#include "map_iterator.h"
 #include "overmap.h"
 #include "omdata.h"
 #include "crafting.h"

@@ -19,7 +19,6 @@
 #include "lightmap.h"
 #include "item_stack.h"
 #include "active_item_cache.h"
-#include "map_iterator.h"
 
 //TODO: include comments about how these variables work. Where are they used. Are they constant etc.
 #define CAMPSIZE 1
@@ -29,6 +28,7 @@ class player;
 class monster;
 class item;
 class Creature;
+class tripoint_range;
 struct itype;
 struct mapgendata;
 struct trap;

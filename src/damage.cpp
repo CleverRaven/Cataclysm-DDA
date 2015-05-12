@@ -5,6 +5,7 @@
 #include "damage.h"
 #include "rng.h"
 #include "debug.h"
+#include "map_iterator.h"
 #include <map>
 
 damage_instance::damage_instance() { }
