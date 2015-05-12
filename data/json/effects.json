@@ -448,6 +448,22 @@
     },
     {
         "type": "effect_type",
+        "id": "sinking",
+        "name": ["Waist-deep in a sinkole", "Chest-deep in a sinkhole", "Completely submerged in a sinkhole"],
+        "desc": ["You're sinking into a sinkhole!  Struggling can easily make it way worse."],
+        "apply_message": "You start sinking into a sinkhole!",
+        "rating": "bad",
+        "max_intensity": 3,
+        "int_dur_factor": 500,
+        "base_mods": {
+            "dex_mod": [-2]
+        },
+        "scaling_mods": {
+            "dex_mod": [-6]
+        }
+    },
+    {
+        "type": "effect_type",
         "id": "pkill1",
         "max_duration": 240,
         "base_mods": {

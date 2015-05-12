@@ -4894,7 +4894,7 @@ int iuse::set_trap(player *p, item *it, bool, const tripoint& )
         for (int i = -1; i <= 1; i++) {
             for (int j = -1; j <= 1; j++) {
                 if (i != 0 || j != 0) {
-                    g->m.add_trap(posx + i, posy + j, tr_blade);
+                    g->m.add_trap({posx + i, posy + j, tr_loc.z}, tr_blade);
                 }
             }
         }
@@ -5555,7 +5555,7 @@ int iuse::portal(player *p, item *it, bool, const tripoint& )
     if (it->charges < it->type->charges_to_use()) {
         return 0;
     }
-    g->m.add_trap(p->posx() + rng(-2, 2), p->posy() + rng(-2, 2), tr_portal);
+    g->m.add_trap({p->posx() + rng(-2, 2), p->posy() + rng(-2, 2), p->posz()}, tr_portal);
     return it->type->charges_to_use();
 }
 

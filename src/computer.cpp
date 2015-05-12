@@ -390,28 +390,36 @@ void computer::activate_function(computer_action action, char ch)
         query_any(_("Subjects terminated.  Press any key..."));
         break;
 
-    case COMPACT_PORTAL:
+    case COMPACT_PORTAL: {
         g->u.add_memorial_log(pgettext("memorial_male", "Opened a portal."),
                               pgettext("memorial_female", "Opened a portal."));
-        for (int i = 0; i < SEEX * MAPSIZE; i++) {
-            for (int j = 0; j < SEEY * MAPSIZE; j++) {
+        tripoint tmp = g->u.pos();
+        int &i = tmp.x;
+        int &j = tmp.y;
+        for( i = 0; i < SEEX * MAPSIZE; i++ ) {
+            for( j = 0; j < SEEY * MAPSIZE; j++ ) {
                 int numtowers = 0;
-                for (int xt = i - 2; xt <= i + 2; xt++) {
-                    for (int yt = j - 2; yt <= j + 2; yt++) {
-                        if (g->m.ter(xt, yt) == t_radio_tower) {
+                tripoint tmp2 = tmp;
+                int &xt = tmp2.x;
+                int &yt = tmp2.y;
+                for( xt = i - 2; xt <= i + 2; xt++ ) {
+                    for( yt = j - 2; yt <= j + 2; yt++ ) {
+                        
+                        if (g->m.ter( tmp2 ) == t_radio_tower) {
                             numtowers++;
                         }
                     }
                 }
-                if (numtowers == 4) {
-                    if (g->m.tr_at(i, j).id == trap_str_id( "tr_portal" )) {
-                        g->m.remove_trap(i, j);
+                if( numtowers >= 4 ) {
+                    if (g->m.tr_at( tmp ).id == trap_str_id( "tr_portal" )) {
+                        g->m.remove_trap( tmp );
                     } else {
-                        g->m.add_trap(i, j, tr_portal);
+                        g->m.add_trap( tmp, tr_portal );
                     }
                 }
             }
         }
+    }
         break;
 
     case COMPACT_CASCADE: {

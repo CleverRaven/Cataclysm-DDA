@@ -802,9 +802,9 @@ void player::update_bodytemp()
     int ambient_norm = (has_effect("sleep") ? 3100 : 1900);
     // This gets incremented in the for loop and used in the morale calculation
     int morale_pen = 0;
-    const trap &trap_at_pos = g->m.tr_at(posx(), posy());
-    const ter_id ter_at_pos = g->m.ter(posx(), posy());
-    const furn_id furn_at_pos = g->m.furn(posx(), posy());
+    const trap &trap_at_pos = g->m.tr_at(pos());
+    const ter_id ter_at_pos = g->m.ter(pos());
+    const furn_id furn_at_pos = g->m.furn(pos());
     // When the player is sleeping, he will use floor items for warmth
     int floor_item_warmth = 0;
     // When the player is sleeping, he will use floor bedding for warmth
@@ -813,7 +813,7 @@ void player::update_bodytemp()
     int floor_mut_warmth = 0;
     if( in_sleep_state() ) {
         // Search the floor for items
-        auto floor_item = g->m.i_at(posx(), posy());
+        auto floor_item = g->m.i_at(pos());
 
         for( auto &elem : floor_item ) {
             if( !elem.is_armor() ) {
@@ -946,21 +946,22 @@ void player::update_bodytemp()
         // Bark : lowers blister count to -100; harder to get blisters
         int blister_count = (has_trait("BARK") ? -100 : 0); // If the counter is high, your skin starts to burn
         int best_fire = 0;
-        for (int j = -6 ; j <= 6 ; j++) {
-            for (int k = -6 ; k <= 6 ; k++) {
+        tripoint heat_point = pos();
+        for( heat_point.x = posx() - 6 ; heat_point.x <= posx() + 6 ; heat_point.x++ ) {
+            for( heat_point.y = posy() - 6 ; heat_point.y <= posy() + 6 ; heat_point.y++) {
                 int heat_intensity = 0;
 
-                int ffire = g->m.get_field_strength( point(posx() + j, posy() + k), fd_fire );
+                int ffire = g->m.get_field_strength( heat_point, fd_fire );
                 if(ffire > 0) {
                     heat_intensity = ffire;
-                } else if (g->m.tr_at(posx() + j, posy() + k).loadid == tr_lava ) {
+                } else if (g->m.tr_at( heat_point ).loadid == tr_lava ) {
                     heat_intensity = 3;
                 }
-                int t;
+                int t1, t2;
                 if( heat_intensity > 0 &&
-                    g->m.sees( posx(), posy(), posx() + j, posy() + k, -1, t ) ) {
+                    g->m.sees( pos(), heat_point, -1, t1, t2 ) ) {
                     // Ensure fire_dist >= 1 to avoid divide-by-zero errors.
-                    int fire_dist = std::max(1, std::max( std::abs( j ), std::abs( k ) ) );
+                    int fire_dist = std::max(1, rl_dist( heat_point, pos() ) );
                     if (frostbite_timer[i] > 0) {
                         frostbite_timer[i] -= heat_intensity - fire_dist / 2;
                     }
@@ -4159,7 +4160,7 @@ int player::unimpaired_range()
  if (has_effect("in_pit")) {
     ret = 1;
   }
- if (has_effect("blind") || worn_with_flag("BLIND")) {
+ if (has_effect("blind") || worn_with_flag("BLIND") || get_effect_int( "sinking" ) >= 3 ) {
     ret = 0;
   }
  return ret;
@@ -7394,16 +7395,20 @@ void player::suffer()
         }
     }
 
-    if (underwater) {
-        if (!has_trait("GILLS") && !has_trait("GILLS_CEPH")) {
-            oxygen--;
+    if( underwater || get_effect_int( "sinking" ) >= 3 ) {
+        oxygen--;
+        if( ( has_trait("GILLS") || has_trait("GILLS_CEPH") ) && ( underwater || one_in( 8 ) ) ) {
+            // Gills help a lot under water, but not so much in the mud
+            oxygen = std::max( oxygen + 2, 30 );
         }
-        if (oxygen < 12 && worn_with_flag("REBREATHER")) {
-                oxygen += 12;
-            }
-        if (oxygen < 0) {
-            if (has_bionic("bio_gills") && power_level >= 25) {
-                oxygen += 5;
+        if( oxygen < 12 && worn_with_flag("REBREATHER") ) {
+            oxygen += 12;
+        }
+        // Cyber-gills are probably better suited to filtering out muddy water in an emergency
+        // but they will waste more power on filtering oxygen out of mud
+        if( oxygen < 0 ) {
+            if( has_bionic("bio_gills") && power_level >= 25 ) {
+                oxygen += underwater ? 5 : 2;
                 charge_power(-25);
             } else {
                 add_msg(m_bad, _("You're drowning!"));
@@ -11674,10 +11679,10 @@ bool player::try_study_recipe( const itype &book )
 void player::try_to_sleep()
 {
     int vpart = -1;
-    vehicle *veh = g->m.veh_at (posx(), posy(), vpart);
-    const trap &trap_at_pos = g->m.tr_at(posx(), posy());
-    const ter_id ter_at_pos = g->m.ter(posx(), posy());
-    const furn_id furn_at_pos = g->m.furn(posx(), posy());
+    vehicle *veh = g->m.veh_at( pos(), vpart );
+    const trap &trap_at_pos = g->m.tr_at( pos() );
+    const ter_id ter_at_pos = g->m.ter( pos() );
+    const furn_id furn_at_pos = g->m.furn( pos() );
     bool plantsleep = false;
     bool websleep = false;
     bool webforce = false;

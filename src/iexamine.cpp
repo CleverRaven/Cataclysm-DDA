@@ -640,6 +640,7 @@ void iexamine::cardreader(player *p, map *m, int examx, int examy)
 
 void iexamine::rubble(player *p, map *m, int examx, int examy)
 {
+    tripoint examp( examx, examy, p->posz() );
     bool has_digging_tool = p->has_items_with_quality( "DIG", 2, 1 );
     if( !has_digging_tool ) {
         add_msg(m_info, _("If only you had a shovel..."));
@@ -647,10 +648,10 @@ void iexamine::rubble(player *p, map *m, int examx, int examy)
     }
 
     // Ask if there's something possibly more interesting than this rubble here
-    std::string xname = m->furnname(examx, examy);
-    if( ( m->veh_at( examx, examy ) != nullptr ||
-          !m->tr_at( examx, examy ).is_null() ||
-          g->critter_at( { examx, examy, p->posz() } ) != nullptr ) &&
+    std::string xname = m->furnname( examp );
+    if( ( m->veh_at( examp ) != nullptr ||
+          !m->tr_at( examp ).is_null() ||
+          g->critter_at( examp ) != nullptr ) &&
           !query_yn(_("Clear up that %s?"), xname.c_str() ) ) {
         none(p, m, examx, examy);
         return;
@@ -658,7 +659,7 @@ void iexamine::rubble(player *p, map *m, int examx, int examy)
 
     // "Remove"
     p->moves -= 200;
-    m->furn_set(examx, examy, f_null);
+    m->furn_set( examp, f_null );
 
     // "Remind"
     add_msg(_("You clear up that %s."), xname.c_str());
@@ -666,6 +667,7 @@ void iexamine::rubble(player *p, map *m, int examx, int examy)
 
 void iexamine::crate(player *p, map *m, int examx, int examy)
 {
+    tripoint examp( examx, examy, p->posz() );
     // Check for a crowbar in the inventory
     const auto has_prying = []( const item it ) {
         const auto fun = it.type->get_use( "CROWBAR" );
@@ -680,10 +682,10 @@ void iexamine::crate(player *p, map *m, int examx, int examy)
 
     // Ask if there's something possibly more interesting than this crate here
     // Shouldn't happen (what kind of creature lives in a crate?), but better safe than getting complaints
-    std::string xname = m->furnname(examx, examy);
-    if( ( m->veh_at( examx, examy ) != nullptr ||
-          !m->tr_at( examx, examy ).is_null() ||
-          g->critter_at( { examx, examy, p->posz() } ) != nullptr ) &&
+    std::string xname = m->furnname( examp );
+    if( ( m->veh_at( examp ) != nullptr ||
+          !m->tr_at( examp ).is_null() ||
+          g->critter_at( examp ) != nullptr ) &&
           !query_yn(_("Pry that %s?"), xname.c_str() ) ) {
         none(p, m, examx, examy);
         return;
@@ -695,7 +697,7 @@ void iexamine::crate(player *p, map *m, int examx, int examy)
     item fakecrow( "crowbar", 0 );
 
     iuse dummy;
-    dummy.crowbar( p, &fakecrow, false, tripoint( examx, examy, p->posz() ) );
+    dummy.crowbar( p, &fakecrow, false, examp );
 }
 
 
@@ -2252,19 +2254,20 @@ void iexamine::tree_marloss(player *p, map *m, int examx, int examy)
 
 void iexamine::shrub_wildveggies(player *p, map *m, int examx, int examy)
 {
+    tripoint examp( examx, examy, p->posz() );
     // Ask if there's something possibly more interesting than this shrub here
-    if( ( !m->i_at( examx, examy ).empty() ||
-          m->veh_at( examx, examy ) != nullptr ||
-          !m->tr_at( examx, examy ).is_null() ||
-          g->critter_at( { examx, examy, p->posz() } ) != nullptr ) &&
-          !query_yn(_("Forage through %s?"), m->tername(examx, examy).c_str() ) ) {
+    if( ( !m->i_at( examp ).empty() ||
+          m->veh_at( examp ) != nullptr ||
+          !m->tr_at( examp ).is_null() ||
+          g->critter_at( examp ) != nullptr ) &&
+          !query_yn(_("Forage through %s?"), m->tername(examp).c_str() ) ) {
         none(p, m, examx, examy);
         return;
     }
 
-    add_msg(_("You forage through the %s."), m->tername(examx, examy).c_str());
+    add_msg(_("You forage through the %s."), m->tername(examp).c_str());
     p->assign_activity(ACT_FORAGE, 500 / (p->skillLevel("survival") + 1), 0);
-    p->activity.placement = tripoint(examx, examy, p->posz());
+    p->activity.placement = examp;
     return;
 }
 
@@ -2420,12 +2423,17 @@ void iexamine::recycler(player *p, map *m, int examx, int examy)
 
 void iexamine::trap(player *p, map *m, int examx, int examy)
 {
-    const auto &tr = m->tr_at(examx, examy);
-    if( p == nullptr || !p->is_player() || tr.is_null() ) {
+    if( p == nullptr || !p->is_player() ) {
         return;
     }
+    tripoint examp( examx, examy, p->posz() );
+    const auto &tr = m->tr_at(examp);
+    if( tr.is_null() ) {
+        return;
+    }
+
     const int possible = tr.get_difficulty();
-    bool seen = tr.can_see( tripoint( examx, examy, g->get_levz()), *p );
+    bool seen = tr.can_see( examp, *p );
     if( seen && possible == 99 ) {
         add_msg(m_info, _("That %s looks too dangerous to mess with. Best leave it alone."),
             tr.name.c_str());
@@ -2434,10 +2442,10 @@ void iexamine::trap(player *p, map *m, int examx, int examy)
     // Some traps are not actual traps. Those should get a different query.
     if( seen && possible == 0 && tr.get_avoidance() == 0 ) { // Separated so saying no doesn't trigger the other query.
         if( query_yn(_("There is a %s there. Take down?"), tr.name.c_str()) ) {
-            m->disarm_trap(examx, examy);
+            m->disarm_trap(examp);
         }
     } else if( seen && query_yn( _("There is a %s there.  Disarm?"), tr.name.c_str() ) ) {
-        m->disarm_trap(examx, examy);
+        m->disarm_trap(examp);
     }
 }
 

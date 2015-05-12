@@ -840,9 +840,9 @@ void game::throw_item( player &p, const tripoint &target, item &thrown,
             sounds::sound(tx, ty, 8, _("thud."));
         }
         m.add_item_or_charges(tx, ty, thrown);
-        const trap &tr = m.tr_at(tx, ty);
+        const trap &tr = m.tr_at( target );
         if( tr.triggered_by_item( thrown ) ) {
-            tr.trigger( tripoint( tx, ty, g->get_levz() ), nullptr );
+            tr.trigger( target, nullptr );
         }
     }
 }

@@ -13,6 +13,11 @@
 #include "trap.h"
 #include <array>
 
+// Temporary wrappers
+void madd_trap( map *m, int x, int y, trap_id t );
+void mremove_trap( map *m, int x, int y );
+void mtrap_set( map *m, int x, int y, trap_id t );
+
 mapgendata::mapgendata(oter_id north, oter_id east, oter_id south, oter_id west, oter_id northeast,
                        oter_id northwest, oter_id southeast, oter_id southwest, oter_id up, int z, const regional_settings * rsettings, map * mp) :
     default_groundcover(0,1,0)
@@ -665,7 +670,7 @@ void mapgen_forest_general(map *m, oter_id terrain_type, mapgendata dat, int tur
         for (int i = 0; i < rn; i++) {
             x = rng(0, SEEX * 2 - 1);
             y = rng(0, SEEY * 2 - 1);
-            m->add_trap(x, y, tr_sinkhole);
+            madd_trap( m, x, y, tr_sinkhole);
             if (m->ter(x, y) != t_swater_sh && m->ter(x, y) != t_water_sh) {
                 m->ter_set(x, y, dat.groundcover());
             }
@@ -882,8 +887,8 @@ void mapgen_spider_pit(map *m, oter_id, mapgendata dat, int turn, float)
         if (i == 0)
             m->ter_set(x, y, t_slope_down);
         else {
-            m->ter_set(x, y, t_dirt);
-            m->add_trap(x, y, tr_sinkhole);
+            m->ter_set(x, y, dat.groundcover());
+            madd_trap( m, x, y, tr_sinkhole);
         }
         for (int x1 = x - 3; x1 <= x + 3; x1++) {
             for (int y1 = y - 3; y1 <= y + 3; y1++) {
@@ -6813,4 +6818,20 @@ void mapgen_tutorial(map *m, oter_id terrain_type, mapgendata dat, int turn, flo
     }
 }
 
+void madd_trap( map *m, int x, int y, trap_id t )
+{
+    tripoint actual_location( x, y, m->get_abs_sub().z );
+    m->add_trap( actual_location, t );
+}
 
+void mremove_trap( map *m, int x, int y )
+{
+    tripoint actual_location( x, y, m->get_abs_sub().z );
+    m->remove_trap( actual_location );
+}
+
+void mtrap_set( map *m, int x, int y, trap_id t )
+{
+    tripoint actual_location( x, y, m->get_abs_sub().z );
+    m->trap_set( actual_location, t );
+}

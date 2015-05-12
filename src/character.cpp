@@ -119,11 +119,57 @@ bool Character::move_effects()
         return false;
     }
     // Below this point are things that allow for movement if they succeed
+    // TODO: Allow using ropes, NPC help etc. here
 
-    // Currently we only have one thing that forces movement if you succeed, should we get more
-    // than this will need to be reworked to only have success effects if /all/ checks succeed
-    if (has_effect("in_pit")) {
-        if (rng(0, 40) > get_str() + int(get_dex() / 2)) {
+    if( has_effect("sinking") ) {
+        auto on_ter = g->m.ter( pos() ); // Allow teleporting out/hulks helping you out
+        if( on_ter != t_water_sh ) {
+            remove_effect("sinking");
+            add_msg_if_player(m_good, _("You are no longer in the sinkhole!") );
+        }
+
+        if( is_npc() ) {
+            // NPCs are too dumb to figure out how not to die.
+            // Non-hostile ones will wait it out/wait for help, hostile ones magically get out.
+            if( attitude_to( g->u ) == A_HOSTILE ) {
+                remove_effect("sinking");
+                return true;
+            }
+
+            return false;
+        }
+
+        const int intensity = get_effect_int("sinking");
+        // Dexterity doesn't help at all, strength a bit, survival abilities a lot
+        const int roll = ( get_str() / 2 + 2 * get_skill_level( "survival" ) ) -
+            rng( 5 + 2 * intensity, 15 + intensity );
+        if( roll < 0 ) {
+            add_msg_if_player( m_bad, _("You struggle, but only sink deeper in!") );
+            add_effect( "sinking", 200 );
+            if( intensity < 3 && get_effect_int("sinking") >= 3 ) {
+                if( is_player() ) {
+                    g->u.oxygen = 30 + get_str() * 2;
+                }
+
+                add_msg_if_player( m_bad, _("Your head sinks beneath the mud!") );
+            }
+
+            return false;
+        } else if( roll > 5 + intensity ) {
+            remove_effect("sinking");
+            moves -= intensity * intensity * 1000;
+            add_msg_if_player( m_good, _("You wiggle out of the sinkhole!") );
+        } else if( intensity >= 3 && is_player() ) {
+            add_msg_if_player( m_warning, _("You wiggle around and manage to gulp some air") );
+            g->u.oxygen += 10;
+        } else {
+            add_msg_if_player( m_warning, _("You wiggle around but fail to get out of the sinkhole!") );
+        }
+    }
+
+    if( has_effect("in_pit") ) {
+        auto on_ter = g->m.ter( pos() ); // Allow teleporting out
+        if( rng(0, 40) > get_str() + int(get_dex() / 2) || on_ter != t_pit  ) {
             add_msg_if_player(m_bad, _("You try to escape the pit, but slip back in."));
             return false;
         } else {
@@ -132,6 +178,7 @@ bool Character::move_effects()
             remove_effect("in_pit");
         }
     }
+
     return Creature::move_effects();
 }
 void Character::add_effect( efftype_id eff_id, int dur, body_part bp, 

@@ -3353,25 +3353,22 @@ bool map::marlossify( const tripoint &p )
 
 bool map::open_door( const tripoint &p, const bool inside, const bool check_only )
 {
-    // TODO: Z
-    const int x = p.x;
-    const int y = p.y;
-    const auto &ter = ter_at( x, y );
-    const auto &furn = furn_at( x, y );
+    const auto &ter = ter_at( p );
+    const auto &furn = furn_at( p );
     int vpart = -1;
-    vehicle *veh = veh_at( x, y, vpart );
+    vehicle *veh = veh_at( p, vpart );
     if ( !ter.open.empty() && ter.open != "t_null" ) {
         if ( termap.find( ter.open ) == termap.end() ) {
             debugmsg("terrain %s.open == non existant terrain '%s'\n", ter.id.c_str(), ter.open.c_str() );
             return false;
         }
 
-        if ( has_flag("OPENCLOSE_INSIDE", x, y) && inside == false ) {
+        if ( has_flag("OPENCLOSE_INSIDE", p) && inside == false ) {
             return false;
         }
 
         if(!check_only) {
-            ter_set(x, y, ter.open );
+            ter_set( p, ter.open );
         }
 
         return true;
@@ -3381,12 +3378,12 @@ bool map::open_door( const tripoint &p, const bool inside, const bool check_only
             return false;
         }
 
-        if ( has_flag("OPENCLOSE_INSIDE", x, y) && inside == false ) {
+        if ( has_flag("OPENCLOSE_INSIDE", p) && inside == false ) {
             return false;
         }
 
         if(!check_only) {
-            furn_set(x, y, furn.open );
+            furn_set(p, furn.open );
         }
 
         return true;
@@ -4560,21 +4557,9 @@ item *map::item_from( vehicle *veh, int cargo_part, size_t index ) {
     }
 }
 
-// Traps: 2D
-void map::trap_set(const int x, const int y, const trap_id id)
-{
-    trap_set( tripoint( x, y, abs_sub.z ), id );
-}
-
 void map::trap_set( const tripoint &p, const trap_id id)
 {
     add_trap( p, id );
-}
-
-// todo: to be consistent with ???_at(...) this should return ref to the actual trap object
-const trap &map::tr_at( const int x, const int y ) const
-{
-    return tr_at( tripoint( x, y, abs_sub.z ) );
 }
 
 const trap &map::tr_at( const tripoint &p ) const
@@ -4591,11 +4576,6 @@ const trap &map::tr_at( const tripoint &p ) const
     }
 
     return current_submap->get_trap( lx, ly ).obj();
-}
-
-void map::add_trap(const int x, const int y, const trap_id t)
-{
-    add_trap( tripoint( x, y, abs_sub.z ), t );
 }
 
 void map::add_trap( const tripoint &p, const trap_id t)
@@ -4623,11 +4603,6 @@ void map::add_trap( const tripoint &p, const trap_id t)
     if( t != tr_null ) {
         traplocs[t].push_back( p );
     }
-}
-
-void map::disarm_trap( const int x, const int y )
-{
-    disarm_trap( tripoint( x, y, abs_sub.z ) );
 }
 
 void map::disarm_trap( const tripoint &p )
@@ -4674,11 +4649,6 @@ void map::disarm_trap( const tripoint &p )
             g->u.practice( "traps", 2*diff );
         }
     }
-}
-
-void map::remove_trap(const int x, const int y)
-{
-    remove_trap( tripoint( x, y, abs_sub.z ) );
 }
 
 void map::remove_trap( const tripoint &p )

@@ -47,6 +47,10 @@ room_type pick_mansion_room(int x1, int y1, int x2, int y2);
 void build_mansion_room(map *m, room_type type, int x1, int y1, int x2, int y2, mapgendata & dat);
 void mansion_room(map *m, int x1, int y1, int x2, int y2, mapgendata & dat); // pick & build
 
+void madd_trap( map *m, int x, int y, trap_id t );
+void mremove_trap( map *m, int x, int y );
+void mtrap_set( map *m, int x, int y, trap_id t );
+
 // (x,y,z) are absolute coordinates of a submap
 // x%2 and y%2 must be 0!
 void map::generate(const int x, const int y, const int z, const int turn)
@@ -787,6 +791,7 @@ public:
         }
         id = sid.id();
     }
+
     jmapgen_trap( const std::string &tid ) : jmapgen_piece()
     , id( 0 )
     {
@@ -798,7 +803,8 @@ public:
     }
     void apply( map &m, const size_t x, const size_t y, const float /*mdensity*/ ) const override
     {
-        m.add_trap( x, y, id );
+        const tripoint actual_loc = tripoint( x, y, m.get_abs_sub().z );
+        m.add_trap( actual_loc, id );
     }
 };
 /**
@@ -1232,7 +1238,7 @@ bool jmapgen_setmap::apply( map *m ) {
                     m->furn_set( x.get(), y.get(), val.get() );
                 } break;
                 case JMAPGEN_SETMAP_TRAP: {
-                    m->trap_set( x.get(), y.get(), trap_id( val.get() ) );
+                    mtrap_set( m,  x.get(), y.get(), trap_id( val.get() ) );
                 } break;
                 case JMAPGEN_SETMAP_RADIATION: {
                     m->set_radiation( x.get(), y.get(), val.get());
@@ -1250,7 +1256,7 @@ bool jmapgen_setmap::apply( map *m ) {
                 case JMAPGEN_SETMAP_LINE_TRAP: {
                     const std::vector<point> line = line_to(x.get(), y.get(), x2.get(), y2.get(), 0);
                     for (auto &i : line) {
-                        m->trap_set( i.x, i.y, trap_id( val.get() ) );
+                        mtrap_set( m,  i.x, i.y, trap_id( val.get() ) );
                     }
                 } break;
                 case JMAPGEN_SETMAP_LINE_RADIATION: {
@@ -1274,7 +1280,7 @@ bool jmapgen_setmap::apply( map *m ) {
                     const int cy2 = y2.get();
                     for (int tx = cx; tx <= cx2; tx++) {
                        for (int ty = cy; ty <= cy2; ty++) {
-                           m->trap_set( tx, ty, trap_id( val.get() ) );
+                           mtrap_set( m,  tx, ty, trap_id( val.get() ) );
                        }
                     }
                 } break;
@@ -3620,7 +3626,7 @@ C..C..C...|hhh|#########\n\
                     tmpcomp2->add_option(_("UNLOCK ENTRANCE"), COMPACT_UNLOCK, 4);
                     tmpcomp = add_computer( tripoint( 5,  11, abs_sub.z ), _("Containment Control"), 4);
                     tmpcomp->add_option(_("EMERGENCY CONTAINMENT RELEASE"), COMPACT_OPEN, 5);
-                    add_trap(19, 19, tr_dissector);
+                    madd_trap( this, 19, 19, tr_dissector);
                     item body;
                     body.make_corpse();
                     if (one_in(2)) {
@@ -3902,7 +3908,7 @@ C..C..C...|hhh|#########\n\
                                                            f_desk,       f_null,       f_chair,      f_null,    f_null,           f_null,               f_null,
                                                            f_null,       f_null,       f_null,       f_null,       f_null,         f_null ,
                                                            f_table,      f_counter,    f_sink));
-                        add_trap(19, 3, tr_dissector);
+                        madd_trap( this, 19, 3, tr_dissector);
                         if (one_in(3)) {
                             add_spawn("mon_mi_go", 1, 12, 12);
                         } else {
@@ -4261,10 +4267,10 @@ ff.......|....|WWWWWWWW|\n\
             add_spawn("mon_secubot", 1, SEEX * 2 - 7,            6);
             add_spawn("mon_secubot", 1,            6, SEEY * 2 - 7);
             add_spawn("mon_secubot", 1, SEEX * 2 - 7, SEEY * 2 - 7);
-            add_trap(SEEX - 2, SEEY - 2, tr_dissector);
-            add_trap(SEEX + 1, SEEY - 2, tr_dissector);
-            add_trap(SEEX - 2, SEEY + 1, tr_dissector);
-            add_trap(SEEX + 1, SEEY + 1, tr_dissector);
+            madd_trap( this, SEEX - 2, SEEY - 2, tr_dissector);
+            madd_trap( this, SEEX + 1, SEEY - 2, tr_dissector);
+            madd_trap( this, SEEX - 2, SEEY + 1, tr_dissector);
+            madd_trap( this, SEEX + 1, SEEY + 1, tr_dissector);
             if (!one_in(3)) {
                 spawn_item(SEEX - 1, SEEY - 1, "laser_pack", dice(4, 3));
                 spawn_item(SEEX    , SEEY - 1, "UPS_off");
@@ -4353,10 +4359,10 @@ ff.......|....|WWWWWWWW|\n\
             add_spawn("mon_secubot", 1, SEEX * 2 - 7,            6);
             add_spawn("mon_secubot", 1,            6, SEEY * 2 - 7);
             add_spawn("mon_secubot", 1, SEEX * 2 - 7, SEEY * 2 - 7);
-            add_trap(SEEX - 2, SEEY - 2, tr_dissector);
-            add_trap(SEEX + 1, SEEY - 2, tr_dissector);
-            add_trap(SEEX - 2, SEEY + 1, tr_dissector);
-            add_trap(SEEX + 1, SEEY + 1, tr_dissector);
+            madd_trap( this, SEEX - 2, SEEY - 2, tr_dissector);
+            madd_trap( this, SEEX + 1, SEEY - 2, tr_dissector);
+            madd_trap( this, SEEX - 2, SEEY + 1, tr_dissector);
+            madd_trap( this, SEEX + 1, SEEY + 1, tr_dissector);
             square_furn(this, f_counter, SEEX - 1, SEEY - 1, SEEX, SEEY);
             int item_count = 0;
             while (item_count < 5) {
@@ -4886,12 +4892,12 @@ ff.......|....|WWWWWWWW|\n\
                 square(this, t_rock, 0, SEEY * 2 - 2, SEEX - 1, SEEY * 2 - 1);
                 square(this, t_rock, SEEX + 2, SEEY * 2 - 2, SEEX * 2 - 1, SEEY * 2 - 1);
                 line(this, t_grate, SEEX, 1, SEEX + 1, 1); // To drain the water
-                add_trap(SEEX, SEEY * 2 - 2, tr_temple_flood);
-                add_trap(SEEX + 1, SEEY * 2 - 2, tr_temple_flood);
+                madd_trap( this, SEEX, SEEY * 2 - 2, tr_temple_flood);
+                madd_trap( this, SEEX + 1, SEEY * 2 - 2, tr_temple_flood);
                 for (int y = 2; y < SEEY * 2 - 2; y++) {
                     for (int x = 2; x < SEEX * 2 - 2; x++) {
                         if (ter(x, y) == t_rock_floor && one_in(4)) {
-                            add_trap(x, y, tr_temple_flood);
+                            madd_trap( this, x, y, tr_temple_flood);
                         }
                     }
                 }
@@ -5044,7 +5050,7 @@ ff.......|....|WWWWWWWW|\n\
                 // Finally, fill in the rest with random tiles, and place toggle traps
                 for (int i = SEEX - 3; i <= SEEX + 4; i++) {
                     for (int j = 2; j <= SEEY * 2 - 2; j++) {
-                        add_trap(i, j, tr_temple_toggle);
+                        madd_trap( this, i, j, tr_temple_toggle);
                         if (ter(i, j) == t_rock_floor) {
                             ter_set(i, j, ter_id( rng(t_rock_red, t_floor_blue) ));
                         }
@@ -9605,10 +9611,10 @@ FFFFFFFFFFFFFFFFFFFFFFFF\n\
                     }
                     if ( dat.is_groundcover( this->ter(i, j) ) ) {
                         if (one_in(20)) {
-                            add_trap(i, j, tr_beartrap);
+                            madd_trap( this, i, j, tr_beartrap);
                         }
                         if (one_in(20)) {
-                            add_trap(i, j, tr_tripwire);
+                            madd_trap( this, i, j, tr_tripwire);
                         }
                         if (one_in(15)) {
                             ter_set(i, j, t_pit);
@@ -12113,31 +12119,31 @@ void science_room(map *m, int x1, int y1, int x2, int y2, int z, int rotate)
         m->furn_set(int((x1 + x2) / 2) + 1, int((y1 + y2) / 2)    , f_counter);
         m->furn_set(int((x1 + x2) / 2)    , int((y1 + y2) / 2) + 1, f_counter);
         m->furn_set(int((x1 + x2) / 2) + 1, int((y1 + y2) / 2) + 1, f_counter);
-        m->add_trap(trapx, trapy, tr_telepad);
+        madd_trap( m, trapx, trapy, tr_telepad);
         m->place_items("teleport", 70, int((x1 + x2) / 2),
                        int((y1 + y2) / 2), int((x1 + x2) / 2) + 1,
                        int((y1 + y2) / 2) + 1, false, 0);
         break;
     case room_goo:
         do {
-            m->add_trap(trapx, trapy, tr_goo);
+            madd_trap( m, trapx, trapy, tr_goo);
             trapx = rng(x1 + 1, x2 - 1);
             trapy = rng(y1 + 1, y2 - 1);
         } while(!one_in(5));
         if (rotate == 0) {
-            m->remove_trap(x1, y2);
+            mremove_trap( m, x1, y2);
             m->furn_set(x1, y2, f_fridge);
             m->place_items("goo", 60, x1, y2, x1, y2, false, 0);
         } else if (rotate == 1) {
-            m->remove_trap(x1, y1);
+            mremove_trap( m, x1, y1);
             m->furn_set(x1, y1, f_fridge);
             m->place_items("goo", 60, x1, y1, x1, y1, false, 0);
         } else if (rotate == 2) {
-            m->remove_trap(x2, y1);
+            mremove_trap( m, x2, y1);
             m->furn_set(x2, y1, f_fridge);
             m->place_items("goo", 60, x2, y1, x2, y1, false, 0);
         } else {
-            m->remove_trap(x2, y2);
+            mremove_trap( m, x2, y2);
             m->furn_set(x2, y2, f_fridge);
             m->place_items("goo", 60, x2, y2, x2, y2, false, 0);
         }
@@ -12174,7 +12180,7 @@ void science_room(map *m, int x1, int y1, int x2, int y2, int z, int rotate)
             }
             m->place_items("dissection", 80, x2 - 1, y1, x2 - 1, y2, false, 0);
         }
-        m->add_trap(int((x1 + x2) / 2), int((y1 + y2) / 2), tr_dissector);
+        madd_trap( m, int((x1 + x2) / 2), int((y1 + y2) / 2), tr_dissector);
         if (one_in(10)) {
             m->add_spawn("mon_broken_cyborg", 1, int(((x1 + x2) / 2)+1), int(((y1 + y2) / 2)+1));
         }
@@ -13617,7 +13623,7 @@ void map::add_extra(map_extra type)
                 make_rubble( tripoint( i,  j, abs_sub.z ), f_rubble_rock, true);
             }
         }
-        add_trap(x, y, tr_portal);
+        madd_trap( this, x, y, tr_portal);
         int num_monsters = rng(0, 4);
         for (int i = 0; i < num_monsters; i++) {
             std::string type = spawncreatures[( rng(0, 4) )];
@@ -13643,7 +13649,7 @@ void map::add_extra(map_extra type)
             if (!has_flag("DIGGABLE", x, y) || one_in(8)) {
                 ter_set(x, y, t_dirtmound);
             }
-            add_trap(x, y, tr_landmine_buried);
+            madd_trap( this, x, y, tr_landmine_buried);
         }
         int x1 = 0;
         int y1 = 0;
@@ -13751,7 +13757,7 @@ void map::create_anomaly( const tripoint &cp, artifact_natural_property prop )
         for (int i = cx - 5; i <= cx + 5; i++) {
             for (int j = cy - 5; j <= cy + 5; j++) {
                 if (furn(i, j) == f_rubble && one_in(2)) {
-                    add_trap(i, j, tr_glow);
+                    madd_trap( this, i, j, tr_glow);
                 }
             }
         }
@@ -13762,7 +13768,7 @@ void map::create_anomaly( const tripoint &cp, artifact_natural_property prop )
         for (int i = cx - 5; i <= cx + 5; i++) {
             for (int j = cy - 5; j <= cy + 5; j++) {
                 if (furn(i, j) == f_rubble && one_in(2)) {
-                    add_trap(i, j, tr_hum);
+                    madd_trap( this, i, j, tr_hum);
                 }
             }
         }
@@ -13773,7 +13779,7 @@ void map::create_anomaly( const tripoint &cp, artifact_natural_property prop )
         for (int i = cx - 5; i <= cx + 5; i++) {
             for (int j = cy - 5; j <= cy + 5; j++) {
                 if (furn(i, j) == f_rubble && one_in(3)) {
-                    add_trap(i, j, tr_shadow);
+                    madd_trap( this, i, j, tr_shadow);
                 }
             }
         }
@@ -13794,7 +13800,7 @@ void map::create_anomaly( const tripoint &cp, artifact_natural_property prop )
         for (int i = cx - 5; i <= cx + 5; i++) {
             for (int j = cy - 5; j <= cy + 5; j++) {
                 if (furn(i, j) == f_rubble) {
-                    add_trap(i, j, tr_drain);
+                    madd_trap( this, i, j, tr_drain);
                 }
             }
         }
@@ -13833,7 +13839,7 @@ void map::create_anomaly( const tripoint &cp, artifact_natural_property prop )
         for (int i = cx - 5; i <= cx + 5; i++) {
             for (int j = cy - 5; j <= cy + 5; j++) {
                 if (furn(i, j) == f_rubble) {
-                    add_trap(i, j, tr_snake);
+                    madd_trap( this, i, j, tr_snake);
                 }
             }
         }

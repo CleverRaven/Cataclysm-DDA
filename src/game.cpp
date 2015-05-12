@@ -666,6 +666,16 @@ void game::start_game(std::string worldname)
     //spawn the monsters
     m.spawn_monsters( true ); // Static monsters
 
+    // Make sure that no monsters are near the player
+    // This can happen in lab starts
+    for( size_t i = 0; i < num_zombies(); ) {
+        if( m.clear_path( zombie( i ).pos(), u.pos(), 40, 1, 100 ) ) {
+            despawn_monster( i );
+        } else {
+            i++;
+        }
+    }
+
     //Create mutation_category_level
     u.set_highest_cat_level();
     //Calc mutation drench protection stats
@@ -12590,8 +12600,7 @@ void game::vertical_move(int movez, bool force)
             u.oxygen = 30 + 2 * u.str_cur;
             add_msg(_("You dive underwater!"));
         } else {
-            if (u.swim_speed() < 500 || u.shoe_type_count("swim_fins") == 2 ||
-                  (u.shoe_type_count("swim_fins") == 1 && one_in(2))) {
+            if( u.swim_speed() < 500 || u.shoe_type_count("swim_fins") ) {
                 u.set_underwater(false);
                 add_msg(_("You surface."));
             } else {
