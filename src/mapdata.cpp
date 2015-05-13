@@ -3,6 +3,8 @@
 #include "init.h"
 #include "game_constants.h"
 #include "debug.h"
+#include "translations.h"
+#include "trap.h"
 #include <ostream>
 #include <unordered_map>
 #include <memory>
@@ -1002,9 +1004,4 @@ void submap::delete_graffiti( int x, int y )
 {
     is_uniform = false;
     cosmetics[x][y].erase( COSMETICS_GRAFFITI );
-}
-
-maptile submap::get_maptile( const int x, const int y ) const
-{
-    return maptile( this, x, y );
 }

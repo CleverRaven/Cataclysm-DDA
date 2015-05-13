@@ -15,6 +15,9 @@
 #include "messages.h"
 #include "itype.h"
 #include "rng.h"
+#include "translations.h"
+#include "morale.h"
+#include "npc.h"
 
 #include <queue>
 #include <math.h>    //sqrt
@@ -1145,7 +1148,7 @@ const inventory& player::crafting_inventory()
 {
     if (cached_moves == moves
             && cached_turn == calendar::turn.get_turn()
-            && cached_position == pos()) {
+            && cached_position == pos3()) {
         return cached_crafting_inventory;
     }
     cached_crafting_inventory.form_from_map(pos3(), PICKUP_RANGE, false);
@@ -1159,7 +1162,7 @@ const inventory& player::crafting_inventory()
     }
     cached_moves = moves;
     cached_turn = calendar::turn.get_turn();
-    cached_position = pos();
+    cached_position = pos3();
     return cached_crafting_inventory;
 }
 

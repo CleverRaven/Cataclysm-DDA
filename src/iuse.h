@@ -158,7 +158,6 @@ public:
     int large_tent          ( player*, item*, bool, const tripoint& );
     int shelter             ( player*, item*, bool, const tripoint& );
     int torch_lit           ( player*, item*, bool, const tripoint& );
-    int tinderbox_lit       ( player*, item*, bool, const tripoint& );
     int battletorch_lit     ( player*, item*, bool, const tripoint& );
     int bullet_puller       ( player*, item*, bool, const tripoint& );
     int boltcutters         ( player*, item*, bool, const tripoint& );
@@ -179,6 +178,7 @@ public:
     int airhorn             ( player*, item*, bool, const tripoint& );
     int adrenaline_injector ( player*, item*, bool, const tripoint& );
     int jet_injector        ( player*, item*, bool, const tripoint& );
+    int stimpack            ( player*, item*, bool, const tripoint& );
     int contacts            ( player*, item*, bool, const tripoint& );
     int talking_doll        ( player*, item*, bool, const tripoint& );
     int bell                ( player*, item*, bool, const tripoint& );

@@ -11,7 +11,6 @@
 
 #include "game.h"
 #include "map.h"
-#include "options.h"
 #include "mapdata.h"
 #include "tile_id_data.h"
 #include "enums.h"
@@ -285,6 +284,8 @@ class cata_tiles
         void tile_loading_report(maptype const & tiletypemap, std::string const & label, std::string const & prefix = "");
         template <typename arraytype>
         void tile_loading_report(arraytype const & array, int array_length, std::string const & label, std::string const & prefix = "");
+        template <typename basetype>
+        void tile_loading_report(size_t count, std::string const & label, std::string const & prefix);
         /** Lighting */
         void init_light();
 

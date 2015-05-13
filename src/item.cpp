@@ -18,6 +18,11 @@
 #include "iuse_actor.h"
 #include "compatibility.h"
 #include "monstergenerator.h"
+#include "translations.h"
+#include "crafting.h"
+#include "martialarts.h"
+#include "npc.h"
+#include "ui.h"
 
 #include <cmath> // floor
 #include <sstream>
@@ -1167,7 +1172,7 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump, bool debug) c
 
         std::ostringstream tec_buffer;
         for( const auto &elem : type->techniques ) {
-            const ma_technique &tec = ma_techniques[elem];
+            const ma_technique &tec = elem.obj();
             if (tec.name.empty()) {
                 continue;
             }
@@ -1177,7 +1182,7 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump, bool debug) c
             tec_buffer << tec.name;
         }
         for( const auto &elem : techniques ) {
-            const ma_technique &tec = ma_techniques[elem];
+            const ma_technique &tec = elem.obj();
             if (tec.name.empty()) {
                 continue;
             }
@@ -1308,7 +1313,7 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump, bool debug) c
         if (is_armor() && item_tags.count("kevlar_padded")) {
             dump->push_back(iteminfo("DESCRIPTION", "--"));
             dump->push_back(iteminfo("DESCRIPTION",
-                _("This gear has kevlar inserted into strategic locations to increase protection with minimal increase to encumbrance.")));
+                _("This gear has Kevlar inserted into strategic locations to increase protection with minimal increase to encumbrance.")));
         }
         if (is_armor() && has_flag("FLOATATION")) {
             dump->push_back(iteminfo("DESCRIPTION", "--"));
@@ -1668,7 +1673,8 @@ nc_color item::color(player *u) const
                        u->skillLevel( tmp.skill ) < tmp.level ) {
                 ret = c_pink;
             } else if( !tmp.use_methods.empty() && // Book has function or can teach new martial art: blue
-                       (!item_group::group_contains_item("ma_manuals", type->id) || !u->has_martialart("style_" + type->id.substr(7))) ) {
+                // TODO: replace this terrible hack to rely on the item name matching the style name, it's terrible.
+                       (!item_group::group_contains_item("ma_manuals", type->id) || !u->has_martialart(matype_id( "style_" + type->id.substr(7)))) ) {
                 ret = c_ltblue;
             }
         } else {
@@ -1701,6 +1707,23 @@ void item::on_wield( player &p  )
     if( &p == &g->u && art != nullptr ) {
         g->add_artifact_messages( art->effects_wielded );
     }
+
+     if (has_flag("SLOW_WIELD") && (! is_gunmod())) {
+         int d = 32; // arbitrary linear scaling factor
+         if      (is_gun())  d /= std::max((int) p.skillLevel(gun_skill()),  1);
+         else if (is_weap()) d /= std::max((int) p.skillLevel(weap_skill()), 1);
+
+         int const penalty = get_var("volume", (int) type->volume) * d;
+         if (penalty > 50) {
+             std::string msg;
+             if      (penalty > 250) msg = _("It takes you much longer than usual to wield your %s.");
+             else if (penalty > 100) msg = _("It takes you longer than usual to wield your %s.");
+             else                    msg = _("It takes you slightly longer than usual to wield your %s.");
+
+             p.add_msg_if_player(msg.c_str(), tname().c_str());
+             p.moves -= penalty;
+         }
+     }
 }
 
 void item::on_pickup( Character &p  )
@@ -2142,6 +2165,18 @@ int item::volume(bool unit_value, bool precise_value ) const
         for( auto &elem : contents ) {
             ret += elem.volume( false, precise_value );
         }
+
+        if (has_flag("COLLAPSIBLE_STOCK")) {
+            // consider only the base size of the gun (without mods)
+            int tmpvol = get_var( "volume", (int) type->volume);
+            if      (tmpvol <=  3) ; // intentional NOP
+            else if (tmpvol <=  5) ret -= precise_value ? 2000 : 2;
+            else if (tmpvol <=  6) ret -= precise_value ? 3000 : 3;
+            else if (tmpvol <=  8) ret -= precise_value ? 4000 : 4;
+            else if (tmpvol <= 11) ret -= precise_value ? 5000 : 5;
+            else if (tmpvol <= 16) ret -= precise_value ? 6000 : 6;
+            else                   ret -= precise_value ? 7000 : 7;
+        }
     }
 
 // tool mods also add volume
@@ -2272,9 +2307,21 @@ bool item::has_quality(std::string quality_id, int quality_value) const
     return false;
 }
 
-bool item::has_technique(matec_id tech)
+bool item::has_technique( const matec_id & tech ) const
 {
-    return type->techniques.count(tech);
+    return type->techniques.count( tech ) > 0 || techniques.count( tech ) > 0;
+}
+
+void item::add_technique( const matec_id & tech )
+{
+    techniques.insert( tech );
+}
+
+std::set<matec_id> item::get_techniques() const
+{
+    std::set<matec_id> result = type->techniques;
+    result.insert( techniques.begin(), techniques.end() );
+    return result;
 }
 
 int item::has_gunmod(itype_id mod_type) const
@@ -3281,12 +3328,33 @@ void item::next_mode()
     }
 }
 
+int item::spare_mag_size() const
+{
+    if( !type->gun ) {
+        return 0;
+    }
+    if( clip_size() < type->gun->clip ) {
+        return clip_size();
+    } else {
+        return type->gun->clip;
+    }
+}
+
 std::string item::gun_skill() const
 {
     if( !is_gun() ) {
         return "null";
     }
     return type->gun->skill_used->ident();
+}
+
+std::string item::weap_skill() const
+{
+    if (! is_weap()) return "null";
+
+    if (type->melee_dam >= type->melee_cut) return "bashing";
+    if (has_flag("STAB")) return "stabbing";
+    return "cutting";
 }
 
 std::string item::skill() const
@@ -4936,8 +5004,8 @@ bool item::process_charger_gun( player *carrier, const tripoint &pos )
                                        pgettext( "memorial_female", "Accidental discharge of %s." ),
                                        tname().c_str() );
             carrier->add_msg_player_or_npc( m_bad, _( "Your %s discharges!" ), _( "<npcname>'s %s discharges!" ), tname().c_str() );
-            point target( pos.x + rng( -12, 12 ), pos.y + rng( -12, 12 ) );
-            carrier->fire_gun( target.x, target.y, false );
+            tripoint target( pos.x + rng( -12, 12 ), pos.y + rng( -12, 12 ), pos.z );
+            carrier->fire_gun( target, false );
         } else {
             carrier->add_msg_player_or_npc( m_warning, _( "Your %s beeps alarmingly." ), _( "<npcname>'s %s beeps alarmingly." ), tname().c_str() );
         }

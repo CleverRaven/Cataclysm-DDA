@@ -7,6 +7,9 @@
 #include "cursesdef.h"
 #include "path_info.h"
 #include "mapsharing.h"
+#include "input.h"
+#include "worldfactory.h"
+#include "catacharset.h"
 
 #ifdef SDLTILES
 #include "cata_tiles.h"
@@ -826,6 +829,10 @@ void initOptions()
     OPTIONS["MUSIC_VOLUME"] = cOpt("graphics", _("Music Volume"),
                                    _("Adjust the volume of the music being played in the background."),
                                    0, 200, 100, COPT_CURSES_HIDE
+                                  );
+    OPTIONS["SOUND_EFFECT_VOLUME"] = cOpt("graphics", _("Sound Effect Volume"),
+                                   _("Adjust the volume of sound effects being played by the game."),
+                                   0, 200, 0, COPT_CURSES_HIDE
                                   );
 
     ////////////////////////////DEBUG////////////////////////////

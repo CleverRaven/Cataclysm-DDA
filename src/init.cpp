@@ -40,6 +40,9 @@
 #include "npc.h"
 #include "item_action.h"
 #include "dialogue.h"
+#include "mongroup.h"
+#include "monfaction.h"
+#include "martialarts.h"
 
 #include <string>
 #include <vector>
@@ -160,8 +163,6 @@ void DynamicDataLoader::initialize()
     (&MonsterGenerator::generator(), &MonsterGenerator::load_monster);
     type_function_map["SPECIES"] = new ClassFunctionAccessor<MonsterGenerator>
     (&MonsterGenerator::generator(), &MonsterGenerator::load_species);
-    type_function_map["MONSTER_FACTION"] = new ClassFunctionAccessor<MonsterGenerator>
-    (&MonsterGenerator::generator(), &MonsterGenerator::load_monster_faction);
 
     type_function_map["recipe_category"] = new StaticFunctionAccessor(&load_recipe_category);
     type_function_map["recipe"] = new StaticFunctionAccessor(&load_recipe);
@@ -203,6 +204,9 @@ void DynamicDataLoader::initialize()
         &load_talk_topic);
     type_function_map["epilogue"] = new StaticFunctionAccessor(
         &epilogue::load_epilogue);
+
+    type_function_map["MONSTER_FACTION"] =
+        new StaticFunctionAccessor(&monfactions::load_monster_faction);
 
 }
 
@@ -366,8 +370,8 @@ void DynamicDataLoader::finalize_loaded_data()
     g->finalize_vehicles();
     calculate_mapgen_weights();
     MonsterGenerator::generator().finalize_mtypes();
-    MonsterGenerator::generator().finalize_monfactions();
     MonsterGroupManager::FinalizeMonsterGroups();
+    monfactions::finalize();
     item_controller->finialize_item_blacklist();
     finalize_recipes();
     finialize_martial_arts();

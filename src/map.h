@@ -17,7 +17,6 @@
 #include "json.h"
 #include "vehicle.h"
 #include "lightmap.h"
-#include "coordinates.h"
 #include "item_stack.h"
 #include "active_item_cache.h"
 
@@ -28,9 +27,13 @@
 class player;
 class monster;
 class item;
+class Creature;
 struct itype;
 struct mapgendata;
 struct trap;
+struct oter_id;
+struct regional_settings;
+struct mongroup;
 // TODO: This should be const& but almost no functions are const
 struct wrapped_vehicle{
  int x;
@@ -180,7 +183,7 @@ class map
     /** Draw the map tile at the given coordinate. Called by `map::draw()`.
     *
     * @param p The tile on this map to draw.
-    * @param view_center_x, view_center_y The center of the viewport to be rendered, 
+    * @param view_center_x, view_center_y The center of the viewport to be rendered,
     *        see `center` in `map::draw()`
     */
     void drawsq( WINDOW* w, player &u, const tripoint &p, const bool invert, const bool show_items,
@@ -226,26 +229,18 @@ class map
      *  after 3D migration is complete.
      */
     void vertical_shift( const int newz );
-    /**
-     * Spawn monsters from submap spawn points and from the overmap.
-     * @param ignore_sight If true, monsters may spawn in the view of the player
-     * character (useful when the whole map has been loaded instead, e.g.
-     * when starting a new game, or after teleportation or after moving vertically).
-     * If false, monsters are not spawned in view of of player character.
-     */
-    void spawn_monsters(bool ignore_sight);
+
  void clear_spawns();
  void clear_traps();
 
     const maptile maptile_at( const tripoint &p ) const;
+    maptile maptile_at( const tripoint &p );
 
 // Movement and LOS
 
 // Move cost: 2D overloads
     int move_cost(const int x, const int y, const vehicle *ignored_vehicle = nullptr) const;
     int move_cost_ter_furn(const int x, const int y) const;
-    int combined_movecost(const int x1, const int y1, const int x2, const int y2,
-                          const vehicle *ignored_vehicle = nullptr, const int modifier = 0) const;
 
 // Move cost: 3D
 
@@ -277,7 +272,16 @@ class map
     * @return The cost in turns to move out of tripoint `from` and into `to`
     */
     int combined_movecost( const tripoint &from, const tripoint &to,
-                           const vehicle *ignored_vehicle = nullptr, const int modifier = 0) const;
+                           const vehicle *ignored_vehicle = nullptr,
+                           const int modifier = 0, const bool flying = false ) const;
+
+    /**
+     * Returns true if a creature could walk from `from` to `to` in one step.
+     * That is, if the tiles are adjacent and either on the same z-level or connected
+     * by stairs or (in case of flying monsters) open air with no floors.
+     */
+    bool valid_move( const tripoint &from, const tripoint &to,
+                     const bool bash = false, const bool flying = false ) const;
 
 
 // 2D Sees:
@@ -297,7 +301,7 @@ class map
     *
     * @param t1 Indicates the x/y component of Bresenham line used to connect the two points, and may
     *           subsequently be used to form a path between them. Set to zero if the function returns false.
-    * @param t2 Indicates the horizontal/vertical component of the Bresenham line. 
+    * @param t2 Indicates the horizontal/vertical component of the Bresenham line.
                 Set to zero if the function returns false.
     */
     bool sees( const tripoint &F, const tripoint &T, int range, int &t1, int &t2 ) const;
@@ -314,9 +318,9 @@ class map
   */
  bool clear_path(const int Fx, const int Fy, const int Tx, const int Ty,
                  const int range, const int cost_min, const int cost_max, int &bresenham_slope) const;
-    bool clear_path( const tripoint &f, const tripoint &t, const int range, 
+    bool clear_path( const tripoint &f, const tripoint &t, const int range,
                      const int cost_min, const int cost_max, int &bres1, int &bres2 ) const;
-    bool clear_path( const tripoint &f, const tripoint &t, const int range, 
+    bool clear_path( const tripoint &f, const tripoint &t, const int range,
                      const int cost_min, const int cost_max ) const;
 
 
@@ -390,6 +394,7 @@ class map
     */
     vehicle* veh_at( const tripoint &p, int &part_num );
     const vehicle* veh_at( const tripoint &p, int &part_num ) const;
+    vehicle* veh_at_internal( const tripoint &p, int &part_num );
     const vehicle* veh_at_internal( const tripoint &p, int &part_num ) const;
     /**
     * Same as `veh_at(const int, const int, int)`, but doesn't return part number.
@@ -607,6 +612,8 @@ void add_corpse( const tripoint &p );
     int collapse_check( const tripoint &p );
     /** Causes a collapse at (x, y), such as from destroying a wall */
     void collapse_at( const tripoint &p );
+    /** Tries to smash the items at the given tripoint. Used by the explosion code */
+    void smash_items( const tripoint &p, const int power );
     /** Returns a pair where first is whether something was smashed and second is if it was a success */
     std::pair<bool, bool> bash( const tripoint &p, const int str, bool silent = false,
                                 bool destroy = false, vehicle *bashing_vehicle = nullptr );
@@ -659,7 +666,7 @@ void add_corpse( const tripoint &p );
 // Items
     void process_active_items();
     void trigger_rc_items( std::string signal );
-    
+
 // Items: 2D
     map_stack i_at(int x, int y);
     void i_clear(const int x, const int y);
@@ -694,7 +701,7 @@ void add_corpse( const tripoint &p );
     void spawn_artifact( const tripoint &p );
     void spawn_natural_artifact( const tripoint &p, const artifact_natural_property prop );
     // Note: Passing the first argument by value, because some compilers don't warn about
-    // implicit cast of reference to int. Reference here could result in calling the 
+    // implicit cast of reference to int. Reference here could result in calling the
     // 2D overload above instead with pointer to p as first param
     void spawn_item( const tripoint &p, const std::string &itype_id,
                      const unsigned quantity=1, const long charges=0,
@@ -768,7 +775,6 @@ void add_corpse( const tripoint &p );
  item *item_from( vehicle *veh, const int cargo_part, const size_t index );
 
 // Traps: 2D overloads
- void trap_set(const int x, const int y, const std::string & sid);
  void trap_set(const int x, const int y, const trap_id id);
 
     const trap & tr_at( const int x, const int y ) const;
@@ -776,7 +782,6 @@ void add_corpse( const tripoint &p );
  void disarm_trap( const int x, const int y);
  void remove_trap(const int x, const int y);
 // Traps: 3D
- void trap_set( const tripoint &p, const std::string & sid);
  void trap_set( const tripoint &p, const trap_id id);
 
     const trap & tr_at( const tripoint &p ) const;
@@ -798,7 +803,7 @@ void add_corpse( const tripoint &p );
         void remove_field( const int x, const int y, const field_id field_to_remove );
 // End of 2D overload block
  bool process_fields(); // See fields.cpp
- bool process_fields_in_submap( submap * const current_submap, 
+ bool process_fields_in_submap( submap * const current_submap,
                                 const int submap_x, const int submap_y, const int submap_z); // See fields.cpp
         /**
          * Apply field effects to the creature when it's on a square with fields.
@@ -917,7 +922,7 @@ void add_corpse( const tripoint &p );
                       const int init_veh_fuel = -1, const int init_veh_status = -1,
                       const bool merge_wrecks = true);
  void build_map_cache( int zlev );
- 
+
 // Light/transparency: 2D
     float light_transparency(const int x, const int y) const;
     lit_level light_at(int dx, int dy); // Assumes 0,0 is light map center
@@ -981,6 +986,22 @@ void add_corpse( const tripoint &p );
  void rotate(const int turns);// Rotates the current map 90*turns degress clockwise
                               // Useful for houses, shops, etc
  void add_road_vehicles(bool city, int facing);
+
+// Monster spawning:
+public:
+    /**
+     * Spawn monsters from submap spawn points and from the overmap.
+     * @param ignore_sight If true, monsters may spawn in the view of the player
+     * character (useful when the whole map has been loaded instead, e.g.
+     * when starting a new game, or after teleportation or after moving vertically).
+     * If false, monsters are not spawned in view of of player character.
+     */
+    void spawn_monsters( bool ignore_sight );
+private:
+    // Helper #1 - spawns monsters on one submap
+    void spawn_monsters_submap( const tripoint &gp, bool ignore_sight );
+    // Helper #2 - spawns monsters on one submap and from one group on this submap
+    void spawn_monsters_submap_group( const tripoint &gp, mongroup &group, bool ignore_sight );
 
 protected:
         void saven( int gridx, int gridy, int gridz );
@@ -1070,9 +1091,6 @@ protected:
 
 private:
     field& get_field( const tripoint &p );
-    void spread_gas( field_entry *cur, const tripoint &p, field_id curtype,
-                        int percent_spread, int outdoor_age_speedup );
-    void create_hot_air( const tripoint &p, int density );
 
  int cached_zlev; // Z-level for which all the caches were calculated
  bool transparency_cache_dirty;
@@ -1096,7 +1114,7 @@ private:
          * offset_z would always be 0, so it is not used here
          */
         submap *get_submap_at( const int x, const int y, int& offset_x, int& offset_y ) const;
-        submap *get_submap_at( const int x, const int y, const int z, 
+        submap *get_submap_at( const int x, const int y, const int z,
                                int &offset_x, int &offset_y ) const;
         submap *get_submap_at( const tripoint &p, int &offset_x, int &offset_y ) const;
         /**
@@ -1121,8 +1139,6 @@ private:
          */
         void setsubmap( size_t grididx, submap *smap );
 
-    void spawn_monsters( const tripoint &gp, mongroup &group, bool ignore_sight );
-
     /**
      * Internal versions of public functions to avoid checking same variables multiple times.
      * They lack safety checks, because their callers already do those.
@@ -1131,11 +1147,11 @@ private:
                            const vehicle *veh, const int vpart) const;
     int bash_rating_internal( const int str, const furn_t &furniture,
                               const ter_t &terrain, const vehicle *veh, const int part ) const;
-                              
+
      /**
       * Internal version of the drawsq. Keeps a cached maptile for less re-getting.
       */
-     void draw_maptile( WINDOW* w, player &u, const tripoint &p, const maptile &tile, 
+     void draw_maptile( WINDOW* w, player &u, const tripoint &p, const maptile &tile,
                         const bool invert, const bool show_items,
                         const int view_center_x, const int view_center_y,
                         const bool low_light, const bool bright_level, const bool inorder );
@@ -1175,9 +1191,9 @@ private:
         ITER_FINISH         // End iteration
     };
     /**
-    * Runs a `(tripoint &gp, submap* sm, point &lp) -> void` functor 
+    * Runs a `(tripoint &gp, submap* sm, point &lp) -> void` functor
     * over submaps in the area, getting next submap only when the current one "runs out" rather than every time.
-    * @param gp Grid (like `get_submap_at_grid`) coordinate of the submap, 
+    * @param gp Grid (like `get_submap_at_grid`) coordinate of the submap,
     * @param lp Local (submap) coordinate of currently accessed point.
     * Will silently clip the area to map bounds.
     */

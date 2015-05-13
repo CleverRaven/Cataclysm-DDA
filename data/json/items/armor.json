@@ -26,6 +26,31 @@
     },
     {
         "type" : "ARMOR",
+        "id" : "sockmitts",
+        "name" : "pair of sock mitts",
+        "name_plural" : "pairs of sock mitts",
+        "weight" : 32,
+        "color" : "white",
+        "covers" : ["HANDS"],
+        "to_hit" : 0,
+        "storage" : 0,
+        "symbol" : "[",
+        "description" : "A pair of improvised gloves made from socks with holes poked through them.",
+        "price" : 0,
+        "material" : ["cotton", "null"],
+        "volume" : 1,
+        "cutting" : 0,
+        "warmth" : 5,
+        "phase" : "solid",
+        "environmental_protection" : 0,
+        "encumbrance" : 0,
+        "bashing" : -5,
+        "flags" : ["VARSIZE", "SKINTIGHT"],
+        "coverage" : 40,
+        "material_thickness" : 1
+    },
+    {
+        "type" : "ARMOR",
         "id" : "socks_wool",
         "name" : "pair of wool socks",
         "name_plural" : "pairs of wool socks",
@@ -12357,7 +12382,7 @@
         "bashing" : 0,
         "flags" : ["VARSIZE", "WATERPROOF"],
         "coverage" : 95,
-        "material_thickness" : 4
+        "material_thickness" : 3
     },
     {
         "type" : "ARMOR",
@@ -12377,11 +12402,11 @@
         "warmth" : 40,
         "phase" : "solid",
         "environmental_protection" : 1,
-        "encumbrance" : 15,
+        "encumbrance" : 20,
         "bashing" : -5,
         "flags" : ["VARSIZE", "POCKETS", "WATERPROOF"],
         "coverage" : 95,
-        "material_thickness" : 8
+        "material_thickness" : 5
     },
     {
         "type" : "ARMOR",
@@ -12405,7 +12430,7 @@
         "bashing" : 0,
         "flags" : ["VARSIZE", "STURDY", "WATERPROOF", "SUN_GLASSES"],
         "coverage" : 100,
-        "material_thickness" : 6
+        "material_thickness" : 3
     },
     {
         "type" : "ARMOR",
@@ -12429,7 +12454,7 @@
         "bashing" : -5,
         "flags" : ["VARSIZE", "POCKETS", "STURDY", "WATERPROOF"],
         "coverage" : 100,
-        "material_thickness" : 6
+        "material_thickness" : 5
     },
     {
         "type" : "ARMOR",

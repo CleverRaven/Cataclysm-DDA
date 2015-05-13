@@ -36,6 +36,12 @@
     },
     {
         "type": "effect_type",
+        "id": "no_ammo",
+        "name": ["No ammo"],
+        "desc": ["AI tag used to stop a monster reviving with ammo.  This is a bug if you have it."]
+    },
+    {
+        "type": "effect_type",
         "id": "asked_to_lead",
         "name": ["Asked to Lead"],
         "desc": ["AI tag for asking to lead NPCs.  This is a bug if you have it."]
@@ -206,11 +212,30 @@
     {
         "type": "effect_type",
         "id": "deaf",
-        "name": ["Deaf"],
-        "desc": ["Sounds will not be reported.  You cannot talk with NPCs."],
-        "apply_message": "You're deafened!",
+        "name": [
+            "Impaired hearing",
+            "Ringing ears",
+            "Deaf"
+        ],
+        "desc": [
+            "Your hearing is impaired.",
+            "You can barely hear anything and your ears hurt.",
+            "You can't hear anything and your head aches from all the noise. You can't converse with NPCs."
+        ],
+        "apply_message": "Your ears ring!",
         "remove_message": "You can hear again!",
-        "rating": "bad"
+        "rating": "bad",
+        "max_intensity": 3,
+        "int_dur_factor": 100,
+        "base_mods": {
+            "pain_min": [1],
+            "pain_chance": [-50],
+            "pain_chance_bot": [1000]
+        },
+        "scaling_mods": {
+            "pain_max_val": [5],
+            "pain_chance": [150]
+        }
     },
     {
         "type": "effect_type",
@@ -893,8 +918,8 @@
         "type": "effect_type",
         "id": "jetinjector",
         "name": [
-            "Chemical Comedown",
-            "Chemical Rush"
+            "RX12 Healing Comedown",
+            "RX12 Healing Rush"
         ],
         "desc": [
             "You feel completely drained.",
@@ -917,6 +942,37 @@
             "dex_mod": [3],
             "per_mod": [3],
             "int_mod": [1]
+        }
+    },
+    {
+        "type": "effect_type",
+        "id": "stimpack",
+        "name": [
+            "RX11 Stimulant Comedown",
+            "RX11 Stimulant Rush"
+        ],
+        "desc": [
+            "You feel sluggish and slow.",
+            "An intense surge of stimulants pulses through your body."
+        ],
+        "apply_message": "You feel an intense surge of stimulants pulse through your body!",
+        "decay_messages": [["The stimulant combo is wearing off.  You feel sluggish.", "bad"]],
+        "rating": "good",
+        "max_intensity": 2,
+        "int_dur_factor": 50,
+        "removes_effects": ["winded"],
+        "base_mods": {
+            "speed_mod": [-5],
+            "dex_mod": [-2],
+            "per_mod": [-1],
+            "int_mod": [-2]
+        },
+        "scaling_mods": {
+            "speed_mod": [15],
+            "str_mod": [1],
+            "dex_mod": [4],
+            "per_mod": [4],
+            "int_mod": [-1]
         }
     },
     {

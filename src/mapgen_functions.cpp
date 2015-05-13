@@ -9,6 +9,8 @@
 #include "game.h"
 #include "debug.h"
 #include "scenario.h"
+#include "translations.h"
+#include "trap.h"
 #include <array>
 
 mapgendata::mapgendata(oter_id north, oter_id east, oter_id south, oter_id west, oter_id northeast,

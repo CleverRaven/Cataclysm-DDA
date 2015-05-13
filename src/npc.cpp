@@ -18,6 +18,8 @@
 #include "mission.h"
 #include "json.h"
 #include "sounds.h"
+#include "morale.h"
+#include "overmap.h"
 
 #include <algorithm>
 #include <string>
@@ -925,7 +927,7 @@ void npc::place_on_map()
     // Searches in a spiral pattern for a suitable location.
     int x = 0, y = 0, dx = 0, dy = -1;
     int temp;
-    while(!g->is_empty(posx() + x, posy() + y))
+    while( !g->is_empty( { posx() + x, posy() + y, posz() } ) )
     {
         if ((x == y) || ((x < 0) && (x == -y)) || ((x > 0) && (x == 1-y)))
         {//change direction
@@ -1379,24 +1381,16 @@ std::vector<const Skill*> npc::skills_offered_to(const player &p)
     return ret;
 }
 
-std::vector<itype_id> npc::styles_offered_to(const player &p)
+std::vector<matype_id> npc::styles_offered_to( const player &p ) const
 {
-    std::vector<itype_id> ret;
-    for (auto &i : ma_styles) {
-        bool found = false;
-        for (auto &j : p.ma_styles) {
-            if (j == i) {
-                found = true;
-                break;
-            }
-        }
-        if (!found) {
+    std::vector<matype_id> ret;
+    for( auto & i : ma_styles ) {
+        if( !p.has_martialart( i ) ) {
             ret.push_back( i );
         }
     }
     return ret;
 }
-
 
 int npc::minutes_to_u() const
 {

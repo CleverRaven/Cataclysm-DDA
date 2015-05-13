@@ -4,7 +4,6 @@
 #include "player.h"
 #include "output.h"
 #include "npc.h"
-#include "mission.h"
 #include "color.h"
 #include <vector>
 #include <string>
@@ -12,6 +11,7 @@
 
 class martialart;
 class JsonObject;
+class mission;
 
 struct talk_response;
 struct dialogue {

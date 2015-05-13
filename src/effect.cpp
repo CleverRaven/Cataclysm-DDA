@@ -2,6 +2,8 @@
 #include "rng.h"
 #include "output.h"
 #include "player.h"
+#include "translations.h"
+#include "messages.h"
 #include <map>
 #include <sstream>
 
@@ -1054,10 +1056,15 @@ std::vector<std::pair<std::string, int>> effect::get_miss_msgs() const
 std::string effect::get_speed_name() const
 {
     // USes the speed_mod_name if one exists, else defaults to the first entry in "name".
-    if (eff_type->speed_mod_name == "") {
+    // But make sure the name for this intensity actually exists!
+    if( eff_type->speed_mod_name != "" ) {
+        return eff_type->speed_mod_name;
+    } else if( eff_type->use_name_ints() ) {
+        return eff_type->name[intensity-1];
+    } else if( !eff_type->name.empty() ) {
         return eff_type->name[0];
     } else {
-        return eff_type->speed_mod_name;
+        return "";
     }
 }
 

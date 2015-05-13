@@ -12,6 +12,10 @@
 #include "sounds.h"
 #include "rng.h"
 #include "mission.h"
+#include "translations.h"
+#include "monster.h"
+#include "event.h"
+#include "trap.h"
 
 #include <fstream>
 #include <string>
@@ -372,7 +376,8 @@ void computer::activate_function(computer_action action, char ch)
                               pgettext("memorial_female", "Terminated subspace specimens."));
         for (int x = 0; x < SEEX * MAPSIZE; x++) {
             for (int y = 0; y < SEEY * MAPSIZE; y++) {
-                int mondex = g->mon_at(x, y);
+                tripoint p( x, y, g->u.posz() );
+                int mondex = g->mon_at( p );
                 if (mondex != -1 &&
                     ((g->m.ter(x, y - 1) == t_reinforced_glass &&
                       g->m.ter(x, y + 1) == t_concrete_wall) ||
@@ -399,7 +404,7 @@ void computer::activate_function(computer_action action, char ch)
                     }
                 }
                 if (numtowers == 4) {
-                    if (g->m.tr_at(i, j).id == "tr_portal") {
+                    if (g->m.tr_at(i, j).id == trap_str_id( "tr_portal" )) {
                         g->m.remove_trap(i, j);
                     } else {
                         g->m.add_trap(i, j, tr_portal);
@@ -705,6 +710,9 @@ INITIATING STANDARD TREMOR TEST..."));
         if (!g->u.has_artifact_with(AEP_PSYSHIELD)) {
             g->u.add_effect("amigara", 20);
         }
+        // Disable this action to prevent further amigara events, which would lead to
+        // further amigara monster, which would lead to further artifacts.
+        remove_option( COMPACT_AMIGARA_START );
         break;
 
     case COMPACT_STEMCELL_TREATMENT:
@@ -1182,15 +1190,16 @@ void computer::activate_failure(computer_failure fail)
     case COMPFAIL_MANHACKS: {
         int num_robots = rng(4, 8);
         for (int i = 0; i < num_robots; i++) {
-            int mx, my, tries = 0;
+            tripoint mp( 0, 0, g->u.posz() );
+            int tries = 0;
             do {
-                mx = rng(g->u.posx() - 3, g->u.posx() + 3);
-                my = rng(g->u.posy() - 3, g->u.posy() + 3);
+                mp.x = rng(g->u.posx() - 3, g->u.posx() + 3);
+                mp.y = rng(g->u.posy() - 3, g->u.posy() + 3);
                 tries++;
-            } while (!g->is_empty(mx, my) && tries < 10);
+            } while (!g->is_empty( mp ) && tries < 10);
             if (tries != 10) {
                 add_msg(m_warning, _("Manhacks drop from compartments in the ceiling."));
-                g->summon_mon("mon_manhack", tripoint(mx, my, g->u.posz()));
+                g->summon_mon( "mon_manhack", mp );
             }
         }
     }
@@ -1199,15 +1208,16 @@ void computer::activate_failure(computer_failure fail)
     case COMPFAIL_SECUBOTS: {
         int num_robots = 1;
         for (int i = 0; i < num_robots; i++) {
-            int mx, my, tries = 0;
+            tripoint mp( 0, 0, g->u.posz() );
+            int tries = 0;
             do {
-                mx = rng(g->u.posx() - 3, g->u.posx() + 3);
-                my = rng(g->u.posy() - 3, g->u.posy() + 3);
+                mp.x = rng(g->u.posx() - 3, g->u.posx() + 3);
+                mp.y = rng(g->u.posy() - 3, g->u.posy() + 3);
                 tries++;
-            } while (!g->is_empty(mx, my) && tries < 10);
+            } while (!g->is_empty(mp) && tries < 10);
             if (tries != 10) {
                 add_msg(m_warning, _("Secubots emerge from compartments in the floor."));
-                g->summon_mon("mon_secubot", tripoint(mx, my, g->u.posz()));
+                g->summon_mon("mon_secubot", mp);
             }
         }
     }
@@ -1275,6 +1285,7 @@ void computer::activate_failure(computer_failure fail)
         g->u.add_effect("amigara", 20);
         g->explosion( tripoint( rng(0, SEEX * MAPSIZE), rng(0, SEEY * MAPSIZE), g->get_levz() ), 10, 10, false );
         g->explosion( tripoint( rng(0, SEEX * MAPSIZE), rng(0, SEEY * MAPSIZE), g->get_levz() ), 10, 10, false );
+        remove_option( COMPACT_AMIGARA_START );
         break;
 
     case COMPFAIL_DESTROY_BLOOD:
@@ -1326,6 +1337,16 @@ void computer::activate_failure(computer_failure fail)
         break;
 
     }// switch (fail)
+}
+
+void computer::remove_option( computer_action const action )
+{
+    for( auto it = options.begin(); it != options.end(); ++it ) {
+        if( it->action == action ) {
+            options.erase( it );
+            break;
+        }
+    }
 }
 
 bool computer::query_bool(const char *mes, ...)

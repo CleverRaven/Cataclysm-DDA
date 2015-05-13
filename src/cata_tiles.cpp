@@ -10,6 +10,11 @@
 #include "filesystem.h"
 #include "sounds.h"
 #include "map.h"
+#include "trap.h"
+#include "monster.h"
+#include "options.h"
+#include "catacharset.h"
+#include "itype.h"
 
 #include <algorithm>
 #include <fstream>
@@ -247,7 +252,7 @@ void cata_tiles::load_tilejson(std::string path, const std::string &image_path)
 
         load_tilejson_from_file( config_file, image_path );
         if (tile_ids.count("unknown") == 0) {
-            debugmsg("The tileset you're using has no 'unknown' tile defined!");
+            dbg( D_ERROR ) << "the tileset you're using has no 'unknown' tile defined!";
         }
 }
 
@@ -311,15 +316,24 @@ void cata_tiles::load_tilejson_from_file(std::ifstream &f, const std::string &im
         dbg( D_INFO ) << "Attempting to Load Tileset file " << image_path;
         const int newsize = load_tileset(image_path, -1, -1, -1);
         load_tilejson_from_file(config, 0, newsize);
+        offset = newsize;
     }
     // offset should be the total number of sprites loaded from every tileset image
     // eliminate any sprite references that are too high to exist
     // also eliminate negative sprite references
-    for( auto& tile_id : tile_ids ) {
-        tile_id.second->fg.erase(std::remove_if(tile_id.second->fg.begin(), tile_id.second->fg.end(), 
-                               [&](int i) { return i >= offset || i < 0; }), tile_id.second->fg.end());
-        tile_id.second->bg.erase(std::remove_if(tile_id.second->bg.begin(), tile_id.second->bg.end(), 
-                               [&](int i) { return i >= offset || i < 0; }), tile_id.second->bg.end());
+    for( auto it = tile_ids.begin(); it != tile_ids.end(); ) {
+        auto &td = *it->second;
+        td.fg.erase(std::remove_if(td.fg.begin(), td.fg.end(),
+                               [&](int i) { return i >= offset || i < 0; }), td.fg.end());
+        td.bg.erase(std::remove_if(td.bg.begin(), td.bg.end(),
+                               [&](int i) { return i >= offset || i < 0; }), td.bg.end());
+        // All tiles need at least foreground or background data, otherwise they are useless.
+        if( td.bg.empty() && td.fg.empty() ) {
+            dbg( D_ERROR ) << "tile " << it->first << " has no (valid) foreground nor background";
+            tile_ids.erase( it++ );
+        } else {
+            ++it;
+        }
     }
 }
 
@@ -734,10 +748,11 @@ bool cata_tiles::draw_from_id_string(std::string id, TILE_CATEGORY category,
             // TODO: field density?
             col = fieldlist[fid].color[0];
         } else if (category == C_TRAP) {
-            if (trapmap.count(id) > 0) {
-                const trap *t = traplist[trapmap[id]];
-                sym = t->sym;
-                col = t->color;
+            const trap_str_id tmp( id );
+            if( tmp.is_valid() ) {
+                const trap &t = tmp.obj();
+                sym = t.sym;
+                col = t.color;
             }
         } else if (category == C_ITEM) {
             const auto tmp = item( id, 0 );
@@ -812,16 +827,6 @@ bool cata_tiles::draw_from_id_string(std::string id, TILE_CATEGORY category,
     }
 
     tile_type *display_tile = it->second;
-    // if found id does not have a valid tile_type then return unknown tile
-    if (!display_tile) {
-        return draw_from_id_string("unknown", x, y, subtile, rota);
-    }
-
-    // if both bg and fg are both missing then return unknown tile
-    if (display_tile->bg.empty() && display_tile->fg.empty()) {
-        return draw_from_id_string("unknown", x, y, subtile, rota);
-    }
-
     // check to see if the display_tile is multitile, and if so if it has the key related to subtile
     if (subtile != -1 && display_tile->multitile) {
         auto const &display_subtiles = display_tile->available_subtiles;
@@ -1033,7 +1038,7 @@ bool cata_tiles::draw_trap( const tripoint &p )
     int subtile = 0, rotation = 0;
     get_tile_values(tr.loadid, neighborhood, subtile, rotation);
 
-    return draw_from_id_string(tr.id, C_TRAP, empty_string, p.x, p.y, subtile, rotation);
+    return draw_from_id_string(tr.id.str(), C_TRAP, empty_string, p.x, p.y, subtile, rotation);
 }
 
 bool cata_tiles::draw_field_or_item( const tripoint &p )
@@ -1651,7 +1656,7 @@ void cata_tiles::do_tile_loading_report() {
     tile_loading_report(item_controller->get_all_itypes(), "Items", "");
     tile_loading_report(MonsterGenerator::generator().get_all_mtypes(), "Monsters", "");
     tile_loading_report(vehicle_part_types, "Vehicle Parts", "vp_");
-    tile_loading_report(trapmap, "Traps", "");
+    tile_loading_report<trap>(trap::count(), "Traps", "");
     tile_loading_report(fieldlist, num_fields, "Fields", "");
 
     // needed until DebugLog ostream::flush bugfix lands
@@ -1667,6 +1672,24 @@ void cata_tiles::tile_loading_report(maptype const & tiletypemap, std::string co
         if (tile_ids.count(prefix+i.first) == 0) {
             missing++;
             missing_list.append(i.first+" ");
+        } else {
+            present++;
+        }
+    }
+    DebugLog( D_INFO, DC_ALL ) << "Missing " << label << ": " << missing_list;
+}
+
+template <typename base_type>
+void cata_tiles::tile_loading_report(size_t const count, std::string const & label, std::string const & prefix) {
+    int missing=0, present=0;
+    std::string missing_list;
+    for( size_t i = 0; i < count; ++i ) {
+        const int_id<base_type> iid( i );
+        const string_id<base_type> sid = iid.id();
+        const std::string &s = sid.str();
+        if (tile_ids.count(prefix+s) == 0) {
+            missing++;
+            missing_list.append(s+" ");
         } else {
             present++;
         }

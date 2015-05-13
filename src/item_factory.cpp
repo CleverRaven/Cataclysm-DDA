@@ -11,6 +11,11 @@
 #include "debug.h"
 #include "construction.h"
 #include "text_snippets.h"
+#include "ui.h"
+#include "skill.h"
+#include "bionics.h"
+#include "material.h"
+#include "artifact.h"
 #include <algorithm>
 #include <sstream>
 
@@ -266,7 +271,6 @@ void Item_factory::init()
     iuse_function_list["HACKSAW"] = &iuse::hacksaw;
     iuse_function_list["PORTABLE_STRUCTURE"] = &iuse::portable_structure;
     iuse_function_list["TORCH_LIT"] = &iuse::torch_lit;
-    iuse_function_list["TINDERBOX_LIT"] = &iuse::tinderbox_lit;
     iuse_function_list["BATTLETORCH_LIT"] = &iuse::battletorch_lit;
     iuse_function_list["BULLET_PULLER"] = &iuse::bullet_puller;
     iuse_function_list["BOLTCUTTERS"] = &iuse::boltcutters;
@@ -285,6 +289,7 @@ void Item_factory::init()
     iuse_function_list["UNFOLD_GENERIC"] = &iuse::unfold_generic;
     iuse_function_list["ADRENALINE_INJECTOR"] = &iuse::adrenaline_injector;
     iuse_function_list["JET_INJECTOR"] = &iuse::jet_injector;
+    iuse_function_list["STIMPACK"] = &iuse::stimpack;
     iuse_function_list["CONTACTS"] = &iuse::contacts;
     iuse_function_list["AIRHORN"] = &iuse::airhorn;
     iuse_function_list["HOTPLATE"] = &iuse::hotplate;
@@ -416,7 +421,7 @@ void Item_factory::check_definitions() const
             }
         }
         for( const auto &_a : type->techniques ) {
-            if( ma_techniques.count( _a ) == 0 ) {
+            if( !_a.is_valid() ) {
                 msg << string_format( "unknown technique %s", _a.c_str() ) << "\n";
             }
         }
@@ -972,7 +977,9 @@ void Item_factory::load_basic_info(JsonObject &jo, itype *new_item_template)
         set_properties_from_json(jo, "properties", new_item_template);
     }
 
-    new_item_template->techniques = jo.get_tags("techniques");
+    for( auto & s : jo.get_tags( "techniques" ) ) {
+        new_item_template->techniques.insert( matec_id( s ) );
+    }
 
     set_use_methods_from_json( jo, "use_action", new_item_template->use_methods );
 

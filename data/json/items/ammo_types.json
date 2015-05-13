@@ -337,6 +337,12 @@
     },
     {
         "type" : "ammunition_type",
+        "id" : "stimpack_ammo",
+        "name" : "stimulant module",
+        "default" : "stimpack_ammo"
+    },
+    {
+        "type" : "ammunition_type",
         "id" : "components",
         "name" : "components",
         "default" : "components"

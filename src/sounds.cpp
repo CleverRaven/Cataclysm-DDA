@@ -5,6 +5,9 @@
 #include "debug.h"
 #include "enums.h"
 #include "overmapbuffer.h"
+#include "translations.h"
+#include "messages.h"
+#include "monster.h"
 
 struct sound_event {
     int volume;
@@ -18,39 +21,55 @@ struct centroid
     // Values have to be floats to prevent rounding errors.
     float x;
     float y;
+    float z;
     float volume;
     float weight;
 };
 
 // Static globals tracking sounds events of various kinds.
 // The sound events since the last monster turn.
-static std::vector<std::pair<point, int>> recent_sounds;
+static std::vector<std::pair<tripoint, int>> recent_sounds;
 // The sound events since the last interactive player turn. (doesn't count sleep etc)
-static std::vector<std::pair<point, sound_event>> sounds_since_last_turn;
+static std::vector<std::pair<tripoint, sound_event>> sounds_since_last_turn;
 // The sound events currently displayed to the player.
-static std::unordered_map<point, sound_event> sound_markers;
+static std::unordered_map<tripoint, sound_event> sound_markers;
 
 void sounds::ambient_sound(int x, int y, int vol, std::string description)
 {
-    sound( x, y, vol, description, true );
+    sound( tripoint( x, y, g->u.posz() ), vol, description, true );
 }
 
 void sounds::sound(int x, int y, int vol, std::string description, bool ambient)
+{
+    sound( tripoint( x, y, g->u.posz() ), vol, description, ambient );
+}
+
+void sounds::add_footstep(int x, int y, int volume, int dist, monster *m)
+{
+    add_footstep( tripoint( x, y, g->u.posz() ), volume, dist, m );
+}
+
+void sounds::ambient_sound( const tripoint &p, int vol, std::string description )
+{
+    sound( p, vol, description, true );
+}
+
+void sounds::sound( const tripoint &p, int vol, std::string description, bool ambient )
 {
     if( vol < 0 ) {
         // Bail out if no volume.
         debugmsg( "negative sound volume %d", vol );
         return;
     }
-    recent_sounds.emplace_back( std::make_pair( point(x, y), vol ) );
+    recent_sounds.emplace_back( std::make_pair( p, vol ) );
     sounds_since_last_turn.emplace_back(
-        std::make_pair( point(x, y), sound_event{vol, description, ambient, false} ) );
+        std::make_pair( p, sound_event{vol, description, ambient, false} ) );
 }
 
-void sounds::add_footstep(int x, int y, int volume, int, monster *)
+void sounds::add_footstep( const tripoint &p, int volume, int, monster * )
 {
     sounds_since_last_turn.emplace_back(
-        std::make_pair( point(x, y), sound_event{volume, "", false, true} ) );
+        std::make_pair( p, sound_event{volume, "", false, true} ) );
 }
 
 template <typename C>
@@ -64,7 +83,7 @@ static void vector_quick_remove( std::vector<C> &source, int index )
     source.pop_back();
 }
 
-static std::vector<centroid> cluster_sounds( std::vector<std::pair<point, int>> recent_sounds )
+static std::vector<centroid> cluster_sounds( std::vector<std::pair<tripoint, int>> recent_sounds )
 {
     // If there are too many monsters and too many noise sources (which can be monsters, go figure),
     // applying sound events to monsters can dominate processing time for the whole game,
@@ -82,6 +101,7 @@ static std::vector<centroid> cluster_sounds( std::vector<std::pair<point, int>> 
         sound_clusters.push_back(
            // Assure the compiler that these int->float conversions are safe.
             { (float)recent_sounds[index].first.x, (float)recent_sounds[index].first.y,
+              (float)recent_sounds[index].first.z,
               (float)recent_sounds[index].second, (float)recent_sounds[index].second } );
         vector_quick_remove( recent_sounds, index );
     }
@@ -93,8 +113,8 @@ static std::vector<centroid> cluster_sounds( std::vector<std::pair<point, int>> 
         for( auto centroid_iter = sound_clusters.begin(); centroid_iter != cluster_end;
              ++centroid_iter ) {
             // Scale the distance between the two by the max possible distance.
-            const int dist = rl_dist( sound_event_pair.first.x, sound_event_pair.first.y,
-                                      centroid_iter->x, centroid_iter->y );
+            tripoint centroid_pos{ (int)centroid_iter->x, (int)centroid_iter->y, (int)centroid_iter->z };
+            const int dist = rl_dist( sound_event_pair.first, centroid_pos );
             if( dist * dist < dist_factor ) {
                 found_centroid = centroid_iter;
                 dist_factor = dist * dist;
@@ -106,6 +126,8 @@ static std::vector<centroid> cluster_sounds( std::vector<std::pair<point, int>> 
                                      (found_centroid->x * found_centroid->weight) ) / volume_sum;
         found_centroid->y = (float)( (sound_event_pair.first.y * sound_event_pair.second) +
                                      (found_centroid->y * found_centroid->weight) ) / volume_sum;
+        found_centroid->z = (float)( (sound_event_pair.first.z * sound_event_pair.second) +
+                                     (found_centroid->z * found_centroid->weight) ) / volume_sum;
         // Set the centroid volume to the larger of the volumes.
         found_centroid->volume = std::max( found_centroid->volume, (float)sound_event_pair.second );
         // Set the centroid weight to the sum of the weights.
@@ -124,21 +146,21 @@ void sounds::process_sounds()
         // If they later get physical effects from loud noises we'll have to change this
         // to use the unmodified volume for those effects.
         const int vol = this_centroid.volume - weather_vol;
-        const point source = point(this_centroid.x, this_centroid.y);
+        const tripoint source = tripoint( this_centroid.x, this_centroid.y, this_centroid.z );
         // --- Monster sound handling here ---
         // Alert all hordes
         if( vol > 20 && g->get_levz() == 0 ) {
             int sig_power = ((vol > 140) ? 140 : vol) - 20;
             const point abs_ms = g->m.getabs( source.x, source.y );
             const point abs_sm = overmapbuffer::ms_to_sm_copy( abs_ms );
-            const tripoint target( abs_sm.x, abs_sm.y, g->get_levz() );
+            const tripoint target( abs_sm.x, abs_sm.y, source.z );
             overmap_buffer.signal_hordes( target, sig_power );
         }
         // Alert all monsters (that can hear) to the sound.
         for (int i = 0, numz = g->num_zombies(); i < numz; i++) {
             monster &critter = g->zombie(i);
             // rl_dist() is faster than critter.has_flag() or critter.can_hear(), so we'll check it first.
-            int dist = rl_dist( source, critter.pos() );
+            int dist = rl_dist( source, critter.pos3() );
             int vol_goodhearing = vol * 2 - dist;
             if (vol_goodhearing > 0 && critter.can_hear()) {
                 const bool goodhearing = critter.has_flag(MF_GOODHEARING);
@@ -158,9 +180,10 @@ void sounds::process_sounds()
 
                     int target_x = source.x + rng(-max_error, max_error);
                     int target_y = source.y + rng(-max_error, max_error);
+                    // target_z will require some special check due to soil muffling sounds
 
                     int wander_turns = volume * (goodhearing ? 6 : 1);
-                    critter.wander_to( tripoint( target_x, target_y, g->get_levz() ), wander_turns);
+                    critter.wander_to( tripoint( target_x, target_y, source.z ), wander_turns);
                     critter.process_trigger(MTRIG_SOUND, volume);
                 }
             }
@@ -177,7 +200,8 @@ void sounds::process_sound_markers( player *p )
 
     for( const auto &sound_event_pair : sounds_since_last_turn ) {
         const int volume = sound_event_pair.second.volume * volume_multiplier;
-        int dist = rl_dist( p->pos(), sound_event_pair.first );
+        const int max_volume = std::max( volume, sound_event_pair.second.volume ); // For deafness checks
+        int dist = rl_dist( p->pos3(), sound_event_pair.first );
         bool ambient = sound_event_pair.second.ambient;
 
         // Too far away, we didn't hear it!
@@ -187,10 +211,16 @@ void sounds::process_sound_markers( player *p )
 
         if( is_deaf ) {
             // Has to be here as well to work for stacking deafness (loud noises prolong deafness)
-            if( !(p->has_bionic("bio_ears") || p->worn_with_flag("DEAF") ||
-                  p->is_wearing("rm13_armor_on")) && rng((volume - dist) / 2, (volume - dist)) >= 150) {
-                int duration = std::min(40, (volume - dist - 130) / 4);
-                p->add_effect("deaf", duration);
+            if( !p->is_immune_effect( "deaf" ) && rng((max_volume - dist) / 2, (max_volume - dist)) >= 150 ) {
+                // Prolong deafness, but not as much as if it was freshly applied
+                int duration = std::min(40, (max_volume - dist - 130) / 8);
+                p->add_effect( "deaf", duration );
+                if( !p->has_trait( "DEADENED" ) ) {
+                    p->add_msg_if_player( m_bad, _("Your eardrums suddenly ache!") );
+                    if( p->pain < 10 ) {
+                        p->mod_pain( rng( 0, 2 ) );
+                    }
+                }
             }
             // We're deaf, skip rest of processing.
             continue;
@@ -203,9 +233,8 @@ void sounds::process_sound_markers( player *p )
         }
 
         // Check for deafness
-        if( !p->has_bionic("bio_ears") && !p->is_wearing("rm13_armor_on") &&
-            rng((volume - dist) / 2, (volume - dist)) >= 150 ) {
-            int duration = (volume - dist - 130) / 4;
+        if( !p->is_immune_effect( "deaf" ) && rng((max_volume - dist) / 2, (max_volume - dist)) >= 150 ) {
+            int duration = (max_volume - dist - 130) / 4;
             p->add_effect("deaf", duration);
             is_deaf = true;
             continue;
@@ -234,10 +263,9 @@ void sounds::process_sound_markers( player *p )
             }
         }
 
-        const int x = sound_event_pair.first.x;
-        const int y = sound_event_pair.first.y;
+        const tripoint &pos = sound_event_pair.first;
         const std::string &description = sound_event_pair.second.description;
-        if( !ambient && (x != p->posx() || y != p->posy()) && !g->m.pl_sees( x, y, dist ) ) {
+        if( !ambient && ( pos != p->pos3() ) && !g->m.pl_sees( pos, dist ) ) {
             if( p->activity.ignore_trivial != true ) {
                 std::string query;
                 if( description.empty() ) {
@@ -259,19 +287,21 @@ void sounds::process_sound_markers( player *p )
         // Only print a description if it exists
         if( !description.empty() ) {
             // If it came from us, don't print a direction
-            if( x == p->posx() && y == p->posy() ) {
+            if( pos == p->pos3() ) {
                 std::string uppercased = description;
                 capitalize_letter(uppercased, 0);
                 add_msg("%s", uppercased.c_str());
             } else {
                 // Else print a direction as well
-                std::string direction = direction_name(direction_from(p->posx(), p->posy(), x, y));
+                std::string direction = direction_name( direction_from( p->pos3(), pos ) );
                 add_msg(m_warning, _("From the %s you hear %s"), direction.c_str(), description.c_str());
             }
         }
 
+        // If Z coord is different, draw even when you can see the source
+        const bool diff_z = pos.z != p->posz();
         // Place footstep markers.
-        if( (x == p->posx() && y == p->posy()) || p->sees(x, y) ) {
+        if( pos == p->pos3() || p->sees( pos ) ) {
             // If we are or can see the source, don't draw a marker.
             continue;
         }
@@ -286,11 +316,15 @@ void sounds::process_sound_markers( player *p )
         }
 
         // Enumerate the valid points the player *cannot* see.
-        std::vector<point> unseen_points;
-        for( int newx = x - err_offset; newx <= x + err_offset; newx++) {
-            for ( int newy = y - err_offset; newy <= y + err_offset; newy++) {
-                if( !p->sees( newx, newy) ) {
-                    unseen_points.emplace_back( newx, newy );
+        // Unless the source is on a different z-level, then any point is fine
+        std::vector<tripoint> unseen_points;
+        tripoint newp = pos;
+        int &newx = newp.x;
+        int &newy = newp.y;
+        for( newx = pos.x - err_offset; newx <= pos.x + err_offset; newx++ ) {
+            for ( newy = pos.y - err_offset; newy <= pos.y + err_offset; newy++ ) {
+                if( diff_z || !p->sees( newp ) ) {
+                    unseen_points.emplace_back( newp );
                 }
             }
         }
@@ -316,9 +350,10 @@ void sounds::reset_markers()
     sound_markers.clear();
 }
 
-void sounds::draw_monster_sounds( const point &offset, WINDOW *window )
+void sounds::draw_monster_sounds( const tripoint &offset, WINDOW *window )
 {
     auto sound_clusters = cluster_sounds( recent_sounds );
+    // TODO: Signal sounds on different Z-levels differently (with '^' and 'v'?)
     for( const auto &sound : recent_sounds ) {
         mvwputch( window, offset.y + sound.first.y, offset.x + sound.first.x, c_yellow, '?');
     }
@@ -327,10 +362,10 @@ void sounds::draw_monster_sounds( const point &offset, WINDOW *window )
     }
 }
 
-std::vector<point> sounds::get_footstep_markers()
+std::vector<tripoint> sounds::get_footstep_markers()
 {
     // Optimization, make this static and clear it in reset_markers?
-    std::vector<point> footsteps;
+    std::vector<tripoint> footsteps;
     footsteps.reserve( sound_markers.size() );
     for( const auto &mark : sound_markers ) {
         footsteps.push_back( mark.first );
@@ -338,27 +373,32 @@ std::vector<point> sounds::get_footstep_markers()
     return footsteps;
 }
 
-std::pair<std::vector<point>, std::vector<point>> sounds::get_monster_sounds()
+std::pair<std::vector<tripoint>, std::vector<tripoint>> sounds::get_monster_sounds()
 {
     auto sound_clusters = cluster_sounds( recent_sounds );
-    std::vector<point> sound_locations;
+    std::vector<tripoint> sound_locations;
     sound_locations.reserve( recent_sounds.size() );
     for( const auto &sound : recent_sounds ) {
         sound_locations.push_back( sound.first );
     }
-    std::vector<point> cluster_centroids;
+    std::vector<tripoint> cluster_centroids;
     cluster_centroids.reserve( sound_clusters.size() );
     for( const auto &sound : sound_clusters ) {
-        cluster_centroids.emplace_back( sound.x, sound.y );
+        cluster_centroids.emplace_back( sound.x, sound.y, sound.z );
     }
     return { sound_locations, cluster_centroids };
 }
 
-std::string sounds::sound_at( const point &location )
+std::string sounds::sound_at( const tripoint &location )
 {
     auto this_sound = sound_markers.find( location );
     if( this_sound == sound_markers.end() ) {
         return std::string();
     }
-    return this_sound->second.description;
+
+    if( !this_sound->second.description.empty() ) {
+        return this_sound->second.description;
+    }
+
+    return _("a sound");
 }

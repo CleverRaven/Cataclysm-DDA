@@ -7,6 +7,10 @@
 #include "debug.h"
 #include "overmapbuffer.h"
 #include "messages.h"
+#include "translations.h"
+#include "veh_type.h"
+#include "monster.h"
+#include "itype.h"
 
 #define dbg(x) DebugLog((DebugLevel)(x),D_NPC) << __FILE__ << ":" << __LINE__ << ": "
 #define TARGET_PLAYER -2
@@ -362,11 +366,11 @@ void npc::execute_action(npc_action action, int target)
         break;
 
     case npc_shoot:
-        fire_gun( tar.x, tar.y, false );
+        fire_gun( tar, false );
         break;
 
     case npc_shoot_burst:
-        fire_gun( tar.x, tar.y, true );
+        fire_gun( tar, true );
         break;
 
     case npc_alt_attack:
@@ -566,8 +570,8 @@ npc_action npc::method_of_fleeing(int enemy)
 {
     int speed = (enemy == TARGET_PLAYER ? g->u.get_speed() :
                  g->zombie(enemy).get_speed());
-    point enemy_loc = (enemy == TARGET_PLAYER ? point(g->u.posx(), g->u.posy()) :
-                       point(g->zombie(enemy).posx(), g->zombie(enemy).posy()));
+    tripoint enemy_loc = enemy == TARGET_PLAYER ?
+        g->u.pos3() : g->zombie(enemy).pos3();
     int distance = rl_dist(pos(), enemy_loc);
 
     if (choose_escape_item() != INT_MIN) { // We have an escape item!
@@ -710,7 +714,9 @@ npc_action npc::address_needs(int danger)
 
     if ((danger <= NPC_DANGER_VERY_LOW && (hunger > 40 || thirst > 40)) ||
         thirst > 80 || hunger > 160) {
-        return npc_eat;
+        //return npc_eat; // TODO: Make eating work when then NPC doesn't have enough food
+        hunger = 0;
+        thirst = 0;
     }
 
     // TODO: More risky attempts at sleep when exhausted
@@ -1101,11 +1107,8 @@ void npc::move_to( const tripoint &pt )
     if( rl_dist( pos3(), p ) > 1) {
         int linet1, linet2;
         std::vector<tripoint> newpath;
-        if( g->m.sees( pos3(), p, -1, linet1, linet2 ) ) {
-            newpath = line_to( pos3(), p, linet1, linet2 );
-        } else {
-            newpath = line_to( pos3(), p, 0, 0 );
-        }
+        g->m.sees( pos3(), p, -1, linet1, linet2 );
+        newpath = line_to( pos3(), p, linet1, linet2 );
 
         p = newpath[0];
     }
@@ -1702,16 +1705,13 @@ void npc::alt_attack(int target)
         activate_item(weapon_index);
     } else { // We are throwing it!
 
-        std::vector<point> trajectory;
-        int linet, light = g->light_level();
+        std::vector<tripoint> trajectory;
+        int linet1, linet2, light = g->light_level();
 
         if (dist <= confident_range(weapon_index) && wont_hit_friend( tar, weapon_index )) {
 
-            if (g->m.sees(posx(), posy(), tar.x, tar.y, light, linet)) {
-                trajectory = line_to(posx(), posy(), tar.x, tar.y, linet);
-            } else {
-                trajectory = line_to(posx(), posy(), tar.x, tar.y, 0);
-            }
+            g->m.sees( pos3(), tar, light, linet1, linet2 );
+            trajectory = line_to( pos3(), tar, linet1, linet2);
             moves -= 125;
             if (g->u.sees( *this )) {
                 add_msg(_("%s throws a %s."),
@@ -1723,7 +1723,7 @@ void npc::alt_attack(int target)
                 stack_size = used->charges;
                 used->charges = 1;
             }
-            g->throw_item(*this, tar.x, tar.y, *used, trajectory);
+            g->throw_item(*this, tar, *used, trajectory);
             // Throw a single charge of a stacking object.
             if( stack_size == -1 || stack_size == 1 ) {
                 i_rem(weapon_index);
@@ -1739,7 +1739,7 @@ void npc::alt_attack(int target)
                 for (int dist = 2; dist <= conf; dist++) {
                     for (int x = posx() - dist; x <= posx() + dist; x++) {
                         for (int y = posy() - dist; y <= posy() + dist; y++) {
-                            int newtarget = g->mon_at(x, y);
+                            int newtarget = g->mon_at( { x, y, posz() } );
                             int newdist = rl_dist(posx(), posy(), x, y);
                             // TODO: Change "newdist >= 2" to "newdist >= safe_distance(used)"
                             // Molotovs are safe at 2 tiles, grenades at 4, mininukes at 8ish
@@ -1772,11 +1772,8 @@ void npc::alt_attack(int target)
                  * should be equal to the original location of our target, and risking friendly
                  * fire is better than holding on to a live grenade / whatever.
                  */
-                if (g->m.sees(posx(), posy(), tar.x, tar.y, light, linet)) {
-                    trajectory = line_to(posx(), posy(), tar.x, tar.y, linet);
-                } else {
-                    trajectory = line_to(posx(), posy(), tar.x, tar.y, 0);
-                }
+                g->m.sees( pos3(), tar, light, linet1, linet2 );
+                trajectory = line_to( pos3(), tar, linet1, linet2 );
                 moves -= 125;
                 if (g->u.sees( *this )) {
                     add_msg(_("%s throws a %s."), name.c_str(),
@@ -1788,7 +1785,7 @@ void npc::alt_attack(int target)
                     stack_size = used->charges;
                     used->charges = 1;
                 }
-                g->throw_item(*this, tar.x, tar.y, *used, trajectory);
+                g->throw_item(*this, tar, *used, trajectory);
 
                 // Throw a single charge of a stacking object.
                 if( stack_size == -1 || stack_size == 1 ) {
@@ -2273,11 +2270,7 @@ void npc::set_destination()
 
     std::string dest_type = options[rng(0, options.size() - 1)];
 
-    int dist = 0;
-    const point p = overmap_buffer.find_closest(global_omt_location(), dest_type, dist, false);
-    goal.x = p.x;
-    goal.y = p.y;
-    goal.z = g->get_levz();
+    goal = overmap_buffer.find_closest(global_omt_location(), dest_type, 0, false);
 }
 
 void npc::go_to_destination()

@@ -3,6 +3,7 @@
 #include "rng.h"
 #include "item.h"
 #include "debug.h"
+#include "itype.h"
 #include <map>
 #include <algorithm>
 #include <cassert>

@@ -11,6 +11,12 @@
 #include "messages.h"
 #include "overmapbuffer.h"
 #include "sounds.h"
+#include "translations.h"
+#include "catacharset.h"
+#include "input.h"
+#include "monster.h"
+#include "overmap.h"
+#include "itype.h"
 
 #include <math.h>    //sqrt
 #include <algorithm> //std::min
@@ -912,7 +918,7 @@ bool player::activate_bionic(int b, bool eff_only)
                         g->m.i_rem(i, j, k);
                         std::vector<point>::iterator it;
                         for (it = traj.begin(); it != traj.end(); ++it) {
-                            int index = g->mon_at(it->x, it->y);
+                            int index = g->mon_at({it->x, it->y, posz()});
                             if (index != -1) {
                                 g->zombie(index).apply_damage( this, bp_torso, tmp_item.weight() / 225 );
                                 g->zombie(index).check_dead_state();
@@ -944,7 +950,10 @@ bool player::activate_bionic(int b, bool eff_only)
     } else if(bio.id == "bio_lockpick") {
         tmp_item = item( "pseuso_bio_picklock", 0 );
         if( invoke_item( &tmp_item ) == 0 ) {
-            charge_power(bionics["bio_lockpick"].power_activate);
+            if (tmp_item.charges > 0) {
+                // restore the energy since CBM wasn't used
+                charge_power(bionics[bio.id].power_activate);
+            }
             return true;
         }
         if( tmp_item.damage > 0 ) {
@@ -965,10 +974,10 @@ bool player::activate_bionic(int b, bool eff_only)
         }
         const oter_id &cur_om_ter = overmap_buffer.ter( global_omt_location() );
         std::string omtername = otermap[cur_om_ter].name;
-        int windpower = get_local_windpower(weatherPoint.windpower + vehwindspeed, omtername, g->is_sheltered(g->u.posx(), g->u.posy()));
+        int windpower = get_local_windpower(weatherPoint.windpower + vehwindspeed, omtername, g->is_sheltered(g->u.pos()));
 
         add_msg_if_player(m_info, _("Temperature: %s."), print_temperature(g->get_temperature()).c_str());
-        add_msg_if_player(m_info, _("Relative Humidity: %s."), print_humidity(get_local_humidity(weatherPoint.humidity, g->weather, g->is_sheltered(g->u.posx(), g->u.posy()))).c_str());
+        add_msg_if_player(m_info, _("Relative Humidity: %s."), print_humidity(get_local_humidity(weatherPoint.humidity, g->weather, g->is_sheltered(g->u.pos()))).c_str());
         add_msg_if_player(m_info, _("Pressure: %s."), print_pressure((int)weatherPoint.pressure).c_str());
         add_msg_if_player(m_info, _("Wind Speed: %s."), print_windspeed((float)windpower).c_str());
         add_msg_if_player(m_info, _("Feels Like: %s."), print_temperature(get_local_windchill(weatherPoint.temperature, weatherPoint.humidity, windpower) + g->get_temperature()).c_str());
@@ -1034,7 +1043,7 @@ bool player::activate_bionic(int b, bool eff_only)
     }
 
     // Recalculate stats (strength, mods from pain etc.) that could have been affected
-    reset_stats();
+    reset();
 
     return true;
 }
@@ -1068,7 +1077,7 @@ bool player::deactivate_bionic(int b, bool eff_only)
     // Deactivation effects go here
     if (bio.id == "bio_cqb") {
         // check if player knows current style naturally, otherwise drop them back to style_none
-        if (style_selected != "style_none") {
+        if( style_selected != matype_id( "style_none" ) ) {
             bool has_style = false;
             for( auto &elem : ma_styles ) {
                 if( elem == style_selected ) {
@@ -1076,7 +1085,7 @@ bool player::deactivate_bionic(int b, bool eff_only)
                 }
             }
             if (!has_style) {
-                style_selected = "style_none";
+                style_selected = matype_id( "style_none" );
             }
         }
     } else if(bio.id == "bio_claws") {
@@ -1100,7 +1109,7 @@ bool player::deactivate_bionic(int b, bool eff_only)
     }
 
     // Recalculate stats (strength, mods from pain etc.) that could have been affected
-    reset_stats();
+    reset();
 
     return true;
 }

@@ -1,11 +1,11 @@
 #ifndef CREATURE_TRACKER_H
 #define CREATURE_TRACKER_H
 
-#include "monster.h"
-#include "creature.h"
 #include "enums.h"
 #include <vector>
 #include <unordered_map>
+
+class monster;
 
 class Creature_tracker
 {

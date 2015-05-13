@@ -2,18 +2,19 @@
 #define TRAP_H
 
 #include "color.h"
-#include "itype.h"
 #include "json.h"
+#include "string_id.h"
+#include "int_id.h"
 #include <string>
 
 class Creature;
 class item;
-
-typedef int trap_id;
-/** map trap ids to index into <B>traps</B> */
-extern std::map<std::string, int> trapmap;
-
+class player;
 struct trap;
+struct tripoint;
+
+using trap_id = int_id<trap>;
+using trap_str_id = string_id<trap>;
 
 struct trapfunc {
     // creature is the creature that triggered the trap,
@@ -55,8 +56,11 @@ struct trapfunc {
 typedef void (trapfunc::*trap_function)( Creature *, int x, int y );
 
 struct trap {
-        std::string id;
-        int loadid;
+        using itype_id = std::string;
+        // TODO: make both private and const
+        trap_str_id id;
+        trap_id loadid;
+
         long sym;
         nc_color color;
         std::string name;
@@ -155,6 +159,11 @@ struct trap {
          */
         bool is_funnel() const;
         double funnel_turns_per_charge( double rain_depth_mm_per_hour ) const;
+        /**
+         * Returns all trap objects that are actually funnels (is_funnel returns true for all
+         * of them).
+         */
+        static const std::vector<const trap*> get_funnels();
         /*@}*/
 
         /*@{*/
@@ -183,10 +192,8 @@ struct trap {
          */
         static void check_consistency();
         /*@}*/
+        static size_t count();
 };
-
-/** list of all trap types */
-extern std::vector<trap *> traplist;
 
 trap_function trap_function_from_string(std::string function_name);
 

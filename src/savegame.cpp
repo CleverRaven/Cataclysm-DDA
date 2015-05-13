@@ -17,6 +17,7 @@
 #include "messages.h"
 #include "mapdata.h"
 #include "translations.h"
+#include "mongroup.h"
 #include <map>
 #include <set>
 #include <algorithm>
@@ -28,6 +29,8 @@
 #include "debug.h"
 #include "weather.h"
 #include "mapsharing.h"
+#include "monster.h"
+#include "overmap.h"
 
 #include "savegame.h"
 #include "tile_id_data.h"

@@ -12,6 +12,9 @@
 #include "ammo.h"
 #include "overmapbuffer.h"
 #include "json.h"
+#include "translations.h"
+#include "martialarts.h"
+#include "input.h"
 
 #include <vector>
 #include <string>
@@ -217,12 +220,12 @@ static int calc_skill_training_cost( const Skill *skill )
 // TODO: all styles cost the same and take the same time to train,
 // maybe add values to the ma_style class to makes this variable
 // TODO: maybe move this function into the ma_style class? Or into the NPC class?
-static int calc_ma_style_training_time( const std::string & /* id */ )
+static int calc_ma_style_training_time( const matype_id & /* id */ )
 {
     return MINUTES( 30 );
 }
 
-static int calc_ma_style_training_cost( const std::string & /* id */ )
+static int calc_ma_style_training_cost( const matype_id & /* id */ )
 {
     return 800;
 }
@@ -2002,7 +2005,7 @@ void dialogue::gen_responses( const std::string &topic )
                 // TODO: add a Skill::exists or is_defined or similar function
                 const Skill* skillt = Skill::skill(backlog.name);
                 if(skillt == NULL) {
-                    auto &style = martialarts[backlog.name];
+                    auto &style = matype_id( backlog.name ).obj();
                     resume << style.name;
                     add_response( resume.str(), "TALK_TRAIN_START", style );
                 } else {
@@ -2025,7 +2028,7 @@ void dialogue::gen_responses( const std::string &topic )
                 add_response( text, "TALK_TRAIN_START", trained );
             }
             for( auto & style_id : styles ) {
-                auto &style = martialarts[style_id];
+                auto &style = style_id.obj();
                 const int cost = calc_ma_style_training_cost( style.id );
                 //~Martial art style (cost in cent)
                 const std::string text = string_format( _("%s (cost %d)"), style.name.c_str(), cost );
@@ -2881,12 +2884,8 @@ void talk_function::lead_to_safety(npc *p)
 {
     const auto mission = mission::reserve_new( MISSION_REACH_SAFETY, -1 );
     mission->assign( g->u );
-    const point target = mission->get_target();
- // TODO: the target has no z-component
- p->goal.x = target.x;
- p->goal.y = target.y;
- p->goal.z = g->get_levz();
- p->attitude = NPCATT_LEAD;
+    p->goal = mission->get_target();
+    p->attitude = NPCATT_LEAD;
 }
 
 void talk_function::toggle_use_guns(npc *p)
@@ -2938,7 +2937,7 @@ void talk_function::start_training( npc *p )
         auto &ma_style_id = p->chatbin.style;
         cost = calc_ma_style_training_cost( ma_style_id );
         time = calc_ma_style_training_time( ma_style_id );
-        name = p->chatbin.style;
+        name = p->chatbin.style.str();
     } else {
         const Skill *skill = p->chatbin.skill;
         cost = calc_skill_training_cost( skill );
@@ -3234,7 +3233,7 @@ std::string dialogue::opt( const std::string &topic )
   beta->chatbin.mission_selected = chosen.mission_selected;
  if (chosen.skill != NULL)
   beta->chatbin.skill = chosen.skill;
- if (!chosen.style.empty())
+ if (!chosen.style.str().empty())
   beta->chatbin.style = chosen.style;
 
     const bool success = chosen.trial.roll( *this );

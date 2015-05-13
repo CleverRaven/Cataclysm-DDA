@@ -311,7 +311,7 @@ const std::vector<mission_type> &mission_type::get_all()
     return types;
 }
 
-mission_type_id mission_type::get_random_id( const mission_origin origin, const tripoint p )
+mission_type_id mission_type::get_random_id( const mission_origin origin, const tripoint &p )
 {
     std::vector<mission_type_id> valid;
     mission_place place;

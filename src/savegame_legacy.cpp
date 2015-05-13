@@ -29,10 +29,15 @@
 #include "skill.h"
 #include "vehicle.h"
 #include "filesystem.h"
-
+#include "mongroup.h"
 #include "mission.h"
 #include "faction.h"
 #include "savegame.h"
+#include "morale.h"
+#include "worldfactory.h"
+#include "crafting.h"
+#include "veh_type.h"
+#include "mutation.h"
 
 #if !defined(_MSC_VER)
 #include <unistd.h>
@@ -1057,15 +1062,8 @@ static bool unserialize_legacy(std::ifstream & fin ) {
 
         // it's a...
         std::map<int, int> trap_key;
-        std::string trstr;
         for (int i = 0; i < num_legacy_trap; i++) {
-           trstr = legacy_trap_id[ i ];
-           if ( trapmap.find( trstr ) == trapmap.end() ) {
-              debugmsg("Can't find trap '%s' (%d)",trstr.c_str(), i );
-              trap_key[i] = trapmap["tr_null"];
-           } else {
-              trap_key[i] = trapmap[trstr];
-           }
+            trap_key[i] = trap_str_id( legacy_trap_id[ i ] ).id();
         }
 
 
@@ -1262,12 +1260,7 @@ static int unserialize_keys( std::ifstream &fin, std::map<int, int> &ter_key,
             int i = 0;
             jsin.start_array();
             while (!jsin.end_array()) {
-                std::string trstr = jsin.get_string();
-                if ( trapmap.find(trstr) == trapmap.end() ) {
-                    debugmsg("Can't find trap '%s' (%d)", trstr.c_str(), i);
-                } else {
-                    trap_key[i] = trapmap[trstr];
-                }
+                trap_key[i] = trap_str_id( jsin.get_string() ).id();
                 ++i;
             }
         } else {
@@ -1278,13 +1271,7 @@ static int unserialize_keys( std::ifstream &fin, std::map<int, int> &ter_key,
 
     if (trap_key.empty()) { // old, snip when this moves to legacy
         for (int i = 0; i < num_legacy_trap; i++) {
-            std::string trstr = legacy_trap_id[i];
-            if ( trapmap.find( trstr ) == trapmap.end() ) {
-                debugmsg("Can't find trap '%s' (%d)", trstr.c_str(), i);
-                trap_key[i] = trapmap["tr_null"];
-            } else {
-                trap_key[i] = trapmap[trstr];
-            }
+            trap_key[i] = trap_str_id( legacy_trap_id[ i ] ).id();
         }
     }
     return num_submaps;
@@ -1508,7 +1495,7 @@ void player::load_legacy(std::stringstream & dump)
 {
  int inveh, vctrl;
  int tmpactive_mission;
- itype_id styletmp;
+ std::string styletmp;
  std::string prof_ident;
 
  dump >> position.x >> position.y >> str_cur >> str_max >> dex_cur >> dex_max >>
@@ -1544,7 +1531,7 @@ void player::load_legacy(std::stringstream & dump)
 
  in_vehicle = inveh != 0;
  controlling_vehicle = vctrl != 0;
- style_selected = styletmp;
+ style_selected = matype_id( styletmp );
 
  std::string sTemp = "";
     const auto mut_count = mutation_branch::get_all().size();
@@ -1592,11 +1579,11 @@ void player::load_legacy(std::stringstream & dump)
  }
 
  int numstyles;
- itype_id styletype;
+ std::string styletype;
  dump >> numstyles;
  for (int i = 0; i < numstyles; i++) {
   dump >> styletype;
-  ma_styles.push_back( styletype );
+  ma_styles.push_back( matype_id( styletype ) );
  }
 
  int numill;
@@ -1922,12 +1909,12 @@ void npc::load_legacy(std::stringstream & dump) {
      dump >> skillLevel( skill );
  }
 
- itype_id tmpstyle;
+ std::string tmpstyle;
  int numstyle;
  dump >> numstyle;
  for (int i = 0; i < numstyle; i++) {
   dump >> tmpstyle;
-  ma_styles.push_back(tmpstyle);
+  ma_styles.push_back( matype_id( tmpstyle ) );
  }
 
  int typetmp;

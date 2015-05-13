@@ -6,6 +6,7 @@
 #include "player.h"
 #include "translations.h"
 #include "activity_handlers.h"
+#include "messages.h"
 
 // activity_item_handling.cpp
 void activity_on_turn_drop();
@@ -24,7 +25,7 @@ player_activity::player_activity(activity_type t, int turns, int Index, int pos,
                                  std::string name_in) :
     JsonSerializer(), JsonDeserializer(), type(t), moves_left(turns), index(Index),
     position(pos), name(name_in), ignore_trivial(false), values(), str_values(),
-    placement(-1, -1), warned_of_proximity(false), auto_resume(false)
+    placement( tripoint_min ), warned_of_proximity(false), auto_resume(false)
 {
 }
 

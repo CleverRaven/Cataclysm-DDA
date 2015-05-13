@@ -7,6 +7,12 @@
 #include "map.h"
 #include "options.h"
 #include "messages.h"
+#include "translations.h"
+#include "input.h"
+#include "crafting.h"
+#include "ui.h"
+#include "trap.h"
+#include "itype.h"
 #include <istream>
 #include <sstream>
 #include <fstream>
@@ -381,8 +387,14 @@ std::string press_x( action_id act, std::string key_bound_pre, std::string key_b
     return ctxt.press_x( action_ident( act ), key_bound_pre, key_bound_suf, key_unbound );
 }
 
-action_id get_movement_direction_from_delta( const int dx, const int dy )
+action_id get_movement_direction_from_delta( const int dx, const int dy, const int dz )
 {
+    if( dz == -1 ) {
+        return ACTION_MOVE_DOWN;
+    } else if( dz == 1 ) {
+        return ACTION_MOVE_UP;
+    }
+
     if( dx == 0 && dy == -1 ) {
         return ACTION_MOVE_N;
     } else if( dx == 1 && dy == -1 ) {

@@ -18,6 +18,10 @@
 #include "messages.h"
 #include "mondefense.h"
 #include "mission.h"
+#include "mongroup.h"
+#include "monfaction.h"
+#include "options.h"
+#include "trap.h"
 
 #define SGN(a) (((a)<0) ? -1 : 1)
 #define SQR(a) ((a)*(a))
@@ -35,7 +39,7 @@ monster::monster()
  anger = 0;
  morale = 2;
  last_loaded = 0;
- faction = MonsterGenerator::generator().faction_by_name( "" );
+ faction = mfaction_id( 0 );
  mission_id = -1;
  no_extra_death_drops = false;
  dead = false;
@@ -105,25 +109,6 @@ monster::~monster()
 {
 }
 
-bool monster::setpos(const int x, const int y)
-{
-    bool ret = g->update_zombie_pos( *this, tripoint( x, y, g->get_levz() ) );
-    position.x = x;
-    position.y = y;
-    position.z = g->get_levz();
-    return ret;
-}
-
-bool monster::setpos(const int x, const int y, const int z, const bool level_change)
-{
-    return setpos( tripoint( x, y, z ), level_change );
-}
-
-bool monster::setpos( const point &p, const bool level_change )
-{
-    return setpos( tripoint( p, position.z ), level_change );
-}
-
 bool monster::setpos( const tripoint &p, const bool level_change )
 {
     if( p == pos3() ) {
@@ -135,7 +120,7 @@ bool monster::setpos( const tripoint &p, const bool level_change )
     return ret;
 }
 
-const tripoint &monster::pos3() const
+const tripoint &monster::pos() const
 {
     return position;
 }
@@ -218,17 +203,6 @@ void monster::update_check() {
     }
 
     last_loaded = current_day;
-}
-void monster::spawn(int x, int y)
-{
-    spawn( x, y, g->get_levz() );
-}
-
-void monster::spawn(const int x, const int y, const int z)
-{
-    position.x = x;
-    position.y = y;
-    position.z = z;
 }
 
 void monster::spawn(const tripoint &p)
@@ -573,7 +547,7 @@ Creature::Attitude monster::attitude_to( const Creature &other ) const
         if( m == this ) {
             return A_FRIENDLY;
         }
-        auto faction_att = faction->attitude( m->faction );
+        auto faction_att = faction.obj().attitude( m->faction );
         if( ( friendly != 0 && m->friendly != 0 ) ||
             ( friendly == 0 && m->friendly == 0 && faction_att == MFA_FRIENDLY ) ) {
             // Friendly (to player) monsters are friendly to each other
@@ -787,8 +761,45 @@ bool monster::is_warm() const {
 
 bool monster::is_elec_immune() const
 {
-    return type->sp_defense == &mdefense::zapback ||
+    return is_immune_damage( DT_ELECTRIC );
+}
+
+bool monster::is_immune_effect( const efftype_id &effect ) const
+{
+    if( effect == "onfire" ) {
+        return is_immune_damage( DT_HEAT );
+    }
+
+    return false;
+}
+
+bool monster::is_immune_damage( const damage_type dt ) const
+{
+    switch( dt ) {
+    case DT_NULL:
+        return true;
+    case DT_TRUE:
+        return false;
+    case DT_BIOLOGICAL: // NOTE: Unused
+        return false;
+    case DT_BASH:
+        return false;
+    case DT_CUT:
+        return false;
+    case DT_ACID:
+        return has_flag( MF_ACIDPROOF );
+    case DT_STAB:
+        return false;
+    case DT_HEAT:
+        return made_of("steel") || made_of("stone"); // Ugly hardcode - remove later
+    case DT_COLD:
+        return false;
+    case DT_ELECTRIC:
+        return type->sp_defense == &mdefense::zapback ||
            has_flag( MF_ELECTRIC );
+    default:
+        return true;
+    }
 }
 
 bool monster::is_dead_state() const {
@@ -808,7 +819,7 @@ void monster::absorb_hit(body_part, damage_instance &dam) {
     }
 }
 
-void monster::melee_attack(Creature &target, bool, matec_id) {
+void monster::melee_attack(Creature &target, bool, const matec_id&) {
     mod_moves(-100);
     if (type->melee_dice == 0) { // We don't attack, so just return
         return;
@@ -933,44 +944,55 @@ void monster::melee_attack(Creature &target, bool, matec_id) {
 
 void monster::hit_monster(monster &other)
 {
- monster* target = &other;
- moves -= 100;
+    // TODO: Unify this with the function above
+    moves -= 100;
 
- if (this == target) {
-  return;
- }
+    if( this == &other ) {
+        return;
+    }
 
- int numdice = type->melee_skill;
- int dodgedice = target->get_dodge() * 2;
- switch (target->type->size) {
-  case MS_TINY:  dodgedice += 6; break;
-  case MS_SMALL: dodgedice += 3; break;
-  case MS_MEDIUM: break;
-  case MS_LARGE: dodgedice -= 2; break;
-  case MS_HUGE:  dodgedice -= 4; break;
- }
+    damage_instance damage;
+    if( !is_hallucination() ) {
+        if( type->melee_dice > 0 ) {
+            damage.add_damage( DT_BASH, dice( type->melee_dice, type->melee_sides ) );
+        }
 
- if (dice(numdice, 10) <= dice(dodgedice, 10)) {
-  if (g->u.sees(*this))
-   add_msg(_("The %s misses the %s!"), name().c_str(), target->name().c_str());
-  return;
- }
- if (g->u.sees(*this))
-  add_msg(_("The %s hits the %s!"), name().c_str(), target->name().c_str());
- if (!is_hallucination()) {
-  int damage = dice(type->melee_dice, type->melee_sides);
-  target->apply_damage( this, bp_torso, damage );
-  target->type->sp_defense(target, this, nullptr);
-  target->check_dead_state();
- }
+        if( type->melee_cut > 0 ) {
+            damage.add_damage( DT_CUT, type->melee_cut );
+        }
+    }
+
+    dealt_damage_instance dealt_dam;
+    int hitspread = other.deal_melee_attack( this, hit_roll() );
+    if( hitspread >= 0 ) {
+        other.deal_melee_hit( this, hitspread, false, damage, dealt_dam );
+        if( g->u.sees(*this) ) {
+            add_msg(_("The %s hits the %s!"), name().c_str(), other.name().c_str());
+        }
+    } else {
+        if( g->u.sees( *this ) ) {
+            add_msg(_("The %s misses the %s!"), name().c_str(), other.name().c_str());
+        }
+
+        if( !is_hallucination() ) {
+            other.on_dodge( this );
+        }
+    }
 }
 
 int monster::deal_melee_attack(Creature *source, int hitroll)
 {
-    if(!is_hallucination() && source != NULL) {
-        type->sp_defense(this, source, nullptr);
+    int roll = Creature::deal_melee_attack(source, hitroll);
+    if( is_hallucination() ) {
+        return roll;
     }
-    return Creature::deal_melee_attack(source, hitroll);
+
+    if( roll < 0 ) {
+        // on_hit is in deal_melee_hit
+        on_dodge( source );
+    }
+
+    return roll;
 }
 
 int monster::deal_projectile_attack(Creature *source, double missed_by,
@@ -989,16 +1011,18 @@ int monster::deal_projectile_attack(Creature *source, double missed_by,
         missed_by = 0.2;
     }
 
-    if(!is_hallucination() && source != NULL) {
-        type->sp_defense(this, source, &proj);
-    }
-
     // whip has a chance to scare wildlife
     if(proj.proj_effects.count("WHIP") && type->in_category("WILDLIFE") && one_in(3)) {
         add_effect("run", rng(3, 5));
     }
 
-    return Creature::deal_projectile_attack(source, missed_by, proj, dealt_dam);
+    int went_past = Creature::deal_projectile_attack(source, missed_by, proj, dealt_dam);
+    if( !is_hallucination() && !went_past ) {
+        // Maybe TODO: Get difficulty from projectile speed/size/missed_by
+        on_hit( source, bp_torso, INT_MIN, &proj );
+    }
+
+    return went_past;
 }
 
 void monster::deal_damage_handle_type(const damage_unit& du, body_part bp, int& damage, int& pain) {
@@ -1167,10 +1191,11 @@ void monster::add_eff_effects(effect e, bool reduced)
     }
     Creature::add_eff_effects(e, reduced);
 }
-void monster::add_effect(efftype_id eff_id, int dur, body_part bp, bool permanent, int intensity)
+void monster::add_effect( efftype_id eff_id, int dur, body_part bp,
+                          bool permanent, int intensity, bool force )
 {
     bp = num_bp;
-    Creature::add_effect(eff_id, dur, bp, permanent, intensity);
+    Creature::add_effect( eff_id, dur, bp, permanent, intensity, force );
 }
 
 int monster::get_armor_cut(body_part bp) const
@@ -1584,7 +1609,7 @@ void monster::process_effects()
     }
 
     // If this critter dies in sunlight, check & assess damage.
-    if( has_flag( MF_SUNDEATH ) && g->is_in_sunlight( posx(), posy() ) ) {
+    if( has_flag( MF_SUNDEATH ) && g->is_in_sunlight( pos() ) ) {
         if( g->u.sees( *this ) ) {
             add_msg( m_good, _( "The %s burns horribly in the sunlight!" ), name().c_str() );
         }
@@ -1781,4 +1806,22 @@ float monster::power_rating() const
     // Hostile stuff gets a big boost
     // Neutral moose will still get burned if it comes close
     return ret;
+}
+
+void monster::on_dodge( Creature*, int )
+{
+    // Currently does nothing, later should handle faction relations
+}
+
+void monster::on_hit( Creature *source, body_part,
+                      int, projectile const* const proj )
+{
+    type->sp_defense( this, source, proj );
+    check_dead_state();
+    // TODO: Faction relations
+}
+
+body_part monster::get_random_body_part( bool ) const
+{
+    return bp_torso;
 }

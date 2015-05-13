@@ -1,14 +1,18 @@
 #ifndef MUTATION_H
 #define MUTATION_H
 
-#include "pldata.h"
 #include "json.h"
 #include "enums.h" // tripoint
-#include "ui.h"
+#include "bodypart.h"
+#include "color.h"
+#include "string_id.h"
+#include <string>
 #include <vector>
 #include <map>
 #include <unordered_map>
 
+class martialart;
+using matype_id = string_id<martialart>;
 struct dream;
 struct mutation_branch;
 
@@ -55,7 +59,7 @@ struct mutation_branch {
     std::map<std::string, mutation_wet> protection; // Mutation wet effects
     /** Key pair is <active: bool, mod type: "STR"> */
     std::unordered_map<std::pair<bool, std::string>, int> mods; // Mutation stat mods
-    std::vector<std::string> initial_ma_styles; // Martial art styles that can be chosen upon character generation
+    std::vector<matype_id> initial_ma_styles; // Martial art styles that can be chosen upon character generation
     std::string name;
     std::string description;
     /**
