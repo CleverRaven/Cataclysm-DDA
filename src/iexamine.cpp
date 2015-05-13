@@ -1571,7 +1571,7 @@ void iexamine::aggie_plant(player *p, map *m, const tripoint &examp)
             } else if ( (p->has_trait("M_DEFENDER")) || ( (p->has_trait("M_SPORES") || p->has_trait("M_FERTILE")) &&
               one_in(2)) ) {
                 // Note: not Z-level-friendly!
-                m->add_spawn("mon_fungal_blossom", 1, examp.x, examp.y );
+                g->summon_mon( "mon_fungal_blossom", examp );
                 add_msg(m_info, _("The seed blooms forth!  We have brought true beauty to this world."));
             } else if ( (p->has_trait("THRESH_MYCUS")) || one_in(4)) {
                 m->furn_set(examp, f_flower_marloss);
