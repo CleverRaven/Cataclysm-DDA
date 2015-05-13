@@ -3354,25 +3354,22 @@ bool map::marlossify( const tripoint &p )
 
 bool map::open_door( const tripoint &p, const bool inside, const bool check_only )
 {
-    // TODO: Z
-    const int x = p.x;
-    const int y = p.y;
-    const auto &ter = ter_at( x, y );
-    const auto &furn = furn_at( x, y );
+    const auto &ter = ter_at( p );
+    const auto &furn = furn_at( p );
     int vpart = -1;
-    vehicle *veh = veh_at( x, y, vpart );
+    vehicle *veh = veh_at( p, vpart );
     if ( !ter.open.empty() && ter.open != "t_null" ) {
         if ( termap.find( ter.open ) == termap.end() ) {
             debugmsg("terrain %s.open == non existant terrain '%s'\n", ter.id.c_str(), ter.open.c_str() );
             return false;
         }
 
-        if ( has_flag("OPENCLOSE_INSIDE", x, y) && inside == false ) {
+        if ( has_flag("OPENCLOSE_INSIDE", p) && inside == false ) {
             return false;
         }
 
         if(!check_only) {
-            ter_set(x, y, ter.open );
+            ter_set( p, ter.open );
         }
 
         return true;
@@ -3382,12 +3379,12 @@ bool map::open_door( const tripoint &p, const bool inside, const bool check_only
             return false;
         }
 
-        if ( has_flag("OPENCLOSE_INSIDE", x, y) && inside == false ) {
+        if ( has_flag("OPENCLOSE_INSIDE", p) && inside == false ) {
             return false;
         }
 
         if(!check_only) {
-            furn_set(x, y, furn.open );
+            furn_set(p, furn.open );
         }
 
         return true;
