@@ -304,6 +304,8 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         bool unarmed_attack() const;
         /** Called when a player triggers a trap, returns true if they don't set it off */
         bool avoid_trap( const tripoint &pos, const trap &tr ) override;
+        /** Picks a random body part, adjusting for mutations, broken body parts etc. */
+        body_part get_random_body_part( bool main ) const override;
 
         /** Returns true if the player has a pda */
         bool has_pda();
@@ -400,9 +402,9 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         bool is_immune_damage( const damage_type ) const override;
 
         /** Returns true if the player has technique-based miss recovery */
-        bool has_miss_recovery_tec();
+        bool has_miss_recovery_tec() const;
         /** Returns true if the player has a grab breaking technique available */
-        bool has_grab_break_tec();
+        bool has_grab_break_tec() const;
         /** Returns true if the player has the leg block technique available */
         bool can_leg_block();
         /** Returns true if the player has the arm block technique available */
@@ -413,8 +415,9 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         // melee.cpp
         /** Returns true if the player has a weapon with a block technique */
         bool can_weapon_block();
+        using Creature::melee_attack;
         /** Sets up a melee attack and handles melee attack function calls */
-        void melee_attack(Creature &t, bool allow_special, matec_id technique = "") override;
+        void melee_attack(Creature &t, bool allow_special, const matec_id &technique) override;
         /** Returns the player's dispersion modifier based on skill. **/
         int skill_dispersion( item *weapon, bool random ) const;
         /** Returns a weapon's modified dispersion value */
@@ -433,8 +436,11 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         void armor_absorb(damage_unit &du, item &armor);
         /** Runs through all bionics and armor on a part and reduces damage through their armor_absorb */
         void absorb_hit(body_part bp, damage_instance &dam) override;
-        /** Handles return on-hit effects (spines, electric shields, etc.) */
-        void on_gethit(Creature *source, body_part bp_hit, damage_instance &dam) override;
+        /** Handles dodged attacks (training dodge) and ma_ondodge */
+        void on_dodge( Creature *source, int difficulty = INT_MIN ) override;
+        /** Handles special defenses from an attack that hit us (source can be null) */
+        void on_hit( Creature *source, body_part bp_hit = num_bp,
+                     int difficulty = INT_MIN, projectile const* const proj = nullptr ) override;
 
         /** Returns the base damage the player deals based on their stats */
         int base_damage(bool real_life = true, int stat = -999);
@@ -454,22 +460,22 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         /** Adds player's total stab damage to the damage instance */
         void roll_stab_damage( bool crit, damage_instance &di );
         /** Returns the number of moves unsticking a weapon will penalize for */
-        int roll_stuck_penalty(bool stabbing, ma_technique &tec);
-        std::vector<matec_id> get_all_techniques();
+        int roll_stuck_penalty(bool stabbing, const ma_technique &tec);
+        std::vector<matec_id> get_all_techniques() const;
 
         /** Returns true if the player has a weapon or martial arts skill available with the entered technique */
-        bool has_technique(matec_id tec);
+        bool has_technique( const matec_id & tec ) const;
         /** Returns a random valid technique */
         matec_id pick_technique(Creature &t,
                                 bool crit, bool dodge_counter, bool block_counter);
-        void perform_technique(ma_technique technique, Creature &t, damage_instance &di, int &move_cost);
+        void perform_technique(const ma_technique &technique, Creature &t, damage_instance &di, int &move_cost);
         /** Performs special attacks and their effects (poisonous, stinger, etc.) */
         void perform_special_attacks(Creature &t);
 
         /** Returns a vector of valid mutation attacks */
         std::vector<special_attack> mutation_attacks(Creature &t);
         /** Handles combat effects, returns a string of any valid combat effect messages */
-        std::string melee_special_effects(Creature &t, damage_instance &d, ma_technique &tec);
+        std::string melee_special_effects(Creature &t, damage_instance &d, const ma_technique &tec);
         /** Returns Creature::get_dodge_base modified by the player's skill level */
         int get_dodge_base() const override;   // Returns the players's dodge, modded by clothing etc
         /** Returns Creature::get_dodge() modified by any player effects */
@@ -1086,8 +1092,8 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         // Items the player has identified.
         std::unordered_set<std::string> items_identified;
         /** Check if an area-of-effect technique has valid targets */
-        bool valid_aoe_technique( Creature &t, ma_technique &technique );
-        bool valid_aoe_technique( Creature &t, ma_technique &technique,
+        bool valid_aoe_technique( Creature &t, const ma_technique &technique );
+        bool valid_aoe_technique( Creature &t, const ma_technique &technique,
                                   std::vector<int> &mon_targets, std::vector<int> &npc_targets );
         /**
          * Check whether the other creature is in range and can be seen by this creature.

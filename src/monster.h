@@ -11,7 +11,9 @@ class game;
 class item;
 class monfaction;
 
-typedef std::map< const monfaction*, std::set< int > > mfactions;
+using mfaction_id = int_id<monfaction>;
+
+typedef std::map< mfaction_id, std::set< int > > mfactions;
 
 enum monster_attitude {
     MATT_NULL = 0,
@@ -222,7 +224,8 @@ class monster : public Creature, public JsonSerializer, public JsonDeserializer
         void absorb_hit(body_part bp, damage_instance &dam) override;
         void dodge_hit(Creature *source, int hit_spread) override;
         bool block_hit(Creature *source, body_part &bp_hit, damage_instance &d) override;
-        void melee_attack(Creature &p, bool allow_special = true, matec_id force_technique = "") override;
+        using Creature::melee_attack;
+        void melee_attack(Creature &p, bool allow_special, const matec_id &force_technique) override;
         virtual int deal_melee_attack(Creature *source, int hitroll) override;
         virtual int deal_projectile_attack(Creature *source, double missed_by,
                                            const projectile &proj, dealt_damage_instance &dealt_dam) override;
@@ -263,6 +266,14 @@ class monster : public Creature, public JsonSerializer, public JsonDeserializer
         int  dodge_roll() override;  // For the purposes of comparing to player::hit_roll()
         int  fall_damage() const; // How much a fall hurts us
 
+        // We just dodged an attack from something
+        void on_dodge( Creature *source, int difficulty = INT_MIN ) override;
+        // Something hit us (possibly null source)
+        void on_hit( Creature *source, body_part bp_hit = num_bp,
+                     int difficulty = INT_MIN, projectile const* const proj = nullptr ) override;
+        // Get torso - monsters don't have body parts (yet?)
+        body_part get_random_body_part( bool main ) const override;
+
         /** Resets a given special to its monster type cooldown value, an index of -1 does nothing. */
         void reset_special(int index);
         /** Resets a given special to a value between 0 and its monster type cooldown value.
@@ -301,7 +312,7 @@ class monster : public Creature, public JsonSerializer, public JsonDeserializer
         int def_chance;
         int friendly;
         int anger, morale;
-        const monfaction *faction; // Our faction (species, for most monsters)
+        mfaction_id faction; // Our faction (species, for most monsters)
         int mission_id; // If we're related to a mission
         mtype *type;
         bool no_extra_death_drops;    // if true, don't spawn loot items as part of death

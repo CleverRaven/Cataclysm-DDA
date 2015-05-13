@@ -1680,13 +1680,14 @@ int map::combined_movecost( const tripoint &from, const tripoint &to,
     return (cost1 + cost2 + modifier) * mults[match] / 2;
 }
 
-bool map::valid_move( const tripoint &from, const tripoint &to, const bool flying ) const
+bool map::valid_move( const tripoint &from, const tripoint &to,
+                      const bool bash, const bool flying ) const
 {
     if( rl_dist( from, to ) != 1 ) {
         return false;
     }
 
-    if( move_cost( from ) <= 0 || move_cost( to ) <= 0 ) {
+    if( move_cost( to ) <= 0 && !bash ) {
         return false;
     }
 
@@ -6409,7 +6410,6 @@ void map::spawn_monsters_submap( const tripoint &gp, bool ignore_sight )
                 tmp.spawn( pos );
                 g->add_zombie(tmp);
             }
-else debugmsg( "tried to spawn %s, but 10 tries. last pos %d,%d,%d", tmp.disp_name().c_str(), pos.x, pos.y, pos.z );
         }
     }
     current_submap->spawns.clear();

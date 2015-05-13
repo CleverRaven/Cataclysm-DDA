@@ -404,7 +404,6 @@ void computer::activate_function(computer_action action, char ch)
                 int &yt = tmp2.y;
                 for( xt = i - 2; xt <= i + 2; xt++ ) {
                     for( yt = j - 2; yt <= j + 2; yt++ ) {
-                        
                         if (g->m.ter( tmp2 ) == t_radio_tower) {
                             numtowers++;
                         }

@@ -19,7 +19,7 @@ const trap &int_id<trap>::obj() const
 }
 
 template<>
-string_id<trap> int_id<trap>::id() const
+const string_id<trap> &int_id<trap>::id() const
 {
     return obj().id;
 }

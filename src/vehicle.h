@@ -8,6 +8,8 @@
 #include "line.h"
 #include "item_stack.h"
 #include "active_item_cache.h"
+#include "string_id.h"
+#include "int_id.h"
 
 #include <vector>
 #include <array>
@@ -21,6 +23,8 @@ class player;
 class vehicle;
 struct vpart_info;
 enum vpart_bitflags : int;
+using vpart_id = int_id<vpart_info>;
+using vpart_str_id = string_id<vpart_info>;
 
 //collision factor for vehicle-vehicle collision; delta_v in mph
 float get_collision_factor(float delta_v);
@@ -91,7 +95,7 @@ struct vehicle_item_spawn
 struct vehicle_prototype
 {
     std::string id, name;
-    std::vector<std::pair<point, std::string> > parts;
+    std::vector<std::pair<point, vpart_str_id> > parts;
     std::vector<vehicle_item_spawn> item_spawns;
 };
 
@@ -129,27 +133,16 @@ struct vehicle_part : public JsonSerializer, public JsonDeserializer
     friend vehicle;
     enum : int { passenger_flag = 1 };
 
-    vehicle_part(int dx = 0, int dy = 0)
-      : id("null"), mount(dx, dy), precalc({{point(-1, -1), point(-1, -1)}}), amount(0) {}
-
-    vehicle_part(const std::string &sid, int dx = 0, int dy = 0, const item *it = nullptr)
-      : vehicle_part(dx, dy)
-    {
-        if (!sid.empty()) {
-            setid(sid);
-        }
-
-        if (it) {
-            properties_from_item(*it);
-        }
-    }
+    vehicle_part( int dx = 0, int dy = 0 );
+    vehicle_part( const vpart_str_id &sid, int dx = 0, int dy = 0, const item *it = nullptr );
 
     bool has_flag(int const flag) const noexcept { return flag & flags; }
     int  set_flag(int const flag)       noexcept { return flags |= flag; }
     int  remove_flag(int const flag)    noexcept { return flags &= ~flag; }
 
-    std::string id;               // id in map of parts (vehicle_part_types key)
-    int iid          = 0;         // same as above, for lookup via int
+private:
+    vpart_id id;         // id in map of parts (vehicle_part_types key)
+public:
     point mount;                  // mount point: x is on the forward/backward axis, y is on the left/right axis
     std::array<point, 2> precalc; // mount translated to face.dir [0] and turn_dir [1]
     int hp           = 0;         // current durability, if 0, then broken
@@ -176,7 +169,9 @@ struct vehicle_part : public JsonSerializer, public JsonDeserializer
 private:
     std::list<item> items; // inventory
 public:
-    bool setid( const std::string & str );
+    void set_id( const vpart_str_id & str );
+    const vpart_str_id &get_id() const;
+    const vpart_info &info() const;
 
     // json saving/loading
     using JsonSerializer::serialize;
@@ -401,20 +396,20 @@ public:
     void play_music();
 
     // get vpart type info for part number (part at given vector index)
-    vpart_info& part_info (int index, bool include_removed = false) const;
+    const vpart_info& part_info (int index, bool include_removed = false) const;
 
     // check if certain part can be mounted at certain position (not accounting frame direction)
-    bool can_mount (int dx, int dy, std::string const &id) const;
+    bool can_mount (int dx, int dy, const vpart_str_id &id) const;
 
     // check if certain part can be unmounted
     bool can_unmount (int p) const;
 
     // install a new part to vehicle (force to skip possibility check)
-    int install_part (int dx, int dy, std::string id, int hp = -1, bool force = false);
+    int install_part (int dx, int dy, const vpart_str_id &id, int hp = -1, bool force = false);
     // Install a copy of the given part, skips possibility check
     int install_part (int dx, int dy, const vehicle_part &part);
     // install an item to vehicle as a vehicle part.
-    int install_part (int dx, int dy, const std::string &id, const item &item_used);
+    int install_part (int dx, int dy, const vpart_str_id &id, const item &item_used);
 
     bool remove_part (int p);
     void part_removal_cleanup ();
@@ -488,11 +483,11 @@ public:
     int part_displayed_at( int local_x, int local_y ) const;
 
     // Given a part, finds its index in the vehicle
-    int index_of_part(vehicle_part *part, bool check_removed = false) const;
+    int index_of_part(const vehicle_part *part, bool check_removed = false) const;
 
     // get symbol for map
     char part_sym (int p) const;
-    std::string part_id_string(int p, char &part_mod) const;
+    const vpart_str_id &part_id_string(int p, char &part_mod) const;
 
     // get color for map
     nc_color part_color (int p) const;

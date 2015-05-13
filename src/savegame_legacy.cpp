@@ -1495,7 +1495,7 @@ void player::load_legacy(std::stringstream & dump)
 {
  int inveh, vctrl;
  int tmpactive_mission;
- itype_id styletmp;
+ std::string styletmp;
  std::string prof_ident;
 
  dump >> position.x >> position.y >> str_cur >> str_max >> dex_cur >> dex_max >>
@@ -1531,7 +1531,7 @@ void player::load_legacy(std::stringstream & dump)
 
  in_vehicle = inveh != 0;
  controlling_vehicle = vctrl != 0;
- style_selected = styletmp;
+ style_selected = matype_id( styletmp );
 
  std::string sTemp = "";
     const auto mut_count = mutation_branch::get_all().size();
@@ -1579,11 +1579,11 @@ void player::load_legacy(std::stringstream & dump)
  }
 
  int numstyles;
- itype_id styletype;
+ std::string styletype;
  dump >> numstyles;
  for (int i = 0; i < numstyles; i++) {
   dump >> styletype;
-  ma_styles.push_back( styletype );
+  ma_styles.push_back( matype_id( styletype ) );
  }
 
  int numill;
@@ -1909,12 +1909,12 @@ void npc::load_legacy(std::stringstream & dump) {
      dump >> skillLevel( skill );
  }
 
- itype_id tmpstyle;
+ std::string tmpstyle;
  int numstyle;
  dump >> numstyle;
  for (int i = 0; i < numstyle; i++) {
   dump >> tmpstyle;
-  ma_styles.push_back(tmpstyle);
+  ma_styles.push_back( matype_id( tmpstyle ) );
  }
 
  int typetmp;
@@ -2124,17 +2124,19 @@ void item::load_legacy(std::stringstream & dump) {
 // Matches vpart_id integers from old saves (ranging from 72260f0 2013-08-22 onward, including 0.8)
 // This never changes, unless things get renamed / removed.
 //
-const std::string legacy_vpart_id[74] = {"null", "seat", "saddle", "bed", "frame_horizontal", "frame_vertical",
-    "frame_cross", "frame_nw", "frame_ne", "frame_se", "frame_sw", "frame_horizontal_2", "frame_vertical_2",
-    "frame_cover", "frame_handle", "board_horizontal", "board_vertical", "board_nw", "board_ne", "board_se",
-    "board_sw", "aisle_horizontal", "aisle_vertical", "trunk_floor", "roof", "door", "door_opaque",
-    "door_internal", "windshield", "blade_horizontal", "blade_vertical", "spike", "wheel", "wheel_wide",
-    "wheel_underbody", "wheel_bicycle", "wheel_motorbike", "wheel_small", "wheel_caster", "engine_1cyl",
-    "engine_vtwin", "engine_inline4", "engine_v6", "engine_v8", "engine_electric", "engine_electric_large",
-    "engine_plasma", "foot_pedals", "gas_tank", "storage_battery", "minireactor", "hydrogen_tank", "water_tank",
-    "trunk", "box", "controls", "muffler", "seatbelt", "solar_panel", "kitchen_unit", "welding_rig", "m249",
-    "flamethrower", "plasma_gun", "fusion_gun", "plating_steel", "plating_superalloy", "plating_spiked",
-    "plating_hard", "headlight", "reinforced_windshield", "horn_bicycle", "horn_car", "horn_big"};
+const vpart_str_id legacy_vpart_id[74] = {
+    vpart_str_id{"null"}, vpart_str_id{"seat"}, vpart_str_id{"saddle"}, vpart_str_id{"bed"}, vpart_str_id{"frame_horizontal"}, vpart_str_id{"frame_vertical"},
+    vpart_str_id{"frame_cross"}, vpart_str_id{"frame_nw"}, vpart_str_id{"frame_ne"}, vpart_str_id{"frame_se"}, vpart_str_id{"frame_sw"}, vpart_str_id{"frame_horizontal_2"}, vpart_str_id{"frame_vertical_2"},
+    vpart_str_id{"frame_cover"}, vpart_str_id{"frame_handle"}, vpart_str_id{"board_horizontal"}, vpart_str_id{"board_vertical"}, vpart_str_id{"board_nw"}, vpart_str_id{"board_ne"}, vpart_str_id{"board_se"},
+    vpart_str_id{"board_sw"}, vpart_str_id{"aisle_horizontal"}, vpart_str_id{"aisle_vertical"}, vpart_str_id{"trunk_floor"}, vpart_str_id{"roof"}, vpart_str_id{"door"}, vpart_str_id{"door_opaque"},
+    vpart_str_id{"door_internal"}, vpart_str_id{"windshield"}, vpart_str_id{"blade_horizontal"}, vpart_str_id{"blade_vertical"}, vpart_str_id{"spike"}, vpart_str_id{"wheel"}, vpart_str_id{"wheel_wide"},
+    vpart_str_id{"wheel_underbody"}, vpart_str_id{"wheel_bicycle"}, vpart_str_id{"wheel_motorbike"}, vpart_str_id{"wheel_small"}, vpart_str_id{"wheel_caster"}, vpart_str_id{"engine_1cyl"},
+    vpart_str_id{"engine_vtwin"}, vpart_str_id{"engine_inline4"}, vpart_str_id{"engine_v6"}, vpart_str_id{"engine_v8"}, vpart_str_id{"engine_electric"}, vpart_str_id{"engine_electric_large"},
+    vpart_str_id{"engine_plasma"}, vpart_str_id{"foot_pedals"}, vpart_str_id{"gas_tank"}, vpart_str_id{"storage_battery"}, vpart_str_id{"minireactor"}, vpart_str_id{"hydrogen_tank"}, vpart_str_id{"water_tank"},
+    vpart_str_id{"trunk"}, vpart_str_id{"box"}, vpart_str_id{"controls"}, vpart_str_id{"muffler"}, vpart_str_id{"seatbelt"}, vpart_str_id{"solar_panel"}, vpart_str_id{"kitchen_unit"}, vpart_str_id{"welding_rig"}, vpart_str_id{"m249"},
+    vpart_str_id{"flamethrower"}, vpart_str_id{"plasma_gun"}, vpart_str_id{"fusion_gun"}, vpart_str_id{"plating_steel"}, vpart_str_id{"plating_superalloy"}, vpart_str_id{"plating_spiked"},
+    vpart_str_id{"plating_hard"}, vpart_str_id{"headlight"}, vpart_str_id{"reinforced_windshield"}, vpart_str_id{"horn_bicycle"}, vpart_str_id{"horn_car"}, vpart_str_id{"horn_big"}
+};
 
 void vehicle::load_legacy(std::ifstream &stin) {
     int fdir, mdir, skd, prts, cr_on, li_on, tag_count;
@@ -2168,7 +2170,7 @@ void vehicle::load_legacy(std::ifstream &stin) {
         stin >> pid >> pdx >> pdy >> php >> pam >> pbld >> pbig >> pflag >> pass >> pnit;
         getline(stin, databuff); // Clear EoL
         vehicle_part new_part;
-        new_part.setid(legacy_vpart_id[ pid ]);
+        new_part.set_id(legacy_vpart_id[ pid ]);
         new_part.mount.x = pdx;
         new_part.mount.y = pdy;
         new_part.hp = php;

@@ -2,6 +2,16 @@
 #define VEH_TYPE_H
 
 #include "color.h"
+#include "string_id.h"
+#include "int_id.h"
+
+#include <vector>
+
+struct vpart_info;
+using vpart_str_id = string_id<vpart_info>;
+using vpart_id = int_id<vpart_info>;
+
+class JsonObject;
 
 /**
  * Represents an entry in the breaks_into list.
@@ -59,8 +69,8 @@ enum vpart_bitflags : int {
  * Other flags are self-explanatory in their names. */
 struct vpart_info {
     using itype_id = std::string;
-    std::string id;         // unique identifier for this part
-    int loadid;             // # of loaded order, non-saved runtime optimization
+    vpart_str_id id;         // unique identifier for this part
+    vpart_id loadid;             // # of loaded order, non-saved runtime optimization
     std::string name;       // part name, user-visible
     long sym;               // symbol of part as if it's looking north
     nc_color color;         // color
@@ -100,10 +110,20 @@ public:
         return bitflags.test( flag );
     }
     void set_flag( const std::string &flag );
+
+    static void load( JsonObject &jo );
+    static void check();
+    static void reset();
+
+    static const std::vector<const vpart_info*> &get_all();
+    /**
+     * The id of the null-part. The part should not actually be used, but its id can be used like
+     * a null-pointer. Note that the null-part is still a completely valid part, getting the
+     * vpart_info object of this id will not issue a debug message.
+     */
+    static const vpart_str_id null;
 };
 
-extern std::map<std::string, vpart_info> vehicle_part_types;
-extern const std::string legacy_vpart_id[74];
-extern std::vector<vpart_info> vehicle_part_int_types;
+extern const vpart_str_id legacy_vpart_id[74];
 
 #endif
