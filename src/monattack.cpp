@@ -2367,13 +2367,20 @@ void mattack::grab(monster *z, int index)
     }
     target->add_msg_player_or_npc(m_bad, _("%s grabs you!"), _("%s grabs <npcname>!"),
                                 z->disp_name().c_str());
-    if (foe->has_grab_break_tec() && foe->get_grab_resist() > 0 && foe->get_dex() > foe->get_str() ?
+    if (foe == nullptr){
+        if ((target->get_grab_resist() > 0 && rng(target->get_melee(), 20) > rng(z->get_melee(), 20)) ||
+            (target->get_size() == MS_LARGE || MS_HUGE)){
+            foe->add_msg_player_or_npc(m_good, _("You break the grab!"),
+                                    _("<npcname> breaks the grab!"));
+            return;
+        }
+    } else if (foe != nullptr && foe->has_grab_break_tec() && foe->get_grab_resist() > 0 && foe->get_dex() > foe->get_str() ?
         dice(foe->get_dex(), 10) : dice(foe->get_str(), 10) > dice(8, 10)) {
         foe->add_msg_player_or_npc(m_good, _("You break the grab!"),
                                     _("<npcname> breaks the grab!"));
-    } else {
-        target->add_effect("grabbed", 2);
+        return;
     }
+    target->add_effect("grabbed", 2);
 }
 
 void mattack::grab_pull(monster *z, int index)
@@ -2382,6 +2389,7 @@ void mattack::grab_pull(monster *z, int index)
         return;
     }
     Creature *target = z->attack_target();
+    monster *zz = dynamic_cast<monster*>(target);
     if( target == nullptr || rl_dist( z->pos(), target->pos() ) > 1 ) {
         return;
     }
@@ -2389,49 +2397,27 @@ void mattack::grab_pull(monster *z, int index)
     player *foe = dynamic_cast< player* >( target );
     bool seen = g->u.sees( *z );
 
-    z->reset_special(index); // Reset timer
-    z->moves -= 40;
-    bool uncanny = target->uncanny_dodge();
-    if( uncanny || dodge_check(z, target) ){
-        if( foe != nullptr ) {
-            if( seen ) {
-                auto msg_type = foe == &g->u ? m_warning : m_info;
-                foe->add_msg_player_or_npc( msg_type, _("The %s gropes at you, but you dodge!"),
-                                                      _("The %s gropes at <npcname>, but they dodge!"),
-                                            z->name().c_str() );
-            }
-            if( !uncanny ) {
-                target->on_dodge( z, z->type->melee_skill * 2 );
-            }
-        } else if( seen ) {
-            add_msg( _("The %s gropes at %s, but misses!"), z->name().c_str(), target->disp_name().c_str() );
-        }
-        return;
-    }
-    foe->add_msg_player_or_npc(m_bad, _("%s grabs you!"), _("%s grabs <npcname>!"),
-                                z->disp_name().c_str());
-    if (foe->has_grab_break_tec() && foe->get_grab_resist() > 0 && foe->get_dex() > foe->get_str() ?
-        dice(foe->get_dex(), 10) : dice(foe->get_str(), 10) > dice(10, 10)) {
-        foe->add_msg_player_or_npc(m_good, _("You break the grab!"),
-                                    _("<npcname> breaks the grab!"));
-    } else {
-        target->add_effect("grabbed", 5);
-    }
+    grab(z, index);
+
     if (foe->has_effect("grabbed")){
         tripoint target_square = z->pos() - (target->pos() - z->pos());
         if (z->can_move_to(target_square) && foe->drag_check() ){
             tripoint my_old_location = z->pos();
             z->move_to(target_square);
-            foe->setpos(my_old_location);
+            if (foe != nullptr){
+                foe->setpos(my_old_location);
+            } else {
+                zz->setpos(my_old_location);
+            }
             if( seen ) {
                 add_msg( _("The %s drags %s!"), z->name().c_str(), target->disp_name().c_str() );
             }
-        }
-        else{
+        } else{
             if( seen ) {
                 add_msg( _("The %s tries to drag %s, but it is resisted!"), z->name().c_str(), target->disp_name().c_str() );
             }
         }
+    target->add_effect("grabbed", 3);
     }
 }
 
