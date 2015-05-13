@@ -75,11 +75,11 @@ void show_bionics_titlebar(WINDOW *window, player *p, std::string menu_mode)
     if(menu_mode == "reassigning") {
         desc = _("Reassigning.\nSelect a bionic to reassign or press SPACE to cancel.");
     } else if(menu_mode == "activating") {
-        desc = _("<color_green>Activating</color>  <color_yellow>!</color> to examine, <color_yellow>-</color> to remove, <color_yellow>=</color> to reassign.");
+        desc = _("<color_green>Activating</color>  <color_yellow>!</color> to examine, <color_yellow>-</color> to remove, <color_yellow>=</color> to reassign, <color_yellow>TAB</color> to switch tabs.");
     } else if(menu_mode == "removing") {
-        desc = _("<color_red>Removing</color>  <color_yellow>!</color> to activate, <color_yellow>-</color> to remove, <color_yellow>=</color> to reassign.");
+        desc = _("<color_red>Removing</color>  <color_yellow>!</color> to activate, <color_yellow>-</color> to remove, <color_yellow>=</color> to reassign, <color_yellow>TAB</color> to switch tabs.");
     } else if(menu_mode == "examining") {
-        desc = _("<color_ltblue>Examining</color>  <color_yellow>!</color> to activate, <color_yellow>-</color> to remove, <color_yellow>=</color> to reassign.");
+        desc = _("<color_ltblue>Examining</color>  <color_yellow>!</color> to activate, <color_yellow>-</color> to remove, <color_yellow>=</color> to reassign, <color_yellow>TAB</color> to switch tabs.");
     }
     fold_and_print(window, 0, cap_offset, desc_length, c_white, desc);
 
@@ -427,7 +427,7 @@ void player::power_bionics()
                 tmp->invlet = newch;
             }
             // TODO: show a message like when reassigning a key to an item?
-        } else if (action == "SWAP_BIONIC_TABS" || action == "LEFT" || action == "RIGHT"){
+        } else if (action == "SWAP_BIONIC_TABS"){
             redraw = true;
             scroll_position = 0;
             cursor = 0;
@@ -1504,7 +1504,7 @@ void bionics_install_failure(player *u, int difficulty, int success)
         std::vector<std::string> valid;
         std::copy_if(begin(faulty_bionics), end(faulty_bionics), std::back_inserter(valid),
             [&](std::string const &id) { return !u->has_bionic(id); });
-        
+
         if (valid.empty()) { // We've got all the bad bionics!
             if (u->max_power_level > 0) {
                 int old_power = u->max_power_level;
