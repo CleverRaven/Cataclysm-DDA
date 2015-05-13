@@ -1683,7 +1683,7 @@ void monster::make_ally(monster *z) {
     faction = z->faction;
 }
 
-int monster::get_last_load()
+int monster::get_last_load() const
 {
     return last_loaded;
 }

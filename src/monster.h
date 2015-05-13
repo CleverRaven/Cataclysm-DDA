@@ -359,7 +359,7 @@ class monster : public Creature, public JsonSerializer, public JsonDeserializer
          */
         void init_from_item( const item &itm );
         /** Gets the last time the monster was loaded. */
-        int get_last_load();
+        int get_last_load() const;
         /** Sets the last time the monster was loaded to the given day. */
         void set_last_load(int day);
 
