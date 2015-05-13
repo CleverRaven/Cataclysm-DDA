@@ -5358,7 +5358,7 @@ float game::ground_natural_light_level() const
     float ret = (float)calendar::turn.sunlight();
     ret += weather_data(weather).light_modifier;
 
-    return std::max(3.7f, ret);
+    return std::max(LIGHT_AMBIENT_MINIMAL, ret);
 }
 
 float game::natural_light_level() const
@@ -5370,7 +5370,7 @@ float game::natural_light_level() const
         ret += weather_data(weather).light_modifier;
     }
 
-    return std::max(3.7f, ret);
+    return std::max(LIGHT_AMBIENT_MINIMAL, ret);
 }
 
 unsigned char game::light_level()
