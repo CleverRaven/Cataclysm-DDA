@@ -575,7 +575,6 @@ void mattack::boomer_glow(monster *z, int index)
         return;
     }
 
-    player *foe = dynamic_cast< player* >( target );
     std::vector<tripoint> line = line_to( z->pos(), target->pos(), t, 0 );
     z->reset_special(index); // Reset timer
     z->moves -= 250;   // It takes a while
@@ -595,6 +594,7 @@ void mattack::boomer_glow(monster *z, int index)
     if( !target->uncanny_dodge() ) {
         if (rng(0, 10) > target->get_dodge() || one_in( target->get_dodge() ) ) {
             target->add_env_effect("boomered", bp_eyes, 5, 25);
+            target->on_dodge( z, 10 );
             for (int i = 0; i < rng(2,4); i++){
                 body_part bp = random_body_part();
                 target->add_env_effect("glowing", bp, 4, 40);
@@ -602,13 +602,12 @@ void mattack::boomer_glow(monster *z, int index)
                     break;
                 }
             }
+        } else {
+            target->add_msg_player_or_npc( _("You dodge it!"),
+                                    _("<npcname> dodges it!") );
         }
     }
-    target->add_msg_player_or_npc( _("You dodge it!"),
-                                           _("<npcname> dodges it!") );
-    if( foe != nullptr ) {
-        target->on_dodge( z, 10 );
-    }
+
 }
 
 
