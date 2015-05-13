@@ -1077,7 +1077,7 @@ bool player::deactivate_bionic(int b, bool eff_only)
     // Deactivation effects go here
     if (bio.id == "bio_cqb") {
         // check if player knows current style naturally, otherwise drop them back to style_none
-        if (style_selected != "style_none") {
+        if( style_selected != matype_id( "style_none" ) ) {
             bool has_style = false;
             for( auto &elem : ma_styles ) {
                 if( elem == style_selected ) {
@@ -1085,7 +1085,7 @@ bool player::deactivate_bionic(int b, bool eff_only)
                 }
             }
             if (!has_style) {
-                style_selected = "style_none";
+                style_selected = matype_id( "style_none" );
             }
         }
     } else if(bio.id == "bio_claws") {

@@ -959,13 +959,14 @@ void activity_handlers::train_finish( player_activity *act, player *p )
 {
     const Skill *skill = Skill::skill(act->name);
     if( skill == NULL ) {
+        auto &mastyle = matype_id( act->name ).obj();
         // Trained martial arts,
-        add_msg(m_good, _("You learn %s."), martialarts[act->name].name.c_str());
+        add_msg(m_good, _("You learn %s."), mastyle.name.c_str());
         //~ %s is martial art
         p->add_memorial_log(pgettext("memorial_male", "Learned %s."),
                             pgettext("memorial_female", "Learned %s."),
-                            martialarts[act->name].name.c_str());
-        p->add_martialart(act->name);
+                            mastyle.name.c_str());
+        p->add_martialart( mastyle.id );
     } else {
         int new_skill_level = p->skillLevel(skill) + 1;
         p->skillLevel(skill).level(new_skill_level);

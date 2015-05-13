@@ -3228,6 +3228,22 @@
     ]
   },{
     "type" : "item_group",
+    "id" : "bags_trip",
+    "items" : [
+      ["suitcase_l", 37],
+      ["suitcase_m", 55],
+      ["duffelbag", 8]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "dresses",
+    "items":[
+      ["dress", 55],
+      ["sundress", 43],
+      ["dress_wedding", 2]
+    ]
+  },{
+    "type" : "item_group",
     "id" : "female_underwear_top",
     "items":[
       ["bra", 90]

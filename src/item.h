@@ -12,6 +12,7 @@
 #include "json.h"
 #include "color.h"
 #include "bodypart.h"
+#include "string_id.h"
 
 class game;
 class Character;
@@ -25,6 +26,8 @@ class material_type;
 class item_category;
 using ammotype = std::string;
 using itype_id = std::string;
+class ma_technique;
+using matec_id = string_id<ma_technique>;
 
 std::string const& rad_badge_color(int rad);
 
@@ -286,7 +289,6 @@ public:
  bool contains_with_flag (std::string f) const;
  bool has_quality(std::string quality_id) const;
  bool has_quality(std::string quality_id, int quality_value) const;
- bool has_technique(std::string t);
  int has_gunmod(itype_id type) const;
  item* active_gunmod();
  item const* active_gunmod() const;
@@ -784,6 +786,23 @@ public:
         void mark_chapter_as_read( const player &u );
         /*@}*/
 
+        /*@{*/
+        /**
+         * Whether the item supports a specific martial art technique (either through its type, or
+         * through its individual @ref techniques).
+         */
+        bool has_technique( const matec_id & tech ) const;
+        /**
+         * Returns all the martial art techniques that this items supports.
+         */
+        std::set<matec_id> get_techniques() const;
+        /**
+         * Add the given technique to the item specific @ref techniques. Note that other items of
+         * the same type are not affected by this.
+         */
+        void add_technique( const matec_id & tech );
+        /*@}*/
+
         /**
          * These functions are used on charger guns. Those items are activated, load over time
          * (using the wielders UPS), and fire like a normal gun using pseudo ammo.
@@ -964,6 +983,7 @@ public:
         std::map<std::string, std::string> item_vars;
         // TODO: make a pointer to const
         mtype* corpse;
+        std::set<matec_id> techniques; // item specific techniques
 public:
  char invlet;             // Inventory letter
  long charges;
@@ -980,7 +1000,6 @@ public:
    int irridation;      // Tracks radiation dosage.
  };
  std::set<std::string> item_tags; // generic item specific flags
- std::set<std::string> techniques; // item specific techniques
  unsigned item_counter; // generic counter to be used with item flags
  int mission_id; // Refers to a mission in game's master list
  int player_id; // Only give a mission to the right player!

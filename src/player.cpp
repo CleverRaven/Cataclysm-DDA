@@ -205,7 +205,7 @@ player::player() : Character()
  grab_point = {0, 0, 0};
  grab_type = OBJECT_NONE;
  move_mode = "walk";
- style_selected = "style_none";
+ style_selected = matype_id( "style_none" );
  keep_hands_free = false;
  focus_pool = 100;
  last_item = itype_id("null");
@@ -259,7 +259,7 @@ void player::normalize()
 {
     Character::normalize();
 
-    style_selected = "style_none";
+    style_selected = matype_id( "style_none" );
 
     recalc_hp();
 
@@ -487,8 +487,9 @@ void player::process_turn()
     // SkillLevel::readBook (has no connection to the skill or the player),
     // player::read, player::practice, ...
     if( skillLevel( "unarmed" ) >= 2 ) {
-        if( std::find( ma_styles.begin(), ma_styles.end(), "style_brawling" ) == ma_styles.end() ) {
-            ma_styles.push_back( "style_brawling" );
+        const matype_id brawling( "style_brawling" );
+        if( !has_martialart( brawling ) ) {
+            add_martialart( brawling );
             add_msg_if_player( m_info, _( "You learned a new style." ) );
         }
     }
@@ -3525,20 +3526,20 @@ void player::disp_status(WINDOW *w, WINDOW *w2)
     if (is_armed()) {
         // Show normal if no martial style is selected,
         // or if the currently selected style does nothing for your weapon.
-        if (style_selected == "style_none" ||
-            (!can_melee() && !martialarts[style_selected].has_weapon(weapon.type->id))) {
+        if (style_selected == matype_id( "style_none" ) ||
+            (!can_melee() && !style_selected.obj().has_weapon(weapon.type->id))) {
             style = _("Normal");
         } else {
-            style = martialarts[style_selected].name;
+            style = style_selected.obj().name;
         }
 
         int x = sideStyle ? (getmaxx(weapwin) - 13) : 0;
         mvwprintz(weapwin, 1, x, c_red, style.c_str());
     } else {
-        if (style_selected == "style_none") {
+        if (style_selected == matype_id( "style_none" ) ) {
             style = _("No Style");
         } else {
-            style = martialarts[style_selected].name;
+            style = style_selected.obj().name;
         }
         if (style != "") {
             int x = sideStyle ? (getmaxx(weapwin) - 13) : 0;
@@ -8765,12 +8766,7 @@ int player::get_item_position( const item *it ) const
 
 const martialart &player::get_combat_style() const
 {
-    auto it = martialarts.find( style_selected );
-    if( it != martialarts.end() ) {
-        return it->second;
-    }
-    debugmsg( "unknown martial art style %s selected", style_selected.c_str() );
-    return martialarts["style_none"];
+    return style_selected.obj();
 }
 
 std::vector<item *> player::inv_dump()
@@ -10060,8 +10056,8 @@ bool player::wield(item* it, bool autodrop)
 }
 
 // ids of martial art styles that are available with the bio_cqb bionic.
-static const std::array<std::string, 4> bio_cqb_styles {{
-"style_karate", "style_judo", "style_muay_thai", "style_biojutsu"
+static const std::array<matype_id, 4> bio_cqb_styles {{
+    matype_id{ "style_karate" }, matype_id{ "style_judo" }, matype_id{ "style_muay_thai" }, matype_id{ "style_biojutsu" }
 }};
 
 class ma_style_callback : public uimenu_callback
@@ -10071,7 +10067,7 @@ public:
         if( key != '?' ) {
             return false;
         }
-        std::string style_selected;
+        matype_id style_selected;
         const size_t index = entnum;
         if( g->u.has_active_bionic( "bio_cqb" ) && index < menu->entries.size() ) {
             const size_t id = menu->entries[index].retval - 2;
@@ -10081,15 +10077,15 @@ public:
         } else if( index >= 3 && index - 3 < g->u.ma_styles.size() ) {
             style_selected = g->u.ma_styles[index - 3];
         }
-        if( !style_selected.empty() ) {
-            const martialart &ma = martialarts[style_selected];
+        if( !style_selected.str().empty() ) {
+            const martialart &ma = style_selected.obj();
             std::ostringstream buffer;
             buffer << ma.name << "\n\n \n\n";
             if( !ma.techniques.empty() ) {
                 buffer << ngettext( "Technique:", "Techniques:", ma.techniques.size() ) << " ";
                 for( auto technique = ma.techniques.cbegin();
                      technique != ma.techniques.cend(); ++technique ) {
-                    buffer << ma_techniques[*technique].name;
+                    buffer << technique->obj().name;
                     if( ma.techniques.size() > 1 && technique == ----ma.techniques.cend() ) {
                         //~ Seperators that comes before last element of a list.
                         buffer << _(" and ");
@@ -10149,8 +10145,9 @@ void player::pick_style() // Style selection menu
 
     if (has_active_bionic("bio_cqb")) {
         for(size_t i = 0; i < bio_cqb_styles.size(); i++) {
-            if (martialarts.find(bio_cqb_styles[i]) != martialarts.end()) {
-                kmenu.addentry_desc( i + 2, true, -1, martialarts[bio_cqb_styles[i]].name, martialarts[bio_cqb_styles[i]].description );
+            if( bio_cqb_styles[i].is_valid() ) {
+                auto &style = bio_cqb_styles[i].obj();
+                kmenu.addentry_desc( i + 2, true, -1, style.name, style.description );
             }
         }
 
@@ -10169,15 +10166,12 @@ void player::pick_style() // Style selection menu
         kmenu.return_invalid = true; //cancel with any other keys
 
         for (size_t i = 0; i < ma_styles.size(); i++) {
-            if(martialarts.find(ma_styles[i]) == martialarts.end()) {
-                debugmsg ("Bad hand to hand style: %s",ma_styles[i].c_str());
-            } else {
+            auto &style = ma_styles[i].obj();
                 //Check if this style is currently selected
                 if( ma_styles[i] == style_selected ) {
                     kmenu.selected =i+3; //+3 because there are "cancel", "keep hands free" and "no style" first in the list
                 }
-                kmenu.addentry_desc( i+3, true, -1, martialarts[ma_styles[i]].name , martialarts[ma_styles[i]].description );
-            }
+                kmenu.addentry_desc( i+3, true, -1, style.name , style.description );
         }
 
         kmenu.query();
@@ -10187,7 +10181,7 @@ void player::pick_style() // Style selection menu
         if (selection >= 3)
             style_selected = ma_styles[selection - 3];
         else if (selection == 2)
-            style_selected = "style_none";
+            style_selected = matype_id( "style_none" );
         else if (selection == 1)
             keep_hands_free = !keep_hands_free;
 

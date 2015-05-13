@@ -43,6 +43,7 @@ SET(CATACLYSM_DDA_SOURCES
     ${CMAKE_SOURCE_DIR}/src/monmove.cpp
     ${CMAKE_SOURCE_DIR}/src/debug.cpp
     ${CMAKE_SOURCE_DIR}/src/monstergenerator.cpp
+    ${CMAKE_SOURCE_DIR}/src/monfaction.cpp
     ${CMAKE_SOURCE_DIR}/src/catalua.cpp
     ${CMAKE_SOURCE_DIR}/src/map.cpp
     ${CMAKE_SOURCE_DIR}/src/action.cpp
@@ -207,6 +208,7 @@ SET (CATACLYSM_DDA_HEADERS
     ${CMAKE_SOURCE_DIR}/src/coordinates.h
     ${CMAKE_SOURCE_DIR}/src/field.h
     ${CMAKE_SOURCE_DIR}/src/monstergenerator.h
+    ${CMAKE_SOURCE_DIR}/src/monfaction.h
     ${CMAKE_SOURCE_DIR}/src/event.h
     ${CMAKE_SOURCE_DIR}/src/ammo.h
     ${CMAKE_SOURCE_DIR}/src/mapgen.h

@@ -167,8 +167,16 @@ or otherwise use the vehicle controls, press %s to bring up the \"Vehicle Contro
 which has options for things you'd do from the driver's seat."),
                                  press_x(ACTION_CONTROL_VEHICLE, "", "").c_str()));
 
+    text.push_back(string_format(_("Vehicle menu presents the most important parameters of \
+your car, such as safe and maximum speed, current mass, total capacity and used volume of \
+available cargo space, various fuel level indicators, and so on.")));
+
+    text.push_back(string_format(_("Becoming a skilled mechanic, you may want \
+to tune your car up.  The coefficients of aerodynamics, friction and mass efficiency \
+play significant roles it this process.  Named coefficients are measured in the range \
+from 100%% (which means ideal conditions) to 0%% (terrible inefficiency).")));
+
     int fig_last_line = pos_y + 8;
-    // TODO: do it better!
     std::vector<std::string> remained_text;
     for( auto &elem : text ) {
         if (pos_y < fig_last_line) {

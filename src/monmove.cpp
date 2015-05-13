@@ -383,9 +383,11 @@ void monster::move()
     // Also make sure the monster won't act across z-levels when it shouldn't.
     // Don't do it in plan(), because the mon can still use ranged special attacks using
     // the plans that are not valid for travel/melee.
+    const bool can_bash = has_flag( MF_BASHES ) || has_flag( MF_BORES );
+    const bool can_fly = has_flag( MF_FLIES );
     if( !plans.empty() && 
         ( rl_dist( pos(), plans[0] ) > 1 ||
-          !g->m.valid_move( pos(), plans[0] ) ) ) {
+          !g->m.valid_move( pos(), plans[0], can_bash, can_fly ) ) ) {
         plans.clear();
     }
 
@@ -793,7 +795,7 @@ bool monster::attack_at( const tripoint &p )
     }
 
     if( p == g->u.pos3() ) {
-        melee_attack( g->u );
+        melee_attack( g->u, true );
         return true;
     }
 
@@ -836,7 +838,7 @@ bool monster::attack_at( const tripoint &p )
         // For now we're always attacking NPCs that are getting into our
         // way. This is consistent with how it worked previously, but
         // later on not hitting allied NPCs would be cool.
-        melee_attack( *g->active_npc[npcdex] );
+        melee_attack( *g->active_npc[npcdex], true );
         return true;
     }
 
@@ -856,7 +858,7 @@ bool monster::move_to( const tripoint &p, bool force )
     }
 
     if( !force ) {
-        moves -= calc_movecost( pos3(), p );
+        moves -= calc_movecost( pos(), p );
     }
 
     //Check for moving into/out of water
@@ -867,7 +869,7 @@ bool monster::move_to( const tripoint &p, bool force )
         //Use more dramatic messages for swimming monsters
         add_msg( m_warning, _( "A %s %s from the %s!" ), name().c_str(),
                  has_flag( MF_SWIMS ) || has_flag( MF_AQUATIC ) ? _( "leaps" ) : _( "emerges" ),
-                 g->m.tername( pos3() ).c_str() );
+                 g->m.tername( pos() ).c_str() );
     } else if( !was_water && will_be_water && g->u.sees( p ) ) {
         add_msg( m_warning, _( "A %s %s into the %s!" ), name().c_str(),
                  has_flag( MF_SWIMS ) || has_flag( MF_AQUATIC ) ? _( "dives" ) : _( "sinks" ),
@@ -920,12 +922,12 @@ bool monster::move_to( const tripoint &p, bool force )
             factor *= 100;
         }
         if( one_in( factor ) ) {
-            g->m.ter_set( pos3(), t_dirtmound );
+            g->m.ter_set( pos(), t_dirtmound );
         }
     }
     // Acid trail monsters leave... a trail of acid
     if( has_flag( MF_ACIDTRAIL ) ) {
-        g->m.add_field( pos3(), fd_acid, 3, 0 );
+        g->m.add_field( pos(), fd_acid, 3, 0 );
     }
 
     if( has_flag( MF_SLUDGETRAIL ) ) {
