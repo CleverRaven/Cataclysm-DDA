@@ -7090,7 +7090,7 @@ bool game::vehicle_near()
 
 bool game::refill_vehicle_part(vehicle &veh, vehicle_part *part, bool test)
 {
-    vpart_info part_info = vehicle_part_types[part->id];
+    const vpart_info &part_info = part->info();
     if (!part_info.has_flag("FUEL_TANK")) {
         return false;
     }
@@ -7248,9 +7248,9 @@ void game::exam_vehicle(vehicle &veh, const tripoint &p, int cx, int cy)
         u.activity.values.push_back(veh.index_of_part(vehint.sel_vehicle_part));
         u.activity.values.push_back(vehint.sel_type); // int. might make bitmask
         if (vehint.sel_vpart_info != NULL) {
-            u.activity.str_values.push_back(vehint.sel_vpart_info->id);
+            u.activity.str_values.push_back(vehint.sel_vpart_info->id.str());
         } else {
-            u.activity.str_values.push_back("null");
+            u.activity.str_values.push_back(vpart_info::null.str());
         }
         u.moves = 0;
     }

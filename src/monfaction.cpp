@@ -24,7 +24,7 @@ const monfaction &int_id<monfaction>::obj() const
 }
 
 template<>
-string_id<monfaction> int_id<monfaction>::id() const
+const string_id<monfaction> &int_id<monfaction>::id() const
 {
     return obj().id;
 }
