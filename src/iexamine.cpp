@@ -47,7 +47,7 @@ void iexamine::gaspump(player *p, map *m, const tripoint &examp)
                 const auto min = item_it->liquid_charges( 1 );
                 const auto max = item_it->liquid_charges( 1 ) * 8.0 / p->dex_cur;
                 spill.charges = rng( min, max );
-                m->add_item_or_charges( p->posx(), p->posy(), spill, 1 );
+                m->add_item_or_charges( p->pos(), spill, 1 );
                 item_it->charges -= spill.charges;
                 if( item_it->charges < 1 ) {
                     items.erase( item_it );
@@ -842,7 +842,7 @@ void iexamine::pit_covered(player *p, map *m, const tripoint &examp)
 
     item plank("2x4", calendar::turn);
     add_msg(_("You remove the plank."));
-    m->add_item_or_charges(p->posx(), p->posy(), plank);
+    m->add_item_or_charges(p->pos(), plank);
 
     if( m->ter(examp) == t_pit_covered ) {
         m->ter_set(examp, t_pit);
@@ -905,8 +905,8 @@ void iexamine::remove_fence_rope(player *p, map *m, const tripoint &examp)
         return;
     }
     item rope("rope_6", calendar::turn);
-    m->add_item_or_charges(p->posx(), p->posy(), rope);
-    m->add_item_or_charges(p->posx(), p->posy(), rope);
+    m->add_item_or_charges(p->pos(), rope);
+    m->add_item_or_charges(p->pos(), rope);
     m->ter_set(examp, t_fence_post);
     p->moves -= 200;
 
@@ -920,8 +920,8 @@ void iexamine::remove_fence_wire(player *p, map *m, const tripoint &examp)
     }
 
     item rope("wire", calendar::turn);
-    m->add_item_or_charges(p->posx(), p->posy(), rope);
-    m->add_item_or_charges(p->posx(), p->posy(), rope);
+    m->add_item_or_charges(p->pos(), rope);
+    m->add_item_or_charges(p->pos(), rope);
     m->ter_set(examp, t_fence_post);
     p->moves -= 200;
 }
@@ -934,8 +934,8 @@ void iexamine::remove_fence_barbed(player *p, map *m, const tripoint &examp)
     }
 
     item rope("wire_barbed", calendar::turn);
-    m->add_item_or_charges(p->posx(), p->posy(), rope);
-    m->add_item_or_charges(p->posx(), p->posy(), rope);
+    m->add_item_or_charges(p->pos(), rope);
+    m->add_item_or_charges(p->pos(), rope);
     m->ter_set(examp, t_fence_post);
     p->moves -= 200;
 }
@@ -1063,7 +1063,7 @@ void iexamine::gunsafe_el(player *p, map *m, const tripoint &examp)
             }
             p->add_memorial_log(pgettext("memorial_male", "Set off an alarm."),
                                 pgettext("memorial_female", "Set off an alarm."));
-            sounds::sound(p->posx(), p->posy(), 60, _("An alarm sounds!"));
+            sounds::sound(p->pos(), 60, _("An alarm sounds!"));
             if (examp.z > 0 && !g->event_queued(EVENT_WANTED)) {
                 g->add_event(EVENT_WANTED, int(calendar::turn) + 300, 0, p->global_sm_location());
             }
@@ -1123,16 +1123,16 @@ void iexamine::pedestal_wyrm(player *p, map *m, const tripoint &examp)
     int num_wyrms = rng(1, 4);
     for (int i = 0; i < num_wyrms; i++) {
         int tries = 0;
-        int monx = -1, mony = -1;
+        tripoint monp = examp;
         do {
-            monx = rng(0, SEEX * MAPSIZE);
-            mony = rng(0, SEEY * MAPSIZE);
+            monp.x = rng(0, SEEX * MAPSIZE);
+            monp.y = rng(0, SEEY * MAPSIZE);
             tries++;
-        } while (tries < 10 && !g->is_empty( { monx, mony, examp.z } ) &&
-                    rl_dist(g->u.posx(), g->u.posy(), monx, mony) <= 2);
+        } while (tries < 10 && !g->is_empty( monp ) &&
+                    rl_dist( p->pos(), monp ) <= 2);
         if (tries < 10) {
-            g->m.ter_set({monx, mony, examp.z}, t_rock_floor);
-            g->summon_mon("mon_dark_wyrm", tripoint(monx, mony, examp.z));
+            g->m.ter_set( monp, t_rock_floor);
+            g->summon_mon("mon_dark_wyrm", monp);
         }
     }
     add_msg(_("The pedestal sinks into the ground, with an ominous grinding noise..."));
@@ -2158,10 +2158,10 @@ void iexamine::pick_plant(player *p, map *m, const tripoint &examp,
         plantCount = 12;
     }
 
-    m->spawn_item( p->posx(), p->posy(), itemType, plantCount, 0, calendar::turn);
+    m->spawn_item( p->pos(), itemType, plantCount, 0, calendar::turn);
 
     if (seeds) {
-        m->spawn_item( p->posx(), p->posy(), "seed_" + itemType, 1,
+        m->spawn_item( p->pos(), "seed_" + itemType, 1,
                       rng(plantCount / 4, plantCount / 2), calendar::turn);
     }
 
@@ -2203,8 +2203,8 @@ void iexamine::tree_pine(player *p, map *m, const tripoint &examp)
         none(p, m, examp);
         return;
     }
-    m->spawn_item(p->posx(), p->posy(), "pine_bough", 2, 12 );
-    m->spawn_item( p->posx(), p->posy(), "pinecone", rng( 1, 4 ) );
+    m->spawn_item(p->pos(), "pine_bough", 2, 12 );
+    m->spawn_item( p->pos(), "pinecone", rng( 1, 4 ) );
     m->ter_set(examp, t_tree_deadpine);
 }
 
@@ -2214,7 +2214,7 @@ void iexamine::tree_blackjack(player *p, map *m, const tripoint &examp)
         none(p, m, examp);
         return;
     }
-    m->spawn_item( p->posx(), p->posy(), "tanbark", rng( 1, 2 ) );
+    m->spawn_item( p->pos(), "tanbark", rng( 1, 2 ) );
     m->ter_set(examp, t_tree);
 }
 
@@ -2242,7 +2242,7 @@ void iexamine::tree_marloss(player *p, map *m, const tripoint &examp)
             m->ter_set(examp, t_marloss_tree);
         }
     } else if (p->has_trait("THRESH_MARLOSS")) {
-        m->spawn_item( p->posx(), p->posy(), "mycus_fruit" );
+        m->spawn_item( p->pos(), "mycus_fruit" );
         m->ter_set(examp, t_tree_fungal);
         add_msg(m_info, _("The tree offers up a fruit, then shrivels into a fungal tree."));
     } else {
@@ -2402,19 +2402,19 @@ void iexamine::recycler(player *p, map *m, const tripoint &examp)
     }
 
     for (int i = 0; i < num_lumps; i++) {
-        m->spawn_item(p->posx(), p->posy(), "steel_lump");
+        m->spawn_item(p->pos(), "steel_lump");
     }
 
     for (int i = 0; i < num_sheets; i++) {
-        m->spawn_item(p->posx(), p->posy(), "sheet_metal");
+        m->spawn_item(p->pos(), "sheet_metal");
     }
 
     for (int i = 0; i < num_chunks; i++) {
-        m->spawn_item(p->posx(), p->posy(), "steel_chunk");
+        m->spawn_item(p->pos(), "steel_chunk");
     }
 
     for (int i = 0; i < num_scraps; i++) {
-        m->spawn_item(p->posx(), p->posy(), "scrap");
+        m->spawn_item(p->pos(), "scrap");
     }
 }
 
@@ -3024,7 +3024,7 @@ void iexamine::pay_gas(player *p, map *m, const tripoint &examp)
             return;
         }
 
-        sounds::sound(p->posx(), p->posy(), 6, _("Glug Glug Glug"));
+        sounds::sound(p->pos(), 6, _("Glug Glug Glug"));
 
         cashcard->charges -= amount * pricePerUnit;
 
