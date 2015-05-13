@@ -19,12 +19,17 @@
 
 #include "cursesdef.h"
 
+static const matec_id tec_none( "tec_none" );
+static const matec_id WBLOCK_1( "WBLOCK_1" );
+static const matec_id WBLOCK_2( "WBLOCK_2" );
+static const matec_id WBLOCK_3( "WBLOCK_3" );
+
 void player_hit_message(player* attacker, std::string message,
                         Creature &t, int dam, bool crit);
 void melee_practice( player &u, bool hit, bool unarmed, bool bashing, bool cutting, bool stabbing);
 int  attack_speed(player &u);
 int  stumble(player &u);
-std::string melee_message( matec_id tech, player &p, const dealt_damage_instance &ddi );
+std::string melee_message( const ma_technique &tech, player &p, const dealt_damage_instance &ddi );
 
 /* Melee Functions!
  * These all belong to class player.
@@ -258,7 +263,8 @@ const char *player::get_miss_reason()
 
 // Melee calculation is in parts. This sets up the attack, then in deal_melee_attack,
 // we calculate if we would hit. In Creature::deal_melee_hit, we calculate if the target dodges.
-void player::melee_attack(Creature &t, bool allow_special, matec_id force_technique) {
+void player::melee_attack(Creature &t, bool allow_special, const matec_id &force_technique) {
+    const bool has_force_technique = !force_technique.str().empty();
     bool is_u = (this == &(g->u)); // Affects how we'll display messages
     if (!t.is_player()) {
         // @todo Per-NPC tracking? Right now monster hit by either npc or player will draw aggro...
@@ -272,13 +278,15 @@ void player::melee_attack(Creature &t, bool allow_special, matec_id force_techni
     bool critical_hit = scored_crit(t.dodge_roll());
 
     // Pick one or more special attacks
-    ma_technique technique;
-    if (allow_special && force_technique == "") {
-        technique = ma_techniques[pick_technique(t, critical_hit, false, false)];
-    } else if (allow_special && force_technique != "") {
-        technique = ma_techniques[force_technique];
-    } else
-        technique = ma_techniques["tec_none"];
+    matec_id technique_id;
+    if( allow_special && !has_force_technique ) {
+        technique_id = pick_technique(t, critical_hit, false, false);
+    } else if (allow_special && has_force_technique) {
+        technique_id = force_technique;
+    } else {
+        technique_id = tec_none;
+    }
+    const ma_technique &technique = technique_id.obj();
     int hit_spread = t.deal_melee_attack(this, hit_roll());
     if (hit_spread < 0) {
         int stumble_pen = stumble(*this);
@@ -321,8 +329,9 @@ void player::melee_attack(Creature &t, bool allow_special, matec_id force_techni
         roll_stab_damage( critical_hit, d );
 
         // Handles effects as well; not done in melee_affect_*
-        if (technique.id != "tec_none" && technique.id != "")
+        if( technique.id != tec_none ) {
             perform_technique(technique, t, d, move_cost);
+        }
 
         // Handles speed penalties to monster & us, etc
         std::string specialmsg = melee_special_effects(t, d, technique);
@@ -369,7 +378,7 @@ void player::melee_attack(Creature &t, bool allow_special, matec_id force_techni
             healall( rng(dam / 10, dam / 5) );
         }
 
-        message = melee_message( technique.id, *this, dealt_dam );
+        message = melee_message( technique, *this, dealt_dam );
         player_hit_message(this, message, t, dam, critical_hit);
 
         if (!specialmsg.empty()) {
@@ -831,7 +840,7 @@ void player::roll_stab_damage( bool crit, damage_instance &di )
 // Weapons can have a "low_stick" flag indicating they
 // Have a feature to prevent sticking, such as a spear with a crossbar,
 // Or a stabbing blade designed to resist sticking.
-int player::roll_stuck_penalty(bool stabbing, ma_technique &tec)
+int player::roll_stuck_penalty(bool stabbing, const ma_technique &tec)
 {
     (void)tec;
     // The cost of the weapon getting stuck, in units of move points.
@@ -911,9 +920,8 @@ matec_id player::pick_technique(Creature &t,
     bool downed = t.has_effect("downed");
 
     // first add non-aoe tecs
-    for (std::vector<matec_id>::const_iterator it = all.begin();
-         it != all.end(); ++it) {
-        ma_technique tec = ma_techniques[*it];
+    for( auto & tec_id : all ) {
+        const ma_technique &tec = tec_id.obj();
 
         // ignore "dummy" techniques like WBLOCK_1
         if (tec.dummy) {
@@ -977,20 +985,20 @@ matec_id player::pick_technique(Creature &t,
     }
 
     if (possible.empty()) {
-        return "tec_none";
+        return tec_none;
     }
 
     return possible[ rng(0, possible.size() - 1) ];
 }
 
-bool player::valid_aoe_technique( Creature &t, ma_technique &technique )
+bool player::valid_aoe_technique( Creature &t, const ma_technique &technique )
 {
     std::vector<int> dummy_mon_targets;
     std::vector<int> dummy_npc_targets;
     return valid_aoe_technique( t, technique, dummy_mon_targets, dummy_npc_targets );
 }
 
-bool player::valid_aoe_technique( Creature &t, ma_technique &technique,
+bool player::valid_aoe_technique( Creature &t, const ma_technique &technique,
                                   std::vector<int> &mon_targets, std::vector<int> &npc_targets )
 {
     if (technique.aoe.length() == 0) {
@@ -1104,9 +1112,10 @@ bool player::valid_aoe_technique( Creature &t, ma_technique &technique,
     return false;
 }
 
-bool player::has_technique(matec_id id) {
-  return weapon.has_technique(id) ||
-    martialarts[style_selected].has_technique(*this, id);
+bool player::has_technique( const matec_id &id ) const
+{
+    return weapon.has_technique( id ) ||
+           style_selected.obj().has_technique( *this, id );
 }
 
 damage_unit &get_damage_unit( std::vector<damage_unit> &di, const damage_type dt )
@@ -1121,7 +1130,7 @@ damage_unit &get_damage_unit( std::vector<damage_unit> &di, const damage_type dt
     return nullunit;
 }
 
-void player::perform_technique(ma_technique technique, Creature &t, damage_instance &di, int &move_cost)
+void player::perform_technique(const ma_technique &technique, Creature &t, damage_instance &di, int &move_cost)
 {
     auto bash = get_damage_unit( di.damage_units, DT_BASH );
     auto cut  = get_damage_unit( di.damage_units, DT_CUT );
@@ -1239,7 +1248,7 @@ void player::perform_technique(ma_technique technique, Creature &t, damage_insta
         if (one_in(1400 - (get_int() * 50))) {
             ma_styles.push_back(style_selected);
             add_msg_if_player(m_good, _("You have learnt %s from extensive practice with the CQB Bionic."),
-                       martialarts[style_selected].name.c_str());
+                       style_selected.obj().name.c_str());
         }
     }
 }
@@ -1247,9 +1256,9 @@ void player::perform_technique(ma_technique technique, Creature &t, damage_insta
 // this would be i2amroy's fix, but it's kinda handy
 bool player::can_weapon_block()
 {
-    return (weapon.has_technique("WBLOCK_1") ||
-            weapon.has_technique("WBLOCK_2") ||
-            weapon.has_technique("WBLOCK_3"));
+    return (weapon.has_technique( WBLOCK_1 ) ||
+            weapon.has_technique( WBLOCK_2 ) ||
+            weapon.has_technique( WBLOCK_3 ));
 }
 
 void player::dodge_hit(Creature *source, int) {
@@ -1266,7 +1275,7 @@ void player::dodge_hit(Creature *source, int) {
     // check if we have any dodge counters
     matec_id tec = pick_technique(*source, false, true, false);
 
-    if (tec != "tec_none") {
+    if( tec != tec_none ) {
         melee_attack(*source, true, tec);
     }
 }
@@ -1294,11 +1303,11 @@ bool player::block_hit(Creature *source, body_part &bp_hit, damage_instance &dam
     int block_score = 1;
     if (can_weapon_block()) {
         int block_bonus = 2;
-        if (weapon.has_technique("WBLOCK_3")) {
+        if (weapon.has_technique( WBLOCK_3 )) {
             block_bonus = 10;
-        } else if (weapon.has_technique("WBLOCK_2")) {
+        } else if (weapon.has_technique( WBLOCK_2 )) {
             block_bonus = 6;
-        } else if (weapon.has_technique("WBLOCK_1")) {
+        } else if (weapon.has_technique( WBLOCK_1 )) {
             block_bonus = 4;
         }
         block_score = str_cur + block_bonus + (int)get_skill_level("melee");
@@ -1419,7 +1428,7 @@ bool player::block_hit(Creature *source, body_part &bp_hit, damage_instance &dam
     // check if we have any dodge counters
     matec_id tec = pick_technique(*source, false, false, true);
 
-    if (tec != "tec_none") {
+    if( tec != tec_none ) {
         melee_attack(*source, true, tec);
     }
 
@@ -1463,7 +1472,7 @@ void player::perform_special_attacks(Creature &t)
  }
 }
 
-std::string player::melee_special_effects(Creature &t, damage_instance &d, ma_technique &tec)
+std::string player::melee_special_effects(Creature &t, damage_instance &d, const ma_technique &tec)
 {
     std::stringstream dump;
 
@@ -2072,19 +2081,19 @@ std::vector<special_attack> player::mutation_attacks(Creature &t)
     return ret;
 }
 
-std::string melee_message(matec_id tec_id, player &p, const dealt_damage_instance &ddi )
+std::string melee_message( const ma_technique &tec, player &p, const dealt_damage_instance &ddi )
 {
     const int bash_dam = ddi.type_damage( DT_BASH );
     const int cut_dam  = ddi.type_damage( DT_CUT );
     const int stab_dam = ddi.type_damage( DT_STAB );
 
-    if (ma_techniques.find(tec_id) != ma_techniques.end()) {
-        if (ma_techniques[tec_id].messages.size() < 2) {
+    if( tec.id != tec_none ) {
+        if (tec.messages.size() < 2) {
             return "The bugs nibble %s";
         } else if (p.is_npc()) {
-            return ma_techniques[tec_id].messages[1];
+            return tec.messages[1];
         } else {
-            return ma_techniques[tec_id].messages[0];
+            return tec.messages[0];
         }
     }
 

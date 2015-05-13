@@ -427,6 +427,7 @@ These branches are also the valid entries for the categories of `dreams` in `dre
 - ```RECHARGE``` Recharge items with the same flag. ( Currently only the rechargeable battery mod. )
 - ```UNMOUNT_ON_MOVE``` Dismount this part when the vehicle moves. Doesn't drop the part, unless you give it special handling.
 - ```POWER_TRANSFER``` Transmits power to and from an attached thingy (probably a vehicle)
+- ```INITIAL_PART``` When starting a new vehicle via the construction menu, this vehicle part will be the initial part of the vehicle (if the used item matches the item required for this part).
 
 ## Ammo
 

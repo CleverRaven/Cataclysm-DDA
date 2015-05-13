@@ -280,7 +280,8 @@ class map
      * That is, if the tiles are adjacent and either on the same z-level or connected
      * by stairs or (in case of flying monsters) open air with no floors.
      */
-    bool valid_move( const tripoint &from, const tripoint &to, const bool flying = false ) const;
+    bool valid_move( const tripoint &from, const tripoint &to,
+                     const bool bash = false, const bool flying = false ) const;
 
 
 // 2D Sees:

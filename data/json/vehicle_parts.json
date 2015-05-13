@@ -298,7 +298,7 @@
         "item" : "frame",
         "difficulty" : 1,
         "location" : "structure",
-        "flags" : ["MOUNTABLE"],
+        "flags" : ["MOUNTABLE", "INITIAL_PART"],
         "breaks_into" : [
             {"item": "steel_lump", "min": 4, "max": 6},
             {"item": "steel_chunk", "min": 4, "max": 6},
@@ -352,7 +352,7 @@
         "difficulty" : 2,
         "item" : "foldframe",
         "location" : "structure",
-        "flags" : ["MOUNTABLE", "FOLDABLE"],
+        "flags" : ["MOUNTABLE", "FOLDABLE", "INITIAL_PART"],
         "breaks_into" : [
             {"item": "steel_chunk", "min": 0, "max": 2},
             {"item": "scrap", "min": 1, "max": 2}
@@ -489,7 +489,7 @@
         "item" : "xlframe",
         "difficulty" : 1,
         "location" : "structure",
-        "flags" : ["MOUNTABLE"],
+        "flags" : ["MOUNTABLE", "INITIAL_PART"],
         "breaks_into" : [
             {"item": "pipe", "min": 0, "max": 4},
             {"item": "scrap", "min": 2, "max": 4}
@@ -648,7 +648,7 @@
         "item" : "hdframe",
         "difficulty" : 1,
         "location" : "structure",
-        "flags" : ["MOUNTABLE"],
+        "flags" : ["MOUNTABLE", "INITIAL_PART"],
         "breaks_into" : [
             {"item": "steel_lump", "min": 4, "max": 6},
             {"item": "steel_chunk", "min": 4, "max": 6},
@@ -839,7 +839,7 @@
         "item" : "frame_wood",
         "difficulty" : 1,
         "location" : "structure",
-        "flags" : ["NAILABLE"],
+        "flags" : ["NAILABLE", "INITIAL_PART"],
         "breaks_into" : [
             {"item": "splinter", "min": 7, "max": 9},
             {"item": "nail", "min": 5, "max": 10}
@@ -1009,7 +1009,7 @@
         "item" : "frame_wood_light",
         "difficulty" : 0,
         "location" : "structure",
-        "flags" : ["NAILABLE"],
+        "flags" : ["NAILABLE", "INITIAL_PART"],
         "breaks_into" : [
             {"item": "splinter", "min": 3, "max": 5},
             {"item": "string_36", "min": 10, "max": 15}

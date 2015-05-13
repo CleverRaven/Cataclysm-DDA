@@ -224,7 +224,7 @@ void player_activity::do_turn( player *p )
                 p->moves -= moves_left;
                 moves_left = 0;
             }
-            iexamine::atm(p, nullptr, 0, 0);
+            iexamine::atm(p, nullptr, p->pos());
             break;
         case ACT_START_ENGINES:
             moves_left -= 100;
