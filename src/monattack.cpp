@@ -311,7 +311,7 @@ void mattack::acid_barf(monster *z, int index)
                                     _("The %1$s barfs acid on <npcname>'s %2$s!"),
                                     z->name().c_str(),
                                     body_part_name_accusative( hit ).c_str() );
-        
+
         if( hit == bp_eyes ) {
             target->add_env_effect("blind", bp_eyes, 3, 10);
         }
@@ -603,15 +603,13 @@ void mattack::boomer_glow(monster *z, int index)
                 }
             }
         }
-        } else if( u_see ) {
-            target->add_msg_player_or_npc( _("You dodge it!"),
-                                           _("<npcname> dodges it!") );
-        }
-        if( foe != nullptr ) {
-            foe->practice( "dodge", 10 );
-            foe->ma_ondodge_effects();
-        }
     }
+    target->add_msg_player_or_npc( _("You dodge it!"),
+                                           _("<npcname> dodges it!") );
+    if( foe != nullptr ) {
+        target->on_dodge( z, 10 );
+    }
+}
 
 
 void mattack::resurrect(monster *z, int index)
@@ -1635,7 +1633,7 @@ void mattack::fungus_bristle(monster *z, int index)
         target->add_msg_if_player( _("The %1$s slashes your %2$s, but your armor protects you."), z->name().c_str(),
                                 body_part_name_accusative(hit).c_str());
     }
-    
+
     target->on_hit( z, hit,  z->type->melee_skill );
 }
 
@@ -1905,7 +1903,7 @@ void mattack::impale(monster *z, int index)
         z->reset_special(index); // Reset timer
         return;
     }
-    
+
     int dam = target->deal_damage( z, bp_torso, damage_instance( DT_STAB, rng(10,20), rng(5,15), .5 ) ).total_damage();
     if( dam > 0 ) {
         auto msg_type = target == &g->u ? m_bad : m_info;
@@ -3675,7 +3673,7 @@ void mattack::stretch_bite(monster *z, int index)
         //head's not going to fit through the bars
         if (terrain.movecost == 0 ){
             z->add_effect("stunned", 6);
-            target->add_msg_player_or_npc( _("The %s stretches its head at you, but bounces off the %s"), 
+            target->add_msg_player_or_npc( _("The %s stretches its head at you, but bounces off the %s"),
                                            _("The %s stretches its head at <npcname>, but bounces off the %s"),
                                            z->name().c_str(), terrain.name.c_str() );
             return;
@@ -3708,7 +3706,7 @@ void mattack::stretch_bite(monster *z, int index)
                                     _("The %1$s's teeth sink into <npcname>'s %2$s!"),
                                     z->name().c_str(),
                                     body_part_name_accusative( hit ).c_str() );
-        
+
         if( one_in( 16 - dam ) ) {
             if( target->has_effect("bite", hit)) {
                 target->add_effect("bite", 400, hit, true);
@@ -4724,7 +4722,7 @@ void mattack::stretch_attack(monster *z, int index){
                                 _("The %1$s arm pierces <npcname>'s %2$s!"),
                                 z->name().c_str(),
                                 body_part_name_accusative( hit ).c_str() );
-        
+
         target->check_dead_state();
     } else {
         target->add_msg_player_or_npc( _("The %1$s arm hits your %2$s, but glances off your armor!"),

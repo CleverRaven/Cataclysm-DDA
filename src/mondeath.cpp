@@ -101,7 +101,6 @@ void mdeath::boomer(monster *z)
 
 void mdeath::boomer_glow(monster *z)
 {
-    Creature *ch = ( z->get_killer() );
     std::string explode = string_format(_("a %s explode!"), z->name().c_str());
     sounds::sound(z->pos(), 24, explode);
 
@@ -122,7 +121,7 @@ void mdeath::boomer_glow(monster *z)
                 for (int i = 0; i < rng(2,4); i++){
                     body_part bp = random_body_part();
                     critter->add_env_effect("glowing", bp, 4, 40);
-                    if (ch != nullptr && ch->has_effect("glowing")){
+                    if (critter != nullptr && critter->has_effect("glowing")){
                         break;
                     }
                 }
