@@ -7090,7 +7090,7 @@ bool game::vehicle_near()
 
 bool game::refill_vehicle_part(vehicle &veh, vehicle_part *part, bool test)
 {
-    vpart_info part_info = vehicle_part_types[part->id];
+    const vpart_info &part_info = part->info();
     if (!part_info.has_flag("FUEL_TANK")) {
         return false;
     }
@@ -7248,9 +7248,9 @@ void game::exam_vehicle(vehicle &veh, const tripoint &p, int cx, int cy)
         u.activity.values.push_back(veh.index_of_part(vehint.sel_vehicle_part));
         u.activity.values.push_back(vehint.sel_type); // int. might make bitmask
         if (vehint.sel_vpart_info != NULL) {
-            u.activity.str_values.push_back(vehint.sel_vpart_info->id);
+            u.activity.str_values.push_back(vehint.sel_vpart_info->id.str());
         } else {
-            u.activity.str_values.push_back("null");
+            u.activity.str_values.push_back(vpart_info::null.str());
         }
         u.moves = 0;
     }
@@ -7564,11 +7564,11 @@ void game::control_vehicle()
             veh->start_engines( true );
         }
     } else {
-        int examx, examy;
-        if (!choose_adjacent(_("Control vehicle where?"), examx, examy)) {
+        tripoint examp;
+        if (!choose_adjacent(_("Control vehicle where?"), examp)) {
             return;
         }
-        veh = m.veh_at(examx, examy, veh_part);
+        veh = m.veh_at(examp, veh_part);
         if (!veh) {
             add_msg(_("No vehicle there."));
             return;
@@ -7847,7 +7847,7 @@ void game::examine( const tripoint &p )
         }
     }
 
-    veh = m.veh_at(examx, examy, veh_part);
+    veh = m.veh_at(examp, veh_part);
     if (veh) {
         int vpcargo = veh->part_with_feature(veh_part, "CARGO", false);
         int vpkitchen = veh->part_with_feature(veh_part, "KITCHEN", true);
@@ -7856,40 +7856,39 @@ void game::examine( const tripoint &p )
         int vpcraftrig = veh->part_with_feature(veh_part, "CRAFTRIG", true);
         int vpchemlab = veh->part_with_feature(veh_part, "CHEMLAB", true);
         int vpcontrols = veh->part_with_feature(veh_part, "CONTROLS", true);
-        auto here_ground = m.i_at(examx, examy);
+        auto here_ground = m.i_at(examp);
         if( (vpcargo >= 0 && !veh->get_items(vpcargo).empty()) || vpkitchen >= 0 ||
             vpfaucet >= 0 || vpweldrig >= 0 || vpcraftrig >= 0 || vpchemlab >= 0 ||
             vpcontrols >= 0 || !here_ground.empty() ) {
-            Pickup::pick_up( {examx, examy, u.posz()}, 0);
+            Pickup::pick_up( examp, 0);
         } else if (u.controlling_vehicle) {
             add_msg(m_info, _("You can't do that while driving."));
         } else if (abs(veh->velocity) > 0) {
             add_msg(m_info, _("You can't do that on a moving vehicle."));
         } else {
-            exam_vehicle(*veh, tripoint( examx, examy, get_levz() ) );
+            exam_vehicle(*veh, examp );
         }
         return;
     }
 
-    if (m.has_flag("CONSOLE", examx, examy)) {
-        use_computer( tripoint( examx, examy, curz ) );
+    if (m.has_flag("CONSOLE", examp)) {
+        use_computer( examp );
         return;
     }
-    const furn_t *xfurn_t = &furnlist[m.furn(examx, examy)];
-    const ter_t *xter_t = &terlist[m.ter(examx, examy)];
+    const furn_t *xfurn_t = &furnlist[m.furn(examp)];
+    const ter_t *xter_t = &terlist[m.ter(examp)];
 
-    const int player_x = u.posx();
-    const int player_y = u.posy();
+    const tripoint player_pos = u.pos();
 
-    if (m.has_furn(examx, examy)) {
-        xfurn_t->examine(&u, &m, examx, examy);
+    if (m.has_furn(examp)) {
+        xfurn_t->examine(&u, &m, examp);
     } else {
-        xter_t->examine(&u, &m, examx, examy);
+        xter_t->examine(&u, &m, examp);
     }
 
-    // Did the player get moved? Bail out if so; our examx and examy probably
-    // aren't valid anymore.
-    if (player_x != u.posx() || player_y != u.posy()) {
+    // Did the player get moved? Bail out if so; our examp probably
+    // isn't valid anymore.
+    if( player_pos != u.pos() ) {
         return;
     }
 
@@ -7914,30 +7913,29 @@ void game::examine( const tripoint &p )
         }
     }
 
-    if (m.has_flag("SEALED", examx, examy)) {
+    if (m.has_flag("SEALED", examp)) {
         if (none) {
-            if (m.has_flag("UNSTABLE", examx, examy)) {
-                add_msg(_("The %s is too unstable to remove anything."), m.name(examx, examy).c_str());
+            if (m.has_flag("UNSTABLE", examp)) {
+                add_msg(_("The %s is too unstable to remove anything."), m.name(examp).c_str());
             } else {
-                add_msg(_("The %s is firmly sealed."), m.name(examx, examy).c_str());
+                add_msg(_("The %s is firmly sealed."), m.name(examp).c_str());
             }
         }
     } else {
-        //examx,examy has no traps, is a container and doesn't have a special examination function
-        if( m.tr_at( tripoint( examx, examy, u.posz() ) ).is_null() && m.i_at(examx, examy).empty() &&
-            m.has_flag("CONTAINER", examx, examy) && none) {
+        //examp has no traps, is a container and doesn't have a special examination function
+        if( m.tr_at( examp ).is_null() && m.i_at(examp).empty() &&
+            m.has_flag("CONTAINER", examp) && none) {
             add_msg(_("It is empty."));
         } else if (!veh) {
-            Pickup::pick_up( {examx, examy, u.posz()}, 0);
+            Pickup::pick_up( examp, 0);
         }
     }
 
     //check for disarming traps last to avoid disarming query black box issue.
-    const tripoint trap_pos( examx, examy, u.posz() );
-    if( !m.tr_at( trap_pos ).is_null() ) {
-        iexamine::trap(&u, &m, examx, examy);
-        if( m.tr_at( trap_pos ).is_null() ) {
-            Pickup::pick_up( {examx, examy, u.posz()}, 0);    // After disarming a trap, pick it up.
+    if( !m.tr_at( examp ).is_null() ) {
+        iexamine::trap(&u, &m, examp);
+        if( m.tr_at( examp ).is_null() ) {
+            Pickup::pick_up( examp, 0);    // After disarming a trap, pick it up.
         }
     }
 }

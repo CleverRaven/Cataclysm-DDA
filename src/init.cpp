@@ -43,6 +43,7 @@
 #include "mongroup.h"
 #include "monfaction.h"
 #include "martialarts.h"
+#include "veh_type.h"
 
 #include <string>
 #include <vector>
@@ -129,7 +130,7 @@ void DynamicDataLoader::initialize()
     type_function_map["item_action"] = new ClassFunctionAccessor<item_action_generator>
     ( &item_action_generator::generator(), &item_action_generator::load_item_action );
 
-    type_function_map["vehicle_part"] = new ClassFunctionAccessor<game>(g, &game::load_vehiclepart);
+    type_function_map["vehicle_part"] = new StaticFunctionAccessor( &vpart_info::load );
     type_function_map["vehicle"] = new ClassFunctionAccessor<game>(g, &game::load_vehicle);
     type_function_map["trap"] = new StaticFunctionAccessor(&trap::load);
     type_function_map["AMMO"] = new ClassFunctionAccessor<Item_factory>(item_controller,
@@ -337,7 +338,7 @@ void DynamicDataLoader::unload_data()
     MonsterGroupManager::ClearMonsterGroups();
     SNIPPET.clear_snippets();
     g->reset_vehicles();
-    g->reset_vehicleparts();
+    vpart_info::reset();
     MonsterGenerator::generator().reset();
     reset_recipe_categories();
     reset_recipes();
@@ -381,7 +382,7 @@ void DynamicDataLoader::finalize_loaded_data()
 void DynamicDataLoader::check_consistency()
 {
     item_controller->check_definitions();
-    g->check_vehicleparts();
+    vpart_info::check();
     MonsterGenerator::generator().check_monster_definitions();
     MonsterGroupManager::check_group_definitions();
     check_recipe_definitions();
