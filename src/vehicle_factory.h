@@ -155,7 +155,7 @@ public:
      * @param status The vehicle's status.
      * @param mergewreck optional.
     */
-    void add_vehicle(map* m, const std::string &vehicle_id, const int x, const int y, const int facing, const int fuel, const int status, const bool mergewrecks = true);
+    vehicle* add_vehicle(map* m, const std::string &vehicle_id, const int x, const int y, const int facing, const int fuel, const int status, const bool mergewrecks = true);
 
     /**
      * This will randomly select one of the locations from a vehicle placement
@@ -189,6 +189,8 @@ private:
     // builtin functions
     static void builtin_no_vehicles(map* m, const std::string &terrainid);
     static void builtin_jackknifed_semi(map* m, const std::string &terrainid);
+    static void builtin_pileup(map* m, const std::string &terrainid);
+    static void builtin_policepileup(map* m, const std::string &terrainid);
 
     typedef std::map<Vehicle_tag, VehicleGroup> GroupMap;
     GroupMap groups;
@@ -202,7 +204,9 @@ private:
     typedef std::map<std::string, vehicle_gen_pointer> FunctionMap;
     FunctionMap builtin_functions {
         { "no_vehicles", builtin_no_vehicles },
-        { "jack-knifed_semi", builtin_jackknifed_semi }
+        { "jack-knifed_semi", builtin_jackknifed_semi },
+        { "vehicle_pileup", builtin_pileup },
+        { "policecar_pileup", builtin_policepileup }
     };
 };
 

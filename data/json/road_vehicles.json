@@ -169,13 +169,13 @@
                 "description" : "Random car pileup",
                 "weight" : 0.20,
                 "vehicle_json" : {
-                    "vehicle": "city_pileup", "placement" : "pileup", "number": [18,22], "fuel" : -1, "status" : 1
+                    "vehicle_function" : "vehicle_pileup"
                 }
             },{
                 "description" : "Police car pileup",
                 "weight" : 0.05,
                 "vehicle_json" : {
-                    "vehicle": "policecar", "placement" : "pileup", "number": [18,22], "fuel" : -1, "status" : 1
+                    "vehicle_function" : "policecar_pileup"
                 }
             }
         ]

@@ -69,9 +69,9 @@ void VehicleFactory::vehicle_spawn(map* m, const std::string &spawn_id, const st
     spawns[spawn_id].pick()->apply(m, terrain_name);
 }
 
-void VehicleFactory::add_vehicle(map* m, const std::string &vehicle_id, const int x, const int y, const int facing, const int fuel, const int status, const bool mergewrecks)
+vehicle* VehicleFactory::add_vehicle(map* m, const std::string &vehicle_id, const int x, const int y, const int facing, const int fuel, const int status, const bool mergewrecks)
 {
-    m->add_vehicle(groups.count(vehicle_id) > 0 ? groups[vehicle_id].pick() : vehicle_id,
+    return m->add_vehicle(groups.count(vehicle_id) > 0 ? groups[vehicle_id].pick() : vehicle_id,
         x, y, facing, fuel, status, mergewrecks);
 }
 
@@ -146,15 +146,15 @@ void VehicleFactory::builtin_no_vehicles(map*, const std::string&)
 
 void VehicleFactory::builtin_jackknifed_semi(map* m, const std::string &terrainid)
 {
-    const VehicleLocation* location = vehicle_controller->pick_location(terrainid+"_semi");
-    if(! location) {
+    const VehicleLocation* loc = vehicle_controller->pick_location(terrainid+"_semi");
+    if(! loc) {
         debugmsg("builtin_jackknifed_semi unable to get location to place vehicle. placement %s", (terrainid+"_semi").c_str());
         return;
     }
 
-    int facing = location->pick_facing();
-    int semi_x = location->x.get();
-    int semi_y = location->y.get();
+    int facing = loc->pick_facing();
+    int semi_x = loc->x.get();
+    int semi_y = loc->y.get();
     int trailer_x = 0;
     int trailer_y = 0;
 
@@ -174,4 +174,46 @@ void VehicleFactory::builtin_jackknifed_semi(map* m, const std::string &terraini
 
     vehicle_controller->add_vehicle(m, "semi_truck", semi_x, semi_y, (facing + 135) % 360, -1, 1);
     vehicle_controller->add_vehicle(m, "truck_trailer", trailer_x, trailer_y, (facing + 90) % 360, -1, 1);
+}
+
+void VehicleFactory::builtin_pileup(map* m, const std::string&)
+{
+    vehicle *last_added_car = NULL;
+    int num_cars = rng(18, 22);
+
+    for(int i = 0; i < num_cars; i++) {
+        const VehicleLocation* loc = vehicle_controller->pick_location("pileup");
+        if(! loc) {
+            debugmsg("builtin_pileup unable to get location to place vehicle.");
+            return;
+        }
+
+        last_added_car = vehicle_controller->add_vehicle(m, "city_pileup", loc->x.get(), loc->y.get(),
+            loc->pick_facing(), -1, 1);
+    }
+
+    if (last_added_car != NULL) {
+        last_added_car->name = _("pile-up");
+    }
+}
+
+void VehicleFactory::builtin_policepileup(map* m, const std::string&)
+{
+    vehicle *last_added_car = NULL;
+    int num_cars = rng(18, 22);
+
+    for(int i = 0; i < num_cars; i++) {
+        const VehicleLocation* loc = vehicle_controller->pick_location("pileup");
+        if(! loc) {
+            debugmsg("builtin_policepileup unable to get location to place vehicle.");
+            return;
+        }
+
+        last_added_car = vehicle_controller->add_vehicle(m, "policecar", loc->x.get(), loc->y.get(),
+            loc->pick_facing(), -1, 1);
+    }
+
+    if (last_added_car != NULL) {
+        last_added_car->name = _("policecar pile-up");
+    }
 }
