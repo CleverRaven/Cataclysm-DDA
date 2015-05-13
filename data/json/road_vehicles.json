@@ -168,15 +168,11 @@
             },{
                 "description" : "Random car pileup",
                 "weight" : 0.20,
-                "vehicle_json" : {
-                    "vehicle_function" : "vehicle_pileup"
-                }
+                "vehicle_function" : "vehicle_pileup"
             },{
                 "description" : "Police car pileup",
                 "weight" : 0.05,
-                "vehicle_json" : {
-                    "vehicle_function" : "policecar_pileup"
-                }
+                "vehicle_function" : "policecar_pileup"
             }
         ]
     },{
