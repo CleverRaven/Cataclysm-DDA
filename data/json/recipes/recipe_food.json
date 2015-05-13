@@ -2300,8 +2300,7 @@
     {"id":"HAMMER","level":1,"amount":1}
   ],
   "components": [
-    [ [ "roasted_coffee_bean", 1 ] ],
-    [ ["bag_plastic",1] ]
+    [ [ "roasted_coffee_bean", 1 ] ]
   ]
 },{
   "type" : "recipe",
