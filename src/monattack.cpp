@@ -3529,7 +3529,8 @@ void mattack::upgrade(monster *z, int index)
     if (target->name() != old_name) {
         if( could_see && can_see ) {
             //~ %1$s is the pre-upgrade monster, %2$s is the post-upgrade monster.
-            add_msg(m_warning, _("The %1$s becomes a %2$s!"), target->name().c_str());
+            add_msg(m_warning, _("The %1$s becomes a %2$s!"), old_name.c_str(),
+                     target->name().c_str());
         } else if( could_see ) {
             add_msg( m_warning, _( "The %s vanishes!" ), old_name.c_str() );
         } else if( can_see ) {
