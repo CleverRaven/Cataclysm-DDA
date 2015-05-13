@@ -2282,7 +2282,7 @@ void mattack::pull_enemy(monster *z, int index)
             return;
         }
     }
-    bool uncanny = foe != nullptr && foe->uncanny_dodge();
+    bool uncanny = target->uncanny_dodge();
 
     if( uncanny || dodge_check(z, target) ) {
         z->moves -=200;
@@ -2294,8 +2294,7 @@ void mattack::pull_enemy(monster *z, int index)
                                             z->name().c_str() );
             }
             if( !uncanny ) {
-                foe->practice( "dodge", z->type->melee_skill * 2 );
-                foe->ma_ondodge_effects();
+                target->on_dodge( z, z->type->melee_skill * 2 );
             }
         } else if( seen ) {
             add_msg( _("The %s's arms fly out at %s, but they miss and sail past!"), z->name().c_str(), target->disp_name().c_str() );
@@ -2317,7 +2316,7 @@ void mattack::pull_enemy(monster *z, int index)
             g->update_map( pt.x, pt.y );
         }
         if (foe->in_vehicle) {
-            g->m.unboard_vehicle(foe->posx(), foe->posy());
+            g->m.unboard_vehicle(foe->pos());
         }
         foe->setpos( pt );
     }
@@ -2349,25 +2348,24 @@ void mattack::grab(monster *z, int index)
 
     z->reset_special(index); // Reset timer
     z->moves -= 80;
-    bool uncanny = foe != nullptr && foe->uncanny_dodge();
+    bool uncanny = target->uncanny_dodge();
     if( uncanny || dodge_check(z, target) ){
         if( foe != nullptr ) {
             if( seen ) {
                 auto msg_type = foe == &g->u ? m_warning : m_info;
-                foe->add_msg_player_or_npc( msg_type, _("The %s gropes at you, but you dodge!"),
+                target->add_msg_player_or_npc( msg_type, _("The %s gropes at you, but you dodge!"),
                                                       _("The %s gropes at <npcname>, but they dodge!"),
                                             z->name().c_str() );
             }
             if( !uncanny ) {
-                foe->practice( "dodge", z->type->melee_skill * 2 );
-                foe->ma_ondodge_effects();
+                target->on_dodge( z, z->type->melee_skill * 2 );
             }
     } else if( seen ) {
         add_msg( _("The %s gropes at %s, but misses!"), z->name().c_str(), target->disp_name().c_str() );
     }
     return;
     }
-    foe->add_msg_player_or_npc(m_bad, _("%s grabs you!"), _("%s grabs <npcname>!"),
+    target->add_msg_player_or_npc(m_bad, _("%s grabs you!"), _("%s grabs <npcname>!"),
                                 z->disp_name().c_str());
     if (foe->has_grab_break_tec() && foe->get_grab_resist() > 0 && foe->get_dex() > foe->get_str() ?
         dice(foe->get_dex(), 10) : dice(foe->get_str(), 10) > dice(8, 10)) {
@@ -2393,7 +2391,7 @@ void mattack::grab_pull(monster *z, int index)
 
     z->reset_special(index); // Reset timer
     z->moves -= 40;
-    bool uncanny = foe != nullptr && foe->uncanny_dodge();
+    bool uncanny = target->uncanny_dodge();
     if( uncanny || dodge_check(z, target) ){
         if( foe != nullptr ) {
             if( seen ) {
@@ -2403,32 +2401,28 @@ void mattack::grab_pull(monster *z, int index)
                                             z->name().c_str() );
             }
             if( !uncanny ) {
-                foe->practice( "dodge", z->type->melee_skill * 2 );
-                foe->ma_ondodge_effects();
+                target->on_dodge( z, z->type->melee_skill * 2 );
             }
         } else if( seen ) {
             add_msg( _("The %s gropes at %s, but misses!"), z->name().c_str(), target->disp_name().c_str() );
         }
         return;
     }
-    if (!(foe->has_effect("grabbed"))){
-        foe->add_msg_player_or_npc(m_bad, _("%s grabs you!"), _("%s grabs <npcname>!"),
-                                    z->disp_name().c_str());
-        if (foe->has_grab_break_tec() && foe->get_grab_resist() > 0 && foe->get_dex() > foe->get_str() ?
-            dice(foe->get_dex(), 10) : dice(foe->get_str(), 10) > dice(10, 10)) {
-            foe->add_msg_player_or_npc(m_good, _("You break the grab!"),
-                                        _("<npcname> breaks the grab!"));
-        } else {
-            target->add_effect("grabbed", 5);
-        }
+    foe->add_msg_player_or_npc(m_bad, _("%s grabs you!"), _("%s grabs <npcname>!"),
+                                z->disp_name().c_str());
+    if (foe->has_grab_break_tec() && foe->get_grab_resist() > 0 && foe->get_dex() > foe->get_str() ?
+        dice(foe->get_dex(), 10) : dice(foe->get_str(), 10) > dice(10, 10)) {
+        foe->add_msg_player_or_npc(m_good, _("You break the grab!"),
+                                    _("<npcname> breaks the grab!"));
+    } else {
+        target->add_effect("grabbed", 5);
     }
-    else{
+    if (foe->has_effect("grabbed")){
         tripoint target_square = z->pos() - (target->pos() - z->pos());
         if (z->can_move_to(target_square) && foe->drag_check() ){
             tripoint my_old_location = z->pos();
             z->move_to(target_square);
             foe->setpos(my_old_location);
-            target->add_effect("grabbed", 7);
             if( seen ) {
                 add_msg( _("The %s drags %s!"), z->name().c_str(), target->disp_name().c_str() );
             }
@@ -2439,197 +2433,6 @@ void mattack::grab_pull(monster *z, int index)
             }
         }
     }
-}
-
-void mattack::vortex(monster *z, int index)
-{
-    // Make sure that the player's butchering is interrupted!
-    if (g->u.activity.type == ACT_BUTCHER &&
-        rl_dist( z->pos(), g->u.pos() ) <= 2) {
-        add_msg(m_warning, _("The buffeting winds interrupt your butchering!"));
-        g->u.activity.type = ACT_NULL;
-    }
-    // Moves are NOT used up by this attack, as it is "passive"
-    z->reset_special(index); // Reset timer
-    // Before anything else, smash terrain!
-    for (int x = z->posx() - 2; x <= z->posx() + 2; x++) {
-        for (int y = z->posx() - 2; y <= z->posy() + 2; y++) {
-            if (x == z->posx() && y == z->posy()) { // Don't throw us!
-                y++;
-            }
-            g->m.bash( tripoint( x, y, z->posz() ), 14 );
-        }
-    }
-    std::set<std::string> no_effects;
-
-    for (int x = z->posx() - 2; x <= z->posx() + 2; x++) {
-        for (int y = z->posx() - 2; y <= z->posy() + 2; y++) {
-            if (x == z->posx() && y == z->posy()) { // Don't throw us!
-                y++;
-            }
-            tripoint dest( x, y, z->posz() );
-            std::vector<tripoint> from_monster = line_to( z->pos3(), dest, 0, 0 );
-            while (!g->m.i_at(x, y).empty()) {
-                item thrown = g->m.i_at(x, y)[index];
-                g->m.i_rem(x, y, 0);
-                int distance = 5 - (thrown.weight() / 1700);
-                if (distance > 0) {
-                    int dam = (thrown.weight() / 113) / double(3 + double(thrown.volume() / 6));
-                    std::vector<tripoint> traj = continue_line( from_monster, distance );
-                    for (size_t i = 0; i < traj.size() && dam > 0; i++) {
-                        g->m.shoot( traj[i], dam, false, no_effects );
-                        int mondex = g->mon_at( traj[i] );
-                        if (mondex != -1) {
-                            g->zombie( mondex ).apply_damage( z, random_body_part(), dam );
-                            g->zombie( mondex ).check_dead_state();
-                            dam = 0;
-                        }
-                        if (g->m.move_cost( traj[i] ) == 0) {
-                            dam = 0;
-                            i--;
-                        } else if( traj[i] == g->u.pos3() ) {
-                            if (! g->u.uncanny_dodge()) {
-                                body_part hit = random_body_part();
-                                //~ 1$s is item name, 2$s is bodypart in accusative, 3$d is damage value.
-                                add_msg(m_bad, _("A %1$s hits your %2$s for %3$d damage!"), thrown.tname().c_str(),
-                                        body_part_name_accusative(hit).c_str(), dam);
-                                g->u.deal_damage( z, hit, damage_instance( DT_BASH, dam ) );
-                                g->u.check_dead_state();
-                                dam = 0;
-                            }
-                        }
-                        // TODO: Hit NPCs
-                        if (dam == 0 || i == traj.size() - 1) {
-                            if (thrown.made_of("glass")) {
-                                if (g->u.sees( traj[i] )) {
-                                    add_msg(m_warning, _("The %s shatters!"), thrown.tname().c_str());
-                                }
-                                for (auto &n : thrown.contents) {
-                                    g->m.add_item_or_charges(traj[i].x, traj[i].y, n);
-                                }
-                                sounds::sound(traj[i].x, traj[i].y, 16, _("glass breaking!"));
-                            } else {
-                                g->m.add_item_or_charges(traj[i].x, traj[i].y, thrown);
-                            }
-                        }
-                    }
-                } // Done throwing item
-            } // Done getting items
-            // Throw monsters
-            int mondex = g->mon_at( dest );
-            if (mondex != -1) {
-                int distance = 0, damage = 0;
-                monster *thrown = &(g->zombie(mondex));
-                switch (thrown->type->size) {
-                case MS_TINY:
-                    distance = 10;
-                    break;
-                case MS_SMALL:
-                    distance = 6;
-                    break;
-                case MS_MEDIUM:
-                    distance = 4;
-                    break;
-                case MS_LARGE:
-                    distance = 2;
-                    break;
-                case MS_HUGE:
-                    distance = 0;
-                    break;
-                }
-                damage = distance * 3;
-                // subtract 1 unit of distance for every 10 units of density
-                // subtract 5 units of damage for every 10 units of density
-                material_type *mon_mat = material_type::find_material(thrown->type->mat);
-                distance -= mon_mat->density() / 10;
-                damage -= mon_mat->density() / 5;
-
-                if (distance > 0) {
-                    if (g->u.sees(*thrown)) {
-                        add_msg(_("The %s is thrown by winds!"), thrown->name().c_str());
-                    }
-                    std::vector<tripoint> traj = continue_line(from_monster, distance);
-                    bool hit_wall = false;
-                    for (size_t i = 0; i < traj.size() && !hit_wall; i++) {
-                        int monhit = g->mon_at(traj[i]);
-                        if (i > 0 && monhit != -1 && !g->zombie(monhit).digging()) {
-                            if (g->u.sees( traj[i] ))
-                                add_msg(_("The %s hits a %s!"), thrown->name().c_str(),
-                                        g->zombie(monhit).name().c_str());
-                            g->zombie( monhit ).apply_damage( z, bp_torso, damage );
-                            g->zombie( monhit ).check_dead_state();
-                            hit_wall = true;
-                            thrown->setpos(traj[i - 1]);
-                        } else if (g->m.move_cost(traj[i].x, traj[i].y) == 0) {
-                            hit_wall = true;
-                            thrown->setpos(traj[i - 1]);
-                        }
-                        int damage_copy = damage;
-                        g->m.shoot( traj[i], damage_copy, false, no_effects );
-                        if (damage_copy < damage) {
-                            thrown->apply_damage( nullptr, bp_torso, damage - damage_copy );
-                        }
-                    }
-                    if (hit_wall) {
-                        damage *= 2;
-                    } else {
-                        thrown->setpos(traj[traj.size() - 1]);
-                    }
-                    thrown->apply_damage( z, bp_torso, damage );
-                    thrown->check_dead_state();
-                } // if (distance > 0)
-            } // if (mondex != -1)
-
-            if (g->u.posx() == x && g->u.posy() == y) { // Throw... the player?! D:
-                bool immune = false;
-                if( g->u.is_immune_effect( "downed" ) ) {
-                    add_msg(_("You deftly maintain your footing!"));
-                    immune = true;
-                }
-
-                if (!g->u.uncanny_dodge() && !immune) {
-                    std::vector<tripoint> traj = continue_line(from_monster, rng(2, 3));
-                    add_msg(m_bad, _("You're thrown by winds!"));
-                    bool hit_wall = false;
-                    int damage = rng(5, 10);
-                    for (size_t i = 0; i < traj.size() && !hit_wall; i++) {
-                        int monhit = g->mon_at(traj[i]);
-                        if (i > 0 && monhit != -1 && !g->zombie(monhit).digging()) {
-                            if (g->u.sees( traj[i] )) {
-                                add_msg(m_bad, _("You hit a %s!"), g->zombie(monhit).name().c_str());
-                            }
-                            g->zombie( monhit ).apply_damage( &g->u, bp_torso, damage ); // We get the kill :)
-                            g->zombie( monhit ).check_dead_state();
-                            hit_wall = true;
-                            g->u.setx( traj[i - 1].x );
-                            g->u.sety( traj[i - 1].y );
-                        } else if (g->m.move_cost(traj[i].x, traj[i].y) == 0) {
-                            add_msg(m_bad, _("You slam into a %s"),
-                                    g->m.tername(traj[i].x, traj[i].y).c_str());
-                            hit_wall = true;
-                            g->u.setx( traj[i - 1].x );
-                            g->u.sety( traj[i - 1].y );
-                        }
-                        int damage_copy = damage;
-                        g->m.shoot( traj[i], damage_copy, false, no_effects);
-                        if (damage_copy < damage) {
-                            g->u.deal_damage( z, bp_torso, damage_instance( DT_BASH, damage - damage_copy ) );
-                            g->u.check_dead_state();
-                        }
-                    }
-                    if (hit_wall) {
-                        damage *= 2;
-                    } else {
-                        g->u.setx( traj[traj.size() - 1].x );
-                        g->u.sety( traj[traj.size() - 1].y );
-                    }
-                    g->u.deal_damage( z, bp_torso, damage_instance( DT_BASH, damage ) );
-                    g->u.check_dead_state();
-                    g->update_map(&(g->u));
-                } // Done with checking for player
-            }
-        }
-    } // Done with loop!
 }
 
 void mattack::gene_sting(monster *z, int index)
