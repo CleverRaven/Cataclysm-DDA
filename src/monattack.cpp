@@ -3484,12 +3484,10 @@ void mattack::generator(monster *z, int index)
 void mattack::upgrade(monster *z, int index)
 {
     std::vector<int> targets;
-    int day = calendar::turn / DAYS(1);
     for (size_t i = 0; i < g->num_zombies(); i++) {
         monster &zed = g->zombie(i);
-        // Check this first because it is a cheap check
-        if( zed.type->upgrade_min < day &&
-           (zed.type->upgrade_group != "NULL" || zed.type->upgrades_into != "NULL" )) {
+        // Check this first because it is a relatively cheap check
+        if( zed.can_upgrade()) {
             // Then do the more expensive ones
             if ( z->attitude_to( zed ) != Creature::Attitude::A_HOSTILE &&
                  within_target_range(z, &zed, 10) ) {

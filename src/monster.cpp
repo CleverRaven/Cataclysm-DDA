@@ -142,6 +142,25 @@ void monster::poly(mtype *t)
     faction = t->default_faction;
 }
 
+bool monster::can_upgrade() const
+{
+    // If we don't upgrade
+    if ((type->half_life <= 0 && type->base_upgrade_chance <= 0) ||
+        (type->upgrade_group == "NULL" && type->upgrades_into == "NULL")) {
+        return false;
+    }
+    // Or we aren't allowed to yet
+    if (ACTIVE_WORLD_OPTIONS["MONSTER_UPGRADE_FACTOR"] <= 0) {
+        return false;
+    } else {
+        if ((calendar::turn.get_turn() / DAYS(1)) <
+             (type->upgrade_min / ACTIVE_WORLD_OPTIONS["MONSTER_UPGRADE_FACTOR"])) {
+            return false;
+        }
+    }
+    return true;
+}
+
 void monster::update_check() {
     // Hallucinations don't upgrade!
     if (is_hallucination()) {
