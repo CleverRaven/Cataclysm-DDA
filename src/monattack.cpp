@@ -2382,19 +2382,12 @@ void mattack::stare(monster *z, int index)
     z->moves -= 200;
     z->reset_special(index); // Reset timer
     if( z->sees( g->u ) ) {
-        add_msg(m_bad, _("The %s stares at you, and you shudder."), z->name().c_str());
-        g->u.add_effect("teleglow", 800);
-    } else {
-        add_msg(m_bad, _("A piercing beam of light bursts forth!"));
-        std::vector<tripoint> sight = line_to( z->pos(), g->u.pos(), 0, 0 );
-        for (auto &i : sight) {
-            if( g->m.ter( i ) == t_reinforced_glass ) {
-                break;
-            } else if( g->m.is_bashable( i ) ) {
-                //Destroy it
-                g->m.bash( i, 999, false, true );
-            }
+        if( g->u.sees(*z) ) {
+            add_msg(m_bad, _("The %s stares at you, and you shudder."), z->name().c_str());
+        } else {
+	    add_msg(m_bad, _("You feel like you're being watched, it makes you sick."));
         }
+        g->u.add_effect("teleglow", 800);
     }
 }
 
