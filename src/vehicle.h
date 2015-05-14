@@ -86,7 +86,7 @@ struct veh_collision {
 
 struct vehicle_item_spawn
 {
-    int x, y;
+    point pos;
     int chance;
     std::vector<std::string> item_ids;
     std::vector<std::string> item_groups;

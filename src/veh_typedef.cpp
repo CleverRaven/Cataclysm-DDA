@@ -316,12 +316,12 @@ void load_vehicle(JsonObject &jo)
     while(items.has_more()) {
         JsonObject spawn_info = items.next_object();
         vehicle_item_spawn next_spawn;
-        next_spawn.x = spawn_info.get_int("x");
-        next_spawn.y = spawn_info.get_int("y");
+        next_spawn.pos.x = spawn_info.get_int("x");
+        next_spawn.pos.y = spawn_info.get_int("y");
         next_spawn.chance = spawn_info.get_int("chance");
         if(next_spawn.chance <= 0 || next_spawn.chance > 100) {
             debugmsg("Invalid spawn chance in %s (%d, %d): %d%%",
-                     vproto->name.c_str(), next_spawn.x, next_spawn.y, next_spawn.chance);
+                     vproto->name.c_str(), next_spawn.pos.x, next_spawn.pos.y, next_spawn.chance);
         }
         if(spawn_info.has_array("items")) {
             //Array of items that all spawn together (ie jack+tire)
@@ -398,9 +398,9 @@ void finalize_vehicles()
         }
 
         for (auto &i : proto->item_spawns) {
-            if (cargo_spots.find(point(i.x, i.y)) == cargo_spots.end()) {
+            if (cargo_spots.find(i.pos) == cargo_spots.end()) {
                 debugmsg("Invalid spawn location (no CARGO vpart) in %s (%d, %d): %d%%",
-                         proto->name.c_str(), i.x, i.y, i.chance);
+                         proto->name.c_str(), i.pos.x, i.pos.y, i.chance);
             }
             for (auto &j : i.item_ids) {
                 if( !item::type_is_defined( j ) ) {
