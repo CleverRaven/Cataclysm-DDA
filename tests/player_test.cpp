@@ -1,6 +1,7 @@
 #define CATCH_CONFIG_MAIN
 #include "catch/catch.hpp"
 
+#include "morale.h"
 #include "player.h"
 #include "game.h"
 #include "overmapbuffer.h"
@@ -8,6 +9,8 @@
 #include "start_location.h"
 #include "path_info.h"
 #include "mapsharing.h"
+#include "options.h"
+#include "map.h"
 
 #include <string>
 
@@ -65,7 +68,7 @@ TEST_CASE("Player body temperatures converge on expected values.") {
 
     PATH_INFO::init_base_path("");
     PATH_INFO::init_user_dir("./");
-    PATH_INFO::set_standart_filenames();
+    PATH_INFO::set_standard_filenames();
 
     MAP_SHARING::setDefaults();
 
@@ -77,15 +80,15 @@ TEST_CASE("Player body temperatures converge on expected values.") {
     g = new game;
     g->load_static_data();
 //    g->check_all_mod_data();
-    world_generator->set_active_world( world_generator->pick_world( true ) );
+//    world_generator->set_active_world( world_generator->pick_world( true ) );
     g->setup();
 
     dummy.normalize( );
 
     dummy.name = "dummy";
     g->u = dummy;
-    g->cur_om = &overmap_buffer.get( 0, 0 );
-    g->m.load( g->levx, g->levy, g->levz, false, NULL );
+//    g->cur_om = &overmap_buffer.get( 0, 0 );
+    g->m.load( g->get_levx(), g->get_levy(), g->get_levz(), false );
 
 
     // See http://personal.cityu.edu.hk/~bsapplec/heat.htm for temperature basis.
@@ -145,6 +148,4 @@ TEST_CASE("Player body temperatures converge on expected values.") {
         int temp_spread[] = { -47, -32, -17, -2, 13, 28, 43 };
         test_temperature_spread( &dummy, temp_spread );
     }
-
-    REQUIRE( dummy.health == 0 );
 }
