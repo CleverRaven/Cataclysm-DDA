@@ -315,7 +315,7 @@ void computer::activate_function(computer_action action, char ch)
     //Toll is required for the church computer/mechanism to function
     case COMPACT_TOLL:
         //~ the sound of a church bell ringing
-        sounds::sound(g->u.posx(), g->u.posy(), 120, _("Bohm... Bohm... Bohm..."));
+        sounds::sound(g->u.pos(), 120, _("Bohm... Bohm... Bohm..."));
         break;
 
     case COMPACT_SAMPLE:
@@ -360,13 +360,13 @@ void computer::activate_function(computer_action action, char ch)
     case COMPACT_RELEASE:
         g->u.add_memorial_log(pgettext("memorial_male", "Released subspace specimens."),
                               pgettext("memorial_female", "Released subspace specimens."));
-        sounds::sound(g->u.posx(), g->u.posy(), 40, _("An alarm sounds!"));
+        sounds::sound(g->u.pos(), 40, _("An alarm sounds!"));
         g->m.translate_radius(t_reinforced_glass, t_floor, 25.0, g->u.pos3());
         query_any(_("Containment shields opened.  Press any key..."));
         break;
 
     case COMPACT_RELEASE_BIONICS:
-        sounds::sound(g->u.posx(), g->u.posy(), 40, _("An alarm sounds!"));
+        sounds::sound(g->u.pos(), 40, _("An alarm sounds!"));
         g->m.translate_radius(t_reinforced_glass, t_floor, 2.0, g->u.pos3());
         query_any(_("Containment shields opened.  Press any key..."));
         break;
@@ -1188,7 +1188,7 @@ void computer::activate_failure(computer_failure fail)
     case COMPFAIL_ALARM:
         g->u.add_memorial_log(pgettext("memorial_male", "Set off an alarm."),
                               pgettext("memorial_female", "Set off an alarm."));
-        sounds::sound(g->u.posx(), g->u.posy(), 60, _("An alarm sounds!"));
+        sounds::sound(g->u.pos(), 60, _("An alarm sounds!"));
         if (g->get_levz() > 0 && !g->event_queued(EVENT_WANTED)) {
             g->add_event(EVENT_WANTED, int(calendar::turn) + 300, 0, g->u.global_sm_location());
         }

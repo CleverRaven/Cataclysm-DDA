@@ -413,15 +413,15 @@ void player::activate_mutation( const std::string &mut )
         tdata.powered = false;
         return;
     } else if (mut == "SHOUT1") {
-        sounds::sound(posx(), posy(), 10 + 2 * str_cur, _("You shout loudly!"));
+        sounds::sound(pos(), 10 + 2 * str_cur, _("You shout loudly!"));
         tdata.powered = false;
         return;
     } else if (mut == "SHOUT2"){
-        sounds::sound(posx(), posy(), 15 + 3 * str_cur, _("You scream loudly!"));
+        sounds::sound(pos(), 15 + 3 * str_cur, _("You scream loudly!"));
         tdata.powered = false;
         return;
     } else if (mut == "SHOUT3"){
-        sounds::sound(posx(), posy(), 20 + 4 * str_cur, _("You let out a piercing howl!"));
+        sounds::sound(pos(), 20 + 4 * str_cur, _("You let out a piercing howl!"));
         tdata.powered = false;
         return;
     } else if ((mut == "NAUSEA") || (mut == "VOMITOUS") ){

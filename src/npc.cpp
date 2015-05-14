@@ -1489,10 +1489,10 @@ void npc::say(std::string line, ...) const
     parse_tags(line, &(g->u), this);
     if (g->u.sees( *this )) {
         add_msg(_("%1$s says: \"%2$s\""), name.c_str(), line.c_str());
-        sounds::sound(posx(), posy(), 16, "");
+        sounds::sound(pos(), 16, "");
     } else {
         std::string sound = string_format(_("%1$s saying \"%2$s\""), name.c_str(), line.c_str());
-        sounds::sound(posx(), posy(), 16, sound);
+        sounds::sound(pos(), 16, sound);
     }
 }
 

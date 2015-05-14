@@ -641,7 +641,7 @@ bool player::activate_bionic(int b, bool eff_only)
         healall(4);
     } else if (bio.id == "bio_resonator") {
         //~Sound of a bionic sonic-resonator shaking the area
-        sounds::sound(posx(), posy(), 30, _("VRRRRMP!"));
+        sounds::sound( pos(), 30, _("VRRRRMP!"));
         for (int i = posx() - 1; i <= posx() + 1; i++) {
             for (int j = posy() - 1; j <= posy() + 1; j++) {
                 tripoint bashpoint( i, j, posz() );
@@ -870,7 +870,7 @@ bool player::activate_bionic(int b, bool eff_only)
     } else if (bio.id == "bio_hydraulics") {
         add_msg(m_good, _("Your muscles hiss as hydraulic strength fills them!"));
         // Sound of hissing hydraulic muscle! (not quite as loud as a car horn)
-        sounds::sound(posx(), posy(), 19, _("HISISSS!"));
+        sounds::sound( pos(), 19, _("HISISSS!"));
     } else if (bio.id == "bio_water_extractor") {
         bool extracted = false;
         for( auto it = g->m.i_at(posx(), posy()).begin();
@@ -1166,7 +1166,7 @@ void player::process_bionic(int b)
         }
     } else if (bio.id == "bio_hydraulics") {
         // Sound of hissing hydraulic muscle! (not quite as loud as a car horn)
-        sounds::sound(posx(), posy(), 19, _("HISISSS!"));
+        sounds::sound( pos(), 19, _("HISISSS!"));
     }
 }
 

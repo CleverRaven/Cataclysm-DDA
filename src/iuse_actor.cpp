@@ -184,7 +184,7 @@ long explosion_iuse::use(player *p, item *it, bool t, const tripoint &pos) const
 {
     if (t) {
         if (sound_volume >= 0) {
-            sounds::sound(pos.x, pos.y, sound_volume, sound_msg);
+            sounds::sound(pos, sound_volume, sound_msg);
         }
         return 0;
     }
@@ -1448,7 +1448,7 @@ long fireweapon_off_actor::use( player *p, item *it, bool t, const tripoint& ) c
     if( rng( 0, 10 ) - it->damage > success_chance &&
           it->charges > 0 && !p->is_underwater() ) {
         if( noise > 0 ) {
-            sounds::sound( p->posx(), p->posy(), noise, _(success_message.c_str()) );
+            sounds::sound( p->pos(), noise, _(success_message.c_str()) );
         } else {
             p->add_msg_if_player( _(success_message.c_str()) );
         }
@@ -1511,7 +1511,7 @@ long fireweapon_on_actor::use( player *p, item *it, bool t, const tripoint& ) co
         it->make( tool->revert_to );
     } else if( one_in( noise_chance ) ) {
         if( noise > 0 ) {
-            sounds::sound( p->posx(), p->posy(), noise, _(noise_message.c_str()) );
+            sounds::sound( p->pos(), noise, _(noise_message.c_str()) );
         } else {
             p->add_msg_if_player( _(noise_message.c_str()) );
         }
@@ -1595,7 +1595,7 @@ long musical_instrument_actor::use( player *p, item *it, bool t, const tripoint&
         desc = _("You produce an annoying sound");
     }
 
-    sounds::ambient_sound( p->posx(), p->posy(), volume, desc );
+    sounds::ambient_sound( p->pos(), volume, desc );
 
     if( !p->has_effect( "music" ) && p->can_hear( p->pos(), volume ) ) {
         p->add_effect( "music", 1 );

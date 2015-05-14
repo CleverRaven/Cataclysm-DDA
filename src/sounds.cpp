@@ -34,21 +34,6 @@ static std::vector<std::pair<tripoint, sound_event>> sounds_since_last_turn;
 // The sound events currently displayed to the player.
 static std::unordered_map<tripoint, sound_event> sound_markers;
 
-void sounds::ambient_sound(int x, int y, int vol, std::string description)
-{
-    sound( tripoint( x, y, g->u.posz() ), vol, description, true );
-}
-
-void sounds::sound(int x, int y, int vol, std::string description, bool ambient)
-{
-    sound( tripoint( x, y, g->u.posz() ), vol, description, ambient );
-}
-
-void sounds::add_footstep(int x, int y, int volume, int dist, monster *m)
-{
-    add_footstep( tripoint( x, y, g->u.posz() ), volume, dist, m );
-}
-
 void sounds::ambient_sound( const tripoint &p, int vol, std::string description )
 {
     sound( p, vol, description, true );

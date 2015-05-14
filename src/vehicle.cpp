@@ -1295,8 +1295,8 @@ bool vehicle::start_engine( const int e )
         if( einfo.fuel_type == fuel_type_gasoline && dmg > 0.75 && one_in( 20 ) ) {
             backfire( e );
         } else {
-            const point pos = global_pos() + parts[engines[e]].precalc[0];
-            sounds::ambient_sound( pos.x, pos.y, engine_start_time( e ) / 10, "" );
+            const tripoint pos = global_pos3() + parts[engines[e]].precalc[0];
+            sounds::ambient_sound( pos, engine_start_time( e ) / 10, "" );
         }
     }
 
@@ -1352,8 +1352,8 @@ void vehicle::start_engines( const bool take_control )
 void vehicle::backfire( const int e )
 {
     const int power = part_power( engines[e], true );
-    const point pos = global_pos() + parts[engines[e]].precalc[0];
-    sounds::ambient_sound( pos.x, pos.y, 40 + (power / 30), "BANG!" );
+    const tripoint pos = global_pos3() + parts[engines[e]].precalc[0];
+    sounds::ambient_sound( pos, 40 + (power / 30), "BANG!" );
 }
 
 void vehicle::honk_horn()
@@ -1375,14 +1375,14 @@ void vehicle::honk_horn()
             honked = true;
         }
         //Get global position of horn
-        const auto horn_pos = global_pos() + parts[p].precalc[0];
+        const auto horn_pos = global_pos3() + parts[p].precalc[0];
         //Determine sound
         if( horn_type.bonus >= 40 ) {
-            sounds::sound( horn_pos.x, horn_pos.y, horn_type.bonus, _("HOOOOORNK!") );
+            sounds::sound( horn_pos, horn_type.bonus, _("HOOOOORNK!") );
         } else if( horn_type.bonus >= 20 ) {
-            sounds::sound( horn_pos.x, horn_pos.y, horn_type.bonus, _("BEEEP!") );
+            sounds::sound( horn_pos, horn_type.bonus, _("BEEEP!") );
         } else {
-            sounds::sound( horn_pos.x, horn_pos.y, horn_type.bonus, _("honk.") );
+            sounds::sound( horn_pos, horn_type.bonus, _("honk.") );
         }
     }
 
@@ -3086,7 +3086,7 @@ void vehicle::noise_and_smoke( double load, double time )
            lvl++;
        }
     }
-    sounds::ambient_sound( global_x(), global_y(), noise, sound_msgs[lvl] );
+    sounds::ambient_sound( global_pos3(), noise, sound_msgs[lvl] );
 }
 
 float vehicle::wheels_area (int *const cnt) const
@@ -3632,7 +3632,7 @@ void vehicle::alarm(){
         //if alarm found, make noise, else set alarm disabled
         if (found_alarm){
             const char *sound_msgs[] = { "WHOOP WHOOP", "NEEeu NEEeu NEEeu", "BLEEEEEEP", "WREEP"};
-            sounds::sound( global_x(), global_y(), (int) rng(45,80), sound_msgs[rng(0,3)]);
+            sounds::sound( global_pos3(), (int) rng(45,80), sound_msgs[rng(0,3)]);
             if (one_in(1000)) is_alarm_on = false;
         } else{
             is_alarm_on = false;
@@ -4150,7 +4150,7 @@ veh_collision vehicle::part_collision (int part, int x, int y, bool just_detect)
         } else if (snd.length() > 0) {
             add_msg (m_warning, _("You hear a %s"), snd.c_str());
         }
-        sounds::sound(x, y, smashed? 80 : 50, "");
+        sounds::sound(p, smashed? 80 : 50, "");
     } else {
         std::string dname;
         if (z) {
@@ -4171,9 +4171,9 @@ veh_collision vehicle::part_collision (int part, int x, int y, bool just_detect)
         }
 
         if (part_flag(part, "SHARP")) {
-            g->m.adjust_field_strength(point(x, y), fd_blood, 1 );
+            g->m.adjust_field_strength( p, fd_blood, 1 );
         } else {
-            sounds::sound(x, y, 20, "");
+            sounds::sound(p, 20, "");
         }
     }
 
@@ -5551,7 +5551,7 @@ bool vehicle::automatic_fire_turret( int p, const itype &gun, const itype &ammo,
 
     // Move the charger gun "whoosh" here - no need to pass it from above
     if( tmp.weapon.is_charger_gun() && charges > 20 ) {
-        sounds::sound( targ.x, targ.y, 20, _("whoosh!") );
+        sounds::sound( targ, 20, _("whoosh!") );
     }
     // notify player if player can see the shot
     if( g->u.sees( pos ) ) {
