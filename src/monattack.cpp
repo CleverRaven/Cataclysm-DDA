@@ -311,7 +311,7 @@ void mattack::acid_barf(monster *z, int index)
                                     _("The %1$s barfs acid on <npcname>'s %2$s!"),
                                     z->name().c_str(),
                                     body_part_name_accusative( hit ).c_str() );
-        
+
         if( hit == bp_eyes ) {
             target->add_env_effect("blind", bp_eyes, 3, 10);
         }
@@ -560,6 +560,56 @@ void mattack::boomer(monster *z, int index)
         target->on_dodge( z, 10 );
     }
 }
+
+void mattack::boomer_glow(monster *z, int index)
+{
+    if( !z->can_act() ) {
+        return;
+    }
+
+    int t;
+    Creature *target = z->attack_target();
+    if( target == nullptr ||
+        rl_dist( z->pos(), target->pos() ) > 3 ||
+        !z->sees( *target, t ) ) {
+        return;
+    }
+
+    std::vector<tripoint> line = line_to( z->pos(), target->pos(), t, 0 );
+    z->reset_special(index); // Reset timer
+    z->moves -= 250;   // It takes a while
+    bool u_see = g->u.sees( *z );
+    if( u_see ) {
+        add_msg(m_warning, _("The %s spews bile!"), z->name().c_str());
+    }
+    for (auto &i : line) {
+        g->m.add_field(i, fd_bile, 1, 0);
+        if (g->m.move_cost(i) == 0) {
+            g->m.add_field(i, fd_bile, 3, 0);
+            if (g->u.sees( i ))
+                add_msg(_("Bile splatters on the %s!"), g->m.tername(i).c_str());
+            return;
+        }
+    }
+    if( !target->uncanny_dodge() ) {
+        if (rng(0, 10) > target->get_dodge() || one_in( target->get_dodge() ) ) {
+            target->add_env_effect("boomered", bp_eyes, 5, 25);
+            target->on_dodge( z, 10 );
+            for (int i = 0; i < rng(2,4); i++){
+                body_part bp = random_body_part();
+                target->add_env_effect("glowing", bp, 4, 40);
+                if (target->has_effect("glowing")){
+                    break;
+                }
+            }
+        } else {
+            target->add_msg_player_or_npc( _("You dodge it!"),
+                                    _("<npcname> dodges it!") );
+        }
+    }
+
+}
+
 
 void mattack::resurrect(monster *z, int index)
 {
@@ -1582,7 +1632,7 @@ void mattack::fungus_bristle(monster *z, int index)
         target->add_msg_if_player( _("The %1$s slashes your %2$s, but your armor protects you."), z->name().c_str(),
                                 body_part_name_accusative(hit).c_str());
     }
-    
+
     target->on_hit( z, hit,  z->type->melee_skill );
 }
 
@@ -1852,7 +1902,7 @@ void mattack::impale(monster *z, int index)
         z->reset_special(index); // Reset timer
         return;
     }
-    
+
     int dam = target->deal_damage( z, bp_torso, damage_instance( DT_STAB, rng(10,20), rng(5,15), .5 ) ).total_damage();
     if( dam > 0 ) {
         auto msg_type = target == &g->u ? m_bad : m_info;
@@ -3622,7 +3672,7 @@ void mattack::stretch_bite(monster *z, int index)
         //head's not going to fit through the bars
         if (terrain.movecost == 0 ){
             z->add_effect("stunned", 6);
-            target->add_msg_player_or_npc( _("The %s stretches its head at you, but bounces off the %s"), 
+            target->add_msg_player_or_npc( _("The %s stretches its head at you, but bounces off the %s"),
                                            _("The %s stretches its head at <npcname>, but bounces off the %s"),
                                            z->name().c_str(), terrain.name.c_str() );
             return;
@@ -3655,7 +3705,7 @@ void mattack::stretch_bite(monster *z, int index)
                                     _("The %1$s's teeth sink into <npcname>'s %2$s!"),
                                     z->name().c_str(),
                                     body_part_name_accusative( hit ).c_str() );
-        
+
         if( one_in( 16 - dam ) ) {
             if( target->has_effect("bite", hit)) {
                 target->add_effect("bite", 400, hit, true);
@@ -4671,7 +4721,7 @@ void mattack::stretch_attack(monster *z, int index){
                                 _("The %1$s arm pierces <npcname>'s %2$s!"),
                                 z->name().c_str(),
                                 body_part_name_accusative( hit ).c_str() );
-        
+
         target->check_dead_state();
     } else {
         target->add_msg_player_or_npc( _("The %1$s arm hits your %2$s, but glances off your armor!"),
