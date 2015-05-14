@@ -295,20 +295,19 @@ const std::vector<const vpart_info*> &vpart_info::get_all()
  */
 void vehicle_prototype::load(JsonObject &jo)
 {
-    vehicle_prototype *vproto = &vtypes[ jo.get_string( "id" ) ];
+    vehicle_prototype &vproto = vtypes[ jo.get_string( "id" ) ];
     // Overwrite with an empty entry to clear all the contained data, e.g. if this prototype is
     // re-defined by a mod. This will also delete any existing vehicle blueprint.
-    *vproto = std::move( vehicle_prototype() );
+    vproto = std::move( vehicle_prototype() );
 
-    vproto->name = jo.get_string("name");
+    vproto.name = jo.get_string("name");
 
     JsonArray parts = jo.get_array("parts");
-    point pxy;
     while (parts.has_more()) {
         JsonObject part = parts.next_object();
-        pxy = point(part.get_int("x"), part.get_int("y"));
+        const point pxy( part.get_int("x"), part.get_int("y") );
         const vpart_str_id pid( part.get_string( "part" ) );
-        vproto->parts.emplace_back( pxy, pid );
+        vproto.parts.emplace_back( pxy, pid );
     }
 
     JsonArray items = jo.get_array("items");
@@ -320,7 +319,7 @@ void vehicle_prototype::load(JsonObject &jo)
         next_spawn.chance = spawn_info.get_int("chance");
         if(next_spawn.chance <= 0 || next_spawn.chance > 100) {
             debugmsg("Invalid spawn chance in %s (%d, %d): %d%%",
-                     vproto->name.c_str(), next_spawn.pos.x, next_spawn.pos.y, next_spawn.chance);
+                     vproto.name.c_str(), next_spawn.pos.x, next_spawn.pos.y, next_spawn.chance);
         }
         if(spawn_info.has_array("items")) {
             //Array of items that all spawn together (ie jack+tire)
@@ -341,7 +340,7 @@ void vehicle_prototype::load(JsonObject &jo)
         } else if(spawn_info.has_string("item_groups")) {
             next_spawn.item_groups.push_back(spawn_info.get_string("item_groups"));
         }
-        vproto->item_spawns.push_back(next_spawn);
+        vproto.item_spawns.push_back( std::move( next_spawn ) );
     }
 }
 
