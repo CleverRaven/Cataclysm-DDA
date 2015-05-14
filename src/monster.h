@@ -266,6 +266,9 @@ class monster : public Creature, public JsonSerializer, public JsonDeserializer
         int  dodge_roll() override;  // For the purposes of comparing to player::hit_roll()
         int  fall_damage() const; // How much a fall hurts us
 
+        bool has_grab_break_tec() const override;
+
+        virtual bool drag_check( monster *z) const;
         // We just dodged an attack from something
         void on_dodge( Creature *source, int difficulty = INT_MIN ) override;
         // Something hit us (possibly null source)

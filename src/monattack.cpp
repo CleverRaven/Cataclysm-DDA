@@ -2286,18 +2286,20 @@ void mattack::pull_enemy(monster *z, int index)
 
     if( uncanny || dodge_check(z, target) ) {
         z->moves -=200;
+        auto msg_type = foe == &g->u ? m_warning : m_info;
         if( foe != nullptr ) {
-            if( seen ) {
-                auto msg_type = foe == &g->u ? m_warning : m_info;
-                foe->add_msg_player_or_npc( msg_type, _("The %s's arms fly out at you, but you dodge!"),
-                                                      _("The %s's arms fly out at <npcname>, but they dodge!"),
-                                            z->name().c_str() );
-            }
-            if( !uncanny ) {
-                target->on_dodge( z, z->type->melee_skill * 2 );
-            }
-        } else if( seen ) {
-            add_msg( _("The %s's arms fly out at %s, but they miss and sail past!"), z->name().c_str(), target->disp_name().c_str() );
+            foe->add_msg_player_or_npc( msg_type, _("The %s's arms fly out at you, but you dodge!"),
+                                                    _("The %s's arms fly out at <npcname>, but they dodge!"),
+                                        z->name().c_str() );
+
+        }
+        else if( !uncanny ) {
+            target->on_dodge( z, z->type->melee_skill * 2 );
+        }
+        else {
+            foe->add_msg_player_or_npc( msg_type, _("The %s's arms fly out at you, but them miss you!"),
+                                        _("The %s's arms fly out at <npcname>, but they miss!"),
+                                z->name().c_str() );
         }
         return;
     }
@@ -2344,42 +2346,35 @@ void mattack::grab(monster *z, int index)
     }
 
     player *foe = dynamic_cast< player* >( target );
-    bool seen = g->u.sees( *z );
 
     z->reset_special(index); // Reset timer
     z->moves -= 80;
     bool uncanny = target->uncanny_dodge();
+    auto msg_type = foe == &g->u ? m_warning : m_info;
     if( uncanny || dodge_check(z, target) ){
         if( foe != nullptr ) {
-            if( seen ) {
-                auto msg_type = foe == &g->u ? m_warning : m_info;
                 target->add_msg_player_or_npc( msg_type, _("The %s gropes at you, but you dodge!"),
                                                       _("The %s gropes at <npcname>, but they dodge!"),
                                             z->name().c_str() );
-            }
-            if( !uncanny ) {
-                target->on_dodge( z, z->type->melee_skill * 2 );
-            }
-    } else if( seen ) {
-        add_msg( _("The %s gropes at %s, but misses!"), z->name().c_str(), target->disp_name().c_str() );
+
+    } else {target->add_msg_player_or_npc( msg_type, _("The %s gropes at you, but misses!"),
+                                            _("The %s gropes at <npcname>, but it misses!"),
+                                z->name().c_str() );
+    }
+    if( !uncanny ) {
+        target->on_dodge( z, z->type->melee_skill * 2 );
     }
     return;
     }
     target->add_msg_player_or_npc(m_bad, _("%s grabs you!"), _("%s grabs <npcname>!"),
                                 z->disp_name().c_str());
-    if (foe == nullptr){
-        if ((target->get_grab_resist() > 0 && rng(target->get_melee(), 20) > rng(z->get_melee(), 20)) ||
-            (target->get_size() == MS_LARGE || MS_HUGE)){
-            foe->add_msg_player_or_npc(m_good, _("You break the grab!"),
-                                    _("<npcname> breaks the grab!"));
-            return;
-        }
-    } else if (foe != nullptr && foe->has_grab_break_tec() && foe->get_grab_resist() > 0 && foe->get_dex() > foe->get_str() ?
-        dice(foe->get_dex(), 10) : dice(foe->get_str(), 10) > dice(8, 10)) {
-        foe->add_msg_player_or_npc(m_good, _("You break the grab!"),
+
+    if ( target->has_grab_break_tec() && target->get_grab_resist() > 0 && target->get_dex() > target->get_str() ?
+        dice(target->get_dex(), 10) : dice(target->get_str(), 10) > dice(8, 10)) {
+        target->add_msg_player_or_npc(m_good, _("You break the grab!"),
                                     _("<npcname> breaks the grab!"));
         return;
-    }
+        }
     target->add_effect("grabbed", 2);
 }
 
@@ -2395,27 +2390,31 @@ void mattack::grab_pull(monster *z, int index)
     }
 
     player *foe = dynamic_cast< player* >( target );
-    bool seen = g->u.sees( *z );
 
     grab(z, index);
 
-    if (foe->has_effect("grabbed")){
+    if (target->has_effect("grabbed")){
         tripoint target_square = z->pos() - (target->pos() - z->pos());
-        if (z->can_move_to(target_square) && foe->drag_check() ){
-            tripoint my_old_location = z->pos();
+        if (z->can_move_to(target_square) && target->drag_check(z) ){
+            tripoint zpt = z->pos();
             z->move_to(target_square);
             if (foe != nullptr){
-                foe->setpos(my_old_location);
+                if( target->is_player() && ( zpt.x < SEEX * int(MAPSIZE / 2) || zpt.y < SEEY * int(MAPSIZE / 2) ||
+            zpt.x >= SEEX * (1 + int(MAPSIZE / 2)) || zpt.y >= SEEY * (1 + int(MAPSIZE / 2)) ) ) {
+            g->update_map( zpt.x, zpt.y );
+        }
+        if (foe->in_vehicle) {
+            g->m.unboard_vehicle(foe->pos());
+        }
+                foe->setpos(zpt);
             } else {
-                zz->setpos(my_old_location);
+                zz->setpos(zpt);
             }
-            if( seen ) {
-                add_msg( _("The %s drags %s!"), z->name().c_str(), target->disp_name().c_str() );
-            }
+            target->add_msg_player_or_npc(m_good, _("You are dragged behind the %s!"),
+                                    _("<npcname> gets dragged behind the %s!"), z->name().c_str() );
         } else{
-            if( seen ) {
-                add_msg( _("The %s tries to drag %s, but it is resisted!"), z->name().c_str(), target->disp_name().c_str() );
-            }
+            target->add_msg_player_or_npc(m_good, _("You resist the %s as it tries to drag you!"),
+                                    _("<npcname> resist the %s as it tries to drag them!"), z->name().c_str() );
         }
     target->add_effect("grabbed", 3);
     }

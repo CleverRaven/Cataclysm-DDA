@@ -1283,6 +1283,7 @@ int Creature::get_grab_resist() const
 {
     return grab_resist;
 }
+
 int Creature::get_throw_resist() const
 {
     return throw_resist;

@@ -1216,6 +1216,20 @@ int monster::hit_roll() const {
     return dice(type->melee_skill, 10);
 }
 
+bool monster::has_grab_break_tec() const
+{
+    return false;
+}
+
+bool monster::drag_check( monster *z) const
+{
+    if (dice(z->type->melee_sides, z->type->melee_dice) > dice(type->melee_sides, type->melee_dice)){
+        return false;
+    } else {
+    return true;
+    }
+}
+
 int monster::get_dodge() const
 {
     if (has_effect("downed")) {

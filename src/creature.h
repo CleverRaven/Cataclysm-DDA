@@ -318,6 +318,8 @@ class Creature
 
         virtual bool in_sleep_state() const;
 
+        virtual bool drag_check(monster *z) const = 0;
+
         /*
          * Get/set our killer, this is currently used exclusively to allow
          * mondeath effects to happen after death cleanup
@@ -401,6 +403,7 @@ class Creature
 
         virtual bool get_melee_quiet() const;
         virtual int get_grab_resist() const;
+        virtual bool has_grab_break_tec() const = 0;
         virtual int get_throw_resist() const;
 
         /*

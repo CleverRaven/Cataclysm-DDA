@@ -385,7 +385,7 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         /** Returns true if the player is immune to throws */
         bool is_throw_immune() const;
         /** Returns false if the player can't be dragged */
-        bool drag_check() const;
+        bool drag_check(monster *z) const;
         /** Returns true if the player has quiet melee attacks */
         bool is_quiet() const;
         /** Returns true if the current martial art works with the player's current weapon */
@@ -406,7 +406,7 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         /** Returns true if the player has technique-based miss recovery */
         bool has_miss_recovery_tec() const;
         /** Returns true if the player has a grab breaking technique available */
-        bool has_grab_break_tec() const;
+        bool has_grab_break_tec() const override;
         /** Returns true if the player has the leg block technique available */
         bool can_leg_block();
         /** Returns true if the player has the arm block technique available */
