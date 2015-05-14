@@ -4778,10 +4778,6 @@ field_entry *map::get_field( const tripoint &p, const field_id t ) {
     return current_submap->fld[lx][ly].findField( t );
 }
 
-field_entry *map::get_field( const point pnt, const field_id t ) {
-    return get_field( tripoint( pnt, abs_sub.z ), t );
-}
-
 bool map::add_field(const tripoint &p, const field_id t, int density, const int age)
 {
     if( !inbounds( p ) ) {
@@ -7223,52 +7219,6 @@ void map::add_road_vehicles(bool city, int facing)
             }
         }
     }
-}
-
-// 2D overloads for fields
-const field &map::field_at( const int x, const int y ) const
-{
-    return field_at( tripoint( x, y, abs_sub.z ) );
-}
-
-int map::get_field_strength( const point p, const field_id t ) const
-{
-    return get_field_strength( tripoint( p, abs_sub.z ), t );
-}
-
-int map::adjust_field_age( const point p, const field_id t, const int offset )
-{
-    return adjust_field_age( tripoint( p, abs_sub.z ), t, offset );
-}
-
-int map::adjust_field_strength( const point p, const field_id t, const int offset )
-{
-    return adjust_field_strength( tripoint( p, abs_sub.z ), t, offset );
-}
-
-int map::set_field_age( const point p, const field_id t, const int age, bool isoffset )
-{
-    return set_field_age( tripoint( p, abs_sub.z ), t, age, isoffset );
-}
-
-int map::set_field_strength( const point p, const field_id t, const int str, bool isoffset )
-{
-    return set_field_strength( tripoint( p, abs_sub.z ), t, str, isoffset );
-}
-
-bool map::add_field(const point p, const field_id t, const int density, const int age)
-{
-    return add_field( tripoint( p, abs_sub.z ), t, density, age );
-}
-
-bool map::add_field(const int x, const int y, const field_id t, const int density)
-{
-    return add_field( tripoint( x, y, abs_sub.z ), t, density, 0 );
-}
-
-void map::remove_field( const int x, const int y, const field_id field_to_remove )
-{
-    remove_field( tripoint( x, y, abs_sub.z ), field_to_remove );
 }
 
 field &map::get_field( const tripoint &p )

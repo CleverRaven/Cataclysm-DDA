@@ -1210,22 +1210,6 @@ private:
   public:
     lit_level visibility_cache[MAPSIZE*SEEX][MAPSIZE*SEEY];
     void update_visibility_cache( visibility_variables &cache, int zlev );
-
-private:
-// 2D overloads for functions that should be only used with 3D ones
-// Kept for mapgen, which substitutes correct z-coords from own abs_sub.z
-// Fields:
-        const field& field_at( const int x, const int y ) const;
-        int get_field_strength( const point p, const field_id t ) const;
-        int adjust_field_age( const point p, const field_id t, const int offset );
-        int adjust_field_strength( const point p, const field_id t, const int offset );
-        int set_field_age( const point p, const field_id t, const int age, bool isoffset = false );
-        int set_field_strength( const point p, const field_id t, const int str, bool isoffset = false );
-        field_entry * get_field( const point p, const field_id t );
-        bool add_field(const point p, const field_id t, const int density, const int age);
-        bool add_field(const int x, const int y, const field_id t, const int density);
-        void remove_field( const int x, const int y, const field_id field_to_remove );
-// End of 2D overload block
 };
 
 std::vector<point> closest_points_first(int radius, point p);
