@@ -370,9 +370,9 @@ void vehicle_prototype::finalize()
         blueprint.type = id;
         blueprint.name = _(proto.name.c_str());
 
-        for (size_t i = 0; i < proto.parts.size(); ++i) {
-            const point &p = proto.parts[i].first;
-            const vpart_str_id &part_id = proto.parts[i].second;
+        for( auto &part : proto.parts ) {
+            const point &p = part.first;
+            const vpart_str_id &part_id = part.second;
             if( !part_id.is_valid() ) {
                 debugmsg("unknown vehicle part %s in %s", part_id.c_str(), id.c_str());
                 continue;
