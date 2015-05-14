@@ -418,7 +418,18 @@
         "apply_message": "You're covered in bile!",
         "rating": "bad",
         "base_mods": {
-            "per_mod": [-5],
+            "per_mod": [-3],
+            "vomit_chance": [500]
+        }
+    },
+    {
+        "type": "effect_type",
+        "id": "glowing",
+        "name": ["Glowing"],
+        "desc": ["You are covered in glowing goo!"],
+        "apply_message": "You're covered in a glowing goo!",
+        "rating": "bad",
+        "base_mods": {
             "vomit_chance": [500]
         }
     },

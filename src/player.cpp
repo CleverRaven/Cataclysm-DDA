@@ -4113,8 +4113,9 @@ float player::active_light() const
         lumination = 60;
     } else if ( lumination < 25 && has_artifact_with(AEP_GLOW) ) {
         lumination = 25;
+    } else if (lumination < 5 && has_effect("glowing")){
+            lumination = 5;
     }
-
     return lumination;
 }
 
@@ -5528,7 +5529,7 @@ void player::update_stamina()
     }
 
     // 2d4 bonus stamina from active stimpack stamina-boost.
-    if( stamina < get_stamina_max() && has_effect("stimpack") && 
+    if( stamina < get_stamina_max() && has_effect("stimpack") &&
         get_effect_dur("stimpack") > 50 ) {
         stamina += rng( 2, 8 );
     }

@@ -140,13 +140,6 @@ float resistances::get_effective_resist( const damage_unit &du )
     return effective_resist;
 }
 
-
-
-void ammo_effects( int x, int y, const std::set<std::string> &effects )
-{
-    ammo_effects( tripoint( x, y, g->u.posz() ), effects );
-}
-
 void ammo_effects( const tripoint &p, const std::set<std::string> &effects )
 {
     if( effects.count( "EXPLOSIVE" ) > 0 ) {

@@ -311,7 +311,7 @@ void mattack::acid_barf(monster *z, int index)
                                     _("The %1$s barfs acid on <npcname>'s %2$s!"),
                                     z->name().c_str(),
                                     body_part_name_accusative( hit ).c_str() );
-        
+
         if( hit == bp_eyes ) {
             target->add_env_effect("blind", bp_eyes, 3, 10);
         }
@@ -561,69 +561,141 @@ void mattack::boomer(monster *z, int index)
     }
 }
 
-void mattack::resurrect(monster *z, int index)
+void mattack::boomer_glow(monster *z, int index)
 {
-    if( z->get_speed() < z->get_speed_base() / 2) {
-        return;    // We can only resurrect so many times!
+    if( !z->can_act() ) {
+        return;
     }
 
-    std::set<tripoint> corpse_pos;
-    // Find all corpses that we can see within 4 tiles.
-    tripoint p;
-    p.z = z->posz();
-    int &x = p.x;
-    int &y = p.y;
-    for( x = z->posx() - 4; x <= z->posx() + 4; x++ ) {
-        for( y = z->posy() - 4; y <= z->posy() + 4; y++ ) {
-            if( g->is_empty( p ) && g->m.sees( z->pos(), p, -1) ) {
-                for( const auto &i : g->m.i_at( p ) ) {
+    int t;
+    Creature *target = z->attack_target();
+    if( target == nullptr ||
+        rl_dist( z->pos(), target->pos() ) > 3 ||
+        !z->sees( *target, t ) ) {
+        return;
+    }
+
+    std::vector<tripoint> line = line_to( z->pos(), target->pos(), t, 0 );
+    z->reset_special(index); // Reset timer
+    z->moves -= 250;   // It takes a while
+    bool u_see = g->u.sees( *z );
+    if( u_see ) {
+        add_msg(m_warning, _("The %s spews bile!"), z->name().c_str());
+    }
+    for (auto &i : line) {
+        g->m.add_field(i, fd_bile, 1, 0);
+        if (g->m.move_cost(i) == 0) {
+            g->m.add_field(i, fd_bile, 3, 0);
+            if (g->u.sees( i ))
+                add_msg(_("Bile splatters on the %s!"), g->m.tername(i).c_str());
+            return;
+        }
+    }
+    if( !target->uncanny_dodge() ) {
+        if (rng(0, 10) > target->get_dodge() || one_in( target->get_dodge() ) ) {
+            target->add_env_effect("boomered", bp_eyes, 5, 25);
+            target->on_dodge( z, 10 );
+            for (int i = 0; i < rng(2,4); i++){
+                body_part bp = random_body_part();
+                target->add_env_effect("glowing", bp, 4, 40);
+                if (target->has_effect("glowing")){
+                    break;
+                }
+            }
+        } else {
+            target->add_msg_player_or_npc( _("You dodge it!"),
+                                    _("<npcname> dodges it!") );
+        }
+    }
+
+}
+
+
+void mattack::resurrect(monster *z, int index)
+{
+    // Chance to recover some of our missing speed (yes this will regain
+    // loses from being revived ourselves as well).
+    // Multiplying by (current base speed / max speed) means that the
+    // rate of speed regaining is unaffected by what our current speed is, i.e.
+    // we will regain the same amount per minute at speed 50 as speed 200.
+    if (one_in(int(15 * double(z->get_speed_base()) / double(z->type->speed)))) {
+        // Restore 10% of our current speed, capping at our type maximum
+        z->set_speed_base(std::min(z->type->speed, int(z->get_speed_base() + .1 * z->type->speed)));
+    }
+
+    std::vector<std::pair<tripoint, item*>> corpses;
+    // Find all corpses that we can see within 10 tiles.
+    int range = 10;
+    tripoint tmp = z->pos3();
+    int x = tmp.x;
+    int y = tmp.y;
+    for (int i = x - range; i < x + range; i++) {
+        for (int j = y - range; j < y + range; j++) {
+            tmp.x = i;
+            tmp.y = j;
+            if (g->is_empty(tmp) && g->m.sees(z->pos3(), tmp, -1)) {
+                for( auto &i : g->m.i_at( tmp ) ) {
                     if( i.is_corpse() && i.get_mtype()->has_flag(MF_REVIVES) &&
                           i.get_mtype()->in_species("ZOMBIE") ) {
-                        corpse_pos.insert( p );
+                        corpses.push_back( std::make_pair(tmp, &i) );
                         break;
                     }
                 }
             }
         }
     }
-    if( corpse_pos.empty() ) { // No nearby corpses
-        return;
-    }
-    z->set_speed_base( (z->get_speed_base() - rng(0, 10)) * 0.8 );
-    bool sees_necromancer = g->u.sees(*z);
-    if( sees_necromancer ) {
-        add_msg(_("The %s throws its arms wide..."), z->name().c_str());
-    }
-    z->reset_special(index); // Reset timer
-    z->moves -= 500;   // It takes a while
-    int raised = 0;
-    for( auto &i : corpse_pos ) {
-        for( size_t n = 0; n < g->m.i_at( i ).size(); ) {
-            if( g->m.i_at( i )[n].is_corpse() && one_in(2) && g->revive_corpse( i, n ) ) {
-                if( z->friendly != 0 ) {
-                    g->zombie(g->num_zombies() - 1).friendly = z->friendly;
-                }
 
-                if( g->u.sees( p ) ) {
-                    raised++;
-                }
-
-                break; // Only one body raised per tile
-            } else {
-                n++;
+    if( corpses.empty() ) { // No nearby corpses
+        // Check to see if there are any nearby living zombies to see if we should get angry
+        bool allies = false;
+        for (size_t i = 0; i < g->num_zombies(); i++) {
+            monster *zed = &g->zombie(i);
+            if( zed != z && zed->type->has_flag(MF_REVIVES) && zed->type->in_species("ZOMBIE") &&
+                  z->attitude_to(*zed) == Creature::Attitude::A_FRIENDLY  &&
+                  within_target_range(z, zed, 10)) {
+                allies = true;
+                break;
             }
         }
-    }
-    if (raised > 0) {
-        if (raised == 1) {
-            add_msg(m_warning, _("A nearby corpse rises from the dead!"));
-        } else if (raised < 4) {
-            add_msg(m_warning, _("A few corpses rise from the dead!"));
+        if (!allies) {
+            // Nobody around who we could revive, get angry
+            z->anger = 100;
         } else {
-            add_msg(m_warning, _("Several corpses rise from the dead!"));
+            // Someone is around who might die and we could revive,
+            // calm down.
+            z->anger = 5;
         }
-    } else if( sees_necromancer ) {
-        add_msg(_("...but nothing seems to happen."));
+        return;
+    } else {
+        // We're reviving someone/could revive someone, calm down.
+        z->anger = 5;
+    }
+
+    if( z->get_speed_base() <= z->type->speed / 2) {
+        // We can only resurrect so many times in a time period
+        // and we're currently out
+        return;
+    }
+
+    std::pair<tripoint, item*> raised = corpses[rng(0, corpses.size() - 1)];
+    // Did we successfully raise something?
+    if (g->revive_corpse(raised.first, raised.second)) {
+        bool sees_necromancer = g->u.sees(*z);
+        if( sees_necromancer ) {
+            add_msg(m_info, _("The %s throws its arms wide."), z->name().c_str());
+        }
+        z->reset_special(index); // Reset timer
+        z->moves -= z->type->speed; // Takes one turn
+        // Lose 20% of our maximum speed
+        z->set_speed_base(z->get_speed_base() - .2 * z->type->speed);
+        monster *zed = &g->zombie(g->mon_at(raised.first));
+        zed->make_ally(z);
+        if (g->u.sees(*zed)) {
+            add_msg(m_warning, _("A nearby %s rises from the dead!"), zed->name().c_str());
+        } else if (sees_necromancer) {
+            // We saw the necromancer but not the revival
+            add_msg(m_info, _("But nothing seems to happen."));
+        }
     }
 }
 
@@ -1582,7 +1654,7 @@ void mattack::fungus_bristle(monster *z, int index)
         target->add_msg_if_player( _("The %1$s slashes your %2$s, but your armor protects you."), z->name().c_str(),
                                 body_part_name_accusative(hit).c_str());
     }
-    
+
     target->on_hit( z, hit,  z->type->melee_skill );
 }
 
@@ -1852,7 +1924,7 @@ void mattack::impale(monster *z, int index)
         z->reset_special(index); // Reset timer
         return;
     }
-    
+
     int dam = target->deal_damage( z, bp_torso, damage_instance( DT_STAB, rng(10,20), rng(5,15), .5 ) ).total_damage();
     if( dam > 0 ) {
         auto msg_type = target == &g->u ? m_bad : m_info;
@@ -3464,36 +3536,55 @@ void mattack::upgrade(monster *z, int index)
     std::vector<int> targets;
     for (size_t i = 0; i < g->num_zombies(); i++) {
         monster &zed = g->zombie(i);
-        if( zed.type->id == "mon_zombie" &&
-            rl_dist( z->pos(), zed.pos() ) <= 5 &&
-            z->sees( zed ) &&
-            z->attitude_to( zed ) != Creature::Attitude::A_HOSTILE ) {
-            targets.push_back(i);
+        // Check this first because it is a relatively cheap check
+        if( zed.can_upgrade()) {
+            // Then do the more expensive ones
+            if ( z->attitude_to( zed ) != Creature::Attitude::A_HOSTILE &&
+                 within_target_range(z, &zed, 10) ) {
+                targets.push_back(i);
+            }
         }
     }
     if (targets.empty()) {
+        // Nobody to upgrade, get MAD!
+        z->anger = 100;
         return;
+    } else {
+        // We've got zombies to upgrade now, calm down again
+        z->anger = 5;
     }
+
     z->reset_special(index); // Reset timer
-    z->moves -= 150;   // It takes a while
+    z->moves -= z->type->speed; // Takes one turn
 
     monster *target = &( g->zombie( targets[ rng(0, targets.size() - 1) ] ) );
 
-    const auto monsters = MonsterGroupManager::GetMonstersFromGroup("GROUP_ZOMBIE_UPGRADE");
-    const std::string newtype = monsters[rng(0, monsters.size() - 1)];
-
+    std::string old_name = target->name();
     const auto could_see = g->u.sees( *target );
-    target->poly(GetMType(newtype));
-    const auto can_now_see = g->u.sees( *target );
+    // Currently gives zombies the equivalent of a week of upgrade time
+    // Difficulty scaling happens in update_check()
+    target->set_last_load(target->get_last_load() - 7);
+    target->update_check();
+    const auto can_see = g->u.sees( *target );
     if (g->u.sees( *z )) {
-        add_msg(m_warning, _("The black mist around the %s grows..."), z->name().c_str());
+        if (could_see) {
+            //~ %1$s is the name of the zombie upgrading the other, %2$s is the zombie being upgraded.
+            add_msg(m_warning, _("A black mist floats from the %1$s around the %2$s."),
+                     z->name().c_str(), old_name.c_str());
+        } else {
+            add_msg(m_warning, _("A black mist floats from the %s."), z->name().c_str());
+        }
     }
-    if( could_see && can_now_see ) {
-        add_msg(m_warning, _("...a zombie becomes a %s!"), target->name().c_str());
-    } else if( could_see ) {
-        add_msg( m_warning, _( "...a zombie vanishes!" ) );
-    } else if( can_now_see ) {
-        add_msg( m_warning, _( "...a %s appears!"), target->name().c_str() );
+    if (target->name() != old_name) {
+        if( could_see && can_see ) {
+            //~ %1$s is the pre-upgrade monster, %2$s is the post-upgrade monster.
+            add_msg(m_warning, _("The %1$s becomes a %2$s!"), old_name.c_str(),
+                     target->name().c_str());
+        } else if( could_see ) {
+            add_msg( m_warning, _( "The %s vanishes!" ), old_name.c_str() );
+        } else if( can_see ) {
+            add_msg( m_warning, _( "A %s appears!"), target->name().c_str() );
+        }
     }
 }
 
@@ -3622,7 +3713,7 @@ void mattack::stretch_bite(monster *z, int index)
         //head's not going to fit through the bars
         if (terrain.movecost == 0 ){
             z->add_effect("stunned", 6);
-            target->add_msg_player_or_npc( _("The %s stretches its head at you, but bounces off the %s"), 
+            target->add_msg_player_or_npc( _("The %s stretches its head at you, but bounces off the %s"),
                                            _("The %s stretches its head at <npcname>, but bounces off the %s"),
                                            z->name().c_str(), terrain.name.c_str() );
             return;
@@ -3655,7 +3746,7 @@ void mattack::stretch_bite(monster *z, int index)
                                     _("The %1$s's teeth sink into <npcname>'s %2$s!"),
                                     z->name().c_str(),
                                     body_part_name_accusative( hit ).c_str() );
-        
+
         if( one_in( 16 - dam ) ) {
             if( target->has_effect("bite", hit)) {
                 target->add_effect("bite", 400, hit, true);
@@ -4671,7 +4762,7 @@ void mattack::stretch_attack(monster *z, int index){
                                 _("The %1$s arm pierces <npcname>'s %2$s!"),
                                 z->name().c_str(),
                                 body_part_name_accusative( hit ).c_str() );
-        
+
         target->check_dead_state();
     } else {
         target->add_msg_player_or_npc( _("The %1$s arm hits your %2$s, but glances off your armor!"),

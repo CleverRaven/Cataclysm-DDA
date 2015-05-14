@@ -347,7 +347,7 @@ void start_location::place_player( player &u ) const
     }
 
     if( !found_good_spot ) {
-        debugmsg( "Could not find starting good place for character" );
+        debugmsg( "Could not find a good starting place for character" );
     }
 }
 
