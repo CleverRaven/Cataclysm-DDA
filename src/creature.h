@@ -318,7 +318,8 @@ class Creature
 
         virtual bool in_sleep_state() const;
 
-        virtual bool drag_check(monster *z) const = 0;
+        virtual bool stability_check(monster *z, int intensity) const = 0;
+        //Returns true if the target will be moved
 
         /*
          * Get/set our killer, this is currently used exclusively to allow

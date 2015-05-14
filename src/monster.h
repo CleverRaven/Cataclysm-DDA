@@ -268,7 +268,7 @@ class monster : public Creature, public JsonSerializer, public JsonDeserializer
 
         bool has_grab_break_tec() const override;
 
-        virtual bool drag_check( monster *z) const;
+        bool stability_check( monster *z, int strength) const override;
         // We just dodged an attack from something
         void on_dodge( Creature *source, int difficulty = INT_MIN ) override;
         // Something hit us (possibly null source)

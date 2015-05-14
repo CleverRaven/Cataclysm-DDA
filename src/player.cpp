@@ -1824,10 +1824,10 @@ bool player::is_immune_effect( const efftype_id &effect ) const
     return false;
 }
 
-bool player::drag_check( monster *z) const
+bool player::stability_check( monster *z, int strength) const
 {
     if ((get_melee()) + get_str() + (get_per() / 3) + (get_dex() / 4) >
-        rng(4, 15) + (z->type->melee_sides * z->type->melee_dice / 2) || is_throw_immune()){
+        rng(0, 10) + ((z->type->melee_sides + z->type->melee_dice) * strength ) || is_throw_immune()){
         return false;
     }
     else {

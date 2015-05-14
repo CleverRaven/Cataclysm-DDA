@@ -2395,7 +2395,7 @@ void mattack::grab_pull(monster *z, int index)
 
     if (target->has_effect("grabbed")){
         tripoint target_square = z->pos() - (target->pos() - z->pos());
-        if (z->can_move_to(target_square) && target->drag_check(z) ){
+        if (z->can_move_to(target_square) && target->stability_check(z, 1) ){
             tripoint zpt = z->pos();
             z->move_to(target_square);
             if (foe != nullptr){
