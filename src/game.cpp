@@ -8576,6 +8576,9 @@ tripoint game::look_around( WINDOW *w_info, const tripoint &start_point,
 
     const int old_levz = get_levz();
 
+    visibility_variables cache;
+    m.update_visibility_cache( cache, old_levz );
+
     do {
         if (bNewWindow) {
             werase(w_info);
@@ -8648,28 +8651,28 @@ tripoint game::look_around( WINDOW *w_info, const tripoint &start_point,
 
         } else {
             //Look around
-            if (u.sees(lp)) {
+            switch( m.get_visibility(m.apparent_light_at(lp, cache), cache) ) {
+            case VIS_CLEAR:
                 print_all_tile_info( lp, w_info, 1, off, false);
-
-            } else if (u.sight_impaired() &&
-                       m.light_at( lp ) == LL_BRIGHT &&
-                       rl_dist( u.pos(), lp) < u.unimpaired_range() &&
-                       m.sees( u.pos(), lp, u.unimpaired_range() ) ) {
-                if (u.has_effect("boomered")) {
-                    mvwputch_inv(w_terrain, POSY + (ly - u.posy()), POSX + (lx - u.posx()), c_pink, '#');
-
-                } else if (u.has_effect("darkness")) {
-                    mvwputch_inv(w_terrain, POSY + (ly - u.posy()), POSX + (lx - u.posx()), c_dkgray, '#');
-
-                } else {
-                    mvwputch_inv(w_terrain, POSY + (ly - u.posy()), POSX + (lx - u.posx()), c_ltgray, '#');
-                }
-
+                break;
+            case VIS_BOOMER:
+            case VIS_BOOMER_DARK:
+                mvwputch_inv(w_terrain, POSY, POSX, c_pink, '#');
+                //~ Describing what you can see when you're boomered.
+                mvwprintw(w_info, 1, 1, _("A pink blur."));
+                break;
+            case VIS_DARK:
+                mvwputch_inv(w_terrain, POSY, POSX, c_dkgray, '#');
+                mvwprintw(w_info, 1, 1, _("Darkness."));
+                break;
+            case VIS_LIT:
+                mvwputch_inv(w_terrain, POSY, POSX, c_ltgray, '#');
                 mvwprintw(w_info, 1, 1, _("Bright light."));
-
-            } else {
+                break;
+            case VIS_HIDDEN:
                 mvwputch(w_terrain, POSY, POSX, c_white, 'x');
                 mvwprintw(w_info, 1, 1, _("Unseen."));
+                break;
             }
 
             if (fast_scroll) {
@@ -8694,8 +8697,8 @@ tripoint game::look_around( WINDOW *w_info, const tripoint &start_point,
 
                     auto zlev_sound = sounds::sound_at( tmp );
                     if( !zlev_sound.empty() ) {
-                        mvwprintw( w_info, ++off, 1,
-                                   tmp.z > lp.z ?  _("You heard %s from above.") : _("You heard %s from below."),
+                        mvwprintw( w_info, ++off, 1, tmp.z > lp.z ?
+                                   _("You heard %s from above.") : _("You heard %s from below."),
                                    zlev_sound.c_str() );
                     }
                 }
