@@ -5,6 +5,7 @@
 #include "item_group.h"
 #include "json.h"
 #include "translations.h"
+#include "color.h"
 
 #include <unordered_map>
 #include <unordered_set>

@@ -1,13 +1,12 @@
 #ifndef VEH_TYPE_H
 #define VEH_TYPE_H
 
-#include "color.h"
 #include "string_id.h"
 #include "int_id.h"
 #include "enums.h"
 
 #include <vector>
-#include <map>
+#include <bitset>
 #include <string>
 #include <memory>
 
@@ -19,6 +18,7 @@ using vproto_id = string_id<vehicle_prototype>;
 class vehicle;
 class JsonObject;
 struct vehicle_item_spawn;
+typedef int nc_color;
 
 /**
  * Represents an entry in the breaks_into list.
