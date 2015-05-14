@@ -92,13 +92,6 @@ struct vehicle_item_spawn
     std::vector<std::string> item_groups;
 };
 
-struct vehicle_prototype
-{
-    std::string id, name;
-    std::vector<std::pair<point, vpart_str_id> > parts;
-    std::vector<vehicle_item_spawn> item_spawns;
-};
-
 class vehicle_stack : public item_stack {
 private:
     std::list<item> *mystack;

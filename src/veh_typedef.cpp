@@ -7,6 +7,11 @@
 #include "translations.h"
 
 #include <unordered_map>
+#include <queue>
+
+std::queue<vehicle_prototype*> vehprototypes;
+
+std::map<std::string, vehicle *> vtypes;
 
 // GENERAL GUIDELINES
 // To determine mount position for parts (dx, dy), check this scheme:
@@ -291,7 +296,7 @@ const std::vector<const vpart_info*> &vpart_info::get_all()
  *Caches a vehicle definition from a JsonObject to be loaded after itypes is initialized.
  */
 // loads JsonObject vehicle definition into a cached state so that it can be held until after itypes have been initialized
-void game::load_vehicle(JsonObject &jo)
+void load_vehicle(JsonObject &jo)
 {
     vehicle_prototype *vproto = new vehicle_prototype;
 
@@ -343,7 +348,7 @@ void game::load_vehicle(JsonObject &jo)
     vehprototypes.push(vproto);
 }
 
-void game::reset_vehicles()
+void reset_vehicles()
 {
     for( auto &elem : vtypes ) {
         delete elem.second;
@@ -356,7 +361,7 @@ const vpart_str_id vpart_info::null( "null" );
 /**
  *Works through cached vehicle definitions and creates vehicle objects from them.
  */
-void game::finalize_vehicles()
+void finalize_vehicles()
 {
     int part_x = 0, part_y = 0;
     vehicle *next_vehicle;

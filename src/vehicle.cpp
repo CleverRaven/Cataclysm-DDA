@@ -27,7 +27,7 @@
 #include <sstream>
 #include <stdlib.h>
 #include <set>
-
+#include <queue>
 
 /*
  * Speed up all those if ( blarg == "structure" ) statements that are used everywhere;
@@ -181,9 +181,9 @@ vehicle::vehicle(std::string type_id, int init_veh_fuel, int init_veh_status): t
 
     //type can be null if the type_id parameter is omitted
     if(type != "null") {
-      if(g->vtypes.count(type) > 0) {
+      if(vtypes.count(type) > 0) {
         //If this template already exists, copy it
-        *this = *(g->vtypes[type]);
+        *this = *(vtypes[type]);
         init_state(init_veh_fuel, init_veh_status);
       }
     }

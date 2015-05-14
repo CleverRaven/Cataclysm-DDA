@@ -24,6 +24,7 @@
 #include "json.h"
 #include "coordinates.h"
 #include "npc.h"
+#include "veh_type.h"
 #ifdef LUA
 #include "catalua.h"
 #endif
@@ -731,7 +732,7 @@ public:
     , fuel( jsi.get_int( "fuel", -1 ) )
     , status( jsi.get_int( "status", -1 ) )
     {
-        if( g->vtypes.count( type ) == 0 ) {
+        if( vtypes.count( type ) == 0 ) {
             jsi.throw_error( "no such vehicle type", "vehicle" );
         }
     }
@@ -11531,7 +11532,7 @@ void map::add_spawn(std::string type, int count, int x, int y, bool friendly,
 vehicle *map::add_vehicle(std::string type, const int x, const int y, const int dir,
                           const int veh_fuel, const int veh_status, const bool merge_wrecks)
 {
-    if(g->vtypes.count(type) == 0) {
+    if(vtypes.count(type) == 0) {
         debugmsg("Nonexistent vehicle type: \"%s\"", type.c_str());
         return NULL;
     }

@@ -4,14 +4,18 @@
 #include "color.h"
 #include "string_id.h"
 #include "int_id.h"
+#include "enums.h"
 
 #include <vector>
+#include <map>
+#include <string>
 
 struct vpart_info;
 using vpart_str_id = string_id<vpart_info>;
 using vpart_id = int_id<vpart_info>;
-
+class vehicle;
 class JsonObject;
+struct vehicle_item_spawn;
 
 /**
  * Represents an entry in the breaks_into list.
@@ -122,6 +126,25 @@ public:
      * vpart_info object of this id will not issue a debug message.
      */
     static const vpart_str_id null;
+};
+
+extern std::map<std::string, vehicle *> vtypes;
+// Handles the content of @ref vtypes
+void load_vehicle(JsonObject &jo);
+void reset_vehicles();
+void finalize_vehicles();
+
+/**
+ * This is only temporarily needed to load a vehicle template. At that point, the vehicle parts
+ * them self are not loaded and can not be used. The protype is later (when all loading has
+ * finished) converted into a real vehicle.
+ */
+struct vehicle_prototype
+{
+    std::string id;
+    std::string name;
+    std::vector<std::pair<point, vpart_str_id> > parts;
+    std::vector<vehicle_item_spawn> item_spawns;
 };
 
 extern const vpart_str_id legacy_vpart_id[74];

@@ -27,6 +27,7 @@
 #include <stdlib.h>
 #include <fstream>
 #include <cstring>
+#include <queue>
 
 extern bool is_valid_in_w_terrain(int,int);
 
