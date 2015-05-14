@@ -359,39 +359,39 @@ void vehicle_prototype::finalize()
 {
     for( auto &vp : vtypes ) {
         std::unordered_set<point> cargo_spots;
-        vehicle_prototype *proto = &vp.second;
+        vehicle_prototype &proto = vp.second;
         const std::string &id = vp.first;
 
         // Calls the default constructor to create an empty vehicle. Calling the constructor with
         // the type as parameter would make it look up the type in the map and copy the
         // (non-existing) blueprint.
-        proto->blueprint.reset( new vehicle() );
-        vehicle *next_vehicle = proto->blueprint.get();
-        next_vehicle->type = id;
-        next_vehicle->name = _(proto->name.c_str());
+        proto.blueprint.reset( new vehicle() );
+        vehicle &blueprint = *proto.blueprint;
+        blueprint.type = id;
+        blueprint.name = _(proto.name.c_str());
 
-        for (size_t i = 0; i < proto->parts.size(); ++i) {
-            const point &p = proto->parts[i].first;
-            const vpart_str_id &part_id = proto->parts[i].second;
+        for (size_t i = 0; i < proto.parts.size(); ++i) {
+            const point &p = proto.parts[i].first;
+            const vpart_str_id &part_id = proto.parts[i].second;
             if( !part_id.is_valid() ) {
                 debugmsg("unknown vehicle part %s in %s", part_id.c_str(), id.c_str());
                 continue;
             }
 
-            if(next_vehicle->install_part(p.x, p.y, part_id) < 0) {
+            if(blueprint.install_part(p.x, p.y, part_id) < 0) {
                 debugmsg("init_vehicles: '%s' part '%s'(%d) can't be installed to %d,%d",
-                         next_vehicle->name.c_str(), part_id.c_str(),
-                         next_vehicle->parts.size(), p.x, p.y);
+                         blueprint.name.c_str(), part_id.c_str(),
+                         blueprint.parts.size(), p.x, p.y);
             }
             if( part_id.obj().has_flag("CARGO") ) {
                 cargo_spots.insert( p );
             }
         }
 
-        for (auto &i : proto->item_spawns) {
+        for (auto &i : proto.item_spawns) {
             if( cargo_spots.count( i.pos ) == 0 ) {
                 debugmsg("Invalid spawn location (no CARGO vpart) in %s (%d, %d): %d%%",
-                         proto->name.c_str(), i.pos.x, i.pos.y, i.chance);
+                         proto.name.c_str(), i.pos.x, i.pos.y, i.chance);
             }
             for (auto &j : i.item_ids) {
                 if( !item::type_is_defined( j ) ) {
@@ -406,6 +406,6 @@ void vehicle_prototype::finalize()
         }
         // Clear the parts vector as it is not needed anymore. Usage of swap guaranties that the
         // memory of the vector is really freed (instead of simply marking the vector as empty).
-        std::remove_reference<decltype(proto->parts)>::type().swap( proto->parts );
+        std::remove_reference<decltype(proto.parts)>::type().swap( proto.parts );
     }
 }
