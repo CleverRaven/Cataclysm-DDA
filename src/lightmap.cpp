@@ -503,8 +503,9 @@ bool map::pl_sees( const int tx, const int ty, const int max_range )
         return false;    // Out of range!
     }
 
-    return get_cache( abs_sub.z ).seen_cache[tx][ty] * get_cache( abs_sub.z ).lm[tx][ty] >
-        g->u.get_vision_threshold( get_cache( g->u.posz() ).lm[g->u.posx()][g->u.posy()] );
+    return get_cache( abs_sub.z ).seen_cache[tx][ty] > LIGHT_TRANSPARENCY_SOLID + 0.1 &&
+        get_cache( abs_sub.z ).seen_cache[tx][ty] * get_cache( abs_sub.z ).lm[tx][ty] >
+        g->u.get_vision_threshold( get_cache( abs_sub.z ).lm[g->u.posx()][g->u.posy()] );
 }
 
 bool map::pl_sees( const tripoint &t, const int max_range )
@@ -517,8 +518,9 @@ bool map::pl_sees( const tripoint &t, const int max_range )
         return false;    // Out of range!
     }
 
-    return get_cache( t.z ).seen_cache[t.x][t.y] * get_cache( t.z ).lm[t.x][t.y] >
-        g->u.get_vision_threshold( get_cache( g->u.posz() ).lm[g->u.posx()][g->u.posy()] );
+    return get_cache( t.z ).seen_cache[t.x][t.y] > LIGHT_TRANSPARENCY_SOLID + 0.1 &&
+        get_cache( t.z ).seen_cache[t.x][t.y] * get_cache( t.z ).lm[t.x][t.y] >
+        g->u.get_vision_threshold( get_cache( t.z ).lm[g->u.posx()][g->u.posy()] );
 }
 
 /**
@@ -709,8 +711,12 @@ void castLight( float (&output_cache)[MAPSIZE*SEEX][MAPSIZE*SEEY],
 
 void map::apply_light_source(int x, int y, float luminance)
 {
-    auto &lm = get_cache( abs_sub.z ).lm;
-    auto &sm = get_cache( abs_sub.z ).sm;
+    auto &cache = get_cache( abs_sub.z );
+    float (&lm)[MAPSIZE*SEEX][MAPSIZE*SEEY] = cache.lm;
+    float (&sm)[MAPSIZE*SEEX][MAPSIZE*SEEY] = cache.sm;
+    float (&transparency_cache)[MAPSIZE*SEEX][MAPSIZE*SEEY] = cache.transparency_cache;
+    float (&light_source_buffer)[MAPSIZE*SEEX][MAPSIZE*SEEY] = cache.light_source_buffer;
+
     if (INBOUNDS(x, y)) {
         lm[x][y] = std::max(lm[x][y], static_cast<float>(LL_LOW));
         lm[x][y] = std::max(lm[x][y], luminance);
@@ -740,7 +746,6 @@ void map::apply_light_source(int x, int y, float luminance)
         sssSsss
            sy
     */
-    auto &light_source_buffer = get_cache( abs_sub.z ).light_source_buffer;
     const int peer_inbounds = LIGHTMAP_CACHE_X - 1;
     bool north = (y != 0 && light_source_buffer[x][y - 1] < luminance );
     bool south = (y != peer_inbounds && light_source_buffer[x][y + 1] < luminance );
