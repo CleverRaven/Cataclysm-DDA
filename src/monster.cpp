@@ -748,7 +748,7 @@ int monster::trigger_sum(std::set<monster_trigger> *triggers) const
                     }
                 }
                 if (check_fire) {
-                    ret += ( 5 * g->m.get_field_strength( point(x, y), fd_fire) );
+                    ret += ( 5 * g->m.get_field_strength( tripoint(x, y, posz()), fd_fire) );
                 }
             }
         }
@@ -1391,34 +1391,32 @@ void monster::explode()
         }
 
         for( int i = 0; i < num_chunks; i++ ) {
-            int tarx = posx() + rng( -3, 3 ), tary = posy() + rng( -3, 3 );
-            std::vector<point> traj = line_to( posx(), posy(), tarx, tary, 0 );
+            tripoint tarp( posx() + rng( -3, 3 ), posy() + rng( -3, 3 ), posz() );
+            std::vector<tripoint> traj = line_to( pos(), tarp, 0, 0 );
 
             for( size_t j = 0; j < traj.size(); j++ ) {
-                tarx = traj[j].x;
-                tary = traj[j].y;
+                tarp = traj[j];
                 if( one_in( 2 ) && type_blood != fd_null ) {
-                    g->m.add_field( tarx, tary, type_blood, 1 );
+                    g->m.add_field( tarp, type_blood, 1, 0 );
                 } else if( type_gib != fd_null ) {
-                    g->m.add_field( tarx, tary, type_gib, rng( 1, j + 1 ) );
+                    g->m.add_field( tarp, type_gib, rng( 1, j + 1 ), 0 );
                 }
-                if( g->m.move_cost( tarx, tary ) == 0 ) {
-                    if( !g->m.bash( tripoint( tarx, tary, posz() ), 3 ).second ) {
+                if( g->m.move_cost( tarp ) == 0 ) {
+                    if( !g->m.bash( tarp, 3 ).second ) {
                         // Target is obstacle, not destroyed by bashing,
                         // stop trajectory in front of it, if this is the first
                         // point (e.g. wall adjacent to monster) , make it invalid.
                         if( j > 0 ) {
-                            tarx = traj[j - 1].x;
-                            tary = traj[j - 1].y;
+                            tarp = traj[j - 1];
                         } else {
-                            tarx = -1;
+                            tarp = tripoint_min;
                         }
                         break;
                     }
                 }
             }
-            if( meat != "null" && tarx != -1 ) {
-                g->m.spawn_item( tarx, tary, meat, 1, 0, calendar::turn );
+            if( meat != "null" && tarp != tripoint_min ) {
+                g->m.spawn_item( tarp, meat, 1, 0, calendar::turn );
             }
         }
     }

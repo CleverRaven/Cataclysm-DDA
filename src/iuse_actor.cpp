@@ -153,7 +153,7 @@ iuse_actor *explosion_iuse::clone() const
 }
 
 // defined in iuse.cpp
-extern std::vector<point> points_for_gas_cloud(const tripoint &center, int radius);
+extern std::vector<tripoint> points_for_gas_cloud(const tripoint &center, int radius);
 
 void explosion_iuse::load( JsonObject &obj )
 {
@@ -207,7 +207,7 @@ long explosion_iuse::use(player *p, item *it, bool t, const tripoint &pos) const
         g->flashbang( pos, flashbang_player_immune);
     }
     if (fields_radius >= 0 && fields_type != fd_null) {
-        std::vector<point> gas_sources = points_for_gas_cloud(pos, fields_radius);
+        std::vector<tripoint> gas_sources = points_for_gas_cloud(pos, fields_radius);
         for( auto &gas_source : gas_sources ) {
             const int dens = rng(fields_min_density, fields_max_density);
             g->m.add_field( gas_source, fields_type, dens, 1 );
@@ -387,7 +387,7 @@ long consume_drug_iuse::use(player *p, item *it, bool, const tripoint& ) const
     for( auto field = fields_produced.cbegin(); field != fields_produced.cend(); ++field ) {
         const field_id fid = field_from_ident( field->first );
         for(int i = 0; i < 3; i++) {
-            g->m.add_field(p->posx() + int(rng(-2, 2)), p->posy() + int(rng(-2, 2)), fid, field->second);
+            g->m.add_field({p->posx() + int(rng(-2, 2)), p->posy() + int(rng(-2, 2)), p->posz()}, fid, field->second, 0);
         }
     }
     // Output message.

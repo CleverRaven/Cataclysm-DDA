@@ -534,7 +534,7 @@ public:
     }
     void apply( map &m, const size_t x, const size_t y, const float /*mon_density*/ ) const override
     {
-        m.add_field( point( x, y ), ftype, density, age );
+        m.add_field( tripoint( x, y, m.get_abs_sub().z ), ftype, density, age );
     }
 };
 /**

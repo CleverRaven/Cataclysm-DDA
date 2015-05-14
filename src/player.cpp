@@ -6175,7 +6175,7 @@ void player::hardcoded_effects(effect &it)
                                            _("<npcname> loses some blood.") );
             mod_pain(1);
             apply_damage( nullptr, bp, 1 );
-            g->m.add_field(posx(), posy(), playerBloodType(), 1);
+            g->m.add_field( pos(), playerBloodType(), 1, 0 );
         }
     } else if (id == "hallu") {
         // TODO: Redo this to allow for variable durations
@@ -7800,20 +7800,20 @@ void player::suffer()
     }
 
     if (has_trait("SLIMY") && !in_vehicle) {
-        g->m.add_field(posx(), posy(), fd_slime, 1);
+        g->m.add_field( pos(), fd_slime, 1, 0 );
     }
         //Web Weavers...weave web
     if (has_active_mutation("WEB_WEAVER") && !in_vehicle) {
-      g->m.add_field(posx(), posy(), fd_web, 1); //this adds density to if its not already there.
+      g->m.add_field( pos(), fd_web, 1, 0 ); //this adds density to if its not already there.
 
      }
 
     if (has_trait("VISCOUS") && !in_vehicle) {
         if (one_in(3)){
-            g->m.add_field(posx(), posy(), fd_slime, 1);
+            g->m.add_field( pos(), fd_slime, 1, 0 );
         }
         else {
-            g->m.add_field(posx(), posy(), fd_slime, 2);
+            g->m.add_field( pos(), fd_slime, 2, 0 );
         }
     }
 
@@ -7837,7 +7837,7 @@ void player::suffer()
     }
 
     if (has_trait("WEB_SPINNER") && !in_vehicle && one_in(3)) {
-        g->m.add_field(posx(), posy(), fd_web, 1); //this adds density to if its not already there.
+        g->m.add_field( pos(), fd_web, 1, 0 ); //this adds density to if its not already there.
     }
 
     if( has_trait("RADIOGENIC") && int(calendar::turn) % MINUTES(30) == 0 && radiation > 0 ) {
@@ -13771,9 +13771,12 @@ void player::blossoms()
 {
     // Player blossoms are shorter-ranged, but you can fire much more frequently if you like.
     sounds::sound( pos(), 10, _("Pouf!"));
-     for (int i = posx() - 2; i <= posx() + 2; i++) {
-        for (int j = posy() - 2; j <= posy() + 2; j++) {
-            g->m.add_field( i, j, fd_fungal_haze, rng(1, 2));
+    tripoint tmp = pos();
+    int &i = tmp.x;
+    int &j = tmp.y;
+    for ( i = posx() - 2; i <= posx() + 2; i++) {
+        for ( j = posy() - 2; j <= posy() + 2; j++) {
+            g->m.add_field( tmp, fd_fungal_haze, rng(1, 2), 0 );
         }
     }
 }

@@ -6492,7 +6492,7 @@ void game::resonance_cascade( const tripoint &p )
                             break;
                         }
                         if (!one_in(3)) {
-                            m.add_field( k, l, type, 3);
+                            m.add_field( {k, l, p.z}, type, 3, 0 );
                         }
                     }
                 }
@@ -11677,7 +11677,7 @@ bool game::plmove(int dx, int dy)
         u.set_underwater(false);
 
         //Ask for EACH bad field, maybe not? Maybe say "theres X bad shit in there don't do it."
-        const field &tmpfld = m.field_at(x, y);
+        const field &tmpfld = m.field_at(dest_loc);
         for( auto &fld : tmpfld ) {
             const field_entry &cur = fld.second;
             field_id curType = cur.getFieldType();
@@ -13493,7 +13493,7 @@ void game::nuke( const tripoint &p )
                 tmpmap.make_rubble( dest, f_rubble_rock, true, t_dirt, true);
             }
             if (one_in(3)) {
-                tmpmap.add_field(i, j, fd_nuke_gas, 3);
+                tmpmap.add_field( dest, fd_nuke_gas, 3, 0 );
             }
             tmpmap.adjust_radiation( dest, rng(20, 80));
         }

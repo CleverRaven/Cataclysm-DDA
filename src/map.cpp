@@ -2620,10 +2620,13 @@ void map::smash_items(const tripoint &p, const int power)
         while(x_in_y(damage_chance, material_factor) && i->damage < 4) {
             i->damage++;
             if (type_blood != fd_null) {
-                for (int x = p.x - 1; x <= p.x + 1; x++ ) {
-                    for (int y = p.y - 1; y <= p.y + 1; y++ ) {
+                tripoint tmp = p;
+                int &x = tmp.x;
+                int &y = tmp.y;
+                for( x = p.x - 1; x <= p.x + 1; x++ ) {
+                    for( y = p.y - 1; y <= p.y + 1; y++ ) {
                         if( !one_in(damage_chance) ) {
-                            g->m.add_field(x, y, type_blood, 1);
+                            g->m.add_field( tmp, type_blood, 1, 0 );
                         }
                     }
                 }

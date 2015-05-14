@@ -2937,13 +2937,12 @@ bool vehicle::do_environmental_effects()
     bool needed = false;
     // check for smoking parts
     for( size_t p = 0; p < parts.size(); p++ ) {
-        auto part_pos = global_pos() + parts[p].precalc[0];
-        const tripoint part_tri = tripoint( part_pos, smz );
+        auto part_pos = global_pos3() + parts[p].precalc[0];
 
         /* Only lower blood level if:
          * - The part is outside.
          * - The weather is any effect that would cause the player to be wet. */
-        if( parts[p].blood > 0 && g->m.is_outside( part_tri ) && g->get_levz() >= 0 ) {
+        if( parts[p].blood > 0 && g->m.is_outside( part_pos ) ) {
             needed = true;
             if( g->weather >= WEATHER_DRIZZLE && g->weather <= WEATHER_ACID_RAIN ) {
                 parts[p].blood--;
@@ -2952,10 +2951,13 @@ bool vehicle::do_environmental_effects()
         if( part_flag(p, VPFLAG_ENGINE) && parts[p].hp <= 0 && parts[p].amount > 0 ) {
             needed = true;
             parts[p].amount--;
-            for( int ix = -1; ix <= 1; ix++ ) {
-                for( int iy = -1; iy <= 1; iy++ ) {
+            tripoint tmp = part_pos;
+            int &tx = tmp.x;
+            int &ty = tmp.y;
+            for( tx = part_pos.x - 1; tx <= part_pos.x + 1; tx++ ) {
+                for( ty = part_pos.y - 1; ty <= part_pos.y + 1; ty++ ) {
                     if( !rng(0, 2) ) {
-                        g->m.add_field( part_pos.x + ix, part_pos.y + iy, fd_smoke, rng(2, 4) );
+                        g->m.add_field( tmp, fd_smoke, rng(2, 4), 0 );
                     }
                 }
             }
@@ -3014,7 +3016,8 @@ void vehicle::spew_smoke( double joules, int part )
     }
     int rdx, rdy;
     coord_translate( p.x, p.y, rdx, rdy );
-    g->m.add_field( global_x() + rdx, global_y() + rdy, fd_smoke, smoke );
+    tripoint dest( global_x() + rdx, global_y() + rdy, smz );
+    g->m.add_field( dest, fd_smoke, smoke, 0 );
 }
 
 /**

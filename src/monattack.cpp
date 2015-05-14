@@ -3246,7 +3246,7 @@ void mattack::flame( monster *z, Creature *target )
                           g->m.tername(i.x, i.y).c_str());
               return;
           }
-          g->m.add_field(i.x, i.y, fd_fire, 1);
+          g->m.add_field( i, fd_fire, 1, 0 );
       }
       target->add_effect("onfire", 8);
 
@@ -3268,7 +3268,7 @@ void mattack::flame( monster *z, Creature *target )
                         g->m.tername(i.x, i.y).c_str());
             return;
         }
-        g->m.add_field(i.x, i.y, fd_fire, 1);
+        g->m.add_field(i, fd_fire, 1, 0);
     }
     if( !target->uncanny_dodge() ) {
         target->add_effect("onfire", 8);

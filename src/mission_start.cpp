@@ -10,6 +10,8 @@
 #include "translations.h"
 #include "overmap.h"
 #include "trap.h"
+// TODO: Remove this include once 2D wrappers are no longer needed
+#include "mapgen_functions.h"
 /* These functions are responsible for making changes to the game at the moment
  * the mission is accepted by the player.  They are also responsible for
  * updating *miss with the target and any other important information.
@@ -200,13 +202,13 @@ void mission_start::place_caravan_ambush( mission *miss )
     bay.spawn_item( SEEX + rng( -2, 3 ), SEEY + rng( 3, 6 ), "9mm_casing", 1, 1, 0, 0, true );
     bay.add_corpse( tripoint( SEEX + 1, SEEY + 7, bay.get_abs_sub().z ) );
     bay.add_corpse( tripoint( SEEX, SEEY + 8, bay.get_abs_sub().z ) );
-    bay.add_field( SEEX, SEEY + 7, fd_blood, 1 );
-    bay.add_field( SEEX + 2, SEEY + 7, fd_blood, 1 );
-    bay.add_field( SEEX - 1, SEEY + 8, fd_blood, 1 );
-    bay.add_field( SEEX + 1, SEEY + 8, fd_blood, 1 );
-    bay.add_field( SEEX + 2, SEEY + 8, fd_blood, 1 );
-    bay.add_field( SEEX + 1, SEEY + 9, fd_blood, 1 );
-    bay.add_field( SEEX, SEEY + 9, fd_blood, 1 );
+    madd_field( &bay, SEEX, SEEY + 7, fd_blood, 1 );
+    madd_field( &bay, SEEX + 2, SEEY + 7, fd_blood, 1 );
+    madd_field( &bay, SEEX - 1, SEEY + 8, fd_blood, 1 );
+    madd_field( &bay, SEEX + 1, SEEY + 8, fd_blood, 1 );
+    madd_field( &bay, SEEX + 2, SEEY + 8, fd_blood, 1 );
+    madd_field( &bay, SEEX + 1, SEEY + 9, fd_blood, 1 );
+    madd_field( &bay, SEEX, SEEY + 9, fd_blood, 1 );
     bay.place_npc( SEEX + 3, SEEY - 5, "bandit" );
     bay.place_npc( SEEX, SEEY - 7, "thug" );
     miss->target_npc_id = bay.place_npc( SEEX - 3, SEEY - 4, "bandit" );

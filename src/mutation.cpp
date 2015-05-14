@@ -335,7 +335,7 @@ void player::activate_mutation( const std::string &mut )
     }
 
     if( mut == "WEB_WEAVER" ) {
-        g->m.add_field(posx(), posy(), fd_web, 1);
+        g->m.add_field(pos(), fd_web, 1, 0);
         add_msg(_("You start spinning web with your spinnerets!"));
     } else if (mut == "BURROW"){
         if (g->u.is_underwater()) {

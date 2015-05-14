@@ -202,17 +202,17 @@ static bool inscribe_item(player *p, std::string verb, std::string gerund, bool 
 // Those points must have a clear line of sight and a clear path to
 // the center of the explosion.
 // They must also be passable (move_cost > 0).
-std::vector<point> points_for_gas_cloud(const tripoint &center, int radius)
+std::vector<tripoint> points_for_gas_cloud(const tripoint &center, int radius)
 {
     const std::vector<tripoint> gas_sources = closest_tripoints_first( radius, center );
-    std::vector<point> result;
+    std::vector<tripoint> result;
     int junk = 0, trash = 0;
     for( const auto &p : gas_sources ) {
         if (g->m.move_cost( p ) <= 0) {
             // A wall
             continue;
         }
-        if (p.x != center.x || p.y != center.y) {
+        if( p != center ) {
             if (!g->m.sees( center, p, radius )) {
                 // No clear line of sight
                 continue;
@@ -222,7 +222,7 @@ std::vector<point> points_for_gas_cloud(const tripoint &center, int radius)
                 continue;
             }
         }
-        result.push_back( point( p.x, p.y ) );
+        result.push_back( p );
     }
     return result;
 }
@@ -856,7 +856,7 @@ int iuse::smoking_pipe(player *p, item *it, bool, const tripoint& )
         p->hunger -= 2;
         p->add_effect("cig", 200);
         for (int i = 0; i < 3; i++) {
-            g->m.add_field(p->posx() + int(rng(-2, 2)), p->posy() + int(rng(-2, 2)), fd_cigsmoke, 2);
+            g->m.add_field({p->posx() + int(rng(-2, 2)), p->posy() + int(rng(-2, 2)), p->posz()}, fd_cigsmoke, 2, 0);
         }
         if (p->get_effect_dur("cig") > (100 * (p->addiction_level(ADD_CIG)))) {
             p->add_msg_if_player(m_bad, _("Ugh, too much smoke... you cough heavily."));
@@ -886,7 +886,7 @@ int iuse::smoking_pipe(player *p, item *it, bool, const tripoint& )
         p->moves -= 40;
         // breathe out some smoke
         for (int i = 0; i < 3; i++) {
-            g->m.add_field(p->posx() + int(rng(-2, 2)), p->posy() + int(rng(-2, 2)), fd_weedsmoke, 2);
+            g->m.add_field({p->posx() + int(rng(-2, 2)), p->posy() + int(rng(-2, 2)), p->posz()}, fd_weedsmoke, 2, 0);
         }
         if (one_in(5)) {
             weed_msg(p);
@@ -1256,7 +1256,7 @@ int iuse::meth(player *p, item *it, bool, const tripoint& )
         }
         // breathe out some smoke
         for (int i = 0; i < 3; i++) {
-            g->m.add_field(p->posx() + int(rng(-2, 2)), p->posy() + int(rng(-2, 2)), fd_methsmoke, 2);
+            g->m.add_field({p->posx() + int(rng(-2, 2)), p->posy() + int(rng(-2, 2)),p->posz()}, fd_methsmoke, 2,0);
         }
     } else {
         p->add_msg_if_player(_("You snort some crystal meth."));
@@ -5043,8 +5043,9 @@ int iuse::throwable_extinguisher_act(player *, item *it, bool, const tripoint &p
         // Slightly reduce the strength of fire around and in the target tile.
         for (int x = -1; x <= 1; x++) {
             for (int y = -1; y <= 1; y++) {
-                if ((g->m.move_cost(pos.x + x, pos.y + y) != 0) && (x == 0 || y == 0)) {
-                    g->m.adjust_field_strength(point(pos.x + x, pos.y + y), fd_fire, 0 - rng(0, 1));
+                tripoint dest( pos.x + x, pos.y + y, pos.z );
+                if ((g->m.move_cost(dest) != 0) && (x == 0 || y == 0)) {
+                    g->m.adjust_field_strength(dest, fd_fire, 0 - rng(0, 1));
                 }
             }
         }
@@ -5220,7 +5221,7 @@ int iuse::granade_act(player *, item *it, bool t, const tripoint &pos)
                         tripoint dest( pos.x + i, pos.y + j, pos.z );
                         if (one_in(5) && -1 == g->mon_at(dest) &&
                             -1 == g->npc_at(dest)) {
-                            g->m.add_field(pos.x + i, pos.y + j, fd_bees, rng(1, 3));
+                            g->m.add_field(dest, fd_bees, rng(1, 3), 0 );
                         }
                     }
                 }
@@ -5248,13 +5249,15 @@ int iuse::acidbomb_act(player *p, item *it, bool, const tripoint &pos)
 {
     if (!p->has_item(it)) {
         tripoint tmp = pos;
+        int &x = tmp.x;
+        int &y = tmp.y;
         if (tmp.x == -999) {
             tmp = p->pos3();
         }
         it->charges = -1;
-        for (int x = tmp.x - 1; x <= tmp.x + 1; x++) {
-            for (int y = tmp.y - 1; y <= tmp.y + 1; y++) {
-                g->m.add_field(x, y, fd_acid, 3);
+        for ( x = pos.x - 1; x <= pos.x + 1; x++) {
+            for ( y = pos.y - 1; y <= pos.y + 1; y++) {
+                g->m.add_field( tmp, fd_acid, 3, 0 );
             }
         }
     }
@@ -6594,7 +6597,7 @@ int iuse::artifact(player *p, item *it, bool, const tripoint& )
                     for (int n = 0; n < dist; n++) {
                         boltx += xdir;
                         bolty += ydir;
-                        g->m.add_field(boltx, bolty, fd_electricity, rng(2, 3));
+                        g->m.add_field( {boltx, bolty, p->posz()}, fd_electricity, rng(2, 3), 0 );
                         if (one_in(4)) {
                             if (xdir == 0) {
                                 xdir = rng(0, 1) * 2 - 1;
@@ -6642,7 +6645,7 @@ int iuse::artifact(player *p, item *it, bool, const tripoint& )
                 bool blood = false;
                 for (int x = p->posx() - 4; x <= p->posx() + 4; x++) {
                     for (int y = p->posy() - 4; y <= p->posy() + 4; y++) {
-                        if (!one_in(4) && g->m.add_field(x, y, fd_blood, 3) &&
+                        if (!one_in(4) && g->m.add_field({x, y, p->posz()}, fd_blood, 3, 0 ) &&
                             (blood || g->u.sees(x, y))) {
                             blood = true;
                         }
@@ -6657,7 +6660,7 @@ int iuse::artifact(player *p, item *it, bool, const tripoint& )
             case AEA_FATIGUE: {
                 p->add_msg_if_player(m_warning, _("The fabric of space seems to decay."));
                 int x = rng(p->posx() - 3, p->posx() + 3), y = rng(p->posy() - 3, p->posy() + 3);
-                g->m.add_field(x, y, fd_fatigue, rng(1, 2));
+                g->m.add_field({x, y, p->posz()}, fd_fatigue, rng(1, 2), 0);
             }
             break;
 
@@ -6784,7 +6787,7 @@ int iuse::artifact(player *p, item *it, bool, const tripoint& )
                 add_msg(m_warning, _("Horrible gases are emitted!"));
                 for (int x = p->posx() - 1; x <= p->posx() + 1; x++) {
                     for (int y = p->posy() - 1; y <= p->posy() + 1; y++) {
-                        g->m.add_field(x, y, fd_nuke_gas, rng(2, 3));
+                        g->m.add_field({x, y, p->posz()}, fd_nuke_gas, rng(2, 3), 0 );
                     }
                 }
                 break;
