@@ -11605,7 +11605,7 @@ vehicle *map::add_vehicle_to_map(vehicle *veh, const bool merge_wrecks)
         bool veh_smashed = false;
         //For other vehicles, simulate collisions with (non-shopping cart) stuff
         vehicle *other_veh = veh_at(p.x, p.y);
-        if (other_veh != NULL && other_veh->type != vproto_id( "shopping cart" ) ) {
+        if (other_veh != NULL && other_veh->type != vproto_id( "shopping_cart" ) ) {
             if( !merge_wrecks ) {
                 delete veh;
                 return NULL;
