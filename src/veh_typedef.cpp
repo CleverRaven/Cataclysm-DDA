@@ -357,8 +357,6 @@ const vpart_str_id vpart_info::null( "null" );
  */
 void vehicle_prototype::finalize()
 {
-    int part_x = 0, part_y = 0;
-
     for( auto &vp : vtypes ) {
         std::unordered_set<point> cargo_spots;
         vehicle_prototype *proto = &vp.second;
@@ -373,20 +371,17 @@ void vehicle_prototype::finalize()
         next_vehicle->name = _(proto->name.c_str());
 
         for (size_t i = 0; i < proto->parts.size(); ++i) {
-            point p = proto->parts[i].first;
-            part_x = p.x;
-            part_y = p.y;
-
+            const point &p = proto->parts[i].first;
             const vpart_str_id &part_id = proto->parts[i].second;
             if( !part_id.is_valid() ) {
                 debugmsg("unknown vehicle part %s in %s", part_id.c_str(), id.c_str());
                 continue;
             }
 
-            if(next_vehicle->install_part(part_x, part_y, part_id) < 0) {
+            if(next_vehicle->install_part(p.x, p.y, part_id) < 0) {
                 debugmsg("init_vehicles: '%s' part '%s'(%d) can't be installed to %d,%d",
                          next_vehicle->name.c_str(), part_id.c_str(),
-                         next_vehicle->parts.size(), part_x, part_y);
+                         next_vehicle->parts.size(), p.x, p.y);
             }
             if( part_id.obj().has_flag("CARGO") ) {
                 cargo_spots.insert( p );
