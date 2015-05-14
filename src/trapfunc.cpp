@@ -919,25 +919,18 @@ void trapfunc::sinkhole( Creature *c, const tripoint &p )
         success = safety_roll( "rope_30", 12 );
     }
 
+    pl->add_msg_player_or_npc( m_warning, _( "The sinkhole collapses!" ),
+                                          _( "A sinkhole under <npcname> collapses!" ) );
+    g->m.remove_trap( p );
+    g->m.ter_set( p, t_pit );
     if( success ) {
         return;
     }
 
     pl->moves -= 100;
-    // Starting duration depends on equipment weight, but shouldn't put player's head below the mud instantly
-    const int start_duration = std::min( 1000, pl->weight_carried() / 50 );
-    pl->add_effect( "sinking", start_duration );
-    g->m.ter_set( p, t_water_sh );
-    const int sink_roll = pl->get_str() / 2 + 2 * pl->get_skill_level( "survival" );
-    if( pl->is_player() && sink_roll < 16 ) {
-        // Warn the player with a popup - sinking into a sinkhole can be very dangerous
-        popup( _("You are stuck in a sinkhole!  Trying to escape can make you sink deeper in.  Alternatively you can slowly wiggle your way out by using the wait command.") );
-    } else if( pl->is_player() ) {
-        // Don't popup if it's easy to escape
-        add_msg( m_bad, _("You are stuck in a sinkhole.  It shouldn't be hard to escape, though") );
-    }
-
-    // TODO: Don't timeout the sinking while sleeping/crafting/reading
+    pl->add_msg_player_or_npc( m_bad, _( "You fall into the sinkhole!" ),
+                                      _( "<npcname> falls into a sinkhole!" ) );
+    pit( c, p );
 }
 
 void trapfunc::ledge( Creature *c, const tripoint& )

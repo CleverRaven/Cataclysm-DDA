@@ -459,26 +459,6 @@
     },
     {
         "type": "effect_type",
-        "id": "sinking",
-        "name": ["Waist-deep in a sinkole", "Chest-deep in a sinkhole", "Drowning in mud"],
-        "desc": ["You're sinking into a sinkhole!  Struggling can easily make it way worse."],
-        "apply_message": "You start sinking into a sinkhole!",
-        "remove_message": "You are no longer trapped in mud.",
-        "rating": "bad",
-        "max_intensity": 3,
-        "max_duration": 2075, "//" : "Enough to drain all oxygen and cause some damage",
-        "int_dur_factor": 1000,
-        "base_mods": {
-            "dex_mod": [-2],
-            "speed_mod": [-20]
-        },
-        "scaling_mods": {
-            "dex_mod": [-6],
-            "speed_mod": [-20]
-        }
-    },
-    {
-        "type": "effect_type",
         "id": "pkill1",
         "max_duration": 240,
         "base_mods": {

@@ -789,7 +789,7 @@ void player::update_bodytemp()
     int Ctemperature = 100 * (g->get_temperature() - 32) * 5 / 9;
     w_point const weather = g->weatherGen.get_weather( global_square_location(), calendar::turn );
     int vpart = -1;
-    vehicle *veh = g->m.veh_at( posx(), posy(), vpart );
+    vehicle *veh = g->m.veh_at( pos(), vpart );
     int vehwindspeed = 0;
     if( veh ) {
         vehwindspeed = abs(veh->velocity / 100); // vehicle velocity in mph
@@ -947,22 +947,22 @@ void player::update_bodytemp()
         // Bark : lowers blister count to -100; harder to get blisters
         int blister_count = (has_trait("BARK") ? -100 : 0); // If the counter is high, your skin starts to burn
         int best_fire = 0;
-        tripoint heat_point = pos();
-        for( heat_point.x = posx() - 6 ; heat_point.x <= posx() + 6 ; heat_point.x++ ) {
-            for( heat_point.y = posy() - 6 ; heat_point.y <= posy() + 6 ; heat_point.y++) {
+        for (int j = -6 ; j <= 6 ; j++) {
+            for (int k = -6 ; k <= 6 ; k++) {
+                tripoint dest( posx() + j, posy() + k, posz() );
                 int heat_intensity = 0;
 
-                int ffire = g->m.get_field_strength( heat_point, fd_fire );
+                int ffire = g->m.get_field_strength( dest, fd_fire );
                 if(ffire > 0) {
                     heat_intensity = ffire;
-                } else if (g->m.tr_at( heat_point ).loadid == tr_lava ) {
+                } else if (g->m.tr_at( dest ).loadid == tr_lava ) {
                     heat_intensity = 3;
                 }
                 int t1, t2;
                 if( heat_intensity > 0 &&
-                    g->m.sees( pos(), heat_point, -1, t1, t2 ) ) {
+                    g->m.sees( pos(), dest, -1, t1, t2 ) ) {
                     // Ensure fire_dist >= 1 to avoid divide-by-zero errors.
-                    int fire_dist = std::max(1, rl_dist( heat_point, pos() ) );
+                    int fire_dist = std::max(1, std::max( std::abs( j ), std::abs( k ) ) );
                     if (frostbite_timer[i] > 0) {
                         frostbite_timer[i] -= heat_intensity - fire_dist / 2;
                     }
@@ -4162,7 +4162,7 @@ int player::unimpaired_range()
  if (has_effect("in_pit")) {
     ret = 1;
   }
- if (has_effect("blind") || worn_with_flag("BLIND") || get_effect_int( "sinking" ) >= 3 ) {
+ if (has_effect("blind") || worn_with_flag("BLIND")) {
     ret = 0;
   }
  return ret;
@@ -7428,31 +7428,22 @@ void player::suffer()
         }
     }
 
-    // TODO: Move oxygen capacity calculation to a function
-    if( underwater || get_effect_int( "sinking" ) >= 3 ) {
-        oxygen--;
-        if( ( has_trait("GILLS") || has_trait("GILLS_CEPH") ) && ( underwater || one_in( 8 ) ) ) {
-            // Gills help a lot under water, but not so much in the mud
-            oxygen = std::min( oxygen + 2, 30 + 2 * get_str() );
+    if (underwater) {
+        if (!has_trait("GILLS") && !has_trait("GILLS_CEPH")) {
+            oxygen--;
         }
-        if( oxygen < 12 && worn_with_flag("REBREATHER") ) {
-            oxygen += 12;
-        }
-        // Cyber-gills are probably better suited to filtering out muddy water in an emergency
-        // but they will waste more power on filtering oxygen out of mud
-        if( oxygen < 0 ) {
-            if( has_bionic("bio_gills") && power_level >= 25 ) {
-                oxygen += underwater ? 5 : 1;
+        if (oxygen < 12 && worn_with_flag("REBREATHER")) {
+                oxygen += 12;
+            }
+        if (oxygen < 0) {
+            if (has_bionic("bio_gills") && power_level >= 25) {
+                oxygen += 5;
                 charge_power(-25);
             } else {
                 add_msg(m_bad, _("You're drowning!"));
                 apply_damage( nullptr, bp_torso, rng( 1, 4 ) );
             }
         }
-    } else {
-        // TODO: Involve stamina and also make it affect stamina
-        // TODO: Asthma (also both ways)
-        oxygen = std::min( oxygen + 5, 30 + 2 * get_str() );
     }
 
     if(has_active_mutation("WINGS_INSECT")){
@@ -11710,10 +11701,10 @@ bool player::try_study_recipe( const itype &book )
 void player::try_to_sleep()
 {
     int vpart = -1;
-    vehicle *veh = g->m.veh_at( pos(), vpart );
-    const trap &trap_at_pos = g->m.tr_at( pos() );
-    const ter_id ter_at_pos = g->m.ter( pos() );
-    const furn_id furn_at_pos = g->m.furn( pos() );
+    vehicle *veh = g->m.veh_at (pos(), vpart);
+    const trap &trap_at_pos = g->m.tr_at(pos());
+    const ter_id ter_at_pos = g->m.ter(pos());
+    const furn_id furn_at_pos = g->m.furn(pos());
     bool plantsleep = false;
     bool websleep = false;
     bool webforce = false;
@@ -11751,7 +11742,7 @@ void player::try_to_sleep()
             }
             else if (web > 0) {
                 add_msg(m_info, _("You try to sleep, but the webs get in the way.  You brush them aside."));
-                g->m.remove_field( posx(), posy(), fd_web );
+                g->m.remove_field( pos(), fd_web );
             }
         } else {
             // Here, you're just not comfortable outside a nice thick web.
