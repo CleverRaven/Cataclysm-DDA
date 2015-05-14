@@ -167,8 +167,9 @@ class explosion_iuse : public iuse_actor
 class unfold_vehicle_iuse : public iuse_actor
 {
     public:
-        /** Vehicle name (@see map::add_vehicle what it expects). */
-        vproto_id vehicle_name;
+        /** Id of the vehicle prototype (@see map::add_vehicle what it expects) that will be
+         * created when unfolding the item. */
+        vproto_id vehicle_id;
         /** Message shown after successfully unfolding the item. */
         std::string unfold_msg;
         /** Creature::moves it takes to unfold. */
