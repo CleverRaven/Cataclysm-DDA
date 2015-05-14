@@ -25,6 +25,8 @@ struct vpart_info;
 enum vpart_bitflags : int;
 using vpart_id = int_id<vpart_info>;
 using vpart_str_id = string_id<vpart_info>;
+struct vehicle_prototype;
+using vproto_id = string_id<vehicle_prototype>;
 
 //collision factor for vehicle-vehicle collision; delta_v in mph
 float get_collision_factor(float delta_v);
@@ -334,7 +336,8 @@ private:
     template <typename Func, typename Vehicle>
     static int traverse_vehicle_graph(Vehicle *start_veh, int amount, Func visitor);
 public:
-    vehicle (std::string type_id = "null", int veh_init_fuel = -1, int veh_init_status = -1);
+    vehicle(const vproto_id &type_id, int veh_init_fuel = -1, int veh_init_status = -1);
+    vehicle();
     ~vehicle ();
 
     // check if given player controls this vehicle
@@ -795,7 +798,12 @@ public:
 
     // config values
     std::string name;   // vehicle name
-    std::string type;           // vehicle type
+    /**
+     * Type of the vehicle as it was spawned. This will never change, but it can be an invalid
+     * type (e.g. if the definition of the prototype has been removed from json or if it has been
+     * spawned with the default constructor).
+     */
+    vproto_id type;
     std::vector<vehicle_part> parts;   // Parts which occupy different tiles
     int removed_part_count;            // Subtract from parts.size() to get the real part count.
     std::map<point, std::vector<int> > relative_parts;    // parts_at_relative(x,y) is used alot (to put it mildly)

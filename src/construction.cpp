@@ -817,7 +817,7 @@ void construct::done_vehicle(point p)
         name = _("Car");
     }
 
-    vehicle *veh = g->m.add_vehicle ("none", p.x, p.y, 270, 0, 0);
+    vehicle *veh = g->m.add_vehicle( vproto_id( "none" ), p.x, p.y, 270, 0, 0);
 
     if (!veh) {
         debugmsg ("error constructing vehicle");

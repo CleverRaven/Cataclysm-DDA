@@ -243,7 +243,7 @@ iuse_actor *unfold_vehicle_iuse::clone() const
 
 void unfold_vehicle_iuse::load( JsonObject &obj )
 {
-    obj.read( "vehicle_name", vehicle_name );
+    vehicle_name = vproto_id( obj.get_string( "vehicle_name" ) );
     obj.read( "unfold_msg", unfold_msg );
     obj.read( "moves", moves );
     obj.read( "tools_needed", tools_needed );

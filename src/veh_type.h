@@ -14,6 +14,8 @@
 struct vpart_info;
 using vpart_str_id = string_id<vpart_info>;
 using vpart_id = int_id<vpart_info>;
+struct vehicle_prototype;
+using vproto_id = string_id<vehicle_prototype>;
 class vehicle;
 class JsonObject;
 struct vehicle_item_spawn;
@@ -152,9 +154,9 @@ struct vehicle_prototype
     static void load( JsonObject &jo );
     static void reset();
     static void finalize();
-};
 
-extern std::map<std::string, vehicle_prototype> vtypes;
+    static std::vector<vproto_id> get_all();
+};
 
 extern const vpart_str_id legacy_vpart_id[74];
 

@@ -9,7 +9,7 @@
 #include <unordered_map>
 #include <unordered_set>
 
-std::map<std::string, vehicle_prototype> vtypes;
+std::unordered_map<vproto_id, vehicle_prototype> vtypes;
 
 // GENERAL GUIDELINES
 // To determine mount position for parts (dx, dy), check this scheme:
@@ -290,12 +290,30 @@ const std::vector<const vpart_info*> &vpart_info::get_all()
     return vehicle_part_int_types;
 }
 
+template<>
+const vehicle_prototype &string_id<vehicle_prototype>::obj() const
+{
+    const auto iter = vtypes.find( *this );
+    if( iter == vtypes.end() ) {
+        debugmsg( "invalid vehicle prototype id %s", c_str() );
+        static const vehicle_prototype dummy;
+        return dummy;
+    }
+    return iter->second;
+}
+
+template<>
+bool string_id<vehicle_prototype>::is_valid() const
+{
+    return vtypes.count( *this ) > 0;
+}
+
 /**
  *Caches a vehicle definition from a JsonObject to be loaded after itypes is initialized.
  */
 void vehicle_prototype::load(JsonObject &jo)
 {
-    vehicle_prototype &vproto = vtypes[ jo.get_string( "id" ) ];
+    vehicle_prototype &vproto = vtypes[ vproto_id( jo.get_string( "id" ) ) ];
     // Overwrite with an empty entry to clear all the contained data, e.g. if this prototype is
     // re-defined by a mod. This will also delete any existing vehicle blueprint.
     vproto = std::move( vehicle_prototype() );
@@ -359,7 +377,7 @@ void vehicle_prototype::finalize()
     for( auto &vp : vtypes ) {
         std::unordered_set<point> cargo_spots;
         vehicle_prototype &proto = vp.second;
-        const std::string &id = vp.first;
+        const vproto_id &id = vp.first;
 
         // Calls the default constructor to create an empty vehicle. Calling the constructor with
         // the type as parameter would make it look up the type in the map and copy the
@@ -407,4 +425,13 @@ void vehicle_prototype::finalize()
         // memory of the vector is really freed (instead of simply marking the vector as empty).
         std::remove_reference<decltype(proto.parts)>::type().swap( proto.parts );
     }
+}
+
+std::vector<vproto_id> vehicle_prototype::get_all()
+{
+    std::vector<vproto_id> result;
+    for( auto & vp : vtypes ) {
+        result.push_back( vp.first );
+    }
+    return result;
 }

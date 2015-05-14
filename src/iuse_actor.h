@@ -5,7 +5,11 @@
 #include "color.h"
 #include "field.h"
 #include "bodypart.h"
+#include "string_id.h"
 #include <limits.h>
+
+struct vehicle_prototype;
+using vproto_id = string_id<vehicle_prototype>;
 
 class JsonObject;
 
@@ -164,7 +168,7 @@ class unfold_vehicle_iuse : public iuse_actor
 {
     public:
         /** Vehicle name (@see map::add_vehicle what it expects). */
-        std::string vehicle_name;
+        vproto_id vehicle_name;
         /** Message shown after successfully unfolding the item. */
         std::string unfold_msg;
         /** Creature::moves it takes to unfold. */

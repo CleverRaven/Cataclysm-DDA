@@ -24,7 +24,6 @@
 #include "json.h"
 #include "coordinates.h"
 #include "npc.h"
-#include "veh_type.h"
 #ifdef LUA
 #include "catalua.h"
 #endif
@@ -720,7 +719,7 @@ public:
  */
 class jmapgen_vehicle : public jmapgen_piece {
 public:
-    std::string type;
+    vproto_id type;
     jmapgen_int chance;
     int rotation;
     int fuel;
@@ -732,7 +731,7 @@ public:
     , fuel( jsi.get_int( "fuel", -1 ) )
     , status( jsi.get_int( "status", -1 ) )
     {
-        if( vtypes.count( type ) == 0 ) {
+        if( !type.is_valid() ) {
             jsi.throw_error( "no such vehicle type", "vehicle" );
         }
     }
@@ -2212,7 +2211,7 @@ ssssss______ss______ssss\n",
         {
             int num_chairs = rng(0, 6);
             for( int i = 0; i < num_chairs; i++ ) {
-                add_vehicle ("swivel_chair", rng(6, 16), rng(6, 16), 0, -1, -1, false);
+                add_vehicle( vproto_id( "swivel_chair" ), rng(6, 16), rng(6, 16), 0, -1, -1, false);
             }
         }
         if (t_north == "office_tower_1" && t_west == "office_tower_1") {
@@ -2293,7 +2292,7 @@ ss%|rrrr|...|.R.|EEED...\n",
             {
                 int num_chairs = rng(0, 6);
                 for( int i = 0; i < num_chairs; i++ ) {
-                    add_vehicle ("swivel_chair", rng(6, 16), rng(6, 16), 0, -1, -1, false);
+                    add_vehicle( vproto_id( "swivel_chair" ), rng(6, 16), rng(6, 16), 0, -1, -1, false);
                 }
             }
             if (t_west == "office_tower_1_entrance") {
@@ -2364,7 +2363,7 @@ ssssssssssssssssssssssss\n",
             {
                 int num_chairs = rng(0, 6);
                 for( int i = 0; i < num_chairs; i++ ) {
-                    add_vehicle ("swivel_chair", rng(6, 16), rng(6, 16), 0, -1, -1, false);
+                    add_vehicle( vproto_id( "swivel_chair" ), rng(6, 16), rng(6, 16), 0, -1, -1, false);
                 }
             }
             if (t_north == "office_tower_1_entrance") {
@@ -2432,7 +2431,7 @@ ssssssssssssssssssssssss\n\
             {
                 int num_chairs = rng(0, 6);
                 for( int i = 0; i < num_chairs; i++ ) {
-                    add_vehicle ("swivel_chair", rng(6, 16), rng(6, 16), 0, -1, -1, false);
+                    add_vehicle( vproto_id( "swivel_chair" ), rng(6, 16), rng(6, 16), 0, -1, -1, false);
                 }
             }
             if (t_west == "office_tower_1" && t_north == "office_tower_1") {
@@ -2554,54 +2553,54 @@ sss|........|.R.|EEED___\n",
             if (t_west == "office_tower_b_entrance") {
                 rotate(1);
                 if (x_in_y(1, 5)) {
-                    add_vehicle ("car", 17, 7, 180);
+                    add_vehicle( vproto_id( "car" ), 17, 7, 180);
                 }
                 if (x_in_y(1, 3)) {
-                    add_vehicle ("motorcycle", 17, 13, 180);
+                    add_vehicle( vproto_id( "motorcycle" ), 17, 13, 180);
                 }
                 if (x_in_y(1, 5)) {
                     if (one_in(3)) {
-                        add_vehicle ("fire_truck", 6, 13, 0);
+                        add_vehicle( vproto_id( "fire_truck" ), 6, 13, 0);
                         }
                     else
-                    add_vehicle ("pickup", 17, 19, 180);
+                    add_vehicle( vproto_id( "pickup" ), 17, 19, 180);
                 }
             } else if (t_north == "office_tower_b_entrance") {
                 rotate(2);
                 if (x_in_y(1, 5)) {
-                    add_vehicle ("car", 10, 17, 270);
+                    add_vehicle( vproto_id( "car" ), 10, 17, 270);
                 }
                 if (x_in_y(1, 3)) {
-                    add_vehicle ("motorcycle", 4, 18, 270);
+                    add_vehicle( vproto_id( "motorcycle" ), 4, 18, 270);
                 }
                 if (x_in_y(1, 5)) {
                     if (one_in(3)) {
-                        add_vehicle ("fire_truck", 6, 13, 0);
+                        add_vehicle( vproto_id( "fire_truck" ), 6, 13, 0);
                         }
                     else
-                    add_vehicle ("pickup", 16, 17, 270);
+                    add_vehicle( vproto_id( "pickup" ), 16, 17, 270);
                 }
             } else if (t_east == "office_tower_b_entrance") {
                 rotate(3);
                 if (x_in_y(1, 5)) {
-                    add_vehicle ("car", 6, 4, 0);
+                    add_vehicle( vproto_id( "car" ), 6, 4, 0);
                 }
                 if (x_in_y(1, 3)) {
-                    add_vehicle ("motorcycle", 6, 10, 180);
+                    add_vehicle( vproto_id( "motorcycle" ), 6, 10, 180);
                 }
                 if (x_in_y(1, 5)) {
-                    add_vehicle ("pickup", 6, 16, 0);
+                    add_vehicle( vproto_id( "pickup" ), 6, 16, 0);
                 }
 
             } else {
                 if (x_in_y(1, 5)) {
-                    add_vehicle ("pickup", 7, 6, 90);
+                    add_vehicle( vproto_id( "pickup" ), 7, 6, 90);
                 }
                 if (x_in_y(1, 5)) {
-                    add_vehicle ("car", 14, 6, 90);
+                    add_vehicle( vproto_id( "car" ), 14, 6, 90);
                 }
                 if (x_in_y(1, 3)) {
-                    add_vehicle ("motorcycle", 19, 6, 90);
+                    add_vehicle( vproto_id( "motorcycle" ), 19, 6, 90);
                 }
             }
         }
@@ -2655,49 +2654,49 @@ ssssssssssssssssssssssss\n",
             if (t_north == "office_tower_b_entrance") {
                 rotate(1);
                 if (x_in_y(1, 5)) {
-                    add_vehicle ("car", 8, 15, 0);
+                    add_vehicle( vproto_id( "car" ), 8, 15, 0);
                 }
                 if (x_in_y(1, 5)) {
-                    add_vehicle ("pickup", 7, 10, 180);
+                    add_vehicle( vproto_id( "pickup" ), 7, 10, 180);
                 }
                 if (x_in_y(1, 3)) {
-                    add_vehicle ("beetle", 7, 3, 0);
+                    add_vehicle( vproto_id( "beetle" ), 7, 3, 0);
                 }
             } else if (t_east == "office_tower_b_entrance") {
                 rotate(2);
                 if (x_in_y(1, 5)) {
                     if (one_in(3)) {
-                        add_vehicle ("fire_truck", 6, 13, 0);
+                        add_vehicle( vproto_id( "fire_truck" ), 6, 13, 0);
                         }
                     else
-                    add_vehicle ("pickup", 7, 7, 270);
+                    add_vehicle( vproto_id( "pickup" ), 7, 7, 270);
                 }
                 if (x_in_y(1, 5)) {
-                    add_vehicle ("car", 13, 8, 90);
+                    add_vehicle( vproto_id( "car" ), 13, 8, 90);
                 }
                 if (x_in_y(1, 3)) {
-                    add_vehicle ("beetle", 20, 7, 90);
+                    add_vehicle( vproto_id( "beetle" ), 20, 7, 90);
                 }
             } else if (t_south == "office_tower_b_entrance") {
                 rotate(3);
                 if (x_in_y(1, 5)) {
-                    add_vehicle ("pickup", 16, 7, 0);
+                    add_vehicle( vproto_id( "pickup" ), 16, 7, 0);
                 }
                 if (x_in_y(1, 5)) {
-                    add_vehicle ("car", 15, 13, 180);
+                    add_vehicle( vproto_id( "car" ), 15, 13, 180);
                 }
                 if (x_in_y(1, 3)) {
-                    add_vehicle ("beetle", 15, 20, 180);
+                    add_vehicle( vproto_id( "beetle" ), 15, 20, 180);
                 }
             } else {
                 if (x_in_y(1, 5)) {
-                    add_vehicle ("pickup", 16, 16, 90);
+                    add_vehicle( vproto_id( "pickup" ), 16, 16, 90);
                 }
                 if (x_in_y(1, 5)) {
-                    add_vehicle ("car", 9, 15, 270);
+                    add_vehicle( vproto_id( "car" ), 9, 15, 270);
                 }
                 if (x_in_y(1, 3)) {
-                    add_vehicle ("beetle", 4, 16, 270);
+                    add_vehicle( vproto_id( "beetle" ), 4, 16, 270);
                 }
             }
         }
@@ -2749,56 +2748,56 @@ ___DEEE|.R.|...,,...|sss\n",
                 rotate(1);
                 if (x_in_y(1, 5)) {
                     if (one_in(3)) {
-                        add_vehicle ("cube_van", 17, 4, 180);
+                        add_vehicle( vproto_id( "cube_van" ), 17, 4, 180);
                     } else {
-                        add_vehicle ("cube_van_cheap", 17, 4, 180);
+                        add_vehicle( vproto_id( "cube_van_cheap" ), 17, 4, 180);
                     }
                 }
                 if (x_in_y(1, 5)) {
-                    add_vehicle ("pickup", 17, 10, 180);
+                    add_vehicle( vproto_id( "pickup" ), 17, 10, 180);
                 }
                 if (x_in_y(1, 3)) {
-                    add_vehicle ("car", 17, 17, 180);
+                    add_vehicle( vproto_id( "car" ), 17, 17, 180);
                 }
             } else if (t_east == "office_tower_b" && t_north == "office_tower_b") {
                 rotate(2);
                 if (x_in_y(1, 5)) {
                     if (one_in(3)) {
-                        add_vehicle ("cube_van", 6, 17, 270);
+                        add_vehicle( vproto_id( "cube_van" ), 6, 17, 270);
                     } else {
-                        add_vehicle ("cube_van_cheap", 6, 17, 270);
+                        add_vehicle( vproto_id( "cube_van_cheap" ), 6, 17, 270);
                     }
                 }
                 if (x_in_y(1, 5)) {
-                    add_vehicle ("pickup", 12, 17, 270);
+                    add_vehicle( vproto_id( "pickup" ), 12, 17, 270);
                 }
                 if (x_in_y(1, 3)) {
-                    add_vehicle ("fire_truck", 18, 17, 270);
+                    add_vehicle( vproto_id( "fire_truck" ), 18, 17, 270);
                 }
             } else if (t_east == "office_tower_b" && t_south == "office_tower_b") {
                 rotate(3);
                 if (x_in_y(1, 5)) {
-                    add_vehicle ("cube_van_cheap", 6, 6, 0);
+                    add_vehicle( vproto_id( "cube_van_cheap" ), 6, 6, 0);
                 }
                 if (x_in_y(1, 5)) {
                     if (one_in(3)) {
-                        add_vehicle ("fire_truck", 6, 13, 0);
+                        add_vehicle( vproto_id( "fire_truck" ), 6, 13, 0);
                     } else {
-                        add_vehicle ("pickup", 6, 13, 0);
+                        add_vehicle( vproto_id( "pickup" ), 6, 13, 0);
                     }
                 }
                 if (x_in_y(1, 3)) {
-                    add_vehicle ("car", 5, 19, 180);
+                    add_vehicle( vproto_id( "car" ), 5, 19, 180);
                 }
             } else {
                 if (x_in_y(1, 5)) {
-                    add_vehicle ("flatbed_truck", 16, 6, 90);
+                    add_vehicle( vproto_id( "flatbed_truck" ), 16, 6, 90);
                 }
                 if (x_in_y(1, 5)) {
-                    add_vehicle ("cube_van_cheap", 10, 6, 90);
+                    add_vehicle( vproto_id( "cube_van_cheap" ), 10, 6, 90);
                 }
                 if (x_in_y(1, 3)) {
-                    add_vehicle ("car", 4, 6, 90);
+                    add_vehicle( vproto_id( "car" ), 4, 6, 90);
                 }
             }
         }
@@ -6212,9 +6211,9 @@ __________           f  \n",
                 if (x_in_y(2, 3)) {
                 int roller_check=rng(0,100);
                     if (roller_check < 75) {
-                        add_vehicle ("flatbed_truck", 2, 0, 90);
+                        add_vehicle( vproto_id( "flatbed_truck" ), 2, 0, 90);
                     } else {
-                        add_vehicle ("road_roller", 2, 0, 90);
+                        add_vehicle( vproto_id( "road_roller" ), 2, 0, 90);
                     }
                 }
             } else if (t_east == "public_works" && t_north == "public_works") {
@@ -6222,9 +6221,9 @@ __________           f  \n",
                 if (x_in_y(2, 3)) {
                 int roller_check=rng(0,100);
                     if (roller_check < 75) {
-                        add_vehicle ("flatbed_truck", 23, 10, 270);
+                        add_vehicle( vproto_id( "flatbed_truck" ), 23, 10, 270);
                     } else {
-                        add_vehicle ("road_roller", 23, 10, 270);
+                        add_vehicle( vproto_id( "road_roller" ), 23, 10, 270);
                     }
                 }
             } else if (t_east == "public_works" && t_south == "public_works") {
@@ -6232,18 +6231,18 @@ __________           f  \n",
                 if (x_in_y(2, 3)) {
                 int roller_check=rng(0,100);
                     if (roller_check < 75) {
-                        add_vehicle ("flatbed_truck", 10, 23, 0);
+                        add_vehicle( vproto_id( "flatbed_truck" ), 10, 23, 0);
                     } else {
-                        add_vehicle ("road_roller", 10, 23, 0);
+                        add_vehicle( vproto_id( "road_roller" ), 10, 23, 0);
                     }
                 }
             } else {
                 if (x_in_y(2, 3)) {
                 int roller_check=rng(0,100);
                   if (roller_check < 75) {
-                        add_vehicle ("flatbed_truck", 0, 10, 90);
+                        add_vehicle( vproto_id( "flatbed_truck" ), 0, 10, 90);
                     } else {
-                        add_vehicle ("road_roller", 0, 10, 90);
+                        add_vehicle( vproto_id( "road_roller" ), 0, 10, 90);
                     }
                 }
             }
@@ -6398,34 +6397,34 @@ sssssssss_______ssssssss\n",
         if (t_north == "school_2") {
             rotate(1);
             if (x_in_y(1, 7)) {
-                add_vehicle ("schoolbus", 19, 10, 0);
+                add_vehicle( vproto_id( "schoolbus" ), 19, 10, 0);
             }
             else if (one_in(5)) {
-                add_vehicle ("fire_truck", 19, 10, 0);
+                add_vehicle( vproto_id( "fire_truck" ), 19, 10, 0);
                 }
         } else if (t_east == "school_2") {
             rotate(2);
             if (x_in_y(1, 7)) {
-                add_vehicle ("schoolbus", 9, 7, 0);
+                add_vehicle( vproto_id( "schoolbus" ), 9, 7, 0);
             }
             else if (one_in(5)) {
-                add_vehicle ("fire_truck", 9, 7, 0);
+                add_vehicle( vproto_id( "fire_truck" ), 9, 7, 0);
                 }
         } else if (t_south == "school_2") {
             rotate(3);
             if (x_in_y(1, 7)) {
-                add_vehicle ("schoolbus", 12, 18, 180);
+                add_vehicle( vproto_id( "schoolbus" ), 12, 18, 180);
             }
             else if (one_in(5)) {
-                add_vehicle ("fire_truck", 12, 18, 180);
+                add_vehicle( vproto_id( "fire_truck" ), 12, 18, 180);
                 }
         } else if (t_west == "school_2") {
             rotate(0);
             if (x_in_y(1, 7)) {
-                add_vehicle ("schoolbus", 17, 7, 0);
+                add_vehicle( vproto_id( "schoolbus" ), 17, 7, 0);
             }
             else if (one_in(5)) {
-                add_vehicle ("fire_truck", 17, 7, 0);
+                add_vehicle( vproto_id( "fire_truck" ), 17, 7, 0);
                 }
         }
 
@@ -8087,34 +8086,34 @@ sssssssssssssssssssssss\n",
         if (t_north == "hotel_tower_1_2") {
             rotate(1);
             if (x_in_y(1, 12)) {
-                add_vehicle ("car", 12, 18, 180);
+                add_vehicle( vproto_id( "car" ), 12, 18, 180);
             }
             else if (x_in_y(2, 9)) {
-                add_vehicle ("fire_truck", 12, 18, 180);
+                add_vehicle( vproto_id( "fire_truck" ), 12, 18, 180);
                 }
         } else if (t_east == "hotel_tower_1_2") {
             rotate(2);
             if (x_in_y(1, 12)) {
-                add_vehicle ("car", 9, 7, 0);
+                add_vehicle( vproto_id( "car" ), 9, 7, 0);
             }
             else if (x_in_y(2, 9)) {
-                add_vehicle ("fire_truck", 9, 7, 0);
+                add_vehicle( vproto_id( "fire_truck" ), 9, 7, 0);
                 }
         } else if (t_south == "hotel_tower_1_2") {
             rotate(3);
             if (x_in_y(1, 12)) {
-                add_vehicle ("car", 12, 18, 180);
+                add_vehicle( vproto_id( "car" ), 12, 18, 180);
             }
             else if (x_in_y(2, 9)) {
-                add_vehicle ("fire_truck", 12, 18, 180);
+                add_vehicle( vproto_id( "fire_truck" ), 12, 18, 180);
                 }
         } else if (t_west == "hotel_tower_1_2") {
             rotate(0);
             if (x_in_y(1, 12)) {
-                add_vehicle ("car", 17, 7, 0);
+                add_vehicle( vproto_id( "car" ), 17, 7, 0);
             }
             else if (x_in_y(2, 9)) {
-                add_vehicle ("fire_truck", 17, 7, 180);
+                add_vehicle( vproto_id( "fire_truck" ), 17, 7, 180);
                 }
         }
 
@@ -8244,7 +8243,7 @@ ________________________\n\
         {
             int num_carts = rng(1, 3);
             for( int i = 0; i < num_carts; i++ ) {
-                add_vehicle ("luggage_cart", rng(5, 18), rng(2, 12), 90, -1, -1, false);
+                add_vehicle( vproto_id( "luggage_cart" ), rng(5, 18), rng(2, 12), 90, -1, -1, false);
             }
         }
         if (t_north == "hotel_tower_1_2") {
@@ -8949,20 +8948,20 @@ tth.............^|..|###\n\
             if (t_west == "haz_sar_entrance") {
                 rotate(1);
                 if (x_in_y(1, 4)) {
-                    add_vehicle ("military_cargo_truck", 10, 11, 0);
+                    add_vehicle( vproto_id( "military_cargo_truck" ), 10, 11, 0);
                 }
             } else if (t_north == "haz_sar_entrance") {
                 rotate(2);
                 if (x_in_y(1, 4)) {
-                    add_vehicle ("military_cargo_truck", 12, 10, 90);
+                    add_vehicle( vproto_id( "military_cargo_truck" ), 12, 10, 90);
                 }
             } else if (t_east == "haz_sar_entrance") {
                 rotate(3);
                 if (x_in_y(1, 4)) {
-                    add_vehicle ("military_cargo_truck", 13, 12, 180);
+                    add_vehicle( vproto_id( "military_cargo_truck" ), 13, 12, 180);
                 }
             } else if (x_in_y(1, 4)) {
-                add_vehicle ("military_cargo_truck", 11, 13, 270);
+                add_vehicle( vproto_id( "military_cargo_truck" ), 11, 13, 270);
             }
 
         }
@@ -11529,10 +11528,10 @@ void map::add_spawn(std::string type, int count, int x, int y, bool friendly,
     place_on_submap->spawns.push_back(tmp);
 }
 
-vehicle *map::add_vehicle(std::string type, const int x, const int y, const int dir,
+vehicle *map::add_vehicle(const vproto_id & type, const int x, const int y, const int dir,
                           const int veh_fuel, const int veh_status, const bool merge_wrecks)
 {
-    if(vtypes.count(type) == 0) {
+    if( !type.is_valid() ) {
         debugmsg("Nonexistent vehicle type: \"%s\"", type.c_str());
         return NULL;
     }
@@ -11595,7 +11594,7 @@ vehicle *map::add_vehicle_to_map(vehicle *veh, const bool merge_wrecks)
         }
 
         // Don't spawn shopping carts on top of another vehicle or other obstacle.
-        if (veh->type == "shopping_cart") {
+        if (veh->type == vproto_id( "shopping_cart" ) ) {
             if (veh_at(p.x, p.y) != NULL || move_cost(p.x, p.y) == 0) {
                 delete veh;
                 return NULL;
@@ -11606,7 +11605,7 @@ vehicle *map::add_vehicle_to_map(vehicle *veh, const bool merge_wrecks)
         bool veh_smashed = false;
         //For other vehicles, simulate collisions with (non-shopping cart) stuff
         vehicle *other_veh = veh_at(p.x, p.y);
-        if (other_veh != NULL && other_veh->type != "shopping cart") {
+        if (other_veh != NULL && other_veh->type != vproto_id( "shopping cart" ) ) {
             if( !merge_wrecks ) {
                 delete veh;
                 return NULL;
@@ -13384,14 +13383,14 @@ void map::add_extra(map_extra type)
         line(this, t_fence_barbed, 3, 4, 3, 10);
         line(this, t_fence_barbed, 1, 13, 1, 19);
         if (one_in(3)) {  // Chicken delivery truck
-            add_vehicle("military_cargo_truck", 12, SEEY * 2 - 5, 0);
+            add_vehicle( vproto_id( "military_cargo_truck" ), 12, SEEY * 2 - 5, 0);
             add_spawn("mon_chickenbot", 1, 12, 12);
         } else if (one_in(2)) {  // TAAANK
             // The truck's wrecked...with fuel.  Explosive barrel?
-            add_vehicle("military_cargo_truck", 12, SEEY * 2 - 5, 0, 70, -1);
+            add_vehicle( vproto_id( "military_cargo_truck" ), 12, SEEY * 2 - 5, 0, 70, -1);
             add_spawn("mon_tankbot", 1, 12, 12);
         } else {  // Truck & turrets
-            add_vehicle("military_cargo_truck", 12, SEEY * 2 - 5, 0);
+            add_vehicle( vproto_id( "military_cargo_truck" ), 12, SEEY * 2 - 5, 0);
             add_spawn("mon_turret_bmg", 1, 12, 12);
             add_spawn("mon_turret_rifle", 1, 9, 12);
         }
@@ -13418,8 +13417,8 @@ void map::add_extra(map_extra type)
 
             }
         } else { // Police roadblock
-            add_vehicle("policecar", 8, 5, 20);
-            add_vehicle("policecar", 16, SEEY * 2 - 5, 145);
+            add_vehicle( vproto_id( "policecar" ), 8, 5, 20);
+            add_vehicle( vproto_id( "policecar" ), 16, SEEY * 2 - 5, 145);
             add_spawn("mon_turret", 1, 1, 12);
             add_spawn("mon_turret", 1, SEEX * 2 - 1, 12);
 
