@@ -572,8 +572,8 @@ void iexamine::cardreader(player *p, map *m, const tripoint &examp)
         tripoint tmp = examp;
         int &i = tmp.x;
         int &j = tmp.y;
-        for (i = -3; i <= 3; i++) {
-            for (j = -3; j <= 3; j++) {
+        for (i = examp.x - 3; i <= examp.x + 3; i++) {
+            for (j = examp.y - 3; j <= examp.y + 3; j++) {
                 if (m->ter(tmp) == t_door_metal_locked) {
                     m->ter_set(tmp, t_floor);
                 }
@@ -629,8 +629,8 @@ void iexamine::cardreader(player *p, map *m, const tripoint &examp)
                 tripoint tmp = examp;
                 int &i = tmp.x;
                 int &j = tmp.y;
-                for (i = -3; i <= 3; i++) {
-                    for (j = -3; j <= 3; j++) {
+                for (i = examp.x - 3; i <= examp.x + 3; i++) {
+                    for (j = examp.y - 3; j <= examp.y + 3; j++) {
                         if (m->ter(tmp) == t_door_metal_locked) {
                             m->ter_set(tmp, t_floor);
                         }
@@ -783,8 +783,8 @@ void iexamine::portable_structure(player *p, map *m, const tripoint &examp)
     tripoint tmp = examp;
     int &i = tmp.x;
     int &j = tmp.y;
-    for (i = -radius; i <= radius; i++) {
-        for (j = -radius; j <= radius; j++) {
+    for (i = examp.x - radius; i <= examp.x + radius; i++) {
+        for (j = examp.y - radius; j <= examp.y + radius; j++) {
             m->furn_set(tmp, f_null);
         }
     }
