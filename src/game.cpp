@@ -48,6 +48,7 @@
 #include "mutation.h"
 #include "mtype.h"
 #include "map.h"
+#include "map_iterator.h"
 #include "overmap.h"
 #include "omdata.h"
 #include "crafting.h"
@@ -5905,52 +5906,47 @@ void game::monmove()
 void game::do_blast( const tripoint &p, const int power, const int radius, const bool fire )
 {
     int dam;
-    tripoint t = p;
-    int &i = t.x;
-    int &j = t.y;
-    for( i = p.x - radius; i <= p.x + radius; i++ ) {
-        for( j = p.y - radius; j <= p.y + radius; j++ ) {
-            if( t == p ) {
-                dam = 3 * power;
-            } else {
-                dam = 3 * power / rl_dist( p, t );
-            }
-            m.smash_items(t, dam);
-            m.bash( t, dam );
-            m.bash( t, dam ); // Double up for tough doors, etc.
+    for( auto &&t : m.points_in_radius( p, radius, 0 ) ) {
+        if( t == p ) {
+            dam = 3 * power;
+        } else {
+            dam = 3 * power / rl_dist( p, t );
+        }
+        m.smash_items(t, dam);
+        m.bash( t, dam );
+        m.bash( t, dam ); // Double up for tough doors, etc.
 
-            int mon_hit = mon_at(t);
-            int npc_hit = npc_at(t);
-            if (mon_hit != -1) {
-                monster &mon = critter_tracker.find(mon_hit);
-                mon.apply_damage( nullptr, bp_torso, rng( dam / 2, long( dam * 1.5 ) ) ); // TODO: player's fault?
-                mon.check_dead_state();
-            }
+        int mon_hit = mon_at(t);
+        int npc_hit = npc_at(t);
+        if (mon_hit != -1) {
+            monster &mon = critter_tracker.find(mon_hit);
+            mon.apply_damage( nullptr, bp_torso, rng( dam / 2, long( dam * 1.5 ) ) ); // TODO: player's fault?
+            mon.check_dead_state();
+        }
 
-            int vpart;
-            vehicle *veh = m.veh_at( t, vpart );
-            if (veh) {
-                veh->damage(vpart, dam, fire ? 2 : 1, false);
-            }
+        int vpart;
+        vehicle *veh = m.veh_at( t, vpart );
+        if (veh) {
+            veh->damage(vpart, dam, fire ? 2 : 1, false);
+        }
 
-            player *n = nullptr;
-            if (npc_hit != -1) {
-                n = active_npc[npc_hit];
-            } else if( u.pos() == t ) {
-                add_msg(m_bad, _("You're caught in the explosion!"));
-                n = &u;
-            }
-            if( n != nullptr ) {
-                n->deal_damage( nullptr, bp_torso, damage_instance( DT_BASH, rng( dam / 2, long( dam * 1.5 ) ) ) );
-                n->deal_damage( nullptr, bp_head, damage_instance( DT_BASH, rng( dam / 3, dam ) ) );
-                n->deal_damage( nullptr, bp_leg_l, damage_instance( DT_BASH, rng( dam / 3, dam ) ) );
-                n->deal_damage( nullptr, bp_leg_r, damage_instance( DT_BASH, rng( dam / 3, dam ) ) );
-                n->deal_damage( nullptr, bp_arm_l, damage_instance( DT_BASH, rng( dam / 3, dam ) ) );
-                n->deal_damage( nullptr, bp_arm_r, damage_instance( DT_BASH, rng( dam / 3, dam ) ) );
-            }
-            if (fire) {
-                m.add_field( t, fd_fire, dam / 10, 0 );
-            }
+        player *n = nullptr;
+        if (npc_hit != -1) {
+            n = active_npc[npc_hit];
+        } else if( u.pos() == t ) {
+            add_msg(m_bad, _("You're caught in the explosion!"));
+            n = &u;
+        }
+        if( n != nullptr ) {
+            n->deal_damage( nullptr, bp_torso, damage_instance( DT_BASH, rng( dam / 2, long( dam * 1.5 ) ) ) );
+            n->deal_damage( nullptr, bp_head, damage_instance( DT_BASH, rng( dam / 3, dam ) ) );
+            n->deal_damage( nullptr, bp_leg_l, damage_instance( DT_BASH, rng( dam / 3, dam ) ) );
+            n->deal_damage( nullptr, bp_leg_r, damage_instance( DT_BASH, rng( dam / 3, dam ) ) );
+            n->deal_damage( nullptr, bp_arm_l, damage_instance( DT_BASH, rng( dam / 3, dam ) ) );
+            n->deal_damage( nullptr, bp_arm_r, damage_instance( DT_BASH, rng( dam / 3, dam ) ) );
+        }
+        if (fire) {
+            m.add_field( t, fd_fire, dam / 10, 0 );
         }
     }
 }

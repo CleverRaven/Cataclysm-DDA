@@ -28,6 +28,7 @@ class player;
 class monster;
 class item;
 class Creature;
+class tripoint_range;
 struct itype;
 struct mapgendata;
 struct trap;
@@ -1229,6 +1230,10 @@ private:
   public:
     lit_level visibility_cache[MAPSIZE*SEEX][MAPSIZE*SEEY];
     void update_visibility_cache( visibility_variables &cache, int zlev );
+
+    // Clips the area to map bounds
+    tripoint_range points_in_rectangle( const tripoint &from, const tripoint &to ) const;
+    tripoint_range points_in_radius( const tripoint &center, size_t radius, size_t radiusz = 0 ) const;
 };
 
 std::vector<point> closest_points_first(int radius, point p);
