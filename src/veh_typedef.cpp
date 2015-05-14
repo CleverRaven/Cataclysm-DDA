@@ -7,11 +7,8 @@
 #include "translations.h"
 
 #include <unordered_map>
-#include <queue>
 
-std::queue<vehicle_prototype*> vehprototypes;
-
-std::map<std::string, vehicle *> vtypes;
+std::map<std::string, vehicle_prototype> vtypes;
 
 // GENERAL GUIDELINES
 // To determine mount position for parts (dx, dy), check this scheme:
@@ -295,12 +292,13 @@ const std::vector<const vpart_info*> &vpart_info::get_all()
 /**
  *Caches a vehicle definition from a JsonObject to be loaded after itypes is initialized.
  */
-// loads JsonObject vehicle definition into a cached state so that it can be held until after itypes have been initialized
-void load_vehicle(JsonObject &jo)
+void vehicle_prototype::load(JsonObject &jo)
 {
-    vehicle_prototype *vproto = new vehicle_prototype;
+    vehicle_prototype *vproto = &vtypes[ jo.get_string( "id" ) ];
+    // Overwrite with an empty entry to clear all the contained data, e.g. if this prototype is
+    // re-defined by a mod. This will also delete any existing vehicle blueprint.
+    *vproto = std::move( vehicle_prototype() );
 
-    vproto->id = jo.get_string("id");
     vproto->name = jo.get_string("name");
 
     JsonArray parts = jo.get_array("parts");
@@ -344,15 +342,10 @@ void load_vehicle(JsonObject &jo)
         }
         vproto->item_spawns.push_back(next_spawn);
     }
-
-    vehprototypes.push(vproto);
 }
 
-void reset_vehicles()
+void vehicle_prototype::reset()
 {
-    for( auto &elem : vtypes ) {
-        delete elem.second;
-    }
     vtypes.clear();
 }
 
@@ -361,19 +354,23 @@ const vpart_str_id vpart_info::null( "null" );
 /**
  *Works through cached vehicle definitions and creates vehicle objects from them.
  */
-void finalize_vehicles()
+void vehicle_prototype::finalize()
 {
     int part_x = 0, part_y = 0;
-    vehicle *next_vehicle;
 
     std::map<point, bool> cargo_spots;
 
-    while (!vehprototypes.empty()) {
+    for( auto &vp : vtypes ) {
         cargo_spots.clear();
-        vehicle_prototype *proto = vehprototypes.front();
-        vehprototypes.pop();
+        vehicle_prototype *proto = &vp.second;
+        const std::string &id = vp.first;
 
-        next_vehicle = new vehicle(proto->id.c_str());
+        // Calls the default constructor to create an empty vehicle. Calling the constructor with
+        // the type as parameter would make it look up the type in the map and copy the
+        // (non-existing) blueprint.
+        proto->blueprint.reset( new vehicle() );
+        vehicle *next_vehicle = proto->blueprint.get();
+        next_vehicle->type = id;
         next_vehicle->name = _(proto->name.c_str());
 
         for (size_t i = 0; i < proto->parts.size(); ++i) {
@@ -383,7 +380,7 @@ void finalize_vehicles()
 
             const vpart_str_id &part_id = proto->parts[i].second;
             if( !part_id.is_valid() ) {
-                debugmsg("unknown vehicle part %s in %s", part_id.c_str(), proto->id.c_str());
+                debugmsg("unknown vehicle part %s in %s", part_id.c_str(), id.c_str());
                 continue;
             }
 
@@ -404,21 +401,17 @@ void finalize_vehicles()
             }
             for (auto &j : i.item_ids) {
                 if( !item::type_is_defined( j ) ) {
-                    debugmsg("unknown item %s in spawn list of %s", j.c_str(), proto->id.c_str());
+                    debugmsg("unknown item %s in spawn list of %s", j.c_str(), id.c_str());
                 }
             }
             for (auto &j : i.item_groups) {
                 if (!item_group::group_is_defined(j)) {
-                    debugmsg("unknown item group %s in spawn list of %s", j.c_str(), proto->id.c_str());
+                    debugmsg("unknown item group %s in spawn list of %s", j.c_str(), id.c_str());
                 }
             }
         }
-        next_vehicle->item_spawns = proto->item_spawns;
-
-        if (vtypes.count(next_vehicle->type) > 0) {
-            delete vtypes[next_vehicle->type];
-        }
-        vtypes[next_vehicle->type] = next_vehicle;
-        delete proto;
+        // Clear the parts vector as it is not needed anymore. Usage of swap guaranties that the
+        // memory of the vector is really freed (instead of simply marking the vector as empty).
+        std::remove_reference<decltype(proto->parts)>::type().swap( proto->parts );
     }
 }

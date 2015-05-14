@@ -3810,10 +3810,10 @@ void game::debug()
             std::vector<std::string> veh_strings;
             for( auto &elem : vtypes ) {
                 if( elem.first != "custom" ) {
-                    veh_strings.push_back( elem.second->type );
+                    veh_strings.push_back( elem.first );
                     //~ Menu entry in vehicle wish menu: 1st string: displayed name, 2nd string: internal name of vehicle
-                    opts.push_back( string_format( _( "%s (%s)" ), elem.second->name.c_str(),
-                                                   elem.second->type.c_str() ) );
+                    opts.push_back( string_format( _( "%s (%s)" ), elem.second.name.c_str(),
+                                                   elem.first.c_str() ) );
                 }
             }
             opts.push_back(std::string(_("Cancel")));

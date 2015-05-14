@@ -181,9 +181,9 @@ vehicle::vehicle(std::string type_id, int init_veh_fuel, int init_veh_status): t
 
     //type can be null if the type_id parameter is omitted
     if(type != "null") {
-      if(vtypes.count(type) > 0) {
-        //If this template already exists, copy it
-        *this = *(vtypes[type]);
+        auto const iter = vtypes.find( type );
+        if( iter != vtypes.end() ) {
+            *this = *iter->second.blueprint;
         init_state(init_veh_fuel, init_veh_status);
       }
     }
@@ -4452,8 +4452,12 @@ vehicle_stack vehicle::get_items( int const part ) const
 
 void vehicle::place_spawn_items()
 {
-    for( std::vector<vehicle_item_spawn>::iterator next_spawn = item_spawns.begin();
-         next_spawn != item_spawns.end(); next_spawn++ ) {
+    auto const iter = vtypes.find( type );
+    if( iter == vtypes.end() ) {
+        return;
+    }
+    for( auto &spawn : iter->second.item_spawns ) {
+        const vehicle_item_spawn *next_spawn = &spawn;
         if(rng(1, 100) <= next_spawn->chance) {
             //Find the cargo part in that square
             int part = part_at(next_spawn->pos.x, next_spawn->pos.y);

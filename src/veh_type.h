@@ -9,6 +9,7 @@
 #include <vector>
 #include <map>
 #include <string>
+#include <memory>
 
 struct vpart_info;
 using vpart_str_id = string_id<vpart_info>;
@@ -128,24 +129,32 @@ public:
     static const vpart_str_id null;
 };
 
-extern std::map<std::string, vehicle *> vtypes;
-// Handles the content of @ref vtypes
-void load_vehicle(JsonObject &jo);
-void reset_vehicles();
-void finalize_vehicles();
+struct vehicle_item_spawn
+{
+    point pos;
+    int chance;
+    std::vector<std::string> item_ids;
+    std::vector<std::string> item_groups;
+};
 
 /**
- * This is only temporarily needed to load a vehicle template. At that point, the vehicle parts
- * them self are not loaded and can not be used. The protype is later (when all loading has
- * finished) converted into a real vehicle.
+ * Prototype of a vehicle. The blueprint member is filled in during the finalizing, before that it
+ * is a nullptr. Creating a new vehicle copies the blueprint vehicle.
  */
 struct vehicle_prototype
 {
-    std::string id;
     std::string name;
     std::vector<std::pair<point, vpart_str_id> > parts;
     std::vector<vehicle_item_spawn> item_spawns;
+
+    std::unique_ptr<vehicle> blueprint;
+
+    static void load( JsonObject &jo );
+    static void reset();
+    static void finalize();
 };
+
+extern std::map<std::string, vehicle_prototype> vtypes;
 
 extern const vpart_str_id legacy_vpart_id[74];
 

@@ -84,14 +84,6 @@ struct veh_collision {
     veh_collision() = default;
 };
 
-struct vehicle_item_spawn
-{
-    point pos;
-    int chance;
-    std::vector<std::string> item_ids;
-    std::vector<std::string> item_groups;
-};
-
 class vehicle_stack : public item_stack {
 private:
     std::list<item> *mystack;
@@ -817,7 +809,6 @@ public:
     std::vector<int> loose_parts;      // List of UNMOUNT_ON_MOVE parts
     std::vector<int> wheelcache;
     std::vector<int> speciality;        //List of parts that will not be on a vehicle very often, or which only one will be present
-    std::vector<vehicle_item_spawn> item_spawns; //Possible starting items
     std::set<std::string> tags;        // Properties of the vehicle
 
     active_item_cache active_items;
