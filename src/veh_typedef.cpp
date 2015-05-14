@@ -7,6 +7,7 @@
 #include "translations.h"
 
 #include <unordered_map>
+#include <unordered_set>
 
 std::map<std::string, vehicle_prototype> vtypes;
 
@@ -358,10 +359,8 @@ void vehicle_prototype::finalize()
 {
     int part_x = 0, part_y = 0;
 
-    std::map<point, bool> cargo_spots;
-
     for( auto &vp : vtypes ) {
-        cargo_spots.clear();
+        std::unordered_set<point> cargo_spots;
         vehicle_prototype *proto = &vp.second;
         const std::string &id = vp.first;
 
@@ -390,12 +389,12 @@ void vehicle_prototype::finalize()
                          next_vehicle->parts.size(), part_x, part_y);
             }
             if( part_id.obj().has_flag("CARGO") ) {
-                cargo_spots[p] = true;
+                cargo_spots.insert( p );
             }
         }
 
         for (auto &i : proto->item_spawns) {
-            if (cargo_spots.find(i.pos) == cargo_spots.end()) {
+            if( cargo_spots.count( i.pos ) == 0 ) {
                 debugmsg("Invalid spawn location (no CARGO vpart) in %s (%d, %d): %d%%",
                          proto->name.c_str(), i.pos.x, i.pos.y, i.chance);
             }
