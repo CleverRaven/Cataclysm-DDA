@@ -41,7 +41,7 @@ void sounds::ambient_sound( const tripoint &p, int vol, std::string description 
     sound( p, vol, description, true );
 }
 
-void sounds::sound( const tripoint &p, int vol, std::string description, bool ambient, std::string id, std::string variant )
+void sounds::sound( const tripoint &p, int vol, std::string description, bool ambient, const std::string& id, const std::string& variant )
 {
     if( vol < 0 ) {
         // Bail out if no volume.
@@ -187,8 +187,8 @@ void sounds::process_sound_markers( player *p )
 
     for( const auto &sound_event_pair : sounds_since_last_turn ) {
         const int volume = sound_event_pair.second.volume * volume_multiplier;
-        const std::string sfx_id = sound_event_pair.second.id;
-        const std::string sfx_variant = sound_event_pair.second.variant;
+        const std::string& sfx_id = sound_event_pair.second.id;
+        const std::string& sfx_variant = sound_event_pair.second.variant;
         const int max_volume = std::max( volume, sound_event_pair.second.volume ); // For deafness checks
         int dist = rl_dist( p->pos3(), sound_event_pair.first );
         bool ambient = sound_event_pair.second.ambient;
@@ -292,8 +292,8 @@ void sounds::process_sound_markers( player *p )
             int heard_volume = volume - dist;
             // for our sfx API, 100 is "normal" volume, so scale accordingly
             heard_volume *= 10;
-            add_msg("Playing sound effect %s, %s, %d", sfx_id.c_str(), sfx_variant.c_str(), heard_volume);
             play_sound_effect(sfx_id, sfx_variant, heard_volume);
+            //add_msg("Playing sound effect %s, %s, %d", sfx_id.c_str(), sfx_variant.c_str(), heard_volume);
         }
 
         // If Z coord is different, draw even when you can see the source
