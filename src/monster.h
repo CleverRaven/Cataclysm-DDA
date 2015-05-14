@@ -46,6 +46,7 @@ class monster : public Creature, public JsonSerializer, public JsonDeserializer
         }
 
         void poly(mtype *t);
+        bool can_upgrade() const;
         void update_check();
         void spawn( const tripoint &p); // All this does is moves the monster to p
         m_size get_size() const override;
@@ -358,8 +359,12 @@ class monster : public Creature, public JsonSerializer, public JsonDeserializer
          * and to reviving monsters that spawn from a corpse.
          */
         void init_from_item( const item &itm );
+        /** Gets the last time the monster was loaded. */
+        int get_last_load() const;
+        /** Sets the last time the monster was loaded to the given day. */
+        void set_last_load(int day);
 
-        /** Sets the last time the monster was loaded to the current turn */
+        /** Sets the last time the monster was loaded to the current day */
         void reset_last_load();
 
     private:

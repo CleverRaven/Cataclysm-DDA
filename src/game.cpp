@@ -6782,7 +6782,6 @@ bool game::revive_corpse( const tripoint &p, int n )
     if( !revive_corpse( p, &m.i_at( p )[n] ) ) {
         return false;
     }
-    m.i_rem( p, n );
     return true;
 }
 
@@ -6812,6 +6811,7 @@ bool game::revive_corpse( const tripoint &p, item *it )
     }
 
     add_zombie(critter);
+    m.i_rem(p, it);
     return true;
 }
 
@@ -8675,7 +8675,7 @@ tripoint game::look_around( WINDOW *w_info, const tripoint &start_point,
 
                     auto zlev_sound = sounds::sound_at( tmp );
                     if( !zlev_sound.empty() ) {
-                        mvwprintw( w_info, ++off, 1, 
+                        mvwprintw( w_info, ++off, 1,
                                    tmp.z > lp.z ?  _("You heard %s from above.") : _("You heard %s from below."),
                                    zlev_sound.c_str() );
                     }
@@ -12244,7 +12244,7 @@ bool game::plmove(int dx, int dy)
         tripoint dest( x, y, u.posz() );
         // tile is impassable
         int tunneldist = 0;
-        while( m.move_cost(dest) == 0 || 
+        while( m.move_cost(dest) == 0 ||
                ( ( mon_at(dest) != -1 || npc_at(dest) != -1 ) && tunneldist > 0 ) ) {
             //add 1 to tunnel distance for each impassable tile in the line
             tunneldist += 1;
