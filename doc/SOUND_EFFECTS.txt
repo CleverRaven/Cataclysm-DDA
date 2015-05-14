@@ -11,3 +11,4 @@ close_door <furniture>|<terrain>
 bash default
 smash wall|door|door_boarded|glass
 melee_hit <weapon> # note: use weapon id "null" for unarmed attacks
+fire_gun <ammo>
