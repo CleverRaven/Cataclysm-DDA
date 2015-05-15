@@ -196,16 +196,16 @@ private:
     static void builtin_pileup(map& m, const std::string &terrainid);
     static void builtin_policepileup(map& m, const std::string &terrainid);
 
-    typedef std::map<Vehicle_tag, VehicleGroup> GroupMap;
+    typedef std::unordered_map<Vehicle_tag, VehicleGroup> GroupMap;
     GroupMap groups;
 
-    typedef std::map<std::string, VehiclePlacement> PlacementMap;
+    typedef std::unordered_map<std::string, VehiclePlacement> PlacementMap;
     PlacementMap placements;
 
-    typedef std::map<std::string, VehicleSpawn> VehicleSpawnsMap;
+    typedef std::unordered_map<std::string, VehicleSpawn> VehicleSpawnsMap;
     VehicleSpawnsMap spawns;
 
-    typedef std::map<std::string, vehicle_gen_pointer> FunctionMap;
+    typedef std::unordered_map<std::string, vehicle_gen_pointer> FunctionMap;
     FunctionMap builtin_functions {
         { "no_vehicles", builtin_no_vehicles },
         { "jack-knifed_semi", builtin_jackknifed_semi },
