@@ -2299,11 +2299,19 @@ void dialogue::gen_responses( const std::string &topic )
             add_response( _("I'll be going..."), "TALK_DONE" );
     } else if( topic == "TALK_RANCH_BARKEEP_TAP" ) {
             if (g->u.cash >= 800){
-                add_response( _("[$8] I'll take a beer"), "TALK_DONE" );
+                add_response( _("[$10] I'll take a beer"), "TALK_DONE" );
                 SUCCESS_ACTION(&talk_function::buy_beer);
             }
-            if (g->u.cash >= 1000){
-                add_response( _("[$10] I'll take a shot of whiskey"), "TALK_DONE" );
+            if (g->u.cash >= 1000 && p->has_trait("NPC_BRANDY")){
+                add_response( _("[$10] I'll take a shot of brandy"), "TALK_DONE" );
+                SUCCESS_ACTION(&talk_function::buy_brandy);
+            }
+            if (g->u.cash >= 1000 && p->has_trait("NPC_RUM")){
+                add_response( _("[$10] I'll take a shot of rum"), "TALK_DONE" );
+                SUCCESS_ACTION(&talk_function::buy_rum);
+            }
+            if (g->u.cash >= 1200 && p->has_trait("NPC_WHISKEY")){
+                add_response( _("[$12] I'll take a shot of whiskey"), "TALK_DONE" );
                 SUCCESS_ACTION(&talk_function::buy_whiskey);
             }
             add_response( _("Never mind."), "TALK_RANCH_BARKEEP" );
@@ -3216,7 +3224,8 @@ void talk_function::give_aid(npc *p)
             g->u.remove_effect("infected", bp_healed);
         }
     }
-    g->u.assign_activity(ACT_WAIT, 10000);
+    g->u.assign_activity(ACT_WAIT_NPC, 10000);
+    g->u.activity.str_values.push_back(p->name);
 }
 
 void talk_function::give_all_aid(npc *p)
@@ -3248,7 +3257,8 @@ void talk_function::construction_tips(npc *p)
 {
     g->u.cash -= 2000;
     g->u.practice("carpentry", 30);
-    g->u.assign_activity(ACT_WAIT, 600);
+    g->u.assign_activity(ACT_WAIT_NPC, 600);
+    g->u.activity.str_values.push_back(p->name);
     p->add_effect("currently_busy", 600);
 }
 
@@ -3256,11 +3266,33 @@ void talk_function::buy_beer(npc *p)
 {
     item cont = item("bottle_glass", 0, false);
     item liq = item("hb_beer", 0);
-    liq.charges = 3;
+    liq.charges = 2;
     cont.put_in( liq );
     g->u.i_add( cont );
-    g->u.cash -= 800;
+    g->u.cash -= 1000;
     add_msg(m_good, _("%s gave you a beer..."), p->name.c_str());
+}
+
+void talk_function::buy_brandy(npc *p)
+{
+    item cont = item("bottle_glass", 0, false);
+    item liq = item("brandy", 0);
+    liq.charges = 1;
+    cont.put_in( liq );
+    g->u.i_add( cont );
+    g->u.cash -= 1000;
+    add_msg(m_good, _("%s gave you a shot of brandy..."), p->name.c_str());
+}
+
+void talk_function::buy_rum(npc *p)
+{
+    item cont = item("bottle_glass", 0, false);
+    item liq = item("rum", 0);
+    liq.charges = 1;
+    cont.put_in( liq );
+    g->u.i_add( cont );
+    g->u.cash -= 1000;
+    add_msg(m_good, _("%s gave you a shot of rum..."), p->name.c_str());
 }
 
 void talk_function::buy_whiskey(npc *p)
@@ -3270,7 +3302,7 @@ void talk_function::buy_whiskey(npc *p)
     liq.charges = 1;
     cont.put_in( liq );
     g->u.i_add( cont );
-    g->u.cash -= 1000;
+    g->u.cash -= 1200;
     add_msg(m_good, _("%s gave you a shot of whiskey..."), p->name.c_str());
 }
 
@@ -3278,7 +3310,8 @@ void talk_function::buy_haircut(npc *p)
 {
     g->u.add_morale(MORALE_HAIRCUT, 5, 5, 7200, 30);
     g->u.cash -= 1000;
-    g->u.assign_activity(ACT_WAIT, 300);
+    g->u.assign_activity(ACT_WAIT_NPC, 300);
+    g->u.activity.str_values.push_back(p->name);
     add_msg(m_good, _("%s gives you a decent haircut..."), p->name.c_str());
 }
 
@@ -3286,7 +3319,8 @@ void talk_function::buy_shave(npc *p)
 {
     g->u.add_morale(MORALE_SHAVE, 10, 10, 3600, 30);
     g->u.cash -= 500;
-    g->u.assign_activity(ACT_WAIT, 100);
+    g->u.assign_activity(ACT_WAIT_NPC, 100);
+    g->u.activity.str_values.push_back(p->name);
     add_msg(m_good, _("%s gives you a decent shave..."), p->name.c_str());
 }
 
