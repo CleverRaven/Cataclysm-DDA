@@ -112,6 +112,8 @@ namespace talk_function {
     void give_all_aid         (npc *);
     void construction_tips    (npc *);
     void buy_beer             (npc *);
+    void buy_brandy           (npc *);
+    void buy_rum              (npc *);
     void buy_whiskey          (npc *);
     void buy_haircut          (npc *);
     void buy_shave            (npc *);
