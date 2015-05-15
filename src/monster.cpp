@@ -1172,6 +1172,16 @@ bool monster::move_effects()
             remove_effect("in_pit");
         }
     }
+    if (has_effect("grabbed")){
+        if ( dice(type->melee_dice + type->melee_sides, 6) < get_effect_dur("downed") ){
+            return false;
+        } else {
+            if (u_see_me) {
+                add_msg(_("The %s breaks free from the grab!"), name().c_str());
+            }
+            remove_effect("grabbed");
+        }
+    }
     return Creature::move_effects();
 }
 

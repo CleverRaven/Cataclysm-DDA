@@ -2341,29 +2341,22 @@ void mattack::grab(monster *z, int index)
         return;
     }
     Creature *target = z->attack_target();
-    if( target == nullptr || rl_dist( z->pos(), target->pos() ) > 1 ) {
+    if( target == nullptr || !is_adjacent(z, target, false)) {
         return;
     }
-
-    player *foe = dynamic_cast< player* >( target );
 
     z->reset_special(index); // Reset timer
     z->moves -= 80;
     bool uncanny = target->uncanny_dodge();
-    auto msg_type = foe == &g->u ? m_warning : m_info;
+    auto msg_type = target == &g->u ? m_warning : m_info;
     if( uncanny || dodge_check(z, target) ){
-        if( foe != nullptr ) {
-                target->add_msg_player_or_npc( msg_type, _("The %s gropes at you, but you dodge!"),
-                                                      _("The %s gropes at <npcname>, but they dodge!"),
-                                            z->name().c_str() );
+        target->add_msg_player_or_npc( msg_type, _("The %s gropes at you, but you dodge!"),
+                                            _("The %s gropes at <npcname>, but they dodge!"),
+                                        z->name().c_str() );
 
-    } else {target->add_msg_player_or_npc( msg_type, _("The %s gropes at you, but misses!"),
-                                            _("The %s gropes at <npcname>, but it misses!"),
-                                z->name().c_str() );
-    }
-    if( !uncanny ) {
-        target->on_dodge( z, z->type->melee_skill * 2 );
-    }
+        if( !uncanny ) {
+            target->on_dodge( z, z->type->melee_skill * 2 );
+        }
     return;
     }
     target->add_msg_player_or_npc(m_bad, _("%s grabs you!"), _("%s grabs <npcname>!"),
@@ -2375,7 +2368,7 @@ void mattack::grab(monster *z, int index)
                                     _("<npcname> breaks the grab!"));
         return;
         }
-    target->add_effect("grabbed", 2);
+    target->add_effect("grabbed", 3);
 }
 
 void mattack::grab_pull(monster *z, int index)
@@ -2416,7 +2409,7 @@ void mattack::grab_pull(monster *z, int index)
             target->add_msg_player_or_npc(m_good, _("You resist the %s as it tries to drag you!"),
                                     _("<npcname> resist the %s as it tries to drag them!"), z->name().c_str() );
         }
-    target->add_effect("grabbed", 3);
+    target->add_effect("grabbed", 4);
     }
 }
 

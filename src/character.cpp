@@ -132,9 +132,20 @@ bool Character::move_effects()
             remove_effect("in_pit");
         }
     }
+    if (has_effect("grabbed")){
+        if ( get_dex() > get_str() ? dice(get_dex(), 7) : dice(get_str(), 7) < get_effect_dur("downed") ){
+            add_msg_player_or_npc(m_bad, _("You try break out of the grab, but fail!"),
+                                            _("<npcname> tries to break out of the grab, but fails!"));
+            return false;
+        } else {
+            add_msg_player_or_npc(m_good, _("You break out of the grab!"),
+                                            _("<npcname> breaks out of the grab!"));
+            remove_effect("grabbed");
+        }
+    }
     return Creature::move_effects();
 }
-void Character::add_effect( efftype_id eff_id, int dur, body_part bp, 
+void Character::add_effect( efftype_id eff_id, int dur, body_part bp,
                             bool permanent, int intensity, bool force )
 {
     Creature::add_effect( eff_id, dur, bp, permanent, intensity, force );
@@ -603,7 +614,7 @@ void Character::die(Creature* nkiller)
 void Character::reset_stats()
 {
     Creature::reset_stats();
-    
+
     // Bionic buffs
     if (has_active_bionic("bio_hydraulics"))
         mod_str_bonus(20);
