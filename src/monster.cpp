@@ -1234,9 +1234,9 @@ bool monster::has_grab_break_tec() const
 bool monster::stability_check(int strength) const
 {
     if ( strength > dice(type->melee_sides, type->melee_dice)){
-        return false;
+        return true;
     } else {
-    return true;
+    return false;
     }
 }
 
