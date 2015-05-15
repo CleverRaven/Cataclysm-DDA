@@ -15,11 +15,11 @@ typedef std::string Vehicle_tag;
  */
 class VehicleGroup {
 public:
-    inline void add_vehicle(const std::string &type, const int &probability) {
+    void add_vehicle(const std::string &type, const int &probability) {
         vehicles.add(type, probability);
     }
 
-    inline const std::string &pick() const {
+    const std::string &pick() const {
         return *(vehicles.pick());
     }
 
@@ -33,7 +33,7 @@ private:
  struct VehicleFacings {
     VehicleFacings(JsonObject &jo, const std::string &key);
 
-    inline int pick() const {
+    int pick() const {
         return values[rng(0, values.size()-1)];
     }
 
@@ -44,7 +44,7 @@ struct VehicleLocation {
     VehicleLocation(const jmapgen_int &x, const jmapgen_int &y, const VehicleFacings &facings)
         : x(x), y(y), facings(facings) {}
 
-    inline int pick_facing() const {
+    int pick_facing() const {
         return facings.pick();
     }
 
@@ -61,7 +61,7 @@ struct VehicleLocation {
  * A list of vehicle locations which are valid for spawning new vehicles.
  */
 struct VehiclePlacement {
-    inline void add(const jmapgen_int &x, const jmapgen_int &y, const VehicleFacings &facings) {
+    void add(const jmapgen_int &x, const jmapgen_int &y, const VehicleFacings &facings) {
         locations.emplace_back(x, y, facings);
     }
 
@@ -90,7 +90,7 @@ public:
     VehicleFunction_builtin(const vehicle_gen_pointer &func) : func(func) {}
     ~VehicleFunction_builtin() { }
 
-    inline void apply(map* m, const std::string &terrainid) const override {
+    void apply(map* m, const std::string &terrainid) const override {
         func(m, terrainid);
     }
 
@@ -121,11 +121,11 @@ private:
  */
 class VehicleSpawn {
 public:
-    inline void add(const double &weight, const std::shared_ptr<VehicleFunction> &func) {
+    void add(const double &weight, const std::shared_ptr<VehicleFunction> &func) {
         types.add(func, weight);
     }
 
-    inline const VehicleFunction* pick() const {
+    const VehicleFunction* pick() const {
         return types.pick()->get();
     }
 
