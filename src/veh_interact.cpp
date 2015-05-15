@@ -444,7 +444,7 @@ task_reason veh_interact::cant_do (char mode)
         has_tools = has_wrench && has_jack && has_wheel;
         break;
     case 'd': // drain tank
-        valid_target = veh->fuel_left("water") > 0;
+        valid_target = veh->fuel_left("water_clean") > 0;
         has_tools = has_siphon;
         break;
     case 'a': // relabel
@@ -2368,7 +2368,7 @@ void complete_vehicle ()
         }
         break;
     case 'd':
-        g->u.siphon( veh, "water" );
+        g->u.siphon( veh, "water_clean" );
         break;
     }
     g->u.invalidate_crafting_inventory();

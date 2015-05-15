@@ -4370,7 +4370,7 @@ std::list<item> map::use_charges(const tripoint &origin, const int range,
                             ammotype ftype = "NULL";
 
                             if (type == "water_clean") {
-                                ftype = "water";
+                                ftype = "water_clean";
                             } else if (type == "hotplate") {
                                 ftype = "battery";
                             }

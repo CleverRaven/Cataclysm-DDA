@@ -534,7 +534,7 @@ void inventory::form_from_map( const tripoint &origin, int range, bool assign_in
 
                 if(faupart >= 0 ) {
                     item water("water_clean", 0);
-                    water.charges = veh->fuel_left("water");
+                    water.charges = veh->fuel_left("water_clean");
                     add_item(water);
                 }
 
@@ -545,7 +545,7 @@ void inventory::form_from_map( const tripoint &origin, int range, bool assign_in
                     add_item(hotplate);
 
                     item water("water_clean", 0);
-                    water.charges = veh->fuel_left("water");
+                    water.charges = veh->fuel_left("water_clean");
                     add_item(water);
 
                     item pot("pot", 0);

@@ -38,7 +38,7 @@ static const std::string fuel_type_diesel("diesel");
 static const std::string fuel_type_battery("battery");
 static const std::string fuel_type_plutonium("plutonium");
 static const std::string fuel_type_plasma("plasma");
-static const std::string fuel_type_water("water");
+static const std::string fuel_type_water("water_clean");
 static const std::string fuel_type_muscle("muscle");
 static const std::string part_location_structure("structure");
 
