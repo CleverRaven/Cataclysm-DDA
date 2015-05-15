@@ -74,7 +74,7 @@
         "type": "effect_type",
         "id": "currently_busy",
         "name": ["Currently Busy"],
-        "desc": ["AI tag for asking NPCs for items.  This is a bug if you have it."]
+        "desc": ["AI cooldown tag for items or services.  This is a bug if you have it."]
     },
     {
         "type": "effect_type",
