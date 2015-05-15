@@ -39,6 +39,7 @@ void map::add_light_from_items( const int x, const int y, std::list<item>::itera
 // TODO Consider making this just clear the cache and dynamically fill it in as trans() is called
 void map::build_transparency_cache( const int zlev )
 {
+    auto &transparency_cache = get_cache( zlev ).transparency_cache;
     if( !transparency_cache_dirty ) {
         return;
     }
@@ -120,8 +121,10 @@ void map::apply_character_light( const player &p )
     }
 }
 
-void map::generate_lightmap()
+void map::generate_lightmap( const int zlev )
 {
+    auto &lm = get_cache( zlev ).lm;
+    auto &sm = get_cache( zlev ).sm;
     std::memset(lm, 0, sizeof(lm));
     std::memset(sm, 0, sizeof(sm));
 
@@ -133,13 +136,14 @@ void map::generate_lightmap()
          directions
      * Step 3: Profit!
      */
+    auto &light_source_buffer = get_cache( zlev ).light_source_buffer;
     std::memset(light_source_buffer, 0, sizeof(light_source_buffer));
 
     constexpr int dir_x[] = {  0, -1 , 1, 0 };   //    [0]
     constexpr int dir_y[] = { -1,  0 , 0, 1 };   // [1][X][2]
     constexpr int dir_d[] = { 180, 270, 0, 90 }; //    [3]
 
-    const bool  u_is_inside    = !is_outside(g->u.posx(), g->u.posy());
+    const bool  u_is_inside    = !is_outside(g->u.pos());
     const float natural_light  = g->natural_light_level();
     const float hl             = natural_light / 2;
 
@@ -396,6 +400,7 @@ void map::generate_lightmap()
 
 void map::add_light_source(int x, int y, float luminance )
 {
+    auto &light_source_buffer = get_cache( abs_sub.z ).light_source_buffer;
     light_source_buffer[x][y] = std::max(luminance, light_source_buffer[x][y]);
 }
 
@@ -407,6 +412,8 @@ lit_level map::light_at(int dx, int dy)
         return LL_DARK;    // Out of bounds
     }
 
+    auto &lm = get_cache( abs_sub.z ).lm;
+    auto &sm = get_cache( abs_sub.z ).sm;
     if (sm[dx][dy] >= LIGHT_SOURCE_BRIGHT) {
         return LL_BRIGHT;
     }
@@ -428,6 +435,7 @@ float map::ambient_light_at(int dx, int dy)
         return 0.0f;
     }
 
+    auto &lm = get_cache( abs_sub.z ).lm;
     return lm[dx][dy];
 }
 
@@ -438,6 +446,7 @@ bool map::trans(const int x, const int y) const
 
 float map::light_transparency(const int x, const int y) const
 {
+    auto &transparency_cache = get_cache( abs_sub.z ).transparency_cache;
   return transparency_cache[x][y];
 }
 
@@ -449,6 +458,8 @@ lit_level map::light_at( const tripoint &p )
         return LL_DARK;    // Out of bounds
     }
 
+    auto &lm = get_cache( p.z ).lm;
+    auto &sm = get_cache( p.z ).sm;
     // TODO: Fix in FoV update
     const int dx = p.x;
     const int dy = p.y;
@@ -473,7 +484,7 @@ float map::ambient_light_at( const tripoint &p )
         return 0.0f;
     }
 
-    // TODO: Fix in FoV update
+    auto &lm = get_cache( p.z ).lm;
     return lm[p.x][p.y];
 }
 
@@ -484,7 +495,7 @@ bool map::trans( const tripoint &p ) const
 
 float map::light_transparency( const tripoint &p ) const
 {
-    // TODO: Fix in FoV update
+    auto &transparency_cache = get_cache( p.z ).transparency_cache;
     return transparency_cache[p.x][p.y];
 }
 
@@ -500,6 +511,7 @@ bool map::pl_sees( const int tx, const int ty, const int max_range )
         return false;    // Out of range!
     }
 
+    auto &seen_cache = get_cache( abs_sub.z ).seen_cache;
     return seen_cache[tx][ty];
 }
 
@@ -513,7 +525,7 @@ bool map::pl_sees( const tripoint &t, const int max_range )
         return false;    // Out of range!
     }
 
-    // TODO: FoV update
+    auto &seen_cache = get_cache( t.z ).seen_cache;
     return seen_cache[t.x][t.y];
 }
 
@@ -532,6 +544,9 @@ bool map::pl_sees( const tripoint &t, const int max_range )
  */
 void map::build_seen_cache(const tripoint &origin)
 {
+    auto &transparency_cache = get_cache( origin.z ).transparency_cache;
+    auto &seen_cache = get_cache( origin.z ).seen_cache;
+
     std::memset(seen_cache, false, sizeof(seen_cache));
     seen_cache[origin.x][origin.y] = true;
 
@@ -692,6 +707,8 @@ void castLight( bool (&output_cache)[MAPSIZE*SEEX][MAPSIZE*SEEY],
 
 void map::apply_light_source(int x, int y, float luminance, bool trig_brightcalc )
 {
+    auto &lm = get_cache( abs_sub.z ).lm;
+    auto &sm = get_cache( abs_sub.z ).sm;
     if (INBOUNDS(x, y)) {
         lm[x][y] = std::max(lm[x][y], static_cast<float>(LL_LOW));
         lm[x][y] = std::max(lm[x][y], luminance);
@@ -726,6 +743,7 @@ void map::apply_light_source(int x, int y, float luminance, bool trig_brightcalc
         sssSsss
            sy
     */
+    auto &light_source_buffer = get_cache( abs_sub.z ).light_source_buffer;
     const int peer_inbounds = LIGHTMAP_CACHE_X - 1;
     bool north = (y != 0 && light_source_buffer[x][y - 1] < luminance );
     bool south = (y != peer_inbounds && light_source_buffer[x][y + 1] < luminance );
@@ -853,6 +871,7 @@ void map::apply_light_ray(bool lit[LIGHTMAP_CACHE_X][LIGHTMAP_CACHE_Y],
         return;
     }
 
+    auto &lm = get_cache( abs_sub.z ).lm;
 
     float transparency = LIGHT_TRANSPARENCY_CLEAR;
     float light = 0.0;

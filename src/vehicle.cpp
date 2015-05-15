@@ -4838,7 +4838,7 @@ void vehicle::shift_parts( const point delta )
     refresh();
 
     //Need to also update the map after this
-    g->m.reset_vehicle_cache();
+    g->m.reset_vehicle_cache( smz );
 
 }
 
@@ -5691,7 +5691,7 @@ void vehicle::open_or_close(int const part_index, bool const opening)
 {
     parts[part_index].open = opening ? 1 : 0;
     insides_dirty = true;
-    g->m.set_transparency_cache_dirty();
+    g->m.set_transparency_cache_dirty( smz );
 
     if (!part_info(part_index).has_flag("MULTISQUARE")) {
         return;

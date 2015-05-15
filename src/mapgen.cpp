@@ -11563,7 +11563,8 @@ vehicle *map::add_vehicle(std::string type, const int x, const int y, const int 
         submap *place_on_submap = get_submap_at_grid( placed_vehicle->smx, placed_vehicle->smy, placed_vehicle->smz );
         place_on_submap->vehicles.push_back(placed_vehicle);
 
-        vehicle_list.insert(placed_vehicle);
+        auto &ch = get_cache( abs_sub.z );
+        ch.vehicle_list.insert(placed_vehicle);
         update_vehicle_cache(placed_vehicle, true);
 
         //debugmsg ("grid[%d]->vehicles.size=%d veh.parts.size=%d", nonant, grid[nonant]->vehicles.size(),veh.parts.size());

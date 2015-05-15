@@ -3713,8 +3713,12 @@ void game::debug()
             while( num_zombies() > 0 ) {
                 despawn_monster( 0 );
             }
-            m.clear_vehicle_cache();
-            m.vehicle_list.clear();
+            const int minz = m.has_zlevels() ? -OVERMAP_DEPTH : get_levz();
+            const int maxz = m.has_zlevels() ? OVERMAP_HEIGHT : get_levz();
+            for( int z = minz; z < maxz; z++ ) {
+                m.clear_vehicle_cache( z );
+                m.clear_vehicle_list( z );
+            }
             // offset because load_map expects the coordinates of the top left corner, but the
             // player will be centered in the middle of the map.
             const int nlevx = tmp.x * 2 - int(MAPSIZE / 2);
@@ -4952,7 +4956,12 @@ void game::draw_veh_dir_indicator(void)
 
 void game::refresh_all()
 {
-    m.reset_vehicle_cache();
+    const int minz = m.has_zlevels() ? -OVERMAP_DEPTH : get_levz();
+    const int maxz = m.has_zlevels() ? OVERMAP_HEIGHT : get_levz();
+    for( int z = minz; z < maxz; z++ ) {
+        m.reset_vehicle_cache( z );
+    }
+
     draw();
     refresh();
 }
@@ -12851,11 +12860,11 @@ void game::vertical_move(int movez, bool force)
     }
 
     u.moves -= 100;
-    m.clear_vehicle_cache();
-    m.vehicle_list.clear();
-    m.set_transparency_cache_dirty();
-    m.set_outside_cache_dirty();
     if( !m.has_zlevels() ) {
+        m.clear_vehicle_cache( z_before );
+        m.access_cache( z_before ).vehicle_list.clear();
+        m.set_transparency_cache_dirty( z_before );
+        m.set_outside_cache_dirty( z_before );
         m.load( get_levx(), get_levy(), z_after, true );
     }
 
