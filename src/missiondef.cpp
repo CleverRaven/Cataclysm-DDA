@@ -529,7 +529,7 @@ MISSION(_("Find Flag"), MGOAL_FIND_ITEM, 2, 100000, false,
   FOLLOWUP(MISSION_RANCH_SCAVENGER_2);
 
  MISSION(_("Make 5 Wearable Flashlights"), MGOAL_FIND_ITEM, 5, 50000, false,
-         &mission_place::always, &mission_start::standard,
+         &mission_place::always, &mission_start::ranch_scavenger_1,
          &mission_end::standard, &mission_fail::standard);
   ORIGINS(ORIGIN_SECONDARY);
   ITEM("wearable_light");
@@ -537,7 +537,7 @@ MISSION(_("Find Flag"), MGOAL_FIND_ITEM, 2, 100000, false,
   FOLLOWUP(MISSION_RANCH_SCAVENGER_3);
 
  MISSION(_("Make 3 Leather Body Armor"), MGOAL_FIND_ITEM, 5, 50000, false,
-         &mission_place::always, &mission_start::standard,
+         &mission_place::always, &mission_start::ranch_scavenger_2,
          &mission_end::standard, &mission_fail::standard);
   ORIGINS(ORIGIN_SECONDARY);
   ITEM("armor_larmor");
@@ -545,12 +545,52 @@ MISSION(_("Find Flag"), MGOAL_FIND_ITEM, 2, 100000, false,
   FOLLOWUP(MISSION_RANCH_SCAVENGER_4);
 
  MISSION(_("Make 12 Molotov Cocktails"), MGOAL_FIND_ITEM, 5, 50000, false,
-         &mission_place::always, &mission_start::standard,
+         &mission_place::always, &mission_start::ranch_scavenger_3,
          &mission_end::standard, &mission_fail::standard);
   ORIGINS(ORIGIN_SECONDARY);
   ITEM("molotov");
   COUNT(12);
   FOLLOWUP(MISSION_RANCH_SCAVENGER_4);
+
+ MISSION(_("Make 2 Stills"), MGOAL_FIND_ITEM, 5, 50000, false,
+         &mission_place::always, &mission_start::standard,
+         &mission_end::standard, &mission_fail::standard);
+  ORIGINS(ORIGIN_SECONDARY);
+  ITEM("still");
+  COUNT(2);
+  FOLLOWUP(MISSION_RANCH_BARTENDER_2);
+
+ MISSION(_("Find 20 Yeast"), MGOAL_FIND_ITEM, 5, 50000, false,
+         &mission_place::always, &mission_start::ranch_bartender_1,
+         &mission_end::standard, &mission_fail::standard);
+  ORIGINS(ORIGIN_SECONDARY);
+  ITEM("yeast");
+  COUNT(20);
+  FOLLOWUP(MISSION_RANCH_BARTENDER_3);
+
+ MISSION(_("Find 10 Sugar Beet Seeds"), MGOAL_FIND_ITEM, 5, 50000, false,
+         &mission_place::always, &mission_start::ranch_bartender_2,
+         &mission_end::standard, &mission_fail::standard);
+  ORIGINS(ORIGIN_SECONDARY);
+  ITEM("seed_sugar_beet");
+  COUNT(10);
+  FOLLOWUP(MISSION_RANCH_BARTENDER_4);
+
+ MISSION(_("Find 12 Metal Tanks"), MGOAL_FIND_ITEM, 5, 50000, false,
+         &mission_place::always, &mission_start::ranch_bartender_3,
+         &mission_end::standard, &mission_fail::standard);
+  ORIGINS(ORIGIN_SECONDARY);
+  ITEM("metal_tank");
+  COUNT(12);
+  FOLLOWUP(MISSION_RANCH_BARTENDER_5);
+
+ MISSION(_("Find 2 55-Gallon Drums"), MGOAL_FIND_ITEM, 5, 50000, false,
+         &mission_place::always, &mission_start::ranch_bartender_4,
+         &mission_end::standard, &mission_fail::standard);
+  ORIGINS(ORIGIN_SECONDARY);
+  ITEM("55gal_drum");
+  COUNT(2);
+  FOLLOWUP(MISSION_RANCH_BARTENDER_5);
 
  MISSION(_("Find a Book"), MGOAL_FIND_ANY_ITEM, 2, 800, false,
          &mission_place::always, &mission_start::place_book,
