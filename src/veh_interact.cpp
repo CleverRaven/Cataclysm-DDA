@@ -1842,7 +1842,7 @@ void veh_interact::display_details( const vpart_info *part )
     // line 4 [horizontal]: fuel_type (if applicable)
     // line 4 [vertical/hybrid]: (column 1) fuel_type (if applicable)    (column 2) power (if applicable)
     // line 5 [horizontal]: power (if applicable)
-    if ( part->fuel_type != "NULL" ) {
+    if ( part->fuel_type != "null" ) {
         fold_and_print( w_details, line+4, col_1, ( vertical_menu ? column_width : details_w ),
                         c_white, _("Charge: <color_ltgray>%s</color>"),
                         item::nname( part->fuel_type ).c_str() );
