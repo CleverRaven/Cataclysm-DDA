@@ -5438,13 +5438,19 @@ bool vehicle::fire_turret( int p, bool manual )
             charges = abs( parts[p].mode ); // Currently only limiting, not increasing
         }
     }
+    charges = std::min( charges, turret_has_ammo( p ) );
+    if( charges <= 0 ) {
+        if( manual ) {
+            add_msg( m_bad, _("This turret doesn't have enough ammo") );
+        }
+
+        return false;
+    }
     const itype_id &amt = part_info( p ).fuel_type;
     int charge_mult = 1;
     int liquid_fuel = fuel_left( amt ); // Items for which a fuel tank exists
     bool success = false;
     if( liquid_fuel > 1 ) {
-        charges = std::min( charges, turret_has_ammo( p ) );
-
         itype *am_type = item::find_type( amt );
         if( !am_type->ammo ) {
             debugmsg( "vehicle::fire_turret tried to use %s (which isn't an ammo type) as ammo for %s",
@@ -5463,15 +5469,6 @@ bool vehicle::fire_turret( int p, bool manual )
             drain( amt, (int)charges_consumed );
         }
     } else {
-        charges = std::min( charges, turret_has_ammo( p ) );
-        if( charges <= 0 ) {
-            if( manual ) {
-                add_msg( m_bad, _("This turret doesn't have enough ammo") );
-            }
-
-            return false;
-        }
-
         auto items = get_items( p );
         itype *am_type = items.front().type;
         long charges_left = charges;
