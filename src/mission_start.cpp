@@ -1238,6 +1238,7 @@ void mission_start::ranch_construct_16(mission *miss)
  bay.draw_square_furn(f_wood_keg, 16, 19, 17, 19);
  bay.draw_square_furn(f_fvat_empty, 16, 21, 17, 21);
  bay.place_npc( 12, 22,"ranch_bartender");
+ bay.place_npc( 7, 20, "scavenger_merc" );
  bay.save();
 
  site = target_om_ter_random("ranch_camp_60", 1, miss, false);
@@ -1434,6 +1435,164 @@ void mission_start::ranch_nurse_9(mission *miss)
  bay.save();
 
  site = target_om_ter_random("ranch_camp_59", 1, miss, false);
+}
+
+void mission_start::ranch_scavenger_1(mission *miss)
+{
+ npc *p = g->find_npc( miss->npc_id );
+ p->my_fac->combat_ability += rng(1,2);
+
+ tripoint site = target_om_ter_random("ranch_camp_48", 1, miss, false);
+ tinymap bay;
+ bay.load(site.x * 2, site.y * 2, g->get_levz(), false);
+ bay.draw_square_ter(t_chainfence_v, 15, 13, 15, 22);
+ bay.draw_square_ter(t_chainfence_h, 16, 13, 23, 13);
+ bay.draw_square_ter(t_chainfence_h, 16, 22, 23, 22);
+ bay.save();
+
+ site = target_om_ter_random("ranch_camp_49", 1, miss, false);
+ bay.load(site.x * 2, site.y * 2, g->get_levz(), false);
+ bay.place_items( "mechanics", 65, 9, 13, 10, 16, true, 0 );
+ bay.draw_square_ter(t_chainfence_h, 0, 22, 7, 22);
+ bay.draw_square_ter(t_dirt, 2, 22, 3, 22);
+ bay.spawn_item( 7, 19, "30gal_drum" );
+ bay.save();
+}
+
+void mission_start::ranch_scavenger_2(mission *miss)
+{
+ npc *p = g->find_npc( miss->npc_id );
+ p->my_fac->combat_ability += rng(1,2);
+
+ tripoint site = target_om_ter_random("ranch_camp_48", 1, miss, false);
+ tinymap bay;
+ bay.load(site.x * 2, site.y * 2, g->get_levz(), false);
+ bay.add_vehicle("car_chassis", 20, 15, 0);
+ bay.draw_square_ter(t_wall_half, 18, 19, 21, 22);
+ bay.draw_square_ter(t_dirt, 19, 20, 20, 21);
+ bay.ter_set( 19, 19, t_door_frame);
+ bay.save();
+
+ site = target_om_ter_random("ranch_camp_49", 1, miss, false);
+ bay.load(site.x * 2, site.y * 2, g->get_levz(), false);
+ bay.place_items( "mischw", 65, 12, 13, 13, 16, true, 0 );
+ bay.draw_square_ter(t_chaingate_l, 2, 22, 3, 22);
+ bay.spawn_item( 7, 20, "30gal_drum" );
+ bay.save();
+}
+
+void mission_start::ranch_scavenger_3(mission *miss)
+{
+ npc *p = g->find_npc( miss->npc_id );
+ p->my_fac->combat_ability += rng(1,2);
+
+ tripoint site = target_om_ter_random("ranch_camp_48", 1, miss, false);
+ tinymap bay;
+ bay.load(site.x * 2, site.y * 2, g->get_levz(), false);
+ bay.translate(t_door_frame, t_door_locked);
+ bay.translate(t_wall_half, t_wall_wood);
+ bay.draw_square_ter(t_dirtfloor, 19, 20, 20, 21);
+ bay.spawn_item( 16, 21, "wheel_wide" );
+ bay.spawn_item( 17, 21, "wheel_wide" );
+ bay.spawn_item( 23, 18, "v8_combustion" );
+ bay.furn_set(23,17, "f_arcade_machine");
+ bay.ter_set(23,16, "t_machinery_light");
+ bay.furn_set( 20, 21, f_woodstove);
+ bay.save();
+
+ site = target_om_ter_random("ranch_camp_49", 1, miss, false);
+ bay.load(site.x * 2, site.y * 2, g->get_levz(), false);
+ bay.place_items( "mischw", 65, 2, 10, 4, 10, true, 0 );
+ bay.place_items( "mischw", 65, 2, 13, 4, 13, true, 0 );
+ bay.furn_set( 1, 15, f_fridge);
+ bay.spawn_item( 2, 15, "hdframe" );
+ bay.furn_set(3,15,f_washer);
+ bay.save();
+}
+
+void mission_start::ranch_bartender_1(mission *miss)
+{
+ npc *p = g->find_npc( miss->npc_id );
+ p->my_fac->wealth += rng(500,2500);
+ p->toggle_mutation( "NPC_BRANDY" );
+
+ tripoint site = target_om_ter_random("ranch_camp_51", 1, miss, false);
+ tinymap bay;
+ bay.load(site.x * 2, site.y * 2, g->get_levz(), false);
+ bay.draw_square_ter( t_wall_half, 1,15,7,17);
+ bay.draw_square_ter( t_dirt, 2,16,6,17);
+ bay.draw_square_ter( t_wall_half, 0,8,14,15);
+ bay.draw_square_ter( t_dirt, 1, 9, 13, 14);
+ bay.ter_set( 0, 10, t_door_frame);
+ bay.ter_set( 0, 11, t_door_frame);
+ bay.draw_square_ter( t_dirtfloor, 3, 15, 5, 15);
+ bay.draw_square_ter( t_dirtfloor, 3, 18, 5, 18);
+ bay.save();
+}
+
+void mission_start::ranch_bartender_2(mission *miss)
+{
+ npc *p = g->find_npc( miss->npc_id );
+ p->my_fac->wealth += rng(500,2500);
+ p->toggle_mutation( "NPC_RUM" );
+
+ tripoint site = target_om_ter_random("ranch_camp_51", 1, miss, false);
+ tinymap bay;
+ bay.load(site.x * 2, site.y * 2, g->get_levz(), false);
+ bay.draw_square_ter( t_wall_half, 14,10,19,15);
+ bay.draw_square_ter( t_dirt, 15,11,18,14);
+ bay.draw_square_ter( t_wall_half, 14,15,17,18);
+ bay.draw_square_ter( t_dirt, 15,15,16,18);;
+ bay.translate( t_door_frame, t_door_c);
+ bay.translate( t_wall_half, t_wall_wood);
+ bay.draw_square_ter( t_window_frame, 0, 13, 0, 13);
+ bay.draw_square_ter( t_window_frame, 4, 8, 5, 8);
+ bay.draw_square_ter( t_window_frame, 9, 8, 10, 8);
+ bay.draw_square_ter( t_window_frame, 19, 12, 19, 12);
+ bay.furn_set( 18, 19, f_wood_keg);
+ bay.furn_set( 16, 19, f_null);
+ bay.save();
+}
+
+void mission_start::ranch_bartender_3(mission *miss)
+{
+ npc *p = g->find_npc( miss->npc_id );
+ p->my_fac->wealth += rng(500,2500);
+ p->toggle_mutation( "NPC_WHISKEY" );
+
+ tripoint site = target_om_ter_random("ranch_camp_51", 1, miss, false);
+ tinymap bay;
+ bay.load(site.x * 2, site.y * 2, g->get_levz(), false);
+ bay.translate( t_window_frame, t_window_boarded_noglass);
+ bay.draw_square_ter( t_dirtfloor, 15,11,18,14);
+ bay.draw_square_ter( t_dirtfloor, 15,15,16,18);
+ bay.draw_square_ter( t_dirtfloor, 1, 9, 13, 14);
+ bay.draw_square_ter( t_dirtfloor, 15,11,18,14);
+ bay.save();
+}
+
+void mission_start::ranch_bartender_4(mission *miss)
+{
+ npc *p = g->find_npc( miss->npc_id );
+ p->my_fac->wealth += rng(500,2500);
+
+ tripoint site = target_om_ter_random("ranch_camp_51", 1, miss, false);
+ tinymap bay;
+ bay.load(site.x * 2, site.y * 2, g->get_levz(), false);
+ bay.draw_square_furn(f_standing_tank, 16, 11, 17, 11);
+ bay.draw_square_furn(f_fvat_empty, 17, 14, 18, 14);
+ bay.draw_square_furn(f_standing_tank, 13, 23, 13, 23);
+ bay.draw_square_furn(f_chair, 4, 10, 6, 10);
+ bay.draw_square_furn(f_table, 5, 10, 5, 10);
+ bay.draw_square_furn(f_chair, 5, 13, 7, 13);
+ bay.draw_square_furn(f_table, 6, 13, 6, 13);
+
+ bay.draw_square_furn(f_chair, 10, 10, 11, 10);
+ bay.draw_square_furn(f_table, 10, 11, 11, 12);
+ bay.draw_square_furn(f_chair, 10, 13, 11, 13);
+ bay.draw_square_furn(f_chair, 9, 11, 9, 12);
+ bay.draw_square_furn(f_chair, 12, 11, 12, 12);
+ bay.save();
 }
 
 void mission_start::place_book( mission *)
