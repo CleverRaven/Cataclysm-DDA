@@ -14,7 +14,7 @@ SOURCE_OBJS = $(patsubst %,../$(ODIR)/%,$(filter-out main.o,$(_OBJS)))
 
 ODIR := obj
 
-LDFLAGS += -L.
+LDFLAGS += -L. -lrt
 
 # Catch sections throw unused variable warnings
 CXXFLAGS += -I../src -Wno-unused-variable
