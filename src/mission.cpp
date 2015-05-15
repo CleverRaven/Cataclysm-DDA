@@ -2370,6 +2370,129 @@ Before we get into a major fight just make sure we have the gear we need, boss."
         }
         break;
 
+    case MISSION_RANCH_BARTENDER_1:
+        if( state == "TALK_MISSION_DESCRIBE" ) {
+            return _("We need help...");
+        } else if( state == "TALK_MISSION_OFFER" ) {
+            return _("The wine and beer we can brew are sufficient to attract most patrons but we need something "
+                     "a bit stronger to get them to forget their misery.  Could you build me a pair of stills?");
+        } else if( state == "TALK_MISSION_ACCEPTED" ) {
+            return _("This should let us start producing whiskey, rum, and brandy when we get access to the ingredients.");
+        } else if( state == "TALK_MISSION_REJECTED" ) {
+            return _("Come back when you get a chance, we need skilled survivors.");
+        } else if( state == "TALK_MISSION_ADVICE" ) {
+            return _("I'm sure you could find the design for the stills in home brewing books.");
+        } else if( state == "TALK_MISSION_INQUIRE" ) {
+            return _("Do you have the stills?");
+        } else if( state == "TALK_MISSION_SUCCESS" ) {
+            return _("Thank you for the delivery.");
+        } else if( state == "TALK_MISSION_SUCCESS_LIE" ) {
+            return _("What good does this do us?");
+        } else if( state == "TALK_MISSION_FAILURE" ) {
+            return _("It was a lost cause anyways...");
+        }
+        break;
+
+    case MISSION_RANCH_BARTENDER_2:
+        if( state == "TALK_MISSION_DESCRIBE" ) {
+            return _("We need help...");
+        } else if( state == "TALK_MISSION_OFFER" ) {
+            return _("The last batch that I brewed was terrible, I'm fairly sure something contaminated the yeast "
+                     "we have been using.  Could you locate a source of fresh yeast for us to use?  I'd need about 20 "
+                     "teaspoons of dry yeast to get started.");
+        } else if( state == "TALK_MISSION_ACCEPTED" ) {
+            return _("Thank you for your assistance.");
+        } else if( state == "TALK_MISSION_REJECTED" ) {
+            return _("Come back when you get a chance, we need skilled survivors.");
+        } else if( state == "TALK_MISSION_ADVICE" ) {
+            return _("Yeast should be common in homes or bakeries.");
+        } else if( state == "TALK_MISSION_INQUIRE" ) {
+            return _("Do you have the yeast?");
+        } else if( state == "TALK_MISSION_SUCCESS" ) {
+            return _("Thank you for the delivery.");
+        } else if( state == "TALK_MISSION_SUCCESS_LIE" ) {
+            return _("What good does this do us?");
+        } else if( state == "TALK_MISSION_FAILURE" ) {
+            return _("It was a lost cause anyways...");
+        }
+        break;
+
+    case MISSION_RANCH_BARTENDER_3:
+        if( state == "TALK_MISSION_DESCRIBE" ) {
+            return _("We need help...");
+        } else if( state == "TALK_MISSION_OFFER" ) {
+            return _("Sugar and molasses remains in short supply.  I've put in a request for more but it is unlikely "
+                     "that I'm going to see a reliable source for some time.  If you are interested, we are going to "
+                     "need sugar beet seeds to meet future demand regardless of what the scavengers can find.  Could "
+                     "you bring me at least enough seeds to plant a small 10 meter long patch?");
+        } else if( state == "TALK_MISSION_ACCEPTED" ) {
+            return _("Thank you for your assistance.");
+        } else if( state == "TALK_MISSION_REJECTED" ) {
+            return _("Come back when you get a chance, we need skilled survivors.");
+        } else if( state == "TALK_MISSION_ADVICE" ) {
+            return _("Farms or supply stories might have a few seeds...");
+        } else if( state == "TALK_MISSION_INQUIRE" ) {
+            return _("Do you have the sugar beet seeds?");
+        } else if( state == "TALK_MISSION_SUCCESS" ) {
+            return _("Thank you for the delivery.");
+        } else if( state == "TALK_MISSION_SUCCESS_LIE" ) {
+            return _("What good does this do us?");
+        } else if( state == "TALK_MISSION_FAILURE" ) {
+            return _("It was a lost cause anyways...");
+        }
+        break;
+
+    case MISSION_RANCH_BARTENDER_4:
+        if( state == "TALK_MISSION_DESCRIBE" ) {
+            return _("We need help...");
+        } else if( state == "TALK_MISSION_OFFER" ) {
+            return _("The drinks we brew here have become a major draw for visitors and the occasional trader.  Our "
+                     "batches have become larger but we are still running out of storage space between trading runs.  "
+                     "I've been able to get a few volunteers to help me build a set of standing tanks but I still need "
+                     "12 metal tanks to build them.  I've talked with the scrappers but we are a low priority at the "
+                     "moment.");
+        } else if( state == "TALK_MISSION_ACCEPTED" ) {
+            return _("Thank you for your assistance.");
+        } else if( state == "TALK_MISSION_REJECTED" ) {
+            return _("Come back when you get a chance, we need skilled survivors.");
+        } else if( state == "TALK_MISSION_ADVICE" ) {
+            return _("Scrapping vehicles might be your best bet.");
+        } else if( state == "TALK_MISSION_INQUIRE" ) {
+            return _("Do you have the metal tanks?");
+        } else if( state == "TALK_MISSION_SUCCESS" ) {
+            return _("Thank you for the delivery.");
+        } else if( state == "TALK_MISSION_SUCCESS_LIE" ) {
+            return _("What good does this do us?");
+        } else if( state == "TALK_MISSION_FAILURE" ) {
+            return _("It was a lost cause anyways...");
+        }
+        break;
+
+    case MISSION_RANCH_BARTENDER_5:
+        if( state == "TALK_MISSION_DESCRIBE" ) {
+            return _("We need help...");
+        } else if( state == "TALK_MISSION_OFFER" ) {
+            return _("The other survivor outposts that we have contact with have been more than eager to trade for "
+                     "beer or other drinks.  Transporting the drinks to them has presented a number of challenges "
+                     "though.  If you could locate a pair of 55-gallon drums we should be able to keep them "
+                     "supplied while turning a significant profit.");
+        } else if( state == "TALK_MISSION_ACCEPTED" ) {
+            return _("Thank you for your assistance.");
+        } else if( state == "TALK_MISSION_REJECTED" ) {
+            return _("Come back when you get a chance, we need skilled survivors.");
+        } else if( state == "TALK_MISSION_ADVICE" ) {
+            return _("Factories or junk yards are the only places I know where to look.");
+        } else if( state == "TALK_MISSION_INQUIRE" ) {
+            return _("Do you have the 55-gallon drums?");
+        } else if( state == "TALK_MISSION_SUCCESS" ) {
+            return _("Thank you for the delivery.");
+        } else if( state == "TALK_MISSION_SUCCESS_LIE" ) {
+            return _("What good does this do us?");
+        } else if( state == "TALK_MISSION_FAILURE" ) {
+            return _("It was a lost cause anyways...");
+        }
+        break;
+
     case MISSION_REACH_SAFETY:
         // TODO: SOMEONE FILL THIS OUT!!!
         break;
