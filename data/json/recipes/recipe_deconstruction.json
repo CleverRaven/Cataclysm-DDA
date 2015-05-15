@@ -2491,5 +2491,24 @@
     "autolearn": false,
     "qualities" : [ {"id":"CUT","level":1,"amount":1} ],
     "components": [ [ [ "wild_herbs", 10 ] ] ]
+},{
+    "type" : "recipe",
+    "result": "seat",
+    "id_suffix": "uncraft",
+    "category": "CC_NONCRAFT",
+    "subcategory": "CSC_NONCRAFT",
+    "difficulty": 0,
+    "time": 5000,
+    "reversible": true,
+    "autolearn": false,
+    "qualities" : [
+        {"id":"CUT","level":1,"amount":1}
+    ], "tools": [
+        [ [ "oxy_torch", 12 ], [ "welder", 25 ], [ "welder_crude", 40 ], [ "toolset", 40 ] ] ],
+    "components": [
+    [ [ "pipe", 4 ] ],
+    [ [ "spring", 2 ] ],
+    [ [ "leather", 12 ] ]
+    ]
 }
 ]
