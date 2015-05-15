@@ -6819,9 +6819,13 @@ bool game::revive_corpse( const tripoint &p, item *it )
         }
     }
 
-    add_zombie(critter);
+    const bool ret = add_zombie(critter);
+    if( !ret ) {
+        debugmsg( "Couldn't add a revived monster" );
+    }
+
     m.i_rem(p, it);
-    return true;
+    return ret;
 }
 
 void game::open()
