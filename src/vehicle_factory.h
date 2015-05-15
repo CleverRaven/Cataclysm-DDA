@@ -48,6 +48,10 @@ struct VehicleLocation {
         return facings.pick();
     }
 
+    point pick_point() const {
+        return point(x.get(), y.get());
+    }
+
     jmapgen_int x;
     jmapgen_int y;
     VehicleFacings facings;
@@ -155,7 +159,7 @@ public:
      * @param status The vehicle's status.
      * @param mergewreck optional.
     */
-    vehicle* add_vehicle(map* m, const std::string &vehicle_id, const int x, const int y, const int facing, const int fuel, const int status, const bool mergewrecks = true);
+    vehicle* add_vehicle(map* m, const std::string &vehicle_id, const point &p, const int facing, const int fuel, const int status, const bool mergewrecks = true);
 
     /**
      * This will randomly select one of the locations from a vehicle placement
