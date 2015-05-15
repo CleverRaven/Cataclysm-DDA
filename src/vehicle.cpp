@@ -5427,23 +5427,22 @@ bool vehicle::fire_turret( int p, bool manual )
     if( charges <= 0 ) {
         charges = 1;
     }
+    if( gun.is_charger_gun() ) {
+        if( one_in(100) ) {
+            charges = rng( 5, 8 ); // kaboom
+        } else {
+            charges = rng( 1, 4 );
+        }
+
+        if( charges > abs( parts[p].mode ) ) {
+            charges = abs( parts[p].mode ); // Currently only limiting, not increasing
+        }
+    }
     const itype_id &amt = part_info( p ).fuel_type;
     int charge_mult = 1;
     int liquid_fuel = fuel_left( amt ); // Items for which a fuel tank exists
     bool success = false;
     if( liquid_fuel > 1 ) {
-        if ( gun.is_charger_gun() ) {
-            if( one_in(100) ) {
-                charges = rng(5,8); // kaboom
-            } else {
-                charges = rng(1,4);
-            }
-
-            if( charges > abs( parts[p].mode ) ) {
-                charges = abs( parts[p].mode ); // Currently only limiting, not increasing
-            }
-        }
-
         charges = std::min( charges, turret_has_ammo( p ) );
 
         itype *am_type = item::find_type( amt );
