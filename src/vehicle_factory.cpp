@@ -45,7 +45,7 @@ VehicleFunction_json::VehicleFunction_json(JsonObject &jo)
     }
 }
 
-void VehicleFunction_json::apply(map* m, const std::string &terrain_name) const
+void VehicleFunction_json::apply(map& m, const std::string &terrain_name) const
 {
     for(auto i = number.get(); i > 0; i--) {
         if(! location) {
@@ -65,14 +65,14 @@ void VehicleFunction_json::apply(map* m, const std::string &terrain_name) const
     }
 }
 
-void VehicleFactory::vehicle_spawn(map* m, const std::string &spawn_id, const std::string &terrain_name)
+void VehicleFactory::vehicle_spawn(map& m, const std::string &spawn_id, const std::string &terrain_name)
 {
     spawns[spawn_id].pick()->apply(m, terrain_name);
 }
 
-vehicle* VehicleFactory::add_vehicle(map* m, const std::string &vehicle_id, const point &p, const int facing, const int fuel, const int status, const bool mergewrecks)
+vehicle* VehicleFactory::add_vehicle(map& m, const std::string &vehicle_id, const point &p, const int facing, const int fuel, const int status, const bool mergewrecks)
 {
-    return m->add_vehicle(groups.count(vehicle_id) > 0 ? groups[vehicle_id].pick() : vehicle_id,
+    return m.add_vehicle(groups.count(vehicle_id) > 0 ? groups[vehicle_id].pick() : vehicle_id,
         p.x, p.y, facing, fuel, status, mergewrecks);
 }
 
@@ -142,10 +142,10 @@ void VehicleFactory::load_vehicle_spawn(JsonObject &jo)
     spawns[spawn_id] = spawn;
 }
 
-void VehicleFactory::builtin_no_vehicles(map*, const std::string&)
+void VehicleFactory::builtin_no_vehicles(map&, const std::string&)
 {}
 
-void VehicleFactory::builtin_jackknifed_semi(map* m, const std::string &terrainid)
+void VehicleFactory::builtin_jackknifed_semi(map& m, const std::string &terrainid)
 {
     const VehicleLocation* loc = vehicle_controller->pick_location(terrainid+"_semi");
     if(! loc) {
@@ -175,7 +175,7 @@ void VehicleFactory::builtin_jackknifed_semi(map* m, const std::string &terraini
     vehicle_controller->add_vehicle(m, "truck_trailer", trailer_p, (facing + 90) % 360, -1, 1);
 }
 
-void VehicleFactory::builtin_pileup(map* m, const std::string&)
+void VehicleFactory::builtin_pileup(map& m, const std::string&)
 {
     vehicle *last_added_car = NULL;
     int num_cars = rng(18, 22);
@@ -196,7 +196,7 @@ void VehicleFactory::builtin_pileup(map* m, const std::string&)
     }
 }
 
-void VehicleFactory::builtin_policepileup(map* m, const std::string&)
+void VehicleFactory::builtin_policepileup(map& m, const std::string&)
 {
     vehicle *last_added_car = NULL;
     int num_cars = rng(18, 22);

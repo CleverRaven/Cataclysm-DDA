@@ -80,17 +80,17 @@ struct VehiclePlacement {
 class VehicleFunction {
 public:
     virtual ~VehicleFunction() { }
-    virtual void apply(map* m, const std::string &terrainid) const = 0;
+    virtual void apply(map& m, const std::string &terrainid) const = 0;
 };
 
-typedef void (*vehicle_gen_pointer)(map *m, const std::string &terrainid);
+typedef void (*vehicle_gen_pointer)(map &m, const std::string &terrainid);
 
 class VehicleFunction_builtin : public VehicleFunction {
 public:
     VehicleFunction_builtin(const vehicle_gen_pointer &func) : func(func) {}
     ~VehicleFunction_builtin() { }
 
-    void apply(map* m, const std::string &terrainid) const override {
+    void apply(map& m, const std::string &terrainid) const override {
         func(m, terrainid);
     }
 
@@ -103,7 +103,7 @@ public:
     VehicleFunction_json(JsonObject &jo);
     ~VehicleFunction_json() { }
 
-    void apply(map* m, const std::string &terrain_name) const override;
+    void apply(map& m, const std::string &terrain_name) const override;
 
 private:
     std::string vehicle;
@@ -146,7 +146,7 @@ public:
      * @param spawn_id The id of the vehicle spawn to invoke.
      * @param m The map on which to add the vehicle.
      */
-    void vehicle_spawn(map* m, const std::string &spawn_id, const std::string &terrain_name);
+    void vehicle_spawn(map& m, const std::string &spawn_id, const std::string &terrain_name);
 
     /**
      * This is a wrapper for map->add_vehicle that will handle vehicle groups.
@@ -159,7 +159,7 @@ public:
      * @param status The vehicle's status.
      * @param mergewreck optional.
     */
-    vehicle* add_vehicle(map* m, const std::string &vehicle_id, const point &p, const int facing, const int fuel, const int status, const bool mergewrecks = true);
+    vehicle* add_vehicle(map& m, const std::string &vehicle_id, const point &p, const int facing, const int fuel, const int status, const bool mergewrecks = true);
 
     /**
      * This will randomly select one of the locations from a vehicle placement
@@ -191,10 +191,10 @@ public:
 
 private:
     // builtin functions
-    static void builtin_no_vehicles(map* m, const std::string &terrainid);
-    static void builtin_jackknifed_semi(map* m, const std::string &terrainid);
-    static void builtin_pileup(map* m, const std::string &terrainid);
-    static void builtin_policepileup(map* m, const std::string &terrainid);
+    static void builtin_no_vehicles(map& m, const std::string &terrainid);
+    static void builtin_jackknifed_semi(map& m, const std::string &terrainid);
+    static void builtin_pileup(map& m, const std::string &terrainid);
+    static void builtin_policepileup(map& m, const std::string &terrainid);
 
     typedef std::map<Vehicle_tag, VehicleGroup> GroupMap;
     GroupMap groups;
