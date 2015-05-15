@@ -2413,7 +2413,7 @@
   ],
   "components": [
     [ [ "water", 4 ], [ "water_clean", 4 ] ],
-    [ [ "meal_bone", 2 ], [ "meal_bone_tainted", 4 ] ],
+    [ [ "meal_bone", 2 ] ],
     [ [ "meal_chitin_piece", 1 ] ],
     [ [ "ammonia", 1 ], [ "lye_powder", 100 ] ]
   ]
