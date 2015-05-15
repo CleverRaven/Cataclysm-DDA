@@ -297,7 +297,7 @@ const vehicle_prototype &string_id<vehicle_prototype>::obj() const
     const auto iter = vtypes.find( *this );
     if( iter == vtypes.end() ) {
         debugmsg( "invalid vehicle prototype id %s", c_str() );
-        static const vehicle_prototype dummy;
+        static const vehicle_prototype dummy{};
         return dummy;
     }
     return iter->second;
