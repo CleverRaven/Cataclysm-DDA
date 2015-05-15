@@ -2095,17 +2095,19 @@ void game::rcdrive(int dx, int dy)
     }
     item *rc_car = rc_pair->second;
 
-    if( m.move_cost(cx + dx, cy + dy) == 0 || !m.can_put_items(cx + dx, cy + dy) ||
-        m.has_furn(cx + dx, cy + dy) ) {
-        sounds::sound(cx + dx, cy + dy, 7, _("sound of a collision with an obstacle."));
+    tripoint src( cx, cy, cz );
+    tripoint dest( cx + dx, cy + dy, cz );
+    if( m.move_cost(dest) == 0 || !m.can_put_items(dest) ||
+        m.has_furn(dest) ) {
+        sounds::sound(dest, 7, _("sound of a collision with an obstacle."));
         return;
-    } else if( m.add_item_or_charges(cx + dx, cy + dy, *rc_car ) ) {
+    } else if( m.add_item_or_charges(dest, *rc_car ) ) {
         //~ Sound of moving a remote controlled car
-        sounds::sound(cx, cy, 6, _("zzz..."));
+        sounds::sound(src, 6, _("zzz..."));
         u.moves -= 50;
-        m.i_rem( cx, cy, rc_car );
+        m.i_rem( src, rc_car );
         car_location_string.clear();
-        car_location_string << cx + dx << ' ' << cy + dy << ' ' << cz;
+        car_location_string << dest.x << ' ' << dest.y << ' ' << dest.z;
         u.set_value( "remote_controlling", car_location_string.str() );
         return;
     }
@@ -6067,7 +6069,7 @@ void game::flashbang( const tripoint &p, bool player_immune)
             }
         }
     }
-    sounds::sound( p.x, p.y, 12, _("a huge boom!"));
+    sounds::sound( p, 12, _("a huge boom!"));
     // TODO: Blind/deafen NPC
 }
 
@@ -6076,7 +6078,7 @@ void game::shockwave( const tripoint &p, int radius, int force, int stun, int da
 {
     draw_explosion( p, radius, c_blue );
 
-    sounds::sound( p.x, p.y, force * force * dam_mult / 2, _("Crack!") );
+    sounds::sound( p, force * force * dam_mult / 2, _("Crack!") );
     for (size_t i = 0; i < num_zombies(); i++) {
         monster &critter = critter_tracker.find(i);
         if( rl_dist( critter.pos3(), p ) <= radius ) {
@@ -6486,7 +6488,7 @@ void game::resonance_cascade( const tripoint &p )
                             break;
                         }
                         if (!one_in(3)) {
-                            m.add_field( k, l, type, 3);
+                            m.add_field( {k, l, p.z}, type, 3, 0 );
                         }
                     }
                 }
@@ -11671,7 +11673,7 @@ bool game::plmove(int dx, int dy)
         u.set_underwater(false);
 
         //Ask for EACH bad field, maybe not? Maybe say "theres X bad shit in there don't do it."
-        const field &tmpfld = m.field_at(x, y);
+        const field &tmpfld = m.field_at(dest_loc);
         for( auto &fld : tmpfld ) {
             const field_entry &cur = fld.second;
             field_id curType = cur.getFieldType();
@@ -11761,7 +11763,7 @@ bool game::plmove(int dx, int dy)
                         str_req++;
                         //if vehicle has no wheels str_req make a noise.
                         if (str_req <= u.get_str() ) {
-                            sounds::sound( grabbed_vehicle->global_x(), grabbed_vehicle->global_y(), str_req * 2,
+                            sounds::sound( grabbed_vehicle->global_pos3(), str_req * 2,
                                 _("a scraping noise."));
                         }
                     }
@@ -11960,7 +11962,7 @@ bool game::plmove(int dx, int dy)
                             }
                         }
                     }
-                    sounds::sound(x, y, furntype.move_str_req * 2, _("a scraping noise."));
+                    sounds::sound(fdest, furntype.move_str_req * 2, _("a scraping noise."));
 
                     m.furn_set(fdest, m.furn(fpos));    // finally move it.
                     m.furn_set(fpos, f_null);
@@ -12095,13 +12097,13 @@ bool game::plmove(int dx, int dy)
         if (!u.has_artifact_with(AEP_STEALTH) && !u.has_trait("LEG_TENTACLES") &&
             !u.has_trait("DEBUG_SILENT")) {
             if (u.has_trait("LIGHTSTEP") || u.is_wearing("rm13_armor_on")) {
-                sounds::sound(x, y, 2, "");    // Sound of footsteps may awaken nearby monsters
+                sounds::sound(dest_loc, 2, "");    // Sound of footsteps may awaken nearby monsters
             } else if (u.has_trait("CLUMSY")) {
-                sounds::sound(x, y, 10, "");
+                sounds::sound(dest_loc, 10, "");
             } else if (u.has_bionic("bio_ankles")) {
-                sounds::sound(x, y, 12, "");
+                sounds::sound(dest_loc, 12, "");
             } else {
-                sounds::sound(x, y, 6, "");
+                sounds::sound(dest_loc, 6, "");
             }
         }
         if (one_in(20) && u.has_artifact_with(AEP_MOVEMENT_NOISE)) {
@@ -12607,8 +12609,7 @@ void game::vertical_move(int movez, bool force)
             u.oxygen = 30 + 2 * u.str_cur;
             add_msg(_("You dive underwater!"));
         } else {
-            if (u.swim_speed() < 500 || u.shoe_type_count("swim_fins") == 2 ||
-                  (u.shoe_type_count("swim_fins") == 1 && one_in(2))) {
+            if( u.swim_speed() < 500 || u.shoe_type_count("swim_fins") ) {
                 u.set_underwater(false);
                 add_msg(_("You surface."));
             } else {
@@ -13107,7 +13108,7 @@ void game::update_stair_monsters()
 
             add_msg(m_warning, dump.str().c_str());
         } else {
-            sounds::sound(mposx, mposy, 5, _("a sound nearby from the stairs!"));
+            sounds::sound({mposx, mposy, g->get_levz()}, 5, _("a sound nearby from the stairs!"));
         }
 
         if( critter.staircount > 0 ) {
@@ -13488,7 +13489,7 @@ void game::nuke( const tripoint &p )
                 tmpmap.make_rubble( dest, f_rubble_rock, true, t_dirt, true);
             }
             if (one_in(3)) {
-                tmpmap.add_field(i, j, fd_nuke_gas, 3);
+                tmpmap.add_field( dest, fd_nuke_gas, 3, 0 );
             }
             tmpmap.adjust_radiation( dest, rng(20, 80));
         }

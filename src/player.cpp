@@ -789,7 +789,7 @@ void player::update_bodytemp()
     int Ctemperature = 100 * (g->get_temperature() - 32) * 5 / 9;
     w_point const weather = g->weatherGen.get_weather( global_square_location(), calendar::turn );
     int vpart = -1;
-    vehicle *veh = g->m.veh_at( posx(), posy(), vpart );
+    vehicle *veh = g->m.veh_at( pos(), vpart );
     int vehwindspeed = 0;
     if( veh ) {
         vehwindspeed = abs(veh->velocity / 100); // vehicle velocity in mph
@@ -803,9 +803,9 @@ void player::update_bodytemp()
     int ambient_norm = (has_effect("sleep") ? 3100 : 1900);
     // This gets incremented in the for loop and used in the morale calculation
     int morale_pen = 0;
-    const trap &trap_at_pos = g->m.tr_at(posx(), posy());
-    const ter_id ter_at_pos = g->m.ter(posx(), posy());
-    const furn_id furn_at_pos = g->m.furn(posx(), posy());
+    const trap &trap_at_pos = g->m.tr_at(pos());
+    const ter_id ter_at_pos = g->m.ter(pos());
+    const furn_id furn_at_pos = g->m.furn(pos());
     // When the player is sleeping, he will use floor items for warmth
     int floor_item_warmth = 0;
     // When the player is sleeping, he will use floor bedding for warmth
@@ -814,7 +814,7 @@ void player::update_bodytemp()
     int floor_mut_warmth = 0;
     if( in_sleep_state() ) {
         // Search the floor for items
-        auto floor_item = g->m.i_at(posx(), posy());
+        auto floor_item = g->m.i_at(pos());
 
         for( auto &elem : floor_item ) {
             if( !elem.is_armor() ) {
@@ -949,17 +949,18 @@ void player::update_bodytemp()
         int best_fire = 0;
         for (int j = -6 ; j <= 6 ; j++) {
             for (int k = -6 ; k <= 6 ; k++) {
+                tripoint dest( posx() + j, posy() + k, posz() );
                 int heat_intensity = 0;
 
-                int ffire = g->m.get_field_strength( point(posx() + j, posy() + k), fd_fire );
+                int ffire = g->m.get_field_strength( dest, fd_fire );
                 if(ffire > 0) {
                     heat_intensity = ffire;
-                } else if (g->m.tr_at(posx() + j, posy() + k).loadid == tr_lava ) {
+                } else if (g->m.tr_at( dest ).loadid == tr_lava ) {
                     heat_intensity = 3;
                 }
-                int t;
+                int t1, t2;
                 if( heat_intensity > 0 &&
-                    g->m.sees( posx(), posy(), posx() + j, posy() + k, -1, t ) ) {
+                    g->m.sees( pos(), dest, -1, t1, t2 ) ) {
                     // Ensure fire_dist >= 1 to avoid divide-by-zero errors.
                     int fire_dist = std::max(1, std::max( std::abs( j ), std::abs( k ) ) );
                     if (frostbite_timer[i] > 0) {
@@ -5652,9 +5653,9 @@ bool player::siphon(vehicle *veh, ammotype desired_liquid)
 void player::cough(bool harmful, int loudness) {
     if (!is_npc()) {
         add_msg(m_bad, _("You cough heavily."));
-        sounds::sound(posx(), posy(), loudness, "");
+        sounds::sound(pos(), loudness, "");
     } else {
-        sounds::sound(posx(), posy(), loudness, _("a hacking cough."));
+        sounds::sound(pos(), loudness, _("a hacking cough."));
     }
     moves -= 80;
     if (harmful && !one_in(4)) {
@@ -6174,7 +6175,7 @@ void player::hardcoded_effects(effect &it)
                                            _("<npcname> loses some blood.") );
             mod_pain(1);
             apply_damage( nullptr, bp, 1 );
-            g->m.add_field(posx(), posy(), playerBloodType(), 1);
+            g->m.add_field( pos(), playerBloodType(), 1, 0 );
         }
     } else if (id == "hallu") {
         // TODO: Redo this to allow for variable durations
@@ -6231,7 +6232,7 @@ void player::hardcoded_effects(effect &it)
                 int loudness = 20 + str_cur - int_cur;
                 loudness = (loudness > 5 ? loudness : 5);
                 loudness = (loudness < 30 ? loudness : 30);
-                sounds::sound(posx(), posy(), loudness, npcText);
+                sounds::sound( pos(), loudness, npcText);
             }
         } else if (dur == peakTime) {
             // Visuals start
@@ -7341,7 +7342,7 @@ void player::hardcoded_effects(effect &it)
                         it.mod_duration(100);
                     }
                 } else {
-                    sounds::sound(posx(), posy(), 12, _("beep-beep-beep!"));
+                    sounds::sound( pos(), 12, _("beep-beep-beep!"));
                     if( !can_hear( pos(), 12 ) ) {
                         // 10 minute automatic snooze
                         it.mod_duration(100);
@@ -7447,7 +7448,7 @@ void player::suffer()
 
     if(has_active_mutation("WINGS_INSECT")){
         //~Sound of buzzing Insect Wings
-        sounds::sound(posx(), posy(), 10, "BZZZZZ");
+        sounds::sound( pos(), 10, "BZZZZZ");
     }
 
     double shoe_factor = footwear_factor();
@@ -7639,7 +7640,7 @@ void player::suffer()
                     break;
                 case 9:
                     add_msg(m_bad, _("You have the sudden urge to SCREAM!"));
-                    sounds::sound(posx(), posy(), 10 + 2 * str_cur, "AHHHHHHH!");
+                    sounds::sound( pos(), 10 + 2 * str_cur, "AHHHHHHH!");
                     break;
                 case 10:
                     add_msg(std::string(name + name + name + name + name + name + name +
@@ -7672,13 +7673,13 @@ void player::suffer()
             vomit();
         }
         if (has_trait("SHOUT1") && one_in(3600)) {
-            sounds::sound(posx(), posy(), 10 + 2 * str_cur, _("You shout loudly!"));
+            sounds::sound( pos(), 10 + 2 * str_cur, _("You shout loudly!"));
         }
         if (has_trait("SHOUT2") && one_in(2400)) {
-            sounds::sound(posx(), posy(), 15 + 3 * str_cur, _("You scream loudly!"));
+            sounds::sound( pos(), 15 + 3 * str_cur, _("You scream loudly!"));
         }
         if (has_trait("SHOUT3") && one_in(1800)) {
-            sounds::sound(posx(), posy(), 20 + 4 * str_cur, _("You let out a piercing howl!"));
+            sounds::sound( pos(), 20 + 4 * str_cur, _("You let out a piercing howl!"));
         }
         if (has_trait("M_SPORES") && one_in(2400)) {
             spores();
@@ -7799,20 +7800,20 @@ void player::suffer()
     }
 
     if (has_trait("SLIMY") && !in_vehicle) {
-        g->m.add_field(posx(), posy(), fd_slime, 1);
+        g->m.add_field( pos(), fd_slime, 1, 0 );
     }
         //Web Weavers...weave web
     if (has_active_mutation("WEB_WEAVER") && !in_vehicle) {
-      g->m.add_field(posx(), posy(), fd_web, 1); //this adds density to if its not already there.
+      g->m.add_field( pos(), fd_web, 1, 0 ); //this adds density to if its not already there.
 
      }
 
     if (has_trait("VISCOUS") && !in_vehicle) {
         if (one_in(3)){
-            g->m.add_field(posx(), posy(), fd_slime, 1);
+            g->m.add_field( pos(), fd_slime, 1, 0 );
         }
         else {
-            g->m.add_field(posx(), posy(), fd_slime, 2);
+            g->m.add_field( pos(), fd_slime, 2, 0 );
         }
     }
 
@@ -7836,7 +7837,7 @@ void player::suffer()
     }
 
     if (has_trait("WEB_SPINNER") && !in_vehicle && one_in(3)) {
-        g->m.add_field(posx(), posy(), fd_web, 1); //this adds density to if its not already there.
+        g->m.add_field( pos(), fd_web, 1, 0 ); //this adds density to if its not already there.
     }
 
     if( has_trait("RADIOGENIC") && int(calendar::turn) % MINUTES(30) == 0 && radiation > 0 ) {
@@ -8060,7 +8061,7 @@ void player::suffer()
         } else {
             add_msg(m_bad, _("A bionic shudders, but you hear nothing."));
         }
-        sounds::sound(posx(), posy(), 60, "");
+        sounds::sound( pos(), 60, "");
     }
     if (has_bionic("bio_power_weakness") && max_power_level > 0 &&
         power_level >= max_power_level * .75) {
@@ -11700,10 +11701,10 @@ bool player::try_study_recipe( const itype &book )
 void player::try_to_sleep()
 {
     int vpart = -1;
-    vehicle *veh = g->m.veh_at (posx(), posy(), vpart);
-    const trap &trap_at_pos = g->m.tr_at(posx(), posy());
-    const ter_id ter_at_pos = g->m.ter(posx(), posy());
-    const furn_id furn_at_pos = g->m.furn(posx(), posy());
+    vehicle *veh = g->m.veh_at (pos(), vpart);
+    const trap &trap_at_pos = g->m.tr_at(pos());
+    const ter_id ter_at_pos = g->m.ter(pos());
+    const furn_id furn_at_pos = g->m.furn(pos());
     bool plantsleep = false;
     bool websleep = false;
     bool webforce = false;
@@ -11741,7 +11742,7 @@ void player::try_to_sleep()
             }
             else if (web > 0) {
                 add_msg(m_info, _("You try to sleep, but the webs get in the way.  You brush them aside."));
-                g->m.remove_field( posx(), posy(), fd_web );
+                g->m.remove_field( pos(), fd_web );
             }
         } else {
             // Here, you're just not comfortable outside a nice thick web.
@@ -13732,7 +13733,7 @@ std::vector<std::string> player::get_overlay_ids() const {
 
 void player::spores()
 {
-    sounds::sound(posx(), posy(), 10, _("Pouf!")); //~spore-release sound
+    sounds::sound( pos(), 10, _("Pouf!")); //~spore-release sound
     int sporex, sporey;
     int mondex;
     for (int i = -1; i <= 1; i++) {
@@ -13769,10 +13770,13 @@ void player::spores()
 void player::blossoms()
 {
     // Player blossoms are shorter-ranged, but you can fire much more frequently if you like.
-    sounds::sound(posx(), posy(), 10, _("Pouf!"));
-     for (int i = posx() - 2; i <= posx() + 2; i++) {
-        for (int j = posy() - 2; j <= posy() + 2; j++) {
-            g->m.add_field( i, j, fd_fungal_haze, rng(1, 2));
+    sounds::sound( pos(), 10, _("Pouf!"));
+    tripoint tmp = pos();
+    int &i = tmp.x;
+    int &j = tmp.y;
+    for ( i = posx() - 2; i <= posx() + 2; i++) {
+        for ( j = posy() - 2; j <= posy() + 2; j++) {
+            g->m.add_field( tmp, fd_fungal_haze, rng(1, 2), 0 );
         }
     }
 }

@@ -153,7 +153,7 @@ iuse_actor *explosion_iuse::clone() const
 }
 
 // defined in iuse.cpp
-extern std::vector<point> points_for_gas_cloud(const tripoint &center, int radius);
+extern std::vector<tripoint> points_for_gas_cloud(const tripoint &center, int radius);
 
 void explosion_iuse::load( JsonObject &obj )
 {
@@ -184,7 +184,7 @@ long explosion_iuse::use(player *p, item *it, bool t, const tripoint &pos) const
 {
     if (t) {
         if (sound_volume >= 0) {
-            sounds::sound(pos.x, pos.y, sound_volume, sound_msg);
+            sounds::sound(pos, sound_volume, sound_msg);
         }
         return 0;
     }
@@ -207,7 +207,7 @@ long explosion_iuse::use(player *p, item *it, bool t, const tripoint &pos) const
         g->flashbang( pos, flashbang_player_immune);
     }
     if (fields_radius >= 0 && fields_type != fd_null) {
-        std::vector<point> gas_sources = points_for_gas_cloud(pos, fields_radius);
+        std::vector<tripoint> gas_sources = points_for_gas_cloud(pos, fields_radius);
         for( auto &gas_source : gas_sources ) {
             const int dens = rng(fields_min_density, fields_max_density);
             g->m.add_field( gas_source, fields_type, dens, 1 );
@@ -387,7 +387,7 @@ long consume_drug_iuse::use(player *p, item *it, bool, const tripoint& ) const
     for( auto field = fields_produced.cbegin(); field != fields_produced.cend(); ++field ) {
         const field_id fid = field_from_ident( field->first );
         for(int i = 0; i < 3; i++) {
-            g->m.add_field(p->posx() + int(rng(-2, 2)), p->posy() + int(rng(-2, 2)), fid, field->second);
+            g->m.add_field({p->posx() + int(rng(-2, 2)), p->posy() + int(rng(-2, 2)), p->posz()}, fid, field->second, 0);
         }
     }
     // Output message.
@@ -1448,7 +1448,7 @@ long fireweapon_off_actor::use( player *p, item *it, bool t, const tripoint& ) c
     if( rng( 0, 10 ) - it->damage > success_chance &&
           it->charges > 0 && !p->is_underwater() ) {
         if( noise > 0 ) {
-            sounds::sound( p->posx(), p->posy(), noise, _(success_message.c_str()) );
+            sounds::sound( p->pos(), noise, _(success_message.c_str()) );
         } else {
             p->add_msg_if_player( _(success_message.c_str()) );
         }
@@ -1511,7 +1511,7 @@ long fireweapon_on_actor::use( player *p, item *it, bool t, const tripoint& ) co
         it->make( tool->revert_to );
     } else if( one_in( noise_chance ) ) {
         if( noise > 0 ) {
-            sounds::sound( p->posx(), p->posy(), noise, _(noise_message.c_str()) );
+            sounds::sound( p->pos(), noise, _(noise_message.c_str()) );
         } else {
             p->add_msg_if_player( _(noise_message.c_str()) );
         }
@@ -1595,7 +1595,7 @@ long musical_instrument_actor::use( player *p, item *it, bool t, const tripoint&
         desc = _("You produce an annoying sound");
     }
 
-    sounds::ambient_sound( p->posx(), p->posy(), volume, desc );
+    sounds::ambient_sound( p->pos(), volume, desc );
 
     if( !p->has_effect( "music" ) && p->can_hear( p->pos(), volume ) ) {
         p->add_effect( "music", 1 );

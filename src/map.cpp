@@ -2622,10 +2622,13 @@ void map::smash_items(const tripoint &p, const int power)
         while(x_in_y(damage_chance, material_factor) && i->damage < 4) {
             i->damage++;
             if (type_blood != fd_null) {
-                for (int x = p.x - 1; x <= p.x + 1; x++ ) {
-                    for (int y = p.y - 1; y <= p.y + 1; y++ ) {
+                tripoint tmp = p;
+                int &x = tmp.x;
+                int &y = tmp.y;
+                for( x = p.x - 1; x <= p.x + 1; x++ ) {
+                    for( y = p.y - 1; y <= p.y + 1; y++ ) {
                         if( !one_in(damage_chance) ) {
-                            g->m.add_field(x, y, type_blood, 1);
+                            g->m.add_field( tmp, type_blood, 1, 0 );
                         }
                     }
                 }
@@ -4508,7 +4511,7 @@ static bool trigger_radio_item( item_stack &items, std::list<item>::iterator &n,
     bool trigger_item = false;
     // Check for charges != 0 not >0, so that -1 charge tools can still be used
     if( n->charges != 0 && n->has_flag("RADIO_ACTIVATION") && n->has_flag(signal) ) {
-        sounds::sound(pos.x, pos.y, 6, "beep.");
+        sounds::sound(pos, 6, "beep.");
         if( n->has_flag("RADIO_INVOKE_PROC") ) {
             // Invoke twice: first to transform, then later to proc
             process_item( items, n, pos, true );
@@ -4560,21 +4563,9 @@ item *map::item_from( vehicle *veh, int cargo_part, size_t index ) {
     }
 }
 
-// Traps: 2D
-void map::trap_set(const int x, const int y, const trap_id id)
-{
-    trap_set( tripoint( x, y, abs_sub.z ), id );
-}
-
 void map::trap_set( const tripoint &p, const trap_id id)
 {
     add_trap( p, id );
-}
-
-// todo: to be consistent with ???_at(...) this should return ref to the actual trap object
-const trap &map::tr_at( const int x, const int y ) const
-{
-    return tr_at( tripoint( x, y, abs_sub.z ) );
 }
 
 const trap &map::tr_at( const tripoint &p ) const
@@ -4591,11 +4582,6 @@ const trap &map::tr_at( const tripoint &p ) const
     }
 
     return current_submap->get_trap( lx, ly ).obj();
-}
-
-void map::add_trap(const int x, const int y, const trap_id t)
-{
-    add_trap( tripoint( x, y, abs_sub.z ), t );
 }
 
 void map::add_trap( const tripoint &p, const trap_id t)
@@ -4623,11 +4609,6 @@ void map::add_trap( const tripoint &p, const trap_id t)
     if( t != tr_null ) {
         traplocs[t].push_back( p );
     }
-}
-
-void map::disarm_trap( const int x, const int y )
-{
-    disarm_trap( tripoint( x, y, abs_sub.z ) );
 }
 
 void map::disarm_trap( const tripoint &p )
@@ -4674,11 +4655,6 @@ void map::disarm_trap( const tripoint &p )
             g->u.practice( "traps", 2*diff );
         }
     }
-}
-
-void map::remove_trap(const int x, const int y)
-{
-    remove_trap( tripoint( x, y, abs_sub.z ) );
 }
 
 void map::remove_trap( const tripoint &p )
@@ -4802,10 +4778,6 @@ field_entry *map::get_field( const tripoint &p, const field_id t ) {
     submap *const current_submap = get_submap_at( p, lx, ly );
 
     return current_submap->fld[lx][ly].findField( t );
-}
-
-field_entry *map::get_field( const point pnt, const field_id t ) {
-    return get_field( tripoint( pnt, abs_sub.z ), t );
 }
 
 bool map::add_field(const tripoint &p, const field_id t, int density, const int age)
@@ -7249,52 +7221,6 @@ void map::add_road_vehicles(bool city, int facing)
             }
         }
     }
-}
-
-// 2D overloads for fields
-const field &map::field_at( const int x, const int y ) const
-{
-    return field_at( tripoint( x, y, abs_sub.z ) );
-}
-
-int map::get_field_strength( const point p, const field_id t ) const
-{
-    return get_field_strength( tripoint( p, abs_sub.z ), t );
-}
-
-int map::adjust_field_age( const point p, const field_id t, const int offset )
-{
-    return adjust_field_age( tripoint( p, abs_sub.z ), t, offset );
-}
-
-int map::adjust_field_strength( const point p, const field_id t, const int offset )
-{
-    return adjust_field_strength( tripoint( p, abs_sub.z ), t, offset );
-}
-
-int map::set_field_age( const point p, const field_id t, const int age, bool isoffset )
-{
-    return set_field_age( tripoint( p, abs_sub.z ), t, age, isoffset );
-}
-
-int map::set_field_strength( const point p, const field_id t, const int str, bool isoffset )
-{
-    return set_field_strength( tripoint( p, abs_sub.z ), t, str, isoffset );
-}
-
-bool map::add_field(const point p, const field_id t, const int density, const int age)
-{
-    return add_field( tripoint( p, abs_sub.z ), t, density, age );
-}
-
-bool map::add_field(const int x, const int y, const field_id t, const int density)
-{
-    return add_field( tripoint( x, y, abs_sub.z ), t, density, 0 );
-}
-
-void map::remove_field( const int x, const int y, const field_id field_to_remove )
-{
-    remove_field( tripoint( x, y, abs_sub.z ), field_to_remove );
 }
 
 field &map::get_field( const tripoint &p )

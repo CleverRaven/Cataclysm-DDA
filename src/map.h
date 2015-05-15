@@ -775,13 +775,6 @@ void add_corpse( const tripoint &p );
   */
  item *item_from( vehicle *veh, const int cargo_part, const size_t index );
 
-// Traps: 2D overloads
- void trap_set(const int x, const int y, const trap_id id);
-
-    const trap & tr_at( const int x, const int y ) const;
- void add_trap(const int x, const int y, const trap_id t);
- void disarm_trap( const int x, const int y);
- void remove_trap(const int x, const int y);
 // Traps: 3D
  void trap_set( const tripoint &p, const trap_id id);
 
@@ -791,18 +784,6 @@ void add_corpse( const tripoint &p );
  void remove_trap( const tripoint &p );
  const std::vector<tripoint> &trap_locations(trap_id t) const;
 
-// Fields: 2D overloads that will later be slowly phased out
-        const field& field_at( const int x, const int y ) const;
-        int get_field_strength( const point p, const field_id t ) const;
-        int adjust_field_age( const point p, const field_id t, const int offset );
-        int adjust_field_strength( const point p, const field_id t, const int offset );
-        int set_field_age( const point p, const field_id t, const int age, bool isoffset = false );
-        int set_field_strength( const point p, const field_id t, const int str, bool isoffset = false );
-        field_entry * get_field( const point p, const field_id t );
-        bool add_field(const point p, const field_id t, const int density, const int age);
-        bool add_field(const int x, const int y, const field_id t, const int density);
-        void remove_field( const int x, const int y, const field_id field_to_remove );
-// End of 2D overload block
  bool process_fields(); // See fields.cpp
  bool process_fields_in_submap( submap * const current_submap,
                                 const int submap_x, const int submap_y, const int submap_z); // See fields.cpp

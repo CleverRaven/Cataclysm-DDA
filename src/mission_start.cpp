@@ -10,6 +10,8 @@
 #include "translations.h"
 #include "overmap.h"
 #include "trap.h"
+// TODO: Remove this include once 2D wrappers are no longer needed
+#include "mapgen_functions.h"
 /* These functions are responsible for making changes to the game at the moment
  * the mission is accepted by the player.  They are also responsible for
  * updating *miss with the target and any other important information.
@@ -182,9 +184,9 @@ void mission_start::place_caravan_ambush( mission *miss )
     bay.spawn_item( SEEX - 1, SEEY - 5, "rock" );
     bay.spawn_item( SEEX, SEEY - 5, "rock" );
     bay.spawn_item( SEEX + 1, SEEY - 5, "rock" );
-    bay.trap_set( SEEX + 3, SEEY - 5, tr_rollmat );
-    bay.trap_set( SEEX, SEEY - 7, tr_rollmat );
-    bay.trap_set( SEEX - 3, SEEY - 4, tr_fur_rollmat );
+    bay.trap_set( {SEEX + 3, SEEY - 5, site.z}, tr_rollmat );
+    bay.trap_set( {SEEX, SEEY - 7, site.z}, tr_rollmat );
+    bay.trap_set( {SEEX - 3, SEEY - 4, site.z}, tr_fur_rollmat );
     bay.spawn_item( SEEX + rng( -6, 6 ), SEEY + rng( -9, 3 ), "can_beans" );
     bay.spawn_item( SEEX + rng( -6, 6 ), SEEY + rng( -9, 3 ), "beer" );
     bay.spawn_item( SEEX + rng( -6, 6 ), SEEY + rng( -9, 3 ), "beer" );
@@ -200,13 +202,13 @@ void mission_start::place_caravan_ambush( mission *miss )
     bay.spawn_item( SEEX + rng( -2, 3 ), SEEY + rng( 3, 6 ), "9mm_casing", 1, 1, 0, 0, true );
     bay.add_corpse( tripoint( SEEX + 1, SEEY + 7, bay.get_abs_sub().z ) );
     bay.add_corpse( tripoint( SEEX, SEEY + 8, bay.get_abs_sub().z ) );
-    bay.add_field( SEEX, SEEY + 7, fd_blood, 1 );
-    bay.add_field( SEEX + 2, SEEY + 7, fd_blood, 1 );
-    bay.add_field( SEEX - 1, SEEY + 8, fd_blood, 1 );
-    bay.add_field( SEEX + 1, SEEY + 8, fd_blood, 1 );
-    bay.add_field( SEEX + 2, SEEY + 8, fd_blood, 1 );
-    bay.add_field( SEEX + 1, SEEY + 9, fd_blood, 1 );
-    bay.add_field( SEEX, SEEY + 9, fd_blood, 1 );
+    madd_field( &bay, SEEX, SEEY + 7, fd_blood, 1 );
+    madd_field( &bay, SEEX + 2, SEEY + 7, fd_blood, 1 );
+    madd_field( &bay, SEEX - 1, SEEY + 8, fd_blood, 1 );
+    madd_field( &bay, SEEX + 1, SEEY + 8, fd_blood, 1 );
+    madd_field( &bay, SEEX + 2, SEEY + 8, fd_blood, 1 );
+    madd_field( &bay, SEEX + 1, SEEY + 9, fd_blood, 1 );
+    madd_field( &bay, SEEX, SEEY + 9, fd_blood, 1 );
     bay.place_npc( SEEX + 3, SEEY - 5, "bandit" );
     bay.place_npc( SEEX, SEEY - 7, "thug" );
     miss->target_npc_id = bay.place_npc( SEEX - 3, SEEY - 4, "bandit" );
@@ -218,10 +220,10 @@ void mission_start::place_bandit_cabin( mission *miss )
     tripoint site = target_om_ter_random( "bandit_cabin", 1, miss, false );
     tinymap cabin;
     cabin.load( site.x * 2, site.y * 2, site.z, false );
-    cabin.trap_set( SEEX - 5, SEEY - 6, tr_landmine_buried );
-    cabin.trap_set( SEEX - 7, SEEY - 7, tr_landmine_buried );
-    cabin.trap_set( SEEX - 4, SEEY - 7, tr_landmine_buried );
-    cabin.trap_set( SEEX - 12, SEEY - 1, tr_landmine_buried );
+    cabin.trap_set( {SEEX - 5, SEEY - 6, site.z}, tr_landmine_buried );
+    cabin.trap_set( {SEEX - 7, SEEY - 7, site.z}, tr_landmine_buried );
+    cabin.trap_set( {SEEX - 4, SEEY - 7, site.z}, tr_landmine_buried );
+    cabin.trap_set( {SEEX - 12, SEEY - 1, site.z}, tr_landmine_buried );
     miss->target_npc_id = cabin.place_npc( SEEX, SEEY, "bandit" );
     cabin.save();
 }

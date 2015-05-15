@@ -661,11 +661,11 @@ void mapgen_forest_general(map *m, oter_id terrain_type, mapgendata dat, int tur
                 }
             }
         }
-        int rn = rng(0, 2) * rng(0, 1) * (rng(0, 1) + rng(0, 1));// Good chance of 0
+        int rn = rng(0, 2) * rng(0, 1) + rng(0, 1);// Good chance of 0
         for (int i = 0; i < rn; i++) {
             x = rng(0, SEEX * 2 - 1);
             y = rng(0, SEEY * 2 - 1);
-            m->add_trap(x, y, tr_sinkhole);
+            madd_trap( m, x, y, tr_sinkhole);
             if (m->ter(x, y) != t_swater_sh && m->ter(x, y) != t_water_sh) {
                 m->ter_set(x, y, dat.groundcover());
             }
@@ -689,13 +689,13 @@ void mapgen_forest_general(map *m, oter_id terrain_type, mapgendata dat, int tur
             for (int j = 0; j < SEEX * 2; j++) {
                 if ((dat.is_groundcover( m->ter(i, j) ) ||
                      m->ter(i, j) == t_underbrush) && !one_in(3)) {
-                    m->add_field(i, j, fd_web, rng(1, 3));
+                    madd_field( m, i, j, fd_web, rng(1, 3));
                 }
             }
         }
         m->ter_set( 12, 12, t_dirt );
         m->furn_set(12, 12, f_egg_sackws);
-        m->remove_field(12, 12, fd_web);
+        m->remove_field({12, 12, m->get_abs_sub().z}, fd_web);
         m->add_spawn("mon_spider_web", rng(1, 2), SEEX, SEEY);
     }
 }
@@ -882,12 +882,12 @@ void mapgen_spider_pit(map *m, oter_id, mapgendata dat, int turn, float)
         if (i == 0)
             m->ter_set(x, y, t_slope_down);
         else {
-            m->ter_set(x, y, t_dirt);
-            m->add_trap(x, y, tr_sinkhole);
+            m->ter_set(x, y, dat.groundcover());
+            madd_trap( m, x, y, tr_sinkhole);
         }
         for (int x1 = x - 3; x1 <= x + 3; x1++) {
             for (int y1 = y - 3; y1 <= y + 3; y1++) {
-                m->add_field(x1, y1, fd_web, rng(2, 3));
+                madd_field( m, x1, y1, fd_web, rng(2, 3));
                 if (m->ter(x1, y1) != t_slope_down)
                     m->ter_set(x1, y1, t_dirt);
             }
@@ -2875,16 +2875,16 @@ void mapgen_generic_house(map *m, oter_id terrain_type, mapgendata dat, int turn
                         for (int x = i - 1; x <= i + 1; x++) {
                             for (int y = j - 1; y <= j + 1; y++) {
                                 if (m->ter(x, y) == t_floor) {
-                                    m->add_field(x, y, fd_web, rng(2, 3));
+                                    madd_field( m, x, y, fd_web, rng(2, 3));
                                     if (one_in(4)){
                                      m->furn_set(i, j, f_egg_sackbw);
-                                     m->remove_field(i, j, fd_web);
+                                     m->remove_field({i, j, m->get_abs_sub().z}, fd_web);
                                     }
                                 }
                             }
                         }
                     } else if (m->move_cost(i, j) > 0 && one_in(5)) {
-                        m->add_field(x, y, fd_web, 1);
+                        madd_field( m, x, y, fd_web, 1);
                     }
                 }
             }
@@ -4127,12 +4127,12 @@ void mapgen_basement_spiders(map *m, oter_id terrain_type, mapgendata dat, int t
     for (int i = 0; i < 23; i++) {
         for (int j = 0; j < 23; j++) {
                 if (!(one_in(3))){
-                m->add_field(i, j, fd_web, rng(1, 3));
+                madd_field( m, i, j, fd_web, rng(1, 3));
                 }
                 if( one_in( 30 ) && m->move_cost( i, j ) > 0 ) {
                     m->furn_set(i, j, f_egg_sackbw);
                     m->add_spawn("mon_spider_widow_giant", rng(3, 6), i, j); //hope you like'em spiders
-                    m->remove_field(i, j, fd_web);
+                    m->remove_field({i, j, m->get_abs_sub().z}, fd_web);
                 }
             }
         }
@@ -6019,7 +6019,7 @@ void mapgen_cave(map *m, oter_id, mapgendata dat, int turn, float density)
                     hermy = rng(SEEX - 6, SEEY + 5);
                 std::vector<point> bloodline = line_to(origx, origy, hermx, hermy, 0);
                 for (auto &ii : bloodline) {
-                    m->add_field(ii.x, ii.y, fd_blood, 2);
+                    madd_field( m, ii.x, ii.y, fd_blood, 2);
                 }
                 body.make_corpse();
                 m->add_item_or_charges(hermx, hermy, body);
@@ -6101,7 +6101,7 @@ void mapgen_cave_rat(map *m, oter_id, mapgendata dat, int, float)
                     for (int cy = cavey - 1; cy <= cavey + 1; cy++) {
                         m->ter_set(cx, cy, t_rock_floor);
                         if (one_in(10)) {
-                            m->add_field(cx, cy, fd_blood, rng(1, 3));
+                            madd_field( m, cx, cy, fd_blood, rng(1, 3));
                         }
                         if (one_in(20)) {
                             m->add_spawn("mon_sewer_rat", 1, cx, cy);
@@ -6121,7 +6121,7 @@ void mapgen_cave_rat(map *m, oter_id, mapgendata dat, int, float)
                         for (int cy = i.y - 1; cy <= i.y + 1; cy++) {
                             m->ter_set(cx, cy, t_rock_floor);
                             if (one_in(10)) {
-                                m->add_field(cx, cy, fd_blood, rng(1, 3));
+                                madd_field( m, cx, cy, fd_blood, rng(1, 3));
                             }
                             if (one_in(20)) {
                                 m->add_spawn("mon_sewer_rat", 1, cx, cy);
@@ -6813,4 +6813,26 @@ void mapgen_tutorial(map *m, oter_id terrain_type, mapgendata dat, int turn, flo
     }
 }
 
+void madd_trap( map *m, int x, int y, trap_id t )
+{
+    tripoint actual_location( x, y, m->get_abs_sub().z );
+    m->add_trap( actual_location, t );
+}
 
+void mremove_trap( map *m, int x, int y )
+{
+    tripoint actual_location( x, y, m->get_abs_sub().z );
+    m->remove_trap( actual_location );
+}
+
+void mtrap_set( map *m, int x, int y, trap_id t )
+{
+    tripoint actual_location( x, y, m->get_abs_sub().z );
+    m->trap_set( actual_location, t );
+}
+
+void madd_field( map *m, int x, int y, field_id t, int density )
+{
+    tripoint actual_location( x, y, m->get_abs_sub().z );
+    m->add_field( actual_location, t, density, 0 );
+}
