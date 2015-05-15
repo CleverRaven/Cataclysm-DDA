@@ -4886,6 +4886,8 @@
     "armor_cut":0,
     "luminance":10,
     "hp":300,
+    "vision_night":40,
+    "vision_day":50,
     "death_function":"NORMAL",
     "special_attacks":[["STARE", 12]],
     "description":"An eyeball the size of an easy chair, covered in rolling blue flames.  It floats through the air, spinning slowly to draw its gaze in every direction.",
