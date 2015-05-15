@@ -243,7 +243,7 @@ iuse_actor *unfold_vehicle_iuse::clone() const
 
 void unfold_vehicle_iuse::load( JsonObject &obj )
 {
-    obj.read( "vehicle_name", vehicle_name );
+    vehicle_id = vproto_id( obj.get_string( "vehicle_name" ) );
     obj.read( "unfold_msg", unfold_msg );
     obj.read( "moves", moves );
     obj.read( "tools_needed", tools_needed );
@@ -265,7 +265,7 @@ long unfold_vehicle_iuse::use(player *p, item *it, bool /*t*/, const tripoint &/
         }
     }
 
-    vehicle *veh = g->m.add_vehicle(vehicle_name, p->posx(), p->posy(), 0, 0, 0, false);
+    vehicle *veh = g->m.add_vehicle(vehicle_id, p->posx(), p->posy(), 0, 0, 0, false);
     if (veh == NULL) {
         p->add_msg_if_player(m_info, _("There's no room to unfold the %s."), it->tname().c_str());
         return 0;

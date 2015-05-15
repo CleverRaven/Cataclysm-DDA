@@ -3810,13 +3810,14 @@ void game::debug()
             dbg(D_ERROR) << "game:load: There's already vehicle here";
             debugmsg("There's already vehicle here");
         } else {
-            std::vector<std::string> veh_strings;
-            for( auto &elem : vtypes ) {
-                if( elem.first != "custom" ) {
-                    veh_strings.push_back( elem.second->type );
+            std::vector<vproto_id> veh_strings;
+            for( auto &elem : vehicle_prototype::get_all() ) {
+                if( elem != vproto_id( "custom" ) ) {
+                    const vehicle_prototype &proto = elem.obj();
+                    veh_strings.push_back( elem );
                     //~ Menu entry in vehicle wish menu: 1st string: displayed name, 2nd string: internal name of vehicle
-                    opts.push_back( string_format( _( "%s (%s)" ), elem.second->name.c_str(),
-                                                   elem.second->type.c_str() ) );
+                    opts.push_back( string_format( _( "%s (%s)" ), proto.name.c_str(),
+                                                   elem.c_str() ) );
                 }
             }
             opts.push_back(std::string(_("Cancel")));
@@ -3824,7 +3825,7 @@ void game::debug()
             veh_num -= 2;
             if (veh_num < (int)opts.size() - 1) {
                 //Didn't pick Cancel
-                std::string selected_opt = veh_strings[veh_num];
+                const vproto_id &selected_opt = veh_strings[veh_num];
                 tripoint dest = u.pos(); // TODO: Allow picking this when add_vehicle has 3d argument
                 vehicle *veh = m.add_vehicle(selected_opt, dest.x, dest.y, -90, 100, 0);
                 if (veh != NULL) {

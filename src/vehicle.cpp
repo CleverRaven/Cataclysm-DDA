@@ -27,7 +27,7 @@
 #include <sstream>
 #include <stdlib.h>
 #include <set>
-
+#include <queue>
 
 /*
  * Speed up all those if ( blarg == "structure" ) statements that are used everywhere;
@@ -172,23 +172,26 @@ item &vehicle_stack::operator[]( size_t index )
     return *(std::next(mystack->begin(), index));
 }
 
-vehicle::vehicle(std::string type_id, int init_veh_fuel, int init_veh_status): type(type_id)
+vehicle::vehicle(const vproto_id &type_id, int init_veh_fuel, int init_veh_status): type(type_id)
 {
     turn_dir = 0;
     face.init(0);
     move.init(0);
     of_turn_carry = 0;
 
-    //type can be null if the type_id parameter is omitted
-    if(type != "null") {
-      if(g->vtypes.count(type) > 0) {
-        //If this template already exists, copy it
-        *this = *(g->vtypes[type]);
+    if( !type.str().empty() && type.is_valid() ) {
+        const vehicle_prototype &proto = type.obj();
+        // Copy the already made vehicle. The blueprint is created when the json data is loaded
+        // and is guaranteed to be valid (has valid parts etc.).
+        *this = *proto.blueprint;
         init_state(init_veh_fuel, init_veh_status);
-      }
     }
     precalc_mounts(0, face.dir());
     refresh();
+}
+
+vehicle::vehicle() : vehicle( vproto_id() )
+{
 }
 
 vehicle::~vehicle()
@@ -228,7 +231,9 @@ bool vehicle::remote_controlled(player const &p) const
 
 void vehicle::load (std::ifstream &stin)
 {
+    std::string type;
     getline(stin, type);
+    this->type = vproto_id( type );
 
     if ( type.size() > 1 && ( type[0] == '{' || type[1] == '{' ) ) {
         std::stringstream derp;
@@ -4456,15 +4461,18 @@ vehicle_stack vehicle::get_items( int const part ) const
 
 void vehicle::place_spawn_items()
 {
-    for( std::vector<vehicle_item_spawn>::iterator next_spawn = item_spawns.begin();
-         next_spawn != item_spawns.end(); next_spawn++ ) {
+    if( !type.is_valid() ) {
+        return;
+    }
+    for( auto &spawn : type.obj().item_spawns ) {
+        const vehicle_item_spawn *next_spawn = &spawn;
         if(rng(1, 100) <= next_spawn->chance) {
             //Find the cargo part in that square
-            int part = part_at(next_spawn->x, next_spawn->y);
+            int part = part_at(next_spawn->pos.x, next_spawn->pos.y);
             part = part_with_feature(part, "CARGO", false);
             if(part < 0) {
                 debugmsg("No CARGO parts at (%d, %d) of %s!",
-                        next_spawn->x, next_spawn->y, name.c_str());
+                        next_spawn->pos.x, next_spawn->pos.y, name.c_str());
             } else {
                 bool partbroken = ( parts[part].hp < 1 );
                 int idmg = 0;

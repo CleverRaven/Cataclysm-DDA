@@ -131,7 +131,7 @@ void DynamicDataLoader::initialize()
     ( &item_action_generator::generator(), &item_action_generator::load_item_action );
 
     type_function_map["vehicle_part"] = new StaticFunctionAccessor( &vpart_info::load );
-    type_function_map["vehicle"] = new ClassFunctionAccessor<game>(g, &game::load_vehicle);
+    type_function_map["vehicle"] = new StaticFunctionAccessor( &vehicle_prototype::load );
     type_function_map["trap"] = new StaticFunctionAccessor(&trap::load);
     type_function_map["AMMO"] = new ClassFunctionAccessor<Item_factory>(item_controller,
             &Item_factory::load_ammo);
@@ -337,7 +337,7 @@ void DynamicDataLoader::unload_data()
     termap.clear();
     MonsterGroupManager::ClearMonsterGroups();
     SNIPPET.clear_snippets();
-    g->reset_vehicles();
+    vehicle_prototype::reset();
     vpart_info::reset();
     MonsterGenerator::generator().reset();
     reset_recipe_categories();
@@ -368,7 +368,7 @@ void DynamicDataLoader::finalize_loaded_data()
     set_oter_ids();
     trap::finalize();
     finalize_overmap_terrain();
-    g->finalize_vehicles();
+    vehicle_prototype::finalize();
     calculate_mapgen_weights();
     MonsterGenerator::generator().finalize_mtypes();
     MonsterGroupManager::FinalizeMonsterGroups();

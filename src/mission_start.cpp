@@ -169,10 +169,10 @@ void mission_start::place_caravan_ambush( mission *miss )
     tripoint site = target_om_ter_random( "field", 1, miss, false );
     tinymap bay;
     bay.load( site.x * 2, site.y * 2, site.z, false );
-    bay.add_vehicle( "cube_van", SEEX, SEEY, 0 );
-    bay.add_vehicle( "quad_bike", SEEX + 6, SEEY - 5, 270, 500, -1, true );
-    bay.add_vehicle( "motorcycle", SEEX - 2, SEEY - 9, 315, 500, -1, true );
-    bay.add_vehicle( "motorcycle", SEEX - 5, SEEY - 5, 90, 500, -1, true );
+    bay.add_vehicle( vproto_id( "cube_van" ), SEEX, SEEY, 0 );
+    bay.add_vehicle( vproto_id( "quad_bike" ), SEEX + 6, SEEY - 5, 270, 500, -1, true );
+    bay.add_vehicle( vproto_id( "motorcycle" ), SEEX - 2, SEEY - 9, 315, 500, -1, true );
+    bay.add_vehicle( vproto_id( "motorcycle" ), SEEX - 5, SEEY - 5, 90, 500, -1, true );
     bay.draw_square_ter( t_grass, SEEX - 6, SEEY - 9, SEEX + 6, SEEY + 3 );
     bay.draw_square_ter( t_dirt, SEEX - 4, SEEY - 7, SEEX + 3, SEEY + 1 );
     bay.furn_set( SEEX, SEEY - 4, f_ash );

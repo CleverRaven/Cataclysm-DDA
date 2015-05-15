@@ -25,6 +25,8 @@ struct vpart_info;
 enum vpart_bitflags : int;
 using vpart_id = int_id<vpart_info>;
 using vpart_str_id = string_id<vpart_info>;
+struct vehicle_prototype;
+using vproto_id = string_id<vehicle_prototype>;
 
 //collision factor for vehicle-vehicle collision; delta_v in mph
 float get_collision_factor(float delta_v);
@@ -82,21 +84,6 @@ struct veh_collision {
     std::string   target_name;
  
     veh_collision() = default;
-};
-
-struct vehicle_item_spawn
-{
-    int x, y;
-    int chance;
-    std::vector<std::string> item_ids;
-    std::vector<std::string> item_groups;
-};
-
-struct vehicle_prototype
-{
-    std::string id, name;
-    std::vector<std::pair<point, vpart_str_id> > parts;
-    std::vector<vehicle_item_spawn> item_spawns;
 };
 
 class vehicle_stack : public item_stack {
@@ -349,7 +336,8 @@ private:
     template <typename Func, typename Vehicle>
     static int traverse_vehicle_graph(Vehicle *start_veh, int amount, Func visitor);
 public:
-    vehicle (std::string type_id = "null", int veh_init_fuel = -1, int veh_init_status = -1);
+    vehicle(const vproto_id &type_id, int veh_init_fuel = -1, int veh_init_status = -1);
+    vehicle();
     ~vehicle ();
 
     // check if given player controls this vehicle
@@ -810,7 +798,12 @@ public:
 
     // config values
     std::string name;   // vehicle name
-    std::string type;           // vehicle type
+    /**
+     * Type of the vehicle as it was spawned. This will never change, but it can be an invalid
+     * type (e.g. if the definition of the prototype has been removed from json or if it has been
+     * spawned with the default constructor).
+     */
+    vproto_id type;
     std::vector<vehicle_part> parts;   // Parts which occupy different tiles
     int removed_part_count;            // Subtract from parts.size() to get the real part count.
     std::map<point, std::vector<int> > relative_parts;    // parts_at_relative(x,y) is used alot (to put it mildly)
@@ -824,7 +817,6 @@ public:
     std::vector<int> loose_parts;      // List of UNMOUNT_ON_MOVE parts
     std::vector<int> wheelcache;
     std::vector<int> speciality;        //List of parts that will not be on a vehicle very often, or which only one will be present
-    std::vector<vehicle_item_spawn> item_spawns; //Possible starting items
     std::set<std::string> tags;        // Properties of the vehicle
 
     active_item_cache active_items;

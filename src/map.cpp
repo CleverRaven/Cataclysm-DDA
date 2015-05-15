@@ -29,6 +29,7 @@
 #include <stdlib.h>
 #include <fstream>
 #include <cstring>
+#include <queue>
 
 extern bool is_valid_in_w_terrain(int,int);
 
@@ -7038,49 +7039,49 @@ void map::add_road_vehicles(bool city, int facing)
                 int vy = rng(0, 19);
                 int car_type = rng(1, 100);
                 if(car_type <= 4) {
-                    add_vehicle("suv", vx, vy, facing, -1, 1);
+                    add_vehicle( vproto_id( "suv" ), vx, vy, facing, -1, 1);
                 } else if(car_type <= 6) {
-                    add_vehicle("suv_electric", vx, vy, facing, -1, 1);
+                    add_vehicle( vproto_id( "suv_electric" ), vx, vy, facing, -1, 1);
                 } else if(car_type <= 10) {
-                    add_vehicle("pickup", vx, vy, facing, -1, 1);
+                    add_vehicle( vproto_id( "pickup" ), vx, vy, facing, -1, 1);
                 }else if (car_type <= 25) {
-                    add_vehicle("car", vx, vy, facing, -1, 1);
+                    add_vehicle( vproto_id( "car" ), vx, vy, facing, -1, 1);
                 } else if (car_type <= 30) {
-                    add_vehicle("policecar", vx, vy, facing, -1, 1);
+                    add_vehicle( vproto_id( "policecar" ), vx, vy, facing, -1, 1);
                 } else if (car_type <= 39) {
-                    add_vehicle("ambulance", vx, vy, facing, -1, 1);
+                    add_vehicle( vproto_id( "ambulance" ), vx, vy, facing, -1, 1);
                 } else if (car_type <= 40) {
-                    add_vehicle("bicycle_electric", vx, vy, facing, -1, 1);
+                    add_vehicle( vproto_id( "bicycle_electric" ), vx, vy, facing, -1, 1);
                 } else if (car_type <= 45) {
-                    add_vehicle("beetle", vx, vy, facing, -1, 1);
+                    add_vehicle( vproto_id( "beetle" ), vx, vy, facing, -1, 1);
                 } else if (car_type <= 48) {
-                    add_vehicle("car_sports", vx, vy, facing, -1, 1);
+                    add_vehicle( vproto_id( "car_sports" ), vx, vy, facing, -1, 1);
                 } else if (car_type <= 50) {
-                    add_vehicle("scooter", vx, vy, facing, -1, 1);
+                    add_vehicle( vproto_id( "scooter" ), vx, vy, facing, -1, 1);
                 } else if (car_type <= 53) {
-                    add_vehicle("scooter_electric", vx, vy, facing, -1, 1);
+                    add_vehicle( vproto_id( "scooter_electric" ), vx, vy, facing, -1, 1);
                 } else if (car_type <= 55) {
-                    add_vehicle("motorcycle", vx, vy, facing, -1, 1);
+                    add_vehicle( vproto_id( "motorcycle" ), vx, vy, facing, -1, 1);
                 } else if (car_type <= 65) {
-                    add_vehicle("hippie_van", vx, vy, facing, -1, 1);
+                    add_vehicle( vproto_id( "hippie_van" ), vx, vy, facing, -1, 1);
                 } else if (car_type <= 70) {
-                    add_vehicle("cube_van_cheap", vx, vy, facing, -1, 1);
+                    add_vehicle( vproto_id( "cube_van_cheap" ), vx, vy, facing, -1, 1);
                 } else if (car_type <= 75) {
-                    add_vehicle("cube_van", vx, vy, facing, -1, 1);
+                    add_vehicle( vproto_id( "cube_van" ), vx, vy, facing, -1, 1);
                 } else if (car_type <= 80) {
-                    add_vehicle("electric_car", vx, vy, facing, -1, 1);
+                    add_vehicle( vproto_id( "electric_car" ), vx, vy, facing, -1, 1);
                 } else if (car_type <= 90) {
-                    add_vehicle("flatbed_truck", vx, vy, facing, -1, 1);
+                    add_vehicle( vproto_id( "flatbed_truck" ), vx, vy, facing, -1, 1);
                 } else if (car_type <= 95) {
-                    add_vehicle("rv", vx, vy, facing, -1, 1);
+                    add_vehicle( vproto_id( "rv" ), vx, vy, facing, -1, 1);
                 } else if (car_type <= 96) {
-                    add_vehicle("lux_rv", vx, vy, facing, -1, 1);
+                    add_vehicle( vproto_id( "lux_rv" ), vx, vy, facing, -1, 1);
                 } else if (car_type <= 98) {
-                    add_vehicle("meth_lab", vx, vy, facing, -1, 1);
+                    add_vehicle( vproto_id( "meth_lab" ), vx, vy, facing, -1, 1);
                 } else if (car_type <= 99) {
-                    add_vehicle("apc", vx, vy, facing, -1, 1);
+                    add_vehicle( vproto_id( "apc" ), vx, vy, facing, -1, 1);
                 } else {
-                    add_vehicle("motorcycle_sidecart", vx, vy, facing, -1, 1);
+                    add_vehicle( vproto_id( "motorcycle_sidecart" ), vx, vy, facing, -1, 1);
                 }
             }
         } else if(spawn_type <= 66) {
@@ -7102,25 +7103,25 @@ void map::add_road_vehicles(bool city, int facing)
             }
             int veh_type = rng(0, 100);
             if(veh_type <= 6) {
-                add_vehicle("suv", veh_x, veh_y, facing, -1, 1);
+                add_vehicle( vproto_id( "suv" ), veh_x, veh_y, facing, -1, 1);
             } else if(veh_type <= 10) {
-                add_vehicle("suv_electric", veh_x, veh_y, facing, -1, 1);
+                add_vehicle( vproto_id( "suv_electric" ), veh_x, veh_y, facing, -1, 1);
             } else if(veh_type <= 14) {
-                add_vehicle("pickup", veh_x, veh_y, facing, -1, 1);
+                add_vehicle( vproto_id( "pickup" ), veh_x, veh_y, facing, -1, 1);
             } else if(veh_type <= 18) {
-                add_vehicle("car_mini", veh_x, veh_y, facing, -1, 1);
+                add_vehicle( vproto_id( "car_mini" ), veh_x, veh_y, facing, -1, 1);
             } else if(veh_type <= 20) {
-                add_vehicle("truck_swat", veh_x, veh_y, facing, -1, 1);
+                add_vehicle( vproto_id( "truck_swat" ), veh_x, veh_y, facing, -1, 1);
             } else if(veh_type <= 67) {
-                add_vehicle("car", veh_x, veh_y, facing, -1, 1);
+                add_vehicle( vproto_id( "car" ), veh_x, veh_y, facing, -1, 1);
             } else if(veh_type <= 89) {
-                add_vehicle("electric_car", veh_x, veh_y, facing, -1, 1);
+                add_vehicle( vproto_id( "electric_car" ), veh_x, veh_y, facing, -1, 1);
             } else if(veh_type <= 92) {
-                add_vehicle("road_roller", veh_x, veh_y, facing, -1, 1);
+                add_vehicle( vproto_id( "road_roller" ), veh_x, veh_y, facing, -1, 1);
             } else if(veh_type <= 97) {
-                add_vehicle("policecar", veh_x, veh_y, facing, -1, 1);
+                add_vehicle( vproto_id( "policecar" ), veh_x, veh_y, facing, -1, 1);
             } else {
-                add_vehicle("autosweeper", veh_x, veh_y, facing, -1, 1);
+                add_vehicle( vproto_id( "autosweeper" ), veh_x, veh_y, facing, -1, 1);
             }
         } else if(spawn_type <= 99) {
             //Totally clear section of road
@@ -7155,28 +7156,28 @@ void map::add_road_vehicles(bool city, int facing)
                     trailer_x = semi_x - 12;
                     trailer_y = semi_y - 1;
                 }
-                add_vehicle("semi_truck", semi_x, semi_y, (facing + 135) % 360, -1, 1);
-                add_vehicle("truck_trailer", trailer_x, trailer_y, (facing + 90) % 360, -1, 1);
+                add_vehicle( vproto_id( "semi_truck" ), semi_x, semi_y, (facing + 135) % 360, -1, 1);
+                add_vehicle( vproto_id( "truck_trailer" ), trailer_x, trailer_y, (facing + 90) % 360, -1, 1);
             } else {
                 //Huge pileup of random vehicles
-                std::string next_vehicle;
+                vproto_id next_vehicle;
                 int num_cars = rng(18, 22);
                 bool policecars = block_type >= 95; //Policecar pileup, Blues Brothers style
                 vehicle *last_added_car = NULL;
                 for(int i = 0; i < num_cars; i++) {
                     if(policecars) {
-                        next_vehicle = "policecar";
+                        next_vehicle = vproto_id( "policecar" );
                     } else {
                         //Random car
                         int car_type = rng(0, 100);
                         if(car_type <= 70) {
-                            next_vehicle = "car";
+                            next_vehicle = vproto_id( "car" );
                         } else if(car_type <= 90) {
-                            next_vehicle = "pickup";
+                            next_vehicle = vproto_id( "pickup" );
                         } else if(car_type <= 95) {
-                            next_vehicle = "cube_van";
+                            next_vehicle = vproto_id( "cube_van" );
                         } else {
-                            next_vehicle = "hippie_van";
+                            next_vehicle = vproto_id( "hippie_van" );
                         }
                     }
                     last_added_car = add_vehicle(next_vehicle, rng(4, 16), rng(4, 16), rng(0, 3) * 90, -1, 1);
@@ -7199,25 +7200,25 @@ void map::add_road_vehicles(bool city, int facing)
             int vy = rng(8, 16);
             int car_type = rng(1, 30);
             if (car_type <= 10) {
-                add_vehicle("car", vx, vy, facing, 0, -1);
+                add_vehicle( vproto_id( "car" ), vx, vy, facing, 0, -1);
             } else if (car_type <= 14) {
-                add_vehicle("car_sports", vx, vy, facing, 0, -1);
+                add_vehicle( vproto_id( "car_sports" ), vx, vy, facing, 0, -1);
             } else if (car_type <= 16) {
-                add_vehicle("pickup", vx, vy, facing, 0, -1);
+                add_vehicle( vproto_id( "pickup" ), vx, vy, facing, 0, -1);
             } else if (car_type <= 18) {
-                add_vehicle("semi_truck", vx, vy, facing, 0, -1);
+                add_vehicle( vproto_id( "semi_truck" ), vx, vy, facing, 0, -1);
             } else if (car_type <= 20) {
-                add_vehicle("humvee", vx, vy, facing, 0, -1);
+                add_vehicle( vproto_id( "humvee" ), vx, vy, facing, 0, -1);
             } else if (car_type <= 21) {
-                add_vehicle("car_fbi", vx, vy, facing, 0, -1);
+                add_vehicle( vproto_id( "car_fbi" ), vx, vy, facing, 0, -1);
             } else if (car_type <= 24) {
-                add_vehicle("rara_x", vx, vy, facing, 0, -1);
+                add_vehicle( vproto_id( "rara_x" ), vx, vy, facing, 0, -1);
             } else if (car_type <= 25) {
-                add_vehicle("apc", vx, vy, facing, 0, -1);
+                add_vehicle( vproto_id( "apc" ), vx, vy, facing, 0, -1);
             } else if (car_type <= 28) {
-                add_vehicle("car_sports_electric", vx, vy, facing, 0, -1);
+                add_vehicle( vproto_id( "car_sports_electric" ), vx, vy, facing, 0, -1);
             } else {
-                add_vehicle("armored_car", vx, vy, facing, 0, -1);
+                add_vehicle( vproto_id( "armored_car" ), vx, vy, facing, 0, -1);
             }
         }
     }
