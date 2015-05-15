@@ -86,6 +86,11 @@ enum mission_type_id {
     MISSION_RANCH_SCAVENGER_2,             //Need wearable flashlights
     MISSION_RANCH_SCAVENGER_3,             //Need leather body armor
     MISSION_RANCH_SCAVENGER_4,             //Need Molotov cocktails
+    MISSION_RANCH_BARTENDER_1,             //Need Stills
+    MISSION_RANCH_BARTENDER_2,             //Need Yeast
+    MISSION_RANCH_BARTENDER_3,             //Need Sugar Beet Seeds
+    MISSION_RANCH_BARTENDER_4,             //Need Metal Tanks
+    MISSION_RANCH_BARTENDER_5,             //Need 55-Gallon Drums
     NUM_MISSION_IDS
 };
 
@@ -189,7 +194,13 @@ struct mission_start {
     void ranch_nurse_7      ( mission *); // Need rubber gloves
     void ranch_nurse_8      ( mission *); // Need X-acto
     void ranch_nurse_9      ( mission *); // Need Guide to Advanced Emergency Care
-    void ranch_nurse_10     ( mission *); // Need flu shot
+    void ranch_scavenger_1  ( mission *); // Expand Junk Shop
+    void ranch_scavenger_2  ( mission *); // Expand Junk Shop
+    void ranch_scavenger_3  ( mission *); // Expand Junk Shop
+    void ranch_bartender_1  ( mission *); // Expand Bar
+    void ranch_bartender_2  ( mission *); // Expand Bar
+    void ranch_bartender_3  ( mission *); // Expand Bar
+    void ranch_bartender_4  ( mission *); // Expand Bar
     void place_book         ( mission *); // Place a book to retrieve
 };
 
