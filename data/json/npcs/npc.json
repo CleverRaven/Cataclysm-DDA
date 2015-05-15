@@ -265,6 +265,7 @@
     "attitude" : 0,
     "mission" : 3,
     "chat" : "TALK_RANCH_BARKEEP",
+    "mission_offered" : 73,
     "faction" : "tacoma_commune"
   },{
     "type" : "npc",
