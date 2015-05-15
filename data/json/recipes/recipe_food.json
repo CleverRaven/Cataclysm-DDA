@@ -3410,6 +3410,7 @@
   "components": [
     [
       [ "broth", 1 ],
+      [ "broth_bone", 1],
       [ "broth_human", 1]
     ],
     [
