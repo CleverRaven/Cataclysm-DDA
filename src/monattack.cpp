@@ -2370,7 +2370,7 @@ void mattack::grab(monster *z, int index)
                                 z->disp_name().c_str());
 
     if ( target->has_grab_break_tec() && target->get_grab_resist() > 0 && target->get_dex() > target->get_str() ?
-        dice(target->get_dex(), 10) : dice(target->get_str(), 10) > dice(8, 10)) {
+        dice(target->get_dex(), 10) : dice(target->get_str(), 10) > dice(z->type->melee_sides + z->type->melee_dice , 10)) {
         target->add_msg_player_or_npc(m_good, _("You break the grab!"),
                                     _("<npcname> breaks the grab!"));
         return;
@@ -2395,17 +2395,17 @@ void mattack::grab_pull(monster *z, int index)
 
     if (target->has_effect("grabbed")){
         tripoint target_square = z->pos() - (target->pos() - z->pos());
-        if (z->can_move_to(target_square) && target->stability_check(z, 1) ){
+        if (z->can_move_to(target_square) && target->stability_check( dice(z->type->melee_sides, z->type->melee_dice) - rng( 0, 6 ) ) ){
             tripoint zpt = z->pos();
             z->move_to(target_square);
+            if( target->is_player() && ( zpt.x < SEEX * int(MAPSIZE / 2) || zpt.y < SEEY * int(MAPSIZE / 2) ||
+                zpt.x >= SEEX * (1 + int(MAPSIZE / 2)) || zpt.y >= SEEY * (1 + int(MAPSIZE / 2)) ) ) {
+                g->update_map( zpt.x, zpt.y );
+            }
             if (foe != nullptr){
-                if( target->is_player() && ( zpt.x < SEEX * int(MAPSIZE / 2) || zpt.y < SEEY * int(MAPSIZE / 2) ||
-            zpt.x >= SEEX * (1 + int(MAPSIZE / 2)) || zpt.y >= SEEY * (1 + int(MAPSIZE / 2)) ) ) {
-            g->update_map( zpt.x, zpt.y );
-        }
-        if (foe->in_vehicle) {
-            g->m.unboard_vehicle(foe->pos());
-        }
+                if (foe->in_vehicle) {
+                g->m.unboard_vehicle(foe->pos());
+                }
                 foe->setpos(zpt);
             } else {
                 zz->setpos(zpt);

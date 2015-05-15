@@ -385,7 +385,7 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         /** Returns true if the player is immune to throws */
         bool is_throw_immune() const;
         /** Returns false if the player can't be dragged */
-        bool stability_check(monster *z, int strength) const override;
+        bool stability_check(int strength) const override;
         /** Returns true if the player has quiet melee attacks */
         bool is_quiet() const;
         /** Returns true if the current martial art works with the player's current weapon */
