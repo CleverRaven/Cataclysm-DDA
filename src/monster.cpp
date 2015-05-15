@@ -1173,7 +1173,7 @@ bool monster::move_effects()
         }
     }
     if (has_effect("grabbed")){
-        if ( dice(type->melee_dice + type->melee_sides, 6) < get_effect_dur("downed") ){
+        if ( dice(type->melee_dice + type->melee_sides, 3) < get_effect_int("grabbed") ){
             return false;
         } else {
             if (u_see_me) {

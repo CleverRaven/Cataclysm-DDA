@@ -133,7 +133,7 @@ bool Character::move_effects()
         }
     }
     if (has_effect("grabbed")){
-        if ( get_dex() > get_str() ? dice(get_dex(), 7) : dice(get_str(), 7) < get_effect_dur("downed") ){
+        if ( get_dex() > get_str() ? dice(get_dex(), 3) : dice(get_str(), 3) < get_effect_int("grabbed") ){
             add_msg_player_or_npc(m_bad, _("You try break out of the grab, but fail!"),
                                             _("<npcname> tries to break out of the grab, but fails!"));
             return false;

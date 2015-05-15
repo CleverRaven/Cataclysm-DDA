@@ -2331,8 +2331,9 @@ void mattack::pull_enemy(monster *z, int index)
         }
     }
     if( seen ) {
-        add_msg( _("The %s's arms fly out and pull %s back!"), z->name().c_str(), target->disp_name().c_str() );
+        add_msg( _("The %s's arms fly out and pull and grab %s!"), z->name().c_str(), target->disp_name().c_str() );
     }
+    target->add_effect("grabbed", 2, bp_torso, false, 6);
 }
 
 void mattack::grab(monster *z, int index)
@@ -2368,7 +2369,7 @@ void mattack::grab(monster *z, int index)
                                     _("<npcname> breaks the grab!"));
         return;
         }
-    target->add_effect("grabbed", 3);
+    target->add_effect("grabbed", 2, bp_torso, false, 3);
 }
 
 void mattack::grab_pull(monster *z, int index)
@@ -2409,7 +2410,7 @@ void mattack::grab_pull(monster *z, int index)
             target->add_msg_player_or_npc(m_good, _("You resist the %s as it tries to drag you!"),
                                     _("<npcname> resist the %s as it tries to drag them!"), z->name().c_str() );
         }
-    target->add_effect("grabbed", 4);
+    target->add_effect("grabbed", 2, bp_torso, false, 6);
     }
 }
 

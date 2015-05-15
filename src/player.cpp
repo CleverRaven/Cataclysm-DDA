@@ -7358,7 +7358,25 @@ void player::hardcoded_effects(effect &it)
                 }
             }
         }
+    } else if (id == "grabbed"){
+        int intensity = 0;
+        for (int i = -1; i <= 1; i++) {
+            for (int j = -1; j <= 1; j++) {
+                tripoint dest( posx() + i, posy() + j, posz() );
+                if (g->mon_at(dest)){
+                    intensity ++;
+                }
+            }
+        }
+        if (intensity > 0){
+            if (get_effect_int("grabbed") > intensity * 2){
+                add_effect("grabbed", 2, bp_torso, false, intensity * 2);
+            }
+        } else {
+            remove_effect("grabbed");
+        }
     }
+
 }
 
 double player::vomit_mod()
