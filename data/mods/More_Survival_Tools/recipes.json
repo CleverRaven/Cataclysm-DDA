@@ -1312,60 +1312,6 @@
     ]
 },{
   "type" : "recipe",
-  "result": "straw_pile",
-  "override": true,
-  "category": "CC_OTHER",
-  "subcategory": "CSC_OTHER_MATERIALS",
-  "skill_used": "survival",
-  "difficulty": 2,
-  "skills_required": [ "cooking", 1 ],
-  "time": 12000,
-  "reversible": false,
-  "autolearn": true,
-  "tools": [
-    [
-      [ "hotplate", 10 ],
-      [ "char_smoker", 1 ],
-      [ "toolset", 10 ],
-      [ "fire", -1 ]
-    ]
-  ],
-  "components": [
-    [
-      [ "cattail_stalk", 2 ],
-      [ "dogbane", 2 ],
-      [ "withered", 2 ]
-    ]
-  ]
-},{
-  "type" : "recipe",
-  "result": "flour",
-  "override": true,
-  "category": "CC_FOOD",
-  "subcategory": "CSC_FOOD_OTHER",
-  "skill_used": "cooking",
-  "difficulty": 2,
-  "time": 45000,
-  "reversible": false,
-  "autolearn": true,
-  "tools": [ [ ["rock_quern", -1], ["clay_quern", -1] ] ],
-  "components": [ [ ["acorns_cooked", 2], ["oats", 2], ["starch", 2] ] ]
-},{
-  "type" : "recipe",
-  "result": "flour",
-  "id_suffix": "gives straw",
-  "byproducts": { "id" : "straw_pile", "charges_mult" : 1 },
-  "category": "CC_FOOD",
-  "subcategory": "CSC_FOOD_OTHER",
-  "skill_used": "cooking",
-  "difficulty": 2,
-  "time": 45000,
-  "reversible": false,
-  "autolearn": true,
-  "tools": [ [ ["rock_quern", -1], ["clay_quern", -1] ] ],
-  "components": [ [ ["wheat", 2], ["buckwheat", 2], ["barley", 2] ] ]
-},{
-  "type" : "recipe",
    "result": "hotdogs_campfire",
    "category": "CC_FOOD",
   "subcategory": "CSC_FOOD_MEAT",
@@ -1397,7 +1343,7 @@
   "subcategory": "CSC_OTHER_MATERIALS",
   "skill_used": "survival",
   "difficulty": 1,
-  "result_mult": 3,
+  "result_mult": 2,
   "time": 6000,
   "reversible": false,
   "autolearn": true,
@@ -1409,7 +1355,8 @@
   "components": [
     [
       [ "dogbane", 1 ],
-      [ "cattail_stalk", 1 ]
+      [ "cattail_stalk", 1 ],
+      [ "weed", 1 ]
     ]
   ]
 }
