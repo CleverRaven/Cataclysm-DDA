@@ -4701,7 +4701,7 @@ bool item::process_corpse( player *carrier, const tripoint &pos )
     active = false;
     // Copy the corpse pointer
     const mtype *cor = corpse;
-    if( rng( 0, volume() ) > burnt && g->revive_corpse( pos, this ) ) {
+    if( rng( 0, volume() ) > burnt && g->revive_corpse( pos, *this ) ) {
         if( carrier == nullptr ) {
             if( g->u.sees( pos ) ) {
                 if( cor->in_species( "ROBOT" ) ) {

@@ -6781,9 +6781,9 @@ bool game::is_sheltered( const tripoint &p )
              ( veh && veh->is_inside(vpart) ) );
 }
 
-bool game::revive_corpse( const tripoint &p, item *it )
+bool game::revive_corpse( const tripoint &p, const item &it )
 {
-    if (it == nullptr || !it->is_corpse()) {
+    if (!it.is_corpse()) {
         debugmsg("Tried to revive a non-corpse.");
         return false;
     }
@@ -6791,16 +6791,16 @@ bool game::revive_corpse( const tripoint &p, item *it )
         // Someone is in the way, try again later
         return false;
     }
-    monster critter( it->get_mtype(), p );
-    critter.init_from_item( *it );
+    monster critter( it.get_mtype(), p );
+    critter.init_from_item( it );
     critter.no_extra_death_drops = true;
 
-    if (it->get_var( "zlave" ) == "zlave"){
+    if (it.get_var( "zlave" ) == "zlave"){
         critter.add_effect("pacified", 1, num_bp, true);
         critter.add_effect("pet", 1, num_bp, true);
     }
 
-    if (it->get_var("no_ammo") == "no_ammo") {
+    if (it.get_var("no_ammo") == "no_ammo") {
         for (auto &ammo : critter.ammo) {
             ammo.second = 0;
         }
@@ -6811,7 +6811,7 @@ bool game::revive_corpse( const tripoint &p, item *it )
         debugmsg( "Couldn't add a revived monster" );
     }
 
-    m.i_rem(p, it);
+    m.i_rem(p, const_cast<item*>(&it));
     return ret;
 }
 

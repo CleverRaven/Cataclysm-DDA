@@ -213,7 +213,7 @@ class game
         /** Returns true if p is indoors, underground, or in a car. */
         bool is_sheltered( const tripoint &p );
         /** Revives the corpse at p by item pointer. Caller handles item deletion. */
-        bool revive_corpse( const tripoint &p, item *it );
+        bool revive_corpse( const tripoint &p, const item &it );
         /** Handles player input parts of gun firing (target selection, etc.). Actual firing is done
          *  in player::fire_gun(). This is interactive and should not be used by NPC's. */
         void plfire( bool burst, const tripoint &default_target = tripoint_min );

@@ -679,7 +679,7 @@ void mattack::resurrect(monster *z, int index)
 
     std::pair<tripoint, item*> raised = corpses[rng(0, corpses.size() - 1)];
     // Did we successfully raise something?
-    if (g->revive_corpse(raised.first, raised.second)) {
+    if (g->revive_corpse(raised.first, *raised.second)) {
         bool sees_necromancer = g->u.sees(*z);
         if( sees_necromancer ) {
             add_msg(m_info, _("The %s throws its arms wide."), z->name().c_str());
