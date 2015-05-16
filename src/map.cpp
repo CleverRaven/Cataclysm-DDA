@@ -2918,7 +2918,7 @@ std::pair<bool, bool> map::bash( const tripoint &p, const int str,
         smashed_something = true;
     }
     if( !sound.empty() && !silent) {
-        sounds::sound( p, sound_volume, sound);
+        sounds::sound( p, sound_volume, sound, false, "bash", sound);
     }
     return std::pair<bool, bool> (smashed_something, success);
 }
@@ -3066,7 +3066,7 @@ void map::shoot( const tripoint &p, int &dam,
         if (hit_items || one_in(8)) { // 1 in 8 chance of hitting the door
             dam -= rng(20, 40);
             if (dam > 0) {
-                sounds::sound(p, 10, _("crash!"));
+                sounds::sound(p, 10, _("crash!"), false, "smash", "wall");
                 ter_set(p, t_dirt);
             }
         }
@@ -3079,7 +3079,7 @@ void map::shoot( const tripoint &p, int &dam,
                terrain == t_door_locked_alarm ) {
         dam -= rng(15, 30);
         if (dam > 0) {
-            sounds::sound(p, 10, _("smash!"));
+            sounds::sound(p, 10, _("smash!"), false, "smash", "door");
             ter_set(p, t_door_b);
         }
     } else if( terrain == t_door_boarded ||
@@ -3088,7 +3088,7 @@ void map::shoot( const tripoint &p, int &dam,
                terrain == t_rdoor_boarded_damaged ) {
         dam -= rng(15, 35);
         if (dam > 0) {
-            sounds::sound(p, 10, _("crash!"));
+            sounds::sound(p, 10, _("crash!"), false, "smash", "door_boarded");
             ter_set(p, t_door_b);
         }
     } else if( terrain == t_window_domestic_taped ||
@@ -3101,7 +3101,7 @@ void map::shoot( const tripoint &p, int &dam,
         } else {
             dam -= rng(1,3);
             if (dam > 0) {
-                sounds::sound(p, 16, _("glass breaking!"));
+                sounds::sound(p, 16, _("glass breaking!"), false, "smash", "glass");
                 ter_set(p, t_window_frame);
                 spawn_item(p, "sheet", 1);
                 spawn_item(p, "stick");
@@ -3114,7 +3114,7 @@ void map::shoot( const tripoint &p, int &dam,
         } else {
             dam -= rng(1,3);
             if (dam > 0) {
-                sounds::sound(p, 16, _("glass breaking!"));
+                sounds::sound(p, 16, _("glass breaking!"), false, "smash", "glass");
                 ter_set(p, t_window_frame);
                 spawn_item(p, "sheet", 1);
                 spawn_item(p, "stick");
@@ -3131,7 +3131,7 @@ void map::shoot( const tripoint &p, int &dam,
         } else {
             dam -= rng(1,3);
             if (dam > 0) {
-                sounds::sound(p, 16, _("glass breaking!"));
+                sounds::sound(p, 16, _("glass breaking!"), false, "smash", "glass");
                 ter_set(p, t_window_frame);
             }
         }
@@ -3142,14 +3142,14 @@ void map::shoot( const tripoint &p, int &dam,
         } else {
             dam -= rng(1,3);
             if (dam > 0) {
-                sounds::sound(p, 16, _("glass breaking!"));
+                sounds::sound(p, 16, _("glass breaking!"), false, "smash", "glass");
                 ter_set(p, t_window_frame);
             }
         }
     } else if( terrain == t_window_boarded ) {
         dam -= rng(10, 30);
         if (dam > 0) {
-            sounds::sound(p, 16, _("glass breaking!"));
+                sounds::sound(p, 16, _("glass breaking!"), false, "smash", "glass");
             ter_set(p, t_window_frame);
         }
     } else if( terrain == t_wall_glass  ||
@@ -3160,7 +3160,7 @@ void map::shoot( const tripoint &p, int &dam,
         } else {
             dam -= rng(1,8);
             if (dam > 0) {
-                sounds::sound(p, 20, _("glass breaking!"));
+                sounds::sound(p, 16, _("glass breaking!"), false, "smash", "glass");
                 ter_set(p, t_floor);
             }
         }
@@ -3177,7 +3177,7 @@ void map::shoot( const tripoint &p, int &dam,
             } else if (dam >= 40) {
                 //high powered bullets penetrate the glass, but only extremely strong
                 // ones (80 before reduction) actually destroy the glass itself.
-                sounds::sound(p, 20, _("glass breaking!"));
+                sounds::sound(p, 16, _("glass breaking!"), false, "smash", "glass");
                 ter_set(p, t_floor);
             }
         }
@@ -3375,7 +3375,8 @@ bool map::open_door( const tripoint &p, const bool inside, const bool check_only
         }
 
         if(!check_only) {
-            ter_set( p, ter.open );
+            sounds::sound(p, 6, "", true, "open_door", ter.id);
+            ter_set(p, ter.open );
         }
 
         return true;
@@ -3390,6 +3391,7 @@ bool map::open_door( const tripoint &p, const bool inside, const bool check_only
         }
 
         if(!check_only) {
+            sounds::sound(p, 6, "", true, "open_door", furn.id);
             furn_set(p, furn.open );
         }
 
@@ -3471,6 +3473,7 @@ bool map::close_door( const tripoint &p, const bool inside, const bool check_onl
          return false;
      }
      if (!check_only) {
+        sounds::sound(p, 10, "", true, "close_door", ter.id);
         ter_set(p, ter.close );
      }
      return true;
@@ -3483,6 +3486,7 @@ bool map::close_door( const tripoint &p, const bool inside, const bool check_onl
          return false;
      }
      if (!check_only) {
+         sounds::sound(p, 10, "", true, "close_door", furn.id);
          furn_set(p, furn.close );
      }
      return true;
