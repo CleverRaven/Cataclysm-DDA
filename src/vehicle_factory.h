@@ -86,7 +86,7 @@ public:
     void apply(map& m, const std::string &terrain_name) const override;
 
 private:
-    std::string vehicle;
+    vgroup_id vehicle;
     jmapgen_int number;
     int fuel;
     int status;
@@ -127,19 +127,6 @@ public:
      * @param m The map on which to add the vehicle.
      */
     void vehicle_spawn(map& m, const std::string &spawn_id, const std::string &terrain_name);
-
-    /**
-     * This is a wrapper for map->add_vehicle that will handle vehicle groups.
-     * @param m The map on which to add the vehicle.
-     * @param vehicle_id This can be the id of a vehicle or a vehicle group.
-     * @param x The x position of the vehicle.
-     * @param y The y position of the vehicle.
-     * @param facing The facing of the vehicle.
-     * @param fuel The vehicle's fuel.
-     * @param status The vehicle's status.
-     * @param mergewreck optional.
-    */
-    vehicle* add_vehicle(map& m, const std::string &vehicle_id, const point &p, const int facing, const int fuel, const int status, const bool mergewrecks = true);
 
     /**
      * This will randomly select one of the locations from a vehicle placement
