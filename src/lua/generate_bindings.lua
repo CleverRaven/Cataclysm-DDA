@@ -36,7 +36,11 @@ function member_type_to_cpp_type(member_type)
     else
         for name, value in pairs(classes) do
             if name == member_type then
-                return member_type
+                if value.by_value then
+                    return "LuaValue<" .. member_type .. ">"
+                else
+                    return "LuaReference<" .. member_type .. ">"
+                end
             end
         end
     end
@@ -53,10 +57,8 @@ function retrieve_lua_value(value_type, stack_position)
         return "lua_toboolean(L, "..stack_position..");"
     elseif value_type == "string" or value_type == "cstring" then
         return "lua_tostring_wrapper(L, "..stack_position..");"
-    elseif classes[value_type].by_value then
-        return "LuaValue<"..value_type..">::get(L, "..stack_position..");"
     else
-        return "LuaReference<"..value_type..">::get_proxy(L, "..stack_position..");"
+        return member_type_to_cpp_type(value_type) .. "::get_proxy(L, " .. stack_position .. ");"
     end
 end
 
@@ -72,10 +74,8 @@ function push_lua_value(in_variable, value_type)
         text = text .. "lua_pushstring(L, "..in_variable..".c_str());"
     elseif value_type == "bool" then
         text = text .. "lua_pushboolean(L, "..in_variable..");"
-    elseif classes[value_type].by_value then
-        text = text .. "LuaValue<"..value_type..">::push(L, " .. in_variable .. ");"
     else
-        text = text .. "LuaReference<"..value_type..">::push(L, " .. in_variable .. ");"
+        text = text .. member_type_to_cpp_type(value_type) .. "::push(L, " .. in_variable .. ");"
     end
     
     return text
@@ -101,11 +101,7 @@ function generate_getter(class, member_name, member_type, cpp_name)
     local function_name = class.."_get_"..member_name
     local text = "static int "..function_name.."(lua_State *L) {"..br
 
-    if classes[class].by_value then
-    text = text .. tab .. "auto && "..class.."_instance = LuaValue<"..class..">::get(L, 1);"..br
-    else
-    text = text .. tab .. "auto && "..class.."_instance = LuaReference<"..class..">::get(L, 1);"..br
-    end
+    text = text .. tab .. "auto & "..class.."_instance = "..member_type_to_cpp_type(class).."::get(L, 1);"..br
 
     text = text .. tab .. push_lua_value(class.."_instance."..cpp_name, member_type)..br
 
@@ -121,11 +117,7 @@ function generate_setter(class, member_name, member_type, cpp_name)
     
     local text = "static int "..function_name.."(lua_State *L) {"..br
 
-    if classes[class].by_value then
-    text = text .. tab .. "auto && "..class.."_instance = LuaValue<"..class..">::get(L, 1);"..br
-    else
-    text = text .. tab .. "auto && "..class.."_instance = LuaReference<"..class..">::get(L, 1);"..br
-    end
+    text = text .. tab .. "auto & "..class.."_instance = "..member_type_to_cpp_type(class).."::get(L, 1);"..br
 
     text = text .. tab .. "luaL_checktype(L, 2, "..member_type_to_lua_type(member_type)..");"..br
     text = text .. tab .. "auto && value = " .. retrieve_lua_value(member_type, 2) ..br
@@ -181,11 +173,7 @@ function generate_class_function_wrapper(class, function_name, function_to_call,
     local text = "static int "..class.."_"..function_name.."(lua_State *L) {"..br
 
     -- retrieve the object to call the function on from the stack.
-    if classes[class].by_value then
-    text = text .. tab .. "auto && "..class.."_instance = LuaValue<"..class..">::get(L, 1);"..br
-    else
-    text = text .. tab .. "auto && "..class.."_instance = LuaReference<"..class..">::get(L, 1);"..br
-    end
+    text = text .. tab .. "auto & "..class.."_instance = "..member_type_to_cpp_type(class).."::get(L, 1);"..br
 
     local stack_index = 1
     for i, arg in ipairs(args) do
