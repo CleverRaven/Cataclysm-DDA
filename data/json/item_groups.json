@@ -9792,7 +9792,7 @@
       ["mag_barter", 150],
       ["mag_computer", 100],
       ["mag_electronics", 100],
-      ["mag_mechanics", 200],
+      ["mag_mechanics", 150],
       ["mag_survival", 100],
       ["fun_survival", 100],
       ["mag_traps", 30],
