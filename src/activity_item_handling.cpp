@@ -380,7 +380,7 @@ static void move_items( const tripoint &src, bool from_vehicle,
 
             // Drop it first since we're going to delete the original.
             dropped_items.push_back( *temp_item );
-            // no 3d function yet
+            // I changed this to use a tripoint as an argument, but the function is not 3D yet.
             g->drop( dropped_items, dropped_worn, 0, destination, to_vehicle );
 
             // Remove from map or vehicle.

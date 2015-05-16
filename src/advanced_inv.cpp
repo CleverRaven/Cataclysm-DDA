@@ -41,7 +41,7 @@ advanced_inventory::advanced_inventory()
     , filter_edit( false )
       // panes don't need initialization, they are recalculated immediately
     , squares(
-{ { //    y  x    x    y   z
+{ {                //    y  x    x    y   z
         { AIM_INVENTORY, 2, 25, {0,   0,  0}, _( "Inventory" ),          _( "IN" ) },
         { AIM_SOUTHWEST, 3, 30, {-1,  1,  0}, _( "South West" ),         _( "SW" ) },
         { AIM_SOUTH,     3, 33, {0,   1,  0}, _( "South" ),              _( "S" )  },
@@ -66,13 +66,7 @@ advanced_inventory::advanced_inventory()
 
 advanced_inventory::~advanced_inventory()
 {
-    save_settings();
-//    if(uistate.adv_inv_re_enter_move_all) {
-//        // store AIM_ALL tx vars for re-entry
-//        uistate.adv_inv_aim_all_location = aim_all_location;
-//        uistate.adv_inv_veh_items = veh_items;
-//        uistate.adv_inv_map_items = map_items;
-//    }
+    save_settings(false);
     // Only refresh if we exited manually, otherwise we're going to be right back
     if( exit ) {
         werase( head );
@@ -109,12 +103,13 @@ void advanced_inventory::save_settings(bool only_panes)
 void advanced_inventory::load_settings()
 {
     bool moved = uistate.adv_inv_last_coords != g->u.pos();
-    static const std::array<aim_location, NUM_PANES> default_areas = {
-        {AIM_ALL, AIM_INVENTORY}
-    };
+//    static const std::array<aim_location, NUM_PANES> default_areas = {
+//        {AIM_ALL, AIM_INVENTORY}
+//    };
     for(int i = 0; i < NUM_PANES; ++i) {
-        auto location = (moved == true) ? default_areas[i] : 
-            static_cast<aim_location>(uistate.adv_inv_area[i]);
+//        auto location = (moved == true) ? default_areas[i] : 
+//            static_cast<aim_location>(uistate.adv_inv_area[i]);
+        auto location = static_cast<aim_location>(uistate.adv_inv_area[i]);
         panes[i].sortby = static_cast<advanced_inv_sortby>(uistate.adv_inv_sort[i]);
         bool is_in_vehicle = (moved == false && uistate.adv_inv_in_vehicle[i]);
         panes[i].set_area(squares[location], is_in_vehicle);

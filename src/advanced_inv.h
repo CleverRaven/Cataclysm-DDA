@@ -2,12 +2,14 @@
 #define ADVANCED_INV_H
 
 #include "output.h"
+#include "enums.h"
 
 #include <string>
 #include <array>
 
 class uimenu;
 class vehicle;
+class item;
 
 typedef std::vector< std::pair<item *, int> > itemslice;
 
@@ -352,12 +354,11 @@ class advanced_inventory
         bool exit;
 
         // store/load settings (such as index, filter, etc)
-        void save_settings(bool only_panes = false);
+        void save_settings(bool only_panes);
         void load_settings();
         void do_return_entry();
 
         static std::string get_sortname(advanced_inv_sortby sortby);
-        // if called with default arg, will exit after first completion (if not AIM_ALL)
         bool move_all_items();
         void print_items(advanced_inventory_pane &pane, bool active);
         void recalc_pane(side p);
