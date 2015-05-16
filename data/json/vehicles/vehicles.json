@@ -3814,6 +3814,26 @@
         ]
     },{
         "type" : "vehicle",
+        "id" : "oversized_cart",
+        "name" : "Oversized Cart",
+        "blueprint" : "o",
+        "parts" : [
+            {"x": 0, "y": 0, "part": "xlframe_vertical_2"},
+            {"x": 0, "y": 0, "part": "wheel_caster"},
+            {"x": 0, "y": 0, "part": "basketov"}
+        ]
+    },{
+        "type" : "vehicle",
+        "id" : "trolly_cart",
+        "name" : "Trolly Cart",
+        "blueprint" : "o",
+        "parts" : [
+            {"x": 0, "y": 0, "part": "xlframe_vertical_2"},
+            {"x": 0, "y": 0, "part": "wheel_caster"},
+            {"x": 0, "y": 0, "part": "trollybed"}
+        ]
+    },{
+        "type" : "vehicle",
         "id" : "welding_cart",
         "name" : "Welding Cart",
         "blueprint" : "&",
