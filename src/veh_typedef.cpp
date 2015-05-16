@@ -11,6 +11,7 @@
 #include <unordered_set>
 
 std::unordered_map<vproto_id, vehicle_prototype> vtypes;
+std::unordered_map<vgroup_id, vehicle_group> vgroups;
 
 // GENERAL GUIDELINES
 // To determine mount position for parts (dx, dy), check this scheme:
@@ -437,4 +438,33 @@ std::vector<vproto_id> vehicle_prototype::get_all()
         result.push_back( vp.first );
     }
     return result;
+}
+
+template<>
+const vehicle_group &string_id<vehicle_group>::obj() const
+{
+    const auto iter = vgroups.find( *this );
+    if( iter == vgroups.end() ) {
+        debugmsg( "invalid vehicle group id %s", c_str() );
+        static const vehicle_group dummy;
+        return dummy;
+    }
+    return iter->second;
+}
+
+template<>
+bool string_id<vehicle_group>::is_valid() const
+{
+    return vgroups.count( *this ) > 0;
+}
+
+void vehicle_group::load(JsonObject &jo)
+{
+    vehicle_group &group = vgroups[vgroup_id(jo.get_string("id"))];
+
+    JsonArray vehicles = jo.get_array("vehicles");
+    while (vehicles.has_more()) {
+        JsonArray pair = vehicles.next_array();
+        group.add_vehicle(vproto_id(pair.get_string(0)), pair.get_int(1));
+    }
 }

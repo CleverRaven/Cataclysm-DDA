@@ -1,6 +1,9 @@
 #include "vehicle_factory.h"
+#include "veh_type.h"
 #include "debug.h"
 #include "translations.h"
+
+using vgroup_id = string_id<vehicle_group>;
 
 std::unique_ptr<VehicleFactory> vehicle_controller( new VehicleFactory() );
 
@@ -71,8 +74,15 @@ void VehicleFactory::vehicle_spawn(map& m, const std::string &spawn_id, const st
 
 vehicle* VehicleFactory::add_vehicle(map& m, const std::string &vehicle_id, const point &p, const int facing, const int fuel, const int status, const bool mergewrecks)
 {
-    return m.add_vehicle(groups.count(vehicle_id) > 0 ? vproto_id(groups[vehicle_id].pick()) : vproto_id(vehicle_id),
-        p.x, p.y, facing, fuel, status, mergewrecks);
+    vgroup_id groupid(vehicle_id);
+    if(groupid.is_valid()) {
+        return m.add_vehicle(groupid.obj().pick(),
+            p.x, p.y, facing, fuel, status, mergewrecks);
+    }
+    else {
+        return m.add_vehicle(vproto_id(vehicle_id),
+            p.x, p.y, facing, fuel, status, mergewrecks);
+    }
 }
 
 const VehicleLocation* VehicleFactory::pick_location(const std::string &placement_id) const
@@ -83,17 +93,6 @@ const VehicleLocation* VehicleFactory::pick_location(const std::string &placemen
     }
 
     return placements.find(placement_id)->second.pick();
-}
-
-void VehicleFactory::load_vehicle_group(JsonObject &jo)
-{
-    const Vehicle_tag group_id = jo.get_string("id");
-    JsonArray vehicles = jo.get_array("vehicles");
-
-    while (vehicles.has_more()) {
-        JsonArray pair = vehicles.next_array();
-        groups[group_id].add_vehicle(pair.get_string(0), pair.get_int(1));
-    }
 }
 
 void VehicleFactory::load_vehicle_placement(JsonObject &jo)

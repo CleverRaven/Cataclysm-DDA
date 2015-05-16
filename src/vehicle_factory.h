@@ -7,26 +7,6 @@
 #include <memory>
 #include "weighted_list.h"
 
-typedef std::string Vehicle_tag;
-
-/**
- * This class is used to group vehicles together into groups in much the same way as
- *  item groups work.
- */
-class VehicleGroup {
-public:
-    void add_vehicle(const std::string &type, const int &probability) {
-        vehicles.add(type, probability);
-    }
-
-    const std::string &pick() const {
-        return *(vehicles.pick());
-    }
-
-private:
-    weighted_int_list<std::string> vehicles;
-};
-
 /**
  * The location and facing data needed to place a vehicle onto the map.
  */
@@ -169,13 +149,6 @@ public:
     const VehicleLocation* pick_location(const std::string &placement_id) const;
 
     /**
-     * Callback for the init system (@ref DynamicDataLoader), loads a vehicle group definitions.
-     * @param jsobj The json object to load from.
-     * @throw std::string if the json object contains invalid data.
-     */
-    void load_vehicle_group(JsonObject &jo);
-
-    /**
      * Callback for the init system (@ref DynamicDataLoader), loads a vehicle placement definitions.
      * @param jsobj The json object to load from.
      * @throw std::string if the json object contains invalid data.
@@ -195,9 +168,6 @@ private:
     static void builtin_jackknifed_semi(map& m, const std::string &terrainid);
     static void builtin_pileup(map& m, const std::string &terrainid);
     static void builtin_policepileup(map& m, const std::string &terrainid);
-
-    typedef std::unordered_map<Vehicle_tag, VehicleGroup> GroupMap;
-    GroupMap groups;
 
     typedef std::unordered_map<std::string, VehiclePlacement> PlacementMap;
     PlacementMap placements;
