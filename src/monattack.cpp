@@ -690,10 +690,7 @@ void mattack::resurrect(monster *z, int index)
         z->set_speed_base(z->get_speed_base() - .2 * z->type->speed);
         const int mondex = g->mon_at(raised.first);
         if( mondex == -1 ) {
-            if( sees_necromancer ) {
-                add_msg( m_info, _("But nothing seems to happen.") );
-            }
-
+            debugmsg( "Misplaced or failed to revive a zombie corpse" );
             return;
         }
 
