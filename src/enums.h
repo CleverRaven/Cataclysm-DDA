@@ -358,7 +358,7 @@ std::array<T, N> vec_to_array(const std::vector<T> &vec)
 {
     assert(vec.size() == N);
     std::array<T, N> array;
-    for(size_t i = 0; i < vec.size(); ++i) {
+    for(size_t i = 0; i < N; ++i) {
         array[i] = vec[i];
     }
     return array;
