@@ -550,11 +550,6 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         /** Knocks the player back one square from a tile */
         void knock_back_from( const tripoint &p ) override;
 
-        /** Returns multiplier on fall damage at low velocity (knockback/pit/1 z-level, not 5 z-levels) */
-        float fall_damage_mod() const override;
-        /** Deals falling/collision damage with terrain/creature at pos */
-        virtual int impact( int force, const tripoint &pos ) override;
-
         /** Converts a body_part to an hp_part */
         static hp_part bp_to_hp(body_part bp);
         /** Converts an hp_part to a body_part */

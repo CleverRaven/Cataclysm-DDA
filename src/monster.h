@@ -265,11 +265,7 @@ class monster : public Creature, public JsonSerializer, public JsonDeserializer
         int  get_melee() const override; // For determining attack skill when awarding dodge practice.
         int  hit_roll() const override;  // For the purposes of comparing to player::dodge_roll()
         int  dodge_roll() override;  // For the purposes of comparing to player::hit_roll()
-
-        /** Returns multiplier on fall damage at low velocity (knockback/pit/1 z-level, not 5 z-levels) */
-        float fall_damage_mod() const override;
-        /** Deals falling/collision damage with terrain/creature at pos */
-        virtual int impact( int force, const tripoint &pos ) override;
+        int  fall_damage() const; // How much a fall hurts us
 
         // We just dodged an attack from something
         void on_dodge( Creature *source, int difficulty = INT_MIN ) override;
@@ -327,7 +323,8 @@ class monster : public Creature, public JsonSerializer, public JsonDeserializer
         std::string unique_name; // If we're unique
         bool hallucination;
 
-        void setpos( const tripoint &p ) override;
+        // level_change == true means "monster isn't spawned yet, don't update position in tracker"
+        bool setpos( const tripoint &p, const bool level_change = false );
         const tripoint &pos() const override;
         inline int posx() const override
         {
