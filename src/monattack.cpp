@@ -688,7 +688,13 @@ void mattack::resurrect(monster *z, int index)
         z->moves -= z->type->speed; // Takes one turn
         // Lose 20% of our maximum speed
         z->set_speed_base(z->get_speed_base() - .2 * z->type->speed);
-        monster *zed = &g->zombie(g->mon_at(raised.first));
+        const int mondex = g->mon_at(raised.first);
+        if( mondex == -1 ) {
+            debugmsg( "Misplaced or failed to revive a zombie corpse" );
+            return;
+        }
+
+        monster *zed = &g->zombie( mondex );
         zed->make_ally(z);
         if (g->u.sees(*zed)) {
             add_msg(m_warning, _("A nearby %s rises from the dead!"), zed->name().c_str());
@@ -2382,19 +2388,12 @@ void mattack::stare(monster *z, int index)
     z->moves -= 200;
     z->reset_special(index); // Reset timer
     if( z->sees( g->u ) ) {
-        add_msg(m_bad, _("The %s stares at you, and you shudder."), z->name().c_str());
-        g->u.add_effect("teleglow", 800);
-    } else {
-        add_msg(m_bad, _("A piercing beam of light bursts forth!"));
-        std::vector<tripoint> sight = line_to( z->pos(), g->u.pos(), 0, 0 );
-        for (auto &i : sight) {
-            if( g->m.ter( i ) == t_reinforced_glass ) {
-                break;
-            } else if( g->m.is_bashable( i ) ) {
-                //Destroy it
-                g->m.bash( i, 999, false, true );
-            }
+        if( g->u.sees(*z) ) {
+            add_msg(m_bad, _("The %s stares at you, and you shudder."), z->name().c_str());
+        } else {
+	    add_msg(m_bad, _("You feel like you're being watched, it makes you sick."));
         }
+        g->u.add_effect("teleglow", 800);
     }
 }
 
@@ -3246,7 +3245,7 @@ void mattack::flame( monster *z, Creature *target )
                           g->m.tername(i.x, i.y).c_str());
               return;
           }
-          g->m.add_field(i.x, i.y, fd_fire, 1);
+          g->m.add_field( i, fd_fire, 1, 0 );
       }
       target->add_effect("onfire", 8);
 
@@ -3268,7 +3267,7 @@ void mattack::flame( monster *z, Creature *target )
                         g->m.tername(i.x, i.y).c_str());
             return;
         }
-        g->m.add_field(i.x, i.y, fd_fire, 1);
+        g->m.add_field(i, fd_fire, 1, 0);
     }
     if( !target->uncanny_dodge() ) {
         target->add_effect("onfire", 8);

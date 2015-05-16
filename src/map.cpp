@@ -23,10 +23,13 @@
 #include "artifact.h"
 #include "omdata.h"
 
+#include "map_iterator.h"
+
 #include <cmath>
 #include <stdlib.h>
 #include <fstream>
 #include <cstring>
+#include <queue>
 
 extern bool is_valid_in_w_terrain(int,int);
 
@@ -2605,10 +2608,13 @@ void map::smash_items(const tripoint &p, const int power)
         while(x_in_y(damage_chance, material_factor) && i->damage < 4) {
             i->damage++;
             if (type_blood != fd_null) {
-                for (int x = p.x - 1; x <= p.x + 1; x++ ) {
-                    for (int y = p.y - 1; y <= p.y + 1; y++ ) {
+                tripoint tmp = p;
+                int &x = tmp.x;
+                int &y = tmp.y;
+                for( x = p.x - 1; x <= p.x + 1; x++ ) {
+                    for( y = p.y - 1; y <= p.y + 1; y++ ) {
                         if( !one_in(damage_chance) ) {
-                            g->m.add_field(x, y, type_blood, 1);
+                            g->m.add_field( tmp, type_blood, 1, 0 );
                         }
                     }
                 }
@@ -4491,7 +4497,7 @@ static bool trigger_radio_item( item_stack &items, std::list<item>::iterator &n,
     bool trigger_item = false;
     // Check for charges != 0 not >0, so that -1 charge tools can still be used
     if( n->charges != 0 && n->has_flag("RADIO_ACTIVATION") && n->has_flag(signal) ) {
-        sounds::sound(pos.x, pos.y, 6, "beep.");
+        sounds::sound(pos, 6, "beep.");
         if( n->has_flag("RADIO_INVOKE_PROC") ) {
             // Invoke twice: first to transform, then later to proc
             process_item( items, n, pos, true );
@@ -4543,21 +4549,9 @@ item *map::item_from( vehicle *veh, int cargo_part, size_t index ) {
     }
 }
 
-// Traps: 2D
-void map::trap_set(const int x, const int y, const trap_id id)
-{
-    trap_set( tripoint( x, y, abs_sub.z ), id );
-}
-
 void map::trap_set( const tripoint &p, const trap_id id)
 {
     add_trap( p, id );
-}
-
-// todo: to be consistent with ???_at(...) this should return ref to the actual trap object
-const trap &map::tr_at( const int x, const int y ) const
-{
-    return tr_at( tripoint( x, y, abs_sub.z ) );
 }
 
 const trap &map::tr_at( const tripoint &p ) const
@@ -4574,11 +4568,6 @@ const trap &map::tr_at( const tripoint &p ) const
     }
 
     return current_submap->get_trap( lx, ly ).obj();
-}
-
-void map::add_trap(const int x, const int y, const trap_id t)
-{
-    add_trap( tripoint( x, y, abs_sub.z ), t );
 }
 
 void map::add_trap( const tripoint &p, const trap_id t)
@@ -4606,11 +4595,6 @@ void map::add_trap( const tripoint &p, const trap_id t)
     if( t != tr_null ) {
         traplocs[t].push_back( p );
     }
-}
-
-void map::disarm_trap( const int x, const int y )
-{
-    disarm_trap( tripoint( x, y, abs_sub.z ) );
 }
 
 void map::disarm_trap( const tripoint &p )
@@ -4657,11 +4641,6 @@ void map::disarm_trap( const tripoint &p )
             g->u.practice( "traps", 2*diff );
         }
     }
-}
-
-void map::remove_trap(const int x, const int y)
-{
-    remove_trap( tripoint( x, y, abs_sub.z ) );
 }
 
 void map::remove_trap( const tripoint &p )
@@ -4785,10 +4764,6 @@ field_entry *map::get_field( const tripoint &p, const field_id t ) {
     submap *const current_submap = get_submap_at( p, lx, ly );
 
     return current_submap->fld[lx][ly].findField( t );
-}
-
-field_entry *map::get_field( const point pnt, const field_id t ) {
-    return get_field( tripoint( pnt, abs_sub.z ), t );
 }
 
 bool map::add_field(const tripoint &p, const field_id t, int density, const int age)
@@ -7033,258 +7008,6 @@ void map::add_corpse( const tripoint &p ) {
     }
 }
 
-/**
- * Adds vehicles to the current submap, selected from a random weighted
- * distribution of possible vehicles. If the road has a pavement, then set the
- * 'city' flag to true to spawn wrecks. If it doesn't (ie, highway or country
- * road,) then set 'city' to false to spawn far fewer vehicles that are out
- * of gas instead of wrecked.
- * @param city Whether or not to spawn city wrecks.
- * @param facing The direction the spawned car should face (multiple of 90).
- */
-void map::add_road_vehicles(bool city, int facing)
-{
-    if (city) {
-        int spawn_type = rng(0, 100);
-        if(spawn_type <= 33) {
-            //Randomly-distributed wrecks
-            int maxwrecks = rng(1, 3);
-            for (int nv = 0; nv < maxwrecks; nv++) {
-                int vx = rng(0, 19);
-                int vy = rng(0, 19);
-                int car_type = rng(1, 100);
-                if(car_type <= 4) {
-                    add_vehicle("suv", vx, vy, facing, -1, 1);
-                } else if(car_type <= 6) {
-                    add_vehicle("suv_electric", vx, vy, facing, -1, 1);
-                } else if(car_type <= 10) {
-                    add_vehicle("pickup", vx, vy, facing, -1, 1);
-                }else if (car_type <= 25) {
-                    add_vehicle("car", vx, vy, facing, -1, 1);
-                } else if (car_type <= 30) {
-                    add_vehicle("policecar", vx, vy, facing, -1, 1);
-                } else if (car_type <= 39) {
-                    add_vehicle("ambulance", vx, vy, facing, -1, 1);
-                } else if (car_type <= 40) {
-                    add_vehicle("bicycle_electric", vx, vy, facing, -1, 1);
-                } else if (car_type <= 45) {
-                    add_vehicle("beetle", vx, vy, facing, -1, 1);
-                } else if (car_type <= 48) {
-                    add_vehicle("car_sports", vx, vy, facing, -1, 1);
-                } else if (car_type <= 50) {
-                    add_vehicle("scooter", vx, vy, facing, -1, 1);
-                } else if (car_type <= 53) {
-                    add_vehicle("scooter_electric", vx, vy, facing, -1, 1);
-                } else if (car_type <= 55) {
-                    add_vehicle("motorcycle", vx, vy, facing, -1, 1);
-                } else if (car_type <= 65) {
-                    add_vehicle("hippie_van", vx, vy, facing, -1, 1);
-                } else if (car_type <= 70) {
-                    add_vehicle("cube_van_cheap", vx, vy, facing, -1, 1);
-                } else if (car_type <= 75) {
-                    add_vehicle("cube_van", vx, vy, facing, -1, 1);
-                } else if (car_type <= 80) {
-                    add_vehicle("electric_car", vx, vy, facing, -1, 1);
-                } else if (car_type <= 90) {
-                    add_vehicle("flatbed_truck", vx, vy, facing, -1, 1);
-                } else if (car_type <= 95) {
-                    add_vehicle("rv", vx, vy, facing, -1, 1);
-                } else if (car_type <= 96) {
-                    add_vehicle("lux_rv", vx, vy, facing, -1, 1);
-                } else if (car_type <= 98) {
-                    add_vehicle("meth_lab", vx, vy, facing, -1, 1);
-                } else if (car_type <= 99) {
-                    add_vehicle("apc", vx, vy, facing, -1, 1);
-                } else {
-                    add_vehicle("motorcycle_sidecart", vx, vy, facing, -1, 1);
-                }
-            }
-        } else if(spawn_type <= 66) {
-            //Parked vehicles
-            int veh_x = 0;
-            int veh_y = 0;
-            if(facing == 0) {
-                veh_x = rng(4, 16);
-                veh_y = 17;
-            } else if(facing == 90) {
-                veh_x = 6;
-                veh_y = rng(4, 16);
-            } else if(facing == 180) {
-                veh_x = rng(4, 16);
-                veh_y = 6;
-            } else if(facing == 270) {
-                veh_x = 17;
-                veh_y = rng(4, 16);
-            }
-            int veh_type = rng(0, 100);
-            if(veh_type <= 6) {
-                add_vehicle("suv", veh_x, veh_y, facing, -1, 1);
-            } else if(veh_type <= 10) {
-                add_vehicle("suv_electric", veh_x, veh_y, facing, -1, 1);
-            } else if(veh_type <= 14) {
-                add_vehicle("pickup", veh_x, veh_y, facing, -1, 1);
-            } else if(veh_type <= 18) {
-                add_vehicle("car_mini", veh_x, veh_y, facing, -1, 1);
-            } else if(veh_type <= 20) {
-                add_vehicle("truck_swat", veh_x, veh_y, facing, -1, 1);
-            } else if(veh_type <= 67) {
-                add_vehicle("car", veh_x, veh_y, facing, -1, 1);
-            } else if(veh_type <= 89) {
-                add_vehicle("electric_car", veh_x, veh_y, facing, -1, 1);
-            } else if(veh_type <= 92) {
-                add_vehicle("road_roller", veh_x, veh_y, facing, -1, 1);
-            } else if(veh_type <= 97) {
-                add_vehicle("policecar", veh_x, veh_y, facing, -1, 1);
-            } else {
-                add_vehicle("autosweeper", veh_x, veh_y, facing, -1, 1);
-            }
-        } else if(spawn_type <= 99) {
-            //Totally clear section of road
-            return;
-        } else {
-            //Road-blocking obstacle of some kind.
-            int block_type = rng(0, 100);
-            if(block_type <= 75) {
-                //Jack-knifed semi
-                int semi_x = 0;
-                int semi_y = 0;
-                int trailer_x = 0;
-                int trailer_y = 0;
-                if(facing == 0) {
-                    semi_x = rng(0, 16);
-                    semi_y = rng(14, 16);
-                    trailer_x = semi_x + 4;
-                    trailer_y = semi_y - 10;
-                } else if(facing == 90) {
-                    semi_x = rng(0, 8);
-                    semi_y = rng(4, 15);
-                    trailer_x = semi_x + 12;
-                    trailer_y = semi_y + 1;
-                } else if(facing == 180) {
-                    semi_x = rng(4, 16);
-                    semi_y = rng(4, 6);
-                    trailer_x = semi_x - 4;
-                    trailer_y = semi_y + 10;
-                } else {
-                    semi_x = rng(12, 20);
-                    semi_y = rng(5, 16);
-                    trailer_x = semi_x - 12;
-                    trailer_y = semi_y - 1;
-                }
-                add_vehicle("semi_truck", semi_x, semi_y, (facing + 135) % 360, -1, 1);
-                add_vehicle("truck_trailer", trailer_x, trailer_y, (facing + 90) % 360, -1, 1);
-            } else {
-                //Huge pileup of random vehicles
-                std::string next_vehicle;
-                int num_cars = rng(18, 22);
-                bool policecars = block_type >= 95; //Policecar pileup, Blues Brothers style
-                vehicle *last_added_car = NULL;
-                for(int i = 0; i < num_cars; i++) {
-                    if(policecars) {
-                        next_vehicle = "policecar";
-                    } else {
-                        //Random car
-                        int car_type = rng(0, 100);
-                        if(car_type <= 70) {
-                            next_vehicle = "car";
-                        } else if(car_type <= 90) {
-                            next_vehicle = "pickup";
-                        } else if(car_type <= 95) {
-                            next_vehicle = "cube_van";
-                        } else {
-                            next_vehicle = "hippie_van";
-                        }
-                    }
-                    last_added_car = add_vehicle(next_vehicle, rng(4, 16), rng(4, 16), rng(0, 3) * 90, -1, 1);
-                }
-
-                //Hopefully by the last one we've got a giant pileup, so name it
-                if (last_added_car != NULL) {
-                    if(policecars) {
-                        last_added_car->name = _("policecar pile-up");
-                    } else {
-                        last_added_car->name = _("pile-up");
-                    }
-                }
-            }
-        }
-    } else {
-        // spawn regular road out of fuel vehicles
-        if (one_in(40)) {
-            int vx = rng(8, 16);
-            int vy = rng(8, 16);
-            int car_type = rng(1, 30);
-            if (car_type <= 10) {
-                add_vehicle("car", vx, vy, facing, 0, -1);
-            } else if (car_type <= 14) {
-                add_vehicle("car_sports", vx, vy, facing, 0, -1);
-            } else if (car_type <= 16) {
-                add_vehicle("pickup", vx, vy, facing, 0, -1);
-            } else if (car_type <= 18) {
-                add_vehicle("semi_truck", vx, vy, facing, 0, -1);
-            } else if (car_type <= 20) {
-                add_vehicle("humvee", vx, vy, facing, 0, -1);
-            } else if (car_type <= 21) {
-                add_vehicle("car_fbi", vx, vy, facing, 0, -1);
-            } else if (car_type <= 24) {
-                add_vehicle("rara_x", vx, vy, facing, 0, -1);
-            } else if (car_type <= 25) {
-                add_vehicle("apc", vx, vy, facing, 0, -1);
-            } else if (car_type <= 28) {
-                add_vehicle("car_sports_electric", vx, vy, facing, 0, -1);
-            } else {
-                add_vehicle("armored_car", vx, vy, facing, 0, -1);
-            }
-        }
-    }
-}
-
-// 2D overloads for fields
-const field &map::field_at( const int x, const int y ) const
-{
-    return field_at( tripoint( x, y, abs_sub.z ) );
-}
-
-int map::get_field_strength( const point p, const field_id t ) const
-{
-    return get_field_strength( tripoint( p, abs_sub.z ), t );
-}
-
-int map::adjust_field_age( const point p, const field_id t, const int offset )
-{
-    return adjust_field_age( tripoint( p, abs_sub.z ), t, offset );
-}
-
-int map::adjust_field_strength( const point p, const field_id t, const int offset )
-{
-    return adjust_field_strength( tripoint( p, abs_sub.z ), t, offset );
-}
-
-int map::set_field_age( const point p, const field_id t, const int age, bool isoffset )
-{
-    return set_field_age( tripoint( p, abs_sub.z ), t, age, isoffset );
-}
-
-int map::set_field_strength( const point p, const field_id t, const int str, bool isoffset )
-{
-    return set_field_strength( tripoint( p, abs_sub.z ), t, str, isoffset );
-}
-
-bool map::add_field(const point p, const field_id t, const int density, const int age)
-{
-    return add_field( tripoint( p, abs_sub.z ), t, density, age );
-}
-
-bool map::add_field(const int x, const int y, const field_id t, const int density)
-{
-    return add_field( tripoint( x, y, abs_sub.z ), t, density, 0 );
-}
-
-void map::remove_field( const int x, const int y, const field_id field_to_remove )
-{
-    remove_field( tripoint( x, y, abs_sub.z ), field_to_remove );
-}
-
 field &map::get_field( const tripoint &p )
 {
     return field_at( p );
@@ -7428,6 +7151,28 @@ void map::scent_blockers( bool (&blocks_scent)[SEEX * MAPSIZE][SEEY * MAPSIZE],
             }
         }
     }
+}
+
+tripoint_range map::points_in_rectangle( const tripoint &from, const tripoint &to ) const
+{
+    const int minx = std::max( 0, std::min( from.x, to.x ) );
+    const int miny = std::max( 0, std::min( from.y, to.y ) );
+    const int minz = std::max( -OVERMAP_DEPTH, std::min( from.z, to.z ) );
+    const int maxx = std::min( SEEX * my_MAPSIZE, std::max( from.x, to.x ) );
+    const int maxy = std::min( SEEX * my_MAPSIZE, std::max( from.y, to.y ) );
+    const int maxz = std::min( OVERMAP_HEIGHT, std::max( from.z, to.z ) );
+    return tripoint_range( tripoint( minx, miny, minz ), tripoint( maxx, maxy, maxz ) );
+}
+
+tripoint_range map::points_in_radius( const tripoint &center, size_t radius, size_t radiusz ) const
+{
+    const int minx = std::max<int>( 0, center.x - radius );
+    const int miny = std::max<int>( 0, center.y - radius );
+    const int minz = std::max<int>( -OVERMAP_DEPTH, center.z - radiusz );
+    const int maxx = std::min<int>( SEEX * my_MAPSIZE, center.x + radius );
+    const int maxy = std::min<int>( SEEX * my_MAPSIZE, center.y + radius );
+    const int maxz = std::min<int>( OVERMAP_HEIGHT, center.z + radiusz );
+    return tripoint_range( tripoint( minx, miny, minz ), tripoint( maxx, maxy, maxz ) );
 }
 
 level_cache &map::access_cache( int zlev )

@@ -19,6 +19,7 @@
 #include "lightmap.h"
 #include "item_stack.h"
 #include "active_item_cache.h"
+#include "string_id.h"
 
 //TODO: include comments about how these variables work. Where are they used. Are they constant etc.
 #define CAMPSIZE 1
@@ -28,6 +29,7 @@ class player;
 class monster;
 class item;
 class Creature;
+class tripoint_range;
 struct itype;
 struct mapgendata;
 struct trap;
@@ -47,6 +49,8 @@ struct wrapped_vehicle{
 typedef std::vector<wrapped_vehicle> VehicleList;
 typedef std::vector< std::pair< item*, int > > itemslice;
 typedef std::string items_location;
+struct vehicle_prototype;
+using vproto_id = string_id<vehicle_prototype>;
 
 class map_stack : public item_stack {
 private:
@@ -800,13 +804,6 @@ void add_corpse( const tripoint &p );
   */
  item *item_from( vehicle *veh, const int cargo_part, const size_t index );
 
-// Traps: 2D overloads
- void trap_set(const int x, const int y, const trap_id id);
-
-    const trap & tr_at( const int x, const int y ) const;
- void add_trap(const int x, const int y, const trap_id t);
- void disarm_trap( const int x, const int y);
- void remove_trap(const int x, const int y);
 // Traps: 3D
  void trap_set( const tripoint &p, const trap_id id);
 
@@ -816,18 +813,6 @@ void add_corpse( const tripoint &p );
  void remove_trap( const tripoint &p );
  const std::vector<tripoint> &trap_locations(trap_id t) const;
 
-// Fields: 2D overloads that will later be slowly phased out
-        const field& field_at( const int x, const int y ) const;
-        int get_field_strength( const point p, const field_id t ) const;
-        int adjust_field_age( const point p, const field_id t, const int offset );
-        int adjust_field_strength( const point p, const field_id t, const int offset );
-        int set_field_age( const point p, const field_id t, const int age, bool isoffset = false );
-        int set_field_strength( const point p, const field_id t, const int str, bool isoffset = false );
-        field_entry * get_field( const point p, const field_id t );
-        bool add_field(const point p, const field_id t, const int density, const int age);
-        bool add_field(const int x, const int y, const field_id t, const int density);
-        void remove_field( const int x, const int y, const field_id field_to_remove );
-// End of 2D overload block
  bool process_fields(); // See fields.cpp
  bool process_fields_in_submap( submap * const current_submap,
                                 const int submap_x, const int submap_y, const int submap_z); // See fields.cpp
@@ -944,7 +929,7 @@ void add_corpse( const tripoint &p );
  void add_spawn(std::string type, const int count, const int x, const int y, bool friendly = false,
                 const int faction_id = -1, const int mission_id = -1,
                 std::string name = "NONE");
- vehicle *add_vehicle(std::string type, const int x, const int y, const int dir,
+ vehicle *add_vehicle(const vproto_id & type, const int x, const int y, const int dir,
                       const int init_veh_fuel = -1, const int init_veh_status = -1,
                       const bool merge_wrecks = true);
  void build_map_cache( int zlev );
@@ -1011,7 +996,6 @@ void add_corpse( const tripoint &p );
  // Not protected/private for mapgen_functions.cpp access
  void rotate(const int turns);// Rotates the current map 90*turns degress clockwise
                               // Useful for houses, shops, etc
- void add_road_vehicles(bool city, int facing);
 
 // Monster spawning:
 public:
@@ -1259,6 +1243,10 @@ private:
 
   public:
     void update_visibility_cache( visibility_variables &cache, int zlev );
+
+    // Clips the area to map bounds
+    tripoint_range points_in_rectangle( const tripoint &from, const tripoint &to ) const;
+    tripoint_range points_in_radius( const tripoint &center, size_t radius, size_t radiusz = 0 ) const;
     level_cache &access_cache( int zlev );
     const level_cache &access_cache( int zlev ) const;
 };

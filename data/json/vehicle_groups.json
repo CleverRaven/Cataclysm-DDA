@@ -1,0 +1,69 @@
+[
+    {
+        "type" : "vehicle_group",
+        "id" : "city_wrecks",
+        "vehicles" : [
+            ["suv", 400],
+            ["suv_electric", 200],
+            ["pickup", 400],
+            ["car", 1500],
+            ["policecar", 500],
+            ["ambulance", 900],
+            ["bicycle_electric", 100],
+            ["beetle", 500],
+            ["car_sports", 300],
+            ["scooter", 200],
+            ["scooter_electric", 300],
+            ["motorcycle", 200],
+            ["hippie_van", 1000],
+            ["cube_van_cheap", 500],
+            ["cube_van", 500],
+            ["electric_car", 500],
+            ["flatbed_truck", 1000],
+            ["rv", 500],
+            ["lux_rv", 100],
+            ["meth_lab", 200],
+            ["apc", 100],
+            ["motorcycle_sidecart", 100]
+        ]
+    },{
+        "type" : "vehicle_group",
+        "id" : "city_parked",
+        "vehicles" : [
+            ["suv", 600],
+            ["suv_electric", 400],
+            ["pickup", 400],
+            ["car_mini", 400],
+            ["truck_swat", 200],
+            ["car", 4700],
+            ["electric_car", 2200],
+            ["road_roller", 300],
+            ["policecar", 500],
+            ["autosweeper", 300]
+        ]
+    },{
+        "type" : "vehicle_group",
+        "id" : "city_pileup",
+        "vehicles" : [
+            ["car", 7000],
+            ["pickup", 2000],
+            ["cube_van", 500],
+            ["hippie_van", 500]
+        ]
+    },{
+        "type" : "vehicle_group",
+        "id" : "highway",
+        "vehicles" : [
+            ["car", 3300],
+            ["car_sports", 1320],
+            ["pickup", 660],
+            ["semi_truck", 660],
+            ["humvee", 660],
+            ["car_fbi", 330],
+            ["rara_x", 990],
+            ["apc", 330],
+            ["car_sports_electric", 330],
+            ["armored_car", 990]
+        ]
+    }
+]

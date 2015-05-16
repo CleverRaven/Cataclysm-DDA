@@ -607,7 +607,9 @@ bool player::activate_bionic(int b, bool eff_only)
     std::vector<point> traj;
     std::vector<std::string> good;
     std::vector<std::string> bad;
-    int dirx, diry;
+    tripoint dirp = pos();
+    int &dirx = dirp.x;
+    int &diry = dirp.y;
     item tmp_item;
     w_point const weatherPoint = g->weatherGen.get_weather( global_square_location(), calendar::turn );
 
@@ -641,7 +643,7 @@ bool player::activate_bionic(int b, bool eff_only)
         healall(4);
     } else if (bio.id == "bio_resonator") {
         //~Sound of a bionic sonic-resonator shaking the area
-        sounds::sound(posx(), posy(), 30, _("VRRRRMP!"));
+        sounds::sound( pos(), 30, _("VRRRRMP!"));
         for (int i = posx() - 1; i <= posx() + 1; i++) {
             for (int j = posy() - 1; j <= posy() + 1; j++) {
                 tripoint bashpoint( i, j, posz() );
@@ -812,8 +814,8 @@ bool player::activate_bionic(int b, bool eff_only)
             }
         }
     } else if(bio.id == "bio_lighter") {
-        if(!choose_adjacent(_("Start a fire where?"), dirx, diry) ||
-           (!g->m.add_field(dirx, diry, fd_fire, 1))) {
+        if(!choose_adjacent(_("Start a fire where?"), dirp) ||
+           (!g->m.add_field(dirp, fd_fire, 1, 0))) {
             add_msg_if_player(m_info, _("You can't light a fire there."));
             charge_power(bionics["bio_lighter"].power_activate);
         }
@@ -870,7 +872,7 @@ bool player::activate_bionic(int b, bool eff_only)
     } else if (bio.id == "bio_hydraulics") {
         add_msg(m_good, _("Your muscles hiss as hydraulic strength fills them!"));
         // Sound of hissing hydraulic muscle! (not quite as loud as a car horn)
-        sounds::sound(posx(), posy(), 19, _("HISISSS!"));
+        sounds::sound( pos(), 19, _("HISISSS!"));
     } else if (bio.id == "bio_water_extractor") {
         bool extracted = false;
         for( auto it = g->m.i_at(posx(), posy()).begin();
@@ -1166,7 +1168,7 @@ void player::process_bionic(int b)
         }
     } else if (bio.id == "bio_hydraulics") {
         // Sound of hissing hydraulic muscle! (not quite as loud as a car horn)
-        sounds::sound(posx(), posy(), 19, _("HISISSS!"));
+        sounds::sound( pos(), 19, _("HISISSS!"));
     }
 }
 
