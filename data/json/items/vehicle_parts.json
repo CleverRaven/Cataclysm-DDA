@@ -89,38 +89,6 @@
         "price" : 5500
     },{
         "type":"GENERIC",
-        "id" : "oversize_basket",
-        "name" : "oversize wire basket",
-        "description" : "An oversize wire basket from a shopping cart.",
-        "weight" : 5500,
-        "to_hit" : -5,
-        "color" : "cyan",
-        "symbol" : "]",
-        "material" : ["steel", "null"],
-        "techniques" : ["DEF_DISARM"],
-        "volume" : 80,
-        "bashing" : 20,
-        "cutting" : 0,
-        "category" : "veh_parts",
-        "price" : 6000
-    },{
-        "type":"GENERIC",
-        "id" : "trolley_bed",
-        "name" : "trolley bed",
-        "description" : "The bed from a trolley cart.",
-        "weight" : 8500,
-        "to_hit" : -8,
-        "color" : "cyan",
-        "symbol" : "]",
-        "material" : ["steel", "null"],
-        "techniques" : ["DEF_DISARM"],
-        "volume" : 120,
-        "bashing" : 20,
-        "cutting" : 0,
-        "category" : "veh_parts",
-        "price" : 8000
-    },{
-        "type":"GENERIC",
         "id" : "frame_wood",
         "name" : "wooden frame",
         "description" : "A large frame made of wood.  Useful for crafting.",

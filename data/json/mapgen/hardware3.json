@@ -16,14 +16,14 @@
                 "ppppp#v..............P#'",
                 "ppppp#lllllll..hhhhhvP#'",
                 "ppppp########++########'",
-                "ppppp#HHHHHHHppHHHHHHH#'",
-                "pVppp#pppppTpppppTpppp#'",
-                "ppppp#HHHHHHHppHHHHHHH#'",
-                "ppppp#ppTppppppppTpppp#'",
-                "ppppp#HHHH#HHppHH#HHHH#'",
+                "ppppp#HHHHHHH__HHHHHHH#'",
+                "pVppp#_____T_____T____#'",
+                "ppppp#HHHHHHH__HHHHHHH#'",
+                "ppppp#__T________T____#'",
+                "ppppp#HHHH#HHT_HH#HHHH#'",
                 "pppppwppppppppppppppppw'",
                 "pppppwHHHHHHHppHHHHHHHw'",
-                "ppppp|pppppTppppppppppw'",
+                "ppppp|ppppppppppppppppw'",
                 "ppppp|pppppppppHpHpHpHw'",
                 "pppppwMpMpMpMppHpHpHpHw'",
                 "pppppwpppppppppHpHpHpHw'",
@@ -53,8 +53,9 @@
                 "H": "t_pavement",
                 "M": "t_pavement",
                 "v": "t_floor",
-                "T": "t_pavement",
-                "V": "t_pavement"
+                "T": "t_floor",
+                "V": "t_pavement",
+                "_": "t_floor"
             },
             "furniture": {
                 "D": "f_dumpster",
@@ -80,15 +81,15 @@
                 "o": { "item": "home_hw", "chance": 15 },
                 "P": { "item": "paint", "chance": 35 },
                 "l": { "item": "cleaning", "chance": 35 },
-                "h": { "item": "hardware", "chance": 15 },
-                "H": { "item": "hardware_bulk", "chance": 15 }
+                "h": { "item": "hardware", "chance": 35 },
+                "H": { "item": "hardware_bulk", "chance": 35 }
             },
             "item": {
                 "M": { "item": "lawnmower", "chance": 5 }
             },
             "vehicles": {
-                "v": { "vehicle": "oversize_cart", "chance": 10, "status": 1 },
-                "T": { "vehicle": "trolley_cart", "chance": 10, "status": 1 },
+                "v": { "vehicle": "shopping_cart", "chance": 10, "status": 1 },
+                "T": { "vehicle": "handjack", "chance": 2, "status": 1 },
                 "V": { "vehicle": "flatbed_truck", "chance": 50, "rotation": 270, "status": 1 }
             }
         }
