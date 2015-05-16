@@ -109,15 +109,14 @@ monster::~monster()
 {
 }
 
-bool monster::setpos( const tripoint &p, const bool level_change )
+void monster::setpos( const tripoint &p )
 {
     if( p == pos3() ) {
-        return true;
+        return;
     }
-    bool ret = level_change ? true : g->update_zombie_pos( *this, p );
-    position = p;
 
-    return ret;
+    g->update_zombie_pos( *this, p );
+    position = p;
 }
 
 const tripoint &monster::pos() const
@@ -1292,19 +1291,45 @@ int monster::dodge_roll()
     return dice(numdice, 10);
 }
 
-int monster::fall_damage() const
+float monster::fall_damage_mod() const
 {
- if (has_flag(MF_FLIES))
-  return 0;
- switch (type->size) {
-  case MS_TINY:   return rng(0, 4);  break;
-  case MS_SMALL:  return rng(0, 6);  break;
-  case MS_MEDIUM: return dice(2, 4); break;
-  case MS_LARGE:  return dice(2, 6); break;
-  case MS_HUGE:   return dice(3, 5); break;
- }
+    if( has_flag(MF_FLIES) ) {
+        return 0.0f;
+    }
 
- return 0;
+    switch (type->size) {
+        case MS_TINY:
+            return 0.2f;
+        case MS_SMALL:
+            return 0.6f;
+        case MS_MEDIUM:
+            return 1.0f;
+        case MS_LARGE:
+            return 1.4f;
+        case MS_HUGE:
+            return 2.0f;
+        default:
+            return 0.0f;
+    }
+
+    return 0.0f;
+}
+
+int monster::fall_hit( const int force )
+{
+    const float mod = fall_damage_mod();
+    int total_dealt = 0;
+    if( g->m.has_flag( "SHARP", pos() ) ) {
+        apply_damage( nullptr, bp_torso, 10 * mod );
+        total_dealt += 10 * mod;
+    }
+
+    apply_damage( nullptr, bp_torso, force * mod );
+    total_dealt += force * mod;
+
+    add_effect( "downed", mod * 3 );
+
+    return total_dealt;
 }
 
 void monster::reset_special(int index)
