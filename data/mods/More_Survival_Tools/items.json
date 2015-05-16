@@ -708,5 +708,35 @@
     "bashing" : -3,
     "cutting" : 3,
     "to_hit" : 0
-  }
+  },
+    {
+        "type" : "COMESTIBLE",
+        "id" : "hotdogs_campfire",
+        "name" : "campfire hot dogs",
+        "name_plural" : "campfire hot dogs",
+        "weight" : 80,
+        "color" : "red",
+        "addiction_type" : "none",
+        "spoils_in" : 280,
+        "stim" : 0,
+        "to_hit" : 0,
+        "comestible_type" : "FOOD",
+        "symbol" : "%",
+        "quench" : 0,
+        "healthy" : -1,
+        "addiction_potential" : 0,
+        "nutrition" : 12,
+        "description" : "The simple hot dog, cooked over an open fire. Would be better on a bun, but it's quite an improvement over eating it uncooked",
+        "price" : 800,
+        "material" : ["flesh", "junk"],
+        "tool" : "null",
+        "volume" : 1,
+        "cutting" : 0,
+        "phase" : "solid",
+        "charges" : 1,
+        "stack_size": 4,
+        "bashing" : 0,
+        "flags" : ["EATEN_HOT"],
+        "fun" : 0
+    }
 ]
