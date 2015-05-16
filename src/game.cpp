@@ -6781,19 +6781,6 @@ bool game::is_sheltered( const tripoint &p )
              ( veh && veh->is_inside(vpart) ) );
 }
 
-bool game::revive_corpse( const tripoint &p, int n )
-{
-    if ((int)m.i_at( p ).size() <= n) {
-        debugmsg( "Tried to revive a non-existent corpse! (%d, %d, %d), #%d of %d",
-                  p.x, p.y, p.z, n, m.i_at( p ).size());
-        return false;
-    }
-    if( !revive_corpse( p, &m.i_at( p )[n] ) ) {
-        return false;
-    }
-    return true;
-}
-
 bool game::revive_corpse( const tripoint &p, item *it )
 {
     if (it == nullptr || !it->is_corpse()) {

@@ -212,8 +212,6 @@ class game
         bool is_in_sunlight( const tripoint &p );
         /** Returns true if p is indoors, underground, or in a car. */
         bool is_sheltered( const tripoint &p );
-        /** Revives the corpse with position n in the items at p. Returns true if successful. */
-        bool revive_corpse( const tripoint &p, int n );
         /** Revives the corpse at p by item pointer. Caller handles item deletion. */
         bool revive_corpse( const tripoint &p, item *it );
         /** Handles player input parts of gun firing (target selection, etc.). Actual firing is done
