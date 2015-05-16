@@ -40,8 +40,7 @@ VehicleFunction_json::VehicleFunction_json(JsonObject &jo)
         //location = std::make_unique<Vehicle_Location>(jmapgen_int(jo, "x"), jmapgen_int(jo, "y"), facings);
         // that would be better, but it won't exist until c++14, so for now we do this:
         VehicleFacings facings(jo, "facing");
-        std::unique_ptr<VehicleLocation> ploc(new VehicleLocation(jmapgen_int(jo, "x"), jmapgen_int(jo, "y"), facings));
-        location = std::move(ploc);
+        location.reset(new VehicleLocation(jmapgen_int(jo, "x"), jmapgen_int(jo, "y"), facings));
     }
 }
 
