@@ -126,16 +126,14 @@ void VehicleFactory::load_vehicle_spawn(JsonObject &jo)
         }
         else if(type.has_string("vehicle_function")) {
             if(builtin_functions.count(type.get_string("vehicle_function")) == 0) {
-                debugmsg("load_vehicle_spawn: unable to find builtin function %s", type.get_string("vehicle_function").c_str());
-                continue;
+                type.throw_error("load_vehicle_spawn: unable to find builtin function", "vehicle_function");
             }
 
             spawn.add(type.get_float("weight"), std::make_shared<VehicleFunction_builtin>(
                 builtin_functions[type.get_string("vehicle_function")]));
         }
         else {
-            debugmsg("load_vehicle_spawn: missing required vehicle_json (object) or vehicle_function (string).");
-            continue;
+            type.throw_error("load_vehicle_spawn: missing required vehicle_json (object) or vehicle_function (string).");
         }
     }
 
