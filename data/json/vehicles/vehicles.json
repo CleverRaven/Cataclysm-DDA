@@ -3814,8 +3814,8 @@
         ]
     },{
         "type" : "vehicle",
-        "id" : "oversized_cart",
-        "name" : "Oversized Cart",
+        "id" : "oversize_cart",
+        "name" : "Oversize Cart",
         "blueprint" : "o",
         "parts" : [
             {"x": 0, "y": 0, "part": "xlframe_vertical_2"},
@@ -3824,13 +3824,13 @@
         ]
     },{
         "type" : "vehicle",
-        "id" : "trolly_cart",
-        "name" : "Trolly Cart",
+        "id" : "trolley_cart",
+        "name" : "Trolley Cart",
         "blueprint" : "o",
         "parts" : [
             {"x": 0, "y": 0, "part": "xlframe_vertical_2"},
             {"x": 0, "y": 0, "part": "wheel_caster"},
-            {"x": 0, "y": 0, "part": "trollybed"}
+            {"x": 0, "y": 0, "part": "trolley_bed"}
         ]
     },{
         "type" : "vehicle",

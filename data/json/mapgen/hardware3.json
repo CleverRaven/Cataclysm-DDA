@@ -87,8 +87,8 @@
                 "M": { "item": "lawnmower", "chance": 5 }
             },
             "vehicles": {
-                "v": { "vehicle": "oversized_cart", "chance": 10, "status": 1 },
-                "T": { "vehicle": "trolly_cart", "chance": 10, "status": 1 },
+                "v": { "vehicle": "oversize_cart", "chance": 10, "status": 1 },
+                "T": { "vehicle": "trolley_cart", "chance": 10, "status": 1 },
                 "V": { "vehicle": "flatbed_truck", "chance": 50, "rotation": 270, "status": 1 }
             }
         }

@@ -89,9 +89,9 @@
         "price" : 5500
     },{
         "type":"GENERIC",
-        "id" : "oversized_basket",
-        "name" : "oversized wire basket",
-        "description" : "An oversized wire basket from a shopping cart.",
+        "id" : "oversize_basket",
+        "name" : "oversize wire basket",
+        "description" : "An oversize wire basket from a shopping cart.",
         "weight" : 5500,
         "to_hit" : -5,
         "color" : "cyan",
@@ -105,9 +105,9 @@
         "price" : 6000
     },{
         "type":"GENERIC",
-        "id" : "trolly_bed",
-        "name" : "trolly bed",
-        "description" : "The bed from a trolly cart.",
+        "id" : "trolley_bed",
+        "name" : "trolley bed",
+        "description" : "The bed from a trolley cart.",
         "weight" : 8500,
         "to_hit" : -8,
         "color" : "cyan",
