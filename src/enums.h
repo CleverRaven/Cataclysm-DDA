@@ -356,7 +356,6 @@ static const tripoint tripoint_min { INT_MIN, INT_MIN, INT_MIN };
 template <typename T, std::size_t N>
 std::array<T, N> vec_to_array(const std::vector<T> &vec)
 {
-    assert(vec.size() == N);
     std::array<T, N> array;
     for(size_t i = 0; i < N; ++i) {
         array[i] = vec[i];
