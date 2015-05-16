@@ -322,6 +322,9 @@ void vehicle_prototype::load(JsonObject &jo)
     // re-defined by a mod. This will also delete any existing vehicle blueprint.
     vproto = std::move( vehicle_prototype() );
 
+    // Add into vehicle groups as a group with a single vehicle prototype.
+    vgroups[vgroup_id(jo.get_string("id"))].add_vehicle(vproto_id(jo.get_string("id")), 100);
+
     vproto.name = jo.get_string("name");
 
     JsonArray parts = jo.get_array("parts");
