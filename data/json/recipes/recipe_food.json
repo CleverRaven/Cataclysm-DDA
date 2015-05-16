@@ -6620,7 +6620,7 @@
   ]
 },{
   "type" : "recipe",
-  "result": "jar_broth_bone",
+  "result": "jar_broth_human",
   "category": "CC_FOOD",
   "subcategory": "CSC_FOOD_OTHER",
   "skill_used": "cooking",
