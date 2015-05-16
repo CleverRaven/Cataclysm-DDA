@@ -798,36 +798,6 @@
   ]
 },{
   "type" : "recipe",
-  "result": "plant_fibre",
-  "id_suffix": "from straw",
-  "category": "CC_OTHER",
-  "subcategory": "CSC_OTHER_MATERIALS",
-  "skill_used": "survival",
-  "difficulty": 3,
-  "skills_required": [ "fabrication", 1 ],
-  "result_mult": 3,
-  "time": 9000,
-  "reversible": false,
-  "autolearn": true,
-  "qualities":[
-    {"id":"HAMMER","level":1,"amount":1}
-  ],
-  "tools": [
-    [
-      [ "distaff_spindle", -1 ]
-    ],
-    [
-      [ "water", -1 ]
-    ]
-  ],
-  "components": [
-    [
-      [ "withered", 2 ],
-      [ "straw_pile", 2 ]
-    ]
-  ]
-},{
-  "type" : "recipe",
   "result": "milk_curdling",
   "category": "CC_FOOD",
   "subcategory": "CSC_FOOD_OTHER",
@@ -1362,8 +1332,9 @@
   ],
   "components": [
     [
-      [ "cattail_stalk", 1 ],
-      [ "dogbane", 1 ]
+      [ "cattail_stalk", 2 ],
+      [ "dogbane", 2 ],
+      [ "withered", 2 ]
     ]
   ]
 },{
@@ -1416,6 +1387,29 @@
   "components": [
     [
       [ "hotdogs_frozen", 1 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
+  "override": true,
+  "result": "plant_fibre",
+  "category": "CC_OTHER",
+  "subcategory": "CSC_OTHER_MATERIALS",
+  "skill_used": "survival",
+  "difficulty": 1,
+  "result_mult": 3,
+  "time": 6000,
+  "reversible": false,
+  "autolearn": true,
+  "tools": [
+    [
+      [ "distaff_spindle", -1 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "dogbane", 1 ],
+      [ "cattail_stalk", 1 ]
     ]
   ]
 }
