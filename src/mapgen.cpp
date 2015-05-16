@@ -725,16 +725,24 @@ class jmapgen_vehicle : public jmapgen_piece {
 public:
     vproto_id type;
     jmapgen_int chance;
-    int rotation;
+    std::vector<int> rotation;
     int fuel;
     int status;
     jmapgen_vehicle( JsonObject &jsi ) : jmapgen_piece()
     , type( jsi.get_string( "vehicle" ) )
     , chance( jsi, "chance", 1, 1 )
-    , rotation( jsi.get_int( "rotation", 0 ) )
+    //, rotation( jsi.get_int( "rotation", 0 ) ) // unless there is a way for the json parser to
+        // return a single int as a list, we have to manually check this in the constructor below
     , fuel( jsi.get_int( "fuel", -1 ) )
     , status( jsi.get_int( "status", -1 ) )
     {
+        if(jsi.has_array("rotation")) {
+            rotation = jsi.get_int_array("rotation");
+        }
+        else {
+            rotation.push_back(jsi.get_int( "rotation", 0 ));
+        }
+
         if( !type.is_valid() ) {
             jsi.throw_error( "no such vehicle type", "vehicle" );
         }
@@ -744,7 +752,7 @@ public:
         if( !x_in_y( chance.get(), 100 ) ) {
             return;
         }
-        m.add_vehicle( type, x, y, rotation, fuel, status );
+        m.add_vehicle( type, x, y, rotation[rng(0, rotation.size()-1)], fuel, status );
     }
 };
 /**
@@ -868,19 +876,24 @@ public:
     }
 };
 
+void jmapgen_objects::add(const jmapgen_place &place, std::shared_ptr<jmapgen_piece> &piece)
+{
+    objects.emplace_back(place, piece);
+}
+
 template<typename PieceType>
-void mapgen_function_json::load_objects( JsonArray parray )
+void jmapgen_objects::load_objects( JsonArray parray )
 {
     while( parray.has_more() ) {
         auto jsi = parray.next_object();
         const jmapgen_place where( jsi );
         std::shared_ptr<jmapgen_piece> what( new PieceType( jsi ) );
-        objects.push_back( jmapgen_obj( where, what ) );
+        add(where, what);
     }
 }
 
 template<typename PieceType>
-void mapgen_function_json::load_objects( JsonObject &jsi, const std::string &member_name )
+void jmapgen_objects::load_objects( JsonObject &jsi, const std::string &member_name )
 {
     if( !jsi.has_member( member_name ) ) {
         return;
@@ -1155,7 +1168,7 @@ bool mapgen_function_json::setup() {
                     if( fpi != format_placings.end() ) {
                         jmapgen_place where( i, c );
                         for( auto &what: fpi->second ) {
-                            objects.push_back( jmapgen_obj( where, what ) );
+                            objects.add(where, what);
                         }
                     }
                 }
@@ -1179,20 +1192,20 @@ bool mapgen_function_json::setup() {
             }
        }
         // this is for backwards compatibility, it should better be named place_items
-        load_objects<jmapgen_spawn_item>( jo, "add" );
-        load_objects<jmapgen_field>( jo, "place_fields" );
-        load_objects<jmapgen_npc>( jo, "place_npcs" );
-        load_objects<jmapgen_sign>( jo, "place_signs" );
-        load_objects<jmapgen_vending_machine>( jo, "place_vendingmachines" );
-        load_objects<jmapgen_toilet>( jo, "place_toilets" );
-        load_objects<jmapgen_gaspump>( jo, "place_gaspumps" );
-        load_objects<jmapgen_item_group>( jo, "place_items" );
-        load_objects<jmapgen_monster_group>( jo, "place_monsters" );
-        load_objects<jmapgen_vehicle>( jo, "place_vehicles" );
-        load_objects<jmapgen_trap>( jo, "place_traps" );
-        load_objects<jmapgen_furniture>( jo, "place_furniture" );
-        load_objects<jmapgen_terrain>( jo, "place_terrain" );
-        load_objects<jmapgen_monster>( jo, "place_monster" );
+        objects.load_objects<jmapgen_spawn_item>( jo, "add" );
+        objects.load_objects<jmapgen_field>( jo, "place_fields" );
+        objects.load_objects<jmapgen_npc>( jo, "place_npcs" );
+        objects.load_objects<jmapgen_sign>( jo, "place_signs" );
+        objects.load_objects<jmapgen_vending_machine>( jo, "place_vendingmachines" );
+        objects.load_objects<jmapgen_toilet>( jo, "place_toilets" );
+        objects.load_objects<jmapgen_gaspump>( jo, "place_gaspumps" );
+        objects.load_objects<jmapgen_item_group>( jo, "place_items" );
+        objects.load_objects<jmapgen_monster_group>( jo, "place_monsters" );
+        objects.load_objects<jmapgen_vehicle>( jo, "place_vehicles" );
+        objects.load_objects<jmapgen_trap>( jo, "place_traps" );
+        objects.load_objects<jmapgen_furniture>( jo, "place_furniture" );
+        objects.load_objects<jmapgen_terrain>( jo, "place_terrain" );
+        objects.load_objects<jmapgen_monster>( jo, "place_monster" );
 
 #ifdef LUA
        // silently ignore if unsupported in build
@@ -1327,6 +1340,18 @@ void mapgen_function_json::generate( map *m, oter_id terrain_type, mapgendata md
     (void)md;
     (void)t;
 #endif
+
+    objects.apply(m, d);
+
+    if( terrain_type.t().has_flag(rotates) ) {
+        mapgen_rotate(m, terrain_type, false );
+    }
+}
+
+/*
+ * Apply mapgen as per a derived-from-json recipe; in theory fast, but not very versatile
+ */
+void jmapgen_objects::apply(map *m, float density) const {
     for( auto &obj : objects ) {
         const auto &where = obj.first;
         const auto &what = *obj.second;
@@ -1334,11 +1359,8 @@ void mapgen_function_json::generate( map *m, oter_id terrain_type, mapgendata md
         for( int i = 0; i < repeat; i++ ) {
             const auto x = where.x.get();
             const auto y = where.y.get();
-            what.apply( *m, x, y, d );
+            what.apply(*m, x, y, density);
         }
-    }
-    if( terrain_type.t().has_flag(rotates) ) {
-        mapgen_rotate(m, terrain_type, false );
     }
 }
 

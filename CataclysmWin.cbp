@@ -436,6 +436,8 @@
 		<Unit filename="src/veh_typedef.cpp" />
 		<Unit filename="src/vehicle.cpp" />
 		<Unit filename="src/vehicle.h" />
+		<Unit filename="src/vehicle_factory.cpp" />
+		<Unit filename="src/vehicle_factory.h" />
 		<Unit filename="src/version.cpp" />
 		<Unit filename="src/wcwidth.h" />
 		<Unit filename="src/wdirent.h" />

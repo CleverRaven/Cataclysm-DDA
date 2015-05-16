@@ -970,7 +970,6 @@ void add_corpse( const tripoint &p );
  // Not protected/private for mapgen_functions.cpp access
  void rotate(const int turns);// Rotates the current map 90*turns degress clockwise
                               // Useful for houses, shops, etc
- void add_road_vehicles(bool city, int facing);
 
 // Monster spawning:
 public:

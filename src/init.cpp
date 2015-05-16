@@ -12,6 +12,7 @@
 #include "mutation.h"
 #include "text_snippets.h"
 #include "item_factory.h"
+#include "vehicle_factory.h"
 #include "crafting.h"
 #include "computer.h"
 #include "help.h"
@@ -132,6 +133,13 @@ void DynamicDataLoader::initialize()
 
     type_function_map["vehicle_part"] = new StaticFunctionAccessor( &vpart_info::load );
     type_function_map["vehicle"] = new StaticFunctionAccessor( &vehicle_prototype::load );
+    type_function_map["vehicle_group"] = new ClassFunctionAccessor<VehicleFactory>(vehicle_controller,
+            &VehicleFactory::load_vehicle_group);
+    type_function_map["vehicle_placement"] = new ClassFunctionAccessor<VehicleFactory>(vehicle_controller,
+            &VehicleFactory::load_vehicle_placement);
+    type_function_map["vehicle_spawn"] = new ClassFunctionAccessor<VehicleFactory>(vehicle_controller,
+            &VehicleFactory::load_vehicle_spawn);
+
     type_function_map["trap"] = new StaticFunctionAccessor(&trap::load);
     type_function_map["AMMO"] = new ClassFunctionAccessor<Item_factory>(item_controller,
             &Item_factory::load_ammo);
