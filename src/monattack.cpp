@@ -688,7 +688,13 @@ void mattack::resurrect(monster *z, int index)
         z->moves -= z->type->speed; // Takes one turn
         // Lose 20% of our maximum speed
         z->set_speed_base(z->get_speed_base() - .2 * z->type->speed);
-        monster *zed = &g->zombie(g->mon_at(raised.first));
+        const int mondex = g->mon_at(raised.first);
+        if( mondex == -1 ) {
+            debugmsg( "Misplaced or failed to revive a zombie corpse" );
+            return;
+        }
+
+        monster *zed = &g->zombie( mondex );
         zed->make_ally(z);
         if (g->u.sees(*zed)) {
             add_msg(m_warning, _("A nearby %s rises from the dead!"), zed->name().c_str());
