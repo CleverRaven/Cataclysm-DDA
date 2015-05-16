@@ -33,6 +33,8 @@ extern "C" {
 #define LUA_OK 0
 #endif
 
+using item_stack_iterator = std::list<item>::iterator;
+
 lua_State *lua_state;
 
 // Keep track of the current mod from which we are executing, so that

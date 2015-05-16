@@ -60,6 +60,28 @@ function tripoint_mt_test()
     game.popup("b: " .. b .. ", trp.x: " .. trp.x) -- b should be the same as before
 end
 
+-- An iterator over all items on the map at a specific point.
+function item_stack_iterator(pos)
+    local start = map:i_at(pos)
+    local b = start:cppbegin()
+    return function ()
+        if b == start:cppend() then
+            return nil
+        else
+            local e = b:elem()
+            b:inc()
+            return e
+        end
+    end
+end
+
+function item_test()
+    local pos = player:pos()
+    for x in item_stack_iterator(pos) do
+        game.popup( x:tname() )
+    end
+end
+
 game.register_iuse("HICCUP", hiccup)
 game.register_iuse("TELLSTUFF", tellstuff)
 game.register_iuse("CUSTOM_PROZAC", custom_prozac)

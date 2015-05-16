@@ -49,6 +49,29 @@ classes = {
             add_traits = { rval = nil, args = { } }
         }
     },
+    item_stack_iterator = {
+        by_value = true,
+        has_equal = true,
+        attributes = {
+        },
+        functions = {
+            inc = { rval = nil, cpp_name = "operator++", args = { } },
+            elem = { rval = "item", cpp_name = "operator*"; args = { } }
+        }
+    },
+    map_stack = {
+        by_value = true,
+        attributes = {
+        },
+        functions = {
+            size = { rval = "int", args = { } },
+            empty = { rval = "bool", args = { } },
+            erase = { rval = "item_stack_iterator", args = { "item_stack_iterator" } },
+            push_back = { rval = nil, args = { "item" } },
+            cppbegin = { rval = "item_stack_iterator", cpp_name = "begin", args = { } },
+            cppend = { rval = "item_stack_iterator", cpp_name = "end", args = {} }
+        }
+    },
     player = {
         parent = "Character",
         attributes = {
@@ -533,6 +556,7 @@ classes = {
     },
     point = {
         by_value = true,
+        has_equal = true,
         attributes = {
             x = {
                 type = "int",
@@ -549,6 +573,7 @@ classes = {
     },
     tripoint = {
         by_value = true,
+        has_equal = true,
         attributes = {
             x = {
                 type = "int",
@@ -601,6 +626,7 @@ classes = {
         attributes = {
         },
         functions = {
+            i_at = { rval = "map_stack", args = { "tripoint" } },
             save = { rval = nil, args = { } },
             load = { rval = nil, args = { "int", "int", "int", "bool" } },
             shift = { rval = nil, args = { "int", "int" } },
