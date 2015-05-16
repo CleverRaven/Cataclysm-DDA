@@ -251,6 +251,8 @@ set(SRCS
 	uistate.h
 	vehicle.cpp
 	vehicle.h
+	vehicle_factory.cpp
+	vehicle_factory.h
 	veh_interact.cpp
 	veh_interact.h
 	veh_typedef.cpp
