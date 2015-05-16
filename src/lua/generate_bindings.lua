@@ -49,11 +49,11 @@ end
 function retrieve_lua_value(out_variable, value_type, stack_position)
     local cpp_value_type = member_type_to_cpp_type(value_type)
     if value_type == "int" or value_type == "float" then
-        return cpp_value_type .. " "..out_variable.." = ("..cpp_value_type..") lua_tonumber(L, "..stack_position..");"
+        return cpp_value_type .. " "..out_variable.." = lua_tonumber(L, "..stack_position..");"
     elseif value_type == "bool" then
-        return cpp_value_type .. " "..out_variable.." = ("..cpp_value_type..") lua_toboolean(L, "..stack_position..");"
+        return cpp_value_type .. " "..out_variable.." = lua_toboolean(L, "..stack_position..");"
     elseif value_type == "string" or value_type == "cstring" then
-        return cpp_value_type .. " "..out_variable.." = ("..cpp_value_type..") lua_tostring(L, "..stack_position..");"
+        return cpp_value_type .. " "..out_variable.." = lua_tostring(L, "..stack_position..");"
     elseif member_type_to_lua_type(value_type) == "LUA_TUSERDATA" then
         -- a little complex: first have to extract the value as a double pointer, e.g. map**, then have to retrieve the pointer, e.g. map*
         local rval = cpp_value_type .. "* "..out_variable.."_pointer = ("..cpp_value_type.."*) lua_touserdata(L, "..stack_position.."); "
@@ -154,7 +154,7 @@ function generate_global_function_wrapper(function_name, function_to_call, args,
     text = text .. tab
 
     if rval then
-        text = text .. member_type_to_cpp_type(rval) .. " rval = (" .. member_type_to_cpp_type(rval) .. ")"
+        text = text .. member_type_to_cpp_type(rval) .. " rval = "
     end
 
     text = text .. function_to_call .. "("
