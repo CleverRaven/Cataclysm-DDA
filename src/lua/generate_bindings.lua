@@ -104,7 +104,7 @@ function generate_getter(class, member_name, member_type, cpp_name)
     local function_name = class.."_get_"..member_name
     local text = "static int "..function_name.."(lua_State *L) {"..br
 
-    text = text .. tab .. class .. "** "..class.."_instance = ("..class.."**) lua_touserdata(L, 1);\n"..br
+    text = text .. tab .. "auto && "..class.."_instance = ("..class.."**) lua_touserdata(L, 1);\n"..br
 
     text = text .. tab .. "if(!"..class.."_instance) {"..br
     text = text .. tab .. tab .. 'return luaL_error(L, "First argument to '..function_name..' is not a '..class..'");'..br
@@ -124,7 +124,7 @@ function generate_setter(class, member_name, member_type, cpp_name)
     
     local text = "static int "..function_name.."(lua_State *L) {"..br
 
-    text = text .. tab .. class .. "** "..class.."_instance = ("..class.."**) lua_touserdata(L, 1);\n"..br
+    text = text .. tab .. "auto && "..class.."_instance = ("..class.."**) lua_touserdata(L, 1);\n"..br
 
     text = text .. tab .. "if(!"..class.."_instance) {"..br
     text = text .. tab .. tab .. 'return luaL_error(L, "First argument to '..function_name..' is not a '..class..'");'..br
@@ -154,7 +154,7 @@ function generate_global_function_wrapper(function_name, function_to_call, args,
     text = text .. tab
 
     if rval then
-        text = text .. member_type_to_cpp_type(rval) .. " rval = "
+        text = text .. "auto && rval = "
     end
 
     text = text .. function_to_call .. "("
@@ -184,7 +184,7 @@ function generate_class_function_wrapper(class, function_name, function_to_call,
     local text = "static int "..class.."_"..function_name.."(lua_State *L) {"..br
 
     -- retrieve the object to call the function on from the stack.
-    text = text .. tab .. class .. "** "..class.."_instance = ("..class.."**) lua_touserdata(L, 1);\n"..br
+    text = text .. tab .. "auto && "..class.."_instance = ("..class.."**) lua_touserdata(L, 1);\n"..br
 
     text = text .. tab .. "if(!"..class.."_instance) {"..br
     text = text .. tab .. tab .. 'return luaL_error(L, "First argument to '..function_name..' is not a '..class..'. Did you use foo.bar() instead of foo:bar()?");'..br
@@ -202,7 +202,7 @@ function generate_class_function_wrapper(class, function_name, function_to_call,
     text = text .. tab
 
     if rval then
-        text = text .. member_type_to_cpp_type(rval) .. " rval = "
+        text = text .. "auto && rval = "
     end
 
     text = text .. "(*" .. class.. "_instance)->"..function_to_call .. "("
