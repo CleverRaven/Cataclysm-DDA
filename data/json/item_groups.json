@@ -2015,6 +2015,43 @@
     ]
   },{
     "type" : "item_group",
+    "id" : "hardware_plumbing",
+    "items":[
+      ["battery", 50],
+      ["duct_tape", 200],
+      ["superglue", 100],
+      ["string_6", 100],
+      ["string_36", 100],
+      ["rope_6", 100],
+      ["rope_30", 50],
+      ["hose", 300],
+      ["bubblewrap", 50],
+      ["spray_can", 100],
+      ["permanent_marker", 50],
+      ["water_faucet", 300],
+      ["wire", 200],
+      ["funnel", 200],
+      ["screwdriver", 50],
+      ["wrench", 200],
+      ["hacksaw", 30],
+      ["xacto", 10],
+      ["multitool", 50],
+      ["boltcutters", 30],
+      ["crowbar", 10],
+      ["hammer", 10],
+      ["misc_repairkit", 50],
+      ["flashlight", 100],
+      ["cordless_drill", 100],
+      ["tool_belt", 200],
+      ["mask_filter", 50],
+      ["mask_dust", 150],
+      ["knee_pads", 50],
+      ["glasses_safety", 50],
+      ["gloves_leather", 100],
+      ["survnote", 1]
+    ]
+  },{
+    "type" : "item_group",
     "id" : "consumer_electronics",
     "items":[
       ["amplifier", 8],
@@ -3183,6 +3220,20 @@
     ]
   },{
     "type" : "item_group",
+    "id" : "suits",
+    "items":[
+      ["dress_shirt", 100],
+      ["skinny_tie", 50],
+      ["tieclip", 30],
+      ["collarpin", 30],
+      ["undershirt", 100],
+      ["suit", 100],
+      ["waistcoat", 70],
+      ["tophat", 30],
+      ["tux", 50]
+    ]
+  },{
+    "type" : "item_group",
     "id" : "winter",
     "items":[
       ["coat_winter", 50],
@@ -3214,6 +3265,87 @@
       ["arm_warmers", 20],
       ["leg_warmers", 20],
       ["balclava", 15]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "fancyfurs",
+    "items":[
+      ["hat_fur", 400],
+      ["sleeveless_trenchcoat_fur", 10],
+      ["sleeveless_duster_fur", 10],
+      ["coat_fur_sf", 100],
+      ["coat_fur", 300],
+      ["gloves_fur", 300],
+      ["boots_fur", 200]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "hatstore_hats",
+    "items":[
+      ["hat_cotton", 30],
+      ["hat_knit", 40],
+      ["hat_fur", 20],
+      ["hat_newsboy", 20],
+      ["fedora", 100],
+      ["straw_hat", 100],
+      ["straw_fedora", 100],
+      ["hat_chef", 10],
+      ["maid_hat", 30],
+      ["hat_ball", 100],
+      ["postman_hat", 10],
+      ["tophat", 50],
+      ["bowhat", 50],
+      ["cowboy_hat", 100],
+      ["10gal_hat", 100],
+      ["kufi", 30],
+      ["kippah", 30],
+      ["eboshi", 30],
+      ["balclava", 20],
+      ["porkpie", 30]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "hatstore_accessories",
+    "items":[
+      ["scarf", 50],
+      ["knit_scarf", 50],
+      ["long_knit_scarf", 30],
+      ["scarf_long", 30],
+      ["bandana", 100],
+      ["hairpin", 50],
+      ["fc_hairpin", 20],
+      ["barrette", 30]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "shoestore_shoes",
+    "items":[
+      ["sneakers", 100],
+      ["knee_high_boots", 40],
+      ["boots", 100],
+      ["flip_flops", 50],
+      ["lowtops", 100],
+      ["dress_shoes", 50],
+      ["dance_shoes", 20],
+      ["heels", 100],
+      ["boots_hiking", 40],
+      ["boots_western", 60],
+      ["clogs", 60],
+      ["leathersandals", 100],
+      ["rollerskates", 10],
+      ["roller_blades", 20],
+      ["boots_rubber", 20],
+      ["clownshoes", 10],
+      ["mocassins", 40]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "shoestore_accessories",
+    "items":[
+      ["socks", 100],
+      ["thermal_socks", 25],
+      ["socks_wool", 50],
+      ["string_36", 200]
     ]
   },{
     "type" : "item_group",
@@ -4402,6 +4534,35 @@
       ["briefs", 90],
       ["socks", 70],
       ["sneakers", 70]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "plumber_gear",
+    "items":[
+      ["duct_tape", 50],
+      ["spray_can", 50],
+      ["permanent_marker", 50],
+      ["battery", 20],
+      ["screwdriver", 20],
+      ["wrench", 100],
+      ["multitool", 100],
+      ["flashlight", 100],
+      ["toolbox", 20],
+      ["tool_belt", 200],
+      ["knee_pads", 70],
+      ["gloves_leather", 70],
+      ["gloves_rubber", 50],
+      ["boots_rubber", 20],
+      ["boots", 70],
+      ["boots_steel", 50],
+      ["fishing_waders", 20],
+      ["jumpsuit", 20],
+      ["apron_leather", 20],
+      ["mask_filter", 20],
+      ["hat_hard", 50],
+      ["wearable_light", 100],
+      ["bio_flashlight", 10],
+      ["bio_tools", 10]
     ]
   },{
     "type" : "item_group",
@@ -9623,6 +9784,85 @@
       ["tailors_kit", 20],
       ["thread", 80],
       ["scissors", 50]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "waitingroom",
+    "items":[
+      ["mag_barter", 150],
+      ["mag_computer", 100],
+      ["mag_electronics", 100],
+      ["mag_mechanics", 150],
+      ["mag_survival", 100],
+      ["fun_survival", 100],
+      ["mag_traps", 30],
+      ["mag_bashing", 150],
+      ["mag_cutting", 20],
+      ["mag_melee", 20],
+      ["mag_stabbing", 20],
+      ["mag_unarmed", 100],
+      ["mag_launcher", 20],
+      ["mag_pistol", 20],
+      ["mag_rifle", 20],
+      ["mag_shotgun", 30],
+      ["mag_smg", 20],
+      ["mag_tv", 200],
+      ["mag_news", 200],
+      ["news_regional", 200],
+      ["mag_cars", 150],
+      ["mag_cooking", 150],
+      ["mag_glam", 150],
+      ["mag_beauty", 150],
+      ["mag_dude", 150],
+      ["mag_carpentry", 50],
+      ["mag_guns", 30],
+      ["mag_archery", 20],
+      ["mag_gaming", 100],
+      ["mag_firstaid", 30],
+      ["mag_dodge", 100],
+      ["mag_throwing", 30],
+      ["mag_swimming", 100],
+      ["child_book", 30],
+      ["mag_tailor", 100],
+      ["mag_fabrication", 50],
+      ["recipe_augs", 20],
+      ["decoy_anarch", 50],
+      ["months_old_newspaper", 20],
+      ["weeks_old_newspaper", 100],
+      ["newest_newspaper", 100],
+      ["survnote", 1]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "doctorsoffice",
+    "items":[
+      ["bandages", 100],
+      ["cotton_ball", 100],
+      ["1st_aid", 50],
+      ["disinfectant", 100],
+      ["medical_gauze", 100],
+      ["medical_tape", 50],
+      ["smoxygen_tank", 20],
+      ["bfipowder", 20],
+      ["quikclot", 20],
+      ["saline", 100],
+      ["eyedrops", 20],
+      ["aspirin", 100],
+      ["dayquil", 25],
+      ["nyquil", 25],
+      ["inhaler", 50],
+      ["syringe", 100],
+      ["adrenaline_injector", 5],
+      ["vacutainer", 5],
+      ["flu_shot", 20],
+      ["vaccine_shot", 20],
+      ["gloves_medical", 100],
+      ["stethoscope", 30],
+      ["mask_dust", 60],
+      ["string_6", 50],
+      ["scissors", 20],
+      ["emergency_book", 20],
+      ["survnote", 1]
     ]
   }
 ]
