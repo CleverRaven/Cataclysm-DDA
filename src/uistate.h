@@ -30,11 +30,11 @@ class uistatedata : public JsonSerializer, public JsonDeserializer
         int wishmutate_selected = 0;
         int wishmonster_selected = 0;
         int iexamine_atm_selected = 0;
-        std::vector<int> adv_inv_sort = {1, 1};
-        std::vector<int> adv_inv_area = {5, 0};
-        std::vector<int> adv_inv_index = {0, 0};
-        std::vector<bool> adv_inv_in_vehicle = {false, false};
-        std::vector<std::string> adv_inv_filter = {"", ""};
+        std::array<int, 2> adv_inv_sort = {{1, 1}};
+        std::array<int, 2> adv_inv_area = {{5, 0}};
+        std::array<int, 2> adv_inv_index = {{0, 0}};
+        std::array<bool, 2> adv_inv_in_vehicle = {{false, false}};
+        std::array<std::string, 2> adv_inv_filter = {{"", ""}};
         int adv_inv_src = left;
         int adv_inv_dest = right;
         int adv_inv_last_popup_dest = 0;
@@ -146,21 +146,21 @@ class uistatedata : public JsonSerializer, public JsonDeserializer
             JsonObject jo = jsin.get_object();
             /**** here ****/
             if(jo.has_array("adv_inv_sort")) {
-                adv_inv_sort = jo.get_int_array("adv_inv_sort");
+                adv_inv_sort = vec_to_array<int, 2>(jo.get_int_array("adv_inv_sort"));
             } else {
                 jo.read("adv_inv_leftsort", adv_inv_sort[left]);
                 jo.read("adv_inv_rightsort", adv_inv_sort[right]);
             }
             // pane area selected
             if(jo.has_array("adv_inv_area")) {
-                adv_inv_area = jo.get_int_array("adv_inv_area");
+                adv_inv_area = vec_to_array<int, 2>(jo.get_int_array("adv_inv_area"));
             } else {
                 jo.read("adv_inv_leftarea", adv_inv_area[left]);
                 jo.read("adv_inv_rightarea", adv_inv_area[right]);
             }
             // pane current index
             if(jo.has_array("adv_inv_index")) {
-                adv_inv_index = jo.get_int_array("adv_inv_index");
+                adv_inv_index = vec_to_array<int, 2>(jo.get_int_array("adv_inv_index"));
             } else {
                 jo.read("adv_inv_leftindex", adv_inv_index[left]);
                 jo.read("adv_inv_rightindex", adv_inv_index[right]);
@@ -168,13 +168,13 @@ class uistatedata : public JsonSerializer, public JsonDeserializer
             // viewing vehicle cargo
             if(jo.has_array("adv_inv_in_vehicle")) {
                 JsonArray ja = jo.get_array("adv_inv_in_vehicle");
-                while(ja.has_more()) {
-                    adv_inv_in_vehicle.push_back(ja.next_bool());
+                for(size_t i = 0; ja.has_more(); ++i) {
+                    adv_inv_in_vehicle[i] = ja.next_bool();
                 }
             }
             // filter strings
             if(jo.has_array("adv_inv_filter")) {
-                adv_inv_filter = jo.get_string_array("adv_inv_filter");
+                adv_inv_filter = vec_to_array<std::string, 2>(jo.get_string_array("adv_inv_filter"));
             } else {
                 jo.read("adv_inv_leftfilter", adv_inv_filter[left]);
                 jo.read("adv_inv_rightfilter", adv_inv_filter[right]);
