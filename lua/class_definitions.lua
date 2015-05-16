@@ -698,6 +698,24 @@ global_functions = {
         args = { "string" },
         rval = "it_comest"
     },
+    zombie = {
+        cpp_name = "g->zombie",
+        args = { "int" },
+        rval = "monster",
+        desc = "Returns a reference to the zombie of given index (starts at 0), use num_zombies to get the number of zombies. Parameters must be in the range [0, num_zombies-1]"
+    },
+    num_zombies = {
+        cpp_name = "g->num_zombies",
+        args = {},
+        rval = "int",
+        desc = "Returns the number of monsters currently existing in the reailty bubble."
+    },
+    create_monster = {
+        cpp_name = "create_monster",
+        args = { "string", "tripoint" },
+        rval = "monster",
+        desc = "Creates and spawns a new monster of given type. Returns a refernce to it, *or* nil if it could not be spawned."
+    },
     get_tool_type = {
         cpp_name = "get_tool_type",
         args = { "string" },
