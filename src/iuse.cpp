@@ -2775,7 +2775,7 @@ int iuse::sew_advanced(player *p, item *it, bool, const tripoint& )
         mod->bash_resist(), mod->cut_resist(), temp_item.bash_resist(), temp_item.cut_resist(),
         mod->get_encumber(), temp_item.get_encumber() );
 
-    tmenu.addentry( 4, true, 'q', _("Repair/fit in") );
+    tmenu.addentry( 4, true, MENU_AUTOASSIGN, _("Repair/fit in") );
     tmenu.addentry( 5, true, 'q', _("Cancel") );
 
     tmenu.query();
