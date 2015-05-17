@@ -19,7 +19,7 @@ const trap &int_id<trap>::obj() const
 }
 
 template<>
-string_id<trap> int_id<trap>::id() const
+const string_id<trap> &int_id<trap>::id() const
 {
     return obj().id;
 }
@@ -156,7 +156,7 @@ void trap::trigger( const tripoint &pos, Creature *creature ) const
 {
     if( act != nullptr ) {
         trapfunc f;
-        (f.*act)( creature, pos.x, pos.y );
+        (f.*act)( creature, pos );
     }
 }
 

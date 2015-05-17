@@ -20,40 +20,40 @@ struct trapfunc {
     // creature is the creature that triggered the trap,
     // p is the point where the trap is (not where the creature is)
     // creature can be NULL.
-    void none           ( Creature *, int, int ) { };
-    void bubble         ( Creature *creature, int x, int y );
-    void cot            ( Creature *creature, int x, int y );
-    void beartrap       ( Creature *creature, int x, int y );
-    void snare_light    ( Creature *creature, int x, int y );
-    void snare_heavy    ( Creature *creature, int x, int y );
-    void board          ( Creature *creature, int x, int y );
-    void caltrops       ( Creature *creature, int x, int y );
-    void tripwire       ( Creature *creature, int x, int y );
-    void crossbow       ( Creature *creature, int x, int y );
-    void shotgun        ( Creature *creature, int x, int y );
-    void blade          ( Creature *creature, int x, int y );
-    void landmine       ( Creature *creature, int x, int y );
-    void telepad        ( Creature *creature, int x, int y );
-    void goo            ( Creature *creature, int x, int y );
-    void dissector      ( Creature *creature, int x, int y );
-    void sinkhole       ( Creature *creature, int x, int y );
-    void pit            ( Creature *creature, int x, int y );
-    void pit_spikes     ( Creature *creature, int x, int y );
-    void pit_glass      ( Creature *creature, int x, int y );
-    void lava           ( Creature *creature, int x, int y );
-    void portal         ( Creature *creature, int x, int y );
-    void ledge          ( Creature *creature, int x, int y );
-    void boobytrap      ( Creature *creature, int x, int y );
-    void temple_flood   ( Creature *creature, int x, int y );
-    void temple_toggle  ( Creature *creature, int x, int y );
-    void glow           ( Creature *creature, int x, int y );
-    void hum            ( Creature *creature, int x, int y );
-    void shadow         ( Creature *creature, int x, int y );
-    void drain          ( Creature *creature, int x, int y );
-    void snake          ( Creature *creature, int x, int y );
+    void none           ( Creature *, const tripoint& ) { };
+    void bubble         ( Creature *creature, const tripoint &p );
+    void cot            ( Creature *creature, const tripoint &p );
+    void beartrap       ( Creature *creature, const tripoint &p );
+    void snare_light    ( Creature *creature, const tripoint &p );
+    void snare_heavy    ( Creature *creature, const tripoint &p );
+    void board          ( Creature *creature, const tripoint &p );
+    void caltrops       ( Creature *creature, const tripoint &p );
+    void tripwire       ( Creature *creature, const tripoint &p );
+    void crossbow       ( Creature *creature, const tripoint &p );
+    void shotgun        ( Creature *creature, const tripoint &p );
+    void blade          ( Creature *creature, const tripoint &p );
+    void landmine       ( Creature *creature, const tripoint &p );
+    void telepad        ( Creature *creature, const tripoint &p );
+    void goo            ( Creature *creature, const tripoint &p );
+    void dissector      ( Creature *creature, const tripoint &p );
+    void sinkhole       ( Creature *creature, const tripoint &p );
+    void pit            ( Creature *creature, const tripoint &p );
+    void pit_spikes     ( Creature *creature, const tripoint &p );
+    void pit_glass      ( Creature *creature, const tripoint &p );
+    void lava           ( Creature *creature, const tripoint &p );
+    void portal         ( Creature *creature, const tripoint &p );
+    void ledge          ( Creature *creature, const tripoint &p );
+    void boobytrap      ( Creature *creature, const tripoint &p );
+    void temple_flood   ( Creature *creature, const tripoint &p );
+    void temple_toggle  ( Creature *creature, const tripoint &p );
+    void glow           ( Creature *creature, const tripoint &p );
+    void hum            ( Creature *creature, const tripoint &p );
+    void shadow         ( Creature *creature, const tripoint &p );
+    void drain          ( Creature *creature, const tripoint &p );
+    void snake          ( Creature *creature, const tripoint &p );
 };
 
-typedef void (trapfunc::*trap_function)( Creature *, int x, int y );
+typedef void (trapfunc::*trap_function)( Creature *, const tripoint& );
 
 struct trap {
         using itype_id = std::string;

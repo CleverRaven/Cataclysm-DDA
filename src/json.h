@@ -201,6 +201,17 @@ class JsonIn
         template<size_t N>
         bool read(std::bitset<N> &b);
         bool read(JsonDeserializer &j);
+        // This is for the string_id type
+        template <typename T>
+        auto read(T &thing) -> decltype(thing.str(), true)
+        {
+            std::string tmp;
+            if( !read( tmp ) ) {
+                return false;
+            }
+            thing = T( tmp );
+            return true;
+        }
 
         // array ~> vector, deque, list
         template <typename T, typename std::enable_if<
@@ -387,6 +398,12 @@ class JsonOut
             write(std::string(cstr));
         }
         void write(const JsonSerializer &thing);
+        // This is for the string_id type
+        template <typename T>
+        auto write(const T &thing) -> decltype(thing.str(), (void)0)
+        {
+            write( thing.str() );
+        }
 
         // enum ~> underlying type
         template <typename T, typename std::enable_if<std::is_enum<T>::value>::type* = nullptr>

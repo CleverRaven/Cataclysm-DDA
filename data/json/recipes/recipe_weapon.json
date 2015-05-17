@@ -2261,6 +2261,49 @@
   ]
 },{
   "type" : "recipe",
+  "result": "folding_stock",
+  "category": "CC_WEAPON",
+  "subcategory": "CSC_WEAPON_MODS",
+  "skill_used": "fabrication",
+  "skills_required": [[ "gun", 3 ]],
+  "difficulty": 4,
+  "time": 25000,
+  "reversible": false,
+  "autolearn": true,
+  "book_learn": [[ "manual_fabrication", 3 ] , [ "manual_shotgun", 4] , [ "manual_smg", 4] , [ "manual_rifle", 4]],
+  "qualities":[
+    {"id":"HAMMER_FINE","level":1,"amount":1},
+    {"id":"SAW_M_FINE","level":1,"amount":1},
+    {"id":"SCREW_FINE","level":1,"amount":1}
+  ],
+  "tools": [
+    [
+      [ "goggles_welding", -1 ]
+    ],
+    [
+      [ "oxy_torch", 3 ],
+      [ "welder", 15 ],
+      [ "welder_crude", 25 ],
+      [ "toolset", 25 ],
+      [ "small_repairkit", 15 ],
+      [ "large_repairkit", 15 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "scrap", 6 ],
+      [ "pipe", 1 ],
+      [ "steel_chunk", 2 ]
+    ],
+    [
+      [ "spring", 1 ]
+    ],
+    [
+      [ "plastic_chunk", 3 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
   "result": "barrel_ported",
   "category": "CC_WEAPON",
   "subcategory": "CSC_WEAPON_MODS",

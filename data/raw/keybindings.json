@@ -1315,7 +1315,7 @@
         "type" : "keybinding",
         "id":"SWAP_BIONIC_TABS",
         "category":"BIONICS",
-        "name":"Swap current bionic tab view",
+        "name":"Swap bionic tab view",
         "bindings":[
             {
                 "input_method":"keyboard",

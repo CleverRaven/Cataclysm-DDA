@@ -1381,24 +1381,16 @@ std::vector<const Skill*> npc::skills_offered_to(const player &p)
     return ret;
 }
 
-std::vector<itype_id> npc::styles_offered_to(const player &p)
+std::vector<matype_id> npc::styles_offered_to( const player &p ) const
 {
-    std::vector<itype_id> ret;
-    for (auto &i : ma_styles) {
-        bool found = false;
-        for (auto &j : p.ma_styles) {
-            if (j == i) {
-                found = true;
-                break;
-            }
-        }
-        if (!found) {
+    std::vector<matype_id> ret;
+    for( auto & i : ma_styles ) {
+        if( !p.has_martialart( i ) ) {
             ret.push_back( i );
         }
     }
     return ret;
 }
-
 
 int npc::minutes_to_u() const
 {
@@ -1497,10 +1489,10 @@ void npc::say(std::string line, ...) const
     parse_tags(line, &(g->u), this);
     if (g->u.sees( *this )) {
         add_msg(_("%1$s says: \"%2$s\""), name.c_str(), line.c_str());
-        sounds::sound(posx(), posy(), 16, "");
+        sounds::sound(pos(), 16, "");
     } else {
         std::string sound = string_format(_("%1$s saying \"%2$s\""), name.c_str(), line.c_str());
-        sounds::sound(posx(), posy(), 16, sound);
+        sounds::sound(pos(), 16, sound);
     }
 }
 

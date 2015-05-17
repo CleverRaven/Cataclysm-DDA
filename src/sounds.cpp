@@ -14,6 +14,8 @@ struct sound_event {
     std::string description;
     bool ambient;
     bool footstep;
+    std::string id;
+    std::string variant;
 };
 
 struct centroid
@@ -34,27 +36,12 @@ static std::vector<std::pair<tripoint, sound_event>> sounds_since_last_turn;
 // The sound events currently displayed to the player.
 static std::unordered_map<tripoint, sound_event> sound_markers;
 
-void sounds::ambient_sound(int x, int y, int vol, std::string description)
-{
-    sound( tripoint( x, y, g->u.posz() ), vol, description, true );
-}
-
-void sounds::sound(int x, int y, int vol, std::string description, bool ambient)
-{
-    sound( tripoint( x, y, g->u.posz() ), vol, description, ambient );
-}
-
-void sounds::add_footstep(int x, int y, int volume, int dist, monster *m)
-{
-    add_footstep( tripoint( x, y, g->u.posz() ), volume, dist, m );
-}
-
 void sounds::ambient_sound( const tripoint &p, int vol, std::string description )
 {
     sound( p, vol, description, true );
 }
 
-void sounds::sound( const tripoint &p, int vol, std::string description, bool ambient )
+void sounds::sound( const tripoint &p, int vol, std::string description, bool ambient, const std::string& id, const std::string& variant )
 {
     if( vol < 0 ) {
         // Bail out if no volume.
@@ -63,13 +50,13 @@ void sounds::sound( const tripoint &p, int vol, std::string description, bool am
     }
     recent_sounds.emplace_back( std::make_pair( p, vol ) );
     sounds_since_last_turn.emplace_back(
-        std::make_pair( p, sound_event{vol, description, ambient, false} ) );
+        std::make_pair( p, sound_event{vol, description, ambient, false, id, variant} ) );
 }
 
 void sounds::add_footstep( const tripoint &p, int volume, int, monster * )
 {
     sounds_since_last_turn.emplace_back(
-        std::make_pair( p, sound_event{volume, "", false, true} ) );
+        std::make_pair( p, sound_event{volume, "", false, true, "", ""} ) );
 }
 
 template <typename C>
@@ -200,6 +187,8 @@ void sounds::process_sound_markers( player *p )
 
     for( const auto &sound_event_pair : sounds_since_last_turn ) {
         const int volume = sound_event_pair.second.volume * volume_multiplier;
+        const std::string& sfx_id = sound_event_pair.second.id;
+        const std::string& sfx_variant = sound_event_pair.second.variant;
         const int max_volume = std::max( volume, sound_event_pair.second.volume ); // For deafness checks
         int dist = rl_dist( p->pos3(), sound_event_pair.first );
         bool ambient = sound_event_pair.second.ambient;
@@ -298,8 +287,19 @@ void sounds::process_sound_markers( player *p )
             }
         }
 
+        // Play the sound effect, if any.
+        if(!sfx_id.empty()) {
+            int heard_volume = volume - dist;
+            // for our sfx API, 100 is "normal" volume, so scale accordingly
+            heard_volume *= 10;
+            play_sound_effect(sfx_id, sfx_variant, heard_volume);
+            //add_msg("Playing sound effect %s, %s, %d", sfx_id.c_str(), sfx_variant.c_str(), heard_volume);
+        }
+
+        // If Z coord is different, draw even when you can see the source
+        const bool diff_z = pos.z != p->posz();
         // Place footstep markers.
-        if( ( pos == p->pos3() ) || p->sees( pos ) ) {
+        if( pos == p->pos3() || p->sees( pos ) ) {
             // If we are or can see the source, don't draw a marker.
             continue;
         }
@@ -314,12 +314,15 @@ void sounds::process_sound_markers( player *p )
         }
 
         // Enumerate the valid points the player *cannot* see.
+        // Unless the source is on a different z-level, then any point is fine
         std::vector<tripoint> unseen_points;
-        for( int newx = pos.x - err_offset; newx <= pos.x + err_offset; newx++) {
-            for ( int newy = pos.y - err_offset; newy <= pos.y + err_offset; newy++) {
-                if( !p->sees( newx, newy) ) {
-                    // TODO: Z
-                    unseen_points.emplace_back( newx, newy, pos.z );
+        tripoint newp = pos;
+        int &newx = newp.x;
+        int &newy = newp.y;
+        for( newx = pos.x - err_offset; newx <= pos.x + err_offset; newx++ ) {
+            for ( newy = pos.y - err_offset; newy <= pos.y + err_offset; newy++ ) {
+                if( diff_z || !p->sees( newp ) ) {
+                    unseen_points.emplace_back( newp );
                 }
             }
         }
@@ -390,5 +393,10 @@ std::string sounds::sound_at( const tripoint &location )
     if( this_sound == sound_markers.end() ) {
         return std::string();
     }
-    return this_sound->second.description;
+
+    if( !this_sound->second.description.empty() ) {
+        return this_sound->second.description;
+    }
+
+    return _("a sound");
 }

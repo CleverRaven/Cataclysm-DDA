@@ -18,6 +18,7 @@ void shockstorm         (monster *z, int index);
 void pull_metal_weapon  (monster *z, int index);
 void smokecloud         (monster *z, int index);
 void boomer             (monster *z, int index);
+void boomer_glow        (monster *z, int index);
 void resurrect          (monster *z, int index);
 void smash              (monster *z, int index);
 void science            (monster *z, int index);

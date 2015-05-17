@@ -4,7 +4,8 @@
 #include "map.h"
 #include "damage.h"
 #include "rng.h"
-#include "monster.h"
+#include "debug.h"
+#include "map_iterator.h"
 #include <map>
 
 damage_instance::damage_instance() { }
@@ -16,14 +17,14 @@ damage_instance damage_instance::physical( float bash, float cut, float stab, in
     d.add_damage( DT_STAB, stab, arpen );
     return d;
 }
-damage_instance::damage_instance( damage_type dt, float a, int rp, float rm )
+damage_instance::damage_instance( damage_type dt, float a, int rp, float rm, float mul )
 {
-    add_damage( dt, a, rp, rm );
+    add_damage( dt, a, rp, rm, mul );
 }
 
-void damage_instance::add_damage( damage_type dt, float a, int rp, float rm )
+void damage_instance::add_damage( damage_type dt, float a, int rp, float rm, float mul )
 {
-    damage_unit du( dt, a, rp, rm );
+    damage_unit du( dt, a, rp, rm, mul );
     damage_units.push_back( du );
 }
 void damage_instance::add_effect( std::string effect )
@@ -62,16 +63,31 @@ void damage_instance::clear()
     effects.clear();
 }
 
-dealt_damage_instance::dealt_damage_instance() : dealt_dams( NUM_DT, 0 ) { }
-//TODO: add check to ensure length
-dealt_damage_instance::dealt_damage_instance( std::vector<int> &dealt ) : dealt_dams( dealt ) { }
+dealt_damage_instance::dealt_damage_instance() : dealt_dams( NUM_DT, 0 )
+{
+    dealt_dams.resize( NUM_DT );
+}
+
+dealt_damage_instance::dealt_damage_instance( std::vector<int> &dealt ) : dealt_dams( dealt )
+{
+    dealt_dams.resize( NUM_DT );
+}
 void dealt_damage_instance::set_damage( damage_type dt, int amount )
 {
+    if( dt < 0 || dt >= NUM_DT ) {
+        debugmsg( "Tried to set invalid damage type %d. NUM_DT is %d", dt, NUM_DT );
+        return;
+    }
+
     dealt_dams[dt] = amount;
 }
 int dealt_damage_instance::type_damage( damage_type dt ) const
 {
-    return dealt_dams[dt];
+    if( (size_t)dt < dealt_dams.size()  ) {
+        return dealt_dams[dt];
+    }
+
+    return 0;
 }
 int dealt_damage_instance::total_damage() const
 {
@@ -125,13 +141,6 @@ float resistances::get_effective_resist( const damage_unit &du )
     return effective_resist;
 }
 
-
-
-void ammo_effects( int x, int y, const std::set<std::string> &effects )
-{
-    ammo_effects( tripoint( x, y, g->u.posz() ), effects );
-}
-
 void ammo_effects( const tripoint &p, const std::set<std::string> &effects )
 {
     if( effects.count( "EXPLOSIVE" ) > 0 ) {
@@ -153,25 +162,17 @@ void ammo_effects( const tripoint &p, const std::set<std::string> &effects )
     if( effects.count( "MININUKE_MOD" ) > 0 ) {
         g->explosion( p, 450, 0, false );
         int junk1, junk2;
-        tripoint tmp;
-        tmp.z = p.z;
-        for( tmp.x = p.x - 6; tmp.x <= p.x + 6; tmp.x++ ) {
-            for( tmp.y = p.y - 6; tmp.y <= p.y + 6; tmp.y++ ) {
-                if( g->m.sees( p, tmp, 3, junk1, junk2 ) &&
-                    g->m.move_cost( tmp ) > 0 ) {
-                    g->m.add_field( tmp, fd_nuke_gas, 3, 0 );
-                }
+        for( auto &&pt : g->m.points_in_radius( p, 6, 0 ) ) {
+            if( g->m.sees( p, pt, 3, junk1, junk2 ) &&
+                g->m.move_cost( pt ) > 0 ) {
+                g->m.add_field( pt, fd_nuke_gas, 3, 0 );
             }
         }
     }
 
     if( effects.count( "ACIDBOMB" ) > 0 ) {
-        tripoint tmp;
-        tmp.z = p.z;
-        for( tmp.x = p.x - 1; tmp.x <= p.x + 1; tmp.x++ ) {
-            for( tmp.y = p.y - 1; tmp.y <= p.y + 1; tmp.y++ ) {
-                g->m.add_field( tmp, fd_acid, 3, 0 );
-            }
+        for( auto &&pt : g->m.points_in_radius( p, 1, 0 ) ) {
+            g->m.add_field( pt, fd_acid, 3, 0 );
         }
     }
 
@@ -184,31 +185,19 @@ void ammo_effects( const tripoint &p, const std::set<std::string> &effects )
     }
 
     if( effects.count( "TEARGAS" ) > 0 ) {
-        tripoint tmp;
-        tmp.z = p.z;
-        for( tmp.x = p.x - 2; tmp.x <= p.x + 2; tmp.x++ ) {
-            for( tmp.y = p.y - 2; tmp.y <= p.y + 2; tmp.y++ ) {
-                g->m.add_field( tmp, fd_tear_gas, 3, 0 );
-            }
+        for( auto &&pt : g->m.points_in_radius( p, 2, 0 ) ) {
+            g->m.add_field( pt, fd_tear_gas, 3, 0 );
         }
     }
 
     if( effects.count( "SMOKE" ) > 0 ) {
-        tripoint tmp;
-        tmp.z = p.z;
-        for( tmp.x = p.x - 1; tmp.x <= p.x + 1; tmp.x++ ) {
-            for( tmp.y = p.y - 1; tmp.y <= p.y + 1; tmp.y++ ) {
-                g->m.add_field( tmp, fd_smoke, 3, 0 );
-            }
+        for( auto &&pt : g->m.points_in_radius( p, 1, 0 ) ) {
+            g->m.add_field( pt, fd_smoke, 3, 0 );
         }
     }
     if( effects.count( "SMOKE_BIG" ) > 0 ) {
-        tripoint tmp;
-        tmp.z = p.z;
-        for( tmp.x = p.x - 6; tmp.x <= p.x + 6; tmp.x++ ) {
-            for( tmp.y = p.y - 6; tmp.y <= p.y + 6; tmp.y++ ) {
-                g->m.add_field( tmp, fd_smoke, 18, 0 );
-            }
+        for( auto &&pt : g->m.points_in_radius( p, 6, 0 ) ) {
+            g->m.add_field( pt, fd_smoke, 18, 0 );
         }
     }
 
@@ -225,23 +214,15 @@ void ammo_effects( const tripoint &p, const std::set<std::string> &effects )
     }
 
     if( effects.count( "LIGHTNING" ) > 0 ) {
-        tripoint tmp;
-        tmp.z = p.z;
-        for( tmp.x = p.x - 1; tmp.x <= p.x + 1; tmp.x++ ) {
-            for( tmp.y = p.y - 1; tmp.y <= p.y + 1; tmp.y++ ) {
-                g->m.add_field( tmp, fd_electricity, 3, 0 );
-            }
+        for( auto &&pt : g->m.points_in_radius( p, 1, 0 ) ) {
+            g->m.add_field( pt, fd_electricity, 3, 0 );
         }
     }
 
     if( effects.count( "PLASMA" ) > 0 ) {
-        tripoint tmp;
-        tmp.z = p.z;
-        for( tmp.x = p.x - 1; tmp.x <= p.x + 1; tmp.x++ ) {
-            for( tmp.y = p.y - 1; tmp.y <= p.y + 1; tmp.y++ ) {
-                if( one_in( 2 ) ) {
-                    g->m.add_field( tmp, fd_plasma, rng( 2, 3 ), 0 );
-                }
+        for( auto &&pt : g->m.points_in_radius( p, 1, 0 ) ) {
+            if( one_in( 2 ) ) {
+                g->m.add_field( pt, fd_plasma, rng( 2, 3 ), 0 );
             }
         }
     }

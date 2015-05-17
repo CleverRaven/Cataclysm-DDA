@@ -19,6 +19,7 @@
 #include "lightmap.h"
 #include "item_stack.h"
 #include "active_item_cache.h"
+#include "string_id.h"
 
 //TODO: include comments about how these variables work. Where are they used. Are they constant etc.
 #define CAMPSIZE 1
@@ -28,6 +29,7 @@ class player;
 class monster;
 class item;
 class Creature;
+class tripoint_range;
 struct itype;
 struct mapgendata;
 struct trap;
@@ -47,6 +49,8 @@ struct wrapped_vehicle{
 typedef std::vector<wrapped_vehicle> VehicleList;
 typedef std::vector< std::pair< item*, int > > itemslice;
 typedef std::string items_location;
+struct vehicle_prototype;
+using vproto_id = string_id<vehicle_prototype>;
 
 class map_stack : public item_stack {
 private:
@@ -229,26 +233,18 @@ class map
      *  after 3D migration is complete.
      */
     void vertical_shift( const int newz );
-    /**
-     * Spawn monsters from submap spawn points and from the overmap.
-     * @param ignore_sight If true, monsters may spawn in the view of the player
-     * character (useful when the whole map has been loaded instead, e.g.
-     * when starting a new game, or after teleportation or after moving vertically).
-     * If false, monsters are not spawned in view of of player character.
-     */
-    void spawn_monsters(bool ignore_sight);
+
  void clear_spawns();
  void clear_traps();
 
     const maptile maptile_at( const tripoint &p ) const;
+    maptile maptile_at( const tripoint &p );
 
 // Movement and LOS
 
 // Move cost: 2D overloads
     int move_cost(const int x, const int y, const vehicle *ignored_vehicle = nullptr) const;
     int move_cost_ter_furn(const int x, const int y) const;
-    int combined_movecost(const int x1, const int y1, const int x2, const int y2,
-                          const vehicle *ignored_vehicle = nullptr, const int modifier = 0) const;
 
 // Move cost: 3D
 
@@ -280,7 +276,16 @@ class map
     * @return The cost in turns to move out of tripoint `from` and into `to`
     */
     int combined_movecost( const tripoint &from, const tripoint &to,
-                           const vehicle *ignored_vehicle = nullptr, const int modifier = 0) const;
+                           const vehicle *ignored_vehicle = nullptr,
+                           const int modifier = 0, const bool flying = false ) const;
+
+    /**
+     * Returns true if a creature could walk from `from` to `to` in one step.
+     * That is, if the tiles are adjacent and either on the same z-level or connected
+     * by stairs or (in case of flying monsters) open air with no floors.
+     */
+    bool valid_move( const tripoint &from, const tripoint &to,
+                     const bool bash = false, const bool flying = false ) const;
 
 
 // 2D Sees:
@@ -393,6 +398,7 @@ class map
     */
     vehicle* veh_at( const tripoint &p, int &part_num );
     const vehicle* veh_at( const tripoint &p, int &part_num ) const;
+    vehicle* veh_at_internal( const tripoint &p, int &part_num );
     const vehicle* veh_at_internal( const tripoint &p, int &part_num ) const;
     /**
     * Same as `veh_at(const int, const int, int)`, but doesn't return part number.
@@ -772,13 +778,6 @@ void add_corpse( const tripoint &p );
   */
  item *item_from( vehicle *veh, const int cargo_part, const size_t index );
 
-// Traps: 2D overloads
- void trap_set(const int x, const int y, const trap_id id);
-
-    const trap & tr_at( const int x, const int y ) const;
- void add_trap(const int x, const int y, const trap_id t);
- void disarm_trap( const int x, const int y);
- void remove_trap(const int x, const int y);
 // Traps: 3D
  void trap_set( const tripoint &p, const trap_id id);
 
@@ -788,18 +787,6 @@ void add_corpse( const tripoint &p );
  void remove_trap( const tripoint &p );
  const std::vector<tripoint> &trap_locations(trap_id t) const;
 
-// Fields: 2D overloads that will later be slowly phased out
-        const field& field_at( const int x, const int y ) const;
-        int get_field_strength( const point p, const field_id t ) const;
-        int adjust_field_age( const point p, const field_id t, const int offset );
-        int adjust_field_strength( const point p, const field_id t, const int offset );
-        int set_field_age( const point p, const field_id t, const int age, bool isoffset = false );
-        int set_field_strength( const point p, const field_id t, const int str, bool isoffset = false );
-        field_entry * get_field( const point p, const field_id t );
-        bool add_field(const point p, const field_id t, const int density, const int age);
-        bool add_field(const int x, const int y, const field_id t, const int density);
-        void remove_field( const int x, const int y, const field_id field_to_remove );
-// End of 2D overload block
  bool process_fields(); // See fields.cpp
  bool process_fields_in_submap( submap * const current_submap,
                                 const int submap_x, const int submap_y, const int submap_z); // See fields.cpp
@@ -916,7 +903,7 @@ void add_corpse( const tripoint &p );
  void add_spawn(std::string type, const int count, const int x, const int y, bool friendly = false,
                 const int faction_id = -1, const int mission_id = -1,
                 std::string name = "NONE");
- vehicle *add_vehicle(std::string type, const int x, const int y, const int dir,
+ vehicle *add_vehicle(const vproto_id & type, const int x, const int y, const int dir,
                       const int init_veh_fuel = -1, const int init_veh_status = -1,
                       const bool merge_wrecks = true);
  void build_map_cache( int zlev );
@@ -983,7 +970,22 @@ void add_corpse( const tripoint &p );
  // Not protected/private for mapgen_functions.cpp access
  void rotate(const int turns);// Rotates the current map 90*turns degress clockwise
                               // Useful for houses, shops, etc
- void add_road_vehicles(bool city, int facing);
+
+// Monster spawning:
+public:
+    /**
+     * Spawn monsters from submap spawn points and from the overmap.
+     * @param ignore_sight If true, monsters may spawn in the view of the player
+     * character (useful when the whole map has been loaded instead, e.g.
+     * when starting a new game, or after teleportation or after moving vertically).
+     * If false, monsters are not spawned in view of of player character.
+     */
+    void spawn_monsters( bool ignore_sight );
+private:
+    // Helper #1 - spawns monsters on one submap
+    void spawn_monsters_submap( const tripoint &gp, bool ignore_sight );
+    // Helper #2 - spawns monsters on one submap and from one group on this submap
+    void spawn_monsters_submap_group( const tripoint &gp, mongroup &group, bool ignore_sight );
 
 protected:
         void saven( int gridx, int gridy, int gridz );
@@ -1073,9 +1075,6 @@ protected:
 
 private:
     field& get_field( const tripoint &p );
-    void spread_gas( field_entry *cur, const tripoint &p, field_id curtype,
-                        int percent_spread, int outdoor_age_speedup );
-    void create_hot_air( const tripoint &p, int density );
 
  int cached_zlev; // Z-level for which all the caches were calculated
  bool transparency_cache_dirty;
@@ -1123,8 +1122,6 @@ private:
          * The given submap pointer must not be null.
          */
         void setsubmap( size_t grididx, submap *smap );
-
-    void spawn_monsters( const tripoint &gp, mongroup &group, bool ignore_sight );
 
     /**
      * Internal versions of public functions to avoid checking same variables multiple times.
@@ -1216,6 +1213,10 @@ private:
   public:
     lit_level visibility_cache[MAPSIZE*SEEX][MAPSIZE*SEEY];
     void update_visibility_cache( visibility_variables &cache, int zlev );
+
+    // Clips the area to map bounds
+    tripoint_range points_in_rectangle( const tripoint &from, const tripoint &to ) const;
+    tripoint_range points_in_radius( const tripoint &center, size_t radius, size_t radiusz = 0 ) const;
 };
 
 std::vector<point> closest_points_first(int radius, point p);
