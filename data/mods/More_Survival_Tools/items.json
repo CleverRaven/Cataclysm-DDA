@@ -129,7 +129,9 @@
     "to_hit": 1,
     "material": "steel",
     "contains": 3,
-    "flags": ["RIGID", "SEALS", "WATERTIGHT"],
+    "rigid": true,
+    "watertight": true,
+    "seals": true
     "qualities": [["CONTAIN", 1], ["BOIL", 2]]
   },
     {

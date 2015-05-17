@@ -33,20 +33,25 @@
         ],
         "items": {
             "both": [
-                "loincloth_fur",
-                "cloak_fur",
-                "backpack_leather",
-                "boots_fur",
-                "gloves_fur",
-                "scarf_fur",
+                "armor_nomad",
+                "socks",
+                "boots_hiking",
+                "gloves_work",
+                "helmet_nomad",
                 "quiver",
                 "shortbow",
                 "arrow_wood",
                 "copper_knife",
-                "rock_pot",
-                "waterskin",
+                "bottle_metal",
                 "flint_steel",
                 "tinderbox"
+            ],
+            "male": [
+                "boxer_briefs"
+            ],
+            "female": [
+                "boy_shorts",
+                "sports_bra"
             ]
         }
     },
