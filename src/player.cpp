@@ -80,8 +80,6 @@ void game::init_morale()
     _("Good Feeling"),
     _("Supported"),
     _("Looked at photos"),
-    _("Got a Haircut"),
-    _("Freshly Shaven"),
 
     _("Nicotine Craving"),
     _("Caffeine Craving"),
@@ -130,6 +128,9 @@ void game::init_morale()
     //~ You really don't like wearing the Uncomfy Gear
     _("Uncomfy Gear"),
     _("Found kitten <3")
+    
+    _("Got a Haircut"),
+    _("Freshly Shaven"),
     };
     for (int i = 0; i < NUM_MORALE_TYPES; ++i) {
         morale_data[i]=tmp_morale_data[i];
