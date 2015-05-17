@@ -1677,18 +1677,12 @@ void faction::deserialize(JsonIn &jsin)
     jo.read("power", power);
     if ( !jo.read( "combat_ability", combat_ability )){
         combat_ability = 100;
-    }else{
-        jo.read("combat_ability", combat_ability);
     }
     if ( !jo.read( "food_supply", food_supply )){
         food_supply = 100;
-    }else{
-        jo.read("food_supply", food_supply);
     }
     if ( !jo.read( "wealth", wealth )){
         wealth = 100;
-    }else{
-        jo.read("wealth", wealth);
     }
     if (jo.has_array("opinion_of")) {
         opinion_of = jo.get_int_array("opinion_of");
