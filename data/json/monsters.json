@@ -1232,7 +1232,7 @@
     "hp":40,
     "death_function":"NORMAL",
     "description":"An enormous red ant covered in chitinous plates.  It possesses a pair of wriggling antennae and vicious-looking mandibles.",
-    "flags":["SEES", "HEARS", "SMELLS", "CHITIN"],
+    "flags":["SEES", "HEARS", "SMELLS", "CHITIN", "CLIMBS"],
     "anger_triggers":["FRIEND_ATTACKED", "FRIEND_DIED", "HURT", "PLAYER_WEAK"]
     },{
     "type" : "MONSTER",
@@ -1261,7 +1261,7 @@
     "hp":80,
     "death_function":"NORMAL",
     "description":"A huge and hairy red ant almost twice the size of other giant ants.  Bulging pincers extend from its jaws.",
-    "flags":["SEES", "HEARS", "SMELLS", "CHITIN"],
+    "flags":["SEES", "HEARS", "SMELLS", "CHITIN", "CLIMBS"],
     "anger_triggers":["FRIEND_ATTACKED", "FRIEND_DIED", "HURT", "PLAYER_CLOSE"]
     },{
     "type" : "MONSTER",
@@ -1289,7 +1289,7 @@
     "death_function":"NORMAL",
     "special_attacks":[["ANTQUEEN", 1]],
     "description":"A colossal red ant with a bulging, bloated thorax.  It moves slowly and deliberately, tending to nearby eggs and continually laying more.",
-    "flags":["SMELLS", "QUEEN", "CHITIN", "FAT"],
+    "flags":["SMELLS", "QUEEN", "CHITIN", "FAT", "CLIMBS"],
     "anger_triggers":["FRIEND_ATTACKED", "FRIEND_DIED", "HURT"]
     },{
     "type" : "MONSTER",
@@ -1319,7 +1319,7 @@
     "death_function":"NORMAL",
     "special_attacks":[["FUNGUS", 200]],
     "description":"Pale, sickly gray in color, this giant ant's cracked exoskeleton is barely held together by coils of fungus erupting from every joint in its body.",
-    "flags":["SEES", "SMELLS", "POISON"]
+    "flags":["SEES", "SMELLS", "POISON", "CLIMBS"]
     },{
     "type" : "MONSTER",
     "id" : "mon_fly",
@@ -2730,7 +2730,7 @@
     "death_function":["NORMAL"],
     "special_attacks":[["LEAP", 5], ["BITE", 5]],
     "description":"This once-human body is barely recognizable, scrambling about on all fours, its nails and teeth both sharpened into dangerous looking spikes.",
-    "flags":["SEES", "HEARS", "SMELLS", "WARM", "BASHES", "POISON", "NO_BREATHE", "REVIVES", "BONES"]
+    "flags":["SEES", "HEARS", "SMELLS", "WARM", "BASHES", "POISON", "NO_BREATHE", "REVIVES", "BONES", "CLIMBS"]
     },{
     "type" : "MONSTER",
     "id" : "mon_zombie_predator",
@@ -4229,7 +4229,7 @@
     "hp":1,
     "death_function":"NORMAL",
     "description":"A fairly large spider which tracks and catches prey through agility and stealth.  Its bite can be irritating even to large animals.",
-    "flags":["SMELLS", "HEARS", "VERMIN", "SMALL_BITES", "HUNTS_VERMIN", "CHITIN"]
+    "flags":["SMELLS", "HEARS", "VERMIN", "SMALL_BITES", "HUNTS_VERMIN", "CHITIN", "CLIMBS"]
     },{
     "type" : "MONSTER",
     "id" : "mon_spider_wolf_giant",
@@ -4257,7 +4257,7 @@
     "hp":40,
     "death_function":"NORMAL",
     "description":"A wolf spider mutated to about thirty times its normal size, it moves quickly and aggressively to catch and consume prey.",
-    "flags":["SEES", "SMELLS", "HEARS", "VENOM", "ATTACKMON", "CHITIN", "FAT"],
+    "flags":["SEES", "SMELLS", "HEARS", "VENOM", "ATTACKMON", "CHITIN", "FAT", "CLIMBS"],
     "anger_triggers":["STALK", "PLAYER_WEAK", "HURT", "PLAYER_CLOSE"]
     },{
     "type" : "MONSTER",
@@ -4286,7 +4286,7 @@
     "hp":40,
     "death_function":"NORMAL",
     "description":"A giant mutated grass spider, it waits for prey to become ensnared in the vast webs that it weaves between the trees.",
-    "flags":["SEES", "SMELLS", "HEARS", "VENOM", "WEBWALK", "CHITIN"]
+    "flags":["SEES", "SMELLS", "HEARS", "VENOM", "WEBWALK", "CHITIN", "CLIMBS"]
 },{
     "type" : "MONSTER",
     "id" : "mon_spider_web_s",
@@ -4314,7 +4314,7 @@
     "hp":20,
     "death_function":"NORMAL",
     "description":"A still immature giant grass spider.  Too young to be venomous, or to walk proficiently for that matter",
-    "flags":["SEES", "SMELLS", "HEARS", "WEBWALK", "STUMBLES",  "CHITIN"]
+    "flags":["SEES", "SMELLS", "HEARS", "WEBWALK", "STUMBLES",  "CHITIN", "CLIMBS"]
     },{
     "type" : "MONSTER",
     "id" : "mon_spider_jumping",
@@ -4340,7 +4340,7 @@
     "hp":1,
     "death_function":"NORMAL",
     "description":"A little spider with elongated forelegs.  It does not build extensive webs, but leaps very quickly, appearing to move instantaneously from one spot to another.",
-    "flags":["SMELLS", "HEARS", "VERMIN", "HUNTS_VERMIN", "SMALL_BITER"]
+    "flags":["SMELLS", "HEARS", "VERMIN", "HUNTS_VERMIN", "SMALL_BITER", "CLIMBS"]
     },{
     "type" : "MONSTER",
     "id" : "mon_spider_jumping_giant",
@@ -4369,7 +4369,7 @@
     "death_function":"NORMAL",
     "special_attacks":[["LEAP", 2]],
     "description":"A giant spider with big forelegs and two pairs of inquisitive-looking eyes.  It can leap quite quickly, even into the treetops.",
-    "flags":["SEES", "SMELLS", "HEARS", "VENOM", "HIT_AND_RUN", "CHITIN"],
+    "flags":["SEES", "SMELLS", "HEARS", "VENOM", "HIT_AND_RUN", "CHITIN", "CLIMBS"],
     "anger_triggers":["PLAYER_CLOSE"]
     },{
     "type" : "MONSTER",
@@ -4396,7 +4396,7 @@
     "hp":1,
     "death_function":"NORMAL",
     "description":"A midsized spider with a bulbous thorax.  It creates a subterranean nest and lies in wait for prey to draw close enough for capture.",
-    "flags":["SMELLS", "HEARS", "VERMIN", "WEBWALK"]
+    "flags":["SMELLS", "HEARS", "VERMIN", "WEBWALK", "CLIMBS"]
     },{
     "type" : "MONSTER",
     "id" : "mon_spider_trapdoor_giant",
@@ -4424,7 +4424,7 @@
     "hp":70,
     "death_function":"NORMAL",
     "description":"A gigantic spider with a bulbous thorax.  It digs a deep underground burrow that serves as a pit to trap unwary prey.",
-    "flags":["SEES", "SMELLS", "HEARS", "VENOM", "GRABS", "CAN_DIG", "WEBWALK", "CHITIN", "FAT"]
+    "flags":["SEES", "SMELLS", "HEARS", "VENOM", "GRABS", "CAN_DIG", "WEBWALK", "CHITIN", "FAT", "CLIMBS"]
     },{
     "type" : "MONSTER",
     "id" : "mon_spider_widow",
@@ -4450,7 +4450,7 @@
     "hp":1,
     "death_function":"NORMAL",
     "description":"An infamous spider with a characteristic red hourglass marking on its black carapace, known for its highly toxic bite.",
-    "flags":["SMELLS", "HEARS", "VERMIN", "HUNTS_VERMIN", "SMALL_BITES", "BADVENOM"]
+    "flags":["SMELLS", "HEARS", "VERMIN", "HUNTS_VERMIN", "SMALL_BITES", "BADVENOM", "CLIMBS"]
     },{
     "type" : "MONSTER",
     "id" : "mon_spider_widow_giant",
@@ -4478,7 +4478,7 @@
     "hp":60,
     "death_function":"NORMAL",
     "description":"A giant mutated black widow spider.  A highly venomous nightmare come to life.",
-    "flags":["SEES", "SMELLS", "HEARS", "BADVENOM", "WEBWALK", "CHITIN"],
+    "flags":["SEES", "SMELLS", "HEARS", "BADVENOM", "WEBWALK", "CHITIN", "CLIMBS"],
     "anger_triggers":["PLAYER_WEAK", "PLAYER_CLOSE"]
     },{
     "type" : "MONSTER",
@@ -4507,7 +4507,7 @@
     "hp":30,
     "death_function":"NORMAL",
     "description":"The horrid spawn of a giant black widow spider.  Even as a newborn, this foul creature knows only how to kill.",
-    "flags":["SEES", "SMELLS", "HEARS", "VENOM", "WEBWALK", "CHITIN"],
+    "flags":["SEES", "SMELLS", "HEARS", "VENOM", "WEBWALK", "CHITIN", "CLIMBS"],
     "anger_triggers":["PLAYER_WEAK", "PLAYER_CLOSE"]
     },{
     "type" : "MONSTER",
@@ -4642,7 +4642,7 @@
     "death_function":"MELT",
     "special_attacks":[["TENTACLE", 5]],
     "description":"An amorphous black creature, detaching and sprouting tentacles without any apparent pause.",
-    "flags":["SMELLS", "HEARS", "NOHEAD", "BASHES", "GROUP_BASH", "SWIMS", "ATTACKMON", "PLASTIC", "ACIDPROOF", "NOGIB"]
+    "flags":["SMELLS", "HEARS", "NOHEAD", "BASHES", "GROUP_BASH", "SWIMS", "ATTACKMON", "PLASTIC", "ACIDPROOF", "NOGIB", "CLIMBS"]
     },{
     "type" : "MONSTER",
     "id" : "mon_human_snail",
@@ -4698,7 +4698,7 @@
     "hp":70,
     "death_function":"NORMAL",
     "description":"A human body, but with its limbs, neck, and hair impossibly twisted.  It clambers around swiftly, making awful screeching sounds.",
-    "flags":["SEES", "HEARS", "GOODHEARING", "POISON", "HUMAN"]
+    "flags":["SEES", "HEARS", "GOODHEARING", "POISON", "HUMAN", "CLIMBS"]
     },{
     "type" : "MONSTER",
     "id" : "mon_vortex",
@@ -5219,7 +5219,7 @@
     "hp":120,
     "death_function":["NORMAL"],
     "description":"A pale hairless man with an impressive athletic physique.  Its lidless eyes are totally black, and seeping with blood.",
-    "flags":["SEES", "HEARS", "SMELLS", "WARM", "BASHES", "GROUP_BASH", "BLEED", "HUMAN", "REVIVES"]
+    "flags":["SEES", "HEARS", "SMELLS", "WARM", "BASHES", "GROUP_BASH", "BLEED", "HUMAN", "REVIVES", "CLIMBS"]
     },{
     "type" : "MONSTER",
     "id" : "mon_blood_sacrifice",
@@ -5759,7 +5759,7 @@
     "death_function":"BROKEN",
     "special_attacks":[["FLAMETHROWER", 10]],
     "description":"The Honda Regnal, a tall robot walking on three spidery legs.  For weapons, it has a trio of spiked retractable cables and a flamethrower mounted on its head.",
-    "flags":["SEES", "HEARS", "GOODHEARING", "BASHES", "NO_BREATHE", "ELECTRONIC"]
+    "flags":["SEES", "HEARS", "GOODHEARING", "BASHES", "NO_BREATHE", "ELECTRONIC", "CLIMBS"]
     },{
     "type" : "MONSTER",
     "id" : "mon_chickenbot",

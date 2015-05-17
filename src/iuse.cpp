@@ -9643,7 +9643,8 @@ int iuse::cable_attach(player *p, item *it, bool, const tripoint& )
             return 0;
         }
         auto veh = g->m.veh_at(posx, posy);
-        if (veh == nullptr) {
+        auto ter = g->m.ter_at(posx, posy);
+        if (veh == nullptr && ter.id != "t_chainfence_h" && ter.id != "t_chainfence_v") {
             p->add_msg_if_player(_("There's no vehicle there."));
             return 0;
         } else {

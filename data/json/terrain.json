@@ -2749,7 +2749,7 @@
         "color": "cyan",
         "move_cost": 0,
         "flags": [
-            "TRANSPARENT", "NOITEM", "THIN_OBSTACLE", "SUPPORTS_ROOF", "PERMEABLE", "UNSTABLE"
+            "TRANSPARENT", "NOITEM", "THIN_OBSTACLE", "SUPPORTS_ROOF", "PERMEABLE", "UNSTABLE", "CLIMBABLE"
         ],
         "examine_action": "chainfence",
         "bash": {
@@ -2769,7 +2769,7 @@
         "color": "cyan",
         "move_cost": 0,
         "flags": [
-            "TRANSPARENT", "NOITEM", "THIN_OBSTACLE", "SUPPORTS_ROOF", "PERMEABLE", "UNSTABLE"
+            "TRANSPARENT", "NOITEM", "THIN_OBSTACLE", "SUPPORTS_ROOF", "PERMEABLE", "UNSTABLE", "CLIMBABLE"
         ],
         "examine_action": "chainfence",
         "bash": {
