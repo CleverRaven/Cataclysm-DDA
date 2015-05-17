@@ -42,7 +42,6 @@ enum mission_type_id {
     MISSION_JOIN_TRACKER,                  //demon slayer 4b
     MISSION_FREE_MERCHANTS_EVAC_1,         //Clear Back Bay
     MISSION_FREE_MERCHANTS_EVAC_2,         //Kill Raiders
-    MISSION_FREE_MERCHANTS_EVAC_3,         //Info from Commune
     MISSION_FREE_MERCHANTS_EVAC_4,         //Acquire Plutonium Cells
     MISSION_OLD_GUARD_REP_1,               //Bandit Pair
     MISSION_OLD_GUARD_REP_2,               //Raider Informant
@@ -91,6 +90,7 @@ enum mission_type_id {
     MISSION_RANCH_BARTENDER_3,             //Need Sugar Beet Seeds
     MISSION_RANCH_BARTENDER_4,             //Need Metal Tanks
     MISSION_RANCH_BARTENDER_5,             //Need 55-Gallon Drums
+    MISSION_FREE_MERCHANTS_EVAC_3,         //Info from Commune
     NUM_MISSION_IDS
 };
 
