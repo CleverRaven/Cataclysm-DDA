@@ -222,13 +222,6 @@ MISSION(_("Find Flag"), MGOAL_FIND_ITEM, 2, 100000, false,
   ORIGINS(ORIGIN_SECONDARY);
   FOLLOWUP(MISSION_FREE_MERCHANTS_EVAC_3);
 
- MISSION(_("Retrieve Prospectus"), MGOAL_FIND_ITEM, 5, 50000, false,
-         &mission_place::always, &mission_start::start_commune,
-         &mission_end::standard, &mission_fail::standard);
-  ORIGINS(ORIGIN_SECONDARY);
-  ITEM("commune_prospectus");
-  FOLLOWUP(MISSION_FREE_MERCHANTS_EVAC_4);
-
  MISSION(_("Find 25 Plutonium Cells"), MGOAL_FIND_ITEM, 5, 400000, false,
          &mission_place::always, &mission_start::standard,
          &mission_end::standard, &mission_fail::standard);
@@ -591,6 +584,14 @@ MISSION(_("Find Flag"), MGOAL_FIND_ITEM, 2, 100000, false,
   ITEM("55gal_drum");
   COUNT(2);
   FOLLOWUP(MISSION_RANCH_BARTENDER_5);
+
+
+ MISSION(_("Retrieve Prospectus"), MGOAL_FIND_ITEM, 5, 50000, false,
+         &mission_place::always, &mission_start::start_commune,
+         &mission_end::standard, &mission_fail::standard);
+  ORIGINS(ORIGIN_SECONDARY);
+  ITEM("commune_prospectus");
+  FOLLOWUP(MISSION_FREE_MERCHANTS_EVAC_4);
 
  MISSION(_("Find a Book"), MGOAL_FIND_ANY_ITEM, 2, 800, false,
          &mission_place::always, &mission_start::place_book,
