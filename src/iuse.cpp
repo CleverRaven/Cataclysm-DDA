@@ -2667,17 +2667,17 @@ int iuse::sew_advanced(player *p, item *it, bool, const tripoint& )
                                    const std::string &plural ) {
         if( mod->made_of( material ) ) {
             repair_items.push_back( mat_item );
-            plurals.push_back( rm_prefix( _( plural.c_str() ) ) );
+            plurals.push_back( rm_prefix( plural.c_str() ) );
         }
     };
 
-    add_material( "cotton", "rag", "<plural>rags" );
-    add_material( "leather", "leather", "<plural>leather" );
-    add_material( "fur", "fur", "<plural>fur" );
-    add_material( "nomex", "nomex", "<plural>Nomex" );
-    add_material( "plastic", "plastic_chunk", "<plural>plastic" );
-    add_material( "kevlar", "kevlar_plate", "<plural>Kevlar" );
-    add_material( "wool", "felt_patch", "<plural>wool" );
+    add_material( "cotton", "rag", _( "<plural>rags" ) );
+    add_material( "leather", "leather", _( "<plural>leather" ) );
+    add_material( "fur", "fur", _( "<plural>fur" ) );
+    add_material( "nomex", "nomex", _( "<plural>Nomex" ) );
+    add_material( "plastic", "plastic_chunk", _( "<plural>plastic" ) );
+    add_material( "kevlar", "kevlar_plate", _( "<plural>Kevlar" ) );
+    add_material( "wool", "felt_patch", _( "<plural>wool" ) );
     if (repair_items.empty()) {
         p->add_msg_if_player(m_info, _("Your %s is not made of fabric, leather, fur, Kevlar, wool or plastic."),
                              mod->tname().c_str());
@@ -2704,12 +2704,12 @@ int iuse::sew_advanced(player *p, item *it, bool, const tripoint& )
     // TODO: Wrap all the mods into structs, maybe even json-able
     // All possible mods here
     std::array<std::string, 4> clothing_mods{
-        "wooled", "furred", "leather_padded", "kevlar_padded"
+        { "wooled", "furred", "leather_padded", "kevlar_padded" }
     };
 
     // Materials those mods use
     std::array<std::string, 4> mod_materials{
-        "felt_patch", "fur", "leather", "kevlar_plate"
+        { "felt_patch", "fur", "leather", "kevlar_plate" }
     };
 
     // Cache available materials
