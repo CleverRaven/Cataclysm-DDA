@@ -411,7 +411,7 @@ void game::init_ui()
         locW = sidebarWidth;
         stat2H = 2;
         stat2W = sidebarWidth;
-        messH = TERMY - (statH + locH + stat2H);
+        messH = TERRAIN_WINDOW_TERM_HEIGHT - (statH + locH + stat2H);
         messW = sidebarWidth;
 
         // Now position the elements relative to each other.
@@ -429,7 +429,7 @@ void game::init_ui()
         messY = stat2Y + stat2H;
 
         mouseview_y = messY + 7;
-        mouseview_h = TERMY - mouseview_y - 5;
+        mouseview_h = TERRAIN_WINDOW_TERM_HEIGHT - mouseview_y - 5;
         mouseview_w = sidebarWidth;
     } else {
         // standard sidebar style
@@ -438,7 +438,7 @@ void game::init_ui()
         messX = MINIMAP_WIDTH;
         messY = 0;
         messW = sidebarWidth - messX;
-        messH = TERMY - 5; // 1 for w_location + 4 for w_stat, w_messages starts at 0
+        messH = TERRAIN_WINDOW_TERM_HEIGHT - 5; // 1 for w_location + 4 for w_stat, w_messages starts at 0
         hpX = 0;
         hpY = MINIMAP_HEIGHT;
         // under the minimap, but down to the same line as w_location (which is under w_messages)
@@ -461,7 +461,7 @@ void game::init_ui()
         stat2W = sidebarWidth;
 
         mouseview_y = stat2Y + stat2H;
-        mouseview_h = TERMY - mouseview_y;
+        mouseview_h = TERRAIN_WINDOW_TERM_HEIGHT - mouseview_y;
         mouseview_w = sidebarWidth - MINIMAP_WIDTH;
     }
 
