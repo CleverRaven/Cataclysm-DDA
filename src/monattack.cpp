@@ -2389,7 +2389,7 @@ void mattack::grab_pull(monster *z, int index)
 
     if (target->has_effect("grabbed")){
         tripoint target_square = z->pos() - (target->pos() - z->pos());
-        if (z->can_move_to(target_square) && !target->stability_check( dice(z->type->melee_sides, z->type->melee_dice) - rng( 0, 6 ) ) ){
+        if (z->can_move_to(target_square) && !target->has_stable_footing( dice(z->type->melee_sides, z->type->melee_dice) - rng( 0, 6 ) ) ){
             tripoint zpt = z->pos();
             z->move_to(target_square);
             if( target->is_player() && ( zpt.x < SEEX * int(MAPSIZE / 2) || zpt.y < SEEY * int(MAPSIZE / 2) ||

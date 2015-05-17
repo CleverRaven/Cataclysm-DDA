@@ -1173,7 +1173,7 @@ bool monster::move_effects()
         }
     }
     if (has_effect("grabbed")){
-        if ( dice(type->melee_dice + type->melee_sides, 3) < get_effect_int("grabbed") ){
+        if ( (dice(type->melee_dice + type->melee_sides, 3) < get_effect_int("grabbed")) || !one_in(4) ){
             return false;
         } else {
             if (u_see_me) {
@@ -1231,7 +1231,7 @@ bool monster::has_grab_break_tec() const
     return false;
 }
 
-bool monster::stability_check(int strength) const
+bool monster::has_stable_footing(int strength) const
 {
     if ( strength > dice(type->melee_sides, type->melee_dice)){
         return true;

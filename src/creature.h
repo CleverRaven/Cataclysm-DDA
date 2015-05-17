@@ -318,7 +318,7 @@ class Creature
 
         virtual bool in_sleep_state() const;
 
-        virtual bool stability_check(int intensity) const = 0;
+        virtual bool has_stable_footing(int intensity) const = 0;
         //Returns true if the target will be moved
 
         /*

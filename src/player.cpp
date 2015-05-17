@@ -1824,7 +1824,7 @@ bool player::is_immune_effect( const efftype_id &effect ) const
     return false;
 }
 
-bool player::stability_check(int strength) const
+bool player::has_stable_footing(int strength) const
 {
     if ((get_melee()) + get_str() + (get_per() / 3) + (get_dex() / 4) > (strength) || is_throw_immune()){
         return true;
