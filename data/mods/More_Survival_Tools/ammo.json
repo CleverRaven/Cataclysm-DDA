@@ -10,7 +10,7 @@
         "color" : "brown",
         "description" : "Flammable material, finely divided for easy combustion.",
         "material" : "wood",
-        "volume" : 0,
+        "volume" : 2,
         "weight" : 10,
         "bashing" : 1,
         "cutting" : 0,

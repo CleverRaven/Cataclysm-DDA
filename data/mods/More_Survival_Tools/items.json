@@ -10,7 +10,7 @@
     "price": 0,
     "material": "steel",
     "weight": 1366,
-    "volume": 4,
+    "volume": 8,
     "bashing": 2,
     "cutting": 0,
     "to_hit": -1,
