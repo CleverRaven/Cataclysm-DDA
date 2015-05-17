@@ -5562,7 +5562,8 @@ int iuse::portal(player *p, item *it, bool, const tripoint& )
     if (it->charges < it->type->charges_to_use()) {
         return 0;
     }
-    g->m.add_trap({p->posx() + rng(-2, 2), p->posy() + rng(-2, 2), p->posz()}, tr_portal);
+    tripoint t(p->posx() + rng(-2, 2), p->posy() + rng(-2, 2), p->posz());
+    g->m.add_trap(t, tr_portal);
     return it->type->charges_to_use();
 }
 

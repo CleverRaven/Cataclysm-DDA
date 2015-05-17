@@ -297,8 +297,11 @@ const vehicle_prototype &string_id<vehicle_prototype>::obj() const
     const auto iter = vtypes.find( *this );
     if( iter == vtypes.end() ) {
         debugmsg( "invalid vehicle prototype id %s", c_str() );
-        static const vehicle_prototype dummy{
-            "", {}, {}, nullptr
+        static const vehicle_prototype dummy = {
+            "",
+            std::vector<std::pair<point, vpart_str_id>>{},
+            std::vector<vehicle_item_spawn>{},
+            nullptr
         };
         return dummy;
     }
