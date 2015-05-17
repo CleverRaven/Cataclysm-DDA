@@ -85,6 +85,7 @@ void init_ter_bitflags_map() {
     ter_bitflags_map["DEEP_WATER"]              = TFLAG_DEEP_WATER;     // Deep enough to submerge things
     ter_bitflags_map["HARVESTED"]               = TFLAG_HARVESTED;      // harvested.  will not bear fruit.
     ter_bitflags_map["PERMEABLE"]               = TFLAG_PERMEABLE;      // gases can flow through.
+    ter_bitflags_map["ELECTRIFIED"]             = TFLAG_ELECTRIFIED;    // shocks those trying to move across or bash
     ter_bitflags_map["CLIMBABLE"]               = TFLAG_CLIMBABLE;      // gases can flow through.
 }
 

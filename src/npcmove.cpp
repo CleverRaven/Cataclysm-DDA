@@ -1130,7 +1130,7 @@ void npc::move_to(int x, int y)
                     moves -= 400;
                 } else {
                     if (u_see_me == true) {
-                        add_msg( m_neutral, _( "%s climbs over the %1$s." ), name.c_str(),
+                        add_msg( m_neutral, _( "%s climbs over the %s." ), name.c_str(),
                              ter_or_furn ? g->m.tername(x, y).c_str() : g->m.furnname(x, y).c_str());
                     }
                     moves -= (500 - (rng(0,climb) * 20));

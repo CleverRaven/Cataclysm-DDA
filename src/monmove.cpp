@@ -27,7 +27,7 @@ bool monster::wander()
 bool monster::can_move_to(int x, int y) const
 {
 
-    if (has_flag(MF_CLIMBS) && g->m.has_flag("CLIMBABLE", x, y)) {
+    if (has_flag(MF_CLIMBS) || has_flag(MF_FLIES)) && g->m.has_flag("CLIMBABLE", x, y)) {
         return true;
     }
     if (g->m.move_cost(x, y) == 0) {
@@ -842,13 +842,24 @@ int monster::attack_at(int x, int y) {
 int monster::move_to(int x, int y, bool force)
 {
     //Allows climbing monsters to move on terrain with movecost <= 0
-    if (g->m.has_flag_ter_or_furn("CLIMBABLE", x, y) && has_flag(MF_CLIMBS) && g->npc_at(x, y) == -1 && g->mon_at(x, y) == -1) {
-            if (g->u.sees( *this )){
-                    add_msg(_("The %s climbs over the %1$s."), name().c_str(),
-                            g->m.has_flag_ter_or_furn("CLIMBABLE", x, y) ? g->m.tername(x, y).c_str() : g->m.furnname(x, y).c_str());
+    if (g->m.has_flag("CLIMBABLE", x, y) {
+        if if(!g->is_empty(x, y) {
+            if has_flag (MF_FLIES) {
+                moves -= 100;
+                force = true;
+                if (g->u.sees( *this )){
+                    add_msg(_("The %s flies over the %s."), name().c_str(),
+                    g->m.has_flag_furn("CLIMBABLE", x, y) ? g->m.furnname(x, y).c_str() : g->m.tername(x, y).c_str());
+                }
+            } else if has_flag(MF_CLIMBS) {
+                moves -= 150;
+                force = true;
+                if (g->u.sees( *this )){
+                    add_msg(_("The %s climbs over the %s."), name().c_str(),
+                    g->m.has_flag_furn("CLIMBABLE", x, y) ? g->m.furnname(x, y).c_str() : g->m.tername(x, y).c_str());
+                }
             }
-    moves -= 150;
-    force = true;
+        }
     }
     // Make sure that we can move there, unless force is true.
     if(!force) if(!g->is_empty(x, y) || !can_move_to(x, y)) {

@@ -163,6 +163,7 @@ enum ter_bitflags {
     TFLAG_DEEP_WATER,
     TFLAG_HARVESTED,
     TFLAG_PERMEABLE,
+    TFLAG_ELECTRIFIED,
     TFLAG_CLIMBABLE
 };
 extern std::map<std::string, ter_bitflags> ter_bitflags_map;
